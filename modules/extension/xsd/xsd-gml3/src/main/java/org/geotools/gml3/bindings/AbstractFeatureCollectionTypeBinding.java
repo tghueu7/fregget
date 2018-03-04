@@ -33,13 +33,14 @@ import org.opengis.feature.simple.SimpleFeature;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:AbstractFeatureCollectionType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType abstract="true" name="AbstractFeatureCollectionType"&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;A feature collection contains zero or more features.&lt;/documentation&gt;
+ *          &lt;documentation&gt;A feature collection contains zero or more features.&lt;
+ *          /documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;complexContent&gt;
  *          &lt;extension base="gml:AbstractFeatureType"&gt;
@@ -56,9 +57,6 @@ import org.opengis.feature.simple.SimpleFeature;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class AbstractFeatureCollectionTypeBinding extends AbstractComplexBinding {
@@ -86,22 +84,23 @@ public class AbstractFeatureCollectionTypeBinding extends AbstractComplexBinding
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        SimpleFeatureCollection featureCollection = 
-            (SimpleFeatureCollection) node.getChildValue(FeatureCollection.class);
+            throws Exception {
+        SimpleFeatureCollection featureCollection =
+                (SimpleFeatureCollection) node.getChildValue(FeatureCollection.class);
         if (featureCollection == null) {
             featureCollection = new DelayedSchemaFeatureCollection();
         }
 
         //&lt;element maxOccurs="unbounded" minOccurs="0" ref="gml:featureMember"/&gt;
         List<SimpleFeature> childValues = node.getChildValues(SimpleFeature.class);
-        
+
         // example DefaultFeatureCollections or ListFeatureCollection
-        Collection<SimpleFeature> collection = DataUtilities.collectionCast( featureCollection );
+        Collection<SimpleFeature> collection = DataUtilities.collectionCast(featureCollection);
         collection.addAll(childValues);
 
         //&lt;element minOccurs="0" ref="gml:featureMembers"/&gt;
-        SimpleFeature[] featureMembers = (SimpleFeature[]) node.getChildValue(SimpleFeature[].class);
+        SimpleFeature[] featureMembers = (SimpleFeature[]) node.getChildValue(SimpleFeature[]
+                .class);
 
         if (featureMembers != null) {
             for (int i = 0; i < featureMembers.length; i++) {

@@ -25,14 +25,9 @@ import org.opengis.feature.type.PropertyDescriptor;
 
 /**
  * Special node iterator for {@link Attribute}.
- * 
+ *
  * @author Justin Deoliveira (The Open Planning Project)
  * @author Gabriel Roldan (Axios Engineering)
- * 
- *
- *
- *
- *
  * @source $URL$
  */
 public class DescriptorXmlAttributeNodeIterator implements NodeIterator {
@@ -46,12 +41,12 @@ public class DescriptorXmlAttributeNodeIterator implements NodeIterator {
      * The feature.
      */
     PropertyDescriptor descriptor;
-    
+
     /**
      * The name
      */
     Name name;
-    
+
     int position = 0;
 
 

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -35,65 +35,66 @@ import com.vividsolutions.jts.geom.Geometry;
  * corresponding to the feature id.
  * </p>
  * <p>
- * THe property accessor may be run against {@link SimpleFeature}, or 
- * against {@link SimpleFeature}. In the former case the feature property 
- * value is returned, in the latter the feature property type is returned. 
+ * THe property accessor may be run against {@link SimpleFeature}, or
+ * against {@link SimpleFeature}. In the former case the feature property
+ * value is returned, in the latter the feature property type is returned.
  * </p>
- * 
+ *
  * @author Justin Deoliveira, The Open Planning Project
- * 
- *
- *
- *
  * @source $URL$
  */
 public class SimpleFeaturePropertyAccessorFactory implements
         PropertyAccessorFactory {
 
-    /** Single instnace is fine - we are not stateful */
+    /**
+     * Single instnace is fine - we are not stateful
+     */
     static PropertyAccessor ATTRIBUTE_ACCESS = new SimpleFeaturePropertyAccessor();
-    static PropertyAccessor DEFAULT_GEOMETRY_ACCESS = new DefaultGeometrySimpleFeaturePropertyAccessor();
+    static PropertyAccessor DEFAULT_GEOMETRY_ACCESS = new 
+            DefaultGeometrySimpleFeaturePropertyAccessor();
     static PropertyAccessor FID_ACCESS = new FidSimpleFeaturePropertyAccessor();
     static Pattern idPattern = Pattern.compile("@(\\w+:)?id");
 
     private static final String NAME_START_CHAR =
             ":" +
-            "A-Z" +
-            "_" +
-            "a-z" +
-            "\\u00c0-\\u00d6" +
-            "\\u00d8-\\u00f6" +
-            "\\u00f8-\\u02ff" +
-            "\\u0370-\\u037d" +
-            "\\u037f-\\u1fff" +
-            "\\u200c-\\u200d" +
-            "\\u2070-\\u218f" +
-            "\\u2c00-\\u2fef" +
-            "\\u3001-\\ud7ff" +
-            "\\uf900-\\ufdcf" +
-            "\\ufdf0-\\ufffd";
+                    "A-Z" +
+                    "_" +
+                    "a-z" +
+                    "\\u00c0-\\u00d6" +
+                    "\\u00d8-\\u00f6" +
+                    "\\u00f8-\\u02ff" +
+                    "\\u0370-\\u037d" +
+                    "\\u037f-\\u1fff" +
+                    "\\u200c-\\u200d" +
+                    "\\u2070-\\u218f" +
+                    "\\u2c00-\\u2fef" +
+                    "\\u3001-\\ud7ff" +
+                    "\\uf900-\\ufdcf" +
+                    "\\ufdf0-\\ufffd";
     private static final String NAME_CHAR =
             NAME_START_CHAR +
-            "\\-" +
-            "\\." +
-            "0-9" +
-            "\\u00b7" +
-            "\\u0300-\\u036f" +
-            "\\u203f-\\u2040";
+                    "\\-" +
+                    "\\." +
+                    "0-9" +
+                    "\\u00b7" +
+                    "\\u0300-\\u036f" +
+                    "\\u203f-\\u2040";
     /**
      * Based on definition of valid xml element name at http://www.w3.org/TR/xml/#NT-Name,
-     * eventually inclusive of namespace, plus an optional [1] at the end and no @ anywhere in the string
+     * eventually inclusive of namespace, plus an optional [1] at the end and no @ anywhere in 
+     * the string
      */
     static final Pattern propertyPattern = Pattern.compile(
             "^(?!@)([" + NAME_START_CHAR + "][" + NAME_CHAR + "]*)(\\[1])?$");
 
     public PropertyAccessor createPropertyAccessor(Class type, String xpath,
-            Class target, Hints hints) {
+                                                   Class target, Hints hints) {
 
-    	if ( xpath == null ) 
-    		return null;
-    	
-        if (!SimpleFeature.class.isAssignableFrom(type) && !SimpleFeatureType.class.isAssignableFrom(type))
+        if (xpath == null)
+            return null;
+
+        if (!SimpleFeature.class.isAssignableFrom(type) && !SimpleFeatureType.class
+                .isAssignableFrom(type))
             return null; // we only work with simple feature
 
         //if ("".equals(xpath) && target == Geometry.class)
@@ -106,9 +107,9 @@ public class SimpleFeaturePropertyAccessorFactory implements
 
         //check for simple property acess
         if (propertyPattern.matcher(xpath).matches()) {
-        	return ATTRIBUTE_ACCESS;	
+            return ATTRIBUTE_ACCESS;
         }
-        
+
         return null;
     }
 
@@ -119,7 +120,7 @@ public class SimpleFeaturePropertyAccessorFactory implements
      * <li>BEFORE: foo:bar
      * <li>AFTER: bar
      * </ul>
-     * 
+     *
      * @param xpath
      * @return xpath with any XML prefixes removed
      */
@@ -128,7 +129,7 @@ public class SimpleFeaturePropertyAccessorFactory implements
         if (split != -1) {
             xpath = xpath.substring(split + 1);
         }
-        if(xpath.endsWith("[1]")) {
+        if (xpath.endsWith("[1]")) {
             xpath = xpath.substring(0, xpath.length() - 3);
         }
         return xpath;
@@ -136,14 +137,15 @@ public class SimpleFeaturePropertyAccessorFactory implements
 
     /**
      * Access to SimpleFeature Identifier.
-     * 
+     *
      * @author Jody Garnett, Refractions Research Inc.
      */
-    static class FidSimpleFeaturePropertyAccessor implements PropertyAccessor {        
+    static class FidSimpleFeaturePropertyAccessor implements PropertyAccessor {
         public boolean canHandle(Object object, String xpath, Class target) {
-        	//we only work against feature, not feature type
+            //we only work against feature, not feature type
             return object instanceof SimpleFeature && xpath.matches("@(\\w+:)?id");
         }
+
         public Object get(Object object, String xpath, Class target) {
             SimpleFeature feature = (SimpleFeature) object;
             return feature.getID();
@@ -151,116 +153,118 @@ public class SimpleFeaturePropertyAccessorFactory implements
 
         public void set(Object object, String xpath, Object value, Class target)
                 throws IllegalAttributeException {
-            throw new IllegalAttributeException("feature id is immutable");            
+            throw new IllegalAttributeException("feature id is immutable");
         }
     }
+
     static class DefaultGeometrySimpleFeaturePropertyAccessor implements PropertyAccessor {
-        
+
         public boolean canHandle(Object object, String xpath, Class target) {
-        	if ( !"".equals( xpath ) )
-        		return false;
-        	
+            if (!"".equals(xpath))
+                return false;
+
 //        	if ( target != Geometry.class ) 
 //        		return false;
-        	
-        	if ( !( object instanceof SimpleFeature || object instanceof SimpleFeatureType ) ) {
-        		return false;
-        	}
-        	
-        	return true;
-            
-        }
-        public Object get(Object object, String xpath, Class target) {
-        	if ( object instanceof SimpleFeature ) {
-        	    SimpleFeature f = (SimpleFeature) object;
-        	    Object defaultGeometry = f.getDefaultGeometry();
 
-                    // not found? Ok, let's do a lookup then...
-                    if ( defaultGeometry == null ) {
-                        for ( Object o : f.getAttributes() ) {
-                            if ( o instanceof Geometry ) {
-                                defaultGeometry = o;
-                                break;
-                            }
+            if (!(object instanceof SimpleFeature || object instanceof SimpleFeatureType)) {
+                return false;
+            }
+
+            return true;
+
+        }
+
+        public Object get(Object object, String xpath, Class target) {
+            if (object instanceof SimpleFeature) {
+                SimpleFeature f = (SimpleFeature) object;
+                Object defaultGeometry = f.getDefaultGeometry();
+
+                // not found? Ok, let's do a lookup then...
+                if (defaultGeometry == null) {
+                    for (Object o : f.getAttributes()) {
+                        if (o instanceof Geometry) {
+                            defaultGeometry = o;
+                            break;
                         }
                     }
-                    
-                    return defaultGeometry;
-        	}
-        	
-                if ( object instanceof SimpleFeatureType ) {
-                    SimpleFeatureType ft = (SimpleFeatureType) object;
-                    GeometryDescriptor gd = ft.getGeometryDescriptor();
-                
-                    if ( gd == null ) {
-                        //look for any geometry descriptor
-                        for ( AttributeDescriptor ad : ft.getAttributeDescriptors() ) {
-                            if ( Geometry.class.isAssignableFrom( ad.getType().getBinding() ) ) {
-                                return ad;
-                            }
-                        }
-                    }
-                    
-                    return gd;
                 }
-            
-        	return null;
+
+                return defaultGeometry;
+            }
+
+            if (object instanceof SimpleFeatureType) {
+                SimpleFeatureType ft = (SimpleFeatureType) object;
+                GeometryDescriptor gd = ft.getGeometryDescriptor();
+
+                if (gd == null) {
+                    //look for any geometry descriptor
+                    for (AttributeDescriptor ad : ft.getAttributeDescriptors()) {
+                        if (Geometry.class.isAssignableFrom(ad.getType().getBinding())) {
+                            return ad;
+                        }
+                    }
+                }
+
+                return gd;
+            }
+
+            return null;
         }
 
         public void set(Object object, String xpath, Object value, Class target)
                 throws IllegalAttributeException {
-            
-        	if ( object instanceof SimpleFeature ) {
-        		((SimpleFeature) object).setDefaultGeometry( (Geometry) value );
-        	}
-        	if ( object instanceof SimpleFeatureType ) {
-        		throw new IllegalAttributeException("feature type is immutable");
-        	}
-        	
+
+            if (object instanceof SimpleFeature) {
+                ((SimpleFeature) object).setDefaultGeometry((Geometry) value);
+            }
+            if (object instanceof SimpleFeatureType) {
+                throw new IllegalAttributeException("feature type is immutable");
+            }
+
         }
     }
 
     static class SimpleFeaturePropertyAccessor implements PropertyAccessor {
         public boolean canHandle(Object object, String xpath, Class target) {
-        	xpath = stripPrefixIndex(xpath);
-        	
-        	if ( object instanceof SimpleFeature ) {
-        		return ((SimpleFeature) object).getType().getDescriptor(xpath) != null;
-        	}
-        	
-        	if ( object instanceof SimpleFeatureType ) {
-        		return ((SimpleFeatureType) object).getDescriptor( xpath ) != null;
-        	}
-        	
-        	return false;
+            xpath = stripPrefixIndex(xpath);
+
+            if (object instanceof SimpleFeature) {
+                return ((SimpleFeature) object).getType().getDescriptor(xpath) != null;
+            }
+
+            if (object instanceof SimpleFeatureType) {
+                return ((SimpleFeatureType) object).getDescriptor(xpath) != null;
+            }
+
+            return false;
         }
-        
+
         public Object get(Object object, String xpath, Class target) {
-        	xpath = stripPrefixIndex(xpath);
-        	
-        	if ( object instanceof SimpleFeature ) {
-        		return ((SimpleFeature) object).getAttribute( xpath );
-        	}
-        	
-        	if ( object instanceof SimpleFeatureType ) {
-        		return ((SimpleFeatureType) object).getDescriptor( xpath );
-        	}
-        	
-        	return null;
+            xpath = stripPrefixIndex(xpath);
+
+            if (object instanceof SimpleFeature) {
+                return ((SimpleFeature) object).getAttribute(xpath);
+            }
+
+            if (object instanceof SimpleFeatureType) {
+                return ((SimpleFeatureType) object).getDescriptor(xpath);
+            }
+
+            return null;
         }
 
         public void set(Object object, String xpath, Object value, Class target)
                 throws IllegalAttributeException {
-        	xpath = stripPrefixIndex(xpath);
-        	
-        	if ( object instanceof SimpleFeature ) {
-        		((SimpleFeature) object).setAttribute( xpath, value );
-        	}
-        	
-        	if ( object instanceof SimpleFeatureType ) {
-        		throw new IllegalAttributeException("feature type is immutable");    
-        	}
-        	
+            xpath = stripPrefixIndex(xpath);
+
+            if (object instanceof SimpleFeature) {
+                ((SimpleFeature) object).setAttribute(xpath, value);
+            }
+
+            if (object instanceof SimpleFeatureType) {
+                throw new IllegalAttributeException("feature type is immutable");
+            }
+
         }
     }
 

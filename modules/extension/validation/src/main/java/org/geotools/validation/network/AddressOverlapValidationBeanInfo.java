@@ -23,23 +23,21 @@ import org.geotools.validation.DefaultIntegrityValidationBeanInfo;
 
 /**
  * GazetteerNameValidationBeanInfo purpose.
- * 
+ * <p>
  * <p>
  * Description of GazetteerNameValidationBeanInfo ...
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class AddressOverlapValidationBeanInfo
-    extends DefaultIntegrityValidationBeanInfo {
+        extends DefaultIntegrityValidationBeanInfo {
     /**
      * GazetteerNameValidationBeanInfo constructor.
-     * 
+     * <p>
      * <p>
      * Description
      * </p>
@@ -50,7 +48,6 @@ public class AddressOverlapValidationBeanInfo
 
     /**
      * Implementation of getPropertyDescriptors.
-     *
      *
      * @see java.beans.BeanInfo#getPropertyDescriptors()
      */

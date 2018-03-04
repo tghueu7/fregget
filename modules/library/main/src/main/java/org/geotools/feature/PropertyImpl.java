@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -27,12 +27,8 @@ import org.opengis.feature.type.PropertyType;
 
 /**
  * Implementation of Property.
- * 
+ *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
- *
  * @source $URL$
  */
 public abstract class PropertyImpl implements Property {
@@ -47,26 +43,26 @@ public abstract class PropertyImpl implements Property {
     /**
      * user data
      */
-    protected final Map<Object,Object> userData;
+    protected final Map<Object, Object> userData;
 
-    protected PropertyImpl( Object value, PropertyDescriptor descriptor ) {
+    protected PropertyImpl(Object value, PropertyDescriptor descriptor) {
         this.value = value;
         this.descriptor = descriptor;
         userData = new HashMap<Object, Object>();
-        
-        if ( descriptor == null ) {
+
+        if (descriptor == null) {
             throw new NullPointerException("descriptor");
         }
     }
-    
+
     public Object getValue() {
         return value;
     }
-    
+
     public void setValue(Object value) {
         this.value = value;
     }
-    
+
     public PropertyDescriptor getDescriptor() {
         return descriptor;
     }
@@ -82,16 +78,16 @@ public abstract class PropertyImpl implements Property {
     public boolean isNillable() {
         return getDescriptor().isNillable();
     }
-    
+
     public Map<Object, Object> getUserData() {
         return userData;
     }
-    
+
     public boolean equals(Object obj) {
-        if ( this == obj ) {
+        if (this == obj) {
             return true;
         }
-        
+
         if (!(obj instanceof PropertyImpl)) {
             return false;
         }
@@ -102,16 +98,16 @@ public abstract class PropertyImpl implements Property {
             return false;
 
         if (!Utilities.deepEquals(value, other.value))
-            return false;   
-    
+            return false;
+
         return true;
     }
-    
+
     public int hashCode() {
         return 37 * descriptor.hashCode()
-            + (37 * (value == null ? 0 : value.hashCode()));
+                + (37 * (value == null ? 0 : value.hashCode()));
     }
-    
+
     public String toString() {
         StringBuffer sb = new StringBuffer(getClass().getSimpleName()).append(":");
         sb.append(getDescriptor().getName().getLocalPart());
@@ -122,5 +118,5 @@ public abstract class PropertyImpl implements Property {
 
         return sb.toString();
     }
-    
+
 }

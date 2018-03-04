@@ -34,9 +34,9 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  * Wraps a WMTS layer into a {@link MapLayer} for interactive rendering usage.
- * 
+ * <p>
  * TODO: expose a GetFeatureInfo that returns a feature collection
- *
+ * <p>
  * TODO: expose the list of named styles and allow choosing which style to use
  *
  * @author Ian Turton
@@ -117,7 +117,7 @@ public class WMTSMapLayer extends GridReaderLayer {
     /**
      * Returns true if the specified CRS can be used directly to perform WMTS
      * requests.
-     *
+     * <p>
      * Natively supported crs will provide the best rendering quality as no
      * client side reprojection is necessary, the tiles coming from the WMTS
      * server will be used as-is

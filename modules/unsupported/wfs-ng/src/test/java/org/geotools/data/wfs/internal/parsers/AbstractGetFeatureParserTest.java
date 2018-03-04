@@ -63,41 +63,38 @@ import com.vividsolutions.jts.geom.Polygon;
  * Note this test depends on {@link EmfAppSchemaParser} to function correctly in order to obtain the
  * test FeatureTypes from the DescribeFeatureType response samples under {@code test-data/}.
  * </p>
- * 
+ *
  * @author Gabriel Roldan
  * @version $Id$
- * @since 2.5.x
- * 
- * 
- * 
  * @source $URL$ java/org/geotools/wfs/v_1_1_0/data/StreamingParserFeatureReaderTest .java $
  * @see XmlSimpleFeatureParserTest
  * @see StreamingParserFeatureReaderTest
+ * @since 2.5.x
  */
 @SuppressWarnings("nls")
 public abstract class AbstractGetFeatureParserTest {
-    
+
     private boolean supportsCount = true;
-    
+
     protected void setSupportsCount(boolean supportsCount) {
         this.supportsCount = supportsCount;
     }
 
     /**
      * Configuration object used to parse the sample schemas
-     * 
+     *
      * @see #getTypeView(QName, String, String, String[])
      */
     private static final Configuration wfsConfiguration = new WFSConfiguration();
 
     /**
      * A feature visitor used to assert the parsed features
-     * 
+     *
      * @author Gabriel Roldan (TOPP)
      * @version $Id$
-     * @since 2.5.x
      * @source $URL: http://svn.geotools.org/geotools/trunk/gt/modules/plugin/wfs /src/test
-     *         /java/org/geotools/wfs/v_1_1_0/data/AbstractGetFeatureParserTest .java $
+     * /java/org/geotools/wfs/v_1_1_0/data/AbstractGetFeatureParserTest .java $
+     * @since 2.5.x
      */
     private static class FeatureAssertor implements FeatureVisitor {
 
@@ -106,7 +103,7 @@ public abstract class AbstractGetFeatureParserTest {
         /**
          * A featuretype which might be a subset of the actual FeatureType whose attributes will be
          * used to assert the features.
-         * 
+         *
          * @param featureType
          */
         public FeatureAssertor(SimpleFeatureType featureType) {
@@ -128,21 +125,19 @@ public abstract class AbstractGetFeatureParserTest {
     /**
      * Parses the featuretype from the test file referenced by {@code schemaName} and returns a new,
      * subset FeatureType comprised of only the required {@code properties}
-     * 
-     * @param featureName
-     *            the name of the Features produced for the target FeatureType (i.e.
-     *            {@code topp:states} instead of {@code topp:states_Type})
-     * @param schemaLocation2
-     *            the location of the schema file under
-     *            {@code org/geotools/data/wfs/impl/test-data/}
-     * @param epsgCrsId
-     *            the EPSG identifier for the feature type CRS (eg. {@code "EPSG:4326"})
-     * @param properties
-     *            the property names to include from the original schema in the one to be returned
+     *
+     * @param featureName     the name of the Features produced for the target FeatureType (i.e.
+     *                        {@code topp:states} instead of {@code topp:states_Type})
+     * @param schemaLocation2 the location of the schema file under
+     *                        {@code org/geotools/data/wfs/impl/test-data/}
+     * @param epsgCrsId       the EPSG identifier for the feature type CRS (eg. {@code "EPSG:4326"})
+     * @param properties      the property names to include from the original schema in the one 
+     *                        to be returned
      * @return a subset of the original featuretype containing only the required {@code properties}
      */
     private SimpleFeatureType getTypeView(final QName featureName, final URL schemaLocation,
-            final String epsgCrsId, final String[] properties) throws Exception {
+                                          final String epsgCrsId, final String[] properties) 
+            throws Exception {
 
         CoordinateReferenceSystem crs = CRS.decode(epsgCrsId);
 
@@ -158,23 +153,24 @@ public abstract class AbstractGetFeatureParserTest {
      * feature collection in a test {@code wfs:FeatureCollection} document; {@code assertor} is a
      * visitor provided by the actual unit test calling this method, every feature fetched is passed
      * to the visitor who contains the specific assertions.
-     * 
-     * @param featureName
-     *            the name of the features (not the feature type) expected
-     * @param getFeatureResultTestFile
-     *            the name of the test file name to load in order to simulate the response of a
-     *            GetFeature request
-     * @param assertor
-     *            a FeatureVisitor to assert the contents or structure of the features
-     * @param expectedFeatureCount
-     *            the number of features there should be on the feature collection, an assertion is
-     *            made at the end of the method.
+     *
+     * @param featureName              the name of the features (not the feature type) expected
+     * @param getFeatureResultTestFile the name of the test file name to load in order to 
+     *                                 simulate the response of a
+     *                                 GetFeature request
+     * @param assertor                 a FeatureVisitor to assert the contents or structure of 
+     *                                 the features
+     * @param expectedFeatureCount     the number of features there should be on the feature 
+     *                                 collection, an assertion is
+     *                                 made at the end of the method.
      * @param schemaName
      * @throws Exception
      */
     private void testParseGetFeatures(final QName featureName,
-            final SimpleFeatureType queryFeatureType, final GetFeatureParser parser,
-            final FeatureVisitor assertor, final int expectedFeatureCount) throws Exception {
+                                      final SimpleFeatureType queryFeatureType, final 
+                                      GetFeatureParser parser,
+                                      final FeatureVisitor assertor, final int 
+                                              expectedFeatureCount) throws Exception {
 
         int featureCount = 0;
         SimpleFeature feature;
@@ -199,24 +195,25 @@ public abstract class AbstractGetFeatureParserTest {
      * Subclasses need to implement in order to provide a specific {@link GetFeatureParser}
      * implementation settled up for the given featureName and dataFile containing the test
      * GetFeature request response.
-     * 
+     *
      * @param featureName
      * @param schemaLocation
      * @param featureType
-     * @param getFeaturesRequest
-     *            the URL representing the GetFeature request. Opening its input stream shall
-     *            suffice to get the GetFeature response.
+     * @param getFeaturesRequest the URL representing the GetFeature request. Opening its input 
+     *                           stream shall
+     *                           suffice to get the GetFeature response.
      * @return
      * @throws IOException
      */
     protected abstract GetFeatureParser getParser(QName featureName, URL schemaLocation,
-            SimpleFeatureType featureType, URL getFeaturesRequest) throws IOException;
+                                                  SimpleFeatureType featureType, URL 
+                                                          getFeaturesRequest) throws IOException;
 
     /**
      * Verifies correctness on parsing a normal geoserver WFS 1.1.0 GetFeature response.
-     * 
+     * <p>
      * Test method for {@link PullParserFeatureReader#parse()}.
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -226,7 +223,7 @@ public abstract class AbstractGetFeatureParserTest {
         final URL schemaLocation = GEOS_ARCHSITES_11.SCHEMA;
         final URL data = GEOS_ARCHSITES_11.DATA;
 
-        final String[] properties = { "cat", "str1", "the_geom" };
+        final String[] properties = {"cat", "str1", "the_geom"};
         final SimpleFeatureType featureType;
         featureType = getTypeView(featureName, schemaLocation, GEOS_ARCHSITES_11.CRS, properties);
 
@@ -238,7 +235,7 @@ public abstract class AbstractGetFeatureParserTest {
             int nof = parser.getNumberOfFeatures();
             assertEquals(expectedCount, nof);
         }
-        
+
         testParseGetFeatures(featureName, featureType, parser, assertor, expectedCount);
     }
 
@@ -249,7 +246,7 @@ public abstract class AbstractGetFeatureParserTest {
         final URL schemaLocation = GEOS_POI_10.SCHEMA;
         final URL data = GEOS_POI_10.DATA;
 
-        final String[] properties = { "the_geom", "NAME", "THUMBNAIL", "MAINPAGE" };
+        final String[] properties = {"the_geom", "NAME", "THUMBNAIL", "MAINPAGE"};
         final SimpleFeatureType featureType;
         featureType = getTypeView(featureName, schemaLocation, GEOS_POI_10.CRS, properties);
 
@@ -265,9 +262,9 @@ public abstract class AbstractGetFeatureParserTest {
     /**
      * Verifies correctness on parsing a normal geoserver WFS 1.1.0 GetFeature response for the
      * usual topp:states feature type (multipolygon).
-     * 
+     * <p>
      * Test method for {@link PullParserFeatureReader#parse()}.
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -276,8 +273,8 @@ public abstract class AbstractGetFeatureParserTest {
         final int expectedCount = 2;
         final URL schemaLocation = GEOS_STATES_11.SCHEMA;
 
-        final String[] properties = { "the_geom", "STATE_NAME", "STATE_FIPS", "SUB_REGION",
-                "SAMP_POP" };
+        final String[] properties = {"the_geom", "STATE_NAME", "STATE_FIPS", "SUB_REGION",
+                "SAMP_POP"};
         final SimpleFeatureType featureType;
         featureType = getTypeView(featureName, schemaLocation, GEOS_STATES_11.CRS, properties);
 
@@ -329,8 +326,8 @@ public abstract class AbstractGetFeatureParserTest {
         final int expectedCount = 3;
         final URL schemaLocation = GEOS_STATES_10.SCHEMA;
 
-        final String[] properties = { "the_geom", "STATE_NAME", "STATE_FIPS", "SUB_REGION",
-                "SAMP_POP" };
+        final String[] properties = {"the_geom", "STATE_NAME", "STATE_FIPS", "SUB_REGION",
+                "SAMP_POP"};
         final SimpleFeatureType featureType;
         featureType = getTypeView(featureName, schemaLocation, GEOS_STATES_11.CRS, properties);
 
@@ -383,7 +380,7 @@ public abstract class AbstractGetFeatureParserTest {
         final int expectedCount = 3;
         final URL schemaLocation = GEOS_ROADS_11.SCHEMA;
 
-        final String[] properties = { "the_geom", "label" };
+        final String[] properties = {"the_geom", "label"};
         final SimpleFeatureType featureType;
         featureType = getTypeView(featureName, schemaLocation, GEOS_ROADS_11.CRS, properties);
 
@@ -406,7 +403,7 @@ public abstract class AbstractGetFeatureParserTest {
         final int expectedCount = 2;
         final URL schemaLocation = GEOS_ROADS_10.SCHEMA;
 
-        final String[] properties = { "the_geom", "label" };
+        final String[] properties = {"the_geom", "label"};
         final SimpleFeatureType featureType;
         featureType = getTypeView(featureName, schemaLocation, GEOS_ROADS_10.CRS, properties);
 
@@ -427,7 +424,7 @@ public abstract class AbstractGetFeatureParserTest {
         final int expectedCount = 1;
         final URL schemaLocation = GEOS_TASMANIA_CITIES_11.SCHEMA;
 
-        final String[] properties = { "the_geom", "CNTRY_NAME", "POP_CLASS" };
+        final String[] properties = {"the_geom", "CNTRY_NAME", "POP_CLASS"};
         final SimpleFeatureType featureType;
         featureType = getTypeView(featureName, schemaLocation, GEOS_TASMANIA_CITIES_11.CRS,
                 properties);
@@ -447,7 +444,7 @@ public abstract class AbstractGetFeatureParserTest {
 
     /**
      * Verifies correctness on parsing a sample CubeWerx WFS 1.1.0 GetFeature response.
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -458,7 +455,7 @@ public abstract class AbstractGetFeatureParserTest {
 
         final int expectedCount = 3;
 
-        final String[] properties = { "geometry", "instanceName", "instanceCode" };
+        final String[] properties = {"geometry", "instanceName", "instanceCode"};
 
         final SimpleFeatureType featureType = getTypeView(featureName, schemaLocation, srsName,
                 properties);
@@ -474,7 +471,7 @@ public abstract class AbstractGetFeatureParserTest {
 
     @Test
     public void testParseCubeWerx_RoadSeg() throws Exception {
-        final String[] properties = { "lastUpdateDate", "geometry", "status", "isAnchorSection" };
+        final String[] properties = {"lastUpdateDate", "geometry", "status", "isAnchorSection"};
         final QName featureName = CUBEWERX_ROADSEG.TYPENAME;
         final URL schemaLocation = CUBEWERX_ROADSEG.SCHEMA;
         final SimpleFeatureType featureType = getTypeView(featureName, schemaLocation,
@@ -492,7 +489,7 @@ public abstract class AbstractGetFeatureParserTest {
 
     @Test
     public void testParseIonic_StatisticalUnit() throws Exception {
-        final String[] properties = { "unitId", "typeAbbreviation", "instanceName", "geometry" };
+        final String[] properties = {"unitId", "typeAbbreviation", "instanceName", "geometry"};
         final QName featureName = IONIC_STATISTICAL_UNIT.TYPENAME;
         final URL schemaLocation = IONIC_STATISTICAL_UNIT.SCHEMA;
         final SimpleFeatureType featureType = getTypeView(featureName, schemaLocation,

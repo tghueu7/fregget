@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.filter.capability;
@@ -13,6 +13,7 @@ import java.io.ObjectStreamException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.opengis.feature.type.Name;
 
 
@@ -48,8 +49,6 @@ import org.opengis.feature.type.Name;
  *
  * @author Justin Deoliveira (The Open Planning Project)
  * @author Martin Desruisseaux (Geomatys)
- *
- *
  * @source $URL$
  */
 public final class GeometryOperand implements Name, Serializable {
@@ -64,61 +63,102 @@ public final class GeometryOperand implements Name, Serializable {
     private static final Map<GeometryOperand, GeometryOperand> POOL =
             new HashMap<GeometryOperand, GeometryOperand>();
 
-    /** {@code "http://www.opengis.net/gml/Envelope"} */
+    /**
+     * {@code "http://www.opengis.net/gml/Envelope"}
+     */
     public static final GeometryOperand Envelope = new GeometryOperand("Envelope");
 
-    /** {@code "http://www.opengis.net/gml/Point"} */
+    /**
+     * {@code "http://www.opengis.net/gml/Point"}
+     */
     public static final GeometryOperand Point = new GeometryOperand("Point");
 
-    /** {@code "http://www.opengis.net/gml/LineString"} */
+    /**
+     * {@code "http://www.opengis.net/gml/LineString"}
+     */
     public static final GeometryOperand LineString = new GeometryOperand("LineString");
 
-    /** {@code "http://www.opengis.net/gml/Polygon"} */
+    /**
+     * {@code "http://www.opengis.net/gml/Polygon"}
+     */
     public static final GeometryOperand Polygon = new GeometryOperand("Polygon");
 
-    /** {@code "http://www.opengis.net/gml/ArcByCenterPoint"} */
+    /**
+     * {@code "http://www.opengis.net/gml/ArcByCenterPoint"}
+     */
     public static final GeometryOperand ArcByCenterPoint = new GeometryOperand("ArcByCenterPoint");
 
-    /** {@code "http://www.opengis.net/gml/CircleByCenterPoint"} */
-    public static final GeometryOperand CircleByCenterPoint = new GeometryOperand("CircleByCenterPoint");
+    /**
+     * {@code "http://www.opengis.net/gml/CircleByCenterPoint"}
+     */
+    public static final GeometryOperand CircleByCenterPoint = new GeometryOperand
+            ("CircleByCenterPoint");
 
-    /** {@code "http://www.opengis.net/gml/Arc"} */
+    /**
+     * {@code "http://www.opengis.net/gml/Arc"}
+     */
     public static final GeometryOperand Arc = new GeometryOperand("Arc");
 
-    /** {@code "http://www.opengis.net/gml/Circle"} */
+    /**
+     * {@code "http://www.opengis.net/gml/Circle"}
+     */
     public static final GeometryOperand Circle = new GeometryOperand("Circle");
 
-    /** {@code "http://www.opengis.net/gml/ArcByBulge"} */
+    /**
+     * {@code "http://www.opengis.net/gml/ArcByBulge"}
+     */
     public static final GeometryOperand ArcByBulge = new GeometryOperand("ArcByBulge");
 
-    /** {@code "http://www.opengis.net/gml/Bezier"} */
+    /**
+     * {@code "http://www.opengis.net/gml/Bezier"}
+     */
     public static final GeometryOperand Bezier = new GeometryOperand("Bezier");
 
-    /** {@code "http://www.opengis.net/gml/Clothoid"} */
+    /**
+     * {@code "http://www.opengis.net/gml/Clothoid"}
+     */
     public static final GeometryOperand Clothoid = new GeometryOperand("Clothoid");
 
-    /** {@code "http://www.opengis.net/gml/CubicSpline"} */
+    /**
+     * {@code "http://www.opengis.net/gml/CubicSpline"}
+     */
     public static final GeometryOperand CubicSpline = new GeometryOperand("CubicSpline");
 
-    /** {@code "http://www.opengis.net/gml/Geodesic"} */
+    /**
+     * {@code "http://www.opengis.net/gml/Geodesic"}
+     */
     public static final GeometryOperand Geodesic = new GeometryOperand("Geodesic");
 
-    /** {@code "http://www.opengis.net/gml/OffsetCurve"} */
+    /**
+     * {@code "http://www.opengis.net/gml/OffsetCurve"}
+     */
     public static final GeometryOperand OffsetCurve = new GeometryOperand("OffsetCurve");
 
-    /** {@code "http://www.opengis.net/gml/Triangle"} */
+    /**
+     * {@code "http://www.opengis.net/gml/Triangle"}
+     */
     public static final GeometryOperand Triangle = new GeometryOperand("Triangle");
 
-    /** {@code "http://www.opengis.net/gml/PolyhedralSurface"} */
-    public static final GeometryOperand PolyhedralSurface = new GeometryOperand("PolyhedralSurface");
+    /**
+     * {@code "http://www.opengis.net/gml/PolyhedralSurface"}
+     */
+    public static final GeometryOperand PolyhedralSurface = new GeometryOperand
+            ("PolyhedralSurface");
 
-    /** {@code "http://www.opengis.net/gml/TriangulatedSurface"} */
-    public static final GeometryOperand TriangulatedSurface = new GeometryOperand("TriangulatedSurface");
+    /**
+     * {@code "http://www.opengis.net/gml/TriangulatedSurface"}
+     */
+    public static final GeometryOperand TriangulatedSurface = new GeometryOperand
+            ("TriangulatedSurface");
 
-    /** {@code "http://www.opengis.net/gml/Tin"} */
+    /**
+     * {@code "http://www.opengis.net/gml/Tin"}
+     */
     public static final GeometryOperand Tin = new GeometryOperand("Tin");
 
-    /** {@code "http://www.opengis.net/gml/Solid"} */
+    /**
+     * {@code "http://www.opengis.net/gml/Solid"}
+     */
     public static final GeometryOperand Solid = new GeometryOperand("Solid");
 
     /**
@@ -150,8 +190,8 @@ public final class GeometryOperand implements Name, Serializable {
     /**
      * Returns the geometry operand for the given name.
      *
-     * @param  namespaceURI The namespace URI, or {@code null} for the default one.
-     * @param  name The operand name.
+     * @param namespaceURI The namespace URI, or {@code null} for the default one.
+     * @param name         The operand name.
      * @return The geometry operand, or {@code null} if none was found.
      */
     public static GeometryOperand get(String namespaceURI, String name) {
@@ -191,15 +231,15 @@ public final class GeometryOperand implements Name, Serializable {
     }
 
     public String getSeparator() {
-    	return "#";
+        return "#";
     }
-    
+
     /**
      * Returns a hash code value for this operand.
      */
     @Override
     public int hashCode() {
-        return namespaceURI.hashCode() + 37*name.hashCode();
+        return namespaceURI.hashCode() + 37 * name.hashCode();
     }
 
     /**

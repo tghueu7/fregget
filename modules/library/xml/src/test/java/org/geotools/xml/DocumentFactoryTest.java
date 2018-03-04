@@ -48,17 +48,21 @@ import org.xml.sax.SAXNotSupportedException;
 
 /**
  * Test for {@link DocumentFactory}
- * 
+ *
  * @author Aaron Waddell
  */
 public class DocumentFactoryTest {
-    private final String DISALLOW_DOCTYPE_DECLAIRATION = "http://apache.org/xml/features/disallow-doctype-decl";
+    private final String DISALLOW_DOCTYPE_DECLAIRATION = "http://apache" +
+            ".org/xml/features/disallow-doctype-decl";
 
-    private final String LOAD_EXTERNAL_DTD = "http://apache.org/xml/features/nonvalidating/load-external-dtd";
+    private final String LOAD_EXTERNAL_DTD = "http://apache" +
+            ".org/xml/features/nonvalidating/load-external-dtd";
 
-    private final String EXTERNAL_GENERAL_ENTITIES_FEATURE = "http://xml.org/sax/features/external-general-entities";
+    private final String EXTERNAL_GENERAL_ENTITIES_FEATURE = "http://xml" +
+            ".org/sax/features/external-general-entities";
 
-    private final String EXTERNAL_PARAMETER_ENTITIES_FEATURE = "http://xml.org/sax/features/external-parameter-entities";
+    private final String EXTERNAL_PARAMETER_ENTITIES_FEATURE = "http://xml" +
+            ".org/sax/features/external-parameter-entities";
 
     private URI uri;
 
@@ -185,13 +189,14 @@ public class DocumentFactoryTest {
         DocumentFactory.getInstance(inputStream, hints, Level.WARNING);
     }
 
-    void verifyDisableExternalEntities(boolean disabledExternalEntities) throws SAXNotRecognizedException,
+    void verifyDisableExternalEntities(boolean disabledExternalEntities) throws 
+            SAXNotRecognizedException,
             SAXNotSupportedException, ParserConfigurationException {
 
         // double check DTD support disabled
         // verify(mockSaxParserFactory).setFeature(DISALLOW_DOCTYPE_DECLAIRATION, true);
         verify(mockSaxParserFactory).setFeature(LOAD_EXTERNAL_DTD, false);
-        
+
         // check optional eternal entity disabled
         if (disabledExternalEntities) {
             verify(mockSaxParserFactory).setFeature(EXTERNAL_GENERAL_ENTITIES_FEATURE, false);

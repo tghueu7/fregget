@@ -9,7 +9,6 @@ import org.opengis.filter.expression.Function;
  * Given an original rendering envelope it visits an expression, finds all
  * {@link GeometryTransformation}, collects and merges all the returned query envelopes
  *
- *
  * @source $URL$
  */
 public class GeometryTransformationVisitor extends DefaultFilterVisitor {
@@ -21,9 +20,9 @@ public class GeometryTransformationVisitor extends DefaultFilterVisitor {
     public Object visit(Function expression, Object data) {
         // drill down and merge
         ReferencedEnvelope merged = new ReferencedEnvelope((ReferencedEnvelope) data);
-        for(Expression param : expression.getParameters()) {
+        for (Expression param : expression.getParameters()) {
             ReferencedEnvelope result = (ReferencedEnvelope) param.accept(this, data);
-            if(result != null)
+            if (result != null)
                 merged.expandToInclude(result);
         }
 

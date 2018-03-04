@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -30,23 +30,25 @@ import org.xml.sax.SAXNotRecognizedException;
 
 /**
  * ElementTypeHandler purpose.
- * 
+ * <p>
  * <p>
  * Represtents an 'element' declaration.
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc. http://www.refractions.net
  * @author $Author:$ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class ElementTypeHandler extends ElementGroupingHandler {
-    /** 'element' */
+    /**
+     * 'element'
+     */
     public final static String LOCALNAME = "element";
 
-    /** UNBOUNDED */
+    /**
+     * UNBOUNDED
+     */
     private static int offset = 0;
     private String id;
     private String name;
@@ -80,16 +82,16 @@ public class ElementTypeHandler extends ElementGroupingHandler {
      */
     public int hashCode() {
         return (LOCALNAME.hashCode() * ((id == null) ? 1 : id.hashCode()) * ((ref == null)
-        ? 1 : ref.hashCode()) * ((name == null) ? 1 : name.hashCode()))
-        + hashCodeOffset;
+                ? 1 : ref.hashCode()) * ((name == null) ? 1 : name.hashCode()))
+                + hashCodeOffset;
     }
 
     /**
      * @see org.geotools.xml.XSIElementHandler#getHandler(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
     public XSIElementHandler getHandler(String namespaceURI, String localName)
-        throws SAXException {
+            throws SAXException {
         if (SchemaHandler.namespaceURI.equalsIgnoreCase(namespaceURI)) {
             // child types
             //
@@ -101,7 +103,8 @@ public class ElementTypeHandler extends ElementGroupingHandler {
                     child = sth;
                 } else {
                     throw new SAXNotRecognizedException(
-                        "Extension may only have one 'simpleType' or 'complexType' declaration.");
+                            "Extension may only have one 'simpleType' or 'complexType' " +
+                                    "declaration.");
                 }
 
                 return sth;
@@ -115,7 +118,8 @@ public class ElementTypeHandler extends ElementGroupingHandler {
                     child = sth;
                 } else {
                     throw new SAXNotRecognizedException(
-                        "Extension may only have one 'simpleType' or 'complexType' declaration.");
+                            "Extension may only have one 'simpleType' or 'complexType' " +
+                                    "declaration.");
                 }
 
                 return sth;
@@ -152,10 +156,10 @@ public class ElementTypeHandler extends ElementGroupingHandler {
 
     /**
      * @see org.geotools.xml.XSIElementHandler#startElement(java.lang.String,
-     *      java.lang.String, org.xml.sax.Attributes)
+     * java.lang.String, org.xml.sax.Attributes)
      */
     public void startElement(String namespaceURI, String localName,
-        Attributes atts) throws SAXException {
+                             Attributes atts) throws SAXException {
         // abstract
         String abstracT1 = atts.getValue("", "abstracT");
 
@@ -318,21 +322,21 @@ public class ElementTypeHandler extends ElementGroupingHandler {
      * <p>
      * returns the element name
      * </p>
-     *
      */
     public String getName() {
         return name;
     }
 
     /**
-     * @see org.geotools.xml.XSIHandlers.ElementGroupingHandler#compress(org.geotools.xml.XSIHandlers.SchemaHandler)
+     * @see org.geotools.xml.XSIHandlers.ElementGroupingHandler#compress(org.geotools.xml
+     * .XSIHandlers.SchemaHandler)
      */
     protected ElementGrouping compress(SchemaHandler parent)
-        throws SAXException {
+            throws SAXException {
 
-        synchronized(this){
+        synchronized (this) {
             if (cache != null)
-            	return cache;
+                return cache;
             cache = new DefaultElement();
         }
 
@@ -366,7 +370,7 @@ public class ElementTypeHandler extends ElementGroupingHandler {
 
             if (e == null) {
                 throw new SAXException("Element '" + ref
-                    + "' was referenced and not found");
+                        + "' was referenced and not found");
             }
 
             cache.name = e.getName();
@@ -410,9 +414,9 @@ public class ElementTypeHandler extends ElementGroupingHandler {
 
     /**
      * @see org.geotools.xml.XSIElementHandler#endElement(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
-    public void endElement(String namespaceURI, String localName){
+    public void endElement(String namespaceURI, String localName) {
         // do nothing
     }
 
@@ -554,14 +558,15 @@ public class ElementTypeHandler extends ElementGroupingHandler {
             return namespace;
         }
 
-		public Element findChildElement(String localName, URI namespaceURI) {
-			 if (this.name != null) {
-	                if (this.name.equalsIgnoreCase(localName) && getNamespace().equals(namespaceURI)) {
-	                    return this;
-	                }
-	            }
+        public Element findChildElement(String localName, URI namespaceURI) {
+            if (this.name != null) {
+                if (this.name.equalsIgnoreCase(localName) && getNamespace().equals(namespaceURI)) {
+                    return this;
+                }
+            }
 
-	            return (type == null) ? null : XMLTypeHelper.findChildElement(type, localName, namespaceURI);
-		}
+            return (type == null) ? null : XMLTypeHelper.findChildElement(type, localName, 
+                    namespaceURI);
+        }
     }
 }

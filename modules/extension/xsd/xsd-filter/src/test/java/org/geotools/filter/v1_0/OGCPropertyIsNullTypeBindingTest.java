@@ -23,8 +23,6 @@ import org.geotools.xml.Binding;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class OGCPropertyIsNullTypeBindingTest extends FilterTestSupport {
@@ -46,13 +44,13 @@ public class OGCPropertyIsNullTypeBindingTest extends FilterTestSupport {
 
     public void testEncode() throws Exception {
         Document doc = encode(FilterMockData.propertyIsNull(), OGC.PropertyIsNull);
-        Element e = getElementByQName( doc, OGC.PropertyName);
-        assertEquals( "foo", e.getFirstChild().getNodeValue() );
+        Element e = getElementByQName(doc, OGC.PropertyName);
+        assertEquals("foo", e.getFirstChild().getNodeValue());
     }
-    
+
     public void testEncodeAsFilter() throws Exception {
         Document doc = encode(FilterMockData.propertyIsNull(), OGC.Filter);
-        Element e = getElementByQName( doc, OGC.PropertyName);
-        assertEquals( "foo", e.getFirstChild().getNodeValue() );
+        Element e = getElementByQName(doc, OGC.PropertyName);
+        assertEquals("foo", e.getFirstChild().getNodeValue());
     }
 }

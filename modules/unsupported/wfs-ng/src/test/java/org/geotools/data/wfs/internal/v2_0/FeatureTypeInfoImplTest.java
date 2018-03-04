@@ -49,7 +49,7 @@ public class FeatureTypeInfoImplTest {
     // One parameter, no view params, no mappings => no parameters
     @Test
     public void testGetAbstractWhenFeatureTypeTypeAbstractIsEmpty() {
-        when(fttMock.getAbstract()).thenReturn(ECollections.<AbstractType> emptyEList());
+        when(fttMock.getAbstract()).thenReturn(ECollections.<AbstractType>emptyEList());
         String abstractExpected = "";
 
         String abstractResult = featureType.getAbstract();

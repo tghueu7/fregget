@@ -28,9 +28,9 @@ import org.geotools.xml.InstanceComponent;
 
 /**
  * Binding object for the type http://www.opengis.net/wfs:OperationType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:simpleType name="OperationType"&gt;
  *      &lt;xsd:restriction base="xsd:string"&gt;
@@ -48,9 +48,6 @@ import org.geotools.xml.InstanceComponent;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OperationTypeBinding extends AbstractSimpleBinding {
@@ -81,7 +78,7 @@ public class OperationTypeBinding extends AbstractSimpleBinding {
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
+            throws Exception {
         String string = (String) value;
 
         //&lt;xsd:enumeration value="Insert"/&gt;

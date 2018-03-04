@@ -18,15 +18,15 @@ package org.geotools.filter.v1_0.capabilities;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.capability.FunctionName;
 import org.opengis.filter.capability.Functions;
 import org.geotools.xml.Binding;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class FunctionsTypeBindingTest extends FilterCapabilitiesTestSupport {

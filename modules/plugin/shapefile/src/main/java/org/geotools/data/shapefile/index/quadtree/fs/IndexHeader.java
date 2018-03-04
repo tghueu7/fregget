@@ -3,7 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- * 
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -26,10 +26,8 @@ import org.geotools.data.shapefile.index.quadtree.StoreException;
 
 /**
  * DOCUMENT ME!
- * 
+ *
  * @author Tommaso Nolli
- *
- *
  * @source $URL$
  */
 public class IndexHeader {
@@ -40,7 +38,7 @@ public class IndexHeader {
     public static final byte NEW_MSB_ORDER = 2;
     private static final String SIGNATURE = "SQT";
     private static final byte VERSION = 1;
-    private static final byte[] RESERVED = { 0, 0, 0 };
+    private static final byte[] RESERVED = {0, 0, 0};
     private static final Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger("org.geotools.index.quadtree");
     private byte byteOrder;
@@ -51,9 +49,8 @@ public class IndexHeader {
 
     /**
      * DOCUMENT ME!
-     * 
+     *
      * @param channel
-     * 
      * @throws IOException
      * @throws StoreException
      */
@@ -106,7 +103,7 @@ public class IndexHeader {
 
     /**
      * DOCUMENT ME!
-     * 
+     *
      * @return Returns the byteOrder.
      */
     public byte getByteOrder() {

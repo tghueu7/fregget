@@ -27,10 +27,10 @@ import org.opengis.referencing.operation.NoninvertibleTransformException;
 /**
  * Concatenated transform in which the resulting transform is one-dimensional.
  *
- * @since 2.0
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.0
  */
 final class ConcatenatedTransform1D extends ConcatenatedTransform implements MathTransform1D {
     /**
@@ -42,8 +42,7 @@ final class ConcatenatedTransform1D extends ConcatenatedTransform implements Mat
      * Constructs a concatenated transform.
      */
     public ConcatenatedTransform1D(final MathTransform transform1,
-                                   final MathTransform transform2)
-    {
+                                   final MathTransform transform2) {
         super(transform1, transform2);
     }
 
@@ -52,15 +51,15 @@ final class ConcatenatedTransform1D extends ConcatenatedTransform implements Mat
      */
     @Override
     boolean isValid() {
-        return super.isValid() && getSourceDimensions()==1 && getTargetDimensions()==1;
+        return super.isValid() && getSourceDimensions() == 1 && getTargetDimensions() == 1;
     }
 
     /**
      * Transforms the specified value.
      */
     public double transform(final double value) throws TransformException {
-        final double[] values = new double[] {value};
-        final double[] buffer = new double[] {transform1.getTargetDimensions()};
+        final double[] values = new double[]{value};
+        final double[] buffer = new double[]{transform1.getTargetDimensions()};
         transform1.transform(values, 0, buffer, 0, 1);
         transform2.transform(buffer, 0, values, 0, 1);
         return values[0];
@@ -72,8 +71,8 @@ final class ConcatenatedTransform1D extends ConcatenatedTransform implements Mat
     public double derivative(final double value) throws TransformException {
         final DirectPosition1D p = new DirectPosition1D(value);
         final Matrix m = derivative(p);
-        assert m.getNumRow()==1 && m.getNumCol()==1;
-        return m.getElement(0,0);
+        assert m.getNumRow() == 1 && m.getNumCol() == 1;
+        return m.getElement(0, 0);
     }
 
     /**

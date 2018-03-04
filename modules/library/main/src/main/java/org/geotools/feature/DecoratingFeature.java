@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -36,14 +36,10 @@ import com.vividsolutions.jts.geom.Geometry;
  * <p>
  * Subclasses should override those methods which are relevant to the decorator.
  * </p>
- * 
+ *
  * @author Justin Deoliveira, The Open Planning Project
- * @since 2.5
- * 
- *
- *
- *
  * @source $URL$
+ * @since 2.5
  */
 public class DecoratingFeature implements SimpleFeature {
 
@@ -92,9 +88,11 @@ public class DecoratingFeature implements SimpleFeature {
     public SimpleFeatureType getFeatureType() {
         return delegate.getFeatureType();
     }
-	public FeatureId getIdentifier() {
-		return delegate.getIdentifier();
-	}
+
+    public FeatureId getIdentifier() {
+        return delegate.getIdentifier();
+    }
+
     public String getID() {
         return delegate.getID();
     }
@@ -179,14 +177,17 @@ public class DecoratingFeature implements SimpleFeature {
     public void setValue(Object arg0) {
         delegate.setValue(arg0);
     }
+
     public boolean equals(Object obj) {
         return delegate.equals(obj);
     }
+
     public int hashCode() {
         return delegate.hashCode();
     }
+
     public String toString() {
-        return "<"+getClass().getCanonicalName()+">"+delegate.toString();
+        return "<" + getClass().getCanonicalName() + ">" + delegate.toString();
     }
 
     public void validate() {

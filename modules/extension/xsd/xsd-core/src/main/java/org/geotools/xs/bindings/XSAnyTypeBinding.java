@@ -17,12 +17,14 @@
 package org.geotools.xs.bindings;
 
 import org.picocontainer.MutablePicoContainer;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.xml.namespace.QName;
+
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
@@ -31,9 +33,9 @@ import org.geotools.xs.XS;
 
 /**
  * Binding object for the type http://www.w3.org/2001/XMLSchema:anyType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xs:complexType name="anyType" mixed="true"&gt;
  *      &lt;xs:annotation&gt;
@@ -51,9 +53,6 @@ import org.geotools.xs.XS;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class XSAnyTypeBinding extends AbstractComplexBinding {
@@ -95,7 +94,6 @@ public class XSAnyTypeBinding extends AbstractComplexBinding {
     }
 
     /**
-     *
      * <!-- begin-user-doc -->
      * A quick approx of the available content:
      * <p>
@@ -107,11 +105,10 @@ public class XSAnyTypeBinding extends AbstractComplexBinding {
      * @return Map,
      * </p>
      * <!-- end-user-doc -->
-     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         String text = null;
 
         if ((value != null) && value instanceof String) {
@@ -152,7 +149,7 @@ public class XSAnyTypeBinding extends AbstractComplexBinding {
     }
 
     private void mapBinding(Map<String, Object> map, List attributes) {
-        for (Iterator i = attributes.iterator(); i.hasNext();) {
+        for (Iterator i = attributes.iterator(); i.hasNext(); ) {
             Node attribute = (Node) i.next();
             String name = attribute.getComponent().getName();
             Object value = attribute.getValue();

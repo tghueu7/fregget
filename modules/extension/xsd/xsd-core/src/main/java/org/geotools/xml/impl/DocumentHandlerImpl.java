@@ -17,29 +17,35 @@
 package org.geotools.xml.impl;
 
 import org.eclipse.xsd.XSDSchemaContent;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.xml.namespace.QName;
+
 import org.geotools.xml.InstanceComponent;
 import org.geotools.xml.Node;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DocumentHandlerImpl extends HandlerImpl implements DocumentHandler {
-    /** factory used to create a handler for the root element **/
+    /**
+     * factory used to create a handler for the root element
+     **/
     HandlerFactory factory;
 
-    /** root node of the parse tree */
+    /**
+     * root node of the parse tree
+     */
     Node tree;
 
     //ElementHandler handler;
 
-    /** the parser */
+    /**
+     * the parser
+     */
     ParserHandler parser;
 
     public DocumentHandlerImpl(HandlerFactory factory, ParserHandler parser) {
@@ -104,10 +110,10 @@ public class DocumentHandlerImpl extends HandlerImpl implements DocumentHandler 
     //    public ElementHandler getDocumentElementHandler() {
     //        return handler;
     //    }
-    
+
     public void startDocument() {
     }
-    
+
     public void endDocument() {
     }
 }

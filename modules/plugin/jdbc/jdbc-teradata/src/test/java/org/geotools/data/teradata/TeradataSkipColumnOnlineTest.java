@@ -20,8 +20,6 @@ import org.geotools.jdbc.JDBCSkipColumnOnlineTest;
 import org.geotools.jdbc.JDBCSkipColumnTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class TeradataSkipColumnOnlineTest extends JDBCSkipColumnOnlineTest {

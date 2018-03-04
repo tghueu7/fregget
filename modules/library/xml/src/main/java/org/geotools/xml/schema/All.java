@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -23,11 +23,8 @@ package org.geotools.xml.schema;
  * </p>
  *
  * @author dzwiers www.refractions.net
- *
- * @see Element
- *
- *
  * @source $URL$
+ * @see Element
  */
 public interface All extends ElementGrouping {
     /**
@@ -37,7 +34,6 @@ public interface All extends ElementGrouping {
      * the return order in the array should not have an effect on the instance
      * document.
      * </p>
-     *
      */
     public Element[] getElements();
 
@@ -45,7 +41,6 @@ public interface All extends ElementGrouping {
      * <p>
      * Returns the element declaration's id for this schema element.
      * </p>
-     *
      */
     public String getId();
 

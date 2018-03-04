@@ -26,7 +26,6 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Point;
 
 
-
 /**
  * Builds a point using the coordinates of stack that maintain the coordinates made
  * in the parsing process.
@@ -36,9 +35,9 @@ import com.vividsolutions.jts.geom.Point;
  */
 final class PointBuilder extends GeometryBuilder {
 
-    
-    public PointBuilder( String stmt, BuildResultStack resultStack) {
-        super (stmt, resultStack);
+
+    public PointBuilder(String stmt, BuildResultStack resultStack) {
+        super(stmt, resultStack);
     }
 
     /**
@@ -53,7 +52,7 @@ final class PointBuilder extends GeometryBuilder {
             Point point = getGeometryFactory().createPoint(coordinate);
 
             return point;
-            
+
         } catch (ClassCastException e) {
             throw new CQLException(e.getMessage(), token, getStatemet());
         }

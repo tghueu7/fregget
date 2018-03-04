@@ -25,23 +25,22 @@ import org.geotools.swing.MapPane;
 
 /**
  * Receives mouse events from a MapPane instance, converts them to
- * MapPaneMouseEvents, and sends these to the active map pane 
+ * MapPaneMouseEvents, and sends these to the active map pane
  * tools.
- * 
- * @author Michael Bedward
- * @since 8.0
  *
- * @source $URL$
+ * @author Michael Bedward
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 public class DefaultMapMouseEventDispatcher implements MapMouseEventDispatcher {
-    
+
     private MapPane mapPane;
     private List<MapMouseListener> listeners;
 
     /**
      * Creates a new manager instance to work with the specified map pane.
-     * 
+     *
      * @param mapPane the map pane
      */
     public DefaultMapMouseEventDispatcher(MapPane mapPane) {
@@ -88,7 +87,7 @@ public class DefaultMapMouseEventDispatcher implements MapMouseEventDispatcher {
     /**
      * Receives a mouse clicked event and sends a derived {@linkplain MapMouseEvent}
      * to listeners.
-     * 
+     *
      * @param ev the input event
      */
     @Override
@@ -104,7 +103,7 @@ public class DefaultMapMouseEventDispatcher implements MapMouseEventDispatcher {
     /**
      * Receives a mouse pressed event and sends a derived {@linkplain MapMouseEvent}
      * to listeners.
-     * 
+     *
      * @param ev the input event
      */
     @Override
@@ -120,7 +119,7 @@ public class DefaultMapMouseEventDispatcher implements MapMouseEventDispatcher {
     /**
      * Receives a mouse released event and sends a derived {@linkplain MapMouseEvent}
      * to listeners.
-     * 
+     *
      * @param ev the input event
      */
     @Override
@@ -136,7 +135,7 @@ public class DefaultMapMouseEventDispatcher implements MapMouseEventDispatcher {
     /**
      * Receives a mouse entered event and sends a derived {@linkplain MapMouseEvent}
      * to listeners.
-     * 
+     *
      * @param ev the input event
      */
     @Override
@@ -152,7 +151,7 @@ public class DefaultMapMouseEventDispatcher implements MapMouseEventDispatcher {
     /**
      * Receives a mouse exited event and sends a derived {@linkplain MapMouseEvent}
      * to listeners.
-     * 
+     *
      * @param ev the input event
      */
     @Override
@@ -168,7 +167,7 @@ public class DefaultMapMouseEventDispatcher implements MapMouseEventDispatcher {
     /**
      * Receives a mouse dragged event and sends a derived {@linkplain MapMouseEvent}
      * to listeners.
-     * 
+     *
      * @param ev the input event
      */
     @Override
@@ -184,7 +183,7 @@ public class DefaultMapMouseEventDispatcher implements MapMouseEventDispatcher {
     /**
      * Receives a mouse moved event and sends a derived {@linkplain MapMouseEvent}
      * to listeners.
-     * 
+     *
      * @param ev the input event
      */
     @Override
@@ -200,7 +199,7 @@ public class DefaultMapMouseEventDispatcher implements MapMouseEventDispatcher {
     /**
      * Receives a mouse wheel event and sends a derived {@linkplain MapMouseEvent}
      * to listeners.
-     * 
+     *
      * @param ev the input event
      */
     @Override

@@ -4,13 +4,14 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.parameter;
 
 import java.util.Set;
 import javax.measure.unit.Unit;
+
 import org.opengis.util.CodeList;
 import org.opengis.annotation.UML;
 import org.opengis.annotation.Extension;
@@ -24,19 +25,16 @@ import static org.opengis.annotation.Specification.*;
  * numeric, but other types of parameter values are possible.
  *
  * @param <T> The type of parameter values.
- *
- *
- *
+ * @author Martin Desruisseaux (IRD)
+ * @author Jody Garnett (Refractions Research)
+ * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract 
+ * specification 2.0</A>
  * @source $URL$
- * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract specification 2.0</A>
- * @author  Martin Desruisseaux (IRD)
- * @author  Jody Garnett (Refractions Research)
- * @since   GeoAPI 2.0
- *
  * @see ParameterValue
  * @see ParameterDescriptorGroup
+ * @since GeoAPI 2.0
  */
-@UML(identifier="CC_OperationParameter", specification=ISO_19111)
+@UML(identifier = "CC_OperationParameter", specification = ISO_19111)
 public interface ParameterDescriptor<T> extends GeneralParameterDescriptor {
     /**
      * Creates a new instance of {@linkplain ParameterValue parameter value} initialized with the
@@ -51,7 +49,7 @@ public interface ParameterDescriptor<T> extends GeneralParameterDescriptor {
      *
      * @return The type of parameter values.
      */
-    @UML(identifier="GC_ParameterInfo.type", obligation=MANDATORY, specification=ISO_19111)
+    @UML(identifier = "GC_ParameterInfo.type", obligation = MANDATORY, specification = ISO_19111)
     Class<T> getValueClass();
 
     /**
@@ -60,7 +58,7 @@ public interface ParameterDescriptor<T> extends GeneralParameterDescriptor {
      * or enumeration elements.
      *
      * @return A finite set of valid values (usually from a {@linkplain CodeList code list}),
-     *         or {@code null} if it doesn't apply.
+     * or {@code null} if it doesn't apply.
      */
     @Extension
     Set<T> getValidValues();
@@ -72,12 +70,13 @@ public interface ParameterDescriptor<T> extends GeneralParameterDescriptor {
      *
      * @return The default value, or {@code null} in none.
      */
-    @UML(identifier="GC_ParameterInfo.defaultValue", obligation=OPTIONAL, specification=ISO_19111)
+    @UML(identifier = "GC_ParameterInfo.defaultValue", obligation = OPTIONAL, specification = 
+            ISO_19111)
     T getDefaultValue();
 
     /**
      * Returns the minimum parameter value.
-     *
+     * <p>
      * If there is no minimum value, or if minimum
      * value is inappropriate for the {@linkplain #getValueClass parameter type}, then
      * this method returns {@code null}.
@@ -85,14 +84,16 @@ public interface ParameterDescriptor<T> extends GeneralParameterDescriptor {
      * When the getValueClass() is an array or Collection getMinimumValue
      * may be used to constrain the contained elements.
      * </p>
+     *
      * @return The minimum parameter value (often an instance of {@link Double}), or {@code null}.
      */
-    @UML(identifier="GC_ParameterInfo.minimumValue", obligation=OPTIONAL, specification=ISO_19111)
+    @UML(identifier = "GC_ParameterInfo.minimumValue", obligation = OPTIONAL, specification = 
+            ISO_19111)
     Comparable<T> getMinimumValue();
 
     /**
      * Returns the maximum parameter value.
-     *
+     * <p>
      * If there is no maximum value, or if maximum
      * value is inappropriate for the {@linkplain #getValueClass parameter type}, then
      * this method returns {@code null}.
@@ -102,7 +103,8 @@ public interface ParameterDescriptor<T> extends GeneralParameterDescriptor {
      *
      * @return The minimum parameter value (often an instance of {@link Double}), or {@code null}.
      */
-    @UML(identifier="GC_ParameterInfo.maximumValue", obligation=OPTIONAL, specification=ISO_19111)
+    @UML(identifier = "GC_ParameterInfo.maximumValue", obligation = OPTIONAL, specification = 
+            ISO_19111)
     Comparable<T> getMaximumValue();
 
     /**

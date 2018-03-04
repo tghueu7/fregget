@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -46,20 +46,20 @@ import com.vividsolutions.jts.geom.Geometry;
  * <p>
  * Simple Usage:
  * <code>
- *  <pre>
+ * <pre>
  *  //type of features we would like to build ( assume schema = (geom:Point,name:String) )
- *  SimpleFeatureType featureType = ...  
- * 
+ *  SimpleFeatureType featureType = ...
+ *
  *   //create the builder
  *  SimpleFeatureBuilder builder = new SimpleFeatureBuilder();
- *  
+ *
  *  //set the type of created features
  *  builder.setType( featureType );
- *  
+ *
  *  //add the attributes
  *  builder.add( new Point( 0 , 0 ) );
  *  builder.add( "theName" );
- *  
+ *
  *  //build the feature
  *  SimpleFeature feature = builder.buildFeature( "fid" );
  *  </pre>
@@ -67,15 +67,15 @@ import com.vividsolutions.jts.geom.Geometry;
  * </p>
  * <p>
  * This builder builds a feature by maintaining state. Each call to {@link #add(Object)}
- * creates a new attribute for the feature and stores it locally. When using the 
- * add method to add attributes to the feature, values added must be added in the 
- * same order as the attributes as defined by the feature type. The methods 
- * {@link #set(String, Object)} and {@link #set(int, Object)} are used to add 
+ * creates a new attribute for the feature and stores it locally. When using the
+ * add method to add attributes to the feature, values added must be added in the
+ * same order as the attributes as defined by the feature type. The methods
+ * {@link #set(String, Object)} and {@link #set(int, Object)} are used to add
  * attributes out of order.
  * </p>
  * <p>
  * Each time the builder builds a feature with a call to {@link #buildFeature(String)}
- * the internal state is reset. 
+ * the internal state is reset.
  * </p>
  * <p>
  * This builder can be used to copy features as well. The following code sample
@@ -84,50 +84,47 @@ import com.vividsolutions.jts.geom.Geometry;
  * <pre>
  *  //original feature
  *  SimpleFeature original = ...;
- * 
+ *
  *  //create and initialize the builder
  *  SimpleFeatureBuilder builder = new SimpleFeatureBuilder();
  *  builder.init(original);
- * 
+ *
  *  //create the new feature
  *  SimpleFeature copy = builder.buildFeature( original.getID() );
- * 
+ *
  *  </pre>
  * </code>
  * </p>
  * <p>
- * The builder also provides a number of static "short-hand" methods which can 
+ * The builder also provides a number of static "short-hand" methods which can
  * be used when its not ideal to instantiate a new builder, thought this will
  * trigger some extra object allocations. In time critical code sections it's
  * better to instantiate the builder once and use it to build all the required
  * features.
  * <code>
- *   <pre>
+ * <pre>
  *   SimpleFeatureType type = ..;
  *   Object[] values = ...;
- *   
+ *
  *   //build a new feature
  *   SimpleFeature feature = SimpleFeatureBuilder.build( type, values, "fid" );
- *   
+ *
  *   ...
- *   
+ *
  *   SimpleFeature original = ...;
- *   
+ *
  *   //copy the feature
  *   SimpleFeature feature = SimpleFeatureBuilder.copy( original );
  *   </pre>
  * </code>
  * </p>
  * <p>
- * This class is not thread safe nor should instances be shared across multiple 
+ * This class is not thread safe nor should instances be shared across multiple
  * threads.
  * </p>
- *  
+ *
  * @author Justin Deoliveira
  * @author Jody Garnett
- *
- *
- *
  * @source $URL$
  */
 public class SimpleFeatureBuilder extends FeatureBuilder<FeatureType, Feature> {
@@ -135,73 +132,84 @@ public class SimpleFeatureBuilder extends FeatureBuilder<FeatureType, Feature> {
      * logger
      */
     static Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org.geotools.feature");
-    
-    /** the feature type */
+
+    /**
+     * the feature type
+     */
     SimpleFeatureType featureType;
-    
-    /** the feature factory */
+
+    /**
+     * the feature factory
+     */
     FeatureFactory factory;
-    
-    /** the attribute name to index index */
+
+    /**
+     * the attribute name to index index
+     */
     Map<String, Integer> index;
 
-    /** the values */
+    /**
+     * the values
+     */
     //List<Object> values;
     Object[] values;
-    
-    /** pointer for next attribute */
+
+    /**
+     * pointer for next attribute
+     */
     int next;
-    
+
     Map<Object, Object>[] userData;
-    
+
     Map<Object, Object> featureUserData;
-    
+
     boolean validating;
-    
+
     public SimpleFeatureBuilder(SimpleFeatureType featureType) {
         this(featureType, CommonFactoryFinder.getFeatureFactory(null));
     }
-    
+
     public SimpleFeatureBuilder(SimpleFeatureType featureType, FeatureFactory factory) {
         super(featureType, factory);
         this.featureType = featureType;
         this.factory = factory;
 
-        if(featureType instanceof SimpleFeatureTypeImpl) {
+        if (featureType instanceof SimpleFeatureTypeImpl) {
             index = ((SimpleFeatureTypeImpl) featureType).index;
         } else {
             this.index = SimpleFeatureTypeImpl.buildIndex(featureType);
         }
         reset();
     }
-    
+
     public void reset() {
         values = new Object[featureType.getAttributeCount()];
         next = 0;
         userData = null;
         featureUserData = null;
     }
-    
+
     /**
      * Returns the simple feature type used by this builder as a feature template
+     *
      * @return
      */
     public SimpleFeatureType getFeatureType() {
         return featureType;
     }
-    
+
     /**
      * Initialize the builder with the provided feature.
      * <p>
-     * This method adds all the attributes from the provided feature. It is 
-     * useful when copying a feature. 
+     * This method adds all the attributes from the provided feature. It is
+     * useful when copying a feature.
      * </p>
      */
-    public void init( SimpleFeature feature ) {
+    public void init(SimpleFeature feature) {
         reset();
-        
+
         // optimize the case in which we just build
-        if(feature instanceof SimpleFeatureImpl) {
+        if (feature instanceof SimpleFeatureImpl) {
             SimpleFeatureImpl impl = (SimpleFeatureImpl) feature;
             System.arraycopy(impl.values, 0, values, 0, impl.values.length);
 
@@ -219,8 +227,7 @@ public class SimpleFeatureBuilder extends FeatureBuilder<FeatureType, Feature> {
         }
 
     }
-    
-    
+
 
     /**
      * Adds an attribute.
@@ -247,7 +254,7 @@ public class SimpleFeatureBuilder extends FeatureBuilder<FeatureType, Feature> {
      * Adds an array of attributes.
      */
     public void addAll(Object[] values) {
-       addAll(Arrays.asList(values));
+        addAll(Arrays.asList(values));
     }
 
     /**
@@ -255,14 +262,10 @@ public class SimpleFeatureBuilder extends FeatureBuilder<FeatureType, Feature> {
      * <p>
      * This method can be used to add attribute values out of order.
      * </p>
-     * 
-     * @param name
-     *            The name of the attribute.
-     * @param value
-     *            The value of the attribute.
-     * 
-     * @throws IllegalArgumentException
-     *             If no such attribute with teh specified name exists.
+     *
+     * @param name  The name of the attribute.
+     * @param value The value of the attribute.
+     * @throws IllegalArgumentException If no such attribute with teh specified name exists.
      */
     public void set(Name name, Object value) {
         set(name.getLocalPart(), value);
@@ -273,14 +276,10 @@ public class SimpleFeatureBuilder extends FeatureBuilder<FeatureType, Feature> {
      * <p>
      * This method can be used to add attribute values out of order.
      * </p>
-     * 
-     * @param name
-     *            The name of the attribute.
-     * @param value
-     *            The value of the attribute.
-     * 
-     * @throws IllegalArgumentException
-     *             If no such attribute with teh specified name exists.
+     *
+     * @param name  The name of the attribute.
+     * @param value The value of the attribute.
+     * @throws IllegalArgumentException If no such attribute with teh specified name exists.
      */
     public void set(String name, Object value) {
         int index = featureType.indexOf(name);
@@ -295,30 +294,28 @@ public class SimpleFeatureBuilder extends FeatureBuilder<FeatureType, Feature> {
      * <p>
      * This method can be used to add attribute values out of order.
      * </p>
-     * 
-     * @param index
-     *            The index of the attribute.
-     * @param value
-     *            The value of the attribute.
+     *
+     * @param index The index of the attribute.
+     * @param value The value of the attribute.
      */
     public void set(int index, Object value) {
-        if(index >= values.length)
-            throw new ArrayIndexOutOfBoundsException("Can handle " 
+        if (index >= values.length)
+            throw new ArrayIndexOutOfBoundsException("Can handle "
                     + values.length + " attributes only, index is " + index);
-        
+
         AttributeDescriptor descriptor = featureType.getDescriptor(index);
         values[index] = convert(value, descriptor);
-        if(validating)
+        if (validating)
             Types.validate(descriptor, values[index]);
     }
 
     private Object convert(Object value, AttributeDescriptor descriptor) {
-        if ( value == null ) {
+        if (value == null) {
             //if the content is null and the descriptor says isNillable is false, 
             // then set the default value
             if (!descriptor.isNillable()) {
                 value = descriptor.getDefaultValue();
-                if ( value == null ) {
+                if (value == null) {
                     //no default value, try to generate one
                     value = DataUtilities.defaultValue(descriptor.getType().getBinding());
                 }
@@ -339,10 +336,8 @@ public class SimpleFeatureBuilder extends FeatureBuilder<FeatureType, Feature> {
      * <p>
      * After this method returns, all internal builder state is reset.
      * </p>
-     * 
-     * @param id
-     *            The id of the feature, or <code>null</code>.
-     * 
+     *
+     * @param id The id of the feature, or <code>null</code>.
      * @return The new feature.
      */
     public SimpleFeature buildFeature(String id) {
@@ -352,39 +347,41 @@ public class SimpleFeatureBuilder extends FeatureBuilder<FeatureType, Feature> {
         }
 
         Object[] values = this.values;
-        Map<Object,Object>[] userData = this.userData;
-        Map<Object,Object> featureUserData = this.featureUserData;
+        Map<Object, Object>[] userData = this.userData;
+        Map<Object, Object> featureUserData = this.featureUserData;
         reset();
         SimpleFeature sf = factory.createSimpleFeature(values, featureType, id);
-        
+
         // handle the per attribute user data
-        if(userData != null) {
+        if (userData != null) {
             for (int i = 0; i < userData.length; i++) {
-                if(userData[i] != null) {
-                    sf.getProperty(featureType.getDescriptor(i).getName()).getUserData().putAll(userData[i]);
+                if (userData[i] != null) {
+                    sf.getProperty(featureType.getDescriptor(i).getName()).getUserData().putAll
+                            (userData[i]);
                 }
             }
         }
-        
+
         // handle the feature wide user data
-        if(featureUserData != null) {
+        if (featureUserData != null) {
             sf.getUserData().putAll(featureUserData);
         }
-        
+
         return sf;
     }
-    
+
     /**
-     * Quickly builds the feature using the specified values and id 
+     * Quickly builds the feature using the specified values and id
+     *
      * @param id
      * @param values
      * @return
      */
-    public SimpleFeature buildFeature(String id, Object[] values ) {
-        addAll( values );
-        return buildFeature( id );
-    }    
-    
+    public SimpleFeature buildFeature(String id, Object[] values) {
+        addAll(values);
+        return buildFeature(id);
+    }
+
     /**
      * Static method to build a new feature.
      * <p>
@@ -395,30 +392,34 @@ public class SimpleFeatureBuilder extends FeatureBuilder<FeatureType, Feature> {
      * This method is a short-hand convenience which creates a builder instance
      * internally and adds all the specified attributes.
      * </p>
-     * @param type SimpleFeatureType defining the structure for the created feature
+     *
+     * @param type   SimpleFeatureType defining the structure for the created feature
      * @param values Attribute values, must be in the order defined by SimpleFeatureType
-     * @param id FeatureID for the generated feature, use null to allow one to be supplied for you
+     * @param id     FeatureID for the generated feature, use null to allow one to be supplied 
+     *               for you
      */
-    public static SimpleFeature build( SimpleFeatureType type, Object[] values, String id ) {
+    public static SimpleFeature build(SimpleFeatureType type, Object[] values, String id) {
         SimpleFeatureBuilder builder = new SimpleFeatureBuilder(type);
         builder.addAll(values);
         return builder.buildFeature(id);
     }
-    
+
     /**
      * * Static method to build a new feature.
      * <p>
      * If multiple features need to be created, this method should not be used
      * and instead an instance should be instantiated directly.
      * </p>
-     * @param type SimpleFeatureType defining the structure for the created feature
+     *
+     * @param type   SimpleFeatureType defining the structure for the created feature
      * @param values Attribute values, must be in the order defined by SimpleFeatureType
-     * @param id FeatureID for the generated feature, use null to allow one to be supplied for you
+     * @param id     FeatureID for the generated feature, use null to allow one to be supplied 
+     *               for you
      */
-    public static SimpleFeature build( SimpleFeatureType type, List<Object> values, String id ) {
-        return build( type, values.toArray(), id );
+    public static SimpleFeature build(SimpleFeatureType type, List<Object> values, String id) {
+        return build(type, values.toArray(), id);
     }
-    
+
     /**
      * Copy an existing feature (the values are reused so be careful with mutable values).
      * <p>
@@ -431,13 +432,13 @@ public class SimpleFeatureBuilder extends FeatureBuilder<FeatureType, Feature> {
      * </p>
      */
     public static SimpleFeature copy(SimpleFeature original) {
-        if( original == null ) return null;
-        
+        if (original == null) return null;
+
         SimpleFeatureBuilder builder = new SimpleFeatureBuilder(original.getFeatureType());
         builder.init(original); // this is a shallow copy
         return builder.buildFeature(original.getID());
     }
-    
+
     /**
      * Perform a "deep copy" an existing feature resuling in a duplicate of any geometry
      * attributes.
@@ -445,6 +446,7 @@ public class SimpleFeatureBuilder extends FeatureBuilder<FeatureType, Feature> {
      * This method is scary, expensive and will result in a deep copy of
      * Geometry which may take a significant amount of memory/time to perform.
      * </p>
+     *
      * @param original Content
      * @return copy
      */
@@ -464,14 +466,15 @@ public class SimpleFeatureBuilder extends FeatureBuilder<FeatureType, Feature> {
                 builder.set(property.getName(), copy);
             } catch (Exception e) {
                 throw new IllegalAttributeException(
-                        (AttributeDescriptor) property.getDescriptor(), value, e );
+                        (AttributeDescriptor) property.getDescriptor(), value, e);
             }
         }
         return builder.buildFeature(original.getID());
     }
-    
+
     /**
      * Builds a new feature whose attribute values are the default ones
+     *
      * @param featureType
      * @param featureId
      * @return
@@ -483,67 +486,68 @@ public class SimpleFeatureBuilder extends FeatureBuilder<FeatureType, Feature> {
         }
         return builder.buildFeature(featureId);
     }
-        
+
     /**
-     * Copies an existing feature, retyping it in the process. 
+     * Copies an existing feature, retyping it in the process.
      * <p> Be warned, this method will
-     * create its own SimpleFeatureBuilder, which will trigger a scan of the SPI looking for 
-     * the current default feature factory, which is expensive and has scalability issues.<p>  
-     * If you need good performance consider using 
+     * create its own SimpleFeatureBuilder, which will trigger a scan of the SPI looking for
+     * the current default feature factory, which is expensive and has scalability issues.<p>
+     * If you need good performance consider using
      * {@link SimpleFeatureBuilder#retype(SimpleFeature, SimpleFeatureBuilder)} instead.
      * <p>
-     * If the feature type contains attributes in which the original feature 
+     * If the feature type contains attributes in which the original feature
      * does not have a value for, the value in the resulting feature is set to
      * <code>null</code>.
      * </p>
-     * @param feature The original feature.
+     *
+     * @param feature     The original feature.
      * @param featureType The target feature type.
-     *  
      * @return The copied feature, with a new type.
      */
     public static SimpleFeature retype(SimpleFeature feature, SimpleFeatureType featureType) {
         SimpleFeatureBuilder builder = new SimpleFeatureBuilder(featureType);
         for (AttributeDescriptor att : featureType.getAttributeDescriptors()) {
-            Object value = feature.getAttribute( att.getName() );
+            Object value = feature.getAttribute(att.getName());
             builder.set(att.getName(), value);
         }
         return builder.buildFeature(feature.getID());
     }
-    
+
     /**
-     * Copies an existing feature, retyping it in the process. 
+     * Copies an existing feature, retyping it in the process.
      * <p>
-     * If the feature type contains attributes in which the original feature 
+     * If the feature type contains attributes in which the original feature
      * does not have a value for, the value in the resulting feature is set to
      * <code>null</code>.
      * </p>
-     * @param feature The original feature.
+     *
+     * @param feature              The original feature.
      * @param SimpleFeatureBuilder A builder for the target feature type
-     *  
      * @return The copied feature, with a new type.
      * @since 2.5.3
      */
     public static SimpleFeature retype(SimpleFeature feature, SimpleFeatureBuilder builder) {
         builder.reset();
         for (AttributeDescriptor att : builder.getFeatureType().getAttributeDescriptors()) {
-            Object value = feature.getAttribute( att.getName() );
+            Object value = feature.getAttribute(att.getName());
             builder.set(att.getName(), value);
         }
         return builder.buildFeature(feature.getID());
     }
-    
+
     /**
      * Adds some user data to the next attributed added to the feature.
      * <p>
-     * This value is reset when the next attribute is added. 
+     * This value is reset when the next attribute is added.
      * </p>
-     * @param key The key of the user data
+     *
+     * @param key   The key of the user data
      * @param value The value of the user data.
-    */
-    public SimpleFeatureBuilder userData( Object key, Object value ) {
+     */
+    public SimpleFeatureBuilder userData(Object key, Object value) {
         return setUserData(next, key, value);
     }
-    
+
     @SuppressWarnings("unchecked")
     public SimpleFeatureBuilder setUserData(int index, Object key, Object value) {
         if (userData == null) {
@@ -555,22 +559,23 @@ public class SimpleFeatureBuilder extends FeatureBuilder<FeatureType, Feature> {
         userData[index].put(key, value);
         return this;
     }
-    
+
     /**
      * Sets a feature wide use data key/value pair. The user data map is reset
      * when the feature is built
+     *
      * @param key
      * @param value
      * @return
      */
     public SimpleFeatureBuilder featureUserData(Object key, Object value) {
-        if(featureUserData == null) {
+        if (featureUserData == null) {
             featureUserData = new HashMap<Object, Object>();
         }
         featureUserData.put(key, value);
         return this;
     }
-    
+
     public boolean isValidating() {
         return validating;
     }

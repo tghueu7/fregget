@@ -50,13 +50,16 @@ import org.opengis.referencing.operation.NoninvertibleTransformException;
 
 
 /**
- * Wraps an arbitrary {@link Warp} object as a {@linkplain MathTransform2D two-dimensional transform}.
- * Calls to {@linkplain #transform(float[],int,float[],int,int) transform} methods are forwarded to
- * the {@link Warp#warpPoint(int,int,float[]) warpPoint} method, or something equivalent. This
+ * Wraps an arbitrary {@link Warp} object as a 
+ * {@linkplain MathTransform2D two-dimensional transform}.
+ * Calls to {@linkplain #transform(float[], int, float[], int, int) transform} methods are 
+ * forwarded to
+ * the {@link Warp#warpPoint(int, int, float[]) warpPoint} method, or something equivalent. This
  * implies that source coordinates may be rounded to nearest integers before the transformation
  * is applied.
  * <p>
- * This transform is typically used with {@linkplain org.geotools.coverage.processing.operation.Resample
+ * This transform is typically used with {@linkplain org.geotools.coverage.processing.operation
+ * .Resample
  * grid coverage "Resample" operation} for reprojecting an image. Source and destination coordinates
  * are usually pixel coordinates in source and target image, which is why this transform may use
  * integer arithmetic.
@@ -65,31 +68,30 @@ import org.opengis.referencing.operation.NoninvertibleTransformException;
  * can be created by a factory like {@link LocalizationGrid}.
  * <p>
  * For more information on image warp, see
- * <A HREF="http://java.sun.com/products/java-media/jai/forDevelopers/jai1_0_1guide-unc/Geom-image-manip.doc.html">Geometric
+ * <A HREF="http://java.sun.com/products/java-media/jai/forDevelopers/jai1_0_1guide-unc/Geom
+ * -image-manip.doc.html">Geometric
  * Image Manipulation</A> in the <cite>Programming in Java Advanced Imaging</cite> guide.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
  * @author Alessio Fabiani
- *
+ * @version $Id$
+ * @source $URL$
  * @see LocalizationGrid#getPolynomialTransform(int)
  * @see Warp
  * @see javax.media.jai.WarpOpImage
  * @see javax.media.jai.operator.WarpDescriptor
+ * @since 2.1
  */
-public class WarpTransform2D extends AbstractMathTransform implements MathTransform2D, Serializable {
+public class WarpTransform2D extends AbstractMathTransform implements MathTransform2D, 
+        Serializable {
     /**
      * Serial number for interoperability with different versions.
      */
     private static final long serialVersionUID = -7949539694656719923L;
-    
+
     /**
      * Placeholder interface to preserve parameter references in client code.
-     * 
+     *
      * @deprecated Please use {@link WarpTransform2DProvider}
      */
     static interface Provider {
@@ -102,34 +104,36 @@ public class WarpTransform2D extends AbstractMathTransform implements MathTransf
         ParameterDescriptor<?> X_COEFFS = WarpTransform2DProvider.X_COEFFS;
         ParameterDescriptor<?> Y_COEFFS = WarpTransform2DProvider.Y_COEFFS;
     }
+
     private final static boolean USE_HACK;
-    static{
-    	final String buildVersion=JAI.getBuildVersion();
-    	final SimpleDateFormat df=  new SimpleDateFormat("yyyy-MM-dd' 'hh:mm:ss.SSSZ");
-    	final TimeZone tz= TimeZone.getTimeZone("UTC");
-    	df.setTimeZone(tz);
-    	boolean hack=false;
-    	try {
-			final Date date_ = buildVersion!=null?df.parse(buildVersion):new java.util.Date();
-			//reduce granularity to minute
-			final GregorianCalendar tempCal = new GregorianCalendar(tz);
-			tempCal.setTime(date_);
-			tempCal.set(Calendar.HOUR_OF_DAY, 0);
-			tempCal.set(Calendar.MINUTE, 0);
-			tempCal.set(Calendar.SECOND, 0);
-			tempCal.set(Calendar.MILLISECOND, 0);
-			final Date date=tempCal.getTime();
-			
-			// 113 version
-			final GregorianCalendar version113= new GregorianCalendar(tz);
-			version113.set(2006, 8, 12,0,0,0);
-			version113.set(Calendar.MILLISECOND, 0);
-			// we need the hacke only if we are using 1.1.3
-			hack=!date.after(version113.getTime());
-		} catch (ParseException e) {
-			hack=false;
-		}
-		USE_HACK=hack;
+
+    static {
+        final String buildVersion = JAI.getBuildVersion();
+        final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd' 'hh:mm:ss.SSSZ");
+        final TimeZone tz = TimeZone.getTimeZone("UTC");
+        df.setTimeZone(tz);
+        boolean hack = false;
+        try {
+            final Date date_ = buildVersion != null ? df.parse(buildVersion) : new java.util.Date();
+            //reduce granularity to minute
+            final GregorianCalendar tempCal = new GregorianCalendar(tz);
+            tempCal.setTime(date_);
+            tempCal.set(Calendar.HOUR_OF_DAY, 0);
+            tempCal.set(Calendar.MINUTE, 0);
+            tempCal.set(Calendar.SECOND, 0);
+            tempCal.set(Calendar.MILLISECOND, 0);
+            final Date date = tempCal.getTime();
+
+            // 113 version
+            final GregorianCalendar version113 = new GregorianCalendar(tz);
+            version113.set(2006, 8, 12, 0, 0, 0);
+            version113.set(Calendar.MILLISECOND, 0);
+            // we need the hacke only if we are using 1.1.3
+            hack = !date.after(version113.getTime());
+        } catch (ParseException e) {
+            hack = false;
+        }
+        USE_HACK = hack;
     }
 
     /**
@@ -141,7 +145,7 @@ public class WarpTransform2D extends AbstractMathTransform implements MathTransf
 
     /**
      * The warp object. Transformations will be applied using the
-     * {@link Warp#warpPoint(int,int,float[]) warpPoint} method or something equivalent.
+     * {@link Warp#warpPoint(int, int, float[]) warpPoint} method or something equivalent.
      */
     private final Warp warp;
 
@@ -172,7 +176,8 @@ public class WarpTransform2D extends AbstractMathTransform implements MathTransf
      * @param degree    The desired degree of the warp polynomials.
      */
     public WarpTransform2D(final Point2D[] srcCoords, final Point2D[] dstCoords, final int degree) {
-        this(null, srcCoords, 0, null, dstCoords, 0, Math.min(srcCoords.length, dstCoords.length), degree);
+        this(null, srcCoords, 0, null, dstCoords, 0, Math.min(srcCoords.length, dstCoords.length)
+                , degree);
     }
 
     /**
@@ -190,12 +195,13 @@ public class WarpTransform2D extends AbstractMathTransform implements MathTransf
      *                  to be used.
      * @param degree    The desired degree of the warp polynomials.
      */
-    public WarpTransform2D(final Rectangle2D srcBounds, final Point2D[] srcCoords, final int srcOffset,
-                           final Rectangle2D dstBounds, final Point2D[] dstCoords, final int dstOffset,
-                           final int numCoords, final int degree)
-    {
+    public WarpTransform2D(final Rectangle2D srcBounds, final Point2D[] srcCoords, final int 
+            srcOffset,
+                           final Rectangle2D dstBounds, final Point2D[] dstCoords, final int 
+                                   dstOffset,
+                           final int numCoords, final int degree) {
         this(srcBounds, toFloat(srcCoords, srcOffset, numCoords), 0,
-             dstBounds, toFloat(dstCoords, dstOffset, numCoords), 0, numCoords, degree, false);
+                dstBounds, toFloat(dstCoords, dstOffset, numCoords), 0, numCoords, degree, false);
     }
 
     /**
@@ -204,7 +210,7 @@ public class WarpTransform2D extends AbstractMathTransform implements MathTransf
      */
     private static float[] toFloat(final Point2D[] points, int offset, final int numCoords) {
         final float[] array = new float[numCoords * 2];
-        for (int i=0; i<array.length;) {
+        for (int i = 0; i < array.length; ) {
             final Point2D point = points[offset++];
             array[i++] = (float) point.getX();
             array[i++] = (float) point.getY();
@@ -227,13 +233,14 @@ public class WarpTransform2D extends AbstractMathTransform implements MathTransf
      *                  to be used.
      * @param degree    The desired degree of the warp polynomials.
      */
-    public WarpTransform2D(final Rectangle2D srcBounds, final float[] srcCoords, final int srcOffset,
-                           final Rectangle2D dstBounds, final float[] dstCoords, final int dstOffset,
-                           final int numCoords, final int degree)
-    {
+    public WarpTransform2D(final Rectangle2D srcBounds, final float[] srcCoords, final int 
+            srcOffset,
+                           final Rectangle2D dstBounds, final float[] dstCoords, final int 
+                                   dstOffset,
+                           final int numCoords, final int degree) {
         this(srcBounds, srcCoords, srcOffset,
-             dstBounds, dstCoords, dstOffset,
-             numCoords, degree, true);
+                dstBounds, dstCoords, dstOffset,
+                numCoords, degree, true);
     }
 
     /**
@@ -243,45 +250,50 @@ public class WarpTransform2D extends AbstractMathTransform implements MathTransf
      */
     private WarpTransform2D(final Rectangle2D srcBounds, float[] srcCoords, int srcOffset,
                             final Rectangle2D dstBounds, float[] dstCoords, int dstOffset,
-                            final int numCoords, final int degree, boolean cloneCoords)
-    {
+                            final int numCoords, final int degree, boolean cloneCoords) {
         final float preScaleX, preScaleY, postScaleX, postScaleY;
         if (srcBounds != null) {
             preScaleX = (float) srcBounds.getWidth();
             preScaleY = (float) srcBounds.getHeight();
         } else {
-            preScaleX = getWidth(srcCoords, srcOffset  , numCoords);
-            preScaleY = getWidth(srcCoords, srcOffset+1, numCoords);
+            preScaleX = getWidth(srcCoords, srcOffset, numCoords);
+            preScaleY = getWidth(srcCoords, srcOffset + 1, numCoords);
         }
         if (dstBounds != null) {
             postScaleX = (float) dstBounds.getWidth();
             postScaleY = (float) dstBounds.getHeight();
         } else {
-            postScaleX = getWidth(dstCoords, dstOffset  , numCoords);
-            postScaleY = getWidth(dstCoords, dstOffset+1, numCoords);
+            postScaleX = getWidth(dstCoords, dstOffset, numCoords);
+            postScaleY = getWidth(dstCoords, dstOffset + 1, numCoords);
         }
         /*
          * Workaround for a bug in WarpPolynomial.create(...): the later scale coordinates
          * according the scale values, but the 'preScale' and 'postScale' are interchanged.
          * When JAI bug will be fixed, delete all the following block until the next comment.
          */
-        if(USE_HACK){
-	        final double scaleX = preScaleX / postScaleX;
-	        final double scaleY = preScaleY / postScaleY;
-	        if (scaleX!=1 || scaleY!=1) {
-	            final int n = numCoords*2;
-	            if (cloneCoords) {
-	                float[] o;
-	                o=srcCoords; srcCoords=new float[n]; System.arraycopy(o, srcOffset, srcCoords, 0, n); srcOffset=0;
-	                o=dstCoords; dstCoords=new float[n]; System.arraycopy(o, dstOffset, dstCoords, 0, n); dstOffset=0;
-	            }
-	            for (int i=0; i<n;) {
-	                srcCoords[srcOffset + i  ] /= scaleX;
-	                dstCoords[dstOffset + i++] *= scaleX;
-	                srcCoords[srcOffset + i  ] /= scaleY;
-	                dstCoords[dstOffset + i++] *= scaleY;
-	            }
-	        }
+        if (USE_HACK) {
+            final double scaleX = preScaleX / postScaleX;
+            final double scaleY = preScaleY / postScaleY;
+            if (scaleX != 1 || scaleY != 1) {
+                final int n = numCoords * 2;
+                if (cloneCoords) {
+                    float[] o;
+                    o = srcCoords;
+                    srcCoords = new float[n];
+                    System.arraycopy(o, srcOffset, srcCoords, 0, n);
+                    srcOffset = 0;
+                    o = dstCoords;
+                    dstCoords = new float[n];
+                    System.arraycopy(o, dstOffset, dstCoords, 0, n);
+                    dstOffset = 0;
+                }
+                for (int i = 0; i < n; ) {
+                    srcCoords[srcOffset + i] /= scaleX;
+                    dstCoords[dstOffset + i++] *= scaleX;
+                    srcCoords[srcOffset + i] /= scaleY;
+                    dstCoords[dstOffset + i++] *= scaleY;
+                }
+            }
         }
         /*
          * Note: Warp semantic (transforms coordinates from destination to source) is the
@@ -290,10 +302,10 @@ public class WarpTransform2D extends AbstractMathTransform implements MathTransf
          *       direct transform.
          */
         warp = WarpPolynomial.createWarp(dstCoords, dstOffset, srcCoords, srcOffset, numCoords,
-                1/preScaleX, 1/preScaleY, postScaleX, postScaleY, degree);
+                1 / preScaleX, 1 / preScaleY, postScaleX, postScaleY, degree);
         inverse = new WarpTransform2D(
-               WarpPolynomial.createWarp(srcCoords, srcOffset, dstCoords, dstOffset, numCoords,
-                1/postScaleX, 1/postScaleY, preScaleX, preScaleY, degree), this);
+                WarpPolynomial.createWarp(srcCoords, srcOffset, dstCoords, dstOffset, numCoords,
+                        1 / postScaleX, 1 / postScaleY, preScaleX, preScaleY, degree), this);
     }
 
     /**
@@ -314,7 +326,7 @@ public class WarpTransform2D extends AbstractMathTransform implements MathTransf
 
     /**
      * Constructs a transform using the specified warp object. Transformations will be applied
-     * using the {@link Warp#warpPoint(int,int,float[]) warpPoint} method or something equivalent.
+     * using the {@link Warp#warpPoint(int, int, float[]) warpPoint} method or something equivalent.
      *
      * @param warp    The image warp to wrap into a math transform.
      * @param inverse An image warp to uses for the {@linkplain #inverse inverse transform},
@@ -322,8 +334,8 @@ public class WarpTransform2D extends AbstractMathTransform implements MathTransf
      */
     protected WarpTransform2D(final Warp warp, final Warp inverse) {
         ensureNonNull("warp", warp);
-        this.warp    = warp;
-        this.inverse = (inverse!=null) ? new WarpTransform2D(inverse, this) : null;
+        this.warp = warp;
+        this.inverse = (inverse != null) ? new WarpTransform2D(inverse, this) : null;
     }
 
     /**
@@ -331,13 +343,13 @@ public class WarpTransform2D extends AbstractMathTransform implements MathTransf
      * for the construction of {@link #inverse} transform only.
      */
     private WarpTransform2D(final Warp warp, final WarpTransform2D inverse) {
-        this.warp    = warp;
+        this.warp = warp;
         this.inverse = inverse;
     }
 
     /**
      * Returns a transform using the specified warp object. Transformations will be applied
-     * using the {@link Warp#warpPoint(int,int,float[]) warpPoint} method or something equivalent.
+     * using the {@link Warp#warpPoint(int, int, float[]) warpPoint} method or something equivalent.
      *
      * @param warp The image warp to wrap into a math transform.
      * @return The transform for the given warp.
@@ -346,35 +358,35 @@ public class WarpTransform2D extends AbstractMathTransform implements MathTransf
         if (warp instanceof WarpAdapter) {
             return ((WarpAdapter) warp).getTransform();
         }
-        return new WarpTransform2D(warp, (Warp)null);
+        return new WarpTransform2D(warp, (Warp) null);
     }
 
     /**
      * Returns a {@linkplain Warp image warp} for the specified transform. The
-     * {@link Warp#warpPoint(int,int,float[]) Warp.warpPoint} method transforms coordinates from
+     * {@link Warp#warpPoint(int, int, float[]) Warp.warpPoint} method transforms coordinates from
      * source to target CRS. Note that JAI's {@linkplain javax.media.jai.operator.WarpDescriptor
      * warp operation} needs a warp object with the opposite semantic (i.e. the image warp must
      * transforms coordinates from target to source CRS). Consequently, consider invoking
      * {@code getWarp(transform.inverse())} if the warp object is going to be used in an
      * image reprojection.
      *
-     * @param name The image or {@linkplain org.geotools.coverage.grid.GridCoverage2D coverage}
-     *        name, or {@code null} in unknow. Used only for formatting error message if some
-     *        {@link org.opengis.referencing.operation.TransformException} are thrown by the
-     *        supplied transform.
+     * @param name      The image or {@linkplain org.geotools.coverage.grid.GridCoverage2D coverage}
+     *                  name, or {@code null} in unknow. Used only for formatting error message 
+     *                  if some
+     *                  {@link org.opengis.referencing.operation.TransformException} are thrown 
+     *                  by the
+     *                  supplied transform.
      * @param transform The transform to returns as an image warp.
      * @return The warp for the given transform.
-     *
      * @todo We should check for {@link ConcatenatedTransform}. If we detect that a
      * {@code WarpTransform2D} is concatenated with {@code AffineTransform} only, and if the
      * {@code AffineTransform} has scale factors only, then we can ommit the {@code AffineTransform}
      * and merge the scale factors with {@link WarpPolynomial} preScaleX, preScaleY, postScaleX and
      * postScaleY. Additionnaly, the translation term for the post-AffineTransform may also be
      * merged with the first coefficients of WarpPolynomial.xCoeffs and yCoeffs. See GEOT-521.
-     *
      * @todo Move this method in some other factory class. Use the optimization applied by
-     *       Resampler2D in the case of AffineTransform, and remove that optimization from
-     *       Resampler2D.
+     * Resampler2D in the case of AffineTransform, and remove that optimization from
+     * Resampler2D.
      */
     public static Warp getWarp(CharSequence name, final MathTransform2D transform) {
         if (transform instanceof WarpTransform2D) {
@@ -388,7 +400,7 @@ public class WarpTransform2D extends AbstractMathTransform implements MathTransf
 
     /**
      * Returns {@linkplain Warp image warp} wrapped by this transform. The
-     * {@link Warp#warpPoint(int,int,float[]) Warp.warpPoint} method transforms coordinates from
+     * {@link Warp#warpPoint(int, int, float[]) Warp.warpPoint} method transforms coordinates from
      * source to target CRS. Note that JAI's {@linkplain javax.media.jai.operator.WarpDescriptor
      * warp operation} needs a warp object with the opposite semantic (i.e. the image warp must
      * transforms coordinates from target to source CRS). Consequently, consider invoking
@@ -420,14 +432,19 @@ public class WarpTransform2D extends AbstractMathTransform implements MathTransf
             final WarpPolynomial poly = (WarpPolynomial) warp;
             final ParameterValue[] p = new ParameterValue[7];
             int c = 0;
-            p[c++] = new Parameter(WarpTransform2DProvider.DEGREE,   Integer.valueOf(poly.getDegree()));
+            p[c++] = new Parameter(WarpTransform2DProvider.DEGREE, Integer.valueOf(poly.getDegree
+                    ()));
             p[c++] = new Parameter(WarpTransform2DProvider.X_COEFFS, poly.getXCoeffs());
             p[c++] = new Parameter(WarpTransform2DProvider.Y_COEFFS, poly.getYCoeffs());
             float s;
-            if ((s=poly.getPreScaleX ()) != 1) p[c++] = new Parameter(WarpTransform2DProvider. PRE_SCALE_X, s);
-            if ((s=poly.getPreScaleY ()) != 1) p[c++] = new Parameter(WarpTransform2DProvider. PRE_SCALE_Y, s);
-            if ((s=poly.getPostScaleX()) != 1) p[c++] = new Parameter(WarpTransform2DProvider.POST_SCALE_X, s);
-            if ((s=poly.getPostScaleY()) != 1) p[c++] = new Parameter(WarpTransform2DProvider.POST_SCALE_Y, s);
+            if ((s = poly.getPreScaleX()) != 1)
+                p[c++] = new Parameter(WarpTransform2DProvider.PRE_SCALE_X, s);
+            if ((s = poly.getPreScaleY()) != 1)
+                p[c++] = new Parameter(WarpTransform2DProvider.PRE_SCALE_Y, s);
+            if ((s = poly.getPostScaleX()) != 1)
+                p[c++] = new Parameter(WarpTransform2DProvider.POST_SCALE_X, s);
+            if ((s = poly.getPostScaleY()) != 1)
+                p[c++] = new Parameter(WarpTransform2DProvider.POST_SCALE_Y, s);
             return new ParameterGroup(getParameterDescriptors(), XArray.resize(p, c));
         } else {
             return super.getParameterValues();
@@ -464,7 +481,7 @@ public class WarpTransform2D extends AbstractMathTransform implements MathTransf
      * @param ptDst the specified coordinate point that stores the result of transforming
      *              {@code ptSrc}, or {@code null}.
      * @return the coordinate point after transforming {@code ptSrc} and storing the result in
-     *         {@code ptDst}.
+     * {@code ptDst}.
      */
     @Override
     public Point2D transform(Point2D ptSrc, Point2D ptDst) {
@@ -497,18 +514,17 @@ public class WarpTransform2D extends AbstractMathTransform implements MathTransf
      */
     @Override
     public void transform(final float[] srcPts, int srcOff,
-                          final float[] dstPts, int dstOff, int numPts)
-    {
+                          final float[] dstPts, int dstOff, int numPts) {
         final int postIncrement;
-        if (srcPts == dstPts  &&  srcOff < dstOff) {
-            srcOff += (numPts-1)*2;
-            dstOff += (numPts-1)*2;
+        if (srcPts == dstPts && srcOff < dstOff) {
+            srcOff += (numPts - 1) * 2;
+            dstOff += (numPts - 1) * 2;
             postIncrement = -4;
         } else {
             postIncrement = 0;
         }
         final Point2D.Float ptSrc = new PointFloat();
-        final float[]       ptDst = new float[2];
+        final float[] ptDst = new float[2];
         while (--numPts >= 0) {
             ptSrc.x = srcPts[srcOff++] - 0.5f;  // See the comment in transform(Point2D...)
             ptSrc.y = srcPts[srcOff++] - 0.5f;  // for an explanation about the 0.5 shift.
@@ -524,18 +540,17 @@ public class WarpTransform2D extends AbstractMathTransform implements MathTransf
      * (usually "real world" coordinates).
      */
     public void transform(final double[] srcPts, int srcOff,
-                          final double[] dstPts, int dstOff, int numPts)
-    {
+                          final double[] dstPts, int dstOff, int numPts) {
         final int postIncrement;
-        if (srcPts == dstPts  &&  srcOff < dstOff) {
-            srcOff += (numPts-1)*2;
-            dstOff += (numPts-1)*2;
+        if (srcPts == dstPts && srcOff < dstOff) {
+            srcOff += (numPts - 1) * 2;
+            dstOff += (numPts - 1) * 2;
             postIncrement = -4;
         } else {
             postIncrement = 0;
         }
         final Point2D.Double ptSrc = new PointDouble();
-        final float[]        ptDst = new float[2];
+        final float[] ptDst = new float[2];
         while (--numPts >= 0) {
             ptSrc.x = srcPts[srcOff++] - 0.5;  // See the comment in transform(Point2D...)
             ptSrc.y = srcPts[srcOff++] - 0.5;  // for an explanation about the 0.5 shift.
@@ -549,7 +564,8 @@ public class WarpTransform2D extends AbstractMathTransform implements MathTransf
     /**
      * Returns the inverse transform.
      *
-     * @throws NoninvertibleTransformException if no inverse warp were specified at construction time.
+     * @throws NoninvertibleTransformException if no inverse warp were specified at construction 
+     * time.
      */
     @Override
     public MathTransform2D inverse() throws NoninvertibleTransformException {
@@ -565,7 +581,7 @@ public class WarpTransform2D extends AbstractMathTransform implements MathTransf
      */
     @Override
     public int hashCode() {
-        return (int)serialVersionUID ^ super.hashCode() ^ warp.hashCode();
+        return (int) serialVersionUID ^ super.hashCode() ^ warp.hashCode();
     }
 
     /**
@@ -604,7 +620,7 @@ public class WarpTransform2D extends AbstractMathTransform implements MathTransf
         }
 
         public PointDouble(double x, double y) {
-            super(x,y);
+            super(x, y);
         }
 
         @Override

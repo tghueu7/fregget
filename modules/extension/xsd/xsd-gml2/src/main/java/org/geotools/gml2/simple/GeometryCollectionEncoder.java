@@ -21,14 +21,15 @@ import com.vividsolutions.jts.geom.GeometryCollection;
 import org.geotools.gml2.GML;
 import org.geotools.xml.Encoder;
 import org.xml.sax.helpers.AttributesImpl;
+
 /**
  * Encodes a GML2 generic geometry collection
- * 
- * @author 
+ *
+ * @author
  */
-public class GeometryCollectionEncoder extends GeometryEncoder<GeometryCollection>{
- static final QualifiedName GEOMETRY_COLLECTION = new QualifiedName(
-        GML.NAMESPACE, "GeometryCollection", "gml");
+public class GeometryCollectionEncoder extends GeometryEncoder<GeometryCollection> {
+    static final QualifiedName GEOMETRY_COLLECTION = new QualifiedName(
+            GML.NAMESPACE, "GeometryCollection", "gml");
 
     QualifiedName element;
     static Encoder encoder;
@@ -40,13 +41,13 @@ public class GeometryCollectionEncoder extends GeometryEncoder<GeometryCollectio
 
     @Override
     public void encode(GeometryCollection geometry, AttributesImpl atts,
-        GMLWriter handler) throws Exception {
+                       GMLWriter handler) throws Exception {
         handler.startElement(GEOMETRY_COLLECTION, atts);
         if (geometry.getNumGeometries() < 1) {
             throw new Exception("More than 1 geometry required!");
         } else {
             GenericGeometryEncoder gec = new GenericGeometryEncoder(
-                GeometryCollectionEncoder.encoder);
+                    GeometryCollectionEncoder.encoder);
             //For every geometry within the GeometryCollection call encoder
             for (int i = 0; i < geometry.getNumGeometries(); i++) {
                 gec.encode(geometry.getGeometryN(i), atts, handler);

@@ -28,15 +28,15 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  * Check for homogeneous CRS in the upcoming granule.
- * 
- * If the upcoming granules has a CRS which is not homogenenous with the one for the mosaic we have to discard it.
- * 
+ * <p>
+ * If the upcoming granules has a CRS which is not homogenenous with the one for the mosaic we 
+ * have to discard it.
  */
 public class HomogeneousCRSAcceptor implements GranuleAcceptor {
 
     @Override
     public boolean accepts(GridCoverage2DReader coverage, String inputCoverageName,
-            File fileBeingProcessed, ImageMosaicConfigHandler mosaicConfigHandler)
+                           File fileBeingProcessed, ImageMosaicConfigHandler mosaicConfigHandler)
             throws IOException {
         String targetCoverageName = mosaicConfigHandler.getTargetCoverageName(coverage,
                 inputCoverageName);
@@ -46,7 +46,7 @@ public class HomogeneousCRSAcceptor implements GranuleAcceptor {
     }
 
     private boolean checkCRS(GridCoverage2DReader coverage, MosaicConfigurationBean config,
-            String inputCoverageName) {
+                             String inputCoverageName) {
         CoordinateReferenceSystem expectedCRS = config.getCrs();
         CoordinateReferenceSystem actualCRS = coverage
                 .getCoordinateReferenceSystem(inputCoverageName);

@@ -28,7 +28,7 @@ import com.vividsolutions.jts.geom.Point;
 
 /**
  * Encodes a GML3 point
- * 
+ *
  * @author Justin Deoliveira, OpenGeo
  * @author Andrea Aime - GeoSolutions
  */
@@ -53,12 +53,12 @@ class PointEncoder extends GeometryEncoder<Point> {
         atts = cloneWithGmlId(atts, gmlId);
         handler.startElement(point, atts);
         handler.startElement(pos, null);
-        
+
         Coordinate coordinate = geometry.getCoordinate();
         handler.position(coordinate.x, coordinate.y, coordinate.z);
-        
+
         handler.endElement(pos);
         handler.endElement(point);
     }
-    
+
 }

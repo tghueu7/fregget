@@ -19,7 +19,9 @@ package org.geotools.filter.v1_0;
 import org.picocontainer.MutablePicoContainer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 import javax.xml.namespace.QName;
+
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
@@ -27,9 +29,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:DistanceType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType mixed="true" name="DistanceType"&gt;
  *      &lt;xsd:attribute name="units" type="xsd:string" use="required"/&gt;
@@ -40,9 +42,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OGCDistanceTypeBinding extends AbstractComplexBinding {
@@ -89,13 +88,13 @@ public class OGCDistanceTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //TODO: return some object capable of representing units
         return Double.valueOf((String) value);
     }
 
     public Element encode(Object object, Document document, Element value)
-        throws Exception {
+            throws Exception {
         Double distance = (Double) object;
         value.appendChild(document.createTextNode(distance.toString()));
 

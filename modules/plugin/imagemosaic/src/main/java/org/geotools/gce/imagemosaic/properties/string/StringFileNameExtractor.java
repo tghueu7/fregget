@@ -28,15 +28,14 @@ import org.opengis.feature.simple.SimpleFeature;
 
 /**
  * {@link PropertiesCollector} that is able to collect properties from a file name.
- * 
- * @author Simone Giannecchini, GeoSolutions SAS
  *
+ * @author Simone Giannecchini, GeoSolutions SAS
  */
 class StringFileNameExtractor extends RegExPropertiesCollector {
     private final static Logger LOGGER = Logging.getLogger(StringFileNameExtractor.class);
 
     public StringFileNameExtractor(PropertiesCollectorSPI spi, List<String> propertyNames,
-            String regex) {
+                                   String regex) {
         super(spi, propertyNames, regex);
 
     }

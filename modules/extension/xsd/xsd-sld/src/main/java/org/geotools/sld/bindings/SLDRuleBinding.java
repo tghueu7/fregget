@@ -34,9 +34,9 @@ import org.picocontainer.MutablePicoContainer;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:Rule.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="Rule"&gt;
  *      &lt;xsd:annotation&gt;
@@ -66,9 +66,6 @@ import org.picocontainer.MutablePicoContainer;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDRuleBinding extends AbstractComplexBinding {
@@ -121,7 +118,7 @@ public class SLDRuleBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         Rule rule = styleFactory.createRule();
 
         //&lt;xsd:element ref="sld:Name" minOccurs="0"/&gt;
@@ -143,7 +140,7 @@ public class SLDRuleBinding extends AbstractComplexBinding {
 
         //&lt;xsd:element ref="sld:LegendGraphic" minOccurs="0"/&gt;
         if (node.hasChild("LegendGraphic")) {
-            rule.setLegendGraphic(new Graphic[] { (Graphic) node.getChildValue("LegendGraphic") });
+            rule.setLegendGraphic(new Graphic[]{(Graphic) node.getChildValue("LegendGraphic")});
         }
 
         //&lt;xsd:choice minOccurs="0"&gt;
@@ -159,13 +156,13 @@ public class SLDRuleBinding extends AbstractComplexBinding {
         //&lt;xsd:element ref="sld:MinScaleDenominator" minOccurs="0"/&gt;
         if (node.hasChild("MinScaleDenominator")) {
             rule.setMinScaleDenominator(((Double) node.getChildValue("MinScaleDenominator"))
-                .doubleValue());
+                    .doubleValue());
         }
 
         //&lt;xsd:element ref="sld:MaxScaleDenominator" minOccurs="0"/&gt;
         if (node.hasChild("MaxScaleDenominator")) {
             rule.setMaxScaleDenominator(((Double) node.getChildValue("MaxScaleDenominator"))
-                .doubleValue());
+                    .doubleValue());
         }
 
         //&lt;xsd:element ref="sld:Symbolizer" maxOccurs="unbounded"/&gt;

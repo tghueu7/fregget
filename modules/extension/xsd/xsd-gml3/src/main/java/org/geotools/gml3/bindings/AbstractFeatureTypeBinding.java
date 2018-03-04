@@ -38,13 +38,17 @@ import org.w3c.dom.Element;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:AbstractFeatureType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType abstract="true" name="AbstractFeatureType"&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;An abstract feature provides a set of common properties, including id, metaDataProperty, name and description inherited from AbstractGMLType, plus boundedBy.    A concrete feature type must derive from this type and specify additional  properties in an application schema. A feature must possess an identifying attribute ('id' - 'fid' has been deprecated).&lt;/documentation&gt;
+ *          &lt;documentation&gt;An abstract feature provides a set of common properties, 
+ *          including id, metaDataProperty, name and description inherited from AbstractGMLType, 
+ *          plus boundedBy.    A concrete feature type must derive from this type and specify 
+ *          additional  properties in an application schema. A feature must possess an 
+ *          identifying attribute ('id' - 'fid' has been deprecated).&lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;complexContent&gt;
  *          &lt;extension base="gml:AbstractGMLType"&gt;
@@ -67,9 +71,6 @@ import org.w3c.dom.Element;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class AbstractFeatureTypeBinding extends AbstractComplexBinding {
@@ -79,9 +80,10 @@ public class AbstractFeatureTypeBinding extends AbstractComplexBinding {
     SchemaIndex schemaIndex;
     Configuration configuration;
     GML3EncodingUtils encodingUtils;
-    
+
     public AbstractFeatureTypeBinding(FeatureTypeCache ftCache, BindingWalkerFactory bwFactory,
-            SchemaIndex schemaIndex, Configuration configuration, XSDIdRegistry idRegistry, GML3EncodingUtils encodingUtils ) {
+                                      SchemaIndex schemaIndex, Configuration configuration, 
+                                      XSDIdRegistry idRegistry, GML3EncodingUtils encodingUtils) {
         this.ftCache = ftCache;
         this.bwFactory = bwFactory;
         this.schemaIndex = schemaIndex;
@@ -114,7 +116,7 @@ public class AbstractFeatureTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return GML3ParsingUtils.parseFeature(instance, node, value, ftCache, bwFactory);
 
         //        //get the definition of the element
@@ -136,8 +138,8 @@ public class AbstractFeatureTypeBinding extends AbstractComplexBinding {
     }
 
     public Element encode(Object object, Document document, Element value)
-        throws Exception {
-        return encodingUtils.AbstractFeatureTypeEncode(object,document,value,idSet);
+            throws Exception {
+        return encodingUtils.AbstractFeatureTypeEncode(object, document, value, idSet);
     }
 
     @Override

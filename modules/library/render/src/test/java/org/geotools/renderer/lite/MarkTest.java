@@ -26,8 +26,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class MarkTest {
@@ -59,11 +57,12 @@ public class MarkTest {
         arrowBasesFS = ds.getFeatureSource("arrowBases");
         bounds = new ReferencedEnvelope(0, 10, 0, 10, CRS.decode("EPSG:4326"));
         arrowBounds = new ReferencedEnvelope(-1, 5, -1, 11, CRS.decode("EPSG:4326"));
-        
+
         // load font
-        Font f = Font.createFont(Font.TRUETYPE_FONT, TestData.getResource(this, "recreate.ttf").openStream());
+        Font f = Font.createFont(Font.TRUETYPE_FONT, TestData.getResource(this, "recreate.ttf")
+                .openStream());
         FontCache.getDefaultInstance().registerFont(f);
-        
+
         // System.setProperty("org.geotools.test.interactive", "true");
     }
 
@@ -71,25 +70,25 @@ public class MarkTest {
         return new File("src/test/resources/org/geotools/renderer/lite/test-data/mark/" + name
                 + ".png");
     }
-    
+
     @Test
     public void testCircle() throws Exception {
         Style pStyle = RendererBaseTest.loadStyle(this, "markCircle.sld");
         Style lStyle = RendererBaseTest.loadStyle(this, "lineGray.sld");
-        
+
         MapContent mc = new MapContent();
         mc.addLayer(new FeatureLayer(lineFS, lStyle));
         mc.addLayer(new FeatureLayer(pointFS, pStyle));
-        
+
         StreamingRenderer renderer = new StreamingRenderer();
         renderer.setMapContent(mc);
         renderer.setJava2DHints(new RenderingHints(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON));
-        
+
         BufferedImage image = RendererBaseTest.showRender("Decorative marks", renderer, TIME,
                 bounds);
         ImageAssert.assertEquals(file("circle"), image, 150);
-    }     
-    
+    }
+
     @Test
     public void testAnchor() throws Exception {
         Style pStyle = RendererBaseTest.loadStyle(this, "markAnchor.sld");
@@ -244,7 +243,8 @@ public class MarkTest {
                 StreamingRenderer.ADVANCED_PROJECTION_HANDLING_KEY, true));
         renderer.setJava2DHints(new RenderingHints(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON));
         renderer.setRendererHints(Collections.singletonMap(StreamingRenderer.RENDERING_BUFFER, 64));
-        ReferencedEnvelope bounds = new ReferencedEnvelope(-10, -0.5, -10, -0.5, DefaultGeographicCRS.WGS84);
+        ReferencedEnvelope bounds = new ReferencedEnvelope(-10, -0.5, -10, -0.5, 
+                DefaultGeographicCRS.WGS84);
 
         BufferedImage image = RendererBaseTest.showRender("Decorative marks in the corner",
                 renderer, TIME, bounds);
@@ -255,33 +255,33 @@ public class MarkTest {
     public void testTriangle() throws Exception {
         Style pStyle = RendererBaseTest.loadStyle(this, "markTriangle.sld");
         Style lStyle = RendererBaseTest.loadStyle(this, "lineGray.sld");
-        
+
         MapContent mc = new MapContent();
         mc.addLayer(new FeatureLayer(lineFS, lStyle));
         mc.addLayer(new FeatureLayer(pointFS, pStyle));
-        
+
         StreamingRenderer renderer = new StreamingRenderer();
         renderer.setMapContent(mc);
         renderer.setJava2DHints(new RenderingHints(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON));
-        
+
         BufferedImage image = RendererBaseTest.showRender("Decorative marks", renderer, TIME,
                 bounds);
         ImageAssert.assertEquals(file("triangle"), image, 50);
     }
-    
+
     @Test
     public void testDecorative() throws Exception {
         Style pStyle = RendererBaseTest.loadStyle(this, "markDecorative.sld");
         Style lStyle = RendererBaseTest.loadStyle(this, "lineGray.sld");
-        
+
         MapContent mc = new MapContent();
         mc.addLayer(new FeatureLayer(lineFS, lStyle));
         mc.addLayer(new FeatureLayer(pointFS, pStyle));
-        
+
         StreamingRenderer renderer = new StreamingRenderer();
         renderer.setMapContent(mc);
         renderer.setJava2DHints(new RenderingHints(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON));
-        
+
         BufferedImage image = RendererBaseTest.showRender("Decorative marks", renderer, TIME,
                 bounds);
         ImageAssert.assertEquals(file("decorative"), image, 50);
@@ -291,18 +291,18 @@ public class MarkTest {
     public void testExternalMark() throws Exception {
         Style pStyle = RendererBaseTest.loadSEStyle(this, "externalMark.sld");
         Style lStyle = RendererBaseTest.loadStyle(this, "lineGray.sld");
-        
+
         MapContent mc = new MapContent();
         mc.addLayer(new FeatureLayer(lineFS, lStyle));
         mc.addLayer(new FeatureLayer(pointFS, pStyle));
-        
+
         StreamingRenderer renderer = new StreamingRenderer();
         renderer.setMapContent(mc);
         renderer.setJava2DHints(new RenderingHints(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON));
-        
+
         BufferedImage image = RendererBaseTest.showRender("External mark reference", renderer, TIME,
                 bounds);
         ImageAssert.assertEquals(file("externalMark"), image, 50);
     }
-   
+
 }

@@ -34,9 +34,10 @@ import org.opengis.filter.Filter;
 import org.opengis.parameter.GeneralParameterDescriptor;
 import org.opengis.parameter.ParameterDescriptor;
 
-public class GRIBFormat extends NetCDFFormat{
+public class GRIBFormat extends NetCDFFormat {
 
-    public static final ParameterDescriptor<Filter> FILTER = new DefaultParameterDescriptor<Filter>("Filter", Filter.class, null, null);
+    public static final ParameterDescriptor<Filter> FILTER = new 
+            DefaultParameterDescriptor<Filter>("Filter", Filter.class, null, null);
 
     private final static Logger LOGGER = Logging
             .getLogger("org.geotools.coverage.io.grib.GRIBFormat");
@@ -52,7 +53,7 @@ public class GRIBFormat extends NetCDFFormat{
      * Sets the metadata information.
      */
     private void setInfo() {
-        final HashMap<String,String> info = new HashMap<String,String> ();
+        final HashMap<String, String> info = new HashMap<String, String>();
         info.put("name", "GRIB");
         info.put("description", "GRIB store plugin");
         info.put("vendor", "Geotools");
@@ -64,10 +65,10 @@ public class GRIBFormat extends NetCDFFormat{
         readParameters = new ParameterGroup(new DefaultParameterDescriptorGroup(mInfo,
                 new GeneralParameterDescriptor[]{
                         READ_GRIDGEOMETRY2D,
-                TIME,
-                ELEVATION,
-                FILTER,
-        }));
+                        TIME,
+                        ELEVATION,
+                        FILTER,
+                }));
 
         // reading parameters
         writeParameters = null;
@@ -78,7 +79,7 @@ public class GRIBFormat extends NetCDFFormat{
         File file = null;
         if (source instanceof URL) {
             file = URLs.urlToFile((URL) source);
-        } else if (source instanceof File ){
+        } else if (source instanceof File) {
             file = (File) source;
         }
         if (file != null) {
@@ -88,9 +89,10 @@ public class GRIBFormat extends NetCDFFormat{
             String fileName = file.getName();
 
             // Check if it is a GRIB data and if the GRIB library is available
-            boolean gribExtension = NetCDFUtilities.isGribAvailable() && (fileName.contains("grb") || fileName.contains("grib"));
-            
-            if (fileName.endsWith("ncml") || gribExtension){
+            boolean gribExtension = NetCDFUtilities.isGribAvailable() && (fileName.contains
+                    ("grb") || fileName.contains("grib"));
+
+            if (fileName.endsWith("ncml") || gribExtension) {
                 if (LOGGER.isLoggable(Level.FINEST)) {
                     LOGGER.finest("File is accepted: " + fileName);
                 }

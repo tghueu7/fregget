@@ -40,7 +40,7 @@ import org.opengis.filter.expression.PropertyName;
 /**
  * Amends the differences between our in-memory two-valued logic and the database own three-valued
  * logic making sure we treat null values just like in memory (avoiding the third "unkonwn" status)
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 class NullHandlingVisitor extends DuplicatingFilterVisitor {

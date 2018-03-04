@@ -98,7 +98,8 @@ public final class TestsSolrUtils {
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("name", "wkt");
         attributes.put("class", "solr.SpatialRecursivePrefixTreeFieldType");
-        attributes.put("spatialContextFactory", "org.locationtech.spatial4j.context.jts.JtsSpatialContextFactory");
+        attributes.put("spatialContextFactory", "org.locationtech.spatial4j.context.jts" +
+                ".JtsSpatialContextFactory");
         // create or replace the field type definition
         createFieldType(client, attributes);
     }
@@ -174,15 +175,18 @@ public final class TestsSolrUtils {
         FieldTypeDefinition typeDefinition = new FieldTypeDefinition();
         typeDefinition.setAttributes(attributes);
         // try to create the field type
-        Response addResponse = runSolrRequest(client, new SchemaRequest.AddFieldType(typeDefinition));
+        Response addResponse = runSolrRequest(client, new SchemaRequest.AddFieldType
+                (typeDefinition));
         if (!addResponse.hasErrors()) {
             // no errors, which means that the field type was correctly created
             return;
         }
         // something bad happen, let's assume that a field type with the same name already exists
-        Response replaceResponse = runSolrRequest(client, new SchemaRequest.ReplaceFieldType(typeDefinition));
+        Response replaceResponse = runSolrRequest(client, new SchemaRequest.ReplaceFieldType
+                (typeDefinition));
         if (replaceResponse.hasErrors()) {
-            // trying to replace the field type failed, let's throw an exception with all the messages errors
+            // trying to replace the field type failed, let's throw an exception with all the 
+            // messages errors
             Response.throwIfNeeded(addResponse, replaceResponse);
         }
     }
@@ -209,7 +213,8 @@ public final class TestsSolrUtils {
         // something bad happen, let's assume that a field with the same name already exists
         Response replaceResponse = runSolrRequest(client, new SchemaRequest.ReplaceField(field));
         if (replaceResponse.hasErrors()) {
-            // trying to replace the field definition failed, let's throw an exception with all the messages errors
+            // trying to replace the field definition failed, let's throw an exception with all 
+            // the messages errors
             Response.throwIfNeeded(addResponse, replaceResponse);
         }
     }
@@ -225,7 +230,8 @@ public final class TestsSolrUtils {
      * @param request Solr request
      * @return response containing any found error or none
      */
-    private static Response runSolrRequest(HttpSolrClient client, SolrRequest<? extends SolrResponseBase> request) {
+    private static Response runSolrRequest(HttpSolrClient client, SolrRequest<? extends 
+            SolrResponseBase> request) {
         try {
             // execute the requests and parse is result
             Response response = Response.parse(request.process(client));

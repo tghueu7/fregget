@@ -43,39 +43,44 @@ import com.vividsolutions.jts.geom.MultiPolygon;
 
 /**
  * Buffers a feature collection using a certain distance
- * 
+ *
  * @author Gianni Barrotta - Sinergis
  * @author Andrea Di Nora - Sinergis
  * @author Pietro Arena - Sinergis
  * @author Andrea Aime - GeoSolutions
- *
  * @source $URL$
  */
-@DescribeProcess(title = "Buffer", description = "Buffers features by a distance value supplied either as a parameter or by a feature attribute. Calculates buffers based on Cartesian distances.")
+@DescribeProcess(title = "Buffer", description = "Buffers features by a distance value supplied " +
+        "either as a parameter or by a feature attribute. Calculates buffers based on Cartesian " +
+        "distances.")
 public class BufferFeatureCollection implements VectorProcess {
     @DescribeResult(description = "Buffered feature collection")
     public SimpleFeatureCollection execute(
-            @DescribeParameter(name = "features", description = "Input feature collection") SimpleFeatureCollection features,
-            @DescribeParameter(name = "distance", description = "Fixed value to use for the buffer distance") Double distance,
-            @DescribeParameter(name = "attributeName", description = "Attribute containing the buffer distance value",min=0) String attribute) {
+            @DescribeParameter(name = "features", description = "Input feature collection") 
+                    SimpleFeatureCollection features,
+            @DescribeParameter(name = "distance", description = "Fixed value to use for the " +
+                    "buffer distance") Double distance,
+            @DescribeParameter(name = "attributeName", description = "Attribute containing the " +
+                    "buffer distance value", min = 0) String attribute) {
 
         if (distance == null && (attribute == null || attribute == "")) {
             throw new IllegalArgumentException("Buffer distance was not specified");
-        } 
+        }
 
-        if(attribute != null && !"".equals(attribute)) {
-            if(features.getSchema().getDescriptor(attribute) == null) {
+        if (attribute != null && !"".equals(attribute)) {
+            if (features.getSchema().getDescriptor(attribute) == null) {
                 boolean found = false;
                 // case insensitive search
                 for (AttributeDescriptor ad : features.getSchema().getAttributeDescriptors()) {
-                    if(ad.getLocalName().equals(attribute)) {
+                    if (ad.getLocalName().equals(attribute)) {
                         attribute = ad.getLocalName();
                         found = true;
                         break;
                     }
                 }
-                if(!found) {
-                    throw new IllegalArgumentException("Attribute not found among the source collection ones: " + attribute);
+                if (!found) {
+                    throw new IllegalArgumentException("Attribute not found among the source " +
+                            "collection ones: " + attribute);
                 }
             }
         } else {
@@ -92,26 +97,27 @@ public class BufferFeatureCollection implements VectorProcess {
         Double distance;
 
         String attribute;
-        
+
         SimpleFeatureCollection delegate;
 
         public BufferedFeatureCollection(SimpleFeatureCollection delegate, String attribute,
-                Double distance) {
+                                         Double distance) {
             this.distance = distance;
             this.attribute = attribute;
             this.delegate = delegate;
 
-            
+
         }
 
         @Override
         public SimpleFeatureIterator features() {
-            return new BufferedFeatureIterator(delegate, this.attribute, this.distance, getSchema());
+            return new BufferedFeatureIterator(delegate, this.attribute, this.distance, getSchema
+                    ());
         }
 
         @Override
         public ReferencedEnvelope getBounds() {
-            if(attribute == null) {
+            if (attribute == null) {
                 // in this case we just have to expand the original collection bounds
                 ReferencedEnvelope re = delegate.getBounds();
                 re.expandBy(distance);
@@ -136,7 +142,7 @@ public class BufferFeatureCollection implements VectorProcess {
                     AttributeDescriptor attributeDescriptor = builder.buildDescriptor(descriptor
                             .getLocalName(), builder.buildType());
                     tb.add(attributeDescriptor);
-                    if(tb.getDefaultGeometry() == null) {
+                    if (tb.getDefaultGeometry() == null) {
                         tb.setDefaultGeometry(descriptor.getLocalName());
                     }
                 }
@@ -152,7 +158,7 @@ public class BufferFeatureCollection implements VectorProcess {
             return delegate.size();
         }
 
-      
+
     }
 
     /**
@@ -174,7 +180,7 @@ public class BufferFeatureCollection implements VectorProcess {
         SimpleFeature next;
 
         public BufferedFeatureIterator(SimpleFeatureCollection delegate, String attribute,
-                Double distance, SimpleFeatureType schema) {
+                                       Double distance, SimpleFeatureType schema) {
             this.delegate = delegate.features();
             this.distance = distance;
             this.collection = delegate;
@@ -192,12 +198,13 @@ public class BufferFeatureCollection implements VectorProcess {
                 for (Object value : f.getAttributes()) {
                     if (value instanceof Geometry) {
                         Double fDistance = distance;
-                        if(this.attribute != null) {
-                            fDistance = Converters.convert(f.getAttribute(this.attribute), Double.class);
+                        if (this.attribute != null) {
+                            fDistance = Converters.convert(f.getAttribute(this.attribute), Double
+                                    .class);
                         }
-                        if(fDistance != null && fDistance != 0.0) {
+                        if (fDistance != null && fDistance != 0.0) {
                             value = ((Geometry) value).buffer(fDistance);
-                        } 
+                        }
                     }
                     fb.add(value);
                 }

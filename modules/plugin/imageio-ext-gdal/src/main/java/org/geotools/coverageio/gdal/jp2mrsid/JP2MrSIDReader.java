@@ -32,20 +32,18 @@ import org.opengis.coverage.grid.GridCoverageReader;
  *
  * @author Daniele Romagnoli, GeoSolutions.
  * @author Simone Giannecchini (simboss), GeoSolutions
- * @since 2.5.x
- *
- *
  * @source $URL$
+ * @since 2.5.x
  */
-public final class JP2MrSIDReader extends BaseGDALGridCoverage2DReader implements GridCoverageReader {
+public final class JP2MrSIDReader extends BaseGDALGridCoverage2DReader implements 
+        GridCoverageReader {
     private final static String worldFileExt = ".j2w";
 
     /**
      * Creates a new instance of a {@link JP2MrSIDReader}. I assume nothing about
      * file extension.
      *
-     * @param input
-     *            Source object for which we want to build a JP2MrSIDReader.
+     * @param input Source object for which we want to build a JP2MrSIDReader.
      * @throws DataSourceException
      */
     public JP2MrSIDReader(Object input) throws DataSourceException {
@@ -57,14 +55,12 @@ public final class JP2MrSIDReader extends BaseGDALGridCoverage2DReader implement
      * whether the file is compressed or not. I assume nothing about file
      * extension.
      *
-     * @param input
-     *            Source object for which we want to build a {@link JP2MrSIDReader}.
-     * @param hints
-     *            Hints to be used by this reader throughout his life.
+     * @param input Source object for which we want to build a {@link JP2MrSIDReader}.
+     * @param hints Hints to be used by this reader throughout his life.
      * @throws DataSourceException
      */
     public JP2MrSIDReader(Object input, final Hints hints)
-        throws DataSourceException {
+            throws DataSourceException {
         super(input, hints, worldFileExt, new JP2GDALMrSidImageReaderSpi());
     }
 

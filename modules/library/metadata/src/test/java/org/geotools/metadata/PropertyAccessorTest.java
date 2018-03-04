@@ -19,6 +19,7 @@ package org.geotools.metadata;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+
 import org.opengis.metadata.Identifier;
 import org.opengis.metadata.citation.Citation;
 import org.opengis.util.InternationalString;
@@ -28,17 +29,16 @@ import org.geotools.metadata.iso.citation.CitationImpl;
 import org.geotools.metadata.iso.citation.Citations;
 
 import org.junit.*;
+
 import static org.junit.Assert.*;
 
 
 /**
  * Tests the {@link PropertyAccessor} class.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
  */
 public final class PropertyAccessorTest {
     /**
@@ -71,10 +71,10 @@ public final class PropertyAccessorTest {
     public void testName() {
         final Citation citation = Citations.EPSG;
         final PropertyAccessor accessor = createPropertyAccessor(citation);
-        assertEquals("Non-existent property",   -1,  accessor.indexOf("dummy"));
+        assertEquals("Non-existent property", -1, accessor.indexOf("dummy"));
         assertEquals("getTitle() property", "title", accessor.name(accessor.indexOf("title")));
         assertEquals("getTitle() property", "title", accessor.name(accessor.indexOf("TITLE")));
-        assertEquals("getISBN() property",  "ISBN",  accessor.name(accessor.indexOf("ISBN")));
+        assertEquals("getISBN() property", "ISBN", accessor.name(accessor.indexOf("ISBN")));
         assertNull(accessor.name(-1));
     }
 
@@ -97,8 +97,8 @@ public final class PropertyAccessorTest {
      */
     static boolean containsEPSG(final Object identifiers) {
         assertTrue(identifiers instanceof Collection);
-        @SuppressWarnings("unchecked")
-        final Collection<Identifier> collection = (Collection) identifiers;
+        @SuppressWarnings("unchecked") final Collection<Identifier> collection = (Collection) 
+                identifiers;
         for (final Identifier id : collection) {
             if (id.getCode().equals("EPSG")) {
                 return true;
@@ -156,15 +156,15 @@ public final class PropertyAccessorTest {
     public void testEquals() {
         Citation citation = Citations.EPSG;
         final PropertyAccessor accessor = createPropertyAccessor(citation);
-        assertFalse(accessor.shallowEquals(citation, Citations.GEOTIFF, true ));
+        assertFalse(accessor.shallowEquals(citation, Citations.GEOTIFF, true));
         assertFalse(accessor.shallowEquals(citation, Citations.GEOTIFF, false));
-        assertTrue (accessor.shallowEquals(citation, Citations.EPSG,    false));
+        assertTrue(accessor.shallowEquals(citation, Citations.EPSG, false));
 
         citation = new CitationImpl();
-        assertTrue (accessor.shallowCopy  (Citations.EPSG, citation,    true ));
-        assertFalse(accessor.shallowEquals(citation, Citations.GEOTIFF, true ));
+        assertTrue(accessor.shallowCopy(Citations.EPSG, citation, true));
+        assertFalse(accessor.shallowEquals(citation, Citations.GEOTIFF, true));
         assertFalse(accessor.shallowEquals(citation, Citations.GEOTIFF, false));
-        assertTrue (accessor.shallowEquals(citation, Citations.EPSG,    false));
+        assertTrue(accessor.shallowEquals(citation, Citations.EPSG, false));
 
         final int index = accessor.indexOf("identifiers");
         final Object source = accessor.get(index, Citations.EPSG);
@@ -172,7 +172,7 @@ public final class PropertyAccessorTest {
         assertNotNull(source);
         assertNotNull(target);
         assertNotSame(source, target);
-        assertEquals (source, target);
+        assertEquals(source, target);
         assertTrue(containsEPSG(target));
 
         assertSame(target, accessor.set(index, citation, null));

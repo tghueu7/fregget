@@ -36,9 +36,9 @@ import org.geotools.resources.i18n.ErrorKeys;
  * order means is sometime an arbitrary choice, which explain why this class is
  * not public at this time.
  *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
  */
 final class PredefinedCS implements Comparator<CoordinateSystem> {
     /**
@@ -50,17 +50,17 @@ final class PredefinedCS implements Comparator<CoordinateSystem> {
      * Our ordering for coordinate system objects.
      */
     @SuppressWarnings("unchecked")
-    private final Class<? extends CoordinateSystem>[] types = new Class[] {
-        CartesianCS  .class,
-        AffineCS     .class,
-        EllipsoidalCS.class,
-        SphericalCS  .class,
-        CylindricalCS.class,
-        PolarCS      .class,
-        VerticalCS   .class,
-        TimeCS       .class,
-        LinearCS     .class,
-        UserDefinedCS.class
+    private final Class<? extends CoordinateSystem>[] types = new Class[]{
+            CartesianCS.class,
+            AffineCS.class,
+            EllipsoidalCS.class,
+            SphericalCS.class,
+            CylindricalCS.class,
+            PolarCS.class,
+            VerticalCS.class,
+            TimeCS.class,
+            LinearCS.class,
+            UserDefinedCS.class
     };
 
     /**
@@ -76,7 +76,7 @@ final class PredefinedCS implements Comparator<CoordinateSystem> {
     public int compare(final CoordinateSystem object1, final CoordinateSystem object2) {
         final Class<? extends CoordinateSystem> type1 = object1.getClass();
         final Class<? extends CoordinateSystem> type2 = object2.getClass();
-        for (int i=0; i<types.length; i++) {
+        for (int i = 0; i < types.length; i++) {
             final Class<?> type = types[i];
             final boolean a1 = type.isAssignableFrom(type1);
             final boolean a2 = type.isAssignableFrom(type2);
@@ -121,13 +121,16 @@ final class PredefinedCS implements Comparator<CoordinateSystem> {
         }
         if (cs instanceof EllipsoidalCS) {
             switch (dimension) {
-                case 2: return DefaultEllipsoidalCS.GEODETIC_2D;
-                case 3: return DefaultEllipsoidalCS.GEODETIC_3D;
+                case 2:
+                    return DefaultEllipsoidalCS.GEODETIC_2D;
+                case 3:
+                    return DefaultEllipsoidalCS.GEODETIC_3D;
             }
         }
         if (cs instanceof SphericalCS) {
             switch (dimension) {
-                case 3: return DefaultSphericalCS.GEOCENTRIC;
+                case 3:
+                    return DefaultSphericalCS.GEOCENTRIC;
             }
         }
         if (cs instanceof VerticalCS) {
@@ -139,14 +142,16 @@ final class PredefinedCS implements Comparator<CoordinateSystem> {
         }
         if (cs instanceof TimeCS) {
             switch (dimension) {
-                case 1: return DefaultTimeCS.DAYS;
+                case 1:
+                    return DefaultTimeCS.DAYS;
             }
         }
         if (cs instanceof DefaultCompoundCS) {
-            final List<CoordinateSystem> components = ((DefaultCompoundCS) cs).getCoordinateSystems();
+            final List<CoordinateSystem> components = ((DefaultCompoundCS) cs)
+                    .getCoordinateSystems();
             final CoordinateSystem[] user = new CoordinateSystem[components.size()];
-            final CoordinateSystem[] std  = new CoordinateSystem[user.length];
-            for (int i=0; i<std.length; i++) {
+            final CoordinateSystem[] std = new CoordinateSystem[user.length];
+            for (int i = 0; i < std.length; i++) {
                 std[i] = standard(user[i] = components.get(i));
             }
             if (csComparator == null) {
@@ -168,7 +173,7 @@ final class PredefinedCS implements Comparator<CoordinateSystem> {
         boolean changed = false;
         final int dimension = cs.getDimension();
         final CoordinateSystemAxis[] axis = new CoordinateSystemAxis[dimension];
-        for (int i=0; i<dimension; i++) {
+        for (int i = 0; i < dimension; i++) {
             /*
              * Gets the axis and replaces it by one of the predefined constants declared in
              * DefaultCoordinateSystemAxis, if possible. The predefined constants use ISO 19111
@@ -204,7 +209,7 @@ final class PredefinedCS implements Comparator<CoordinateSystem> {
         if (!changed) {
             return cs;
         }
-        final Map<String,?> properties = DefaultAffineCS.getProperties(cs, null);
+        final Map<String, ?> properties = DefaultAffineCS.getProperties(cs, null);
         if (cs instanceof CartesianCS) {
             return new DefaultCartesianCS(properties, axis);
         }

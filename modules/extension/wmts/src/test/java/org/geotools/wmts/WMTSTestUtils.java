@@ -18,15 +18,16 @@ package org.geotools.wmts;
 
 import java.io.File;
 import java.io.FileReader;
+
 import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
+
 import net.opengis.wmts.v_1.CapabilitiesType;
 import org.geotools.data.wmts.model.WMTSCapabilities;
 import org.geotools.test.TestData;
 import org.geotools.xml.Parser;
 
 /**
- *
  * @author Emanuele Tajariol (etj AT geo-solutions DOT it)
  */
 public class WMTSTestUtils {

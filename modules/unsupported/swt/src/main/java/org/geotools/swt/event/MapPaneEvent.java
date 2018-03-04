@@ -25,12 +25,8 @@ import org.geotools.swt.SwtMapPane;
  * An event class used by {@code SwtMapPane} to signal changes of
  * state to listeners.
  *
- * 
  * @author Michael Bedward
  * @author Andrea Antonello (www.hydrologis.com)
- *
- *
- *
  * @source $URL$
  */
 public class MapPaneEvent extends EventObject {
@@ -80,19 +76,23 @@ public class MapPaneEvent extends EventObject {
         RENDERING_PROGRESS;
     }
 
-    /** Type of mappane event */
+    /**
+     * Type of mappane event
+     */
     private Type type;
 
-    /** Data associated with some event types */
+    /**
+     * Data associated with some event types
+     */
     private Object data;
 
     /**
      * Constructor for an event with no associated data.
      *
      * @param source the map pane issuing this event.
-     * @param type the type of event.
+     * @param type   the type of event.
      */
-    public MapPaneEvent( SwtMapPane source, Type type ) {
+    public MapPaneEvent(SwtMapPane source, Type type) {
         super(source);
         this.type = type;
     }
@@ -102,10 +102,10 @@ public class MapPaneEvent extends EventObject {
      * object takes ownership of the data object.
      *
      * @param source the map pane issuing this event.
-     * @param type the type of event.
-     * @param data the event data.
+     * @param type   the type of event.
+     * @param data   the event data.
      */
-    public MapPaneEvent( SwtMapPane source, Type type, Object data ) {
+    public MapPaneEvent(SwtMapPane source, Type type, Object data) {
         super(source);
         this.type = type;
         this.data = data;
@@ -113,7 +113,7 @@ public class MapPaneEvent extends EventObject {
 
     /**
      * Get the type of this event.
-     * 
+     *
      * @return event type.
      */
     public Type getType() {

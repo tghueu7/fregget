@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -23,11 +23,9 @@ import org.opengis.metadata.citation.ResponsibleParty;
 
 
 /**
- * This is a data model for the Open Web Service (OWS) metadata. This should be 
- * extended while implementing other OWSs. Name, Title and OnlineResource are 
+ * This is a data model for the Open Web Service (OWS) metadata. This should be
+ * extended while implementing other OWSs. Name, Title and OnlineResource are
  * required. Everything else is optional.
- * 
- *
  *
  * @source $URL$
  */
@@ -38,13 +36,19 @@ public class Service {
      */
     private String name;
 
-    /** The title for the service (human readible) - Required */
+    /**
+     * The title for the service (human readible) - Required
+     */
     private String title;
 
-    /** The URL pointing to where this Service can be accessed - Required */
+    /**
+     * The URL pointing to where this Service can be accessed - Required
+     */
     private URL onlineResource;
 
-    /** Keywords that apply to the Service. Can be used for searching, etc */
+    /**
+     * Keywords that apply to the Service. Can be used for searching, etc
+     */
     private String[] keywordList;
 
     /**
@@ -52,12 +56,12 @@ public class Service {
      * Service
      */
     private String _abstract;
-    
+
     /**
      * Information about a contact person for the service.
      */
     private ResponsibleParty contactInformation;
-    
+
     private int layerLimit;
     private int maxWidth;
     private int maxHeight;
@@ -110,10 +114,10 @@ public class Service {
         this.layerLimit = layerLimit;
     }
 
-    public Dimension getMaxDimension(){
-        return new Dimension( maxWidth, maxHeight );
+    public Dimension getMaxDimension() {
+        return new Dimension(maxWidth, maxHeight);
     }
-    
+
     public int getMaxHeight() {
         return maxHeight;
     }
@@ -132,17 +136,16 @@ public class Service {
 
     /**
      * Information about a contact person for the service. Uses the GeoAPI
-     * citation metadata model, which does not map directly to the WMS 
+     * citation metadata model, which does not map directly to the WMS
      * specification, but it is close.
-     * 
+     * <p>
      * The Role field is not used.
-     * 
      */
-	public ResponsibleParty getContactInformation() {
-		return contactInformation;
-	}
+    public ResponsibleParty getContactInformation() {
+        return contactInformation;
+    }
 
-	public void setContactInformation(ResponsibleParty contactInformation) {
-		this.contactInformation = contactInformation;
-	}
+    public void setContactInformation(ResponsibleParty contactInformation) {
+        this.contactInformation = contactInformation;
+    }
 }

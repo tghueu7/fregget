@@ -145,7 +145,8 @@ class WFSRemoteTransactionState implements State {
     }
 
     private List<MutableFeatureId> applyDiff(final Name localTypeName,
-            TransactionRequest transactionRequest) throws IOException {
+                                             TransactionRequest transactionRequest) throws 
+            IOException {
 
         final WFSContentState localState = localStates.get(localTypeName);
         final WFSLocalTransactionState localTransactionState = localState
@@ -223,7 +224,7 @@ class WFSRemoteTransactionState implements State {
     }
 
     private void applySingleUpdate(QName remoteTypeName, SimpleFeature feature,
-            TransactionRequest transactionRequest) throws IOException {
+                                   TransactionRequest transactionRequest) throws IOException {
 
         // so bad, this is going to update a lot of unnecessary properties. We'd need to make
         // DiffContentFeatureWriter's live and current attributes protected and extend write so that
@@ -250,7 +251,7 @@ class WFSRemoteTransactionState implements State {
     }
 
     private void applyBatchUpdates(QName remoteTypeName, WFSDiff diff,
-            TransactionRequest transactionRequest) {
+                                   TransactionRequest transactionRequest) {
 
         List<BatchUpdate> batchUpdates = diff.getBatchUpdates();
 

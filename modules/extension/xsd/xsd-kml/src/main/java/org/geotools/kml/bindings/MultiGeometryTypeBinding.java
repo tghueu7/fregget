@@ -18,6 +18,7 @@ package org.geotools.kml.bindings;
 
 import java.util.List;
 import javax.xml.namespace.QName;
+
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryCollection;
 import com.vividsolutions.jts.geom.GeometryFactory;
@@ -33,9 +34,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://earth.google.com/kml/2.1:MultiGeometryType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType final="#all" name="MultiGeometryType"&gt;
  *      &lt;complexContent&gt;
@@ -52,9 +53,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class MultiGeometryTypeBinding extends AbstractComplexBinding {
@@ -88,11 +86,11 @@ public class MultiGeometryTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         List geometries = node.getChildValues(Geometry.class);
 
         if (geometries.isEmpty()) {
-            return geometryFactory.createGeometryCollection(new Geometry[] {  });
+            return geometryFactory.createGeometryCollection(new Geometry[]{});
         }
 
         //try to be smart about which subclass to return
@@ -132,17 +130,17 @@ public class MultiGeometryTypeBinding extends AbstractComplexBinding {
         return geometryFactory.createGeometryCollection((Geometry[]) geometries.toArray(
                 new Geometry[geometries.size()]));
     }
-    
+
     public Object getProperty(Object object, QName name) throws Exception {
         GeometryCollection gc = (GeometryCollection) object;
-        if ( KML.Geometry.getLocalPart().equals( name.getLocalPart() ) ) {
+        if (KML.Geometry.getLocalPart().equals(name.getLocalPart())) {
             Geometry[] g = new Geometry[gc.getNumGeometries()];
-            for ( int i = 0; i < g.length; i++ ) {
+            for (int i = 0; i < g.length; i++) {
                 g[i] = gc.getGeometryN(i);
             }
             return g;
         }
-        
+
         return null;
     }
 }

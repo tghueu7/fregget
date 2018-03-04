@@ -28,31 +28,29 @@ import org.xml.sax.helpers.NamespaceSupport;
 
 /**
  * Ulities class for xpath handling on a jdom document object
- * 
+ *
  * @author Russell Petty (GeoScience Victoria)
  * @version $Id$
- *
- *
- *
  * @source $URL$
  */
 public class XmlXpathUtilites {
 
     /**
-     * @param ns namespaces
+     * @param ns          namespaces
      * @param xpathString xpath to search on
-     * @param doc xml to search
+     * @param doc         xml to search
      * @return a list of values matching the xpath in the xml supplied
      */
-    public static List<String> getXPathValues(NamespaceSupport ns, String xpathString, Document doc) {
-        JXPathContext context = initialiseContext(ns, doc);        
+    public static List<String> getXPathValues(NamespaceSupport ns, String xpathString, Document 
+            doc) {
+        JXPathContext context = initialiseContext(ns, doc);
         return getXPathValues(xpathString, context);
     }
 
     /**
-     * @param ns namespaces
+     * @param ns          namespaces
      * @param xpathString xpath to search on
-     * @param doc xml to search
+     * @param doc         xml to search
      * @return count of the values matching the xpath passed in
      */
     public static int countXPathNodes(NamespaceSupport ns, String xpathString, Document doc) {
@@ -63,26 +61,26 @@ public class XmlXpathUtilites {
         }
         return count;
     }
-    
+
     /**
-     * 
-* @param ns namespaces
+     * @param ns          namespaces
      * @param xpathString xpath to search on
-     * @param doc xml to search
+     * @param doc         xml to search
      * @return the (single) value matching the xpath in the xml supplied
      */
-    public static String getSingleXPathValue(NamespaceSupport ns, String xpathString, Document doc) {
+    public static String getSingleXPathValue(NamespaceSupport ns, String xpathString, Document 
+            doc) {
         String id = null;
-        JXPathContext context = initialiseContext(ns, doc); 
+        JXPathContext context = initialiseContext(ns, doc);
         try {
-            Object ob = context.getValue(xpathString); 
+            Object ob = context.getValue(xpathString);
             id = (String) ob;
         } catch (RuntimeException e) {
             throw new RuntimeException("Error reading xpath " + xpathString, e);
         }
         return id;
     }
-    
+
     private static JXPathContext initialiseContext(NamespaceSupport ns, Document doc) {
         JXPathContext context = JXPathContext.newContext(doc);
         addNamespaces(ns, context);
@@ -98,9 +96,10 @@ public class XmlXpathUtilites {
             context.registerNamespace(prefix, uri);
         }
     }
-    
+
     /**
      * Remove indexes from an xpath string.
+     *
      * @param xpath xpath string
      * @return unindexed xpath string
      */
@@ -132,20 +131,20 @@ public class XmlXpathUtilites {
         }
         return buf.toString();
     }
-        
+
     private static List<String> getXPathValues(String xpathString, JXPathContext context) {
 
         List values = null;
         try {
-            values = context.selectNodes(xpathString);    
+            values = context.selectNodes(xpathString);
         } catch (RuntimeException e) {
             throw new RuntimeException("Error reading xpath " + xpathString, e);
         }
-        
+
         List<String> ls = null;
-        if(values == null) {
+        if (values == null) {
             ls = new ArrayList<String>();
-        } else {    
+        } else {
             ls = new ArrayList<String>(values.size());
             for (int i = 0; i < values.size(); i++) {
                 Object value = values.get(i);
@@ -156,7 +155,7 @@ public class XmlXpathUtilites {
                     unwrappedValue = ((org.jdom2.Element) value).getValue();
                 }
                 ls.add(unwrappedValue);
-            }    
+            }
         }
 
         return ls;

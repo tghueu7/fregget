@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.primitive;
@@ -24,14 +24,12 @@ import static org.opengis.annotation.Specification.*;
  * {@linkplain Surface surface} with an upNormal that reverses the direction for this
  * {@code OrientableSurface}, the sense of "the top of the surface".
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @since GeoAPI 1.0
  */
-@UML(identifier="GM_OrientableSurface", specification=ISO_19107)
+@UML(identifier = "GM_OrientableSurface", specification = ISO_19107)
 public interface OrientableSurface extends OrientablePrimitive {
     /**
      * Returns the set of circular sequences of {@linkplain OrientableCurve orientable curve} that
@@ -40,7 +38,7 @@ public interface OrientableSurface extends OrientablePrimitive {
      * {@code OrientableSurface}. In cases where "exterior" boundary is not
      * well defined, all the rings of the {@linkplain SurfaceBoundary surface boundary}
      * shall be listed as "interior".
-     *
+     * <p>
      * <blockquote><font size=2>
      * <strong>NOTE:</strong> The concept of exterior boundary for a surface is really only
      * valid in a 2-dimensional plane. A bounded cylinder has two boundary components, neither
@@ -50,20 +48,19 @@ public interface OrientableSurface extends OrientablePrimitive {
      *
      * @return The sets of positions on the boundary.
      */
-    @UML(identifier="boundary", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "boundary", obligation = MANDATORY, specification = ISO_19107)
     SurfaceBoundary getBoundary();
 
     /**
      * Returns the primitive associated with this {@code OrientableSurface}.
      *
      * @return The primitive, or {@code null} if the association is
-     *         not available or not implemented that way.
-     *
-     * @see Surface#getProxy
+     * not available or not implemented that way.
      * @issue http://jira.codehaus.org/browse/GEO-63
+     * @see Surface#getProxy
      */
     @Association("Oriented")
-    @UML(identifier="primitive", obligation=OPTIONAL, specification=ISO_19107)
+    @UML(identifier = "primitive", obligation = OPTIONAL, specification = ISO_19107)
     Surface getPrimitive();
 
     /**
@@ -72,12 +69,11 @@ public interface OrientableSurface extends OrientablePrimitive {
      * {@code OrientableSurface}, not the other way.
      *
      * @return The owner of this orientable surface, or {@code null} if the association is
-     *         not available or not implemented that way.
-     *
-     * @see CompositeSurface#getGenerators
+     * not available or not implemented that way.
      * @issue http://jira.codehaus.org/browse/GEO-63
+     * @see CompositeSurface#getGenerators
      */
     @Association("Composition")
-    @UML(identifier="composite", obligation=OPTIONAL, specification=ISO_19107)
+    @UML(identifier = "composite", obligation = OPTIONAL, specification = ISO_19107)
     CompositeSurface getComposite();
 }

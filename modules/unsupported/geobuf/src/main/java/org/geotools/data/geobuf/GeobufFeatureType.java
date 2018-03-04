@@ -26,6 +26,7 @@ import java.io.*;
 
 /**
  * GeobufFeatureType encodes and decodes SimpleFeatureTypes
+ *
  * @author Jared Erickson
  */
 public class GeobufFeatureType {
@@ -91,14 +92,17 @@ public class GeobufFeatureType {
             if (data.getFeatureCollection().getFeaturesCount() == 0) {
                 featureTypeBuilder.add("geom", Geometry.class);
             } else {
-                featureTypeBuilder.add("geom", getGeometryType(data.getFeatureCollection().getFeatures(0).getGeometry()));
+                featureTypeBuilder.add("geom", getGeometryType(data.getFeatureCollection()
+                        .getFeatures(0).getGeometry()));
             }
             int keyCount = data.getKeysCount();
             for (int i = 0; i < keyCount; i++) {
                 String key = data.getKeys(i);
                 Class type = String.class;
-                if (data.getFeatureCollection().getFeaturesCount() > 0 && i < data.getFeatureCollection().getFeatures(0).getValuesCount()) {
-                    type = getType(data.getFeatureCollection().getFeatures(0).getValues(i).getValueTypeCase());
+                if (data.getFeatureCollection().getFeaturesCount() > 0 && i < data
+                        .getFeatureCollection().getFeatures(0).getValuesCount()) {
+                    type = getType(data.getFeatureCollection().getFeatures(0).getValues(i)
+                            .getValueTypeCase());
                 }
                 featureTypeBuilder.add(key, type);
             }
@@ -111,7 +115,8 @@ public class GeobufFeatureType {
     protected Class<?> getType(Geobuf.Data.Value.ValueTypeCase vtc) {
         if (vtc == Geobuf.Data.Value.ValueTypeCase.STRING_VALUE) {
             return String.class;
-        } else if (vtc == Geobuf.Data.Value.ValueTypeCase.POS_INT_VALUE || vtc == Geobuf.Data.Value.ValueTypeCase.NEG_INT_VALUE) {
+        } else if (vtc == Geobuf.Data.Value.ValueTypeCase.POS_INT_VALUE || vtc == Geobuf.Data
+                .Value.ValueTypeCase.NEG_INT_VALUE) {
             return Integer.class;
         } else if (vtc == Geobuf.Data.Value.ValueTypeCase.BOOL_VALUE) {
             return Boolean.class;

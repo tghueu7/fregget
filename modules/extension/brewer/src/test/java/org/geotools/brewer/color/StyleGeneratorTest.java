@@ -47,9 +47,6 @@ import org.opengis.filter.expression.Expression;
 
 
 /**
- *
- *
- *
  * @source $URL$
  */
 public class StyleGeneratorTest extends DataTestCase {
@@ -58,14 +55,14 @@ public class StyleGeneratorTest extends DataTestCase {
     }
 
     public void checkFilteredResultNotEmpty(Rule[] rule, SimpleFeatureSource fs, String attribName)
-        throws IOException {
+            throws IOException {
         for (int i = 0; i < rule.length; i++) {
             Filter filter = rule[i].getFilter();
             SimpleFeatureCollection filteredCollection = fs.getFeatures(filter);
             assertTrue(filteredCollection.size() > 0);
 
             String filterInfo = "Filter \"" + filter.toString() + "\" contains "
-                + filteredCollection.size() + " element(s) (";
+                    + filteredCollection.size() + " element(s) (";
             SimpleFeatureIterator it = filteredCollection.features();
 
             while (it.hasNext()) {
@@ -132,72 +129,75 @@ public class StyleGeneratorTest extends DataTestCase {
         assertNotNull(StyleGenerator.toStyleExpression(rule[0].getFilter()));
         assertNotNull(StyleGenerator.toStyleExpression(rule[1].getFilter()));
     }
-    
-    
+
+
     /**
      * This test cases test the generation of a style
      * using a ExcplicitClassifier
      */
-    public void testExplicitClassifier(){
-    	 ColorBrewer brewer = new ColorBrewer();
-         brewer.loadPalettes();
+    public void testExplicitClassifier() {
+        ColorBrewer brewer = new ColorBrewer();
+        brewer.loadPalettes();
 
-         FilterFactory ff = CommonFactoryFinder.getFilterFactory(null);
-         Expression expr = null;
+        FilterFactory ff = CommonFactoryFinder.getFilterFactory(null);
+        Expression expr = null;
 
-         SimpleFeatureType type = riverType;
-         final String attribName = "river";
-         SimpleFeatureCollection fc = DataUtilities.collection(riverFeatures);
+        SimpleFeatureType type = riverType;
+        final String attribName = "river";
+        SimpleFeatureCollection fc = DataUtilities.collection(riverFeatures);
 
-         expr = ff.property(attribName);
+        expr = ff.property(attribName);
 
-         String paletteName = "YlGn"; //type = Sequential
-         
-         //TEST classifier with everything in a single bin
-         final Set<String>[] binValues2 = new Set[1];
-         binValues2[0] = new HashSet<String>();
-         //assign each of the features to one of the bins
-         try {
-			fc.accepts(new FeatureVisitor(){
-				public void visit(Feature feature) {				
-					binValues2[0].add(((SimpleFeature)feature).getAttribute(attribName).toString() );
-					
-				}}, null);
-		} catch (IOException e) {
-			fail(e.getMessage());
-			e.printStackTrace();
-		}
-         
-		 ExplicitClassifier classifier = new ExplicitClassifier(binValues2);
-         Color[] colors = brewer.getPalette(paletteName).getColors(binValues2.length);
+        String paletteName = "YlGn"; //type = Sequential
 
-         // get the fts
-         FeatureTypeStyle fts = StyleGenerator.createFeatureTypeStyle(classifier, expr, colors,
-                 "myfts", riverFeatures[0].getFeatureType().getGeometryDescriptor(),
-                 StyleGenerator.ELSEMODE_IGNORE, 0.5, null);
-         assertNotNull(fts);
+        //TEST classifier with everything in a single bin
+        final Set<String>[] binValues2 = new Set[1];
+        binValues2[0] = new HashSet<String>();
+        //assign each of the features to one of the bins
+        try {
+            fc.accepts(new FeatureVisitor() {
+                public void visit(Feature feature) {
+                    binValues2[0].add(((SimpleFeature) feature).getAttribute(attribName).toString
+                            ());
 
-         // test each filter
-         //we would expect two rules here - one for each of the two bins created
-         List<Rule> rules = fts.rules();
-         assertEquals(1, rules.size());
-         
-         //do a preliminary test to make sure each rule's filter returns some results     
-         assertNotNull(StyleGenerator.toStyleExpression(rules.get(0).getFilter()));
-         final Filter filter = rules.get(0).getFilter();
-         try {
-			fc.accepts(new FeatureVisitor(){
+                }
+            }, null);
+        } catch (IOException e) {
+            fail(e.getMessage());
+            e.printStackTrace();
+        }
 
-				public void visit(Feature feature) {
-					if (!filter.evaluate(feature)){
-						fail("Not all features accepted.");
-					}
-					
-				}}, null);
-		} catch (IOException e) {
-			fail(e.getMessage());
-			e.printStackTrace();
-		}
-         
+        ExplicitClassifier classifier = new ExplicitClassifier(binValues2);
+        Color[] colors = brewer.getPalette(paletteName).getColors(binValues2.length);
+
+        // get the fts
+        FeatureTypeStyle fts = StyleGenerator.createFeatureTypeStyle(classifier, expr, colors,
+                "myfts", riverFeatures[0].getFeatureType().getGeometryDescriptor(),
+                StyleGenerator.ELSEMODE_IGNORE, 0.5, null);
+        assertNotNull(fts);
+
+        // test each filter
+        //we would expect two rules here - one for each of the two bins created
+        List<Rule> rules = fts.rules();
+        assertEquals(1, rules.size());
+
+        //do a preliminary test to make sure each rule's filter returns some results     
+        assertNotNull(StyleGenerator.toStyleExpression(rules.get(0).getFilter()));
+        final Filter filter = rules.get(0).getFilter();
+        try {
+            fc.accepts(new FeatureVisitor() {
+
+                public void visit(Feature feature) {
+                    if (!filter.evaluate(feature)) {
+                        fail("Not all features accepted.");
+                    }
+
+                }
+            }, null);
+        } catch (IOException e) {
+            fail(e.getMessage());
+            e.printStackTrace();
+        }
+
     }
 }

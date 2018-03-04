@@ -33,17 +33,17 @@ public class WfsQueryTypeTest extends WFSTestSupport {
         QName typeName = new QName("http://www.test.com/query", "theType");
         QueryType query = Wfs20Factory.eINSTANCE.createQueryType();
         query.getTypeNames().add(typeName);
-        
+
         Document doc = encode(query, WFS.Query);
         Element root = doc.getDocumentElement();
         String attr = root.getAttribute("typeNames");
         assertNotNull(attr);
-        
+
         String tmp = typeName.getLocalPart();
-        
+
         assertFalse(attr.startsWith("[{"));
         assertTrue(attr.indexOf(tmp) != -1);
         assertEquals(attr.length(), attr.indexOf(tmp) + tmp.length()); // 8 == ":theType".length
-        
+
     }
 }

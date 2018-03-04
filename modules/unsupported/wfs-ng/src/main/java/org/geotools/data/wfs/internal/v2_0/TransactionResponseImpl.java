@@ -65,7 +65,7 @@ public class TransactionResponseImpl extends WFSResponse implements TransactionR
             Configuration wfsConfiguration = strategy.getWfsConfiguration();
             Parser parser = new Parser(wfsConfiguration);
             EntityResolver resolver = strategy.getConfig().getEntityResolver();
-            if(resolver != null) {
+            if (resolver != null) {
                 parser.setEntityResolver(resolver);
             }
             InputStream input = response.getResponseStream();

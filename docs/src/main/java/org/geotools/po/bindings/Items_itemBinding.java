@@ -22,9 +22,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://www.geotools.org/po:Items_item.
- *
  * <p>
- *    <pre>
+ * <p>
+ * <pre>
  *     <code>
  *  &lt;xsd:complexType name="Items_item"&gt;
  *      &lt;xsd:sequence&gt;
@@ -41,8 +41,8 @@ import org.geotools.xml.Node;
  *          &lt;xsd:element minOccurs="0" name="shipDate" type="xsd:date"/&gt;
  *      &lt;/xsd:sequence&gt;
  *      &lt;xsd:attribute name="partNum" type="SKU" use="required"/&gt;
- *  &lt;/xsd:complexType&gt; 
- *        
+ *  &lt;/xsd:complexType&gt;
+ *
  *      </code>
  *     </pre>
  * </p>
@@ -51,8 +51,9 @@ import org.geotools.xml.Node;
  */
 public class Items_itemBinding extends AbstractComplexBinding {
 
-    ObjectFactory factory;        
-    public Items_itemBinding( ObjectFactory factory ) {
+    ObjectFactory factory;
+
+    public Items_itemBinding(ObjectFactory factory) {
         super();
         this.factory = factory;
     }
@@ -63,26 +64,26 @@ public class Items_itemBinding extends AbstractComplexBinding {
     public QName getTarget() {
         return PO.Items_item;
     }
-    
+
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     *    
+     *
      * @generated modifiable
-     */    
+     */
     public Class getType() {
         return Items.Item.class;
     }
-    
+
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     *    
+     *
      * @generated modifiable
-     */    
+     */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
         Items.Item item = factory.createItemsItem();
-            
+
         //elements
         item.setProductName((String) node.getChildValue("productName"));
         item.setQuantity((Integer) node.getChildValue("quntity"));

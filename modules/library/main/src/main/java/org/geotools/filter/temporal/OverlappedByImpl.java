@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.geotools.filter.temporal;
@@ -15,16 +15,14 @@ import org.opengis.filter.temporal.OverlappedBy;
 import org.opengis.temporal.RelativePosition;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class OverlappedByImpl extends BinaryTemporalOperatorImpl implements OverlappedBy {
-    
+
     public OverlappedByImpl(Expression e1, Expression e2) {
         super(e1, e2);
     }
-    
+
     public OverlappedByImpl(Expression e1, Expression e2, MatchAction matchAction) {
         super(e1, e2, matchAction);
     }

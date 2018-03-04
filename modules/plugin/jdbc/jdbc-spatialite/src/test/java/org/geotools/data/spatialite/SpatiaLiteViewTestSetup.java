@@ -37,7 +37,8 @@ public class SpatiaLiteViewTestSetup extends JDBCViewTestSetup {
     @Override
     protected void createLakesView() throws Exception {
         run("CREATE VIEW IF NOT EXISTS lakesview as select * from lakes");
-        run("INSERT INTO views_geometry_columns VALUES ('lakesview', 'geom', 'id', 'lakes', 'geom')");
+        run("INSERT INTO views_geometry_columns VALUES ('lakesview', 'geom', 'id', 'lakes', " +
+                "'geom')");
     }
 
     @Override

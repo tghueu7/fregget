@@ -48,9 +48,6 @@ import org.geotools.swt.utils.Utils;
  * A {@link TableViewer table viewer} for {@link Layer map layers}.
  *
  * @author Andrea Antonello (www.hydrologis.com)
- *
- *
- *
  * @source $URL$
  */
 public class MaplayerTableViewer extends TableViewer implements ISelectionChangedListener {
@@ -62,17 +59,17 @@ public class MaplayerTableViewer extends TableViewer implements ISelectionChange
 
     /**
      * Constructor.
-     * 
+     * <p>
      * <p>
      * <b>Note</b> that after the object is built and before actually using it, the
      * {@link SwtMapPane map pane} has to be set through the {@link #setPane(SwtMapPane)}
-     * method. 
+     * method.
      * </p>
-     * 
-     * @param parent the parent {@link Composite}. 
-     * @param style the style for the {@link Composite}.
+     *
+     * @param parent the parent {@link Composite}.
+     * @param style  the style for the {@link Composite}.
      */
-    public MaplayerTableViewer( Composite parent, int style ) {
+    public MaplayerTableViewer(Composite parent, int style) {
         super(parent, style);
 
         this.setContentProvider(new ArrayContentProvider());
@@ -88,16 +85,16 @@ public class MaplayerTableViewer extends TableViewer implements ISelectionChange
 
     /**
      * Setter for the {@link SwtMapPane map pane}.
-     * 
+     *
      * @param pane the map pane to use.
      */
-    public void setPane( SwtMapPane pane ) {
+    public void setPane(SwtMapPane pane) {
         this.pane = pane;
     }
 
     /**
      * Getter for the loaded {@link MapLayer}s list.
-     * 
+     *
      * @return the list of map layers.
      */
     public List<Layer> getLayersList() {
@@ -106,21 +103,21 @@ public class MaplayerTableViewer extends TableViewer implements ISelectionChange
 
     /**
      * Getter for the selected {@link Layer}.
-     * 
+     *
      * @return the selected layer or <code>null</code>.
      */
     public Layer getSelectedMapLayer() {
         return selectedMapLayer;
     }
 
-    private void createColumns( final Composite parent, final TableViewer viewer ) {
+    private void createColumns(final Composite parent, final TableViewer viewer) {
 
         int[] bounds = {120, 50, 50};
 
         TableViewerColumn col = createTableViewerColumn(titles[0], bounds[0], 0);
-        col.setLabelProvider(new ColumnLabelProvider(){
+        col.setLabelProvider(new ColumnLabelProvider() {
             @Override
-            public Image getImage( Object element ) {
+            public Image getImage(Object element) {
                 if (element instanceof Layer) {
                     Layer p = (Layer) element;
                     if (Utils.isGridLayer(p)) {
@@ -132,7 +129,7 @@ public class MaplayerTableViewer extends TableViewer implements ISelectionChange
             }
 
             @Override
-            public String getText( Object element ) {
+            public String getText(Object element) {
                 if (element instanceof Layer) {
                     Layer p = (Layer) element;
                     String title = p.getTitle();
@@ -150,9 +147,9 @@ public class MaplayerTableViewer extends TableViewer implements ISelectionChange
         });
 
         col = createTableViewerColumn(titles[1], bounds[1], 1);
-        col.setLabelProvider(new ColumnLabelProvider(){
+        col.setLabelProvider(new ColumnLabelProvider() {
             @Override
-            public Image getImage( Object element ) {
+            public Image getImage(Object element) {
                 if (element instanceof Layer) {
                     Layer p = (Layer) element;
                     if (p.isVisible()) {
@@ -162,26 +159,29 @@ public class MaplayerTableViewer extends TableViewer implements ISelectionChange
                 }
                 return null;
             }
+
             @Override
-            public String getText( Object element ) {
+            public String getText(Object element) {
                 return null;
             }
         });
 
         col = createTableViewerColumn(titles[2], bounds[2], 2);
-        col.setLabelProvider(new ColumnLabelProvider(){
-            public Image getImage( Object element ) {
+        col.setLabelProvider(new ColumnLabelProvider() {
+            public Image getImage(Object element) {
                 return ImageCache.getInstance().getImage(ImageCache.STYLE);
             }
+
             @Override
-            public String getText( Object element ) {
+            public String getText(Object element) {
                 return null;
             }
         });
 
     }
 
-    private TableViewerColumn createTableViewerColumn( String title, int bound, final int colNumber ) {
+    private TableViewerColumn createTableViewerColumn(String title, int bound, final int 
+            colNumber) {
         final TableViewerColumn viewerColumn = new TableViewerColumn(this, SWT.NONE);
         final TableColumn column = viewerColumn.getColumn();
         column.setText(title);
@@ -191,7 +191,7 @@ public class MaplayerTableViewer extends TableViewer implements ISelectionChange
         return viewerColumn;
     }
 
-    public void selectionChanged( SelectionChangedEvent arg0 ) {
+    public void selectionChanged(SelectionChangedEvent arg0) {
         if (arg0 == null) {
             selectedMapLayer = null;
             return;
@@ -204,7 +204,7 @@ public class MaplayerTableViewer extends TableViewer implements ISelectionChange
     }
 
     @Override
-    protected void triggerEditorActivationEvent( ColumnViewerEditorActivationEvent event ) {
+    protected void triggerEditorActivationEvent(ColumnViewerEditorActivationEvent event) {
         super.triggerEditorActivationEvent(event);
         ViewerCell source = (ViewerCell) event.getSource();
         int columnIndex = source.getColumnIndex();
@@ -228,9 +228,9 @@ public class MaplayerTableViewer extends TableViewer implements ISelectionChange
      * Show a style dialog to create a new Style for the layer
      *
      * @param layer the layer to be styled
-     * @throws IOException 
+     * @throws IOException
      */
-    private void doSetStyle( Layer layer ) throws IOException {
+    private void doSetStyle(Layer layer) throws IOException {
         if (layer instanceof StyleLayer) {
             StyleLayer styleLayer = (StyleLayer) layer;
             Style style = SimpleStyleConfigurator.showDialog(this.getTable().getShell(), layer);
@@ -242,20 +242,20 @@ public class MaplayerTableViewer extends TableViewer implements ISelectionChange
 
     /**
      * Adds a {@link Layer} to the viewer and updates.
-     * 
+     *
      * @param layer the layer to add.
      */
-    public void addLayer( Layer layer ) {
+    public void addLayer(Layer layer) {
         layersList.add(0, layer);
         refresh();
     }
 
     /**
      * Removes a {@link Layer} from the viewer and updates.
-     * 
+     *
      * @param layer the layer to remove.
      */
-    public void removeLayer( Layer layer ) {
+    public void removeLayer(Layer layer) {
         layersList.remove(layer);
         refresh();
     }

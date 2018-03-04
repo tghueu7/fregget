@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -24,6 +24,7 @@ import java.awt.geom.Rectangle2D;
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.UndeclaredThrowableException;
+
 import static java.lang.Double.doubleToLongBits;
 
 import org.opengis.metadata.extent.GeographicBoundingBox;
@@ -40,17 +41,14 @@ import org.geotools.resources.i18n.ErrorKeys;
  * reference system is unnecessary. The CRS shall be geographic with Greenwich prime meridian,
  * but the datum doesn't need to be WGS84.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class GeographicBoundingBoxImpl extends GeographicExtentImpl
-        implements GeographicBoundingBox
-{
+        implements GeographicBoundingBox {
     /**
      * Serial number for interoperability with different versions.
      */
@@ -74,6 +72,7 @@ public class GeographicBoundingBoxImpl extends GeographicExtentImpl
      * @since 2.2
      */
     public static final GeographicBoundingBox WORLD;
+
     static {
         final GeographicBoundingBoxImpl world = new GeographicBoundingBoxImpl(-180, 180, -90, 90);
         world.freeze();
@@ -114,7 +113,6 @@ public class GeographicBoundingBoxImpl extends GeographicExtentImpl
      * Constructs a geographic bounding box initialized to the same values than the specified one.
      *
      * @param box The existing box to use for initializing this geographic bounding box.
-     *
      * @since 2.2
      */
     public GeographicBoundingBoxImpl(final GeographicBoundingBox box) {
@@ -144,10 +142,9 @@ public class GeographicBoundingBoxImpl extends GeographicExtentImpl
      * <strong>Note:</strong> This constructor is available only if the referencing module is
      * on the classpath.
      *
-     * @param  envelope The envelope to use for initializing this geographic bounding box.
+     * @param envelope The envelope to use for initializing this geographic bounding box.
      * @throws UnsupportedOperationException if the referencing module is not on the classpath.
-     * @throws TransformException if the envelope can't be transformed.
-     *
+     * @throws TransformException            if the envelope can't be transformed.
      * @since 2.2
      */
     public GeographicBoundingBoxImpl(final Envelope envelope) throws TransformException {
@@ -155,10 +152,10 @@ public class GeographicBoundingBoxImpl extends GeographicExtentImpl
         if (constructor == null) {
             // No need to synchronize; not a big deal if we set this field twice.
             constructor = getMethod("copy",
-                    new Class[] {Envelope.class, GeographicBoundingBoxImpl.class});
+                    new Class[]{Envelope.class, GeographicBoundingBoxImpl.class});
         }
         try {
-            invoke(constructor, new Object[] {envelope, this});
+            invoke(constructor, new Object[]{envelope, this});
         } catch (InvocationTargetException exception) {
             final Throwable cause = exception.getTargetException();
             if (cause instanceof TransformException) {
@@ -176,7 +173,7 @@ public class GeographicBoundingBoxImpl extends GeographicExtentImpl
      */
     public GeographicBoundingBoxImpl(final Rectangle2D bounds) {
         this(bounds.getMinX(), bounds.getMaxX(),
-             bounds.getMinY(), bounds.getMaxY());
+                bounds.getMinY(), bounds.getMaxY());
     }
 
     /**
@@ -195,11 +192,10 @@ public class GeographicBoundingBoxImpl extends GeographicExtentImpl
     public GeographicBoundingBoxImpl(final double westBoundLongitude,
                                      final double eastBoundLongitude,
                                      final double southBoundLatitude,
-                                     final double northBoundLatitude)
-    {
+                                     final double northBoundLatitude) {
         super(true);
         setBounds(westBoundLongitude, eastBoundLongitude,
-                  southBoundLatitude, northBoundLatitude);
+                southBoundLatitude, northBoundLatitude);
     }
 
     /**
@@ -255,7 +251,7 @@ public class GeographicBoundingBoxImpl extends GeographicExtentImpl
      *
      * @return The southern-most latitude between -90 and +90°.
      */
-    public double getSouthBoundLatitude()  {
+    public double getSouthBoundLatitude() {
         return southBoundLatitude;
     }
 
@@ -278,7 +274,7 @@ public class GeographicBoundingBoxImpl extends GeographicExtentImpl
      *
      * @return The northern-most latitude between -90 and +90°.
      */
-    public double getNorthBoundLatitude()   {
+    public double getNorthBoundLatitude() {
         return northBoundLatitude;
     }
 
@@ -306,14 +302,12 @@ public class GeographicBoundingBoxImpl extends GeographicExtentImpl
      * @param eastBoundLongitude The maximal <var>x</var> value.
      * @param southBoundLatitude The minimal <var>y</var> value.
      * @param northBoundLatitude The maximal <var>y</var> value.
-     *
      * @since 2.5
      */
     public synchronized void setBounds(final double westBoundLongitude,
                                        final double eastBoundLongitude,
                                        final double southBoundLatitude,
-                                       final double northBoundLatitude)
-    {
+                                       final double northBoundLatitude) {
         checkWritePermission();
         this.westBoundLongitude = westBoundLongitude;
         this.eastBoundLongitude = eastBoundLongitude;
@@ -325,14 +319,13 @@ public class GeographicBoundingBoxImpl extends GeographicExtentImpl
      * Sets the bounding box to the same values than the specified box.
      *
      * @param box The geographic bounding box to use for setting the values of this box.
-     *
      * @since 2.5
      */
     public void setBounds(final GeographicBoundingBox box) {
         ensureNonNull("box", box);
         setInclusion(box.getInclusion());
         setBounds(box.getWestBoundLongitude(), box.getEastBoundLongitude(),
-                  box.getSouthBoundLatitude(), box.getNorthBoundLatitude());
+                box.getSouthBoundLatitude(), box.getNorthBoundLatitude());
     }
 
     /**
@@ -344,7 +337,6 @@ public class GeographicBoundingBoxImpl extends GeographicExtentImpl
      * be performed without ambiguity.
      *
      * @param box The geographic bounding box to add to this box.
-     *
      * @since 2.2
      */
     public synchronized void add(final GeographicBoundingBox box) {
@@ -358,8 +350,10 @@ public class GeographicBoundingBoxImpl extends GeographicExtentImpl
          * valid metadata object.  If the metadata object is invalid, it is better to get a
          * an exception than having a code doing silently some inappropriate work.
          */
-        final Boolean inc1 =     getInclusion(); ensureNonNull("inclusion", inc1);
-        final Boolean inc2 = box.getInclusion(); ensureNonNull("inclusion", inc2);
+        final Boolean inc1 = getInclusion();
+        ensureNonNull("inclusion", inc1);
+        final Boolean inc2 = box.getInclusion();
+        ensureNonNull("inclusion", inc2);
         if (inc1.booleanValue() == inc2.booleanValue()) {
             if (xmin < westBoundLongitude) westBoundLongitude = xmin;
             if (xmax > eastBoundLongitude) eastBoundLongitude = xmax;
@@ -382,13 +376,14 @@ public class GeographicBoundingBoxImpl extends GeographicExtentImpl
      * The {@linkplain #getInclusion inclusion} status must be the same for both boxes.
      *
      * @param box The geographic bounding box to intersect with this box.
-     *
      * @since 2.5
      */
     public synchronized void intersect(final GeographicBoundingBox box) {
         checkWritePermission();
-        final Boolean inc1 =     getInclusion(); ensureNonNull("inclusion", inc1);
-        final Boolean inc2 = box.getInclusion(); ensureNonNull("inclusion", inc2);
+        final Boolean inc1 = getInclusion();
+        ensureNonNull("inclusion", inc1);
+        final Boolean inc2 = box.getInclusion();
+        ensureNonNull("inclusion", inc2);
         if (inc1.booleanValue() != inc2.booleanValue()) {
             throw new IllegalArgumentException(Errors.format(ErrorKeys.ILLEGAL_ARGUMENT_$1, "box"));
         }
@@ -401,10 +396,12 @@ public class GeographicBoundingBoxImpl extends GeographicExtentImpl
         if (ymin > southBoundLatitude) southBoundLatitude = ymin;
         if (ymax < northBoundLatitude) northBoundLatitude = ymax;
         if (westBoundLongitude > eastBoundLongitude) {
-            westBoundLongitude = eastBoundLongitude = 0.5 * (westBoundLongitude + eastBoundLongitude);
+            westBoundLongitude = eastBoundLongitude = 0.5 * (westBoundLongitude + 
+                    eastBoundLongitude);
         }
         if (southBoundLatitude > northBoundLatitude) {
-            southBoundLatitude = northBoundLatitude = 0.5 * (southBoundLatitude + northBoundLatitude);
+            southBoundLatitude = northBoundLatitude = 0.5 * (southBoundLatitude + 
+                    northBoundLatitude);
         }
     }
 
@@ -412,12 +409,12 @@ public class GeographicBoundingBoxImpl extends GeographicExtentImpl
      * Returns {@code true} if this bounding box is empty.
      *
      * @return {@code true} if this box is empty.
-     *
      * @since 2.5
      */
     public boolean isEmpty() {
         // Use '!' in order to catch NaN values.
-        return !(eastBoundLongitude > westBoundLongitude && northBoundLatitude > southBoundLatitude);
+        return !(eastBoundLongitude > westBoundLongitude && northBoundLatitude > 
+                southBoundLatitude);
     }
 
     /**
@@ -432,17 +429,17 @@ public class GeographicBoundingBoxImpl extends GeographicExtentImpl
             return true;
         }
         // Above code really requires GeographicBoundingBoxImpl.class, not getClass().
-        if (object!=null && object.getClass().equals(GeographicBoundingBoxImpl.class)) {
+        if (object != null && object.getClass().equals(GeographicBoundingBoxImpl.class)) {
             final GeographicBoundingBoxImpl that = (GeographicBoundingBoxImpl) object;
             return Utilities.equals(this.getInclusion(), that.getInclusion()) &&
-                   doubleToLongBits(this.southBoundLatitude) ==
-                   doubleToLongBits(that.southBoundLatitude) &&
-                   doubleToLongBits(this.northBoundLatitude) ==
-                   doubleToLongBits(that.northBoundLatitude) &&
-                   doubleToLongBits(this.eastBoundLongitude) ==
-                   doubleToLongBits(that.eastBoundLongitude) &&
-                   doubleToLongBits(this.westBoundLongitude) ==
-                   doubleToLongBits(that.westBoundLongitude);
+                    doubleToLongBits(this.southBoundLatitude) ==
+                            doubleToLongBits(that.southBoundLatitude) &&
+                    doubleToLongBits(this.northBoundLatitude) ==
+                            doubleToLongBits(that.northBoundLatitude) &&
+                    doubleToLongBits(this.eastBoundLongitude) ==
+                            doubleToLongBits(that.eastBoundLongitude) &&
+                    doubleToLongBits(this.westBoundLongitude) ==
+                            doubleToLongBits(that.westBoundLongitude);
         }
         return super.equals(object);
     }
@@ -471,7 +468,7 @@ public class GeographicBoundingBoxImpl extends GeographicExtentImpl
      */
     private static int hashCode(final double value) {
         final long code = doubleToLongBits(value);
-        return (int)code ^ (int)(code >>> 32);
+        return (int) code ^ (int) (code >>> 32);
     }
 
     /**
@@ -490,20 +487,18 @@ public class GeographicBoundingBoxImpl extends GeographicExtentImpl
      * @param pattern The angle pattern (e.g. {@code DD°MM'SS.s"}.
      * @param locale  The locale, or {@code null} for the default one.
      * @return A string representation of the given box in the given locale.
-     *
      * @since 2.2
      */
     public static String toString(final GeographicBoundingBox box,
-                                  final String                pattern,
-                                  final Locale                locale)
-    {
+                                  final String pattern,
+                                  final Locale locale) {
         if (toString == null) {
             // No need to synchronize.
-            toString = getMethod("toString",  new Class[] {
-                        GeographicBoundingBox.class, String.class, Locale.class});
+            toString = getMethod("toString", new Class[]{
+                    GeographicBoundingBox.class, String.class, Locale.class});
         }
         try {
-            return String.valueOf(invoke(toString, new Object[] {box, pattern, locale}));
+            return String.valueOf(invoke(toString, new Object[]{box, pattern, locale}));
         } catch (InvocationTargetException exception) {
             throw new UndeclaredThrowableException(exception.getTargetException());
         }
@@ -529,8 +524,7 @@ public class GeographicBoundingBoxImpl extends GeographicExtentImpl
      * Invokes the specified method with the specified arguments.
      */
     private static Object invoke(final Method method, final Object[] arguments)
-            throws InvocationTargetException
-    {
+            throws InvocationTargetException {
         try {
             return method.invoke(null, arguments);
         } catch (IllegalAccessException exception) {

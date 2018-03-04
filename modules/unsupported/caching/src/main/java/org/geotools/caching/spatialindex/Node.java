@@ -29,26 +29,21 @@
 package org.geotools.caching.spatialindex;
 
 /**
- * 
- *
  * @source $URL$
  */
 public interface Node extends Entry {
 
-	/**
-	 * 
-	 * @return the number of child nodes
-	 */
-	public int getChildrenCount();
+    /**
+     * @return the number of child nodes
+     */
+    public int getChildrenCount();
 
-	/**
-	 * 
-	 * @return the amount of data stored in the node
-	 */
+    /**
+     * @return the amount of data stored in the node
+     */
     public int getDataCount();
 
     /**
-     * 
      * @param index
      * @return the child node identifier at the given index
      * @throws IndexOutOfBoundsException
@@ -56,16 +51,14 @@ public interface Node extends Entry {
     public NodeIdentifier getChildIdentifier(int index) throws IndexOutOfBoundsException;
 
     /**
-     * 
      * @return the id of the node
      */
     public NodeIdentifier getIdentifier();
-    
+
     /**
-     * 
      * @param id sets the id of the node
      */
-    public void setIdentifier (NodeIdentifier id);
+    public void setIdentifier(NodeIdentifier id);
 
 
     public int getLevel();
@@ -74,6 +67,7 @@ public interface Node extends Entry {
 
     /**
      * If the node is a leaf node (has no children)
+     *
      * @return
      */
     public boolean isLeaf();

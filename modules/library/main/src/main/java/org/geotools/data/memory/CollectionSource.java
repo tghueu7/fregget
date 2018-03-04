@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -34,50 +34,47 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
  * be able to query generic content.
  * <p>
  * Please note that this is read-only access.
- * 
+ *
  * @author Jody Garnett
- *
- *
- *
  * @source $URL$
  */
 public final class CollectionSource {
 
     private Collection collection;
     private CoordinateReferenceSystem crs;
-    
-    public CollectionSource( Collection collection ){
-        this( collection, null );
+
+    public CollectionSource(Collection collection) {
+        this(collection, null);
     }
-    
-    public CollectionSource( Collection collection, CoordinateReferenceSystem crs ){
-        this.collection = Collections.unmodifiableCollection( collection );
+
+    public CollectionSource(Collection collection, CoordinateReferenceSystem crs) {
+        this.collection = Collections.unmodifiableCollection(collection);
         this.crs = crs;
     }
-    
+
     public Collection content() {
         return collection;
     }
 
-    public Collection content( String query, String queryLanguage ) {
+    public Collection content(String query, String queryLanguage) {
         throw new UnsupportedOperationException("Please help me hook up the parser!");
     }
 
-    public Collection content( Filter filter ) {
+    public Collection content(Filter filter) {
         return content(filter, Integer.MAX_VALUE);
     }
-    
-    public Collection content( Filter filter, int countLimit ) {
+
+    public Collection content(Filter filter, int countLimit) {
         List list = new ArrayList();
         int count = 0;
-        for( Iterator i = collection.iterator(); i.hasNext() && count < countLimit;){
+        for (Iterator i = collection.iterator(); i.hasNext() && count < countLimit; ) {
             Object obj = i.next();
-            if( filter.evaluate( obj )){
-                list.add( obj );
+            if (filter.evaluate(obj)) {
+                list.add(obj);
                 count++;
             }
         }
-        return Collections.unmodifiableList( list );
+        return Collections.unmodifiableList(list);
     }
 
     public Object describe() {
@@ -96,11 +93,11 @@ public final class CollectionSource {
         return new NameImpl("localhost/memory");
     }
 
-    public void setTransaction( Transaction t ) {
+    public void setTransaction(Transaction t) {
         // ignored
     }
-    
-    public CoordinateReferenceSystem getCRS(){
+
+    public CoordinateReferenceSystem getCRS() {
         return crs;
     }
 

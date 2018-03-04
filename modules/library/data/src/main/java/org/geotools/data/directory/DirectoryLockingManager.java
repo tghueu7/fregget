@@ -25,19 +25,16 @@ import org.geotools.data.LockingManager;
 import org.geotools.data.Transaction;
 
 /**
- * Locking manager that will delegate its work to the locking managers of the 
- * delegate data stores 
+ * Locking manager that will delegate its work to the locking managers of the
+ * delegate data stores
+ *
  * @author Andrea Aime - OpenGeo
- *
- *
- *
- *
  * @source $URL$
  */
 public class DirectoryLockingManager implements LockingManager {
-    
+
     DirectoryTypeCache cache;
-    
+
     public DirectoryLockingManager(DirectoryTypeCache cache) {
         this.cache = cache;
     }
@@ -55,7 +52,7 @@ public class DirectoryLockingManager implements LockingManager {
     }
 
     public boolean release(String authID, Transaction transaction)
-        throws IOException {
+            throws IOException {
         List<DataStore> stores = cache.getDataStores();
         for (DataStore store : stores) {
             if ((store.getLockingManager() != null)
@@ -68,7 +65,7 @@ public class DirectoryLockingManager implements LockingManager {
     }
 
     public boolean refresh(String authID, Transaction transaction)
-        throws IOException {
+            throws IOException {
         List<DataStore> stores = cache.getDataStores();
         for (DataStore store : stores) {
             if ((store.getLockingManager() != null)
@@ -81,24 +78,24 @@ public class DirectoryLockingManager implements LockingManager {
     }
 
     public void unLockFeatureID(String typeName, String authID,
-        Transaction transaction, FeatureLock featureLock)
-        throws IOException {
+                                Transaction transaction, FeatureLock featureLock)
+            throws IOException {
         DataStore store = cache.getDataStore(typeName, false);
 
         if ((store != null) && (store.getLockingManager() != null)) {
             store.getLockingManager().unLockFeatureID(typeName, authID,
-                transaction, featureLock);
+                    transaction, featureLock);
         }
     }
 
     public void lockFeatureID(String typeName, String authID,
-        Transaction transaction, FeatureLock featureLock)
-        throws IOException {
+                              Transaction transaction, FeatureLock featureLock)
+            throws IOException {
         DataStore store = cache.getDataStore(typeName, false);
 
         if ((store != null) && (store.getLockingManager() != null)) {
             store.getLockingManager().lockFeatureID(typeName, authID,
-                transaction, featureLock);
+                    transaction, featureLock);
         }
     }
 

@@ -47,46 +47,48 @@ class PolygonBuilder extends GeometryBuilder {
 
     /**
      * Builds the a polygon using the linestring geometries (Sell and holes).
+     *
      * @param linestringNode LineString identifier defined in the grammar file
      */
     @Override
     public Geometry build(final int linestringNode) throws CQLException {
 
         Result result = getResultStack().peek();
-        try{
+        try {
             // Retrieve the liner ring for shell and holes
-            final List<Geometry> geometryList= popGeometry(linestringNode);
-            
+            final List<Geometry> geometryList = popGeometry(linestringNode);
+
             assert geometryList.size() >= 1;
-            
+
             // retrieves the shell
-            LineString line = (LineString)geometryList.get(0);
+            LineString line = (LineString) geometryList.get(0);
             final LinearRing shell = getGeometryFactory().createLinearRing(line.getCoordinates());
 
             // if it has holes, creates a ring for each linestring
-            LinearRing[] holes = new LinearRing[0]; 
-            if(geometryList.size() > 1){
-                
+            LinearRing[] holes = new LinearRing[0];
+            if (geometryList.size() > 1) {
+
                 List<LinearRing> holeList = new LinkedList<LinearRing>();
-                for( int i = 1;i < geometryList.size(); i++) {
-                    
+                for (int i = 1; i < geometryList.size(); i++) {
+
                     LineString holeLines = (LineString) geometryList.get(i);
-                    LinearRing ring = getGeometryFactory().createLinearRing(holeLines.getCoordinates());
+                    LinearRing ring = getGeometryFactory().createLinearRing(holeLines
+                            .getCoordinates());
                     holeList.add(ring);
                 }
                 int holesSize = holeList.size();
-                holes = holeList.toArray(new LinearRing[holesSize]) ;
-            } 
+                holes = holeList.toArray(new LinearRing[holesSize]);
+            }
             // creates the polygon
-            Polygon polygon= getGeometryFactory().createPolygon(shell, holes);
-            
-            return polygon;
-            
-        }catch(Exception e){
+            Polygon polygon = getGeometryFactory().createPolygon(shell, holes);
 
-            throw new CQLException(e.getMessage(),  result.getToken(), getStatemet());
+            return polygon;
+
+        } catch (Exception e) {
+
+            throw new CQLException(e.getMessage(), result.getToken(), getStatemet());
         }
-    
-    
+
+
     }
 }

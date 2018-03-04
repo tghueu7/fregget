@@ -29,9 +29,9 @@ import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:BoundingShapeType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="BoundingShapeType"&gt;
  *      &lt;annotation&gt;
@@ -50,9 +50,6 @@ import com.vividsolutions.jts.geom.Polygon;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class BoundingShapeTypeBinding extends AbstractComplexBinding {
@@ -80,7 +77,7 @@ public class BoundingShapeTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         Envelope envelope = (Envelope) node.getChildValue(Envelope.class);
 
         if (envelope == null) {
@@ -97,7 +94,7 @@ public class BoundingShapeTypeBinding extends AbstractComplexBinding {
             object = ((Polygon) object).getEnvelopeInternal();
         }
         Envelope e = (Envelope) object;
-        
+
         if ("Envelope".equals(name.getLocalPart()) && !e.isNull()) {
             return e;
         }

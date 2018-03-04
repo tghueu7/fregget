@@ -45,9 +45,8 @@ import org.xml.sax.helpers.NamespaceSupport;
 
 /**
  * Test checking the correct encoding of the swe:values element from the OGC SWE Common schema.
- * 
- * @author Stefano Costa, GeoSolutions
  *
+ * @author Stefano Costa, GeoSolutions
  */
 public class SweValuesTest {
 
@@ -131,9 +130,11 @@ public class SweValuesTest {
     public void testSweValues() {
         Map<String, String> expected = new HashMap<String, String>();
         expected.put("ID1.2",
-                "missing missing 8.9 7.9 14.2 15.4 18.1 19.1 21.7 20.8 19.6 14.9 10.8 8.8 8.5 10.4");
+                "missing missing 8.9 7.9 14.2 15.4 18.1 19.1 21.7 20.8 19.6 14.9 10.8 8.8 8.5 " +
+                        "10.4");
         expected.put("ID2.2",
-                "16.2 17.1 22.0 25.1 23.9 22.8 17.0 10.2 9.2 7.1 12.3 12.9 17.2 23.6 21.6 21.9 17.6 14.0 9.3 3.8");
+                "16.2 17.1 22.0 25.1 23.9 22.8 17.0 10.2 9.2 7.1 12.3 12.9 17.2 23.6 21.6 21.9 " +
+                        "17.6 14.0 9.3 3.8");
 
         FeatureIterator<? extends Feature> featIt = obsFeatures.features();
         while (featIt.hasNext()) {

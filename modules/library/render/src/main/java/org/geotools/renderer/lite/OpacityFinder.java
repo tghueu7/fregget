@@ -54,10 +54,8 @@ import org.opengis.filter.expression.Literal;
 
 /**
  * Searches for translucent symbolizers
- * 
+ *
  * @author jones
- * 
- * 
  * @source $URL$
  */
 public class OpacityFinder extends AbstractStyleVisitor implements StyleVisitor {
@@ -71,7 +69,7 @@ public class OpacityFinder extends AbstractStyleVisitor implements StyleVisitor 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.styling.StyleVisitor#visit(org.geotools.styling.Style)
      */
     public void visit(Style style) {
@@ -88,7 +86,7 @@ public class OpacityFinder extends AbstractStyleVisitor implements StyleVisitor 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.styling.StyleVisitor#visit(org.geotools.styling.Rule)
      */
     public void visit(Rule rule) {
@@ -105,7 +103,7 @@ public class OpacityFinder extends AbstractStyleVisitor implements StyleVisitor 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.styling.StyleVisitor#visit(org.geotools.styling.FeatureTypeStyle)
      */
     public void visit(FeatureTypeStyle fts) {
@@ -122,7 +120,7 @@ public class OpacityFinder extends AbstractStyleVisitor implements StyleVisitor 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.styling.StyleVisitor#visit(org.geotools.styling.Fill)
      */
     public void visit(Fill fill) {
@@ -170,7 +168,7 @@ public class OpacityFinder extends AbstractStyleVisitor implements StyleVisitor 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.styling.StyleVisitor#visit(org.geotools.styling.Stroke)
      */
     public void visit(Stroke stroke) {
@@ -179,7 +177,7 @@ public class OpacityFinder extends AbstractStyleVisitor implements StyleVisitor 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.styling.StyleVisitor#visit(org.geotools.styling.Symbolizer)
      */
     public void visit(Symbolizer sym) {
@@ -206,7 +204,7 @@ public class OpacityFinder extends AbstractStyleVisitor implements StyleVisitor 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.styling.StyleVisitor#visit(org.geotools.styling.PointSymbolizer)
      */
     public void visit(PointSymbolizer ps) {
@@ -229,7 +227,7 @@ public class OpacityFinder extends AbstractStyleVisitor implements StyleVisitor 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.styling.StyleVisitor#visit(org.geotools.styling.LineSymbolizer)
      */
     public void visit(LineSymbolizer line) {
@@ -241,7 +239,7 @@ public class OpacityFinder extends AbstractStyleVisitor implements StyleVisitor 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.styling.StyleVisitor#visit(org.geotools.styling.PolygonSymbolizer)
      */
     public void visit(PolygonSymbolizer poly) {
@@ -255,7 +253,7 @@ public class OpacityFinder extends AbstractStyleVisitor implements StyleVisitor 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.styling.StyleVisitor#visit(org.geotools.styling.TextSymbolizer)
      */
     public void visit(TextSymbolizer text) {
@@ -263,7 +261,7 @@ public class OpacityFinder extends AbstractStyleVisitor implements StyleVisitor 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.styling.StyleVisitor#visit(org.geotools.styling.RasterSymbolizer)
      */
     public void visit(RasterSymbolizer raster) {
@@ -279,7 +277,7 @@ public class OpacityFinder extends AbstractStyleVisitor implements StyleVisitor 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.styling.StyleVisitor#visit(org.geotools.styling.Graphic)
      */
     public void visit(Graphic gr) {
@@ -288,7 +286,7 @@ public class OpacityFinder extends AbstractStyleVisitor implements StyleVisitor 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.styling.StyleVisitor#visit(org.geotools.styling.Mark)
      */
     public void visit(Mark mark) {
@@ -297,7 +295,7 @@ public class OpacityFinder extends AbstractStyleVisitor implements StyleVisitor 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.styling.StyleVisitor#visit(org.geotools.styling.ExternalGraphic)
      */
     public void visit(ExternalGraphic exgr) {
@@ -306,7 +304,7 @@ public class OpacityFinder extends AbstractStyleVisitor implements StyleVisitor 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.styling.StyleVisitor#visit(org.geotools.styling.PointPlacement)
      */
     public void visit(PointPlacement pp) {
@@ -315,7 +313,7 @@ public class OpacityFinder extends AbstractStyleVisitor implements StyleVisitor 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.styling.StyleVisitor#visit(org.geotools.styling.AnchorPoint)
      */
     public void visit(AnchorPoint ap) {
@@ -324,7 +322,7 @@ public class OpacityFinder extends AbstractStyleVisitor implements StyleVisitor 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.styling.StyleVisitor#visit(org.geotools.styling.Displacement)
      */
     public void visit(Displacement dis) {
@@ -333,7 +331,7 @@ public class OpacityFinder extends AbstractStyleVisitor implements StyleVisitor 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.styling.StyleVisitor#visit(org.geotools.styling.LinePlacement)
      */
     public void visit(LinePlacement lp) {
@@ -342,7 +340,7 @@ public class OpacityFinder extends AbstractStyleVisitor implements StyleVisitor 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.styling.StyleVisitor#visit(org.geotools.styling.Halo)
      */
     public void visit(Halo halo) {
@@ -351,7 +349,7 @@ public class OpacityFinder extends AbstractStyleVisitor implements StyleVisitor 
 
     /**
      * DOCUMENT ME!
-     * 
+     *
      * @param args
      */
     public static void main(String[] args) {
@@ -385,7 +383,7 @@ public class OpacityFinder extends AbstractStyleVisitor implements StyleVisitor 
     }
 
     public void visit(ColorMapEntry cme) {
-        if(cme.getOpacity() != null) {
+        if (cme.getOpacity() != null) {
             checkOpacity(cme.getOpacity());
         }
 

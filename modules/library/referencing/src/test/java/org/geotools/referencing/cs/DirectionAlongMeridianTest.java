@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2007-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -19,18 +19,16 @@ package org.geotools.referencing.cs;
 import org.opengis.referencing.cs.AxisDirection;
 
 import org.junit.*;
+
 import static org.junit.Assert.*;
 
 
 /**
  * Tests the {@link DirectionAlongMeridian} class.
  *
- *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
  */
 public final class DirectionAlongMeridianTest {
     /**
@@ -47,28 +45,28 @@ public final class DirectionAlongMeridianTest {
         String name;
 
         name = "South along 180 deg";
-        dir  = DirectionAlongMeridian.parse(name);
+        dir = DirectionAlongMeridian.parse(name);
         assertNotNull(dir);
         assertEquals(AxisDirection.SOUTH, dir.baseDirection);
         assertEquals(180, dir.meridian, 0);
         assertEquals(name, dir.toString());
 
         name = "South along 90 deg East";
-        dir  = DirectionAlongMeridian.parse(name);
+        dir = DirectionAlongMeridian.parse(name);
         assertNotNull(dir);
         assertEquals(AxisDirection.SOUTH, dir.baseDirection);
         assertEquals(90, dir.meridian, 0);
         assertEquals(name, dir.toString());
 
         name = "South along 90 deg West";
-        dir  = DirectionAlongMeridian.parse(name);
+        dir = DirectionAlongMeridian.parse(name);
         assertNotNull(dir);
         assertEquals(AxisDirection.SOUTH, dir.baseDirection);
         assertEquals(-90, dir.meridian, 0);
         assertEquals(name, dir.toString());
 
         name = "North along 45 deg East";
-        dir  = DirectionAlongMeridian.parse(name);
+        dir = DirectionAlongMeridian.parse(name);
         assertNotNull(dir);
         assertEquals(AxisDirection.NORTH, dir.baseDirection);
         assertEquals(45, dir.meridian, 0);
@@ -80,11 +78,11 @@ public final class DirectionAlongMeridianTest {
      */
     @Test
     public void testOrdering() {
-        assertOrdered("North along  90 deg East",   "North along   0 deg");
-        assertOrdered("North along  75 deg West",   "North along 165 deg West");
-        assertOrdered("South along  90 deg West",   "South along   0 deg");
-        assertOrdered("South along 180 deg",        "South along  90 deg West");
-        assertOrdered("North along 130 deg West",   "North along 140 deg East");
+        assertOrdered("North along  90 deg East", "North along   0 deg");
+        assertOrdered("North along  75 deg West", "North along 165 deg West");
+        assertOrdered("South along  90 deg West", "South along   0 deg");
+        assertOrdered("South along 180 deg", "South along  90 deg West");
+        assertOrdered("North along 130 deg West", "North along 140 deg East");
     }
 
     /**
@@ -95,8 +93,8 @@ public final class DirectionAlongMeridianTest {
         final DirectionAlongMeridian m2 = DirectionAlongMeridian.parse(dir2);
         assertEquals(+90, m1.getAngle(m2), EPS);
         assertEquals(-90, m2.getAngle(m1), EPS);
-        assertEquals( -1, m1.compareTo(m2));
-        assertEquals( +1, m2.compareTo(m1));
-        assertFalse (m1.equals(m2));
+        assertEquals(-1, m1.compareTo(m2));
+        assertEquals(+1, m2.compareTo(m1));
+        assertFalse(m1.equals(m2));
     }
 }

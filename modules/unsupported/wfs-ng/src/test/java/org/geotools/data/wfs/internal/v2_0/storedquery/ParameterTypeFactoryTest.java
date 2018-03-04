@@ -68,7 +68,8 @@ public class ParameterTypeFactoryTest {
 
         ParameterTypeFactory factory = new ParameterTypeFactory(config, desc, featureType);
 
-        List<ParameterType> params = factory.buildStoredQueryParameters(new HashMap<String, String>(), null);
+        List<ParameterType> params = factory.buildStoredQueryParameters(new HashMap<String, 
+                String>(), null);
 
         assertEquals(0, params.size());
     }
@@ -251,7 +252,7 @@ public class ParameterTypeFactoryTest {
         ParameterMappingExpressionValue ret = new ParameterMappingExpressionValue();
         ret.setParameterName(name);
         ret.setExpressionLanguage("CQL");
-        ret.setExpression("numberFormat('0.0', "+ctx+")");
+        ret.setExpression("numberFormat('0.0', " + ctx + ")");
         return ret;
     }
 
@@ -283,7 +284,8 @@ public class ParameterTypeFactoryTest {
         assertEquals("EPSG:1234", tmp.getValue());
     }
 
-    // One parameter, no declared view params, expression mappings (viewparam) => test expression value
+    // One parameter, no declared view params, expression mappings (viewparam) => test expression
+    // value
     @Test
     public void testCQLExpressionViewParamMapping() {
 

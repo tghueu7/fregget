@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2014, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -28,14 +28,14 @@ import com.vividsolutions.jts.geom.LineString;
 
 /**
  * Utility methods for curved geometries
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 public class CurvedGeometries {
 
     /**
      * Returns true if the geometry is curved, or contains elements that are curved
-     * 
+     *
      * @param geometry
      * @return
      */
@@ -61,14 +61,14 @@ public class CurvedGeometries {
 
     /**
      * Checks if the specified geometry is a circle
-     * 
+     *
      * @param geom
      * @return
      */
     public static boolean isCircle(Geometry geom) {
-        if(geom.isEmpty()) {
+        if (geom.isEmpty()) {
             return false;
-        } 
+        }
         if (!(geom instanceof CircularRing) && !(geom instanceof CompoundRing)) {
             return false;
         }
@@ -134,7 +134,7 @@ public class CurvedGeometries {
 
     /**
      * Builds a circular arc out of the specified coordinate sequence
-     * 
+     *
      * @param cs
      * @param startCoordinate
      * @return
@@ -156,11 +156,11 @@ public class CurvedGeometries {
 
     /**
      * Returns the circle containing this arc
-     * 
+     *
      * @return
      */
     public static CircularRing toCircle(CircularArc arc, GeometryFactory geometryFactory,
-            double tolerance) {
+                                        double tolerance) {
         double radius = arc.getRadius();
         Coordinate center = arc.getCenter();
 
@@ -183,7 +183,7 @@ public class CurvedGeometries {
      * Extracts a {@link CurvedGeometryFactory} from the provided geometry, either by just returning
      * the one that is held by the geometry, if consistent with its tolerance, or by creating a new
      * one
-     * 
+     *
      * @param curved
      * @return
      */

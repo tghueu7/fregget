@@ -22,14 +22,13 @@ import org.w3c.dom.Document;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class MultiPointPropertyTypeBindingTest extends GML3TestSupport {
     public void testEncode() throws Exception {
         Document dom = encode(GML3MockData.multiPoint(), GML.multiPointProperty);
         assertEquals(1,
-            dom.getElementsByTagNameNS(GML.NAMESPACE, GML.MultiPoint.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(GML.NAMESPACE, GML.MultiPoint.getLocalPart())
+                        .getLength());
     }
 }

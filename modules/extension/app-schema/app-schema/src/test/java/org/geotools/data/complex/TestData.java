@@ -46,12 +46,8 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 
 /**
- * 
  * @author Gabriel Roldan (Axios Engineering)
  * @version $Id$
- *
- *
- *
  * @source $URL$
  * @since 2.4
  */
@@ -77,7 +73,7 @@ public class TestData {
      * </li>
      * <li>location
      * </ul>
-     * 
+     *
      * @return
      */
     public static FeatureType createComplexWaterQualityType() {
@@ -147,10 +143,9 @@ public class TestData {
     }
 
     /**
-     * 
      * <pre>
      * </pre>
-     * 
+     *
      * @param targetFeature
      * @return
      * @throws Exception
@@ -169,32 +164,38 @@ public class TestData {
         target = "sample/measurement[1]/parameter";
         // empty nssupport as the test properties have no namespace
         NamespaceSupport namespaces = new NamespaceSupport();
-        attMapping = new AttributeMapping(null, source, XPath.steps(targetFeature, target, namespaces));
+        attMapping = new AttributeMapping(null, source, XPath.steps(targetFeature, target, 
+                namespaces));
         mappings.add(attMapping);
 
         source = ff.property("ph");
         target = "sample/measurement[1]/value";
-        attMapping = new AttributeMapping(null, source, XPath.steps(targetFeature, target, namespaces));
+        attMapping = new AttributeMapping(null, source, XPath.steps(targetFeature, target, 
+                namespaces));
         mappings.add(attMapping);
 
         source = ff.literal("temp");
         target = "sample/measurement[2]/parameter";
-        attMapping = new AttributeMapping(null, source, XPath.steps(targetFeature, target, namespaces));
+        attMapping = new AttributeMapping(null, source, XPath.steps(targetFeature, target, 
+                namespaces));
         mappings.add(attMapping);
 
         source = ff.property("temp");
         target = "sample/measurement[2]/value";
-        attMapping = new AttributeMapping(null, source, XPath.steps(targetFeature, target, namespaces));
+        attMapping = new AttributeMapping(null, source, XPath.steps(targetFeature, target, 
+                namespaces));
         mappings.add(attMapping);
 
         source = ff.literal("turbidity");
         target = "sample/measurement[3]/parameter";
-        attMapping = new AttributeMapping(null, source, XPath.steps(targetFeature, target, namespaces));
+        attMapping = new AttributeMapping(null, source, XPath.steps(targetFeature, target, 
+                namespaces));
         mappings.add(attMapping);
 
         source = ff.property("turbidity");
         target = "sample/measurement[3]/value";
-        attMapping = new AttributeMapping(null, source, XPath.steps(targetFeature, target, namespaces));
+        attMapping = new AttributeMapping(null, source, XPath.steps(targetFeature, target, 
+                namespaces));
         mappings.add(attMapping);
 
         return mappings;
@@ -234,22 +235,23 @@ public class TestData {
      * </p>
      * <p>
      * Mappings definition:
-     * 
+     * <p>
      * <pre>
-     *       &lt;strong&gt;wq_ir_results&lt;/strong&gt;			&lt;strong&gt;wq_plus&lt;/strong&gt;
+     *       &lt;strong&gt;wq_ir_results&lt;/strong&gt;			&lt;strong&gt;wq_plus&lt;
+     *       /strong&gt;
      *        station_no		--&gt;	wq_plus@id
-     *        sitename		--&gt;	sitename	
+     *        sitename		--&gt;	sitename
      *        anzlic_no		--&gt;	anzlic_no
      *        project_no		--&gt;	project_no
      *        id		--&gt;	measurement/@id
      *        sample_collection_date--&gt; [not used]
-     *        determinand_description--&gt;measurement/determinand_description	
+     *        determinand_description--&gt;measurement/determinand_description
      *        results_value		--&gt;measurement/result
      *        location		--&gt;location
      * </pre>
-     * 
+     * <p>
      * </p>
-     * 
+     *
      * @param simpleStore
      * @return
      * @throws Exception
@@ -403,7 +405,7 @@ public class TestData {
      * </tr>
      * </table>
      * </p>
-     * 
+     *
      * @return
      * @throws Exception
      */
@@ -431,12 +433,12 @@ public class TestData {
         GeometryFactory gf = new GeometryFactory();
 
         SimpleFeatureBuilder fb = new SimpleFeatureBuilder(type);
-        
+
         for (int groupValue = 1; groupValue <= NUM_STATIONS; groupValue++) {
 
             for (int measurement = 1; measurement <= groupValue; measurement++) {
                 String fid = type.getName().getLocalPart() + "." + groupValue + "." + measurement;
-                
+
                 fb.add("station_no." + groupValue);
                 fb.add("sitename" + groupValue);
                 fb.add("anzlic_no" + groupValue);

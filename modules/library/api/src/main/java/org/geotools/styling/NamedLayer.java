@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * A NamedLayer is used to refer to a layer that has a name in a WMS.
- *
+ * <p>
  * <p>
  * The details of this object are taken from the <a
  * href="https://portal.opengeospatial.org/files/?artifact_id=1188"> OGC
@@ -47,17 +47,20 @@ import java.util.List;
  * </code></pre>
  * </p>
  *
- *
  * @source $URL$
  */
 public interface NamedLayer extends StyledLayer {
-	
-	public List<FeatureTypeConstraint> layerFeatureConstraints();
+
+    public List<FeatureTypeConstraint> layerFeatureConstraints();
+
     public FeatureTypeConstraint[] getLayerFeatureConstraints();
+
     public void setLayerFeatureConstraints(FeatureTypeConstraint[] constraints);
 
     public List<Style> styles();
+
     public Style[] getStyles();
+
     public void addStyle(Style sl);
 
     /**

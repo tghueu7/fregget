@@ -23,9 +23,9 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/se:Recode.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:element name="Recode" substitutionGroup="se:Function" type="se:RecodeType"&gt;
@@ -34,11 +34,11 @@ import javax.xml.namespace.QName;
  *         Transformation of discrete values to other values
  *               &lt;/xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
- *  &lt;/xsd:element&gt; 
- * 	
+ *  &lt;/xsd:element&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * <pre>
  *       <code>
  *  &lt;xsd:complexType name="RecodeType"&gt;
@@ -50,16 +50,14 @@ import javax.xml.namespace.QName;
  *              &lt;/xsd:sequence&gt;
  *          &lt;/xsd:extension&gt;
  *      &lt;/xsd:complexContent&gt;
- *  &lt;/xsd:complexType&gt; 
- *              
+ *  &lt;/xsd:complexType&gt;
+ *
  *        </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class RecodeBinding extends AbstractComplexBinding {
@@ -73,7 +71,7 @@ public class RecodeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -82,7 +80,7 @@ public class RecodeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {

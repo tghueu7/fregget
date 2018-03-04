@@ -32,14 +32,9 @@ import org.opengis.feature.type.Name;
 
 /**
  * Special node iterator for {@link Attribute}.
- * 
+ *
  * @author Justin Deoliveira (The Open Planning Project)
  * @author Gabriel Roldan (Axios Engineering)
- * 
- *
- *
- *
- *
  * @source $URL$
  */
 public class AttributeNodeIterator implements NodeIterator {

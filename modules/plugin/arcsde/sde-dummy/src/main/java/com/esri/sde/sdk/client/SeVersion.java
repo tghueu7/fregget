@@ -1,8 +1,6 @@
 package com.esri.sde.sdk.client;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SeVersion {
@@ -12,9 +10,11 @@ public class SeVersion {
     public SeVersion(SeConnection conn, String versionName) throws SeException {
     }
 
-    public void create(boolean uniqueName, SeVersion newVersion) throws SeException{}
+    public void create(boolean uniqueName, SeVersion newVersion) throws SeException {
+    }
 
-    public void getInfo() throws SeException{}
+    public void getInfo() throws SeException {
+    }
 
     public SeObjectId getStateId() {
         return null;
@@ -33,10 +33,12 @@ public class SeVersion {
     public void setDescription(String string) {
     }
 
-    public void changeState(SeObjectId newStateId)throws SeException {
+    public void changeState(SeObjectId newStateId) throws SeException {
     }
 
-    public void delete() throws SeException{}
+    public void delete() throws SeException {
+    }
 
-    public void setOwner(String o) throws SeException {}
+    public void setOwner(String o) throws SeException {
+    }
 }

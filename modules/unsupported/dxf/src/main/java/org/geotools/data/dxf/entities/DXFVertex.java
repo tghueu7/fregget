@@ -1,7 +1,9 @@
 package org.geotools.data.dxf.entities;
 
 import java.io.EOFException;
+
 import org.geotools.data.dxf.parser.DXFLineNumberReader;
+
 import java.io.IOException;
 
 import org.geotools.data.GeometryType;
@@ -14,8 +16,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DXFVertex extends DXFPoint {
@@ -24,7 +24,8 @@ public class DXFVertex extends DXFPoint {
     protected double _bulge = 0;
 
     public DXFVertex(DXFVertex newVertex) {
-        this(newVertex._point.x, newVertex._point.y, newVertex._bulge, newVertex.getColor(), newVertex.getRefLayer(), 0);
+        this(newVertex._point.x, newVertex._point.y, newVertex._bulge, newVertex.getColor(), 
+                newVertex.getRefLayer(), 0);
 
         setType(newVertex.getType());
         setStartingLineNumber(newVertex.getStartingLineNumber());
@@ -36,11 +37,13 @@ public class DXFVertex extends DXFPoint {
         setName("DXFVertex");
         _bulge = b;
     }
-    public DXFVertex(double x, double y, double b, int c, DXFLayer l, int visibility, DXFExtendedData extData) {
-    	super(x, y, c, l, visibility, 1);
-    	setName("DXFVertex");
-    	_bulge = b;
-    	_extendedData = extData;
+
+    public DXFVertex(double x, double y, double b, int c, DXFLayer l, int visibility, 
+                     DXFExtendedData extData) {
+        super(x, y, c, l, visibility, 1);
+        setName("DXFVertex");
+        _bulge = b;
+        _extendedData = extData;
     }
 
     public static DXFVertex read(DXFLineNumberReader br, DXFUnivers univers) throws IOException {
@@ -93,9 +96,9 @@ public class DXFVertex extends DXFPoint {
                     visibility = cvp.getShortValue();
                     break;
                 case XDATA_APPLICATION_NAME:
-                	String appName = cvp.getStringValue();
-            		_extData = DXFExtendedData.getExtendedData(br);
-            		_extData.setAppName(appName);
+                    String appName = cvp.getStringValue();
+                    _extData = DXFExtendedData.getExtendedData(br);
+                    _extData.setAppName(appName);
                     break;
                 default:
                     break;

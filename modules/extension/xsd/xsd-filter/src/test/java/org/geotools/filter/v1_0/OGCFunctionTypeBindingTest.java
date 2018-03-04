@@ -22,8 +22,6 @@ import org.geotools.xml.Binding;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class OGCFunctionTypeBindingTest extends FilterTestSupport {
@@ -49,8 +47,9 @@ public class OGCFunctionTypeBindingTest extends FilterTestSupport {
 
         assertEquals("min", doc.getDocumentElement().getAttribute("name"));
         assertEquals(1,
-            doc.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart()).getLength());
+                doc.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart())
+                        .getLength());
         assertEquals(1,
-            doc.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
+                doc.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
     }
 }

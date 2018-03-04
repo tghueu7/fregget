@@ -27,43 +27,44 @@ import org.xml.sax.helpers.DefaultHandler;
  * Handler for validating a document.
  * <p>
  * This class is used by the parser to validate while parsing.
- *  </p>
+ * </p>
+ *
  * @author Justin Deoliveira, OpenGeo
- *
- *
- *
- *
  * @source $URL$
  */
 public class ValidatorHandler extends DefaultHandler {
-    
-    /** flag to control if an exception is thrown on a validation error */
+
+    /**
+     * flag to control if an exception is thrown on a validation error
+     */
     boolean failOnValidationError = false;
-    
-    /** list of validation errors */
+
+    /**
+     * list of validation errors
+     */
     List<Exception> errors;
 
-    public void setFailOnValidationError( boolean failOnValidationError ) {
+    public void setFailOnValidationError(boolean failOnValidationError) {
         this.failOnValidationError = failOnValidationError;
     }
-    
+
     public boolean isFailOnValidationError() {
         return failOnValidationError;
     }
-    
+
     @Override
     public void startDocument() throws SAXException {
         errors = new ArrayList();
     }
-    
+
     @Override
     public void error(SAXParseException e) throws SAXException {
         //check fail on validation flag
-        if ( isFailOnValidationError() ) {
+        if (isFailOnValidationError()) {
             throw e;
         }
-        
-        errors.add( e );
+
+        errors.add(e);
     }
 
     public List<Exception> getErrors() {

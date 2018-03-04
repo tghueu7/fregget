@@ -18,13 +18,12 @@ package org.geotools.xs.bindings;
 
 import java.math.BigInteger;
 import javax.xml.namespace.QName;
+
 import org.geotools.xs.TestSchema;
 import org.geotools.xs.XS;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class XSIntegerStrategyTest extends TestSchema {
@@ -32,7 +31,7 @@ public class XSIntegerStrategyTest extends TestSchema {
      * integer has a lexical representation consisting of a finite-length
      * sequence of decimal digits (#x30-#x39) with an optional leading sign.
      * If the sign is omitted, "+" is assumed.
-     *
+     * <p>
      * For example: -1, 0, 12678967543233, +100000.
      */
     public void testParse() throws Exception {

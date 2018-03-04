@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -18,38 +18,35 @@ package org.geotools.resources;
 
 import java.io.Serializable;
 import java.util.AbstractList;
+
 import org.geotools.util.CheckedCollection;
 
 
 /**
  * An unmodifiable view of an array. Invoking
- *
+ * <p>
  * <blockquote><code>
  * UnmodifiableArrayList.wrap(array);
  * </code></blockquote>
- *
+ * <p>
  * is equivalent to
- *
+ * <p>
  * <blockquote><code>
  * {@linkplain Collections#unmodifiableList Collections.unmodifiableList}({@linkplain
  * Arrays#asList Arrays.asList}(array)));
  * </code></blockquote>
- *
+ * <p>
  * But this class provides a very slight performance improvement since it uses one less level
  * of indirection.
  *
  * @param <E> The type of elements in the list.
- *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class UnmodifiableArrayList<E> extends AbstractList<E>
-        implements CheckedCollection<E>, Serializable
-{
+        implements CheckedCollection<E>, Serializable {
     /**
      * For compatibility with different versions.
      */
@@ -79,10 +76,9 @@ public class UnmodifiableArrayList<E> extends AbstractList<E>
      * (i.e. the array is <strong>not</strong> cloned). Consequently the given array should not
      * be modified after construction if this list is intented to be immutable.
      *
-     * @param  <E> The type of elements in the list.
-     * @param  array The array to wrap.
+     * @param <E>   The type of elements in the list.
+     * @param array The array to wrap.
      * @return The given array wrapped in an unmodifiable list.
-     *
      * @since 2.5
      */
     public static <E> UnmodifiableArrayList<E> wrap(final E[] array) {
@@ -124,13 +120,13 @@ public class UnmodifiableArrayList<E> extends AbstractList<E>
     @Override
     public int indexOf(final Object object) {
         if (object == null) {
-            for (int i=0; i<array.length; i++) {
+            for (int i = 0; i < array.length; i++) {
                 if (array[i] == null) {
                     return i;
                 }
             }
         } else {
-            for (int i=0; i<array.length; i++) {
+            for (int i = 0; i < array.length; i++) {
                 if (object.equals(array[i])) {
                     return i;
                 }

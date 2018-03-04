@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- *    
+ *
  *    (C) 2006-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -19,61 +19,59 @@ package org.geotools.geometry.iso.util.algorithmND;
 
 /**
  * @author roehrig
- *
- *
- *
- *
- *
  * @source $URL$
  */
 public class AlgoRectangleND {
-	
-	/**
-	 * Verifies whether a n-D point lays within the envelope, or at the border or corner of the envelope.
-	 * 
-	 * @param minCoord Lower Corner of the envelope
-	 * @param maxCoord Upper Corner of the envelope
-	 * @param coord Coordinate which has to be tested whether it´s within the envelope or not
-	 * 
-	 * @return TRUE, if the Coordinate lays within the envelope
-	 */
-	public static boolean contains(double minCoord[], double maxCoord[], double[] coord) {
-		// Method tested - ok (SJ) - see JUNIT tests
-		for (int i = 0, n = minCoord.length; i < n; ++i) {
-			if ((coord[i] < minCoord[i]) || (coord[i] > maxCoord[i]))
-				return false;
-		}
-		return true;
-	}
+
+    /**
+     * Verifies whether a n-D point lays within the envelope, or at the border or corner of the 
+     * envelope.
+     *
+     * @param minCoord Lower Corner of the envelope
+     * @param maxCoord Upper Corner of the envelope
+     * @param coord    Coordinate which has to be tested whether it´s within the envelope or not
+     * @return TRUE, if the Coordinate lays within the envelope
+     */
+    public static boolean contains(double minCoord[], double maxCoord[], double[] coord) {
+        // Method tested - ok (SJ) - see JUNIT tests
+        for (int i = 0, n = minCoord.length; i < n; ++i) {
+            if ((coord[i] < minCoord[i]) || (coord[i] > maxCoord[i]))
+                return false;
+        }
+        return true;
+    }
 
 
-	/**
-	 * Verifies whether another envelope intersects with this envelope
-	 * @param minCoord0 
-	 * @param maxCoord0 
-	 * @param minCoord1 
-	 * @param maxCoord1 
-	 * @return TRUE, if envelopes intersect; FALSE, if they dont intersect
-	 */
-	public static boolean intersects(
-			double minCoord0[], double maxCoord0[],
-			double minCoord1[], double maxCoord1[]) {
-		// Method corrected and tested - ok (SJ) - see JUNIT tests
-		
+    /**
+     * Verifies whether another envelope intersects with this envelope
+     *
+     * @param minCoord0
+     * @param maxCoord0
+     * @param minCoord1
+     * @param maxCoord1
+     * @return TRUE, if envelopes intersect; FALSE, if they dont intersect
+     */
+    public static boolean intersects(
+            double minCoord0[], double maxCoord0[],
+            double minCoord1[], double maxCoord1[]) {
+        // Method corrected and tested - ok (SJ) - see JUNIT tests
+
 //		for (int i = 0, n = minCoord0.length; i < n; ++i)
-//			if (contains(minCoord0, maxCoord0, minCoord1) || contains(minCoord0, maxCoord0, minCoord1))
+//			if (contains(minCoord0, maxCoord0, minCoord1) || contains(minCoord0, maxCoord0, 
+// minCoord1))
 //				return true;
 //		for (int i = 0, n = minCoord0.length; i < n; ++i)
-//			if (contains(minCoord1, maxCoord1, minCoord0) || contains(minCoord1, maxCoord1, minCoord0))
+//			if (contains(minCoord1, maxCoord1, minCoord0) || contains(minCoord1, maxCoord1, 
+// minCoord0))
 //				return true;
 
-		for (int i = 0, n = minCoord0.length; i < n; ++i) {
-			if (minCoord1[i] > maxCoord0[i] || maxCoord1[i] < minCoord0[i])
-				return false;
-		}
-		return true;
-		
-	}
+        for (int i = 0, n = minCoord0.length; i < n; ++i) {
+            if (minCoord1[i] > maxCoord0[i] || maxCoord1[i] < minCoord0[i])
+                return false;
+        }
+        return true;
+
+    }
 
 //	 AUSKOMMENTIERT, DA NICHT GENUTZT, NICHT KOMMENTIERT UND NICHT GETESTET (SJ)
 //	/**
@@ -125,7 +123,7 @@ public class AlgoRectangleND {
 //	public static double[] center(double minCoord[], double maxCoord[]) {
 //		return AlgoPointND.scale(AlgoPointND.add(minCoord,maxCoord),0.5);
 //	}
-	
+
 
 // AUSKOMMENTIERT DA FEHLERHAFT (NICHT ROBUST) s. JUNIT TESTS (SJ)
 //	/**
@@ -188,7 +186,8 @@ public class AlgoRectangleND {
 //	}
 
 
-//	 AUSKOMMENTIERT, DA NICHT GETESTET UND NICHT DOKUMENTIERT (SJ), DESWEITEREN HAT ES DIE SELBE FUNKTION GELIEFERT WIE DIE METHODE "contains".
+//	 AUSKOMMENTIERT, DA NICHT GETESTET UND NICHT DOKUMENTIERT (SJ), DESWEITEREN HAT ES DIE SELBE 
+// FUNKTION GELIEFERT WIE DIE METHODE "contains".
 //	/**
 //	 * @param minCoord 
 //	 * @param maxCoord 
@@ -199,5 +198,5 @@ public class AlgoRectangleND {
 //		//return touches(minCoord, maxCoord, p) || contains(minCoord, maxCoord, p);
 //		return contains(minCoord, maxCoord, p);
 //	}
-    
+
 }

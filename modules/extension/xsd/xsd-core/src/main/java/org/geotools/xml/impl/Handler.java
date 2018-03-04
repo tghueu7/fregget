@@ -22,6 +22,7 @@ import org.xml.sax.SAXException;
 
 import java.util.List;
 import javax.xml.namespace.QName;
+
 import org.geotools.xml.InstanceComponent;
 import org.geotools.xml.Node;
 
@@ -29,13 +30,13 @@ import org.geotools.xml.Node;
 /**
  * Class implementing this interface serve has handlers for content of an
  * instance document as it is parsed.
- *
+ * <p>
  * <p>
  * A handler is repsonsible for parsing and validating content. Upon a
  * successful parse and validation, the handler must return the "parsed"
  * content from a call to {@link #getValue}.
  * </p>
- *
+ * <p>
  * <p>
  * A handler corresponds to a specific component in a schema. Processing is
  * delegated to the handler when an instance of the component is encountered in
@@ -43,10 +44,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @author Justin Deoliveira,Refractions Research Inc.,jdeolive@refractions.net
- *
- *
- *
- *
  * @source $URL$
  */
 public interface Handler {
@@ -75,7 +72,6 @@ public interface Handler {
 
     /**
      * @return The context or container in which the instance is to be parsed in.
-     *
      */
     MutablePicoContainer getContext();
 
@@ -86,7 +82,6 @@ public interface Handler {
 
     /**
      * @return The parent handler.
-     *
      * @see Handler#getChildHandler(QName, SchemaBuilder)
      */
     Handler getParentHandler();
@@ -97,13 +92,12 @@ public interface Handler {
      * <p>
      * This method will return null in two situations:
      * <ol>
-     *         <li>The schema component being handled does not support children (for
+     * <li>The schema component being handled does not support children (for
      * example, an attribute).</li>
-     *         <li>A child with the specified qName could not be found.
+     * <li>A child with the specified qName could not be found.
      * </ol>
      *
      * @param qName The qualified name of the schema component.
-     *
      * @return A new handler, or null if one cannot be created.
      */
     Handler createChildHandler(QName qName);
@@ -132,17 +126,16 @@ public interface Handler {
 
     /**
      * Called when a prefix mapping is registred with ParserHandler.
-     * 
-     * @param prefix Namespace prefix.
-     * @param uri Namespace uri.
      *
+     * @param prefix Namespace prefix.
+     * @param uri    Namespace uri.
      */
-    void startPrefixMapping (String prefix, String uri) throws SAXException;
+    void startPrefixMapping(String prefix, String uri) throws SAXException;
 
     /**
      * Called when a prefix mapping is de-registred with ParserHandler.
-     * 
+     *
      * @param prefix Namespace prefix.
      */
-    void endPrefixMapping (String prefix) throws SAXException;
+    void endPrefixMapping(String prefix) throws SAXException;
 }

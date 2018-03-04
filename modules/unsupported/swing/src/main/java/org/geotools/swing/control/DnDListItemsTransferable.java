@@ -30,14 +30,11 @@ import java.util.List;
  * during drag and drop actions. This class is used by DnDList.
  * Client code will not normally need to refer to it.
  *
- * @see DnDList
  * @author Michael Bedward
- * @since 2.6
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @see DnDList
+ * @since 2.6
  */
 public class DnDListItemsTransferable<T> implements Transferable {
 
@@ -45,6 +42,7 @@ public class DnDListItemsTransferable<T> implements Transferable {
 
     /**
      * Constructor
+     *
      * @param stuff a Collection of list item data
      */
     public DnDListItemsTransferable(Collection<T> stuff) {
@@ -78,11 +76,12 @@ public class DnDListItemsTransferable<T> implements Transferable {
      * Returns a List of items to be transferred.
      *
      * @param flavor - required by the interface but ignored here
-     *
-     * @throws IOException if the data is no longer available in the requested flavor.
+     * @throws IOException                if the data is no longer available in the requested 
+     * flavor.
      * @throws UnsupportedFlavorException if the requested data flavor is not supported.
      */
-    public List<T> getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
+    public List<T> getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, 
+            IOException {
         return items;
     }
 }

@@ -23,7 +23,7 @@ import org.geotools.xml.Configuration;
 
 /**
  * WFS strategy for GeoServer WFS 1.1 where the geoserver version is lower than 2.0.
- * 
+ * <p>
  * <p>
  * <ul>
  * <li>State {@code text/gml; subtype=gml/3.1.1} instead of {@code text/xml; subtype=gml/3.1.1} as
@@ -58,7 +58,7 @@ public class GeoServerPre200Strategy extends StrictWFS_1_x_Strategy {
      * GeoServer versions lower than 2.0 can only reliably parse Filter 1.0.
      * <p>
      * TODO: find a way to figure out whether the geoserver instance is actually that old
-     * 
+     *
      * @see org.geotools.data.wfs.internal.v1_x.StrictWFS_1_x_Strategy#getFilterConfiguration()
      */
     @Override

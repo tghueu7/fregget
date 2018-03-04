@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -79,29 +79,29 @@ public class ContentFeatureSourceTest {
     @Test
     public void testRetypeCannotSortCovered() throws Exception {
         Query q = new Query();
-        q.setPropertyNames(new String[] { "name", "z" });
-        q.setSortBy(new SortBy[] { ff.sort("z", SortOrder.ASCENDING) });
+        q.setPropertyNames(new String[]{"name", "z"});
+        q.setSortBy(new SortBy[]{ff.sort("z", SortOrder.ASCENDING)});
         checkRetypeCannotSort(q, q);
     }
 
     @Test
     public void testRetypeCannotSortPartiallyCovered() throws Exception {
         Query q = new Query();
-        q.setPropertyNames(new String[] { "name", });
-        q.setSortBy(new SortBy[] { ff.sort("name", SortOrder.ASCENDING),
-                ff.sort("z", SortOrder.ASCENDING) });
+        q.setPropertyNames(new String[]{"name",});
+        q.setSortBy(new SortBy[]{ff.sort("name", SortOrder.ASCENDING),
+                ff.sort("z", SortOrder.ASCENDING)});
         Query expected = new Query(q);
-        expected.setPropertyNames(new String[] { "name", "z" });
+        expected.setPropertyNames(new String[]{"name", "z"});
         checkRetypeCannotSort(q, expected);
     }
 
     @Test
     public void testRetypeCannotSortFullyCovered() throws Exception {
         Query q = new Query();
-        q.setPropertyNames(new String[] { "name", });
-        q.setSortBy(new SortBy[] { ff.sort("z", SortOrder.ASCENDING) });
+        q.setPropertyNames(new String[]{"name",});
+        q.setSortBy(new SortBy[]{ff.sort("z", SortOrder.ASCENDING)});
         Query expected = new Query(q);
-        expected.setPropertyNames(new String[] { "name", "z" });
+        expected.setPropertyNames(new String[]{"name", "z"});
         checkRetypeCannotSort(q, expected);
     }
 
@@ -123,7 +123,8 @@ public class ContentFeatureSourceTest {
             }
 
             @Override
-            protected ContentFeatureSource createFeatureSource(ContentEntry entry) throws IOException {
+            protected ContentFeatureSource createFeatureSource(ContentEntry entry) throws 
+                    IOException {
                 return new ContentFeatureSource(entry, null) {
 
                     @Override

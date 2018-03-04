@@ -25,12 +25,8 @@ import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
- * A visitor that collects features into 
- * a In-Memory FeatureCollection 
- * 
- *
- *
- *
+ * A visitor that collects features into
+ * a In-Memory FeatureCollection
  *
  * @source $URL$
  */
@@ -43,7 +39,7 @@ public class FeatureCollectingVisitor implements Visitor {
     }
 
     /**
-     * @param d Must be a SimpleFeature 
+     * @param d Must be a SimpleFeature
      */
     public void visitData(Data<?> d) {
         fc.add((SimpleFeature) d.getData());

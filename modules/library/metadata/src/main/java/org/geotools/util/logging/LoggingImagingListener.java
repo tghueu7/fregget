@@ -8,7 +8,7 @@ import javax.media.jai.util.ImagingListener;
 final class LoggingImagingListener implements ImagingListener {
     @Override
     public boolean errorOccurred(String message, Throwable thrown, Object where,
-            boolean isRetryable) throws RuntimeException {
+                                 boolean isRetryable) throws RuntimeException {
         Logger log = Logging.getLogger("javax.media.jai");
         if (message.contains("Continuing in pure Java mode")) {
             log.log(Level.FINER, message, thrown);

@@ -47,16 +47,13 @@ import org.geotools.util.Utilities;
  * extends {@link AffineTransform} and implements {@link MathTransform2D}, so it can be
  * used as a bridge between Java2D and the referencing module.
  *
- * @since 2.5
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.5
  */
 public class AffineTransform2D extends XAffineTransform
-        implements MathTransform2D, LinearTransform, Formattable, Cloneable
-{
+        implements MathTransform2D, LinearTransform, Formattable, Cloneable {
     /**
      * Serial number for interoperability with different versions.
      */
@@ -77,12 +74,13 @@ public class AffineTransform2D extends XAffineTransform
     /**
      * Constructs a new {@code AffineTransform2D} from 6 values representing the 6 specifiable
      * entries of the 3&times;3 transformation matrix. Those values are given unchanged to the
-     * {@link AffineTransform#AffineTransform(double,double,double,double,double,double) super
+     * {@link AffineTransform#AffineTransform(double, double, double, double, double, double) super
      * class constructor}.
      *
      * @since 2.5
      */
-    public AffineTransform2D(double m00, double m10, double m01, double m11, double m02, double m12) {
+    public AffineTransform2D(double m00, double m10, double m01, double m11, double m02, double 
+            m12) {
         super(m00, m10, m01, m11, m02, m12);
     }
 
@@ -130,7 +128,7 @@ public class AffineTransform2D extends XAffineTransform
             final int dimension = ptDst.getDimension();
             if (dimension != 2) {
                 throw new MismatchedDimensionException(Errors.format(
-                          ErrorKeys.MISMATCHED_DIMENSION_$3, "ptDst", dimension, 2));
+                        ErrorKeys.MISMATCHED_DIMENSION_$3, "ptDst", dimension, 2));
             }
         }
         final double[] array = ptSrc.getCoordinate();
@@ -143,7 +141,7 @@ public class AffineTransform2D extends XAffineTransform
     /**
      * Transforms the specified shape.
      *
-     * @param  shape Shape to transform.
+     * @param shape Shape to transform.
      * @return Transformed shape, or {@code shape} if this transform is the identity transform.
      */
     @Override
@@ -164,7 +162,7 @@ public class AffineTransform2D extends XAffineTransform
      */
     public Matrix derivative(final Point2D point) {
         return new Matrix2(getScaleX(), getShearX(),
-                           getShearY(), getScaleY());
+                getShearY(), getScaleY());
     }
 
     /**
@@ -190,7 +188,8 @@ public class AffineTransform2D extends XAffineTransform
                     inverse.inverse = this;
                 }
             } catch (java.awt.geom.NoninvertibleTransformException exception) {
-                throw new NoninvertibleTransformException(exception.getLocalizedMessage(), exception);
+                throw new NoninvertibleTransformException(exception.getLocalizedMessage(), 
+                        exception);
             }
         }
         return inverse;
@@ -209,10 +208,11 @@ public class AffineTransform2D extends XAffineTransform
 
     /**
      * Format the inner part of a
-     * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
+     * <A HREF="http://geoapi.sourceforge
+     * .net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
      * Known Text</cite> (WKT)</A> element.
      *
-     * @param  formatter The formatter to use.
+     * @param formatter The formatter to use.
      * @return The WKT element name.
      */
     public String formatWKT(final Formatter formatter) {
@@ -228,7 +228,8 @@ public class AffineTransform2D extends XAffineTransform
     public String toWKT() {
         int indentation = 2;
         try {
-            indentation = Preferences.userNodeForPackage(org.geotools.referencing.wkt.Formattable.class)
+            indentation = Preferences.userNodeForPackage(org.geotools.referencing.wkt.Formattable
+                    .class)
                     .getInt("Indentation", indentation);
         } catch (SecurityException ignore) {
             // Ignore. Will fallback on the default indentation.
@@ -245,7 +246,7 @@ public class AffineTransform2D extends XAffineTransform
     public String toString() {
         return toWKT();
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof AffineTransform)) {
@@ -253,12 +254,12 @@ public class AffineTransform2D extends XAffineTransform
         }
 
         AffineTransform a = (AffineTransform) obj;
-        
+
         return Utilities.equals(getScaleX(), a.getScaleX()) &&
-            Utilities.equals(getScaleY(), a.getScaleY()) &&
-            Utilities.equals(getShearX(), a.getShearX()) &&
-            Utilities.equals(getShearY(), a.getShearY()) &&
-            Utilities.equals(getTranslateX(), a.getTranslateX()) &&
-            Utilities.equals(getTranslateY(), a.getTranslateY());
+                Utilities.equals(getScaleY(), a.getScaleY()) &&
+                Utilities.equals(getShearX(), a.getShearX()) &&
+                Utilities.equals(getShearY(), a.getShearY()) &&
+                Utilities.equals(getTranslateX(), a.getTranslateX()) &&
+                Utilities.equals(getTranslateY(), a.getTranslateY());
     }
 }

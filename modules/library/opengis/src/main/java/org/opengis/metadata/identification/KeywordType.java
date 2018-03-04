@@ -4,13 +4,14 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.metadata.identification;
 
 import java.util.List;
 import java.util.ArrayList;
+
 import org.opengis.util.CodeList;
 import org.opengis.annotation.UML;
 
@@ -21,14 +22,12 @@ import static org.opengis.annotation.Specification.*;
 /**
  * Methods used to group similar keywords.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 2.0
+ * @source $URL$
+ * @since GeoAPI 2.0
  */
-@UML(identifier="MD_KeywordTypeCode", specification=ISO_19115)
+@UML(identifier = "MD_KeywordTypeCode", specification = ISO_19115)
 public final class KeywordType extends CodeList<KeywordType> {
     /**
      * Serial number for compatibility with different versions.
@@ -44,31 +43,31 @@ public final class KeywordType extends CodeList<KeywordType> {
     /**
      * Keyword identifies a branch of instruction or specialized learning.
      */
-    @UML(identifier="discipline", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "discipline", obligation = CONDITIONAL, specification = ISO_19115)
     public static final KeywordType DISCIPLINE = new KeywordType("DISCIPLINE");
 
     /**
      * Keyword identifies a location.
      */
-    @UML(identifier="place", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "place", obligation = CONDITIONAL, specification = ISO_19115)
     public static final KeywordType PLACE = new KeywordType("PLACE");
 
     /**
      * Keyword identifies the layer(s) of any deposited substance.
      */
-    @UML(identifier="stratum", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "stratum", obligation = CONDITIONAL, specification = ISO_19115)
     public static final KeywordType STRATUM = new KeywordType("STRATUM");
 
     /**
      * Keyword identifies a time period related to the dataset.
      */
-    @UML(identifier="temporal", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "temporal", obligation = CONDITIONAL, specification = ISO_19115)
     public static final KeywordType TEMPORAL = new KeywordType("TEMPORAL");
 
     /**
      * Keyword identifies a particular subject or topic.
      */
-    @UML(identifier="theme", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "theme", obligation = CONDITIONAL, specification = ISO_19115)
     public static final KeywordType THEME = new KeywordType("THEME");
 
     /**

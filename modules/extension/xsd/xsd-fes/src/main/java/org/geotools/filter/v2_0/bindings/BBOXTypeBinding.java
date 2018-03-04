@@ -36,9 +36,9 @@ import java.util.List;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:BBOXType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *       <code>
  *  &lt;xsd:complexType name="BBOXType"&gt;
  *      &lt;xsd:complexContent&gt;
@@ -49,14 +49,13 @@ import java.util.List;
  *              &lt;/xsd:sequence&gt;
  *          &lt;/xsd:extension&gt;
  *      &lt;/xsd:complexContent&gt;
- *  &lt;/xsd:complexType&gt; 
- *              
+ *  &lt;/xsd:complexType&gt;
+ *
  *        </code>
  *         </pre>
  * </p>
  *
  * @generated
- *
  * @source $URL$
  */
 public class BBOXTypeBinding extends OGCBBOXTypeBinding {
@@ -68,7 +67,8 @@ public class BBOXTypeBinding extends OGCBBOXTypeBinding {
         ENVELOPE_PARTICLE.setMinOccurs(0);
         ENVELOPE_PARTICLE.setMaxOccurs(-1);
         try {
-            ENVELOPE_PARTICLE.setContent(GML.getInstance().getSchema().resolveElementDeclaration(GML.Envelope
+            ENVELOPE_PARTICLE.setContent(GML.getInstance().getSchema().resolveElementDeclaration
+                    (GML.Envelope
                     .getLocalPart()));
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -86,11 +86,11 @@ public class BBOXTypeBinding extends OGCBBOXTypeBinding {
     @Override
     public Object getProperty(Object object, QName name) throws Exception {
         BBOX box = (BBOX) object;
-        
+
         if (FES.ValueReference.equals(name)) {
             return box.getExpression1();
         }
-        
+
         return null;
     }
 
@@ -104,7 +104,8 @@ public class BBOXTypeBinding extends OGCBBOXTypeBinding {
             String srs = box.getSRS();
             if (srs != null) {
                 CoordinateReferenceSystem crs = CRS.decode(srs);
-                env = new ReferencedEnvelope(box.getMinX(), box.getMaxX(), box.getMinY(), box.getMaxY(), crs);
+                env = new ReferencedEnvelope(box.getMinX(), box.getMaxX(), box.getMinY(), box
+                        .getMaxY(), crs);
             }
         } catch (Throwable t) {
             // never mind

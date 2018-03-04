@@ -32,7 +32,7 @@ public class HistogramTest extends GridProcessingTestBase {
      * The grid coverage to test.
      */
     private GridCoverage2D coverage;
-    
+
     /**
      * Set up common objects used for all tests.
      */
@@ -65,7 +65,7 @@ public class HistogramTest extends GridProcessingTestBase {
         ParameterValueGroup param = processor.getOperation("Histogram").getParameters();
         param.parameter("Source").setValue(source);
         param.parameter("numBins").setValue(new int[]{10});
-        
+
         GridCoverage2D processed = (GridCoverage2D) processor.doOperation(param);
 
         Histogram histo = (Histogram) processed.getProperty("histogram");

@@ -3,8 +3,6 @@ package org.geotools.data.h2;
 import org.geotools.jdbc.JDBCDateTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class H2DateTestSetup extends JDBCDateTestSetup {
@@ -17,20 +15,20 @@ public class H2DateTestSetup extends JDBCDateTestSetup {
     protected void createDateTable() throws Exception {
         String sql = "CREATE SCHEMA \"geotools\";";
         runSafe(sql);
-        
-        run( "CREATE TABLE \"geotools\".\"dates\" (\"d\" DATE, \"dt\" TIMESTAMP, \"t\" TIME)");
-        
-        run( "INSERT INTO \"geotools\".\"dates\" VALUES (" +
+
+        run("CREATE TABLE \"geotools\".\"dates\" (\"d\" DATE, \"dt\" TIMESTAMP, \"t\" TIME)");
+
+        run("INSERT INTO \"geotools\".\"dates\" VALUES (" +
                 "PARSEDATETIME('2009-06-28', 'yyyy-MM-dd'), " +
                 "PARSEDATETIME('2009-06-28 15:12:41', 'yyyy-MM-dd HH:mm:ss')," +
                 "PARSEDATETIME('15:12:41', 'HH:mm:ss')  )");
-        
-        run( "INSERT INTO \"geotools\".\"dates\" VALUES (" +
+
+        run("INSERT INTO \"geotools\".\"dates\" VALUES (" +
                 "PARSEDATETIME('2009-01-15', 'yyyy-MM-dd'), " +
                 "PARSEDATETIME('2009-01-15 13:10:12', 'yyyy-MM-dd HH:mm:ss')," +
                 "PARSEDATETIME('13:10:12', 'HH:mm:ss')  )");
-        
-        run( "INSERT INTO \"geotools\".\"dates\" VALUES (" +
+
+        run("INSERT INTO \"geotools\".\"dates\" VALUES (" +
                 "PARSEDATETIME('2009-09-29', 'yyyy-MM-dd'), " +
                 "PARSEDATETIME('2009-09-29 17:54:23', 'yyyy-MM-dd HH:mm:ss')," +
                 "PARSEDATETIME('17:54:23', 'HH:mm:ss')  )");
@@ -38,7 +36,7 @@ public class H2DateTestSetup extends JDBCDateTestSetup {
 
     @Override
     protected void dropDateTable() throws Exception {
-        runSafe( "DROP TABLE \"geotools\".\"dates\"" );
+        runSafe("DROP TABLE \"geotools\".\"dates\"");
     }
 
 }

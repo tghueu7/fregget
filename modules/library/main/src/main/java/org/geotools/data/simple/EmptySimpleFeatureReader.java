@@ -8,13 +8,13 @@ import org.opengis.feature.simple.SimpleFeatureType;
 /**
  * SimpleFeatureReader with no content.
  *
- *
  * @source $URL$
  */
-public class EmptySimpleFeatureReader extends EmptyFeatureReader<SimpleFeatureType, SimpleFeature> implements SimpleFeatureReader{
+public class EmptySimpleFeatureReader extends EmptyFeatureReader<SimpleFeatureType, 
+        SimpleFeature> implements SimpleFeatureReader {
 
     public EmptySimpleFeatureReader(SimpleFeatureType featureType) {
-        super(featureType);        
+        super(featureType);
     }
 
 }

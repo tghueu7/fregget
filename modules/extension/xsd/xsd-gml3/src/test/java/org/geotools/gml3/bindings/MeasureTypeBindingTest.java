@@ -26,12 +26,10 @@ import org.opengis.feature.ComplexAttribute;
 import org.w3c.dom.Document;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class MeasureTypeBindingTest extends ComplexAttributeTestSupport {
-    
+
     public void testParser() throws Exception {
         GML3MockData.element(GML.measure, document, document);
         document.getDocumentElement().setAttribute("uom", "http://someuri");
@@ -51,5 +49,5 @@ public class MeasureTypeBindingTest extends ComplexAttributeTestSupport {
         assertNotNull(dom.getDocumentElement().getAttribute("uom"));
         assertEquals("m", dom.getDocumentElement().getAttribute("uom"));
     }
-    
+
 }

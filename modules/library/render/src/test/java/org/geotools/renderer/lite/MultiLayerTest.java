@@ -22,23 +22,23 @@ import org.geotools.test.TestData;
 import org.junit.Test;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class MultiLayerTest {
 
-	@Test
-	public void testRasterOpacity() throws Exception {
-		// a polygon layer
+    @Test
+    public void testRasterOpacity() throws Exception {
+        // a polygon layer
         File property = new File(TestData.getResource(this, "buildings.properties").toURI());
         PropertyDataStore ds = new PropertyDataStore(property.getParentFile());
         SimpleFeatureSource fs = ds.getFeatureSource("buildings");
-        ReferencedEnvelope bounds = new ReferencedEnvelope(0, 10, 0, 10, DefaultGeographicCRS.WGS84);
+        ReferencedEnvelope bounds = new ReferencedEnvelope(0, 10, 0, 10, DefaultGeographicCRS
+                .WGS84);
 
         StyleBuilder sb = new StyleBuilder();
-        Style pst = sb.createStyle(sb.createPolygonSymbolizer(null, sb.createFill(Color.GRAY, 0.5)));
-        
+        Style pst = sb.createStyle(sb.createPolygonSymbolizer(null, sb.createFill(Color.GRAY, 
+                0.5)));
+
         // a raster layer
         BufferedImage bi = new BufferedImage(300, 300, BufferedImage.TYPE_4BYTE_ABGR);
         Graphics g = bi.getGraphics();
@@ -46,23 +46,23 @@ public class MultiLayerTest {
         g.fillRect(0, 0, 300, 300);
         g.dispose();
         GridCoverage2D coverage = new GridCoverageFactory().create("test_red", bi, bounds);
-        
+
         Style rst = sb.createStyle(sb.createRasterSymbolizer());
-		
-		MapContent mc = new MapContent();
-		mc.addLayer(new FeatureLayer(fs, pst));
-		mc.addLayer(new GridCoverageLayer(coverage, rst));
-		
-		StreamingRenderer renderer = new StreamingRenderer();
-		renderer.setMapContent(mc);
-		BufferedImage img = RendererBaseTest.renderImage(renderer, bounds, null);
-		
-		// check the red image fully covered the vector (GEOT-3812)
-		int[] pixel = new int[4];
-		img.getData().getPixel(100, 100, pixel);
-		assertEquals(255, pixel[0]);
-		assertEquals(0, pixel[1]);
-		assertEquals(0, pixel[2]);
-		assertEquals(255, pixel[3]);
-	}
+
+        MapContent mc = new MapContent();
+        mc.addLayer(new FeatureLayer(fs, pst));
+        mc.addLayer(new GridCoverageLayer(coverage, rst));
+
+        StreamingRenderer renderer = new StreamingRenderer();
+        renderer.setMapContent(mc);
+        BufferedImage img = RendererBaseTest.renderImage(renderer, bounds, null);
+
+        // check the red image fully covered the vector (GEOT-3812)
+        int[] pixel = new int[4];
+        img.getData().getPixel(100, 100, pixel);
+        assertEquals(255, pixel[0]);
+        assertEquals(0, pixel[1]);
+        assertEquals(0, pixel[2]);
+        assertEquals(255, pixel[3]);
+    }
 }

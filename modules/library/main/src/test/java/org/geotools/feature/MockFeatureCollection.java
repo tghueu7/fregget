@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -31,19 +31,19 @@ import org.opengis.filter.sort.SortBy;
 
 /**
  * @author jamesm
- *
- *
  * @source $URL$
  */
 public class MockFeatureCollection implements SimpleFeatureCollection {
 
-    /** Creates a new instance of MockFeatureCollection */
+    /**
+     * Creates a new instance of MockFeatureCollection
+     */
     public MockFeatureCollection() {
     }
 
-    
+
     public void accepts(org.opengis.feature.FeatureVisitor visitor,
-            org.opengis.util.ProgressListener progress) {
+                        org.opengis.util.ProgressListener progress) {
     }
 
     public void addListener(CollectionListener listener)
@@ -90,10 +90,12 @@ public class MockFeatureCollection implements SimpleFeatureCollection {
     public boolean addAll(Collection c) {
         return false;
     }
+
     public boolean addAll(
-		FeatureCollection<? extends SimpleFeatureType, ? extends SimpleFeature> resource) {
-    	return false;
+            FeatureCollection<? extends SimpleFeatureType, ? extends SimpleFeature> resource) {
+        return false;
     }
+
     public void clear() {
     }
 
@@ -140,5 +142,5 @@ public class MockFeatureCollection implements SimpleFeatureCollection {
     public String getID() {
         return null;
     }
-   
+
 }

@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.coverage.processing;
 
 import java.util.Collection;
+
 import org.opengis.coverage.grid.GridCoverage;
 import org.opengis.coverage.SampleDimensionType;
 import org.opengis.annotation.UML;
@@ -39,40 +40,41 @@ import static org.opengis.annotation.Specification.*;
  * <p>
  * This interface can perform any of the following:
  * <ul>
- *   <li>Change the number of bands being accessed.</li>
- *   <li>Change the value sequencing in which the grid values are retrieved.</li>
- *   <li>Allow re-sampling of the grid coverage for a different geometry.
- *       Creating a new {@link GridCoverage} with different grid geometry allows for reprojecting
- *       the grid coverage to another projection and another georeferencing type, resampling to
- *       another cell resolution and subsetting the grid coverage.</li>
- *   <li>Modify the way the grid values are accessed (filtered, classified...).</li>
- *   <li>Change the interpolation method used when evaluating points which fall between grid cells.</li>
- *   <li>Filtering.</li>
- *   <li>Image enhancements.</li>
- *   <li><i>etc.</i></li>
+ * <li>Change the number of bands being accessed.</li>
+ * <li>Change the value sequencing in which the grid values are retrieved.</li>
+ * <li>Allow re-sampling of the grid coverage for a different geometry.
+ * Creating a new {@link GridCoverage} with different grid geometry allows for reprojecting
+ * the grid coverage to another projection and another georeferencing type, resampling to
+ * another cell resolution and subsetting the grid coverage.</li>
+ * <li>Modify the way the grid values are accessed (filtered, classified...).</li>
+ * <li>Change the interpolation method used when evaluating points which fall between grid cells
+ * .</li>
+ * <li>Filtering.</li>
+ * <li>Image enhancements.</li>
+ * <li><i>etc.</i></li>
  * </ul>
- *
+ * <p>
  * <P>&nbsp;</P>
  * <TABLE WIDTH="80%" ALIGN="center" CELLPADDING="18" BORDER="4" BGCOLOR="#FFE0B0">
- *   <TR><TD>
- *     <P align="justify"><STRONG>WARNING: THIS CLASS WILL CHANGE.</STRONG> Current API is derived from OGC
- *     <A HREF="http://www.opengis.org/docs/01-004.pdf">Grid Coverages Implementation specification 1.0</A>.
- *     We plan to replace it by new interfaces derived from ISO 19123 (<CITE>Schema for coverage geometry
- *     and functions</CITE>). Current interfaces should be considered as legacy and are included in this
- *     distribution only because they were part of GeoAPI 1.0 release. We will try to preserve as much
- *     compatibility as possible, but no migration plan has been determined yet.</P>
- *   </TD></TR>
+ * <TR><TD>
+ * <P align="justify"><STRONG>WARNING: THIS CLASS WILL CHANGE.</STRONG> Current API is derived 
+ * from OGC
+ * <A HREF="http://www.opengis.org/docs/01-004.pdf">Grid Coverages Implementation specification 
+ * 1.0</A>.
+ * We plan to replace it by new interfaces derived from ISO 19123 (<CITE>Schema for coverage 
+ * geometry
+ * and functions</CITE>). Current interfaces should be considered as legacy and are included in this
+ * distribution only because they were part of GeoAPI 1.0 release. We will try to preserve as much
+ * compatibility as possible, but no migration plan has been determined yet.</P>
+ * </TD></TR>
  * </TABLE>
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengis.org/docs/01-004.pdf">Grid Coverage specification 1.0</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
- *
+ * @source $URL$
+ * @since GeoAPI 1.0
  */
-@UML(identifier="GP_GridCoverageProcessor", specification=OGC_01004)
+@UML(identifier = "GP_GridCoverageProcessor", specification = OGC_01004)
 public interface GridCoverageProcessor {
     /**
      * Retrieves grid processing operations information.
@@ -81,6 +83,6 @@ public interface GridCoverageProcessor {
      *
      * @return The available operations.
      */
-    @UML(identifier="getOperation", obligation=MANDATORY, specification=OGC_01004)
+    @UML(identifier = "getOperation", obligation = MANDATORY, specification = OGC_01004)
     Collection<Operation> getOperations();
 }

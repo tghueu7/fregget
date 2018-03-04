@@ -32,13 +32,14 @@ import com.vividsolutions.jts.geom.MultiLineString;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:CurveArrayPropertyType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="CurveArrayPropertyType"&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;A container for an array of curves. The elements are always contained in the array property, referencing geometry elements
+ *          &lt;documentation&gt;A container for an array of curves. The elements are always 
+ *          contained in the array property, referencing geometry elements
  *                          or arrays of geometry elements is not supported.&lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;sequence&gt;
@@ -51,19 +52,16 @@ import com.vividsolutions.jts.geom.MultiLineString;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class CurveArrayPropertyTypeBinding extends AbstractComplexBinding {
-    
+
     protected GeometryFactory gf;
-    
+
     public CurveArrayPropertyTypeBinding(GeometryFactory gf) {
         this.gf = gf;
     }
-    
+
     /**
      * @generated
      */
@@ -89,9 +87,9 @@ public class CurveArrayPropertyTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         List curves = node.getChildValues(MultiLineString.class);
-        
+
         //pick up any regular line strings as well
         for (LineString l : (List<LineString>) node.getChildValues(LineString.class)) {
             curves.add(gf.createMultiLineString(new LineString[]{l}));

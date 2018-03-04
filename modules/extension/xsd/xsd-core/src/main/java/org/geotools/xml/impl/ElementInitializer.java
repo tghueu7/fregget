@@ -22,11 +22,10 @@ import org.geotools.xml.Node;
 import org.picocontainer.MutablePicoContainer;
 
 /**
- * Invokes the {@link ComplexBinding#initialize(ElementInstance, Node, MutablePicoContainer)} 
+ * Invokes the {@link ComplexBinding#initialize(ElementInstance, Node, MutablePicoContainer)}
  * event/callback.
- * 
- * @author Justin Deoliveira, OpenGeo
  *
+ * @author Justin Deoliveira, OpenGeo
  */
 public class ElementInitializer extends ComplexBindingCallback {
 

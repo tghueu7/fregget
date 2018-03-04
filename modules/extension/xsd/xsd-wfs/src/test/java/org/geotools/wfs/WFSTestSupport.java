@@ -41,8 +41,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class WFSTestSupport extends XMLTestSupport {
@@ -59,7 +57,7 @@ public abstract class WFSTestSupport extends XMLTestSupport {
     protected final Binding binding;
 
     protected WFSTestSupport(final QName qname, final Class<? extends EObject> bindingClass,
-            final int executionMode) {
+                             final int executionMode) {
         super();
         this.qname = qname;
         this.bindingTargetClass = bindingClass;
@@ -90,17 +88,17 @@ public abstract class WFSTestSupport extends XMLTestSupport {
 
     private String toExModeString(final int executionMode) {
         switch (executionMode) {
-        case Binding.BEFORE:
-            return "BEFORE";
+            case Binding.BEFORE:
+                return "BEFORE";
 
-        case Binding.AFTER:
-            return "AFTER";
+            case Binding.AFTER:
+                return "AFTER";
 
-        case Binding.OVERRIDE:
-            return "OVERRIDE";
+            case Binding.OVERRIDE:
+                return "OVERRIDE";
 
-        default:
-            return "UNKNOWN";
+            default:
+                return "UNKNOWN";
         }
     }
 
@@ -115,14 +113,14 @@ public abstract class WFSTestSupport extends XMLTestSupport {
     /**
      * Returns the value of the element named <code>propertyName</code> at
      * index <code>index</code>, where the index starts at 0 (zero).
-     * 
+     *
      * @param dom
      * @param propertyName
      * @param index
      * @return
      */
     protected final String getElementValueByQName(final Document dom, final QName propertyName,
-            final int index) {
+                                                  final int index) {
         final NodeList elementsByQName = getElementsByQName(dom, propertyName);
 
         if (elementsByQName.getLength() == 0) {
@@ -156,9 +154,8 @@ public abstract class WFSTestSupport extends XMLTestSupport {
      * Convenience method which parses the content of the xml resource pointed
      * by the provided UEL into a dom and sets the built document which is to be
      * parsed.
-     * 
-     * @param xml
-     *            An URL for the xml resource to build the document from
+     *
+     * @param xml An URL for the xml resource to build the document from
      */
     protected void buildDocument(URL resource) throws Exception {
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();

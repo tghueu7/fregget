@@ -13,7 +13,7 @@
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
- *    
+ *
  */
 package org.geotools.mbstyle.layer;
 
@@ -44,7 +44,7 @@ import java.util.List;
  * MBLayer wrapper for "line" layers.
  * <p>
  * Example of line JSON:
- * 
+ * <p>
  * <pre>
  *      {   "type": "line",
  *          "source": "http://localhost:8080/geoserver/ne/roads",
@@ -57,9 +57,8 @@ import java.util.List;
  *          },
  *      },
  * </pre>
- * 
- * @author Reggie Beckwith (Boundless)
  *
+ * @author Reggie Beckwith (Boundless)
  */
 public class LineMBLayer extends MBLayer {
     private JSONObject layout;
@@ -78,21 +77,24 @@ public class LineMBLayer extends MBLayer {
     protected SemanticType defaultSemanticType() {
         return SemanticType.LINE;
     }
-    
+
     /**
      * The display of line endings.
      */
     public enum LineCap {
-        /** A cap with a squared-off end which is drawn to the exact endpoint of the line. */
+        /**
+         * A cap with a squared-off end which is drawn to the exact endpoint of the line.
+         */
         BUTT,
         /**
-         * A cap with a rounded end which is drawn beyond the endpoint of the line at a radius of one-half of the line's width and centered on the
+         * A cap with a rounded end which is drawn beyond the endpoint of the line at a radius of
+         * one-half of the line's width and centered on the
          * endpoint of the line.
          */
         ROUND,
         /**
-         * A cap with a squared-off end which is drawn beyond the endpoint of the line at a distance of one-half of the line's width.
-         * 
+         * A cap with a squared-off end which is drawn beyond the endpoint of the line at a 
+         * distance of one-half of the line's width.
          */
         SQUARE
     }
@@ -102,7 +104,7 @@ public class LineMBLayer extends MBLayer {
      * <p>
      * Supports piecewise constant functions.
      * </p>
-     * 
+     *
      * @return One of butt, round, square, optional defaults to butt.
      */
     public LineCap getLineCap() {
@@ -110,32 +112,37 @@ public class LineMBLayer extends MBLayer {
     }
 
     /**
-     * Maps {@link #getLineCap()} to {@link Stroke#getLineCap()} values of "butt", "round", and "square" Literals. Defaults to butt.
+     * Maps {@link #getLineCap()} to {@link Stroke#getLineCap()} values of "butt", "round", and 
+     * "square" Literals. Defaults to butt.
      * <p>
      * Since piecewise constant functions is supported a {@link RecodeFunction} may be generated.
-     * 
+     *
      * @return Expression for {@link Stroke#getLineCap()} use.
      */
     public Expression lineCap() {
-        return parse.enumToExpression(layout, "line-cap", LineCap.class, LineCap.BUTT); 
+        return parse.enumToExpression(layout, "line-cap", LineCap.class, LineCap.BUTT);
     }
 
     /**
      * (Optional) The display of lines when joining.
-     * 
-     * Bevel - A join with a squared-off end which is drawn beyond the endpoint of the line at a distance of one-half of the line's width.
-     * 
-     * Round - A join with a rounded end which is drawn beyond the endpoint of the line at a radius of one-half of the line's width and centered on
+     * <p>
+     * Bevel - A join with a squared-off end which is drawn beyond the endpoint of the line at a 
+     * distance of one-half of the line's width.
+     * <p>
+     * Round - A join with a rounded end which is drawn beyond the endpoint of the line at a 
+     * radius of one-half of the line's width and centered on
      * the endpoint of the line.
-     * 
-     * Miter - A join with a sharp, angled corner which is drawn with the outer sides beyond the endpoint of the path until they meet.
+     * <p>
+     * Miter - A join with a sharp, angled corner which is drawn with the outer sides beyond the 
+     * endpoint of the path until they meet.
      */
     public enum LineJoin {
         BEVEL, ROUND, MITER
     }
 
     /**
-     * Optional enum. One of bevel, round, miter. Defaults to miter. The display of lines when joining.
+     * Optional enum. One of bevel, round, miter. Defaults to miter. The display of lines when 
+     * joining.
      *
      * @return The line join
      */
@@ -144,10 +151,11 @@ public class LineMBLayer extends MBLayer {
     }
 
     /**
-     * Maps {@link #getLineJoin()} to {@link Stroke#getLineJoin()} values of "mitre", "round", and "bevel" Literals. Defaults to "mitre".
+     * Maps {@link #getLineJoin()} to {@link Stroke#getLineJoin()} values of "mitre", "round", 
+     * and "bevel" Literals. Defaults to "mitre".
      * <p>
      * Since piecewise constant functions is supported a {@link RecodeFunction} may be generated.
-     * 
+     *
      * @return Expression for {@link Stroke#getLineJoin()()} use.
      */
     public Expression lineJoin() {
@@ -156,7 +164,7 @@ public class LineMBLayer extends MBLayer {
 
     /**
      * (Optional) Used to automatically convert miter joins to bevel joins for sharp angles.
-     * 
+     * <p>
      * Defaults to 2. Requires line-join = miter.
      *
      * @return The threshold at which miter joins are converted to bevel joins.
@@ -166,11 +174,12 @@ public class LineMBLayer extends MBLayer {
     }
 
     /**
-     * Maps {@link #getLineMiterLimit()} to an {@link Expression}. (Optional) Used to automatically convert miter joins to bevel joins for sharp
+     * Maps {@link #getLineMiterLimit()} to an {@link Expression}. (Optional) Used to 
+     * automatically convert miter joins to bevel joins for sharp
      * angles.
-     * 
+     * <p>
      * Defaults to 2. Requires line-join = miter.
-     * 
+     *
      * @return Expression for {@link #getLineMiterLimit()}
      */
     public Expression lineMiterLimit() {
@@ -179,7 +188,7 @@ public class LineMBLayer extends MBLayer {
 
     /**
      * (Optional) Used to automatically convert round joins to bevel joins for sharp angles.
-     * 
+     * <p>
      * Defaults to 1.05. Requires line-join = round.
      *
      * @return The threshold at which round joins are converted to bevel joins.
@@ -190,11 +199,10 @@ public class LineMBLayer extends MBLayer {
 
     /**
      * Maps {@link #getLineRoundLimit()} to an {@link Expression}.
-     * 
+     * <p>
      * (Optional) Used to automatically convert round joins to bevel joins for sharp angles.
-     * 
+     * <p>
      * Defaults to 1.05. Requires line-join = round.
-     * 
      */
     public Expression lineRoundLimit() {
         return parse.number(layout, "line-round-limit", 1.05);
@@ -202,7 +210,7 @@ public class LineMBLayer extends MBLayer {
 
     /**
      * (Optional) The opacity at which the line will be drawn.
-     * 
+     * <p>
      * Defaults to 1.
      *
      * @return The line opacity
@@ -213,13 +221,12 @@ public class LineMBLayer extends MBLayer {
 
     /**
      * Maps {@link #getLineOpacity()} to an {@link Expression}.
-     * 
+     * <p>
      * (Optional) The opacity at which the line will be drawn.
-     * 
+     * <p>
      * Defaults to 1.
-     * 
+     *
      * @return opacity for line (literal or function), defaults to 1.
-     * 
      */
     public Expression lineOpacity() {
         return parse.number(paint, "line-opacity", 1);
@@ -227,9 +234,9 @@ public class LineMBLayer extends MBLayer {
 
     /**
      * (Optional) The color with which the line will be drawn.
-     * 
+     * <p>
      * Defaults to {@link Color#BLACK}, disabled by line-pattern.
-     * 
+     *
      * @return color to draw the line, optional defaults to black.
      */
     public Color getLineColor() {
@@ -240,13 +247,12 @@ public class LineMBLayer extends MBLayer {
     }
 
     /**
-     * 
      * Maps {@link #getLineColor()} to an {@link Expression}.
-     * 
+     * <p>
      * (Optional) The color with which the line will be drawn.
-     * 
+     * <p>
      * Defaults to {@link Color#BLACK}, disabled by line-pattern.
-     * 
+     *
      * @return color to draw the line, optional defaults to black.
      */
     public Expression lineColor() {
@@ -257,37 +263,39 @@ public class LineMBLayer extends MBLayer {
     }
 
     /**
-     * (Optional) The geometry's offset. Values are [x, y] where negatives indicate left and up, respectively.
-     *
+     * (Optional) The geometry's offset. Values are [x, y] where negatives indicate left and up, 
+     * respectively.
+     * <p>
      * Units in pixels. Defaults to 0,0.
      *
      * @return The geometry's offset.
      */
     public int[] getLineTranslate() {
-        return parse.array( paint, "line-translate", new int[]{ 0, 0 } );
+        return parse.array(paint, "line-translate", new int[]{0, 0});
     }
 
 
     /**
      * Maps {@link #getLineTranslate()} to a {@link Displacement}.
-     * 
-     * (Optional) The geometry's offset. Values are [x, y] where negatives indicate left and up, respectively.
-     * 
+     * <p>
+     * (Optional) The geometry's offset. Values are [x, y] where negatives indicate left and up, 
+     * respectively.
+     * <p>
      * Units in pixels. Defaults to 0,0.
      *
      * @return The geometry's offset, as a Displacement.
      */
     public Displacement lineTranslateDisplacement() {
-        return parse.displacement(paint, "line-translate", sf.displacement(ff.literal(0), ff.literal(0)));        
+        return parse.displacement(paint, "line-translate", sf.displacement(ff.literal(0), ff
+                .literal(0)));
     }
 
     /**
      * Controls the translation reference point.
-     * 
+     * <p>
      * Map: The fill is translated relative to the map.
-     * 
+     * <p>
      * Viewport: The fill is translated relative to the viewport.
-     *
      */
     public enum LineTranslateAnchor {
         MAP, VIEWPORT
@@ -295,30 +303,32 @@ public class LineMBLayer extends MBLayer {
 
     /**
      * (Optional) Controls the translation reference point.
-     * 
+     * <p>
      * {@link LineTranslateAnchor#MAP}: The fill is translated relative to the map.
-     * 
+     * <p>
      * {@link LineTranslateAnchor#VIEWPORT}: The fill is translated relative to the viewport.
-     * 
+     * <p>
      * Defaults to {@link LineTranslateAnchor#MAP}. Requires fill-translate.
      *
      * @return The translation reference point.
      */
     public LineTranslateAnchor getLineTranslateAnchor() {
-        return parse.getEnum(paint, "line-translate-anchor", LineTranslateAnchor.class, LineTranslateAnchor.MAP);
+        return parse.getEnum(paint, "line-translate-anchor", LineTranslateAnchor.class, 
+                LineTranslateAnchor.MAP);
     }
-    
+
     /**
-     * Wraps {@link #getLineTranslateAnchor()} in a GeoTools expression. Returns an expression that evaluates to "map" or "viewport".
-     * 
+     * Wraps {@link #getLineTranslateAnchor()} in a GeoTools expression. Returns an expression 
+     * that evaluates to "map" or "viewport".
      */
     public Expression lineTranslateAnchor() {
-        return parse.enumToExpression(paint, "line-translate-anchor", LineTranslateAnchor.class, LineTranslateAnchor.MAP);
+        return parse.enumToExpression(paint, "line-translate-anchor", LineTranslateAnchor.class, 
+                LineTranslateAnchor.MAP);
     }
 
     /**
      * (Optional) Stroke thickness.
-     * 
+     * <p>
      * Units in pixels. Defaults to 1.
      *
      * @return The stroke thickness.
@@ -332,9 +342,8 @@ public class LineMBLayer extends MBLayer {
     }
 
     /**
-     * 
      * Convert {@link #getLineWidth()} to an Expression.
-     * 
+     * <p>
      * (Optional) Stroke thickness. Units in pixels. Defaults to 1.
      *
      * @return The stroke thickness.
@@ -344,8 +353,9 @@ public class LineMBLayer extends MBLayer {
     }
 
     /**
-     * (Optional) Draws a line casing outside of a line's actual path. Value indicates the width of the inner gap.
-     * 
+     * (Optional) Draws a line casing outside of a line's actual path. Value indicates the width 
+     * of the inner gap.
+     * <p>
      * Units in pixels. Defaults to 0.
      *
      * @return The inner gap between the sides of the line casing
@@ -356,9 +366,10 @@ public class LineMBLayer extends MBLayer {
 
     /**
      * Converts {@link #getLineGapWidth()} to an Expression.
-     * 
-     * (Optional) Draws a line casing outside of a line's actual path. Value indicates the width of the inner gap.
-     * 
+     * <p>
+     * (Optional) Draws a line casing outside of a line's actual path. Value indicates the width 
+     * of the inner gap.
+     * <p>
      * Units in pixels. Defaults to 0.
      *
      * @return The inner gap between the sides of the line casing
@@ -368,9 +379,11 @@ public class LineMBLayer extends MBLayer {
     }
 
     /**
-     * (Optional) The line's offset. For linear features, a positive value offsets the line to the right, relative to the direction of the line, and a
-     * negative value to the left. For polygon features, a positive value results in an inset, and a negative value results in an outset.
-     * 
+     * (Optional) The line's offset. For linear features, a positive value offsets the line to 
+     * the right, relative to the direction of the line, and a
+     * negative value to the left. For polygon features, a positive value results in an inset, 
+     * and a negative value results in an outset.
+     * <p>
      * Units in pixels. Defaults to 0.
      *
      * @return The line's offset.
@@ -381,10 +394,12 @@ public class LineMBLayer extends MBLayer {
 
     /**
      * Converts {@link #getLineOffset()} to an Expression.
-     * 
-     * (Optional) The line's offset. For linear features, a positive value offsets the line to the right, relative to the direction of the line, and a
-     * negative value to the left. For polygon features, a positive value results in an inset, and a negative value results in an outset.
-     * 
+     * <p>
+     * (Optional) The line's offset. For linear features, a positive value offsets the line to 
+     * the right, relative to the direction of the line, and a
+     * negative value to the left. For polygon features, a positive value results in an inset, 
+     * and a negative value results in an outset.
+     * <p>
      * Units in pixels. Defaults to 0.
      *
      * @return The line's offset.
@@ -395,7 +410,7 @@ public class LineMBLayer extends MBLayer {
 
     /**
      * (Optional) Blur applied to the line, in pixels.
-     * 
+     * <p>
      * Units in pixels. Defaults to 0.
      *
      * @return The line blur.
@@ -406,9 +421,9 @@ public class LineMBLayer extends MBLayer {
 
     /**
      * Converts {@link #getLineBlur()} to an Expression.
-     * 
+     * <p>
      * (Optional) Blur applied to the line, in pixels.
-     * 
+     * <p>
      * Units in pixels. Defaults to 0.
      *
      * @return The line blur.
@@ -418,9 +433,10 @@ public class LineMBLayer extends MBLayer {
     }
 
     /**
-     * (Optional) Specifies the lengths of the alternating dashes and gaps that form the dash pattern. The lengths are later scaled by the line width.
+     * (Optional) Specifies the lengths of the alternating dashes and gaps that form the dash 
+     * pattern. The lengths are later scaled by the line width.
      * To convert a dash length to pixels, multiply the length by the current line width.
-     * 
+     * <p>
      * Units in line widths. Disabled by line-pattern.
      *
      * @return A list of dash and gap lengths defining the pattern for a dashed line.
@@ -442,13 +458,14 @@ public class LineMBLayer extends MBLayer {
 
     /**
      * Converts {@link #getLineDasharray()} to a List of Expressions
-     * 
-     * (Optional) Specifies the lengths of the alternating dashes and gaps that form the dash pattern. The lengths are later scaled by the line width.
+     * <p>
+     * (Optional) Specifies the lengths of the alternating dashes and gaps that form the dash 
+     * pattern. The lengths are later scaled by the line width.
      * To convert a dash length to pixels, multiply the length by the current line width.
-     * 
+     * <p>
      * Units in line widths. Disabled by line-pattern.
      *
-     * @return  A list of dash and gap lengths defining the pattern for a dashed line.
+     * @return A list of dash and gap lengths defining the pattern for a dashed line.
      */
     public List<Expression> lineDasharray() {
         Object defn = paint.get("line-dasharray");
@@ -471,11 +488,12 @@ public class LineMBLayer extends MBLayer {
     }
 
     /**
-     * (Optional) Name of image in sprite to use for drawing image lines. For seamless patterns, image width must be a
+     * (Optional) Name of image in sprite to use for drawing image lines. For seamless patterns, 
+     * image width must be a
      * factor of two (2, 4, 8, ..., 512).
-     * 
+     * <p>
      * Units in line widths. Disabled by line-pattern.
-     *
+     * <p>
      * The name of the sprite to use for the line pattern.
      */
     public String getLinePattern() {
@@ -483,22 +501,21 @@ public class LineMBLayer extends MBLayer {
     }
 
     /**
-     * 
      * Converts {@link #getLinePattern()} to an Expression.
-     * 
-     * (Optional) Name of image in sprite to use for drawing image lines. For seamless patterns, image width must be a
+     * <p>
+     * (Optional) Name of image in sprite to use for drawing image lines. For seamless patterns, 
+     * image width must be a
      * factor of two (2, 4, 8, ..., 512).
-     * 
+     * <p>
      * Units in line widths. Disabled by line-pattern.
-     *
+     * <p>
      * The name of the sprite to use for the line pattern.
      */
     public Expression linePattern() {
         return parse.string(paint, "line-pattern", null);
     }
-    
+
     /**
-     * 
      * @return True if the layer has a line-pattern explicitly provided.
      */
     public boolean hasLinePattern() {
@@ -513,7 +530,8 @@ public class LineMBLayer extends MBLayer {
      * <ul>
      * </ul>
      *
-     * @param styleContext The MBStyle to which this layer belongs, used as a context for things like resolving sprite and glyph names to full urls.
+     * @param styleContext The MBStyle to which this layer belongs, used as a context for things 
+     *                     like resolving sprite and glyph names to full urls.
      * @return FeatureTypeStyle
      */
     public List<FeatureTypeStyle> transformInternal(MBStyle styleContext) {
@@ -527,19 +545,25 @@ public class LineMBLayer extends MBLayer {
                 sf.description(Text.text("line"), null), NonSI.PIXEL, stroke, lineOffset());
 
         if (hasLinePattern()) {
-            ExternalGraphic eg = transformer.createExternalGraphicForSprite(linePattern(), styleContext);
-            GraphicFill fill = sf.graphicFill(Arrays.asList(eg), lineOpacity(), null, null, null, null);
+            ExternalGraphic eg = transformer.createExternalGraphicForSprite(linePattern(), 
+                    styleContext);
+            GraphicFill fill = sf.graphicFill(Arrays.asList(eg), lineOpacity(), null, null, null,
+                    null);
             stroke.setGraphicFill(fill);
         }
 
         if (getLineGapWidth().intValue() > 0) {
-            Double topOffset = getLineOffset().doubleValue() + (getLineGapWidth().doubleValue() / 2d) + getLineWidth().doubleValue()/2d;
-            Double bottomOffset = getLineOffset().doubleValue() - (getLineGapWidth().doubleValue() / 2d) - getLineWidth().doubleValue()/2d ;
+            Double topOffset = getLineOffset().doubleValue() + (getLineGapWidth().doubleValue() /
+                    2d) + getLineWidth().doubleValue() / 2d;
+            Double bottomOffset = getLineOffset().doubleValue() - (getLineGapWidth().doubleValue
+                    () / 2d) - getLineWidth().doubleValue() / 2d;
 
             ls = sf.lineSymbolizer(getId(), null,
-                    sf.description(Text.text("line"), null), NonSI.PIXEL, stroke, ff.literal(topOffset));
+                    sf.description(Text.text("line"), null), NonSI.PIXEL, stroke, ff.literal
+                            (topOffset));
             LineSymbolizer bottomLine = sf.lineSymbolizer(getId(), null,
-                    sf.description(Text.text("line"), null), NonSI.PIXEL, stroke, ff.literal(bottomOffset));
+                    sf.description(Text.text("line"), null), NonSI.PIXEL, stroke, ff.literal
+                            (bottomOffset));
             symbolizers.add(bottomLine);
         }
         symbolizers.add(ls);

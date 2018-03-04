@@ -8,20 +8,20 @@
         Version: $Id: pom.xml 33582 2009-07-17 04:40:35Z mbedward $
      ======================================================================= -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                                http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.geotools</groupId>
-    <artifactId>plugin</artifactId>
-    <version>20-SNAPSHOT</version>
-  </parent>
+    <parent>
+        <groupId>org.geotools</groupId>
+        <artifactId>plugin</artifactId>
+        <version>20-SNAPSHOT</version>
+    </parent>
 
-  <!-- =========================================================== -->
-  <!--     Module Description                                      -->
-  <!-- =========================================================== -->
+    <!-- =========================================================== -->
+    <!--     Module Description                                      -->
+    <!-- =========================================================== -->
     <groupId>org.geotools</groupId>
     <artifactId>gt-geopkg</artifactId>
     <packaging>jar</packaging>
@@ -29,7 +29,7 @@
 
 
     <description>
-    Provides read and write support for GeoPackage SQLite format.
+        Provides read and write support for GeoPackage SQLite format.
     </description>
 
     <licenses>
@@ -41,9 +41,9 @@
     </licenses>
 
 
-  <!-- =========================================================== -->
-  <!--     Developers and Contributors                             -->
-  <!-- =========================================================== -->
+    <!-- =========================================================== -->
+    <!--     Developers and Contributors                             -->
+    <!-- =========================================================== -->
     <developers>
         <developer>
             <name>Justin Deoliveira</name>
@@ -64,33 +64,33 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-          <groupId>org.geotools</groupId>
-          <artifactId>gt-jdbc</artifactId>
-          <version>${project.version}</version>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-jdbc</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
-          <groupId>org.geotools</groupId>
-          <artifactId>gt-jdbc</artifactId>
-          <version>${project.version}</version>
-          <classifier>tests</classifier>
-          <scope>test</scope>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-jdbc</artifactId>
+            <version>${project.version}</version>
+            <classifier>tests</classifier>
+            <scope>test</scope>
         </dependency>
         <dependency>
-          <groupId>org.geotools</groupId>
-          <artifactId>gt-sample-data</artifactId>
-          <version>${project.version}</version>
-          <scope>test</scope>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-sample-data</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
-          <groupId>org.geotools</groupId>
-          <artifactId>gt-epsg-hsql</artifactId>
-          <version>${project.version}</version>
-          <scope>test</scope>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-epsg-hsql</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
-          <groupId>simple-jndi</groupId>
-          <artifactId>simple-jndi</artifactId>
-          <scope>test</scope>
+            <groupId>simple-jndi</groupId>
+            <artifactId>simple-jndi</artifactId>
+            <scope>test</scope>
         </dependency>
         <!--   Third-party dependencies   -->
         <dependency>
@@ -113,58 +113,66 @@
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
-	<dependency>
-	  <groupId>org.geotools.xsd</groupId>
-	  <artifactId>gt-xsd-core</artifactId>
-	  <version>${project.version}</version>
-	</dependency> 
-	<dependency>
-	  <groupId>org.geotools.xsd</groupId>
-	  <artifactId>gt-xsd-fes</artifactId>
-	  <version>${project.version}</version>
-	</dependency>   
-	<dependency>
-	  <groupId>xmlunit</groupId>
-	  <artifactId>xmlunit</artifactId>
-	  <scope>test</scope>
-	</dependency>
-	<dependency>
-		<groupId>org.geotools</groupId>
-		<artifactId>gt-cql</artifactId>
-		<version>${project.version}</version>
-		<scope>test</scope>
-	</dependency>
+        <dependency>
+            <groupId>org.geotools.xsd</groupId>
+            <artifactId>gt-xsd-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.geotools.xsd</groupId>
+            <artifactId>gt-xsd-fes</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>xmlunit</groupId>
+            <artifactId>xmlunit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-cql</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
-    
+
     <build>
-    <plugins>
-      <plugin>
-        <groupId>org.geotools.maven</groupId>
-        <artifactId>xmlcodegen</artifactId>
-        <version>${project.version}</version>
-        <configuration>
-          <schemaLocation>geopkg.xsd</schemaLocation>
-	  <schemaSourceDirectory>${basedir}/src/main/resources/org/geotools/geopkg/wps</schemaSourceDirectory>
-	  <schemaLookupDirectories>
-	    <schemaLookupDirectory>${basedir}/../../extension/xsd/xsd-core/src/main/resources/org/geotools/xml</schemaLookupDirectory>
-            <schemaLookupDirectory>${basedir}/../../extension/xsd/xsd-core/src/main/resources/org/geotools/xlink</schemaLookupDirectory>
-            <schemaLookupDirectory>${basedir}/../../extension/xsd/xsd-fes/src/main/resources/org/geotools/filter/v2_0</schemaLookupDirectory>   
-	    <schemaLookupDirectory>${basedir}/../../extension/xsd/xsd-ows/src/main/resources/org/geotools/ows/v2_0</schemaLookupDirectory>       
-          </schemaLookupDirectories>
-          <destinationPackage>org.geotools.geopkg.wps.parser</destinationPackage>
-          <generateConfiguration>true</generateConfiguration>	  
-	  <generateBindingInterface>true</generateBindingInterface>
-	  <generateSchemaLocationResolver>true</generateSchemaLocationResolver>
-          <generateTests>true</generateTests>
-	  <generateXsd>true</generateXsd>
-	  <generateAttributeBindings>true</generateAttributeBindings>
-	  <generateElementBindings>true</generateElementBindings>
-	  <followComplexTypes>true</followComplexTypes>
-	  <!--<printRecursionPaths>true</printRecursionPaths>
-	  <overwriteExistingFiles>true</overwriteExistingFiles>-->
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+        <plugins>
+            <plugin>
+                <groupId>org.geotools.maven</groupId>
+                <artifactId>xmlcodegen</artifactId>
+                <version>${project.version}</version>
+                <configuration>
+                    <schemaLocation>geopkg.xsd</schemaLocation>
+                    <schemaSourceDirectory>${basedir}/src/main/resources/org/geotools/geopkg/wps</schemaSourceDirectory>
+                    <schemaLookupDirectories>
+                        <schemaLookupDirectory>
+                            ${basedir}/../../extension/xsd/xsd-core/src/main/resources/org/geotools/xml
+                        </schemaLookupDirectory>
+                        <schemaLookupDirectory>
+                            ${basedir}/../../extension/xsd/xsd-core/src/main/resources/org/geotools/xlink
+                        </schemaLookupDirectory>
+                        <schemaLookupDirectory>
+                            ${basedir}/../../extension/xsd/xsd-fes/src/main/resources/org/geotools/filter/v2_0
+                        </schemaLookupDirectory>
+                        <schemaLookupDirectory>
+                            ${basedir}/../../extension/xsd/xsd-ows/src/main/resources/org/geotools/ows/v2_0
+                        </schemaLookupDirectory>
+                    </schemaLookupDirectories>
+                    <destinationPackage>org.geotools.geopkg.wps.parser</destinationPackage>
+                    <generateConfiguration>true</generateConfiguration>
+                    <generateBindingInterface>true</generateBindingInterface>
+                    <generateSchemaLocationResolver>true</generateSchemaLocationResolver>
+                    <generateTests>true</generateTests>
+                    <generateXsd>true</generateXsd>
+                    <generateAttributeBindings>true</generateAttributeBindings>
+                    <generateElementBindings>true</generateElementBindings>
+                    <followComplexTypes>true</followComplexTypes>
+                    <!--<printRecursionPaths>true</printRecursionPaths>
+                    <overwriteExistingFiles>true</overwriteExistingFiles>-->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

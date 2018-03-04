@@ -24,20 +24,20 @@ import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
  * NullZeroFeatureValidation purpose.
- * 
+ * <p>
  * <p>
  * Description of NullZeroFeatureValidation ...
  * </p>
- * 
+ * <p>
  * <p>
  * Capabilities:
- * 
+ * <p>
  * <ul>
  * <li>
  * Tests for null/0 atribute values.
  * </li>
  * </ul>
- * 
+ * <p>
  * Example Use:
  * <pre><code>
  * NullZeroFeatureValidation x = new NullZeroFeatureValidation(...);
@@ -46,13 +46,13 @@ import org.opengis.feature.simple.SimpleFeatureType;
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class NullZeroValidation extends DefaultFeatureValidation {
-	/** XPATH expression for attribtue */
+    /**
+     * XPATH expression for attribtue
+     */
     private String attribute;
 
     public NullZeroValidation() {
@@ -61,28 +61,26 @@ public class NullZeroValidation extends DefaultFeatureValidation {
 
     /**
      * Implement validate.
-     * 
+     * <p>
      * <p>
      * Description ...
      * </p>
      *
      * @param feature Provides the attributes to test.
-     * @param type not used.
+     * @param type    not used.
      * @param results a reference for returning error codes.
-     *
      * @return false when null or 0 values are found in the attribute.
-     *
      * @see org.geotools.validation.FeatureValidation#validate(org.geotools.feature.Feature,
-     *      org.geotools.feature.FeatureType,
-     *      org.geotools.validation.ValidationResults)
+     * org.geotools.feature.FeatureType,
+     * org.geotools.validation.ValidationResults)
      */
     public boolean validate(SimpleFeature feature, SimpleFeatureType type,
-        ValidationResults results) { // throws Exception {
+                            ValidationResults results) { // throws Exception {
 
-    	//if attribute not set, just pass
-    	if (attribute == null)
-    		return true;
-    	
+        //if attribute not set, just pass
+        if (attribute == null)
+            return true;
+
         Object obj = feature.getAttribute(attribute);
 
         if (obj == null) {
@@ -101,15 +99,15 @@ public class NullZeroValidation extends DefaultFeatureValidation {
             }
         }
 
-		if (obj instanceof String) {
-			String string = (String) obj;
+        if (obj instanceof String) {
+            String string = (String) obj;
 
-			if ("".equals(string.trim())) {
-				results.error(feature, attribute + " is \"\"");
+            if ("".equals(string.trim())) {
+                results.error(feature, attribute + " is \"\"");
 
-				return false;
-			}
-		}
+                return false;
+            }
+        }
 
         return true;
     }
@@ -127,7 +125,6 @@ public class NullZeroValidation extends DefaultFeatureValidation {
      * Implementation of getTypeNames.
      *
      * @return Array of typeNames, or empty array for all, null for disabled
-     *
      * @see org.geotools.validation.Validation#getTypeRefs()
      */
     public String[] getTypeRefs() {
@@ -139,7 +136,7 @@ public class NullZeroValidation extends DefaultFeatureValidation {
             return ALL;
         }
 
-        return new String[] { getTypeRef(), };
+        return new String[]{getTypeRef(),};
     }
 
     /**

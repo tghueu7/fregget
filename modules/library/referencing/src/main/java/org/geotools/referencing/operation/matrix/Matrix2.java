@@ -26,30 +26,40 @@ import org.geotools.resources.i18n.ErrorKeys;
 /**
  * A matrix of fixed {@value #SIZE}&times;{@value #SIZE} size.
  *
- * @since 2.2
- * @version 13.0
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.2
  */
 public class Matrix2 implements XMatrix, Serializable {
-    /** Serial number for interoperability with different versions. */
+    /**
+     * Serial number for interoperability with different versions.
+     */
     private static final long serialVersionUID = 7116561372481474290L;
 
-    /** The matrix size, which is {@value}. */
+    /**
+     * The matrix size, which is {@value}.
+     */
     public static final int SIZE = 2;
 
-    /** The first matrix element in the first row. */
+    /**
+     * The first matrix element in the first row.
+     */
     public double m00;
 
-    /** The second matrix element in the first row. */
+    /**
+     * The second matrix element in the first row.
+     */
     public double m01;
 
-    /** The first matrix element in the second row. */
+    /**
+     * The first matrix element in the second row.
+     */
     public double m10;
 
-    /** The second matrix element in the second row. */
+    /**
+     * The second matrix element in the second row.
+     */
     public double m11;
 
     /**
@@ -63,8 +73,7 @@ public class Matrix2 implements XMatrix, Serializable {
      * Creates a new matrix initialized to the specified values.
      */
     public Matrix2(final double m00, final double m01,
-                   final double m10, final double m11)
-    {
+                   final double m10, final double m11) {
         this.m00 = m00;
         this.m01 = m01;
         this.m10 = m10;
@@ -76,21 +85,23 @@ public class Matrix2 implements XMatrix, Serializable {
      * The specified matrix size must be {@value #SIZE}&times;{@value #SIZE}.
      */
     public Matrix2(final Matrix matrix) {
-        if (matrix.getNumRow()!=SIZE || matrix.getNumCol()!=SIZE) {
+        if (matrix.getNumRow() != SIZE || matrix.getNumCol() != SIZE) {
             throw new IllegalArgumentException(Errors.format(ErrorKeys.ILLEGAL_MATRIX_SIZE));
         }
-        m00 = matrix.getElement(0,0);
-        m01 = matrix.getElement(0,1);
-        m10 = matrix.getElement(1,0);
-        m11 = matrix.getElement(1,1);
+        m00 = matrix.getElement(0, 0);
+        m01 = matrix.getElement(0, 1);
+        m10 = matrix.getElement(1, 0);
+        m11 = matrix.getElement(1, 1);
     }
 
-    /** Used to cast/copy matrix to Matrix2 */
-    Matrix2 internal( Matrix matrix ){
+    /**
+     * Used to cast/copy matrix to Matrix2
+     */
+    Matrix2 internal(Matrix matrix) {
         if (matrix instanceof Matrix2) {
             return (Matrix2) matrix;
         } else {
-            if (matrix.getNumRow()!=SIZE || matrix.getNumCol()!=SIZE) {
+            if (matrix.getNumRow() != SIZE || matrix.getNumCol() != SIZE) {
                 throw new IllegalArgumentException(Errors.format(ErrorKeys.ILLEGAL_MATRIX_SIZE));
             }
             return new Matrix2(matrix);
@@ -120,15 +131,19 @@ public class Matrix2 implements XMatrix, Serializable {
         switch (row) {
             case 0: {
                 switch (col) {
-                    case 0: return m00;
-                    case 1: return m01;
+                    case 0:
+                        return m00;
+                    case 1:
+                        return m01;
                 }
                 break;
             }
             case 1: {
                 switch (col) {
-                    case 0: return m10;
-                    case 1: return m11;
+                    case 0:
+                        return m10;
+                    case 1:
+                        return m11;
                 }
                 break;
             }
@@ -143,15 +158,23 @@ public class Matrix2 implements XMatrix, Serializable {
         switch (row) {
             case 0: {
                 switch (col) {
-                    case 0: m00 = value; return;
-                    case 1: m01 = value; return;
+                    case 0:
+                        m00 = value;
+                        return;
+                    case 1:
+                        m01 = value;
+                        return;
                 }
                 break;
             }
             case 1: {
                 switch (col) {
-                    case 0: m10 = value; return;
-                    case 1: m11 = value; return;
+                    case 0:
+                        m10 = value;
+                        return;
+                    case 1:
+                        m11 = value;
+                        return;
                 }
                 break;
             }
@@ -179,21 +202,21 @@ public class Matrix2 implements XMatrix, Serializable {
      * {@inheritDoc}
      */
     public final boolean isIdentity() {
-        return m01==0 && m10==0 && m00==1 && m11==1;
+        return m01 == 0 && m10 == 0 && m00 == 1 && m11 == 1;
     }
 
     /**
      * {@inheritDoc}
      */
     public final boolean isIdentity(double tolerance) {
-    	return GeneralMatrix.isIdentity(this, tolerance);
+        return GeneralMatrix.isIdentity(this, tolerance);
     }
 
     /**
      * {@inheritDoc}
      */
     public final boolean isAffine() {
-        return m10==0 && m11==1;
+        return m10 == 0 && m11 == 1;
     }
 
     /**
@@ -208,11 +231,11 @@ public class Matrix2 implements XMatrix, Serializable {
 
     @Override
     public void negate(Matrix matrix) {
-        Matrix2 k = internal( matrix );
+        Matrix2 k = internal(matrix);
         m00 = -k.m00;
         m01 = -k.m01;
         m10 = -k.m10;
-        m11 = -k.m11; 
+        m11 = -k.m11;
     }
 
     /**
@@ -226,32 +249,32 @@ public class Matrix2 implements XMatrix, Serializable {
 
     @Override
     public void transpose(Matrix matrix) {
-        Matrix2 k = internal( matrix );
+        Matrix2 k = internal(matrix);
         m00 = k.m00;
         m01 = k.m10;
         m10 = k.m01;
-        m11 = k.m11; 
+        m11 = k.m11;
     }
 
     /**
      * Inverts this matrix in place.
      */
     public final void invert() {
-        final double det = m00*m11 - m01*m10;
+        final double det = m00 * m11 - m01 * m10;
         if (det == 0) {
             throw new SingularMatrixException("Determinate is zero, cannot invert matrix");
         }
         final double swap = m00;
-        m00 =  m11 / det;
+        m00 = m11 / det;
         m11 = swap / det;
         m10 = -m10 / det;
         m01 = -m01 / det;
     }
-    
+
     @Override
     public void invert(Matrix matrix) throws SingularMatrixException {
-        Matrix2 k = internal( matrix );
-        final double det = k.m00*k.m11 - k.m01*k.m10;
+        Matrix2 k = internal(matrix);
+        final double det = k.m00 * k.m11 - k.m01 * k.m10;
         if (det == 0) {
             throw new SingularMatrixException("Determinate is zero, cannot invert matrix");
         }
@@ -278,12 +301,12 @@ public class Matrix2 implements XMatrix, Serializable {
      */
     @Override
     public boolean equals(final Object object) {
-        if (object!=null && object.getClass().equals(getClass())) {
+        if (object != null && object.getClass().equals(getClass())) {
             final Matrix2 that = (Matrix2) object;
             return Double.doubleToLongBits(this.m00) == Double.doubleToLongBits(that.m00) &&
-                   Double.doubleToLongBits(this.m01) == Double.doubleToLongBits(that.m01) &&
-                   Double.doubleToLongBits(this.m10) == Double.doubleToLongBits(that.m10) &&
-                   Double.doubleToLongBits(this.m11) == Double.doubleToLongBits(that.m11);
+                    Double.doubleToLongBits(this.m01) == Double.doubleToLongBits(that.m01) &&
+                    Double.doubleToLongBits(this.m10) == Double.doubleToLongBits(that.m10) &&
+                    Double.doubleToLongBits(this.m11) == Double.doubleToLongBits(that.m11);
         }
         return false;
     }
@@ -293,11 +316,11 @@ public class Matrix2 implements XMatrix, Serializable {
      */
     @Override
     public int hashCode() {
-        return (int)((((Double.doubleToLongBits(m00)  +
-                     37*Double.doubleToLongBits(m01)) +
-                     37*Double.doubleToLongBits(m10)) +
-                     37*Double.doubleToLongBits(m11)) ^
-                        serialVersionUID);
+        return (int) ((((Double.doubleToLongBits(m00) +
+                37 * Double.doubleToLongBits(m01)) +
+                37 * Double.doubleToLongBits(m10)) +
+                37 * Double.doubleToLongBits(m11)) ^
+                serialVersionUID);
     }
 
     /**
@@ -335,11 +358,11 @@ public class Matrix2 implements XMatrix, Serializable {
             array[0] = m10;
             array[1] = m11;
         } else {
-            throw new IllegalArgumentException("Specified element is out of bounds: (" +row
+            throw new IllegalArgumentException("Specified element is out of bounds: (" + row
                     + ", 0)");
         }
     }
-    
+
     @Override
     public void setRow(int row, double... values) {
         if (values.length != SIZE) {
@@ -375,7 +398,7 @@ public class Matrix2 implements XMatrix, Serializable {
                     + ")");
         }
     }
-    
+
     @Override
     public void setColumn(int column, double... values) {
         if (values.length != SIZE) {
@@ -404,7 +427,7 @@ public class Matrix2 implements XMatrix, Serializable {
 
     @Override
     public void add(double scalar, XMatrix matrix) {
-        final Matrix2 k = internal( matrix );
+        final Matrix2 k = internal(matrix);
         m00 = scalar + k.m00;
         m01 = scalar + k.m01;
         m10 = scalar + k.m10;
@@ -419,6 +442,7 @@ public class Matrix2 implements XMatrix, Serializable {
         m10 += k.m10;
         m11 += k.m11;
     }
+
     @Override
     public void add(XMatrix matrix1, XMatrix matrix2) {
         final Matrix2 a = internal(matrix1);
@@ -428,7 +452,7 @@ public class Matrix2 implements XMatrix, Serializable {
         m10 = a.m10 + b.m10;
         m11 = a.m11 + b.m11;
     }
-    
+
     @Override
     public double determinate() {
         return (m00 * m11) - (m01 * m10);
@@ -485,7 +509,7 @@ public class Matrix2 implements XMatrix, Serializable {
 
     @Override
     public void sub(double scalar, Matrix matrix) {
-        final Matrix2 k = internal( matrix );
+        final Matrix2 k = internal(matrix);
         m00 = scalar - k.m00;
         m01 = scalar - k.m01;
         m10 = scalar - k.m10;
@@ -494,7 +518,7 @@ public class Matrix2 implements XMatrix, Serializable {
 
     @Override
     public void sub(Matrix matrix) {
-        final Matrix2 k = internal( matrix );
+        final Matrix2 k = internal(matrix);
         m00 -= k.m00;
         m01 -= k.m01;
         m10 -= k.m10;

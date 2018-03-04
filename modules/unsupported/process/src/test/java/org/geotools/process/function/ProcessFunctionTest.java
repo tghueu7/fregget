@@ -38,8 +38,6 @@ import org.opengis.filter.expression.Function;
 import com.vividsolutions.jts.geom.MultiPolygon;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ProcessFunctionTest {
@@ -60,13 +58,13 @@ public class ProcessFunctionTest {
                 .literal(BufferFeatureCollectionFactory.BUFFER.key), ff.literal(1000));
         // build the function and call it
         Function buffer = ff.function("gt:BufferFeatureCollection", featuresParam, bufferParam);
-        
+
         // check the metadata
         FunctionName fn = buffer.getFunctionName();
         assertEquals("gt:BufferFeatureCollection", fn.getName());
         assertEquals(2, fn.getArgumentCount());
         assertEquals(FeatureCollection.class, fn.getReturn().getType());
-        
+
         // run and check results
         SimpleFeatureCollection buffered = (SimpleFeatureCollection) buffer.evaluate(features);
         assertEquals(features.size(), buffered.size());

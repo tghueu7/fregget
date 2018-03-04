@@ -44,19 +44,17 @@ import org.geotools.referencing.datum.DefaultVerticalDatum;
  * violation with ISO 19111; this is considered okay if this constant is used merely as a step
  * toward the construction of a 3D CRS (for example in a transient state during WKT parsing),
  * or for passing arguments in methods enforcing type-safety.
- *
+ * <p>
  * <TABLE CELLPADDING='6' BORDER='1'>
  * <TR BGCOLOR="#EEEEFF"><TH NOWRAP>Used with CS type(s)</TH></TR>
  * <TR><TD>
- *   {@link VerticalCS Vertical}
+ * {@link VerticalCS Vertical}
  * </TD></TR></TABLE>
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class DefaultVerticalCRS extends AbstractSingleCRS implements VerticalCRS {
     /**
@@ -81,7 +79,6 @@ public class DefaultVerticalCRS extends AbstractSingleCRS implements VerticalCRS
      *
      * @see DefaultVerticalDatum#GEOIDAL
      * @see DefaultVerticalCS#GRAVITY_RELATED_HEIGHT
-     *
      * @since 2.5
      */
     public static final DefaultVerticalCRS GEOIDAL_HEIGHT = new DefaultVerticalCRS(
@@ -106,8 +103,7 @@ public class DefaultVerticalCRS extends AbstractSingleCRS implements VerticalCRS
      * The inherited properties include the {@linkplain #getName name} and aliases.
      *
      * @param datum The datum.
-     * @param cs The coordinate system.
-     *
+     * @param cs    The coordinate system.
      * @since 2.5
      */
     public DefaultVerticalCRS(final VerticalDatum datum, final VerticalCS cs) {
@@ -117,29 +113,28 @@ public class DefaultVerticalCRS extends AbstractSingleCRS implements VerticalCRS
     /**
      * Constructs a vertical CRS from a name.
      *
-     * @param name The name.
+     * @param name  The name.
      * @param datum The datum.
-     * @param cs The coordinate system.
+     * @param cs    The coordinate system.
      */
-    public DefaultVerticalCRS(final String         name,
+    public DefaultVerticalCRS(final String name,
                               final VerticalDatum datum,
-                              final VerticalCS       cs)
-    {
+                              final VerticalCS cs) {
         this(Collections.singletonMap(NAME_KEY, name), datum, cs);
     }
 
     /**
      * Constructs a vertical CRS from a set of properties. The properties are given unchanged to
-     * the {@linkplain AbstractReferenceSystem#AbstractReferenceSystem(Map) super-class constructor}.
+     * the 
+     * {@linkplain AbstractReferenceSystem#AbstractReferenceSystem(Map) super-class constructor}.
      *
      * @param properties Set of properties. Should contains at least {@code "name"}.
-     * @param datum The datum.
-     * @param cs The coordinate system.
+     * @param datum      The datum.
+     * @param cs         The coordinate system.
      */
-    public DefaultVerticalCRS(final Map<String,?> properties,
+    public DefaultVerticalCRS(final Map<String, ?> properties,
                               final VerticalDatum datum,
-                              final VerticalCS    cs)
-    {
+                              final VerticalCS cs) {
         super(properties, datum, cs);
     }
 
@@ -163,19 +158,20 @@ public class DefaultVerticalCRS extends AbstractSingleCRS implements VerticalCRS
      * Returns a hash value for this geographic CRS.
      *
      * @return The hash code value. This value doesn't need to be the same
-     *         in past or future versions of this class.
+     * in past or future versions of this class.
      */
     @Override
     public int hashCode() {
-        return (int)serialVersionUID ^ super.hashCode();
+        return (int) serialVersionUID ^ super.hashCode();
     }
 
     /**
      * Format the inner part of a
-     * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
+     * <A HREF="http://geoapi.sourceforge
+     * .net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
      * Known Text</cite> (WKT)</A> element.
      *
-     * @param  formatter The formatter to use.
+     * @param formatter The formatter to use.
      * @return The name of the WKT element type, which is {@code "VERT_CS"}.
      */
     @Override

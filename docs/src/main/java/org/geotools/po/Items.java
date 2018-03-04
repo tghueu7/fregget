@@ -22,9 +22,9 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
  * <p>Java class for Items complex type.
- * 
+ * <p>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
  * &lt;complexType name="Items">
  *   &lt;complexContent>
@@ -57,12 +57,10 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Items", propOrder = {
-    "item"
+        "item"
 })
 public class Items {
 
@@ -70,25 +68,23 @@ public class Items {
 
     /**
      * Gets the value of the item property.
-     * 
+     * <p>
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the item property.
-     * 
+     * <p>
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getItem().add(newItem);
      * </pre>
-     * 
-     * 
+     * <p>
+     * <p>
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link Items.Item }
-     * 
-     * 
      */
     public List<Items.Item> getItem() {
         if (item == null) {
@@ -100,9 +96,9 @@ public class Items {
 
     /**
      * <p>Java class for anonymous complex type.
-     * 
+     * <p>
      * <p>The following schema fragment specifies the expected content contained within this class.
-     * 
+     * <p>
      * <pre>
      * &lt;complexType>
      *   &lt;complexContent>
@@ -125,16 +121,14 @@ public class Items {
      *   &lt;/complexContent>
      * &lt;/complexType>
      * </pre>
-     * 
-     * 
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
-        "productName",
-        "quantity",
-        "usPrice",
-        "comment",
-        "shipDate"
+            "productName",
+            "quantity",
+            "usPrice",
+            "comment",
+            "shipDate"
     })
     public static class Item {
 
@@ -151,11 +145,9 @@ public class Items {
 
         /**
          * Gets the value of the productName property.
-         * 
-         * @return
-         *     possible object is
-         *     {@link String }
-         *     
+         *
+         * @return possible object is
+         * {@link String }
          */
         public String getProductName() {
             return productName;
@@ -163,11 +155,9 @@ public class Items {
 
         /**
          * Sets the value of the productName property.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *     
+         *
+         * @param value allowed object is
+         *              {@link String }
          */
         public void setProductName(String value) {
             this.productName = value;
@@ -175,7 +165,6 @@ public class Items {
 
         /**
          * Gets the value of the quantity property.
-         * 
          */
         public int getQuantity() {
             return quantity;
@@ -183,7 +172,6 @@ public class Items {
 
         /**
          * Sets the value of the quantity property.
-         * 
          */
         public void setQuantity(int value) {
             this.quantity = value;
@@ -191,11 +179,9 @@ public class Items {
 
         /**
          * Gets the value of the usPrice property.
-         * 
-         * @return
-         *     possible object is
-         *     {@link BigDecimal }
-         *     
+         *
+         * @return possible object is
+         * {@link BigDecimal }
          */
         public BigDecimal getUSPrice() {
             return usPrice;
@@ -203,11 +189,9 @@ public class Items {
 
         /**
          * Sets the value of the usPrice property.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link BigDecimal }
-         *     
+         *
+         * @param value allowed object is
+         *              {@link BigDecimal }
          */
         public void setUSPrice(BigDecimal value) {
             this.usPrice = value;
@@ -215,11 +199,9 @@ public class Items {
 
         /**
          * Gets the value of the comment property.
-         * 
-         * @return
-         *     possible object is
-         *     {@link String }
-         *     
+         *
+         * @return possible object is
+         * {@link String }
          */
         public String getComment() {
             return comment;
@@ -227,11 +209,9 @@ public class Items {
 
         /**
          * Sets the value of the comment property.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *     
+         *
+         * @param value allowed object is
+         *              {@link String }
          */
         public void setComment(String value) {
             this.comment = value;
@@ -239,11 +219,9 @@ public class Items {
 
         /**
          * Gets the value of the shipDate property.
-         * 
-         * @return
-         *     possible object is
-         *     {@link XMLGregorianCalendar }
-         *     
+         *
+         * @return possible object is
+         * {@link XMLGregorianCalendar }
          */
         public XMLGregorianCalendar getShipDate() {
             return shipDate;
@@ -251,11 +229,9 @@ public class Items {
 
         /**
          * Sets the value of the shipDate property.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link XMLGregorianCalendar }
-         *     
+         *
+         * @param value allowed object is
+         *              {@link XMLGregorianCalendar }
          */
         public void setShipDate(XMLGregorianCalendar value) {
             this.shipDate = value;
@@ -263,11 +239,9 @@ public class Items {
 
         /**
          * Gets the value of the partNum property.
-         * 
-         * @return
-         *     possible object is
-         *     {@link String }
-         *     
+         *
+         * @return possible object is
+         * {@link String }
          */
         public String getPartNum() {
             return partNum;
@@ -275,11 +249,9 @@ public class Items {
 
         /**
          * Sets the value of the partNum property.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *     
+         *
+         * @param value allowed object is
+         *              {@link String }
          */
         public void setPartNum(String value) {
             this.partNum = value;

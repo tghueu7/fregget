@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.temporal;
@@ -27,24 +27,25 @@ import static org.opengis.annotation.Specification.*;
  * match this ISO 19108 specification with a "domain of validity"
  * association to an Extent.
  * </p>
+ *
  * @author Stephane Fellah (Image Matters)
  * @author Alexander Petkov
- *
- *
  * @source $URL$
  */
-@UML(identifier="TM_ReferenceSystem", specification=ISO_19108)
+@UML(identifier = "TM_ReferenceSystem", specification = ISO_19108)
 public interface TemporalReferenceSystem extends ReferenceSystem {
     /**
      * Provides a name that uniquely identifies the temporal referece system.
-     *
+     * <p>
      * Currently returns MD_Identifier, which is defined in ISO 19115, while ISO 19108
-     * requires that RS_Identifier (defined in ISO 19111 and http://www.opengis.org/docs/03-073r1.zip)
-     * is returned. From the looks of it, org.opengis.referencing.ReferenceSystem could also fit the bill.
+     * requires that RS_Identifier (defined in ISO 19111 and http://www.opengis
+     * .org/docs/03-073r1.zip)
+     * is returned. From the looks of it, org.opengis.referencing.ReferenceSystem could also fit 
+     * the bill.
      *
      * @return {@link ReferenceIdentifier} for the temporal reference system
      */
-    @UML(identifier="name", obligation=MANDATORY, specification=ISO_19108)
+    @UML(identifier = "name", obligation = MANDATORY, specification = ISO_19108)
     ReferenceIdentifier getName();
 
     /**
@@ -56,6 +57,6 @@ public interface TemporalReferenceSystem extends ReferenceSystem {
      * <p>
      * Please note this is very similar to ReferenceSystem.getValidArea() from ISO 19115.
      */
-    @UML(identifier="DomainOfValidity", obligation=MANDATORY, specification=ISO_19108)
+    @UML(identifier = "DomainOfValidity", obligation = MANDATORY, specification = ISO_19108)
     Extent getDomainOfValidity();
 }

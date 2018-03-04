@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.metadata.citation;
@@ -22,15 +22,13 @@ import static org.opengis.annotation.ComplianceLevel.*;
  * Identification of, and means of communication with, person(s) and
  * organizations associated with the dataset.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
+ * @source $URL$
+ * @since GeoAPI 1.0
  */
-@Profile (level=CORE)
-@UML(identifier="CI_ResponsibleParty", specification=ISO_19115)
+@Profile(level = CORE)
+@UML(identifier = "CI_ResponsibleParty", specification = ISO_19115)
 public interface ResponsibleParty {
     /**
      * Name of the responsible person- surname, given name, title separated by a delimiter.
@@ -39,7 +37,7 @@ public interface ResponsibleParty {
      *
      * @return Name, surname, given name and title of the responsible person, or {@code null}.
      */
-    @UML(identifier="individualName", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "individualName", obligation = CONDITIONAL, specification = ISO_19115)
     String getIndividualName();
 
     /**
@@ -49,17 +47,18 @@ public interface ResponsibleParty {
      *
      * @return Name of the responsible organization, or {@code null}.
      */
-    @UML(identifier="organisationName", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "organisationName", obligation = CONDITIONAL, specification = ISO_19115)
     InternationalString getOrganisationName();
 
     /**
      * Role or position of the responsible person.
-     * Only one of {@link #getIndividualName individualName}, {@link #getOrganisationName organisationName}
+     * Only one of {@link #getIndividualName individualName}, 
+     * {@link #getOrganisationName organisationName}
      * and {@code positionName} should be provided.
      *
      * @return Role or position of the responsible person, or {@code null}
      */
-    @UML(identifier="positionName", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "positionName", obligation = CONDITIONAL, specification = ISO_19115)
     InternationalString getPositionName();
 
     /**
@@ -67,7 +66,7 @@ public interface ResponsibleParty {
      *
      * @return Address of the responsible party., or {@code null}.
      */
-    @UML(identifier="contactInfo", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "contactInfo", obligation = OPTIONAL, specification = ISO_19115)
     Contact getContactInfo();
 
     /**
@@ -75,6 +74,6 @@ public interface ResponsibleParty {
      *
      * @return Function performed by the responsible party.
      */
-    @UML(identifier="role", obligation=MANDATORY, specification=ISO_19115)
+    @UML(identifier = "role", obligation = MANDATORY, specification = ISO_19115)
     Role getRole();
 }

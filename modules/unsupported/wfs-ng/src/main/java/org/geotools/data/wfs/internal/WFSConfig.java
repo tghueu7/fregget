@@ -77,17 +77,17 @@ public class WFSConfig {
     protected Integer filterCompliance;
 
     protected String namespaceOverride;
-    
+
     protected String outputformatOverride;
-    
+
     protected boolean useDefaultSrs;
-    
+
     protected String axisOrder;
-    
+
     protected String axisOrderFilter;
-    
+
     protected boolean gmlCompatibleTypenames;
-    
+
     protected EntityResolver entityResolver;
 
     public static enum PreferredHttpMethod {
@@ -142,13 +142,15 @@ public class WFSConfig {
         config.namespaceOverride = (String) NAMESPACE.lookUp(params);
         config.outputformatOverride = (String) OUTPUTFORMAT.lookUp(params);
         config.axisOrder = (String) AXIS_ORDER.lookUp(params);
-        config.axisOrderFilter = (String) AXIS_ORDER_FILTER.lookUp(params) == null ? (String) AXIS_ORDER
+        config.axisOrderFilter = (String) AXIS_ORDER_FILTER.lookUp(params) == null ? (String) 
+                AXIS_ORDER
                 .lookUp(params) : (String) AXIS_ORDER_FILTER.lookUp(params);
 
-        config.gmlCompatibleTypenames = GML_COMPATIBLE_TYPENAMES.lookUp(params) == null ? 
-                (Boolean) GML_COMPATIBLE_TYPENAMES.getDefaultValue() :  GML_COMPATIBLE_TYPENAMES.lookUp(params);
+        config.gmlCompatibleTypenames = GML_COMPATIBLE_TYPENAMES.lookUp(params) == null ?
+                (Boolean) GML_COMPATIBLE_TYPENAMES.getDefaultValue() : GML_COMPATIBLE_TYPENAMES
+                .lookUp(params);
         config.entityResolver = ENTITY_RESOLVER.lookUp(params);
-        
+
         return config;
     }
 
@@ -265,15 +267,15 @@ public class WFSConfig {
     }
 
     /**
-     * 
      * @return if GML compatible typenames are used
      */
     public boolean isGmlCompatibleTypenames() {
         return gmlCompatibleTypenames;
     }
-    
+
     /**
      * Returns the entity resolved to be used for XML parses
+     *
      * @return
      */
     public EntityResolver getEntityResolver() {
@@ -281,8 +283,9 @@ public class WFSConfig {
     }
 
     /**
-     * Checks if axis flipping is needed comparing axis order requested for the DataStore with query crs.
-     * 
+     * Checks if axis flipping is needed comparing axis order requested for the DataStore with 
+     * query crs.
+     *
      * @param axisOrder
      * @param coordinateSystem
      * @return
@@ -292,14 +295,14 @@ public class WFSConfig {
         if (requestedAxis == CRS.AxisOrder.INAPPLICABLE) {
             boolean forcedLonLat = Boolean.getBoolean("org.geotools.referencing.forceXY")
                     || Boolean.TRUE.equals(Hints
-                            .getSystemDefault(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER));
+                    .getSystemDefault(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER));
             if (forcedLonLat) {
                 requestedAxis = CRS.AxisOrder.EAST_NORTH;
             } else {
                 requestedAxis = CRS.AxisOrder.NORTH_EAST;
             }
         }
-        
+
         if (WFSDataStoreFactory.AXIS_ORDER_NORTH_EAST.equals(axisOrder)) {
             return requestedAxis.equals(CRS.AxisOrder.EAST_NORTH);
         } else if (WFSDataStoreFactory.AXIS_ORDER_EAST_NORTH.equals(axisOrder)) {
@@ -308,12 +311,13 @@ public class WFSConfig {
             return false; // compliant, don't do anything
         }
     }
-    
+
     public String localTypeName(QName remoteTypeName) {
         String localTypeName = remoteTypeName.getLocalPart();
         if (!XMLConstants.DEFAULT_NS_PREFIX.equals(remoteTypeName.getPrefix())) {
-            localTypeName = remoteTypeName.getPrefix() + 
-                    (gmlCompatibleTypenames? NAME_SEPARATOR_GML_COMPATIBLE: NAME_SEPARATOR) + localTypeName;
+            localTypeName = remoteTypeName.getPrefix() +
+                    (gmlCompatibleTypenames ? NAME_SEPARATOR_GML_COMPATIBLE : NAME_SEPARATOR) + 
+                    localTypeName;
         }
         return localTypeName;
     }

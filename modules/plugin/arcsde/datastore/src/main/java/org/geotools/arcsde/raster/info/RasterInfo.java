@@ -46,11 +46,9 @@ import com.esri.sde.sdk.client.SeRasterAttr;
  * Basically, it wraps the SeRasterAttr object and implements some convenience methods for doing
  * calculations with it.
  * </p>
- * 
+ *
  * @author Saul Farber
  * @author Gabriel Roldan
- *
- *
  * @source $URL$
  */
 public final class RasterInfo {
@@ -58,7 +56,8 @@ public final class RasterInfo {
     /**
      * Orders pyramid levels by their level index
      */
-    private static final Comparator<PyramidLevelInfo> levelComparator = new Comparator<PyramidLevelInfo>() {
+    private static final Comparator<PyramidLevelInfo> levelComparator = new 
+            Comparator<PyramidLevelInfo>() {
         public int compare(PyramidLevelInfo p0, PyramidLevelInfo p1) {
             return (p0.getLevel() - p1.getLevel());
         }
@@ -84,9 +83,8 @@ public final class RasterInfo {
      * Creates an in-memory representation of an ArcSDE Raster Pyramid. Basically it wraps the
      * supplide SeRasterAttr object and implements some convenience logic for extracting
      * information/ doing calculations with it.
-     * 
-     * @param rasterAttributes
-     *            the SeRasterAttr object for the raster of interest.
+     *
+     * @param rasterAttributes the SeRasterAttr object for the raster of interest.
      * @param crs
      * @throws DataSourceException
      */
@@ -133,8 +131,10 @@ public final class RasterInfo {
     }
 
     private GeneralEnvelope computeImageSpatialExtent(final int level,
-            final SeRasterAttr rasterAttributes, final CoordinateReferenceSystem crs,
-            final GridEnvelope gridRange) throws SeException {
+                                                      final SeRasterAttr rasterAttributes, final 
+                                                      CoordinateReferenceSystem crs,
+                                                      final GridEnvelope gridRange) throws 
+            SeException {
 
         /*
          * To get the actual resolution we use an image width and height diminished by one pixel,
@@ -193,11 +193,9 @@ public final class RasterInfo {
 
     /**
      * Don't use this constructor. It only exists for unit testing purposes.
-     * 
-     * @param tileWidth
-     *            DON'T USE
-     * @param tileHeight
-     *            DON'T USE
+     *
+     * @param tileWidth  DON'T USE
+     * @param tileHeight DON'T USE
      */
     RasterInfo(Long rasterId, int tileWidth, int tileHeight) {
         this.rasterId = rasterId;
@@ -239,7 +237,7 @@ public final class RasterInfo {
      * <p>
      * NOTE: logic stolen and adapted from {@code AbstractGridCoverage2DReader#getOverviewImage()}
      * </p>
-     * 
+     *
      * @param policy
      * @return
      */
@@ -339,26 +337,22 @@ public final class RasterInfo {
 
     /**
      * Don't use this method. It's only public for unit testing purposes.
-     * 
-     * @param level
-     *            the zero-based level index for the new level
-     * @param imageExtent
-     *            the geographical extent the actual image size covers at this level
-     * @param imgOffset
-     *            the offset on the X and Y axes of the actual image inside the tile space for this
-     *            level
-     * @param extOffset
-     *            the offset on the X and Y axes of the actual image inside the tile space for this
-     *            level
-     * @param numTilesWide
-     *            the number of tiles that make up the level on the X axis
-     * @param numTilesHigh
-     *            the number of tiles that make up the level on the Y axis
-     * @param imageSize
-     *            the size of the actual image in pixels
+     *
+     * @param level        the zero-based level index for the new level
+     * @param imageExtent  the geographical extent the actual image size covers at this level
+     * @param imgOffset    the offset on the X and Y axes of the actual image inside the tile 
+     *                     space for this
+     *                     level
+     * @param extOffset    the offset on the X and Y axes of the actual image inside the tile 
+     *                     space for this
+     *                     level
+     * @param numTilesWide the number of tiles that make up the level on the X axis
+     * @param numTilesHigh the number of tiles that make up the level on the Y axis
+     * @param imageSize    the size of the actual image in pixels
      */
     void addPyramidLevel(int level, ReferencedEnvelope imageExtent, Point imgOffset,
-            Point2D extOffset, int numTilesWide, int numTilesHigh, Dimension imageSize) {
+                         Point2D extOffset, int numTilesWide, int numTilesHigh, Dimension 
+                                 imageSize) {
 
         PyramidLevelInfo pyramidLevel;
         GridEnvelope2D gridEnvelope = new GridEnvelope2D((int) imgOffset.getX(),
@@ -373,7 +367,8 @@ public final class RasterInfo {
     }
 
     public void addPyramidLevel(final int level, final int numTilesWide, final int numTilesHigh,
-            final GridEnvelope gridEnvelope, final GeneralEnvelope spatialExtent) {
+                                final GridEnvelope gridEnvelope, final GeneralEnvelope 
+                                        spatialExtent) {
 
         PyramidLevelInfo pyramidLevel = new PyramidLevelInfo(level, numTilesWide, numTilesHigh,
                 gridEnvelope, spatialExtent);

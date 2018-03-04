@@ -41,10 +41,12 @@ public class OSMTileFactoryTest extends TileFactoryTest {
         OSMTile expectedTile = new OSMTile(20, 15, new WebMercatorZoomLevel(5), service);
         Assert.assertEquals(expectedTile, tile);
     }
+
     @Test
     public void testGetTileFromTopLeftCoordinate() {
 
-        Tile tile = factory.findTileAtCoordinate(WebMercatorTileService.MIN_LONGITUDE, WebMercatorTileService.MAX_LATITUDE, new WebMercatorZoomLevel(5),
+        Tile tile = factory.findTileAtCoordinate(WebMercatorTileService.MIN_LONGITUDE, 
+                WebMercatorTileService.MAX_LATITUDE, new WebMercatorZoomLevel(5),
                 createService());
 
         TileService service = createService();

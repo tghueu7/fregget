@@ -53,14 +53,12 @@ import com.esri.sde.sdk.client.SeVersion;
 
 /**
  * Test suite for {@link ArcSDEDataStoreFactory}
- * 
+ *
  * @author Gabriel Roldan, Axios Engineering
- *
- *
- * @source $URL$
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/test/java
- *         /org/geotools/arcsde/ArcSDEDataStoreFactoryTest.java $
  * @version $Id$
+ * @source $URL$
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/test/java
+ * /org/geotools/arcsde/ArcSDEDataStoreFactoryTest.java $
  * @since 2.4.x
  */
 public class ArcSDEDataStoreFactoryTest {
@@ -182,7 +180,7 @@ public class ArcSDEDataStoreFactoryTest {
     /**
      * Test method for
      * {@link org.geotools.arcsde.ArcSDEDataStoreFactory#createDataStore(java.util.Map)}.
-     * 
+     *
      * @throws IOException
      */
     @Test
@@ -202,7 +200,7 @@ public class ArcSDEDataStoreFactoryTest {
     /**
      * Test method for
      * {@link org.geotools.arcsde.ArcSDEDataStoreFactory#createDataStore(java.util.Map)}.
-     * 
+     *
      * @throws IOException
      * @throws SeException
      * @throws UnavailableConnectionException

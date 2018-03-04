@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -40,7 +40,7 @@ import org.opengis.util.InternationalString;
  * The following example shows how a user might connect to a PostGIS database,
  * and maintain the resulting datastore in a Registry:
  * </p>
- *
+ * <p>
  * <p>
  * <pre><code>
  * HashMap params = new HashMap();
@@ -60,36 +60,34 @@ import org.opengis.util.InternationalString;
  * </code></pre>
  * </p>
  * The required parameters are described by the getParameterInfo() method. Client
- * 
+ * <p>
  * <h2>Implementation Notes</h2>
  * <p>
  * An instance of this interface should exist for all DataAccess implementations
  * that want to advantage of the dynamic plug-in system. In addition to implementing
  * this interface a DataAccess implementation should provide a services file:
  * </p>
- *
+ * <p>
  * <p>
  * <code>META-INF/services/org.geotools.data.DataAccessFactory</code>
  * </p>
- *
+ * <p>
  * <p>
  * The file should contain a single line which gives the full name of the
  * implementing class.
  * </p>
- *
+ * <p>
  * <p>
  * Example:<br/><code>e.g.
  * org.geotools.data.mytype.MyTypeDataSourceFacotry</code>
  * </p>
- *
+ * <p>
  * <p>
  * The factories are never called directly by client code, instead the
  * DataStoreFinder class is used.
  * </p>
- * 
+ *
  * @author Jody Garnett (Refractions Research)
- *
- *
  * @source $URL$
  */
 public interface DataAccessFactory extends Factory {
@@ -99,11 +97,11 @@ public interface DataAccessFactory extends Factory {
      * You can think of this class as setting up a connection to the back end data source. The
      * required parameters are described by the getParameterInfo() method.
      * </p>
-     *
+     * <p>
      * <p>
      * Magic Params: the following params are magic and are honoured by
      * convention by the GeoServer and uDig application.
-     *
+     * <p>
      * <ul>
      * <li>
      * "user": is taken to be the user name
@@ -116,29 +114,28 @@ public interface DataAccessFactory extends Factory {
      * sync with GeoServer namespace management.
      * </li>
      * </ul>
-     *
+     * <p>
      * When we eventually move over to the use of OpperationalParam we will
      * have to find someway to codify this convention.
      * </p>
      *
      * @param params The full set of information needed to construct a live
-     *        data store. Typical key values for the map include: url -
-     *        location of a resource, used by file reading datasources. dbtype
-     *        - the type of the database to connect to, e.g. postgis, mysql
-     *
+     *               data store. Typical key values for the map include: url -
+     *               location of a resource, used by file reading datasources. dbtype
+     *               - the type of the database to connect to, e.g. postgis, mysql
      * @return The created DataStore, this may be null if the required resource
-     *         was not found or if insufficent parameters were given. Note
-     *         that canProcess() should have returned false if the problem is
-     *         to do with insuficent parameters.
-     *
+     * was not found or if insufficent parameters were given. Note
+     * that canProcess() should have returned false if the problem is
+     * to do with insuficent parameters.
      * @throws IOException if there were any problems setting up (creating or
-     *         connecting) the datasource.
+     *                     connecting) the datasource.
      */
-    DataAccess<? extends FeatureType, ? extends Feature> createDataStore(Map<String, Serializable> params) throws IOException;
+    DataAccess<? extends FeatureType, ? extends Feature> createDataStore(Map<String, 
+            Serializable> params) throws IOException;
 
     /**
      * Name suitable for display to end user.
-     *
+     * <p>
      * <p>
      * A non localized display name for this data store type.
      * </p>
@@ -149,23 +146,23 @@ public interface DataAccessFactory extends Factory {
 
     /**
      * Describe the nature of the datasource constructed by this factory.
-     *
+     * <p>
      * <p>
      * A non localized description of this data store type.
      * </p>
      *
      * @return A human readable description that is suitable for inclusion in a
-     *         list of available datasources.
+     * list of available datasources.
      */
     String getDescription();
 
     /**
      * MetaData about the required Parameters (for createDataStore).
-     *
+     * <p>
      * <p>
      * Interpretation of FeatureDescriptor values:
      * </p>
-     *
+     * <p>
      * <ul>
      * <li>
      * getDisplayName(): Gets the localized display name of this feature.
@@ -178,7 +175,7 @@ public interface DataAccessFactory extends Factory {
      * getShortDescription(): Gets the short description of this feature.
      * </li>
      * </ul>
-     *
+     * <p>
      * <p>
      * This should be the same as:
      * </p>
@@ -196,7 +193,7 @@ public interface DataAccessFactory extends Factory {
     /**
      * Test to see if this factory is suitable for processing the data pointed
      * to by the params map.
-     *
+     * <p>
      * <p>
      * If this datasource requires a number of parameters then this mehtod
      * should check that they are all present and that they are all valid. If
@@ -207,18 +204,17 @@ public interface DataAccessFactory extends Factory {
      * </p>
      *
      * @param params The full set of information needed to construct a live
-     *        data source.
-     *
+     *               data source.
      * @return booean true if and only if this factory can process the resource
-     *         indicated by the param set and all the required params are
-     *         pressent.
+     * indicated by the param set and all the required params are
+     * pressent.
      */
     boolean canProcess(java.util.Map<String, Serializable> params);
 
     /**
      * Test to see if the implementation is available for use.
      * This method ensures all the appropriate libraries to construct
-     * the DataAccess are available. 
+     * the DataAccess are available.
      * <p>
      * Most factories will simply return <code>true</code> as GeoTools will
      * distribute the appropriate libraries. Though it's not a bad idea for
@@ -234,29 +230,29 @@ public interface DataAccessFactory extends Factory {
      * applications.
      *
      * @return <tt>true</tt> if and only if this factory has all the
-     *         appropriate jars on the classpath to create DataStores.
+     * appropriate jars on the classpath to create DataStores.
      */
     boolean isAvailable();
 
     /**
      * Data class used to capture Parameter requirements.
-     *
+     * <p>
      * <p>
      * Subclasses may provide specific setAsText()/getAsText() requirements
      * </p>
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public static class Param extends Parameter {
 
         /**
          * Provides support for text representations
-         *
+         * <p>
          * <p>
          * The parameter type of String is assumed.
          * </p>
          *
          * @param key Key used to file this Param in the Parameter Map for
-         *        createDataStore
+         *            createDataStore
          */
         public Param(String key) {
             this(key, String.class, null);
@@ -264,13 +260,13 @@ public interface DataAccessFactory extends Factory {
 
         /**
          * Provides support for text representations.
-         *
+         * <p>
          * <p>
          * You may specify a <code>type</code> for this Param.
          * </p>
          *
-         * @param key Key used to file this Param in the Parameter Map for
-         *        createDataStore
+         * @param key  Key used to file this Param in the Parameter Map for
+         *             createDataStore
          * @param type Class type intended for this Param
          */
         public Param(String key, Class<?> type) {
@@ -280,9 +276,9 @@ public interface DataAccessFactory extends Factory {
         /**
          * Provides support for text representations
          *
-         * @param key Key used to file this Param in the Parameter Map for
-         *        createDataStore
-         * @param type Class type intended for this Param
+         * @param key         Key used to file this Param in the Parameter Map for
+         *                    createDataStore
+         * @param type        Class type intended for this Param
          * @param description User description of Param (40 chars or less)
          */
         public Param(String key, Class<?> type, String description) {
@@ -292,11 +288,11 @@ public interface DataAccessFactory extends Factory {
         /**
          * Provides support for text representations
          *
-         * @param key Key used to file this Param in the Parameter Map for
-         *        createDataStore
-         * @param type Class type intended for this Param
+         * @param key         Key used to file this Param in the Parameter Map for
+         *                    createDataStore
+         * @param type        Class type intended for this Param
          * @param description User description of Param (40 chars or less)
-         * @param required <code>true</code> is param is required
+         * @param required    <code>true</code> is param is required
          */
         public Param(String key, Class<?> type, String description, boolean required) {
             this(key, type, description, required, null);
@@ -305,47 +301,49 @@ public interface DataAccessFactory extends Factory {
         /**
          * Provides support for text representations
          *
-         * @param key Key used to file this Param in the Parameter Map for
-         *        createDataStore
-         * @param type Class type intended for this Param
+         * @param key         Key used to file this Param in the Parameter Map for
+         *                    createDataStore
+         * @param type        Class type intended for this Param
          * @param description User description of Param (40 chars or less)
-         * @param required <code>true</code> is param is required
-         * @param sample Sample value as an example for user input
+         * @param required    <code>true</code> is param is required
+         * @param sample      Sample value as an example for user input
          */
-        public Param(String key, Class<?> type, String description, boolean required, Object sample) {
-            this(key, type, description == null? null : new SimpleInternationalString(description),
+        public Param(String key, Class<?> type, String description, boolean required, Object 
+                sample) {
+            this(key, type, description == null ? null : new SimpleInternationalString(description),
                     required, sample, null);
         }
 
         /**
          * Provides support for text representations
          *
-         * @param key Key used to file this Param in the Parameter Map for
-         *        createDataStore
-         * @param type Class type intended for this Param
+         * @param key         Key used to file this Param in the Parameter Map for
+         *                    createDataStore
+         * @param type        Class type intended for this Param
          * @param description User description of Param (40 chars or less)
-         * @param required <code>true</code> is param is required
-         * @param sample Sample value as an example for user input
+         * @param required    <code>true</code> is param is required
+         * @param sample      Sample value as an example for user input
          */
         public Param(String key,
                      Class<?> type,
                      InternationalString description,
                      boolean required,
                      Object sample) {
-            super(key, type, new SimpleInternationalString(key), description, required, 1, 1, sample, null);
+            super(key, type, new SimpleInternationalString(key), description, required, 1, 1, 
+                    sample, null);
         }
 
         /**
          * Provides support for text representations
          *
-         * @param key Key used to file this Param in the Parameter Map for
-         *        createDataStore
-         * @param type Class type intended for this Param
+         * @param key         Key used to file this Param in the Parameter Map for
+         *                    createDataStore
+         * @param type        Class type intended for this Param
          * @param description User description of Param (40 chars or less)
-         * @param required <code>true</code> is param is required
-         * @param sample Sample value as an example for user input
-         * @param extra metadata information, preferably keyed by known identifiers 
-         * like {@link Parameter#IS_PASSWORD}
+         * @param required    <code>true</code> is param is required
+         * @param sample      Sample value as an example for user input
+         * @param extra       metadata information, preferably keyed by known identifiers
+         *                    like {@link Parameter#IS_PASSWORD}
          */
         public Param(String key,
                      Class<?> type,
@@ -355,26 +353,27 @@ public interface DataAccessFactory extends Factory {
                      Map<String, ?> metadata) {
             this(key, type, new SimpleInternationalString(description), required, sample, metadata);
         }
+
         public Param(String key,
-                Class<?> type,
-                String description,
-                boolean required,
-                Object sample,
-                Object... metadata ) {
-            this( key, type, description, required, sample, new KVP( metadata ));
+                     Class<?> type,
+                     String description,
+                     boolean required,
+                     Object sample,
+                     Object... metadata) {
+            this(key, type, description, required, sample, new KVP(metadata));
         }
 
         /**
          * Provides support for text representations
          *
-         * @param key Key used to file this Param in the Parameter Map for
-         *        createDataStore
-         * @param type Class type intended for this Param
+         * @param key         Key used to file this Param in the Parameter Map for
+         *                    createDataStore
+         * @param type        Class type intended for this Param
          * @param description User description of Param (40 chars or less)
-         * @param required <code>true</code> is param is required
-         * @param sample Sample value as an example for user input
-         * @param extra metadata information, preferably keyed by known identifiers 
-         * like {@link Parameter#IS_PASSWORD}
+         * @param required    <code>true</code> is param is required
+         * @param sample      Sample value as an example for user input
+         * @param extra       metadata information, preferably keyed by known identifiers
+         *                    like {@link Parameter#IS_PASSWORD}
          */
         public Param(String key,
                      Class<?> type,
@@ -382,21 +381,22 @@ public interface DataAccessFactory extends Factory {
                      boolean required,
                      Object sample,
                      Map<String, ?> metadata) {
-            super(key, type, new SimpleInternationalString(key), description, required, 1, 1, sample, metadata);
+            super(key, type, new SimpleInternationalString(key), description, required, 1, 1, 
+                    sample, metadata);
         }
-        
+
         /**
          * Supports all Parameter values.
          *
-         * @param key machine readable key for use in a java.util.Map
-         * @param type Java class for the expected value
-         * @param title Human readable title used for use in a user interface
+         * @param key         machine readable key for use in a java.util.Map
+         * @param type        Java class for the expected value
+         * @param title       Human readable title used for use in a user interface
          * @param description Human readable description
-         * @param required true if the value is required
-         * @param min Minimum value; or -1 if not needed
-         * @param max Maximum value; or -1 for unbound
-         * @param sample Sample value; may be used as a default in a user interface
-         * @param metadata Hints to the user interface (read the javadocs for each metadata key)
+         * @param required    true if the value is required
+         * @param min         Minimum value; or -1 if not needed
+         * @param max         Maximum value; or -1 for unbound
+         * @param sample      Sample value; may be used as a default in a user interface
+         * @param metadata    Hints to the user interface (read the javadocs for each metadata key)
          */
         public Param(String key,
                      Class<?> type,
@@ -409,24 +409,22 @@ public interface DataAccessFactory extends Factory {
                      Map<String, ?> metadata) {
             super(key, type, title, description, required, min, max, sample, metadata);
         }
-        
+
         /**
          * Lookup Param in a user supplied map.
-         *
+         * <p>
          * <p>
          * Type conversion will occur if required, this may result in an
          * IOException. An IOException will be throw in the Param is required
          * and the Map does not contain the Map.
          * </p>
-         *
+         * <p>
          * <p>
          * The handle method is used to process the user's value.
          * </p>
          *
          * @param map Map of user input
-         *
          * @return Parameter as specified in map
-         *
          * @throws IOException if parse could not handle value
          */
         public Object lookUp(Map<String, ?> map) throws IOException {
@@ -454,7 +452,7 @@ public interface DataAccessFactory extends Factory {
 
             if (!type.isInstance(value)) {
                 throw new IOException(type.getName() + " required for parameter " + key + ": not "
-                    + value.getClass().getName());
+                        + value.getClass().getName());
             }
 
             return value;
@@ -464,7 +462,6 @@ public interface DataAccessFactory extends Factory {
          * Convert value to text representation for this Parameter
          *
          * @param value DOCUMENT ME!
-         *
          * @return DOCUMENT ME!
          */
         public String text(Object value) {
@@ -473,11 +470,11 @@ public interface DataAccessFactory extends Factory {
 
         /**
          * Handle text in a sensible manner.
-         *
+         * <p>
          * <p>
          * Performs the most common way of handling text value:
          * </p>
-         *
+         * <p>
          * <ul>
          * <li>
          * null: If text is null
@@ -493,11 +490,8 @@ public interface DataAccessFactory extends Factory {
          * </li>
          * </ul>
          *
-         *
          * @param text
-         *
          * @return Value as processed by text
-         *
          * @throws IOException If text could not be parsed
          */
         public Object handle(String text) throws IOException {
@@ -533,7 +527,7 @@ public interface DataAccessFactory extends Factory {
                         throw ioException;
                     } catch (Throwable throwable) {
                         throw new DataSourceException("Problem creating " + type.getName()
-                            + " from '" + text + "'", throwable);
+                                + " from '" + text + "'", throwable);
                     }
 
                     result.add(element);
@@ -554,35 +548,33 @@ public interface DataAccessFactory extends Factory {
                 throw ioException;
             } catch (Throwable throwable) {
                 throw new DataSourceException("Problem creating " + type.getName() + " from '"
-                    + text + "'", throwable);
+                        + text + "'", throwable);
             }
         }
 
         /**
          * Provides support for text representations
-         *
+         * <p>
          * <p>
          * Provides basic support for common types using reflection.
          * </p>
-         *
+         * <p>
          * <p>
          * If needed you may extend this class to handle your own custome
          * types.
          * </p>
          *
          * @param text Text representation of type should not be null or empty
-         *
          * @return Object converted from text representation
-         *
-         * @throws Throwable DOCUMENT ME!
-         * @throws IOException If text could not be parsed
+         * @throws Throwable           DOCUMENT ME!
+         * @throws IOException         If text could not be parsed
          * @throws DataSourceException DOCUMENT ME!
          */
         public Object parse(String text) throws Throwable {
             Constructor<?> constructor;
 
             try {
-                constructor = type.getConstructor(new Class[] { String.class });
+                constructor = type.getConstructor(new Class[]{String.class});
             } catch (SecurityException e) {
                 //  type( String ) constructor is not public
                 throw new IOException("Could not create " + type.getName() + " from text");
@@ -592,16 +584,16 @@ public interface DataAccessFactory extends Factory {
             }
 
             try {
-                return constructor.newInstance(new Object[] { text, });
+                return constructor.newInstance(new Object[]{text,});
             } catch (IllegalArgumentException illegalArgumentException) {
                 throw new DataSourceException("Could not create " + type.getName() + ": from '"
-                    + text + "'", illegalArgumentException);
+                        + text + "'", illegalArgumentException);
             } catch (InstantiationException instantiaionException) {
                 throw new DataSourceException("Could not create " + type.getName() + ": from '"
-                    + text + "'", instantiaionException);
+                        + text + "'", instantiaionException);
             } catch (IllegalAccessException illegalAccessException) {
                 throw new DataSourceException("Could not create " + type.getName() + ": from '"
-                    + text + "'", illegalAccessException);
+                        + text + "'", illegalAccessException);
             } catch (InvocationTargetException targetException) {
                 throw targetException.getCause();
             }

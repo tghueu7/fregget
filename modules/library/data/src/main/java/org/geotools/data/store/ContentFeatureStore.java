@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -46,102 +46,108 @@ import org.opengis.filter.identity.FeatureId;
 /**
  * Abstract implementation of FeatureStore.
  * <p>
- * List its base class {@link ContentFeatureSource}, this feature store works off 
+ * List its base class {@link ContentFeatureSource}, this feature store works off
  * of operations provided by {@link FeatureCollection}.
  * </p>
  * <p>
  * The {@link #addFeatures(SimpleFeatureCollection)} method is used to add features to
- * the feature store. The method should return the "persistent" feature id's 
+ * the feature store. The method should return the "persistent" feature id's
  * which are generated after the feature has been added to persistent storage.
- * Often the persistent fid is different from the fid specified by the actual 
+ * Often the persistent fid is different from the fid specified by the actual
  * feature being inserted. For this reason {@link SimpleFeature#getUserData()} is
- * used to report back persistent fids. It is up to the implementor of the 
+ * used to report back persistent fids. It is up to the implementor of the
  * feature collection to report this value back after a feature has been inserted.
  * As an example, consider an implementation of {@link FeatureCollection#add(Object)}.
  * <pre>
  *  boolean add( Object o ) {
  *    SimpleFeature feature = (SimpleFeature) o;
- *    
+ *
  *    //1.add the feature to storage
  *    ...
- *    
+ *
  *    //2. derive the persistent fid
  *    String fid = ...;
- *    
+ *
  *    //3. set the user data
  *    feature.getUserData().put( "fid", fid );
- *  
+ *
  *  }
  * </pre>
  * </p>
  *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
- *
  * @source $URL$
  */
 public abstract class ContentFeatureStore extends ContentFeatureSource implements
         SimpleFeatureStore,
         SimpleFeatureLocking {
 
-    /** Flag writer for adding new content */
+    /**
+     * Flag writer for adding new content
+     */
     protected final int WRITER_ADD = ContentDataStore.WRITER_ADD;
-    /** Flag writer for updating content in place */
+    /**
+     * Flag writer for updating content in place
+     */
     protected final int WRITER_UPDATE = ContentDataStore.WRITER_UPDATE;
-    /** Flag writer for commit (AUTO_COMMIT with no events) */
+    /**
+     * Flag writer for commit (AUTO_COMMIT with no events)
+     */
     protected final int WRITER_COMMIT = ContentDataStore.WRITER_COMMIT;
     public static final String ORIGINAL_FEATURE_KEY = "_original_";
 
     /**
      * Creates the content feature store.
-     * 
+     *
      * @param entry The entry for the feature store.
      * @param query The defining query.
      */
-    public ContentFeatureStore(ContentEntry entry,Query query) {
-        super(entry,query);
+    public ContentFeatureStore(ContentEntry entry, Query query) {
+        super(entry, query);
     }
-    
+
     /**
      * Returns a writer over features specified by a filter.
-     * 
+     *
      * @param filter The filter
      */
-    public final FeatureWriter<SimpleFeatureType, SimpleFeature> getWriter( Filter filter ) throws IOException {
-        return getWriter( filter, WRITER_ADD | WRITER_UPDATE );
+    public final FeatureWriter<SimpleFeatureType, SimpleFeature> getWriter(Filter filter) throws 
+            IOException {
+        return getWriter(filter, WRITER_ADD | WRITER_UPDATE);
     }
-    
+
     /**
      * Returns a writer over features specified by a filter.
-     * 
+     *
      * @param filter The filter
-     * @param flags flags specifying writing mode
+     * @param flags  flags specifying writing mode
      */
-    public final FeatureWriter<SimpleFeatureType, SimpleFeature> getWriter( Filter filter, int flags  ) throws IOException {
-        return getWriter( new Query( getSchema().getTypeName(), filter ), flags );
+    public final FeatureWriter<SimpleFeatureType, SimpleFeature> getWriter(Filter filter, int 
+            flags) throws IOException {
+        return getWriter(new Query(getSchema().getTypeName(), filter), flags);
     }
-    
+
     /**
      * Returns a writer over features specified by a query.
-     * 
+     *
      * @param query The query
      */
-    public final FeatureWriter<SimpleFeatureType, SimpleFeature> getWriter( Query query ) throws IOException {
-        return getWriter( query, WRITER_ADD | WRITER_UPDATE );
+    public final FeatureWriter<SimpleFeatureType, SimpleFeature> getWriter(Query query) throws 
+            IOException {
+        return getWriter(query, WRITER_ADD | WRITER_UPDATE);
     }
-    
+
     /**
      * Returns a writer over features specified by a query.
-     * 
+     *
      * @param query The query
      * @param flags flags specifying writing mode
      */
-    public final FeatureWriter<SimpleFeatureType, SimpleFeature> getWriter( Query query, int flags ) throws IOException {
-        query = joinQuery( query );
+    public final FeatureWriter<SimpleFeatureType, SimpleFeature> getWriter(Query query, int 
+            flags) throws IOException {
+        query = joinQuery(query);
         query = resolvePropertyNames(query);
-        
+
         FeatureWriter<SimpleFeatureType, SimpleFeature> writer;
 
         if (!canTransact() && transaction != null && transaction != Transaction.AUTO_COMMIT) {
@@ -160,13 +166,13 @@ public abstract class ContentFeatureStore extends ContentFeatureSource implement
                 // reader will take care of filtering
                 // DiffContentWriter takes care of events
                 FeatureReader<SimpleFeatureType, SimpleFeature> reader = getReader(query);
-                writer = state.diffWriter( this, reader );
+                writer = state.diffWriter(this, reader);
             }
         } else {
             writer = getWriterInternal(query, flags);
             // events
-            if (!canEvent()){
-                writer = new EventContentFeatureWriter(this, writer );
+            if (!canEvent()) {
+                writer = new EventContentFeatureWriter(this, writer);
             }
             // filtering
             if (!canFilter()) {
@@ -186,68 +192,70 @@ public abstract class ContentFeatureStore extends ContentFeatureSource implement
     }
 
     /**
-     * 
      * Subclass method for returning a native writer from the datastore.
      * <p>
-     * It is important to note that if the native writer intends to handle any 
+     * It is important to note that if the native writer intends to handle any
      * of the following natively:
      * <ul>
-     *   <li>reprojection</li>
-     *   <li>filtering</li>
-     *   <li>events</li>
-     *   <li>max feature limiting</li>
-     *   <li>sorting</li>
-     *   <li>locking</li>
+     * <li>reprojection</li>
+     * <li>filtering</li>
+     * <li>events</li>
+     * <li>max feature limiting</li>
+     * <li>sorting</li>
+     * <li>locking</li>
      * </ul>
      * Then it <b>*must*</b> set the corresponding flags to <code>true</code>:
      * <ul>
-     *   <li>{@link #canReproject()}</li>
-     *   <li>{@link #canFilter()}</li>
-     *   <li>{@link #canEvent()}</li>
-     *   <li>{@link #canLimit()}</li>
-     *   <li>{@link #canSort()}</li>
-     *   <li>{@link #canLock()}</li>
+     * <li>{@link #canReproject()}</li>
+     * <li>{@link #canFilter()}</li>
+     * <li>{@link #canEvent()}</li>
+     * <li>{@link #canLimit()}</li>
+     * <li>{@link #canSort()}</li>
+     * <li>{@link #canLock()}</li>
      * </ul>
      * </p>
+     *
      * @param query Query
      * @param flags See {@link #WRITER_ADD} and {@link #WRITER_UPDATE}
      */
-    protected abstract FeatureWriter<SimpleFeatureType, SimpleFeature> getWriterInternal( Query query, int flags ) 
-        throws IOException;
-    
+    protected abstract FeatureWriter<SimpleFeatureType, SimpleFeature> getWriterInternal(Query query, int flags)
+            throws IOException;
+
     /**
      * Adds a collection of features to the store.
      * <p>
-     * This method operates by getting an appending feature writer and writing 
-     * all the features in <tt>collection</tt> to it. Directly after a feature 
+     * This method operates by getting an appending feature writer and writing
+     * all the features in <tt>collection</tt> to it. Directly after a feature
      * is written its id is obtained and added to the returned set.
      * </p>
      */
     public List<FeatureId> addFeatures(Collection collection)
-        throws IOException {
-        
-        // gather up id's
-    	List<FeatureId> ids = new ArrayList<FeatureId>(collection.size());
+            throws IOException {
 
-    	FeatureWriter<SimpleFeatureType, SimpleFeature> writer = getWriterAppend();
+        // gather up id's
+        List<FeatureId> ids = new ArrayList<FeatureId>(collection.size());
+
+        FeatureWriter<SimpleFeatureType, SimpleFeature> writer = getWriterAppend();
         try {
-            for ( Iterator f = collection.iterator(); f.hasNext(); ) {
+            for (Iterator f = collection.iterator(); f.hasNext(); ) {
                 FeatureId id = addFeature((SimpleFeature) f.next(), writer);
-                ids.add( id );
+                ids.add(id);
             }
         } finally {
             writer.close();
         }
-        
+
         return ids;
     }
-    
+
     /**
      * Adds a collection of features to the store.
+     *
      * @param featureCollection
      */
-    public List<FeatureId> addFeatures(FeatureCollection<SimpleFeatureType,SimpleFeature> featureCollection)
-        throws IOException {
+    public List<FeatureId> addFeatures(FeatureCollection<SimpleFeatureType, SimpleFeature> 
+                                               featureCollection)
+            throws IOException {
         // gather up id's
         List<FeatureId> ids = new ArrayList<FeatureId>();
 
@@ -257,7 +265,7 @@ public abstract class ContentFeatureStore extends ContentFeatureSource implement
             while (f.hasNext()) {
                 SimpleFeature feature = f.next();
                 FeatureId id = addFeature(feature, writer);
-                ids.add( id );
+                ids.add(id);
             }
         } finally {
             writer.close();
@@ -268,12 +276,14 @@ public abstract class ContentFeatureStore extends ContentFeatureSource implement
 
     /**
      * Utility method that ensures we are going to write only in append mode
+     *
      * @return
      * @throws IOException
      */
     private FeatureWriter<SimpleFeatureType, SimpleFeature> getWriterAppend() throws IOException {
-        FeatureWriter<SimpleFeatureType, SimpleFeature> writer = getWriter( Filter.INCLUDE, WRITER_ADD );
-        while(writer.hasNext()) {
+        FeatureWriter<SimpleFeatureType, SimpleFeature> writer = getWriter(Filter.INCLUDE, 
+                WRITER_ADD);
+        while (writer.hasNext()) {
             writer.next();
         }
         return writer;
@@ -286,17 +296,18 @@ public abstract class ContentFeatureStore extends ContentFeatureSource implement
         // because the raw schema we are inserting into may not match the 
         // schema of the features we are inserting
         final SimpleFeature toWrite = writer.next();
-        for ( int i = 0; i < toWrite.getType().getAttributeCount(); i++ ) {
+        for (int i = 0; i < toWrite.getType().getAttributeCount(); i++) {
             String name = toWrite.getType().getDescriptor(i).getLocalName();
-            toWrite.setAttribute( name, feature.getAttribute(name));
+            toWrite.setAttribute(name, feature.getAttribute(name));
         }
-        
+
         // copy over the user data
         toWrite.getUserData().putAll(feature.getUserData());
 
         // pass through the fid if the user asked so
-        boolean useExisting = Boolean.TRUE.equals(feature.getUserData().get(Hints.USE_PROVIDED_FID));
-        if(getQueryCapabilities().isUseProvidedFIDSupported() && useExisting) {
+        boolean useExisting = Boolean.TRUE.equals(feature.getUserData().get(Hints
+                .USE_PROVIDED_FID));
+        if (getQueryCapabilities().isUseProvidedFIDSupported() && useExisting) {
             ((FeatureIdImpl) toWrite.getIdentifier()).setID(feature.getID());
         }
 
@@ -309,7 +320,7 @@ public abstract class ContentFeatureStore extends ContentFeatureSource implement
 
         // copy any metadata from the feature that was actually written (not always effective, see
         // JDBCInsertFeatureWriter)
-        feature.getUserData().putAll( toWrite.getUserData() );
+        feature.getUserData().putAll(toWrite.getUserData());
         feature.getUserData().remove(ORIGINAL_FEATURE_KEY);
 
         return toWrite.getIdentifier();
@@ -318,49 +329,50 @@ public abstract class ContentFeatureStore extends ContentFeatureSource implement
     /**
      * Sets the feature of the source.
      * <p>
-     * This method operates by first clearing the contents of the feature 
+     * This method operates by first clearing the contents of the feature
      * store ({@link #removeFeatures(Filter)}), and then obtaining an appending
      * feature writer and writing all features from <tt>reader</tt> to it.
      * </p>
      */
-    public final void setFeatures(FeatureReader <SimpleFeatureType, SimpleFeature> reader) throws IOException {
+    public final void setFeatures(FeatureReader<SimpleFeatureType, SimpleFeature> reader) throws 
+            IOException {
         //remove features
-        removeFeatures( Filter.INCLUDE );
-        
+        removeFeatures(Filter.INCLUDE);
+
         //grab a feature writer for insert
-        FeatureWriter<SimpleFeatureType, SimpleFeature> writer = getWriter( Filter.INCLUDE, WRITER_ADD );
+        FeatureWriter<SimpleFeatureType, SimpleFeature> writer = getWriter(Filter.INCLUDE, 
+                WRITER_ADD);
         try {
-            while( reader.hasNext() ) {
+            while (reader.hasNext()) {
                 SimpleFeature feature = reader.next();
-                
+
                 // grab next feature and populate it
                 // JD: worth a note on how we do this... we take a "pull" approach 
                 // because the raw schema we are inserting into may not match the 
                 // schema of the features we are inserting
                 SimpleFeature toWrite = writer.next();
-                for ( int i = 0; i < toWrite.getType().getAttributeCount(); i++ ) {
+                for (int i = 0; i < toWrite.getType().getAttributeCount(); i++) {
                     String name = toWrite.getType().getDescriptor(i).getLocalName();
-                    toWrite.setAttribute( name, feature.getAttribute(name));
+                    toWrite.setAttribute(name, feature.getAttribute(name));
                 }
-                
+
                 //perform the write
                 writer.write();
             }
-        }
-        finally {
+        } finally {
             writer.close();
         }
     }
-    
+
     public void modifyFeatures(AttributeDescriptor[] type, Object[] value, Filter filter)
-    throws IOException {
-        Name attributeNames[] = new Name[ type.length ];
-        for( int i=0; i < type.length; i ++){
+            throws IOException {
+        Name attributeNames[] = new Name[type.length];
+        for (int i = 0; i < type.length; i++) {
             attributeNames[i] = type[i].getName();
         }
-        modifyFeatures( attributeNames, value, filter ); 
+        modifyFeatures(attributeNames, value, filter);
     }
-    
+
     /**
      * Modifies/updates the features of the store which match the specified filter.
      * <p>
@@ -373,67 +385,67 @@ public abstract class ContentFeatureStore extends ContentFeatureSource implement
      * </p>
      */
     public void modifyFeatures(Name[] type, Object[] value, Filter filter)
-        throws IOException {
-        if ( filter == null ) {
+            throws IOException {
+        if (filter == null) {
             String msg = "Must specify a filter, must not be null.";
-            throw new IllegalArgumentException( msg );
+            throw new IllegalArgumentException(msg);
         }
         filter = resolvePropertyNames(filter);
-        
+
         //grab a feature writer
-        FeatureWriter<SimpleFeatureType, SimpleFeature> writer = getWriter( filter, WRITER_UPDATE );
+        FeatureWriter<SimpleFeatureType, SimpleFeature> writer = getWriter(filter, WRITER_UPDATE);
         try {
-            while( writer.hasNext() ) {
+            while (writer.hasNext()) {
                 SimpleFeature toWrite = writer.next();
-                
-                for ( int i = 0; i < type.length; i++ ) {
-                    toWrite.setAttribute( type[i], value[i] );
+
+                for (int i = 0; i < type.length; i++) {
+                    toWrite.setAttribute(type[i], value[i]);
                 }
-                
+
                 writer.write();
             }
-            
-        }
-        finally {
+
+        } finally {
             writer.close();
         }
     }
 
     final public void modifyFeatures(String name, Object attributeValue, Filter filter)
             throws IOException {
-        modifyFeatures(new Name[] { new NameImpl(name), }, new Object[] { attributeValue, }, filter);
+        modifyFeatures(new Name[]{new NameImpl(name),}, new Object[]{attributeValue,}, filter);
     }
 
-    final public void modifyFeatures(String[] names, Object[] values, Filter filter) throws IOException {
+    final public void modifyFeatures(String[] names, Object[] values, Filter filter) throws 
+            IOException {
         Name attributeNames[] = new Name[names.length];
         for (int i = 0; i < names.length; i++) {
             attributeNames[i] = new NameImpl(names[i]);
         }
         modifyFeatures(attributeNames, values, filter);
     }
-    
+
     /**
      * Calls through to {@link #modifyFeatures(Name[], Object[], Filter)}.
      */
     public final void modifyFeatures(AttributeDescriptor type, Object value, Filter filter)
-        throws IOException {
-        
-        modifyFeatures( new Name[]{ type.getName() }, new Object[]{ value }, filter );
+            throws IOException {
+
+        modifyFeatures(new Name[]{type.getName()}, new Object[]{value}, filter);
     }
-    
+
     /**
      * Calls through to {@link #modifyFeatures(Name[], Object[], Filter)}.
      */
     public final void modifyFeatures(Name name, Object value, Filter filter)
-        throws IOException {
-        
-        modifyFeatures( new Name[]{ name }, new Object[]{ value }, filter );
+            throws IOException {
+
+        modifyFeatures(new Name[]{name}, new Object[]{value}, filter);
     }
 
     /**
      * Removes the features from the store which match the specified filter.
      * <p>
-     * This method operates by obtaining an updating feature writer based on 
+     * This method operates by obtaining an updating feature writer based on
      * the specified <tt>filter</tt> and removing every feature from it.
      * </p>
      * <p>
@@ -442,25 +454,24 @@ public abstract class ContentFeatureStore extends ContentFeatureSource implement
      * </p>
      */
     public void removeFeatures(Filter filter) throws IOException {
-        if ( filter == null ) {
+        if (filter == null) {
             String msg = "Must specify a filter, must not be null.";
-            throw new IllegalArgumentException( msg );
+            throw new IllegalArgumentException(msg);
         }
         filter = resolvePropertyNames(filter);
-        
+
         //grab a feature writer
-        FeatureWriter<SimpleFeatureType, SimpleFeature> writer = getWriter( filter, WRITER_UPDATE );
+        FeatureWriter<SimpleFeatureType, SimpleFeature> writer = getWriter(filter, WRITER_UPDATE);
         try {
             //remove everything
-            while( writer.hasNext() ) {
+            while (writer.hasNext()) {
                 writer.next();
                 writer.remove();
             }
-            
-        }
-        finally {
+
+        } finally {
             writer.close();
         }
     }
-    
+
 }

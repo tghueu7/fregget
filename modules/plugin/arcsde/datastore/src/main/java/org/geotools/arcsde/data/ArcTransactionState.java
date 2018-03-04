@@ -39,13 +39,13 @@ import com.esri.sde.sdk.client.SeVersion;
 
 /**
  * Store the transaction state for <code>ArcSDEFeatureWriter</code> instances.
- * 
+ *
  * @author Jake Fear
  * @author Gabriel Roldan
- * @source $URL:
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
- *         /org/geotools/arcsde/data/ArcTransactionState.java $
  * @version $Id$
+ * @source $URL:
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
+ * /org/geotools/arcsde/data/ArcTransactionState.java $
  */
 final class ArcTransactionState implements Transaction.State {
     private static final Logger LOGGER = Logging.getLogger(ArcTransactionState.class.getName());
@@ -77,11 +77,11 @@ final class ArcTransactionState implements Transaction.State {
 
     /**
      * Creates a new ArcTransactionState object.
-     * 
+     *
      * @param listenerManager
-     * @param arcSDEDataStore
-     *            connection pool where to grab a connection and hold it while there's a transaction
-     *            open (signaled by any use of {@link #getConnection()}
+     * @param arcSDEDataStore connection pool where to grab a connection and hold it while 
+     *                        there's a transaction
+     *                        open (signaled by any use of {@link #getConnection()}
      */
     ArcTransactionState(ArcSDEDataStore dataStore, final FeatureListenerManager listenerManager) {
         this.dataStore = dataStore;
@@ -98,13 +98,12 @@ final class ArcTransactionState implements Transaction.State {
     }
 
     /**
-     * @param versioName
-     *            the name of the version to work against
+     * @param versioName the name of the version to work against
      * @return
      * @throws IOException
      */
     public ArcSdeVersionHandler getVersionHandler(final boolean ftIsVersioned,
-            final String versionName) throws IOException {
+                                                  final String versionName) throws IOException {
         if (ftIsVersioned) {
             setupVersioningHandling(versionName);
         }
@@ -117,9 +116,8 @@ final class ArcTransactionState implements Transaction.State {
      * To be called by {@link TransactionFeatureWriter#write()} so this state can fire a changed
      * event at {@link #commit()} and {@link #rollback()}.
      * </p>
-     * 
-     * @param typeName
-     *            the type name of the feature changed (inserted/removed/modified).
+     *
+     * @param typeName the type name of the feature changed (inserted/removed/modified).
      */
     public void addChange(final String typeName) {
         typesChanged.add(typeName);
@@ -173,7 +171,7 @@ final class ArcTransactionState implements Transaction.State {
     }
 
     /**
-     * 
+     *
      */
     public void rollback() throws IOException {
         failIfClosed();
@@ -201,18 +199,17 @@ final class ArcTransactionState implements Transaction.State {
     }
 
     /**
-     * 
+     *
      */
     public void addAuthorization(String authId) {
         // intentionally blank
     }
 
     /**
+     * @param transaction transaction information, <code>null</code> signals this state lifecycle
+     *                   end.
+     * @throws IllegalStateException if close() is called while a transaction is in progress
      * @see Transaction.State#setTransaction(Transaction)
-     * @param transaction
-     *            transaction information, <code>null</code> signals this state lifecycle end.
-     * @throws IllegalStateException
-     *             if close() is called while a transaction is in progress
      */
     public void setTransaction(final Transaction transaction) {
         if (Transaction.AUTO_COMMIT.equals(transaction)) {
@@ -226,7 +223,8 @@ final class ArcTransactionState implements Transaction.State {
             // assert this assumption
             throw new IllegalStateException(
                     "Once a transaction is set, it is "
-                            + "illegal to call Transaction.State.setTransaction with anything other than null: "
+                            + "illegal to call Transaction.State.setTransaction with anything " +
+                            "other than null: "
                             + transaction);
         }
 
@@ -235,9 +233,8 @@ final class ArcTransactionState implements Transaction.State {
 
     /**
      * If this state has been closed throws an unchecked exception as its clearly a broken workflow.
-     * 
-     * @throws IllegalStateException
-     *             if the transaction state has been closed.
+     *
+     * @throws IllegalStateException if the transaction state has been closed.
      */
     private void failIfClosed() throws IllegalStateException {
         if (dataStore == null) {
@@ -258,7 +255,7 @@ final class ArcTransactionState implements Transaction.State {
     /**
      * Used only within the package to provide access to a single connection on which this
      * transaction is being conducted.
-     * 
+     *
      * @return connection
      * @throws IOException
      */

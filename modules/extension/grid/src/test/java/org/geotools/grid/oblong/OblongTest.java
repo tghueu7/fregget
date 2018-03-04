@@ -38,12 +38,9 @@ import com.vividsolutions.jts.geom.Polygon;
  * Unit tests for the Oblong class.
  *
  * @author mbedward
- * @since 2.7
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.7
  */
 public class OblongTest extends TestBase {
     private static final double MINX = -10;
@@ -57,22 +54,22 @@ public class OblongTest extends TestBase {
         assertNotNull(oblong);
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void negativeWidth() {
         PolygonElement oblong = new OblongImpl(0, 0, -1, HEIGHT, null);
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void zeroWidth() {
         PolygonElement oblong = new OblongImpl(0, 0, 0, HEIGHT, null);
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void negativeHeight() {
         PolygonElement oblong = new OblongImpl(0, 0, WIDTH, -1, null);
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void zeroHeight() {
         PolygonElement oblong = new OblongImpl(0, 0, WIDTH, 0, null);
     }
@@ -93,7 +90,7 @@ public class OblongTest extends TestBase {
     @Test
     public void getCenter() {
         PolygonElement oblong = new OblongImpl(MINX, MINY, WIDTH, HEIGHT, null);
-        Coordinate expected = new Coordinate(WIDTH/2 + MINX, HEIGHT/2 + MINY);
+        Coordinate expected = new Coordinate(WIDTH / 2 + MINX, HEIGHT / 2 + MINY);
         assertCoordinate(expected, oblong.getCenter());
     }
 
@@ -101,10 +98,10 @@ public class OblongTest extends TestBase {
     public void getVertices() {
         PolygonElement oblong = new OblongImpl(MINX, MINY, WIDTH, HEIGHT, null);
         Coordinate[] expected = {
-            new Coordinate(MINX, MINY),
-            new Coordinate(MINX, MINY + HEIGHT),
-            new Coordinate(MINX + WIDTH, MINY + HEIGHT),
-            new Coordinate(MINX + WIDTH, MINY),
+                new Coordinate(MINX, MINY),
+                new Coordinate(MINX, MINY + HEIGHT),
+                new Coordinate(MINX + WIDTH, MINY + HEIGHT),
+                new Coordinate(MINX + WIDTH, MINY),
         };
 
         Coordinate[] actual = oblong.getVertices();
@@ -121,7 +118,8 @@ public class OblongTest extends TestBase {
         assertNotNull(polygon);
         assertTrue(polygon instanceof Polygon);
 
-        Set<Coordinate> polyCoords = new HashSet<Coordinate>(Arrays.asList(polygon.getCoordinates()));
+        Set<Coordinate> polyCoords = new HashSet<Coordinate>(Arrays.asList(polygon.getCoordinates
+                ()));
         for (Coordinate c : oblong.getVertices()) {
             assertTrue(polyCoords.contains(c));
         }

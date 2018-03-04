@@ -23,9 +23,10 @@ import org.geotools.coverage.grid.io.OverviewPolicy;
 import org.geotools.util.Utilities;
 
 /**
- * A class to handle overviews resolution levels. It stores overviews resolution levels information and suggests the level to be used depending on the
+ * A class to handle overviews resolution levels. It stores overviews resolution levels 
+ * information and suggests the level to be used depending on the
  * current request and the {@link OverviewPolicy}.
- * 
+ *
  * @author Simone Giannecchini, GeoSolutions SAS
  * @author Daniele Romagnoli, GeoSolutions SAS
  */
@@ -37,14 +38,16 @@ final class OverviewsController {
 
     /**
      * Constructor.
-     * 
-     * @param highestRes The resolution values for the finest level, <b>This is treated as level 0.</b>
-     * @param numberOfOverviews number of overview levels.
-     * @param overviewsResolution resolutions for the various levels. <b>Implicitly, the index of the resolution is the index of the corresponding
-     *        level.</b>
+     *
+     * @param highestRes          The resolution values for the finest level, <b>This is treated 
+     *                            as level 0.</b>
+     * @param numberOfOverviews   number of overview levels.
+     * @param overviewsResolution resolutions for the various levels. <b>Implicitly, the index of
+     *                           the resolution is the index of the corresponding
+     *                            level.</b>
      */
     public OverviewsController(final double[] highestRes, final int numberOfOverviews,
-            final double[][] overviewsResolution) {
+                               final double[][] overviewsResolution) {
 
         // notice that we assume what follows:
         // -highest resolution image is at level 0.
@@ -63,8 +66,9 @@ final class OverviewsController {
     }
 
     /**
-     * Given a specified {@link OverviewPolicy} and a {@link RasterLayerRequest}, suggest the proper overview level index.
-     * 
+     * Given a specified {@link OverviewPolicy} and a {@link RasterLayerRequest}, suggest the 
+     * proper overview level index.
+     *
      * @param policy
      * @param request
      * @return the OverviewLevel index
@@ -163,7 +167,7 @@ final class OverviewsController {
 
     /**
      * Simple support class for sorting overview resolutions
-     * 
+     *
      * @author Andrea Aime
      * @author Simone Giannecchini, GeoSolutions.
      * @since 2.5
@@ -179,14 +183,13 @@ final class OverviewsController {
         int imageChoice;
 
         /**
-         * 
          * @param scaleFactor
          * @param resolutionX
          * @param resolutionY
          * @param imageChoice
          */
         public OverviewLevel(final double scaleFactor, final double resolutionX,
-                final double resolutionY, final int imageChoice) {
+                             final double resolutionY, final int imageChoice) {
             this.scaleFactor = scaleFactor;
             this.resolutionX = resolutionX;
             this.resolutionY = resolutionY;

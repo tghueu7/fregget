@@ -27,8 +27,6 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GML2ParsingUtilsTest extends TestCase {

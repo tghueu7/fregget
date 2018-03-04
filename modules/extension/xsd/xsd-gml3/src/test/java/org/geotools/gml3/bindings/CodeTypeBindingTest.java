@@ -23,8 +23,6 @@ import org.opengis.feature.ComplexAttribute;
 import org.w3c.dom.Document;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class CodeTypeBindingTest extends ComplexAttributeTestSupport {

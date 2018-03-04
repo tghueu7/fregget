@@ -53,7 +53,7 @@ public class FunctionParseTest {
     }
 
     // ---- ZOOM FUNCTIONS ---------------------------------------------------------
-    
+
     /**
      * Verify that a linear color zoom function can be parsed correctly.
      */
@@ -68,7 +68,7 @@ public class FunctionParseTest {
         assertNull(fn.getType());
         // But the default fallback function type for color returns is 'exponential':
         assertEquals(MBFunction.FunctionType.EXPONENTIAL, fn.getTypeWithDefault(Color.class));
-        
+
         assertEquals(EnumSet.of(MBFunction.FunctionCategory.ZOOM), fn.category());
         assertEquals(1, fn.getBase().intValue());
         assertNull(fn.getProperty());
@@ -85,12 +85,12 @@ public class FunctionParseTest {
         Optional<JSONObject> o = traverse(layer, JSONObject.class, "paint", "line-color");
         JSONObject j = o.get();
         MBFunction fn = new MBFunction(j);
-        
+
         // The function type is not specified in the JSON, so getType should return null.
         assertNull(fn.getType());
         // But the default fallback function type for color returns is 'exponential':
         assertEquals(MBFunction.FunctionType.EXPONENTIAL, fn.getTypeWithDefault(Color.class));
-        
+
         assertEquals(EnumSet.of(MBFunction.FunctionCategory.ZOOM), fn.category());
         assertEquals(1.75, fn.getBase().doubleValue(), .00001);
         assertNull(fn.getProperty());
@@ -107,12 +107,12 @@ public class FunctionParseTest {
         Optional<JSONObject> o = traverse(layer, JSONObject.class, "paint", "circle-radius");
         JSONObject j = o.get();
         MBFunction fn = new MBFunction(j);
-        
+
         // The function type is not specified in the JSON, so getType should return null.
         assertNull(fn.getType());
         // But the default fallback function type for number returns is 'exponential':
         assertEquals(MBFunction.FunctionType.EXPONENTIAL, fn.getTypeWithDefault(Number.class));
-        
+
         assertEquals(EnumSet.of(MBFunction.FunctionCategory.ZOOM), fn.category());
         assertEquals(1.5, fn.getBase().doubleValue(), .00001);
         assertNull(fn.getProperty());
@@ -121,7 +121,7 @@ public class FunctionParseTest {
     }
 
     // ---- PROPERTY AND ZOOM FUNCTIONS ---------------------------------------------------------
-    
+
     /**
      * Verify that a linear zoom-and-property function can be parsed correctly.
      */
@@ -131,12 +131,12 @@ public class FunctionParseTest {
         Optional<JSONObject> o = traverse(layer, JSONObject.class, "paint", "circle-radius");
         JSONObject j = o.get();
         MBFunction fn = new MBFunction(j);
-        
+
         // The function type is not specified in the JSON, so getType should return null.
         assertNull(fn.getType());
         // But the default fallback function type for number returns is 'exponential':
         assertEquals(MBFunction.FunctionType.EXPONENTIAL, fn.getTypeWithDefault(Number.class));
-        
+
         assertEquals(
                 EnumSet.of(MBFunction.FunctionCategory.PROPERTY, MBFunction.FunctionCategory.ZOOM),
                 fn.category());
@@ -144,9 +144,9 @@ public class FunctionParseTest {
         assertNotNull(fn.getStops());
         assertEquals(4, fn.getStops().size());
     }
-    
+
     // ---- PROPERTY FUNCTIONS ---------------------------------------------------------
-    
+
 
     /**
      * Verify that a linear property function can be parsed correctly.
@@ -157,18 +157,18 @@ public class FunctionParseTest {
         Optional<JSONObject> o = traverse(layer, JSONObject.class, "paint", "circle-color");
         JSONObject j = o.get();
         MBFunction fn = new MBFunction(j);
-        
+
         // The function type is not specified in the JSON, so getType should return null.
         assertNull(fn.getType());
         // But the default fallback function type for color returns is 'exponential':
         assertEquals(MBFunction.FunctionType.EXPONENTIAL, fn.getTypeWithDefault(Color.class));
-        
+
         assertEquals(EnumSet.of(MBFunction.FunctionCategory.PROPERTY), fn.category());
         assertEquals("temperature", fn.getProperty());
         assertNotNull(fn.getStops());
         assertEquals(2, fn.getStops().size());
     }
-    
+
     /**
      * Verify that a categorical property functions can be parsed correctly.
      */
@@ -186,7 +186,7 @@ public class FunctionParseTest {
         assertNotNull(fn.getStops());
         assertEquals(5, fn.getStops().size());
     }
-    
+
     /**
      * Verify that an interval function for colours can be parsed.
      */
@@ -202,8 +202,9 @@ public class FunctionParseTest {
                 contains(-273.15, "#4488FF"),
                 contains(10.0, "#00FF00"),
                 contains(30.0, "#FF8800")
-            )));
+        )));
     }
+
     /**
      * Verify that an interval function for number can be parsed.
      */
@@ -220,17 +221,20 @@ public class FunctionParseTest {
                 contains(2L, 5L),
                 contains(5L, 10L),
                 contains(10L, 20L)
-            )));
+        )));
     }
+
     /**
-     * Traverse a nested map using the array of strings, and cast the result to the provided class, or return {@link Optional#empty()}.
+     * Traverse a nested map using the array of strings, and cast the result to the provided 
+     * class, or return {@link Optional#empty()}.
+     *
      * @param map
      * @param clazz expected type
-     * @param path used to access map
-     * @return result at the provided path, or {@link Optional#empty()}. 
+     * @param path  used to access map
+     * @return result at the provided path, or {@link Optional#empty()}.
      */
     private <T> Optional<T> traverse(JSONObject map, Class<T> clazz,
-            String... path) {
+                                     String... path) {
         if (path == null || path.length == 0) {
             return Optional.empty();
         }

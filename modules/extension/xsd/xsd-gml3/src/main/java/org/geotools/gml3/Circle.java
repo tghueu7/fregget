@@ -38,8 +38,6 @@ import java.util.List;
  * Date: Oct 15, 2007
  *
  * @author Tom Acree
- *
- *
  * @source $URL$
  */
 public class Circle {
@@ -49,6 +47,7 @@ public class Circle {
     private PrecisionModel precisionModel = new PrecisionModel();
 
     // Constructors **********************************************************
+
     /**
      * Creates a circle whose center is at the origin and whose radius is 0.
      */
@@ -121,7 +120,7 @@ public class Circle {
      * @param y3
      */
     public Circle(double x1, double y1, double x2, double y2, double x3,
-            double y3) {
+                  double y3) {
         this(new Coordinate(x1, y1), new Coordinate(x2, y2), new Coordinate(x3,
                 y3));
     }
@@ -153,7 +152,7 @@ public class Circle {
      * @param p3 A point on the desired circle
      */
     private void initThreePointCircle(Coordinate p1, Coordinate p2,
-            Coordinate p3) {
+                                      Coordinate p3) {
         double a13, b13, c13;
         double a23, b23, c23;
         double x = 0., y = 0., rad = 0.;
@@ -214,10 +213,10 @@ public class Circle {
      * @param tolerence maximum distance between the center of the chord and the outer
      *                  edge of the circle
      * @return an ordered list of Coordinates representing a series of chords
-     *         approximating the arc.
+     * approximating the arc.
      */
     public static Coordinate[] linearizeArc(double x1, double y1, double x2,
-            double y2, double x3, double y3, double tolerence) {
+                                            double y2, double x3, double y3, double tolerence) {
         Coordinate p1 = new Coordinate(x1, y1);
         Coordinate p2 = new Coordinate(x2, y2);
         Coordinate p3 = new Coordinate(x3, y3);
@@ -237,10 +236,10 @@ public class Circle {
      * @param x3 x coordinate of point 3
      * @param y3 y coordinate of point 3
      * @return an ordered list of Coordinates representing a series of chords
-     *         approximating the arc.
+     * approximating the arc.
      */
     public static Coordinate[] linearizeArc(double x1, double y1, double x2,
-            double y2, double x3, double y3) {
+                                            double y2, double x3, double y3) {
         Coordinate p1 = new Coordinate(x1, y1);
         Coordinate p2 = new Coordinate(x2, y2);
         Coordinate p3 = new Coordinate(x3, y3);
@@ -261,10 +260,10 @@ public class Circle {
      * @param x3 x coordinate of point 3
      * @param y3 y coordinate of point 3
      * @return an ordered list of Coordinates representing a series of chords
-     *         approximating the arc.
+     * approximating the arc.
      */
     public static Coordinate[] linearizeCircle(double x1, double y1, double x2,
-            double y2, double x3, double y3) {
+                                               double y2, double x3, double y3) {
         Coordinate p1 = new Coordinate(x1, y1);
         Coordinate p2 = new Coordinate(x2, y2);
         Coordinate p3 = new Coordinate(x3, y3);
@@ -283,9 +282,10 @@ public class Circle {
      * @param tolerance maximum distance between the center of the chord and the outer
      *                  edge of the circle
      * @return an ordered list of Coordinates representing a series of chords
-     *         approximating the circle.
+     * approximating the circle.
      */
-    public static Coordinate[] linearizeCircle(Coordinate p1, Coordinate p2, Coordinate p3, double tolerance) {
+    public static Coordinate[] linearizeCircle(Coordinate p1, Coordinate p2, Coordinate p3, 
+                                               double tolerance) {
         Circle c = new Circle(p1, p2, p3);
         return c.linearizeArc(p1, p2, p1, tolerance);
     }
@@ -302,22 +302,23 @@ public class Circle {
      * @param tolerence maximum distance between the center of the chord and the outer
      *                  edge of the circle
      * @return an ordered list of Coordinates representing a series of chords
-     *         approximating the arc.
+     * approximating the arc.
      */
     public Coordinate[] linearizeArc(Coordinate p1, Coordinate p2,
-            Coordinate p3, double tolerence) {
+                                     Coordinate p3, double tolerence) {
         Arc arc = createArc(p1, p2, p3);
         List<Coordinate> result = linearizeInternal(null, arc, tolerence);
         return result.toArray(new Coordinate[result.size()]);
     }
 
     private List<Coordinate> linearizeInternal(List<Coordinate> coordinates,
-            Arc arc, double tolerence) {
+                                               Arc arc, double tolerence) {
         if (coordinates == null) {
             coordinates = new ArrayList<Coordinate>();
         }
         double arcHt = arc.getArcHeight();
-        if (Double.compare(arcHt, tolerence) <= 0 || Double.isNaN(arcHt) || Double.isInfinite(arcHt)) {
+        if (Double.compare(arcHt, tolerence) <= 0 || Double.isNaN(arcHt) || Double.isInfinite
+                (arcHt)) {
             int lastIndex = coordinates.size() - 1;
             Coordinate lastCoord = lastIndex >= 0 ? coordinates.get(lastIndex)
                     : null;
@@ -458,6 +459,7 @@ public class Circle {
             return TWO_PI - Math.abs(a2 - a1);
         }
     }
+
     private static final double TWO_PI = Math.PI * 2;
 
     public class Arc {

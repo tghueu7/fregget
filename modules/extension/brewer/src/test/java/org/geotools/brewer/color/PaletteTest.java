@@ -20,8 +20,6 @@ import junit.framework.TestCase;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class PaletteTest extends TestCase {

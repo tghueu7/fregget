@@ -29,10 +29,10 @@ import com.vividsolutions.jts.geom.Envelope;
 
 /**
  * The property expression evaluation context for stored query parameter mappings. To see how
- * these are mapped as properties in the expression, @see {@link ParameterCQLExpressionFilterFactoryImpl}.
- * 
- * @author Sampo Savolainen (Spatineo)
+ * these are mapped as properties in the expression, @see 
+ * {@link ParameterCQLExpressionFilterFactoryImpl}.
  *
+ * @author Sampo Savolainen (Spatineo)
  */
 public class ParameterMappingContext {
     // Set in constructor
@@ -43,8 +43,8 @@ public class ParameterMappingContext {
     // Cached
     private Envelope bbox;
 
-    public ParameterMappingContext(Filter filter, Map<String, String> viewParams, 
-            FeatureTypeInfo featureTypeInfo) {
+    public ParameterMappingContext(Filter filter, Map<String, String> viewParams,
+                                   FeatureTypeInfo featureTypeInfo) {
         this.filter = filter;
         if (viewParams == null) {
             viewParams = Collections.emptyMap();

@@ -63,7 +63,7 @@ import ucar.nc2.dataset.NetcdfDataset;
 /**
  * Unit test for testing Grib data.
  */
-public class GribTest extends Assert{
+public class GribTest extends Assert {
 
     private final static Double DELTA = 1E-9;
 
@@ -132,7 +132,7 @@ public class GribTest extends Assert{
 
     /**
      * Test if the Grib format is accepted by the NetCDF reader
-     * 
+     *
      * @throws IOException
      * @throws FileNotFoundException
      */
@@ -156,7 +156,7 @@ public class GribTest extends Assert{
 
     /**
      * Test if the Grib extension is supported by the NetCDF reader
-     * 
+     *
      * @throws IOException
      * @throws FileNotFoundException
      */
@@ -167,7 +167,7 @@ public class GribTest extends Assert{
         // Selection of the extensions used by the NetCDF driver
         List<String> extensions = driver.getFileExtensions();
         // Creation of a list of the grib extensions
-        List<String> possibleExt = Arrays.asList(new String[] { "grb", "grb2", "grib" });
+        List<String> possibleExt = Arrays.asList(new String[]{"grb", "grb2", "grib"});
         // Check if the extensions are contained
         Assert.assertTrue(extensions.containsAll(possibleExt));
 
@@ -178,10 +178,10 @@ public class GribTest extends Assert{
         List<String> formatNames = Arrays.asList(spi.getFormatNames());
         List<String> MIMETypes = Arrays.asList(spi.getMIMETypes());
         // Creation of similar lists containing the values for the grib format
-        List<String> gribSuffixes = Arrays.asList(new String[] { "grib", "grb", "grb2" });
-        List<String> gribFormatNames = Arrays.asList(new String[] { "grib", "grib2", "GRIB",
-                "GRIB2" });
-        List<String> gribMIMETypes = Arrays.asList(new String[] { "application/octet-stream" });
+        List<String> gribSuffixes = Arrays.asList(new String[]{"grib", "grb", "grb2"});
+        List<String> gribFormatNames = Arrays.asList(new String[]{"grib", "grib2", "GRIB",
+                "GRIB2"});
+        List<String> gribMIMETypes = Arrays.asList(new String[]{"application/octet-stream"});
         // Check if the grib informations are present
         Assert.assertTrue(suffixes.containsAll(gribSuffixes));
         Assert.assertTrue(formatNames.containsAll(gribFormatNames));
@@ -190,7 +190,7 @@ public class GribTest extends Assert{
 
     /**
      * Test on a Grib image.
-     * 
+     *
      * @throws DataSourceException
      * @throws MalformedURLException
      * @throws IOException
@@ -204,9 +204,10 @@ public class GribTest extends Assert{
     }
 
     /**
-     * Private method for checking if the selected point are nodata or not. This ensures that the images are flipped vertically only if needed. If the
+     * Private method for checking if the selected point are nodata or not. This ensures that the
+     * images are flipped vertically only if needed. If the
      * image is not correctly flipped then, validpoint and nodatapoint should be inverted.
-     * 
+     *
      * @param inputFile
      * @param validPoint
      * @param nodataPoint
@@ -259,7 +260,7 @@ public class GribTest extends Assert{
 
     /**
      * Test on a Grib image asking for a larger bounding box.
-     * 
+     *
      * @throws DataSourceException
      * @throws MalformedURLException
      * @throws IOException
@@ -303,7 +304,7 @@ public class GribTest extends Assert{
             GridEnvelope gridRange = reader.getOriginalGridRange(coverageName);
             gg.setValue(new GridGeometry2D(gridRange, newEnvelope));
 
-            GeneralParameterValue[] values = new GeneralParameterValue[] { gg };
+            GeneralParameterValue[] values = new GeneralParameterValue[]{gg};
             // Read with the larger BBOX
             GridCoverage2D grid = reader.read(coverageName, values);
             // Check if the result is not null
@@ -322,13 +323,13 @@ public class GribTest extends Assert{
 
     /**
      * Check that a GRIB2 file is interpreted as a rotated pole projection with expected parameters.
-     * 
-     * @param gribFileName name of the GRIB2 file
-     * @param expectedCentralMeridian expected central meridian of rotated pole projection
+     *
+     * @param gribFileName             name of the GRIB2 file
+     * @param expectedCentralMeridian  expected central meridian of rotated pole projection
      * @param expectedLatitudeOfOrigin expected latitude of origin of the rotated pole projection
      */
     private void checkRotatedPole(String gribFileName, double expectedCentralMeridian,
-            double expectedLatitudeOfOrigin) throws Exception {
+                                  double expectedLatitudeOfOrigin) throws Exception {
         File file = TestData.file(this, gribFileName);
         NetCDFReader reader = null;
         try {
@@ -360,7 +361,8 @@ public class GribTest extends Assert{
     }
 
     /**
-     * Test that an RAP native GRIB2 file with GDS template 32769 is interpreted as a {@link RotatedPole} projection with expected parameters.
+     * Test that an RAP native GRIB2 file with GDS template 32769 is interpreted as a 
+     * {@link RotatedPole} projection with expected parameters.
      */
     @Test
     public void testRapNativeRotatedPole() throws Exception {
@@ -368,7 +370,8 @@ public class GribTest extends Assert{
     }
 
     /**
-     * Test that a COSMO EU GRIB2 file with GDS template 1 is interpreted as a {@link RotatedPole} projection with expected parameters.
+     * Test that a COSMO EU GRIB2 file with GDS template 1 is interpreted as a 
+     * {@link RotatedPole} projection with expected parameters.
      */
     @Test
     public void testCosmoEuRotatedPole() throws Exception {

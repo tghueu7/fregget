@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -21,6 +21,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
+
 import org.geotools.metadata.iso.citation.Citations;
 import org.geotools.metadata.iso.extent.ExtentImpl;
 import org.geotools.metadata.iso.extent.TemporalExtentImpl;
@@ -29,7 +30,9 @@ import org.geotools.util.SimpleInternationalString;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
+
 import org.opengis.metadata.extent.Extent;
 import org.opengis.metadata.extent.TemporalExtent;
 import org.opengis.referencing.ReferenceIdentifier;
@@ -39,11 +42,7 @@ import org.opengis.util.InternationalString;
 
 
 /**
- *
  * @author Mehdi Sidhoum (Geomatys)
- *
- *
- *
  * @source $URL$
  */
 public class DefaultTemporalReferenceSystemTest {
@@ -133,7 +132,8 @@ public class DefaultTemporalReferenceSystemTest {
     @Test
     public void testSetName() {
         ReferenceIdentifier result = temporalReferenceSystem1.getName();
-        ((DefaultTemporalReferenceSystem) temporalReferenceSystem1).setName(new NamedIdentifier(Citations.CRS, "new name"));
+        ((DefaultTemporalReferenceSystem) temporalReferenceSystem1).setName(new NamedIdentifier
+                (Citations.CRS, "new name"));
         assertFalse(temporalReferenceSystem1.getName().equals(result));
     }
 
@@ -151,7 +151,8 @@ public class DefaultTemporalReferenceSystemTest {
         Collection<TemporalExtent> collection = new ArrayList<TemporalExtent>();
         collection.add(temporalExt);
         domainOfValidity.setTemporalElements(collection);
-        ((DefaultTemporalReferenceSystem) temporalReferenceSystem1).setDomainOfValidity(domainOfValidity);
+        ((DefaultTemporalReferenceSystem) temporalReferenceSystem1).setDomainOfValidity
+                (domainOfValidity);
         assertFalse(temporalReferenceSystem1.getDomainOfValidity().equals(result));
     }
 
@@ -168,8 +169,10 @@ public class DefaultTemporalReferenceSystemTest {
      */
     @Test
     public void testSetScope() {
-        InternationalString result = ((DefaultTemporalReferenceSystem) temporalReferenceSystem1).getScope();
-        assertEquals(((DefaultTemporalReferenceSystem) temporalReferenceSystem1).getScope(), result);
+        InternationalString result = ((DefaultTemporalReferenceSystem) temporalReferenceSystem1)
+                .getScope();
+        assertEquals(((DefaultTemporalReferenceSystem) temporalReferenceSystem1).getScope(), 
+                result);
     }
 
     /**

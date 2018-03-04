@@ -30,12 +30,9 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
  * grid elements.
  *
  * @author mbedward
- * @since 2.7
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.7
  */
 public class Hexagons {
 
@@ -45,9 +42,7 @@ public class Hexagons {
      * Calculates the area of a hexagon with the given side length.
      *
      * @param sideLen side length
-     *
      * @return the area
-     *
      * @throws IllegalArgumentException if {@code sideLen} is not greater than zero
      */
     public static double sideLengthToArea(double sideLen) {
@@ -61,9 +56,7 @@ public class Hexagons {
      * Calculates the side length of a hexagon with the given area.
      *
      * @param area the area
-     *
      * @return the side length
-     *
      * @throws IllegalArgumentException if {@code area} is not greater than zero
      */
     public static double areaToSideLength(double area) {
@@ -76,24 +69,18 @@ public class Hexagons {
     /**
      * Creates a new {@code Hexagon} object.
      *
-     * @param minX the min X ordinate of the bounding rectangle
-     *
-     * @param minY the min Y ordinate of the bounding rectangle
-     *
-     * @param sideLen the side length
-     *
+     * @param minX        the min X ordinate of the bounding rectangle
+     * @param minY        the min Y ordinate of the bounding rectangle
+     * @param sideLen     the side length
      * @param orientation either {@code Hexagon.Orientation.FLAT} or
-     *        {@code Hexagon.Orientation.ANGLED}
-     *
-     * @param crs the coordinate reference system (may be {@code null})
-     *
+     *                    {@code Hexagon.Orientation.ANGLED}
+     * @param crs         the coordinate reference system (may be {@code null})
      * @return a new {@code Hexagon} object
-     *
      * @throws IllegalArgumentException if {@code sideLen} is {@code <=} 0 or
-     *         if {@code orientation} is {@code null}
+     *                                  if {@code orientation} is {@code null}
      */
     public static Hexagon create(double minX, double minY, double sideLen,
-            HexagonOrientation orientation, CoordinateReferenceSystem crs) {
+                                 HexagonOrientation orientation, CoordinateReferenceSystem crs) {
         return new HexagonImpl(minX, minY, sideLen, orientation, crs);
     }
 
@@ -101,22 +88,17 @@ public class Hexagons {
      * Creates a new grid of tesselated hexagons within a bounding rectangle
      * with grid elements represented by simple (ie. undensified) polygons.
      *
-     * @param bounds the bounding rectangle
-     *
-     * @param sideLen hexagon side length
-     *
+     * @param bounds      the bounding rectangle
+     * @param sideLen     hexagon side length
      * @param orientation hexagon orientation
-     *
      * @param gridBuilder an instance of {@code GridFeatureBuilder}
-     *
      * @return a new grid
-     *
-     * @throws IllegalArgumentException
-     *         if bounds is null or empty; or
-     *         if sideLen is {@code <=} 0; or
-     *         if the {@code CoordinateReferenceSystems}
-     *         set for the bounds and the {@code GridFeatureBuilder} are both
-     *         non-null but different
+     * @throws IllegalArgumentException if bounds is null or empty; or
+     *                                  if sideLen is {@code <=} 0; or
+     *                                  if the {@code CoordinateReferenceSystems}
+     *                                  set for the bounds and the {@code GridFeatureBuilder} are
+     *                                  both
+     *                                  non-null but different
      */
     public static SimpleFeatureSource createGrid(
             ReferencedEnvelope bounds,
@@ -126,33 +108,27 @@ public class Hexagons {
 
         return createGrid(bounds, sideLen, -1, orientation, gridBuilder);
     }
-    
+
 
     /**
      * Creates a new grid of tesselated hexagons within a bounding rectangle
      * with grid elements represented by densified polygons (ie. additional
      * vertices added to each edge).
      *
-     * @param bounds the bounding rectangle
-     *
-     * @param sideLen hexagon side length
-     *
-     * @param vertexSpacing maximum distance between adjacent vertices in a grid
-     *        element; if {@code <= 0} or {@code >= min(width, height) / 2.0} it
-     *        is ignored and the polygons will not be densified
-     *
-     * @param orientation hexagon orientation
-     *
+     * @param bounds             the bounding rectangle
+     * @param sideLen            hexagon side length
+     * @param vertexSpacing      maximum distance between adjacent vertices in a grid
+     *                           element; if {@code <= 0} or {@code >= min(width, height) / 2.0} it
+     *                           is ignored and the polygons will not be densified
+     * @param orientation        hexagon orientation
      * @param gridFeatureBuilder an instance of {@code GridFeatureBuilder}
-     *
      * @return a new grid
-     *
-     * @throws IllegalArgumentException
-     *         if bounds is null or empty; or
-     *         if sideLen is {@code <=} 0; or
-     *         if the {@code CoordinateReferenceSystems}
-     *         set for the bounds and the {@code GridFeatureBuilder} are both
-     *         non-null but different
+     * @throws IllegalArgumentException if bounds is null or empty; or
+     *                                  if sideLen is {@code <=} 0; or
+     *                                  if the {@code CoordinateReferenceSystems}
+     *                                  set for the bounds and the {@code GridFeatureBuilder} are
+     *                                  both
+     *                                  non-null but different
      */
     public static SimpleFeatureSource createGrid(
             ReferencedEnvelope bounds,
@@ -160,7 +136,7 @@ public class Hexagons {
             double vertexSpacing,
             HexagonOrientation orientation,
             GridFeatureBuilder gridFeatureBuilder) {
-        
+
         if (bounds == null || bounds.isEmpty() || bounds.isNull()) {
             throw new IllegalArgumentException("bounds should not be null or empty");
         }
@@ -174,10 +150,12 @@ public class Hexagons {
         }
 
         CoordinateReferenceSystem boundsCRS = bounds.getCoordinateReferenceSystem();
-        CoordinateReferenceSystem builderCRS = gridFeatureBuilder.getType().getCoordinateReferenceSystem();
+        CoordinateReferenceSystem builderCRS = gridFeatureBuilder.getType()
+                .getCoordinateReferenceSystem();
         if (boundsCRS != null && builderCRS != null &&
                 !CRS.equalsIgnoreMetadata(boundsCRS, builderCRS)) {
-            throw new IllegalArgumentException("Different CRS set for bounds and the feature builder");
+            throw new IllegalArgumentException("Different CRS set for bounds and the feature " +
+                    "builder");
         }
 
         final ListFeatureCollection fc = new ListFeatureCollection(gridFeatureBuilder.getType());

@@ -27,7 +27,7 @@ import org.junit.Test;
 
 /**
  * This class is used for testing the parsing capabilities of the {@link XsDateTimeFormat} class.
- * 
+ *
  * @author Nicola Lagomarsini GeoSolutions
  */
 public class XsDateTimeFormatTest {
@@ -165,7 +165,7 @@ public class XsDateTimeFormatTest {
         assertEquals(sec, 0);
         assertEquals(millis, 0);
     }
-    
+
     @Test
     public void testWrongDateLenientIncompleteMins() throws ParseException {
         // Create the parser
@@ -196,7 +196,7 @@ public class XsDateTimeFormatTest {
         assertEquals(sec, 0);
         assertEquals(millis, 0);
     }
-    
+
     @Test
     public void testExtendedFractionalSeconds() throws ParseException {
         XsDateTimeFormat format = new XsDateTimeFormat();
@@ -225,7 +225,7 @@ public class XsDateTimeFormatTest {
         assertEquals(sec, 02);
         assertEquals(millis, 111);
     }
-   
+
     @Test
     public void testDefaultFormatDates() throws ParseException {
         XsDateTimeFormat format = new XsDateTimeFormat();
@@ -246,7 +246,7 @@ public class XsDateTimeFormatTest {
         int hours = cal.get(Calendar.HOUR_OF_DAY);
         int mins = cal.get(Calendar.MINUTE);
         int sec = cal.get(Calendar.SECOND);
-        
+
 
         // check
         assertEquals(year, 2017);
@@ -255,7 +255,7 @@ public class XsDateTimeFormatTest {
         assertEquals(hours, 13);
         assertEquals(mins, 13);
         assertEquals(sec, 14);
-        
+
         t = "Fri Oct 13 14:22:10 BST 2017";
         parseObject = format.parseObject(t, true);
         assertTrue(parseObject instanceof Calendar);
@@ -268,7 +268,7 @@ public class XsDateTimeFormatTest {
         hours = cal.get(Calendar.HOUR_OF_DAY);
         mins = cal.get(Calendar.MINUTE);
         sec = cal.get(Calendar.SECOND);
-        
+
 
         // check
         assertEquals(year, 2017);
@@ -277,7 +277,7 @@ public class XsDateTimeFormatTest {
         assertEquals(hours, 13);
         assertEquals(mins, 22);
         assertEquals(sec, 10);
-        
+
         t = "Sun Oct 1 4:22:10 BST 2017";
         parseObject = format.parseObject(t, true);
         assertTrue(parseObject instanceof Calendar);
@@ -290,7 +290,7 @@ public class XsDateTimeFormatTest {
         hours = cal.get(Calendar.HOUR_OF_DAY);
         mins = cal.get(Calendar.MINUTE);
         sec = cal.get(Calendar.SECOND);
-        
+
 
         // check
         assertEquals(year, 2017);

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -42,14 +42,13 @@ import org.geotools.renderer.label.LineInfo.LineComponent;
  * autowrap) and each line into horizonal components, {@link LineComponent}, that can be rendered
  * with a single font (each component might require a different font due to different scripts being
  * used in the labels)
- * 
- * @author Andrea Aime - GeoSolutions
  *
+ * @author Andrea Aime - GeoSolutions
  */
 class LabelSplitter {
 
     private static final String SINGLE_CHAR_STRING = " ";
-    
+
     /**
      * Splits a string on spaces between words, keeping the spaces attached to the
      */
@@ -67,7 +66,8 @@ class LabelSplitter {
             FontRenderContext frc = graphics.getFontRenderContext();
             TextLayout layout = new TextLayout(text, fonts[0], frc);
             LineInfo lineInfo = new LineInfo();
-            List<LineComponent> components = buildLineComponents(text, fonts[0], labelItem, graphics, layout);
+            List<LineComponent> components = buildLineComponents(text, fonts[0], labelItem, 
+                    graphics, layout);
             components.forEach(c -> lineInfo.add(c));
             return Collections.singletonList(lineInfo);
         }
@@ -87,7 +87,8 @@ class LabelSplitter {
                     graphics.setFont(range.font);
                     FontRenderContext frc = graphics.getFontRenderContext();
                     TextLayout layout = new TextLayout(range.text, range.font, frc);
-                    List<LineComponent> components = buildLineComponents(range.text, range.font, labelItem, graphics, layout);
+                    List<LineComponent> components = buildLineComponents(range.text, range.font, 
+                            labelItem, graphics, layout);
                     components.forEach(c -> lineInfo.add(c));
                 }
                 lines.add(lineInfo);
@@ -146,7 +147,8 @@ class LabelSplitter {
                     int lastLineRange = lineRanges.size() - 1;
                     int currentLineRange = 0;
                     for (FontRange range : lineRanges) {
-                        String extracted = lineText.substring(Math.max(prevPosition, range.startChar),
+                        String extracted = lineText.substring(Math.max(prevPosition, range
+                                        .startChar),
                                 Math.min(newPosition, range.endChar));
                         if (currentLineRange == 0 && currentLineRange == lastLineRange) {
                             // single string, remote trailing and leading
@@ -159,7 +161,8 @@ class LabelSplitter {
                             extracted = extracted.replaceAll("\\s+$", "");
                         }
                         currentLineRange++;
-                        List<LineComponent> components = buildLineComponents(extracted, range.font, labelItem, graphics, layout);
+                        List<LineComponent> components = buildLineComponents(extracted, range
+                                .font, labelItem, graphics, layout);
                         components.forEach(c -> lineInfo.add(c));
 
                     }
@@ -173,7 +176,8 @@ class LabelSplitter {
     }
 
     private List<LineComponent> buildLineComponents(String text, Font font,
-            LabelCacheItem labelItem, Graphics2D graphics, TextLayout layout) {
+                                                    LabelCacheItem labelItem, Graphics2D 
+                                                            graphics, TextLayout layout) {
         final double wordSpacing = labelItem.getWordSpacing();
         if (text.trim().indexOf(' ') == -1 || wordSpacing <= 0) {
             // no word spacing
@@ -210,7 +214,7 @@ class LabelSplitter {
     }
 
     private List<FontRange> getLineRanges(List<FontRange> ranges, int prevPosition,
-            int newPosition) {
+                                          int newPosition) {
         int start = -1;
         int end = ranges.size();
         for (int i = 0; i < ranges.size(); i++) {
@@ -251,7 +255,7 @@ class LabelSplitter {
 
     /**
      * Fix for GEOT-4789: a label line cannot be empty, to avoid exceptions in layout and measuring.
-     * 
+     *
      * @param line
      * @return
      */
@@ -264,13 +268,13 @@ class LabelSplitter {
 
     /**
      * Turns a string into the corresponding {@link GlyphVector}
-     * 
+     *
      * @param label
      * @param item
      * @return
      */
     GlyphVector layoutSentence(String label, LabelCacheItem item, Graphics2D graphics,
-            Font font) {
+                               Font font) {
         final char[] chars = label.toCharArray();
         final int length = label.length();
         if (Bidi.requiresBidi(chars, 0, length)) {
@@ -306,7 +310,7 @@ class LabelSplitter {
         int lastSupportedChar = 0;
         char[] chars = text.toCharArray();
         while (start < chars.length) {
-            for (int i = 0; i < fonts.length;) {
+            for (int i = 0; i < fonts.length; ) {
                 Font font = fonts[i];
                 int newPosition = font.canDisplayUpTo(chars, start, chars.length);
                 if (newPosition == -1) {
@@ -360,9 +364,8 @@ class LabelSplitter {
 
     /**
      * A range of characters that can be rendered with a single font
-     * 
-     * @author Andrea Aime - GeoSolutions
      *
+     * @author Andrea Aime - GeoSolutions
      */
     private static class FontRange {
         int startChar;
@@ -383,7 +386,7 @@ class LabelSplitter {
 
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see java.lang.Object#toString()
          */
         @Override

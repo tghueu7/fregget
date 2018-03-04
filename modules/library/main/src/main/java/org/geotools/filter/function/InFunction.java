@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -27,25 +27,22 @@ import java.util.List;
 /**
  * The function checks whether a candidate value is contained in an arbitrary long list
  * of user provided values.
- * 
+ * <p>
  * <p>
  * If the candidate value is found, the function returns <code>true</code>;
  * otherwise, it returns <code>false</code>.
  * </p>
- * 
- * @author Stefano Costa, GeoSolutions
- * 
- * 
- * 
- * @source $URL$
  *
+ * @author Stefano Costa, GeoSolutions
+ * @source $URL$
  */
 public class InFunction extends FunctionExpressionImpl {
 
     /**
-     * Returns true if the expression is a function in the "in" family, that is, "in", "in2", "in3", ...
+     * Returns true if the expression is a function in the "in" family, that is, "in", "in2", 
+     * "in3", ...
      *
-     * @param expression The expression to be tested 
+     * @param expression The expression to be tested
      */
     public static boolean isInFunction(Expression expression) {
         return expression instanceof InFunction
@@ -62,7 +59,8 @@ public class InFunction extends FunctionExpressionImpl {
 
     /**
      * Returns filter capabilities for all the "in" functions
-     * @return a {@link FilterCapabilities} with all the functions in the "in" family 
+     *
+     * @return a {@link FilterCapabilities} with all the functions in the "in" family
      */
     public static FilterCapabilities getInCapabilities() {
         FilterCapabilities caps = new FilterCapabilities();
@@ -76,7 +74,7 @@ public class InFunction extends FunctionExpressionImpl {
         caps.addType(FilterFunction_in8.class);
         caps.addType(FilterFunction_in9.class);
         caps.addType(FilterFunction_in10.class);
-        
+
         return caps;
     }
 
@@ -109,7 +107,7 @@ public class InFunction extends FunctionExpressionImpl {
             } else {
                 result = result || StaticGeometry.equalTo(candidate, value);
             }
-            
+
             if (result) {
                 break;
             }

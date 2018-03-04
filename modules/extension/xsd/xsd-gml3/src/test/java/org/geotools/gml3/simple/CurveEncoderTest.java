@@ -34,7 +34,7 @@ public class CurveEncoderTest extends GeometryEncoderTestSupport {
         // MLTestSupport.print(doc);
         assertEquals(1,
                 xpath.getMatchingNodes("//gml:Curve/gml:segments/gml:ArcString/gml:posList", doc)
-                .getLength());
+                        .getLength());
         assertEquals("circularArc3Points",
                 xpath.evaluate("//gml:Curve/gml:segments/gml:ArcString/@interpolation", doc));
         assertEquals("-10 0 -8 2 -6 0 -8 -2 -10 0",
@@ -46,7 +46,8 @@ public class CurveEncoderTest extends GeometryEncoderTestSupport {
     public void testEncodeCompound() throws Exception {
         CurveEncoder encoder = new CurveEncoder(gtEncoder, "gml", GML.NAMESPACE);
         Geometry geometry = new WKTReader2()
-                .read("COMPOUNDCURVE(CIRCULARSTRING(0 0, 2 0, 2 1, 2 3, 4 3),(4 3, 4 5, 1 4, 0 0))");
+                .read("COMPOUNDCURVE(CIRCULARSTRING(0 0, 2 0, 2 1, 2 3, 4 3),(4 3, 4 5, 1 4, 0 0)" +
+                        ")");
         Document doc = encode(encoder, geometry, "compound.3");
         // XMLTestSupport.print(doc);
         assertEquals(2, xpath.getMatchingNodes("//gml:Curve//gml:segments/*", doc).getLength());
@@ -61,8 +62,6 @@ public class CurveEncoderTest extends GeometryEncoderTestSupport {
         // geometry ids
         assertEquals("compound.3", xpath.evaluate("//gml:Curve/@gml:id", doc));
     }
-
-
 
 
 }

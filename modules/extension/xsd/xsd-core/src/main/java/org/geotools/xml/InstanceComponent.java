@@ -22,8 +22,6 @@ import org.eclipse.xsd.XSDTypeDefinition;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public interface InstanceComponent {

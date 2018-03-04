@@ -32,13 +32,10 @@ import org.opengis.util.RecordType;
 /**
  * Information about the value (or set of values) obtained from applying a data quality measure.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class QuantitativeResultImpl extends ResultImpl implements QuantitativeResult {
@@ -114,7 +111,7 @@ public class QuantitativeResultImpl extends ResultImpl implements QuantitativeRe
             records = null;
         } else {
             final Record[] data = new Record[newValues.length];
-            for (int i=0; i<newValues.length; i++) {
+            for (int i = 0; i < newValues.length; i++) {
                 data[i] = new SimpleRecord(newValues[i]);
             }
             records = Arrays.asList(data);
@@ -131,8 +128,10 @@ public class QuantitativeResultImpl extends ResultImpl implements QuantitativeRe
         private final java.util.Map<org.opengis.util.MemberName, Object> map;
 
         public SimpleRecord(final double value) {
-            map = java.util.Collections.singletonMap((org.opengis.util.MemberName) null, (Object) value);
+            map = java.util.Collections.singletonMap((org.opengis.util.MemberName) null, (Object)
+                    value);
         }
+
         public RecordType getRecordType() {
             throw new UnsupportedOperationException();
         }
@@ -166,7 +165,7 @@ public class QuantitativeResultImpl extends ResultImpl implements QuantitativeRe
     /**
      * Value type for reporting a data quality result, or {@code null} if none.
      */
-    public RecordType getValueType()  {
+    public RecordType getValueType() {
         return valueType;
     }
 
@@ -181,7 +180,7 @@ public class QuantitativeResultImpl extends ResultImpl implements QuantitativeRe
     /**
      * Value unit for reporting a data quality result, or {@code null} if none.
      */
-    public Unit getValueUnit()  {
+    public Unit getValueUnit() {
         return valueUnit;
     }
 
@@ -196,7 +195,7 @@ public class QuantitativeResultImpl extends ResultImpl implements QuantitativeRe
     /**
      * Statistical method used to determine the value, or {@code null} if none.
      */
-    public InternationalString getErrorStatistic()  {
+    public InternationalString getErrorStatistic() {
         return errorStatistic;
     }
 

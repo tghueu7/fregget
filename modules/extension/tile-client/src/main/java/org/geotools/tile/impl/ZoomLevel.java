@@ -19,7 +19,7 @@ package org.geotools.tile.impl;
 
 /**
  * ZoomLevel is a class in dire need of documentation.
- * 
+ *
  * @author Tobias Sauerwein
  * @since 12
  */

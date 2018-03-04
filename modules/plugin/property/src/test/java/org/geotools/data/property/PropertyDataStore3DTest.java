@@ -72,7 +72,8 @@ public class PropertyDataStore3DTest {
         writer.write("_=name:String,geom:Geometry:srid=7415");
         writer.newLine();
         writer.write(
-                "full3d.poly=poly|POLYGON((94000 471000 12, 94001 471000 12, 94001 471001 12, 94000 471001 12, 94000 471000 12))");
+                "full3d.poly=poly|POLYGON((94000 471000 12, 94001 471000 12, 94001 471001 12, " +
+                        "94000 471001 12, 94000 471000 12))");
         writer.newLine();
         writer.write("full3d.point=point|POINT(94330 471816 16)");
         writer.newLine();
@@ -114,7 +115,7 @@ public class PropertyDataStore3DTest {
         SimpleFeatureStore fs = (SimpleFeatureStore) store.getFeatureSource("full3d");
         final String featureId = "full3d.newPoint";
         SimpleFeature feature = SimpleFeatureBuilder.build(fs.getSchema(),
-                new Object[] { "New Point", new WKTReader().read("POINT(1 2 3)") }, featureId);
+                new Object[]{"New Point", new WKTReader().read("POINT(1 2 3)")}, featureId);
         List<FeatureId> ids = fs.addFeatures(DataUtilities.collection(feature));
         assertEquals(1, ids.size());
 
@@ -157,9 +158,10 @@ public class PropertyDataStore3DTest {
         SimpleFeatureStore fs = (SimpleFeatureStore) store.getFeatureSource("full3d");
         final String featureId = "full3d.newPolygon";
         SimpleFeature feature = SimpleFeatureBuilder.build(fs.getSchema(),
-                new Object[] { "New Polygon",
+                new Object[]{"New Polygon",
                         new WKTReader()
-                                .read("POLYGON((94000 471000 16, 94001 471000 16, 94001 471001 16, 94000 471001 16, 94000 471000 16))") },
+                                .read("POLYGON((94000 471000 16, 94001 471000 16, 94001 471001 " +
+                                "16, 94000 471001 16, 94000 471000 16))")},
                 featureId);
         List<FeatureId> ids = fs.addFeatures(DataUtilities.collection(feature));
         assertEquals(1, ids.size());
@@ -177,7 +179,8 @@ public class PropertyDataStore3DTest {
         SimpleFeatureStore fs = (SimpleFeatureStore) store.getFeatureSource("full3d");
         fs.modifyFeatures("geom",
                 new WKTReader()
-                        .read("POLYGON((94000 471000 16, 94001 471000 16, 94001 471001 16, 94000 471001 16, 94000 471000 16))"),
+                        .read("POLYGON((94000 471000 16, 94001 471000 16, 94001 471001 16, 94000 " +
+                                "471001 16, 94000 471000 16))"),
                 newIdFilter("full3d.poly"));
 
         // read back and check
@@ -198,16 +201,16 @@ public class PropertyDataStore3DTest {
         getOneFeature("full3d.point");
         assertEquals(2, fs.getCount(Query.ALL));
     }
-    
+
     @Test
     public void testInsert3DLine() throws Exception {
         // write out new feature
         SimpleFeatureStore fs = (SimpleFeatureStore) store.getFeatureSource("full3d");
         final String featureId = "full3d.newLine";
         SimpleFeature feature = SimpleFeatureBuilder.build(fs.getSchema(),
-                new Object[] { "New Polygon",
+                new Object[]{"New Polygon",
                         new WKTReader()
-                                .read("LINESTRING(94330 471816 30, 194319 471814 30)") },
+                                .read("LINESTRING(94330 471816 30, 194319 471814 30)")},
                 featureId);
         List<FeatureId> ids = fs.addFeatures(DataUtilities.collection(feature));
         assertEquals(1, ids.size());
@@ -246,7 +249,7 @@ public class PropertyDataStore3DTest {
         getOneFeature("full3d.point");
         assertEquals(2, fs.getCount(Query.ALL));
     }
-    
+
     @Test
     public void testBounds() throws Exception {
         ContentFeatureSource fs = store.getFeatureSource("full3d");
@@ -259,7 +262,7 @@ public class PropertyDataStore3DTest {
         assertEquals(12, bounds.getMinZ(), 0d);
         assertEquals(16, bounds.getMaxZ(), 0d);
     }
-    
+
     @Test
     public void testEmptyBounds() throws Exception {
         ContentFeatureSource fs = store.getFeatureSource("full3d");

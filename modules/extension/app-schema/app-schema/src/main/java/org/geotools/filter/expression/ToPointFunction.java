@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2009-2011, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -50,12 +50,8 @@ import com.vividsolutions.jts.geom.PrecisionModel;
  * <li>Expression: name of column pointing to second double value
  * <li>Expression: expression of gml:id (optional)
  * </ol>
- * 
+ *
  * @author Rini Angreani (CSIRO Earth Science and Resource Engineering)
- *
- *
- *
- *
  * @source $URL$
  */
 public class ToPointFunction implements Function {
@@ -63,12 +59,13 @@ public class ToPointFunction implements Function {
     private final List<Expression> parameters;
 
     private final Literal fallback;
-    
-    private static final String USAGE = "Usage: toPoint('SRS_NAME'(optional), srsName(optional), point 1, point 2, gml:id(optional))";
-    
+
+    private static final String USAGE = "Usage: toPoint('SRS_NAME'(optional), srsName(optional), " +
+            "point 1, point 2, gml:id(optional))";
+
     public static final FunctionName NAME = new FunctionNameImpl("toPoint",
             FunctionNameImpl.parameter("return", Point.class), FunctionNameImpl.parameter(
-                    "parameter", Object.class, 2, 5));
+            "parameter", Object.class, 2, 5));
 
     private static FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
 
@@ -86,9 +83,11 @@ public class ToPointFunction implements Function {
     public String getName() {
         return NAME.getName();
     }
+
     public FunctionName getFunctionName() {
         return NAME;
     }
+
     public List<Expression> getParameters() {
         return Collections.unmodifiableList(parameters);
     }
@@ -131,7 +130,7 @@ public class ToPointFunction implements Function {
             GeometryFactory fac = new GeometryFactory(new PrecisionModel());
             point = fac.createPoint(new Coordinate(
                     parameters.get(2).evaluate(object, Double.class), parameters.get(3).evaluate(
-                            object, Double.class)));
+                    object, Double.class)));
             // set attributes
             String gmlId = null;
             if (parameters.size() == 5) {
@@ -162,15 +161,11 @@ public class ToPointFunction implements Function {
     /**
      * Set point attributes into its user data to be encoded in Geoserver: gml:id, srsName,
      * srsDimension, axisLabels and uomLabels.
-     * 
-     * @param point
-     *            The point object
-     * @param crs
-     *            Coordinate System object
-     * @param srsName
-     *            srs name
-     * @param gmlId
-     *            gml:id value
+     *
+     * @param point   The point object
+     * @param crs     Coordinate System object
+     * @param srsName srs name
+     * @param gmlId   gml:id value
      */
     private void setUserData(Point geom, CoordinateReferenceSystem crs, String gmlId) {
         Map<Object, Object> userData = new HashMap<Object, Object>();

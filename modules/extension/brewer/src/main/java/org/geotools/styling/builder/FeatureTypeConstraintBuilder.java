@@ -25,8 +25,6 @@ import org.geotools.styling.FeatureTypeConstraint;
 import org.opengis.filter.Filter;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class FeatureTypeConstraintBuilder extends AbstractSLDBuilder<FeatureTypeConstraint> {
@@ -105,7 +103,8 @@ public class FeatureTypeConstraintBuilder extends AbstractSLDBuilder<FeatureType
 
     @Override
     protected void buildSLDInternal(StyledLayerDescriptorBuilder sb) {
-        throw new UnsupportedOperationException("Can't build a SLD out of a feature type contraint");
+        throw new UnsupportedOperationException("Can't build a SLD out of a feature type " +
+                "contraint");
     }
 
 }

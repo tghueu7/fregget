@@ -19,8 +19,10 @@ package org.geotools.sld.bindings;
 import org.picocontainer.MutablePicoContainer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 import java.util.List;
 import javax.xml.namespace.QName;
+
 import org.geotools.styling.FeatureTypeConstraint;
 import org.geotools.styling.LayerFeatureConstraints;
 import org.geotools.styling.StyleFactory;
@@ -29,9 +31,9 @@ import org.geotools.xml.*;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:LayerFeatureConstraints.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="LayerFeatureConstraints"&gt;
  *      &lt;xsd:annotation&gt;
@@ -51,9 +53,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDLayerFeatureConstraintsBinding extends AbstractComplexBinding {
@@ -106,7 +105,7 @@ public class SLDLayerFeatureConstraintsBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         List ftc = node.getChildValues("FeatureTypeConstraint");
 
         return styleFactory.createLayerFeatureConstraints((FeatureTypeConstraint[]) ftc.toArray(

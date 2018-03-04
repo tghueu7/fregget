@@ -4,7 +4,7 @@
  *
  *    (C) 2016 Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2016 Boundless Spatial
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -29,9 +29,8 @@ import org.yaml.snakeyaml.events.SequenceStartEvent;
  * Validator for Tuples
  * <p>
  * This Validator is stateful, reset it before re-using it.
- * 
- * @author Kevin Smith, Boundless
  *
+ * @author Kevin Smith, Boundless
  */
 public class TupleValidator extends StatefulValidator {
 
@@ -79,19 +78,19 @@ public class TupleValidator extends StatefulValidator {
     public void scalar(ScalarEvent evt, YsldValidateContext context) {
         String val = evt.getValue();
         switch (state) {
-        case STARTED:
-            try {
-                context.push(getSubValidators().get(valuesValidated));
+            case STARTED:
+                try {
+                    context.push(getSubValidators().get(valuesValidated));
 
-                context.peek().scalar(evt, context);
-            } catch (IndexOutOfBoundsException ex) {
-                // Do nothing, this will be detected when valuesValidated is too large.
-            }
-            valuesValidated++;
-            break;
-        default:
-            context.error(String.format("Unexpected scalar '%s'", val), evt.getStartMark());
-            break;
+                    context.peek().scalar(evt, context);
+                } catch (IndexOutOfBoundsException ex) {
+                    // Do nothing, this will be detected when valuesValidated is too large.
+                }
+                valuesValidated++;
+                break;
+            default:
+                context.error(String.format("Unexpected scalar '%s'", val), evt.getStartMark());
+                break;
         }
     }
 
@@ -103,7 +102,7 @@ public class TupleValidator extends StatefulValidator {
     void reset() {
         if (state == State.NEW || state == State.DONE) {
             state = State.NEW;
-            valuesValidated = 0; 
+            valuesValidated = 0;
         } else {
             throw new IllegalStateException(
                     "TupleValidator.reset() called in invalid state: " + state.toString());
@@ -114,19 +113,19 @@ public class TupleValidator extends StatefulValidator {
     @Override
     public void alias(AliasEvent evt, YsldValidateContext context) {
         switch (state) {
-        case NEW:
-            // Can't validate this so just move on.
-            state = State.DONE;
-            context.pop();
-            break;
-        case STARTED:
-            // Can't validate this so just move on.
-            valuesValidated++;
-            break;
-        default:
-            context.error(String.format("Unexpected alias '%s'", evt.getAnchor()),
-                    evt.getStartMark());
-            break;
+            case NEW:
+                // Can't validate this so just move on.
+                state = State.DONE;
+                context.pop();
+                break;
+            case STARTED:
+                // Can't validate this so just move on.
+                valuesValidated++;
+                break;
+            default:
+                context.error(String.format("Unexpected alias '%s'", evt.getAnchor()),
+                        evt.getStartMark());
+                break;
         }
     }
 

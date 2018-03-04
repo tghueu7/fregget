@@ -31,16 +31,16 @@ import org.opengis.coverage.grid.Format;
  * Implementation of the {@link Format} service provider interface for EHdr
  * files.
  *
- * @author Alexander Petkov, Fire Sciences Laboratory 
+ * @author Alexander Petkov, Fire Sciences Laboratory
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini (simboss), GeoSolutions
- * @since 2.5.x
- *
- *
  * @source $URL$
+ * @since 2.5.x
  */
 public final class EsriHdrFormatFactory implements GridFormatFactorySpi {
-    /** Logger. */
+    /**
+     * Logger.
+     */
     private final static Logger LOGGER = org.geotools.util.logging.Logging.getLogger(
             "org.geotools.coverageio.gdal.ehdr");
 
@@ -59,13 +59,13 @@ public final class EsriHdrFormatFactory implements GridFormatFactorySpi {
             available = new EsriHdrImageReaderSpi().isAvailable();
 
             if (LOGGER.isLoggable(Level.FINE)) {
-                if (available) 
+                if (available)
                     LOGGER.fine("EsriHdrFormatFactory is availaible.");
-                else 
+                else
                     LOGGER.fine("EsriHdrFormatFactory is not availaible.");
             }
         } catch (ClassNotFoundException cnf) {
-            if (LOGGER.isLoggable(Level.FINE)) 
+            if (LOGGER.isLoggable(Level.FINE))
                 LOGGER.fine("EsriHdrFormatFactory is not availaible.");
 
             available = false;

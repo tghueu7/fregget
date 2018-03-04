@@ -45,26 +45,24 @@ import org.geotools.xml.schema.Schema;
 import org.junit.Test;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class WMSSchemaTest extends TestCase {
-    
-    public void testSchema() throws URISyntaxException{
+
+    public void testSchema() throws URISyntaxException {
         Schema v1 = SchemaFactory.getInstance(new URI("http://www.opengis.net/wms"));
         assertNotNull(v1);
         Schema v2 = WMSSchema.getInstance();
         assertNotNull(v2);
-        assertEquals(v1,v2);
+        assertEquals(v1, v2);
     }
 
-	public void testGetCapabilities() throws Exception {
-		
-		File getCaps = TestData.file(this, "1.3.0Capabilities.xml");
+    public void testGetCapabilities() throws Exception {
+
+        File getCaps = TestData.file(this, "1.3.0Capabilities.xml");
         URL getCapsURL = getCaps.toURI().toURL();
 
-		Object object = DocumentFactory.getInstance(getCapsURL.openStream(), null, Level.WARNING);
+        Object object = DocumentFactory.getInstance(getCapsURL.openStream(), null, Level.WARNING);
 
         Schema schema = WMSSchema.getInstance();
         SchemaFactory.getInstance(WMSSchema.NAMESPACE);
@@ -77,13 +75,15 @@ public class WMSSchemaTest extends TestCase {
         assertEquals(capabilities.getService().getName(), "WMS");
         assertEquals(capabilities.getService().getTitle(), "World Map");
         assertEquals(capabilities.getService().get_abstract(), "None");
-        assertEquals(capabilities.getService().getOnlineResource(), new URL("http://www2.demis.nl"));
+        assertEquals(capabilities.getService().getOnlineResource(), new URL("http://www2.demis" +
+                ".nl"));
 
         assertEquals(capabilities.getService().getLayerLimit(), 40);
         assertEquals(capabilities.getService().getMaxWidth(), 2000);
         assertEquals(capabilities.getService().getMaxHeight(), 2000);
 
-        assertEquals(capabilities.getRequest().getGetCapabilities().getFormats().get(0), "text/xml");
+        assertEquals(capabilities.getRequest().getGetCapabilities().getFormats().get(0), 
+                "text/xml");
         assertEquals(capabilities.getRequest().getGetCapabilities().getGet(), new URL(
                 "http://www2.demis.nl/wms/wms.asp?wms=WorldMap&"));
         assertEquals(capabilities.getRequest().getGetCapabilities().getPost(), new URL(
@@ -102,7 +102,8 @@ public class WMSSchemaTest extends TestCase {
         assertEquals(capabilities.getRequest().getGetFeatureInfo().getFormats().get(0), "text/xml");
         assertEquals(capabilities.getRequest().getGetFeatureInfo().getFormats().get(1),
                 "text/plain");
-        assertEquals(capabilities.getRequest().getGetFeatureInfo().getFormats().get(2), "text/html");
+        assertEquals(capabilities.getRequest().getGetFeatureInfo().getFormats().get(2), 
+                "text/html");
         assertEquals(capabilities.getRequest().getGetFeatureInfo().getFormats().get(3), "text/swf");
         assertEquals(capabilities.getRequest().getGetFeatureInfo().getGet(), new URL(
                 "http://www2.demis.nl/wms/wms.asp?wms=WorldMap&"));
@@ -242,13 +243,13 @@ public class WMSSchemaTest extends TestCase {
         assertEquals(bbox.getMaxX(), 179.999420166016, 0.0);
         assertEquals(bbox.getMinY(), -62.9231796264648, 0.0);
         assertEquals(bbox.getMaxY(), 68.6906585693359, 0.0);
-	}
+    }
 
     public void testGetCapabilities110() throws Exception {
 
         File getCaps = TestData.file(this, "1.1.0Capabilities.xml");
         URL getCapsURL = getCaps.toURI().toURL();
-        Map<String,Object> hints = new HashMap<>();
+        Map<String, Object> hints = new HashMap<>();
         hints.put(DocumentHandler.DEFAULT_NAMESPACE_HINT_KEY, WMSSchema.getInstance());
         Object object = DocumentFactory.getInstance(getCapsURL.openStream(), hints, Level.WARNING);
 

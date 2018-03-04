@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2012, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -33,21 +33,21 @@ public class DefaultResourceLocatorTest extends TestCase {
         checkURL(locator.locateResource("file://blob.gif"));
         checkURL(locator.locateResource("file://./blob.gif"));
     }
-    
-    public void testPreserveURLQuery() throws Exception{
+
+    public void testPreserveURLQuery() throws Exception {
         DefaultResourceLocator locator = new DefaultResourceLocator();
         locator.setSourceUrl(getClass().getResource("test-data/blob.gif"));
-        
+
         // Confirm still able to resolve to a File
         URL url = locator.locateResource("blob.gif?query=parameter");
-        assertEquals("query=parameter",url.getQuery());
+        assertEquals("query=parameter", url.getQuery());
         File file = URLs.urlToFile(url);
-        assertTrue( file.exists() );
+        assertTrue(file.exists());
     }
 
     void checkURL(URL url) {
         File f = URLs.urlToFile(url);
         assertTrue(f.exists());
     }
-    
+
 }

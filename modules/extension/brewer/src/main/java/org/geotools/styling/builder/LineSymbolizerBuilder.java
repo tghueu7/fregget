@@ -24,8 +24,6 @@ import org.geotools.styling.Stroke;
 import org.opengis.filter.expression.Expression;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class LineSymbolizerBuilder extends SymbolizerBuilder<LineSymbolizer> {
@@ -137,7 +135,7 @@ public class LineSymbolizerBuilder extends SymbolizerBuilder<LineSymbolizer> {
         this.perpendicularOffset = perpendicularOffset;
         return this;
     }
-    
+
     public LineSymbolizerBuilder perpendicularOffset(double perpendicularOffset) {
         this.perpendicularOffset = literal(perpendicularOffset);
         return this;

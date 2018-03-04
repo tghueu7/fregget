@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2000-2008, Open Source Geospatial Foundation (OSGeo)
- *   
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -20,6 +20,7 @@
 package org.geotools.nature;
 
 // J2SE dependencies
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
@@ -36,19 +37,18 @@ import java.util.TimeZone;
  * important de noter que les intervalles de temps calculés par les méthodes de cette classe
  * sont des <strong>moyennes</strong>. Pour une année en particulier, l'intervalle de temps
  * d'un équinoxe vernale au prochain peut s'écarter de cette moyenne de plusieurs minutes.
- *
+ * <p>
  * <p>Les calculs de la longueur de l'année tropicale sont basés sur les travaux de Laskar (1986).
  * Les calculs de la longueur des mois synodiques sont basés sur les travaux de Chapront-Touze et
  * Chapront (1988).On peut lire plus de détails au sujet des calendrier terrestre au site
- * <a href="http://webexhibits.org/calendars/year-astronomy.html">http://webexhibits.org/calendars/year-astronomy.html</a> ainsi que
- * <a href="http://www.treasure-troves.com/astro/TropicalYear.html">http://www.treasure-troves.com/astro/TropicalYear.html</a>.</p>
+ * <a href="http://webexhibits.org/calendars/year-astronomy.html">http://webexhibits
+ * .org/calendars/year-astronomy.html</a> ainsi que
+ * <a href="http://www.treasure-troves.com/astro/TropicalYear.html">http://www.treasure-troves
+ * .com/astro/TropicalYear.html</a>.</p>
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public final class Calendar {
@@ -57,17 +57,17 @@ public final class Calendar {
      * utilisée pour convertir des intervalles de temps du Java en
      * nombre de jours.
      */
-    private static double MILLIS_IN_DAY = 1000*60*60*24;
+    private static double MILLIS_IN_DAY = 1000 * 60 * 60 * 24;
 
     /**
      * Jour julien correspondant à l'époch du Java (1er janvier 1970 à minuit).
      * Cette constante est utilisée pour convertir des dates du Java en jour
      * julien.
-     *
+     * <p>
      * La valeur {@link #julianDay}   du 1er janvier 2000 00:00 GMT est 2451544.5 jours.
      * La valeur {@link Date#getTime} du 1er janvier 2000 00:00 GMT est 10957 jours.
      */
-    private static double JULIAN_DAY_1970 = 2451544.5-10957;
+    private static double JULIAN_DAY_1970 = 2451544.5 - 10957;
 
     /**
      * Interdit la création de classes {@code Cycles} par l'utilisateur.
@@ -91,7 +91,7 @@ public final class Calendar {
      * @param time The date in milliseconds ellapsed since January 1st, 1970.
      */
     static double julianDay(final long time) {
-        return (time/MILLIS_IN_DAY) + JULIAN_DAY_1970;
+        return (time / MILLIS_IN_DAY) + JULIAN_DAY_1970;
     }
 
     /**
@@ -101,7 +101,7 @@ public final class Calendar {
      * et Chapront (1988) pour la longueur d'un mois synodique.
      */
     static double julianCentury(final Date time) {
-        return ((time.getTime()/MILLIS_IN_DAY) + (JULIAN_DAY_1970-2451545.0))/36525;
+        return ((time.getTime() / MILLIS_IN_DAY) + (JULIAN_DAY_1970 - 2451545.0)) / 36525;
     }
 
     /**
@@ -115,7 +115,7 @@ public final class Calendar {
      */
     public static double tropicalYearLength(final Date time) {
         final double T = julianCentury(time);
-        return 365.2421896698 + T*(-0.00000615359 + T*(-7.29E-10 + T*(2.64E-10)));
+        return 365.2421896698 + T * (-0.00000615359 + T * (-7.29E-10 + T * (2.64E-10)));
     }
 
     /**
@@ -125,14 +125,14 @@ public final class Calendar {
      * de plusieurs heures de cette moyenne.
      */
     public static double synodicMonthLength(final Date time) {
-        final double T=julianCentury(time);
-        return 29.5305888531 + T*(0.00000021621 + T*(-3.64E-10));
+        final double T = julianCentury(time);
+        return 29.5305888531 + T * (0.00000021621 + T * (-3.64E-10));
     }
 
     /**
      * Affiche la longueur de l'année tropicale et du mois synodique pour une date donnée.
      * Cette application peut être lancée avec la syntaxe suivante:
-     *
+     * <p>
      * <pre>Calendar <var>&lt;date&gt;</var></pre>
      *
      * où <var>date</var> est un argument optionel spécifiant la date (jour, mois et année)
@@ -140,11 +140,14 @@ public final class Calendar {
      * actuelles seront utilisées.
      */
     public static final void main(final String[] args) throws ParseException {
-        final DateFormat format=DateFormat.getDateInstance(DateFormat.SHORT);
+        final DateFormat format = DateFormat.getDateInstance(DateFormat.SHORT);
         format.setTimeZone(TimeZone.getTimeZone("UTC"));
-        final Date time=(args.length!=0) ? format.parse(args[0]) : new Date();
-        System.out.print("Date (UTC)   : "); System.out.println(format.format(time));
-        System.out.print("Tropical year: "); System.out.println(tropicalYearLength(time));
-        System.out.print("Synodic month: "); System.out.println(synodicMonthLength(time));
+        final Date time = (args.length != 0) ? format.parse(args[0]) : new Date();
+        System.out.print("Date (UTC)   : ");
+        System.out.println(format.format(time));
+        System.out.print("Tropical year: ");
+        System.out.println(tropicalYearLength(time));
+        System.out.print("Synodic month: ");
+        System.out.println(synodicMonthLength(time));
     }
 }

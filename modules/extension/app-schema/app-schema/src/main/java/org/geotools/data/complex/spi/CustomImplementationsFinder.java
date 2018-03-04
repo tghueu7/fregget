@@ -58,10 +58,13 @@ public final class CustomImplementationsFinder {
     public static NestedAttributeMapping find(AppSchemaDataAccessConfigurator configuration,
                                               Expression idExpression, Expression parentExpression,
                                               XPathUtil.StepList targetXPath, boolean isMultiValued,
-                                              Map<Name, Expression> clientProperties, Expression sourceElement,
-                                              XPathUtil.StepList sourcePath, NamespaceSupport namespaces) {
+                                              Map<Name, Expression> clientProperties, Expression 
+                                                      sourceElement,
+                                              XPathUtil.StepList sourcePath, NamespaceSupport 
+                                                      namespaces) {
         for (CustomMappingFactory factory : mappingsFactories) {
-            NestedAttributeMapping mapping = factory.createNestedAttributeMapping(configuration, idExpression,
+            NestedAttributeMapping mapping = factory.createNestedAttributeMapping(configuration, 
+                    idExpression,
                     parentExpression, targetXPath, isMultiValued, clientProperties,
                     sourceElement, sourcePath, namespaces);
             if (mapping != null) {
@@ -74,7 +77,8 @@ public final class CustomImplementationsFinder {
     public static Expression find(FeatureTypeMapping mappings, XPathUtil.StepList xpath,
                                   NestedAttributeMapping nestedMapping) {
         for (CustomAttributeExpressionFactory factory : attributesFactories) {
-            Expression attributeExpression = factory.createNestedAttributeExpression(mappings, xpath, nestedMapping);
+            Expression attributeExpression = factory.createNestedAttributeExpression(mappings, 
+                    xpath, nestedMapping);
             if (attributeExpression != null) {
                 return attributeExpression;
             }

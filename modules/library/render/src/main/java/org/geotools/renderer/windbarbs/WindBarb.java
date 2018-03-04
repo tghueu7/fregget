@@ -26,27 +26,31 @@ import java.util.logging.Logger;
 import org.geotools.util.Utilities;
 
 /**
- * A WindBarb object made of reference speed in knots, and related number of longBarbs (10 kts), shortBarbs (5 kts) and pennants (50 kts).
- * 
+ * A WindBarb object made of reference speed in knots, and related number of longBarbs (10 kts), 
+ * shortBarbs (5 kts) and pennants (50 kts).
+ *
  * @author Daniele Romagnoli, GeoSolutions SAS
  */
 class WindBarb {
 
-    /** The logger. */
+    /**
+     * The logger.
+     */
     private static final Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger(WindBarb.class);
 
     /**
-     * A WindBarbDefinition contains parameters used to build the WindBarb, such as the main vector length, the elements Spacing, the length of long
+     * A WindBarbDefinition contains parameters used to build the WindBarb, such as the main 
+     * vector length, the elements Spacing, the length of long
      * barbs...
-     * 
+     *
      * @author Daniele Romagnoli, GeoSolutions SAS
-     * 
      */
     static class WindBarbDefinition {
 
         public WindBarbDefinition(final int vectorLength, final int basePennantLength,
-                final int elementsSpacing, final int longBarbLength, final int zeroWindRadius) {
+                                  final int elementsSpacing, final int longBarbLength, final int 
+                                          zeroWindRadius) {
             // checks
             if (vectorLength <= 0) {
                 throw new IllegalArgumentException("Invalid vectorLength:" + vectorLength);
@@ -77,19 +81,29 @@ class WindBarb {
             this.zeroWindRadius = zeroWindRadius;
         }
 
-        /** The main vector length */
+        /**
+         * The main vector length
+         */
         int vectorLength;
 
-        /** The length of the base of the pennant (the triangle) */
+        /**
+         * The length of the base of the pennant (the triangle)
+         */
         int basePennantLength;
 
-        /** The distance between multiple barbs, and pennants */
+        /**
+         * The distance between multiple barbs, and pennants
+         */
         int elementsSpacing;
 
-        /** The length of a long barb */
+        /**
+         * The length of a long barb
+         */
         int longBarbLength;
 
-        /** The length of a short barb (is always half the length of a long barb) */
+        /**
+         * The length of a short barb (is always half the length of a long barb)
+         */
         int shortBarbLength;
 
         int zeroWindRadius;
@@ -178,7 +192,10 @@ class WindBarb {
 
     static int DEFAULT_ZERO_WIND_RADIUS = 5;
 
-    /** A {@link WindBarbDefinition} instance reporting structural values for a WindBarb (vector length, sizes, ...) */
+    /**
+     * A {@link WindBarbDefinition} instance reporting structural values for a WindBarb (vector 
+     * length, sizes, ...)
+     */
     WindBarbDefinition windBarbDefinition;
 
     static WindBarbDefinition DEFAULT_WINDBARB_DEFINITION = new WindBarbDefinition(
@@ -207,18 +224,18 @@ class WindBarb {
             if (knots > WindBarbsFactory.MAX_SPEED) {
                 if (LOGGER.isLoggable(Level.FINE)) {
                     LOGGER.fine("speed is exceeding MaxSpeed = " + WindBarbsFactory.MAX_SPEED + "."
-                            + "\nThe related WindBarb isn't in the cache") ;
+                            + "\nThe related WindBarb isn't in the cache");
                 }
             }
         }
         pennants = knots / 50;
         longBarbs = (knots - (pennants * 50)) / 10;
-        shortBarbs = (knots -(pennants * 50) - (longBarbs * 10)) / 5;
+        shortBarbs = (knots - (pennants * 50) - (longBarbs * 10)) / 5;
     }
 
     /**
      * Build a {@Shape} WindBarb
-     * 
+     *
      * @return
      */
     Shape build() {
@@ -232,7 +249,6 @@ class WindBarb {
 
     /**
      * @return
-     * 
      */
     private Shape buildStandardBarb() {
         int positionOnPath = -windBarbDefinition.vectorLength;
@@ -243,9 +259,11 @@ class WindBarb {
         // Initialize Barb
         if (knots < 5) {
             // let's use a circle for Calm
-            return new Ellipse2D.Float(-windBarbDefinition.zeroWindRadius / 2.0f, // the X coordinate of the upper-left corner of the specified
-                                                                                  // rectangular area
-                    -windBarbDefinition.zeroWindRadius / 2.0f, // the Y coordinate of the upper-left corner of the specified rectangular area
+            return new Ellipse2D.Float(-windBarbDefinition.zeroWindRadius / 2.0f, // the X 
+                    // coordinate of the upper-left corner of the specified
+                    // rectangular area
+                    -windBarbDefinition.zeroWindRadius / 2.0f, // the Y coordinate of the 
+                    // upper-left corner of the specified rectangular area
                     windBarbDefinition.zeroWindRadius, windBarbDefinition.zeroWindRadius);
         } else {
 
@@ -280,7 +298,7 @@ class WindBarb {
 
     /**
      * Build a {@Shape} WindBarb
-     * 
+     *
      * @return
      */
     Shape buildAbsentModule() {
@@ -312,7 +330,7 @@ class WindBarb {
 
     /**
      * Add short barbs to the shape
-     * 
+     *
      * @param path
      * @param positionOnPath
      * @return
@@ -330,7 +348,7 @@ class WindBarb {
 
     /**
      * Add long barbs to the shape
-     * 
+     *
      * @param path
      * @param positionOnPath
      * @return
@@ -356,7 +374,7 @@ class WindBarb {
 
     /**
      * add Pennants to the shape
-     * 
+     *
      * @param path
      * @param positionOnPath
      * @return

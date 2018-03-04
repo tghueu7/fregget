@@ -34,9 +34,9 @@ import com.vividsolutions.jts.geom.LinearRing;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:LinearRingType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="LinearRingType"&gt;
  *      &lt;annotation&gt;
@@ -62,9 +62,6 @@ import com.vividsolutions.jts.geom.LinearRing;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLLinearRingTypeBinding extends AbstractComplexBinding {
@@ -104,7 +101,7 @@ public class GMLLinearRingTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         List coordinates = node.getChildren("coord");
 
         if (!coordinates.isEmpty() && (coordinates.size() < 4)) {
@@ -116,7 +113,8 @@ public class GMLLinearRingTypeBinding extends AbstractComplexBinding {
             CoordinateSequence seq = (CoordinateSequence) cnode.getValue();
             int dimension = GMLUtil.getDimension(seq);
 
-            CoordinateSequence lineSeq = seq = JTS.createCS(csFactory, coordinates.size(), dimension);
+            CoordinateSequence lineSeq = seq = JTS.createCS(csFactory, coordinates.size(), 
+                    dimension);
 
             for (int i = 0; i < coordinates.size(); i++) {
                 cnode = (Node) coordinates.get(i);
@@ -141,7 +139,7 @@ public class GMLLinearRingTypeBinding extends AbstractComplexBinding {
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         LinearRing linearRing = (LinearRing) object;
 
         if (GML.coordinates.equals(name)) {

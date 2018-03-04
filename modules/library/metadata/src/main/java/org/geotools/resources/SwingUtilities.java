@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2001-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -45,21 +45,19 @@ import org.geotools.resources.i18n.VocabularyKeys;
 /**
  * A collection of utility methods for Swing.  All <code>show*</code> methods delegate
  * their work to the corresponding method in {@link JOptionPane}, with two differences:
- *
+ * <p>
  * <ul>
- *   <li>{@code SwingUtilities}'s method may be invoked from any thread. If they
- *       are invoked from a non-Swing thread, execution will be delegate to the Swing
- *       thread and the calling thread will block until completion.</li>
- *   <li>If a parent component is a {@link JDesktopPane}, dialogs will be rendered as
- *       internal frames instead of frames.</li>
+ * <li>{@code SwingUtilities}'s method may be invoked from any thread. If they
+ * are invoked from a non-Swing thread, execution will be delegate to the Swing
+ * thread and the calling thread will block until completion.</li>
+ * <li>If a parent component is a {@link JDesktopPane}, dialogs will be rendered as
+ * internal frames instead of frames.</li>
  * </ul>
  *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.0
  */
 public final class SwingUtilities {
     /**
@@ -71,31 +69,34 @@ public final class SwingUtilities {
 
     /**
      * Insert a Swing component into a frame. The kind of frame depends on the owner:
-     *
+     * <p>
      * <ul>
-     *   <li>If {@code owner} or one of its parent is a {@link JDesktopPane},
-     *       then {@code panel} is added into a {@link JInternalFrame}.</li>
-     *   <li>If {@code owner} or one of its parent is a {@link Frame} or a {@link Dialog},
-     *       then {@code panel} is added into a {@link JDialog}.</li>
-     *   <li>Otherwise, {@code panel} is added into a {@link JFrame}.</li>
+     * <li>If {@code owner} or one of its parent is a {@link JDesktopPane},
+     * then {@code panel} is added into a {@link JInternalFrame}.</li>
+     * <li>If {@code owner} or one of its parent is a {@link Frame} or a {@link Dialog},
+     * then {@code panel} is added into a {@link JDialog}.</li>
+     * <li>Otherwise, {@code panel} is added into a {@link JFrame}.</li>
      * </ul>
      *
-     * @param  owner The frame's owner, or {@code null} if none.
-     * @param  panel The panel to insert into a frame.
-     * @param  title The frame's title.
-     * @param  listener A listener to receives frame events.  If non-null, then this listener will
-     *         be registered to whatever kind of frame this method will constructs. In the special
-     *         case where this method constructs an {@linkplain JInternalFrame internal frame} and
-     *         the {@code listener} is not an instance of {@link javax.swing.event.InternalFrameListener},
-     *         then this method will wrap the {@code listener} into an {@code InternalFrameListener}.
+     * @param owner    The frame's owner, or {@code null} if none.
+     * @param panel    The panel to insert into a frame.
+     * @param title    The frame's title.
+     * @param listener A listener to receives frame events.  If non-null, then this listener will
+     *                 be registered to whatever kind of frame this method will constructs. In 
+     *                 the special
+     *                 case where this method constructs an 
+     *                 {@linkplain JInternalFrame internal frame} and
+     *                 the {@code listener} is not an instance of 
+     *                 {@link javax.swing.event.InternalFrameListener},
+     *                 then this method will wrap the {@code listener} into an {@code 
+     *                 InternalFrameListener}.
      * @return The frame. This frame is not initially visible. The method
-     *         {@code Component.setVisible(true)} must be invoked in order to show the frame.
+     * {@code Component.setVisible(true)} must be invoked in order to show the frame.
      */
     public static Component toFrame(Component owner,
-                                    final JComponent     panel,
-                                    final String         title,
-                                    final WindowListener listener)
-    {
+                                    final JComponent panel,
+                                    final String title,
+                                    final WindowListener listener) {
         while (owner != null) {
             if (owner == panel) {
                 throw new IllegalArgumentException();
@@ -163,15 +164,14 @@ public final class SwingUtilities {
      * Brings up a "Ok/Cancel" dialog with no icon. This method can be invoked
      * from any thread and blocks until the user click on "Ok" or "Cancel".
      *
-     * @param  owner  The parent component. Dialog will apears on top of this owner.
-     * @param  dialog The dialog content to show.
-     * @param  title  The title string for the dialog.
+     * @param owner  The parent component. Dialog will apears on top of this owner.
+     * @param dialog The dialog content to show.
+     * @param title  The title string for the dialog.
      * @return {@code true} if user clicked "Ok", {@code false} otherwise.
      */
     public static boolean showOptionDialog(final Component owner,
-                                           final Object   dialog,
-                                           final String    title)
-    {
+                                           final Object dialog,
+                                           final String title) {
         return showOptionDialog(owner, dialog, title, null);
     }
 
@@ -179,20 +179,19 @@ public final class SwingUtilities {
      * Brings up a "Ok/Cancel/Reset" dialog with no icon. This method can be invoked
      * from any thread and blocks until the user click on "Ok" or "Cancel".
      *
-     * @param  owner  The parent component. Dialog will apears on top of this owner.
-     * @param  dialog The dialog content to show.
-     * @param  title  The title string for the dialog.
-     * @param  reset  Action to execute when user press "Reset", or {@code null}
-     *                if there is no "Reset" button. If {@code reset} is an
-     *                instance of {@link Action}, the button label will be set
-     *                according the action's properties.
+     * @param owner  The parent component. Dialog will apears on top of this owner.
+     * @param dialog The dialog content to show.
+     * @param title  The title string for the dialog.
+     * @param reset  Action to execute when user press "Reset", or {@code null}
+     *               if there is no "Reset" button. If {@code reset} is an
+     *               instance of {@link Action}, the button label will be set
+     *               according the action's properties.
      * @return {@code true} if user clicked "Ok", {@code false} otherwise.
      */
-    public static boolean showOptionDialog(final Component      owner,
-                                           final Object        dialog,
-                                           final String         title,
-                                           final ActionListener reset)
-    {
+    public static boolean showOptionDialog(final Component owner,
+                                           final Object dialog,
+                                           final String title,
+                                           final ActionListener reset) {
         // Delegates to Swing thread if this method is invoked from an other thread.
         if (!EventQueue.isDispatchThread()) {
             final boolean result[] = new boolean[1];
@@ -204,30 +203,31 @@ public final class SwingUtilities {
             return result[0];
         }
         // Constructs the buttons bar.
-        Object[]    options = null;
+        Object[] options = null;
         Object initialValue = null;
         int okChoice = JOptionPane.OK_OPTION;
         if (reset != null) {
-            final Vocabulary resources = Vocabulary.getResources(owner!=null ? owner.getLocale() : null);
+            final Vocabulary resources = Vocabulary.getResources(owner != null ? owner.getLocale
+                    () : null);
             final JButton button;
             if (reset instanceof Action) {
-                button = new JButton((Action)reset);
+                button = new JButton((Action) reset);
             } else {
                 button = new JButton(resources.getString(VocabularyKeys.RESET));
                 button.addActionListener(reset);
             }
-            options = new Object[] {
-                resources.getString(VocabularyKeys.OK),
-                resources.getString(VocabularyKeys.CANCEL),
-                button
+            options = new Object[]{
+                    resources.getString(VocabularyKeys.OK),
+                    resources.getString(VocabularyKeys.CANCEL),
+                    button
             };
-            initialValue = options[okChoice=0];
+            initialValue = options[okChoice = 0];
         }
 
         // Brings ups the dialog box.
         final int choice;
-        if (JOptionPane.getDesktopPaneForComponent(owner)!=null) {
-            choice=JOptionPane.showInternalOptionDialog(
+        if (JOptionPane.getDesktopPaneForComponent(owner) != null) {
+            choice = JOptionPane.showInternalOptionDialog(
                     owner,                         // Composante parente
                     dialog,                        // Message
                     title,                         // Titre de la boîte de dialogue
@@ -237,7 +237,7 @@ public final class SwingUtilities {
                     options,                       // Liste des boutons
                     initialValue);                 // Bouton par défaut
         } else {
-            choice=JOptionPane.showOptionDialog(
+            choice = JOptionPane.showOptionDialog(
                     owner,                         // Composante parente
                     dialog,                        // Message
                     title,                         // Titre de la boîte de dialogue
@@ -247,28 +247,27 @@ public final class SwingUtilities {
                     options,                       // Liste des boutons
                     initialValue);                 // Bouton par défaut
         }
-        return choice==okChoice;
+        return choice == okChoice;
     }
 
     /**
      * Brings up a message dialog with a "Ok" button. This method can be invoked
      * from any thread and blocks until the user click on "Ok".
      *
-     * @param  owner   The parent component. Dialog will apears on top of this owner.
-     * @param  message The dialog content to show.
-     * @param  title   The title string for the dialog.
-     * @param  type    The message type
+     * @param owner   The parent component. Dialog will apears on top of this owner.
+     * @param message The dialog content to show.
+     * @param title   The title string for the dialog.
+     * @param type    The message type
      *                ({@link JOptionPane#ERROR_MESSAGE},
-     *                 {@link JOptionPane#INFORMATION_MESSAGE},
-     *                 {@link JOptionPane#WARNING_MESSAGE},
-     *                 {@link JOptionPane#QUESTION_MESSAGE} or
-     *                 {@link JOptionPane#PLAIN_MESSAGE}).
+     *                {@link JOptionPane#INFORMATION_MESSAGE},
+     *                {@link JOptionPane#WARNING_MESSAGE},
+     *                {@link JOptionPane#QUESTION_MESSAGE} or
+     *                {@link JOptionPane#PLAIN_MESSAGE}).
      */
     public static void showMessageDialog(final Component owner,
-                                         final Object  message,
-                                         final String    title,
-                                         final int        type)
-    {
+                                         final Object message,
+                                         final String title,
+                                         final int type) {
         if (!EventQueue.isDispatchThread()) {
             invokeAndWait(new Runnable() {
                 public void run() {
@@ -277,7 +276,7 @@ public final class SwingUtilities {
             });
             return;
         }
-        if (JOptionPane.getDesktopPaneForComponent(owner)!=null) {
+        if (JOptionPane.getDesktopPaneForComponent(owner) != null) {
             JOptionPane.showInternalMessageDialog(
                     owner,     // Composante parente
                     message,   // Message
@@ -296,48 +295,47 @@ public final class SwingUtilities {
      * Brings up a confirmation dialog with "Yes/No" buttons. This method can be
      * invoked from any thread and blocks until the user click on "Yes" or "No".
      *
-     * @param  owner   The parent component. Dialog will apears on top of this owner.
-     * @param  message The dialog content to show.
-     * @param  title   The title string for the dialog.
-     * @param  type    The message type
+     * @param owner   The parent component. Dialog will apears on top of this owner.
+     * @param message The dialog content to show.
+     * @param title   The title string for the dialog.
+     * @param type    The message type
      *                ({@link JOptionPane#ERROR_MESSAGE},
-     *                 {@link JOptionPane#INFORMATION_MESSAGE},
-     *                 {@link JOptionPane#WARNING_MESSAGE},
-     *                 {@link JOptionPane#QUESTION_MESSAGE} or
-     *                 {@link JOptionPane#PLAIN_MESSAGE}).
+     *                {@link JOptionPane#INFORMATION_MESSAGE},
+     *                {@link JOptionPane#WARNING_MESSAGE},
+     *                {@link JOptionPane#QUESTION_MESSAGE} or
+     *                {@link JOptionPane#PLAIN_MESSAGE}).
      * @return {@code true} if user clicked on "Yes", {@code false} otherwise.
      */
     public static boolean showConfirmDialog(final Component owner,
-                                            final Object  message,
-                                            final String    title,
-                                            final int        type)
-    {
+                                            final Object message,
+                                            final String title,
+                                            final int type) {
         if (!EventQueue.isDispatchThread()) {
             final boolean result[] = new boolean[1];
             invokeAndWait(new Runnable() {
                 public void run() {
-                    result[0]=showConfirmDialog(owner, message, title, type);
+                    result[0] = showConfirmDialog(owner, message, title, type);
                 }
             });
             return result[0];
         }
         final int choice;
-        if (JOptionPane.getDesktopPaneForComponent(owner)!=null) {
-            choice=JOptionPane.showInternalConfirmDialog(
+        if (JOptionPane.getDesktopPaneForComponent(owner) != null) {
+            choice = JOptionPane.showInternalConfirmDialog(
                     owner,                     // Composante parente
                     message,                   // Message
                     title,                     // Titre de la boîte de dialogue
                     JOptionPane.YES_NO_OPTION, // Boutons à faire apparaître
                     type);                     // Type du message
         } else {
-            choice=JOptionPane.showConfirmDialog(
+            choice = JOptionPane.showConfirmDialog(
                     owner,                     // Composante parente
                     message,                   // Message
                     title,                     // Titre de la boîte de dialogue
                     JOptionPane.YES_NO_OPTION, // Boutons à faire apparaître
                     type);                     // Type du message
         }
-        return choice==JOptionPane.YES_OPTION;
+        return choice == JOptionPane.YES_OPTION;
     }
 
     /**
@@ -350,19 +348,19 @@ public final class SwingUtilities {
      * @param text  Texte à placer dans l'étiquette.
      */
     public static JComponent getMultilineLabelFor(final JComponent owner, final String text) {
-        final JTextArea label=new JTextArea(text);
-        final Dimension size=owner.getPreferredSize();
-        size.height=label.getMaximumSize().height;
-        label.setMaximumSize  (size);
+        final JTextArea label = new JTextArea(text);
+        final Dimension size = owner.getPreferredSize();
+        size.height = label.getMaximumSize().height;
+        label.setMaximumSize(size);
         label.setWrapStyleWord(true);
-        label.setLineWrap     (true);
-        label.setEditable    (false);
-        label.setFocusable   (false);
-        label.setOpaque      (false);
-        label.setBorder       (null); // Certains L&F placent une bordure.
+        label.setLineWrap(true);
+        label.setEditable(false);
+        label.setFocusable(false);
+        label.setOpaque(false);
+        label.setBorder(null); // Certains L&F placent une bordure.
         LookAndFeel.installColorsAndFont(label, "Label.background",
-                                                "Label.foreground",
-                                                "Label.font");
+                "Label.foreground",
+                "Label.font");
         return label;
     }
 
@@ -393,7 +391,7 @@ public final class SwingUtilities {
             } catch (InterruptedException exception) {
                 // Someone don't want to let us sleep. Go back to work.
             } catch (InvocationTargetException target) {
-                final Throwable exception=target.getTargetException();
+                final Throwable exception = target.getTargetException();
                 if (exception instanceof RuntimeException) {
                     throw (RuntimeException) exception;
                 }

@@ -28,26 +28,26 @@ import org.geotools.data.efeature.impl.EFeatureIDFactoryImpl;
 /**
  * This class implements a void {@link EFeature#getID() ID} factory.
  * <p>
- * It is only used by {@link EFeatureContextHelper} to tell the {@link EFeatureContextImpl} 
- * to not automatically create IDs after {@link EObject}s are added to 
- * registered {@link EFeatureContext#eAdd(String, org.eclipse.emf.edit.domain.EditingDomain) domains}.
- * <p>  
+ * It is only used by {@link EFeatureContextHelper} to tell the {@link EFeatureContextImpl}
+ * to not automatically create IDs after {@link EObject}s are added to
+ * registered 
+ * {@link EFeatureContext#eAdd(String, org.eclipse.emf.edit.domain.EditingDomain) domains}.
+ * <p>
  * Any attempt to create or use IDs will throw and {@link UnsupportedOperationException}.
  * </p>
- * 
- * @see {@link #createID(EObject)} - will throw an {@link UnsupportedOperationException}
- * @see {@link #eCreateID(URI, EObject, EClass, EAttribute)} - will throw an {@link UnsupportedOperationException}
- * @see {@link #useID(EObject, String)} - will throw an {@link UnsupportedOperationException}
- * @see {@link #eUseID(URI, EObject, EAttribute, String, boolean)} - will throw an {@link UnsupportedOperationException}
- * 
- * @author kengu - 4. juni 2011
- * 
  *
+ * @author kengu - 4. juni 2011
  * @source $URL$
+ * @see {@link #createID(EObject)} - will throw an {@link UnsupportedOperationException}
+ * @see {@link #eCreateID(URI, EObject, EClass, EAttribute)} - will throw an 
+ * {@link UnsupportedOperationException}
+ * @see {@link #useID(EObject, String)} - will throw an {@link UnsupportedOperationException}
+ * @see {@link #eUseID(URI, EObject, EAttribute, String, boolean)} - will throw an 
+ * {@link UnsupportedOperationException}
  */
 public class EFeatureVoidIDFactory extends EFeatureIDFactoryImpl {
-    
-     @Override
+
+    @Override
     public String createID(EObject eObject) throws UnsupportedOperationException,
             IllegalStateException {
         throw new UnsupportedOperationException("ID creation not supported");
@@ -58,5 +58,5 @@ public class EFeatureVoidIDFactory extends EFeatureIDFactoryImpl {
             IllegalStateException {
         throw new UnsupportedOperationException("ID creation not supported");
     }
-    
+
 }

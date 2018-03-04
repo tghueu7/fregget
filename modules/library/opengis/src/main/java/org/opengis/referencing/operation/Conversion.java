@@ -4,13 +4,14 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.referencing.operation;
 
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.annotation.UML;
+
 import static org.opengis.annotation.Obligation.*;
 import static org.opengis.annotation.Specification.*;
 
@@ -22,16 +23,14 @@ import static org.opengis.annotation.Specification.*;
  * <p>
  * Note that some conversions have no parameters.
  *
- *
- *
+ * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract 
+ * specification 2.0</A>
  * @source $URL$
- * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract specification 2.0</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
- *
  * @see Transformation
+ * @since GeoAPI 1.0
  */
-@UML(identifier="CC_Conversion", specification=ISO_19111)
+@UML(identifier = "CC_Conversion", specification = ISO_19111)
 public interface Conversion extends Operation {
     /**
      * Returns the source CRS. Conversions may have a source CRS that
@@ -40,7 +39,7 @@ public interface Conversion extends Operation {
      *
      * @return The source CRS, or {@code null} if not available.
      */
-    @UML(identifier="sourceCRS", obligation=OPTIONAL, specification=ISO_19111)
+    @UML(identifier = "sourceCRS", obligation = OPTIONAL, specification = ISO_19111)
     CoordinateReferenceSystem getSourceCRS();
 
     /**
@@ -50,7 +49,7 @@ public interface Conversion extends Operation {
      *
      * @return The target CRS, or {@code null} if not available.
      */
-    @UML(identifier="targetCRS", obligation=OPTIONAL, specification=ISO_19111)
+    @UML(identifier = "targetCRS", obligation = OPTIONAL, specification = ISO_19111)
     CoordinateReferenceSystem getTargetCRS();
 
     /**
@@ -58,6 +57,6 @@ public interface Conversion extends Operation {
      *
      * @return Always {@code null}.
      */
-    @UML(identifier="operationVersion", obligation=CONDITIONAL, specification=ISO_19111)
+    @UML(identifier = "operationVersion", obligation = CONDITIONAL, specification = ISO_19111)
     String getOperationVersion();
 }

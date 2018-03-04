@@ -23,8 +23,6 @@ import org.geotools.xml.impl.BindingWalker.Visitor;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class BindingWalkerFactoryImpl implements BindingWalkerFactory {

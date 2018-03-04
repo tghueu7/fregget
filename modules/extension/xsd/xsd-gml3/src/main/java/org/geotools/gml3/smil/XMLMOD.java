@@ -20,8 +20,6 @@ import org.geotools.xml.XSD;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class XMLMOD extends XSD {

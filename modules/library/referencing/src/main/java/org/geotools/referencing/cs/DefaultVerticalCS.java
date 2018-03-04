@@ -35,26 +35,25 @@ import org.geotools.measure.Measure;
  * atmospheric pressure is the basis for the vertical coordinate system axis. An exact definition
  * is deliberately not provided as the complexities of the subject fall outside the scope of this
  * specification. A {@code VerticalCS} shall have one {@linkplain #getAxis axis}.
- *
+ * <p>
  * <TABLE CELLPADDING='6' BORDER='1'>
  * <TR BGCOLOR="#EEEEFF"><TH NOWRAP>Used with CRS type(s)</TH></TR>
  * <TR><TD>
- *   {@link org.geotools.referencing.crs.DefaultVerticalCRS    Vertical},
- *   {@link org.geotools.referencing.crs.DefaultEngineeringCRS Engineering}
+ * {@link org.geotools.referencing.crs.DefaultVerticalCRS    Vertical},
+ * {@link org.geotools.referencing.crs.DefaultEngineeringCRS Engineering}
  * </TD></TR></TABLE>
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class DefaultVerticalCS extends AbstractCS implements VerticalCS {
     /**
      * Serial number for interoperability with different versions.
      */
-    private static final long serialVersionUID = 1201155778896630499L;;
+    private static final long serialVersionUID = 1201155778896630499L;
+    ;
 
     /**
      * A one-dimensional vertical CS with
@@ -62,7 +61,7 @@ public class DefaultVerticalCS extends AbstractCS implements VerticalCS {
      * ellipsoidal height}</var> axis in metres.
      */
     public static DefaultVerticalCS ELLIPSOIDAL_HEIGHT = new DefaultVerticalCS(
-                    DefaultCoordinateSystemAxis.ELLIPSOIDAL_HEIGHT);
+            DefaultCoordinateSystemAxis.ELLIPSOIDAL_HEIGHT);
 
     /**
      * A one-dimensional vertical CS with
@@ -72,7 +71,7 @@ public class DefaultVerticalCS extends AbstractCS implements VerticalCS {
      * @since 2.5
      */
     public static DefaultVerticalCS GRAVITY_RELATED_HEIGHT = new DefaultVerticalCS(
-                    DefaultCoordinateSystemAxis.GRAVITY_RELATED_HEIGHT);
+            DefaultCoordinateSystemAxis.GRAVITY_RELATED_HEIGHT);
 
     /**
      * @deprecated Renamed as {@link #GRAVITY_RELATED_HEIGHT}.
@@ -86,7 +85,7 @@ public class DefaultVerticalCS extends AbstractCS implements VerticalCS {
      * axis in metres.
      */
     public static DefaultVerticalCS DEPTH = new DefaultVerticalCS(
-                    DefaultCoordinateSystemAxis.DEPTH);
+            DefaultCoordinateSystemAxis.DEPTH);
 
     /**
      * Constructs a new coordinate system with the same values than the specified one.
@@ -106,32 +105,33 @@ public class DefaultVerticalCS extends AbstractCS implements VerticalCS {
      * The inherited properties include the {@linkplain #getName name} and aliases.
      *
      * @param axis The axis.
-     *
      * @since 2.5
      */
     public DefaultVerticalCS(final CoordinateSystemAxis axis) {
-        super(getProperties(axis), new CoordinateSystemAxis[] {axis});
+        super(getProperties(axis), new CoordinateSystemAxis[]{axis});
     }
 
     /**
      * Constructs a coordinate system from a name.
      *
-     * @param name  The coordinate system name.
-     * @param axis  The axis.
+     * @param name The coordinate system name.
+     * @param axis The axis.
      */
     public DefaultVerticalCS(final String name, final CoordinateSystemAxis axis) {
-        super(name, new CoordinateSystemAxis[] {axis});
+        super(name, new CoordinateSystemAxis[]{axis});
     }
 
     /**
-     * Constructs a coordinate system from a set of properties. The properties map is given unchanged
-     * to the {@linkplain AbstractCS#AbstractCS(Map,CoordinateSystemAxis[]) super-class constructor}.
+     * Constructs a coordinate system from a set of properties. The properties map is given 
+     * unchanged
+     * to the 
+     * {@linkplain AbstractCS#AbstractCS(Map, CoordinateSystemAxis[]) super-class constructor}.
      *
      * @param properties Set of properties. Should contains at least {@code "name"}.
      * @param axis       The axis.
      */
-    public DefaultVerticalCS(final Map<String,?> properties, final CoordinateSystemAxis axis) {
-        super(properties, new CoordinateSystemAxis[] {axis});
+    public DefaultVerticalCS(final Map<String, ?> properties, final CoordinateSystemAxis axis) {
+        super(properties, new CoordinateSystemAxis[]{axis});
     }
 
     /**
@@ -147,15 +147,14 @@ public class DefaultVerticalCS extends AbstractCS implements VerticalCS {
     /**
      * Computes the distance between two points.
      *
-     * @param  coord1 Coordinates of the first point.
-     * @param  coord2 Coordinates of the second point.
+     * @param coord1 Coordinates of the first point.
+     * @param coord2 Coordinates of the second point.
      * @return The distance between {@code coord1} and {@code coord2}.
      * @throws MismatchedDimensionException if a coordinate doesn't have the expected dimension.
      */
     @Override
     public Measure distance(final double[] coord1, final double[] coord2)
-            throws MismatchedDimensionException
-    {
+            throws MismatchedDimensionException {
         ensureDimensionMatch("coord1", coord1);
         ensureDimensionMatch("coord2", coord2);
         return new Measure(Math.abs(coord1[0] - coord2[0]), getDistanceUnit());

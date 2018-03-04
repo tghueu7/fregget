@@ -22,6 +22,7 @@ import java.io.PrintWriter;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Locale;
+
 import org.geotools.io.TableWriter;
 import org.geotools.resources.Classes;
 import org.geotools.resources.Arguments;
@@ -35,18 +36,17 @@ import org.geotools.resources.i18n.ErrorKeys;
  * automatically recognized by this class:
  * <p>
  * <table>
- *   <tr><td>{@code -encoding} </td><td>&nbsp;Set the input and output encoding.</td></tr>
- *   <tr><td>{@code -help}     </td><td>&nbsp;Print the {@linkplain #help help} summary.</td></tr>
- *   <tr><td>{@code -locale}   </td><td>&nbsp;Set the locale for string, number and date formatting.</td></tr>
+ * <tr><td>{@code -encoding} </td><td>&nbsp;Set the input and output encoding.</td></tr>
+ * <tr><td>{@code -help}     </td><td>&nbsp;Print the {@linkplain #help help} summary.</td></tr>
+ * <tr><td>{@code -locale}   </td><td>&nbsp;Set the locale for string, number and date formatting
+ * .</td></tr>
  * </table>
  *
- * @since 2.5
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
  * @author Cédric Briançon
+ * @version $Id$
+ * @source $URL$
+ * @since 2.5
  */
 public class CommandLine {
     /**
@@ -126,15 +126,16 @@ public class CommandLine {
      * conditions (e.g. an {@link IOException}), then it prints a short error message and invokes
      * {@link System#exit} with one the {@code EXIT_CODE} constants.
      *
-     * @param  args The command-line arguments.
-     * @param  maximumRemaining The maximum number of arguments that may remain after processing
-     *         of annotated fields. This is the maximum length of the {@link #arguments} array.
-     *         The default value is 0.
+     * @param args             The command-line arguments.
+     * @param maximumRemaining The maximum number of arguments that may remain after processing
+     *                         of annotated fields. This is the maximum length of the 
+     *                         {@link #arguments} array.
+     *                         The default value is 0.
      */
     protected CommandLine(final String[] args, final int maximumRemaining) {
         final Arguments arguments = new Arguments(args);
-        out    = arguments.out;
-        err    = arguments.err;
+        out = arguments.out;
+        err = arguments.err;
         locale = arguments.locale;
         if (arguments.getFlag(OPTION_PREFIX + "help")) {
             help();
@@ -151,8 +152,7 @@ public class CommandLine {
      * @throws UnsupportedOperationException if a field can not be set.
      */
     private void setArgumentValues(final Class<?> classe, final Arguments arguments)
-            throws UnsupportedOperationException
-    {
+            throws UnsupportedOperationException {
         final Class<?> parent = classe.getSuperclass();
         if (!CommandLine.class.equals(parent)) {
             setArgumentValues(parent, arguments);
@@ -217,13 +217,14 @@ public class CommandLine {
      * for values that are not of one of the pre-defined types. The default implementation thrown
      * an exception in all cases.
      *
-     * @param  <T> The field type.
-     * @param  type The field type.
-     * @param  value The value given on the command line.
+     * @param <T>   The field type.
+     * @param type  The field type.
+     * @param value The value given on the command line.
      * @return The value for the given string to parse.
      * @throws UnsupportedOperationException if the value can't be parsed.
      */
-    protected <T> T parse(final Class<T> type, final String value) throws UnsupportedOperationException {
+    protected <T> T parse(final Class<T> type, final String value) throws 
+            UnsupportedOperationException {
         throw new UnsupportedOperationException(Errors.format(ErrorKeys.UNKNOW_TYPE_$1, type));
     }
 
@@ -235,8 +236,8 @@ public class CommandLine {
      * @param optional  The set where to put optional arguments.
      */
     private void getArguments(final Class<?> classe,
-                              final Map<String,String> mandatory,
-                              final Map<String,String> optional) {
+                              final Map<String, String> mandatory,
+                              final Map<String, String> optional) {
         final Class<?> parent = classe.getSuperclass();
         if (!CommandLine.class.equals(parent)) {
             getArguments(parent, mandatory, optional);
@@ -274,11 +275,13 @@ public class CommandLine {
      * prints a summary before the option list.
      */
     protected void help() {
-        final Map<String,String> mandatory = new TreeMap<String,String>();
-        final Map<String,String> optional  = new TreeMap<String,String>();
-        optional.put("help",       "Print this summary.");
-        optional.put("locale=S",   "Set the locale for string, number and date formatting. Examples: \"fr\", \"fr_CA\".");
-        optional.put("encoding=S", "Set the input and output encoding. Examples: \"UTF-8\", \"ISO-8859-1\".");
+        final Map<String, String> mandatory = new TreeMap<String, String>();
+        final Map<String, String> optional = new TreeMap<String, String>();
+        optional.put("help", "Print this summary.");
+        optional.put("locale=S", "Set the locale for string, number and date formatting. " +
+                "Examples: \"fr\", \"fr_CA\".");
+        optional.put("encoding=S", "Set the input and output encoding. Examples: \"UTF-8\", " +
+                "\"ISO-8859-1\".");
         getArguments(getClass(), mandatory, optional);
         if (!mandatory.isEmpty()) {
             out.println("Mandatory arguments:");
@@ -291,9 +294,9 @@ public class CommandLine {
     /**
      * Prints the specified options to the standard output stream.
      */
-    private void print(final Map<String,String> options) {
+    private void print(final Map<String, String> options) {
         final TableWriter table = new TableWriter(out, "  ");
-        for (final Map.Entry<String,String> entry : options.entrySet()) {
+        for (final Map.Entry<String, String> entry : options.entrySet()) {
             table.write("  ");
             table.write(OPTION_PREFIX);
             table.write(entry.getKey());

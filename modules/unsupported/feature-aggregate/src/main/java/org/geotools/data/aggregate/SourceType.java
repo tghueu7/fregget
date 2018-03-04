@@ -16,6 +16,7 @@ package org.geotools.data.aggregate;
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 import java.io.Serializable;
 
 import org.opengis.feature.type.Name;
@@ -34,8 +35,9 @@ public class SourceType implements Serializable {
 
     /**
      * Creates a new source feature type
+     *
      * @param storeName The source store name
-     * @param typeName The source type name
+     * @param typeName  The source type name
      */
     public SourceType(Name storeName, String typeName) {
         super();

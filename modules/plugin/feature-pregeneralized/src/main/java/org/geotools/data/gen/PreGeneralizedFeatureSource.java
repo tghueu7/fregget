@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -62,16 +62,11 @@ import org.opengis.filter.sort.SortBy;
 
 /**
  * @author Christian Mueller
- * 
+ * <p>
  * Feature source for a feature type with pregeneralized geometries
- * 
+ * <p>
  * This featue store does business as usual with the exception described here
  * {@link PreGeneralizedDataStore}
- * 
- * 
- *
- *
- *
  * @source $URL$
  */
 public class PreGeneralizedFeatureSource implements SimpleFeatureSource {
@@ -101,7 +96,7 @@ public class PreGeneralizedFeatureSource implements SimpleFeatureSource {
     private DefaultResourceInfo ri = null;
 
     public PreGeneralizedFeatureSource(GeneralizationInfo info, Repository repository,
-            PreGeneralizedDataStore dataStore) {
+                                       PreGeneralizedDataStore dataStore) {
         this.info = info;
         this.repository = repository;
         this.dataStore = dataStore;
@@ -146,9 +141,10 @@ public class PreGeneralizedFeatureSource implements SimpleFeatureSource {
     }
 
     private int[] calculateIndexMapping(SimpleFeatureType backendType, String geomProperyName,
-            String backendGeomPropertyName) throws IOException {
+                                        String backendGeomPropertyName) throws IOException {
         int[] mapping = new int[getSchema().getAttributeCount()];
-        outer: for (int i = 0; i < mapping.length; i++) {
+        outer:
+        for (int i = 0; i < mapping.length; i++) {
             String attrName = getSchema().getAttributeDescriptors().get(i).getLocalName();
             if (attrName.equals(geomProperyName))
                 attrName = backendGeomPropertyName;
@@ -201,7 +197,7 @@ public class PreGeneralizedFeatureSource implements SimpleFeatureSource {
     public SimpleFeatureCollection getFeatures() throws IOException {
         return new PreGeneralizedFeatureCollection(getBaseFeatureSource().getFeatures(),
                 getSchema(), indexMapping.get(0.0), info.getGeomPropertyName(), info
-                        .getGeomPropertyName());
+                .getGeomPropertyName());
 
     }
 
@@ -209,7 +205,7 @@ public class PreGeneralizedFeatureSource implements SimpleFeatureSource {
             throws IOException {
         return new PreGeneralizedFeatureCollection(getBaseFeatureSource().getFeatures(filter),
                 getSchema(), indexMapping.get(0.0), info.getGeomPropertyName(), info
-                        .getGeomPropertyName());
+                .getGeomPropertyName());
     }
 
     public SimpleFeatureCollection getFeatures(Query query)
@@ -226,7 +222,9 @@ public class PreGeneralizedFeatureSource implements SimpleFeatureSource {
     }
 
     public FeatureReader<SimpleFeatureType, SimpleFeature> getFeatureReader(Query query,
-            Transaction transaction) throws IOException {
+                                                                            Transaction 
+                                                                                    transaction) 
+            throws IOException {
 
         SimpleFeatureSource fs = getFeatureSourceFor(query);
         Query newQuery = getProxyObject(query, fs);
@@ -282,7 +280,7 @@ public class PreGeneralizedFeatureSource implements SimpleFeatureSource {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.data.FeatureSource#getQueryCapabilities() A query capabilitiy is supported
      *      only if ALL backend feature sources support it
      */
@@ -345,7 +343,7 @@ public class PreGeneralizedFeatureSource implements SimpleFeatureSource {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.data.FeatureSource#getSchema() Schema derived from base feature schema 1)
      *      all generalized geom attributes removed 2) the default gemoetry propery is taken from
      *      the config
@@ -356,13 +354,15 @@ public class PreGeneralizedFeatureSource implements SimpleFeatureSource {
         try {
             SimpleFeatureType baseType = getBaseFeatureSource().getSchema();
             List<AttributeDescriptor> attrDescrs = new ArrayList<AttributeDescriptor>();
-            outer: for (AttributeDescriptor descr : baseType.getAttributeDescriptors()) {
+            outer:
+            for (AttributeDescriptor descr : baseType.getAttributeDescriptors()) {
                 for (Generalization di : info.getGeneralizations()) {
                     if (di.getDataSourceName().equals(info.getDataSourceName())) { // same
                         // datasource
                         if (di.getFeatureName().equals(baseType.getName().getLocalPart())) { // same
                             // feature
-                            if (di.getGeomPropertyName().equals(descr.getName().getLocalPart())) // is
+                            if (di.getGeomPropertyName().equals(descr.getName().getLocalPart())) 
+                                // is
                                 // gneralized
                                 // geom
                                 continue outer;
@@ -387,7 +387,7 @@ public class PreGeneralizedFeatureSource implements SimpleFeatureSource {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.data.FeatureSource#getSupportedHints() Calculates the supported hints as
      *      intersection of the the generalized features and adds Hints.GEOMETRY_DISTANCE
      */
@@ -458,21 +458,23 @@ public class PreGeneralizedFeatureSource implements SimpleFeatureSource {
     }
 
     private Double getRequestedDistance(Query query) {
-        Double result =  (Double) query.getHints().get(Hints.GEOMETRY_DISTANCE);
+        Double result = (Double) query.getHints().get(Hints.GEOMETRY_DISTANCE);
         if (result == null) {
             /*
-             * Check if hints GEOMETRY_SIMPLIFICATION is active, when both are supported (because the
-             * wrapper store supports simplification) only simplification is sent down, but we can use it to pick
+             * Check if hints GEOMETRY_SIMPLIFICATION is active, when both are supported (because
+              * the
+             * wrapper store supports simplification) only simplification is sent down, but we 
+             * can use it to pick
              * a starting geometry to simplify further.
              */
-            result =  (Double) query.getHints().get(Hints.GEOMETRY_SIMPLIFICATION);
-            log.fine("Hint for geometry simplification in query, fallback to base feature" );
+            result = (Double) query.getHints().get(Hints.GEOMETRY_SIMPLIFICATION);
+            log.fine("Hint for geometry simplification in query, fallback to base feature");
         }
         if (result == null) {
-            log.fine("No hint for geometry distance in query, fallback to base feature" );
+            log.fine("No hint for geometry distance in query, fallback to base feature");
         } else {
-            if(log.isLoggable(Level.FINE)) {
-                log.fine("Hint geometry distance: " +result);
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Hint geometry distance: " + result);
             }
         }
         return result;
@@ -500,15 +502,12 @@ public class PreGeneralizedFeatureSource implements SimpleFeatureSource {
     }
 
     /**
-     * @param query
-     *            the query object
-     * @param fs
-     *            the backend feature surce
+     * @param query the query object
+     * @param fs    the backend feature surce
      * @return Proxy modified for backend feature source
-     * 
+     * <p>
      * create a proxy for the origianl query object 1) typeName has to be changed to backend type
      * name 2) geometry property name has tob be changed to backend geometry property name
-     * 
      */
 
     private String getBackendGeometryName(SimpleFeatureSource fs) {
@@ -533,13 +532,15 @@ public class PreGeneralizedFeatureSource implements SimpleFeatureSource {
             newPropNames = new String[getSchema().getAttributeCount()];
             for (int i = 0; i < newPropNames.length; i++) {
                 AttributeDescriptor attrDescr = getSchema().getAttributeDescriptors().get(i);
-                newPropNames[i] = attrDescr.getLocalName().equals(baseGeomPropertyName) ? backendGeomPropertyName
+                newPropNames[i] = attrDescr.getLocalName().equals(baseGeomPropertyName) ? 
+                        backendGeomPropertyName
                         : attrDescr.getLocalName();
             }
         } else {
             newPropNames = new String[originalPropNames.length];
             for (int i = 0; i < newPropNames.length; i++) {
-                newPropNames[i] = originalPropNames[i].equals(baseGeomPropertyName) ? backendGeomPropertyName
+                newPropNames[i] = originalPropNames[i].equals(baseGeomPropertyName) ? 
+                        backendGeomPropertyName
                         : originalPropNames[i];
             }
         }

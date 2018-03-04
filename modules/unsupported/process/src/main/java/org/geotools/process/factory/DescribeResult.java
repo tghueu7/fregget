@@ -27,7 +27,7 @@ import org.opengis.parameter.Parameter;
  * DescribeProcess information for publication by DEMProcessFactory.
  * <p>
  * Annotation is used to mark a method for publication via DEMProcessFactory
- * 
+ *
  * @author Jody
  */
 @Retention(RetentionPolicy.RUNTIME)
@@ -35,7 +35,7 @@ import org.opengis.parameter.Parameter;
 public @interface DescribeResult {
     /**
      * The name of the result, defaults to "result"
-     * 
+     *
      * @return
      */
     String name() default "result";
@@ -43,21 +43,21 @@ public @interface DescribeResult {
     /**
      * The type of the result, needed only when there are multiple ones (since it cannot be desumed
      * from the process Map return type
-     * 
+     *
      * @return
      */
     Class<?> type() default Object.class;
 
     /**
      * The result description
-     * 
+     *
      * @return
      */
     String description() default "[undescribed]";
 
     /**
      * If true, this is the primary result of the process
-     * 
+     *
      * @return
      */
     boolean primary() default false;

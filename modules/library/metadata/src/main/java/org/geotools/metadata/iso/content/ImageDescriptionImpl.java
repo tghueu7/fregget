@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -27,13 +27,10 @@ import org.opengis.metadata.content.ImagingCondition;
 /**
  * Information about an image's suitability for use.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class ImageDescriptionImpl extends CoverageDescriptionImpl implements ImageDescription {

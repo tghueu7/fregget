@@ -36,20 +36,21 @@ import org.geotools.resources.i18n.Errors;
 import com.sun.media.jai.operator.ImageReadDescriptor;
 
 /**
- * This enum can be used to distinguish between differet read methods, namely, JAI ImageRead based and Java2D direct read via ImageReader.
- * 
+ * This enum can be used to distinguish between differet read methods, namely, JAI ImageRead 
+ * based and Java2D direct read via ImageReader.
+ *
  * @author Simone Giannecchini, GeoSolutions SAS
- * @author Stefan Alfons Krueger (alfonx), Wikisquare.de : Support for jar:file:foo.jar/bar.properties URLs
- * 
+ * @author Stefan Alfons Krueger (alfonx), Wikisquare.de : Support for jar:file:foo.jar/bar
+ * .properties URLs
  */
 public enum ReadType {
 
     DIRECT_READ {
-
         @Override
         public RenderedImage read(final ImageReadParam readParameters, final int imageIndex,
-                final URL granuleUrl, final Rectangle rasterDimensions, final ImageReader reader,
-                final Hints hints, final boolean closeElements) {
+                                  final URL granuleUrl, final Rectangle rasterDimensions, final 
+                                          ImageReader reader,
+                                  final Hints hints, final boolean closeElements) {
             //
             // Using ImageReader to load the data directly
             //
@@ -101,8 +102,9 @@ public enum ReadType {
     JAI_IMAGEREAD {
         @Override
         public RenderedImage read(final ImageReadParam readParameters, final int imageIndex,
-                final URL granuleUrl, final Rectangle rasterDimensions, final ImageReader reader,
-                final Hints hints, final boolean closeElements) {
+                                  final URL granuleUrl, final Rectangle rasterDimensions, final 
+                                          ImageReader reader,
+                                  final Hints hints, final boolean closeElements) {
 
             try {
                 // check source regionepbjMosaic,
@@ -146,23 +148,27 @@ public enum ReadType {
     UNSPECIFIED {
         @Override
         public RenderedImage read(final ImageReadParam readParameters, final int imageIndex,
-                final URL granuleUrl, final Rectangle rasterDimensions, final ImageReader reader,
-                final Hints hints, final boolean closeElements) {
+                                  final URL granuleUrl, final Rectangle rasterDimensions, final 
+                                          ImageReader reader,
+                                  final Hints hints, final boolean closeElements) {
             throw new UnsupportedOperationException(Errors.format(
                     ErrorKeys.UNSUPPORTED_OPERATION_$1, "read"));
         }
     };
 
-    /** Logger. */
+    /**
+     * Logger.
+     */
     private final static Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger(ReadType.class);
 
     /**
      * Default {@link ReadType} enumeration.
-     * 
      * <p>
-     * We use the JAI ImageRead as the default type so that we can be sure that we can read very large mosaics with deferred loading.
-     * 
+     * <p>
+     * We use the JAI ImageRead as the default type so that we can be sure that we can read very 
+     * large mosaics with deferred loading.
+     *
      * @return the default {@link ReadType}.
      */
     public static ReadType getDefault() {
@@ -171,19 +177,19 @@ public enum ReadType {
 
     /**
      * Load the raster data from the underlying source with the specified read type.
-     * 
+     *
      * @param readParameters
      * @param imageIndex
      * @param rasterUrl
      * @param readDimension
-     * @param hints {@link Hints} to control the read process
-     * 
-     * @return a {@link RenderedImage} instance that matches the provided request parameters as close as possible.
-     * 
+     * @param hints          {@link Hints} to control the read process
+     * @return a {@link RenderedImage} instance that matches the provided request parameters as 
+     * close as possible.
      * @throws IOException in case something bad occurs during the decoding process.
      */
     public abstract RenderedImage read(final ImageReadParam readParameters, final int imageIndex,
-            final URL granuleUrl, final Rectangle rasterDimensions, final ImageReader reader,
-            final Hints hints, final boolean closeElements);
+                                       final URL granuleUrl, final Rectangle rasterDimensions, 
+                                       final ImageReader reader,
+                                       final Hints hints, final boolean closeElements);
 
 };

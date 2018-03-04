@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,16 +17,18 @@
 package org.geotools.maven.taglet;
 
 import java.util.regex.Matcher;
+
 import org.junit.*;
+
 import static org.junit.Assert.*;
 
 
 /**
  * Tests the {@link Source} taglet.
  *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
  */
 public class SourceTest {
     /**
@@ -34,14 +36,14 @@ public class SourceTest {
      */
     @Test
     public void testCurrentTag() {
-        Source  s = new Source();
+        Source s = new Source();
         Matcher m;
         String tag, url, group, category, module;
         tag = "$URL$";
         //The url above is only converted from $URL$ if we have obtained the 
         //  file using a standard access mechanism to SVN. This fails, for 
         //  example, with mercurial converstion 'hg convert svnrepo hgrepo'
-        if ( !tag.equals("$URL$") ){
+        if (!tag.equals("$URL$")) {
             m = s.findURL.matcher(tag);
             assertTrue(m.matches());
 
@@ -49,9 +51,9 @@ public class SourceTest {
             url = m.group(1).trim();
             m = s.findModule.matcher(url);
             assertTrue(m.matches());
-            group    = m.group(1);
+            group = m.group(1);
             category = m.group(2);
-            module   = m.group(3);
+            module = m.group(3);
             assertEquals("build", group);
             assertEquals("maven", category);
             assertEquals("javadoc", module);

@@ -45,11 +45,8 @@ import org.opengis.referencing.NoSuchAuthorityCodeException;
 /**
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini (simboss), GeoSolutions
- *
+ * <p>
  * Testing {@link JP2MrSIDReader}
- *
- *
- *
  * @source $URL$
  */
 public final class JP2MrSIDTest extends GDALTestCase {
@@ -59,26 +56,26 @@ public final class JP2MrSIDTest extends GDALTestCase {
     private final static String fileName = "sample.jp2";
 
     static {
-	    try {
-	        gdal.AllRegister();
-	        final Driver driverkak = gdal.GetDriverByName("JP2KAK");
-	        final Driver driverecw = gdal.GetDriverByName("JP2ECW");
-	        if (driverkak != null || driverecw != null) {
-	            final StringBuffer skipDriver = new StringBuffer("");
-	            if (driverkak != null)
-	                skipDriver.append("JP2KAK ");
-	            if (driverecw != null)
-	                skipDriver.append("JP2ECW");
-	            gdal.SetConfigOption("GDAL_SKIP", skipDriver.toString());
-	            gdal.AllRegister();
-	        }
-	    } catch (UnsatisfiedLinkError e) {
-	        if (LOGGER.isLoggable(Level.WARNING))
-	            LOGGER.warning("GDAL library unavailable.");
-	    }
-	}
+        try {
+            gdal.AllRegister();
+            final Driver driverkak = gdal.GetDriverByName("JP2KAK");
+            final Driver driverecw = gdal.GetDriverByName("JP2ECW");
+            if (driverkak != null || driverecw != null) {
+                final StringBuffer skipDriver = new StringBuffer("");
+                if (driverkak != null)
+                    skipDriver.append("JP2KAK ");
+                if (driverecw != null)
+                    skipDriver.append("JP2ECW");
+                gdal.SetConfigOption("GDAL_SKIP", skipDriver.toString());
+                gdal.AllRegister();
+            }
+        } catch (UnsatisfiedLinkError e) {
+            if (LOGGER.isLoggable(Level.WARNING))
+                LOGGER.warning("GDAL library unavailable.");
+        }
+    }
 
-	/**
+    /**
      * Creates a new instance of JP2MrSIDTest
      *
      * @param name
@@ -92,11 +89,11 @@ public final class JP2MrSIDTest extends GDALTestCase {
         if (!testingEnabled()) {
             return;
         }
-        
-        File file =null;
+
+        File file = null;
         try {
             file = TestData.file(this, fileName);
-        }catch (FileNotFoundException fnfe){
+        } catch (FileNotFoundException fnfe) {
             LOGGER.warning("test-data not found: " + fileName + "\nTests are skipped");
             return;
         } catch (IOException ioe) {
@@ -105,12 +102,13 @@ public final class JP2MrSIDTest extends GDALTestCase {
         }
 
         final JP2MrSIDReader reader = new JP2MrSIDReader(file);
-        final ParameterValue gg = (ParameterValue) ((AbstractGridFormat) reader.getFormat()).READ_GRIDGEOMETRY2D
-            .createValue();
+        final ParameterValue gg = (ParameterValue) ((AbstractGridFormat) reader.getFormat())
+                .READ_GRIDGEOMETRY2D
+                .createValue();
         final GeneralEnvelope oldEnvelope = reader.getOriginalEnvelope();
         gg.setValue(new GridGeometry2D(reader.getOriginalGridRange(), oldEnvelope));
 
-        final GridCoverage2D gc = (GridCoverage2D) reader.read(new GeneralParameterValue[] { gg });
+        final GridCoverage2D gc = (GridCoverage2D) reader.read(new GeneralParameterValue[]{gg});
 
         Assert.assertNotNull(gc);
 
@@ -128,28 +126,28 @@ public final class JP2MrSIDTest extends GDALTestCase {
     }
 
     @Test
-	public void testIsAvailable() throws NoSuchAuthorityCodeException, FactoryException {
-	    if (!testingEnabled()) {
-	        return;
-	    }
-	
-	    GridFormatFinder.scanForPlugins();
-	
-	    Iterator list = GridFormatFinder.getAvailableFormats().iterator();
-	    boolean found = false;
-	    GridFormatFactorySpi fac = null;
-	
-	    while (list.hasNext()) {
-	        fac = (GridFormatFactorySpi) list.next();
-	
-	        if (fac instanceof JP2MrSIDFormatFactory) {
-	            found = true;
-	            break;
-	        }
-	    }
-	
-	    Assert.assertTrue("JP2MrSIDFormatFactory not registered", found);
-	    Assert.assertTrue("JP2MrSIDFormatFactory not available", fac.isAvailable());
-	    Assert.assertNotNull(new JP2MrSIDFormatFactory().createFormat());
-	}
+    public void testIsAvailable() throws NoSuchAuthorityCodeException, FactoryException {
+        if (!testingEnabled()) {
+            return;
+        }
+
+        GridFormatFinder.scanForPlugins();
+
+        Iterator list = GridFormatFinder.getAvailableFormats().iterator();
+        boolean found = false;
+        GridFormatFactorySpi fac = null;
+
+        while (list.hasNext()) {
+            fac = (GridFormatFactorySpi) list.next();
+
+            if (fac instanceof JP2MrSIDFormatFactory) {
+                found = true;
+                break;
+            }
+        }
+
+        Assert.assertTrue("JP2MrSIDFormatFactory not registered", found);
+        Assert.assertTrue("JP2MrSIDFormatFactory not available", fac.isAvailable());
+        Assert.assertNotNull(new JP2MrSIDFormatFactory().createFormat());
+    }
 }

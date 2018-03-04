@@ -19,8 +19,6 @@ package org.geotools.jdbc;
 import java.sql.SQLException;
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class JDBCNoPrimaryKeyTestSetup extends JDBCDelegatingTestSetup {
@@ -39,7 +37,7 @@ public abstract class JDBCNoPrimaryKeyTestSetup extends JDBCDelegatingTestSetup 
         //create all the data
         createLakeTable();
     }
-    
+
     /**
      * Creates a table with the following schema:
      * <p>
@@ -56,7 +54,7 @@ public abstract class JDBCNoPrimaryKeyTestSetup extends JDBCDelegatingTestSetup 
      * </p>
      */
     protected abstract void createLakeTable() throws Exception;
-    
+
     /**
      * Drops the "lake" table.
      */

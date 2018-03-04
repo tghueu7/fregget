@@ -19,16 +19,15 @@ package org.geotools.jdbc;
 import java.sql.SQLException;
 
 /**
- * 
- *
- * @source $URL: http://svn.osgeo.org/geotools/trunk/modules/library/jdbc/src/test/java/org/geotools/jdbc/JDBCEmptyGeometryTestSetup.java $
+ * @source $URL: http://svn.osgeo.org/geotools/trunk/modules/library/jdbc/src/test/java/org
+ * /geotools/jdbc/JDBCEmptyGeometryTestSetup.java $
  */
 public abstract class JDBCEmptyGeometryTestSetup extends JDBCDelegatingTestSetup {
 
     protected JDBCEmptyGeometryTestSetup(JDBCTestSetup delegate) {
         super(delegate);
     }
-    
+
     protected final void setUpData() throws Exception {
         //kill all the data
         try {

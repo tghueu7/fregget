@@ -33,14 +33,11 @@ import java.util.Map;
  * <p>
  * Originally made to check up on SLD settings; adding to support data in case it is of general
  * utility. Please be advised it is very hard to write cross platform tests for things
- *  
+ *
  * @author Jody Garnett
- *
- *
- *
  * @source $URL$
  */
-public class TestGraphics extends Graphics2D{
+public class TestGraphics extends Graphics2D {
     public Map<Key, ?> hints;
     public Shape clip;
     public Shape draw;
@@ -57,7 +54,7 @@ public class TestGraphics extends Graphics2D{
     public Composite composite;
     public Paint paint;
     public Font font;
-    
+
     @Override
     public void addRenderingHints(Map<?, ?> toAdd) {
         //hints.putAll( toAdd );
@@ -117,7 +114,7 @@ public class TestGraphics extends Graphics2D{
 
     @Override
     public void drawString(String s, float x, float y) {
-        this.string= s;
+        this.string = s;
         this.x = x;
         this.y = y;
     }
@@ -126,8 +123,8 @@ public class TestGraphics extends Graphics2D{
     public void drawString(AttributedCharacterIterator iterator, int x, int y) {
         StringBuffer build = new StringBuffer();
         char c;
-        while( (c = iterator.next()) != iterator.DONE ){
-            build.append( c );
+        while ((c = iterator.next()) != iterator.DONE) {
+            build.append(c);
         }
         this.string = build.toString();
         this.x = x;
@@ -136,11 +133,11 @@ public class TestGraphics extends Graphics2D{
 
     @Override
     public void drawString(AttributedCharacterIterator iterator, float x,
-            float y) {
+                           float y) {
         StringBuffer build = new StringBuffer();
         char c;
-        while( (c = iterator.next()) != iterator.DONE ){
-            build.append( c );
+        while ((c = iterator.next()) != iterator.DONE) {
+            build.append(c);
         }
         this.string = build.toString();
         this.x = x;
@@ -180,12 +177,12 @@ public class TestGraphics extends Graphics2D{
 
     @Override
     public Object getRenderingHint(Key hintKey) {
-        return hints.get( hintKey );
+        return hints.get(hintKey);
     }
 
     @Override
     public RenderingHints getRenderingHints() {
-        return new RenderingHints( hints );
+        return new RenderingHints(hints);
     }
 
     @Override
@@ -209,43 +206,43 @@ public class TestGraphics extends Graphics2D{
     @Override
     public void rotate(double theta) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void rotate(double theta, double x, double y) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void scale(double sx, double sy) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void setBackground(Color color) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void setComposite(Composite comp) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void setPaint(Paint paint) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void setRenderingHint(Key hintKey, Object hintValue) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
@@ -257,55 +254,55 @@ public class TestGraphics extends Graphics2D{
     @Override
     public void setStroke(Stroke s) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void setTransform(AffineTransform Tx) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void shear(double shx, double shy) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void transform(AffineTransform Tx) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void translate(int x, int y) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void translate(double tx, double ty) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void clearRect(int x, int y, int width, int height) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void clipRect(int x, int y, int width, int height) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void copyArea(int x, int y, int width, int height, int dx, int dy) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
@@ -317,14 +314,14 @@ public class TestGraphics extends Graphics2D{
     @Override
     public void dispose() {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void drawArc(int x, int y, int width, int height, int startAngle,
-            int arcAngle) {
+                        int arcAngle) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
@@ -335,36 +332,36 @@ public class TestGraphics extends Graphics2D{
 
     @Override
     public boolean drawImage(Image img, int x, int y, Color bgcolor,
-            ImageObserver observer) {
+                             ImageObserver observer) {
         // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public boolean drawImage(Image img, int x, int y, int width, int height,
-            ImageObserver observer) {
+                             ImageObserver observer) {
         // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public boolean drawImage(Image img, int x, int y, int width, int height,
-            Color bgcolor, ImageObserver observer) {
+                             Color bgcolor, ImageObserver observer) {
         // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public boolean drawImage(Image img, int dx1, int dy1, int dx2, int dy2,
-            int sx1, int sy1, int sx2, int sy2, ImageObserver observer) {
+                             int sx1, int sy1, int sx2, int sy2, ImageObserver observer) {
         // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public boolean drawImage(Image img, int dx1, int dy1, int dx2, int dy2,
-            int sx1, int sy1, int sx2, int sy2, Color bgcolor,
-            ImageObserver observer) {
+                             int sx1, int sy1, int sx2, int sy2, Color bgcolor,
+                             ImageObserver observer) {
         // TODO Auto-generated method stub
         return false;
     }
@@ -378,50 +375,50 @@ public class TestGraphics extends Graphics2D{
 
     @Override
     public void drawOval(int x, int y, int width, int height) {
-        draw( new Rectangle( x,y, width,height) );
+        draw(new Rectangle(x, y, width, height));
     }
 
     @Override
     public void drawPolygon(int[] points, int[] points2, int points3) {
-        draw( new Polygon( points, points2, points3 ) );
+        draw(new Polygon(points, points2, points3));
     }
 
     @Override
     public void drawPolyline(int[] points, int[] points2, int points3) {
-        draw( new Polygon( points, points2, points3 ) );
+        draw(new Polygon(points, points2, points3));
     }
 
     @Override
     public void drawRoundRect(int x, int y, int width, int height,
-            int arcWidth, int arcHeight) {
-        draw( new RoundRectangle2D.Float(x,y,width,height,arcWidth, arcHeight ));
+                              int arcWidth, int arcHeight) {
+        draw(new RoundRectangle2D.Float(x, y, width, height, arcWidth, arcHeight));
     }
 
     @Override
     public void fillArc(int x, int y, int width, int height, int startAngle,
-            int arcAngle) {
-        fill( new Rectangle( x,y, width,height) );
+                        int arcAngle) {
+        fill(new Rectangle(x, y, width, height));
     }
 
     @Override
     public void fillOval(int x, int y, int width, int height) {
-        fill( new Rectangle( x,y, width,height) );
+        fill(new Rectangle(x, y, width, height));
     }
 
     @Override
     public void fillPolygon(int[] points, int[] points2, int points3) {
-        fill( new Polygon( points, points2, points3 ) );
+        fill(new Polygon(points, points2, points3));
     }
 
     @Override
     public void fillRect(int x, int y, int width, int height) {
-        fill( new Rectangle( x,y,width,height));
+        fill(new Rectangle(x, y, width, height));
     }
 
     @Override
     public void fillRoundRect(int x, int y, int width, int height,
-            int arcWidth, int arcHeight) {
-        fill( new RoundRectangle2D.Float(x,y,width,height,arcWidth, arcHeight ));
+                              int arcWidth, int arcHeight) {
+        fill(new RoundRectangle2D.Float(x, y, width, height, arcWidth, arcHeight));
     }
 
     @Override
@@ -456,7 +453,7 @@ public class TestGraphics extends Graphics2D{
 
     @Override
     public void setClip(int x, int y, int width, int height) {
-        setClip( new Rectangle(x,y,width,height));
+        setClip(new Rectangle(x, y, width, height));
     }
 
     @Override
@@ -470,13 +467,13 @@ public class TestGraphics extends Graphics2D{
     }
 
     @Override
-    public void setPaintMode() {        
+    public void setPaintMode() {
     }
 
     @Override
     public void setXORMode(Color c1) {
         // TODO Auto-generated method stub
-        
+
     }
 
 }

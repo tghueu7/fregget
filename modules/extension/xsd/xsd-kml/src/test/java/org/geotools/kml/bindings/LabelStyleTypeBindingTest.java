@@ -17,6 +17,7 @@
 package org.geotools.kml.bindings;
 
 import java.awt.Color;
+
 import org.geotools.kml.KML;
 import org.geotools.kml.KMLTestSupport;
 import org.geotools.styling.SLD;
@@ -25,8 +26,6 @@ import org.geotools.xml.Binding;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class LabelStyleTypeBindingTest extends KMLTestSupport {

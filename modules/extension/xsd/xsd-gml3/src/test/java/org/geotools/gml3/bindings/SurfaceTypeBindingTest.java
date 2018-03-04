@@ -22,8 +22,6 @@ import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.geom.Polygon;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SurfaceTypeBindingTest extends GML3TestSupport {
@@ -32,10 +30,10 @@ public class SurfaceTypeBindingTest extends GML3TestSupport {
         GML3MockData.surface(document, document);
         MultiPolygon surface = (MultiPolygon) parse();
         assertNotNull(surface);
-        
-        assertEquals( 1, surface.getNumGeometries() );
-        Polygon p = (Polygon) surface.getGeometryN( 0 );
-        
-        assertEquals( 1, p.getNumInteriorRing() );
+
+        assertEquals(1, surface.getNumGeometries());
+        Polygon p = (Polygon) surface.getGeometryN(0);
+
+        assertEquals(1, p.getNumInteriorRing());
     }
 }

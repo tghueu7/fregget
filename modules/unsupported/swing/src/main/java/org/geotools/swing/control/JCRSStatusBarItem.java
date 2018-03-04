@@ -38,24 +38,22 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
  * A status bar item that displays the coordinate reference system name
  * and provides a pop-up menu to inspect or change the CRS.
  *
- * @see JMapStatusBar
- *
  * @author Michael Bedward
- * @since 8.0
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @see JMapStatusBar
+ * @since 8.0
  */
 public class JCRSStatusBarItem extends StatusBarItem {
     private static final String COMPONENT_NAME =
             LocaleUtils.getValue("StatusBar", "CRSItemName");
-    
-    private static final String NO_CRS = 
+
+    private static final String NO_CRS =
             LocaleUtils.getValue("StatusBar", "CRSUndefined");
-    
-    private static final String TOOL_TIP = 
+
+    private static final String TOOL_TIP =
             LocaleUtils.getValue("StatusBar", "CRSTooltip");
-    
+
     private final JButton btn;
 
     /**
@@ -70,7 +68,7 @@ public class JCRSStatusBarItem extends StatusBarItem {
         if (mapPane == null) {
             throw new IllegalArgumentException("mapPane must not be null");
         }
-        
+
         btn = new JButton(NO_CRS);
         btn.setBorder(BorderFactory.createEmptyBorder());
         btn.setFont(JMapStatusBar.DEFAULT_FONT);
@@ -88,10 +86,10 @@ public class JCRSStatusBarItem extends StatusBarItem {
             @Override
             public void onDisplayAreaChanged(MapPaneEvent ev) {
                 ReferencedEnvelope env = (ReferencedEnvelope) ev.getData();
-                displayCRS( env.getCoordinateReferenceSystem() );
+                displayCRS(env.getCoordinateReferenceSystem());
             }
         });
-        
+
         final JPopupMenu menu = new JCRSPopupMenu(mapPane);
         btn.addActionListener(new ActionListener() {
             @Override

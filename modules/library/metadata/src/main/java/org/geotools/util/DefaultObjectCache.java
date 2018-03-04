@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2007-2008, Open Source Geospatial Foundation (OSGeo)
- *   
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -30,11 +30,11 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 /**
  * Caching implementation for {@link ObjectCache}. This instance is used when
  * actual caching is desired.
- * 
- * @since 2.5
+ *
+ * @author Cory Horner (Refractions Research)
  * @version $Id$
  * @source $URL$
- * @author Cory Horner (Refractions Research)
+ * @since 2.5
  */
 final class DefaultObjectCache implements ObjectCache {
     /**
@@ -44,12 +44,12 @@ final class DefaultObjectCache implements ObjectCache {
 
     /**
      * An entry in the {@link DefaultObjectCache}.
-     * 
+     * <p>
      * To use as a reader:
      * <blockquote><pre>
      * entry.get();
      * </pre></blockquote>
-     * 
+     * <p>
      * To use as a writer:
      * <blockquote><pre>
      * try {
@@ -68,8 +68,8 @@ final class DefaultObjectCache implements ObjectCache {
          * Value of this cache entry, managed by the {@linkplain #lock}.
          *
          * @todo According {@link java.util.concurrent.locks.ReentrantReadWriteLock} documentation,
-         *       we don't need to declare this field as volatile. Revisit when we will be allowed to
-         *       compile for J2SE 1.5.
+         * we don't need to declare this field as volatile. Revisit when we will be allowed to
+         * compile for J2SE 1.5.
          */
         private volatile Object value;
 
@@ -78,7 +78,7 @@ final class DefaultObjectCache implements ObjectCache {
          */
         private final ReadWriteLock lock = new ReentrantReadWriteLock();
         // formally ReentrantReadWriteLock
-        
+
         /**
          * Creates an entry with no initial value.
          */
@@ -95,7 +95,7 @@ final class DefaultObjectCache implements ObjectCache {
         /**
          * Acquires a write lock, obtains the value, unlocks, and returns the value.
          * If another thread already has the read or write lock, this method will block.
-         * 
+         * <p>
          * <blockquote><pre>
          * try {
          *    entry.writeLock();
@@ -122,7 +122,7 @@ final class DefaultObjectCache implements ObjectCache {
         /**
          * Acquires a read lock, obtains the value, unlocks, and returns the value.
          * If another thread already has the write lock, this method will block.
-         * 
+         *
          * @return cached value or null if empty
          */
         public Object getValue() {
@@ -140,16 +140,16 @@ final class DefaultObjectCache implements ObjectCache {
         }
 
         /**
-         * Stores the value in the entry, using the write lock. 
+         * Stores the value in the entry, using the write lock.
          * It is common to use this method while already holding the writeLock (since writeLock
          * is re-entrant).
-         * 
+         *
          * @param value
          */
         public void setValue(Object value) {
             try {
-               lock.writeLock().lock();
-               this.value = value;
+                lock.writeLock().lock();
+                this.value = value;
             }
 //            catch (InterruptedException e) {
 //            }
@@ -170,20 +170,20 @@ final class DefaultObjectCache implements ObjectCache {
         }
 
         /**
-         * Releases a write lock.  
+         * Releases a write lock.
          */
         public void writeUnLock() {
             lock.writeLock().unlock();
         }
     }
-    
+
     /**
      * Creates a new cache.
      */
     public DefaultObjectCache() {
         cache = new HashMap();
     }
-    
+
     /**
      * Creates a new cache using the indicated initialSize.
      */
@@ -202,26 +202,24 @@ final class DefaultObjectCache implements ObjectCache {
 
     /**
      * Check if an entry exists in the cache.
-     * 
+     *
      * @param key
      * @return boolean
      */
     public boolean containsKey(final Object key) {
         return cache.containsKey(key);
     }
-    
+
     /**
      * Returns the object from the cache.
      * <p>
-     * Please note that a read lock is maintained on the cache contents; you 
+     * Please note that a read lock is maintained on the cache contents; you
      * may be stuck waiting for a writer to produce the result over the
      * course of calling this method.
      * </p>
      * The contents (of course) may be null.
-     * 
-     * @param key
-     *            The authority code.
-     * 
+     *
+     * @param key The authority code.
      * @todo Consider logging a message here to the finer or finest level.
      */
     public Object get(final Object key) {
@@ -260,7 +258,7 @@ final class DefaultObjectCache implements ObjectCache {
 
     /**
      * Retrieve cache entry, will create one if needed.
-     * 
+     *
      * @param key
      * @return ObjectCacheEntry
      */
@@ -274,26 +272,26 @@ final class DefaultObjectCache implements ObjectCache {
             return entry;
         }
     }
-    
+
     /**
      * Retrieves all keys currently in the cache.
-     * 
+     *
      * @return Set of keys
      */
-    public Set<Object> getKeys(){
-    	Set<Object> ret = null;
-    	synchronized (cache) {
-    		ret = new HashSet<Object>( cache.keySet() );
-		}
-    	return ret;
+    public Set<Object> getKeys() {
+        Set<Object> ret = null;
+        synchronized (cache) {
+            ret = new HashSet<Object>(cache.keySet());
+        }
+        return ret;
     }
 
-	/**
-	 * Removes this item from the object cache.
-	 */
-	public void remove(Object key) {
-		synchronized (cache) {
-			cache.remove(key);
-		}
-	}
+    /**
+     * Removes this item from the object cache.
+     */
+    public void remove(Object key) {
+        synchronized (cache) {
+            cache.remove(key);
+        }
+    }
 }

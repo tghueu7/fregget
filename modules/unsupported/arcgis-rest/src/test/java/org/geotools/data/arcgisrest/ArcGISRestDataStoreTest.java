@@ -82,14 +82,14 @@ public class ArcGISRestDataStoreTest {
 
         this.clientMock = PowerMockito.mock(HttpClient.class);
         PowerMockito.whenNew(HttpClient.class).withNoArguments()
-            .thenReturn(clientMock);
+                .thenReturn(clientMock);
         this.getMock = PowerMockito.mock(GetMethod.class);
         PowerMockito.whenNew(GetMethod.class).withNoArguments().thenReturn(getMock);
         when(clientMock.executeMethod(getMock)).thenReturn(HttpStatus.SC_NOT_FOUND);
 
         try {
             this.dataStore = (ArcGISRestDataStore) ArcGISRestDataStoreFactoryTest
-                .createDefaultOpenDataTestDataStore();
+                    .createDefaultOpenDataTestDataStore();
             List<Name> names = this.dataStore.createTypeNames();
         } catch (IOException e) {
             assertTrue(e.getMessage().contains("404"));
@@ -102,21 +102,21 @@ public class ArcGISRestDataStoreTest {
 
         this.clientMock = PowerMockito.mock(HttpClient.class);
         PowerMockito.whenNew(HttpClient.class).withNoArguments()
-            .thenReturn(clientMock).thenReturn(clientMock);
+                .thenReturn(clientMock).thenReturn(clientMock);
         this.getMock = PowerMockito.mock(GetMethod.class);
         PowerMockito.whenNew(GetMethod.class).withNoArguments().thenReturn(getMock)
-            .thenReturn(getMock);
+                .thenReturn(getMock);
         when(clientMock.executeMethod(getMock)).thenReturn(HttpStatus.SC_OK)
-            .thenReturn(HttpStatus.SC_OK);
+                .thenReturn(HttpStatus.SC_OK);
         when(getMock.getResponseBodyAsStream())
-            .thenReturn(ArcGISRestDataStoreFactoryTest
-                .readJSONAsStream("test-data/catalog.json"))
-            .thenReturn(ArcGISRestDataStoreFactoryTest
-                .readJSONAsStream("test-data/error.json"));
+                .thenReturn(ArcGISRestDataStoreFactoryTest
+                        .readJSONAsStream("test-data/catalog.json"))
+                .thenReturn(ArcGISRestDataStoreFactoryTest
+                        .readJSONAsStream("test-data/error.json"));
 
         try {
             this.dataStore = (ArcGISRestDataStore) ArcGISRestDataStoreFactoryTest
-                .createDefaultOpenDataTestDataStore();
+                    .createDefaultOpenDataTestDataStore();
             List<Name> names = this.dataStore.createTypeNames();
         } catch (IOException e) {
             assertTrue(e.getMessage().contains("400 Cannot perform query"));
@@ -129,17 +129,17 @@ public class ArcGISRestDataStoreTest {
 
         this.clientMock = PowerMockito.mock(HttpClient.class);
         PowerMockito.whenNew(HttpClient.class).withNoArguments()
-            .thenReturn(clientMock).thenReturn(clientMock);
+                .thenReturn(clientMock).thenReturn(clientMock);
         this.getMock = PowerMockito.mock(GetMethod.class);
         PowerMockito.whenNew(GetMethod.class).withNoArguments().thenReturn(getMock)
-            .thenReturn(getMock);
+                .thenReturn(getMock);
         when(clientMock.executeMethod(getMock)).thenReturn(HttpStatus.SC_OK);
         when(getMock.getResponseBodyAsStream())
-            .thenReturn(ArcGISRestDataStoreFactoryTest
-                .readJSONAsStream("test-data/unsupportedCatalog.json"));
+                .thenReturn(ArcGISRestDataStoreFactoryTest
+                        .readJSONAsStream("test-data/unsupportedCatalog.json"));
 
         this.dataStore = (ArcGISRestDataStore) ArcGISRestDataStoreFactoryTest
-            .createDefaultArcGISServerTestDataStore();
+                .createDefaultArcGISServerTestDataStore();
     }
 
 
@@ -148,29 +148,29 @@ public class ArcGISRestDataStoreTest {
 
         this.clientMock = PowerMockito.mock(HttpClient.class);
         PowerMockito.whenNew(HttpClient.class).withNoArguments()
-            .thenReturn(clientMock).thenReturn(clientMock);
+                .thenReturn(clientMock).thenReturn(clientMock);
         this.getMock = PowerMockito.mock(GetMethod.class);
         PowerMockito.whenNew(GetMethod.class).withNoArguments().thenReturn(getMock)
-            .thenReturn(getMock);
+                .thenReturn(getMock);
         when(clientMock.executeMethod(getMock)).thenReturn(HttpStatus.SC_OK)
-            .thenReturn(HttpStatus.SC_OK);
+                .thenReturn(HttpStatus.SC_OK);
         when(getMock.getResponseBodyAsStream())
-            .thenReturn(ArcGISRestDataStoreFactoryTest
-                .readJSONAsStream("test-data/catalog.json"))
-            .thenReturn(ArcGISRestDataStoreFactoryTest
-                .readJSONAsStream("test-data/lgaDataset.json"));
+                .thenReturn(ArcGISRestDataStoreFactoryTest
+                        .readJSONAsStream("test-data/catalog.json"))
+                .thenReturn(ArcGISRestDataStoreFactoryTest
+                        .readJSONAsStream("test-data/lgaDataset.json"));
 
         this.dataStore = (ArcGISRestDataStore) ArcGISRestDataStoreFactoryTest
-            .createDefaultOpenDataTestDataStore();
+                .createDefaultOpenDataTestDataStore();
         List<Name> names = this.dataStore.createTypeNames();
 
         assertEquals(1, names.size());
         assertEquals(TYPENAME1, names.get(0).getLocalPart());
         assertEquals(ArcGISRestDataStoreFactoryTest.NAMESPACE,
-            names.get(0).getNamespaceURI());
+                names.get(0).getNamespaceURI());
 
         assertNotNull(this.dataStore.getEntry(
-            new NameImpl(ArcGISRestDataStoreFactoryTest.NAMESPACE, TYPENAME1)));
+                new NameImpl(ArcGISRestDataStoreFactoryTest.NAMESPACE, TYPENAME1)));
     }
 
     @Test
@@ -178,32 +178,32 @@ public class ArcGISRestDataStoreTest {
 
         this.clientMock = PowerMockito.mock(HttpClient.class);
         PowerMockito.whenNew(HttpClient.class).withNoArguments()
-            .thenReturn(clientMock).thenReturn(clientMock);
+                .thenReturn(clientMock).thenReturn(clientMock);
         this.getMock = PowerMockito.mock(GetMethod.class);
         PowerMockito.whenNew(GetMethod.class).withNoArguments().thenReturn(getMock)
-            .thenReturn(getMock);
+                .thenReturn(getMock);
         when(clientMock.executeMethod(getMock)).thenReturn(HttpStatus.SC_OK)
-            .thenReturn(HttpStatus.SC_OK).thenReturn(HttpStatus.SC_OK);
+                .thenReturn(HttpStatus.SC_OK).thenReturn(HttpStatus.SC_OK);
         when(getMock.getResponseBodyAsStream())
-            .thenReturn(ArcGISRestDataStoreFactoryTest
-                .readJSONAsStream("test-data/FeatureServerAirport.json"))
-            .thenReturn(ArcGISRestDataStoreFactoryTest
-                .readJSONAsStream("test-data/airport2Dataset.json"))
-            .thenReturn(ArcGISRestDataStoreFactoryTest
-                .readJSONAsStream("test-data/airport3Dataset.json"));
+                .thenReturn(ArcGISRestDataStoreFactoryTest
+                        .readJSONAsStream("test-data/FeatureServerAirport.json"))
+                .thenReturn(ArcGISRestDataStoreFactoryTest
+                        .readJSONAsStream("test-data/airport2Dataset.json"))
+                .thenReturn(ArcGISRestDataStoreFactoryTest
+                        .readJSONAsStream("test-data/airport3Dataset.json"));
 
         this.dataStore = (ArcGISRestDataStore) ArcGISRestDataStoreFactoryTest
-            .createDefaultArcGISServerTestDataStore();
+                .createDefaultArcGISServerTestDataStore();
         List<Name> names = this.dataStore.createTypeNames();
 
         assertEquals(2, names.size());
         assertEquals(TYPENAME2, names.get(0).getLocalPart());
         assertEquals(TYPENAME3, names.get(1).getLocalPart());
         assertEquals(ArcGISRestDataStoreFactoryTest.NAMESPACE,
-            names.get(0).getNamespaceURI());
+                names.get(0).getNamespaceURI());
 
         assertNotNull(this.dataStore.getEntry(
-            new NameImpl(ArcGISRestDataStoreFactoryTest.NAMESPACE, TYPENAME2)));
+                new NameImpl(ArcGISRestDataStoreFactoryTest.NAMESPACE, TYPENAME2)));
     }
 
     @Test
@@ -211,32 +211,32 @@ public class ArcGISRestDataStoreTest {
 
         this.clientMock = PowerMockito.mock(HttpClient.class);
         PowerMockito.whenNew(HttpClient.class).withNoArguments()
-            .thenReturn(clientMock).thenReturn(clientMock);
+                .thenReturn(clientMock).thenReturn(clientMock);
         this.getMock = PowerMockito.mock(GetMethod.class);
         PowerMockito.whenNew(GetMethod.class).withNoArguments().thenReturn(getMock)
-            .thenReturn(getMock);
+                .thenReturn(getMock);
         when(clientMock.executeMethod(getMock)).thenReturn(HttpStatus.SC_OK)
-            .thenReturn(HttpStatus.SC_OK).thenReturn(HttpStatus.SC_OK);
+                .thenReturn(HttpStatus.SC_OK).thenReturn(HttpStatus.SC_OK);
         when(getMock.getResponseBodyAsStream())
-            .thenReturn(ArcGISRestDataStoreFactoryTest
-                .readJSONAsStream("test-data/catalog.json"))
-            .thenReturn(ArcGISRestDataStoreFactoryTest
-                .readJSONAsStream("test-data/lgaDataset.json"))
-            .thenReturn(ArcGISRestDataStoreFactoryTest
-                .readJSONAsStream("test-data/lgaDataset.json"));
+                .thenReturn(ArcGISRestDataStoreFactoryTest
+                        .readJSONAsStream("test-data/catalog.json"))
+                .thenReturn(ArcGISRestDataStoreFactoryTest
+                        .readJSONAsStream("test-data/lgaDataset.json"))
+                .thenReturn(ArcGISRestDataStoreFactoryTest
+                        .readJSONAsStream("test-data/lgaDataset.json"));
 
         this.dataStore = (ArcGISRestDataStore) ArcGISRestDataStoreFactoryTest
-            .createDefaultOpenDataTestDataStore();
+                .createDefaultOpenDataTestDataStore();
         this.dataStore.createTypeNames();
 
         FeatureSource<SimpleFeatureType, SimpleFeature> src = this.dataStore
-            .createFeatureSource(this.dataStore.getEntry(
-                new NameImpl(ArcGISRestDataStoreFactoryTest.NAMESPACE, TYPENAME1)));
+                .createFeatureSource(this.dataStore.getEntry(
+                        new NameImpl(ArcGISRestDataStoreFactoryTest.NAMESPACE, TYPENAME1)));
         src.getSchema();
         assertTrue(src instanceof ArcGISRestFeatureSource);
         assertEquals("LGAProfiles2014Beta", src.getInfo().getName());
         assertEquals(ArcGISRestDataStoreFactoryTest.NAMESPACE,
-            src.getInfo().getSchema().toString());
+                src.getInfo().getSchema().toString());
         assertEquals(CRS.decode("EPSG:3857"), src.getInfo().getCRS());
         assertEquals("LGA Profile 2014 (beta)", src.getInfo().getTitle());
         assertEquals(15661191, src.getInfo().getBounds().getMinX(), 1);
@@ -244,23 +244,39 @@ public class ArcGISRestDataStoreTest {
         assertEquals(16706777, src.getInfo().getBounds().getMaxX(), 1);
         assertEquals(-4022464, src.getInfo().getBounds().getMaxY(), 1);
         assertEquals("[Health and Human Services, LGA, LGA Profiles]",
-            src.getInfo().getKeywords().toString());
+                src.getInfo().getKeywords().toString());
         assertEquals(
-            "<div>2014 Local Government Area Profiles</div><div><br /></div>https://www2.health.vic.gov.au/about/reporting-planning-data/gis-and-planning-products/geographical-profiles<div>&gt; Please read the data definistions at the link above</div><div>&gt; xls and pdf documents area available at the link above</div><div>&gt; This is a beta release of the 2014 LGA profiles in this format. Field names and types may change during the beta phase. </div><div><br /></div><div>Last updated : 24 May 2016</div><div>Owning agency : Department of Health and Human Services, Victoria</div><div>Copyright statement : https://www.health.vic.gov.au/copyright</div><div>Licence name : https://www.health.vic.gov.au/data-license</div><div>Disclaimer: https://www.health.vic.gov.au/data-disclaimer</div><div>Attribution statement: https://www.health.vic.gov.au/data-attribution</div><div><br /></div><div>Off-line access : Department of Health and Human Services, GPO Box 4057, Melbourne Victoria, 3001</div><div><br /></div><div>Geographic coverage-jurisdiction : Victoria</div>",
-            src.getInfo().getDescription());
+                "<div>2014 Local Government Area Profiles</div><div><br " +
+                        "/></div>https://www2.health.vic.gov" +
+                        ".au/about/reporting-planning-data/gis-and-planning-products/geographical" +
+                        "-profiles<div>&gt; Please read the data definistions at the link " +
+                        "above</div><div>&gt; xls and pdf documents area available at the link " +
+                        "above</div><div>&gt; This is a beta release of the 2014 LGA profiles in " +
+                        "this format. Field names and types may change during the beta phase" +
+                        ". </div><div><br /></div><div>Last updated : 24 May " +
+                        "2016</div><div>Owning agency : Department of Health and Human Services, " +
+                        "Victoria</div><div>Copyright statement : https://www.health.vic.gov" +
+                        ".au/copyright</div><div>Licence name : https://www.health.vic.gov" +
+                        ".au/data-license</div><div>Disclaimer: https://www.health.vic.gov" +
+                        ".au/data-disclaimer</div><div>Attribution statement: https://www.health" +
+                        ".vic.gov.au/data-attribution</div><div><br /></div><div>Off-line access " +
+                        ": Department of Health and Human Services, GPO Box 4057, Melbourne " +
+                        "Victoria, 3001</div><div><br /></div><div>Geographic " +
+                        "coverage-jurisdiction : Victoria</div>",
+                src.getInfo().getDescription());
 
         // Feature count test
         this.clientMock = PowerMockito.mock(HttpClient.class);
         PowerMockito.whenNew(HttpClient.class).withNoArguments()
-            .thenReturn(this.clientMock);
+                .thenReturn(this.clientMock);
 
         this.postMock = PowerMockito.mock(PostMethod.class);
         PowerMockito.whenNew(PostMethod.class).withNoArguments()
-            .thenReturn(this.postMock);
+                .thenReturn(this.postMock);
         when(this.clientMock.executeMethod(postMock)).thenReturn(HttpStatus.SC_OK);
         when(this.postMock.getResponseBodyAsStream())
-            .thenReturn(ArcGISRestDataStoreFactoryTest
-                .readJSONAsStream("test-data/count.json"));
+                .thenReturn(ArcGISRestDataStoreFactoryTest
+                        .readJSONAsStream("test-data/count.json"));
 
         assertEquals(79, src.getCount(new Query()));
     }
@@ -270,54 +286,54 @@ public class ArcGISRestDataStoreTest {
 
         this.clientMock = PowerMockito.mock(HttpClient.class);
         PowerMockito.whenNew(HttpClient.class).withNoArguments()
-            .thenReturn(clientMock).thenReturn(clientMock);
+                .thenReturn(clientMock).thenReturn(clientMock);
         this.getMock = PowerMockito.mock(GetMethod.class);
         PowerMockito.whenNew(GetMethod.class).withNoArguments().thenReturn(getMock)
-            .thenReturn(getMock);
+                .thenReturn(getMock);
         when(clientMock.executeMethod(getMock)).thenReturn(HttpStatus.SC_OK)
-            .thenReturn(HttpStatus.SC_OK).thenReturn(HttpStatus.SC_OK);
+                .thenReturn(HttpStatus.SC_OK).thenReturn(HttpStatus.SC_OK);
         when(getMock.getResponseBodyAsStream())
-            .thenReturn(ArcGISRestDataStoreFactoryTest
-                .readJSONAsStream("test-data/catalog.json"))
-            .thenReturn(ArcGISRestDataStoreFactoryTest
-                .readJSONAsStream("test-data/lgaDataset.json"))
-            .thenReturn(ArcGISRestDataStoreFactoryTest
-                .readJSONAsStream("test-data/lgaDataset.json"));
+                .thenReturn(ArcGISRestDataStoreFactoryTest
+                        .readJSONAsStream("test-data/catalog.json"))
+                .thenReturn(ArcGISRestDataStoreFactoryTest
+                        .readJSONAsStream("test-data/lgaDataset.json"))
+                .thenReturn(ArcGISRestDataStoreFactoryTest
+                        .readJSONAsStream("test-data/lgaDataset.json"));
 
         this.dataStore = (ArcGISRestDataStore) ArcGISRestDataStoreFactoryTest
-            .createDefaultOpenDataTestDataStore();
+                .createDefaultOpenDataTestDataStore();
         this.dataStore.createTypeNames();
 
         FeatureSource<SimpleFeatureType, SimpleFeature> src = this.dataStore
-            .createFeatureSource(this.dataStore.getEntry(
-                new NameImpl(ArcGISRestDataStoreFactoryTest.NAMESPACE, TYPENAME1)));
+                .createFeatureSource(this.dataStore.getEntry(
+                        new NameImpl(ArcGISRestDataStoreFactoryTest.NAMESPACE, TYPENAME1)));
         src.getSchema();
 
         // Test feature iteration
         this.clientMock = PowerMockito.mock(HttpClient.class);
         PowerMockito.whenNew(HttpClient.class).withNoArguments()
-            .thenReturn(this.clientMock);
+                .thenReturn(this.clientMock);
 
         this.postMock = PowerMockito.mock(PostMethod.class);
         PowerMockito.whenNew(PostMethod.class).withNoArguments()
-            .thenReturn(this.postMock);
+                .thenReturn(this.postMock);
         when(this.clientMock.executeMethod(postMock)).thenReturn(HttpStatus.SC_OK);
         when(this.postMock.getResponseBodyAsStream())
-            .thenReturn(ArcGISRestDataStoreFactoryTest
-                .readJSONAsStream("test-data/lgaFeatures.geo.json"));
+                .thenReturn(ArcGISRestDataStoreFactoryTest
+                        .readJSONAsStream("test-data/lgaFeatures.geo.json"));
 
         FeatureCollection<SimpleFeatureType, SimpleFeature> fc = src
-            .getFeatures(new Query());
+                .getFeatures(new Query());
         FeatureIterator iter = fc.features();
 
         assertEquals(CRS.decode("EPSG:3857"),
-            fc.getSchema().getCoordinateReferenceSystem());
+                fc.getSchema().getCoordinateReferenceSystem());
         assertEquals(true, iter.hasNext());
         SimpleFeature sf = (SimpleFeature) iter.next();
         assertEquals(true, iter.hasNext());
         sf = (SimpleFeature) iter.next();
         assertEquals("POINT (16421261.466298774 -4592239.022226746)",
-            ((Geometry) (sf.getAttribute("geometry"))).getCentroid().toString());
+                ((Geometry) (sf.getAttribute("geometry"))).getCentroid().toString());
         assertEquals("Wellington (S)", sf.getAttribute("LGA"));
         assertEquals(false, iter.hasNext());
         assertEquals(false, iter.hasNext());
@@ -328,43 +344,43 @@ public class ArcGISRestDataStoreTest {
 
         this.clientMock = PowerMockito.mock(HttpClient.class);
         PowerMockito.whenNew(HttpClient.class).withNoArguments()
-            .thenReturn(clientMock).thenReturn(clientMock);
+                .thenReturn(clientMock).thenReturn(clientMock);
         this.getMock = PowerMockito.mock(GetMethod.class);
         PowerMockito.whenNew(GetMethod.class).withNoArguments().thenReturn(getMock)
-            .thenReturn(getMock);
+                .thenReturn(getMock);
         when(clientMock.executeMethod(getMock)).thenReturn(HttpStatus.SC_OK)
-            .thenReturn(HttpStatus.SC_OK).thenReturn(HttpStatus.SC_OK);
+                .thenReturn(HttpStatus.SC_OK).thenReturn(HttpStatus.SC_OK);
         when(getMock.getResponseBodyAsStream())
-            .thenReturn(ArcGISRestDataStoreFactoryTest
-                .readJSONAsStream("test-data/catalog.json"))
-            .thenReturn(ArcGISRestDataStoreFactoryTest
-                .readJSONAsStream("test-data/bicycleDataset.json"))
-            .thenReturn(ArcGISRestDataStoreFactoryTest
-                .readJSONAsStream("test-data/bicycleDataset.json"));
+                .thenReturn(ArcGISRestDataStoreFactoryTest
+                        .readJSONAsStream("test-data/catalog.json"))
+                .thenReturn(ArcGISRestDataStoreFactoryTest
+                        .readJSONAsStream("test-data/bicycleDataset.json"))
+                .thenReturn(ArcGISRestDataStoreFactoryTest
+                        .readJSONAsStream("test-data/bicycleDataset.json"));
 
         this.dataStore = (ArcGISRestDataStore) ArcGISRestDataStoreFactoryTest
-            .createDefaultOpenDataTestDataStore();
+                .createDefaultOpenDataTestDataStore();
         this.dataStore.createTypeNames();
 
         FeatureSource<SimpleFeatureType, SimpleFeature> src = this.dataStore
-            .createFeatureSource(this.dataStore.getEntry(
-                new NameImpl(ArcGISRestDataStoreFactoryTest.NAMESPACE, TYPENAME4)));
+                .createFeatureSource(this.dataStore.getEntry(
+                        new NameImpl(ArcGISRestDataStoreFactoryTest.NAMESPACE, TYPENAME4)));
         src.getSchema();
 
         this.clientMock = PowerMockito.mock(HttpClient.class);
         PowerMockito.whenNew(HttpClient.class).withNoArguments()
-            .thenReturn(this.clientMock);
+                .thenReturn(this.clientMock);
 
         this.postMock = PowerMockito.mock(PostMethod.class);
         PowerMockito.whenNew(PostMethod.class).withNoArguments()
-            .thenReturn(this.postMock);
+                .thenReturn(this.postMock);
         when(this.clientMock.executeMethod(postMock)).thenReturn(HttpStatus.SC_OK);
         when(this.postMock.getResponseBodyAsStream())
-            .thenReturn(ArcGISRestDataStoreFactoryTest
-                .readJSONAsStream("test-data/bicycleFeatures.geo.json"));
+                .thenReturn(ArcGISRestDataStoreFactoryTest
+                        .readJSONAsStream("test-data/bicycleFeatures.geo.json"));
 
         FeatureCollection<SimpleFeatureType, SimpleFeature> fc = src
-            .getFeatures(new Query());
+                .getFeatures(new Query());
         FeatureIterator iter = fc.features();
 
         assertEquals(true, iter.hasNext());
@@ -378,7 +394,8 @@ public class ArcGISRestDataStoreTest {
         assertEquals("ROAD", sf.getAttribute("LOCAL_TYPE"));
         assertEquals(5068, sf.getAttribute("RD_NUM"));
         assertEquals(
-            (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX")).parse("2011-08-02T00:00:00.000Z"),
-            sf.getAttribute("VERI_DATE"));
+                (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX")).parse
+                        ("2011-08-02T00:00:00.000Z"),
+                sf.getAttribute("VERI_DATE"));
     }
 }

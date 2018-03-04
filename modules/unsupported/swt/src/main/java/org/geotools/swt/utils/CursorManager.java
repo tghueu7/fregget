@@ -24,28 +24,34 @@ import org.eclipse.swt.widgets.Display;
 
 /**
  * A singleton cursor manager.
- * 
+ * <p>
  * <p>This takes care of creating, reusing and managing the various cursors.
- * 
+ *
  * @author Andrea Antonello (www.hydrologis.com).
- *
- *
- *
  * @source $URL$
  */
 public class CursorManager {
-    /** Info Cursor hotspot coordinates */
+    /**
+     * Info Cursor hotspot coordinates
+     */
     public static final Point CURSOR_HOTSPOT_INFO = new Point(4, 4);
-    /** Pan Cursor hotspot coordinates */
+    /**
+     * Pan Cursor hotspot coordinates
+     */
     public static final Point CURSOR_HOTSPOT_PAN = new Point(8, 8);
-    /** Zoomin Cursor hotspot coordinates */
+    /**
+     * Zoomin Cursor hotspot coordinates
+     */
     public static final Point CURSOR_HOTSPOT_ZOOMIN = new Point(6, 6);
-    /** Zoomout Cursor hotspot coordinates */
+    /**
+     * Zoomout Cursor hotspot coordinates
+     */
     public static final Point CURSOR_HOTSPOT_ZOOMOUT = new Point(6, 6);
 
     private Cursor currentCursor = null;
 
     private static CursorManager instance = null;
+
     private CursorManager() {
     }
 
@@ -87,7 +93,7 @@ public class CursorManager {
         return currentCursor;
     }
 
-    public void setCursor( Image image, Point hotspot ) {
+    public void setCursor(Image image, Point hotspot) {
         if (currentCursor != null && !currentCursor.isDisposed())
             currentCursor.dispose();
         Display display = Display.getCurrent();

@@ -29,11 +29,11 @@ import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
 
 /**
- * Unit tests for {@link SDO} <code>create*</code> methods. 
+ * Unit tests for {@link SDO} <code>create*</code> methods.
  * These test that the SDO create methods work correctly to read raw Oracle
  * SDO_GEOMETRY structures into {@link Geometry} objects.
- * These tests do not require a connection to Oracle. 
- * 
+ * These tests do not require a connection to Oracle.
+ *
  * @author mbdavis
  */
 public class SDOCreateTest {
@@ -192,7 +192,8 @@ public class SDOCreateTest {
                 2003, 1), MDSYS.SDO_ORDINATE_ARRAY(2, 4, 99, 4, 3, 99, 10, 3, 99, 13, 5, 99, 13, 9,
                 99, 11, 13, 99, 5, 13, 99, 2, 11, 99, 2, 4, 99, 7, 5, 99, 7, 10, 99, 10, 10, 99,
                 10, 5, 99, 7, 5, 99)),
-                "POLYGON ((2 4, 4 3, 10 3, 13 5, 13 9, 11 13, 5 13, 2 11, 2 4), (7 5, 7 10, 10 10, 10 5, 7 5))");
+                "POLYGON ((2 4, 4 3, 10 3, 13 5, 13 9, 11 13, 5 13, 2 11, 2 4), (7 5, 7 10, 10 " +
+                        "10, 10 5, 7 5))");
     }
 
     @Test
@@ -201,7 +202,8 @@ public class SDOCreateTest {
                 2003, 1), MDSYS.SDO_ORDINATE_ARRAY(2, 4, 99, 4, 3, 99, 10, 3, 99, 13, 5, 99, 13, 9,
                 99, 11, 13, 99, 5, 13, 99, 2, 11, 99, 2, 4, 99, 7, 5, 99, 7, 10, 99, 10, 10, 99,
                 10, 5, 99, 7, 5, 99)),
-                "POLYGON ((2 4, 4 3, 10 3, 13 5, 13 9, 11 13, 5 13, 2 11, 2 4), (7 5, 7 10, 10 10, 10 5, 7 5))");
+                "POLYGON ((2 4, 4 3, 10 3, 13 5, 13 9, 11 13, 5 13, 2 11, 2 4), (7 5, 7 10, 10 " +
+                        "10, 10 5, 7 5))");
     }
 
     @Test
@@ -238,28 +240,30 @@ public class SDOCreateTest {
 
     @Test
     public void testXY_GeometryCollection_Doc() throws Exception {
-        checkValue(  MDSYS.SDO_GEOMETRY(2004, NULL, NULL,
-                              MDSYS.SDO_ELEM_INFO_ARRAY(1,1,1, 3,2,1, 7,1003,1, 17,1003,1, 25,2003,1),
-                              MDSYS.SDO_ORDINATE_ARRAY(
-                                    1,1,
-                                    1,2, 2,1,
-                                    2,2, 3,2, 3,3, 2,3, 2,2,
-                                    5,1, 9,5, 5,5, 5,1,
-                                    5,3, 6,4, 6,3, 5,3 ) ), 
-                      "GEOMETRYCOLLECTION (POINT (1 1), LINESTRING (1 2, 2 1), POLYGON ((2 2, 3 2, 3 3, 2 3, 2 2)), POLYGON ((5 1, 9 5, 5 5, 5 1), (5 3, 6 4, 6 3, 5 3)))");
+        checkValue(MDSYS.SDO_GEOMETRY(2004, NULL, NULL,
+                MDSYS.SDO_ELEM_INFO_ARRAY(1, 1, 1, 3, 2, 1, 7, 1003, 1, 17, 1003, 1, 25, 2003, 1),
+                MDSYS.SDO_ORDINATE_ARRAY(
+                        1, 1,
+                        1, 2, 2, 1,
+                        2, 2, 3, 2, 3, 3, 2, 3, 2, 2,
+                        5, 1, 9, 5, 5, 5, 5, 1,
+                        5, 3, 6, 4, 6, 3, 5, 3)),
+                "GEOMETRYCOLLECTION (POINT (1 1), LINESTRING (1 2, 2 1), POLYGON ((2 2, 3 2, 3 3," +
+                        " 2 3, 2 2)), POLYGON ((5 1, 9 5, 5 5, 5 1), (5 3, 6 4, 6 3, 5 3)))");
     }
-    
+
     @Test
     public void testXYM_GeometryCollection_Doc() throws Exception {
-        checkValue(  MDSYS.SDO_GEOMETRY(3304, NULL, NULL,
-                              MDSYS.SDO_ELEM_INFO_ARRAY(1,1,1, 4,2,1, 10,1003,1, 25,1003,1, 37,2003,1),
-                              MDSYS.SDO_ORDINATE_ARRAY(
-                                    1,1,99,
-                                    1,2,99, 2,1,99,
-                                    2,2,99, 3,2,99, 3,3,99, 2,3,99, 2,2,99,
-                                    5,1,99, 9,5,99, 5,5,99, 5,1,99,
-                                    5,3,99, 6,4,99, 6,3,99, 5,3,99 ) ), 
-                      "GEOMETRYCOLLECTION (POINT (1 1), LINESTRING (1 2, 2 1), POLYGON ((2 2, 3 2, 3 3, 2 3, 2 2)), POLYGON ((5 1, 9 5, 5 5, 5 1), (5 3, 6 4, 6 3, 5 3)))");
+        checkValue(MDSYS.SDO_GEOMETRY(3304, NULL, NULL,
+                MDSYS.SDO_ELEM_INFO_ARRAY(1, 1, 1, 4, 2, 1, 10, 1003, 1, 25, 1003, 1, 37, 2003, 1),
+                MDSYS.SDO_ORDINATE_ARRAY(
+                        1, 1, 99,
+                        1, 2, 99, 2, 1, 99,
+                        2, 2, 99, 3, 2, 99, 3, 3, 99, 2, 3, 99, 2, 2, 99,
+                        5, 1, 99, 9, 5, 99, 5, 5, 99, 5, 1, 99,
+                        5, 3, 99, 6, 4, 99, 6, 3, 99, 5, 3, 99)),
+                "GEOMETRYCOLLECTION (POINT (1 1), LINESTRING (1 2, 2 1), POLYGON ((2 2, 3 2, 3 3," +
+                        " 2 3, 2 2)), POLYGON ((5 1, 9 5, 5 5, 5 1), (5 3, 6 4, 6 3, 5 3)))");
     }
 
     // =======================================================

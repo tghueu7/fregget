@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2014, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -63,7 +63,7 @@ import org.opengis.referencing.datum.PixelInCell;
 import org.opengis.referencing.operation.MathTransform;
 
 public class GridCoverageReaderHelperTest {
-    
+
     @Rule
     public TemporaryFolder crsMosaicFolder = new TemporaryFolder();
 
@@ -228,7 +228,7 @@ public class GridCoverageReaderHelperTest {
                 new float[200][100], new ReferencedEnvelope(-180, 180, -90, 90,
                         DefaultGeographicCRS.WGS84));
         GridCoverage2DReader reader = new AbstractGridCoverage2DReader() {
-            
+
             {
                 this.crs = DefaultGeographicCRS.WGS84;
                 this.originalEnvelope = new GeneralEnvelope((BoundingBox) coverage.getEnvelope2D());
@@ -239,9 +239,10 @@ public class GridCoverageReaderHelperTest {
             public Format getFormat() {
                 return null;
             }
-            
+
             @Override
-            public GridCoverage2D read(GeneralParameterValue[] parameters) throws IllegalArgumentException,
+            public GridCoverage2D read(GeneralParameterValue[] parameters) throws 
+                    IllegalArgumentException,
                     IOException {
                 // return fake coveage
                 return coverage;
@@ -260,18 +261,21 @@ public class GridCoverageReaderHelperTest {
         List<GridCoverage2D> coverages = helper.readCoverages(null, handler);
         assertEquals(1, coverages.size());
     }
-    
+
     @Test
     public void testCutUnreferenced() throws Exception {
         // force a CRS that does not have a projection handler (and most likely never will)
-        Hints hints = new Hints(Hints.DEFAULT_COORDINATE_REFERENCE_SYSTEM, DefaultEngineeringCRS.GENERIC_2D);
+        Hints hints = new Hints(Hints.DEFAULT_COORDINATE_REFERENCE_SYSTEM, DefaultEngineeringCRS
+                .GENERIC_2D);
         GridCoverage2DReader reader = null;
-        
+
         try {
             reader = new GeoTiffReader(coverageFile, hints);
             // setup the read
-            ReferencedEnvelope mapExtent = new ReferencedEnvelope(-90, 0, -45,  45, DefaultEngineeringCRS.GENERIC_2D);
-            GridCoverageReaderHelper helper = new GridCoverageReaderHelper(reader, new Rectangle(200,
+            ReferencedEnvelope mapExtent = new ReferencedEnvelope(-90, 0, -45, 45, 
+                    DefaultEngineeringCRS.GENERIC_2D);
+            GridCoverageReaderHelper helper = new GridCoverageReaderHelper(reader, new Rectangle
+                    (200,
                     200), mapExtent, Interpolation.getInstance(Interpolation.INTERP_NEAREST));
             List<GridCoverage2D> coverages = helper.readCoverages(null, null);
             assertEquals(1, coverages.size());
@@ -283,12 +287,12 @@ public class GridCoverageReaderHelperTest {
             assertEquals(-45, envelope.getMinimum(1), EPS);
             assertEquals(45, envelope.getMaximum(1), EPS);
         } finally {
-            if(reader != null) {
+            if (reader != null) {
                 reader.dispose();
             }
         }
     }
-    
+
     @Test
     public void testReadResolution3003InvalidArea() throws Exception {
         coverageFile = DataUtilities
@@ -297,28 +301,33 @@ public class GridCoverageReaderHelperTest {
         GeoTiffReader reader = new GeoTiffReader(coverageFile);
         try {
             reader = new GeoTiffReader(coverageFile);
-            ReferencedEnvelope mapExtent = new ReferencedEnvelope(-130, -120, -40, 30, DefaultGeographicCRS.WGS84);
-            GridCoverageReaderHelper helper = new GridCoverageReaderHelper(reader, new Rectangle(200,
+            ReferencedEnvelope mapExtent = new ReferencedEnvelope(-130, -120, -40, 30, 
+                    DefaultGeographicCRS.WGS84);
+            GridCoverageReaderHelper helper = new GridCoverageReaderHelper(reader, new Rectangle
+                    (200,
                     200), mapExtent, Interpolation.getInstance(Interpolation.INTERP_NEAREST));
             // make sure the accurate resolution does not happen, it cannot work in this context
-            ReferencedEnvelope readExtent = mapExtent.transform(reader.getCoordinateReferenceSystem(), true);
+            ReferencedEnvelope readExtent = mapExtent.transform(reader
+                    .getCoordinateReferenceSystem(), true);
             assertFalse(helper.isAccurateResolutionComputationSafe(readExtent));
             // nothing is really getting read
-            ProjectionHandler handler = ProjectionHandlerFinder.getHandler(new ReferencedEnvelope(DefaultGeographicCRS.WGS84), reader.getCoordinateReferenceSystem(), false);
-            List<GridCoverage2D> coverages = helper.readCoverageInEnvelope(mapExtent, null, handler, true);
+            ProjectionHandler handler = ProjectionHandlerFinder.getHandler(new ReferencedEnvelope
+                    (DefaultGeographicCRS.WGS84), reader.getCoordinateReferenceSystem(), false);
+            List<GridCoverage2D> coverages = helper.readCoverageInEnvelope(mapExtent, null, 
+                    handler, true);
             assertNull(coverages);
         } finally {
-            if(reader != null) {
+            if (reader != null) {
                 reader.dispose();
             }
         }
     }
-    
+
     /**
      * Checks that code does not end up reading an mosaicking a secondary part of data that's
      * overlapping with the larger area requested, only because the source data self overlaps
      * (has data beyond the dateline in both directions)
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -329,11 +338,15 @@ public class GridCoverageReaderHelperTest {
         GeoTiffReader reader = new GeoTiffReader(coverageFile);
         try {
             reader = new GeoTiffReader(coverageFile);
-            ReferencedEnvelope mapExtent = new ReferencedEnvelope(-180, 0, -90, 90, DefaultGeographicCRS.WGS84);
-            GridCoverageReaderHelper helper = new GridCoverageReaderHelper(reader, new Rectangle(1024,
+            ReferencedEnvelope mapExtent = new ReferencedEnvelope(-180, 0, -90, 90, 
+                    DefaultGeographicCRS.WGS84);
+            GridCoverageReaderHelper helper = new GridCoverageReaderHelper(reader, new Rectangle
+                    (1024,
                     512), mapExtent, Interpolation.getInstance(Interpolation.INTERP_NEAREST));
-            ProjectionHandler handler = ProjectionHandlerFinder.getHandler(new ReferencedEnvelope(DefaultGeographicCRS.WGS84), DefaultGeographicCRS.WGS84, true);
-            List<GridCoverage2D> coverages = helper.readCoverageInEnvelope(mapExtent, null, handler, true);
+            ProjectionHandler handler = ProjectionHandlerFinder.getHandler(new ReferencedEnvelope
+                    (DefaultGeographicCRS.WGS84), DefaultGeographicCRS.WGS84, true);
+            List<GridCoverage2D> coverages = helper.readCoverageInEnvelope(mapExtent, null, 
+                    handler, true);
             assertEquals(1, coverages.size());
             GridCoverage2D coverage = coverages.get(0);
             Envelope2D envelope = coverage.getEnvelope2D();
@@ -343,12 +356,12 @@ public class GridCoverageReaderHelperTest {
             assertEquals(-90, envelope.getMinY(), EPS);
             assertEquals(90, envelope.getMaxY(), EPS);
         } finally {
-            if(reader != null) {
+            if (reader != null) {
                 reader.dispose();
             }
         }
     }
-    
+
     @Test
     public void testPaddingHeteroMosaic() throws Exception {
         String testLocation = "hetero_utm";
@@ -359,11 +372,12 @@ public class GridCoverageReaderHelperTest {
         FileUtils.copyDirectory(testDataFolder, testDirectory);
 
         ImageMosaicReader imReader = new ImageMosaicReader(testDirectory, null);
-        ReferencedEnvelope mapExtent = new ReferencedEnvelope(11, 13, -1, 1, DefaultGeographicCRS.WGS84);
+        ReferencedEnvelope mapExtent = new ReferencedEnvelope(11, 13, -1, 1, DefaultGeographicCRS
+                .WGS84);
         GridCoverageReaderHelper helper = new GridCoverageReaderHelper(imReader, new Rectangle(1024,
                 512), mapExtent, Interpolation.getInstance(Interpolation.INTERP_NEAREST));
         ReferencedEnvelope readEnvelope = helper.getReadEnvelope();
-        final double EPS = 1e-3;  
+        final double EPS = 1e-3;
         assertEquals(10.981, readEnvelope.getMinX(), EPS);
         assertEquals(13.021, readEnvelope.getMaxX(), EPS);
         assertEquals(-1.041, readEnvelope.getMinY(), EPS);
@@ -398,7 +412,8 @@ public class GridCoverageReaderHelperTest {
         ImageMosaicReader reader = new ImageMosaicReader(directory1, null);
 
         // now create a second reader that won't be informed of the harvesting changes
-        // (simulating changes over a cluster, where the bbox information won't be updated from one node to the other)
+        // (simulating changes over a cluster, where the bbox information won't be updated from 
+        // one node to the other)
         ImageMosaicReader reader2 = new ImageMosaicReader(directory1, null);
 
         // harvest the other files with the first reader
@@ -407,12 +422,15 @@ public class GridCoverageReaderHelperTest {
         }
         reader.harvest(null, directory1, null);
 
-        // now use the GridCoveargeReaderHelper to read data outside of the original envelope of reader2
+        // now use the GridCoveargeReaderHelper to read data outside of the original envelope of 
+        // reader2
         ReferencedEnvelope readEnvelope = new ReferencedEnvelope(991000, 992000, 216000, 217000,
                 reader2.getCoordinateReferenceSystem());
         Rectangle rasterArea = new Rectangle(0, 0, 10, 10);
-        GridCoverageReaderHelper helper = new GridCoverageReaderHelper(reader2, rasterArea, readEnvelope, null);
-        ParameterValue<GridGeometry2D> ggParam = AbstractGridFormat.READ_GRIDGEOMETRY2D.createValue();
+        GridCoverageReaderHelper helper = new GridCoverageReaderHelper(reader2, rasterArea, 
+                readEnvelope, null);
+        ParameterValue<GridGeometry2D> ggParam = AbstractGridFormat.READ_GRIDGEOMETRY2D
+                .createValue();
         ggParam.setValue(new GridGeometry2D(new GridEnvelope2D(rasterArea), readEnvelope));
         GridCoverage2D coverage = helper.readCoverage(new GeneralParameterValue[]{ggParam});
         assertNotNull(coverage);

@@ -33,9 +33,9 @@ import org.picocontainer.MutablePicoContainer;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:FeatureTypeStyle.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="FeatureTypeStyle"&gt;
  *      &lt;xsd:annotation&gt;
@@ -50,7 +50,8 @@ import org.picocontainer.MutablePicoContainer;
  *              &lt;xsd:element ref="sld:Title" minOccurs="0"/&gt;
  *              &lt;xsd:element ref="sld:Abstract" minOccurs="0"/&gt;
  *              &lt;xsd:element ref="sld:FeatureTypeName" minOccurs="0"/&gt;
- *              &lt;xsd:element ref="sld:SemanticTypeIdentifier" minOccurs="0" maxOccurs="unbounded"/&gt;
+ *              &lt;xsd:element ref="sld:SemanticTypeIdentifier" minOccurs="0" 
+ *              maxOccurs="unbounded"/&gt;
  *              &lt;xsd:element ref="sld:Rule" maxOccurs="unbounded"/&gt;
  *          &lt;/xsd:sequence&gt;
  *      &lt;/xsd:complexType&gt;
@@ -61,9 +62,6 @@ import org.picocontainer.MutablePicoContainer;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDFeatureTypeStyleBinding extends AbstractComplexBinding {
@@ -116,7 +114,7 @@ public class SLDFeatureTypeStyleBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         FeatureTypeStyle featureTypeStyle = styleFactory.createFeatureTypeStyle();
 
         //&lt;xsd:element ref="sld:Name" minOccurs="0"/&gt;
@@ -141,8 +139,8 @@ public class SLDFeatureTypeStyleBinding extends AbstractComplexBinding {
             //sld 1.0 FTN is a String, in SE 1.1 it is a QName
             Object ftn = node.getChildValue("FeatureTypeName");
             if (ftn instanceof QName) {
-                QName qn = (QName)ftn;
-                ftn = qn.getPrefix() != null && !"".equals(qn.getPrefix().trim()) ? 
+                QName qn = (QName) ftn;
+                ftn = qn.getPrefix() != null && !"".equals(qn.getPrefix().trim()) ?
                         qn.getPrefix() + ":" + qn.getLocalPart() : qn.getLocalPart();
             }
             featureTypeStyle.setFeatureTypeName(ftn.toString());

@@ -20,12 +20,10 @@ package org.geotools.resources.i18n;
 /**
  * Spanish language resource.
  *
- * @since 2.2
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.2
  */
 public class Loggings_es extends Loggings {
 }

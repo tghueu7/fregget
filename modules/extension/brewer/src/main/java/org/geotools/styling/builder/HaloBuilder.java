@@ -20,8 +20,6 @@ import org.geotools.styling.Halo;
 import org.opengis.filter.expression.Expression;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class HaloBuilder extends AbstractStyleBuilder<org.opengis.style.Halo> {
@@ -40,7 +38,7 @@ public class HaloBuilder extends AbstractStyleBuilder<org.opengis.style.Halo> {
 
     /**
      * Set the HaloBuilder to produce <code>node</code>
-     * 
+     *
      * @return current HaloBuilder for chaining operations
      */
     public HaloBuilder unset() {
@@ -49,12 +47,12 @@ public class HaloBuilder extends AbstractStyleBuilder<org.opengis.style.Halo> {
 
     /**
      * Set the HaloBuilder
-     * <P>
+     * <p>
      * to produce a default Halo.
-     * 
+     *
      * @return current HaloBuilder
-     *         <P>
-     *         for chaining operations
+     * <p>
+     * for chaining operations
      */
     public HaloBuilder reset() {
         unset = false; //
@@ -66,7 +64,7 @@ public class HaloBuilder extends AbstractStyleBuilder<org.opengis.style.Halo> {
 
     /**
      * Set the HaloBuilder to produce the provided Halo.
-     * 
+     *
      * @param halo Halo under construction; if null HaloBuilder will be unset()
      * @return current HaloBuilder for chaining operations
      */

@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -52,17 +52,17 @@ import com.vividsolutions.jts.geom.Polygon;
  * Rule, Symbolizer, Stroke and Fill).
  *
  * @author Jody Garnett
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class SLD {
 
     private static StyleFactory sf = CommonFactoryFinder.getStyleFactory(null);
     private static FilterFactory ff = CommonFactoryFinder.getFilterFactory(null);
 
-    /** <code>NOTFOUND</code> indicates int value was unavailable */
+    /**
+     * <code>NOTFOUND</code> indicates int value was unavailable
+     */
     public static final int NOTFOUND = Filters.NOTFOUND;
     public static final double ALIGN_LEFT = 1.0;
     public static final double ALIGN_CENTER = 0.5;
@@ -75,7 +75,6 @@ public class SLD {
      * Retrieve linestring color from linesymbolizer if available.
      *
      * @param symbolizer Line symbolizer information.
-     *
      * @return Color of linestring, or null if unavailable.
      */
     public static Color lineColor(LineSymbolizer symbolizer) {
@@ -90,6 +89,7 @@ public class SLD {
 
     /**
      * Retrieve the color of a stroke object
+     *
      * @param stroke a Stroke object
      * @return color or null if stroke was null
      */
@@ -99,9 +99,10 @@ public class SLD {
         }
         return color(stroke.getColor());
     }
-    
+
     /**
      * Retrieve the color of a fill object
+     *
      * @param fill a Fill object
      * @return color or null if fill was null
      */
@@ -119,7 +120,7 @@ public class SLD {
      * This method will update the Style in place; some of the symbolizers
      * will be replaced with modified copies.
      *
-     * @param style the Style object to be updated
+     * @param style  the Style object to be updated
      * @param colour Color to to use
      */
     public static void setLineColour(Style style, final Color colour) {
@@ -149,7 +150,8 @@ public class SLD {
                         Expression dashOffset = copy(stroke.getDashOffset());
                         Graphic graphicStroke = copy(stroke.getGraphicStroke());
                         Graphic graphicFill = copy(stroke.getGraphicFill());
-                        return sf.createStroke(color, width, opacity, lineJoin, lineCap, dashArray, dashOffset, graphicFill, graphicStroke);
+                        return sf.createStroke(color, width, opacity, lineJoin, lineCap, 
+                                dashArray, dashOffset, graphicFill, graphicStroke);
                     }
                 };
                 rule.accept(update);
@@ -185,7 +187,6 @@ public class SLD {
      * Retrieve color from linesymbolizer if available.
      *
      * @param symbolizer Line symbolizer information.
-     *
      * @return Color of linestring, or null if unavailable.
      */
     public static Color color(LineSymbolizer symbolizer) {
@@ -196,7 +197,6 @@ public class SLD {
      * Retrieve linestring width from symbolizer if available.
      *
      * @param symbolizer Line symbolizer information.
-     *
      * @return width of linestring, or NOTFOUND
      */
     public static int lineWidth(LineSymbolizer symbolizer) {
@@ -213,7 +213,6 @@ public class SLD {
      * Retrieve the width of a Stroke object.
      *
      * @param stroke the Stroke object.
-     *
      * @return width or {@linkplain #NOTFOUND} if not available.
      */
     public static int width(Stroke stroke) {
@@ -226,6 +225,7 @@ public class SLD {
 
     /**
      * Retrieve the size of a Mark object
+     *
      * @param mark the Mark object
      * @return size or {@linkplain #NOTFOUND} if not available
      * @deprecated please check graphic as an indication of mark size
@@ -238,7 +238,6 @@ public class SLD {
      * Retrieve linestring width from symbolizer if available.
      *
      * @param symbolizer Line symbolizer information.
-     *
      * @return width or {@linkplain #NOTFOUND} if not available
      */
     public static int width(LineSymbolizer symbolizer) {
@@ -249,7 +248,6 @@ public class SLD {
      * Retrieve the opacity from a LineSymbolizer object.
      *
      * @param symbolizer Line symbolizer information.
-     *
      * @return double of the line symbolizer's opacity, or NaN if unavailable.
      */
     public static double lineOpacity(LineSymbolizer symbolizer) {
@@ -266,39 +264,36 @@ public class SLD {
      * Retrieve the opacity from a Stroke object.
      *
      * @param stroke the Stroke object.
-     *
      * @return double of the line stroke's opacity, or NaN if unavailable.
      */
     public static double opacity(Stroke stroke) {
         if (stroke == null) {
             return Double.NaN;
         }
-        return opacity( stroke.getOpacity() );
+        return opacity(stroke.getOpacity());
     }
 
     /**
      * Retrieve the opacity from a RasterSymbolizer object.
      *
      * @param symbolizer raster symbolizer information.
-     *
      * @return double of the raster symbolizer's opacity, or 1.0 if unavailable.
      */
-    public static double opacity(RasterSymbolizer rasterSymbolizer ){
-        if( rasterSymbolizer == null ){
+    public static double opacity(RasterSymbolizer rasterSymbolizer) {
+        if (rasterSymbolizer == null) {
             return 1.0;
         }
-        return opacity( rasterSymbolizer.getOpacity() );
+        return opacity(rasterSymbolizer.getOpacity());
     }
 
     /**
      * Retrieve the opacity value of an Expression.
      *
      * @param opacity Expression object
-     *
      * @returna double value or 1.0 if unavailable.
      */
-    private static double opacity( Expression opacity ) {
-        if( opacity == null ){
+    private static double opacity(Expression opacity) {
+        if (opacity == null) {
             return 1.0;
         }
         double value = Filters.asDouble(opacity);
@@ -309,7 +304,6 @@ public class SLD {
      * Retrieves the linejoin from a LineSymbolizer.
      *
      * @param symbolizer Line symbolizer information.
-     *
      * @return String of the linejoin, or null if unavailable.
      */
     public static String lineLinejoin(LineSymbolizer symbolizer) {
@@ -332,7 +326,6 @@ public class SLD {
      * Retrieves the line cap from a LineSymbolizer.
      *
      * @param symbolizer Line symbolizer information.
-     *
      * @return String of the line stroke's line cap, or null if unavailable.
      */
     public static String lineLinecap(LineSymbolizer symbolizer) {
@@ -355,7 +348,6 @@ public class SLD {
      * Retrieves the dashes array from a LineSymbolizer.
      *
      * @param symbolizer Line symbolizer information.
-     *
      * @return float[] of the line dashes array, or null if unavailable.
      */
     public static float[] lineDash(LineSymbolizer symbolizer) {
@@ -379,7 +371,6 @@ public class SLD {
      * a Style object.
      *
      * @param style SLD style information.
-     *
      * @return Location of the first external graphic, or null if unavailabe.
      */
     public static URL pointGraphic(Style style) {
@@ -399,7 +390,8 @@ public class SLD {
             if (gs != null && gs instanceof ExternalGraphic) {
                 ExternalGraphic externalGraphic = (ExternalGraphic) gs;
                 try {
-                    URL location = externalGraphic.getLocation(); // Should check format is supported by SWT
+                    URL location = externalGraphic.getLocation(); // Should check format is 
+                    // supported by SWT
                     if (location != null) {
                         return location;
                     }
@@ -416,7 +408,6 @@ public class SLD {
      * Retrieves the first Mark used in a Style object.
      *
      * @param style the Style
-     *
      * @return the first Mark object or null if unavailable.
      */
     public static Mark pointMark(Style style) {
@@ -431,7 +422,6 @@ public class SLD {
      * Retrieves the first Mark used in a PointSymbolizer object.
      *
      * @param sym the PointSymbolizer
-     *
      * @return the first Mark object or null if unavailable.
      */
     public static Mark mark(PointSymbolizer sym) {
@@ -442,7 +432,6 @@ public class SLD {
      * Retrieves the first Mark object from the given Graphic object.
      *
      * @param graphic the Graphic object.
-     *
      * @return a Mark object or null if unavailable.
      */
     public static Mark mark(Graphic graphic) {
@@ -474,7 +463,6 @@ public class SLD {
      * own thing.
      *
      * @param symbolizer Point symbolizer information.
-     *
      * @return size of the graphic or {@linkplain #NOTFOUND}
      */
     public static int pointSize(PointSymbolizer symbolizer) {
@@ -500,7 +488,6 @@ public class SLD {
      * own thing.
      *
      * @param symbolizer Point symbolizer information.
-     *
      * @return well known name of the first Mark or null if unavailable.
      */
     public static String pointWellKnownName(PointSymbolizer symbolizer) {
@@ -531,7 +518,6 @@ public class SLD {
      * Retrieves the "well known name" of a Mark object.
      *
      * @param mark the Mark object
-     *
      * @return well known name or null if unavailable.
      */
     public static String wellKnownName(Mark mark) {
@@ -556,7 +542,6 @@ public class SLD {
      * own thing.
      *
      * @param symbolizer Point symbolizer information.
-     *
      * @return Color of the point's mark, or null if unavailable.
      */
     public static Color pointColor(PointSymbolizer symbolizer) {
@@ -581,8 +566,7 @@ public class SLD {
      * Sets the Colour for the given point symbolizer
      *
      * @param symbolizer the point symbolizer
-     *
-     * @param colour the new colour
+     * @param colour     the new colour
      */
     public static void setPointColour(PointSymbolizer symbolizer, Color colour) {
         if (symbolizer == null || colour == null) {
@@ -620,7 +604,6 @@ public class SLD {
      * own thing.
      *
      * @param symbolizer Point symbolizer information.
-     *
      * @return Color of the point's mark, or null if unavailable.
      */
     public static Color color(PointSymbolizer symbolizer) {
@@ -658,7 +641,6 @@ public class SLD {
      * own thing.
      *
      * @param symbolizer Point symbolizer information.
-     *
      * @return width of the points border or {@linkplain #NOTFOUND} if unavailable.
      */
     public static int pointWidth(PointSymbolizer symbolizer) {
@@ -698,7 +680,6 @@ public class SLD {
      * thing.
      *
      * @param symbolizer Point symbolizer information.
-     *
      * @return double of the point's border opacity, or NaN if unavailable.
      */
     public static double pointBorderOpacity(PointSymbolizer symbolizer) {
@@ -733,7 +714,6 @@ public class SLD {
      * thing.
      *
      * @param symbolizer Point symbolizer information.
-     *
      * @return double of the point's opacity, or NaN if unavailable.
      */
     public static double pointOpacity(PointSymbolizer symbolizer) {
@@ -770,7 +750,6 @@ public class SLD {
      * own thing.
      *
      * @param symbolizer Point symbolizer information.
-     *
      * @return Color of the point's fill, or null if unavailable.
      */
     public static Color pointFill(PointSymbolizer symbolizer) {
@@ -807,7 +786,6 @@ public class SLD {
      * thing.
      *
      * @param symbolizer Polygon symbolizer information.
-     *
      * @return outline width or {@linkplain #NOTFOUND} if unavailable.
      */
     public static int polyWidth(PolygonSymbolizer symbolizer) {
@@ -830,7 +808,6 @@ public class SLD {
      * thing.
      *
      * @param symbolizer Polygon symbolizer information.
-     *
      * @return Color of the polygon's stroke, or null if unavailable.
      */
     public static Color polyColor(PolygonSymbolizer symbolizer) {
@@ -859,8 +836,8 @@ public class SLD {
      * <b>Note:</b> This method will update the Style in place; some of the rules
      * and symbolizers will be replaced with modified copies.
      * All symbolizers associated with all rules are modified.
-     * 
-     * @param style the Style object to be updated
+     *
+     * @param style   the Style object to be updated
      * @param opacity - a new opacity value between 0 and 1
      */
     public static void setRasterOpacity(Style style, final double opacity) {
@@ -885,11 +862,13 @@ public class SLD {
 
                         Expression newOpacity = ff.literal(opacity);
 
-                        RasterSymbolizer copy = sf.createRasterSymbolizer(geometryProperty, newOpacity, channelSelection,
+                        RasterSymbolizer copy = sf.createRasterSymbolizer(geometryProperty, 
+                                newOpacity, channelSelection,
                                 overlap, colorMap, ce, shadedRelief, outline);
 
                         if (STRICT && !copy.equals(raster)) {
-                            throw new IllegalStateException("Was unable to duplicate provided raster:" + raster);
+                            throw new IllegalStateException("Was unable to duplicate provided " +
+                                    "raster:" + raster);
                         }
                         pages.push(copy);
                     }
@@ -908,12 +887,14 @@ public class SLD {
      * This method will update the Style in place; some of the rules &
      * symbolizers will be replace with modified copies.
      * All symbolizes associated with all rules are updated.
-     * 
+     *
      * @param style the Style object to be updated
-     * @param rgb - an array of the new red, green, blue channels or null if setting the gray channel
-     * @param gray - the new gray channel; ignored if rgb is not null
+     * @param rgb   - an array of the new red, green, blue channels or null if setting the gray 
+     *              channel
+     * @param gray  - the new gray channel; ignored if rgb is not null
      */
-    public static void setChannelSelection(Style style, final SelectedChannelType[] rgb, final SelectedChannelType gray) {
+    public static void setChannelSelection(Style style, final SelectedChannelType[] rgb, final 
+    SelectedChannelType gray) {
         if (style == null) {
             return;
         }
@@ -941,7 +922,8 @@ public class SLD {
                                 channelSelection, overlap, colorMap, ce,
                                 shadedRelief, outline);
                         if (STRICT && !copy.equals(raster)) {
-                            throw new IllegalStateException("Was unable to duplicate provided raster:" + raster);
+                            throw new IllegalStateException("Was unable to duplicate provided " +
+                                    "raster:" + raster);
                         }
                         pages.push(copy);
                     }
@@ -961,12 +943,12 @@ public class SLD {
             }
         }
     }
-    
+
     /**
      * Sets the colour for the first polygon symbolizer defined in
      * the provided style
      *
-     * @param style the Style object
+     * @param style  the Style object
      * @param colour the colour for polygon outlines and fill
      */
     public static void setPolyColour(Style style, Color colour) {
@@ -980,7 +962,7 @@ public class SLD {
      * Sets the colour to use for outline (stroke) and fill in a polygon symbolizer
      *
      * @param symbolizer the polygon symbolizer
-     * @param colour the colour for polygon outlines and fill
+     * @param colour     the colour for polygon outlines and fill
      */
     public static void setPolyColour(PolygonSymbolizer symbolizer, Color colour) {
         if (symbolizer == null || colour == null) {
@@ -1009,7 +991,6 @@ public class SLD {
      * thing.
      *
      * @param symbolizer Polygon symbolizer information.
-     *
      * @return Color of the polygon's fill, or null if unavailable.
      */
     public static Color polyFill(PolygonSymbolizer symbolizer) {
@@ -1033,7 +1014,6 @@ public class SLD {
      * thing.
      *
      * @param symbolizer Polygon symbolizer information.
-     *
      * @return double of the polygon's border opacity, or NaN if unavailable.
      */
     public static double polyBorderOpacity(PolygonSymbolizer symbolizer) {
@@ -1056,7 +1036,6 @@ public class SLD {
      * thing.
      *
      * @param symbolizer Polygon symbolizer information.
-     *
      * @return double of the polygon's fill opacity, or NaN if unavailable.
      */
     public static double polyFillOpacity(PolygonSymbolizer symbolizer) {
@@ -1071,6 +1050,7 @@ public class SLD {
 
     /**
      * Retrieve the opacity from the provided fill; or return the default.
+     *
      * @param fill
      * @return opacity from the above fill; or return the Fill.DEFAULT value
      */
@@ -1080,7 +1060,7 @@ public class SLD {
         }
 
         Expression opacityExp = fill.getOpacity();
-        if( opacityExp == null ){
+        if (opacityExp == null) {
             opacityExp = Fill.DEFAULT.getOpacity();
         }
 
@@ -1110,7 +1090,6 @@ public class SLD {
      * in a style.
      *
      * @param style the Style object
-     *
      * @return opacity of the raster symbolizer or NaN if unavailable.
      */
     public static double rasterOpacity(Style style) {
@@ -1121,7 +1100,6 @@ public class SLD {
      * Retrieve the first TextSymbolizer from the provided FeatureTypeStyle.
      *
      * @param fts FeatureTypeStyle information.
-     *
      * @return TextSymbolizer, or null if not found.
      */
     public static TextSymbolizer textSymbolizer(FeatureTypeStyle fts) {
@@ -1132,7 +1110,6 @@ public class SLD {
      * Retrieve the first TextSymbolizer from the provided Style.
      *
      * @param style the Style object
-     *
      * @return TextSymbolizer, or null if not found.
      */
     public static TextSymbolizer textSymbolizer(Style style) {
@@ -1144,11 +1121,10 @@ public class SLD {
      * {@code symbolizer.getFont()}.
      *
      * @param symbolizer the symbolizer
-     *
      * @return the first font defined in the symbolizer or null if unavailable.
      */
-    public static Font font( TextSymbolizer symbolizer ) {
-        if(symbolizer == null) {
+    public static Font font(TextSymbolizer symbolizer) {
+        if (symbolizer == null) {
             return null;
         }
         return symbolizer.getFont();
@@ -1158,7 +1134,6 @@ public class SLD {
      * Retrieves the label from a TextSymbolizer.
      *
      * @param symbolizer Text symbolizer information.
-     *
      * @return Expression of the label's text, or null if unavailable.
      */
     public static Expression textLabel(TextSymbolizer symbolizer) {
@@ -1179,7 +1154,6 @@ public class SLD {
      * Retrieves the label from a TextSymbolizer.
      *
      * @param symbolizer Text symbolizer information.
-     *
      * @return the label's text, or null if unavailable.
      */
     public static String textLabelString(TextSymbolizer sym) {
@@ -1192,7 +1166,6 @@ public class SLD {
      * Retrieves the colour of the font fill from a TextSymbolizer.
      *
      * @param symbolizer Text symbolizer information.
-     *
      * @return Color of the font's fill, or null if unavailable.
      */
     public static Color textFontFill(TextSymbolizer symbolizer) {
@@ -1213,7 +1186,6 @@ public class SLD {
      * Retrieves the colour of the halo fill a TextSymbolizer.
      *
      * @param symbolizer Text symbolizer information.
-     *
      * @return Color of the halo's fill, or null if unavailable.
      */
     public static Color textHaloFill(TextSymbolizer symbolizer) {
@@ -1236,7 +1208,6 @@ public class SLD {
      * Retrieves the halo width from a TextSymbolizer.
      *
      * @param symbolizer Text symbolizer information.
-     *
      * @return the halo's width, or 0 if unavailable.
      */
     public static int textHaloWidth(TextSymbolizer symbolizer) {
@@ -1265,7 +1236,6 @@ public class SLD {
      * Retrieves the halo opacity from the first TextSymbolizer.
      *
      * @param symbolizer Text symbolizer information.
-     *
      * @return double of the halo's opacity, or NaN if unavailable.
      */
     public static double textHaloOpacity(TextSymbolizer symbolizer) {
@@ -1286,7 +1256,7 @@ public class SLD {
         }
 
         Expression expr = fill.getOpacity();
-        if( expr == null ){
+        if (expr == null) {
             return Double.NaN;
         }
 
@@ -1303,21 +1273,19 @@ public class SLD {
      * </code></pre>
      *
      * @param expr the Expression object
-     *
      * @return First available color, or null.
      */
     public static Color color(Expression expr) {
         if (expr == null) {
             return null;
         }
-        return expr.evaluate(null, Color.class );
+        return expr.evaluate(null, Color.class);
     }
 
     /**
      * Retrieve the first RasterSymbolizer from the provided FeatureTypeStyle.
      *
      * @param fts the FeatureTypeStyle information.
-     *
      * @return RasterSymbolizer, or null if not found.
      */
     public static RasterSymbolizer rasterSymbolizer(FeatureTypeStyle fts) {
@@ -1328,7 +1296,6 @@ public class SLD {
      * Retrieve the first RasterSymbolizer from the provided Style.
      *
      * @param style the Style object
-     *
      * @return RasterSymbolizer, or null if not found.
      */
     public static RasterSymbolizer rasterSymbolizer(Style style) {
@@ -1339,7 +1306,6 @@ public class SLD {
      * Retrieve the first LineSymbolizer from the provided FeatureTypeStyle.
      *
      * @param fts the FeatureTypeStyle object
-     *
      * @return LineSymbolizer, or null if not found.
      */
     public static LineSymbolizer lineSymbolizer(FeatureTypeStyle fts) {
@@ -1350,7 +1316,6 @@ public class SLD {
      * Retrieve the first LineSymbolizer from the provided Style.
      *
      * @param style the Style object
-     *
      * @return LineSymbolizer, or null if not found.
      */
     public static LineSymbolizer lineSymbolizer(Style style) {
@@ -1359,6 +1324,7 @@ public class SLD {
 
     /**
      * Retrieves the Stroke from a LineSymbolizer.
+     *
      * @param sym the symbolizer
      * @return the Stroke or null if not found.
      */
@@ -1372,6 +1338,7 @@ public class SLD {
 
     /**
      * Retrieves the Stroke from a PolygonSymbolizer.
+     *
      * @param sym the symbolizer
      * @return the Stroke or null if not found.
      */
@@ -1385,6 +1352,7 @@ public class SLD {
 
     /**
      * Retrieves the Stroke from a PointSymbolizer.
+     *
      * @param sym the symbolizer
      * @return the Stroke or null if not found.
      */
@@ -1396,6 +1364,7 @@ public class SLD {
 
     /**
      * Retrieves the Fill from a PolygonSymbolizer.
+     *
      * @param sym the symbolizer
      * @return the Fill or null if not found.
      */
@@ -1409,6 +1378,7 @@ public class SLD {
 
     /**
      * Retrieves the Fill from a PointSymbolizer.
+     *
      * @param sym the symbolizer
      * @return the Fill or null if not found.
      */
@@ -1422,7 +1392,6 @@ public class SLD {
      * Retrieve the first PointSymbolizer from the provided FeatureTypeStyle.
      *
      * @param fts the FeatureTypeStyle object
-     *
      * @return PointSymbolizer, or null if not found.
      */
     public static PointSymbolizer pointSymbolizer(FeatureTypeStyle fts) {
@@ -1433,7 +1402,6 @@ public class SLD {
      * Retrieve the first PointSymbolizer from the provided Style.
      *
      * @param style the Style object
-     *
      * @return PointSymbolizer, or null if not found.
      */
     public static PointSymbolizer pointSymbolizer(Style style) {
@@ -1444,7 +1412,6 @@ public class SLD {
      * Retrieve the first PolygonSymbolizer from the provided FeatureTypeStyle.
      *
      * @param fts FeatureTypeStyle object.
-     *
      * @return PolygonSymbolizer, or null if not found.
      */
     public static PolygonSymbolizer polySymbolizer(FeatureTypeStyle fts) {
@@ -1455,7 +1422,6 @@ public class SLD {
      * Retrieve the first PolygonSymbolizer from the provided Style.
      *
      * @param style the Style object
-     *
      * @return PolygonSymbolizer, or null if not found.
      */
     public static PolygonSymbolizer polySymbolizer(Style style) {
@@ -1467,8 +1433,7 @@ public class SLD {
      * name.
      *
      * @param style the Style object
-     * @param type the feature type (must be non-null)
-     *
+     * @param type  the feature type (must be non-null)
      * @return The FeatureTypeStyle object if it exists, otherwise false.
      */
     public static FeatureTypeStyle featureTypeStyle(Style style, SimpleFeatureType type) {
@@ -1494,9 +1459,8 @@ public class SLD {
      *
      * @param styles Array of style objects.
      * @param schema Feature schema.
-     *
      * @return The first object to match the feature type, otherwise null if no
-     *         match.
+     * match.
      */
     public static Style matchingStyle(Style[] styles, SimpleFeatureType schema) {
         if ((styles == null) || (styles.length == 0)) {
@@ -1517,10 +1481,9 @@ public class SLD {
     /**
      * Retrieve the first Symbolizer from the provided Style.
      *
-     * @param style SLD style information.
-     * @param SYMBOLIZER LineSymbolizer.class, PointSymbolizer.class, 
-     *        PolygonSymbolizer.class, RasterSymbolizer.class, or TextSymbolizer.class
-     *
+     * @param style      SLD style information.
+     * @param SYMBOLIZER LineSymbolizer.class, PointSymbolizer.class,
+     *                   PolygonSymbolizer.class, RasterSymbolizer.class, or TextSymbolizer.class
      * @return symbolizer instance from style, or null if not found.
      */
     protected static Symbolizer symbolizer(Style style, final Class SYMBOLIZER) {
@@ -1542,10 +1505,9 @@ public class SLD {
      * Retrieve the first Symbolizer from the provided FeatureTypeStyle.
      *
      * @param fts        the FeatureTypeStyle SLD style information.
-     * @param SYMBOLIZER LineSymbolizer.class, PointSymbolizer.class, 
-     *                   PolygonSymbolizer.class, RasterSymbolizer.class, 
+     * @param SYMBOLIZER LineSymbolizer.class, PointSymbolizer.class,
+     *                   PolygonSymbolizer.class, RasterSymbolizer.class,
      *                   or TextSymbolizer.class
-     *        
      * @return symbolizer instance from fts, or null if not found.
      */
     protected static Symbolizer symbolizer(FeatureTypeStyle fts, final Class SYMBOLIZER) {
@@ -1566,15 +1528,17 @@ public class SLD {
 
     /**
      * Convert a Color object to hex representation
+     *
      * @param c the Color object
      * @return a hex String
      */
     public static String colorToHex(Color c) {
-    	return "#" + Integer.toHexString(c.getRGB() & 0x00ffffff);
+        return "#" + Integer.toHexString(c.getRGB() & 0x00ffffff);
     }
 
     /**
      * Get the Styles defined in the given StyledLayerDescriptor
+     *
      * @param sld the StyledLayerDescriptor object
      * @return an array of Styles
      */
@@ -1595,9 +1559,10 @@ public class SLD {
 
         return styles.toArray(new Style[0]);
     }
-    
+
     /**
      * Get the FeatureTypeStyles defined in the given StyledLayerDescriptor
+     *
      * @param sld the StyledLayerDescriptor object
      * @return an array of FeatureTypeStyles
      */
@@ -1614,11 +1579,12 @@ public class SLD {
      * Retrieve the first FeatureTypeStyle defined in the given StyledLayerDescriptor
      * object that matches the specified feature type
      *
-     * @param sld a StyledLayerDescriptor object
+     * @param sld  a StyledLayerDescriptor object
      * @param type the feature type to match
      * @return a FeatureTypeStyle or null if there was no match
      */
-    public static FeatureTypeStyle featureTypeStyle(StyledLayerDescriptor sld, SimpleFeatureType type) {
+    public static FeatureTypeStyle featureTypeStyle(StyledLayerDescriptor sld, SimpleFeatureType 
+            type) {
         //alternatively, we could use a StyleVisitor here
         Style[] styles = styles(sld);
         for (int i = 0; i < styles.length; i++) {
@@ -1635,9 +1601,8 @@ public class SLD {
      * Retrieve the default style from the given StyledLayerDescriptor.
      *
      * @param sld the StyledLayerDescriptor object
-     *
      * @return the default style; or the first style if no default is
-     *         defined; or null if there are not styles
+     * defined; or null if there are not styles
      */
     public static Style defaultStyle(StyledLayerDescriptor sld) {
         Style[] style = styles(sld);
@@ -1657,7 +1622,6 @@ public class SLD {
      * Retrieves all filters defined in a rule
      *
      * @param rule the rule
-     *
      * @return array of filters
      */
     public static Filter[] filters(Rule[] rule) {
@@ -1672,7 +1636,6 @@ public class SLD {
      * Retrieves all filters defined in a style
      *
      * @param style the style
-     *
      * @return array of filters
      */
     public static Filter[] filters(Style style) {
@@ -1684,7 +1647,6 @@ public class SLD {
      * Retrieves all rules defined in a style
      *
      * @param style the style
-     *
      * @return an array of unique rules
      */
     public static Rule[] rules(Style style) {
@@ -1704,7 +1666,6 @@ public class SLD {
      * Retrieves all symbolizers defined in a style
      *
      * @param style the style
-     *
      * @return an array of unique symbolizers
      */
     public static Symbolizer[] symbolizers(Style style) {
@@ -1726,7 +1687,6 @@ public class SLD {
      * Retrieves all symbolizers defined in a rule
      *
      * @param rule the rule
-     *
      * @return an array of unique symbolizers
      */
     public static Symbolizer[] symbolizers(Rule rule) {
@@ -1742,6 +1702,7 @@ public class SLD {
 
     /**
      * Retrieves all colour names defined in a style
+     *
      * @param style the style
      * @return an array of unique colour names
      */
@@ -1766,6 +1727,7 @@ public class SLD {
 
     /**
      * Retrieves all colour names defined in a rule
+     *
      * @param rule the rule
      * @return an array of unique colour names
      */
@@ -1803,7 +1765,6 @@ public class SLD {
      * Converts a java.awt.Color into an HTML Colour
      *
      * @param color color to convert
-     *
      * @return HTML Color (fill) in hex #RRGGBB
      */
     public static String toHTMLColor(Color color) {
@@ -1827,7 +1788,6 @@ public class SLD {
      * Convert an HTML colour string to a java.awt.Color object
      *
      * @param htmlColor the colour string
-     *
      * @return a new Color object
      */
     public static Color toColor(String htmlColor) {
@@ -1836,11 +1796,12 @@ public class SLD {
 
     /**
      * Test if the given FeatureTypeStyle object matches a regular expression
-     * @param fts the feature type style
+     *
+     * @param fts   the feature type style
      * @param regex regular expression to match
      * @return true if a match is found; false otherwise
      */
-    public static boolean isSemanticTypeMatch( FeatureTypeStyle fts, String regex ) {
+    public static boolean isSemanticTypeMatch(FeatureTypeStyle fts, String regex) {
         for (SemanticType id : fts.semanticTypeIdentifiers()) {
             if (id.matches(regex)) {
                 return true;
@@ -1854,11 +1815,10 @@ public class SLD {
      * Returns the min scale of the default (first) rule
      *
      * @param fts the feature type style
-     *
      * @return min scale or 0 if no min scale is set
      */
-    public static double minScale( FeatureTypeStyle fts ) {
-        if(fts == null || fts.rules().isEmpty())
+    public static double minScale(FeatureTypeStyle fts) {
+        if (fts == null || fts.rules().isEmpty())
             return 0.0;
 
         return fts.rules().get(0).getMinScaleDenominator();
@@ -1868,11 +1828,10 @@ public class SLD {
      * Returns the max scale of the default (first) rule
      *
      * @param fts the feature type style
-     *
      * @return min scale or NaN if no max scale is set
      */
-    public static double maxScale( FeatureTypeStyle fts ) {
-        if(fts == null || fts.rules().isEmpty())
+    public static double maxScale(FeatureTypeStyle fts) {
+        if (fts == null || fts.rules().isEmpty())
             return Double.NaN;
 
         return fts.rules().get(0).getMaxScaleDenominator();
@@ -1882,13 +1841,14 @@ public class SLD {
      * Create a PointPlacement object.
      *
      * @param horizAlign horizontal alignment (0 to 1)
-     * @param vertAlign vertical alignment (0 to 1)
-     * @param rotation rotation angle in degrees
-     *
+     * @param vertAlign  vertical alignment (0 to 1)
+     * @param rotation   rotation angle in degrees
      * @return a new PointPlacement object
      */
-    public static PointPlacement getPlacement( double horizAlign, double vertAlign, double rotation ) {
-        AnchorPoint anchorPoint = sf.createAnchorPoint(ff.literal(horizAlign), ff.literal(vertAlign));
+    public static PointPlacement getPlacement(double horizAlign, double vertAlign, double 
+            rotation) {
+        AnchorPoint anchorPoint = sf.createAnchorPoint(ff.literal(horizAlign), ff.literal
+                (vertAlign));
         return sf.createPointPlacement(anchorPoint, null, ff.literal(rotation));
     }
 
@@ -1896,17 +1856,14 @@ public class SLD {
      * Create a minimal style to render features of type {@code typeName}
      * read from the given data store
      *
-     * @param store the data store containing the features
-     *
+     * @param store    the data store containing the features
      * @param typeName the feature type to create the style for
-     *
-     * @param color single color to use for all components of the Style
-     *
+     * @param color    single color to use for all components of the Style
      * @return a new Style instance
-     *
      * @throws java.io.IOException if the data store cannot be accessed
      */
-    public static Style createSimpleStyle(DataStore store, String typeName, Color color) throws IOException {
+    public static Style createSimpleStyle(DataStore store, String typeName, Color color) throws 
+            IOException {
         SimpleFeatureType type = store.getSchema(typeName);
         return createSimpleStyle(type, color);
     }
@@ -1915,7 +1872,6 @@ public class SLD {
      * Create a minimal style to render features of type {@code type}.
      *
      * @param type the feature type
-     *
      * @return a new Style instance
      */
     public static Style createSimpleStyle(FeatureType type) {
@@ -1925,14 +1881,10 @@ public class SLD {
     /**
      * Create a minimal style to render features of type {@code type}
      *
-     * @param store the data store containing the features
-     *
+     * @param store    the data store containing the features
      * @param typeName the feature type to create the style for
-     *
-     * @param color single color to use for all components of the Style
-     *
+     * @param color    single color to use for all components of the Style
      * @return a new Style instance
-     *
      * @throws java.io.IOException if the data store cannot be accessed
      */
     public static Style createSimpleStyle(FeatureType type, Color color) {
@@ -1970,9 +1922,8 @@ public class SLD {
      * Create a polygon style with the given colors and opacity.
      *
      * @param outlineColor color of polygon outlines
-     * @param fillColor color for the fill
-     * @param opacity proportional opacity (0 to 1)
-     *
+     * @param fillColor    color for the fill
+     * @param opacity      proportional opacity (0 to 1)
      * @return a new Style instance
      */
     public static Style createPolygonStyle(Color outlineColor, Color fillColor, float opacity) {
@@ -1981,27 +1932,24 @@ public class SLD {
         if (fillColor != null) {
             fill = sf.createFill(ff.literal(fillColor), ff.literal(opacity));
         }
-        return wrapSymbolizers( sf.createPolygonSymbolizer(stroke, fill, null) );
+        return wrapSymbolizers(sf.createPolygonSymbolizer(stroke, fill, null));
     }
 
     /**
      * Create a polygon style with the given colors, opacity and optional labels.
      *
      * @param outlineColor color of polygon outlines
-     * @param fillColor color for the fill
-     * @param opacity proportional opacity (0 to 1)
-     *
-     * @param labelField name of the feature field (attribute) to use for labelling;
-     *        mauy be {@code null} for no labels
-     *
-     * @param labelFont GeoTools Font object to use for labelling; if {@code null}
-     *        and {@code labelField} is not {@code null} the default font will be
-     *        used
-     *
+     * @param fillColor    color for the fill
+     * @param opacity      proportional opacity (0 to 1)
+     * @param labelField   name of the feature field (attribute) to use for labelling;
+     *                     mauy be {@code null} for no labels
+     * @param labelFont    GeoTools Font object to use for labelling; if {@code null}
+     *                     and {@code labelField} is not {@code null} the default font will be
+     *                     used
      * @return a new Style instance
      */
     public static Style createPolygonStyle(Color outlineColor, Color fillColor, float opacity,
-            String labelField, Font labelFont) {
+                                           String labelField, Font labelFont) {
         Stroke stroke = sf.createStroke(ff.literal(outlineColor), ff.literal(1.0f));
         Fill fill = Fill.NULL;
         if (fillColor != null) {
@@ -2010,7 +1958,7 @@ public class SLD {
         PolygonSymbolizer polySym = sf.createPolygonSymbolizer(stroke, fill, null);
 
         if (labelField == null) {
-            return wrapSymbolizers( polySym );
+            return wrapSymbolizers(polySym);
 
         } else {
             Font font = (labelFont == null ? sf.getDefaultFont() : labelFont);
@@ -2019,7 +1967,7 @@ public class SLD {
             TextSymbolizer textSym = sf.createTextSymbolizer(
                     labelFill, new Font[]{font}, null, ff.property(labelField), null, null);
 
-            return wrapSymbolizers( polySym, textSym );
+            return wrapSymbolizers(polySym, textSym);
         }
     }
 
@@ -2027,37 +1975,33 @@ public class SLD {
      * Create a line style with given color and line width
      *
      * @param lineColor color of lines
-     * @param width width of lines
-     *
+     * @param width     width of lines
      * @return a new Style instance
      */
     public static Style createLineStyle(Color lineColor, float width) {
         Stroke stroke = sf.createStroke(ff.literal(lineColor), ff.literal(width));
-        return wrapSymbolizers( sf.createLineSymbolizer(stroke, null) );
+        return wrapSymbolizers(sf.createLineSymbolizer(stroke, null));
     }
 
     /**
      * Create a line style with given color, line width and optional labels
      *
-     * @param lineColor color of lines
-     * @param width width of lines
-     *
+     * @param lineColor  color of lines
+     * @param width      width of lines
      * @param labelField name of the feature field (attribute) to use for labelling;
-     *        mauy be {@code null} for no labels
-     *
-     * @param labelFont GeoTools Font object to use for labelling; if {@code null}
-     *        and {@code labelField} is not {@code null} the default font will be
-     *        used
-     *
+     *                   mauy be {@code null} for no labels
+     * @param labelFont  GeoTools Font object to use for labelling; if {@code null}
+     *                   and {@code labelField} is not {@code null} the default font will be
+     *                   used
      * @return a new Style instance
      */
     public static Style createLineStyle(Color lineColor, float width,
-            String labelField, Font labelFont) {
+                                        String labelField, Font labelFont) {
         Stroke stroke = sf.createStroke(ff.literal(lineColor), ff.literal(width));
         LineSymbolizer lineSym = sf.createLineSymbolizer(stroke, null);
 
         if (labelField == null) {
-            return wrapSymbolizers( lineSym );
+            return wrapSymbolizers(lineSym);
 
         } else {
             Font font = (labelFont == null ? sf.getDefaultFont() : labelFont);
@@ -2066,7 +2010,7 @@ public class SLD {
             TextSymbolizer textSym = sf.createTextSymbolizer(
                     labelFill, new Font[]{font}, null, ff.property(labelField), null, null);
 
-            return wrapSymbolizers( lineSym, textSym );
+            return wrapSymbolizers(lineSym, textSym);
         }
     }
 
@@ -2074,11 +2018,10 @@ public class SLD {
      * Create a point style without labels
      *
      * @param wellKnownName one of: Circle, Square, Cross, X, Triangle or Star
-     * @param lineColor color for the point symbol outline
-     * @param fillColor color for the point symbol fill
-     * @param opacity a value between 0 and 1 for the opacity of the fill
-     * @param size size of the point symbol
-     *
+     * @param lineColor     color for the point symbol outline
+     * @param fillColor     color for the point symbol fill
+     * @param opacity       a value between 0 and 1 for the opacity of the fill
+     * @param size          size of the point symbol
      * @return a new Style instance
      */
     public static Style createPointStyle(
@@ -2095,18 +2038,15 @@ public class SLD {
      * Create a point style, optionally with text labels
      *
      * @param wellKnownName one of: Circle, Square, Cross, X, Triangle or Star
-     * @param lineColor color for the point symbol outline
-     * @param fillColor color for the point symbol fill
-     * @param opacity a value between 0 and 1 for the opacity of the fill
-     * @param size size of the point symbol
-     *
-     * @param labelField name of the feature field (attribute) to use for labelling;
-     *        mauy be {@code null} for no labels
-     *
-     * @param labelFont GeoTools Font object to use for labelling; if {@code null}
-     *        and {@code labelField} is not {@code null} the default font will be
-     *        used
-     *
+     * @param lineColor     color for the point symbol outline
+     * @param fillColor     color for the point symbol fill
+     * @param opacity       a value between 0 and 1 for the opacity of the fill
+     * @param size          size of the point symbol
+     * @param labelField    name of the feature field (attribute) to use for labelling;
+     *                      mauy be {@code null} for no labels
+     * @param labelFont     GeoTools Font object to use for labelling; if {@code null}
+     *                      and {@code labelField} is not {@code null} the default font will be
+     *                      used
      * @return a new Style instance
      */
     public static Style createPointStyle(
@@ -2135,7 +2075,7 @@ public class SLD {
         PointSymbolizer pointSym = sf.createPointSymbolizer(graphic, null);
 
         if (labelField == null) {
-            return wrapSymbolizers( pointSym );
+            return wrapSymbolizers(pointSym);
 
         } else {
             Font font = (labelFont == null ? sf.getDefaultFont() : labelFont);
@@ -2147,7 +2087,7 @@ public class SLD {
             TextSymbolizer textSym = sf.createTextSymbolizer(
                     labelFill, new Font[]{font}, null, ff.property(labelField), placement, null);
 
-            return wrapSymbolizers( pointSym, textSym );
+            return wrapSymbolizers(pointSym, textSym);
         }
 
     }
@@ -2156,10 +2096,9 @@ public class SLD {
      * Wrap one or more symbolizers into a Rule / FeatureTypeStyle / Style
      *
      * @param symbolizers one or more symbolizer objects
-     *
      * @return a new Style instance or null if no symbolizers are provided
      */
-    public static Style wrapSymbolizers(Symbolizer ...symbolizers) {
+    public static Style wrapSymbolizers(Symbolizer... symbolizers) {
         if (symbolizers == null || symbolizers.length == 0) {
             return null;
         }
@@ -2170,7 +2109,7 @@ public class SLD {
             rule.symbolizers().add(sym);
         }
 
-        FeatureTypeStyle fts = sf.createFeatureTypeStyle(new Rule[] {rule});
+        FeatureTypeStyle fts = sf.createFeatureTypeStyle(new Rule[]{rule});
 
         Style style = sf.createStyle();
         style.featureTypeStyles().add(fts);

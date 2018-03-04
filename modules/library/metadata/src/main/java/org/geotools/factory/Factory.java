@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -22,54 +22,54 @@ import java.awt.RenderingHints;
 
 /**
  * Base interface for Geotools factories (i.e. service discovery).
- *
+ * <p>
  * <p>This interfaces forms the core of the Geotools plug-in system, by which capabilities
  * can be added to the library at runtime. Each sub-interface defines a <cite>service</cite>.
  * Most services are set up with concrete implementation being registered for use in
  * a <cite>service registry</cite>, which acts as a container for service implementations.</p>
- *
+ * <p>
  * <p>Service registries don't need to be a Geotools implementation. They can be (but are not
  * limited to) any {@link javax.imageio.spi.ServiceRegistry} subclass. If the standard
  * {@code ServiceRegistry} (or its Geotools extension {@link FactoryRegistry}) is selected
  * as a container for services, then factory implementations should be declared as below
  * (select only one way):</p>
- *
+ * <p>
  * <ul>
- *   <li><strong>Register for automatic discovery</strong></li>
- *   <ul>
- *     <li>Provide a public no-arguments constructor.</li>
- *     <li>Add the fully qualified name of the <u>implementation</u> class in the
- *         {@code META-INF/services/}<var>classname</var> file where <var>classname</var>
- *         is the fully qualified name of the service <u>interface</u>.</li>
- *     <li>The factory implementations will be discovered when
- *         {@link FactoryRegistry#scanForPlugins} will be invoked.</li>
- *   </ul>
- *   <li><strong><u>Or</u> register explicitly by application code</strong></li>
- *   <ul>
- *     <li>Invoke {@link ServiceRegistry#registerServiceProvider} in application code.</li>
- *   </ul>
+ * <li><strong>Register for automatic discovery</strong></li>
+ * <ul>
+ * <li>Provide a public no-arguments constructor.</li>
+ * <li>Add the fully qualified name of the <u>implementation</u> class in the
+ * {@code META-INF/services/}<var>classname</var> file where <var>classname</var>
+ * is the fully qualified name of the service <u>interface</u>.</li>
+ * <li>The factory implementations will be discovered when
+ * {@link FactoryRegistry#scanForPlugins} will be invoked.</li>
  * </ul>
- *
+ * <li><strong><u>Or</u> register explicitly by application code</strong></li>
+ * <ul>
+ * <li>Invoke {@link ServiceRegistry#registerServiceProvider} in application code.</li>
+ * </ul>
+ * </ul>
+ * <p>
  * <p>In addition, it is recommended that implementations provide a constructor expecting
  * a single {@link Hints} argument. This optional argument gives to the user some control
  * of the factory's low-level details. The amount of control is factory specific. The geotools
  * library defines a global class called {@link Hints} that is ment as API (i.e. you can assume
  * these hints are supported). Factories may also provide information on their own custom hints
  * as part of their javadoc class description.</p>
- *
+ * <p>
  * <strong>Examples:</strong>
  * <ul>
- *   <li><p>An application supplied a {@linkplain Hints#DATUM_FACTORY datum factory hint}, being
- *   passed to a {@linkplain org.opengis.referencing.datum.DatumAuthorityFactory datum authority
- *   factory} so that all datum created from an authority code will come from the supplied datum
- *   factory.</p></li>
- *
- *   <li><p>An application supplied a {@link org.geotools.feature.FeatureFactory} (ensuring all
- *   constructed features support the Eclipse's {@code IAdaptable} interface), being passed to a
- *   {@link org.geotools.feature.FeatureTypeFactory} so that all {@code FeatureTypes}
- *   constructed will produce features supporting the indicated interface.<p></li>
+ * <li><p>An application supplied a {@linkplain Hints#DATUM_FACTORY datum factory hint}, being
+ * passed to a {@linkplain org.opengis.referencing.datum.DatumAuthorityFactory datum authority
+ * factory} so that all datum created from an authority code will come from the supplied datum
+ * factory.</p></li>
+ * <p>
+ * <li><p>An application supplied a {@link org.geotools.feature.FeatureFactory} (ensuring all
+ * constructed features support the Eclipse's {@code IAdaptable} interface), being passed to a
+ * {@link org.geotools.feature.FeatureTypeFactory} so that all {@code FeatureTypes}
+ * constructed will produce features supporting the indicated interface.<p></li>
  * </ul>
- *
+ * <p>
  * <p>As seen in those examples this concept of a hint becomes more interesting when
  * the operation being controlled is discovery of other services used by the Factory.
  * By supplying appropriate hints one can chain together several factories and retarget
@@ -78,11 +78,8 @@ import java.awt.RenderingHints;
  * @author Ian Schneider
  * @author Martin Desruisseaux
  * @author Jody Garnett
- *
- *
- * @source $URL$
  * @version $Id$
- *
+ * @source $URL$
  * @see Hints
  * @see FactoryRegistry
  */
@@ -118,7 +115,7 @@ public interface Factory {
      * its method could be implemented as below (note that we should not check if the datum
      * factory is null, since key with null value is the expected behaviour in this case).
      * Example:
-     *
+     * <p>
      * <pre><code>
      * Map hints = new HashMap();
      * hints.put({@linkplain Hints#DATUM_FACTORY}, datumFactory);
@@ -126,7 +123,7 @@ public interface Factory {
      * </code></pre>
      *
      * @return The map of hints, or an {@linkplain java.util.Collections#EMPTY_MAP empty map}
-     *         if none.
+     * if none.
      */
     Map<RenderingHints.Key, ?> getImplementationHints();
 }

@@ -47,25 +47,36 @@ import com.vividsolutions.jts.geom.Geometry;
 import it.geosolutions.imageio.maskband.DatasetLayout;
 
 /**
- * {@link MultiLevelROI} implementation supporting Raster masking. Notice that actually it does not support Inset definition.
- * 
+ * {@link MultiLevelROI} implementation supporting Raster masking. Notice that actually it does 
+ * not support Inset definition.
+ *
  * @author Nicola Lagomarsini GeoSolutions
  */
 public class MultiLevelROIRaster implements MultiLevelROI {
 
-    /** {@link Logger} used for logging exceptions */
+    /**
+     * {@link Logger} used for logging exceptions
+     */
     private final static Logger LOGGER = Logging.getLogger(MultiLevelROIRaster.class);
 
-    /** Input File from where we load internal Masks */
+    /**
+     * Input File from where we load internal Masks
+     */
     private File file;
 
-    /** Bounding Box of the mask */
+    /**
+     * Bounding Box of the mask
+     */
     private Geometry footprint;
 
-    /** Envelope of the mask */
+    /**
+     * Envelope of the mask
+     */
     private ReferencedEnvelope env;
 
-    /** {@link MaskOverviewProvider} instance used for handling internal/External Masks */
+    /**
+     * {@link MaskOverviewProvider} instance used for handling internal/External Masks
+     */
     private MaskOverviewProvider maskOvrProvider;
 
     public MultiLevelROIRaster(DatasetLayout layout, File file, SimpleFeature sf)
@@ -84,7 +95,7 @@ public class MultiLevelROIRaster implements MultiLevelROI {
     }
 
     public ROI getTransformedROI(AffineTransform at, int imageIndex, Rectangle imgBounds,
-            ImageReadParam params, ReadType readType) {
+                                 ImageReadParam params, ReadType readType) {
         // Getting MaskInfo
         MaskInfo info = maskOvrProvider.getMaskInfo(imageIndex, imgBounds, params);
         // Define which File must be used for reading mask info

@@ -40,20 +40,18 @@ import org.opengis.parameter.GeneralParameterValue;
 import org.opengis.parameter.ParameterDescriptor;
 
 /**
- *
- *
- *
- *
  * @source $URL$
  */
 public final class ImageCollectionFormat extends AbstractGridFormat implements Format {
 
     public static final String TILE_SIZE_SEPARATOR = ",";
 
-    /** Logger. */
+    /**
+     * Logger.
+     */
     private final static Logger LOGGER = org.geotools.util.logging.Logging
-        .getLogger("org.geotools.gce.imagecollection");
-    
+            .getLogger("org.geotools.gce.imagecollection");
+
     /**
      * This {@link GeneralParameterValue} can be provided to the
      * {@link GridCoverageReader}s through the
@@ -64,14 +62,20 @@ public final class ImageCollectionFormat extends AbstractGridFormat implements F
      * a number representing the suggested tileWidth and H is a number
      * representing the suggested tileHeight.
      */
-    public static final DefaultParameterDescriptor<String> SUGGESTED_TILE_SIZE = new DefaultParameterDescriptor<String>(
+    public static final DefaultParameterDescriptor<String> SUGGESTED_TILE_SIZE = new 
+            DefaultParameterDescriptor<String>(
             "SUGGESTED_TILESIZE", String.class, null, "512,512");
-    
-    /** Control the background values for the output coverage */
-    public static final ParameterDescriptor<double[]> BACKGROUND_VALUES = new DefaultParameterDescriptor<double[]>(
+
+    /**
+     * Control the background values for the output coverage
+     */
+    public static final ParameterDescriptor<double[]> BACKGROUND_VALUES = new 
+            DefaultParameterDescriptor<double[]>(
             "BackgroundValues", double[].class, null, null);
 
-    /** Filter tiles based on attributes from the input coverage */
+    /**
+     * Filter tiles based on attributes from the input coverage
+     */
     public static final ParameterDescriptor<Filter> FILTER = new DefaultParameterDescriptor<Filter>(
             "Filter", Filter.class, null, null);
 
@@ -96,9 +100,9 @@ public final class ImageCollectionFormat extends AbstractGridFormat implements F
         // reading parameters
         readParameters = new ParameterGroup(
                 new DefaultParameterDescriptorGroup(mInfo,
-                        new GeneralParameterDescriptor[] { READ_GRIDGEOMETRY2D,
+                        new GeneralParameterDescriptor[]{READ_GRIDGEOMETRY2D,
                                 FILTER, SUGGESTED_TILE_SIZE, USE_JAI_IMAGEREAD,
-                                BACKGROUND_COLOR }));
+                                BACKGROUND_COLOR}));
 
         // writing parameters
         writeParameters = null;
@@ -108,10 +112,8 @@ public final class ImageCollectionFormat extends AbstractGridFormat implements F
      * Retrieves a {@link ImageCollectionReader} in case the provided
      * <code>source</code> can be accepted as a valid source for an ImageCollection.
      * The method returns null otherwise.
-     * 
-     * @param source
-     *            The source object to read a WorldImage from
-     * 
+     *
+     * @param source The source object to read a WorldImage from
      * @return a new WorldImageReader for the source
      */
     @Override
@@ -120,7 +122,7 @@ public final class ImageCollectionFormat extends AbstractGridFormat implements F
     }
 
     /**
-     * 
+     *
      */
     @Override
     public GridCoverageWriter getWriter(Object destination) {
@@ -139,28 +141,26 @@ public final class ImageCollectionFormat extends AbstractGridFormat implements F
      * Takes the input and determines if it is a class that we can understand
      * and then futher checks the format of the class to make sure we can
      * read/write to it.
-     * 
-     * @param input
-     *            The object to check for acceptance.
-     * 
+     *
+     * @param input The object to check for acceptance.
      * @return true if the input is acceptable, false otherwise
      */
     @Override
     public boolean accepts(Object input, Hints hints) {
         try {
             URL url = Utils.checkSource(input);
-            if (url != null){
+            if (url != null) {
                 File file = URLs.urlToFile(url);
                 if (file.isDirectory()) {
                     return true;
                 }
             }
         } catch (MalformedURLException e) {
-            if (LOGGER.isLoggable(Level.SEVERE)){
+            if (LOGGER.isLoggable(Level.SEVERE)) {
                 LOGGER.log(Level.SEVERE, "Unable to accept the specified input", e);
             }
         } catch (DataSourceException e) {
-            if (LOGGER.isLoggable(Level.SEVERE)){
+            if (LOGGER.isLoggable(Level.SEVERE)) {
                 LOGGER.log(Level.SEVERE, "Unable to accept the specified input", e);
             }
         }
@@ -171,12 +171,10 @@ public final class ImageCollectionFormat extends AbstractGridFormat implements F
      * Retrieves a {@link ImageCollectionReader} in case the provided
      * <code>source</code> can be accepted as a valid source for an image collection coverage.
      * The method returns null otherwise.
-     * 
-     * @param source
-     *            The source object to read an ImageCollection from
-     * @param hints
-     *            {@link Hints} to control the provided
-     *            {@link ImageCollectionReader}.
+     *
+     * @param source The source object to read an ImageCollection from
+     * @param hints  {@link Hints} to control the provided
+     *               {@link ImageCollectionReader}.
      * @return a new WorldImageReader for the source
      */
     @Override
@@ -193,7 +191,7 @@ public final class ImageCollectionFormat extends AbstractGridFormat implements F
     /**
      * Always returns null since for the moment there are no
      * {@link GeoToolsWriteParams} available for this format.
-     * 
+     *
      * @return always null.
      */
     @Override

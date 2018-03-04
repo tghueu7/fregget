@@ -3,7 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2006-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -18,17 +18,12 @@ package org.geotools.geometry.iso.util.algorithmND;
 
 /**
  * @author roehrig
- *
- *
- *
- *
- *
  * @source $URL$
  */
 public class AlgoLineND {
 
 // Commented out because methods are neither tested nor used	
-	
+
 //	/**
 //	 * @param p0
 //	 * @param p1
@@ -37,7 +32,7 @@ public class AlgoLineND {
 //	public static double getLengthSquare(double[] p0, double[] p1) {
 //		return AlgoPointND.getDistanceSquare(p0,p1);
 //	}
-	
+
 //	/**
 //	 * @param p0
 //	 * @param p1
@@ -46,7 +41,7 @@ public class AlgoLineND {
 //	public static double getLength(double[] p0, double[] p1) {
 //		return AlgoPointND.getDistance(p0,p1);
 //	}
-	
+
 //	/**
 //	 * 
 //	 * @param p0

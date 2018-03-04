@@ -48,10 +48,9 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
  * {@linkplain org.geotools.map.FeatureLayer}.
  *
  * @author Michael Bedward
- * @since 2.6
- *
- * @source $URL$
  * @version $URL$
+ * @source $URL$
+ * @since 2.6
  */
 public class FeatureLayerHelper extends InfoToolHelper {
 
@@ -63,7 +62,8 @@ public class FeatureLayerHelper extends InfoToolHelper {
      */
     public static final double DEFAULT_DISTANCE_FRACTION = 0.01d;
 
-    private static final GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory(null);
+    private static final GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory
+            (null);
     private static final FilterFactory2 filterFactory = CommonFactoryFinder.getFilterFactory2(null);
 
     private String attrName;
@@ -90,7 +90,8 @@ public class FeatureLayerHelper extends InfoToolHelper {
         GeometryDescriptor geomDesc = layer.getFeatureSource().getSchema().getGeometryDescriptor();
         attrName = geomDesc.getLocalName();
 
-        Class<? extends Geometry> geomClass = (Class<? extends Geometry>) geomDesc.getType().getBinding();
+        Class<? extends Geometry> geomClass = (Class<? extends Geometry>) geomDesc.getType()
+                .getBinding();
         geomType = Geometries.getForBinding(geomClass);
     }
 

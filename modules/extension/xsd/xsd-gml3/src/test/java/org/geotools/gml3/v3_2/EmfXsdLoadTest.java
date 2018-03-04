@@ -40,11 +40,8 @@ import org.junit.Test;
  * Test that complex type child elements have types. This version does not use the GeoTools
  * {@link Configuration} or {@link XSD} support, relying only on EMF and its native file-based
  * schema include/import support.
- * 
+ *
  * @author Ben Caradoc-Davies, CSIRO Earth Science and Resource Engineering
- * 
- *
- *
  * @source $URL$
  */
 public class EmfXsdLoadTest {
@@ -95,13 +92,10 @@ public class EmfXsdLoadTest {
 
     /**
      * Check that a type found by loading a top-level schema has children whose types are not null.
-     * 
-     * @param filename
-     *            top-level schema file
-     * @param namespace
-     *            namespace of type to check
-     * @param name
-     *            local name of type to check
+     *
+     * @param filename  top-level schema file
+     * @param namespace namespace of type to check
+     * @param name      local name of type to check
      */
     @SuppressWarnings("unchecked")
     private static void checkChildElementTypes(String filename, String namespace, String name) {
@@ -113,7 +107,7 @@ public class EmfXsdLoadTest {
         SchemaIndex index = null;
         XSDTypeDefinition type = null;
         try {
-            index = new SchemaIndexImpl(new XSDSchema[] { schema });
+            index = new SchemaIndexImpl(new XSDSchema[]{schema});
             type = index.getTypeDefinition(new QName(namespace, name));
         } finally {
             if (index != null) {
@@ -125,7 +119,8 @@ public class EmfXsdLoadTest {
         List<XSDElementDeclaration> children = Schemas.getChildElementDeclarations(type);
         boolean foundNull = false;
         for (XSDElementDeclaration child : children) {
-            // System.err.println("QName: " + child.getQName() + " URI: " + child.getURI() + " Type: "
+            // System.err.println("QName: " + child.getQName() + " URI: " + child.getURI() + " 
+            // Type: "
             //        + child.getTypeDefinition()
             //        + (child.getTypeDefinition() == null ? " <<< FAILURE" : ""));
             if (child.getTypeDefinition() == null) {

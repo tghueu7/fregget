@@ -36,21 +36,19 @@ import org.geotools.resources.i18n.Errors;
  * assumed:
  * <p>
  * <ul>
- *   <li>Properties (or metadata attributes) are defined by the set of {@code get*()}
- *       (arbitrary return type) or {@code is*()} (boolean return type) methods found
- *       in the <strong>interface</strong>. Getters declared in the implementation
- *       only are ignored.</li>
- *   <li>A property is <cite>writable</cite> if a {@code set*(...)} method is defined
- *       in the implementation class for the corresponding {@code get*()} method. The
- *       setter don't need to be defined in the interface.</li>
+ * <li>Properties (or metadata attributes) are defined by the set of {@code get*()}
+ * (arbitrary return type) or {@code is*()} (boolean return type) methods found
+ * in the <strong>interface</strong>. Getters declared in the implementation
+ * only are ignored.</li>
+ * <li>A property is <cite>writable</cite> if a {@code set*(...)} method is defined
+ * in the implementation class for the corresponding {@code get*()} method. The
+ * setter don't need to be defined in the interface.</li>
  * </ul>
  *
- * @since 2.4
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (Geomatys)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.4
  */
 public final class MetadataStandard {
     /**
@@ -60,7 +58,8 @@ public final class MetadataStandard {
      *
      * @since 2.5
      */
-    public static final MetadataStandard ISO_19111 = new MetadataStandard("org.opengis.referencing.");
+    public static final MetadataStandard ISO_19111 = new MetadataStandard("org.opengis" +
+            ".referencing.");
 
     /**
      * An instance working on ISO 19115 standard as defined by
@@ -86,7 +85,8 @@ public final class MetadataStandard {
     /**
      * Accessors for the specified implementations.
      */
-    private final Map<Class<?>,PropertyAccessor> accessors = new HashMap<Class<?>,PropertyAccessor>();
+    private final Map<Class<?>, PropertyAccessor> accessors = new HashMap<Class<?>, 
+            PropertyAccessor>();
 
     /**
      * Shared pool of {@link PropertyTree} instances, once for each thread
@@ -117,15 +117,14 @@ public final class MetadataStandard {
      * Returns the accessor for the specified implementation.
      *
      * @throws ClassCastException if the specified implementation class do
-     *         not implements a metadata interface of the expected package.
+     *                            not implements a metadata interface of the expected package.
      */
     private PropertyAccessor getAccessor(final Class<?> implementation)
-            throws ClassCastException
-    {
+            throws ClassCastException {
         final PropertyAccessor accessor = getAccessorOptional(implementation);
         if (accessor == null) {
             throw new ClassCastException(Errors.format(ErrorKeys.UNKNOW_TYPE_$1,
-                                         implementation.getName()));
+                    implementation.getName()));
         }
         return accessor;
     }
@@ -151,7 +150,7 @@ public final class MetadataStandard {
      * Returns the metadata interface implemented by the specified implementation.
      * Only one metadata interface can be implemented.
      *
-     * @param  metadata The metadata implementation to wraps.
+     * @param metadata The metadata implementation to wraps.
      * @return The single interface, or {@code null} if none where found.
      */
     private Class<?> getType(final Class<?> implementation) {
@@ -161,11 +160,10 @@ public final class MetadataStandard {
     /**
      * Returns the metadata interface implemented by the specified implementation class.
      *
-     * @param  implementation The implementation class.
+     * @param implementation The implementation class.
      * @return The interface implemented by the given implementation class.
      * @throws ClassCastException if the specified implementation class do
-     *         not implements a metadata interface of the expected package.
-     *
+     *                            not implements a metadata interface of the expected package.
      * @see AbstractMap#getInterface
      */
     public Class<?> getInterface(final Class<?> implementation) throws ClassCastException {
@@ -182,14 +180,13 @@ public final class MetadataStandard {
      * The map supports the {@link Map#put put} operations if the underlying
      * metadata object contains {@link #set*(...)} methods.
      *
-     * @param  metadata The metadata object to view as a map.
+     * @param metadata The metadata object to view as a map.
      * @return A map view over the metadata object.
      * @throws ClassCastException if at the metadata object don't
-     *         implements a metadata interface of the expected package.
-     *
+     *                            implements a metadata interface of the expected package.
      * @see AbstractMap#asMap
      */
-    public Map<String,Object> asMap(final Object metadata) throws ClassCastException {
+    public Map<String, Object> asMap(final Object metadata) throws ClassCastException {
         return new PropertyMap(metadata, getAccessor(metadata.getClass()));
     }
 
@@ -201,11 +198,10 @@ public final class MetadataStandard {
      * In current implementation, the tree is not live (i.e. changes in metadata are not
      * reflected in the tree). However it may be improved in a future Geotools implementation.
      *
-     * @param  metadata The metadata object to formats as a string.
+     * @param metadata The metadata object to formats as a string.
      * @return A tree representation of the specified metadata.
      * @throws ClassCastException if at the metadata object don't
-     *         implements a metadata interface of the expected package.
-     *
+     *                            implements a metadata interface of the expected package.
      * @see AbstractMap#asTree
      */
     public TreeModel asTree(final Object metadata) throws ClassCastException {
@@ -218,8 +214,7 @@ public final class MetadataStandard {
      * uses heuristic rules. In case of doubt, this method conservatively returns {@code true}.
      *
      * @throws ClassCastException if the specified implementation class do
-     *         not implements a metadata interface of the expected package.
-     *
+     *                            not implements a metadata interface of the expected package.
      * @see AbstractMap#isModifiable
      */
     final boolean isModifiable(final Class implementation) throws ClassCastException {
@@ -231,8 +226,7 @@ public final class MetadataStandard {
      * {@linkplain ModifiableMetadata#unmodifiable unmodifiable variant.
      *
      * @throws ClassCastException if the specified implementation class do
-     *         not implements a metadata interface of the expected package.
-     *
+     *                            not implements a metadata interface of the expected package.
      * @see ModifiableMetadata#freeze()
      */
     final void freeze(final Object metadata) throws ClassCastException {
@@ -243,19 +237,19 @@ public final class MetadataStandard {
      * Copies all metadata from source to target. The source must implements the same
      * metadata interface than the target.
      *
-     * @param  source The metadata to copy.
-     * @param  target The target metadata.
-     * @param  skipNulls If {@code true}, only non-null values will be copied.
-     * @throws ClassCastException if the source or target object don't
-     *         implements a metadata interface of the expected package.
+     * @param source    The metadata to copy.
+     * @param target    The target metadata.
+     * @param skipNulls If {@code true}, only non-null values will be copied.
+     * @throws ClassCastException            if the source or target object don't
+     *                                       implements a metadata interface of the expected 
+     *                                       package.
      * @throws UnmodifiableMetadataException if the target metadata is unmodifiable,
-     *         or if at least one setter method was required but not found.
-     *
+     *                                       or if at least one setter method was required but 
+     *                                       not found.
      * @see AbstractMap#AbstractMap(Object)
      */
     public void shallowCopy(final Object source, final Object target, final boolean skipNulls)
-            throws ClassCastException, UnmodifiableMetadataException
-    {
+            throws ClassCastException, UnmodifiableMetadataException {
         ensureNonNull("target", target);
         final PropertyAccessor accessor = getAccessor(target.getClass());
         if (!accessor.type.isInstance(source)) {
@@ -286,13 +280,12 @@ public final class MetadataStandard {
      * @param skipNulls If {@code true}, only non-null values will be compared.
      * @return {@code true} if the given metadata objects are equals.
      * @throws ClassCastException if at least one metadata object don't
-     *         implements a metadata interface of the expected package.
-     *
+     *                            implements a metadata interface of the expected package.
      * @see AbstractMetadata#equals
      */
-    public boolean shallowEquals(final Object metadata1, final Object metadata2, final boolean skipNulls)
-            throws ClassCastException
-    {
+    public boolean shallowEquals(final Object metadata1, final Object metadata2, final boolean 
+            skipNulls)
+            throws ClassCastException {
         if (metadata1 == metadata2) {
             return true;
         }
@@ -312,11 +305,10 @@ public final class MetadataStandard {
      * {@link java.util.Set#hashCode} and ensure that the hash code value is insensitive
      * to the ordering of properties.
      *
-     * @param  metadata The metadata object to compute hash code.
+     * @param metadata The metadata object to compute hash code.
      * @return A hash code value for the specified metadata.
      * @throws ClassCastException if at the metadata object don't
-     *         implements a metadata interface of the expected package.
-     *
+     *                            implements a metadata interface of the expected package.
      * @see AbstractMap#hashCode
      */
     public int hashCode(final Object metadata) throws ClassCastException {
@@ -326,11 +318,10 @@ public final class MetadataStandard {
     /**
      * Returns a string representation of the specified metadata.
      *
-     * @param  metadata The metadata object to formats as a string.
+     * @param metadata The metadata object to formats as a string.
      * @return A string representation of the specified metadata.
      * @throws ClassCastException if at the metadata object don't
-     *         implements a metadata interface of the expected package.
-     *
+     *                            implements a metadata interface of the expected package.
      * @see AbstractMap#toString
      */
     public String toString(final Object metadata) throws ClassCastException {

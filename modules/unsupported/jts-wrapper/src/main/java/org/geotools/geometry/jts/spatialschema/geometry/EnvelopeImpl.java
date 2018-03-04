@@ -2,7 +2,8 @@
  **
  ** $Id$
  **
- ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/EnvelopeImpl.java,v $
+ ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/EnvelopeImpl
+ * .java,v $
  **
  ** Copyright (C) 2003 Open GIS Consortium, Inc. All Rights Reserved. http://www.opengis.org/Legal/
  **
@@ -24,15 +25,11 @@ import org.opengis.geometry.Envelope;
  * all of the data types in this specification, their state is represented by their publicly
  * accessible attributes.
  *
- * @UML datatype GM_Envelope
  * @author ISO/DIS 19107
  * @author <A HREF="http://www.opengis.org">OpenGIS&reg; consortium</A>
- *
- *
- *
- *
- * @source $URL$
  * @version 2.0
+ * @UML datatype GM_Envelope
+ * @source $URL$
  */
 public class EnvelopeImpl implements Envelope {
 
@@ -58,11 +55,12 @@ public class EnvelopeImpl implements Envelope {
 
     /**
      * Creates a new {@code EnvelopeImpl}.
+     *
      * @param lowerCorner
      * @param upperCorner
      */
     public EnvelopeImpl(
-            final DirectPosition lowerCorner, 
+            final DirectPosition lowerCorner,
             final DirectPosition upperCorner) {
         this.lowerCorner = new DirectPositionImpl(lowerCorner);
         this.upperCorner = new DirectPositionImpl(upperCorner);
@@ -145,22 +143,22 @@ public class EnvelopeImpl implements Envelope {
     public final DirectPosition getLowerCorner() {
         return new DirectPositionImpl(lowerCorner);
     }
-    
+
     /**
      * @inheritDoc
      * @see java.lang.Object#toString()
      */
     public String toString() {
         final double[] bbox = GeometryUtils.getBBox(this, NonSI.DEGREE_ANGLE);
-        
+
         final StringBuffer returnable = new StringBuffer("Envelope[").append(bbox[0]);
         for (int i = 1; i < bbox.length; i++) {
             returnable.append(",").append(bbox[i]);
         }
         return returnable.append("]").toString();
     }
-    
-    
+
+
     /**
      * @inheritDoc
      * @see java.lang.Object#equals(java.lang.Object)

@@ -24,8 +24,6 @@ import org.geotools.xml.test.XMLTestSupport;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class SLDTestSupport extends XMLTestSupport {

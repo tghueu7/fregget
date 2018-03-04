@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.metadata.citation;
@@ -22,14 +22,12 @@ import static org.opengis.annotation.Specification.*;
 /**
  * Identification of when a given event occurred
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 2.0
+ * @source $URL$
+ * @since GeoAPI 2.0
  */
-@UML(identifier="CI_DateTypeCode", specification=ISO_19115)
+@UML(identifier = "CI_DateTypeCode", specification = ISO_19115)
 public final class DateType extends CodeList<DateType> {
     /**
      * Serial number for compatibility with different versions.
@@ -45,19 +43,19 @@ public final class DateType extends CodeList<DateType> {
     /**
      * Date identifies when the resource was brought into existence.
      */
-    @UML(identifier="creation", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "creation", obligation = CONDITIONAL, specification = ISO_19115)
     public static final DateType CREATION = new DateType("CREATION");
 
     /**
      * Date identifies when the resource was issued.
      */
-    @UML(identifier="publication", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "publication", obligation = CONDITIONAL, specification = ISO_19115)
     public static final DateType PUBLICATION = new DateType("PUBLICATION");
 
     /**
      * Date identifies when the resource was examined or re-examined and improved or amended.
      */
-    @UML(identifier="revision", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "revision", obligation = CONDITIONAL, specification = ISO_19115)
     public static final DateType REVISION = new DateType("REVISION");
 
     /**

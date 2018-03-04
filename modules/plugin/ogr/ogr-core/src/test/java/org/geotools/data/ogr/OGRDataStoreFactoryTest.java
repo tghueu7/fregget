@@ -28,8 +28,6 @@ import org.geotools.data.DataStoreFinder;
 import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class OGRDataStoreFactoryTest extends TestCaseSupport {
@@ -73,7 +71,7 @@ public abstract class OGRDataStoreFactoryTest extends TestCaseSupport {
             disposeQuietly(store);
         }
     }
-    
+
     public void testNames() throws Exception {
         Set<String> drivers = dataStoreFactory.getAvailableDrivers();
         assertTrue(drivers.size() > 0);

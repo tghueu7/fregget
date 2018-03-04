@@ -31,15 +31,14 @@ import org.opengis.feature.simple.SimpleFeature;
 
 /**
  * A rendering task to be run by a {@code RenderingExecutor}.
- * 
- * @author Michael Bedward
- * @since 8.0
  *
- * @source $URL$
+ * @author Michael Bedward
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 public class RenderingTask implements Callable<Boolean>, RenderListener {
-    
+
     private final Graphics2D destinationGraphics;
     private final Rectangle deviceArea;
     private final ReferencedEnvelope worldArea;
@@ -49,19 +48,19 @@ public class RenderingTask implements Callable<Boolean>, RenderListener {
     private final AtomicBoolean running;
     private final AtomicBoolean failed;
     private final AtomicBoolean cancelled;
-    
-    
+
+
     /**
      * Creates a new rendering task.
-     * 
+     *
      * @param mapContent
-     * @param renderer 
-     * @param graphics 
+     * @param renderer
+     * @param graphics
      */
-    public RenderingTask(MapContent mapContent, 
-            Graphics2D destinationGraphics,
-            GTRenderer renderer) {
-        
+    public RenderingTask(MapContent mapContent,
+                         Graphics2D destinationGraphics,
+                         GTRenderer renderer) {
+
         if (mapContent == null) {
             throw new IllegalArgumentException("mapContent must not be null");
         }
@@ -71,23 +70,23 @@ public class RenderingTask implements Callable<Boolean>, RenderListener {
         if (destinationGraphics == null) {
             throw new IllegalArgumentException("graphics must not be null");
         }
-        
+
         this.destinationGraphics = destinationGraphics;
         this.deviceArea = mapContent.getViewport().getScreenArea();
         this.worldArea = mapContent.getViewport().getBounds();
         this.worldToScreenTransform = mapContent.getViewport().getWorldToScreen();
         this.renderer = renderer;
-        
+
         running = new AtomicBoolean(false);
         failed = new AtomicBoolean(false);
         cancelled = new AtomicBoolean(false);
     }
-    
+
     public void cancel() {
         if (running.get()) {
             renderer.stopRendering();
         }
-        
+
         cancelled.set(true);
     }
 
@@ -123,7 +122,8 @@ public class RenderingTask implements Callable<Boolean>, RenderListener {
      * @param feature the feature just drawn
      */
     @Override
-    public void featureRenderer(SimpleFeature feature) {}
+    public void featureRenderer(SimpleFeature feature) {
+    }
 
     /**
      * Called by the renderer on error
@@ -135,17 +135,17 @@ public class RenderingTask implements Callable<Boolean>, RenderListener {
         running.set(false);
         failed.set(true);
     }
-    
+
     public boolean isRunning() {
         return running.get();
     }
-    
+
     public boolean isFailed() {
         return failed.get();
     }
-    
+
     public boolean isCancelled() {
         return cancelled.get();
     }
-    
+
 }

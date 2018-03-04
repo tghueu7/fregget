@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry;
 
 import java.awt.geom.Rectangle2D; // Used in @see javadoc tags
+
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.annotation.UML;
 import org.opengis.annotation.Extension;
@@ -25,16 +26,13 @@ import static org.opengis.annotation.Specification.*;
  * all of the data types in this specification, their state is represented by their publicly
  * accessible attributes.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
- *
+ * @source $URL$
  * @see org.opengis.coverage.grid.GridEnvelope
+ * @since GeoAPI 1.0
  */
-@UML(identifier="GM_Envelope", specification=ISO_19107)
+@UML(identifier = "GM_Envelope", specification = ISO_19107)
 public interface Envelope {
     /**
      * Returns the envelope coordinate reference system, or {@code null} if unknown.
@@ -42,7 +40,6 @@ public interface Envelope {
      * and {@linkplain #getUpperCorner upper corner} CRS.
      *
      * @return The envelope CRS, or {@code null} if unknown.
-     *
      * @since GeoAPI 2.1
      */
     @Extension
@@ -54,7 +51,6 @@ public interface Envelope {
      * is unknown.
      *
      * @return The dimensionality of this envelope.
-     *
      * @since GeoAPI 2.0
      */
     @Extension
@@ -66,7 +62,7 @@ public interface Envelope {
      *
      * @return The lower corner.
      */
-    @UML(identifier="lowerCorner", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "lowerCorner", obligation = MANDATORY, specification = ISO_19107)
     DirectPosition getLowerCorner();
 
     /**
@@ -75,25 +71,23 @@ public interface Envelope {
      *
      * @return The upper corner.
      */
-    @UML(identifier="upperCorner", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "upperCorner", obligation = MANDATORY, specification = ISO_19107)
     DirectPosition getUpperCorner();
 
     /**
      * Returns the minimal ordinate along the specified dimension. This is a shortcut for
      * the following without the cost of creating a temporary {@link DirectPosition} object:
-     *
+     * <p>
      * <blockquote><code>
      * {@linkplain #getLowerCorner}.{@linkplain DirectPosition#getOrdinate getOrdinate}(dimension)
      * </code></blockquote>
      *
-     * @param  dimension The dimension for which to obtain the ordinate value.
+     * @param dimension The dimension for which to obtain the ordinate value.
      * @return The minimal ordinate at the given dimension.
      * @throws IndexOutOfBoundsException If the given index is negative or is equals or greater
-     *         than the {@linkplain #getDimension envelope dimension}.
-     *
+     *                                   than the {@linkplain #getDimension envelope dimension}.
      * @see Rectangle2D#getMinX
      * @see Rectangle2D#getMinY
-     *
      * @since GeoAPI 2.0
      */
     @Extension
@@ -102,19 +96,17 @@ public interface Envelope {
     /**
      * Returns the maximal ordinate along the specified dimension. This is a shortcut for
      * the following without the cost of creating a temporary {@link DirectPosition} object:
-     *
+     * <p>
      * <blockquote><code>
      * {@linkplain #getUpperCorner}.{@linkplain DirectPosition#getOrdinate getOrdinate}(dimension)
      * </code></blockquote>
      *
-     * @param  dimension The dimension for which to obtain the ordinate value.
+     * @param dimension The dimension for which to obtain the ordinate value.
      * @return The maximal ordinate at the given dimension.
      * @throws IndexOutOfBoundsException If the given index is negative or is equals or greater
-     *         than the {@linkplain #getDimension envelope dimension}.
-     *
+     *                                   than the {@linkplain #getDimension envelope dimension}.
      * @see Rectangle2D#getMaxX
      * @see Rectangle2D#getMaxY
-     *
      * @since GeoAPI 2.0
      */
     @Extension
@@ -123,19 +115,18 @@ public interface Envelope {
     /**
      * Returns the median ordinate along the specified dimension. The result should be equals
      * (minus rounding error) to:
-     *
+     * <p>
      * <blockquote><code>
-     * ({@linkplain #getMinimum getMinimum}(dimension) + {@linkplain #getMaximum getMaximum}(dimension)) / 2
+     * ({@linkplain #getMinimum getMinimum}(dimension) + {@linkplain #getMaximum getMaximum}
+     * (dimension)) / 2
      * </code></blockquote>
      *
-     * @param  dimension The dimension for which to obtain the ordinate value.
+     * @param dimension The dimension for which to obtain the ordinate value.
      * @return The median ordinate at the given dimension.
      * @throws IndexOutOfBoundsException If the given index is negative or is equals or greater
-     *         than the {@linkplain #getDimension envelope dimension}.
-     *
+     *                                   than the {@linkplain #getDimension envelope dimension}.
      * @see Rectangle2D#getCenterX
      * @see Rectangle2D#getCenterY
-     *
      * @since GeoAPI 2.2
      */
     @Extension
@@ -144,19 +135,18 @@ public interface Envelope {
     /**
      * Returns the envelope span (typically width or height) along the specified dimension.
      * The result should be equals (minus rounding error) to:
-     *
+     * <p>
      * <blockquote><code>
-     * {@linkplain #getMaximum getMaximum}(dimension) - {@linkplain #getMinimum getMinimum}(dimension)
+     * {@linkplain #getMaximum getMaximum}(dimension) - {@linkplain #getMinimum getMinimum}
+     * (dimension)
      * </code></blockquote>
      *
-     * @param  dimension The dimension for which to obtain the ordinate value.
+     * @param dimension The dimension for which to obtain the ordinate value.
      * @return The span (typically width or height) at the given dimension.
      * @throws IndexOutOfBoundsException If the given index is negative or is equals or greater
-     *         than the {@linkplain #getDimension envelope dimension}.
-     *
+     *                                   than the {@linkplain #getDimension envelope dimension}.
      * @see Rectangle2D#getWidth
      * @see Rectangle2D#getHeight
-     *
      * @since GeoAPI 2.2
      */
     @Extension

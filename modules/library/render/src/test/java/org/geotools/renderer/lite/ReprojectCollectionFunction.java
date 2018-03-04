@@ -12,7 +12,7 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  * A rendering transformation that reprojects a feature collection
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 public class ReprojectCollectionFunction extends FunctionExpressionImpl {
@@ -28,7 +28,7 @@ public class ReprojectCollectionFunction extends FunctionExpressionImpl {
         String targetCRS = getAttribute(object, 0, String.class, true);
         try {
             CoordinateReferenceSystem crs = CRS.decode(targetCRS);
-            
+
             return new ReprojectingFeatureCollection((SimpleFeatureCollection) object, crs);
         } catch (Exception e) {
             throw new RuntimeException("Failed to reproject the collection");

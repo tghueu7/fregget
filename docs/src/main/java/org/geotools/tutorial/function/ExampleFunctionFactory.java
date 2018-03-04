@@ -12,19 +12,21 @@ import org.opengis.filter.expression.Expression;
 import org.opengis.filter.expression.Function;
 import org.opengis.filter.expression.Literal;
 
-public class ExampleFunctionFactory implements FunctionFactory {    
-    
+public class ExampleFunctionFactory implements FunctionFactory {
+
     public List<FunctionName> getFunctionNames() {
         List<FunctionName> functionList = new ArrayList<>();
-        functionList.add(SnapFunction.NAME);        
-        return Collections.unmodifiableList( functionList );
-    }    
+        functionList.add(SnapFunction.NAME);
+        return Collections.unmodifiableList(functionList);
+    }
+
     public Function function(String name, List<Expression> args, Literal fallback) {
         return function(new NameImpl(name), args, fallback);
     }
+
     public Function function(Name name, List<Expression> args, Literal fallback) {
-        if( SnapFunction.NAME.getFunctionName().equals(name)){
-            return new SnapFunction( args, fallback );
+        if (SnapFunction.NAME.getFunctionName().equals(name)) {
+            return new SnapFunction(args, fallback);
         }
         return null; // we do not implement that function
     }

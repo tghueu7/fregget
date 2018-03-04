@@ -16,8 +16,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DirectoryDataStoreFactoryTest extends DirectoryTestSupport {
@@ -29,7 +27,7 @@ public class DirectoryDataStoreFactoryTest extends DirectoryTestSupport {
         copyShapefiles("shapes/archsites.shp", DESTDIR);
         tempDir = f.getParentFile();
     }
-    
+
     @Test
     public void testSpi() throws Exception {
         Map params = new HashMap();
@@ -40,7 +38,7 @@ public class DirectoryDataStoreFactoryTest extends DirectoryTestSupport {
         assertEquals(2, store.getNames().size());
         store.dispose();
     }
-    
+
     @Test
     public void testSpaces() throws Exception {
         Map params = new HashMap();
@@ -53,7 +51,7 @@ public class DirectoryDataStoreFactoryTest extends DirectoryTestSupport {
         assertEquals(2, store.getNames().size());
         store.dispose();
     }
-    
+
     @Test
     public void testSpacesPlainToURL() throws Exception {
         Map params = new HashMap();
@@ -62,7 +60,7 @@ public class DirectoryDataStoreFactoryTest extends DirectoryTestSupport {
         ShapefileDirectoryFactory factory = new ShapefileDirectoryFactory();
         assertTrue(factory.canProcess(params));
         DataStore store = factory.createDataStore(params);
-		assertNotNull(store);
-		store.dispose();
+        assertNotNull(store);
+        store.dispose();
     }
 }

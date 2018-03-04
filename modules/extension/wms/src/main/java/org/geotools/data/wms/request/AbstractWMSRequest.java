@@ -3,7 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -22,16 +22,14 @@ import java.util.Properties;
 import org.geotools.data.ows.AbstractRequest;
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class AbstractWMSRequest extends AbstractRequest {
     public AbstractWMSRequest(URL onlineResource, Properties properties) {
-		super(onlineResource, properties);
-	}
+        super(onlineResource, properties);
+    }
 
-	protected void initService() {
-		setProperty(SERVICE, "WMS");
-	}
+    protected void initService() {
+        setProperty(SERVICE, "WMS");
+    }
 }

@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.coverage;
@@ -19,15 +19,12 @@ import org.opengis.annotation.Extension;
  * <code>Coverage.{@linkplain Coverage#evaluate(DirectPosition, double[]) evaluate}(&hellip;)</code>
  * method, for example when a point is outside the coverage.
  *
- * @author  Martin Desruisseaux (IRD)
- * @author  Alexander Petkov
- * @since   GeoAPI 1.0
- *
+ * @author Martin Desruisseaux (IRD)
+ * @author Alexander Petkov
+ * @source $URL$
  * @see Coverage#evaluate(DirectPosition, byte[])
  * @see Coverage#evaluate(DirectPosition, double[])
- *
- *
- * @source $URL$
+ * @since GeoAPI 1.0
  */
 public class CannotEvaluateException extends RuntimeException {
     /**
@@ -52,8 +49,8 @@ public class CannotEvaluateException extends RuntimeException {
     /**
      * Creates an exception with the specified message.
      *
-     * @param  message The detail message. The detail message is saved for
-     *         later retrieval by the {@link #getMessage()} method.
+     * @param message The detail message. The detail message is saved for
+     *                later retrieval by the {@link #getMessage()} method.
      */
     public CannotEvaluateException(String message) {
         super(message);
@@ -62,10 +59,10 @@ public class CannotEvaluateException extends RuntimeException {
     /**
      * Creates an exception with the specified message.
      *
-     * @param  message The detail message. The detail message is saved for
-     *         later retrieval by the {@link #getMessage()} method.
-     * @param  cause The cause for this exception. The cause is saved
-     *         for later retrieval by the {@link #getCause()} method.
+     * @param message The detail message. The detail message is saved for
+     *                later retrieval by the {@link #getMessage()} method.
+     * @param cause   The cause for this exception. The cause is saved
+     *                for later retrieval by the {@link #getCause()} method.
      */
     public CannotEvaluateException(String message, Throwable cause) {
         super(message, cause);
@@ -77,7 +74,6 @@ public class CannotEvaluateException extends RuntimeException {
      * details.
      *
      * @return The coverage, or {@code null} if unknown.
-     *
      * @since GeoAPÏ 2.2
      */
     @Extension
@@ -89,7 +85,6 @@ public class CannotEvaluateException extends RuntimeException {
      * Sets the coverage.
      *
      * @param coverage The coverage, or {@code null} if unknown.
-     *
      * @since GeoAPÏ 2.2
      */
     @Extension

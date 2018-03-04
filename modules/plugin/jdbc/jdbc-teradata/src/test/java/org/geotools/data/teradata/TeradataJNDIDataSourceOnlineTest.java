@@ -23,8 +23,6 @@ import org.geotools.jdbc.JDBCJNDIDataStoreFactory;
 import org.geotools.jdbc.JDBCJNDITestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class TeradataJNDIDataSourceOnlineTest extends JDBCJNDIDataSourceOnlineTest {

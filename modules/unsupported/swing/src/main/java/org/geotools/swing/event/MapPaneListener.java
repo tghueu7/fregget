@@ -21,15 +21,14 @@ package org.geotools.swing.event;
  * Listens to events published by the MapPane.
  *
  * @author Michael Bedward
- * @since 2.6
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.6
  */
 public interface MapPaneListener {
 
     /**
-     * Called when a new {@code MapContent} instance has been set for 
+     * Called when a new {@code MapContent} instance has been set for
      * the map pane.
      *
      * @param ev the event
@@ -45,7 +44,7 @@ public interface MapPaneListener {
 
     /**
      * Called when a rendering task has started.
-     * 
+     *
      * @param ev the event
      */
     void onRenderingStarted(MapPaneEvent ev);

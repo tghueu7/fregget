@@ -36,7 +36,6 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  * @author ian
- *
  */
 public class WMTSMapLayerTest extends OnlineTestCase {
 
@@ -63,7 +62,7 @@ public class WMTSMapLayerTest extends OnlineTestCase {
 
     /**
      * Test method for {@link org.geotools.map.WMTSMapLayer#getBounds()}.
-     * 
+     *
      * @throws FactoryException
      */
     @Test
@@ -91,7 +90,7 @@ public class WMTSMapLayerTest extends OnlineTestCase {
     /**
      * Test method for
      * {@link org.geotools.map.WMTSMapLayer#getCoordinateReferenceSystem()}.
-     * 
+     *
      * @throws FactoryException
      */
     @Test
@@ -124,7 +123,7 @@ public class WMTSMapLayerTest extends OnlineTestCase {
     /**
      * Test method for
      * {@link org.geotools.map.WMTSMapLayer#isNativelySupported(org.opengis.referencing.crs.CoordinateReferenceSystem)}.
-     * 
+     *
      * @throws FactoryException
      * @throws NoSuchAuthorityCodeException
      */

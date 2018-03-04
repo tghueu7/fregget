@@ -27,25 +27,25 @@ import com.vividsolutions.jts.geom.Polygon;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SurfacePropertyTypeBindingTest extends GML3TestSupport {
-    
+
     protected boolean enableExtendedArcSurfaceSupport() {
         return true;
-    };
-    
+    }
+
+    ;
+
     public void testEncode() throws Exception {
         GeometryFactory gf = new GeometryFactory();
         Polygon polygon = gf.createPolygon(gf.createLinearRing(
-                    new Coordinate[] {
+                new Coordinate[]{
                         new Coordinate(0, 0), new Coordinate(1, 1), new Coordinate(2, 2),
                         new Coordinate(0, 0)
-                    }), null);
+                }), null);
 
-        MultiPolygon multiPolygon = gf.createMultiPolygon(new Polygon[] {polygon});
+        MultiPolygon multiPolygon = gf.createMultiPolygon(new Polygon[]{polygon});
 
         Document dom = encode(multiPolygon, GML.surfaceProperty);
 

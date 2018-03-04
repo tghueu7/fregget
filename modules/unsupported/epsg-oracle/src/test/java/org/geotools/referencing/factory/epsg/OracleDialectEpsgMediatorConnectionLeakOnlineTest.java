@@ -3,7 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2007-2008, Open Source Geospatial Foundation (OSGeo)
- *   
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -27,12 +27,8 @@ import org.geotools.referencing.factory.epsg.oracle.OracleOnlineTestCase;
 /**
  * Multi-threaded test to check that no connections are leaked by the EPSG
  * mediator/factory code.
- * 
+ *
  * @author Cory Horner (Refractions Research)
- *
- *
- *
- *
  * @source $URL$
  */
 public class OracleDialectEpsgMediatorConnectionLeakOnlineTest extends OracleOnlineTestCase {
@@ -42,7 +38,7 @@ public class OracleDialectEpsgMediatorConnectionLeakOnlineTest extends OracleOnl
     final static int MAX_TIME = 2 * 60 * 1000;
     final static int MAX_WORKERS = 2;
     final static boolean VERBOSE = false;
-    
+
     OracleDialectEpsgMediator mediator;
     BasicDataSource wrappedDataSource;
     String[] codes;
@@ -50,15 +46,15 @@ public class OracleDialectEpsgMediatorConnectionLeakOnlineTest extends OracleOnl
 
     protected void connect() throws Exception {
         super.connect();
-        hints = new Hints(Hints.CACHE_POLICY, "none");     
+        hints = new Hints(Hints.CACHE_POLICY, "none");
         hints.put(Hints.AUTHORITY_MAX_ACTIVE, new Integer(MAX_WORKERS));
         if (datasource == null) {
             fail("no datasource available");
         }
-        wrappedDataSource = new BasicDataSource(){
-        	{
-        		this.dataSource = datasource;
-        	}        	
+        wrappedDataSource = new BasicDataSource() {
+            {
+                this.dataSource = datasource;
+            }
         };
         mediator = new OracleDialectEpsgMediator(80, hints, wrappedDataSource);
         codes = OracleDialectEpsgMediatorOnlineStressTest.getCodes();
@@ -67,13 +63,14 @@ public class OracleDialectEpsgMediatorConnectionLeakOnlineTest extends OracleOnl
     public void testLeak() throws Throwable {
         TestRunnable runners[] = new TestRunnable[RUNNER_COUNT];
         for (int i = 0; i < RUNNER_COUNT; i++) {
-            ClientThread thread = new OracleDialectEpsgMediatorOnlineStressTest.ClientThread(i, mediator); 
+            ClientThread thread = new OracleDialectEpsgMediatorOnlineStressTest.ClientThread(i, 
+                    mediator);
             thread.iterations = ITERATIONS;
             runners[i] = thread;
         }
         MultiThreadedTestRunner mttr = new MultiThreadedTestRunner(runners, null);
         mttr.runTestRunnables(MAX_TIME);
-        
+
         //count exceptions and metrics
         int exceptions = 0;
         for (int i = 0; i < RUNNER_COUNT; i++) {
@@ -85,5 +82,5 @@ public class OracleDialectEpsgMediatorConnectionLeakOnlineTest extends OracleOnl
         assertEquals(0, wrappedDataSource.getNumActive());
         assertEquals(0, exceptions);
     }
-    
+
 }

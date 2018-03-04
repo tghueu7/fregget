@@ -38,16 +38,15 @@ import org.opengis.parameter.ParameterValue;
 /**
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini (simboss), GeoSolutions
- *
+ * <p>
  * Testing {@link RasterLayerRequest}
- *
- *
- *
  * @source $URL$
  */
 public final class RasterLayerRequesTest extends BaseJP2K {
-	
-    private final static Logger LOGGER = org.geotools.util.logging.Logging.getLogger(RasterLayerRequesTest.class);
+
+    private final static Logger LOGGER = org.geotools.util.logging.Logging.getLogger
+            (RasterLayerRequesTest.class);
+
     /**
      * Creates a new instance of GranuleTest
      *
@@ -58,17 +57,17 @@ public final class RasterLayerRequesTest extends BaseJP2K {
 
     @Test
     public void testRequest() throws Exception {
-    	if (!testingEnabled()) {
+        if (!testingEnabled()) {
             return;
         }
-   	 	File file = null;
-        try{
+        File file = null;
+        try {
             file = TestData.file(this, "sample.jp2");
-        }catch (FileNotFoundException fnfe){
+        } catch (FileNotFoundException fnfe) {
             LOGGER.warning("test-data not found: sample.jp2 \nTests are skipped");
             return;
         }
-        
+
         final JP2KReader reader = new JP2KReader(file);
         checkReader(reader);
         final GeneralEnvelope envelope = reader.getOriginalEnvelope();
@@ -77,7 +76,7 @@ public final class RasterLayerRequesTest extends BaseJP2K {
         final ParameterValue<Boolean> useJAI = JP2KFormat.USE_JAI_IMAGEREAD.createValue();
         useJAI.setValue(false);
         gg.setValue(new GridGeometry2D(reader.getOriginalGridRange(), envelope));
-        final GeneralParameterValue[] params = new GeneralParameterValue[] { gg, useJAI};
+        final GeneralParameterValue[] params = new GeneralParameterValue[]{gg, useJAI};
         final RasterLayerRequest request = new RasterLayerRequest(params, manager);
         final Rectangle area = request.getDestinationRasterArea();
         assertEquals(area.width, 400);
@@ -87,13 +86,13 @@ public final class RasterLayerRequesTest extends BaseJP2K {
         assertEquals(g2w.getScaleY(), -0.9, DELTA);
         assertEquals(g2w.getTranslateX(), -179.55, DELTA);
         assertEquals(g2w.getTranslateY(), 89.55, DELTA);
-        
+
         final String requestS = request.toString();
-        if (TestData.isInteractiveTest()){
-        	if (LOGGER.isLoggable(Level.INFO))
-        		LOGGER.info(requestS);
+        if (TestData.isInteractiveTest()) {
+            if (LOGGER.isLoggable(Level.INFO))
+                LOGGER.info(requestS);
         }
-        
-   }
+
+    }
 
 }

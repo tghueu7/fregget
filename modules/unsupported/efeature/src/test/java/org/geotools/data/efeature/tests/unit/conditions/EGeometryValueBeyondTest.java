@@ -25,21 +25,19 @@ import org.geotools.data.efeature.query.EGeometryValueBeyond;
 
 /**
  * @author kengu - 14. juni 2011
- *
- *
  * @source $URL$
  */
 public class EGeometryValueBeyondTest extends AbstractEGeometryValueTest {
-    
+
     // ----------------------------------------------------- 
     //  Constructors
     // -----------------------------------------------------
-    
+
     /**
      * @param name
      */
     public EGeometryValueBeyondTest(String name) {
-        super(name,BEYOND);
+        super(name, BEYOND);
     }
 
     // ----------------------------------------------------- 
@@ -51,12 +49,12 @@ public class EGeometryValueBeyondTest extends AbstractEGeometryValueTest {
         //
         // Get iterator
         //
-        Iterator<?> it = ((Collection<?>)filter).iterator();
+        Iterator<?> it = ((Collection<?>) filter).iterator();
         //
         // Get lower and upper values
         //
         Object anchor = it.next();
-        double distance = (Double)it.next();
+        double distance = (Double) it.next();
         //
         // Create condition
         //

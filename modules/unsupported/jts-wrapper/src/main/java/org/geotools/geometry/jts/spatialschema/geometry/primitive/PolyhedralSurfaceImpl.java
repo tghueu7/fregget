@@ -34,29 +34,26 @@ import org.opengis.geometry.primitive.SurfaceBoundary;
 
 /**
  * The {@code PolyhedralSurfaceImpl} class/interface...
- * 
+ *
  * @author SYS Technologies
  * @author dillard
- *
- *
- *
- *
- * @source $URL$
  * @version $Revision $
+ * @source $URL$
  */
 public class PolyhedralSurfaceImpl extends GeometryImpl implements PolyhedralSurface {
-    
+
     protected List<PolygonImpl> patches;
 
     /**
      * Creates a new {@code PolyhedralSurfaceImpl}.
+     *
      * @param crs
      */
     public PolyhedralSurfaceImpl(CoordinateReferenceSystem crs) {
         super(crs);
         patches = new ArrayList();
     }
-    
+
     public PolyhedralSurfaceImpl() {
         this(null);
     }
@@ -70,8 +67,8 @@ public class PolyhedralSurfaceImpl extends GeometryImpl implements PolyhedralSur
         return patches;
     }
 
-    public double [] getUpNormal(DirectPosition point) {
-        return new double [] { 0, 0, 1 };
+    public double[] getUpNormal(DirectPosition point) {
+        return new double[]{0, 0, 1};
     }
 
     public double getPerimeter() {
@@ -116,9 +113,10 @@ public class PolyhedralSurfaceImpl extends GeometryImpl implements PolyhedralSur
      */
     protected com.vividsolutions.jts.geom.Geometry computeJTSPeer() {
         if (patches.size() > 1) {
-            //throw new UnsupportedOperationException("This implementation does not support surfaces with multiple patches.");
-            final com.vividsolutions.jts.geom.Polygon[] polygons = 
-                new com.vividsolutions.jts.geom.Polygon[patches.size()];
+            //throw new UnsupportedOperationException("This implementation does not support 
+            // surfaces with multiple patches.");
+            final com.vividsolutions.jts.geom.Polygon[] polygons =
+                    new com.vividsolutions.jts.geom.Polygon[patches.size()];
             for (int i = 0; i < patches.size(); i++) {
                 final JTSGeometry jtsGeometry = (JTSGeometry) patches.get(i);
                 polygons[i] = (com.vividsolutions.jts.geom.Polygon) jtsGeometry.getJTSGeometry();

@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2012, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -50,23 +50,26 @@ import org.opengis.geometry.BoundingBox;
  * <li>{@link #size()}</li>
  * <li>{@link #getBounds()</li>
  * </ul>
- * 
+ *
  * @author Jody Garnett (LISAsoft)
  * @source $URL$
  */
-public abstract class BaseFeatureCollection<T extends FeatureType, F extends Feature> implements FeatureCollection<T,F> {
+public abstract class BaseFeatureCollection<T extends FeatureType, F extends Feature> implements 
+        FeatureCollection<T, F> {
     /**
      * id used when serialized to gml
      */
     protected String id;
     protected T schema;
 
-    protected BaseFeatureCollection(){
-        this( null, null );
+    protected BaseFeatureCollection() {
+        this(null, null);
     }
+
     protected BaseFeatureCollection(T schema) {
-        this( schema, null );
+        this(schema, null);
     }
+
     protected BaseFeatureCollection(T schema, String id) {
         this.id = id == null ? "featureCollection" : id;
         this.schema = schema;
@@ -83,6 +86,7 @@ public abstract class BaseFeatureCollection<T extends FeatureType, F extends Fea
     //
     // FeatureCollection - Feature Access
     //
+
     /**
      * Subclasses required to implement this method to traverse FeatureCollection contents.
      * <p>
@@ -94,9 +98,10 @@ public abstract class BaseFeatureCollection<T extends FeatureType, F extends Fea
     /**
      * Returns <tt>true</tt> if this collection contains the specified element. <tt></tt>.
      * <p>
-     * 
-     * This implementation iterates over the elements in the collection, checking each element in turn for equality with the specified element.
-     * 
+     * <p>
+     * This implementation iterates over the elements in the collection, checking each element in
+     * turn for equality with the specified element.
+     *
      * @param o object to be checked for containment in this collection.
      * @return <tt>true</tt> if this collection contains the specified element.
      */
@@ -104,14 +109,14 @@ public abstract class BaseFeatureCollection<T extends FeatureType, F extends Fea
         FeatureIterator<F> e = features();
         try {
             if (o == null) {
-                while (e.hasNext()){
-                    if (e.next() == null){
+                while (e.hasNext()) {
+                    if (e.next() == null) {
                         return true;
                     }
                 }
             } else {
-                while (e.hasNext()){
-                    if (o.equals(e.next())){
+                while (e.hasNext()) {
+                    if (o.equals(e.next())) {
                         return true;
                     }
                 }
@@ -123,21 +128,22 @@ public abstract class BaseFeatureCollection<T extends FeatureType, F extends Fea
     }
 
     /**
-     * Returns <tt>true</tt> if this collection contains all of the elements in the specified collection.
+     * Returns <tt>true</tt> if this collection contains all of the elements in the specified 
+     * collection.
      * <p>
-     * 
+     *
      * @param c collection to be checked for containment in this collection.
-     * @return <tt>true</tt> if this collection contains all of the elements in the specified collection.
+     * @return <tt>true</tt> if this collection contains all of the elements in the specified 
+     * collection.
      * @throws NullPointerException if the specified collection is null.
-     * 
      * @see #contains(Object)
      */
     public boolean containsAll(Collection<?> c) {
         FeatureIterator<F> e = features();
         try {
-            while (e.hasNext()){
+            while (e.hasNext()) {
                 Feature feature = e.next();
-                if (!c.contains(feature)){
+                if (!c.contains(feature)) {
                     return false;
                 }
             }
@@ -161,7 +167,7 @@ public abstract class BaseFeatureCollection<T extends FeatureType, F extends Fea
 
     /**
      * Array of all the elements.
-     * 
+     *
      * @return an array containing all of the elements in this collection.
      */
     public Object[] toArray() {
@@ -197,66 +203,72 @@ public abstract class BaseFeatureCollection<T extends FeatureType, F extends Fea
     }
 
     public void accepts(org.opengis.feature.FeatureVisitor visitor,
-            org.opengis.util.ProgressListener progress) throws IOException {
+                        org.opengis.util.ProgressListener progress) throws IOException {
         DataUtilities.visit(this, visitor, progress);
     }
 
     //
     // Feature Collections API
     //
+
     /**
      * Convenience implementation that just wraps this collection into a
      * {@link FilteringFeatureCollection}. Subclasses might want to override this in case the filter
      * can be cascaded to their data sources.
-     * 
+     *
      * @param filter
      * @return
      */
-    public FeatureCollection<T,F> subCollection(Filter filter) {
+    public FeatureCollection<T, F> subCollection(Filter filter) {
         if (filter == Filter.INCLUDE) {
             return this;
         }
         return new FilteringFeatureCollection<T, F>(this, filter);
     }
+
     /**
      * Obtained sorted contents, only implemented for SimpleFeature at present.
      * <p>
-     * This method only supports SimpleFeature at present, consider use of FeatureSource.features( Query ).
-     * 
+     * This method only supports SimpleFeature at present, consider use of FeatureSource.features
+     * ( Query ).
+     *
      * @param order Sort order
      * @return FeatureCollection sorted in the indicated order
      */
     @SuppressWarnings("unchecked")
-    public FeatureCollection<T,F> sort(SortBy order) {
+    public FeatureCollection<T, F> sort(SortBy order) {
         if (getSchema() instanceof SimpleFeatureType) {
             // go for the most efficient way if possible, otherwise rely on pure in memory
             // sorting...
-            SimpleFeatureCollection simple = DataUtilities.simple((FeatureCollection<SimpleFeatureType, SimpleFeature>) this);
-            return (FeatureCollection<T, F>) new SortedSimpleFeatureCollection(simple,new SortBy[] { order });
+            SimpleFeatureCollection simple = DataUtilities.simple(
+                    (FeatureCollection<SimpleFeatureType, SimpleFeature>) this);
+            return (FeatureCollection<T, F>) new SortedSimpleFeatureCollection(simple, new 
+                    SortBy[]{order});
         } else {
             // hmm... we don't even have a basic non simple collection... need to implement one
             // before going here
-            throw new UnsupportedOperationException("Cannot sort on complex features at the moment");
+            throw new UnsupportedOperationException("Cannot sort on complex features at the " +
+                    "moment");
         }
     }
 
     /**
      * Returns the number of elements in this collection.
-     * 
+     *
      * @return Number of items, or Interger.MAX_VALUE
      */
-    public int size(){
+    public int size() {
         int count = 0;
         FeatureIterator<F> it = features();
         try {
-            while( it.hasNext() ){
+            while (it.hasNext()) {
                 @SuppressWarnings("unused")
                 Feature feature = it.next();
                 count++;
             }
         } finally {
             it.close();
-        }     
+        }
         return count;
     }
 
@@ -265,25 +277,24 @@ public abstract class BaseFeatureCollection<T extends FeatureType, F extends Fea
      * Subclasees are strong encouraged to override this expensive method
      * (even if just to implement caching).
      */
-    public ReferencedEnvelope getBounds(){
+    public ReferencedEnvelope getBounds() {
         ReferencedEnvelope bounds = null;
         FeatureIterator<F> it = features();
         try {
-            while( it.hasNext() ){
+            while (it.hasNext()) {
                 Feature feature = it.next();
                 BoundingBox bbox = feature.getBounds();
-                if( bbox != null ){
-                    if( bounds == null ){
-                        bounds = new ReferencedEnvelope( bbox );
-                    }
-                    else {
-                        bounds.include( bbox );
+                if (bbox != null) {
+                    if (bounds == null) {
+                        bounds = new ReferencedEnvelope(bbox);
+                    } else {
+                        bounds.include(bbox);
                     }
                 }
             }
         } finally {
             it.close();
-        }     
+        }
         return bounds;
     }
 

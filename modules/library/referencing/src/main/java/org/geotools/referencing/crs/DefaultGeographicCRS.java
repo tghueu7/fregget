@@ -49,19 +49,17 @@ import org.geotools.util.UnsupportedImplementationException;
  * A coordinate reference system based on an ellipsoidal approximation of the geoid; this provides
  * an accurate representation of the geometry of geographic features for a large portion of the
  * earth's surface.
- *
+ * <p>
  * <TABLE CELLPADDING='6' BORDER='1'>
  * <TR BGCOLOR="#EEEEFF"><TH NOWRAP>Used with CS type(s)</TH></TR>
  * <TR><TD>
- *   {@link EllipsoidalCS Ellipsoidal}
+ * {@link EllipsoidalCS Ellipsoidal}
  * </TD></TR></TABLE>
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class DefaultGeographicCRS extends AbstractSingleCRS implements GeographicCRS {
     /**
@@ -85,20 +83,21 @@ public class DefaultGeographicCRS extends AbstractSingleCRS implements Geographi
      * prime meridian is Greenwich.
      */
     public static final DefaultGeographicCRS WGS84_3D;
+
     static {
-        final Map<String,Object> properties = new HashMap<String,Object>(4);
+        final Map<String, Object> properties = new HashMap<String, Object>(4);
         properties.put(NAME_KEY, "WGS84(DD)"); // Name used in WCS 1.0.
         final String[] alias = {
-            "WGS84",
-            "WGS 84"  // EPSG name.
+                "WGS84",
+                "WGS 84"  // EPSG name.
         };
         properties.put(ALIAS_KEY, alias);
         properties.put(DOMAIN_OF_VALIDITY_KEY, ExtentImpl.WORLD);
-        WGS84    = new DefaultGeographicCRS(properties, DefaultGeodeticDatum.WGS84,
-                                            DefaultEllipsoidalCS.GEODETIC_2D);
+        WGS84 = new DefaultGeographicCRS(properties, DefaultGeodeticDatum.WGS84,
+                DefaultEllipsoidalCS.GEODETIC_2D);
         alias[1] = "WGS 84 (geographic 3D)"; // Replaces the EPSG name.
         WGS84_3D = new DefaultGeographicCRS(properties, DefaultGeodeticDatum.WGS84,
-                                            DefaultEllipsoidalCS.GEODETIC_3D);
+                DefaultEllipsoidalCS.GEODETIC_3D);
     }
 
     /**
@@ -109,7 +108,6 @@ public class DefaultGeographicCRS extends AbstractSingleCRS implements Geographi
      * i.e. the properties are not cloned.
      *
      * @param crs The coordinate reference system to copy.
-     *
      * @since 2.2
      */
     public DefaultGeographicCRS(final GeographicCRS crs) {
@@ -121,8 +119,7 @@ public class DefaultGeographicCRS extends AbstractSingleCRS implements Geographi
      * The inherited properties include the {@linkplain #getName name} and aliases.
      *
      * @param datum The datum.
-     * @param cs The coordinate system.
-     *
+     * @param cs    The coordinate system.
      * @since 2.5
      */
     public DefaultGeographicCRS(final GeodeticDatum datum, final EllipsoidalCS cs) {
@@ -132,29 +129,28 @@ public class DefaultGeographicCRS extends AbstractSingleCRS implements Geographi
     /**
      * Constructs a geographic CRS from a name.
      *
-     * @param name The name.
+     * @param name  The name.
      * @param datum The datum.
-     * @param cs The coordinate system.
+     * @param cs    The coordinate system.
      */
-    public DefaultGeographicCRS(final String         name,
+    public DefaultGeographicCRS(final String name,
                                 final GeodeticDatum datum,
-                                final EllipsoidalCS    cs)
-    {
+                                final EllipsoidalCS cs) {
         this(Collections.singletonMap(NAME_KEY, name), datum, cs);
     }
 
     /**
      * Constructs a geographic CRS from a set of properties. The properties are given unchanged to
-     * the {@linkplain AbstractReferenceSystem#AbstractReferenceSystem(Map) super-class constructor}.
+     * the 
+     * {@linkplain AbstractReferenceSystem#AbstractReferenceSystem(Map) super-class constructor}.
      *
      * @param properties Set of properties. Should contains at least {@code "name"}.
-     * @param datum The datum.
-     * @param cs The coordinate system.
+     * @param datum      The datum.
+     * @param cs         The coordinate system.
      */
-    public DefaultGeographicCRS(final Map<String,?> properties,
+    public DefaultGeographicCRS(final Map<String, ?> properties,
                                 final GeodeticDatum datum,
-                                final EllipsoidalCS cs)
-    {
+                                final EllipsoidalCS cs) {
         super(properties, datum, cs);
     }
 
@@ -178,17 +174,16 @@ public class DefaultGeographicCRS extends AbstractSingleCRS implements Geographi
      * Computes the orthodromic distance between two points. This convenience method delegates
      * the work to the underlyling {@linkplain DefaultEllipsoid ellipsoid}, if possible.
      *
-     * @param  coord1 Coordinates of the first point.
-     * @param  coord2 Coordinates of the second point.
+     * @param coord1 Coordinates of the first point.
+     * @param coord2 Coordinates of the second point.
      * @return The distance between {@code coord1} and {@code coord2}.
      * @throws UnsupportedOperationException if this coordinate reference system can't compute
-     *         distances.
-     * @throws MismatchedDimensionException if a coordinate doesn't have the expected dimension.
+     *                                       distances.
+     * @throws MismatchedDimensionException  if a coordinate doesn't have the expected dimension.
      */
     @Override
     public Measure distance(final double[] coord1, final double[] coord2)
-            throws UnsupportedOperationException, MismatchedDimensionException
-    {
+            throws UnsupportedOperationException, MismatchedDimensionException {
         final DefaultEllipsoidalCS cs;
         final DefaultEllipsoid e;
         if (!(coordinateSystem instanceof DefaultEllipsoidalCS)) {
@@ -199,8 +194,8 @@ public class DefaultGeographicCRS extends AbstractSingleCRS implements Geographi
             throw new UnsupportedImplementationException(ellipsoid.getClass());
         }
         cs = (DefaultEllipsoidalCS) coordinateSystem;
-        e  = (DefaultEllipsoid)     ellipsoid;
-        if (coord1.length!=2 || coord2.length!=2 || cs.getDimension()!=2) {
+        e = (DefaultEllipsoid) ellipsoid;
+        if (coord1.length != 2 || coord2.length != 2 || cs.getDimension() != 2) {
             /*
              * Not yet implemented (an exception will be thrown later).
              * We should probably revisit the way we compute distances.
@@ -208,20 +203,20 @@ public class DefaultGeographicCRS extends AbstractSingleCRS implements Geographi
             return super.distance(coord1, coord2);
         }
         return new Measure(e.orthodromicDistance(cs.getLongitude(coord1),
-                                                 cs.getLatitude (coord1),
-                                                 cs.getLongitude(coord2),
-                                                 cs.getLatitude (coord2)), e.getAxisUnit());
+                cs.getLatitude(coord1),
+                cs.getLongitude(coord2),
+                cs.getLatitude(coord2)), e.getAxisUnit());
     }
 
     /**
      * Returns a hash value for this geographic CRS.
      *
      * @return The hash code value. This value doesn't need to be the same
-     *         in past or future versions of this class.
+     * in past or future versions of this class.
      */
     @Override
     public int hashCode() {
-        return (int)serialVersionUID ^ super.hashCode();
+        return (int) serialVersionUID ^ super.hashCode();
     }
 
     /**
@@ -230,7 +225,7 @@ public class DefaultGeographicCRS extends AbstractSingleCRS implements Geographi
      */
     static Unit<Angle> getAngularUnit(final CoordinateSystem coordinateSystem) {
         Unit<Angle> unit = NonSI.DEGREE_ANGLE;
-        for (int i=coordinateSystem.getDimension(); --i>=0;) {
+        for (int i = coordinateSystem.getDimension(); --i >= 0; ) {
             final CoordinateSystemAxis axis = coordinateSystem.getAxis(i);
             final Unit<?> candidate = axis.getUnit();
             if (NonSI.DEGREE_ANGLE.isCompatible(candidate)) {
@@ -245,10 +240,11 @@ public class DefaultGeographicCRS extends AbstractSingleCRS implements Geographi
 
     /**
      * Format the inner part of a
-     * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
+     * <A HREF="http://geoapi.sourceforge
+     * .net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
      * Known Text</cite> (WKT)</A> element.
      *
-     * @param  formatter The formatter to use.
+     * @param formatter The formatter to use.
      * @return The name of the WKT element type, which is {@code "GEOGCS"}.
      */
     @Override
@@ -260,7 +256,7 @@ public class DefaultGeographicCRS extends AbstractSingleCRS implements Geographi
         formatter.append(((GeodeticDatum) datum).getPrimeMeridian());
         formatter.append(unit);
         final int dimension = coordinateSystem.getDimension();
-        for (int i=0; i<dimension; i++) {
+        for (int i = 0; i < dimension; i++) {
             formatter.append(coordinateSystem.getAxis(i));
         }
         if (!unit.equals(getUnit())) {

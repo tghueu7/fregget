@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2001-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -56,9 +56,9 @@ import org.geotools.resources.i18n.VocabularyKeys;
  * Implementation of the {@link CRS#main} method. Exists as a separated class in order
  * to reduce the class loading for applications that don't want to run this main method.
  *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
  */
 final class Command {
     /**
@@ -110,7 +110,8 @@ final class Command {
         out.println(" -forcexy       : Force \"longitude first\" axis order.");
         out.println(" -help          : Prints this message.");
         out.println(" -locale=ARG    : Formats texts in the specified locale.");
-        out.println(" -operations    : Prints all available coordinate operations between a pair of CRS.");
+        out.println(" -operations    : Prints all available coordinate operations between a pair " +
+                "of CRS.");
         out.println(" -transform     : Prints the preferred math transform between a pair of CRS.");
     }
 
@@ -119,7 +120,7 @@ final class Command {
      */
     private void list(final PrintWriter out, final String[] args) throws FactoryException {
         char[] separator = null;
-        for (int i=0; i<args.length; i++) {
+        for (int i = 0; i < args.length; i++) {
             if (separator == null) {
                 separator = getSeparator();
             } else {
@@ -173,9 +174,9 @@ final class Command {
      * Lists all CRS authority factories.
      */
     private static void factories(final PrintWriter out) {
-        final Set<Citation> done  = new HashSet<Citation>();
-        final TableWriter   table = new TableWriter(out, TableWriter.SINGLE_VERTICAL_LINE);
-        final TableWriter   notes = new TableWriter(out, " ");
+        final Set<Citation> done = new HashSet<Citation>();
+        final TableWriter table = new TableWriter(out, TableWriter.SINGLE_VERTICAL_LINE);
+        final TableWriter notes = new TableWriter(out, " ");
         int noteCount = 0;
         notes.setMultiLinesCells(true);
         table.setMultiLinesCells(true);
@@ -188,7 +189,8 @@ final class Command {
         table.writeHorizontalSeparator();
         for (AuthorityFactory factory : ReferencingFactoryFinder.getCRSAuthorityFactories(HINTS)) {
             final Citation authority = factory.getAuthority();
-            final Iterator<? extends Identifier> identifiers = authority.getIdentifiers().iterator();
+            final Iterator<? extends Identifier> identifiers = authority.getIdentifiers()
+                    .iterator();
             if (!identifiers.hasNext()) {
                 // No identifier. Scan next authorities.
                 continue;
@@ -210,8 +212,12 @@ final class Command {
                 if (description != null) {
                     final String n = String.valueOf(++noteCount);
                     table.nextColumn();
-                    table.write('('); table.write(n); table.write(')');
-                    notes.write('('); notes.write(n); notes.write(')');
+                    table.write('(');
+                    table.write(n);
+                    table.write(')');
+                    notes.write('(');
+                    notes.write(n);
+                    notes.write(')');
                     notes.nextColumn();
                     notes.write(description.trim());
                     notes.nextLine();
@@ -239,16 +245,16 @@ final class Command {
         final TableWriter table = new TableWriter(out);
         table.writeHorizontalSeparator();
         final String[] titles = {
-            Vocabulary.format(VocabularyKeys.TARGET),
-            "dx", "dy", "dz", "ex", "ey", "ez", "ppm"
+                Vocabulary.format(VocabularyKeys.TARGET),
+                "dx", "dy", "dz", "ex", "ey", "ez", "ppm"
         };
-        for (int i=0; i<titles.length; i++) {
+        for (int i = 0; i < titles.length; i++) {
             table.write(titles[i]);
             table.nextColumn();
             table.setAlignment(TableWriter.ALIGN_CENTER);
         }
         table.writeHorizontalSeparator();
-        for (int i=0; i<args.length; i++) {
+        for (int i = 0; i < args.length; i++) {
             IdentifiedObject object = factory.createObject(args[i]);
             if (object instanceof CoordinateReferenceSystem) {
                 object = CRSUtilities.getDatum((CoordinateReferenceSystem) object);
@@ -256,23 +262,38 @@ final class Command {
             if (object instanceof DefaultGeodeticDatum) {
                 final BursaWolfParameters[] params =
                         ((DefaultGeodeticDatum) object).getBursaWolfParameters();
-                for (int j=0; j<params.length; j++) {
+                for (int j = 0; j < params.length; j++) {
                     final BursaWolfParameters p = params[j];
                     table.setAlignment(TableWriter.ALIGN_LEFT);
                     table.write(p.targetDatum.getName().getCode());
                     table.nextColumn();
                     table.setAlignment(TableWriter.ALIGN_RIGHT);
                     double v;
-                    for (int k=0; k<7; k++) {
+                    for (int k = 0; k < 7; k++) {
                         switch (k) {
-                            case 0: v = p.dx;  break;
-                            case 1: v = p.dy;  break;
-                            case 2: v = p.dz;  break;
-                            case 3: v = p.ex;  break;
-                            case 4: v = p.ey;  break;
-                            case 5: v = p.ez;  break;
-                            case 6: v = p.ppm; break;
-                            default: throw new AssertionError(k);
+                            case 0:
+                                v = p.dx;
+                                break;
+                            case 1:
+                                v = p.dy;
+                                break;
+                            case 2:
+                                v = p.dz;
+                                break;
+                            case 3:
+                                v = p.ex;
+                                break;
+                            case 4:
+                                v = p.ey;
+                                break;
+                            case 5:
+                                v = p.ez;
+                                break;
+                            case 6:
+                                v = p.ppm;
+                                break;
+                            default:
+                                throw new AssertionError(k);
                         }
                         table.write(nf.format(v));
                         table.nextColumn();
@@ -300,8 +321,8 @@ final class Command {
         final CoordinateOperationAuthorityFactory factory =
                 (CoordinateOperationAuthorityFactory) this.factory;
         char[] separator = null;
-        for (int i=0; i<args.length; i++) {
-            for (int j=i+1; j<args.length; j++) {
+        for (int i = 0; i < args.length; i++) {
+            for (int j = i + 1; j < args.length; j++) {
                 final Set<CoordinateOperation> op;
                 op = factory.createFromCoordinateReferenceSystemCodes(args[i], args[j]);
                 for (final CoordinateOperation operation : op) {
@@ -327,10 +348,11 @@ final class Command {
         final CoordinateOperationFactory opFactory =
                 ReferencingFactoryFinder.getCoordinateOperationFactory(HINTS);
         char[] separator = null;
-        for (int i=0; i<args.length; i++) {
+        for (int i = 0; i < args.length; i++) {
             final CoordinateReferenceSystem crs1 = factory.createCoordinateReferenceSystem(args[i]);
-            for (int j=i+1; j<args.length; j++) {
-                final CoordinateReferenceSystem crs2 = factory.createCoordinateReferenceSystem(args[j]);
+            for (int j = i + 1; j < args.length; j++) {
+                final CoordinateReferenceSystem crs2 = factory.createCoordinateReferenceSystem
+                        (args[j]);
                 final CoordinateOperation op;
                 try {
                     op = opFactory.createOperation(crs1, crs2);
@@ -351,7 +373,8 @@ final class Command {
     /**
      * Prints all {@linkplain AuthorityFactory authority factory} dependencies as a tree.
      */
-    private static void printAuthorityFactoryDependencies(final PrintWriter out, final boolean colors) {
+    private static void printAuthorityFactoryDependencies(final PrintWriter out, final boolean 
+            colors) {
         final FactoryDependencies printer = new FactoryDependencies(CRS.getAuthorityFactory(false));
         printer.setAttributeEnabled(true);
         printer.setColorEnabled(colors);

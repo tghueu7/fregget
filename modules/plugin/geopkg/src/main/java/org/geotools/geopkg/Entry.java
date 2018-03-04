@@ -25,15 +25,16 @@ import org.geotools.geometry.jts.ReferencedEnvelope;
  * <p>
  * This class corresponds to the "geopackage_contents" table.
  * </p>
- * @author Justin Deoliveira, OpenGeo
  *
+ * @author Justin Deoliveira, OpenGeo
  */
 public class Entry {
 
     public static enum DataType {
-        Feature("features"), Tile("tiles"); 
+        Feature("features"), Tile("tiles");
 
         String value;
+
         DataType(String value) {
             this.value = value;
         }

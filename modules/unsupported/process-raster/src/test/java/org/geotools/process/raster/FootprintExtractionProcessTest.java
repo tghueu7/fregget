@@ -83,9 +83,8 @@ import com.vividsolutions.jts.io.WKTWriter;
 
 /**
  * Tests for the raster to vector FootprintExtractionProcess.
- * 
+ *
  * @author Daniele Romagnoli, GeoSolutions SAS
- * 
  */
 public class FootprintExtractionProcessTest {
 
@@ -97,7 +96,9 @@ public class FootprintExtractionProcessTest {
 
     private FootprintExtractionProcess process;
 
-    /** A reference geometry being extracted from the cloud file by excluding only BLACK pixels */
+    /**
+     * A reference geometry being extracted from the cloud file by excluding only BLACK pixels
+     */
     private Geometry referenceGeometry;
 
     private File cloudFile;
@@ -164,7 +165,7 @@ public class FootprintExtractionProcessTest {
 
                 // Creating the feature
                 final SimpleFeatureBuilder featureBuilder = new SimpleFeatureBuilder(featureType);
-                final Object[] values = new Object[] { geometry, 0 };
+                final Object[] values = new Object[]{geometry, 0};
                 featureBuilder.addAll(values);
                 final SimpleFeature feature = featureBuilder.buildFeature(typeName + '.' + 0);
 
@@ -218,7 +219,7 @@ public class FootprintExtractionProcessTest {
         abstract void write(Geometry geometry, File outputFile, CoordinateReferenceSystem crs)
                 throws IOException;
     }
-    
+
     @Before
     public void setup() throws IOException, ParseException {
         process = new FootprintExtractionProcess();
@@ -228,7 +229,8 @@ public class FootprintExtractionProcessTest {
         referenceGeometry = wktRead(geometryFile);
     }
 
-    private static Geometry wktRead(File geometryFile) throws FileNotFoundException, ParseException {
+    private static Geometry wktRead(File geometryFile) throws FileNotFoundException, 
+            ParseException {
         FileReader fileReader = null;
         try {
             WKTReader wktReader = new WKTReader();
@@ -351,10 +353,12 @@ public class FootprintExtractionProcessTest {
 
             SimpleFeature feature = iter.next();
             Geometry geometry = (Geometry) feature.getDefaultGeometry();
-            final int removeCollinearLength = referenceGeometry.getGeometryN(0).getCoordinates().length;
+            final int removeCollinearLength = referenceGeometry.getGeometryN(0).getCoordinates()
+                    .length;
             assertEquals(133, removeCollinearLength);
 
-            // The computed polygon should have more vertices due to collinear point not being removed
+            // The computed polygon should have more vertices due to collinear point not being 
+            // removed
             final int length = geometry.getGeometryN(0).getCoordinates().length;
             assertTrue(length > removeCollinearLength);
             assertFalse(referenceGeometry.equalsExact(geometry, TOLERANCE));
@@ -390,7 +394,8 @@ public class FootprintExtractionProcessTest {
 
             // Exclude pixels with luminance less than 20.
             final int referenceLuminance = 10;
-            List<Range<Integer>> exclusionRanges = Collections.singletonList(new Range<Integer>(Integer.class, 0, referenceLuminance));
+            List<Range<Integer>> exclusionRanges = Collections.singletonList(new Range<Integer>
+                    (Integer.class, 0, referenceLuminance));
             SimpleFeatureCollection fc = process.execute(cov, exclusionRanges, 10d, false, null,
                     true, true, null, null);
             iter = fc.features();
@@ -542,7 +547,8 @@ public class FootprintExtractionProcessTest {
     }
 
     public static void writeGeometry(final WritingFormat writingFormat, final Geometry geometry,
-            final File outputFile, final CoordinateReferenceSystem crs) throws IOException {
+                                     final File outputFile, final CoordinateReferenceSystem crs) 
+            throws IOException {
         Utilities.ensureNonNull("writingFormat", writingFormat);
         Utilities.ensureNonNull("geometry", geometry);
         if ((outputFile != null) && outputFile.exists()) {

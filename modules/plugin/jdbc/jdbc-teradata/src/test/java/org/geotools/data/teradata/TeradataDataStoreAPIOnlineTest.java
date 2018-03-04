@@ -34,8 +34,6 @@ import org.opengis.feature.type.AttributeDescriptor;
 import com.vividsolutions.jts.geom.Geometry;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class TeradataDataStoreAPIOnlineTest extends JDBCDataStoreAPIOnlineTest {
@@ -45,7 +43,7 @@ public class TeradataDataStoreAPIOnlineTest extends JDBCDataStoreAPIOnlineTest {
         super.connect();
         dataStore.setDatabaseSchema(fixture.getProperty("user"));
     }
-    
+
     protected JDBCDataStoreAPITestSetup createTestSetup() {
         return new TeradataDataStoreAPITestSetup(new TeradataTestSetup());
     }
@@ -59,5 +57,5 @@ public class TeradataDataStoreAPIOnlineTest extends JDBCDataStoreAPIOnlineTest {
     public void testTransactionIsolation() throws Exception {
         // TODO implement writing
     }
-    
+
 }

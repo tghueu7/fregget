@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -39,8 +39,8 @@ import org.geotools.factory.Hints;
  * Query query = ...
  * myFeatureSource.getFeatures(query);
  * </code></pre>
- *
- * The query class is based on the Web Feature Server specification and offers a 
+ * <p>
+ * The query class is based on the Web Feature Server specification and offers a
  * few interesting capabilities such as the ability to sort results and use a filter
  * (similar to the WHERE clause in SQL).
  * <p>
@@ -65,21 +65,21 @@ import org.geotools.factory.Hints;
  * </li>
  * <li>
  * {@linkplain #setCoordinateSystemReproject(CoordinateReferenceSystem)} is used to ask for
- * the retrieved features to be reproejcted. 
+ * the retrieved features to be reproejcted.
  * </li>
  * </ul>
- *
+ * <p>
  * Vendor specific:
  * <ul>
  * <li>{@linkplain setHints(Hints)} is used to specify venfor specific capabilities
  * provided by a feature source implementation.
  * </li>
  * </ul>
- * 
+ * <p>
  * Joins:
  * <p>
- * The Query class supports the concepts of joins in that a query can result in a join of the 
- * feature type to other feature types in the same datastore. For example, the following would be 
+ * The Query class supports the concepts of joins in that a query can result in a join of the
+ * feature type to other feature types in the same datastore. For example, the following would be
  * a spatial join that selected the country that contain a particular city.
  * <pre><code>
  * Query query = new Query("countries");
@@ -89,44 +89,44 @@ import org.geotools.factory.Hints;
  * query.getJoins().add(join);
  * </code></pre>
  * </p>
- * 
+ * <p>
  * Example:<pre><code>
  * Filter filter = CQL.toFilter("NAME like '%land'");
  * Query query = new Query( "countries", filter );
- *
+ * <p>
  * FeatureCollection features = featureSource.getFeatures( query );
  * </code></pre>
  *
  * @author Chris Holmes
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class Query {
-    
+
     /**
      * When specifying properties to select, setting this hint flag true tells the datastore
      * to include mandatory properties (i.e. properties with minOccurs >= 1) in the end result,
-     * irrespective of whether they are not included in the list of properties. 
-     * 
+     * irrespective of whether they are not included in the list of properties.
+     * <p>
      * Datastores may implement adding all mandatory properties to the end result
      * when this flag is set to true.  For example:
-     * 
+     * <p>
      * Object includeProps = query.getHints().get(Query.INCLUDE_MANDATORY_PROPS);
-     *  if (includeProps instanceof Boolean && ((Boolean)includeProps).booleanValue()) {
-     *          query.setProperties (DataUtilities.addMandatoryProperties(type, query.getProperties()));
-     *  }
-     * 
+     * if (includeProps instanceof Boolean && ((Boolean)includeProps).booleanValue()) {
+     * query.setProperties (DataUtilities.addMandatoryProperties(type, query.getProperties()));
+     * }
      */
     public static Hints.Key INCLUDE_MANDATORY_PROPS = new Hints.Key(Boolean.class);
-    
+
     /**
-     * Constant (actually null) used to represent no namespace restrictions on the returned result, should be considered ANY_URI
+     * Constant (actually null) used to represent no namespace restrictions on the returned 
+     * result, should be considered ANY_URI
      */
     public static final URI NO_NAMESPACE = null;
 
-    /** So getMaxFeatures does not return null we use a very large number. */
+    /**
+     * So getMaxFeatures does not return null we use a very large number.
+     */
     public static final int DEFAULT_MAX = Integer.MAX_VALUE;
 
     /**
@@ -159,7 +159,7 @@ public class Query {
      * are to be retrieved.
      */
     public static final String[] ALL_NAMES = null;
-    
+
     /**
      * A constant (empty String array) that can be used with
      * {@linkplain #setProperties(Collection<PropertyName>)} to indicate that no
@@ -177,46 +177,74 @@ public class Query {
      */
     public static final List<PropertyName> ALL_PROPERTIES = null;
 
-    /** The properties to fetch */
+    /**
+     * The properties to fetch
+     */
     protected List<PropertyName> properties;
 
-    /** The maximum numbers of features to fetch */
+    /**
+     * The maximum numbers of features to fetch
+     */
     protected int maxFeatures = Query.DEFAULT_MAX;
 
-    /** The index of the first feature to process */
+    /**
+     * The index of the first feature to process
+     */
     protected Integer startIndex = null;
-    
-    /** The filter to constrain the request. */
+
+    /**
+     * The filter to constrain the request.
+     */
     protected Filter filter = Filter.INCLUDE;
 
-    /** The typeName to get */
+    /**
+     * The typeName to get
+     */
     protected String typeName;
-    
-    /** The optional alias for type name */
+
+    /**
+     * The optional alias for type name
+     */
     protected String alias;
 
-    /** The namespace to get */
-    protected URI namespace =Query.NO_NAMESPACE;
+    /**
+     * The namespace to get
+     */
+    protected URI namespace = Query.NO_NAMESPACE;
 
-    /** The handle associated with this query. */
+    /**
+     * The handle associated with this query.
+     */
     protected String handle;
 
-    /** Coordinate System associated with this query */
+    /**
+     * Coordinate System associated with this query
+     */
     protected CoordinateReferenceSystem coordinateSystem;
-    
-    /** Reprojection associated associated with this query */
+
+    /**
+     * Reprojection associated associated with this query
+     */
     protected CoordinateReferenceSystem coordinateSystemReproject;
-    
-    /** Sorting for the query */
+
+    /**
+     * Sorting for the query
+     */
     protected SortBy[] sortBy;
-    
-    /** The version according to WFS 1.0 and 1.1 specs */
+
+    /**
+     * The version according to WFS 1.0 and 1.1 specs
+     */
     protected String version;
-    
-    /** The hints to be used during query execution */
+
+    /**
+     * The hints to be used during query execution
+     */
     protected Hints hints;
 
-    /** join clauses for this query */
+    /**
+     * join clauses for this query
+     */
     protected List<Join> joins = new ArrayList();
 
     /**
@@ -232,82 +260,82 @@ public class Query {
      *
      * @param typeName the name of the featureType to retrieve
      */
-    public Query( String typeName ){
-        this( typeName, Filter.INCLUDE );
-    }
-    
-    /**
-     * Constructor.
-     * 
-     * @param typeName the name of the featureType to retrieve.
-     * @param filter the OGC filter to constrain the request.
-     */
-    public Query(String typeName, Filter filter) {
-        this( typeName, filter, Query.ALL_NAMES );        
+    public Query(String typeName) {
+        this(typeName, Filter.INCLUDE);
     }
 
     /**
      * Constructor.
      *
      * @param typeName the name of the featureType to retrieve.
-     * @param filter the OGC filter to constrain the request.
+     * @param filter   the OGC filter to constrain the request.
+     */
+    public Query(String typeName, Filter filter) {
+        this(typeName, filter, Query.ALL_NAMES);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param typeName   the name of the featureType to retrieve.
+     * @param filter     the OGC filter to constrain the request.
      * @param properties an array of the properties to fetch.
      */
     public Query(String typeName, Filter filter, String[] properties) {
-        this( typeName, null, filter, Query.DEFAULT_MAX, properties, null );        
-    }
-    
-    /**
-     * Constructor.
-     *
-     * @param typeName the name of the featureType to retrieve.
-     * @param filter the OGC filter to constrain the request.
-     * @param properties a list of the properties to fetch.
-     */
-    public Query(String typeName, Filter filter, List<PropertyName> properties) {
-        this( typeName, null, filter, Query.DEFAULT_MAX, properties, null );        
+        this(typeName, null, filter, Query.DEFAULT_MAX, properties, null);
     }
 
     /**
      * Constructor.
      *
-     * @param typeName the name of the featureType to retrieve.
-     * @param filter the OGC filter to constrain the request.
-     * @param maxFeatures the maximum number of features to be returned.
-     * @param propNames an array of the properties to fetch.
-     * @param handle the name to associate with this query.
-     */
-    public Query(String typeName, Filter filter, int maxFeatures,
-        String[] propNames, String handle) {
-        this(typeName, null, filter, maxFeatures, propNames, handle );
-    }
-    
-    /**
-     * Constructor.
-     *
-     * @param typeName the name of the featureType to retrieve.
-     * @param filter the OGC filter to constrain the request.
-     * @param maxFeatures the maximum number of features to be returned.
+     * @param typeName   the name of the featureType to retrieve.
+     * @param filter     the OGC filter to constrain the request.
      * @param properties a list of the properties to fetch.
-     * @param handle the name to associate with this query.
      */
-    public Query(String typeName, Filter filter, int maxFeatures,
-            List<PropertyName>  properties, String handle) {
-        this(typeName, null, filter, maxFeatures, properties, handle );
+    public Query(String typeName, Filter filter, List<PropertyName> properties) {
+        this(typeName, null, filter, Query.DEFAULT_MAX, properties, null);
     }
-        
+
     /**
      * Constructor.
      *
-     * @param typeName the name of the featureType to retrieve.
-     * @param namespace Namespace for provided typeName, or null if unspecified
-     * @param filter the OGC filter to constrain the request.
+     * @param typeName    the name of the featureType to retrieve.
+     * @param filter      the OGC filter to constrain the request.
      * @param maxFeatures the maximum number of features to be returned.
-     * @param propNames an array of the properties to fetch.
-     * @param handle the name to associate with the query.
+     * @param propNames   an array of the properties to fetch.
+     * @param handle      the name to associate with this query.
      */
-    public Query( String typeName, URI namespace, Filter filter, int maxFeatures,
-        String[] propNames, String handle) {
+    public Query(String typeName, Filter filter, int maxFeatures,
+                 String[] propNames, String handle) {
+        this(typeName, null, filter, maxFeatures, propNames, handle);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param typeName    the name of the featureType to retrieve.
+     * @param filter      the OGC filter to constrain the request.
+     * @param maxFeatures the maximum number of features to be returned.
+     * @param properties  a list of the properties to fetch.
+     * @param handle      the name to associate with this query.
+     */
+    public Query(String typeName, Filter filter, int maxFeatures,
+                 List<PropertyName> properties, String handle) {
+        this(typeName, null, filter, maxFeatures, properties, handle);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param typeName    the name of the featureType to retrieve.
+     * @param namespace   Namespace for provided typeName, or null if unspecified
+     * @param filter      the OGC filter to constrain the request.
+     * @param maxFeatures the maximum number of features to be returned.
+     * @param propNames   an array of the properties to fetch.
+     * @param handle      the name to associate with the query.
+     */
+    public Query(String typeName, URI namespace, Filter filter, int maxFeatures,
+                 String[] propNames, String handle) {
         this.typeName = typeName;
         this.filter = filter;
         this.namespace = namespace;
@@ -315,46 +343,46 @@ public class Query {
         this.handle = handle;
         setPropertyNames(propNames);
     }
-    
+
     /**
      * Constructor.
      *
-     * @param typeName the name of the featureType to retrieve.
-     * @param namespace Namespace for provided typeName, or null if unspecified
-     * @param filter the OGC filter to constrain the request.
+     * @param typeName    the name of the featureType to retrieve.
+     * @param namespace   Namespace for provided typeName, or null if unspecified
+     * @param filter      the OGC filter to constrain the request.
      * @param maxFeatures the maximum number of features to be returned.
-     * @param properties a list of the property names to fetch.
-     * @param handle the name to associate with the query.
+     * @param properties  a list of the property names to fetch.
+     * @param handle      the name to associate with the query.
      */
-    public Query( String typeName, URI namespace, Filter filter, int maxFeatures,
-        List<PropertyName> propNames, String handle) {
+    public Query(String typeName, URI namespace, Filter filter, int maxFeatures,
+                 List<PropertyName> propNames, String handle) {
         this.typeName = typeName;
         this.filter = filter;
         this.namespace = namespace;
         this.maxFeatures = maxFeatures;
         this.handle = handle;
-        this.properties = propNames==null? null : new ArrayList<PropertyName>(propNames);
+        this.properties = propNames == null ? null : new ArrayList<PropertyName>(propNames);
     }
-    
+
     /**
      * Copy contructor.
      *
      * @param query the query to copy
      */
     public Query(Query query) {
-      this(query.getTypeName(), query.getNamespace(), query.getFilter(), query.getMaxFeatures(),
-          query.getProperties(), query.getHandle());
-      this.sortBy = query.getSortBy();
-      this.coordinateSystem = query.getCoordinateSystem();
-      this.coordinateSystemReproject = query.getCoordinateSystemReproject();
-      this.version = query.getVersion();
-      this.hints = query.getHints();
-      this.startIndex = query.getStartIndex();
-      this.alias = query.getAlias();
-      this.joins = new ArrayList();
-      for (Join j : query.getJoins()) {
-          this.joins.add(new Join(j));
-      }
+        this(query.getTypeName(), query.getNamespace(), query.getFilter(), query.getMaxFeatures(),
+                query.getProperties(), query.getHandle());
+        this.sortBy = query.getSortBy();
+        this.coordinateSystem = query.getCoordinateSystem();
+        this.coordinateSystemReproject = query.getCoordinateSystemReproject();
+        this.version = query.getVersion();
+        this.hints = query.getHints();
+        this.startIndex = query.getStartIndex();
+        this.alias = query.getAlias();
+        this.joins = new ArrayList();
+        for (Join j : query.getJoins()) {
+            this.joins.add(new Join(j));
+        }
     }
 
     /**
@@ -362,22 +390,20 @@ public class Query {
      * the returned {@linkplain org.geotools.feature.FeatureCollection}.
      *
      * @return the attributes to be used in the returned FeatureCollection.
-     *
-     * @see #retrieveAllProperties()
-     *
      * @task REVISIT: make a FidProperties object, instead of an array size 0.
-     *       I think Query.FIDS fills this role to some degree.
-     *       Query.FIDS.equals( filter ) would meet this need?
+     * I think Query.FIDS fills this role to some degree.
+     * Query.FIDS.equals( filter ) would meet this need?
+     * @see #retrieveAllProperties()
      */
     public String[] getPropertyNames() {
         if (properties == null) {
             return null;
         }
-        
+
         String[] propertyNames = new String[properties.size()];
-        for (int i=0; i< properties.size(); i++) {
+        for (int i = 0; i < properties.size(); i++) {
             PropertyName propertyName = properties.get(i);
-            if( propertyName != null){
+            if (propertyName != null) {
                 String xpath = propertyName.getPropertyName();
                 propertyNames[i] = xpath;
             }
@@ -402,37 +428,36 @@ public class Query {
      * an exception will be thrown.
      *
      * @param propNames the names of the properties to retrieve or one of
-     *        {@linkplain #ALL_NAMES} or {@linkplain #NO_NAMES}.
+     *                  {@linkplain #ALL_NAMES} or {@linkplain #NO_NAMES}.
      */
     public void setPropertyNames(String[] propNames) {
         if (propNames == null) {
             properties = ALL_PROPERTIES;
             return;
         }
-        
+
         final FilterFactory ff = CommonFactoryFinder.getFilterFactory(null);
         properties = new ArrayList<PropertyName>(propNames.length);
-        for (int i=0; i< propNames.length; i++) {
+        for (int i = 0; i < propNames.length; i++) {
             String xpath = propNames[i];
-            if(xpath != null ){
+            if (xpath != null) {
                 properties.add(ff.property(xpath));
             }
         }
     }
-    
+
     /**
      * Get the names of the properties that this Query will retrieve values for
      * as part of the returned {@linkplain org.geotools.feature.FeatureCollection}.
      *
      * @return the xpath expressions to be used in the returned FeatureCollection.
-     *
      * @see #retrieveAllProperties()
      */
     public List<PropertyName> getProperties() {
         if (properties == ALL_PROPERTIES) {
             return ALL_PROPERTIES;
         }
-        return Collections.<PropertyName>unmodifiableList(properties) ;
+        return Collections.<PropertyName>unmodifiableList(properties);
     }
 
     /**
@@ -452,12 +477,13 @@ public class Query {
      * an exception will be thrown.
      *
      * @param propNames the names of the properties to retrieve or one of
-     *        {@linkplain #ALL_PROPERTIES} or {@linkplain #NO_PROPERTIES}.
+     *                  {@linkplain #ALL_PROPERTIES} or {@linkplain #NO_PROPERTIES}.
      */
     public void setProperties(List<PropertyName> propNames) {
-        this.properties = propNames== ALL_PROPERTIES ? ALL_PROPERTIES : new ArrayList<PropertyName>(propNames);
+        this.properties = propNames == ALL_PROPERTIES ? ALL_PROPERTIES : new 
+                ArrayList<PropertyName>(propNames);
     }
-    
+
     /**
      * Set the names of the properties that this Query should retrieve as part of
      * the returned {@linkplain org.geotools.feature.FeatureCollection}.
@@ -467,12 +493,11 @@ public class Query {
      * an exception will be thrown.
      *
      * @param propNames the names of the properties to retrieve or
-     *        {@linkplain #ALL_NAMES}; an empty List can be passed in to
-     *        indicate that only feature IDs should be retrieved
-     *
+     *                  {@linkplain #ALL_NAMES}; an empty List can be passed in to
+     *                  indicate that only feature IDs should be retrieved
      * @task REVISIT: This syntax is really obscure.  Consider having an fid or
-     *       featureID propertyName that datasource implementors look for
-     *       instead of looking to see if the list size is 0.
+     * featureID propertyName that datasource implementors look for
+     * instead of looking to see if the list size is 0.
      */
     public void setPropertyNames(List<String> propNames) {
         if (propNames == null) {
@@ -481,16 +506,16 @@ public class Query {
         }
 
         final FilterFactory ff = CommonFactoryFinder.getFilterFactory(null);
-        
+
         properties = new ArrayList<PropertyName>(propNames.size());
-        for (int i=0; i< propNames.size(); i++) {
+        for (int i = 0; i < propNames.size(); i++) {
             String xpath = propNames.get(i);
-            if(xpath != null ){
+            if (xpath != null) {
                 properties.add(ff.property(xpath));
             }
         }
     }
-    
+
     /**
      * Convenience method to determine if the query should retrieve all
      * properties defined in the schema of the feature data source. This
@@ -498,7 +523,7 @@ public class Query {
      * {@linkplain #ALL_NAMES}.
      *
      * @return true if all properties will be retrieved by this Query; false
-     *         otherwise
+     * otherwise
      */
     public boolean retrieveAllProperties() {
         return properties == null;
@@ -516,20 +541,21 @@ public class Query {
      * <p>
      * If the value returned here is max integer then the number of features
      * should not be limited.
-     * 
+     *
      * @return the maximum number of features that will be retrieved by
-     *         this query
+     * this query
      */
     public int getMaxFeatures() {
         return this.maxFeatures;
     }
-    
+
     /**
      * Check if this query allows an unlimited number of features to be returned.
      * <p>
+     *
      * @return true maxFeatures is less then zero, or equal to Integer.MAX_VALUE.
      */
-    public boolean isMaxFeaturesUnlimited(){
+    public boolean isMaxFeaturesUnlimited() {
         return maxFeatures < 0 || maxFeatures == Integer.MAX_VALUE;
     }
 
@@ -549,7 +575,7 @@ public class Query {
      * @return the index of the first feature to retrieve or {@code null}
      * if no start index is defined.
      */
-    public Integer getStartIndex(){
+    public Integer getStartIndex() {
         return this.startIndex;
     }
 
@@ -559,17 +585,17 @@ public class Query {
      * a feature data source.
      *
      * @param startIndex index of the first feature to retrieve or {@code null}
-     *        to indicate no start index
-     *
+     *                   to indicate no start index
      * @throws IllegalArgumentException if startIndex is less than 0
      */
-    public void setStartIndex(Integer startIndex){
-        if(startIndex != null && startIndex.intValue() < 0){
-            throw new IllegalArgumentException("startIndex shall be a positive integer: " + startIndex);
+    public void setStartIndex(Integer startIndex) {
+        if (startIndex != null && startIndex.intValue() < 0) {
+            throw new IllegalArgumentException("startIndex shall be a positive integer: " + 
+                    startIndex);
         }
         this.startIndex = startIndex;
     }
-    
+
     /**
      * Gets the filter used to define constraints on the features that will be
      * retrieved by this Query.
@@ -589,15 +615,15 @@ public class Query {
      * The default is {@linkplain Filter#INCLUDE}.
      *
      * @param filter the OGC filter which features must pass through to
-     *        be retrieved by this Query.
+     *               be retrieved by this Query.
      */
     public void setFilter(Filter filter) {
         this.filter = filter;
     }
-    
+
     /**
      * Get the name of the feature type to be queried.
-     * 
+     *
      * @return the name of the feature type to be returned with this query.
      */
     public String getTypeName() {
@@ -621,6 +647,7 @@ public class Query {
      * This value is typically used in a join query in which the join filter requires disambiguation
      * due to property name overlaps between joined types.
      * </p>
+     *
      * @since 8.0
      */
     public String getAlias() {
@@ -629,9 +656,9 @@ public class Query {
 
     /**
      * Sets the type name alias.
-     * 
-     * @since 8.0
+     *
      * @see #getAlias()
+     * @since 8.0
      */
     public void setAlias(String alias) {
         this.alias = alias;
@@ -641,7 +668,7 @@ public class Query {
      * Get the namespace of the feature type to be queried.
      *
      * @return the gml namespace of the feature type to be returned with this
-     *         query
+     * query
      */
     public URI getNamespace() {
         return namespace;
@@ -649,14 +676,14 @@ public class Query {
 
     /**
      * Set the namespace of the feature type to be queried.
-     * 
+     *
      * @return the gml namespace of the feature type to be returned with this
-     *         query
+     * query
      */
     public void setNamespace(URI namespace) {
         this.namespace = namespace;
     }
-    
+
     /**
      * Get the handle (mnemonic name) that will be associated with this Query.
      * The handle is used in logging and error reporting.
@@ -676,11 +703,11 @@ public class Query {
     public void setHandle(String handle) {
         this.handle = handle;
     }
-    
+
     /**
      * Defines version or version range requested.
      * <p>
-     * 
+     * <p>
      * From WFS Spec: <i>The version attribute is included in order to
      * accommodate systems that  support feature versioning. A value of {@linkplain #ALL}
      * indicates that all versions of a feature should be fetched. Otherwise
@@ -695,51 +722,57 @@ public class Query {
      * <ul>
      * <li>{@link #setVersion(Date)}: "date: <i>dow mon dd hh:mm:ss zzz yyyy</i>"</li>
      * <li>{@link #setVersion(int)}: "<i>index</i>"</li>
-     * <li>{@link #setVersion(org.opengis.filter.identity.Version.Action)): "PREVIOUS", "LAST", "NEXT", "FIRST", "ALL" </li>
-     * <li>{@link #setVersion(Date, Date): "start: <i>dow mon dd hh:mm:ss zzz yyyy end: <i>dow mon dd hh:mm:ss zzz yyyy"</i>
+     * <li>{@link #setVersion(org.opengis.filter.identity.Version.Action)): "PREVIOUS", "LAST", 
+     * "NEXT", "FIRST", "ALL" </li>
+     * <li>{@link #setVersion(Date, Date): "start: <i>dow mon dd hh:mm:ss zzz yyyy end: <i>dow 
+     * mon dd hh:mm:ss zzz yyyy"</i>
      * </ul>
+     *
      * @return the version of the feature to return, or <code>null</code> for LAST.
      */
     public String getVersion() {
-        return version; 
+        return version;
     }
-    public void setVersion( int index ){
-        this.version = String.valueOf( index );
+
+    public void setVersion(int index) {
+        this.version = String.valueOf(index);
     }
-    public void setVersion( Date date ){
-        this.version = date == null ? null : "date:"+date;
+
+    public void setVersion(Date date) {
+        this.version = date == null ? null : "date:" + date;
     }
-    public void setVersion( Version.Action action ){
+
+    public void setVersion(Version.Action action) {
         this.version = action == null ? null : action.name();
     }
-    public void setVersion( Date startTime, Date endTime ){
-        if( startTime == null || endTime == null ){
+
+    public void setVersion(Date startTime, Date endTime) {
+        if (startTime == null || endTime == null) {
             this.version = null;
-        }
-        else {
-            this.version = "start:"+startTime+" end:"+endTime;
+        } else {
+            this.version = "start:" + startTime + " end:" + endTime;
         }
     }
-    public void setVersion( ResourceId history ){
-        if( history.getStartTime() != null && history.getEndTime() != null ){
-            setVersion( history.getStartTime(),history.getEndTime() );
-        }
-        else if( history.getVersion() != null ){
+
+    public void setVersion(ResourceId history) {
+        if (history.getStartTime() != null && history.getEndTime() != null) {
+            setVersion(history.getStartTime(), history.getEndTime());
+        } else if (history.getVersion() != null) {
             Version ver = history.getVersion();
-            if( ver.isVersionAction()){
-                setVersion( ver.getVersionAction() );
-            }
-            else if( ver.isDateTime() ){
-                setVersion( ver.getDateTime() );
-            }
-            else if( ver.isIndex() ){
-                setVersion( ver.getIndex() );
+            if (ver.isVersionAction()) {
+                setVersion(ver.getVersionAction());
+            } else if (ver.isDateTime()) {
+                setVersion(ver.getDateTime());
+            } else if (ver.isIndex()) {
+                setVersion(ver.getIndex());
             }
         }
     }
+
     /**
      * Set the version of features to retrieve where this is supported by the
      * data source being queried.
+     *
      * @param version
      * @see #getVersion() getVersion() for explanation
      * @since 2.4
@@ -747,12 +780,12 @@ public class Query {
     public void setVersion(String version) {
         this.version = version;
     }
-    
+
     /**
      * Get the coordinate system to use as an override for features retrieved by this Query.
      *
      * @return The coordinate system to be returned for Features from this
-     *         Query (override the set coordinate system).
+     * Query (override the set coordinate system).
      */
     public CoordinateReferenceSystem getCoordinateSystem() {
         return coordinateSystem;
@@ -765,7 +798,7 @@ public class Query {
      * contained in the feature data source being queried. The same coordinate
      * values will be used, but the features retrieved will appear in this
      * Coordinate System.
-     *
+     * <p>
      * <p>
      * This change is not persistent and only applies to the features
      * returned by this Query. If used in conjunction with {@link #getCoordinateSystemReproject()}
@@ -784,13 +817,12 @@ public class Query {
      * that features retrieved by this Query will be reprojected into.
      *
      * @return the coordinate system that features will be reprojected into (if set)
-     *
-     * @see #setCoordinateSystemReproject( CoordinateReferenceSystem )
+     * @see #setCoordinateSystemReproject(CoordinateReferenceSystem)
      */
     public CoordinateReferenceSystem getCoordinateSystemReproject() {
         return coordinateSystemReproject;
     }
-    
+
     /**
      * Request that features retrieved by this Query be reprojected into the
      * given coordinate system.
@@ -804,7 +836,7 @@ public class Query {
     public void setCoordinateSystemReproject(CoordinateReferenceSystem system) {
         coordinateSystemReproject = system;
     }
-    
+
     /**
      * SortBy results according to indicated property and order.
      * <p>
@@ -823,12 +855,12 @@ public class Query {
      * </code></pre>
      * </p>
      * <p>
-     *
+     * <p>
      * SortBy should be considered at the same level of abstraction as Filter,
      * and like Filter you may sort using properties not listed in
      * getPropertyNames.
      * </p>
-     *
+     * <p>
      * <p>
      * At a technical level the interface SortBy2 is used to indicate the
      * additional requirements of a GeoTools implementation. The pure
@@ -839,30 +871,28 @@ public class Query {
      */
     public SortBy[] getSortBy() {
         return sortBy;
-    } 
+    }
 
     /**
      * Sets the sort by information.
-     * 
      */
     public void setSortBy(SortBy[] sortBy) {
         this.sortBy = sortBy;
     }
-    
+
     /**
      * Get hints that have been set to control the query execution.
      *
      * @return hints that are set (may be empty)
-     *
      * @see #setHints(Hints) setHints(Hints) for more explanation
      */
     public Hints getHints() {
-        if(hints == null){
+        if (hints == null) {
             hints = new Hints();
         }
         return hints;
     }
-    
+
     /**
      * Set hints to control the query execution.
      * <p>
@@ -878,6 +908,8 @@ public class Query {
      * Note: Data sources may ignore hints (depending on their values) and no
      * mechanism currently exists to discover which hints where actually used
      * during the query's execution.
+     *
+     * @param hints the hints to apply
      * @see Hints#FEATURE_DETACHED
      * @see Hints#JTS_GEOMETRY_FACTORY
      * @see Hints#JTS_COORDINATE_SEQUENCE_FACTORY
@@ -885,13 +917,11 @@ public class Query {
      * @see Hints#JTS_SRID
      * @see Hints#GEOMETRY_DISTANCE
      * @see Hints#FEATURE_2D
-     * 
-     * @param hints the hints to apply
      */
     public void setHints(Hints hints) {
         this.hints = hints;
     }
-    
+
     /**
      * Hashcode based on all parameters other than the handle.
      *
@@ -902,21 +932,21 @@ public class Query {
         String[] n = getPropertyNames();
 
         return ((n == null) ? (-1)
-                                    : ((n.length == 0) ? 0 : (n.length
+                : ((n.length == 0) ? 0 : (n.length
                 | n[0].hashCode()))) | getMaxFeatures()
                 | ((getFilter() == null) ? 0 : getFilter().hashCode())
                 | ((getTypeName() == null) ? 0 : getTypeName().hashCode())
                 | ((getVersion() == null) ? 0 : getVersion().hashCode())
                 | ((getCoordinateSystem() == null) ? 0 : getCoordinateSystem().hashCode())
-                | ((getCoordinateSystemReproject() == null) ? 0 : getCoordinateSystemReproject().hashCode())
+                | ((getCoordinateSystemReproject() == null) ? 0 : getCoordinateSystemReproject()
+                .hashCode())
                 | getStartIndex();
     }
-    
+
     /**
      * Equality based on all query parameters other than the handle.
-     * 
-     * @param obj Other object to compare against
      *
+     * @param obj Other object to compare against
      * @return true if this Query matches the other object; false otherwise
      */
     @Override
@@ -924,26 +954,28 @@ public class Query {
         if ((obj == null) || !(obj instanceof Query)) {
             return false;
         }
-        if (this == obj) return true;        
+        if (this == obj) return true;
         Query other = (Query) obj;
-        
+
         return Arrays.equals(getPropertyNames(), other.getPropertyNames())
-        && (retrieveAllProperties() == other.retrieveAllProperties())
-        && (getMaxFeatures() == other.getMaxFeatures())
-        && ((getFilter() == null) ? (other.getFilter() == null)
-                                  : getFilter().equals(other.getFilter()))
-        && ((getTypeName() == null) ? (other.getTypeName() == null)
-                                    : getTypeName().equals(other.getTypeName()))
-        && ((getVersion() == null) ? (other.getVersion() == null)
-                                   : getVersion().equals(other.getVersion()))
-        && ((getCoordinateSystem() == null) ? (other.getCoordinateSystem() == null)
-                                           : getCoordinateSystem().equals(other.getCoordinateSystem()))
-        && ((getCoordinateSystemReproject() == null) ? (other.getCoordinateSystemReproject() == null)
-                                                   : getCoordinateSystemReproject().equals(other.getCoordinateSystemReproject()))                                           
-        && (getStartIndex() == other.getStartIndex()) 
-        && (getHints() == null ? (other.getHints() == null) : getHints().equals(other.getHints()));
+                && (retrieveAllProperties() == other.retrieveAllProperties())
+                && (getMaxFeatures() == other.getMaxFeatures())
+                && ((getFilter() == null) ? (other.getFilter() == null)
+                : getFilter().equals(other.getFilter()))
+                && ((getTypeName() == null) ? (other.getTypeName() == null)
+                : getTypeName().equals(other.getTypeName()))
+                && ((getVersion() == null) ? (other.getVersion() == null)
+                : getVersion().equals(other.getVersion()))
+                && ((getCoordinateSystem() == null) ? (other.getCoordinateSystem() == null)
+                : getCoordinateSystem().equals(other.getCoordinateSystem()))
+                && ((getCoordinateSystemReproject() == null) ? (other
+                .getCoordinateSystemReproject() == null)
+                : getCoordinateSystemReproject().equals(other.getCoordinateSystemReproject()))
+                && (getStartIndex() == other.getStartIndex())
+                && (getHints() == null ? (other.getHints() == null) : getHints().equals(other
+                .getHints()));
     }
-    
+
     /**
      * Return a string representation of this Query.
      *
@@ -978,14 +1010,14 @@ public class Query {
 
             returnString.append("]");
         }
-        
-        if(sortBy != null && sortBy.length > 0) {
-        returnString.append("\n   [sort by: ");
+
+        if (sortBy != null && sortBy.length > 0) {
+            returnString.append("\n   [sort by: ");
             for (int i = 0; i < sortBy.length; i++) {
                 SortBy sb = sortBy[i];
-                if(sb == SortBy.NATURAL_ORDER) {
+                if (sb == SortBy.NATURAL_ORDER) {
                     returnString.append("NATURAL");
-                } else if(sb == SortBy.REVERSE_ORDER) {
+                } else if (sb == SortBy.REVERSE_ORDER) {
                     returnString.append("REVERSE");
                 } else {
                     returnString.append(sb.getPropertyName().getPropertyName());
@@ -1000,7 +1032,7 @@ public class Query {
 
             returnString.append("]");
         }
-        
+
         return returnString.toString();
     }
 
@@ -1010,6 +1042,7 @@ public class Query {
      * Each {@link Join} object specifies a feature type to join to. The join may only reference
      * a feature type from within the same datastore.
      * </p>
+     *
      * @see Join
      */
     public List<Join> getJoins() {

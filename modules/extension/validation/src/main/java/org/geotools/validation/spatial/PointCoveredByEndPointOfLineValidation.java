@@ -30,23 +30,21 @@ import com.vividsolutions.jts.geom.Point;
 
 /**
  * PointCoveredByEndPointOfLineValidation purpose.
- * 
+ * <p>
  * <p>
  * Checks to ensure the Point is covered by an endpoint of the Line.
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class PointCoveredByEndPointOfLineValidation
-    extends PointLineAbstractValidation {
+        extends PointLineAbstractValidation {
     /**
      * PointCoveredByEndPointOfLineValidation constructor.
-     * 
+     * <p>
      * <p>
      * Description
      * </p>
@@ -57,25 +55,23 @@ public class PointCoveredByEndPointOfLineValidation
 
     /**
      * Ensure Point is covered by a Line end point.
-     * 
+     * <p>
      * <p></p>
      *
-     * @param layers a HashMap of key="TypeName" value="FeatureSource"
+     * @param layers   a HashMap of key="TypeName" value="FeatureSource"
      * @param envelope The bounding box of modified features
-     * @param results Storage for the error and warning messages
-     *
+     * @param results  Storage for the error and warning messages
      * @return True if no features intersect. If they do then the validation
-     *         failed.
-     *
+     * failed.
      * @throws Exception DOCUMENT ME!
-     *
      * @see org.geotools.validation.IntegrityValidation#validate(java.util.Map,
-     *      com.vividsolutions.jts.geom.Envelope,
-     *      org.geotools.validation.ValidationResults)
+     * com.vividsolutions.jts.geom.Envelope,
+     * org.geotools.validation.ValidationResults)
      */
     public boolean validate(Map layers, Envelope envelope,
-        ValidationResults results) throws Exception {
-        SimpleFeatureSource lineSource = (SimpleFeatureSource) layers.get(getRestrictedLineTypeRef());
+                            ValidationResults results) throws Exception {
+        SimpleFeatureSource lineSource = (SimpleFeatureSource) layers.get
+                (getRestrictedLineTypeRef());
         SimpleFeatureSource pointSource = (SimpleFeatureSource) layers.get(getPointTypeRef());
 
         Object[] points = pointSource.getFeatures().toArray();
@@ -83,14 +79,14 @@ public class PointCoveredByEndPointOfLineValidation
 
         if (!envelope.contains(pointSource.getBounds())) {
             results.error((SimpleFeature) points[0],
-                "Point Feature Source is not contained within the Envelope provided.");
+                    "Point Feature Source is not contained within the Envelope provided.");
 
             return false;
         }
 
         if (!envelope.contains(lineSource.getBounds())) {
             results.error((SimpleFeature) lines[0],
-                "Line Feature Source is not contained within the Envelope provided.");
+                    "Line Feature Source is not contained within the Envelope provided.");
 
             return false;
         }

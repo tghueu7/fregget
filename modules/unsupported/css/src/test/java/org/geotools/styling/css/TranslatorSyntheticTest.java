@@ -84,7 +84,7 @@ public class TranslatorSyntheticTest extends CssBaseTest {
     }
 
     private void assertVendorOption(String expectedValue, String name,
-            org.geotools.styling.Symbolizer ps) {
+                                    org.geotools.styling.Symbolizer ps) {
         assertEquals(expectedValue, ps.getOptions().get(name));
     }
 
@@ -191,7 +191,8 @@ public class TranslatorSyntheticTest extends CssBaseTest {
 
     @Test
     public void fillCircleFilledStrokedMark() throws Exception {
-        String css = "* { fill: symbol('circle');} :fill { fill: yellow; stroke: black; stroke-width: 3;}";
+        String css = "* { fill: symbol('circle');} :fill { fill: yellow; stroke: black; " +
+                "stroke-width: 3;}";
         Style style = translate(css);
         Rule rule = assertSingleRule(style);
         PolygonSymbolizer ps = assertSingleSymbolizer(rule, PolygonSymbolizer.class);
@@ -266,7 +267,8 @@ public class TranslatorSyntheticTest extends CssBaseTest {
 
     @Test
     public void strokeDashed() throws IOException {
-        String css = "* { stroke: orange; stroke-width: 10; stroke-dasharray: 10 5 1 5; stroke-dashoffset: 2; stroke-linecap: round; stroke-linejoin: round;}";
+        String css = "* { stroke: orange; stroke-width: 10; stroke-dasharray: 10 5 1 5; " +
+                "stroke-dashoffset: 2; stroke-linecap: round; stroke-linejoin: round;}";
         Style style = translate(css);
         Rule rule = assertSingleRule(style);
         LineSymbolizer ls = assertSingleSymbolizer(rule, LineSymbolizer.class);
@@ -276,7 +278,7 @@ public class TranslatorSyntheticTest extends CssBaseTest {
         assertLiteral("1", stroke.getOpacity());
         assertLiteral("round", stroke.getLineCap());
         assertLiteral("round", stroke.getLineJoin());
-        assertTrue(Arrays.equals(new float[] { 10, 5, 1, 5 }, stroke.getDashArray()));
+        assertTrue(Arrays.equals(new float[]{10, 5, 1, 5}, stroke.getDashArray()));
         assertLiteral("2", stroke.getDashOffset());
         assertNull(stroke.getGraphicFill());
         assertNull(stroke.getGraphicStroke());
@@ -298,7 +300,8 @@ public class TranslatorSyntheticTest extends CssBaseTest {
 
     @Test
     public void strokeFillMark() throws IOException {
-        String css = "* { stroke: symbol('square'); stroke-size: 20; stroke-repeat: stipple;} :stroke { fill: red; }";
+        String css = "* { stroke: symbol('square'); stroke-size: 20; stroke-repeat: stipple;} " +
+                ":stroke { fill: red; }";
         Style style = translate(css);
         Rule rule = assertSingleRule(style);
         LineSymbolizer ls = assertSingleSymbolizer(rule, LineSymbolizer.class);
@@ -341,7 +344,8 @@ public class TranslatorSyntheticTest extends CssBaseTest {
 
     @Test
     public void mark() throws Exception {
-        String css = "* { mark: symbol(circle); mark-size: 10; mark-rotation: 45; mark-geometry: [centroid(the_geom)];} :mark { fill: blue; }";
+        String css = "* { mark: symbol(circle); mark-size: 10; mark-rotation: 45; mark-geometry: " +
+                "[centroid(the_geom)];} :mark { fill: blue; }";
         Style style = translate(css);
         Rule rule = assertSingleRule(style);
         PointSymbolizer ps = assertSingleSymbolizer(rule, PointSymbolizer.class);
@@ -358,7 +362,8 @@ public class TranslatorSyntheticTest extends CssBaseTest {
 
     @Test
     public void markAnchorDisplacement() throws Exception {
-        String css = "* { mark: symbol(circle); mark-size: 10; mark-anchor: 0 1; mark-offset: 10 20;}";
+        String css = "* { mark: symbol(circle); mark-size: 10; mark-anchor: 0 1; mark-offset: 10 " +
+                "20;}";
         Style style = translate(css);
         Rule rule = assertSingleRule(style);
         PointSymbolizer ps = assertSingleSymbolizer(rule, PointSymbolizer.class);
@@ -392,7 +397,8 @@ public class TranslatorSyntheticTest extends CssBaseTest {
 
     @Test
     public void externalGraphic() throws Exception {
-        String css = "* { mark: url(test.svg); mark-size: 10; mark-rotation: 45; mark-mime: 'image/png';}";
+        String css = "* { mark: url(test.svg); mark-size: 10; mark-rotation: 45; mark-mime: " +
+                "'image/png';}";
         Style style = translate(css);
         Rule rule = assertSingleRule(style);
         PointSymbolizer ps = assertSingleSymbolizer(rule, PointSymbolizer.class);
@@ -418,7 +424,8 @@ public class TranslatorSyntheticTest extends CssBaseTest {
 
     @Test
     public void labelPointPlacement() throws Exception {
-        String css = "* { label: 'test'; label-offset: 5 5; label-rotation: 45; label-anchor: 0.1 0.9;}";
+        String css = "* { label: 'test'; label-offset: 5 5; label-rotation: 45; label-anchor: 0.1" +
+                " 0.9;}";
         Style style = translate(css);
         Rule rule = assertSingleRule(style);
         TextSymbolizer ts = assertSingleSymbolizer(rule, TextSymbolizer.class);
@@ -457,7 +464,8 @@ public class TranslatorSyntheticTest extends CssBaseTest {
 
     @Test
     public void labelFont() throws Exception {
-        String css = "* { label: 'test'; font-family: 'Arial'; font-fill: blue; font-weight: normal; font-style: italic; font-size: 20;}";
+        String css = "* { label: 'test'; font-family: 'Arial'; font-fill: blue; font-weight: " +
+                "normal; font-style: italic; font-size: 20;}";
         Style style = translate(css);
         Rule rule = assertSingleRule(style);
         TextSymbolizer ts = assertSingleSymbolizer(rule, TextSymbolizer.class);
@@ -525,7 +533,8 @@ public class TranslatorSyntheticTest extends CssBaseTest {
 
     @Test
     public void rasterGammaContrastEnhancement() throws Exception {
-        String css = "* { raster-channels: auto; raster-contrast-enhancement: normalize; raster-gamma: 0.5;}";
+        String css = "* { raster-channels: auto; raster-contrast-enhancement: normalize; " +
+                "raster-gamma: 0.5;}";
         Style style = translate(css);
         Rule rule = assertSingleRule(style);
         RasterSymbolizer rs = assertSingleSymbolizer(rule, RasterSymbolizer.class);
@@ -537,7 +546,8 @@ public class TranslatorSyntheticTest extends CssBaseTest {
 
     @Test
     public void rasterChannelSelection() throws Exception {
-        String css = "* { raster-channels: 'band1'; raster-contrast-enhancement: normalize; raster-gamma: 0.5;}";
+        String css = "* { raster-channels: 'band1'; raster-contrast-enhancement: normalize; " +
+                "raster-gamma: 0.5;}";
         Style style = translate(css);
         Rule rule = assertSingleRule(style);
         RasterSymbolizer rs = assertSingleSymbolizer(rule, RasterSymbolizer.class);
@@ -563,7 +573,8 @@ public class TranslatorSyntheticTest extends CssBaseTest {
 
     @Test
     public void rasterColorMap() throws Exception {
-        String css = "* { raster-channels: 'auto'; raster-color-map: color-map-entry(black, 100) color-map-entry(white, 1000) color-map-entry(red, 10000, 0);}";
+        String css = "* { raster-channels: 'auto'; raster-color-map: color-map-entry(black, 100) " +
+                "color-map-entry(white, 1000) color-map-entry(red, 10000, 0);}";
         Style style = translate(css);
         Rule rule = assertSingleRule(style);
         RasterSymbolizer rs = assertSingleSymbolizer(rule, RasterSymbolizer.class);
@@ -968,7 +979,8 @@ public class TranslatorSyntheticTest extends CssBaseTest {
     @Test
     public void testModeFlat2_mark() throws Exception {
         String css = "@mode \"Flat\"; "
-                + "[value1=1] { mark: symbol(circle); } [value1=1] :mark { fill: green; } [value1=1] [value2=2] :mark { fill: blue; }";
+                + "[value1=1] { mark: symbol(circle); } [value1=1] :mark { fill: green; } " +
+                "[value1=1] [value2=2] :mark { fill: blue; }";
         Style style = translate(css);
         Rule rule = assertSingleRule(style);
         PointSymbolizer ps = assertSingleSymbolizer(rule, PointSymbolizer.class);
@@ -982,7 +994,8 @@ public class TranslatorSyntheticTest extends CssBaseTest {
     public void testModeFlat3_mark() throws CQLException, TransformerException {
         String css = "@mode \"Flat\"; " + "* { fill: blue; } " + "[value1=1] { fill: green; } "
                 + "[value2=2] { stroke: red; } "
-                + "[value3=3] { mark: symbol(circle); mark-size: 10; mark-rotation: 45; mark-geometry: [centroid(the_geom)];} [value3=3] :mark { fill: blue; }";
+                + "[value3=3] { mark: symbol(circle); mark-size: 10; mark-rotation: 45; " +
+                "mark-geometry: [centroid(the_geom)];} [value3=3] :mark { fill: blue; }";
         Style style = translate(css);
         assertEquals(1, style.featureTypeStyles().size());
         assertEquals(4, style.featureTypeStyles().get(0).rules().size());
@@ -1025,7 +1038,8 @@ public class TranslatorSyntheticTest extends CssBaseTest {
     @Test
     public void testModeFlat5_mark() throws Exception {
         String css = "@mode \"Flat\"; "
-                + "* { mark: symbol(circle); mark-size: 10; mark-rotation: 45; mark-geometry: [centroid(the_geom)];} :mark { fill: blue; }";
+                + "* { mark: symbol(circle); mark-size: 10; mark-rotation: 45; mark-geometry: " +
+                "[centroid(the_geom)];} :mark { fill: blue; }";
         Style style = translate(css);
         Rule rule = assertSingleRule(style);
         PointSymbolizer ps = assertSingleSymbolizer(rule, PointSymbolizer.class);
@@ -1053,8 +1067,10 @@ public class TranslatorSyntheticTest extends CssBaseTest {
 
     @Test
     public void testTwoLevelTransform() throws Exception {
-        String css = "* { transform: ras:Contour(levels: 1100 1200 1300); stroke: black; z-index: 0}\n"
-                + "* { transform: ras:RasterAsPointCollection(); mark: symbol('square'); z-index: 1}";
+        String css = "* { transform: ras:Contour(levels: 1100 1200 1300); stroke: black; z-index:" +
+                " 0}\n"
+                + "* { transform: ras:RasterAsPointCollection(); mark: symbol('square'); z-index:" +
+                " 1}";
         Style style = translate(css);
         assertEquals(2, style.featureTypeStyles().size());
 
@@ -1364,7 +1380,7 @@ public class TranslatorSyntheticTest extends CssBaseTest {
     }
 
     private Function assertParameterFunction(Expression expression, String expectedKey,
-            int expectedValueCount) {
+                                             int expectedValueCount) {
         assertThat(expression, instanceOf(Function.class));
         Function f = (Function) expression;
         assertEquals("parameter", f.getName());

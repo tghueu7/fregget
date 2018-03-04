@@ -31,9 +31,9 @@ import com.vividsolutions.jts.geom.Point;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:PointPropertyType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="PointPropertyType"&gt;
  *      &lt;annotation&gt;
@@ -56,9 +56,6 @@ import com.vividsolutions.jts.geom.Point;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLPointPropertyTypeBinding extends AbstractComplexBinding {
@@ -87,18 +84,18 @@ public class GMLPointPropertyTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        return node.getChildValue( Point.class );
+            throws Exception {
+        return node.getChildValue(Point.class);
     }
-    
+
     @Override
     public Object getProperty(Object object, QName name) throws Exception {
-        return GML2EncodingUtils.GeometryPropertyType_getProperty((Point)object,name,false);
+        return GML2EncodingUtils.GeometryPropertyType_getProperty((Point) object, name, false);
     }
-    
+
     @Override
     public List getProperties(Object object, XSDElementDeclaration element)
             throws Exception {
-        return GML2EncodingUtils.GeometryPropertyType_getProperties((Point)object);
+        return GML2EncodingUtils.GeometryPropertyType_getProperties((Point) object);
     }
 }

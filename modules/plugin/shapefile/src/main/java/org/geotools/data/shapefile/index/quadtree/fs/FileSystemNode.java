@@ -31,15 +31,13 @@ import com.vividsolutions.jts.geom.Envelope;
 
 /**
  * DOCUMENT ME!
- * 
+ *
  * @author Tommaso Nolli
- *
- *
  * @source $URL$
  */
 public class FileSystemNode extends Node {
     static final int[] ZERO = new int[0];
-    
+
     private ScrollingBuffer buffer;
     private ByteOrder order;
     private int subNodeStartByte;
@@ -48,16 +46,12 @@ public class FileSystemNode extends Node {
 
     /**
      * DOCUMENT ME!
-     * 
+     *
      * @param bounds
-     * @param channel
-     *                DOCUMENT ME!
-     * @param order
-     *                DOCUMENT ME!
-     * @param startByte
-     *                DOCUMENT ME!
-     * @param subNodesLength
-     *                DOCUMENT ME!
+     * @param channel        DOCUMENT ME!
+     * @param order          DOCUMENT ME!
+     * @param startByte      DOCUMENT ME!
+     * @param subNodesLength DOCUMENT ME!
      */
     FileSystemNode(Envelope bounds, ScrollingBuffer buffer, int startByte, int subNodesLength) {
         super(bounds);
@@ -67,7 +61,8 @@ public class FileSystemNode extends Node {
     }
 
     public Node copy() throws IOException {
-        FileSystemNode copy = new FileSystemNode(getBounds(), buffer, subNodeStartByte, subNodesLength);
+        FileSystemNode copy = new FileSystemNode(getBounds(), buffer, subNodeStartByte, 
+                subNodesLength);
         copy.numShapesId = numShapesId;
         copy.shapesId = new int[numShapesId];
         System.arraycopy(shapesId, 0, copy.shapesId, 0, numShapesId);
@@ -77,7 +72,7 @@ public class FileSystemNode extends Node {
 
     /**
      * DOCUMENT ME!
-     * 
+     *
      * @return Returns the numSubNodes.
      */
     public int getNumSubNodes() {
@@ -86,9 +81,8 @@ public class FileSystemNode extends Node {
 
     /**
      * DOCUMENT ME!
-     * 
-     * @param numSubNodes
-     *                The numSubNodes to set.
+     *
+     * @param numSubNodes The numSubNodes to set.
      */
     public void setNumSubNodes(int numSubNodes) {
         this.numSubNodes = numSubNodes;
@@ -96,7 +90,7 @@ public class FileSystemNode extends Node {
 
     /**
      * DOCUMENT ME!
-     * 
+     *
      * @return Returns the subNodeStartByte.
      */
     public int getSubNodeStartByte() {
@@ -105,7 +99,7 @@ public class FileSystemNode extends Node {
 
     /**
      * DOCUMENT ME!
-     * 
+     *
      * @return Returns the subNodesLength.
      */
     public int getSubNodesLength() {
@@ -146,16 +140,14 @@ public class FileSystemNode extends Node {
 
     /**
      * DOCUMENT ME!
-     * 
+     *
      * @param channel
-     * @param order
-     *                DOCUMENT ME!
-     * 
-     * 
+     * @param order   DOCUMENT ME!
      * @throws IOException
      */
     public static FileSystemNode readNode(int id, Node parent,
-            FileChannel channel, ByteOrder order, boolean useMemoryMapping) throws IOException {
+                                          FileChannel channel, ByteOrder order, boolean 
+                                                  useMemoryMapping) throws IOException {
         ScrollingBuffer buffer = new ScrollingBuffer(channel, order, useMemoryMapping);
         return readNode(id, parent, buffer);
     }
@@ -171,7 +163,7 @@ public class FileSystemNode extends Node {
         // shapes in this node
         int numShapesId = buf.getInt();
         int[] ids = null;
-        if(numShapesId > 0) { 
+        if (numShapesId > 0) {
             ids = new int[numShapesId];
             buf.getIntArray(ids);
         } else {
@@ -186,10 +178,10 @@ public class FileSystemNode extends Node {
 
         return node;
     }
-    
+
     @Override
     public void close() {
-        if(buffer != null) {
+        if (buffer != null) {
             buffer.close();
         }
         buffer = null;
@@ -203,7 +195,9 @@ public class FileSystemNode extends Node {
         FileChannel channel;
         ByteOrder order;
         ByteBuffer buffer;
-        /** the initial position of the buffer in the channel */
+        /**
+         * the initial position of the buffer in the channel
+         */
         long bufferStart;
         double[] envelope = new double[4];
         boolean useMemoryMapping;
@@ -213,10 +207,11 @@ public class FileSystemNode extends Node {
             this.channel = channel;
             this.order = order;
             this.useMemoryMapping = useMemoryMapping;
-            
+
             this.bufferStart = channel.position();
-            if(useMemoryMapping) {
-                this.buffer = channel.map(MapMode.READ_ONLY, channel.position(), channel.size() - channel.position());
+            if (useMemoryMapping) {
+                this.buffer = channel.map(MapMode.READ_ONLY, channel.position(), channel.size() -
+                        channel.position());
                 this.buffer.order(order);
             } else {
                 // start with an 8kb buffer
@@ -228,15 +223,15 @@ public class FileSystemNode extends Node {
         }
 
         public void close() {
-            if(buffer != null) {
+            if (buffer != null) {
                 NIOUtilities.clean(buffer, useMemoryMapping);
                 buffer = null;
             }
-            
+
         }
 
         public int getInt() throws IOException {
-            if(!useMemoryMapping && buffer.remaining() < 4) {
+            if (!useMemoryMapping && buffer.remaining() < 4) {
                 refillBuffer(4);
             }
             return buffer.getInt();
@@ -245,7 +240,7 @@ public class FileSystemNode extends Node {
         public Envelope getEnvelope() throws IOException {
             if (!useMemoryMapping && buffer.remaining() < 32)
                 refillBuffer(32);
-            
+
             buffer.asDoubleBuffer().get(envelope);
             buffer.position(buffer.position() + 32);
             return new Envelope(envelope[0], envelope[2], envelope[1], envelope[3]);
@@ -265,7 +260,6 @@ public class FileSystemNode extends Node {
         }
 
         /**
-         * 
          * @param requiredSize
          * @throws IOException
          */
@@ -293,7 +287,7 @@ public class FileSystemNode extends Node {
 
         /**
          * Jumps the buffer to the specified position in the file
-         * 
+         *
          * @param newPosition
          * @throws IOException
          */
@@ -311,7 +305,7 @@ public class FileSystemNode extends Node {
 
         /**
          * Returns the absolute position of the next byte that will be read
-         * 
+         *
          * @return
          */
         public long getPosition() {

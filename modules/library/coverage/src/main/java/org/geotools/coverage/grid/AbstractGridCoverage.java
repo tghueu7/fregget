@@ -45,12 +45,10 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 /**
  * Base class for GeoTools implementation of grid coverage.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public abstract class AbstractGridCoverage extends AbstractCoverage implements GridCoverage {
     /**
@@ -74,57 +72,59 @@ public abstract class AbstractGridCoverage extends AbstractCoverage implements G
      * coordinate reference system is {@code null}, then the subclasses must override
      * {@link #getDimension()}.
      *
-     * @param name
-     *          The grid coverage name.
-     * @param crs
-     *          The coordinate reference system. This specifies the coordinate system used when
-     *          accessing a coverage or grid coverage with the {@code evaluate(...)} methods.
-     * @param propertySource
-     *          The source for this coverage, or {@code null} if none. Source may be
-     *          (but is not limited to) a {@link javax.media.jai.PlanarImage} or an
-     *          other {@code AbstractGridCoverage} object.
-     * @param properties
-     *          The set of properties for this coverage, or {@code null} if there is none.
-     *          Keys are {@link String} objects ({@link javax.media.jai.util.CaselessStringKey}
-     *          are accepted as well), while values may be any {@link Object}.
+     * @param name           The grid coverage name.
+     * @param crs            The coordinate reference system. This specifies the coordinate 
+     *                       system used when
+     *                       accessing a coverage or grid coverage with the {@code evaluate(...)}
+     *                       methods.
+     * @param propertySource The source for this coverage, or {@code null} if none. Source may be
+     *                       (but is not limited to) a {@link javax.media.jai.PlanarImage} or an
+     *                       other {@code AbstractGridCoverage} object.
+     * @param properties     The set of properties for this coverage, or {@code null} if there is
+     *                      none.
+     *                       Keys are {@link String} objects 
+     *                       ({@link javax.media.jai.util.CaselessStringKey}
+     *                       are accepted as well), while values may be any {@link Object}.
      */
-    protected AbstractGridCoverage(final CharSequence             name,
+    protected AbstractGridCoverage(final CharSequence name,
                                    final CoordinateReferenceSystem crs,
                                    final PropertySource propertySource,
-                                   final Map<?,?>           properties)
-    {
+                                   final Map<?, ?> properties) {
         super(name, crs, propertySource, properties);
         sources = null;
     }
 
     /**
      * Constructs a grid coverage with sources. Arguments are the same than for the
-     * {@linkplain #AbstractGridCoverage(CharSequence,CoordinateReferenceSystem,PropertySource,Map)
+     * {@linkplain #AbstractGridCoverage(CharSequence, CoordinateReferenceSystem, PropertySource,
+     * Map)
      * previous constructor}, with an additional {@code sources} argument.
      *
-     * @param name
-     *          The grid coverage name.
-     * @param crs
-     *          The coordinate reference system.
-     * @param sources
-     *          The {@linkplain #getSources sources} for a grid coverage, or {@code null} if none.
-     * @param propertySource
-     *          The source for properties for this coverage, or {@code null} if none.
-     * @param properties
-     *          Set of additional properties for this coverage, or {@code null} if there is none.
+     * @param name           The grid coverage name.
+     * @param crs            The coordinate reference system.
+     * @param sources        The {@linkplain #getSources sources} for a grid coverage, or {@code 
+     * null} if none.
+     * @param propertySource The source for properties for this coverage, or {@code null} if none.
+     * @param properties     Set of additional properties for this coverage, or {@code null} if 
+     *                       there is none.
      */
-    protected AbstractGridCoverage(final CharSequence             name,
+    protected AbstractGridCoverage(final CharSequence name,
                                    final CoordinateReferenceSystem crs,
-                                   final GridCoverage[]        sources,
+                                   final GridCoverage[] sources,
                                    final PropertySource propertySource,
-                                   final Map<?,?>           properties)
-    {
+                                   final Map<?, ?> properties) {
         super(name, crs, propertySource, properties);
         if (sources != null) {
             switch (sources.length) {
-                case 0:  this.sources = null; break;
-                case 1:  this.sources = Collections.singletonList(sources[0]); break;
-                default: this.sources = Collections.unmodifiableList(Arrays.asList(sources.clone())); break;
+                case 0:
+                    this.sources = null;
+                    break;
+                case 1:
+                    this.sources = Collections.singletonList(sources[0]);
+                    break;
+                default:
+                    this.sources = Collections.unmodifiableList(Arrays.asList(sources.clone()));
+                    break;
             }
         } else {
             this.sources = null;
@@ -134,12 +134,12 @@ public abstract class AbstractGridCoverage extends AbstractCoverage implements G
     /**
      * Constructs a new coverage with the same parameters than the specified coverage.
      *
-     * @param name The name for this coverage, or {@code null} for the same than {@code coverage}.
+     * @param name     The name for this coverage, or {@code null} for the same than {@code 
+     * coverage}.
      * @param coverage The source coverage.
      */
     protected AbstractGridCoverage(final CharSequence name,
-                                   final GridCoverage coverage)
-    {
+                                   final GridCoverage coverage) {
         super(name, coverage);
         sources = Collections.singletonList(coverage);
     }
@@ -214,11 +214,10 @@ public abstract class AbstractGridCoverage extends AbstractCoverage implements G
      * Constructs an error message for a point that can not be evaluated.
      * This is used for formatting error messages.
      *
-     * @param  point The coordinate point to format.
-     * @param  outside {@code true} if the evaluation failed because the given point is outside
-     *         the coverage, or {@code false} if it failed for an other (unknown) reason.
+     * @param point   The coordinate point to format.
+     * @param outside {@code true} if the evaluation failed because the given point is outside
+     *                the coverage, or {@code false} if it failed for an other (unknown) reason.
      * @return An error message.
-     *
      * @since 2.5
      */
     protected String formatEvaluateError(final Point2D point, final boolean outside) {
@@ -229,17 +228,16 @@ public abstract class AbstractGridCoverage extends AbstractCoverage implements G
      * Constructs an error message for a position that can not be evaluated.
      * This is used for formatting error messages.
      *
-     * @param  point The coordinate point to format.
-     * @param  outside {@code true} if the evaluation failed because the given point is outside
-     *         the coverage, or {@code false} if it failed for an other (unknown) reason.
+     * @param point   The coordinate point to format.
+     * @param outside {@code true} if the evaluation failed because the given point is outside
+     *                the coverage, or {@code false} if it failed for an other (unknown) reason.
      * @return An error message.
-     *
      * @since 2.5
      */
     protected String formatEvaluateError(final DirectPosition point, final boolean outside) {
         final Locale locale = getLocale();
-        return Errors.getResources(locale).  getString(outside ?
-                ErrorKeys.POINT_OUTSIDE_COVERAGE_$1 : ErrorKeys.CANT_EVALUATE_$1,
+        return Errors.getResources(locale).getString(outside ?
+                        ErrorKeys.POINT_OUTSIDE_COVERAGE_$1 : ErrorKeys.CANT_EVALUATE_$1,
                 toString(point, locale));
     }
 
@@ -248,8 +246,8 @@ public abstract class AbstractGridCoverage extends AbstractCoverage implements G
      * Constructs a string for the specified point.
      * This is used for formatting error messages.
      *
-     * @param  point The coordinate point to format.
-     * @param  locale The locale for formatting numbers.
+     * @param point  The coordinate point to format.
+     * @param locale The locale for formatting numbers.
      * @return The coordinate point as a string, without '(' or ')' characters.
      */
     static String toString(final Point2D point, final Locale locale) {
@@ -260,16 +258,16 @@ public abstract class AbstractGridCoverage extends AbstractCoverage implements G
      * Constructs a string for the specified point.
      * This is used for formatting error messages.
      *
-     * @param  point The coordinate point to format.
-     * @param  locale The locale for formatting numbers.
+     * @param point  The coordinate point to format.
+     * @param locale The locale for formatting numbers.
      * @return The coordinate point as a string, without '(' or ')' characters.
      */
     static String toString(final DirectPosition point, final Locale locale) {
         final StringBuffer buffer = new StringBuffer();
         final FieldPosition dummy = new FieldPosition(0);
         final NumberFormat format = NumberFormat.getNumberInstance(locale);
-        final int       dimension = point.getDimension();
-        for (int i=0; i<dimension; i++) {
+        final int dimension = point.getDimension();
+        for (int i = 0; i < dimension; i++) {
             if (i != 0) {
                 buffer.append(", ");
             }

@@ -43,9 +43,6 @@ import com.vividsolutions.jts.geom.Point;
  * Utility class for gml3 parsing.
  *
  * @author Justin Deoliveira, The Open Planning Project, jdeolive@openplans.org
- *
- *
- *
  * @source $URL$
  */
 public class GML3ParsingUtils {
@@ -53,28 +50,28 @@ public class GML3ParsingUtils {
      * Utility method to implement Binding.parse for a binding which parses
      * into A feature.
      *
-     * @param instance The instance being parsed.
-     * @param node The parse tree.
-     * @param value The value from the last binding in the chain.
-     * @param ftCache The feature type cache.
+     * @param instance  The instance being parsed.
+     * @param node      The parse tree.
+     * @param value     The value from the last binding in the chain.
+     * @param ftCache   The feature type cache.
      * @param bwFactory Binding walker factory.
-     *
      * @return A feature.
      */
     public static SimpleFeature parseFeature(ElementInstance instance, Node node, Object value,
-        FeatureTypeCache ftCache, BindingWalkerFactory bwFactory)
-        throws Exception {
+                                             FeatureTypeCache ftCache, BindingWalkerFactory 
+                                                     bwFactory)
+            throws Exception {
         return GML2ParsingUtils.parseFeature(instance, node, value, ftCache, bwFactory);
     }
 
     /**
      * Turns a xml type definition into a geotools feature type.
-     * @param type The xml schema tupe.
      *
+     * @param type The xml schema tupe.
      * @return The corresponding geotools feature type.
      */
     public static SimpleFeatureType featureType(XSDElementDeclaration element,
-        BindingWalkerFactory bwFactory) throws Exception {
+                                                BindingWalkerFactory bwFactory) throws Exception {
         return GML2ParsingUtils.featureType(element, bwFactory);
     }
 
@@ -82,7 +79,7 @@ public class GML3ParsingUtils {
      * Turns a parse node + feature type + fid info a feature.
      */
     static SimpleFeature feature(SimpleFeatureType fType, String fid, Node node)
-        throws Exception {
+            throws Exception {
         return GML2ParsingUtils.feature(fType, fid, node);
     }
 
@@ -99,7 +96,7 @@ public class GML3ParsingUtils {
     }
 
     static LineString line(Node node, GeometryFactory gf, CoordinateSequenceFactory csf,
-        boolean ring) {
+                           boolean ring) {
         if (node.hasChild(DirectPosition.class)) {
             List dps = node.getChildValues(DirectPosition.class);
             DirectPosition dp = (DirectPosition) dps.get(0);
@@ -158,7 +155,8 @@ public class GML3ParsingUtils {
         }
 
         if (node.hasChild(CoordinateSequence.class)) {
-            CoordinateSequence seq = (CoordinateSequence) node.getChildValue(CoordinateSequence.class);
+            CoordinateSequence seq = (CoordinateSequence) node.getChildValue(CoordinateSequence
+                    .class);
 
             return ring ? gf.createLinearRing(seq) : gf.createLineString(seq);
         }

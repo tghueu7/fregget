@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002 - 2016, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -35,13 +35,11 @@ import org.opengis.referencing.operation.TransformException;
  * <p>
  * This is probably the most important test case for the whole CRS module.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Yann Cézard
  * @author Remi Eve
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
  */
 public final class ScriptTest {
     /**
@@ -69,8 +67,8 @@ public final class ScriptTest {
     /**
      * Run "Molodensky.txt".
      *
-     * @throws IOException If {@link #MT_MOLODENSKY_SCRIPT} can't be read.
-     * @throws FactoryException if a line can't be parsed.
+     * @throws IOException        If {@link #MT_MOLODENSKY_SCRIPT} can't be read.
+     * @throws FactoryException   if a line can't be parsed.
      * @throws TransformException if the transformation can't be run.
      */
     @Test
@@ -185,7 +183,7 @@ public final class ScriptTest {
      */
     @Test
     public void testNZMG() throws Exception {
-    	runScript("scripts/NZMG.txt");
+        runScript("scripts/NZMG.txt");
     }
 
     /**
@@ -195,74 +193,82 @@ public final class ScriptTest {
      */
     @Test
     public void testKrovak() throws Exception {
-    	runScript("scripts/Krovak.txt");
+        runScript("scripts/Krovak.txt");
     }
-    
+
     /**
      * Run "EquidistantConic.txt"
+     *
      * @throws Exception
      */
     @Test
     public void testEquidistantConic() throws Exception {
         runScript("scripts/EquidistantConic.txt");
     }
-    
+
     /**
      * Run "Polyconic.txt"
+     *
      * @throws Exception
      */
     @Test
     public void testPolyconic() throws Exception {
         runScript("scripts/Polyconic.txt");
     }
-    
+
     /**
      * Run "Robinson.txt"
+     *
      * @throws Exception
      */
     @Test
     public void testRobinson() throws Exception {
         runScript("scripts/Robinson.txt");
     }
-    
+
     /**
      * Run "WinkelTripel.txt"
+     *
      * @throws Exception
      */
     @Test
     public void testWinkelTripel() throws Exception {
         runScript("scripts/WinkelTripel.txt");
     }
-    
+
     /**
      * Run "HammerAitoff.txt"
+     *
      * @throws Exception
      */
     @Test
     public void testAitoff() throws Exception {
         runScript("scripts/Aitoff.txt");
     }
-    
+
     /**
      * Run "EckertIV.txt"
+     *
      * @throws Exception
      */
     @Test
     public void testEckertIV() throws Exception {
         runScript("scripts/EckertIV.txt");
     }
-    
+
     /**
      * Run "Mollweide.txt"
+     *
      * @throws Exception
      */
     @Test
     public void testMollweide() throws Exception {
         runScript("scripts/Mollweide.txt");
     }
-    
+
     /**
      * Run "WagnerIV.txt"
+     *
      * @throws Exception
      */
     @Test
@@ -272,15 +278,17 @@ public final class ScriptTest {
 
     /**
      * Run "GeneralOblique.txt"
+     *
      * @throws Exception
      */
     @Test
     public void testGeneralOblique() throws Exception {
         runScript("scripts/GeneralOblique.txt");
-    }    
+    }
 
     /**
      * Run "MeteosatSG.txt"
+     *
      * @throws Exception
      */
     @Test
@@ -289,9 +297,9 @@ public final class ScriptTest {
     }
 
     /**
-     *      * Run "RotatedPole.txt"
-     *           * @throws Exception
-     *                */
+     * * Run "RotatedPole.txt"
+     * * @throws Exception
+     */
     @Test
     public void testRotatedPole() throws Exception {
         runScript("scripts/RotatedPole.txt");
@@ -306,9 +314,10 @@ public final class ScriptTest {
     public void testVanDerGrinten() throws Exception {
         runScript("scripts/WorldVanDerGrintenI.txt");
     }
-    
+
     /**
      * Run "Sinusoidal.txt"
+     *
      * @throws Exception
      */
     @Test
@@ -318,7 +327,8 @@ public final class ScriptTest {
 
     /**
      * Run "Gnomonic.txt"
-     * @throws Exception 
+     *
+     * @throws Exception
      */
     @Test
     public void testGnomonic() throws Exception {
@@ -339,10 +349,12 @@ public final class ScriptTest {
      * Run "WagnerIV.txt". Disabled as the projection is not really
      * working as expected, but don't have time to investigate.
      * If you want to try and fix this please enable the service provider as well
-     * by adding the 
+     * by adding the
      * org.geotools.referencing.operation.projection.Mollweide$WagnerVProvider
-     * line into 
-     * referencing/src/main/resources/META-INF/services/org.geotools.referencing.operation.MathTransformProvider
+     * line into
+     * referencing/src/main/resources/META-INF/services/org.geotools.referencing.operation
+     * .MathTransformProvider
+     *
      * @throws Exception
      */
     @Test
@@ -372,10 +384,11 @@ public final class ScriptTest {
     public void testNADCON() throws Exception {
         runScript("scripts/NADCON.txt");
     }
-    
+
     /**
      * Run "Cassini.txt"
-     * @throws Exception 
+     *
+     * @throws Exception
      */
     @Test
     public void testCassini() throws Exception {

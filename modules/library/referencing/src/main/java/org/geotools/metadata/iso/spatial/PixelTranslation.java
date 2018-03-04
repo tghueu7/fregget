@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2001-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -24,6 +24,7 @@ import org.opengis.referencing.operation.Matrix;
 import org.opengis.referencing.operation.MathTransform;
 import org.opengis.referencing.datum.PixelInCell;
 import org.opengis.metadata.spatial.PixelOrientation;
+
 import static org.opengis.metadata.spatial.PixelOrientation.*;
 
 import org.geotools.util.Utilities;
@@ -37,12 +38,9 @@ import org.geotools.resources.i18n.ErrorKeys;
 /**
  * The translation to apply for different values of {@link PixelOrientation}.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.5
  */
 public final class PixelTranslation implements Serializable {
@@ -52,7 +50,7 @@ public final class PixelTranslation implements Serializable {
     private static final long serialVersionUID = 2616596940766158984L;
 
     /**
-     * Math transforms created by {@link #translate(MathTransform,PixelInCell,PixelInCell)}.
+     * Math transforms created by {@link #translate(MathTransform, PixelInCell, PixelInCell)}.
      * Each element in this array will be created when first needed. Even index are translations
      * by -0.5 while odd index are translations by +0.5.
      */
@@ -80,16 +78,17 @@ public final class PixelTranslation implements Serializable {
      */
     private static Map<PixelOrientation, PixelTranslation> ORIENTATIONS =
             new HashMap<PixelOrientation, PixelTranslation>(12);
+
     static {
-        new PixelTranslation(CENTER,       0.0,  0.0);
-        new PixelTranslation(UPPER_LEFT,  -0.5, -0.5);
-        new PixelTranslation(UPPER_RIGHT,  0.5, -0.5);
-        new PixelTranslation(LOWER_LEFT,  -0.5,  0.5);
-        new PixelTranslation(LOWER_RIGHT,  0.5,  0.5);
-        new PixelTranslation("LEFT",      -0.5,  0.0);
-        new PixelTranslation("RIGHT",      0.5,  0.0);
-        new PixelTranslation("UPPER",      0.0, -0.5);
-        new PixelTranslation("LOWER",      0.0,  0.5);
+        new PixelTranslation(CENTER, 0.0, 0.0);
+        new PixelTranslation(UPPER_LEFT, -0.5, -0.5);
+        new PixelTranslation(UPPER_RIGHT, 0.5, -0.5);
+        new PixelTranslation(LOWER_LEFT, -0.5, 0.5);
+        new PixelTranslation(LOWER_RIGHT, 0.5, 0.5);
+        new PixelTranslation("LEFT", -0.5, 0.0);
+        new PixelTranslation("RIGHT", 0.5, 0.0);
+        new PixelTranslation("UPPER", 0.0, -0.5);
+        new PixelTranslation("LOWER", 0.0, 0.5);
     }
 
     /**
@@ -118,13 +117,12 @@ public final class PixelTranslation implements Serializable {
     /**
      * Returns the pixel orientation for the given {@code PixelInCell} code.
      *
-     * @param  anchor The {@code PixelInCell} code, or {@code null}.
+     * @param anchor The {@code PixelInCell} code, or {@code null}.
      * @return The corresponding pixel orientation, or {@code null} if the argument was null.
      * @throws IllegalArgumentException if the given code is unknown.
      */
     public static PixelOrientation getPixelOrientation(final PixelInCell anchor)
-            throws IllegalArgumentException
-    {
+            throws IllegalArgumentException {
         if (PixelInCell.CELL_CENTER.equals(anchor)) {
             return CENTER;
         } else if (PixelInCell.CELL_CORNER.equals(anchor)) {
@@ -142,9 +140,9 @@ public final class PixelTranslation implements Serializable {
      * This method returns a value from the following table:
      * <p>
      * <table>
-     *   <tr><th>Pixel in cell</th>                              <th>offset</th></tr>
-     *   <tr><td>{@link PixelInCell#CELL_CENTER  CELL_CENTER}</td> <td> 0.0</td></tr>
-     *   <tr><td>{@link PixelInCell#CELL_CORNER  CELL_CORNER}</td> <td>-0.5</td></tr>
+     * <tr><th>Pixel in cell</th>                              <th>offset</th></tr>
+     * <tr><td>{@link PixelInCell#CELL_CENTER  CELL_CENTER}</td> <td> 0.0</td></tr>
+     * <tr><td>{@link PixelInCell#CELL_CORNER  CELL_CORNER}</td> <td>-0.5</td></tr>
      * </table>
      * <p>
      * This method is typically used for <var>n</var>-dimensional grids,
@@ -169,23 +167,22 @@ public final class PixelTranslation implements Serializable {
      * This method returns a value from the following table:
      * <p>
      * <table>
-     *   <tr><th>Pixel orientation</th>                               <th>  x </th><th>  y </th></tr>
-     *   <tr><td>{@link PixelOrientation#CENTER      CENTER}</td>     <td> 0.0</td><td> 0.0</td></tr>
-     *   <tr><td>{@link PixelOrientation#UPPER_LEFT  UPPER_LEFT}</td> <td>-0.5</td><td>-0.5</td></tr>
-     *   <tr><td>{@link PixelOrientation#UPPER_RIGHT UPPER_RIGHT}</td><td>+0.5</td><td>-0.5</td></tr>
-     *   <tr><td>{@link PixelOrientation#LOWER_LEFT  LOWER_LEFT}</td> <td>-0.5</td><td>+0.5</td></tr>
-     *   <tr><td>{@link PixelOrientation#LOWER_RIGHT LOWER_RIGHT}</td><td>+0.5</td><td>+0.5</td></tr>
+     * <tr><th>Pixel orientation</th>                               <th>  x </th><th>  y </th></tr>
+     * <tr><td>{@link PixelOrientation#CENTER      CENTER}</td>     <td> 0.0</td><td> 0.0</td></tr>
+     * <tr><td>{@link PixelOrientation#UPPER_LEFT  UPPER_LEFT}</td> <td>-0.5</td><td>-0.5</td></tr>
+     * <tr><td>{@link PixelOrientation#UPPER_RIGHT UPPER_RIGHT}</td><td>+0.5</td><td>-0.5</td></tr>
+     * <tr><td>{@link PixelOrientation#LOWER_LEFT  LOWER_LEFT}</td> <td>-0.5</td><td>+0.5</td></tr>
+     * <tr><td>{@link PixelOrientation#LOWER_RIGHT LOWER_RIGHT}</td><td>+0.5</td><td>+0.5</td></tr>
      * </table>
      * <p>
      * This method can be used for grid restricted to 2 dimensions.
      *
-     * @param  anchor The pixel orientation.
+     * @param anchor The pixel orientation.
      * @return The position relative to the pixel center.
      * @throws IllegalArgumentException if the specified orientation is unknown.
      */
     public static PixelTranslation getPixelTranslation(final PixelOrientation anchor)
-            throws IllegalArgumentException
-    {
+            throws IllegalArgumentException {
         final PixelTranslation offset = ORIENTATIONS.get(anchor);
         if (offset == null) {
             throw new IllegalArgumentException(Errors.format(
@@ -214,15 +211,14 @@ public final class PixelTranslation implements Serializable {
     /**
      * Translates the specified math transform according the specified pixel orientations.
      *
-     * @param gridToCRS  A math transform from <cite>pixel</cite> coordinates to any CRS.
-     * @param current    The pixel orientation of the given {@code gridToCRS} transform.
-     * @param expected   The pixel orientation of the desired transform.
+     * @param gridToCRS A math transform from <cite>pixel</cite> coordinates to any CRS.
+     * @param current   The pixel orientation of the given {@code gridToCRS} transform.
+     * @param expected  The pixel orientation of the desired transform.
      * @return The translation from {@code current} to {@code expected}.
      */
     public static MathTransform translate(final MathTransform gridToCRS,
                                           final PixelInCell current,
-                                          final PixelInCell expected)
-    {
+                                          final PixelInCell expected) {
         if (Utilities.equals(current, expected)) {
             return gridToCRS;
         }
@@ -233,9 +229,9 @@ public final class PixelTranslation implements Serializable {
         final double offset = getPixelTranslation(expected) - getPixelTranslation(current);
         final int index;
         if (offset == -0.5) {
-            index = 2*dimension;
+            index = 2 * dimension;
         } else if (offset == 0.5) {
-            index = 2*dimension + 1;
+            index = 2 * dimension + 1;
         } else {
             index = translations.length;
         }
@@ -266,8 +262,7 @@ public final class PixelTranslation implements Serializable {
                                           final PixelOrientation current,
                                           final PixelOrientation expected,
                                           final int xDimension,
-                                          final int yDimension)
-    {
+                                          final int yDimension) {
         if (Utilities.equals(current, expected)) {
             return gridToCRS;
         }
@@ -310,8 +305,10 @@ public final class PixelTranslation implements Serializable {
     /**
      * Formats an exception for an illegal dimension.
      */
-    private static IllegalArgumentException illegalDimension(final String name, final Object dimension) {
-        return new IllegalArgumentException(Errors.format(ErrorKeys.ILLEGAL_ARGUMENT_$2, name, dimension));
+    private static IllegalArgumentException illegalDimension(final String name, final Object 
+            dimension) {
+        return new IllegalArgumentException(Errors.format(ErrorKeys.ILLEGAL_ARGUMENT_$2, name, 
+                dimension));
     }
 
     /**

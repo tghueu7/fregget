@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -40,31 +40,38 @@ import org.xml.sax.helpers.NamespaceSupport;
  * internally defined manner.
  *
  * @author Rob Hranac, TOPP
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class AttributeExpressionImpl extends DefaultExpression implements PropertyName {
-            
-    /** The logger for the default core module. */
-    private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org.geotools.core");
 
-    /** Holds all sub filters of this filter. */
+    /**
+     * The logger for the default core module.
+     */
+    private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org" +
+            ".geotools.core");
+
+    /**
+     * Holds all sub filters of this filter.
+     */
     protected String attPath;
 
-    /** Used to validate attribute references to ensure they match the provided schema */
+    /**
+     * Used to validate attribute references to ensure they match the provided schema
+     */
     protected SimpleFeatureType schema = null;
-    
-    /** NamespaceSupport used to defining the prefix information for the xpath expression */
+
+    /**
+     * NamespaceSupport used to defining the prefix information for the xpath expression
+     */
     NamespaceSupport namespaceSupport;
-    
+
     /**
      * Configures whether evaluate should return null if it cannot find a working
      * property accessor, rather than throwing an exception (default behaviour).
-     * */
+     */
     protected boolean lenient = true;
-    
+
     /**
      * Hints passed to the property accessor gathering up additional context information
      * used during evaluation.
@@ -82,120 +89,119 @@ public class AttributeExpressionImpl extends DefaultExpression implements Proper
 
     /**
      * Constructor with schema and path to the attribute.
-     * 
+     *
      * @param xpath the String xpath to the attribute.
      */
-    public AttributeExpressionImpl( String xpath ){
+    public AttributeExpressionImpl(String xpath) {
         this.attPath = xpath;
         this.schema = null;
         this.namespaceSupport = null;
         this.hints = null;
     }
-    
+
     /**
      * Constructor with full attribute name.
-     * 
+     *
      * @param name Attribute Name.
      */
-    public AttributeExpressionImpl( Name name ){
-    	attPath = name.getLocalPart();
+    public AttributeExpressionImpl(Name name) {
+        attPath = name.getLocalPart();
         schema = null;
         if (name.getNamespaceURI() != null) {
-        	namespaceSupport = new NamespaceSupport();
-        	namespaceSupport.declarePrefix("", name.getNamespaceURI());
+            namespaceSupport = new NamespaceSupport();
+            namespaceSupport.declarePrefix("", name.getNamespaceURI());
         } else {
-        	namespaceSupport = null;
+            namespaceSupport = null;
         }
     }
-    
+
     /**
      * Constructor with schema and path to the attribute.
-     * 
-     * @param xpath the String xpath to the attribute.
-     * @param namespaceContext Defining the prefix information for the xpath expression 
+     *
+     * @param xpath            the String xpath to the attribute.
+     * @param namespaceContext Defining the prefix information for the xpath expression
      */
-    public AttributeExpressionImpl( String xpath, NamespaceSupport namespaceContext ){
+    public AttributeExpressionImpl(String xpath, NamespaceSupport namespaceContext) {
         attPath = xpath;
         schema = null;
         this.namespaceSupport = namespaceContext;
-    }   
-    
+    }
+
     /**
-     * 
      * @param xpath xpath expression
      * @param hints Hints passed to the property accessor during evaulation
      */
-    public AttributeExpressionImpl( String xpath, Hints hints){
+    public AttributeExpressionImpl(String xpath, Hints hints) {
         attPath = xpath;
         schema = null;
         this.namespaceSupport = null;
         this.hints = hints;
-    } 
-    
+    }
+
     public NamespaceSupport getNamespaceContext() {
         return namespaceSupport;
     }
-    
+
     /**
      * Constructor with schema and path to the attribute.
      *
-     * @param schema The initial (required) sub filter.
+     * @param schema  The initial (required) sub filter.
      * @param attPath the xpath to the attribute.
-     *
      * @throws IllegalFilterException If the attribute path is not in the
-     *         schema.
+     *                                schema.
      */
     protected AttributeExpressionImpl(SimpleFeatureType schema, String attPath)
-        throws IllegalFilterException {
+            throws IllegalFilterException {
         this.schema = schema;
         setPropertyName(attPath);
     }
 
     /**
      * Gets the path to the attribute to be evaluated by this expression.
-     *
+     * <p>
      * {@link org.opengis.filter.expression.PropertyName#getPropertyName()}
      */
-   public String getPropertyName() {
-		return attPath;
-   }	
-   
-   public void setPropertyName(String attPath) {
-	   LOGGER.entering("ExpressionAttribute", "setAttributePath", attPath);
-	   if(LOGGER.isLoggable(Level.FINEST))
-	       LOGGER.finest("schema: " + schema + "\n\nattribute: " + attPath);
+    public String getPropertyName() {
+        return attPath;
+    }
 
-       if (schema != null) {
-           if (schema.getDescriptor(attPath) != null) {
-               this.attPath = attPath;
-           } else {
-        	   
-        	   throw new IllegalFilterException(
-                   "Attribute: " +attPath+ " is not in stated schema "+schema.getTypeName()+"."
-               );	   
-        	   
-           }
-       } else {
-           this.attPath = attPath;
-       }
-    }	
-  
+    public void setPropertyName(String attPath) {
+        LOGGER.entering("ExpressionAttribute", "setAttributePath", attPath);
+        if (LOGGER.isLoggable(Level.FINEST))
+            LOGGER.finest("schema: " + schema + "\n\nattribute: " + attPath);
+
+        if (schema != null) {
+            if (schema.getDescriptor(attPath) != null) {
+                this.attPath = attPath;
+            } else {
+
+                throw new IllegalFilterException(
+                        "Attribute: " + attPath + " is not in stated schema " + schema
+                                .getTypeName() + "."
+                );
+
+            }
+        } else {
+            this.attPath = attPath;
+        }
+    }
+
     /**
      * Gets the value of this property from the passed object.
      *
      * @param obj Object from which we need to extract a property value.
      */
-   public Object evaluate(Object obj) {
+    public Object evaluate(Object obj) {
         return evaluate(obj, null);
-   }
-   
-   
-   /**
-    * Gets the value of this attribute from the passed object.
-    *
-    * @param obj Object from which to extract attribute value.
-    * @param target Target Class 
-    */
+    }
+
+
+    /**
+     * Gets the value of this attribute from the passed object.
+     *
+     * @param obj    Object from which to extract attribute value.
+     * @param target Target Class
+     */
     @SuppressWarnings("unchecked")
     public <T> T evaluate(Object obj, Class<T> target) {
         // NC- new method
@@ -207,11 +213,11 @@ public class AttributeExpressionImpl extends DefaultExpression implements Proper
         if (accessor == null || !accessor.canHandle(obj, attPath, target)
                 || !tryAccessor(accessor, obj, target, value, e)) {
             boolean success = false;
-            if( namespaceSupport != null && hints == null ){
+            if (namespaceSupport != null && hints == null) {
                 hints = new Hints(PropertyAccessorFactory.NAMESPACE_CONTEXT, namespaceSupport);
             }
             List<PropertyAccessor> accessors = PropertyAccessors.findPropertyAccessors(obj,
-                    attPath, target, hints );
+                    attPath, target, hints);
 
             if (accessors != null) {
                 Iterator<PropertyAccessor> it = accessors.iterator();
@@ -243,7 +249,7 @@ public class AttributeExpressionImpl extends DefaultExpression implements Proper
 
     // NC - helper method for evaluation - attempt to use property accessor
     private boolean tryAccessor(PropertyAccessor accessor, Object obj, Class<?> target,
-            AtomicReference<Object> value, AtomicReference<Exception> ex) {
+                                AtomicReference<Object> value, AtomicReference<Exception> ex) {
         try {
             value.set(accessor.get(obj, attPath, target));
             return true;
@@ -264,8 +270,8 @@ public class AttributeExpressionImpl extends DefaultExpression implements Proper
     private synchronized void setLastPropertyAccessor(PropertyAccessor accessor) {
         lastAccessor = accessor;
     }
-   
-     /**
+
+    /**
      * Return this expression as a string.
      *
      * @return String representation of this attribute expression.
@@ -281,32 +287,33 @@ public class AttributeExpressionImpl extends DefaultExpression implements Proper
      * schemas.
      *
      * @param obj - the object to compare this ExpressionAttribute against.
-     *
      * @return true if specified object is equal to this filter; else false
      */
     public boolean equals(Object obj) {
-        if(obj == null)
+        if (obj == null)
             return false;
-        
+
         if (obj.getClass() == this.getClass()) {
             AttributeExpressionImpl expAttr = (AttributeExpressionImpl) obj;
 
-            boolean isEqual = (Filters.getExpressionType(expAttr) == Filters.getExpressionType(this));
-            if(LOGGER.isLoggable(Level.FINEST))
+            boolean isEqual = (Filters.getExpressionType(expAttr) == Filters.getExpressionType
+                    (this));
+            if (LOGGER.isLoggable(Level.FINEST))
                 LOGGER.finest("expression type match:" + isEqual + "; in:"
-                + Filters.getExpressionType(expAttr) + "; out:" + Filters.getExpressionType(this));
+                        + Filters.getExpressionType(expAttr) + "; out:" + Filters
+                        .getExpressionType(this));
             isEqual = (expAttr.attPath != null)
-                ? (isEqual && expAttr.attPath.equals(this.attPath))
-                : (isEqual && (this.attPath == null));
-            if(LOGGER.isLoggable(Level.FINEST))
+                    ? (isEqual && expAttr.attPath.equals(this.attPath))
+                    : (isEqual && (this.attPath == null));
+            if (LOGGER.isLoggable(Level.FINEST))
                 LOGGER.finest("attribute match:" + isEqual + "; in:"
-                + expAttr.getPropertyName() + "; out:" + this.attPath);
+                        + expAttr.getPropertyName() + "; out:" + this.attPath);
             isEqual = (expAttr.schema != null)
-                ? (isEqual && expAttr.schema.equals(this.schema))
-                : (isEqual && (this.schema == null));
-            if(LOGGER.isLoggable(Level.FINEST))
+                    ? (isEqual && expAttr.schema.equals(this.schema))
+                    : (isEqual && (this.schema == null));
+            if (LOGGER.isLoggable(Level.FINEST))
                 LOGGER.finest("schema match:" + isEqual + "; in:" + expAttr.schema
-                + "; out:" + this.schema);
+                        + "; out:" + this.schema);
 
             return isEqual;
         } else {
@@ -334,29 +341,29 @@ public class AttributeExpressionImpl extends DefaultExpression implements Proper
      * left to a parent class unless the  parents API is identical.
      *
      * @param visitor The visitor which requires access to this filter, the
-     *        method must call visitor.visit(this);
+     *                method must call visitor.visit(this);
      */
     public Object accept(ExpressionVisitor visitor, Object extraData) {
-    	return visitor.visit(this,extraData);
+        return visitor.visit(this, extraData);
     }
-    
+
     /**
      * Sets lenient property.
-     * 
+     *
      * @param lenient
      */
-    public void setLenient (boolean lenient) {
+    public void setLenient(boolean lenient) {
         this.lenient = lenient;
     }
-        
+
     /**
      * Gets lenient property
-     * 
+     *
      * @return lenient
      */
-    public boolean isLenient () {
+    public boolean isLenient() {
         return lenient;
     }
-    
-    
+
+
 }

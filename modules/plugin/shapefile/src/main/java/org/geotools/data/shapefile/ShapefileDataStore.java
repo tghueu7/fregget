@@ -79,7 +79,8 @@ public class ShapefileDataStore extends ContentDataStore implements FileDataStor
 
     public static final String ORIGINAL_FIELD_DUPLICITY_COUNT = "count";
 
-    public static final Charset DEFAULT_STRING_CHARSET = (Charset) ShapefileDataStoreFactory.DBFCHARSET
+    public static final Charset DEFAULT_STRING_CHARSET = (Charset) ShapefileDataStoreFactory
+            .DBFCHARSET
             .getDefaultValue();
 
     public static final TimeZone DEFAULT_TIMEZONE = (TimeZone) ShapefileDataStoreFactory.DBFTIMEZONE
@@ -108,7 +109,7 @@ public class ShapefileDataStore extends ContentDataStore implements FileDataStor
     boolean bufferCachingEnabled = true;
 
     boolean indexed = true;
-    
+
     boolean indexCreationEnabled = true;
 
     boolean fidIndexed = true;
@@ -116,9 +117,9 @@ public class ShapefileDataStore extends ContentDataStore implements FileDataStor
     IndexManager indexManager;
 
     ShapefileSetManager shpManager;
-    
+
     long maxShpSize = ShapefileFeatureWriter.DEFAULT_MAX_SHAPE_SIZE;
-    
+
     long maxDbfSize = ShapefileFeatureWriter.DEFAULT_MAX_DBF_SIZE;
 
     public ShapefileDataStore(URL url) {
@@ -192,15 +193,17 @@ public class ShapefileDataStore extends ContentDataStore implements FileDataStor
 
     /**
      * When set to true, will use the spatial index if available (but will not create it if missing,
-     * unless also indexCreationEnabled is true) 
+     * unless also indexCreationEnabled is true)
+     *
      * @param indexed
      */
     public void setIndexed(boolean indexed) {
         this.indexed = indexed;
     }
-    
+
     /**
      * The current max shapefile size
+     *
      * @return
      */
     long getMaxShpSize() {
@@ -209,6 +212,7 @@ public class ShapefileDataStore extends ContentDataStore implements FileDataStor
 
     /**
      * Allows to set the maximum shapefile size (the natural limit of 2GB is used by default)
+     *
      * @param maxShapeSize
      */
     void setMaxShpSize(long maxShapeSize) {
@@ -217,6 +221,7 @@ public class ShapefileDataStore extends ContentDataStore implements FileDataStor
 
     /**
      * The current max dbf file size
+     *
      * @return
      */
     long getMaxDbfSize() {
@@ -225,6 +230,7 @@ public class ShapefileDataStore extends ContentDataStore implements FileDataStor
 
     /**
      * Allows to set the maximum DBF size (the natural limit of 4GB is used by default)
+     *
      * @param maxShpSize
      */
     void setMaxDbfSize(long maxDbfSize) {
@@ -248,9 +254,8 @@ public class ShapefileDataStore extends ContentDataStore implements FileDataStor
     /**
      * Set the FeatureType of this DataStore. This method will delete any existing local resources
      * or throw an IOException if the DataStore is remote.
-     * 
+     *
      * @param featureType The desired FeatureType.
-     * 
      * @throws IOException If the DataStore is remote.
      */
     public void createSchema(SimpleFeatureType featureType) throws IOException {
@@ -325,9 +330,10 @@ public class ShapefileDataStore extends ContentDataStore implements FileDataStor
         StorageFile
                 .replaceOriginals(shpStoragefile, shxStoragefile, dbfStoragefile, prjStoragefile);
     }
-    
+
     /**
      * Turns the CRS into a single line WKT, more compatible with ESRI software
+     *
      * @param crs
      * @return
      */
@@ -337,10 +343,10 @@ public class ShapefileDataStore extends ContentDataStore implements FileDataStor
             // this is a lenient transformation, works with polar stereographics too
             Formattable formattable = (Formattable) crs;
             wkt = formattable.toWKT(0, false);
-        } catch(ClassCastException e) {
+        } catch (ClassCastException e) {
             wkt = crs.toWKT();
         }
-        
+
         wkt = wkt.replaceAll("\n", "").replaceAll("  ", "");
         return wkt;
     }
@@ -348,12 +354,10 @@ public class ShapefileDataStore extends ContentDataStore implements FileDataStor
     /**
      * Attempt to create a DbaseFileHeader for the FeatureType. Note, we cannot set the number of
      * records until the write has completed.
-     * 
+     *
      * @param featureType DOCUMENT ME!
-     * 
      * @return DOCUMENT ME!
-     * 
-     * @throws IOException DOCUMENT ME!
+     * @throws IOException        DOCUMENT ME!
      * @throws DbaseFileException DOCUMENT ME!
      */
     protected static DbaseFileHeader createDbaseHeader(SimpleFeatureType featureType)
@@ -401,13 +405,14 @@ public class ShapefileDataStore extends ContentDataStore implements FileDataStor
                 header.addColumn(colName, 'D', fieldLen, 0);
             } else if (colType == Boolean.class) {
                 header.addColumn(colName, 'L', 1, 0);
-            } else if (CharSequence.class.isAssignableFrom(colType) || colType == java.util.UUID.class) {
+            } else if (CharSequence.class.isAssignableFrom(colType) || colType == java.util.UUID
+                    .class) {
                 // Possible fix for GEOT-42 : ArcExplorer doesn't like 0 length
                 // ensure that maxLength is at least 1
                 header.addColumn(colName, 'C', Math.min(254, fieldLen), 0);
             } else if (Geometry.class.isAssignableFrom(colType)) {
                 continue;
-            //skip binary data types
+                //skip binary data types
             } else if (colType == byte[].class) {
                 continue;
             } else {
@@ -426,7 +431,7 @@ public class ShapefileDataStore extends ContentDataStore implements FileDataStor
      * in the created file. This method is not thread safe and will have dire consequences for any
      * other thread making use of the shapefile.
      * <p>
-     * 
+     *
      * @param crs
      */
     public void forceSchemaCRS(CoordinateReferenceSystem crs) throws IOException {
@@ -471,7 +476,7 @@ public class ShapefileDataStore extends ContentDataStore implements FileDataStor
      * filters by feature id and allows for stable ids in face of feature removals, without it the
      * feature id is simply the position of the feature in the shapefile, something which changes
      * when data is removed
-     * 
+     *
      * @return
      */
     public boolean isFidIndexed() {
@@ -480,6 +485,7 @@ public class ShapefileDataStore extends ContentDataStore implements FileDataStor
 
     /**
      * Enables/disables the feature id index. The index is enabled by default
+     *
      * @param fidIndexed
      */
     public void setFidIndexed(boolean fidIndexed) {
@@ -488,7 +494,8 @@ public class ShapefileDataStore extends ContentDataStore implements FileDataStor
 
     @Override
     public String toString() {
-        return "ShapefileDataStore [file=" + shpFiles.get(SHP) + ", charset=" + charset + ", timeZone=" + timeZone
+        return "ShapefileDataStore [file=" + shpFiles.get(SHP) + ", charset=" + charset + ", " +
+                "timeZone=" + timeZone
                 + ", memoryMapped=" + memoryMapped + ", bufferCachingEnabled="
                 + bufferCachingEnabled + ", indexed=" + indexed + ", fidIndexed=" + fidIndexed
                 + "]";
@@ -501,7 +508,9 @@ public class ShapefileDataStore extends ContentDataStore implements FileDataStor
 
     @Override
     public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriter(Filter filter,
-            Transaction transaction) throws IOException {
+                                                                            Transaction 
+                                                                                    transaction) 
+            throws IOException {
         return getFeatureWriter(getTypeName().getLocalPart(), filter, transaction);
     }
 
@@ -523,22 +532,24 @@ public class ShapefileDataStore extends ContentDataStore implements FileDataStor
 
     /**
      * If true (default) the index file will be created on demand if missing
+     *
      * @param indexCreationEnabled
      */
     public void setIndexCreationEnabled(boolean indexCreationEnabled) {
         this.indexCreationEnabled = indexCreationEnabled;
     }
-    
+
     @Override
     public void removeSchema(String typeName) throws IOException {
         removeSchema(new NameImpl(null, typeName));
     }
-    
+
     @Override
     public void removeSchema(Name typeName) throws IOException {
         // check file
         ContentEntry entry = ensureEntry(typeName);
-        org.geotools.data.shapefile.files.FileWriter writer = new org.geotools.data.shapefile.files.FileWriter() {
+        org.geotools.data.shapefile.files.FileWriter writer = new org.geotools.data.shapefile
+                .files.FileWriter() {
 
             @Override
             public String id() {

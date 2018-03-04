@@ -60,28 +60,32 @@ public class ComplexFeatureBuilderTest {
             ExceptionChecker
                     .assertExceptionMessage(
                             iae,
-                            "The name 'invalid_descriptor_name' is not a valid descriptor name for the type 'urn:org:example:MineType'.");
+                            "The name 'invalid_descriptor_name' is not a valid descriptor name " +
+                                    "for the type 'urn:org:example:MineType'.");
         }
     }
 
     /**
      * @throws Exception
-     * 
      */
     @Test(expected = IllegalArgumentException.class)
-    public void append_validNameInvalidValueClass_throwsIllegalArgumentException() throws Exception {
+    public void append_validNameInvalidValueClass_throwsIllegalArgumentException() throws 
+            Exception {
         // Arrange
         ComplexFeatureBuilder builder = new ComplexFeatureBuilder(FakeTypes.Mine.MINETYPE_TYPE);
 
         // Act
         try {
             builder.append(FakeTypes.Mine.NAME_mineName, new AttributeImpl("Test",
-                    FakeTypes.ANYSIMPLETYPE_TYPE, null)); // Passing in simple type instead of a mineName.
+                    FakeTypes.ANYSIMPLETYPE_TYPE, null)); // Passing in simple type instead of a 
+            // mineName.
         } catch (IllegalArgumentException iae) {
             ExceptionChecker
                     .assertExceptionMessage(
                             iae,
-                            "The value provided contains an object of 'class java.lang.Object' but the method expects an object of 'interface java.util.Collection'.");
+                            "The value provided contains an object of 'class java.lang.Object' " +
+                                    "but the method expects an object of 'interface java.util" +
+                                    ".Collection'.");
         }
     }
 
@@ -109,12 +113,15 @@ public class ComplexFeatureBuilderTest {
 
         // Act
         try {
-            builder.append(FakeTypes.Mine.NAME_mineName, getAMineNameProperty("mine 4", false)); // Add it once too many times.
+            builder.append(FakeTypes.Mine.NAME_mineName, getAMineNameProperty("mine 4", false)); 
+            // Add it once too many times.
         } catch (IndexOutOfBoundsException ioobe) {
             ExceptionChecker
                     .assertExceptionMessage(
                             ioobe,
-                            "You can't add another object with the name of 'urn:org:example:mineName' because you already have the maximum number (3) allowed by the property descriptor.");
+                            "You can't add another object with the name of " +
+                                    "'urn:org:example:mineName' because you already have the " +
+                                    "maximum number (3) allowed by the property descriptor.");
         }
     }
 
@@ -132,7 +139,9 @@ public class ComplexFeatureBuilderTest {
             ExceptionChecker
                     .assertExceptionMessage(
                             ise,
-                            "Failed to build feature 'urn:org:example:MineType'; its property 'urn:org:example:mineName' requires at least 1 occurrence(s) but number of occurrences was 0.");
+                            "Failed to build feature 'urn:org:example:MineType'; its property " +
+                                    "'urn:org:example:mineName' requires at least 1 occurrence(s)" +
+                                    " but number of occurrences was 0.");
         }
     }
 
@@ -151,7 +160,12 @@ public class ComplexFeatureBuilderTest {
 
         // Assert
         Assert.assertEquals(
-                "FeatureImpl:MineType<MineType id=er.mine.S0000001>=[ComplexAttributeImpl:MineNamePropertyType=[ComplexAttributeImpl:MineName<MineNameType id=MineName_testId>=[ComplexAttributeImpl:MineNameType=[AttributeImpl:isPreferred<boolean id=isPreferred_testId>=true, AttributeImpl:mineName<string id=mineName_testId>=Sharlston Colliery]]]]",
+                "FeatureImpl:MineType<MineType id=er.mine" +
+                        ".S0000001>=[ComplexAttributeImpl:MineNamePropertyType" +
+                        "=[ComplexAttributeImpl:MineName<MineNameType " +
+                        "id=MineName_testId>=[ComplexAttributeImpl:MineNameType=[AttributeImpl" +
+                        ":isPreferred<boolean id=isPreferred_testId>=true, " +
+                        "AttributeImpl:mineName<string id=mineName_testId>=Sharlston Colliery]]]]",
                 mine.toString());
     }
 }

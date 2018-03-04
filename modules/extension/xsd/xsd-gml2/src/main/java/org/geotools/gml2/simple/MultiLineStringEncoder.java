@@ -26,7 +26,7 @@ import com.vividsolutions.jts.geom.MultiLineString;
 
 /**
  * Encodes a GML2 multi line string
- * 
+ *
  * @author Justin Deoliveira, OpenGeo
  * @author Andrea Aime - GeoSolutions
  */

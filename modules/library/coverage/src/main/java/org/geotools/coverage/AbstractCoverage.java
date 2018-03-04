@@ -89,27 +89,25 @@ import org.opengis.util.RecordType;
  * representations of coverage:
  * <p>
  * <ul>
- *   <li>A coverage may be represented by a set of polygons which exhaustively tile a
- *       plane (that is each point on the plane falls in precisely one polygon). The
- *       value returned by the coverage for a point is the value of an attribute of
- *       the polygon that contains the point.</li>
- *   <li>A coverage may be represented by a grid of values. The value returned by the
- *       coverage for a point is that of the grid value whose location is nearest the
- *       point.</li>
- *   <li>Coverage may be represented by a mathematical function. The value returned
- *       by the coverage for a point is just the return value of the function when
- *       supplied the coordinates of the point as arguments.</li>
- *   <li>Coverage may be represented by combination of these. For example, coverage
- *       may be represented by a combination of mathematical functions valid over a
- *       set of polynomials.</li>
+ * <li>A coverage may be represented by a set of polygons which exhaustively tile a
+ * plane (that is each point on the plane falls in precisely one polygon). The
+ * value returned by the coverage for a point is the value of an attribute of
+ * the polygon that contains the point.</li>
+ * <li>A coverage may be represented by a grid of values. The value returned by the
+ * coverage for a point is that of the grid value whose location is nearest the
+ * point.</li>
+ * <li>Coverage may be represented by a mathematical function. The value returned
+ * by the coverage for a point is just the return value of the function when
+ * supplied the coordinates of the point as arguments.</li>
+ * <li>Coverage may be represented by combination of these. For example, coverage
+ * may be represented by a combination of mathematical functions valid over a
+ * set of polynomials.</li>
  * </ul>
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public abstract class AbstractCoverage extends PropertySourceImpl implements Coverage {
     /**
@@ -136,27 +134,27 @@ public abstract class AbstractCoverage extends PropertySourceImpl implements Cov
      * Constructs a coverage using the specified coordinate reference system. If the coordinate
      * reference system is {@code null}, then the subclasses must override {@link #getDimension()}.
      *
-     * @param name
-     *          The coverage name, or {@code null} if none.
-     * @param crs
-     *          The coordinate reference system. This specifies the CRS used when accessing
-     *          a coverage or grid coverage with the {@code evaluate(...)} methods.
-     * @param propertySource
-     *          The source for this coverage, or {@code null} if none. Source may be (but is not
-     *          limited to) a {@link PlanarImage} or an other {@code AbstractCoverage} object.
-     * @param properties
-     *          The set of properties for this coverage, or {@code null} if there is none.
-     *          Keys are {@link String} objects ({@link javax.media.jai.util.CaselessStringKey}
-     *          are accepted as well), while values may be any {@link Object}.
+     * @param name           The coverage name, or {@code null} if none.
+     * @param crs            The coordinate reference system. This specifies the CRS used when 
+     *                       accessing
+     *                       a coverage or grid coverage with the {@code evaluate(...)} methods.
+     * @param propertySource The source for this coverage, or {@code null} if none. Source may be
+     *                      (but is not
+     *                       limited to) a {@link PlanarImage} or an other {@code 
+     *                       AbstractCoverage} object.
+     * @param properties     The set of properties for this coverage, or {@code null} if there is
+     *                      none.
+     *                       Keys are {@link String} objects 
+     *                       ({@link javax.media.jai.util.CaselessStringKey}
+     *                       are accepted as well), while values may be any {@link Object}.
      */
-    protected AbstractCoverage(final CharSequence             name,
+    protected AbstractCoverage(final CharSequence name,
                                final CoordinateReferenceSystem crs,
                                final PropertySource propertySource,
-                               final Map<?,?>           properties)
-    {
+                               final Map<?, ?> properties) {
         super(properties, propertySource);
         this.name = SimpleInternationalString.wrap(name);
-        this.crs  = crs;
+        this.crs = crs;
     }
 
     /**
@@ -165,10 +163,9 @@ public abstract class AbstractCoverage extends PropertySourceImpl implements Cov
      * <strong>Note:</strong> This constructor keeps a strong reference to the source
      * coverage (through {@link PropertySourceImpl}).
      *
-     * @param name
-     *          The name for this coverage, or {@code null} for the same than {@code coverage}.
-     * @param coverage
-     *          The source coverage.
+     * @param name     The name for this coverage, or {@code null} for the same than {@code 
+     * coverage}.
+     * @param coverage The source coverage.
      */
     protected AbstractCoverage(final CharSequence name, final Coverage coverage) {
         super(null, (coverage instanceof PropertySource) ? (PropertySource) coverage : null);
@@ -176,10 +173,10 @@ public abstract class AbstractCoverage extends PropertySourceImpl implements Cov
         if (coverage instanceof AbstractCoverage) {
             final AbstractCoverage source = (AbstractCoverage) coverage;
             this.name = (n != null) ? n : source.name;
-            this.crs  = source.crs;
+            this.crs = source.crs;
         } else {
             this.name = (n != null) ? n : new SimpleInternationalString(coverage.toString());
-            this.crs  = coverage.getCoordinateReferenceSystem();
+            this.crs = coverage.getCoordinateReferenceSystem();
         }
     }
 
@@ -216,8 +213,7 @@ public abstract class AbstractCoverage extends PropertySourceImpl implements Cov
      * In this case, a new instance of a grid coverage is created.
      *
      * @return The coordinate reference system used when accessing a coverage or
-     *         grid coverage with the {@code evaluate(...)} methods.
-     *
+     * grid coverage with the {@code evaluate(...)} methods.
      * @see org.geotools.coverage.grid.GeneralGridGeometry#getGridToCRS
      */
     public CoordinateReferenceSystem getCoordinateReferenceSystem() {
@@ -230,12 +226,12 @@ public abstract class AbstractCoverage extends PropertySourceImpl implements Cov
      * be {@code null} if this coverage has no associated coordinate reference system. For grid
      * coverages, the grid cells are centered on each grid coordinate. The envelope for a 2-D
      * grid coverage includes the following corner positions.
-     *
+     * <p>
      * <blockquote><pre>
      *  (Minimum row - 0.5, Minimum column - 0.5) for the minimum coordinates
      *  (Maximum row - 0.5, Maximum column - 0.5) for the maximum coordinates
      * </pre></blockquote>
-     *
+     * <p>
      * The default implementation returns the domain of validity of the CRS, if there is one.
      *
      * @return The bounding box for the coverage domain in coordinate system coordinates.
@@ -265,7 +261,7 @@ public abstract class AbstractCoverage extends PropertySourceImpl implements Cov
     private static final UnsupportedOperationException unsupported() {
         throw new UnsupportedOperationException(
                 "This method is currently not implemented. " +
-                "It may be implemented by next version of coverage module.");
+                        "It may be implemented by next version of coverage module.");
     }
 
     /**
@@ -291,7 +287,7 @@ public abstract class AbstractCoverage extends PropertySourceImpl implements Cov
      * exception is thrown. If the input direct position falls within two or more geometric objects
      * within the domain, the operation shall return records of feature attribute values computed
      * according to the {@linkplain #getCommonPointRule common point rule}.
-     * <P>
+     * <p>
      * <B>NOTE:</B> Normally, the operation will return a single record of feature attribute values.
      * <p>
      * <strong>This method is not yet implemented.</strong>
@@ -311,26 +307,28 @@ public abstract class AbstractCoverage extends PropertySourceImpl implements Cov
      * point is the same as the grid coverage {@linkplain #getCoordinateReferenceSystem coordinate
      * reference system}.
      *
-     * @param  coord The coordinate point where to evaluate.
-     * @param  dest An array in which to store values, or {@code null} to create a new array.
+     * @param coord The coordinate point where to evaluate.
+     * @param dest  An array in which to store values, or {@code null} to create a new array.
      * @return The {@code dest} array, or a newly created array if {@code dest} was null.
      * @throws PointOutsideCoverageException if the evaluation failed because the input point
-     *         has invalid coordinates.
-     * @throws CannotEvaluateException if the values can't be computed at the specified coordinate
-     *         for an other reason. It may be thrown if the coverage data type can't be converted
-     *         to {@code boolean} by an identity or widening conversion. Subclasses may relax this
-     *         constraint if appropriate.
+     *                                       has invalid coordinates.
+     * @throws CannotEvaluateException       if the values can't be computed at the specified 
+     * coordinate
+     *                                       for an other reason. It may be thrown if the 
+     *                                       coverage data type can't be converted
+     *                                       to {@code boolean} by an identity or widening 
+     *                                       conversion. Subclasses may relax this
+     *                                       constraint if appropriate.
      */
     public boolean[] evaluate(final DirectPosition coord, boolean[] dest)
-            throws PointOutsideCoverageException, CannotEvaluateException
-    {
+            throws PointOutsideCoverageException, CannotEvaluateException {
         final Object array = evaluate(coord);
         try {
             final int length = Array.getLength(array);
             if (dest == null) {
                 dest = new boolean[length];
             }
-            for (int i=0; i<length; i++) {
+            for (int i = 0; i < length; i++) {
                 dest[i] = Array.getBoolean(array, i);
             }
         } catch (IllegalArgumentException exception) {
@@ -348,26 +346,28 @@ public abstract class AbstractCoverage extends PropertySourceImpl implements Cov
      * point is the same as the grid coverage {@linkplain #getCoordinateReferenceSystem coordinate
      * reference system}.
      *
-     * @param  coord The coordinate point where to evaluate.
-     * @param  dest An array in which to store values, or {@code null} to create a new array.
+     * @param coord The coordinate point where to evaluate.
+     * @param dest  An array in which to store values, or {@code null} to create a new array.
      * @return The {@code dest} array, or a newly created array if {@code dest} was null.
      * @throws PointOutsideCoverageException if the evaluation failed because the input point
-     *         has invalid coordinates.
-     * @throws CannotEvaluateException if the values can't be computed at the specified coordinate
-     *         for an other reason. It may be thrown if the coverage data type can't be converted
-     *         to {@code byte} by an identity or widening conversion. Subclasses may relax this
-     *         constraint if appropriate.
+     *                                       has invalid coordinates.
+     * @throws CannotEvaluateException       if the values can't be computed at the specified 
+     * coordinate
+     *                                       for an other reason. It may be thrown if the 
+     *                                       coverage data type can't be converted
+     *                                       to {@code byte} by an identity or widening 
+     *                                       conversion. Subclasses may relax this
+     *                                       constraint if appropriate.
      */
     public byte[] evaluate(final DirectPosition coord, byte[] dest)
-            throws PointOutsideCoverageException, CannotEvaluateException
-    {
+            throws PointOutsideCoverageException, CannotEvaluateException {
         final Object array = evaluate(coord);
         try {
             final int length = Array.getLength(array);
             if (dest == null) {
                 dest = new byte[length];
             }
-            for (int i=0; i<length; i++) {
+            for (int i = 0; i < length; i++) {
                 dest[i] = Array.getByte(array, i);
             }
         } catch (IllegalArgumentException exception) {
@@ -385,26 +385,28 @@ public abstract class AbstractCoverage extends PropertySourceImpl implements Cov
      * point is the same as the grid coverage {@linkplain #getCoordinateReferenceSystem coordinate
      * reference system}.
      *
-     * @param  coord The coordinate point where to evaluate.
-     * @param  dest An array in which to store values, or {@code null} to create a new array.
+     * @param coord The coordinate point where to evaluate.
+     * @param dest  An array in which to store values, or {@code null} to create a new array.
      * @return The {@code dest} array, or a newly created array if {@code dest} was null.
      * @throws PointOutsideCoverageException if the evaluation failed because the input point
-     *         has invalid coordinates.
-     * @throws CannotEvaluateException if the values can't be computed at the specified coordinate
-     *         for an other reason. It may be thrown if the coverage data type can't be converted
-     *         to {@code int} by an identity or widening conversion. Subclasses may relax this
-     *         constraint if appropriate.
+     *                                       has invalid coordinates.
+     * @throws CannotEvaluateException       if the values can't be computed at the specified 
+     * coordinate
+     *                                       for an other reason. It may be thrown if the 
+     *                                       coverage data type can't be converted
+     *                                       to {@code int} by an identity or widening conversion
+     *                                       . Subclasses may relax this
+     *                                       constraint if appropriate.
      */
     public int[] evaluate(final DirectPosition coord, int[] dest)
-            throws PointOutsideCoverageException, CannotEvaluateException
-    {
+            throws PointOutsideCoverageException, CannotEvaluateException {
         final Object array = evaluate(coord);
         try {
             final int length = Array.getLength(array);
             if (dest == null) {
                 dest = new int[length];
             }
-            for (int i=0; i<length; i++) {
+            for (int i = 0; i < length; i++) {
                 dest[i] = Array.getInt(array, i);
             }
         } catch (IllegalArgumentException exception) {
@@ -422,26 +424,28 @@ public abstract class AbstractCoverage extends PropertySourceImpl implements Cov
      * point is the same as the grid coverage {@linkplain #getCoordinateReferenceSystem coordinate
      * reference system}.
      *
-     * @param  coord The coordinate point where to evaluate.
-     * @param  dest An array in which to store values, or {@code null} to create a new array.
+     * @param coord The coordinate point where to evaluate.
+     * @param dest  An array in which to store values, or {@code null} to create a new array.
      * @return The {@code dest} array, or a newly created array if {@code dest} was null.
      * @throws PointOutsideCoverageException if the evaluation failed because the input point
-     *         has invalid coordinates.
-     * @throws CannotEvaluateException if the values can't be computed at the specified coordinate
-     *         for an other reason. It may be thrown if the coverage data type can't be converted
-     *         to {@code float} by an identity or widening conversion. Subclasses may relax this
-     *         constraint if appropriate.
+     *                                       has invalid coordinates.
+     * @throws CannotEvaluateException       if the values can't be computed at the specified 
+     * coordinate
+     *                                       for an other reason. It may be thrown if the 
+     *                                       coverage data type can't be converted
+     *                                       to {@code float} by an identity or widening 
+     *                                       conversion. Subclasses may relax this
+     *                                       constraint if appropriate.
      */
     public float[] evaluate(final DirectPosition coord, float[] dest)
-            throws PointOutsideCoverageException, CannotEvaluateException
-    {
+            throws PointOutsideCoverageException, CannotEvaluateException {
         final Object array = evaluate(coord);
         try {
             final int length = Array.getLength(array);
             if (dest == null) {
                 dest = new float[length];
             }
-            for (int i=0; i<length; i++) {
+            for (int i = 0; i < length; i++) {
                 dest[i] = Array.getFloat(array, i);
             }
         } catch (IllegalArgumentException exception) {
@@ -459,26 +463,28 @@ public abstract class AbstractCoverage extends PropertySourceImpl implements Cov
      * point is the same as the grid coverage {@linkplain #getCoordinateReferenceSystem coordinate
      * reference system}.
      *
-     * @param  coord The coordinate point where to evaluate.
-     * @param  dest An array in which to store values, or {@code null} to create a new array.
+     * @param coord The coordinate point where to evaluate.
+     * @param dest  An array in which to store values, or {@code null} to create a new array.
      * @return The {@code dest} array, or a newly created array if {@code dest} was null.
      * @throws PointOutsideCoverageException if the evaluation failed because the input point
-     *         has invalid coordinates.
-     * @throws CannotEvaluateException if the values can't be computed at the specified coordinate
-     *         for an other reason. It may be thrown if the coverage data type can't be converted
-     *         to {@code double} by an identity or widening conversion. Subclasses may relax this
-     *         constraint if appropriate.
+     *                                       has invalid coordinates.
+     * @throws CannotEvaluateException       if the values can't be computed at the specified 
+     * coordinate
+     *                                       for an other reason. It may be thrown if the 
+     *                                       coverage data type can't be converted
+     *                                       to {@code double} by an identity or widening 
+     *                                       conversion. Subclasses may relax this
+     *                                       constraint if appropriate.
      */
     public double[] evaluate(final DirectPosition coord, double[] dest)
-            throws PointOutsideCoverageException, CannotEvaluateException
-    {
+            throws PointOutsideCoverageException, CannotEvaluateException {
         final Object array = evaluate(coord);
         try {
             final int length = Array.getLength(array);
             if (dest == null) {
                 dest = new double[length];
             }
-            for (int i=0; i<length; i++) {
+            for (int i = 0; i < length; i++) {
                 dest[i] = Array.getDouble(array, i);
             }
         } catch (IllegalArgumentException exception) {
@@ -500,8 +506,6 @@ public abstract class AbstractCoverage extends PropertySourceImpl implements Cov
     }
 
 
-
-
     /////////////////////////////////////////////////////////////////////////
     ////////////////                                         ////////////////
     ////////////////     RenderableImage / ImageFunction     ////////////////
@@ -514,12 +518,12 @@ public abstract class AbstractCoverage extends PropertySourceImpl implements Cov
      * for a two-dimensional slice of a coverage (which may or may not be a
      * {@linkplain org.geotools.coverage.grid.GridCoverage2D grid coverage}).
      *
-     * @version $Id$
      * @author Martin Desruisseaux (IRD)
-     *
+     * @version $Id$
      * @see AbstractCoverage#getRenderableImage
      */
-    protected class Renderable extends PropertySourceImpl implements RenderableImage, ImageFunction {
+    protected class Renderable extends PropertySourceImpl implements RenderableImage, 
+            ImageFunction {
         /**
          * For compatibility during cross-version serialization.
          */
@@ -550,7 +554,8 @@ public abstract class AbstractCoverage extends PropertySourceImpl implements Cov
          * coverage. By default, all ordinates are initialized to 0. Subclasses should set the
          * desired values in their constructor if needed.
          */
-        protected final GeneralDirectPosition coordinate = new GeneralDirectPosition(getDimension());
+        protected final GeneralDirectPosition coordinate = new GeneralDirectPosition(getDimension
+                ());
 
         /**
          * Constructs a renderable image.
@@ -564,7 +569,7 @@ public abstract class AbstractCoverage extends PropertySourceImpl implements Cov
             this.yAxis = yAxis;
             final Envelope envelope = getEnvelope();
             bounds = new Rectangle2D.Double(envelope.getMinimum(xAxis), envelope.getMinimum(yAxis),
-                                            envelope.getSpan   (xAxis), envelope.getSpan   (yAxis));
+                    envelope.getSpan(xAxis), envelope.getSpan(yAxis));
         }
 
         /**
@@ -659,8 +664,9 @@ public abstract class AbstractCoverage extends PropertySourceImpl implements Cov
          * @param hints  Rendering hints, or {@code null}.
          * @return A rendered image containing the rendered data
          */
-        public RenderedImage createScaledRendering(int width, int height, final RenderingHints hints) {
-            final double boundsWidth  = bounds.getWidth();
+        public RenderedImage createScaledRendering(int width, int height, final RenderingHints 
+                hints) {
+            final double boundsWidth = bounds.getWidth();
             final double boundsHeight = bounds.getHeight();
             if (!(width > 0)) { // Use '!' in order to catch NaN
                 if (!(height > 0)) {
@@ -705,25 +711,27 @@ public abstract class AbstractCoverage extends PropertySourceImpl implements Cov
             /*
              * Computes some properties of the image to be created.
              */
-            final Dimension       tileSize = ImageUtilities.toTileSize(gridBounds.getSize());
-            final GridSampleDimension band = GridSampleDimension.wrap(getSampleDimension(VISIBLE_BAND));
-            final ColorModel    colorModel = band.getColorModel(VISIBLE_BAND, getNumSampleDimensions());
-            final SampleModel  sampleModel = colorModel.createCompatibleSampleModel(tileSize.width, tileSize.height);
+            final Dimension tileSize = ImageUtilities.toTileSize(gridBounds.getSize());
+            final GridSampleDimension band = GridSampleDimension.wrap(getSampleDimension
+                    (VISIBLE_BAND));
+            final ColorModel colorModel = band.getColorModel(VISIBLE_BAND, getNumSampleDimensions
+                    ());
+            final SampleModel sampleModel = colorModel.createCompatibleSampleModel(tileSize
+                    .width, tileSize.height);
             /*
              * If the image can be created using the ImageFunction operation, do it.
              * It allow JAI to defer the computation until a tile is really requested.
              */
             final PlanarImage image;
             if ((area == null || area instanceof Rectangle2D) &&
-                    crsToGrid.getShearX() == 0 && crsToGrid.getShearY() == 0)
-            {
+                    crsToGrid.getShearX() == 0 && crsToGrid.getShearY() == 0) {
                 RenderingHints hints = new RenderingHints(JAI.KEY_IMAGE_LAYOUT, new ImageLayout()
-              .setMinX       (gridBounds.x)
-              .setMinY       (gridBounds.y)
-              .setTileWidth  (tileSize.width)
-              .setTileHeight (tileSize.height)
-              .setSampleModel(sampleModel)
-              .setColorModel (colorModel));
+                        .setMinX(gridBounds.x)
+                        .setMinY(gridBounds.y)
+                        .setTileWidth(tileSize.width)
+                        .setTileHeight(tileSize.height)
+                        .setSampleModel(sampleModel)
+                        .setColorModel(colorModel));
                 image = new ImageWorker().setRenderingHints(hints).function(this, gridBounds.width,
                         gridBounds.height, (float) (1 / crsToGrid.getScaleX()),
                         (float) (1 / crsToGrid.getScaleY()), (float) crsToGrid.getTranslateX(),
@@ -813,20 +821,18 @@ public abstract class AbstractCoverage extends PropertySourceImpl implements Cov
          * @param gridBounds The two-dimensional destination rectangle.
          * @param hints      The rendering hints, or {@code null} if none.
          * @return A render context initialized with an affine transform from the coverage
-         *         to the grid coordinate system. This transform is the inverse of
-         *         {@link org.geotools.coverage.grid.GridGeometry2D#getGridToCRS2D}.
-         *
+         * to the grid coordinate system. This transform is the inverse of
+         * {@link org.geotools.coverage.grid.GridGeometry2D#getGridToCRS2D}.
          * @see org.geotools.coverage.grid.GridGeometry2D#getGridToCRS2D
          */
         protected RenderContext createRenderContext(final Rectangle2D gridBounds,
-                                                    final RenderingHints hints)
-        {
+                                                    final RenderingHints hints) {
             final GeneralMatrix matrix;
             final GeneralEnvelope srcEnvelope = new GeneralEnvelope(bounds);
             final GeneralEnvelope dstEnvelope = new GeneralEnvelope(gridBounds);
             if (crs != null) {
                 final CoordinateSystem cs = crs.getCoordinateSystem();
-                final AxisDirection[] axis = new AxisDirection[] {
+                final AxisDirection[] axis = new AxisDirection[]{
                         cs.getAxis(xAxis).getDirection(),
                         cs.getAxis(yAxis).getDirection()
                 };
@@ -835,7 +841,7 @@ public abstract class AbstractCoverage extends PropertySourceImpl implements Cov
                     // Normalize axis: Is it really a good idea?
                     // We should provide a rendering hint for configuring that.
                     Arrays.sort(normalized);
-                    for (int i = normalized.length; --i >= 0;) {
+                    for (int i = normalized.length; --i >= 0; ) {
                         normalized[i] = normalized[i].absolute();
                     }
                 }
@@ -865,21 +871,20 @@ public abstract class AbstractCoverage extends PropertySourceImpl implements Cov
          * image tile, providing that the rendered image is created using the
          * "{@link ImageFunctionDescriptor ImageFunction}" operator and the image
          * type is not {@code double}. The default implementation invokes
-         * {@link AbstractCoverage#evaluate(DirectPosition,float[])} recursively.
+         * {@link AbstractCoverage#evaluate(DirectPosition, float[])} recursively.
          */
         public void getElements(final float startX, final float startY,
                                 final float deltaX, final float deltaY,
-                                final int   countX, final int   countY, final int  element,
-                                final float[] real, final float[] imag)
-        {
+                                final int countX, final int countY, final int element,
+                                final float[] real, final float[] imag) {
             int index = 0;
             float[] buffer = null;
             // Clones the coordinate point in order to allow multi-thread invocation.
             final GeneralDirectPosition coordinate = new GeneralDirectPosition(this.coordinate);
             coordinate.ordinates[1] = startY;
-            for (int j=0; j<countY; j++) {
+            for (int j = 0; j < countY; j++) {
                 coordinate.ordinates[0] = startX;
-                for (int i=0; i<countX; i++) {
+                for (int i = 0; i < countX; i++) {
                     buffer = evaluate(coordinate, buffer);
                     real[index++] = buffer[element];
                     coordinate.ordinates[0] += deltaX;
@@ -894,21 +899,20 @@ public abstract class AbstractCoverage extends PropertySourceImpl implements Cov
          * image tile, providing that the rendered image is created using the
          * "{@link ImageFunctionDescriptor ImageFunction}" operator and the image
          * type is {@code double}. The default implementation invokes
-         * {@link AbstractCoverage#evaluate(DirectPosition,double[])} recursively.
+         * {@link AbstractCoverage#evaluate(DirectPosition, double[])} recursively.
          */
         public void getElements(final double startX, final double startY,
                                 final double deltaX, final double deltaY,
-                                final int    countX, final int    countY, final int element,
-                                final double[] real, final double[] imag)
-        {
+                                final int countX, final int countY, final int element,
+                                final double[] real, final double[] imag) {
             int index = 0;
             double[] buffer = null;
             // Clones the coordinate point in order to allow multi-thread invocation.
             final GeneralDirectPosition coordinate = new GeneralDirectPosition(this.coordinate);
             coordinate.ordinates[1] = startY;
-            for (int j=0; j<countY; j++) {
+            for (int j = 0; j < countY; j++) {
                 coordinate.ordinates[0] = startX;
-                for (int i=0; i<countX; i++) {
+                for (int i = 0; i < countX; i++) {
                     buffer = evaluate(coordinate, buffer);
                     real[index++] = buffer[element];
                     coordinate.ordinates[0] += deltaX;
@@ -922,10 +926,9 @@ public abstract class AbstractCoverage extends PropertySourceImpl implements Cov
      * Display this coverage in a windows. This convenience method is used for debugging purpose.
      * The exact appareance of the windows and the tools provided may changes in future versions.
      *
-     * @param  title The window title, or {@code null} for default value.
-     * @param  xAxis Dimension to use for the <var>x</var> display axis.
-     * @param  yAxis Dimension to use for the <var>y</var> display axis.
-     *
+     * @param title The window title, or {@code null} for default value.
+     * @param xAxis Dimension to use for the <var>x</var> display axis.
+     * @param yAxis Dimension to use for the <var>y</var> display axis.
      * @since 2.3
      */
     public void show(String title, final int xAxis, final int yAxis) {
@@ -938,7 +941,7 @@ public abstract class AbstractCoverage extends PropertySourceImpl implements Cov
     }
 
     /**
-     * A trivial viewer implementation to be used by {@link AbstractCoverage#show(String,int,int)}
+     * A trivial viewer implementation to be used by {@link AbstractCoverage#show(String, int, int)}
      * method.
      * <p>
      * <strong>Implementation note:</strong>
@@ -958,7 +961,7 @@ public abstract class AbstractCoverage extends PropertySourceImpl implements Cov
          */
         @SuppressWarnings("deprecation")
         public Viewer(final String title, final RenderedImage image) {
-            final int width  = Math.max(Math.min(image.getWidth(),  800), 24);
+            final int width = Math.max(Math.min(image.getWidth(), 800), 24);
             final int height = Math.max(Math.min(image.getHeight(), 600), 24);
             frame = new Frame(title);
             frame.add(new javax.media.jai.widget.ScrollingImagePanel(image, width, height));
@@ -989,8 +992,7 @@ public abstract class AbstractCoverage extends PropertySourceImpl implements Cov
      * debugging purpose. The exact appareance of the windows and the tools
      * provided may changes in future versions.
      *
-     * @param  title The window title, or {@code null} for default value.
-     *
+     * @param title The window title, or {@code null} for default value.
      * @since 2.3
      */
     public void show(final String title) {
@@ -1050,7 +1052,7 @@ public abstract class AbstractCoverage extends PropertySourceImpl implements Cov
         final int n = getNumSampleDimensions();
         try {
             filter.write(lineSeparator);
-            for (int i=0; i<n; i++) {
+            for (int i = 0; i < n; i++) {
                 filter.write(getSampleDimension(i).toString());
             }
             filter.flush();
@@ -1071,16 +1073,16 @@ public abstract class AbstractCoverage extends PropertySourceImpl implements Cov
      * <p>
      * This method can work in a <cite>conservative</cite> mode or a <cite>forced</cite> mode,
      * determined by the {@code force} argument:
-     *
+     * <p>
      * <ul>
-     *   <li><p>If {@code force} is {@code false} (the recommanded value), this method may process
-     *   only under some conditions. For example a grid coverage may dispose its planar image only
-     *   if it has no {@linkplain PlanarImage#getSinks sinks}. This method returns {@code true} if
-     *   it disposed all resources, or {@code false} if this method vetoed against the disposal.
-     *   In the later case, this coverage can still be used.</p></li>
-     *
-     *   <li><p>If {@code force} is {@code true}, then this method processes inconditionnally and
-     *   returns always {@code true}. This is a more risky behavior.</p></li>
+     * <li><p>If {@code force} is {@code false} (the recommanded value), this method may process
+     * only under some conditions. For example a grid coverage may dispose its planar image only
+     * if it has no {@linkplain PlanarImage#getSinks sinks}. This method returns {@code true} if
+     * it disposed all resources, or {@code false} if this method vetoed against the disposal.
+     * In the later case, this coverage can still be used.</p></li>
+     * <p>
+     * <li><p>If {@code force} is {@code true}, then this method processes inconditionnally and
+     * returns always {@code true}. This is a more risky behavior.</p></li>
      * </ul>
      * <p>
      * The conservative mode ({@code force = false}) performs its safety checks on a
@@ -1088,13 +1090,11 @@ public abstract class AbstractCoverage extends PropertySourceImpl implements Cov
      * a program that depended on the safety checks for its correctness. In case of doubt about
      * whatever this coverage still in use or not, it is safer to rely on the garbage collector.
      *
-     * @param  force {@code true} for forcing an inconditionnal disposal, or {@code false} for
-     *         performing a conservative disposal. The recommanded value is {@code false}.
+     * @param force {@code true} for forcing an inconditionnal disposal, or {@code false} for
+     *              performing a conservative disposal. The recommanded value is {@code false}.
      * @return {@code true} if this method disposed at least some resources, or {@code false}
-     *         if this method vetoed against the disposal.
-     *
+     * if this method vetoed against the disposal.
      * @see PlanarImage#dispose
-     *
      * @since 2.4
      */
     public boolean dispose(boolean force) {

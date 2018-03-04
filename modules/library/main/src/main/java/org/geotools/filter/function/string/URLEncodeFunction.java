@@ -28,15 +28,15 @@ import org.opengis.filter.capability.FunctionName;
 
 /**
  * URL encodes a string.
- *
+ * <p>
  * This function expects:
  * <ol>
  * <li>Literal: String to be URL encoded
- * <li>Literal: (Optional) Boolean indicating if string should be form URL encoded (defaults to false)
- *
- * @see URLEncoder#encode(String)
+ * <li>Literal: (Optional) Boolean indicating if string should be form URL encoded (defaults to 
+ * false)
  *
  * @author Billy Newman (BIT Systems)
+ * @see URLEncoder#encode(String)
  */
 public class URLEncodeFunction extends FunctionExpressionImpl {
 
@@ -70,7 +70,8 @@ public class URLEncodeFunction extends FunctionExpressionImpl {
         } catch (Exception e) // probably a type error
         {
             throw new IllegalArgumentException(
-                    "Filter Function problem for function strURLEncode argument #0 - expected type String");
+                    "Filter Function problem for function strURLEncode argument #0 - expected " +
+                            "type String");
         }
 
         Boolean formUrlEncode = Boolean.FALSE;
@@ -80,21 +81,24 @@ public class URLEncodeFunction extends FunctionExpressionImpl {
             } catch (Exception e) // probably a type error
             {
                 throw new IllegalArgumentException(
-                        "Filter Function problem for function strURLEncode argument #1 - expected type Boolean");
+                        "Filter Function problem for function strURLEncode argument #1 - expected" +
+                                " type Boolean");
             }
         }
 
         try {
             String encoded = URLEncoder.encode(stringToBeEncoded, "utf-8");
             if (!formUrlEncode.booleanValue()) {
-                // Using URLEncoder, spaces are converted to plus signs, convert to %20 for non form url encoding
+                // Using URLEncoder, spaces are converted to plus signs, convert to %20 for non 
+                // form url encoding
                 encoded = encoded.replaceAll("\\+", "%20");
             }
 
             return encoded;
         } catch (UnsupportedEncodingException e) {
             throw new IllegalArgumentException(
-                    "Filter Function problem for function strURLEncode argument #0 - " + e.getMessage());
+                    "Filter Function problem for function strURLEncode argument #0 - " + e
+                            .getMessage());
         }
     }
 }

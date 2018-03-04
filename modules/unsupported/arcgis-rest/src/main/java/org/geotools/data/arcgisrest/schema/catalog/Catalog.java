@@ -1,4 +1,3 @@
-
 package org.geotools.data.arcgisrest.schema.catalog;
 
 import java.net.URI;
@@ -6,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -16,8 +16,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 /**
  * Project Open Data Catalog
  * <p>
- * Validates an entire collection of Project Open Data metadata JSON objects. Agencies produce said collections in the form of Data.json files.
- * 
+ * Validates an entire collection of Project Open Data metadata JSON objects. Agencies produce 
+ * said collections in the form of Data.json files.
  */
 public class Catalog {
 
@@ -25,7 +25,6 @@ public class Catalog {
      * Metadata Context
      * <p>
      * URL or JSON object for the JSON-LD Context that defines the schema used
-     * 
      */
     @SerializedName("@context")
     @Expose
@@ -33,8 +32,8 @@ public class Catalog {
     /**
      * Metadata Catalog ID
      * <p>
-     * IRI for the JSON-LD Node Identifier of the Catalog. This should be the URL of the data.json file itself.
-     * 
+     * IRI for the JSON-LD Node Identifier of the Catalog. This should be the URL of the data
+     * .json file itself.
      */
     @SerializedName("@id")
     @Expose
@@ -43,7 +42,6 @@ public class Catalog {
      * Metadata Context
      * <p>
      * IRI for the JSON-LD data type. This should be dcat:Catalog for the Catalog
-     * 
      */
     @SerializedName("@type")
     @Expose
@@ -53,7 +51,6 @@ public class Catalog {
      * <p>
      * Version of Schema
      * (Required)
-     * 
      */
     @SerializedName("conformsTo")
     @Expose
@@ -62,15 +59,12 @@ public class Catalog {
      * Data Dictionary
      * <p>
      * URL for the JSON Schema file that defines the schema used
-     * 
      */
     @SerializedName("describedBy")
     @Expose
     private URI describedBy;
     /**
-     * 
      * (Required)
-     * 
      */
     @SerializedName("dataset")
     @Expose
@@ -80,9 +74,8 @@ public class Catalog {
      * Metadata Context
      * <p>
      * URL or JSON object for the JSON-LD Context that defines the schema used
-     * 
-     * @return
-     *     The context
+     *
+     * @return The context
      */
     public URI getContext() {
         return context;
@@ -92,9 +85,8 @@ public class Catalog {
      * Metadata Context
      * <p>
      * URL or JSON object for the JSON-LD Context that defines the schema used
-     * 
-     * @param context
-     *     The @context
+     *
+     * @param context The @context
      */
     public void setContext(URI context) {
         this.context = context;
@@ -103,10 +95,10 @@ public class Catalog {
     /**
      * Metadata Catalog ID
      * <p>
-     * IRI for the JSON-LD Node Identifier of the Catalog. This should be the URL of the data.json file itself.
-     * 
-     * @return
-     *     The id
+     * IRI for the JSON-LD Node Identifier of the Catalog. This should be the URL of the data
+     * .json file itself.
+     *
+     * @return The id
      */
     public URI getId() {
         return id;
@@ -115,10 +107,10 @@ public class Catalog {
     /**
      * Metadata Catalog ID
      * <p>
-     * IRI for the JSON-LD Node Identifier of the Catalog. This should be the URL of the data.json file itself.
-     * 
-     * @param id
-     *     The @id
+     * IRI for the JSON-LD Node Identifier of the Catalog. This should be the URL of the data
+     * .json file itself.
+     *
+     * @param id The @id
      */
     public void setId(URI id) {
         this.id = id;
@@ -128,9 +120,8 @@ public class Catalog {
      * Metadata Context
      * <p>
      * IRI for the JSON-LD data type. This should be dcat:Catalog for the Catalog
-     * 
-     * @return
-     *     The type
+     *
+     * @return The type
      */
     public Catalog.Type getType() {
         return type;
@@ -140,9 +131,8 @@ public class Catalog {
      * Metadata Context
      * <p>
      * IRI for the JSON-LD data type. This should be dcat:Catalog for the Catalog
-     * 
-     * @param type
-     *     The @type
+     *
+     * @param type The @type
      */
     public void setType(Catalog.Type type) {
         this.type = type;
@@ -153,9 +143,8 @@ public class Catalog {
      * <p>
      * Version of Schema
      * (Required)
-     * 
-     * @return
-     *     The conformsTo
+     *
+     * @return The conformsTo
      */
     public Catalog.ConformsTo getConformsTo() {
         return conformsTo;
@@ -166,9 +155,8 @@ public class Catalog {
      * <p>
      * Version of Schema
      * (Required)
-     * 
-     * @param conformsTo
-     *     The conformsTo
+     *
+     * @param conformsTo The conformsTo
      */
     public void setConformsTo(Catalog.ConformsTo conformsTo) {
         this.conformsTo = conformsTo;
@@ -178,9 +166,8 @@ public class Catalog {
      * Data Dictionary
      * <p>
      * URL for the JSON Schema file that defines the schema used
-     * 
-     * @return
-     *     The describedBy
+     *
+     * @return The describedBy
      */
     public URI getDescribedBy() {
         return describedBy;
@@ -190,31 +177,26 @@ public class Catalog {
      * Data Dictionary
      * <p>
      * URL for the JSON Schema file that defines the schema used
-     * 
-     * @param describedBy
-     *     The describedBy
+     *
+     * @param describedBy The describedBy
      */
     public void setDescribedBy(URI describedBy) {
         this.describedBy = describedBy;
     }
 
     /**
-     * 
      * (Required)
-     * 
-     * @return
-     *     The dataset
+     *
+     * @return The dataset
      */
     public List<Dataset> getDataset() {
         return dataset;
     }
 
     /**
-     * 
      * (Required)
-     * 
-     * @param dataset
-     *     The dataset
+     *
+     * @param dataset The dataset
      */
     public void setDataset(List<Dataset> dataset) {
         this.dataset = dataset;
@@ -227,7 +209,8 @@ public class Catalog {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(context).append(id).append(type).append(conformsTo).append(describedBy).append(dataset).toHashCode();
+        return new HashCodeBuilder().append(context).append(id).append(type).append(conformsTo)
+                .append(describedBy).append(dataset).toHashCode();
     }
 
     @Override
@@ -239,18 +222,22 @@ public class Catalog {
             return false;
         }
         Catalog rhs = ((Catalog) other);
-        return new EqualsBuilder().append(context, rhs.context).append(id, rhs.id).append(type, rhs.type).append(conformsTo, rhs.conformsTo).append(describedBy, rhs.describedBy).append(dataset, rhs.dataset).isEquals();
+        return new EqualsBuilder().append(context, rhs.context).append(id, rhs.id).append(type, 
+                rhs.type).append(conformsTo, rhs.conformsTo).append(describedBy, rhs.describedBy)
+                .append(dataset, rhs.dataset).isEquals();
     }
 
     public enum ConformsTo {
 
         @SerializedName("https://project-open-data.cio.gov/v1.1/schema")
-        HTTPS_PROJECT_OPEN_DATA_CIO_GOV_V_1_1_SCHEMA("https://project-open-data.cio.gov/v1.1/schema");
+        HTTPS_PROJECT_OPEN_DATA_CIO_GOV_V_1_1_SCHEMA("https://project-open-data.cio" +
+                ".gov/v1.1/schema");
         private final String value;
-        private final static Map<String, Catalog.ConformsTo> CONSTANTS = new HashMap<String, Catalog.ConformsTo>();
+        private final static Map<String, Catalog.ConformsTo> CONSTANTS = new HashMap<String, 
+                Catalog.ConformsTo>();
 
         static {
-            for (Catalog.ConformsTo c: values()) {
+            for (Catalog.ConformsTo c : values()) {
                 CONSTANTS.put(c.value, c);
             }
         }
@@ -284,10 +271,11 @@ public class Catalog {
         @SerializedName("dcat:Catalog")
         DCAT_CATALOG("dcat:Catalog");
         private final String value;
-        private final static Map<String, Catalog.Type> CONSTANTS = new HashMap<String, Catalog.Type>();
+        private final static Map<String, Catalog.Type> CONSTANTS = new HashMap<String, Catalog
+                .Type>();
 
         static {
-            for (Catalog.Type c: values()) {
+            for (Catalog.Type c : values()) {
                 CONSTANTS.put(c.value, c);
             }
         }

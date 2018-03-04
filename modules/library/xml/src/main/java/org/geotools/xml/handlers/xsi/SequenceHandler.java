@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -30,20 +30,20 @@ import org.xml.sax.SAXException;
 
 /**
  * SequenceHandler purpose.
- * 
+ * <p>
  * <p>
  * represents a sequence element
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc. http://www.refractions.net
  * @author $Author:$ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class SequenceHandler extends ElementGroupingHandler {
-    /** 'sequence' */
+    /**
+     * 'sequence'
+     */
     public final static String LOCALNAME = "sequence";
     private String id;
     private int maxOccurs;
@@ -56,16 +56,16 @@ public class SequenceHandler extends ElementGroupingHandler {
      */
     public int hashCode() {
         return (LOCALNAME.hashCode() * ((id == null) ? 1 : id.hashCode()))
-        + ((children == null) ? 2 : children.hashCode());
+                + ((children == null) ? 2 : children.hashCode());
     }
 
     /**
      * @see org.geotools.xml.XSIElementHandler#getHandler(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
-    public XSIElementHandler getHandler(String namespaceURI, String localName){
+    public XSIElementHandler getHandler(String namespaceURI, String localName) {
         logger.finest("Getting Handler for " + localName + " :: "
-            + namespaceURI);
+                + namespaceURI);
 
         if (namespaceURI.equalsIgnoreCase(namespaceURI)) {
             // child types
@@ -136,10 +136,10 @@ public class SequenceHandler extends ElementGroupingHandler {
 
     /**
      * @see org.geotools.xml.XSIElementHandler#startElement(java.lang.String,
-     *      java.lang.String, org.xml.sax.Attributes)
+     * java.lang.String, org.xml.sax.Attributes)
      */
     public void startElement(String namespaceURI, String localName,
-        Attributes atts){
+                             Attributes atts) {
         // id
         id = atts.getValue("", "id");
 
@@ -186,14 +186,15 @@ public class SequenceHandler extends ElementGroupingHandler {
     }
 
     /**
-     * @see org.geotools.xml.XSIHandlers.ElementGroupingHandler#compress(org.geotools.xml.XSIHandlers.SchemaHandler)
+     * @see org.geotools.xml.XSIHandlers.ElementGroupingHandler#compress(org.geotools.xml
+     * .XSIHandlers.SchemaHandler)
      */
     protected ElementGrouping compress(SchemaHandler parent)
-        throws SAXException {
+            throws SAXException {
 
-        synchronized(this){
+        synchronized (this) {
             if (cache != null)
-            	return cache;
+                return cache;
             cache = new DefaultSequence();
         }
 
@@ -202,7 +203,7 @@ public class SequenceHandler extends ElementGroupingHandler {
         cache.maxOccurs = maxOccurs;
 
         logger.finest(id + " :: This Sequence has "
-            + ((children == null) ? 0 : children.size()) + " children");
+                + ((children == null) ? 0 : children.size()) + " children");
 
         if (children != null) {
             cache.children = new ElementGrouping[children.size()];
@@ -211,7 +212,7 @@ public class SequenceHandler extends ElementGroupingHandler {
             // sequqnces can be inlined here.
             for (int i = 0; i < cache.children.length; i++)
                 cache.children[i] = ((ElementGroupingHandler) children.get(i))
-                    .compress(parent);
+                        .compress(parent);
         }
 
         children = null;
@@ -229,9 +230,9 @@ public class SequenceHandler extends ElementGroupingHandler {
 
     /**
      * @see org.geotools.xml.XSIElementHandler#endElement(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
-    public void endElement(String namespaceURI, String localName){
+    public void endElement(String namespaceURI, String localName) {
         // do nothing
     }
 
@@ -241,7 +242,6 @@ public class SequenceHandler extends ElementGroupingHandler {
      * </p>
      *
      * @author dzwiers
-     *
      * @see Sequence
      */
     private static class DefaultSequence implements Sequence {
@@ -306,8 +306,8 @@ public class SequenceHandler extends ElementGroupingHandler {
             return SEQUENCE;
         }
 
-		public Element findChildElement(String localName, URI namespaceURI) {
-			if (children == null) {
+        public Element findChildElement(String localName, URI namespaceURI) {
+            if (children == null) {
                 return null;
             }
 
@@ -320,7 +320,7 @@ public class SequenceHandler extends ElementGroupingHandler {
                 }
             }
 
-			return null;
-		}
+            return null;
+        }
     }
 }

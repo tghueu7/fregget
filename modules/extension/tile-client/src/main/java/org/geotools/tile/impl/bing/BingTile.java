@@ -29,7 +29,7 @@ import org.geotools.util.logging.Logging;
 
 /**
  * The BingTile, for the Bing Maps family
- * 
+ *
  * @author Tobias Sauerwein
  * @author Ugo Taddei
  * @since 12

@@ -42,15 +42,13 @@ import com.esri.sde.sdk.client.SeUpdate;
 
 /**
  * A pure session wrapper to aid in creating session decorators by extending this class.
- * 
+ *
  * @author Gabriel Roldan (TOPP)
  * @version $Id$
- * @since 2.5.x
- *
- *
  * @source $URL$
- *         http://svn.geotools.org/trunk/modules/plugin/arcsde/datastore/src/main/java/org/geotools
- *         /arcsde/pool/SessionWrapper.java $
+ * http://svn.geotools.org/trunk/modules/plugin/arcsde/datastore/src/main/java/org/geotools
+ * /arcsde/pool/SessionWrapper.java $
+ * @since 2.5.x
  */
 public class SessionWrapper implements ISession {
 
@@ -90,7 +88,7 @@ public class SessionWrapper implements ISession {
 
     /**
      * @see org.geotools.arcsde.session.ISession#createAndExecuteQuery(java.lang.String[],
-     *      com.esri.sde.sdk.client.SeSqlConstruct)
+     * com.esri.sde.sdk.client.SeSqlConstruct)
      */
     public SeQuery createAndExecuteQuery(String[] propertyNames, SeSqlConstruct sql)
             throws IOException {
@@ -288,10 +286,10 @@ public class SessionWrapper implements ISession {
 
     /**
      * @see org.geotools.arcsde.session.ISession#prepareQuery(SeQueryInfo, SeFilter[],
-     *      ArcSdeVersionHandler)
+     * ArcSdeVersionHandler)
      */
     public SeQuery prepareQuery(final SeQueryInfo qInfo, final SeFilter[] spatialConstraints,
-            final ArcSdeVersionHandler version) throws IOException {
+                                final ArcSdeVersionHandler version) throws IOException {
         return wrapped.prepareQuery(qInfo, spatialConstraints, version);
     }
 

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -24,12 +24,8 @@ import org.geotools.swing.wizard.JWizard.Controller;
 
 /**
  * Widget for double values
- * 
+ *
  * @author gdavis
- *
- *
- *
- *
  * @source $URL$
  */
 public class JDoubleField extends ParamField {

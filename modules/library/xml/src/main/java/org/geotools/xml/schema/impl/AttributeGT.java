@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -28,8 +28,6 @@ import org.geotools.xml.schema.SimpleType;
  * </p>
  *
  * @author dzwiers
- *
- *
  * @source $URL$
  */
 public class AttributeGT implements Attribute {
@@ -49,17 +47,17 @@ public class AttributeGT implements Attribute {
     /**
      * Creates a new AttributeGT object.
      *
-     * @param id DOCUMENT ME!
-     * @param name DOCUMENT ME!
+     * @param id        DOCUMENT ME!
+     * @param name      DOCUMENT ME!
      * @param namespace DOCUMENT ME!
-     * @param type DOCUMENT ME!
-     * @param use DOCUMENT ME!
-     * @param defaulT DOCUMENT ME!
-     * @param fixed DOCUMENT ME!
-     * @param form DOCUMENT ME!
+     * @param type      DOCUMENT ME!
+     * @param use       DOCUMENT ME!
+     * @param defaulT   DOCUMENT ME!
+     * @param fixed     DOCUMENT ME!
+     * @param form      DOCUMENT ME!
      */
     public AttributeGT(String id, String name, URI namespace,
-        SimpleType type, int use, String defaulT, String fixed, boolean form) {
+                       SimpleType type, int use, String defaulT, String fixed, boolean form) {
         this.id = id;
         this.name = name;
         this.namespace = namespace;

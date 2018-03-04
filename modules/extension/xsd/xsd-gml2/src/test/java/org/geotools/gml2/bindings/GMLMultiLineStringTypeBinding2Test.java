@@ -24,8 +24,6 @@ import com.vividsolutions.jts.geom.MultiLineString;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GMLMultiLineStringTypeBinding2Test extends GMLTestSupport {
@@ -48,7 +46,7 @@ public class GMLMultiLineStringTypeBinding2Test extends GMLTestSupport {
         Document doc = encode(GML2MockData.multiLineString(), GML.MultiLineString);
 
         assertEquals(2,
-            doc.getElementsByTagNameNS(GML.NAMESPACE, GML.lineStringMember.getLocalPart())
-               .getLength());
+                doc.getElementsByTagNameNS(GML.NAMESPACE, GML.lineStringMember.getLocalPart())
+                        .getLength());
     }
 }

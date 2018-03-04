@@ -18,15 +18,16 @@ package org.geotools.filter.v1_0.capabilities;
 
 import java.util.List;
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.capability.FunctionName;
 import org.geotools.xml.*;
 
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:Function_NamesType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="Function_NamesType"&gt;
  *      &lt;xsd:sequence maxOccurs="unbounded"&gt;
@@ -39,9 +40,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class Function_NamesTypeBinding extends AbstractComplexBinding {
@@ -69,14 +67,14 @@ public class Function_NamesTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         List functions = node.getChildValues(FunctionName.class);
 
         return functions.toArray(new FunctionName[functions.size()]);
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         if (name.getLocalPart().equals("Function_Name")
                 || name.getLocalPart().equals("FunctionName") /* 1.1 */) {
             return object;

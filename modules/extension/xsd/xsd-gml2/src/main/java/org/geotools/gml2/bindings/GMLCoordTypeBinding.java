@@ -31,9 +31,9 @@ import com.vividsolutions.jts.geom.CoordinateSequenceFactory;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:CoordType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="CoordType"&gt;
  *      &lt;annotation&gt;
@@ -52,9 +52,6 @@ import com.vividsolutions.jts.geom.CoordinateSequenceFactory;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLCoordTypeBinding extends AbstractComplexBinding {
@@ -89,7 +86,7 @@ public class GMLCoordTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         int dimension = 1;
         double x;
         double y;
@@ -112,7 +109,7 @@ public class GMLCoordTypeBinding extends AbstractComplexBinding {
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         Coordinate c = (Coordinate) object;
 
         if ("X".equals(name.getLocalPart())) {

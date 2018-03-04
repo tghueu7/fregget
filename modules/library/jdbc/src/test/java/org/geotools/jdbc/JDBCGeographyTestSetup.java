@@ -3,15 +3,13 @@ package org.geotools.jdbc;
 import java.sql.SQLException;
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class JDBCGeographyTestSetup extends JDBCDelegatingTestSetup {
     protected JDBCGeographyTestSetup(JDBCTestSetup delegate) {
         super(delegate);
     }
-    
+
     protected final void setUpData() throws Exception {
         //kill all the data
         try {
@@ -21,12 +19,12 @@ public abstract class JDBCGeographyTestSetup extends JDBCDelegatingTestSetup {
         }
 
         //create all the data
-        if(isGeographySupportAvailable()) {
+        if (isGeographySupportAvailable()) {
             createGeoPointTable();
             createGeoLineTable();
         }
     }
-    
+
     /**
      * Creates a table with the following schema:
      * <p>
@@ -40,9 +38,9 @@ public abstract class JDBCGeographyTestSetup extends JDBCDelegatingTestSetup {
      * </p>
      */
     protected abstract void createGeoPointTable() throws Exception;
-    
+
     protected abstract void dropGeoPointTable() throws Exception;
-    
+
     /**
      * Creates a table with the following schema:
      * <p>
@@ -54,12 +52,13 @@ public abstract class JDBCGeographyTestSetup extends JDBCDelegatingTestSetup {
      * </p>
      */
     protected abstract void createGeoLineTable() throws Exception;
-    
+
     protected abstract void dropGeoLineTable() throws Exception;
-    
+
     /**
      * Subclasses should override if the database connected to the test
      * does not have geography support
+     *
      * @return
      * @throws Exception
      */

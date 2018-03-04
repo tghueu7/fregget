@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -41,10 +41,10 @@ import org.geotools.factory.Hints;
  * This code was previously part of the SLD utility class, it is being made
  * available as part of the Converters framework to allow for broader use.
  * </p>
- * @author Jody Garnett (Refractions Research)
- * @since 2.5
  *
+ * @author Jody Garnett (Refractions Research)
  * @source $URL$
+ * @since 2.5
  */
 public class ColorConverterFactory implements ConverterFactory {
 
@@ -56,7 +56,7 @@ public class ColorConverterFactory implements ConverterFactory {
             String rgba = (String) source;
             try {
                 // expand compact color expression
-                if(rgba.length() == 4) {
+                if (rgba.length() == 4) {
                     char r = rgba.charAt(1);
                     char g = rgba.charAt(2);
                     char b = rgba.charAt(3);
@@ -68,6 +68,7 @@ public class ColorConverterFactory implements ConverterFactory {
                 return null;
             }
         }
+
         @Override
         public String toString() {
             return "CONVERT_STRING";
@@ -90,6 +91,7 @@ public class ColorConverterFactory implements ConverterFactory {
                 return null;
             }
         }
+
         @Override
         public String toString() {
             return "CONVERT_NUMBER_TO_COLOR";
@@ -97,7 +99,7 @@ public class ColorConverterFactory implements ConverterFactory {
     };
 
     protected static DecimalFormat FORMAT;
-    
+
     static {
         DecimalFormat decimalFormat = (DecimalFormat)
                 NumberFormat.getNumberInstance(Locale.ENGLISH);
@@ -112,44 +114,43 @@ public class ColorConverterFactory implements ConverterFactory {
 
         public <T> T convert(Object source, Class<T> target) throws Exception {
             Color color = (Color) source;
-            
-            if( CSS_COLORS.containsValue(color)){
-                for( Entry<String, Color> entry : CSS_COLORS.entrySet()){
-                    if( entry.getValue().equals(color)){
+
+            if (CSS_COLORS.containsValue(color)) {
+                for (Entry<String, Color> entry : CSS_COLORS.entrySet()) {
+                    if (entry.getValue().equals(color)) {
                         return target.cast(entry.getKey());
                     }
                 }
                 return null; // something is inconsistent here
             }
-            if( color.getAlpha() == 255 ){
+            if (color.getAlpha() == 255) {
                 StringBuilder rgb = new StringBuilder(16);
                 rgb.append("rgb(");
-                rgb.append( color.getRed() );
-                rgb.append( ",");
-                rgb.append( color.getGreen() );
-                rgb.append( ",");
-                rgb.append( color.getBlue() );
-                rgb.append( ")");
-                
-                return target.cast( rgb.toString() );
-            }
-            else {
+                rgb.append(color.getRed());
+                rgb.append(",");
+                rgb.append(color.getGreen());
+                rgb.append(",");
+                rgb.append(color.getBlue());
+                rgb.append(")");
+
+                return target.cast(rgb.toString());
+            } else {
                 StringBuilder rgba = new StringBuilder(20);
                 rgba.append("rgba(");
-                rgba.append( color.getRed() );
-                rgba.append( ",");
-                rgba.append( color.getGreen() );
-                rgba.append( ",");
-                rgba.append( color.getBlue() );
-                rgba.append( ",");
-                
-                float opacity = ((float) color.getAlpha())/256.0f;
-                
-                
-                rgba.append( FORMAT.format(opacity));
-                
-                rgba.append( ")");
-                return target.cast( rgba.toString() );
+                rgba.append(color.getRed());
+                rgba.append(",");
+                rgba.append(color.getGreen());
+                rgba.append(",");
+                rgba.append(color.getBlue());
+                rgba.append(",");
+
+                float opacity = ((float) color.getAlpha()) / 256.0f;
+
+
+                rgba.append(FORMAT.format(opacity));
+
+                rgba.append(")");
+                return target.cast(rgba.toString());
             }
 //            String alphaCode = Integer.toHexString(color.getAlpha());
 //            String redCode = Integer.toHexString(color.getRed());
@@ -183,16 +184,18 @@ public class ColorConverterFactory implements ConverterFactory {
 //            String str = hex.toString();
 //            return target.cast(str);
         }
+
         @Override
         public String toString() {
             return "CONVERT_COLOR_TO_CSS";
         }
     };
-    
+
     /**
      * A mapping from CSS Color Module 4 names to Color objects.
-     * 
-     * @see <a href="https://www.w3.org/TR/css-color-4/#named-colors">https://www.w3.org/TR/css-color-4/#named-colors</a> for more information.
+     *
+     * @see <a href="https://www.w3.org/TR/css-color-4/#named-colors">https://www
+     * .w3.org/TR/css-color-4/#named-colors</a> for more information.
      */
     public static final Map<String, Color> CSS_COLORS;
 
@@ -350,7 +353,8 @@ public class ColorConverterFactory implements ConverterFactory {
     }
 
     /**
-     * Converts CSS Color Module 4 names to colors, with a fallback to the basic {@link #CONVERT_STRING} converter if the provided source String is
+     * Converts CSS Color Module 4 names to colors, with a fallback to the basic 
+     * {@link #CONVERT_STRING} converter if the provided source String is
      * not found in the {@link #CSS_COLORS} map.
      * <p>
      * This converter is willing to work with:
@@ -381,11 +385,11 @@ public class ColorConverterFactory implements ConverterFactory {
                     String colorString = text.substring(5, text.length() - 1);
                     String rgba[] = colorString.split("\\s*,\\s*");
                     float opacity = Float.parseFloat(rgba[3]);
-                    
-                    
+
+
                     Color c = new Color(Integer.parseInt(rgba[0]), Integer.parseInt(rgba[1]),
                             Integer.parseInt(rgba[2]),
-                            (int) (Math.floor(opacity == 1.0f ? 255 : opacity* 256f)));
+                            (int) (Math.floor(opacity == 1.0f ? 255 : opacity * 256f)));
                     return target.cast(c);
                 } else if (text.startsWith("#") || text.startsWith("0x")) {
                     Number number = Long.decode(text);
@@ -425,34 +429,35 @@ public class ColorConverterFactory implements ConverterFactory {
      * Converts color to hex representation.
      */
     public static Converter CONVERT_COLOR_TO_STRING = new Converter() {
-    
+
         public <T> T convert(Object source, Class<T> target) throws Exception {
             Color color = (Color) source;
-    
+
             String redCode = Integer.toHexString(color.getRed());
             String greenCode = Integer.toHexString(color.getGreen());
             String blueCode = Integer.toHexString(color.getBlue());
-    
+
             StringBuilder hex = new StringBuilder(9);
-            
+
             hex.append("#");
             if (redCode.length() == 1) {
                 hex.append("0");
             }
-            hex.append( redCode.toUpperCase() );
-            
+            hex.append(redCode.toUpperCase());
+
             if (greenCode.length() == 1) {
                 hex.append("0");
             }
-            hex.append( greenCode.toUpperCase() );
-            
+            hex.append(greenCode.toUpperCase());
+
             if (blueCode.length() == 1) {
                 hex.append("0");
             }
-            hex.append( blueCode.toUpperCase() );
+            hex.append(blueCode.toUpperCase());
             String str = hex.toString();
             return target.cast(str);
         }
+
         @Override
         public String toString() {
             return "CONVERT_COLOR_TO_STRING";

@@ -43,9 +43,7 @@ import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.NoSuchAuthorityCodeException;
 
 /**
- * 
  * @author Simone Giannecchini, GeoSolutions SAS
- *
  */
 final class TestUtils extends Assert {
 
@@ -55,7 +53,7 @@ final class TestUtils extends Assert {
 
     @SuppressWarnings("unchecked")
     static void testCoverage(final ImageMosaicReader reader, GeneralParameterValue[] values,
-            String title, final GridCoverage2D coverage, final Rectangle rect) {
+                             String title, final GridCoverage2D coverage, final Rectangle rect) {
         final RenderedImage image = coverage.getRenderedImage();
         PlanarImage.wrapRenderedImage(image).getTiles();
 
@@ -67,7 +65,7 @@ final class TestUtils extends Assert {
                     Parameter<GridGeometry2D> param = (Parameter<GridGeometry2D>) pv;
                     // check envelope if it has been requested
                     assertTrue(CRS.equalsIgnoreMetadata(param.getValue().getEnvelope()
-                            .getCoordinateReferenceSystem(),
+                                    .getCoordinateReferenceSystem(),
                             coverage.getCoordinateReferenceSystem()));
 
                 }
@@ -85,27 +83,28 @@ final class TestUtils extends Assert {
     /**
      * Tests the creation of a {@link GridCoverage2D} using the provided {@link ImageMosaicReader}
      * as well as the provided {@link ParameterValue}.
-     * 
+     *
      * @param reader to use for creating a {@link GridCoverage2D}.
-     * @param value that control the actions to take for creating a {@link GridCoverage2D}.
-     * @param title to print out as the head of the frame in case we visualize it.
+     * @param value  that control the actions to take for creating a {@link GridCoverage2D}.
+     * @param title  to print out as the head of the frame in case we visualize it.
      * @return
      * @throws IOException
      */
     static void checkCoverage(final ImageMosaicReader reader, GeneralParameterValue[] values,
-            String title) throws IOException {
+                              String title) throws IOException {
         checkCoverage(reader, values, title, null);
     }
 
     static void checkCoverage(final ImageMosaicReader reader, GeneralParameterValue[] values,
-            String title, Rectangle rect) throws IOException {
+                              String title, Rectangle rect) throws IOException {
         // Test the coverage
         final GridCoverage2D coverage = getCoverage(reader, values, true);
         testCoverage(reader, values, title, coverage, rect);
     }
 
     static GridCoverage2D getCoverage(final ImageMosaicReader reader,
-            GeneralParameterValue[] values, final boolean checkForNull) throws IOException {
+                                      GeneralParameterValue[] values, final boolean checkForNull)
+            throws IOException {
         final GridCoverage2D coverage = (GridCoverage2D) reader.read(values);
         if (checkForNull) {
             Assert.assertNotNull(coverage);
@@ -115,7 +114,7 @@ final class TestUtils extends Assert {
 
     /**
      * Tries to get an {@link AbstractGridFormat} for the provided URL.
-     * 
+     *
      * @param testURL points to a shapefile that is the index of a certain mosaic.
      * @return a suitable {@link AbstractGridFormat}.
      * @throws FactoryException
@@ -137,10 +136,10 @@ final class TestUtils extends Assert {
     /**
      * returns an {@link AbstractGridCoverage2DReader} for the provided {@link URL} and for the
      * providede {@link AbstractGridFormat}.
-     * 
+     *
      * @param testURL points to a valid object to create an {@link AbstractGridCoverage2DReader}
-     *        for.
-     * @param format to use for instantiating such a reader.
+     *                for.
+     * @param format  to use for instantiating such a reader.
      * @return a suitable {@link ImageMosaicReader}.
      * @throws FactoryException
      * @throws NoSuchAuthorityCodeException
@@ -164,7 +163,7 @@ final class TestUtils extends Assert {
     /**
      * Shows the provided {@link RenderedImage} ina {@link JFrame} using the provided
      * <code>title</code> as the frame's title.
-     * 
+     *
      * @param image to show.
      * @param title to use.
      */

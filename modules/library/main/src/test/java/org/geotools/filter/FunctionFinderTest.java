@@ -33,8 +33,6 @@ import static org.junit.Assert.*;
 
 /**
  * @author jody
- *
- *
  * @source $URL$
  */
 public class FunctionFinderTest {
@@ -77,7 +75,7 @@ public class FunctionFinderTest {
                 break;
             }
         }
-        assertTrue("Found Interpolate", found );
+        assertTrue("Found Interpolate", found);
     }
 
     @Test

@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -28,8 +28,6 @@ import org.geotools.xml.schema.ElementGrouping;
  * </p>
  *
  * @author dzwiers
- *
- *
  * @source $URL$
  */
 public class ChoiceGT implements Choice {
@@ -45,9 +43,9 @@ public class ChoiceGT implements Choice {
     /**
      * Creates a new ChoiceGT object.
      *
-     * @param id DOCUMENT ME!
-     * @param min DOCUMENT ME!
-     * @param max DOCUMENT ME!
+     * @param id       DOCUMENT ME!
+     * @param min      DOCUMENT ME!
+     * @param max      DOCUMENT ME!
      * @param children DOCUMENT ME!
      */
     public ChoiceGT(String id, int min, int max, ElementGrouping[] children) {
@@ -117,7 +115,7 @@ public class ChoiceGT implements Choice {
         return null;
     }
 
-	public Element findChildElement(String localName, URI namespaceURI) {
+    public Element findChildElement(String localName, URI namespaceURI) {
         if (children == null) {
             return null;
         }
@@ -131,5 +129,5 @@ public class ChoiceGT implements Choice {
         }
 
         return null;
-	}
+    }
 }

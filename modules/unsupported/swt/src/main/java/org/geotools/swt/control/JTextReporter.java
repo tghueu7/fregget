@@ -41,12 +41,9 @@ import org.geotools.swt.utils.Utils;
  * save them to file.
  *
  * @author Michael Bedward
- * @since 2.6
- *
- *
- *
- * @source $URL$
  * @version $URL$
+ * @source $URL$
+ * @since 2.6
  */
 public class JTextReporter extends Dialog {
 
@@ -65,17 +62,16 @@ public class JTextReporter extends Dialog {
      * <li> Is not modal
      * <li> Will be disposed of when closed
      * </ul>
-     * @param dialogTrim 
-     * @param parent 
      *
-     * @param title title for the dialog (may be {@code null})
-     * @param rows number of text rows displayed without scrolling
-     *        (if zero or negative, the default is used)
-     * @param cols number of text columns displayed without scrolling
-     *        (if zero or negative the default is used)
-     *
+     * @param dialogTrim
+     * @param parent
+     * @param title      title for the dialog (may be {@code null})
+     * @param rows       number of text rows displayed without scrolling
+     *                   (if zero or negative, the default is used)
+     * @param cols       number of text columns displayed without scrolling
+     *                   (if zero or negative the default is used)
      */
-    public JTextReporter( Shell parent, String title ) {
+    public JTextReporter(Shell parent, String title) {
         super(parent);
         this.title = title;
 
@@ -84,7 +80,7 @@ public class JTextReporter extends Dialog {
     }
 
     @Override
-    protected void configureShell( Shell newShell ) {
+    protected void configureShell(Shell newShell) {
         newShell.setText(title);
         newShell.setSize(250, 400);
 
@@ -98,11 +94,11 @@ public class JTextReporter extends Dialog {
      * If called from other than the AWT event dispatch thread
      * this method puts the append task onto the dispatch thread
      * and waits for its completion.
-     * 
+     *
      * @param text the text to be appended to the report
      */
-    public synchronized void append( final String text ) {
-        Runnable runner = new Runnable(){
+    public synchronized void append(final String text) {
+        Runnable runner = new Runnable() {
             public void run() {
                 StringBuilder sb = new StringBuilder();
                 sb.append(textArea.getText());
@@ -115,7 +111,7 @@ public class JTextReporter extends Dialog {
         Utils.runGuiRunnableSafe(runner, true);
     }
 
-    protected Control createDialogArea( Composite parent ) {
+    protected Control createDialogArea(Composite parent) {
         parent.setLayout(new GridLayout(1, false));
 
         textArea = new Text(parent, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
@@ -130,26 +126,30 @@ public class JTextReporter extends Dialog {
         Button saveButton = new Button(buttonComposite, SWT.PUSH);
         saveButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
         saveButton.setText("Save");
-        saveButton.addSelectionListener(new SelectionAdapter(){
-            public void widgetSelected( org.eclipse.swt.events.SelectionEvent e ) {
+        saveButton.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
                 saveReport();
-            };
+            }
+
+            ;
         });
 
         Button clearButton = new Button(buttonComposite, SWT.PUSH);
         clearButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
         clearButton.setText("Clear");
-        clearButton.addSelectionListener(new SelectionAdapter(){
-            public void widgetSelected( org.eclipse.swt.events.SelectionEvent e ) {
+        clearButton.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
                 clearReport();
-            };
+            }
+
+            ;
         });
 
         return parent;
     }
 
     @Override
-    protected Button createButton( Composite parent, int id, String label, boolean defaultButton ) {
+    protected Button createButton(Composite parent, int id, String label, boolean defaultButton) {
         return null;
     }
 

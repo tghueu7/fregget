@@ -31,43 +31,43 @@ import org.geotools.coverage.grid.io.imageio.GeoToolsWriteParams;
  * Subclass of {@link GeoToolsWriteParams} the allows the user to specify
  * parameters to control the process of writing out a GeoTiff file through
  * standards {@link ImageWriteParam} (with possible extensions).
- * 
+ * <p>
  * <p>
  * This class allows the user to control the output tile size for the GeoTiff
  * file we are going to create as well as the possible compression.
- * 
+ * <p>
  * <p>
  * An example of usage of this parameters is as follows:
- * 
+ * <p>
  * <pre>
  * <code>
  *       		//getting a format
  *       		final GeoTiffFormat format = new GeoTiffFormat();
- *       
+ *
  *      		//getting the write parameters
  *       		final GeoTiffWriteParams wp = new GeoTiffWriteParams();
- *       		
+ *
  *       		//setting compression to LZW
  *       		wp.setCompressionMode(GeoTiffWriteParams.MODE_EXPLICIT);
  *       		wp.setCompressionType(&quot;LZW&quot;);
  *       		wp.setCompressionQuality(0.75F);
- *       		
+ *
  *       		//setting the tile size to 256X256
  *       		wp.setTilingMode(GeoToolsWriteParams.MODE_EXPLICIT);
  *       		wp.setTiling(256, 256);
- *       
+ *
  *       		//setting the write parameters for this geotiff
  *       		final ParameterValueGroup params = format.getWriteParameters();
  *       		params.parameter(
  *       				AbstractGridFormat.GEOTOOLS_WRITE_PARAMS.getName().toString())
  *       				.setValue(wp);
- *       
+ *
  *       		//get a reader to the input File
  *       		GridCoverageReader reader = new GeoTiffReader(inFile, null);
  *       		GridCoverageWriter writer = null;
  *       		GridCoverage2D gc = null;
  *       		if (reader != null) {
- *       
+ *
  *       			// reading the coverage
  *       			gc = (GridCoverage2D) reader.read(null);
  *   				if (gc != null) {
@@ -78,17 +78,13 @@ import org.geotools.coverage.grid.io.imageio.GeoToolsWriteParams;
  *       					writer = format.getWriter(writeFile);
  *       					writer.write(gc, (GeneralParameterValue[]) params.values()
  *        			.toArray(new GeneralParameterValue[1]));
- *        		}
+ *                }
  * </code>
  * </pre>
- * 
+ *
  * @author Simone Giannecchini
- * @since 2.3.x
- * 
- *
- *
- *
  * @source $URL$
+ * @since 2.3.x
  */
 public class GeoTiffWriteParams extends GeoToolsWriteParams {
 
@@ -114,7 +110,6 @@ public class GeoTiffWriteParams extends GeoToolsWriteParams {
      *
      * @return a <code>TIFFColorConverter</code> object, or
      * <code>null</code>.
-     *
      * @see #setColorConverter(TIFFColorConverter, int)
      */
     public TIFFColorConverter getColorConverter() {
@@ -129,10 +124,8 @@ public class GeoTiffWriteParams extends GeoToolsWriteParams {
      *
      * @return an <code>int</code> to be used as the value of the
      * <code>PhotometricInterpretation</code> tag.
-     *
-     * @see #setColorConverter(TIFFColorConverter, int)
-     *
      * @throws IllegalStateException if no value is set.
+     * @see #setColorConverter(TIFFColorConverter, int)
      */
     public int getPhotometricInterpretation() {
         return ((TIFFImageWriteParam) adaptee).getPhotometricInterpretation();
@@ -146,10 +139,8 @@ public class GeoTiffWriteParams extends GeoToolsWriteParams {
      * @return compressor the <code>TIFFCompressor</code> to be
      * used for encoding, or <code>null</code> if none has been set
      * (allowing the writer to choose its own).
-     *
      * @throws IllegalStateException if the compression mode is not
-     * <code>MODE_EXPLICIT</code>.
-     *
+     *                               <code>MODE_EXPLICIT</code>.
      * @see #setTIFFCompressor(TIFFCompressor)
      */
     public TIFFCompressor getTIFFCompressor() {
@@ -167,17 +158,17 @@ public class GeoTiffWriteParams extends GeoToolsWriteParams {
      * written to the <code>PhotometricInterpretation</code> tag is
      * supplied.
      *
-     * @param colorConverter a <code>TIFFColorConverter</code> object,
-     * or <code>null</code>.
+     * @param colorConverter            a <code>TIFFColorConverter</code> object,
+     *                                  or <code>null</code>.
      * @param photometricInterpretation the value to be written to the
-     * <code>PhotometricInterpretation</code> tag in the root IFD.
-     *
+     *                                  <code>PhotometricInterpretation</code> tag in the root IFD.
      * @see #getColorConverter
      * @see #getPhotometricInterpretation
      */
     public void setColorConverter(TIFFColorConverter colorConverter,
                                   int photometricInterpretation) {
-        ((TIFFImageWriteParam) adaptee).setColorConverter(colorConverter, photometricInterpretation);
+        ((TIFFImageWriteParam) adaptee).setColorConverter(colorConverter, 
+                photometricInterpretation);
     }
 
     /**
@@ -185,7 +176,7 @@ public class GeoTiffWriteParams extends GeoToolsWriteParams {
      * <code>ImageWriter</code> to encode each image strip or tile.
      * A value of <code>null</code> allows the writer to choose its
      * own TIFFCompressor.
-     *
+     * <p>
      * <p>Note that invoking this method is not sufficient to set
      * the compression type:
      * {@link ImageWriteParam#setCompressionType(String) <code>setCompressionType()</code>}
@@ -202,7 +193,7 @@ public class GeoTiffWriteParams extends GeoToolsWriteParams {
      * that supported by the <code>TIFFCompressor</code> then the
      * compressor object will not be used.
      * </p>
-     *
+     * <p>
      * <p>If the compression type supported by the supplied
      * <code>TIFFCompressor</code> is not among those in
      * {@link ImageWriteParam#compressionTypes <code>compressionTypes</code>},
@@ -212,18 +203,16 @@ public class GeoTiffWriteParams extends GeoToolsWriteParams {
      * type to be removed from the array.</p>
      *
      * @param compressor the <code>TIFFCompressor</code> to be
-     * used for encoding, or <code>null</code> to allow the writer to
-     * choose its own.
-     *
+     *                   used for encoding, or <code>null</code> to allow the writer to
+     *                   choose its own.
      * @throws IllegalStateException if the compression mode is not
-     * <code>MODE_EXPLICIT</code>.
-     *
+     *                               <code>MODE_EXPLICIT</code>.
      * @see #getTIFFCompressor
      */
     public void setTIFFCompressor(TIFFCompressor compressor) {
         ((TIFFImageWriteParam) adaptee).setTIFFCompressor(compressor);
     }
- 
+
     /**
      * Removes any currently set <code>ColorConverter</code> object and
      * <code>PhotometricInterpretation</code> tag value.
@@ -233,7 +222,6 @@ public class GeoTiffWriteParams extends GeoToolsWriteParams {
     public void unsetColorConverter() {
         ((TIFFImageWriteParam) adaptee).unsetColorConverter();
     }
-    
-    
+
 
 }

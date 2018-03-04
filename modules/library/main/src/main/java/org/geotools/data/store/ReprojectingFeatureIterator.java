@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -37,8 +37,6 @@ import org.opengis.referencing.operation.TransformException;
 import com.vividsolutions.jts.geom.Geometry;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ReprojectingFeatureIterator implements SimpleFeatureIterator {
@@ -64,11 +62,11 @@ public class ReprojectingFeatureIterator implements SimpleFeatureIterator {
     GeometryCoordinateSequenceTransformer tx;
 
     public ReprojectingFeatureIterator(
-		SimpleFeatureIterator delegate, MathTransform transform, SimpleFeatureType schema, 
-		GeometryCoordinateSequenceTransformer transformer
+            SimpleFeatureIterator delegate, MathTransform transform, SimpleFeatureType schema,
+            GeometryCoordinateSequenceTransformer transformer
     ) throws OperationNotFoundException, FactoryRegistryException, FactoryException {
         this.delegate = delegate;
-        
+
         this.schema = schema;
 
         tx = transformer;
@@ -76,8 +74,9 @@ public class ReprojectingFeatureIterator implements SimpleFeatureIterator {
     }
 
     public ReprojectingFeatureIterator(
-            SimpleFeatureIterator delegate, CoordinateReferenceSystem source, CoordinateReferenceSystem target,
-        SimpleFeatureType schema, GeometryCoordinateSequenceTransformer transformer
+            SimpleFeatureIterator delegate, CoordinateReferenceSystem source, 
+            CoordinateReferenceSystem target,
+            SimpleFeatureType schema, GeometryCoordinateSequenceTransformer transformer
     ) throws OperationNotFoundException, FactoryRegistryException, FactoryException {
         this.delegate = delegate;
         this.target = target;
@@ -132,7 +131,7 @@ public class ReprojectingFeatureIterator implements SimpleFeatureIterator {
             throw (IOException) new IOException(msg).initCause(e);
         }
     }
-    
+
     @Override
     public void close() {
         delegate.close();

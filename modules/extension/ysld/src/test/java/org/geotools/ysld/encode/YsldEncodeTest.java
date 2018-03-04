@@ -4,7 +4,7 @@
  *
  *    (C) 2016 Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2016 Boundless Spatial
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -413,8 +413,10 @@ public class YsldEncodeTest {
                 allOf(yHasEntry("data", allOf(yHasEntry("name", equalTo("vec:BarnesSurface")),
                         yHasEntry("input", equalTo("data")), // Specify the input parameter
                         yHasEntry("params",
-                                allOf(yHasEntry("valueAttr", equalTo("foo")), not(yHasEntry("data")) // Indicated by the input parameter above
-                                )))), yHasEntry("levels", allOf(yHasItem(0, lexEqualTo(1000)), yHasItem(1, lexEqualTo(1100)), yHasItem(2, lexEqualTo(1200))))
+                                allOf(yHasEntry("valueAttr", equalTo("foo")), not(yHasEntry
+                                        ("data")) // Indicated by the input parameter above
+                                )))), yHasEntry("levels", allOf(yHasItem(0, lexEqualTo(1000)), 
+                        yHasItem(1, lexEqualTo(1100)), yHasItem(2, lexEqualTo(1200))))
 
                 )));
     }
@@ -981,7 +983,7 @@ public class YsldEncodeTest {
         FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
         LineSymbolizer l = sf.createLineSymbolizer();
         Mark mark = sf.mark(ff.literal("circle"), sf.fill(null, ff.literal("#995555"), null), null);
-        Graphic g = sf.createGraphic(null, new Mark[] { mark }, null, null, null, null);
+        Graphic g = sf.createGraphic(null, new Mark[]{mark}, null, null, null, null);
         Stroke s = sf.createStroke(null, null);
         s.setGraphicStroke(g);
         l.setStroke(s);
@@ -1008,7 +1010,7 @@ public class YsldEncodeTest {
         FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
         LineSymbolizer l = sf.createLineSymbolizer();
         Mark mark = sf.mark(ff.literal("circle"), sf.fill(null, ff.literal("#995555"), null), null);
-        Graphic g = sf.createGraphic(null, new Mark[] { mark }, null, null, null, null);
+        Graphic g = sf.createGraphic(null, new Mark[]{mark}, null, null, null, null);
         Stroke s = sf.createStroke(null, ff.literal(10));
         s.setGraphicFill(g);
         l.setStroke(s);
@@ -1328,24 +1330,27 @@ public class YsldEncodeTest {
     @Test
     public void testEncodeColorMapEntry() throws IOException {
         StyledLayerDescriptor style = new YsldParser(new ByteArrayInputStream(
-                    ("name:  Test\n" +
-                    "title: Test Style title\n" +
-                    "abstract: Styling of Test layer\n" +
-                    "feature-styles:\n" +
-                    "- rules:\n" +
-                    "  - title: raster\n" +
-                    "    symbolizers:\n" +
-                    "      - raster:\n" +
-                    "          opacity: 1.0\n" +
-                    "          color-map:\n" +
-                    "            type: values\n" +
-                    "            entries:\n" +
-                    "            - ['#e20374', 1.0, 1, Lorem Ipsum (magenta = covered)]").getBytes())).parse();
+                ("name:  Test\n" +
+                        "title: Test Style title\n" +
+                        "abstract: Styling of Test layer\n" +
+                        "feature-styles:\n" +
+                        "- rules:\n" +
+                        "  - title: raster\n" +
+                        "    symbolizers:\n" +
+                        "      - raster:\n" +
+                        "          opacity: 1.0\n" +
+                        "          color-map:\n" +
+                        "            type: values\n" +
+                        "            entries:\n" +
+                        "            - ['#e20374', 1.0, 1, Lorem Ipsum (magenta = covered)]")
+                        .getBytes())).parse();
 
-        RasterSymbolizer symbolizer = (RasterSymbolizer)((NamedLayer)style.getStyledLayers()[0]).styles().get(0).featureTypeStyles().get(0).rules().get(0).symbolizers().get(0);
+        RasterSymbolizer symbolizer = (RasterSymbolizer) ((NamedLayer) style.getStyledLayers()
+                [0]).styles().get(0).featureTypeStyles().get(0).rules().get(0).symbolizers().get(0);
 
         ColorMap colorMap = symbolizer.getColorMap();
-        RasterSymbolizerEncoder.ColorMapEntryIterator iterator = new RasterSymbolizerEncoder(symbolizer).new ColorMapEntryIterator(colorMap);
+        RasterSymbolizerEncoder.ColorMapEntryIterator iterator = new RasterSymbolizerEncoder
+                (symbolizer).new ColorMapEntryIterator(colorMap);
         Tuple map = iterator.next();
         assertEquals("('#E20374',1.0,1,Lorem Ipsum (magenta = covered))", map.toString());
     }

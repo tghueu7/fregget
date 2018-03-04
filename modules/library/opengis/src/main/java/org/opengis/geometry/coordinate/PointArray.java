@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.coordinate;
@@ -38,25 +38,23 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
  * {@link java.util.RandomAccess} interface. Otherwise, users should read the positions through the
  * {@link #iterator() iterator()} instead.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
- * @since GeoAPI 1.0
- *
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @see Position
  * @see PointGrid
+ * @since GeoAPI 1.0
  */
-@UML(identifier="GM_PointArray", specification=ISO_19107)
+@UML(identifier = "GM_PointArray", specification = ISO_19107)
 public interface PointArray extends List<Position> {
     /**
      * Returns the dimensionality of the coordinates in this array. It should be equals to the
-     * dimensionality of the {@linkplain #getCoordinateReferenceSystem() coordinate reference system}
+     * dimensionality of the 
+     * {@linkplain #getCoordinateReferenceSystem() coordinate reference system}
      * for these coordinates.
      * <p>
      * This method is the same as:
-     *
+     * <p>
      * <blockquote><pre>
      * return getCoordinateReferenceSystem().getCoordinateSystem().getDimension();
      * </pre></blockquote>
@@ -86,7 +84,7 @@ public interface PointArray extends List<Position> {
      * populated with the value from the array. In all cases, the position in insulated from changes
      * in the {@code PointArray}, and vice-versa. Consequently, the same {@code DirectPosition}
      * object can be reused for fetching many points from this array. Example:
-     *
+     * <p>
      * <blockquote><pre>
      * DirectPosition position = null;
      * final int length = array.length();
@@ -97,13 +95,14 @@ public interface PointArray extends List<Position> {
      * </pre></blockquote>
      *
      * @param index The location in the array, from 0 inclusive to the array
-     *        {@linkplain #length length} exclusive.
-     * @param dest An optionnaly pre-allocated direct position.
+     *              {@linkplain #length length} exclusive.
+     * @param dest  An optionnaly pre-allocated direct position.
      * @return The {@code dest} argument, or a new object if {@code dest} was null.
      * @throws IndexOutOfBoundsException if the index is out of bounds.
      */
     @Extension
-    DirectPosition getDirectPosition(int index, DirectPosition dest) throws IndexOutOfBoundsException;
+    DirectPosition getDirectPosition(int index, DirectPosition dest) throws 
+            IndexOutOfBoundsException;
 
     /**
      * Sets the point at the given index. The point coordinates will be copied, i.e. changes to the
@@ -111,12 +110,11 @@ public interface PointArray extends List<Position> {
      * Consequently, the same {@code DirectPosition} object can be reused for setting many points in
      * this array.
      *
-     * @param index The location in the array, from 0 inclusive to the array
-     *        {@linkplain #length length} exclusive.
+     * @param index    The location in the array, from 0 inclusive to the array
+     *                 {@linkplain #length length} exclusive.
      * @param position The point to set at the given location in this array.
-     * @throws IndexOutOfBoundsException if the index is out of bounds.
+     * @throws IndexOutOfBoundsException     if the index is out of bounds.
      * @throws UnsupportedOperationException if this array is immutable.
-     *
      * @see List#set
      */
     @Extension

@@ -41,7 +41,6 @@ import org.opengis.feature.simple.SimpleFeature;
 
 /**
  * @author ian
- *
  */
 public class DottedNamesTest {
 
@@ -54,18 +53,20 @@ public class DottedNamesTest {
     public void setUp() throws Exception {
         URL url = TestData.url(this.getClass(), "mosselzaad.gpkg");
         //open the geopkg
-        HashMap<String,Object> params = new HashMap<>();
-        params.put(GeoPkgDataStoreFactory.DBTYPE.key,GeoPkgDataStoreFactory.DBTYPE.sample);
-        params.put(GeoPkgDataStoreFactory.DATABASE.key,URLs.urlToFile(url));
-        
+        HashMap<String, Object> params = new HashMap<>();
+        params.put(GeoPkgDataStoreFactory.DBTYPE.key, GeoPkgDataStoreFactory.DBTYPE.sample);
+        params.put(GeoPkgDataStoreFactory.DATABASE.key, URLs.urlToFile(url));
+
         gpkg = DataStoreFinder.getDataStore(params);
         assertNotNull(gpkg);
     }
-    
+
     /**
-     * Test for GEOT-5852 - SQL exception when querying Geopackage table containing a dot in the name
-     * @throws IOException 
-     * @throws CQLException 
+     * Test for GEOT-5852 - SQL exception when querying Geopackage table containing a dot in the 
+     * name
+     *
+     * @throws IOException
+     * @throws CQLException
      */
     @Test
     public void testGetContents() throws IOException, CQLException {
@@ -76,10 +77,11 @@ public class DottedNamesTest {
         String name = typeNamesArr[0];
         SimpleFeatureSource fs = gpkg.getFeatureSource(name);
         assertNotNull(fs);
-        
-        SimpleFeatureCollection features = fs.getFeatures(ECQL.toFilter("BBOX(geom,100000,500000,200000,600000)"));
-        try(SimpleFeatureIterator itr=features.features()){
-            while(itr.hasNext()) {
+
+        SimpleFeatureCollection features = fs.getFeatures(ECQL.toFilter("BBOX(geom,100000,500000," +
+                "200000,600000)"));
+        try (SimpleFeatureIterator itr = features.features()) {
+            while (itr.hasNext()) {
                 SimpleFeature f = itr.next();
                 assertNotNull(f);
             }

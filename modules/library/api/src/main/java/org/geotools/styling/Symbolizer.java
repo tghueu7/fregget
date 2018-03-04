@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -26,90 +26,88 @@ import org.opengis.filter.expression.Expression;
 import org.opengis.filter.expression.PropertyName;
 
 
-
 /**
  * This is the parent interface of all Symbolizers.
- *
+ * <p>
  * <p>
  * A symbolizer describes how a feature should appear on a map. The symbolizer
  * describes not just the shape that should appear but also  such graphical
  * properties as color and opacity.
  * </p>
- *
+ * <p>
  * <p>
  * A symbolizer is obtained by specifying one of a small number of  different
  * types of symbolizer and then supplying parameters to overide its default
  * behaviour.
  * </p>
- *
+ * <p>
  * <p>
  * The details of this object are taken from the <a
  * href="https://portal.opengeospatial.org/files/?artifact_id=1188"> OGC
  * Styled-Layer Descriptor Report (OGC 02-070) version 1.0.0.</a>
  * </p>
- *
+ * <p>
  * <p>
  * Renderers can use this information when displaying styled features,  though
  * it must be remembered that not all renderers will be able to fully
  * represent strokes as set out by this interface.  For example, opacity may
  * not be supported.
  * </p>
- *
+ * <p>
  * <p>
  * The graphical parameters and their values are derived from SVG/CSS2
  * standards with names and semantics which are as close as possible.
  * </p>
- *
+ * <p>
  * <p></p>
  *
  * @author James Macgill, CCG
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
-public interface Symbolizer extends org.opengis.style.Symbolizer{
+public interface Symbolizer extends org.opengis.style.Symbolizer {
     void accept(org.geotools.styling.StyleVisitor visitor);
-    
+
     /**
      * Defines a measure unit for the symbolizer.
      * This parameter is inherited from GML.
      * Renderers shall use the unit to correctly render symbols.
-     *
+     * <p>
      * Recommended uom definitions are :
      * <p>
      * <ul>
-     *     <li>{@code metre}</li>
-     *     <li>{@code foot}</li>
-     *     <li>{@code pixel}</li>
+     * <li>{@code metre}</li>
+     * <li>{@code foot}</li>
+     * <li>{@code pixel}</li>
      * </ul>
      * <p>
+     *
+     * @param uom can be null, which indicates usage of the pixel unit.
      * @since SymbologyEncoding 1.1
-     * @param uom can be null, which indicates usage of the pixel unit. 
      */
     void setUnitOfMeasure(Unit<Length> uom);
-    
+
     public Description getDescription();
-    
+
     /**
      * Tile and Abstract of Symbolzer.
-     * 
-     * @since SymbologyEncoding 1.1
+     *
      * @param description
+     * @since SymbologyEncoding 1.1
      */
-    void setDescription(org.opengis.style.Description description);    
-    
+    void setDescription(org.opengis.style.Description description);
+
     /**
      * Name of symbolizer; not always human readable.
      * <p>
      * Please consider getDescription().getTitle() as an alternative if
      * presenting this symbolizer in a user interface.
-     * 
-     * @since SymbologyEncoding 1.1
+     *
      * @param name
+     * @since SymbologyEncoding 1.1
      */
-    void setName( String name );    
-    
+    void setName(String name);
+
     /**
      * A shortcut to get the geometry property name in the case the geometry
      * expression is a PropertyName. In case the geometry expression is null,
@@ -126,38 +124,40 @@ public interface Symbolizer extends org.opengis.style.Symbolizer{
      * follow it in spirit.
      */
     void setGeometryPropertyName(String geometryPropertyName);
-    
+
     /**
      * This defines the geometry to be used for styling.<br>
      * The property is optional and if it is absent (null) then the "default"
      * geometry property of the feature should be used.<br>
      * Typically, features only have one geometry so, in general, the need to
      * select one is not required.<br>
-     * The expression can also build a new geometry out of existing attributes 
+     * The expression can also build a new geometry out of existing attributes
      * or transform an existing geometry. For geometry transformations that
      * do change the geometry locations or that make up geometries out of
      * non geometric attributes it is advised that the Expression implements
      * the SpatialTransformationFunction interface
      */
     Expression getGeometry();
-    
+
     /**
      * Sets the expression used for styling. See {@link #getGeometry()} for further
      * details.
+     *
      * @param geometry
      */
     void setGeometry(Expression geometry);
-    
+
     /**
-     * Determines if a vendor option with the specific key has been set on this symbolizer. 
+     * Determines if a vendor option with the specific key has been set on this symbolizer.
      */
     boolean hasOption(String key);
 
     /**
      * Map of vendor options for the symbolizer.
      * <p>
-     * Client code looking for the existence of a single option should use {@link #hasOption(String)}
+     * Client code looking for the existence of a single option should use 
+     * {@link #hasOption(String)}
      * </p>
      */
-    Map<String,String> getOptions();
+    Map<String, String> getOptions();
 }

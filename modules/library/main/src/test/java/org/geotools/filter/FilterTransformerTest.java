@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -38,8 +38,6 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.io.WKTReader;
 
 /**
- * 
- * 
  * @source $URL$
  */
 public class FilterTransformerTest extends TestCase {
@@ -54,9 +52,10 @@ public class FilterTransformerTest extends TestCase {
         namespaces.put("ogc", "http://www.opengis.net/ogc");
         namespaces.put("gml", "http://www.opengis.net/gml");
         namespaces.put("xsi", "http://www.w3.org/2001/XMLSchema-instance");
-        
-        XMLUnit.setXpathNamespaceContext(new SimpleNamespaceContext(namespaces));    }
-    
+
+        XMLUnit.setXpathNamespaceContext(new SimpleNamespaceContext(namespaces));
+    }
+
     public void testIdEncode() throws Exception {
         HashSet<FeatureId> set = new LinkedHashSet<FeatureId>();
         set.add(ff.featureId("FID.1"));
@@ -65,7 +64,10 @@ public class FilterTransformerTest extends TestCase {
 
         String output = transform.transform(filter);
         assertNotNull("got xml", output);
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><ogc:FeatureId xmlns=\"http://www.opengis.net/ogc\" xmlns:ogc=\"http://www.opengis.net/ogc\" xmlns:gml=\"http://www.opengis.net/gml\" fid=\"FID.1\"/><ogc:FeatureId fid=\"FID.2\"/>";
+        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><ogc:FeatureId xmlns=\"http://www" +
+                ".opengis.net/ogc\" xmlns:ogc=\"http://www.opengis.net/ogc\" " +
+                "xmlns:gml=\"http://www.opengis.net/gml\" fid=\"FID.1\"/><ogc:FeatureId " +
+                "fid=\"FID.2\"/>";
         assertEquals("expected id filters", xml, output);
     }
 
@@ -93,7 +95,7 @@ public class FilterTransformerTest extends TestCase {
         Document doc = XMLUnit.buildControlDocument(output);
         XMLAssert.assertXpathEvaluatesTo("EPSG:4326", "//gml:Point/@srsName", doc);
     }
-    
+
     public void testEncodeSRSNameLatLon() throws Exception {
         // create a georeferenced geometry
         CoordinateReferenceSystem wgs84 = CRS.decode("urn:ogc:def:crs:EPSG::4326");

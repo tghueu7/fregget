@@ -27,7 +27,7 @@ import com.vividsolutions.jts.geom.LineString;
 
 public class LineString3DTest extends GeometryEncoderTestSupport {
 
-    
+
     public void testEncode3DLine() throws Exception {
         LineStringEncoder encoder = new LineStringEncoder(gtEncoder, "gml", GML.NAMESPACE);
         Geometry geometry = new WKTReader2().read("LINESTRING(0 0 50, 120 0 100)");
@@ -36,10 +36,11 @@ public class LineString3DTest extends GeometryEncoderTestSupport {
         assertEquals("0 0 50 120 0 100", xpath.evaluate("//gml:posList", doc));
         assertEquals("threed", xpath.evaluate("//gml:LineString/@gml:id", doc));
     }
-    
+
     public void testEncode3DLineFromLiteCS() throws Exception {
         LineStringEncoder encoder = new LineStringEncoder(gtEncoder, "gml", GML.NAMESPACE);
-        LiteCoordinateSequence cs = new LiteCoordinateSequence(new double[] {0, 0, 50, 120, 0, 100}, 3);
+        LiteCoordinateSequence cs = new LiteCoordinateSequence(new double[]{0, 0, 50, 120, 0, 
+                100}, 3);
         LineString geometry = new GeometryFactory().createLineString(cs);
         Document doc = encode(encoder, geometry);
         // print(doc);

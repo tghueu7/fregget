@@ -26,7 +26,7 @@ import org.opengis.metadata.extent.GeographicBoundingBox;
 
 /**
  * A class storing utilities methods and constants.
- * 
+ *
  * @author Simone Giannecchini, GeoSolutions
  */
 class GridCoverageUtilities {
@@ -36,10 +36,14 @@ class GridCoverageUtilities {
     // Constant fields
     //    
     // ////////////////////////////////////////////////////////////////////////
-    /** The default world file extension */
+    /**
+     * The default world file extension
+     */
     final static String DEFAULT_WORLDFILE_EXT = ".wld";
 
-    /** The system-dependent default name-separator character. */
+    /**
+     * The system-dependent default name-separator character.
+     */
     final static char SEPARATOR = File.separatorChar;
 
     final static String IMAGEREAD = "ImageRead";
@@ -58,9 +62,8 @@ class GridCoverageUtilities {
      * This is useful in order to have an implementation of {@link BoundingBox}
      * from a {@link GeographicBoundingBox} which strangely does implement
      * {@link GeographicBoundingBox}.
-     * 
-     * @param geographicBBox
-     *                the {@link GeographicBoundingBox} to convert.
+     *
+     * @param geographicBBox the {@link GeographicBoundingBox} to convert.
      * @return an instance of {@link ReferencedEnvelope}.
      */
     public static ReferencedEnvelope getReferencedEnvelopeFromGeographicBoundingBox(
@@ -68,7 +71,7 @@ class GridCoverageUtilities {
         Utilities.ensureNonNull("GeographicBoundingBox", geographicBBox);
         return new ReferencedEnvelope(geographicBBox.getEastBoundLongitude(),
                 geographicBBox.getWestBoundLongitude(), geographicBBox
-                        .getSouthBoundLatitude(), geographicBBox
-                        .getNorthBoundLatitude(), DefaultGeographicCRS.WGS84);
+                .getSouthBoundLatitude(), geographicBBox
+                .getNorthBoundLatitude(), DefaultGeographicCRS.WGS84);
     }
 }

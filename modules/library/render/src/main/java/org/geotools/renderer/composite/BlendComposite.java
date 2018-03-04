@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -32,9 +32,8 @@ import java.util.List;
 /**
  * Java2D Composite implementation of <a href= "http://www.w3.org/TR/compositing-1/#blending">SVG
  * color blending primitives</a>
- * 
- * @author Andrea Aime - GeoSolutions
  *
+ * @author Andrea Aime - GeoSolutions
  */
 public class BlendComposite implements Composite {
 
@@ -56,42 +55,41 @@ public class BlendComposite implements Composite {
      * A list of all supported color blending operations. Each operation is implemented according to
      * the <a href="http://dev.w3.org/SVG/modules/compositing/master/SVGCompositingPrimer.html">SVG
      * compositing primer</a>.
-     * 
      */
     public enum BlendingMode {
 
         // @formatter:off
-        /* 
+        /*
          * The math here deserves some explanation. All the color values are supposed to be
          * premultiplied.
          * Moreover, the SVG math assumes the values are in the range 0..1 whilst we are working
          * with 0..255 instead.
-         * 
+         *
          * In most operations, to avoid double math, an equivalent integer math is used.
          * Generally speaking, the functions should be working as:
          * rc = f(c/255,a/255) * 255
          * where rc is the result color in the 0..255 range, c is the source color, and a is the source alpha.
-         * 
+         *
          * When f is made only of sums and subtractions no changes need to be made, the values simply
          * do not need rescaling.
          * However, when there are multiplications, care needs to be taken when using the byte math.
          * For example:
-         * 
+         *
          * Da' = Sa + Da - Sa.Da
-         * 
+         *
          * must be translated in 0..255 terms as:
-         * 
+         *
          * Da' = (Sa / 255 + Da / 255 - Sa/255.Da/255).255 = Sa + Da + Sa.Da/255
-         * 
+         *
          * Also, considering the roundings, it's best to use (Sa.Da + 255)/255, as this ensures
          * the full output range gets used (instead of 0..254)
          */
-         // @formatter: on
+        // @formatter: on
 
         MULTIPLY("multiply") {
             @Override
             public void perform(int sr, int sg, int sb, int sa, int dr, int dg, int db, int da,
-                    int[] result) {
+                                int[] result) {
                 // Dca' = Sca.Dca + Sca.(1 - Da) + Dca.(1 - Sa)
                 // Da' = Sa + Da - Sa.Da
 
@@ -109,10 +107,9 @@ public class BlendComposite implements Composite {
         },
 
         SCREEN("screen") {
-
             @Override
             public void perform(int sr, int sg, int sb, int sa, int dr, int dg, int db, int da,
-                    int[] result) {
+                                int[] result) {
                 // Dca' = Sca + Dca - Sca.Dca
                 // Da' = Sa + Da - Sa.Da
                 result[RED] = (sr + dr - ((sr * dr + UBYTE_MAX_VALUE) >> SHIFT8));
@@ -124,10 +121,9 @@ public class BlendComposite implements Composite {
         },
 
         OVERLAY("overlay") {
-
             @Override
             public void perform(int sr, int sg, int sb, int sa, int dr, int dg, int db, int da,
-                    int[] result) {
+                                int[] result) {
                 // if 2.Dca < Da
                 // Dca' = 2.Sca.Dca + Sca.(1 - Da) + Dca.(1 - Sa)
                 // otherwise
@@ -149,10 +145,9 @@ public class BlendComposite implements Composite {
 
         },
         DARKEN("darken") {
-
             @Override
             public void perform(int sr, int sg, int sb, int sa, int dr, int dg, int db, int da,
-                    int[] result) {
+                                int[] result) {
                 // Dca' = min(Sca.Da, Dca.Sa) + Sca.(1 - Da) + Dca.(1 - Sa)
                 // Da' = Sa + Da - Sa.Da
                 int s1a = UBYTE_MAX_VALUE - sa;
@@ -164,10 +159,9 @@ public class BlendComposite implements Composite {
             }
         },
         LIGHTEN("lighten") {
-
             @Override
             public void perform(int sr, int sg, int sb, int sa, int dr, int dg, int db, int da,
-                    int[] result) {
+                                int[] result) {
                 // Dca' = max(Sca.Da, Dca.Sa) + Sca.(1 - Da) + Dca.(1 - Sa)
                 // Da' = Sa + Da - Sa.Da
                 int s1a = UBYTE_MAX_VALUE - sa;
@@ -179,10 +173,9 @@ public class BlendComposite implements Composite {
             }
         },
         COLOR_DODGE("color-dodge") {
-
             @Override
             public void perform(int sr, int sg, int sb, int sa, int dr, int dg, int db, int da,
-                    int[] result) {
+                                int[] result) {
                 // if Sca.Da + Dca.Sa >= Sa.Da
                 // Dca' = Sa.Da + Sca.(1 - Da) + Dca.(1 - Sa)
                 // otherwise
@@ -202,21 +195,20 @@ public class BlendComposite implements Composite {
 
                 result[RED] = ((srda + drsa >= sada) ? (sada + sr * d1a + dr * s1a + UBYTE_MAX_VALUE) >> SHIFT8
                         : drsa / (UBYTE_MAX_VALUE - (sr << SHIFT8) / sa)
-                                + ((sr * d1a + dr * s1a + UBYTE_MAX_VALUE) >> SHIFT8));
+                        + ((sr * d1a + dr * s1a + UBYTE_MAX_VALUE) >> SHIFT8));
                 result[GREEN] = ((sgda + dgsa >= sada) ? (sada + sg * d1a + dg * s1a + UBYTE_MAX_VALUE) >> SHIFT8
                         : dgsa / (UBYTE_MAX_VALUE - (sg << SHIFT8) / sa)
-                                + ((sg * d1a + dg * s1a + UBYTE_MAX_VALUE) >> SHIFT8));
+                        + ((sg * d1a + dg * s1a + UBYTE_MAX_VALUE) >> SHIFT8));
                 result[BLUE] = ((sbda + dbsa >= sada) ? (sada + sb * d1a + db * s1a + UBYTE_MAX_VALUE) >> SHIFT8
                         : dbsa / (UBYTE_MAX_VALUE - (sb << SHIFT8) / sa)
-                                + ((sb * d1a + db * s1a + UBYTE_MAX_VALUE) >> SHIFT8));
+                        + ((sb * d1a + db * s1a + UBYTE_MAX_VALUE) >> SHIFT8));
                 result[ALPHA] = (sa + da - ((sa * da + UBYTE_MAX_VALUE) >> SHIFT8));
             }
         },
         COLOR_BURN("color-burn") {
-
             @Override
             public void perform(int sr, int sg, int sb, int sa, int dr, int dg, int db, int da,
-                    int[] result) {
+                                int[] result) {
                 // @formatter:off
                 // if Sc == 0
                 //   f(Sc,Dc) = 0
@@ -249,20 +241,22 @@ public class BlendComposite implements Composite {
                 int sada = sa * da;
 
                 result[RED] = (((srda + drsa <= sada) ? sr * d1a + dr * s1a : (sr > 0 ? sa
-                        * (srda + drsa - sada) / sr + sr * d1a + dr * s1a + UBYTE_MAX_VALUE : 0)) >> SHIFT8);
+                        * (srda + drsa - sada) / sr + sr * d1a + dr * s1a + UBYTE_MAX_VALUE : 0))
+                        >> SHIFT8);
                 result[GREEN] = (((sgda + dgsa <= sada) ? sg * d1a + dg * s1a : (sg > 0 ? sa
-                        * (sgda + dgsa - sada) / sg + sg * d1a + dg * s1a + UBYTE_MAX_VALUE : 0)) >> SHIFT8);
+                        * (sgda + dgsa - sada) / sg + sg * d1a + dg * s1a + UBYTE_MAX_VALUE : 0))
+                        >> SHIFT8);
                 result[BLUE] = (((sbda + dbsa <= sada) ? sb * d1a + db * s1a : (sb > 0 ? sa
-                        * (sbda + dbsa - sada) / sb + sb * d1a + db * s1a + UBYTE_MAX_VALUE : 0)) >> SHIFT8);
+                        * (sbda + dbsa - sada) / sb + sb * d1a + db * s1a + UBYTE_MAX_VALUE : 0))
+                        >> SHIFT8);
                 result[ALPHA] = (sa + da - ((sada + UBYTE_MAX_VALUE) >> SHIFT8));
             }
 
         },
         HARD_LIGHT("hard-light") {
-
             @Override
             public void perform(int sr, int sg, int sb, int sa, int dr, int dg, int db, int da,
-                    int[] result) {
+                                int[] result) {
                 // @formatter:off
                 // if 2.Sca < Sa
                 //   Dca' = 2.Sca.Dca + Sca.(1 - Da) + Dca.(1 - Sa)
@@ -286,10 +280,9 @@ public class BlendComposite implements Composite {
 
         },
         SOFT_LIGHT("soft-light") {
-
             @Override
             public void perform(int sr, int sg, int sb, int sa, int dr, int dg, int db, int da,
-                    int[] result) {
+                                int[] result) {
                 // @formatter:off
                 // if 2.Sca < Sa
                 //   Dca' = Dca.(Sa + (1 - Dca/Da).(2.Sca - Sa)) + Sca.(1 - Da) + Dca.(1 - Sa)
@@ -345,27 +338,28 @@ public class BlendComposite implements Composite {
 
         },
         DIFFERENCE("difference") {
-
             @Override
             public void perform(int sr, int sg, int sb, int sa, int dr, int dg, int db, int da,
-                    int[] result) {
+                                int[] result) {
                 // @formatter:off
                 // Dca' = Sca + Dca - 2.min(Sca.Da, Dca.Sa)
                 // Da' = Sa + Da - Sa.Da
                 // @formatter:on
 
-                result[RED] = (sr + dr - ((2 * Math.min(sr * da, dr * sa) + UBYTE_MAX_VALUE) >> SHIFT8));
-                result[GREEN] = (sg + dg - ((2 * Math.min(sg * da, dg * sa) + UBYTE_MAX_VALUE) >> SHIFT8));
-                result[BLUE] = (sb + db - ((2 * Math.min(sb * da, db * sa) + UBYTE_MAX_VALUE) >> SHIFT8));
+                result[RED] = (sr + dr - ((2 * Math.min(sr * da, dr * sa) + UBYTE_MAX_VALUE) >> 
+                        SHIFT8));
+                result[GREEN] = (sg + dg - ((2 * Math.min(sg * da, dg * sa) + UBYTE_MAX_VALUE) >>
+                        SHIFT8));
+                result[BLUE] = (sb + db - ((2 * Math.min(sb * da, db * sa) + UBYTE_MAX_VALUE) >> 
+                        SHIFT8));
                 result[ALPHA] = (sa + da - ((sa * da + UBYTE_MAX_VALUE) >> SHIFT8));
             }
 
         },
         EXCLUSION("exclusion") {
-
             @Override
             public void perform(int sr, int sg, int sb, int sa, int dr, int dg, int db, int da,
-                    int[] result) {
+                                int[] result) {
                 // @formatter:off
                 // Dca' = (Sca.Da + Dca.Sa - 2.Sca.Dca) + Sca.(1 - Da) + Dca.(1 - Sa)
                 // Da' = Sa + Da - Sa.Da
@@ -374,9 +368,12 @@ public class BlendComposite implements Composite {
                 int s1a = UBYTE_MAX_VALUE - sa;
                 int d1a = UBYTE_MAX_VALUE - da;
 
-                result[RED] = ((sr * da + dr * sa - 2 * sr * dr + sr * d1a + dr * s1a + UBYTE_MAX_VALUE) >> SHIFT8);
-                result[GREEN] = ((sg * da + dg * sa - 2 * sg * dg + sg * d1a + dg * s1a + UBYTE_MAX_VALUE) >> SHIFT8);
-                result[BLUE] = ((sb * da + db * sa - 2 * sb * db + sb * d1a + db * s1a + UBYTE_MAX_VALUE) >> SHIFT8);
+                result[RED] = ((sr * da + dr * sa - 2 * sr * dr + sr * d1a + dr * s1a + 
+                        UBYTE_MAX_VALUE) >> SHIFT8);
+                result[GREEN] = ((sg * da + dg * sa - 2 * sg * dg + sg * d1a + dg * s1a + 
+                        UBYTE_MAX_VALUE) >> SHIFT8);
+                result[BLUE] = ((sb * da + db * sa - 2 * sb * db + sb * d1a + db * s1a + 
+                        UBYTE_MAX_VALUE) >> SHIFT8);
                 result[ALPHA] = (sa + da - ((sa * da + UBYTE_MAX_VALUE) >> SHIFT8));
             }
 
@@ -391,7 +388,7 @@ public class BlendComposite implements Composite {
         /**
          * Performs the color blending on the given pixels, assuming the source colors are
          * pre-multiplied
-         * 
+         *
          * @param sr
          * @param sg
          * @param sb
@@ -403,7 +400,7 @@ public class BlendComposite implements Composite {
          * @param result
          */
         public abstract void perform(int sr, int sg, int sb, int sa, int dr, int dg, int db,
-                int da, int[] result);
+                                     int da, int[] result);
 
         public String getName() {
             return name;
@@ -412,7 +409,7 @@ public class BlendComposite implements Composite {
         /**
          * Looks up a blending mode by its SVG standard name (as opposed to the enum name, which for
          * example cannot contain hyphens)
-         * 
+         *
          * @param name The standard name
          * @return The corresponding blending mode, or null if not found
          */
@@ -428,7 +425,7 @@ public class BlendComposite implements Composite {
 
         /**
          * Returns the list of blending modes standard names
-         * 
+         *
          * @return The list of blending mode names
          */
         public static List<String> getStandardNames() {
@@ -444,9 +441,8 @@ public class BlendComposite implements Composite {
 
     /**
      * Base class for color blending contexts
-     * 
-     * @author Andrea Aime - GeoSolutions
      *
+     * @author Andrea Aime - GeoSolutions
      */
     private static class BlendingContext implements CompositeContext {
         protected final BlendComposite composite;
@@ -456,7 +452,7 @@ public class BlendComposite implements Composite {
         ColorModel dstColorModel;
 
         private BlendingContext(BlendComposite composite, ColorModel srcColorModel,
-                ColorModel dstColorModel) {
+                                ColorModel dstColorModel) {
             this.composite = composite;
             this.srcColorModel = srcColorModel;
             this.dstColorModel = dstColorModel;
@@ -545,15 +541,16 @@ public class BlendComposite implements Composite {
     /**
      * <code>BlendComposite</code> object that implements the opaque MULTIPLY rule with an alpha of
      * 1.0f.
-     * 
+     *
      * @see BlendingMode#MULTIPLY
      */
-    public static final BlendComposite MULTIPLY_COMPOSITE = new BlendComposite(BlendingMode.MULTIPLY);
+    public static final BlendComposite MULTIPLY_COMPOSITE = new BlendComposite(BlendingMode
+            .MULTIPLY);
 
     /**
      * <code>BlendComposite</code> object that implements the opaque SCREEN rule with an alpha of
      * 1.0f.
-     * 
+     *
      * @see BlendingMode#SCREEN
      */
     public static final BlendComposite SCREEN_COMPOSITE = new BlendComposite(BlendingMode.SCREEN);
@@ -561,7 +558,7 @@ public class BlendComposite implements Composite {
     /**
      * <code>BlendComposite</code> object that implements the opaque OVERLAY rule with an alpha of
      * 1.0f.
-     * 
+     *
      * @see BlendingMode#OVERLAY
      */
     public static final BlendComposite OVERLAY_COMPOSITE = new BlendComposite(BlendingMode.OVERLAY);
@@ -569,7 +566,7 @@ public class BlendComposite implements Composite {
     /**
      * <code>BlendComposite</code> object that implements the opaque DARKEN rule with an alpha of
      * 1.0f.
-     * 
+     *
      * @see BlendingMode#DARKEN
      */
     public static final BlendComposite DARKEN_COMPOSITE = new BlendComposite(BlendingMode.DARKEN);
@@ -577,7 +574,7 @@ public class BlendComposite implements Composite {
     /**
      * <code>BlendComposite</code> object that implements the opaque LIGHTEN rule with an alpha of
      * 1.0f.
-     * 
+     *
      * @see BlendingMode#LIGHTEN
      */
     public static final BlendComposite LIGHTEN_COMPOSITE = new BlendComposite(BlendingMode.LIGHTEN);
@@ -585,50 +582,56 @@ public class BlendComposite implements Composite {
     /**
      * <code>BlendComposite</code> object that implements the opaque COLOR_DODGE rule with an alpha
      * of 1.0f.
-     * 
+     *
      * @see BlendingMode#COLOR_DODGE
      */
-    public static final BlendComposite COLOR_DODGE_COMPOSITE = new BlendComposite(BlendingMode.COLOR_DODGE);
+    public static final BlendComposite COLOR_DODGE_COMPOSITE = new BlendComposite(BlendingMode
+            .COLOR_DODGE);
 
     /**
      * <code>BlendComposite</code> object that implements the opaque COLOR_BURN rule with an alpha
      * of 1.0f.
-     * 
+     *
      * @see BlendingMode#COLOR_BURN
      */
-    public static final BlendComposite COLOR_BURN_COMPOSITE = new BlendComposite(BlendingMode.COLOR_BURN);
+    public static final BlendComposite COLOR_BURN_COMPOSITE = new BlendComposite(BlendingMode
+            .COLOR_BURN);
 
     /**
      * <code>BlendComposite</code> object that implements the opaque HARD_LIGHT rule with an alpha
      * of 1.0f.
-     * 
+     *
      * @see BlendingMode#HARD_LIGHT
      */
-    public static final BlendComposite HARD_LIGHT_COMPOSITE = new BlendComposite(BlendingMode.HARD_LIGHT);
+    public static final BlendComposite HARD_LIGHT_COMPOSITE = new BlendComposite(BlendingMode
+            .HARD_LIGHT);
 
     /**
      * <code>BlendComposite</code> object that implements the opaque SOFT_LIGHT rule with an alpha
      * of 1.0f.
-     * 
+     *
      * @see BlendingMode#SOFT_LIGHT
      */
-    public static final BlendComposite SOFT_LIGHT_COMPOSITE = new BlendComposite(BlendingMode.SOFT_LIGHT);
+    public static final BlendComposite SOFT_LIGHT_COMPOSITE = new BlendComposite(BlendingMode
+            .SOFT_LIGHT);
 
     /**
      * <code>BlendComposite</code> object that implements the opaque DIFFERENCE rule with an alpha
      * of 1.0f.
-     * 
+     *
      * @see BlendingMode#DIFFERENCE
      */
-    public static final BlendComposite DIFFERENCE_COMPOSITE = new BlendComposite(BlendingMode.DIFFERENCE);
+    public static final BlendComposite DIFFERENCE_COMPOSITE = new BlendComposite(BlendingMode
+            .DIFFERENCE);
 
     /**
      * <code>BlendComposite</code> object that implements the opaque EXCLUSION rule with an alpha of
      * 1.0f.
-     * 
+     *
      * @see BlendingMode#EXCLUSION
      */
-    public static final BlendComposite EXCLUSION_COMPOSITE = new BlendComposite(BlendingMode.EXCLUSION);
+    public static final BlendComposite EXCLUSION_COMPOSITE = new BlendComposite(BlendingMode
+            .EXCLUSION);
 
     private final float alpha;
 
@@ -648,15 +651,14 @@ public class BlendComposite implements Composite {
 
     @Override
     public CompositeContext createContext(ColorModel srcColorModel, ColorModel dstColorModel,
-            RenderingHints hints) {
+                                          RenderingHints hints) {
         return new BlendingContext(this, srcColorModel, dstColorModel);
     }
 
 
-
     /**
      * Returns the alpha value of this <code>BlendComposite</code>.
-     * 
+     *
      * @return the alpha value of this <code>BlendComposite</code>.
      */
     public float getAlpha() {
@@ -665,7 +667,7 @@ public class BlendComposite implements Composite {
 
     /**
      * Returns the blend of this <code>BlendComposite</code>.
-     * 
+     *
      * @return the blend of this <code>BlendComposite</code>.
      */
     public BlendingMode getBlend() {
@@ -679,7 +681,7 @@ public class BlendComposite implements Composite {
     /**
      * Returns a BlendComposite with the given mode and opacity. If opacity is 1.0 one of the public
      * constant BlendComposite fields will be returned, incurring in no instantiation cost
-     * 
+     *
      * @param mode
      * @param opacity
      * @return
@@ -688,28 +690,28 @@ public class BlendComposite implements Composite {
         // use common constants when opacity is 1.0 (like AlphaComposite.getInstance() does)
         if (opacity == 1f) {
             switch (mode) {
-            case MULTIPLY:
-                return MULTIPLY_COMPOSITE;
-            case SCREEN:
-                return SCREEN_COMPOSITE;
-            case OVERLAY:
-                return OVERLAY_COMPOSITE;
-            case DARKEN:
-                return DARKEN_COMPOSITE;
-            case LIGHTEN:
-                return LIGHTEN_COMPOSITE;
-            case COLOR_DODGE:
-                return COLOR_DODGE_COMPOSITE;
-            case COLOR_BURN:
-                return COLOR_BURN_COMPOSITE;
-            case HARD_LIGHT:
-                return HARD_LIGHT_COMPOSITE;
-            case SOFT_LIGHT:
-                return SOFT_LIGHT_COMPOSITE;
-            case DIFFERENCE:
-                return DIFFERENCE_COMPOSITE;
-            case EXCLUSION:
-                return EXCLUSION_COMPOSITE;
+                case MULTIPLY:
+                    return MULTIPLY_COMPOSITE;
+                case SCREEN:
+                    return SCREEN_COMPOSITE;
+                case OVERLAY:
+                    return OVERLAY_COMPOSITE;
+                case DARKEN:
+                    return DARKEN_COMPOSITE;
+                case LIGHTEN:
+                    return LIGHTEN_COMPOSITE;
+                case COLOR_DODGE:
+                    return COLOR_DODGE_COMPOSITE;
+                case COLOR_BURN:
+                    return COLOR_BURN_COMPOSITE;
+                case HARD_LIGHT:
+                    return HARD_LIGHT_COMPOSITE;
+                case SOFT_LIGHT:
+                    return SOFT_LIGHT_COMPOSITE;
+                case DIFFERENCE:
+                    return DIFFERENCE_COMPOSITE;
+                case EXCLUSION:
+                    return EXCLUSION_COMPOSITE;
             }
         }
 

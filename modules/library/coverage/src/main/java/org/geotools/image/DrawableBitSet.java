@@ -32,9 +32,8 @@ import com.vividsolutions.jts.geom.Geometry;
  * An analogous of {@link BitSet} which is explicitly 2 dimensional and allows
  * drawing a shape to quickly turn on a large area of the map.
  * This class is not thread safe.
- * 
- * @author Andrea Aime - GeoSolutions
  *
+ * @author Andrea Aime - GeoSolutions
  */
 public class DrawableBitSet {
 

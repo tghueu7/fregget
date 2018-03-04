@@ -26,9 +26,9 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/se:Halo.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:element name="Halo" type="se:HaloType"&gt;
@@ -38,16 +38,14 @@ import javax.xml.namespace.QName;
  *          text label to make the label easier to read over a background.
  *        &lt;/xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
- *  &lt;/xsd:element&gt; 
- * 	
+ *  &lt;/xsd:element&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class HaloBinding extends SLDHaloBinding {

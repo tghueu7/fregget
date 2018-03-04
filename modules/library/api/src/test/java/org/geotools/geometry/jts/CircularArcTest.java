@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2014, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -44,7 +44,7 @@ public class CircularArcTest {
         // we want to run the test at a higher precision
         CircularArc.setBaseSegmentsQuadrant(32);
     }
-    
+
     @AfterClass
     public static void resetBaseSegmentsQuadrant() {
         // we want to run the test at a higher precision
@@ -59,7 +59,7 @@ public class CircularArcTest {
         env.expandToInclude(arc.controlPoints[4], arc.controlPoints[5]);
         if (otherPoints != null) {
             // add the other points
-            for (int i = 0; i < otherPoints.length;) {
+            for (int i = 0; i < otherPoints.length; ) {
                 env.expandToInclude(otherPoints[i++], otherPoints[i++]);
             }
         }
@@ -82,7 +82,7 @@ public class CircularArcTest {
         assertEquals(CircularArc.COLLINEARS, arc.getRadius(), 0d);
         assertCoordinateEquals(null, arc.getCenter());
         double[] linearized = arc.linearize(0);
-        assertArrayEquals(new double[] { 0, 0, 0, 10, 0, 20 }, linearized, 0d);
+        assertArrayEquals(new double[]{0, 0, 0, 10, 0, 20}, linearized, 0d);
         assertEquals(envelopeFrom(arc), arc.getEnvelope());
     }
 
@@ -92,7 +92,7 @@ public class CircularArcTest {
         assertEquals(0, arc.getRadius(), 0d);
         assertCoordinateEquals(ORIGIN, arc.getCenter());
         double[] linearized = arc.linearize(0);
-        assertArrayEquals(new double[] { 0, 0, 0, 0, 0, 0 }, linearized, 0d);
+        assertArrayEquals(new double[]{0, 0, 0, 0, 0, 0}, linearized, 0d);
         assertEquals(envelopeFrom(arc), arc.getEnvelope());
         assertEquals(0, arc.getEnvelope().getArea(), 0d);
     }
@@ -278,7 +278,7 @@ public class CircularArcTest {
     }
 
     private LineString getLinearizedArc(Circle c, double startAngle, double midAngle,
-            double endAngle) {
+                                        double endAngle) {
         CircularArc arc = c.getCircularArc(startAngle, midAngle, endAngle);
         double[] linearized = arc.linearize(Double.MAX_VALUE);
         Coordinate[] coords = new Coordinate[linearized.length / 2];

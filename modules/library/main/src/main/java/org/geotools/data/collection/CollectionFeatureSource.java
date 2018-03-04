@@ -47,7 +47,7 @@ import org.opengis.filter.sort.SortBy;
  * This is a "port" of ContentFeatureSource to work with an iterator.
  * <p>
  * To use this class please "wrap" CollectionFeatureSource around your choice of FeatureCollection.
- * 
+ * <p>
  * <pre>
  * SimpleFeatureCollection collection = new ListFeatureCollection(schema);
  * collection.add(feature1);
@@ -57,10 +57,8 @@ import org.opengis.filter.sort.SortBy;
  * <p>
  * Note to implementors: If you are performing "real I/O" please use ContentFeatureSource as it
  * provides support for IOException.
- * 
+ *
  * @author Jody
- *
- *
  * @source $URL$
  */
 public class CollectionFeatureSource implements SimpleFeatureSource {
@@ -163,7 +161,7 @@ public class CollectionFeatureSource implements SimpleFeatureSource {
     // Use: DataUtilities.mixQueries(this.query, query, "subCollection" ) as needed
     //
     public SimpleFeatureCollection getFeatures() throws IOException {
-        return getFeatures( Query.ALL );
+        return getFeatures(Query.ALL);
     }
 
     public SimpleFeatureCollection getFeatures(Filter filter) {
@@ -175,18 +173,18 @@ public class CollectionFeatureSource implements SimpleFeatureSource {
         query = DataUtilities.resolvePropertyNames(query, getSchema());
         final int offset = query.getStartIndex() != null ? query.getStartIndex() : 0;
         if (offset > 0 & query.getSortBy() == null) {
-            if (!getQueryCapabilities().supportsSorting(query.getSortBy())){
+            if (!getQueryCapabilities().supportsSorting(query.getSortBy())) {
                 throw new IllegalStateException("Feature source does not support this sorting "
                         + "so there is no way a stable paging (offset/limit) can be performed");
             }
             Query copy = new Query(query);
-            copy.setSortBy(new SortBy[] { SortBy.NATURAL_ORDER });
+            copy.setSortBy(new SortBy[]{SortBy.NATURAL_ORDER});
             query = copy;
         }
         SimpleFeatureCollection features = collection;
         // step one: filter
-        if( query.getFilter() != null && query.getFilter().equals(Filter.EXCLUDE)){
-            return new EmptyFeatureCollection( getSchema() );
+        if (query.getFilter() != null && query.getFilter().equals(Filter.EXCLUDE)) {
+            return new EmptyFeatureCollection(getSchema());
         }
         if (query.getFilter() != null && query.getFilter() != Filter.INCLUDE) {
             features = new FilteringSimpleFeatureCollection(features, query.getFilter());
@@ -233,7 +231,7 @@ public class CollectionFeatureSource implements SimpleFeatureSource {
             }
         }
         // Wrap up the results in a method that allows subCollection
-        return new SubCollection( query, features );
+        return new SubCollection(query, features);
     }
 
     /**
@@ -242,28 +240,31 @@ public class CollectionFeatureSource implements SimpleFeatureSource {
      * Will route any calls refining the feature collection back to CollectionFeatureSource. This is
      * based on the success of ContentFeatureCollection.
      * </p>
-     * 
+     *
      * @author Jody
      */
     protected class SubCollection extends DecoratingSimpleFeatureCollection {
         private Query query;
+
         protected SubCollection(Query query, SimpleFeatureCollection features) {
             super(features);
             this.query = query;
         }
+
         public SimpleFeatureCollection subCollection(Filter filter) {
             Query q = new Query(getSchema().getTypeName(), filter);
-            
-            Query subQuery = DataUtilities.mixQueries(query, q, q.getHandle() );
-            return CollectionFeatureSource.this.getFeatures( subQuery );
+
+            Query subQuery = DataUtilities.mixQueries(query, q, q.getHandle());
+            return CollectionFeatureSource.this.getFeatures(subQuery);
         }
+
         @Override
         public SimpleFeatureCollection sort(SortBy order) {
-            Query q = new Query( getSchema().getTypeName() );
-            q.setSortBy( new SortBy[]{ order } );
-            
-            Query subQuery = DataUtilities.mixQueries(query, q, q.getHandle() );
-            return CollectionFeatureSource.this.getFeatures( subQuery );
+            Query q = new Query(getSchema().getTypeName());
+            q.setSortBy(new SortBy[]{order});
+
+            Query subQuery = DataUtilities.mixQueries(query, q, q.getHandle());
+            return CollectionFeatureSource.this.getFeatures(subQuery);
         }
     }
 }

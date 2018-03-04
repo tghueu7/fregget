@@ -36,8 +36,6 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class OracleSpatialFiltersOnlineTest extends JDBCSpatialFiltersOnlineTest {
@@ -49,7 +47,7 @@ public class OracleSpatialFiltersOnlineTest extends JDBCSpatialFiltersOnlineTest
 
     public void testLooseBboxFilter() throws Exception {
         ((OracleDialect) dataStore.getSQLDialect()).setLooseBBOXEnabled(true);
-        
+
         FilterFactory ff = CommonFactoryFinder.getFilterFactory(null);
         // should match only "r2"
         BBOX bbox = ff.bbox(aname("geom"), 2, 3.5, 4, 4.5, "EPSG:4326");
@@ -76,23 +74,24 @@ public class OracleSpatialFiltersOnlineTest extends JDBCSpatialFiltersOnlineTest
         validateOGCUnitUsage(10000 / 1609.344, "mile");
         validateOGCUnitUsage(10000 / 1609.344, "miles");
         validateOGCUnitUsage(10000 / 1852, "NM");
-      }
+    }
 
     private void validateOGCUnitUsage(double distance, String unit) throws Exception {
         Coordinate coordinate = new Coordinate(3.031, 2.754);
         GeometryFactory factory = new GeometryFactory();
         Point point = factory.createPoint(coordinate);
         Geometry[] geometries = {point};
-        GeometryCollection geometry = new GeometryCollection(geometries, factory );
+        GeometryCollection geometry = new GeometryCollection(geometries, factory);
 
         FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
 
         PropertyName geomName = ff.property(aname("geom"));
         Literal lit = ff.literal(geometry);
-        
-        DWithin dwithinGeomFilter  = ((FilterFactory2) ff).dwithin(geomName, lit, distance, unit);
+
+        DWithin dwithinGeomFilter = ((FilterFactory2) ff).dwithin(geomName, lit, distance, unit);
         Query query = new Query(tname("road"), dwithinGeomFilter);
-        SimpleFeatureCollection features = dataStore.getFeatureSource(tname("road")).getFeatures(query);
+        SimpleFeatureCollection features = dataStore.getFeatureSource(tname("road")).getFeatures
+                (query);
         assertEquals(1, features.size());
         checkSingleResult(features, "r2");
     }

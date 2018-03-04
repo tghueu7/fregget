@@ -87,15 +87,15 @@ import org.opengis.referencing.operation.MathTransform;
  * @author Andrea Antonello (www.hydrologis.com)
  * @author Michael Bedward
  * @author Ian Turton
- *
- *
- *
  * @source $URL$
  */
-public class SwtMapPane extends Canvas implements Listener, MapLayerListListener, MapBoundsListener {
+public class SwtMapPane extends Canvas implements Listener, MapLayerListListener, 
+        MapBoundsListener {
     private static final PaletteData PALETTE_DATA = new PaletteData(0xFF0000, 0xFF00, 0xFF);
 
-    /** RGB value to use as transparent color */
+    /**
+     * RGB value to use as transparent color
+     */
     private static final int TRANSPARENT_COLOR = 0x123456;
     /**
      * Default delay (milliseconds) before the map will be redrawn when resizing
@@ -160,7 +160,7 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
      * Constructor - creates an instance of JMapPane with no map
      * context or renderer initially
      */
-    public SwtMapPane( Composite parent, int style ) {
+    public SwtMapPane(Composite parent, int style) {
         this(parent, style, null, null);
     }
 
@@ -169,9 +169,9 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
      * renderer and map context.
      *
      * @param renderer a renderer object
-     * @param content an instance of MapContext
+     * @param content  an instance of MapContext
      */
-    public SwtMapPane( Composite parent, int style, GTRenderer renderer, MapContent content ) {
+    public SwtMapPane(Composite parent, int style, GTRenderer renderer, MapContent content) {
         super(parent, style);
         white = getDisplay().getSystemColor(SWT.COLOR_WHITE);
         yellow = getDisplay().getSystemColor(SWT.COLOR_YELLOW);
@@ -201,8 +201,8 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
          * default to the standard cursor sometimes (at least
          * on OSX)
          */
-        this.addMouseMoveListener(new MouseMoveListener(){
-            public void mouseMove( MouseEvent event ) {
+        this.addMouseMoveListener(new MouseMoveListener() {
+            public void mouseMove(MouseEvent event) {
                 if (mouseDown) {
                     endX = event.x;
                     endY = event.y;
@@ -213,8 +213,8 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
             }
         });
 
-        addControlListener(new ControlAdapter(){
-            public void controlResized( ControlEvent e ) {
+        addControlListener(new ControlAdapter() {
+            public void controlResized(ControlEvent e) {
                 curPaintArea = getVisibleRect();
                 doSetDisplayArea(SwtMapPane.this.content.getViewport().getBounds());
             }
@@ -230,7 +230,7 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
      *
      * @param tool the tool to set; null means no active cursor tool
      */
-    public void setCursorTool( CursorTool tool ) {
+    public void setCursorTool(CursorTool tool) {
         if (tool == null) {
             toolManager.setNoCursorTool();
             this.setCursor(CursorManager.getInstance().getArrowCursor());
@@ -252,7 +252,7 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
      * @throws IllegalArgumentException if listener is null
      * @see MapMouseListener
      */
-    public void addMouseListener( MapMouseListener listener ) {
+    public void addMouseListener(MapMouseListener listener) {
         if (listener == null) {
             throw new IllegalArgumentException(Messages.getString("arg_null_error")); //$NON-NLS-1$
         }
@@ -266,7 +266,7 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
      * @param listener the listener to remove
      * @throws IllegalArgumentException if listener is null
      */
-    public void removeMouseListener( MapMouseListener listener ) {
+    public void removeMouseListener(MapMouseListener listener) {
         if (listener == null) {
             throw new IllegalArgumentException(Messages.getString("arg_null_error")); //$NON-NLS-1$
         }
@@ -280,7 +280,7 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
      * @param listener an object that implements {@code MapPaneListener}
      * @see MapPaneListener
      */
-    public void addMapPaneListener( MapPaneListener listener ) {
+    public void addMapPaneListener(MapPaneListener listener) {
         if (listener == null) {
             throw new IllegalArgumentException(Messages.getString("arg_null_error")); //$NON-NLS-1$
         }
@@ -294,10 +294,9 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
      * ordering, visibility and selection.
      *
      * @param layerTable an instance of MapLayerTable
-     *
      * @throws IllegalArgumentException if layerTable is null
      */
-    public void setMapLayerTable( MapLayerComposite layerTable ) {
+    public void setMapLayerTable(MapLayerComposite layerTable) {
         if (layerTable == null) {
             throw new IllegalArgumentException(Messages.getString("arg_null_error")); //$NON-NLS-1$
         }
@@ -319,7 +318,7 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
      *
      * @param renderer the renderer to use
      */
-    public void setRenderer( GTRenderer renderer ) {
+    public void setRenderer(GTRenderer renderer) {
         if (renderer != null) {
             Map<Object, Object> hints;
             if (renderer instanceof StreamingRenderer) {
@@ -347,6 +346,7 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
 
     /**
      * Get the map content associated with this map pane
+     *
      * @return a live reference to the current map context
      */
     public MapContent getMapContent() {
@@ -355,9 +355,10 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
 
     /**
      * Set the map context for this map pane to display
+     *
      * @param content the map context
      */
-    public void setMapContent( MapContent content ) {
+    public void setMapContent(MapContent content) {
         if (this.content != content) {
 
             if (this.content != null) {
@@ -376,7 +377,7 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
                 this.content.addMapBoundsListener(this);
 
                 // set all layers as selected by default for the info tool
-                for( Layer layer : content.layers() ) {
+                for (Layer layer : content.layers()) {
                     layer.setSelected(true);
                     // if (layer instanceof ComponentListener) {
                     // addComponentListener((ComponentListener) layer);
@@ -417,14 +418,16 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
             screenToWorld.transform(p0, p0);
             screenToWorld.transform(p1, p1);
 
-            aoi = new ReferencedEnvelope(Math.min(p0.getX(), p1.getX()), Math.max(p0.getX(), p1.getX()), Math.min(p0.getY(),
-                    p1.getY()), Math.max(p0.getY(), p1.getY()), content.getCoordinateReferenceSystem());
+            aoi = new ReferencedEnvelope(Math.min(p0.getX(), p1.getX()), Math.max(p0.getX(), 
+                    p1.getX()), Math.min(p0.getY(),
+                    p1.getY()), Math.max(p0.getY(), p1.getY()), content
+                    .getCoordinateReferenceSystem());
         }
 
         return aoi;
     }
 
-    public void setCrs( CoordinateReferenceSystem crs ) {
+    public void setCrs(CoordinateReferenceSystem crs) {
         try {
             // System.out.println(content.layers().size());
             ReferencedEnvelope rEnv = getDisplayArea();
@@ -467,10 +470,9 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
      * the bounds of the current map layers.
      *
      * @param envelope the bounds of the map to display
-     *
      * @throws IllegalStateException if a map context is not set
      */
-    public void setDisplayArea( Envelope envelope ) {
+    public void setDisplayArea(Envelope envelope) {
         if (content != null) {
             if (curPaintArea == null || curPaintArea.isEmpty()) {
                 return;
@@ -482,7 +484,8 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
             }
 
         } else {
-            throw new IllegalStateException("Map context must be set before setting the display area");
+            throw new IllegalStateException("Map context must be set before setting the display " +
+                    "area");
         }
     }
 
@@ -493,7 +496,7 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
      *
      * @param envelope requested display area
      */
-    private void doSetDisplayArea( Envelope envelope ) {
+    private void doSetDisplayArea(Envelope envelope) {
         assert (content != null && curPaintArea != null && !curPaintArea.isEmpty());
 
         if (equalsFullExtent(envelope)) {
@@ -526,15 +529,13 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
      * renderer classes.
      *
      * @param envelope a pending display envelope to compare to the full extent
-     *        envelope
-     *
+     *                 envelope
      * @return true if the envelope is coincident with the full extent evenlope
-     *         on at least two edges; false otherwise
-     *
+     * on at least two edges; false otherwise
      * @todo My logic here seems overly complex - I'm sure there must be a simpler
-     *       way for the map pane to handle this.
+     * way for the map pane to handle this.
      */
-    private boolean equalsFullExtent( final Envelope envelope ) {
+    private boolean equalsFullExtent(final Envelope envelope) {
         if (fullExtent == null || envelope == null) {
             return false;
         }
@@ -571,7 +572,8 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
             setFullExtent();
         }
         try {
-            fullExtent = new ReferencedEnvelope(CRS.transform(fullExtent, content.getCoordinateReferenceSystem()));
+            fullExtent = new ReferencedEnvelope(CRS.transform(fullExtent, content
+                    .getCoordinateReferenceSystem()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -594,11 +596,10 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
      * }</pre>
      *
      * @param repaint if true, paint requests will be handled normally;
-     * if false, paint requests will be deferred.
-     *
+     *                if false, paint requests will be deferred.
      * @see #isAcceptingRepaints()
      */
-    public void setRepaint( boolean repaint ) {
+    public void setRepaint(boolean repaint) {
         acceptRepaintRequests = repaint;
     }
 
@@ -607,8 +608,7 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
      * repaint requests from other GUI components and the system.
      *
      * @return true if the pane is currently accepting repaint requests;
-     *         false if it is ignoring them
-     *
+     * false if it is ignoring them
      * @see #setRepaint(boolean)
      */
     public boolean isAcceptingRepaints() {
@@ -654,9 +654,9 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
      * to avoid flickering of the display during drag-resizing.
      *
      * @param delay the delay in milliseconds; if {@code <} 0 the default delay
-     *        period will be set
+     *              period will be set
      */
-    public void setResizeDelay( int delay ) {
+    public void setResizeDelay(int delay) {
         if (delay < 0) {
             resizingPaintDelay = DEFAULT_RESIZING_PAINT_DELAY;
         } else {
@@ -685,6 +685,7 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
      * <pre>{@code
      * double scale = mapPane.getWorldToScreenTransform().getScaleX();
      * }</pre>
+     *
      * @return a copy of the world to screen coordinate transform
      */
     public AffineTransform getWorldToScreenTransform() {
@@ -705,7 +706,7 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
      * @param dx the x offset in pixels
      * @param dy the y offset in pixels.
      */
-    public void moveImage( int dx, int dy ) {
+    public void moveImage(int dx, int dy) {
         imageOrigin.translate(dx, dy);
         redrawBaseImage = false;
         if (!isDisposed())
@@ -773,7 +774,8 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
     /**
      * Called after the base image has been dragged. Sets the new map area and
      * transforms
-     * @param env the display area (world coordinates) prior to the image being moved
+     *
+     * @param env       the display area (world coordinates) prior to the image being moved
      * @param paintArea the current drawing area (screen units)
      */
     private void afterImageMove() {
@@ -796,7 +798,7 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
      * as selected (for queries) and, if the layer table is being
      * used, adds the new layer to the table.
      */
-    public void layerAdded( MapLayerListEvent event ) {
+    public void layerAdded(MapLayerListEvent event) {
         Layer layer = event.getElement();
         if (layerTable != null) {
             layerTable.onAddLayer(layer);
@@ -820,7 +822,7 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
     /**
      * Called when a map layer has been removed
      */
-    public void layerRemoved( MapLayerListEvent event ) {
+    public void layerRemoved(MapLayerListEvent event) {
         Layer layer = event.getElement();
         if (layerTable != null) {
             layerTable.onRemoveLayer(layer);
@@ -840,7 +842,7 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
      * Called when a map layer has changed, e.g. features added
      * to a displayed feature collection
      */
-    public void layerChanged( MapLayerListEvent event ) {
+    public void layerChanged(MapLayerListEvent event) {
         if (layerTable != null) {
             layerTable.repaint(event.getElement());
         }
@@ -861,7 +863,7 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
     /**
      * Called when the bounds of a map layer have changed
      */
-    public void layerMoved( MapLayerListEvent event ) {
+    public void layerMoved(MapLayerListEvent event) {
         redrawBaseImage = true;
         if (!isDisposed())
             redraw();
@@ -872,7 +874,7 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
      * here to watch for a changed CRS, in which case the map is
      * redisplayed at (new) full extent.
      */
-    public void mapBoundsChanged( MapBoundsEvent event ) {
+    public void mapBoundsChanged(MapBoundsEvent event) {
         redrawBaseImage = true;
         int type = event.getType();
         if ((type & MapBoundsEvent.COORDINATE_SYSTEM_MASK) != 0) {
@@ -904,7 +906,7 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
                 if (fullExtent == null) {
                     // set arbitrary bounds centred on 0,0
                     fullExtent = worldEnvelope();// new ReferencedEnvelope(-1, 1, -1, 1,
-                                                 // context.getCoordinateReferenceSystem());
+                    // context.getCoordinateReferenceSystem());
 
                 }
                 // else {
@@ -947,10 +949,10 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
      * Tne transform is calculated such that {@code envelope} will
      * be centred in the display
      *
-     * @param envelope the current map extent (world coordinates)
+     * @param envelope  the current map extent (world coordinates)
      * @param paintArea the current map pane extent (screen units)
      */
-    private void setTransforms( final Envelope envelope, final Rectangle paintArea ) {
+    private void setTransforms(final Envelope envelope, final Rectangle paintArea) {
         ReferencedEnvelope refEnv = null;
         if (envelope != null) {
             refEnv = new ReferencedEnvelope(envelope);
@@ -987,36 +989,36 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
      * @param ev the event to publish
      * @see MapPaneListener
      */
-    private void publishEvent( MapPaneEvent ev ) {
-        for( MapPaneListener listener : listeners ) {
-            switch( ev.getType() ) {
-            case NEW_CONTEXT:
-                listener.onNewContext(ev);
-                break;
+    private void publishEvent(MapPaneEvent ev) {
+        for (MapPaneListener listener : listeners) {
+            switch (ev.getType()) {
+                case NEW_CONTEXT:
+                    listener.onNewContext(ev);
+                    break;
 
-            case NEW_RENDERER:
-                listener.onNewRenderer(ev);
-                break;
+                case NEW_RENDERER:
+                    listener.onNewRenderer(ev);
+                    break;
 
-            case PANE_RESIZED:
-                listener.onResized(ev);
-                break;
+                case PANE_RESIZED:
+                    listener.onResized(ev);
+                    break;
 
-            case DISPLAY_AREA_CHANGED:
-                listener.onDisplayAreaChanged(ev);
-                break;
+                case DISPLAY_AREA_CHANGED:
+                    listener.onDisplayAreaChanged(ev);
+                    break;
 
-            case RENDERING_STARTED:
-                listener.onRenderingStarted(ev);
-                break;
+                case RENDERING_STARTED:
+                    listener.onRenderingStarted(ev);
+                    break;
 
-            case RENDERING_STOPPED:
-                listener.onRenderingStopped(ev);
-                break;
+                case RENDERING_STOPPED:
+                    listener.onRenderingStopped(ev);
+                    break;
 
-            case RENDERING_PROGRESS:
-                listener.onRenderingProgress(ev);
-                break;
+                case RENDERING_PROGRESS:
+                    listener.onRenderingProgress(ev);
+                    break;
             }
         }
     }
@@ -1036,14 +1038,15 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
 
     /**
      * Define an image that has to be set as overlay.
-     * 
+     * <p>
      * <p>The image will be scaled to fit into the supplied envelope.
-     * 
-     * @param overlayImage the image to overlay.
+     *
+     * @param overlayImage    the image to overlay.
      * @param overlayEnvelope the envelope it has to cover.
-     * @param overlayDoXor flag for Xor mode.
+     * @param overlayDoXor    flag for Xor mode.
      */
-    public void setOverlay( Image overlayImage, ReferencedEnvelope overlayEnvelope, boolean overlayDoXor, boolean boundsChanged ) {
+    public void setOverlay(Image overlayImage, ReferencedEnvelope overlayEnvelope, boolean 
+            overlayDoXor, boolean boundsChanged) {
         if (this.overlayImage != null)
             this.overlayImage.dispose();
         this.overlayImage = overlayImage;
@@ -1061,15 +1064,15 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
 
     /**
      * Sets the transparency value for the base image (overlays not considered).
-     * 
+     *
      * @param alpha the transparency value (0 - 255).
      */
-    public void setBaseImageAlpha( int alpha ) {
+    public void setBaseImageAlpha(int alpha) {
         this.alpha = alpha;
     }
 
     @SuppressWarnings("deprecation")
-    public void handleEvent( Event event ) {
+    public void handleEvent(Event event) {
 
         curPaintArea = getVisibleRect();
 
@@ -1103,7 +1106,7 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
                 /*
                  * if the mouse is dragging and the current tool can
                  * move the map we just draw what we already have
-                 * on white background. At the end of the moving 
+                 * on white background. At the end of the moving
                  * we will take care of adding the missing pieces.
                  */
                 if (toolCanMove && isDragging) {
@@ -1115,7 +1118,8 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
                          * clean the parts outside the bounds of the moving panned image,
                          * giving a spilling image effect.
                          */
-                        Image tmpImage = new Image(getDisplay(), curPaintArea.width, curPaintArea.height);
+                        Image tmpImage = new Image(getDisplay(), curPaintArea.width, curPaintArea
+                                .height);
                         GC tmpGc = new GC(tmpImage);
                         tmpGc.setBackground(white);
                         tmpGc.fillRectangle(0, 0, curPaintArea.width, curPaintArea.height);
@@ -1128,7 +1132,7 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
 
                 /*
                  * if the mouse is dragging and the current tool can
-                 * draw a boundingbox while dragging, we draw the box 
+                 * draw a boundingbox while dragging, we draw the box
                  * keeping the current drawn image
                  */
                 if (toolCanDraw && toolManager.getCursorTool().isDrawing() && isDragging) {
@@ -1176,10 +1180,12 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
                     MapPaneEvent ev = new MapPaneEvent(this, MapPaneEvent.Type.RENDERING_STARTED);
                     publishEvent(ev);
 
-                    baseImage = new BufferedImage(curPaintArea.width + 1, curPaintArea.height + 1, BufferedImage.TYPE_INT_ARGB);
+                    baseImage = new BufferedImage(curPaintArea.width + 1, curPaintArea.height + 
+                            1, BufferedImage.TYPE_INT_ARGB);
                     Graphics2D g2d = baseImage.createGraphics();
                     g2d.fillRect(0, 0, curPaintArea.width + 1, curPaintArea.height + 1);
-                    g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                    g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints
+                            .VALUE_ANTIALIAS_ON);
 
                     // renderer.setContext(context);
                     java.awt.Rectangle awtRectangle = Utils.toAwtRectangle(curPaintArea);
@@ -1191,7 +1197,8 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
                         swtImage = null;
                     }
                     // System.out.println("READRAWBASEIMAGE");
-                    swtImage = new Image(getDisplay(), awtToSwt(baseImage, curPaintArea.width + 1, curPaintArea.height + 1));
+                    swtImage = new Image(getDisplay(), awtToSwt(baseImage, curPaintArea.width + 
+                            1, curPaintArea.height + 1));
                 }
 
                 if (swtImage != null) {
@@ -1207,7 +1214,7 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
         }
     }
 
-    private void drawFinalImage( Image swtImage ) {
+    private void drawFinalImage(Image swtImage) {
         Display display = getDisplay();
         // this is only done if an overlay image exists
 
@@ -1221,12 +1228,12 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
             tmpGc.setAlpha(alpha);
             /*
              * draw the background image into it
-             * (this means everything but the overlay image) 
+             * (this means everything but the overlay image)
              */
             tmpGc.drawImage(swtImage, imageOrigin.x, imageOrigin.y);
             /*
              * set the alpha back to opaque so it doesn't influence the
-             * overlay image 
+             * overlay image
              */
             tmpGc.setAlpha(255);
         }
@@ -1249,11 +1256,13 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
     }
 
     @SuppressWarnings("deprecation")
-    private void doOverlayImage( GC gc ) {
-        Point2D lowerLeft = new Point2D.Double(overlayEnvelope.getMinX(), overlayEnvelope.getMinY());
+    private void doOverlayImage(GC gc) {
+        Point2D lowerLeft = new Point2D.Double(overlayEnvelope.getMinX(), overlayEnvelope.getMinY
+                ());
         worldToScreen.transform(lowerLeft, lowerLeft);
 
-        Point2D upperRight = new Point2D.Double(overlayEnvelope.getMaxX(), overlayEnvelope.getMaxY());
+        Point2D upperRight = new Point2D.Double(overlayEnvelope.getMaxX(), overlayEnvelope
+                .getMaxY());
         worldToScreen.transform(upperRight, upperRight);
 
         Rectangle bounds = overlayImage.getBounds();
@@ -1278,24 +1287,24 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
 
     /**
      * Transform a java2d bufferedimage to a swt image.
-     * 
+     *
      * @param bufferedImage the image to trasform.
-     * @param width the image width.
-     * @param height the image height.
+     * @param width         the image width.
+     * @param height        the image height.
      * @return swt image.
      */
-    private ImageData awtToSwt( BufferedImage bufferedImage, int width, int height ) {
+    private ImageData awtToSwt(BufferedImage bufferedImage, int width, int height) {
         final int[] awtPixels = new int[width * height];
         ImageData swtImageData = new ImageData(width, height, 24, PALETTE_DATA);
         swtImageData.transparentPixel = TRANSPARENT_COLOR;
         int step = swtImageData.depth / 8;
         final byte[] data = swtImageData.data;
         bufferedImage.getRGB(0, 0, width, height, awtPixels, 0, width);
-        for( int i = 0; i < height; i++ ) {
+        for (int i = 0; i < height; i++) {
             int idx = (0 + i) * swtImageData.bytesPerLine + 0 * step;
-            for( int j = 0; j < width; j++ ) {
+            for (int j = 0; j < width; j++) {
                 int rgb = awtPixels[j + i * width];
-                for( int k = swtImageData.depth - 8; k >= 0; k -= 8 ) {
+                for (int k = swtImageData.depth - 8; k >= 0; k -= 8) {
                     data[idx++] = (byte) ((rgb >> k) & 0xFF);
                 }
             }
@@ -1305,7 +1314,7 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
     }
 
     @Override
-    public void layerPreDispose( MapLayerListEvent event ) {
+    public void layerPreDispose(MapLayerListEvent event) {
 
     }
 
@@ -1327,7 +1336,7 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
      *
      * @param color the colour used for the tool's bounding box
      */
-    public void setCursorToolColor( Color color ) {
+    public void setCursorToolColor(Color color) {
         this.cursorToolColor = color;
     }
 
@@ -1347,7 +1356,7 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
      *
      * @param lineWidth line width
      */
-    public void setCursorToolLineWidth( int lineWidth ) {
+    public void setCursorToolLineWidth(int lineWidth) {
         this.cursorToolLineWidth = lineWidth;
     }
 
@@ -1372,7 +1381,7 @@ public class SwtMapPane extends Canvas implements Listener, MapLayerListListener
      * @see SWT#LINE_DASHDOT
      * @see SWT#LINE_DASHDOTDOT
      */
-    public void setCursorToolLineStyle( int lineStyle ) {
+    public void setCursorToolLineStyle(int lineStyle) {
         this.cursorToolLineStyle = lineStyle;
     }
 

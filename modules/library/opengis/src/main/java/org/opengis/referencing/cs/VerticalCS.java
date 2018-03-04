@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.referencing.cs;
 
 import org.opengis.annotation.UML;
+
 import static org.opengis.annotation.Specification.*;
 
 
@@ -19,21 +20,20 @@ import static org.opengis.annotation.Specification.*;
  * atmospheric pressure is the basis for the vertical coordinate system axis. An exact definition
  * is deliberately not provided as the complexities of the subject fall outside the scope of this
  * specification. A {@code VerticalCS} shall have one {@linkplain #getAxis axis association}.
- *
+ * <p>
  * <TABLE CELLPADDING='6' BORDER='1'>
  * <TR BGCOLOR="#EEEEFF"><TH NOWRAP>Used with CRS type(s)</TH></TR>
  * <TR><TD>
- *   {@link org.opengis.referencing.crs.VerticalCRS    Vertical},
- *   {@link org.opengis.referencing.crs.EngineeringCRS Engineering}
+ * {@link org.opengis.referencing.crs.VerticalCRS    Vertical},
+ * {@link org.opengis.referencing.crs.EngineeringCRS Engineering}
  * </TD></TR></TABLE>
  *
- *
- *
+ * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract 
+ * specification 2.0</A>
  * @source $URL$
- * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract specification 2.0</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
+ * @since GeoAPI 1.0
  */
-@UML(identifier="CS_VerticalCS", specification=ISO_19111)
+@UML(identifier = "CS_VerticalCS", specification = ISO_19111)
 public interface VerticalCS extends CoordinateSystem {
 }

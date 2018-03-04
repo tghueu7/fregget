@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2016, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -57,11 +57,8 @@ import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * SimpleFeatureCollection decorator that reprojects the default geometry.
- * 
+ *
  * @author Justin
- *
- *
- *
  * @source $URL$
  */
 public class ReprojectingFeatureCollection extends DecoratingSimpleFeatureCollection {
@@ -81,27 +78,31 @@ public class ReprojectingFeatureCollection extends DecoratingSimpleFeatureCollec
      * The target coordinate reference system
      */
     CoordinateReferenceSystem target;
-    
+
     /**
      * Transformer used to transform geometries;
      */
     GeometryCoordinateSequenceTransformer transformer;
-    
+
     public ReprojectingFeatureCollection(
             FeatureCollection<SimpleFeatureType, SimpleFeature> delegate,
             CoordinateReferenceSystem target) {
         this(DataUtilities.simple(delegate), target);
     }
+
     public ReprojectingFeatureCollection(SimpleFeatureCollection delegate,
-            CoordinateReferenceSystem target) {
-        this( delegate, delegate.getSchema().getGeometryDescriptor().getCoordinateReferenceSystem(), target );
+                                         CoordinateReferenceSystem target) {
+        this(delegate, delegate.getSchema().getGeometryDescriptor().getCoordinateReferenceSystem
+                (), target);
     }
-    
-    public ReprojectingFeatureCollection(FeatureCollection<SimpleFeatureType, SimpleFeature> delegate,
-            CoordinateReferenceSystem source, CoordinateReferenceSystem target) {
+
+    public ReprojectingFeatureCollection(FeatureCollection<SimpleFeatureType, SimpleFeature> 
+                                                 delegate,
+                                         CoordinateReferenceSystem source, 
+                                         CoordinateReferenceSystem target) {
         this(DataUtilities.simple(delegate), source, target);
     }
-    
+
     public ReprojectingFeatureCollection(
             SimpleFeatureCollection delegate,
             CoordinateReferenceSystem source, CoordinateReferenceSystem target) {
@@ -109,34 +110,34 @@ public class ReprojectingFeatureCollection extends DecoratingSimpleFeatureCollec
         this.target = target;
         SimpleFeatureType schema = delegate.getSchema();
         this.schema = reType(schema, target);
-       
+
         if (source == null) {
             throw new NullPointerException("source crs");
         }
-        if ( target == null ) {
-        	throw new NullPointerException("destination crs");
+        if (target == null) {
+            throw new NullPointerException("destination crs");
         }
-        
+
         this.transform = transform(source, target);
         transformer = new GeometryCoordinateSequenceTransformer();
     }
 
     public void setTransformer(GeometryCoordinateSequenceTransformer transformer) {
-		this.transformer = transformer;
-	}  
+        this.transformer = transformer;
+    }
 
     private MathTransform transform(CoordinateReferenceSystem source,
-            CoordinateReferenceSystem target) {
+                                    CoordinateReferenceSystem target) {
         try {
             return CRS.findMathTransform(source, target, true);
         } catch (FactoryException e) {
             throw new IllegalArgumentException(
-            		"Could not create math transform", e);
+                    "Could not create math transform", e);
         }
     }
 
     private SimpleFeatureType reType(SimpleFeatureType type,
-            CoordinateReferenceSystem target) {
+                                     CoordinateReferenceSystem target) {
         try {
             return FeatureTypes.transform(type, target);
         } catch (SchemaException e) {
@@ -145,13 +146,14 @@ public class ReprojectingFeatureCollection extends DecoratingSimpleFeatureCollec
         }
     }
 
-    public  FeatureReader<SimpleFeatureType, SimpleFeature> reader() throws IOException {
+    public FeatureReader<SimpleFeatureType, SimpleFeature> reader() throws IOException {
         return new DelegateFeatureReader<SimpleFeatureType, SimpleFeature>(getSchema(), features());
     }
 
     public SimpleFeatureIterator features() {
         try {
-            return new ReprojectingFeatureIterator(delegate.features(), transform, schema, transformer);
+            return new ReprojectingFeatureIterator(delegate.features(), transform, schema, 
+                    transformer);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -165,15 +167,16 @@ public class ReprojectingFeatureCollection extends DecoratingSimpleFeatureCollec
         // reproject the filter to the delegate native crs
         CoordinateReferenceSystem crs = getSchema().getCoordinateReferenceSystem();
         CoordinateReferenceSystem crsDelegate = delegate.getSchema().getCoordinateReferenceSystem();
-        if(crs != null) {
+        if (crs != null) {
             DefaultCRSFilterVisitor defaulter = new DefaultCRSFilterVisitor(FF, crs);
             filter = (Filter) filter.accept(defaulter, null);
-            if(crsDelegate != null && !CRS.equalsIgnoreMetadata(crs, crsDelegate)) {
-                ReprojectingFilterVisitor reprojector = new ReprojectingFilterVisitor(FF, delegate.getSchema());
+            if (crsDelegate != null && !CRS.equalsIgnoreMetadata(crs, crsDelegate)) {
+                ReprojectingFilterVisitor reprojector = new ReprojectingFilterVisitor(FF, 
+                        delegate.getSchema());
                 filter = (Filter) filter.accept(reprojector, null);
             }
         }
-        
+
         return new ReprojectingFeatureCollection(delegate.subCollection(filter), target);
     }
 
@@ -213,7 +216,7 @@ public class ReprojectingFeatureCollection extends DecoratingSimpleFeatureCollec
      * object, thus getting the true shape of the reprojected envelope, and then
      * computing the minimum and maximum coordinates of that new shape. The
      * result would not a true representation of the new bounds.
-     * 
+     *
      * @see org.geotools.data.FeatureResults#getBounds()
      */
     public ReferencedEnvelope getBounds() {
@@ -225,8 +228,8 @@ public class ReprojectingFeatureCollection extends DecoratingSimpleFeatureCollec
 
             while (r.hasNext()) {
                 feature = r.next();
-                final Geometry geom = ((Geometry)feature.getDefaultGeometry());
-                if(geom != null) {
+                final Geometry geom = ((Geometry) feature.getDefaultGeometry());
+                if (geom != null) {
                     internal = geom.getEnvelopeInternal();
                     newBBox.expandToInclude(internal);
                 }
@@ -244,9 +247,11 @@ public class ReprojectingFeatureCollection extends DecoratingSimpleFeatureCollec
     protected boolean canDelegate(FeatureVisitor visitor) {
         return isGeometryless(visitor, schema);
     }
-    
+
     /**
-     * Returns true if the visitor is geometryless, that is, it's not accessing a geometry field in the target schema
+     * Returns true if the visitor is geometryless, that is, it's not accessing a geometry field 
+     * in the target schema
+     *
      * @param visitor
      * @return
      */
@@ -265,7 +270,7 @@ public class ReprojectingFeatureCollection extends DecoratingSimpleFeatureCollec
                 }
             }
             return true;
-        } else if(visitor instanceof CountVisitor) {
+        } else if (visitor instanceof CountVisitor) {
             return true;
         }
         return false;

@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2017, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -25,7 +25,8 @@ import org.geotools.filter.capability.FunctionNameImpl;
 import org.opengis.filter.capability.FunctionName;
 
 /**
- * Mix lesscss.org color function. Takes two colors and mixes them toghether based on a weight (and their eventual alpha)
+ * Mix lesscss.org color function. Takes two colors and mixes them toghether based on a weight 
+ * (and their eventual alpha)
  *
  * @author Andrea Aime - GeoSolutions
  */
@@ -46,11 +47,11 @@ public class SpinFunction extends FunctionImpl {
 
         HSLColor hsl = new HSLColor(color);
         double hue = (hsl.getHue() + amount) % 360;
-        if(hue < 0) {
+        if (hue < 0) {
             hue = hue + 360;
         }
         hsl.setHue(hue);
-        
+
         return hsl.toRGB();
     }
 

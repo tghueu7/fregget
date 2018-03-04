@@ -43,7 +43,7 @@ import org.geotools.util.logging.Logging;
 
 /**
  * Builds instances of the shapefile data store
- * 
+ *
  * @source $URL$
  */
 public class ShapefileDataStoreFactory implements FileDataStoreFactorySpi {
@@ -68,7 +68,7 @@ public class ShapefileDataStoreFactory implements FileDataStoreFactorySpi {
      */
     public static final Param MEMORY_MAPPED = new Param("memory mapped buffer", Boolean.class,
             "enable/disable the use of memory-mapped io", false, false, new KVP(Param.LEVEL,
-                    "advanced"));
+            "advanced"));
 
     /**
      * Optional - enable/disable the use of memory-mapped io
@@ -82,7 +82,7 @@ public class ShapefileDataStoreFactory implements FileDataStoreFactorySpi {
      */
     public static final Param FILE_TYPE = new Param("filetype", String.class,
             "Discriminator for directory stores", false, "shapefile", new KVP(Param.LEVEL,
-                    "program"));
+            "program"));
 
     /**
      * Optional - Enable/disable the automatic creation of spatial index
@@ -99,7 +99,7 @@ public class ShapefileDataStoreFactory implements FileDataStoreFactorySpi {
             Charset.forName("ISO-8859-1"), new KVP(Param.LEVEL, "advanced")) {
         /*
          * This is an example of a non simple Param type where a custom parse method is required.
-         * 
+         *
          * @see org.geotools.data.DataStoreFactorySpi.Param#parse(java.lang.String)
          */
         public Object parse(String text) throws IOException {
@@ -116,7 +116,8 @@ public class ShapefileDataStoreFactory implements FileDataStoreFactorySpi {
      */
     public static final Param FSTYPE = new Param("fstype",
             String.class, "Enable using a setting of 'shape'.", false, "shape",
-            new KVP(Param.LEVEL, "advanced", Param.OPTIONS,Arrays.asList(new String[]{"shape-ng", "shape", "index"})));
+            new KVP(Param.LEVEL, "advanced", Param.OPTIONS, Arrays.asList(new 
+                    String[]{"shape-ng", "shape", "index"})));
     /**
      * Optional - timezone to decode dates from the DBF file
      */
@@ -132,7 +133,7 @@ public class ShapefileDataStoreFactory implements FileDataStoreFactorySpi {
             return ((TimeZone) value).getID();
         }
     };
-    
+
     /**
      * Optional - enable spatial index for local files
      */
@@ -149,8 +150,9 @@ public class ShapefileDataStoreFactory implements FileDataStoreFactorySpi {
     }
 
     public Param[] getParametersInfo() {
-        return new Param[] { URLP, NAMESPACEP, ENABLE_SPATIAL_INDEX, CREATE_SPATIAL_INDEX, DBFCHARSET, DBFTIMEZONE,
-                MEMORY_MAPPED, CACHE_MEMORY_MAPS, FILE_TYPE, FSTYPE };
+        return new Param[]{URLP, NAMESPACEP, ENABLE_SPATIAL_INDEX, CREATE_SPATIAL_INDEX, 
+                DBFCHARSET, DBFTIMEZONE,
+                MEMORY_MAPPED, CACHE_MEMORY_MAPS, FILE_TYPE, FSTYPE};
     }
 
     public boolean isAvailable() {
@@ -174,7 +176,7 @@ public class ShapefileDataStoreFactory implements FileDataStoreFactorySpi {
             // should not be needed as default is TRUE
             isEnableSpatialIndex = Boolean.TRUE;
         }
-        
+
         // are we creating a directory of shapefiles store, or a single one?
         File dir = URLs.urlToFile(url);
         if (dir != null && dir.isDirectory()) {
@@ -190,7 +192,7 @@ public class ShapefileDataStoreFactory implements FileDataStoreFactorySpi {
 
             // build the store
             ShapefileDataStore store = new ShapefileDataStore(url);
-            if(namespace != null) {
+            if (namespace != null) {
                 store.setNamespaceURI(namespace.toString());
             }
             store.setMemoryMapped(useMemoryMappedBuffer);
@@ -210,7 +212,7 @@ public class ShapefileDataStoreFactory implements FileDataStoreFactorySpi {
     /**
      * Looks up a parameter, if not found it returns the default value, assuming there is one, or
      * null otherwise
-     * 
+     *
      * @param <T>
      * @param param
      * @param params
@@ -218,7 +220,8 @@ public class ShapefileDataStoreFactory implements FileDataStoreFactorySpi {
      * @return
      * @throws IOException
      */
-    <T> T lookup(Param param, Map<String, Serializable> params, Class<T> target) throws IOException {
+    <T> T lookup(Param param, Map<String, Serializable> params, Class<T> target) throws 
+            IOException {
         T result = (T) param.lookUp(params);
         if (result == null) {
             return (T) param.getDefaultValue();
@@ -255,7 +258,7 @@ public class ShapefileDataStoreFactory implements FileDataStoreFactorySpi {
 
     /**
      * A delegates that allow to build a directory of shapfiles store
-     * 
+     *
      * @author Andrea Aime - OpenGeo
      */
     public static class ShpFileStoreFactory implements FileStoreFactory {
@@ -272,7 +275,8 @@ public class ShapefileDataStoreFactory implements FileDataStoreFactorySpi {
         public DataStore getDataStore(File file) throws IOException {
             final URL url = URLs.fileToUrl(file);
             if (shpFactory.canProcess(url)) {
-                Map<String,Serializable> params = new HashMap<String,Serializable>(originalParams);
+                Map<String, Serializable> params = new HashMap<String, Serializable>
+                        (originalParams);
                 params.put(URLP.key, url);
                 return shpFactory.createDataStore(params);
             } else {
@@ -284,7 +288,7 @@ public class ShapefileDataStoreFactory implements FileDataStoreFactorySpi {
 
     @Override
     public String[] getFileExtensions() {
-        return new String[] { ".shp" };
+        return new String[]{".shp"};
     }
 
     @Override
@@ -294,7 +298,7 @@ public class ShapefileDataStoreFactory implements FileDataStoreFactorySpi {
 
         boolean isLocal = url.getProtocol().equalsIgnoreCase("file");
         File file = URLs.urlToFile(url);
-        if(file != null && file.isDirectory()) {
+        if (file != null && file.isDirectory()) {
             return null;
         } else {
             if (isLocal && !file.exists()) {

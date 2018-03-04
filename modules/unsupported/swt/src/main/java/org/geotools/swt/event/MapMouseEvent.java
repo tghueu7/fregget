@@ -26,14 +26,11 @@ import org.geotools.swt.SwtMapPane;
 /**
  * A MouseEvent which contains methods to obtain coordinates in real world CoordinateSystem as well
  * as Screen Coordinates.
- * 
+ *
  * @author Michael Bedward (adapted from code by Cameron Shorter)
  * @author Andrea Antonello (www.hydrologis.com)
- * @since 2.6
- *
- *
- *
  * @source $URL$
+ * @since 2.6
  */
 public final class MapMouseEvent {
     private DirectPosition2D geoCoords;
@@ -46,12 +43,12 @@ public final class MapMouseEvent {
 
     /**
      * Constructor. Calculates the map position of the mouse event.
-     * 
-     * @param pane the map pane sending this event.
-     * @param event the mouse event.
+     *
+     * @param pane    the map pane sending this event.
+     * @param event   the mouse event.
      * @param isWheel if <code>true</code> then the event comes from the mouse wheel.
      */
-    public MapMouseEvent( SwtMapPane pane, MouseEvent event, boolean isWheel ) {
+    public MapMouseEvent(SwtMapPane pane, MouseEvent event, boolean isWheel) {
         this.event = event;
         isWheelEvent = isWheel;
         if (!isWheel) {
@@ -67,7 +64,7 @@ public final class MapMouseEvent {
 
     /**
      * Indicates a mouse wheel event.
-     * 
+     *
      * @return <code>true</code> if this a mouse wheel event
      */
     public boolean isWheelEvent() {
@@ -76,7 +73,7 @@ public final class MapMouseEvent {
 
     /**
      * When isWheelEvent is true this indicate the amount of travel.
-     * 
+     *
      * @return Amount of travel when isWheelEvent is true
      */
     public int getWheelAmount() {
@@ -85,7 +82,7 @@ public final class MapMouseEvent {
 
     /**
      * Getter for the mouse location?
-     * 
+     *
      * @return the mouse location.
      */
     public Point getPoint() {
@@ -107,19 +104,21 @@ public final class MapMouseEvent {
 
     /**
      * Returns the state mask of the mouse event.
+     *
      * @return the state mask
      * @see MouseEvent#stateMask
      */
     public int getStateMask() {
-    	return event.stateMask;
+        return event.stateMask;
     }
 
     /**
      * Get the position, in map (world) coordinates of this mouse event
-     * 
+     *
      * @return a new DirectPosition2D object for the world coordinates
      */
     public DirectPosition2D getMapPosition() {
-        return new DirectPosition2D(geoCoords.getCoordinateReferenceSystem(), geoCoords.x, geoCoords.y);
+        return new DirectPosition2D(geoCoords.getCoordinateReferenceSystem(), geoCoords.x, 
+                geoCoords.y);
     }
 }

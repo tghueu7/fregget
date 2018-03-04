@@ -25,23 +25,21 @@ import org.geotools.validation.DefaultIntegrityValidationBeanInfo;
 
 /**
  * SQLValidationBeanInfo purpose.
- * 
+ * <p>
  * <p>
  * Description of SQLValidationBeanInfo ...
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class UniqueFIDValidationBeanInfo
-    extends DefaultIntegrityValidationBeanInfo {
+        extends DefaultIntegrityValidationBeanInfo {
     /**
      * GazetteerNameValidationBeanInfo constructor.
-     * 
+     * <p>
      * <p>
      * Description
      * </p>
@@ -52,7 +50,6 @@ public class UniqueFIDValidationBeanInfo
 
     /**
      * Implementation of getPropertyDescriptors.
-     *
      *
      * @see java.beans.BeanInfo#getPropertyDescriptors()
      */

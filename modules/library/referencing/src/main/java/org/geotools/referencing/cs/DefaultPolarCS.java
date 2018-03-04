@@ -20,6 +20,7 @@
 package org.geotools.referencing.cs;
 
 import java.util.Map;
+
 import org.opengis.referencing.cs.PolarCS;
 import org.opengis.referencing.cs.AxisDirection;
 import org.opengis.referencing.cs.CoordinateSystemAxis;
@@ -29,21 +30,18 @@ import org.opengis.referencing.cs.CoordinateSystemAxis;
  * A two-dimensional coordinate system in which position is specified by the distance from the
  * origin and the angle between the line from the origin to a point and a reference direction.
  * A {@code PolarCS} shall have two {@linkplain #getAxis axis}.
- *
+ * <p>
  * <TABLE CELLPADDING='6' BORDER='1'>
  * <TR BGCOLOR="#EEEEFF"><TH NOWRAP>Used with CRS type(s)</TH></TR>
  * <TR><TD>
- *   {@link org.geotools.referencing.crs.DefaultEngineeringCRS Engineering}
+ * {@link org.geotools.referencing.crs.DefaultEngineeringCRS Engineering}
  * </TD></TR></TABLE>
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see DefaultCylindricalCS
+ * @since 2.1
  */
 public class DefaultPolarCS extends AbstractCS implements PolarCS {
     /**
@@ -71,27 +69,25 @@ public class DefaultPolarCS extends AbstractCS implements PolarCS {
      * @param axis0 The first axis.
      * @param axis1 The second axis.
      */
-    public DefaultPolarCS(final String               name,
+    public DefaultPolarCS(final String name,
                           final CoordinateSystemAxis axis0,
-                          final CoordinateSystemAxis axis1)
-    {
-        super(name, new CoordinateSystemAxis[] {axis0, axis1});
+                          final CoordinateSystemAxis axis1) {
+        super(name, new CoordinateSystemAxis[]{axis0, axis1});
     }
 
     /**
      * Constructs a two-dimensional coordinate system from a set of properties.
      * The properties map is given unchanged to the
-     * {@linkplain AbstractCS#AbstractCS(Map,CoordinateSystemAxis[]) super-class constructor}.
+     * {@linkplain AbstractCS#AbstractCS(Map, CoordinateSystemAxis[]) super-class constructor}.
      *
      * @param properties Set of properties. Should contains at least {@code "name"}.
-     * @param axis0 The first axis.
-     * @param axis1 The second axis.
+     * @param axis0      The first axis.
+     * @param axis1      The second axis.
      */
-    public DefaultPolarCS(final Map<String,?>   properties,
+    public DefaultPolarCS(final Map<String, ?> properties,
                           final CoordinateSystemAxis axis0,
-                          final CoordinateSystemAxis axis1)
-    {
-        super(properties, new CoordinateSystemAxis[] {axis0, axis1});
+                          final CoordinateSystemAxis axis1) {
+        super(properties, new CoordinateSystemAxis[]{axis0, axis1});
     }
 
     /**

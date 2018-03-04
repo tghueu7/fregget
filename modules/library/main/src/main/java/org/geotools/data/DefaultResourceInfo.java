@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -25,11 +25,8 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  * Default implementation of ResourceInfo; a simple java bean.
- * 
+ *
  * @author Jody Garnett
- *
- *
- *
  * @source $URL$
  */
 public class DefaultResourceInfo implements ResourceInfo {
@@ -42,21 +39,22 @@ public class DefaultResourceInfo implements ResourceInfo {
     private CoordinateReferenceSystem crs;
     private ReferencedEnvelope bounds;
 
-    public DefaultResourceInfo(){        
+    public DefaultResourceInfo() {
     }
-    
-    public DefaultResourceInfo( ResourceInfo copy ){
+
+    public DefaultResourceInfo(ResourceInfo copy) {
         this.title = copy.getTitle();
         this.schema = copy.getSchema();
         this.name = copy.getName();
         this.keywords = new HashSet<String>();
-        if( copy.getKeywords() != null ){
-            this.keywords.addAll( copy.getKeywords() );
+        if (copy.getKeywords() != null) {
+            this.keywords.addAll(copy.getKeywords());
         }
         this.description = copy.getDescription();
         this.crs = copy.getCRS();
-        this.bounds = copy.getBounds();                
+        this.bounds = copy.getBounds();
     }
+
     /**
      * @return the title
      */
@@ -109,49 +107,49 @@ public class DefaultResourceInfo implements ResourceInfo {
     /**
      * @param crs the crs to set
      */
-    public void setCRS( CoordinateReferenceSystem crs ) {
+    public void setCRS(CoordinateReferenceSystem crs) {
         this.crs = crs;
     }
 
     /**
      * @param title the title to set
      */
-    public void setTitle( String title ) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
     /**
      * @param schema the schema to set
      */
-    public void setSchema( URI schema ) {
+    public void setSchema(URI schema) {
         this.schema = schema;
     }
 
     /**
      * @param name the name to set
      */
-    public void setName( String name ) {
+    public void setName(String name) {
         this.name = name;
     }
 
     /**
      * @param keywords the keywords to set
      */
-    public void setKeywords( Set<String> keywords ) {
+    public void setKeywords(Set<String> keywords) {
         this.keywords = keywords;
     }
 
     /**
      * @param description the description to set
      */
-    public void setDescription( String description ) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
     /**
      * @param bounds the bounds to set
      */
-    public void setBounds( ReferencedEnvelope bounds ) {
+    public void setBounds(ReferencedEnvelope bounds) {
         this.bounds = bounds;
     }
 

@@ -18,16 +18,13 @@ package org.geotools.referencing.operation.transform;
 
 
 /**
- * @deprecated Moved to {@link org.geotools.referencing.operation.builder} package.
- *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Remi Eve
  * @author Martin Desruisseaux (IRD)
  * @author Alessio Fabiani
+ * @version $Id$
+ * @source $URL$
+ * @since 2.0
+ * @deprecated Moved to {@link org.geotools.referencing.operation.builder} package.
  */
 public class LocalizationGrid extends org.geotools.referencing.operation.builder.LocalizationGrid {
     /**

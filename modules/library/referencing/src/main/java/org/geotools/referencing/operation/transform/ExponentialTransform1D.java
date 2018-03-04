@@ -42,28 +42,26 @@ import org.geotools.resources.i18n.Vocabulary;
  * A one dimensional exponentional transform.
  * Input values <var>x</var> are converted into
  * output values <var>y</var> using the following equation:
- *
+ * <p>
  * <p align="center"><var>y</var> &nbsp;=&nbsp;
  * {@linkplain #scale}&times;{@linkplain #base}<sup><var>x</var></sup></p>
- *
+ * <p>
  * This equation may be written in other form:
+ * <p>
+ * <p align="center">{@linkplain #base}<sup><var>a</var> + <var>b</var>&times;<var>x</var></sup> 
+ * &nbsp;=&nbsp;
+ * {@linkplain #base}<sup><var>a</var></sup>&times;({@linkplain #base}<sup><var>b</var></sup>)
+ * <sup><var>x</var></sup></p>
  *
- * <p align="center">{@linkplain #base}<sup><var>a</var> + <var>b</var>&times;<var>x</var></sup> &nbsp;=&nbsp;
- * {@linkplain #base}<sup><var>a</var></sup>&times;({@linkplain #base}<sup><var>b</var></sup>)<sup><var>x</var></sup></p>
- *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see LogarithmicTransform1D
  * @see LinearTransform1D
+ * @since 2.0
  */
 public class ExponentialTransform1D extends AbstractMathTransform
-        implements MathTransform1D, Serializable
-{
+        implements MathTransform1D, Serializable {
     /**
      * Serial number for interoperability with different versions.
      */
@@ -96,10 +94,10 @@ public class ExponentialTransform1D extends AbstractMathTransform
      * inverse of the supplied logarithmic transform.
      */
     ExponentialTransform1D(final LogarithmicTransform1D inverse) {
-        this.base     = inverse.base;
-        this.lnBase   = inverse.lnBase;
-        this.scale    = Math.pow(base, -inverse.offset);
-        this.inverse  = inverse;
+        this.base = inverse.base;
+        this.lnBase = inverse.lnBase;
+        this.scale = Math.pow(base, -inverse.offset);
+        this.inverse = inverse;
     }
 
     /**
@@ -107,20 +105,20 @@ public class ExponentialTransform1D extends AbstractMathTransform
      * Instances should be created using the {@linkplain #create factory method}, which
      * may returns optimized implementations for some particular argument values.
      *
-     * @param base   The base to be raised to a power.
-     * @param scale  The scale value to be multiplied.
+     * @param base  The base to be raised to a power.
+     * @param scale The scale value to be multiplied.
      */
     protected ExponentialTransform1D(final double base, final double scale) {
-        this.base   = base;
-        this.scale  = scale;
+        this.base = base;
+        this.scale = scale;
         this.lnBase = Math.log(base);
     }
 
     /**
      * Constructs a new exponentional transform.
      *
-     * @param base   The base to be raised to a power.
-     * @param scale  The scale value to be multiplied.
+     * @param base  The base to be raised to a power.
+     * @param scale The scale value to be multiplied.
      * @return The math transform.
      */
     public static MathTransform1D create(final double base, final double scale) {
@@ -149,9 +147,9 @@ public class ExponentialTransform1D extends AbstractMathTransform
     @Override
     public ParameterValueGroup getParameterValues() {
         return new org.geotools.parameter.ParameterGroup(getParameterDescriptors(),
-            new ParameterValue[] {
-            new FloatParameter(Provider.BASE,  base),
-            new FloatParameter(Provider.SCALE, scale)});
+                new ParameterValue[]{
+                        new FloatParameter(Provider.BASE, base),
+                        new FloatParameter(Provider.SCALE, scale)});
     }
 
     /**
@@ -198,17 +196,16 @@ public class ExponentialTransform1D extends AbstractMathTransform
      */
     @Override
     public void transform(float[] srcPts, int srcOff,
-                          float[] dstPts, int dstOff, int numPts)
-    {
-        if (srcPts!=dstPts || srcOff>=dstOff) {
+                          float[] dstPts, int dstOff, int numPts) {
+        if (srcPts != dstPts || srcOff >= dstOff) {
             while (--numPts >= 0) {
-                dstPts[dstOff++] = (float) (scale*Math.pow(base, srcPts[srcOff++]));
+                dstPts[dstOff++] = (float) (scale * Math.pow(base, srcPts[srcOff++]));
             }
         } else {
             srcOff += numPts;
             dstOff += numPts;
             while (--numPts >= 0) {
-                dstPts[--dstOff] = (float) (scale*Math.pow(base, srcPts[--srcOff]));
+                dstPts[--dstOff] = (float) (scale * Math.pow(base, srcPts[--srcOff]));
             }
         }
     }
@@ -217,17 +214,16 @@ public class ExponentialTransform1D extends AbstractMathTransform
      * Transforms a list of coordinate point ordinal values.
      */
     public void transform(final double[] srcPts, int srcOff,
-                          final double[] dstPts, int dstOff, int numPts)
-    {
-        if (srcPts!=dstPts || srcOff>=dstOff) {
+                          final double[] dstPts, int dstOff, int numPts) {
+        if (srcPts != dstPts || srcOff >= dstOff) {
             while (--numPts >= 0) {
-                dstPts[dstOff++] = scale*Math.pow(base, srcPts[srcOff++]);
+                dstPts[dstOff++] = scale * Math.pow(base, srcPts[srcOff++]);
             }
         } else {
             srcOff += numPts;
             dstOff += numPts;
             while (--numPts >= 0) {
-                dstPts[--dstOff] = scale*Math.pow(base, srcPts[--srcOff]);
+                dstPts[--dstOff] = scale * Math.pow(base, srcPts[--srcOff]);
             }
         }
     }
@@ -237,26 +233,27 @@ public class ExponentialTransform1D extends AbstractMathTransform
      * {@code MathTransform}. This implementation can optimize some concatenation with
      * {@link LinearTransform1D} and {@link LogarithmicTransform1D}.
      *
-     * @param  other The math transform to apply.
-     * @param  applyOtherFirst {@code true} if the transformation order is {@code other}
-     *         followed by {@code this}, or {@code false} if the transformation order is
-     *         {@code this} followed by {@code other}.
+     * @param other           The math transform to apply.
+     * @param applyOtherFirst {@code true} if the transformation order is {@code other}
+     *                        followed by {@code this}, or {@code false} if the transformation 
+     *                                    order is
+     *                        {@code this} followed by {@code other}.
      * @return The combined math transform, or {@code null} if no optimized combined
-     *         transform is available.
+     * transform is available.
      */
     @Override
     MathTransform concatenate(final MathTransform other, final boolean applyOtherFirst) {
         if (other instanceof LinearTransform) {
             final LinearTransform1D linear = (LinearTransform1D) other;
             if (applyOtherFirst) {
-                final double newBase  = Math.pow(base, linear.scale);
-                final double newScale = Math.pow(base, linear.offset)*scale;
+                final double newBase = Math.pow(base, linear.scale);
+                final double newScale = Math.pow(base, linear.offset) * scale;
                 if (!Double.isNaN(newBase) && !Double.isNaN(newScale)) {
                     return create(newBase, newScale);
                 }
             } else {
                 if (linear.offset == 0) {
-                    return create(base, scale*linear.scale);
+                    return create(base, scale * linear.scale);
                 }
             }
         } else if (other instanceof LogarithmicTransform1D) {
@@ -269,17 +266,19 @@ public class ExponentialTransform1D extends AbstractMathTransform
      * Concatenates in an optimized way a {@link LogarithmicTransform1D} {@code other} to this
      * {@code ExponentialTransform1D}.
      *
-     * @param  other The math transform to apply.
-     * @param  applyOtherFirst {@code true} if the transformation order is {@code other}
-     *         followed by {@code this}, or {@code false} if the transformation order is
-     *         {@code this} followed by {@code other}.
+     * @param other           The math transform to apply.
+     * @param applyOtherFirst {@code true} if the transformation order is {@code other}
+     *                        followed by {@code this}, or {@code false} if the transformation 
+     *                                    order is
+     *                        {@code this} followed by {@code other}.
      * @return The combined math transform, or {@code null} if no optimized combined
-     *         transform is available.
+     * transform is available.
      */
-    MathTransform concatenateLog(final LogarithmicTransform1D other, final boolean applyOtherFirst) {
+    MathTransform concatenateLog(final LogarithmicTransform1D other, final boolean 
+            applyOtherFirst) {
         if (applyOtherFirst) {
-            final double newScale = scale*Math.pow(base, other.offset);
-            final double newPower = lnBase/other.lnBase;
+            final double newScale = scale * Math.pow(base, other.offset);
+            final double newPower = lnBase / other.lnBase;
             if (!Double.isNaN(newScale)) {
                 if (newPower == 1) {
                     return LinearTransform1D.create(newScale, 0);
@@ -289,8 +288,8 @@ public class ExponentialTransform1D extends AbstractMathTransform
                 //       y(x)  =  newScale * Math.pow(x, newPower);
             }
         } else if (scale > 0) {
-            return LinearTransform1D.create(lnBase/other.lnBase,
-                                   Math.log(scale)/other.lnBase + other.offset);
+            return LinearTransform1D.create(lnBase / other.lnBase,
+                    Math.log(scale) / other.lnBase + other.offset);
         }
         return null;
     }
@@ -304,8 +303,8 @@ public class ExponentialTransform1D extends AbstractMathTransform
     public int hashCode() {
         long code;
         code = serialVersionUID + Double.doubleToLongBits(base);
-        code = code*37          + Double.doubleToLongBits(scale);
-        return (int)(code >>> 32) ^ (int)code;
+        code = code * 37 + Double.doubleToLongBits(scale);
+        return (int) (code >>> 32) ^ (int) code;
     }
 
     /**
@@ -313,14 +312,14 @@ public class ExponentialTransform1D extends AbstractMathTransform
      */
     @Override
     public boolean equals(final Object object) {
-        if (object==this) {
+        if (object == this) {
             // Slight optimization
             return true;
         }
         if (super.equals(object)) {
             final ExponentialTransform1D that = (ExponentialTransform1D) object;
-            return Double.doubleToLongBits(this.base)  == Double.doubleToLongBits(that.base) &&
-                   Double.doubleToLongBits(this.scale) == Double.doubleToLongBits(that.scale);
+            return Double.doubleToLongBits(this.base) == Double.doubleToLongBits(that.base) &&
+                    Double.doubleToLongBits(this.scale) == Double.doubleToLongBits(that.scale);
         }
         return false;
     }
@@ -328,8 +327,8 @@ public class ExponentialTransform1D extends AbstractMathTransform
     /**
      * The provider for the {@link ExponentialTransform1D}.
      *
-     * @version $Id$
      * @author Martin Desruisseaux (IRD)
+     * @version $Id$
      */
     public static class Provider extends MathTransformProvider {
         /**
@@ -353,12 +352,13 @@ public class ExponentialTransform1D extends AbstractMathTransform
         /**
          * The parameters group.
          */
-        static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(new NamedIdentifier[] {
+        static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(new 
+                NamedIdentifier[]{
                 new NamedIdentifier(Citations.GEOTOOLS, Vocabulary.formatInternational(
-                                                        VocabularyKeys.EXPONENTIAL))
-            }, new ParameterDescriptor[] {
+                        VocabularyKeys.EXPONENTIAL))
+        }, new ParameterDescriptor[]{
                 BASE, SCALE
-            });
+        });
 
         /**
          * Create a provider for logarithmic transforms.
@@ -378,15 +378,14 @@ public class ExponentialTransform1D extends AbstractMathTransform
         /**
          * Creates a logarithmic transform from the specified group of parameter values.
          *
-         * @param  values The group of parameter values.
+         * @param values The group of parameter values.
          * @return The created math transform.
          * @throws ParameterNotFoundException if a required parameter was not found.
          */
         protected MathTransform1D createMathTransform(final ParameterValueGroup values)
-                throws ParameterNotFoundException
-        {
-            return create(doubleValue(BASE,  values),
-                          doubleValue(SCALE, values));
+                throws ParameterNotFoundException {
+            return create(doubleValue(BASE, values),
+                    doubleValue(SCALE, values));
         }
     }
 }

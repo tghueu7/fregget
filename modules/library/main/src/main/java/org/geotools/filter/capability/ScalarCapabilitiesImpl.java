@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -22,11 +22,8 @@ import org.opengis.filter.capability.ScalarCapabilities;
 
 /**
  * Implementation of the ScalarCapabilities interface.
- * 
+ *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
  * @source $URL$
  */
 public class ScalarCapabilitiesImpl implements ScalarCapabilities {
@@ -41,26 +38,27 @@ public class ScalarCapabilitiesImpl implements ScalarCapabilities {
         logicalOperators = false;
     }
 
-    public ScalarCapabilitiesImpl( ComparisonOperators comparisonOperators,
-            ArithmeticOperators arithmeticOperators, boolean logicalOperators ) {
+    public ScalarCapabilitiesImpl(ComparisonOperators comparisonOperators,
+                                  ArithmeticOperators arithmeticOperators, boolean 
+                                          logicalOperators) {
         this.arithmeticOperators = toArithmeticOperatorsImpl(arithmeticOperators);
         this.comparisonOperators = toComparisonOperatorsImpl(comparisonOperators);
         this.logicalOperators = logicalOperators;
     }
 
-    public ScalarCapabilitiesImpl( ScalarCapabilities copy ) {
+    public ScalarCapabilitiesImpl(ScalarCapabilities copy) {
         arithmeticOperators = copy.getArithmeticOperators() == null ?
                 new ArithmeticOperatorsImpl() :
-                    new ArithmeticOperatorsImpl( copy.getArithmeticOperators() );
-                
+                new ArithmeticOperatorsImpl(copy.getArithmeticOperators());
+
         comparisonOperators = copy.getComparisonOperators() == null ?
                 new ComparisonOperatorsImpl() :
-                    new ComparisonOperatorsImpl( copy.getComparisonOperators());
-                
+                new ComparisonOperatorsImpl(copy.getComparisonOperators());
+
         logicalOperators = copy.hasLogicalOperators();
     }
 
-    public void setArithmeticOperators( ArithmeticOperatorsImpl arithmeticOperators ) {
+    public void setArithmeticOperators(ArithmeticOperatorsImpl arithmeticOperators) {
         this.arithmeticOperators = arithmeticOperators;
     }
 
@@ -68,22 +66,24 @@ public class ScalarCapabilitiesImpl implements ScalarCapabilities {
         return arithmeticOperators;
     }
 
-    public void setComparisonOperators( ComparisonOperatorsImpl comparisonOperators ) {
+    public void setComparisonOperators(ComparisonOperatorsImpl comparisonOperators) {
         this.comparisonOperators = comparisonOperators;
     }
+
     public ComparisonOperatorsImpl getComparisonOperators() {
         return comparisonOperators;
     }
 
-    public void setLogicalOperators( boolean logicalOperators ) {
+    public void setLogicalOperators(boolean logicalOperators) {
         this.logicalOperators = logicalOperators;
     }
+
     public boolean hasLogicalOperators() {
         return logicalOperators;
     }
 
     public static ComparisonOperatorsImpl toComparisonOperatorsImpl(
-            ComparisonOperators comparisonOperators ) {
+            ComparisonOperators comparisonOperators) {
         if (comparisonOperators == null) {
             return new ComparisonOperatorsImpl();
         }
@@ -93,8 +93,9 @@ public class ScalarCapabilitiesImpl implements ScalarCapabilities {
             return new ComparisonOperatorsImpl(comparisonOperators);
         }
     }
+
     private static ArithmeticOperatorsImpl toArithmeticOperatorsImpl(
-            ArithmeticOperators arithmeticOperators ) {
+            ArithmeticOperators arithmeticOperators) {
         if (arithmeticOperators == null) {
             return new ArithmeticOperatorsImpl();
         } else if (arithmeticOperators instanceof ArithmeticOperatorsImpl) {
@@ -103,15 +104,16 @@ public class ScalarCapabilitiesImpl implements ScalarCapabilities {
             return new ArithmeticOperatorsImpl(arithmeticOperators);
         }
     }
-    public void addAll( ScalarCapabilities copy ) {
-        if( copy == null ) return;
-        if( copy.getArithmeticOperators() != null ){
-            arithmeticOperators.addAll( copy.getArithmeticOperators() );
+
+    public void addAll(ScalarCapabilities copy) {
+        if (copy == null) return;
+        if (copy.getArithmeticOperators() != null) {
+            arithmeticOperators.addAll(copy.getArithmeticOperators());
         }
-        if( copy.getComparisonOperators() != null){
-            comparisonOperators.addAll( copy.getComparisonOperators() );    
-        }        
-        if( copy.hasLogicalOperators() == true ){
+        if (copy.getComparisonOperators() != null) {
+            comparisonOperators.addAll(copy.getComparisonOperators());
+        }
+        if (copy.hasLogicalOperators() == true) {
             logicalOperators = true;
         }
     }

@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2015, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -35,13 +35,11 @@ import org.opengis.filter.expression.PropertyName;
  * properly
  *
  * @author Andrea Aime - OpenGeo
- *
- *
  * @source $URL$
  */
 public class StyleAttributeExtractor extends FilterAttributeExtractor
-    implements StyleVisitor {
-    
+        implements StyleVisitor {
+
     /**
      * Returns PropertyNames rather than strings (includes namespace info)
      *
@@ -52,12 +50,13 @@ public class StyleAttributeExtractor extends FilterAttributeExtractor
     }
 
     /**
-     *   if the default geometry is used, this will be true.  See GEOS-469
+     * if the default geometry is used, this will be true.  See GEOS-469
      */
     boolean defaultGeometryUsed = false;
 
     /**
-     * Symbolizer geometry is enabled by default, but there are relevant cases in which we don't desire that
+     * Symbolizer geometry is enabled by default, but there are relevant cases in which we don't 
+     * desire that
      */
     boolean symbolizerGeometriesVisitEnabled = true;
 
@@ -68,6 +67,7 @@ public class StyleAttributeExtractor extends FilterAttributeExtractor
 
     /**
      * Enables/disables visit of the symbolizer geometry property (on by default)
+     *
      * @param symbolizerGeometriesVisitEnabled
      */
     public void setSymbolizerGeometriesVisitEnabled(boolean symbolizerGeometriesVisitEnabled) {
@@ -80,8 +80,7 @@ public class StyleAttributeExtractor extends FilterAttributeExtractor
      *
      * @return true if any of the symbolizers visted use the default geometry.
      */
-    public boolean getDefaultGeometryUsed()
-    {
+    public boolean getDefaultGeometryUsed() {
         return defaultGeometryUsed;
     }
 
@@ -103,7 +102,7 @@ public class StyleAttributeExtractor extends FilterAttributeExtractor
         Filter filter = rule.getFilter();
 
         if (filter != null) {
-            filter.accept( this, null );
+            filter.accept(this, null);
         }
 
         Symbolizer[] symbolizers = rule.getSymbolizers();
@@ -142,7 +141,7 @@ public class StyleAttributeExtractor extends FilterAttributeExtractor
         }
 
         if (fill.getColor() != null) {
-            fill.getColor().accept(this, null );
+            fill.getColor().accept(this, null);
         }
 
         if (fill.getGraphicFill() != null) {
@@ -150,7 +149,7 @@ public class StyleAttributeExtractor extends FilterAttributeExtractor
         }
 
         if (fill.getOpacity() != null) {
-            fill.getOpacity().accept(this, null );
+            fill.getOpacity().accept(this, null);
         }
     }
 
@@ -159,11 +158,11 @@ public class StyleAttributeExtractor extends FilterAttributeExtractor
      */
     public void visit(Stroke stroke) {
         if (stroke.getColor() != null) {
-            stroke.getColor().accept(this, null );
+            stroke.getColor().accept(this, null);
         }
 
         if (stroke.getDashOffset() != null) {
-            stroke.getDashOffset().accept(this, null );
+            stroke.getDashOffset().accept(this, null);
         }
 
         if (stroke.getGraphicFill() != null) {
@@ -187,11 +186,11 @@ public class StyleAttributeExtractor extends FilterAttributeExtractor
         }
 
         if (stroke.getWidth() != null) {
-            stroke.getWidth().accept(this, null );
+            stroke.getWidth().accept(this, null);
         }
 
         if (stroke.dashArray() != null) {
-            for(Expression expression: stroke.dashArray()) {
+            for (Expression expression : stroke.dashArray()) {
                 expression.accept(this, null);
             }
         }
@@ -310,10 +309,9 @@ public class StyleAttributeExtractor extends FilterAttributeExtractor
             }
         }
 
-        if (text instanceof TextSymbolizer2)
-        {
-            if ( ((TextSymbolizer2)text).getGraphic() !=null)
-                ((TextSymbolizer2)text).getGraphic().accept(this);
+        if (text instanceof TextSymbolizer2) {
+            if (((TextSymbolizer2) text).getGraphic() != null)
+                ((TextSymbolizer2) text).getGraphic().accept(this);
         }
 
         if (text.getFill() != null) {
@@ -325,22 +323,22 @@ public class StyleAttributeExtractor extends FilterAttributeExtractor
         }
 
         if (text.fonts() != null) {
-            for (Font font : text.fonts() ){
+            for (Font font : text.fonts()) {
                 if (font.getFamily() != null) {
-                    for( Expression list: font.getFamily() ){
-                        list.accept(this,null);
+                    for (Expression list : font.getFamily()) {
+                        list.accept(this, null);
                     }
                 }
                 if (font.getSize() != null) {
-                    font.getSize().accept(this,null);
+                    font.getSize().accept(this, null);
                 }
 
                 if (font.getStyle() != null) {
-                    font.getStyle().accept(this,null);
+                    font.getStyle().accept(this, null);
                 }
 
                 if (font.getWeight() != null) {
-                    font.getWeight().accept(this,null);
+                    font.getWeight().accept(this, null);
                 }
             }
         }
@@ -350,7 +348,7 @@ public class StyleAttributeExtractor extends FilterAttributeExtractor
         }
 
         if (text.getLabel() != null) {
-            text.getLabel().accept(this,null);
+            text.getLabel().accept(this, null);
         }
 
         if (text.getLabelPlacement() != null) {
@@ -358,7 +356,7 @@ public class StyleAttributeExtractor extends FilterAttributeExtractor
         }
 
         if (text.getPriority() != null) {
-            text.getPriority().accept(this,null);
+            text.getPriority().accept(this, null);
         }
     }
 
@@ -376,17 +374,17 @@ public class StyleAttributeExtractor extends FilterAttributeExtractor
         }
 
         if (gr.getOpacity() != null) {
-            gr.getOpacity().accept(this,null);
+            gr.getOpacity().accept(this, null);
         }
 
         if (gr.getRotation() != null) {
-            gr.getRotation().accept(this,null);
+            gr.getRotation().accept(this, null);
         }
 
         if (gr.getSize() != null) {
-            gr.getSize().accept(this,null);
+            gr.getSize().accept(this, null);
         }
-        
+
         if (gr.getDisplacement() != null)
             gr.getDisplacement().accept(this);
 
@@ -405,24 +403,25 @@ public class StyleAttributeExtractor extends FilterAttributeExtractor
         if (mark.getStroke() != null) {
             mark.getStroke().accept(this);
         }
-        
-        if(mark.getWellKnownName() != null) {
-            if(mark.getWellKnownName() instanceof Literal) {
+
+        if (mark.getWellKnownName() != null) {
+            if (mark.getWellKnownName() instanceof Literal) {
                 visitCqlExpression(mark.getWellKnownName().evaluate(null, String.class));
             } else {
-                mark.getWellKnownName().accept(this,null);
+                mark.getWellKnownName().accept(this, null);
             }
         }
     }
 
     /**
      * Handles the special CQL expressions embedded in the style markers since
-     * the time 
+     * the time
+     *
      * @param expression
      */
     private void visitCqlExpression(String expression) {
         Expression parsed = ExpressionExtractor.extractCqlExpressions(expression);
-        if(parsed != null)
+        if (parsed != null)
             parsed.accept(this, null);
     }
 
@@ -434,11 +433,11 @@ public class StyleAttributeExtractor extends FilterAttributeExtractor
         visitCqlExpression(exgr.getFormat());
 
         try {
-            if(exgr.getLocation() != null)
+            if (exgr.getLocation() != null)
                 visitCqlExpression(exgr.getLocation().toString());
-        } catch(MalformedURLException e) {
+        } catch (MalformedURLException e) {
             throw new RuntimeException("Errors while inspecting " +
-            		"the location of an external graphic", e);
+                    "the location of an external graphic", e);
         }
     }
 
@@ -455,7 +454,7 @@ public class StyleAttributeExtractor extends FilterAttributeExtractor
         }
 
         if (pp.getRotation() != null) {
-            pp.getRotation().accept(this,null);
+            pp.getRotation().accept(this, null);
         }
     }
 
@@ -464,11 +463,11 @@ public class StyleAttributeExtractor extends FilterAttributeExtractor
      */
     public void visit(AnchorPoint ap) {
         if (ap.getAnchorPointX() != null) {
-            ap.getAnchorPointX().accept(this,null);
+            ap.getAnchorPointX().accept(this, null);
         }
 
         if (ap.getAnchorPointY() != null) {
-            ap.getAnchorPointY().accept(this,null);
+            ap.getAnchorPointY().accept(this, null);
         }
     }
 
@@ -477,11 +476,11 @@ public class StyleAttributeExtractor extends FilterAttributeExtractor
      */
     public void visit(Displacement dis) {
         if (dis.getDisplacementX() != null) {
-            dis.getDisplacementX().accept(this,null);
+            dis.getDisplacementX().accept(this, null);
         }
 
         if (dis.getDisplacementY() != null) {
-            dis.getDisplacementY().accept(this,null);
+            dis.getDisplacementY().accept(this, null);
         }
     }
 
@@ -490,7 +489,7 @@ public class StyleAttributeExtractor extends FilterAttributeExtractor
      */
     public void visit(LinePlacement lp) {
         if (lp.getPerpendicularOffset() != null) {
-            lp.getPerpendicularOffset().accept(this,null);
+            lp.getPerpendicularOffset().accept(this, null);
         }
     }
 
@@ -503,7 +502,7 @@ public class StyleAttributeExtractor extends FilterAttributeExtractor
         }
 
         if (halo.getRadius() != null) {
-            halo.getRadius().accept(this,null);
+            halo.getRadius().accept(this, null);
         }
     }
 
@@ -553,27 +552,27 @@ public class StyleAttributeExtractor extends FilterAttributeExtractor
 
     public void visit(ContrastEnhancement contrastEnhancement) {
         contrastEnhancement.accept(this);
-        
+
     }
 
     public void visit(ImageOutline outline) {
         outline.getSymbolizer().accept(this);
-        
+
     }
 
     public void visit(ChannelSelection cs) {
         cs.accept(this);
-        
+
     }
 
     public void visit(OverlapBehavior ob) {
         ob.accept(this);
-        
+
     }
 
     public void visit(SelectedChannelType sct) {
         sct.accept(this);
-        
+
     }
 
     public void visit(ShadedRelief sr) {

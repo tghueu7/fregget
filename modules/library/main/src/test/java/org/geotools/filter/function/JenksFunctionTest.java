@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -29,14 +29,10 @@ import org.opengis.filter.expression.Literal;
 import org.opengis.filter.expression.PropertyName;
 
 /**
- * 
  * @author Cory Horner, Refractions Research Inc.
- * 
- *
- *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/library/main/src/test/java/org/geotools/
- *         filter/function/QuantileFunctionTest.java $
+ * http://svn.osgeo.org/geotools/trunk/modules/library/main/src/test/java/org/geotools/
+ * filter/function/QuantileFunctionTest.java $
  */
 public class JenksFunctionTest extends FunctionTestSupport {
 
@@ -124,7 +120,7 @@ public class JenksFunctionTest extends FunctionTestSupport {
      * Creates a feature collection with five features 1-5. Then uses the quantile function to put
      * these features in 5 bins. Each bin should have a single feature.
      * </p>
-     * 
+     *
      * @throws Exception
      */
     public void testSingleBin() throws Exception {
@@ -132,13 +128,13 @@ public class JenksFunctionTest extends FunctionTestSupport {
         // create a feature collection with five features values 1-5
         SimpleFeatureType dataType = DataUtilities.createType("classification.test1",
                 "id:0,value:int");
-        int iVal[] = new int[] { 1, 2, 3, 4, 5 };
+        int iVal[] = new int[]{1, 2, 3, 4, 5};
         SimpleFeature[] myfeatures = new SimpleFeature[iVal.length];
         for (int i = 0; i < iVal.length; i++) {
-            myfeatures[i] = SimpleFeatureBuilder.build(dataType, new Object[] { new Integer(i + 1),
-                    new Integer(iVal[i]) }, "classification.test1" + (i + 1));
+            myfeatures[i] = SimpleFeatureBuilder.build(dataType, new Object[]{new Integer(i + 1),
+                    new Integer(iVal[i])}, "classification.test1" + (i + 1));
         }
-        SimpleFeatureSource source = DataUtilities.source( myfeatures);
+        SimpleFeatureSource source = DataUtilities.source(myfeatures);
         SimpleFeatureCollection myFeatureCollection = source.getFeatures();
 
         // run the quantile function
@@ -169,13 +165,14 @@ public class JenksFunctionTest extends FunctionTestSupport {
         // create a feature collection with five features values 1-5
         SimpleFeatureType dataType = DataUtilities.createType("classification.test1",
                 "id:0,value:int");
-        int iVal[] = new int[] { 1, 2, 3, 4, 5, 6 };
+        int iVal[] = new int[]{1, 2, 3, 4, 5, 6};
         SimpleFeature[] myfeatures = new SimpleFeature[iVal.length];
         for (int i = 0; i < iVal.length; i++) {
-            myfeatures[i] = SimpleFeatureBuilder.build(dataType, new Object[] { new Integer(i + 1),
-                    new Integer(iVal[i]) }, "classification.t" + (i + 1));
+            myfeatures[i] = SimpleFeatureBuilder.build(dataType, new Object[]{new Integer(i + 1),
+                    new Integer(iVal[i])}, "classification.t" + (i + 1));
         }
-        SimpleFeatureSource source = DataUtilities.source( myfeatures);;
+        SimpleFeatureSource source = DataUtilities.source(myfeatures);
+        ;
         SimpleFeatureCollection myFeatureCollection = source.getFeatures();
 
         // run the quantile function
@@ -185,32 +182,32 @@ public class JenksFunctionTest extends FunctionTestSupport {
         RangedClassifier range = (RangedClassifier) classifier;
     }
 
-    
 
     public void xtestNullNaNHandling() throws Exception {
         // create a feature collection
         SimpleFeatureType ft = DataUtilities.createType("classification.nullnan",
                 "id:0,foo:int,bar:double");
-        Integer iVal[] = new Integer[] { new Integer(0), new Integer(0), new Integer(0),
-                new Integer(13), new Integer(13), new Integer(13), null, null, null };
-        Double dVal[] = new Double[] { new Double(0.0), new Double(50.01), null, new Double(0.0),
-                new Double(50.01), null, new Double(0.0), new Double(50.01), null };
+        Integer iVal[] = new Integer[]{new Integer(0), new Integer(0), new Integer(0),
+                new Integer(13), new Integer(13), new Integer(13), null, null, null};
+        Double dVal[] = new Double[]{new Double(0.0), new Double(50.01), null, new Double(0.0),
+                new Double(50.01), null, new Double(0.0), new Double(50.01), null};
 
         SimpleFeature[] testFeatures = new SimpleFeature[iVal.length];
 
         for (int i = 0; i < iVal.length; i++) {
-            testFeatures[i] = SimpleFeatureBuilder.build(ft, new Object[] { new Integer(i + 1),
-                    iVal[i], dVal[i], }, "nantest.t" + (i + 1));
+            testFeatures[i] = SimpleFeatureBuilder.build(ft, new Object[]{new Integer(i + 1),
+                    iVal[i], dVal[i],}, "nantest.t" + (i + 1));
         }
         SimpleFeatureSource source = DataUtilities.source(testFeatures);
         SimpleFeatureCollection thisFC = source.getFeatures();
 
         // create the expression
         Divide divide = ff.divide(ff.property("foo"), ff.property("bar"));
-        JenksNaturalBreaksFunction qf = (JenksNaturalBreaksFunction) ff.function("Jenks", divide, ff.literal(3));
+        JenksNaturalBreaksFunction qf = (JenksNaturalBreaksFunction) ff.function("Jenks", divide,
+                ff.literal(3));
 
         RangedClassifier range = (RangedClassifier) qf.evaluate(thisFC);
-        assertEquals(3 , range.getSize()); // 2 or 3?
+        assertEquals(3, range.getSize()); // 2 or 3?
         assertEquals("0..0", range.getTitle(0));
         assertEquals("0..0", range.getTitle(1));
     }

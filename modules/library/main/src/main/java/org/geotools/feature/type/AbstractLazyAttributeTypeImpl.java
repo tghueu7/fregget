@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -32,16 +32,15 @@ import org.opengis.util.InternationalString;
  * A replacement for {@link AttributeTypeImpl} with lazy evaluation of super type, so types can be
  * defined in any order. Note that type equality is defined by name, so do not allow different types
  * with the same name to be put in any Collection.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * Inspired by {@link AttributeTypeImpl} and {@link PropertyTypeImpl}.
- * 
+ *
  * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
+ * @source $URL$
  * @see AttributeTypeImpl
  * @see PropertyTypeImpl
- *
- * @source $URL$
  */
 public abstract class AbstractLazyAttributeTypeImpl implements AttributeType {
 
@@ -63,7 +62,7 @@ public abstract class AbstractLazyAttributeTypeImpl implements AttributeType {
 
     /**
      * Constructor arguments have the same meaning as in {@link AttributeTypeImpl}.
-     * 
+     *
      * @param name
      * @param binding
      * @param identified
@@ -72,7 +71,8 @@ public abstract class AbstractLazyAttributeTypeImpl implements AttributeType {
      * @param description
      */
     public AbstractLazyAttributeTypeImpl(Name name, Class<?> binding, boolean identified,
-            boolean isAbstract, List<Filter> restrictions, InternationalString description) {
+                                         boolean isAbstract, List<Filter> restrictions, 
+                                         InternationalString description) {
         if (name == null) {
             throw new NullPointerException("Type has no name");
         }
@@ -95,7 +95,7 @@ public abstract class AbstractLazyAttributeTypeImpl implements AttributeType {
     /**
      * Subclasses must override this method to return the super type of this type or null if none.
      * This method will only be called once at most.
-     * 
+     *
      * @return super type or null
      */
     public abstract AttributeType buildSuper();
@@ -163,7 +163,7 @@ public abstract class AbstractLazyAttributeTypeImpl implements AttributeType {
      * Equality by name. Yes, this may be a surprise to some client code, but how else do you define
      * equality in the face of cyclic type definitions, without breaking encapsulation to analyse
      * the full graph of types?
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     public boolean equals(Object other) {

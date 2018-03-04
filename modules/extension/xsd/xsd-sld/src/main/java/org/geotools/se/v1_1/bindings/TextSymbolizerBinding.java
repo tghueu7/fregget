@@ -25,28 +25,27 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/se:TextSymbolizer.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
- *  &lt;xsd:element name="TextSymbolizer" substitutionGroup="se:Symbolizer" type="se:TextSymbolizerType"&gt;
+ *  &lt;xsd:element name="TextSymbolizer" substitutionGroup="se:Symbolizer" 
+ *  type="se:TextSymbolizerType"&gt;
  *      &lt;xsd:annotation&gt;
  *          &lt;xsd:documentation&gt;
  *          A "TextSymbolizer" is used to render text labels according to
  *          various graphical parameters.
  *        &lt;/xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
- *  &lt;/xsd:element&gt; 
- * 	
+ *  &lt;/xsd:element&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class TextSymbolizerBinding extends SLDTextSymbolizerBinding {
@@ -54,7 +53,7 @@ public class TextSymbolizerBinding extends SLDTextSymbolizerBinding {
     public TextSymbolizerBinding(StyleFactory styleFactory) {
         super(styleFactory);
     }
-    
+
     @Override
     public int getExecutionMode() {
         return BEFORE;

@@ -21,31 +21,35 @@ import org.w3c.dom.Element;
 
 /**
  * Binding object for the type http://www.opengis.net/wcs:TimePeriodType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
- *	 <code>
+ * 	 <code>
  *  &lt;complexType name=&quot;TimePeriodType&quot;&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;This is a variation of the GML TimePeriod, which allows the beginning and end of a time-period to be expressed in short-form inline using the begin/endPosition element, which allows an identifiable TimeInstant to be defined simultaneously with using it, or by reference, using xlinks on the begin/end elements. &lt;/documentation&gt;
+ *          &lt;documentation&gt;This is a variation of the GML TimePeriod, which allows the 
+ *          beginning and end of a time-period to be expressed in short-form inline using the 
+ *          begin/endPosition element, which allows an identifiable TimeInstant to be defined 
+ *          simultaneously with using it, or by reference, using xlinks on the begin/end elements
+ *          . &lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;sequence&gt;
  *          &lt;element name=&quot;beginPosition&quot; type=&quot;gml:TimePositionType&quot;/&gt;
  *          &lt;element name=&quot;endPosition&quot; type=&quot;gml:TimePositionType&quot;/&gt;
- *          &lt;element minOccurs=&quot;0&quot; name=&quot;timeResolution&quot; type=&quot;gml:TimeDurationType&quot;/&gt;
+ *          &lt;element minOccurs=&quot;0&quot; name=&quot;timeResolution&quot; type=&quot;
+ *          gml:TimeDurationType&quot;/&gt;
  *      &lt;/sequence&gt;
- *      &lt;attribute default=&quot;#ISO-8601&quot; name=&quot;frame&quot; type=&quot;anyURI&quot; use=&quot;optional&quot;/&gt;
- *  &lt;/complexType&gt; 
- * 	
+ *      &lt;attribute default=&quot;#ISO-8601&quot; name=&quot;frame&quot; type=&quot;
+ *      anyURI&quot; use=&quot;optional&quot;/&gt;
+ *  &lt;/complexType&gt;
+ *
  * </code>
- *	 </pre>
- * 
+ * 	 </pre>
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class TimePeriodTypeBinding extends AbstractComplexBinding {
@@ -59,7 +63,7 @@ public class TimePeriodTypeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -68,7 +72,7 @@ public class TimePeriodTypeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
@@ -88,7 +92,7 @@ public class TimePeriodTypeBinding extends AbstractComplexBinding {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.xml.AbstractComplexBinding#encode(java.lang.Object,
      *      org.w3c.dom.Document, org.w3c.dom.Element)
      */

@@ -25,32 +25,31 @@ import org.opengis.util.InternationalString;
 
 /**
  * Factory for process which buffers an entire feature collection.
- * 
+ *
  * @author Justin Deoliveira, OpenGEO
- * @since 2.6
- *
- *
- *
  * @source $URL$
+ * @since 2.6
  */
 public class BufferFeatureCollectionFactory extends FeatureToFeatureProcessFactory {
 
-    /** Buffer amount */
+    /**
+     * Buffer amount
+     */
     public static final Parameter<Double> BUFFER = new Parameter<>("buffer", Double.class, Text.text("Buffer Amount"), Text.text("Amount to buffer each feature by"));
 
     public InternationalString getTitle() {
         return Text.text("Buffer Features");
     }
-    
+
     public InternationalString getDescription() {
         return Text.text("Buffer each Feature in a Feature Collection");
     }
-    
+
     @Override
     protected void addParameters(Map<String, Parameter<?>> parameters) {
         parameters.put(BUFFER.key, BUFFER);
     }
-    
+
     public BufferFeatureCollectionProcess create() throws IllegalArgumentException {
         return new BufferFeatureCollectionProcess(this);
     }

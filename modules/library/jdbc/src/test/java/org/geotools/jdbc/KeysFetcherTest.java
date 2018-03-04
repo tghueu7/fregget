@@ -25,7 +25,7 @@ import java.math.BigInteger;
 
 public class KeysFetcherTest extends TestCase {
     public void testIncrement() throws IOException {
-        assertEquals(Short.valueOf((short)4),
+        assertEquals(Short.valueOf((short) 4),
                 KeysFetcher.FromPreviousIntegral.increment((short) 3));
         assertEquals(Integer.valueOf(11),
                 KeysFetcher.FromPreviousIntegral.increment(10));

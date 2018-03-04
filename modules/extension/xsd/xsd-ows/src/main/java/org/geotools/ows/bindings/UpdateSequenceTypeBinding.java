@@ -17,20 +17,25 @@
 package org.geotools.ows.bindings;
 
 import net.opengis.ows10.Ows10Factory;
+
 import javax.xml.namespace.QName;
+
 import org.geotools.ows.OWS;
 import org.geotools.xml.*;
 
 
 /**
  * Binding object for the type http://www.opengis.net/ows:UpdateSequenceType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;simpleType name="UpdateSequenceType"&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;Service metadata document version, having values that are "increased" whenever any change is made in service metadata document. Values are selected by each server, and are always opaque to clients. See updateSequence parameter use subclause for more information. &lt;/documentation&gt;
+ *          &lt;documentation&gt;Service metadata document version, having values that are 
+ *          "increased" whenever any change is made in service metadata document. Values are 
+ *          selected by each server, and are always opaque to clients. See updateSequence 
+ *          parameter use subclause for more information. &lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;restriction base="string"/&gt;
  *  &lt;/simpleType&gt;
@@ -40,9 +45,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class UpdateSequenceTypeBinding extends AbstractSimpleBinding {
@@ -73,7 +75,7 @@ public class UpdateSequenceTypeBinding extends AbstractSimpleBinding {
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
+            throws Exception {
         //TODO: implement and remove call to super
         return super.parse(instance, value);
     }

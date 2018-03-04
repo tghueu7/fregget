@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -13,7 +13,7 @@
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
- *    
+ *
  *    Created on July 21, 2003, 5:58 PM
  */
 
@@ -45,18 +45,20 @@ import com.vividsolutions.jts.geom.PrecisionModel;
 
 /**
  * Verify TreeSetFeatureCollection is conforming to the FeatureCollection api contract.
- * @author  Jody
  *
- *
+ * @author Jody
  * @source $URL$
  */
-public class TreeSetFeatureCollectionTest extends org.geotools.data.collection.FeatureCollectionTest {
+public class TreeSetFeatureCollectionTest extends org.geotools.data.collection
+        .FeatureCollectionTest {
     public TreeSetFeatureCollectionTest(String testName) {
         super(testName);
     }
-    protected TreeSetFeatureCollection newCollection(SimpleFeatureType schema, List<SimpleFeature> list ) {
-        TreeSetFeatureCollection treeset = new TreeSetFeatureCollection( null, null);
-        treeset.addAll( list );
+
+    protected TreeSetFeatureCollection newCollection(SimpleFeatureType schema, 
+                                                     List<SimpleFeature> list) {
+        TreeSetFeatureCollection treeset = new TreeSetFeatureCollection(null, null);
+        treeset.addAll(list);
         return treeset;
     }
 }

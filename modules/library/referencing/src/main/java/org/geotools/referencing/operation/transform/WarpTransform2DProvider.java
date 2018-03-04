@@ -35,54 +35,73 @@ import org.opengis.referencing.operation.Transformation;
  * {@linkplain WarpPolynomial image warp} from a set of polynomial coefficients,
  * and wrap it in a {@link WarpTransform2D} object.
  *
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
  */
 public class WarpTransform2DProvider extends MathTransformProvider {
-    /** Serial number for interoperability with different versions. */
+    /**
+     * Serial number for interoperability with different versions.
+     */
     private static final long serialVersionUID = -7949539694656719923L;
 
-    /** Descriptor for the "{@link WarpPolynomial#getDegree degree}" parameter value. */
+    /**
+     * Descriptor for the "{@link WarpPolynomial#getDegree degree}" parameter value.
+     */
     public static final ParameterDescriptor<Integer> DEGREE = DefaultParameterDescriptor.create(
             "degree", 2, 1, WarpTransform2D.MAX_DEGREE);
 
-    /** Descriptor for the "{@link WarpPolynomial#getXCoeffs xCoeffs}" parameter value. */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    /**
+     * Descriptor for the "{@link WarpPolynomial#getXCoeffs xCoeffs}" parameter value.
+     */
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public static final ParameterDescriptor<?> X_COEFFS = new DefaultParameterDescriptor(
             "xCoeffs", float[].class, null, null);
 
-    /** Descriptor for the "{@link WarpPolynomial#getYCoeffs yCoeffs}" parameter value. */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    /**
+     * Descriptor for the "{@link WarpPolynomial#getYCoeffs yCoeffs}" parameter value.
+     */
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public static final ParameterDescriptor<?> Y_COEFFS = new DefaultParameterDescriptor(
             "yCoeffs", float[].class, null, null);
 
-    /** Descriptor for the "{@link WarpPolynomial#getPreScaleX preScaleX}" parameter value. */
+    /**
+     * Descriptor for the "{@link WarpPolynomial#getPreScaleX preScaleX}" parameter value.
+     */
     public static final ParameterDescriptor<Float> PRE_SCALE_X;
 
-    /** Descriptor for the "{@link WarpPolynomial#getPreScaleY preScaleY}" parameter value. */
+    /**
+     * Descriptor for the "{@link WarpPolynomial#getPreScaleY preScaleY}" parameter value.
+     */
     public static final ParameterDescriptor<Float> PRE_SCALE_Y;
 
-    /** Descriptor for the "{@link WarpPolynomial#getPostScaleX postScaleX}" parameter value. */
+    /**
+     * Descriptor for the "{@link WarpPolynomial#getPostScaleX postScaleX}" parameter value.
+     */
     public static final ParameterDescriptor<Float> POST_SCALE_X;
 
-    /** Descriptor for the "{@link WarpPolynomial#getPostScaleY postScaleY}" parameter value. */
+    /**
+     * Descriptor for the "{@link WarpPolynomial#getPostScaleY postScaleY}" parameter value.
+     */
     public static final ParameterDescriptor<Float> POST_SCALE_Y;
+
     static {
         final Float ONE = 1f;
-         PRE_SCALE_X = DefaultParameterDescriptor.create( "preScaleX",null, Float.class, ONE, false);
-         PRE_SCALE_Y = DefaultParameterDescriptor.create( "preScaleY", null, Float.class, ONE, false);
-         POST_SCALE_X = DefaultParameterDescriptor.create("postScaleX", null, Float.class, ONE, false);
-         POST_SCALE_Y = DefaultParameterDescriptor.create("postScaleY", null, Float.class, ONE, false);
+        PRE_SCALE_X = DefaultParameterDescriptor.create("preScaleX", null, Float.class, ONE, false);
+        PRE_SCALE_Y = DefaultParameterDescriptor.create("preScaleY", null, Float.class, ONE, false);
+        POST_SCALE_X = DefaultParameterDescriptor.create("postScaleX", null, Float.class, ONE, 
+                false);
+        POST_SCALE_Y = DefaultParameterDescriptor.create("postScaleY", null, Float.class, ONE, 
+                false);
     }
 
     /**
      * The parameters group.
      */
-    static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(new NamedIdentifier[] {
+    static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(new NamedIdentifier[]{
             new NamedIdentifier(Citations.GEOTOOLS, "WarpPolynomial")
-        }, new ParameterDescriptor[] {
+    }, new ParameterDescriptor[]{
             DEGREE, X_COEFFS, Y_COEFFS, PRE_SCALE_X, PRE_SCALE_Y, POST_SCALE_X, POST_SCALE_Y
-        });
+    });
 
     /**
      * Create a provider for warp transforms.
@@ -102,65 +121,78 @@ public class WarpTransform2DProvider extends MathTransformProvider {
     /**
      * Creates a warp transform from the specified group of parameter values.
      *
-     * @param  values The group of parameter values.
+     * @param values The group of parameter values.
      * @return The created math transform.
      * @throws ParameterNotFoundException if a required parameter was not found.
      */
     protected MathTransform createMathTransform(final ParameterValueGroup values)
-            throws ParameterNotFoundException
-    {
-        final int      degree   =        intValue(DEGREE,   values);
-        final float[] xCoeffs   = (float[]) value(X_COEFFS, values);
-        final float[] yCoeffs   = (float[]) value(Y_COEFFS, values);
-        final float   preScaleX = scale( PRE_SCALE_X, values);
-        final float   preScaleY = scale( PRE_SCALE_Y, values);
-        final float  postScaleX = scale(POST_SCALE_X, values);
-        final float  postScaleY = scale(POST_SCALE_Y, values);
+            throws ParameterNotFoundException {
+        final int degree = intValue(DEGREE, values);
+        final float[] xCoeffs = (float[]) value(X_COEFFS, values);
+        final float[] yCoeffs = (float[]) value(Y_COEFFS, values);
+        final float preScaleX = scale(PRE_SCALE_X, values);
+        final float preScaleY = scale(PRE_SCALE_Y, values);
+        final float postScaleX = scale(POST_SCALE_X, values);
+        final float postScaleY = scale(POST_SCALE_Y, values);
         try {
             final Object warp;
             switch (degree) {
-                case 1:  warp = createWarp("javax.media.jai.WarpAffine",
-                                           xCoeffs, yCoeffs, preScaleX, preScaleY, postScaleX, postScaleY); break;
-                case 2:  warp = createWarp("javax.media.jai.WarpQuadratic",
-                                            xCoeffs, yCoeffs, preScaleX, preScaleY, postScaleX, postScaleY); break;
-                case 3:  warp = createWarp("javax.media.jai.WarpCubic",
-                                            xCoeffs, yCoeffs, preScaleX, preScaleY, postScaleX, postScaleY); break;
-                default: warp = createWarp("javax.media.jai.WarpGeneralPolynomial",
-                                            xCoeffs, yCoeffs, preScaleX, preScaleY, postScaleX, postScaleY); break;
+                case 1:
+                    warp = createWarp("javax.media.jai.WarpAffine",
+                            xCoeffs, yCoeffs, preScaleX, preScaleY, postScaleX, postScaleY);
+                    break;
+                case 2:
+                    warp = createWarp("javax.media.jai.WarpQuadratic",
+                            xCoeffs, yCoeffs, preScaleX, preScaleY, postScaleX, postScaleY);
+                    break;
+                case 3:
+                    warp = createWarp("javax.media.jai.WarpCubic",
+                            xCoeffs, yCoeffs, preScaleX, preScaleY, postScaleX, postScaleY);
+                    break;
+                default:
+                    warp = createWarp("javax.media.jai.WarpGeneralPolynomial",
+                            xCoeffs, yCoeffs, preScaleX, preScaleY, postScaleX, postScaleY);
+                    break;
             }
             Class<? extends MathTransform> transformClass;
-            transformClass = (Class<? extends MathTransform>) Class.forName("org.geotools.referencing.operation.transform.WarpTransform2D");
+            transformClass = (Class<? extends MathTransform>) Class.forName("org.geotools" +
+                    ".referencing.operation.transform.WarpTransform2D");
             Class warpClass = Class.forName("javax.media.jai.Warp");
-            
-            Constructor<? extends MathTransform> createTransform = transformClass.getConstructor( new Class[]{warpClass,warpClass});
-            return createTransform.newInstance( warp, null );
+
+            Constructor<? extends MathTransform> createTransform = transformClass.getConstructor
+                    (new Class[]{warpClass, warpClass});
+            return createTransform.newInstance(warp, null);
         } catch (Exception jaiUnavailable) {
-            throw new UnsupportedOperationException("WarpTransform2D requires Java Advanced Imaging extension");
+            throw new UnsupportedOperationException("WarpTransform2D requires Java Advanced " +
+                    "Imaging extension");
         }
     }
 
     private Object createWarp(String warpName, final float[] xCoeffs, final float[] yCoeffs,
-            final float preScaleX, final float preScaleY, final float postScaleX,
-            final float postScaleY) throws ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+                              final float preScaleX, final float preScaleY, final float postScaleX,
+                              final float postScaleY) throws ClassNotFoundException, 
+            NoSuchMethodException, SecurityException, InstantiationException, 
+            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         Class warpClass = Class.forName(warpName);
-        Class[] params = new Class[]{float[].class,float[].class,float.class,float.class,float.class,float.class,float.class};
+        Class[] params = new Class[]{float[].class, float[].class, float.class, float.class, 
+                float.class, float.class, float.class};
         Constructor<?> constrctor = warpClass.getConstructor(params);
-        return constrctor.newInstance( xCoeffs, yCoeffs, preScaleX, preScaleY, postScaleX, postScaleY);
+        return constrctor.newInstance(xCoeffs, yCoeffs, preScaleX, preScaleY, postScaleX, 
+                postScaleY);
     }
-    
+
 
     /**
      * Returns the parameter value for the specified operation parameter.
      *
-     * @param  param The parameter to look for.
-     * @param  group The parameter value group to search into.
+     * @param param The parameter to look for.
+     * @param group The parameter value group to search into.
      * @return The requested parameter value, or {@code 1} if none.
      */
     private static float scale(final ParameterDescriptor param,
                                final ParameterValueGroup group)
-            throws ParameterNotFoundException
-    {
+            throws ParameterNotFoundException {
         final Object value = value(param, group);
-        return (value!=null) ? ((Number) value).floatValue() : 1;
+        return (value != null) ? ((Number) value).floatValue() : 1;
     }
 }

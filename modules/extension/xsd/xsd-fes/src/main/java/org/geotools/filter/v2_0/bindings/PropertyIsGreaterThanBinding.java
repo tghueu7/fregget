@@ -24,13 +24,13 @@ import org.opengis.filter.FilterFactory;
 
 /**
  * Binding object for the element http://www.opengis.net/fes/2.0:PropertyIsGreaterThan.
- *
  * <p>
- *      <pre>
+ * <p>
+ * <pre>
  *       <code>
  *  &lt;xsd:element name="PropertyIsGreaterThan"
- *      substitutionGroup="fes:comparisonOps" type="fes:BinaryComparisonOpType"/&gt; 
- *              
+ *      substitutionGroup="fes:comparisonOps" type="fes:BinaryComparisonOpType"/&gt;
+ *
  *        </code>
  *       </pre>
  * </p>
@@ -38,7 +38,7 @@ import org.opengis.filter.FilterFactory;
  * @generated
  */
 public class PropertyIsGreaterThanBinding extends OGCPropertyIsGreaterThanBinding {
-    
+
     public PropertyIsGreaterThanBinding(FilterFactory filterfactory) {
         super(filterfactory);
     }

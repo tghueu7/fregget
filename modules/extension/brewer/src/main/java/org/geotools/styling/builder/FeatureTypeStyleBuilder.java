@@ -35,8 +35,6 @@ import org.opengis.filter.expression.Expression;
 import org.opengis.style.SemanticType;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class FeatureTypeStyleBuilder extends AbstractStyleBuilder<FeatureTypeStyle> {
@@ -52,9 +50,9 @@ public class FeatureTypeStyleBuilder extends AbstractStyleBuilder<FeatureTypeSty
             this);
 
     private Set<SemanticType> types = new LinkedHashSet<SemanticType>();
-    
+
     Map<String, String> options = new HashMap<>();
-    
+
     Expression transformation = null;
 
     // TODO : add semantic type identifier, provided it makes any sense to have it
@@ -91,7 +89,7 @@ public class FeatureTypeStyleBuilder extends AbstractStyleBuilder<FeatureTypeSty
     /**
      * Accumulates another feature type name in the list of the feature type names for this
      * {@link FeatureTypeStyle}
-     * 
+     *
      * @param featureTypeName
      * @return
      */
@@ -142,12 +140,12 @@ public class FeatureTypeStyleBuilder extends AbstractStyleBuilder<FeatureTypeSty
     public Set<SemanticType> types() {
         return types;
     }
-    
+
     public FeatureTypeStyleBuilder option(String name, String value) {
         options.put(name, value);
         return this;
     }
-    
+
     public FeatureTypeStyleBuilder transformation(Expression transformation) {
         this.unset = false;
         this.transformation = transformation;
@@ -157,7 +155,7 @@ public class FeatureTypeStyleBuilder extends AbstractStyleBuilder<FeatureTypeSty
     /**
      * Accumulates another feature type name in the list of the feature type names for this
      * {@link FeatureTypeStyle}
-     * 
+     *
      * @param featureTypeName
      * @return
      */
@@ -177,7 +175,7 @@ public class FeatureTypeStyleBuilder extends AbstractStyleBuilder<FeatureTypeSty
         }
         FeatureTypeStyle fts = sf.featureTypeStyle(name, description.build(), definedFor.build(),
                 featureTypeNames, types, list);
-        if(!options.isEmpty()) {
+        if (!options.isEmpty()) {
             fts.getOptions().putAll(options);
         }
         fts.setTransformation(transformation);

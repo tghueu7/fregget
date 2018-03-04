@@ -5,14 +5,11 @@ import org.geotools.arcsde.session.ISessionPool;
 import org.opengis.coverage.grid.GridEnvelope;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class TileReaderFactory {
 
     /**
-     * 
      * @param preparedQuery
      * @param row
      * @param nativeType
@@ -24,8 +21,9 @@ public class TileReaderFactory {
      * @return
      */
     public static TileReader getInstance(final ISessionPool sessionPool,
-            final RasterDatasetInfo rasterInfo, final long rasterId, final int pyramidLevel,
-            final GridEnvelope tileRange) {
+                                         final RasterDatasetInfo rasterInfo, final long rasterId,
+                                         final int pyramidLevel,
+                                         final GridEnvelope tileRange) {
 
         final TileReader tileReader;
 

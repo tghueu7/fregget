@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.metadata.citation;
@@ -19,23 +19,21 @@ import static org.opengis.annotation.Specification.*;
 /**
  * Information required to enable contact with the responsible person and/or organization.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
+ * @source $URL$
+ * @since GeoAPI 1.0
  */
-@UML(identifier="CI_Contact", specification=ISO_19115)
+@UML(identifier = "CI_Contact", specification = ISO_19115)
 public interface Contact {
     /**
      * Telephone numbers at which the organization or individual may be contacted.
      * Returns {@code null} if none.
      *
      * @return Telephone numbers at which the organization or individual may be contacted,
-     *         or {@code null}.
+     * or {@code null}.
      */
-    @UML(identifier="phone", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "phone", obligation = OPTIONAL, specification = ISO_19115)
     Telephone getPhone();
 
     /**
@@ -43,9 +41,9 @@ public interface Contact {
      * Returns {@code null} if none.
      *
      * @return Physical and email address at which the organization or individual may be contacted,
-     *         or {@code null}.
+     * or {@code null}.
      */
-    @UML(identifier="address", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "address", obligation = OPTIONAL, specification = ISO_19115)
     Address getAddress();
 
     /**
@@ -53,9 +51,9 @@ public interface Contact {
      * Returns {@code null} if none.
      *
      * @return On-line information that can be used to contact the individual or organization,
-     *         or {@code null}.
+     * or {@code null}.
      */
-    @UML(identifier="onLineResource", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "onLineResource", obligation = OPTIONAL, specification = ISO_19115)
     OnLineResource getOnLineResource();
 
     /**
@@ -63,9 +61,9 @@ public interface Contact {
      * individual. Returns {@code null} if unspecified.
      *
      * @return Time period when individuals can contact the organization or individual,
-     *         or {@code null}.
+     * or {@code null}.
      */
-    @UML(identifier="hoursOfService", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "hoursOfService", obligation = OPTIONAL, specification = ISO_19115)
     InternationalString getHoursOfService();
 
     /**
@@ -73,8 +71,8 @@ public interface Contact {
      * Returns {@code null} if none.
      *
      * @return Supplemental instructions on how or when to contact the individual or organization,
-     *         or {@code null}.
+     * or {@code null}.
      */
-    @UML(identifier="contactInstructions", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "contactInstructions", obligation = OPTIONAL, specification = ISO_19115)
     InternationalString getContactInstructions();
 }

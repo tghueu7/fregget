@@ -33,35 +33,32 @@ import org.geotools.factory.GeoTools;
  * Abstract implementation of DataStoreFactory for jdbc datastores which obtain
  * a JNDI connection.
  * <p>
- * Subclasses should not need to override any methods, only just call the 
- * parent constructor passing in the non JNDI datastore factory to delegate to. 
+ * Subclasses should not need to override any methods, only just call the
+ * parent constructor passing in the non JNDI datastore factory to delegate to.
  * </p>
- * 
+ *
  * @author Christian Mueller
- *
- *
- *
  * @source $URL$
  */
 public abstract class JDBCJNDIDataStoreFactory extends JDBCDataStoreFactory {
 
-    
-    public final static String J2EERootContext="java:comp/env/";
+
+    public final static String J2EERootContext = "java:comp/env/";
     /**
      * JNDI data source name
      */
     public static final Param JNDI_REFNAME = new Param("jndiReferenceName", String.class,
-            "JNDI data source", true, J2EERootContext+"jdbc/mydatabase");
+            "JNDI data source", true, J2EERootContext + "jdbc/mydatabase");
 
     /**
      * regular datastore factory to delegate to.
      */
     protected JDBCDataStoreFactory delegate;
-    
+
     protected JDBCJNDIDataStoreFactory(JDBCDataStoreFactory delegate) {
         this.delegate = delegate;
     }
-    
+
     /**
      * Override which explicitly returns null because with a JNDI connection
      * the driver is not known ahead of time.
@@ -72,16 +69,16 @@ public abstract class JDBCJNDIDataStoreFactory extends JDBCDataStoreFactory {
     }
 
     /**
-     * Override which explicitly returns null, validation queries are 
+     * Override which explicitly returns null, validation queries are
      * not supported, my be part of the external data source configuration
      */
     @Override
     protected String getValidationQuery() {
         return null;
     }
-    
+
     /**
-     * Override which explicitly returns null since there is no jdbc url, the 
+     * Override which explicitly returns null since there is no jdbc url, the
      * connection is identified by the JNDI name.
      */
     @Override
@@ -98,32 +95,32 @@ public abstract class JDBCJNDIDataStoreFactory extends JDBCDataStoreFactory {
             throw new IOException("Missing " + JNDI_REFNAME.description);
 
         Context ctx = null;
-        DataSource ds = null;        
-        
+        DataSource ds = null;
+
         try {
             ctx = GeoTools.getInitialContext(GeoTools.getDefaultHints());
         } catch (NamingException e) {
             throw new RuntimeException(e);
         }
-            
-        try {    
+
+        try {
             ds = (DataSource) ctx.lookup(jndiName);
         } catch (NamingException e1) {
             // check if the user did not specify "java:comp/env" 
             // and this code is running in a J2EE environment
             try {
-                if (jndiName.startsWith(J2EERootContext)==false)  {
-                    ds = (DataSource) ctx.lookup(J2EERootContext+jndiName);
+                if (jndiName.startsWith(J2EERootContext) == false) {
+                    ds = (DataSource) ctx.lookup(J2EERootContext + jndiName);
                     // success --> issue a waring
                     Logger.getLogger(this.getClass().getName()).log(
-                		Level.WARNING,"Using "+J2EERootContext+jndiName+" instead of " +
-                		jndiName+ " would avoid an unnecessary JNDI lookup");
-                }    
+                            Level.WARNING, "Using " + J2EERootContext + jndiName + " instead of " +
+                                    jndiName + " would avoid an unnecessary JNDI lookup");
+                }
             } catch (NamingException e2) {
                 // do nothing, was only a try
-            }                            
-        }    
-        
+            }
+        }
+
         if (ds == null)
             throw new IOException("Cannot find JNDI data source: " + jndiName);
         else
@@ -134,7 +131,7 @@ public abstract class JDBCJNDIDataStoreFactory extends JDBCDataStoreFactory {
      * Determines if the datastore is available.
      * <p>
      * Check in an Initial Context is available, that is all what can be done
-     * Checking for the right jdbc jars in the classpath is not possible here 
+     * Checking for the right jdbc jars in the classpath is not possible here
      * </p>
      */
     public boolean isAvailable() {
@@ -147,7 +144,7 @@ public abstract class JDBCJNDIDataStoreFactory extends JDBCDataStoreFactory {
     }
 
     /**
-     * Override to omit all those parameters which define the creation of 
+     * Override to omit all those parameters which define the creation of
      * the connection.
      */
     protected void setupParameters(Map parameters) {
@@ -174,7 +171,7 @@ public abstract class JDBCJNDIDataStoreFactory extends JDBCDataStoreFactory {
     public String getDisplayName() {
         return delegate.getDisplayName() + " (JNDI)";
     }
-    
+
     public String getDescription() {
         return delegate.getDescription() + " (JNDI)";
     }
@@ -192,15 +189,15 @@ public abstract class JDBCJNDIDataStoreFactory extends JDBCDataStoreFactory {
     public Map getImplementationHints() {
         return delegate.getImplementationHints();
     }
-    
+
     @Override
     protected SQLDialect createSQLDialect(JDBCDataStore dataStore) {
         return delegate.createSQLDialect(dataStore);
     }
-    
+
     @Override
     protected boolean checkDBType(Map params) {
         return delegate.checkDBType(params);
     }
-    
+
 }

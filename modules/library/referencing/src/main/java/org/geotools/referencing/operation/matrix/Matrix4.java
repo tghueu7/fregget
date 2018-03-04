@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -25,12 +25,10 @@ import org.opengis.referencing.operation.Matrix;
  * A matrix of fixed {@value #SIZE}&times;{@value #SIZE} size. It is used
  * primarily for supporting datum shifts.
  *
- * @since 2.2
- * @version 13.0
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.2
  */
 public class Matrix4 extends GeneralMatrix implements XMatrix {
     /**
@@ -57,14 +55,13 @@ public class Matrix4 extends GeneralMatrix implements XMatrix {
     public Matrix4(double m00, double m01, double m02, double m03,
                    double m10, double m11, double m12, double m13,
                    double m20, double m21, double m22, double m23,
-                   double m30, double m31, double m32, double m33)
-    {
-        super(SIZE,SIZE,
-              new double[]{
-                m00, m01, m02, m03,
-                m10, m11, m12, m13,
-                m20, m21, m22, m23,
-                m30, m31, m32, m33}
+                   double m30, double m31, double m32, double m33) {
+        super(SIZE, SIZE,
+                new double[]{
+                        m00, m01, m02, m03,
+                        m10, m11, m12, m13,
+                        m20, m21, m22, m23,
+                        m30, m31, m32, m33}
         );
     }
 
@@ -74,12 +71,12 @@ public class Matrix4 extends GeneralMatrix implements XMatrix {
      */
     public Matrix4(final Matrix matrix) {
         super(SIZE);
-        if (matrix.getNumRow()!=SIZE || matrix.getNumCol()!=SIZE) {
+        if (matrix.getNumRow() != SIZE || matrix.getNumCol() != SIZE) {
             throw new IllegalArgumentException(Errors.format(ErrorKeys.ILLEGAL_MATRIX_SIZE));
         }
-        for (int j=0; j<SIZE; j++) {
-            for (int i=0; i<SIZE; i++) {
-                setElement(j,i, matrix.getElement(j,i));
+        for (int j = 0; j < SIZE; j++) {
+            for (int i = 0; i < SIZE; i++) {
+                setElement(j, i, matrix.getElement(j, i));
             }
         }
     }
@@ -105,6 +102,6 @@ public class Matrix4 extends GeneralMatrix implements XMatrix {
      */
     @Override
     public Matrix4 clone() {
-        return new Matrix4( this );
+        return new Matrix4(this);
     }
 }

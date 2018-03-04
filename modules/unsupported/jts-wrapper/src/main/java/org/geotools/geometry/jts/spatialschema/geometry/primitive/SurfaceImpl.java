@@ -2,7 +2,8 @@
  **
  ** $Id$
  **
- ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/primitive/SurfaceImpl.java,v $
+ ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/primitive
+ * /SurfaceImpl.java,v $
  **
  ** Copyright (C) 2003 Open GIS Consortium, Inc. All Rights Reserved. http://www.opengis.org/Legal/
  **
@@ -10,6 +11,7 @@
 package org.geotools.geometry.jts.spatialschema.geometry.primitive;
 
 // J2SE direct dependencies
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -42,21 +44,17 @@ import org.opengis.geometry.primitive.SurfaceBoundary;
  * surfaces, which have no boundary, the up direction is that of the surface patches, which must
  * be consistent with one another. Its included {@linkplain SurfacePatch surface patches} describe
  * the interior structure of a {@code Surface}.
- *
+ * <p>
  * <blockquote><font size=2>
- * <strong>NOTE:</strong> Other than the restriction on orientability, no other "validity" condition is required for GM_Surface.
+ * <strong>NOTE:</strong> Other than the restriction on orientability, no other "validity" 
+ * condition is required for GM_Surface.
  * </font></blockquote>
  *
- * @UML type GM_Surface
  * @author ISO/DIS 19107
  * @author <A HREF="http://www.opengis.org">OpenGIS&reg; consortium</A>
- *
- *
- *
- *
- * @source $URL$
  * @version 2.0
- *
+ * @UML type GM_Surface
+ * @source $URL$
  * @see PrimitiveFactory#createSurface(List)
  * @see PrimitiveFactory#createSurface(SurfaceBoundary)
  */
@@ -81,8 +79,8 @@ public class SurfaceImpl extends GeometryImpl implements Surface {
         return (SurfaceBoundary) super.getBoundary();
     }
 
-    public double [] getUpNormal(DirectPosition point) {
-        return new double [] { 0, 0, 1 };
+    public double[] getUpNormal(DirectPosition point) {
+        return new double[]{0, 0, 1};
     }
 
     public double getPerimeter() {
@@ -127,9 +125,10 @@ public class SurfaceImpl extends GeometryImpl implements Surface {
      */
     protected com.vividsolutions.jts.geom.Geometry computeJTSPeer() {
         if (patches.size() > 1) {
-            //throw new UnsupportedOperationException("This implementation does not support surfaces with multiple patches.");
-            final com.vividsolutions.jts.geom.Polygon[] polygons = 
-                new com.vividsolutions.jts.geom.Polygon[patches.size()];
+            //throw new UnsupportedOperationException("This implementation does not support 
+            // surfaces with multiple patches.");
+            final com.vividsolutions.jts.geom.Polygon[] polygons =
+                    new com.vividsolutions.jts.geom.Polygon[patches.size()];
             for (int i = 0; i < patches.size(); i++) {
                 final JTSGeometry jtsGeometry = (JTSGeometry) patches.get(i);
                 polygons[i] = (com.vividsolutions.jts.geom.Polygon) jtsGeometry.getJTSGeometry();

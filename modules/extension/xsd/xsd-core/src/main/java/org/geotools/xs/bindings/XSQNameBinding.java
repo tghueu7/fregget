@@ -18,6 +18,7 @@ package org.geotools.xs.bindings;
 
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.namespace.QName;
+
 import org.geotools.xml.InstanceComponent;
 import org.geotools.xml.SimpleBinding;
 import org.geotools.xml.impl.DatatypeConverterImpl;
@@ -26,9 +27,9 @@ import org.geotools.xs.XS;
 
 /**
  * Binding object for the type http://www.w3.org/2001/XMLSchema:QName.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xs:simpleType name="QName" id="QName"&gt;
  *      &lt;xs:annotation&gt;
@@ -56,9 +57,6 @@ import org.geotools.xs.XS;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class XSQNameBinding implements SimpleBinding {
@@ -104,27 +102,27 @@ public class XSQNameBinding implements SimpleBinding {
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
-        
+            throws Exception {
+
         //if value passed in was null just return "null" qname
         if (value == null) {
             return new QName(null);
         }
-        
+
         QName qName = null;
         try {
-            qName = DatatypeConverterImpl.getInstance().parseQName((String) value, namespaceContext);
-        }
-        catch( Exception e ) {
+            qName = DatatypeConverterImpl.getInstance().parseQName((String) value, 
+                    namespaceContext);
+        } catch (Exception e) {
             //could occur if a prefix that was not registered was found
         }
-        
+
         //try to set the prefix
-        if (qName != null && (qName.getPrefix() == null || qName.getPrefix().equals( "") ) ) {
-            if ( qName.getNamespaceURI() != null && !"".equals(qName.getNamespaceURI()) ) {
+        if (qName != null && (qName.getPrefix() == null || qName.getPrefix().equals(""))) {
+            if (qName.getNamespaceURI() != null && !"".equals(qName.getNamespaceURI())) {
                 String prefix = namespaceContext.getPrefix(qName.getNamespaceURI());
-                if ( prefix != null && !"".equals( prefix ) ) {
-                    qName = new QName( qName.getNamespaceURI(), qName.getLocalPart(), prefix );
+                if (prefix != null && !"".equals(prefix)) {
+                    qName = new QName(qName.getNamespaceURI(), qName.getLocalPart(), prefix);
                 }
             }
             return qName;
@@ -151,12 +149,12 @@ public class XSQNameBinding implements SimpleBinding {
         } catch (Exception e) {
             //will happen if a prefix is not in the context, serialize manually
             QName qName = (QName) object;
-            if ( qName.getPrefix() == null || qName.getPrefix().equals( "") ) {
+            if (qName.getPrefix() == null || qName.getPrefix().equals("")) {
                 return qName.getLocalPart();
             }
-            
+
             return qName.getPrefix() + ":" + qName.getLocalPart();
-            
-        }        
+
+        }
     }
 }

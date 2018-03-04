@@ -25,15 +25,11 @@ import org.geotools.swing.MapPane;
  * An event class used by {@code MapPane} to signal changes of
  * state to listeners.
  *
- * @see MapPaneListener
- * 
  * @author Michael Bedward
- * @since 2.6
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @see MapPaneListener
+ * @since 2.6
  */
 public class MapPaneEvent extends EventObject {
     /**
@@ -63,17 +59,21 @@ public class MapPaneEvent extends EventObject {
         RENDERING_STOPPED,
     }
 
-    /** Type of mappane event */
+    /**
+     * Type of mappane event
+     */
     private Type type;
 
-    /** Data associated with some event types */
+    /**
+     * Data associated with some event types
+     */
     private Object data;
 
     /**
      * Constructor for an event with no associated data
      *
      * @param source the map pane issuing this event
-     * @param type the type of event
+     * @param type   the type of event
      */
     public MapPaneEvent(MapPane source, Type type) {
         super(source);
@@ -85,8 +85,8 @@ public class MapPaneEvent extends EventObject {
      * object takes ownership of the data object.
      *
      * @param source the map pane issuing this event
-     * @param type the type of event
-     * @param data the event data
+     * @param type   the type of event
+     * @param data   the event data
      */
     public MapPaneEvent(MapPane source, Type type, Object data) {
         super(source);
@@ -106,7 +106,8 @@ public class MapPaneEvent extends EventObject {
 
     /**
      * Get the type of this event
-     * @return event type 
+     *
+     * @return event type
      */
     public Type getType() {
         return type;

@@ -14,7 +14,7 @@ import org.geotools.image.test.ImageComparator.Mode;
 import org.junit.Test;
 
 public class ImageComparatorTest {
-    
+
     @Test
     public void testDifferentImage() {
         compareDifferentImage(BufferedImage.TYPE_4BYTE_ABGR);

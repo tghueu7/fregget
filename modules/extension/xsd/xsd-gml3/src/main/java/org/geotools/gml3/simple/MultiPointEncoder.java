@@ -28,14 +28,15 @@ import com.vividsolutions.jts.geom.Point;
 
 /**
  * Encodes a GML3 multi point
- * 
+ *
  * @author Justin Deoliveira, OpenGeo
  * @author Andrea Aime - GeoSolutions
  */
 class MultiPointEncoder extends GeometryEncoder<MultiPoint> {
     static final QualifiedName MULTI_POINT = new QualifiedName(GML.NAMESPACE, "MultiPoint", "gml");
 
-    static final QualifiedName POINT_MEMBER = new QualifiedName(GML.NAMESPACE, "pointMember", "gml");
+    static final QualifiedName POINT_MEMBER = new QualifiedName(GML.NAMESPACE, "pointMember", 
+            "gml");
 
     PointEncoder pe;
 

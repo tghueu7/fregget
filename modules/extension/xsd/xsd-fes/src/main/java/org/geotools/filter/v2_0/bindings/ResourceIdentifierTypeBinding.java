@@ -35,10 +35,10 @@ public class ResourceIdentifierTypeBinding extends AbstractComplexEMFBinding {
     public QName getTarget() {
         return FES.ResourceIdentifierType;
     }
-    
+
     @Override
     public Class getType() {
         return ResourceIdentifierType.class;
     }
-    
+
 }

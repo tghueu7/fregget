@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -25,19 +25,17 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ISO19107TestSuite {
-	
+
     public static Test suite() {
 
         TestSuite suite = new TestSuite();
-	
+
         // *** COORDINATES
         suite.addTest(GeometryTestSuite.suite());
-        
+
         // *** PRIMITIVES
         suite.addTest(PrimitiveTestSuite.suite());
 
@@ -49,7 +47,7 @@ public class ISO19107TestSuite {
 
         // *** OPERATIONS
         suite.addTest(OperationsTestSuite.suite());
-        
+
         return suite;
     }
 

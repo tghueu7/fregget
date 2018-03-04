@@ -3,7 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -31,23 +31,22 @@ import org.geotools.xml.schema.Schema;
 import org.geotools.xml.schema.SimpleType;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class OGCSchema implements Schema {
-    
+
     private static OGCSchema instance = new OGCSchema();
-    
+
     protected OGCSchema() {
         //do nothing
     }
-    
+
     public static OGCSchema getInstance() {
         return instance;
     }
 
     public static final URI NAMESPACE = loadNS();
+
     private static URI loadNS() {
         try {
             return new URI("http://www.opengis.net/ows");
@@ -67,6 +66,7 @@ public class OGCSchema implements Schema {
     public String getId() {
         return "null";
     }
+
     private static Schema[] imports = null;
 
     public Schema[] getImports() {
@@ -94,7 +94,7 @@ public class OGCSchema implements Schema {
         return "null";
     }
 
-    public boolean includesURI( URI uri ) {
+    public boolean includesURI(URI uri) {
         // // TODO fill me in!
         return false; // // safer
     }
@@ -110,19 +110,23 @@ public class OGCSchema implements Schema {
     public AttributeGroup[] getAttributeGroups() {
         return null;
     }
+
     public Attribute[] getAttributes() {
         return null;
     }
+
     /**
      * TODO comment here
      */
     private static ComplexType[] complexTypes = null;
+
     public ComplexType[] getComplexTypes() {
         if (complexTypes == null) {
             complexTypes = new ComplexType[]{ogcComplexTypes.VendorType.getInstance()};
         }
         return complexTypes;
     }
+
     /**
      * TODO comment here
      */
@@ -130,22 +134,29 @@ public class OGCSchema implements Schema {
     public static final int GET_CAPABILITIES = 0;
     public static final int GET_MAP = 1;
     public static final int GET_FEATURE_INFO = 2;
+
     public Element[] getElements() {
         if (elements == null) {
             elements = new Element[3];
-            elements[GET_CAPABILITIES] = new ogcElement("GetCapabilities",ogcComplexTypes._GetCapabilities.getInstance(),null,1,1);
-            elements[GET_MAP] = new ogcElement("GetMap", ogcComplexTypes._GetMap.getInstance(), null, 1, 1);
-            elements[GET_FEATURE_INFO] = new ogcElement("ogc:GetFeatureInfo", ogcComplexTypes._GetFeatureInfo.getInstance(), null, 1, 1);
+            elements[GET_CAPABILITIES] = new ogcElement("GetCapabilities", ogcComplexTypes
+                    ._GetCapabilities.getInstance(), null, 1, 1);
+            elements[GET_MAP] = new ogcElement("GetMap", ogcComplexTypes._GetMap.getInstance(), 
+                    null, 1, 1);
+            elements[GET_FEATURE_INFO] = new ogcElement("ogc:GetFeatureInfo", ogcComplexTypes
+                    ._GetFeatureInfo.getInstance(), null, 1, 1);
         }
         return elements;
     }
+
     public Group[] getGroups() {
         return null;
     }
+
     /**
      * TODO comment here
      */
     private static SimpleType[] simpleTypes = null;
+
     public SimpleType[] getSimpleTypes() {
         if (simpleTypes == null) {
             simpleTypes = new SimpleType[]{

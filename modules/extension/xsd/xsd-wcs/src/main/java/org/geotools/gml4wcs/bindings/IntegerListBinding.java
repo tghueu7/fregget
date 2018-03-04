@@ -11,26 +11,25 @@ import org.geotools.xml.InstanceComponent;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:integerList.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
- *	 <code>
+ * 	 <code>
  *  &lt;simpleType name=&quot;integerList&quot;&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;XML List based on XML Schema integer type.  An element of this type contains a space-separated list of integer values&lt;/documentation&gt;
+ *          &lt;documentation&gt;XML List based on XML Schema integer type.  An element of this 
+ *          type contains a space-separated list of integer values&lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;list itemType=&quot;integer&quot;/&gt;
- *  &lt;/simpleType&gt; 
- * 	
+ *  &lt;/simpleType&gt;
+ *
  * </code>
- *	 </pre>
- * 
+ * 	 </pre>
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class IntegerListBinding extends AbstractSimpleBinding {
@@ -44,7 +43,7 @@ public class IntegerListBinding extends AbstractSimpleBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -53,7 +52,7 @@ public class IntegerListBinding extends AbstractSimpleBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value)
@@ -63,7 +62,7 @@ public class IntegerListBinding extends AbstractSimpleBinding {
         int[] integers = new int[values.size()];
 
         for (int i = 0; i < values.size(); i++) {
-            integers[i] = ((BigInteger)values.get(i)).intValue();
+            integers[i] = ((BigInteger) values.get(i)).intValue();
         }
 
         return integers;

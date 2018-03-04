@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.filter;
@@ -37,16 +37,14 @@ import org.opengis.filter.expression.Function;
  * (@linkplain FeatureType). This is similar to the XML concept of "facets".
  * </p>
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengis.org/docs/02-059.pdf">Implementation specification 1.0</A>
  * @author Chris Dillard (SYS Technologies)
+ * @version <A HREF="http://www.opengis.org/docs/02-059.pdf">Implementation specification 1.0</A>
+ * @source $URL$
  * @since GeoAPI 2.0
  */
 @XmlElement("Filter")
 public interface Filter {
-    
+
     /**
      * Placeholder Filter that evaulates to {@code true}.
      * <p>
@@ -65,9 +63,11 @@ public interface Filter {
      * Give an object, this method determines if the test(s) represented by this filter object
      * are passed.
      * <p>
-     * This ability is used to allow Queries against both Features and and non spatial data (such as Record) and
+     * This ability is used to allow Queries against both Features and and non spatial data (such
+     * as Record) and
      * to express constraints on permissable data values.
      * </p>
+     *
      * @param object
      * @return <code>true</true> if the test(s) are passed for the provided object
      */

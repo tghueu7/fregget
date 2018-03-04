@@ -31,7 +31,7 @@ import com.sun.media.jai.util.ImageUtil;
 
 @SuppressWarnings("unchecked")
 /**
- * 
+ *
  *
  * @source $URL$
  */
@@ -58,8 +58,8 @@ public class ArcSDEPlanarImage extends PlanarImage {
     private final TileCache tileCache;
 
     public ArcSDEPlanarImage(TileReader tileReader, int minX, int minY, int width, int height,
-            int tileGridXOffset, int tileGridYOffset, SampleModel tileSampleModel,
-            ColorModel colorModel) {
+                             int tileGridXOffset, int tileGridYOffset, SampleModel tileSampleModel,
+                             ColorModel colorModel) {
 
         this.tileReader = tileReader;
         this.tileSampleModel = tileSampleModel;
@@ -89,23 +89,23 @@ public class ArcSDEPlanarImage extends PlanarImage {
 
         int bytesPerPixel;
         switch (tileSampleModel.getDataType()) {
-        case DataBuffer.TYPE_BYTE:
-            bytesPerPixel = 1;
-            break;
-        case DataBuffer.TYPE_DOUBLE:
-            bytesPerPixel = 8;
-            break;
-        case DataBuffer.TYPE_FLOAT:
-        case DataBuffer.TYPE_INT:
-            bytesPerPixel = 4;
-            break;
-        case DataBuffer.TYPE_SHORT:
-        case DataBuffer.TYPE_USHORT:
-            bytesPerPixel = 2;
-            break;
-        default:
-            throw new IllegalArgumentException("Unknown DataBuffer type: "
-                    + tileSampleModel.getDataType());
+            case DataBuffer.TYPE_BYTE:
+                bytesPerPixel = 1;
+                break;
+            case DataBuffer.TYPE_DOUBLE:
+                bytesPerPixel = 8;
+                break;
+            case DataBuffer.TYPE_FLOAT:
+            case DataBuffer.TYPE_INT:
+                bytesPerPixel = 4;
+                break;
+            case DataBuffer.TYPE_SHORT:
+            case DataBuffer.TYPE_USHORT:
+                bytesPerPixel = 2;
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown DataBuffer type: "
+                        + tileSampleModel.getDataType());
         }
 
         int numTilesInCache = 16;
@@ -176,45 +176,45 @@ public class ArcSDEPlanarImage extends PlanarImage {
 
         try {
             switch (tileSampleModel.getDataType()) {
-            case DataBuffer.TYPE_BYTE: {
-                DataBufferByte dataBuffer = (DataBufferByte) currentTile.getDataBuffer();
-                byte[][] bankData = dataBuffer.getBankData();
-                tileReader.getTile(readerTileX, readerTileY, bankData);
-            }
+                case DataBuffer.TYPE_BYTE: {
+                    DataBufferByte dataBuffer = (DataBufferByte) currentTile.getDataBuffer();
+                    byte[][] bankData = dataBuffer.getBankData();
+                    tileReader.getTile(readerTileX, readerTileY, bankData);
+                }
                 break;
-            case DataBuffer.TYPE_USHORT: {
-                DataBufferUShort dataBuffer = (DataBufferUShort) currentTile.getDataBuffer();
-                short[][] bankData = dataBuffer.getBankData();
-                tileReader.getTile(readerTileX, readerTileY, bankData);
-            }
+                case DataBuffer.TYPE_USHORT: {
+                    DataBufferUShort dataBuffer = (DataBufferUShort) currentTile.getDataBuffer();
+                    short[][] bankData = dataBuffer.getBankData();
+                    tileReader.getTile(readerTileX, readerTileY, bankData);
+                }
                 break;
-            case DataBuffer.TYPE_SHORT: {
-                DataBufferShort dataBuffer = (DataBufferShort) currentTile.getDataBuffer();
-                short[][] bankData = dataBuffer.getBankData();
-                tileReader.getTile(readerTileX, readerTileY, bankData);
-            }
+                case DataBuffer.TYPE_SHORT: {
+                    DataBufferShort dataBuffer = (DataBufferShort) currentTile.getDataBuffer();
+                    short[][] bankData = dataBuffer.getBankData();
+                    tileReader.getTile(readerTileX, readerTileY, bankData);
+                }
                 break;
-            case DataBuffer.TYPE_INT: {
-                DataBufferInt dataBuffer = (DataBufferInt) currentTile.getDataBuffer();
-                int[][] bankData = dataBuffer.getBankData();
-                tileReader.getTile(readerTileX, readerTileY, bankData);
-            }
+                case DataBuffer.TYPE_INT: {
+                    DataBufferInt dataBuffer = (DataBufferInt) currentTile.getDataBuffer();
+                    int[][] bankData = dataBuffer.getBankData();
+                    tileReader.getTile(readerTileX, readerTileY, bankData);
+                }
                 break;
-            case DataBuffer.TYPE_FLOAT: {
-                DataBufferFloat dataBuffer = (DataBufferFloat) currentTile.getDataBuffer();
-                float[][] bankData = dataBuffer.getBankData();
-                tileReader.getTile(readerTileX, readerTileY, bankData);
-            }
+                case DataBuffer.TYPE_FLOAT: {
+                    DataBufferFloat dataBuffer = (DataBufferFloat) currentTile.getDataBuffer();
+                    float[][] bankData = dataBuffer.getBankData();
+                    tileReader.getTile(readerTileX, readerTileY, bankData);
+                }
                 break;
-            case DataBuffer.TYPE_DOUBLE: {
-                DataBufferDouble dataBuffer = (DataBufferDouble) currentTile.getDataBuffer();
-                double[][] bankData = dataBuffer.getBankData();
-                tileReader.getTile(readerTileX, readerTileY, bankData);
-            }
+                case DataBuffer.TYPE_DOUBLE: {
+                    DataBufferDouble dataBuffer = (DataBufferDouble) currentTile.getDataBuffer();
+                    double[][] bankData = dataBuffer.getBankData();
+                    tileReader.getTile(readerTileX, readerTileY, bankData);
+                }
                 break;
-            default:
-                throw new IllegalStateException("Unrecognized DataBuffer type: "
-                        + tileSampleModel.getDataType());
+                default:
+                    throw new IllegalStateException("Unrecognized DataBuffer type: "
+                            + tileSampleModel.getDataType());
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -223,7 +223,7 @@ public class ArcSDEPlanarImage extends PlanarImage {
 
 //        if (tileX == tileReader.getMinTileX() || tileX == tileReader.getMaxTileX()
 //                || tileY == tileReader.getMinTileY() || tileY == tileReader.getMaxTileY()) {
-            tileCache.add(this, tileX, tileY, currentTile);
+        tileCache.add(this, tileX, tileY, currentTile);
 //        }
 
         return currentTile;
@@ -240,13 +240,13 @@ public class ArcSDEPlanarImage extends PlanarImage {
     }
 
     @Override
-    public synchronized void dispose(){
+    public synchronized void dispose() {
         super.dispose();
         this.tileReader.dispose();
     }
-    
+
     @Override
-    protected void finalize(){
+    protected void finalize() {
         dispose();
     }
 }

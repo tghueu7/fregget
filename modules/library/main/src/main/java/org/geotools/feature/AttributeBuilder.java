@@ -49,20 +49,15 @@ import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * Builder for attributes.
- * 
+ *
  * @author Justin Deoliveira (The Open Planning Project)
- * 
- *
- *
- *
- *
  * @source $URL$
  */
 public class AttributeBuilder {
-    
+
     protected static final ComplexType ANYTYPE_TYPE = new ComplexTypeImpl(new NameImpl(
             "http://www.w3.org/2001/XMLSchema", "anyType"), null, false,
-        true, Collections.EMPTY_LIST, null, null);      
+            true, Collections.EMPTY_LIST, null, null);
 
     /**
      * Factory used to create attributes
@@ -110,6 +105,7 @@ public class AttributeBuilder {
     //
     // Used to inject dependencies we need during construction time.
     //
+
     /**
      * Returns the underlying attribute factory.
      */
@@ -155,7 +151,7 @@ public class AttributeBuilder {
         if (attribute instanceof ComplexAttribute) {
             ComplexAttribute complex = (ComplexAttribute) attribute;
             Collection properties = (Collection) complex.getValue();
-            for (Iterator itr = properties.iterator(); itr.hasNext();) {
+            for (Iterator itr = properties.iterator(); itr.hasNext(); ) {
                 Property property = (Property) itr.next();
                 if (property instanceof Attribute) {
                     Attribute att = (Attribute) property;
@@ -191,7 +187,7 @@ public class AttributeBuilder {
 
     /**
      * This namespace will be used when constructing attribute names.
-     * 
+     *
      * @return namespace will be used when constructing attribute names.
      */
     public String getNamespaceURI() {
@@ -230,6 +226,7 @@ public class AttributeBuilder {
     }
 
     // Feature specific methods
+
     /**
      * Sets the coordinate reference system of the built feature.
      */
@@ -269,6 +266,7 @@ public class AttributeBuilder {
     //
     // Complex attribute specific methods
     //
+
     /**
      * Adds an attribute to the complex attribute being built. <br>
      * <p>
@@ -279,12 +277,9 @@ public class AttributeBuilder {
      * This method uses the type supplied in {@link #setType(AttributeType)} in order to determine
      * the attribute type.
      * </p>
-     * 
-     * @param name
-     *                The name of the attribute.
-     * @param value
-     *                The value of the attribute.
-     * 
+     *
+     * @param name  The name of the attribute.
+     * @param value The value of the attribute.
      */
     public Attribute add(Object value, String name) {
         return add(null, value, name);
@@ -300,11 +295,9 @@ public class AttributeBuilder {
      * This method uses the type supplied in {@link #setType(AttributeType)} in order to determine
      * the association type.
      * </p>
-     * 
-     * @param value
-     *                The value of the association, an attribute.
-     * @param name
-     *                The name of the association.
+     *
+     * @param value The value of the association, an attribute.
+     * @param name  The name of the association.
      */
     public void associate(Attribute value, String name) {
         associate(value, name, namespace);
@@ -316,13 +309,10 @@ public class AttributeBuilder {
      * This method uses the type supplied in {@link #setType(AttributeType)} in order to determine
      * the attribute type.
      * </p>
-     * 
-     * @param value
-     *                The value of the attribute.
-     * @param name
-     *                The name of the attribute.
-     * @param namespaceURI
-     *                The namespace of the attribute.
+     *
+     * @param value        The value of the attribute.
+     * @param name         The name of the attribute.
+     * @param namespaceURI The namespace of the attribute.
      */
     public Attribute add(Object value, String name, String namespaceURI) {
         return add(null, value, name, namespaceURI);
@@ -334,30 +324,24 @@ public class AttributeBuilder {
      * This method uses the type supplied in {@link #setType(AttributeType)} in order to determine
      * the association type.
      * </p>
-     * 
-     * @param value
-     *                The value of the association, an attribute.
-     * @param name
-     *                The name of the association.
-     * @param namespaceURI
-     *                The namespace of the association
+     *
+     * @param value        The value of the association, an attribute.
+     * @param name         The name of the association.
+     * @param namespaceURI The namespace of the association
      */
     public void associate(Attribute attribute, String name, String namespaceURI) {
         associate(attribute, Types.typeName(namespaceURI, name));
     }
-    
+
     /**
      * Adds an attribute to the complex attribute being built. <br>
      * <p>
      * This method uses the type supplied in {@link #setType(AttributeType)} in order to determine
      * the attribute type.
      * </p>
-     * 
-     * @param name
-     *                The name of the attribute.
-     * @param value
-     *                The value of the attribute.
-     * 
+     *
+     * @param name  The name of the attribute.
+     * @param value The value of the attribute.
      */
     public Attribute add(Object value, Name name) {
         return add(null, value, name);
@@ -369,13 +353,10 @@ public class AttributeBuilder {
      * This method uses the type supplied in {@link #setType(AttributeType)} in order to determine
      * the association type.
      * </p>
-     * 
-     * @param value
-     *                The value of the association, an attribute.
-     * @param name
-     *                The name of the association.
-     * @param namespaceURI
-     *                The namespace of the association
+     *
+     * @param value        The value of the association, an attribute.
+     * @param name         The name of the association.
+     * @param namespaceURI The namespace of the association
      */
     public void associate(Attribute value, Name name) {
         AssociationDescriptor descriptor = associationDescriptor(name);
@@ -393,13 +374,10 @@ public class AttributeBuilder {
      * This method uses the type supplied in {@link #setType(AttributeType)} in order to determine
      * the attribute type.
      * </p>
-     * 
-     * @param id
-     *                The id of the attribute.
-     * @param name
-     *                The name of the attribute.
-     * @param value
-     *                The value of the attribute.
+     *
+     * @param id    The id of the attribute.
+     * @param name  The name of the attribute.
+     * @param value The value of the attribute.
      */
     public Attribute add(String id, Object value, String name) {
         return add(id, value, name, namespace);
@@ -411,15 +389,11 @@ public class AttributeBuilder {
      * This method uses the type supplied in {@link #setType(AttributeType)} in order to determine
      * the attribute type.
      * </p>
-     * 
-     * @param id
-     *                The id of the attribute.
-     * @param value
-     *                The value of the attribute.
-     * @param name
-     *                The name of the attribute.
-     * @param namespaceURI
-     *                The namespace of the attribute.
+     *
+     * @param id           The id of the attribute.
+     * @param value        The value of the attribute.
+     * @param name         The name of the attribute.
+     * @param namespaceURI The namespace of the attribute.
      */
     public Attribute add(String id, Object value, String name, String namespaceURI) {
         return add(id, value, Types.typeName(namespaceURI, name));
@@ -431,14 +405,10 @@ public class AttributeBuilder {
      * This method uses the type supplied in {@link #setType(AttributeType)} in order to determine
      * the attribute type.
      * </p>
-     * 
-     * @param id
-     *                The id of the attribute.
-     * @param name
-     *                The name of the attribute.
-     * @param value
-     *                The value of the attribute.
-     * 
+     *
+     * @param id    The id of the attribute.
+     * @param name  The name of the attribute.
+     * @param value The value of the attribute.
      */
     public Attribute add(String id, Object value, Name name) {
         AttributeDescriptor descriptor = attributeDescriptor(name);
@@ -495,7 +465,7 @@ public class AttributeBuilder {
      * null.
      */
     protected Attribute create(Object value, AttributeType type, AttributeDescriptor descriptor,
-            String id) {
+                               String id) {
         if (descriptor != null) {
             type = (AttributeType) descriptor.getType();
         }
@@ -520,7 +490,7 @@ public class AttributeBuilder {
 
     /**
      * Create complex attribute
-     * 
+     *
      * @param value
      * @param type
      * @param descriptor
@@ -528,19 +498,19 @@ public class AttributeBuilder {
      * @return
      */
     public ComplexAttribute createComplexAttribute(Object value, ComplexType type,
-            AttributeDescriptor descriptor, String id) {
+                                                   AttributeDescriptor descriptor, String id) {
         return descriptor != null ? attributeFactory.createComplexAttribute((Collection) value,
                 descriptor, id) : attributeFactory.createComplexAttribute((Collection) value, type,
                 id);
     }
-    
+
     /**
      * Builds the attribute.
      * <p>
      * The class of the attribute built is determined from its type set with
      * {@link #setType(AttributeType)}.
      * </p>
-     * 
+     *
      * @return The build attribute.
      */
     public Attribute build() {
@@ -553,10 +523,8 @@ public class AttributeBuilder {
      * The class of the attribute built is determined from its type set with
      * {@link #setType(AttributeType)}.
      * </p>
-     * 
-     * @param id
-     *                The id of the attribute, or null.
-     * 
+     *
+     * @param id The id of the attribute, or null.
      * @return The build attribute.
      */
     public Attribute build(String id) {
@@ -573,7 +541,7 @@ public class AttributeBuilder {
             Feature feature = (Feature) built;
             // FIXME feature.setCRS(getCRS());
             if (defaultGeometry != null) {
-                for (Iterator itr = feature.getProperties().iterator(); itr.hasNext();) {
+                for (Iterator itr = feature.getProperties().iterator(); itr.hasNext(); ) {
                     Attribute att = (Attribute) itr.next();
                     if (att instanceof GeometryAttribute) {
                         if (defaultGeometry.equals(att.getValue())) {
@@ -591,34 +559,31 @@ public class AttributeBuilder {
     /**
      * Special case for any type. Skip validating existence in the schema, since anyType legally can
      * be casted into anything.
-     * 
-     * @param value
-     *            the value to be set
-     * @param type
-     *            the type of the value
-     * @param descriptor
-     *            the attribute descriptor of anyType type
+     *
+     * @param value      the value to be set
+     * @param type       the type of the value
+     * @param descriptor the attribute descriptor of anyType type
      * @param id
      * @return
      */
     public Attribute addAnyTypeValue(Object value, AttributeType type,
-            AttributeDescriptor descriptor, String id) {
+                                     AttributeDescriptor descriptor, String id) {
         Attribute attribute = create(value, type, descriptor, id);
         properties().add(attribute);
         return attribute;
     }
-    
+
     /**
      * Create a complex attribute for XS.AnyType, since it's defined as a simple type. We need a
      * complex attribute so we can set xlink:href in it.
-     * 
+     *
      * @param value
      * @param descriptor
      * @param id
      * @return
      */
     public Attribute addComplexAnyTypeAttribute(Object value, AttributeDescriptor descriptor,
-            String id) {
+                                                String id) {
         // need to create a complex attribute for any type, so we can have client properties
         // for xlink:href and so we chain features etc.
         Map<Object, Object> userData = descriptor.getUserData();
@@ -628,15 +593,16 @@ public class AttributeBuilder {
         descriptor.getUserData().putAll(userData);
         return createComplexAttribute(value, ANYTYPE_TYPE, descriptor, id);
     }
-    
+
     /**
-     * @return The descriptor of the attribute being built or null there is no descriptor (this occurs if setType() was used).
+     * @return The descriptor of the attribute being built or null there is no descriptor (this 
+     * occurs if setType() was used).
      */
     public AttributeDescriptor getDescriptor() {
         return this.descriptor;
     }
 
-   /**
+    /**
      * @return The coordinate reference system of the feature, or null if not set.
      */
     public CoordinateReferenceSystem getCRS() {

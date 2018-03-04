@@ -23,12 +23,9 @@ import org.geotools.grid.PolygonElement;
  * Defines methods and enum constants to work with hexagons.
  *
  * @author mbedward
- * @since 2.7
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.7
  */
 public interface Hexagon extends PolygonElement {
 

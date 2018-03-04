@@ -25,7 +25,7 @@ import com.vividsolutions.jts.geom.Geometry;
 public class Point3DTest extends GeometryEncoderTestSupport {
 
     public void testEncode3DPoint() throws Exception {
-        PointEncoder encoder = new PointEncoder(gtEncoder, "gml" , GML.NAMESPACE);
+        PointEncoder encoder = new PointEncoder(gtEncoder, "gml", GML.NAMESPACE);
         Geometry geometry = new WKTReader2().read("POINT(0 0 50)");
         Document doc = encode(encoder, geometry);
         // print(doc);

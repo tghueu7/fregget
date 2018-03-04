@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -44,7 +44,7 @@ import it.geosolutions.imageio.maskband.DatasetLayout;
 
 /**
  * Helper class used for handling Internal/External overviews and masks for a File
- * 
+ *
  * @author Nicola Lagomarsini GeoSolutions
  */
 public class MaskOverviewProvider {
@@ -104,10 +104,11 @@ public class MaskOverviewProvider {
 
     public MaskOverviewProvider(DatasetLayout layout, File inputFile, ImageReaderSpi suggestedSPI)
             throws IOException {
-        this (layout, inputFile, new SpiHelper(inputFile, suggestedSPI));
+        this(layout, inputFile, new SpiHelper(inputFile, suggestedSPI));
     }
 
-    public MaskOverviewProvider(DatasetLayout layout, File inputFile, SpiHelper spiProvider) throws IOException {
+    public MaskOverviewProvider(DatasetLayout layout, File inputFile, SpiHelper spiProvider) 
+            throws IOException {
         ImageReaderSpi suggestedSPI = spiProvider.getSuggestedSpi();
         readerSpi = spiProvider.getReaderSpi();
         streamSpi = spiProvider.getStreamSpi();
@@ -163,7 +164,7 @@ public class MaskOverviewProvider {
             numExternalOverviews = layout.getNumExternalOverviews() > 0 ? layout
                     .getNumExternalOverviews() : 0;
             numOverviews = numInternalOverviews + numExternalOverviews;
-        } else if (!spiProvider.isMultidim()){
+        } else if (!spiProvider.isMultidim()) {
             // Reading image number
             ImageInputStream imageStream = null;
             ImageReader reader = null;
@@ -298,10 +299,11 @@ public class MaskOverviewProvider {
     }
 
     /**
-     * Returns a new {@link MaskInfo} instance containing all the parameters to set for accessing the desired image index
+     * Returns a new {@link MaskInfo} instance containing all the parameters to set for accessing
+     * the desired image index
      */
     public MaskInfo getMaskInfo(int imageIndex, Rectangle imageBounds,
-            ImageReadParam originalParams) {
+                                ImageReadParam originalParams) {
         MaskInfo info = null;
         if (numInternalMasks + numExternalMasks > 0) {
             // Create a new MaskInfo instance
@@ -434,7 +436,7 @@ public class MaskOverviewProvider {
         return isExternalMask(imageIndex)
                 && hasExternalMasksOverviews
                 && imageIndex > (numInternalMasks > 0 ? numInternalMasks + numExternalMasks + 2
-                        : numExternalMasks + 1);
+                : numExternalMasks + 1);
     }
 
     public boolean hasExternalMasks() {
@@ -617,10 +619,12 @@ public class MaskOverviewProvider {
     }
 
     /**
-     * Returns an {@link ImageReaderSpi} instance for the input {@link ImageInputStream} and the optional suggested spi.
+     * Returns an {@link ImageReaderSpi} instance for the input {@link ImageInputStream} and the 
+     * optional suggested spi.
      */
     public static ImageReaderSpi getReaderSpiFromStream(ImageReaderSpi suggestedSPI,
-            ImageInputStream inStream) throws IOException {
+                                                        ImageInputStream inStream) throws 
+            IOException {
         ImageReaderSpi readerSPI = null;
         // get a reader and try to use the suggested SPI first
         inStream.mark();
@@ -666,7 +670,7 @@ public class MaskOverviewProvider {
 
     /**
      * Helper class used for storing information to use for read the mask data.
-     * 
+     *
      * @author Nicola Lagomarsini GeoSolutions
      */
     public static class MaskInfo {
@@ -684,7 +688,7 @@ public class MaskOverviewProvider {
     }
 
     /**
-     * Helper class containing previous code used to get 
+     * Helper class containing previous code used to get
      * streamSPI and readerSPI for an input file.
      */
     public static class SpiHelper {
@@ -704,9 +708,9 @@ public class MaskOverviewProvider {
 
         private URL fileURL;
 
-        /** 
+        /**
          * Reporting whether the SPI is for a multidim reader or not.
-         * GRIB/NetCDF and other multidim format doesn't have overviews 
+         * GRIB/NetCDF and other multidim format doesn't have overviews
          */
         private boolean isMultidim;
 
@@ -721,11 +725,13 @@ public class MaskOverviewProvider {
                 stream = streamSpi.createInputStreamInstance(fileURL, ImageIO.getUseCache(),
                         ImageIO.getCacheDirectory());
                 readerSpi = getReaderSpiFromStream(suggestedSPI, stream);
-                isMultidim = readerSpi != null && MULTIDIM_SERVICE_PROVIDERS.contains(readerSpi.getClass().getName());
+                isMultidim = readerSpi != null && MULTIDIM_SERVICE_PROVIDERS.contains(readerSpi
+                        .getClass().getName());
             } catch (Exception e) {
                 if (LOGGER.isLoggable(Level.WARNING)) {
                     LOGGER.log(Level.WARNING,
-                            "Unable to create a Reader for File: " + inputFile.getCanonicalPath(), e);
+                            "Unable to create a Reader for File: " + inputFile.getCanonicalPath()
+                            , e);
                 }
                 throw new IllegalArgumentException(e);
             } finally {

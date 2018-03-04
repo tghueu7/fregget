@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2016, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -54,8 +54,9 @@ import it.geosolutions.jaiext.iterators.RandomIterFactory;
 
 /**
  * A tile of the whole grid space.
- *
- * The related Raster is lazily allocated, so to skip allocation for fully covered tiles that do not need to be drawn.
+ * <p>
+ * The related Raster is lazily allocated, so to skip allocation for fully covered tiles that do 
+ * not need to be drawn.
  *
  * @author Emanuele Tajariol <etj at geo-solutions.it>
  */
@@ -69,10 +70,11 @@ class Tile {
     static Map<String, WritableRaster> solidRasterCache = new SoftValueHashMap<>();
 
     private static final ColorModel BINARY_COLOR_MODEL = new IndexColorModel(1, 2,
-            new byte[] { 0, FF }, new byte[] { 0, FF }, new byte[] { 0, FF });
+            new byte[]{0, FF}, new byte[]{0, FF}, new byte[]{0, FF});
 
     // the sample model used for internal "full size" tiles
-    private static MultiPixelPackedSampleModel DEFAULT_PACKED_SAMPLE_MODEL = new MultiPixelPackedSampleModel(
+    private static MultiPixelPackedSampleModel DEFAULT_PACKED_SAMPLE_MODEL = new 
+            MultiPixelPackedSampleModel(
             DataBuffer.TYPE_BYTE, ROIExcessGranuleRemover.DEFAULT_TILE_SIZE,
             ROIExcessGranuleRemover.DEFAULT_TILE_SIZE, 1);
 
@@ -90,7 +92,8 @@ class Tile {
     private final int tileHeight;
 
     /**
-     * Standard width in pixels of the tiles of this tileset. Tiles in last row or last column may have different size than other tiles. We need the
+     * Standard width in pixels of the tiles of this tileset. Tiles in last row or last column 
+     * may have different size than other tiles. We need the
      * standard size for computing the grid translation when drawing geometries.
      */
     private final int stdTileWidth;
@@ -124,7 +127,7 @@ class Tile {
     }
 
     public Tile(int tileWidth, int tileHeight, int col, int row, AffineTransform w2s,
-            int stdTileWidth, int stdTileHeight) {
+                int stdTileWidth, int stdTileHeight) {
         this.tileWidth = tileWidth;
         this.tileHeight = tileHeight;
         this.col = col;
@@ -254,9 +257,10 @@ class Tile {
     }
 
     /**
-     * Draws a binary image already in raster space. Updates the coverage count as a side effect, so no need to call {@link #refreshCoverageCount()}
+     * Draws a binary image already in raster space. Updates the coverage count as a side effect,
+     * so no need to call {@link #refreshCoverageCount()}
      * after it
-     * 
+     *
      * @param roiImage
      * @return True if at least one pixel has been added
      */
@@ -383,7 +387,8 @@ class Tile {
         graphics.fill(projectedShape);
     }
 
-    public void draw(/* another Raster here I suppose? Maybe a tile, maybe mis-aligned with this one */) {
+    public void draw(/* another Raster here I suppose? Maybe a tile, maybe mis-aligned with this 
+    one */) {
         initRaster(false);
 
         // flip bits here, if the tile is aligned we can do int math, otherwise bit by bit...

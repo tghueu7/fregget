@@ -4,13 +4,14 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.referencing.operation;
 
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.annotation.UML;
+
 import static org.opengis.annotation.Obligation.*;
 import static org.opengis.annotation.Specification.*;
 
@@ -23,23 +24,21 @@ import static org.opengis.annotation.Specification.*;
  * for the transformation. Also, the stochastic nature of the parameters may result
  * in multiple (different) versions of the same coordinate transformation.
  *
- *
- *
+ * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract 
+ * specification 2.0</A>
  * @source $URL$
- * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract specification 2.0</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
- *
  * @see Conversion
+ * @since GeoAPI 1.0
  */
-@UML(identifier="CC_Transformation", specification=ISO_19111)
+@UML(identifier = "CC_Transformation", specification = ISO_19111)
 public interface Transformation extends Operation {
     /**
      * Returns the source CRS.
      *
      * @return The source CRS (never {@code null}).
      */
-    @UML(identifier="sourceCRS", obligation=MANDATORY, specification=ISO_19111)
+    @UML(identifier = "sourceCRS", obligation = MANDATORY, specification = ISO_19111)
     CoordinateReferenceSystem getSourceCRS();
 
     /**
@@ -47,7 +46,7 @@ public interface Transformation extends Operation {
      *
      * @return The target CRS (never {@code null}).
      */
-    @UML(identifier="targetCRS", obligation=MANDATORY, specification=ISO_19111)
+    @UML(identifier = "targetCRS", obligation = MANDATORY, specification = ISO_19111)
     CoordinateReferenceSystem getTargetCRS();
 
     /**
@@ -56,6 +55,6 @@ public interface Transformation extends Operation {
      *
      * @return The coordinate operation version.
      */
-    @UML(identifier="operationVersion", obligation=MANDATORY, specification=ISO_19111)
+    @UML(identifier = "operationVersion", obligation = MANDATORY, specification = ISO_19111)
     String getOperationVersion();
 }

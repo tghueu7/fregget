@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -35,7 +35,7 @@ import org.opengis.util.ProgressListener;
 
 /**
  * A FeatureIterator that can have a position marked, and can be reset to it
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 abstract class MarkFeatureIterator implements FeatureIterator<Feature> {
@@ -46,14 +46,14 @@ abstract class MarkFeatureIterator implements FeatureIterator<Feature> {
      * Builds a new {@link MarkFeatureIterator} making sure no too many features are kept in memory.
      * The listener won't receive any notification, but will be used to check if the data loading
      * should be stopped using {@link ProgressListener#isCanceled()}
-     * 
+     *
      * @param fc
      * @param maxFeaturesInMemory
      * @return
      * @throws IOException
      */
     public static MarkFeatureIterator create(FeatureCollection fc, int maxFeaturesInMemory,
-            ProgressListener listener) throws IOException {
+                                             ProgressListener listener) throws IOException {
         List<Feature> features = new ArrayList<>();
         int count = 0;
         if (listener == null) {
@@ -87,7 +87,7 @@ abstract class MarkFeatureIterator implements FeatureIterator<Feature> {
 
     /**
      * Marks the current position of the feature iterator
-     * 
+     *
      * @throws IOException
      */
     public abstract void mark() throws IOException;
@@ -138,7 +138,7 @@ abstract class MarkFeatureIterator implements FeatureIterator<Feature> {
 
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see java.lang.Object#toString()
          */
         @Override
@@ -150,7 +150,7 @@ abstract class MarkFeatureIterator implements FeatureIterator<Feature> {
 
     /**
      * Implementation offloading on disk the features
-     * 
+     *
      * @author Andrea Aime - GeoSolutions
      */
     static class DiskMarkFeatureIterator extends MarkFeatureIterator {
@@ -166,7 +166,8 @@ abstract class MarkFeatureIterator implements FeatureIterator<Feature> {
         int featureCount;
 
         public DiskMarkFeatureIterator(List<Feature> features, FeatureIterator fi,
-                SimpleFeatureType schema, ProgressListener listener) throws IOException {
+                                       SimpleFeatureType schema, ProgressListener listener) 
+                throws IOException {
             File file = File.createTempFile("z-ordered-", ".features");
             this.io = new SimpleFeatureIO(file, schema);
 
@@ -233,7 +234,7 @@ abstract class MarkFeatureIterator implements FeatureIterator<Feature> {
 
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see java.lang.Object#toString()
          */
         @Override

@@ -31,16 +31,14 @@ import org.opengis.util.Cloneable;
 /**
  * Holds the coordinates for a three-dimensional position within some coordinate reference system.
  *
- *
- * @source $URL$
- * @version $Id$
  * @author Niels Charlier
- * 
+ * @version $Id$
+ * @source $URL$
  */
 public class DirectPosition3D implements DirectPosition, Serializable, Cloneable {
-	
-	public double x, y, z;
-	
+
+    public double x, y, z;
+
     /**
      * Serial number for interoperability with different versions.
      */
@@ -68,7 +66,7 @@ public class DirectPosition3D implements DirectPosition, Serializable, Cloneable
     }
 
     /**
-     * Constructs a 3D position from the specified ordinates. 
+     * Constructs a 3D position from the specified ordinates.
      *
      * @param x The <var>x</var> value.
      * @param y The <var>y</var> value.
@@ -84,16 +82,16 @@ public class DirectPosition3D implements DirectPosition, Serializable, Cloneable
      * Constructs a 2D position from the specified ordinates in the specified CRS.
      *
      * @param crs The coordinate reference system, or {@code null}.
-     * @param x The <var>x</var> value.
-     * @param y The <var>y</var> value.
-     * @param z The <var>z</var> value.
+     * @param x   The <var>x</var> value.
+     * @param y   The <var>y</var> value.
+     * @param z   The <var>z</var> value.
      */
     public DirectPosition3D(final CoordinateReferenceSystem crs,
-                            final double x, final double y, final double z)
-    {
+                            final double x, final double y, final double z) {
         this(x, y, z);
         setCoordinateReferenceSystem(crs);
     }
+
     /**
      * Constructs a position initialized to the same values than the specified point.
      *
@@ -106,7 +104,6 @@ public class DirectPosition3D implements DirectPosition, Serializable, Cloneable
     /**
      * Returns always {@code this}, the direct position for this
      * {@linkplain org.opengis.geometry.coordinate.Position position}.
-     *
      */
     public DirectPosition getDirectPosition() {
         return this;
@@ -151,41 +148,50 @@ public class DirectPosition3D implements DirectPosition, Serializable, Cloneable
      * @return The coordinates
      */
     public double[] getCoordinate() {
-        return new double[] {x,y,z};
+        return new double[]{x, y, z};
     }
 
     /**
      * Returns the ordinate at the specified dimension.
      *
-     * @param  dimension The dimension in the range 0 to 2 inclusive.
+     * @param dimension The dimension in the range 0 to 2 inclusive.
      * @return The coordinate at the specified dimension.
      * @throws IndexOutOfBoundsException if the specified dimension is out of bounds.
-     *
      */
     public final double getOrdinate(final int dimension) throws IndexOutOfBoundsException {
         switch (dimension) {
-            case 0:  return x;
-            case 1:  return y;
-            case 2:  return z;
-            default: throw new IndexOutOfBoundsException(String.valueOf(dimension));
+            case 0:
+                return x;
+            case 1:
+                return y;
+            case 2:
+                return z;
+            default:
+                throw new IndexOutOfBoundsException(String.valueOf(dimension));
         }
     }
 
     /**
      * Sets the ordinate value along the specified dimension.
      *
-     * @param  dimension the dimension for the ordinate of interest.
-     * @param  value the ordinate value of interest.
+     * @param dimension the dimension for the ordinate of interest.
+     * @param value     the ordinate value of interest.
      * @throws IndexOutOfBoundsException if the specified dimension is out of bounds.
-     *
      * @todo Provides a more detailed error message.
      */
     public final void setOrdinate(int dimension, double value) throws IndexOutOfBoundsException {
         switch (dimension) {
-            case 0:  x=value; break;
-            case 1:  y=value; break;
-            case 2:  z=value; break;
-            default: throw new IndexOutOfBoundsException(String.valueOf(dimension));
+            case 0:
+                x = value;
+                break;
+            case 1:
+                y = value;
+                break;
+            case 2:
+                z = value;
+                break;
+            default:
+                throw new IndexOutOfBoundsException(String.valueOf(dimension));
         }
     }
 
@@ -194,7 +200,7 @@ public class DirectPosition3D implements DirectPosition, Serializable, Cloneable
      * contains a {@linkplain CoordinateReferenceSystem coordinate reference system},
      * then the CRS for this position will be set to the CRS of the specified position.
      *
-     * @param  position The new position for this point.
+     * @param position The new position for this point.
      * @throws MismatchedDimensionException if this point doesn't have the expected dimension.
      */
     public void setLocation(final DirectPosition position) throws MismatchedDimensionException {
@@ -206,7 +212,7 @@ public class DirectPosition3D implements DirectPosition, Serializable, Cloneable
     }
 
     /**
-     * Returns a string representation of this coordinate. 
+     * Returns a string representation of this coordinate.
      */
     @Override
     public String toString() {
@@ -227,7 +233,7 @@ public class DirectPosition3D implements DirectPosition, Serializable, Cloneable
     /**
      * Compares this point with the specified object for equality. If the given object implements
      * the {@link DirectPosition} interface, then the comparison is performed as specified in its
-     * {@link DirectPosition#equals} contract. 
+     * {@link DirectPosition#equals} contract.
      *
      * @param object The object to compare with this position.
      * @return {@code true} if the given object is equals to this position.
@@ -241,11 +247,10 @@ public class DirectPosition3D implements DirectPosition, Serializable, Cloneable
         if (object instanceof DirectPosition) {
             final DirectPosition other = (DirectPosition) object;
             if (other.getDimension() == 3 &&
-                Utilities.equals(other.getOrdinate(0), x) &&
-                Utilities.equals(other.getOrdinate(1), y) &&
-                Utilities.equals(other.getOrdinate(2), z) &&
-                Utilities.equals(other.getCoordinateReferenceSystem(), crs))
-            {
+                    Utilities.equals(other.getOrdinate(0), x) &&
+                    Utilities.equals(other.getOrdinate(1), y) &&
+                    Utilities.equals(other.getOrdinate(2), z) &&
+                    Utilities.equals(other.getCoordinateReferenceSystem(), crs)) {
                 assert hashCode() == other.hashCode() : this;
                 return true;
             }

@@ -33,15 +33,16 @@ import org.fest.swing.core.MouseButton;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import static org.junit.Assert.*;
 
 /**
  * Tests for the zoom-in cursor tool.
- * 
+ *
  * @author Michael Bedward
- * @since 8.0
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 @RunWith(GraphicsTestRunner.class)
 public class ZoomInToolTest extends CursorToolTestBase {
@@ -51,21 +52,21 @@ public class ZoomInToolTest extends CursorToolTestBase {
     public void setup() {
         tool = new ZoomInTool();
     }
-    
+
     @Test
     public void clickZoomAtCentreOfMap() throws Exception {
         ReferencedEnvelope startEnv = mapPane.getDisplayArea();
         mapPane.setCursorTool(tool);
-        
+
         listener.setExpected(MapPaneEvent.Type.DISPLAY_AREA_CHANGED);
         mapPaneFixture.click();
-        
-        assertTrue( listener.await(MapPaneEvent.Type.DISPLAY_AREA_CHANGED, EVENT_TIMEOUT) );
+
+        assertTrue(listener.await(MapPaneEvent.Type.DISPLAY_AREA_CHANGED, EVENT_TIMEOUT));
         ReferencedEnvelope endEnv = mapPane.getDisplayArea();
-        
+
         double xZoom = startEnv.getWidth() / endEnv.getWidth();
         double yZoom = startEnv.getHeight() / endEnv.getHeight();
-        
+
         assertEquals(AbstractZoomTool.DEFAULT_ZOOM_FACTOR, xZoom, TOL);
         assertEquals(AbstractZoomTool.DEFAULT_ZOOM_FACTOR, yZoom, TOL);
     }
@@ -74,7 +75,7 @@ public class ZoomInToolTest extends CursorToolTestBase {
     public void zoomInToolSupportsDragging() throws Exception {
         assertTrue(tool.drawDragBox());
     }
-    
+
     /*
      * Note: this test relies on the map pane being displayed with equal
      * width and height
@@ -82,7 +83,7 @@ public class ZoomInToolTest extends CursorToolTestBase {
     @Test
     public void drawBoxToZoom() throws Exception {
         mapPane.setCursorTool(tool);
-        
+
         Rectangle dragBoxRect = new Rectangle(
                 SCREEN.width / 4, SCREEN.height / 4,
                 SCREEN.width / 2, SCREEN.height / 2);
@@ -90,26 +91,26 @@ public class ZoomInToolTest extends CursorToolTestBase {
         AffineTransform startTransform = mapPane.getScreenToWorldTransform();
         Rectangle2D expectedRect = startTransform.createTransformedShape(dragBoxRect).getBounds2D();
 
-        ReferencedEnvelope expectedEnv = new ReferencedEnvelope(expectedRect, 
+        ReferencedEnvelope expectedEnv = new ReferencedEnvelope(expectedRect,
                 mapPane.getDisplayArea().getCoordinateReferenceSystem());
-        
+
         Point screenPos = mapPaneFixture.component().getLocationOnScreen();
-        
+
         Point mouseStartPos = new Point(
-                screenPos.x + dragBoxRect.x, 
+                screenPos.x + dragBoxRect.x,
                 screenPos.y + dragBoxRect.y);
-        
+
         Point mouseEndPos = new Point(
-                screenPos.x + (int) dragBoxRect.getMaxX(), 
+                screenPos.x + (int) dragBoxRect.getMaxX(),
                 screenPos.y + (int) dragBoxRect.getMaxY());
-        
+
         listener.setExpected(MapPaneEvent.Type.DISPLAY_AREA_CHANGED);
-        
+
         mapPaneFixture.robot.pressMouse(mouseStartPos, MouseButton.LEFT_BUTTON);
         mapPaneFixture.robot.moveMouse(mouseEndPos);
         mapPaneFixture.robot.releaseMouseButtons();
-        
-        assertTrue( listener.await(MapPaneEvent.Type.DISPLAY_AREA_CHANGED, EVENT_TIMEOUT) );
+
+        assertTrue(listener.await(MapPaneEvent.Type.DISPLAY_AREA_CHANGED, EVENT_TIMEOUT));
         assertTrue(expectedEnv.boundsEquals2D(mapPane.getDisplayArea(), TOL));
     }
 

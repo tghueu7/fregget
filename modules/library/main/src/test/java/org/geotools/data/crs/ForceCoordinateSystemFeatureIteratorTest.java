@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -35,8 +35,6 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ForceCoordinateSystemFeatureIteratorTest extends TestCase {
@@ -49,115 +47,129 @@ public class ForceCoordinateSystemFeatureIteratorTest extends TestCase {
 
     /**
      * create a datastore with 1 feature in it.
+     *
      * @param crs the CRS of the featuretype
-     * @param p the point to add, should be same CRS as crs
+     * @param p   the point to add, should be same CRS as crs
      * @return
      * @throws Exception
      */
-    private SimpleFeatureCollection createDatastore(CoordinateReferenceSystem crs, Point p) throws Exception{
-        
+    private SimpleFeatureCollection createDatastore(CoordinateReferenceSystem crs, Point p) 
+            throws Exception {
+
         SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
         builder.setName(FEATURE_TYPE_NAME);
         builder.setCRS(crs);
-        builder.add("geom", Point.class );
-        
+        builder.add("geom", Point.class);
+
         SimpleFeatureType ft = builder.buildFeatureType();
-        
+
         SimpleFeatureBuilder b = new SimpleFeatureBuilder(ft);
-        b.add( p );
-        
+        b.add(p);
+
         ListFeatureCollection features = new ListFeatureCollection(ft);
-        features.add( b.buildFeature(null));
-        
+        features.add(b.buildFeature(null));
+
         return features;
     }
-    
+
     public void testSameCRS() throws Exception {
         CoordinateReferenceSystem crs = DefaultGeographicCRS.WGS84;
-        GeometryFactory fac=new GeometryFactory();
-        Point p = fac.createPoint(new Coordinate(10,10) );
-        
+        GeometryFactory fac = new GeometryFactory();
+        Point p = fac.createPoint(new Coordinate(10, 10));
+
         SimpleFeatureCollection collection = createDatastore(crs, p);
-        
+
         SimpleFeatureIterator original = collection.features();
-        
-        ForceCoordinateSystemIterator modified = new ForceCoordinateSystemIterator(collection.features(), collection.getSchema(), crs);
-        
-        SimpleFeature f1=original.next();
-        SimpleFeature f2=modified.next();
-        
-        assertEquals(f1,f2);
-        
-        assertFalse( original.hasNext() );
-        assertFalse( modified.hasNext() );
+
+        ForceCoordinateSystemIterator modified = new ForceCoordinateSystemIterator(collection
+                .features(), collection.getSchema(), crs);
+
+        SimpleFeature f1 = original.next();
+        SimpleFeature f2 = modified.next();
+
+        assertEquals(f1, f2);
+
+        assertFalse(original.hasNext());
+        assertFalse(modified.hasNext());
     }
-    
+
     public void testDifferentCRS() throws Exception {
         CoordinateReferenceSystem srcCRS = DefaultGeographicCRS.WGS84;
-        GeometryFactory fac=new GeometryFactory();
-        Point p = fac.createPoint(new Coordinate(10,10) );
-        
+        GeometryFactory fac = new GeometryFactory();
+        Point p = fac.createPoint(new Coordinate(10, 10));
+
         SimpleFeatureCollection collection = createDatastore(srcCRS, p);
         SimpleFeatureIterator original = collection.features();
-        CoordinateReferenceSystem destCRS=DefaultEngineeringCRS.CARTESIAN_2D;
-        ForceCoordinateSystemIterator modified = new ForceCoordinateSystemIterator(collection.features(), collection.getSchema(), destCRS);
-        
-        SimpleFeature f1=original.next();
-        SimpleFeature f2=modified.next();
-        
-        assertEquals(((Geometry)f1.getDefaultGeometry()).getCoordinate(),((Geometry)f2.getDefaultGeometry()).getCoordinate());
-        assertFalse(f1.getFeatureType().getCoordinateReferenceSystem().equals(f2.getFeatureType().getCoordinateReferenceSystem()));
-        assertEquals( srcCRS, f1.getFeatureType().getCoordinateReferenceSystem());
-        assertEquals( srcCRS, f1.getFeatureType().getGeometryDescriptor().getCoordinateReferenceSystem());
-        assertEquals( destCRS, f2.getFeatureType().getCoordinateReferenceSystem());
-        assertEquals( destCRS, f2.getFeatureType().getGeometryDescriptor().getCoordinateReferenceSystem());
-        
-        assertFalse( original.hasNext() );
-        assertFalse( modified.hasNext() );
-        
+        CoordinateReferenceSystem destCRS = DefaultEngineeringCRS.CARTESIAN_2D;
+        ForceCoordinateSystemIterator modified = new ForceCoordinateSystemIterator(collection
+                .features(), collection.getSchema(), destCRS);
+
+        SimpleFeature f1 = original.next();
+        SimpleFeature f2 = modified.next();
+
+        assertEquals(((Geometry) f1.getDefaultGeometry()).getCoordinate(), ((Geometry) 
+                f2.getDefaultGeometry()).getCoordinate());
+        assertFalse(f1.getFeatureType().getCoordinateReferenceSystem().equals(f2.getFeatureType()
+                .getCoordinateReferenceSystem()));
+        assertEquals(srcCRS, f1.getFeatureType().getCoordinateReferenceSystem());
+        assertEquals(srcCRS, f1.getFeatureType().getGeometryDescriptor()
+                .getCoordinateReferenceSystem());
+        assertEquals(destCRS, f2.getFeatureType().getCoordinateReferenceSystem());
+        assertEquals(destCRS, f2.getFeatureType().getGeometryDescriptor()
+                .getCoordinateReferenceSystem());
+
+        assertFalse(original.hasNext());
+        assertFalse(modified.hasNext());
+
         assertNotNull(modified.builder);
     }
-    
+
     public void testNullDestination() throws Exception {
         CoordinateReferenceSystem crs = DefaultGeographicCRS.WGS84;
-        GeometryFactory fac=new GeometryFactory();
-        Point p = fac.createPoint(new Coordinate(10,10) );
-        
+        GeometryFactory fac = new GeometryFactory();
+        Point p = fac.createPoint(new Coordinate(10, 10));
+
         SimpleFeatureCollection collection = createDatastore(crs, p);
-        
-        try{
-            new ForceCoordinateSystemIterator(collection.features(), collection.getSchema(), (CoordinateReferenceSystem) null);
+
+        try {
+            new ForceCoordinateSystemIterator(collection.features(), collection.getSchema(), 
+                    (CoordinateReferenceSystem) null);
             fail(); // should throw a nullpointer exception.
-        }catch(NullPointerException e){
+        } catch (NullPointerException e) {
             // good
         }
-        
+
     }
-    
+
     public void testNullSource() throws Exception {
         CoordinateReferenceSystem srcCRS = null;
-        GeometryFactory fac=new GeometryFactory();
-        Point p = fac.createPoint(new Coordinate(10,10) );
-        
+        GeometryFactory fac = new GeometryFactory();
+        Point p = fac.createPoint(new Coordinate(10, 10));
+
         SimpleFeatureCollection collection = createDatastore(srcCRS, p);
-        
+
         SimpleFeatureIterator original = collection.features();
-        CoordinateReferenceSystem destCRS=DefaultEngineeringCRS.CARTESIAN_2D;
-        ForceCoordinateSystemIterator modified = new ForceCoordinateSystemIterator(collection.features(), collection.getSchema(), destCRS);
-        
-        SimpleFeature f1=original.next();
-        SimpleFeature f2=modified.next();
-        
-        assertEquals(((Geometry)f1.getDefaultGeometry()).getCoordinate(),((Geometry)f2.getDefaultGeometry()).getCoordinate());
-        assertFalse( f2.getFeatureType().getCoordinateReferenceSystem().equals(f1.getFeatureType().getCoordinateReferenceSystem()) );
-        assertEquals( srcCRS, f1.getFeatureType().getCoordinateReferenceSystem());
-        assertEquals( srcCRS, f1.getFeatureType().getGeometryDescriptor().getCoordinateReferenceSystem());
-        assertEquals( destCRS, f2.getFeatureType().getCoordinateReferenceSystem());
-        assertEquals( destCRS, f2.getFeatureType().getGeometryDescriptor().getCoordinateReferenceSystem());
-        
-        assertFalse( original.hasNext() );
-        assertFalse( modified.hasNext() );
-        
+        CoordinateReferenceSystem destCRS = DefaultEngineeringCRS.CARTESIAN_2D;
+        ForceCoordinateSystemIterator modified = new ForceCoordinateSystemIterator(collection
+                .features(), collection.getSchema(), destCRS);
+
+        SimpleFeature f1 = original.next();
+        SimpleFeature f2 = modified.next();
+
+        assertEquals(((Geometry) f1.getDefaultGeometry()).getCoordinate(), ((Geometry) 
+                f2.getDefaultGeometry()).getCoordinate());
+        assertFalse(f2.getFeatureType().getCoordinateReferenceSystem().equals(f1.getFeatureType()
+                .getCoordinateReferenceSystem()));
+        assertEquals(srcCRS, f1.getFeatureType().getCoordinateReferenceSystem());
+        assertEquals(srcCRS, f1.getFeatureType().getGeometryDescriptor()
+                .getCoordinateReferenceSystem());
+        assertEquals(destCRS, f2.getFeatureType().getCoordinateReferenceSystem());
+        assertEquals(destCRS, f2.getFeatureType().getGeometryDescriptor()
+                .getCoordinateReferenceSystem());
+
+        assertFalse(original.hasNext());
+        assertFalse(modified.hasNext());
+
         assertNotNull(modified.builder);
     }
 }

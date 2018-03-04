@@ -24,7 +24,7 @@ import org.opengis.feature.type.GeometryDescriptor;
 import org.opengis.filter.sort.SortBy;
 
 /**
- * OpenDataStore supports offset, and sorting only on explicit attributes 
+ * OpenDataStore supports offset, and sorting only on explicit attributes
  */
 
 class SFSQueryCapabilities extends QueryCapabilities {
@@ -32,26 +32,27 @@ class SFSQueryCapabilities extends QueryCapabilities {
     SimpleFeatureType schema;
 
     /**
-     *
      * @param schema
      */
     public SFSQueryCapabilities(SimpleFeatureType schema) {
-    	if(schema == null)
-    		throw new NullPointerException("Provided schema is null");
+        if (schema == null)
+            throw new NullPointerException("Provided schema is null");
         this.schema = schema;
     }
 
     /**
      * is offset supported
+     *
      * @return boolean
      */
     @Override
     public boolean isOffsetSupported() {
         return true;
     }
-    
+
     /**
      * Is Sorting supported ?
+     *
      * @param sortAttributes
      * @return true/false
      */
@@ -64,8 +65,9 @@ class SFSQueryCapabilities extends QueryCapabilities {
 
         // sort by attribute, we do unless there is a geometric one
         for (SortBy sortBy : sortAttributes) {
-            AttributeDescriptor att = schema.getDescriptor(sortBy.getPropertyName().getPropertyName());
-            if(att == null || att instanceof GeometryDescriptor) {
+            AttributeDescriptor att = schema.getDescriptor(sortBy.getPropertyName()
+                    .getPropertyName());
+            if (att == null || att instanceof GeometryDescriptor) {
                 return false;
             }
         }

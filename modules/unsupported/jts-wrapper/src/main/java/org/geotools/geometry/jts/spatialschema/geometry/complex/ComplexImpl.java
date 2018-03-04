@@ -2,7 +2,8 @@
  **
  ** $Id$
  **
- ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/complex/ComplexImpl.java,v $
+ ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/complex
+ * /ComplexImpl.java,v $
  **
  ** Copyright (C) 2003 Open GIS Consortium, Inc. All Rights Reserved. http://www.opengis.org/Legal/
  **
@@ -10,6 +11,7 @@
 package org.geotools.geometry.jts.spatialschema.geometry.complex;
 
 // J2SE direct dependencies
+
 import org.geotools.geometry.jts.spatialschema.geometry.GeometryImpl;
 import org.geotools.geometry.jts.JTSGeometry;
 import org.geotools.geometry.jts.JTSUtils;
@@ -28,7 +30,8 @@ import org.opengis.geometry.complex.Complex;
 
 /**
  * A collection of geometrically disjoint, simple {@linkplain Primitive primitives}. If a
- * {@linkplain Primitive primitive} (other than a {@linkplain org.opengis.geometry.primitive.Point point}
+ * {@linkplain Primitive primitive} (other than a 
+ * {@linkplain org.opengis.geometry.primitive.Point point}
  * is in a particular {@code Complex}, then there exists a set of primitives of lower dimension
  * in the same complex that form the boundary of this primitive.
  * <br><br>
@@ -41,22 +44,18 @@ import org.opengis.geometry.complex.Complex;
  * <br><br>
  * The "{@linkplain #getElements elements}" attribute allows {@code Complex} to inherit the
  * behavior of {@link Set Set&lt;Primitive&gt;} without confusing the same sort of behavior
- * inherited from {@link org.opengis.geometry.coordinate.TransfiniteSet TransfiniteSet&lt;DirectPosition&gt;}
+ * inherited from 
+ * {@link org.opengis.geometry.coordinate.TransfiniteSet TransfiniteSet&lt;DirectPosition&gt;}
  * inherited through {@link Geometry}. Complexes shall be used in application schemas where
  * the sharing of geometry is important, such as in the use of computational topology. In a
  * complex, primitives may be aggregated many-to-many into composites for use as attributes
  * of features.
  *
- * @UML type GM_Complex
  * @author ISO/DIS 19107
  * @author <A HREF="http://www.opengis.org">OpenGIS&reg; consortium</A>
- *
- *
- *
- *
- * @source $URL$
  * @version 2.0
- *
+ * @UML type GM_Complex
+ * @source $URL$
  * @revisit Some associations are commented out for now.
  */
 public class ComplexImpl extends GeometryImpl implements Complex {
@@ -84,6 +83,7 @@ public class ComplexImpl extends GeometryImpl implements Complex {
                 invalidateCachedJTSPeer();
                 return super.add(o);
             }
+
             public boolean remove(Object o) {
                 invalidateCachedJTSPeer();
                 return super.remove(o);
@@ -123,7 +123,7 @@ public class ComplexImpl extends GeometryImpl implements Complex {
      * object.
      */
     public final Complex[] getSubComplexes() {
-        Complex [] result = new Complex[subComplexes.size()];
+        Complex[] result = new Complex[subComplexes.size()];
         subComplexes.toArray(result);
         return result;
     }
@@ -159,5 +159,5 @@ public class ComplexImpl extends GeometryImpl implements Complex {
         // combine geometries by putting them into the most specific collection
         // class it can.
         return JTSUtils.GEOMETRY_FACTORY.buildGeometry(subParts);
-    }    
+    }
 }

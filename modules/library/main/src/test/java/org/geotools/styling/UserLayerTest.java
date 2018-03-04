@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2007-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -46,8 +46,6 @@ import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.PrecisionModel;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class UserLayerTest extends TestCase {
@@ -99,6 +97,7 @@ public class UserLayerTest extends TestCase {
     private static final URI MY_URI;
 
     private static final String MY_FEATURE = "myFeature";
+
     static {
         try {
             MY_URI = new URI("http://geotools.org");
@@ -112,9 +111,9 @@ public class UserLayerTest extends TestCase {
         final CoordinateReferenceSystem crs = CRS.parseWKT(CRS_WKT);
         SimpleFeatureTypeBuilder ftb = new SimpleFeatureTypeBuilder();
         ftb.add(ID_COLUMN, Integer.class);
-		ftb.add(GEOMETRY_COLUMN, Point.class, crs);
-		ftb.add(LABEL_COLUMN, String.class);
-		ftb.setName(MY_FEATURE);
+        ftb.add(GEOMETRY_COLUMN, Point.class, crs);
+        ftb.add(LABEL_COLUMN, String.class);
+        ftb.setName(MY_FEATURE);
         final SimpleFeatureType schema = ftb.buildFeatureType();
 
         // create a feature collection ----------------------------------------
@@ -126,12 +125,12 @@ public class UserLayerTest extends TestCase {
 
         // create 1st point
         final Point g1 = jtsFactory.createPoint(new Coordinate(X_1, Y_1));
-        fc.add(SimpleFeatureBuilder.build(schema, new Object[] { new Integer(1), g1, LABEL_1 }, ID_1));
+        fc.add(SimpleFeatureBuilder.build(schema, new Object[]{new Integer(1), g1, LABEL_1}, ID_1));
 
         // create 2nd point
         final Point g2 = jtsFactory.createPoint(new Coordinate(X_2, Y_2));
-        fc.add(SimpleFeatureBuilder.build(schema, new Object[] { new Integer(2), g2, LABEL_2 }, ID_2));
-        
+        fc.add(SimpleFeatureBuilder.build(schema, new Object[]{new Integer(2), g2, LABEL_2}, ID_2));
+
         final DataStore ds = DataUtilities.dataStore(fc);
 
         // create and populate the layer --------------------------------------
@@ -191,9 +190,10 @@ public class UserLayerTest extends TestCase {
         assertNotNull("Unmarshalled feature type MUST NOT be null", ft);
         final String fName = ft.getTypeName();
         assertEquals("Read feature type name MUST match", MY_FEATURE, fName);
-        assertEquals(CRS.decode("EPSG:4326"), ft.getGeometryDescriptor().getCoordinateReferenceSystem());
+        assertEquals(CRS.decode("EPSG:4326"), ft.getGeometryDescriptor()
+                .getCoordinateReferenceSystem());
     }
-    
+
     public void testUserLayerWithRemoteOWS() throws Exception {
         URL sldUrl = TestData.getResource(this, "remoteOws.sld");
         StyleFactory factory = CommonFactoryFinder.getStyleFactory(null);
@@ -205,7 +205,8 @@ public class UserLayerTest extends TestCase {
         assertEquals("LayerWithRemoteOWS", layer.getName());
         assertNotNull(layer.getRemoteOWS());
         assertEquals("WFS", layer.getRemoteOWS().getService());
-        assertEquals("http://sigma.openplans.org:8080/geoserver/wfs?", layer.getRemoteOWS().getOnlineResource());
+        assertEquals("http://sigma.openplans.org:8080/geoserver/wfs?", layer.getRemoteOWS()
+                .getOnlineResource());
         assertEquals(1, layer.getLayerFeatureConstraints().length);
         FeatureTypeConstraint ftc = layer.getLayerFeatureConstraints()[0];
         assertEquals("topp:states", ftc.getFeatureTypeName());

@@ -22,6 +22,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.geotools.data.DefaultServiceInfo;
 import org.geotools.data.Query;
 import org.geotools.data.ServiceInfo;
@@ -38,10 +39,8 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 
 /**
  * KMLDataStore implementation
- * 
+ *
  * @author Niels Charlier, Scitus Development
- *
- *
  * @source $URL$
  */
 public class KMLDataStore extends ContentDataStore {
@@ -57,7 +56,7 @@ public class KMLDataStore extends ContentDataStore {
             throw new IllegalArgumentException(file + " must be a KML file");
         }
         if (namespaceURI == null) {
-            if( file.getParent() != null ){
+            if (file.getParent() != null) {
                 namespaceURI = file.getParentFile().getName();
             }
         }
@@ -75,7 +74,7 @@ public class KMLDataStore extends ContentDataStore {
     // info start
     public ServiceInfo getInfo() {
         DefaultServiceInfo info = new DefaultServiceInfo();
-        info.setDescription("Features from " + file );
+        info.setDescription("Features from " + file);
         info.setSchema(FeatureTypes.DEFAULT_NAMESPACE);
         info.setSource(file.toURI());
         try {
@@ -93,12 +92,12 @@ public class KMLDataStore extends ContentDataStore {
 
     protected java.util.List<Name> createTypeNames() throws IOException {
         String name = file.getName();
-        String typeName = name.substring(0,name.lastIndexOf('.'));
+        String typeName = name.substring(0, name.lastIndexOf('.'));
         List<Name> typeNames = new ArrayList<Name>();
-        typeNames.add( new NameImpl(namespaceURI, typeName));
+        typeNames.add(new NameImpl(namespaceURI, typeName));
         return typeNames;
     }
-    
+
     public List<Name> getNames() throws IOException {
         String[] typeNames = getTypeNames();
         List<Name> names = new ArrayList<Name>(typeNames.length);
@@ -110,11 +109,10 @@ public class KMLDataStore extends ContentDataStore {
 
     @Override
     protected ContentFeatureSource createFeatureSource(ContentEntry entry) throws IOException {
-        if( file.canWrite() ){
-            return new KMLFeatureSource( entry, Query.ALL );
-        }
-        else {
-            return new KMLFeatureSource( entry, Query.ALL );
+        if (file.canWrite()) {
+            return new KMLFeatureSource(entry, Query.ALL);
+        } else {
+            return new KMLFeatureSource(entry, Query.ALL);
         }
     }
 

@@ -79,7 +79,7 @@ public class ScreenMapShapefileTest {
         fb.set("the_geom", gf.createPoint(new Coordinate(10, 10)));
         fb.set("name", "The name");
         feature = fb.buildFeature(null);
-        
+
         File shpFile = new File("./target/screenMapTest/"
                 + feature.getFeatureType().getName().getLocalPart() + ".shp");
         shpFile.getParentFile().mkdirs();
@@ -98,16 +98,16 @@ public class ScreenMapShapefileTest {
                         .openStream()));
     }
 
-    @After 
+    @After
     public void dispose() {
-        if(shapeFileDataStore != null) {
+        if (shapeFileDataStore != null) {
             shapeFileDataStore.dispose();
         }
     }
-    
+
     @Test
     public void testFeatureCollection() throws IOException {
-        SimpleFeatureSource featureSource = DataUtilities.source(new SimpleFeature[] { feature });
+        SimpleFeatureSource featureSource = DataUtilities.source(new SimpleFeature[]{feature});
         checkTiles(featureSource);
     }
 
@@ -137,13 +137,15 @@ public class ScreenMapShapefileTest {
             for (int x = 0; x < expected.getWidth(); ++x) {
                 int expectedRgb = expected.getRGB(x, y);
                 int actualRgb = actual.getRGB(x, y);
-                assertEquals("[" + y + ", " + x + "]", new Color(expectedRgb), new Color(actualRgb));
+                assertEquals("[" + y + ", " + x + "]", new Color(expectedRgb), new Color
+                        (actualRgb));
             }
         }
     }
 
     private static BufferedImage renderImage(SimpleFeatureSource featureSource, int width,
-            int height, Rectangle2D mapArea, Style style, Map renderingHints) {
+                                             int height, Rectangle2D mapArea, Style style, Map 
+                                                     renderingHints) {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = (Graphics2D) image.getGraphics();
         g.setColor(Color.WHITE);
@@ -166,7 +168,7 @@ public class ScreenMapShapefileTest {
         StyleFactory sf = CommonFactoryFinder.getStyleFactory();
         URL iconUrl = ScreenMapShapefileTest.class.getResource("icon.png");
         ExternalGraphic icon = sf.createExternalGraphic(iconUrl, "image/png");
-        Graphic graphic = sf.createGraphic(new ExternalGraphic[] { icon }, null, null, null, null,
+        Graphic graphic = sf.createGraphic(new ExternalGraphic[]{icon}, null, null, null, null,
                 null);
         PointSymbolizer symbolizer = sf.createPointSymbolizer(graphic, "the_geom");
 

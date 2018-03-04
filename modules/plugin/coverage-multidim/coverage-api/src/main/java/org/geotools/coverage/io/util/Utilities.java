@@ -99,7 +99,6 @@ import sun.awt.OSInfo.OSType;
 
 /**
  * @author Daniele Romagnoli, GeoSolutions
- * 
  * @source $URL$
  */
 public class Utilities {
@@ -110,23 +109,27 @@ public class Utilities {
     private final static OSType OSTYPE = OSInfo.getOSType();
 
     /**
-     * TODO: Define a contains method which allows to know if the extent of a CoverageSlice contains a predefined extent. This would be useful to
-     * know which CoverageSlice to be used to access to a specific temporal/vertical extent defined slice.
+     * TODO: Define a contains method which allows to know if the extent of a CoverageSlice 
+     * contains a predefined extent. This would be useful to
+     * know which CoverageSlice to be used to access to a specific temporal/vertical extent 
+     * defined slice.
      */
 
-    /** Caches a MathTransformFactory */
+    /**
+     * Caches a MathTransformFactory
+     */
     private final static MathTransformFactory mtFactory = new DefaultMathTransformFactory();
 
     public static ReferenceIdentifier[] getIdentifiers(final String nameIdentifier) {
         if (nameIdentifier.equalsIgnoreCase("WGS84")) {
             final ReferenceIdentifier[] identifiers = {
 
-            new NamedIdentifier(Citations.OGC, "WGS84"),
+                    new NamedIdentifier(Citations.OGC, "WGS84"),
                     new NamedIdentifier(Citations.ORACLE, "WGS 84"),
                     new NamedIdentifier(null, "WGS_84"), new NamedIdentifier(null, "WGS 1984"),
                     new NamedIdentifier(Citations.EPSG, "WGS_1984"),
                     new NamedIdentifier(Citations.ESRI, "D_WGS_1984"),
-                    new NamedIdentifier(Citations.EPSG, "World Geodetic System 1984") };
+                    new NamedIdentifier(Citations.EPSG, "World Geodetic System 1984")};
             return identifiers;
         }
         // TODO: Handle mores
@@ -139,15 +142,17 @@ public class Utilities {
 
     /**
      * Build a {@link DefaultGeodeticDatum} given a set of parameters.
-     * 
-     * @param name the datum name
-     * @param equatorialRadius the equatorial radius parameter
+     *
+     * @param name              the datum name
+     * @param equatorialRadius  the equatorial radius parameter
      * @param inverseFlattening the inverse flattening parameter
-     * @param unit the UoM
+     * @param unit              the UoM
      * @return a properly built Datum.
      */
     public static DefaultGeodeticDatum getDefaultGeodeticDatum(final String name,
-            final double equatorialRadius, final double inverseFlattening, Unit unit) {
+                                                               final double equatorialRadius, 
+                                                               final double inverseFlattening, 
+                                                               Unit unit) {
 
         DefaultEllipsoid ellipsoid = DefaultEllipsoid.createFlattenedSphere(name, equatorialRadius,
                 inverseFlattening, unit);
@@ -164,7 +169,8 @@ public class Utilities {
     }
 
     /**
-     * Temp utility method which allows to get the real file name from a custom input File, where "custom" means a file having a special name
+     * Temp utility method which allows to get the real file name from a custom input File, where
+     * "custom" means a file having a special name
      * structured as "originalFileName:imageIndex"
      */
     public static File getFileFromCustomInput(Object input) {
@@ -190,7 +196,8 @@ public class Utilities {
     }
 
     /**
-     * Simple utility method which allows to build a Mercator2SP Projected CRS given the set of required parameters. It will be used by several
+     * Simple utility method which allows to build a Mercator2SP Projected CRS given the set of 
+     * required parameters. It will be used by several
      * Terascan products.
      */
     @SuppressWarnings("deprecation")
@@ -234,7 +241,7 @@ public class Utilities {
      * Build a base {@link GeographicCRS} given the parameters to specify a Geodetic Datum
      */
     public static GeographicCRS getBaseCRS(final double equatorialRadius,
-            final double inverseFlattening) {
+                                           final double inverseFlattening) {
         final DefaultGeodeticDatum datum = Utilities.getDefaultGeodeticDatum("WGS84",
                 equatorialRadius, inverseFlattening, SI.METER);
         final GeographicCRS sourceCRS = new DefaultGeographicCRS("WGS-84", datum,
@@ -243,12 +250,13 @@ public class Utilities {
     }
 
     /**
-     * Simple method returning the value (as {@code String}) of the attribute with name {@code attributeName} from the input attributes map.
-     * 
-     * @param attributes the attributes map
+     * Simple method returning the value (as {@code String}) of the attribute with name {@code 
+     * attributeName} from the input attributes map.
+     *
+     * @param attributes    the attributes map
      * @param attributeName the requested attribute
-     * @return the value of the requested attribute as a {@code String}. Returns {@code null} in case of no attribute found.
-     * 
+     * @return the value of the requested attribute as a {@code String}. Returns {@code null} in 
+     * case of no attribute found.
      */
     public static String getAttributeValue(NamedNodeMap attributes, String attributeName) {
         String attributeValue = null;
@@ -261,7 +269,7 @@ public class Utilities {
 
     /**
      * Return a {@link Unit} instance for the specified uom String.
-     * 
+     *
      * @param uom
      * @return
      */
@@ -284,18 +292,17 @@ public class Utilities {
         return unit;
     }
 
-/**
+    /**
      * Get a WGS84 envelope for the specified envelope. The get2D parameter
      * allows to specify if we need the returned coverage as an
      * {@code Envelope2D} or a more general {@code GeneralEnvelope} instance.
-     * 
+     *
      * @param envelope
-     * @param get2D
-     *                if {@code true}, the requested envelope will be an
-     *                instance of {@link Envelope2D}. If {@code false} it will
-     *                be an instance of {@link GeneralEnvelope
+     * @param get2D    if {@code true}, the requested envelope will be an
+     *                 instance of {@link Envelope2D}. If {@code false} it will
+     *                 be an instance of {@link GeneralEnvelope
      * @return a WGS84 envelope as {@link Envelope2D} in case of request for a
-     *         2D WGS84 Envelope, or a {@link GeneralEnvelope} otherwise.
+     * 2D WGS84 Envelope, or a {@link GeneralEnvelope} otherwise.
      * @throws FactoryException
      * @throws TransformException
      */
@@ -330,7 +337,7 @@ public class Utilities {
 
     /**
      * Return a 2D version of a requestedEnvelope
-     * 
+     *
      * @param requestedEnvelope the {@code GeneralEnvelope} to be returned as 2D.
      * @return the 2D requested envelope
      * @throws FactoryException
@@ -369,14 +376,15 @@ public class Utilities {
 
     /**
      * Return a crop region from a specified envelope, leveraging on a grid to world transformation.
-     * 
-     * @param envelope the crop envelope
+     *
+     * @param envelope             the crop envelope
      * @param gridToWorldTransform the grid2world transformation
      * @return a {@code Rectangle} representing the crop region.
      * @throws TransformException in case a problem occurs when going back to raster space.
      */
     public static Rectangle getCropRegion(GeneralEnvelope envelope,
-            final MathTransform gridToWorldTransform) throws TransformException {
+                                          final MathTransform gridToWorldTransform) throws 
+            TransformException {
         if (envelope == null || gridToWorldTransform == null) {
             boolean isEnvelope = envelope == null;
             boolean isG2W = gridToWorldTransform == null;
@@ -395,24 +403,32 @@ public class Utilities {
 
     /**
      * Returns the intersection between the base envelope and the requested envelope.
-     * 
-     * @param baseEnvelope2D the base envelope.
-     * 
-     * @param requestedEnvelope2D the requested 2D envelope to be intersected with the base envelope.
-     * @param requestedDim is the requested region where to load data of the specified envelope.
-     * @param readGridToWorld the Grid to world transformation to be used in read
-     * @param wgs84BaseEnvelope2D a WGS84 version of the baseEnvelope to be used to try finding an intersection in wgs84 in case it is impossible to
-     *        compute an intersection of the base envelope with the specified requested envelope.
-     * @return the resulting intersection of envelopes. In case of empty intersection, this method is allowed to return {@code null}
+     *
+     * @param baseEnvelope2D      the base envelope.
+     * @param requestedEnvelope2D the requested 2D envelope to be intersected with the base 
+     *                            envelope.
+     * @param requestedDim        is the requested region where to load data of the specified 
+     *                            envelope.
+     * @param readGridToWorld     the Grid to world transformation to be used in read
+     * @param wgs84BaseEnvelope2D a WGS84 version of the baseEnvelope to be used to try finding 
+     *                            an intersection in wgs84 in case it is impossible to
+     *                            compute an intersection of the base envelope with the specified
+     *                            requested envelope.
+     * @return the resulting intersection of envelopes. In case of empty intersection, this 
+     * method is allowed to return {@code null}
      * @throws TransformException
      * @throws FactoryException
-     * @todo TODO XXX refactor this method leveraging on the coverageSourceCapabilities of reprojection. Moreover add a boolean parameter saying if
-     *       trying to reproject to WGS84 always need to be done
+     * @todo TODO XXX refactor this method leveraging on the coverageSourceCapabilities of 
+     * reprojection. Moreover add a boolean parameter saying if
+     * trying to reproject to WGS84 always need to be done
      */
     public static GeneralEnvelope getIntersection(final Envelope2D baseEnvelope2D,
-            final CoordinateReferenceSystem spatialReferenceSystem2D,
-            GeneralEnvelope requestedEnvelope2D, Rectangle requestedDim,
-            MathTransform2D readGridToWorld, final Envelope2D wgs84BaseEnvelope2D)
+                                                  final CoordinateReferenceSystem 
+                                                          spatialReferenceSystem2D,
+                                                  GeneralEnvelope requestedEnvelope2D, Rectangle 
+                                                          requestedDim,
+                                                  MathTransform2D readGridToWorld, final 
+                                                  Envelope2D wgs84BaseEnvelope2D)
             throws TransformException, FactoryException {
 
         if (baseEnvelope2D == null || spatialReferenceSystem2D == null
@@ -495,13 +511,14 @@ public class Utilities {
     }
 
     /**
-     * Retrieves the original grid to world transformation for this {@link AbstractGridCoverage2DReader}.
-     * 
+     * Retrieves the original grid to world transformation for this 
+     * {@link AbstractGridCoverage2DReader}.
+     *
      * @param pixInCell specifies the datum of the transformation we want.
      * @return the original grid to world transformation
      */
     public static MathTransform getOriginalGridToWorld(MathTransform raster2Model,
-            final PixelInCell pixInCell) {
+                                                       final PixelInCell pixInCell) {
         // we do not have to change the pixel datum
         if (pixInCell == PixelInCell.CELL_CENTER)
             return raster2Model;
@@ -521,33 +538,42 @@ public class Utilities {
     }
 
     /**
-     * Evaluates the requested envelope and builds a new adjusted version of it fitting this coverage envelope.
-     * 
+     * Evaluates the requested envelope and builds a new adjusted version of it fitting this 
+     * coverage envelope.
      * <p>
-     * While adjusting the requested envelope this methods also compute the source region as a rectangle which is suitable for a successive read
+     * <p>
+     * While adjusting the requested envelope this methods also compute the source region as a 
+     * rectangle which is suitable for a successive read
      * operation with {@link ImageIO} to do crop-on-read.
-     * 
+     *
      * @param originalGridToWorld
-     * 
      * @param coordinateReferenceSystem
-     * 
-     * 
-     * @param requestedEnvelope is the envelope we are requested to load.
-     * @param sourceRegion represents the area to load in raster space. This parameter cannot be null since it gets filled with whatever the crop
-     *        region is depending on the <code>requestedEnvelope</code>.
-     * @param requestedDim is the requested region where to load data of the specified envelope.
-     * @param readGridToWorld the Grid to world transformation to be used
+     * @param requestedEnvelope         is the envelope we are requested to load.
+     * @param sourceRegion              represents the area to load in raster space. This 
+     *                                  parameter cannot be null since it gets filled with 
+     *                                  whatever the crop
+     *                                  region is depending on the <code>requestedEnvelope</code>.
+     * @param requestedDim              is the requested region where to load data of the 
+     *                                  specified envelope.
+     * @param readGridToWorld           the Grid to world transformation to be used
      * @param wgs84BaseEnvelope2D
-     * @return the adjusted requested envelope, empty if no requestedEnvelope has been specified, {@code null} in case the requested envelope does not
-     *         intersect the coverage envelope or in case the adjusted requested envelope is covered by a too small raster region (an empty region).
-     * 
+     * @return the adjusted requested envelope, empty if no requestedEnvelope has been specified,
+     * {@code null} in case the requested envelope does not
+     * intersect the coverage envelope or in case the adjusted requested envelope is covered by a
+     * too small raster region (an empty region).
      * @throws DataSourceException in case something bad occurs
      */
     public static GeneralEnvelope evaluateRequestedParams(GridEnvelope originalGridRange,
-            Envelope2D baseEnvelope2D, CoordinateReferenceSystem spatialReferenceSystem2D,
-            MathTransform originalGridToWorld, GeneralEnvelope requestedEnvelope,
-            Rectangle sourceRegion, Rectangle requestedDim, MathTransform2D readGridToWorld,
-            Envelope2D wgs84BaseEnvelope2D) throws DataSourceException {
+                                                          Envelope2D baseEnvelope2D, 
+                                                          CoordinateReferenceSystem 
+                                                                  spatialReferenceSystem2D,
+                                                          MathTransform originalGridToWorld, 
+                                                          GeneralEnvelope requestedEnvelope,
+                                                          Rectangle sourceRegion, Rectangle 
+                                                                  requestedDim, MathTransform2D 
+                                                                  readGridToWorld,
+                                                          Envelope2D wgs84BaseEnvelope2D) throws 
+            DataSourceException {
 
         GeneralEnvelope adjustedRequestedEnvelope = new GeneralEnvelope(2);
         GeneralGridEnvelope baseGridRange = (GeneralGridEnvelope) originalGridRange;
@@ -617,22 +643,29 @@ public class Utilities {
     }
 
     /**
-     * Creates a {@link GridCoverage} for the provided {@link PlanarImage} using the {@link #raster2Model} that was provided for this coverage.
-     * 
+     * Creates a {@link GridCoverage} for the provided {@link PlanarImage} using the 
+     * {@link #raster2Model} that was provided for this coverage.
      * <p>
-     * This method is vital when working with coverages that have a raster to model transformation that is not a simple scale and translate.
-     * 
+     * <p>
+     * This method is vital when working with coverages that have a raster to model 
+     * transformation that is not a simple scale and translate.
+     *
      * @param imageIndex
-     * 
-     * @param image contains the data for the coverage to create.
-     * @param raster2Model is the {@link MathTransform} that maps from the raster space to the model space.
+     * @param image        contains the data for the coverage to create.
+     * @param raster2Model is the {@link MathTransform} that maps from the raster space to the 
+     *                     model space.
      * @return a {@link GridCoverage}
      * @throws IOException
      */
     public static GridCoverage createCoverageFromImage(final GridCoverageFactory coverageFactory,
-            final String coverageName, int imageIndex, PlanarImage image,
-            MathTransform raster2Model, final CoordinateReferenceSystem spatialReferenceSystem2D,
-            GeneralEnvelope coverageEnvelope2D, final GridSampleDimension[] sampleDimensions) throws IOException {
+                                                       final String coverageName, int imageIndex,
+                                                       PlanarImage image,
+                                                       MathTransform raster2Model, final 
+                                                       CoordinateReferenceSystem 
+                                                               spatialReferenceSystem2D,
+                                                       GeneralEnvelope coverageEnvelope2D, final 
+                                                       GridSampleDimension[] sampleDimensions) 
+            throws IOException {
         final GridSampleDimension[] bands = sampleDimensions;
 
         GridCoverage2D gridCoverage;
@@ -644,18 +677,21 @@ public class Utilities {
             gridCoverage = coverageFactory.create(coverageName, image, coverageEnvelope2D, bands,
                     null, null);
 
-            return gridCoverage;
+        return gridCoverage;
     }
 
     /**
-     * This method is responsible for evaluating possible subsampling factors once the best resolution level has been found in case we have support
-     * for overviews, or starting from the original coverage in case there are no overviews available.
-     * 
-     * @param readP the imageRead parameter to be set
-     * @param requestedRes the requested resolutions from which to determine the decimation parameters.
+     * This method is responsible for evaluating possible subsampling factors once the best 
+     * resolution level has been found in case we have support
+     * for overviews, or starting from the original coverage in case there are no overviews 
+     * available.
+     *
+     * @param readP        the imageRead parameter to be set
+     * @param requestedRes the requested resolutions from which to determine the decimation 
+     *                     parameters.
      */
     public static void setDecimationParameters(ImageReadParam readP, GridEnvelope baseGridRange,
-            double[] requestedRes, double[] highestRes) {
+                                               double[] requestedRes, double[] highestRes) {
         {
             if (readP == null || baseGridRange == null)
                 throw new IllegalArgumentException("Specified parameters are null");
@@ -709,23 +745,30 @@ public class Utilities {
 
     /**
      * Prepares the read parameters for doing an {@link ImageReader#read(int, ImageReadParam)}.
-     * 
-     * It sets the passed {@link ImageReadParam} in terms of decimation on reading using the provided requestedEnvelope and requestedDim to evaluate
+     * <p>
+     * It sets the passed {@link ImageReadParam} in terms of decimation on reading using the 
+     * provided requestedEnvelope and requestedDim to evaluate
      * the needed resolution.
-     * 
-     * @param overviewPolicy it can be one of {@link Hints#VALUE_OVERVIEW_POLICY_IGNORE}, {@link Hints#VALUE_OVERVIEW_POLICY_NEAREST},
-     *        {@link Hints#VALUE_OVERVIEW_POLICY_QUALITY} or {@link Hints#VALUE_OVERVIEW_POLICY_SPEED}. It specifies the policy to compute the
-     *        overviews level upon request.
-     * @param readParam an instance of {@link ImageReadParam} for setting the subsampling factors.
+     *
+     * @param overviewPolicy    it can be one of {@link Hints#VALUE_OVERVIEW_POLICY_IGNORE}, 
+     * {@link Hints#VALUE_OVERVIEW_POLICY_NEAREST},
+     *                          {@link Hints#VALUE_OVERVIEW_POLICY_QUALITY} or 
+     *                          {@link Hints#VALUE_OVERVIEW_POLICY_SPEED}. It specifies the 
+     *                          policy to compute the
+     *                          overviews level upon request.
+     * @param readParam         an instance of {@link ImageReadParam} for setting the subsampling
+     *                         factors.
      * @param requestedEnvelope the {@link GeneralEnvelope} we are requesting.
-     * @param requestedDim the requested dimensions.
+     * @param requestedDim      the requested dimensions.
      * @param gridRange
      * @throws IOException
      * @throws TransformException
      */
     public static void setReadParameters(OverviewPolicy overviewPolicy, ImageReadParam readParam,
-            GeneralEnvelope requestedEnvelope, Rectangle requestedDim, double[] highestRes,
-            GridEnvelope gridRange, PixelInCell pixelInCell) throws IOException, TransformException {
+                                         GeneralEnvelope requestedEnvelope, Rectangle 
+                                                 requestedDim, double[] highestRes,
+                                         GridEnvelope gridRange, PixelInCell pixelInCell) throws 
+            IOException, TransformException {
         double[] requestedRes = null;
 
         // //
@@ -785,27 +828,35 @@ public class Utilities {
     }
 
     /**
-     * This method creates the GridCoverage2D from the underlying file given a specified envelope, and a requested dimension.
-     * 
+     * This method creates the GridCoverage2D from the underlying file given a specified 
+     * envelope, and a requested dimension.
+     *
      * @param imageIndex
      * @param coordinateReferenceSystem
      * @param generalEnvelope
      * @param mathTransform
-     * 
-     * @param iUseJAI specify if the underlying read process should leverage on a JAI ImageRead operation or a simple direct call to the {@code read}
-     *        method of a proper {@code ImageReader}.
-     * @param useMultithreading specify if the underlying read process should use multithreading when a JAI ImageRead operation is requested
-     * @param overviewPolicy the overview policy which need to be adopted
+     * @param iUseJAI                   specify if the underlying read process should leverage on
+     *                                 a JAI ImageRead operation or a simple direct call to the 
+     *                                 {@code read}
+     *                                  method of a proper {@code ImageReader}.
+     * @param useMultithreading         specify if the underlying read process should use 
+     *                                  multithreading when a JAI ImageRead operation is requested
+     * @param overviewPolicy            the overview policy which need to be adopted
      * @return a {@code GridCoverage}
-     * 
      * @throws java.io.IOException
      */
     public static GridCoverage createCoverage(ImageReaderSpi spi, Object input,
-            final int imageIndex, ImageReadParam imageReadParam, final boolean useJAI,
-            final boolean useMultithreading, final boolean newTransform,
-            final GridSampleDimension[] sampleDimensions, final String coverageName,
-            GridCoverageFactory coverageFactory, MathTransform raster2Model,
-            CoordinateReferenceSystem coordinateReferenceSystem, GeneralEnvelope coverageEnvelope2D)
+                                              final int imageIndex, ImageReadParam 
+                                                      imageReadParam, final boolean useJAI,
+                                              final boolean useMultithreading, final boolean 
+                                                      newTransform,
+                                              final GridSampleDimension[] sampleDimensions, final
+                                              String coverageName,
+                                              GridCoverageFactory coverageFactory, MathTransform 
+                                                      raster2Model,
+                                              CoordinateReferenceSystem 
+                                                      coordinateReferenceSystem, GeneralEnvelope 
+                                                      coverageEnvelope2D)
             throws IOException {
         // ////////////////////////////////////////////////////////////////////
         //
@@ -859,22 +910,27 @@ public class Utilities {
     }
 
     /**
-     * Returns a {@code PlanarImage} given a set of parameter specifying the type of read operation to be performed.
-     * 
+     * Returns a {@code PlanarImage} given a set of parameter specifying the type of read 
+     * operation to be performed.
+     *
      * @param imageIndex
-     * 
-     * @param new FileImageInputStreamExtImplinput the input {@code ImageInputStream} to be used for reading the image.
-     * @param useJAI {@code true} if we need to use a JAI ImageRead operation, {@code false} if we need a simple direct {@code ImageReader.read(...)}
-     *        call.
-     * @param imageReadParam an {@code ImageReadParam} specifying the read parameters
-     * @param useMultithreading {@code true} if a JAI ImageRead operation is requested with support for multithreading. This parameter will be ignored
-     *        if requesting a direct read operation.
+     * @param new               FileImageInputStreamExtImplinput the input {@code 
+     * ImageInputStream} to be used for reading the image.
+     * @param useJAI            {@code true} if we need to use a JAI ImageRead operation, {@code 
+     * false} if we need a simple direct {@code ImageReader.read(...)}
+     *                          call.
+     * @param imageReadParam    an {@code ImageReadParam} specifying the read parameters
+     * @param useMultithreading {@code true} if a JAI ImageRead operation is requested with 
+     *                                      support for multithreading. This parameter will be 
+     *                                      ignored
+     *                          if requesting a direct read operation.
      * @return the read {@code PlanarImage}
      * @throws IOException
      */
     public static PlanarImage readImage(final ImageReaderSpi spi, final Object input,
-            final int imageIndex, final boolean useJAI, final ImageReadParam imageReadParam,
-            final boolean useMultithreading) throws IOException {
+                                        final int imageIndex, final boolean useJAI, final 
+                                        ImageReadParam imageReadParam,
+                                        final boolean useMultithreading) throws IOException {
         ImageInputStream paramInput = null;
         if (input instanceof File) {
             paramInput = new FileImageInputStreamExtImpl((File) input);
@@ -935,8 +991,9 @@ public class Utilities {
     }
 
     /**
-     * Compute the coverage request and produce a grid coverage. The produced grid coverage may be {@code null} in case of empty request.
-     * 
+     * Compute the coverage request and produce a grid coverage. The produced grid coverage may 
+     * be {@code null} in case of empty request.
+     *
      * @param index
      * @param imageReadParam
      * @param isEmptyRequest
@@ -947,18 +1004,21 @@ public class Utilities {
      * @param raster2Model
      * @param coordinateReferenceSystem
      * @param envelope2D
-     * 
      * @throws IOException
      * @TODO: handle more input types
      */
     public static GridCoverage compute(Object input, final int imageIndex,
-            final boolean needTransformation, final boolean isEmptyRequest, final boolean useJAI,
-            ImageReadParam imageReadParam, final boolean useMultithreading,
-            final GridSampleDimension[] sampleDimensions, final ImageReaderSpi imageReaderSpi,
-            final String coverageName, final GridCoverageFactory coverageFactory,
-            final MathTransform raster2Model,
-            final CoordinateReferenceSystem coordinateReferenceSystem,
-            final GeneralEnvelope envelope2D) throws IOException {
+                                       final boolean needTransformation, final boolean 
+                                               isEmptyRequest, final boolean useJAI,
+                                       ImageReadParam imageReadParam, final boolean 
+                                               useMultithreading,
+                                       final GridSampleDimension[] sampleDimensions, final 
+                                       ImageReaderSpi imageReaderSpi,
+                                       final String coverageName, final GridCoverageFactory 
+                                               coverageFactory,
+                                       final MathTransform raster2Model,
+                                       final CoordinateReferenceSystem coordinateReferenceSystem,
+                                       final GeneralEnvelope envelope2D) throws IOException {
 
         if (isEmptyRequest) {
             return null;
@@ -1078,19 +1138,21 @@ public class Utilities {
 //        return band;
 //    }
 
-    
-    
+
     // /**
-    // * Check two {@link TemporalGeometricPrimitive} objects. Return {@code true} in case the first argument
+    // * Check two {@link TemporalGeometricPrimitive} objects. Return {@code true} in case the 
+    // first argument
     // * contains the second one. In case of instants, return {@code true} if they are equals.
-    // * In case the first argument is a period and the second one is an instant, check if the instant is
+    // * In case the first argument is a period and the second one is an instant, check if the 
+    // instant is
     // * contained within the period. In case they are Periods, check for an intersection.
     // *
     // * @param containing
     // * @param contained
     // * @return
     // */
-    // public static boolean contains(TemporalGeometricPrimitive containing, TemporalGeometricPrimitive contained) {
+    // public static boolean contains(TemporalGeometricPrimitive containing, 
+    // TemporalGeometricPrimitive contained) {
     // // //
     // //
     // // Instants should match to be taken
@@ -1151,7 +1213,8 @@ public class Utilities {
     // * @param second
     // * @return
     // */
-    // public static boolean isTimeAccepted( TemporalGeometricPrimitive first, TemporalGeometricPrimitive second ) {
+    // public static boolean isTimeAccepted( TemporalGeometricPrimitive first, 
+    // TemporalGeometricPrimitive second ) {
     // boolean takeThis = Utilities.contains(first, second);
     // if (!takeThis)
     // takeThis = Utilities.contains(second, first);
@@ -1160,10 +1223,10 @@ public class Utilities {
 
     /**
      * Checks that a {@link File} is a real file, exists and is readable.
-     * 
+     *
      * @param file the {@link File} instance to check. Must not be null.
-     * 
-     * @return <code>true</code> in case the file is a real file, exists and is readable; <code>false </code> otherwise.
+     * @return <code>true</code> in case the file is a real file, exists and is readable; 
+     * <code>false </code> otherwise.
      */
     public static boolean checkFileReadable(final File file) {
         if (LOGGER.isLoggable(Level.FINE)) {
@@ -1176,14 +1239,14 @@ public class Utilities {
     }
 
     /**
-     * Creates a human readable message that describe the provided {@link File} object in terms of its properties.
-     * 
+     * Creates a human readable message that describe the provided {@link File} object in terms 
+     * of its properties.
+     * <p>
      * <p>
      * Useful for creating meaningful log messages.
-     * 
+     *
      * @param file the {@link File} object to create a descriptive message for
      * @return a {@link String} containing a descriptive message about the provided {@link File}.
-     * 
      */
     public static String getFileInfo(final File file) {
         final StringBuilder builder = new StringBuilder();

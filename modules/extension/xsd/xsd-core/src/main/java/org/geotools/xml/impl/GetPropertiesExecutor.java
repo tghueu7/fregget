@@ -29,20 +29,22 @@ import org.geotools.xml.ComplexBinding;
  * The object properties are stored as name, object tuples.
  *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
- *
  * @source $URL$
  */
 public class GetPropertiesExecutor implements BindingWalker.Visitor {
-    /** the parent object */
+    /**
+     * the parent object
+     */
     Object parent;
 
-    /** the parent element */
+    /**
+     * the parent element
+     */
     XSDElementDeclaration element;
-    
-    /** the properties */
+
+    /**
+     * the properties
+     */
     List properties;
 
     public GetPropertiesExecutor(Object parent, XSDElementDeclaration element) {
@@ -61,7 +63,7 @@ public class GetPropertiesExecutor implements BindingWalker.Visitor {
 
             try {
                 List properties = complex.getProperties(parent);
-                if ( properties == null || properties.isEmpty() ) {
+                if (properties == null || properties.isEmpty()) {
                     properties = complex.getProperties(parent, element);
                 }
                 if (properties != null) {

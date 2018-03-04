@@ -24,9 +24,6 @@ import org.geotools.util.Utilities;
 /**
  * @author Martin Desruisseaux
  * @author Daniele Romagnoli, GeoSolutions
- *
- *
- *
  * @source $URL$
  */
 public class Identification implements CharSequence, Serializable {
@@ -59,7 +56,7 @@ public class Identification implements CharSequence, Serializable {
      * Creates an identification from the specified object name.
      */
     public Identification(final String name, final String remarks,
-            final String alias, final String identifier) {
+                          final String alias, final String identifier) {
         this.name = name;
         this.remarks = remarks;
         this.alias = alias;
@@ -141,8 +138,8 @@ public class Identification implements CharSequence, Serializable {
     public String getIdentifier() {
         return identifier;
     }
-    
-    public String toString(){
+
+    public String toString() {
         final StringBuilder sb = new StringBuilder();
         sb.append("Name: ").append(name);
         if (alias != null)

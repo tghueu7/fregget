@@ -18,13 +18,13 @@ package org.geotools.xml.impl;
 
 import org.eclipse.xsd.XSDAttributeDeclaration;
 import org.eclipse.xsd.XSDElementDeclaration;
+
 import javax.xml.namespace.QName;
+
 import org.geotools.xml.SchemaIndex;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class HandlerFactoryImpl implements HandlerFactory {
@@ -46,7 +46,7 @@ public class HandlerFactoryImpl implements HandlerFactory {
     }
 
     public ElementHandler createElementHandler(XSDElementDeclaration element, Handler parent,
-        ParserHandler parser) {
+                                               ParserHandler parser) {
         return new ElementHandlerImpl(element, parent, parser);
     }
 }

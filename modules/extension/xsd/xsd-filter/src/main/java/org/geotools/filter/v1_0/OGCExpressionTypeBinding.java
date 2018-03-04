@@ -17,7 +17,9 @@
 package org.geotools.filter.v1_0;
 
 import org.picocontainer.MutablePicoContainer;
+
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.expression.Expression;
 import org.geotools.xml.AbstractComplexBinding;
@@ -27,9 +29,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:ExpressionType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType abstract="true" mixed="true" name="ExpressionType"/&gt;
  *
@@ -38,9 +40,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OGCExpressionTypeBinding extends AbstractComplexBinding {
@@ -97,7 +96,7 @@ public class OGCExpressionTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return filterFactory.literal(value);
     }
 }

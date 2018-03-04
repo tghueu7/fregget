@@ -28,8 +28,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DXFEntities implements DXFConstants {
@@ -47,7 +45,8 @@ public class DXFEntities implements DXFConstants {
         this.theEntities = sEntities;
     }
 
-    public static DXFEntities readEntities(DXFLineNumberReader br, DXFUnivers univers) throws IOException {
+    public static DXFEntities readEntities(DXFLineNumberReader br, DXFUnivers univers) throws 
+            IOException {
         Vector<DXFEntity> sEnt = new Vector<DXFEntity>();
 
         DXFCodeValuePair cvp = null;
@@ -81,9 +80,9 @@ public class DXFEntities implements DXFConstants {
                     } else if (type.equals(CIRCLE)) {
                         dxfe = DXFCircle.read(br, univers);
                     } else if (type.equals(POLYLINE)) {
-                             dxfe = DXFPolyline.read(br, univers);
+                        dxfe = DXFPolyline.read(br, univers);
                     } else if (type.equals(LWPOLYLINE)) {
-                               dxfe = DXFLwPolyline.read(br, univers);
+                        dxfe = DXFLwPolyline.read(br, univers);
                     } else if (type.equals(POINT)) {
                         dxfe = DXFPoint.read(br, univers);
                     } else if (type.equals(SOLID)) {

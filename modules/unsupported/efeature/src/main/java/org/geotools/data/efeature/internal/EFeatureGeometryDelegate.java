@@ -1,7 +1,7 @@
 /**
  * <copyright>
  * </copyright>
- *
+ * <p>
  * $Id$
  */
 package org.geotools.data.efeature.internal;
@@ -25,9 +25,8 @@ import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * An abstract implementation of the model data type {@link EFeatureGeometry}.
- * 
- * @author kengu, 22. apr. 2011
  *
+ * @author kengu, 22. apr. 2011
  * @source $URL$
  */
 public class EFeatureGeometryDelegate<V extends Geometry> extends
@@ -40,12 +39,13 @@ public class EFeatureGeometryDelegate<V extends Geometry> extends
     /**
      * Default constructor.
      * <p>
-     * @param eInternal - 
-     * @param eName - 
+     *
+     * @param eInternal -
+     * @param eName     -
      * @param valueType - {@link #getValue() property value} type.
      */
     public EFeatureGeometryDelegate(EFeatureInternal eInternal,
-            String eName, Class<V> valueType) {
+                                    String eName, Class<V> valueType) {
         super(eInternal, eName, GeometryAttribute.class, valueType);
     }
 

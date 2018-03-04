@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -26,37 +26,35 @@ import org.opengis.feature.type.FeatureType;
 
 /**
  * A feature iterator that completely delegates to another FeatureIterator.
- * 
+ *
  * @author Jody Garnett
- *
- *
  * @source $URL$
  */
 public class DecoratingFeatureIterator<F extends Feature> implements FeatureIterator<F> {
-	FeatureIterator<F> delegate;
-	
-	/**
-	 * Wrap the provided FeatureIterator.
-	 * 
-	 * @param iterator Iterator to be used as a delegate.
-	 */
-	public DecoratingFeatureIterator( FeatureIterator<F> iterator ){
-		delegate = iterator;
-	}
+    FeatureIterator<F> delegate;
 
-	public boolean hasNext() {
-		return delegate != null && delegate.hasNext();
-	}
-	
-	public F next() throws NoSuchElementException {
-		if( delegate == null ) throw new NoSuchElementException();
-		return  delegate.next();
-	}
-	
-	public void close() {
-		if( delegate!=null ){
-			delegate.close();
-		}
-		delegate = null;		
-	}
+    /**
+     * Wrap the provided FeatureIterator.
+     *
+     * @param iterator Iterator to be used as a delegate.
+     */
+    public DecoratingFeatureIterator(FeatureIterator<F> iterator) {
+        delegate = iterator;
+    }
+
+    public boolean hasNext() {
+        return delegate != null && delegate.hasNext();
+    }
+
+    public F next() throws NoSuchElementException {
+        if (delegate == null) throw new NoSuchElementException();
+        return delegate.next();
+    }
+
+    public void close() {
+        if (delegate != null) {
+            delegate.close();
+        }
+        delegate = null;
+    }
 }

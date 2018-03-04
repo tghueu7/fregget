@@ -43,14 +43,13 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  * WebMapTileServer is a class representing a WMTS.
- *
+ * <p>
  * It is used to access the Capabilities document and perform requests.
  * It will perform version negotiation automatically and use the highest
  * known version that the server can communicate.
  *
  * @author ian
  * @author Emanuele Tajariol (etj at geo-solutions dot it)
- * 
  */
 public class WebMapTileServer extends AbstractOpenWebService<WMTSCapabilities, Layer> {
 
@@ -67,7 +66,7 @@ public class WebMapTileServer extends AbstractOpenWebService<WMTSCapabilities, L
      * @throws IOException
      */
     public WebMapTileServer(URL serverURL, HTTPClient httpClient, WMTSCapabilities capabilities,
-            Map<String, Object> hints) throws ServiceException, IOException {
+                            Map<String, Object> hints) throws ServiceException, IOException {
         super(serverURL, httpClient, capabilities, hints);
         setType(capabilities.getType());
     }

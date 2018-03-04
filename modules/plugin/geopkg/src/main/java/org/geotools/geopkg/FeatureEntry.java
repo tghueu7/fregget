@@ -23,6 +23,7 @@ import org.geotools.geometry.jts.Geometries;
  * <p>
  * This class corresponds to the "geometry_columns" table.
  * </p>
+ *
  * @author Justin Deoliveira, OpenGeo
  * @author Niels Charlier
  */
@@ -60,7 +61,7 @@ public class FeatureEntry extends Entry {
         setZ(e.isZ());
         setM(e.isM());
     }
-    
+
 
     public boolean isZ() {
         return z;

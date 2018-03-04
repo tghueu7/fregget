@@ -24,8 +24,6 @@ import com.vividsolutions.jts.geom.Envelope;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GMLBoxTypeBinding2Test extends GMLTestSupport {
@@ -51,6 +49,6 @@ public class GMLBoxTypeBinding2Test extends GMLTestSupport {
         Document doc = encode(new Envelope(1, 2, 3, 4), GML.Box);
 
         assertEquals(2,
-            doc.getElementsByTagNameNS(GML.NAMESPACE, GML.coord.getLocalPart()).getLength());
+                doc.getElementsByTagNameNS(GML.NAMESPACE, GML.coord.getLocalPart()).getLength());
     }
 }

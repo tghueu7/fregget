@@ -20,11 +20,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- *
  * @author Gertjan
- *
- *
- *
  * @source $URL$
  */
 public class DXFBlockRecord extends DXFBlock {
@@ -38,7 +34,8 @@ public class DXFBlockRecord extends DXFBlock {
      */
 
     // TODO GJ DELETE WHOLE UNUSED CLASS???
-    public DXFBlockRecord(double x, double y, int flag, String name, Vector<DXFEntity> ent, int c, DXFLayer l) {
+    public DXFBlockRecord(double x, double y, int flag, String name, Vector<DXFEntity> ent, int 
+            c, DXFLayer l) {
         super(x, y, flag, name, ent, c, l);
     /*
     _point = new DXFPoint(x, y, c, l, 0, 1);
@@ -52,7 +49,8 @@ public class DXFBlockRecord extends DXFBlock {
      * */
     }
 
-    public static DXFBlockRecord read(DXFLineNumberReader br, DXFUnivers univers) throws IOException {
+    public static DXFBlockRecord read(DXFLineNumberReader br, DXFUnivers univers) throws 
+            IOException {
         Vector<DXFEntity> sEnt = new Vector<DXFEntity>();
         String name = "";
         double x = 0, y = 0;
@@ -100,10 +98,12 @@ public class DXFBlockRecord extends DXFBlock {
                     break;
             }
         }
-        DXFBlockRecord e = new DXFBlockRecord(x, y, flag, name, sEnt, DXFColor.getDefaultColorIndex(), l);
+        DXFBlockRecord e = new DXFBlockRecord(x, y, flag, name, sEnt, DXFColor
+                .getDefaultColorIndex(), l);
 
         /// TODO GJ Delete this Block println
-        // System.out.println(" - " + e.toString(x, y, flag, name, sEnt.size(), DXFColor.getDefaultColorIndex()));
+        // System.out.println(" - " + e.toString(x, y, flag, name, sEnt.size(), DXFColor
+        // .getDefaultColorIndex()));
 
 
         log.debug(e.toString(x, y, flag, name, sEnt.size(), DXFColor.getDefaultColorIndex()));

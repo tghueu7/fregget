@@ -7,8 +7,6 @@ import org.geotools.jdbc.JDBCPrimaryKeyFinderOnlineTest;
 import org.geotools.jdbc.JDBCPrimaryKeyFinderTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class OraclePrimaryKeyFinderOnlineTest extends JDBCPrimaryKeyFinderOnlineTest {
@@ -17,7 +15,7 @@ public class OraclePrimaryKeyFinderOnlineTest extends JDBCPrimaryKeyFinderOnline
     protected JDBCPrimaryKeyFinderTestSetup createTestSetup() {
         return new OraclePrimaryKeyFinderTestSetup();
     }
-    
+
     @Override
     protected HashMap createDataStoreFactoryParams() throws Exception {
         HashMap params = super.createDataStoreFactoryParams();

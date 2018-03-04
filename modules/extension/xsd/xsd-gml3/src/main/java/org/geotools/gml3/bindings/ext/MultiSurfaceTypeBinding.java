@@ -34,26 +34,24 @@ import com.vividsolutions.jts.geom.Polygon;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class MultiSurfaceTypeBinding extends org.geotools.gml3.bindings.MultiSurfaceTypeBinding
-    implements Comparable {
-    
+        implements Comparable {
+
     public MultiSurfaceTypeBinding(GeometryFactory gf) {
         super(gf);
     }
 
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        
+            throws Exception {
+
 // we keep the same sequence order as in the xsd:
-        
+
         //&lt;element maxOccurs="unbounded" minOccurs="0" ref="gml:surfaceMember"/&gt;
         List<MultiPolygon> surfaceMemberList = node.getChildValues("surfaceMember");
         //&lt;element minOccurs="0" ref="gml:surfaceMembers"/&gt;
-        MultiPolygon surfaceMembers = (MultiPolygon)node.getChildValue("surfaceMembers");
+        MultiPolygon surfaceMembers = (MultiPolygon) node.getChildValue("surfaceMembers");
 
 
         List<Polygon> polygons = new ArrayList<Polygon>();
@@ -61,7 +59,7 @@ public class MultiSurfaceTypeBinding extends org.geotools.gml3.bindings.MultiSur
         if (surfaceMemberList != null) {
             for (MultiPolygon surface : surfaceMemberList) {
                 for (int i = 0; i < surface.getNumGeometries(); i++) {
-                    Polygon polygon = (Polygon)surface.getGeometryN(i);
+                    Polygon polygon = (Polygon) surface.getGeometryN(i);
                     polygons.add(polygon);
                 }
             }
@@ -69,22 +67,22 @@ public class MultiSurfaceTypeBinding extends org.geotools.gml3.bindings.MultiSur
 
         if (surfaceMembers != null) {
             for (int i = 0; i < surfaceMembers.getNumGeometries(); i++) {
-                Polygon polygon = (Polygon)surfaceMembers.getGeometryN(i);
+                Polygon polygon = (Polygon) surfaceMembers.getGeometryN(i);
                 polygons.add(polygon);
             }
         }
 
-        return gf.createMultiPolygon((Polygon[])polygons.toArray(new Polygon[polygons.size()]));
+        return gf.createMultiPolygon((Polygon[]) polygons.toArray(new Polygon[polygons.size()]));
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         if ("surfaceMembers".equals(name.getLocalPart())) {
             return super.getProperty(object, GML.surfaceMember);
         }
         return super.getProperty(object, name);
     }
-    
+
     /**
      * Implement comparable because MultiPolygonBinding, MultiSurfaceBinding and Surface
      * are bound to the same class, MultiPolygon. Since MultiPolygon is deprecated

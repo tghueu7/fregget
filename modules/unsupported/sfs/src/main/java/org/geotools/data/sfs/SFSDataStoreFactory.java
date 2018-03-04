@@ -37,41 +37,47 @@ import org.geotools.util.SimpleInternationalString;
 
 
 /**
- *
- * @author 
- *
- *
- *
+ * @author
  * @source $URL$
  */
 public class SFSDataStoreFactory implements DataStoreFactorySpi {
 
-    protected static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org.geotools.data.simplefeatureservice");
+    protected static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org" +
+            ".geotools.data.simplefeatureservice");
     private List<Param> parameters = new ArrayList<Param>();
-    
+
     /**
      * Optional - uri of the FeatureType's namespace
      */
-    public static final Param NAMESPACEP = new Param("namespace", String.class, "Namespace prefix", false);
+    public static final Param NAMESPACEP = new Param("namespace", String.class, "Namespace " +
+            "prefix", false);
 
     /**
      * url to the service roots
      */
-    public static final Param URLP = new Param("Service Url", URL.class, "Root URL of the simple feature service", true);
-    
-    
-    /** parameter for database user */
-    public static final Param USERP = new Param("user", String.class,
-    "User for services protected with HTTP basic authentication", false);
+    public static final Param URLP = new Param("Service Url", URL.class, "Root URL of the simple " +
+            "feature service", true);
 
-    /** parameter for database password */
+
+    /**
+     * parameter for database user
+     */
+    public static final Param USERP = new Param("user", String.class,
+            "User for services protected with HTTP basic authentication", false);
+
+    /**
+     * parameter for database password
+     */
     public static final Param PASSWDP = new Param("passwd", String.class,
-            new SimpleInternationalString("User for services protected with HTTP basic authentication"), false, null, Collections
-                    .singletonMap(Parameter.IS_PASSWORD, Boolean.TRUE));
-    
-    /** parameter for database user */
+            new SimpleInternationalString("User for services protected with HTTP basic " +
+                    "authentication"), false, null, Collections
+            .singletonMap(Parameter.IS_PASSWORD, Boolean.TRUE));
+
+    /**
+     * parameter for database user
+     */
     public static final Param TIMEOUTP = new Param("timeout", Integer.class,
-    "Timeout for HTTP connections in seconds", false, 5);
+            "Timeout for HTTP connections in seconds", false, 5);
 
     /**
      *
@@ -86,6 +92,7 @@ public class SFSDataStoreFactory implements DataStoreFactorySpi {
 
     /**
      * Construct a opendatastore using the params.
+     *
      * @param params
      * @return DataStore
      * @throws IOException
@@ -94,26 +101,27 @@ public class SFSDataStoreFactory implements DataStoreFactorySpi {
         if (!canProcess(params)) {
             throw new IOException("Invalid parameters at createDataStore inside Factory");
         }
-        
+
         URL url = (URL) URLP.lookUp(params);
         String namespaceURI = (String) NAMESPACEP.lookUp(params);
-        
-        String user = (String) USERP.lookUp(params); 
+
+        String user = (String) USERP.lookUp(params);
         String password = (String) PASSWDP.lookUp(params);
         Integer timeout = (Integer) TIMEOUTP.lookUp(params);
-        if(timeout == null) {
+        if (timeout == null) {
             timeout = 5000;
         } else {
             timeout *= 1000;
         }
-        
+
         SFSDataStore store = new SFSDataStore(url, namespaceURI, user, password, timeout);
-        
+
         return store;
     }
 
     /**
      * OpenDatastore cannot create a new datastore
+     *
      * @param params
      * @return DataStore
      * @throws IOException
@@ -124,6 +132,7 @@ public class SFSDataStoreFactory implements DataStoreFactorySpi {
 
     /**
      * Returns a string with value "OpenDataStoreFactory"
+     *
      * @return String
      */
     public String getDisplayName() {
@@ -132,6 +141,7 @@ public class SFSDataStoreFactory implements DataStoreFactorySpi {
 
     /**
      * Returns the string description of the datastore constructed by this factory.
+     *
      * @return String
      */
     public String getDescription() {
@@ -140,6 +150,7 @@ public class SFSDataStoreFactory implements DataStoreFactorySpi {
 
     /**
      * Describe parameters.
+     *
      * @return Param[]
      */
     public Param[] getParametersInfo() {
@@ -148,6 +159,7 @@ public class SFSDataStoreFactory implements DataStoreFactorySpi {
 
     /**
      * Checks to see if the URL is present and valid
+     *
      * @param params
      * @return boolean
      */
@@ -176,6 +188,7 @@ public class SFSDataStoreFactory implements DataStoreFactorySpi {
 
     /**
      * Always returns true
+     *
      * @return boolean
      */
     public boolean isAvailable() {
@@ -184,6 +197,7 @@ public class SFSDataStoreFactory implements DataStoreFactorySpi {
 
     /**
      * Returns the implementation hints. The default implementation returns en empty map.
+     *
      * @return Map
      */
     public Map<Key, ?> getImplementationHints() {

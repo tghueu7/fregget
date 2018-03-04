@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -24,9 +24,9 @@ import org.opengis.referencing.operation.NoninvertibleTransformException;
 /**
  * Projective transform in 2D case.
  *
- * @source $URL$
- * @version $Id$
  * @author Jan Jezek
+ * @version $Id$
+ * @source $URL$
  */
 final class ProjectiveTransform2D extends ProjectiveTransform implements MathTransform2D {
     /**

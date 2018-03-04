@@ -22,15 +22,11 @@ import org.geotools.arcsde.raster.info.RasterDatasetInfo;
 import org.geotools.arcsde.session.ISessionPool;
 
 /**
- * 
  * @author Gabriel Roldan
- * 
- *
- *
- * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/main/java/org
- *         /geotools/arcsde/gce/RasterReaderFactory.java $
  * @version $Id$
+ * @source $URL$
+ * http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/main/java/org
+ * /geotools/arcsde/gce/RasterReaderFactory.java $
  * @since 2.5.7
  */
 public class RasterReaderFactory {
@@ -45,7 +41,7 @@ public class RasterReaderFactory {
      * Creates a {@link TiledRasterReader} that's able to read one or more raster for the given
      * {@link RasterDatasetInfo}, depending on if {@code rasterInfo} represents a single raster or a
      * raster catalog.
-     * 
+     *
      * @param rasterInfo
      * @return
      * @throws IOException

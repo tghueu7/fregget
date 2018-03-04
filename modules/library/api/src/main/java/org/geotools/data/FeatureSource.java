@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008-2016, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -41,21 +41,19 @@ import org.opengis.filter.Filter;
  *     FileDataStore store = FileDataStoreFinder.getDataStore(file);
  *     FeatureSource featureSource = store.getFeatureSource();
  * </code></pre>
- * @see DataStore
  *
  * @author Jody Garnett
  * @author Ray Gallagher
  * @author Rob Hranac, TOPP
  * @author Chris Holmes, TOPP
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @see DataStore
  */
-public interface FeatureSource<T extends FeatureType, F extends Feature>{
-    
+public interface FeatureSource<T extends FeatureType, F extends Feature> {
+
     /**
-     * Returns the name of the features (strictly, the name of the 
+     * Returns the name of the features (strictly, the name of the
      * {@code AttributeDescriptor} for the features) accessible through this
      * {@code FeatureSource}.
      * <p>
@@ -69,11 +67,11 @@ public interface FeatureSource<T extends FeatureType, F extends Feature>{
      * tables with the same structure. The feature name will refer to the table
      * while the feature type name refers to the schema (table structure).
      *
-     * @since 2.5
      * @return the name of the features accessible through this {@code FeatureSource}
+     * @since 2.5
      */
     Name getName();
-    
+
     /**
      * Returns information describing this {@code FeatureSource} which may
      * include title, description and spatial parameters. Note that in the
@@ -82,7 +80,7 @@ public interface FeatureSource<T extends FeatureType, F extends Feature>{
      * {@linkplain #getName()}.
      */
     ResourceInfo getInfo();
-    
+
     /**
      * Returns the data source, as a {@code DataAccess} object, providing
      * this {@code FeatureSource}.
@@ -95,12 +93,12 @@ public interface FeatureSource<T extends FeatureType, F extends Feature>{
      * Enquire what what query capabilities this {@code FeatureSource}
      * natively supports. For example, whether queries can return sorted
      * results.
-     * 
+     *
      * @return the native query capabilities of this {@code FeatureSource}
      * @since 2.5
      */
     QueryCapabilities getQueryCapabilities();
-    
+
     /**
      * Registers a listening object that will be notified of changes to this
      * {@code FeatureSource}.
@@ -121,12 +119,9 @@ public interface FeatureSource<T extends FeatureType, F extends Feature>{
      * on an OGC {@code Filter}.
      *
      * @param filter the filter to select features; must not be {@code null}
-     *        (use {@linkplain Filter#INCLUDE} instead)
-     *
+     *               (use {@linkplain Filter#INCLUDE} instead)
      * @return features retrieved by the {@code Filter}
-     *
      * @throws IOException if the underlying data source cannot be accessed.
-     *
      * @see Filter
      */
     FeatureCollection<T, F> getFeatures(Filter filter) throws IOException;
@@ -136,12 +131,9 @@ public interface FeatureSource<T extends FeatureType, F extends Feature>{
      * on a {@code Query}.
      *
      * @param query DataAccess query for requested information, such as typeName,
-     *        maxFeatures and filter.
-     *
+     *              maxFeatures and filter.
      * @return features retrieved by the {@code Query}
-     *
      * @throws IOException if the underlying data source cannot be accessed.
-     *
      * @see Query
      */
     FeatureCollection<T, F> getFeatures(Query query) throws IOException;
@@ -157,7 +149,6 @@ public interface FeatureSource<T extends FeatureType, F extends Feature>{
      * </code></pre>
      *
      * @return features retrieved by the {@code Query}
-     *
      * @throws IOException if the underlying data source cannot be accessed.
      */
     FeatureCollection<T, F> getFeatures() throws IOException;
@@ -172,7 +163,7 @@ public interface FeatureSource<T extends FeatureType, F extends Feature>{
      * across all features.
      *
      * @return the schema that will apply to features retrieved from this
-     *         {@code FeatureSource}
+     * {@code FeatureSource}
      */
     T getSchema();
 
@@ -181,13 +172,12 @@ public interface FeatureSource<T extends FeatureType, F extends Feature>{
      * to calling <code>getBounds(Query.ALL)</code>.
      * <p>
      * It is possible that this method will return null if the calculation
-     * of bounds is judged to be too costly by the implementing class. 
+     * of bounds is judged to be too costly by the implementing class.
      * In this case, you might call <code>getFeatures().getBounds()</code>
      * instead.
      *
      * @return The bounding envelope of the feature data; or {@code null}
-     *         if the bounds are unknown or too costly to calculate.
-     *
+     * if the bounds are unknown or too costly to calculate.
      * @throws IOException on any errors calculating the bounds
      */
     ReferencedEnvelope getBounds() throws IOException;
@@ -202,10 +192,8 @@ public interface FeatureSource<T extends FeatureType, F extends Feature>{
      * instead.
      *
      * @param query the query to select features
-     *
      * @return The bounding envelope of the feature data; or {@code null}
-     *         if the bounds are unknown or too costly to calculate.
-     *
+     * if the bounds are unknown or too costly to calculate.
      * @throws IOException on any errors calculating the bounds
      */
     ReferencedEnvelope getBounds(Query query) throws IOException;
@@ -224,12 +212,12 @@ public interface FeatureSource<T extends FeatureType, F extends Feature>{
      * if( count == -1 ){
      *    count = featureSource.getFeatures( "typeName", count ).size();
      * }
-     *
+     * <p>
      * @param query the query to select features
-     *
+     * <p>
      * @return the numer of features that would be returned by the {@code Query};
      *         or {@code -1} if this cannot be calculated.
-     *
+     * <p>
      * @throws IOException if there are errors getting the count
      */
     int getCount(Query query) throws IOException;
@@ -239,7 +227,8 @@ public interface FeatureSource<T extends FeatureType, F extends Feature>{
      * <p>
      * Note: the existence of a specific hint does not guarantee that it will always be honored by
      * the implementing class.
-     * 
+     *
+     * @return a set of {@code RenderingHints#Key} objects; may be empty but never {@code null}
      * @see Hints#FEATURE_DETACHED
      * @see Hints#JTS_GEOMETRY_FACTORY
      * @see Hints#JTS_COORDINATE_SEQUENCE_FACTORY
@@ -247,7 +236,6 @@ public interface FeatureSource<T extends FeatureType, F extends Feature>{
      * @see Hints#JTS_SRID
      * @see Hints#GEOMETRY_DISTANCE
      * @see Hints#FEATURE_2D
-     * @return a set of {@code RenderingHints#Key} objects; may be empty but never {@code null}
      */
     public Set<RenderingHints.Key> getSupportedHints();
 

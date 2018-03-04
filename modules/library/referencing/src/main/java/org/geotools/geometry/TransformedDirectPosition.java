@@ -41,56 +41,54 @@ import org.geotools.resources.i18n.Errors;
  * source} and {@linkplain CoordinateOperation#getTargetCRS target} CRS don't change often. Using
  * this class is faster than invoking <code>{@linkplain CoordinateOperationFactory#createOperation
  * CoordinateOperationFactory.createOperation}(sourceCRS, targetCRS)</code> for every points.
- *
+ * <p>
  * <ul>
- *   <li><p><strong>Note 1:</strong>
- *   This class is advantageous on a performance point of view only if the same instance of
- *   {@code TransformedDirectPosition} is used for transforming many points between arbitrary
- *   CRS and this {@linkplain #getCoordinateReferenceSystem position CRS}.</p></li>
- *
- *   <li><p><strong>Note 2:</strong>
- *   This convenience class is useful when the source and target CRS are <em>not likely</em> to
- *   change often. If you are <em>sure</em> that the source and target CRS will not change at all
- *   for a given set of positions, then using {@link CoordinateOperation} directly gives better
- *   performances. This is because {@code TransformedDirectPosition} checks if the CRS changed
- *   before every transformations, which may be costly.</p></li>
- *
- *   <li><p><strong>Note 3:</strong>
- *   This class is called <cite>Transformed</cite> Direct Position because it is more commonly
- *   used for transforming many points from arbitrary CRS to a common CRS (using the
- *   {@link #transform(DirectPosition)} method) than the other way around.</li></p>
+ * <li><p><strong>Note 1:</strong>
+ * This class is advantageous on a performance point of view only if the same instance of
+ * {@code TransformedDirectPosition} is used for transforming many points between arbitrary
+ * CRS and this {@linkplain #getCoordinateReferenceSystem position CRS}.</p></li>
+ * <p>
+ * <li><p><strong>Note 2:</strong>
+ * This convenience class is useful when the source and target CRS are <em>not likely</em> to
+ * change often. If you are <em>sure</em> that the source and target CRS will not change at all
+ * for a given set of positions, then using {@link CoordinateOperation} directly gives better
+ * performances. This is because {@code TransformedDirectPosition} checks if the CRS changed
+ * before every transformations, which may be costly.</p></li>
+ * <p>
+ * <li><p><strong>Note 3:</strong>
+ * This class is called <cite>Transformed</cite> Direct Position because it is more commonly
+ * used for transforming many points from arbitrary CRS to a common CRS (using the
+ * {@link #transform(DirectPosition)} method) than the other way around.</li></p>
  * </ul>
- *
+ * <p>
  * This class usually don't appears in a public API. It is more typicaly used as a helper private
  * field in some more complex class. For example suppose that {@code MyClass} needs to perform its
  * internal working in some particular CRS, but we want robust API that adjusts itself to whatever
  * CRS the client happen to use. {@code MyClass} could be written as below:
- *
+ * <p>
  * <blockquote><pre>
  * public class MyClass {
  *     private static final CoordinateReferenceSystem   PUBLIC_CRS = ...
  *     private static final CoordinateReferenceSystem INTERNAL_CRS = ...
- *
+ * <p>
  *     private final TransformedDirectPosition myPosition =
  *             new TransformedDirectPosition(PUBLIC_CRS, INTERNAL_CRS, null);
- *
+ * <p>
  *     public void setPosition(DirectPosition position) throws TransformException {
  *         // The position CRS is usually PUBLIC_CRS, but code below will work even if it is not.
  *         myPosition.transform(position);
  *     }
- *
+ * <p>
  *     public DirectPosition getPosition() throws TransformException {
  *         return myPosition.inverseTransform(PUBLIC_CRS);
  *     }
  * }
  * </pre></blockquote>
  *
- * @since 2.2
  * @author Martin Desruisseaux (IRD)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.2
  */
 public class TransformedDirectPosition extends GeneralDirectPosition {
     /**
@@ -138,31 +136,31 @@ public class TransformedDirectPosition extends GeneralDirectPosition {
      * associated with this position} will be initially set to {@code targetCRS}.
      *
      * @param sourceCRS The <strong>default</strong> CRS to be used by the
-     *        <code>{@link #transform transform}(position)</code> method <strong>only</strong>
-     *        when the user-supplied {@code position} has a null
-     *        {@linkplain DirectPosition#getCoordinateReferenceSystem associated CRS}.
-     *        This {@code sourceCRS} argument may be {@code null}, in which case it is assumed
-     *        the same than {@code targetCRS}.
-     *
+     *                  <code>{@link #transform transform}(position)</code> method 
+     *                  <strong>only</strong>
+     *                  when the user-supplied {@code position} has a null
+     *                  {@linkplain DirectPosition#getCoordinateReferenceSystem associated CRS}.
+     *                  This {@code sourceCRS} argument may be {@code null}, in which case it is 
+     *                  assumed
+     *                  the same than {@code targetCRS}.
      * @param targetCRS The {@linkplain #getCoordinateReferenceSystem CRS associated with this
-     *        position}. Used for every {@linkplain #transform coordinate transformations} until
-     *        the next call to {@link #setCoordinateReferenceSystem setCoordinateReferenceSystem}
-     *        or {@link #setLocation(DirectPosition) setLocation}. This argument can not be null.
-     *
-     * @param hints The set of hints to use for fetching a {@link CoordinateOperationFactory},
-     *        or {@code null} if none.
-     *
+     *                  position}. Used for every 
+     *                  {@linkplain #transform coordinate transformations} until
+     *                  the next call to 
+     *                  {@link #setCoordinateReferenceSystem setCoordinateReferenceSystem}
+     *                  or {@link #setLocation(DirectPosition) setLocation}. This argument can 
+     *                  not be null.
+     * @param hints     The set of hints to use for fetching a {@link CoordinateOperationFactory},
+     *                  or {@code null} if none.
      * @throws IllegalArgumentException if {@code targetCRS} was {@code null}.
      * @throws FactoryRegistryException if no {@linkplain CoordinateOperationFactory coordinate
-     *         operation factory} can be found for the specified hints.
-     *
+     *                                  operation factory} can be found for the specified hints.
      * @since 2.3
      */
     public TransformedDirectPosition(final CoordinateReferenceSystem sourceCRS,
                                      final CoordinateReferenceSystem targetCRS,
                                      final Hints hints)
-            throws FactoryRegistryException
-    {
+            throws FactoryRegistryException {
         super(targetCRS);
         ensureNonNull("targetCRS", targetCRS);
         defaultCRS = CRS.equalsIgnoreMetadata(sourceCRS, targetCRS) ? null : sourceCRS;
@@ -174,20 +172,19 @@ public class TransformedDirectPosition extends GeneralDirectPosition {
      * The given CRS will be used as:
      * <p>
      * <ul>
-     *   <li>the {@linkplain CoordinateOperation#getTargetCRS target CRS} for every call to
-     *       {@link #transform(DirectPosition)}</li>
-     *   <li>the {@linkplain CoordinateOperation#getSourceCRS source CRS} for every call to
-     *       {@link #inverseTransform(CoordinateReferenceSystem)}</li>
+     * <li>the {@linkplain CoordinateOperation#getTargetCRS target CRS} for every call to
+     * {@link #transform(DirectPosition)}</li>
+     * <li>the {@linkplain CoordinateOperation#getSourceCRS source CRS} for every call to
+     * {@link #inverseTransform(CoordinateReferenceSystem)}</li>
      * </ul>
      *
-     * @param  crs The new CRS for this direct position.
+     * @param crs The new CRS for this direct position.
      * @throws MismatchedDimensionException if the specified CRS doesn't have the expected
-     *         number of dimensions.
+     *                                      number of dimensions.
      */
     @Override
     public void setCoordinateReferenceSystem(final CoordinateReferenceSystem crs)
-            throws MismatchedDimensionException
-    {
+            throws MismatchedDimensionException {
         ensureNonNull("crs", crs);
         super.setCoordinateReferenceSystem(crs);
         forward = null;
@@ -211,31 +208,31 @@ public class TransformedDirectPosition extends GeneralDirectPosition {
          * are set to their correct value.  This is in order to keep this instance in
          * a consistent state in case an exception is thrown.
          */
-        forward   = operation.getMathTransform();
-        inverse   = null;
+        forward = operation.getMathTransform();
+        inverse = null;
         sourceCRS = crs;
     }
 
     /**
      * Transforms a given position and stores the result in this object.
-     *
+     * <p>
      * <ul>
-     *   <li><p>The {@linkplain CoordinateOperation#getSourceCRS source CRS} is the
-     *       {@linkplain DirectPosition#getCoordinateReferenceSystem CRS associated with the given
-     *       position}, or the {@code sourceCRS} argument given at
-     *       {@linkplain #TransformedDirectPosition(CoordinateReferenceSystem,
-     *       CoordinateReferenceSystem, Hints) construction time} <strong>if and only if</strong>
-     *       the CRS associated with {@code position} is null.</p></li>
-     *
-     *   <li><p>The {@linkplain CoordinateOperation#getTargetCRS target CRS} is the {@linkplain
-     *       #getCoordinateReferenceSystem CRS associated with this position}. This is always the
-     *       {@code targetCRS} argument given at {@linkplain
-     *       #TransformedDirectPosition(CoordinateReferenceSystem, CoordinateReferenceSystem,
-     *       Hints) construction time} or by the last call to {@link #setCoordinateReferenceSystem
-     *       setCoordinateReferenceSystem}.</p></li>
+     * <li><p>The {@linkplain CoordinateOperation#getSourceCRS source CRS} is the
+     * {@linkplain DirectPosition#getCoordinateReferenceSystem CRS associated with the given
+     * position}, or the {@code sourceCRS} argument given at
+     * {@linkplain #TransformedDirectPosition(CoordinateReferenceSystem,
+     * CoordinateReferenceSystem, Hints) construction time} <strong>if and only if</strong>
+     * the CRS associated with {@code position} is null.</p></li>
+     * <p>
+     * <li><p>The {@linkplain CoordinateOperation#getTargetCRS target CRS} is the {@linkplain
+     * #getCoordinateReferenceSystem CRS associated with this position}. This is always the
+     * {@code targetCRS} argument given at {@linkplain
+     * #TransformedDirectPosition(CoordinateReferenceSystem, CoordinateReferenceSystem,
+     * Hints) construction time} or by the last call to {@link #setCoordinateReferenceSystem
+     * setCoordinateReferenceSystem}.</p></li>
      * </ul>
      *
-     * @param  position A position using an arbitrary CRS. This object will not be modified.
+     * @param position A position using an arbitrary CRS. This object will not be modified.
      * @throws TransformException if a coordinate transformation was required and failed.
      */
     public void transform(final DirectPosition position) throws TransformException {
@@ -253,7 +250,7 @@ public class TransformedDirectPosition extends GeneralDirectPosition {
          * CRS, then gets the transformation and saves it in case the next call to this
          * method would uses again the same transformation.
          */
-        if (forward==null || !CRS.equalsIgnoreMetadata(sourceCRS, userCRS)) {
+        if (forward == null || !CRS.equalsIgnoreMetadata(sourceCRS, userCRS)) {
             setSourceCRS(userCRS);
         }
         if (forward.transform(position, this) != this) {
@@ -266,16 +263,14 @@ public class TransformedDirectPosition extends GeneralDirectPosition {
      * CRS. This method never returns {@code this}, so the returned point usually doesn't need to
      * be cloned.
      *
-     * @param  crs The CRS for the position to be returned.
+     * @param crs The CRS for the position to be returned.
      * @return The same position than {@code this}, but transformed in the specified CRS.
      * @throws TransformException if a coordinate transformation was required and failed.
-     *
      * @since 2.3
      */
     public DirectPosition inverseTransform(final CoordinateReferenceSystem crs)
-            throws TransformException
-    {
-        if (inverse==null || !CRS.equalsIgnoreMetadata(sourceCRS, crs)) {
+            throws TransformException {
+        if (inverse == null || !CRS.equalsIgnoreMetadata(sourceCRS, crs)) {
             ensureNonNull("crs", crs);
             setSourceCRS(crs);
             inverse = forward.inverse();
@@ -291,7 +286,6 @@ public class TransformedDirectPosition extends GeneralDirectPosition {
      *
      * @return The same position than {@code this}, but transformed in the source CRS.
      * @throws TransformException if a coordinate transformation was required and failed.
-     *
      * @since 2.3
      */
     public DirectPosition inverseTransform() throws TransformException {
@@ -305,13 +299,12 @@ public class TransformedDirectPosition extends GeneralDirectPosition {
     /**
      * Makes sure an argument is non-null.
      *
-     * @param  name   Argument name.
-     * @param  object User argument.
+     * @param name   Argument name.
+     * @param object User argument.
      * @throws InvalidParameterValueException if {@code object} is null.
      */
     private static void ensureNonNull(final String name, final Object object)
-        throws IllegalArgumentException
-    {
+            throws IllegalArgumentException {
         if (object == null) {
             throw new IllegalArgumentException(Errors.format(ErrorKeys.NULL_ARGUMENT_$1, name));
         }

@@ -19,10 +19,10 @@ package org.geotools.data.excel;
 
 /**
  * A datastore based on Excel workbooks.
- * 
- * @author iant 
- * 
+ *
+ * @author iant
  */
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -57,10 +57,14 @@ public class ExcelDataStore extends ContentDataStore {
         return name;
     }
 
-    /** the workbook object */
+    /**
+     * the workbook object
+     */
     org.apache.poi.ss.usermodel.Workbook workbook;
-    
-    /** The sheet that holds the data */
+
+    /**
+     * The sheet that holds the data
+     */
     org.apache.poi.ss.usermodel.Sheet sheet;
 
     private int headerRowIndex = 0;
@@ -76,14 +80,14 @@ public class ExcelDataStore extends ContentDataStore {
     private static final Logger logger = Logging.getLogger("org.geotools.excel");
 
     public ExcelDataStore(URL url, String sheet2, int headerRow, String latCol,
-            String longCol, String projectionString) throws IOException {
+                          String longCol, String projectionString) throws IOException {
         super();
-        
+
         name = url.getFile();
         InputStream is = url.openStream();
         try {
             workbook = WorkbookFactory.create(is);
-            
+
         } catch (InvalidFormatException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
@@ -92,7 +96,7 @@ public class ExcelDataStore extends ContentDataStore {
         headerRowIndex = headerRow;
         latColumnIndex = lookupColumn(latCol);
         lonColumnIndex = lookupColumn(longCol);
-        
+
         try {
             setProjection(CRS.decode(projectionString));
         } catch (NoSuchAuthorityCodeException e) {
@@ -106,7 +110,8 @@ public class ExcelDataStore extends ContentDataStore {
 
     /**
      * Look up a column name and return it's index
-     * @param columnName 
+     *
+     * @param columnName
      * @return the index of the column
      */
     private int lookupColumn(String columnName) {
@@ -120,7 +125,6 @@ public class ExcelDataStore extends ContentDataStore {
         return -1;
     }
 
-    
 
     public int getLatColumnIndex() {
         return latColumnIndex;

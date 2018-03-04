@@ -21,12 +21,10 @@ package org.geotools.factory;
  * Base class for factory finders. {@code FactoryFinder}s are cover for {@link FactoryRegistry}
  * adding type safety, default hints and synchronization for multi-thread environments.
  *
- * @since 2.4
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @since 2.4
  */
 public abstract class FactoryFinder {
     /**

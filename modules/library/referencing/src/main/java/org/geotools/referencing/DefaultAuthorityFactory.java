@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2006-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -43,23 +43,24 @@ import org.geotools.resources.UnmodifiableArrayList;
  * <p>
  * This class gathers together a lot of logic in order to capture the following ideas:
  * <ul>
- *   <li>Uses {@link Hints#FORCE_LONGITUDE_FIRST_AXIS_ORDER} to swap ordinate order if needed.</li>
- *   <li>Uses {@link ManyAuthoritiesFactory} to access CRSAuthorities in the environment.</li>
+ * <li>Uses {@link Hints#FORCE_LONGITUDE_FIRST_AXIS_ORDER} to swap ordinate order if needed.</li>
+ * <li>Uses {@link ManyAuthoritiesFactory} to access CRSAuthorities in the environment.</li>
  * </ul>
  *
- * @since 2.3
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
  * @author Andrea Aime
+ * @version $Id$
+ * @source $URL$
+ * @since 2.3
  */
-final class DefaultAuthorityFactory extends ThreadedAuthorityFactory implements CRSAuthorityFactory {
+final class DefaultAuthorityFactory extends ThreadedAuthorityFactory implements 
+        CRSAuthorityFactory {
     /**
      * List of codes without authority space. We can not defines them in an ordinary
      * authority factory.
      */
-    private static List<String> AUTHORITY_LESS = UnmodifiableArrayList.wrap(new String[] {
-        "WGS84(DD)"  // (longitude,latitude) with decimal degrees.
+    private static List<String> AUTHORITY_LESS = UnmodifiableArrayList.wrap(new String[]{
+            "WGS84(DD)"  // (longitude,latitude) with decimal degrees.
     });
 
     /**
@@ -98,9 +99,9 @@ final class DefaultAuthorityFactory extends ThreadedAuthorityFactory implements 
             for (final CRSAuthorityFactory factory : factories) {
                 authorities.add(factory.getAuthority());
             }
-searchNews: for (final CRSAuthorityFactory factory :
-                    ReferencingFactoryFinder.getCRSAuthorityFactories(hints))
-            {
+            searchNews:
+            for (final CRSAuthorityFactory factory :
+                    ReferencingFactoryFinder.getCRSAuthorityFactories(hints)) {
                 final Citation authority = factory.getAuthority();
                 if (authorities.contains(authority)) {
                     continue;
@@ -122,7 +123,8 @@ searchNews: for (final CRSAuthorityFactory factory :
      */
     static Set<String> getSupportedCodes(final String authority) {
         final Set<String> result = new LinkedHashSet<String>(AUTHORITY_LESS);
-        for (final CRSAuthorityFactory factory : ReferencingFactoryFinder.getCRSAuthorityFactories(null)) {
+        for (final CRSAuthorityFactory factory : ReferencingFactoryFinder
+                .getCRSAuthorityFactories(null)) {
             if (Citations.identifierMatches(factory.getAuthority(), authority)) {
                 final Set<String> codes;
                 try {
@@ -151,7 +153,8 @@ searchNews: for (final CRSAuthorityFactory factory :
      */
     static Set<String> getSupportedAuthorities(final boolean returnAliases) {
         final Set<String> result = new LinkedHashSet<String>();
-        for (final CRSAuthorityFactory factory : ReferencingFactoryFinder.getCRSAuthorityFactories(null)) {
+        for (final CRSAuthorityFactory factory : ReferencingFactoryFinder
+                .getCRSAuthorityFactories(null)) {
             for (final Identifier id : factory.getAuthority().getIdentifiers()) {
                 result.add(id.getCode());
                 if (!returnAliases) {
@@ -167,8 +170,7 @@ searchNews: for (final CRSAuthorityFactory factory :
      */
     @Override
     public CoordinateReferenceSystem createCoordinateReferenceSystem(String code)
-            throws FactoryException
-    {
+            throws FactoryException {
         if (code != null) {
             code = code.trim();
             if (code.equalsIgnoreCase("WGS84(DD)")) {

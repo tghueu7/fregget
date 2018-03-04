@@ -23,9 +23,9 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the type http://www.opengis.net/se:searchDirectionType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:simpleType name="searchDirectionType"&gt;
@@ -33,16 +33,14 @@ import javax.xml.namespace.QName;
  *          &lt;xsd:enumeration value="frontToBack"/&gt;
  *          &lt;xsd:enumeration value="backToFront"/&gt;
  *      &lt;/xsd:restriction&gt;
- *  &lt;/xsd:simpleType&gt; 
- * 	
+ *  &lt;/xsd:simpleType&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class SearchDirectionTypeBinding extends AbstractSimpleBinding {
@@ -56,7 +54,7 @@ public class SearchDirectionTypeBinding extends AbstractSimpleBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -65,17 +63,17 @@ public class SearchDirectionTypeBinding extends AbstractSimpleBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value) throws Exception {
         String val = (String) value;
-        
+
         //&lt;xsd:enumeration value="frontToBack"/&gt;
         //&lt;xsd:enumeration value="backToFront"/&gt;
         if (!"frontToBack".equalsIgnoreCase(val) && !"backToFront".equalsIgnoreCase(val)) {
             throw new IllegalArgumentException(
-                val + " not supported, must be one of 'frontToBack', 'backToFront'");
+                    val + " not supported, must be one of 'frontToBack', 'backToFront'");
         }
 
         return val;

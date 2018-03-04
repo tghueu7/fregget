@@ -27,9 +27,9 @@ import org.geotools.xml.InstanceComponent;
 
 /**
  * Binding object for the type http://www.opengis.net/wfs:IdentifierGenerationOptionType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:simpleType name="IdentifierGenerationOptionType"&gt;
  *      &lt;xsd:restriction base="xsd:string"&gt;
@@ -75,9 +75,6 @@ import org.geotools.xml.InstanceComponent;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class IdentifierGenerationOptionTypeBinding extends AbstractSimpleBinding {
@@ -108,7 +105,7 @@ public class IdentifierGenerationOptionTypeBinding extends AbstractSimpleBinding
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
+            throws Exception {
         //TODO: implement and remove call to super
         return super.parse(instance, value);
     }

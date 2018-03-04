@@ -34,10 +34,8 @@ import org.restlet.resource.Variant;
 /**
  * This class return the bounds for a layer. Example request:
  * http://localhost:8082/simplefeatureservice/data/layerAsia?mode=bounds
+ *
  * @author narad
- *
- *
- *
  * @source $URL$
  */
 public class FeatureBoundsResource extends Resource {
@@ -73,7 +71,9 @@ public class FeatureBoundsResource extends Resource {
 
     /**
      * This method is used to server a list of available layers
-     * http://localhost:8084/simplefeatureservice-mockup-service-1.0-SNAPSHOT/data/layerAsia?mode=bounds
+     * http://localhost:8084/simplefeatureservice-mockup-service-1.0-SNAPSHOT/data/layerAsia?mode
+     * =bounds
+     *
      * @param variant
      * @return
      * @throws ResourceException

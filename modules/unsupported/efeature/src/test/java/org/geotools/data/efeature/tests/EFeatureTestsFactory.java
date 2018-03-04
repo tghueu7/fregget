@@ -1,7 +1,7 @@
 /**
  * <copyright>
  * </copyright>
- *
+ * <p>
  * $Id$
  */
 package org.geotools.data.efeature.tests;
@@ -15,24 +15,27 @@ import org.eclipse.emf.ecore.EFactory;
  * The <b>Factory</b> for the model.
  * It provides a create method for each non-abstract class of the model.
  * <!-- end-user-doc -->
- * @see org.geotools.data.efeature.tests.EFeatureTestsPackage
- * @generated
  *
+ * @generated
  * @source $URL$
+ * @see org.geotools.data.efeature.tests.EFeatureTestsPackage
  */
 public interface EFeatureTestsFactory extends EFactory {
     /**
      * The singleton instance of the factory.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      */
-    EFeatureTestsFactory eINSTANCE = org.geotools.data.efeature.tests.impl.EFeatureTestsFactoryImpl.init();
+    EFeatureTestsFactory eINSTANCE = org.geotools.data.efeature.tests.impl
+            .EFeatureTestsFactoryImpl.init();
 
     /**
      * Returns a new object of class '<em>EFeature Data</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @return a new object of class '<em>EFeature Data</em>'.
      * @generated
      */
@@ -42,6 +45,7 @@ public interface EFeatureTestsFactory extends EFactory {
      * Returns a new object of class '<em>Non Geo EObject</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @return a new object of class '<em>Non Geo EObject</em>'.
      * @generated
      */
@@ -51,6 +55,7 @@ public interface EFeatureTestsFactory extends EFactory {
      * Returns a new object of class '<em>EFeature Compatible Data</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @return a new object of class '<em>EFeature Compatible Data</em>'.
      * @generated
      */
@@ -60,6 +65,7 @@ public interface EFeatureTestsFactory extends EFactory {
      * Returns the package supported by this factory.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @return the package supported by this factory.
      * @generated
      */

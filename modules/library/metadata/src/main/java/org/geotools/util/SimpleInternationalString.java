@@ -28,12 +28,10 @@ import java.util.Locale;
  * For such a particular case, this implementation is the more effective than
  * other implementations provided in this package.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class SimpleInternationalString extends AbstractInternationalString implements Serializable {
     /**
@@ -60,7 +58,7 @@ public class SimpleInternationalString extends AbstractInternationalString imple
      * @return The given string as an international string.
      */
     public static AbstractInternationalString wrap(final CharSequence string) {
-        if (string==null || string instanceof AbstractInternationalString) {
+        if (string == null || string instanceof AbstractInternationalString) {
             return (AbstractInternationalString) string;
         }
         return new SimpleInternationalString(string.toString());
@@ -81,7 +79,7 @@ public class SimpleInternationalString extends AbstractInternationalString imple
      */
     @Override
     public boolean equals(final Object object) {
-        if (object!=null && object.getClass().equals(getClass())) {
+        if (object != null && object.getClass().equals(getClass())) {
             final SimpleInternationalString that = (SimpleInternationalString) object;
             return Utilities.equals(this.defaultValue, that.defaultValue);
         }
@@ -93,7 +91,7 @@ public class SimpleInternationalString extends AbstractInternationalString imple
      */
     @Override
     public int hashCode() {
-        return (int)serialVersionUID ^ defaultValue.hashCode();
+        return (int) serialVersionUID ^ defaultValue.hashCode();
     }
 
     /**

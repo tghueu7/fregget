@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015-2016, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -104,8 +104,9 @@ public class MemoryFeatureReaderTest extends DataTestCase {
     }
 
     private void assertReaderHasFeatureCount(int expectedFeatureCount,
-            int currentFeatureCount,
-            FeatureReader<SimpleFeatureType, SimpleFeature> featureReader) throws IOException {
+                                             int currentFeatureCount,
+                                             FeatureReader<SimpleFeatureType, SimpleFeature> 
+                                                     featureReader) throws IOException {
         while (featureReader.hasNext()) {
             featureReader.next();
             currentFeatureCount++;

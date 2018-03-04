@@ -26,9 +26,9 @@ import org.geotools.xml.AbstractComplexEMFBinding;
 
 /**
  * Binding object for the type http://www.opengis.net/wfs:GetCapabilitiesType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="GetCapabilitiesType"&gt;
  *      &lt;xsd:annotation&gt;
@@ -58,9 +58,6 @@ import org.geotools.xml.AbstractComplexEMFBinding;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GetCapabilitiesTypeBinding extends AbstractComplexEMFBinding {

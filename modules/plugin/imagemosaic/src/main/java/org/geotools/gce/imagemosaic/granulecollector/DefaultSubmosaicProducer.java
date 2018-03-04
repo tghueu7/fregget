@@ -26,10 +26,10 @@ import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.filter.Filter;
 
 /**
- * Class responsible for loading granules, mosaicking a group of granules, pre-processing them before handling, etc.
- * 
- * @author Simone Giannecchini, GeoSolutions SAS
+ * Class responsible for loading granules, mosaicking a group of granules, pre-processing them 
+ * before handling, etc.
  *
+ * @author Simone Giannecchini, GeoSolutions SAS
  */
 public class DefaultSubmosaicProducer extends BaseSubmosaicProducer {
 
@@ -37,32 +37,42 @@ public class DefaultSubmosaicProducer extends BaseSubmosaicProducer {
      * Constructor.
      *
      * @param rasterLayerResponse
-     * @param granuleFilter the {@link Filter} we are supposed to use to select granules for this {@link DefaultSubmosaicProducer}.
-     * @param dryRun whether we need to make
+     * @param granuleFilter       the {@link Filter} we are supposed to use to select granules 
+     *                            for this {@link DefaultSubmosaicProducer}.
+     * @param dryRun              whether we need to make
      */
     public DefaultSubmosaicProducer(RasterLayerResponse rasterLayerResponse, Filter granuleFilter,
-            boolean dryRun) {
+                                    boolean dryRun) {
         super(rasterLayerResponse, dryRun);
         this.granuleFilter = granuleFilter;
         this.dryRun = dryRun;
     }
 
-    /** {@link Filter} instance used to collect granule. */
+    /**
+     * {@link Filter} instance used to collect granule.
+     */
     private final Filter granuleFilter;
 
-    /** We can request a dry run (no tasks are spawn) with this member. */
+    /**
+     * We can request a dry run (no tasks are spawn) with this member.
+     */
     private final boolean dryRun;
 
     /**
-     * This method is responsible for collecting all the granules accepting a certain {@link Filter}.
-     *
+     * This method is responsible for collecting all the granules accepting a certain 
+     * {@link Filter}.
      * <p>
-     * The method return <code>true</code> when a {@link GranuleDescriptor} for which the {@link GranuleDescriptor#originator} {@link SimpleFeature}
-     * is evaluated positively by the internal filter and retain the granule, or <code>false</code> otherwise so that the caller can keep trying with
+     * <p>
+     * The method return <code>true</code> when a {@link GranuleDescriptor} for which the 
+     * {@link GranuleDescriptor#originator} {@link SimpleFeature}
+     * is evaluated positively by the internal filter and retain the granule, or 
+     * <code>false</code> otherwise so that the caller can keep trying with
      * a different {@link DefaultSubmosaicProducer}
-     * 
-     * @param granuleDescriptor the {@link GranuleDescriptor} to test with the internal {@link Filter}
-     * @return <code>true</code> in case the {@link GranuleDescriptor} is added, <code>false</code> otherwise.
+     *
+     * @param granuleDescriptor the {@link GranuleDescriptor} to test with the internal 
+     * {@link Filter}
+     * @return <code>true</code> in case the {@link GranuleDescriptor} is added, 
+     * <code>false</code> otherwise.
      */
     @Override
     public boolean accept(GranuleDescriptor granuleDescriptor) {

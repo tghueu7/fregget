@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -29,20 +29,21 @@ import org.geotools.styling.Style;
  * Please note that a StyleLayerDescriptor (defined by SLD) document is usually used to describe the
  * rendering requirements for an entire Map; while a Style (defined by SE) is focused on a single
  * layer of content
- * @since 8.0
- * @version 8.0
  *
+ * @version 8.0
  * @source $URL$
+ * @since 8.0
  */
 public abstract class StyleLayer extends Layer {
-    /** Style used for rendering */
+    /**
+     * Style used for rendering
+     */
     protected Style style;
 
     /**
      * Creates a new instance of StyleLayer
-     * 
-     * @param style
-     *            the style used to control drawing of this layer
+     *
+     * @param style the style used to control drawing of this layer
      */
     public StyleLayer(Style style) {
         this.style = style;
@@ -57,7 +58,7 @@ public abstract class StyleLayer extends Layer {
     public void dispose() {
         // We assume that preDispose has been called by 
         // the sub-class
-        
+
         style = null;
         super.dispose();
     }
@@ -66,7 +67,7 @@ public abstract class StyleLayer extends Layer {
      * Get the style for this layer.
      * <p>
      * If style has not been set, then null is returned.
-     * 
+     *
      * @return The style (SLD).
      */
     public Style getStyle() {
@@ -75,9 +76,8 @@ public abstract class StyleLayer extends Layer {
 
     /**
      * Sets the style for this layer.
-     * 
-     * @param style
-     *            The new style
+     *
+     * @param style The new style
      */
     public void setStyle(Style style) {
         if (style == null) {

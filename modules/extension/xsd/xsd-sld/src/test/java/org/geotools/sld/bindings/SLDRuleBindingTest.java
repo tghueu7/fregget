@@ -22,8 +22,6 @@ import org.geotools.styling.Rule;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SLDRuleBindingTest extends SLDTestSupport {
@@ -46,18 +44,18 @@ public class SLDRuleBindingTest extends SLDTestSupport {
         assertEquals(1d, rule.getMaxScaleDenominator(), 0d);
         assertEquals(5, rule.getSymbolizers().length);
     }
-    
+
     public void testLocalized() throws Exception {
         SLDMockData.localizedRule(document, document);
 
         Rule rule = (Rule) parse();
 
         assertNotNull(rule);
-        
+
         assertEquals("theTitle", rule.getDescription().getTitle().toString());
         assertEquals("english", rule.getDescription().getTitle().toString(Locale.ENGLISH));
         assertEquals("italian", rule.getDescription().getTitle().toString(Locale.ITALIAN));
 
-        
+
     }
 }

@@ -17,13 +17,13 @@ import org.geotools.resources.i18n.ErrorKeys;
 import org.geotools.resources.i18n.Errors;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GeotiffImageReaderWalker extends FileBasedImageReaderWalker {
 
-    /** Logger. */
+    /**
+     * Logger.
+     */
     private final static Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger(GeotiffImageReaderWalker.class);
 

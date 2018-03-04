@@ -27,15 +27,13 @@ import com.esri.sde.sdk.client.SeRaster;
 /**
  * An enumeration that mirrors the different possible cell resolutions in Arcsde (ie, {@code
  * SeRaster#SE_PIXEL_TYPE_*})
- * 
+ *
  * @author Gabriel Roldan (OpenGeo)
- * @since 2.5.4
  * @version $Id$
- *
- *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/main/java/org
- *         /geotools/arcsde/raster/info/RasterCellType.java $
+ * http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/main/java/org
+ * /geotools/arcsde/raster/info/RasterCellType.java $
+ * @since 2.5.4
  */
 public enum RasterCellType {
     TYPE_16BIT_S(16, DataBuffer.TYPE_SHORT, true, NumberRange.create(Short.MIN_VALUE,
@@ -52,8 +50,10 @@ public enum RasterCellType {
             (byte) Math.pow(2, 4) - 1)), //
     TYPE_64BIT_REAL(64, DataBuffer.TYPE_DOUBLE, true, NumberRange.create(Double.MIN_VALUE,
             Double.MAX_VALUE)), //
-    TYPE_8BIT_S(8, DataBuffer.TYPE_BYTE, true, NumberRange.create(Byte.MIN_VALUE, Byte.MAX_VALUE)), //
+    TYPE_8BIT_S(8, DataBuffer.TYPE_BYTE, true, NumberRange.create(Byte.MIN_VALUE, Byte.MAX_VALUE)
+    ), //
     TYPE_8BIT_U(8, DataBuffer.TYPE_BYTE, false, NumberRange.create((int) 0, (int) 255));
+
     static {
         // Setting the se_pixel_type in a static initializer to avoid having them linked to the fake
         // values in the dummy api
@@ -80,7 +80,7 @@ public enum RasterCellType {
     private final NumberRange<?> sampleValueRange;
 
     private RasterCellType(final int bitsPerSample, final int dataBufferType, final boolean signed,
-            final NumberRange<?> sampleValueRange) {
+                           final NumberRange<?> sampleValueRange) {
         this.bitsPerSample = bitsPerSample;
         this.dataBufferType = dataBufferType;
         this.signed = signed;

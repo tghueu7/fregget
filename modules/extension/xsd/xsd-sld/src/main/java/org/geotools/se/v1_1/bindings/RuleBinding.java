@@ -27,9 +27,9 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/se:Rule.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:element name="Rule" type="se:RuleType"&gt;
@@ -39,16 +39,14 @@ import javax.xml.namespace.QName;
  *          the individual symbols used for rendering.
  *        &lt;/xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
- *  &lt;/xsd:element&gt; 
- * 	
+ *  &lt;/xsd:element&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class RuleBinding extends SLDRuleBinding {
@@ -66,17 +64,17 @@ public class RuleBinding extends SLDRuleBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
         Rule rule = (Rule) super.parse(instance, node, value);
-        
+
         //&lt;xsd:element minOccurs="0" ref="se:Description"/&gt;
         if (node.hasChild("Description")) {
             rule.setDescription((Description) node.getChildValue("Description"));
         }
-        
+
         return rule;
     }
 

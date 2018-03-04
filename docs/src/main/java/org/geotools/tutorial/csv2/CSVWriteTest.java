@@ -52,7 +52,6 @@ import com.vividsolutions.jts.geom.Point;
  * Informal test used to document expected functionality for workshop.
  * <p>
  * This test has a setup method used to copy locations.csv to a temporary file.
- * 
  */
 public class CSVWriteTest {
     File tmp;
@@ -63,7 +62,7 @@ public class CSVWriteTest {
     public void createTemporaryLocations() throws IOException {
         // Setting the system-wide default at startup time
         System.setProperty("org.geotools.referencing.forceXY", "true");
-        
+
         tmp = File.createTempFile("example", "");
         boolean exists = tmp.exists();
         if (exists) {
@@ -79,13 +78,13 @@ public class CSVWriteTest {
         URL resource = CSVTest.class.getResource("locations.csv");
         Files.copy(resource.openStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
     }
-    
-    private void fileContents( String test, File modified) throws IOException {
-        System.out.println(test +" contents start");
-        Files.copy( modified.toPath(), System.out );
-        System.out.println(test +" contents end");
+
+    private void fileContents(String test, File modified) throws IOException {
+        System.out.println(test + " contents start");
+        Files.copy(modified.toPath(), System.out);
+        System.out.println(test + " contents end");
     }
-    
+
     @After
     public void removeTemporaryLocations() throws IOException {
         File list[] = tmp.listFiles();
@@ -160,7 +159,7 @@ public class CSVWriteTest {
         // 42.3601° N, 71.0589° W Boston 1300 2017
         GeometryFactory gf = JTSFactoryFinder.getGeometryFactory();
         Point boston = gf.createPoint(new Coordinate(-71.0589, 42.3601));
-        SimpleFeature feature = SimpleFeatureBuilder.build(type, new Object[] { boston, "Boston", 1300, 2017 }, "locations.1");
+        SimpleFeature feature = SimpleFeatureBuilder.build(type, new Object[]{boston, "Boston", 1300, 2017}, "locations.1");
         SimpleFeatureCollection collection = DataUtilities.collection(feature);
         featureStore2.addFeatures(collection);
 
@@ -207,7 +206,7 @@ public class CSVWriteTest {
         // transactionExample end
         System.out.println("\ntransactionExample end\n");
 
-        fileContents("transactionExample",file);
+        fileContents("transactionExample", file);
     }
 
     @Test
@@ -243,8 +242,8 @@ public class CSVWriteTest {
         }
         // removeAllExample end
         System.out.println("\nremoveAllExample end\n");
-        
-        fileContents("removeAllExample",file);
+
+        fileContents("removeAllExample", file);
     }
 
     @Test
@@ -259,11 +258,11 @@ public class CSVWriteTest {
         final FeatureWriter<SimpleFeatureType, SimpleFeature> writer;
         SimpleFeature f;
         DefaultFeatureCollection collection = new DefaultFeatureCollection();
-        
-     // 42.3601° N, 71.0589° W Boston 1300 2017
+
+        // 42.3601° N, 71.0589° W Boston 1300 2017
         GeometryFactory gf = JTSFactoryFinder.getGeometryFactory();
-        Point boston = gf.createPoint(new Coordinate( -71.0589, 42.3601));
-        SimpleFeature bf = SimpleFeatureBuilder.build(type, new Object[] { boston, "Boston", 1300, 2017 }, "locations.1");
+        Point boston = gf.createPoint(new Coordinate(-71.0589, 42.3601));
+        SimpleFeature bf = SimpleFeatureBuilder.build(type, new Object[]{boston, "Boston", 1300, 2017}, "locations.1");
         collection.add(bf);
 
         writer = store.getFeatureWriter("locations", Transaction.AUTO_COMMIT);
@@ -286,8 +285,8 @@ public class CSVWriteTest {
         }
         // replaceAll end
         System.out.println("\nreplaceAll end\n");
-        
-        fileContents("replaceAll",file);
+
+        fileContents("replaceAll", file);
     }
 
     @Test
@@ -299,30 +298,30 @@ public class CSVWriteTest {
         params.put("file", file);
         DataStore store = DataStoreFinder.getDataStore(params);
         SimpleFeatureType featureType = store.getSchema("locations");
-        
-        File file2 = new File(directory,"duplicate.rst");
+
+        File file2 = new File(directory, "duplicate.rst");
         Map<String, Serializable> params2 = new HashMap<>();
         params2.put("file", file2);
-        
+
         CSVDataStoreFactory factory = new CSVDataStoreFactory();
         DataStore duplicate = factory.createNewDataStore(params2);
-        duplicate.createSchema( featureType );
-        
+        duplicate.createSchema(featureType);
+
         FeatureReader<SimpleFeatureType, SimpleFeature> reader;
         FeatureWriter<SimpleFeatureType, SimpleFeature> writer;
         SimpleFeature feature, newFeature;
 
         Query query = new Query(featureType.getTypeName(), Filter.INCLUDE);
         reader = store.getFeatureReader(query, Transaction.AUTO_COMMIT);
-        
+
         writer = duplicate.getFeatureWriterAppend("duplicate", Transaction.AUTO_COMMIT);
         // writer = duplicate.getFeatureWriter("duplicate", Transaction.AUTO_COMMIT);
         try {
             while (reader.hasNext()) {
                 feature = reader.next();
                 newFeature = writer.next();
-                
-                newFeature.setAttributes( feature.getAttributes() );
+
+                newFeature.setAttributes(feature.getAttributes());
                 writer.write();
             }
         } finally {
@@ -332,8 +331,8 @@ public class CSVWriteTest {
 
         // appendContent end
         System.out.println("\nappendContent end\n");
-        
-        fileContents("appendContent",file2);
+
+        fileContents("appendContent", file2);
 
     }
 }

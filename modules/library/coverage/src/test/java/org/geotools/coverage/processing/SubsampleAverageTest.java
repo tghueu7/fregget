@@ -32,13 +32,10 @@ import org.opengis.parameter.ParameterValueGroup;
 /**
  * Tests the Subsample Average operation.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Simone Giannecchini (GeoSolutions)
  * @author Martin Desruisseaux (Geomatys)
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.3
  */
 public final class SubsampleAverageTest extends GridProcessingTestBase {
@@ -60,10 +57,10 @@ public final class SubsampleAverageTest extends GridProcessingTestBase {
      */
     @Test
     public void testSubsampleAverage() {
-        final GridCoverage2D originallyIndexedCoverage       = EXAMPLES.get(0);
-        final GridCoverage2D indexedCoverage                 = EXAMPLES.get(2);
+        final GridCoverage2D originallyIndexedCoverage = EXAMPLES.get(0);
+        final GridCoverage2D indexedCoverage = EXAMPLES.get(2);
         final GridCoverage2D indexedCoverageWithTransparency = EXAMPLES.get(3);
-        final GridCoverage2D floatCoverage                   = EXAMPLES.get(4);
+        final GridCoverage2D floatCoverage = EXAMPLES.get(4);
 
         // On this one the Subsample average should do an RGB expansion.
         subsampleAverage(indexedCoverage);
@@ -74,13 +71,13 @@ public final class SubsampleAverageTest extends GridProcessingTestBase {
         subsampleAverage(floatCoverage);
 
         // Play with a rotated coverage.
-        subsampleAverage(rotate(floatCoverage, Math.PI/4));
+        subsampleAverage(rotate(floatCoverage, Math.PI / 4));
     }
 
     /**
      * Applies a subsample operation on the given coverage.
      *
-     * @param coverage The coverage on which to apply the operation.
+     * @param coverage     The coverage on which to apply the operation.
      * @param photographic {@code true} if the operation should be applied on the photographic view.
      */
     private void subsampleAverage(final GridCoverage2D coverage) {
@@ -94,13 +91,14 @@ public final class SubsampleAverageTest extends GridProcessingTestBase {
          * Get the processor and prepare the first operation.
          */
         final CoverageProcessor processor = defaultProcessor;
-        final ParameterValueGroup param = processor.getOperation("SubsampleAverage").getParameters();
+        final ParameterValueGroup param = processor.getOperation("SubsampleAverage")
+                .getParameters();
         param.parameter("Source").setValue(coverage);
         param.parameter("scaleX").setValue(Double.valueOf(0.5));
         param.parameter("scaleY").setValue(Double.valueOf(0.5));
         GridCoverage2D scaled = (GridCoverage2D) processor.doOperation(param);
         RenderedImage scaledImage = scaled.getRenderedImage();
-        assertEquals(w / 2.0, scaledImage.getWidth(),  EPS);
+        assertEquals(w / 2.0, scaledImage.getWidth(), EPS);
         assertEquals(h / 2.0, scaledImage.getHeight(), EPS);
         w = scaledImage.getWidth();
         h = scaledImage.getHeight();
@@ -135,7 +133,7 @@ public final class SubsampleAverageTest extends GridProcessingTestBase {
          * the rule they claim to follow.
          */
         if (false) {
-            assertEquals(w / 3.0, scaledImage.getWidth(),  EPS);
+            assertEquals(w / 3.0, scaledImage.getWidth(), EPS);
             assertEquals(h / 3.0, scaledImage.getHeight(), EPS);
         }
         if (SHOW) {

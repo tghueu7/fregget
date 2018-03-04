@@ -36,15 +36,14 @@ public class WFSStoredQueryFeatureSource extends WFSFeatureSource {
     private final StoredQueryDescriptionType desc;
 
     public WFSStoredQueryFeatureSource(final ContentEntry entry, final WFSClient client,
-            StoredQueryDescriptionType desc) {
+                                       StoredQueryDescriptionType desc) {
         super(entry, client);
         this.desc = desc;
     }
 
     @Override
     protected GetFeatureRequest createGetFeature(Query query,
-            ResultType resultType) throws IOException
-    {
+                                                 ResultType resultType) throws IOException {
         GetFeatureRequest request = super.createGetFeature(query, resultType);
         request.setStoredQuery(true);
         request.setStoredQueryDescriptionType(desc);

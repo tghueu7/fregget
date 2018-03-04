@@ -30,40 +30,41 @@ import org.opengis.feature.simple.SimpleFeature;
 
 /**
  * Ensure every feature has a unique Feature Id specified by uniqueID.
- * 
+ * <p>
  * <p>
  * Please note that featureIDs are not attributes. Attributes may be checked
  * with the UniquityValidation class.
  * </p>
- * 
+ * <p>
  * <p>
  * The FeatureTypes it checks against are defined by typeNames[]. If a
  * duplicate ID is detected, an error message returned via a Validation Result
  * used as a visitor in the validation() method.
  * </p>
- * 
+ * <p>
  * <p>
  * Example Use:
  * </p>
  * <pre><code>
- * UniqueFIDIntegrityValidation x = new UniqueFIDIntegrityValidation("uniqueFID_road", "Checks if each feature has a unique ID", new String[] {"road", "river"}, "FID");
+ * UniqueFIDIntegrityValidation x = new UniqueFIDIntegrityValidation("uniqueFID_road", "Checks if
+ * each feature has a unique ID", new String[] {"road", "river"}, "FID");
  * x.validate();
  * </code></pre>
  *
  * @author bowens, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class UniqueFIDValidation extends DefaultIntegrityValidation {
-    /** Type Ref or "" for all */
+    /**
+     * Type Ref or "" for all
+     */
     String typeRef;
 
     /**
      * UniqueFIDIntegrityValidation constructor.
-     * 
+     * <p>
      * <p>
      * An empty constructor placed here for Java Beans
      * </p>
@@ -73,7 +74,7 @@ public class UniqueFIDValidation extends DefaultIntegrityValidation {
 
     /**
      * UniqueFIDIntegrityValidation constructor.
-     * 
+     *
      * <p>
      * Initializes allinformation needed to perform the validation.
      * </p>
@@ -81,7 +82,8 @@ public class UniqueFIDValidation extends DefaultIntegrityValidation {
      * @return DOCUMENT ME!
      */
 
-    /*public UniqueFIDValidation(String name, String description, String[] typeNames, String uniqueID) {
+    /*public UniqueFIDValidation(String name, String description, String[] typeNames, String 
+    uniqueID) {
        this.name = name;
        this.description = description;
        this.typeNames = typeNames;
@@ -90,13 +92,12 @@ public class UniqueFIDValidation extends DefaultIntegrityValidation {
 
     /**
      * Override getPriority.
-     * 
+     * <p>
      * <p>
      * Sets the priority level of this validation.
      * </p>
      *
      * @return A made up priority for this validation.
-     *
      * @see org.geotools.validation.Validation#getPriority()
      */
     public int getPriority() {
@@ -105,7 +106,7 @@ public class UniqueFIDValidation extends DefaultIntegrityValidation {
 
     /**
      * Override validate.
-     * 
+     * <p>
      * <p>
      * Description ... This is supposed to go off and grab the necesary
      * features from the  database using the envelope with the typeNames. But
@@ -113,38 +114,35 @@ public class UniqueFIDValidation extends DefaultIntegrityValidation {
      * layers.
      * </p>
      *
-     * @param layers a HashMap of key="TypeName" value="FeatureSource"
+     * @param layers   a HashMap of key="TypeName" value="FeatureSource"
      * @param envelope The bounding box of modified features
-     * @param results Storage for the error and warning messages
-     *
+     * @param results  Storage for the error and warning messages
      * @return True if there were no errors. False if there were errors.
-     *
      * @throws Exception DOCUMENT ME!
-     *
      * @see org.geotools.validation.IntegrityValidation#validate(java.util.Map,
-     *      com.vividsolutions.jts.geom.Envelope,
-     *      org.geotools.validation.ValidationResults)
+     * com.vividsolutions.jts.geom.Envelope,
+     * org.geotools.validation.ValidationResults)
      */
     public boolean validate(Map layers, ReferencedEnvelope envelope,
-        ValidationResults results) throws Exception {
+                            ValidationResults results) throws Exception {
         HashMap FIDs = new HashMap(); // FIDs used for lookup to see if any match
         boolean result = true;
         Iterator it = layers.values().iterator();
 
         //TODO: get the needed layers from the database and use them instead
         while (it.hasNext()) // for each layer
-         {
+        {
             SimpleFeatureSource featureSource = (SimpleFeatureSource) it.next();
             SimpleFeatureIterator features = featureSource.getFeatures().features();
 
             try {
                 while (features.hasNext()) // for each feature
-                 {
+                {
                     SimpleFeature feature = features.next();
                     String fid = feature.getID();
 
                     if (FIDs.containsKey(fid)) // if a FID like this one already exists
-                     {
+                    {
                         results.error(feature, "FID already exists.");
                         result = false;
                     } else {
@@ -163,7 +161,6 @@ public class UniqueFIDValidation extends DefaultIntegrityValidation {
      * Implementation of getTypeNames.
      *
      * @return Array of typeNames, or empty array for all, null for disabled
-     *
      * @see org.geotools.validation.Validation#getTypeNames()
      */
     public String[] getTypeRefs() {
@@ -172,7 +169,7 @@ public class UniqueFIDValidation extends DefaultIntegrityValidation {
         } else if (typeRef.equals("*")) {
             return new String[0]; // apply to all
         } else {
-            return new String[] { typeRef, };
+            return new String[]{typeRef,};
         }
     }
 

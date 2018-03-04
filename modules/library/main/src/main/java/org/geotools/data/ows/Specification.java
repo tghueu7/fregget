@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -20,32 +20,32 @@ import java.net.URL;
 
 /**
  * Provides support for the Open Web Service Specificaitons.
- * 
+ * <p>
  * <p>
  * This class operates as a Factory creating request for Open Web Services.
- * 
+ * <p>
  * <p>
  * The idea is that this class operates a Toolkit for all things assocated with
  * an Open Web Service specification. The various objects produced by this
  * toolkit are used as strategy objects for the top level AbstractOpenWebService
- * subclass. Example: 
+ * subclass. Example:
  * <ul>
  * <li>
  * WebMapServer - uses a GetCapabilitiesRequest during version negotiation.
  * </li>
  * </ul>
  * </p>
- * 
+ * <p>
  * <p>
  * Both name and version information that may be checked against a
  * GetCapabilities document during version negotiation.
  * </p>
- * 
+ * <p>
  * Specific Open Web Service implementations can extend this interface to
  * include details that are specific to their specification. Example:
  * The Web Map Service specification includes more operations such as GetMap
  * and GetFeatureInfo.
- * 
+ * <p>
  * <p>
  * <b>Q:</b> Why are these not static?<br>
  * <b>A:</b> Because we want to place new specifications into a data structure
@@ -54,23 +54,23 @@ import java.net.URL;
  *
  * @author Jody Garnett, Refractions Reasearch
  * @author rgould
- *
- *
  * @source $URL$
  */
 public abstract class Specification {
 
     /**
      * Expected version attribute for root element.
+     *
      * @return the version as a String
      */
     public abstract String getVersion();
-    
+
     /**
      * Factory method to create GetCapabilities Request
+     *
      * @param server the URL that points to the server's getCapabilities document
-     * @return a configured GetCapabilitiesRequest that can be used to access the Document 
+     * @return a configured GetCapabilitiesRequest that can be used to access the Document
      */
     public abstract GetCapabilitiesRequest createGetCapabilitiesRequest(
-        URL server);
+            URL server);
 }

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -20,6 +20,7 @@
 package org.geotools.metadata.iso.constraint;
 
 import java.util.Collection;
+
 import org.opengis.metadata.constraint.Restriction;
 import org.opengis.metadata.constraint.LegalConstraints;
 import org.opengis.util.InternationalString;
@@ -28,13 +29,10 @@ import org.opengis.util.InternationalString;
 /**
  * Restrictions and legal prerequisites for accessing and using the resource.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class LegalConstraintsImpl extends ConstraintsImpl implements LegalConstraints {
@@ -79,7 +77,8 @@ public class LegalConstraintsImpl extends ConstraintsImpl implements LegalConstr
     }
 
     /**
-     * Returns the access constraints applied to assure the protection of privacy or intellectual property,
+     * Returns the access constraints applied to assure the protection of privacy or intellectual
+     * property,
      * and any special restrictions or limitations on obtaining the resource.
      */
     public synchronized Collection<Restriction> getAccessConstraints() {
@@ -87,17 +86,18 @@ public class LegalConstraintsImpl extends ConstraintsImpl implements LegalConstr
     }
 
     /**
-     * Set the access constraints applied to assure the protection of privacy or intellectual property,
+     * Set the access constraints applied to assure the protection of privacy or intellectual 
+     * property,
      * and any special restrictions or limitations on obtaining the resource.
      */
     public synchronized void setAccessConstraints(
-            final Collection<? extends Restriction> newValues)
-    {
+            final Collection<? extends Restriction> newValues) {
         accessConstraints = copyCollection(newValues, accessConstraints, Restriction.class);
     }
 
     /**
-     * Returns the constraints applied to assure the protection of privacy or intellectual property, and any
+     * Returns the constraints applied to assure the protection of privacy or intellectual 
+     * property, and any
      * special restrictions or limitations or warnings on using the resource.
      */
     public synchronized Collection<Restriction> getUseConstraints() {
@@ -105,12 +105,12 @@ public class LegalConstraintsImpl extends ConstraintsImpl implements LegalConstr
     }
 
     /**
-     * Set the constraints applied to assure the protection of privacy or intellectual property, and any
+     * Set the constraints applied to assure the protection of privacy or intellectual property, 
+     * and any
      * special restrictions or limitations or warnings on using the resource.
      */
     public synchronized void setUseConstraints(
-            final Collection<? extends Restriction> newValues)
-    {
+            final Collection<? extends Restriction> newValues) {
         useConstraints = copyCollection(newValues, useConstraints, Restriction.class);
     }
 
@@ -128,8 +128,7 @@ public class LegalConstraintsImpl extends ConstraintsImpl implements LegalConstr
      * Set the other restrictions and legal prerequisites for accessing and using the resource.
      */
     public synchronized void setOtherConstraints(
-            final Collection<? extends InternationalString> newValues)
-    {
+            final Collection<? extends InternationalString> newValues) {
         otherConstraints = copyCollection(newValues, otherConstraints, InternationalString.class);
     }
 }

@@ -17,14 +17,15 @@
 package org.geotools.sld.bindings;
 
 import javax.xml.namespace.QName;
+
 import org.geotools.xml.*;
 
 
 /**
  * Binding object for the element http://www.opengis.net/sld:Format.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="Format" type="xsd:string"/&gt;
  *
@@ -33,9 +34,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDFormatBinding implements SimpleBinding {
@@ -73,7 +71,7 @@ public class SLDFormatBinding implements SimpleBinding {
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
+            throws Exception {
         return null;
     }
 

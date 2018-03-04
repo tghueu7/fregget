@@ -31,7 +31,6 @@ import java.io.IOException;
 /**
  * Simple tiling of a coverage based simply on the number vertical/horizontal tiles desired and
  * subdividing the geographic envelope. Uses coverage processing operations.
- *
  */
 public class ImageTiler {
 
@@ -95,6 +94,7 @@ public class ImageTiler {
     }
 
     //docs end prelim
+
     /**
      * Argument parsing and initial setup.
      *
@@ -133,13 +133,14 @@ public class ImageTiler {
 
     /**
      * Crop the coverage to the given envelope
+     *
      * @param gridCoverage coverage to crp
-     * @param envelope envelope to crop it to
+     * @param envelope     envelope to crop it to
      * @return the cropped coverage
      */
     //docs start cropping
     private GridCoverage2D cropCoverage(GridCoverage2D gridCoverage, Envelope envelope) {
-        CoverageProcessor processor =  CoverageProcessor.getInstance();
+        CoverageProcessor processor = CoverageProcessor.getInstance();
 
         //An example of manually creating the operation and parameters we want
         final ParameterValueGroup param = processor.getOperation("CoverageCrop").getParameters();
@@ -152,19 +153,20 @@ public class ImageTiler {
 
     /**
      * Create the target tile envelope.
-     * @param coverageMinX minimum x of our coverage
-     * @param coverageMinY minimum y of our coverage
-     * @param geographicTileWidth our target tile envelope width
+     *
+     * @param coverageMinX         minimum x of our coverage
+     * @param coverageMinY         minimum y of our coverage
+     * @param geographicTileWidth  our target tile envelope width
      * @param geographicTileHeight our target tile envelope height
-     * @param targetCRS the target tile CRS
-     * @param horizontalIndex horizontal index of the tile envelope
-     * @param verticalIndex vertical index of the tile envelope
+     * @param targetCRS            the target tile CRS
+     * @param horizontalIndex      horizontal index of the tile envelope
+     * @param verticalIndex        vertical index of the tile envelope
      * @return tile envelope
      */
     //docs start make envelope
     private Envelope getTileEnvelope(double coverageMinX, double coverageMinY,
-            double geographicTileWidth, double geographicTileHeight,
-            CoordinateReferenceSystem targetCRS, int horizontalIndex, int verticalIndex) {
+                                     double geographicTileWidth, double geographicTileHeight,
+                                     CoordinateReferenceSystem targetCRS, int horizontalIndex, int verticalIndex) {
 
         double envelopeStartX = (horizontalIndex * geographicTileWidth) + coverageMinX;
         double envelopeEndX = envelopeStartX + geographicTileWidth;
@@ -185,7 +187,7 @@ public class ImageTiler {
         //correctly
         Hints hints = null;
         if (format instanceof GeoTiffFormat) {
-            hints = new Hints(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER,Boolean.TRUE);
+            hints = new Hints(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER, Boolean.TRUE);
         }
 
         GridCoverage2DReader gridReader = format.getReader(
@@ -206,8 +208,8 @@ public class ImageTiler {
         int vtc = this.getNumberOfVerticalTiles() != null
                 ? this.getNumberOfVerticalTiles() : NUM_VERTICAL_TILES;
 
-        double geographicTileWidth = (coverageMaxX - coverageMinX) / (double)htc;
-        double geographicTileHeight = (coverageMaxY - coverageMinY) / (double)vtc;
+        double geographicTileWidth = (coverageMaxX - coverageMinX) / (double) htc;
+        double geographicTileHeight = (coverageMaxY - coverageMinY) / (double) vtc;
 
         CoordinateReferenceSystem targetCRS = gridCoverage.getCoordinateReferenceSystem();
 
@@ -240,11 +242,12 @@ public class ImageTiler {
 
     }
     //docs end envelope
-    
+
     //docs start scale
+
     /**
      * Scale the coverage based on the set tileScale
-     *
+     * <p>
      * As an alternative to using parameters to do the operations, we can use the
      * Operations class to do them in a slightly more type safe way.
      *

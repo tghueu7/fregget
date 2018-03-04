@@ -37,13 +37,11 @@ import com.vividsolutions.jts.geom.impl.CoordinateArraySequence;
 
 /**
  * Unit tests for the Geometries enum.
- * 
+ *
  * @author Michael Bedward
- * @since 2.6
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.6
  */
 public class GeometriesTest {
 
@@ -55,7 +53,7 @@ public class GeometriesTest {
             new Coordinate(10, 10),
             new Coordinate(10, 0),
             new Coordinate(0, 0)
-        };
+    };
 
     @Test
     public void testGetBinding() {
@@ -85,8 +83,8 @@ public class GeometriesTest {
         assertEquals(Geometries.LINESTRING, Geometries.get(line));
 
         LineString[] lines = {
-            geomFactory.createLineString(new Coordinate[]{coords[0], coords[1]}),
-            geomFactory.createLineString(new Coordinate[]{coords[2], coords[3]})
+                geomFactory.createLineString(new Coordinate[]{coords[0], coords[1]}),
+                geomFactory.createLineString(new Coordinate[]{coords[2], coords[3]})
         };
         Geometry multiLine = geomFactory.createMultiLineString(lines);
         assertEquals(Geometries.MULTILINESTRING, Geometries.get(multiLine));

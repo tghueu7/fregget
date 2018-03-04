@@ -27,15 +27,12 @@ import org.geotools.util.logging.Logging;
 
 /**
  * Executes a chain of {@link PrimaryKeyFinder} in the order they are defined
- * 
+ *
  * @author Andrea Aime - OpenGeo
- * 
- *
- *
  * @source $URL$
  */
 public class CompositePrimaryKeyFinder extends PrimaryKeyFinder {
-    
+
     private static final Logger LOGGER = Logging.getLogger(CompositePrimaryKeyFinder.class);
 
     List<PrimaryKeyFinder> finders;
@@ -52,7 +49,7 @@ public class CompositePrimaryKeyFinder extends PrimaryKeyFinder {
                 PrimaryKey pk = finder.getPrimaryKey(store, schema, table, cx);
                 if (pk != null)
                     return pk;
-            } catch(SQLException e) {
+            } catch (SQLException e) {
                 LOGGER.log(Level.WARNING, "Failure occurred while looking up the primary "
                         + "key with finder: " + finder, e);
             }

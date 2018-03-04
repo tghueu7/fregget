@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -58,18 +58,22 @@ import com.vividsolutions.jts.geom.Polygon;
  * @author James MacGill, CCG
  * @author Rob Hranac, TOPP
  * @author Chris Holmes, TOPP
- *
- *
  * @source $URL$
  */
 public class DOMParserTest extends FilterTestSupport {
-    /** Feature on which to preform tests */
+    /**
+     * Feature on which to preform tests
+     */
     private Filter filter = null;
 
-    /** Test suite for this test case */
+    /**
+     * Test suite for this test case
+     */
     TestSuite suite = null;
 
-    /** Constructor with test name. */
+    /**
+     * Constructor with test name.
+     */
     String dataFolder = "";
     boolean setup = false;
 
@@ -100,7 +104,7 @@ public class DOMParserTest extends FilterTestSupport {
 
         SimpleFeatureTypeBuilder ftb = new SimpleFeatureTypeBuilder();
         ftb.init(testSchema);
-        ftb.setCRS( null );
+        ftb.setCRS(null);
         ftb.add("testZeroDouble", Double.class);
         testSchema = ftb.buildFeatureType();
 
@@ -198,7 +202,7 @@ public class DOMParserTest extends FilterTestSupport {
     }
 
     public void test15() throws Exception {
-        Filter test = parseDocument( "test15.xml");
+        Filter test = parseDocument("test15.xml");
         LOGGER.fine("parsed filter is " + test);
     }
 
@@ -211,7 +215,7 @@ public class DOMParserTest extends FilterTestSupport {
         Filter test = parseDocument("test27.xml");
         LOGGER.fine("parsed filter is " + test);
     }
-    
+
     public void testDWithin() throws Exception {
         Filter test = parseDocument("dwithin.xml");
         assertTrue(test instanceof DWithin);
@@ -222,7 +226,7 @@ public class DOMParserTest extends FilterTestSupport {
         assertEquals("metre", dw.getDistanceUnits());
         LOGGER.fine("parsed filter is " + test);
     }
-    
+
     public void testDWithinQualified() throws Exception {
         Filter test = parseDocument("dwithin-qualified.xml");
         assertTrue(test instanceof DWithin);
@@ -233,7 +237,7 @@ public class DOMParserTest extends FilterTestSupport {
         assertEquals("metre", dw.getDistanceUnits());
         LOGGER.fine("parsed filter is " + test);
     }
-    
+
     public void testBeyond() throws Exception {
         Filter test = parseDocument("beyond.xml");
         assertTrue(test instanceof Beyond);
@@ -253,7 +257,7 @@ public class DOMParserTest extends FilterTestSupport {
         assertTrue(((Literal) cr.getExpression2()).getValue() instanceof LineString);
         LOGGER.fine("parsed filter is " + test);
     }
-    
+
     public void testIntersectsCRS() throws Exception {
         Filter test = parseDocument("intersectsCRS.xml");
         assertTrue(test instanceof Intersects);
@@ -268,16 +272,16 @@ public class DOMParserTest extends FilterTestSupport {
     public void test28() throws Exception {
         Id filter = (Id) parseDocumentFirst("test28.xml");
         Set<Object> fids = filter.getIDs();
-        
+
         assertEquals(3, fids.size());
         assertTrue(fids.contains("FID.3"));
         assertTrue(fids.contains("FID.2"));
         assertTrue(fids.contains("FID.1"));
     }
-    
+
     public void testNotEqual() throws Exception {
         PropertyIsNotEqualTo filter = (PropertyIsNotEqualTo) parseDocumentFirst("testNotEqual.xml");
-        
+
         assertTrue(filter.isMatchingCase());
     }
 
@@ -285,13 +289,13 @@ public class DOMParserTest extends FilterTestSupport {
         org.opengis.filter.Filter filter = null;
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
-       
-        Document dom = db.parse(TestData.getResource(this,uri).toExternalForm());
+
+        Document dom = db.parse(TestData.getResource(this, uri).toExternalForm());
         LOGGER.fine("parsing " + uri);
 
         // first grab a filter node
         NodeList nodes = dom.getElementsByTagName("Filter");
-        if(nodes.getLength() == 0) {
+        if (nodes.getLength() == 0) {
             nodes = dom.getElementsByTagName("ogc:Filter");
         }
 
@@ -323,7 +327,7 @@ public class DOMParserTest extends FilterTestSupport {
         Filter filter = null;
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
-        Document dom = db.parse(TestData.getResource(this,uri).toExternalForm());
+        Document dom = db.parse(TestData.getResource(this, uri).toExternalForm());
         LOGGER.fine("parsing " + uri);
 
         // first grab a filter node

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -34,47 +34,45 @@ import org.xml.sax.SAXException;
  * <p>
  * Big dataset tests ... more than you want for regular testing
  * </p>
- * @
  *
  * @author dzwiers www.refractions.net
- *
- *
+ * @
  * @source $URL$
  */
 public class GMLParser2Test extends TestCase {
-    public void testBlank(){
+    public void testBlank() {
         // blank test ... lets it sit in the repository
     }
-    
-  public void testFMEPostalFeatures() throws SAXException, IOException {
-      try {
-          SAXParserFactory spf = SAXParserFactory.newInstance();
-          spf.setNamespaceAware(true);
-          spf.setValidating(false);
 
-          SAXParser parser = spf.newSAXParser();
+    public void testFMEPostalFeatures() throws SAXException, IOException {
+        try {
+            SAXParserFactory spf = SAXParserFactory.newInstance();
+            spf.setNamespaceAware(true);
+            spf.setValidating(false);
 
-          String path = "city/dj.xml";
-          File f = TestData.file(this,path);
-          URI u = f.toURI();
+            SAXParser parser = spf.newSAXParser();
 
-          XMLSAXHandler xmlContentHandler = new XMLSAXHandler(u,null);
-          XMLSAXHandler.setLogLevel(Level.WARNING);
-          XSISAXHandler.setLogLevel(Level.WARNING);
-          XMLElementHandler.setLogLevel(Level.WARNING);
-          XSIElementHandler.setLogLevel(Level.WARNING);
+            String path = "city/dj.xml";
+            File f = TestData.file(this, path);
+            URI u = f.toURI();
 
-          parser.parse(f, xmlContentHandler);
+            XMLSAXHandler xmlContentHandler = new XMLSAXHandler(u, null);
+            XMLSAXHandler.setLogLevel(Level.WARNING);
+            XSISAXHandler.setLogLevel(Level.WARNING);
+            XMLElementHandler.setLogLevel(Level.WARNING);
+            XSIElementHandler.setLogLevel(Level.WARNING);
 
-          Object doc = xmlContentHandler.getDocument();
-          assertNotNull("Document missing", doc);
-          //System.out.println(doc);
-      } catch (Throwable e) {
-          e.printStackTrace();
-          fail(e.toString());
-      }
-  }
-    
+            parser.parse(f, xmlContentHandler);
+
+            Object doc = xmlContentHandler.getDocument();
+            assertNotNull("Document missing", doc);
+            //System.out.println(doc);
+        } catch (Throwable e) {
+            e.printStackTrace();
+            fail(e.toString());
+        }
+    }
+
 //    public void testFMEPostalFeatures() throws SAXException, IOException {
 //        try {
 //            SAXParserFactory spf = SAXParserFactory.newInstance();

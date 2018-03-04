@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -20,6 +20,7 @@
 package org.geotools.metadata.iso.distribution;
 
 import java.util.Collection;
+
 import org.opengis.metadata.citation.OnLineResource;
 import org.opengis.metadata.distribution.DigitalTransferOptions;
 import org.opengis.metadata.distribution.Medium;
@@ -30,13 +31,10 @@ import org.geotools.metadata.iso.MetadataEntity;
 /**
  * Technical means and media by which a resource is obtained from the distributor.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class DigitalTransferOptionsImpl extends MetadataEntity implements DigitalTransferOptions {

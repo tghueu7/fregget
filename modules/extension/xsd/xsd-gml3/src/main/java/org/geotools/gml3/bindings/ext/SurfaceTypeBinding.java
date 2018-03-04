@@ -28,25 +28,23 @@ import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.geom.Polygon;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SurfaceTypeBinding extends AbstractComplexBinding {
 
     GeometryFactory gf;
-    
+
     public SurfaceTypeBinding(GeometryFactory gf) {
         this.gf = gf;
     }
-    
+
     /**
      * @generated
      */
     public QName getTarget() {
         return GML.SurfaceType;
     }
-    
+
     @Override
     public int getExecutionMode() {
         return BEFORE;
@@ -54,7 +52,7 @@ public class SurfaceTypeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -63,19 +61,19 @@ public class SurfaceTypeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
-        Polygon[] patches = (Polygon[])node.getChildValue(Polygon[].class);
-        MultiPolygon mp = (MultiPolygon)node.getChildValue(MultiPolygon.class);
-       if(mp != null){
+        Polygon[] patches = (Polygon[]) node.getChildValue(Polygon[].class);
+        MultiPolygon mp = (MultiPolygon) node.getChildValue(MultiPolygon.class);
+        if (mp != null) {
             return mp;
-        }else{
+        } else {
             return gf.createMultiPolygon(patches);
         }
     }
-    
+
     @Override
     public Object getProperty(Object object, QName name) throws Exception {
         if ("patches".equals(name.getLocalPart())) {

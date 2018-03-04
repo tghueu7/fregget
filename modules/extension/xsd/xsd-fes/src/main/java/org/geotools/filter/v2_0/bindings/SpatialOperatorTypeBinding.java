@@ -30,12 +30,12 @@ public class SpatialOperatorTypeBinding extends AbstractComplexEMFBinding {
     public SpatialOperatorTypeBinding(Fes20Factory factory) {
         super(factory);
     }
-    
+
     @Override
     public QName getTarget() {
         return FES.SpatialOperatorType;
     }
-    
+
     @Override
     public Class getType() {
         return SpatialOperatorType.class;

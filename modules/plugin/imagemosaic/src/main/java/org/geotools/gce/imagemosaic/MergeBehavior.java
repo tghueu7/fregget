@@ -33,17 +33,20 @@ import org.geotools.image.ImageWorker;
 import it.geosolutions.jaiext.utilities.ImageLayout2;
 
 /**
- * This class is responsible for implementing the strategies for the mosaicking which can be a flat merge of band-stacking merge.
- * 
- * @author Simone Giannecchini, GeoSolutions TODO check more conditions to use {@link MosaicDescriptor}
+ * This class is responsible for implementing the strategies for the mosaicking which can be a 
+ * flat merge of band-stacking merge.
+ *
+ * @author Simone Giannecchini, GeoSolutions TODO check more conditions to use 
+ * {@link MosaicDescriptor}
  */
 public enum MergeBehavior {
 
     STACK {
         @Override
         public RenderedImage process(RenderedImage[] sources, double[] backgroundValues,
-                double[][] inputThreshold, PlanarImage[] sourceAlpha, ROI[] sourceROI,
-                MosaicType mosaicType, RenderingHints hints) {
+                                     double[][] inputThreshold, PlanarImage[] sourceAlpha, ROI[] 
+                                                     sourceROI,
+                                     MosaicType mosaicType, RenderingHints hints) {
 
             // checks
             if (sources.length == 1) {
@@ -137,8 +140,9 @@ public enum MergeBehavior {
     FLAT {
         @Override
         public RenderedImage process(RenderedImage[] sources, double[] backgroundValues,
-                double[][] inputThreshold, PlanarImage[] sourceAlpha, ROI[] sourceROI,
-                MosaicType mosaicType, RenderingHints localHints) {
+                                     double[][] inputThreshold, PlanarImage[] sourceAlpha, ROI[] 
+                                                     sourceROI,
+                                     MosaicType mosaicType, RenderingHints localHints) {
             return new ImageWorker(localHints).setBackground(backgroundValues)
                     .mosaic(sources, mosaicType, sourceAlpha, sourceROI, inputThreshold, null)
                     .getRenderedImage();
@@ -147,16 +151,17 @@ public enum MergeBehavior {
 
     /**
      * Process input {@link RenderedImage} to produce the output of this mosaic.
-     * 
+     *
      * @return a {@link RenderedImage}.
      */
     public abstract RenderedImage process(RenderedImage[] sources, double[] backgroundValues,
-            double[][] inputThreshold, PlanarImage[] sourceAlpha, javax.media.jai.ROI[] sourceROI,
-            MosaicType mosaicType, RenderingHints localHints);
+                                          double[][] inputThreshold, PlanarImage[] sourceAlpha, 
+                                          javax.media.jai.ROI[] sourceROI,
+                                          MosaicType mosaicType, RenderingHints localHints);
 
     /**
      * Retrieves the default {@link MergeBehavior}.
-     * 
+     *
      * @return the default {@link MergeBehavior}.
      */
     public static MergeBehavior getDefault() {
@@ -166,7 +171,7 @@ public enum MergeBehavior {
 
     /**
      * Retrieves the possible values as Strings.
-     * 
+     *
      * @return an arrays of {@link String} that contains the representation of each value.
      */
     public static String[] valuesAsStrings() {

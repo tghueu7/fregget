@@ -4,8 +4,6 @@ import org.geotools.renderer.RenderListener;
 import org.opengis.feature.simple.SimpleFeature;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class CountingRenderListener implements RenderListener {

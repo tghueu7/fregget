@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2014 - 2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -29,7 +29,7 @@ import org.geotools.measure.Measure;
 
 /**
  * ConverterFactory which converts between the {@link Measure} and String.
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  * @since 12.0
  */
@@ -90,7 +90,8 @@ public class MeasureConverterFactory implements ConverterFactory {
     public Converter createConverter(Class source, Class target, Hints hints) {
         if (CharSequence.class.isAssignableFrom(source) && Measure.class.isAssignableFrom(target)) {
             return CONVERTER;
-        } else if (String.class.isAssignableFrom(target) && Measure.class.isAssignableFrom(source)) {
+        } else if (String.class.isAssignableFrom(target) && Measure.class.isAssignableFrom
+                (source)) {
             return CONVERTER;
         }
 

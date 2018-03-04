@@ -10,21 +10,19 @@ import org.geotools.geometry.jts.ReferencedEnvelope;
 
 
 /**
- * 
- *
  * @source $URL$
  */
-public  class RasterSlice{
+public class RasterSlice {
     public RasterLayout rasterDimensions;
-    
+
     public ReferencedEnvelope envelope;
-    
+
     public AffineTransform gridToWorld;
-            
+
     public boolean overview;
-    
+
     public ImageReaderSource source;
 
     public ImageTypeSpecifier imageType;
-    
+
 }

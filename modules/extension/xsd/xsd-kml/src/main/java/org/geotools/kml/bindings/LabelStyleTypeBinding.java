@@ -18,6 +18,7 @@ package org.geotools.kml.bindings;
 
 import java.awt.Color;
 import javax.xml.namespace.QName;
+
 import org.geotools.kml.KML;
 import org.geotools.styling.StyleBuilder;
 import org.geotools.styling.TextSymbolizer;
@@ -29,9 +30,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://earth.google.com/kml/2.1:LabelStyleType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType final="#all" name="LabelStyleType"&gt;
  *      &lt;complexContent&gt;
@@ -48,9 +49,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class LabelStyleTypeBinding extends AbstractComplexBinding {
@@ -88,7 +86,7 @@ public class LabelStyleTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         Color color = (Color) value;
 
         TextSymbolizer textSymbolizer = sb.createTextSymbolizer();

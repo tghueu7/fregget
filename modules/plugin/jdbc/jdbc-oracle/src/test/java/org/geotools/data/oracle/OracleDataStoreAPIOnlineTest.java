@@ -27,8 +27,6 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class OracleDataStoreAPIOnlineTest extends JDBCDataStoreAPIOnlineTest {
@@ -38,7 +36,7 @@ public class OracleDataStoreAPIOnlineTest extends JDBCDataStoreAPIOnlineTest {
         return new OracleDataStoreAPITestSetup(new OracleTestSetup());
     }
 
-    
+
     @Override
     public void testGetFeatureWriterConcurrency() throws Exception {
         // skip, does not work with Oracle

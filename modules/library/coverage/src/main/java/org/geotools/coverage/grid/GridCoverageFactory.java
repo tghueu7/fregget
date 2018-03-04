@@ -55,43 +55,42 @@ import org.opengis.referencing.operation.MathTransform;
  * combinaisons of the following informations:
  * <p>
  * <ul>
- *   <li>A name as a {@linkplain CharSequence character sequence}.</li>
- *
- *   <li>A {@linkplain WritableRaster raster}, <strong>or</strong> an {@linkplain RenderedImage image},
- *       <strong>or</strong> an {@linkplain ImageFunction image function}, <strong>or</strong>
- *       a matrix of kind {@code float[][]}.</li>
- *
- *   <li>A ({@linkplain CoordinateReferenceSystem coordinate reference system} -
- *       {@linkplain MathTransform transform}) pair, <strong>or</strong> an {@linkplain Envelope
- *       envelope}, <strong>or</strong> a {@linkplain GridGeometry2D grid geometry}. The envelope
- *       is easier to use, while the transform provides more control.</li>
- *
- *   <li>Information about each {@linkplain GridSampleDimension sample dimensions} (often
- *       called <cite>bands</cite> in the particular case of images), <strong>or</strong> minimal
- *       and maximal expected values for each bands.</li>
- *
- *   <li>Optional properties as a {@linkplain Map map} of <cite>key</cite>-<cite>value</cite> pairs.
- *       "Properties" in <cite>Java Advanced Imaging</cite> are called "Metadata" by OpenGIS.
- *       Keys are {@link String} objects ({@link CaselessStringKey} are accepted as well), while
- *       values may be any {@link Object}.</li>
+ * <li>A name as a {@linkplain CharSequence character sequence}.</li>
+ * <p>
+ * <li>A {@linkplain WritableRaster raster}, <strong>or</strong> an 
+ * {@linkplain RenderedImage image},
+ * <strong>or</strong> an {@linkplain ImageFunction image function}, <strong>or</strong>
+ * a matrix of kind {@code float[][]}.</li>
+ * <p>
+ * <li>A ({@linkplain CoordinateReferenceSystem coordinate reference system} -
+ * {@linkplain MathTransform transform}) pair, <strong>or</strong> an {@linkplain Envelope
+ * envelope}, <strong>or</strong> a {@linkplain GridGeometry2D grid geometry}. The envelope
+ * is easier to use, while the transform provides more control.</li>
+ * <p>
+ * <li>Information about each {@linkplain GridSampleDimension sample dimensions} (often
+ * called <cite>bands</cite> in the particular case of images), <strong>or</strong> minimal
+ * and maximal expected values for each bands.</li>
+ * <p>
+ * <li>Optional properties as a {@linkplain Map map} of <cite>key</cite>-<cite>value</cite> pairs.
+ * "Properties" in <cite>Java Advanced Imaging</cite> are called "Metadata" by OpenGIS.
+ * Keys are {@link String} objects ({@link CaselessStringKey} are accepted as well), while
+ * values may be any {@link Object}.</li>
  * </ul>
- *
+ * <p>
  * <p>The {@linkplain CoordinateReferenceSystem coordinate reference system} is inferred from the
  * supplied {@linkplain Envelope envelope} or {@linkplain GridGeometry2D grid geometry} parameters.
  * If those parameters do not have CRS information, then this factory fallback on a {@linkplain
  * #getDefaultCRS default CRS}.</p>
- *
+ * <p>
  * <p>Every {@code create} methods will ultimately delegate their work to a master
  * {@link #create(CharSequence, RenderedImage, GridGeometry2D, GridSampleDimension[],
  * GridCoverage[], Map) create} variant. Developpers can override this method if they
  * want to intercept the creation of all {@link GridCoverage2D} objects in this factory.</p>
  *
- * @since 2.1
  * @author Martin Desruisseaux
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class GridCoverageFactory extends AbstractFactory {
     /**
@@ -115,8 +114,8 @@ public class GridCoverageFactory extends AbstractFactory {
      * The factory recognizes the following hints:
      * <p>
      * <ul>
-     *   <li>{@link Hints#DEFAULT_COORDINATE_REFERENCE_SYSTEM}</li>
-     *   <li>{@link Hints#TILE_ENCODING}</li>
+     * <li>{@link Hints#DEFAULT_COORDINATE_REFERENCE_SYSTEM}</li>
+     * <li>{@link Hints#TILE_ENCODING}</li>
      * </ul>
      *
      * @param userHints An optional set of hints to use for coverage constructions.
@@ -133,7 +132,7 @@ public class GridCoverageFactory extends AbstractFactory {
                 }
             }
         }
-        hints.put(Hints.TILE_ENCODING,                       tileEncoding);
+        hints.put(Hints.TILE_ENCODING, tileEncoding);
     }
 
     /**
@@ -146,7 +145,6 @@ public class GridCoverageFactory extends AbstractFactory {
      *
      * @param dimension The number of dimension expected in the CRS to be returned.
      * @return The new grid coverage.
-     *
      * @since 2.2
      */
     protected CoordinateReferenceSystem getDefaultCRS(final int dimension) {
@@ -156,10 +154,13 @@ public class GridCoverageFactory extends AbstractFactory {
             return candidate;
         }
         switch (dimension) {
-            case  2: return DefaultEngineeringCRS.CARTESIAN_2D;
-            case  3: return DefaultEngineeringCRS.CARTESIAN_3D;
-            default: throw new IllegalArgumentException(Errors.format(
-                    ErrorKeys.ILLEGAL_ARGUMENT_$2, "dimension", dimension));
+            case 2:
+                return DefaultEngineeringCRS.CARTESIAN_2D;
+            case 3:
+                return DefaultEngineeringCRS.CARTESIAN_3D;
+            default:
+                throw new IllegalArgumentException(Errors.format(
+                        ErrorKeys.ILLEGAL_ARGUMENT_$2, "dimension", dimension));
         }
     }
 
@@ -172,36 +173,36 @@ public class GridCoverageFactory extends AbstractFactory {
      *                     range} must contains the expected image size (width and height).
      * @param bands        Sample dimensions for each image band, or {@code null} for
      *                     default sample dimensions.
-     * @param properties The set of properties for this coverage, or {@code null} if there is none.
+     * @param properties   The set of properties for this coverage, or {@code null} if there is 
+     *                     none.
      * @return The new grid coverage.
-     *
      * @since 2.2
      */
-    public GridCoverage2D create(final CharSequence          name,
-                                 final ImageFunction         function,
-                                 final GridGeometry2D        gridGeometry,
+    public GridCoverage2D create(final CharSequence name,
+                                 final ImageFunction function,
+                                 final GridGeometry2D gridGeometry,
                                  final GridSampleDimension[] bands,
-                                 final Map<?,?>              properties)
-    {
+                                 final Map<?, ?> properties) {
         final MathTransform transform = gridGeometry.getGridToCRS2D();
         if (!(transform instanceof AffineTransform)) {
             throw new IllegalArgumentException(Errors.format(ErrorKeys.NOT_AN_AFFINE_TRANSFORM));
         }
         final AffineTransform at = (AffineTransform) transform;
-        if (at.getShearX()!=0 || at.getShearY()!=0) {
+        if (at.getShearX() != 0 || at.getShearY() != 0) {
             // TODO: We may support that in a future version.
             //       1) Create a copy with shear[X/Y] set to 0. Use the copy.
             //       2) Compute the residu with createInverse() and concatenate().
             //       3) Apply the residu with JAI.create("Affine").
             throw new IllegalArgumentException("Shear and rotation not supported");
         }
-        final double xScale =  at.getScaleX();
-        final double yScale =  at.getScaleY();
-        final double xTrans = -at.getTranslateX()/xScale;
-        final double yTrans = -at.getTranslateY()/yScale;
-        final GridEnvelope      range = gridGeometry.getGridRange();
+        final double xScale = at.getScaleX();
+        final double yScale = at.getScaleY();
+        final double xTrans = -at.getTranslateX() / xScale;
+        final double yTrans = -at.getTranslateY() / yScale;
+        final GridEnvelope range = gridGeometry.getGridRange();
         final PlanarImage image = new ImageWorker().function(function, range.getSpan(0),
-                range.getSpan(1), (float) xScale, (float) yScale, (float) xTrans, (float) yTrans).getPlanarImage();
+                range.getSpan(1), (float) xScale, (float) yScale, (float) xTrans, (float) yTrans)
+                .getPlanarImage();
         return create(name, image, gridGeometry, bands, null, properties);
     }
 
@@ -214,16 +215,14 @@ public class GridCoverageFactory extends AbstractFactory {
      *                 {@linkplain Float#NaN NaN} values are mapped to a transparent color.
      * @param envelope The envelope.
      * @return The new grid coverage.
-     *
      * @since 2.2
      */
     public GridCoverage2D create(final CharSequence name,
-                                 final float[][]    matrix,
-                                 final Envelope     envelope)
-    {
-        int width  = 0;
+                                 final float[][] matrix,
+                                 final Envelope envelope) {
+        int width = 0;
         int height = matrix.length;
-        for (int j=0; j<height; j++) {
+        for (int j = 0; j < height; j++) {
             final float[] row = matrix[j];
             if (row != null) {
                 if (row.length > width) {
@@ -235,15 +234,15 @@ public class GridCoverageFactory extends AbstractFactory {
         // Need to use JAI raster factory, since WritableRaster
         // does not supports TYPE_FLOAT as of J2SE 1.5.0_06.
         raster = RasterFactory.createBandedRaster(DataBuffer.TYPE_FLOAT, width, height, 1, null);
-        for (int j=0; j<height; j++) {
+        for (int j = 0; j < height; j++) {
             int i = 0;
             final float[] row = matrix[j];
             if (row != null) {
-                for (; i<row.length; i++) {
+                for (; i < row.length; i++) {
                     raster.setSample(i, j, 0, row[i]);
                 }
             }
-            for (; i<width; i++) {
+            for (; i < width; i++) {
                 raster.setSample(i, j, 0, Float.NaN);
             }
         }
@@ -261,59 +260,59 @@ public class GridCoverageFactory extends AbstractFactory {
      * @param envelope The envelope.
      * @return The new grid coverage.
      */
-    public GridCoverage2D create(final CharSequence   name,
+    public GridCoverage2D create(final CharSequence name,
                                  final WritableRaster raster,
-                                 final Envelope       envelope)
-    {
+                                 final Envelope envelope) {
         return create(name, raster, envelope, null, null, null, null, null);
     }
 
     /**
      * Constructs a grid coverage from the specified {@linkplain WritableRaster raster} and
      * {@linkplain Envelope envelope}.
-     *
+     * <p>
      * See the {@linkplain #create(CharSequence, RenderedImage, Envelope, GridSampleDimension[],
      * GridCoverage[], Map) rendered image variant} for a note on heuristic rules applied by this
      * method.
      *
-     * @param name        The grid coverage name.
-     * @param raster      The data (may be floating point numbers). {@linkplain Float#NaN NaN}
-     *                    values are mapped to a transparent color.
-     * @param envelope    The grid coverage cordinates and its CRS. This envelope must have at least
-     *                    two dimensions. The two first dimensions describe the image location along
-     *                    <var>x</var> and <var>y</var> axis. The other dimensions are optional and
-     *                    may be used to locate the image on a vertical axis or on the time axis.
-     * @param minValues   The minimal value for each band in the raster, or {@code null}
-     *                    for computing it automatically.
-     * @param maxValues   The maximal value for each band in the raster, or {@code null}
-     *                    for computing it automatically.
-     * @param units       The units of sample values, or {@code null} if unknow.
-     * @param colors      The colors to use for values from {@code minValues} to {@code maxValues}
-     *                    for each bands, or {@code null} for a default color palette. If non-null,
-     *                    each arrays {@code colors[b]} may have any length; colors will be
-     *                    interpolated as needed.
-     * @param hints       An optional set of rendering hints, or {@code null} if none. Those hints
-     *                    will not affect the grid coverage to be created. The
-     *                    optional {@link Hints#SAMPLE_DIMENSION_TYPE SAMPLE_DIMENSION_TYPE} hint
-     *                    specifies the {@link SampleDimensionType} to be used at rendering time,
-     *                    which can be one of {@link SampleDimensionType#UNSIGNED_8BITS UNSIGNED_8BITS}
-     *                    or {@link SampleDimensionType#UNSIGNED_16BITS UNSIGNED_16BITS}.
+     * @param name      The grid coverage name.
+     * @param raster    The data (may be floating point numbers). {@linkplain Float#NaN NaN}
+     *                  values are mapped to a transparent color.
+     * @param envelope  The grid coverage cordinates and its CRS. This envelope must have at least
+     *                  two dimensions. The two first dimensions describe the image location along
+     *                  <var>x</var> and <var>y</var> axis. The other dimensions are optional and
+     *                  may be used to locate the image on a vertical axis or on the time axis.
+     * @param minValues The minimal value for each band in the raster, or {@code null}
+     *                  for computing it automatically.
+     * @param maxValues The maximal value for each band in the raster, or {@code null}
+     *                  for computing it automatically.
+     * @param units     The units of sample values, or {@code null} if unknow.
+     * @param colors    The colors to use for values from {@code minValues} to {@code maxValues}
+     *                  for each bands, or {@code null} for a default color palette. If non-null,
+     *                  each arrays {@code colors[b]} may have any length; colors will be
+     *                  interpolated as needed.
+     * @param hints     An optional set of rendering hints, or {@code null} if none. Those hints
+     *                  will not affect the grid coverage to be created. The
+     *                  optional {@link Hints#SAMPLE_DIMENSION_TYPE SAMPLE_DIMENSION_TYPE} hint
+     *                  specifies the {@link SampleDimensionType} to be used at rendering time,
+     *                  which can be one of 
+     *                  {@link SampleDimensionType#UNSIGNED_8BITS UNSIGNED_8BITS}
+     *                  or {@link SampleDimensionType#UNSIGNED_16BITS UNSIGNED_16BITS}.
      * @return The new grid coverage.
-     *
      * @since 2.2
      */
-    public GridCoverage2D create(final CharSequence   name,
+    public GridCoverage2D create(final CharSequence name,
                                  final WritableRaster raster,
-                                 final Envelope       envelope,
-                                 final double[]       minValues,
-                                 final double[]       maxValues,
-                                 final Unit<?>        units,
-                                 final Color[][]      colors,
-                                 final RenderingHints hints)
-    {
+                                 final Envelope envelope,
+                                 final double[] minValues,
+                                 final double[] maxValues,
+                                 final Unit<?> units,
+                                 final Color[][] colors,
+                                 final RenderingHints hints) {
         final GridSampleDimension[] bands =
-            RenderedSampleDimension.create(name, raster, minValues, maxValues, units, colors, hints);
-        final ColorModel    model = bands[0].getColorModel(0, bands.length, raster.getSampleModel().getDataType());
+                RenderedSampleDimension.create(name, raster, minValues, maxValues, units, colors,
+                        hints);
+        final ColorModel model = bands[0].getColorModel(0, bands.length, raster.getSampleModel()
+                .getDataType());
         final RenderedImage image = new BufferedImage(model, raster, false, null);
         return create(name, image, envelope, bands, null, null);
     }
@@ -322,44 +321,46 @@ public class GridCoverageFactory extends AbstractFactory {
      * Constructs a grid coverage from the specified {@linkplain WritableRaster raster} and
      * "{@linkplain GridGeometry2D#getGridToCoordinateSystem grid to CRS}" transform.
      *
-     * @param name        The grid coverage name.
-     * @param raster      The data (may be floating point numbers). {@linkplain Float#NaN NaN}
-     *                    values are mapped to a transparent color.
-     * @param crs         The coordinate reference system. This specifies the CRS used when
-     *                    accessing a grid coverage with the {@code evaluate} methods.
-     * @param gridToCRS   The math transform from grid to coordinate reference system.
-     * @param minValues   The minimal value for each band in the raster, or {@code null}
-     *                    for computing it automatically.
-     * @param maxValues   The maximal value for each band in the raster, or {@code null}
-     *                    for computing it automatically.
-     * @param units       The units of sample values, or {@code null} if unknow.
-     * @param colors      The colors to use for values from {@code minValues} to {@code maxValues}
-     *                    for each bands, or {@code null} for a default color palette. If non-null,
-     *                    each arrays {@code colors[b]} may have any length; colors will be
-     *                    interpolated as needed.
-     * @param hints       An optional set of rendering hints, or {@code null} if none. Those hints
-     *                    will not affect the grid coverage to be created. However, they may affect
-     *                    the grid coverage to be returned by <code>{@link GridCoverage2D#geophysics
-     *                    geophysics}(false)</code>, i.e. the view to be used at rendering time. The
-     *                    optional {@link Hints#SAMPLE_DIMENSION_TYPE SAMPLE_DIMENSION_TYPE} hint
-     *                    specifies the {@link SampleDimensionType} to be used at rendering time,
-     *                    which can be one of {@link SampleDimensionType#UNSIGNED_8BITS UNSIGNED_8BITS}
-     *                    or {@link SampleDimensionType#UNSIGNED_16BITS UNSIGNED_16BITS}.
+     * @param name      The grid coverage name.
+     * @param raster    The data (may be floating point numbers). {@linkplain Float#NaN NaN}
+     *                  values are mapped to a transparent color.
+     * @param crs       The coordinate reference system. This specifies the CRS used when
+     *                  accessing a grid coverage with the {@code evaluate} methods.
+     * @param gridToCRS The math transform from grid to coordinate reference system.
+     * @param minValues The minimal value for each band in the raster, or {@code null}
+     *                  for computing it automatically.
+     * @param maxValues The maximal value for each band in the raster, or {@code null}
+     *                  for computing it automatically.
+     * @param units     The units of sample values, or {@code null} if unknow.
+     * @param colors    The colors to use for values from {@code minValues} to {@code maxValues}
+     *                  for each bands, or {@code null} for a default color palette. If non-null,
+     *                  each arrays {@code colors[b]} may have any length; colors will be
+     *                  interpolated as needed.
+     * @param hints     An optional set of rendering hints, or {@code null} if none. Those hints
+     *                  will not affect the grid coverage to be created. However, they may affect
+     *                  the grid coverage to be returned by <code>{@link GridCoverage2D#geophysics
+     *                  geophysics}(false)</code>, i.e. the view to be used at rendering time. The
+     *                  optional {@link Hints#SAMPLE_DIMENSION_TYPE SAMPLE_DIMENSION_TYPE} hint
+     *                  specifies the {@link SampleDimensionType} to be used at rendering time,
+     *                  which can be one of 
+     *                  {@link SampleDimensionType#UNSIGNED_8BITS UNSIGNED_8BITS}
+     *                  or {@link SampleDimensionType#UNSIGNED_16BITS UNSIGNED_16BITS}.
      * @return The new grid coverage.
      */
-    public GridCoverage2D create(final CharSequence              name,
-                                 final WritableRaster            raster,
+    public GridCoverage2D create(final CharSequence name,
+                                 final WritableRaster raster,
                                  final CoordinateReferenceSystem crs,
-                                 final MathTransform             gridToCRS,
-                                 final double[]                  minValues,
-                                 final double[]                  maxValues,
-                                 final Unit<?>                   units,
-                                 final Color[][]                 colors,
-                                 final RenderingHints            hints)
-    {
+                                 final MathTransform gridToCRS,
+                                 final double[] minValues,
+                                 final double[] maxValues,
+                                 final Unit<?> units,
+                                 final Color[][] colors,
+                                 final RenderingHints hints) {
         final GridSampleDimension[] bands =
-            RenderedSampleDimension.create(name, raster, minValues, maxValues, units, colors, hints);
-        final ColorModel    model = bands[0].getColorModel(0, bands.length, raster.getDataBuffer().getDataType());
+                RenderedSampleDimension.create(name, raster, minValues, maxValues, units, colors,
+                        hints);
+        final ColorModel model = bands[0].getColorModel(0, bands.length, raster.getDataBuffer()
+                .getDataType());
         final RenderedImage image = new BufferedImage(model, raster, false, null);
         return create(name, image, crs, gridToCRS, bands, null, null);
     }
@@ -375,26 +376,24 @@ public class GridCoverageFactory extends AbstractFactory {
      * describe the image location along <var>x</var> and <var>y</var> axis. The other dimensions
      * are optional and may be used to locate the image on a vertical axis or on the time axis.
      *
-     * @param name         The grid coverage name.
-     * @param raster       The raster.
-     * @param envelope     The grid coverage cordinates.
-     * @param bands        Sample dimensions for each image band, or {@code null} for default
-     *                     sample dimensions. If non-null, then this array's length must matches
-     *                     the number of bands in {@code image}.
+     * @param name     The grid coverage name.
+     * @param raster   The raster.
+     * @param envelope The grid coverage cordinates.
+     * @param bands    Sample dimensions for each image band, or {@code null} for default
+     *                 sample dimensions. If non-null, then this array's length must matches
+     *                 the number of bands in {@code image}.
      * @return The new grid coverage.
-     *
      * @since 2.2
      */
-    public GridCoverage2D create(final CharSequence              name,
-                                 final WritableRaster            raster,
-                                 final Envelope                  envelope,
-                                       GridSampleDimension[]     bands)
-    {
-        if (bands == null) 
-        {
+    public GridCoverage2D create(final CharSequence name,
+                                 final WritableRaster raster,
+                                 final Envelope envelope,
+                                 GridSampleDimension[] bands) {
+        if (bands == null) {
             bands = RenderedSampleDimension.create(name, raster, null, null, null, null, null);
         }
-        final ColorModel    model = bands[0].getColorModel(0, bands.length, raster.getDataBuffer().getDataType());
+        final ColorModel model = bands[0].getColorModel(0, bands.length, raster.getDataBuffer()
+                .getDataType());
         final RenderedImage image = new BufferedImage(model, raster, false, null);
         return create(name, image, envelope, bands, null, null);
     }
@@ -403,31 +402,29 @@ public class GridCoverageFactory extends AbstractFactory {
      * Constructs a grid coverage from the specified {@linkplain WritableRaster raster} and
      * "{@linkplain GridGeometry2D#getGridToCoordinateSystem grid to CRS}" transform.
      *
-     * @param name         The grid coverage name.
-     * @param raster       The raster.
-     * @param crs          The coordinate reference system. This specifies the CRS used when
-     *                     accessing a grid coverage with the {@code evaluate} methods. The
-     *                     number of dimensions must matches the number of target dimensions
-     *                     of {@code gridToCRS}.
-     * @param gridToCRS    The math transform from grid to coordinate reference system.
-     * @param bands        Sample dimensions for each image band, or {@code null} for
-     *                     default sample dimensions. If non-null, then this array's length
-     *                     must matches the number of bands in {@code image}.
+     * @param name      The grid coverage name.
+     * @param raster    The raster.
+     * @param crs       The coordinate reference system. This specifies the CRS used when
+     *                  accessing a grid coverage with the {@code evaluate} methods. The
+     *                  number of dimensions must matches the number of target dimensions
+     *                  of {@code gridToCRS}.
+     * @param gridToCRS The math transform from grid to coordinate reference system.
+     * @param bands     Sample dimensions for each image band, or {@code null} for
+     *                  default sample dimensions. If non-null, then this array's length
+     *                  must matches the number of bands in {@code image}.
      * @return The new grid coverage.
-     *
      * @since 2.2
      */
-    public GridCoverage2D create(final CharSequence              name,
-                                 final WritableRaster            raster,
+    public GridCoverage2D create(final CharSequence name,
+                                 final WritableRaster raster,
                                  final CoordinateReferenceSystem crs,
-                                 final MathTransform             gridToCRS,
-                                       GridSampleDimension[]     bands)
-    {
-        if (bands == null) 
-        {
+                                 final MathTransform gridToCRS,
+                                 GridSampleDimension[] bands) {
+        if (bands == null) {
             bands = RenderedSampleDimension.create(name, raster, null, null, null, null, null);
         }
-        final ColorModel    model = bands[0].getColorModel(0, bands.length, raster.getDataBuffer().getDataType());
+        final ColorModel model = bands[0].getColorModel(0, bands.length, raster.getDataBuffer()
+                .getDataType());
         final RenderedImage image = new BufferedImage(model, raster, false, null);
         return create(name, image, crs, gridToCRS, bands, null, null);
     }
@@ -446,13 +443,11 @@ public class GridCoverageFactory extends AbstractFactory {
      * @param image    The image.
      * @param envelope The grid coverage cordinates.
      * @return The new grid coverage.
-     *
      * @since 2.2
      */
-    public GridCoverage2D create(final CharSequence  name,
+    public GridCoverage2D create(final CharSequence name,
                                  final RenderedImage image,
-                                 final Envelope      envelope)
-    {
+                                 final Envelope envelope) {
         return create(name, image, envelope, null, null, null);
     }
 
@@ -491,16 +486,14 @@ public class GridCoverageFactory extends AbstractFactory {
      * @param sources    The sources for this grid coverage, or {@code null} if none.
      * @param properties The set of properties for this coverage, or {@code null} if there is none.
      * @return The new grid coverage.
-     *
      * @since 2.2
      */
-    public GridCoverage2D create(final CharSequence          name,
-                                 final RenderedImage         image,
-                                       Envelope              envelope,
+    public GridCoverage2D create(final CharSequence name,
+                                 final RenderedImage image,
+                                 Envelope envelope,
                                  final GridSampleDimension[] bands,
-                                 final GridCoverage[]        sources,
-                                 final Map<?,?>              properties)
-    {
+                                 final GridCoverage[] sources,
+                                 final Map<?, ?> properties) {
         /*
          * Makes sure that the specified envelope has a CRS.
          * If no CRS were specified, a default one is used.
@@ -533,14 +526,13 @@ public class GridCoverageFactory extends AbstractFactory {
      * @param properties The set of properties for this coverage, or {@code null} if there is none.
      * @return The new grid coverage.
      */
-    public GridCoverage2D create(final CharSequence              name,
-                                 final RenderedImage             image,
+    public GridCoverage2D create(final CharSequence name,
+                                 final RenderedImage image,
                                  final CoordinateReferenceSystem crs,
-                                 final MathTransform             gridToCRS,
-                                 final GridSampleDimension[]     bands,
-                                 final GridCoverage[]            sources,
-                                 final Map<?,?>                  properties)
-    {
+                                 final MathTransform gridToCRS,
+                                 final GridSampleDimension[] bands,
+                                 final GridCoverage[] sources,
+                                 final Map<?, ?> properties) {
         final GridGeometry2D gm = new GridGeometry2D(new GeneralGridEnvelope(image,
                 crs.getCoordinateSystem().getDimension()), gridToCRS, crs);
         return create(name, image, gm, bands, sources, properties);
@@ -559,8 +551,10 @@ public class GridCoverageFactory extends AbstractFactory {
      *
      * @param name         The grid coverage name.
      * @param image        The image.
-     * @param gridGeometry The grid geometry (must contains an {@linkplain GridGeometry2D#getEnvelope
-     *                     envelope} with its {@linkplain GridGeometry2D#getCoordinateReferenceSystem
+     * @param gridGeometry The grid geometry (must contains an {@linkplain 
+     * GridGeometry2D#getEnvelope
+     *                     envelope} with its {@linkplain 
+     *                     GridGeometry2D#getCoordinateReferenceSystem
      *                     coordinate reference system} and a "{@linkplain
      *                     GridGeometry2D#getGridToCoordinateSystem grid to CRS}" transform).
      * @param bands        Sample dimensions for each image band, or {@code null} for default sample
@@ -569,16 +563,14 @@ public class GridCoverageFactory extends AbstractFactory {
      * @param sources      The sources for this grid coverage, or {@code null} if none.
      * @param properties   The set of properties for this coverage, or {@code null} none.
      * @return The new grid coverage.
-     *
      * @since 2.2
      */
-    public GridCoverage2D create(final CharSequence          name,
-                                 final RenderedImage         image,
-                                       GridGeometry2D        gridGeometry,
+    public GridCoverage2D create(final CharSequence name,
+                                 final RenderedImage image,
+                                 GridGeometry2D gridGeometry,
                                  final GridSampleDimension[] bands,
-                                 final GridCoverage[]        sources,
-                                 final Map<?,?>              properties)
-    {
+                                 final GridCoverage[] sources,
+                                 final Map<?, ?> properties) {
         /*
          * Makes sure that the specified grid geometry has a CRS.
          * If no CRS were specified, a default one is used.
@@ -589,7 +581,7 @@ public class GridCoverageFactory extends AbstractFactory {
         }
         final GridCoverage2D coverage;
         coverage = new GridCoverage2D(name, PlanarImage.wrapRenderedImage(image),
-                                      gridGeometry, bands, sources, properties, userHints);
+                gridGeometry, bands, sources, properties, userHints);
         coverage.tileEncoding = (String) hints.get(Hints.TILE_ENCODING);
         return coverage;
     }

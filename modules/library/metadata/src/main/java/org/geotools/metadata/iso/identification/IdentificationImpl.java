@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -20,6 +20,7 @@
 package org.geotools.metadata.iso.identification;
 
 import java.util.Collection;
+
 import org.opengis.metadata.citation.Citation;
 import org.opengis.metadata.citation.ResponsibleParty;
 import org.opengis.metadata.constraint.Constraints;
@@ -38,13 +39,10 @@ import org.geotools.metadata.iso.MetadataEntity;
 /**
  * Basic information required to uniquely identify a resource or resources.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class IdentificationImpl extends MetadataEntity implements Identification {
@@ -90,7 +88,8 @@ public class IdentificationImpl extends MetadataEntity implements Identification
     private Collection<MaintenanceInformation> resourceMaintenance;
 
     /**
-     * Provides a graphic that illustrates the resource(s) (should include a legend for the graphic).
+     * Provides a graphic that illustrates the resource(s) (should include a legend for the 
+     * graphic).
      */
     private Collection<BrowseGraphic> graphicOverviews;
 
@@ -139,7 +138,7 @@ public class IdentificationImpl extends MetadataEntity implements Identification
      * Creates an identification initialized to the specified values.
      */
     public IdentificationImpl(final Citation citation, final InternationalString abstracts) {
-        setCitation(citation );
+        setCitation(citation);
         setAbstract(abstracts);
     }
 
@@ -228,8 +227,7 @@ public class IdentificationImpl extends MetadataEntity implements Identification
      * Set the point of contacts.
      */
     public synchronized void setPointOfContacts(
-            final Collection<? extends ResponsibleParty> newValues)
-    {
+            final Collection<? extends ResponsibleParty> newValues) {
         pointOfContacts = copyCollection(newValues, pointOfContacts, ResponsibleParty.class);
     }
 
@@ -245,14 +243,14 @@ public class IdentificationImpl extends MetadataEntity implements Identification
      * Set information about the frequency of resource updates, and the scope of those updates.
      */
     public synchronized void setResourceMaintenance(
-            final Collection<? extends MaintenanceInformation> newValues)
-    {
+            final Collection<? extends MaintenanceInformation> newValues) {
         resourceMaintenance = copyCollection(newValues, resourceMaintenance,
-                                             MaintenanceInformation.class);
+                MaintenanceInformation.class);
     }
 
     /**
-     * Provides a graphic that illustrates the resource(s) (should include a legend for the graphic).
+     * Provides a graphic that illustrates the resource(s) (should include a legend for the 
+     * graphic).
      */
     public synchronized Collection<BrowseGraphic> getGraphicOverviews() {
         return (graphicOverviews = nonNullCollection(graphicOverviews, BrowseGraphic.class));
@@ -262,8 +260,7 @@ public class IdentificationImpl extends MetadataEntity implements Identification
      * Set a graphic that illustrates the resource(s).
      */
     public synchronized void setGraphicOverviews(
-            final Collection<? extends BrowseGraphic> newValues)
-    {
+            final Collection<? extends BrowseGraphic> newValues) {
         graphicOverviews = copyCollection(newValues, graphicOverviews, BrowseGraphic.class);
     }
 
@@ -292,8 +289,7 @@ public class IdentificationImpl extends MetadataEntity implements Identification
      * Set category keywords, their type, and reference source.
      */
     public synchronized void setDescriptiveKeywords(
-            final Collection<? extends Keywords> newValues)
-    {
+            final Collection<? extends Keywords> newValues) {
         descriptiveKeywords = copyCollection(newValues, descriptiveKeywords, Keywords.class);
     }
 
@@ -309,8 +305,7 @@ public class IdentificationImpl extends MetadataEntity implements Identification
      * Set basic information about specific application(s).
      */
     public synchronized void setResourceSpecificUsages(
-            final Collection<? extends Usage> newValues)
-    {
+            final Collection<? extends Usage> newValues) {
         resourceSpecificUsages = copyCollection(newValues, resourceSpecificUsages, Usage.class);
     }
 
@@ -325,8 +320,7 @@ public class IdentificationImpl extends MetadataEntity implements Identification
      * Set information about constraints which apply to the resource(s).
      */
     public synchronized void setResourceConstraints(
-            final Collection<? extends Constraints> newValues)
-    {
+            final Collection<? extends Constraints> newValues) {
         resourceConstraints = copyCollection(newValues, resourceConstraints, Constraints.class);
     }
 
@@ -345,8 +339,7 @@ public class IdentificationImpl extends MetadataEntity implements Identification
      * @since 2.4
      */
     public synchronized void setAggregationInfo(
-            final Collection<? extends AggregateInformation> newValues)
-    {
+            final Collection<? extends AggregateInformation> newValues) {
         aggregationInfo = copyCollection(newValues, aggregationInfo, AggregateInformation.class);
     }
 }

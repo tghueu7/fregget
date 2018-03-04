@@ -36,9 +36,8 @@ import org.opengis.util.ProgressListener;
 
 /**
  * A transparency holes-dashes filling process
- * 
- * @author Daniele Romagnoli - GeoSolutions
  *
+ * @author Daniele Romagnoli - GeoSolutions
  * @source $URL$
  */
 @DescribeProcess(title = "TransparencyFill", description = "Fill transparent pixels")
@@ -48,8 +47,10 @@ public class TransparencyFillProcess implements RasterProcess {
 
     @DescribeResult(name = "result", description = "The processed coverage")
     public GridCoverage2D execute(
-            @DescribeParameter(name = "data", description = "Input coverage") GridCoverage2D coverage,
-//            @DescribeParameter(name = "type", description = "Type of filling algorithm", min = 0) FillType type,
+            @DescribeParameter(name = "data", description = "Input coverage") GridCoverage2D 
+                    coverage,
+//            @DescribeParameter(name = "type", description = "Type of filling algorithm", min = 
+// 0) FillType type,
             ProgressListener listener) throws ProcessException {
 
         if (coverage == null) {

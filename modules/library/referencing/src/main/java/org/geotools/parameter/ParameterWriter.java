@@ -59,12 +59,10 @@ import org.geotools.resources.i18n.VocabularyKeys;
  * This writer assumes a monospaced font and an encoding capable to provide
  * drawing box characters (e.g. unicode).
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class ParameterWriter extends FilterWriter {
     /**
@@ -155,7 +153,7 @@ public class ParameterWriter extends FilterWriter {
     /**
      * Prints the elements of an operation to the output stream.
      *
-     * @param  operation The operation method to format.
+     * @param operation The operation method to format.
      * @throws IOException if an error occured will writing to the stream.
      */
     public void format(final OperationMethod operation) throws IOException {
@@ -167,7 +165,7 @@ public class ParameterWriter extends FilterWriter {
     /**
      * Prints the elements of a descriptor group to the output stream.
      *
-     * @param  descriptor The descriptor group to format.
+     * @param descriptor The descriptor group to format.
      * @throws IOException if an error occured will writing to the stream.
      */
     public void format(final ParameterDescriptorGroup descriptor) throws IOException {
@@ -179,7 +177,7 @@ public class ParameterWriter extends FilterWriter {
     /**
      * Prints the elements of a parameter group to the output stream.
      *
-     * @param  values The parameter group to format.
+     * @param values The parameter group to format.
      * @throws IOException if an error occured will writing to the stream.
      */
     public void format(final ParameterValueGroup values) throws IOException {
@@ -192,17 +190,16 @@ public class ParameterWriter extends FilterWriter {
     /**
      * Implementation of public {@code format} methods.
      *
-     * @param  name The group name, usually {@code descriptor.getCode().getName()}.
-     * @param  descriptor The parameter descriptor. Should be equals to
-     *         {@code values.getDescriptor()} if {@code values} is non null.
-     * @param  values The parameter values, or {@code null} if none.
+     * @param name       The group name, usually {@code descriptor.getCode().getName()}.
+     * @param descriptor The parameter descriptor. Should be equals to
+     *                   {@code values.getDescriptor()} if {@code values} is non null.
+     * @param values     The parameter values, or {@code null} if none.
      * @throws IOException if an error occured will writing to the stream.
      */
-    private void format(final String                   name,
+    private void format(final String name,
                         final ParameterDescriptorGroup group,
-                        final ParameterValueGroup      values)
-            throws IOException
-    {
+                        final ParameterValueGroup values)
+            throws IOException {
         /*
          * Write the operation name (including aliases) before the table.
          */
@@ -235,8 +232,8 @@ public class ParameterWriter extends FilterWriter {
         table.nextColumn();
         table.write("Maximum");  // TODO localize
         table.nextColumn();
-        table.write(resources.getString((values==null) ? VocabularyKeys.DEFAULT_VALUE
-                                                       : VocabularyKeys.VALUE));
+        table.write(resources.getString((values == null) ? VocabularyKeys.DEFAULT_VALUE
+                : VocabularyKeys.VALUE));
         table.nextColumn();
         table.write("Units");  // TODO localize
         table.nextLine();
@@ -249,9 +246,9 @@ public class ParameterWriter extends FilterWriter {
          */
         List<Object> deferredGroups = null;
         final Object[] array1 = new Object[1];
-        final Collection<?> elements = (values!=null) ? values.values() : group.descriptors();
+        final Collection<?> elements = (values != null) ? values.values() : group.descriptors();
         for (final Object element : elements) {
-            final GeneralParameterValue      generalValue;
+            final GeneralParameterValue generalValue;
             final GeneralParameterDescriptor generalDescriptor;
             if (values != null) {
                 generalValue = (GeneralParameterValue) element;
@@ -318,14 +315,14 @@ public class ParameterWriter extends FilterWriter {
                  * formatted on its own line.
                  */
                 final Object array;
-                if (value!=null && value.getClass().isArray()) {
+                if (value != null && value.getClass().isArray()) {
                     array = value;
                 } else {
                     array = array1;
                     array1[0] = value;
                 }
                 final int length = Array.getLength(array);
-                for (int i=0; i<length; i++) {
+                for (int i = 0; i < length; i++) {
                     value = Array.get(array, i);
                     if (value != null) {
                         if (i != 0) {
@@ -369,14 +366,13 @@ public class ParameterWriter extends FilterWriter {
      * Formats a summary of a collection of {@linkplain IdentifiedObject identified objects}.
      * The summary contains the identifier name and alias aligned in a table.
      *
-     * @param  parameters The collection of parameters to format.
-     * @param  scopes     The set of scopes to include in the table, of {@code null} for all
-     *                    of them. A restricted a set will produce a table with less columns.
+     * @param parameters The collection of parameters to format.
+     * @param scopes     The set of scopes to include in the table, of {@code null} for all
+     *                   of them. A restricted a set will produce a table with less columns.
      * @throws IOException if an error occured will writing to the stream.
      */
     public void summary(final Collection<? extends IdentifiedObject> parameters,
-                        final Set<String> scopes) throws IOException
-    {
+                        final Set<String> scopes) throws IOException {
         /*
          * Prepares the list of alias before any write to the output stream.
          * We need to prepare the list first, because not all identified objects
@@ -385,9 +381,9 @@ public class ParameterWriter extends FilterWriter {
          *   titles    -  The column number for each column title.
          *   names     -  The names (including alias) for each line.
          */
-        final Map<Object,Integer> titles = new LinkedHashMap<Object,Integer>();
-        final List<String[]>      names  = new ArrayList<String[]>();
-        final Locale              locale = this.locale; // Protect from changes.
+        final Map<Object, Integer> titles = new LinkedHashMap<Object, Integer>();
+        final List<String[]> names = new ArrayList<String[]>();
+        final Locale locale = this.locale; // Protect from changes.
         String[] descriptions = null;
         titles.put(null, 0); // Special value for the identifier column.
         for (final IdentifiedObject element : parameters) {
@@ -403,10 +399,10 @@ public class ParameterWriter extends FilterWriter {
                 int count = 0;
                 for (final GenericName alias : aliases) {
                     final GenericName scope = alias.scope().name();
-                    final GenericName name  = alias.tip();
+                    final GenericName name = alias.tip();
                     final Object title;
                     if (scope != null) {
-                        if (scopes!=null && !scopes.contains(scope.toString())) {
+                        if (scopes != null && !scopes.contains(scope.toString())) {
                             /*
                              * The user requested only a subset of alias (the 'scopes' argument),
                              * and the current alias is not a member of this subset. Continue the
@@ -438,11 +434,11 @@ public class ParameterWriter extends FilterWriter {
                      */
                     final int index = position.intValue();
                     if (index >= elementNames.length) {
-                        elementNames = XArray.resize(elementNames, index+1);
+                        elementNames = XArray.resize(elementNames, index + 1);
                     }
                     final String oldName = elementNames[index];
                     final String newName = name.toInternationalString().toString(locale);
-                    if (oldName==null || oldName.length()>newName.length()) {
+                    if (oldName == null || oldName.length() > newName.length()) {
                         /*
                          * Keep the shortest string, since it is often a code used
                          * for identification (e.g. EPSG code). It also help to fit
@@ -471,11 +467,12 @@ public class ParameterWriter extends FilterWriter {
          * OGC name as the main identifier in most cases.
          */
         final boolean[] hide = new boolean[titles.size()];
-trim:   for (int column=hide.length; --column>=1;) {
+        trim:
+        for (int column = hide.length; --column >= 1; ) {
             for (final String[] alias : names) {
                 if (alias.length > column) {
                     final String name = alias[column];
-                    if (name!=null && !name.equals(alias[0])) {
+                    if (name != null && !name.equals(alias[0])) {
                         // No need to looks at the next lines.
                         // Move to previous column.
                         continue trim;
@@ -522,7 +519,7 @@ trim:   for (int column=hide.length; --column>=1;) {
              */
             int counter = 0;
             for (final String[] aliases : names) {
-                for (column=0; column<hide.length; column++) {
+                for (column = 0; column < hide.length; column++) {
                     if (hide[column]) {
                         continue;
                     }
@@ -560,10 +557,10 @@ trim:   for (int column=hide.length; --column>=1;) {
      */
     public void setLocale(final Locale locale) {
         synchronized (lock) {
-            this.locale  = locale;
+            this.locale = locale;
             numberFormat = null;
-            dateFormat   = null;
-            angleFormat  = null;
+            dateFormat = null;
+            angleFormat = null;
         }
     }
 
@@ -574,7 +571,7 @@ trim:   for (int column=hide.length; --column>=1;) {
      * {@linkplain #getLocale current locale}. This method can been overridden if
      * more objects need to be formatted in a special way.
      *
-     * @param  value the value to format.
+     * @param value the value to format.
      * @return The value formatted as a string.
      */
     protected String formatValue(final Object value) {

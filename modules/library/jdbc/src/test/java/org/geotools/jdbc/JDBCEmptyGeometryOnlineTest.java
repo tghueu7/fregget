@@ -34,11 +34,9 @@ import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
 
 /**
- * 
- * 
  * @source $URL:
- *         http://svn.osgeo.org/geotools/trunk/modules/library/jdbc/src/test/java/org/geotools/
- *         jdbc/JDBCEmptyGeometryTest.java $
+ * http://svn.osgeo.org/geotools/trunk/modules/library/jdbc/src/test/java/org/geotools/
+ * jdbc/JDBCEmptyGeometryTest.java $
  */
 public abstract class JDBCEmptyGeometryOnlineTest extends JDBCTestSupport {
 
@@ -48,7 +46,7 @@ public abstract class JDBCEmptyGeometryOnlineTest extends JDBCTestSupport {
     public void testEmptyPoint() throws Exception {
         testInsertEmptyGeometry("POINT");
     }
-    
+
     public void testEmptyLine() throws Exception {
         testInsertEmptyGeometry("LINESTRING");
     }
@@ -56,26 +54,26 @@ public abstract class JDBCEmptyGeometryOnlineTest extends JDBCTestSupport {
     public void testEmptyPolygon() throws Exception {
         testInsertEmptyGeometry("POLYGON");
     }
-    
+
     public void testEmptyMultiPoint() throws Exception {
         testInsertEmptyGeometry("MULTIPOINT");
     }
-    
+
     public void testEmptyMultiLine() throws Exception {
         testInsertEmptyGeometry("MULTILINESTRING");
     }
-    
+
     public void testEmptyMultiPolygon() throws Exception {
         testInsertEmptyGeometry("MULTIPOLYGON");
     }
-    
+
     private void testInsertEmptyGeometry(String type) throws Exception {
         WKTReader reader = new WKTReader();
         Geometry emptyGeometry = reader.read(type.toUpperCase() + " EMPTY");
 
         try (Transaction tx = new DefaultTransaction();
-                FeatureWriter<SimpleFeatureType, SimpleFeature> writer = dataStore
-                        .getFeatureWriterAppend(tname("empty"), tx)) {
+             FeatureWriter<SimpleFeatureType, SimpleFeature> writer = dataStore
+                     .getFeatureWriterAppend(tname("empty"), tx)) {
             SimpleFeature feature = writer.next();
             feature.setAttribute(aname("id"), new Integer(100));
             feature.setAttribute(aname("geom_" + type.toLowerCase()), emptyGeometry);
@@ -87,7 +85,7 @@ public abstract class JDBCEmptyGeometryOnlineTest extends JDBCTestSupport {
 
         SimpleFeatureCollection fc = dataStore.getFeatureSource(tname("empty")).getFeatures();
         assertEquals(1, fc.size());
-        try(SimpleFeatureIterator fi = fc.features()) {
+        try (SimpleFeatureIterator fi = fc.features()) {
             SimpleFeature nf = fi.next();
             Geometry geometry = (Geometry) nf.getDefaultGeometry();
             // either null or empty, we don't really care

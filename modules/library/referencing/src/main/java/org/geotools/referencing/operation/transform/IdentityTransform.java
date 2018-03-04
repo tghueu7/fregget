@@ -37,16 +37,13 @@ import org.geotools.referencing.operation.matrix.MatrixFactory;
  * {@link LinearTransform1D} and {@link java.awt.geom.AffineTransform} already provide their
  * own optimisations.
  *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.0
  */
 public class IdentityTransform extends AbstractMathTransform
-                            implements LinearTransform, Serializable
-{
+        implements LinearTransform, Serializable {
     /**
      * Serial number for interoperability with different versions.
      */
@@ -82,9 +79,15 @@ public class IdentityTransform extends AbstractMathTransform
             }
         }
         switch (dimension) {
-            case 1:  candidate = LinearTransform1D.IDENTITY;                   break;
-            case 2:  candidate = new AffineTransform2D(new AffineTransform()); break;
-            default: candidate = new IdentityTransform(dimension);             break;
+            case 1:
+                candidate = LinearTransform1D.IDENTITY;
+                break;
+            case 2:
+                candidate = new AffineTransform2D(new AffineTransform());
+                break;
+            default:
+                candidate = new IdentityTransform(dimension);
+                break;
         }
         if (dimension < POOL.length) {
             POOL[dimension] = candidate;
@@ -145,7 +148,7 @@ public class IdentityTransform extends AbstractMathTransform
      * Returns a copy of the identity matrix.
      */
     public Matrix getMatrix() {
-        return MatrixFactory.create(dimension+1);
+        return MatrixFactory.create(dimension + 1);
     }
 
     /**
@@ -170,7 +173,7 @@ public class IdentityTransform extends AbstractMathTransform
                 return new GeneralDirectPosition(ptSrc);
             }
             if (ptDst.getDimension() == dimension) {
-                for (int i=0; i<dimension; i++) {
+                for (int i = 0; i < dimension; i++) {
                     ptDst.setOrdinate(i, ptSrc.getOrdinate(i));
                 }
                 return ptDst;
@@ -189,18 +192,16 @@ public class IdentityTransform extends AbstractMathTransform
      */
     @Override
     public void transform(final float[] srcPts, int srcOff,
-                          final float[] dstPts, int dstOff, int numPts)
-    {
-        System.arraycopy(srcPts, srcOff, dstPts, dstOff, numPts*dimension);
+                          final float[] dstPts, int dstOff, int numPts) {
+        System.arraycopy(srcPts, srcOff, dstPts, dstOff, numPts * dimension);
     }
 
     /**
      * Transforms an array of floating point coordinates by this transform.
      */
     public void transform(final double[] srcPts, int srcOff,
-                          final double[] dstPts, int dstOff, int numPts)
-    {
-        System.arraycopy(srcPts, srcOff, dstPts, dstOff, numPts*dimension);
+                          final double[] dstPts, int dstOff, int numPts) {
+        System.arraycopy(srcPts, srcOff, dstPts, dstOff, numPts * dimension);
     }
 
     /**
@@ -219,7 +220,7 @@ public class IdentityTransform extends AbstractMathTransform
      */
     @Override
     public int hashCode() {
-        return (int)serialVersionUID + dimension;
+        return (int) serialVersionUID + dimension;
     }
 
     /**

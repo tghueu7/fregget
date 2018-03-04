@@ -28,18 +28,14 @@ import org.geotools.resources.Classes;
  *
  * @param <K> The class of key elements.
  * @param <V> The class of value elements.
- *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @todo This class will be removed when we will be allowed to compile for JSE 1.6, since a
- *       default map entry implementation is provided there.
+ * default map entry implementation is provided there.
+ * @since 2.1
  */
-public class MapEntry<K,V> implements Map.Entry<K,V>, Serializable {
+public class MapEntry<K, V> implements Map.Entry<K, V>, Serializable {
     /**
      * For cross-version compatibility.
      */
@@ -58,11 +54,11 @@ public class MapEntry<K,V> implements Map.Entry<K,V>, Serializable {
     /**
      * Creates a new map entry with the specified key-value pair.
      *
-     * @param key The key.
+     * @param key   The key.
      * @param value The value.
      */
     public MapEntry(final K key, final V value) {
-        this.key   = key;
+        this.key = key;
         this.value = value;
     }
 
@@ -98,8 +94,8 @@ public class MapEntry<K,V> implements Map.Entry<K,V>, Serializable {
     public boolean equals(final Object object) {
         if (object instanceof Map.Entry) {
             final Map.Entry that = (Map.Entry) object;
-            return Utilities.equals(this.getKey(),   that.getKey()) &&
-                   Utilities.equals(this.getValue(), that.getValue());
+            return Utilities.equals(this.getKey(), that.getKey()) &&
+                    Utilities.equals(this.getValue(), that.getValue());
         }
         return false;
     }
@@ -110,7 +106,7 @@ public class MapEntry<K,V> implements Map.Entry<K,V>, Serializable {
     @Override
     public int hashCode() {
         int code = 0;
-        if (key   != null) code  =   key.hashCode();
+        if (key != null) code = key.hashCode();
         if (value != null) code ^= value.hashCode();
         return code;
     }

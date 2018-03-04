@@ -36,11 +36,8 @@ import org.xml.sax.InputSource;
 
 /**
  * Class for holding the config info read from the xml config file
- * 
+ *
  * @author mcr
- * 
- *
- *
  * @source $URL$
  */
 public class Config {
@@ -109,7 +106,7 @@ public class Config {
     private String sqlUpdateResStatement;
 
     private Boolean verifyCardinality;
-    
+
     private Boolean ignoreAxisOrder;
 
     private Integer interpolation;
@@ -121,7 +118,7 @@ public class Config {
     private String tileMinXAttribute;
 
     private String tileMinYAttribute;
-    
+
     private String jdbcAccessClassName;
 
 
@@ -168,10 +165,10 @@ public class Config {
         NamedNodeMap map = tmp.getAttributes();
         String s = map.getNamedItem("interpolation").getNodeValue();
         result.interpolation = new Integer(s);
-        
-        result.ignoreAxisOrder=Boolean.FALSE;
+
+        result.ignoreAxisOrder = Boolean.FALSE;
         tmp = dom.getElementsByTagName("axisOrder").item(0);
-        if (tmp!=null) {
+        if (tmp != null) {
             map = tmp.getAttributes();
             s = map.getNamedItem("ignore").getNodeValue();
             result.ignoreAxisOrder = new Boolean(s);
@@ -184,11 +181,10 @@ public class Config {
             readForOracleGeoRaster(result, dom);
         else if (SpatialExtension.CUSTOM.equals(result.spatialExtension)) {
             readForCustom(result, dom);
-        }
-        else {    
+        } else {
             readMapping(result, dom);
             result.initStatements();
-        }    
+        }
         ConfigMap.put(xmlURL.toString(), result);
 
         return result;
@@ -206,27 +202,33 @@ public class Config {
         result.minYAttribute = readNameString(masterTableElem, "minYAttribute");
         result.resXAttribute = readNameString(masterTableElem, "resXAttribute");
         result.resYAttribute = readNameString(masterTableElem, "resYAttribute");
-        
-        result.tileTableNameAtribute = readNameString(masterTableElem, "tileTableNameAtribute"); // typo
-        if (result.tileTableNameAtribute==null) 
-            result.tileTableNameAtribute = readNameString(masterTableElem, "tileTableNameAttribute"); //  correct name
-                
-        result.spatialTableNameAtribute = readNameString(masterTableElem,"spatialTableNameAtribute"); // typo
+
+        result.tileTableNameAtribute = readNameString(masterTableElem, "tileTableNameAtribute"); 
+        // typo
+        if (result.tileTableNameAtribute == null)
+            result.tileTableNameAtribute = readNameString(masterTableElem, 
+                    "tileTableNameAttribute"); //  correct name
+
+        result.spatialTableNameAtribute = readNameString(masterTableElem, 
+                "spatialTableNameAtribute"); // typo
         if (result.spatialTableNameAtribute == null)
-            result.spatialTableNameAtribute= readNameString(masterTableElem,"spatialTableNameAttribute"); // correct name
+            result.spatialTableNameAtribute = readNameString(masterTableElem, 
+                    "spatialTableNameAttribute"); // correct name
 
         Element tileTableElem = (Element) dom.getElementsByTagName("tileTable").item(0);
-        if (tileTableElem!=null) {
-            result.blobAttributeNameInTileTable = readNameString(tileTableElem, "blobAttributeName");
+        if (tileTableElem != null) {
+            result.blobAttributeNameInTileTable = readNameString(tileTableElem, 
+                    "blobAttributeName");
             result.keyAttributeNameInTileTable = readNameString(tileTableElem, "keyAttributeName");
         }
-        
+
 
         Element spatialTableElem = (Element) dom.getElementsByTagName("spatialTable").item(0);
-        if (spatialTableElem!=null) {
-            result.keyAttributeNameInSpatialTable = readNameString(spatialTableElem, "keyAttributeName");
+        if (spatialTableElem != null) {
+            result.keyAttributeNameInSpatialTable = readNameString(spatialTableElem, 
+                    "keyAttributeName");
             result.geomAttributeNameInSpatialTable = readNameString(spatialTableElem,
-                "geomAttributeName");
+                    "geomAttributeName");
             result.tileMaxXAttribute = readNameString(spatialTableElem, "tileMaxXAttribute");
             result.tileMaxYAttribute = readNameString(spatialTableElem, "tileMaxYAttribute");
             result.tileMinXAttribute = readNameString(spatialTableElem, "tileMinXAttribute");
@@ -234,16 +236,15 @@ public class Config {
         }
 
 
-        result.verifyCardinality=Boolean.FALSE;
+        result.verifyCardinality = Boolean.FALSE;
         Node tmp = dom.getElementsByTagName("verify").item(0);
-        if (tmp!=null) {
+        if (tmp != null) {
             NamedNodeMap map = tmp.getAttributes();
             String s = map.getNamedItem("cardinality").getNodeValue();
             result.verifyCardinality = new Boolean(s);
         }
-        
 
-        
+
     }
 
     static void readForOracleGeoRaster(Config result, Document dom) {
@@ -254,9 +255,10 @@ public class Config {
 
         result.geoRasterAttribute = readNameString(masterTableElem, "geoRasterAttribute");
     }
-    
-    static void readForCustom(Config result, Document dom) {        
-        result.jdbcAccessClassName = readNameString(dom.getDocumentElement(), "jdbcAccessClassName");
+
+    static void readForCustom(Config result, Document dom) {
+        result.jdbcAccessClassName = readNameString(dom.getDocumentElement(), 
+                "jdbcAccessClassName");
     }
 
 
@@ -268,9 +270,9 @@ public class Config {
         buff.append(minXAttribute).append(" = ?,");
         buff.append(minYAttribute).append(" = ?");
         buff.append(" where ").append(coverageNameAttribute).append(" = ? ");
-        if (tileTableNameAtribute!= null) 
+        if (tileTableNameAtribute != null)
             buff.append(" and ").append(tileTableNameAtribute).append(" = ? ");
-        if (spatialTableNameAtribute!=null)
+        if (spatialTableNameAtribute != null)
             buff.append(" and ").append(spatialTableNameAtribute).append(" = ? ");
         sqlUpdateMosaicStatement = buff.toString();
 
@@ -282,9 +284,9 @@ public class Config {
         buff.append(resXAttribute).append(" = ?,");
         buff.append(resYAttribute).append(" = ? ");
         buff.append(" where ").append(coverageNameAttribute).append(" = ? ");
-        if (tileTableNameAtribute!= null)
+        if (tileTableNameAtribute != null)
             buff.append(" and ").append(tileTableNameAtribute).append(" = ? ");
-        if (spatialTableNameAtribute!=null)
+        if (spatialTableNameAtribute != null)
             buff.append(" and ").append(spatialTableNameAtribute).append(" = ? ");
         sqlUpdateResStatement = buff.toString();
     }
@@ -500,10 +502,11 @@ public class Config {
     public SpatialExtension getSpatialExtension() {
         return spatialExtension;
     }
+
     public String getJdbcAccessClassName() {
         return jdbcAccessClassName;
     }
-    
+
     public Boolean getIgnoreAxisOrder() {
         return ignoreAxisOrder;
     }

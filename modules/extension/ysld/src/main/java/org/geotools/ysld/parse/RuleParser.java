@@ -4,7 +4,7 @@
  *
  *    (C) 2016 Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2016 Boundless Spatial
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -30,7 +30,6 @@ import org.geotools.ysld.YamlSeq;
 
 /**
  * Handles parsing a Ysld "rules" property into {@link Rule} objects for a {@link FeatureTypeStyle}.
- *
  */
 public class RuleParser extends YsldParseHandler {
 
@@ -80,9 +79,8 @@ public class RuleParser extends YsldParseHandler {
             context.push(r, "symbolizers", new SymbolizersParser(rule, factory));
         }
     }
-    
+
     /**
-     * 
      * @param r
      * @return The parsed scale, or null if the {@link YamlMap} has no "scale" key.
      */

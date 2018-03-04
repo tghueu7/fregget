@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2012-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -33,7 +33,7 @@ import org.opengis.filter.sort.SortBy;
 /**
  * Test the paging behaviour of {@link ContentFeatureSource}. To establish inter-page consistency,
  * if no sorting order is specified in the query, the feature source should impose natural sorting.
- * 
+ *
  * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
  */
 public class ContentFeatureSourcePagingTest extends AbstractContentTest {
@@ -42,7 +42,8 @@ public class ContentFeatureSourcePagingTest extends AbstractContentTest {
 
     /**
      * Test that the default query returns all features unsorted.
-     * @throws IOException 
+     *
+     * @throws IOException
      */
     @Test
     public void defaultFeatures() throws IOException {
@@ -57,12 +58,13 @@ public class ContentFeatureSourcePagingTest extends AbstractContentTest {
 
     /**
      * Test natural sorting.
-     * @throws IOException 
+     *
+     * @throws IOException
      */
     @Test
     public void naturalSortedFeatures() throws IOException {
         Query query = new Query();
-        query.setSortBy(new SortBy[] { SortBy.NATURAL_ORDER });
+        query.setSortBy(new SortBy[]{SortBy.NATURAL_ORDER});
         SimpleFeatureSource fs = store.getFeatureSource(TYPENAME);
         SimpleFeature[] features = (SimpleFeature[]) fs.getFeatures(query).toArray();
         Assert.assertEquals(3, fs.getCount(query));
@@ -73,12 +75,13 @@ public class ContentFeatureSourcePagingTest extends AbstractContentTest {
 
     /**
      * Test reverse sorting.
-     * @throws IOException 
+     *
+     * @throws IOException
      */
     @Test
     public void reverseSortedFeatures() throws IOException {
         Query query = new Query();
-        query.setSortBy(new SortBy[] { SortBy.REVERSE_ORDER });
+        query.setSortBy(new SortBy[]{SortBy.REVERSE_ORDER});
         SimpleFeatureSource fs = store.getFeatureSource(TYPENAME);
         SimpleFeature[] features = (SimpleFeature[]) fs.getFeatures(query).toArray();
         Assert.assertEquals(3, fs.getCount(query));
@@ -89,7 +92,8 @@ public class ContentFeatureSourcePagingTest extends AbstractContentTest {
 
     /**
      * Test the first page of one feature per page.
-     * @throws IOException 
+     *
+     * @throws IOException
      */
     @Test
     public void oneFeatureFirstPage() throws IOException {
@@ -104,7 +108,8 @@ public class ContentFeatureSourcePagingTest extends AbstractContentTest {
 
     /**
      * Test the second page of one feature per page.
-     * @throws IOException 
+     *
+     * @throws IOException
      */
     @Test
     public void oneFeatureSecondPage() throws IOException {
@@ -119,7 +124,8 @@ public class ContentFeatureSourcePagingTest extends AbstractContentTest {
 
     /**
      * Test the third page of one feature per page.
-     * @throws IOException 
+     *
+     * @throws IOException
      */
     @Test
     public void oneFeatureThirdPage() throws IOException {
@@ -134,12 +140,13 @@ public class ContentFeatureSourcePagingTest extends AbstractContentTest {
 
     /**
      * Test the first page of one feature per page with natural sorting.
-     * @throws IOException 
+     *
+     * @throws IOException
      */
     @Test
     public void naturalSortedOneFeatureFirstPage() throws IOException {
         Query query = new Query();
-        query.setSortBy(new SortBy[] { SortBy.NATURAL_ORDER });
+        query.setSortBy(new SortBy[]{SortBy.NATURAL_ORDER});
         query.setMaxFeatures(1);
         query.setStartIndex(0);
         SimpleFeatureSource fs = store.getFeatureSource(TYPENAME);
@@ -150,12 +157,13 @@ public class ContentFeatureSourcePagingTest extends AbstractContentTest {
 
     /**
      * Test the second page of one feature per page with natural sorting.
-     * @throws IOException 
+     *
+     * @throws IOException
      */
     @Test
     public void naturalSortedOneFeatureSecondPage() throws IOException {
         Query query = new Query();
-        query.setSortBy(new SortBy[] { SortBy.NATURAL_ORDER });
+        query.setSortBy(new SortBy[]{SortBy.NATURAL_ORDER});
         query.setMaxFeatures(1);
         query.setStartIndex(1);
         SimpleFeatureSource fs = store.getFeatureSource(TYPENAME);
@@ -166,12 +174,13 @@ public class ContentFeatureSourcePagingTest extends AbstractContentTest {
 
     /**
      * Test the third page of one feature per page with natural sorting.
-     * @throws IOException 
+     *
+     * @throws IOException
      */
     @Test
     public void naturalSortedOneFeatureThirdPage() throws IOException {
         Query query = new Query();
-        query.setSortBy(new SortBy[] { SortBy.NATURAL_ORDER });
+        query.setSortBy(new SortBy[]{SortBy.NATURAL_ORDER});
         query.setMaxFeatures(1);
         query.setStartIndex(2);
         SimpleFeatureSource fs = store.getFeatureSource(TYPENAME);
@@ -182,12 +191,13 @@ public class ContentFeatureSourcePagingTest extends AbstractContentTest {
 
     /**
      * Test the first page of one feature per page with reverse sorting.
-     * @throws IOException 
+     *
+     * @throws IOException
      */
     @Test
     public void reverseSortedOneFeatureFirstPage() throws IOException {
         Query query = new Query();
-        query.setSortBy(new SortBy[] { SortBy.REVERSE_ORDER });
+        query.setSortBy(new SortBy[]{SortBy.REVERSE_ORDER});
         query.setMaxFeatures(1);
         query.setStartIndex(0);
         SimpleFeatureSource fs = store.getFeatureSource(TYPENAME);
@@ -198,12 +208,13 @@ public class ContentFeatureSourcePagingTest extends AbstractContentTest {
 
     /**
      * Test the second page of one feature per page with reverse sorting.
-     * @throws IOException 
+     *
+     * @throws IOException
      */
     @Test
     public void reverseSortedOneFeatureSecondPage() throws IOException {
         Query query = new Query();
-        query.setSortBy(new SortBy[] { SortBy.REVERSE_ORDER });
+        query.setSortBy(new SortBy[]{SortBy.REVERSE_ORDER});
         query.setMaxFeatures(1);
         query.setStartIndex(1);
         SimpleFeatureSource fs = store.getFeatureSource(TYPENAME);
@@ -214,12 +225,13 @@ public class ContentFeatureSourcePagingTest extends AbstractContentTest {
 
     /**
      * Test the third page of one feature per page with reverse sorting.
-     * @throws IOException 
+     *
+     * @throws IOException
      */
     @Test
     public void reverseSortedOneFeatureThirdPage() throws IOException {
         Query query = new Query();
-        query.setSortBy(new SortBy[] { SortBy.REVERSE_ORDER });
+        query.setSortBy(new SortBy[]{SortBy.REVERSE_ORDER});
         query.setMaxFeatures(1);
         query.setStartIndex(2);
         SimpleFeatureSource fs = store.getFeatureSource(TYPENAME);
@@ -230,7 +242,8 @@ public class ContentFeatureSourcePagingTest extends AbstractContentTest {
 
     /**
      * Test the first page of two features per page.
-     * @throws IOException 
+     *
+     * @throws IOException
      */
     @Test
     public void twoFeaturesFirstPage() throws IOException {
@@ -246,7 +259,8 @@ public class ContentFeatureSourcePagingTest extends AbstractContentTest {
 
     /**
      * Test the page of two features per page that should contain the last two features.
-     * @throws IOException 
+     *
+     * @throws IOException
      */
     @Test
     public void twoFeaturesLastPage() throws IOException {
@@ -263,7 +277,8 @@ public class ContentFeatureSourcePagingTest extends AbstractContentTest {
     /**
      * Test a page of two features that only contains one because startindex is too close to the
      * end.
-     * @throws IOException 
+     *
+     * @throws IOException
      */
     @Test
     public void twoFeaturesReturnOne() throws IOException {
@@ -278,7 +293,8 @@ public class ContentFeatureSourcePagingTest extends AbstractContentTest {
 
     /**
      * Test a single page with three features.
-     * @throws IOException 
+     *
+     * @throws IOException
      */
     @Test
     public void threeFeatures() throws IOException {

@@ -17,8 +17,10 @@
 package org.geotools.filter.v1_0;
 
 import org.picocontainer.MutablePicoContainer;
+
 import java.util.HashSet;
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.BinaryComparisonOperator;
 import org.opengis.filter.BinaryLogicOperator;
 import org.opengis.filter.Filter;
@@ -33,9 +35,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:FilterType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="FilterType"&gt;
  *      &lt;xsd:choice&gt;
@@ -51,9 +53,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OGCFilterTypeBinding extends AbstractComplexBinding {
@@ -97,7 +96,7 @@ public class OGCFilterTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         if (node.hasChild("FeatureId")) {
             //round up into a featureId filter
             HashSet fids = new HashSet();
@@ -110,8 +109,8 @@ public class OGCFilterTypeBinding extends AbstractComplexBinding {
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
-        
+            throws Exception {
+
         return FilterParsingUtils.Filter_getProperty(object, name);
     }
 }

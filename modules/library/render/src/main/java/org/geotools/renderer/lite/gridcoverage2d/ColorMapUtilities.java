@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -29,46 +29,43 @@ import org.opengis.geometry.MismatchedDimensionException;
 
 class ColorMapUtilities {
 
-	/**
-	 * Codes ARGB par d�faut. On utilise un exemplaire unique pour toutes les
-	 * cr�ation d'objets {@link LinearColorMapElement}.
-	 */
-	static final int[] DEFAULT_ARGB = { 0xFF000000, 0xFFFFFFFF };
+    /**
+     * Codes ARGB par d�faut. On utilise un exemplaire unique pour toutes les
+     * cr�ation d'objets {@link LinearColorMapElement}.
+     */
+    static final int[] DEFAULT_ARGB = {0xFF000000, 0xFFFFFFFF};
 
-	/**
-	 * Makes sure that an argument is non-null.
-	 * 
-	 * @param name
-	 *            Argument name.
-	 * @param object
-	 *            User argument.
-	 * @throws IllegalArgumentException
-	 *             if {@code object} is null.
-	 */
-	static void ensureNonNull(final String name,
-			final Object object) throws IllegalArgumentException {
-		if (object == null) {
-			throw new IllegalArgumentException(Errors.format(
-					ErrorKeys.NULL_ARGUMENT_$1, name));
-		}
-	}
+    /**
+     * Makes sure that an argument is non-null.
+     *
+     * @param name   Argument name.
+     * @param object User argument.
+     * @throws IllegalArgumentException if {@code object} is null.
+     */
+    static void ensureNonNull(final String name,
+                              final Object object) throws IllegalArgumentException {
+        if (object == null) {
+            throw new IllegalArgumentException(Errors.format(
+                    ErrorKeys.NULL_ARGUMENT_$1, name));
+        }
+    }
 
-	/**
-	 * Compare deux valeurs de type {@code double}. Cette m�thode est similaire
-	 * � {@link Double#compare(double,double)}, except� qu'elle ordonne aussi
-	 * les diff�rentes valeurs NaN.
-	 */
-	static int compare(final double v1, final double v2) {
-		if (Double.isNaN(v1) && Double.isNaN(v2)) {
-			final long bits1 = Double.doubleToRawLongBits(v1);
-			final long bits2 = Double.doubleToRawLongBits(v2);
-			if (bits1 < bits2)
-				return -1;
-			if (bits1 > bits2)
-				return +1;
-		}
-		return Double.compare(v1, v2);
-	}
+    /**
+     * Compare deux valeurs de type {@code double}. Cette m�thode est similaire
+     * � {@link Double#compare(double, double)}, except� qu'elle ordonne aussi
+     * les diff�rentes valeurs NaN.
+     */
+    static int compare(final double v1, final double v2) {
+        if (Double.isNaN(v1) && Double.isNaN(v2)) {
+            final long bits1 = Double.doubleToRawLongBits(v1);
+            final long bits2 = Double.doubleToRawLongBits(v2);
+            if (bits1 < bits2)
+                return -1;
+            if (bits1 > bits2)
+                return +1;
+        }
+        return Double.compare(v1, v2);
+    }
 
 //	/**
 //	 * Returns a linear transform with the supplied scale and offset values.
@@ -178,55 +175,55 @@ class ColorMapUtilities {
 //		return XMath.rool(type, ((Number) number).doubleValue(), direction);
 //	}
 
-	/**
-	 * Ensure the specified point is one-dimensional.
-	 */
-	static void checkDimension(final DirectPosition point) {
-		final int dim = point.getDimension();
-		if (dim != 1) {
-			throw new MismatchedDimensionException(Errors.format(
-					ErrorKeys.MISMATCHED_DIMENSION_$2, Integer.valueOf(1),
-					Integer.valueOf(dim)));
-		}
-	}
-	/**
-	 * Check that all the output values for the various
-	 * {@link DefaultConstantPiecewiseTransformElement} are equal.
-	 * 
-	 * @param preservingElements
-	 *            array of {@link DefaultConstantPiecewiseTransformElement}s.
-	 * @return the array of {@link DefaultConstantPiecewiseTransformElement}s if the check is
-	 *         successful.
-	 * @throws IllegalArgumentException
-	 *             in case the check is unsuccessful.
-	 */
-	static DefaultPiecewiseTransform1DElement[] checkPreservingElements(
-			LinearColorMapElement[] preservingElements) {
-		if (preservingElements != null) {
-			double outval = Double.NaN;
-			Color color=null;
-			for (int i = 0; i < preservingElements.length; i++) {
-				//the no data element must be a linear transform mapping to a single value
-				if(!(preservingElements[i] instanceof ConstantColorMapElement))
-					throw new IllegalArgumentException(Errors.format(ErrorKeys.ILLEGAL_ARGUMENT_$1, preservingElements));
-				final ConstantColorMapElement nc = (ConstantColorMapElement) preservingElements[i];
-				if(nc.getColors().length!=1)
-					throw new IllegalArgumentException(Errors.format(ErrorKeys.ILLEGAL_ARGUMENT_$1, nc.getColors()));
-				if (i == 0)
-				{
-					outval = nc.getOutputMaximum();
-					color=nc.getColors()[0];
-				}
-				else 
-				{	
-					if (compare(outval, nc.getOutputMaximum()) != 0)
-						throw new IllegalArgumentException(Errors.format(ErrorKeys.ILLEGAL_ARGUMENT_$1, nc.getColors()));
-					if (!color.equals(nc.getColors()[0]))
-						throw new IllegalArgumentException(Errors.format(ErrorKeys.ILLEGAL_ARGUMENT_$1, nc.getColors()));
-				}
-	
-			}
-		}
-		return preservingElements;
-	}
+    /**
+     * Ensure the specified point is one-dimensional.
+     */
+    static void checkDimension(final DirectPosition point) {
+        final int dim = point.getDimension();
+        if (dim != 1) {
+            throw new MismatchedDimensionException(Errors.format(
+                    ErrorKeys.MISMATCHED_DIMENSION_$2, Integer.valueOf(1),
+                    Integer.valueOf(dim)));
+        }
+    }
+
+    /**
+     * Check that all the output values for the various
+     * {@link DefaultConstantPiecewiseTransformElement} are equal.
+     *
+     * @param preservingElements array of {@link DefaultConstantPiecewiseTransformElement}s.
+     * @return the array of {@link DefaultConstantPiecewiseTransformElement}s if the check is
+     * successful.
+     * @throws IllegalArgumentException in case the check is unsuccessful.
+     */
+    static DefaultPiecewiseTransform1DElement[] checkPreservingElements(
+            LinearColorMapElement[] preservingElements) {
+        if (preservingElements != null) {
+            double outval = Double.NaN;
+            Color color = null;
+            for (int i = 0; i < preservingElements.length; i++) {
+                //the no data element must be a linear transform mapping to a single value
+                if (!(preservingElements[i] instanceof ConstantColorMapElement))
+                    throw new IllegalArgumentException(Errors.format(ErrorKeys
+                            .ILLEGAL_ARGUMENT_$1, preservingElements));
+                final ConstantColorMapElement nc = (ConstantColorMapElement) preservingElements[i];
+                if (nc.getColors().length != 1)
+                    throw new IllegalArgumentException(Errors.format(ErrorKeys
+                            .ILLEGAL_ARGUMENT_$1, nc.getColors()));
+                if (i == 0) {
+                    outval = nc.getOutputMaximum();
+                    color = nc.getColors()[0];
+                } else {
+                    if (compare(outval, nc.getOutputMaximum()) != 0)
+                        throw new IllegalArgumentException(Errors.format(ErrorKeys
+                                .ILLEGAL_ARGUMENT_$1, nc.getColors()));
+                    if (!color.equals(nc.getColors()[0]))
+                        throw new IllegalArgumentException(Errors.format(ErrorKeys
+                                .ILLEGAL_ARGUMENT_$1, nc.getColors()));
+                }
+
+            }
+        }
+        return preservingElements;
+    }
 }

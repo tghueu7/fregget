@@ -20,7 +20,7 @@ package org.geotools.process.vector;
 import com.vividsolutions.jts.geom.Envelope;
 
 /**
- * An affine transformation between two parallel 
+ * An affine transformation between two parallel
  * coordinate systems, one defined by an {@link Envelope}
  * and one defined by a discrete zero-based grid
  * representing the same area as the envelope.
@@ -29,9 +29,8 @@ import com.vividsolutions.jts.geom.Envelope;
  * By default output values are clamped to the input envelope.
  * This behaviour can be disabled, in which case the client
  * must check that values are in an acceptable range.
- * 
- * @author Martin Davis - OpenGeo
  *
+ * @author Martin Davis - OpenGeo
  */
 class GridTransform {
 
@@ -49,8 +48,8 @@ class GridTransform {
 
     /**
      * Creates a new transform.
-     * 
-     * @param env the envelope defining one coordinate system
+     *
+     * @param env   the envelope defining one coordinate system
      * @param xSize the number of cells along the X axis of the grid
      * @param ySize the number of cells along the Y axis of the grid
      */
@@ -65,16 +64,16 @@ class GridTransform {
     /**
      * Sets whether to clamp outputs from transform to input envelope.
      * Default is to clamp the outputs.
-     * 
+     *
      * @param isClamped true if input is to be clamped
      */
-    public void setClamp(boolean isClamped)
-    {
-        this.isClamped  = isClamped;
+    public void setClamp(boolean isClamped) {
+        this.isClamped = isClamped;
     }
-    
+
     /**
      * Computes the X ordinate of the i'th grid column.
+     *
      * @param i the index of a grid column
      * @return the X ordinate of the column
      */
@@ -86,6 +85,7 @@ class GridTransform {
 
     /**
      * Computes the Y ordinate of the i'th grid row.
+     *
      * @param j the index of a grid row
      * @return the Y ordinate of the row
      */
@@ -97,6 +97,7 @@ class GridTransform {
 
     /**
      * Computes the column index of an X ordinate.
+     *
      * @param x the X ordinate
      * @return the column index
      */
@@ -114,6 +115,7 @@ class GridTransform {
 
     /**
      * Computes the column index of an Y ordinate.
+     *
      * @param y the Y ordinate
      * @return the column index
      */

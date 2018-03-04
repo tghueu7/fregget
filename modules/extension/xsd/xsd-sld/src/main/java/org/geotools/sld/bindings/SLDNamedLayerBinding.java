@@ -19,8 +19,10 @@ package org.geotools.sld.bindings;
 import org.picocontainer.MutablePicoContainer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 import java.util.Iterator;
 import javax.xml.namespace.QName;
+
 import org.geotools.styling.LayerFeatureConstraints;
 import org.geotools.styling.NamedLayer;
 import org.geotools.styling.Style;
@@ -30,9 +32,9 @@ import org.geotools.xml.*;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:NamedLayer.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="NamedLayer"&gt;
  *      &lt;xsd:annotation&gt;
@@ -56,9 +58,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDNamedLayerBinding extends AbstractComplexBinding {
@@ -111,7 +110,7 @@ public class SLDNamedLayerBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         NamedLayer namedLayer = styleFactory.createNamedLayer();
 
         //&lt;xsd:element ref="sld:Name"/&gt;
@@ -128,7 +127,7 @@ public class SLDNamedLayerBinding extends AbstractComplexBinding {
         //  &lt;xsd:element ref="sld:NamedStyle"/&gt;
         //  &lt;xsd:element ref="sld:UserStyle"/&gt;
         //&lt;/xsd:choice&gt;
-        for (Iterator itr = node.getChildValues(Style.class).iterator(); itr.hasNext();) {
+        for (Iterator itr = node.getChildValues(Style.class).iterator(); itr.hasNext(); ) {
             namedLayer.addStyle((Style) itr.next());
         }
 

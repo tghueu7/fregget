@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.coordinate;
 
 import java.util.List;
+
 import org.opengis.geometry.primitive.CurveInterpolation;
 import org.opengis.geometry.primitive.CurveSegment;
 import org.opengis.annotation.UML;
@@ -26,16 +27,13 @@ import static org.opengis.annotation.Specification.*;
  * {@linkplain Position position} is not needed since it is to be calculated.
  * The control point sequence shall consist of the start and end points of each arc.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
- * @since GeoAPI 1.0
- *
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @see GeometryFactory#createArcStringByBulge
+ * @since GeoAPI 1.0
  */
-@UML(identifier="GM_ArcStringByBulge", specification=ISO_19107)
+@UML(identifier = "GM_ArcStringByBulge", specification = ISO_19107)
 public interface ArcStringByBulge extends CurveSegment {
     /**
      * Returns the offset of each arc's midpoint. The attribute "bulge" is the real number
@@ -51,30 +49,30 @@ public interface ArcStringByBulge extends CurveSegment {
      * depending of the distance formulae used for the coordinate reference system.
      * <p>
      * The midpoint of the resulting arc is given by:
-     *
+     * <p>
      * <blockquote><code>
      * midPoint = (({@link #getStartPoint startPoint} +
-     *              {@link #getEndPoint     endPoint})/2.0)
-     *            + bulge&times;{@link #getNormals normal}
+     * {@link #getEndPoint     endPoint})/2.0)
+     * + bulge&times;{@link #getNormals normal}
      * </code></blockquote>
      *
      * @return The offset of each arc's midpoint.
      */
-    @UML(identifier="bulge", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "bulge", obligation = MANDATORY, specification = ISO_19107)
     double[] getBulges();
 
     /**
      * Returns the number of circular arcs in the string. Since the interpolation method
      * requires overlapping sets of 2 positions, the number of arcs determines the number
      * of {@linkplain ArcString#getControlPoints control points}.
-     *
+     * <p>
      * <blockquote>
      * <pre>numArc = {@link ArcString#getControlPoints controlPoints}.length - 1</pre>
      * </blockquote>
      *
      * @return The number of circular arcs.
      */
-    @UML(identifier="numArc", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "numArc", obligation = MANDATORY, specification = ISO_19107)
     int getNumArc();
 
     /**
@@ -93,7 +91,7 @@ public interface ArcStringByBulge extends CurveSegment {
      *
      * @return The sequence of normal vectors.
      */
-    @UML(identifier="normal", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "normal", obligation = MANDATORY, specification = ISO_19107)
     List<double[]> getNormals();
 
     /**
@@ -103,7 +101,7 @@ public interface ArcStringByBulge extends CurveSegment {
      *
      * @return Always {@link CurveInterpolation#CIRCULAR_ARC_2_POINTS_WITH_BULGE}.
      */
-    @UML(identifier="interpolation", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "interpolation", obligation = MANDATORY, specification = ISO_19107)
     CurveInterpolation getInterpolation();
 
     /**
@@ -111,6 +109,6 @@ public interface ArcStringByBulge extends CurveSegment {
      *
      * @return This arc string by bulge as a base {@linkplain ArcString arc string}.
      */
-    @UML(identifier="asGM_ArcString", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "asGM_ArcString", obligation = MANDATORY, specification = ISO_19107)
     ArcString asArcString();
 }

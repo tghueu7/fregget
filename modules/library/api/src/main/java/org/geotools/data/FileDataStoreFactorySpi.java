@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -28,8 +28,6 @@ import java.net.URL;
  * </p>
  *
  * @author dzwiers
- *
- *
  * @source $URL$
  */
 public interface FileDataStoreFactorySpi extends DataStoreFactorySpi {
@@ -37,7 +35,7 @@ public interface FileDataStoreFactorySpi extends DataStoreFactorySpi {
      * The list of filename extentions handled by this factory.
      *
      * @return List of file extensions which can be read by this
-     *         dataStore.
+     * dataStore.
      */
     public String[] getFileExtensions();
 
@@ -45,8 +43,8 @@ public interface FileDataStoreFactorySpi extends DataStoreFactorySpi {
      * Tests if the provided url can be handled by this factory.
      *
      * @param url URL to a real file (may not be local)
-     *
-     * @return <code>true</code> if this url can when this dataStore can resolve and read the data specified
+     * @return <code>true</code> if this url can when this dataStore can resolve and read the 
+     * data specified
      */
     public boolean canProcess(URL url);
 
@@ -57,13 +55,11 @@ public interface FileDataStoreFactorySpi extends DataStoreFactorySpi {
      * via the traditional createDataStore( Map ) method provided by the
      * superclass.
      * <p>
+     *
      * @param url The data location for the
-     *
      * @return Returns an AbstractFileDataStore created from the data source
-     *         provided.
-     *
+     * provided.
      * @throws IOException
-     *
      * @see AbstractFileDataStore
      */
     public FileDataStore createDataStore(URL url) throws IOException;
@@ -72,11 +68,9 @@ public interface FileDataStoreFactorySpi extends DataStoreFactorySpi {
      * The typeName represented by the provided url.
      *
      * @param url The location of the datum to parse into features
-     *
      * @return Returns the typename of the datum specified (on occasion this
-     *         may involve starting the parse as well to get the FeatureType
-     *         -- may not be instantanious).
-     *
+     * may involve starting the parse as well to get the FeatureType
+     * -- may not be instantanious).
      * @throws IOException
      */
     public String getTypeName(URL url) throws IOException;

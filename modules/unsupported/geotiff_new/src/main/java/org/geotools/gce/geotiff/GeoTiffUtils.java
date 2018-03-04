@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.geotools.gce.geotiff;
 
@@ -46,18 +46,18 @@ import org.opengis.referencing.operation.MathTransform;
 /**
  * Sparse utilities for the various classes. I use them to extract complex code
  * from other places.
- * 
- * @author Simone Giannecchini, GeoSolutions S.A.S.
- * 
  *
+ * @author Simone Giannecchini, GeoSolutions S.A.S.
  * @source $URL$
  */
 public class GeoTiffUtils {
 
-    /** Logger for the {@link GeoTiffUtils} class. */
+    /**
+     * Logger for the {@link GeoTiffUtils} class.
+     */
     private final static Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger(GeoTiffUtils.class.toString());
-        
+
     public static CoordinateReferenceSystem WGS84 = DefaultGeographicCRS.WGS84;
 
     static URL checkSource(Object source) throws MalformedURLException, DataSourceException {
@@ -106,12 +106,10 @@ public class GeoTiffUtils {
 
     /**
      * Checks that a {@link File} is a real file, exists and is readable.
-     * 
-     * @param file
-     *            the {@link File} instance to check. Must not be null.
-     * 
+     *
+     * @param file the {@link File} instance to check. Must not be null.
      * @return <code>true</code> in case the file is a real file, exists and is
-     *         readable; <code>false </code> otherwise.
+     * readable; <code>false </code> otherwise.
      */
     static boolean checkFileReadable(final File file) {
         if (LOGGER.isLoggable(Level.FINE)) {
@@ -231,20 +229,17 @@ public class GeoTiffUtils {
      * Creates image metadata which complies to the GeoTIFFWritingUtilities
      * specification for the given image writer, image type and
      * GeoTIFFWritingUtilities metadata.
-     * 
-     * @param writer
-     *            the image writer, must not be null
-     * @param type
-     *            the image type, must not be null
-     * @param geoTIFFMetadata
-     *            the GeoTIFFWritingUtilities metadata, must not be null
+     *
+     * @param writer          the image writer, must not be null
+     * @param type            the image type, must not be null
+     * @param geoTIFFMetadata the GeoTIFFWritingUtilities metadata, must not be null
      * @param params
      * @return the image metadata, never null
-     * @throws IIOException
-     *             if the metadata cannot be created
+     * @throws IIOException if the metadata cannot be created
      */
     final static IIOMetadata createGeoTiffIIOMetadata(ImageWriter writer, ImageTypeSpecifier type,
-            GeoTiffIIOMetadataEncoder geoTIFFMetadata, ImageWriteParam params) throws IIOException {
+                                                      GeoTiffIIOMetadataEncoder geoTIFFMetadata, 
+                                                      ImageWriteParam params) throws IIOException {
         IIOMetadata imageMetadata = writer.getDefaultImageMetadata(type, params);
         imageMetadata = writer.convertImageMetadata(imageMetadata, type, params);
         org.w3c.dom.Element w3cElement = (org.w3c.dom.Element) imageMetadata
@@ -272,10 +267,14 @@ public class GeoTiffUtils {
         return imageMetadata;
     }
 
-    /** factory for getting tiff writers. */
+    /**
+     * factory for getting tiff writers.
+     */
     public final static TIFFImageWriterSpi TIFFWRITERFACTORY = new TIFFImageWriterSpi();
 
-    /** SPI for creating tiff readers in ImageIO tools */
+    /**
+     * SPI for creating tiff readers in ImageIO tools
+     */
     public final static TIFFImageReaderSpi TIFFREADERFACTORY = new TIFFImageReaderSpi();
 
     public static final double AFFINE_IDENTITY_EPS = 1E-6;

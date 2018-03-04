@@ -27,7 +27,7 @@ import org.geotools.tile.impl.ZoomLevel;
 
 /**
  * The tile implementation for the OpenStreetMap family
- * 
+ *
  * @author Tobias Sauerwein
  * @author Ugo Taddei
  * @since 12

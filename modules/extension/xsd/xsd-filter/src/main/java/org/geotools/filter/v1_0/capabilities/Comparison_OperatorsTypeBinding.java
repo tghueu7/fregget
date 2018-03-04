@@ -19,6 +19,7 @@ package org.geotools.filter.v1_0.capabilities;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.capability.ComparisonOperators;
 import org.opengis.filter.capability.Operator;
@@ -27,9 +28,9 @@ import org.geotools.xml.*;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:Comparison_OperatorsType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="Comparison_OperatorsType"&gt;
  *      &lt;xsd:choice maxOccurs="unbounded"&gt;
@@ -45,9 +46,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class Comparison_OperatorsTypeBinding extends AbstractComplexBinding {
@@ -81,7 +79,7 @@ public class Comparison_OperatorsTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         List comparisons = new ArrayList();
 
         //&lt;xsd:element ref="ogc:Simple_Comparisons"/&gt;
@@ -114,7 +112,7 @@ public class Comparison_OperatorsTypeBinding extends AbstractComplexBinding {
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         ComparisonOperators comparison = (ComparisonOperators) object;
 
         if (name.equals(OGC.Simple_Comparisons) && (comparison.getOperator("LessThan") != null)) {

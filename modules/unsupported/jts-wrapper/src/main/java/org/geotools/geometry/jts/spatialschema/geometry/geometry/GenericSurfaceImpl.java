@@ -2,7 +2,8 @@
  **
  ** $Id$
  **
- ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/geometry/GenericSurfaceImpl.java,v $
+ ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/geometry
+ * /GenericSurfaceImpl.java,v $
  **
  ** Copyright (C) 2003 Open GIS Consortium, Inc. All Rights Reserved. http://www.opengis.org/Legal/
  **
@@ -10,6 +11,7 @@
 package org.geotools.geometry.jts.spatialschema.geometry.geometry;
 
 // OpenGIS direct dependencies
+
 import org.opengis.geometry.DirectPosition;
 import org.opengis.geometry.coordinate.GenericSurface;
 
@@ -20,34 +22,30 @@ import org.opengis.geometry.coordinate.GenericSurface;
  * and {@code SurfacePatch} represent sections of surface geometry,
  * and therefore share a number of operation signatures.
  *
- * @UML type GM_GenericSurface
  * @author ISO/DIS 19107
  * @author <A HREF="http://www.opengis.org">OpenGIS&reg; consortium</A>
- *
- *
- *
- *
- * @source $URL$
  * @version 2.0
- *
+ * @UML type GM_GenericSurface
+ * @source $URL$
  * @revisit Why this interface is not defined in the primitive package, since the sub-interfaces
- *          ({@link org.opengis.geometry.primitive.Surface} and {@link org.opengis.geometry.primitive.SurfacePatch})
- *          belong to that package?
+ * ({@link org.opengis.geometry.primitive.Surface} and 
+ * {@link org.opengis.geometry.primitive.SurfacePatch})
+ * belong to that package?
  */
 public abstract class GenericSurfaceImpl implements GenericSurface {
-    
+
     //*************************************************************************
     //  Fields
     //*************************************************************************
-    
+
     //*************************************************************************
     //  Constructor
     //*************************************************************************
-    
+
     //*************************************************************************
     //  implement the GenericSurface interface
     //*************************************************************************
-    
+
     /**
      * Returns a vector perpendicular to the {@code GenericSurface} at the
      * {@linkplain DirectPosition direct position} passed, which must be on this
@@ -58,7 +56,7 @@ public abstract class GenericSurfaceImpl implements GenericSurface {
      * The side of the surface indicated by the {@code upNormal} is referred
      * to as the "top." The function "upNormal" shall be continuous and the length
      * of the normal shall always be equal to 1.0.
-     *
+     * <p>
      * <blockquote><font size=2>
      * <strong>NOTE:</strong> The upNormal along a boundary of a solid always points away from the
      * solid. This is a slight semantics problem in dealing with voids within solids, where the
@@ -85,7 +83,7 @@ public abstract class GenericSurfaceImpl implements GenericSurface {
      * {@code GenericSurface}. Since perimeter, like length, is an accumulation
      * (integral) of distance, its return value shall be in a reference system appropriate
      * for measuring distances.
-     *
+     * <p>
      * <blockquote><font size=2>
      * <strong>NOTE:</strong> The perimeter is defined as the sum of the lengths of all boundary
      * components. The length of a curve or of a collection of curves is always positive and
@@ -105,7 +103,7 @@ public abstract class GenericSurfaceImpl implements GenericSurface {
      * area is an accumulation (integral) of the product of two distances, its return value shall
      * be in a unit of measure appropriate for measuring distances squared, such as meters squared
      * (m<sup>2</sup>).
-     *
+     * <p>
      * <blockquote><font size=2>
      * <strong>NOTE:</strong> Consistent with the definition of surface as a set of
      * {@linkplain DirectPosition direct positions}, holes in the surfaces will not contribute to
@@ -116,7 +114,6 @@ public abstract class GenericSurfaceImpl implements GenericSurface {
      *
      * @return The area.
      * @UML operation area
-     *
      * @revisit In UML diagram, the return type is {@code Area}.
      */
     public abstract double getArea();

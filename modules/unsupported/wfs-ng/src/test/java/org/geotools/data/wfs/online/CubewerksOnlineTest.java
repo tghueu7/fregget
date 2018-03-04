@@ -40,12 +40,16 @@ public class CubewerksOnlineTest {
 
     // old server -- do not test version 0.0.16
     // url = new
-    // URL("http://ceoware2.ccrs.nrcan.gc.ca/cubewerx/cwwfs/cubeserv.cgi?datastore=CEOWARE2&version=1.0.0&service=WFS&request=GetCapabilities");
+    // URL("http://ceoware2.ccrs.nrcan.gc.ca/cubewerx/cwwfs/cubeserv
+    // .cgi?datastore=CEOWARE2&version=1.0.0&service=WFS&request=GetCapabilities");
     // url = new
-    // URL("http://cgns.nrcan.gc.ca/wfs/cubeserv.cgi?DATASTORE=cgns&REQUEST=GetCapabilities&VERSION=1.0.0&SERVICE=WFS");
-    private static String SERVER_URL_100 = "http://demo.cubewerx.com/demo/cubeserv/cubeserv.cgi?SERVICE=wfs&DATASTORE=Foundation&version=1.0.0&request=GetCapabilities";
+    // URL("http://cgns.nrcan.gc.ca/wfs/cubeserv
+    // .cgi?DATASTORE=cgns&REQUEST=GetCapabilities&VERSION=1.0.0&SERVICE=WFS");
+    private static String SERVER_URL_100 = "http://demo.cubewerx.com/demo/cubeserv/cubeserv" +
+            ".cgi?SERVICE=wfs&DATASTORE=Foundation&version=1.0.0&request=GetCapabilities";
 
-    private static String SERVER_URL_110 = "http://demo.cubewerx.com/demo/cubeserv/cubeserv.cgi?SERVICE=wfs&DATASTORE=Foundation&version=1.1.0&request=GetCapabilities";
+    private static String SERVER_URL_110 = "http://demo.cubewerx.com/demo/cubeserv/cubeserv" +
+            ".cgi?SERVICE=wfs&DATASTORE=Foundation&version=1.1.0&request=GetCapabilities";
 
     private static URL url_100;
 
@@ -81,7 +85,7 @@ public class CubewerksOnlineTest {
                 url_100 = null;
                 Loggers.info("Can't obtain 1.0.0 DataStore, 1.0.0 tests disabled: "
                         + t.getMessage());
-            }            
+            }
         }
         if (url_110 != null) {
             Loggers.info("Creating 1.1.0 datastore from ", url_110);
@@ -92,7 +96,7 @@ public class CubewerksOnlineTest {
                 url_110 = null;
                 Loggers.info("Can't obtain 1.1.0 DataStore, 1.1.0 tests disabled: "
                         + t.getMessage());
-            }            
+            }
         }
     }
 

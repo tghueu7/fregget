@@ -14,8 +14,6 @@ import org.opengis.referencing.operation.MathTransformFactory;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class CassiniSoldnerTest {
@@ -28,7 +26,7 @@ public class CassiniSoldnerTest {
     public void testEpsgExample() throws Exception {
         MathTransformFactory mtFactory = ReferencingFactoryFinder.getMathTransformFactory(null);
         final ParameterValueGroup parameters = mtFactory.getDefaultParameters("Cassini-Soldner");
-        
+
         // build the transformation using the guidance provided values
         final double feetToMeter = 0.3048; // ft -> mt
         final double linkToMeter = 0.66 * feetToMeter; // Clark's links -> mt
@@ -41,29 +39,29 @@ public class CassiniSoldnerTest {
         MathTransform transform = mtFactory.createParameterizedTransform(parameters);
 
         // results as provided by the EPSG guidance
-        final double[] point = new double[] { -62, 10 };
-        final double[] expected = new double[] { 66644.94 * linkToMeter, 82536.22 * linkToMeter };
-        
+        final double[] point = new double[]{-62, 10};
+        final double[] expected = new double[]{66644.94 * linkToMeter, 82536.22 * linkToMeter};
+
         // check forward transform
         final double[] forward = new double[2];
         transform.transform(point, 0, forward, 0, 1);
         assertEquals(expected[0], forward[0], 1e-1);
         assertEquals(expected[1], forward[1], 1e-1);
-        
+
         // check inverse transform
         final double[] inverse = new double[2];
         transform.inverse().transform(expected, 0, inverse, 0, 1);
         assertEquals(point[0], inverse[0], 1e-4);
         assertEquals(inverse[1], inverse[1], 1e-4);
     }
-    
+
     /**
      * Extracts the {@link ParameterValue} for a certain {@link ParameterDescriptor}
      */
     ParameterValue parameter(ParameterDescriptor param, ParameterValueGroup group) {
         return group.parameter(param.getName().getCode());
     }
-    
+
     /**
      * Converts a DMS value into degrees
      */

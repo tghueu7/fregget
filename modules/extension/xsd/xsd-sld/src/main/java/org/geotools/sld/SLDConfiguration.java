@@ -82,10 +82,6 @@ import org.picocontainer.MutablePicoContainer;
  * Parser configuration for the Styled Layer Descriptor  schema.
  *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
- *
  * @source $URL$
  */
 public class SLDConfiguration extends Configuration {
@@ -101,30 +97,31 @@ public class SLDConfiguration extends Configuration {
     protected void registerBindings(MutablePicoContainer container) {
         //Types
         container.registerComponentImplementation(SLD.PARAMETERVALUETYPE,
-            SLDParameterValueTypeBinding.class);
+                SLDParameterValueTypeBinding.class);
         container.registerComponentImplementation(SLD.SELECTEDCHANNELTYPE,
-            SLDSelectedChannelTypeBinding.class);
-        container.registerComponentImplementation(SLD.SYMBOLIZERTYPE, SLDSymbolizerTypeBinding.class);
+                SLDSelectedChannelTypeBinding.class);
+        container.registerComponentImplementation(SLD.SYMBOLIZERTYPE, SLDSymbolizerTypeBinding
+                .class);
 
         //Elements
         container.registerComponentImplementation(SLD.ANCHORPOINT, SLDAnchorPointBinding.class);
         container.registerComponentImplementation(SLD.CHANNELSELECTION,
-            SLDChannelSelectionBinding.class);
+                SLDChannelSelectionBinding.class);
         container.registerComponentImplementation(SLD.COLORMAP, SLDColorMapBinding.class);
         container.registerComponentImplementation(SLD.COLORMAPENTRY, SLDColorMapEntryBinding.class);
         container.registerComponentImplementation(SLD.CONTRASTENHANCEMENT,
-            SLDContrastEnhancementBinding.class);
+                SLDContrastEnhancementBinding.class);
         container.registerComponentImplementation(SLD.CSSPARAMETER, SLDCssParameterBinding.class);
         container.registerComponentImplementation(SLD.DISPLACEMENT, SLDDisplacementBinding.class);
 
         container.registerComponentImplementation(SLD.EXTENT, SLDExtentBinding.class);
         container.registerComponentImplementation(SLD.EXTERNALGRAPHIC,
-            SLDExternalGraphicBinding.class);
+                SLDExternalGraphicBinding.class);
         container.registerComponentImplementation(SLD.FEATURETYPECONSTRAINT,
-            SLDFeatureTypeConstraintBinding.class);
+                SLDFeatureTypeConstraintBinding.class);
 
         container.registerComponentImplementation(SLD.FEATURETYPESTYLE,
-            SLDFeatureTypeStyleBinding.class);
+                SLDFeatureTypeStyleBinding.class);
         container.registerComponentImplementation(SLD.FILL, SLDFillBinding.class);
         container.registerComponentImplementation(SLD.FONT, SLDFontBinding.class);
 
@@ -137,32 +134,36 @@ public class SLDConfiguration extends Configuration {
         container.registerComponentImplementation(SLD.HISTOGRAM, SLDHistogramBinding.class);
         container.registerComponentImplementation(SLD.IMAGEOUTLINE, SLDImageOutlineBinding.class);
 
-        container.registerComponentImplementation(SLD.LABELPLACEMENT, SLDLabelPlacementBinding.class);
+        container.registerComponentImplementation(SLD.LABELPLACEMENT, SLDLabelPlacementBinding
+                .class);
 
         container.registerComponentImplementation(SLD.LAYERFEATURECONSTRAINTS,
-            SLDLayerFeatureConstraintsBinding.class);
+                SLDLayerFeatureConstraintsBinding.class);
         container.registerComponentImplementation(SLD.LEGENDGRAPHIC, SLDLegendGraphicBinding.class);
         container.registerComponentImplementation(SLD.LINEPLACEMENT, SLDLinePlacementBinding.class);
-        container.registerComponentImplementation(SLD.LINESYMBOLIZER, SLDLineSymbolizerBinding.class);
+        container.registerComponentImplementation(SLD.LINESYMBOLIZER, SLDLineSymbolizerBinding
+                .class);
         container.registerComponentImplementation(SLD.MARK, SLDMarkBinding.class);
 
         container.registerComponentImplementation(SLD.NAMEDLAYER, SLDNamedLayerBinding.class);
         container.registerComponentImplementation(SLD.NAMEDSTYLE, SLDNamedStyleBinding.class);
         container.registerComponentImplementation(SLD.NORMALIZE, SLDNormalizeBinding.class);
-        container.registerComponentImplementation(SLD.ONLINERESOURCE, SLDOnlineResourceBinding.class);
+        container.registerComponentImplementation(SLD.ONLINERESOURCE, SLDOnlineResourceBinding
+                .class);
 
         container.registerComponentImplementation(SLD.OVERLAPBEHAVIOR,
-            SLDOverlapBehaviorBinding.class);
+                SLDOverlapBehaviorBinding.class);
         container.registerComponentImplementation(SLD.PERPENDICULAROFFSET,
-            SLDPerpendicularOffsetBinding.class);
-        container.registerComponentImplementation(SLD.POINTPLACEMENT, SLDPointPlacementBinding.class);
+                SLDPerpendicularOffsetBinding.class);
+        container.registerComponentImplementation(SLD.POINTPLACEMENT, SLDPointPlacementBinding
+                .class);
         container.registerComponentImplementation(SLD.POINTSYMBOLIZER,
-            SLDPointSymbolizerBinding.class);
+                SLDPointSymbolizerBinding.class);
         container.registerComponentImplementation(SLD.POLYGONSYMBOLIZER,
-            SLDPolygonSymbolizerBinding.class);
+                SLDPolygonSymbolizerBinding.class);
 
         container.registerComponentImplementation(SLD.RASTERSYMBOLIZER,
-            SLDRasterSymbolizerBinding.class);
+                SLDRasterSymbolizerBinding.class);
 
         container.registerComponentImplementation(SLD.REMOTEOWS, SLDRemoteOWSBinding.class);
 
@@ -174,13 +175,14 @@ public class SLDConfiguration extends Configuration {
 
         container.registerComponentImplementation(SLD.STROKE, SLDStrokeBinding.class);
         container.registerComponentImplementation(SLD.STYLEDLAYERDESCRIPTOR,
-            SLDStyledLayerDescriptorBinding.class);
+                SLDStyledLayerDescriptorBinding.class);
         container.registerComponentImplementation(SLD.SYMBOLIZER, SLDSymbolizerBinding.class);
-        container.registerComponentImplementation(SLD.TEXTSYMBOLIZER, SLDTextSymbolizerBinding.class);
+        container.registerComponentImplementation(SLD.TEXTSYMBOLIZER, SLDTextSymbolizerBinding
+                .class);
 
         container.registerComponentImplementation(SLD.USERLAYER, SLDUserLayerBinding.class);
         container.registerComponentImplementation(SLD.USERSTYLE, SLDUserStyleBinding.class);
-        
+
         container.registerComponentImplementation(SLD.VENDOROPTION, SLDVendorOptionBinding.class);
     }
 
@@ -199,7 +201,7 @@ public class SLDConfiguration extends Configuration {
         container.registerComponentImplementation(StyleFactory.class, StyleFactoryImpl.class);
         container.registerComponentInstance(ResourceLocator.class, new DefaultResourceLocator());
     }
-    
+
     @Override
     protected void configureParser(Parser parser) {
         parser.setHandleMixedContent(true);

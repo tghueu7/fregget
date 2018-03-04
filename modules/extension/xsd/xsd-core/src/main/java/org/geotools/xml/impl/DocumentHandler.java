@@ -19,8 +19,6 @@ package org.geotools.xml.impl;
 import org.xml.sax.SAXException;
 
 /**
- * 
- *
  * @source $URL$
  */
 public interface DocumentHandler extends Handler {
@@ -32,8 +30,8 @@ public interface DocumentHandler extends Handler {
      */
 
     //ElementHandler getDocumentElementHandler();
-    
+
     void startDocument() throws SAXException;
-    
+
     void endDocument() throws SAXException;
 }

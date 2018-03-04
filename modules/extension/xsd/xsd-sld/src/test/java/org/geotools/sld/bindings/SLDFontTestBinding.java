@@ -21,8 +21,6 @@ import org.geotools.styling.Font;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SLDFontTestBinding extends SLDTestSupport {
@@ -40,7 +38,7 @@ public class SLDFontTestBinding extends SLDTestSupport {
         assertEquals("normal", Filters.asString(font.getFontWeight()));
         assertEquals(14, Filters.asInt(font.getFontSize()));
     }
-    
+
     public void testDefaultFont() throws Exception {
         SLDMockData.element(SLD.FONT, document, document);
         Font font = (Font) parse();

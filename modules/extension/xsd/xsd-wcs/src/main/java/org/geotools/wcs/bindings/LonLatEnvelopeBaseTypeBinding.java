@@ -24,35 +24,38 @@ import org.w3c.dom.Element;
 /**
  * Binding object for the type
  * http://www.opengis.net/wcs:LonLatEnvelopeBaseType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
- *	 <code>
+ * 	 <code>
  *  &lt;complexType name=&quot;LonLatEnvelopeBaseType&quot;&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;For WCS use, LonLatEnvelopeBaseType restricts gml:Envelope to the WGS84 geographic CRS with Longitude preceding Latitude and both using decimal degrees only. If included, height values are third and use metre units. &lt;/documentation&gt;
- *          &lt;documentation&gt;Envelope defines an extent using a pair of positions defining opposite corners in arbitrary dimensions. &lt;/documentation&gt;
+ *          &lt;documentation&gt;For WCS use, LonLatEnvelopeBaseType restricts gml:Envelope to 
+ *          the WGS84 geographic CRS with Longitude preceding Latitude and both using decimal 
+ *          degrees only. If included, height values are third and use metre units. &lt;
+ *          /documentation&gt;
+ *          &lt;documentation&gt;Envelope defines an extent using a pair of positions defining 
+ *          opposite corners in arbitrary dimensions. &lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;complexContent&gt;
  *          &lt;restriction base=&quot;gml:EnvelopeType&quot;&gt;
  *              &lt;sequence&gt;
- *                  &lt;element maxOccurs=&quot;2&quot; minOccurs=&quot;2&quot; ref=&quot;gml:pos&quot;/&gt;
+ *                  &lt;element maxOccurs=&quot;2&quot; minOccurs=&quot;2&quot; ref=&quot;
+ *                  gml:pos&quot;/&gt;
  *              &lt;/sequence&gt;
  *              &lt;attribute fixed=&quot;urn:ogc:def:crs:OGC:1.3:CRS84&quot;
  *                  name=&quot;srsName&quot; type=&quot;anyURI&quot; use=&quot;optional&quot;/&gt;
  *          &lt;/restriction&gt;
  *      &lt;/complexContent&gt;
- *  &lt;/complexType&gt; 
- * 	
+ *  &lt;/complexType&gt;
+ *
  * </code>
- *	 </pre>
- * 
+ * 	 </pre>
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class LonLatEnvelopeBaseTypeBinding extends AbstractComplexBinding {
@@ -66,7 +69,7 @@ public class LonLatEnvelopeBaseTypeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class<GeneralEnvelope> getType() {
@@ -74,10 +77,10 @@ public class LonLatEnvelopeBaseTypeBinding extends AbstractComplexBinding {
     }
 
     /**
-     * <!-- begin-user-doc --> 
+     * <!-- begin-user-doc -->
      * ATTENTION: I'm assuming a LatLon envelope here.
      * <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
@@ -91,7 +94,7 @@ public class LonLatEnvelopeBaseTypeBinding extends AbstractComplexBinding {
             GeneralDirectPosition p2 = (GeneralDirectPosition) n2.getValue();
 
             GeneralEnvelope envelope = new GeneralEnvelope(p1, p2);
-            
+
             if (p1.getDimension() == 2 && p1.getDimension() == 2) {
                 envelope.setCoordinateReferenceSystem(DefaultGeographicCRS.WGS84);
 
@@ -112,7 +115,7 @@ public class LonLatEnvelopeBaseTypeBinding extends AbstractComplexBinding {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.xml.AbstractComplexBinding#getExecutionMode()
      */
     @Override
@@ -166,9 +169,11 @@ public class LonLatEnvelopeBaseTypeBinding extends AbstractComplexBinding {
 
             if (spatialCRS != null) {
                 List<DirectPosition> envelopePositions = new LinkedList<DirectPosition>();
-                
-                GeneralDirectPosition lowerCorner = new GeneralDirectPosition(envelope.getCoordinateReferenceSystem());
-                GeneralDirectPosition upperCorner = new GeneralDirectPosition(envelope.getCoordinateReferenceSystem());
+
+                GeneralDirectPosition lowerCorner = new GeneralDirectPosition(envelope
+                        .getCoordinateReferenceSystem());
+                GeneralDirectPosition upperCorner = new GeneralDirectPosition(envelope
+                        .getCoordinateReferenceSystem());
 
                 for (int i = 0; i < spatialCRS.getCoordinateSystem().getDimension(); i++) {
                     lowerCorner.setOrdinate(i, envelope.getLowerCorner().getOrdinate(i));

@@ -61,11 +61,8 @@ import junit.textui.TestRunner;
 
 /**
  * Testing {@link OverviewsController}.
- * 
+ *
  * @author Daniele Romagnoli, GeoSolutions SAS
- * 
- * 
- * 
  * @source $URL$
  */
 public class OverviewsControllerTest extends Assert {
@@ -118,15 +115,23 @@ public class OverviewsControllerTest extends Assert {
     }
 
     private final static TestSet at1 = new TestSet(new OverviewConfig[]{
-            new OverviewConfig(OverviewPolicy.QUALITY, new GranuleParams(3, 1, 1), new GranuleParams(2, 1, 1)),
-            new OverviewConfig(OverviewPolicy.SPEED, new GranuleParams(4, 1, 1), new GranuleParams(2, 1, 1)),
-            new OverviewConfig(OverviewPolicy.NEAREST, new GranuleParams(3, 1, 1), new GranuleParams(2, 1, 1)),
-            new OverviewConfig(OverviewPolicy.IGNORE, new GranuleParams(0, 9, 9), new GranuleParams(0, 5, 5))});
+            new OverviewConfig(OverviewPolicy.QUALITY, new GranuleParams(3, 1, 1), new 
+                    GranuleParams(2, 1, 1)),
+            new OverviewConfig(OverviewPolicy.SPEED, new GranuleParams(4, 1, 1), new 
+                    GranuleParams(2, 1, 1)),
+            new OverviewConfig(OverviewPolicy.NEAREST, new GranuleParams(3, 1, 1), new 
+                    GranuleParams(2, 1, 1)),
+            new OverviewConfig(OverviewPolicy.IGNORE, new GranuleParams(0, 9, 9), new 
+                    GranuleParams(0, 5, 5))});
     private final static TestSet at2 = new TestSet(new OverviewConfig[]{
-            new OverviewConfig(OverviewPolicy.QUALITY, new GranuleParams(3, 1, 1), new GranuleParams(2, 1, 2)),
-            new OverviewConfig(OverviewPolicy.SPEED, new GranuleParams(4, 1, 1), new GranuleParams(2, 1, 2)),
-            new OverviewConfig(OverviewPolicy.NEAREST, new GranuleParams(3, 1, 1), new GranuleParams(2, 1, 2)),
-            new OverviewConfig(OverviewPolicy.IGNORE, new GranuleParams(0, 9, 9), new GranuleParams(0, 5, 5))});
+            new OverviewConfig(OverviewPolicy.QUALITY, new GranuleParams(3, 1, 1), new 
+                    GranuleParams(2, 1, 2)),
+            new OverviewConfig(OverviewPolicy.SPEED, new GranuleParams(4, 1, 1), new 
+                    GranuleParams(2, 1, 2)),
+            new OverviewConfig(OverviewPolicy.NEAREST, new GranuleParams(3, 1, 1), new 
+                    GranuleParams(2, 1, 2)),
+            new OverviewConfig(OverviewPolicy.IGNORE, new GranuleParams(0, 9, 9), new 
+                    GranuleParams(0, 5, 5))});
 
     private final static Logger LOGGER = Logger.getLogger(OverviewsControllerTest.class.toString());
 
@@ -135,18 +140,18 @@ public class OverviewsControllerTest extends Assert {
     }
 
     private static final ImageReaderSpi spi = new TIFFImageReaderSpi();
-    
+
     /**
      * Tests the {@link OverviewsController} with support for different
      * resolutions/different number of overviews.
-     * 
-     * world_a.tif => Pixel Size = (0.833333333333333,-0.833333333333333); 4 overviews 
-     * world_b.tif => Pixel Size = (1.406250000000000,-1.406250000000000); 2 overviews 
-     * 
+     * <p>
+     * world_a.tif => Pixel Size = (0.833333333333333,-0.833333333333333); 4 overviews
+     * world_b.tif => Pixel Size = (1.406250000000000,-1.406250000000000); 2 overviews
+     *
      * @throws IOException
      * @throws MismatchedDimensionException
      * @throws FactoryException
-     * @throws TransformException 
+     * @throws TransformException
      */
     @Test
     public void testHeterogeneousGranules() throws IOException,
@@ -164,11 +169,13 @@ public class OverviewsControllerTest extends Assert {
         // //
         final Hints hints = new Hints(Hints.DEFAULT_COORDINATE_REFERENCE_SYSTEM, WGS84);
         hints.put(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER, true);
-        final AbstractGridFormat format = (AbstractGridFormat) GridFormatFinder.findFormat(heterogeneousGranulesURL, hints);
+        final AbstractGridFormat format = (AbstractGridFormat) GridFormatFinder.findFormat
+                (heterogeneousGranulesURL, hints);
         Assert.assertNotNull(format);
         Assert.assertFalse("UknownFormat", format instanceof UnknownFormat);
 
-        final ImageMosaicReader reader = (ImageMosaicReader) format.getReader(heterogeneousGranulesURL, hints);
+        final ImageMosaicReader reader = (ImageMosaicReader) format.getReader
+                (heterogeneousGranulesURL, hints);
         Assert.assertNotNull(reader);
 
         final String name = reader.getGridCoverageNames()[0];
@@ -187,7 +194,7 @@ public class OverviewsControllerTest extends Assert {
         final ImageReadParam readParamsG2 = new ImageReadParam();
         int imageIndexG1 = 0;
         int imageIndexG2 = 0;
-        
+
         final GranuleDescriptor granuleDescriptor1 = new GranuleDescriptor(g1File.getAbsolutePath(),
                 TEST_BBOX_A, spi, (MultiLevelROI) null, -1, true, false, hints);
         final GranuleDescriptor granuleDescriptor2 = new GranuleDescriptor(g2File.getAbsolutePath(),
@@ -205,12 +212,14 @@ public class OverviewsControllerTest extends Assert {
         // //
         final GeneralEnvelope envelope = reader.getOriginalEnvelope();
         final GridEnvelope originalRange = reader.getOriginalGridRange();
-        final Rectangle rasterArea = new Rectangle(0, 0, (int) Math.ceil(originalRange.getSpan(0) / 9.0), (int) Math.ceil(originalRange.getSpan(1) / 9.0));
+        final Rectangle rasterArea = new Rectangle(0, 0, (int) Math.ceil(originalRange.getSpan(0)
+                / 9.0), (int) Math.ceil(originalRange.getSpan(1) / 9.0));
         final GridEnvelope2D range = new GridEnvelope2D(rasterArea);
         final GridToEnvelopeMapper geMapper = new GridToEnvelopeMapper(range, envelope);
         geMapper.setPixelAnchor(PixelInCell.CELL_CENTER);
         final AffineTransform gridToWorld = geMapper.createAffineTransform();
-        final double requestedResolution[] = new double[]{XAffineTransform.getScaleX0(gridToWorld), XAffineTransform.getScaleY0(gridToWorld)}; 
+        final double requestedResolution[] = new double[]{XAffineTransform.getScaleX0
+                (gridToWorld), XAffineTransform.getScaleY0(gridToWorld)};
 
         TestSet at = null;
         if (nOv == 4 && Math.abs(hRes[0][0] - 0.833333333333) <= THRESHOLD) {
@@ -220,18 +229,21 @@ public class OverviewsControllerTest extends Assert {
         } else {
             return;
         }
-        
+
         // //
         //
         // Starting OverviewsController tests
         //
         // //
-        final OverviewPolicy[] ovPolicies = new OverviewPolicy[]{OverviewPolicy.QUALITY, OverviewPolicy.SPEED, OverviewPolicy.NEAREST, OverviewPolicy.IGNORE};
-        for (int i = 0; i < ovPolicies.length; i++){
-            OverviewPolicy ovPolicy = ovPolicies[i]; 
+        final OverviewPolicy[] ovPolicies = new OverviewPolicy[]{OverviewPolicy.QUALITY, 
+                OverviewPolicy.SPEED, OverviewPolicy.NEAREST, OverviewPolicy.IGNORE};
+        for (int i = 0; i < ovPolicies.length; i++) {
+            OverviewPolicy ovPolicy = ovPolicies[i];
             LOGGER.info("Testing with OverviewPolicy = " + ovPolicy.toString());
-            imageIndexG1 = ReadParamsController.setReadParams(requestedResolution, ovPolicy, DecimationPolicy.ALLOW, readParamsG1, rasterManager, ovControllerG1);
-            imageIndexG2 = ReadParamsController.setReadParams(requestedResolution, ovPolicy, DecimationPolicy.ALLOW, readParamsG2, rasterManager, ovControllerG2);
+            imageIndexG1 = ReadParamsController.setReadParams(requestedResolution, ovPolicy, 
+                    DecimationPolicy.ALLOW, readParamsG1, rasterManager, ovControllerG1);
+            imageIndexG2 = ReadParamsController.setReadParams(requestedResolution, ovPolicy, 
+                    DecimationPolicy.ALLOW, readParamsG2, rasterManager, ovControllerG2);
             assertSame(at.ot[i].g1.imageIndex, imageIndexG1);
             assertSame(at.ot[i].g2.imageIndex, imageIndexG2);
             assertSame(at.ot[i].g1.ssx, readParamsG1.getSourceXSubsampling());
@@ -258,7 +270,7 @@ public class OverviewsControllerTest extends Assert {
     /**
      * Cleaning up the generated files (shape and properties so that we recreate
      * them).
-     * 
+     *
      * @throws FileNotFoundException
      * @throws IOException
      */

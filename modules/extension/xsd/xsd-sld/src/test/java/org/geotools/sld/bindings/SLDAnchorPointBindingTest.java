@@ -23,8 +23,6 @@ import org.geotools.styling.AnchorPoint;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SLDAnchorPointBindingTest extends SLDTestSupport {

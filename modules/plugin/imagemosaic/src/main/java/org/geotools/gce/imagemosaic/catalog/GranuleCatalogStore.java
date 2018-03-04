@@ -31,9 +31,8 @@ import org.opengis.filter.Filter;
 
 /**
  * A {@link GranuleStore} implementation wrapping a {@link GranuleCatalog}.
- * 
- * @author Daniele Romagnoli, GeoSolutions SAS
  *
+ * @author Daniele Romagnoli, GeoSolutions SAS
  */
 public class GranuleCatalogStore extends GranuleCatalogSource implements GranuleStore {
 
@@ -42,7 +41,7 @@ public class GranuleCatalogStore extends GranuleCatalogSource implements Granule
     private RasterManager manager;
 
     public GranuleCatalogStore(RasterManager manager, GranuleCatalog catalog, final String typeName,
-            final Hints hints) {
+                               final Hints hints) {
         super(catalog, typeName, hints);
         this.manager = manager;
     }
@@ -75,15 +74,17 @@ public class GranuleCatalogStore extends GranuleCatalogSource implements Granule
     }
 
     /**
-     * Check whether the specified feature has the same schema of the catalog where we are adding that feature.
-     * 
+     * Check whether the specified feature has the same schema of the catalog where we are adding
+     * that feature.
+     *
      * @param feature a sample SimpleFeature for compatibility check
      */
     private void checkSchemaCompatibility(final SimpleFeature feature) {
         try {
             if (!feature.getType().equals(catalog.getType(typeName))) {
                 throw new IllegalArgumentException(
-                        "The schema of the provided collection is not the same of the underlying catalog");
+                        "The schema of the provided collection is not the same of the underlying " +
+                                "catalog");
             }
         } catch (IOException e) {
             throw new RuntimeException(

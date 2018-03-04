@@ -23,11 +23,9 @@ import org.geotools.jdbc.JDBCJNDIDataStoreFactory;
 import org.geotools.jdbc.JDBCJNDITestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
-public  class MySQLJNDIDataSourceOnlineTest extends JDBCJNDIDataSourceOnlineTest {
+public class MySQLJNDIDataSourceOnlineTest extends JDBCJNDIDataSourceOnlineTest {
 
     protected JDBCJNDITestSetup createTestSetup() {
         return new JDBCJNDITestSetup(new MySQLTestSetup());

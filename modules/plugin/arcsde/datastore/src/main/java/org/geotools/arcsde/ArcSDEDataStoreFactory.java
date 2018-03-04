@@ -62,21 +62,23 @@ import com.esri.sde.sdk.pe.PeFactory;
 
 /**
  * Factory to create DataStores over a live ArcSDE instance.
- * 
+ *
  * @author Gabriel Roldan, Axios Engineering
- *
- *
- * @source $URL$
- *         datastore/src/main/java /org/geotools/arcsde/ArcSDEDataStoreFactory.java $
  * @version $Id$
+ * @source $URL$
+ * datastore/src/main/java /org/geotools/arcsde/ArcSDEDataStoreFactory.java $
  */
 @SuppressWarnings("unchecked")
 public final class ArcSDEDataStoreFactory implements DataStoreFactorySpi {
-    /** package's logger */
+    /**
+     * package's logger
+     */
     protected static final Logger LOGGER = Logging
             .getLogger(ArcSDEDataStoreFactory.class.getName());
 
-    /** friendly factory description */
+    /**
+     * friendly factory description
+     */
     public static final String FACTORY_DESCRIPTION = "ESRI(tm) ArcSDE 9.2+ vector data store";
 
     private static List<Param> paramMetadata = new ArrayList<Param>(10);
@@ -96,17 +98,21 @@ public final class ArcSDEDataStoreFactory implements DataStoreFactorySpi {
     public static final Param NAMESPACE_PARAM = new Param(NAMESPACE_PARAM_NAME, String.class,
             "namespace associated to this data store", false);
 
-    public static final Param DBTYPE_PARAM = new Param(DBTYPE_PARAM_NAME, String.class, "fixed value. Must be \"arcsde\"",
+    public static final Param DBTYPE_PARAM = new Param(DBTYPE_PARAM_NAME, String.class, "fixed " +
+            "value. Must be \"arcsde\"",
             true, "arcsde", Collections.singletonMap(Parameter.LEVEL, "program"));
 
     public static final Param SERVER_PARAM = new Param(SERVER_NAME_PARAM_NAME, String.class,
             "sever name where the ArcSDE gateway is running", true);
 
-    /** In order to use Direct Connect, port parameter has to be of type String */
+    /**
+     * In order to use Direct Connect, port parameter has to be of type String
+     */
     public static final Param PORT_PARAM = new Param(
             PORT_NUMBER_PARAM_NAME,
             String.class,
-            "port number in wich the ArcSDE server is listening for connections.Generally it's 5151",
+            "port number in wich the ArcSDE server is listening for connections.Generally it's " +
+                    "5151",
             true, Integer.valueOf(5151));
 
     public static final Param INSTANCE_PARAM = new Param(INSTANCE_NAME_PARAM_NAME, String.class,
@@ -192,7 +198,9 @@ public final class ArcSDEDataStoreFactory implements DataStoreFactorySpi {
         }
     }
 
-    /** factory of connection pools to different SDE databases */
+    /**
+     * factory of connection pools to different SDE databases
+     */
     private static final ISessionPoolFactory poolFactory = SessionPoolFactory.getInstance();
 
     /**
@@ -207,8 +215,7 @@ public final class ArcSDEDataStoreFactory implements DataStoreFactorySpi {
     }
 
     /**
-     * @throws UnsupportedOperationException
-     *             always as the operation is not supported
+     * @throws UnsupportedOperationException always as the operation is not supported
      * @see DataStoreFactorySpi#createNewDataStore(Map)
      */
     public DataStore createNewDataStore(java.util.Map<String, Serializable> map) {
@@ -240,13 +247,11 @@ public final class ArcSDEDataStoreFactory implements DataStoreFactorySpi {
      * <li>{@code version}: name of the ArcSDE version for the data store to work upon
      * </ul>
      * </p>
-     * 
-     * @param params
-     *            connection parameters
+     *
+     * @param params connection parameters
      * @return a new <code>SdeDataStore</code> pointing to the database defined by
-     *         <code>params</code>
-     * @throws java.io.IOException
-     *             if something goes wrong creating the datastore.
+     * <code>params</code>
+     * @throws java.io.IOException if something goes wrong creating the datastore.
      */
     public DataStore createDataStore(final Map<String, Serializable> params)
             throws java.io.IOException {
@@ -291,7 +296,8 @@ public final class ArcSDEDataStoreFactory implements DataStoreFactorySpi {
                 // work when trying to draw maps. Oh well, at least we'll warn
                 // people.
                 LOGGER.severe("\n\n**************************\n"
-                        + "DANGER DANGER DANGER!!!  You're using the ArcSDE 9.0 (or earlier) jars with "
+                        + "DANGER DANGER DANGER!!!  You're using the ArcSDE 9.0 (or earlier) jars" +
+                        " with "
                         + "ArcSDE "
                         + majVer
                         + "."
@@ -300,8 +306,10 @@ public final class ArcSDEDataStoreFactory implements DataStoreFactorySpi {
                         + config.getServerName()
                         + "' .  "
                         + "This PROBABLY WON'T WORK.  If you have issues "
-                        + "or unexplained exceptions when rendering maps, upgrade your ArcSDE jars to version "
-                        + "9.2 or higher.  See http://docs.codehaus.org/display/GEOTOOLS/ArcSDE+Plugin\n"
+                        + "or unexplained exceptions when rendering maps, upgrade your ArcSDE " +
+                        "jars to version "
+                        + "9.2 or higher.  See http://docs.codehaus" +
+                        ".org/display/GEOTOOLS/ArcSDE+Plugin\n"
                         + "**************************\n\n");
             }
 
@@ -325,14 +333,14 @@ public final class ArcSDEDataStoreFactory implements DataStoreFactorySpi {
         boolean allowNonSpatialTables = config.isAllowNonSpatialTables();
         /**
          * Multiple GeoDB Patch
-         * 
+         *
          * check if directconnect string has a schema Multiple GeoDB Syntax: Oracle 10g user's
          * schema geodatabase <schema_name> is the name of the schema that owns the geodatabase.
          * sde:oracle10g:/:<schema_name>
-         * 
+         *
          * Default single GeoDB Syntax: sde:oracle10g or in MultipleGeoDB Notation:
          * sde:oracle10g:/:sde
-         * 
+         *
          * for further infos look at
          * http://webhelp.esri.com/arcgisserver/9.3/java/geodatabases/arcsde-2034353163.htm
          */
@@ -355,7 +363,7 @@ public final class ArcSDEDataStoreFactory implements DataStoreFactorySpi {
 
     /**
      * Display name for this DataStore Factory
-     * 
+     *
      * @return <code>"ArcSDE"</code>
      */
     public String getDisplayName() {
@@ -364,7 +372,7 @@ public final class ArcSDEDataStoreFactory implements DataStoreFactorySpi {
 
     /**
      * A human friendly name for this data source factory
-     * 
+     *
      * @return this factory's description
      */
     public String getDescription() {
@@ -391,7 +399,7 @@ public final class ArcSDEDataStoreFactory implements DataStoreFactorySpi {
     /**
      * Test to see if this datastore is available, if it has all the appropriate libraries to
      * construct a datastore.
-     * 
+     *
      * @return <tt>true</tt> if and only if this factory is available to create DataStores.
      */
     public boolean isAvailable() {
@@ -421,7 +429,7 @@ public final class ArcSDEDataStoreFactory implements DataStoreFactorySpi {
 
     /**
      * Returns the implementation hints. The default implementation returns en empty map.
-     * 
+     *
      * @see DataStoreFactorySpi#getImplementationHints()
      */
     public Map<RenderingHints.Key, ?> getImplementationHints() {

@@ -39,21 +39,20 @@ import com.esri.sde.sdk.pe.PeProjectionException;
 /**
  * ArcSDE Java API related utility methods to be shared between the gce and dataaccess
  * implementations
- * 
+ *
  * @author Gabriel Roldan
- *
- *
- * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/main/java/org
- *         /geotools/arcsde/util/ArcSDEUtils.java $
  * @version $Id$
+ * @source $URL$
+ * http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/main/java/org
+ * /geotools/arcsde/util/ArcSDEUtils.java $
  * @since 2.5.6
  */
 public final class ArcSDEUtils {
 
     public static final Logger LOGGER = Logging.getLogger("org.geotools.arcsde.gce");
 
-    private static final WeakHashMap<String, CoordinateReferenceSystem> PE_CS_TO_EPSG = new WeakHashMap<String, CoordinateReferenceSystem>();
+    private static final WeakHashMap<String, CoordinateReferenceSystem> PE_CS_TO_EPSG = new 
+            WeakHashMap<String, CoordinateReferenceSystem>();
 
     private ArcSDEUtils() {
         // private default constructor to stress the pure utility nature of this class
@@ -61,14 +60,14 @@ public final class ArcSDEUtils {
 
     /**
      * Gets the coordinate system that will be associated to the {@link GridCoverage}.
-     * 
+     *
      * @param rasterAttributes
      * @return if {@code seCoordRef.getcoordSys()} is {@code null} returns
-     *         {@link DefaultEngineeringCRS#CARTESIAN_2D}, otherwise an equivalent CRS from the EPSG
-     *         database if found, or a CRS built from the seCoordRef WKT otherwise.
+     * {@link DefaultEngineeringCRS#CARTESIAN_2D}, otherwise an equivalent CRS from the EPSG
+     * database if found, or a CRS built from the seCoordRef WKT otherwise.
      */
     public static CoordinateReferenceSystem findCompatibleCRS(
-            final SeCoordinateReference seCoordRef ) throws DataSourceException {
+            final SeCoordinateReference seCoordRef) throws DataSourceException {
 
         if (seCoordRef == null) {
             LOGGER.fine("SeCoordinateReference is null, "
@@ -98,7 +97,7 @@ public final class ArcSDEUtils {
                 } else {
                     crs = CRS.decode("EPSG:" + epsgCode);
                 }
-                
+
                 PE_CS_TO_EPSG.put(peCoordSysName, crs);
 
             } catch (FactoryException e) {
@@ -110,7 +109,7 @@ public final class ArcSDEUtils {
         return crs;
     }
 
-    private static Integer findEpsgCode( final PeCoordinateSystem coordSys )
+    private static Integer findEpsgCode(final PeCoordinateSystem coordSys)
             throws DataSourceException {
         final String peCoordSysName = coordSys.getName();
         Integer epsgCode = null;
@@ -126,7 +125,7 @@ public final class ArcSDEUtils {
             }
             int seEpsgCode;
             PeCoordinateSystem candidate;
-            for( int i = 0; i < seEpsgCodes.length; i++ ) {
+            for (int i = 0; i < seEpsgCodes.length; i++) {
                 try {
                     seEpsgCode = seEpsgCodes[i];
                     candidate = (PeCoordinateSystem) PeFactory.factory(seEpsgCode);

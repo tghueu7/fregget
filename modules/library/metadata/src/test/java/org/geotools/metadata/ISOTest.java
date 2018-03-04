@@ -36,20 +36,18 @@ import org.geotools.util.CheckedCollection;
 import org.geotools.metadata.iso.MetaDataImpl;
 
 import org.junit.*;
+
 import static org.junit.Assert.*;
 
 
 /**
  * Tests every implementation in the {@link org.geotools.metadata.iso} package.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (Geomatys)
- *
+ * @version $Id$
+ * @source $URL$
  * @todo Current implementation relies on {@link MetaData} dependencies. This is probably
- *       not enough; we should provide an explicit list of metadata interface.
+ * not enough; we should provide an explicit list of metadata interface.
  */
 public final class ISOTest {
     /**
@@ -77,108 +75,109 @@ public final class ISOTest {
      * will automatically scans for dependencies even if an interface do not appears in this
      * list. This list should not contains any {@link CodeList}.
      */
-    private static final Class<?>[] TEST = new Class[] {
-        org.opengis.metadata.ApplicationSchemaInformation.class,
-        org.opengis.metadata.ExtendedElementInformation.class,
-        org.opengis.metadata.FeatureTypeList.class,
-        org.opengis.metadata.Identifier.class,
-        org.opengis.metadata.MetaData.class,
-        org.opengis.metadata.MetadataExtensionInformation.class,
-        org.opengis.metadata.PortrayalCatalogueReference.class,
-        org.opengis.metadata.SpatialAttributeSupplement.class,
-        org.opengis.metadata.citation.Address.class,
-        org.opengis.metadata.citation.Citation.class,
-        org.opengis.metadata.citation.CitationDate.class,
-        org.opengis.metadata.citation.CitationFactory.class,
-        org.opengis.metadata.citation.Contact.class,
-        org.opengis.metadata.citation.OnLineResource.class,
-        org.opengis.metadata.citation.ResponsibleParty.class,
-        org.opengis.metadata.citation.Series.class,
-        org.opengis.metadata.citation.Telephone.class,
-        org.opengis.metadata.constraint.Constraints.class,
-        org.opengis.metadata.constraint.LegalConstraints.class,
-        org.opengis.metadata.constraint.SecurityConstraints.class,
-        org.opengis.metadata.content.Band.class,
-        org.opengis.metadata.content.ContentInformation.class,
-        org.opengis.metadata.content.CoverageDescription.class,
-        org.opengis.metadata.content.FeatureCatalogueDescription.class,
-        org.opengis.metadata.content.ImageDescription.class,
-        org.opengis.metadata.content.RangeDimension.class,
-        org.opengis.metadata.distribution.DigitalTransferOptions.class,
-        org.opengis.metadata.distribution.Distribution.class,
-        org.opengis.metadata.distribution.Distributor.class,
-        org.opengis.metadata.distribution.Format.class,
-        org.opengis.metadata.distribution.Medium.class,
-        org.opengis.metadata.distribution.StandardOrderProcess.class,
-        org.opengis.metadata.extent.BoundingPolygon.class,
-        org.opengis.metadata.extent.Extent.class,
-        org.opengis.metadata.extent.GeographicBoundingBox.class,
-        org.opengis.metadata.extent.GeographicDescription.class,
-        org.opengis.metadata.extent.GeographicExtent.class,
-        org.opengis.metadata.extent.SpatialTemporalExtent.class,
-        org.opengis.metadata.extent.TemporalExtent.class,
-        org.opengis.metadata.extent.VerticalExtent.class,
-        org.opengis.metadata.identification.AggregateInformation.class,
-        org.opengis.metadata.identification.BrowseGraphic.class,
-        org.opengis.metadata.identification.DataIdentification.class,
-        org.opengis.metadata.identification.Identification.class,
-        org.opengis.metadata.identification.Keywords.class,
-        org.opengis.metadata.identification.RepresentativeFraction.class,
-        org.opengis.metadata.identification.Resolution.class,
-        org.opengis.metadata.identification.ServiceIdentification.class,
-        org.opengis.metadata.identification.Usage.class,
-        org.opengis.metadata.lineage.Lineage.class,
-        org.opengis.metadata.lineage.ProcessStep.class,
-        org.opengis.metadata.lineage.Source.class,
-        org.opengis.metadata.maintenance.MaintenanceInformation.class,
-        org.opengis.metadata.maintenance.ScopeDescription.class,
-        org.opengis.metadata.quality.AbsoluteExternalPositionalAccuracy.class,
-        org.opengis.metadata.quality.AccuracyOfATimeMeasurement.class,
-        org.opengis.metadata.quality.Completeness.class,
-        org.opengis.metadata.quality.CompletenessCommission.class,
-        org.opengis.metadata.quality.CompletenessOmission.class,
-        org.opengis.metadata.quality.ConceptualConsistency.class,
-        org.opengis.metadata.quality.ConformanceResult.class,
-        org.opengis.metadata.quality.DataQuality.class,
-        org.opengis.metadata.quality.DomainConsistency.class,
-        org.opengis.metadata.quality.Element.class,
-        org.opengis.metadata.quality.FormatConsistency.class,
-        org.opengis.metadata.quality.GriddedDataPositionalAccuracy.class,
-        org.opengis.metadata.quality.LogicalConsistency.class,
-        org.opengis.metadata.quality.NonQuantitativeAttributeAccuracy.class,
-        org.opengis.metadata.quality.PositionalAccuracy.class,
-        org.opengis.metadata.quality.QuantitativeAttributeAccuracy.class,
-        org.opengis.metadata.quality.QuantitativeResult.class,
-        org.opengis.metadata.quality.RelativeInternalPositionalAccuracy.class,
-        org.opengis.metadata.quality.Result.class,
-        org.opengis.metadata.quality.Scope.class,
-        org.opengis.metadata.quality.TemporalAccuracy.class,
-        org.opengis.metadata.quality.TemporalConsistency.class,
-        org.opengis.metadata.quality.TemporalValidity.class,
-        org.opengis.metadata.quality.ThematicAccuracy.class,
-        org.opengis.metadata.quality.ThematicClassificationCorrectness.class,
-        org.opengis.metadata.quality.TopologicalConsistency.class,
-        org.opengis.metadata.spatial.Dimension.class,
-        org.opengis.metadata.spatial.GeometricObjects.class,
-        org.opengis.metadata.spatial.Georectified.class,
-        org.opengis.metadata.spatial.Georeferenceable.class,
-        org.opengis.metadata.spatial.GridSpatialRepresentation.class,
-        org.opengis.metadata.spatial.SpatialRepresentation.class,
-        org.opengis.metadata.spatial.VectorSpatialRepresentation.class
+    private static final Class<?>[] TEST = new Class[]{
+            org.opengis.metadata.ApplicationSchemaInformation.class,
+            org.opengis.metadata.ExtendedElementInformation.class,
+            org.opengis.metadata.FeatureTypeList.class,
+            org.opengis.metadata.Identifier.class,
+            org.opengis.metadata.MetaData.class,
+            org.opengis.metadata.MetadataExtensionInformation.class,
+            org.opengis.metadata.PortrayalCatalogueReference.class,
+            org.opengis.metadata.SpatialAttributeSupplement.class,
+            org.opengis.metadata.citation.Address.class,
+            org.opengis.metadata.citation.Citation.class,
+            org.opengis.metadata.citation.CitationDate.class,
+            org.opengis.metadata.citation.CitationFactory.class,
+            org.opengis.metadata.citation.Contact.class,
+            org.opengis.metadata.citation.OnLineResource.class,
+            org.opengis.metadata.citation.ResponsibleParty.class,
+            org.opengis.metadata.citation.Series.class,
+            org.opengis.metadata.citation.Telephone.class,
+            org.opengis.metadata.constraint.Constraints.class,
+            org.opengis.metadata.constraint.LegalConstraints.class,
+            org.opengis.metadata.constraint.SecurityConstraints.class,
+            org.opengis.metadata.content.Band.class,
+            org.opengis.metadata.content.ContentInformation.class,
+            org.opengis.metadata.content.CoverageDescription.class,
+            org.opengis.metadata.content.FeatureCatalogueDescription.class,
+            org.opengis.metadata.content.ImageDescription.class,
+            org.opengis.metadata.content.RangeDimension.class,
+            org.opengis.metadata.distribution.DigitalTransferOptions.class,
+            org.opengis.metadata.distribution.Distribution.class,
+            org.opengis.metadata.distribution.Distributor.class,
+            org.opengis.metadata.distribution.Format.class,
+            org.opengis.metadata.distribution.Medium.class,
+            org.opengis.metadata.distribution.StandardOrderProcess.class,
+            org.opengis.metadata.extent.BoundingPolygon.class,
+            org.opengis.metadata.extent.Extent.class,
+            org.opengis.metadata.extent.GeographicBoundingBox.class,
+            org.opengis.metadata.extent.GeographicDescription.class,
+            org.opengis.metadata.extent.GeographicExtent.class,
+            org.opengis.metadata.extent.SpatialTemporalExtent.class,
+            org.opengis.metadata.extent.TemporalExtent.class,
+            org.opengis.metadata.extent.VerticalExtent.class,
+            org.opengis.metadata.identification.AggregateInformation.class,
+            org.opengis.metadata.identification.BrowseGraphic.class,
+            org.opengis.metadata.identification.DataIdentification.class,
+            org.opengis.metadata.identification.Identification.class,
+            org.opengis.metadata.identification.Keywords.class,
+            org.opengis.metadata.identification.RepresentativeFraction.class,
+            org.opengis.metadata.identification.Resolution.class,
+            org.opengis.metadata.identification.ServiceIdentification.class,
+            org.opengis.metadata.identification.Usage.class,
+            org.opengis.metadata.lineage.Lineage.class,
+            org.opengis.metadata.lineage.ProcessStep.class,
+            org.opengis.metadata.lineage.Source.class,
+            org.opengis.metadata.maintenance.MaintenanceInformation.class,
+            org.opengis.metadata.maintenance.ScopeDescription.class,
+            org.opengis.metadata.quality.AbsoluteExternalPositionalAccuracy.class,
+            org.opengis.metadata.quality.AccuracyOfATimeMeasurement.class,
+            org.opengis.metadata.quality.Completeness.class,
+            org.opengis.metadata.quality.CompletenessCommission.class,
+            org.opengis.metadata.quality.CompletenessOmission.class,
+            org.opengis.metadata.quality.ConceptualConsistency.class,
+            org.opengis.metadata.quality.ConformanceResult.class,
+            org.opengis.metadata.quality.DataQuality.class,
+            org.opengis.metadata.quality.DomainConsistency.class,
+            org.opengis.metadata.quality.Element.class,
+            org.opengis.metadata.quality.FormatConsistency.class,
+            org.opengis.metadata.quality.GriddedDataPositionalAccuracy.class,
+            org.opengis.metadata.quality.LogicalConsistency.class,
+            org.opengis.metadata.quality.NonQuantitativeAttributeAccuracy.class,
+            org.opengis.metadata.quality.PositionalAccuracy.class,
+            org.opengis.metadata.quality.QuantitativeAttributeAccuracy.class,
+            org.opengis.metadata.quality.QuantitativeResult.class,
+            org.opengis.metadata.quality.RelativeInternalPositionalAccuracy.class,
+            org.opengis.metadata.quality.Result.class,
+            org.opengis.metadata.quality.Scope.class,
+            org.opengis.metadata.quality.TemporalAccuracy.class,
+            org.opengis.metadata.quality.TemporalConsistency.class,
+            org.opengis.metadata.quality.TemporalValidity.class,
+            org.opengis.metadata.quality.ThematicAccuracy.class,
+            org.opengis.metadata.quality.ThematicClassificationCorrectness.class,
+            org.opengis.metadata.quality.TopologicalConsistency.class,
+            org.opengis.metadata.spatial.Dimension.class,
+            org.opengis.metadata.spatial.GeometricObjects.class,
+            org.opengis.metadata.spatial.Georectified.class,
+            org.opengis.metadata.spatial.Georeferenceable.class,
+            org.opengis.metadata.spatial.GridSpatialRepresentation.class,
+            org.opengis.metadata.spatial.SpatialRepresentation.class,
+            org.opengis.metadata.spatial.VectorSpatialRepresentation.class
     };
 
     /**
      * GeoAPI interfaces that are know to be unimplemented at this stage.
      */
-    private static final Class<?>[] UNIMPLEMENTED = new Class[] {
-        AggregateInformation.class,
-        CoverageContentType.class,
-        ImagingCondition.class,
-        CitationFactory.class,          // SHOULD THIS INTERFACE REALLY EXISTS IN GEOAPI?
-        RepresentativeFraction.class,   // Implemented on top of 'Number'.
-        VerticalExtent.class,           // Inconsistent 'verticalCRS' type in GeoAPI interface.
-        ScopeDescription.class,         // Only partially implemented (no references to Features).
-        OnLineResource.class            // No 'setProtocol' method.
+    private static final Class<?>[] UNIMPLEMENTED = new Class[]{
+            AggregateInformation.class,
+            CoverageContentType.class,
+            ImagingCondition.class,
+            CitationFactory.class,          // SHOULD THIS INTERFACE REALLY EXISTS IN GEOAPI?
+            RepresentativeFraction.class,   // Implemented on top of 'Number'.
+            VerticalExtent.class,           // Inconsistent 'verticalCRS' type in GeoAPI interface.
+            ScopeDescription.class,         // Only partially implemented (no references to 
+            // Features).
+            OnLineResource.class            // No 'setProtocol' method.
     };
 
     /**
@@ -186,7 +185,7 @@ public final class ISOTest {
      */
     @Test
     public void testNoCodeList() {
-        for (int i=0; i<TEST.length; i++) {
+        for (int i = 0; i < TEST.length; i++) {
             final Class type = TEST[i];
             assertFalse(type.getName(), CodeList.class.isAssignableFrom(type));
         }
@@ -200,7 +199,7 @@ public final class ISOTest {
         assertNull(getImplementation(Number.class));
         assertSame(MetaDataImpl.class, getImplementation(MetaData.class));
         final Set<Class<?>> done = new HashSet<Class<?>>();
-        for (int i=0; i<TEST.length; i++) {
+        for (int i = 0; i < TEST.length; i++) {
             final Class<?> type = TEST[i];
             final Class<?> impl = getImplementation(type);
             if (impl == null) {
@@ -235,7 +234,8 @@ public final class ISOTest {
             } catch (Exception e) {
                 fail(e.toString());
                 return;
-            } else {
+            }
+            else {
                 dummyInstance = null;
             }
             /*
@@ -244,7 +244,7 @@ public final class ISOTest {
              */
             final String classname = Classes.getShortName(accessor.type) + '.';
             final int count = accessor.count();
-            for (int i=0; i<count; i++) {
+            for (int i = 0; i < count; i++) {
                 final String name = accessor.name(i);
                 assertNotNull(String.valueOf(i), name);
                 final String fullname = classname + name;
@@ -306,7 +306,7 @@ public final class ISOTest {
      * known unimplemented types.
      */
     private static boolean isImplemented(final Class<?> type) {
-        for (int i=0; i<UNIMPLEMENTED.length; i++) {
+        for (int i = 0; i < UNIMPLEMENTED.length; i++) {
             if (type.equals(UNIMPLEMENTED[i])) {
                 return false;
             }

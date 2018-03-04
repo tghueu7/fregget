@@ -28,25 +28,25 @@ import org.geotools.wfs.v1_1.WFSConfiguration;
 import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
- * 
- * 
  * @source $URL$
  */
 public class PullParserTest extends AbstractGetFeatureParserTest {
-    
+
     public PullParserTest() {
         setSupportsCount(false);
     }
 
     @Override
     protected GetFeatureParser getParser(final QName featureName, final URL schemaLocation,
-            final SimpleFeatureType featureType, final URL getFeaturesRequest) throws IOException {
+                                         final SimpleFeatureType featureType, final URL 
+                                                     getFeaturesRequest) throws IOException {
 
         InputStream inputStream = new BufferedInputStream(getFeaturesRequest.openStream());
-        GetFeatureParser parser = new PullParserFeatureReader(new WFSConfiguration(), inputStream, featureType);
+        GetFeatureParser parser = new PullParserFeatureReader(new WFSConfiguration(), 
+                inputStream, featureType);
         return parser;
     }
-    
+
     public void testParseGeoServer_States_100() {
         //TODO: support custom number format parsing in coordinates, such as
         // <gml:coordinates xmlns:gml="http://www.opengis.net/gml" decimal="#" cs="$" ts="_">

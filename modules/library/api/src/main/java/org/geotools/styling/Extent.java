@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,10 +17,9 @@
 package org.geotools.styling;
 
 
-
 /**
  * An Extent gives feature/coverage/raster/matrix dimension extent.
- *
+ * <p>
  * <p>
  * <pre>
  *  <code>
@@ -41,8 +40,6 @@ package org.geotools.styling;
  * </p>
  *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
  * @source $URL$
  */
 public interface Extent {

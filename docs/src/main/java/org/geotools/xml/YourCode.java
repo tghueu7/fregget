@@ -6,6 +6,7 @@ import java.util.List;
 import org.geotools.gml.GMLHandlerFeature;
 import org.opengis.feature.simple.SimpleFeature;
 import org.xml.sax.helpers.XMLFilterImpl;
+
 // yourcode start
 public class YourCode extends XMLFilterImpl implements GMLHandlerFeature {
 

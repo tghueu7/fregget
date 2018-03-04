@@ -28,6 +28,7 @@ import org.geotools.coverage.grid.GridCoverage2D;
 import org.geotools.test.TestData;
 
 import org.junit.*;
+
 import static org.junit.Assert.*;
 
 
@@ -48,11 +49,9 @@ import static org.junit.Assert.*;
  * failure suggests that it is not always the case. The <cite>mediaLib</cite> native code seems
  * right in this case (the bug would be in the pure Java code).
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
  */
 public final class OperationsTest extends GridProcessingTestBase {
     /**
@@ -81,33 +80,37 @@ public final class OperationsTest extends GridProcessingTestBase {
      */
     @Test
     public void testSubtract() {
-        double[]      constants      = new double[] {18};
-        GridCoverage  sourceCoverage = SST;
-        GridCoverage  targetCoverage = (GridCoverage) processor.subtract(sourceCoverage, constants);
-        RenderedImage sourceImage    = sourceCoverage.getRenderableImage(0,1).createDefaultRendering();
-        RenderedImage targetImage    = targetCoverage.getRenderableImage(0,1).createDefaultRendering();
-        Raster        sourceRaster   = sourceImage.getData();
-        Raster        targetRaster   = targetImage.getData();
-        assertNotSame(sourceCoverage,                                targetCoverage);
-        assertNotSame(sourceImage,                                   targetImage);
-        assertNotSame(sourceRaster,                                  targetRaster);
-        assertSame   (sourceCoverage.getCoordinateReferenceSystem(), targetCoverage.getCoordinateReferenceSystem());
-        assertEquals (sourceCoverage.getEnvelope(),                  targetCoverage.getEnvelope());
-        assertEquals (sourceCoverage.getGridGeometry(),              targetCoverage.getGridGeometry());
-        assertEquals (sourceRaster  .getMinX(),                      targetRaster  .getMinX());
-        assertEquals (sourceRaster  .getMinY(),                      targetRaster  .getMinY());
-        assertEquals (sourceRaster  .getWidth(),                     targetRaster  .getWidth());
-        assertEquals (sourceRaster  .getHeight(),                    targetRaster  .getHeight());
-        assertEquals (0, sourceRaster.getMinX());
-        assertEquals (0, sourceRaster.getMinY());
-        assertEquals (JAIExt.getOperationName("SubtractConst"), ((OperationNode) targetImage).getOperationName());
+        double[] constants = new double[]{18};
+        GridCoverage sourceCoverage = SST;
+        GridCoverage targetCoverage = (GridCoverage) processor.subtract(sourceCoverage, constants);
+        RenderedImage sourceImage = sourceCoverage.getRenderableImage(0, 1)
+                .createDefaultRendering();
+        RenderedImage targetImage = targetCoverage.getRenderableImage(0, 1)
+                .createDefaultRendering();
+        Raster sourceRaster = sourceImage.getData();
+        Raster targetRaster = targetImage.getData();
+        assertNotSame(sourceCoverage, targetCoverage);
+        assertNotSame(sourceImage, targetImage);
+        assertNotSame(sourceRaster, targetRaster);
+        assertSame(sourceCoverage.getCoordinateReferenceSystem(), targetCoverage
+                .getCoordinateReferenceSystem());
+        assertEquals(sourceCoverage.getEnvelope(), targetCoverage.getEnvelope());
+        assertEquals(sourceCoverage.getGridGeometry(), targetCoverage.getGridGeometry());
+        assertEquals(sourceRaster.getMinX(), targetRaster.getMinX());
+        assertEquals(sourceRaster.getMinY(), targetRaster.getMinY());
+        assertEquals(sourceRaster.getWidth(), targetRaster.getWidth());
+        assertEquals(sourceRaster.getHeight(), targetRaster.getHeight());
+        assertEquals(0, sourceRaster.getMinX());
+        assertEquals(0, sourceRaster.getMinY());
+        assertEquals(JAIExt.getOperationName("SubtractConst"), ((OperationNode) targetImage)
+                .getOperationName());
 
         final boolean medialib = TestData.isMediaLibAvailable();
         float difference;
         float s;
         float t;
-        for (int y=sourceRaster.getHeight(); --y>=0;) {
-            for (int x=sourceRaster.getWidth(); --x>=0;) {
+        for (int y = sourceRaster.getHeight(); --y >= 0; ) {
+            for (int x = sourceRaster.getWidth(); --x >= 0; ) {
                 s = sourceRaster.getSampleFloat(x, y, 0);
                 t = targetRaster.getSampleFloat(x, y, 0);
                 if (Float.isNaN(s)) {
@@ -121,7 +124,7 @@ public final class OperationsTest extends GridProcessingTestBase {
                         assertTrue(Float.isNaN(t));
                     }
                 } else {
-                    difference = s - (float)constants[0];
+                    difference = s - (float) constants[0];
                     if (difference < 0) {
                         assertEquals(0, t, 1E-3f);
                     } else if (difference > (255 - constants[0])) {

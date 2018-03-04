@@ -29,15 +29,15 @@ import org.junit.Test;
 
 /**
  * @author ian
- *
  */
 public class GeoToolsUnitFormatTest {
 
     private UnitFormat unitFormat = GeoToolsUnitFormat.getInstance(Citations.EPSG);
 
     /**
-     * Test method for {@link javax.measure.unit.UnitFormat#format(javax.measure.unit.Unit, java.lang.Appendable)}.
-     * 
+     * Test method for 
+     * {@link javax.measure.unit.UnitFormat#format(javax.measure.unit.Unit, java.lang.Appendable)}.
+     *
      * @throws IOException
      */
     @Test

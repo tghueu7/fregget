@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 1998-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -28,22 +28,19 @@ import org.opengis.util.Cloneable;
  * A line has an equation of the form <var>y</var>=<var>a</var><var>x</var>+<var>b</var>.
  * At the difference of {@link Line2D} (which are bounded by (<var>x1</var>,<var>y1</var>)
  * and (<var>x2</var>,<var>y2</var>) points), {@code Line} objects extends toward infinity.
- *
+ * <p>
  * The equation parameters for a {@code Line} object can bet set at construction
  * time or using one of the {@code setLine(...)} methods. The <var>y</var> value
  * can be computed for a given <var>x</var> value using the {@link #y} method. Method
  * {@link #x} compute the converse and should work even if the line is vertical.
  *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (PMO, IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see Point2D
  * @see Line2D
  * @see Plane
+ * @since 2.0
  */
 public class Line implements Cloneable, Serializable {
     /**
@@ -84,14 +81,13 @@ public class Line implements Cloneable, Serializable {
      * The linear equation will be <var>y</var>=<var>slope</var>*<var>x</var>+<var>y0</var>.
      *
      * @param slope The slope.
-     * @param y0 The <var>y</var> value at <var>x</var>==0.
-     *
+     * @param y0    The <var>y</var> value at <var>x</var>==0.
      * @see #setLine(double, double)
      */
     public Line(final double slope, final double y0) {
         this.slope = slope;
-        this.y0    = y0;
-        this.x0    = -y0/slope;
+        this.y0 = y0;
+        this.x0 = -y0 / slope;
     }
 
     /**
@@ -99,16 +95,15 @@ public class Line implements Cloneable, Serializable {
      * The linear equation will be <var>y</var>=<var>slope</var>*<var>x</var>+<var>y0</var>.
      *
      * @param slope The slope.
-     * @param y0 The <var>y</var> value at <var>x</var>==0.
-     *
+     * @param y0    The <var>y</var> value at <var>x</var>==0.
      * @see #setLine(Point2D, Point2D)
      * @see #setLine(Line2D)
      * @see #setLine(double[], double[])
      */
     public void setLine(final double slope, final double y0) {
         this.slope = slope;
-        this.y0    = y0;
-        this.x0    = -y0/slope;
+        this.y0 = y0;
+        this.x0 = -y0 / slope;
     }
 
     /**
@@ -116,8 +111,7 @@ public class Line implements Cloneable, Serializable {
      * toward infinity after the line segment extremities.
      *
      * @param line The line segment.
-     *
-     * @see #setLine(Point2D,Point2D)
+     * @see #setLine(Point2D, Point2D)
      */
     public void setLine(final Line2D line) {
         setLine(line.getX1(), line.getY1(), line.getX2(), line.getY2());
@@ -129,7 +123,6 @@ public class Line implements Cloneable, Serializable {
      *
      * @param p1 Coordinate of the first point.
      * @param p2 Coordinate of the second point.
-     *
      * @see #setLine(Line2D)
      */
     public void setLine(final Point2D p1, final Point2D p2) {
@@ -144,15 +137,14 @@ public class Line implements Cloneable, Serializable {
      * @param y1 Ordinate <var>y</var> of the first point.
      * @param x2 Ordinate <var>x</var> of the second point.
      * @param y2 Ordinate <var>y</var> of the second point.
-     *
-     * @see #setLine(Point2D,Point2D)
+     * @see #setLine(Point2D, Point2D)
      * @see #setLine(Line2D)
      */
     private void setLine(final double x1, final double y1, final double x2, final double y2) {
-        this.slope = (y2-y1)/(x2-x1);
-        this.x0    = x2 - y2/slope;
-        this.y0    = y2 - slope*x2;
-        if (Double.isNaN(x0) && slope==0) {
+        this.slope = (y2 - y1) / (x2 - x1);
+        this.x0 = x2 - y2 / slope;
+        this.y0 = y2 - slope * x2;
+        if (Double.isNaN(x0) && slope == 0) {
             // Occurs for horizontal lines right on the x axis.
             x0 = Double.POSITIVE_INFINITY;
         }
@@ -167,7 +159,7 @@ public class Line implements Cloneable, Serializable {
      * fit them to a straight line <var>y</var>=<var>b</var>+<var>m</var><var>x</var> in
      * a least-squares senses. This method assume that the <var>x</var> values are precise
      * and all uncertainty is in <var>y</var>.
-     *
+     * <p>
      * <p>Reference: <a
      * href="http://shakti.cc.trincoll.edu/~palladin/courses/ENGR431/statistics/node9.html">Linear
      * Regression Curve Fitting</a>.
@@ -175,8 +167,7 @@ public class Line implements Cloneable, Serializable {
      * @param x Vector of <var>x</var> values (independant variable).
      * @param y Vector of <var>y</var> values (dependant variable).
      * @return Estimation of the correlation coefficient. The closer
-     *         this coefficient is to 1, the better the fit.
-     *
+     * this coefficient is to 1, the better the fit.
      * @throws MismatchedSizeException if <var>x</var> and <var>y</var> don't have the same length.
      */
     public double setLine(final double[] x, final double[] y) throws IllegalArgumentException {
@@ -185,10 +176,10 @@ public class Line implements Cloneable, Serializable {
             throw new IllegalArgumentException("Vector x (length " + N + ") and Vector y (length:"
                     + y.length + ") are not the same length");
         }
-        int    count  = 0;
+        int count = 0;
         double mean_x = 0;
         double mean_y = 0;
-        for (int i=0; i<N; i++) {
+        for (int i = 0; i < N; i++) {
             final double xi = x[i];
             final double yi = y[i];
             if (!Double.isNaN(xi) && !Double.isNaN(yi)) {
@@ -216,14 +207,14 @@ public class Line implements Cloneable, Serializable {
         double mean_x2 = 0;
         double mean_y2 = 0;
         double mean_xy = 0;
-        for (int i=0; i<N; i++) {
+        for (int i = 0; i < N; i++) {
             double xi = x[i];
             double yi = y[i];
             if (!Double.isNaN(xi) && !Double.isNaN(yi)) {
-                xi      -= mean_x;
-                mean_x2 += xi*xi;
-                mean_y2 += yi*yi;
-                mean_xy += xi*yi;
+                xi -= mean_x;
+                mean_x2 += xi * xi;
+                mean_y2 += yi * yi;
+                mean_xy += xi * yi;
             }
         }
         mean_x2 /= count;
@@ -235,9 +226,9 @@ public class Line implements Cloneable, Serializable {
          *
          * R = mean(xy) / sqrt( mean(x²) * (mean(y²) - mean(y)²) )
          */
-        slope = mean_xy/mean_x2;
-        y0 = mean_y-mean_x*slope;
-        return mean_xy/Math.sqrt(mean_x2 * (mean_y2-mean_y*mean_y));
+        slope = mean_xy / mean_x2;
+        y0 = mean_y - mean_x * slope;
+        return mean_xy / Math.sqrt(mean_x2 * (mean_y2 - mean_y * mean_y));
     }
 
     /**
@@ -247,12 +238,12 @@ public class Line implements Cloneable, Serializable {
      * @param dy The vertical translation.
      */
     public void translate(final double dx, final double dy) {
-        if (slope==0 || Double.isInfinite(slope)) {
+        if (slope == 0 || Double.isInfinite(slope)) {
             x0 += dx;
             y0 += dy;
         } else {
-            x0 += dx - dy/slope;
-            y0 += dy - slope*dx;
+            x0 += dx - dy / slope;
+            y0 += dy - slope * dx;
         }
     }
 
@@ -261,13 +252,12 @@ public class Line implements Cloneable, Serializable {
      * If the line is vertical, then this method returns an infinite value.
      * This method is final for performance reason.
      *
-     * @param  x The <var>x</var> value.
+     * @param x The <var>x</var> value.
      * @return The <var>y</var> value.
-     *
      * @see #x(double)
      */
     public final double y(final double x) {
-        return slope*x + y0;
+        return slope * x + y0;
     }
 
     /**
@@ -275,13 +265,12 @@ public class Line implements Cloneable, Serializable {
      * If the line is horizontal, then this method returns an infinite value.
      * This method is final for performance reason.
      *
-     * @param  y The <var>y</var> value.
+     * @param y The <var>y</var> value.
      * @return The <var>x</var> value.
-     *
      * @see #y(double)
      */
     public final double x(final double y) {
-        return y/slope + x0;
+        return y / slope + x0;
     }
 
     /**
@@ -311,7 +300,7 @@ public class Line implements Cloneable, Serializable {
      * Returns the intersection point between this line and the specified one.
      * If both lines are parallel, then this method returns {@code null}.
      *
-     * @param  line The line to intersect.
+     * @param line The line to intersect.
      * @return The intersection point, or {@code null}.
      */
     public Point2D intersectionPoint(final Line line) {
@@ -321,19 +310,19 @@ public class Line implements Cloneable, Serializable {
                 return null;
             }
             x = x0;
-            y = x*line.slope + line.y0;
+            y = x * line.slope + line.y0;
         } else {
             if (!Double.isInfinite(line.slope)) {
-                x = (y0-line.y0) / (line.slope-slope);
+                x = (y0 - line.y0) / (line.slope - slope);
                 if (Double.isInfinite(x)) {
                     return null;
                 }
             } else {
                 x = line.x0;
             }
-            y = x*slope + y0;
+            y = x * slope + y0;
         }
-        return new Point2D.Double(x,y);
+        return new Point2D.Double(x, y);
     }
 
     /**
@@ -342,7 +331,7 @@ public class Line implements Cloneable, Serializable {
      * this line (since {@link Line2D} do not extends toward infinities), then this
      * method returns {@code null}.
      *
-     * @param  line The bounded line to intersect.
+     * @param line The bounded line to intersect.
      * @return The intersection point, or {@code null}.
      */
     public Point2D intersectionPoint(final Line2D line) {
@@ -350,59 +339,59 @@ public class Line implements Cloneable, Serializable {
         final double y1 = line.getY1();
         final double x2 = line.getX2();
         final double y2 = line.getY2();
-        double x,y;
-        double m = (y2-y1)/(x2-x1);
+        double x, y;
+        double m = (y2 - y1) / (x2 - x1);
         if (Double.isInfinite(slope)) {
             x = x0;
-            y = x*m + (y2-m*x2);
+            y = x * m + (y2 - m * x2);
         } else {
             if (!Double.isInfinite(m)) {
-                x = (y0-(y2-m*x2)) / (m-slope);
+                x = (y0 - (y2 - m * x2)) / (m - slope);
             } else {
-                x = 0.5*(x1+x2);
+                x = 0.5 * (x1 + x2);
             }
-            y = x*slope + y0;
+            y = x * slope + y0;
         }
         double eps;
         /*
          * Ensures that the intersection is in the range of valid x values.
          */
-        eps = EPS*Math.abs(x);
+        eps = EPS * Math.abs(x);
         if (x1 <= x2) {
-            if (!(x>=x1-eps && x<=x2+eps)) {
+            if (!(x >= x1 - eps && x <= x2 + eps)) {
                 return null;
             }
         } else {
-            if (!(x<=x1+eps && x>=x2-eps)) {
+            if (!(x <= x1 + eps && x >= x2 - eps)) {
                 return null;
             }
         }
         /*
          * Ensures that the intersection is in the range of valid y values.
          */
-        eps = EPS*Math.abs(y);
+        eps = EPS * Math.abs(y);
         if (y1 <= y2) {
-            if (!(y>=y1-eps && y<=y2+eps)) {
+            if (!(y >= y1 - eps && y <= y2 + eps)) {
                 return null;
             }
         } else {
-            if (!(y<=y1-eps && y>=y2+eps)) {
+            if (!(y <= y1 - eps && y >= y2 + eps)) {
                 return null;
             }
         }
-        return new Point2D.Double(x,y);
+        return new Point2D.Double(x, y);
     }
 
     /**
      * Returns the nearest point on this line from the specified point.
      *
-     * @param  point An arbitrary point.
+     * @param point An arbitrary point.
      * @return The point on this line which is the nearest of the specified {@code point}.
      */
     public Point2D nearestColinearPoint(final Point2D point) {
         if (!Double.isInfinite(slope)) {
-            final double x = ((point.getY()-y0)*slope + point.getX()) / (slope*slope+1);
-            return new Point2D.Double(x, x*slope+y0);
+            final double x = ((point.getY() - y0) * slope + point.getX()) / (slope * slope + 1);
+            return new Point2D.Double(x, x * slope + y0);
         } else {
             return new Point2D.Double(x0, point.getY());
         }
@@ -414,50 +403,50 @@ public class Line implements Cloneable, Serializable {
      * points (<var>x1</var>,<var>y1</var>) and (<var>x2</var>,<var>y2</var>) located in
      * such a way that:
      * <ul>
-     *   <li>Both points are on this line.</li>
-     *   <li>The distance between any of the two points and the specified {@code summit}
-     *       is exactly {@code sideLength}.</li>
+     * <li>Both points are on this line.</li>
+     * <li>The distance between any of the two points and the specified {@code summit}
+     * is exactly {@code sideLength}.</li>
      * </ul>
      *
-     * @param  summit The summit of the isosceles triangle.
-     * @param  sideLength The length for the two sides of the isosceles triangle.
+     * @param summit     The summit of the isosceles triangle.
+     * @param sideLength The length for the two sides of the isosceles triangle.
      * @return The base of the isoscele triangle, colinear with this line, or {@code null}
-     *         if the base can't be computed. If non-null, then the triangle is the figure formed
-     *         by joining (<var>x1</var>,<var>y1</var>), (<var>x2</var>,<var>y2</var>) and
-     *         {@code summit}.
+     * if the base can't be computed. If non-null, then the triangle is the figure formed
+     * by joining (<var>x1</var>,<var>y1</var>), (<var>x2</var>,<var>y2</var>) and
+     * {@code summit}.
      */
     public Line2D isoscelesTriangleBase(final Point2D summit, double sideLength) {
         sideLength *= sideLength;
         if (slope == 0) {
-            final double  x =    summit.getX();
-            final double dy = y0-summit.getY();
-            final double dx = Math.sqrt(sideLength - dy*dy);
+            final double x = summit.getX();
+            final double dy = y0 - summit.getY();
+            final double dx = Math.sqrt(sideLength - dy * dy);
             if (Double.isNaN(dx)) {
                 return null;
             }
-            return new Line2D.Double(x+dx, y0, x-dx, y0);
+            return new Line2D.Double(x + dx, y0, x - dx, y0);
         }
         if (Double.isInfinite(slope)) {
-            final double  y =    summit.getY();
-            final double dx = x0-summit.getX();
-            final double dy = Math.sqrt(sideLength - dx*dx);
+            final double y = summit.getY();
+            final double dx = x0 - summit.getX();
+            final double dy = Math.sqrt(sideLength - dx * dx);
             if (Double.isNaN(dy)) {
                 return null;
             }
-            return new Line2D.Double(x0, y+dy, x0, y-dy);
+            return new Line2D.Double(x0, y + dy, x0, y - dy);
         }
-        final double x  = summit.getX();
-        final double y  = summit.getY();
-        final double dy = y0 - y + slope*x;
-        final double B  = -slope*dy;
-        final double A  = slope*slope + 1;
-        final double C  = Math.sqrt(B*B + A*(sideLength - dy*dy));
+        final double x = summit.getX();
+        final double y = summit.getY();
+        final double dy = y0 - y + slope * x;
+        final double B = -slope * dy;
+        final double A = slope * slope + 1;
+        final double C = Math.sqrt(B * B + A * (sideLength - dy * dy));
         if (Double.isNaN(C)) {
             return null;
         }
-        final double x1 = (B+C)/A + x;
-        final double x2 = (B-C)/A + x;
-        return new Line2D.Double(x1, slope*x1+y0, x2, slope*x2+y0);
+        final double x1 = (B + C) / A + x;
+        final double x2 = (B - C) / A + x;
+        return new Line2D.Double(x1, slope * x1 + y0, x2, slope * x2 + y0);
     }
 
     /**
@@ -489,11 +478,11 @@ public class Line implements Cloneable, Serializable {
      */
     @Override
     public boolean equals(final Object object) {
-        if (object!=null && getClass().equals(object.getClass())) {
+        if (object != null && getClass().equals(object.getClass())) {
             final Line that = (Line) object;
             return Double.doubleToLongBits(this.slope) == Double.doubleToLongBits(that.slope) &&
-                   Double.doubleToLongBits(this.y0   ) == Double.doubleToLongBits(that.y0   ) &&
-                   Double.doubleToLongBits(this.x0   ) == Double.doubleToLongBits(that.x0   );
+                    Double.doubleToLongBits(this.y0) == Double.doubleToLongBits(that.y0) &&
+                    Double.doubleToLongBits(this.x0) == Double.doubleToLongBits(that.x0);
         } else {
             return false;
         }
@@ -504,7 +493,7 @@ public class Line implements Cloneable, Serializable {
      */
     @Override
     public int hashCode() {
-        final long code = Double.doubleToLongBits(slope) + 37*Double.doubleToLongBits(y0);
+        final long code = Double.doubleToLongBits(slope) + 37 * Double.doubleToLongBits(y0);
         return (int) code ^ (int) (code >>> 32);
     }
 

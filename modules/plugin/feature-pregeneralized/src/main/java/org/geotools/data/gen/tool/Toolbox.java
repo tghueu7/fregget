@@ -41,22 +41,17 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.simplify.TopologyPreservingSimplifier;
 
 /**
- * 
  * Utility class
- * 
+ * <p>
  * 1) Validate xml config 2) generalize shape files
- * 
+ *
  * @author Chrisitan Mueller
- * 
- *
- *
- *
  * @source $URL$
  */
 public class Toolbox {
     /**
      * read args and delegate jobs
-     * 
+     *
      * @param args
      */
     static String MissingXMLConfig = "Missing XML config file ";
@@ -65,7 +60,8 @@ public class Toolbox {
 
     static String MissingTargetDir = "Missing target directory ";
 
-    static String MissingGeneralizations = "Missing generalization distances as comma seperated list ";
+    static String MissingGeneralizations = "Missing generalization distances as comma seperated " +
+            "list ";
 
     public static void main(String[] args) {
         Toolbox toolBox = new Toolbox();
@@ -133,7 +129,7 @@ public class Toolbox {
     }
 
     protected void generalizeShapeFile(String shapeFileName, String targetDirName,
-            String generalizations) throws IOException {
+                                       String generalizations) throws IOException {
         File shapeFile = new File(shapeFileName);
         if (shapeFile.exists() == false)
             throw new IOException("Could not find " + shapeFileName);
@@ -154,7 +150,7 @@ public class Toolbox {
     }
 
     protected void generalizeShapeFile(File shapeFile, DataStore shapeDS, File targetDir,
-            Double[] distanceArray) throws IOException {
+                                       Double[] distanceArray) throws IOException {
         String typeName = shapeDS.getTypeNames()[0];
         SimpleFeatureSource fs = shapeDS.getFeatureSource(typeName);
         SimpleFeatureType ftype = fs.getSchema();
@@ -164,12 +160,13 @@ public class Toolbox {
         SimpleFeatureIterator it = fcoll.features();
         try {
             int countTotal = fcoll.size();
-    
-            List<FeatureWriter<SimpleFeatureType, SimpleFeature>> writers = new ArrayList<FeatureWriter<SimpleFeatureType, SimpleFeature>>();
+
+            List<FeatureWriter<SimpleFeatureType, SimpleFeature>> writers = new 
+                    ArrayList<FeatureWriter<SimpleFeatureType, SimpleFeature>>();
             for (int i = 0; i < dataStores.length; i++) {
                 writers.add(dataStores[i].getFeatureWriter(typeName, Transaction.AUTO_COMMIT));
             }
-    
+
             int counter = 0;
             while (it.hasNext()) {
                 SimpleFeature feature = it.next();
@@ -184,13 +181,12 @@ public class Toolbox {
                 }
                 counter++;
                 showProgress(countTotal, counter);
-    
+
             }
-            for (FeatureWriter<SimpleFeatureType, SimpleFeature> w : writers){
+            for (FeatureWriter<SimpleFeatureType, SimpleFeature> w : writers) {
                 w.close();
             }
-        }
-        finally {
+        } finally {
             it.close();
         }
 
@@ -201,7 +197,7 @@ public class Toolbox {
     }
 
     DataStore[] createDataStores(File shapeFile, File targetDir, SimpleFeatureType ft,
-            Double[] distanceArray) throws IOException {
+                                 Double[] distanceArray) throws IOException {
 
         FileDataStoreFactorySpi factory = new ShapefileDataStoreFactory();
         String shapeFileName = shapeFile.getAbsolutePath();
@@ -241,19 +237,19 @@ public class Toolbox {
         for (int i = 1; i < argv.length; i++) {
             String paramName = null;
             switch (i) {
-            case 1:
-                paramName = "Shape file";
-                break;
-            case 2:
-                paramName = "Target directory";
-                break;
-            case 3:
-                paramName = "Distances";
-                break;
-            default:
-                paramName = "?????";
+                case 1:
+                    paramName = "Shape file";
+                    break;
+                case 2:
+                    paramName = "Target directory";
+                    break;
+                case 3:
+                    paramName = "Distances";
+                    break;
+                default:
+                    paramName = "?????";
             }
-            System.out.printf("%-20s\t%s\n", new Object[] { paramName, argv[i] });
+            System.out.printf("%-20s\t%s\n", new Object[]{paramName, argv[i]});
         }
 
     }

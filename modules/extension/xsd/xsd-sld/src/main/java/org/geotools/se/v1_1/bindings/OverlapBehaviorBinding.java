@@ -25,9 +25,9 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/se:OverlapBehavior.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:element name="OverlapBehavior"&gt;
@@ -46,16 +46,14 @@ import javax.xml.namespace.QName;
  *              &lt;xsd:enumeration value="RANDOM"/&gt;
  *          &lt;/xsd:restriction&gt;
  *      &lt;/xsd:simpleType&gt;
- *  &lt;/xsd:element&gt; 
- * 	
+ *  &lt;/xsd:element&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class OverlapBehaviorBinding extends AbstractSimpleBinding {
@@ -66,18 +64,18 @@ public class OverlapBehaviorBinding extends AbstractSimpleBinding {
     public QName getTarget() {
         return SE.OverlapBehavior;
     }
-    
+
     public Class getType() {
         return OverlapBehavior.class;
     }
-    
+
     @Override
     public Object parse(InstanceComponent instance, Object value) throws Exception {
-        OverlapBehavior overlap = OverlapBehavior.valueOf((String)value);
+        OverlapBehavior overlap = OverlapBehavior.valueOf((String) value);
         if (overlap == null) {
             throw new IllegalArgumentException("Overlap behaviour " + value + " not supported");
         }
-        
+
         return overlap;
     }
 }

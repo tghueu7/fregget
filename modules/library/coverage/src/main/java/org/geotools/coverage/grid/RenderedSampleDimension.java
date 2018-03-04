@@ -44,10 +44,10 @@ import org.opengis.util.InternationalString;
 /**
  * Describes the band values for a grid coverage.
  *
- * @since 2.1
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 final class RenderedSampleDimension extends GridSampleDimension {
     /**
@@ -73,56 +73,54 @@ final class RenderedSampleDimension extends GridSampleDimension {
     /**
      * Constructs a sample dimension with a set of categories from an other sample dimension.
      *
-     * @param band  The originating sample dimension.
-     * @param image The image to be wrapped by {@link GridCoverage}.
+     * @param band       The originating sample dimension.
+     * @param image      The image to be wrapped by {@link GridCoverage}.
      * @param bandNumber The band number.
      */
     private RenderedSampleDimension(final GridSampleDimension band,
-                                  final RenderedImage      image,
-                                  final int           bandNumber)
-    {
+                                    final RenderedImage image,
+                                    final int bandNumber) {
         super(band);
         final SampleModel model = image.getSampleModel();
-        this.band     = bandNumber;
+        this.band = bandNumber;
         this.numBands = model.getNumBands();
-        this.type     = TypeMap.getSampleDimensionType(model, bandNumber);
+        this.type = TypeMap.getSampleDimensionType(model, bandNumber);
     }
 
     /**
      * Creates a set of sample dimensions for the given image. The array length of both
      * arguments must matches the number of bands in the supplied {@code image}.
      *
-     * @param  name  The name for data (e.g. "Elevation").
-     * @param  image The image for which to create a set of sample dimensions.
-     * @param  src   User-provided sample dimensions, or {@code null} if none.
-     * @param  dst   The array where to put sample dimensions.
+     * @param name  The name for data (e.g. "Elevation").
+     * @param image The image for which to create a set of sample dimensions.
+     * @param src   User-provided sample dimensions, or {@code null} if none.
+     * @param dst   The array where to put sample dimensions.
      * @return {@code true} if all sample dimensions are geophysics (quantitative), or
-     *         {@code false} if all sample dimensions are non-geophysics (qualitative).
+     * {@code false} if all sample dimensions are non-geophysics (qualitative).
      * @throws IllegalArgumentException if geophysics and non-geophysics dimensions are mixed.
      */
-    static boolean create(final CharSequence        name,
-                          final RenderedImage       image,
+    static boolean create(final CharSequence name,
+                          final RenderedImage image,
                           final GridSampleDimension[] src,
-                          final GridSampleDimension[] dst)
-    {
+                          final GridSampleDimension[] dst) {
         final int numBands = image.getSampleModel().getNumBands();
-        if (src!=null && src.length!=numBands) {
+        if (src != null && src.length != numBands) {
             throw new IllegalArgumentException(Errors.format(ErrorKeys.NUMBER_OF_BANDS_MISMATCH_$3,
-                      numBands, src.length, "SampleDimension"));
+                    numBands, src.length, "SampleDimension"));
         }
         if (dst.length != numBands) {
             throw new IllegalArgumentException(Errors.format(ErrorKeys.NUMBER_OF_BANDS_MISMATCH_$3,
-                      numBands, dst.length, "SampleDimension"));
+                    numBands, dst.length, "SampleDimension"));
         }
         /*
          * Now, we know that the number of bands and the array length are consistent.
          * Search if there is any null SampleDimension. If any, replace the null value
-         * by a default SampleDimension. 
+         * by a default SampleDimension.
          */
         int count = 0;
         GridSampleDimension[] defaultSD = null;
-        for (int i=0; i<numBands; i++) {
-            GridSampleDimension sd = (src!=null) ? src[i] : null;
+        for (int i = 0; i < numBands; i++) {
+            GridSampleDimension sd = (src != null) ? src[i] : null;
             if (sd == null) {
                 /*
                  * If the user didn't provided explicitly a SampleDimension, create a default one.
@@ -132,7 +130,7 @@ final class RenderedSampleDimension extends GridSampleDimension {
                 if (defaultSD == null) {
                     defaultSD = new GridSampleDimension[numBands];
                     create(name, RectIterFactory.create(image, null), image.getSampleModel(),
-                           null, null, null, null, defaultSD, null);
+                            null, null, null, null, defaultSD, null);
                 }
                 sd = defaultSD[i];
             }
@@ -149,79 +147,80 @@ final class RenderedSampleDimension extends GridSampleDimension {
     /**
      * Creates a set of sample dimensions for the given raster.
      *
-     * @param  name The name for data (e.g. "Elevation").
-     * @param  raster The raster.
-     * @param  min The minimal value for each bands, or {@code null} for computing it automatically.
-     * @param  max The maximal value for each bands, or {@code null} for computing it automatically.
-     * @param  units The units of sample values, or {@code null} if unknow.
-     * @param  colors The colors to use for values from {@code min} to {@code max} for each
-     *         bands, or {@code null} for a default color palette. If non-null, each arrays
-     *         {@code colors[b]} may have any length; colors will be interpolated as needed.
-     * @param  hints An optional set of rendering hints, or {@code null} if none. Those hints will
-     *         not affect the sample dimensions to be created. The optional hint
-     *         {@link Hints#SAMPLE_DIMENSION_TYPE} specifies the {@link SampleDimensionType}
-     *         to be used at rendering time, which can be one of
-     *         {@link SampleDimensionType#UBYTE UBYTE} or
-     *         {@link SampleDimensionType#USHORT USHORT}.
+     * @param name   The name for data (e.g. "Elevation").
+     * @param raster The raster.
+     * @param min    The minimal value for each bands, or {@code null} for computing it 
+     *               automatically.
+     * @param max    The maximal value for each bands, or {@code null} for computing it 
+     *               automatically.
+     * @param units  The units of sample values, or {@code null} if unknow.
+     * @param colors The colors to use for values from {@code min} to {@code max} for each
+     *               bands, or {@code null} for a default color palette. If non-null, each arrays
+     *               {@code colors[b]} may have any length; colors will be interpolated as needed.
+     * @param hints  An optional set of rendering hints, or {@code null} if none. Those hints will
+     *               not affect the sample dimensions to be created. The optional hint
+     *               {@link Hints#SAMPLE_DIMENSION_TYPE} specifies the {@link SampleDimensionType}
+     *               to be used at rendering time, which can be one of
+     *               {@link SampleDimensionType#UBYTE UBYTE} or
+     *               {@link SampleDimensionType#USHORT USHORT}.
      * @return The sample dimension for the given raster.
      */
-    static GridSampleDimension[] create(final CharSequence   name,
-                                        final Raster         raster,
-                                        final double[]       min,
-                                        final double[]       max,
-                                        final Unit<?>        units,
-                                        final Color[][]      colors,
-                                        final RenderingHints hints)
-    {
+    static GridSampleDimension[] create(final CharSequence name,
+                                        final Raster raster,
+                                        final double[] min,
+                                        final double[] max,
+                                        final Unit<?> units,
+                                        final Color[][] colors,
+                                        final RenderingHints hints) {
         final GridSampleDimension[] dst = new GridSampleDimension[raster.getNumBands()];
-        create(name, (min==null || max==null) ? RectIterFactory.create(raster, null) : null,
-               raster.getSampleModel(), min, max, units, colors, dst, hints);
+        create(name, (min == null || max == null) ? RectIterFactory.create(raster, null) : null,
+                raster.getSampleModel(), min, max, units, colors, dst, hints);
         return dst;
     }
 
     /**
      * Creates a set of sample dimensions for the data backing the given iterator.
      *
-     * @param  name The name for data (e.g. "Elevation").
-     * @param  iterator The iterator through the raster data, or {@code null}.
-     * @param  model The image or raster sample model.
-     * @param  min The minimal value, or {@code null} for computing it automatically.
-     * @param  max The maximal value, or {@code null} for computing it automatically.
-     * @param  units The units of sample values, or {@code null} if unknow.
-     * @param  colors The colors to use for values from {@code min} to {@code max} for each bands,
-     *         or {@code null} for a default color palette. If non-null, each arrays
-     *         {@code colors[b]} may have any length; colors will be interpolated as needed.
-     * @param  dst The array where to store sample dimensions. The array length must matches
-     *         the number of bands.
-     * @param  hints An optional set of rendering hints, or {@code null} if none.
-     *         Those hints will not affect the sample dimensions to be created. The optional hint
-     *         {@link Hints#SAMPLE_DIMENSION_TYPE} specifies the {@link SampleDimensionType}
-     *         to be used at rendering time, which can be one of
-     *         {@link SampleDimensionType#UBYTE UBYTE} or
-     *         {@link SampleDimensionType#USHORT USHORT}.
+     * @param name     The name for data (e.g. "Elevation").
+     * @param iterator The iterator through the raster data, or {@code null}.
+     * @param model    The image or raster sample model.
+     * @param min      The minimal value, or {@code null} for computing it automatically.
+     * @param max      The maximal value, or {@code null} for computing it automatically.
+     * @param units    The units of sample values, or {@code null} if unknow.
+     * @param colors   The colors to use for values from {@code min} to {@code max} for each bands,
+     *                 or {@code null} for a default color palette. If non-null, each arrays
+     *                 {@code colors[b]} may have any length; colors will be interpolated as needed.
+     * @param dst      The array where to store sample dimensions. The array length must matches
+     *                 the number of bands.
+     * @param hints    An optional set of rendering hints, or {@code null} if none.
+     *                 Those hints will not affect the sample dimensions to be created. The 
+     *                 optional hint
+     *                 {@link Hints#SAMPLE_DIMENSION_TYPE} specifies the {@link SampleDimensionType}
+     *                 to be used at rendering time, which can be one of
+     *                 {@link SampleDimensionType#UBYTE UBYTE} or
+     *                 {@link SampleDimensionType#USHORT USHORT}.
      */
-    private static void create(final CharSequence          name,
-                               final RectIter              iterator,
-                               final SampleModel           model,
-                               double[]                    min,
-                               double[]                    max,
-                               final Unit<?>               units,
-                               final Color[][]             colors,
+    private static void create(final CharSequence name,
+                               final RectIter iterator,
+                               final SampleModel model,
+                               double[] min,
+                               double[] max,
+                               final Unit<?> units,
+                               final Color[][] colors,
                                final GridSampleDimension[] dst,
-                               final RenderingHints        hints)
-    {
+                               final RenderingHints hints) {
         final int numBands = dst.length;
-        if (min!=null && min.length != numBands) {
+        if (min != null && min.length != numBands) {
             throw new IllegalArgumentException(Errors.format(ErrorKeys.NUMBER_OF_BANDS_MISMATCH_$3,
-                      numBands, min.length, "min[i]"));
+                    numBands, min.length, "min[i]"));
         }
-        if (max!=null && max.length != numBands) {
+        if (max != null && max.length != numBands) {
             throw new IllegalArgumentException(Errors.format(ErrorKeys.NUMBER_OF_BANDS_MISMATCH_$3,
-                      numBands, max.length, "max[i]"));
+                    numBands, max.length, "max[i]"));
         }
-        if (colors!=null && colors.length != numBands) {
+        if (colors != null && colors.length != numBands) {
             throw new IllegalArgumentException(Errors.format(ErrorKeys.NUMBER_OF_BANDS_MISMATCH_$3,
-                      numBands, colors.length, "colors[i]"));
+                    numBands, colors.length, "colors[i]"));
         }
         /*
          * Arguments are know to be valids. We now need to compute two ranges:
@@ -236,7 +235,7 @@ final class RenderedSampleDimension extends GridSampleDimension {
          * would not fit in the target data type.
          */
         final SampleDimensionType sourceType = TypeMap.getSampleDimensionType(model, 0);
-        final boolean          sourceIsFloat = TypeMap.isFloatingPoint(sourceType);
+        final boolean sourceIsFloat = TypeMap.isFloatingPoint(sourceType);
         SampleDimensionType targetType = null;
         if (hints != null) {
             targetType = (SampleDimensionType) hints.get(Hints.SAMPLE_DIMENSION_TYPE);
@@ -246,8 +245,8 @@ final class RenderedSampleDimension extends GridSampleDimension {
             targetType = sourceType;
         }
         // Default setting: no scaling
-        NumberRange   targetRange   = TypeMap.getRange(targetType);
-        Category[]    categories    = new Category[1];
+        NumberRange targetRange = TypeMap.getRange(targetType);
+        Category[] categories = new Category[1];
         /*
          * Now, constructs the sample dimensions. We will inconditionnaly provides a "nodata"
          * category for floating point images targeting unsigned integers, since we don't know
@@ -256,10 +255,10 @@ final class RenderedSampleDimension extends GridSampleDimension {
          */
         final InternationalString n = SimpleInternationalString.wrap(name);
         NumberRange sourceRange = TypeMap.getRange(sourceType);
-        for (int b=0; b<numBands; b++) {
-            final Color[] c = colors!=null ? colors[b] : null;
-                categories[0] = new Category(n, c, targetRange, true);
-            dst[b] = new GridSampleDimension(name,categories, units);
+        for (int b = 0; b < numBands; b++) {
+            final Color[] c = colors != null ? colors[b] : null;
+            categories[0] = new Category(n, c, targetRange, true);
+            dst[b] = new GridSampleDimension(name, categories, units);
         }
     }
 

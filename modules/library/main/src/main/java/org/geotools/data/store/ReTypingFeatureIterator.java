@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -25,7 +25,7 @@ import org.opengis.feature.type.AttributeDescriptor;
 
 /**
  * FeatureIterator wrapper which re-types features on the fly based on a target feature type.
- * 
+ *
  * @author Justin Deoliveira, The Open Planning Project
  * @source $URL$
  */
@@ -49,7 +49,7 @@ public class ReTypingFeatureIterator implements SimpleFeatureIterator {
     SimpleFeatureBuilder builder;
 
     public ReTypingFeatureIterator(SimpleFeatureIterator delegate, SimpleFeatureType source,
-            SimpleFeatureType target) {
+                                   SimpleFeatureType target) {
         this.delegate = delegate;
         this.target = target;
         types = typeAttributes(source, target);
@@ -82,20 +82,18 @@ public class ReTypingFeatureIterator implements SimpleFeatureIterator {
 
     /**
      * Supplies mapping from origional to target FeatureType.
-     * 
+     * <p>
      * <p>
      * Will also ensure that origional can cover target
      * </p>
-     * 
-     * @param target Desired FeatureType
+     *
+     * @param target    Desired FeatureType
      * @param origional Origional FeatureType
-     * 
      * @return Mapping from originoal to target FeatureType
-     * 
      * @throws IllegalArgumentException if unable to provide a mapping
      */
     protected AttributeDescriptor[] typeAttributes(SimpleFeatureType original,
-            SimpleFeatureType target) {
+                                                   SimpleFeatureType target) {
         if (target.equals(original)) {
             throw new IllegalArgumentException(
                     "FeatureReader allready produces contents with the correct schema");
@@ -103,7 +101,8 @@ public class ReTypingFeatureIterator implements SimpleFeatureIterator {
 
         if (target.getAttributeCount() > original.getAttributeCount()) {
             throw new IllegalArgumentException(
-                    "Unable to retype  FeatureReader<SimpleFeatureType, SimpleFeature> (origional does not cover requested type)");
+                    "Unable to retype  FeatureReader<SimpleFeatureType, SimpleFeature> (origional" +
+                            " does not cover requested type)");
         }
 
         String xpath;
@@ -116,7 +115,8 @@ public class ReTypingFeatureIterator implements SimpleFeatureIterator {
 
             if (!attrib.equals(original.getDescriptor(xpath))) {
                 throw new IllegalArgumentException(
-                        "Unable to retype  FeatureReader<SimpleFeatureType, SimpleFeature> (origional does not cover "
+                        "Unable to retype  FeatureReader<SimpleFeatureType, SimpleFeature> " +
+                                "(origional does not cover "
                                 + xpath + ")");
             }
         }

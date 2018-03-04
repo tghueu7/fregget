@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2014, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,6 +17,7 @@
 package org.geotools.process.raster;
 
 import static org.junit.Assert.assertEquals;
+
 import it.geosolutions.jaiext.JAIExt;
 
 import java.awt.image.RenderedImage;
@@ -39,40 +40,64 @@ import org.opengis.coverage.grid.GridCoverageReader;
 
 public class AffineProcessTest {
 
-    /** Tolerance value used for double comparison */
+    /**
+     * Tolerance value used for double comparison
+     */
     private static final double TOLERANCE = 0.01;
 
-    /** Coverage to elaborate */
+    /**
+     * Coverage to elaborate
+     */
     private static GridCoverage2D coverage;
 
-    /** Nearest Interpolation */
+    /**
+     * Nearest Interpolation
+     */
     private static InterpolationNearest nearest;
 
-    /** Bilinear Interpolation */
+    /**
+     * Bilinear Interpolation
+     */
     private static InterpolationBilinear bilinear;
 
-    /** Bicubic Interpolation */
+    /**
+     * Bicubic Interpolation
+     */
     private static InterpolationBicubic bicubic;
 
-    /** No Data Values used for the Affine transformation */
+    /**
+     * No Data Values used for the Affine transformation
+     */
     private static double[] nodata;
 
-    /** Scale X parameter */
+    /**
+     * Scale X parameter
+     */
     private static double m00;
 
-    /** Shear X parameter */
+    /**
+     * Shear X parameter
+     */
     private static double m01;
 
-    /** Shear Y parameter */
+    /**
+     * Shear Y parameter
+     */
     private static double m10;
 
-    /** Scale Y parameter */
+    /**
+     * Scale Y parameter
+     */
     private static double m11;
 
-    /** Translate X parameter */
+    /**
+     * Translate X parameter
+     */
     private static double m02;
 
-    /** Translate Y parameter */
+    /**
+     * Translate Y parameter
+     */
     private static double m12;
 
     @BeforeClass
@@ -96,7 +121,7 @@ public class AffineProcessTest {
         bicubic = new InterpolationBicubic(8);
 
         // Definition of the background values
-        nodata = new double[] { 0 };
+        nodata = new double[]{0};
 
         // Definition of the transformation. (The final image should be doubled and translated)
         m00 = 2d;
@@ -155,7 +180,8 @@ public class AffineProcessTest {
     public void testNearestInterp() {
         // Selection of the Affine process
         AffineProcess process = new AffineProcess();
-        // Definition of the Transformation object to use (The final image should be doubled and translated)
+        // Definition of the Transformation object to use (The final image should be doubled and 
+        // translated)
 
         // Execution of the operation
         GridCoverage2D result = process.execute(coverage, m00, m11, m01, m10, m02, m12, nodata,
@@ -169,7 +195,8 @@ public class AffineProcessTest {
     public void testBilinearInterp() {
         // Selection of the Affine process
         AffineProcess process = new AffineProcess();
-        // Definition of the Transformation object to use (The final image should be doubled and translated)
+        // Definition of the Transformation object to use (The final image should be doubled and 
+        // translated)
 
         // Execution of the operation
         GridCoverage2D result = process.execute(coverage, m00, m11, m01, m10, m02, m12, nodata,
@@ -183,7 +210,8 @@ public class AffineProcessTest {
     public void testBicubicInterp() {
         // Selection of the Affine process
         AffineProcess process = new AffineProcess();
-        // Definition of the Transformation object to use (The final image should be doubled and translated)
+        // Definition of the Transformation object to use (The final image should be doubled and 
+        // translated)
 
         // Execution of the operation
         GridCoverage2D result = process.execute(coverage, m00, m11, m01, m10, m02, m12, nodata,
@@ -195,7 +223,7 @@ public class AffineProcessTest {
 
     /**
      * Check if the Coverage is correctly transformed.
-     * 
+     *
      * @param result
      * @param m00
      * @param m11
@@ -203,7 +231,7 @@ public class AffineProcessTest {
      * @param m12
      */
     private void ensureCorrectTransformation(GridCoverage2D result, double m00, double m11,
-            double m02, double m12) {
+                                             double m02, double m12) {
         // Selection of the RenderedImages associated to the coverages
         RenderedImage inputImage = coverage.getRenderedImage();
         RenderedImage outputImage = result.getRenderedImage();

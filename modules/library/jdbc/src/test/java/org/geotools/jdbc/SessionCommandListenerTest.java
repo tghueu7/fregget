@@ -25,7 +25,9 @@ public class SessionCommandListenerTest {
                 }
             };
         }
-    };
+    }
+
+    ;
 
     RecordingConnection conn = new RecordingConnection();
 
@@ -46,7 +48,7 @@ public class SessionCommandListenerTest {
         assertEquals(1, conn.commands.size());
         assertEquals("B", conn.commands.get(0));
     }
-    
+
     @Test
     public void testOnlyBorrow() throws Exception {
         SessionCommandsListener listener = new SessionCommandsListener("A", null);
@@ -61,7 +63,7 @@ public class SessionCommandListenerTest {
         listener.onRelease(store, conn);
         assertEquals(0, conn.commands.size());
     }
-    
+
     @Test
     public void testOnlyRelease() throws Exception {
         SessionCommandsListener listener = new SessionCommandsListener(null, "B");
@@ -78,16 +80,17 @@ public class SessionCommandListenerTest {
 
     @Test
     public void testExpandVariables() throws Exception {
-        SessionCommandsListener listener = new SessionCommandsListener("call startSession('${user}')",
+        SessionCommandsListener listener = new SessionCommandsListener("call startSession" +
+                "('${user}')",
                 "call endSession('${user,joe}')");
-        
+
         // check borrow
         EnvFunction.setLocalValue("user", "abcde");
         listener.onBorrow(store, conn);
         assertEquals(1, conn.commands.size());
         assertEquals("call startSession('abcde')", conn.commands.get(0));
         conn.commands.clear();
-        
+
         // check release
         EnvFunction.clearLocalValues();
         listener.onRelease(store, conn);
@@ -95,13 +98,13 @@ public class SessionCommandListenerTest {
         assertEquals("call endSession('joe')", conn.commands.get(0));
         conn.commands.clear();
     }
-    
+
     @Test
     public void testInvalid() throws Exception {
         try {
             new SessionCommandsListener("startSession('${user')", null);
             fail("This should have failed, the syntax is not valid");
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             // fine
         }
     }

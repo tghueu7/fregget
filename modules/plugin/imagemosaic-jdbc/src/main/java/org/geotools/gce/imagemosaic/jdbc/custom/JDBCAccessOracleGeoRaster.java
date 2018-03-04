@@ -56,24 +56,22 @@ import com.vividsolutions.jts.io.WKBReader;
 
 /**
  * This class is used for JDBC Access to the Oracle GeoRaster feature
- * 
+ *
  * @author Christian Mueller based on the code of Steve Way and Pablo Najarro
- * 
- * 
- *
- *
  * @source $URL$
  **/
 
 public class JDBCAccessOracleGeoRaster extends JDBCAccessCustom {
-    
+
     private final static Logger LOGGER = Logging.getLogger(JDBCAccessOracleGeoRaster.class
             .getPackage().getName());
 
 
     private static String StmtTemplatePixel = "SELECT "
-            + " sdo_geor.getCellCoordinate(%s, ?, sdo_geometry(2001,%s,sdo_point_type(?,?,null), null,null)), "
-            + " sdo_geor.getCellCoordinate(%s, ?, sdo_geometry(2001,%s,sdo_point_type(?,?,null), null,null)) "
+            + " sdo_geor.getCellCoordinate(%s, ?, sdo_geometry(2001,%s,sdo_point_type(?,?,null), " +
+            "null,null)), "
+            + " sdo_geor.getCellCoordinate(%s, ?, sdo_geometry(2001,%s,sdo_point_type(?,?,null), " +
+            "null,null)) "
             + " from %s where %s = ?";
 
 //    static String StmtTemplateExport = "declare " + "gr sdo_georaster; " + "lb blob; " + "begin "
@@ -81,42 +79,41 @@ public class JDBCAccessOracleGeoRaster extends JDBCAccessCustom {
 //            + "select a.%s into gr from %s a where a.%s = ?; "
 //            + "sdo_geor.exportTo(gr, 'pLevel=%d cropArea=(%d,%d,%d,%d)', '%s', lb); " + "?:=lb; "
 //            + "end; ";
-    
-    private static String StmtTemplateExport = "declare " + "gr sdo_georaster; " + "lb blob; " + "begin "
-    + "dbms_lob.createtemporary(lb,true); "
-    + "select a.%s into gr from %s a where a.%s = ?; "
-    + "sdo_geor.exportTo(gr, ?, '%s', lb); " + "?:=lb; "
-    + "end; ";
-    
-    
-//    static String StmtTemplateRasterSubset = "declare " + "gr sdo_georaster; " + "lb blob; " + "begin "
+
+    private static String StmtTemplateExport = "declare " + "gr sdo_georaster; " + "lb blob; " + 
+            "begin "
+            + "dbms_lob.createtemporary(lb,true); "
+            + "select a.%s into gr from %s a where a.%s = ?; "
+            + "sdo_geor.exportTo(gr, ?, '%s', lb); " + "?:=lb; "
+            + "end; ";
+
+
+//    static String StmtTemplateRasterSubset = "declare " + "gr sdo_georaster; " + "lb blob; " + 
+// "begin "
 //        + "dbms_lob.createtemporary(lb,true); "
 //        + "select a.%s into gr from %s a where a.%s = ?; "
 //        + "sdo_geor.getRasterSubset(gr, ?, sdo_number_array(?,?,?,?), null, lb,%s);"
 //        + "?:=lb; "
 //        + "end; ";
 
-//   static String StmtTemplateRasterSubset = "declare " + "gr sdo_georaster; " + "lb blob; " + "begin "
+//   static String StmtTemplateRasterSubset = "declare " + "gr sdo_georaster; " + "lb blob; " + 
+// "begin "
 //      + "dbms_lob.createtemporary(lb,true); "
 //      + "select a.%s into gr from %s a where a.%s = ?; "
-//      + "sdo_geor.getRasterSubset(gr, ?, sdo_geometry(2003,?,null,sdo_elem_info_array(1, 1003, 1),sdo_ordinate_array(?,?,?,?)), null, lb,%s);"
+//      + "sdo_geor.getRasterSubset(gr, ?, sdo_geometry(2003,?,null,sdo_elem_info_array(1, 1003, 
+// 1),sdo_ordinate_array(?,?,?,?)), null, lb,%s);"
 //      + "?:=lb; "
 //      + "end; ";
-    
-      
+
 
     private String stmtPixel;
     private String stmtExport;
     // special Oracle BLOB Method
-    protected Method freeTemporary=null;
-
+    protected Method freeTemporary = null;
 
 
     /**
-     * 
-     * @param config
-     *            Config from XML file passed to this class
-     * 
+     * @param config Config from XML file passed to this class
      **/
     public JDBCAccessOracleGeoRaster(Config config) throws IOException {
         super(config);
@@ -124,9 +121,9 @@ public class JDBCAccessOracleGeoRaster extends JDBCAccessCustom {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.gce.imagemosaic.jdbc.JDBCAccess#initialize()
-     * 
+     *
      * Gathers the initial meta data needed
      */
     public void initialize() {
@@ -139,13 +136,16 @@ public class JDBCAccessOracleGeoRaster extends JDBCAccessCustom {
             con = getConnection();
             int srid = getSRID(con);
 
-            stmtPixel = String.format(StmtTemplatePixel, getConfig().getGeoRasterAttribute(), Integer
-                    .toString(srid), getConfig().getGeoRasterAttribute(), Integer.toString(srid), getConfig()
+            stmtPixel = String.format(StmtTemplatePixel, getConfig().getGeoRasterAttribute(), 
+                    Integer
+                    .toString(srid), getConfig().getGeoRasterAttribute(), Integer.toString(srid),
+                    getConfig()
                     .getMasterTable(), getConfig().getCoverageNameAttribute());
-            
-            stmtExport = String.format(StmtTemplateExport, getConfig().getGeoRasterAttribute(), getConfig()
-                    .getMasterTable(), getConfig().getCoverageNameAttribute(), 
-                     "TIFF");
+
+            stmtExport = String.format(StmtTemplateExport, getConfig().getGeoRasterAttribute(), 
+                    getConfig()
+                            .getMasterTable(), getConfig().getCoverageNameAttribute(),
+                    "TIFF");
 
             CoordinateReferenceSystem crs = getCRS();
             Envelope extent = getExtent(con);
@@ -201,8 +201,7 @@ public class JDBCAccessOracleGeoRaster extends JDBCAccessCustom {
 
     /**
      * getExtent of pyramid level 0
-     * 
-     * 
+     *
      * @return Envelope
      **/
 
@@ -211,7 +210,8 @@ public class JDBCAccessOracleGeoRaster extends JDBCAccessCustom {
         LOGGER.fine("Get Extent Method");
 
         String extentSelectLBX = "select sdo_geometry.get_wkb(sdo_geor.generateSpatialExtent("
-                + getConfig().getGeoRasterAttribute() + ")) from " + getConfig().getMasterTable() + " where "
+                + getConfig().getGeoRasterAttribute() + ")) from " + getConfig().getMasterTable()
+                + " where "
                 + getConfig().getCoverageNameAttribute() + "=?";
 
         PreparedStatement s = null;
@@ -245,8 +245,7 @@ public class JDBCAccessOracleGeoRaster extends JDBCAccessCustom {
 
     /**
      * getSRID
-     * 
-     * 
+     *
      * @return int
      **/
 
@@ -286,8 +285,7 @@ public class JDBCAccessOracleGeoRaster extends JDBCAccessCustom {
 
     /**
      * getSpatialResolutions based on x/y cell order
-     * 
-     * 
+     *
      * @return double[]
      **/
 
@@ -296,7 +294,8 @@ public class JDBCAccessOracleGeoRaster extends JDBCAccessCustom {
         LOGGER.fine("getSpatialResolution Method");
 
         String sqlSpatialResolution = "select sdo_geor.getspatialresolutions("
-                + getConfig().getGeoRasterAttribute() + ") from " + getConfig().getMasterTable() + " where "
+                + getConfig().getGeoRasterAttribute() + ") from " + getConfig().getMasterTable() 
+                + " where "
                 + getConfig().getCoverageNameAttribute() + "=?";
 
         LOGGER.fine("Sptial Reso SQL:" + sqlSpatialResolution);
@@ -330,8 +329,7 @@ public class JDBCAccessOracleGeoRaster extends JDBCAccessCustom {
 
     /**
      * getPyramidLevels
-     * 
-     * 
+     *
      * @return Returns Number of Pyramids Available for Coverage
      **/
 
@@ -340,7 +338,8 @@ public class JDBCAccessOracleGeoRaster extends JDBCAccessCustom {
         LOGGER.fine("getPyrmidLevels Method");
 
         String sqlPyramidLevels = "select sdo_geor.getPyramidMaxLevel("
-                + getConfig().getGeoRasterAttribute() + ") from " + getConfig().getMasterTable() + " where "
+                + getConfig().getGeoRasterAttribute() + ") from " + getConfig().getMasterTable() 
+                + " where "
                 + getConfig().getCoverageNameAttribute() + " = ?";
 
         PreparedStatement stmt = null;
@@ -373,27 +372,18 @@ public class JDBCAccessOracleGeoRaster extends JDBCAccessCustom {
 
     /**
      * startTileDecoders
-     * 
-     * @param pixelDimension
-     *            Not Used (passed as per interface requirement)
-     * 
-     * @param requestEnvelope
-     *            Geographic Envelope of request
-     * 
-     * @param info
-     *            Pyramid Level
-     * 
-     * @param tileQueue
-     *            Queue to place retrieved tile into
-     * 
-     * @param coverageFactory
-     *            not used (passed as per interface requirement)
-     * 
+     *
+     * @param pixelDimension  Not Used (passed as per interface requirement)
+     * @param requestEnvelope Geographic Envelope of request
+     * @param info            Pyramid Level
+     * @param tileQueue       Queue to place retrieved tile into
+     * @param coverageFactory not used (passed as per interface requirement)
      **/
 
     public void startTileDecoders(Rectangle pixelDimension, GeneralEnvelope requestEnvelope,
-            ImageLevelInfo info, LinkedBlockingQueue<TileQueueElement> tileQueue,
-            GridCoverageFactory coverageFactory) throws IOException {
+                                  ImageLevelInfo info, LinkedBlockingQueue<TileQueueElement> 
+                                          tileQueue,
+                                  GridCoverageFactory coverageFactory) throws IOException {
 
         long start = System.currentTimeMillis();
         LOGGER.fine("Starting GeoRaster Tile Decoder");
@@ -413,28 +403,23 @@ public class JDBCAccessOracleGeoRaster extends JDBCAccessCustom {
     }
 
 
-
     /**
-     * 
-     * @param envelopeOrig
-     *            Envelope in world coords
-     * @param info
-     *            ImageLevelInfo
-     * @param conn
-     *            Database Connection
+     * @param envelopeOrig Envelope in world coords
+     * @param info         ImageLevelInfo
+     * @param conn         Database Connection
      * @return TileQueueElement containing the georeferenced cropped image
      */
-     private TileQueueElement getSingleTQElement(GeneralEnvelope envelopeOrig, ImageLevelInfo info,
-            Connection conn) {
+    private TileQueueElement getSingleTQElement(GeneralEnvelope envelopeOrig, ImageLevelInfo info,
+                                                Connection conn) {
 
         int level = Integer.parseInt(info.getTileTableName());
         BufferedImage bimg = null;
 
         // check a against the extent of the pyramid level
         GeneralEnvelope envelope = new GeneralEnvelope(envelopeOrig);
-        GeneralEnvelope intersectEnvelope = new GeneralEnvelope(new double[] {
-                info.getExtentMinX(), info.getExtentMinY() }, new double[] { info.getExtentMaxX(),
-                info.getExtentMaxY() });
+        GeneralEnvelope intersectEnvelope = new GeneralEnvelope(new double[]{
+                info.getExtentMinX(), info.getExtentMinY()}, new double[]{info.getExtentMaxX(),
+                info.getExtentMaxY()});
         intersectEnvelope.setCoordinateReferenceSystem(envelope.getCoordinateReferenceSystem());
         envelope.intersect(intersectEnvelope);
 
@@ -479,13 +464,14 @@ public class JDBCAccessOracleGeoRaster extends JDBCAccessCustom {
 
     /**
      * Gets the blob using Oracle Georaster export facility
-     * 
-     * @param envelope  The window in world coords
-     * @param level     Pyramid level
-     * @param conn      Connection
-     * @return          The BLOB as byte array
+     *
+     * @param envelope The window in world coords
+     * @param level    Pyramid level
+     * @param conn     Connection
+     * @return The BLOB as byte array
      */
-    private byte[] getImageBytesUsingSDOExport(GeneralEnvelope envelope, int level, Connection conn) {
+    private byte[] getImageBytesUsingSDOExport(GeneralEnvelope envelope, int level, Connection 
+            conn) {
         PreparedStatement ps = null;
         CallableStatement cs = null;
         ResultSet r = null;
@@ -518,25 +504,27 @@ public class JDBCAccessOracleGeoRaster extends JDBCAccessCustom {
 
             // Export the georaster object, cropped by cell coordinates as a TIFF image into a BLOB
 
-            
+
             cs = conn.prepareCall(stmtExport);
             cs.setString(1, getConfig().getCoverageName());
-            String params = String.format("pLevel=%d cropArea=(%d,%d,%d,%d)",level, 
-                    pixelCoords1[0].intValue(), pixelCoords1[1].intValue(), pixelCoords2[0].intValue(),pixelCoords2[1].intValue());
+            String params = String.format("pLevel=%d cropArea=(%d,%d,%d,%d)", level,
+                    pixelCoords1[0].intValue(), pixelCoords1[1].intValue(), pixelCoords2[0]
+                            .intValue(), pixelCoords2[1].intValue());
 
             cs.setString(2, params);
             cs.registerOutParameter(3, Types.BLOB);
             cs.execute();
             Blob blob = cs.getBlob(3);
             byte[] bytes = blob.getBytes(1, (int) blob.length());
-            if (freeTemporary==null) {
+            if (freeTemporary == null) {
                 try {
                     freeTemporary = blob.getClass().getMethod("freeTemporary");
                 } catch (Exception ex) {
-                    LOGGER.warning("Cannort free TEMP space for BLOB, danger of running out of space");
+                    LOGGER.warning("Cannort free TEMP space for BLOB, danger of running out of " +
+                            "space");
                 }
-            } 
-            if (freeTemporary!=null)
+            }
+            if (freeTemporary != null)
                 freeTemporary.invoke(blob);
             cs.close();
             return bytes;

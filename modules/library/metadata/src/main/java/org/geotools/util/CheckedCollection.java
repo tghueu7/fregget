@@ -25,13 +25,10 @@ import java.util.Collection;
  * construction time.
  *
  * @param <E> The type of elements in the collection.
- *
- * @since 2.4
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @since 2.4
  */
 public interface CheckedCollection<E> extends Collection<E> {
     /**

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -21,7 +21,7 @@ import org.opengis.filter.expression.Expression;
 
 /**
  * A Mark element defines a "shape" which has coloring applied to it.
- *
+ * <p>
  * <p>
  * The details of this object are taken from the <a
  * href="https://portal.opengeospatial.org/files/?artifact_id=1188"> OGC
@@ -43,17 +43,17 @@ import org.opengis.filter.expression.Expression;
  * &lt;/xsd:element&gt;
  * </code></pre>
  * </p>
- *
+ * <p>
  * <p>
  * Renderers can use this information when displaying styled features, though
  * it must be remembered that not all renderers will be able to fully
  * represent strokes as set out by this interface.  For example, opacity may
  * not be supported.
  * </p>
- *
+ * <p>
  * <p>
  * Notes:
- *
+ * <p>
  * <ul>
  * <li>
  * The graphical parameters and their values are derived from SVG/CSS2
@@ -63,10 +63,8 @@ import org.opengis.filter.expression.Expression;
  * </p>
  *
  * @author James Macgill
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public interface Mark extends org.opengis.style.Mark, Symbol {
     public static final Mark[] MARKS_EMPTY = new Mark[0];
@@ -88,7 +86,7 @@ public interface Mark extends org.opengis.style.Mark, Symbol {
      * they don't have a shape for all of these.<br>
      *
      * @param wellKnownName The well-known name of a shape.  The default value
-     *        is "square".
+     *                      is "square".
      */
     void setWellKnownName(Expression wellKnownName);
 
@@ -128,14 +126,14 @@ public interface Mark extends org.opengis.style.Mark, Symbol {
      * @return ExternalMark or null if WellKNownName is being used
      */
     ExternalMark getExternalMark();
-    
+
     /**
      * Mark defined by an external resource.
-     * 
+     *
      * @param externalMark Indicate an mark defined by an external resource
      */
     void setExternalMark(org.opengis.style.ExternalMark externalMark);
 
-    
+
     void accept(org.geotools.styling.StyleVisitor visitor);
 }

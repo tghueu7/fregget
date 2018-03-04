@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.filter;
 
 // OpenGIS direct dependencies
+
 import org.opengis.annotation.Profile;
 import org.opengis.annotation.XmlElement;
 import org.opengis.filter.expression.Expression;
@@ -26,17 +27,18 @@ import org.opengis.filter.expression.Expression;
  * character is used to escape the meaning of the {@code wildCard}, {@code singleChar}
  * and {@code escape} itself.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengis.org/docs/02-059.pdf">Implementation specification 1.0</A>
  * @author Chris Dillard (SYS Technologies)
+ * @version <A HREF="http://www.opengis.org/docs/02-059.pdf">Implementation specification 1.0</A>
+ * @source $URL$
  * @since GeoAPI 2.0
  */
 @XmlElement("PropertyIsLike")
 public interface PropertyIsLike extends MultiValuedFilter {
-	/** Operator name used to check FilterCapabilities */
-	public static String NAME = "Like";
+    /**
+     * Operator name used to check FilterCapabilities
+     */
+    public static String NAME = "Like";
+
     /**
      * Returns the expression whose value will be compared against the wildcard-
      * containing string provided by the getLiteral() method.
@@ -51,7 +53,7 @@ public interface PropertyIsLike extends MultiValuedFilter {
     @XmlElement("Literal")
     String getLiteral();
 
-   /**
+    /**
      * Returns the string that can be used in the "literal" property of this
      * object to match any sequence of characters.
      * <p>
@@ -82,7 +84,7 @@ public interface PropertyIsLike extends MultiValuedFilter {
      * Flag controlling wither comparisons are case sensitive.
      * <p>
      * The ability to match case is pending the Filter 2.0 specification.
-     *  
+     *
      * @return <code>true</code> if the comparison is case sensetive, otherwise <code>false</code>.
      */
     @XmlElement("matchCase")

@@ -35,14 +35,11 @@ import org.opengis.referencing.operation.OperationMethod;
  * for the transformation. Also, the stochastic nature of the parameters may result
  * in multiple (different) versions of the same coordinate transformation.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see DefaultConversion
+ * @since 2.1
  */
 public class DefaultTransformation extends DefaultOperation implements Transformation {
     /**
@@ -55,18 +52,17 @@ public class DefaultTransformation extends DefaultOperation implements Transform
      * follow the same rules than for the {@link AbstractCoordinateOperation} constructor.
      *
      * @param properties Set of properties. Should contains at least {@code "name"}.
-     * @param sourceCRS The source CRS.
-     * @param targetCRS The target CRS.
-     * @param transform Transform from positions in the {@linkplain #getSourceCRS source CRS}
-     *                  to positions in the {@linkplain #getTargetCRS target CRS}.
-     * @param method    The operation method.
+     * @param sourceCRS  The source CRS.
+     * @param targetCRS  The target CRS.
+     * @param transform  Transform from positions in the {@linkplain #getSourceCRS source CRS}
+     *                   to positions in the {@linkplain #getTargetCRS target CRS}.
+     * @param method     The operation method.
      */
-    public DefaultTransformation(final Map<String,?>            properties,
+    public DefaultTransformation(final Map<String, ?> properties,
                                  final CoordinateReferenceSystem sourceCRS,
                                  final CoordinateReferenceSystem targetCRS,
-                                 final MathTransform             transform,
-                                 final OperationMethod           method)
-    {
+                                 final MathTransform transform,
+                                 final OperationMethod method) {
         super(properties, sourceCRS, targetCRS, transform, method);
         if (false) {
             // The EPSG database do not always defines an operation version.

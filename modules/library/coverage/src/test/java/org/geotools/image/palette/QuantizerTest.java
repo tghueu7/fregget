@@ -185,13 +185,13 @@ public class QuantizerTest {
      * Checks two images are visually equal given a certain maximum color distance. For a
      * better tool you might want to check out {@link ImageAssert}, but that works only with RGB
      * images, this one is color model independent
-     * 
+     *
      * @param image1
      * @param image2
      * @param maxColorDistance
      */
     private void assertImagesSimilar(RenderedImage image1, RenderedImage image2,
-            int maxColorDistance) {
+                                     int maxColorDistance) {
         assertEquals(image1.getWidth(), image2.getWidth());
         assertEquals(image1.getHeight(), image2.getHeight());
 
@@ -218,7 +218,8 @@ public class QuantizerTest {
                 int dg = g1 - g2;
                 int db = b1 - b2;
                 int da = a1 - a2;
-                double d = Math.sqrt((1.5 * dr * dr + 2 * dg * dg + db * db + 2 * da * da) / (1.5 + 2 + 1 + 2));
+                double d = Math.sqrt((1.5 * dr * dr + 2 * dg * dg + db * db + 2 * da * da) / (1.5
+                        + 2 + 1 + 2));
                 assertTrue("Color distance " + d + " excessive for pixels " + i + "," + j,
                         d <= maxColorDistance);
             }

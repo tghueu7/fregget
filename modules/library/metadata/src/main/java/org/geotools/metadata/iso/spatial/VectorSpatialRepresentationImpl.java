@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -20,6 +20,7 @@
 package org.geotools.metadata.iso.spatial;
 
 import java.util.Collection;
+
 import org.opengis.metadata.spatial.GeometricObjects;
 import org.opengis.metadata.spatial.TopologyLevel;
 import org.opengis.metadata.spatial.VectorSpatialRepresentation;
@@ -28,18 +29,14 @@ import org.opengis.metadata.spatial.VectorSpatialRepresentation;
 /**
  * Information about the vector spatial objects in the dataset.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class VectorSpatialRepresentationImpl extends SpatialRepresentationImpl
-        implements VectorSpatialRepresentation
-{
+        implements VectorSpatialRepresentation {
     /**
      * Serial number for interoperability with different versions.
      */
@@ -47,7 +44,7 @@ public class VectorSpatialRepresentationImpl extends SpatialRepresentationImpl
 
     /**
      * Code which identifies the degree of complexity of the spatial relationships.
-    */
+     */
     private TopologyLevel topologyLevel;
 
     /**
@@ -96,8 +93,7 @@ public class VectorSpatialRepresentationImpl extends SpatialRepresentationImpl
      * Set information about the geometric objects used in the dataset.
      */
     public synchronized void setGeometricObjects(
-            final Collection<? extends GeometricObjects> newValues)
-    {
+            final Collection<? extends GeometricObjects> newValues) {
         geometricObjects = copyCollection(newValues, geometricObjects, GeometricObjects.class);
     }
 }

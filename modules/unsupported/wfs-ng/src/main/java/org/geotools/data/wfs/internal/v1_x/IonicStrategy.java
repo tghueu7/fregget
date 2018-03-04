@@ -54,7 +54,7 @@ public class IonicStrategy extends StrictWFS_1_x_Strategy {
     /**
      * A gml:Box binding to override the default one to adapt to the Ionic server that recognizes
      * {@code <gml:Box><gml:coordinates>} but not {@code <gml:Box><gml:coord>...}
-     * 
+     *
      * @author Gabriel Roldan
      */
     private static class IonicGML2BoxTypeBinding extends GMLBoxTypeBinding {
@@ -68,7 +68,7 @@ public class IonicStrategy extends StrictWFS_1_x_Strategy {
         public Object getProperty(Object object, QName name) throws Exception {
             Envelope e = (Envelope) object;
             if (GML.coordinates.equals(name)) {
-                double[] seq = { e.getMinX(), e.getMinY(), e.getMaxX(), e.getMaxY() };
+                double[] seq = {e.getMinX(), e.getMinY(), e.getMaxX(), e.getMaxY()};
                 CoordinateSequence coords = new PackedCoordinateSequence.Double(seq, 2);
                 return coords;
             }
@@ -81,7 +81,7 @@ public class IonicStrategy extends StrictWFS_1_x_Strategy {
      * We can't use POST at all against Ionic cause it is not a WFS 1.1 implementation and expect
      * the filters to be encoded as per Filter 1.0, and I wasn't able of creating a WFS 1.1 with
      * Filter 1.0 {@link Configuration} that works.
-     * 
+     *
      * @return false
      */
     @Override

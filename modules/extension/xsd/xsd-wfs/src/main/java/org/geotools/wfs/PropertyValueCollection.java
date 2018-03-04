@@ -51,20 +51,19 @@ import java.util.Queue;
  * <p>
  * This feature collection pulls only the specified property out of the delegate feature collection.
  * </p>
- * 
+ *
  * @author Justin Deoliveira, OpenGeo
- * 
  */
 public class PropertyValueCollection extends AbstractCollection<Attribute> {
 
     static FeatureTypeFactory typeFactory = new FeatureTypeFactoryImpl();
 
     static FeatureFactory factory = CommonFactoryFinder.getFeatureFactory(null);
-    
+
     static final Name GML_IDENTIFIER = new NameImpl(GML.NAMESPACE, "identifier");
-    
+
     static final AttributeDescriptor ID_DESCRIPTOR;
-    
+
     static {
         AttributeTypeBuilder ab = new AttributeTypeBuilder(typeFactory);
         ab.setName("identifier");
@@ -81,7 +80,7 @@ public class PropertyValueCollection extends AbstractCollection<Attribute> {
     PropertyName propertyName;
 
     public PropertyValueCollection(FeatureCollection delegate, AttributeDescriptor descriptor,
-            PropertyName propName) {
+                                   PropertyName propName) {
         this.delegate = delegate;
         this.descriptor = descriptor;
         this.typeMappingProfiles.add(XS.getInstance().getTypeMappingProfile());
@@ -167,7 +166,7 @@ public class PropertyValueCollection extends AbstractCollection<Attribute> {
             Name name;
             if (descriptor == ID_DESCRIPTOR) {
                 name = GML_IDENTIFIER;
-            } else  {
+            } else {
                 name = new NameImpl(next.getType().getName().getNamespaceURI(),
                         descriptor.getLocalName());
             }
@@ -180,7 +179,7 @@ public class PropertyValueCollection extends AbstractCollection<Attribute> {
             } else {
                 return factory
                         .createComplexAttribute(
-                                Collections.<Property> singletonList((Property) value),
+                                Collections.<Property>singletonList((Property) value),
                                 newDescriptor, null);
             }
         }

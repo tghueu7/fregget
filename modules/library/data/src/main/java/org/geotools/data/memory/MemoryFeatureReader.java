@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015-2016, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -34,7 +34,7 @@ import org.opengis.feature.simple.SimpleFeatureType;
 /**
  * Read contents from MemoryDataStore.
  */
-public class MemoryFeatureReader implements FeatureReader<SimpleFeatureType, SimpleFeature>{
+public class MemoryFeatureReader implements FeatureReader<SimpleFeatureType, SimpleFeature> {
 
     SimpleFeatureType featureType;
     Iterator<SimpleFeature> iterator;
@@ -42,7 +42,7 @@ public class MemoryFeatureReader implements FeatureReader<SimpleFeatureType, Sim
     public MemoryFeatureReader(ContentState state, Query query) throws IOException {
         featureType = state.getFeatureType();
         MemoryEntry entry = (MemoryEntry) state.getEntry();
-        
+
         final List<SimpleFeature> internalCollection = new ArrayList<>(entry.getMemory().values());
         iterator = internalCollection.iterator();
     }
@@ -52,7 +52,7 @@ public class MemoryFeatureReader implements FeatureReader<SimpleFeatureType, Sim
     }
 
     public SimpleFeature next()
-        throws IOException, IllegalAttributeException, NoSuchElementException {
+            throws IOException, IllegalAttributeException, NoSuchElementException {
         if (iterator == null) {
             throw new IOException("Feature Reader has been closed");
         }
@@ -64,11 +64,11 @@ public class MemoryFeatureReader implements FeatureReader<SimpleFeatureType, Sim
         }
     }
 
-    public boolean hasNext(){
+    public boolean hasNext() {
         return (iterator != null) && iterator.hasNext();
     }
 
-    public void close(){
+    public void close() {
         if (iterator != null) {
             iterator = null;
         }

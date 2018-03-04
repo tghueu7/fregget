@@ -34,21 +34,18 @@ import org.opengis.referencing.operation.MathTransform;
 
 /**
  * Eckert IV projection
- * 
- * @see <A HREF="http://mathworld.wolfram.com/EckertIVProjection.html">Robinson projection on
- *      MathWorld</A>
- * @see <A HREF="http://www.equal-area-maps.com/info_eckert.php">"Eckert IV" on the Equal Area Maps
- *      web site</A>
- * @see <A HREF="http://www.remotesensing.org/geotiff/proj_list/eckert_iv.html">"Robinson" on
- *      RemoteSensing.org</A>
- * 
- * @since 2.7.0
  *
- *
- * @source $URL$
- *         http://svn.osgeo.org/geotools/branches/2.6.x/modules/library/referencing/src/main/java
- *         /org/geotools/referencing/operation/projection/Mercator.java $
  * @author Andrea Aime
+ * @source $URL$
+ * http://svn.osgeo.org/geotools/branches/2.6.x/modules/library/referencing/src/main/java
+ * /org/geotools/referencing/operation/projection/Mercator.java $
+ * @see <A HREF="http://mathworld.wolfram.com/EckertIVProjection.html">Robinson projection on
+ * MathWorld</A>
+ * @see <A HREF="http://www.equal-area-maps.com/info_eckert.php">"Eckert IV" on the Equal Area Maps
+ * web site</A>
+ * @see <A HREF="http://www.remotesensing.org/geotiff/proj_list/eckert_iv.html">"Robinson" on
+ * RemoteSensing.org</A>
+ * @since 2.7.0
  */
 public class EckertIV extends MapProjection {
     /**
@@ -70,11 +67,9 @@ public class EckertIV extends MapProjection {
 
     /**
      * Constructs a new map projection from the supplied parameters.
-     * 
-     * @param parameters
-     *            The parameter values in standard units.
-     * @throws ParameterNotFoundException
-     *             if a mandatory parameter is missing.
+     *
+     * @param parameters The parameter values in standard units.
+     * @throws ParameterNotFoundException if a mandatory parameter is missing.
      */
     protected EckertIV(final ParameterValueGroup parameters) throws ParameterNotFoundException {
         super(parameters);
@@ -136,8 +131,7 @@ public class EckertIV extends MapProjection {
 
         return ptDst;
     }
-    
-    
+
 
     /**
      * Compares the specified object with this map projection for equality.
@@ -168,11 +162,10 @@ public class EckertIV extends MapProjection {
     /**
      * The {@linkplain org.geotools.referencing.operation.MathTransformProvider math transform
      * provider} for the Eckert IV projection (not part of the EPSG database).
-     * 
-     * @since 2.7.0
+     *
      * @author Andrea Aime
-     * 
      * @see org.geotools.referencing.operation.DefaultMathTransformFactory
+     * @since 2.7.0
      */
     public static class Provider extends AbstractProvider {
         /**
@@ -184,9 +177,9 @@ public class EckertIV extends MapProjection {
          * The parameters group.
          */
         static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(
-                new NamedIdentifier[] { new NamedIdentifier(Citations.GEOTOOLS, "Eckert_IV"),
-                        new NamedIdentifier(Citations.ESRI, "Eckert_IV") },
-                new ParameterDescriptor[] { SEMI_MAJOR, SEMI_MINOR, CENTRAL_MERIDIAN });
+                new NamedIdentifier[]{new NamedIdentifier(Citations.GEOTOOLS, "Eckert_IV"),
+                        new NamedIdentifier(Citations.ESRI, "Eckert_IV")},
+                new ParameterDescriptor[]{SEMI_MAJOR, SEMI_MINOR, CENTRAL_MERIDIAN});
 
         /**
          * Constructs a new provider.
@@ -197,16 +190,15 @@ public class EckertIV extends MapProjection {
 
         /**
          * Creates a transform from the specified group of parameter values.
-         * 
-         * @param parameters
-         *            The group of parameter values.
+         *
+         * @param parameters The group of parameter values.
          * @return The created math transform.
-         * @throws ParameterNotFoundException
-         *             if a required parameter was not found.
+         * @throws ParameterNotFoundException if a required parameter was not found.
          */
         protected MathTransform createMathTransform(final ParameterValueGroup parameters)
                 throws ParameterNotFoundException {
-            parameters.parameter("semi_minor").setValue(parameters.parameter("semi_major").getValue());
+            parameters.parameter("semi_minor").setValue(parameters.parameter("semi_major")
+                    .getValue());
             return new EckertIV(parameters);
         }
     }

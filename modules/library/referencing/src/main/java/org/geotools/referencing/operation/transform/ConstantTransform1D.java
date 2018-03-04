@@ -25,10 +25,10 @@ import java.util.Arrays;
  * <code>{@link #scale} = 0</code> and <code>{@link #offset} = constant</code>. However, this
  * specialized {@code ConstantTransform1D} class is faster.
  *
- * @since 2.0
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.0
  */
 final class ConstantTransform1D extends LinearTransform1D {
     /**
@@ -58,9 +58,8 @@ final class ConstantTransform1D extends LinearTransform1D {
      */
     @Override
     public void transform(final float[] srcPts, int srcOff,
-                          final float[] dstPts, int dstOff, int numPts)
-    {
-        Arrays.fill(dstPts, dstOff, dstOff+numPts, (float)offset);
+                          final float[] dstPts, int dstOff, int numPts) {
+        Arrays.fill(dstPts, dstOff, dstOff + numPts, (float) offset);
     }
 
     /**
@@ -68,8 +67,7 @@ final class ConstantTransform1D extends LinearTransform1D {
      */
     @Override
     public void transform(final double[] srcPts, int srcOff,
-                          final double[] dstPts, int dstOff, int numPts)
-    {
-        Arrays.fill(dstPts, dstOff, dstOff+numPts, offset);
+                          final double[] dstPts, int dstOff, int numPts) {
+        Arrays.fill(dstPts, dstOff, dstOff + numPts, offset);
     }
 }

@@ -35,9 +35,9 @@ import com.vividsolutions.jts.geom.CoordinateSequenceFactory;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:CoordinatesType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="CoordinatesType"&gt;
  *      &lt;annotation&gt;
@@ -63,9 +63,6 @@ import com.vividsolutions.jts.geom.CoordinateSequenceFactory;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLCoordinatesTypeBinding extends AbstractComplexBinding {
@@ -101,7 +98,7 @@ public class GMLCoordinatesTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //get the coordinate and tuple seperators
         String decimal = ".";
         String cs = ",";
@@ -132,8 +129,8 @@ public class GMLCoordinatesTypeBinding extends AbstractComplexBinding {
         CoordinateSequence seq = null;
         int i = 0;
         int ncoords = tuples.countTokens(); //number of coordinates
-        if(cs.equals(ts)) {
-            ncoords = ncoords/2;
+        if (cs.equals(ts)) {
+            ncoords = ncoords / 2;
         }
 
         while (tuples.hasMoreTokens()) {
@@ -142,7 +139,7 @@ public class GMLCoordinatesTypeBinding extends AbstractComplexBinding {
             //next tokenize by coordinate seperator
             String[] oords = tuple.split(cs);
 
-            if(cs.equals(ts) && oords.length == 1 && tuples.hasMoreTokens()){
+            if (cs.equals(ts) && oords.length == 1 && tuples.hasMoreTokens()) {
                 String tempX = oords[0];
                 oords = new String[2];
                 oords[0] = tempX;
@@ -191,7 +188,7 @@ public class GMLCoordinatesTypeBinding extends AbstractComplexBinding {
     }
 
     public Element encode(Object object, Document document, Element value)
-        throws Exception {
+            throws Exception {
         CoordinateSequence coordinates = (CoordinateSequence) object;
         StringBuffer buf = new StringBuffer();
 

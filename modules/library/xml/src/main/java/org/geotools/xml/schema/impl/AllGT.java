@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -23,9 +23,6 @@ import org.geotools.xml.schema.Element;
 
 
 /**
- *
- *
- *
  * @source $URL$
  */
 public class AllGT implements All {
@@ -35,17 +32,18 @@ public class AllGT implements All {
     private int max;
     private int min;
 
-    public AllGT( Element[] elements ) {
+    public AllGT(Element[] elements) {
         this.elements = elements;
         max = min = 1;
     }
 
-    public AllGT( String id, Element[] elements, int min, int max ) {
+    public AllGT(String id, Element[] elements, int min, int max) {
         this.id = id;
         this.elements = elements;
         this.min = min;
         this.max = max;
     }
+
     /* (non-Javadoc)
      * @see org.geotools.xml.schema.All#getElements()
      */
@@ -84,7 +82,7 @@ public class AllGT implements All {
     /* (non-Javadoc)
      * @see org.geotools.xml.schema.ElementGrouping#findChildElement(java.lang.String)
      */
-    public Element findChildElement( String name ) {
+    public Element findChildElement(String name) {
         if (elements != null) {
             for (int i = 0; i < elements.length; i++) {
                 Element e = elements[i].findChildElement(name);
@@ -98,8 +96,8 @@ public class AllGT implements All {
         return null;
     }
 
-	public Element findChildElement(String localName, URI namespaceURI) {
-		if (elements != null) {
+    public Element findChildElement(String localName, URI namespaceURI) {
+        if (elements != null) {
             for (int i = 0; i < elements.length; i++) {
                 Element e = elements[i].findChildElement(localName, namespaceURI);
 
@@ -110,6 +108,6 @@ public class AllGT implements All {
         }
 
         return null;
-	}
+    }
 
 }

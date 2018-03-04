@@ -34,8 +34,6 @@ import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ClobTestData {
@@ -50,9 +48,10 @@ public class ClobTestData {
     @SuppressWarnings("deprecation")
     public static SeColumnDefinition[] getTestTableCols() throws SeException {
         if (TEST_TABLE_COLS == null) {
-            TEST_TABLE_COLS = new SeColumnDefinition[] {
+            TEST_TABLE_COLS = new SeColumnDefinition[]{
                     new SeColumnDefinition("ROW_ID", SeColumnDefinition.TYPE_INTEGER, 10, 0, false),
-                    new SeColumnDefinition("CLOB_COL", SeColumnDefinition.TYPE_CLOB, 1000, 0, true), };
+                    new SeColumnDefinition("CLOB_COL", SeColumnDefinition.TYPE_CLOB, 1000, 0, 
+                            true),};
         }
         return TEST_TABLE_COLS;
     }
@@ -69,7 +68,9 @@ public class ClobTestData {
      */
     private String temp_table;
 
-    /** the configuration keyword to use when creating layers and tables */
+    /**
+     * the configuration keyword to use when creating layers and tables
+     */
     private String configKeyword;
 
     private ISessionPool _pool;
@@ -85,14 +86,13 @@ public class ClobTestData {
      * Must be called from inside the test's setUp() method. Loads the test fixture from
      * <code>testparams.properties</code>, besides that, does not creates any connection nor any
      * other costly resource.
-     * 
-     * @throws IOException
-     *             if the test fixture can't be loaded
-     * @throws IllegalArgumentException
-     *             if some required parameter is not found on the test fixture
+     *
+     * @throws IOException              if the test fixture can't be loaded
+     * @throws IllegalArgumentException if some required parameter is not found on the test fixture
      */
     public void setUp() throws IOException {
-        if (ArcSDEDataStoreFactory.getSdeClientVersion() == ArcSDEDataStoreFactory.JSDE_VERSION_DUMMY) {
+        if (ArcSDEDataStoreFactory.getSdeClientVersion() == ArcSDEDataStoreFactory
+                .JSDE_VERSION_DUMMY) {
             throw new RuntimeException("Don't run the test-suite with the dummy jar.  "
                     + "Make sure the real ArcSDE jars are on your classpath.");
         }
@@ -177,7 +177,7 @@ public class ClobTestData {
 
     /**
      * *Stolen as is from TestData*
-     * 
+     *
      * @return Returns the temp_table.
      * @throws SeException
      */
@@ -223,9 +223,8 @@ public class ClobTestData {
     /**
      * Gracefully deletes the temp table hiding any exception (no problem if it does not exist)
      * *Stolen as is from TestData*
-     * 
-     * @param connPool
-     *            to get the connection to use in deleting {@link #getTempTableName()}
+     *
+     * @param connPool to get the connection to use in deleting {@link #getTempTableName()}
      */
     public void deleteTempTable(ISessionPool connPool) {
         try {
@@ -274,11 +273,9 @@ public class ClobTestData {
      * Creates an ArcSDE feature type names as <code>getTemp_table()</code> on the underlying
      * database and if <code>insertTestData == true</code> also inserts some sample values. *Stolen
      * as is from TestData*
-     * 
-     * @param insertTestData
-     *            wether to insert some sample rows or not
-     * @throws Exception
-     *             for any error
+     *
+     * @param insertTestData wether to insert some sample rows or not
+     * @throws Exception for any error
      */
     public void createTempTable(final boolean insertTestData) throws Exception {
         ISessionPool connPool = getConnectionPool();
@@ -322,7 +319,7 @@ public class ClobTestData {
      * Truncates the temp layer and populates it with fresh data. This method cannot be called if
      * {@link #createTempTable(boolean)} has not been called first, no matter if the table already
      * exists, it needs instance state initialized by createTempTable *Stolen as is from TestData*
-     * 
+     *
      * @throws Exception
      */
     public void insertTestData() throws Exception {
@@ -364,11 +361,12 @@ public class ClobTestData {
     }
 
     /**
-	     * 
-	     * 
-	     */
+     *
+     *
+     */
     private static SeColumnDefinition[] createBaseTable(final ISession session,
-            final SeTable table, final SeLayer layer, final String configKeyword)
+                                                        final SeTable table, final SeLayer layer,
+                                                        final String configKeyword)
             throws IOException {
 
         Command<SeColumnDefinition[]> createTableCmd = new Command<SeColumnDefinition[]>() {
@@ -445,19 +443,19 @@ public class ClobTestData {
 
     /**
      * Inserts two data rows, creating weak geometries and short clobs.
-     * 
+     *
      * @throws ParseException
      */
     private void insertData(final SeLayer layer, final ISession session,
-            final SeColumnDefinition[] colDefs) throws Exception {
+                            final SeColumnDefinition[] colDefs) throws Exception {
         WKTReader reader = new WKTReader();
         Geometry[] geoms = new Geometry[2];
         geoms[0] = reader.read("POINT(0 0)");
         geoms[1] = reader.read("POINT(0 0)");
 
         final byte[][] strings = new byte[2][];
-        strings[0] = new byte[] { 0x00, 0x48, 0x00, 0x65, 0x00, 0x6C, 0x00, 0x6C, 0x00, 0x6F };
-        strings[1] = new byte[] { 0x00, 0x57, 0x00, 0x6F, 0x00, 0x72, 0x00, 0x6C, 0x00, 0x64 };
+        strings[0] = new byte[]{0x00, 0x48, 0x00, 0x65, 0x00, 0x6C, 0x00, 0x6C, 0x00, 0x6F};
+        strings[1] = new byte[]{0x00, 0x57, 0x00, 0x6F, 0x00, 0x72, 0x00, 0x6C, 0x00, 0x64};
 
         final SeCoordinateReference coordref = layer.getCoordRef();
         final SeShape shapes[] = new SeShape[2];

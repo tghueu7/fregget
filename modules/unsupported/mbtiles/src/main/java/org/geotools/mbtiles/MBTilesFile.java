@@ -143,9 +143,10 @@ public class MBTilesFile implements AutoCloseable {
     public MBTilesFile() throws IOException {
         this(File.createTempFile("temp", ".mbtiles"));
     }
-    
+
     /**
-     * Creates a new empty MbTilesFile, generating a new file, also deciding if journal must be disabled or not. 
+     * Creates a new empty MbTilesFile, generating a new file, also deciding if journal must be 
+     * disabled or not.
      * <p>
      * This constructor assumes no credentials are required to connect to the database.
      * </p>
@@ -163,9 +164,10 @@ public class MBTilesFile implements AutoCloseable {
     public MBTilesFile(File file) throws IOException {
         this(file, null, null, false);
     }
-    
+
     /**
-     * Creates a MbTilesFile from an existing file, also deciding if journal must be disabled or not. 
+     * Creates a MbTilesFile from an existing file, also deciding if journal must be disabled or 
+     * not.
      * <p>
      * This constructor assumes no credentials are required to connect to the database.
      * </p>
@@ -177,10 +179,11 @@ public class MBTilesFile implements AutoCloseable {
     /**
      * Creates a MbTilesFile from an existing file specifying database credentials.
      */
-    public MBTilesFile(File file, String user, String passwd, boolean disableJournal) throws IOException {
+    public MBTilesFile(File file, String user, String passwd, boolean disableJournal) throws 
+            IOException {
         this.file = file;
         this.disableJournal = disableJournal;
-        Map<String, Object> params = new HashMap<String, Object> ();
+        Map<String, Object> params = new HashMap<String, Object>();
         if (user != null) {
             params.put(MBTilesDataStoreFactory.USER.key, user);
         }
@@ -205,7 +208,7 @@ public class MBTilesFile implements AutoCloseable {
 
     /**
      * Store MetaData in file
-     * 
+     *
      * @param metaData
      * @throws IOException
      */
@@ -233,6 +236,7 @@ public class MBTilesFile implements AutoCloseable {
     /**
      * Save the minimum and maximum zoom level as metadata items.  GDAL and QGIS
      * expect these items.
+     *
      * @param min The minimum zoom level
      * @param max The maximum zoom level
      * @throws IOException
@@ -260,13 +264,13 @@ public class MBTilesFile implements AutoCloseable {
         try {
             Connection cx = connPool.getConnection();
             try {
-                
-                if(disableJournal){
+
+                if (disableJournal) {
                     disableJournal(cx);
                 }
-                
+
                 PreparedStatement ps;
-                
+
                 if (entry.getData() != null) {
                     ps = prepare(cx,
                             format("INSERT OR REPLACE INTO %s VALUES (?,?,?,?)", TABLE_TILES))
@@ -276,7 +280,8 @@ public class MBTilesFile implements AutoCloseable {
                 } else {
                     ps = prepare(
                             cx,
-                            format("DELETE FROM %s WHERE zoom_level=? AND tile_column=? AND tile_row=?",
+                            format("DELETE FROM %s WHERE zoom_level=? AND tile_column=? AND " +
+                                            "tile_row=?",
                                     TABLE_TILES)).set(entry.getZoomLevel())
                             .set(entry.getTileColumn()).set(entry.getTileRow()).log(Level.FINE)
                             .statement();
@@ -284,8 +289,8 @@ public class MBTilesFile implements AutoCloseable {
                 ps.execute();
                 ps.close();
 
-                saveMinMaxZoomMetadata((int)Math.min(entry.getZoomLevel(), this.minZoom()),
-                        (int)Math.max(entry.getZoomLevel(), this.maxZoom()));
+                saveMinMaxZoomMetadata((int) Math.min(entry.getZoomLevel(), this.minZoom()),
+                        (int) Math.max(entry.getZoomLevel(), this.maxZoom()));
 
             } finally {
                 cx.close();
@@ -297,7 +302,7 @@ public class MBTilesFile implements AutoCloseable {
 
     /**
      * Store a grid
-     * 
+     *
      * @throws IOException
      */
     public void saveGrid(MBTilesGrid entry) throws IOException {
@@ -315,7 +320,8 @@ public class MBTilesFile implements AutoCloseable {
                 } else {
                     ps = prepare(
                             cx,
-                            format("DELETE FROM %s WHERE zoom_level=? AND tile_column=? AND tile_row=?",
+                            format("DELETE FROM %s WHERE zoom_level=? AND tile_column=? AND " +
+                                            "tile_row=?",
                                     TABLE_GRIDS)).set(entry.getZoomLevel())
                             .set(entry.getTileColumn()).set(entry.getTileRow()).log(Level.FINE)
                             .statement();
@@ -326,14 +332,16 @@ public class MBTilesFile implements AutoCloseable {
                 for (Map.Entry<String, String> gridDataEntry : entry.getGridData().entrySet()) {
                     if (gridDataEntry.getValue() != null) {
                         ps = prepare(cx,
-                                format("INSERT OR REPLACE INTO %s VALUES (?,?,?,?,?)", TABLE_GRID_DATA))
+                                format("INSERT OR REPLACE INTO %s VALUES (?,?,?,?,?)", 
+                                        TABLE_GRID_DATA))
                                 .set(entry.getZoomLevel()).set(entry.getTileColumn())
                                 .set(entry.getTileRow()).set(gridDataEntry.getKey())
                                 .set(gridDataEntry.getValue()).log(Level.FINE).statement();
                     } else {
                         ps = prepare(
                                 cx,
-                                format("DELETE FROM %s WHERE zoom_level=? AND tile_column=? AND tile_row=? AND key_name=?",
+                                format("DELETE FROM %s WHERE zoom_level=? AND tile_column=? AND " +
+                                                "tile_row=? AND key_name=?",
                                         TABLE_GRID_DATA)).set(entry.getZoomLevel())
                                 .set(entry.getTileColumn()).set(entry.getTileRow())
                                 .set(gridDataEntry.getKey()).log(Level.FINE).statement();
@@ -387,7 +395,8 @@ public class MBTilesFile implements AutoCloseable {
 
                 ps = prepare(
                         cx,
-                        format("SELECT tile_data FROM %s WHERE zoom_level=? AND tile_column=? AND tile_row=?",
+                        format("SELECT tile_data FROM %s WHERE zoom_level=? AND tile_column=? AND" +
+                                        " tile_row=?",
                                 TABLE_TILES)).set(entry.getZoomLevel()).set(entry.getTileColumn())
                         .set(entry.getTileRow()).log(Level.FINE).statement();
                 ResultSet rs = ps.executeQuery();
@@ -421,7 +430,8 @@ public class MBTilesFile implements AutoCloseable {
 
                 ps = prepare(
                         cx,
-                        format("SELECT grid FROM %s WHERE zoom_level=? AND tile_column=? AND tile_row=?",
+                        format("SELECT grid FROM %s WHERE zoom_level=? AND tile_column=? AND " +
+                                        "tile_row=?",
                                 TABLE_GRIDS)).set(entry.getZoomLevel()).set(entry.getTileColumn())
                         .set(entry.getTileRow()).log(Level.FINE).statement();
                 ResultSet rs = ps.executeQuery();
@@ -436,8 +446,10 @@ public class MBTilesFile implements AutoCloseable {
 
                 ps = prepare(
                         cx,
-                        format("SELECT key_name, key_json FROM %s WHERE zoom_level=? AND tile_column=? AND tile_row=?",
-                                TABLE_GRID_DATA)).set(entry.getZoomLevel()).set(entry.getTileColumn())
+                        format("SELECT key_name, key_json FROM %s WHERE zoom_level=? AND " +
+                                        "tile_column=? AND tile_row=?",
+                                TABLE_GRID_DATA)).set(entry.getZoomLevel()).set(entry
+                        .getTileColumn())
                         .set(entry.getTileRow()).log(Level.FINE).statement();
                 rs = ps.executeQuery();
 
@@ -461,19 +473,23 @@ public class MBTilesFile implements AutoCloseable {
         Statement st = cx.createStatement();
         return new TileIterator(st.executeQuery("SELECT * FROM " + TABLE_TILES + ";"));
     }
-    
+
     public TileIterator tiles(long zoomLevel) throws SQLException {
         Connection cx = connPool.getConnection();
         PreparedStatement ps = prepare(
-                cx, format("SELECT * FROM %s WHERE zoom_level=?", TABLE_TILES)).set(zoomLevel).statement();
+                cx, format("SELECT * FROM %s WHERE zoom_level=?", TABLE_TILES)).set(zoomLevel)
+                .statement();
         return new TileIterator(ps.executeQuery());
     }
-    
-    public TileIterator tiles(long zoomLevel, long leftTile, long bottomTile, long rightTile, long topTile) throws SQLException {
+
+    public TileIterator tiles(long zoomLevel, long leftTile, long bottomTile, long rightTile, 
+                              long topTile) throws SQLException {
         Connection cx = connPool.getConnection();
         PreparedStatement ps = prepare(
-                cx, format("SELECT * FROM %s WHERE zoom_level=? AND tile_column >= ? AND tile_row >= ? AND tile_column <= ? AND tile_row <= ?", TABLE_TILES))
-                .set(zoomLevel).set(leftTile).set(bottomTile).set(rightTile).set(topTile).statement();
+                cx, format("SELECT * FROM %s WHERE zoom_level=? AND tile_column >= ? AND tile_row" +
+                        " >= ? AND tile_column <= ? AND tile_row <= ?", TABLE_TILES))
+                .set(zoomLevel).set(leftTile).set(bottomTile).set(rightTile).set(topTile)
+                .statement();
         return new TileIterator(ps.executeQuery());
     }
 
@@ -492,13 +508,14 @@ public class MBTilesFile implements AutoCloseable {
         }
         return size;
     }
-    
+
     public int numberOfTiles(long zoomLevel) throws SQLException {
         int size;
         Connection cx = connPool.getConnection();
         try {
             PreparedStatement ps = prepare(
-                    cx, format("SELECT COUNT(*) FROM %s WHERE zoom_level=?", TABLE_TILES)).set(zoomLevel).statement();
+                    cx, format("SELECT COUNT(*) FROM %s WHERE zoom_level=?", TABLE_TILES)).set
+                    (zoomLevel).statement();
             ResultSet rs = ps.executeQuery();
             rs.next();
             size = rs.getInt(1);
@@ -509,13 +526,14 @@ public class MBTilesFile implements AutoCloseable {
         }
         return size;
     }
-              
+
     public long closestZoom(long zoomLevel) throws SQLException {
         long zoom = 0;
         Connection cx = connPool.getConnection();
         try {
             PreparedStatement ps = prepare(
-                    cx, format("SELECT zoom_level FROM %s ORDER BY abs(zoom_level - ?)", TABLE_TILES)).set(zoomLevel).statement();
+                    cx, format("SELECT zoom_level FROM %s ORDER BY abs(zoom_level - ?)", 
+                            TABLE_TILES)).set(zoomLevel).statement();
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 zoom = rs.getLong(1);
@@ -561,13 +579,14 @@ public class MBTilesFile implements AutoCloseable {
         }
         return zoom;
     }
-    
+
     public long minColumn(long zoomLevel) throws SQLException {
         long size = 0;
         Connection cx = connPool.getConnection();
         try {
             PreparedStatement ps = prepare(
-                    cx, format("SELECT MIN(tile_column) FROM %s WHERE zoom_level=?", TABLE_TILES)).set(zoomLevel).statement();
+                    cx, format("SELECT MIN(tile_column) FROM %s WHERE zoom_level=?", TABLE_TILES)
+            ).set(zoomLevel).statement();
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 size = rs.getLong(1);
@@ -579,13 +598,14 @@ public class MBTilesFile implements AutoCloseable {
         }
         return size;
     }
-    
+
     public long maxColumn(long zoomLevel) throws SQLException {
         long size = Long.MAX_VALUE;
         Connection cx = connPool.getConnection();
         try {
             PreparedStatement ps = prepare(
-                    cx, format("SELECT MAX(tile_column) FROM %s WHERE zoom_level=?", TABLE_TILES)).set(zoomLevel).statement();
+                    cx, format("SELECT MAX(tile_column) FROM %s WHERE zoom_level=?", TABLE_TILES)
+            ).set(zoomLevel).statement();
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 size = rs.getLong(1);
@@ -597,13 +617,14 @@ public class MBTilesFile implements AutoCloseable {
         }
         return size;
     }
-    
+
     public long minRow(long zoomLevel) throws SQLException {
         long size = 0;
         Connection cx = connPool.getConnection();
         try {
             PreparedStatement ps = prepare(
-                    cx, format("SELECT MIN(tile_row) FROM %s WHERE zoom_level=?", TABLE_TILES)).set(zoomLevel).statement();
+                    cx, format("SELECT MIN(tile_row) FROM %s WHERE zoom_level=?", TABLE_TILES))
+                    .set(zoomLevel).statement();
             ResultSet rs = ps.executeQuery();
             rs.next();
             if (rs.next()) {
@@ -616,13 +637,14 @@ public class MBTilesFile implements AutoCloseable {
         }
         return size;
     }
-    
+
     public long maxRow(long zoomLevel) throws SQLException {
         long size = Long.MAX_VALUE;
         Connection cx = connPool.getConnection();
         try {
             PreparedStatement ps = prepare(
-                    cx, format("SELECT MAX(tile_row) FROM %s WHERE zoom_level=?", TABLE_TILES)).set(zoomLevel).statement();
+                    cx, format("SELECT MAX(tile_row) FROM %s WHERE zoom_level=?", TABLE_TILES))
+                    .set(zoomLevel).statement();
             ResultSet rs = ps.executeQuery();
             rs.next();
             size = rs.getLong(1);
@@ -637,7 +659,8 @@ public class MBTilesFile implements AutoCloseable {
     /**
      * Closes the mbtiles database connection.
      * <p>
-     * The application should always call this method when done with a mbtiles to prevent connection leakage.
+     * The application should always call this method when done with a mbtiles to prevent 
+     * connection leakage.
      * </p>
      */
     public void close() {
@@ -670,10 +693,10 @@ public class MBTilesFile implements AutoCloseable {
     protected void saveMetaDataEntry(String name, String value, Connection cx) throws SQLException {
         PreparedStatement ps;
 
-        if(disableJournal){
+        if (disableJournal) {
             disableJournal(cx);
         }
-        
+
         if (value != null) {
             ps = prepare(cx, format("INSERT OR REPLACE INTO %s VALUES (?,?)", TABLE_METADATA))
                     .set(name).set(value).log(Level.FINE).statement();
@@ -739,16 +762,16 @@ public class MBTilesFile implements AutoCloseable {
     protected void runScript(String filename, Connection cx) throws SQLException {
         SqlUtil.runScript(getClass().getResourceAsStream(filename), cx);
     }
-    
+
     private void disableJournal(Connection cx) throws SQLException {
-        PreparedStatement prepared = prepare(cx,PRAGMA_JOURNAL_MODE_OFF).statement();
-        try{
+        PreparedStatement prepared = prepare(cx, PRAGMA_JOURNAL_MODE_OFF).statement();
+        try {
             prepared.execute();
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new SQLException(e);
-        }finally{
-            if(prepared != null){
-                    prepared.close();
+        } finally {
+            if (prepared != null) {
+                prepared.close();
             }
         }
     }

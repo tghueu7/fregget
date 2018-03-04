@@ -22,10 +22,11 @@ import org.geotools.swing.data.JFileDataStoreChooser;
 public class QuickstartCache {
 
     // docs start cache
+
     /**
      * This method demonstrates using a memory-based cache to speed up the display (e.g. when
      * zooming in and out).
-     * 
+     * <p>
      * There is just one line extra compared to the main method, where we create an instance of
      * CachingFeatureStore.
      */
@@ -38,7 +39,7 @@ public class QuickstartCache {
 
         FileDataStore store = FileDataStoreFinder.getDataStore(file);
         SimpleFeatureSource featureSource = store.getFeatureSource();
-        
+
         // CachingFeatureSource is deprecated as experimental (not yet production ready)
         CachingFeatureSource cache = new CachingFeatureSource(featureSource);
 

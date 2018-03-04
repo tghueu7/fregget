@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2014-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -27,7 +27,7 @@ import org.junit.Test;
 import org.opengis.feature.type.Name;
 
 public class ContentDataStoreTest extends AbstractContentTest {
-    
+
     protected static final Name TYPENAME2 = new NameImpl("http://www.geotools.org", "Mock2");
 
     @Test
@@ -39,9 +39,11 @@ public class ContentDataStoreTest extends AbstractContentTest {
                     throws java.io.IOException {
                 creationCounter.incrementAndGet();
                 return super.createTypeNames();
-            };
+            }
+
+            ;
         };
-        
+
         store.getFeatureSource(TYPENAME.getLocalPart());
         assertEquals(1, creationCounter.get());
 
@@ -59,7 +61,9 @@ public class ContentDataStoreTest extends AbstractContentTest {
                     throws java.io.IOException {
                 creationCounter.incrementAndGet();
                 return Arrays.asList(TYPENAME, TYPENAME2);
-            };
+            }
+
+            ;
         };
 
         store.getFeatureSource(TYPENAME.getLocalPart());

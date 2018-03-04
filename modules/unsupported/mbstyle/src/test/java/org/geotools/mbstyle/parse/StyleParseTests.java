@@ -113,7 +113,7 @@ public class StyleParseTests {
         assertEquals(30.0, l.getHueRotate().doubleValue(), .00001);
         assertEquals(0.9, l.getSaturation().doubleValue(), .00001);
     }
-    
+
     /**
      * Verify that symbol layer properties are parsed correctly.
      */
@@ -146,24 +146,24 @@ public class StyleParseTests {
         assertEquals(new Color(0xABCDEF), l.getTextHaloColor());
         assertEquals(0.0, l.getTextHaloWidth().doubleValue(), .00001);
         assertEquals(0.0, l.getTextHaloBlur().doubleValue(), .00001);
-        
+
         assertEquals(2, l.getIconOffset().length);
         assertEquals(-1, l.getIconOffset()[0], .00001);
         assertEquals(-10, l.getIconOffset()[1], .00001);
-        
+
         assertEquals(2, l.getTextOffset().length);
         assertEquals(1, l.getTextOffset()[0], .00001);
         assertEquals(1, l.getTextOffset()[1], .00001);
-        
+
         assertEquals(2, l.getIconTranslate().length);
         assertEquals(1, l.getIconTranslate()[0], .00001);
         assertEquals(1, l.getIconTranslate()[1], .00001);
-        
+
         assertEquals(2, l.getTextTranslate().length);
         assertEquals(-1, l.getTextTranslate()[0], .00001);
-        assertEquals(-1, l.getTextTranslate()[1], .00001);        
+        assertEquals(-1, l.getTextTranslate()[1], .00001);
     }
-    
+
     /**
      * Verify that symbol layer properties have correct defaults.
      */
@@ -177,7 +177,7 @@ public class StyleParseTests {
         assertEquals("testsource", l.getSource());
 
         assertEquals(SymbolPlacement.POINT, l.getSymbolPlacement());
-        assertEquals(250.0 , l.getSymbolSpacing().doubleValue(), .00001);
+        assertEquals(250.0, l.getSymbolSpacing().doubleValue(), .00001);
         assertEquals(false, l.getSymbolAvoidEdges());
         assertEquals(false, l.getIconAllowOverlap());
         assertEquals(false, l.getIconIgnorePlacement());
@@ -190,15 +190,16 @@ public class StyleParseTests {
         assertEquals(0.0, l.getIconRotate().doubleValue(), .00001);
         assertEquals(2.0, l.getIconPadding().doubleValue(), .00001);
         assertEquals(false, l.getIconKeepUpright());
-        
+
         assertEquals(2, l.getIconOffset().length);
         assertEquals(0, l.getIconOffset()[0], .00001);
         assertEquals(0, l.getIconOffset()[1], .00001);
-        
+
         assertEquals(Alignment.AUTO, l.getTextPitchAlignment());
         assertEquals(Alignment.AUTO, l.getTextRotationAlignment());
         assertEquals("", l.getTextField());
-        assertEquals(Arrays.asList("Open Sans Regular","Arial Unicode MS Regular"), l.getTextFont());
+        assertEquals(Arrays.asList("Open Sans Regular", "Arial Unicode MS Regular"), l
+                .getTextFont());
         assertEquals(16.0, l.getTextSize().doubleValue(), .00001);
         assertEquals(10.0, l.getTextMaxWidth().doubleValue(), .00001);
         assertEquals(1.2, l.getTextLineHeight().doubleValue(), .00001);
@@ -209,49 +210,49 @@ public class StyleParseTests {
         assertEquals(2.0, l.getTextPadding().doubleValue(), .00001);
         assertEquals(true, l.getTextKeepUpright());
         assertEquals(TextTransform.NONE, l.getTextTransform());
-        
+
         assertEquals(2, l.getTextOffset().length);
         assertEquals(0, l.getTextOffset()[0], .00001);
         assertEquals(0, l.getTextOffset()[1], .00001);
-        
+
         assertEquals(false, l.getTextAllowOverlap());
         assertEquals(false, l.getTextIgnorePlacement());
         assertEquals(false, l.getTextOptional());
         assertEquals(1.0, l.getIconOpacity().doubleValue(), .00001);
         assertEquals(new Color(0x000000), l.getIconColor());
-        assertEquals(new Color(0,0,0,0), l.getIconHaloColor());
+        assertEquals(new Color(0, 0, 0, 0), l.getIconHaloColor());
         assertEquals(0, l.getIconHaloWidth().doubleValue(), .00001);
         assertEquals(0, l.getIconHaloBlur().doubleValue(), .00001);
-        
+
         assertEquals(2, l.getIconTranslate().length);
         assertEquals(0, l.getIconTranslate()[0], .00001);
         assertEquals(0, l.getIconTranslate()[1], .00001);
-        
-        
+
+
         assertEquals(TranslateAnchor.MAP, l.getIconTranslateAnchor());
         assertEquals(1, l.getTextOpacity().doubleValue(), .00001);
         assertEquals(Color.black, l.getTextColor());
-        assertEquals(new Color(0,0,0,0), l.getTextHaloColor());
+        assertEquals(new Color(0, 0, 0, 0), l.getTextHaloColor());
         assertEquals(0.0, l.getTextHaloWidth().doubleValue(), .00001);
         assertEquals(0.0, l.getTextHaloBlur().doubleValue(), .00001);
         assertEquals(TranslateAnchor.MAP, l.getTextTranslateAnchor());
-        
+
         assertEquals(2, l.getTextTranslate().length);
         assertEquals(0, l.getTextTranslate()[0], .00001);
-        assertEquals(0, l.getTextTranslate()[1], .00001);    
+        assertEquals(0, l.getTextTranslate()[1], .00001);
     }
-    
+
 
     /**
      * Verify that background layer properties are parsed correctly.
      */
     @Test
-    public void testParseBackgroundLayer()  throws IOException, ParseException {
+    public void testParseBackgroundLayer() throws IOException, ParseException {
         JSONObject jsonObject = MapboxTestUtils.parseTestStyle("backgroundColorStyleTest.json");
         MBStyle s = new MBStyle(jsonObject);
         BackgroundMBLayer l = getSingleLayerOfType(s, BackgroundMBLayer.class);
-        assertEquals(new Color(0x00FF00),  l.getBackgroundColor());
-        assertEquals(0.45,  l.getBackgroundOpacity().doubleValue(), .00001);
+        assertEquals(new Color(0x00FF00), l.getBackgroundColor());
+        assertEquals(0.45, l.getBackgroundOpacity().doubleValue(), .00001);
         assertNull(l.getBackgroundPattern());
     }
 
@@ -259,7 +260,7 @@ public class StyleParseTests {
      * Verify that line layer properties are parsed correctly.
      */
     @Test
-    public void testParseLineLayer() throws  IOException, ParseException {
+    public void testParseLineLayer() throws IOException, ParseException {
         JSONObject jsonObject = MapboxTestUtils.parseTestStyle("lineStyleTest.json");
         MBStyle s = new MBStyle(jsonObject);
         LineMBLayer l = getSingleLayerOfType(s, LineMBLayer.class);
@@ -274,8 +275,10 @@ public class StyleParseTests {
         assertEquals(4.0, l.getLineOffset().doubleValue(), .00001);
         // line-gap-width can be either an integer or double.
         assertNotNull(l.lineTranslateDisplacement());
-        Number dispX = l.lineTranslateDisplacement().getDisplacementX().evaluate(null, Number.class);
-        Number dispY = l.lineTranslateDisplacement().getDisplacementY().evaluate(null, Number.class);
+        Number dispX = l.lineTranslateDisplacement().getDisplacementX().evaluate(null, Number
+                .class);
+        Number dispY = l.lineTranslateDisplacement().getDisplacementY().evaluate(null, Number
+                .class);
         assertEquals(3, dispX.intValue());
         assertEquals(3, dispY.intValue());
         // line-width can be either an integer or double.

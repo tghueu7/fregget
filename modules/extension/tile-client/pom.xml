@@ -22,7 +22,7 @@
     <groupId>org.geotools</groupId>
     <artifactId>gt-tile-client</artifactId>
     <packaging>jar</packaging>
-  
+
     <name>Tile Client</name>
 
     <description>
@@ -31,7 +31,7 @@
     </description>
 
     <inceptionYear>2015</inceptionYear>
- 
+
     <licenses>
         <license>
             <name>Lesser General Public License (LGPL)</name>

@@ -18,6 +18,7 @@
 package org.geotools.process.raster;
 
 import static org.junit.Assert.assertEquals;
+
 import it.geosolutions.jaiext.JAIExt;
 
 import java.awt.Rectangle;
@@ -61,22 +62,29 @@ import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * This class is used for testing the processes operating on the bands: BandMerge and BandSelect.
- * 
+ *
  * @author Nicola Lagomarsini, GeoSolutions S.A.S.
- * 
  */
 public class BandProcessTest {
 
-    /** Tolerance value for the double comparison */
+    /**
+     * Tolerance value for the double comparison
+     */
     private static final double TOLERANCE = 0.1d;
 
-    /** First coverage to use */
+    /**
+     * First coverage to use
+     */
     private static GridCoverage2D coverage1;
 
-    /** Second coverage to use, equal to the first coverage */
+    /**
+     * Second coverage to use, equal to the first coverage
+     */
     private static GridCoverage2D coverage2;
 
-    /** Third coverage to use, which equal to the first one but also translated on the X direction */
+    /**
+     * Third coverage to use, which equal to the first one but also translated on the X direction
+     */
     private static GridCoverage2D coverage3;
 
     @BeforeClass
@@ -102,7 +110,8 @@ public class BandProcessTest {
         // Second File selection
         coverage2 = coverage1;
 
-        // Third file selection (This file is similar to the first one but it is translated by 1 on the X direction)
+        // Third file selection (This file is similar to the first one but it is translated by 1 
+        // on the X direction)
         File input2 = TestData.file(BandProcessTest.class, "sample2.tif");
         format = GridFormatFinder.findFormat(input2);
         // Get a reader for the selected format
@@ -173,10 +182,10 @@ public class BandProcessTest {
         BandSelectProcess bandselect = new BandSelectProcess();
 
         // Selection of the first coverage
-        GridCoverage2D selected1 = bandselect.execute(merged, new int[] { 0 }, null);
+        GridCoverage2D selected1 = bandselect.execute(merged, new int[]{0}, null);
 
         // Selection of the second coverage
-        GridCoverage2D selected2 = bandselect.execute(merged, new int[] { 1 }, null);
+        GridCoverage2D selected2 = bandselect.execute(merged, new int[]{1}, null);
 
         // Check the sample dimensions number
         assertEquals(1, selected1.getNumSampleDimensions());
@@ -249,10 +258,10 @@ public class BandProcessTest {
         BandSelectProcess bandselect = new BandSelectProcess();
 
         // Selection of the first coverage
-        GridCoverage2D selected1 = bandselect.execute(merged, new int[] { 0 }, null);
+        GridCoverage2D selected1 = bandselect.execute(merged, new int[]{0}, null);
 
         // Selection of the second coverage
-        GridCoverage2D selected2 = bandselect.execute(merged, new int[] { 1 }, null);
+        GridCoverage2D selected2 = bandselect.execute(merged, new int[]{1}, null);
 
         // Check the sample dimensions number
         assertEquals(1, selected1.getNumSampleDimensions());
@@ -267,9 +276,10 @@ public class BandProcessTest {
         assertEqualImageDim(mergedImg, selected2.getRenderedImage());
 
         // Ensure equal images inside ROI. This requires cropping the images
-        
+
         // World to grid transform for mapping the ROI in the Raster apsce
-        MathTransform2D tr = coverage1.getGridGeometry().getCRSToGrid2D(PixelOrientation.UPPER_LEFT);
+        MathTransform2D tr = coverage1.getGridGeometry().getCRSToGrid2D(PixelOrientation
+                .UPPER_LEFT);
         // ROI object inthe Raster Space
         ROI roi = new ROIGeometry(JTS.transform(geo, tr));
 
@@ -282,7 +292,8 @@ public class BandProcessTest {
         RenderedImage cropSel2 = crop.execute(selected2, geo,
                 null).getRenderedImage();
 
-        // Ensure that the images are equals on the cropped selection (The new images contains no data outside of the selection)
+        // Ensure that the images are equals on the cropped selection (The new images contains no
+        // data outside of the selection)
         ensureEqualImages(selected1.getRenderedImage(), cropSel1);
         ensureEqualImages(selected2.getRenderedImage(), cropSel2);
 
@@ -291,7 +302,8 @@ public class BandProcessTest {
         ensureNoDataOutside(selected2, geo);
     }
 
-    // Ensure that the merging and selecting two images where one of them is translated, returns the two images, each of the placed
+    // Ensure that the merging and selecting two images where one of them is translated, returns 
+    // the two images, each of the placed
     // by taking into account their position inside the global image envelope
     @Test
     public void testDifferentImages() {
@@ -332,10 +344,10 @@ public class BandProcessTest {
         BandSelectProcess bandselect = new BandSelectProcess();
 
         // Selection of the first coverage
-        GridCoverage2D selected1 = bandselect.execute(merged, new int[] { 0 }, null);
+        GridCoverage2D selected1 = bandselect.execute(merged, new int[]{0}, null);
 
         // Selection of the second coverage
-        GridCoverage2D selected2 = bandselect.execute(merged, new int[] { 1 }, null);
+        GridCoverage2D selected2 = bandselect.execute(merged, new int[]{1}, null);
 
         // Check the sample dimensions number
         assertEquals(1, selected1.getNumSampleDimensions());
@@ -375,7 +387,7 @@ public class BandProcessTest {
 
     /**
      * Ensure that the input Images have the same dimensions
-     * 
+     *
      * @param mergedImg
      * @param srcImg1
      */
@@ -388,7 +400,7 @@ public class BandProcessTest {
 
     /**
      * Method for checking that two bounding box are equals
-     * 
+     *
      * @param sourceEnv
      * @param dstEnv
      */
@@ -411,12 +423,12 @@ public class BandProcessTest {
 
     /**
      * Method for checking that two images are equal
-     * 
+     *
      * @param source0
      * @param source1
      */
     private void ensureEqualImages(RenderedImage source0, RenderedImage source1) {
-        ImageWorker  w = new ImageWorker(source0);
+        ImageWorker w = new ImageWorker(source0);
         // Subtraction between the two images
         w.subtract(source1);
         // Calculation of the mean value of the subtraction operation
@@ -428,7 +440,7 @@ public class BandProcessTest {
 
     /**
      * Method for creating the ROI to test
-     * 
+     *
      * @param coverage
      * @return
      */
@@ -443,22 +455,22 @@ public class BandProcessTest {
         for (int i = 0; i < coordinates.length; i++) {
 
             switch (i) {
-            case 0:
-            case 4:
-                coordinates[i] = new Coordinate(envelope.getMinX(), envelope.getMinY());
-                break;
-            case 1:
-                coordinates[i] = new Coordinate(envelope.getMinX(), envelope.getMinY()
-                        + envelope.getHeight() / 2);
-                break;
-            case 2:
-                coordinates[i] = new Coordinate(envelope.getMinX() + envelope.getWidth() / 2,
-                        envelope.getMinY() + envelope.getHeight() / 2);
-                break;
-            case 3:
-                coordinates[i] = new Coordinate(envelope.getMinX() + envelope.getWidth() / 2,
-                        envelope.getMinY());
-                break;
+                case 0:
+                case 4:
+                    coordinates[i] = new Coordinate(envelope.getMinX(), envelope.getMinY());
+                    break;
+                case 1:
+                    coordinates[i] = new Coordinate(envelope.getMinX(), envelope.getMinY()
+                            + envelope.getHeight() / 2);
+                    break;
+                case 2:
+                    coordinates[i] = new Coordinate(envelope.getMinX() + envelope.getWidth() / 2,
+                            envelope.getMinY() + envelope.getHeight() / 2);
+                    break;
+                case 3:
+                    coordinates[i] = new Coordinate(envelope.getMinX() + envelope.getWidth() / 2,
+                            envelope.getMinY());
+                    break;
             }
         }
         // polygon creation from the coordinate array
@@ -470,7 +482,7 @@ public class BandProcessTest {
 
     /**
      * Method for checking if the coverage values outside ROI are NoData
-     * 
+     *
      * @param coverage
      * @param feature
      * @throws MismatchedDimensionException
@@ -505,8 +517,10 @@ public class BandProcessTest {
                 int minx = tile.getMinX();
                 int miny = tile.getMinY();
 
-                int maxx = Math.min(minx + tile.getWidth(), img.getMinX() + img.getWidth() - tx * img.getTileWidth());
-                int maxy = Math.min(miny + tile.getHeight(), img.getMinY() + img.getHeight() - tx * img.getTileHeight());
+                int maxx = Math.min(minx + tile.getWidth(), img.getMinX() + img.getWidth() - tx *
+                        img.getTileWidth());
+                int maxy = Math.min(miny + tile.getHeight(), img.getMinY() + img.getHeight() - tx
+                        * img.getTileHeight());
                 // Check each pixel outside the ROI
                 for (int x = minx; x < maxx; x++) {
                     for (int y = miny; y < maxy; y++) {

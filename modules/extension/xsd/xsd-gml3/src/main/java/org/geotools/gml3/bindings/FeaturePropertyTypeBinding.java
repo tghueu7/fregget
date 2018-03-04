@@ -45,13 +45,14 @@ import org.xml.sax.Attributes;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:FeaturePropertyType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="FeaturePropertyType"&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;Container for a feature - follow gml:AssociationType pattern.&lt;/documentation&gt;
+ *          &lt;documentation&gt;Container for a feature - follow gml:AssociationType pattern
+ *          .&lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;sequence minOccurs="0"&gt;
  *          &lt;element ref="gml:_Feature"/&gt;
@@ -62,9 +63,6 @@ import org.xml.sax.Attributes;
  *          </code>
  *         </pre>
  * </p>
- *
- *
- *
  *
  * @source $URL$
  */
@@ -104,10 +102,10 @@ public class FeaturePropertyTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return node.getChildValue(Feature.class);
     }
-    
+
     @Override
     public Object getProperty(Object object, QName name) throws Exception {
         if (GML._Feature.equals(name)) {
@@ -135,10 +133,10 @@ public class FeaturePropertyTypeBinding extends AbstractComplexBinding {
         }
         return null;
     }
-    
+
     /**
      * @see org.geotools.xml.AbstractComplexBinding#encode(java.lang.Object, org.w3c.dom.Document,
-     *      org.w3c.dom.Element)
+     * org.w3c.dom.Element)
      */
     @Override
     public Element encode(Object object, Document document, Element value) throws Exception {
@@ -154,11 +152,9 @@ public class FeaturePropertyTypeBinding extends AbstractComplexBinding {
     /**
      * Check if the complex attribute contains a feature which id is pre-existing in the document.
      * If it's true, make sure it's only encoded as an xlink:href to the existing id.
-     * 
-     * @param value
-     *            The complex attribute value
-     * @param att
-     *            The complex attribute itself
+     *
+     * @param value The complex attribute value
+     * @param att   The complex attribute itself
      */
     private void checkXlinkHref(ComplexAttribute att) {
 
@@ -191,11 +187,11 @@ public class FeaturePropertyTypeBinding extends AbstractComplexBinding {
 
         return;
     }
-    
-    
+
+
     /**
      * Convert a {@link QName} to a {@link Name}.
-     * 
+     *
      * @param name
      * @return
      */

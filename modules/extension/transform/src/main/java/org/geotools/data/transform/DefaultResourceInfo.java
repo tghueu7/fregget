@@ -31,7 +31,7 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 /**
  * A default implementaiton of a {@link ResourceInfo} based solely on the information that can be
  * obtained from {@link FeatureSource} (schema and bounds)
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 class DefaultResourceInfo implements ResourceInfo {

@@ -49,13 +49,10 @@ import org.junit.Test;
 
 /**
  * @author Gabriel Roldan (OpenGeo)
- * 
- *
- *
- * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/test/java/org
- *         /geotools/arcsde/ArcSDEJNDIDataStoreFactoryTest.java $
  * @version $Id$
+ * @source $URL$
+ * http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/test/java/org
+ * /geotools/arcsde/ArcSDEJNDIDataStoreFactoryTest.java $
  * @since 2.5.7
  */
 public class ArcSDEJNDIDataStoreFactoryTest {
@@ -127,7 +124,7 @@ public class ArcSDEJNDIDataStoreFactoryTest {
 
     /**
      * Test method for {@link ArcSDEJNDIDataStoreFactory#createDataStore(java.util.Map)}.
-     * 
+     *
      * @throws IOException
      */
     @Test
@@ -210,7 +207,7 @@ public class ArcSDEJNDIDataStoreFactoryTest {
 
     /**
      * Test method for {@link ArcSDEJNDIDataStoreFactory#createNewDataStore(java.util.Map)}.
-     * 
+     *
      * @throws IOException
      */
     @Test

@@ -2,10 +2,8 @@ package org.geotools.data.efeature;
 
 /**
  * Interface for {@link EFeature} status.
- * 
- * @author kengu, 22. apr. 2011
- * 
  *
+ * @author kengu, 22. apr. 2011
  * @source $URL$
  */
 public interface EFeatureStatus {
@@ -34,7 +32,7 @@ public interface EFeatureStatus {
      * Get {@link Throwable#getStackTrace() stack trace}
      */
     public StackTraceElement[] getStackTrace();
-    
+
     /**
      * Get status source
      */
@@ -62,22 +60,23 @@ public interface EFeatureStatus {
 
     /**
      * Create new status instance with given message.
-     * 
+     *
      * @param message - new message
      * @return a new {@link EFeatureStatus} instance
      */
     public EFeatureStatus clone(String message);
-    
+
     /**
      * Create new status instance with given message.
-     * 
+     *
      * @param message - new message
-     * @param cause - (optional) {@link Throwable thowable} or 
-     * {@link Throwable#getStackTrace() stack trace} cause
+     * @param cause   - (optional) {@link Throwable thowable} or
+     *                {@link Throwable#getStackTrace() stack trace} cause
      * @return a new {@link EFeatureStatus} instance
      * @throws IllegalArgumentException If cause is not <code>null</code>,
-     * and not a {@link Throwable} or {@link StackTraceElement} array. 
+     *                                  and not a {@link Throwable} or {@link StackTraceElement} 
+     *                                  array.
      */
-    public EFeatureStatus clone(String message, Object cause);    
+    public EFeatureStatus clone(String message, Object cause);
 
 }

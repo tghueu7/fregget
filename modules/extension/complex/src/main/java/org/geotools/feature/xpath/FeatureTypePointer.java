@@ -28,21 +28,16 @@ import org.opengis.feature.type.ComplexType;
 
 /**
  * Special node pointer for {@link org.geotools.feature.FeatureType}.
- * 
+ *
  * @author Niels Charlier (Curtin University of Technology)
- * 
- *
- *
- *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/app-schema/app-schema/src/main
- *         /java/org/geotools/feature/xpath/FeatureTypePointer.java $
- * 
+ * http://svn.osgeo.org/geotools/trunk/modules/unsupported/app-schema/app-schema/src/main
+ * /java/org/geotools/feature/xpath/FeatureTypePointer.java $
  */
 public class FeatureTypePointer extends NodePointer {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 7329150854098309040L;
 
@@ -101,10 +96,10 @@ public class FeatureTypePointer extends NodePointer {
             if (!nodeNameTest.isWildcard()) {
                 String localName = nodeNameTest.getNodeName().getName();
                 String nameSpace = nodeNameTest.getNamespaceURI();
-                if (nameSpace==null) nameSpace = getNamespaceResolver().getNamespaceURI("");
-                
+                if (nameSpace == null) nameSpace = getNamespaceResolver().getNamespaceURI("");
+
                 return new SingleFeatureTypeAttributeIterator(this, featureType,
-                         Types.typeName(nameSpace, localName));
+                        Types.typeName(nameSpace, localName));
             } else {
                 return new FeatureTypeAttributeIterator(this, featureType);
             }

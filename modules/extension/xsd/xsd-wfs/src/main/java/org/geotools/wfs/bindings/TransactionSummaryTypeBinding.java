@@ -29,9 +29,9 @@ import org.geotools.xml.Node;
 /**
  * Binding object for the type
  * http://www.opengis.net/wfs:TransactionSummaryType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *         <code>
  *  &lt;xsd:complexType name=&quot;TransactionSummaryType&quot;&gt;
@@ -42,20 +42,20 @@ import org.geotools.xml.Node;
  *           &lt;/xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
  *      &lt;xsd:sequence&gt;
- *          &lt;xsd:element minOccurs=&quot;0&quot; name=&quot;totalInserted&quot; type=&quot;xsd:nonNegativeInteger&quot;/&gt;
- *          &lt;xsd:element minOccurs=&quot;0&quot; name=&quot;totalUpdated&quot; type=&quot;xsd:nonNegativeInteger&quot;/&gt;
- *          &lt;xsd:element minOccurs=&quot;0&quot; name=&quot;totalDeleted&quot; type=&quot;xsd:nonNegativeInteger&quot;/&gt;
+ *          &lt;xsd:element minOccurs=&quot;0&quot; name=&quot;totalInserted&quot; type=&quot;
+ *          xsd:nonNegativeInteger&quot;/&gt;
+ *          &lt;xsd:element minOccurs=&quot;0&quot; name=&quot;totalUpdated&quot; type=&quot;
+ *          xsd:nonNegativeInteger&quot;/&gt;
+ *          &lt;xsd:element minOccurs=&quot;0&quot; name=&quot;totalDeleted&quot; type=&quot;
+ *          xsd:nonNegativeInteger&quot;/&gt;
  *      &lt;/xsd:sequence&gt;
  *  &lt;/xsd:complexType&gt;
  * </code>
  *         </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class TransactionSummaryTypeBinding extends AbstractComplexEMFBinding {
@@ -75,7 +75,7 @@ public class TransactionSummaryTypeBinding extends AbstractComplexEMFBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -83,8 +83,8 @@ public class TransactionSummaryTypeBinding extends AbstractComplexEMFBinding {
     }
 
     public Object parse(ElementInstance instance, Node node, Object value)
-    throws Exception {
+            throws Exception {
         //TransactionSummaryType ts = factory.createTransactionSummaryType();
-     return super.parse(instance, node, value);   
+        return super.parse(instance, node, value);
     }
 }

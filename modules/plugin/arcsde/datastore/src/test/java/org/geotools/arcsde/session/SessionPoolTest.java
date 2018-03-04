@@ -42,14 +42,12 @@ import org.junit.Test;
 
 /**
  * Tests the functionality of a pool of ArcSDE connection objects over a live ArcSDE database
- * 
+ *
  * @author Gabriel Roldan
- *
- *
- * @source $URL$
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/test/java
- *         /org/geotools/arcsde/pool/SessionPoolTest.java $
  * @version $Id$
+ * @source $URL$
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/test/java
+ * /org/geotools/arcsde/pool/SessionPoolTest.java $
  */
 public class SessionPoolTest {
 
@@ -64,9 +62,8 @@ public class SessionPoolTest {
     /**
      * loads {@code test-data/testparams.properties} to get connection parameters and sets up a
      * ArcSDEConnectionConfig with them for tests to set up SessionPool's as required
-     * 
+     *
      * @throws Exception
-     * 
      * @throws IllegalStateException
      */
     @Before
@@ -103,7 +100,7 @@ public class SessionPoolTest {
 
     /**
      * closes the connection pool if it's still open
-     * 
+     *
      * @throws Exception
      */
     @After
@@ -120,18 +117,16 @@ public class SessionPoolTest {
     /**
      * Sets up a new SessionPool with the connection parameters stored in <code>connParams</code>
      * and throws an exception if something goes wrong
-     * 
-     * @param connParams
-     *            a set of connection parameters from where the new SessionPool will connect to the
-     *            SDE database and create connections
+     *
+     * @param connParams a set of connection parameters from where the new SessionPool will 
+     *                   connect to the
+     *                   SDE database and create connections
      * @return
-     * @throws IllegalArgumentException
-     *             if the set of connection parameters are not propperly set
-     * @throws NullPointerException
-     *             if <code>connParams</code> is null
-     * @throws IOException
-     *             if the pool can't create the connections with the passed arguments (i.e. can't
-     *             connect to SDE database)
+     * @throws IllegalArgumentException if the set of connection parameters are not propperly set
+     * @throws NullPointerException     if <code>connParams</code> is null
+     * @throws IOException              if the pool can't create the connections with the passed 
+     * arguments (i.e. can't
+     *                                  connect to SDE database)
      */
     private ISessionPool createPool(Map<String, Serializable> connParams)
             throws IllegalArgumentException, NullPointerException, IOException {
@@ -152,7 +147,7 @@ public class SessionPoolTest {
     /**
      * tests that a connection to a live ArcSDE database can be established with the parameters
      * defined int testparams.properties, and a SessionPool can be properly setted up
-     * 
+     *
      * @throws IOException
      */
     @Test
@@ -187,9 +182,8 @@ public class SessionPoolTest {
 
     /**
      * Checks that after creation the pool has the specified initial number of connections.
-     * 
+     *
      * @throws IOException
-     * 
      * @throws UnavailableConnectionException
      */
     @Test
@@ -218,7 +212,7 @@ public class SessionPoolTest {
     /**
      * Tests that the pool creation fails if a wrong set of parameters is passed (i.e.
      * maxConnections is lower than minConnections)
-     * 
+     *
      * @throws IOException
      * @throws UnavailableConnectionException
      */
@@ -239,7 +233,8 @@ public class SessionPoolTest {
             LOGGER.fine("testing parameters' sanity check at pool creation time");
             ISessionPool pool = createPool(params);
             pool.close();
-            fail("the connection pool creation must have failed since a wrong set of arguments was passed");
+            fail("the connection pool creation must have failed since a wrong set of arguments " +
+                    "was passed");
         } catch (IllegalArgumentException ex) {
             // it's ok, it is what's expected
             LOGGER.fine("pramams assertion passed");
@@ -249,7 +244,7 @@ public class SessionPoolTest {
     /**
      * tests that no more than pool.maxConnections connections can be created, and once one
      * connection is freed, it is ready to be used again.
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -275,9 +270,11 @@ public class SessionPoolTest {
         // should throw an UnavailableArcSDEConnectionException
         try {
             this.pool.getSession();
-            fail("since the max number of connections was reached, the pool should have throwed an UnavailableArcSDEConnectionException");
+            fail("since the max number of connections was reached, the pool should have throwed " +
+                    "an UnavailableArcSDEConnectionException");
         } catch (UnavailableConnectionException ex) {
-            LOGGER.fine("maximun number of connections reached, got an UnavailableArcSDEConnectionException, it's OK");
+            LOGGER.fine("maximun number of connections reached, got an " +
+                    "UnavailableArcSDEConnectionException, it's OK");
         }
 
         // now, free one and check the same conection is returned on the
@@ -292,7 +289,7 @@ public class SessionPoolTest {
 
     /**
      * a null database name should not be an impediment to create the pool
-     * 
+     *
      * @throws IOException
      */
     @Test
@@ -305,7 +302,7 @@ public class SessionPoolTest {
 
     /**
      * an empty database name should not be an impediment to create the pool
-     * 
+     *
      * @throws IOException
      */
     @Test

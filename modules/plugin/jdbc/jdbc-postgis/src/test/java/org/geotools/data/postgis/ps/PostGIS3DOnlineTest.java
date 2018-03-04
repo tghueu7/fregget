@@ -21,8 +21,6 @@ import org.geotools.jdbc.JDBC3DOnlineTest;
 import org.geotools.jdbc.JDBC3DTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class PostGIS3DOnlineTest extends JDBC3DOnlineTest {
@@ -31,5 +29,5 @@ public class PostGIS3DOnlineTest extends JDBC3DOnlineTest {
     protected JDBC3DTestSetup createTestSetup() {
         return new PostGIS3DTestSetup(new PostGISPSTestSetup());
     }
-    
+
 }

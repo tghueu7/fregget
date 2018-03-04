@@ -29,11 +29,8 @@ import org.opengis.filter.expression.Expression;
  * This class is internal to the sld binding project. It should be replaced
  * with a geotools styling model object if one becomes available.
  * </p>
+ *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
- *
  * @source $URL$
  */
 public class CssParameter {
@@ -47,11 +44,11 @@ public class CssParameter {
     public String getName() {
         return name;
     }
-    
+
     public Expression getExpression() {
         return expression;
     }
-    
+
     public void setExpression(Expression expression) {
         this.expression = expression;
     }

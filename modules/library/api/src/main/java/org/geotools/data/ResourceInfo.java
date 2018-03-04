@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -35,23 +35,21 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
  * <li>name - unqiue within the context of a Service
  * <li>schema - used to identify the type of resource
  * </ul>
- * 
+ *
  * @author Jody Garnett, Refractions Research
  * @author David Zwiers, Refractions Research
  * @author Justin Deoliveira, The Open Planning Project
- * @since 2.5
- *
- *
- *
  * @source $URL$
+ * @since 2.5
  */
 public interface ResourceInfo {
     /**
      * Returns the resource's title.
      * <p>
-     * The title is human readable text representing the resource, in the 
+     * The title is human readable text representing the resource, in the
      * current locale if available.
      * <p>
+     *
      * @return tile, in the current locale if available.
      */
     String getTitle();
@@ -65,6 +63,7 @@ public interface ResourceInfo {
      * <li> Maps to Dublin Core's Subject element
      * </ul>
      * </p>
+     *
      * @return Keywords or {@code null} if unavailable
      */
     Set<String> getKeywords();
@@ -79,7 +78,7 @@ public interface ResourceInfo {
      * </ul>
      * </p>
      * The description may be in the current locale if known.
-     * 
+     *
      * @return description of resource, or <code>null</code> if unavailable
      */
     String getDescription();
@@ -94,13 +93,13 @@ public interface ResourceInfo {
      * <li>WMS layer name
      * <li>level of a grid coverage
      * </ul>
-     * 
+     * <p>
      * The name should be unique within the context of a single Service.
-     * 
+     *
      * @return name of this resource
      */
     String getName();
-    
+
     /**
      * A namespace, in the form of a {@code URI}, used to identify the resource type.
      * <p>
@@ -112,7 +111,7 @@ public interface ResourceInfo {
      * <li>XML namespace
      * <li>URL
      * </ul>
-     * 
+     *
      * @return namespace, used with getName() to identify resource type
      */
     URI getSchema();
@@ -121,9 +120,9 @@ public interface ResourceInfo {
      * Returns the bounds of the resource, expressed in the native coordinate
      * reference system. IF the bounds are unknown or undefined calling {@code isNull()}
      * on the returned envelope will return {@code true}.
-     * 
+     *
      * @return bounds of the resource if defined; otherwise an envelope where the
-     *         {@code isNull()} returns {@code true}
+     * {@code isNull()} returns {@code true}
      */
     ReferencedEnvelope getBounds();
 
@@ -141,7 +140,7 @@ public interface ResourceInfo {
      * @return CRS of the resource, or {@code null} if unavailable.
      */
     CoordinateReferenceSystem getCRS();
-    
+
     /*
      * mbedward : removed from javadocs
      *

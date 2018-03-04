@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -19,7 +19,7 @@ package org.geotools.styling;
 
 /**
  * A NamedStyle is used to refer to a style that has a name in a WMS.
- *
+ * <p>
  * <p>
  * A NamedStyle is a Style that has only Name, so all setters other than
  * setName will throw an <code>UnsupportedOperationException</code>
@@ -43,19 +43,17 @@ package org.geotools.styling;
  * </code></pre>
  *
  * @author James Macgill
- *
- *
  * @source $URL$
  */
 public interface NamedStyle extends Style {
-    
+
     // public String getName();
 
     // public void setName(String name);
 
     /**
      * Human readible title.
-     * 
+     *
      * @return getDescription().getTitle().toString()
      *
      * @deprecated Use getDescription().getTitle().toString()

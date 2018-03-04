@@ -18,6 +18,7 @@ package org.geotools.xs.bindings;
 
 import java.math.BigInteger;
 import javax.xml.namespace.QName;
+
 import org.geotools.xml.InstanceComponent;
 import org.geotools.xml.SimpleBinding;
 import org.geotools.xs.XS;
@@ -25,9 +26,9 @@ import org.geotools.xs.XS;
 
 /**
  * Binding object for the type http://www.w3.org/2001/XMLSchema:nonPositiveInteger.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xs:simpleType name="nonPositiveInteger" id="nonPositiveInteger"&gt;
  *      &lt;xs:annotation&gt;
@@ -43,9 +44,6 @@ import org.geotools.xs.XS;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class XSNonPositiveIntegerBinding implements SimpleBinding {
@@ -82,20 +80,20 @@ public class XSNonPositiveIntegerBinding implements SimpleBinding {
 
     /**
      * <!-- begin-user-doc -->
+     *
      * @param instance
      * @param value    a BigInteger (after processing by parent)
      * @return a Number that is not positive
      * <!-- end-user-doc -->
-     *
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
+            throws Exception {
         BigInteger number = (BigInteger) value;
 
         if (BigInteger.ZERO.compareTo(number) < 0) {
             throw new IllegalArgumentException("Value '" + number
-                + "' must be non-positive (0 or below).");
+                    + "' must be non-positive (0 or below).");
         }
 
         if (MIN_INTEGER.compareTo(number) <= 0) {
@@ -120,7 +118,7 @@ public class XSNonPositiveIntegerBinding implements SimpleBinding {
 
         if (number.longValue() > 0) {
             throw new IllegalArgumentException("Value '" + number
-                + "' must be non-positive (0 or below).");
+                    + "' must be non-positive (0 or below).");
         }
 
         return value;

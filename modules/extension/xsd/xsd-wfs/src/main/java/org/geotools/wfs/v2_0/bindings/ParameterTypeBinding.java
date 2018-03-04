@@ -34,12 +34,12 @@ public class ParameterTypeBinding extends AbstractComplexEMFBinding {
     public ParameterTypeBinding(Wfs20Factory factory) {
         super(factory);
     }
-    
+
     @Override
     public QName getTarget() {
         return WFS.ParameterType;
     }
-    
+
     @Override
     public Class getType() {
         return ParameterType.class;
@@ -49,13 +49,13 @@ public class ParameterTypeBinding extends AbstractComplexEMFBinding {
     public Element encode(Object object, Document document, Element value)
             throws Exception {
         Element element = super.encode(object, document, value);
-        
-        Object parameterValue = ((ParameterType)object).getValue();
+
+        Object parameterValue = ((ParameterType) object).getValue();
         if (parameterValue instanceof String) {
-            element.setTextContent((String)parameterValue);
+            element.setTextContent((String) parameterValue);
         }
-        
+
         return element;
     }
-    
+
 }

@@ -30,10 +30,8 @@ import org.restlet.resource.Variant;
  * This class will handle requests like:
  * http://localhost:8082/simplefeatureservice/capabilities
  * It generates a list of available layers
- * @author 
  *
- *
- *
+ * @author
  * @source $URL$
  */
 public class CapabilitiesResource extends Resource {
@@ -48,6 +46,7 @@ public class CapabilitiesResource extends Resource {
     /**
      * This method is used to server a list of available layers
      * http://localhost:8084/simplefeatureservice-mockup-service-1.0-SNAPSHOT/capabilities
+     *
      * @param variant
      * @return
      * @throws ResourceException
@@ -70,7 +69,8 @@ public class CapabilitiesResource extends Resource {
                 + "   \"crs\": \"urn:ogc:def:crs:EPSG:32632\" "
                 + " }]";
 
-        Representation representation = new StringRepresentation(_jsonText, MediaType.APPLICATION_JSON);
+        Representation representation = new StringRepresentation(_jsonText, MediaType
+                .APPLICATION_JSON);
         return representation;
     }
 }

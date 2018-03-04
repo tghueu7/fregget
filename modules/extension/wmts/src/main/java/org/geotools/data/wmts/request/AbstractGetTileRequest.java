@@ -52,18 +52,21 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.TransformException;
 
 /**
- * 
  * (Based on existing work by rgould for WMS service)
- * 
+ *
  * @author ian
  * @author Emanuele Tajariol (etj at geo-solutions dot it)
  */
 public abstract class AbstractGetTileRequest extends AbstractWMTSRequest implements GetTileRequest {
 
-    /** MAXTILES */
+    /**
+     * MAXTILES
+     */
     private static final int MAXTILES = 256;
 
-    /** DPI */
+    /**
+     * DPI
+     */
     private static final double DPI = 90.7142857;
 
     static WMTSTileFactory factory = new WMTSTileFactory();
@@ -108,10 +111,8 @@ public abstract class AbstractGetTileRequest extends AbstractWMTSRequest impleme
      * Constructs a GetMapRequest. The data passed in represents valid values
      * that can be used.
      *
-     * @param onlineResource
-     *            the location that the request should be applied to
-     * @param properties
-     *            pre-set properties to be used. Can be null.
+     * @param onlineResource the location that the request should be applied to
+     * @param properties     pre-set properties to be used. Can be null.
      */
     public AbstractGetTileRequest(URL onlineResource, Properties properties) {
         super(onlineResource, properties);
@@ -319,7 +320,7 @@ public abstract class AbstractGetTileRequest extends AbstractWMTSRequest impleme
 
             if (CRS.equalsIgnoreMetadata(requestCRS, matrixCRS)) {// matching SRS
                 if (links.containsKey((matrixSet.getIdentifier()))) { // and available for
-                                                                          // this layer
+                    // this layer
                     if (LOGGER.isLoggable(Level.FINE)) {
                         LOGGER.fine("selected matrix set:" + matrixSet.getIdentifier());
                     }

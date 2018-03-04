@@ -26,11 +26,7 @@ import org.geotools.feature.FeatureCollection;
 import com.vividsolutions.jts.geom.Envelope;
 
 /**
- * Interface for a feature cache. 
- *
- *
- *
- *
+ * Interface for a feature cache.
  *
  * @source $URL$
  */
@@ -41,30 +37,26 @@ public interface FeatureCache extends SimpleFeatureSource {
     public void clear();
 
     /**
-    *
-    * @param fc the feature collection to add to the cache
-    * @param e the envelope that encompasses the feature collection added
-    *  
-    * @throws CacheOversizedException
-    */
+     * @param fc the feature collection to add to the cache
+     * @param e  the envelope that encompasses the feature collection added
+     * @throws CacheOversizedException
+     */
     public void put(SimpleFeatureCollection fc, Envelope e) throws CacheOversizedException;
 
     /**
-     *
      * @param fc the feature collection to add to the cache
-     *  
      * @throws CacheOversizedException
      */
     public void put(SimpleFeatureCollection fc) throws CacheOversizedException;
 
     /**
-     * Returns a feature collection of features within in the given 
+     * Returns a feature collection of features within in the given
      * envelope.
-     *
+     * <p>
      * <p>This function will look for features in the cache; if none are present it
      * will then look into the underlying feature source for the features.</p>
+     *
      * @param e
-     * 
      * @return Collection of feature found in the given envelope (from the cache or feature source)
      * @throws IOException
      */
@@ -88,11 +80,11 @@ public interface FeatureCache extends SimpleFeatureSource {
      * @param e
      */
     public void remove(Envelope e);
-    
+
     /**
      * Disposes of the feature cache closing any open store
      * connections.
      */
     public void dispose();
-    
+
 }

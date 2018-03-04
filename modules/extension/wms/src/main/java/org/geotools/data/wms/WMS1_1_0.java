@@ -3,7 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -40,141 +40,144 @@ import org.geotools.ows.ServiceException;
 
 /**
  * @author Richard Gould
- *
- *
- *
  * @source $URL$
  */
 public class WMS1_1_0 extends WMS1_0_0 {
 
-	public WMS1_1_0 () {
-		
-	}
-	
-    public org.geotools.data.wms.request.GetMapRequest createGetMapRequest( URL get ) {
+    public WMS1_1_0() {
+
+    }
+
+    public org.geotools.data.wms.request.GetMapRequest createGetMapRequest(URL get) {
         return new GetMapRequest(get);
     }
-    
-	/* (non-Javadoc)
-	 * @see org.geotools.data.wms.Specification#getVersion()
-	 */
-	public String getVersion() {
-		return "1.1.0";
-	}
 
-	/**
-	 * @see org.geotools.data.wms.Specification#createGetCapabilitiesRequest(java.net.URL)
-	 */
-	public GetCapabilitiesRequest createGetCapabilitiesRequest(URL server) {
-		return new GetCapsRequest(server);
-	}
-	
-    /**
-     * @see org.geotools.data.wms.WMS1_0_0#createGetFeatureInfoRequest(java.net.URL, org.geotools.data.wms.request.GetMapRequest, java.util.Set, java.lang.String[])
+    /* (non-Javadoc)
+     * @see org.geotools.data.wms.Specification#getVersion()
      */
-    public org.geotools.data.wms.request.GetFeatureInfoRequest createGetFeatureInfoRequest( URL onlineResource, org.geotools.data.wms.request.GetMapRequest getMapRequest) {
+    public String getVersion() {
+        return "1.1.0";
+    }
+
+    /**
+     * @see org.geotools.data.wms.Specification#createGetCapabilitiesRequest(java.net.URL)
+     */
+    public GetCapabilitiesRequest createGetCapabilitiesRequest(URL server) {
+        return new GetCapsRequest(server);
+    }
+
+    /**
+     * @see org.geotools.data.wms.WMS1_0_0#createGetFeatureInfoRequest(java.net.URL, org.geotools
+     * .data.wms.request.GetMapRequest, java.util.Set, java.lang.String[])
+     */
+    public org.geotools.data.wms.request.GetFeatureInfoRequest createGetFeatureInfoRequest(URL onlineResource, org.geotools.data.wms.request.GetMapRequest getMapRequest) {
         return new GetFeatureInfoRequest(onlineResource, getMapRequest);
     }
-    
+
     /**
      * @see org.geotools.data.wms.WMS1_0_0#createDescribeLayerRequest(java.net.URL)
      */
-    public DescribeLayerRequest createDescribeLayerRequest( URL onlineResource ) throws UnsupportedOperationException {
+    public DescribeLayerRequest createDescribeLayerRequest(URL onlineResource) throws 
+            UnsupportedOperationException {
         return new InternalDescribeLayerRequest(onlineResource, null);
     }
-    
-    public GetLegendGraphicRequest createGetLegendGraphicRequest( URL onlineResource) {
+
+    public GetLegendGraphicRequest createGetLegendGraphicRequest(URL onlineResource) {
         return new InternalGetLegendGraphicRequest(onlineResource, this);
     }
 
 
-	public static class GetCapsRequest extends WMS1_0_0.GetCapsRequest {
+    public static class GetCapsRequest extends WMS1_0_0.GetCapsRequest {
 
-		public GetCapsRequest(URL urlGetCapabilities) {
-			super(urlGetCapabilities);
-			// TODO Auto-generated constructor stub
-		}
-		
-		/* (non-Javadoc)
-		 * @see org.geotools.data.wms.request.AbstractGetCapabilitiesRequest#initRequest()
-		 */
-		protected void initRequest() {
-			setProperty("REQUEST", "GetCapabilities");
-		}
-		/* (non-Javadoc)
-		 * @see org.geotools.data.wms.request.AbstractGetCapabilitiesRequest#initService()
-		 */
-		protected void initService() {
-			setProperty("SERVICE", "WMS");
-		}
-		/* (non-Javadoc)
-		 * @see org.geotools.data.wms.request.AbstractGetCapabilitiesRequest#initVersion()
-		 */
-		protected void initVersion() {
-			setProperty("VERSION", "1.1.0");
-		}
-        
-        protected String processKey (String key ) {
-            return key.trim().toUpperCase();
-        }
-	}
-	
-	public static class GetMapRequest extends WMS1_0_0.GetMapRequest {
-
-        public GetMapRequest( URL onlineResource) {
-            super(onlineResource);
-        }
-        
-        protected void initRequest() {
-            setProperty(REQUEST, "GetMap");
-        }
-        
-        protected void initVersion() {
-            setProperty(VERSION, "1.1.0");
+        public GetCapsRequest(URL urlGetCapabilities) {
+            super(urlGetCapabilities);
+            // TODO Auto-generated constructor stub
         }
 
-        protected String getRequestFormat( String format ) {
-            return format;
-        }
-        
-        protected String getRequestException( String exception ) {
-            return exception;
-        }
-        protected String processKey (String key ) {
-            return key.trim().toUpperCase();
-        }
-  	}
-	
-	public static class GetFeatureInfoRequest extends WMS1_0_0.GetFeatureInfoRequest {
-
-        /**
-         * @param onlineResource
-         * @param request
-         * 
+        /* (non-Javadoc)
+         * @see org.geotools.data.wms.request.AbstractGetCapabilitiesRequest#initRequest()
          */
-        public GetFeatureInfoRequest( URL onlineResource, org.geotools.data.wms.request.GetMapRequest request) {
-            super(onlineResource, request);
-        }        
-	    
         protected void initRequest() {
-            setProperty("REQUEST", "GetFeatureInfo");
+            setProperty("REQUEST", "GetCapabilities");
         }
+
+        /* (non-Javadoc)
+         * @see org.geotools.data.wms.request.AbstractGetCapabilitiesRequest#initService()
+         */
+        protected void initService() {
+            setProperty("SERVICE", "WMS");
+        }
+
+        /* (non-Javadoc)
+         * @see org.geotools.data.wms.request.AbstractGetCapabilitiesRequest#initVersion()
+         */
         protected void initVersion() {
             setProperty("VERSION", "1.1.0");
         }
 
-        protected String processKey (String key ) {
+        protected String processKey(String key) {
             return key.trim().toUpperCase();
         }
-	}
-	
-	public static class InternalDescribeLayerRequest extends AbstractDescribeLayerRequest {
+    }
+
+    public static class GetMapRequest extends WMS1_0_0.GetMapRequest {
+
+        public GetMapRequest(URL onlineResource) {
+            super(onlineResource);
+        }
+
+        protected void initRequest() {
+            setProperty(REQUEST, "GetMap");
+        }
+
+        protected void initVersion() {
+            setProperty(VERSION, "1.1.0");
+        }
+
+        protected String getRequestFormat(String format) {
+            return format;
+        }
+
+        protected String getRequestException(String exception) {
+            return exception;
+        }
+
+        protected String processKey(String key) {
+            return key.trim().toUpperCase();
+        }
+    }
+
+    public static class GetFeatureInfoRequest extends WMS1_0_0.GetFeatureInfoRequest {
+
+        /**
+         * @param onlineResource
+         * @param request
+         */
+        public GetFeatureInfoRequest(URL onlineResource, org.geotools.data.wms.request
+                .GetMapRequest request) {
+            super(onlineResource, request);
+        }
+
+        protected void initRequest() {
+            setProperty("REQUEST", "GetFeatureInfo");
+        }
+
+        protected void initVersion() {
+            setProperty("VERSION", "1.1.0");
+        }
+
+        protected String processKey(String key) {
+            return key.trim().toUpperCase();
+        }
+    }
+
+    public static class InternalDescribeLayerRequest extends AbstractDescribeLayerRequest {
 
         /**
          * @param onlineResource
          * @param properties
          */
-        public InternalDescribeLayerRequest( URL onlineResource, Properties properties ) {
+        public InternalDescribeLayerRequest(URL onlineResource, Properties properties) {
             super(onlineResource, properties);
         }
 
@@ -187,10 +190,10 @@ public class WMS1_1_0 extends WMS1_0_0 {
             return new DescribeLayerResponse(httpResponse, hints);
         }
     }
-	
-	public static class InternalGetLegendGraphicRequest extends AbstractGetLegendGraphicRequest {
 
-		public InternalGetLegendGraphicRequest( URL onlineResource, WMS1_1_0 creator) {
+    public static class InternalGetLegendGraphicRequest extends AbstractGetLegendGraphicRequest {
+
+        public InternalGetLegendGraphicRequest(URL onlineResource, WMS1_1_0 creator) {
             super(onlineResource);
             // Apparently getLegend graphic is only supported for 1.1.0 SLD WMS. 
             // Only 1.1.1 supports GetLegendGraphic as a main query.  As far as I can tell
@@ -205,10 +208,11 @@ public class WMS1_1_0 extends WMS1_0_0 {
         }
 
 
-        public Response createResponse(HTTPResponse httpResponse) throws ServiceException, IOException {
-			return new GetLegendGraphicResponse(httpResponse);
-		}	    
-	}
-	
+        public Response createResponse(HTTPResponse httpResponse) throws ServiceException, 
+                IOException {
+            return new GetLegendGraphicResponse(httpResponse);
+        }
+    }
+
 
 }

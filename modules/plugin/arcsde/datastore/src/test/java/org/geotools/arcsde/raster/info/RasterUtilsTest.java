@@ -45,8 +45,6 @@ import java.util.List;
 import org.junit.Test;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class RasterUtilsTest {
@@ -75,7 +73,7 @@ public class RasterUtilsTest {
     }
 
     private void testSdeColormapToJavaColorModel(final int bitsPerSample, final int size,
-            final int numBanks, final int transferType) {
+                                                 final int numBanks, final int transferType) {
 
         DataBuffer colorMapData;
         IndexColorModel colorModel;
@@ -113,18 +111,18 @@ public class RasterUtilsTest {
             for (int bank = 0; bank < numBanks; bank++) {
                 int actualValue = 0;
                 switch (bank) {
-                case 0:
-                    actualValue = actual.getRed(elem);
-                    break;
-                case 1:
-                    actualValue = actual.getGreen(elem);
-                    break;
-                case 2:
-                    actualValue = actual.getBlue(elem);
-                    break;
-                case 3:
-                    actualValue = actual.getAlpha(elem);
-                    break;
+                    case 0:
+                        actualValue = actual.getRed(elem);
+                        break;
+                    case 1:
+                        actualValue = actual.getGreen(elem);
+                        break;
+                    case 2:
+                        actualValue = actual.getBlue(elem);
+                        break;
+                    case 3:
+                        actualValue = actual.getAlpha(elem);
+                        break;
                 }
                 assertEquals("at index " + elem + ", bank " + bank, expected.getElem(bank, elem),
                         actualValue);
@@ -135,14 +133,14 @@ public class RasterUtilsTest {
     private DataBuffer newColorMap(int size, int numBanks, int transferType) {
         DataBuffer colorMapData;
         switch (transferType) {
-        case DataBuffer.TYPE_BYTE:
-            colorMapData = new DataBufferByte(size, numBanks);
-            break;
-        case DataBuffer.TYPE_USHORT:
-            colorMapData = new DataBufferUShort(size, numBanks);
-            break;
-        default:
-            throw new IllegalArgumentException();
+            case DataBuffer.TYPE_BYTE:
+                colorMapData = new DataBufferByte(size, numBanks);
+                break;
+            case DataBuffer.TYPE_USHORT:
+                colorMapData = new DataBufferUShort(size, numBanks);
+                break;
+            default:
+                throw new IllegalArgumentException();
         }
         for (int elem = 0; elem < size; elem++) {
             for (int bank = 0; bank < numBanks; bank++) {
@@ -230,16 +228,13 @@ public class RasterUtilsTest {
     }
 
     /**
-     * 
-     * @param nativeCellType
-     *            the native cell type
-     * @param expectedTargetCellType
-     *            the expected cell type
-     * @param noData
-     *            list of no-data values, one per band in the raster
+     * @param nativeCellType         the native cell type
+     * @param expectedTargetCellType the expected cell type
+     * @param noData                 list of no-data values, one per band in the raster
      */
     private void assertDetermineTargetCellType(RasterCellType nativeCellType,
-            RasterCellType expectedTargetCellType, Number... noData) {
+                                               RasterCellType expectedTargetCellType, Number... 
+                                                       noData) {
 
         List<Number> noDataValues = new ArrayList<Number>();
         for (Number bandNNoData : noData) {
@@ -331,8 +326,10 @@ public class RasterUtilsTest {
     }
 
     private void assertDetermineNoDataValue(final int numBands, final double statsMin,
-            final double statsMax, final RasterCellType nativeCellType,
-            final Number expectedNoDataValue, final String failureMsg) {
+                                            final double statsMax, final RasterCellType 
+                                                    nativeCellType,
+                                            final Number expectedNoDataValue, final String 
+                                                    failureMsg) {
 
         Number noDataValue = determineNoDataValue(numBands, statsMin, statsMax, nativeCellType);
         if (failureMsg == null) {

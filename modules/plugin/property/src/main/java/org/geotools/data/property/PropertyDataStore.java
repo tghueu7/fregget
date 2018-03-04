@@ -46,19 +46,18 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 /**
  * Sample DataStore implementation, please see formal tutorial included with
  * users docs.
- * 
+ *
  * @author Jody Garnett, Refractions Research Inc.
  * @author Torben Barsballe (Boundless)
- *
  * @source $URL$
  */
 public class PropertyDataStore extends ContentDataStore {
     protected File dir;
-    
+
     public PropertyDataStore(File dir) {
         this(dir, null);
     }
-    
+
     // constructor start
     public PropertyDataStore(File dir, String namespaceURI) {
         if (!dir.isDirectory()) {
@@ -69,7 +68,7 @@ public class PropertyDataStore extends ContentDataStore {
         }
         this.dir = dir;
         setNamespaceURI(namespaceURI);
-        
+
         // factories
         setFilterFactory(CommonFactoryFinder.getFilterFactory(null));
         setGeometryFactory(new GeometryFactory());
@@ -77,14 +76,15 @@ public class PropertyDataStore extends ContentDataStore {
         setFeatureFactory(CommonFactoryFinder.getFeatureFactory(null));
     }
     // constructor end
-    
+
     // createSchema start
     @Override
     public void createSchema(SimpleFeatureType featureType) throws IOException {
         String typeName = featureType.getTypeName();
         File file = new File(dir, typeName + ".properties");
-        if( file.exists() ){
-            throw new FileNotFoundException("Unable to create a new property file: file exists "+file);
+        if (file.exists()) {
+            throw new FileNotFoundException("Unable to create a new property file: file exists " 
+                    + file);
         }
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
         writer.write("_=");
@@ -93,7 +93,7 @@ public class PropertyDataStore extends ContentDataStore {
         writer.close();
     }
     // createSchema end
-    
+
     // info start
     @Override
     public ServiceInfo getInfo() {
@@ -124,7 +124,7 @@ public class PropertyDataStore extends ContentDataStore {
         List<Name> typeNames = new ArrayList<Name>();
         for (int i = 0; i < list.length; i++) {
             String typeName = list[i].substring(0, list[i].lastIndexOf('.'));
-            typeNames.add( new NameImpl(namespaceURI, typeName));
+            typeNames.add(new NameImpl(namespaceURI, typeName));
         }
         return typeNames;
     }
@@ -138,18 +138,18 @@ public class PropertyDataStore extends ContentDataStore {
         }
         return names;
     }
-    
+
     @Override
     protected ContentFeatureSource createFeatureSource(ContentEntry entry) throws IOException {
-        File file = new File( this.dir, entry.getTypeName()+".properties");
-        if( !file.exists()){
-            throw new FileNotFoundException( file.getAbsolutePath() );
+        File file = new File(this.dir, entry.getTypeName() + ".properties");
+        if (!file.exists()) {
+            throw new FileNotFoundException(file.getAbsolutePath());
         }
-        
-        if( file.canWrite() ){
-            return new PropertyFeatureStore( entry, Query.ALL );
+
+        if (file.canWrite()) {
+            return new PropertyFeatureStore(entry, Query.ALL);
         } else {
-            return new PropertyFeatureSource( entry, Query.ALL );
+            return new PropertyFeatureSource(entry, Query.ALL);
         }
     }
 
@@ -165,7 +165,8 @@ public class PropertyDataStore extends ContentDataStore {
         }
         File file = new File(dir, typeName);
         if (!file.exists()) {
-            throw new IOException("Can't delete " + file.getAbsolutePath() + " because it doesn't exist!");
+            throw new IOException("Can't delete " + file.getAbsolutePath() + " because it doesn't" +
+                    " exist!");
         }
         file.delete();
     }

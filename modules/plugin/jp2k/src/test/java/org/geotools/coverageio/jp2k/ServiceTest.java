@@ -32,10 +32,6 @@ import org.opengis.referencing.NoSuchAuthorityCodeException;
  *
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini (simboss), GeoSolutions
- *
- *
- *
- *
  * @source $URL$
  */
 public class ServiceTest extends BaseJP2K {
@@ -50,7 +46,8 @@ public class ServiceTest extends BaseJP2K {
 
         GridFormatFinder.scanForPlugins();
 
-        final Iterator<GridFormatFactorySpi> list = GridFormatFinder.getAvailableFormats().iterator();
+        final Iterator<GridFormatFactorySpi> list = GridFormatFinder.getAvailableFormats()
+                .iterator();
         boolean found = false;
         GridFormatFactorySpi fac = null;
 

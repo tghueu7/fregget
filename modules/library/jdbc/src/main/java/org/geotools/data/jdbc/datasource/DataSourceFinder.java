@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -36,26 +36,28 @@ import org.geotools.factory.FactoryRegistry;
 
 /**
  * Enable programs to find all available {@link DataSourceFactorySpi} implementations.
- * 
  * <p>
- * In addition to implementing this interface data souces should have a services file:<br/><code>META-INF/services/org.geotools.data.jdbc.DataSourceFactorySpi</code>
+ * <p>
+ * In addition to implementing this interface data souces should have a services 
+ * file:<br/><code>META-INF/services/org.geotools.data.jdbc.DataSourceFactorySpi</code>
  * </p>
- * 
+ * <p>
  * <p>
  * The file should contain a single line which gives the full name of the implementing class.
  * </p>
- * 
+ * <p>
  * <p>
  * Example:<br/><code>org.geotools.data.jdbc.DBCPDataSourceFactory</code>
  * </p>
- * 
- *
  *
  * @source $URL$
  */
 public final class DataSourceFinder {
-    /** The logger for the filter module. */
-    protected static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org.geotools.data.jdbc");
+    /**
+     * The logger for the filter module.
+     */
+    protected static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org" +
+            ".geotools.data.jdbc");
 
     /**
      * The service registry for this manager. Will be initialized only when first needed.
@@ -69,17 +71,15 @@ public final class DataSourceFinder {
     /**
      * Checks each available datasource implementation in turn and returns the first one which
      * claims to support the resource identified by the params object.
-     * 
-     * @param params
-     *            A Map object which contains a defenition of the resource to connect to. for file
-     *            based resources the property 'url' should be set within this Map.
-     * 
+     *
+     * @param params A Map object which contains a defenition of the resource to connect to. for 
+     *               file
+     *               based resources the property 'url' should be set within this Map.
      * @return The first datasource which claims to process the required resource, returns null if
-     *         none can be found.
-     * 
-     * @throws IOException
-     *             If a suitable loader can be found, but it can not be attached to the specified
-     *             resource without errors.
+     * none can be found.
+     * @throws IOException If a suitable loader can be found, but it can not be attached to the 
+     * specified
+     *                     resource without errors.
      */
     public static synchronized DataSource getDataSource(Map params) throws IOException {
         Iterator ps = getAvailableDataSources();
@@ -106,17 +106,15 @@ public final class DataSourceFinder {
     /**
      * Checks each available datasource implementation in turn and returns the first one which
      * claims to support the resource identified by the params object.
-     * 
-     * @param params
-     *            A Map object which contains a defenition of the resource to connect to. for file
-     *            based resources the property 'url' should be set within this Map.
-     * 
+     *
+     * @param params A Map object which contains a defenition of the resource to connect to. for 
+     *               file
+     *               based resources the property 'url' should be set within this Map.
      * @return The first datasource which claims to process the required resource, returns null if
-     *         none can be found.
-     * 
-     * @throws IOException
-     *             If a suitable loader can be found, but it can not be attached to the specified
-     *             resource without errors.
+     * none can be found.
+     * @throws IOException If a suitable loader can be found, but it can not be attached to the 
+     * specified
+     *                     resource without errors.
      */
     public static synchronized UnWrapper getUnWrapper(Connection conn) throws IOException {
         Iterator ps = getUnWrappers();
@@ -140,21 +138,20 @@ public final class DataSourceFinder {
 
         return null;
     }
-    
+
     /**
-     * Checks each available {@link UnWrapper} implementation in turn and returns the first one which
+     * Checks each available {@link UnWrapper} implementation in turn and returns the first one 
+     * which
      * claims to support the resource identified by the params object.
-     * 
-     * @param params
-     *            A Map object which contains a defenition of the resource to connect to. for file
-     *            based resources the property 'url' should be set within this Map.
-     * 
+     *
+     * @param params A Map object which contains a defenition of the resource to connect to. for 
+     *               file
+     *               based resources the property 'url' should be set within this Map.
      * @return The first datasource which claims to process the required resource, returns null if
-     *         none can be found.
-     * 
-     * @throws IOException
-     *             If a suitable loader can be found, but it can not be attached to the specified
-     *             resource without errors.
+     * none can be found.
+     * @throws IOException If a suitable loader can be found, but it can not be attached to the 
+     * specified
+     *                     resource without errors.
      */
     public static synchronized UnWrapper getUnWrapper(Statement st) throws IOException {
         Iterator ps = getUnWrappers();
@@ -182,14 +179,14 @@ public final class DataSourceFinder {
     /**
      * Finds all implementations of DataStoreFactory which have registered using the services
      * mechanism, and that have the appropriate libraries on the classpath.
-     * 
+     *
      * @return An iterator over all discovered DataStores which have registered factories, and whose
-     *         available method returns true.
+     * available method returns true.
      */
     public static synchronized Iterator<DataSourceFactorySpi> getAvailableDataSources() {
         Stream<DataSourceFactorySpi> factories = getServiceRegistry()
                 .getFactories(DataSourceFactorySpi.class, null, null);
-        
+
         // results are collected into HashSet (even though iterator is returned)
         // to find broken implementations early rather than later caller code
         Set<DataSourceFactorySpi> availableDS = factories
@@ -201,7 +198,7 @@ public final class DataSourceFinder {
     /**
      * Finds all implementations of UnWrapper which have registered using the services
      * mechanism, and that have the appropriate libraries on the classpath.
-     * 
+     *
      * @return An iterator over all discovered UnWrapper which have registered factories
      */
     public static synchronized Iterator<UnWrapper> getUnWrappers() {
@@ -215,8 +212,8 @@ public final class DataSourceFinder {
     private static FactoryRegistry getServiceRegistry() {
         assert Thread.holdsLock(DataSourceFinder.class);
         if (registry == null) {
-            registry = new FactoryCreator(Arrays.asList(new Class<?>[] { DataSourceFactorySpi.class,
-                    UnWrapper.class }));
+            registry = new FactoryCreator(Arrays.asList(new Class<?>[]{DataSourceFactorySpi.class,
+                    UnWrapper.class}));
         }
         return registry;
     }

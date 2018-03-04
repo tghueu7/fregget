@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2012, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -33,23 +33,23 @@ import org.geotools.xml.Configuration;
 
 /**
  * Parser configuration for the http://www.opengis.net/WCS_service-extension_scaling/1.0 schema.
- * 
+ *
  * @generated
  */
 public class ScalingConfiguration extends Configuration {
 
     /**
      * Creates a new configuration.
-     * 
+     *
      * @generated
      */
     public ScalingConfiguration() {
         super(Scaling.getInstance());
     }
-    
+
     /**
      * Registers the bindings for the configuration.
-     * 
+     *
      * @generated
      */
     @SuppressWarnings("unchecked")

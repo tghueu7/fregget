@@ -25,9 +25,9 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/se:SvgParameter.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:element name="SvgParameter" type="se:SvgParameterType"&gt;
@@ -38,16 +38,14 @@ import javax.xml.namespace.QName;
  *          and the content of the element gives the SVG/CSS-coded value.
  *        &lt;/xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
- *  &lt;/xsd:element&gt; 
- * 	
+ *  &lt;/xsd:element&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class SvgParameterBinding extends SLDCssParameterBinding {

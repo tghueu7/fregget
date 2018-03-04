@@ -27,8 +27,6 @@ import org.geotools.caching.spatialindex.RegionNodeIdentifier;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class RegionNodeIdentifierTest extends TestCase {
@@ -43,17 +41,17 @@ public class RegionNodeIdentifierTest extends TestCase {
 
     protected void setUp() {
         GridSpatialIndex grid = new GridSpatialIndex();
-        r1 = new Region(new double[] { 0, 0 }, new double[] { 1, 1 });
-        r2 = new Region(new double[] { -1, -1 }, new double[] { -2, -2 });
+        r1 = new Region(new double[]{0, 0}, new double[]{1, 1});
+        r2 = new Region(new double[]{-1, -1}, new double[]{-2, -2});
         node1 = new GridNode(new RegionNodeIdentifier(r1));
         node2 = new GridNode(new RegionNodeIdentifier(r2));
         node3 = new GridNode(new RegionNodeIdentifier(r1));
         //id1 = new RegionNodeIdentifier(node1);
         //id2 = new RegionNodeIdentifier(node2);
         //id3 = new RegionNodeIdentifier(node3);
-        id1 = (RegionNodeIdentifier)node1.getIdentifier();
-        id2 = (RegionNodeIdentifier)node2.getIdentifier();
-        id3 = (RegionNodeIdentifier)node3.getIdentifier();
+        id1 = (RegionNodeIdentifier) node1.getIdentifier();
+        id2 = (RegionNodeIdentifier) node2.getIdentifier();
+        id3 = (RegionNodeIdentifier) node3.getIdentifier();
     }
 
     public static Test suite() {

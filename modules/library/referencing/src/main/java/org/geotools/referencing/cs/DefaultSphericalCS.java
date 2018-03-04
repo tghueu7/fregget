@@ -20,6 +20,7 @@
 package org.geotools.referencing.cs;
 
 import java.util.Map;
+
 import org.opengis.referencing.cs.SphericalCS;
 import org.opengis.referencing.cs.AxisDirection;
 import org.opengis.referencing.cs.CoordinateSystemAxis;
@@ -31,20 +32,18 @@ import org.geotools.resources.i18n.VocabularyKeys;
  * coordinates. Not to be confused with an {@linkplain DefaultEllipsoidalCS ellipsoidal coordinate
  * system} based on an ellipsoid "degenerated" into a sphere. A {@code SphericalCS} shall have
  * three {@linkplain #getAxis axis}.
- *
+ * <p>
  * <TABLE CELLPADDING='6' BORDER='1'>
  * <TR BGCOLOR="#EEEEFF"><TH NOWRAP>Used with CRS type(s)</TH></TR>
  * <TR><TD>
- *   {@link org.geotools.referencing.crs.DefaultGeocentricCRS  Geocentric},
- *   {@link org.geotools.referencing.crs.DefaultEngineeringCRS Engineering}
+ * {@link org.geotools.referencing.crs.DefaultGeocentricCRS  Geocentric},
+ * {@link org.geotools.referencing.crs.DefaultEngineeringCRS Engineering}
  * </TD></TR></TABLE>
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class DefaultSphericalCS extends AbstractCS implements SphericalCS {
     /**
@@ -62,10 +61,10 @@ public class DefaultSphericalCS extends AbstractCS implements SphericalCS {
      * @see DefaultCartesianCS#GEOCENTRIC
      */
     public static DefaultSphericalCS GEOCENTRIC = new DefaultSphericalCS(
-                    name(VocabularyKeys.GEOCENTRIC),
-                    DefaultCoordinateSystemAxis.SPHERICAL_LONGITUDE,
-                    DefaultCoordinateSystemAxis.SPHERICAL_LATITUDE,
-                    DefaultCoordinateSystemAxis.GEOCENTRIC_RADIUS);
+            name(VocabularyKeys.GEOCENTRIC),
+            DefaultCoordinateSystemAxis.SPHERICAL_LONGITUDE,
+            DefaultCoordinateSystemAxis.SPHERICAL_LATITUDE,
+            DefaultCoordinateSystemAxis.GEOCENTRIC_RADIUS);
 
     /**
      * Constructs a three-dimensional coordinate system from a name.
@@ -75,12 +74,11 @@ public class DefaultSphericalCS extends AbstractCS implements SphericalCS {
      * @param axis1 The second axis.
      * @param axis2 The third axis.
      */
-    public DefaultSphericalCS(final String               name,
+    public DefaultSphericalCS(final String name,
                               final CoordinateSystemAxis axis0,
                               final CoordinateSystemAxis axis1,
-                              final CoordinateSystemAxis axis2)
-    {
-        super(name, new CoordinateSystemAxis[] {axis0, axis1, axis2});
+                              final CoordinateSystemAxis axis2) {
+        super(name, new CoordinateSystemAxis[]{axis0, axis1, axis2});
     }
 
     /**
@@ -99,19 +97,18 @@ public class DefaultSphericalCS extends AbstractCS implements SphericalCS {
     /**
      * Constructs a three-dimensional coordinate system from a set of properties.
      * The properties map is given unchanged to the
-     * {@linkplain AbstractCS#AbstractCS(Map,CoordinateSystemAxis[]) super-class constructor}.
+     * {@linkplain AbstractCS#AbstractCS(Map, CoordinateSystemAxis[]) super-class constructor}.
      *
      * @param properties Set of properties. Should contains at least {@code "name"}.
-     * @param axis0 The first axis.
-     * @param axis1 The second axis.
-     * @param axis2 The third axis.
+     * @param axis0      The first axis.
+     * @param axis1      The second axis.
+     * @param axis2      The third axis.
      */
-    public DefaultSphericalCS(final Map<String,?>   properties,
+    public DefaultSphericalCS(final Map<String, ?> properties,
                               final CoordinateSystemAxis axis0,
                               final CoordinateSystemAxis axis1,
-                              final CoordinateSystemAxis axis2)
-    {
-        super(properties, new CoordinateSystemAxis[] {axis0, axis1, axis2});
+                              final CoordinateSystemAxis axis2) {
+        super(properties, new CoordinateSystemAxis[]{axis0, axis1, axis2});
     }
 
     /**

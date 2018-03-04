@@ -42,9 +42,8 @@ import org.opengis.filter.identity.Identifier;
 
 /**
  * Turns a Selector into an OGC filter
- * 
+ *
  * @author Andrea Aime - GeoSolutions
- * 
  */
 public class OgcFilterBuilder implements SelectorVisitor {
 

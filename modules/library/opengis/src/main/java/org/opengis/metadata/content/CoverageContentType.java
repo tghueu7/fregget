@@ -4,13 +4,14 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.metadata.content;
 
 import java.util.List;
 import java.util.ArrayList;
+
 import org.opengis.util.CodeList;
 import org.opengis.annotation.UML;
 
@@ -21,14 +22,12 @@ import static org.opengis.annotation.Specification.*;
 /**
  * Specific type of information represented in the cell.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 2.0
+ * @source $URL$
+ * @since GeoAPI 2.0
  */
-@UML(identifier="MD_CoverageContentTypeCode", specification=ISO_19115)
+@UML(identifier = "MD_CoverageContentTypeCode", specification = ISO_19115)
 public final class CoverageContentType extends CodeList<CoverageContentType> {
     /**
      * Serial number for compatibility with different versions.
@@ -45,20 +44,22 @@ public final class CoverageContentType extends CodeList<CoverageContentType> {
      * Meaningful numerical representation of a physical parameter that is not the actual
      * value of the physical parameter.
      */
-    @UML(identifier="image", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "image", obligation = CONDITIONAL, specification = ISO_19115)
     public static final CoverageContentType IMAGE = new CoverageContentType("IMAGE");
 
     /**
      * Code value with no quantitative meaning, used to represent a physical quantity.
      */
-    @UML(identifier="thematicClassification", obligation=CONDITIONAL, specification=ISO_19115)
-    public static final CoverageContentType THEMATIC_CLASSIFICATION = new CoverageContentType("THEMATIC_CLASSIFICATION");
+    @UML(identifier = "thematicClassification", obligation = CONDITIONAL, specification = ISO_19115)
+    public static final CoverageContentType THEMATIC_CLASSIFICATION = new CoverageContentType
+            ("THEMATIC_CLASSIFICATION");
 
     /**
      * Value in physical units of the quantity being measured.
      */
-    @UML(identifier="physicalMeasurement", obligation=CONDITIONAL, specification=ISO_19115)
-    public static final CoverageContentType PHYSICAL_MEASUREMENT = new CoverageContentType("PHYSICAL_MEASUREMENT");
+    @UML(identifier = "physicalMeasurement", obligation = CONDITIONAL, specification = ISO_19115)
+    public static final CoverageContentType PHYSICAL_MEASUREMENT = new CoverageContentType
+            ("PHYSICAL_MEASUREMENT");
 
     /**
      * Constructs an enum with the given name. The new enum is

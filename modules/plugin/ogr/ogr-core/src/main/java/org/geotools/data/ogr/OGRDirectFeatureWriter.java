@@ -30,7 +30,7 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 /**
  * OGR feature writer leveraging OGR capabilities to rewrite a file using random access and in place
  * deletes
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 class OGRDirectFeatureWriter implements FeatureWriter<SimpleFeatureType, SimpleFeature> {
@@ -57,14 +57,14 @@ class OGRDirectFeatureWriter implements FeatureWriter<SimpleFeatureType, SimpleF
 
     /**
      * Creates a new direct OGR feature writer
-     * 
+     *
      * @param reader
      * @param featureType
      * @param layer
      */
     public OGRDirectFeatureWriter(Object dataSource, Object layer,
-            FeatureReader<SimpleFeatureType, SimpleFeature> reader,
-            SimpleFeatureType originalSchema, GeometryFactory gf, OGR ogr) {
+                                  FeatureReader<SimpleFeatureType, SimpleFeature> reader,
+                                  SimpleFeatureType originalSchema, GeometryFactory gf, OGR ogr) {
         this.reader = reader;
         this.featureType = reader.getFeatureType();
         this.dataSource = dataSource;
@@ -80,7 +80,7 @@ class OGRDirectFeatureWriter implements FeatureWriter<SimpleFeatureType, SimpleF
             original = null;
             live = null;
             Object driver = ogr.DataSourceGetDriver(dataSource);
-            String driverName = ogr.DriverGetName(driver); 
+            String driverName = ogr.DriverGetName(driver);
 
             if ("ESRI Shapefile".equals(driverName) && deletedFeatures) {
                 String layerName = ogr.LayerGetName(layer);
@@ -140,7 +140,7 @@ class OGRDirectFeatureWriter implements FeatureWriter<SimpleFeatureType, SimpleF
 
             ogr.CheckError(ogr.LayerCreateFeature(layer, ogrFeature));
             String geotoolsId = mapper.convertOGRFID(featureType, ogrFeature);
-			((FeatureIdImpl) live.getIdentifier()).setID(geotoolsId);
+            ((FeatureIdImpl) live.getIdentifier()).setID(geotoolsId);
             ogr.FeatureDestroy(ogrFeature);
         }
 

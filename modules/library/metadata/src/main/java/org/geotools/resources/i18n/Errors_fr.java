@@ -20,12 +20,10 @@ package org.geotools.resources.i18n;
 /**
  * French language resource.
  *
- * @since 2.2
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.2
  */
 public class Errors_fr extends Errors {
 }

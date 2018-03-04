@@ -18,6 +18,7 @@ package org.geotools.xs.bindings;
 
 import java.math.BigInteger;
 import javax.xml.namespace.QName;
+
 import org.geotools.xml.InstanceComponent;
 import org.geotools.xml.SimpleBinding;
 import org.geotools.xs.XS;
@@ -25,9 +26,9 @@ import org.geotools.xs.XS;
 
 /**
  * Binding object for the type http://www.w3.org/2001/XMLSchema:nonNegativeInteger.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xs:simpleType name="nonNegativeInteger" id="nonNegativeInteger"&gt;
  *      &lt;xs:annotation&gt;
@@ -43,9 +44,6 @@ import org.geotools.xs.XS;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class XSNonNegativeIntegerBinding implements SimpleBinding {
@@ -87,20 +85,20 @@ public class XSNonNegativeIntegerBinding implements SimpleBinding {
      * Please just treat this as a Number, actual value returned
      * may be BigInteger or Long or Integer.
      * </p>
+     *
      * @param instance with text to be parsed
-     * @param value BigInteger from parent XSIntegerStratagy
+     * @param value    BigInteger from parent XSIntegerStratagy
      * @return Number positive in range 0 to Integer.MAX_INT
      * <!-- end-user-doc -->
-     *
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
+            throws Exception {
         BigInteger number = (BigInteger) value;
 
         if (BigInteger.ZERO.compareTo(number) > 0) {
             throw new IllegalArgumentException("Value '" + number
-                + "' must be non-negative (0 or above).");
+                    + "' must be non-negative (0 or above).");
         }
 
         if (MAX_INTEGER.compareTo(number) >= 0) {
@@ -125,7 +123,7 @@ public class XSNonNegativeIntegerBinding implements SimpleBinding {
 
         if (number.longValue() < 0) {
             throw new IllegalArgumentException("Value '" + number
-                + "' must be non-negative (0 or above).");
+                    + "' must be non-negative (0 or above).");
         }
 
         return value;

@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -23,16 +23,14 @@ import org.opengis.filter.temporal.BegunBy;
 import org.opengis.temporal.RelativePosition;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class BegunByImpl extends BinaryTemporalOperatorImpl implements BegunBy {
-    
+
     public BegunByImpl(Expression e1, Expression e2) {
         super(e1, e2);
     }
-    
+
     public BegunByImpl(Expression e1, Expression e2, MatchAction matchAction) {
         super(e1, e2, matchAction);
     }

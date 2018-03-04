@@ -17,6 +17,7 @@
 package org.geotools.xs.bindings;
 
 import javax.xml.namespace.QName;
+
 import org.geotools.xml.InstanceComponent;
 import org.geotools.xml.SimpleBinding;
 import org.geotools.xml.impl.DatatypeConverterImpl;
@@ -25,9 +26,9 @@ import org.geotools.xs.XS;
 
 /**
  * Binding object for the type http://www.w3.org/2001/XMLSchema:base64Binary.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xs:simpleType name="base64Binary" id="base64Binary"&gt;
  *      &lt;xs:annotation&gt;
@@ -55,9 +56,6 @@ import org.geotools.xs.XS;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class XSBase64BinaryBinding implements SimpleBinding {
@@ -97,9 +95,9 @@ public class XSBase64BinaryBinding implements SimpleBinding {
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
+            throws Exception {
 
-        return DatatypeConverterImpl.getInstance().parseBase64Binary((String)value); 
+        return DatatypeConverterImpl.getInstance().parseBase64Binary((String) value);
     }
 
     /**

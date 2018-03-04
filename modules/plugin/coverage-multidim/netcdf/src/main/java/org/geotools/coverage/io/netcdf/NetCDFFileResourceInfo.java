@@ -52,14 +52,14 @@ import org.opengis.filter.sort.SortOrder;
 class NetCDFFileResourceInfo extends DefaultResourceInfo implements FileResourceInfo {
 
     /**
-     * A {@link CloseableIterator} implementation taking care of retrieving {@link FileGroup}s 
+     * A {@link CloseableIterator} implementation taking care of retrieving {@link FileGroup}s
      * from a {@link CoverageSlice}'s list.
-     * 
-     * Note on files grouping: Each returned FileGroup should contain 
-     * a different file. When dealing with multidimensional data using a shared catalog, 
-     * multiple features can contain same file (records will be different in terms of 
-     * time value, elevation value, and so on. Therefore, we need to aggregate 
-     * features related to the same file location by scanning the underlying 
+     * <p>
+     * Note on files grouping: Each returned FileGroup should contain
+     * a different file. When dealing with multidimensional data using a shared catalog,
+     * multiple features can contain same file (records will be different in terms of
+     * time value, elevation value, and so on. Therefore, we need to aggregate
+     * features related to the same file location by scanning the underlying
      * iterator and caching the next feature which doesn't belong to same file.
      */
     class WrappedCoverageSlicesToFileGroupIterator extends SimpleCoverageSlicesToFileGroupIterator {
@@ -111,7 +111,8 @@ class NetCDFFileResourceInfo extends DefaultResourceInfo implements FileResource
                 // Group features sharing same location
                 next = slicesIterator.next();
                 relevantSlices.add(next);
-                String nextLocation = (String) next.getOriginator().getAttribute(CoverageSlice.Attributes.LOCATION);
+                String nextLocation = (String) next.getOriginator().getAttribute(CoverageSlice
+                        .Attributes.LOCATION);
                 if (location.equalsIgnoreCase(nextLocation)) {
                     groupedFeatures++;
                 } else {
@@ -124,25 +125,25 @@ class NetCDFFileResourceInfo extends DefaultResourceInfo implements FileResource
             try {
                 return buildFileGroup(relevantSlices);
             } catch (IOException e) {
-                throw new RuntimeException("Exception occurred while populating the fileGroup:" , e);
+                throw new RuntimeException("Exception occurred while populating the fileGroup:", e);
             }
 
         }
 
-        /** 
-         * Aggregate multipleFeatures related to the same file, 
+        /**
+         * Aggregate multipleFeatures related to the same file,
          * on the same {@link FileGroup}.
-         * This is usually needed when the underlying coverage isn't a simple 
-         * 2D coverage but it has multiple dimensions (as an instance, time, 
+         * This is usually needed when the underlying coverage isn't a simple
+         * 2D coverage but it has multiple dimensions (as an instance, time,
          * elevation, custom...)
-         * 
+         * <p>
          * The method also look for supportFiles.
-         * 
+         *
          * @param file
-         * @paran aggregate, whether aggregation queries should be invoked to extract domains
-         * @param firstFeature, sample feature to be used when no aggregation is needed 
+         * @param firstFeature, sample feature to be used when no aggregation is needed
          * @return
-         * @throws IOException 
+         * @throws IOException
+         * @paran aggregate, whether aggregation queries should be invoked to extract domains
          */
         private FileGroup buildFileGroup(List<CoverageSlice> slices) throws IOException {
             List<File> supportFiles = null;
@@ -154,7 +155,7 @@ class NetCDFFileResourceInfo extends DefaultResourceInfo implements FileResource
     }
 
     /**
-     * A {@link CloseableIterator} implementation taking care of retrieving {@link FileGroup}s 
+     * A {@link CloseableIterator} implementation taking care of retrieving {@link FileGroup}s
      * from an {@link CoverageSlice}'s list.
      */
     class SimpleCoverageSlicesToFileGroupIterator implements CloseableIterator<FileGroup> {
@@ -198,20 +199,23 @@ class NetCDFFileResourceInfo extends DefaultResourceInfo implements FileResource
             try {
                 return buildFileGroupOnSlices(file);
             } catch (IOException e) {
-                throw new RuntimeException("Exception occurred while populating the fileGroup:" , e);
+                throw new RuntimeException("Exception occurred while populating the fileGroup:", e);
             }
         }
 
         private FileGroup buildFileGroupOnSlices(File file) throws IOException {
             List<File> supportFiles = null;
             Map<String, Object> metadataMap = computeSlicesMetadata(slices);
-            metadataMap.put(Utils.BBOX, new ReferencedEnvelope(reader.getOriginalEnvelope(coverageName)));
+            metadataMap.put(Utils.BBOX, new ReferencedEnvelope(reader.getOriginalEnvelope
+                    (coverageName)));
             return new FileGroup(file, supportFiles, metadataMap);
         }
 
-        protected Map<String, Object> computeSlicesMetadata(List<CoverageSlice> slices) throws IOException {
+        protected Map<String, Object> computeSlicesMetadata(List<CoverageSlice> slices) throws 
+                IOException {
             Map<String, Object> metadataMap = null;
-            List<DimensionDescriptor> dimensionDescriptors = reader.getDimensionDescriptors(coverageName);
+            List<DimensionDescriptor> dimensionDescriptors = reader.getDimensionDescriptors
+                    (coverageName);
             // extract metadata for the available domains
             if (dimensionDescriptors != null && !dimensionDescriptors.isEmpty()) {
                 metadataMap = new HashMap<String, Object>();
@@ -243,17 +247,18 @@ class NetCDFFileResourceInfo extends DefaultResourceInfo implements FileResource
 
         }
 
-        /** 
-         * Add a metadata element to the FileGroup metadata map 
+        /**
+         * Add a metadata element to the FileGroup metadata map
          */
         protected void addMetadaElement(String name, Comparable min, Comparable max,
-                Map<String, Object> metadataMap) {
-            if (Utils.TIME_DOMAIN.equalsIgnoreCase(name)|| min instanceof Date) {
-                metadataMap.put(name.toUpperCase(), new DateRange((Date)min, (Date)max));
-            } else if (Utils.ELEVATION_DOMAIN.equalsIgnoreCase(name)|| min instanceof Number) {
-                metadataMap.put(name.toUpperCase(), NumberRange.create(((Number)min).doubleValue(),true, ((Number)max).doubleValue(),true));
+                                        Map<String, Object> metadataMap) {
+            if (Utils.TIME_DOMAIN.equalsIgnoreCase(name) || min instanceof Date) {
+                metadataMap.put(name.toUpperCase(), new DateRange((Date) min, (Date) max));
+            } else if (Utils.ELEVATION_DOMAIN.equalsIgnoreCase(name) || min instanceof Number) {
+                metadataMap.put(name.toUpperCase(), NumberRange.create(((Number) min).doubleValue
+                        (), true, ((Number) max).doubleValue(), true));
             } else {
-                metadataMap.put(name, new Range(String.class, (String)min, (String)max));
+                metadataMap.put(name, new Range(String.class, (String) min, (String) max));
             }
         }
 
@@ -268,23 +273,25 @@ class NetCDFFileResourceInfo extends DefaultResourceInfo implements FileResource
     private String coverageName;
 
     /**
-     * The underlying slices catalog. 
+     * The underlying slices catalog.
      * Needed to retrieve granules location
      */
     CoverageSlicesCatalog slicesCatalog;
 
     private URL sourceURL;
 
-    /** 
+    /**
      * ImageMosaicFileGroupProvider constructor
-     * @param sourceURL 
-     * @param coverageSlicesCatalog 
-     * @param rasterManager manager the {@link RasterManager} instance for underlying index 
-     * info retrieval and management
-     * @param parentLocation the granules parentLocation (relative paths refer to that)
+     *
+     * @param sourceURL
+     * @param coverageSlicesCatalog
+     * @param rasterManager         manager the {@link RasterManager} instance for underlying index
+     *                              info retrieval and management
+     * @param parentLocation        the granules parentLocation (relative paths refer to that)
      * @param locationAttributeName the actual location attribute name
      */
-    public NetCDFFileResourceInfo(NetCDFReader reader, String coverageName, CoverageSlicesCatalog slicesCatalog, URL sourceURL) {
+    public NetCDFFileResourceInfo(NetCDFReader reader, String coverageName, CoverageSlicesCatalog
+            slicesCatalog, URL sourceURL) {
         this.reader = reader;
         this.slicesCatalog = slicesCatalog;
         this.coverageName = coverageName;
@@ -300,19 +307,21 @@ class NetCDFFileResourceInfo extends DefaultResourceInfo implements FileResource
         try {
             // WrappedCoverageSlicesCatalog share the DB. Therefore I have to deal with 
             // the location attribute 
-            boolean sharedCatalog = slicesCatalog instanceof WrappedCoverageSlicesCatalog; 
+            boolean sharedCatalog = slicesCatalog instanceof WrappedCoverageSlicesCatalog;
             Query updatedQuery = (query != null && sharedCatalog) ? query : new Query();
 
             if (sharedCatalog) {
                 final List<SortBy> clauses = new ArrayList<SortBy>(1);
                 clauses.add(new SortByImpl(
-                        FeatureUtilities.DEFAULT_FILTER_FACTORY.property(CoverageSlice.Attributes.LOCATION),
+                        FeatureUtilities.DEFAULT_FILTER_FACTORY.property(CoverageSlice.Attributes
+                                .LOCATION),
                         SortOrder.ASCENDING));
-                final SortBy[] sb = clauses.toArray(new SortBy[] {});
-                final boolean isSortBySupported = slicesCatalog.getQueryCapabilities(coverageName).supportsSorting(sb);
+                final SortBy[] sb = clauses.toArray(new SortBy[]{});
+                final boolean isSortBySupported = slicesCatalog.getQueryCapabilities
+                        (coverageName).supportsSorting(sb);
                 if (isSortBySupported) {
                     updatedQuery.setSortBy(sb);
-                }    
+                }
             }
 
             updatedQuery.setTypeName(coverageName);
@@ -324,7 +333,8 @@ class NetCDFFileResourceInfo extends DefaultResourceInfo implements FileResource
             fc = slicesCatalog.getGranules(updatedQuery);
 
             // They are already an in memory list
-            return sharedCatalog ? new WrappedCoverageSlicesToFileGroupIterator(fc) : new SimpleCoverageSlicesToFileGroupIterator(fc);
+            return sharedCatalog ? new WrappedCoverageSlicesToFileGroupIterator(fc) : new 
+                    SimpleCoverageSlicesToFileGroupIterator(fc);
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
         }

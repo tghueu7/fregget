@@ -4,7 +4,7 @@
  *
  *    (C) 2016 Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2016 Boundless Spatial
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -37,7 +37,9 @@ public class RootValidator extends YsldValidateHandler {
 
     // General expressions
     static Pattern EXPRESSION = Pattern.compile(
-            "stroke-(?:width|opacity|linejoin|linecap|dashoffset)|offset|shape|gamma|geometry|label|font-(?:family|size|style|weight)|size|rotation|gap|initial-gap|radius|opacity");
+            "stroke-(?:width|opacity|linejoin|linecap|dashoffset)" +
+                    "|offset|shape|gamma|geometry|label|font-(?:family|size|style|weight)" +
+                    "|size|rotation|gap|initial-gap|radius|opacity");
 
     @Override
     public void scalar(ScalarEvent evt, YsldValidateContext context) {
@@ -63,14 +65,15 @@ public class RootValidator extends YsldValidateHandler {
                     Arrays.asList(new ExpressionValidator(), new ExpressionValidator())));
         } else if ("entries".equals(key)) {
             context.push(
-                    new SequenceValidator(new TupleValidator(Arrays.asList(new ColorValidator(), // Colour
+                    new SequenceValidator(new TupleValidator(Arrays.asList(new ColorValidator(), 
+                            // Colour
                             new ExpressionValidator(), // Opacity
                             new ExpressionValidator(), // Quantity
                             new ScalarValidator() { // Label (arbitrary string, not an expression)
 
                                 @Override
                                 protected String validate(String value, ScalarEvent evt,
-                                        YsldValidateContext context) {
+                                                          YsldValidateContext context) {
                                     return null;
                                 }
 

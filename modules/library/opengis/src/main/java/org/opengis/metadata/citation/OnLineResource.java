@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.metadata.citation;
 
 import java.net.URI;
+
 import org.opengis.util.InternationalString;
 import org.opengis.annotation.UML;
 import org.opengis.annotation.Profile;
@@ -23,24 +24,23 @@ import static org.opengis.annotation.Specification.*;
  * Information about on-line sources from which the dataset, specification, or
  * community profile name and extended metadata elements can be obtained.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
+ * @author Cory Horner (Refractions Research)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Martin Desruisseaux (IRD)
- * @author  Cory Horner (Refractions Research)
- * @since   GeoAPI 1.0
+ * @source $URL$
+ * @since GeoAPI 1.0
  */
-@Profile (level=CORE)
-@UML(identifier="CI_OnlineResource", specification=ISO_19115)
+@Profile(level = CORE)
+@UML(identifier = "CI_OnlineResource", specification = ISO_19115)
 public interface OnLineResource {
     /**
      * Location (address) for on-line access using a Uniform Resource Locator address or
      * similar addressing scheme such as http://www.statkart.no/isotc211.
      *
-     * @return Location for on-line access using a Uniform Resource Locator address or similar scheme.
+     * @return Location for on-line access using a Uniform Resource Locator address or similar 
+     * scheme.
      */
-    @UML(identifier="linkage", obligation=MANDATORY, specification=ISO_19115)
+    @UML(identifier = "linkage", obligation = MANDATORY, specification = ISO_19115)
     URI getLinkage();
 
     /**
@@ -48,7 +48,7 @@ public interface OnLineResource {
      *
      * @return Connection protocol to be used, or {@code null}.
      */
-    @UML(identifier="protocol", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "protocol", obligation = OPTIONAL, specification = ISO_19115)
     String getProtocol();
 
     /**
@@ -57,17 +57,16 @@ public interface OnLineResource {
      *
      * @return Application profile that can be used with the online resource, or {@code null}.
      */
-    @UML(identifier="applicationProfile", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "applicationProfile", obligation = OPTIONAL, specification = ISO_19115)
     String getApplicationProfile();
 
     /**
      * Name of the online resource. Returns {@code null} if none.
      *
      * @return Name of the online resource, or {@code null}.
-     *
      * @since GeoAPI 2.1
      */
-    @UML(identifier="name", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "name", obligation = OPTIONAL, specification = ISO_19115)
     String getName();
 
     /**
@@ -76,7 +75,7 @@ public interface OnLineResource {
      *
      * @return Text description of what the online resource is/does, or {@code null}.
      */
-    @UML(identifier="description", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "description", obligation = OPTIONAL, specification = ISO_19115)
     InternationalString getDescription();
 
     /**
@@ -85,6 +84,6 @@ public interface OnLineResource {
      *
      * @return Function performed by the online resource, or {@code null}.
      */
-    @UML(identifier="function", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "function", obligation = OPTIONAL, specification = ISO_19115)
     OnLineFunction getFunction();
 }

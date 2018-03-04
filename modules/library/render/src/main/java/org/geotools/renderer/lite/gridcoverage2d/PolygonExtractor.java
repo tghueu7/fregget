@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2014 - 2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -28,9 +28,8 @@ import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * A simple utility class extracting all polygons found in the geometry provided
- * 
+ *
  * @author Andrea Aime - GeoSolutions
- * 
  */
 class PolygonExtractor {
 
@@ -41,7 +40,7 @@ class PolygonExtractor {
 
     /**
      * Returns all polygons found in the
-     * 
+     *
      * @param handler
      * @param geometry
      * @return

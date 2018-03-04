@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.metadata;
 
 import java.util.Collection;
+
 import org.opengis.util.InternationalString;
 import org.opengis.metadata.citation.ResponsibleParty;
 import org.opengis.annotation.UML;
@@ -21,21 +22,19 @@ import static org.opengis.annotation.Specification.*;
 /**
  * New metadata element, not found in ISO 19115, which is required to describe geographic data.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 2.0
+ * @source $URL$
+ * @since GeoAPI 2.0
  */
-@UML(identifier="MD_ExtendedElementInformation", specification=ISO_19115)
+@UML(identifier = "MD_ExtendedElementInformation", specification = ISO_19115)
 public interface ExtendedElementInformation {
     /**
      * Name of the extended metadata element.
      *
      * @return Name of the extended metadata element.
      */
-    @UML(identifier="name", obligation=MANDATORY, specification=ISO_19115)
+    @UML(identifier = "name", obligation = MANDATORY, specification = ISO_19115)
     String getName();
 
     /**
@@ -45,9 +44,9 @@ public interface ExtendedElementInformation {
      * {@link #getDomainCode} may be used instead.
      *
      * @return Short form suitable for use in an implementation method such as XML or SGML,
-     *         or {@code null}.
+     * or {@code null}.
      */
-    @UML(identifier="shortName", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "shortName", obligation = CONDITIONAL, specification = ISO_19115)
     String getShortName();
 
     /**
@@ -58,7 +57,7 @@ public interface ExtendedElementInformation {
      *
      * @return Three digit code assigned to the extended element, or {@code null}.
      */
-    @UML(identifier="domainCode", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "domainCode", obligation = CONDITIONAL, specification = ISO_19115)
     Integer getDomainCode();
 
     /**
@@ -66,7 +65,7 @@ public interface ExtendedElementInformation {
      *
      * @return Definition of the extended element.
      */
-    @UML(identifier="definition", obligation=MANDATORY, specification=ISO_19115)
+    @UML(identifier = "definition", obligation = MANDATORY, specification = ISO_19115)
     InternationalString getDefinition();
 
     /**
@@ -74,7 +73,7 @@ public interface ExtendedElementInformation {
      *
      * @return Obligation of the extended element, or {@code null}.
      */
-    @UML(identifier="obligation", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "obligation", obligation = CONDITIONAL, specification = ISO_19115)
     Obligation getObligation();
 
     /**
@@ -84,7 +83,7 @@ public interface ExtendedElementInformation {
      *
      * @return The condition under which the extended element is mandatory, or {@code null}.
      */
-    @UML(identifier="condition", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "condition", obligation = CONDITIONAL, specification = ISO_19115)
     InternationalString getCondition();
 
     /**
@@ -92,7 +91,7 @@ public interface ExtendedElementInformation {
      *
      * @return The kind of value provided in the extended element.
      */
-    @UML(identifier="dataType", obligation=MANDATORY, specification=ISO_19115)
+    @UML(identifier = "dataType", obligation = MANDATORY, specification = ISO_19115)
     Datatype getDataType();
 
     /**
@@ -104,7 +103,7 @@ public interface ExtendedElementInformation {
      *
      * @return Maximum occurrence of the extended element, or {@code null}.
      */
-    @UML(identifier="maximumOccurrence", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "maximumOccurrence", obligation = CONDITIONAL, specification = ISO_19115)
     Integer getMaximumOccurrence();
 
     /**
@@ -116,7 +115,7 @@ public interface ExtendedElementInformation {
      *
      * @return Valid values that can be assigned to the extended element, or {@code null}.
      */
-    @UML(identifier="domainValue", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "domainValue", obligation = CONDITIONAL, specification = ISO_19115)
     InternationalString getDomainValue();
 
     /**
@@ -125,7 +124,7 @@ public interface ExtendedElementInformation {
      *
      * @return Name of the metadata entity(s) under which this extended metadata element may appear.
      */
-    @UML(identifier="parentEntity", obligation=MANDATORY, specification=ISO_19115)
+    @UML(identifier = "parentEntity", obligation = MANDATORY, specification = ISO_19115)
     Collection<String> getParentEntity();
 
     /**
@@ -133,7 +132,7 @@ public interface ExtendedElementInformation {
      *
      * @return How the extended element relates to other existing elements and entities.
      */
-    @UML(identifier="rule", obligation=MANDATORY, specification=ISO_19115)
+    @UML(identifier = "rule", obligation = MANDATORY, specification = ISO_19115)
     InternationalString getRule();
 
     /**
@@ -141,7 +140,7 @@ public interface ExtendedElementInformation {
      *
      * @return Reason for creating the extended element.
      */
-    @UML(identifier="rationale", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "rationale", obligation = OPTIONAL, specification = ISO_19115)
     Collection<? extends InternationalString> getRationales();
 
     /**
@@ -149,6 +148,6 @@ public interface ExtendedElementInformation {
      *
      * @return Name of the person or organization creating the extended element.
      */
-    @UML(identifier="source", obligation=MANDATORY, specification=ISO_19115)
+    @UML(identifier = "source", obligation = MANDATORY, specification = ISO_19115)
     Collection<? extends ResponsibleParty> getSources();
 }

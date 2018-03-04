@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -30,20 +30,20 @@ import org.xml.sax.SAXException;
 
 /**
  * ChoiceHandler purpose.
- * 
+ * <p>
  * <p>
  * represtents a 'choice' element
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc. http://www.refractions.net
  * @author $Author:$ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class ChoiceHandler extends ElementGroupingHandler {
-    /** 'choice' */
+    /**
+     * 'choice'
+     */
     public final static String LOCALNAME = "choice";
     private String id;
     private int minOccurs;
@@ -56,14 +56,14 @@ public class ChoiceHandler extends ElementGroupingHandler {
      */
     public int hashCode() {
         return (LOCALNAME.hashCode() * ((id == null) ? 1 : id.hashCode()))
-        + (minOccurs * maxOccurs);
+                + (minOccurs * maxOccurs);
     }
 
     /**
      * @see org.geotools.xml.XSIElementHandler#getHandler(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
-    public XSIElementHandler getHandler(String namespaceURI, String localName){
+    public XSIElementHandler getHandler(String namespaceURI, String localName) {
         if (SchemaHandler.namespaceURI.equalsIgnoreCase(namespaceURI)) {
             // child types
             //
@@ -133,10 +133,10 @@ public class ChoiceHandler extends ElementGroupingHandler {
 
     /**
      * @see org.geotools.xml.XSIElementHandler#startElement(java.lang.String,
-     *      java.lang.String, org.xml.sax.Attributes)
+     * java.lang.String, org.xml.sax.Attributes)
      */
     public void startElement(String namespaceURI, String localName,
-        Attributes atts){
+                             Attributes atts) {
         id = atts.getValue("", "id");
 
         if (id == null) {
@@ -156,9 +156,10 @@ public class ChoiceHandler extends ElementGroupingHandler {
         }
 
         minOccurs = ((min == null) || "".equalsIgnoreCase(min)) ? 1
-            : Integer.parseInt(min);
+                : Integer.parseInt(min);
         maxOccurs = ((max == null) || "".equalsIgnoreCase(max)) ? 1
-            : ("unbounded".equalsIgnoreCase(max) ? ElementGrouping.UNBOUNDED : Integer.parseInt(max));
+                : ("unbounded".equalsIgnoreCase(max) ? ElementGrouping.UNBOUNDED : Integer
+                .parseInt(max));
     }
 
     /**
@@ -169,17 +170,18 @@ public class ChoiceHandler extends ElementGroupingHandler {
     }
 
     /**
-     * @see org.geotools.xml.XSIHandlers.ElementGroupingHandler#compress(org.geotools.xml.XSIHandlers.SchemaHandler)
+     * @see org.geotools.xml.XSIHandlers.ElementGroupingHandler#compress(org.geotools.xml
+     * .XSIHandlers.SchemaHandler)
      */
     protected ElementGrouping compress(SchemaHandler parent)
-        throws SAXException {
+            throws SAXException {
 
-        synchronized(this){
+        synchronized (this) {
             if (cache != null)
-            	return cache;
+                return cache;
             cache = new DefaultChoice();
         }
-        
+
         cache.id = id;
         cache.maxOccurs = maxOccurs;
         cache.minOccurs = minOccurs;
@@ -191,7 +193,7 @@ public class ChoiceHandler extends ElementGroupingHandler {
             // remove child choices and make the options as peers
             for (int i = 0; i < cache.children.length; i++)
                 cache.children[i] = ((ElementGroupingHandler) children.get(i))
-                    .compress(parent);
+                        .compress(parent);
         }
 
         id = null;
@@ -209,9 +211,9 @@ public class ChoiceHandler extends ElementGroupingHandler {
 
     /**
      * @see org.geotools.xml.XSIElementHandler#endElement(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
-    public void endElement(String namespaceURI, String localName){
+    public void endElement(String namespaceURI, String localName) {
         // does nothing
     }
 
@@ -221,7 +223,6 @@ public class ChoiceHandler extends ElementGroupingHandler {
      * </p>
      *
      * @author dzwiers
-     *
      * @see Choice
      */
     private static class DefaultChoice implements Choice {
@@ -286,8 +287,8 @@ public class ChoiceHandler extends ElementGroupingHandler {
             return CHOICE;
         }
 
-		public Element findChildElement(String localName, URI namespaceURI) {
-			if (children == null) {
+        public Element findChildElement(String localName, URI namespaceURI) {
+            if (children == null) {
                 return null;
             }
 
@@ -301,6 +302,6 @@ public class ChoiceHandler extends ElementGroupingHandler {
             }
 
             return null;
-		}
+        }
     }
 }

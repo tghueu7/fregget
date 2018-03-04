@@ -30,12 +30,12 @@ public class ConformanceTypeBinding extends AbstractComplexEMFBinding {
     public ConformanceTypeBinding(Fes20Factory factory) {
         super(factory);
     }
-    
+
     @Override
     public QName getTarget() {
         return FES.ConformanceType;
     }
-    
+
     @Override
     public Class getType() {
         return ConformanceType.class;

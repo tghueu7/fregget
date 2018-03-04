@@ -31,9 +31,9 @@ import org.picocontainer.MutablePicoContainer;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:Halo.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="Halo"&gt;
  *      &lt;xsd:annotation&gt;
@@ -54,9 +54,6 @@ import org.picocontainer.MutablePicoContainer;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDHaloBinding extends AbstractComplexBinding {
@@ -111,14 +108,14 @@ public class SLDHaloBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         // get the children and apply the defaults in case they are missing
         Fill fill = (Fill) node.getChildValue("Fill");
-        if(fill == null) {
-            fill = styleFactory.createFill(filterFactory.literal("#FFFFFF"));   
+        if (fill == null) {
+            fill = styleFactory.createFill(filterFactory.literal("#FFFFFF"));
         }
         Expression radius = (Expression) node.getChildValue("Radius");
-        if(radius == null) {
+        if (radius == null) {
             radius = filterFactory.literal(1.0);
         }
         return styleFactory.createHalo(fill, radius);

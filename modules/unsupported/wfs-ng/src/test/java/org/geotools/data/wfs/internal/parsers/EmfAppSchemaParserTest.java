@@ -39,20 +39,17 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  * Unit test suite for {@link EmfAppSchemaParser}
- * 
+ *
  * @author Gabriel Roldan
  * @version $Id$
- * @since 2.5.x
- * 
- * 
- * 
  * @source $URL$
+ * @since 2.5.x
  */
 public class EmfAppSchemaParserTest {
 
     /**
      * Test method for {@link EmfAppSchemaParser#parse(javax.xml.namespace.QName, java.net.URL)}.
-     * 
+     *
      * @throws IOException
      */
     @Test
@@ -114,10 +111,13 @@ public class EmfAppSchemaParserTest {
      * @param expectedAttributeCount
      * @return
      * @throws IOException
-     * @see {@link EmfAppSchemaParser#parseSimpleFeatureType(Configuration, QName, URL, CoordinateReferenceSystem)}
+     * @see 
+     * {@link EmfAppSchemaParser#parseSimpleFeatureType(Configuration, QName, URL, CoordinateReferenceSystem)}
      */
     private SimpleFeatureType testParseDescribeSimpleFeatureType(final QName featureTypeName,
-            final URL schemaLocation, int expectedAttributeCount) throws IOException {
+                                                                 final URL schemaLocation, int 
+                                                                         expectedAttributeCount) 
+            throws IOException {
         assertNotNull(schemaLocation);
         final CoordinateReferenceSystem crs = DefaultGeographicCRS.WGS84;
 

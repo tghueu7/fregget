@@ -20,8 +20,6 @@ import java.math.BigInteger;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class Mail {

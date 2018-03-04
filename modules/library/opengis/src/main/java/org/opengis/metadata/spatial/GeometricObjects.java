@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.metadata.spatial;
 
 import org.opengis.annotation.UML;
+
 import static org.opengis.annotation.Obligation.*;
 import static org.opengis.annotation.Specification.*;
 
@@ -17,14 +18,12 @@ import static org.opengis.annotation.Specification.*;
 /**
  * Number of objects, listed by geometric object type, used in the dataset.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 2.0
+ * @source $URL$
+ * @since GeoAPI 2.0
  */
-@UML(identifier="MD_GeometricObjects", specification=ISO_19115)
+@UML(identifier = "MD_GeometricObjects", specification = ISO_19115)
 public interface GeometricObjects {
     /**
      * Name of point and vector spatial objects used to locate zero-, one-, and twodimensional
@@ -32,7 +31,7 @@ public interface GeometricObjects {
      *
      * @return Name of spatial objects used to locate spatial locations in the dataset.
      */
-    @UML(identifier="geometricObjectType", obligation=MANDATORY, specification=ISO_19115)
+    @UML(identifier = "geometricObjectType", obligation = MANDATORY, specification = ISO_19115)
     GeometricObjectType getGeometricObjectType();
 
     /**
@@ -40,6 +39,6 @@ public interface GeometricObjects {
      *
      * @return Total number of the point or vector object type, or {@code null}.
      */
-    @UML(identifier="geometricObjectCount", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "geometricObjectCount", obligation = OPTIONAL, specification = ISO_19115)
     Integer getGeometricObjectCount();
 }

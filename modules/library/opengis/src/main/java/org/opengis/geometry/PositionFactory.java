@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry;
 
 import java.util.List;
+
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.geometry.coordinate.PointArray;
 import org.opengis.geometry.coordinate.Position;
@@ -23,10 +24,8 @@ import org.opengis.geometry.coordinate.Position;
  * </p>
  *
  * @author Jody Garnett
- * @since GeoAPI 2.1
- *
- *
  * @source $URL$
+ * @since GeoAPI 2.1
  */
 public interface PositionFactory {
     /**
@@ -57,8 +56,9 @@ public interface PositionFactory {
      *
      * @param coordinates Array of ordinates used for this DirectPosition
      * @throws MismatchedDimensionException if the coordinates array length doesn't match
-     *         the {@linkplain #getCoordinateReferenceSystem coordinate reference system}
-     *         dimension.
+     *                                      the 
+     *                                      {@linkplain #getCoordinateReferenceSystem coordinate reference system}
+     *                                      dimension.
      */
     DirectPosition createDirectPosition(double[] coordinates)
             throws MismatchedDimensionException;
@@ -88,7 +88,7 @@ public interface PositionFactory {
      * @param coordinates The coordinates to assign to the list of positions.
      * @param start       The first valid value in the {@code coordinates} array.
      * @param length      The number of valid values in the {@code coordinates} array.
-     * @return            The list of positions.
+     * @return The list of positions.
      */
     PointArray createPointArray(double[] coordinates, int start, int length);
 
@@ -102,7 +102,7 @@ public interface PositionFactory {
      * @param coordinates The coordinates to assign to the list of positions.
      * @param start       The first valid value in the {@code coordinates} array.
      * @param length      The number of valid values in the {@code coordinates} array.
-     * @return            The list of positions.
+     * @return The list of positions.
      */
     PointArray createPointArray(float[] coordinates, int start, int length);
 }

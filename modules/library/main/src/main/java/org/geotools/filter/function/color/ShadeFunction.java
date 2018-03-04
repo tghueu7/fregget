@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2017, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -25,13 +25,15 @@ import org.geotools.filter.capability.FunctionNameImpl;
 import org.opengis.filter.capability.FunctionName;
 
 /**
- * Shade lesscss.org color function. Takes one colors and mixes it with black based on a weight (and their eventual alpha)
+ * Shade lesscss.org color function. Takes one colors and mixes it with black based on a weight 
+ * (and their eventual alpha)
  *
  * @author Andrea Aime - GeoSolutions
  */
 public class ShadeFunction extends FunctionImpl {
 
-    public static FunctionName NAME = new FunctionNameImpl("shade", parameter("result", Color.class),
+    public static FunctionName NAME = new FunctionNameImpl("shade", parameter("result", Color
+            .class),
             parameter("color", Color.class), parameter("weight", Double.class));
     private MixFunction delegate;
 
@@ -45,7 +47,7 @@ public class ShadeFunction extends FunctionImpl {
         Color color = (Color) getParameterValue(object, 0);
         double weight = (Double) getParameterValue(object, 1);
 
-        return delegate.mix(Color.BLACK, color, weight); 
+        return delegate.mix(Color.BLACK, color, weight);
     }
 
 }

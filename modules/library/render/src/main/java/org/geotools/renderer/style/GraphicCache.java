@@ -23,7 +23,7 @@ package org.geotools.renderer.style;
  * cached content.
  */
 public interface GraphicCache extends ExternalGraphicFactory {
-    
+
     /**
      * Clear the graphic cache.
      */

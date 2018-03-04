@@ -37,22 +37,25 @@ public interface SolrLayerMapper {
     public static enum Type {
         FIELD {
             @Override
-            public SolrLayerMapper createMapper(Map<String,Serializable> params) throws IOException {
+            public SolrLayerMapper createMapper(Map<String, Serializable> params) throws 
+                    IOException {
                 if (!params.containsKey(SolrDataStoreFactory.FIELD.key)) {
                     throw new IllegalArgumentException(format(
-                        "Layer mapper '%s' requires '%s' key", FIELD.name(), SolrDataStoreFactory.FIELD.key));
+                            "Layer mapper '%s' requires '%s' key", FIELD.name(), 
+                            SolrDataStoreFactory.FIELD.key));
                 }
                 return new FieldLayerMapper((String) SolrDataStoreFactory.FIELD.lookUp(params));
             }
         },
         SINGLE {
             @Override
-            public SolrLayerMapper createMapper(Map<String,Serializable> params) {
+            public SolrLayerMapper createMapper(Map<String, Serializable> params) {
                 return new SingleLayerMapper();
             }
         };
 
-        public abstract SolrLayerMapper createMapper(Map<String,Serializable> params) throws IOException;
+        public abstract SolrLayerMapper createMapper(Map<String, Serializable> params) throws 
+                IOException;
     }
 
     /**

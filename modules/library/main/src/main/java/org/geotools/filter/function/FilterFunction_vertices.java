@@ -16,8 +16,6 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.MultiPoint;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class FilterFunction_vertices extends FunctionExpressionImpl {
@@ -32,26 +30,27 @@ public class FilterFunction_vertices extends FunctionExpressionImpl {
 
     public Object evaluate(Object feature, Class context) {
         Geometry g = getExpression(0).evaluate(feature, Geometry.class);
-        if(g == null)
+        if (g == null)
             return null;
-        
+
         MultiPointExtractor filter = new MultiPointExtractor();
         g.apply(filter);
         return filter.getMultiPoint();
     }
-    
+
     static class MultiPointExtractor implements CoordinateFilter {
         List<Coordinate> coordinates = new ArrayList();
 
         public void filter(Coordinate c) {
             coordinates.add(c);
         }
-        
+
         MultiPoint getMultiPoint() {
-            Coordinate[] coorArray = (Coordinate[]) coordinates.toArray(new Coordinate[coordinates.size()]);
+            Coordinate[] coorArray = (Coordinate[]) coordinates.toArray(new 
+                    Coordinate[coordinates.size()]);
             return new GeometryFactory().createMultiPoint(coorArray);
         }
-        
+
     }
 
 }

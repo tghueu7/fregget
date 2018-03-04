@@ -24,7 +24,7 @@ import org.opengis.feature.simple.SimpleFeature;
 /**
  * A simple wrapper that limits the number of features returned by a given
  * {@link SimpleFeatureIterator}
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 class MaxFeaturesIterator implements SimpleFeatureIterator {

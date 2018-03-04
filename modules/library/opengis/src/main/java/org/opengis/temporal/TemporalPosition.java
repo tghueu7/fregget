@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.temporal;
@@ -20,11 +20,9 @@ import static org.opengis.annotation.Specification.*;
  *
  * @author Stephane Fellah (Image Matters)
  * @author Alexander Petkov
- *
- *
  * @source $URL$
  */
-@UML(identifier="TM_TemporalPosition", specification=ISO_19108)
+@UML(identifier = "TM_TemporalPosition", specification = ISO_19108)
 public interface TemporalPosition {
     /**
      * This attribute provides the only value for temporal position unless a subtype of
@@ -34,6 +32,6 @@ public interface TemporalPosition {
      *
      * @todo Method name doesn't match the return type.
      */
-    @UML(identifier="indeterminatePosition", obligation=OPTIONAL, specification=ISO_19108)
+    @UML(identifier = "indeterminatePosition", obligation = OPTIONAL, specification = ISO_19108)
     IndeterminateValue getIndeterminatePosition();
 }

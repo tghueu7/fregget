@@ -19,8 +19,6 @@ package org.geotools.data.spatialite;
 import org.geotools.jdbc.JDBCGeometryTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SpatiaLiteGeometryTestSetup extends JDBCGeometryTestSetup {
@@ -31,8 +29,8 @@ public class SpatiaLiteGeometryTestSetup extends JDBCGeometryTestSetup {
 
     @Override
     protected void dropSpatialTable(String tableName) throws Exception {
-        run( "DROP TABLE " + tableName );
-        run( "DELETE FROM geometry_columns WHERE f_table_name = '" + tableName + "'");
+        run("DROP TABLE " + tableName);
+        run("DELETE FROM geometry_columns WHERE f_table_name = '" + tableName + "'");
     }
 
 }

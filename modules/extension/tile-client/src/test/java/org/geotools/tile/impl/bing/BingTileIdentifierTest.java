@@ -52,7 +52,7 @@ public class BingTileIdentifierTest extends TileIdentifierTest {
     }
 
     protected TileIdentifier createTestTileIdentifier(ZoomLevel zoomLevel, int x, int y,
-            String name) {
+                                                      String name) {
         return new BingTileIdentifier(x, y, zoomLevel, name);
 
     }

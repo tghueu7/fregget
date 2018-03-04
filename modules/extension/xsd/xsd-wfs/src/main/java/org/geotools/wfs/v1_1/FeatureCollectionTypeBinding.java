@@ -31,9 +31,8 @@ import org.geotools.xml.Encoder;
 /**
  * A feature collection binding with specific optimizations for {@link SimpleFeatureCollection}
  * encoding
- * 
- * @author Andrea Aime - GeoSolutions
  *
+ * @author Andrea Aime - GeoSolutions
  */
 public class FeatureCollectionTypeBinding extends
         org.geotools.wfs.bindings.FeatureCollectionTypeBinding {
@@ -50,21 +49,21 @@ public class FeatureCollectionTypeBinding extends
     }
 
 
-
     @Override
     public Object getProperty(Object object, QName name) throws Exception {
         if (GML.featureMember.equals(name)) {
             FeatureCollectionType fc = (FeatureCollectionType) object;
             if (fc.getFeature().size() == 1
                     && fc.getFeature().get(0) instanceof SimpleFeatureCollection
-                    && encoder.getConfiguration().hasProperty(GMLConfiguration.OPTIMIZED_ENCODING)) {
+                    && encoder.getConfiguration().hasProperty(GMLConfiguration
+                    .OPTIMIZED_ENCODING)) {
                 return new GML3FeatureCollectionEncoderDelegate((SimpleFeatureCollection) fc
                         .getFeature().get(0), encoder);
             }
         }
-        
+
         return super.getProperty(object, name);
     }
-    
-    
+
+
 }

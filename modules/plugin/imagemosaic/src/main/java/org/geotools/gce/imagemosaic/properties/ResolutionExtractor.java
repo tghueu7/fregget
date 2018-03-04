@@ -31,16 +31,16 @@ import org.opengis.feature.simple.SimpleFeature;
 import static org.geotools.gce.imagemosaic.properties.ResolutionExtractor.Axis.BOTH;
 
 /**
- * 
  * @author Niels Charlier
- * 
  */
 class ResolutionExtractor extends PropertiesCollector {
 
     private final static Logger LOGGER = Logging.getLogger(ResolutionExtractor.class);
-    
-    enum Axis {X, Y, BOTH};
-    
+
+    enum Axis {X, Y, BOTH}
+
+    ;
+
     Axis axis = BOTH;
 
     public ResolutionExtractor(PropertiesCollectorSPI spi, List<String> propertyNames, Axis axis) {
@@ -56,10 +56,10 @@ class ResolutionExtractor extends PropertiesCollector {
 
             if (axis == Axis.X) {
                 addMatch("" + resolutionLevels[0][0]);
-            } else if(axis == Axis.Y) {
+            } else if (axis == Axis.Y) {
                 addMatch("" + resolutionLevels[0][1]);
             } else {
-                addMatch("" + Math.max(resolutionLevels[0][0], resolutionLevels[0][1]));    
+                addMatch("" + Math.max(resolutionLevels[0][0], resolutionLevels[0][1]));
             }
         } catch (IOException e) {
             LOGGER.log(Level.WARNING, e.getMessage(), e);

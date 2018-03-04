@@ -1,8 +1,6 @@
 package com.vividsolutions.jts.geom;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class EmptyGeometry extends Geometry {
@@ -12,12 +10,12 @@ public class EmptyGeometry extends Geometry {
     }
 
     @Override
-    public String getGeometryType() {       
+    public String getGeometryType() {
         return null;
     }
 
     @Override
-    public Coordinate getCoordinate() {        
+    public Coordinate getCoordinate() {
         return null;
     }
 
@@ -63,28 +61,28 @@ public class EmptyGeometry extends Geometry {
 
     @Override
     public void apply(CoordinateFilter filter) {
-        
+
 
     }
 
     @Override
     public void apply(CoordinateSequenceFilter filter) {
-        
+
     }
 
     @Override
     public void apply(GeometryFilter filter) {
-        
+
     }
 
     @Override
     public void apply(GeometryComponentFilter filter) {
-        
+
     }
 
     @Override
     public void normalize() {
-        
+
     }
 
     @Override
@@ -101,12 +99,11 @@ public class EmptyGeometry extends Geometry {
     protected int compareToSameClass(Object o, CoordinateSequenceComparator comp) {
         return 0;
     }
-    
+
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "";
     }
-    
+
 
 }

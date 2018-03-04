@@ -17,6 +17,7 @@
 package org.geotools.filter.v1_0;
 
 import javax.xml.namespace.QName;
+
 import com.vividsolutions.jts.geom.GeometryFactory;
 import org.opengis.filter.FilterFactory2;
 import org.opengis.filter.expression.Expression;
@@ -28,20 +29,18 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the element http://www.opengis.net/ogc:Within.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
- *  &lt;xsd:element name="Within" substitutionGroup="ogc:spatialOps" type="ogc:BinarySpatialOpType"/&gt;
+ *  &lt;xsd:element name="Within" substitutionGroup="ogc:spatialOps" 
+ *  type="ogc:BinarySpatialOpType"/&gt;
  *
  *          </code>
  *         </pre>
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OGCWithinBinding extends AbstractComplexBinding {
@@ -81,7 +80,7 @@ public class OGCWithinBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         Expression[] operands = OGCUtils.spatial(node, filterFactory, geometryFactory);
 
         return filterFactory.within(operands[0], operands[1]);

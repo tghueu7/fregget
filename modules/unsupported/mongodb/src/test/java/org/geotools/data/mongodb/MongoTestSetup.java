@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2015, Boundless
  *
@@ -37,7 +37,7 @@ public abstract class MongoTestSetup {
     protected abstract Date getDateProperty(int featureIdx);
 
     public MongoDataStore createDataStore(Properties fixture) throws IOException {
-        MongoDataStore dataStore = new MongoDataStoreFactory().createDataStore((Map)fixture);
+        MongoDataStore dataStore = new MongoDataStoreFactory().createDataStore((Map) fixture);
         setUpDataStore(dataStore);
         return dataStore;
     }

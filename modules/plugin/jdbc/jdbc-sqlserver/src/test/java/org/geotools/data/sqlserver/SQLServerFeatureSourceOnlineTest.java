@@ -24,8 +24,6 @@ import org.geotools.jdbc.JDBCFeatureSourceOnlineTest;
 import org.geotools.jdbc.JDBCTestSetup;
 
 /**
- *
- *
  * @source $URL$
  */
 public class SQLServerFeatureSourceOnlineTest extends JDBCFeatureSourceOnlineTest {
@@ -34,18 +32,18 @@ public class SQLServerFeatureSourceOnlineTest extends JDBCFeatureSourceOnlineTes
     protected JDBCTestSetup createTestSetup() {
         return new SqlServerNativeSerializationTestSetup();
     }
-    
+
     public void testGetFeaturesWithOffset() throws Exception {
         SimpleFeatureSource featureSource = dataStore.getFeatureSource(tname("ft_from"));
         Query q = new Query(featureSource.getSchema().getTypeName());
-        q.setPropertyNames(new String[] {aname("ORIGIN_FROM")});
+        q.setPropertyNames(new String[]{aname("ORIGIN_FROM")});
         q.setStartIndex(1);
         q.setMaxFeatures(1);
         SimpleFeatureCollection features = featureSource.getFeatures(q);
-        
+
         // check size
         assertEquals(1, features.size());
-        
+
         // check actual iteration
         SimpleFeatureIterator it = features.features();
         int count = 0;

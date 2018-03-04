@@ -17,6 +17,7 @@
 package org.geotools.xs.bindings;
 
 import javax.xml.namespace.QName;
+
 import org.geotools.xml.InstanceComponent;
 import org.geotools.xml.SimpleBinding;
 import org.geotools.xs.XS;
@@ -24,9 +25,9 @@ import org.geotools.xs.XS;
 
 /**
  * Binding object for the type http://www.w3.org/2001/XMLSchema:negativeInteger.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xs:simpleType name="negativeInteger" id="negativeInteger"&gt;
  *      &lt;xs:annotation&gt;
@@ -42,9 +43,6 @@ import org.geotools.xs.XS;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class XSNegativeIntegerBinding implements SimpleBinding {
@@ -77,7 +75,6 @@ public class XSNegativeIntegerBinding implements SimpleBinding {
     }
 
     /**
-     *
      * <!-- begin-user-doc -->
      * This method returns objects of type {@link Number}. The value returned
      * is negative.
@@ -86,12 +83,12 @@ public class XSNegativeIntegerBinding implements SimpleBinding {
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
+            throws Exception {
         Number number = (Number) value;
 
         if (number.longValue() == 0) {
             throw new IllegalArgumentException("negativeInteger value '" + number
-                + "' required to be negative");
+                    + "' required to be negative");
         }
 
         return number;

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -35,9 +35,6 @@ import com.vividsolutions.jts.io.WKTWriter;
 
 /**
  * Text field for filling in a Geometry parameter using WKT.
- *
- *
- *
  *
  * @source $URL$
  */
@@ -79,7 +76,7 @@ public class JGeometryField extends ParamField {
 
     /**
      * Determine the number of dimensions based on the CRS metadata.
-     * 
+     *
      * @return Number of dimensions expected based on metadata, default of 2
      */
     int getD() {
@@ -91,7 +88,7 @@ public class JGeometryField extends ParamField {
             } else {
                 return crs.getCoordinateSystem().getDimension();
             }
-        } catch (Throwable t){
+        } catch (Throwable t) {
             return 2;
         }
     }
@@ -112,7 +109,7 @@ public class JGeometryField extends ParamField {
     public void removeListener(Controller controller) {
         text.addKeyListener(controller);
     }
-    
+
     public boolean validate() {
         WKTReader reader = new WKTReader();
         String wkt = text.getText();

@@ -21,9 +21,8 @@ import org.geotools.process.gs.GSProcess;
 
 /**
  * Simple process used to verify AnnotatedBeanProcessFactory is working.
- * 
- * @author Jody Garnett (LISAsoft)
  *
+ * @author Jody Garnett (LISAsoft)
  * @source $URL$
  */
 @DescribeProcess(title = "Identity", description = "identiy process used for tesing")

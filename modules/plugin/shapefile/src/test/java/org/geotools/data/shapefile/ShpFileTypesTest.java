@@ -26,11 +26,9 @@ import org.geotools.data.shapefile.files.ShpFileType;
 import org.junit.Test;
 
 /**
- * 
- *
  * @source $URL$
  */
-public class ShpFileTypesTest  {
+public class ShpFileTypesTest {
 
     @Test
     public void testToFileBase() {

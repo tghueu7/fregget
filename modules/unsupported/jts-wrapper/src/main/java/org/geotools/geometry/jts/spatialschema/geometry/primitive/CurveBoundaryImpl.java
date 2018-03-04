@@ -2,7 +2,8 @@
  **
  ** $Id$
  **
- ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/primitive/CurveBoundaryImpl.java,v $
+ ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/primitive
+ * /CurveBoundaryImpl.java,v $
  **
  ** Copyright (C) 2003 Open GIS Consortium, Inc. All Rights Reserved. http://www.opengis.org/Legal/
  **
@@ -24,40 +25,37 @@ import org.opengis.geometry.primitive.Point;
  * last few methods are still unimplemented (and just delegate to the
  * superclass, which currently does nothing).
  *
- *
- *
- *
  * @source $URL$
  */
 public class CurveBoundaryImpl extends PrimitiveBoundaryImpl implements CurveBoundary {
-    
+
     //*************************************************************************
     //  
     //*************************************************************************
     /**
      * Comment for {@code EMPTY_COMPLEX_ARRAY}.
      */
-    private static final Complex [] EMPTY_COMPLEX_ARRAY = new Complex[0];
+    private static final Complex[] EMPTY_COMPLEX_ARRAY = new Complex[0];
 
     //*************************************************************************
     //  
     //*************************************************************************
-    
+
     private Point startPoint;
-    
+
     private Point endPoint;
-    
+
     private Set pointSet;
 
     //*************************************************************************
     //  
     //*************************************************************************
-    
+
     public CurveBoundaryImpl(
-            final CoordinateReferenceSystem crs, 
-            final Point startPoint, 
+            final CoordinateReferenceSystem crs,
+            final Point startPoint,
             final Point endPoint) {
-        
+
         super(crs);
         this.startPoint = startPoint;
         this.endPoint = endPoint;
@@ -65,7 +63,7 @@ public class CurveBoundaryImpl extends PrimitiveBoundaryImpl implements CurveBou
         if (startPoint != null) {
             tempSet.add(startPoint);
         }
-        if (endPoint != null) { 
+        if (endPoint != null) {
             tempSet.add(endPoint);
         }
         this.pointSet = Collections.unmodifiableSet(tempSet);

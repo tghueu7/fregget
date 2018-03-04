@@ -4,7 +4,7 @@
  *
  *    (C) 2016 Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2016 Boundless Spatial
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -26,9 +26,9 @@ import org.geotools.ysld.YamlMap;
 import org.geotools.ysld.YamlObject;
 
 /**
- * {@link YsldParseHandler} for the root of a {@link YamlObject}. This is the "entrypoint" {@link YsldParseHandler} for parsing Ysld into
+ * {@link YsldParseHandler} for the root of a {@link YamlObject}. This is the "entrypoint" 
+ * {@link YsldParseHandler} for parsing Ysld into
  * GeoTools-style objects. The resulting sld is accessible via the {{@link #sld()} method.
- * 
  */
 public class RootParser extends YsldParseHandler {
 
@@ -37,7 +37,7 @@ public class RootParser extends YsldParseHandler {
     Style style;
 
     public RootParser() {
-        this(Collections.<ZoomContextFinder> emptyList());
+        this(Collections.<ZoomContextFinder>emptyList());
     }
 
     public RootParser(List<ZoomContextFinder> zCtxtFinders) {

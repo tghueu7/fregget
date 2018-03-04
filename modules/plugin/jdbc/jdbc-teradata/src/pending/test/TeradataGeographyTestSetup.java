@@ -25,8 +25,6 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class TeradataGeographyTestSetup extends JDBCGeographyTestSetup {
@@ -37,7 +35,8 @@ public class TeradataGeographyTestSetup extends JDBCGeographyTestSetup {
 
 
     protected void createGeoPointTable() throws Exception {
-        run("CREATE TABLE geopoint ( id PRIMARY KEY not null generated always as identity (start with 0) integer, name VARCHAR(64), geo ST_GEOMETRY)");
+        run("CREATE TABLE geopoint ( id PRIMARY KEY not null generated always as identity (start " +
+                "with 0) integer, name VARCHAR(64), geo ST_GEOMETRY)");
         run("INSERT INTO geopoint(name, geo) VALUES ('Town', ST_GeomFromText('POINT(-110 30)'))");
         run("INSERT INTO geopoint(name, geo) VALUES ('Forest', ST_GeomFromText('POINT(-109 29)'))");
         run("INSERT INTO geopoint(name, geo) VALUES ('London', ST_GeomFromText('POINT(0 49)') )");

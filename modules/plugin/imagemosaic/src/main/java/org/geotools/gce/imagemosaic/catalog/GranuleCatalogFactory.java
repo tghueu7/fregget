@@ -36,10 +36,10 @@ import org.geotools.util.URLs;
 import org.geotools.util.logging.Logging;
 
 /**
- * Simple Factory class for creating {@link GranuleCatalog} instance to handle the catalog of granules for this mosaic.
- * 
- * @author Simone Giannecchini, GeoSolutions SAS
+ * Simple Factory class for creating {@link GranuleCatalog} instance to handle the catalog of 
+ * granules for this mosaic.
  *
+ * @author Simone Giannecchini, GeoSolutions SAS
  * @source $URL$
  */
 public abstract class GranuleCatalogFactory {
@@ -53,8 +53,9 @@ public abstract class GranuleCatalogFactory {
     }
 
     public static GranuleCatalog createGranuleCatalog(final Properties params,
-            final boolean caching, final boolean create, final DataStoreFactorySpi spi,
-            final Hints hints) {
+                                                      final boolean caching, final boolean 
+                                                              create, final DataStoreFactorySpi spi,
+                                                      final Hints hints) {
         // build the catalog
         Repository repository = (Repository) hints.get(Hints.REPOSITORY);
         String storeName = (String) params.get(Utils.Prop.STORE_NAME);
@@ -64,12 +65,13 @@ public abstract class GranuleCatalogFactory {
                 throw new IllegalArgumentException("Was given a store name " + storeName
                         + " but there is no Repository to resolve it");
             } else {
-                catalog = new RepositoryDataStoreCatalog(params, create, repository, storeName, spi, hints);
+                catalog = new RepositoryDataStoreCatalog(params, create, repository, storeName, 
+                        spi, hints);
             }
         } else {
             catalog = new GTDataStoreGranuleCatalog(params, create, spi, hints);
         }
-        
+
         // caching wrappers
         if (caching) {
             return new STRTreeGranuleCatalog(params, catalog, hints);
@@ -79,8 +81,10 @@ public abstract class GranuleCatalogFactory {
     }
 
     public static GranuleCatalog createGranuleCatalog(final URL sourceURL,
-            final CatalogConfigurationBean catalogConfigurationBean,
-            final Properties overrideParams, final Hints hints) {
+                                                      final CatalogConfigurationBean 
+                                                              catalogConfigurationBean,
+                                                      final Properties overrideParams, final 
+                                                      Hints hints) {
         final File sourceFile = URLs.urlToFile(sourceURL);
         final String extension = FilenameUtils.getExtension(sourceFile.getAbsolutePath());
 
@@ -144,7 +148,8 @@ public abstract class GranuleCatalogFactory {
                 // create a datastore as instructed
                 spi = (DataStoreFactorySpi) Class.forName(SPIClass).newInstance();
             } catch (Exception e) {
-                // if we are directed to use a pre-existing store then don't complain about lack of SPI
+                // if we are directed to use a pre-existing store then don't complain about lack 
+                // of SPI
                 if (properties.get(Utils.Prop.STORE_NAME) == null) {
                     if (LOGGER.isLoggable(Level.WARNING)) {
                         LOGGER.log(Level.WARNING, e.getLocalizedMessage(), e);
@@ -157,7 +162,8 @@ public abstract class GranuleCatalogFactory {
         if (overrideParams != null && !overrideParams.isEmpty()) {
             params.putAll(overrideParams);
         }
-        return createGranuleCatalog(params, catalogConfigurationBean.isCaching(), false, spi, hints);
+        return createGranuleCatalog(params, catalogConfigurationBean.isCaching(), false, spi, 
+                hints);
     }
 
 }

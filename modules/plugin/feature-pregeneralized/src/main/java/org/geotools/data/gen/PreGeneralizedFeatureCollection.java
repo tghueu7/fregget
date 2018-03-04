@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -18,9 +18,9 @@
 package org.geotools.data.gen;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;                                                                     
-import java.lang.reflect.Method;                                                                                        
-import java.lang.reflect.Modifier;  
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -43,13 +43,10 @@ import org.opengis.util.ProgressListener;
 
 /**
  * @author Christian Mueller
- * 
+ * <p>
  * Implementation of {@link FeatureCollection} for {@link PreGeneralizedSimpleFeature}
- * 
+ * <p>
  * This collection is read only, modifying methods result in {@link UnsupportedOperationException}
- *
- *
- *
  * @source $URL$
  */
 
@@ -63,7 +60,7 @@ public class PreGeneralizedFeatureCollection implements
     protected String geomPropertyName, backendGeomPropertyName;
 
     protected int[] indexMapping;
-    
+
     public PreGeneralizedFeatureCollection(
             SimpleFeatureCollection backendCollection,
             SimpleFeatureType featureType, int[] indexMapping, String geomPropertyName,
@@ -78,7 +75,7 @@ public class PreGeneralizedFeatureCollection implements
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.feature.FeatureCollection#accepts(org.opengis.feature.FeatureVisitor,
      *      org.opengis.util.ProgressListener) Logic copied from DefaultFeatureCollection class
      */

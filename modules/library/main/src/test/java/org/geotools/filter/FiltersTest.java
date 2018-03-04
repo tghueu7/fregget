@@ -19,7 +19,7 @@ import org.opengis.filter.expression.Expression;
 
 @SuppressWarnings("deprecation")
 /**
- * 
+ *
  *
  * @source $URL$
  */
@@ -135,15 +135,15 @@ public class FiltersTest {
     public void testPutsColor() {
         assertEquals("#0000ff", Filters.puts(Color.BLUE));
     }
-    
-    private int count( Filter filter ){
-        if( filter instanceof BinaryLogicOperator ){
+
+    private int count(Filter filter) {
+        if (filter instanceof BinaryLogicOperator) {
             BinaryLogicOperator logic = (BinaryLogicOperator) filter;
             return logic.getChildren() != null ? logic.getChildren().size() : -1;
         }
         return -1;
     }
-    
+
     @Test
     public void testRemoveFilter() {
         Filter results = Filters.removeFilter(null, a);
@@ -152,7 +152,7 @@ public class FiltersTest {
         results = Filters.removeFilter(a, null);
         assertSame("Existing should be returned with null target", a, results);
 
-        And base = ff.and(Arrays.asList(new Filter[]{a,b,c}));
+        And base = ff.and(Arrays.asList(new Filter[]{a, b, c}));
         results = Filters.removeFilter(base, d);
         assertEquals("Should not change when target not a child", base, results);
 
@@ -179,7 +179,7 @@ public class FiltersTest {
 
         results = Filters.removeFilter(base, d);
         assertFalse("Results should be a new object with different children", base.equals(results));
-        childOr = ff.or(b,c);
+        childOr = ff.or(b, c);
         And expected = ff.and(a, childOr);
         assertEquals(expected, results);
 
@@ -214,7 +214,7 @@ public class FiltersTest {
         String results = Filters.findPropertyName(b);
         assertNull(Filters.findPropertyName(f));
     }
-    
+
     @Test
     public void testEmptyEscape() {
         PropertyIsLike like = ff.like(ff.literal("abc def"), "*de*", "*", "_", "");

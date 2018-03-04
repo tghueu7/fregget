@@ -12,7 +12,7 @@ import org.geotools.swing.JMapFrame;
  * "waypoints"; and use the way points to calculate a route; use the route to create a FeatureCollection; and display that FeatureCollection as a new
  * layer.
  * </p>
- * 
+ *
  * @author Jody Garnett
  */
 public class Tiger extends JMapFrame {
@@ -20,9 +20,9 @@ public class Tiger extends JMapFrame {
     public Tiger() {
     }
 
-    public static void main(String args[]){
+    public static void main(String args[]) {
         Tiger tiger = new Tiger();
-        
+
         tiger.setVisible(true);
     }
 }

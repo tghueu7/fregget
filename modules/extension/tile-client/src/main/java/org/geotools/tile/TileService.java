@@ -40,9 +40,9 @@ import com.vividsolutions.jts.geom.Envelope;
 
 /**
  * A TileService represent the class of objects that serve map tiles.
- * 
+ * <p>
  * TileServices must at least have a name and a base URL.
- * 
+ *
  * @author to.srwn
  * @author Ugo Taddei
  * @since 12
@@ -53,8 +53,8 @@ public abstract class TileService {
             .getLogger(TileService.class.getPackage().getName());
 
     /**
-     * This WeakHashMap acts as a memory cache. 
-     * 
+     * This WeakHashMap acts as a memory cache.
+     * <p>
      * Because we are using SoftReference, we won't run out of Memory, the GC will free space.
      **/
     private ObjectCache tiles = ObjectCaches.create("soft", 50); //$NON-NLS-1$
@@ -65,10 +65,11 @@ public abstract class TileService {
 
     /**
      * Create a new TileService with a name and a base URL
-     * 
-     * @param name the name. Cannot be null.
-     * @param baseURL the base URL. This is a string representing the common part of the URL for all this service's tiles. Cannot be null. Note that
-     *        this constructor doesn't ensure that the URL is well-formed.
+     *
+     * @param name    the name. Cannot be null.
+     * @param baseURL the base URL. This is a string representing the common part of the URL for 
+     *                all this service's tiles. Cannot be null. Note that
+     *                this constructor doesn't ensure that the URL is well-formed.
      */
     protected TileService(String name, String baseURL) {
         setName(name);
@@ -123,7 +124,7 @@ public abstract class TileService {
 
     /**
      * Translates the map scale into a zoom-level for the map services.
-     *
+     * <p>
      * The scale-factor (0-100) decides whether the tiles will be scaled down (100)
      * or scaled up (0).
      *
@@ -165,11 +166,12 @@ public abstract class TileService {
      *
      * @param scale
      * @param scaleFactor
-     * @param useRecommended always use the calculated zoom-level, do not use the one the user selected
+     * @param useRecommended always use the calculated zoom-level, do not use the one the user 
+     *                       selected
      * @return
      */
     public int getZoomLevelToUse(ScaleZoomLevelMatcher zoomLevelMatcher, int scaleFactor,
-            boolean useRecommended) {
+                                 boolean useRecommended) {
         if (useRecommended) {
             return getZoomLevelFromMapScale(zoomLevelMatcher, scaleFactor);
         }
@@ -225,7 +227,7 @@ public abstract class TileService {
     }
 
     public Set<Tile> findTilesInExtent(ReferencedEnvelope _mapExtent, int scaleFactor,
-            boolean recommendedZoomLevel, int maxNumberOfTiles) {
+                                       boolean recommendedZoomLevel, int maxNumberOfTiles) {
 
         ReferencedEnvelope mapExtent = createSafeEnvelopeInWGS84(_mapExtent);
 
@@ -320,10 +322,10 @@ public abstract class TileService {
 
     /**
      * Add a tile to the cache.
-     *
+     * <p>
      * The cache used here is a soft cache, which has an un-controllable time to live
      * (could last a split seconds or 100 years).
-     *
+     * <p>
      * Subclasses services (such as WMTS) may have some more hints about the tile TTL, so a more
      * controllable cache should be implemented in these cases.
      */
@@ -347,7 +349,7 @@ public abstract class TileService {
 
     /**
      * Returns a list that represents a mapping between zoom-levels and map scale.
-     *
+     * <p>
      * Array index: zoom-level Value at index: map scale High zoom-level
      * -> more detailed map Low zoom-level -> less detailed map
      *
@@ -383,13 +385,13 @@ public abstract class TileService {
 
     /**
      * Normalize extents.
-     *
-     * The extent from the viewport may look like this: 
-     *     MaxY: 110° (=-70°) MinY: -110° MaxX: 180° MinX: -180°
-     *
+     * <p>
+     * The extent from the viewport may look like this:
+     * MaxY: 110° (=-70°) MinY: -110° MaxX: 180° MinX: -180°
+     * <p>
      * But cutExtentIntoTiles(..) requires an
      * extent that looks like this:
-     *     MaxY: 85° (or 90°) MinY: -85° (or -90°) MaxX: 180° MinX: -180°
+     * MaxY: 85° (or 90°) MinY: -85° (or -90°) MaxX: 180° MinX: -180°
      *
      * @param envelope
      * @return

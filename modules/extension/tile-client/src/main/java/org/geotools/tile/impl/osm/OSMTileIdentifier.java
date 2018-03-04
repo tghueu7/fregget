@@ -27,7 +27,7 @@ import org.geotools.tile.impl.ZoomLevel;
  * the <a href="http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames">
  * OpenStreetMap Wiki</a> for the exact description.
  * </p>
- * 
+ *
  * @author Ugo Taddei
  * @since 12
  */

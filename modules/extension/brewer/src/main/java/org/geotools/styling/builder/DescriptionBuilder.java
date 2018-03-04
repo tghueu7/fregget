@@ -21,8 +21,6 @@ import org.geotools.util.SimpleInternationalString;
 import org.opengis.util.InternationalString;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DescriptionBuilder extends AbstractStyleBuilder<Description> {

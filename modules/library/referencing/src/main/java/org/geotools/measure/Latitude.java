@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 1999-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -21,15 +21,12 @@ package org.geotools.measure;
  * A latitude angle. Positive latitudes are North, while negative
  * latitudes are South. This class has no direct OpenGIS equivalent.
  *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (PMO, IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see Longitude
  * @see AngleFormat
+ * @since 2.0
  */
 public final class Latitude extends Angle {
     /**
@@ -63,7 +60,7 @@ public final class Latitude extends Angle {
      * (e.g. 45.5°) or degrees with minutes and seconds (e.g. 45°30').
      * The hemisphere (N or S) is optional (default to North).
      *
-     * @param  theta A string to be converted to a {@code Latitude}.
+     * @param theta A string to be converted to a {@code Latitude}.
      * @throws NumberFormatException if the string does not contain a parsable latitude.
      */
     public Latitude(final String theta) throws NumberFormatException {

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -18,15 +18,15 @@ package org.geotools.data;
 
 
 /**
- * Extends {@link ServiceInfo} with information about the underlying file structure 
- * 
+ * Extends {@link ServiceInfo} with information about the underlying file structure
+ *
  * @author Andrea Aime - GeoSolutions
  * @author Daniele Romagnoli - GeoSolutions
  */
 public interface FileServiceInfo extends ServiceInfo, FileGroupProvider {
 
     /**
-     * {@link FileGroupProvider} providing info content. 
+     * {@link FileGroupProvider} providing info content.
      *
      * @return A {@link FileGroupProvider} instance providing info content.
      */

@@ -31,10 +31,8 @@ import org.opengis.util.InternationalString;
 
 /**
  * Helper class for a process factory that will return just a single process
- * 
+ *
  * @author Andrea Aime - OpenGeo
- *
- *
  * @source $URL$
  */
 public abstract class SingleProcessFactory implements ProcessFactory {
@@ -58,7 +56,6 @@ public abstract class SingleProcessFactory implements ProcessFactory {
     }
 
     /**
-     * 
      * @param processName
      */
     protected SingleProcessFactory(Name processName) {
@@ -70,22 +67,22 @@ public abstract class SingleProcessFactory implements ProcessFactory {
     /**
      * Checks the process name and makes sure it's consistent with the only process name this
      * factory knows about
-     * 
+     *
      * @param name
      */
     void checkName(Name name) {
-        if(name == null)
+        if (name == null)
             throw new NullPointerException("Process name cannot be null");
-        if(!processName.equals(name))
-            throw new IllegalArgumentException("Unknown process '" + name 
-                    + "', this factory knows only about '" + processName +  "'");
+        if (!processName.equals(name))
+            throw new IllegalArgumentException("Unknown process '" + name
+                    + "', this factory knows only about '" + processName + "'");
     }
 
     public Process create(Name name) {
         checkName(name);
         return create();
     }
-    
+
     public Set<Name> getNames() {
         return Collections.singleton(processName);
     }
@@ -94,7 +91,7 @@ public abstract class SingleProcessFactory implements ProcessFactory {
         checkName(name);
         return getDescription();
     }
-    
+
 
     public Map<String, Parameter<?>> getParameterInfo(Name name) {
         checkName(name);
@@ -121,8 +118,8 @@ public abstract class SingleProcessFactory implements ProcessFactory {
         checkName(name);
         return supportsProgress();
     }
-    
-    /** 
+
+    /**
      * Default Implementation return true
      */
     public boolean isAvailable() {
@@ -150,7 +147,7 @@ public abstract class SingleProcessFactory implements ProcessFactory {
      *
      * @return A short name suitable for display in a user interface.
      */
-    public InternationalString getTitle(){
+    public InternationalString getTitle() {
         return new SimpleInternationalString(processName.getLocalPart());
     }
 

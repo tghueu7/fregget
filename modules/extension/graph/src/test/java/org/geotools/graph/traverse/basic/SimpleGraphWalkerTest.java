@@ -25,33 +25,31 @@ import org.geotools.graph.structure.basic.BasicNode;
 import org.geotools.graph.traverse.GraphTraversal;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SimpleGraphWalkerTest extends TestCase {
-  private boolean m_visited;
-  
-  public SimpleGraphWalkerTest(String name) {
-    super(name);
-  }
-  
-  public void test_visit() {
-    m_visited = false;
-    
-    GraphVisitor visitor = new GraphVisitor() {
-      public int visit(Graphable component) {
-        m_visited = true;
-        return(GraphTraversal.CONTINUE);  
-      }
-    }; 
-    
-    Node n = new BasicNode();
-    n.setVisited(false);
-    
-    SimpleGraphWalker walker = new SimpleGraphWalker(visitor);
-    
-    assertTrue(walker.visit(n, null) == GraphTraversal.CONTINUE);
-    assertTrue(m_visited);
-  }
+    private boolean m_visited;
+
+    public SimpleGraphWalkerTest(String name) {
+        super(name);
+    }
+
+    public void test_visit() {
+        m_visited = false;
+
+        GraphVisitor visitor = new GraphVisitor() {
+            public int visit(Graphable component) {
+                m_visited = true;
+                return (GraphTraversal.CONTINUE);
+            }
+        };
+
+        Node n = new BasicNode();
+        n.setVisited(false);
+
+        SimpleGraphWalker walker = new SimpleGraphWalker(visitor);
+
+        assertTrue(walker.visit(n, null) == GraphTraversal.CONTINUE);
+        assertTrue(m_visited);
+    }
 }

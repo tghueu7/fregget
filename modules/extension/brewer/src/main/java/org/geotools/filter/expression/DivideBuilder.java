@@ -22,8 +22,6 @@ import org.opengis.filter.FilterFactory2;
 import org.opengis.filter.expression.Divide;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DivideBuilder implements Builder<Divide> {

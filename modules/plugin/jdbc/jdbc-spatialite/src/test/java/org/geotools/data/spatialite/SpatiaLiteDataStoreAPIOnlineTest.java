@@ -34,10 +34,7 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import com.vividsolutions.jts.geom.Point;
 
 
-
 /**
- * 
- *
  * @source $URL$
  */
 public class SpatiaLiteDataStoreAPIOnlineTest extends JDBCDataStoreAPIOnlineTest {
@@ -69,7 +66,7 @@ public class SpatiaLiteDataStoreAPIOnlineTest extends JDBCDataStoreAPIOnlineTest
         try {
             dataStore.getSchema(featureTypeName);
             fail("Should have thrown an IOException because featureTypeName shouldn't exist");
-        } catch(IOException e) {
+        } catch (IOException e) {
         }
 
         // Create the same schema again
@@ -120,11 +117,12 @@ public class SpatiaLiteDataStoreAPIOnlineTest extends JDBCDataStoreAPIOnlineTest
     @Override
     public void testTransactionIsolation() throws Exception {
         //super.testTransactionIsolation();
-        //JD: In order to allow multiple connections from the same thread (which this test requires) 
+        //JD: In order to allow multiple connections from the same thread (which this test 
+        // requires) 
         // we need to put the database in read_uncommitted mode, which means transaction isolation 
         // can not be achieved
     }
-    
+
     @Override
     public void testGetFeatureReaderFilterTransaction() throws NoSuchElementException, IOException,
             IllegalAttributeException {

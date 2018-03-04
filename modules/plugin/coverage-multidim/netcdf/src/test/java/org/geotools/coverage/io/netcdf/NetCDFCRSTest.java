@@ -54,7 +54,7 @@ import org.opengis.referencing.operation.Projection;
 
 /**
  * Testing NetCDF Projection management machinery
- * 
+ *
  * @author Daniele Romagnoli, GeoSolutions SAS
  */
 public class NetCDFCRSTest extends Assert {
@@ -66,8 +66,10 @@ public class NetCDFCRSTest extends Assert {
      */
     @Before
     public void setUp() throws Exception {
-        String netcdfPropertiesPath = TestData.file(this, "netcdf.projections.properties").getCanonicalPath();
-        System.setProperty(NetCDFCRSAuthorityFactory.SYSTEM_DEFAULT_USER_PROJ_FILE, netcdfPropertiesPath);
+        String netcdfPropertiesPath = TestData.file(this, "netcdf.projections.properties")
+                .getCanonicalPath();
+        System.setProperty(NetCDFCRSAuthorityFactory.SYSTEM_DEFAULT_USER_PROJ_FILE, 
+                netcdfPropertiesPath);
     }
 
     @Test
@@ -113,10 +115,12 @@ public class NetCDFCRSTest extends Assert {
             assertTrue(transform instanceof TransverseMercator);
 
             // Check the proper CRS Type has been recognized
-            NetCDFCoordinateReferenceSystemType crsType = NetCDFCoordinateReferenceSystemType.parseCRS(crs);
+            NetCDFCoordinateReferenceSystemType crsType = NetCDFCoordinateReferenceSystemType
+                    .parseCRS(crs);
             assertSame(NetCDFCoordinateReferenceSystemType.TRANSVERSE_MERCATOR, crsType);
-            assertSame(NetCDFCoordinateReferenceSystemType.NetCDFCoordinate.YX_COORDS, crsType.getCoordinates());
-            assertSame(NetCDFProjection.TRANSVERSE_MERCATOR, crsType.getNetCDFProjection()); 
+            assertSame(NetCDFCoordinateReferenceSystemType.NetCDFCoordinate.YX_COORDS, crsType
+                    .getCoordinates());
+            assertSame(NetCDFProjection.TRANSVERSE_MERCATOR, crsType.getNetCDFProjection());
         } finally {
             if (reader != null) {
                 try {
@@ -143,9 +147,11 @@ public class NetCDFCRSTest extends Assert {
             assertTrue(transform instanceof AlbersEqualArea);
 
             // Check the proper CRS Type has been recognized
-            NetCDFCoordinateReferenceSystemType crsType = NetCDFCoordinateReferenceSystemType.parseCRS(crs);
+            NetCDFCoordinateReferenceSystemType crsType = NetCDFCoordinateReferenceSystemType
+                    .parseCRS(crs);
             assertSame(NetCDFCoordinateReferenceSystemType.ALBERS_EQUAL_AREA, crsType);
-            assertSame(NetCDFCoordinateReferenceSystemType.NetCDFCoordinate.YX_COORDS, crsType.getCoordinates());
+            assertSame(NetCDFCoordinateReferenceSystemType.NetCDFCoordinate.YX_COORDS, crsType
+                    .getCoordinates());
             assertSame(NetCDFProjection.ALBERS_EQUAL_AREA, crsType.getNetCDFProjection());
         } finally {
             if (reader != null) {
@@ -192,51 +198,56 @@ public class NetCDFCRSTest extends Assert {
 
     @Test
     public void testProjectionSetup() throws Exception {
-       ParameterValueGroup params = ProjectionBuilder.getProjectionParameters(NetCDFProjection.LAMBERT_CONFORMAL_CONIC_1SP.getOGCName());
-       params.parameter("central_meridian").setValue(-95.0);
-       params.parameter("latitude_of_origin").setValue(25.0); 
-       params.parameter("scale_factor").setValue(1.0); 
-       params.parameter("false_easting").setValue(0.0); 
-       params.parameter("false_northing").setValue(0.0); 
+        ParameterValueGroup params = ProjectionBuilder.getProjectionParameters(NetCDFProjection
+                .LAMBERT_CONFORMAL_CONIC_1SP.getOGCName());
+        params.parameter("central_meridian").setValue(-95.0);
+        params.parameter("latitude_of_origin").setValue(25.0);
+        params.parameter("scale_factor").setValue(1.0);
+        params.parameter("false_easting").setValue(0.0);
+        params.parameter("false_northing").setValue(0.0);
 
-       Map<String, Number> ellipsoidParams = new HashMap<String, Number>();
-       ellipsoidParams.put(NetCDFUtilities.SEMI_MAJOR, 6378137);
-       ellipsoidParams.put(NetCDFUtilities.INVERSE_FLATTENING, 298.257223563);
+        Map<String, Number> ellipsoidParams = new HashMap<String, Number>();
+        ellipsoidParams.put(NetCDFUtilities.SEMI_MAJOR, 6378137);
+        ellipsoidParams.put(NetCDFUtilities.INVERSE_FLATTENING, 298.257223563);
 
-       Ellipsoid ellipsoid = ProjectionBuilder.createEllipsoid("WGS 84", ellipsoidParams);
-       ProjectionBuilder.updateEllipsoidParams(params, ellipsoid);
-       GeodeticDatum datum = ProjectionBuilder.createGeodeticDatum("WGS_1984", ellipsoid);
-       GeographicCRS geoCRS = ProjectionBuilder.createGeographicCRS("WGS 84", datum);
-       MathTransform transform = ProjectionBuilder.createTransform(params);
-       DefiningConversion conversionFromBase = ProjectionBuilder.createConversionFromBase("lambert_conformal_mercator_1sp", transform);
+        Ellipsoid ellipsoid = ProjectionBuilder.createEllipsoid("WGS 84", ellipsoidParams);
+        ProjectionBuilder.updateEllipsoidParams(params, ellipsoid);
+        GeodeticDatum datum = ProjectionBuilder.createGeodeticDatum("WGS_1984", ellipsoid);
+        GeographicCRS geoCRS = ProjectionBuilder.createGeographicCRS("WGS 84", datum);
+        MathTransform transform = ProjectionBuilder.createTransform(params);
+        DefiningConversion conversionFromBase = ProjectionBuilder.createConversionFromBase
+                ("lambert_conformal_mercator_1sp", transform);
 
-       CoordinateReferenceSystem crs = ProjectionBuilder.createProjectedCRS(Collections.singletonMap("name", "custom_lambert_conformal_conic_1sp"), geoCRS, conversionFromBase, transform);
+        CoordinateReferenceSystem crs = ProjectionBuilder.createProjectedCRS(Collections
+                .singletonMap("name", "custom_lambert_conformal_conic_1sp"), geoCRS, 
+                conversionFromBase, transform);
 
-       assertTrue(crs instanceof ProjectedCRS);
-       ProjectedCRS projectedCRS = ((ProjectedCRS) crs);
-       GeographicCRS baseCRS = projectedCRS.getBaseCRS();
+        assertTrue(crs instanceof ProjectedCRS);
+        ProjectedCRS projectedCRS = ((ProjectedCRS) crs);
+        GeographicCRS baseCRS = projectedCRS.getBaseCRS();
 
-       assertTrue(CRS.equalsIgnoreMetadata(baseCRS, DefaultGeographicCRS.WGS84));
-       assertTrue(transform instanceof LambertConformal1SP);
+        assertTrue(CRS.equalsIgnoreMetadata(baseCRS, DefaultGeographicCRS.WGS84));
+        assertTrue(transform instanceof LambertConformal1SP);
     }
 
     @Test
     public void testDefaultDatumSetup() throws Exception {
-       ParameterValueGroup params = ProjectionBuilder.getProjectionParameters(NetCDFProjection.LAMBERT_CONFORMAL_CONIC_1SP.getOGCName());
-       params.parameter("central_meridian").setValue(-95.0);
-       params.parameter("latitude_of_origin").setValue(25.0); 
-       params.parameter("scale_factor").setValue(1.0); 
-       params.parameter("false_easting").setValue(0.0); 
-       params.parameter("false_northing").setValue(0.0); 
+        ParameterValueGroup params = ProjectionBuilder.getProjectionParameters(NetCDFProjection
+                .LAMBERT_CONFORMAL_CONIC_1SP.getOGCName());
+        params.parameter("central_meridian").setValue(-95.0);
+        params.parameter("latitude_of_origin").setValue(25.0);
+        params.parameter("scale_factor").setValue(1.0);
+        params.parameter("false_easting").setValue(0.0);
+        params.parameter("false_northing").setValue(0.0);
 
-       // Intentionally left empty
-       Map<String, Number> ellipsoidParams = new HashMap<String, Number>();
+        // Intentionally left empty
+        Map<String, Number> ellipsoidParams = new HashMap<String, Number>();
 
-       Ellipsoid ellipsoid = ProjectionBuilder.createEllipsoid("Unknown", ellipsoidParams);
-       ProjectionBuilder.updateEllipsoidParams(params, ellipsoid);
-       assertEquals(NetCDFUtilities.DEFAULT_EARTH_RADIUS, ellipsoid.getSemiMajorAxis(), DELTA);
-       assertEquals(NetCDFUtilities.DEFAULT_EARTH_RADIUS, ellipsoid.getSemiMinorAxis(), DELTA);
-       assertTrue(Double.isInfinite(ellipsoid.getInverseFlattening()));
+        Ellipsoid ellipsoid = ProjectionBuilder.createEllipsoid("Unknown", ellipsoidParams);
+        ProjectionBuilder.updateEllipsoidParams(params, ellipsoid);
+        assertEquals(NetCDFUtilities.DEFAULT_EARTH_RADIUS, ellipsoid.getSemiMajorAxis(), DELTA);
+        assertEquals(NetCDFUtilities.DEFAULT_EARTH_RADIUS, ellipsoid.getSemiMinorAxis(), DELTA);
+        assertTrue(Double.isInfinite(ellipsoid.getInverseFlattening()));
     }
 
     @Test
@@ -294,7 +305,8 @@ public class NetCDFCRSTest extends Assert {
     }
 
     @Test
-    public void testMultipleBoundingBoxesAuxiliaryCoordinatesSupport() throws IOException, FactoryException {
+    public void testMultipleBoundingBoxesAuxiliaryCoordinatesSupport() throws IOException, 
+            FactoryException {
         final File testURL = TestData.file(this, "dualbboxAuxiliaryCoordinates.nc");
 
         final NetCDFReader reader = new NetCDFReader(testURL, null);

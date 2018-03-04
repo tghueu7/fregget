@@ -38,15 +38,14 @@ import org.opengis.referencing.operation.TransformException;
 /**
  * Test class for WorldImageWriter. This test tries to read, writer and re-read
  * successive images checking for errors.
- * 
+ *
  * @author Simone Giannecchini
  * @author rgould
- *
  * @source $URL$
  */
 public class WorldImageWriterTest extends WorldImageBaseTestCase {
-    private final static String[] supportedFormat = new String[] { "tiff",
-            "gif", "png", "bmp", "jpeg" };
+    private final static String[] supportedFormat = new String[]{"tiff",
+            "gif", "png", "bmp", "jpeg"};
 
     private Logger logger = Logging.getLogger(WorldImageWriterTest.class);
 
@@ -57,13 +56,14 @@ public class WorldImageWriterTest extends WorldImageBaseTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         File testData = TestData.file(this, ".");
-        new File(testData,"write").mkdir();
+        new File(testData, "write").mkdir();
     }
+
     /**
      * This method simply read all the respecting a predefined pattern inside
      * the testData directory and then it tries to read, write and re-read them
      * back. All the possible errors are caught.
-     * 
+     *
      * @throws MalformedURLException
      * @throws IOException
      * @throws IllegalArgumentException
@@ -83,7 +83,7 @@ public class WorldImageWriterTest extends WorldImageBaseTestCase {
         for (String format : supportedFormat) {
             final StringBuffer buff = new StringBuffer("Format is ").append(
                     format).append("\n");
-            for( String filePath : fileList ){
+            for (String filePath : fileList) {
                 buff.append(" Testing ability to write ").append(filePath);
                 // url
                 final URL url = TestData.getResource(this, filePath);
@@ -96,7 +96,7 @@ public class WorldImageWriterTest extends WorldImageBaseTestCase {
                 assertTrue(file != null);
                 // starting write test
                 output = this.write(file, format);
-                buff.append(" and file ").append(filePath).append(output.getName()+"\n");
+                buff.append(" and file ").append(filePath).append(output.getName() + "\n");
             }
             logger.info(buff.toString());
         }
@@ -106,10 +106,8 @@ public class WorldImageWriterTest extends WorldImageBaseTestCase {
      * This method is responsible for loading the provided source object as a
      * cverage then for writing it on the temp directoy and finally for
      * rereading the coverage back into memory in order to display it.
-     * 
-     * @param source
-     *            Object The object on disk representing the coverage to test.
-     * 
+     *
+     * @param source Object The object on disk representing the coverage to test.
      * @throws IOException
      * @throws IllegalArgumentException
      * @throws FactoryException
@@ -132,7 +130,7 @@ public class WorldImageWriterTest extends WorldImageBaseTestCase {
         // remember to provide a valid name, it wil be mde unique by the helper
         // function temp
         final StringBuffer buff = new StringBuffer("./write/temp").append(".").append(format);
-        final File tempFile =TestData.temp(this, buff.toString());
+        final File tempFile = TestData.temp(this, buff.toString());
 
 
         // getting a writer
@@ -140,14 +138,14 @@ public class WorldImageWriterTest extends WorldImageBaseTestCase {
 
         // writing parameters for png
         final Format writerFormat = wiWriter.getFormat();
-        
+
 
         // setting write parameters
         final ParameterValueGroup params = writerFormat.getWriteParameters();
         params.parameter(WorldImageFormat.FORMAT.getName().toString())
                 .setValue(format);
-        final GeneralParameterValue[] gpv = { params
-                .parameter(WorldImageFormat.FORMAT.getName().toString()) };
+        final GeneralParameterValue[] gpv = {params
+                .parameter(WorldImageFormat.FORMAT.getName().toString())};
         // writing
         wiWriter.write(coverage, gpv);
         wiWriter.dispose();
@@ -164,16 +162,15 @@ public class WorldImageWriterTest extends WorldImageBaseTestCase {
             coverage.getRenderedImage().getData();
         wiReader.dispose();
         coverage.dispose(true);
-        
+
         return tempFile;
     }
 
-    
 
     /**
      * TestRunner for testing inside a java application. It gives us the ability
      * to keep windows open to inspect what happened.
-     * 
+     *
      * @param args
      */
     public static void main(String[] args) {

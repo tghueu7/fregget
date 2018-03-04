@@ -28,9 +28,9 @@ import org.opengis.referencing.operation.NoninvertibleTransformException;
 /**
  * Tests the {@link ProjectiveTransform2D} classes.
  *
- * @source $URL$
- * @version $Id$
  * @author Alexey Valikov
+ * @version $Id$
+ * @source $URL$
  */
 public final class ProjectiveTransform2DTest {
     // Tests that ProjectiveTransform2D is invertible

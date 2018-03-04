@@ -73,7 +73,7 @@ public class TransactionRequest extends WFSRequest {
     }
 
     public Update createUpdate(QName typeName, List<QName> propertyNames, List<Object> newValues,
-            Filter updateFilter) {
+                               Filter updateFilter) {
         return new Update(typeName, propertyNames, newValues, updateFilter);
     }
 
@@ -88,7 +88,6 @@ public class TransactionRequest extends WFSRequest {
 
     /**
      * @author groldan
-     * 
      */
     public static abstract class TransactionElement {
 
@@ -154,7 +153,7 @@ public class TransactionRequest extends WFSRequest {
         private final Filter filter;
 
         Update(QName typeName, List<QName> propertyNames, List<Object> newValues,
-                Filter updateFilter) {
+               Filter updateFilter) {
             super(typeName);
             this.propertyNames = Collections.unmodifiableList(new ArrayList<QName>(propertyNames));
             this.newValues = Collections.unmodifiableList(new ArrayList<Object>(newValues));

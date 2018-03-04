@@ -35,16 +35,16 @@ import org.opengis.feature.simple.SimpleFeature;
 
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 /**
  * Unit tests for FeatureLayerHelper.
  *
  * @author Michael Bedward
- * @since 8.0
- *
- * @source $URL$
  * @version $URL$
+ * @source $URL$
+ * @since 8.0
  */
 public class FeatureLayerHelperTest {
     private FeatureLayerHelper helper;
@@ -65,17 +65,17 @@ public class FeatureLayerHelperTest {
     public void getInfoPolygonFeatures() throws Exception {
         doGetInfoTest(TestDataUtils.getPolygonLayer(), 10);
     }
-    
+
     @Test
     public void doGetInfoLineFeatures() throws Exception {
         doGetInfoTest(TestDataUtils.getLineLayer(), 10);
     }
-    
+
     @Test
     public void doGetInfoPointFeatures() throws Exception {
         doGetInfoTest(TestDataUtils.getPointLayer(), 10);
     }
-    
+
     @Test
     public void getInfoOutsideLayerBoundsReturnsEmptyResult() throws Exception {
         Layer layer = TestDataUtils.getPointLayer();
@@ -84,18 +84,18 @@ public class FeatureLayerHelperTest {
 
         helper.setMapContent(mapContent);
         helper.setLayer(layer);
-        
+
         ReferencedEnvelope bounds = layer.getBounds();
         DirectPosition2D pos = new DirectPosition2D(
                 bounds.getCoordinateReferenceSystem(),
                 bounds.getMinX() - 1,
                 bounds.getMinY() - 1);
-        
+
         InfoToolResult info = helper.getInfo(pos);
         assertNotNull(info);
         assertEquals(0, info.getNumFeatures());
     }
-    
+
     private void doGetInfoTest(Layer layer, int maxFeatures) throws Exception {
         MapContent mapContent = new MapContent();
         mapContent.addLayer(layer);
@@ -103,14 +103,14 @@ public class FeatureLayerHelperTest {
         helper.setMapContent(mapContent);
         helper.setLayer(layer);
 
-        SimpleFeatureIterator iter = 
-                ((SimpleFeatureSource)layer.getFeatureSource()).getFeatures().features();
+        SimpleFeatureIterator iter =
+                ((SimpleFeatureSource) layer.getFeatureSource()).getFeatures().features();
         try {
             int n = 0;
             while (iter.hasNext() && n < maxFeatures) {
                 SimpleFeature feature = iter.next();
                 assertGetInfo(feature);
-                n++ ;
+                n++;
             }
 
         } finally {
@@ -134,7 +134,7 @@ public class FeatureLayerHelperTest {
                 break;
             }
         }
-        
+
         assertFalse("Feature not in result object", index < 0);
 
         Map<String, Object> data = info.getFeatureData(index);

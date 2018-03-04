@@ -30,12 +30,10 @@ import org.opengis.referencing.operation.SingleOperation;
 /**
  * A single (not {@linkplain DefaultConcatenatedOperation concatenated}) coordinate operation.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class DefaultSingleOperation extends AbstractCoordinateOperation implements SingleOperation {
     /**
@@ -48,11 +46,10 @@ public class DefaultSingleOperation extends AbstractCoordinateOperation implemen
      * conversion, together with the specified source and target CRS. This constructor
      * is used by {@link DefaultConversion} only.
      */
-    DefaultSingleOperation(final Conversion               definition,
+    DefaultSingleOperation(final Conversion definition,
                            final CoordinateReferenceSystem sourceCRS,
                            final CoordinateReferenceSystem targetCRS,
-                           final MathTransform             transform)
-    {
+                           final MathTransform transform) {
         super(definition, sourceCRS, targetCRS, transform);
     }
 
@@ -61,16 +58,15 @@ public class DefaultSingleOperation extends AbstractCoordinateOperation implemen
      * follow the same rules than for the {@link AbstractCoordinateOperation} constructor.
      *
      * @param properties Set of properties. Should contains at least {@code "name"}.
-     * @param sourceCRS The source CRS.
-     * @param targetCRS The target CRS.
-     * @param transform Transform from positions in the {@linkplain #getSourceCRS source CRS}
-     *                  to positions in the {@linkplain #getTargetCRS target CRS}.
+     * @param sourceCRS  The source CRS.
+     * @param targetCRS  The target CRS.
+     * @param transform  Transform from positions in the {@linkplain #getSourceCRS source CRS}
+     *                   to positions in the {@linkplain #getTargetCRS target CRS}.
      */
-    public DefaultSingleOperation(final Map<String,?>            properties,
+    public DefaultSingleOperation(final Map<String, ?> properties,
                                   final CoordinateReferenceSystem sourceCRS,
                                   final CoordinateReferenceSystem targetCRS,
-                                  final MathTransform             transform)
-    {
+                                  final MathTransform transform) {
         super(properties, sourceCRS, targetCRS, transform);
     }
 }

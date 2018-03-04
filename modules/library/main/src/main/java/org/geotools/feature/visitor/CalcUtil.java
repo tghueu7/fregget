@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -18,18 +18,14 @@ package org.geotools.feature.visitor;
 
 
 /**
- *
- *
- *
  * @source $URL$
  */
 public class CalcUtil {
 
-	/**
+    /**
      * Sums an array of numbers together while using the correct class type.
      *
      * @param numbers
-     *
      * @return the sum contained in the most appropriate number class
      */
     static Number sum(Number[] numbers) {
@@ -89,7 +85,7 @@ public class CalcUtil {
 
     /**
      * Divides num1 by num2, and return the result in the correct number class.
-     * 
+     *
      * @param num1 numerator
      * @param num2 denominator
      * @return num1/num2 in the most appropriate class
@@ -122,6 +118,7 @@ public class CalcUtil {
 
     /**
      * Calculates the average, and returns it in the correct class.
+     *
      * @param numbers
      */
     static Number average(Number[] numbers) {
@@ -132,10 +129,11 @@ public class CalcUtil {
 
     /**
      * Determines the most appropriate class to use for a multiclass calculation.
-     * 
+     *
      * @param objects
      * @return the most
-     */static Class bestClass(Object[] objects) {
+     */
+    static Class bestClass(Object[] objects) {
         boolean hasInt = false;
         boolean hasFloat = false;
         boolean hasLong = false;
@@ -177,7 +175,6 @@ public class CalcUtil {
      *
      * @param var
      * @param type
-     *
      */
     static Object convert(Object var, Class type) {
         if (var instanceof Number) { //use number conversion
@@ -244,11 +241,10 @@ public class CalcUtil {
      * the correct class is returned;
      *
      * @param objects
-     *
      */
     static Object getObject(Object[] objects) {
-    	Class bestClass = bestClass(objects);
-    	
+        Class bestClass = bestClass(objects);
+
         if (bestClass == String.class) {
             return new String(""); //$NON-NLS-1$
         } else if (bestClass == Double.class) {
@@ -270,7 +266,6 @@ public class CalcUtil {
      *
      * @param val1
      * @param val2
-     *
      */
     static int compare(Comparable val1, Comparable val2) {
         if (val1.getClass() == val2.getClass()) {
@@ -279,7 +274,7 @@ public class CalcUtil {
         }
 
         //find most appropriate class
-        Object[] objects = new Object[] { val1, val2 };
+        Object[] objects = new Object[]{val1, val2};
         Class bestClass = bestClass(objects);
 
         if (bestClass != val1.getClass()) {

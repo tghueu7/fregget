@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -84,20 +84,20 @@ import org.opengis.util.ProgressListener;
  * longer in use.
  * </p>
  * <p>
- * Lazy Connect: FeatureCollection is used in two fashions, as a result set, where each iterator acts
+ * Lazy Connect: FeatureCollection is used in two fashions, as a result set, where each iterator 
+ * acts
  * as a cursor over the content. Also as a predefined query which can be refined
  * further. An example is using featureCollection.subCollection( Filter ) or
  * featureCollection.sort( SortBy ) before listing features out of a FeatureCollection.
  * </p>
  *
- * @see org.geotools.Feature
  * @author Ian Turton, CCG
  * @author Rob Hranac, VFNY
  * @author Ian Schneider, USDA-ARS
  * @author Jody Garnett, LISAsoft
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @see org.geotools.Feature
  */
 public interface FeatureCollection<T extends FeatureType, F extends Feature> {
     /**
@@ -121,7 +121,7 @@ public interface FeatureCollection<T extends FeatureType, F extends Feature> {
      * }
      * </code></pre>
      * </p>
-     *
+     * <p>
      * <p>
      * GML Note: The contents of this iterator are considered to be defined by
      * <b>featureMember</b> tags (and/or the single allowed <b>FeatureMembers</b> tag).
@@ -138,24 +138,27 @@ public interface FeatureCollection<T extends FeatureType, F extends Feature> {
      * Represents the most general FeatureType in common to all the features in this
      * collection.
      * <ul>
-     * <li>For a collection backed by a shapefiles (or database tables) the FeatureType returned by getSchema() will
+     * <li>For a collection backed by a shapefiles (or database tables) the FeatureType returned 
+     * by getSchema() will
      * complete describe each and every child in the collection.
-     * <li>For mixed content FeatureCollections you will need to check the FeatureType of each Feature as it
+     * <li>For mixed content FeatureCollections you will need to check the FeatureType of each 
+     * Feature as it
      * is retrived from the collection
      * <li>The degenerate case returns the "_Feature" FeatureType, where the
      * only thing known is that the contents are Features.
      * </ul>
      * </p>
+     *
      * @return FeatureType describing the "common" schema to all child features of this collection
      */
     T getSchema();
 
-    
+
     /**
      * ID used when serializing to GML
      */
     String getID();
-    
+
     /**
      * Visit the contents of a feature collection.
      * <p>
@@ -163,10 +166,9 @@ public interface FeatureCollection<T extends FeatureType, F extends Feature> {
      * collections are able to make efficient use of an internal index in order to quickly
      * visit features located in the same region.
      * </p>
-     * 
-     * @param visitor Closure applied to each feature in turn.
-     * @param progress Used to report progress, may be used to interrupt the operation
      *
+     * @param visitor  Closure applied to each feature in turn.
+     * @param progress Used to report progress, may be used to interrupt the operation
      * @since 2.5
      */
     void accepts(FeatureVisitor visitor, ProgressListener progress) throws IOException;
@@ -197,9 +199,10 @@ public interface FeatureCollection<T extends FeatureType, F extends Feature> {
      * <li>may be an ordered FeatureList if requested when sortBy is indicated
      * </ul>
      * </p>
-     * @see FeatureList
+     *
      * @param filter
      * @return SimpleFeatureCollection identified as subset.
+     * @see FeatureList
      */
     public FeatureCollection<T, F> subCollection(Filter filter);
 
@@ -208,7 +211,7 @@ public interface FeatureCollection<T extends FeatureType, F extends Feature> {
      * <p>
      * This method may not be supported by all implementations, consider
      * the use of FeatureSource.features( Query ).
-     * 
+     *
      * @param order Sort order
      * @return FeatureCollection sorted in the indicated order
      */
@@ -221,15 +224,16 @@ public interface FeatureCollection<T extends FeatureType, F extends Feature> {
      * @return An Envelope containing the total bounds of this collection.
      */
     ReferencedEnvelope getBounds();
-    
+
     //
     // ResourceCollection methods
     //   
+
     /**
      * @see java.util.Collection#contains(Object)
      */
     boolean contains(Object o);
-    
+
     /**
      * @see java.util.Collection#containsAll(Collection)
      */
@@ -241,17 +245,21 @@ public interface FeatureCollection<T extends FeatureType, F extends Feature> {
      * @return <tt>true</tt> if this collection contains no features
      */
     boolean isEmpty();
-    
+
     /**
      * Please note this operation may be expensive when working with remote content.
-     * 
+     *
      * @see java.util.Collection#size()
      */
     int size();
-    
-    /** @see java.util.Collection#toArray() */
+
+    /**
+     * @see java.util.Collection#toArray()
+     */
     Object[] toArray();
-    
-    /** @see java.util.Collection#toArray(Object[]) */
-    <O> O[] toArray(O[] a);    
+
+    /**
+     * @see java.util.Collection#toArray(Object[])
+     */
+    <O> O[] toArray(O[] a);
 }

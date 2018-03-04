@@ -31,7 +31,7 @@ package org.geotools.caching.spatialindex;
 import java.util.Properties;
 
 
-/** 
+/**
  * A generic contract for spatial indexes, such as quadtrees or r-trees.
  * Provides methods to insert, delete and query the index.
  * Note that implementations may be n-dimensional.
@@ -40,10 +40,6 @@ import java.util.Properties;
  * @copyright Copyright (C) 2002  Navel Ltd.
  * Modified by Christophe Rousson
  * Modified by Emily Gouge
- *
- *
- *
- *
  * @source $URL$
  */
 public interface SpatialIndex {
@@ -55,38 +51,44 @@ public interface SpatialIndex {
      */
     public static final double EPSILON = 1.192092896e-07;
 
-    /** Empty the index.
+    /**
+     * Empty the index.
+     *
      * @throws IllegalStateException
      */
     public void clear() throws IllegalStateException;
 
-    /** Insert new data in the index.
+    /**
+     * Insert new data in the index.
      *
      * @param data to insert
-     * @param a n-dims shape
+     * @param a    n-dims shape
      */
     public void insertData(final Object data, final Shape shape);
-    
-    /** Traverse index to match data such as :
-     *  <code>query.contains(Data.getShape())</code>
+
+    /**
+     * Traverse index to match data such as :
+     * <code>query.contains(Data.getShape())</code>
      *
-     * @param query, a n-dims shape
+     * @param query,  a n-dims shape
      * @param visitor implementing visit() callback method
      */
     public void containmentQuery(final Shape query, final Visitor v);
 
-    /** Traverse index to match data such as :
-     *  <code>query.intersects(Data.getShape())</code>
+    /**
+     * Traverse index to match data such as :
+     * <code>query.intersects(Data.getShape())</code>
      *
-     * @param query, a n-dims shape
+     * @param query,  a n-dims shape
      * @param visitor implementing visit() callback method
      */
     public void intersectionQuery(final Shape query, final Visitor v);
 
-    /** Traverse index to match data having query falling inside its shape, ie :
+    /**
+     * Traverse index to match data having query falling inside its shape, ie :
      * <code>Data.getShape().contains(query)</code>
      *
-     * @param query, a n-dims point
+     * @param query,  a n-dims point
      * @param visitor implementing visit() callback method
      */
     public void pointLocationQuery(final Point query, final Visitor v);
@@ -98,7 +100,7 @@ public interface SpatialIndex {
      * @param nnc
      */
     public void nearestNeighborQuery(int k, final Shape query, final Visitor v,
-        NearestNeighborComparator nnc);
+                                     NearestNeighborComparator nnc);
 
     /**
      * @param k
@@ -113,10 +115,11 @@ public interface SpatialIndex {
      */
     public Properties getIndexProperties();
 
-    /** Implementations may always return true.
+    /**
+     * Implementations may always return true.
      *
      * @return true if index is valid.
-     *
+     * <p>
      * TODO: define what is a valid index.
      */
     public boolean isIndexValid();
@@ -126,18 +129,18 @@ public interface SpatialIndex {
      */
     public Statistics getStatistics();
 
-    /** Cause pending write operations to happen immediately.
+    /**
+     * Cause pending write operations to happen immediately.
      * Use this method to persist the index before disposal.
-     *
      */
     public void flush();
-    
+
     /**
-     * Initializes the spatial index from 
+     * Initializes the spatial index from
      * a storage instance.
      * <p>This allows caches to be saved to storage
      * and reused.</p>
-     * 
+     *
      * @param storage
      */
     public void initializeFromStorage(Storage storage);

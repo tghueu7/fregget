@@ -37,11 +37,8 @@ import org.geotools.data.DataStoreFinder;
 
 /**
  * Data chooser wizard page for the {@link JDataStoreWizard data store wizard}.
- * 
+ *
  * @author Andrea Antonello (www.hydrologis.com)
- *
- *
- *
  * @source $URL$
  */
 public class JDataChoosePage extends WizardPage implements ISelectionChangedListener {
@@ -55,13 +52,14 @@ public class JDataChoosePage extends WizardPage implements ISelectionChangedList
         setDescription("Available DataStores on your classpath");
     }
 
-    public void createControl( Composite parent ) {
+    public void createControl(Composite parent) {
         Composite mainComposite = new Composite(parent, SWT.NONE);
         GridLayout gridLayout = new GridLayout(1, false);
         mainComposite.setLayout(gridLayout);
 
         List<DataStoreFactorySpi> factoryList = new ArrayList<DataStoreFactorySpi>();
-        for( Iterator<DataStoreFactorySpi> iter = DataStoreFinder.getAvailableDataStores(); iter.hasNext(); ) {
+        for (Iterator<DataStoreFactorySpi> iter = DataStoreFinder.getAvailableDataStores(); iter
+                .hasNext(); ) {
             factoryList.add(iter.next());
         }
 
@@ -70,8 +68,8 @@ public class JDataChoosePage extends WizardPage implements ISelectionChangedList
         viewer.getTable().setLayoutData(viewerGD);
         viewer.addSelectionChangedListener(this);
         viewer.setContentProvider(new ArrayContentProvider());
-        viewer.setLabelProvider(new LabelProvider(){
-            public String getText( Object element ) {
+        viewer.setLabelProvider(new LabelProvider() {
+            public String getText(Object element) {
                 if (element instanceof DataStoreFactorySpi) {
                     DataStoreFactorySpi factory = (DataStoreFactorySpi) element;
                     return factory.getDisplayName();
@@ -95,7 +93,7 @@ public class JDataChoosePage extends WizardPage implements ISelectionChangedList
         return selectedFactory;
     }
 
-    public void selectionChanged( SelectionChangedEvent event ) {
+    public void selectionChanged(SelectionChangedEvent event) {
         ISelection selection = event.getSelection();
         if (selection instanceof StructuredSelection) {
             StructuredSelection sel = (StructuredSelection) selection;

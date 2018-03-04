@@ -28,10 +28,6 @@ import org.geotools.xml.Configuration;
  * Parser configuration for the filter 1.0 schema.
  *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
- *
  * @source $URL$
  */
 public class OGCConfiguration extends Configuration {
@@ -47,14 +43,15 @@ public class OGCConfiguration extends Configuration {
         //expr.xsd
         container.registerComponentImplementation(OGC.Add, OGCAddBinding.class);
         container.registerComponentImplementation(OGC.BinaryOperatorType,
-            OGCBinaryOperatorTypeBinding.class);
+                OGCBinaryOperatorTypeBinding.class);
         container.registerComponentImplementation(OGC.Div, OGCDivBinding.class);
-        container.registerComponentImplementation(OGC.ExpressionType, OGCExpressionTypeBinding.class);
+        container.registerComponentImplementation(OGC.ExpressionType, OGCExpressionTypeBinding
+                .class);
         container.registerComponentImplementation(OGC.FunctionType, OGCFunctionTypeBinding.class);
         container.registerComponentImplementation(OGC.LiteralType, OGCLiteralTypeBinding.class);
         container.registerComponentImplementation(OGC.Mul, OGCMulBinding.class);
         container.registerComponentImplementation(OGC.PropertyNameType,
-            OGCPropertyNameTypeBinding.class);
+                OGCPropertyNameTypeBinding.class);
         container.registerComponentImplementation(OGC.Sub, OGCSubBinding.class);
 
         //filter.xsd
@@ -62,17 +59,18 @@ public class OGCConfiguration extends Configuration {
         container.registerComponentImplementation(OGC.BBOXType, OGCBBOXTypeBinding.class);
         container.registerComponentImplementation(OGC.Beyond, OGCBeyondBinding.class);
         container.registerComponentImplementation(OGC.BinaryComparisonOpType,
-            OGCBinaryComparisonOpTypeBinding.class);
+                OGCBinaryComparisonOpTypeBinding.class);
         container.registerComponentImplementation(OGC.BinaryLogicOpType,
-            OGCBinaryLogicOpTypeBinding.class);
+                OGCBinaryLogicOpTypeBinding.class);
         container.registerComponentImplementation(OGC.BinarySpatialOpType,
-            OGCBinarySpatialOpTypeBinding.class);
+                OGCBinarySpatialOpTypeBinding.class);
         container.registerComponentImplementation(OGC.Contains, OGCContainsBinding.class);
         container.registerComponentImplementation(OGC.Crosses, OGCCrossesBinding.class);
         container.registerComponentImplementation(OGC.Disjoint, OGCDisjointBinding.class);
-        //container.registerComponentImplementation(OGC.COMPARISONOPSTYPE,OGCComparisonOpsTypeBinding.class);
+        //container.registerComponentImplementation(OGC.COMPARISONOPSTYPE,
+        // OGCComparisonOpsTypeBinding.class);
         container.registerComponentImplementation(OGC.DistanceBufferType,
-            OGCDistanceBufferTypeBinding.class);
+                OGCDistanceBufferTypeBinding.class);
         container.registerComponentImplementation(OGC.DistanceType, OGCDistanceTypeBinding.class);
         container.registerComponentImplementation(OGC.DWithin, OGCDWithinBinding.class);
         container.registerComponentImplementation(OGC.Equals, OGCEqualsBinding.class);
@@ -81,34 +79,35 @@ public class OGCConfiguration extends Configuration {
         //container.registerComponentImplementation(OGC.LOGICOPSTYPE,OGCLogicOpsTypeBinding.class);
         container.registerComponentImplementation(OGC.Intersects, OGCIntersectsBinding.class);
         container.registerComponentImplementation(OGC.LowerBoundaryType,
-            OGCLowerBoundaryTypeBinding.class);
+                OGCLowerBoundaryTypeBinding.class);
         container.registerComponentImplementation(OGC.Not, OGCNotBinding.class);
         container.registerComponentImplementation(OGC.Or, OGCOrBinding.class);
         container.registerComponentImplementation(OGC.PropertyIsBetweenType,
-            OGCPropertyIsBetweenTypeBinding.class);
+                OGCPropertyIsBetweenTypeBinding.class);
         container.registerComponentImplementation(OGC.PropertyIsEqualTo,
-            OGCPropertyIsEqualToBinding.class);
+                OGCPropertyIsEqualToBinding.class);
         container.registerComponentImplementation(OGC.PropertyIsGreaterThan,
-            OGCPropertyIsGreaterThanBinding.class);
+                OGCPropertyIsGreaterThanBinding.class);
         container.registerComponentImplementation(OGC.PropertyIsGreaterThanOrEqualTo,
-            OGCPropertyIsGreaterThanOrEqualToBinding.class);
+                OGCPropertyIsGreaterThanOrEqualToBinding.class);
         container.registerComponentImplementation(OGC.PropertyIsLessThan,
-            OGCPropertyIsLessThanBinding.class);
+                OGCPropertyIsLessThanBinding.class);
         container.registerComponentImplementation(OGC.PropertyIsLessThanOrEqualTo,
-            OGCPropertyIsLessThanOrEqualToBinding.class);
+                OGCPropertyIsLessThanOrEqualToBinding.class);
         container.registerComponentImplementation(OGC.PropertyIsLikeType,
-            OGCPropertyIsLikeTypeBinding.class);
+                OGCPropertyIsLikeTypeBinding.class);
         container.registerComponentImplementation(OGC.PropertyIsNullType,
-            OGCPropertyIsNullTypeBinding.class);
+                OGCPropertyIsNullTypeBinding.class);
         container.registerComponentImplementation(OGC.PropertyIsNotEqualTo,
-            OGCPropertyIsNotEqualToBinding.class);
+                OGCPropertyIsNotEqualToBinding.class);
         container.registerComponentImplementation(OGC.Overlaps, OGCOverlapsBinding.class);
         container.registerComponentImplementation(OGC.Touches, OGCTouchesBinding.class);
-        //container.registerComponentImplementation(OGC.SPATIALOPSTYPE,OGCSpatialOpsTypeBinding.class);
+        //container.registerComponentImplementation(OGC.SPATIALOPSTYPE,OGCSpatialOpsTypeBinding
+        // .class);
         //container.registerComponentImplementation(OGC.UnaryLogicOpType,
         //    OGCUnaryLogicOpTypeBinding.class);
         container.registerComponentImplementation(OGC.UpperBoundaryType,
-            OGCUpperBoundaryTypeBinding.class);
+                OGCUpperBoundaryTypeBinding.class);
         container.registerComponentImplementation(OGC.Within, OGCWithinBinding.class);
     }
 

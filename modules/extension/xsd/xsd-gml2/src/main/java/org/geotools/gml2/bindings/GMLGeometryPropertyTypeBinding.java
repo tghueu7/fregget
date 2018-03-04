@@ -31,9 +31,9 @@ import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:GeometryPropertyType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="GeometryPropertyType"&gt;
  *      &lt;annotation&gt;
@@ -54,9 +54,6 @@ import com.vividsolutions.jts.geom.Geometry;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLGeometryPropertyTypeBinding extends AbstractComplexBinding {
@@ -94,18 +91,18 @@ public class GMLGeometryPropertyTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return (Geometry) value;
     }
-    
+
     @Override
     public Object getProperty(Object object, QName name) throws Exception {
-        return GML2EncodingUtils.GeometryPropertyType_getProperty((Geometry)object, name);
+        return GML2EncodingUtils.GeometryPropertyType_getProperty((Geometry) object, name);
     }
-    
+
     @Override
     public List getProperties(Object object, XSDElementDeclaration element)
             throws Exception {
-        return GML2EncodingUtils.GeometryPropertyType_getProperties((Geometry)object);
+        return GML2EncodingUtils.GeometryPropertyType_getProperties((Geometry) object);
     }
 }

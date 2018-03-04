@@ -25,8 +25,6 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.MultiLineString;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class MultiCurveTypeBindingTest extends GML3TestSupport {
@@ -48,14 +46,14 @@ public class MultiCurveTypeBindingTest extends GML3TestSupport {
     public void testParseWithCurveMember() throws Exception {
         GML3MockData.multiCurve(document, document);
         MultiLineString mline = (MultiLineString) parse();
-        
+
         assertEquals(2, mline.getNumGeometries());
     }
 
     public void testParseWithCurveMembers() throws Exception {
         GML3MockData.multiCurve(document, document, false);
         MultiLineString mline = (MultiLineString) parse();
-        
+
         assertEquals(2, mline.getNumGeometries());
     }
 }

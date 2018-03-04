@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2016, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -37,37 +37,49 @@ import org.opengis.filter.expression.Expression;
  * <li>qgis://star</li>
  * <li>qgis://regular_star and regular_star</li>
  * </ul>
- * 
- * 
- * @author Jonathan Moules (LightPear)
  *
+ * @author Jonathan Moules (LightPear)
  * @source $URL$
  */
 public class QGISMarkFactory implements MarkFactory {
-    /** QGIS prefix for explicit reference to QGIS wellknown marks */
+    /**
+     * QGIS prefix for explicit reference to QGIS wellknown marks
+     */
     private static final String PREFIX = "qgis://";
 
-    /** The logger for the rendering module. */
+    /**
+     * The logger for the rendering module.
+     */
     private static final Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger("org.geotools.rendering");
 
-    /** Tall star for QGIS compatibility */
+    /**
+     * Tall star for QGIS compatibility
+     */
     private static Shape star = star();
 
-    /** Tall triangle for QGIS compatibility */
+    /**
+     * Tall triangle for QGIS compatibility
+     */
     private static Shape triangle = triangle();
 
-    /** Upward facing arrow for QGIS compatibility */
+    /**
+     * Upward facing arrow for QGIS compatibility
+     */
     private final static Shape arrow = arrow();
 
     private static Shape arrowhead = arrowHead();
 
     private static Shape filled_arrowhead = filledArrowHead();
 
-    /** diamond */
+    /**
+     * diamond
+     */
     private static Shape diamond;
 
-    /** pentagon */
+    /**
+     * pentagon
+     */
     private static Shape pentagon;
 
     private static Shape crossFill = crossFill();
@@ -333,7 +345,7 @@ public class QGISMarkFactory implements MarkFactory {
         starPath.lineTo(-0.5f, 0.1f);
         starPath.lineTo(-0.2f, 0.1f);
         starPath.lineTo(0f, 0.5f);
-        
+
         ExplicitBoundsShape shape = new ExplicitBoundsShape(starPath);
         shape.setBounds(new Rectangle2D.Double(-.5, .5, 1., 1.));
 
@@ -516,5 +528,5 @@ public class QGISMarkFactory implements MarkFactory {
 
         return shape;
     }
-     
+
 }

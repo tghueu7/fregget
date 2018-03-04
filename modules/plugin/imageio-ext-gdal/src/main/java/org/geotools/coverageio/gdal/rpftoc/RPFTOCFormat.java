@@ -29,13 +29,11 @@ import org.opengis.geometry.MismatchedDimensionException;
 
 /**
  * An implementation of {@link Format} for the RPFTOC format.
- * 
+ *
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini (simboss), GeoSolutions
- * @since 2.5.x
- *
- *
  * @source $URL$
+ * @since 2.5.x
  */
 public final class RPFTOCFormat extends BaseGDALGridFormat implements Format {
     /**
@@ -68,7 +66,7 @@ public final class RPFTOCFormat extends BaseGDALGridFormat implements Format {
 
     /**
      * @see org.geotools.data.coverage.grid.AbstractGridFormat#getReader(Object,
-     *      Hints)
+     * Hints)
      */
     public RPFTOCReader getReader(Object source, Hints hints) {
         try {

@@ -25,9 +25,9 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/se:ImageOutline.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:element name="ImageOutline" type="se:ImageOutlineType"&gt;
@@ -38,16 +38,14 @@ import javax.xml.namespace.QName;
  *          should be outlined to make the individual-image locations visible.
  *        &lt;/xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
- *  &lt;/xsd:element&gt; 
- * 	
+ *  &lt;/xsd:element&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class ImageOutlineBinding extends SLDImageOutlineBinding {

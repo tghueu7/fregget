@@ -31,7 +31,7 @@ import org.geotools.validation.xml.XMLReader;
 
 /**
  * A proper test fixture for the ValidationProcessor (and friends to hit).
- * 
+ * <p>
  * <p>
  * For geoserver developers this environment is similar to confDemo. Where
  * possible names have been forced to agree with geoserver.
@@ -46,9 +46,8 @@ import org.geotools.validation.xml.XMLReader;
  * </ul>
  * The complete confDemo also includes a large road and building shapefile.
  * </p>
+ *
  * @author Jody Garnett
- *
- *
  * @source $URL$
  */
 public class TestFixture {
@@ -58,16 +57,19 @@ public class TestFixture {
     public ValidationProcessor processor;
     public DefaultRepository repository;
 
-    /** Starting point for your own TestFixture */
-    public TestFixture( File pluginDir, File testDir, File propertiesFile ) throws Exception {
+    /**
+     * Starting point for your own TestFixture
+     */
+    public TestFixture(File pluginDir, File testDir, File propertiesFile) throws Exception {
         repository = new DefaultRepository();
-        repository.load( propertiesFile );
+        repository.load(propertiesFile);
 
-        pluginDTOs = XMLReader.loadPlugIns( pluginDir);
-        testSuiteDTOs = XMLReader.loadValidations( testDir, pluginDTOs);
+        pluginDTOs = XMLReader.loadPlugIns(pluginDir);
+        testSuiteDTOs = XMLReader.loadValidations(testDir, pluginDTOs);
         processor = new ValidationProcessor();
         processor.load(pluginDTOs, testSuiteDTOs);
     }
+
     /**
      * Sets up a test fixture based on GeoServer confDemo.
      * <p>
@@ -76,29 +78,30 @@ public class TestFixture {
      * </p>
      */
     public TestFixture() throws Exception {
-        repository = new DefaultRepository();        
-        File directory = TestData.file( this, "shapefiles" );
-        String shapefiles[] = directory.list( new FilenameFilter(){
-			public boolean accept(File dir, String name) {
-				return name.toUpperCase().endsWith(".SHP"); 
-			}        
+        repository = new DefaultRepository();
+        File directory = TestData.file(this, "shapefiles");
+        String shapefiles[] = directory.list(new FilenameFilter() {
+            public boolean accept(File dir, String name) {
+                return name.toUpperCase().endsWith(".SHP");
+            }
         });
-        for( int i=0; i<shapefiles.length;i++){
-        	File shapefile = new File( directory, shapefiles[i] );
-        	ShapefileDataStore dataStore = new ShapefileDataStore( shapefile.toURI().toURL() );
-        	String dataStoreId = dataStore.getTypeNames()[0].toUpperCase();
-        	String typeName = dataStore.getTypeNames()[0];
-        	SimpleFeatureIterator features = dataStore.getFeatureSource( typeName ).getFeatures().features();
-        	MemoryDataStore cache = new MemoryDataStore( features );
-        	
-        	repository.register( dataStoreId, cache );
+        for (int i = 0; i < shapefiles.length; i++) {
+            File shapefile = new File(directory, shapefiles[i]);
+            ShapefileDataStore dataStore = new ShapefileDataStore(shapefile.toURI().toURL());
+            String dataStoreId = dataStore.getTypeNames()[0].toUpperCase();
+            String typeName = dataStore.getTypeNames()[0];
+            SimpleFeatureIterator features = dataStore.getFeatureSource(typeName).getFeatures()
+                    .features();
+            MemoryDataStore cache = new MemoryDataStore(features);
+
+            repository.register(dataStoreId, cache);
         }
         File pluginDir = TestData.file(this, "plugins");
-        File validationDir = TestData.file(this, "validation" );
-        
-        pluginDTOs = XMLReader.loadPlugIns( pluginDir );
-        testSuiteDTOs = XMLReader.loadValidations( validationDir, pluginDTOs);
-        
+        File validationDir = TestData.file(this, "validation");
+
+        pluginDTOs = XMLReader.loadPlugIns(pluginDir);
+        testSuiteDTOs = XMLReader.loadValidations(validationDir, pluginDTOs);
+
         processor = new ValidationProcessor();
         processor.load(pluginDTOs, testSuiteDTOs);
     }

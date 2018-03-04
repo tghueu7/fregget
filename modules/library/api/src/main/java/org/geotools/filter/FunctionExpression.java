@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -28,37 +28,41 @@ import org.geotools.factory.Factory;
  * <p>
  * Functions are published as part of DefaultFuntionFactory using the following workflow:
  * <ul>
- * <li>Implementation listed with Service Provider Interface <code>org.opengis.filter.Function</code></li>
- * <li>Object created using a no argument constructor (or a constructor that takes hints). {@link Factory#getImplementationHints()} used used to
+ * <li>Implementation listed with Service Provider Interface <code>org.opengis.filter
+ * .Function</code></li>
+ * <li>Object created using a no argument constructor (or a constructor that takes hints). 
+ * {@link Factory#getImplementationHints()} used used to
  * review the hints that are supported by the function implementation.</li>
  * <li>{@link #setParameters(List)} is used to supply the argument expressions.</li>
- * <li>{@link #setFallbackValue(Literal)} is used to supply a placeholder Literal to be used if the function implementation is not available</li>
+ * <li>{@link #setFallbackValue(Literal)} is used to supply a placeholder Literal to be used if 
+ * the function implementation is not available</li>
  * </ul>
- * 
+ * <p>
  * All implements should be registered for service provider interface
- * 
+ * <p>
  * <pre>
  * org.opengis.filter.Function</code>
  * DefaultFunctionFactor.
- * 
- * <p>
+ *
+ *
  * If you have a large number of related functions consider the use of {@link FunctionFactory}.
- * 
+ *
  * @author James Macgill, PSU
  * @author Jody Garnett (Boundless)
  * @see FunctionFactory
  * @source $URL$
  */
 public interface FunctionExpression extends Factory, Function {
-    
+
     /**
      * Fallback value to use in the event the function is unavailable in the requested environment.
      * <p>
      * The fallback value is not provided as one of the arguments, as it is an advanced option used
-     * in style layer descriptor documents to facilitate interoperability. It allows a user to specify
+     * in style layer descriptor documents to facilitate interoperability. It allows a user to 
+     * specify
      * an SQL function, and provide a value to use when the documented is used with a WFS that does
      * not support the provided function.
-     * 
+     *
      * @param parameters
      */
     void setFallbackValue(Literal fallback);

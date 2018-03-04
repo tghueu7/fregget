@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * This class represents the inputs for a mosaic JAI operation.
- *
+ * <p>
  * <p>
  * It contains
  * <ol>
@@ -31,9 +31,8 @@ import java.util.List;
  * <li>source thresholds</li>
  * <li>indications on the alpha</li>
  * </ol>
- * 
- * @author Simone Giannecchini, GeoSolutions SAS
  *
+ * @author Simone Giannecchini, GeoSolutions SAS
  */
 public class MosaicInputs {
 
@@ -46,7 +45,7 @@ public class MosaicInputs {
     private final double[][] sourceThreshold;
 
     public MosaicInputs(boolean doInputTransparency, boolean hasAlpha, List<MosaicElement> sources,
-            double[][] sourceThreshold) {
+                        double[][] sourceThreshold) {
         this.doInputTransparency = doInputTransparency;
         this.hasAlpha = hasAlpha;
         this.sources = sources;

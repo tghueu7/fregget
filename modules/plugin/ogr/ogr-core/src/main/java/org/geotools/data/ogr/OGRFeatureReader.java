@@ -28,12 +28,11 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 /**
  * An OGR feature reader, reads data from the provided layer.<br>
  * It assumes eventual filters have already been set on it, and will extract only the
- * 
+ *
  * @author Andrea Aime - GeoSolutions
- * 
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/ogr/src/main/java/org/geotools
- *         /data/ogr/OGRFeatureReader.java $
+ * http://svn.osgeo.org/geotools/trunk/modules/unsupported/ogr/src/main/java/org/geotools
+ * /data/ogr/OGRFeatureReader.java $
  */
 class OGRFeatureReader implements FeatureReader<SimpleFeatureType, SimpleFeature> {
 
@@ -52,7 +51,8 @@ class OGRFeatureReader implements FeatureReader<SimpleFeatureType, SimpleFeature
     OGR ogr;
 
     public OGRFeatureReader(Object dataSource, Object layer,
-            SimpleFeatureType targetSchema, SimpleFeatureType originalSchema, GeometryFactory gf, OGR ogr) {
+                            SimpleFeatureType targetSchema, SimpleFeatureType originalSchema, 
+                            GeometryFactory gf, OGR ogr) {
         this.dataSource = dataSource;
         this.layer = layer;
         this.schema = targetSchema;

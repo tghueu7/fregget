@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2007 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.feature;
@@ -20,7 +20,7 @@ import org.opengis.feature.type.PropertyType;
  * <p>
  * A property is a wrapper around an arbitrary object or value. The value is
  * available via the {@link #getValue()} and {@link #setValue(Object)}.
- *
+ * <p>
  * <pre>
  *  Property property = ...;
  *
@@ -30,14 +30,14 @@ import org.opengis.feature.type.PropertyType;
  *  //get the value
  *  String value = (String) property.getValue();
  * </pre>
- *
+ * <p>
  * </p>
  * <p>
  * Every property has a type. This {@link PropertyType} defines information
  * about the property. This includes which java class the value of the property
- * is an instance of, any restrictions on the value, etc... 
+ * is an instance of, any restrictions on the value, etc...
  * The type is available via the {@link #getType()} method.
- *
+ * <p>
  * <pre>
  *   Property property = ...;
  *
@@ -48,16 +48,17 @@ import org.opengis.feature.type.PropertyType;
  *   Class&lt;String&gt; valueClass = (Class&lt;String&gt;)type.getBinding();
  *
  * </pre>
- *
+ * <p>
  * </p>
  * <p>
- * A property can often be part of another entity such as a {@link Feature} or {@link ComplexAttribute}.
+ * A property can often be part of another entity such as a {@link Feature} or 
+ * {@link ComplexAttribute}.
  * When this is the case, the relationship between the property and its "container" is described by
  * a {@link PropertyDescriptor}.
  * The descriptor of a property defines things like nilablility, multiplicity,
  * etc... See the javadoc of {@link PropertyDescriptor} for more details. The
  * descriptor is available via the {@link #getDescriptor()} method.
- *
+ * <p>
  * <pre>
  *   Property property = ...;
  *
@@ -73,8 +74,6 @@ import org.opengis.feature.type.PropertyType;
  *
  * @author Jody Garnett (Refractions Research)
  * @author Justin Deoliveira (The Open Planning Project)
- *
- *
  * @source $URL$
  */
 public interface Property {
@@ -105,9 +104,7 @@ public interface Property {
      * <code>getDescriptor().isNillable()</code> is <code>true</code>.
      * </p>
      *
-     * @param newValue
-     *            The new value of the property.
-     *
+     * @param newValue The new value of the property.
      */
     void setValue(Object newValue);
 
@@ -155,7 +152,7 @@ public interface Property {
      * </p>
      *
      * @return <code>true</code> if the value of the property is allowed to be
-     *         <code>null</code>, otherwise <code>false</code>.
+     * <code>null</code>, otherwise <code>false</code>.
      */
     boolean isNillable();
 
@@ -166,7 +163,7 @@ public interface Property {
      * An example of information that may wish to be stored along with an
      * attribute could be its srs information (in the case of a geometric
      * attribute ).
-     *
+     * <p>
      * <pre>
      * <code>
      *  GeometryAttribute attribute = ...;
@@ -179,7 +176,7 @@ public interface Property {
      *  attribute.getUserData().put( &quot;srs&quot;, &quot;EPSG:4326&quot; );
      * </code>
      * </pre>
-     *
+     * <p>
      * </p>
      *
      * @return A map of user data.

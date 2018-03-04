@@ -28,9 +28,9 @@ import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:PolygonPatchType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  &lt;code&gt;
  *  &lt;complexType name=&quot;PolygonPatchType&quot;&gt;
@@ -40,16 +40,18 @@ import com.vividsolutions.jts.geom.Polygon;
  *              a set of boundary curves and an underlying surface to
  *              which these curves adhere. The curves are coplanar and
  *              the polygon uses planar interpolation in its interior.
- *              Implements GM_Polygon of ISO 19107. 
+ *              Implements GM_Polygon of ISO 19107.
  *           &lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;complexContent&gt;
  *          &lt;extension base=&quot;gml:AbstractSurfacePatchType&quot;&gt;
  *              &lt;sequence&gt;
  *                  &lt;element minOccurs=&quot;0&quot; ref=&quot;gml:exterior&quot;/&gt;
- *                  &lt;element maxOccurs=&quot;unbounded&quot; minOccurs=&quot;0&quot; ref=&quot;gml:interior&quot;/&gt;
+ *                  &lt;element maxOccurs=&quot;unbounded&quot; minOccurs=&quot;0&quot; 
+ *                  ref=&quot;gml:interior&quot;/&gt;
  *              &lt;/sequence&gt;
- *              &lt;attribute fixed=&quot;planar&quot; name=&quot;interpolation&quot; type=&quot;gml:SurfaceInterpolationType&quot;&gt;
+ *              &lt;attribute fixed=&quot;planar&quot; name=&quot;interpolation&quot; type=&quot;
+ *              gml:SurfaceInterpolationType&quot;&gt;
  *                  &lt;annotation&gt;
  *                      &lt;documentation&gt;
  *                       The attribute &quot;interpolation&quot; specifies the
@@ -65,27 +67,24 @@ import com.vividsolutions.jts.geom.Polygon;
  *              &lt;/attribute&gt;
  *          &lt;/extension&gt;
  *      &lt;/complexContent&gt;
- *  &lt;/complexType&gt; 
- * 	
+ *  &lt;/complexType&gt;
+ *
  *   &lt;/code&gt;
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class PolygonPatchTypeBinding extends AbstractComplexBinding {
 
     protected GeometryFactory gf;
-    
+
     public PolygonPatchTypeBinding(GeometryFactory gf) {
         this.gf = gf;
     }
-    
+
     /**
      * @generated
      */
@@ -95,7 +94,7 @@ public class PolygonPatchTypeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -104,11 +103,11 @@ public class PolygonPatchTypeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
-        return new PolygonTypeBinding( gf ).parse( instance, node, value);
+        return new PolygonTypeBinding(gf).parse(instance, node, value);
     }
 
 }

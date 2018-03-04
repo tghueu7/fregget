@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2001-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -47,14 +47,11 @@ import org.geotools.util.Utilities;
  * Consequently, this {@linkplain ParameterGroup parameter value group} is also its own mutable
  * {@linkplain ParameterDescriptorGroup operation parameter group}.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see MatrixParameterDescriptors
+ * @since 2.1
  */
 public class MatrixParameters extends ParameterGroup implements ParameterDescriptorGroup {
     /**
@@ -157,13 +154,12 @@ public class MatrixParameters extends ParameterGroup implements ParameterDescrip
      * respectively. For example <code>"elt_2_1"</code> is the element name for the value at line 2
      * and row 1. The row and column index are 0 based.
      *
-     * @param  name The case insensitive name of the parameter to search for.
+     * @param name The case insensitive name of the parameter to search for.
      * @return The parameter for the given name.
      * @throws ParameterNotFoundException if there is no parameter for the given name.
      */
     public GeneralParameterDescriptor descriptor(final String name)
-            throws ParameterNotFoundException
-    {
+            throws ParameterNotFoundException {
         return ((MatrixParameterDescriptors) descriptor).descriptor(name,
                 numRow.intValue(), numCol.intValue());
     }
@@ -176,7 +172,7 @@ public class MatrixParameters extends ParameterGroup implements ParameterDescrip
      * respectively. For example <code>"elt_2_1"</code> is the element name for the value at line
      * 2 and row 1. The row and column index are 0 based.
      *
-     * @param  name The case insensitive name of the parameter to search for.
+     * @param name The case insensitive name of the parameter to search for.
      * @return The parameter value for the given name.
      * @throws ParameterNotFoundException if there is no parameter for the given name.
      */
@@ -184,7 +180,8 @@ public class MatrixParameters extends ParameterGroup implements ParameterDescrip
     public ParameterValue<?> parameter(String name) throws ParameterNotFoundException {
         ensureNonNull("name", name);
         name = name.trim();
-        final MatrixParameterDescriptors descriptor = ((MatrixParameterDescriptors) this.descriptor);
+        final MatrixParameterDescriptors descriptor = ((MatrixParameterDescriptors) this
+                .descriptor);
         final String prefix = descriptor.prefix;
         RuntimeException cause = null;
         if (name.regionMatches(true, 0, prefix, 0, prefix.length())) {
@@ -219,33 +216,31 @@ public class MatrixParameters extends ParameterGroup implements ParameterDescrip
      * Returns the value in this group for a matrix element at the specified index.
      * Row and column index are 0 based.
      *
-     * @param  row    The row indice.
-     * @param  column The column indice
+     * @param row    The row indice.
+     * @param column The column indice
      * @return The parameter value for the specified matrix element (never {@code null}).
      * @throws IndexOutOfBoundsException if {@code row} or {@code column} is out of bounds.
      */
     public final ParameterValue<Double> parameter(final int row, final int column)
-            throws IndexOutOfBoundsException
-    {
+            throws IndexOutOfBoundsException {
         return parameter(row, column, numRow.intValue(), numCol.intValue());
     }
 
     /**
-     * Implementation of {@link #parameter(int,int)}.
+     * Implementation of {@link #parameter(int, int)}.
      *
-     * @param  row    The row indice.
-     * @param  column The column indice
-     * @param  numRow The maximum number of rows.
-     * @param  numCol The maximum number of columns.
+     * @param row    The row indice.
+     * @param column The column indice
+     * @param numRow The maximum number of rows.
+     * @param numCol The maximum number of columns.
      * @return The parameter value for the specified matrix element.
      * @throws IndexOutOfBoundsException if {@code row} or {@code column} is out of bounds.
      */
     @SuppressWarnings("unchecked") // Because of array creation
-    private ParameterValue<Double> parameter(final int row,    final int column,
+    private ParameterValue<Double> parameter(final int row, final int column,
                                              final int numRow, final int numCol)
-            throws IndexOutOfBoundsException
-    {
-        MatrixParameterDescriptors.checkIndice("row",    row,    numRow);
+            throws IndexOutOfBoundsException {
+        MatrixParameterDescriptors.checkIndice("row", row, numRow);
         MatrixParameterDescriptors.checkIndice("column", column, numCol);
         if (matrixValues == null) {
             matrixValues = new ParameterValue[numRow][];
@@ -263,7 +258,8 @@ public class MatrixParameters extends ParameterGroup implements ParameterDescrip
         ParameterValue<Double> param = rowValues[column];
         if (param == null) {
             rowValues[column] = param = new FloatParameter(
-                ((MatrixParameterDescriptors) descriptor).descriptor(row, column, numRow, numCol));
+                    ((MatrixParameterDescriptors) descriptor).descriptor(row, column, numRow, 
+                            numCol));
         }
         return param;
     }
@@ -288,17 +284,17 @@ public class MatrixParameters extends ParameterGroup implements ParameterDescrip
     public List<GeneralParameterValue> values() {
         final int numRow = this.numRow.intValue();
         final int numCol = this.numCol.intValue();
-        final ParameterValue[] parameters = new ParameterValue[numRow*numCol + 2];
+        final ParameterValue[] parameters = new ParameterValue[numRow * numCol + 2];
         int k = 0;
         parameters[k++] = this.numRow;
         parameters[k++] = this.numCol;
         if (matrixValues != null) {
             final int maxRow = Math.min(numRow, matrixValues.length);
-            for (int j=0; j<maxRow; j++) {
+            for (int j = 0; j < maxRow; j++) {
                 final ParameterValue[] rowValues = matrixValues[j];
                 if (rowValues != null) {
                     final int maxCol = Math.min(numCol, rowValues.length);
-                    for (int i=0; i<maxCol; i++) {
+                    for (int i = 0; i < maxCol; i++) {
                         final ParameterValue value = rowValues[i];
                         if (value != null) {
                             parameters[k++] = value;
@@ -328,10 +324,10 @@ public class MatrixParameters extends ParameterGroup implements ParameterDescrip
         final int numCol = this.numCol.intValue();
         final Matrix matrix = MatrixFactory.create(numRow, numCol);
         if (matrixValues != null) {
-            for (int j=0; j<numRow; j++) {
+            for (int j = 0; j < numRow; j++) {
                 final ParameterValue[] row = matrixValues[j];
                 if (row != null) {
-                    for (int i=0; i<numCol; i++) {
+                    for (int i = 0; i < numCol; i++) {
                         final ParameterValue element = row[i];
                         if (element != null) {
                             matrix.setElement(j, i, element.doubleValue());
@@ -353,14 +349,14 @@ public class MatrixParameters extends ParameterGroup implements ParameterDescrip
     @SuppressWarnings("unchecked") // Because of array creation
     public void setMatrix(final Matrix matrix) {
         final MatrixParameterDescriptors matrixDescriptor =
-            ((MatrixParameterDescriptors) this.descriptor);
+                ((MatrixParameterDescriptors) this.descriptor);
         final int numRow = matrix.getNumRow();
         final int numCol = matrix.getNumCol();
         this.numRow.setValue(numRow);
         this.numCol.setValue(numCol);
-        for (int row=0; row<numRow; row++) {
-            for (int col=0; col<numCol; col++) {
-                final double element = matrix.getElement(row,col);
+        for (int row = 0; row < numRow; row++) {
+            for (int col = 0; col < numCol; col++) {
+                final double element = matrix.getElement(row, col);
                 ParameterDescriptor<Double> descriptor = matrixDescriptor.descriptor(row, col);
                 final double value = descriptor.getDefaultValue();
                 if (Double.doubleToLongBits(element) == Double.doubleToLongBits(value)) {
@@ -368,7 +364,7 @@ public class MatrixParameters extends ParameterGroup implements ParameterDescrip
                      * Value matches the default value, so there is no need to keep it.
                      * Remove entry to keep things sparse.
                      */
-                    if (matrixValues != null  &&  matrixValues[row] != null) {
+                    if (matrixValues != null && matrixValues[row] != null) {
                         matrixValues[row][col] = null;
                     }
                     continue;
@@ -376,7 +372,7 @@ public class MatrixParameters extends ParameterGroup implements ParameterDescrip
                 if (matrixValues == null) {
                     matrixValues = new ParameterValue[numRow][];
                 }
-                if (matrixValues[row] == null ){
+                if (matrixValues[row] == null) {
                     matrixValues[row] = new ParameterValue[numCol];
                 }
                 matrixValues[row][col] = new FloatParameter(descriptor, element);
@@ -396,11 +392,10 @@ public class MatrixParameters extends ParameterGroup implements ParameterDescrip
             final MatrixParameters that = (MatrixParameters) object;
             final int numRow = this.numRow.intValue();
             final int numCol = this.numCol.intValue();
-            for (int j=0; j<numRow; j++) {
-                for (int i=0; i<numCol; i++) {
-                    if (!Utilities.equals(this.parameter(j,i, numRow, numCol),
-                                          that.parameter(j,i, numRow, numCol)))
-                    {
+            for (int j = 0; j < numRow; j++) {
+                for (int i = 0; i < numCol; i++) {
+                    if (!Utilities.equals(this.parameter(j, i, numRow, numCol),
+                            that.parameter(j, i, numRow, numCol))) {
                         return false;
                     }
                 }
@@ -418,14 +413,14 @@ public class MatrixParameters extends ParameterGroup implements ParameterDescrip
     public MatrixParameters clone() {
         final MatrixParameters copy = (MatrixParameters) super.clone();
         if (copy.matrixValues != null) {
-            copy.numRow       = (ParameterValue) copy.parameter(0);
-            copy.numCol       = (ParameterValue) copy.parameter(1);
-            copy.matrixValues =                  copy.matrixValues.clone();
-            for (int j=0; j<copy.matrixValues.length; j++) {
+            copy.numRow = (ParameterValue) copy.parameter(0);
+            copy.numCol = (ParameterValue) copy.parameter(1);
+            copy.matrixValues = copy.matrixValues.clone();
+            for (int j = 0; j < copy.matrixValues.length; j++) {
                 ParameterValue[] array = copy.matrixValues[j];
                 if (array != null) {
                     copy.matrixValues[j] = array = array.clone();
-                    for (int i=0; i<array.length; i++) {
+                    for (int i = 0; i < array.length; i++) {
                         if (array[i] != null) {
                             array[i] = array[i].clone();
                         }
@@ -439,7 +434,7 @@ public class MatrixParameters extends ParameterGroup implements ParameterDescrip
     /**
      * Writes the content of this parameter to the specified table.
      *
-     * @param  table The table where to format the parameter value.
+     * @param table The table where to format the parameter value.
      * @throws IOException if an error occurs during output operation.
      */
     @Override

@@ -44,19 +44,19 @@ import org.opengis.parameter.GeneralParameterValue;
 
 /**
  * An implementation of {@link Format} for the JP2K format.
- * 
+ *
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini (simboss), GeoSolutions
- *
- *
  * @source $URL$
  */
 public final class JP2KFormat extends AbstractGridFormat implements Format {
-    
-	 /** The inner {@code ImageReaderSpi} */
+
+    /**
+     * The inner {@code ImageReaderSpi}
+     */
     private ImageReaderSpi spi = null;
-    
-	/**
+
+    /**
      * Logger.
      */
     private final static Logger LOGGER = org.geotools.util.logging.Logging
@@ -76,15 +76,16 @@ public final class JP2KFormat extends AbstractGridFormat implements Format {
      * operation. This will be achieved with the use of the ImageReadMT
      * operation of the ImageIO-Ext.
      */
-    public static final DefaultParameterDescriptor<Boolean> USE_MULTITHREADING = new DefaultParameterDescriptor<Boolean>(
+    public static final DefaultParameterDescriptor<Boolean> USE_MULTITHREADING = new 
+            DefaultParameterDescriptor<Boolean>(
             USE_MT, Boolean.class,
-            new Boolean[] { Boolean.TRUE, Boolean.FALSE }, Boolean.FALSE);
+            new Boolean[]{Boolean.TRUE, Boolean.FALSE}, Boolean.FALSE);
 
     /**
      * Creates an instance and sets the metadata.
      */
     public JP2KFormat() {
-    	setInfo();
+        setInfo();
         if (LOGGER.isLoggable(Level.FINE)) {
             LOGGER.fine("Creating a new JP2KFormat.");
         }
@@ -94,7 +95,7 @@ public final class JP2KFormat extends AbstractGridFormat implements Format {
      * Sets the metadata information.
      */
     protected void setInfo() {
-        HashMap<String,String> info = new HashMap<String,String>();
+        HashMap<String, String> info = new HashMap<String, String>();
         info.put("name", "JP2K (Direct) ");
         info.put("description", "JP2K (Direct) Coverage Format");
         info.put("vendor", "Geotools");
@@ -106,11 +107,11 @@ public final class JP2KFormat extends AbstractGridFormat implements Format {
         writeParameters = null;
         readParameters = new ParameterGroup(new DefaultParameterDescriptorGroup(mInfo,
                 new GeneralParameterDescriptor[]{
-        		READ_GRIDGEOMETRY2D,
-        		INPUT_TRANSPARENT_COLOR,
-                USE_JAI_IMAGEREAD,
-                USE_MULTITHREADING,
-                SUGGESTED_TILE_SIZE,
+                        READ_GRIDGEOMETRY2D,
+                        INPUT_TRANSPARENT_COLOR,
+                        USE_JAI_IMAGEREAD,
+                        USE_MULTITHREADING,
+                        SUGGESTED_TILE_SIZE,
                 }));
     }
 
@@ -122,32 +123,32 @@ public final class JP2KFormat extends AbstractGridFormat implements Format {
         try {
             return new JP2KReader(source, hints);
         } catch (MismatchedDimensionException e) {
-        	if (LOGGER.isLoggable(Level.WARNING))
-        		LOGGER.log(Level.WARNING, e.getLocalizedMessage(), e);
-        	return null;
+            if (LOGGER.isLoggable(Level.WARNING))
+                LOGGER.log(Level.WARNING, e.getLocalizedMessage(), e);
+            return null;
         } catch (DataSourceException e) {
-        	if (LOGGER.isLoggable(Level.WARNING))
-        		LOGGER.log(Level.WARNING, e.getLocalizedMessage(), e);
-        	return null;
+            if (LOGGER.isLoggable(Level.WARNING))
+                LOGGER.log(Level.WARNING, e.getLocalizedMessage(), e);
+            return null;
         } catch (IOException e) {
-        	if (LOGGER.isLoggable(Level.WARNING))
-        		LOGGER.log(Level.WARNING, e.getLocalizedMessage(), e);
-        	return null;
-		} 
+            if (LOGGER.isLoggable(Level.WARNING))
+                LOGGER.log(Level.WARNING, e.getLocalizedMessage(), e);
+            return null;
+        }
     }
-    
+
     /**
      * @see org.geotools.data.coverage.grid.AbstractGridFormat#getReader(Object)
      */
     @Override
-    public AbstractGridCoverage2DReader getReader( Object source ) {
+    public AbstractGridCoverage2DReader getReader(Object source) {
         return getReader(source, null);
     }
-    
+
     /**
      * @see org.geotools.data.coverage.grid.AbstractGridFormat#createWriter(java.lang.Object
-     *      destination)
-     * 
+     * destination)
+     * <p>
      * Actually, the plugin does not support write capabilities. The method
      * throws an {@code UnsupportedOperationException}.
      */
@@ -159,7 +160,7 @@ public final class JP2KFormat extends AbstractGridFormat implements Format {
 
     /**
      * @see org.geotools.data.coverage.grid.AbstractGridFormat#getDefaultImageIOWriteParameters
-     * 
+     * <p>
      * Actually, the plugin does not support write capabilities. The method
      * throws an {@code UnsupportedOperationException}.
      */
@@ -171,8 +172,8 @@ public final class JP2KFormat extends AbstractGridFormat implements Format {
 
     /**
      * @see org.geotools.data.coverage.grid.AbstractGridFormat#createWriter(java.lang.Object
-     *      destination,Hints hints)
-     * 
+     * destination, Hints hints)
+     * <p>
      * Actually, the plugin does not support write capabilities. The method
      * throws an {@code UnsupportedOperationException}.
      */
@@ -186,23 +187,23 @@ public final class JP2KFormat extends AbstractGridFormat implements Format {
      * @see org.geotools.data.coverage.grid.AbstractGridFormat#accepts(java.lang.Object input)
      */
     @Override
-    public boolean accepts(Object input,Hints hints) {
+    public boolean accepts(Object input, Hints hints) {
         try {
-        	
-        	//Directories aren't accepted
-        	if (input != null && input instanceof File){
-        		final File directory = (File) input;
-        		if (!directory.exists() || directory.isDirectory())
-        			return false;
-        	}
-        	final ImageInputStream stream = ImageIO.createImageInputStream(input);
-        	if (spi == null){
-				ImageReader reader = Utils.getReader(stream);
-				if (reader != null)
-					spi = reader.getOriginatingProvider();
-				else
-					return false;
-			}
+
+            //Directories aren't accepted
+            if (input != null && input instanceof File) {
+                final File directory = (File) input;
+                if (!directory.exists() || directory.isDirectory())
+                    return false;
+            }
+            final ImageInputStream stream = ImageIO.createImageInputStream(input);
+            if (spi == null) {
+                ImageReader reader = Utils.getReader(stream);
+                if (reader != null)
+                    spi = reader.getOriginatingProvider();
+                else
+                    return false;
+            }
             return spi.canDecodeInput(stream);
         } catch (IOException e) {
             if (LOGGER.isLoggable(Level.FINE)) {

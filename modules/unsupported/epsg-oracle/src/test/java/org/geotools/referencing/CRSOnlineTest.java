@@ -17,6 +17,7 @@
 package org.geotools.referencing;
 
 // J2SE dependencies
+
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Set;
@@ -40,14 +41,11 @@ import org.geotools.referencing.factory.epsg.oracle.OracleOnlineTestCase;
 
 /**
  * Tests if the CRS utility class is functioning correctly when using EPSG-Oracle datastore.
- * 
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Jody Garnett
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
  */
 public class CRSOnlineTest extends OracleOnlineTestCase {
     /**
@@ -85,14 +83,17 @@ public class CRSOnlineTest extends OracleOnlineTestCase {
         assertEquals("Lat", axis1.getAbbreviation());
 
         final CoordinateReferenceSystem standard = CRS.decode("EPSG:4326");
-        assertFalse("Should not be (long,lat) axis order.", CRS.equalsIgnoreMetadata(crs, standard));
+        assertFalse("Should not be (long,lat) axis order.", CRS.equalsIgnoreMetadata(crs, 
+                standard));
 
         final CoordinateReferenceSystem def;
         try {
-            assertNull(Hints.putSystemDefault(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER, Boolean.TRUE));
+            assertNull(Hints.putSystemDefault(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER, Boolean
+                    .TRUE));
             def = CRS.decode("EPSG:4326");
         } finally {
-            assertEquals(Boolean.TRUE, Hints.removeSystemDefault(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER));
+            assertEquals(Boolean.TRUE, Hints.removeSystemDefault(Hints
+                    .FORCE_LONGITUDE_FIRST_AXIS_ORDER));
         }
         assertEquals("Expected (long,lat) axis order.", crs, def);
         assertSame("Should be back to (lat,long) axis order.", standard, CRS.decode("EPSG:4326"));
@@ -102,9 +103,10 @@ public class CRSOnlineTest extends OracleOnlineTestCase {
      * Tests again EPSG:4326, but forced to (longitude, latitude) axis order.
      *
      * @todo Uncomment when we will be allowed to compile for J2SE 1.5.
-     *       Call to {@link System#clearProperty} is mandatory for this test.
+     * Call to {@link System#clearProperty} is mandatory for this test.
      */
-    public void testSystemPropertyToForceXY() throws NoSuchAuthorityCodeException, FactoryException {
+    public void testSystemPropertyToForceXY() throws NoSuchAuthorityCodeException, 
+            FactoryException {
         assertNull(System.getProperty(GeoTools.FORCE_LONGITUDE_FIRST_AXIS_ORDER));
 //        System.setProperty(GeoTools.FORCE_LONGITUDE_FIRST_AXIS_ORDER, "true");
 //        try {
@@ -128,14 +130,14 @@ public class CRSOnlineTest extends OracleOnlineTestCase {
     public void testFind() throws FactoryException {
         CoordinateReferenceSystem crs = getED50("ED50");
         assertEquals("Should find without scan thanks to the name.", "EPSG:4230",
-                     CRS.lookupIdentifier(crs, false));
+                CRS.lookupIdentifier(crs, false));
 
         crs = getED50("ED50 with unknown name");
         assertNull("Should not find the CRS without a scan.",
-                   CRS.lookupIdentifier(crs, false));
+                CRS.lookupIdentifier(crs, false));
 
         assertEquals("With scan allowed, should find the CRS.", "EPSG:4230",
-                     CRS.lookupIdentifier(crs, true));
+                CRS.lookupIdentifier(crs, true));
     }
 
     /**
@@ -144,14 +146,12 @@ public class CRSOnlineTest extends OracleOnlineTestCase {
     private static CoordinateReferenceSystem getED50(final String name) throws FactoryException {
         final String wkt =
                 "GEOGCS[\"" + name + "\",\n" +
-                "  DATUM[\"European Datum 1950\",\n" +
-                "  SPHEROID[\"International 1924\", 6378388.0, 297.0]],\n" +
-                "PRIMEM[\"Greenwich\", 0.0],\n" +
-                "UNIT[\"degree\", 0.017453292519943295]]";
+                        "  DATUM[\"European Datum 1950\",\n" +
+                        "  SPHEROID[\"International 1924\", 6378388.0, 297.0]],\n" +
+                        "PRIMEM[\"Greenwich\", 0.0],\n" +
+                        "UNIT[\"degree\", 0.017453292519943295]]";
         return CRS.parseWKT(wkt);
     }
-
-
 
 
     // -------------------------------------------------------------------------
@@ -166,14 +166,14 @@ public class CRSOnlineTest extends OracleOnlineTestCase {
         Citation authority;
 
         // Tests the official factory.
-        factory   = ReferencingFactoryFinder.getCRSAuthorityFactory("EPSG", null);
+        factory = ReferencingFactoryFinder.getCRSAuthorityFactory("EPSG", null);
         authority = factory.getAuthority();
         assertNotNull(authority);
         assertEquals("European Petroleum Survey Group", authority.getTitle().toString(Locale.US));
         assertTrue(Citations.identifierMatches(authority, "EPSG"));
 
         // Tests the modified factory.
-        factory   = new OrderedAxisAuthorityFactory("EPSG", null, null);
+        factory = new OrderedAxisAuthorityFactory("EPSG", null, null);
         authority = factory.getAuthority();
         assertNotNull(authority);
         assertTrue(Citations.identifierMatches(authority, "EPSG"));
@@ -187,7 +187,7 @@ public class CRSOnlineTest extends OracleOnlineTestCase {
         Citation vendor;
 
         factory = new OrderedAxisAuthorityFactory("EPSG", null, null);
-        vendor  = factory.getVendor();
+        vendor = factory.getVendor();
         assertNotNull(vendor);
         assertEquals("Geotools", vendor.getTitle().toString(Locale.US));
         assertFalse(Citations.identifierMatches(vendor, "EPSG"));
@@ -238,7 +238,7 @@ public class CRSOnlineTest extends OracleOnlineTestCase {
      */
     public void test26910Lower() throws FactoryException {
         CoordinateReferenceSystem crs = CRS.decode("epsg:26910");
-        assertNotNull(crs);                
+        assertNotNull(crs);
     }
 
     /**
@@ -246,7 +246,7 @@ public class CRSOnlineTest extends OracleOnlineTestCase {
      */
     public void test26986Lower() throws FactoryException {
         CoordinateReferenceSystem crs = CRS.decode("epsg:26986");
-        assertNotNull(crs);                
+        assertNotNull(crs);
     }
 
     /**
@@ -285,7 +285,7 @@ public class CRSOnlineTest extends OracleOnlineTestCase {
         Set codes = factory.getAuthorityCodes(CoordinateReferenceSystem.class);
         int total = codes.size();
         int count = 0;
-        for (Iterator i=codes.iterator(); i.hasNext();) {
+        for (Iterator i = codes.iterator(); i.hasNext(); ) {
             CoordinateReferenceSystem crs;
             String code = (String) i.next();
             try {
@@ -293,9 +293,9 @@ public class CRSOnlineTest extends OracleOnlineTestCase {
                 assertNotNull(crs);
                 count++;
             } catch (FactoryException e) {
-                System.err.println("WARNING (CRS: "+code+" ):" + e.getMessage());
-            }            
+                System.err.println("WARNING (CRS: " + code + " ):" + e.getMessage());
+            }
         }
-        System.out.println("Success: " + count + "/" + total + " (" + (count*100)/total + "%)");
+        System.out.println("Success: " + count + "/" + total + " (" + (count * 100) / total + "%)");
     }
 }

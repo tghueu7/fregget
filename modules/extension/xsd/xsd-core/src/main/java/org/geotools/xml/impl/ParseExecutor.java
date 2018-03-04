@@ -52,8 +52,6 @@ import org.picocontainer.MutablePicoContainer;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ParseExecutor implements Visitor {
@@ -73,7 +71,7 @@ public class ParseExecutor implements Visitor {
     private Object result;
 
     public ParseExecutor(InstanceComponent instance, Node node, MutablePicoContainer context,
-        ParserHandler parser) {
+                         ParserHandler parser) {
         this.instance = instance;
         this.node = node;
         this.context = context;
@@ -85,27 +83,28 @@ public class ParseExecutor implements Visitor {
         // for bindings that are not registered by class, but by instance. 
         // in the long term we intend to ditch pico container b/c our inection 
         // needs are quite trivial and can be handled by some simple reflection
-        if ( !( binding instanceof InstanceBinding ) ) {
+        if (!(binding instanceof InstanceBinding)) {
             //reload out of context, we do this so that the binding can pick up any new dependencies
             // providedb by this particular context
             Class bindingClass = binding.getClass();
             QName bindingTarget = binding.getTarget();
-            
+
             binding = (Binding) context.getComponentInstanceOfType(binding.getClass());
             if (binding == null) {
-                
+
                 binding = parser.getBindingLoader().loadBinding(bindingTarget, context);
-                if ( binding == null ) {
-                    binding = parser.getBindingLoader().loadBinding(bindingTarget,bindingClass,context);
+                if (binding == null) {
+                    binding = parser.getBindingLoader().loadBinding(bindingTarget, bindingClass, 
+                            context);
                 }
-                if ( binding.getClass() != bindingClass ) {
+                if (binding.getClass() != bindingClass) {
                     throw new IllegalStateException(
                             "Reloaded binding resulted in different type, from " + bindingClass
                                     + " to " + binding.getClass());
                 }
-            }    
+            }
         }
-        
+
 
         //execute the binding
         try {
@@ -143,8 +142,7 @@ public class ParseExecutor implements Visitor {
                         } else {
                             result = value;
                         }
-                    }
-                    else {
+                    } else {
                         result = value;
                     }
                 }
@@ -173,8 +171,9 @@ public class ParseExecutor implements Visitor {
     /**
      * Pre-parses the instance compontent checking the following:
      * <p>
-     *
+     * <p>
      * </p>
+     *
      * @param instance
      */
     protected Object preParse(InstanceComponent instance) {
@@ -185,7 +184,7 @@ public class ParseExecutor implements Visitor {
             type = (XSDSimpleTypeDefinition) instance.getTypeDefinition();
         } else {
             XSDComplexTypeDefinition complexType = (XSDComplexTypeDefinition) instance
-                .getTypeDefinition();
+                    .getTypeDefinition();
 
             if (complexType.getContentType() instanceof XSDSimpleTypeDefinition) {
                 type = (XSDSimpleTypeDefinition) complexType.getContentType();
@@ -237,10 +236,10 @@ public class ParseExecutor implements Visitor {
                     //gather up all teh possible values
                     Set values = new HashSet();
 
-                    for (Iterator e = type.getEnumerationFacets().iterator(); e.hasNext();) {
+                    for (Iterator e = type.getEnumerationFacets().iterator(); e.hasNext(); ) {
                         XSDEnumerationFacet enumeration = (XSDEnumerationFacet) e.next();
 
-                        for (Iterator v = enumeration.getValue().iterator(); v.hasNext();) {
+                        for (Iterator v = enumeration.getValue().iterator(); v.hasNext(); ) {
                             values.add(v.next());
                         }
                     }
@@ -258,7 +257,7 @@ public class ParseExecutor implements Visitor {
 
                 //create a pseudo declaration
                 final XSDElementDeclaration element = XSDFactory.eINSTANCE
-                    .createXSDElementDeclaration();
+                        .createXSDElementDeclaration();
                 element.setTypeDefinition(itemType);
 
                 if (instance.getName() != null) {
@@ -271,16 +270,17 @@ public class ParseExecutor implements Visitor {
 
                 //create a new instance of the specified type
                 InstanceComponentImpl theInstance = new InstanceComponentImpl() {
-                        public XSDTypeDefinition getTypeDefinition() {
-                            return itemType;
-                        }
+                    public XSDTypeDefinition getTypeDefinition() {
+                        return itemType;
+                    }
 
-                        public XSDNamedComponent getDeclaration() {
-                            return element;
-                        }
-                        ;
-                    };
-                    
+                    public XSDNamedComponent getDeclaration() {
+                        return element;
+                    }
+
+                    ;
+                };
+
                 for (int i = 0; i < list.length; i++) {
                     theInstance.setText(list[i]);
 
@@ -300,10 +300,10 @@ public class ParseExecutor implements Visitor {
                 //atomic
 
                 //walk through the facets and preparse as necessary 
-                for (Iterator f = type.getFacets().iterator(); f.hasNext();) {
+                for (Iterator f = type.getFacets().iterator(); f.hasNext(); ) {
                     XSDFacet facet = (XSDFacet) f.next();
 
-                    
+
                     if (facet instanceof XSDWhiteSpaceFacet && !parser.isCDATA()) {
                         XSDWhiteSpaceFacet whitespace = (XSDWhiteSpaceFacet) facet;
 
@@ -316,9 +316,11 @@ public class ParseExecutor implements Visitor {
                         }
 
                         if (whitespace.getValue() == XSDWhiteSpace.PRESERVE_LITERAL) {
-                            // XML spec seems to indicate that this is wrong, but then abstracts etc look wrong.
+                            // XML spec seems to indicate that this is wrong, but then abstracts 
+                            // etc look wrong.
                             // https://www.w3.org/TR/xmlschema-2/#dt-whiteSpace
-                            // however we need to not trim attributes as then GML coordinates don't work!
+                            // however we need to not trim attributes as then GML coordinates 
+                            // don't work!
                             if (!(instance instanceof AttributeInstance)) {
                                 text = text.trim();
                             }
@@ -355,7 +357,7 @@ public class ParseExecutor implements Visitor {
                 XSDSimpleTypeDefinition simpleType = (XSDSimpleTypeDefinition) type;
                 List facets = simpleType.getFacets();
 
-                for (Iterator itr = facets.iterator(); itr.hasNext();) {
+                for (Iterator itr = facets.iterator(); itr.hasNext(); ) {
                     XSDFacet facet = (XSDFacet) itr.next();
 
                     if ("whiteSpace".equals(facet.getFacetName())) {

@@ -7,8 +7,6 @@ import org.geotools.styling.SLDTransformer;
 import org.opengis.filter.FilterFactory2;
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class AbstractStyleTest {

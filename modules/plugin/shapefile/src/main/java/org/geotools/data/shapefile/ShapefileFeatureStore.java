@@ -40,7 +40,7 @@ import org.opengis.filter.Filter;
 
 /**
  * FeatureStore for the Shapefile store, based on the {@link ContentFeatureStore} framework
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 class ShapefileFeatureStore extends ContentFeatureStore {
@@ -56,7 +56,8 @@ class ShapefileFeatureStore extends ContentFeatureStore {
 
     @Override
     protected FeatureWriter<SimpleFeatureType, SimpleFeature> getWriterInternal(Query query,
-            int flags) throws IOException {
+                                                                                int flags) throws
+            IOException {
         if (flags == 0) {
             throw new IllegalArgumentException("no write flags set");
         }
@@ -65,10 +66,12 @@ class ShapefileFeatureStore extends ContentFeatureStore {
                 .getReaderInternal(Query.ALL);
         ShapefileFeatureWriter writer;
         ShapefileDataStore ds = getDataStore();
-        if(ds.indexManager.hasFidIndex(false) || ds.isFidIndexed() && ds.indexManager.hasFidIndex(true)) {
-            writer = new IndexedShapefileFeatureWriter(ds.indexManager, reader, ds.getCharset(), ds.getTimeZone());
+        if (ds.indexManager.hasFidIndex(false) || ds.isFidIndexed() && ds.indexManager
+                .hasFidIndex(true)) {
+            writer = new IndexedShapefileFeatureWriter(ds.indexManager, reader, ds.getCharset(), 
+                    ds.getTimeZone());
         } else {
-            writer = new ShapefileFeatureWriter(delegate.shpFiles, reader, ds.getCharset(), 
+            writer = new ShapefileFeatureWriter(delegate.shpFiles, reader, ds.getCharset(),
                     ds.getTimeZone());
         }
         writer.setMaxShpSize(getDataStore().getMaxShpSize());
@@ -172,5 +175,5 @@ class ShapefileFeatureStore extends ContentFeatureStore {
     protected boolean handleVisitor(Query query, FeatureVisitor visitor) throws IOException {
         return delegate.handleVisitor(query, visitor);
     }
-    
+
 }

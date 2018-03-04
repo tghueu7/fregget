@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -49,11 +49,8 @@ import org.opengis.referencing.operation.TransformException;
 import com.vividsolutions.jts.geom.Envelope;
 
 /**
- * 
  * @author Jesse
  * @author ported from PostPreProcessFilterSplittingVisitor at 2.5.2 by Gabriel Roldan
- *
- *
  * @source $URL$
  */
 @SuppressWarnings("nls")
@@ -114,14 +111,13 @@ public class AbstractCapabilitiesFilterSplitterTests {
     /**
      * Runs 3 tests. 1 with out filtercapabilities containing filter type. 1 with filter caps
      * containing filter type 1 with an edit to the attribute being queried by filter.
-     * 
-     * @param filter
-     *            filter to process
-     * @param filterTypeMask
-     *            the constant in {@link FilterCapabilities} that is equivalent to the FilterType
-     *            used in filter
-     * @param attToEdit
-     *            the attribute in filter that is queried. If null then edit test is not ran.
+     *
+     * @param filter         filter to process
+     * @param filterTypeMask the constant in {@link FilterCapabilities} that is equivalent to the
+     *                      FilterType
+     *                       used in filter
+     * @param attToEdit      the attribute in filter that is queried. If null then edit test is 
+     *                       not ran.
      */
     protected void runTest(Filter filter, Capabilities supportedCaps, String attToEdit)
             throws SchemaException {
@@ -165,7 +161,7 @@ public class AbstractCapabilitiesFilterSplitterTests {
     protected PropertyIsEqualTo createFunctionFilter() throws Exception {
 
         FilterFunction_geometryType geomTypeExpr = new FilterFunction_geometryType();
-        geomTypeExpr.setParameters(Arrays.asList(new Expression[] { ff.property("geom") }));
+        geomTypeExpr.setParameters(Arrays.asList(new Expression[]{ff.property("geom")}));
 
         PropertyIsEqualTo filter = ff.equals(geomTypeExpr, ff.literal("Polygon"));
         return filter;

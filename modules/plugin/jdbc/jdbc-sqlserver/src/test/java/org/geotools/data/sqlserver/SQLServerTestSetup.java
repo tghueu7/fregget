@@ -24,8 +24,6 @@ import org.geotools.jdbc.JDBCDataStoreFactory;
 import org.geotools.jdbc.JDBCTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SQLServerTestSetup extends JDBCTestSetup {
@@ -34,7 +32,7 @@ public class SQLServerTestSetup extends JDBCTestSetup {
     protected JDBCDataStoreFactory createDataStoreFactory() {
         return new SQLServerDataStoreFactory();
     }
-    
+
     @Override
     protected Properties createExampleFixture() {
         Properties fixture = new Properties();
@@ -47,17 +45,17 @@ public class SQLServerTestSetup extends JDBCTestSetup {
         fixture.put("password", "geotools");
         return fixture;
     }
-    
+
     protected void setUpDataStore(JDBCDataStore dataStore) {
         super.setUpDataStore(dataStore);
-        
-        dataStore.setDatabaseSchema( null );
+
+        dataStore.setDatabaseSchema(null);
     }
-    
+
     protected void setUpData() throws Exception {
         //drop old data
         runSafe("DROP TABLE ft1");
-        
+
         runSafe("DROP TABLE ft_from");
 
         try {
@@ -68,29 +66,31 @@ public class SQLServerTestSetup extends JDBCTestSetup {
         //create the data
 
         String sql = "CREATE TABLE ft1 (id int IDENTITY(0,1) PRIMARY KEY, "
-            + "geometry geometry, intProperty int, "
-            + "doubleProperty float, stringProperty varchar(255))";
+                + "geometry geometry, intProperty int, "
+                + "doubleProperty float, stringProperty varchar(255))";
         run(sql);
-        
+
         //change column collation to support case-insensitive comparison
-        sql = "ALTER TABLE ft1 ALTER COLUMN stringProperty VARCHAR(255) COLLATE Latin1_General_CS_AS";
-        run(sql);
-        
-        sql = "INSERT INTO ft1 (geometry,intProperty,doubleProperty,stringProperty) VALUES ("
-            + "geometry::STGeomFromText('POINT(0 0)',4326), 0, 0.0,'zero');";
+        sql = "ALTER TABLE ft1 ALTER COLUMN stringProperty VARCHAR(255) COLLATE " +
+                "Latin1_General_CS_AS";
         run(sql);
 
         sql = "INSERT INTO ft1 (geometry,intProperty,doubleProperty,stringProperty) VALUES ("
-            + "geometry::STGeomFromText('POINT(1 1)',4326), 1, 1.1,'one');";
+                + "geometry::STGeomFromText('POINT(0 0)',4326), 0, 0.0,'zero');";
         run(sql);
 
         sql = "INSERT INTO ft1 (geometry,intProperty,doubleProperty,stringProperty) VALUES ("
-            + "geometry::STGeomFromText('POINT(2 2)',4326), 2, 2.2,'two');";
+                + "geometry::STGeomFromText('POINT(1 1)',4326), 1, 1.1,'one');";
         run(sql);
-        
+
+        sql = "INSERT INTO ft1 (geometry,intProperty,doubleProperty,stringProperty) VALUES ("
+                + "geometry::STGeomFromText('POINT(2 2)',4326), 2, 2.2,'two');";
+        run(sql);
+
         // create the spatial index
-        run("CREATE SPATIAL INDEX _ft1_geometry_index on ft1(geometry) WITH (BOUNDING_BOX = (-10, -10, 10, 10))");
-        
+        run("CREATE SPATIAL INDEX _ft1_geometry_index on ft1(geometry) WITH (BOUNDING_BOX = (-10," +
+                " -10, 10, 10))");
+
         // add the ft_from table contents
         sql = "CREATE TABLE ft_from (id int IDENTITY(0,1) PRIMARY KEY, "
                 + "geometry geometry, \"ORIGIN_FROM\" varchar(255))";
@@ -102,11 +102,11 @@ public class SQLServerTestSetup extends JDBCTestSetup {
                 + "geometry::STGeomFromText('POINT(0 -90)',4326), 'SouthPole');";
         run(sql);
     }
-    
+
     @Override
     protected void initializeDataSource(BasicDataSource ds, Properties db) {
         super.initializeDataSource(ds, db);
         ds.setValidationQuery("select 1");
-    }   
+    }
 
 }

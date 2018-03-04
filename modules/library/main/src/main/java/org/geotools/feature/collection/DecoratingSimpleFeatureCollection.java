@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -33,13 +33,13 @@ import org.opengis.filter.sort.SortBy;
 /**
  * A FeatureCollection which completely delegates to another FeatureCollection.
  * <p>
- * This class should be subclasses by classes which must somehow decorate 
- * another SimpleFeatureCollection and override the relevant methods. 
+ * This class should be subclasses by classes which must somehow decorate
+ * another SimpleFeatureCollection and override the relevant methods.
  * </p>
- * @author Justin Deoliveira, The Open Planning Project, jdeolive@openplans.org
- * @since 2.5
  *
+ * @author Justin Deoliveira, The Open Planning Project, jdeolive@openplans.org
  * @source $URL$
+ * @since 2.5
  */
 public class DecoratingSimpleFeatureCollection implements SimpleFeatureCollection {
 
@@ -48,29 +48,29 @@ public class DecoratingSimpleFeatureCollection implements SimpleFeatureCollectio
      */
     protected SimpleFeatureCollection delegate;
 
-    protected DecoratingSimpleFeatureCollection(FeatureCollection<SimpleFeatureType,SimpleFeature> delegate) {
+    protected DecoratingSimpleFeatureCollection(FeatureCollection<SimpleFeatureType, 
+            SimpleFeature> delegate) {
         this.delegate = DataUtilities.simple(delegate);
     }
-    
+
     protected DecoratingSimpleFeatureCollection(SimpleFeatureCollection delegate) {
         this.delegate = delegate;
     }
 
     public void accepts(org.opengis.feature.FeatureVisitor visitor,
-            org.opengis.util.ProgressListener progress) throws IOException {
+                        org.opengis.util.ProgressListener progress) throws IOException {
         if (canDelegate(visitor)) {
             delegate.accepts(visitor, progress);
-        }
-        else {
+        } else {
             DataUtilities.visit(this, visitor, progress);
         }
     }
 
     /**
-     * Methods for subclass to override in order to determine if the supplied visitor can be 
+     * Methods for subclass to override in order to determine if the supplied visitor can be
      * passed to the delegate collection.
      * <p>
-     * The default is false and the visitor receives the decoraeted features. 
+     * The default is false and the visitor receives the decoraeted features.
      * </p>
      */
     protected boolean canDelegate(FeatureVisitor visitor) {

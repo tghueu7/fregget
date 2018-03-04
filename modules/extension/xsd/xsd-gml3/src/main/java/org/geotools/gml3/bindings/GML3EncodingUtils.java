@@ -59,15 +59,12 @@ import com.vividsolutions.jts.geom.LineString;
 
 /**
  * Utility class for gml3 encoding.
- * 
+ *
  * @author Justin Deoliveira, The Open Planning Project, jdeolive@openplans.org
  * @author Ben Caradoc-Davies, CSIRO Exploration and Mining
- * 
- *
- *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/extension/xsd/xsd-gml3/src/main/java/org
- *         /geotools/gml3/bindings/GML3EncodingUtils.java $
+ * http://svn.osgeo.org/geotools/trunk/modules/extension/xsd/xsd-gml3/src/main/java/org
+ * /geotools/gml3/bindings/GML3EncodingUtils.java $
  */
 public class GML3EncodingUtils {
 
@@ -117,7 +114,7 @@ public class GML3EncodingUtils {
     static CoordinateReferenceSystem getCRS(Geometry g) {
         return GML2EncodingUtils.getCRS(g);
     }
-    
+
     /**
      * Get uomLabels for the geometry if set in app-schema mapping configuration.
      */
@@ -177,14 +174,13 @@ public class GML3EncodingUtils {
     static void setDescription(Geometry g, String description) {
         GML2EncodingUtils.setDescription(g, description);
     }
-    
+
     /**
      * Set a synthetic gml:id on each child of a multigeometry. If the multigeometry has no gml:id,
      * this method has no effect. The synthetic gml:id of each child is constructed from that of the
      * parent by appending "." and then an integer starting from one for the first child.
-     * 
-     * @param multiGeometry
-     *            parent multigeometry containing the children to be modified
+     *
+     * @param multiGeometry parent multigeometry containing the children to be modified
      */
     static void setChildIDs(Geometry multiGeometry) {
         String id = getID(multiGeometry);
@@ -222,7 +218,8 @@ public class GML3EncodingUtils {
      * <li>PolygonPropertyType
      * </ul>
      */
-    public Object GeometryPropertyType_GetProperty(Geometry geometry, QName name, boolean makeEmpty) {
+    public Object GeometryPropertyType_GetProperty(Geometry geometry, QName name, boolean 
+            makeEmpty) {
         return e.GeometryPropertyType_getProperty(geometry, name, true, makeEmpty);
     }
 
@@ -256,14 +253,14 @@ public class GML3EncodingUtils {
     }
 
     public Element AbstractFeatureTypeEncode(Object object, Document document, Element value,
-            XSDIdRegistry idSet) {
+                                             XSDIdRegistry idSet) {
         Feature feature = (Feature) object;
         String id = null;
         FeatureId identifier = feature.getIdentifier();
         if (identifier != null) {
             id = identifier.getRid();
         }
-        
+
         Name typeName;
         if (feature.getDescriptor() == null) {
             // no descriptor, assume WFS feature type name is the same as the name of the content
@@ -303,12 +300,13 @@ public class GML3EncodingUtils {
      * @deprecated use {@link #AbstractFeatureTypeEncode(Object, Document, Element, XSDIdRegistry)}
      */
     public static Element AbstractFeatureType_encode(Object object, Document document,
-            Element value, XSDIdRegistry idSet) {
+                                                     Element value, XSDIdRegistry idSet) {
         return INSTANCE.AbstractFeatureTypeEncode(object, document, value, idSet);
     }
 
     public List AbstractFeatureTypeGetProperties(Object object, XSDElementDeclaration element,
-            SchemaIndex schemaIndex, Configuration configuration) {
+                                                 SchemaIndex schemaIndex, Configuration 
+                                                         configuration) {
         return e.AbstractFeatureType_getProperties(
                 object,
                 element,
@@ -319,11 +317,13 @@ public class GML3EncodingUtils {
 
     /**
      * @deprecated use
-     *             {@link #AbstractFeatureTypeGetProperties(Object, XSDElementDeclaration, SchemaIndex, Configuration)
-
+     * {@link #AbstractFeatureTypeGetProperties(Object, XSDElementDeclaration, SchemaIndex, 
+     * Configuration)
      */
     public static List AbstractFeatureType_getProperties(Object object,
-            XSDElementDeclaration element, SchemaIndex schemaIndex, Configuration configuration) {
+                                                         XSDElementDeclaration element, 
+                                                         SchemaIndex schemaIndex, Configuration 
+                                                                 configuration) {
         return INSTANCE.AbstractFeatureTypeGetProperties(object, element, schemaIndex,
                 configuration);
     }
@@ -331,11 +331,9 @@ public class GML3EncodingUtils {
     /**
      * Encode any client properties (XML attributes) found in the UserData map of a ComplexAttribute
      * as XML attributes of the element.
-     * 
-     * @param complex
-     *            the ComplexAttribute to search for client properties
-     * @param element
-     *            the element to which XML attributes should be added
+     *
+     * @param complex the ComplexAttribute to search for client properties
+     * @param element the element to which XML attributes should be added
      */
     @SuppressWarnings("unchecked")
     public static void encodeClientProperties(Property complex, Element element) {
@@ -353,21 +351,18 @@ public class GML3EncodingUtils {
 
     /**
      * Encode the simpleContent property of a ComplexAttribute (if any) as an XML text node.
-     * 
      * <p>
-     * 
+     * <p>
+     * <p>
      * A property named simpleContent is a convention for representing XSD complexType with
      * simpleContent in GeoAPI.
-     * 
-     * @param complex
-     *            the ComplexAttribute to be searched for simpleContent
-     * @param document
-     *            the containing document
-     * @param element
-     *            the element to which text node should be added
+     *
+     * @param complex  the ComplexAttribute to be searched for simpleContent
+     * @param document the containing document
+     * @param element  the element to which text node should be added
      */
     public static void encodeSimpleContent(ComplexAttribute complex, Document document,
-            Element element) {
+                                           Element element) {
         Object value = getSimpleContent(complex);
         encodeAsText(document, element, value);
     }
@@ -382,7 +377,7 @@ public class GML3EncodingUtils {
     /**
      * Return the simple content of a {@link ComplexAttribute} if it represents a complexType with
      * simpleContent, otherwise null.
-     * 
+     *
      * @param complex
      * @return
      */

@@ -29,14 +29,17 @@ public class ResourceIdTypeBindingTest extends FESTestSupport {
                 + "   xmlns:fes='http://www.opengis.net/fes/2.0' "
                 + "   xmlns:gml='http://www.opengis.net/gml/3.2' "
                 + "   xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' "
-                + "   xsi:schemaLocation='http://www.opengis.net/fes/2.0 http://schemas.opengis.net/filter/2.0/filterAll.xsd"
+                + "   xsi:schemaLocation='http://www.opengis.net/fes/2.0 http://schemas.opengis" +
+                ".net/filter/2.0/filterAll.xsd"
                 + " http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd'>"
-                + "   <fes:ResourceId rid=\"rid1@abc\" previousRid=\"previous1\" version=\"FIRST\"/> "
+                + "   <fes:ResourceId rid=\"rid1@abc\" previousRid=\"previous1\" " +
+                "version=\"FIRST\"/> "
                 + "   <fes:ResourceId rid=\"rid2\" version=\"LAST\"/> "
                 + "   <fes:ResourceId rid=\"rid3\" version=\"PREVIOUS\"/> "
                 + "   <fes:ResourceId rid=\"rid4\" version=\"NEXT\"/> "
                 + "   <fes:ResourceId rid=\"rid5\" version=\"ALL\"/> "
-                + "   <fes:ResourceId rid=\"rid6\" previousRid=\"previous2\" version=\"4\" startDate=\"1977-01-17T01:05:40Z\" endDate=\"2011-07-29T23:49:40Z\" /> "
+                + "   <fes:ResourceId rid=\"rid6\" previousRid=\"previous2\" version=\"4\" " +
+                "startDate=\"1977-01-17T01:05:40Z\" endDate=\"2011-07-29T23:49:40Z\" /> "
                 + "   <fes:ResourceId rid=\"rid7@123\" version=\"1977-01-17T01:05:40Z\"/> "
                 + "</fes:Filter>";
 
@@ -63,27 +66,27 @@ public class ResourceIdTypeBindingTest extends FESTestSupport {
         FilterFactory ff = CommonFactoryFinder.getFilterFactory(null);
 
         // This is in consistent as the FIRST entry cannot have a previous1
-        ResourceIdImpl resourceId =  new ResourceIdImpl("rid1", "abc", new Version(FIRST));
+        ResourceIdImpl resourceId = new ResourceIdImpl("rid1", "abc", new Version(FIRST));
         resourceId.setPreviousRid("previous1");
-        assertEquals( resourceId.getID(), ids.get(0).getID());
-        
+        assertEquals(resourceId.getID(), ids.get(0).getID());
+
         assertEquals(ff.resourceId("rid2", "", new Version(LAST)).getID(),
-                     ids.get(1).getID());
+                ids.get(1).getID());
         assertEquals(ff.resourceId("rid3", "", new Version(PREVIOUS)).getID(),
-                     ids.get(2).getID());
+                ids.get(2).getID());
         assertEquals(ff.resourceId("rid4", "", new Version(NEXT)).getID(),
-                     ids.get(3).getID());
+                ids.get(3).getID());
         assertEquals(ff.resourceId("rid5", "", new Version(ALL)).getID(),
-                     ids.get(4).getID());
-        
+                ids.get(4).getID());
+
         // This is inconsistent as date and resource based query cannot be used at the same time
-        ResourceIdImpl resourceId2 =  new ResourceIdImpl("rid6", "", new Version(4));
+        ResourceIdImpl resourceId2 = new ResourceIdImpl("rid6", "", new Version(4));
         resourceId2.setPreviousRid("previous2");
         resourceId2.setStartTime(date1);
         resourceId2.setEndTime(date2);
-        assertEquals( resourceId2.getID(),
-                      ids.get(5).getID());
-        
-        assertEquals(ff.resourceId("rid7", "123",  new Version(date1)).getID(), ids.get(6).getID());
+        assertEquals(resourceId2.getID(),
+                ids.get(5).getID());
+
+        assertEquals(ff.resourceId("rid7", "123", new Version(date1)).getID(), ids.get(6).getID());
     }
 }

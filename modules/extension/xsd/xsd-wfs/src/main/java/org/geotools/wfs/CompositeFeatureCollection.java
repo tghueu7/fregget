@@ -40,10 +40,6 @@ import org.opengis.filter.identity.FeatureId;
  * </p>
  *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
- *
  * @source $URL$
  */
 public class CompositeFeatureCollection extends DataFeatureCollection {
@@ -130,28 +126,30 @@ public class CompositeFeatureCollection extends DataFeatureCollection {
     }
 
     public boolean addAll(Collection arg0) {
-        throw new RuntimeException("Can't add to a composite featurecollection; you need to add to one of the constituent collections direclty.");
+        throw new RuntimeException("Can't add to a composite featurecollection; you need to add " +
+                "to one of the constituent collections direclty.");
     }
+
     public <T> T[] toArray(T[] arg0) {
         List<T> list = new ArrayList<T>();
         Iterator it = collections.iterator();
-        while(it.hasNext()){
-            FeatureCollection col = (FeatureCollection)it.next();
+        while (it.hasNext()) {
+            FeatureCollection col = (FeatureCollection) it.next();
             FeatureIterator it2 = col.features();
             try {
-                while (it2.hasNext()){
-                    list.add((T)it.next());
+                while (it2.hasNext()) {
+                    list.add((T) it.next());
                 }
-            }
-            finally {
+            } finally {
                 it2.close();
             }
         }
-        
+
         return list.toArray(arg0);
     }
 
     public FeatureId getIdentifier() {
-        throw new RuntimeException("Can't get the id for a composite featurecollection; you need to identify the consituent collections directly.");
+        throw new RuntimeException("Can't get the id for a composite featurecollection; you need " +
+                "to identify the consituent collections directly.");
     }
 }

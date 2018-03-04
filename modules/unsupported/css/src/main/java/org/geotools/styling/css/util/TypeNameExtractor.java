@@ -32,7 +32,7 @@ import org.geotools.styling.css.selector.TypeName;
 
 /**
  * Grabs the type names mentioned in the selectors given to it
- * 
+ *
  * @author Andrea Aime
  */
 public class TypeNameExtractor extends AbstractSelectorVisitor {

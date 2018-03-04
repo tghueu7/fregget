@@ -26,6 +26,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import static org.junit.Assert.*;
 
 /**
@@ -35,62 +36,65 @@ import static org.junit.Assert.*;
  * Hudson build).
  *
  * @author Michael Bedward
- * @since 8.0
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 @RunWith(MultiRepTestRunner.class)
 public class DefaultRenderingExecutorMultiTest extends RenderingExecutorTestBase {
-    
+
     private static final Random rand = new Random();
-    
+
     @Before
     public void localSetup() {
         super.setup();
     }
-    
+
     @After
     public void cleanup() {
         //executor.shutdown();
     }
-    
+
     @Test
     public void submitAndGetStartedEvent() {
         createSubmitObjects();
         listener.setExpected(WaitingRenderingExecutorListener.Type.STARTED);
         executor.submit(mapContent, renderer, graphics, listener);
-        boolean gotEvent = listener.await(WaitingRenderingExecutorListener.Type.STARTED, WAIT_TIMEOUT);
+        boolean gotEvent = listener.await(WaitingRenderingExecutorListener.Type.STARTED, 
+                WAIT_TIMEOUT);
         assertTrue(gotEvent);
     }
-    
+
     @Test
     public void submitAndGetCompletedEvent() {
         createSubmitObjects();
         listener.setExpected(WaitingRenderingExecutorListener.Type.COMPLETED);
         executor.submit(mapContent, renderer, graphics, listener);
-        boolean gotEvent = listener.await(WaitingRenderingExecutorListener.Type.COMPLETED, WAIT_TIMEOUT);
+        boolean gotEvent = listener.await(WaitingRenderingExecutorListener.Type.COMPLETED, 
+                WAIT_TIMEOUT);
         assertTrue(gotEvent);
     }
 
     @Test
     public void cancelTaskAndGetEvent() {
         createSubmitObjects();
-        
+
         // set random painting time
         long time = (long) (WAIT_TIMEOUT * 0.5 * rand.nextDouble());
         renderer.setPaintTime(time);
         renderer.setVerbose(false);
-        
+
         listener.setExpected(WaitingRenderingExecutorListener.Type.STARTED);
         listener.setExpected(WaitingRenderingExecutorListener.Type.FAILED);
-        
+
         long id = executor.submit(mapContent, renderer, graphics, listener);
         assertTrue(listener.await(WaitingRenderingExecutorListener.Type.STARTED, WAIT_TIMEOUT));
-        
+
         executor.cancel(id);
-        boolean gotFailed = listener.await(WaitingRenderingExecutorListener.Type.FAILED, WAIT_TIMEOUT);
-        assertTrue(gotFailed || listener.eventReceived(WaitingRenderingExecutorListener.Type.COMPLETED));
+        boolean gotFailed = listener.await(WaitingRenderingExecutorListener.Type.FAILED, 
+                WAIT_TIMEOUT);
+        assertTrue(gotFailed || listener.eventReceived(WaitingRenderingExecutorListener.Type
+                .COMPLETED));
     }
 
 }

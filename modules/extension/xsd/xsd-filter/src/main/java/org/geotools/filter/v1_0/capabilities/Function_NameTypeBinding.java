@@ -18,8 +18,10 @@ package org.geotools.filter.v1_0.capabilities;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 import java.util.List;
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.capability.FunctionName;
 import org.geotools.xml.*;
@@ -27,9 +29,9 @@ import org.geotools.xml.*;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:Function_NameType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="Function_NameType"&gt;
  *      &lt;xsd:simpleContent&gt;
@@ -44,9 +46,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class Function_NameTypeBinding extends AbstractComplexBinding {
@@ -84,7 +83,7 @@ public class Function_NameTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         String name = (String) value;
 
         //&lt;xsd:attribute name="nArgs" type="xsd:string" use="required"/&gt;
@@ -94,7 +93,7 @@ public class Function_NameTypeBinding extends AbstractComplexBinding {
     }
 
     public Element encode(Object object, Document document, Element value)
-        throws Exception {
+            throws Exception {
         FunctionName function = (FunctionName) object;
         value.appendChild(document.createTextNode(function.getName()));
         value.setAttributeNS("", "nArgs", function.getArgumentCount() + "");

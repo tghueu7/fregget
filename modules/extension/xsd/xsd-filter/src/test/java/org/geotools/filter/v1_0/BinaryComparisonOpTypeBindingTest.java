@@ -28,8 +28,6 @@ import org.geotools.xml.Binding;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class BinaryComparisonOpTypeBindingTest extends FilterTestSupport {
@@ -60,9 +58,10 @@ public class BinaryComparisonOpTypeBindingTest extends FilterTestSupport {
 
         Document dom = encode(equalTo, OGC.PropertyIsEqualTo);
         assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart())
+                        .getLength());
         assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
     }
 
     public void testPropertyIsNotEqualToType() {
@@ -88,9 +87,10 @@ public class BinaryComparisonOpTypeBindingTest extends FilterTestSupport {
 
         Document dom = encode(equalTo, OGC.PropertyIsNotEqualTo);
         assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart())
+                        .getLength());
         assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
     }
 
     public void testPropertyIsLessThanType() {
@@ -116,14 +116,15 @@ public class BinaryComparisonOpTypeBindingTest extends FilterTestSupport {
 
         Document dom = encode(equalTo, OGC.PropertyIsLessThan);
         assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart())
+                        .getLength());
         assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
     }
 
     public void testPropertyIsLessThanOrEqualToType() {
         assertEquals(PropertyIsLessThanOrEqualTo.class,
-            binding(OGC.PropertyIsLessThanOrEqualTo).getType());
+                binding(OGC.PropertyIsLessThanOrEqualTo).getType());
     }
 
     public void testPropertyIsLessThanOrEqualToExecutionMode() {
@@ -131,7 +132,7 @@ public class BinaryComparisonOpTypeBindingTest extends FilterTestSupport {
     }
 
     public void testPropertyIsLessThanOrEqualToParse()
-        throws Exception {
+            throws Exception {
         FilterMockData.propertyIsLessThanOrEqualTo(document, document);
 
         PropertyIsLessThanOrEqualTo equalTo = (PropertyIsLessThanOrEqualTo) parse();
@@ -142,14 +143,15 @@ public class BinaryComparisonOpTypeBindingTest extends FilterTestSupport {
     }
 
     public void testPropertyIsLessThanOrEqualToEncode()
-        throws Exception {
+            throws Exception {
         PropertyIsLessThanOrEqualTo equalTo = FilterMockData.propertyIsLessThanOrEqualTo();
 
         Document dom = encode(equalTo, OGC.PropertyIsLessThanOrEqualTo);
         assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart())
+                        .getLength());
         assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
     }
 
     public void testPropertyIsGreaterThanType() {
@@ -175,14 +177,15 @@ public class BinaryComparisonOpTypeBindingTest extends FilterTestSupport {
 
         Document dom = encode(equalTo, OGC.PropertyIsGreaterThan);
         assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart())
+                        .getLength());
         assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
     }
 
     public void testPropertyIsGreaterThanOrEqualToType() {
         assertEquals(PropertyIsGreaterThanOrEqualTo.class,
-            binding(OGC.PropertyIsGreaterThanOrEqualTo).getType());
+                binding(OGC.PropertyIsGreaterThanOrEqualTo).getType());
     }
 
     public void testPropertyIsGreaterThanOrEqualToExecutionMode() {
@@ -190,7 +193,7 @@ public class BinaryComparisonOpTypeBindingTest extends FilterTestSupport {
     }
 
     public void testPropertyIsGreaterThanOrEqualToParse()
-        throws Exception {
+            throws Exception {
         FilterMockData.propertyIsGreaterThanOrEqualTo(document, document);
 
         PropertyIsGreaterThanOrEqualTo equalTo = (PropertyIsGreaterThanOrEqualTo) parse();
@@ -201,13 +204,14 @@ public class BinaryComparisonOpTypeBindingTest extends FilterTestSupport {
     }
 
     public void testPropertyIsGreaterThanOrEqualToEncode()
-        throws Exception {
+            throws Exception {
         PropertyIsGreaterThanOrEqualTo equalTo = FilterMockData.propertyIsGreaterThanOrEqualTo();
 
         Document dom = encode(equalTo, OGC.PropertyIsGreaterThanOrEqualTo);
         assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart())
+                        .getLength());
         assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
     }
 }

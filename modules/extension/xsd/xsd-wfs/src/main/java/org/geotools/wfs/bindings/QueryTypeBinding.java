@@ -31,9 +31,9 @@ import org.geotools.xml.AbstractComplexEMFBinding;
 
 /**
  * Binding object for the type http://www.opengis.net/wfs:QueryType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *         &lt;code&gt;
  *  &lt;xsd:complexType name=&quot;QueryType&quot;&gt;
@@ -78,7 +78,8 @@ import org.geotools.xml.AbstractComplexEMFBinding;
  *                  &lt;/xsd:annotation&gt;
  *              &lt;/xsd:element&gt;
  *          &lt;/xsd:choice&gt;
- *          &lt;xsd:element maxOccurs=&quot;1&quot; minOccurs=&quot;0&quot; ref=&quot;ogc:Filter&quot;&gt;
+ *          &lt;xsd:element maxOccurs=&quot;1&quot; minOccurs=&quot;0&quot; ref=&quot;
+ *          ogc:Filter&quot;&gt;
  *              &lt;xsd:annotation&gt;
  *                  &lt;xsd:documentation&gt;
  *                  The Filter element is used to define spatial and/or non-spatial
@@ -89,7 +90,8 @@ import org.geotools.xml.AbstractComplexEMFBinding;
  *               &lt;/xsd:documentation&gt;
  *              &lt;/xsd:annotation&gt;
  *          &lt;/xsd:element&gt;
- *          &lt;xsd:element maxOccurs=&quot;1&quot; minOccurs=&quot;0&quot; ref=&quot;ogc:SortBy&quot;&gt;
+ *          &lt;xsd:element maxOccurs=&quot;1&quot; minOccurs=&quot;0&quot; ref=&quot;
+ *          ogc:SortBy&quot;&gt;
  *              &lt;xsd:annotation&gt;
  *                  &lt;xsd:documentation&gt;
  *                  The SortBy element is used specify property names whose
@@ -99,7 +101,8 @@ import org.geotools.xml.AbstractComplexEMFBinding;
  *              &lt;/xsd:annotation&gt;
  *          &lt;/xsd:element&gt;
  *      &lt;/xsd:sequence&gt;
- *      &lt;xsd:attribute name=&quot;handle&quot; type=&quot;xsd:string&quot; use=&quot;optional&quot;&gt;
+ *      &lt;xsd:attribute name=&quot;handle&quot; type=&quot;xsd:string&quot; use=&quot;
+ *      optional&quot;&gt;
  *          &lt;xsd:annotation&gt;
  *              &lt;xsd:documentation&gt;
  *                 The handle attribute allows a client application
@@ -113,7 +116,8 @@ import org.geotools.xml.AbstractComplexEMFBinding;
  *              &lt;/xsd:documentation&gt;
  *          &lt;/xsd:annotation&gt;
  *      &lt;/xsd:attribute&gt;
- *      &lt;xsd:attribute name=&quot;typeName&quot; type=&quot;wfs:TypeNameListType&quot; use=&quot;required&quot;&gt;
+ *      &lt;xsd:attribute name=&quot;typeName&quot; type=&quot;wfs:TypeNameListType&quot; 
+ *      use=&quot;required&quot;&gt;
  *          &lt;xsd:annotation&gt;
  *              &lt;xsd:documentation&gt;
  *                The typeName attribute is a list of one or more
@@ -127,7 +131,8 @@ import org.geotools.xml.AbstractComplexEMFBinding;
  *             &lt;/xsd:documentation&gt;
  *          &lt;/xsd:annotation&gt;
  *      &lt;/xsd:attribute&gt;
- *      &lt;xsd:attribute name=&quot;featureVersion&quot; type=&quot;xsd:string&quot; use=&quot;optional&quot;&gt;
+ *      &lt;xsd:attribute name=&quot;featureVersion&quot; type=&quot;xsd:string&quot; use=&quot;
+ *      optional&quot;&gt;
  *          &lt;xsd:annotation&gt;
  *              &lt;xsd:documentation&gt;
  *                For systems that implement versioning, the featureVersion
@@ -139,7 +144,8 @@ import org.geotools.xml.AbstractComplexEMFBinding;
  *             &lt;/xsd:documentation&gt;
  *          &lt;/xsd:annotation&gt;
  *      &lt;/xsd:attribute&gt;
- *      &lt;xsd:attribute name=&quot;srsName&quot; type=&quot;xsd:anyURI&quot; use=&quot;optional&quot;&gt;
+ *      &lt;xsd:attribute name=&quot;srsName&quot; type=&quot;xsd:anyURI&quot; use=&quot;
+ *      optional&quot;&gt;
  *          &lt;xsd:annotation&gt;
  *              &lt;xsd:documentation&gt;
  *                This attribute is used to specify a specific WFS-supported SRS
@@ -156,15 +162,13 @@ import org.geotools.xml.AbstractComplexEMFBinding;
  *  &lt;/xsd:complexType&gt;
  * &lt;/code&gt;
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
-@SuppressWarnings( { "nls", "unchecked" })
+@SuppressWarnings({"nls", "unchecked"})
 public class QueryTypeBinding extends AbstractComplexEMFBinding {
     public QueryTypeBinding(WfsFactory factory) {
         super(factory);
@@ -193,13 +197,13 @@ public class QueryTypeBinding extends AbstractComplexEMFBinding {
             List typeName = query.getTypeName();
             StringBuilder typeNameList = new StringBuilder();
             if (typeName != null) {
-                for (Iterator it = typeName.iterator(); it.hasNext();) {
+                for (Iterator it = typeName.iterator(); it.hasNext(); ) {
                     Object o = it.next();
                     if (o instanceof QName) {
                         QName qName = (QName) o;
-                        o = qName.getPrefix() + ":" + qName.getLocalPart(); 
+                        o = qName.getPrefix() + ":" + qName.getLocalPart();
                     }
-                    
+
                     typeNameList.append(o);
                     if (it.hasNext()) {
                         typeNameList.append(",");
@@ -217,7 +221,7 @@ public class QueryTypeBinding extends AbstractComplexEMFBinding {
 
         return super.getProperty(object, name);
     }
-    
+
     @Override
     protected void setProperty(EObject eObject, String property, Object value, boolean lax) {
         if ("typeName".equals(property)) {
@@ -226,7 +230,7 @@ public class QueryTypeBinding extends AbstractComplexEMFBinding {
                 query.setTypeName(new ArrayList());
             }
         }
-        
+
         super.setProperty(eObject, property, value, lax);
     }
 }

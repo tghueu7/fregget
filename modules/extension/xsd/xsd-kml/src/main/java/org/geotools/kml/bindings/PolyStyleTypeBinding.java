@@ -18,6 +18,7 @@ package org.geotools.kml.bindings;
 
 import java.awt.Color;
 import javax.xml.namespace.QName;
+
 import org.geotools.kml.KML;
 import org.geotools.styling.PolygonSymbolizer;
 import org.geotools.styling.StyleBuilder;
@@ -29,9 +30,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://earth.google.com/kml/2.1:PolyStyleType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType final="#all" name="PolyStyleType"&gt;
  *      &lt;complexContent&gt;
@@ -49,9 +50,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class PolyStyleTypeBinding extends AbstractComplexBinding {
@@ -89,7 +87,7 @@ public class PolyStyleTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         Color color = (Color) value;
         PolygonSymbolizer poly = sb.createPolygonSymbolizer();
 

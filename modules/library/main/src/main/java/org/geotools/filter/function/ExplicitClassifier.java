@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -20,16 +20,14 @@ import java.util.Set;
 
 /**
  * Explicit classification for a set of values.
- * 
+ *
  * @author jody
- *
- *
  * @source $URL$
  */
 public final class ExplicitClassifier extends Classifier {
 
     Set[] values = null; //the contents of each bin (set of objects)
-    
+
     public ExplicitClassifier(Set[] values) {
         this.values = values;
         //initialize titles
@@ -48,14 +46,14 @@ public final class ExplicitClassifier extends Classifier {
             }
         }
     }
-    
+
     public int getSize() {
         return values.length;
     }
-    
+
     /**
      * Returns all the unique values for a particular slot.
-     * 
+     *
      * @param index
      * @return all applicable values for a slot
      */
@@ -63,7 +61,7 @@ public final class ExplicitClassifier extends Classifier {
         return values[index];
     }
 
-    
+
     public int classify(Object value) {
         for (int i = 0; i < values.length; i++) {
             if (values[i].contains(value)) {
@@ -72,5 +70,5 @@ public final class ExplicitClassifier extends Classifier {
         }
         return -1;
     }
-    
+
 }

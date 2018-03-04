@@ -25,10 +25,10 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/se:GraphicFill.
- *
  * <p>
- *	<pre>
- *	 <code>
+ * <p>
+ * <pre>
+ * 	 <code>
  *  &lt;xsd:element name="GraphicFill" type="se:GraphicFillType"&gt;
  *      &lt;xsd:annotation&gt;
  *          &lt;xsd:documentation&gt;
@@ -36,23 +36,21 @@ import javax.xml.namespace.QName;
  *          pattern for an area geometry.
  *        &lt;/xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
- *  &lt;/xsd:element&gt; 
- *		
- *	  </code>
- *	 </pre>
+ *  &lt;/xsd:element&gt;
+ *
+ * 	  </code>
+ * 	 </pre>
  * </p>
  *
  * @generated
- *
- *
  * @source $URL$
  */
 public class GraphicFillBinding extends SLDGraphicFillBinding {
 
-	/**
-	 * @generated
-	 */
-	public QName getTarget() {
-		return SE.GraphicFill;
-	}
+    /**
+     * @generated
+     */
+    public QName getTarget() {
+        return SE.GraphicFill;
+    }
 }

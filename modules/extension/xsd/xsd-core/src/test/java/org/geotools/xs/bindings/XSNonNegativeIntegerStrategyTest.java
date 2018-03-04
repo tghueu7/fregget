@@ -18,18 +18,17 @@ package org.geotools.xs.bindings;
 
 import java.math.BigInteger;
 import javax.xml.namespace.QName;
+
 import org.geotools.xs.TestSchema;
 import org.geotools.xs.XS;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class XSNonNegativeIntegerStrategyTest extends TestSchema {
     public void validateValues(String text, Number expected)
-        throws Exception {
+            throws Exception {
         Object value = new BigInteger(text.trim());
 
         Object result = strategy.parse(element(text, qname), value);
@@ -43,7 +42,7 @@ public class XSNonNegativeIntegerStrategyTest extends TestSchema {
 
     public BigInteger integer(Object value) {
         return (value instanceof BigInteger) ? ((BigInteger) value)
-                                             : BigInteger.valueOf(((Number) value).longValue());
+                : BigInteger.valueOf(((Number) value).longValue());
     }
 
     public Number number(String number) {
@@ -51,7 +50,8 @@ public class XSNonNegativeIntegerStrategyTest extends TestSchema {
     }
 
     /*
-     * Test method for 'org.geotools.xml.strategies.xs.XSNonPositiveIntegerStrategy.parse(Element, Node[], Object)'
+     * Test method for 'org.geotools.xml.strategies.xs.XSNonPositiveIntegerStrategy.parse
+     * (Element, Node[], Object)'
      */
     public void testNegativeOne() throws Exception {
         try {

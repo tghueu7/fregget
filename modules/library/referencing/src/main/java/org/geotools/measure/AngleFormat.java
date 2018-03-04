@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 1999-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -28,6 +28,7 @@ import java.util.Locale;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.geotools.resources.Classes;
 import org.geotools.resources.i18n.Errors;
 import org.geotools.resources.i18n.ErrorKeys;
@@ -41,13 +42,13 @@ import org.geotools.math.XMath;
  * containing any characters, with a special meaning for the following characters:
  * <p>
  * <blockquote><table cellpadding="3">
- *     <tr><td>{@code D}</td><td>&nbsp;&nbsp;The integer part of degrees</td></tr>
- *     <tr><td>{@code d}</td><td>&nbsp;&nbsp;The fractional part of degrees</td></tr>
- *     <tr><td>{@code M}</td><td>&nbsp;&nbsp;The integer part of minutes</td></tr>
- *     <tr><td>{@code m}</td><td>&nbsp;&nbsp;The fractional part of minutes</td></tr>
- *     <tr><td>{@code S}</td><td>&nbsp;&nbsp;The integer part of seconds</td></tr>
- *     <tr><td>{@code s}</td><td>&nbsp;&nbsp;The fractional part of seconds</td></tr>
- *     <tr><td>{@code .}</td><td>&nbsp;&nbsp;The decimal separator</td></tr>
+ * <tr><td>{@code D}</td><td>&nbsp;&nbsp;The integer part of degrees</td></tr>
+ * <tr><td>{@code d}</td><td>&nbsp;&nbsp;The fractional part of degrees</td></tr>
+ * <tr><td>{@code M}</td><td>&nbsp;&nbsp;The integer part of minutes</td></tr>
+ * <tr><td>{@code m}</td><td>&nbsp;&nbsp;The fractional part of minutes</td></tr>
+ * <tr><td>{@code S}</td><td>&nbsp;&nbsp;The integer part of seconds</td></tr>
+ * <tr><td>{@code s}</td><td>&nbsp;&nbsp;The fractional part of seconds</td></tr>
+ * <tr><td>{@code .}</td><td>&nbsp;&nbsp;The decimal separator</td></tr>
  * </table></blockquote>
  * <p>
  * Upper-case letters {@code D}, {@code M} and {@code S} are for the integer
@@ -70,7 +71,7 @@ import org.geotools.math.XMath;
  * "{@code 0480439}" with the pattern "{@code DDDMMmm}" will be parsed as 48°04.39'.
  * <p>
  * The following table gives some examples of legal patterns.
- *
+ * <p>
  * <blockquote><table cellpadding="3">
  * <tr><th>Pattern                </th>  <th>Example   </th></tr>
  * <tr><td><code>DD°MM'SS" </code></td>  <td>48°30'00" </td></tr>
@@ -80,16 +81,13 @@ import org.geotools.math.XMath;
  * <tr><td>{@code DDMMSS    }</td>  <td>483000    </td></tr>
  * </table></blockquote>
  *
+ * @author Martin Desruisseaux (PMO, IRD)
+ * @version $Id$
+ * @source $URL$
  * @see Angle
  * @see Latitude
  * @see Longitude
- *
  * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
- * @author Martin Desruisseaux (PMO, IRD)
  */
 public class AngleFormat extends Format {
     /**
@@ -187,14 +185,14 @@ public class AngleFormat extends Format {
      * que doit avoir la partie décimale. Il s'appliquera au
      * dernier champs non-zero dans {@code width0..2}.
      */
-    private int width0=1, width1=2, width2=0, widthDecimal=0;
+    private int width0 = 1, width1 = 2, width2 = 0, widthDecimal = 0;
 
     /**
      * Caractères à insérer au début ({@code prefix}) et à la
      * suite des degrés, minutes et secondes ({@code suffix0..2}).
      * Ces champs doivent être {@code null} s'il n'y a rien à insérer.
      */
-    private String prefix=null, suffix0="\u00B0", suffix1="'", suffix2="\"";
+    private String prefix = null, suffix0 = "\u00B0", suffix1 = "'", suffix2 = "\"";
 
     /**
      * Indique s'il faut utiliser le séparateur décimal pour séparer la partie
@@ -222,8 +220,7 @@ public class AngleFormat extends Format {
      * Restore fields after deserialization.
      */
     private void readObject(final ObjectInputStream in)
-        throws IOException, ClassNotFoundException
-    {
+            throws IOException, ClassNotFoundException {
         in.defaultReadObject();
         dummy = new FieldPosition(0);
     }
@@ -233,10 +230,14 @@ public class AngleFormat extends Format {
      */
     private int getWidth(final int index) {
         switch (index) {
-            case DEGREES_FIELD:  return width0;
-            case MINUTES_FIELD:  return width1;
-            case SECONDS_FIELD:  return width2;
-            default:             return 0; // Must be 0 (important!)
+            case DEGREES_FIELD:
+                return width0;
+            case MINUTES_FIELD:
+                return width1;
+            case SECONDS_FIELD:
+                return width2;
+            default:
+                return 0; // Must be 0 (important!)
         }
     }
 
@@ -247,9 +248,14 @@ public class AngleFormat extends Format {
     @SuppressWarnings("fallthrough")
     private void setWidth(final int index, int width) {
         switch (index) {
-            case DEGREES_FIELD: width0=width; width=0; // fall through
-            case MINUTES_FIELD: width1=width; width=0; // fall through
-            case SECONDS_FIELD: width2=width;          // fall through
+            case DEGREES_FIELD:
+                width0 = width;
+                width = 0; // fall through
+            case MINUTES_FIELD:
+                width1 = width;
+                width = 0; // fall through
+            case SECONDS_FIELD:
+                width2 = width;          // fall through
         }
     }
 
@@ -258,11 +264,16 @@ public class AngleFormat extends Format {
      */
     private String getSuffix(final int index) {
         switch (index) {
-            case  PREFIX_FIELD: return prefix;
-            case DEGREES_FIELD: return suffix0;
-            case MINUTES_FIELD: return suffix1;
-            case SECONDS_FIELD: return suffix2;
-            default:            return null;
+            case PREFIX_FIELD:
+                return prefix;
+            case DEGREES_FIELD:
+                return suffix0;
+            case MINUTES_FIELD:
+                return suffix1;
+            case SECONDS_FIELD:
+                return suffix2;
+            default:
+                return null;
         }
     }
 
@@ -274,10 +285,17 @@ public class AngleFormat extends Format {
     @SuppressWarnings("fallthrough")
     private void setSuffix(final int index, String s) {
         switch (index) {
-            case  PREFIX_FIELD:  prefix=s; s="\u00B0";  // fall through
-            case DEGREES_FIELD: suffix0=s; s="'";       // fall through
-            case MINUTES_FIELD: suffix1=s; s="\"";      // fall through
-            case SECONDS_FIELD: suffix2=s;              // fall through
+            case PREFIX_FIELD:
+                prefix = s;
+                s = "\u00B0";  // fall through
+            case DEGREES_FIELD:
+                suffix0 = s;
+                s = "'";       // fall through
+            case MINUTES_FIELD:
+                suffix1 = s;
+                s = "\"";      // fall through
+            case SECONDS_FIELD:
+                suffix2 = s;              // fall through
         }
     }
 
@@ -344,7 +362,6 @@ public class AngleFormat extends Format {
      * class created previously.
      *
      * @param method one of {@linkplain AngleFormat.RoundingMethod} constants
-     *
      * @see #setRoundingMethod
      * @see #DEFAULT_ROUNDING_METHOD
      */
@@ -368,7 +385,6 @@ public class AngleFormat extends Format {
      * here will take precedence for this instance.
      *
      * @param method one of {@linkplain AngleFormat.RoundingMethod} constants
-     *
      * @see #setDefaultRoundingMethod
      * @see #DEFAULT_ROUNDING_METHOD
      */
@@ -388,9 +404,8 @@ public class AngleFormat extends Format {
     /**
      * Round a value according to the currently set rounding method for this class.
      *
-     * @param value the value to round
+     * @param value     the value to round
      * @param precision the number of decimal places to retain
-     *
      * @return the rounded value
      * @see AngleFormat.RoundingMethod
      */
@@ -405,15 +420,15 @@ public class AngleFormat extends Format {
 
             if (rm == RoundingMethod.ROUND_HALF_EVEN) {
                 double d = scaledValue / 10d;
-                boolean even = ((int)((d - (int)d) * 10)) % 2 == 0;
+                boolean even = ((int) ((d - (int) d) * 10)) % 2 == 0;
                 rm = even ? RoundingMethod.ROUND_HALF_DOWN : RoundingMethod.ROUND_HALF_UP;
             }
-                    
+
             switch (rm) {
                 case ROUND_HALF_DOWN:
                     rounded = Math.round(scaledValue - 0.5d);
                     return rounded / scale;
-                    
+
                 case ROUND_HALF_UP:
                     rounded = Math.round(scaledValue);
                     return rounded / scale;
@@ -428,39 +443,35 @@ public class AngleFormat extends Format {
         return value;
     }
 
-	/**
-	 * This method senses that there is an overflow in the formatted field.
-	 * 
-	 * <li>60 seconds represent an overflow</li>
-	 * 
-	 * <li>60 minutes represent an overflow</li>
-	 * 
-	 * <li>360 degrees or more represent an overflow</li>
-	 * 
-	 * @param value
-	 *            the value to be checked for overflow
-	 * @param field
-	 *            degrees, minutes or seconds
-	 * @param last
-	 *            {@code true} if this is the last field and we need to add the decimals part
-	 * @return {@code true} if we have an overflow scenario and {@code false} otherwise
-	 * 	
-	 */
-	private boolean isOverflow(double value, final int field, final boolean last) {
+    /**
+     * This method senses that there is an overflow in the formatted field.
+     * <p>
+     * <li>60 seconds represent an overflow</li>
+     * <p>
+     * <li>60 minutes represent an overflow</li>
+     * <p>
+     * <li>360 degrees or more represent an overflow</li>
+     *
+     * @param value the value to be checked for overflow
+     * @param field degrees, minutes or seconds
+     * @param last  {@code true} if this is the last field and we need to add the decimals part
+     * @return {@code true} if we have an overflow scenario and {@code false} otherwise
+     */
+    private boolean isOverflow(double value, final int field, final boolean last) {
 
-		boolean overflow = false;
-		if (last) {
-			value = doRounding(value, widthDecimal);
-		}
-		if (field != DEGREES_FIELD && value == 60) {
-			overflow = true;
-		}
-		if (field == DEGREES_FIELD && value >= 360d) {
-			overflow = true;
-		}
+        boolean overflow = false;
+        if (last) {
+            value = doRounding(value, widthDecimal);
+        }
+        if (field != DEGREES_FIELD && value == 60) {
+            overflow = true;
+        }
+        if (field == DEGREES_FIELD && value >= 360d) {
+            overflow = true;
+        }
 
-		return overflow;
-	}
+        return overflow;
+    }
 
     /**
      * Constructs a new {@code AngleFormat} using
@@ -474,8 +485,8 @@ public class AngleFormat extends Format {
      * Constructs a new {@code AngleFormat} using the
      * current default locale and the specified pattern.
      *
-     * @param  pattern Pattern to use for parsing and formatting angle.
-     *         See class description for an explanation of how this pattern work.
+     * @param pattern Pattern to use for parsing and formatting angle.
+     *                See class description for an explanation of how this pattern work.
      * @throws IllegalArgumentException If the specified pattern is not legal.
      */
     public AngleFormat(final String pattern) throws IllegalArgumentException {
@@ -486,9 +497,9 @@ public class AngleFormat extends Format {
      * Constructs a new {@code AngleFormat}
      * using the specified pattern and locale.
      *
-     * @param  pattern Pattern to use for parsing and formatting angle.
-     *         See class description for an explanation of how this pattern work.
-     * @param  locale Locale to use.
+     * @param pattern Pattern to use for parsing and formatting angle.
+     *                See class description for an explanation of how this pattern work.
+     * @param locale  Locale to use.
      * @throws IllegalArgumentException If the specified pattern is not legal.
      */
     public AngleFormat(final String pattern, final Locale locale) throws IllegalArgumentException {
@@ -499,9 +510,9 @@ public class AngleFormat extends Format {
      * Constructs a new {@code AngleFormat}
      * using the specified pattern and decimal symbols.
      *
-     * @param  pattern Pattern to use for parsing and formatting angle.
-     *         See class description for an explanation of how this pattern work.
-     * @param  symbols The symbols to use for parsing and formatting numbers.
+     * @param pattern Pattern to use for parsing and formatting angle.
+     *                See class description for an explanation of how this pattern work.
+     * @param symbols The symbols to use for parsing and formatting numbers.
      * @throws IllegalArgumentException If the specified pattern is not legal.
      */
     public AngleFormat(final String pattern, final DecimalFormatSymbols symbols) {
@@ -516,7 +527,7 @@ public class AngleFormat extends Format {
      * Sets the pattern to use for parsing and formatting angle.
      * See class description for an explanation of how patterns work.
      *
-     * @param  pattern Pattern to use for parsing and formatting angle.
+     * @param pattern Pattern to use for parsing and formatting angle.
      * @throws IllegalArgumentException If the specified pattern is not legal.
      */
     @SuppressWarnings("fallthrough")
@@ -527,7 +538,7 @@ public class AngleFormat extends Format {
         int symbolIndex = 0;
         boolean parseFinished = false;
         final int length = pattern.length();
-        for (int i=0; i<length; i++) {
+        for (int i = 0; i < length; i++) {
             /*
              * On examine un à un tous les caractères du patron en
              * sautant ceux qui ne sont pas réservés ("D", "M", "S"
@@ -536,7 +547,7 @@ public class AngleFormat extends Format {
              */
             final char c = pattern.charAt(i);
             final char upperCaseC = Character.toUpperCase(c);
-            for (int field=DEGREES_FIELD; field<SYMBOLS.length; field++) {
+            for (int field = DEGREES_FIELD; field < SYMBOLS.length; field++) {
                 if (upperCaseC == SYMBOLS[field]) {
                     /*
                      * Un caractère réservé a été trouvé. Vérifie maintenant
@@ -549,13 +560,13 @@ public class AngleFormat extends Format {
                     if (c == upperCaseC) {
                         symbolIndex++;
                     }
-                    if (field!=symbolIndex-1 || parseFinished) {
+                    if (field != symbolIndex - 1 || parseFinished) {
                         setWidth(DEGREES_FIELD, 1);
                         setSuffix(PREFIX_FIELD, null);
                         widthDecimal = 0;
                         decimalSeparator = true;
                         throw new IllegalArgumentException(Errors.format(
-                                  ErrorKeys.ILLEGAL_ANGLE_PATTERN_$1, pattern));
+                                ErrorKeys.ILLEGAL_ANGLE_PATTERN_$1, pattern));
                     }
                     if (c == upperCaseC) {
                         /*
@@ -564,8 +575,10 @@ public class AngleFormat extends Format {
                          * code se répète, en mémorisant cette information comme largeur
                          * de ce champ.
                          */
-                        setSuffix(field-1, (i>startPrefix) ? pattern.substring(startPrefix, i) : null);
-                        int w=1; while (++i<length && pattern.charAt(i)==c) w++;
+                        setSuffix(field - 1, (i > startPrefix) ? pattern.substring(startPrefix, 
+                                i) : null);
+                        int w = 1;
+                        while (++i < length && pattern.charAt(i) == c) w++;
                         setWidth(field, w);
                     } else {
                         /*
@@ -587,11 +600,12 @@ public class AngleFormat extends Format {
                             }
                             default: {
                                 throw new IllegalArgumentException(Errors.format(
-                                         ErrorKeys.ILLEGAL_ANGLE_PATTERN_$1, pattern));
+                                        ErrorKeys.ILLEGAL_ANGLE_PATTERN_$1, pattern));
                             }
                         }
-                        int w=1; while (++i<length && pattern.charAt(i)==c) w++;
-                        widthDecimal=w;
+                        int w = 1;
+                        while (++i < length && pattern.charAt(i) == c) w++;
+                        widthDecimal = w;
                         parseFinished = true;
                     }
                     startPrefix = i--;
@@ -599,7 +613,7 @@ public class AngleFormat extends Format {
                 }
             }
         }
-        setSuffix(symbolIndex-1, (startPrefix<length) ? pattern.substring(startPrefix) : null);
+        setSuffix(symbolIndex - 1, (startPrefix < length) ? pattern.substring(startPrefix) : null);
     }
 
     /**
@@ -611,8 +625,8 @@ public class AngleFormat extends Format {
     public synchronized String toPattern() {
         char symbol = '#';
         final StringBuilder buffer = new StringBuilder();
-        for (int field=DEGREES_FIELD; field<=SYMBOLS.length; field++) {
-            final String previousSuffix = getSuffix(field-1);
+        for (int field = DEGREES_FIELD; field <= SYMBOLS.length; field++) {
+            final String previousSuffix = getSuffix(field - 1);
             int w = getWidth(field);
             if (w > 0) {
                 /*
@@ -652,7 +666,7 @@ public class AngleFormat extends Format {
      * Format an angle. The string will be formatted according
      * the pattern set in the last call to {@link #applyPattern}.
      *
-     * @param  angle Angle to format, in degrees.
+     * @param angle Angle to format, in degrees.
      * @return The formatted string.
      */
     public final String format(final double angle) {
@@ -664,22 +678,20 @@ public class AngleFormat extends Format {
      * The string will be formatted according the pattern set in the last call
      * to {@link #applyPattern}.
      *
-     * @param  angle      Angle to format, in degrees.
-     * @param  toAppendTo Where the text is to be appended.
-     * @param  pos        An optional {@link FieldPosition} identifying a field
-     *                    in the formatted text, or {@code null} if this
-     *                    information is not wanted. This field position shall
-     *                    be constructed with one of the following constants:
-     *                    {@link #DEGREES_FIELD},
-     *                    {@link #MINUTES_FIELD},
-     *                    {@link #SECONDS_FIELD} or
-     *                    {@link #HEMISPHERE_FIELD}.
-     *
+     * @param angle      Angle to format, in degrees.
+     * @param toAppendTo Where the text is to be appended.
+     * @param pos        An optional {@link FieldPosition} identifying a field
+     *                   in the formatted text, or {@code null} if this
+     *                   information is not wanted. This field position shall
+     *                   be constructed with one of the following constants:
+     *                   {@link #DEGREES_FIELD},
+     *                   {@link #MINUTES_FIELD},
+     *                   {@link #SECONDS_FIELD} or
+     *                   {@link #HEMISPHERE_FIELD}.
      * @return The string buffer passed in as {@code toAppendTo}, with formatted text appended.
      */
     public synchronized StringBuffer format(final double angle, StringBuffer toAppendTo,
-                                            final FieldPosition pos)
-    {
+                                            final FieldPosition pos) {
         if (Double.isNaN(angle) || Double.isInfinite(angle)) {
             return numberFormat.format(angle, toAppendTo,
                     (pos != null) ? pos : new FieldPosition(DecimalFormat.INTEGER_FIELD));
@@ -692,30 +704,32 @@ public class AngleFormat extends Format {
          * vers 0 (ce qui est le comportement souhaité) alors que 'floor' arrondie vers
          * l'entier inférieur.
          */
-        double minutes  = Double.NaN;
+        double minutes = Double.NaN;
         double secondes = Double.NaN;
-        if (width1!=0 && !Double.isNaN(angle)) {
+        if (width1 != 0 && !Double.isNaN(angle)) {
             int tmp = (int) degrees; // Arrondie vers 0 même si négatif.
             minutes = Math.abs(degrees - tmp) * 60;
             degrees = tmp;
-            if (minutes<0 || minutes>60) {
+            if (minutes < 0 || minutes > 60) {
                 // Erreur d'arrondissement (parce que l'angle est trop élevé)
-                throw new IllegalArgumentException(Errors.format(ErrorKeys.ANGLE_OVERFLOW_$1, angle));
+                throw new IllegalArgumentException(Errors.format(ErrorKeys.ANGLE_OVERFLOW_$1, 
+                        angle));
             }
             if (width2 != 0) {
-                tmp      = (int) minutes; // Arrondie vers 0 même si négatif.
+                tmp = (int) minutes; // Arrondie vers 0 même si négatif.
                 secondes = (minutes - tmp) * 60;
-                minutes  = tmp;
-                if (secondes<0 || secondes>60) {
+                minutes = tmp;
+                if (secondes < 0 || secondes > 60) {
                     // Erreur d'arrondissement (parce que l'angle est trop élevé)
-                    throw new IllegalArgumentException(Errors.format(ErrorKeys.ANGLE_OVERFLOW_$1, angle));
+                    throw new IllegalArgumentException(Errors.format(ErrorKeys.ANGLE_OVERFLOW_$1,
+                            angle));
                 }
-                tmp = (int) (secondes/60);
-                secondes -= 60*tmp;
+                tmp = (int) (secondes / 60);
+                secondes -= 60 * tmp;
                 minutes += tmp;
             }
-            tmp = (int) (minutes/60); // Arrondie vers 0 même si négatif.
-            minutes -= 60*tmp;
+            tmp = (int) (minutes / 60); // Arrondie vers 0 même si négatif.
+            minutes -= 60 * tmp;
             degrees += tmp;
         }
         /*
@@ -733,41 +747,41 @@ public class AngleFormat extends Format {
             pos.setBeginIndex(0);
             pos.setEndIndex(0);
         } else {
-            field=PREFIX_FIELD;
+            field = PREFIX_FIELD;
         }
 
-		// Check and manage the seconds overflow
-		if (!Double.isNaN(secondes) && isOverflow(secondes, SECONDS_FIELD, true)) {
-			// set seconds to 0
-			secondes = 0d;
-			// carry over 1 minute
-			minutes = minutes + 1;
-		}
-		// Check and manage the minutes overflow
-		if (!Double.isNaN(minutes) && isOverflow(minutes, MINUTES_FIELD, width2 == 0)) {
-			// set minutes to 0
-			minutes = 0d;
-			// carry over 1 degree
-			degrees = degrees + 1;
-		}
-		// Check and manage the degrees overflow
-		if (isOverflow(degrees, DEGREES_FIELD, width1 == 0)) {
-			// Normalize degrees by 360
-			degrees = degrees - 360d;
-		}
-		
+        // Check and manage the seconds overflow
+        if (!Double.isNaN(secondes) && isOverflow(secondes, SECONDS_FIELD, true)) {
+            // set seconds to 0
+            secondes = 0d;
+            // carry over 1 minute
+            minutes = minutes + 1;
+        }
+        // Check and manage the minutes overflow
+        if (!Double.isNaN(minutes) && isOverflow(minutes, MINUTES_FIELD, width2 == 0)) {
+            // set minutes to 0
+            minutes = 0d;
+            // carry over 1 degree
+            degrees = degrees + 1;
+        }
+        // Check and manage the degrees overflow
+        if (isOverflow(degrees, DEGREES_FIELD, width1 == 0)) {
+            // Normalize degrees by 360
+            degrees = degrees - 360d;
+        }
+
         toAppendTo = formatField(degrees, toAppendTo,
-                                 field == DEGREES_FIELD ? pos : null,
-                                 width0, width1==0, suffix0);
+                field == DEGREES_FIELD ? pos : null,
+                width0, width1 == 0, suffix0);
         if (!Double.isNaN(minutes)) {
             toAppendTo = formatField(minutes, toAppendTo,
-                                   field == MINUTES_FIELD ? pos : null,
-                                   width1, width2==0, suffix1);
+                    field == MINUTES_FIELD ? pos : null,
+                    width1, width2 == 0, suffix1);
         }
         if (!Double.isNaN(secondes)) {
             toAppendTo = formatField(secondes, toAppendTo,
-                                   field == SECONDS_FIELD ? pos : null,
-                                   width2, true, suffix2);
+                    field == SECONDS_FIELD ? pos : null,
+                    width2, true, suffix2);
         }
         return toAppendTo;
     }
@@ -775,21 +789,20 @@ public class AngleFormat extends Format {
     /**
      * Procède à l'écriture d'un champ de l'angle.
      *
-     * @param value Valeur à écrire.
+     * @param value      Valeur à écrire.
      * @param toAppendTo Buffer dans lequel écrire le champs.
-     * @param pos Objet dans lequel mémoriser les index des premiers
-     *        et derniers caractères écrits, ou {@code null}
-     *        pour ne pas mémoriser ces index.
-     * @param w Nombre de minimal caractères de la partie entière.
-     * @param last {@code true} si ce champs est le dernier,
-     *        et qu'il faut donc écrire la partie décimale.
-     * @param s Suffix à écrire après le nombre (peut être nul).
+     * @param pos        Objet dans lequel mémoriser les index des premiers
+     *                   et derniers caractères écrits, ou {@code null}
+     *                   pour ne pas mémoriser ces index.
+     * @param w          Nombre de minimal caractères de la partie entière.
+     * @param last       {@code true} si ce champs est le dernier,
+     *                   et qu'il faut donc écrire la partie décimale.
+     * @param s          Suffix à écrire après le nombre (peut être nul).
      */
     private StringBuffer formatField(double value,
                                      StringBuffer toAppendTo, final FieldPosition pos,
-                                     final int w, final boolean last, final String s)
-    {
-        final int startPosition=toAppendTo.length();
+                                     final int w, final boolean last, final String s) {
+        final int startPosition = toAppendTo.length();
         if (!last) {
             numberFormat.setMinimumIntegerDigits(w);
             numberFormat.setMaximumFractionDigits(0);
@@ -797,7 +810,7 @@ public class AngleFormat extends Format {
 
         } else {
             value = doRounding(value, widthDecimal);
-            
+
             if (decimalSeparator) {
                 numberFormat.setMinimumIntegerDigits(w);
                 numberFormat.setMinimumFractionDigits(widthDecimal);
@@ -810,12 +823,12 @@ public class AngleFormat extends Format {
                 toAppendTo = numberFormat.format(value, toAppendTo, dummy);
             }
         }
-        if (s!=null) {
+        if (s != null) {
             toAppendTo.append(s);
         }
-        if (pos!=null) {
+        if (pos != null) {
             pos.setBeginIndex(startPosition);
-            pos.setEndIndex(toAppendTo.length()-1);
+            pos.setEndIndex(toAppendTo.length() - 1);
         }
         return toAppendTo;
     }
@@ -837,27 +850,25 @@ public class AngleFormat extends Format {
      * only as a convenient way to format altitude numbers together
      * with longitude and latitude angles.
      *
-     * @param  obj        {@link Angle} or {@link Number} object to format.
-     * @param  toAppendTo Where the text is to be appended.
-     * @param  pos        An optional {@link FieldPosition} identifying a field
-     *                    in the formatted text, or {@code null} if this
-     *                    information is not wanted. This field position shall
-     *                    be constructed with one of the following constants:
-     *                    {@link #DEGREES_FIELD},
-     *                    {@link #MINUTES_FIELD},
-     *                    {@link #SECONDS_FIELD} or
-     *                    {@link #HEMISPHERE_FIELD}.
-     *
+     * @param obj        {@link Angle} or {@link Number} object to format.
+     * @param toAppendTo Where the text is to be appended.
+     * @param pos        An optional {@link FieldPosition} identifying a field
+     *                   in the formatted text, or {@code null} if this
+     *                   information is not wanted. This field position shall
+     *                   be constructed with one of the following constants:
+     *                   {@link #DEGREES_FIELD},
+     *                   {@link #MINUTES_FIELD},
+     *                   {@link #SECONDS_FIELD} or
+     *                   {@link #HEMISPHERE_FIELD}.
      * @return The string buffer passed in as {@code toAppendTo}, with
-     *         formatted text appended.
+     * formatted text appended.
      * @throws IllegalArgumentException if {@code obj} if not an object
-     *         of class {@link Angle} or {@link Number}.
+     *                                  of class {@link Angle} or {@link Number}.
      */
     public synchronized StringBuffer format(final Object obj,
                                             StringBuffer toAppendTo,
                                             final FieldPosition pos)
-        throws IllegalArgumentException
-    {
+            throws IllegalArgumentException {
         if (obj instanceof Latitude) {
             return format(((Latitude) obj).degrees(), toAppendTo, pos, NORTH, SOUTH);
         }
@@ -871,7 +882,7 @@ public class AngleFormat extends Format {
             numberFormat.setMinimumIntegerDigits(1);
             numberFormat.setMinimumFractionDigits(0);
             numberFormat.setMaximumFractionDigits(2);
-            return numberFormat.format(obj, toAppendTo, (pos!=null) ? pos : dummy);
+            return numberFormat.format(obj, toAppendTo, (pos != null) ? pos : dummy);
         }
         throw new IllegalArgumentException(Errors.format(ErrorKeys.NOT_AN_ANGLE_OBJECT_$1,
                 Classes.getClass(obj)));
@@ -880,35 +891,36 @@ public class AngleFormat extends Format {
     /**
      * Procède à l'écriture d'un angle, d'une latitude ou d'une longitude.
      *
-     * @param  number     Angle ou nombre à écrire.
-     * @param  type       Type de l'angle ou du nombre:
-     *                    {@link #LONGITUDE},
-     *                    {@link #LATITUDE} ou
-     *                    {@link #ALTITUDE}.
-     * @param  toAppendTo Buffer dans lequel écrire l'angle.
-     * @param  pos        En entré, le code du champs dont on désire les index
-     *                    ({@link #DEGREES_FIELD},
-     *                     {@link #MINUTES_FIELD},
-     *                     {@link #SECONDS_FIELD} ou
-     *                     {@link #HEMISPHERE_FIELD}).
-     *                    En sortie, les index du champs demandé. Ce paramètre
-     *                    peut être nul si cette information n'est pas désirée.
-     *
+     * @param number     Angle ou nombre à écrire.
+     * @param type       Type de l'angle ou du nombre:
+     *                   {@link #LONGITUDE},
+     *                   {@link #LATITUDE} ou
+     *                   {@link #ALTITUDE}.
+     * @param toAppendTo Buffer dans lequel écrire l'angle.
+     * @param pos        En entré, le code du champs dont on désire les index
+     *                   ({@link #DEGREES_FIELD},
+     *                   {@link #MINUTES_FIELD},
+     *                   {@link #SECONDS_FIELD} ou
+     *                   {@link #HEMISPHERE_FIELD}).
+     *                   En sortie, les index du champs demandé. Ce paramètre
+     *                   peut être nul si cette information n'est pas désirée.
      * @return Le buffer {@code toAppendTo} par commodité.
      */
     synchronized StringBuffer format(final double number, final int type,
                                      StringBuffer toAppendTo,
-                                     final FieldPosition pos)
-    {
+                                     final FieldPosition pos) {
         switch (type) {
-            default:        throw new IllegalArgumentException(Integer.toString(type)); // Should not happen.
-            case LATITUDE:  return format(number, toAppendTo, pos, NORTH, SOUTH);
-            case LONGITUDE: return format(number, toAppendTo, pos, EAST,  WEST );
+            default:
+                throw new IllegalArgumentException(Integer.toString(type)); // Should not happen.
+            case LATITUDE:
+                return format(number, toAppendTo, pos, NORTH, SOUTH);
+            case LONGITUDE:
+                return format(number, toAppendTo, pos, EAST, WEST);
             case ALTITUDE: {
                 numberFormat.setMinimumIntegerDigits(1);
                 numberFormat.setMinimumFractionDigits(0);
                 numberFormat.setMaximumFractionDigits(2);
-                return numberFormat.format(number, toAppendTo, (pos!=null) ? pos : dummy);
+                return numberFormat.format(number, toAppendTo, (pos != null) ? pos : dummy);
             }
         }
     }
@@ -918,31 +930,29 @@ public class AngleFormat extends Format {
      * L'angle sera formaté en utilisant comme modèle le patron spécifié lors
      * du dernier appel de la méthode {@link #applyPattern}.
      *
-     * @param  angle      Angle à écrire, en degrés.
-     * @param  toAppendTo Buffer dans lequel écrire l'angle.
-     * @param  pos        En entré, le code du champs dont on désire les index
-     *                    ({@link #DEGREES_FIELD},
-     *                     {@link #MINUTES_FIELD},
-     *                     {@link #SECONDS_FIELD} ou
-     *                     {@link #HEMISPHERE_FIELD}).
-     *                    En sortie, les index du champs demandé. Ce paramètre
-     *                    peut être nul si cette information n'est pas désirée.
-     * @param north       Caractères à écrire si l'angle est positif ou nul.
-     * @param south       Caractères à écrire si l'angle est négatif.
-     *
+     * @param angle      Angle à écrire, en degrés.
+     * @param toAppendTo Buffer dans lequel écrire l'angle.
+     * @param pos        En entré, le code du champs dont on désire les index
+     *                   ({@link #DEGREES_FIELD},
+     *                   {@link #MINUTES_FIELD},
+     *                   {@link #SECONDS_FIELD} ou
+     *                   {@link #HEMISPHERE_FIELD}).
+     *                   En sortie, les index du champs demandé. Ce paramètre
+     *                   peut être nul si cette information n'est pas désirée.
+     * @param north      Caractères à écrire si l'angle est positif ou nul.
+     * @param south      Caractères à écrire si l'angle est négatif.
      * @return Le buffer {@code toAppendTo} par commodité.
      */
     private StringBuffer format(final double angle,
                                 StringBuffer toAppendTo,
                                 final FieldPosition pos,
-                                final char north, final char south)
-    {
+                                final char north, final char south) {
         toAppendTo = format(Math.abs(angle), toAppendTo, pos);
         final int start = toAppendTo.length();
-        toAppendTo.append(angle<0 ? south : north);
-        if (pos!=null && pos.getField()==HEMISPHERE_FIELD) {
+        toAppendTo.append(angle < 0 ? south : north);
+        if (pos != null && pos.getField() == HEMISPHERE_FIELD) {
             pos.setBeginIndex(start);
-            pos.setEndIndex(toAppendTo.length()-1);
+            pos.setEndIndex(toAppendTo.length() - 1);
         }
         return toAppendTo;
     }
@@ -952,25 +962,26 @@ public class AngleFormat extends Format {
      * {@link #parse} pour savoir quel champs il vient de lire. Par exemple si
      * l'on vient de lire les degrés dans "48°12'", alors cette méthode extraira
      * le "°" et retournera 0 pour indiquer que l'on vient de lire des degrés.
-     *
+     * <p>
      * Cette méthode se chargera d'ignorer les espaces qui précèdent le suffix.
      * Elle tentera ensuite de d'abord interpréter le suffix selon les symboles
      * du patron (spécifié avec {@link #applyPattern}. Si le suffix n'a pas été
      * reconnus, elle tentera ensuite de le comparer aux symboles standards
      * (° ' ").
      *
-     * @param  source Chaîne dans laquelle on doit sauter le suffix.
-     * @param  pos En entré, l'index du premier caractère à considérer dans la
-     *         chaîne {@code pos}. En sortie, l'index du premier caractère
-     *         suivant le suffix (c'est-à-dire index à partir d'où continuer la
-     *         lecture après l'appel de cette méthode). Si le suffix n'a pas été
-     *         reconnu, alors cette méthode retourne par convention {@code SYMBOLS.length}.
-     * @param  field Champs à vérifier de préférences. Par exemple la valeur 1 signifie que les
-     *         suffix des minutes et des secondes devront être vérifiés avant celui des degrés.
+     * @param source Chaîne dans laquelle on doit sauter le suffix.
+     * @param pos    En entré, l'index du premier caractère à considérer dans la
+     *               chaîne {@code pos}. En sortie, l'index du premier caractère
+     *               suivant le suffix (c'est-à-dire index à partir d'où continuer la
+     *               lecture après l'appel de cette méthode). Si le suffix n'a pas été
+     *               reconnu, alors cette méthode retourne par convention {@code SYMBOLS.length}.
+     * @param field  Champs à vérifier de préférences. Par exemple la valeur 1 signifie que les
+     *               suffix des minutes et des secondes devront être vérifiés avant celui des 
+     *               degrés.
      * @return Le numéro du champs correspondant au suffix qui vient d'être extrait:
-     *         -1 pour le préfix de l'angle, 0 pour le suffix des degrés, 1 pour le
-     *         suffix des minutes et 2 pour le suffix des secondes. Si le texte n'a
-     *         pas été reconnu, retourne {@code SYMBOLS.length}.
+     * -1 pour le préfix de l'angle, 0 pour le suffix des degrés, 1 pour le
+     * suffix des minutes et 2 pour le suffix des secondes. Si le texte n'a
+     * pas été reconnu, retourne {@code SYMBOLS.length}.
      */
     private int skipSuffix(final String source, final ParsePosition pos, int field) {
         /*
@@ -979,7 +990,7 @@ public class AngleFormat extends Format {
          */
         final int length = source.length();
         int start = pos.getIndex();
-        for (int j=SYMBOLS.length; j>=0; j--) { // C'est bien j>=0 et non j>0.
+        for (int j = SYMBOLS.length; j >= 0; j--) { // C'est bien j>=0 et non j>0.
             int index = start;
             final String toSkip = getSuffix(field);
             if (toSkip != null) {
@@ -990,7 +1001,7 @@ public class AngleFormat extends Format {
                         return field;
                     }
                 }
-                while (index<length && Character.isSpaceChar(source.charAt(index++)));
+                while (index < length && Character.isSpaceChar(source.charAt(index++)));
             }
             if (++field >= SYMBOLS.length) field = -1;
         }
@@ -1007,10 +1018,17 @@ public class AngleFormat extends Format {
         }
         while (Character.isSpaceChar(c = source.charAt(start++)));
         switch (c) {
-            case '\u00B0' : pos.setIndex(start); return DEGREES_FIELD;
-            case '\''     : pos.setIndex(start); return MINUTES_FIELD;
-            case '"'      : pos.setIndex(start); return SECONDS_FIELD;
-            default       : return SYMBOLS.length; // Unknow field.
+            case '\u00B0':
+                pos.setIndex(start);
+                return DEGREES_FIELD;
+            case '\'':
+                pos.setIndex(start);
+                return MINUTES_FIELD;
+            case '"':
+                pos.setIndex(start);
+                return SECONDS_FIELD;
+            default:
+                return SYMBOLS.length; // Unknow field.
         }
     }
 
@@ -1028,8 +1046,8 @@ public class AngleFormat extends Format {
      *
      * @param source A String whose beginning should be parsed.
      * @param pos    Position where to start parsing.
-     * @return       The parsed string as an {@link Angle}, {@link Latitude}
-     *               or {@link Longitude} object.
+     * @return The parsed string as an {@link Angle}, {@link Latitude}
+     * or {@link Longitude} object.
      */
     public Angle parse(final String source, final ParsePosition pos) {
         return parse(source, pos, false);
@@ -1056,12 +1074,11 @@ public class AngleFormat extends Format {
     @SuppressWarnings("fallthrough")
     private synchronized Angle parse(final String source,
                                      final ParsePosition pos,
-                                     final boolean spaceAsSeparator)
-    {
-        double degrees   = Double.NaN;
-        double minutes  = Double.NaN;
+                                     final boolean spaceAsSeparator) {
+        double degrees = Double.NaN;
+        double minutes = Double.NaN;
         double secondes = Double.NaN;
-        final int length=source.length();
+        final int length = source.length();
         ///////////////////////////////////////////////////////////////////////////////
         // BLOC A: Analyse la chaîne de caractères 'source' et affecte aux variables //
         //         'degrés', 'minutes' et 'secondes' les valeurs appropriées.        //
@@ -1076,7 +1093,7 @@ public class AngleFormat extends Format {
              */
             final int indexStart = pos.getIndex();
             int index = skipSuffix(source, pos, PREFIX_FIELD);
-            if (index>=0 && index<SYMBOLS.length) {
+            if (index >= 0 && index < SYMBOLS.length) {
                 pos.setErrorIndex(indexStart);
                 pos.setIndex(indexStart);
                 return null;
@@ -1086,7 +1103,7 @@ public class AngleFormat extends Format {
              * précèdent le champs des degrés.
              */
             index = pos.getIndex();
-            while (index<length && Character.isSpaceChar(source.charAt(index))) index++;
+            while (index < length && Character.isSpaceChar(source.charAt(index))) index++;
             pos.setIndex(index);
             /*
              * Lit les degrés. Notez que si aucun séparateur ne séparait les degrés
@@ -1104,7 +1121,8 @@ public class AngleFormat extends Format {
             degrees = fieldObject.doubleValue();
             int indexEndField = pos.getIndex();
             boolean swapDM = true;
-BigBoss:    switch (skipSuffix(source, pos, DEGREES_FIELD)) {
+            BigBoss:
+            switch (skipSuffix(source, pos, DEGREES_FIELD)) {
                 /* ----------------------------------------------
                  * ANALYSE DU SYMBOLE SUIVANT LES PRÉSUMÉS DEGRÉS
                  * ----------------------------------------------
@@ -1136,7 +1154,7 @@ BigBoss:    switch (skipSuffix(source, pos, DEGREES_FIELD)) {
                  * on considèrera que la lecture est terminée.
                  */
                 default: {
-                    if (width1 == 0)       break BigBoss;
+                    if (width1 == 0) break BigBoss;
                     if (!spaceAsSeparator) break BigBoss;
                     // fall through
                 }
@@ -1149,21 +1167,21 @@ BigBoss:    switch (skipSuffix(source, pos, DEGREES_FIELD)) {
                  */
                 case DEGREES_FIELD: {
                     final int indexStartField = index = pos.getIndex();
-                    while (index<length && Character.isSpaceChar(source.charAt(index))) {
+                    while (index < length && Character.isSpaceChar(source.charAt(index))) {
                         index++;
                     }
-                    if (!spaceAsSeparator && index!=indexStartField) {
+                    if (!spaceAsSeparator && index != indexStartField) {
                         break BigBoss;
                     }
                     pos.setIndex(index);
-                    fieldObject=numberFormat.parse(source, pos);
-                    if (fieldObject==null) {
+                    fieldObject = numberFormat.parse(source, pos);
+                    if (fieldObject == null) {
                         pos.setIndex(indexStartField);
                         break BigBoss;
                     }
                     indexEndField = pos.getIndex();
                     minutes = fieldObject.doubleValue();
-                    switch (skipSuffix(source, pos, (width1!=0) ? MINUTES_FIELD : PREFIX_FIELD)) {
+                    switch (skipSuffix(source, pos, (width1 != 0) ? MINUTES_FIELD : PREFIX_FIELD)) {
                         /* ------------------------------------------------
                          * ANALYSE DU SYMBOLE SUIVANT LES PRÉSUMÉES MINUTES
                          * ------------------------------------------------
@@ -1193,7 +1211,7 @@ BigBoss:    switch (skipSuffix(source, pos, DEGREES_FIELD)) {
                          * on retourne le texte lu dans le buffer et on termine la lecture.
                          */
                         default: {
-                            if (width1!=0) break; // Continue outer switch
+                            if (width1 != 0) break; // Continue outer switch
                             // fall through
                         }
                         /* ------------------------------------------------
@@ -1205,7 +1223,7 @@ BigBoss:    switch (skipSuffix(source, pos, DEGREES_FIELD)) {
                          */
                         case DEGREES_FIELD: {
                             pos.setIndex(indexStartField);
-                            minutes=Double.NaN;
+                            minutes = Double.NaN;
                             break BigBoss;
                         }
                         /* ------------------------------------------------
@@ -1220,7 +1238,7 @@ BigBoss:    switch (skipSuffix(source, pos, DEGREES_FIELD)) {
                             break BigBoss;
                         }
                     }
-                    swapDM=false;
+                    swapDM = false;
                     // fall through
                 }
                 /* ----------------------------------------------
@@ -1237,10 +1255,10 @@ BigBoss:    switch (skipSuffix(source, pos, DEGREES_FIELD)) {
                         degrees = Double.NaN;
                     }
                     final int indexStartField = index = pos.getIndex();
-                    while (index<length && Character.isSpaceChar(source.charAt(index))) {
+                    while (index < length && Character.isSpaceChar(source.charAt(index))) {
                         index++;
                     }
-                    if (!spaceAsSeparator && index!=indexStartField) {
+                    if (!spaceAsSeparator && index != indexStartField) {
                         break BigBoss;
                     }
                     pos.setIndex(index);
@@ -1251,7 +1269,7 @@ BigBoss:    switch (skipSuffix(source, pos, DEGREES_FIELD)) {
                     }
                     indexEndField = pos.getIndex();
                     secondes = fieldObject.doubleValue();
-                    switch (skipSuffix(source, pos, (width2!=0) ? MINUTES_FIELD : PREFIX_FIELD)) {
+                    switch (skipSuffix(source, pos, (width2 != 0) ? MINUTES_FIELD : PREFIX_FIELD)) {
                         /* -------------------------------------------------
                          * ANALYSE DU SYMBOLE SUIVANT LES PRÉSUMÉES SECONDES
                          * -------------------------------------------------
@@ -1303,18 +1321,18 @@ BigBoss:    switch (skipSuffix(source, pos, DEGREES_FIELD)) {
         // BLOC B: Prend en compte l'éventualité ou le séparateur décimal //
         //         aurrait été absent, puis calcule l'angle en degrés.    //
         ////////////////////////////////////////////////////////////////////
-        if (minutes<0) {
+        if (minutes < 0) {
             secondes = -secondes;
         }
-        if (degrees<0) {
+        if (degrees < 0) {
             minutes = -minutes;
             secondes = -secondes;
         }
         if (!decimalSeparator) {
             final double facteur = XMath.pow10(widthDecimal);
-            if (width2!=0) {
-                if (suffix1==null && Double.isNaN(secondes)) {
-                    if (suffix0==null && Double.isNaN(minutes)) {
+            if (width2 != 0) {
+                if (suffix1 == null && Double.isNaN(secondes)) {
+                    if (suffix0 == null && Double.isNaN(minutes)) {
                         degrees /= facteur;
                     } else {
                         minutes /= facteur;
@@ -1323,8 +1341,8 @@ BigBoss:    switch (skipSuffix(source, pos, DEGREES_FIELD)) {
                     secondes /= facteur;
                 }
             } else if (Double.isNaN(secondes)) {
-                if (width1!=0) {
-                    if (suffix0==null && Double.isNaN(minutes)) {
+                if (width1 != 0) {
+                    if (suffix0 == null && Double.isNaN(minutes)) {
                         degrees /= facteur;
                     } else {
                         minutes /= facteur;
@@ -1339,50 +1357,58 @@ BigBoss:    switch (skipSuffix(source, pos, DEGREES_FIELD)) {
          * le patron est "DDDMMmmm"), alors la variable 'degrés' englobe à la fois les
          * degrés, les minutes et d'éventuelles secondes. On applique une correction ici.
          */
-        if (suffix1==null && width2!=0 && Double.isNaN(secondes)) {
+        if (suffix1 == null && width2 != 0 && Double.isNaN(secondes)) {
             double facteur = XMath.pow10(width2);
-            if (suffix0==null && width1!=0 && Double.isNaN(minutes)) {
+            if (suffix0 == null && width1 != 0 && Double.isNaN(minutes)) {
                 ///////////////////
                 //// DDDMMSS.s ////
                 ///////////////////
                 secondes = degrees;
-                minutes  = (int) (degrees/facteur); // Arrondie vers 0
-                secondes -= minutes*facteur;
-                facteur  = XMath.pow10(width1);
-                degrees   = (int) (minutes/facteur); // Arrondie vers 0
-                minutes -= degrees*facteur;
+                minutes = (int) (degrees / facteur); // Arrondie vers 0
+                secondes -= minutes * facteur;
+                facteur = XMath.pow10(width1);
+                degrees = (int) (minutes / facteur); // Arrondie vers 0
+                minutes -= degrees * facteur;
             } else {
                 ////////////////////
                 //// DDD°MMSS.s ////
                 ////////////////////
                 secondes = minutes;
-                minutes = (int) (minutes/facteur); // Arrondie vers 0
-                secondes -= minutes*facteur;
+                minutes = (int) (minutes / facteur); // Arrondie vers 0
+                secondes -= minutes * facteur;
             }
-        } else if (suffix0==null && width1!=0 && Double.isNaN(minutes)) {
+        } else if (suffix0 == null && width1 != 0 && Double.isNaN(minutes)) {
             /////////////////
             //// DDDMM.m ////
             /////////////////
             final double facteur = XMath.pow10(width1);
             minutes = degrees;
-            degrees = (int) (degrees/facteur); // Arrondie vers 0
-            minutes -= degrees*facteur;
+            degrees = (int) (degrees / facteur); // Arrondie vers 0
+            minutes -= degrees * facteur;
         }
         pos.setErrorIndex(-1);
-        if ( Double.isNaN(degrees))  degrees  = 0;
-        if (!Double.isNaN(minutes))  degrees += minutes/60;
-        if (!Double.isNaN(secondes)) degrees += secondes/3600;
+        if (Double.isNaN(degrees)) degrees = 0;
+        if (!Double.isNaN(minutes)) degrees += minutes / 60;
+        if (!Double.isNaN(secondes)) degrees += secondes / 3600;
         /////////////////////////////////////////////////////
         // BLOC C: Vérifie maintenant si l'angle ne serait //
         //         pas suivit d'un symbole N, S, E ou W.   //
         /////////////////////////////////////////////////////
-        for (int index=pos.getIndex(); index<length; index++) {
+        for (int index = pos.getIndex(); index < length; index++) {
             final char c = source.charAt(index);
             switch (Character.toUpperCase(c)) {
-                case NORTH: pos.setIndex(index+1); return new Latitude ( degrees);
-                case SOUTH: pos.setIndex(index+1); return new Latitude (-degrees);
-                case EAST : pos.setIndex(index+1); return new Longitude( degrees);
-                case WEST : pos.setIndex(index+1); return new Longitude(-degrees);
+                case NORTH:
+                    pos.setIndex(index + 1);
+                    return new Latitude(degrees);
+                case SOUTH:
+                    pos.setIndex(index + 1);
+                    return new Latitude(-degrees);
+                case EAST:
+                    pos.setIndex(index + 1);
+                    return new Longitude(degrees);
+                case WEST:
+                    pos.setIndex(index + 1);
+                    return new Longitude(-degrees);
             }
             if (!Character.isSpaceChar(c)) {
                 break;
@@ -1394,20 +1420,21 @@ BigBoss:    switch (skipSuffix(source, pos, DEGREES_FIELD)) {
     /**
      * Parses a string as an angle.
      *
-     * @param  source The string to parse.
+     * @param source The string to parse.
      * @return The parsed string as an {@link Angle}, {@link Latitude}
-     *         or {@link Longitude} object.
+     * or {@link Longitude} object.
      * @throws ParseException if the string has not been fully parsed.
      */
     public Angle parse(final String source) throws ParseException {
         final ParsePosition pos = new ParsePosition(0);
         final Angle angle = parse(source, pos, true);
-        final int  length = source.length();
-        final int  origin = pos.getIndex();
-        for (int index=origin; index<length; index++) {
+        final int length = source.length();
+        final int origin = pos.getIndex();
+        for (int index = origin; index < length; index++) {
             if (!Character.isWhitespace(source.charAt(index))) {
                 index = Math.max(origin, pos.getErrorIndex());
-                throw new ParseException(LoggedFormat.formatUnparsable(source, 0, index, null), index);
+                throw new ParseException(LoggedFormat.formatUnparsable(source, 0, index, null), 
+                        index);
             }
         }
         return angle;
@@ -1419,8 +1446,8 @@ BigBoss:    switch (skipSuffix(source, pos, DEGREES_FIELD)) {
      *
      * @param source A String whose beginning should be parsed.
      * @param pos    Position where to start parsing.
-     * @return       The parsed string as an {@link Angle},
-     *               {@link Latitude} or {@link Longitude} object.
+     * @return The parsed string as an {@link Angle},
+     * {@link Latitude} or {@link Longitude} object.
      */
     public Angle parseObject(final String source, final ParsePosition pos) {
         return parse(source, pos);
@@ -1430,9 +1457,9 @@ BigBoss:    switch (skipSuffix(source, pos, DEGREES_FIELD)) {
      * Parses a string as an object. Default implementation invokes
      * {@link #parse(String)}.
      *
-     * @param  source The string to parse.
+     * @param source The string to parse.
      * @return The parsed string as an {@link Angle}, {@link Latitude} or
-     *        {@link Longitude} object.
+     * {@link Longitude} object.
      * @throws ParseException if the string has not been fully parsed.
      */
     @Override
@@ -1444,9 +1471,9 @@ BigBoss:    switch (skipSuffix(source, pos, DEGREES_FIELD)) {
      * Interprète une chaîne de caractères qui devrait représenter un nombre.
      * Cette méthode est utile pour lire une altitude après les angles.
      *
-     * @param  source Chaîne de caractères à interpréter.
-     * @param  pos    Position à partir d'où commencer l'interprétation
-     *                de la chaîne {@code source}.
+     * @param source Chaîne de caractères à interpréter.
+     * @param pos    Position à partir d'où commencer l'interprétation
+     *               de la chaîne {@code source}.
      * @return Le nombre lu comme objet {@link Number}.
      */
     final Number parseNumber(final String source, final ParsePosition pos) {
@@ -1459,11 +1486,11 @@ BigBoss:    switch (skipSuffix(source, pos, DEGREES_FIELD)) {
     @Override
     public synchronized int hashCode() {
         int c = 78236951;
-        if (decimalSeparator) c^= 0xFF;
-        if (prefix  !=null)   c^=         prefix.hashCode();
-        if (suffix0 !=null)   c = c*37 + suffix0.hashCode();
-        if (suffix1 !=null)   c^= c*37 + suffix1.hashCode();
-        if (suffix2 !=null)   c^= c*37 + suffix2.hashCode();
+        if (decimalSeparator) c ^= 0xFF;
+        if (prefix != null) c ^= prefix.hashCode();
+        if (suffix0 != null) c = c * 37 + suffix0.hashCode();
+        if (suffix1 != null) c ^= c * 37 + suffix1.hashCode();
+        if (suffix2 != null) c ^= c * 37 + suffix2.hashCode();
         return c ^ (((((width0 << 8) ^ width1) << 8) ^ width2) << 8) ^ widthDecimal;
     }
 
@@ -1474,22 +1501,22 @@ BigBoss:    switch (skipSuffix(source, pos, DEGREES_FIELD)) {
     public synchronized boolean equals(final Object obj) {
         // On ne peut pas synchroniser "obj" si on ne veut
         // pas risquer un "deadlock". Voir RFE #4210659.
-        if (obj==this) {
+        if (obj == this) {
             return true;
         }
-        if (obj!=null && getClass().equals(obj.getClass())) {
-            final  AngleFormat cast = (AngleFormat) obj;
-            return width0           == cast.width0            &&
-                   width1           == cast.width1            &&
-                   width2           == cast.width2            &&
-                   widthDecimal     == cast.widthDecimal      &&
-                   decimalSeparator == cast.decimalSeparator  &&
-                   Utilities.equals(prefix,    cast.prefix )  &&
-                   Utilities.equals(suffix0,   cast.suffix0)  &&
-                   Utilities.equals(suffix1,   cast.suffix1)  &&
-                   Utilities.equals(suffix2,   cast.suffix2)  &&
-                   Utilities.equals(numberFormat.getDecimalFormatSymbols(),
-                               cast.numberFormat.getDecimalFormatSymbols());
+        if (obj != null && getClass().equals(obj.getClass())) {
+            final AngleFormat cast = (AngleFormat) obj;
+            return width0 == cast.width0 &&
+                    width1 == cast.width1 &&
+                    width2 == cast.width2 &&
+                    widthDecimal == cast.widthDecimal &&
+                    decimalSeparator == cast.decimalSeparator &&
+                    Utilities.equals(prefix, cast.prefix) &&
+                    Utilities.equals(suffix0, cast.suffix0) &&
+                    Utilities.equals(suffix1, cast.suffix1) &&
+                    Utilities.equals(suffix2, cast.suffix2) &&
+                    Utilities.equals(numberFormat.getDecimalFormatSymbols(),
+                            cast.numberFormat.getDecimalFormatSymbols());
         } else {
             return false;
         }

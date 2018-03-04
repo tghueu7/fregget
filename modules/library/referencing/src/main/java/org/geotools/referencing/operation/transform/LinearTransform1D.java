@@ -34,27 +34,23 @@ import org.geotools.referencing.operation.LinearTransform;
 /**
  * A one dimensional, linear transform. Input values <var>x</var> are converted into
  * output values <var>y</var> using the following equation:
- *
+ * <p>
  * <p align="center"><var>y</var> &nbsp;=&nbsp;
  * {@linkplain #offset} + {@linkplain #scale}&times;<var>x</var></p>
- *
+ * <p>
  * This class is the same as a 2&times;2 affine transform. However, this specialized
  * {@code LinearTransform1D} class is faster. It is defined there because extensively
  * used by {@link org.geotools.coverage.grid.GridCoverage2D}.
  *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see LogarithmicTransform1D
  * @see ExponentialTransform1D
+ * @since 2.0
  */
 public class LinearTransform1D extends AbstractMathTransform
-                            implements MathTransform1D, LinearTransform, Serializable
-{
+        implements MathTransform1D, LinearTransform, Serializable {
     /**
      * Serial number for interoperability with different versions.
      */
@@ -89,8 +85,8 @@ public class LinearTransform1D extends AbstractMathTransform
      * @param offset The {@code offset} term in the linear equation.
      */
     protected LinearTransform1D(final double scale, final double offset) {
-        this.scale   = scale;
-        this.offset  = offset;
+        this.scale = scale;
+        this.offset = offset;
     }
 
     /**
@@ -103,7 +99,7 @@ public class LinearTransform1D extends AbstractMathTransform
         if (scale == 0) {
             return new ConstantTransform1D(offset);
         }
-        if (scale==1 && offset==0) {
+        if (scale == 1 && offset == 0) {
             return IDENTITY;
         }
         return new LinearTransform1D(scale, offset);
@@ -160,7 +156,7 @@ public class LinearTransform1D extends AbstractMathTransform
                 inverse = this;
             } else if (scale != 0) {
                 final LinearTransform1D inverse;
-                inverse = create(1/scale, -offset/scale);
+                inverse = create(1 / scale, -offset / scale);
                 inverse.inverse = this;
                 this.inverse = inverse;
             } else {
@@ -175,7 +171,7 @@ public class LinearTransform1D extends AbstractMathTransform
      */
     @Override
     public boolean isIdentity() {
-       return isIdentity(0);
+        return isIdentity(0);
     }
 
     /**
@@ -187,7 +183,7 @@ public class LinearTransform1D extends AbstractMathTransform
      */
     public boolean isIdentity(double tolerance) {
         tolerance = Math.abs(tolerance);
-        return Math.abs(offset) <= tolerance && Math.abs(scale-1) <= tolerance;
+        return Math.abs(offset) <= tolerance && Math.abs(scale - 1) <= tolerance;
     }
 
     /**
@@ -212,7 +208,7 @@ public class LinearTransform1D extends AbstractMathTransform
      * Transforms the specified value.
      */
     public double transform(double value) {
-        return offset + scale*value;
+        return offset + scale * value;
     }
 
     /**
@@ -220,17 +216,16 @@ public class LinearTransform1D extends AbstractMathTransform
      */
     @Override
     public void transform(final float[] srcPts, int srcOff,
-                          final float[] dstPts, int dstOff, int numPts)
-    {
-        if (srcPts!=dstPts || srcOff>=dstOff) {
+                          final float[] dstPts, int dstOff, int numPts) {
+        if (srcPts != dstPts || srcOff >= dstOff) {
             while (--numPts >= 0) {
-                dstPts[dstOff++] = (float) (offset + scale*srcPts[srcOff++]);
+                dstPts[dstOff++] = (float) (offset + scale * srcPts[srcOff++]);
             }
         } else {
             srcOff += numPts;
             dstOff += numPts;
             while (--numPts >= 0) {
-                dstPts[--dstOff] = (float) (offset + scale*srcPts[--srcOff]);
+                dstPts[--dstOff] = (float) (offset + scale * srcPts[--srcOff]);
             }
         }
     }
@@ -239,17 +234,16 @@ public class LinearTransform1D extends AbstractMathTransform
      * Transforms a list of coordinate point ordinal values.
      */
     public void transform(final double[] srcPts, int srcOff,
-                          final double[] dstPts, int dstOff, int numPts)
-    {
-        if (srcPts!=dstPts || srcOff>=dstOff) {
+                          final double[] dstPts, int dstOff, int numPts) {
+        if (srcPts != dstPts || srcOff >= dstOff) {
             while (--numPts >= 0) {
-                dstPts[dstOff++] = offset + scale*srcPts[srcOff++];
+                dstPts[dstOff++] = offset + scale * srcPts[srcOff++];
             }
         } else {
             srcOff += numPts;
             dstOff += numPts;
             while (--numPts >= 0) {
-                dstPts[--dstOff] = offset + scale*srcPts[--srcOff];
+                dstPts[--dstOff] = offset + scale * srcPts[--srcOff];
             }
         }
     }
@@ -262,9 +256,9 @@ public class LinearTransform1D extends AbstractMathTransform
     @Override
     public int hashCode() {
         long code;
-        code = (int)serialVersionUID + Double.doubleToRawLongBits(offset);
-        code =  code*37              + Double.doubleToRawLongBits(scale);
-        return (int)(code >>> 32) ^ (int)code;
+        code = (int) serialVersionUID + Double.doubleToRawLongBits(offset);
+        code = code * 37 + Double.doubleToRawLongBits(scale);
+        return (int) (code >>> 32) ^ (int) code;
     }
 
     /**
@@ -278,8 +272,10 @@ public class LinearTransform1D extends AbstractMathTransform
         }
         if (super.equals(object)) {
             final LinearTransform1D that = (LinearTransform1D) object;
-            return Double.doubleToRawLongBits(this.scale)  == Double.doubleToRawLongBits(that.scale) &&
-                   Double.doubleToRawLongBits(this.offset) == Double.doubleToRawLongBits(that.offset);
+            return Double.doubleToRawLongBits(this.scale) == Double.doubleToRawLongBits(that
+                    .scale) &&
+                    Double.doubleToRawLongBits(this.offset) == Double.doubleToRawLongBits(that
+                            .offset);
             /*
              * NOTE: 'LinearTransform1D' and 'ConstantTransform1D' are heavily used by 'Category'
              *       from 'org.geotools.cv' package. It is essential for Cateory to differenciate

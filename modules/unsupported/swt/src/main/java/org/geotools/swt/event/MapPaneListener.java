@@ -21,11 +21,8 @@ package org.geotools.swt.event;
  * Implemented by classes that wish to receive MapPaneEvents
  *
  * @author Michael Bedward
- * @since 2.6
- *
- *
- *
  * @source $URL$
+ * @since 2.6
  */
 public interface MapPaneListener {
 
@@ -60,7 +57,7 @@ public interface MapPaneListener {
 
     /**
      * Called by the map pane when it has started rendering features
-     * 
+     *
      * @param ev the event
      */
     public void onRenderingStarted(MapPaneEvent ev);
@@ -76,7 +73,7 @@ public interface MapPaneListener {
      * Called by the map pane when it is rendering features. The
      * event will be carrying data: a floating point value between
      * 0 and 1 indicating rendering progress.
-     * 
+     *
      * @param ev the event
      */
     public void onRenderingProgress(MapPaneEvent ev);

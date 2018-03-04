@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2007 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.feature.type;
@@ -21,11 +21,9 @@ import org.opengis.filter.Filter;
  * parameters and expected result for an Operation.
  *
  * @author Jody Garnett, Refractions Research, Inc.
- *
- *
  * @source $URL$
  */
- public interface OperationType extends PropertyType {
+public interface OperationType extends PropertyType {
 
     /**
      * Access to super type information.
@@ -33,9 +31,10 @@ import org.opengis.filter.Filter;
      * The super type of an operation provides additional
      * restrictions and description for this operation.
      * </p>
+     *
      * @return super type
      */
-     OperationType getSuper();
+    OperationType getSuper();
 
     /**
      * Indicate that this OperationType may not be used directly.
@@ -46,19 +45,19 @@ import org.opengis.filter.Filter;
      * would define "related" based on touches, or "contains" or "common vertex".
      * </p>
      */
-     boolean isAbstract();
+    boolean isAbstract();
 
     /**
      * AttributeType this operation type can function against.
      */
-     AttributeType getTarget();
+    AttributeType getTarget();
 
-     /**
-      * Indicates the expected result type, may be <code>null</code>.
-      *
-      * @return expected result type, may be <code>null</code>
-      */
-     AttributeType getResult();
+    /**
+     * Indicates the expected result type, may be <code>null</code>.
+     *
+     * @return expected result type, may be <code>null</code>
+     */
+    AttributeType getResult();
 
     /**
      * We need the following AttributeTypes as parameters.
@@ -66,6 +65,7 @@ import org.opengis.filter.Filter;
      * Note we do not need AttributeDescriptors here as parameters
      * are ordered, so name is not needed.
      * </p>
+     *
      * @return indicates paramters required for operation
      */
     List<AttributeType> getParameters();
@@ -75,5 +75,5 @@ import org.opengis.filter.Filter;
      *
      * @return Restrictions on valid return values
      */
-     List<Filter> getRestrictions();
+    List<Filter> getRestrictions();
 }

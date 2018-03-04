@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -32,16 +32,14 @@ import org.xml.sax.SAXException;
 
 
 /**
- *
- *
- *
  * @source $URL$
  */
-public class SLDParserTest extends TestCase{
+public class SLDParserTest extends TestCase {
 
-    public void testRemoteSLD() throws ParserConfigurationException, SAXException, URISyntaxException, IOException{
+    public void testRemoteSLD() throws ParserConfigurationException, SAXException, 
+            URISyntaxException, IOException {
         URL example = new URL("http://schemas.opengis.net/sld/1.0.20/example-sld.xml");
-        
+
 
         SAXParserFactory spf = SAXParserFactory.newInstance();
         spf.setNamespaceAware(true);
@@ -49,7 +47,7 @@ public class SLDParserTest extends TestCase{
 
         SAXParser parser = spf.newSAXParser();
 
-        XMLSAXHandler xmlContentHandler = new XMLSAXHandler(new URI(example.toString()),null);
+        XMLSAXHandler xmlContentHandler = new XMLSAXHandler(new URI(example.toString()), null);
         XMLSAXHandler.setLogLevel(Level.FINEST);
         XSISAXHandler.setLogLevel(Level.FINEST);
         XMLElementHandler.setLogLevel(Level.FINEST);

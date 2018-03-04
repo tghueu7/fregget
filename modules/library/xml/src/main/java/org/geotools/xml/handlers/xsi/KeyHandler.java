@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -27,7 +27,7 @@ import org.xml.sax.SAXNotRecognizedException;
 
 /**
  * KeyHandler purpose.
- * 
+ * <p>
  * <p>
  * represents a 'key' element. This class is not currently used asside  from as
  * a placeholder.
@@ -36,13 +36,13 @@ import org.xml.sax.SAXNotRecognizedException;
  *
  * @author dzwiers, Refractions Research, Inc. http://www.refractions.net
  * @author $Author:$ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class KeyHandler extends XSIElementHandler {
-    /** 'key' */
+    /**
+     * 'key'
+     */
     public final static String LOCALNAME = "key";
     private String id;
     private String name;
@@ -54,15 +54,15 @@ public class KeyHandler extends XSIElementHandler {
      */
     public int hashCode() {
         return LOCALNAME.hashCode() * ((id == null) ? 1 : id.hashCode()) * ((name == null)
-        ? 1 : name.hashCode());
+                ? 1 : name.hashCode());
     }
 
     /**
      * @see org.geotools.xml.XSIElementHandler#getHandler(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
     public XSIElementHandler getHandler(String namespaceURI, String localName)
-        throws SAXException {
+            throws SAXException {
         if (SchemaHandler.namespaceURI.equalsIgnoreCase(namespaceURI)) {
             // child types
             //
@@ -86,7 +86,7 @@ public class KeyHandler extends XSIElementHandler {
                     selector = sth;
                 } else {
                     throw new SAXNotRecognizedException(LOCALNAME
-                        + " may only have one child.");
+                            + " may only have one child.");
                 }
 
                 return sth;
@@ -98,10 +98,10 @@ public class KeyHandler extends XSIElementHandler {
 
     /**
      * @see org.geotools.xml.XSIElementHandler#startElement(java.lang.String,
-     *      java.lang.String, org.xml.sax.Attributes)
+     * java.lang.String, org.xml.sax.Attributes)
      */
     public void startElement(String namespaceURI, String localName,
-        Attributes atts){
+                             Attributes atts) {
         id = atts.getValue("", "id");
 
         if (id == null) {
@@ -124,11 +124,10 @@ public class KeyHandler extends XSIElementHandler {
 
     /**
      * getFields purpose.
-     * 
+     * <p>
      * <p>
      * Returns a list of fields child declarations
      * </p>
-     *
      */
     public List getFields() {
         return fields;
@@ -136,11 +135,10 @@ public class KeyHandler extends XSIElementHandler {
 
     /**
      * getId purpose.
-     * 
+     * <p>
      * <p>
      * returns the id attribute
      * </p>
-     *
      */
     public String getId() {
         return id;
@@ -148,11 +146,10 @@ public class KeyHandler extends XSIElementHandler {
 
     /**
      * getName purpose.
-     * 
+     * <p>
      * <p>
      * returns the name attribute
      * </p>
-     *
      */
     public String getName() {
         return name;
@@ -160,11 +157,10 @@ public class KeyHandler extends XSIElementHandler {
 
     /**
      * getSelector purpose.
-     * 
+     * <p>
      * <p>
      * returns the child selector element
      * </p>
-     *
      */
     public SelectorHandler getSelector() {
         return selector;
@@ -179,9 +175,9 @@ public class KeyHandler extends XSIElementHandler {
 
     /**
      * @see org.geotools.xml.XSIElementHandler#endElement(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
-    public void endElement(String namespaceURI, String localName){
+    public void endElement(String namespaceURI, String localName) {
         // do nothing
     }
 }

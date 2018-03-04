@@ -45,28 +45,28 @@ import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * A cursor tool to retrieve information about features that the user clicks
- * on with the mouse. 
- * 
+ * on with the mouse.
+ * <p>
  * <p>It works with {@code InfoToolHelper} objects which do
  * the work of querying feature data. The primary reason for this design
  * is to shield this class from the grid coverage classes so that
  * users who are working purely with vector data are not forced to have
  * JAI in the classpath.
  *
- * @see InfoToolHelper
- *
  * @author Michael Bedward
- * @since 2.6
- *
- *
- *
  * @source $URL$
+ * @see InfoToolHelper
+ * @since 2.6
  */
 public class InfoTool extends CursorTool {
 
-    /** The tool name */
+    /**
+     * The tool name
+     */
     public static final String TOOL_NAME = Messages.getString("tool_name_info");
-    /** Tool tip text */
+    /**
+     * Tool tip text
+     */
     public static final String TOOL_TIP = Messages.getString("tool_tip_info");
 
     /**
@@ -89,7 +89,7 @@ public class InfoTool extends CursorTool {
      * a combination of multiple SWT-masks.
      *
      * @param triggerButtonMask Mouse button which triggers the tool's activation
-     * or {@value #ANY_BUTTON} if the tool is to be triggered by any button
+     *                          or {@value #ANY_BUTTON} if the tool is to be triggered by any button
      */
     public InfoTool(int triggerButtonMask) {
 
@@ -120,14 +120,13 @@ public class InfoTool extends CursorTool {
      * vector layers are being used.
      *
      * @param ev mouse event
-     *
      * @see JTextReporter
      * @see InfoToolHelper
      */
     @Override
-    public void onMouseClicked( MapMouseEvent ev ) {
+    public void onMouseClicked(MapMouseEvent ev) {
 
-        if ( ! isTriggerMouseButton(ev)) {
+        if (!isTriggerMouseButton(ev)) {
             return;
         }
 
@@ -135,7 +134,7 @@ public class InfoTool extends CursorTool {
         report(pos);
 
         MapContent context = getMapPane().getMapContent();
-        for( Layer layer : context.layers() ) {
+        for (Layer layer : context.layers()) {
             if (layer.isSelected()) {
                 InfoToolHelper<?> helper = null;
 
@@ -151,24 +150,29 @@ public class InfoTool extends CursorTool {
                 if (helper == null) {
                     if (Utils.isGridLayer(layer)) {
                         try {
-                            Class< ? > clazz = Class.forName("org.geotools.swt.tool.GridLayerHelper");
-                            Constructor< ? > ctor = clazz.getConstructor(MapContent.class, Layer.class);
+                            Class<?> clazz = Class.forName("org.geotools.swt.tool.GridLayerHelper");
+                            Constructor<?> ctor = clazz.getConstructor(MapContent.class, Layer
+                                    .class);
                             helper = (InfoToolHelper<?>) ctor.newInstance(context, layer);
                             helperTable.put(layer, helper);
 
                         } catch (Exception ex) {
-                            throw new IllegalStateException("Failed to create InfoToolHelper for grid layer", ex);
+                            throw new IllegalStateException("Failed to create InfoToolHelper for " +
+                                    "grid layer", ex);
                         }
 
                     } else {
                         try {
-                            Class< ? > clazz = Class.forName("org.geotools.swt.tool.VectorLayerHelper");
-                            Constructor< ? > ctor = clazz.getConstructor(MapContent.class, Layer.class);
+                            Class<?> clazz = Class.forName("org.geotools.swt.tool" +
+                                    ".VectorLayerHelper");
+                            Constructor<?> ctor = clazz.getConstructor(MapContent.class, Layer
+                                    .class);
                             helper = (InfoToolHelper<?>) ctor.newInstance(context, layer);
                             helperTable.put(layer, helper);
 
                         } catch (Exception ex) {
-                            throw new IllegalStateException("Failed to create InfoToolHelper for vector layer", ex);
+                            throw new IllegalStateException("Failed to create InfoToolHelper for " +
+                                    "vector layer", ex);
                         }
                     }
                 }
@@ -177,7 +181,8 @@ public class InfoTool extends CursorTool {
 
                 if (helper instanceof VectorLayerHelper) {
                     ReferencedEnvelope mapEnv = getMapPane().getDisplayArea();
-                    double searchWidth = DEFAULT_DISTANCE_FRACTION * (mapEnv.getWidth() + mapEnv.getHeight()) / 2;
+                    double searchWidth = DEFAULT_DISTANCE_FRACTION * (mapEnv.getWidth() + mapEnv
+                            .getHeight()) / 2;
                     try {
                         info = helper.getInfo(pos, Double.valueOf(searchWidth));
                     } catch (Exception ex) {
@@ -185,11 +190,11 @@ public class InfoTool extends CursorTool {
                     }
 
                     if (info != null) {
-                        FeatureIterator< ? extends Feature> iter = null;
+                        FeatureIterator<? extends Feature> iter = null;
                         SimpleFeatureCollection selectedFeatures = (SimpleFeatureCollection) info;
                         try {
                             iter = selectedFeatures.features();
-                            while( iter.hasNext() ) {
+                            while (iter.hasNext()) {
                                 report(layerName, iter.next());
                             }
 
@@ -227,7 +232,7 @@ public class InfoTool extends CursorTool {
      *
      * @param pos mouse click position (world coords)
      */
-    private void report( DirectPosition2D pos ) {
+    private void report(DirectPosition2D pos) {
         createReporter();
 
         reporter.append(String.format("Pos \nx=%.4f \ny=%.4f\n\n", pos.x, pos.y));
@@ -238,9 +243,9 @@ public class InfoTool extends CursorTool {
      * {@code JTextReporter}
      *
      * @param layerName name of the map layer that contains this feature
-     * @param feature the feature to report on
+     * @param feature   the feature to report on
      */
-    private void report( String layerName, Feature feature ) {
+    private void report(String layerName, Feature feature) {
         createReporter();
 
         Collection<Property> props = feature.getProperties();
@@ -250,7 +255,7 @@ public class InfoTool extends CursorTool {
         sb.append(layerName);
         sb.append("\n");
 
-        for( Property prop : props ) {
+        for (Property prop : props) {
             String name = prop.getName().getLocalPart();
             Object value = prop.getValue();
 
@@ -272,10 +277,10 @@ public class InfoTool extends CursorTool {
      * Write an array of grid coverage band values to a
      * {@code JTextReporter}
      *
-     * @param layerName name of the map layer that contains the grid coverage
+     * @param layerName  name of the map layer that contains the grid coverage
      * @param bandValues array of values
      */
-    private void report( String layerName, List<Number> bandValues ) {
+    private void report(String layerName, List<Number> bandValues) {
         createReporter();
 
         StringBuilder sb = new StringBuilder();
@@ -284,7 +289,7 @@ public class InfoTool extends CursorTool {
         sb.append("\n");
 
         int k = 1;
-        for( Number value : bandValues ) {
+        for (Number value : bandValues) {
             sb.append(String.format("  Band %d: %s\n", k++, value.toString()));
         }
         sb.append("\n\n");
@@ -297,7 +302,8 @@ public class InfoTool extends CursorTool {
      */
     private void createReporter() {
         if (reporter == null || reporter.getShell() == null || reporter.getShell().isDisposed()) {
-            Shell shell = new Shell(Display.getCurrent(), SWT.TITLE | SWT.CLOSE | SWT.BORDER | SWT.MODELESS);
+            Shell shell = new Shell(Display.getCurrent(), SWT.TITLE | SWT.CLOSE | SWT.BORDER | 
+                    SWT.MODELESS);
             shell.setLayout(new GridLayout(1, false));
             reporter = new JTextReporter(shell, "Map info");
             reporter.open();

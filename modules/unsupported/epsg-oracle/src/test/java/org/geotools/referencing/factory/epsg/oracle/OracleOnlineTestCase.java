@@ -3,7 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2007-2008, Open Source Geospatial Foundation (OSGeo)
- *   
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -53,61 +53,59 @@ import org.geotools.test.OnlineTestCase;
  * the oracle.jdbc-false profile) ... basically sticking a real ojdbc14.jar in your
  * path so we have a real driver to work with.
  * <p>
+ *
  * @author Jody Garnett (Refractions Research)
- *
- *
- *
- *
  * @source $URL$
  */
 public class OracleOnlineTestCase extends OnlineTestCase {
     protected DataSource datasource;
-    
+
     protected String getFixtureId() {
         return "epsg.oracle";
     }
-    
+
     /**
      * Connect using OracleDataSource (by default).
      * <p>
      * Subclasses can override to wrap this DataSource, or make use of an alternate
      * Implementation as required.
-     * 
+     *
      * @param params
      * @return
      * @throws SQLException
      */
-    protected DataSource connect( String user, String password, String url, Properties params ) throws SQLException{
+    protected DataSource connect(String user, String password, String url, Properties params) 
+            throws SQLException {
         OracleDataSource source = new OracleDataSource();
 
-        source.setUser( user );
-        source.setPassword( password );
-        source.setURL( url );
+        source.setUser(user);
+        source.setPassword(password);
+        source.setURL(url);
         //source.setConnectionProperties( params ); //not available in dummy jar
         return source;
     }
-    
+
     protected void connect() throws Exception {
         String user = fixture.getProperty("user");
         String password = fixture.getProperty("password");
         String url = fixture.getProperty("url");
-        
-        DataSource source = connect( user, password, url, fixture );
-        if( !isEpsgDatabaseLoaded( source ) ){
+
+        DataSource source = connect(user, password, url, fixture);
+        if (!isEpsgDatabaseLoaded(source)) {
             throw new SQLException("Could not find EPSG tables");
         }
         datasource = source;
-        
+
         //  System.out.println(list);
         Hashtable env = new Hashtable();
         env.put(Context.INITIAL_CONTEXT_FACTORY, "org.osjava.sj.memory.MemoryContextFactory");
-        
+
         InitialContext context = new InitialContext(env);
         String name = "jdbc/EPSG";
         //String name = GeoTools.fixName(context, "jdbc/EPSG");        
         // System.out.println(name);
         context.bind(name, source);
-        
+
         GeoTools.init(context);
     }
 
@@ -116,14 +114,14 @@ public class OracleOnlineTestCase extends OnlineTestCase {
      * <p>
      * This method is used as part of connect to ensure the EPSG tables
      * have been loaded correctly.
-     * 
+     *
      * @param source
      * @return true if source is non null and tables are present
      * @throws Exception
      */
-    public boolean isEpsgDatabaseLoaded( DataSource source ) throws Exception {
-        if( source == null ) return false;
-        Connection connection = source.getConnection();        
+    public boolean isEpsgDatabaseLoaded(DataSource source) throws Exception {
+        if (source == null) return false;
+        Connection connection = source.getConnection();
         try {
             DatabaseMetaData metaData = connection.getMetaData();
             String user = fixture.getProperty("user").toUpperCase();
@@ -137,12 +135,11 @@ public class OracleOnlineTestCase extends OnlineTestCase {
                 throw new SQLException("Could not find EPSG tables");
             }
             return true;
-        }
-        finally {
+        } finally {
             connection.close();
         }
     }
-    
+
     protected void disconnect() throws Exception {
         datasource = null;
     }

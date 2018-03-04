@@ -17,7 +17,9 @@
 package org.geotools.xs.bindings;
 
 import org.picocontainer.MutablePicoContainer;
+
 import javax.xml.namespace.QName;
+
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
@@ -26,9 +28,9 @@ import org.geotools.xs.XS;
 
 /**
  * Binding object for the type http://www.w3.org/2001/XMLSchema:localSimpleType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xs:complexType name="localSimpleType"&gt;
  *      &lt;xs:complexContent&gt;
@@ -54,9 +56,6 @@ import org.geotools.xs.XS;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class XSLocalSimpleTypeBinding extends AbstractComplexBinding {
@@ -103,7 +102,7 @@ public class XSLocalSimpleTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //TODO: implement
         return null;
     }

@@ -16,24 +16,24 @@ public class ListStoredQueriesResponseTypeBindingTest extends WFSTestSupport {
 
     public void testEncode() throws Exception {
         Wfs20Factory factory = Wfs20Factory.eINSTANCE;
-        
+
         StoredQueryListItemType sqli = factory.createStoredQueryListItemType();
         sqli.setId("fooId");
-        
+
         TitleType title = factory.createTitleType();
         title.setValue("fooTitle");
         sqli.getTitle().add(title);
-        
+
         sqli.getReturnFeatureType().add(new QName("http://foo.org", "fooName", "foo"));
-        
+
         ListStoredQueriesResponseType lsqr = factory.createListStoredQueriesResponseType();
         lsqr.getStoredQuery().add(sqli);
 
         Document dom = encode(lsqr, WFS.ListStoredQueriesResponse);
-        
+
         Element e = getElementByQName(dom, WFS.StoredQuery);
         assertEquals("fooId", e.getAttribute("id"));
-        
+
         assertNotNull(getElementByQName(dom, WFS.Title));
         assertNotNull(getElementByQName(e, new QName(WFS.NAMESPACE, "ReturnFeatureType")));
     }

@@ -46,34 +46,35 @@ import org.opengis.filter.expression.Function;
 import org.opengis.filter.expression.Literal;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class FunctionFactoryTest {
 
     static FactoryIteratorProvider ffIteratorProvider;
-    
+
     @BeforeClass
     public static void setUp() {
         ffIteratorProvider = new FactoryIteratorProvider() {
-            
+
             public <T> Iterator<T> iterator(Class<T> category) {
-                
+
                 if (FunctionFactory.class == category) {
-                     List<FunctionFactory> l = new ArrayList<FunctionFactory>();
-                     l.add(new FunctionFactory( ) {
-                        
+                    List<FunctionFactory> l = new ArrayList<FunctionFactory>();
+                    l.add(new FunctionFactory() {
+
                         @SuppressWarnings("unchecked")
                         public List<FunctionName> getFunctionNames() {
-                            return (List) Arrays.asList(new FunctionNameImpl("foo", 
-                                new String[]{"bar", "baz"}));
+                            return (List) Arrays.asList(new FunctionNameImpl("foo",
+                                    new String[]{"bar", "baz"}));
                         }
-                        
-                        public Function function(String name, List<Expression> args, Literal fallback) {
+
+                        public Function function(String name, List<Expression> args, Literal 
+                                fallback) {
                             return function(new NameImpl(name), args, fallback);
                         }
-                        public Function function(Name name, List<Expression> args, Literal fallback) {
+
+                        public Function function(Name name, List<Expression> args, Literal 
+                                fallback) {
                             if ("foo".equals(name.getLocalPart())) {
                                 return new FunctionImpl() {
                                     @Override
@@ -84,27 +85,27 @@ public class FunctionFactoryTest {
                             }
                             return null;
                         }
-                        
+
                     });
-                    return (Iterator<T>) l.iterator(); 
+                    return (Iterator<T>) l.iterator();
                 }
                 return null;
             }
-        }; 
+        };
         GeoTools.addFactoryIteratorProvider(ffIteratorProvider);
         CommonFactoryFinder.reset();
     }
-    
+
     @AfterClass
     public static void tearDown() {
         GeoTools.removeFactoryIteratorProvider(ffIteratorProvider);
     }
-    
+
     @Test
     public void testLookup() {
         Set<FunctionFactory> factories = CommonFactoryFinder.getFunctionFactories(null);
         FunctionFactory factory = null;
-        
+
         for (FunctionFactory ff : factories) {
             for (FunctionName fn : ff.getFunctionNames()) {
                 if ("foo".equals(fn.getName())) {
@@ -113,14 +114,15 @@ public class FunctionFactoryTest {
                 }
             }
         }
-        
+
         assertNotNull(factory);
         Function f = factory.function("foo", null, null);
         assertNotNull(f);
     }
-    
+
     /**
      * GEOT-3841
+     *
      * @throws Exception
      */
     @Test
@@ -144,7 +146,7 @@ public class FunctionFactoryTest {
         }
         for (Future<Exception> future : tests) {
             Exception e = future.get();
-            if(e != null) {
+            if (e != null) {
                 e.printStackTrace();
             }
             assertNull("No exception was expected", e);

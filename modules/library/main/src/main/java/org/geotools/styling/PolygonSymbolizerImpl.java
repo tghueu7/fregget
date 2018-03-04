@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -31,16 +31,15 @@ import org.opengis.util.Cloneable;
  *
  * @author James Macgill, CCG
  * @author Johann Sorel (Geomatys)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
-public class PolygonSymbolizerImpl extends AbstractSymbolizer implements PolygonSymbolizer, Cloneable {
-    
+public class PolygonSymbolizerImpl extends AbstractSymbolizer implements PolygonSymbolizer, 
+        Cloneable {
+
     private Expression offset;
     private DisplacementImpl disp;
-    
+
     private Fill fill = new FillImpl();
     private StrokeImpl stroke = new StrokeImpl();
 
@@ -48,39 +47,40 @@ public class PolygonSymbolizerImpl extends AbstractSymbolizer implements Polygon
      * Creates a new instance of DefaultPolygonStyler
      */
     protected PolygonSymbolizerImpl() {
-        this(null,null,null,null,null,null,null,null);
+        this(null, null, null, null, null, null, null, null);
     }
 
-    protected PolygonSymbolizerImpl(Stroke stroke, 
-            Fill fill, 
-            Displacement disp, 
-            Expression offset, 
-            Unit<Length> uom, 
-            String geom, 
-            String name, 
-            Description desc) {
+    protected PolygonSymbolizerImpl(Stroke stroke,
+                                    Fill fill,
+                                    Displacement disp,
+                                    Expression offset,
+                                    Unit<Length> uom,
+                                    String geom,
+                                    String name,
+                                    Description desc) {
         super(name, desc, geom, uom);
-        this.stroke = StrokeImpl.cast( stroke );
+        this.stroke = StrokeImpl.cast(stroke);
         this.fill = fill;
-        this.disp = DisplacementImpl.cast( disp );
+        this.disp = DisplacementImpl.cast(disp);
         this.offset = offset;
     }
-    
+
     public Expression getPerpendicularOffset() {
         return offset;
     }
 
-    public void setPerpendicularOffset(Expression offset ) {
+    public void setPerpendicularOffset(Expression offset) {
         this.offset = offset;
     }
-    
+
     public Displacement getDisplacement() {
         return disp;
     }
 
     public void setDisplacement(org.opengis.style.Displacement displacement) {
-        this.disp = DisplacementImpl.cast( displacement );
+        this.disp = DisplacementImpl.cast(displacement);
     }
+
     /**
      * Provides the graphical-symbolization parameter to use to fill the area
      * of the geometry.
@@ -124,7 +124,7 @@ public class PolygonSymbolizerImpl extends AbstractSymbolizer implements Polygon
         if (this.stroke == stroke) {
             return;
         }
-        this.stroke = StrokeImpl.cast( stroke );
+        this.stroke = StrokeImpl.cast(stroke);
     }
 
     /**
@@ -132,20 +132,19 @@ public class PolygonSymbolizerImpl extends AbstractSymbolizer implements Polygon
      *
      * @param visitor The visitor to accept.
      */
-    public Object accept(StyleVisitor visitor,Object data) {
-        return visitor.visit(this,data);
+    public Object accept(StyleVisitor visitor, Object data) {
+        return visitor.visit(this, data);
     }
 
     public void accept(org.geotools.styling.StyleVisitor visitor) {
         visitor.visit(this);
     }
-    
+
     /**
      * Creates a deep copy clone.   TODO: Need to complete the deep copy,
      * currently only shallow copy.
      *
      * @return The deep copy clone.
-     *
      * @throws RuntimeException DOCUMENT ME!
      */
     public Object clone() {
@@ -212,30 +211,27 @@ public class PolygonSymbolizerImpl extends AbstractSymbolizer implements Polygon
     }
 
     static PolygonSymbolizerImpl cast(org.opengis.style.Symbolizer symbolizer) {
-        if( symbolizer == null ){
+        if (symbolizer == null) {
             return null;
-        }
-        else if (symbolizer instanceof PolygonSymbolizerImpl){
+        } else if (symbolizer instanceof PolygonSymbolizerImpl) {
             return (PolygonSymbolizerImpl) symbolizer;
-        }
-        else if( symbolizer instanceof org.opengis.style.PolygonSymbolizer ){
-            org.opengis.style.PolygonSymbolizer polygonSymbolizer = (org.opengis.style.PolygonSymbolizer) symbolizer;
+        } else if (symbolizer instanceof org.opengis.style.PolygonSymbolizer) {
+            org.opengis.style.PolygonSymbolizer polygonSymbolizer = (org.opengis.style
+                    .PolygonSymbolizer) symbolizer;
             PolygonSymbolizerImpl copy = new PolygonSymbolizerImpl();
-            copy.setStroke( StrokeImpl.cast(polygonSymbolizer.getStroke()));
-            copy.setDescription( polygonSymbolizer.getDescription() );
-            copy.setDisplacement( polygonSymbolizer.getDisplacement());
+            copy.setStroke(StrokeImpl.cast(polygonSymbolizer.getStroke()));
+            copy.setDescription(polygonSymbolizer.getDescription());
+            copy.setDisplacement(polygonSymbolizer.getDisplacement());
             copy.setFill(polygonSymbolizer.getFill());
-            copy.setGeometryPropertyName( polygonSymbolizer.getGeometryPropertyName());
+            copy.setGeometryPropertyName(polygonSymbolizer.getGeometryPropertyName());
             copy.setName(polygonSymbolizer.getName());
             copy.setPerpendicularOffset(polygonSymbolizer.getPerpendicularOffset());
-            copy.setUnitOfMeasure( polygonSymbolizer.getUnitOfMeasure());
+            copy.setUnitOfMeasure(polygonSymbolizer.getUnitOfMeasure());
             return copy;
-        }
-        else {
+        } else {
             return null; // not possible
         }
     }
-
 
 
 }

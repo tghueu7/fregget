@@ -30,9 +30,9 @@ import com.vividsolutions.jts.geom.MultiLineString;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:MultiLineStringPropertyType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="MultiLineStringPropertyType"&gt;
  *      &lt;annotation&gt;
@@ -56,9 +56,6 @@ import com.vividsolutions.jts.geom.MultiLineString;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLMultiLineStringPropertyTypeBinding extends AbstractComplexBinding {
@@ -86,18 +83,19 @@ public class GMLMultiLineStringPropertyTypeBinding extends AbstractComplexBindin
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return node.getChildValue(MultiLineString.class);
     }
-    
+
     @Override
     public Object getProperty(Object object, QName name) throws Exception {
-        return GML2EncodingUtils.GeometryPropertyType_getProperty((MultiLineString)object,name,false);
+        return GML2EncodingUtils.GeometryPropertyType_getProperty((MultiLineString) object, name,
+                false);
     }
-    
+
     @Override
     public List getProperties(Object object, XSDElementDeclaration element)
             throws Exception {
-        return GML2EncodingUtils.GeometryPropertyType_getProperties((MultiLineString)object);
+        return GML2EncodingUtils.GeometryPropertyType_getProperties((MultiLineString) object);
     }
 }

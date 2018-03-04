@@ -26,31 +26,27 @@ import org.junit.Test;
 
 /**
  * Testing {@link GeoTiffFormatFactorySpi}.
- * 
+ *
  * @author Simone Giannecchini
- * 
- *
- *
- *
  * @source $URL$
  */
 public class GeoTiffServiceTest extends Assert {
 
-	@Test
-	public void testIsAvailable() {
-		Iterator<GridFormatFactorySpi> list = GridFormatFinder.getAvailableFormats().iterator();
-		boolean found = false;
+    @Test
+    public void testIsAvailable() {
+        Iterator<GridFormatFactorySpi> list = GridFormatFinder.getAvailableFormats().iterator();
+        boolean found = false;
 
-		while (list.hasNext()) {
-			GridFormatFactorySpi fac = (GridFormatFactorySpi) list.next();
+        while (list.hasNext()) {
+            GridFormatFactorySpi fac = (GridFormatFactorySpi) list.next();
 
-			if (fac instanceof GeoTiffFormatFactorySpi) {
-				found = true;
+            if (fac instanceof GeoTiffFormatFactorySpi) {
+                found = true;
 
-				break;
-			}
-		}
+                break;
+            }
+        }
 
-		assertTrue("GeoTiffFormatFactorySpi not registered", found);
-	}
+        assertTrue("GeoTiffFormatFactorySpi not registered", found);
+    }
 }

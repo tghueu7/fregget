@@ -29,16 +29,13 @@ import org.opengis.feature.type.FeatureType;
 
 /**
  * Sample implementation of a {@link DataAccessFactory} for testing.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * Enabled with a connection parameter "dbtype" of "sample-data-access".
- * 
+ *
  * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
  * @version $Id$
- *
- *
- *
  * @source $URL$
  * @since 2.6
  */
@@ -49,8 +46,10 @@ public class SampleDataAccessFactory implements DataAccessFactory {
      */
     public static final String DBTYPE_STRING = "sample-data-access";
 
-    public static final DataAccessFactory.Param DBTYPE = new DataAccessFactory.Param("dbtype",  String.class,
-            "Fixed value '" + DBTYPE_STRING + "'", true, DBTYPE_STRING, Collections.singletonMap(Parameter.LEVEL, "program"));
+    public static final DataAccessFactory.Param DBTYPE = new DataAccessFactory.Param("dbtype", 
+            String.class,
+            "Fixed value '" + DBTYPE_STRING + "'", true, DBTYPE_STRING, Collections.singletonMap
+            (Parameter.LEVEL, "program"));
 
     /**
      * The connection parameters required to use this factory.
@@ -64,7 +63,7 @@ public class SampleDataAccessFactory implements DataAccessFactory {
 
     /**
      * Are these parameters for us?
-     * 
+     *
      * @see org.geotools.data.DataAccessFactory#canProcess(java.util.Map)
      */
     public boolean canProcess(Map<String, Serializable> params) {
@@ -73,7 +72,7 @@ public class SampleDataAccessFactory implements DataAccessFactory {
 
     /**
      * Create a {@link SampleDataAccess}.
-     * 
+     *
      * @see org.geotools.data.DataAccessFactory#createDataStore(java.util.Map)
      */
     public DataAccess<? extends FeatureType, ? extends Feature> createDataStore(
@@ -83,7 +82,7 @@ public class SampleDataAccessFactory implements DataAccessFactory {
 
     /**
      * Need to implement this.
-     * 
+     *
      * @see org.geotools.data.DataAccessFactory#getDescription()
      */
     public String getDescription() {
@@ -93,7 +92,7 @@ public class SampleDataAccessFactory implements DataAccessFactory {
 
     /**
      * Need to implement this.
-     * 
+     *
      * @see org.geotools.data.DataAccessFactory#getDisplayName()
      */
     public String getDisplayName() {
@@ -103,7 +102,7 @@ public class SampleDataAccessFactory implements DataAccessFactory {
 
     /**
      * Need to implement this.
-     * 
+     *
      * @see org.geotools.data.DataAccessFactory#getParametersInfo()
      */
     public Param[] getParametersInfo() {
@@ -113,7 +112,7 @@ public class SampleDataAccessFactory implements DataAccessFactory {
 
     /**
      * Returns true, as this implementation is always available.
-     * 
+     *
      * @see org.geotools.data.DataAccessFactory#isAvailable()
      */
     public boolean isAvailable() {
@@ -122,7 +121,7 @@ public class SampleDataAccessFactory implements DataAccessFactory {
 
     /**
      * Returns an empty list, containing no hints.
-     * 
+     *
      * @see org.geotools.factory.Factory#getImplementationHints()
      */
     public Map<Key, ?> getImplementationHints() {

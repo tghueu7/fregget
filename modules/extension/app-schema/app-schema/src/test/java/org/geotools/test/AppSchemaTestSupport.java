@@ -24,11 +24,10 @@ import org.junit.AfterClass;
 
 /**
  * @author Niels Charlier (Curtin University of Technology)
- *
  * @source $URL$
  */
 public class AppSchemaTestSupport {
-    
+
     @AfterClass
     public static void oneTimeTearDown() throws Exception {
         DataAccessRegistry.unregisterAndDisposeAll();

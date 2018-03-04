@@ -40,13 +40,19 @@ import org.opengis.referencing.operation.TransformException;
  * @since 12
  */
 public class ScaleZoomLevelMatcher {
-    /** the CRS of the map (MapCrs) */
+    /**
+     * the CRS of the map (MapCrs)
+     */
     private CoordinateReferenceSystem crsMap;
 
-    /** the CRS used for the tile cutting (TileCrs) */
+    /**
+     * the CRS used for the tile cutting (TileCrs)
+     */
     private CoordinateReferenceSystem crsTiles;
 
-    /** Transformation: MapCrs -> TileCrs (mostly WGS_84) */
+    /**
+     * Transformation: MapCrs -> TileCrs (mostly WGS_84)
+     */
     private MathTransform transformMapToTileCrs;
 
     /**
@@ -54,16 +60,23 @@ public class ScaleZoomLevelMatcher {
      **/
     private MathTransform transformTileCrsToMap;
 
-    /** the extent that should be drawn in TileCrs */
+    /**
+     * the extent that should be drawn in TileCrs
+     */
     private ReferencedEnvelope mapExtentTileCrs;
 
-    /** the extent that should be drawn in MapCrs */
+    /**
+     * the extent that should be drawn in MapCrs
+     */
     private ReferencedEnvelope mapExtentMapCrs;
 
-    /** the current map-scale */
+    /**
+     * the current map-scale
+     */
     private double scale;
 
     private static int DPI;
+
     static {
         try {
             DPI = 96;// TODO ?????Toolkit.getDefaultToolkit().getd
@@ -74,9 +87,11 @@ public class ScaleZoomLevelMatcher {
     }
 
     public ScaleZoomLevelMatcher(CoordinateReferenceSystem crsMap,
-            CoordinateReferenceSystem crsTiles, MathTransform transformMapToTileCrs,
-            MathTransform transformTileCrsToMap, ReferencedEnvelope mapExtentTileCrs,
-            ReferencedEnvelope mapExtentMapCrs, double scale) {
+                                 CoordinateReferenceSystem crsTiles, MathTransform 
+                                         transformMapToTileCrs,
+                                 MathTransform transformTileCrsToMap, ReferencedEnvelope 
+                                         mapExtentTileCrs,
+                                 ReferencedEnvelope mapExtentMapCrs, double scale) {
 
         this.crsMap = crsMap;
         this.crsTiles = crsTiles;
@@ -92,7 +107,8 @@ public class ScaleZoomLevelMatcher {
      */
     @Deprecated
     public static ScaleZoomLevelMatcher createMatcher(ReferencedEnvelope mapExtentMapCrs,
-            double scale, TileService wmtSource) throws Exception {
+                                                      double scale, TileService wmtSource) throws
+            Exception {
 
         CoordinateReferenceSystem crsMap = mapExtentMapCrs.getCoordinateReferenceSystem();
         // the CRS used for the tile cutting
@@ -114,7 +130,8 @@ public class ScaleZoomLevelMatcher {
     }
 
     public static ScaleZoomLevelMatcher createMatcher(ReferencedEnvelope requestExtent,
-            CoordinateReferenceSystem crsTiles, double scale)
+                                                      CoordinateReferenceSystem crsTiles, double 
+                                                              scale)
             throws FactoryException, TransformException {
 
         CoordinateReferenceSystem crsMap = requestExtent.getCoordinateReferenceSystem();
@@ -143,7 +160,9 @@ public class ScaleZoomLevelMatcher {
      * @throws Exception
      */
     public static ReferencedEnvelope getProjectedEnvelope(ReferencedEnvelope envelope,
-            CoordinateReferenceSystem destinationCRS, MathTransform transformation)
+                                                          CoordinateReferenceSystem 
+                                                                  destinationCRS, MathTransform 
+                                                                  transformation)
             throws TransformException, FactoryException {
 
         CoordinateReferenceSystem sourceCRS = envelope.getCoordinateReferenceSystem();
@@ -214,8 +233,10 @@ public class ScaleZoomLevelMatcher {
     }
 
     /**
-     * Calculates the "best" scale for a given zoom-level by calculating the scale for a tile in the center of the map-extent and by taking the mapCrs
-     * in account. "Best" scale is the scale where a 256x256 tile has also this size when displayed in uDig.
+     * Calculates the "best" scale for a given zoom-level by calculating the scale for a tile in 
+     * the center of the map-extent and by taking the mapCrs
+     * in account. "Best" scale is the scale where a 256x256 tile has also this size when 
+     * displayed in uDig.
      *
      * @param zoomLevel
      * @param service
@@ -223,7 +244,7 @@ public class ScaleZoomLevelMatcher {
      * @return
      */
     public double getOptimumScaleFromZoomLevel(int zoomLevel, TileService service,
-            double[] tempScaleList) {
+                                               double[] tempScaleList) {
         // check if we have calculated this already
         if (!Double.isNaN(tempScaleList[zoomLevel])) {
             return tempScaleList[zoomLevel];
@@ -255,7 +276,8 @@ public class ScaleZoomLevelMatcher {
     }
 
     /**
-     * Returns the bounds of the tile which covers the center of the map extent in the CRS of the map.
+     * Returns the bounds of the tile which covers the center of the map extent in the CRS of the
+     * map.
      *
      * @param zoomLevel
      * @param wmtSource

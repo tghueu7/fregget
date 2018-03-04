@@ -27,9 +27,14 @@ import java.util.Map;
 
 public interface CustomMappingFactory {
 
-    NestedAttributeMapping createNestedAttributeMapping(AppSchemaDataAccessConfigurator configuration,
-                                                        Expression idExpression, Expression parentExpression,
-                                                        XPathUtil.StepList targetXPath, boolean isMultiValued,
-                                                        Map<Name, Expression> clientProperties, Expression sourceElement,
-                                                        XPathUtil.StepList sourcePath, NamespaceSupport namespaces);
+    NestedAttributeMapping createNestedAttributeMapping(AppSchemaDataAccessConfigurator 
+                                                                configuration,
+                                                        Expression idExpression, Expression 
+                                                                parentExpression,
+                                                        XPathUtil.StepList targetXPath, boolean 
+                                                                isMultiValued,
+                                                        Map<Name, Expression> clientProperties, 
+                                                        Expression sourceElement,
+                                                        XPathUtil.StepList sourcePath, 
+                                                        NamespaceSupport namespaces);
 }

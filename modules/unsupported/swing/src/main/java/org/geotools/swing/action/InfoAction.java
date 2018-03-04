@@ -20,6 +20,7 @@ package org.geotools.swing.action;
 /**
  * @author Michael Bedward
  */
+
 import java.awt.event.ActionEvent;
 
 import org.geotools.swing.MapPane;
@@ -30,12 +31,9 @@ import org.geotools.swing.tool.InfoTool;
  * the InfoTool to get information about features under the mouse cursor
  *
  * @author Michael Bedward
- * @since 2.6
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.6
  */
 public class InfoAction extends MapAction {
 
@@ -52,7 +50,7 @@ public class InfoAction extends MapAction {
      * Constructor. The associated control will be labelled with an icon and,
      * optionally, the tool name.
      *
-     * @param mapPane the map pane being serviced by this action
+     * @param mapPane      the map pane being serviced by this action
      * @param showToolName set to true for the control to display the tool name
      */
     public InfoAction(MapPane mapPane, boolean showToolName) {
@@ -63,7 +61,7 @@ public class InfoAction extends MapAction {
     /**
      * Called when the associated control is activated. Leads to the
      * map pane's cursor tool being set to a PanTool object
-     * 
+     *
      * @param ev the event (not used)
      */
     public void actionPerformed(ActionEvent ev) {

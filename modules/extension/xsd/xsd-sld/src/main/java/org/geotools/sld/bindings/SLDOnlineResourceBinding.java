@@ -19,6 +19,7 @@ package org.geotools.sld.bindings;
 import org.picocontainer.MutablePicoContainer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 import java.net.URI;
 import java.net.URL;
 
@@ -30,9 +31,9 @@ import org.geotools.xml.*;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:OnlineResource.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="OnlineResource"&gt;
  *      &lt;xsd:annotation&gt;
@@ -49,9 +50,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDOnlineResourceBinding extends AbstractComplexBinding {
@@ -105,7 +103,7 @@ public class SLDOnlineResourceBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //just grab the URI and pass it back
         Object href = node.getAttributeValue("href");
         if (href != null) {

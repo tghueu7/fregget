@@ -20,8 +20,6 @@ import org.geotools.jdbc.JDBCPrimaryKeyOnlineTest;
 import org.geotools.jdbc.JDBCPrimaryKeyTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GeoPkgPrimaryKeyOnlineTest extends JDBCPrimaryKeyOnlineTest {
@@ -30,7 +28,7 @@ public class GeoPkgPrimaryKeyOnlineTest extends JDBCPrimaryKeyOnlineTest {
     protected JDBCPrimaryKeyTestSetup createTestSetup() {
         return new GeoPkgPrimaryKeyTestSetup();
     }
-    
+
     @Override
     public void testSequencedPrimaryKey() throws Exception {
         //SQLite does not do sequences
@@ -38,7 +36,7 @@ public class GeoPkgPrimaryKeyOnlineTest extends JDBCPrimaryKeyOnlineTest {
 
     @Override
     public void testMultiColumnPrimaryKey() throws Exception {
-       //TODO: find out why this multikey only has one column when queried
+        //TODO: find out why this multikey only has one column when queried
     }
-    
+
 }

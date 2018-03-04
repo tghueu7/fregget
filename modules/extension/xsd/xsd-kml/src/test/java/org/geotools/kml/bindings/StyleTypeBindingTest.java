@@ -27,8 +27,6 @@ import org.geotools.xml.Binding;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class StyleTypeBindingTest extends KMLTestSupport {

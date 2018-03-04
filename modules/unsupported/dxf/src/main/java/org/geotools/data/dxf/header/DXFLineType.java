@@ -13,8 +13,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DXFLineType {
@@ -22,10 +20,10 @@ public class DXFLineType {
     private static final Log log = LogFactory.getLog(DXFLineType.class);
     public static final String DEFAULT_NAME = "default";
     public String _name = "DXFLineType";                       // 2
-    public String _value = "";					// 3
-    public float _length = 0;					// 40
-    public float _count = 0;					// 73
-    public Vector<Float> _spacing = new Vector<Float>();	// 49
+    public String _value = "";                    // 3
+    public float _length = 0;                    // 40
+    public float _count = 0;                    // 73
+    public Vector<Float> _spacing = new Vector<Float>();    // 49
 
     public DXFLineType() {
     }

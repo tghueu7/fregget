@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -59,26 +59,25 @@ import org.opengis.style.ContrastMethod;
  * enhancement is performed.
  *
  * @author iant
- *
- *
  * @source $URL$
- * 
  */
-public interface ContrastEnhancement extends org.opengis.style.ContrastEnhancement {	
+public interface ContrastEnhancement extends org.opengis.style.ContrastEnhancement {
     /**
      * Used to set the contrast enhancement method used.
-     * 
+     *
      * @param method
      */
     public void setMethod(ContrastMethod method);
-	
+
     /**
-     * @param gamma How much to brighten (greater than 1) or dim (less than 1) this channel; use 1.0 to indicate no change.
+     * @param gamma How much to brighten (greater than 1) or dim (less than 1) this channel; use 
+     *              1.0 to indicate no change.
      */
     public void setGammaValue(Expression gamma);
 
     /**
-     * How much to brighten (values greater than 1.0) or dim (values less than 1.0) an image. The default GammaValue is 1.0
+     * How much to brighten (values greater than 1.0) or dim (values less than 1.0) an image. The
+     * default GammaValue is 1.0
      * (no change).
      *
      * @return Expression, if <code>null</code> a value of 1.0 is assumed indicating no change
@@ -87,33 +86,37 @@ public interface ContrastEnhancement extends org.opengis.style.ContrastEnhanceme
 
     /**
      * Return vendor options relating to the enhancement method
-     * 
+     *
      * @return a Map containing expressions with string keys.
      */
     public Map<String, Expression> getOptions();
+
     /**
      * check if vendor option key is available
+     *
      * @param key - the name of the option to check
      * @return true if present
      */
     public boolean hasOption(String key);
-    
+
     /**
      * Store a vendor option
-     * @param key - the name of the option
+     *
+     * @param key   - the name of the option
      * @param value an expression that evaluates to it's value
      */
     public void addOption(String key, Expression value);
-    
+
     /**
      * Traversal of the style data structure.
+     *
      * @param visitor
      */
-    
+
     public void accept(StyleVisitor visitor);
 
     /**
-     * @param options a Map of VendorOptions 
+     * @param options a Map of VendorOptions
      */
     public void setOptions(Map<String, Expression> options);
 
@@ -124,10 +127,10 @@ public interface ContrastEnhancement extends org.opengis.style.ContrastEnhanceme
     public Expression getOption(String string);
 
     /**
-     * Convenience method to allow users to pass in a 
-     * {@link ContrastEnhancementMethod} to update {@link Method} 
+     * Convenience method to allow users to pass in a
+     * {@link ContrastEnhancementMethod} to update {@link Method}
      * and {@link Options} in one go.
-     * 
+     *
      * @param method the {@link ContrastEnhancementMethod} that underlies this enhancement
      */
     public void setMethod(ContrastMethodStrategy method);

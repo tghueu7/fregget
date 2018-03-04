@@ -29,14 +29,11 @@ import java.util.regex.Pattern;
  * This class provides convenience methods for fetching the major, minor and reversion
  * numbers, and for performing comparaisons.
  *
- * @since 2.4
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
- *
+ * @version $Id$
+ * @source $URL$
  * @see org.geotools.factory.GeoTools#getVersion
+ * @since 2.4
  */
 public class Version implements CharSequence, Comparable<Version>, Serializable {
     /**
@@ -119,7 +116,7 @@ public class Version implements CharSequence, Comparable<Version>, Serializable 
      * or a {@link String} otherwise. If there is no component at the specified index,
      * then this method returns {@code null}.
      *
-     * @param  index The index of the component to fetch.
+     * @param index The index of the component to fetch.
      * @return The value at the specified index, or {@code null} if none.
      * @throws IndexOutOfBoundsException if {@code index} is negative.
      */
@@ -167,14 +164,14 @@ public class Version implements CharSequence, Comparable<Version>, Serializable 
      * comparaisons are performed as {@link Integer} object if possible, or as {@link String}
      * otherwise.
      *
-     * @param  other The other version object to compare with.
-     * @param  limit The maximum number of components to compare.
+     * @param other The other version object to compare with.
+     * @param limit The maximum number of components to compare.
      * @return A negative value if this version is lower than the supplied version, a positive
-     *         value if it is higher, or 0 if they are equal.
+     * value if it is higher, or 0 if they are equal.
      */
     public int compareTo(final Version other, final int limit) {
-        for (int i=0; i<limit; i++) {
-            final Comparable<?> v1 =  this.getComponent(i);
+        for (int i = 0; i < limit; i++) {
+            final Comparable<?> v1 = this.getComponent(i);
             final Comparable<?> v2 = other.getComponent(i);
             if (v1 == null) {
                 return (v2 == null) ? 0 : -1;
@@ -202,8 +199,7 @@ public class Version implements CharSequence, Comparable<Version>, Serializable 
                  */
                 return dr;
             }
-            @SuppressWarnings("unchecked")
-            final int c = ((Comparable) v1).compareTo(v2);
+            @SuppressWarnings("unchecked") final int c = ((Comparable) v1).compareTo(v2);
             if (c != 0) {
                 return c;
             }
@@ -215,9 +211,9 @@ public class Version implements CharSequence, Comparable<Version>, Serializable 
      * Compares this version with an other version object. This method performs the same
      * comparaison than {@link #compareTo(Version, int)} with no limit.
      *
-     * @param  other The other version object to compare with.
+     * @param other The other version object to compare with.
      * @return A negative value if this version is lower than the supplied version, a positive
-     *         value if it is higher, or 0 if they are equal.
+     * value if it is higher, or 0 if they are equal.
      */
     public int compareTo(final Version other) {
         return compareTo(other, Integer.MAX_VALUE);

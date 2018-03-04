@@ -23,22 +23,20 @@ import java.util.ResourceBundle;
 
 /**
  * DefaultFeatureValidationBeanInfo purpose.
- * 
+ * <p>
  * <p>
  * Description of DefaultFeatureValidationBeanInfo ...
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class DefaultFeatureValidationBeanInfo extends ValidationBeanInfo {
     /**
      * DefaultFeatureValidationBeanInfo constructor.
-     * 
+     * <p>
      * <p>
      * super
      * </p>
@@ -51,7 +49,6 @@ public class DefaultFeatureValidationBeanInfo extends ValidationBeanInfo {
      * Implementation of getPropertyDescriptors.  This method should be called
      * by all overriding sub-class methods.  Property names 'name',
      * 'description', 'typeNames'
-     *
      *
      * @see java.beans.BeanInfo#getPropertyDescriptors()
      */

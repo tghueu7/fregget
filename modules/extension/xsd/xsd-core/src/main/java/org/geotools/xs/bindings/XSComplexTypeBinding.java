@@ -17,8 +17,10 @@
 package org.geotools.xs.bindings;
 
 import org.picocontainer.MutablePicoContainer;
+
 import java.util.Map;
 import javax.xml.namespace.QName;
+
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
@@ -27,9 +29,9 @@ import org.geotools.xs.XS;
 
 /**
  * Binding object for the type http://www.w3.org/2001/XMLSchema:complexType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xs:complexType name="complexType" abstract="true"&gt;
  *      &lt;xs:complexContent&gt;
@@ -61,9 +63,6 @@ import org.geotools.xs.XS;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class XSComplexTypeBinding extends AbstractComplexBinding {
@@ -114,7 +113,7 @@ public class XSComplexTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return value; //all work done by super type
     }
 }

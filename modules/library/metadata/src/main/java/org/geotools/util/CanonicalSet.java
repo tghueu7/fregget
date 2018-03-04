@@ -22,14 +22,14 @@ package org.geotools.util;
  * The operation of this set is similar in spirit to the {@link String#intern} method.
  * The following example shows a convenient way to use {@code CanonicalSet} as an
  * internal pool of immutable objects.
- *
+ * <p>
  * <blockquote><pre>
  * public Foo create(String definition) {
  *      Foo created = new Foo(definition);
  *      return (Foo) canonicalSet.unique(created);
  * }
  * </pre></blockquote>
- *
+ * <p>
  * The {@code CanonicalSet} has a {@link #get} method that is not part of the {@link java.util.Set}
  * interface. This {@code get} method retrieves an entry from this set that is equals to
  * the supplied object. The {@link #unique} method combines a {@code get} followed by a
@@ -39,14 +39,11 @@ package org.geotools.util;
  * The {@code CanonicalSet} class is thread-safe.
  *
  * @param <E> The type of elements in the set.
- *
- * @since 2.4
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Jody Garnett
+ * @version $Id$
+ * @source $URL$
+ * @since 2.4
  */
 public class CanonicalSet<E> extends WeakHashSet<E> {
     /**
@@ -61,7 +58,6 @@ public class CanonicalSet<E> extends WeakHashSet<E> {
      * Constructs a {@code CanonicalSet} for elements of the specified type.
      *
      * @param type The type of elements in the set.
-     *
      * @since 2.5
      */
     protected CanonicalSet(final Class<E> type) {
@@ -74,7 +70,6 @@ public class CanonicalSet<E> extends WeakHashSet<E> {
      * @param <E>  The type of elements in the set.
      * @param type The type of elements in the set.
      * @return An initially empty set for elements of the given type.
-     *
      * @since 2.5
      */
     public static <E> CanonicalSet<E> newInstance(final Class<E> type) {
@@ -86,11 +81,10 @@ public class CanonicalSet<E> extends WeakHashSet<E> {
      * this set doesn't contains any object equals to {@code object},
      * then this method returns {@code null}.
      *
-     * @param <T> The type of the element to get.
+     * @param <T>    The type of the element to get.
      * @param object The element to get.
      * @return An element equals to the given one if already presents in the set,
-     *         or {@code null} otherwise.
-     *
+     * or {@code null} otherwise.
      * @see #unique(Object)
      */
     public synchronized <T extends E> T get(final T object) {
@@ -101,7 +95,7 @@ public class CanonicalSet<E> extends WeakHashSet<E> {
      * Returns an object equals to {@code object} if such an object already exist in this
      * {@code CanonicalSet}. Otherwise, adds {@code object} to this {@code CanonicalSet}.
      * This method is equivalents to the following code:
-     *
+     * <p>
      * <blockquote><pre>
      * if (object != null) {
      *     Object current = get(object);
@@ -114,10 +108,10 @@ public class CanonicalSet<E> extends WeakHashSet<E> {
      * return object;
      * </pre></blockquote>
      *
-     * @param <T> The type of the element to get.
+     * @param <T>    The type of the element to get.
      * @param object The element to get or to add in the set if not already presents.
      * @return An element equals to the given one if already presents in the set,
-     *         or the given {@code object} otherwise.
+     * or the given {@code object} otherwise.
      */
     public synchronized <T extends E> T unique(final T object) {
         return intern(object, INTERN);
@@ -126,21 +120,20 @@ public class CanonicalSet<E> extends WeakHashSet<E> {
     /**
      * Iteratively call {@link #unique(Object)} for an array of objects.
      * This method is equivalents to the following code:
-     *
+     * <p>
      * <blockquote><pre>
      * for (int i=0; i&lt;objects.length; i++) {
      *     objects[i] = unique(objects[i]);
      * }
      * </pre></blockquote>
      *
-     * @param objects
-     *          On input, the objects to add to this set if not already present. On output,
-     *          elements that are {@linkplain Object#equals equal}, but where every reference
-     *          to an instance already presents in this set has been replaced by a reference
-     *          to the existing instance.
+     * @param objects On input, the objects to add to this set if not already present. On output,
+     *                elements that are {@linkplain Object#equals equal}, but where every reference
+     *                to an instance already presents in this set has been replaced by a reference
+     *                to the existing instance.
      */
     public synchronized void uniques(final E[] objects) {
-        for (int i=0; i<objects.length; i++) {
+        for (int i = 0; i < objects.length; i++) {
             objects[i] = intern(objects[i], INTERN);
         }
     }

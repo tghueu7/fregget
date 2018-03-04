@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2006-2008, Open Source Geospatial Foundation (OSGeo)
- *   
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -17,6 +17,7 @@
 package org.geotools.referencing.factory.epsg;
 
 // OpenGIS dependencies
+
 import org.opengis.metadata.citation.Citation;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.cs.CSAuthorityFactory;
@@ -44,26 +45,24 @@ import org.geotools.metadata.iso.citation.Citations;
  * <p>
  * Users don't need to create explicitly an instance of this class. Instead, one can get
  * an instance using the following code:
- *
+ * <p>
  * <blockquote><pre>
  * Hints hints = new Hints({@linkplain Hints#FORCE_LONGITUDE_FIRST_AXIS_ORDER}, Boolean.TRUE);
- * CRSAuthorityFactory factory = {@linkplain ReferencingFactoryFinder}.getCRSAuthorityFactory("EPSG", hints);
+ * CRSAuthorityFactory factory = {@linkplain ReferencingFactoryFinder}.getCRSAuthorityFactory
+ * ("EPSG", hints);
  * </pre></blockquote>
  *
- * @since 2.5
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Jody Garnett
- *
+ * @version $Id$
+ * @source $URL$
+ * @tutorial http://docs.codehaus.org/display/GEOTOOLS/The+axis+order+issue
  * @see OrderedAxisAuthorityFactory
  * @see Hints#FORCE_LONGITUDE_FIRST_AXIS_ORDER
- * @tutorial http://docs.codehaus.org/display/GEOTOOLS/The+axis+order+issue
+ * @since 2.5
  */
 public class LongitudeFirstEpsgDecorator extends DeferredAuthorityFactory
-        implements CRSAuthorityFactory, CSAuthorityFactory, CoordinateOperationAuthorityFactory, DatumAuthorityFactory
-{
+        implements CRSAuthorityFactory, CSAuthorityFactory, CoordinateOperationAuthorityFactory, 
+        DatumAuthorityFactory {
     /*
      * Implementation note: in theory the DatumAuthorityFactory interface is useless here, since
      * "axis order" doesn't make any sense for them. However if we do not register this class for
@@ -82,7 +81,7 @@ public class LongitudeFirstEpsgDecorator extends DeferredAuthorityFactory
      * below}.
      */
     public LongitudeFirstEpsgDecorator() {
-        this( null );
+        this(null);
     }
 
     /**
@@ -91,8 +90,8 @@ public class LongitudeFirstEpsgDecorator extends DeferredAuthorityFactory
      * @param userHints An optional set of hints, or {@code null} for the default values.
      */
     public LongitudeFirstEpsgDecorator(final Hints userHints) {
-        super(userHints, AbstractEpsgMediator.PRIORITY + relativePriority( userHints ));
-        
+        super(userHints, AbstractEpsgMediator.PRIORITY + relativePriority(userHints));
+
         // See comment in createBackingStore() method body.
         hints.put(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER, Boolean.TRUE);
         put(userHints, Hints.FORCE_STANDARD_AXIS_DIRECTIONS);
@@ -125,7 +124,8 @@ public class LongitudeFirstEpsgDecorator extends DeferredAuthorityFactory
             if (Boolean.getBoolean(GeoTools.FORCE_LONGITUDE_FIRST_AXIS_ORDER)) {
                 return +10;
             }
-//            if( userHints != null && Boolean.TRUE == userHints.get( Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER ) ){
+//            if( userHints != null && Boolean.TRUE == userHints.get( Hints
+// .FORCE_LONGITUDE_FIRST_AXIS_ORDER ) ){
 //                return 10;
 //            }
 //            else {
@@ -171,8 +171,8 @@ public class LongitudeFirstEpsgDecorator extends DeferredAuthorityFactory
         final Hints backingStoreHints;
         backingStoreHints = new Hints(Hints.CRS_AUTHORITY_FACTORY, AbstractEpsgMediator.class);
         backingStoreHints.put(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER, Boolean.FALSE);
-        backingStoreHints.put(Hints.FORCE_STANDARD_AXIS_DIRECTIONS,   Boolean.FALSE);
-        backingStoreHints.put(Hints.FORCE_STANDARD_AXIS_UNITS,        Boolean.FALSE);
+        backingStoreHints.put(Hints.FORCE_STANDARD_AXIS_DIRECTIONS, Boolean.FALSE);
+        backingStoreHints.put(Hints.FORCE_STANDARD_AXIS_UNITS, Boolean.FALSE);
         final AbstractAuthorityFactory factory;
         try {
             factory = (AbstractAuthorityFactory)

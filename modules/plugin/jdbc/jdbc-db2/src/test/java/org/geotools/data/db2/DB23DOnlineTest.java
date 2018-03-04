@@ -20,8 +20,6 @@ import org.geotools.jdbc.JDBC3DOnlineTest;
 import org.geotools.jdbc.JDBC3DTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DB23DOnlineTest extends JDBC3DOnlineTest {
@@ -31,7 +29,7 @@ public class DB23DOnlineTest extends JDBC3DOnlineTest {
         return new Integer(DB2TestUtil.SRID);
     }
 
-    
+
     @Override
     protected JDBC3DTestSetup createTestSetup() {
         return new DB23DTestSetup();
@@ -41,5 +39,5 @@ public class DB23DOnlineTest extends JDBC3DOnlineTest {
     public void testSchema() throws Exception {
         // do nothing, not applicable
     }
-    
+
 }

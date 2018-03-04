@@ -62,7 +62,7 @@ import com.vividsolutions.jts.geom.MultiLineString;
 
 /**
  * Base class for feature collection optimized GML encoder delegates
- * 
+ *
  * @author Justin Deoliveira, OpenGeo
  * @author Andrea Aime, GeoSolutions
  */
@@ -81,11 +81,11 @@ public abstract class FeatureCollectionEncoderDelegate implements EncoderDelegat
     QName boundedBy;
 
     QName name;
-    
+
     protected boolean encodeGeometryIds = false;
 
     protected FeatureCollectionEncoderDelegate(SimpleFeatureCollection features, Encoder encoder,
-            GMLDelegate gml) {
+                                               GMLDelegate gml) {
         this.features = features;
         this.gml = gml;
         this.encoder = encoder;
@@ -139,7 +139,7 @@ public abstract class FeatureCollectionEncoderDelegate implements EncoderDelegat
                 } else {
                     f = null;
                 }
-                
+
             }
 
             gml.endFeatures(output);
@@ -151,7 +151,8 @@ public abstract class FeatureCollectionEncoderDelegate implements EncoderDelegat
      * Encodes a single feature
      */
     private void encodeFeature(GMLWriter output, boolean featureBounds, ObjectEncoder ee,
-            AttributesImpl idatts, SimpleFeature f, FeatureTypeContextCache ftCache)
+                               AttributesImpl idatts, SimpleFeature f, FeatureTypeContextCache 
+                                       ftCache)
             throws SAXException, Exception {
         gml.startFeature(output);
 
@@ -182,13 +183,15 @@ public abstract class FeatureCollectionEncoderDelegate implements EncoderDelegat
         }
 
         output.endElement(ftContext.featureQualifiedName);
-        
+
         gml.endFeature(output);
     }
 
     private void encodeValue(GMLWriter output, ObjectEncoder ee, Object value,
-            AttributeContext attribute, String featureId) throws SAXException, Exception {
-        output.startElement(attribute.name, getPropertyAttributes(attribute.name, attribute.featureType, attribute.descriptor, value));
+                             AttributeContext attribute, String featureId) throws SAXException, 
+            Exception {
+        output.startElement(attribute.name, getPropertyAttributes(attribute.name, attribute
+                .featureType, attribute.descriptor, value));
 
         if (value instanceof Geometry) {
             Geometry g = (Geometry) value;
@@ -218,25 +221,24 @@ public abstract class FeatureCollectionEncoderDelegate implements EncoderDelegat
     /**
      * Allows subclasses to generate a list of attributes for the property being encoded.
      * The default implementation just returns null
-     * 
-     *
      *
      * @param name
      * @param featureType
-     * @param attribute The attribute being encoded
-     * @param value The attribute value
+     * @param attribute   The attribute being encoded
+     * @param value       The attribute value
      * @return A Attributes, or null if no attributes are desired
      */
-    protected Attributes getPropertyAttributes(QualifiedName name, FeatureType featureType, AttributeDescriptor attribute, Object value) {
+    protected Attributes getPropertyAttributes(QualifiedName name, FeatureType featureType, 
+                                               AttributeDescriptor attribute, Object value) {
         return null;
     }
 
     private GeometryEncoder getGeometryEncoder(Object value, AttributeContext attribute) {
         Class<? extends Object> clazz = value.getClass();
-        if(MultiLineString.class.equals(clazz)) {
+        if (MultiLineString.class.equals(clazz)) {
             // we have a wrinkle with curve support, were we supposed to encode the
             // multi line string as a curve or not?
-            if(attribute.binding.getTarget().getLocalPart().startsWith("MultiCurve")) {
+            if (attribute.binding.getTarget().getLocalPart().startsWith("MultiCurve")) {
                 clazz = MultiCurve.class;
             }
         }
@@ -285,9 +287,8 @@ public abstract class FeatureCollectionEncoderDelegate implements EncoderDelegat
     /**
      * Encoding context for a single attribute, contains all the information we need repeatedly, so
      * that we don't need to look it up over and over
-     * 
-     * @author Andrea Aime - GeoSolutions
      *
+     * @author Andrea Aime - GeoSolutions
      */
     static final class AttributeContext {
         QualifiedName name;
@@ -295,9 +296,9 @@ public abstract class FeatureCollectionEncoderDelegate implements EncoderDelegat
         int attributeIndex;
 
         Binding binding;
-        
+
         AttributeDescriptor descriptor;
-        
+
         FeatureType featureType;
 
         public AttributeContext(QualifiedName name) {
@@ -348,19 +349,19 @@ public abstract class FeatureCollectionEncoderDelegate implements EncoderDelegat
 
         /**
          * Builds the list of {@link AttributeContext} for each attribute to be encoded
-         * 
+         *
          * @param properties
          * @param schema
          * @param bindingLoader
          * @return
          */
         private List<AttributeContext> setupAttributeContexts(List properties,
-                SimpleFeatureType schema,
-                BindingLoader bindingLoader) {
+                                                              SimpleFeatureType schema,
+                                                              BindingLoader bindingLoader) {
             ArrayList<AttributeContext> attributes = new ArrayList<AttributeContext>(
                     properties.size());
             List<AttributeDescriptor> attributeDescriptors = schema.getAttributeDescriptors();
-            for (Iterator p = properties.iterator(); p.hasNext();) {
+            for (Iterator p = properties.iterator(); p.hasNext(); ) {
                 Object[] o = (Object[]) p.next();
                 XSDParticle particle = (XSDParticle) o[0];
                 XSDElementDeclaration content = (XSDElementDeclaration) particle.getContent();
@@ -374,7 +375,8 @@ public abstract class FeatureCollectionEncoderDelegate implements EncoderDelegat
                     contentName = QualifiedName.build(content.getTargetNamespace(),
                             content.getName(), prefix);
                 } else {
-                    contentName = new QualifiedName(content.getTargetNamespace(), content.getName());
+                    contentName = new QualifiedName(content.getTargetNamespace(), content.getName
+                            ());
                 }
                 AttributeContext attribute = new AttributeContext(contentName);
                 attribute.featureType = schema;

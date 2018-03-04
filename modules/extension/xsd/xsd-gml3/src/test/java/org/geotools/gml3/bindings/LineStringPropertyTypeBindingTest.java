@@ -24,8 +24,6 @@ import org.w3c.dom.Document;
 import com.vividsolutions.jts.geom.LineString;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class LineStringPropertyTypeBindingTest extends GML3TestSupport {
@@ -47,8 +45,9 @@ public class LineStringPropertyTypeBindingTest extends GML3TestSupport {
 
     public void testEncode() throws Exception {
         Document doc = encode(GML3MockData.lineString(), GML.lineStringProperty);
-        
+
         assertEquals(1,
-            doc.getElementsByTagNameNS(GML.NAMESPACE, GML.LineString.getLocalPart()).getLength());
+                doc.getElementsByTagNameNS(GML.NAMESPACE, GML.LineString.getLocalPart())
+                        .getLength());
     }
 }

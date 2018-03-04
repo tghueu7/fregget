@@ -87,10 +87,10 @@ import com.vividsolutions.jts.io.WKTWriter;
 
 /**
  * Generate a WHERE clause for DB2 Spatial Extender based on a spatial filter.
- * 
+ * <p>
  * <p>
  * The following spatial filter operations are supported:
- * 
+ * <p>
  * <ul>
  * <li>
  * GEOMETRY_BBOX</li>
@@ -114,14 +114,11 @@ import com.vividsolutions.jts.io.WKTWriter;
  * GEOMETRY_DWITHIN</li>
  * </ul>
  * </p>
- * 
+ *
  * @author Mueller Christian
- * 
- * 
- * 
  * @source $URL:
- *         http://svn.osgeo.org/geotools/trunk/modules/plugin/jdbc/jdbc-db2/src/main/java/org/geotools
- *         /data/db2/DB2FilterToSQL.java $
+ * http://svn.osgeo.org/geotools/trunk/modules/plugin/jdbc/jdbc-db2/src/main/java/org/geotools
+ * /data/db2/DB2FilterToSQL.java $
  */
 public class DB2FilterToSQL extends PreparedFilterToSQL {
     private static Logger LOGGER = org.geotools.util.logging.Logging
@@ -151,11 +148,12 @@ public class DB2FilterToSQL extends PreparedFilterToSQL {
             put("ft", 0.3048);
             put("in", 0.0254);
         }
-    };  
+    };
 
     boolean functionEncodingEnabled = false;
 
-    static private HashMap<Class<?>, String> DB2_SPATIAL_PREDICATES = new HashMap<Class<?>, String>();
+    static private HashMap<Class<?>, String> DB2_SPATIAL_PREDICATES = new HashMap<Class<?>, 
+            String>();
 
     public DB2FilterToSQL(PreparedStatementSQLDialect dialect) {
         super(dialect);
@@ -193,10 +191,8 @@ public class DB2FilterToSQL extends PreparedFilterToSQL {
 
     /**
      * Construct a geometry from the WKT representation of a geometry
-     * 
-     * @param geom
-     *            the constructor for the geometry.
-     * 
+     *
+     * @param geom the constructor for the geometry.
      */
     public String db2Geom(Geometry geom) {
         String geomType = geom.getGeometryType();
@@ -207,7 +203,7 @@ public class DB2FilterToSQL extends PreparedFilterToSQL {
 
     /**
      * Sets the DB2 filter capabilities.
-     * 
+     *
      * @return FilterCapabilities for DB2
      */
     protected FilterCapabilities createFilterCapabilities() {
@@ -269,7 +265,7 @@ public class DB2FilterToSQL extends PreparedFilterToSQL {
     /**
      * Sets a SELECTIVITY clause that can be included with the spatial predicate to influence the
      * query optimizer to exploit a spatial index if it exists.
-     * 
+     * <p>
      * <p>
      * The parameter should be of the form: <br>
      * "SELECTIVITY 0.001" <br>
@@ -277,9 +273,8 @@ public class DB2FilterToSQL extends PreparedFilterToSQL {
      * scan. This doesn't have to be true. The value 0.001 is typically used to force the use of the
      * spatial in all cases if the spatial index exists.
      * </p>
-     * 
-     * @param string
-     *            a selectivity clause
+     *
+     * @param string a selectivity clause
      */
     public void setSelectivityClause(String string) {
         this.selectivityClause = string;
@@ -287,7 +282,8 @@ public class DB2FilterToSQL extends PreparedFilterToSQL {
 
     @Override
     protected Object visitBinarySpatialOperator(BinarySpatialOperator filter,
-            PropertyName property, Literal geometry, boolean swapped, Object extraData) {
+                                                PropertyName property, Literal geometry, boolean 
+                                                            swapped, Object extraData) {
 
         if (filter instanceof DistanceBufferOperator) {
             return visitDistanceSpatialOperator((DistanceBufferOperator) filter, property,
@@ -314,19 +310,19 @@ public class DB2FilterToSQL extends PreparedFilterToSQL {
         // in case unknown unit use as-is
         return String.valueOf(distance);
     }
-    
+
     Object visitDistanceSpatialOperator(DistanceBufferOperator filter, PropertyName property,
-            Literal geometry, boolean swapped, Object extraData) {
+                                        Literal geometry, boolean swapped, Object extraData) {
         try {
             String comparisonOperator = ") < ";
-            if ((filter instanceof DWithin && swapped) 
-                || (filter instanceof Beyond && !swapped)) {
-              comparisonOperator = ") > ";
+            if ((filter instanceof DWithin && swapped)
+                    || (filter instanceof Beyond && !swapped)) {
+                comparisonOperator = ") > ";
             }
-                out.write("db2gse.ST_Distance(");
-                property.accept(this, extraData);
-                out.write(",");
-                geometry.accept(this, extraData);
+            out.write("db2gse.ST_Distance(");
+            property.accept(this, extraData);
+            out.write(",");
+            geometry.accept(this, extraData);
             String distanceUnits = filter.getDistanceUnits();
             if (isValidUnit(distanceUnits)) {
                 out.write(",'METER'");
@@ -335,8 +331,8 @@ public class DB2FilterToSQL extends PreparedFilterToSQL {
             out.write(toMeters(filter.getDistance(), filter.getDistanceUnits()));
             if (!isValidUnit(distanceUnits)) {
                 addSelectivity(); // Selectivity clause can not be used with distance units
-            }            
-            
+            }
+
             return extraData;
         } catch (IOException ex) {
             throw new RuntimeException(ex);
@@ -345,14 +341,14 @@ public class DB2FilterToSQL extends PreparedFilterToSQL {
 
     @Override
     protected Object visitBinarySpatialOperator(BinarySpatialOperator filter, Expression e1,
-            Expression e2, Object extraData) {
+                                                Expression e2, Object extraData) {
         return visitBinarySpatialOperator(filter, e1, e2, false, extraData);
     }
 
     protected Object visitBinarySpatialOperator(BinarySpatialOperator filter, Expression e1,
-            Expression e2, boolean swapped, Object extraData) {
-        
-        String checkValue="1";
+                                                Expression e2, boolean swapped, Object extraData) {
+
+        String checkValue = "1";
 
         try {
             // currentSRID=getSRID();
@@ -360,14 +356,14 @@ public class DB2FilterToSQL extends PreparedFilterToSQL {
             if (filter instanceof Equals) {
                 out.write("db2gse.ST_Equals");
             } else if (filter instanceof Disjoint && this.selectivityClause == null) {
-                out.write("db2gse.ST_Disjoint");                
+                out.write("db2gse.ST_Disjoint");
             } else if (filter instanceof Disjoint && this.selectivityClause != null) {
                 out.write("db2gse.ST_Intersects");
-                checkValue="0";
+                checkValue = "0";
             } else if (filter instanceof Intersects || filter instanceof BBOX) {
                 if (isLooseBBOXEnabled())
                     out.write("db2gse.EnvelopesIntersect");
-                else 
+                else
                     out.write("db2gse.ST_Intersects");
             } else if (filter instanceof Crosses) {
                 out.write("db2gse.ST_Crosses");
@@ -408,18 +404,16 @@ public class DB2FilterToSQL extends PreparedFilterToSQL {
 
     /**
      * Construct the appropriate geometry type from the WKT representation of a literal expression
-     * 
-     * @param expression
-     *            the expression turn into a geometry constructor.
-     * 
-     * @throws IOException
-     *             Passes back exception if generated by this.out.write()
+     *
+     * @param expression the expression turn into a geometry constructor.
+     * @throws IOException Passes back exception if generated by this.out.write()
      */
     public void visitLiteralGeometry(Literal expression) throws IOException {
         String wktRepresentation = wktWriter.write((Geometry) expression.getValue());
         int spacePos = wktRepresentation.indexOf(" ");
         String geomType = wktRepresentation.substring(0, spacePos);
-        this.out.write("db2gse.ST_" + geomType + "('" + wktRepresentation + "', " + getSRID() + ")");
+        this.out.write("db2gse.ST_" + geomType + "('" + wktRepresentation + "', " + getSRID() + 
+                ")");
     }
 
     protected void addSelectivity() throws IOException {
@@ -430,7 +424,7 @@ public class DB2FilterToSQL extends PreparedFilterToSQL {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.data.jdbc.FilterToSQL#visit(org.opengis.filter.ExcludeFilter,
      * java.lang.Object)
      */
@@ -445,7 +439,7 @@ public class DB2FilterToSQL extends PreparedFilterToSQL {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.data.jdbc.FilterToSQL#visit(org.opengis.filter.IncludeFilter,
      * java.lang.Object)
      */
@@ -494,7 +488,8 @@ public class DB2FilterToSQL extends PreparedFilterToSQL {
             out.write("'");
             if (literal instanceof java.sql.Date) {
                 SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
-                // Set DATE_FORMAT time zone to GMT, as Date's are always in GMT internaly. Otherwise we'll
+                // Set DATE_FORMAT time zone to GMT, as Date's are always in GMT internaly. 
+                // Otherwise we'll
                 // get a local timezone encoding regardless of the actual Date value   
                 // DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("GMT"));
                 out.write(DATE_FORMAT.format(literal));
@@ -519,7 +514,7 @@ public class DB2FilterToSQL extends PreparedFilterToSQL {
     /**
      * Performs custom visits for functions that cannot be encoded as
      * <code>functionName(p1, p2, ... pN).</code>
-     * 
+     *
      * @param function
      * @param extraData
      * @return
@@ -678,5 +673,5 @@ public class DB2FilterToSQL extends PreparedFilterToSQL {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }    
+    }
 }

@@ -3,9 +3,9 @@ package org.geotools.filter.function;
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -16,6 +16,7 @@ package org.geotools.filter.function;
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 import static org.geotools.filter.capability.FunctionNameImpl.*;
 
 import org.geotools.filter.FunctionExpression;
@@ -27,10 +28,11 @@ import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * A FilterFunction that expects a Geometry and returns it's minimum bounding circle.
+ *
  * @author Jared Erickson
  */
 public class FilterFunction_minimumCircle extends FunctionExpressionImpl {
-    
+
     public static FunctionName NAME = new FunctionNameImpl("mincircle", Geometry.class,
             parameter("geometry", Geometry.class));
 
@@ -43,6 +45,7 @@ public class FilterFunction_minimumCircle extends FunctionExpressionImpl {
 
     /**
      * Calculate the Geometry's minimum bounding circle.
+     *
      * @param feature The feature should be a Geometry
      * @return The minimum bounding circle Geometry
      * @throws IllegalArgumentException if the feature is not a Geometry
@@ -56,7 +59,8 @@ public class FilterFunction_minimumCircle extends FunctionExpressionImpl {
         } catch (Exception e) {
             // probably a type error
             throw new IllegalArgumentException(
-                    "Filter Function problem for function minimum bounding circle argument #0 - expected type Geometry");
+                    "Filter Function problem for function minimum bounding circle argument #0 - " +
+                            "expected type Geometry");
         }
 
         return (StaticGeometry.minimumCircle(arg0));

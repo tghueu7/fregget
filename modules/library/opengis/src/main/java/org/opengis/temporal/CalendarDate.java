@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.temporal;
 
 import java.util.Collection;
+
 import org.opengis.util.InternationalString;
 import org.opengis.annotation.UML;
 
@@ -22,17 +23,15 @@ import static org.opengis.annotation.Specification.*;
  *
  * @author Stephane Fellah (Image Matters)
  * @author Alexander Petkov
- *
- *
  * @source $URL$
  */
-@UML(identifier="TM_CalDate", specification=ISO_19108)
+@UML(identifier = "TM_CalDate", specification = ISO_19108)
 public interface CalendarDate extends TemporalPosition {
     /**
      * Provides the name of the {@linkplain CalendarEra calendar era}
      * to which the date is referenced.
      */
-    @UML(identifier="calendarEraName", obligation=MANDATORY, specification=ISO_19108)
+    @UML(identifier = "calendarEraName", obligation = MANDATORY, specification = ISO_19108)
     InternationalString getCalendarEraName();
 
     /**
@@ -44,6 +43,6 @@ public interface CalendarDate extends TemporalPosition {
      *
      * @todo Should we returns an array of some primitive type instead?
      */
-    @UML(identifier="calDate", obligation=MANDATORY, specification=ISO_19108)
-    int[]  getCalendarDate();
+    @UML(identifier = "calDate", obligation = MANDATORY, specification = ISO_19108)
+    int[] getCalendarDate();
 }

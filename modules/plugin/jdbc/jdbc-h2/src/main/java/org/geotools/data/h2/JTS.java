@@ -31,175 +31,169 @@ import com.vividsolutions.jts.io.WKTReader;
 
 /**
  * Static collection of JTS operations.
- * 
+ *
  * @author David Blasby, The Open Planning Project, dblasby@openplans.org
  * @author Justin Deoliveira, The Open Planning Project, jdeolive@openplans.org
- *
- *
- *
- *
  * @source $URL$
  */
 public class JTS {
-    
+
     /**
      * Returns the current GeoTools version.
      */
     public static String GeoToolsVersion() {
         return "2.6-SNAPSHOT";
     }
-    
+
     /**
      * Returns the Well Known Text of the geometry.
      */
-    public static String AsWKT( byte[] wkb ) {
-        if ( wkb == null ) {
+    public static String AsWKT(byte[] wkb) {
+        if (wkb == null) {
             return null;
         }
-        
+
         return fromWKB(wkb).toText();
     }
 
     /**
      * Returns the text representation of the envelope of the geometry.
      */
-    public static String EnvelopeAsText( byte[] wkb ) {
-        Envelope e = Envelope( wkb );
-        if ( e != null ) {
+    public static String EnvelopeAsText(byte[] wkb) {
+        Envelope e = Envelope(wkb);
+        if (e != null) {
             return e.toString();
         }
-        
+
         return null;
     }
-    
+
     /**
-     * Reads a geometry from its well known text representation, specifying an 
+     * Reads a geometry from its well known text representation, specifying an
      * srid.
-     * 
-     * @param wkt The well known text of the geometry.
+     *
+     * @param wkt  The well known text of the geometry.
      * @param srid The srid of the geometry
-     * 
      * @return An array of bytes representing the geometry.
      */
     public static byte[] GeomFromText(String wkt, int srid) {
-        if ( wkt == null ) {
+        if (wkt == null) {
             return null;
         }
         WKTReader reader = new WKTReader();
         try {
-            Geometry g = reader.read( wkt );
+            Geometry g = reader.read(wkt);
             g.setSRID(srid);
-            
-            return toWKB( g );
-        } 
-        catch (ParseException e) {
-            throw new RuntimeException( e );
+
+            return toWKB(g);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
     }
-    
-    public static byte[] GeomFromWKB( byte[] wkb ) {
+
+    public static byte[] GeomFromWKB(byte[] wkb) {
         return wkb;
     }
-    
+
     /**
      * Returns the spatial reference identifier for the geometry.
      * <p>
      * This method will return -1 if <tt>wkb</tt> is <code>null</code>.
      * </p>
+     *
      * @param wkb The geometry.
-     * 
      * @return The srid.
      */
-    public static int GetSRID( byte[] wkb ) {
-        if ( wkb == null ) {
+    public static int GetSRID(byte[] wkb) {
+        if (wkb == null) {
             return -1;
         }
         return fromWKB(wkb).getSRID();
     }
-    
+
     /**
      * Returns the envelope for a geometry.
      * <p>
      * This method will return an "null" envelope ({@link Envelope#setToNull()})
      * if <tt>wkb</tt> is <code>null</code>.
      * </p>
+     *
      * @param wkb The geometry.
      * @return The envelope of the geometry.
      */
-    public static Envelope Envelope( byte[] wkb ) {
-        if ( wkb == null ) {
+    public static Envelope Envelope(byte[] wkb) {
+        if (wkb == null) {
             Envelope e = new Envelope();
             e.setToNull();
             return e;
         }
-        
+
         return fromWKB(wkb).getEnvelopeInternal();
     }
-    
+
     /**
-     * Returns the type of the geometry as a string. Eg: 'LINESTRING', 'POLYGON', 
+     * Returns the type of the geometry as a string. Eg: 'LINESTRING', 'POLYGON',
      * 'MULTIPOINT', etc.
      * <p>
      * This method returns <code>null</code> when <tt>wkb</tt> is <code>null</code>.
      * </p>
+     *
      * @param wkb The geometry.
      */
-    public static String GeometryType( byte[] wkb ) {
-        if ( wkb == null ) {
+    public static String GeometryType(byte[] wkb) {
+        if (wkb == null) {
             return null;
         }
-        
-        Geometry g = fromWKB( wkb );
+
+        Geometry g = fromWKB(wkb);
         return g != null ? g.getGeometryType().toUpperCase() : null;
     }
-    
-    private static Geometry fromWKB( byte[] wkb ) {
-        
+
+    private static Geometry fromWKB(byte[] wkb) {
+
         try {
-            ByteArrayInputStream bytes = 
-                new ByteArrayInputStream( wkb, 0, wkb.length-4 );
+            ByteArrayInputStream bytes =
+                    new ByteArrayInputStream(wkb, 0, wkb.length - 4);
 
             //read the geometry
-            Geometry g = new WKBReader().read( new InputStreamInStream( bytes ) );
-            
+            Geometry g = new WKBReader().read(new InputStreamInStream(bytes));
+
             //read the srid
             int srid = 0;
-            srid |= wkb[wkb.length-4] & 0xFF;
+            srid |= wkb[wkb.length - 4] & 0xFF;
             srid <<= 8;
-            srid |= wkb[wkb.length-3] & 0xFF;
+            srid |= wkb[wkb.length - 3] & 0xFF;
             srid <<= 8;
-            srid |= wkb[wkb.length-2] & 0xFF;
+            srid |= wkb[wkb.length - 2] & 0xFF;
             srid <<= 8;
-            srid |= wkb[wkb.length-1] & 0xFF;
+            srid |= wkb[wkb.length - 1] & 0xFF;
             g.setSRID(srid);
-            
+
             return g;
-            
-        } 
-        catch( Exception e ) {
-            throw new RuntimeException( e );
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
-    
-    private static byte[] toWKB( Geometry g ) {
+
+    private static byte[] toWKB(Geometry g) {
         try {
             WKBWriter w = new WKBWriter();
-            
+
             //write the geometry
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            w.write( g , new OutputStreamOutStream( bytes ) );
-   
+            w.write(g, new OutputStreamOutStream(bytes));
+
             //supplement it with the srid
             int srid = g.getSRID();
-            bytes.write( (byte)(srid >>> 24) );
-            bytes.write( (byte)(srid >> 16 & 0xff) );
-            bytes.write( (byte)(srid >> 8 & 0xff) );
-            bytes.write( (byte)(srid & 0xff) );
-            
+            bytes.write((byte) (srid >>> 24));
+            bytes.write((byte) (srid >> 16 & 0xff));
+            bytes.write((byte) (srid >> 8 & 0xff));
+            bytes.write((byte) (srid & 0xff));
+
             return bytes.toByteArray();
-        } 
-        catch (IOException e) {
-            throw new RuntimeException( e );
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 //    
@@ -214,7 +208,8 @@ public class JTS {
 //            return wktreader.read(wkt);
 //        } 
 //        catch (Exception e) {
-//            throw (IllegalArgumentException) new IllegalArgumentException("bad wkt").initCause( e );
+//            throw (IllegalArgumentException) new IllegalArgumentException("bad wkt").initCause(
+// e );
 //        }
 //    }
 //    
@@ -223,10 +218,12 @@ public class JTS {
 //     */
 //    public static Geometry geometryFromBytes(byte[] bytes) {
 //        try {
-//            return (Geometry) new ObjectInputStream( new ByteArrayInputStream( bytes ) ).readObject();
+//            return (Geometry) new ObjectInputStream( new ByteArrayInputStream( bytes ) )
+// .readObject();
 //        } 
 //        catch ( Exception e ) {
-//            throw (IllegalArgumentException) new IllegalArgumentException( "bad bytes" ).initCause( e );
+//            throw (IllegalArgumentException) new IllegalArgumentException( "bad bytes" )
+// .initCause( e );
 //        }
 //    }
 //    

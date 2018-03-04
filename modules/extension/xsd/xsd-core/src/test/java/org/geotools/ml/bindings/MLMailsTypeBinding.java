@@ -19,6 +19,7 @@ package org.geotools.ml.bindings;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.namespace.QName;
+
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
@@ -26,9 +27,9 @@ import org.geotools.xml.Node;
 
 /**
  * Strategy object for the type http://mails/refractions/net:mailsType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="mailsType"&gt;
  *      &lt;xsd:sequence maxOccurs="unbounded" minOccurs="0"&gt;
@@ -41,9 +42,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class MLMailsTypeBinding extends AbstractComplexBinding {
@@ -65,7 +63,7 @@ public class MLMailsTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         ArrayList list = new ArrayList();
         List children = node.getChildren();
 
@@ -75,13 +73,13 @@ public class MLMailsTypeBinding extends AbstractComplexBinding {
 
         return list;
     }
-    
+
     @Override
     public Object getProperty(Object object, QName name) throws Exception {
-        if ( "mail".equals( name.getLocalPart() ) ) {
+        if ("mail".equals(name.getLocalPart())) {
             return object;
         }
-        
+
         return null;
     }
 }

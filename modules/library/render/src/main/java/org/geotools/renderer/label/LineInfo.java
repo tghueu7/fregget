@@ -1,11 +1,11 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
- *    modify it under the terms of the GNU Lesser General 
+ *    modify it under the terms of the GNU Lesser General
  *    License as published by the Free Software Foundation;
  *    version 2.1 of the License.
  *
@@ -33,7 +33,7 @@ class LineInfo {
 
     /**
      * Part of a line that can be rendered with a uniform font
-     * 
+     *
      * @author Andrea Aime - GeoSolutions
      */
     static class LineComponent {
@@ -136,7 +136,7 @@ class LineInfo {
             // the logical bounds include the spaces, we want them in the horizontal direction
             // in order to compose the element in the row, but we need the visual bounds for
             // vertical alignment
-            Rectangle2D componentBounds = new Rectangle2D.Double(componentLogicalBounds.getX(), 
+            Rectangle2D componentBounds = new Rectangle2D.Double(componentLogicalBounds.getX(),
                     componentVisualBounds.getY(), componentLogicalBounds.getWidth(),
                     componentVisualBounds.getHeight());
             if (vb == null) {

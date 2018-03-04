@@ -1,10 +1,10 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- *    
+ *
  *    (C) 2001-2006  Vivid Solutions
  *    (C) 2001-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -36,57 +36,53 @@ import org.geotools.geometry.iso.topograph2D.Quadrant;
  * be used to find the intersection points of two monotone chains. For many
  * types of real-world data, these properties eliminate a large number of
  * segment comparisons, producing substantial speed gains.
- * 
- *
- *
- *
  *
  * @source $URL$
  */
 public class MonotoneChainIndexer {
 
-	public static int[] toIntArray(List list) {
-		int[] array = new int[list.size()];
-		for (int i = 0; i < array.length; i++) {
-			array[i] = ((Integer) list.get(i)).intValue();
-		}
-		return array;
-	}
+    public static int[] toIntArray(List list) {
+        int[] array = new int[list.size()];
+        for (int i = 0; i < array.length; i++) {
+            array[i] = ((Integer) list.get(i)).intValue();
+        }
+        return array;
+    }
 
-	public MonotoneChainIndexer() {
-	}
+    public MonotoneChainIndexer() {
+    }
 
-	public int[] getChainStartIndices(Coordinate[] pts) {
-		// find the startpoint (and endpoints) of all monotone chains in this
-		// edge
-		int start = 0;
-		List startIndexList = new ArrayList();
-		startIndexList.add(new Integer(start));
-		do {
-			int last = findChainEnd(pts, start);
-			startIndexList.add(new Integer(last));
-			start = last;
-		} while (start < pts.length - 1);
-		// copy list to an array of ints, for efficiency
-		int[] startIndex = toIntArray(startIndexList);
-		return startIndex;
-	}
+    public int[] getChainStartIndices(Coordinate[] pts) {
+        // find the startpoint (and endpoints) of all monotone chains in this
+        // edge
+        int start = 0;
+        List startIndexList = new ArrayList();
+        startIndexList.add(new Integer(start));
+        do {
+            int last = findChainEnd(pts, start);
+            startIndexList.add(new Integer(last));
+            start = last;
+        } while (start < pts.length - 1);
+        // copy list to an array of ints, for efficiency
+        int[] startIndex = toIntArray(startIndexList);
+        return startIndex;
+    }
 
-	/**
-	 * @return the index of the last point in the monotone chain
-	 */
-	private int findChainEnd(Coordinate[] pts, int start) {
-		// determine quadrant for chain
-		int chainQuad = Quadrant.quadrant(pts[start], pts[start + 1]);
-		int last = start + 1;
-		while (last < pts.length) {
-			// compute quadrant for next possible segment in chain
-			int quad = Quadrant.quadrant(pts[last - 1], pts[last]);
-			if (quad != chainQuad)
-				break;
-			last++;
-		}
-		return last - 1;
-	}
+    /**
+     * @return the index of the last point in the monotone chain
+     */
+    private int findChainEnd(Coordinate[] pts, int start) {
+        // determine quadrant for chain
+        int chainQuad = Quadrant.quadrant(pts[start], pts[start + 1]);
+        int last = start + 1;
+        while (last < pts.length) {
+            // compute quadrant for next possible segment in chain
+            int quad = Quadrant.quadrant(pts[last - 1], pts[last]);
+            if (quad != chainQuad)
+                break;
+            last++;
+        }
+        return last - 1;
+    }
 
 }

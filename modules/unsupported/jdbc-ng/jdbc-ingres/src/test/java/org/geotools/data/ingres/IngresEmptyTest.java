@@ -9,14 +9,12 @@ import org.geotools.jdbc.JDBCEmptyTest;
 import org.geotools.jdbc.JDBCEmptyTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class IngresEmptyTest extends JDBCEmptyTest {
 
-	@Override
-	protected JDBCEmptyTestSetup createTestSetup() {
-		return new IngresEmptyTestSetup(new IngresTestSetup());
-	}
+    @Override
+    protected JDBCEmptyTestSetup createTestSetup() {
+        return new IngresEmptyTestSetup(new IngresTestSetup());
+    }
 }

@@ -36,14 +36,19 @@ import com.vividsolutions.jts.geom.LineString;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:CurveType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="CurveType"&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;Curve is a 1-dimensional primitive. Curves are continuous, connected, and have a measurable length in terms of the coordinate system.
- *                                  A curve is composed of one or more curve segments. Each curve segment within a curve may be defined using a different interpolation method. The curve segments are connected to one another, with the end point of each segment except the last being the start point of the next segment in the segment list.
+ *          &lt;documentation&gt;Curve is a 1-dimensional primitive. Curves are continuous, 
+ *          connected, and have a measurable length in terms of the coordinate system.
+ *                                  A curve is composed of one or more curve segments. Each curve
+ *                                  segment within a curve may be defined using a different 
+ *                                  interpolation method. The curve segments are connected to one
+ *                                  another, with the end point of each segment except the last 
+ *                                  being the start point of the next segment in the segment list.
  *                                  The orientation of the curve is positive.&lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;complexContent&gt;
@@ -51,7 +56,8 @@ import com.vividsolutions.jts.geom.LineString;
  *              &lt;sequence&gt;
  *                  &lt;element ref="gml:segments"&gt;
  *                      &lt;annotation&gt;
- *                          &lt;documentation&gt;This element encapsulates the segments of the curve.&lt;/documentation&gt;
+ *                          &lt;documentation&gt;This element encapsulates the segments of the 
+ *                          curve.&lt;/documentation&gt;
  *                      &lt;/annotation&gt;
  *                  &lt;/element&gt;
  *              &lt;/sequence&gt;
@@ -64,9 +70,6 @@ import com.vividsolutions.jts.geom.LineString;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class CurveTypeBinding extends AbstractComplexBinding implements Comparable {
@@ -110,10 +113,10 @@ public class CurveTypeBinding extends AbstractComplexBinding implements Comparab
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         LineString[] segments = (LineString[]) node.getChildValue("segments");
 
-        if(segments.length == 0) {
+        if (segments.length == 0) {
             return null;
         } else if (segments.length == 1) {
             return segments[0];
@@ -132,7 +135,7 @@ public class CurveTypeBinding extends AbstractComplexBinding implements Comparab
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         if ("segments".equals(name.getLocalPart())) {
             if (object instanceof CompoundCurvedGeometry<?>) {
                 CompoundCurvedGeometry<?> curve = (CompoundCurvedGeometry<?>) object;
@@ -147,7 +150,7 @@ public class CurveTypeBinding extends AbstractComplexBinding implements Comparab
 
         return null;
     }
-    
+
     public int compareTo(Object o) {
         if (o instanceof LineStringTypeBinding) {
             return -1;

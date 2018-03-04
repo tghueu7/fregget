@@ -22,7 +22,7 @@ import org.opengis.filter.identity.Identifier;
 
 /**
  * Compares two filter identifiers
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 class IdentifierComparator implements Comparator<Identifier> {

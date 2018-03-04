@@ -13,8 +13,6 @@ import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.io.WKTReader;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GeometryCollectorTest {
@@ -54,7 +52,7 @@ public class GeometryCollectorTest {
         assertSame(p0, result.getGeometryN(0));
         assertSame(p1, result.getGeometryN(1));
     }
-    
+
     @Test
     public void testInvalidMultipolygon() throws Exception {
         WKTReader reader = new WKTReader();
@@ -89,7 +87,7 @@ public class GeometryCollectorTest {
             // fine
         }
     }
-    
+
     @Test
     public void testCRSSimple() throws Exception {
         WKTReader reader = new WKTReader();
@@ -109,7 +107,7 @@ public class GeometryCollectorTest {
         assertSame(p0, result.getGeometryN(0));
         assertSame(p1, result.getGeometryN(1));
     }
-    
+
     @Test
     public void testCRSNested() throws Exception {
         WKTReader reader = new WKTReader();

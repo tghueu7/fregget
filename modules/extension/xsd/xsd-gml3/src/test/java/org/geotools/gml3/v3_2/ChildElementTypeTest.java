@@ -33,11 +33,8 @@ import org.junit.Test;
 
 /**
  * Test that complex type child elements have types.
- * 
+ *
  * @author Ben Caradoc-Davies, CSIRO Earth Science and Resource Engineering
- * 
- *
- *
  * @source $URL$
  */
 public class ChildElementTypeTest {
@@ -89,11 +86,9 @@ public class ChildElementTypeTest {
 
     /**
      * Check that the child elements of a complex type all have types.
-     * 
-     * @param configuration
-     *            XML configuration for the schema
-     * @param name
-     *            complex type to be tested
+     *
+     * @param configuration XML configuration for the schema
+     * @param name          complex type to be tested
      */
     private static void checkChildElementTypes(Configuration configuration, QName name) {
         SchemaIndex index = null;
@@ -112,7 +107,8 @@ public class ChildElementTypeTest {
         List<XSDElementDeclaration> children = Schemas.getChildElementDeclarations(type);
         boolean foundNull = false;
         for (XSDElementDeclaration child : children) {
-            // System.err.println("QName: " + child.getQName() + " URI: " + child.getURI() + " Type: "
+            // System.err.println("QName: " + child.getQName() + " URI: " + child.getURI() + " 
+            // Type: "
             //        + child.getTypeDefinition()
             //        + (child.getTypeDefinition() == null ? " <<< FAILURE" : ""));
             if (child.getTypeDefinition() == null) {

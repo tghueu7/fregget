@@ -20,8 +20,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class StreamLogging {
@@ -33,7 +31,7 @@ public class StreamLogging {
 
     /**
      * The name that will appear in the debug message
-     * 
+     *
      * @param name
      */
     public StreamLogging(String name) {
@@ -45,14 +43,14 @@ public class StreamLogging {
      */
     public synchronized void open() {
         open++;
-        if(LOGGER.isLoggable(Level.FINER)) {
+        if (LOGGER.isLoggable(Level.FINER)) {
             LOGGER.finest(name + " has been opened. Number open: " + open);
         }
     }
 
     public synchronized void close() {
         open--;
-        if(LOGGER.isLoggable(Level.FINER)) {
+        if (LOGGER.isLoggable(Level.FINER)) {
             LOGGER.finest(name + " has been closed. Number open: " + open);
         }
     }

@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015-2016, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -31,28 +31,30 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  * Read access to feature content held in memory.
+ *
  * @author Jody Garnett (Boundless)
  */
 public class MemoryFeatureSource extends ContentFeatureSource {
 
     public MemoryFeatureSource(ContentEntry entry) {
-        this(entry, Query.ALL );
+        this(entry, Query.ALL);
     }
-    
+
     public MemoryFeatureSource(ContentEntry entry, Query query) {
         super(entry, query);
     }
-    
+
     /**
      * Access parent MemoryDataStore.
      */
     public MemoryDataStore getDataStore() {
         return (MemoryDataStore) super.getDataStore();
     }
-    
-    public MemoryState getState(){
+
+    public MemoryState getState() {
         return (MemoryState) super.getState();
     }
+
     /**
      * The entry for the feature source.
      */
@@ -63,8 +65,10 @@ public class MemoryFeatureSource extends ContentFeatureSource {
     @Override
     protected ReferencedEnvelope getBoundsInternal(Query query) throws IOException {
         if (query.getFilter() == Filter.INCLUDE) { //filtering not implemented
-            FeatureReader<SimpleFeatureType, SimpleFeature> featureReader = getReaderInternal(query);
-            CoordinateReferenceSystem crs = featureReader.getFeatureType().getCoordinateReferenceSystem();
+            FeatureReader<SimpleFeatureType, SimpleFeature> featureReader = getReaderInternal
+                    (query);
+            CoordinateReferenceSystem crs = featureReader.getFeatureType()
+                    .getCoordinateReferenceSystem();
             ReferencedEnvelope bounds = ReferencedEnvelope.create(crs);
             try {
                 while (featureReader.hasNext()) {
@@ -97,7 +101,8 @@ public class MemoryFeatureSource extends ContentFeatureSource {
 
     @Override
     protected SimpleFeatureType buildFeatureType() {
-        return getState().getEntry().schema; // cache schema unchanged (as we do not retype/reproject)
+        return getState().getEntry().schema; // cache schema unchanged (as we do not 
+        // retype/reproject)
     }
 
     @Override

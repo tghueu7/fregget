@@ -18,6 +18,7 @@ package org.geotools.xml.impl;
 
 import org.eclipse.xsd.XSDAttributeDeclaration;
 import org.eclipse.xsd.XSDElementDeclaration;
+
 import javax.xml.namespace.QName;
 
 
@@ -26,10 +27,6 @@ import javax.xml.namespace.QName;
  * instance document.
  *
  * @author Justin Deoliveira,Refractions Reserach Inc.,jdeolive@refractions.net
- *
- *
- *
- *
  * @source $URL$
  */
 public interface HandlerFactory {
@@ -41,10 +38,9 @@ public interface HandlerFactory {
     /**
      * Creates an element hander for a global or top level element in a document.
      *
-     * @param qName The qualified name identifying the element.
+     * @param qName  The qualified name identifying the element.
      * @param parent The parent handler.
      * @param parser The content handler driving the parser.
-     *
      * @return A new element handler, or null if one could not be created.
      */
     ElementHandler createElementHandler(QName qName, Handler parent, ParserHandler parser);
@@ -53,14 +49,13 @@ public interface HandlerFactory {
      * Creates a handler for a particular element in a document.
      *
      * @param element The schema component which represents the declaration
-     * of the element.
-     * @param parent The parent handler.
-     * @param parser The content handler driving the parser.
-     *
+     *                of the element.
+     * @param parent  The parent handler.
+     * @param parser  The content handler driving the parser.
      * @return A new element handler, or null if one could not be created.
      */
     ElementHandler createElementHandler(XSDElementDeclaration element, Handler parent,
-        ParserHandler parser);
+                                        ParserHandler parser);
 
     /**
      * Creates a handler for a particular element in a document.
@@ -73,5 +68,6 @@ public interface HandlerFactory {
      * @return A new attribute handler, or null if one could not be created.
      */
 
-    //AttributeHandler createAttributeHandler(XSDAttributeDeclaration attribute, Handler parent, ParserHandler parser );
+    //AttributeHandler createAttributeHandler(XSDAttributeDeclaration attribute, Handler parent, 
+    // ParserHandler parser );
 }

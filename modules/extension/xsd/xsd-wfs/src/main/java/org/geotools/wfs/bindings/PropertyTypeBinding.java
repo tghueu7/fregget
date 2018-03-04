@@ -37,9 +37,9 @@ import org.xml.sax.helpers.AttributesImpl;
 
 /**
  * Binding object for the type http://www.opengis.net/wfs:PropertyType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="PropertyType"&gt;
  *      &lt;xsd:sequence&gt;
@@ -67,15 +67,12 @@ import org.xml.sax.helpers.AttributesImpl;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class PropertyTypeBinding extends AbstractComplexEMFBinding {
-    
+
     private final static String VALUE = "Value";
-    
+
     public PropertyTypeBinding(WfsFactory factory) {
         super(factory);
     }
@@ -99,38 +96,37 @@ public class PropertyTypeBinding extends AbstractComplexEMFBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //TODO: implement and remove call to super
         return super.parse(instance, node, value);
     }
-        
+
     @Override
-    public Object getProperty(final Object object, QName name) throws Exception{
+    public Object getProperty(final Object object, QName name) throws Exception {
         if (VALUE.equals(name.getLocalPart())) {
             return new EncoderDelegate() {
 
                 @Override
                 public void encode(ContentHandler output) throws Exception {
-                    
+
                     Object value = ((PropertyType) object).getValue();
-                    
+
                     output.startElement(WFS.NAMESPACE, VALUE, "wfs:" + VALUE, new AttributesImpl());
                     if (value instanceof Geometry) {
                         Encoder encoder = new Encoder(new org.geotools.gml2.GMLConfiguration());
                         encoder.setInline(true);
                         encoder.encode(value, org.geotools.gml2.GML._Geometry, output);
-                    }
-                    else {
+                    } else {
                         String s = value.toString();
                         output.characters(s.toCharArray(), 0, s.length());
                     }
                     output.endElement(WFS.NAMESPACE, VALUE, "wfs:" + VALUE);
                 }
-                
+
             };
-            
+
         }
-        
+
         return super.getProperty(object, name);
     }
 }

@@ -20,8 +20,10 @@ import org.opengis.util.InternationalString;
 import org.picocontainer.MutablePicoContainer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 import java.util.List;
 import javax.xml.namespace.QName;
+
 import org.geotools.styling.FeatureTypeStyle;
 import org.geotools.styling.Style;
 import org.geotools.styling.StyleFactory;
@@ -30,9 +32,9 @@ import org.geotools.xml.*;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:UserStyle.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="UserStyle"&gt;
  *      &lt;xsd:annotation&gt;
@@ -56,9 +58,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDUserStyleBinding extends AbstractComplexBinding {
@@ -111,7 +110,7 @@ public class SLDUserStyleBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         Style style = styleFactory.createStyle();
 
         //&lt;xsd:element ref="sld:Name" minOccurs="0"/&gt;

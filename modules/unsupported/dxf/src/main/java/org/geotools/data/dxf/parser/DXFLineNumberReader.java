@@ -4,12 +4,11 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.Reader;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DXFLineNumberReader extends LineNumberReader {

@@ -28,20 +28,18 @@ import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.MultiLineString;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class MultiLineHandler extends GeometryHandlerBase<MultiLineString> {
 
     List<Coordinate> coordinates;
     List<Coordinate[]> lines;
-    
+
     public MultiLineHandler(GeometryFactory factory) {
         super(factory);
-        
+
     }
-    
+
     @Override
     public boolean startObjectEntry(String key) throws ParseException, IOException {
         if ("coordinates".equals(key)) {
@@ -49,32 +47,30 @@ public class MultiLineHandler extends GeometryHandlerBase<MultiLineString> {
         }
         return true;
     }
-    
+
     @Override
     public boolean startArray() throws ParseException, IOException {
         if (coordinates == null) {
             coordinates = new ArrayList();
-        }
-        else if (ordinates == null) {
+        } else if (ordinates == null) {
             ordinates = new ArrayList();
         }
         return true;
     }
-    
+
     @Override
     public boolean endArray() throws ParseException, IOException {
         if (ordinates != null) {
             coordinates.add(coordinate(ordinates));
             ordinates = null;
-        }
-        else if (coordinates != null) {
+        } else if (coordinates != null) {
             lines.add(coordinates(coordinates));
             coordinates = null;
         }
-        
+
         return true;
     }
-    
+
     @Override
     public boolean endObject() throws ParseException, IOException {
         if (lines != null) {

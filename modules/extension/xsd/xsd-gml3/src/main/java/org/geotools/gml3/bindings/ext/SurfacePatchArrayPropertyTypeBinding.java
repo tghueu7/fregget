@@ -28,16 +28,14 @@ import org.geotools.xml.Node;
 import com.vividsolutions.jts.geom.Polygon;
 
 /**
- * 
- *
  * @source $URL$
  */
-public class SurfacePatchArrayPropertyTypeBinding 
-    extends org.geotools.gml3.bindings.SurfacePatchArrayPropertyTypeBinding {
+public class SurfacePatchArrayPropertyTypeBinding
+        extends org.geotools.gml3.bindings.SurfacePatchArrayPropertyTypeBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -46,17 +44,18 @@ public class SurfacePatchArrayPropertyTypeBinding
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
         List l = node.getChildValues(Polygon.class);
         return l.toArray(new Polygon[l.size()]);
     }
-    
+
     @Override
     public Object getProperty(Object object, QName name) {
-        if ("_SurfacePatch".equals(name.getLocalPart()) || "AbstractSurfacePatch".equals(name.getLocalPart())) {
+        if ("_SurfacePatch".equals(name.getLocalPart()) || "AbstractSurfacePatch".equals(name
+                .getLocalPart())) {
             Polygon[] patches = (Polygon[]) object;
             return patches;
         }

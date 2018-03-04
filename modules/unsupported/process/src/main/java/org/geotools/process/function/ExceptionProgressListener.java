@@ -24,6 +24,7 @@ import org.opengis.util.ProgressListener;
 
 /**
  * A listener that will just keep track of exceptions
+ *
  * @author Andrea Aime - GeoSolutions
  */
 class ExceptionProgressListener implements ProgressListener {

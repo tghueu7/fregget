@@ -16,7 +16,7 @@
  * </pre>
  * With this in mind please consider the source code in the contenxt of the documentation; it may
  * not always show best practice (if it is part of an example leading up to best practice).
- * 
+ *
  * @author Jody Garnett
  * @version 2.7
  * @since 2.7

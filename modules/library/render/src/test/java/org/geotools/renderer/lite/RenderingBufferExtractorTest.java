@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -39,8 +39,6 @@ import org.opengis.filter.expression.Add;
 import org.opengis.filter.expression.Function;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class RenderingBufferExtractorTest {
@@ -93,7 +91,7 @@ public class RenderingBufferExtractorTest {
         assertEquals(16, rbe.getBuffer());
         assertTrue(rbe.isEstimateAccurate());
     }
-    
+
     @Test
     public void testReachableExternalGraphic() {
         URL resource = TestData.getResource(this, "draw.png");
@@ -107,7 +105,7 @@ public class RenderingBufferExtractorTest {
         assertEquals(24, rbe.getBuffer());
         assertTrue(rbe.isEstimateAccurate());
     }
-    
+
     @Test
     public void testUnreachableExternalGraphic() throws Exception {
         File file = new File(TestData.getResource(this, "draw.png").toURI());
@@ -136,7 +134,7 @@ public class RenderingBufferExtractorTest {
     public void testMultiSymbolizers() {
         Symbolizer ls = sb.createLineSymbolizer(sb.createStroke(10.8));
         Symbolizer ps = sb.createPolygonSymbolizer(sb.createStroke(12), sb.createFill());
-        Rule r = sb.createRule(new Symbolizer[] { ls, ps });
+        Rule r = sb.createRule(new Symbolizer[]{ls, ps});
         MetaBufferEstimator rbe = new MetaBufferEstimator();
         rbe.visit(r);
         assertEquals(12, rbe.getBuffer());
@@ -148,25 +146,25 @@ public class RenderingBufferExtractorTest {
         Symbolizer ls = sb.createLineSymbolizer(sb.createStroke(sb.colorExpression(Color.BLACK), sb
                 .attributeExpression("gimbo")));
         Symbolizer ps = sb.createPolygonSymbolizer(sb.createStroke(12), sb.createFill());
-        Rule r = sb.createRule(new Symbolizer[] { ls, ps });
+        Rule r = sb.createRule(new Symbolizer[]{ls, ps});
         MetaBufferEstimator rbe = new MetaBufferEstimator();
         rbe.visit(r);
         assertEquals(12, rbe.getBuffer());
         assertTrue(!rbe.isEstimateAccurate());
     }
-    
+
     @Test
     public void testEnvironmentWidth() {
-        Symbolizer ls = sb.createLineSymbolizer(sb.createStroke(sb.colorExpression(Color.BLACK), 
+        Symbolizer ls = sb.createLineSymbolizer(sb.createStroke(sb.colorExpression(Color.BLACK),
                 ff.function("env", ff.literal("thickness"), ff.literal(10))));
-        Rule r = sb.createRule(new Symbolizer[] { ls});
+        Rule r = sb.createRule(new Symbolizer[]{ls});
         MetaBufferEstimator rbe = new MetaBufferEstimator();
-        
+
         // no env variable, fall back on the default value
         rbe.visit(r);
         assertEquals(10, rbe.getBuffer());
         assertTrue(rbe.isEstimateAccurate());
-        
+
         // set the env variable
         EnvFunction.setLocalValue("thickness", 15);
         try {
@@ -177,12 +175,13 @@ public class RenderingBufferExtractorTest {
             EnvFunction.clearLocalValues();
         }
     }
-    
+
     @Test
     public void testConstantFunction() {
         Function cos = ff.function("cos", ff.literal(Math.toRadians(Math.PI)));
-        Symbolizer ls = sb.createLineSymbolizer(sb.createStroke(sb.colorExpression(Color.BLACK), cos));
-        Rule r = sb.createRule(new Symbolizer[] { ls });
+        Symbolizer ls = sb.createLineSymbolizer(sb.createStroke(sb.colorExpression(Color.BLACK), 
+                cos));
+        Rule r = sb.createRule(new Symbolizer[]{ls});
         MetaBufferEstimator rbe = new MetaBufferEstimator();
 
         // cos(pi) == 1
@@ -190,14 +189,15 @@ public class RenderingBufferExtractorTest {
         assertEquals(1, rbe.getBuffer());
         assertTrue(rbe.isEstimateAccurate());
     }
-    
+
     @Test
     public void testMath() {
         Add add = ff.add(ff.literal("5"), ff.literal("-2"));
-        Symbolizer ls = sb.createLineSymbolizer(sb.createStroke(sb.colorExpression(Color.BLACK), add));
-        Rule r = sb.createRule(new Symbolizer[] { ls });
+        Symbolizer ls = sb.createLineSymbolizer(sb.createStroke(sb.colorExpression(Color.BLACK), 
+                add));
+        Rule r = sb.createRule(new Symbolizer[]{ls});
         MetaBufferEstimator rbe = new MetaBufferEstimator();
-        
+
         // 5-2 = 3
         rbe.visit(r);
         assertEquals(3, rbe.getBuffer());
@@ -213,7 +213,7 @@ public class RenderingBufferExtractorTest {
         assertEquals(10, rbe.getBuffer());
         assertTrue(rbe.isEstimateAccurate());
     }
-    
+
     @Test
     public void testNpePreventionStroke() {
         Style style = sb.createStyle(sb.createLineSymbolizer(sb.createStroke(sb
@@ -223,7 +223,7 @@ public class RenderingBufferExtractorTest {
         assertEquals(1, rbe.getBuffer());
         assertTrue(rbe.isEstimateAccurate());
     }
-    
+
     @Test
     public void testLiteralParseGraphics() {
         Graphic g = sb.createGraphic();

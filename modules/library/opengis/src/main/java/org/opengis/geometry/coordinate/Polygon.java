@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.coordinate;
 
 import java.util.List;
+
 import org.opengis.geometry.primitive.Curve;
 import org.opengis.geometry.primitive.Surface;
 import org.opengis.geometry.primitive.SurfacePatch;
@@ -26,17 +27,14 @@ import static org.opengis.annotation.Specification.*;
  * which these curves adhere. The default is that the curves are coplanar and the polygon
  * uses planar interpolation in its interior.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
- * @since GeoAPI 2.0
- *
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @see GeometryFactory#createPolygon(SurfaceBoundary)
- * @see GeometryFactory#createPolygon(SurfaceBoundary,Surface)
+ * @see GeometryFactory#createPolygon(SurfaceBoundary, Surface)
+ * @since GeoAPI 2.0
  */
-@UML(identifier="GM_Polygon", specification=ISO_19107)
+@UML(identifier = "GM_Polygon", specification = ISO_19107)
 public interface Polygon extends SurfacePatch {
     /**
      * The surface boundary that is the boundary of this polygon.
@@ -45,10 +43,11 @@ public interface Polygon extends SurfacePatch {
      * interior of the {@linkplain Surface surface} (act as common boundary to 2 surface patches)
      * are not part of any {@linkplain Complex complex} in which the {@linkplain Surface surface}
      * is contained. They are purely constructive and would not play in any topological relation
-     * between {@linkplain Surface surface} and {@linkplain Curve curve} that defines the connectivity
+     * between {@linkplain Surface surface} and {@linkplain Curve curve} that defines the 
+     * connectivity
      * of the {@linkplain Complex complex}.
      */
-    @UML(identifier="boundary", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "boundary", obligation = MANDATORY, specification = ISO_19107)
     SurfaceBoundary getBoundary();
 
     /**
@@ -59,12 +58,12 @@ public interface Polygon extends SurfacePatch {
      * which is not directly described in this standard, although {@linkplain Tin tins} and
      * {@linkplain GriddedSurface gridded surfaces} are often used in this role.
      */
-    @UML(identifier="spanningSurface", obligation=OPTIONAL, specification=ISO_19107)
+    @UML(identifier = "spanningSurface", obligation = OPTIONAL, specification = ISO_19107)
     List<Surface> getSpanningSurface();
 
     /**
      * Returns the patch which own this surface patch.
      */
-    @UML(identifier="surface", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "surface", obligation = MANDATORY, specification = ISO_19107)
     PolyhedralSurface getSurface();
 }

@@ -29,9 +29,13 @@ import org.geotools.jdbc.SQLDialect;
 
 
 public class JTDSSqlServerDataStoreFactory extends SQLServerDataStoreFactory {
-    /** parameter for database type */
-    public static final Param DBTYPE = new Param("dbtype", String.class, "Type", true, "jtds-sqlserver",
+    /**
+     * parameter for database type
+     */
+    public static final Param DBTYPE = new Param("dbtype", String.class, "Type", true, 
+            "jtds-sqlserver",
             Collections.singletonMap(Parameter.LEVEL, "program"));
+
     /* (non-Javadoc)
      * @see org.geotools.data.sqlserver.SQLServerDataStoreFactory#getDescription()
      */
@@ -76,17 +80,17 @@ public class JTDSSqlServerDataStoreFactory extends SQLServerDataStoreFactory {
         String instance = (String) INSTANCE.lookUp(params);
 
         String url = "jdbc:jtds:sqlserver://" + host;
-        if ( port != null ) {
+        if (port != null) {
             url += ":" + port;
         }
 
-        if ( db != null ) {
+        if (db != null) {
             url += "/" + db;
         }
 
 
         if (instance != null) {
-            url += ";instance="+instance;
+            url += ";instance=" + instance;
         }
 
         Boolean intsec = (Boolean) INTSEC.lookUp(params);

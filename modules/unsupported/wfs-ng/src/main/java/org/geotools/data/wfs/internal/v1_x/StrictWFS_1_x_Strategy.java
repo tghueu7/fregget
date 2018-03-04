@@ -95,14 +95,14 @@ import org.opengis.filter.capability.FilterCapabilities;
 import org.opengis.filter.sort.SortBy;
 
 /**
- * 
+ *
  */
 public class StrictWFS_1_x_Strategy extends AbstractWFSStrategy {
 
     private static final List<String> PREFFERRED_GETFEATURE_FORMATS = Collections
             .unmodifiableList(Arrays.asList("text/xml; subtype=gml/3.1.1",
                     "text/xml; subtype=gml/3.1.1/profiles/gmlsf/0", "GML3"));
-    
+
     private static final List<String> PREFFERRED_GETFEATURE_FORMATS_10 = Collections
             .unmodifiableList(Arrays.asList("GML2"));
 
@@ -137,7 +137,8 @@ public class StrictWFS_1_x_Strategy extends AbstractWFSStrategy {
     }
 
     /**
-     * @see org.geotools.data.wfs.internal.AbstractWFSStrategy#createGetFeatureRequestPost(org.geotools.data.wfs.internal.GetFeatureRequest)
+     * @see org.geotools.data.wfs.internal.AbstractWFSStrategy#createGetFeatureRequestPost(org
+     * .geotools.data.wfs.internal.GetFeatureRequest)
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -243,16 +244,18 @@ public class StrictWFS_1_x_Strategy extends AbstractWFSStrategy {
     protected EObject createListStoredQueriesRequestPost(
             ListStoredQueriesRequest request) throws IOException {
         // Not implemented in 1.0.0 or 1.1.0, this method should never be entered
-        throw new UnsupportedOperationException("WFS 1.0.0 / 1.1.0 does not support Stored Queries!");
+        throw new UnsupportedOperationException("WFS 1.0.0 / 1.1.0 does not support Stored " +
+                "Queries!");
     }
-    
+
     @Override
     protected EObject createDescribeStoredQueriesRequestPost(
             DescribeStoredQueriesRequest request) throws IOException {
         // Not implemented in 1.0.0 or 1.1.0, this method should never be entered
-        throw new UnsupportedOperationException("WFS 1.0.0 / 1.1.0 does not support Stored Queries!");
+        throw new UnsupportedOperationException("WFS 1.0.0 / 1.1.0 does not support Stored " +
+                "Queries!");
     }
-    
+
     @Override
     protected EObject createTransactionRequest(TransactionRequest request) throws IOException {
         final WfsFactory factory = WfsFactory.eINSTANCE;
@@ -308,7 +311,7 @@ public class StrictWFS_1_x_Strategy extends AbstractWFSStrategy {
         List<SimpleFeature> features = elem.getFeatures();
 
         insert.getFeature().addAll(features);
-        
+
         return insert;
     }
 
@@ -373,10 +376,10 @@ public class StrictWFS_1_x_Strategy extends AbstractWFSStrategy {
             return false;
         }
 
-		OperationsType operations = this.capabilities.getFeatureTypeList().getOperations();
-		if (operations == null) {
-			return false;
-		}
+        OperationsType operations = this.capabilities.getFeatureTypeList().getOperations();
+        if (operations == null) {
+            return false;
+        }
 
         @SuppressWarnings("unchecked")
         List<net.opengis.wfs.OperationType> operation = operations.getOperation();
@@ -437,15 +440,15 @@ public class StrictWFS_1_x_Strategy extends AbstractWFSStrategy {
             typeInfos.put(name, transTypeInfo);
         }
     }
-    
+
     /**
      * Any server specific translation of type information
      * such as setting correct namespace
-     * 
+     *
      * @param typeInfo type info
      * @return translated type info
      */
-    protected FeatureTypeType translateTypeInfo(FeatureTypeType typeInfo){
+    protected FeatureTypeType translateTypeInfo(FeatureTypeType typeInfo) {
         return typeInfo;
     }
 
@@ -466,12 +469,12 @@ public class StrictWFS_1_x_Strategy extends AbstractWFSStrategy {
     @Override
     public boolean supports(ResultType resultType) {
         switch (resultType) {
-        case RESULTS:
-            return true;
-        case HITS:
-            return Versions.v1_0_0.equals(getServiceVersion()) ? false : true;
-        default:
-            return false;
+            case RESULTS:
+                return true;
+            case HITS:
+                return Versions.v1_0_0.equals(getServiceVersion()) ? false : true;
+            default:
+                return false;
         }
     }
 
@@ -572,35 +575,36 @@ public class StrictWFS_1_x_Strategy extends AbstractWFSStrategy {
      */
     @Override
     public Set<String> getServerSupportedOutputFormats(WFSOperationType operation) {
-        
+
         String parameterName;
 
         final Version serviceVersion = getServiceVersion();
         final boolean wfs1_0 = Versions.v1_0_0.equals(serviceVersion);
         switch (operation) {
-        case GET_FEATURE:
-            parameterName = wfs1_0 ? "ResultFormat" : "outputFormat";
-            break;
-        case DESCRIBE_FEATURETYPE:
-            parameterName = wfs1_0 ? "SchemaDescriptionLanguage" : "outputFormat";
-            break;
-        case GET_FEATURE_WITH_LOCK:
-            parameterName = wfs1_0 ? "ResultFormat" : "outputFormat";
-            break;
-        case TRANSACTION:
-            if (wfs1_0) {
-                //TODO: not sure what to do here.
-                //this is a hack, there appears to be no format info in the 1.0 capabilities for transaction
-                operation = GET_FEATURE;
-                parameterName = "ResultFormat";
-            } else {
-                parameterName = "inputFormat";
-            }
-            break;
-        default:
-            throw new UnsupportedOperationException("not yet implemented for " + operation);
+            case GET_FEATURE:
+                parameterName = wfs1_0 ? "ResultFormat" : "outputFormat";
+                break;
+            case DESCRIBE_FEATURETYPE:
+                parameterName = wfs1_0 ? "SchemaDescriptionLanguage" : "outputFormat";
+                break;
+            case GET_FEATURE_WITH_LOCK:
+                parameterName = wfs1_0 ? "ResultFormat" : "outputFormat";
+                break;
+            case TRANSACTION:
+                if (wfs1_0) {
+                    //TODO: not sure what to do here.
+                    //this is a hack, there appears to be no format info in the 1.0 capabilities 
+                    // for transaction
+                    operation = GET_FEATURE;
+                    parameterName = "ResultFormat";
+                } else {
+                    parameterName = "inputFormat";
+                }
+                break;
+            default:
+                throw new UnsupportedOperationException("not yet implemented for " + operation);
         }
-        
+
         final OperationType operationMetadata = getOperationMetadata(operation);
 
         Set<String> serverSupportedFormats;
@@ -621,7 +625,7 @@ public class StrictWFS_1_x_Strategy extends AbstractWFSStrategy {
 
         Set<String> ftypeCrss = new HashSet<String>();
         ftypeCrss.add(defaultSRS);
-        
+
         if (!config.isUseDefaultSrs()) {
             ftypeCrss.addAll(otherSRS);
         }
@@ -638,7 +642,7 @@ public class StrictWFS_1_x_Strategy extends AbstractWFSStrategy {
 
     @SuppressWarnings("unchecked")
     protected Set<String> findParameters(final OperationType operationMetadata,
-            final String parameterName) {
+                                         final String parameterName) {
         Set<String> outputFormats = new HashSet<String>();
 
         List<DomainType> parameters = operationMetadata.getParameter();
@@ -666,11 +670,12 @@ public class StrictWFS_1_x_Strategy extends AbstractWFSStrategy {
             List<String> factoryFormats = factory.getSupportedOutputFormats();
             outputFormats.addAll(factoryFormats);
         }
-        
+
         final boolean wfs1_0 = Versions.v1_0_0.equals(serviceVersion);
 
         if (GET_FEATURE.equals(operation)) {
-            for (String preferred : wfs1_0? PREFFERRED_GETFEATURE_FORMATS_10 : PREFFERRED_GETFEATURE_FORMATS) {
+            for (String preferred : wfs1_0 ? PREFFERRED_GETFEATURE_FORMATS_10 : 
+                    PREFFERRED_GETFEATURE_FORMATS) {
                 boolean hasFormat = outputFormats.remove(preferred);
                 if (hasFormat) {
                     outputFormats.add(0, preferred);
@@ -688,8 +693,8 @@ public class StrictWFS_1_x_Strategy extends AbstractWFSStrategy {
      */
     protected OperationType getOperationMetadata(final WFSOperationType operation) {
         final OperationsMetadataType operationsMetadata = capabilities.getOperationsMetadata();
-        @SuppressWarnings("unchecked")
-        final List<OperationType> operations = operationsMetadata.getOperation();
+        @SuppressWarnings("unchecked") final List<OperationType> operations = operationsMetadata
+                .getOperation();
         final String expectedOperationName = operation.getName();
         for (OperationType operationType : operations) {
             String operationName = operationType.getName();

@@ -81,8 +81,7 @@ public class WMTSLayer extends Layer {
     }
 
     /**
-     * @param formats
-     *            the formats to set
+     * @param formats the formats to set
      */
     public void setFormats(List<String> formats) {
         this.formats = formats;
@@ -96,8 +95,7 @@ public class WMTSLayer extends Layer {
     }
 
     /**
-     * @param infoFormats
-     *            the infoFormats to set
+     * @param infoFormats the infoFormats to set
      */
     public void setInfoFormats(List<String> infoFormats) {
         this.infoFormats = infoFormats;
@@ -134,8 +132,7 @@ public class WMTSLayer extends Layer {
     }
 
     /**
-     * @param preferredCRS
-     *            the preferredCRS to set
+     * @param preferredCRS the preferredCRS to set
      */
     public void setPreferredCRS(CoordinateReferenceSystem preferredCRS) {
         this.preferredCRS = preferredCRS;

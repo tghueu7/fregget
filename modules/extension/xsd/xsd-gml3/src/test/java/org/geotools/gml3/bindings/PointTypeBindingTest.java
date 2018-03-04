@@ -27,12 +27,10 @@ import com.vividsolutions.jts.geom.Point;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class PointTypeBindingTest extends GML3TestSupport {
-    
+
     public void testPos() throws Exception {
         GML3MockData.point(document, document);
 
@@ -42,7 +40,7 @@ public class PointTypeBindingTest extends GML3TestSupport {
 
         assertTrue(p.getUserData() instanceof CoordinateReferenceSystem);
     }
-    
+
     public void testPos3D() throws Exception {
         GML3MockData.point3D(document, document);
 
@@ -58,23 +56,24 @@ public class PointTypeBindingTest extends GML3TestSupport {
         Document dom = encode(p, GML.Point);
 
         assertEquals(1,
-            dom.getElementsByTagNameNS(GML.NAMESPACE, GML.pos.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(GML.NAMESPACE, GML.pos.getLocalPart()).getLength());
         //assertEquals("urn:x-ogc:def:crs:EPSG:6.11.2:4326",
-        assertEquals("urn:x-ogc:def:crs:EPSG:4326", dom.getDocumentElement().getAttribute("srsName"));
+        assertEquals("urn:x-ogc:def:crs:EPSG:4326", dom.getDocumentElement().getAttribute
+                ("srsName"));
     }
-    
+
     public void testEncode2D() throws Exception {
-    	Point point = GML3MockData.pointLite2D();
+        Point point = GML3MockData.pointLite2D();
         Document doc = encode(point, GML.Point);
-        
+
         checkDimension(doc, GML.Point.getLocalPart(), 2);
         checkPosOrdinates(doc, 2);
     }
 
     public void testEncode3D() throws Exception {
-    	Point point = GML3MockData.pointLite3D();
+        Point point = GML3MockData.pointLite3D();
         Document doc = encode(point, GML.Point);
-        
+
         checkDimension(doc, GML.Point.getLocalPart(), 3);
         checkPosOrdinates(doc, 3);
     }

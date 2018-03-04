@@ -37,31 +37,32 @@ import org.geotools.swing.testutils.GraphicsTestRunner;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import static org.junit.Assert.*;
 
 /**
  * Tests for the {@linkplain AbstractSimpleDialog} base class.
- * 
+ *
  * @author Michael Bedward
- * @since 8.0
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 @RunWith(GraphicsTestRunner.class)
 public class AbstractSimpleDialogTest extends GraphicsTestBase<Dialog> {
-    
+
     private static final String TITLE = "Foo Dialog";
-    
+
     private static final String CONTROL_PANEL_NAME = "ControlPanel";
     private static final int CONTROL_PANEL_WIDTH = 400;
     private static final int CONTROL_PANEL_HEIGHT = 300;
-    
+
     private static final long DEFAULT_TIMEOUT = 1000;
-    
+
     private MockDialog dialog;
-    
-    
-    @Test(expected=IllegalStateException.class)
+
+
+    @Test(expected = IllegalStateException.class)
     public void forgettingToCallInitComponentsCausesException() {
         GuiActionRunner.execute(new GuiTask() {
             @Override
@@ -71,63 +72,63 @@ public class AbstractSimpleDialogTest extends GraphicsTestBase<Dialog> {
             }
         });
     }
-    
+
     @Test
     public void dialogIsModalByDefault() {
         createWindowFixture();
         ((DialogFixture) windowFixture).requireModal();
     }
-    
+
     @Test
     public void dialogIsNotResizableByDefault() {
         createWindowFixture();
         assertFalse(dialog.isResizable());
     }
-    
+
     @Test
     public void createNonModalDialog() {
         createWindowFixture(false, false);
         assertFalse(dialog.isModal());
     }
-    
+
     @Test
     public void createResizableDialog() {
         createWindowFixture(false, true);
         assertTrue(dialog.isResizable());
     }
-    
+
     @Test
     public void dialogHasOKAndCancelButtons() {
         createWindowFixture();
         JButtonFixture button = getButton("OK");
         assertNotNull(button);
-        
+
         button = getButton("Cancel");
         assertNotNull(button);
     }
-    
+
     @Test
     public void okButtonCallsHandlerMethod() {
         assertButtonHandlerIsCalled(MockDialog.EventType.OK, "OK");
     }
-    
+
     @Test
     public void cancelButtonCallsHandlerMethod() {
         assertButtonHandlerIsCalled(MockDialog.EventType.CANCEL, "Cancel");
     }
-    
+
     @Test
     public void controlPanelIsCreated() {
         createWindowFixture();
-        
+
         // FEST requires that the window be shown before we search for
         // the JPanel
         ((DialogFixture) windowFixture).show();
         assertNotNull(windowFixture.panel(CONTROL_PANEL_NAME));
     }
-    
+
     private void createWindowFixture() {
-        dialog = GuiActionRunner.execute(new GuiQuery<MockDialog>(){
+        dialog = GuiActionRunner.execute(new GuiQuery<MockDialog>() {
             @Override
             protected MockDialog executeInEDT() throws Throwable {
                 MockDialog dialog = new MockDialog(TITLE);
@@ -135,12 +136,12 @@ public class AbstractSimpleDialogTest extends GraphicsTestBase<Dialog> {
                 return dialog;
             }
         });
-        
+
         windowFixture = new DialogFixture(dialog);
     }
 
     private void createWindowFixture(final boolean modal, final boolean resizable) {
-        dialog = GuiActionRunner.execute(new GuiQuery<MockDialog>(){
+        dialog = GuiActionRunner.execute(new GuiQuery<MockDialog>() {
             @Override
             protected MockDialog executeInEDT() throws Throwable {
                 MockDialog dialog = new MockDialog(TITLE, modal, resizable);
@@ -148,18 +149,18 @@ public class AbstractSimpleDialogTest extends GraphicsTestBase<Dialog> {
                 return dialog;
             }
         });
-        
+
         windowFixture = new DialogFixture(dialog);
     }
 
     private void assertButtonHandlerIsCalled(MockDialog.EventType et, String btnText) {
         createWindowFixture();
         ((DialogFixture) windowFixture).show();
-        
+
         dialog.setExpected(et);
         JButtonFixture button = getButton(btnText);
         button.click();
-        
+
         assertTrue(dialog.await(et, DEFAULT_TIMEOUT));
     }
 
@@ -169,11 +170,11 @@ public class AbstractSimpleDialogTest extends GraphicsTestBase<Dialog> {
             OK,
             CANCEL;
         }
-        
+
         private static final int NUM_EVENT_TYPES = EventType.values().length;
-        
+
         private final CountDownLatch[] latches = new CountDownLatch[NUM_EVENT_TYPES];
-        
+
         public MockDialog(String title) {
             super(title);
         }
@@ -181,7 +182,7 @@ public class AbstractSimpleDialogTest extends GraphicsTestBase<Dialog> {
         public MockDialog(String title, boolean modal, boolean resizable) {
             super((JFrame) null, title, modal, resizable);
         }
-        
+
         @Override
         public JPanel createControlPanel() {
             JPanel panel = new JPanel(new BorderLayout());
@@ -205,17 +206,17 @@ public class AbstractSimpleDialogTest extends GraphicsTestBase<Dialog> {
                 latch.countDown();
             }
         }
-        
+
         public void setExpected(EventType et) {
             latches[et.ordinal()] = new CountDownLatch(1);
         }
-        
+
         public boolean await(EventType et, long timeout) {
             CountDownLatch latch = latches[et.ordinal()];
             if (latch == null) {
                 throw new IllegalStateException("latch not set for " + et);
             }
-            
+
             try {
                 return latch.await(timeout, TimeUnit.MILLISECONDS);
             } catch (InterruptedException ex) {

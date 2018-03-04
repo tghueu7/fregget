@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -32,18 +32,14 @@ import org.geotools.metadata.iso.content.ContentInformationImpl;
 /**
  * Location of the responsible individual or organization.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class FeatureCatalogueDescriptionImpl extends ContentInformationImpl
-       implements FeatureCatalogueDescription
-{
+        implements FeatureCatalogueDescription {
     /**
      * Serial number for interoperability with different versions.
      */
@@ -95,6 +91,7 @@ public class FeatureCatalogueDescriptionImpl extends ContentInformationImpl
     public Boolean isCompliant() {
         return compliant;
     }
+
     /**
      * Set whether or not the cited feature catalogue complies with ISO 19110.
      */
@@ -114,8 +111,7 @@ public class FeatureCatalogueDescriptionImpl extends ContentInformationImpl
      * Returns the language(s) used within the catalogue
      */
     public synchronized void setLanguages(
-            final Collection<? extends Locale> newValues)
-    {
+            final Collection<? extends Locale> newValues) {
         language = copyCollection(newValues, language, Locale.class);
     }
 
@@ -138,7 +134,7 @@ public class FeatureCatalogueDescriptionImpl extends ContentInformationImpl
 
     /**
      * Returns the Complete bibliographic reference to one or more external feature catalogues.
-     * 
+     *
      * @TODO: needs to annotate the package org.geotools.util before.
      */
     public synchronized Collection<GenericName> getFeatureTypes() {
@@ -149,8 +145,7 @@ public class FeatureCatalogueDescriptionImpl extends ContentInformationImpl
      * Returns the Complete bibliographic reference to one or more external feature catalogues.
      */
     public synchronized void setFeatureTypes(
-            final Collection<? extends GenericName> newValues)
-    {
+            final Collection<? extends GenericName> newValues) {
         featureTypes = copyCollection(newValues, featureTypes, GenericName.class);
     }
 
@@ -158,15 +153,16 @@ public class FeatureCatalogueDescriptionImpl extends ContentInformationImpl
      * Returns the Complete bibliographic reference to one or more external feature catalogues.
      */
     public synchronized Collection<Citation> getFeatureCatalogueCitations() {
-        return (featureCatalogueCitations = nonNullCollection(featureCatalogueCitations, Citation.class));
+        return (featureCatalogueCitations = nonNullCollection(featureCatalogueCitations, Citation
+                .class));
     }
 
     /**
      * Returns the Complete bibliographic reference to one or more external feature catalogues.
      */
     public synchronized void setFeatureCatalogueCitations(
-            final Collection<? extends Citation> newValues)
-    {
-        featureCatalogueCitations = copyCollection(newValues, featureCatalogueCitations, Citation.class);
+            final Collection<? extends Citation> newValues) {
+        featureCatalogueCitations = copyCollection(newValues, featureCatalogueCitations, Citation
+                .class);
     }
 }

@@ -31,15 +31,13 @@ import org.w3c.dom.Element;
 
 /**
  * Unit test suite for {@link DescribeFeatureTypeTypeBinding}
- * 
+ *
  * @author Justin Deoliveira
  * @author Gabriel Roldan
  * @version $Id: DescribeFeatureTypeTypeBindingTest.java 27759 2007-11-05
- *          19:46:45Z groldan $
- * @since 2.5.x
- *
- *
+ * 19:46:45Z groldan $
  * @source $URL$
+ * @since 2.5.x
  */
 public class DescribeFeatureTypeTypeBindingTest extends WFSTestSupport {
     public DescribeFeatureTypeTypeBindingTest() {

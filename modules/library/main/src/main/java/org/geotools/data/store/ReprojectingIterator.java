@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -37,8 +37,6 @@ import org.opengis.referencing.operation.TransformException;
 import com.vividsolutions.jts.geom.Geometry;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ReprojectingIterator implements Iterator<SimpleFeature> {
@@ -64,8 +62,8 @@ public class ReprojectingIterator implements Iterator<SimpleFeature> {
     GeometryCoordinateSequenceTransformer tx;
 
     public ReprojectingIterator(
-		Iterator<SimpleFeature> delegate, MathTransform transform, SimpleFeatureType schema, 
-		GeometryCoordinateSequenceTransformer transformer
+            Iterator<SimpleFeature> delegate, MathTransform transform, SimpleFeatureType schema,
+            GeometryCoordinateSequenceTransformer transformer
     ) throws OperationNotFoundException, FactoryRegistryException, FactoryException {
         this.delegate = delegate;
         this.schema = schema;
@@ -75,8 +73,9 @@ public class ReprojectingIterator implements Iterator<SimpleFeature> {
     }
 
     public ReprojectingIterator(
-		Iterator<SimpleFeature> delegate, CoordinateReferenceSystem source, CoordinateReferenceSystem target,
-        SimpleFeatureType schema, GeometryCoordinateSequenceTransformer transformer
+            Iterator<SimpleFeature> delegate, CoordinateReferenceSystem source, 
+            CoordinateReferenceSystem target,
+            SimpleFeatureType schema, GeometryCoordinateSequenceTransformer transformer
     ) throws OperationNotFoundException, FactoryRegistryException, FactoryException {
         this.delegate = delegate;
         this.target = target;

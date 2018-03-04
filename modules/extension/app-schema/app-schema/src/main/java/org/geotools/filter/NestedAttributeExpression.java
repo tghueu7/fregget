@@ -49,27 +49,21 @@ import org.opengis.filter.expression.ExpressionVisitor;
  * feature.
  *
  * @author Rini Angreani (CSIRO Earth Science and Resource Engineering)
- *
- *
- *
- *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/app-schema/app-schema/src/main
- *         /java/org/geotools/filter/NestedAttributeExpression.java $
+ * http://svn.osgeo.org/geotools/trunk/modules/unsupported/app-schema/app-schema/src/main
+ * /java/org/geotools/filter/NestedAttributeExpression.java $
  */
 public class NestedAttributeExpression extends AttributeExpressionImpl {
 
     private NestedAttributeMapping rootMapping;
-    
+
     private StepList fullSteps;
 
     /**
      * First constructor
      *
-     * @param xpath
-     *            Attribute XPath
-     * @param expressions
-     *            List of broken up expressions
+     * @param xpath       Attribute XPath
+     * @param expressions List of broken up expressions
      */
     public NestedAttributeExpression(StepList xpath, NestedAttributeMapping nestedMapping) {
         super(xpath.toString());
@@ -91,11 +85,11 @@ public class NestedAttributeExpression extends AttributeExpressionImpl {
             return null;
         }
 
-        return getValues(((Feature)object), rootMapping, fullSteps);
+        return getValues(((Feature) object), rootMapping, fullSteps);
     }
-    
+
     private List<Object> getValues(Feature feature, NestedAttributeMapping nestedMapping,
-            StepList steps) {
+                                   StepList steps) {
         List<Object> values = new ArrayList<Object>();
         FeatureTypeMapping nextFMapping;
         try {
@@ -144,7 +138,7 @@ public class NestedAttributeExpression extends AttributeExpressionImpl {
                     values.addAll(getClientProperties(nestedMapping, f));
                 }
             }
-        }        
+        }
         // skip element name that is mapped at the next FeatureTypeMapping
         // except when it's a simple content
         // if simple content, then there will be no type name in the xpath, e.g. when gml:name
@@ -154,7 +148,7 @@ public class NestedAttributeExpression extends AttributeExpressionImpl {
         // gsml:specification/gsml:GeologicUnit/<some leaf attribute to filter by>        
         Name nextElementName = nextFMapping.getTargetFeature().getName();
         // starting index for the next search
-        int startPos = -1;            
+        int startPos = -1;
         if (Types.equals(nextElementName, steps.get(0).getName())) {
             // simple contents where nested element name is the same as the nesting element
             startPos = 0;
@@ -214,7 +208,7 @@ public class NestedAttributeExpression extends AttributeExpressionImpl {
         }
         return values;
     }
-    
+
     private boolean isXlinkHref(StepList steps) {
         if (steps.isEmpty()) {
             return false;
@@ -224,27 +218,27 @@ public class NestedAttributeExpression extends AttributeExpressionImpl {
         // if it's to get the values from the local table, it shouldn't be set with feature chaining
         return steps.get(steps.size() - 1).getName().equals(XLINK.HREF);
     }
-    
+
     private boolean isClientProperty(StepList steps) {
         if (steps.isEmpty()) {
             return false;
         }
         return steps.get(steps.size() - 1).isXmlAttribute();
     }
-    
+
     private List<Object> getClientProperties(AttributeMapping attMapping, Feature f) {
         List<Object> values = new ArrayList<Object>();
-        Step lastStep = getLastStep();        
+        Step lastStep = getLastStep();
         Expression exp = getClientPropertyExpression(attMapping, lastStep);
         if (exp != null) {
             Object value = getValue(exp, f);
             if (value != null) {
                 values.add(value);
-            }            
+            }
         }
         return values;
     }
-    
+
     private Step getLastStep() {
         return fullSteps.get(fullSteps.size() - 1);
     }
@@ -252,16 +246,14 @@ public class NestedAttributeExpression extends AttributeExpressionImpl {
     /**
      * Get nested features from a feature chaining attribute mapping
      *
-     * @param root
-     *            Root feature being evaluated
-     * @param nestedMapping
-     *            Attribute mapping for nested features
-     * @param fMapping
-     *            The root feature type mapping
+     * @param root          Root feature being evaluated
+     * @param nestedMapping Attribute mapping for nested features
+     * @param fMapping      The root feature type mapping
      * @return list of nested features
      * @throws IOException
      */
-    private List<Feature> getNestedFeatures(Feature root, NestedAttributeMapping nestedMapping, FeatureTypeMapping fMapping) throws IOException {
+    private List<Feature> getNestedFeatures(Feature root, NestedAttributeMapping nestedMapping, 
+                                            FeatureTypeMapping fMapping) throws IOException {
         Object fTypeName = nestedMapping.getNestedFeatureType(root);
         if (fTypeName == null || !(fTypeName instanceof Name)) {
             return null;
@@ -322,22 +314,18 @@ public class NestedAttributeExpression extends AttributeExpressionImpl {
             }
         }
         return value;
-    }   
+    }
 
     /**
      * Find the source expression if the step is a client property.
      *
-     * @param nextRootStep
-     *            the step
-     * @param fMapping
-     *            feature type mapping to get namespaces from
-     * @param mapping
-     *            attribute mapping
-     * @param targetXPath
-     *            the full target xpath
+     * @param nextRootStep the step
+     * @param fMapping     feature type mapping to get namespaces from
+     * @param mapping      attribute mapping
+     * @param targetXPath  the full target xpath
      * @return
      */
-    
+
     private Expression getClientPropertyExpression(AttributeMapping mapping, Step lastStep) {
         Expression exp = null;
         if (lastStep.isXmlAttribute()) {
@@ -347,7 +335,7 @@ public class NestedAttributeExpression extends AttributeExpressionImpl {
             if (lastStepQName.getPrefix() != null
                     && lastStepQName.getPrefix().length() > 0
                     && (lastStepQName.getNamespaceURI() == null || lastStepQName.getNamespaceURI()
-                            .length() == 0)) {
+                    .length() == 0)) {
                 String prefix = lastStepQName.getPrefix();
                 String uri = namespaceSupport.getURI(prefix);
                 lastStepName = Types.typeName(uri, lastStepQName.getLocalPart());
@@ -364,17 +352,19 @@ public class NestedAttributeExpression extends AttributeExpressionImpl {
                     exp = CommonFactoryFinder.getFilterFactory(null).property("@id");
                 } else {
                     exp = mapping.getIdentifierExpression();
-                }    
+                }
             }
         }
         return exp;
     }
-    
+
     public Object accept(ExpressionVisitor visitor, Object extraData) {
-        //Workaround for GEOT-4981: NestedAttributeExpresionImpl is incompatible with DuplicatingFilterVisitor
-        if (visitor instanceof DuplicatingFilterVisitor && !(visitor instanceof NamespaceAwareAttributeRenameVisitor)) {
+        //Workaround for GEOT-4981: NestedAttributeExpresionImpl is incompatible with 
+        // DuplicatingFilterVisitor
+        if (visitor instanceof DuplicatingFilterVisitor && !(visitor instanceof 
+                NamespaceAwareAttributeRenameVisitor)) {
             return new NestedAttributeExpression(fullSteps, rootMapping);
         }
-        return visitor.visit(this,extraData);
+        return visitor.visit(this, extraData);
     }
 }

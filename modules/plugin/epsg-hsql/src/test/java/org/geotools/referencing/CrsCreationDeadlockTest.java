@@ -13,8 +13,6 @@ import org.junit.Test;
 import org.opengis.referencing.crs.CRSAuthorityFactory;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class CrsCreationDeadlockTest {
@@ -62,7 +60,7 @@ public class CrsCreationDeadlockTest {
         } finally {
             // kill all the 
             for (final Thread thread : threads) {
-                if(thread.isAlive()) {
+                if (thread.isAlive()) {
                     thread.interrupt();
                 }
             }

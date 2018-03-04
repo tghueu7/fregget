@@ -27,17 +27,17 @@ class UomRescaleHelper {
 
     /**
      * Computes a rescaling multiplier to be applied to an unscaled value.
-     * 
+     *
      * @param mapScale the mapScale in pixels per meter.
-     * @param uom the unit of measure that will be used to scale.
+     * @param uom      the unit of measure that will be used to scale.
      * @return the rescaling multiplier for the provided parameters.
      */
     protected double computeRescaleMultiplier(Unit<Length> uom) {
         // no scaling to do if UOM is PIXEL (or null, which stands for PIXEL as well)
         if (uom == null || uom.equals(NonSI.PIXEL))
             return 1;
-        
-        if(uom == SI.METER) {
+
+        if (uom == SI.METER) {
             return mapScale;
         }
 
@@ -48,10 +48,10 @@ class UomRescaleHelper {
 
     /**
      * Used to rescale the provided unscaled value.
-     * 
+     *
      * @param unscaled the unscaled value.
      * @param mapScale the mapScale in pixels per meter.
-     * @param uom the unit of measure that will be used to scale.
+     * @param uom      the unit of measure that will be used to scale.
      * @return the expression multiplied by the provided scale.
      */
     protected Expression rescale(Expression unscaled, Unit<Length> uom) {
@@ -95,10 +95,10 @@ class UomRescaleHelper {
 
     /**
      * Used to rescale the provided dash array.
-     * 
+     *
      * @param dashArray the unscaled dash array. If null, the method returns null.
-     * @param mapScale the mapScale in pixels per meter.
-     * @param uom the unit of measure that will be used to scale.
+     * @param mapScale  the mapScale in pixels per meter.
+     * @param uom       the unit of measure that will be used to scale.
      * @return the rescaled dash array
      */
     protected float[] rescale(float[] dashArray, Unit<Length> unitOfMeasure) {
@@ -117,10 +117,10 @@ class UomRescaleHelper {
 
     /**
      * Used to rescale the provided unscaled value.
-     * 
+     *
      * @param unscaled the unscaled value.
      * @param mapScale the mapScale in pixels per meter.
-     * @param uom the unit of measure that will be used to scale.
+     * @param uom      the unit of measure that will be used to scale.
      * @return a scaled value.
      */
     private double rescale(double unscaled, Unit<Length> uom) {
@@ -128,5 +128,5 @@ class UomRescaleHelper {
         return unscaled * computeRescaleMultiplier(uom);
     }
 
-    
+
 }

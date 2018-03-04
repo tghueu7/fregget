@@ -16,38 +16,39 @@ import org.geotools.xml.AbstractSimpleBinding;
 import org.geotools.xml.InstanceComponent;
 
 public class CommentBinding extends AbstractSimpleBinding {
-    ObjectFactory factory;              
-    public CommentBinding( ObjectFactory factory ) {
-            super();
-            this.factory = factory;
+    ObjectFactory factory;
+
+    public CommentBinding(ObjectFactory factory) {
+        super();
+        this.factory = factory;
     }
 
     /**
      * @generated
      */
     public QName getTarget() {
-            return PO.comment;
+        return PO.comment;
     }
-    
+
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     *      
+     *
      * @generated modifiable
-     */     
+     */
     public Class getType() {
-            return String.class;
+        return String.class;
     }
-    
+
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     *      
+     *
      * @generated modifiable
-     */     
-    public Object parse(InstanceComponent instance, Object value) 
+     */
+    public Object parse(InstanceComponent instance, Object value)
             throws Exception {
-            String comment = (String) value;
-            return comment;
+        String comment = (String) value;
+        return comment;
     }
 }

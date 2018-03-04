@@ -1,8 +1,8 @@
-
 package org.geotools.data.arcgisrest.schema.catalog;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -14,7 +14,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * Project Open Data ContactPoint vCard
  * <p>
  * A Dataset ContactPoint as a vCard object
- * 
  */
 public class ContactPoint {
 
@@ -22,7 +21,6 @@ public class ContactPoint {
      * Metadata Context
      * <p>
      * IRI for the JSON-LD data type. This should be vcard:Contact for contactPoint
-     * 
      */
     @SerializedName("@type")
     @Expose
@@ -32,7 +30,6 @@ public class ContactPoint {
      * <p>
      * A full formatted name, eg Firstname Lastname
      * (Required)
-     * 
      */
     @SerializedName("fn")
     @Expose
@@ -42,7 +39,6 @@ public class ContactPoint {
      * <p>
      * Email address for the contact
      * (Required)
-     * 
      */
     @SerializedName("hasEmail")
     @Expose
@@ -52,9 +48,8 @@ public class ContactPoint {
      * Metadata Context
      * <p>
      * IRI for the JSON-LD data type. This should be vcard:Contact for contactPoint
-     * 
-     * @return
-     *     The type
+     *
+     * @return The type
      */
     public ContactPoint.Type getType() {
         return type;
@@ -64,9 +59,8 @@ public class ContactPoint {
      * Metadata Context
      * <p>
      * IRI for the JSON-LD data type. This should be vcard:Contact for contactPoint
-     * 
-     * @param type
-     *     The @type
+     *
+     * @param type The @type
      */
     public void setType(ContactPoint.Type type) {
         this.type = type;
@@ -77,9 +71,8 @@ public class ContactPoint {
      * <p>
      * A full formatted name, eg Firstname Lastname
      * (Required)
-     * 
-     * @return
-     *     The fn
+     *
+     * @return The fn
      */
     public String getFn() {
         return fn;
@@ -90,9 +83,8 @@ public class ContactPoint {
      * <p>
      * A full formatted name, eg Firstname Lastname
      * (Required)
-     * 
-     * @param fn
-     *     The fn
+     *
+     * @param fn The fn
      */
     public void setFn(String fn) {
         this.fn = fn;
@@ -103,9 +95,8 @@ public class ContactPoint {
      * <p>
      * Email address for the contact
      * (Required)
-     * 
-     * @return
-     *     The hasEmail
+     *
+     * @return The hasEmail
      */
     public String getHasEmail() {
         return hasEmail;
@@ -116,9 +107,8 @@ public class ContactPoint {
      * <p>
      * Email address for the contact
      * (Required)
-     * 
-     * @param hasEmail
-     *     The hasEmail
+     *
+     * @param hasEmail The hasEmail
      */
     public void setHasEmail(String hasEmail) {
         this.hasEmail = hasEmail;
@@ -143,7 +133,8 @@ public class ContactPoint {
             return false;
         }
         ContactPoint rhs = ((ContactPoint) other);
-        return new EqualsBuilder().append(type, rhs.type).append(fn, rhs.fn).append(hasEmail, rhs.hasEmail).isEquals();
+        return new EqualsBuilder().append(type, rhs.type).append(fn, rhs.fn).append(hasEmail, rhs
+                .hasEmail).isEquals();
     }
 
     public enum Type {
@@ -151,10 +142,11 @@ public class ContactPoint {
         @SerializedName("vcard:Contact")
         VCARD_CONTACT("vcard:Contact");
         private final String value;
-        private final static Map<String, ContactPoint.Type> CONSTANTS = new HashMap<String, ContactPoint.Type>();
+        private final static Map<String, ContactPoint.Type> CONSTANTS = new HashMap<String, 
+                ContactPoint.Type>();
 
         static {
-            for (ContactPoint.Type c: values()) {
+            for (ContactPoint.Type c : values()) {
                 CONSTANTS.put(c.value, c);
             }
         }

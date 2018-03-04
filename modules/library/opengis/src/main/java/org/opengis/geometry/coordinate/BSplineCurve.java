@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.coordinate;
@@ -26,21 +26,18 @@ import static org.opengis.annotation.Specification.*;
  * that has only two knots, 0.0, and 1.0, each of multiplicity (degree+1), is equivalent
  * to a simple Bézier curve.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
- * @since GeoAPI 2.0
- *
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @see GeometryFactory#createBSplineCurve
+ * @since GeoAPI 2.0
  */
-@UML(identifier="GM_BSplineCurve", specification=ISO_19107)
+@UML(identifier = "GM_BSplineCurve", specification = ISO_19107)
 public interface BSplineCurve extends SplineCurve {
     /**
      * The algebraic degree of the basis functions.
      */
-    @UML(identifier="degree", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "degree", obligation = MANDATORY, specification = ISO_19107)
     int getDegree();
 
     /**
@@ -48,19 +45,19 @@ public interface BSplineCurve extends SplineCurve {
      * approximate. It is for information only, used to capture the original intention.
      * If no such approximation is intended, then the value of this attribute is {@code null}.
      */
-    @UML(identifier="curveForm", obligation=OPTIONAL, specification=ISO_19107)
+    @UML(identifier = "curveForm", obligation = OPTIONAL, specification = ISO_19107)
     SplineCurveForm getCurveForm();
 
     /**
      * Gives the type of knot distribution used in defining this spline.
      * This is for information only and is set according to the different construction-functions.
      */
-    @UML(identifier="knotSpec", obligation=OPTIONAL, specification=ISO_19107)
+    @UML(identifier = "knotSpec", obligation = OPTIONAL, specification = ISO_19107)
     KnotType getKnotSpec();
 
     /**
      * {@code true} if this is a polynomial spline.
      */
-    @UML(identifier="isPolynomial", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "isPolynomial", obligation = MANDATORY, specification = ISO_19107)
     boolean isPolynomial();
 }

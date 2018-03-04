@@ -28,9 +28,10 @@ import org.geotools.util.Utilities;
 import com.vividsolutions.jts.geom.Geometry;
 
 /**
- * Factory class used for returning a {@link MultiLevelROIProvider} based on the input footprint properties
+ * Factory class used for returning a {@link MultiLevelROIProvider} based on the input footprint 
+ * properties
  * and files
- * 
+ *
  * @author Andrea Aime, GeoSolutions
  * @author Nicola Lagomarsini, GeoSolutions
  * @author Daniele Romagnoli, GeoSolutions
@@ -38,7 +39,7 @@ import com.vividsolutions.jts.geom.Geometry;
 public class MultiLevelROIProviderFactory {
 
     private final static Logger LOGGER = org.geotools.util.logging.Logging
-                    .getLogger(MultiLevelROIProviderFactory.class.toString());
+            .getLogger(MultiLevelROIProviderFactory.class.toString());
 
     // well known properties
     public static final String SOURCE_PROPERTY = "footprint_source";
@@ -52,11 +53,10 @@ public class MultiLevelROIProviderFactory {
 
     /**
      * Builds a footprint provider from file location
-     * 
-     * @param the reference file. 
+     *
+     * @param the reference file.
      * @return
      * @throws Exception
-     * 
      * @see {@link #createFootprintProvider(File, Geometry)}
      */
     public static MultiLevelROIProvider createFootprintProvider(File referenceFile) {
@@ -65,17 +65,20 @@ public class MultiLevelROIProviderFactory {
 
     /**
      * Builds a footprint provider from file location
-     * 
-     * @param It can be: 
-     *      - a folder containing the footprint config files (if any) OR the footprint itself. 
-     *      - the data file for which we are looking for a footprint.
-     * @param The optional granuleBounds geometry. if not null, it will be used as data's reference geometry.
+     *
+     * @param It  can be:
+     *            - a folder containing the footprint config files (if any) OR the footprint itself.
+     *            - the data file for which we are looking for a footprint.
+     * @param The optional granuleBounds geometry. if not null, it will be used as data's 
+     *            reference geometry.
      * @return
      * @throws Exception
      */
-    public static MultiLevelROIProvider createFootprintProvider(final File referenceFile, Geometry granuleBounds) {
+    public static MultiLevelROIProvider createFootprintProvider(final File referenceFile, 
+                                                                Geometry granuleBounds) {
         Utilities.ensureNonNull("referenceFile", referenceFile);
-        File configDirectory = referenceFile.isDirectory() ? referenceFile : referenceFile.getParentFile();
+        File configDirectory = referenceFile.isDirectory() ? referenceFile : referenceFile
+                .getParentFile();
         File configFile = new File(configDirectory, "footprints.properties");
         if (!configFile.exists()) {
             configFile = SidecarFootprintProvider.getAlternativeFile(configFile);
@@ -97,20 +100,24 @@ public class MultiLevelROIProviderFactory {
     }
 
     /**
-     * Create the {@link MultiLevelROIProvider} given a {@link FootprintGeometryProvider}, 
+     * Create the {@link MultiLevelROIProvider} given a {@link FootprintGeometryProvider},
      * footprint config properties (if any) and, optionally a Default GranuleBounds geometry
-     * 
-     * @param provider the {@link FootprintGeometryProvider} instance to be used to provide ROIs.
-     * @param properties an optional {@link Properties} instance containing footprints configuration.
+     *
+     * @param provider             the {@link FootprintGeometryProvider} instance to be used to 
+     *                             provide ROIs.
+     * @param properties           an optional {@link Properties} instance containing footprints 
+     *                             configuration.
      * @param imposedGranuleBounds an optional default granuleBounds geometry
      * @return
      */
     protected static MultiLevelROIProvider createProvider(FootprintGeometryProvider provider,
-            Properties properties, Geometry imposedGranuleBounds) {
+                                                          Properties properties, Geometry 
+                                                                  imposedGranuleBounds) {
         // handle inset if necessary
         double inset = FootprintInsetPolicy.getInset(properties);
         FootprintInsetPolicy insetPolicy = FootprintInsetPolicy.getInsetPolicy(properties);
-        return new MultiLevelROIGeometryProvider(provider, inset, insetPolicy, imposedGranuleBounds);
+        return new MultiLevelROIGeometryProvider(provider, inset, insetPolicy, 
+                imposedGranuleBounds);
     }
 
     protected static Properties initProperties(File configFile) {

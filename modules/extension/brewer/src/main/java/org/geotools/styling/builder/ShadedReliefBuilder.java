@@ -20,8 +20,6 @@ import org.geotools.styling.ShadedRelief;
 import org.opengis.filter.expression.Expression;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ShadedReliefBuilder extends AbstractStyleBuilder<ShadedRelief> {

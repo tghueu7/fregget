@@ -26,26 +26,23 @@ import org.opengis.filter.Filter;
 /**
  * Test ECQL Null Predicate:
  * <p>
- *
+ * <p>
  * <pre>
  * &lt;null predicate &gt; ::=  &lt;expression &gt; IS [ NOT ] NULL
  * </pre>
- *
+ * <p>
  * </p>
  *
  * @author Mauricio Pazos (Axios Engineering)
- * @since 2.6
- *
- *
- *
  * @source $URL$
+ * @since 2.6
  */
 public class ECQLNullPredicateTest extends CQLNullPredicateTest {
-    
-    public ECQLNullPredicateTest(){
+
+    public ECQLNullPredicateTest() {
         super(Language.ECQL);
     }
-    
+
     /**
      * Sample: centroid( the_geom ) IS NOT NULL
      */
@@ -55,10 +52,10 @@ public class ECQLNullPredicateTest extends CQLNullPredicateTest {
         final String samplePredicate = FilterECQLSample.FUNCTION_IS_NULL;
 
         Filter expected = FilterECQLSample.getSample(samplePredicate);
-        
+
         testNullPredicate(samplePredicate, expected);
     }
-    
+
     /**
      * Sample: centroid( the_geom ) IS NOT NULL
      */
@@ -68,7 +65,7 @@ public class ECQLNullPredicateTest extends CQLNullPredicateTest {
         final String samplePredicate = FilterECQLSample.FUNCTION_IS_NOT_NULL;
 
         Filter expected = FilterECQLSample.getSample(samplePredicate);
-        
+
         testNullPredicate(samplePredicate, expected);
     }
 

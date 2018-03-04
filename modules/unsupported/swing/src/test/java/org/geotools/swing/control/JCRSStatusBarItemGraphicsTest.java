@@ -37,16 +37,16 @@ import org.geotools.swing.testutils.MockMapPane;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import static org.junit.Assert.*;
 
 /**
  * Unit tests for JCRSStatusBarItem which require graphics.
  *
  * @author Michael Bedward
- * @since 8.0
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 @RunWith(GraphicsTestRunner.class)
 public class JCRSStatusBarItemGraphicsTest extends GraphicsTestBase<Frame> {
@@ -73,18 +73,18 @@ public class JCRSStatusBarItemGraphicsTest extends GraphicsTestBase<Frame> {
                 return frame;
             }
         });
-        
+
         windowFixture = new FrameFixture(frame);
         ((FrameFixture) windowFixture).show();
     }
-    
+
     @Test
     public void displaysCorrectCRSName() {
         String name = mapContent.getCoordinateReferenceSystem().getName().getCode();
-        
+
         JButtonFixture button = windowFixture.button();
         assertNotNull(button);
-        
+
         button.requireText(name);
     }
 }

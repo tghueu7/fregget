@@ -15,15 +15,15 @@ import junit.framework.TestCase;
 public class EncoderTest extends TestCase {
 
     public void testIndent() throws Exception {
-        Mail ml = new Mail(BigInteger.valueOf(10), "hi", new Envelope("me@me.org", "you@you.org", 
-            Calendar.getInstance(), "hey", null), null);
+        Mail ml = new Mail(BigInteger.valueOf(10), "hi", new Envelope("me@me.org", "you@you.org",
+                Calendar.getInstance(), "hey", null), null);
         Encoder e = new Encoder(new MLConfiguration());
         //e.setIndenting(true);
         //e.setIndentSize(4);
 
         System.out.println(e.encodeAsString(ml, new QName(ML.NAMESPACE, "mails")));
     }
-    
+
     /**
      * Tests for {@link Encoder#setOmitXMLDeclaration(boolean)}
      */
@@ -34,7 +34,7 @@ public class EncoderTest extends TestCase {
         encoder.setOmitXMLDeclaration(true);
         assertTrue(encoder.isOmitXMLDeclaration());
     }
-    
+
     /**
      * Tests for {@link Encoder#setIndenting(boolean)}
      */

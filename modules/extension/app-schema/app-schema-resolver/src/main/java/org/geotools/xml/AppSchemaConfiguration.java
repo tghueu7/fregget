@@ -21,17 +21,14 @@ import org.geotools.xml.resolver.SchemaResolver;
 
 /**
  * XML encoder {@link Configuration} that uses {@link SchemaResolver} to obtain schemas.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * Because we do not know the dependent GML {@link Configuration} when an instance is constructed,
  * it must be added later using {@link #addDependency(Configuration)}. Failure to do this will
  * result in bindings not being found at encode time.
- * 
+ *
  * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
- *
- *
- *
  * @source $URL$
  */
 public class AppSchemaConfiguration extends Configuration {
@@ -44,15 +41,13 @@ public class AppSchemaConfiguration extends Configuration {
     /**
      * Because we do not know the dependent GML {@link Configuration} until runtime, it must be
      * specified as a constructor argument.
-     * 
-     * @param namespace
-     *            the namespace URI
-     * @param schemaLocation
-     *            URL giving canonical schema location
+     *
+     * @param namespace      the namespace URI
+     * @param schemaLocation URL giving canonical schema location
      * @param resolver
      */
     public AppSchemaConfiguration(String namespace, String schemaLocation,
-            SchemaResolver resolver) {
+                                  SchemaResolver resolver) {
         super(new AppSchemaXSD(namespace, schemaLocation, resolver));
         originalSchemaLocation = schemaLocation;
         ((AppSchemaXSD) getXSD()).setConfiguration(this);
@@ -60,7 +55,7 @@ public class AppSchemaConfiguration extends Configuration {
 
     /**
      * Get the original (unresolved) schema location.
-     * 
+     *
      * @return the schema location
      */
     public String getSchemaLocation() {
@@ -69,7 +64,7 @@ public class AppSchemaConfiguration extends Configuration {
 
     /**
      * Allow late addition of a dependency such as GML.
-     * 
+     *
      * @see org.geotools.xml.Configuration#addDependency(org.geotools.xml.Configuration)
      */
     @Override

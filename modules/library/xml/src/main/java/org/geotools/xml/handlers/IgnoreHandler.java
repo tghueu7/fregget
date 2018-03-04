@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -33,27 +33,25 @@ import org.xml.sax.Attributes;
  *
  * @author dzwiers, Refractions Research, Inc. http://www.refractions.net
  * @author $Author:$ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class IgnoreHandler extends XMLElementHandler {
 
-   public static final String NAME = "IGNORE_HANDLER";
+    public static final String NAME = "IGNORE_HANDLER";
 
-   private Element elem;
+    private Element elem;
 
-   
-   public IgnoreHandler() {
-      elem = null;
-   }
-   
-   public IgnoreHandler(Element igElem) {
-      elem = igElem;
-   }
-   
-   /**
+
+    public IgnoreHandler() {
+        elem = null;
+    }
+
+    public IgnoreHandler(Element igElem) {
+        elem = igElem;
+    }
+
+    /**
      * @see org.geotools.xml.XMLElementHandler#getElement()
      */
     public Element getElement() {
@@ -63,16 +61,16 @@ public class IgnoreHandler extends XMLElementHandler {
     /**
      * @see org.geotools.xml.XMLElementHandler#characters(java.lang.String)
      */
-    public void characters(String text){
+    public void characters(String text) {
         // do nothing
     }
 
     /**
      * @see schema.XSIElementHandler#getHandler(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
     public XMLElementHandler getHandler(URI namespaceURI, String localName,
-        Map hints){
+                                        Map hints) {
         return this;
     }
 
@@ -92,17 +90,17 @@ public class IgnoreHandler extends XMLElementHandler {
 
     /**
      * @see org.geotools.xml.XMLElementHandler#endElement(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
-    public void endElement(URI namespaceURI, String localName, Map hints){
+    public void endElement(URI namespaceURI, String localName, Map hints) {
         // do nothing
     }
 
     /**
      * @see org.geotools.xml.XMLElementHandler#startElement(java.lang.String,
-     *      java.lang.String, org.xml.sax.Attributes)
+     * java.lang.String, org.xml.sax.Attributes)
      */
-    public void startElement(URI namespaceURI, String localName, Attributes attr){
+    public void startElement(URI namespaceURI, String localName, Attributes attr) {
         // do nothing
     }
 }

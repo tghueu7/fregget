@@ -19,12 +19,15 @@ package org.geotools.data.wmts.client;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
+
 import static org.junit.Assert.*;
 
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import static org.geotools.data.wmts.client.WMTSTileFactory4326Test.createCapabilities;
+
 import org.geotools.data.wmts.model.TileMatrixSet;
 import org.geotools.data.wmts.model.WMTSCapabilities;
 import org.geotools.data.wmts.model.WMTSLayer;
@@ -74,7 +77,8 @@ public class WMTSServiceTest {
             File capaFile = new File(capaResource.toURI());
             WMTSCapabilities capa = createCapabilities(capaFile);
 
-            String baseURL = "http://demo.geo-solutions.it/geoserver/gwc/service/wmts?REQUEST=getcapabilities";
+            String baseURL = "http://demo.geo-solutions" +
+                    ".it/geoserver/gwc/service/wmts?REQUEST=getcapabilities";
 
             WMTSLayer layer = capa.getLayer("unesco:Unesco_point");
             TileMatrixSet matrixSet = capa.getMatrixSet("EPSG:900913");
@@ -97,7 +101,8 @@ public class WMTSServiceTest {
             File capaFile = new File(capaResource.toURI());
             WMTSCapabilities capa = createCapabilities(capaFile);
 
-            String baseURL = "http://wmsx.zamg.ac.at/mapcacheStatmap/wmts/1.0.0/WMTSCapabilities.xml";
+            String baseURL = "http://wmsx.zamg.ac.at/mapcacheStatmap/wmts/1.0.0/WMTSCapabilities" +
+                    ".xml";
             return new WMTSTileService(baseURL, WMTSServiceType.REST, capa.getLayer("grey"), null,
                     capa.getMatrixSet("statmap"));
 
@@ -113,8 +118,8 @@ public class WMTSServiceTest {
         // {{20,31},{559082264.029,5.590822639508929E8},{1066.36479192,1066.36479192}};
         // double[][] expected =
         // {{14,31},{559082264.029,2.925714285714286E7},{1066.36479192,1066.36479192}};
-        double[][] expected = { { 14, 2.925714285714286E7, 3571.4285714285716 }, // REST
-                { 31, 5.590822639508929E8, 68247.34667369298 } }; // KVP
+        double[][] expected = {{14, 2.925714285714286E7, 3571.4285714285716}, // REST
+                {31, 5.590822639508929E8, 68247.34667369298}}; // KVP
         double delta = 0.00001;
         for (int i = 0; i < services.length; i++) {
             double[] scales = services[i].getScaleList();
@@ -160,7 +165,7 @@ public class WMTSServiceTest {
         ReferencedEnvelope env = new ReferencedEnvelope(-80, 80, -180.0, 180.0,
                 DefaultGeographicCRS.WGS84);
         int million = (int) 1e6;
-        int scales[] = { 100 * million, 25 * million, 10 * million, million, 500000 };
+        int scales[] = {100 * million, 25 * million, 10 * million, million, 500000};
         for (int i = 0; i < services.length; i++) {
             for (int k = 0; k < scales.length; k++) {
                 Set<Tile> tiles = services[i].findTilesInExtent(env, scales[k], true, 100);

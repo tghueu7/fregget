@@ -25,8 +25,6 @@ import com.vividsolutions.jts.geom.Point;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class LookAtTypeBindingTest extends KMLTestSupport {
@@ -41,7 +39,7 @@ public class LookAtTypeBindingTest extends KMLTestSupport {
 
     public void testParse() throws Exception {
         String xml = "<LookAt>" + "<longitude>1</longitude>" + "<latitude>2</latitude>"
-            + "<altitude>3</altitude>" + "</LookAt>";
+                + "<altitude>3</altitude>" + "</LookAt>";
         buildDocument(xml);
 
         Point p = (Point) parse();

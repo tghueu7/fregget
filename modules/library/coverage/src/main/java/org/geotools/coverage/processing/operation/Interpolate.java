@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2001-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,6 +17,7 @@
 package org.geotools.coverage.processing.operation;
 
 // J2SE dependencies
+
 import java.lang.reflect.Array;
 
 // JAI dependencies
@@ -63,43 +64,40 @@ import org.geotools.resources.image.ImageUtilities;
  * {@code "Bicubic"} failed at a particular location, <cite>etc.</cite> This behavior can be
  * specified with the following {@code "Type"} argument:
  * <code>new String[]{"Bicubic", "Bilinear", "NearestNeighbor"}</code>.
- *
+ * <p>
  * <P><STRONG>Name:</STRONG>&nbsp;<CODE>"Interpolate"</CODE><BR>
- *    <STRONG>JAI operator:</STRONG>&nbsp;N/A<BR>
- *    <STRONG>Parameters:</STRONG></P>
+ * <STRONG>JAI operator:</STRONG>&nbsp;N/A<BR>
+ * <STRONG>Parameters:</STRONG></P>
  * <table border='3' cellpadding='6' bgcolor='F4F8FF'>
- *   <tr bgcolor='#B9DCFF'>
- *     <th>Name</th>
- *     <th>Class</th>
- *     <th>Default value</th>
- *     <th>Minimum value</th>
- *     <th>Maximum value</th>
- *   </tr>
- *   <tr>
- *     <td>{@code "Source"}</td>
- *     <td>{@link org.geotools.coverage.grid.GridCoverage2D}</td>
- *     <td align="center">N/A</td>
- *     <td align="center">N/A</td>
- *     <td align="center">N/A</td>
- *   </tr>
- *   <tr>
- *     <td>{@code "Type"}</td>
- *     <td>{@link java.lang.CharSequence}</td>
- *     <td>"NearestNeighbor"</td>
- *     <td align="center">N/A</td>
- *     <td align="center">N/A</td>
- *   </tr>
+ * <tr bgcolor='#B9DCFF'>
+ * <th>Name</th>
+ * <th>Class</th>
+ * <th>Default value</th>
+ * <th>Minimum value</th>
+ * <th>Maximum value</th>
+ * </tr>
+ * <tr>
+ * <td>{@code "Source"}</td>
+ * <td>{@link org.geotools.coverage.grid.GridCoverage2D}</td>
+ * <td align="center">N/A</td>
+ * <td align="center">N/A</td>
+ * <td align="center">N/A</td>
+ * </tr>
+ * <tr>
+ * <td>{@code "Type"}</td>
+ * <td>{@link java.lang.CharSequence}</td>
+ * <td>"NearestNeighbor"</td>
+ * <td align="center">N/A</td>
+ * <td align="center">N/A</td>
+ * </tr>
  * </table>
  *
- * @since 2.2
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see org.geotools.coverage.processing.Operations#interpolate
  * @see Interpolator2D
+ * @since 2.2
  */
 public class Interpolate extends Operation2D {
     /**
@@ -112,23 +110,23 @@ public class Interpolate extends Operation2D {
      */
     public static final ParameterDescriptor TYPE =
             new DefaultParameterDescriptor(Citations.OGC, "Type",
-                Object.class,                       // Value class (mandatory)
-                null,                               // Array of valid values
-                "NearestNeighbor",                  // Default value
-                null,                               // Minimal value
-                null,                               // Maximal value
-                null,                               // Unit of measure
-                true);                              // Parameter is mandatory
+                    Object.class,                       // Value class (mandatory)
+                    null,                               // Array of valid values
+                    "NearestNeighbor",                  // Default value
+                    null,                               // Minimal value
+                    null,                               // Maximal value
+                    null,                               // Unit of measure
+                    true);                              // Parameter is mandatory
 
     /**
      * Constructs an {@code "Interpolate"} operation.
      */
     public Interpolate() {
         super(new DefaultParameterDescriptorGroup(Citations.OGC, "Interpolate",
-              new ParameterDescriptor[] {
-                    SOURCE_0,
-                    TYPE
-        }));
+                new ParameterDescriptor[]{
+                        SOURCE_0,
+                        TYPE
+                }));
     }
 
     /**
@@ -137,16 +135,16 @@ public class Interpolate extends Operation2D {
      * {@code "Interpolate"} operation.
      */
     public Coverage doOperation(final ParameterValueGroup parameters, final Hints hints) {
-        final GridCoverage2D source = (GridCoverage2D)parameters.parameter("Source").getValue();
-        final Object         type =                   parameters.parameter("Type"  ).getValue();
+        final GridCoverage2D source = (GridCoverage2D) parameters.parameter("Source").getValue();
+        final Object type = parameters.parameter("Type").getValue();
         final Interpolation[] interpolations;
         if (type.getClass().isArray()) {
             interpolations = new Interpolation[Array.getLength(type)];
-            for (int i=0; i<interpolations.length; i++) {
+            for (int i = 0; i < interpolations.length; i++) {
                 interpolations[i] = ImageUtilities.toInterpolation(Array.get(type, i));
             }
         } else {
-            interpolations = new Interpolation[] {ImageUtilities.toInterpolation(type)};
+            interpolations = new Interpolation[]{ImageUtilities.toInterpolation(type)};
         }
         return Interpolator2D.create(source, interpolations);
     }

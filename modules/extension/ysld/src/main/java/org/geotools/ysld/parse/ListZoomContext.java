@@ -4,7 +4,7 @@
  *
  *    (C) 2016 Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2016 Boundless Spatial
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -23,9 +23,8 @@ import java.util.List;
 
 /**
  * A zoom context specified by an explicit list of scale denominators.
- * 
- * @author Kevin Smith, Boundless
  *
+ * @author Kevin Smith, Boundless
  */
 public class ListZoomContext extends MedialZoomContext {
     final List<Double> scales;
@@ -34,10 +33,10 @@ public class ListZoomContext extends MedialZoomContext {
 
     /**
      * Checks if the list contains a decreasing sequence of finite, positive, non-null values.
-     * 
+     *
      * @param scales
      * @throws IllegalArgumentException if the values are not decreasing, positive, and finite.
-     * @throws NullPointerException if any values are null.
+     * @throws NullPointerException     if any values are null.
      */
     public static void validate(List<Double> scales) {
         double last = Double.POSITIVE_INFINITY;
@@ -80,7 +79,8 @@ public class ListZoomContext extends MedialZoomContext {
         if (nextScale == 0)
             return 0;
 
-        return Math.sqrt(scale * nextScale); // Geometric mean as zoom levels are usually exponential
+        return Math.sqrt(scale * nextScale); // Geometric mean as zoom levels are usually 
+        // exponential
     }
 
     @Override

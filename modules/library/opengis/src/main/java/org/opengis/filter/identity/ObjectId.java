@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.filter.identity;
@@ -20,11 +20,10 @@ import org.opengis.annotation.XmlElement;
  * popular object relational mappers).
  * </p>
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=5929">Implementation specification 1.1</A>
  * @author Jody Garnett, Refractions Research Inc.
+ * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=5929">Implementation 
+ * specification 1.1</A>
+ * @source $URL$
  * @since GeoAPI 2.1
  */
 @XmlElement("RecordId")
@@ -40,9 +39,8 @@ public interface ObjectId extends Identifier {
      * Evaluates the identifer value against the given Object.
      *
      * @param obj Object to be tested.
-     *
      * @return <code>true</code> if a match, otherwise <code>false</code>
      */
-    boolean matches( Object obj );
+    boolean matches(Object obj);
 
 }

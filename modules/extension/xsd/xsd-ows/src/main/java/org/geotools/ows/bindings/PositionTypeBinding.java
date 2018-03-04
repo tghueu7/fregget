@@ -19,23 +19,35 @@ package org.geotools.ows.bindings;
 import java.util.List;
 
 import net.opengis.ows10.Ows10Factory;
+
 import javax.xml.namespace.QName;
+
 import org.geotools.ows.OWS;
 import org.geotools.xml.*;
 
 
 /**
  * Binding object for the type http://www.opengis.net/ows:PositionType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;simpleType name="PositionType"&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;Position instances hold the coordinates of a position in a coordinate reference system (CRS) referenced by the related "crs" attribute or elsewhere. For an angular coordinate axis that is physically continuous for multiple revolutions, but whose recorded values can be discontinuous, special conditions apply when the bounding box is continuous across the value discontinuity:
- *  a)  If the bounding box is continuous clear around this angular axis, then ordinate values of minus and plus infinity shall be used.
- *  b)  If the bounding box is continuous across the value discontinuity but is not continuous clear around this angular axis, then some non-normal value can be used if specified for a specific OWS use of the BoundingBoxType. For more information, see Subclauses 10.2.5 and C.13. &lt;/documentation&gt;
- *          &lt;documentation&gt;This type is adapted from DirectPositionType and doubleList of GML 3.1. The adaptations include omission of all the attributes, since the needed information is included in the BoundingBoxType. &lt;/documentation&gt;
+ *          &lt;documentation&gt;Position instances hold the coordinates of a position in a 
+ *          coordinate reference system (CRS) referenced by the related "crs" attribute or 
+ *          elsewhere. For an angular coordinate axis that is physically continuous for multiple 
+ *          revolutions, but whose recorded values can be discontinuous, special conditions apply
+ *          when the bounding box is continuous across the value discontinuity:
+ *  a)  If the bounding box is continuous clear around this angular axis, then ordinate values of
+ *  minus and plus infinity shall be used.
+ *  b)  If the bounding box is continuous across the value discontinuity but is not continuous 
+ *  clear around this angular axis, then some non-normal value can be used if specified for a 
+ *  specific OWS use of the BoundingBoxType. For more information, see Subclauses 10.2.5 and 
+ *  C.13. &lt;/documentation&gt;
+ *          &lt;documentation&gt;This type is adapted from DirectPositionType and doubleList of 
+ *          GML 3.1. The adaptations include omission of all the attributes, since the needed 
+ *          information is included in the BoundingBoxType. &lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;list itemType="double"/&gt;
  *  &lt;/simpleType&gt;
@@ -45,9 +57,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class PositionTypeBinding extends AbstractSimpleBinding {
@@ -78,11 +87,11 @@ public class PositionTypeBinding extends AbstractSimpleBinding {
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
+            throws Exception {
         //TODO: implement and remove call to super
         return super.parse(instance, value);
     }
-    
+
     @Override
     public String encode(Object object, String value) throws Exception {
         List list = (List) object;
@@ -90,9 +99,9 @@ public class PositionTypeBinding extends AbstractSimpleBinding {
         for (Object o : list) {
             sb.append(o).append(" ");
         }
-        sb.setLength(sb.length()-1);
+        sb.setLength(sb.length() - 1);
         return sb.toString();
-        
+
     }
-    
+
 }

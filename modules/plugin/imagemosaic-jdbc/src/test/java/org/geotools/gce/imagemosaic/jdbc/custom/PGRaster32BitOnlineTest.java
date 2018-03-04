@@ -35,13 +35,11 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class PGRaster32BitOnlineTest extends PGRasterOnlineTest {
     public PGRaster32BitOnlineTest(String test) {
-            super(test);
+        super(test);
     }
 
     public static Test suite() {
@@ -50,7 +48,7 @@ public class PGRaster32BitOnlineTest extends PGRasterOnlineTest {
         PGRaster32BitOnlineTest test = new PGRaster32BitOnlineTest("");
 
         if (test.checkPreConditions() == false) {
-                return suite;
+            return suite;
         }
 
         suite.addTest(new PGRaster32BitOnlineTest("testGetConnection"));
@@ -72,9 +70,10 @@ public class PGRaster32BitOnlineTest extends PGRasterOnlineTest {
         suite.addTest(new PGRaster32BitOnlineTest("testCloseConnection"));
 
         return suite;
-}
+    }
 
     public void testCreateFloat32() {
-        executeCreate(Connection,new String [] { "pgraster32bit.sql","1/pgraster32bit.sql","2/pgraster32bit.sql",},false );
+        executeCreate(Connection, new String[]{"pgraster32bit.sql", "1/pgraster32bit.sql", 
+                "2/pgraster32bit.sql",}, false);
     }
 }

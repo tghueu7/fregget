@@ -36,24 +36,26 @@ import com.vividsolutions.jts.geom.Point;
 
 /**
  * DataStore for Comma Separated Value (CSV) files.
- * 
+ *
  * @author Jody Garnett (Boundless)
  */
 public class CSVDataStore extends ContentDataStore {
- // header end
+    // header end
 
     // constructor start
     File file;
 
-    public CSVDataStore( File file ){
+    public CSVDataStore(File file) {
         this.file = file;
     }
     // constructor end
 
     // reader start
+
     /**
      * Allow read access to file; for our package visible "friends".
      * Please close the reader when done.
+     *
      * @return CsvReader for file
      */
     CsvReader read() throws IOException {
@@ -68,11 +70,11 @@ public class CSVDataStore extends ContentDataStore {
         String name = file.getName();
         name = name.substring(0, name.lastIndexOf('.'));
 
-        Name typeName = new NameImpl( name );
+        Name typeName = new NameImpl(name);
         return Collections.singletonList(typeName);
     }
     // createTypeNames end
-    
+
     // createSchema start
     @Override
     public void createSchema(SimpleFeatureType featureType) throws IOException {
@@ -80,7 +82,7 @@ public class CSVDataStore extends ContentDataStore {
         GeometryDescriptor geometryDescrptor = featureType.getGeometryDescriptor();
         if (geometryDescrptor != null
                 && CRS.equalsIgnoreMetadata(DefaultGeographicCRS.WGS84,
-                        geometryDescrptor.getCoordinateReferenceSystem())
+                geometryDescrptor.getCoordinateReferenceSystem())
                 && geometryDescrptor.getType().getBinding().isAssignableFrom(Point.class)) {
             header.add("LAT");
             header.add("LON");
@@ -93,11 +95,10 @@ public class CSVDataStore extends ContentDataStore {
             header.add(descriptor.getLocalName());
         }
         // Write out header, producing an empty file of the correct type
-        CsvWriter writer = new CsvWriter(new FileWriter(file),',');
+        CsvWriter writer = new CsvWriter(new FileWriter(file), ',');
         try {
-            writer.writeRecord( header.toArray(new String[header.size()]));
-        }
-        finally {
+            writer.writeRecord(header.toArray(new String[header.size()]));
+        } finally {
             writer.close();
         }
     }

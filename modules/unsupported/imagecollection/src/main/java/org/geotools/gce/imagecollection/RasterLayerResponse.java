@@ -65,7 +65,7 @@ import org.opengis.referencing.operation.TransformException;
 /**
  * A RasterLayerResponse. An instance of this class is produced everytime a
  * requestCoverage is called to a reader.
- * 
+ *
  * @author Daniele Romagnoli, GeoSolutions
  */
 class RasterLayerResponse {
@@ -78,12 +78,12 @@ class RasterLayerResponse {
 
         /**
          * Default {@link Constructor}
-         * 
+         *
          * @param aoi
          * @param gridToWorldCorner
          */
         public GranuleWorker(ReferencedEnvelope aoi,
-                MathTransform gridToWorldCorner) {
+                             MathTransform gridToWorldCorner) {
             init(aoi, gridToWorldCorner);
         }
 
@@ -160,20 +160,30 @@ class RasterLayerResponse {
 
     }
 
-    /** Logger. */
+    /**
+     * Logger.
+     */
     private final static Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger(RasterLayerResponse.class);
 
-    /** The GridCoverage produced after a {@link #compute()} method call */
+    /**
+     * The GridCoverage produced after a {@link #compute()} method call
+     */
     private GridCoverage2D gridCoverage;
 
-    /** The {@link RasterLayerRequest} originating this response */
+    /**
+     * The {@link RasterLayerRequest} originating this response
+     */
     private RasterLayerRequest request;
 
-    /** The coverage factory producing a {@link GridCoverage} from an image */
+    /**
+     * The coverage factory producing a {@link GridCoverage} from an image
+     */
     private GridCoverageFactory coverageFactory;
 
-    /** The base envelope related to the input coverage */
+    /**
+     * The base envelope related to the input coverage
+     */
     private GeneralEnvelope coverageEnvelope;
 
     private RasterManager rasterManager;
@@ -207,18 +217,15 @@ class RasterLayerResponse {
      * {@link RasterLayerRequest}, a {@code GridCoverageFactory} to produce
      * {@code GridCoverage}s and an {@code ImageReaderSpi} to be used for
      * instantiating an Image Reader for a read operation,
-     * 
-     * @param request
-     *            a {@link RasterLayerRequest} originating this response.
-     * @param coverageFactory
-     *            a {@code GridCoverageFactory} to produce a
-     *            {@code GridCoverage} when calling the {@link #compute()}
-     *            method.
-     * @param readerSpi
-     *            the Image Reader Service provider interface.
+     *
+     * @param request         a {@link RasterLayerRequest} originating this response.
+     * @param coverageFactory a {@code GridCoverageFactory} to produce a
+     *                        {@code GridCoverage} when calling the {@link #compute()}
+     *                        method.
+     * @param readerSpi       the Image Reader Service provider interface.
      */
     public RasterLayerResponse(final RasterLayerRequest request,
-            final RasterManager rasterManager) {
+                               final RasterManager rasterManager) {
         this.request = request;
         location = request.imageManager.property.getPath();
         coverageEnvelope = request.imageManager.coverageEnvelope;
@@ -234,9 +241,9 @@ class RasterLayerResponse {
      * Compute the coverage request and produce a grid coverage which will be
      * returned by {@link #createResponse()}. The produced grid coverage may be
      * {@code null} in case of empty request.
-     * 
+     *
      * @return the {@link GridCoverage} produced as computation of this response
-     *         using the {@link #compute()} method.
+     * using the {@link #compute()} method.
      * @throws IOException
      * @uml.property name="gridCoverage"
      */
@@ -247,7 +254,6 @@ class RasterLayerResponse {
 
     /**
      * @return the {@link RasterLayerRequest} originating this response.
-     * 
      * @uml.property name="request"
      */
     public RasterLayerRequest getOriginatingCoverageRequest() {
@@ -257,25 +263,24 @@ class RasterLayerResponse {
     /**
      * This method creates the GridCoverage2D from the underlying file given a
      * specified envelope, and a requested dimension.
-     * 
-     * @param iUseJAI
-     *            specify if the underlying read process should leverage on a
-     *            JAI ImageRead operation or a simple direct call to the
-     *            {@code read} method of a proper {@code ImageReader}.
-     * @param overviewPolicy
-     *            the overview policy which need to be adopted
+     *
+     * @param iUseJAI        specify if the underlying read process should leverage on a
+     *                       JAI ImageRead operation or a simple direct call to the
+     *                       {@code read} method of a proper {@code ImageReader}.
+     * @param overviewPolicy the overview policy which need to be adopted
      * @return a {@code GridCoverage}
-     * 
      * @throws java.io.IOException
      */
     private void processRequest() throws IOException {
 
         if (request.isEmpty()) {
             throw new DataSourceException("Empty request: " + request.toString());
-        } else if (request.imageManager.property.getPath().equalsIgnoreCase(Utils.FAKE_IMAGE_PATH)){
-            finalGridToWorldCorner = Utils.IDENTITY_2D_FLIP ;
+        } else if (request.imageManager.property.getPath().equalsIgnoreCase(Utils
+                .FAKE_IMAGE_PATH)) {
+            finalGridToWorldCorner = Utils.IDENTITY_2D_FLIP;
             //TODO Re-enable this when supportin y as DISPLAY_DOWN
-//            finalGridToWorldCorner = rasterManager.parent.defaultValues.epsgCode == 404001 ? Utils.IDENTITY_2D : Utils.IDENTITY_2D_FLIP ;
+//            finalGridToWorldCorner = rasterManager.parent.defaultValues.epsgCode == 404001 ? 
+// Utils.IDENTITY_2D : Utils.IDENTITY_2D_FLIP ;
             gridCoverage = prepareCoverage(Utils.DEFAULT_IMAGE);
             return;
         }
@@ -305,7 +310,8 @@ class RasterLayerResponse {
             // The grid to world transforms for the other levels can be computed 
             // accordingly knowning the scale factors.
             if (request.getRequestedBBox() != null && request.getRequestedRasterArea() != null)
-                imageChoice = setReadParams(request.getOverviewPolicy(), baseReadParameters, request);
+                imageChoice = setReadParams(request.getOverviewPolicy(), baseReadParameters, 
+                        request);
             else
                 imageChoice = 0;
             assert imageChoice >= 0;
@@ -330,7 +336,8 @@ class RasterLayerResponse {
             // keep into account overviews and subsampling
             final OverviewLevel level = request.imageManager.overviewsController.resolutionsLevels
                     .get(imageChoice);
-            final OverviewLevel baseLevel = request.imageManager.overviewsController.resolutionsLevels.get(0);
+            final OverviewLevel baseLevel = request.imageManager.overviewsController
+                    .resolutionsLevels.get(0);
             final AffineTransform2D adjustments = new AffineTransform2D(
                     (level.resolutionX / baseLevel.resolutionX)
                             * baseReadParameters.getSourceXSubsampling(), 0, 0,
@@ -365,7 +372,7 @@ class RasterLayerResponse {
                     return ConstantDescriptor.create(
                             Float.valueOf(rasterBounds.width),
                             Float.valueOf(rasterBounds.height),
-                            new Byte[] { 0 }, this.rasterManager.getHints());
+                            new Byte[]{0}, this.rasterManager.getHints());
                 } else {
 
                     // we have background values available
@@ -387,7 +394,8 @@ class RasterLayerResponse {
     }
 
     private RenderedImage processGranuleRaster(RenderedImage granule, final boolean alphaIn,
-            final boolean doTransparentColor, final Color transparentColor) {
+                                               final boolean doTransparentColor, final Color 
+                                                       transparentColor) {
 
         //
         // INDEX COLOR MODEL EXPANSION
@@ -448,9 +456,9 @@ class RasterLayerResponse {
 
         // creating the final coverage by keeping into account the fact that we
         // can just use the envelope, but we need to use the G2W
-        Map <String, String> properties = new HashMap<String,String>();
+        Map<String, String> properties = new HashMap<String, String>();
         properties.put(AbstractGridCoverage2DReader.FILE_SOURCE_PROPERTY, location);
-        
+
         return coverageFactory.create(rasterManager.getCoverageIdentifier(),
                 data, new GridGeometry2D(new GeneralGridEnvelope(data, 2),
                         PixelInCell.CELL_CORNER, finalGridToWorldCorner,
@@ -462,8 +470,8 @@ class RasterLayerResponse {
     /**
      * This method is responsible for preparing the read param for doing an
      * {@link ImageReader#read(int, ImageReadParam)}.
-     * 
-     * 
+     * <p>
+     * <p>
      * <p>
      * This method is responsible for preparing the read param for doing an
      * {@link ImageReader#read(int, ImageReadParam)}. It sets the passed
@@ -471,26 +479,22 @@ class RasterLayerResponse {
      * provided requestedEnvelope and requestedDim to evaluate the needed
      * resolution. It also returns and {@link Integer} representing the index of
      * the raster to be read when dealing with multipage raster.
-     * 
-     * @param overviewPolicy
-     *            it can be one of {@link Hints#VALUE_OVERVIEW_POLICY_IGNORE},
-     *            {@link Hints#VALUE_OVERVIEW_POLICY_NEAREST},
-     *            {@link Hints#VALUE_OVERVIEW_POLICY_QUALITY} or
-     *            {@link Hints#VALUE_OVERVIEW_POLICY_SPEED}. It specifies the
-     *            policy to compute the overviews level upon request.
-     * @param readParams
-     *            an instance of {@link ImageReadParam} for setting the
-     *            subsampling factors.
-     * @param requestedEnvelope
-     *            the {@link GeneralEnvelope} we are requesting.
-     * @param requestedDim
-     *            the requested dimensions.
+     *
+     * @param overviewPolicy    it can be one of {@link Hints#VALUE_OVERVIEW_POLICY_IGNORE},
+     *                          {@link Hints#VALUE_OVERVIEW_POLICY_NEAREST},
+     *                          {@link Hints#VALUE_OVERVIEW_POLICY_QUALITY} or
+     *                          {@link Hints#VALUE_OVERVIEW_POLICY_SPEED}. It specifies the
+     *                          policy to compute the overviews level upon request.
+     * @param readParams        an instance of {@link ImageReadParam} for setting the
+     *                          subsampling factors.
+     * @param requestedEnvelope the {@link GeneralEnvelope} we are requesting.
+     * @param requestedDim      the requested dimensions.
      * @return the index of the raster to read in the underlying data source.
      * @throws IOException
      * @throws TransformException
      */
     private int setReadParams(final OverviewPolicy overviewPolicy,
-            final ImageReadParam readParams, final RasterLayerRequest request)
+                              final ImageReadParam readParams, final RasterLayerRequest request)
             throws IOException, TransformException {
 
         // Default image index 0

@@ -32,10 +32,8 @@ import org.opengis.coverage.grid.GridCoverageReader;
  *
  * @author Daniele Romagnoli, GeoSolutions.
  * @author Simone Giannecchini (simboss), GeoSolutions
- * @since 2.5.x
- *
- *
  * @source $URL$
+ * @since 2.5.x
  */
 public final class JP2KReader extends BaseGDALGridCoverage2DReader implements GridCoverageReader {
     private final static String worldFileExt = ".j2w";
@@ -44,8 +42,7 @@ public final class JP2KReader extends BaseGDALGridCoverage2DReader implements Gr
      * Creates a new instance of a {@link JP2KReader}. I assume nothing about
      * file extension.
      *
-     * @param input
-     *            Source object for which we want to build an JP2KReader.
+     * @param input Source object for which we want to build an JP2KReader.
      * @throws DataSourceException
      */
     public JP2KReader(Object input) throws DataSourceException {
@@ -57,14 +54,12 @@ public final class JP2KReader extends BaseGDALGridCoverage2DReader implements Gr
      * whether the file is compressed or not. I assume nothing about file
      * extension.
      *
-     * @param input
-     *            Source object for which we want to build an {@link JP2KReader}.
-     * @param hints
-     *            Hints to be used by this reader throughout his life.
+     * @param input Source object for which we want to build an {@link JP2KReader}.
+     * @param hints Hints to be used by this reader throughout his life.
      * @throws DataSourceException
      */
     public JP2KReader(Object input, final Hints hints)
-        throws DataSourceException {
+            throws DataSourceException {
         super(input, hints, worldFileExt, new JP2GDALKakaduImageReaderSpi());
     }
 

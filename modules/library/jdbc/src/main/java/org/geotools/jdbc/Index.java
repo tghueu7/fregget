@@ -25,7 +25,7 @@ import org.geotools.factory.Hints;
 
 /**
  * Represents a database index
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 public class Index {
@@ -48,7 +48,7 @@ public class Index {
     }
 
     public Index(String typeName, String indexName, boolean unique, Hints hints,
-            String... attributes) {
+                 String... attributes) {
         super();
         this.typeName = typeName;
         this.indexName = indexName;
@@ -59,7 +59,7 @@ public class Index {
 
     /**
      * True if the index is a unique one, false otherwise
-     * 
+     *
      * @return
      */
     public boolean isUnique() {
@@ -82,7 +82,7 @@ public class Index {
 
     /**
      * The index name
-     * 
+     *
      * @return
      */
     public String getIndexName() {
@@ -91,7 +91,7 @@ public class Index {
 
     /**
      * Retrieves the hints for this index.
-     * 
+     *
      * @return
      */
     public Hints getHints() {
@@ -149,7 +149,6 @@ public class Index {
             return false;
         return true;
     }
-
 
 
 }

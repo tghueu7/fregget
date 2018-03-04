@@ -18,6 +18,7 @@ package org.geotools.util;
 
 import java.util.Map;
 import java.util.LinkedHashMap;
+
 import org.opengis.util.Cloneable;
 import org.geotools.resources.i18n.Errors;
 import org.geotools.resources.i18n.ErrorKeys;
@@ -32,24 +33,19 @@ import org.geotools.resources.i18n.ErrorKeys;
  * This class is similar to using the wrappers provided in {@link Collections}, minus the cost
  * of indirection levels and with the addition of overrideable methods.
  *
- * @todo Current implementation do not synchronize the {@linkplain #entrySet entry set},
- *       {@linkplain #keySet key set} and {@linkplain #values values} collection.
- *
  * @param <K> The type of keys in the map.
  * @param <V> The type of values in the map.
- *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Jody Garnett (Refractions Research)
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @todo Current implementation do not synchronize the {@linkplain #entrySet entry set},
+ * {@linkplain #keySet key set} and {@linkplain #values values} collection.
+ * @source $URL$
  * @see Collections#checkedMap
  * @see Collections#synchronizedMap
+ * @since 2.1
  */
-public class CheckedHashMap<K,V> extends LinkedHashMap<K,V> implements Cloneable {
+public class CheckedHashMap<K, V> extends LinkedHashMap<K, V> implements Cloneable {
     /**
      * Serial version UID for compatibility with different versions.
      */
@@ -72,9 +68,9 @@ public class CheckedHashMap<K,V> extends LinkedHashMap<K,V> implements Cloneable
      * @param valueType The value type (should not be null).
      */
     public CheckedHashMap(final Class<K> keyType, final Class<V> valueType) {
-        this.keyType   = keyType;
+        this.keyType = keyType;
         this.valueType = valueType;
-        ensureNonNull(  keyType,   "keyType");
+        ensureNonNull(keyType, "keyType");
         ensureNonNull(valueType, "valueType");
     }
 
@@ -91,13 +87,12 @@ public class CheckedHashMap<K,V> extends LinkedHashMap<K,V> implements Cloneable
      * Checks the type of the specified object. The default implementation ensure
      * that the object is assignable to the type specified at construction time.
      *
-     * @param  element the object to check, or {@code null}.
+     * @param element the object to check, or {@code null}.
      * @throws IllegalArgumentException if the specified element is not of the expected type.
      */
     private static <E> void ensureValidType(final E element, final Class<E> type)
-            throws IllegalArgumentException
-    {
-        if (element!=null && !type.isInstance(element)) {
+            throws IllegalArgumentException {
+        if (element != null && !type.isInstance(element)) {
             throw new IllegalArgumentException(Errors.format(
                     ErrorKeys.ILLEGAL_CLASS_$2, element.getClass(), type));
         }
@@ -111,7 +106,6 @@ public class CheckedHashMap<K,V> extends LinkedHashMap<K,V> implements Cloneable
      * access.
      *
      * @throws UnsupportedOperationException if this collection is unmodifiable.
-     *
      * @since 2.5
      */
     protected void checkWritePermission() throws UnsupportedOperationException {
@@ -124,7 +118,6 @@ public class CheckedHashMap<K,V> extends LinkedHashMap<K,V> implements Cloneable
      * when this set is {@linkplain #clone cloned}.
      *
      * @return The synchronization lock.
-     *
      * @since 2.5
      */
     protected Object getLock() {
@@ -136,7 +129,7 @@ public class CheckedHashMap<K,V> extends LinkedHashMap<K,V> implements Cloneable
      */
     @Override
     public int size() {
-	synchronized (getLock()) {
+        synchronized (getLock()) {
             return super.size();
         }
     }
@@ -146,7 +139,7 @@ public class CheckedHashMap<K,V> extends LinkedHashMap<K,V> implements Cloneable
      */
     @Override
     public boolean isEmpty() {
-	synchronized (getLock()) {
+        synchronized (getLock()) {
             return super.isEmpty();
         }
     }
@@ -156,7 +149,7 @@ public class CheckedHashMap<K,V> extends LinkedHashMap<K,V> implements Cloneable
      */
     @Override
     public boolean containsKey(final Object key) {
-	synchronized (getLock()) {
+        synchronized (getLock()) {
             return super.containsKey(key);
         }
     }
@@ -166,7 +159,7 @@ public class CheckedHashMap<K,V> extends LinkedHashMap<K,V> implements Cloneable
      */
     @Override
     public boolean containsValue(final Object value) {
-	synchronized (getLock()) {
+        synchronized (getLock()) {
             return super.containsValue(value);
         }
     }
@@ -176,7 +169,7 @@ public class CheckedHashMap<K,V> extends LinkedHashMap<K,V> implements Cloneable
      */
     @Override
     public V get(Object key) {
-	synchronized (getLock()) {
+        synchronized (getLock()) {
             return super.get(key);
         }
     }
@@ -186,19 +179,18 @@ public class CheckedHashMap<K,V> extends LinkedHashMap<K,V> implements Cloneable
      * If the map previously contained a mapping for this key, the old
      * value is replaced.
      *
-     * @param key key with which the specified value is to be associated.
+     * @param key   key with which the specified value is to be associated.
      * @param value value to be associated with the specified key.
      * @return previous value associated with specified key, or {@code null}.
-     * @throws IllegalArgumentException if the key or the value is not of the expected type.
+     * @throws IllegalArgumentException      if the key or the value is not of the expected type.
      * @throws UnsupportedOperationException if this collection is unmodifiable.
      */
     @Override
     public V put(final K key, final V value)
-            throws IllegalArgumentException, UnsupportedOperationException
-    {
-        ensureValidType(key,     keyType);
+            throws IllegalArgumentException, UnsupportedOperationException {
+        ensureValidType(key, keyType);
         ensureValidType(value, valueType);
-	synchronized (getLock()) {
+        synchronized (getLock()) {
             checkWritePermission();
             return super.put(key, value);
         }
@@ -212,10 +204,10 @@ public class CheckedHashMap<K,V> extends LinkedHashMap<K,V> implements Cloneable
     @Override
     public void putAll(Map<? extends K, ? extends V> m) throws UnsupportedOperationException {
         for (final Map.Entry<? extends K, ? extends V> entry : m.entrySet()) {
-            ensureValidType(entry.getKey(),     keyType);
+            ensureValidType(entry.getKey(), keyType);
             ensureValidType(entry.getValue(), valueType);
         }
-	synchronized (getLock()) {
+        synchronized (getLock()) {
             checkWritePermission();
             super.putAll(m);
         }
@@ -284,7 +276,7 @@ public class CheckedHashMap<K,V> extends LinkedHashMap<K,V> implements Cloneable
      */
     @Override
     @SuppressWarnings("unchecked")
-    public CheckedHashMap<K,V> clone() {
+    public CheckedHashMap<K, V> clone() {
         synchronized (getLock()) {
             return (CheckedHashMap) super.clone();
         }

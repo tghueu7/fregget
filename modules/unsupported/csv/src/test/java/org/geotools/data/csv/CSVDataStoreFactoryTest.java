@@ -52,7 +52,7 @@ public class CSVDataStoreFactoryTest {
         assertEquals("Comma delimited text file", csvDataStoreFactory.getDescription());
         assertTrue(csvDataStoreFactory.canProcess(locationsResource));
         assertTrue(csvDataStoreFactory.getImplementationHints().isEmpty());
-        assertArrayEquals(new String[] { ".csv" }, csvDataStoreFactory.getFileExtensions());
+        assertArrayEquals(new String[]{".csv"}, csvDataStoreFactory.getFileExtensions());
         assertNotNull("Invalid Parameter Info", csvDataStoreFactory.getParametersInfo());
     }
 

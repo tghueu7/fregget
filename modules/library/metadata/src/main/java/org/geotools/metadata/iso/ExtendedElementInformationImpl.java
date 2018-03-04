@@ -31,18 +31,14 @@ import org.opengis.util.InternationalString;
 /**
  * New metadata element, not found in ISO 19115, which is required to describe geographic data.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class ExtendedElementInformationImpl extends MetadataEntity
-        implements ExtendedElementInformation
-{
+        implements ExtendedElementInformation {
     /**
      * Serial number for interoperability with different versions.
      */
@@ -144,21 +140,20 @@ public class ExtendedElementInformationImpl extends MetadataEntity
     /**
      * Create an extended element information initialized to the given values.
      */
-    public ExtendedElementInformationImpl(final String              name,
+    public ExtendedElementInformationImpl(final String name,
                                           final InternationalString definition,
                                           final InternationalString condition,
-                                          final Datatype            dataType,
-                                          final Collection<String>  parentEntity,
+                                          final Datatype dataType,
+                                          final Collection<String> parentEntity,
                                           final InternationalString rule,
-                                          final Collection<? extends ResponsibleParty> sources)
-    {
-        setName        (name);
-        setDefinition  (definition);
-        setCondition   (condition);
-        setDataType    (dataType);
+                                          final Collection<? extends ResponsibleParty> sources) {
+        setName(name);
+        setDefinition(definition);
+        setCondition(condition);
+        setDataType(dataType);
         setParentEntity(parentEntity);
-        setRule        (rule);
-        setSources     (sources);
+        setRule(rule);
+        setSources(sources);
     }
 
     /**
@@ -182,14 +177,14 @@ public class ExtendedElementInformationImpl extends MetadataEntity
      * Returns {@code null} if the {@linkplain #getDataType data type}
      * is {@linkplain Datatype#CODE_LIST_ELEMENT code list element}.
      */
-    public String getShortName()  {
+    public String getShortName() {
         return shortName;
     }
 
     /**
      * Set a short form suitable for use in an implementation method such as XML or SGML.
      */
-    public synchronized void setShortName(final String newValue)  {
+    public synchronized void setShortName(final String newValue) {
         checkWritePermission();
         shortName = newValue;
     }
@@ -214,14 +209,14 @@ public class ExtendedElementInformationImpl extends MetadataEntity
     /**
      * Definition of the extended element.
      */
-    public InternationalString getDefinition()  {
+    public InternationalString getDefinition() {
         return definition;
     }
 
     /**
      * Set the definition of the extended element.
      */
-    public synchronized void setDefinition(final InternationalString newValue)  {
+    public synchronized void setDefinition(final InternationalString newValue) {
         checkWritePermission();
         definition = newValue;
     }
@@ -229,14 +224,14 @@ public class ExtendedElementInformationImpl extends MetadataEntity
     /**
      * Obligation of the extended element.
      */
-    public Obligation getObligation()  {
+    public Obligation getObligation() {
         return obligation;
     }
 
     /**
      * Set the obligation of the extended element.
      */
-    public synchronized void setObligation(final Obligation newValue)  {
+    public synchronized void setObligation(final Obligation newValue) {
         checkWritePermission();
         obligation = newValue;
     }
@@ -323,8 +318,7 @@ public class ExtendedElementInformationImpl extends MetadataEntity
      * Set the name of the metadata entity(s) under which this extended metadata element may appear.
      */
     public synchronized void setParentEntity(
-            final Collection<? extends String> newValues)
-    {
+            final Collection<? extends String> newValues) {
         parentEntity = copyCollection(newValues, parentEntity, String.class);
     }
 
@@ -354,8 +348,7 @@ public class ExtendedElementInformationImpl extends MetadataEntity
      * Set the reason for creating the extended element.
      */
     public synchronized void setRationales(
-            final Collection<? extends InternationalString> newValues)
-    {
+            final Collection<? extends InternationalString> newValues) {
         rationales = copyCollection(newValues, rationales, InternationalString.class);
     }
 
@@ -370,8 +363,7 @@ public class ExtendedElementInformationImpl extends MetadataEntity
      * Set the name of the person or organization creating the extended element.
      */
     public synchronized void setSources(
-            final Collection<? extends ResponsibleParty> newValues)
-    {
+            final Collection<? extends ResponsibleParty> newValues) {
         sources = copyCollection(newValues, sources, ResponsibleParty.class);
     }
 

@@ -21,6 +21,7 @@ package org.geotools.metadata.iso.spatial;
 
 import java.util.Collection;
 import java.util.List;
+
 import org.opengis.metadata.spatial.CellGeometry;
 import org.opengis.metadata.spatial.Dimension;
 import org.opengis.metadata.spatial.Georectified;
@@ -35,13 +36,10 @@ import org.opengis.util.InternationalString;
  * in the grid can be geolocated given its grid coordinate and the grid origin, cell spacing,
  * and orientation indication of whether or not geographic.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class GeorectifiedImpl extends GridSpatialRepresentationImpl implements Georectified {
@@ -116,15 +114,14 @@ public class GeorectifiedImpl extends GridSpatialRepresentationImpl implements G
                             final boolean transformationParameterAvailable,
                             final boolean checkPointAvailable,
                             final List<? extends Point> cornerPoints,
-                            final PixelOrientation pointInPixel)
-    {
+                            final PixelOrientation pointInPixel) {
         super(numberOfDimensions,
-              axisDimensionsProperties,
-              cellGeometry,
-              transformationParameterAvailable);
+                axisDimensionsProperties,
+                cellGeometry,
+                transformationParameterAvailable);
         setCheckPointAvailable(checkPointAvailable);
-        setCornerPoints       (cornerPoints       );
-        setPointInPixel       (pointInPixel       );
+        setCornerPoints(cornerPoints);
+        setPointInPixel(pointInPixel);
     }
 
     /**
@@ -222,9 +219,11 @@ public class GeorectifiedImpl extends GridSpatialRepresentationImpl implements G
     }
 
     /**
-     * Set the description of the information about which grid dimensions are the spatial dimensions.
+     * Set the description of the information about which grid dimensions are the spatial 
+     * dimensions.
      */
-    public synchronized void setTransformationDimensionDescription(final InternationalString newValue) {
+    public synchronized void setTransformationDimensionDescription(final InternationalString 
+                                                                           newValue) {
         checkWritePermission();
         transformationDimensionDescription = newValue;
     }
@@ -241,9 +240,8 @@ public class GeorectifiedImpl extends GridSpatialRepresentationImpl implements G
      * Set information about which grid dimensions are the spatial dimensions.
      */
     public synchronized void setTransformationDimensionMapping(
-            final Collection<? extends InternationalString> newValues)
-    {
+            final Collection<? extends InternationalString> newValues) {
         transformationDimensionMapping = copyCollection(newValues, transformationDimensionMapping,
-                                                        InternationalString.class);
+                InternationalString.class);
     }
 }

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 1999-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -30,7 +30,7 @@ package org.geotools.util;
  * <cite>Swing</cite> implemention. {@code ProgressListener} can be invoked from
  * any thread, which never need to be the <cite>Swing</cite>'s thread. This is usefull
  * for performing lenghtly operation in a background thread. Example:
- *
+ * <p>
  * <blockquote><pre>
  * &nbsp;ProgressListener p = new {@link org.geotools.gui.headless.ProgressPrinter}();
  * &nbsp;p.setDecription("Loading data");
@@ -42,11 +42,11 @@ package org.geotools.util;
  * &nbsp;}
  * &nbsp;p.complete();
  * </pre></blockquote>
- *
+ * <p>
  * <strong>Note:</strong> The line <code>if ((j&nbsp;&amp;&nbsp;255)&nbsp;==&nbsp;0)</code>
  * is used for reducing the amount of calls to {@link #progress} (only once every 256 steps).
  * This is not mandatory, but may speed up the process.
- *
+ * <p>
  * <p>
  * Here is another example showing how to cancel:
  * <pre><code>
@@ -55,7 +55,8 @@ package org.geotools.util;
  *          float size = size();
  *          float position = 0;
  *          progress.started();
- *          for( iterator = iterator(); !progress.isCanceled() && iterator.hasNext(); progress.progress( (position++)/size )){
+ *          for( iterator = iterator(); !progress.isCanceled() && iterator.hasNext(); progress
+ *          .progress( (position++)/size )){
  *              try {
  *                  Feature feature = (Feature) iterator.next();
  *                  visitor.visit(feature);
@@ -72,18 +73,14 @@ package org.geotools.util;
  * </code></pre>
  * Note the use of try and catch to report exceptions.
  *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (PMO, IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see org.geotools.gui.headless.ProgressPrinter
  * @see org.geotools.gui.headless.ProgressMailer
  * @see org.geotools.gui.swing.ProgressWindow
  * @see javax.swing.ProgressMonitor
- *
+ * @since 2.0
  * @deprecated Please use org.opengis.util.ProgressListener
  */
 public interface ProgressListener extends org.opengis.util.ProgressListener {
@@ -140,10 +137,12 @@ public interface ProgressListener extends org.opengis.util.ProgressListener {
      * Reports a warning. This warning may be printed to the {@linkplain System#err standard error
      * stream}, appears in a windows or be ignored, at implementor choice.
      *
-     * @param source The source of the warning, or {@code null} if none. This is typically the
-     *        filename in process of being parsed.
-     * @param margin Text to write on the left side of the warning message, or {@code null} if none.
-     *        This is typically the line number where the error occured in the {@code source} file.
+     * @param source  The source of the warning, or {@code null} if none. This is typically the
+     *                filename in process of being parsed.
+     * @param margin  Text to write on the left side of the warning message, or {@code null} if 
+     *                none.
+     *                This is typically the line number where the error occured in the {@code 
+     *                source} file.
      * @param warning The warning message.
      */
     void warningOccurred(String source, String margin, String warning);

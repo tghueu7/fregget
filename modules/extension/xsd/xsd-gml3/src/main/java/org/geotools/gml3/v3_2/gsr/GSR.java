@@ -25,63 +25,66 @@ import org.geotools.gml3.v3_2.gco.GCO;
 import org.opengis.feature.type.Schema;
 
 /**
- * This interface contains the qualified names of all the types,elements, and 
+ * This interface contains the qualified names of all the types,elements, and
  * attributes in the http://www.isotc211.org/2005/gsr schema.
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public final class GSR extends GML.DelegatingXSD {
 
-    /** singleton instance */
+    /**
+     * singleton instance
+     */
     private static final GSR instance = new GSR();
-    
+
     /**
      * Returns the singleton instance.
      */
     public static final GSR getInstance() {
-       return instance;
+        return instance;
     }
-    
+
     /**
      * private constructor
      */
     private GSR() {
     }
-    
+
     protected void addDependencies(Set dependencies) {
-        dependencies.add( GCO.getInstance() );
+        dependencies.add(GCO.getInstance());
     }
-    
+
     @Override
     protected Schema buildTypeSchema() {
         return new GSRSchema();
     }
-    
-   /**
+
+    /**
      * Returns 'http://www.isotc211.org/2005/gsr'.
      */
     public String getNamespaceURI() {
-       return NAMESPACE;
+        return NAMESPACE;
     }
-    
+
     /**
      * Returns the location of 'gsr.xsd.'.
      */
     public String getSchemaLocation() {
-       return getClass().getResource("gsr.xsd").toString();
+        return getClass().getResource("gsr.xsd").toString();
     }
-    
-    /** @generated */
+
+    /**
+     * @generated
+     */
     public static final String NAMESPACE = "http://www.isotc211.org/2005/gsr";
-    
+
     /* Type Definitions */
-    /** @generated */
-    public static final QName SC_CRS_PropertyType = 
-        new QName("http://www.isotc211.org/2005/gsr","SC_CRS_PropertyType");
+    /**
+     * @generated
+     */
+    public static final QName SC_CRS_PropertyType =
+            new QName("http://www.isotc211.org/2005/gsr", "SC_CRS_PropertyType");
 
     /* Elements */
 

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -34,83 +34,84 @@ import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SimpleTypeBuilderTest extends TestCase {
 
-	static final String URI = "gopher://localhost/test";
-	
-	SimpleFeatureTypeBuilder builder;
-	
-	protected void setUp() throws Exception {
-		Schema schema = new SchemaImpl( "test" );
-		
-		FeatureTypeFactoryImpl typeFactory = new FeatureTypeFactoryImpl();
-		AttributeType pointType = 
-			typeFactory.createGeometryType( new NameImpl( "test", "pointType" ), Point.class, null, false, false, Collections.EMPTY_LIST, null, null);		
-		schema.put( new NameImpl( "test", "pointType" ), pointType );
-		
-		AttributeType intType = 
-			typeFactory.createAttributeType( new NameImpl( "test", "intType" ), Integer.class, false, false, Collections.EMPTY_LIST, null, null);
-		schema.put( new NameImpl( "test", "intType" ), intType );
-		
-		builder = new SimpleFeatureTypeBuilder( new FeatureTypeFactoryImpl() );
-		builder.setBindings(schema);
-	}
-	
-	public void testSanity() {
-		builder.setName( "testName" );
-		builder.setNamespaceURI( "testNamespaceURI" );
-		builder.add( "point", Point.class, (CoordinateReferenceSystem) null );
-		builder.add( "integer", Integer.class );
-		
-		SimpleFeatureType type = builder.buildFeatureType();
-		assertNotNull( type );
-		
-		assertEquals( 2, type.getAttributeCount() );
-		
-		AttributeType t = type.getType( "point" );
-		assertNotNull( t );
-		assertEquals( Point.class, t.getBinding() );
-		
-		t = type.getType( "integer" );
-		assertNotNull( t );
-		assertEquals( Integer.class, t.getBinding() );
-		
-		t = type.getGeometryDescriptor().getType();
-		assertNotNull( t );
-		assertEquals( Point.class, t.getBinding() );
-	}
-	
-	public void testCRS() {
-		builder.setName( "testName" );
-		builder.setNamespaceURI( "testNamespaceURI" );
-		
-		builder.setCRS(DefaultGeographicCRS.WGS84);
-		builder.crs(null).add( "point", Point.class );
-		builder.add( "point2", Point.class, DefaultGeographicCRS.WGS84 );
-		builder.setDefaultGeometry("point");
-		SimpleFeatureType type = builder.buildFeatureType();
-		assertEquals( DefaultGeographicCRS.WGS84, type.getCoordinateReferenceSystem() );
-		
-		assertNull( type.getGeometryDescriptor().getType().getCoordinateReferenceSystem() );
-		assertEquals( DefaultGeographicCRS.WGS84, ((GeometryType)type.getType("point2")).getCoordinateReferenceSystem());
-	}
-	
-	
-	public void testAttributeDefaultValue() {
-	    SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
-	    builder.setName("buggy");
-	    builder.nillable(false).defaultValue(12).add("attrWithDefault", Integer.class);
-	    builder.nillable(true).defaultValue(null).add("attrWithoutDefault", Integer.class);
-	    SimpleFeatureType featureType = builder.buildFeatureType();
-	    assertFalse(featureType.getDescriptor("attrWithDefault").isNillable());
-	    assertEquals(12, featureType.getDescriptor("attrWithDefault").getDefaultValue());
-	    assertTrue(featureType.getDescriptor("attrWithoutDefault").isNillable());
-	    assertNull(featureType.getDescriptor("attrWithoutDefault").getDefaultValue());
-	}
+    static final String URI = "gopher://localhost/test";
+
+    SimpleFeatureTypeBuilder builder;
+
+    protected void setUp() throws Exception {
+        Schema schema = new SchemaImpl("test");
+
+        FeatureTypeFactoryImpl typeFactory = new FeatureTypeFactoryImpl();
+        AttributeType pointType =
+                typeFactory.createGeometryType(new NameImpl("test", "pointType"), Point.class, 
+                        null, false, false, Collections.EMPTY_LIST, null, null);
+        schema.put(new NameImpl("test", "pointType"), pointType);
+
+        AttributeType intType =
+                typeFactory.createAttributeType(new NameImpl("test", "intType"), Integer.class, 
+                        false, false, Collections.EMPTY_LIST, null, null);
+        schema.put(new NameImpl("test", "intType"), intType);
+
+        builder = new SimpleFeatureTypeBuilder(new FeatureTypeFactoryImpl());
+        builder.setBindings(schema);
+    }
+
+    public void testSanity() {
+        builder.setName("testName");
+        builder.setNamespaceURI("testNamespaceURI");
+        builder.add("point", Point.class, (CoordinateReferenceSystem) null);
+        builder.add("integer", Integer.class);
+
+        SimpleFeatureType type = builder.buildFeatureType();
+        assertNotNull(type);
+
+        assertEquals(2, type.getAttributeCount());
+
+        AttributeType t = type.getType("point");
+        assertNotNull(t);
+        assertEquals(Point.class, t.getBinding());
+
+        t = type.getType("integer");
+        assertNotNull(t);
+        assertEquals(Integer.class, t.getBinding());
+
+        t = type.getGeometryDescriptor().getType();
+        assertNotNull(t);
+        assertEquals(Point.class, t.getBinding());
+    }
+
+    public void testCRS() {
+        builder.setName("testName");
+        builder.setNamespaceURI("testNamespaceURI");
+
+        builder.setCRS(DefaultGeographicCRS.WGS84);
+        builder.crs(null).add("point", Point.class);
+        builder.add("point2", Point.class, DefaultGeographicCRS.WGS84);
+        builder.setDefaultGeometry("point");
+        SimpleFeatureType type = builder.buildFeatureType();
+        assertEquals(DefaultGeographicCRS.WGS84, type.getCoordinateReferenceSystem());
+
+        assertNull(type.getGeometryDescriptor().getType().getCoordinateReferenceSystem());
+        assertEquals(DefaultGeographicCRS.WGS84, ((GeometryType) type.getType("point2"))
+                .getCoordinateReferenceSystem());
+    }
+
+
+    public void testAttributeDefaultValue() {
+        SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
+        builder.setName("buggy");
+        builder.nillable(false).defaultValue(12).add("attrWithDefault", Integer.class);
+        builder.nillable(true).defaultValue(null).add("attrWithoutDefault", Integer.class);
+        SimpleFeatureType featureType = builder.buildFeatureType();
+        assertFalse(featureType.getDescriptor("attrWithDefault").isNillable());
+        assertEquals(12, featureType.getDescriptor("attrWithDefault").getDefaultValue());
+        assertTrue(featureType.getDescriptor("attrWithoutDefault").isNillable());
+        assertNull(featureType.getDescriptor("attrWithoutDefault").getDefaultValue());
+    }
 
     public void testMaintainDefaultGeometry() {
         builder.setName("testGeometries");
@@ -121,8 +122,8 @@ public class SimpleTypeBuilderTest extends TestCase {
 
         // performing an attribute selection, even changing order, should not change
         // the default geometry, that had a special meaning in the original source
-        SimpleFeatureType retyped = SimpleFeatureTypeBuilder.retype(type, new String[] { "geo2",
-                "geo1" });
+        SimpleFeatureType retyped = SimpleFeatureTypeBuilder.retype(type, new String[]{"geo2",
+                "geo1"});
         assertEquals("geo1", retyped.getGeometryDescriptor().getLocalName());
     }
 }

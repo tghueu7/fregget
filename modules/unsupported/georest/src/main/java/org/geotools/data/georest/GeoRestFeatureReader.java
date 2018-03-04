@@ -36,11 +36,8 @@ import org.opengis.filter.sort.SortOrder;
  * <p>
  * FeatureReader for the {@link GeoRestDataStore}.
  * </p>
- * 
+ *
  * @author Pieter De Graef, Geosparc
- *
- *
- *
  * @source $URL$
  */
 public class GeoRestFeatureReader implements SimpleFeatureReader {
@@ -56,13 +53,10 @@ public class GeoRestFeatureReader implements SimpleFeatureReader {
     /**
      * Create a new reader given a contentState and a query. This constructor will immediately open
      * a connection to the rest service and try to read from it.
-     * 
-     * @param contentState
-     *            The ContentState associated with this reader.
-     * @param query
-     *            A query that determines which features to read.
-     * @throws IOException
-     *             oops.
+     *
+     * @param contentState The ContentState associated with this reader.
+     * @param query        A query that determines which features to read.
+     * @throws IOException oops.
      */
     public GeoRestFeatureReader(ContentState contentState, Query query) throws IOException {
         this.contentState = contentState;

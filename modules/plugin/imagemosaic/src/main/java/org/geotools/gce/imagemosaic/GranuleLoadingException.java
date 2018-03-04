@@ -22,7 +22,7 @@ package org.geotools.gce.imagemosaic;
  */
 @SuppressWarnings("serial")
 public class GranuleLoadingException extends Exception {
-    
+
     public GranuleLoadingException(String s, Exception cause) {
         super(s, cause);
     }

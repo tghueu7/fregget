@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -19,7 +19,6 @@ package org.geotools.feature;
 
 /**
  * Indicates client class has attempted to create an invalid schema.
- *
  *
  * @source $URL$
  */
@@ -46,7 +45,7 @@ public class SchemaException extends Exception {
      * Constructor with message argument and cause.
      *
      * @param message Reason for the exception being thrown
-     * @param cause Cause of SchemaException
+     * @param cause   Cause of SchemaException
      */
     public SchemaException(String message, Throwable cause) {
         super(message, cause);

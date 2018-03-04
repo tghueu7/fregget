@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- *    
+ *
  * 	  (c) 2014 Open Source Geospatial Foundation - all rights reserved
  * 	  (c) 2012 - 2014 OpenPlans
  *
@@ -55,17 +55,16 @@ public class CSVAttributesOnlyStrategy extends CSVStrategy {
                 continue;
             header.add(descriptor.getLocalName());
         }
-        
+
         // Write out header, producing an empty file of the correct type
-        CsvWriter writer = new CsvWriter(new FileWriter(this.csvFileState.getFile()),',');
+        CsvWriter writer = new CsvWriter(new FileWriter(this.csvFileState.getFile()), ',');
         try {
-            writer.writeRecord( header.toArray(new String[header.size()]));
-        }
-        finally {
+            writer.writeRecord(header.toArray(new String[header.size()]));
+        } finally {
             writer.close();
         }
     }
-    
+
     @Override
     public String[] encode(SimpleFeature feature) {
         List<String> csvRecord = new ArrayList<String>();
@@ -80,9 +79,9 @@ public class CSVAttributesOnlyStrategy extends CSVStrategy {
                 csvRecord.add(txt);
             }
         }
-        return csvRecord.toArray(new String[csvRecord.size()-1]);
+        return csvRecord.toArray(new String[csvRecord.size() - 1]);
     }
-    
+
     @Override
     public SimpleFeature decode(String recordId, String[] csvRecord) {
         SimpleFeatureType featureType = getFeatureType();

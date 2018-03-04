@@ -26,12 +26,9 @@ import org.opengis.feature.Feature;
 
 /**
  * Test the test data created by {@link SampleDataAccessData}.
- * 
+ *
  * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
  * @version $Id$
- *
- *
- *
  * @source $URL$
  * @since 2.6
  */

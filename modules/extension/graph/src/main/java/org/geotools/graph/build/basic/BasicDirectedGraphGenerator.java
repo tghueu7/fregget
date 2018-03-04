@@ -24,28 +24,25 @@ package org.geotools.graph.build.basic;
  * <LI>The elements of the array represent the objects modelled by the nodes.
  * <LI>The object array itself is the object modelled by the edges.
  * <LI>As each object array is added to the generator:
- *   <UL>
- *   <LI>A node lookup table is queried using the elements of the object array.
- *   <LI>If a node lookup returns null, a new node is created for its respective
- *       object.
- *   <LI>A new edge is created incident to the two looked up nodes.
- *   <LI>The underlying object of the edge is set to the be object array. 
- *   </UL>
- * </UL> 
- * 
+ * <UL>
+ * <LI>A node lookup table is queried using the elements of the object array.
+ * <LI>If a node lookup returns null, a new node is created for its respective
+ * object.
+ * <LI>A new edge is created incident to the two looked up nodes.
+ * <LI>The underlying object of the edge is set to the be object array.
+ * </UL>
+ * </UL>
+ *
  * @author Justin Deoliveira, Refractions Research Inc, jdeolive@refractions.net
- *
- *
- *
  * @source $URL$
  */
 public class BasicDirectedGraphGenerator extends BasicGraphGenerator {
- 
-  /**
-   * Constructs a new generator.
-   */
-  public BasicDirectedGraphGenerator() {
-    super();
-    setGraphBuilder(new BasicDirectedGraphBuilder());  
-  } 
+
+    /**
+     * Constructs a new generator.
+     */
+    public BasicDirectedGraphGenerator() {
+        super();
+        setGraphBuilder(new BasicDirectedGraphBuilder());
+    }
 }

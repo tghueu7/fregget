@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.util;
 
 import java.util.List;
+
 import org.opengis.annotation.UML;
 import org.opengis.annotation.Extension;
 
@@ -29,39 +30,37 @@ import static org.opengis.annotation.Specification.*;
  * <p>
  * It may be seen that {@code ScopedName} is the means by which fully-qualified names are expressed.
  * However, a {@code ScopedName} is not, in itself, what is commonly thought of as a <cite>fully
- * qualified</cite> name. The {@code ScopedName} type is one link in the chain, not the entire chain.
+ * qualified</cite> name. The {@code ScopedName} type is one link in the chain, not the entire 
+ * chain.
  * A scoped name is a fully qualified name only if its {@linkplain #scope scope} is
  * {@linkplain NameSpace#isGlobal global}.
  * <p>
  * <b>Example</b>:
  * The illustration below shows the head, tail, path and name of {@code "org.opengis.util.Record"}.
  * <blockquote><table border="1" cellpadding="15"><tr><td><table border="0">
- *   <tr>
- *     <th align="right">org</th>
- *     <th>.</th><th>opengis</th>
- *     <th>.</th><th>util</th>
- *     <th>.</th><th>Record</th>
- *   </tr>
- *   <tr align="center">
- *     <td bgcolor="palegoldenrod" colspan="1">{@linkplain #head head}</td><td></td>
- *     <td bgcolor="palegoldenrod" colspan="5">{@linkplain #tail tail}</td>
- *   </tr>
- *   <tr align="center">
- *     <td bgcolor="wheat" colspan="5">{@linkplain #path path}</td><td></td>
- *     <td bgcolor="wheat" colspan="1">{@linkplain #tip tip}</td>
- *   </tr>
+ * <tr>
+ * <th align="right">org</th>
+ * <th>.</th><th>opengis</th>
+ * <th>.</th><th>util</th>
+ * <th>.</th><th>Record</th>
+ * </tr>
+ * <tr align="center">
+ * <td bgcolor="palegoldenrod" colspan="1">{@linkplain #head head}</td><td></td>
+ * <td bgcolor="palegoldenrod" colspan="5">{@linkplain #tail tail}</td>
+ * </tr>
+ * <tr align="center">
+ * <td bgcolor="wheat" colspan="5">{@linkplain #path path}</td><td></td>
+ * <td bgcolor="wheat" colspan="1">{@linkplain #tip tip}</td>
+ * </tr>
  * </table></td></tr></table></blockquote>
  *
  * @author Martin Desruisseaux (IRD)
  * @author Bryce Nordgren (USDA)
- * @since GeoAPI 2.0
- *
- * @see NameFactory#createScopedName
- *
- *
  * @source $URL$
+ * @see NameFactory#createScopedName
+ * @since GeoAPI 2.0
  */
-@UML(identifier="ScopedName", specification=ISO_19103)
+@UML(identifier = "ScopedName", specification = ISO_19103)
 public interface ScopedName extends GenericName {
     /**
      * Returns the first element in the sequence of {@linkplain #getParsedNames parsed names}.
@@ -69,11 +68,12 @@ public interface ScopedName extends GenericName {
      * scoped name. In other words, the following relationship must holds:
      * <p>
      * <ul>
-     *   <li><code>head().scope() {@linkplain NameSpace#equals equals}
-     *       this.{@linkplain #scope scope()}</code></li>
+     * <li><code>head().scope() {@linkplain NameSpace#equals equals}
+     * this.{@linkplain #scope scope()}</code></li>
      * </ul>
      * <p>
-     * This method is similar in purpose to <code>{@linkplain javax.naming.Name#get Name.get}(0)</code>
+     * This method is similar in purpose to <code>{@linkplain javax.naming.Name#get Name.get}(0)
+     * </code>
      * from the <cite>Java Naming and Directory Interface</cite>.
      * <p>
      * <b>Example</b>:
@@ -81,11 +81,10 @@ public interface ScopedName extends GenericName {
      * shall returns {@code "org"}.
      *
      * @return The first element in the list of {@linkplain #getParsedNames parsed names}.
-     *
      * @since GeoAPI 2.2
      */
 /// @Override
-    @UML(identifier="head", obligation=MANDATORY, specification=ISO_19103)
+    @UML(identifier = "head", obligation = MANDATORY, specification = ISO_19103)
     LocalName head();
 
     /**
@@ -93,20 +92,19 @@ public interface ScopedName extends GenericName {
      * the {@linkplain #head head}. In other words, the following relationship must holds:
      * <p>
      * <ul>
-     *   <li><code>tail().getParsedNames() {@linkplain List#equals equals}
-     *   this.{@linkplain #getParsedNames getParsedNames()}.sublist(1,
-     *   {@linkplain #depth depth})</code></li>
+     * <li><code>tail().getParsedNames() {@linkplain List#equals equals}
+     * this.{@linkplain #getParsedNames getParsedNames()}.sublist(1,
+     * {@linkplain #depth depth})</code></li>
      * </ul>
      * <p>
      * This method is similar in purpose to <code>{@link javax.naming.Name#getSuffix(int)
      * Name.getSuffix}(1)</code> from the <cite>Java Naming and Directory Interface</cite>.
      *
      * @return All elements except the first one in the in the list of
-     *         {@linkplain #getParsedNames parsed names}.
-     *
+     * {@linkplain #getParsedNames parsed names}.
      * @since GeoAPI 2.1
      */
-    @UML(identifier="tail", obligation=MANDATORY, specification=ISO_19103)
+    @UML(identifier = "tail", obligation = MANDATORY, specification = ISO_19103)
     GenericName tail();
 
     /**
@@ -114,17 +112,16 @@ public interface ScopedName extends GenericName {
      * the {@linkplain #tip tip}. In other words, the following relationship must holds:
      * <p>
      * <ul>
-     *   <li><code>tip().getParsedNames() {@linkplain List#equals equals}
-     *   this.{@linkplain #getParsedNames getParsedNames()}.sublist(0,
-     *   {@linkplain #depth depth}-1)</code></li>
+     * <li><code>tip().getParsedNames() {@linkplain List#equals equals}
+     * this.{@linkplain #getParsedNames getParsedNames()}.sublist(0,
+     * {@linkplain #depth depth}-1)</code></li>
      * </ul>
      * <p>
      * This method is similar in purpose to <code>{@link javax.naming.Name#getPrefix(int)
      * Name.getPrefix}(size-1)</code> from the <cite>Java Naming and Directory Interface</cite>.
      *
      * @return All elements except the last one in the in the list of
-     *         {@linkplain #getParsedNames parsed names}.
-     *
+     * {@linkplain #getParsedNames parsed names}.
      * @since GeoAPI 2.1
      */
     @Extension
@@ -137,7 +134,6 @@ public interface ScopedName extends GenericName {
      * Name.get}(size-1)</code> from the <cite>Java Naming and Directory Interface</cite>.
      *
      * @return The last element in the list of {@linkplain #getParsedNames parsed names}.
-     *
      * @since GeoAPI 2.1
      */
 /// @Override
@@ -154,6 +150,6 @@ public interface ScopedName extends GenericName {
      * will depend on the mode of expression: URN or {@code Authority:Identifier} notation.
      */
 /// @Override
-    @UML(identifier="scopedName", obligation=MANDATORY, specification=ISO_19103)
+    @UML(identifier = "scopedName", obligation = MANDATORY, specification = ISO_19103)
     String toString();
 }

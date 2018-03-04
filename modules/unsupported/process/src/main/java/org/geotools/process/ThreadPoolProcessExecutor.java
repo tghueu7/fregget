@@ -24,21 +24,20 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
- * 
- *
  * @source $URL$
  */
-public class ThreadPoolProcessExecutor extends ThreadPoolExecutor 
-    implements ProcessExecutor {
+public class ThreadPoolProcessExecutor extends ThreadPoolExecutor
+        implements ProcessExecutor {
 
-    
-    public ThreadPoolProcessExecutor( int nThreads, ThreadFactory threadFactory ) {
-        super( nThreads, nThreads, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(), threadFactory );        
+
+    public ThreadPoolProcessExecutor(int nThreads, ThreadFactory threadFactory) {
+        super(nThreads, nThreads, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(),
+                threadFactory);
     }
 
-    public Progress submit( Process task, Map<String,Object> input ) {
+    public Progress submit(Process task, Map<String, Object> input) {
         if (task == null) throw new NullPointerException();
-        ProgressTask ftask = new ProgressTask(task, input );
+        ProgressTask ftask = new ProgressTask(task, input);
         execute(ftask);
         return ftask;
     }

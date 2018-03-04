@@ -21,7 +21,7 @@ import org.opengis.feature.simple.SimpleFeature;
 
 /**
  * Collates results of validation operations.
- * 
+ * <p>
  * <p>
  * Following the lead the excelent design work in the JUnit testing framework
  * validation results are collected by a ValidationResults object. This
@@ -30,8 +30,6 @@ import org.opengis.feature.simple.SimpleFeature;
  * </p>
  *
  * @author Jody Garnett, Refractions Research, Inc
- *
- *
  * @source $URL$
  */
 public interface ValidationResults {
@@ -46,7 +44,7 @@ public interface ValidationResults {
     /**
      * Returns a validation error on against the provided feature, An optional
      * error message may be provided.  The validating web feature server will:
-     * 
+     * <p>
      * <ul>
      * <li>
      * Collate all errors for transaction result
@@ -59,7 +57,7 @@ public interface ValidationResults {
      * transaction request
      * </li>
      * </ul>
-     * 
+     * <p>
      * Please note:<br>
      * The FeatureResults object has been provided with a Validation object
      * allowing it access to the user's name for the test, and the users
@@ -68,7 +66,7 @@ public interface ValidationResults {
      *
      * @param feature Feature found invalid
      * @param message Optional error message. Use a non null message to provide
-     *        specific failure information.
+     *                specific failure information.
      */
     public void error(SimpleFeature feature, String message);
 
@@ -76,7 +74,7 @@ public interface ValidationResults {
      * Returns a validation warning against the provided feature. An optional
      * warning message may be provided  The validating web feature server
      * will:
-     * 
+     * <p>
      * <ul>
      * <li>
      * Collate all warnings for a comment in the transaction result
@@ -85,7 +83,7 @@ public interface ValidationResults {
      * Log all warnings
      * </li>
      * </ul>
-     * 
+     * <p>
      * The FeatureResults object has been provided with a Validation object
      * allowing it access to the user's name for the test, and the users
      * decription of the test. Use the message information only to provide
@@ -93,7 +91,7 @@ public interface ValidationResults {
      *
      * @param feature Feature found to be in error
      * @param message Optional warning message. Use a non null message to
-     *        provide specific warning information.
+     *                provide specific warning information.
      */
     public void warning(SimpleFeature feature, String message);
 }

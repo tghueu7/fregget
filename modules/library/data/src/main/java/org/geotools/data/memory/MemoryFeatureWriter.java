@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015-2016, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -35,9 +35,9 @@ import org.opengis.feature.type.Name;
 import org.opengis.filter.identity.FeatureId;
 
 /**
- * Update contents of MemoryDataStore. 
+ * Update contents of MemoryDataStore.
  */
-public class MemoryFeatureWriter implements FeatureWriter<SimpleFeatureType, SimpleFeature>{
+public class MemoryFeatureWriter implements FeatureWriter<SimpleFeatureType, SimpleFeature> {
     MemoryState state;
     SimpleFeatureType featureType;
     Name typeName;
@@ -46,16 +46,16 @@ public class MemoryFeatureWriter implements FeatureWriter<SimpleFeatureType, Sim
 
     SimpleFeature live = null;
     SimpleFeature current = null; // current Feature returned to user        
-    
+
     public MemoryFeatureWriter(MemoryState state, Query query) throws IOException {
         this.state = state;
         this.typeName = state.getEntry().getName();
         this.featureType = state.getFeatureType();
-        
+
         MemoryEntry entry = state.getEntry();
         iterator = entry.getMemory().values().iterator();
     }
-    
+
     public SimpleFeatureType getFeatureType() {
         return state.getFeatureType();
     }
@@ -69,7 +69,7 @@ public class MemoryFeatureWriter implements FeatureWriter<SimpleFeatureType, Sim
                 current = SimpleFeatureBuilder.copy(live);
             } catch (IllegalAttributeException e) {
                 throw new DataSourceException("Unable to edit " + live.getID() + " of "
-                    + typeName);
+                        + typeName);
             }
         } else {
             // new content
@@ -79,14 +79,14 @@ public class MemoryFeatureWriter implements FeatureWriter<SimpleFeatureType, Sim
                 current = SimpleFeatureBuilder.template(featureType, null);
             } catch (IllegalAttributeException e) {
                 throw new DataSourceException("Unable to add additional Features of "
-                    + typeName);
+                        + typeName);
             }
         }
-        
+
         return current;
     }
 
-    
+
     public void remove() throws IOException {
         if (iterator == null) {
             throw new IOException("FeatureWriter has been closed");
@@ -106,12 +106,12 @@ public class MemoryFeatureWriter implements FeatureWriter<SimpleFeatureType, Sim
             current = null;
         }
     }
-    
+
     public void write() throws IOException {
         if (iterator == null) {
             throw new IOException("FeatureWriter has been closed");
         }
-    
+
         if (current == null) {
             throw new IOException("No feature available to write");
         }
@@ -120,7 +120,8 @@ public class MemoryFeatureWriter implements FeatureWriter<SimpleFeatureType, Sim
             if (current.getUserData().containsKey(Hints.PROVIDED_FID)) {
                 String fid = (String) current.getUserData().get(Hints.PROVIDED_FID);
                 FeatureId id = new FeatureIdImpl(fid);
-                current = new SimpleFeatureImpl(current.getAttributes(), current.getFeatureType(), id);
+                current = new SimpleFeatureImpl(current.getAttributes(), current.getFeatureType()
+                        , id);
             }
         }
 
@@ -137,9 +138,9 @@ public class MemoryFeatureWriter implements FeatureWriter<SimpleFeatureType, Sim
                     live.setAttributes(current.getAttributes());
                 } catch (Exception e) {
                     throw new DataSourceException("Unable to accept modifications to "
-                        + live.getID() + " on " + typeName);
+                            + live.getID() + " on " + typeName);
                 }
-    
+
                 ReferencedEnvelope bounds = new ReferencedEnvelope();
                 bounds.expandToInclude(new ReferencedEnvelope(live.getBounds()));
                 bounds.expandToInclude(new ReferencedEnvelope(current.getBounds()));
@@ -153,19 +154,19 @@ public class MemoryFeatureWriter implements FeatureWriter<SimpleFeatureType, Sim
             current = null;
         }
     }
-    
+
     public boolean hasNext() throws IOException {
         if (iterator == null) {
             throw new IOException("FeatureWriter has been closed");
         }
         return (iterator != null) && iterator.hasNext();
     }
-    
-    public void close(){
+
+    public void close() {
         if (iterator != null) {
             iterator = null;
         }
-        
+
         if (featureType != null) {
             featureType = null;
         }

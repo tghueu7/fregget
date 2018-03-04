@@ -36,14 +36,14 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryCollection;
 
 /**
- * Crops the coverage along the specified 
- * 
+ * Crops the coverage along the specified
+ *
  * @author Andrea Aime - GeoSolutions
  * @author ETj <etj at geo-solutions.it>
- *
  * @source $URL$
  */
-@DescribeProcess(title = "Crop Coverage", description = "Returns the portion of a raster bounded by a given geometry.")
+@DescribeProcess(title = "Crop Coverage", description = "Returns the portion of a raster bounded " +
+        "by a given geometry.")
 public class CropCoverage implements RasterProcess {
 
     private static final CoverageProcessor PROCESSOR = CoverageProcessor.getInstance();
@@ -51,8 +51,10 @@ public class CropCoverage implements RasterProcess {
 
     @DescribeResult(name = "result", description = "Cropped raster")
     public GridCoverage2D execute(
-            @DescribeParameter(name = "coverage", description = "Input raster") GridCoverage2D coverage,
-            @DescribeParameter(name = "cropShape", description = "Geometry used to crop the raster") Geometry cropShape,
+            @DescribeParameter(name = "coverage", description = "Input raster") GridCoverage2D 
+                    coverage,
+            @DescribeParameter(name = "cropShape", description = "Geometry used to crop the " +
+                    "raster") Geometry cropShape,
             ProgressListener progressListener) throws IOException {
         // get the bounds
         CoordinateReferenceSystem crs;
@@ -62,12 +64,13 @@ public class CropCoverage implements RasterProcess {
             // assume the geometry is in the same crs
             crs = coverage.getCoordinateReferenceSystem();
         }
-        GeneralEnvelope bounds = new GeneralEnvelope(new ReferencedEnvelope(cropShape.getEnvelopeInternal(), crs));
+        GeneralEnvelope bounds = new GeneralEnvelope(new ReferencedEnvelope(cropShape
+                .getEnvelopeInternal(), crs));
 
         // force it to a collection if necessary
         GeometryCollection roi;
         if (!(cropShape instanceof GeometryCollection)) {
-            roi = cropShape.getFactory().createGeometryCollection(new Geometry[] { cropShape });
+            roi = cropShape.getFactory().createGeometryCollection(new Geometry[]{cropShape});
         } else {
             roi = (GeometryCollection) cropShape;
         }

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -21,6 +21,7 @@ package org.geotools.metadata.iso.extent;
 
 import java.util.Collection;
 import java.util.Date;
+
 import org.opengis.metadata.extent.GeographicExtent;
 import org.opengis.metadata.extent.SpatialTemporalExtent;
 
@@ -30,13 +31,10 @@ import org.opengis.metadata.extent.SpatialTemporalExtent;
  * (<var>x</var>,<var>y</var>) coordinates of the polygon. The last
  * point replicates first point.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class SpatialTemporalExtentImpl extends TemporalExtentImpl implements SpatialTemporalExtent {
@@ -70,8 +68,7 @@ public class SpatialTemporalExtentImpl extends TemporalExtentImpl implements Spa
      * Creates a spatial-temporal extent initialized to the specified values.
      */
     public SpatialTemporalExtentImpl(final Date startTime, final Date endTime,
-                                     final Collection<? extends GeographicExtent> spatialExtent)
-    {
+                                     final Collection<? extends GeographicExtent> spatialExtent) {
         super(startTime, endTime);
         setSpatialExtent(spatialExtent);
     }
@@ -91,8 +88,7 @@ public class SpatialTemporalExtentImpl extends TemporalExtentImpl implements Spa
      * spatial and temporal extent.
      */
     public synchronized void setSpatialExtent(
-            final Collection<? extends GeographicExtent> newValues)
-    {
+            final Collection<? extends GeographicExtent> newValues) {
         spatialExtent = copyCollection(newValues, spatialExtent, GeographicExtent.class);
     }
 }

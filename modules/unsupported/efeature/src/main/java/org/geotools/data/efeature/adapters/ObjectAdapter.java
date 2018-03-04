@@ -24,40 +24,37 @@ import com.vividsolutions.jts.io.ParseException;
 
 /**
  * @author kengu - 15. juni 2011
- *
- *
  * @source $URL$
  */
 public class ObjectAdapter implements IDataTypeAdapter<Object> {
-    
+
     public static final ObjectAdapter DEFAULT = new ObjectAdapter();
 
-    /** Hide constructor */
-    private ObjectAdapter() { /*NOP*/};
+    /**
+     * Hide constructor
+     */
+    private ObjectAdapter() { /*NOP*/}
+
+    ;
 
     @Override
     public Object adapt(Object value) {
-        
-        if(DataTypes.isNumeric(value)) {
+
+        if (DataTypes.isNumeric(value)) {
             return DataBuilder.toNumber(value);
-        }
-        else if(DataTypes.isGeometry(value)) {
+        } else if (DataTypes.isGeometry(value)) {
             try {
                 return DataBuilder.toGeometry(value);
             } catch (ParseException e) {
-                throw new IllegalArgumentException("Failed to adapt into Geometry",e);
+                throw new IllegalArgumentException("Failed to adapt into Geometry", e);
             }
-        }
-        else if(DataTypes.isDate(value)) {
+        } else if (DataTypes.isDate(value)) {
             return DataBuilder.toDate(value);
-        }
-        else if(DataTypes.isString(value)) {
+        } else if (DataTypes.isString(value)) {
             return DataBuilder.toString(value);
-        }
-        else if(DataTypes.isBoolean(value,false)) {
+        } else if (DataTypes.isBoolean(value, false)) {
             return DataBuilder.toBoolean(value);
-        }
-        else if(DataTypes.isCharacter(value)) {
+        } else if (DataTypes.isCharacter(value)) {
             return DataBuilder.toCharacter(value);
         }
         //

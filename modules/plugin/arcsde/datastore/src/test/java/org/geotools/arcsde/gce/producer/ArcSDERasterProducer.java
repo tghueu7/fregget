@@ -24,8 +24,6 @@ import com.esri.sde.sdk.client.SeRasterConsumer;
 import com.esri.sde.sdk.client.SeRasterProducer;
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class ArcSDERasterProducer implements SeRasterProducer {
@@ -56,7 +54,7 @@ public abstract class ArcSDERasterProducer implements SeRasterProducer {
     /**
      * This method should check that the supplied image is compatible with this class's
      * startProduction() implementation
-     * 
+     *
      * @param sourceImage
      */
     public abstract void setSourceImage(BufferedImage sourceImage);

@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -39,18 +39,17 @@ import org.xml.sax.helpers.AttributesImpl;
  * </p>
  *
  * @author dzwiers www.refractions.net
- *
+ * @source $URL$
  * @see SimpleType
  * @see XMLElementHandler
- *
- *
- * @source $URL$
  */
 public class SimpleElementHandler extends XMLElementHandler {
-    
-    /** <code>serialVersionUID</code> field */
+
+    /**
+     * <code>serialVersionUID</code> field
+     */
     private static final long serialVersionUID = SimpleElementHandler.class.hashCode();
-    
+
     private SimpleType type; // save casting all over
     private Element elem;
     private String text = "";
@@ -76,18 +75,18 @@ public class SimpleElementHandler extends XMLElementHandler {
 
     /**
      * @see org.geotools.xml.XMLElementHandler#getHandler(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
     public XMLElementHandler getHandler(URI namespaceURI, String localName,
-        Map hints) throws SAXException {
+                                        Map hints) throws SAXException {
         throw new SAXException(
-            "Should not have any children - this is a simpleType");
+                "Should not have any children - this is a simpleType");
     }
 
     /**
      * @see org.geotools.xml.XMLElementHandler#getValue()
      */
-    public Object getValue(){
+    public Object getValue() {
         return value;
     }
 
@@ -101,7 +100,7 @@ public class SimpleElementHandler extends XMLElementHandler {
     /**
      * @see org.geotools.xml.XMLElementHandler#characters(java.lang.String)
      */
-    public void characters(String text1){
+    public void characters(String text1) {
         if (this.text != null) {
             this.text = this.text.concat(text1);
         } else {
@@ -113,10 +112,10 @@ public class SimpleElementHandler extends XMLElementHandler {
      * @throws SAXException
      * @throws OperationNotSupportedException
      * @see org.geotools.xml.XMLElementHandler#endElement(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
     public void endElement(URI namespaceURI, String localName, Map hints)
-        throws OperationNotSupportedException, SAXException {
+            throws OperationNotSupportedException, SAXException {
         text = (text == null) ? null : text.trim();
 
         ElementValue[] vals;
@@ -129,9 +128,9 @@ public class SimpleElementHandler extends XMLElementHandler {
 
     /**
      * @see org.geotools.xml.XMLElementHandler#startElement(java.lang.String,
-     *      java.lang.String, org.xml.sax.Attributes)
+     * java.lang.String, org.xml.sax.Attributes)
      */
-    public void startElement(URI namespaceURI, String localName, Attributes attr1){
+    public void startElement(URI namespaceURI, String localName, Attributes attr1) {
         this.attr = new AttributesImpl(attr1);
     }
 
@@ -141,7 +140,6 @@ public class SimpleElementHandler extends XMLElementHandler {
      * </p>
      *
      * @author dzwiers
-     *
      * @see ElementValue
      */
     private static class DefaultElementValue implements ElementValue {
@@ -152,8 +150,7 @@ public class SimpleElementHandler extends XMLElementHandler {
          * Stores the two values for use within the specified type
          *
          * @param value String
-         * @param t Element
-         *
+         * @param t     Element
          * @see SimpleElementHandler#endElement(String, String)
          */
         public DefaultElementValue(String value, Element t) {

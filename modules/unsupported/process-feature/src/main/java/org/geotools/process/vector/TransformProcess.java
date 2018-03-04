@@ -55,13 +55,13 @@ import com.vividsolutions.jts.simplify.TopologyPreservingSimplifier;
  * <p>
  * The definition of the output feature type can be provided as a {@link Definition} data structure
  * or using a simple string format:
- * 
+ * <p>
  * <pre>
  * the_geom=the_geom
  * name=name
  * area=area( the_geom )
  * </pre>
- *
+ * <p>
  * Attribute definitions can be delimited by line breaks and/or by semicolons.
  * <p>
  * This is a very flexible process which can be used to:
@@ -80,7 +80,8 @@ import com.vividsolutions.jts.simplify.TopologyPreservingSimplifier;
  * id: Long              summary=description            summary: String
  * description: String
  * </pre></li>
- * <li>Process geometry - using functions like "the_geom=simplify( the_geom, 2.0 )" or "the_geom=centriod( the_geom )":<pre>
+ * <li>Process geometry - using functions like "the_geom=simplify( the_geom, 2.0 )" or 
+ * "the_geom=centriod( the_geom )":<pre>
  * INPUT Schema          DEFINITION                     OUTPUT Schema
  * the_geom: Polygon     the_geom=centriod(the_geom)    the_geom: Point
  * name: String          name                           name: String
@@ -98,37 +99,48 @@ import com.vividsolutions.jts.simplify.TopologyPreservingSimplifier;
  * </pre></li>
  * </ul>
  * <p>
- * This is a port of the uDig "reshape" operation to the GeoTools process framework.  
- * 
+ * This is a port of the uDig "reshape" operation to the GeoTools process framework.
+ *
  * @author Jody Garnett (LISAsoft)
- * 
  * @source $URL$
  */
-@DescribeProcess(title = "Transform", description = "Computes a new feature collection from the input one by renaming, deleting, and computing new attributes.  Attribute values are specified as ECQL expressions in the form name=expression.")
+@DescribeProcess(title = "Transform", description = "Computes a new feature collection from the " +
+        "input one by renaming, deleting, and computing new attributes.  Attribute values are " +
+        "specified as ECQL expressions in the form name=expression.")
 public class TransformProcess implements VectorProcess {
     /**
      * Definition of an attribute used during transform
      * <p>
      * Note this definition is terse as we are gathering the details from the origional FeatureType.
-     * 
+     *
      * @author jody
      */
     public static class Definition {
-        /** Name of the AttribtueDescriptor to generate */
+        /**
+         * Name of the AttribtueDescriptor to generate
+         */
         public String name;
 
-        /** Expression used to generate the target value; most simply a PropertyName */
+        /**
+         * Expression used to generate the target value; most simply a PropertyName
+         */
         public Expression expression;
 
-        /** Class binding (if known) */
+        /**
+         * Class binding (if known)
+         */
         public Class<?> binding;
     }
+
     private static final String DEF_DELIMITER = ";";
-    
+
     @DescribeResult(name = "result", description = "Transformed feature collection")
     public SimpleFeatureCollection execute(
-            @DescribeParameter(name = "features", description = "Input feature collection") SimpleFeatureCollection features,
-            @DescribeParameter(name = "transform", description = "The transform specification, as a list of specifiers of the form name=expression, delimited by newlines or semicolons.") String transform)
+            @DescribeParameter(name = "features", description = "Input feature collection") 
+                    SimpleFeatureCollection features,
+            @DescribeParameter(name = "transform", description = "The transform specification, as" +
+                    " a list of specifiers of the form name=expression, delimited by newlines or " +
+                    "semicolons.") String transform)
             throws ProcessException {
         if (transform == null) {
             return features; // no change
@@ -139,25 +151,27 @@ public class TransformProcess implements VectorProcess {
 
     @DescribeResult(name = "result", description = "Transformed feature collection")
     public SimpleFeatureCollection executeList(
-            @DescribeParameter(name = "features", description = "Input feature collection") SimpleFeatureCollection features,
-            @DescribeParameter(name = "transform", description = "List of Definitions for the output feature attributes") List<Definition> transform)
+            @DescribeParameter(name = "features", description = "Input feature collection") 
+                    SimpleFeatureCollection features,
+            @DescribeParameter(name = "transform", description = "List of Definitions for the " +
+                    "output feature attributes") List<Definition> transform)
             throws ProcessException {
         if (transform == null) {
             return features; // no change
         }
         return new ReshapeFeatureCollection(features, transform);
     }
-    
+
 
     // 
     // helper methods made static for ease of JUnit testing
     //
-    
+
     /**
      * Parse out a list of {@link Definition} from the provided text description.
      * <p>
      * The format expected here is one definition per line; using the format "name=...expression..".
-     * 
+     *
      * @param definition
      * @return List of definition
      */
@@ -198,115 +212,118 @@ public class TransformProcess implements VectorProcess {
     /**
      * Splits single-string definition list into a list of definitions.
      * Either line breaks or ';' can be used as definition delimiters.
-     * 
+     *
      * @param defList the definition list string
      * @return the separate definitions
      */
-    private static String[] splitDefinitions(String defList)
-    {
+    private static String[] splitDefinitions(String defList) {
         // clean up cross platform differences of linefeed
         String defListLF = defList.replaceAll("\r", "\n").replaceAll("[\n\r][\n\r]", "\n");
         // convert explicit delimiter to linefeed
         defListLF = defList.replaceAll(";", "\n");
-        
+
         // split on linefeed
         return defListLF.split("\n");
     }
-    
+
     public static SimpleFeatureType toReShapeFeatureType(SimpleFeatureCollection delegate,
-            List<Definition> definitionList) {
-        
+                                                         List<Definition> definitionList) {
+
         SimpleFeature sample = null;
         SimpleFeatureIterator iterator = delegate.features();
         try {
-            if( iterator.hasNext() ){
-                sample = iterator.next(); 
+            if (iterator.hasNext()) {
+                sample = iterator.next();
             }
-        }
-        finally {
+        } finally {
             iterator.close(); // good bye
         }
-        
+
         SimpleFeatureTypeBuilder build = new SimpleFeatureTypeBuilder();
         SimpleFeatureType origional = delegate.getSchema();
-        
-        for( Definition def : definitionList ){
+
+        for (Definition def : definitionList) {
             String name = def.name;
             Expression expression = def.expression;
-            
+
             Object value = null;
-            if( sample != null ){
+            if (sample != null) {
                 value = expression.evaluate(sample);
             }
             Class<?> binding = def.binding; // make use of any default binding hint provided by user
-            if( value == null){
-                if(  expression instanceof PropertyName){
-                    PropertyName propertyName = (PropertyName)expression;
+            if (value == null) {
+                if (expression instanceof PropertyName) {
+                    PropertyName propertyName = (PropertyName) expression;
                     String path = propertyName.getPropertyName();
-                    AttributeDescriptor descriptor = origional.getDescriptor( name );
+                    AttributeDescriptor descriptor = origional.getDescriptor(name);
                     AttributeType attributeType = descriptor.getType();
                     binding = attributeType.getBinding();
                 }
             } else {
                 binding = value.getClass();
             }
-            
-            if( binding ==null ){
-                // note we could consider scanning through additional samples until we get a non null hit
-                throw new IllegalArgumentException("Unable to determine type for "+name);
+
+            if (binding == null) {
+                // note we could consider scanning through additional samples until we get a non 
+                // null hit
+                throw new IllegalArgumentException("Unable to determine type for " + name);
             }
-            
-            if( Geometry.class.isAssignableFrom( binding )){
+
+            if (Geometry.class.isAssignableFrom(binding)) {
                 CoordinateReferenceSystem crs;
                 AttributeType originalAttributeType = origional.getType(name);
-                if( originalAttributeType != null && originalAttributeType instanceof GeometryType ) {
-                    GeometryType geometryType = (GeometryType)originalAttributeType;
+                if (originalAttributeType != null && originalAttributeType instanceof 
+                        GeometryType) {
+                    GeometryType geometryType = (GeometryType) originalAttributeType;
                     crs = geometryType.getCoordinateReferenceSystem();
                 } else {
                     crs = origional.getCoordinateReferenceSystem();
                 }
                 build.crs(crs);
                 build.add(name, binding);
-            }
-            else {
+            } else {
                 build.add(name, binding);
             }
         }
-        build.setName( origional.getTypeName() );
+        build.setName(origional.getTypeName());
         return build.buildFeatureType();
     }
-    
+
     //
     // helper classes responsible for most of the work
     //
-    
+
     /**
      * ReshapeFeatureCollection obtaining feature type by processing the list of definitions
      * against the origional delegate feature collection.
+     *
      * @author jody
      */
     static class ReshapeFeatureCollection extends DecoratingSimpleFeatureCollection {
         List<Definition> definition;
         SimpleFeatureType schema;
 
-        public ReshapeFeatureCollection(SimpleFeatureCollection delegate, List<Definition> definition) {
+        public ReshapeFeatureCollection(SimpleFeatureCollection delegate, List<Definition> 
+                definition) {
             super(delegate);
             this.definition = definition;
-            this.schema = toReShapeFeatureType( delegate, definition );
+            this.schema = toReShapeFeatureType(delegate, definition);
         }
+
         @Override
         public SimpleFeatureType getSchema() {
             return schema;
         }
-        
+
         @Override
         public SimpleFeatureIterator features() {
             return new ReshapeFeatureIterator(delegate.features(), definition, schema);
         }
     }
+
     /**
      * Process one feature at time; obtaining values by evaulating the provided list of definitions.
-     * 
+     *
      * @author jody
      */
     static class ReshapeFeatureIterator implements SimpleFeatureIterator {
@@ -317,13 +334,13 @@ public class TransformProcess implements VectorProcess {
         SimpleFeatureBuilder fb;
 
         public ReshapeFeatureIterator(SimpleFeatureIterator delegate, List<Definition> definition,
-                SimpleFeatureType schema) {
+                                      SimpleFeatureType schema) {
             this.delegate = delegate;
             this.definition = definition;
             fb = new SimpleFeatureBuilder(schema);
         }
 
-        
+
         public void close() {
             delegate.close();
         }
@@ -334,10 +351,10 @@ public class TransformProcess implements VectorProcess {
 
         public SimpleFeature next() throws NoSuchElementException {
             SimpleFeature feature = delegate.next();
-            
-            for( Definition def : definition ){
+
+            for (Definition def : definition) {
                 Object value = def.expression.evaluate(feature);
-                fb.add( value );
+                fb.add(value);
             }
             SimpleFeature created = fb.buildFeature(feature.getID());
             return created;

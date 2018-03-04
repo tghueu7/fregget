@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -20,6 +20,7 @@
 package org.geotools.metadata.iso.citation;
 
 import java.util.Collection;
+
 import org.opengis.metadata.citation.Telephone;
 import org.geotools.metadata.iso.MetadataEntity;
 
@@ -29,11 +30,8 @@ import org.geotools.metadata.iso.MetadataEntity;
  *
  * @author Jody Garnett
  * @author Martin Desruisseaux
- *
- * @since 2.1
- *
- *
  * @source $URL$
+ * @since 2.1
  */
 public class TelephoneImpl extends MetadataEntity implements Telephone {
     /**

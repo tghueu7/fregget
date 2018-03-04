@@ -18,7 +18,7 @@ public class MBTilesDialect extends SQLDialect {
 
     protected MBTilesDialect(JDBCDataStore dataStore) {
         super(dataStore);
-    }    
+    }
 
     @Override
     public void initializeConnection(Connection cx) throws SQLException {
@@ -40,7 +40,8 @@ public class MBTilesDialect extends SQLDialect {
 
     @Override
     public Geometry decodeGeometryValue(GeometryDescriptor descriptor, ResultSet rs, String column,
-                                        GeometryFactory factory, Connection cx, Hints hints) throws IOException, SQLException {
+                                        GeometryFactory factory, Connection cx, Hints hints) 
+            throws IOException, SQLException {
         // TODO Auto-generated method stub
         return null;
     }

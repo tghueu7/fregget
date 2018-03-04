@@ -4,7 +4,7 @@
  *
  *    (C) 2016 Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2016 Boundless Spatial
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -55,9 +55,8 @@ public class Ysld {
      * <li>{@link java.lang.String}</li>
      * </ul>
      * </p>
-     * 
-     * @param input The input object.
      *
+     * @param input The input object.
      * @throws java.lang.IllegalArgumentException If the input object can not be converted.
      */
     static YsldInput reader(Object input) throws IOException {
@@ -84,9 +83,8 @@ public class Ysld {
      * <li>{@link java.io.File}</li>
      * </ul>
      * </p>
-     * 
-     * @param output The output object.
      *
+     * @param output The output object.
      * @throws java.lang.IllegalArgumentException If the output object can not be converted.
      */
     static Writer writer(Object output) throws IOException {
@@ -123,13 +121,13 @@ public class Ysld {
     /**
      * Parses a Ysld stream into GeoTools style objects.
      *
-     * @param ysld The Ysld content, anything accepted by {@link #reader(Object)}.
+     * @param ysld    The Ysld content, anything accepted by {@link #reader(Object)}.
      * @param locator Resource locator for resolving relative URIs.
-     *
      * @return The GeoTools SLD object.
      */
     public static StyledLayerDescriptor parse(Object ysld,
-            @Nullable List<ZoomContextFinder> zCtxtFinders, @Nullable ResourceLocator locator)
+                                              @Nullable List<ZoomContextFinder> zCtxtFinders, 
+                                              @Nullable ResourceLocator locator)
             throws IOException {
         return parse(ysld, zCtxtFinders, locator, new UomMapper());
     }
@@ -137,14 +135,14 @@ public class Ysld {
     /**
      * Parses a Ysld stream into GeoTools style objects.
      *
-     * @param ysld The Ysld content, anything accepted by {@link #reader(Object)}.
+     * @param ysld    The Ysld content, anything accepted by {@link #reader(Object)}.
      * @param locator Resource locator for resolving relative URIs.
-     *
      * @return The GeoTools SLD object.
      */
     public static StyledLayerDescriptor parse(Object ysld,
-            @Nullable List<ZoomContextFinder> zCtxtFinders, @Nullable ResourceLocator locator,
-            @Nullable UomMapper uomMapper) throws IOException {
+                                              @Nullable List<ZoomContextFinder> zCtxtFinders, 
+                                              @Nullable ResourceLocator locator,
+                                              @Nullable UomMapper uomMapper) throws IOException {
         YsldInput in = reader(ysld);
         try {
             YsldParser parser = new YsldParser(in.reader);
@@ -167,7 +165,6 @@ public class Ysld {
      * Parses a Ysld stream into GeoTools style objects.
      *
      * @param ysld The Ysld content, anything accepted by {@link #reader(Object)}.
-     *
      * @return The GeoTools SLD object.
      */
     public static StyledLayerDescriptor parse(Object ysld) throws IOException {
@@ -177,7 +174,7 @@ public class Ysld {
     /**
      * Encodes a GeoTools style object as Ysld.
      *
-     * @param sld The sld to encode.
+     * @param sld    The sld to encode.
      * @param output The output object, anything accepted by {@link #writer(Object)}
      */
     public static void encode(StyledLayerDescriptor sld, Object output) throws IOException {
@@ -187,7 +184,7 @@ public class Ysld {
     /**
      * Encodes a GeoTools style object as Ysld.
      *
-     * @param sld The sld to encode.
+     * @param sld    The sld to encode.
      * @param output The output object, anything accepted by {@link #writer(Object)}
      */
     public static void encode(StyledLayerDescriptor sld, Object output, UomMapper uomMapper)
@@ -199,23 +196,21 @@ public class Ysld {
     /**
      * Transforms an SLD stream to Ysld.
      *
-     * @param sld SLD xml reader.
+     * @param sld  SLD xml reader.
      * @param ysld Ysld writer.
-     *
      */
     public static void transform(XMLStreamReader sld, Writer ysld) throws IOException {
         throw new UnsupportedOperationException();/*
-                                                   * SldTransformer tx = new SldTransformer(sld, ysld); try { tx.transform(); }
-                                                   * catch(XMLStreamException e) { throw new IOException(e); }
-                                                   */
+         * SldTransformer tx = new SldTransformer(sld, ysld); try { tx.transform(); }
+         * catch(XMLStreamException e) { throw new IOException(e); }
+         */
     }
 
     /**
      * Transforms an SLD stream to Ysld.
      *
-     * @param sld SLD xml reader.
+     * @param sld  SLD xml reader.
      * @param ysld Ysld writer.
-     *
      */
     public static void transform(InputStream sld, Writer ysld) throws IOException {
         SLDParser parser = new SLDParser(CommonFactoryFinder.getStyleFactory(), sld);
@@ -227,25 +222,24 @@ public class Ysld {
      * Validates a Ysld stream.
      *
      * @param ysld The Ysld.
-     *
      * @return List of marked exceptions corresponding to validation errors.
      */
     public static List<MarkedYAMLException> validate(Object ysld) throws IOException {
 
-        return validate(ysld, Collections.<ZoomContextFinder> emptyList(), new UomMapper());
+        return validate(ysld, Collections.<ZoomContextFinder>emptyList(), new UomMapper());
 
     }
 
     /**
      * Validates a Ysld stream.
      *
-     * @param ysld The Ysld.
+     * @param ysld            The Ysld.
      * @param zContextFinders additional zoom context finders in order of priority.
-     * 
      * @return List of marked exceptions corresponding to validation errors.
      */
     public static List<MarkedYAMLException> validate(Object ysld,
-            List<ZoomContextFinder> zContextFinders, UomMapper uomMapper) throws IOException {
+                                                     List<ZoomContextFinder> zContextFinders, 
+                                                     UomMapper uomMapper) throws IOException {
         YsldInput in = reader(ysld);
         try {
             YsldValidator validator = new YsldValidator();

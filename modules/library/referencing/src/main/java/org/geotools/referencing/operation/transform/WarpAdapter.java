@@ -32,10 +32,10 @@ import org.geotools.resources.i18n.ErrorKeys;
  * This warp operation is used by {@link org.geotools.coverage.processing.operation.Resample}
  * when no standard warp operation has been found applicable.
  *
- * @since 2.1
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 final class WarpAdapter extends Warp {
     /**
@@ -62,7 +62,7 @@ final class WarpAdapter extends Warp {
      *                an image. This inverse transform maps destination pixels to source pixels.
      */
     public WarpAdapter(final CharSequence name, final MathTransform2D inverse) {
-        this.name    = name;
+        this.name = name;
         this.inverse = inverse;
     }
 
@@ -77,22 +77,22 @@ final class WarpAdapter extends Warp {
      * Computes the source pixel positions for a given rectangular
      * destination region, subsampled with an integral period.
      */
-    public float[] warpSparseRect(final int xmin,    final int ymin,
-                                  final int width,   final int height,
-                                  final int periodX, final int periodY, float[] destRect)
-    {
+    public float[] warpSparseRect(final int xmin, final int ymin,
+                                  final int width, final int height,
+                                  final int periodX, final int periodY, float[] destRect) {
         if (periodX < 1) throw new IllegalArgumentException(String.valueOf(periodX));
         if (periodY < 1) throw new IllegalArgumentException(String.valueOf(periodY));
 
-        final int xmax  = xmin + width;
-        final int ymax  = ymin + height;
-        final int count = ((width+(periodX-1))/periodX) * ((height+(periodY-1))/periodY);
+        final int xmax = xmin + width;
+        final int ymax = ymin + height;
+        final int count = ((width + (periodX - 1)) / periodX) * ((height + (periodY - 1)) / 
+                periodY);
         if (destRect == null) {
-            destRect = new float[2*count];
+            destRect = new float[2 * count];
         }
         int index = 0;
-        for (int y=ymin; y<ymax; y+=periodY) {
-            for (int x=xmin; x<xmax; x+=periodX) {
+        for (int y = ymin; y < ymax; y += periodY) {
+            for (int x = xmin; x < xmax; x += periodX) {
                 destRect[index++] = x + 0.5f;
                 destRect[index++] = y + 0.5f;
             }
@@ -103,7 +103,7 @@ final class WarpAdapter extends Warp {
             // At least one transformation failed. In Geotools MapProjection
             // implementation, unprojected coordinates are set to (NaN,NaN).
             RasterFormatException e = new RasterFormatException(Errors.format(
-                            ErrorKeys.CANT_REPROJECT_$1, name));
+                    ErrorKeys.CANT_REPROJECT_$1, name));
             e.initCause(exception);
             throw e;
         }
@@ -121,14 +121,14 @@ final class WarpAdapter extends Warp {
      */
     @Override
     public Point2D mapDestPoint(final Point2D destPt) {
-        Point2D result = new Point2D.Double(destPt.getX()+0.5, destPt.getY()+0.5);
+        Point2D result = new Point2D.Double(destPt.getX() + 0.5, destPt.getY() + 0.5);
         try {
             result = inverse.transform(result, result);
         } catch (TransformException exception) {
             throw new IllegalArgumentException(Errors.format(
                     ErrorKeys.BAD_PARAMETER_$2, "destPt", destPt), exception);
         }
-        result.setLocation(result.getX()-0.5, result.getY()-0.5);
+        result.setLocation(result.getX() - 0.5, result.getY() - 0.5);
         return result;
     }
 
@@ -140,14 +140,14 @@ final class WarpAdapter extends Warp {
      */
     @Override
     public Point2D mapSourcePoint(final Point2D sourcePt) {
-        Point2D result = new Point2D.Double(sourcePt.getX()+0.5, sourcePt.getY()+0.5);
+        Point2D result = new Point2D.Double(sourcePt.getX() + 0.5, sourcePt.getY() + 0.5);
         try {
             result = inverse.inverse().transform(result, result);
         } catch (TransformException exception) {
             throw new IllegalArgumentException(Errors.format(
                     ErrorKeys.BAD_PARAMETER_$2, "sourcePt", sourcePt), exception);
         }
-        result.setLocation(result.getX()-0.5, result.getY()-0.5);
+        result.setLocation(result.getX() - 0.5, result.getY() - 0.5);
         return result;
     }
 }

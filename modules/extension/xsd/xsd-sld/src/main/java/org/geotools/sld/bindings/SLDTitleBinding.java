@@ -23,15 +23,14 @@ import org.opengis.util.InternationalString;
 
 /**
  * <p>
- *        <pre>
- *         <code> 
+ * <pre>
+ *         <code>
  *    &lt;xsd:element name="Title" type="sld:InternationalStringType"/&gt;
  *          </code>
  *         </pre>
  * </p>
- *  
- * @author "Mauro Bartolomeoli - mauro.bartolomeoli@geo-solutions.it"
  *
+ * @author "Mauro Bartolomeoli - mauro.bartolomeoli@geo-solutions.it"
  */
 public class SLDTitleBinding extends SLDInternationalStringBinding {
 
@@ -46,7 +45,6 @@ public class SLDTitleBinding extends SLDInternationalStringBinding {
     public QName getTarget() {
         return SLD.TITLE;
     }
-    
-    
+
 
 }

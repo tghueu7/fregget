@@ -50,18 +50,18 @@ import org.geotools.resources.i18n.VocabularyKeys;
  * method. In the example below, the {@code WGS84} string in the {@linkplain #parseObject
  * parseObject} call is expanded into the full <code>GEOGCS["WGS84", ...</code> string before
  * to be parsed.
- *
+ * <p>
  * <blockquote><code>
- * {@linkplain #addDefinition addDefinition}("WGS84", "GEOGCS[\"WGS84\", DATUM[</code> ...<i>etc</i>... <code>]]<BR>
- * {@linkplain #parseObject parseObject}("PROJCS[\"Mercator_1SP\", <strong>WGS84</strong>, PROJECTION[</code> ...<i>etc</i>... <code>]]")</code>
+ * {@linkplain #addDefinition addDefinition}("WGS84", "GEOGCS[\"WGS84\", DATUM[</code> 
+ * ...<i>etc</i>... <code>]]<BR>
+ * {@linkplain #parseObject parseObject}("PROJCS[\"Mercator_1SP\", <strong>WGS84</strong>, 
+ * PROJECTION[</code> ...<i>etc</i>... <code>]]")</code>
  * </blockquote>
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class Preprocessor extends Format {
     /**
@@ -82,7 +82,7 @@ public class Preprocessor extends Format {
 
     /**
      * A linked list of informations about the replacements performed by {@link #substitutes}.
-     * Those informations are used by {@link #parseObject(String,Class)} in order to adjust
+     * Those informations are used by {@link #parseObject(String, Class)} in order to adjust
      * {@linkplain ParseException#getErrorOffset error offset} in case of failure.
      */
     private transient Replacement replacements;
@@ -112,12 +112,11 @@ public class Preprocessor extends Format {
      * @param toAppendTo Where the text is to be appended.
      * @param position   Identification of a field in the formatted text.
      * @return The string buffer passed in as {@code toAppendTo},
-     *         with formatted text appended
+     * with formatted text appended
      */
-    public StringBuffer format(final Object        object,
-                               final StringBuffer  toAppendTo,
-                               final FieldPosition position)
-    {
+    public StringBuffer format(final Object object,
+                               final StringBuffer toAppendTo,
+                               final FieldPosition position) {
         return parser.format(object, toAppendTo, position);
     }
 
@@ -126,8 +125,8 @@ public class Preprocessor extends Format {
      * The default implementation delegates the work to
      * <code>{@link #parseObject(String) parseObject}(wkt.substring(position.getIndex()))</code>.
      *
-     * @param  wkt The text to parse.
-     * @param  position The index of the first character to parse.
+     * @param wkt      The text to parse.
+     * @param position The index of the first character to parse.
      * @return The parsed object, or {@code null} in case of failure.
      */
     public Object parseObject(final String wkt, final ParsePosition position) {
@@ -150,9 +149,9 @@ public class Preprocessor extends Format {
     /**
      * Parses the specified Well Know Text without restriction on the expected type.
      * The default implementation delegates the work to
-     * <code>{@link #parseObject(String,Class) parseObject}(wkt, Object.class)</code>.
+     * <code>{@link #parseObject(String, Class) parseObject}(wkt, Object.class)</code>.
      *
-     * @param  wkt The text to parse.
+     * @param wkt The text to parse.
      * @return The parsed object.
      * @throws ParseException if the text can't be parsed.
      */
@@ -172,26 +171,25 @@ public class Preprocessor extends Format {
      * The text can be any of the following:
      * <BR>
      * <UL>
-     *   <LI>A name declared in some previous call to
-     *       <code>{@linkplain #addDefinition addDefinition}(name, ...)</code>.</LI>
-     *   <LI>A Well Know Text, which may contains itself shortcuts declared in
-     *       previous call to {@code addDefinition}. This text is given to
-     *       the underlying {@link #parser}.</LI>
-     *   <LI>Any services provided by subclasses. For example a subclass way recognize
-     *       some authority code like {@code EPSG:6326}.</LI>
+     * <LI>A name declared in some previous call to
+     * <code>{@linkplain #addDefinition addDefinition}(name, ...)</code>.</LI>
+     * <LI>A Well Know Text, which may contains itself shortcuts declared in
+     * previous call to {@code addDefinition}. This text is given to
+     * the underlying {@link #parser}.</LI>
+     * <LI>Any services provided by subclasses. For example a subclass way recognize
+     * some authority code like {@code EPSG:6326}.</LI>
      * </UL>
      *
-     * @param  text The text, as a name, a WKT to parse, or an authority code.
-     * @param  type The expected type for the object to be parsed (usually a
-     *         <code>{@linkplain CoordinateReferenceSystem}.class</code> or
-     *         <code>{@linkplain MathTransform}.class</code>).
+     * @param text The text, as a name, a WKT to parse, or an authority code.
+     * @param type The expected type for the object to be parsed (usually a
+     *             <code>{@linkplain CoordinateReferenceSystem}.class</code> or
+     *             <code>{@linkplain MathTransform}.class</code>).
      * @return The object.
-     * @throws ParseException if parsing the specified WKT failed.
+     * @throws ParseException   if parsing the specified WKT failed.
      * @throws FactoryException if the object is not of the expected type.
      */
     public Object parseObject(String text, final Class type)
-            throws ParseException, FactoryException
-    {
+            throws ParseException, FactoryException {
         Object value;
         final Definition def = (Definition) definitions.get(text);
         if (def != null) {
@@ -207,7 +205,7 @@ public class Preprocessor extends Format {
              * word is garantee to fail). In any case, the definitions map is not updated since
              * this method is not invoked from the SET instruction.
              */
-            text  = substitute  (text);
+            text = substitute(text);
             value = forwardParse(text);
             final Class actualType = value.getClass();
             if (type.isAssignableFrom(actualType)) {
@@ -226,7 +224,7 @@ public class Preprocessor extends Format {
      * {@linkplain ParseException#getErrorIndex error index} adjusted in order to
      * point to the character in the original text (before substitutions).
      *
-     * @param  text The WKT to parse.
+     * @param text The WKT to parse.
      * @return The object.
      * @throws ParseException if the parsing failed.
      */
@@ -236,7 +234,7 @@ public class Preprocessor extends Format {
         } catch (ParseException exception) {
             int shift = 0;
             int errorOffset = exception.getErrorOffset();
-            for (Replacement r=replacements; r!=null; r=r.next) {
+            for (Replacement r = replacements; r != null; r = r.next) {
                 if (errorOffset < r.lower) {
                     break;
                 }
@@ -247,7 +245,7 @@ public class Preprocessor extends Format {
                 shift += r.shift;
             }
             final ParseException adjusted = new ParseException(exception.getLocalizedMessage(),
-                                                               errorOffset - shift);
+                    errorOffset - shift);
             adjusted.setStackTrace(exception.getStackTrace());
             adjusted.initCause(exception.getCause());
             throw adjusted;
@@ -259,18 +257,18 @@ public class Preprocessor extends Format {
      * the key by its value. The replacement will not be performed if
      * the key was found between two quotation marks.
      *
-     * @param  text The string to process.
+     * @param text The string to process.
      * @return The string with all keys replaced by their values.
      */
     private String substitute(final String text) {
         Replacement last;
         replacements = last = new Replacement(0, 0, offset);
         StringBuilder buffer = null;
-        for (final Iterator it=definitions.entrySet().iterator(); it.hasNext();) {
-            final Map.Entry entry = (Map.Entry)  it.next();
-            final String     name = (String)     entry.getKey();
-            final Definition def  = (Definition) entry.getValue();
-            int index = (buffer!=null) ? buffer.indexOf(name) : text.indexOf(name);
+        for (final Iterator it = definitions.entrySet().iterator(); it.hasNext(); ) {
+            final Map.Entry entry = (Map.Entry) it.next();
+            final String name = (String) entry.getKey();
+            final Definition def = (Definition) entry.getValue();
+            int index = (buffer != null) ? buffer.indexOf(name) : text.indexOf(name);
             while (index >= 0) {
                 /*
                  * An occurence of the text to substitute was found. First, make sure
@@ -278,19 +276,20 @@ public class Preprocessor extends Format {
                  * search is "WGS84", do not accept "TOWGS84").
                  */
                 final int upper = index + name.length();
-                final CharSequence cs = (buffer!=null) ? (CharSequence)buffer : (CharSequence)text;
-                if ((index==0           || !Character.isJavaIdentifierPart(cs.charAt(index-1))) &&
-                    (upper==cs.length() || !Character.isJavaIdentifierPart(cs.charAt(upper))))
-                {
+                final CharSequence cs = (buffer != null) ? (CharSequence) buffer : (CharSequence)
+                        text;
+                if ((index == 0 || !Character.isJavaIdentifierPart(cs.charAt(index - 1))) &&
+                        (upper == cs.length() || !Character.isJavaIdentifierPart(cs.charAt(upper)
+                        ))) {
                     /*
                      * Count the number of quotes before the text to substitute. If this
                      * number is odd, then the text is between quotes and should not be
                      * substituted.
                      */
                     int count = 0;
-                    for (int scan=index; --scan>=0;) {
-                        scan = (buffer!=null) ? buffer.lastIndexOf("\"", scan)
-                                              :   text.lastIndexOf( '"', scan);
+                    for (int scan = index; --scan >= 0; ) {
+                        scan = (buffer != null) ? buffer.lastIndexOf("\"", scan)
+                                : text.lastIndexOf('"', scan);
                         if (scan < 0) {
                             break;
                         }
@@ -309,7 +308,7 @@ public class Preprocessor extends Format {
                         final String value = def.asString;
                         buffer.replace(index, upper, value);
                         final int change = value.length() - name.length();
-                        last = last.next = new Replacement(index, index+value.length(), change);
+                        last = last.next = new Replacement(index, index + value.length(), change);
                         index = buffer.indexOf(name, index + change);
                         // Note: it is okay to skip the text we just replaced, since the
                         //       'definitions' map do not contains nested definitions.
@@ -321,28 +320,29 @@ public class Preprocessor extends Format {
                  * or was between quotes. Search the next occurence.
                  */
                 index += name.length();
-                index = (buffer!=null) ? buffer.indexOf(name, index)
-                                       : text  .indexOf(name, index);
+                index = (buffer != null) ? buffer.indexOf(name, index)
+                        : text.indexOf(name, index);
             }
         }
-        return (buffer!=null) ? buffer.toString() : text;
+        return (buffer != null) ? buffer.toString() : text;
     }
 
     /**
      * Adds a predefined Well Know Text (WKT). The {@code value} argument given to this method
      * can contains itself other definitions specified in some previous calls to this method.
      *
-     * @param  name The name for the definition to be added.
-     * @param  value The Well Know Text (WKT) represented by the name.
+     * @param name  The name for the definition to be added.
+     * @param value The Well Know Text (WKT) represented by the name.
      * @throws IllegalArgumentException if the name is invalid.
-     * @throws ParseException if the WKT can't be parsed.
+     * @throws ParseException           if the WKT can't be parsed.
      */
     public void addDefinition(final String name, String value) throws ParseException {
-        if (value==null || value.trim().length()==0) {
+        if (value == null || value.trim().length() == 0) {
             throw new IllegalArgumentException(Errors.format(ErrorKeys.MISSING_WKT_DEFINITION));
         }
         if (!isIdentifier(name)) {
-            throw new IllegalArgumentException(Errors.format(ErrorKeys.ILLEGAL_IDENTIFIER_$1, name));
+            throw new IllegalArgumentException(Errors.format(ErrorKeys.ILLEGAL_IDENTIFIER_$1, 
+                    name));
         }
         value = substitute(value);
         final Definition newDef = new Definition(value, forwardParse(value));
@@ -376,7 +376,7 @@ public class Preprocessor extends Format {
      * The content of this table is inferred from the values given to the
      * {@link #addDefinition} method.
      *
-     * @param  out writer The output stream where to write the table.
+     * @param out writer The output stream where to write the table.
      * @throws IOException if an error occured while writting to the output stream.
      */
     public void printDefinitions(final Writer out) throws IOException {
@@ -392,9 +392,9 @@ public class Preprocessor extends Format {
         table.write(resources.getString(VocabularyKeys.DESCRIPTION));
         table.nextLine();
         table.writeHorizontalSeparator();
-        for (final Iterator it=definitions.entrySet().iterator(); it.hasNext();) {
+        for (final Iterator it = definitions.entrySet().iterator(); it.hasNext(); ) {
             final Map.Entry entry = (Map.Entry) it.next();
-            final Object   object = ((Definition) entry.getValue()).asObject;
+            final Object object = ((Definition) entry.getValue()).asObject;
             table.write(String.valueOf(entry.getKey()));
             table.nextColumn();
             table.write(Classes.getShortClassName(object));
@@ -412,9 +412,9 @@ public class Preprocessor extends Format {
      * Returns {@code true} if the specified text is a valid identifier.
      */
     private static boolean isIdentifier(final String text) {
-        for (int i=text.length(); --i>=0;) {
+        for (int i = text.length(); --i >= 0; ) {
             final char c = text.charAt(i);
-            if (!Character.isJavaIdentifierPart(c) && c!=':') {
+            if (!Character.isJavaIdentifierPart(c) && c != ':') {
                 return false;
             }
         }
@@ -457,12 +457,26 @@ public class Preprocessor extends Format {
      * the replaced substring length.
      */
     private static final class Replacement {
-        /** The lower index in the target string, inclusive. */ public final int  lower;
-        /** The upper index in the target string, exclusive. */ public final int  upper;
-        /** The shift from source string to target string.   */ public final int  shift;
-        /** The next element in the linked list.             */ public Replacement next;
+        /**
+         * The lower index in the target string, inclusive.
+         */
+        public final int lower;
+        /**
+         * The upper index in the target string, exclusive.
+         */
+        public final int upper;
+        /**
+         * The shift from source string to target string.
+         */
+        public final int shift;
+        /**
+         * The next element in the linked list.
+         */
+        public Replacement next;
 
-        /** Constructs a new index shift initialized with the given values. */
+        /**
+         * Constructs a new index shift initialized with the given values.
+         */
         public Replacement(final int lower, final int upper, final int shift) {
             this.lower = lower;
             this.upper = upper;
@@ -475,16 +489,16 @@ public class Preprocessor extends Format {
         @Override
         public String toString() {
             final StringBuilder buffer = new StringBuilder();
-            for (Replacement r=this; r!=null; r=r.next) {
+            for (Replacement r = this; r != null; r = r.next) {
                 if (r != this) {
                     buffer.append(", ");
                 }
                 buffer.append('[')
-                      .append(r.lower)
-                      .append("..")
-                      .append(r.upper)
-                      .append("] \u2192 ")
-                      .append(r.shift);
+                        .append(r.lower)
+                        .append("..")
+                        .append(r.upper)
+                        .append("] \u2192 ")
+                        .append(r.shift);
             }
             return buffer.toString();
         }

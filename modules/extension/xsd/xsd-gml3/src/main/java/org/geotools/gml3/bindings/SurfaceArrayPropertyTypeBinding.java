@@ -30,13 +30,15 @@ import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:SurfaceArrayPropertyType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="SurfaceArrayPropertyType"&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;A container for an array of surfaces. The elements are always contained in the array property, referencing geometry elements or arrays of geometry elements is not supported.&lt;/documentation&gt;
+ *          &lt;documentation&gt;A container for an array of surfaces. The elements are always 
+ *          contained in the array property, referencing geometry elements or arrays of geometry 
+ *          elements is not supported.&lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;sequence&gt;
  *          &lt;element maxOccurs="unbounded" minOccurs="0" ref="gml:_Surface"/&gt;
@@ -48,9 +50,6 @@ import com.vividsolutions.jts.geom.Polygon;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SurfaceArrayPropertyTypeBinding extends AbstractComplexBinding {
@@ -78,7 +77,7 @@ public class SurfaceArrayPropertyTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         List surfaces = node.getChildValues(Polygon.class);
 
         return surfaces.toArray(new Polygon[surfaces.size()]);

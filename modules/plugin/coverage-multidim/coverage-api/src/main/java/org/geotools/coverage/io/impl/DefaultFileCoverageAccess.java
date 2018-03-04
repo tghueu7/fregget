@@ -30,20 +30,20 @@ import org.geotools.data.Parameter;
 
 /**
  * @author Simone Giannecchini, GeoSolutions
- *
  */
-public class DefaultFileCoverageAccess extends DefaultCoverageAccess implements FileCoverageAccess{
+public class DefaultFileCoverageAccess extends DefaultCoverageAccess implements FileCoverageAccess {
 
     protected final URL source;
-    
+
     /**
      * @param driver
      * @param allowedAccessTypes
      * @param accessParams
      */
     public DefaultFileCoverageAccess(Driver driver, EnumSet<AccessType> allowedAccessTypes,
-            Map<String, Parameter<?>> accessParams, URL source,
-            Map<String, Serializable> connectionParameters) throws DataSourceException {
+                                     Map<String, Parameter<?>> accessParams, URL source,
+                                     Map<String, Serializable> connectionParameters) throws 
+            DataSourceException {
         super(driver, allowedAccessTypes, accessParams, connectionParameters);
         // checks
         if (source == null && connectionParameters == null) {

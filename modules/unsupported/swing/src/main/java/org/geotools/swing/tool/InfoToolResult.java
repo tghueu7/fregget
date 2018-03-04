@@ -23,6 +23,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import org.opengis.feature.type.Name;
 
 /**
@@ -30,46 +31,45 @@ import org.opengis.feature.type.Name;
  * parent {@code InfoTool} object.
  *
  * @author Michael Bedward
- * @since 8.0
- *
- * @source $URL$
  * @version $URL$
+ * @source $URL$
+ * @since 8.0
  */
 public class InfoToolResult {
 
     private static class ResultItem {
         String id;
         Map<String, Object> data;
-        
+
         ResultItem(String id) {
             this.id = id;
             data = new LinkedHashMap<String, Object>();
         }
-        
+
         boolean isEmpty() {
             return data.isEmpty();
         }
-        
+
         void put(String name, Object value) {
             data.put(name, value);
         }
-        
+
         @Override
         public String toString() {
             StringBuilder sb = new StringBuilder();
-            
+
             if (id != null) {
                 sb.append(id).append("\n");
             }
-            
+
             for (Entry<String, Object> e : data.entrySet()) {
                 sb.append(e.getKey()).append(": ").append(e.getValue()).append('\n');
             }
-            
+
             return sb.toString();
         }
     }
-    
+
     private final List<ResultItem> items;
     private ResultItem currentItem;
 
@@ -126,13 +126,13 @@ public class InfoToolResult {
 
         return Collections.unmodifiableMap(items.get(featureIndex).data);
     }
-    
+
     public String getFeatureId(int featureIndex) {
         if (featureIndex < 0 || featureIndex >= getNumFeatures()) {
             throw new IndexOutOfBoundsException("Invalid index value: " + featureIndex);
         }
-        
+
         return items.get(featureIndex).id;
     }
-    
+
 }

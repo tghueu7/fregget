@@ -30,12 +30,9 @@ import com.vividsolutions.jts.geom.GeometryFactory;
  * Default implementation of {@code Oblong}.
  *
  * @author mbedward
- * @since 2.7
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.7
  */
 public class OblongImpl implements Oblong {
 
@@ -44,19 +41,16 @@ public class OblongImpl implements Oblong {
 
     /**
      * Creates a new oblong.
-     * 
-     * @param minX minimum X ordinate
      *
-     * @param minY minimum Y ordinate
-     *
-     * @param width span in the X direction
-     *
+     * @param minX   minimum X ordinate
+     * @param minY   minimum Y ordinate
+     * @param width  span in the X direction
      * @param height span in the Y direction
-     * 
-     * @param crs coordinate reference system (may be {@code null})
+     * @param crs    coordinate reference system (may be {@code null})
      */
-    public OblongImpl(double minX, double minY, double width, double height, CoordinateReferenceSystem crs) {
-        if (width <=0 || height <= 0) {
+    public OblongImpl(double minX, double minY, double width, double height, 
+                      CoordinateReferenceSystem crs) {
+        if (width <= 0 || height <= 0) {
             throw new IllegalArgumentException("width and height must both be positive");
         }
         envelope = new ReferencedEnvelope(minX, minX + width, minY, minY + height, crs);

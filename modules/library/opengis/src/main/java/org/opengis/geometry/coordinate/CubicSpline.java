@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.coordinate;
 
 import java.util.List;
+
 import org.opengis.geometry.primitive.CurveInterpolation;
 import org.opengis.annotation.UML;
 
@@ -37,20 +38,18 @@ import static org.opengis.annotation.Specification.*;
  * which are the unit tangent vectors at {@code controlPoint[0]} and <code>controlPoint[n]</coded>
  * where <var>n</var> = {@code controlPoint.length-1}.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @since GeoAPI 2.0
  */
-@UML(identifier="GM_CubicSpline", specification=ISO_19107)
+@UML(identifier = "GM_CubicSpline", specification = ISO_19107)
 public interface CubicSpline extends PolynomialSpline {
     /**
      * The interpolation mechanism for a {@code CubicSpline}
      * is {@link CurveInterpolation#CUBIC_SPLINE CUBIC_SPLINE}.
      */
-    @UML(identifier="interpolation", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "interpolation", obligation = MANDATORY, specification = ISO_19107)
     CurveInterpolation getInterpolation();
 
     /**
@@ -59,7 +58,7 @@ public interface CubicSpline extends PolynomialSpline {
      * sequences to a single tangent vector each. Consequently, the {@linkplain List#size size}
      * of the returned list is 1.
      */
-    @UML(identifier="vectorAtStart", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "vectorAtStart", obligation = MANDATORY, specification = ISO_19107)
     List/*double[]*/ getVectorAtStart();
 
     /**
@@ -68,6 +67,6 @@ public interface CubicSpline extends PolynomialSpline {
      * sequences to a single tangent vector each. Consequently, the {@linkplain List#size size}
      * of the returned list is 1.
      */
-    @UML(identifier="vectorAtEnd", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "vectorAtEnd", obligation = MANDATORY, specification = ISO_19107)
     List/*double[]*/ getVectorAtEnd();
 }

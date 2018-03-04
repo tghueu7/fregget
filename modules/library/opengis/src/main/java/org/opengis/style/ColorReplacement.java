@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2008, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 
@@ -19,12 +19,11 @@ import org.opengis.filter.expression.Function;
  * color in the ExternalGraphic, the color specified in the OriginalColor sub-element, by
  * another color as a result of a recode function as defined in {@link Interpolate} .
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding Implementation Specification 1.1.0</A>
  * @author Open Geospatial Consortium
  * @author Johann Sorel (Geomatys)
+ * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding 
+ * Implementation Specification 1.1.0</A>
+ * @source $URL$
  * @since GeoAPI 2.2
  */
 @XmlElement("ColorReplacement")
@@ -34,7 +33,7 @@ public interface ColorReplacement {
      * Recoding: Transformation of discrete values to any other values. This is needed
      * when integers have to be translated into text or, reversely, text contents into other
      * texts or numeric values or colors.
-     *
+     * <p>
      * This function recodes values from a property or expression into corresponding values of
      * arbitrary type. The comparisons are performed checking for identical values.
      */
@@ -48,5 +47,5 @@ public interface ColorReplacement {
      */
     @Extension
     Object accept(StyleVisitor visitor, Object extraData);
-    
+
 }

@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- *    
+ *
  *    (C) 2006-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -29,45 +29,40 @@ import org.geotools.geometry.iso.primitive.CurveImpl;
  * The original objective of this encapsulating is the possibility of persistence support,
  * that is that the returned lists are backed by a type of database to relieve the system
  * memory in cases of large geometries.
- * 
+ *
  * @author Sanjay Jena and Prof. Dr. Jackson Roehrig
- *
- *
- *
- *
  * @source $URL$
  */
 public interface CollectionFactory {
-	
-	/**
-	 * Creates a list of Curves
-	 * 
-	 * @return List
-	 */
-	List<CurveImpl> getCurveList();
 
-	/**
-	 * Creates a list of CurveSegments
-	 * 
-	 * @return List
-	 */
-	List<CurveSegmentImpl> getCurveSegmentList();
+    /**
+     * Creates a list of Curves
+     *
+     * @return List
+     */
+    List<CurveImpl> getCurveList();
 
-	
-	/**
-	 * Creates a list of Positions
-	 * 
-	 * @return List
-	 */
-	List<PositionImpl> getPositionList();
+    /**
+     * Creates a list of CurveSegments
+     *
+     * @return List
+     */
+    List<CurveSegmentImpl> getCurveSegmentList();
 
-	/**
-	 * Creates a list of Triangles
-	 * 
-	 * @return List
-	 */
-	List<TriangleImpl> createTriangleList();
 
+    /**
+     * Creates a list of Positions
+     *
+     * @return List
+     */
+    List<PositionImpl> getPositionList();
+
+    /**
+     * Creates a list of Triangles
+     *
+     * @return List
+     */
+    List<TriangleImpl> createTriangleList();
 
 
 }

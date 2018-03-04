@@ -30,9 +30,9 @@ import com.vividsolutions.jts.geom.Point;
 
 /**
  * Binding object for the type http://earth.google.com/kml/2.1:LookAtType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType final="#all" name="LookAtType"&gt;
  *      &lt;complexContent&gt;
@@ -56,9 +56,6 @@ import com.vividsolutions.jts.geom.Point;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class LookAtTypeBinding extends AbstractComplexBinding {
@@ -93,7 +90,7 @@ public class LookAtTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         Coordinate c = new Coordinate();
 
         //&lt;element default="0" minOccurs="0" name="longitude" type="kml:angle180"/&gt;

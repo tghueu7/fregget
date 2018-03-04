@@ -40,8 +40,10 @@ public class DefaultGranuleHandler implements GranuleHandler {
 
     @Override
     public void handleGranule(Object source, GridCoverage2DReader inputReader,
-            SimpleFeature targetFeature, SimpleFeatureType targetFeatureType, SimpleFeature feature,
-            SimpleFeatureType inputFeatureType, MosaicConfigurationBean mosaicConfiguration) {
+                              SimpleFeature targetFeature, SimpleFeatureType targetFeatureType, 
+                              SimpleFeature feature,
+                              SimpleFeatureType inputFeatureType, MosaicConfigurationBean 
+                                          mosaicConfiguration) {
 
         if (inputReader instanceof StructuredGridCoverage2DReader) {
             handleStructuredGranule(source, inputReader, targetFeature, targetFeatureType, feature,

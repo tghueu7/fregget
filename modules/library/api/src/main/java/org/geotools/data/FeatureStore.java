@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -57,22 +57,19 @@ import org.geotools.feature.FeatureCollection;
  * @author Ray Gallagher
  * @author Rob Hranac, TOPP
  * @author Chris Holmes, TOPP
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
-public interface FeatureStore<T extends FeatureType, F extends Feature> extends FeatureSource<T, F> {
+public interface FeatureStore<T extends FeatureType, F extends Feature> extends FeatureSource<T, 
+        F> {
     /**
      * Adds all features from the feature collection.
      * <p>
      * A list of {@code FeatureIds} is returned, one for each feature in the order created.
      * However, these might not be assigned until after a commit has been performed.
-     * 
+     *
      * @param featureCollection the collection of features to add
-     *
      * @return the {@code FeatureIds} of the newly added features
-     *
      * @throws IOException if an error occurs modifying the data source
      */
     List<FeatureId> addFeatures(FeatureCollection<T, F> featureCollection) throws IOException;
@@ -81,7 +78,6 @@ public interface FeatureStore<T extends FeatureType, F extends Feature> extends 
      * Removes features selected by the given filter.
      *
      * @param filter an OpenGIS filter
-     *
      * @throws IOException if an error occurs modifying the data source
      */
     void removeFeatures(Filter filter) throws IOException;
@@ -90,66 +86,56 @@ public interface FeatureStore<T extends FeatureType, F extends Feature> extends 
      * Modifies the attributes with the supplied values in all
      * features selected by the given filter.
      *
-     * @param attributeNames the attributes to modify
-     *
+     * @param attributeNames  the attributes to modify
      * @param attributeValues the new values for the attributes
-     *
-     * @param filter an OpenGIS filter
-     *
+     * @param filter          an OpenGIS filter
      * @throws IOException if the attribute and object arrays are not equal
-     *         in length; if the value types do not match the attribute types;
-     *         if modification is not supported; or if there errors accessing the
-     *         data source
+     *                     in length; if the value types do not match the attribute types;
+     *                     if modification is not supported; or if there errors accessing the
+     *                     data source
      */
-    void modifyFeatures( Name[] attributeNames, Object[] attributeValues, Filter filter )  throws IOException;
+    void modifyFeatures(Name[] attributeNames, Object[] attributeValues, Filter filter) throws 
+            IOException;
 
     /**
      * For backwards compatibility; please be careful that your descriptor is
      * actually compatible with the one declared.
-     * 
-     * @param type the attributes to modify
      *
-     * @param value the new values for the attributes
-     *
+     * @param type   the attributes to modify
+     * @param value  the new values for the attributes
      * @param filter an OpenGIS filter
-     *
      * @throws IOException
-     *
      * @deprecated Please use the safer method {@link #modifyFeatures(Name[], Object[], Filter)}
      */
-    void modifyFeatures(AttributeDescriptor[] type, Object[] value, Filter filter) throws IOException;
-    
+    void modifyFeatures(AttributeDescriptor[] type, Object[] value, Filter filter) throws 
+            IOException;
+
     /**
      * Modifies an attribute with the supplied value in all features
      * selected by the given filter.
      *
-     * @param attributeName the attribute to modify
-     *
+     * @param attributeName  the attribute to modify
      * @param attributeValue the new value for the attribute
-     *
-     * @param filter an OpenGIS filter
-     *
+     * @param filter         an OpenGIS filter
      * @throws IOException if modification is not supported; if the value type does
-     *         not match the attribute type; or if there errors accessing the data source
+     *                     not match the attribute type; or if there errors accessing the data 
+     *                     source
      */
-    void modifyFeatures( Name attributeName, Object attributeValue, Filter filter )  throws IOException;
-    
+    void modifyFeatures(Name attributeName, Object attributeValue, Filter filter) throws 
+            IOException;
+
     /**
      * For backwards compatibility; please be careful that your descriptor is actually compatible
      * with the one declared.
      *
-     * @param type the attribute to modify
-     *
-     * @param value the new value for the attribute
-     *
+     * @param type   the attribute to modify
+     * @param value  the new value for the attribute
      * @param filter an OpenGIS filter
-     *
      * @throws IOException
-     *
      * @deprecated Please use the safer method {@link #modifyFeatures(Name, Object, Filter)}
      */
     void modifyFeatures(AttributeDescriptor type, Object value, Filter filter)
-        throws IOException;
+            throws IOException;
 
     /**
      * Deletes any existing features in the data source and then
@@ -157,7 +143,6 @@ public interface FeatureStore<T extends FeatureType, F extends Feature> extends 
      * as a convenience method for file-based data sources.
      *
      * @param reader - the collection to be written
-     *
      * @throws IOException if there are any datasource errors.
      */
     void setFeatures(FeatureReader<T, F> reader) throws IOException;

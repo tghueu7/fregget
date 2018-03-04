@@ -48,18 +48,16 @@ import org.opengis.filter.Filter;
 import org.opengis.filter.FilterFactory2;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ExcelDatastoreTest extends DataTestCase {
 
     public ExcelDatastoreTest(String name) {
-		super(name);
-		// TODO Auto-generated constructor stub
-	}
+        super(name);
+        // TODO Auto-generated constructor stub
+    }
 
-	static ExcelDataStore[] eds;
+    static ExcelDataStore[] eds;
 
     static boolean setup = false;
 
@@ -79,7 +77,7 @@ public class ExcelDatastoreTest extends DataTestCase {
             eds = new ExcelDataStore[testFiles.length];
             int i = 0;
             for (String f : testFiles) {
-                System.out.println("testing "+f);
+                System.out.println("testing " + f);
                 File file = TestData.file(this, f);
                 HashMap<String, Serializable> params = new HashMap<String, Serializable>();
                 java.net.URL url = URLs.fileToUrl(file);
@@ -217,30 +215,32 @@ public class ExcelDatastoreTest extends DataTestCase {
             System.out.println(fts.features().next());
         }
     }
-    
+
     /**
      * Test query with a start index
-     * @throws IOException 
-     * @throws FileNotFoundException 
+     *
+     * @throws IOException
+     * @throws FileNotFoundException
      */
-    
+
     public void testOffset() throws FileNotFoundException, IOException {
         Query query = new Query(Query.ALL);
         query.setStartIndex(1);
-        
+
         for (ExcelDataStore ed : eds) {
             System.out.println(ed.getName());
 
             List<Name> names = ed.getNames();
             ExcelFeatureSource source = (ExcelFeatureSource) ed.getFeatureSource(names.get(0));
-            assertEquals(source.getCount(Query.ALL)-1, source.getCount(query));
+            assertEquals(source.getCount(Query.ALL) - 1, source.getCount(query));
         }
     }
-    
+
     /**
      * Test query with maxFeatures
-     * @throws IOException 
-     * @throws FileNotFoundException 
+     *
+     * @throws IOException
+     * @throws FileNotFoundException
      */
     public void testLimit() throws FileNotFoundException, IOException {
         Query query = new Query(Query.ALL);
@@ -253,11 +253,12 @@ public class ExcelDatastoreTest extends DataTestCase {
             assertTrue(2 >= source.getCount(query));
         }
     }
-    
+
     /**
      * Test query with maxFeatures and startIndex
-     * @throws IOException 
-     * @throws FileNotFoundException 
+     *
+     * @throws IOException
+     * @throws FileNotFoundException
      */
     public void testLimitOffset() throws FileNotFoundException, IOException {
         Query query = new Query(Query.ALL);
@@ -268,7 +269,7 @@ public class ExcelDatastoreTest extends DataTestCase {
 
             List<Name> names = ed.getNames();
             ExcelFeatureSource source = (ExcelFeatureSource) ed.getFeatureSource(names.get(0));
-            assertEquals(Math.min(2, source.getCount(Query.ALL)-1), source.getCount(query));
+            assertEquals(Math.min(2, source.getCount(Query.ALL) - 1), source.getCount(query));
         }
     }
 }

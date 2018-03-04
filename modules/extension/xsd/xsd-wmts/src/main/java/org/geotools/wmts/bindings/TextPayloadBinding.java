@@ -11,32 +11,34 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/wmts/1.0:TextPayload.
- *
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
- *	 <code>
- *  &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;element name="TextPayload" xmlns="http://www.w3.org/2001/XMLSchema"&gt;
+ * 	 <code>
+ *  &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;element name="TextPayload" xmlns="http://www
+ *  .w3.org/2001/XMLSchema"&gt;
  *  		&lt;complexType&gt;
  *  			&lt;sequence&gt;
  *  				&lt;element name="Format" type="ows:MimeType"&gt;
  *  					&lt;annotation&gt;
- *  						&lt;documentation&gt;MIMEType format of the TextContent&lt;/documentation&gt;
+ *  						&lt;documentation&gt;MIMEType format of the TextContent&lt;
+ *  						/documentation&gt;
  *  					&lt;/annotation&gt;
  *  				&lt;/element&gt;
  *  				&lt;element name="TextContent" type="string"&gt;
  *  					&lt;annotation&gt;
  *  						&lt;documentation&gt;
- *  							Text string like HTML, XHTML, XML or TXT. HTML and TXT data has 
+ *  							Text string like HTML, XHTML, XML or TXT. HTML and TXT data has
  *  							to be enclosed in a CDATA element to avoid XML parsing.
  *  						&lt;/documentation&gt;
  *  					&lt;/annotation&gt;
  *  				&lt;/element&gt;
  *  			&lt;/sequence&gt;
  *  		&lt;/complexType&gt;
- *  	&lt;/element&gt; 
- *		
- *	  </code>
+ *  	&lt;/element&gt;
+ *
+ * 	  </code>
  * </pre>
  * </p>
  *
@@ -60,7 +62,7 @@ public class TextPayloadBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -69,7 +71,7 @@ public class TextPayloadBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {

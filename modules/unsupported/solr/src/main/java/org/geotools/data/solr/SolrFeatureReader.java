@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2014-2016, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -71,22 +71,23 @@ public class SolrFeatureReader implements FeatureReader<SimpleFeatureType, Simpl
 
     private long counter;
 
-    private Map<Name,SolrSpatialStrategy> geometryReaders;
+    private Map<Name, SolrSpatialStrategy> geometryReaders;
 
     /**
      * Creates the feature reader for SOLR store <br>
      * The feature reader use SOLR CURSOR to paginate request, so multiple SOLR query will be
      * executed
-     * 
-     * @param featureType the feature type to query
-     * @param solrUrl the URL of SOLR server
-     * @param solrQuery the SOLR query to execute
+     *
+     * @param featureType   the feature type to query
+     * @param solrUrl       the URL of SOLR server
+     * @param solrQuery     the SOLR query to execute
      * @param solrDataStore the SOLR store
      * @throws SolrServerException
      * @throws java.io.IOException
      */
     public SolrFeatureReader(SimpleFeatureType featureType, HttpSolrClient server,
-            SolrQuery solrQuery, SolrDataStore solrDataStore) throws SolrServerException, IOException {
+                             SolrQuery solrQuery, SolrDataStore solrDataStore) throws 
+            SolrServerException, IOException {
         this.featureType = featureType;
         this.solrQuery = solrQuery;
         this.solrDataStore = solrDataStore;
@@ -121,7 +122,8 @@ public class SolrFeatureReader implements FeatureReader<SimpleFeatureType, Simpl
         geometryReaders = new HashMap<>();
         for (AttributeDescriptor att : featureType.getAttributeDescriptors()) {
             if (att instanceof GeometryDescriptor) {
-                SolrSpatialStrategy spatialStrategy = SolrSpatialStrategy.createStrategy((GeometryDescriptor)att);
+                SolrSpatialStrategy spatialStrategy = SolrSpatialStrategy.createStrategy(
+                        (GeometryDescriptor) att);
                 geometryReaders.put(att.getName(), spatialStrategy);
             }
         }

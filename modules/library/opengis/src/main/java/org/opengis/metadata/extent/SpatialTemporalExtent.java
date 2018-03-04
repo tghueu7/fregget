@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.metadata.extent;
 
 import java.util.Collection;
+
 import org.opengis.annotation.UML;
 
 import static org.opengis.annotation.Obligation.*;
@@ -19,14 +20,12 @@ import static org.opengis.annotation.Specification.*;
 /**
  * Extent with respect to date/time and spatial boundaries.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
+ * @source $URL$
+ * @since GeoAPI 1.0
  */
-@UML(identifier="EX_SpatialTemporalExtent", specification=ISO_19115)
+@UML(identifier = "EX_SpatialTemporalExtent", specification = ISO_19115)
 public interface SpatialTemporalExtent extends TemporalExtent {
     /**
      * Returns the spatial extent component of composite
@@ -34,6 +33,6 @@ public interface SpatialTemporalExtent extends TemporalExtent {
      *
      * @return The list of geographic extents (never {@code null}).
      */
-    @UML(identifier="spatialExtent", obligation=MANDATORY, specification=ISO_19115)
+    @UML(identifier = "spatialExtent", obligation = MANDATORY, specification = ISO_19115)
     Collection<? extends GeographicExtent> getSpatialExtent();
 }

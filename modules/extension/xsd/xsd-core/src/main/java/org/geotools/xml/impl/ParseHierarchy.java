@@ -21,10 +21,7 @@ package org.geotools.xml.impl;
  * A utility class used to parse objects in a type hierarchy.
  *
  * @author Justin Deoliveira,Refractions Research Inc.,jdeolive@refractions.net
- *TODO: kill this class
- *
- *
- *
+ * TODO: kill this class
  * @source $URL$
  */
 public class ParseHierarchy {

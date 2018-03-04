@@ -30,23 +30,26 @@ public interface GranuleHandler {
     /**
      * Handle the case of a grid coverage being added to the mosaic.
      *
-     * @param source input file
-     * @param inputReader input reader of the incoming granule
-     * @param targetFeature the target index feature
-     * @param targetFeatureType the index schema
-     * @param inputFeature the incoming granule feature
-     * @param inputFeatureType the incoming coverage schema
+     * @param source              input file
+     * @param inputReader         input reader of the incoming granule
+     * @param targetFeature       the target index feature
+     * @param targetFeatureType   the index schema
+     * @param inputFeature        the incoming granule feature
+     * @param inputFeatureType    the incoming coverage schema
      * @param mosaicConfiguration the mosaic configuration
      */
     void handleGranule(Object source, GridCoverage2DReader inputReader, SimpleFeature targetFeature,
-            SimpleFeatureType targetFeatureType, SimpleFeature inputFeature,
-            SimpleFeatureType inputFeatureType, MosaicConfigurationBean mosaicConfiguration)
+                       SimpleFeatureType targetFeatureType, SimpleFeature inputFeature,
+                       SimpleFeatureType inputFeatureType, MosaicConfigurationBean 
+                               mosaicConfiguration)
             throws GranuleHandlingException;
 
     default void handleStructuredGranule(Object source, GridCoverage2DReader inputReader,
-            SimpleFeature targetFeature, SimpleFeatureType targetFeatureType,
-            SimpleFeature inputFeature, SimpleFeatureType inputFeatureType,
-            MosaicConfigurationBean mosaicConfiguration) {
+                                         SimpleFeature targetFeature, SimpleFeatureType 
+                                                 targetFeatureType,
+                                         SimpleFeature inputFeature, SimpleFeatureType 
+                                                 inputFeatureType,
+                                         MosaicConfigurationBean mosaicConfiguration) {
         Object geometryAttribute = inputFeature
                 .getAttribute(inputFeatureType.getGeometryDescriptor().getName());
         targetFeature.setAttribute(targetFeatureType.getGeometryDescriptor().getName(),

@@ -60,20 +60,21 @@ public class LetterConflictTest extends TestCase {
     /**
      * Makes the test interactive, showing a Swing dialog with image.
      * <p>
-     * Build with mvn -P image.interactive 
+     * Build with mvn -P image.interactive
      */
-    static final boolean IMAGE_INTERACTIVE = Boolean.getBoolean("org.geotools.image.test.interactive");
-    
+    static final boolean IMAGE_INTERACTIVE = Boolean.getBoolean("org.geotools.image.test" +
+            ".interactive");
+
     /**
      * Forces the image comparison / output tests to be skipped.
-     * 
+     * <p>
      * Build with org.geotools.image.test.skip=true
      */
     static private boolean IMAGE_SKIP = Boolean.getBoolean("org.geotools.image.test.skip");
-    
+
     /**
      * Write images to temp directory for debugging.
-     * 
+     * <p>
      * Test with -D org.geotools.image.test.output=true
      */
     static private boolean OUTPUT_IMAGE = Boolean.getBoolean("org.geotools.image.test.output");
@@ -89,7 +90,8 @@ public class LetterConflictTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
 
-        File property_line = new File(TestData.getResource(this, "letterConflict1.properties").toURI());
+        File property_line = new File(TestData.getResource(this, "letterConflict1.properties")
+                .toURI());
         PropertyDataStore ds_line = new PropertyDataStore(property_line.getParentFile());
 
         fs_line1 = ds_line.getFeatureSource("letterConflict1");
@@ -107,7 +109,7 @@ public class LetterConflictTest extends TestCase {
 
     private StreamingRenderer getNewRenderer(MapContent context) {
         StreamingRenderer renderer = new StreamingRenderer();
-        Map<String,Object> rendererParams = new HashMap<String,Object>();
+        Map<String, Object> rendererParams = new HashMap<String, Object>();
         LabelCacheImpl labelCache = new LabelCacheImpl();
         rendererParams.put(StreamingRenderer.LABEL_CACHE_KEY, labelCache);
         renderer.setRendererHints(rendererParams);
@@ -120,24 +122,24 @@ public class LetterConflictTest extends TestCase {
 
         LabelCacheImpl.DISABLE_LETTER_LEVEL_CONFLICT = true;
         Style style = RendererBaseTest.loadStyle(this, "letterConflict20.sld");
-        
+
         MapContent mc = new MapContent();
         mc.getViewport().setCoordinateReferenceSystem(DefaultGeographicCRS.WGS84);
-        mc.addLayer( new FeatureLayer( fs_line1, style));
+        mc.addLayer(new FeatureLayer(fs_line1, style));
         StreamingRenderer renderer = getNewRenderer(mc);
         final BufferedImage image1 = RendererBaseTest.renderImage(renderer, bounds1, null);
         mc.dispose();
-        
+
         LabelCacheImpl.DISABLE_LETTER_LEVEL_CONFLICT = false;
         style = RendererBaseTest.loadStyle(this, "letterConflict20.sld");
-        
+
         mc = new MapContent();
         mc.getViewport().setCoordinateReferenceSystem(DefaultGeographicCRS.WGS84);
-        mc.addLayer( new FeatureLayer( fs_line1, style));
+        mc.addLayer(new FeatureLayer(fs_line1, style));
         renderer = getNewRenderer(mc);
         final BufferedImage image2 = RendererBaseTest.renderImage(renderer, bounds1, null);
         mc.dispose();
-        
+
         assertTrue("More labels in image2 than image1",
                 countPixels(image2, Color.BLACK) >= countPixels(image1, Color.BLACK));
 
@@ -157,12 +159,12 @@ public class LetterConflictTest extends TestCase {
         StreamingRenderer renderer = getNewRenderer(mc);
         final BufferedImage image1 = RendererBaseTest.renderImage(renderer, bounds1, null);
         mc.dispose();
-        
+
         LabelCacheImpl.DISABLE_LETTER_LEVEL_CONFLICT = false;
         style = RendererBaseTest.loadStyle(this, "letterConflict20.sld");
         mc = new MapContent();
         mc.getViewport().setCoordinateReferenceSystem(DefaultGeographicCRS.WGS84);
-        
+
         mc.addLayer(new FeatureLayer(fs_line2, style));
         renderer = getNewRenderer(mc);
         final BufferedImage image2 = RendererBaseTest.renderImage(renderer, bounds1, null);
@@ -170,8 +172,8 @@ public class LetterConflictTest extends TestCase {
         assertTrue("More labels in image2 than image1",
                 countPixels(image2, Color.BLACK) > countPixels(image1, Color.BLACK));
 
-        writeImage("letterConflictEnabled2False",image1);
-        writeImage("letterConflictEnabled2True",image2);
+        writeImage("letterConflictEnabled2False", image1);
+        writeImage("letterConflictEnabled2True", image2);
         showImage("letterConflictEnabled2 false", TIME, image1);
         showImage("letterConflictEnabled2 true", TIME, image2);
         mc.dispose();
@@ -183,27 +185,27 @@ public class LetterConflictTest extends TestCase {
         Style style = RendererBaseTest.loadStyle(this, "letterConflict20.sld");
         MapContent mc = new MapContent();
         mc.getViewport().setCoordinateReferenceSystem(DefaultGeographicCRS.WGS84);
-        mc.addLayer( new FeatureLayer( fs_line3, style));
-        
+        mc.addLayer(new FeatureLayer(fs_line3, style));
+
         StreamingRenderer renderer = getNewRenderer(mc);
         final BufferedImage image1 = RendererBaseTest.renderImage(renderer, bounds1, null);
         mc.dispose();
-        
+
         LabelCacheImpl.DISABLE_LETTER_LEVEL_CONFLICT = false;
         style = RendererBaseTest.loadStyle(this, "letterConflict20.sld");
         mc = new MapContent();
         mc.getViewport().setCoordinateReferenceSystem(DefaultGeographicCRS.WGS84);
-        mc.addLayer( new FeatureLayer( fs_line3, style));
+        mc.addLayer(new FeatureLayer(fs_line3, style));
         renderer = getNewRenderer(mc);
         final BufferedImage image2 = RendererBaseTest.renderImage(renderer, bounds1, null);
         mc.dispose();
-        
+
         assertTrue("More labels in image2 than image1",
                 countPixels(image2, Color.BLACK) > countPixels(image1, Color.BLACK));
 
         writeImage("letterConflictEnabledCurvedLineFalse", image1);
         writeImage("letterConflictEnabledCurvedLineTrue", image2);
-        
+
         showImage("letterConflictEnabledCurvedLine false", TIME, image1);
         showImage("letterConflictEnabledCurvedLine true", TIME, image2);
     }
@@ -214,11 +216,11 @@ public class LetterConflictTest extends TestCase {
             Style style = RendererBaseTest.loadStyle(this, "letterConflict6.sld");
             MapContent mc = new MapContent();
             mc.getViewport().setCoordinateReferenceSystem(DefaultGeographicCRS.WGS84);
-            mc.addLayer( new FeatureLayer( fs_line4, style));
-            
+            mc.addLayer(new FeatureLayer(fs_line4, style));
+
             StreamingRenderer renderer = getNewRenderer(mc);
             BufferedImage image1 = RendererBaseTest.renderImage(renderer, bounds2, null);
-            
+
             long t0, t1, t2, t3;
             long ta = 0;
             for (int i = 0; i < 10; i++) {
@@ -234,10 +236,10 @@ public class LetterConflictTest extends TestCase {
             LabelCacheImpl.DISABLE_LETTER_LEVEL_CONFLICT = false;
             mc = new MapContent();
             mc.getViewport().setCoordinateReferenceSystem(DefaultGeographicCRS.WGS84);
-            mc.addLayer( new FeatureLayer( fs_line4, style));
+            mc.addLayer(new FeatureLayer(fs_line4, style));
             renderer = getNewRenderer(mc);
             BufferedImage image2 = RendererBaseTest.renderImage(renderer, bounds2, null);
-            
+
             ta = 0;
             for (int i = 0; i < 10; i++) {
                 renderer = getNewRenderer(mc);
@@ -253,8 +255,8 @@ public class LetterConflictTest extends TestCase {
             assertTrue("More labels in image2 than image1",
                     countDarkPixels(image2) >= countDarkPixels(image1));
 
-            writeImage("letterConflictEnabledPerfFalse",image1);
-            writeImage("letterConflictEnabledPerfTrue",image2);
+            writeImage("letterConflictEnabledPerfFalse", image1);
+            writeImage("letterConflictEnabledPerfTrue", image2);
             showImage("letterConflictEnabledPref false", TIME, image1);
             showImage("letterConflictEnabledPerf true", TIME, image2);
         }
@@ -262,9 +264,9 @@ public class LetterConflictTest extends TestCase {
 
     public int countPixels(BufferedImage bi, Color color) {
         int count = 0;
-        for (int i = 0 ; i < bi.getWidth() ; i++) {
-            for (int j = 0 ; j < bi.getHeight() ; j++) {
-                if (bi.getRGB(i,j) == color.getRGB()) count++;
+        for (int i = 0; i < bi.getWidth(); i++) {
+            for (int j = 0; j < bi.getHeight(); j++) {
+                if (bi.getRGB(i, j) == color.getRGB()) count++;
             }
         }
         return count;
@@ -273,25 +275,25 @@ public class LetterConflictTest extends TestCase {
 
     public int countDarkPixels(BufferedImage bi) {
         int count = 0;
-        for (int i = 0 ; i < bi.getWidth() ; i++) {
-            for (int j = 0 ; j < bi.getHeight() ; j++) {
-                Color col = new Color(bi.getRGB(i,j));
-                if (col.getBlue() < 127 && col.getGreen() < 127 &&  col.getRed() < 127) count++;
+        for (int i = 0; i < bi.getWidth(); i++) {
+            for (int j = 0; j < bi.getHeight(); j++) {
+                Color col = new Color(bi.getRGB(i, j));
+                if (col.getBlue() < 127 && col.getGreen() < 127 && col.getRed() < 127) count++;
             }
         }
         return count;
     }
-    
+
     /**
      * Internal utility method used to write out image for debugging purposes.
-     * 
+     *
      * @param testName
      * @param image
-     * @throws IOException 
+     * @throws IOException
      */
     static void writeImage(String testName, BufferedImage image) throws IOException {
-        if( IMAGE_SKIP) return;
-        
+        if (IMAGE_SKIP) return;
+
         if (OUTPUT_IMAGE) {
             File tmpFile = File.createTempFile("geotools-" + testName, ".png");
             ImageIO.write(image, "png", tmpFile);
@@ -300,7 +302,7 @@ public class LetterConflictTest extends TestCase {
 
     /**
      * Internal utility method used to display an image for interactive tests.
-     * 
+     *
      * @param testName test name used as window name
      * @param timeOut
      * @param image
@@ -309,11 +311,11 @@ public class LetterConflictTest extends TestCase {
     static void showImage(String testName, long timeOut, final BufferedImage image)
             throws InterruptedException {
         boolean HEADLESS = Boolean.getBoolean("java.awt.headless");
-        
-        if( HEADLESS || IMAGE_SKIP) {
+
+        if (HEADLESS || IMAGE_SKIP) {
             return; // obvious reasons to skip showing the image
         }
-        
+
         if (IMAGE_INTERACTIVE && TestData.isInteractiveTest()) {
             try {
                 Frame frame = new Frame(testName);
@@ -322,10 +324,11 @@ public class LetterConflictTest extends TestCase {
                         e.getWindow().dispose();
                     }
                 });
-    
+
                 Panel p = new Panel() {
                     /** <code>serialVersionUID</code> field */
                     private static final long serialVersionUID = 1L;
+
                     {
                         setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
                     }
@@ -334,11 +337,11 @@ public class LetterConflictTest extends TestCase {
                         g.drawImage(image, 0, 0, this);
                     }
                 };
-    
+
                 frame.add(p);
                 frame.pack();
                 frame.setVisible(true);
-    
+
                 Thread.sleep(timeOut);
                 frame.dispose();
             } catch (HeadlessException exception) {

@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.primitive;
@@ -21,13 +21,11 @@ import static org.opengis.annotation.Specification.*;
  * subtypes of {@link Primitive}. Since points have no boundary, no special subclass is needed
  * for their boundary.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @since GeoAPI 1.0
  */
-@UML(identifier="GM_PrimitiveBoundary", specification=ISO_19107)
+@UML(identifier = "GM_PrimitiveBoundary", specification = ISO_19107)
 public interface PrimitiveBoundary extends Boundary {
 }

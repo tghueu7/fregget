@@ -35,7 +35,8 @@ import java.util.Set;
  */
 public final class MongoComplexUtilities {
 
-    // if this property is set to TRUE the system will expect nested collection full path to be provided
+    // if this property is set to TRUE the system will expect nested collection full path to be 
+    // provided
     private final static boolean USE_LEGACY_PATHS = Boolean.parseBoolean(
             System.getProperty("org.geotools.data.mongodb.complex.useLegacyPaths", "false"));
 
@@ -68,7 +69,8 @@ public final class MongoComplexUtilities {
     }
 
     /**
-     * Will try to extract from the provided object the value that correspond to the given json path.
+     * Will try to extract from the provided object the value that correspond to the given json 
+     * path.
      */
     public static Object getValue(Object object, String jsonPath) {
         // let's make sure we have a feature
@@ -81,7 +83,8 @@ public final class MongoComplexUtilities {
         if (feature instanceof MongoCollectionFeature) {
             // a mongo feature in the context of a nested element
             MongoCollectionFeature collectionFeature = (MongoCollectionFeature) object;
-            return getValue(collectionFeature.getMongoFeature().getMongoObject(), collectionFeature.getCollectionsIndexes(), jsonPath);
+            return getValue(collectionFeature.getMongoFeature().getMongoObject(), 
+                    collectionFeature.getCollectionsIndexes(), jsonPath);
         }
         // could not find a mongo feature, we can do nothing
         throw invalidFeature(feature, jsonPath);
@@ -97,13 +100,15 @@ public final class MongoComplexUtilities {
             throw invalidFeature(feature, jsonPath);
         }
         // let's see if we have the a mongo feature in the user data
-        Object mongoFeature = ((Feature) feature).getUserData().get(AbstractCollectionMapper.MONGO_OBJECT_FEATURE_KEY);
+        Object mongoFeature = ((Feature) feature).getUserData().get(AbstractCollectionMapper
+                .MONGO_OBJECT_FEATURE_KEY);
         // if we could not find a mongo feature in the user data we stick we the original feature
         return mongoFeature == null ? (Feature) feature : (Feature) mongoFeature;
     }
 
     /**
-     * Helper method that creates an exception for when the provided object is not of the correct type.
+     * Helper method that creates an exception for when the provided object is not of the correct
+     * type.
      */
     private static RuntimeException invalidFeature(Object feature, String jsonPath) {
         return new RuntimeException(String.format(
@@ -124,7 +129,8 @@ public final class MongoComplexUtilities {
      * The provided collections indexes will be used to select the proper element for the
      * collections present in the path.
      */
-    public static Object getValue(DBObject mongoObject, Map<String, Integer> collectionsIndexes, String jsonPath) {
+    public static Object getValue(DBObject mongoObject, Map<String, Integer> collectionsIndexes, 
+                                  String jsonPath) {
         MongoObjectWalker walker = new MongoObjectWalker(mongoObject, collectionsIndexes, jsonPath);
         // try to convert the founded value to a geometry
         return convertGeometry(walker.getValue());
@@ -167,7 +173,8 @@ public final class MongoComplexUtilities {
         private int currentJsonPathPartIndex;
         private Object currentObject;
 
-        MongoObjectWalker(DBObject mongoObject, Map<String, Integer> collectionsIndexes, String jsonPath) {
+        MongoObjectWalker(DBObject mongoObject, Map<String, Integer> collectionsIndexes, String 
+                jsonPath) {
             this.collectionsIndexes = collectionsIndexes;
             this.jsonPathParts = jsonPath.split("\\.");
             this.currentJsonPath = "";
@@ -187,7 +194,8 @@ public final class MongoComplexUtilities {
             // we have a next element if we still have paths parts or we are currently
             // walking a collection and there is a index defined for this collection
             return currentJsonPathPartIndex < jsonPathParts.length
-                    || (currentObject instanceof BasicDBList && collectionsIndexes.get(currentJsonPath) != null);
+                    || (currentObject instanceof BasicDBList && collectionsIndexes.get
+                    (currentJsonPath) != null);
         }
 
         private void next() {
@@ -199,7 +207,8 @@ public final class MongoComplexUtilities {
                 currentObject = next((DBObject) currentObject);
             } else {
                 throw new RuntimeException(String.format(
-                        "Trying to get data from a non MongoDB object, current json path is '%s'.", currentJsonPath));
+                        "Trying to get data from a non MongoDB object, current json path is '%s'" +
+                                ".", currentJsonPath));
             }
         }
 
@@ -216,7 +225,8 @@ public final class MongoComplexUtilities {
             // let's find current index for this collection
             Integer rawCollectionIndex = collectionsIndexes.get(currentJsonPath);
             if (rawCollectionIndex == null && basicDBList.size() == 1) {
-                // this collection only has a single element and there is not index information for this collection
+                // this collection only has a single element and there is not index information 
+                // for this collection
                 return basicDBList.get(0);
             }
             if (rawCollectionIndex == null) {
@@ -229,7 +239,8 @@ public final class MongoComplexUtilities {
     }
 
     /**
-     * Will try to extract from the provided object all the values that correspond to the given json path.
+     * Will try to extract from the provided object all the values that correspond to the given 
+     * json path.
      */
     public static Object getValues(Object object, String jsonPath) {
         // let's make sure we have a feature
@@ -269,9 +280,11 @@ public final class MongoComplexUtilities {
     }
 
     /**
-     * Helper function that will walk a mongo db object and retrieve all the values for a certain path.
+     * Helper function that will walk a mongo db object and retrieve all the values for a certain
+     * path.
      */
-    private static List<Object> getValuesHelper(DBObject dbObject, String[] jsonPathParts, List<Object> values, int index) {
+    private static List<Object> getValuesHelper(DBObject dbObject, String[] jsonPathParts, 
+                                                List<Object> values, int index) {
         // get the object corresponding to the current index
         Object object = dbObject.get(jsonPathParts[index]);
         if (object == null) {
@@ -283,7 +296,8 @@ public final class MongoComplexUtilities {
         index++;
         if (object instanceof List) {
             if (finalPath) {
-                // we reached the end of the json path and we have a list, so let's add all the elements of the list
+                // we reached the end of the json path and we have a list, so let's add all the 
+                // elements of the list
                 for (Object value : (List) object) {
                     values.add(convertGeometry(value));
                 }
@@ -329,7 +343,8 @@ public final class MongoComplexUtilities {
     /**
      * Helper method that will recursively walk a mongo db object and compute is mappings.
      */
-    private static void findMappingsHelper(Object object, String parentPath, Map<String, Class> mappings) {
+    private static void findMappingsHelper(Object object, String parentPath, Map<String, Class> 
+            mappings) {
         if (object == null) {
             return;
         }

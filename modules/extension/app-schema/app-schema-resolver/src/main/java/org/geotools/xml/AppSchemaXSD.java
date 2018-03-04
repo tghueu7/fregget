@@ -30,12 +30,9 @@ import org.geotools.xml.resolver.SchemaResolver;
 /**
  * {@link XSD} that uses {@link SchemaResolver} to locate schema resources in a catalog, on the
  * classpath, or in a cache.
- * 
+ *
  * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
  * @author Niels Charlier (Curtin University of Technology)
- *
- *
- *
  * @source $URL$
  */
 public class AppSchemaXSD extends XSD {
@@ -99,7 +96,7 @@ public class AppSchemaXSD extends XSD {
     /**
      * @see org.geotools.xml.XSD#addDependencies(java.util.Set)
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     protected void addDependencies(Set dependencies) {
         if (configuration != null) {
@@ -108,23 +105,24 @@ public class AppSchemaXSD extends XSD {
             }
         }
     }
-    
+
     @Override
     public SchemaLocator createSchemaLocator() {
         return new SchemaLocator(this) {
-            public boolean canHandle( XSDSchema schema, String namespaceURI,
-                    String rawSchemaLocationURI, String resolvedSchemaLocationURI) {
+            public boolean canHandle(XSDSchema schema, String namespaceURI,
+                                     String rawSchemaLocationURI, String 
+                                             resolvedSchemaLocationURI) {
                 return xsd.getNamespaceURI().equals(namespaceURI) &&
-                        xsd.getSchemaLocation().equals(resolvedSchemaLocationURI); 
+                        xsd.getSchemaLocation().equals(resolvedSchemaLocationURI);
             }
         };
     }
-    
+
     @Override
     public XSDSchemaLocator getSupplementarySchemaLocator() {
-       return AppSchemaXSDRegistry.getInstance();
+        return AppSchemaXSDRegistry.getInstance();
     }
-    
+
     @Override
     protected XSDSchema buildSchema() throws IOException {
         //check if schema already exists in registry, if so do not build

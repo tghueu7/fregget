@@ -50,16 +50,15 @@ final class MultiPointBuilder extends GeometryBuilder {
     public Geometry build(int pointNode) throws CQLException {
 
         List<Geometry> pointList = popGeometry(pointNode);
-        
+
         int pointListSize = pointList.size();
-        Point[] arrayOfPoint = pointList.toArray(new Point[pointListSize]) ;
-        
-        MultiPoint multiPoint= getGeometryFactory().createMultiPoint(arrayOfPoint);
+        Point[] arrayOfPoint = pointList.toArray(new Point[pointListSize]);
+
+        MultiPoint multiPoint = getGeometryFactory().createMultiPoint(arrayOfPoint);
 
         return multiPoint;
-        
+
     }
-    
-    
+
 
 }

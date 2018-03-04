@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry;
@@ -16,7 +16,7 @@ package org.opengis.geometry;
  * <p>
  * Here are a couple of examples of creating a Precision using a
  * PrecisionFactory:
- *
+ * <p>
  * <pre><code>
  * factory.createPrecision(PrecisionType.FIXED, 1000); // three significant digits
  * factory.createPrecision(PrecisionType.FLOAT, 0); // float precision - 6 digits
@@ -39,10 +39,8 @@ package org.opengis.geometry;
  * or represent it as a Point.
  *
  * @author Jody Garnett
- * @since GeoAPI 2.1
- *
- *
  * @source $URL$
+ * @since GeoAPI 2.1
  */
 public interface PrecisionFactory {
 
@@ -51,14 +49,14 @@ public interface PrecisionFactory {
      * PrecisionType.FIXED.
      * <p>
      * Here are a couple of examples:
-     *
+     * <p>
      * <pre><code>
      * factory.createPrecision(PrecisionType.FIXED, 1000); // three significant digits
      * factory.createPrecision(PrecisionType.FLOAT, 0); // float precision - 6 digits
      * factory.createPrecision(PrecisionType.DOUBLE, 0); // double precision - 16 digits
      * <code></pre>
      *
-     * @param type PercisionType The rounding policy used
+     * @param type  PercisionType The rounding policy used
      * @param scale Multiplying factor used to obtain a precise coordinate
      * @return Precision capable of rounding as described by type and scale
      */

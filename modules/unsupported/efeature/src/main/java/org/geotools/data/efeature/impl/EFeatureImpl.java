@@ -1,7 +1,7 @@
 /**
  * <copyright>
  * </copyright>
- *
+ * <p>
  * $Id$
  */
 package org.geotools.data.efeature.impl;
@@ -26,23 +26,22 @@ import com.vividsolutions.jts.geom.Geometry;
  * <!-- begin-user-doc -->
  * This is the default and recommended implementation of {@link EFeature}.
  * <p>
- * Any alternative implementation of {@link EFeature} should internally 
+ * Any alternative implementation of {@link EFeature} should internally
  * delegate to {@link EFeatureInternal}. If not, unexpected behavior may occur.
- * </p> 
+ * </p>
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.geotools.data.efeature.impl.EFeatureImpl#getID <em>ID</em>}</li>
- *   <li>{@link org.geotools.data.efeature.impl.EFeatureImpl#getData <em>Data</em>}</li>
- *   <li>{@link org.geotools.data.efeature.impl.EFeatureImpl#getSRID <em>SRID</em>}</li>
- *   <li>{@link org.geotools.data.efeature.impl.EFeatureImpl#getDefault <em>Default</em>}</li>
- *   <li>{@link org.geotools.data.efeature.impl.EFeatureImpl#getStructure <em>Structure</em>}</li>
+ * <li>{@link org.geotools.data.efeature.impl.EFeatureImpl#getID <em>ID</em>}</li>
+ * <li>{@link org.geotools.data.efeature.impl.EFeatureImpl#getData <em>Data</em>}</li>
+ * <li>{@link org.geotools.data.efeature.impl.EFeatureImpl#getSRID <em>SRID</em>}</li>
+ * <li>{@link org.geotools.data.efeature.impl.EFeatureImpl#getDefault <em>Default</em>}</li>
+ * <li>{@link org.geotools.data.efeature.impl.EFeatureImpl#getStructure <em>Structure</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
- *
  * @source $URL$
  */
 public abstract class EFeatureImpl extends EObjectImpl implements EFeature {
@@ -50,9 +49,10 @@ public abstract class EFeatureImpl extends EObjectImpl implements EFeature {
      * The default value of the '{@link #getID() <em>ID</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getID()
+     *
      * @generated NOT
      * @ordered
+     * @see #getID()
      */
     protected static final String ID_EDEFAULT = "";
 
@@ -60,9 +60,10 @@ public abstract class EFeatureImpl extends EObjectImpl implements EFeature {
      * The default value of the '{@link #getData() <em>Data</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getData()
+     *
      * @generated NOT
      * @ordered
+     * @see #getData()
      */
     protected static final Feature DATA_EDEFAULT = null;
 
@@ -70,9 +71,10 @@ public abstract class EFeatureImpl extends EObjectImpl implements EFeature {
      * The default value of the '{@link #getSRID() <em>SRID</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getSRID()
-     * @generated NOT 
+     *
+     * @generated NOT
      * @ordered
+     * @see #getSRID()
      */
     protected static final String SRID_EDEFAULT = "EPSG:4326";
 
@@ -80,9 +82,10 @@ public abstract class EFeatureImpl extends EObjectImpl implements EFeature {
      * The default value of the '{@link #isSimple() <em>Simple</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #isSimple()
+     *
      * @generated NOT
      * @ordered
+     * @see #isSimple()
      */
     protected static final boolean SIMPLE_EDEFAULT = true;
 
@@ -90,9 +93,10 @@ public abstract class EFeatureImpl extends EObjectImpl implements EFeature {
      * The default value of the '{@link #getDefault() <em>Default</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getDefault()
+     *
      * @generated NOT
      * @ordered
+     * @see #getDefault()
      */
     protected static final String DEFAULT_EDEFAULT = "geom";
 
@@ -100,9 +104,10 @@ public abstract class EFeatureImpl extends EObjectImpl implements EFeature {
      * The default value of the '{@link #getStructure() <em>Structure</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getStructure()
+     *
      * @generated NOT
      * @ordered
+     * @see #getStructure()
      */
     protected static final EFeatureInfo STRUCTURE_EDEFAULT = null;
 
@@ -146,14 +151,15 @@ public abstract class EFeatureImpl extends EObjectImpl implements EFeature {
      * <p>
      * Use this constructor when the {@link EFeatureContext} is unknown.
      * <p>
-     * {@link EFeatureContext Context} and {@link EFeatureInfo structure} must 
-     * be set before it can be read by {@link EFeatureReader}. 
-     * </p> 
+     * {@link EFeatureContext Context} and {@link EFeatureInfo structure} must
+     * be set before it can be read by {@link EFeatureReader}.
+     * </p>
+     *
+     * @generated NOT
      * @see {@link EFeatureContextHelper} - read more about the context startup problem.
      * @see {@link #setStructure(EFeatureInfo)} - set {@link EFeatureInfo#eContext() context}
      * and {@link EFeatureInfo structure}.
      * <!-- end-user-doc -->
-     * @generated NOT
      */
     protected EFeatureImpl() {
         //
@@ -164,7 +170,7 @@ public abstract class EFeatureImpl extends EObjectImpl implements EFeature {
         // Construct the internal EFeature implementation
         //
         eInternal = new EFeatureInternal(this);
-    }    
+    }
 
     // ----------------------------------------------------- 
     //  EFeatureImpl methods
@@ -226,7 +232,7 @@ public abstract class EFeatureImpl extends EObjectImpl implements EFeature {
     public Feature getData(Transaction transaction) {
         return eInternal.getData(transaction);
     }
-    
+
     /**
      * @generated NOT
      */
@@ -242,7 +248,7 @@ public abstract class EFeatureImpl extends EObjectImpl implements EFeature {
     public Feature setData(Feature newData, Transaction transaction) {
         return eInternal.setData(newData, transaction);
     }
-    
+
     /**
      * @generated NOT
      */
@@ -297,6 +303,7 @@ public abstract class EFeatureImpl extends EObjectImpl implements EFeature {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      */
     @Override
@@ -307,6 +314,7 @@ public abstract class EFeatureImpl extends EObjectImpl implements EFeature {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      */
     @Override

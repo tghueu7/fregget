@@ -80,7 +80,7 @@ public class ParameterMappingExpressionValue implements ParameterMapping, Serial
         try {
             cqlExpression = CQL.toExpression(expression,
                     new ParameterCQLExpressionFilterFactoryImpl());
-        } catch(CQLException ce) {
+        } catch (CQLException ce) {
             throw new IllegalArgumentException("Illegal CQL expression", ce);
         }
 
@@ -96,7 +96,7 @@ public class ParameterMappingExpressionValue implements ParameterMapping, Serial
         if (obj == null) {
             ret = null;
         } else if (obj instanceof String) {
-            ret = (String)obj;
+            ret = (String) obj;
         } else {
             ret = obj.toString();
         }

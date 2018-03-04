@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2001-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -36,12 +36,10 @@ import org.geotools.io.ExpandedTabWriter;
  * We had to extract them in a separated class in order to avoid dependencies of renderer
  * module toward the GUI one, especially since the extracted methods are not Swing specific.
  *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.0
  */
 public final class GraphicsUtilities {
     /**
@@ -61,16 +59,15 @@ public final class GraphicsUtilities {
      * inside a {@link java.awt.Component#paint} method and we want to
      * write it rather than leaving an empty window.
      *
-     * @param exception Exception whose trace we want to write.
-     * @param graphics Graphics context in which to write exception.  The
-     *        graphics context should be in its initial state (default affine
-     *        transform, default colour, etc...)
+     * @param exception    Exception whose trace we want to write.
+     * @param graphics     Graphics context in which to write exception.  The
+     *                     graphics context should be in its initial state (default affine
+     *                     transform, default colour, etc...)
      * @param widgetBounds Size of the trace which was being drawn.
      */
     public static void paintStackTrace(final Graphics2D graphics,
-                                       final Rectangle  widgetBounds,
-                                       final Throwable  exception)
-    {
+                                       final Rectangle widgetBounds,
+                                       final Throwable exception) {
         /*
          * Obtains the exception trace in the form of a character chain.
          * The carriage returns in this chain can be "\r", "\n" or "r\n".
@@ -87,7 +84,7 @@ public final class GraphicsUtilities {
         final int length = message.length();
         final Font font = graphics.getFont();
         final FontRenderContext context = graphics.getFontRenderContext();
-        for (int i = 0; i < length;) {
+        for (int i = 0; i < length; ) {
             int ir = message.indexOf('\r', i);
             int in = message.indexOf('\n', i);
             if (ir < 0) ir = length;

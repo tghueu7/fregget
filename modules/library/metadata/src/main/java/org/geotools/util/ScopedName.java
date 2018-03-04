@@ -36,18 +36,14 @@ import org.opengis.util.NameSpace;
  * which may be a {@link LocalName} or an other {@link org.opengis.util.ScopedName},
  * as {@linkplain #getScope tail}.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see NameFactory
+ * @since 2.1
  */
 public class ScopedName extends org.geotools.util.GenericName
-                     implements org.opengis.util.ScopedName
-{
+        implements org.opengis.util.ScopedName {
     /**
      * Serial number for interoperability with different versions.
      */
@@ -100,10 +96,10 @@ public class ScopedName extends org.geotools.util.GenericName
      */
     public ScopedName(final GenericName scope, final char separator, final CharSequence name) {
         AbstractInternationalString.ensureNonNull("scope", scope);
-        AbstractInternationalString.ensureNonNull("name",  name);
-        this.scope     = scope;
+        AbstractInternationalString.ensureNonNull("name", name);
+        this.scope = scope;
         this.separator = separator;
-        this.name      = new org.geotools.util.LocalName(this, name);
+        this.name = new org.geotools.util.LocalName(this, name);
     }
 
     /**
@@ -113,12 +109,11 @@ public class ScopedName extends org.geotools.util.GenericName
      * relationship must holds:
      * <p>
      * <ul>
-     *   <li><code>head().scope() == this.{@linkplain #scope scope()}</code></li>
+     * <li><code>head().scope() == this.{@linkplain #scope scope()}</code></li>
      * </ul>
      *
-     * @since 2.3
-     *
      * @todo Not yet implemented.
+     * @since 2.3
      */
     @Override
     public LocalName head() {
@@ -131,16 +126,16 @@ public class ScopedName extends org.geotools.util.GenericName
      * {@linkplain #head head}. In other words, the following relationship must holds:
      * <p>
      * <ul>
-     *   <li><code>tail().getParsedNames() == this.{@linkplain #getParsedNames getParsedNames()}.sublist(1,end)</code></li>
+     * <li><code>tail().getParsedNames() == this.{@linkplain #getParsedNames getParsedNames()}
+     * .sublist(1,end)</code></li>
      * </ul>
      * <p>
      * <strong>Note:</strong> This condition can be understood in terms of the Java
      * {@link java.util.List#equals equals} method instead of the Java identity
      * comparator {@code ==}.
      *
-     * @since 2.3
-     *
      * @todo Not yet implemented.
+     * @since 2.3
      */
     public GenericName tail() {
         throw new UnsupportedOperationException("Not yet implemented.");
@@ -150,11 +145,9 @@ public class ScopedName extends org.geotools.util.GenericName
      * Returns a name which contains every element of the
      * {@linkplain #getParsedNames parsed names list} except for the last element.
      *
-     * @see java.io.File#getPath
-     *
-     * @since 2.3
-     *
      * @todo Not yet implemented.
+     * @see java.io.File#getPath
+     * @since 2.3
      */
     public GenericName path() {
         throw new UnsupportedOperationException("Not yet implemented.");
@@ -233,18 +226,18 @@ public class ScopedName extends org.geotools.util.GenericName
      * the following relationships must hold:
      * <p>
      * <ul>
-     *   <li><code>push(<var>name</var>).getParsedList() ==
-     *       <var>name</var>.getParsedList().addAll({@linkplain #getParsedNames()})</code></li>
-     *   <li><code>push(<var>name</var>).scope() == <var>name</var>.{@linkplain #scope()}</code></li>
-     *   <li><code>push({@linkplain ScopedName#head head()}).{@linkplain ScopedName#tail tail()} == this</code></li>
+     * <li><code>push(<var>name</var>).getParsedList() ==
+     * <var>name</var>.getParsedList().addAll({@linkplain #getParsedNames()})</code></li>
+     * <li><code>push(<var>name</var>).scope() == <var>name</var>.{@linkplain #scope()}</code></li>
+     * <li><code>push({@linkplain ScopedName#head head()}).{@linkplain ScopedName#tail tail()} ==
+     * this</code></li>
      * </ul>
      * <p>
      * <strong>Note:</strong> Those conditions can be understood in terms of the Java
      * {@link Object#equals equals} method instead of the Java identity comparator {@code ==}.
      *
-     * @since 2.3
-     *
      * @todo Not yet implemented.
+     * @since 2.3
      */
     public org.opengis.util.ScopedName push(GenericName scope) {
         throw new UnsupportedOperationException("Not yet implemented.");
@@ -258,9 +251,9 @@ public class ScopedName extends org.geotools.util.GenericName
         if (object == this) {
             return true;
         }
-        if (object!=null && object.getClass().equals(getClass())) {
+        if (object != null && object.getClass().equals(getClass())) {
             final ScopedName that = (ScopedName) object;
-            return Utilities.equals(this.name,  that.name);
+            return Utilities.equals(this.name, that.name);
             // No need to checks the scope, since the LocalName implementation
             // should checks it.
         }
@@ -272,6 +265,6 @@ public class ScopedName extends org.geotools.util.GenericName
      */
     @Override
     public int hashCode() {
-        return (int)serialVersionUID ^ name.hashCode() ^ scope.hashCode();
+        return (int) serialVersionUID ^ name.hashCode() ^ scope.hashCode();
     }
 }

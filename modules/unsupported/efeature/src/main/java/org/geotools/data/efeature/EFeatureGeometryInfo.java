@@ -18,14 +18,12 @@ import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * This class defines a {@link EFeature} {@link Geometry geometry} {@link EAttribute attribute}.
- *   
+ *
  * @author kengu
- *
- *
  * @source $URL$
  */
 public class EFeatureGeometryInfo extends EFeatureAttributeInfo {
-    
+
     protected String srid;
 
     protected String geometryClassName;
@@ -35,8 +33,8 @@ public class EFeatureGeometryInfo extends EFeatureAttributeInfo {
     protected CoordinateReferenceSystem crs;
 
     private GeometryDescriptorDelegate descriptor;
-    
- // ----------------------------------------------------- 
+
+    // ----------------------------------------------------- 
     //  Constructors
     // -----------------------------------------------------
 
@@ -46,18 +44,19 @@ public class EFeatureGeometryInfo extends EFeatureAttributeInfo {
     protected EFeatureGeometryInfo() {
         super();
     }
-    
+
     /**
      * Structure copy constructor.
      * <p>
-     * This method copies the structure into given context. 
+     * This method copies the structure into given context.
      * </p>
-     * <b>NOTE</b>: This method only adds a one-way reference from 
-     * copied instance to given {@link EFeatureContext context}. 
-     * No reference is added from the context to this attribute. 
-     * </p>  
+     * <b>NOTE</b>: This method only adds a one-way reference from
+     * copied instance to given {@link EFeatureContext context}.
+     * No reference is added from the context to this attribute.
+     * </p>
+     *
      * @param eGeometryInfo - copy from this {@link EFeatureGeometryInfo} instance
-     * @param eFeatureInfo - copy into this structure
+     * @param eFeatureInfo  - copy into this structure
      */
     protected EFeatureGeometryInfo(EFeatureGeometryInfo eGeometryInfo, EFeatureInfo eFeatureInfo) {
         //
@@ -71,8 +70,8 @@ public class EFeatureGeometryInfo extends EFeatureAttributeInfo {
         this.srid = eGeometryInfo.srid;
         this.geometryClassName = eGeometryInfo.geometryClassName;
         this.isDefaultGeometry = eGeometryInfo.isDefaultGeometry;
-    }    
-    
+    }
+
     // ----------------------------------------------------- 
     //  EFeatureGeometryInfo methods
     // -----------------------------------------------------
@@ -87,7 +86,7 @@ public class EFeatureGeometryInfo extends EFeatureAttributeInfo {
 
     /**
      * Get name of class extending {@link Geometry}.
-     * 
+     *
      * @return a {@link Geometry} name.
      */
     public String getGeometryClassName() {
@@ -100,8 +99,8 @@ public class EFeatureGeometryInfo extends EFeatureAttributeInfo {
             descriptor = new GeometryDescriptorDelegate();
         }
         return descriptor;
-    }    
-    
+    }
+
     @Override
     public EFeatureStatus validate(boolean isID, EAttribute eAttribute) {
         //
@@ -120,7 +119,8 @@ public class EFeatureGeometryInfo extends EFeatureAttributeInfo {
             //
             String eType = eAttribute.getEType().getInstanceClassName();
             if (this.geometryClassName != eType) {
-                return failure(this, eName(), "Geometry type mismatch: Found + " + eType + ", expected "
+                return failure(this, eName(), "Geometry type mismatch: Found + " + eType + ", " +
+                        "expected "
                         + this.geometryClassName);
             }
 
@@ -183,7 +183,7 @@ public class EFeatureGeometryInfo extends EFeatureAttributeInfo {
                 // Create anonymous attribute type implementation
                 //
                 type = new GeometryTypeDelegate(getName(), cls, eIsID, false,
-                        Collections.<Filter> emptyList(), null, null);
+                        Collections.<Filter>emptyList(), null, null);
 
             }
             return type;
@@ -201,8 +201,9 @@ public class EFeatureGeometryInfo extends EFeatureAttributeInfo {
         private final Class<?> binding;
 
         public GeometryTypeDelegate(Name name, Class<?> binding, boolean identified,
-                boolean isAbstract, List<Filter> restrictions, AttributeType superType,
-                InternationalString description) {
+                                    boolean isAbstract, List<Filter> restrictions, AttributeType 
+                                            superType,
+                                    InternationalString description) {
 
             // Forward
             //
@@ -238,10 +239,10 @@ public class EFeatureGeometryInfo extends EFeatureAttributeInfo {
      * @param eAttribute
      */
     protected static EFeatureGeometryInfo create(
-            EFeatureInfo eFeatureInfo, 
+            EFeatureInfo eFeatureInfo,
             boolean isDefault, String srid,
             CoordinateReferenceSystem crs, EAttribute eAttribute) {
-        
+
         //
         // Create new instance
         //
@@ -261,7 +262,7 @@ public class EFeatureGeometryInfo extends EFeatureAttributeInfo {
         //
         eInfo.eNsURI = eFeatureInfo.eNsURI;
         eInfo.eFolderName = eFeatureInfo.eFolderName;
-        eInfo.eFeatureName = eFeatureInfo.eName();        
+        eInfo.eFeatureName = eFeatureInfo.eName();
         //
         // Set other attribute members
         //        

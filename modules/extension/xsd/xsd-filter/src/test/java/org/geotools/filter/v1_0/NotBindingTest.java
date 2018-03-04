@@ -22,8 +22,6 @@ import org.geotools.xml.Binding;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class NotBindingTest extends FilterTestSupport {
@@ -46,15 +44,16 @@ public class NotBindingTest extends FilterTestSupport {
     public void testEncode() throws Exception {
         Document dom = encode(FilterMockData.not(), OGC.Not);
         assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyIsEqualTo.getLocalPart())
-               .getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyIsEqualTo.getLocalPart())
+                        .getLength());
     }
 
     public void testNotNullEncode() throws Exception {
         Document dom = encode(FilterMockData.notIsNull(), OGC.Not);
         /*
         <?xml version="1.0" encoding="UTF-8"?>
-        <ogc:Not xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml" xmlns:ogc="http://www.opengis.net/ogc">
+        <ogc:Not xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis
+        .net/gml" xmlns:ogc="http://www.opengis.net/ogc">
           <ogc:PropertyIsNull>
             <ogc:PropertyName>foo</ogc:PropertyName>
           </ogc:PropertyIsNull>

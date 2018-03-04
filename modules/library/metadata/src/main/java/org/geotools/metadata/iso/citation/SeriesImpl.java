@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -30,11 +30,8 @@ import org.geotools.util.SimpleInternationalString;
  *
  * @author Jody Garnett
  * @author Martin Desruisseaux
- *
- * @since 2.1
- *
- *
  * @source $URL$
+ * @since 2.1
  */
 public class SeriesImpl extends MetadataEntity implements Series {
     /**

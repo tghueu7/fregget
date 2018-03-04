@@ -33,21 +33,19 @@ import com.vividsolutions.jts.geom.Polygon;
 
 
 /**
- * 
- *
  * @source $URL$
  */
-public class SurfaceArrayPropertyTypeBinding 
-    extends org.geotools.gml3.bindings.SurfaceArrayPropertyTypeBinding 
-    implements Comparable {
-    
+public class SurfaceArrayPropertyTypeBinding
+        extends org.geotools.gml3.bindings.SurfaceArrayPropertyTypeBinding
+        implements Comparable {
+
     protected GeometryFactory gf;
 
     public SurfaceArrayPropertyTypeBinding(GeometryFactory gf) {
         this.gf = gf;
     }
 
-    
+
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -65,29 +63,30 @@ public class SurfaceArrayPropertyTypeBinding
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        
+            throws Exception {
+
         List<Polygon> polygons = new ArrayList<Polygon>();
-        
+
         // This property element contains a list of surfaces.
-        // The order of the elements is significant and shall be preserved when processing the array.
-        for (Node child : (List<Node>)node.getChildren()) {
+        // The order of the elements is significant and shall be preserved when processing the 
+        // array.
+        for (Node child : (List<Node>) node.getChildren()) {
             Object nodeValue = child.getValue();
             if (nodeValue instanceof MultiPolygon) { // Surface
-                MultiPolygon surface = (MultiPolygon)nodeValue;
+                MultiPolygon surface = (MultiPolygon) nodeValue;
                 for (int i = 0; i < surface.getNumGeometries(); i++) {
-                    Polygon polygon = (Polygon)surface.getGeometryN(i);
+                    Polygon polygon = (Polygon) surface.getGeometryN(i);
                     polygons.add(polygon);
                 }
             } else if (nodeValue instanceof Polygon) { // Polygon
-                Polygon polygon = (Polygon)nodeValue;
+                Polygon polygon = (Polygon) nodeValue;
                 polygons.add(polygon);
             }
         }
 
-        return gf.createMultiPolygon((Polygon[])polygons.toArray(new Polygon[polygons.size()]));
+        return gf.createMultiPolygon((Polygon[]) polygons.toArray(new Polygon[polygons.size()]));
     }
-    
+
     public int compareTo(Object o) {
         if (o instanceof SurfaceTypeBinding) {
             return 1;

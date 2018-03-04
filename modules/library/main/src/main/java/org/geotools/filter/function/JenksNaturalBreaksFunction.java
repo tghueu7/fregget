@@ -34,17 +34,15 @@ import org.opengis.filter.capability.FunctionName;
 
 /**
  * Calculate the Jenks' Natural Breaks classification for a featurecollection
- * 
+ *
  * @author Ian Turton
- *
- *
  * @source $URL$
  */
 public class JenksNaturalBreaksFunction extends ClassificationFunction {
     org.opengis.util.ProgressListener progress;
 
     private static final Logger logger = Logging.getLogger("org.geotools.filter.function");
-    
+
     public static FunctionName NAME = new FunctionNameImpl("Jenks",
             RangedClassifier.class,
             parameter("value", Double.class),
@@ -56,7 +54,7 @@ public class JenksNaturalBreaksFunction extends ClassificationFunction {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.filter.function.ClassificationFunction#evaluate(java.lang.Object)
      */
     public Object evaluate(Object feature) {
@@ -69,7 +67,7 @@ public class JenksNaturalBreaksFunction extends ClassificationFunction {
     /**
      * This is based on James' GeoTools1 code which seems to be based on
      * http://lib.stat.cmu.edu/cmlib/src/cluster/fish.f
-     * 
+     *
      * @param feature
      * @return a RangedClassifier
      */
@@ -141,7 +139,8 @@ public class JenksNaturalBreaksFunction extends ClassificationFunction {
                 s1 += val;
                 double s0 = (double) ii;
                 // calculate (square of) the variance
-                // (http://secure.wikimedia.org/wikipedia/en/wiki/Standard_deviation#Rapid_calculation_methods)
+                // (http://secure.wikimedia
+                // .org/wikipedia/en/wiki/Standard_deviation#Rapid_calculation_methods)
                 var = s2 - ((s1 * s1) / s0);
                 // System.out.println(s0+" "+s1+" "+s2);
                 // System.out.println(i+","+ii+" var "+var);
@@ -168,7 +167,7 @@ public class JenksNaturalBreaksFunction extends ClassificationFunction {
             for (int i = 0; i < m; i++) {
                 String tmp = (i + ": " + data.get(i));
                 for (int j = 2; j <= k; j++) {
-                    tmp+=("\t" + iwork[i][j]);
+                    tmp += ("\t" + iwork[i][j]);
                 }
                 logger.finer(tmp);
             }
@@ -180,10 +179,10 @@ public class JenksNaturalBreaksFunction extends ClassificationFunction {
         Comparable[] localMax = new Comparable[k];
         localMax[k - 1] = data.get(ik);
         for (int j = k; j >= 2; j--) {
-            logger.finest("index "+ik + ", class" + j);
+            logger.finest("index " + ik + ", class" + j);
             int id = (int) iwork[ik][j] - 1; // subtract one as we want inclusive breaks on the
-                                             // left?
-            
+            // left?
+
             localMax[j - 2] = data.get(id);
             localMin[j - 1] = data.get(id);
             ik = (int) iwork[ik][j] - 1;

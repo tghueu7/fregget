@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2015, Boundless
  *
@@ -148,7 +148,8 @@ public class MongoFeatureSource extends ContentFeatureSource {
         FeatureReader<SimpleFeatureType, SimpleFeature> r = new MongoFeatureReader(cursor, this);
 
         if (!postFilterList.isEmpty() && !isAll(postFilterList.get(0))) {
-            r = new FilteringFeatureReader<SimpleFeatureType, SimpleFeature>(r, postFilterList.get(0));
+            r = new FilteringFeatureReader<SimpleFeatureType, SimpleFeature>(r, postFilterList
+                    .get(0));
 
             // check whether attributes not present in the original query have been
             // added to the set of retrieved attributes for the sake of
@@ -162,33 +163,35 @@ public class MongoFeatureSource extends ContentFeatureSource {
         }
         return r;
     }
-    
+
     @Override
     protected boolean handleVisitor(Query query, FeatureVisitor visitor) throws IOException {
-        // Don't do the following shortcuts if we don't request all features, as it doesn't make sense.
+        // Don't do the following shortcuts if we don't request all features, as it doesn't make 
+        // sense.
         if (query.getMaxFeatures() != Integer.MAX_VALUE) {
             return false;
         }
-        
+
         if (visitor instanceof MinVisitor) {
             MinVisitor minVisitor = (MinVisitor) visitor;
             List<Expression> expressions = minVisitor.getExpressions();
             if (expressions.size() != 1 || !(expressions.get(0) instanceof PropertyName)) {
                 return false;
             }
-            
+
             PropertyName propertyName = (PropertyName) expressions.get(0);
             SortBy sortBy = new SortByImpl(propertyName, SortOrder.ASCENDING);
-            
+
             Query newQuery = new Query(query);
-            newQuery.setSortBy(new SortBy[] {sortBy});
+            newQuery.setSortBy(new SortBy[]{sortBy});
 
             // Sorting to get min only need to get one result
             newQuery.setMaxFeatures(1);
 
             FeatureReader<SimpleFeatureType, SimpleFeature> reader = getReader(newQuery);
             if (reader.hasNext()) {
-                // Don't need to visit all features, retrieved the min value lets just tell the MinVisitor
+                // Don't need to visit all features, retrieved the min value lets just tell the 
+                // MinVisitor
                 minVisitor.setValue(propertyName.evaluate(reader.next()));
             }
         } else if (visitor instanceof MaxVisitor) {
@@ -200,22 +203,23 @@ public class MongoFeatureSource extends ContentFeatureSource {
 
             PropertyName propertyName = (PropertyName) expressions.get(0);
             SortBy sortBy = new SortByImpl(propertyName, SortOrder.DESCENDING);
-            
+
             Query newQuery = new Query(query);
-            newQuery.setSortBy(new SortBy[] {sortBy});
+            newQuery.setSortBy(new SortBy[]{sortBy});
 
             // Sorting to get max only need to get one result
             newQuery.setMaxFeatures(1);
 
             FeatureReader<SimpleFeatureType, SimpleFeature> reader = getReader(newQuery);
             if (reader.hasNext()) {
-                // Don't need to visit all features, retrieved the min value lets just tell the MaxVisitor
+                // Don't need to visit all features, retrieved the min value lets just tell the 
+                // MaxVisitor
                 maxVisitor.setValue(propertyName.evaluate(reader.next()));
             }
         } else {
             return false;
         }
-        
+
         return true;
     }
 
@@ -263,9 +267,9 @@ public class MongoFeatureSource extends ContentFeatureSource {
                 keys.put(mapper.getPropertyPath(p), 1);
             }
             // add properties from post filters
-            for (Filter filter: postFilter) {
+            for (Filter filter : postFilter) {
                 String[] attributeNames = DataUtilities.attributeNames(filter);
-                for (String attrName: attributeNames) {
+                for (String attrName : attributeNames) {
                     if (attrName != null && !attrName.isEmpty() && !keys.containsField(attrName)) {
                         keys.put(mapper.getPropertyPath(attrName), 1);
                         postFilterAttrs.add(attrName);
@@ -324,17 +328,19 @@ public class MongoFeatureSource extends ContentFeatureSource {
     @SuppressWarnings("deprecation")
     Filter[] splitFilter(Filter f) {
         PostPreProcessFilterSplittingVisitor splitter = new PostPreProcessFilterSplittingVisitor(
-                getDataStore().getFilterCapabilities(), null, null){
+                getDataStore().getFilterCapabilities(), null, null) {
 
             @Override
             protected void visitBinaryComparisonOperator(BinaryComparisonOperator filter) {
                 Expression expression1 = filter.getExpression1();
                 Expression expression2 = filter.getExpression2();
                 if ((expression1 instanceof JsonSelectFunction
-                        || expression1 instanceof JsonSelectAllFunction) && expression2 instanceof Literal) {
+                        || expression1 instanceof JsonSelectAllFunction) && expression2 
+                        instanceof Literal) {
                     preStack.push(filter);
                 } else if ((expression2 instanceof JsonSelectFunction
-                        || expression2 instanceof JsonSelectAllFunction) && expression1 instanceof Literal) {
+                        || expression2 instanceof JsonSelectAllFunction) && expression1 
+                        instanceof Literal) {
                     preStack.push(filter);
                 }
             }
@@ -348,12 +354,12 @@ public class MongoFeatureSource extends ContentFeatureSource {
                     postStack.push(filter);
                     return null;
                 }
-                if(!(filter.getExpression() instanceof PropertyName)){
+                if (!(filter.getExpression() instanceof PropertyName)) {
                     // MongoDB can only encode like expressions using propertyName
                     postStack.push(filter);
                     return null;
                 }
-                
+
                 int i = postStack.size();
                 filter.getExpression().accept(this, null);
 
@@ -370,7 +376,7 @@ public class MongoFeatureSource extends ContentFeatureSource {
             }
         };
         f.accept(splitter, null);
-        return new Filter[] { splitter.getFilterPre(), splitter.getFilterPost() };
+        return new Filter[]{splitter.getFilterPre(), splitter.getFilterPost()};
     }
 
 }

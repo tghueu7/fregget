@@ -17,30 +17,26 @@
 package org.geotools.caching.spatialindex;
 
 
-
-/** Identify nodes by the region they represent.
+/**
+ * Identify nodes by the region they represent.
  *
  * @author crousson
- *
- *
- *
- *
- *
  * @source $URL$
  */
 public final class RegionNodeIdentifier extends NodeIdentifier {
     private static final long serialVersionUID = 6630434291791608926L;
     private Region shape;
 
-    /** Used for serialization only.
+    /**
+     * Used for serialization only.
      * So kept package private.
-     *
      */
     RegionNodeIdentifier() {
         super();
     }
 
-    /** Identify a new node.
+    /**
+     * Identify a new node.
      *
      * @param node
      */
@@ -50,7 +46,7 @@ public final class RegionNodeIdentifier extends NodeIdentifier {
             this.shape = new Region((Region) n.getShape());
         } else {
             throw new IllegalArgumentException(
-                "DefaultNodeIdentifier can only identify nodes representing a Region.");
+                    "DefaultNodeIdentifier can only identify nodes representing a Region.");
         }
     }
 

@@ -21,8 +21,6 @@ import org.geotools.gml3.GML3TestSupport;
 import org.w3c.dom.Document;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class MultiGeometryPropertyTypeBindingTest extends GML3TestSupport {
@@ -30,6 +28,7 @@ public class MultiGeometryPropertyTypeBindingTest extends GML3TestSupport {
         Document dom = encode(GML3MockData.multiGeometry(), GML.multiGeometryProperty);
         // print(dom);
         assertEquals(1,
-            dom.getElementsByTagNameNS(GML.NAMESPACE, GML.MultiGeometry.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(GML.NAMESPACE, GML.MultiGeometry.getLocalPart())
+                        .getLength());
     }
 }

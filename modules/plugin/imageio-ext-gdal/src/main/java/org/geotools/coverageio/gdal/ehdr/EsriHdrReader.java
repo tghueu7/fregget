@@ -30,18 +30,18 @@ import org.opengis.coverage.grid.GridCoverageReader;
 /**
  * This class can read a EHdr data source and create a {@link GridCoverage2D}
  * from the data.
- * 
+ *
  * @author Alexander Petkov, Fire Sciences Laboratory
  * @author Daniele Romagnoli, GeoSolutions.
  * @author Simone Giannecchini (simboss), GeoSolutions
- * @since 2.5.x
- *
- *
  * @source $URL$
+ * @since 2.5.x
  */
 public final class EsriHdrReader extends BaseGDALGridCoverage2DReader implements
         GridCoverageReader {
-    /** Logger. */
+    /**
+     * Logger.
+     */
     @SuppressWarnings("unused")
     private final static Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger("org.geotools.coverageio.gdal.ehdr");
@@ -51,10 +51,9 @@ public final class EsriHdrReader extends BaseGDALGridCoverage2DReader implements
     /**
      * Creates a new instance of a {@link EsriHdrReader}. I assume nothing about
      * file extension.
-     * 
-     * @param input
-     *                Source object for which we want to build an
-     *                {@link EsriHdrReader}.
+     *
+     * @param input Source object for which we want to build an
+     *              {@link EsriHdrReader}.
      * @throws DataSourceException
      */
     public EsriHdrReader(Object input) throws DataSourceException {
@@ -64,12 +63,10 @@ public final class EsriHdrReader extends BaseGDALGridCoverage2DReader implements
     /**
      * Creates a new instance of a {@link EsriHdrReader}. I assume nothing about
      * file extension.
-     * 
-     * @param input
-     *                Source object for which we want to build an
-     *                {@link EsriHdrReader}.
-     * @param hints
-     *                Hints to be used by this reader throughout his life.
+     *
+     * @param input Source object for which we want to build an
+     *              {@link EsriHdrReader}.
+     * @param hints Hints to be used by this reader throughout his life.
      * @throws DataSourceException
      */
     public EsriHdrReader(Object input, Hints hints) throws DataSourceException {

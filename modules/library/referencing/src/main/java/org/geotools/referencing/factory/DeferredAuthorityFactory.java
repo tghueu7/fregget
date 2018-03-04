@@ -39,19 +39,15 @@ import org.geotools.resources.i18n.LoggingKeys;
  * a database (for example) only when first needed. In addition, the backing store can be
  * automatically disposed after a timeout and recreated when needed again.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @todo Extends {@link BufferedAuthorityFactory} for now in order to improve the trunk stability
- *       during GEOT-1286 development, but we may revisit that after GEOT-1286 completion.
+ * during GEOT-1286 development, but we may revisit that after GEOT-1286 completion.
+ * @since 2.1
  */
 public abstract class DeferredAuthorityFactory extends BufferedAuthorityFactory
-                                            implements OptionalFactory
-{
+        implements OptionalFactory {
     /**
      * The timer for {@linkplain AbstractAuthorityFactory#dispose disposing} backing stores.
      */
@@ -76,12 +72,10 @@ public abstract class DeferredAuthorityFactory extends BufferedAuthorityFactory
      * invoked.
      *
      * @param userHints An optional set of hints, or {@code null} if none.
-     * @param priority The priority for this factory, as a number between
-     *        {@link #MINIMUM_PRIORITY MINIMUM_PRIORITY} and
-     *        {@link #MAXIMUM_PRIORITY MAXIMUM_PRIORITY} inclusive.
-     *
+     * @param priority  The priority for this factory, as a number between
+     *                  {@link #MINIMUM_PRIORITY MINIMUM_PRIORITY} and
+     *                  {@link #MAXIMUM_PRIORITY MAXIMUM_PRIORITY} inclusive.
      * @see #createBackingStore
-     *
      * @since 2.2
      */
     protected DeferredAuthorityFactory(final Hints userHints, final int priority) {
@@ -93,20 +87,17 @@ public abstract class DeferredAuthorityFactory extends BufferedAuthorityFactory
      * creating an appropriate backing store when the {@link #createBackingStore} method is
      * invoked.
      *
-     * @param userHints An optional set of hints, or {@code null} if none.
-     * @param priority The priority for this factory, as a number between
-     *        {@link #MINIMUM_PRIORITY MINIMUM_PRIORITY} and
-     *        {@link #MAXIMUM_PRIORITY MAXIMUM_PRIORITY} inclusive.
+     * @param userHints           An optional set of hints, or {@code null} if none.
+     * @param priority            The priority for this factory, as a number between
+     *                            {@link #MINIMUM_PRIORITY MINIMUM_PRIORITY} and
+     *                            {@link #MAXIMUM_PRIORITY MAXIMUM_PRIORITY} inclusive.
      * @param maxStrongReferences The maximum number of objects to keep by strong reference.
-     *
      * @see #createBackingStore
-     *
      * @since 2.2
      */
     protected DeferredAuthorityFactory(final Hints userHints,
                                        final int priority,
-                                       final int maxStrongReferences)
-    {
+                                       final int maxStrongReferences) {
         super(priority, maxStrongReferences);
     }
 
@@ -129,7 +120,7 @@ public abstract class DeferredAuthorityFactory extends BufferedAuthorityFactory
     protected final AbstractAuthorityFactory getBackingStore() throws FactoryException {
         if (backingStore == null) {
             synchronized (this) {
-                if(backingStore == null) {
+                if (backingStore == null) {
                     backingStore = createBackingStore();
                     if (backingStore == null) {
                         throw new FactoryNotFoundException(Errors.format(ErrorKeys.NO_DATA_SOURCE));
@@ -148,7 +139,7 @@ public abstract class DeferredAuthorityFactory extends BufferedAuthorityFactory
      *
      * @return The backing store to uses in {@code createXXX(...)} methods.
      * @throws FactoryNotFoundException if the backing store has not been found.
-     * @throws FactoryException if the creation of backing store failed for an other reason.
+     * @throws FactoryException         if the creation of backing store failed for an other reason.
      */
     protected abstract AbstractAuthorityFactory createBackingStore() throws FactoryException;
 
@@ -169,14 +160,14 @@ public abstract class DeferredAuthorityFactory extends BufferedAuthorityFactory
      * {@link #canDisposeBackingStore} returns {@code false}.
      *
      * @param delay The minimal delay before to close the backing store. This delay is very
-     *        approximative. The backing store will not be closed before, but may take as
-     *        much as twice that time before to be closed.
+     *              approximative. The backing store will not be closed before, but may take as
+     *              much as twice that time before to be closed.
      */
     public synchronized void setTimeout(final long delay) {
         // if we have been disposed, don't do anything
-        if(TIMER == null)
+        if (TIMER == null)
             return;
-        
+
         if (disposer != null) {
             disposer.cancel();
         }
@@ -209,24 +200,25 @@ public abstract class DeferredAuthorityFactory extends BufferedAuthorityFactory
         }
         super.dispose();
     }
-    
+
     /**
      * Gets rid of the timer thread at application shutdown
      */
     public static void exit() {
-        if(TIMER != null) {
+        if (TIMER != null) {
             TIMER.cancel();
             TIMER = null;
         }
     }
-    
+
     /**
      * Disposes of the backing store
+     *
      * @throws FactoryException
      */
     protected synchronized void disposeBackingStore() {
         try {
-            if(backingStore != null) {
+            if (backingStore != null) {
                 LOGGER.log(Level.INFO, "Disposing " + getClass() + " backing store");
                 backingStore.dispose();
                 backingStore = null;
@@ -255,7 +247,7 @@ public abstract class DeferredAuthorityFactory extends BufferedAuthorityFactory
                 }
                 if (cancel()) {
                     disposer = null;
-                    if (backingStore != null) { 
+                    if (backingStore != null) {
                         disposeBackingStore();
                     }
                     // Needed in order to lets GC do its job.

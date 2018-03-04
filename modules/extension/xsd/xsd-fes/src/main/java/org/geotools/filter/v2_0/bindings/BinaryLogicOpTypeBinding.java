@@ -34,9 +34,8 @@ import org.opengis.filter.FilterFactory;
  *     &lt;/xsd:complexContent>
  *  &lt;/xsd:complexType>
  *  <pre>
- *  
- * @author Justin Deoliveira, OpenGeo
  *
+ * @author Justin Deoliveira, OpenGeo
  */
 public class BinaryLogicOpTypeBinding extends OGCBinaryLogicOpTypeBinding {
 

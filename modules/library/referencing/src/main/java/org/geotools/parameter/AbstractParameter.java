@@ -41,18 +41,14 @@ import org.geotools.resources.i18n.ErrorKeys;
 /**
  * Abstract parameter value or group of parameter values.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see AbstractParameterDescriptor
+ * @since 2.1
  */
 public abstract class AbstractParameter extends Formattable
-           implements GeneralParameterValue, Serializable
-{
+        implements GeneralParameterValue, Serializable {
     /**
      * Serial number for interoperability with different versions.
      */
@@ -86,13 +82,12 @@ public abstract class AbstractParameter extends Formattable
      * in order to get a more appropriate stack trace, and for access by class which do not
      * inherit from {@link org.geotools.referencing.AbstractIdentifiedObject}.
      *
-     * @param  name   Argument name.
-     * @param  object User argument.
+     * @param name   Argument name.
+     * @param object User argument.
      * @throws IllegalArgumentException if {@code object} is null.
      */
     static void ensureNonNull(final String name, final Object object)
-            throws IllegalArgumentException
-    {
+            throws IllegalArgumentException {
         if (object == null) {
             throw new IllegalArgumentException(Errors.format(ErrorKeys.NULL_ARGUMENT_$1, name));
         }
@@ -102,31 +97,29 @@ public abstract class AbstractParameter extends Formattable
      * Makes sure an array element is non-null. This is
      * a convenience method for subclass constructors.
      *
-     * @param  name  Argument name.
-     * @param  array The array to look at.
-     * @param  index Index of the element to check.
+     * @param name  Argument name.
+     * @param array The array to look at.
+     * @param index Index of the element to check.
      * @throws IllegalArgumentException if {@code array[i]} is null.
      */
     static void ensureNonNull(final String name, final Object[] array, final int index)
-        throws IllegalArgumentException
-    {
+            throws IllegalArgumentException {
         if (array[index] == null) {
             throw new IllegalArgumentException(Errors.format(
-                      ErrorKeys.NULL_ARGUMENT_$1, name+'['+index+']'));
+                    ErrorKeys.NULL_ARGUMENT_$1, name + '[' + index + ']'));
         }
     }
 
     /**
      * Verify that the specified value is of the specified class.
      *
-     * @param  expectedClass the expected class.
-     * @param  value The expected value, or {@code null}.
+     * @param expectedClass the expected class.
+     * @param value         The expected value, or {@code null}.
      * @throws IllegalArgumentException if {@code value} is non-null and has a non-assignable
-     *         class.
+     *                                  class.
      */
     static <T> void ensureValidClass(final Class<?> expectedClass, final Object value)
-            throws IllegalArgumentException
-    {
+            throws IllegalArgumentException {
         if (value != null) {
             final Class<?> valueClass = value.getClass();
             if (!expectedClass.isAssignableFrom(valueClass)) {
@@ -142,7 +135,7 @@ public abstract class AbstractParameter extends Formattable
      */
     static IllegalStateException unitlessParameter(final GeneralParameterDescriptor descriptor) {
         return new IllegalStateException(Errors.format(ErrorKeys.UNITLESS_PARAMETER_$1,
-                                                       getName(descriptor)));
+                getName(descriptor)));
     }
 
     /**
@@ -170,12 +163,12 @@ public abstract class AbstractParameter extends Formattable
     /**
      * Compares the specified object with this parameter for equality.
      *
-     * @param  object The object to compare to {@code this}.
+     * @param object The object to compare to {@code this}.
      * @return {@code true} if both objects are equal.
      */
     @Override
     public boolean equals(final Object object) {
-        if (object!=null && object.getClass().equals(getClass())) {
+        if (object != null && object.getClass().equals(getClass())) {
             final AbstractParameter that = (AbstractParameter) object;
             return Utilities.equals(this.descriptor, that.descriptor);
         }
@@ -188,7 +181,7 @@ public abstract class AbstractParameter extends Formattable
      */
     @Override
     public int hashCode() {
-        return descriptor.hashCode() ^ (int)serialVersionUID;
+        return descriptor.hashCode() ^ (int) serialVersionUID;
     }
 
     /**
@@ -213,14 +206,14 @@ public abstract class AbstractParameter extends Formattable
      * to align values properly than overriding the {@link #toString} method. The table's columns
      * are defined as below:
      * <ol>
-     *   <li>The parameter name</li>
-     *   <li>The separator</li>
-     *   <li>The parameter value</li>
+     * <li>The parameter name</li>
+     * <li>The separator</li>
+     * <li>The parameter value</li>
      * </ol>
-     *
+     * <p>
      * <P>The default implementation is suitable for most cases. However, subclasses are free to
      * override this method with the following idiom:</P>
-     *
+     * <p>
      * <blockquote><pre>
      * table.{@linkplain TableWriter#write(String) write}("<var>parameter name</var>");
      * table.{@linkplain TableWriter#nextColumn() nextColumn}()
@@ -230,7 +223,7 @@ public abstract class AbstractParameter extends Formattable
      * table.{@linkplain TableWriter#nextLine() nextLine}()
      * </pre></blockquote>
      *
-     * @param  table The table where to format the parameter value.
+     * @param table The table where to format the parameter value.
      * @throws IOException if an error occurs during output operation.
      */
     protected void write(final TableWriter table) throws IOException {
@@ -254,7 +247,8 @@ public abstract class AbstractParameter extends Formattable
             table.write(':');
             table.nextColumn();
             TableWriter inner = null;
-            for (final Iterator it=((ParameterValueGroup) this).values().iterator(); it.hasNext();) {
+            for (final Iterator it = ((ParameterValueGroup) this).values().iterator(); it.hasNext
+                    (); ) {
                 final GeneralParameterValue value = (GeneralParameterValue) it.next();
                 if (value instanceof AbstractParameter) {
                     if (inner == null) {
@@ -294,7 +288,7 @@ public abstract class AbstractParameter extends Formattable
             buffer.write('{');
             final int length = Array.getLength(value);
             final int limit = Math.min(5, length);
-            for (int i=0; i<limit; i++) {
+            for (int i = 0; i < limit; i++) {
                 if (i != 0) {
                     buffer.write(", ");
                 }
@@ -318,7 +312,8 @@ public abstract class AbstractParameter extends Formattable
 
     /**
      * Format the inner part of this parameter as
-     * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
+     * <A HREF="http://geoapi.sourceforge
+     * .net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
      * Known Text</cite> (WKT)</A>. This method doesn't need to be overridden, since the formatter
      * already know how to {@linkplain Formatter#append(GeneralParameterValue) format parameters}.
      */

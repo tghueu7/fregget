@@ -2,7 +2,8 @@
  **
  ** $Id$
  **
- ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/geometry/PointGridImpl.java,v $
+ ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/geometry
+ * /PointGridImpl.java,v $
  **
  ** Copyright (C) 2003 Open GIS Consortium, Inc. All Rights Reserved. http://www.opengis.org/Legal/
  **
@@ -10,6 +11,7 @@
 package org.geotools.geometry.jts.spatialschema.geometry.geometry;
 
 // J2SE direct dependencies
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,29 +23,25 @@ import org.geotools.geometry.jts.spatialschema.geometry.DirectPositionImpl;
 
 /**
  * A grid of points. The grid may be see as a sequences of equal length sequences.
- *  
- * @UML datatype GM_PointGrid
+ *
  * @author ISO/DIS 19107
  * @author <A HREF="http://www.opengis.org">OpenGIS&reg; consortium</A>
- *
- *
- *
- *
- * @source $URL$
  * @version 2.0
+ * @UML datatype GM_PointGrid
+ * @source $URL$
  */
 public class PointGridImpl implements PointGrid {
-    
+
     //*************************************************************************
     //  Fields
     //*************************************************************************
-    
+
     private PointArray[] pointGrid;
-    
+
     //*************************************************************************
     //  Constructor
     //*************************************************************************
-    
+
     //*************************************************************************
     //  implement the PointGrid interface
     //*************************************************************************
@@ -73,17 +71,17 @@ public class PointGridImpl implements PointGrid {
      * Returns the point at the given index. This is equivalent to
      * {@code getRow(row).get(column)}.
      *
-     * @param  row The row index from 0 inclusive to {@link #height} exclusive.
-     * @param  column The column index from 0 inclusive to {@link #width} exclusive.
+     * @param row    The row index from 0 inclusive to {@link #height} exclusive.
+     * @param column The column index from 0 inclusive to {@link #width} exclusive.
      * @return The point at the given index.
      * @throws IndexOutOfBoundsException if an index is out of bounds.
      */
     public DirectPosition get(int row, int column) throws IndexOutOfBoundsException {
-        return getInternal( row, column );
+        return getInternal(row, column);
     }
-    
+
     /**
-     * Gets a copy of the {@code DirectPosition} at the particular location in this 
+     * Gets a copy of the {@code DirectPosition} at the particular location in this
      * {@code PointGrid}. If the {@code dest} argument is non-null, that object
      * will be populated with the value from the array. In all cases, the position in insulated
      * from changes in the {@code PointArray}, and vice-versa. Consequently, the same
@@ -99,16 +97,18 @@ public class PointGridImpl implements PointGrid {
      * &nbsp;}
      * </pre></blockquote>
      *
-     * @param  row The row index from 0 inclusive to {@link #height} exclusive.
-     * @param  column The column index from 0 inclusive to {@link #width} exclusive.
-     * @param  dest An optionnaly pre-allocated direct position.
+     * @param row    The row index from 0 inclusive to {@link #height} exclusive.
+     * @param column The column index from 0 inclusive to {@link #width} exclusive.
+     * @param dest   An optionnaly pre-allocated direct position.
      * @return The {@code dest} argument, or a new object if {@code dest} was null.
      * @throws IndexOutOfBoundsException if an index is out of bounds.
      */
-    public DirectPosition get(int row, int column, DirectPosition dest) throws IndexOutOfBoundsException {
-        DirectPosition target = new DirectPositionImpl(getInternal( row, column ));
-        
-        if (dest == null || !dest.getCoordinateReferenceSystem().equals(target.getCoordinateReferenceSystem())){ 
+    public DirectPosition get(int row, int column, DirectPosition dest) throws 
+            IndexOutOfBoundsException {
+        DirectPosition target = new DirectPositionImpl(getInternal(row, column));
+
+        if (dest == null || !dest.getCoordinateReferenceSystem().equals(target
+                .getCoordinateReferenceSystem())) {
             return target;
         }
         for (int i = 0; i < target.getDimension(); i++) {
@@ -116,19 +116,21 @@ public class PointGridImpl implements PointGrid {
         }
         return dest;
     }
+
     /**
      * Used to replace removed PointArray.get( column ) method.
      * <p>
      * Please note all example code uses getTarget( row, col ).clone()
      * when returning a direct position to client code.
      * </p>
+     *
      * @param row
      * @param column
-     * @return DirectPosition 
+     * @return DirectPosition
      */
-     DirectPosition getInternal( int row, int column ){
+    DirectPosition getInternal(int row, int column) {
         PointArray pointArray = pointGrid[row];
-        return (DirectPosition) pointArray.get( column ); 
+        return (DirectPosition) pointArray.get(column);
     }
 
     /**
@@ -137,26 +139,27 @@ public class PointGridImpl implements PointGrid {
      * this point array. Consequently, the same {@code DirectPosition} object can be
      * reused for setting many points in this array.
      *
-     * @param  row The row index from 0 inclusive to {@link #height} exclusive.
-     * @param  column The column index from 0 inclusive to {@link #width} exclusive.
-     * @param  position The point to set at the given location in this array.
-     * @throws IndexOutOfBoundsException if an index is out of bounds.
+     * @param row      The row index from 0 inclusive to {@link #height} exclusive.
+     * @param column   The column index from 0 inclusive to {@link #width} exclusive.
+     * @param position The point to set at the given location in this array.
+     * @throws IndexOutOfBoundsException     if an index is out of bounds.
      * @throws UnsupportedOperationException if this grid is immutable.
      */
     public void set(int row, int column, DirectPosition position) throws IndexOutOfBoundsException,
-                                                                         UnsupportedOperationException {
+            UnsupportedOperationException {
         DirectPosition target = new DirectPositionImpl(getInternal(row, column));
-        
+
         if (position.getCoordinateReferenceSystem().equals(target.getCoordinateReferenceSystem())) {
             for (int i = 0; i < position.getDimension(); i++) {
                 target.setOrdinate(i, position.getOrdinate(i));
             }
         }
     }
+
     /**
      * Returns the row at the given index.
      *
-     * @param  row The index from 0 inclusive to {@link #height} exclusive.
+     * @param row The index from 0 inclusive to {@link #height} exclusive.
      * @return The row at the given index.
      * @throws IndexOutOfBoundsException if the index is out of bounds.
      */
@@ -169,9 +172,8 @@ public class PointGridImpl implements PointGrid {
      *
      * @return The rows in this array.
      * @UML mandatory row
-     *
      * @revisit Should changes in this list be forwarded to the underlying {@code PointGrid}?
-     *          In the mean time, it is probably safe for implementor to make this list immutable.
+     * In the mean time, it is probably safe for implementor to make this list immutable.
      */
     public List/*<PointArray>*/ rows() {
         List returnable = new ArrayList(pointGrid.length);

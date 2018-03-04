@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -29,29 +29,35 @@ import org.xml.sax.SAXException;
 
 /**
  * AnyHandler purpose.
- * 
+ * <p>
  * <p>
  * Represents an 'any' element.
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc. http://www.refractions.net
  * @author $Author:$ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class AnyHandler extends ElementGroupingHandler {
-    /** 'any' */
+    /**
+     * 'any'
+     */
     public final static String LOCALNAME = "any";
 
-    /** strict */
+    /**
+     * strict
+     */
     public static final int STRICT = 0;
 
-    /** lax */
+    /**
+     * lax
+     */
     public static final int LAX = 1;
 
-    /** skip */
+    /**
+     * skip
+     */
     public static final int SKIP = 2;
     private String id;
     private URI namespace;
@@ -66,23 +72,23 @@ public class AnyHandler extends ElementGroupingHandler {
      */
     public int hashCode() {
         return (LOCALNAME.hashCode() * ((id == null) ? 1 : id.hashCode()))
-        + (minOccurs * maxOccurs);
+                + (minOccurs * maxOccurs);
     }
 
     /**
      * @see org.geotools.xml.XSIElementHandler#getHandler(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
-    public XSIElementHandler getHandler(String namespaceURI, String localName){
+    public XSIElementHandler getHandler(String namespaceURI, String localName) {
         return null;
     }
 
     /**
      * @see org.geotools.xml.XSIElementHandler#startElement(java.lang.String,
-     *      java.lang.String, org.xml.sax.Attributes)
+     * java.lang.String, org.xml.sax.Attributes)
      */
     public void startElement(String namespaceURI, String localName,
-        Attributes atts) throws SAXException {
+                             Attributes atts) throws SAXException {
         id = atts.getValue("", "id");
 
         if (id == null) {
@@ -109,23 +115,25 @@ public class AnyHandler extends ElementGroupingHandler {
 
         try {
             if (namespace1 != null) {
-                if(namespace1.toLowerCase().equals("##any")){
+                if (namespace1.toLowerCase().equals("##any")) {
                     this.namespace = Any.ALL;
-                }else{
-                if(namespace1.toLowerCase().equals("##other")){
-                    // TODO improve this
-                    this.namespace = Any.ALL;
-                }else{
-                if(namespace1.toLowerCase().equals("##targetNamespace")){
-                    try{
-                        this.namespace = new URI(namespaceURI);
-                    } catch (URISyntaxException e) {
-                        logger.warning(e.toString());
-                        this.namespace = new URI(namespace1);
+                } else {
+                    if (namespace1.toLowerCase().equals("##other")) {
+                        // TODO improve this
+                        this.namespace = Any.ALL;
+                    } else {
+                        if (namespace1.toLowerCase().equals("##targetNamespace")) {
+                            try {
+                                this.namespace = new URI(namespaceURI);
+                            } catch (URISyntaxException e) {
+                                logger.warning(e.toString());
+                                this.namespace = new URI(namespace1);
+                            }
+                        } else {
+                            this.namespace = new URI(namespace1);
+                        }
                     }
-                }else{
-                    this.namespace = new URI(namespace1);
-                }}}
+                }
             }
         } catch (URISyntaxException e) {
             logger.warning(e.toString());
@@ -162,8 +170,6 @@ public class AnyHandler extends ElementGroupingHandler {
      * </p>
      *
      * @param process
-     *
-     *
      * @throws SAXException
      */
     public static int findProcess(String process) throws SAXException {
@@ -193,28 +199,29 @@ public class AnyHandler extends ElementGroupingHandler {
      * </p>
      *
      * @param process
-     *
      */
     public static String writeProcess(int process) {
         switch (process) {
-        case LAX:
-            return "lax";
+            case LAX:
+                return "lax";
 
-        case SKIP:
-            return "skip";
+            case SKIP:
+                return "skip";
 
-        case STRICT:default:
-            return "strict";
+            case STRICT:
+            default:
+                return "strict";
         }
     }
 
     /**
-     * @see org.geotools.xml.XSIHandlers.ElementGroupingHandler#compress(org.geotools.xml.XSIHandlers.SchemaHandler)
+     * @see org.geotools.xml.XSIHandlers.ElementGroupingHandler#compress(org.geotools.xml
+     * .XSIHandlers.SchemaHandler)
      */
-    protected ElementGrouping compress(SchemaHandler parent){
-        synchronized(this){
+    protected ElementGrouping compress(SchemaHandler parent) {
+        synchronized (this) {
             if (cache != null)
-            	return cache;
+                return cache;
             cache = new DefaultAny();
         }
         cache.id = id;
@@ -237,9 +244,9 @@ public class AnyHandler extends ElementGroupingHandler {
 
     /**
      * @see org.geotools.xml.XSIElementHandler#endElement(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
-    public void endElement(String namespaceURI, String localName){
+    public void endElement(String namespaceURI, String localName) {
         // do nothing
     }
 
@@ -249,7 +256,6 @@ public class AnyHandler extends ElementGroupingHandler {
      * </p>
      *
      * @author dzwiers
-     *
      * @see Any
      */
     private static class DefaultAny implements Any {
@@ -298,9 +304,9 @@ public class AnyHandler extends ElementGroupingHandler {
             return ANY;
         }
 
-		public Element findChildElement(String localName, URI namespaceURI) {
+        public Element findChildElement(String localName, URI namespaceURI) {
             //TODO look up namespace Schema and do this correctly
-			return null;
-		}
+            return null;
+        }
     }
 }

@@ -4,7 +4,7 @@
  *
  *    (C) 2016 Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2016 Boundless Spatial
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -817,6 +817,7 @@ public class YsldParseCookbookTest {
         assertEquals(5f, SLD.lineDash(line)[0], 0.1);
         assertEquals(2f, SLD.lineDash(line)[1], 0.1);
     }
+
     @Test
     public void testLineWithDashspace() throws Exception {
         //   <UserStyle>
@@ -1848,7 +1849,7 @@ public class YsldParseCookbookTest {
         e = raster.getColorMap().getColorMapEntry(1);
         assertEquals("#663333", Filters.asString(e.getColor()));
         assertEquals(256, Filters.asInt(e.getQuantity()));
-        
+
     }
 
     Style parse(String dir, String file) throws IOException {
@@ -1861,8 +1862,8 @@ public class YsldParseCookbookTest {
 
     Color color(String hex) {
         return new Color(
-            Integer.valueOf( hex.substring( 0, 2 ), 16 ),
-            Integer.valueOf( hex.substring( 2, 4 ), 16 ),
-            Integer.valueOf( hex.substring( 4, 6 ), 16 ) );
+                Integer.valueOf(hex.substring(0, 2), 16),
+                Integer.valueOf(hex.substring(2, 4), 16),
+                Integer.valueOf(hex.substring(4, 6), 16));
     }
 }

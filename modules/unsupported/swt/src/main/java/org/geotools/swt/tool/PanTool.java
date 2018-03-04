@@ -27,22 +27,23 @@ import org.geotools.swt.utils.Messages;
 
 /**
  * A map panning tool for {@link SwtMapPane}.
- * 
+ * <p>
  * <p>Allows the user to drag the map
  * with the mouse.
- * 
+ *
  * @author Michael Bedward
- * @since 2.6
- *
- *
- *
  * @source $URL$
+ * @since 2.6
  */
 public class PanTool extends CursorTool {
 
-    /** Tool name */
+    /**
+     * Tool name
+     */
     public static final String TOOL_NAME = Messages.getString("tool_name_pan");
-    /** Tool tip text */
+    /**
+     * Tool tip text
+     */
     public static final String TOOL_TIP = Messages.getString("tool_tip_pan");
 
     private Cursor cursor;
@@ -56,7 +57,7 @@ public class PanTool extends CursorTool {
      * a combination of multiple SWT-masks.
      *
      * @param triggerButtonMask Mouse button which triggers the tool's activation
-     * or {@value #ANY_BUTTON} if the tool is to be triggered by any button
+     *                          or {@value #ANY_BUTTON} if the tool is to be triggered by any button
      */
     public PanTool(int triggerButtonMask) {
         super(triggerButtonMask);
@@ -76,12 +77,13 @@ public class PanTool extends CursorTool {
     /**
      * Respond to a mouse button press event from the map mapPane. This may
      * signal the start of a mouse drag. Records the event's window position.
+     *
      * @param ev the mouse event
      */
     @Override
-    public void onMousePressed( MapMouseEvent ev ) {
+    public void onMousePressed(MapMouseEvent ev) {
 
-        if ( ! isTriggerMouseButton(ev)) {
+        if (!isTriggerMouseButton(ev)) {
             return;
         }
 
@@ -91,10 +93,11 @@ public class PanTool extends CursorTool {
 
     /**
      * Respond to a mouse dragged event. Calls {@link org.geotools.swing.JMapPane#moveImage()}
+     *
      * @param ev the mouse event
      */
     @Override
-    public void onMouseDragged( MapMouseEvent ev ) {
+    public void onMouseDragged(MapMouseEvent ev) {
         if (panning) {
             Point pos = ev.getPoint();
             if (!pos.equals(panePos)) {
@@ -107,10 +110,11 @@ public class PanTool extends CursorTool {
     /**
      * If this button release is the end of a mouse dragged event, requests the
      * map mapPane to repaint the display
+     *
      * @param ev the mouse event
      */
     @Override
-    public void onMouseReleased( MapMouseEvent ev ) {
+    public void onMouseReleased(MapMouseEvent ev) {
         if (panning) {
             panning = false;
             getMapPane().redraw();

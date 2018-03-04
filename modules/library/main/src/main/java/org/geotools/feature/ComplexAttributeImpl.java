@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -30,32 +30,31 @@ import org.opengis.feature.type.Name;
 import org.opengis.filter.identity.Identifier;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ComplexAttributeImpl extends AttributeImpl implements ComplexAttribute {
 
-    public ComplexAttributeImpl(Collection<Property> properties, AttributeDescriptor descriptor, Identifier id) {
-        super(cloneProperties( properties ), descriptor, id );
+    public ComplexAttributeImpl(Collection<Property> properties, AttributeDescriptor descriptor, 
+                                Identifier id) {
+        super(cloneProperties(properties), descriptor, id);
     }
-    
+
     public ComplexAttributeImpl(Collection<Property> properties, ComplexType type, Identifier id) {
-        this(properties, new AttributeDescriptorImpl( type, type.getName(), 1, 1, true, null), id);
+        this(properties, new AttributeDescriptorImpl(type, type.getName(), 1, 1, true, null), id);
     }
-    
+
     public ComplexType getType() {
         return (ComplexType) super.getType();
     }
-    
+
     public Collection<? extends Property> getValue() {
-       return FeatureImplUtils.unmodifiable((Collection) super.getValue());
+        return FeatureImplUtils.unmodifiable((Collection) super.getValue());
     }
-    
+
     public Collection<Property> getProperties() {
-    	return FeatureImplUtils.unmodifiable((Collection) super.getValue());
+        return FeatureImplUtils.unmodifiable((Collection) super.getValue());
     }
-    
+
     /**
      * Internal helper method for getting at the properties without wrapping
      * in unmodifiable collection.
@@ -66,55 +65,55 @@ public class ComplexAttributeImpl extends AttributeImpl implements ComplexAttrib
 
     public Collection<Property> getProperties(Name name) {
         List<Property> matches = new ArrayList<Property>();
-        for ( Iterator p = getValue().iterator(); p.hasNext(); ) {
+        for (Iterator p = getValue().iterator(); p.hasNext(); ) {
             Property property = (Property) p.next();
-            if ( property.getName().equals( name ) ) {
-                matches.add( property );
+            if (property.getName().equals(name)) {
+                matches.add(property);
             }
         }
-        
+
         return matches;
     }
 
     public Collection<Property> getProperties(String name) {
         List<Property> matches = new ArrayList<Property>();
-        for ( Iterator p = properties().iterator(); p.hasNext(); ) {
+        for (Iterator p = properties().iterator(); p.hasNext(); ) {
             Property property = (Property) p.next();
-            if ( property.getName().getLocalPart().equals( name ) ) {
-                matches.add( property );
+            if (property.getName().getLocalPart().equals(name)) {
+                matches.add(property);
             }
         }
-        
+
         return matches;
     }
 
     public Property getProperty(Name name) {
-        for ( Iterator p = properties().iterator(); p.hasNext(); ) {
+        for (Iterator p = properties().iterator(); p.hasNext(); ) {
             Property property = (Property) p.next();
-            if ( property.getName().equals( name ) ) {
+            if (property.getName().equals(name)) {
                 return property;
             }
         }
-        
+
         return null;
     }
 
     public Property getProperty(String name) {
-        for ( Iterator p = getValue().iterator(); p.hasNext(); ) {
+        for (Iterator p = getValue().iterator(); p.hasNext(); ) {
             Property property = (Property) p.next();
-            if ( property.getName().getLocalPart().equals( name ) ) {
+            if (property.getName().getLocalPart().equals(name)) {
                 return property;
             }
         }
-        
+
         return null;
     }
 
     public void setValue(Object newValue) throws IllegalArgumentException,
             IllegalStateException {
-        setValue((Collection<Property>)newValue);
+        setValue((Collection<Property>) newValue);
     }
-    
+
     public void setValue(Collection<Property> newValue) {
         super.setValue(cloneProperties(newValue));
     }
@@ -122,20 +121,19 @@ public class ComplexAttributeImpl extends AttributeImpl implements ComplexAttrib
     /**
      * helper method to clone the property collection.
      */
-    private static Collection cloneProperties( Collection original ) {
-        if ( original == null ) {
+    private static Collection cloneProperties(Collection original) {
+        if (original == null) {
             return null;
         }
-        
+
         Collection clone = null;
         try {
             clone = original.getClass().newInstance();
-        }
-        catch( Exception e ) {
+        } catch (Exception e) {
             clone = new ArrayList();
         }
-        
-        clone.addAll( original );
+
+        clone.addAll(original);
         return clone;
     }
 //    public List/* <Property> */get(Name name) {

@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2008, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.style;
@@ -17,12 +17,11 @@ import org.opengis.annotation.XmlElement;
  * The LabelPlacement element is used to position a label relative to a point, line string or
  * polygon.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding Implementation Specification 1.1.0</A>
  * @author Open Geospatial Consortium
  * @author Johann Sorel (Geomatys)
+ * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding 
+ * Implementation Specification 1.1.0</A>
+ * @source $URL$
  * @since GeoAPI 2.2
  */
 @XmlElement("LabelPlacement")
@@ -32,7 +31,7 @@ public interface LabelPlacement {
      * <p>
      * Please note that LabelPalcement is not intended to be used as is; the StyleVisitor
      * visit method must traverse an instance of LinePlacement or PointPlacement.
-     * 
+     *
      * @param visitor the style visitor
      */
     @Extension

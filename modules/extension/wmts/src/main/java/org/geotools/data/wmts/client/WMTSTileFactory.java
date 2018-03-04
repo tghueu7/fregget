@@ -18,6 +18,7 @@ package org.geotools.data.wmts.client;
 
 import org.geotools.data.wmts.model.TileMatrixLimits;
 import org.geotools.data.wmts.model.TileMatrix;
+
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,6 +27,7 @@ import javax.measure.converter.UnitConverter;
 import javax.measure.unit.NonSI;
 import javax.measure.unit.SI;
 import javax.measure.unit.Unit;
+
 import org.geotools.data.wmts.model.TileMatrixSet;
 import org.geotools.data.wmts.model.TileMatrixSetLink;
 
@@ -54,13 +56,13 @@ public class WMTSTileFactory extends TileFactory {
 
     /**
      * Return a tile with the proper row and column indexes.
-     *
+     * <p>
      * Please notice that the tile indexes are purely computed on the zoom level details,
      * but the MatrixLimits in a given layer may make the row/col invalid for that layer.
      */
     @Override
     public Tile findTileAtCoordinate(double lon, double lat, ZoomLevel zoomLevel,
-            TileService service) {
+                                     TileService service) {
 
         WMTSZoomLevel zl = (WMTSZoomLevel) zoomLevel;
         TileMatrix tileMatrix = ((WMTSTileService) service).getMatrixSet().getMatrices()
@@ -101,7 +103,7 @@ public class WMTSTileFactory extends TileFactory {
      * Find the first valid Upper Left tile for the current layer.
      */
     public Tile findUpperLeftTile(double lon, double lat, WMTSZoomLevel zoomLevel,
-            WMTSTileService service) {
+                                  WMTSTileService service) {
         // get the tile in the tilematrix
         Tile matrixTile = findTileAtCoordinate(lon, lat, zoomLevel, service);
         return constrainToUpperLeftTile(matrixTile, zoomLevel, service);
@@ -133,7 +135,7 @@ public class WMTSTileFactory extends TileFactory {
      * If the tile is outside the limits, take a valid one which can be used to start a loop on.
      */
     public WMTSTile constrainToUpperLeftTile(Tile matrixTile, WMTSZoomLevel zl,
-            WMTSTileService service) {
+                                             WMTSTileService service) {
 
         TileMatrixLimits limits = getLimits(service.getMatrixSetLink(), service.getMatrixSet(),
                 zl.getZoomLevel());
@@ -185,7 +187,7 @@ public class WMTSTileFactory extends TileFactory {
      * @return
      */
     public static ReferencedEnvelope getExtentFromTileName(WMTSTileIdentifier tileIdentifier,
-            TileService service) {
+                                                           TileService service) {
         WMTSZoomLevel zl = new WMTSZoomLevel(tileIdentifier.getZ(), (WMTSTileService) service);
         TileMatrix tileMatrix = ((WMTSTileService) service).getMatrixSet().getMatrices()
                 .get(zl.getZoomLevel());

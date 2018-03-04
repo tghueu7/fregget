@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 
@@ -25,17 +25,13 @@ import org.opengis.parameter.ParameterValueGroup;
  * the operation, operation description, number of source grid coverages required
  * for the operation etc.
  *
- *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengis.org/docs/01-004.pdf">Grid Coverage specification 1.0</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
- *
+ * @source $URL$
  * @todo This interface should be renamed {@code CoverageOperation}.
+ * @since GeoAPI 1.0
  */
-@UML(identifier="CV_Operation", specification=OGC_01004)
+@UML(identifier = "CV_Operation", specification = OGC_01004)
 public interface Operation {
     /**
      * Name of the processing operation. This name is passed as a parameter to the
@@ -43,10 +39,9 @@ public interface Operation {
      * a new grid coverage on which the processing operation is performed.
      *
      * @return The name of the processing operation.
-     *
      * @todo The return type will be changed from {@link String} to {@link Identifier}.
      */
-    @UML(identifier="name", obligation=MANDATORY, specification=OGC_01004)
+    @UML(identifier = "name", obligation = MANDATORY, specification = OGC_01004)
     String getName();
 
     /**
@@ -54,9 +49,8 @@ public interface Operation {
      * If no description is available, the value will be {@code null}.
      *
      * @return The description of the processing operation, or {@code null}.
-     *
      */
-    @UML(identifier="description", obligation=OPTIONAL, specification=OGC_01004)
+    @UML(identifier = "description", obligation = OPTIONAL, specification = OGC_01004)
     String getDescription();
 
     /**
@@ -64,9 +58,8 @@ public interface Operation {
      * If no vendor name is available, the value will be {@code null}.
      *
      * @return The implementation vendor name, or {@code null}.
-     *
      */
-    @UML(identifier="vendor", obligation=OPTIONAL, specification=OGC_01004)
+    @UML(identifier = "vendor", obligation = OPTIONAL, specification = OGC_01004)
     String getVendor();
 
     /**
@@ -74,18 +67,16 @@ public interface Operation {
      * If no online documentation is available the string will be {@code null}.
      *
      * @return The URL for documentation on the processing operation, or {@code null}.
-     *
      */
-    @UML(identifier="docURL", obligation=OPTIONAL, specification=OGC_01004)
+    @UML(identifier = "docURL", obligation = OPTIONAL, specification = OGC_01004)
     String getDocURL();
 
     /**
      * Version number for the implementation.
      *
      * @return The version number for the implementation, or {@code null}.
-     *
      */
-    @UML(identifier="version", obligation=OPTIONAL, specification=OGC_01004)
+    @UML(identifier = "version", obligation = OPTIONAL, specification = OGC_01004)
     String getVersion();
 
     /**
@@ -93,7 +84,7 @@ public interface Operation {
      *
      * @return The number of source grid coverages required for the operation.
      */
-    @UML(identifier="numSources", obligation=OPTIONAL, specification=OGC_01004)
+    @UML(identifier = "numSources", obligation = OPTIONAL, specification = OGC_01004)
     int getNumSources();
 
     /**
@@ -101,6 +92,7 @@ public interface Operation {
      *
      * @return The parameter informations.
      */
-    @UML(identifier="getParameterInfo, numParameters", obligation=MANDATORY, specification=OGC_01004)
+    @UML(identifier = "getParameterInfo, numParameters", obligation = MANDATORY, specification = 
+            OGC_01004)
     ParameterValueGroup getParameters();
 }

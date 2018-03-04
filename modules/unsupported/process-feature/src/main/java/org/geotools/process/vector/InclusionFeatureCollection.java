@@ -38,17 +38,21 @@ import com.vividsolutions.jts.geom.Geometry;
 /**
  * A process providing a feature collection containing the features of the first input collection
  * which are included in the second feature collection
- * 
+ *
  * @author Gianni Barrotta - Sinergis
  * @author Andrea Di Nora - Sinergis
  * @author Pietro Arena - Sinergis
  */
-@DescribeProcess(title = "Inclusion of Feature Collections", description = "Returns a feature collection consisting of the features from the first collection which are spatially contained in at least one feature of the second collection.")
+@DescribeProcess(title = "Inclusion of Feature Collections", description = "Returns a feature " +
+        "collection consisting of the features from the first collection which are spatially " +
+        "contained in at least one feature of the second collection.")
 public class InclusionFeatureCollection implements VectorProcess {
     @DescribeResult(description = "Output feature collection")
     public SimpleFeatureCollection execute(
-            @DescribeParameter(name = "first", description = "First feature collection") SimpleFeatureCollection firstFeatures,
-            @DescribeParameter(name = "second", description = "Second feature collection") SimpleFeatureCollection secondFeatures) {
+            @DescribeParameter(name = "first", description = "First feature collection") 
+                    SimpleFeatureCollection firstFeatures,
+            @DescribeParameter(name = "second", description = "Second feature collection") 
+                    SimpleFeatureCollection secondFeatures) {
         return new IncludedFeatureCollection(firstFeatures, secondFeatures);
     }
 
@@ -60,7 +64,7 @@ public class InclusionFeatureCollection implements VectorProcess {
         SimpleFeatureCollection features;
 
         public IncludedFeatureCollection(SimpleFeatureCollection delegate,
-                SimpleFeatureCollection features) {
+                                         SimpleFeatureCollection features) {
             super(delegate);
             this.features = features;
 
@@ -68,7 +72,8 @@ public class InclusionFeatureCollection implements VectorProcess {
 
         @Override
         public SimpleFeatureIterator features() {
-            return new IncludedFeatureIterator(delegate.features(), delegate, features, getSchema());
+            return new IncludedFeatureIterator(delegate.features(), delegate, features, getSchema
+                    ());
         }
 
     }
@@ -88,12 +93,13 @@ public class InclusionFeatureCollection implements VectorProcess {
         SimpleFeature next;
 
         String dataGeomName;
-        
+
         FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
 
         public IncludedFeatureIterator(SimpleFeatureIterator delegate,
-                SimpleFeatureCollection firstFeatures, SimpleFeatureCollection secondFeatures,
-                SimpleFeatureType schema) {
+                                       SimpleFeatureCollection firstFeatures, 
+                                       SimpleFeatureCollection secondFeatures,
+                                       SimpleFeatureType schema) {
             this.delegate = delegate;
             this.firstFeatures = firstFeatures;
             this.secondFeatures = secondFeatures;

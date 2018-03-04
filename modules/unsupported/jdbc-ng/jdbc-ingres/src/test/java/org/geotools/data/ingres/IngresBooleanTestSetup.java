@@ -20,8 +20,6 @@ import org.geotools.jdbc.JDBCBooleanTestSetup;
 import org.geotools.jdbc.JDBCTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class IngresBooleanTestSetup extends JDBCBooleanTestSetup {
@@ -32,17 +30,18 @@ public class IngresBooleanTestSetup extends JDBCBooleanTestSetup {
 
     @Override
     protected void createBooleanTable() throws Exception {
-    	run( "CREATE SEQUENCE B_ID_SEQUENCE" ); 
-        run( "CREATE TABLE \"b\" ( \"id\" int PRIMARY KEY WITH DEFAULT NEXT VALUE FOR B_ID_SEQUENCE, \"boolProperty\" boolean)" );
-        run( "INSERT INTO \"b\" (\"boolProperty\") VALUES (false)");
-        run( "INSERT INTO \"b\" (\"boolProperty\") VALUES (true)");
+        run("CREATE SEQUENCE B_ID_SEQUENCE");
+        run("CREATE TABLE \"b\" ( \"id\" int PRIMARY KEY WITH DEFAULT NEXT VALUE FOR " +
+                "B_ID_SEQUENCE, \"boolProperty\" boolean)");
+        run("INSERT INTO \"b\" (\"boolProperty\") VALUES (false)");
+        run("INSERT INTO \"b\" (\"boolProperty\") VALUES (true)");
     }
 
     @Override
     protected void dropBooleanTable() throws Exception {
-        run( "DROP TABLE \"b\"");
-        run( "DROP SEQUENCE B_ID_SEQUENCE" );
+        run("DROP TABLE \"b\"");
+        run("DROP SEQUENCE B_ID_SEQUENCE");
     }
-    
+
 
 }

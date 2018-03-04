@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -31,21 +31,23 @@ import org.opengis.filter.expression.PropertyName;
  * The Join class is similar to Query in that it allows one to specify a FeatureType name, a set of
  * properties, and a filter. A Join must specify:
  * <ol>
- *   <li>A type name that references the feature type to join to, see {@link #getTypeName()}
- *   <li>A join filter that describes how to join, see {@link #getJoinFilter()}
- * </ol> 
+ * <li>A type name that references the feature type to join to, see {@link #getTypeName()}
+ * <li>A join filter that describes how to join, see {@link #getJoinFilter()}
+ * </ol>
  * Optionally a Join may also specify:
  * <ul>
- *   <li>A set of property names constraining the attributes of joined features, see {@link #getProperties()}
- *   <li>A secondary filter used to constrained features from the joined feature type, see {@link #getFilter()}
- *   <li>An alias for the joined feature type, which can be used in the join filter to disambiguate
- *    attributes of the feature types being joined, see {@link #getAlias()}
- *   <li>A join type specifying what type of join (inner, outer, etc...) should be performed, see {@link #getType()}
+ * <li>A set of property names constraining the attributes of joined features, see 
+ * {@link #getProperties()}
+ * <li>A secondary filter used to constrained features from the joined feature type, see 
+ * {@link #getFilter()}
+ * <li>An alias for the joined feature type, which can be used in the join filter to disambiguate
+ * attributes of the feature types being joined, see {@link #getAlias()}
+ * <li>A join type specifying what type of join (inner, outer, etc...) should be performed, see 
+ * {@link #getType()}
  * </ul>
  * </p>
- * 
+ *
  * @author Justin Deoliveira, OpenGeo
- * 
  * @since 8.0
  */
 public class Join {
@@ -62,7 +64,9 @@ public class Join {
         INNER, OUTER;
     }
 
-    /** join type */
+    /**
+     * join type
+     */
     Type type;
 
     /**
@@ -71,17 +75,17 @@ public class Join {
     String typeName;
 
     /**
-     * attributes to fetch for this feature type 
+     * attributes to fetch for this feature type
      */
     List<PropertyName> properties = Query.ALL_PROPERTIES;
 
-    /** 
+    /**
      * the join predicate
      */
     Filter join;
 
     /**
-     * additional predicate against the target of the join 
+     * additional predicate against the target of the join
      */
     Filter filter;
 
@@ -92,10 +96,10 @@ public class Join {
 
     /**
      * Constructs a join.
-     * 
+     *
      * @param typeName The name of the feature type to join to.
-     * @param join The filter specifying the join condition between the two feature types being 
-     *  joined.
+     * @param join     The filter specifying the join condition between the two feature types being
+     *                 joined.
      */
     public Join(String typeName, Filter join) {
         this.typeName = typeName;
@@ -131,18 +135,19 @@ public class Join {
     }
 
     /**
-     * The filter defining the join condition between the primary feature type and the feature 
+     * The filter defining the join condition between the primary feature type and the feature
      * type being joined to.
      * <p>
-     * This filter should be a comparison operator whose contents are two {@link PropertyName} 
+     * This filter should be a comparison operator whose contents are two {@link PropertyName}
      * instances. For example:
      * <pre>
      * new Join("theOtherType", propertyIsEqualTo(propertyName("foo"), propertyName("bar")));
      * </pre>
-     * In instances where the two property names involved in the join are the same a prefix or 
+     * In instances where the two property names involved in the join are the same a prefix or
      * alias must be used to differentiate:
      * <pre>
-     * Join j = new Join("theOtherType", propertyIsEqualTo(propertyName("foo"), propertyName("other.bar")));
+     * Join j = new Join("theOtherType", propertyIsEqualTo(propertyName("foo"), propertyName
+     * ("other.bar")));
      * j.alias("other");
      * </pre>
      * </p>
@@ -153,6 +158,7 @@ public class Join {
 
     /**
      * Sets the join type.
+     *
      * @see #getType()
      */
     public void setType(Type type) {
@@ -164,7 +170,6 @@ public class Join {
      * <p>
      * {@link Type#INNER} is the default join type.
      * </p>
-     * 
      */
     public Type getType() {
         return type;
@@ -203,7 +208,7 @@ public class Join {
         if (properties == Query.ALL_PROPERTIES) {
             return Query.ALL_NAMES;
         }
-        
+
         String[] names = new String[properties.size()];
         for (int i = 0; i < names.length; i++) {
             names[i] = properties.get(i).getPropertyName();
@@ -212,8 +217,8 @@ public class Join {
     }
 
     /**
-     * Sets the filter used to constrain which features from the joined feature type to return. 
-     * 
+     * Sets the filter used to constrain which features from the joined feature type to return.
+     *
      * @see #getFilter()
      */
     public void setFilter(Filter filter) {
@@ -233,6 +238,7 @@ public class Join {
 
     /**
      * Sets an alias for the feature type being joined to.
+     *
      * @see #getAlias()
      */
     public void setAlias(String alias) {
@@ -242,14 +248,15 @@ public class Join {
     /**
      * An alias for the feature type being joined to.
      * <p>
-     * This method is useful in cases where the two feature types being joined contain attributes 
+     * This method is useful in cases where the two feature types being joined contain attributes
      * identically named, or in cases where a self join is being performed:
      * <pre>
-     * Join j = new Join("theOtherType", PropertyIsEqualTo(PropertyName("foo"), PropertyName("other.foo")));
+     * Join j = new Join("theOtherType", PropertyIsEqualTo(PropertyName("foo"), PropertyName
+     * ("other.foo")));
      * j.setAlias("other");
      * </pre>
      * </p>
-     * 
+     *
      * @see #getJoinFilter()
      */
     public String getAlias() {

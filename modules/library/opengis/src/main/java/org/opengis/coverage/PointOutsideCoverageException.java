@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.coverage;
@@ -20,18 +20,15 @@ import static org.opengis.annotation.Specification.*;
  * Thrown when a {@link Coverage#evaluate(DirectPosition, java.util.Set) evaluate} method
  * is invoked for a location outside the domain of the coverage.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
+ * @author Alexander Petkov
  * @version <A HREF="http://www.opengis.org/docs/01-004.pdf">Grid Coverage specification 1.0</A>
- * @author  Martin Desruisseaux (IRD)
- * @author  Alexander Petkov
- * @since   GeoAPI 1.0
- *
+ * @source $URL$
  * @see Coverage#evaluate(DirectPosition, byte[])
  * @see Coverage#evaluate(DirectPosition, double[])
+ * @since GeoAPI 1.0
  */
-@UML(identifier="CV_PointOutsideCoverage", specification=OGC_01004)
+@UML(identifier = "CV_PointOutsideCoverage", specification = OGC_01004)
 public class PointOutsideCoverageException extends CannotEvaluateException {
     /**
      * Serial number for interoperability with different versions.
@@ -53,8 +50,8 @@ public class PointOutsideCoverageException extends CannotEvaluateException {
     /**
      * Creates an exception with the specified message.
      *
-     * @param  message The detail message. The detail message is saved for
-     *         later retrieval by the {@link #getMessage()} method.
+     * @param message The detail message. The detail message is saved for
+     *                later retrieval by the {@link #getMessage()} method.
      */
     public PointOutsideCoverageException(String message) {
         super(message);
@@ -65,7 +62,6 @@ public class PointOutsideCoverageException extends CannotEvaluateException {
      * which is outside the domain of the {@linkplain #getCoverage coverage}.
      *
      * @return The position outside the coverage, or {@code null} if unknown.
-     *
      * @since GeoAPI 2.2
      */
     @Extension
@@ -78,7 +74,6 @@ public class PointOutsideCoverageException extends CannotEvaluateException {
      * which is outside the domain of the {@linkplain #getCoverage coverage}.
      *
      * @param location The position outside the coverage, or {@code null} if unknown.
-     *
      * @since GeoAPI 2.2
      */
     @Extension

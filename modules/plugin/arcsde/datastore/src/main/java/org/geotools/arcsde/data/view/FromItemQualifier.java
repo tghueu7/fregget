@@ -34,12 +34,12 @@ import org.geotools.arcsde.session.ISession;
  * in sde land. So this visitor will create new Tables where schema if formed by SDE's
  * "databaseName"."userName"
  * </p>
- * 
+ *
  * @author Gabriel Roldan, Axios Engineering
  * @version $Id$
  * @source $URL:
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
- *         /org/geotools/arcsde/data/view/FromItemQualifier.java $
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
+ * /org/geotools/arcsde/data/view/FromItemQualifier.java $
  * @since 2.3.x
  */
 class FromItemQualifier implements FromItemVisitor {
@@ -50,7 +50,7 @@ class FromItemQualifier implements FromItemVisitor {
 
     /**
      * Creates a new FromItemQualifier object.
-     * 
+     *
      * @param session
      * @throws IllegalStateException
      */

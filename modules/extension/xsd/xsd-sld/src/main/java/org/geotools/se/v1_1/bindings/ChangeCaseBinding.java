@@ -26,9 +26,9 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/se:ChangeCase.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:element name="ChangeCase" substitutionGroup="se:Function" type="se:ChangeCaseType"&gt;
@@ -37,11 +37,11 @@ import javax.xml.namespace.QName;
  *  Changes the case of strings.
  *               &lt;/xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
- *  &lt;/xsd:element&gt; 
- * 	
+ *  &lt;/xsd:element&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * <pre>
  *       <code>
  *  &lt;xsd:complexType name="ChangeCaseType"&gt;
@@ -53,26 +53,24 @@ import javax.xml.namespace.QName;
  *              &lt;xsd:attribute name="direction" type="se:directionType"/&gt;
  *          &lt;/xsd:extension&gt;
  *      &lt;/xsd:complexContent&gt;
- *  &lt;/xsd:complexType&gt; 
- *              
+ *  &lt;/xsd:complexType&gt;
+ *
  *        </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class ChangeCaseBinding extends AbstractComplexBinding {
 
     FilterFactory filterFactory;
-    
+
     public ChangeCaseBinding(FilterFactory filterFactory) {
         this.filterFactory = filterFactory;
     }
-    
+
     /**
      * @generated
      */
@@ -82,7 +80,7 @@ public class ChangeCaseBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -91,19 +89,18 @@ public class ChangeCaseBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
-        
+
         //&lt;xsd:element ref="se:StringValue"/&gt;
         Expression str = (Expression) node.getChildValue("StringValue");
-        
+
         String direction = (String) node.getAttributeValue("direction");
         if ("toUpper".equalsIgnoreCase(direction)) {
             return filterFactory.function("strToUpperCase", str);
-        }
-        else {
+        } else {
             return filterFactory.function("strToLowerCase", str);
         }
     }

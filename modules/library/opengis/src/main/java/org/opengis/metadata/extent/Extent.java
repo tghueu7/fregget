@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.metadata.extent;
 
 import java.util.Collection;
+
 import org.opengis.util.InternationalString;
 import org.opengis.annotation.UML;
 
@@ -21,26 +22,24 @@ import static org.opengis.annotation.Specification.*;
  * Information about spatial, vertical, and temporal extent.
  * This interface has four optional attributes
  * ({@linkplain #getGeographicElements geographic elements},
- *  {@linkplain #getTemporalElements temporal elements}, and
- *  {@linkplain #getVerticalElements vertical elements}) and an element called
- *  {@linkplain #getDescription description}.
- *  At least one of the four shall be used.
+ * {@linkplain #getTemporalElements temporal elements}, and
+ * {@linkplain #getVerticalElements vertical elements}) and an element called
+ * {@linkplain #getDescription description}.
+ * At least one of the four shall be used.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
+ * @source $URL$
+ * @since GeoAPI 1.0
  */
-@UML(identifier="EX_Extent", specification=ISO_19115)
+@UML(identifier = "EX_Extent", specification = ISO_19115)
 public interface Extent {
     /**
      * Returns the spatial and temporal extent for the referring object.
      *
      * @return The spatial and temporal extent, or {@code null} in none.
      */
-    @UML(identifier="description", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "description", obligation = CONDITIONAL, specification = ISO_19115)
     InternationalString getDescription();
 
     /**
@@ -48,7 +47,7 @@ public interface Extent {
      *
      * @return The geographic extent, or an empty set if none.
      */
-    @UML(identifier="geographicElement", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "geographicElement", obligation = CONDITIONAL, specification = ISO_19115)
     Collection<? extends GeographicExtent> getGeographicElements();
 
     /**
@@ -56,7 +55,7 @@ public interface Extent {
      *
      * @return The temporal extent, or an empty set if none.
      */
-    @UML(identifier="temporalElement", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "temporalElement", obligation = CONDITIONAL, specification = ISO_19115)
     Collection<? extends TemporalExtent> getTemporalElements();
 
     /**
@@ -64,6 +63,6 @@ public interface Extent {
      *
      * @return The vertical extent, or an empty set if none.
      */
-    @UML(identifier="verticalElement", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "verticalElement", obligation = CONDITIONAL, specification = ISO_19115)
     Collection<? extends VerticalExtent> getVerticalElements();
 }

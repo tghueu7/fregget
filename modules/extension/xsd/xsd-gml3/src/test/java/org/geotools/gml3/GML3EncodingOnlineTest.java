@@ -62,8 +62,6 @@ import java.util.Map;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GML3EncodingOnlineTest extends TestCase {

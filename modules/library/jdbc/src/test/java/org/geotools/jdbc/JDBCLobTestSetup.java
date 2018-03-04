@@ -3,8 +3,6 @@ package org.geotools.jdbc;
 import java.sql.SQLException;
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class JDBCLobTestSetup extends JDBCDelegatingTestSetup {
@@ -12,7 +10,7 @@ public abstract class JDBCLobTestSetup extends JDBCDelegatingTestSetup {
     protected JDBCLobTestSetup(JDBCTestSetup delegate) {
         super(delegate);
     }
-    
+
     protected final void setUpData() throws Exception {
         //kill all the data
         try {
@@ -31,7 +29,7 @@ public abstract class JDBCLobTestSetup extends JDBCDelegatingTestSetup {
      * </p>
      * <p>
      * The table should be populated with the following data
-     *  0 | [0,1,2,3,4,5] | "small clob"
+     * 0 | [0,1,2,3,4,5] | "small clob"
      * </p>
      * Where [0,1,2,3,4,5] is a byte[]
      */

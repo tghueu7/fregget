@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.annotation;
@@ -12,6 +12,7 @@ package org.opengis.annotation;
 import java.lang.annotation.Target;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
+
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.*;
 
@@ -25,13 +26,12 @@ import static java.lang.annotation.RetentionPolicy.*;
  * only provides enough information for finding the corresponding XML element in
  * the {@linkplain XmlSchema schema}.
  *
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 2.0
- *
+ * @author Martin Desruisseaux (IRD)
  * @source $URL$
+ * @since GeoAPI 2.0
  */
 @Documented
-@Target({TYPE,METHOD,FIELD})
+@Target({TYPE, METHOD, FIELD})
 @Retention(RUNTIME)
 public @interface XmlElement {
     /**

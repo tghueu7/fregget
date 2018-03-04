@@ -46,13 +46,14 @@ import org.opengis.filter.expression.Literal;
  * <li>If there is is more than one param left after the argument name a collection containing them
  * will be built and returned</li>
  * </ul>
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 class ParameterFunction implements Function {
-    
+
     static final FunctionName NAME = new FunctionNameImpl("parameter", parameter("parameterMap",
-            Map.class), parameter("argumentName", String.class),parameter("values", Object.class,0,Integer.MAX_VALUE));
+            Map.class), parameter("argumentName", String.class), parameter("values", Object
+            .class, 0, Integer.MAX_VALUE));
 
     Literal fallbackValue;
 
@@ -70,9 +71,11 @@ class ParameterFunction implements Function {
     public String getName() {
         return NAME.getName();
     }
+
     public FunctionName getFunctionName() {
         return NAME;
     }
+
     public List<Expression> getParameters() {
         return parameters;
     }
@@ -119,7 +122,7 @@ class ParameterFunction implements Function {
     public <T> T evaluate(Object object, Class<T> context) {
         return Converters.convert(evaluate(object), context);
     }
-    
+
     @Override
     public int hashCode() {
         final int prime = 31;

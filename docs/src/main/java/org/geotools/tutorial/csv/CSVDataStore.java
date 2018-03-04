@@ -27,7 +27,7 @@ import com.csvreader.CsvReader;
 
 /**
  * DataStore for Comma Seperated Value (CSV) files.
- * 
+ *
  * @author Jody Garnett (Boundless)
  */
 public class CSVDataStore extends ContentDataStore {
@@ -36,15 +36,17 @@ public class CSVDataStore extends ContentDataStore {
     // constructor start
     File file;
 
-    public CSVDataStore( File file ){
+    public CSVDataStore(File file) {
         this.file = file;
     }
     // constructor end
 
     // reader start
+
     /**
      * Allow read access to file; for our package visible "friends".
      * Please close the reader when done.
+     *
      * @return CsvReader for file
      */
     CsvReader read() throws IOException {
@@ -59,7 +61,7 @@ public class CSVDataStore extends ContentDataStore {
         String name = file.getName();
         name = name.substring(0, name.lastIndexOf('.'));
 
-        Name typeName = new NameImpl( name );
+        Name typeName = new NameImpl(name);
         return Collections.singletonList(typeName);
     }
     // createTypeNames end

@@ -37,7 +37,7 @@ import com.esri.sde.sdk.client.SeQuery;
  * This implementation holds a connection and an open {@link SeQuery query} until the reader is
  * exhausted or {@link #dispose()} is called.
  * </p>
- * 
+ *
  * @author Gabriel Roldan
  * @version $Id$
  * @since 2.5.7
@@ -53,14 +53,14 @@ class DefaultTiledRasterReader implements TiledRasterReader {
      * data for the given {@link RasterDatasetInfo rasterInfo}.
      * <p>
      * </p>
-     * 
-     * @param sessionPool
-     *            where to grab sessions from to query the rasters described by {@code rasterInfo}
+     *
+     * @param sessionPool where to grab sessions from to query the rasters described by {@code 
+     * rasterInfo}
      * @param rasterInfo
      * @throws IOException
      */
     public DefaultTiledRasterReader(final ISessionPool sessionPool,
-            final RasterDatasetInfo rasterInfo) throws IOException {
+                                    final RasterDatasetInfo rasterInfo) throws IOException {
         this.sessionPool = sessionPool;
         this.rasterInfo = rasterInfo;
     }
@@ -68,7 +68,8 @@ class DefaultTiledRasterReader implements TiledRasterReader {
     /**
      * @see org.geotools.arcsde.raster.io.TiledRasterReader#read
      */
-    public RenderedImage read(final long rasterId, final int pyramidLevel, final GridEnvelope tileRange)
+    public RenderedImage read(final long rasterId, final int pyramidLevel, final GridEnvelope 
+            tileRange)
             throws IOException {
 
         final TileReader tileReader;
@@ -90,7 +91,7 @@ class DefaultTiledRasterReader implements TiledRasterReader {
     /**
      * Creates an image representing the whole pyramid level but with a tile reader ready to read
      * only the required tiles, the calling code is responsible for cropping it as needed
-     * 
+     *
      * @param tileReader
      * @param tileRange
      * @param rasterId
@@ -98,7 +99,8 @@ class DefaultTiledRasterReader implements TiledRasterReader {
      * @throws IOException
      */
     private RenderedImage createTiledRaster(final TileReader tileReader,
-            final GridEnvelope tileRange, final long rasterId) throws IOException {
+                                            final GridEnvelope tileRange, final long rasterId) 
+            throws IOException {
         // Prepare temporary colorModel and sample model, needed to build the final
         // ArcSDEPyramidLevel level;
         final ColorModel colorModel;

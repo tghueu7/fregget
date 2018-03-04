@@ -3,8 +3,6 @@ package org.geotools.data.ingres;
 import org.geotools.jdbc.JDBCSkipColumnTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class IngresSkipColumnTestSetup extends JDBCSkipColumnTestSetup {
@@ -22,9 +20,9 @@ public class IngresSkipColumnTestSetup extends JDBCSkipColumnTestSetup {
                 + "\"weirdproperty\" NBR," //
                 + "\"name\" varchar(256))");
         run("CREATE SEQUENCE skipcolumn_fid_sequence");
-        
+
         run("INSERT INTO \"skipcolumn\" VALUES(NEXT VALUE FOR skipcolumn_fid_sequence, " +
-        		"0, GeometryFromText('POINT(0 0)', 4326), null, 'GeoTools')"); 
+                "0, GeometryFromText('POINT(0 0)', 4326), null, 'GeoTools')");
 
     }
 

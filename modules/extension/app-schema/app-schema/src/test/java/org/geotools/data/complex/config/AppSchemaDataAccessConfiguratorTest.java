@@ -5,13 +5,13 @@ import org.geotools.test.AppSchemaTestSupport;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+
 import org.junit.Test;
 
 /**
  * This is to test app-schema joining configuration. Joining should be on by default.
- * 
+ *
  * @author Rini Angreani (CSIRO Earth Science and Resource Engineering)
- * 
  */
 public class AppSchemaDataAccessConfiguratorTest extends AppSchemaTestSupport {
 

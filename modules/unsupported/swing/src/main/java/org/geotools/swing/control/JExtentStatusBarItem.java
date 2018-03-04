@@ -28,18 +28,16 @@ import org.geotools.swing.event.MapPaneEvent;
 /**
  * A status bar item that displays the map pane's world bounds.
  *
- * @see JMapStatusBar
- *
  * @author Michael Bedward
- * @since 8.0
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @see JMapStatusBar
+ * @since 8.0
  */
 public class JExtentStatusBarItem extends StatusBarItem {
     private static final String COMPONENT_NAME =
             LocaleUtils.getValue("StatusBar", "ExtentItemName");
-    
+
     private static final String TOOL_TIP = LocaleUtils.getValue("StatusBar", "ExtentTooltip");
     private static final ReferencedEnvelope EMPTY_ENV = new ReferencedEnvelope();
 
@@ -62,13 +60,13 @@ public class JExtentStatusBarItem extends StatusBarItem {
         if (mapPane == null) {
             throw new IllegalArgumentException("mapPane must not be null");
         }
-        
+
         setToolTipText(TOOL_TIP);
 
         lastExtent = EMPTY_ENV;
         decLen = JMapStatusBar.DEFAULT_NUM_DECIMAL_DIGITS;
         setLabelFormat();
-        
+
         label = new JLabel();
         label.setFont(JMapStatusBar.DEFAULT_FONT);
         add(label);
@@ -83,9 +81,9 @@ public class JExtentStatusBarItem extends StatusBarItem {
 
     /**
      * Displays extent in world coordinates.
-     * 
+     *
      * @param extent the map pane extent
-     * @param cache whether to cache a copy of {@code extent}
+     * @param cache  whether to cache a copy of {@code extent}
      */
     private void displayExtent(ReferencedEnvelope extent, boolean cache) {
         if (extent == null || extent.isEmpty()) {
@@ -125,7 +123,7 @@ public class JExtentStatusBarItem extends StatusBarItem {
         sb.append("%.").append(decLen).append("f] ");
         sb.append("y=[%.").append(decLen).append("f, ");
         sb.append("%.").append(decLen).append("f]");
-        
+
         numFormat = sb.toString();
     }
 

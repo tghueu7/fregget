@@ -52,7 +52,7 @@ import static org.geotools.util.Utilities.streamIfSubtype;
  * their content were merged.
  * <p>
  * Example use:
- * 
+ * <p>
  * <pre>
  * <code>
  * Set&lt;Class&lt;?&gt;&gt; categories =
@@ -60,7 +60,7 @@ import static org.geotools.util.Utilities.streamIfSubtype;
  *         MathTransformProvider.class
  *     });
  * FactoryRegistry registry = new FactoryRegistry(categories);
- * 
+ *
  * // get the factories
  * Predicate filter = null;
  * Hints hints = null;
@@ -78,18 +78,15 @@ import static org.geotools.util.Utilities.streamIfSubtype;
  * system. In Java 9 the service registry was restricted to a limited number of imageio services and
  * was no longer available for general use. We have introduced {@link CategoryRegistry} to take over
  * instance management, in conjunction with the supported {@link ServiceLoader} discovery.
- * 
- * @since 2.1
- * @version 19.0
  *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
  * @author Richard Gould
  * @author Jody Garnett
- *
+ * @version $Id$
+ * @source $URL$
  * @see org.geotools.referencing.ReferencingFactoryFinder
  * @see org.geotools.coverage.CoverageFactoryFinder
+ * @since 2.1
  */
 public class FactoryRegistry {
     /**
@@ -104,7 +101,7 @@ public class FactoryRegistry {
 
     /**
      * Holds the registered factories by their category.
-     *
+     * <p>
      * {@link CategoryRegistry} does not accept {@code null} values and will throw
      * {@link IllegalArgumentException}s if it encounters any. This factory registry
      * relies on that behavior and "outsources" a lot of its {@code null} checks this way.
@@ -129,7 +126,7 @@ public class FactoryRegistry {
     private final Set<Class<?>> needScanForPlugins = new HashSet<>();
 
     /**
-     * Categories under scanning. This is used by {@link #scanForPlugins(Collection,Class)}
+     * Categories under scanning. This is used by {@link #scanForPlugins(Collection, Class)}
      * as a guard against infinite recursivity (i.e. when a factory to be scanned request
      * an other dependency of the same category).
      */
@@ -151,7 +148,6 @@ public class FactoryRegistry {
      * Constructs a new registry for the specified category.
      *
      * @param category The single category.
-     *
      * @since 2.4
      */
     public FactoryRegistry(final Class<?> category) {
@@ -162,7 +158,6 @@ public class FactoryRegistry {
      * Constructs a new registry for the specified categories.
      *
      * @param categories The categories.
-     *
      * @since 2.4
      */
     public FactoryRegistry(final Class<?>[] categories) {
@@ -184,14 +179,14 @@ public class FactoryRegistry {
     }
 
     /**
-     * @param classLoader 
-     * @deprecated Replace with {@link ServiceLoader#load(Class,ClassLoader)}
+     * @param classLoader
+     * @deprecated Replace with {@link ServiceLoader#load(Class, ClassLoader)}
      */
     @Deprecated
     public static <T> Iterator<T> lookupProviders(Class<T> service, ClassLoader classLoader) {
-        return ServiceLoader.load(service,classLoader).iterator();
+        return ServiceLoader.load(service, classLoader).iterator();
     }
-    
+
     /**
      * Constructs a new registry for the specified categories.
      *
@@ -213,9 +208,10 @@ public class FactoryRegistry {
     public <T> T getServiceProviderByClass(Class<T> providerClass) {
         return getFactoryByClass(providerClass);
     }
-    
+
     /**
      * Instance of category, or null if not available.
+     *
      * @param category The category to look for. Usually an interface class
      *                 (not the actual implementation class).
      * @return instance, or null of not available
@@ -235,8 +231,9 @@ public class FactoryRegistry {
 
     /**
      * Factories for the provided category type.
-     * @param category The category to look for. Usually an interface class
-     *                 (not the actual implementation class).
+     *
+     * @param category    The category to look for. Usually an interface class
+     *                    (not the actual implementation class).
      * @param useOrdering true to use provided pairwise orderings
      * @return factories registered for category
      * @since 19
@@ -249,23 +246,25 @@ public class FactoryRegistry {
      * @deprecated Replaced by {@link #getFactories(Class, Predicate, boolean)}
      */
     @Deprecated
-    public <T> Iterator<T> getServiceProviders(final Class<T> category, final ServiceRegistry.Filter filter, final boolean useOrdering) {
+    public <T> Iterator<T> getServiceProviders(final Class<T> category, final ServiceRegistry
+            .Filter filter, final boolean useOrdering) {
         Predicate<T> factoryFilter = filter == null ? null : filter::filter;
         return getFactories(category, factoryFilter, useOrdering).iterator();
     }
 
     /**
      * Factories for the provided category type.
-     * 
-     * @param category The category to look for. Usually an interface class
-     *                 (not the actual implementation class).
+     *
+     * @param category      The category to look for. Usually an interface class
+     *                      (not the actual implementation class).
      * @param factoryFilter Predicate to filter factories, null for all factories
-     * @param useOrdering true to use provided pairwise orderings
+     * @param useOrdering   true to use provided pairwise orderings
      * @return factories registered for category
      * @since 19
      */
     public <T> Stream<T> getFactories(final Class<T> category,
-            final Predicate<? super T> factoryFilter, final boolean useOrdering) {
+                                      final Predicate<? super T> factoryFilter, final boolean 
+                                              useOrdering) {
         Stream<T> factories = getFactories(category, useOrdering);
         return factoryFilter == null ? factories : factories.filter(factoryFilter);
     }
@@ -273,8 +272,9 @@ public class FactoryRegistry {
     /**
      * @deprecated Replaced with {@link #getFactories(Class, Predicate, Hints)}
      */
-    @Deprecated 
-    public synchronized <T> Iterator<T> getServiceProviders(final Class<T> category, final ServiceRegistry.Filter filter, final Hints hints) {
+    @Deprecated
+    public synchronized <T> Iterator<T> getServiceProviders(final Class<T> category, final 
+    ServiceRegistry.Filter filter, final Hints hints) {
         Predicate<? super T> predicate = filter == null ? null : filter::filter;
         return getFactories(category, predicate, hints).iterator();
     }
@@ -291,10 +291,10 @@ public class FactoryRegistry {
      * @param filter   The optional filter predicate, or {@code null}.
      * @param hints    The optional user requirements, or {@code null}.
      * @return Factories ready to use for the specified category, filter and hints.
-     *
      * @since 19
      */
-    public synchronized <T> Stream<T> getFactories(final Class<T> category, final Predicate<? super T> filter, final Hints hints) {
+    public synchronized <T> Stream<T> getFactories(final Class<T> category, final Predicate<? 
+            super T> filter, final Hints hints) {
         /*
          * The implementation of this method is very similar to the 'getUnfilteredFactories'
          * one except for filter handling. See the comments in 'getUnfilteredFactories' for
@@ -307,7 +307,8 @@ public class FactoryRegistry {
         }
         synchronizeIteratorProviders();
         scanForPluginsIfNeeded(category);
-        Predicate<T> isAcceptable = factory -> isAcceptable(category.cast(factory), category, hints, filter);
+        Predicate<T> isAcceptable = factory -> isAcceptable(category.cast(factory), category, 
+                hints, filter);
         return getFactories(category, isAcceptable, true);
     }
 
@@ -346,10 +347,12 @@ public class FactoryRegistry {
     }
 
     /**
-     * @deprecated Replaced with {@link #getFactory(Class, Predicate, Hints, org.geotools.factory.Hints.Key)}
+     * @deprecated Replaced with 
+     * {@link #getFactory(Class, Predicate, Hints, org.geotools.factory.Hints.Key)}
      */
-    @Deprecated 
-    public <T> T getServiceProvider(final Class<T> category, final ServiceRegistry.Filter filter, Hints hints, final Hints.Key key)
+    @Deprecated
+    public <T> T getServiceProvider(final Class<T> category, final ServiceRegistry.Filter filter,
+                                    Hints hints, final Hints.Key key)
             throws FactoryRegistryException {
         Predicate<T> predicate = filter == null ? null : filter::filter;
         return getFactory(category, predicate, hints, key);
@@ -362,29 +365,28 @@ public class FactoryRegistry {
      * created by the default implementation of this method. The {@link FactoryCreator} class
      * change this behavior however.
      *
-     * @param  <T>      The class represented by the {@code category} argument.
-     * @param  category The category to look for. Must be one of the categories declared to the
-     *                  constructor. Usually an interface class (not the actual implementation
-     *                  class).
-     * @param  filter   An optional filter, or {@code null} if none.
-     *                  This is used for example in order to select the first factory for some
-     *                  {@linkplain org.opengis.referencing.AuthorityFactory#getAuthority authority}.
-     * @param  hints    A {@linkplain Hints map of hints}, or {@code null} if none.
-     * @param  key      The key to use for looking for a user-provided instance in the hints, or
-     *                  {@code null} if none.
+     * @param <T>      The class represented by the {@code category} argument.
+     * @param category The category to look for. Must be one of the categories declared to the
+     *                 constructor. Usually an interface class (not the actual implementation
+     *                 class).
+     * @param filter   An optional filter, or {@code null} if none.
+     *                 This is used for example in order to select the first factory for some
+     *                 {@linkplain org.opengis.referencing.AuthorityFactory#getAuthority authority}.
+     * @param hints    A {@linkplain Hints map of hints}, or {@code null} if none.
+     * @param key      The key to use for looking for a user-provided instance in the hints, or
+     *                 {@code null} if none.
      * @return A factory {@linkplain OptionalFactory#isAvailable available} for use for the
-     *         specified category and hints. The returns type is {@code Object} instead of
-     *         {@link Factory} because the factory implementation doesn't need to be a Geotools one.
+     * specified category and hints. The returns type is {@code Object} instead of
+     * {@link Factory} because the factory implementation doesn't need to be a Geotools one.
      * @throws FactoryNotFoundException if no factory was found for the specified category, filter
-     *         and hints.
+     *                                  and hints.
      * @throws FactoryRegistryException if a factory can't be returned for some other reason.
-     *
      * @see #getFactories(Class, Predicate, Hints)
      * @see FactoryCreator#getFactory
      */
-    public <T> T getFactory(final Class<T> category, final Predicate<? super T> filter, Hints hints, final Hints.Key key)
-            throws FactoryRegistryException
-    {
+    public <T> T getFactory(final Class<T> category, final Predicate<? super T> filter, Hints 
+            hints, final Hints.Key key)
+            throws FactoryRegistryException {
         synchronizeIteratorProviders();
         final boolean debug = LOGGER.isLoggable(DEBUG_LEVEL);
         if (debug) {
@@ -449,21 +451,23 @@ public class FactoryRegistry {
                     if (hint instanceof Class<?>[]) {
                         final Class<?>[] types = (Class<?>[]) hint;
                         final int length = types.length;
-                        for (int i=0; i<length-1; i++) {
+                        for (int i = 0; i < length - 1; i++) {
                             final Class<?> type = types[i];
                             if (debug) {
                                 debug("CHECK", category, key, "consider hint[" + i + ']', type);
                             }
-                            final Optional<T> candidate = getFactoryImplementation(category, type, filter, hints);
+                            final Optional<T> candidate = getFactoryImplementation(category, 
+                                    type, filter, hints);
                             if (candidate.isPresent()) {
                                 if (debug) {
-                                    debug("RETURN", category, key, "found implementation", candidate.getClass());
+                                    debug("RETURN", category, key, "found implementation", 
+                                            candidate.getClass());
                                 }
                                 return candidate.get();
                             }
                         }
                         if (length != 0) {
-                            implementation = types[length-1]; // Last try to be done below.
+                            implementation = types[length - 1]; // Last try to be done below.
                         }
                     } else {
                         implementation = (Class<?>) hint;
@@ -474,7 +478,8 @@ public class FactoryRegistry {
         if (debug && implementation != null) {
             debug("CHECK", category, key, "consider hint[last]", implementation);
         }
-        final Optional<T> candidate = getFactoryImplementation(category, implementation, filter, hints);
+        final Optional<T> candidate = getFactoryImplementation(category, implementation, filter, 
+                hints);
         if (candidate.isPresent()) {
             if (debug) {
                 debug("RETURN", category, key, "found implementation", candidate.getClass());
@@ -485,12 +490,12 @@ public class FactoryRegistry {
             debug("THROW", category, key, "could not find implementation.", null);
         }
         throw new FactoryNotFoundException(Errors.format(ErrorKeys.FACTORY_NOT_FOUND_$1,
-                  implementation!=null ? implementation : category));
+                implementation != null ? implementation : category));
     }
 
     /**
      * Logs a debug message for {@link #getFactory} method.
-     * 
+     * <p>
      * Note: we are not required to insert the method name ({@code "GetFactory"}) in the
      * message because it is part of the informations already stored by {@link LogRecord},
      * and formatted by the default {@link java.util.logging.SimpleFormatter}.
@@ -503,11 +508,10 @@ public class FactoryRegistry {
      * @param type     Optional class to format after the message, or {@code null}.
      */
     private static void debug(final String status, final Class<?> category,
-                              final Hints.Key key, final String message, final Class<?> type)
-    {
+                              final Hints.Key key, final String message, final Class<?> type) {
         final StringBuilder buffer = new StringBuilder(status);
-        buffer.append(Utilities.spaces(Math.max(1, 7-status.length())))
-              .append('(').append(Classes.getShortName(category));
+        buffer.append(Utilities.spaces(Math.max(1, 7 - status.length())))
+                .append('(').append(Classes.getShortName(category));
         if (key != null) {
             buffer.append(", ").append(key);
         }
@@ -531,15 +535,16 @@ public class FactoryRegistry {
      * Hints.Key)} public method above; there is no recursivity there. This method do not
      * creates new instance if no matching factory is found.
      *
-     * @param  category       The category to look for. Usually an interface class.
-     * @param  implementation The desired class for the implementation, or {@code null} if none.
-     * @param  filter         An optional filter, or {@code null} if none.
-     * @param  hints          A {@linkplain Hints map of hints}, or {@code null} if none.
+     * @param category       The category to look for. Usually an interface class.
+     * @param implementation The desired class for the implementation, or {@code null} if none.
+     * @param filter         An optional filter, or {@code null} if none.
+     * @param hints          A {@linkplain Hints map of hints}, or {@code null} if none.
      * @return A factory for the specified category and hints, or {@code null} if none.
      */
-    private <T> Optional<T> getFactoryImplementation(final Class<T> category, final Class<?> implementation,
-                                           final Predicate<? super T> filter, final Hints hints)
-    {
+    private <T> Optional<T> getFactoryImplementation(final Class<T> category, final Class<?> 
+            implementation,
+                                                     final Predicate<? super T> filter, final 
+                                                     Hints hints) {
         Optional<T> factory = getUnfilteredFactories(category)
                 // Implementation class must be tested before 'isAcceptable'
                 // in order to avoid StackOverflowError in some situations.
@@ -559,13 +564,13 @@ public class FactoryRegistry {
          * Checks if a factory previously created by FactoryCreator could fit. This
          * block should never be executed if this instance is not a FactoryCreator.
          */
-        for (final Iterator<Reference<T>> it=cached.iterator(); it.hasNext();) {
+        for (final Iterator<Reference<T>> it = cached.iterator(); it.hasNext(); ) {
             final T candidate = it.next().get();
             if (candidate == null) {
                 it.remove();
                 continue;
             }
-            if (implementation!=null && !implementation.isInstance(candidate)) {
+            if (implementation != null && !implementation.isInstance(candidate)) {
                 continue;
             }
             if (!isAcceptable(candidate, category, hints, filter)) {
@@ -579,6 +584,7 @@ public class FactoryRegistry {
     /**
      * Returns the factories available in the cache, or {@code null} if none.
      * To be overridden by {@link FactoryCreator} only.
+     *
      * @param category
      * @return List of references to cached factories, or {@code null} if none.
      */
@@ -590,16 +596,15 @@ public class FactoryRegistry {
      * Returns {@code true} is the specified {@code factory} meets the requirements specified by
      * a map of {@code hints} and the {@code candidateFilter}.
      *
-     * @param candidate         The factory to checks.
-     * @param category          The factory category. Usually an interface.
-     * @param hints             The optional user requirements, or {@code null}.
-     * @param candidateFilter   The optional filter, or {@code null}.
+     * @param candidate       The factory to checks.
+     * @param category        The factory category. Usually an interface.
+     * @param hints           The optional user requirements, or {@code null}.
+     * @param candidateFilter The optional filter, or {@code null}.
      * @return {@code true} if the {@code factory} meets the user requirements.
      */
     final <T> boolean isAcceptable(final T candidate, final Class<T> category,
-                                   final Hints hints, final Predicate<? super T> candidateFilter)
-    {
-        if (candidateFilter!=null && !candidateFilter.test(candidate)) {
+                                   final Hints hints, final Predicate<? super T> candidateFilter) {
+        if (candidateFilter != null && !candidateFilter.test(candidate)) {
             return false;
         }
         /*
@@ -637,11 +642,10 @@ public class FactoryRegistry {
      * @param alreadyDone Should be {@code null} except on recursive calls (for internal use only).
      * @return {@code true} if the {@code factory} meets the hints requirements.
      */
-    private boolean usesAcceptableHints(final Factory  factory,
+    private boolean usesAcceptableHints(final Factory factory,
                                         final Class<?> category,
-                                        final Hints    hints,
-                                        Set<Factory>   alreadyDone)
-    {
+                                        final Hints hints,
+                                        Set<Factory> alreadyDone) {
         /*
          * Ask for implementation hints with special care against infinite recursivity.
          * Some implementations use deferred algorithms fetching dependencies only when
@@ -671,9 +675,9 @@ public class FactoryRegistry {
          * We got the implementation hints. Now tests their compatibility.
          */
         Hints remaining = null;
-        for (final Map.Entry<?,?> entry : implementationHints.entrySet()) {
-            final Object    key   = entry.getKey();
-            final Object    value = entry.getValue();
+        for (final Map.Entry<?, ?> entry : implementationHints.entrySet()) {
+            final Object key = entry.getKey();
+            final Object value = entry.getValue();
             final Object expected = hints.get(key);
             if (expected != null) {
                 /*
@@ -748,7 +752,7 @@ public class FactoryRegistry {
      * {@link com.vividsolutions.jts.geom.GeometryFactory} uses the required
      * {@link com.vividsolutions.jts.geom.CoordinateSequenceFactory}. Such method should be
      * implemented as below, since this method may be invoked for various kind of objects:
-     *
+     * <p>
      * <pre>
      * <code>
      * if (provider instanceof GeometryFactory) {
@@ -757,13 +761,14 @@ public class FactoryRegistry {
      * </code>
      * </pre>
      *
-     * @param <T> The class represented by the {@code category} argument.
-     * @param factory The factory to checks.
+     * @param <T>      The class represented by the {@code category} argument.
+     * @param factory  The factory to checks.
      * @param category The factory category. Usually an interface.
-     * @param hints The user requirements, or {@code null} if none.
+     * @param hints    The user requirements, or {@code null} if none.
      * @return {@code true} if the {@code provider} meets the user requirements.
      */
-    protected <T> boolean isAcceptable(final T factory, final Class<T> category, final Hints hints) {
+    protected <T> boolean isAcceptable(final T factory, final Class<T> category, final Hints 
+            hints) {
         return true;
     }
 
@@ -772,7 +777,7 @@ public class FactoryRegistry {
      * <p>
      * Safely checks {@link OptionalFactory#isAvailable()} which can be used at runtime to allow a
      * factory to confirm its dependencies (such as a JDBC driver) are available on the CLASSPATH.
-     * 
+     *
      * @return true if factory instance is available for use
      */
     private boolean isAvailable(final Object factory) {
@@ -790,17 +795,17 @@ public class FactoryRegistry {
             testingAvailability.removeAndCheck(type);
         }
     }
-    
+
     /**
      * Returns all class loaders to be used for scanning plugins. Current implementation
      * returns the following class loaders:
      * <p>
      * <ul>
-     *   <li>{@linkplain Class#getClassLoader This object class loader}</li>
-     *   <li>{@linkplain Thread#getContextClassLoader The thread context class loader}</li>
-     *   <li>{@linkplain ClassLoader#getSystemClassLoader The system class loader}</li>
+     * <li>{@linkplain Class#getClassLoader This object class loader}</li>
+     * <li>{@linkplain Thread#getContextClassLoader The thread context class loader}</li>
+     * <li>{@linkplain ClassLoader#getSystemClassLoader The system class loader}</li>
      * </ul>
-     *
+     * <p>
      * The actual number of class loaders may be smaller if redundancies was found.
      * If some more classloaders should be scanned, they shall be added into the code
      * of this method.
@@ -809,16 +814,25 @@ public class FactoryRegistry {
      */
     public final Set<ClassLoader> getClassLoaders() {
         final Set<ClassLoader> loaders = new HashSet<>();
-        for (int i=0; i<4; i++) {
+        for (int i = 0; i < 4; i++) {
             final ClassLoader loader;
             try {
                 switch (i) {
-                    case 0:  loader = getClass().getClassLoader();                    break;
-                    case 1:  loader = FactoryRegistry.class.getClassLoader();         break;
-                    case 2:  loader = Thread.currentThread().getContextClassLoader(); break;
-                    case 3:  loader = ClassLoader.getSystemClassLoader();             break;
+                    case 0:
+                        loader = getClass().getClassLoader();
+                        break;
+                    case 1:
+                        loader = FactoryRegistry.class.getClassLoader();
+                        break;
+                    case 2:
+                        loader = Thread.currentThread().getContextClassLoader();
+                        break;
+                    case 3:
+                        loader = ClassLoader.getSystemClassLoader();
+                        break;
                     // Add any supplementary class loaders here, if needed.
-                    default: throw new AssertionError(i); // Should never happen.
+                    default:
+                        throw new AssertionError(i); // Should never happen.
                 }
             } catch (SecurityException exception) {
                 // We are not allowed to get a class loader.
@@ -872,11 +886,12 @@ public class FactoryRegistry {
      * Scans for factory plug-ins of the given category, with guard against recursivities.
      * The recursivity check make debugging easier than inspecting a {@link StackOverflowError}.
      *
-     * @param loaders The class loaders to use.
+     * @param loaders  The class loaders to use.
      * @param category The category to scan for plug-ins.
      * @see ServiceLoader#load(Class, ClassLoader)
      */
-    private <T> void scanForPlugins(final Collection<ClassLoader> loaders, final Class<T> category) {
+    private <T> void scanForPlugins(final Collection<ClassLoader> loaders, final Class<T> 
+            category) {
         if (!scanningCategories.addAndCheck(category)) {
             throw new RecursiveSearchException(category);
         }
@@ -892,7 +907,8 @@ public class FactoryRegistry {
                 newFactories |= registerFromSystemProperty(loader, category, message);
             }
             /*
-             * Next, query the user-provider iterators, if any, allowing integration with Sprint and OSGi
+             * Next, query the user-provider iterators, if any, allowing integration with Sprint 
+             * and OSGi
              */
             final FactoryIteratorProvider[] fip = FactoryIteratorProviders.getIteratorProviders();
             for (FactoryIteratorProvider aFip : fip) {
@@ -935,7 +951,7 @@ public class FactoryRegistry {
      * <p>
      * Used to facilitate integration with other plug-in systems, such as OSGi or Spring, that block
      * CLASSPATH visibility of {@link ServiceLoader} implementation registration.
-     * 
+     *
      * @param factories
      */
     public void registerFactories(final Iterator<?> factories) {
@@ -948,7 +964,7 @@ public class FactoryRegistry {
      * <p>
      * Used to facilitate integration with other plug-in systems, such as OSGi or Spring, that block
      * CLASSPATH visibility of {@link ServiceLoader} implementation registration.
-     * 
+     *
      * @param factories
      */
     public void registerFactories(final Iterable<?> factories) {
@@ -969,7 +985,7 @@ public class FactoryRegistry {
      * <p>
      * Used to facilitate integration with other plug-in systems, such as OSGi or Spring, that block
      * CLASSPATH visibility of {@link ServiceLoader} implementation registration.
-     *  
+     *
      * @param factory
      */
     public void registerFactory(final Object factory) {
@@ -984,12 +1000,13 @@ public class FactoryRegistry {
     public <T> boolean registerServiceProvider(final T provider, final Class<T> category) {
         return registerFactory(provider, category);
     }
+
     /**
      * Manually register a factory.
      * <p>
      * Used to facilitate integration with other plug-in systems, such as OSGi or Spring, that block
      * CLASSPATH visibility of {@link ServiceLoader} implementation registration.
-     * 
+     *
      * @param factory
      * @param category
      * @return
@@ -1011,8 +1028,7 @@ public class FactoryRegistry {
      * @return {@code true} if at least one factory has been registered.
      */
     private <T> boolean register(final Iterator<T> factories, final Class<T> category,
-                                 final StringBuilder message)
-    {
+                                 final StringBuilder message) {
         boolean newFactories = false;
         final String lineSeparator = System.getProperty("line.separator", "\n");
         while (factories.hasNext()) {
@@ -1096,8 +1112,8 @@ public class FactoryRegistry {
      * @return {@code true} if at least one factory has been registered.
      */
     private <T> boolean registerFromSystemProperty(final ClassLoader loader,
-            final Class<T> category, final StringBuilder message)
-    {
+                                                   final Class<T> category, final StringBuilder 
+                                                           message) {
         boolean newFactories = false;
         try {
             final String classname = System.getProperty(category.getName());
@@ -1125,7 +1141,8 @@ public class FactoryRegistry {
                      * Put this factory in front of every other factories (including the ones loaded
                      * in previous class loaders, which is why we don't inline this ordering in the
                      * 'register' loop). Note: if some factories were not yet registered, they will
-                     * not be properly ordered. Since this code exists more for compatibility reasons
+                     * not be properly ordered. Since this code exists more for compatibility 
+                     * reasons
                      * than as a commited API, we ignore this short comming for now.
                      */
                     Iterable<T> factories = getFactories(category, false)::iterator;
@@ -1151,11 +1168,10 @@ public class FactoryRegistry {
      * Invoked when a factory can't be loaded. Log a warning, but do not stop the process.
      */
     private static void loadingFailure(final Class<?> category, final Throwable error,
-                                       final boolean showStackTrace)
-    {
-        final String         name = Classes.getShortName(category);
+                                       final boolean showStackTrace) {
+        final String name = Classes.getShortName(category);
         final StringBuilder cause = new StringBuilder(Classes.getShortClassName(error));
-        final String      message = error.getLocalizedMessage();
+        final String message = error.getLocalizedMessage();
         if (message != null) {
             cause.append(": ");
             cause.append(message);
@@ -1214,7 +1230,8 @@ public class FactoryRegistry {
                      * be invoked automatically. If no factory are registered for this category, do
                      * nothing - we will rely on the lazy invocation of scanForPlugins() when first
                      * needed. We perform this check because getFactory(category).hasNext()
-                     * is the criterion used by FactoryRegistry in order to decide if it should invoke
+                     * is the criterion used by FactoryRegistry in order to decide if it should 
+                     * invoke
                      * automatically scanForPlugins().
                      */
                     for (FactoryIteratorProvider newProvider : newProviders) {
@@ -1245,7 +1262,8 @@ public class FactoryRegistry {
 
     /**
      * Clear registered factories for a provided category.
-     * @param category 
+     *
+     * @param category
      */
     public void deregisterAll(Class<?> category) {
         registry.deregisterInstances(category);
@@ -1264,7 +1282,7 @@ public class FactoryRegistry {
      * <p>
      * Used to facilitate integration with other plug-in systems, such as OSGi or Spring, that block
      * CLASSPATH visibility of {@link ServiceLoader} implementation registration.
-     * 
+     *
      * @param factories
      */
     public void deregisterFactories(final Iterator<?> factories) {
@@ -1277,7 +1295,7 @@ public class FactoryRegistry {
      * <p>
      * Used to facilitate integration with other plug-in systems, such as OSGi or Spring, that block
      * CLASSPATH visibility of {@link ServiceLoader} implementation registration.
-     * 
+     *
      * @param factories
      */
     public void deregisterFactories(final Iterable<?> factories) {
@@ -1298,7 +1316,7 @@ public class FactoryRegistry {
      * <p>
      * Used to facilitate integration with other plug-in systems, such as OSGi or Spring, that block
      * CLASSPATH visibility of {@link ServiceLoader} implementation registration.
-     *  
+     *
      * @param factory
      */
     public void deregisterFactory(final Object factory) {
@@ -1318,7 +1336,7 @@ public class FactoryRegistry {
      * <p>
      * Used to facilitate integration with other plug-in systems, such as OSGi or Spring, that block
      * CLASSPATH visibility of {@link ServiceLoader} implementation registration.
-     * 
+     *
      * @param factory
      * @param category
      * @return
@@ -1335,13 +1353,14 @@ public class FactoryRegistry {
     /**
      * Define pairwise ordering giving priority to the <code>firstFactory</code> over the
      * <code>secondFactory</code>.
-     * 
+     *
      * @param category
      * @param firstFactory
      * @param secondFactory
      * @return if this call establishes a new order
      */
-    public <T> boolean setOrdering(final Class<T> category, final T firstFactory, final T secondFactory) {
+    public <T> boolean setOrdering(final Class<T> category, final T firstFactory, final T 
+            secondFactory) {
         if (firstFactory == secondFactory) {
             throw new IllegalArgumentException("Factories must not be the same instance.");
         }
@@ -1352,24 +1371,24 @@ public class FactoryRegistry {
      * Set pairwise ordering between all factories according a comparator. Calls to
      * <code>{@linkplain Comparator#compare compare}(factory1, factory2)</code> should returns:
      * <ul>
-     *   <li>{@code -1} if {@code factory1} is preferred to {@code factory2}</li>
-     *   <li>{@code +1} if {@code factory2} is preferred to {@code factory1}</li>
-     *   <li>{@code 0} if there is no preferred order between {@code factory1} and
-     *       {@code factory2}</li>
+     * <li>{@code -1} if {@code factory1} is preferred to {@code factory2}</li>
+     * <li>{@code +1} if {@code factory2} is preferred to {@code factory1}</li>
+     * <li>{@code 0} if there is no preferred order between {@code factory1} and
+     * {@code factory2}</li>
      * </ul>
      *
-     * @param  <T>        The class represented by the {@code category} argument.
-     * @param  category   The category to set ordering.
-     * @param  comparator The comparator to use for ordering.
+     * @param <T>        The class represented by the {@code category} argument.
+     * @param category   The category to set ordering.
+     * @param comparator The comparator to use for ordering.
      * @return {@code true} if at least one ordering setting has been modified as a consequence
-     *         of this call.
+     * of this call.
      */
     public <T> boolean setOrdering(final Class<T> category, final Comparator<T> comparator) {
         boolean set = false;
         final List<T> previous = new ArrayList<>();
         Iterable<T> factories = getFactories(category, false)::iterator;
         for (final T f1 : factories) {
-            for (int i=previous.size(); --i>=0;) {
+            for (int i = previous.size(); --i >= 0; ) {
                 final T f2 = previous.get(i);
                 final int c;
                 try {
@@ -1399,7 +1418,8 @@ public class FactoryRegistry {
      */
     @Deprecated
     public <T> boolean setOrdering(final Class<T> base, final boolean set,
-                                   final ServiceRegistry.Filter filter1, final ServiceRegistry.Filter filter2) {
+                                   final ServiceRegistry.Filter filter1, final ServiceRegistry
+            .Filter filter2) {
         ensureArgumentNonNull("filter1", filter1);
         ensureArgumentNonNull("filter2", filter2);
         return setOrdering(base, set, (Predicate<T>) filter1::filter, filter2::filter);
@@ -1407,23 +1427,24 @@ public class FactoryRegistry {
 
     /**
      * Sets or unsets a pairwise ordering between all factories meeting a criterion.
-     * 
+     * <p>
      * For example in the CRS framework ({@link org.geotools.referencing.FactoryFinder}), this is
      * used for setting ordering between all factories provided by two vendors, or for two
      * authorities. If one or both factories are not currently registered, or if the desired
      * ordering is already set/unset, nothing happens and false is returned.
      *
-     * @param <T> The class represented by the {@code base} argument.
-     * @param base The base category. Only categories {@linkplain Class#isAssignableFrom assignable}
-     *        to {@code base} will be processed.
-     * @param set {@code true} for setting the ordering, or {@code false} for unsetting.
+     * @param <T>     The class represented by the {@code base} argument.
+     * @param base    The base category. Only categories 
+     * {@linkplain Class#isAssignableFrom assignable}
+     *                to {@code base} will be processed.
+     * @param set     {@code true} for setting the ordering, or {@code false} for unsetting.
      * @param filter1 Predicate for the preferred factory.
      * @param filter2 Predicate for the factory to which {@code filter1} is preferred.
      * @return {@code true} if the ordering changed as a result of this call.
      */
     public <T> boolean setOrdering(final Class<T> base, final boolean set,
-                                   final Predicate<? super T> filter1, final Predicate<? super T> filter2)
-    {
+                                   final Predicate<? super T> filter1, final Predicate<? super T>
+                                           filter2) {
         ensureArgumentNonNull("filter1", filter1);
         ensureArgumentNonNull("filter2", filter2);
         return registry.streamCategories()
@@ -1437,8 +1458,8 @@ public class FactoryRegistry {
      * Helper method for the above.
      */
     private <T> boolean setOrUnsetOrdering(final Class<T> category, final boolean set,
-                                           final Predicate<? super T> filter1, final Predicate<? super T> filter2)
-    {
+                                           final Predicate<? super T> filter1, final Predicate<? 
+            super T> filter2) {
         boolean done = false;
         T impl1 = null;
         T impl2 = null;
@@ -1446,9 +1467,9 @@ public class FactoryRegistry {
         for (final T factory : factories) {
             if (filter1.test(factory)) impl1 = factory;
             if (filter2.test(factory)) impl2 = factory;
-            if (impl1!=null && impl2!=null && impl1!=impl2) {
-                if (set) done |=   setOrdering(category, impl1, impl2);
-                else     done |= unsetOrdering(category, impl1, impl2);
+            if (impl1 != null && impl2 != null && impl1 != impl2) {
+                if (set) done |= setOrdering(category, impl1, impl2);
+                else done |= unsetOrdering(category, impl1, impl2);
             }
         }
         return done;
@@ -1458,12 +1479,13 @@ public class FactoryRegistry {
      * Removes the ordering between the specified factories, so that the first no longer appears
      * before the second.
      *
-     * @param category The category to clear instance order for.
+     * @param category      The category to clear instance order for.
      * @param firstFactory
      * @param secondFactory
      * @return {@code true} if that ordering was previously defined
      */
-    public <T> boolean unsetOrdering(final Class<T> category, final T firstFactory, final T secondFactory) {
+    public <T> boolean unsetOrdering(final Class<T> category, final T firstFactory, final T 
+            secondFactory) {
         if (firstFactory == secondFactory) {
             throw new IllegalArgumentException("Factories must not be the same instance.");
         }

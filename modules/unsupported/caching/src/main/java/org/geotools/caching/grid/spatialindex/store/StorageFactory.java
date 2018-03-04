@@ -22,8 +22,6 @@ import org.geotools.caching.spatialindex.Storage;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class StorageFactory {

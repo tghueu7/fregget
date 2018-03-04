@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -25,8 +25,6 @@ import java.net.URI;
  * </p>
  *
  * @author dzwiers www.refractions.net
- *
- *
  * @source $URL$
  */
 public interface Element extends ElementGrouping {
@@ -35,7 +33,6 @@ public interface Element extends ElementGrouping {
      * Returns True when the instance of this XML Schema Element is abstract,
      * false otherwise
      * </p>
-     *
      */
     public boolean isAbstract();
 
@@ -48,7 +45,6 @@ public interface Element extends ElementGrouping {
      * <p>
      * This returns the default value for the Element as a String
      * </p>
-     *
      */
     public String getDefault();
 
@@ -61,7 +57,6 @@ public interface Element extends ElementGrouping {
      * <p>
      * This returns the fixed value for the Element as a String
      * </p>
-     *
      */
     public String getFixed();
 
@@ -74,7 +69,6 @@ public interface Element extends ElementGrouping {
      * <p>
      * The Schema ID for this element definition.
      * </p>
-     *
      */
     public String getId();
 
@@ -93,13 +87,11 @@ public interface Element extends ElementGrouping {
      * Returns the element declaration's name in the Schema document, and
      * element name in the instance document.
      * </p>
-     *
      */
     public String getName();
 
     /**
      * DOCUMENT ME!
-     *
      */
     public URI getNamespace();
 
@@ -107,7 +99,6 @@ public interface Element extends ElementGrouping {
      * <p>
      * Returns true when the element is nillable, false otherwise
      * </p>
-     *
      */
     public boolean isNillable();
 
@@ -117,7 +108,6 @@ public interface Element extends ElementGrouping {
      * substitution group. This is of particular importance when resolving an
      * instance document's value.
      * </p>
-     *
      */
     public Element getSubstitutionGroup();
 
@@ -125,7 +115,6 @@ public interface Element extends ElementGrouping {
      * <p>
      * Returns the declared type for this Element in the given Schema.
      * </p>
-     *
      *
      * @see Type
      */

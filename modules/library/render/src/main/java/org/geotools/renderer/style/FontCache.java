@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -35,28 +35,32 @@ import java.util.logging.Logger;
 
 /**
  * Lookup and caches font definitions for faster retrieval
- * 
+ *
  * @author Andrea Aime - TOPP
- *
- *
  * @source $URL$
  */
 public class FontCache {
-    /** The logger for the rendering module. */
+    /**
+     * The logger for the rendering module.
+     */
     private static final Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger("org.geotools.rendering");
 
     static FontCache defaultInstance;
 
-    /** Set containing the font families known of this machine */
+    /**
+     * Set containing the font families known of this machine
+     */
     Set<String> systemFonts = new HashSet<String>();
 
-    /** Fonts already loaded */
+    /**
+     * Fonts already loaded
+     */
     Map<String, Font> loadedFonts = new ConcurrentHashMap<String, Font>();
 
     /**
      * Returns the default, system wide font cache
-     * 
+     *
      * @deprecated Use {@link #getDefaultInstance()} instead
      */
     public static FontCache getDefaultInsance() {
@@ -65,7 +69,7 @@ public class FontCache {
 
     /**
      * Returns the default, system wide font cache
-     * 
+     *
      * @since 2.6
      */
     public static FontCache getDefaultInstance() {
@@ -114,7 +118,7 @@ public class FontCache {
 
     /**
      * Tries to load the specified font name as a URL
-     * 
+     *
      * @param fontUrl
      * @return
      */
@@ -188,7 +192,7 @@ public class FontCache {
     /**
      * Adds the specified font in the font cache. Useful if you want to load fonts that are not
      * installed in the Operating System and cannot provide a full path to fonts either.
-     * 
+     *
      * @param f
      */
     public void registerFont(Font f) {
@@ -210,7 +214,7 @@ public class FontCache {
 
     /**
      * Lazily loads up the system fonts cache
-     * 
+     *
      * @return
      */
     private Set<String> getSystemFonts() {
@@ -243,7 +247,7 @@ public class FontCache {
     /**
      * Returns the set of font families and font faces available in the system and those manually
      * loaded into the cache
-     * 
+     *
      * @return
      */
     public Set<String> getAvailableFonts() {

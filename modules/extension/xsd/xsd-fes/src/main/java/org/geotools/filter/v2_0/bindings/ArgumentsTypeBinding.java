@@ -30,7 +30,7 @@ public class ArgumentsTypeBinding extends AbstractComplexEMFBinding {
     public ArgumentsTypeBinding(Fes20Factory factory) {
         super(factory);
     }
-    
+
     @Override
     public QName getTarget() {
         return FES.ArgumentsType;
@@ -40,5 +40,5 @@ public class ArgumentsTypeBinding extends AbstractComplexEMFBinding {
     public Class getType() {
         return ArgumentsType.class;
     }
-    
+
 }

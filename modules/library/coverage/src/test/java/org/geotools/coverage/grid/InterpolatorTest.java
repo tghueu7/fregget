@@ -18,6 +18,7 @@ package org.geotools.coverage.grid;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
+
 import it.geosolutions.jaiext.range.NoDataContainer;
 import it.geosolutions.jaiext.range.Range;
 
@@ -49,19 +50,19 @@ import org.opengis.geometry.Envelope;
 /**
  * Tests the {@link Interpolator2D} implementation.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
  */
 public final class InterpolatorTest extends GridCoverageTestBase {
     /**
      * The interpolators to use.
      */
     private Interpolation[] interpolations;
-    
-    /** Used to avoid errors if building on a system where hostname is not defined */
+
+    /**
+     * Used to avoid errors if building on a system where hostname is not defined
+     */
     private boolean hostnameDefined;
 
     /**
@@ -70,20 +71,20 @@ public final class InterpolatorTest extends GridCoverageTestBase {
     @Before
     public void setup() {
         final int[] types = {
-            Interpolation.INTERP_BICUBIC,
-            Interpolation.INTERP_BILINEAR,
-            Interpolation.INTERP_NEAREST
+                Interpolation.INTERP_BICUBIC,
+                Interpolation.INTERP_BILINEAR,
+                Interpolation.INTERP_NEAREST
         };
         interpolations = new Interpolation[types.length];
-        for (int i=0; i<interpolations.length; i++) {
+        for (int i = 0; i < interpolations.length; i++) {
             interpolations[i] = Interpolation.getInstance(types[i]);
         }
-        
-        
+
+
         try {
             InetAddress.getLocalHost();
             hostnameDefined = true;
-            
+
         } catch (Exception ex) {
             hostnameDefined = false;
         }
@@ -98,38 +99,43 @@ public final class InterpolatorTest extends GridCoverageTestBase {
         // Following constant is pixel size (in degrees).
         // This constant must be identical to the one defined in 'getRandomCoverage()'
         GridCoverage2D coverage = getRandomCoverage();
-        final double PIXEL_SIZE = XAffineTransform.getScale((AffineTransform) ((GridGeometry2D)coverage.getGridGeometry()).getGridToCRS());
-        final Interpolation interpolation =  Interpolation.getInstance(Interpolation.INTERP_BILINEAR);
-        coverage = Interpolator2D.create(coverage, new Interpolation[] {interpolation});
-        final int  band = 0; // Band to test.
+        final double PIXEL_SIZE = XAffineTransform.getScale((AffineTransform) ((GridGeometry2D) 
+                coverage.getGridGeometry()).getGridToCRS());
+        final Interpolation interpolation = Interpolation.getInstance(Interpolation
+                .INTERP_BILINEAR);
+        coverage = Interpolator2D.create(coverage, new Interpolation[]{interpolation});
+        final int band = 0; // Band to test.
         double[] buffer = null;
-        final BorderExtender be =  BorderExtender.createInstance(BorderExtender.BORDER_COPY);
-        Rectangle  rectangle = PlanarImage.wrapRenderedImage(coverage.getRenderedImage()).getBounds();
-        rectangle			 = new Rectangle(rectangle.x,rectangle.y,rectangle.width+interpolation.getWidth(), rectangle.height+interpolation.getHeight());
-        final Raster          data = PlanarImage.wrapRenderedImage(coverage.getRenderedImage()).getExtendedData(rectangle,be);
-        final Envelope    envelope = coverage.getEnvelope();
-        final GridEnvelope   range = coverage.getGridGeometry().getGridRange();
-        final double          left = envelope.getMinimum(0);
-        final double         upper = envelope.getMaximum(1);
+        final BorderExtender be = BorderExtender.createInstance(BorderExtender.BORDER_COPY);
+        Rectangle rectangle = PlanarImage.wrapRenderedImage(coverage.getRenderedImage())
+                .getBounds();
+        rectangle = new Rectangle(rectangle.x, rectangle.y, rectangle.width + interpolation
+                .getWidth(), rectangle.height + interpolation.getHeight());
+        final Raster data = PlanarImage.wrapRenderedImage(coverage.getRenderedImage())
+                .getExtendedData(rectangle, be);
+        final Envelope envelope = coverage.getEnvelope();
+        final GridEnvelope range = coverage.getGridGeometry().getGridRange();
+        final double left = envelope.getMinimum(0);
+        final double upper = envelope.getMaximum(1);
         final Point2D.Double point = new Point2D.Double(); // Will maps to pixel upper-left corner
-        for (int j=range.getSpan(1); j>=0;--j) {
-            for (int i=range.getSpan(0); i>=0;--i) {
-                point.x  = left  + PIXEL_SIZE*i;
-                point.y  = upper - PIXEL_SIZE*j;
-                buffer   = coverage.evaluate(point, buffer);
+        for (int j = range.getSpan(1); j >= 0; --j) {
+            for (int i = range.getSpan(0); i >= 0; --i) {
+                point.x = left + PIXEL_SIZE * i;
+                point.y = upper - PIXEL_SIZE * j;
+                buffer = coverage.evaluate(point, buffer);
                 double t = buffer[band];
 
                 // Computes the expected value:
-                double s00 = data.getSampleDouble(i+0, j+0, band);
-                double s01 = data.getSampleDouble(i+0, j+1, band);
-                double s10 = data.getSampleDouble(i+1, j+0, band);
-                double s11 = data.getSampleDouble(i+1, j+1, band);
+                double s00 = data.getSampleDouble(i + 0, j + 0, band);
+                double s01 = data.getSampleDouble(i + 0, j + 1, band);
+                double s10 = data.getSampleDouble(i + 1, j + 0, band);
+                double s11 = data.getSampleDouble(i + 1, j + 1, band);
                 double s = interpolation.interpolate(s00, s01, s10, s11, 0, 0);
                 assertEquals(s, t, EPS);
             }
         }
     }
-    
+
     /**
      * Tests bilinear intersection at pixel edges. It should be equals
      * to the average of the four pixels around.
@@ -144,33 +150,39 @@ public final class InterpolatorTest extends GridCoverageTestBase {
         Map<String, Object> properties = new HashMap<>();
         RenderedImage src = coverage.getRenderedImage();
         // Setting ROI and NoData
-        ROIShape roi = new ROIShape(new Rectangle(src.getMinX(), src.getMinY(), src.getWidth()/2, src.getHeight()/2));
+        ROIShape roi = new ROIShape(new Rectangle(src.getMinX(), src.getMinY(), src.getWidth() / 
+                2, src.getHeight() / 2));
         CoverageUtilities.setROIProperty(properties, roi);
         NoDataContainer noDataContainer = new NoDataContainer(15);
         properties.put("GC_NODATA", noDataContainer);
-        
-        coverage = factory.create("Test2", src, coverage.getEnvelope(), coverage.getSampleDimensions(), null, properties );
-        final double PIXEL_SIZE = XAffineTransform.getScale((AffineTransform) ((GridGeometry2D)coverage.getGridGeometry()).getGridToCRS());
-        final Interpolation interpolation =  Interpolation.getInstance(Interpolation.INTERP_NEAREST);
-        coverage = Interpolator2D.create(coverage, new Interpolation[] {interpolation});
-        final int  band = 0; // Band to test.
+
+        coverage = factory.create("Test2", src, coverage.getEnvelope(), coverage
+                .getSampleDimensions(), null, properties);
+        final double PIXEL_SIZE = XAffineTransform.getScale((AffineTransform) ((GridGeometry2D) 
+                coverage.getGridGeometry()).getGridToCRS());
+        final Interpolation interpolation = Interpolation.getInstance(Interpolation.INTERP_NEAREST);
+        coverage = Interpolator2D.create(coverage, new Interpolation[]{interpolation});
+        final int band = 0; // Band to test.
         double[] buffer = null;
-        final BorderExtender be =  BorderExtender.createInstance(BorderExtender.BORDER_COPY);
-        Rectangle  rectangle = PlanarImage.wrapRenderedImage(coverage.getRenderedImage()).getBounds();
-        rectangle                        = new Rectangle(rectangle.x,rectangle.y,rectangle.width+interpolation.getWidth(), rectangle.height+interpolation.getHeight());
-        final Raster          data = PlanarImage.wrapRenderedImage(coverage.getRenderedImage()).getExtendedData(rectangle,be);
-        final Envelope    envelope = coverage.getEnvelope();
-        final GridEnvelope   range = coverage.getGridGeometry().getGridRange();
-        final double          left = envelope.getMinimum(0);
-        final double         upper = envelope.getMaximum(1);
+        final BorderExtender be = BorderExtender.createInstance(BorderExtender.BORDER_COPY);
+        Rectangle rectangle = PlanarImage.wrapRenderedImage(coverage.getRenderedImage())
+                .getBounds();
+        rectangle = new Rectangle(rectangle.x, rectangle.y, rectangle.width + interpolation
+                .getWidth(), rectangle.height + interpolation.getHeight());
+        final Raster data = PlanarImage.wrapRenderedImage(coverage.getRenderedImage())
+                .getExtendedData(rectangle, be);
+        final Envelope envelope = coverage.getEnvelope();
+        final GridEnvelope range = coverage.getGridGeometry().getGridRange();
+        final double left = envelope.getMinimum(0);
+        final double upper = envelope.getMaximum(1);
         final Point2D.Double point = new Point2D.Double(); // Will maps to pixel upper-left corner
-        
+
         // ROI and NOdata
-        Range nodata = noDataContainer.getAsRange(); 
+        Range nodata = noDataContainer.getAsRange();
         double bkg = nodata.getMin(true).doubleValue();
-        
-        for (int j=range.getSpan(1); j>=0;--j) {
-            for (int i=range.getSpan(0); i>=0;--i) {
+
+        for (int j = range.getSpan(1); j >= 0; --j) {
+            for (int i = range.getSpan(0); i >= 0; --i) {
                 point.x = left + PIXEL_SIZE * i;
                 point.y = upper - PIXEL_SIZE * j;
                 buffer = coverage.evaluate(point, buffer);
@@ -194,7 +206,7 @@ public final class InterpolatorTest extends GridCoverageTestBase {
     /**
      * Tests the serialization of a grid coverage.
      *
-     * @throws IOException if an I/O operation was needed and failed.
+     * @throws IOException            if an I/O operation was needed and failed.
      * @throws ClassNotFoundException Should never happen.
      */
     @Test

@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -42,9 +42,8 @@ import org.opengis.filter.expression.Expression;
 
 /**
  * Generates a list of NumberRanges from a collection
- * 
+ *
  * @author Daniele Romagnoli, GeoSolutions SAS
- * 
  */
 class RangeVisitor implements FeatureCalc {
 
@@ -77,7 +76,7 @@ class RangeVisitor implements FeatureCalc {
 
         @Override
         public int compare(Range<? extends Number> firstRange,
-                Range<? extends Number> secondRange) {
+                           Range<? extends Number> secondRange) {
             Utilities.ensureNonNull("firstRange", firstRange);
             Utilities.ensureNonNull("secondRange", secondRange);
             final Number firstRangeMin = firstRange.getMinValue();
@@ -90,17 +89,15 @@ class RangeVisitor implements FeatureCalc {
 
         /**
          * Given a set of 4 double representing the extrema of 2 ranges, compare the 2 ranges.
-         * 
-         * @param firstRangeMin the min value of the first range
-         * @param firstRangeMax the max value of the first range
+         *
+         * @param firstRangeMin  the min value of the first range
+         * @param firstRangeMax  the max value of the first range
          * @param secondRangeMin the min value of the second range
          * @param secondRangeMax the max value of the second range
-         * @return
-         * 
-         *         TODO: Improve that logic to deal with special cases on intervals management
+         * @return TODO: Improve that logic to deal with special cases on intervals management
          */
         public static int doubleCompare(final double firstRangeMin, final double firstRangeMax,
-                final double secondRangeMin, final double secondRangeMax) {
+                                        final double secondRangeMin, final double secondRangeMax) {
             if (firstRangeMin == secondRangeMin && firstRangeMax == secondRangeMax) {
                 return 0;
             }
@@ -121,20 +118,29 @@ class RangeVisitor implements FeatureCalc {
 
     }
 
-    /** expression related to the first attribute to be evaluated */
+    /**
+     * expression related to the first attribute to be evaluated
+     */
     protected Expression expr1;
 
-    /** expression related to the second attribute to be evaluated */
+    /**
+     * expression related to the second attribute to be evaluated
+     */
     protected Expression expr2;
 
-    /** The comparator instance to sort items inside the Tree set */
+    /**
+     * The comparator instance to sort items inside the Tree set
+     */
     private Comparator comparator;
 
-    /** The set containing the added ranges */
+    /**
+     * The set containing the added ranges
+     */
     Set<Range> set = null;
 
     /**
-     * A set of string representations of the returned ranges. Time ranges will be returned into a compact form so that intersecting ranges are merged
+     * A set of string representations of the returned ranges. Time ranges will be returned into 
+     * a compact form so that intersecting ranges are merged
      * together into a bigger time range.
      */
     Set<String> minimalRanges = null;
@@ -145,10 +151,13 @@ class RangeVisitor implements FeatureCalc {
 
     /**
      * Range visitor constructor.
-     * 
-     * @param attributeTypeName1 the name of the attribute to be related to the left side of the range
-     * @param attributeTypeName2 the name of the attribute to be related to the right side of the range
-     * @param rangeType the type of range, one of {@link RangeType#NUMBER},{@link RangeType#DATE}
+     *
+     * @param attributeTypeName1 the name of the attribute to be related to the left side of the 
+     *                           range
+     * @param attributeTypeName2 the name of the attribute to be related to the right side of the
+     *                          range
+     * @param rangeType          the type of range, one of {@link RangeType#NUMBER},
+     * {@link RangeType#DATE}
      */
     public RangeVisitor(String attributeTypeName1, String attributeTypeName2, RangeType rangeType) {
         FilterFactory factory = CommonFactoryFinder.getFilterFactory(null);
@@ -200,7 +209,7 @@ class RangeVisitor implements FeatureCalc {
 
     /**
      * Return the minimal set of Ranges
-     * 
+     *
      * @return
      */
     public Set<String> getRange() {
@@ -263,7 +272,8 @@ class RangeVisitor implements FeatureCalc {
                 return new RangeResult(newSet);
             } else {
                 throw new IllegalArgumentException(
-                        "The CalcResults claim to be compatible, but the appropriate merge method has not been implemented.");
+                        "The CalcResults claim to be compatible, but the appropriate merge method" +
+                                " has not been implemented.");
             }
         }
     }

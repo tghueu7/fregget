@@ -17,6 +17,7 @@
 package org.geotools.kml.bindings;
 
 import javax.xml.namespace.QName;
+
 import org.geotools.kml.KML;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
@@ -25,9 +26,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://earth.google.com/kml/2.1:LocationType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType final="#all" name="LocationType"&gt;
  *      &lt;complexContent&gt;
@@ -46,9 +47,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class LocationTypeBinding extends AbstractComplexBinding {
@@ -76,7 +74,7 @@ public class LocationTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //TODO: implement
         return null;
     }

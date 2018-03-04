@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2006-2016, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -33,19 +33,20 @@ import org.opengis.feature.type.Name;
  * This class is only of concern to subclasses, client code should never see this class.
  * </p>
  * <p>
- * Each entry maintains state on a per-transaction basis. The {@link #getState(Transaction)} method is
+ * Each entry maintains state on a per-transaction basis. The {@link #getState(Transaction)} 
+ * method is
  * used to get at this state.
- * 
+ * <p>
  * <pre>
  *   <code>
  *   ContentEntry entry = ...;
- *   
+ *
  *   Transaction tx1 = new Transaction();
  *   Transaction tx2 = new Transaction();
- *   
+ *
  *   ContentState s1 = entry.getState( tx1 );
  *   ContentState s2 = entry.getState( tx2 );
- *   
+ *
  *   s1 != s2;
  *   </code>
  * </pre>
@@ -53,7 +54,6 @@ import org.opengis.feature.type.Name;
  *
  * @author Jody Garnett, Refractions Research Inc.
  * @author Justin Deoliveira, The Open Planning Project
- *
  * @source $URL$
  */
 public class ContentEntry {
@@ -65,7 +65,7 @@ public class ContentEntry {
     /**
      * Map<Transaction,ContentState> state according to Transaction.
      */
-    Map<Transaction,ContentState> state;
+    Map<Transaction, ContentState> state;
 
     /**
      * Backpointer to DataStore.
@@ -74,9 +74,9 @@ public class ContentEntry {
 
     /**
      * Creates the entry.
-     * 
+     *
      * @param dataStore The DataStore of the entry.
-     * @param typeName The name of the entry.
+     * @param typeName  The name of the entry.
      */
     public ContentEntry(ContentDataStore dataStore, Name typeName) {
         this.typeName = typeName;
@@ -120,8 +120,8 @@ public class ContentEntry {
      * In the event that no state exists for the supplied transaction one will
      * be created by copying the state of {@link Transaction#AUTO_COMMIT}.
      * </p>
-     * @param transaction A transaction.
      *
+     * @param transaction A transaction.
      * @return The state for the transaction.
      */
     public ContentState getState(Transaction transaction) {
@@ -145,35 +145,36 @@ public class ContentEntry {
      * mostly use this to broadcast the BatchFeatureEvents issued during commit
      * and rollback.
      */
-    void notifiyFeatureEvent( ContentState source, FeatureEvent notification){
-        for(ContentState entry : state.values() ){
-           if( entry == source ) {
-               continue;  // no notificaiton required               
-           }
-           for( FeatureListener listener : entry.listeners ){
-               try {
-                   listener.changed( notification );
-               }
-               catch (Throwable t ){
-                   // problem issuing notification to an interested party
-                   dataStore.LOGGER.log( Level.WARNING, "Problem issuing feature event "+notification, t );
-               }
-           }
+    void notifiyFeatureEvent(ContentState source, FeatureEvent notification) {
+        for (ContentState entry : state.values()) {
+            if (entry == source) {
+                continue;  // no notificaiton required               
+            }
+            for (FeatureListener listener : entry.listeners) {
+                try {
+                    listener.changed(notification);
+                } catch (Throwable t) {
+                    // problem issuing notification to an interested party
+                    dataStore.LOGGER.log(Level.WARNING, "Problem issuing feature event " + 
+                            notification, t);
+                }
+            }
         }
     }
-    
+
     /**
      * Disposes the entry by disposing all maintained state.
      */
     public void dispose() {
         // clear all states
-        for (ContentState s : state.values() ) {
+        for (ContentState s : state.values()) {
             s.close();
         }
     }
-    
+
     /**
      * Removes a closed transaction from the state cache.
+     *
      * @param transaction
      */
     public void clearTransaction(Transaction transaction) {
@@ -181,8 +182,8 @@ public class ContentEntry {
             state.remove(transaction);
         }
     }
-    
+
     public String toString() {
-        return "ContentEntry "+ getTypeName();
+        return "ContentEntry " + getTypeName();
     }
 }

@@ -41,34 +41,36 @@ public class S3GeoTiffFormat extends GeoTiffFormat {
     private static final Logger LOGGER = Logger.getLogger(S3GeoTiffFormat.class.getName());
 
     private static final DefaultParameterDescriptor<String> AWS_REGION =
-            new DefaultParameterDescriptor<String>("AwsRegion", String.class, (String[])null, "US_EAST_1");
+            new DefaultParameterDescriptor<String>("AwsRegion", String.class, (String[]) null, 
+                    "US_EAST_1");
 
     public S3GeoTiffFormat() {
         writeParameters = null;
         mInfo = new HashMap<String, String>();
         mInfo.put("name", "S3GeoTiff");
-        mInfo.put("description","Tagged Image File Format with Geographic information hosted on S3");
+        mInfo.put("description", "Tagged Image File Format with Geographic information hosted on " +
+                "S3");
         mInfo.put("vendor", "Boundless Geo");
         mInfo.put("version", "1.0");
 
         // reading parameters
         readParameters = new ParameterGroup(
-            new DefaultParameterDescriptorGroup(
-                mInfo,
-                new GeneralParameterDescriptor[] {
-                    READ_GRIDGEOMETRY2D,
-                    INPUT_TRANSPARENT_COLOR,
-                    SUGGESTED_TILE_SIZE,
-                    AWS_REGION}));
+                new DefaultParameterDescriptorGroup(
+                        mInfo,
+                        new GeneralParameterDescriptor[]{
+                                READ_GRIDGEOMETRY2D,
+                                INPUT_TRANSPARENT_COLOR,
+                                SUGGESTED_TILE_SIZE,
+                                AWS_REGION}));
 
         // writing parameters
         writeParameters = new ParameterGroup(
-            new DefaultParameterDescriptorGroup(
-                mInfo,
-                new GeneralParameterDescriptor[] {
-                    RETAIN_AXES_ORDER,
-                    AbstractGridFormat.GEOTOOLS_WRITE_PARAMS,
-                    AbstractGridFormat.PROGRESS_LISTENER }));
+                new DefaultParameterDescriptorGroup(
+                        mInfo,
+                        new GeneralParameterDescriptor[]{
+                                RETAIN_AXES_ORDER,
+                                AbstractGridFormat.GEOTOOLS_WRITE_PARAMS,
+                                AbstractGridFormat.PROGRESS_LISTENER}));
     }
 
     @Override
@@ -79,23 +81,19 @@ public class S3GeoTiffFormat extends GeoTiffFormat {
             S3ImageInputStreamImpl inStream;
             if (source instanceof File) {
                 throw new UnsupportedOperationException("Can't instantiate S3 with a File handle");
-            }
-            else if (source instanceof String) {
-                inStream = new S3ImageInputStreamImpl((String)source);
-            }
-            else if (source instanceof URL) {
-                inStream = new S3ImageInputStreamImpl((URL)source);
-            }
-            else {
+            } else if (source instanceof String) {
+                inStream = new S3ImageInputStreamImpl((String) source);
+            } else if (source instanceof URL) {
+                inStream = new S3ImageInputStreamImpl((URL) source);
+            } else {
                 throw new IllegalArgumentException("Can't create S3ImageInputStream from input of "
-                    + "type: " + source.getClass());
+                        + "type: " + source.getClass());
             }
 
             return new S3GeoTiffReader(inStream, hints);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             LOGGER.log(Level.FINE, "Exception raised trying to instantiate S3 image input "
-                + "stream from source.", e);
+                    + "stream from source.", e);
             throw new RuntimeException(e);
         }
 
@@ -105,13 +103,11 @@ public class S3GeoTiffFormat extends GeoTiffFormat {
     public boolean accepts(Object o, Hints hints) {
         if (o == null) {
             return false;
-        }
-        else {
+        } else {
             boolean accepts = false;
             if (o instanceof String) {
                 accepts = ((String) o).startsWith("s3://");
-            }
-            else if (o instanceof URL) {
+            } else if (o instanceof URL) {
                 String protocol = ((URL) o).getProtocol();
                 accepts = protocol.equals("s3");
             }

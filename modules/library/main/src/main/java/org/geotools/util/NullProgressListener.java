@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -27,11 +27,9 @@ import org.opengis.util.InternationalString;
  * The default implementations of the other methods do nothing.
  * </p>
  *
- * @since 2.2
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.2
  */
 public class NullProgressListener implements ProgressListener {
     /**
@@ -69,7 +67,7 @@ public class NullProgressListener implements ProgressListener {
     public float getProgress() {
         return 0;
     }
-    
+
     public void complete() {
         //do nothing
     }
@@ -99,7 +97,7 @@ public class NullProgressListener implements ProgressListener {
         return null;
     }
 
-    public void setTask( InternationalString task ) {
+    public void setTask(InternationalString task) {
         // do nothing        
     }
 }

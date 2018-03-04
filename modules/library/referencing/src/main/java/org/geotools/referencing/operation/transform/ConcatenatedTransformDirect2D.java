@@ -30,14 +30,13 @@ import org.geotools.referencing.operation.matrix.XMatrix;
 /**
  * Concatenated transform where both transforms are two-dimensional.
  *
- * @since 2.0
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.0
  */
 final class ConcatenatedTransformDirect2D extends ConcatenatedTransformDirect
-                                       implements MathTransform2D
-{
+        implements MathTransform2D {
     /**
      * Serial number for interoperability with different versions.
      */
@@ -61,8 +60,7 @@ final class ConcatenatedTransformDirect2D extends ConcatenatedTransformDirect
      * Constructs a concatenated transform.
      */
     public ConcatenatedTransformDirect2D(final MathTransform2D transform1,
-                                         final MathTransform2D transform2)
-    {
+                                         final MathTransform2D transform2) {
         super(transform1, transform2);
         this.transform1 = transform1;
         this.transform2 = transform2;
@@ -73,7 +71,7 @@ final class ConcatenatedTransformDirect2D extends ConcatenatedTransformDirect
      */
     @Override
     boolean isValid() {
-        return super.isValid() && getSourceDimensions()==2 && getTargetDimensions()==2;
+        return super.isValid() && getSourceDimensions() == 2 && getTargetDimensions() == 2;
     }
 
     /**
@@ -84,7 +82,7 @@ final class ConcatenatedTransformDirect2D extends ConcatenatedTransformDirect
     public Point2D transform(final Point2D ptSrc, Point2D ptDst) throws TransformException {
         assert isValid();
         ptDst = transform1.transform(ptSrc, ptDst);
-        return  transform2.transform(ptDst, ptDst);
+        return transform2.transform(ptDst, ptDst);
     }
 
     /**
@@ -99,14 +97,14 @@ final class ConcatenatedTransformDirect2D extends ConcatenatedTransformDirect
     /**
      * Gets the derivative of this transform at a point.
      *
-     * @param  point The coordinate point where to evaluate the derivative.
+     * @param point The coordinate point where to evaluate the derivative.
      * @return The derivative at the specified point (never {@code null}).
      * @throws TransformException if the derivative can't be evaluated at the specified point.
      */
     @Override
     public Matrix derivative(final Point2D point) throws TransformException {
         final XMatrix matrix1 = toXMatrix(transform1.derivative(point));
-        final XMatrix matrix2 = toXMatrix(transform2.derivative(transform1.transform(point,null)));
+        final XMatrix matrix2 = toXMatrix(transform2.derivative(transform1.transform(point, null)));
         matrix2.multiply(matrix1);
         return matrix2;
     }

@@ -33,31 +33,34 @@ import java.util.Map;
 
 /**
  * The GeoPackage DataStore Factory.
- * 
+ *
  * @author Justin Deoliveira
  * @author Niels Charlier
- *
  */
 public class GeoPkgDataStoreFactory extends JDBCDataStoreFactory {
 
-    /** parameter for database type */
+    /**
+     * parameter for database type
+     */
     public static final Param DBTYPE = new Param("dbtype", String.class, "Type", true, "geopkg",
             Collections.singletonMap(Parameter.LEVEL, "program"));
 
-    /** parameter for database instance */
-    public static final Param DATABASE = new Param("database", File.class, "Database", true );
+    /**
+     * parameter for database instance
+     */
+    public static final Param DATABASE = new Param("database", File.class, "Database", true);
 
     /**
      * base location to store database files
      */
     File baseDirectory = null;
-        
+
     GeoPkgGeomWriter.Configuration writerConfig;
-    
+
     public GeoPkgDataStoreFactory() {
         this.writerConfig = new GeoPkgGeomWriter.Configuration();
     }
-    
+
     public GeoPkgDataStoreFactory(GeoPkgGeomWriter.Configuration writerConfig) {
         this.writerConfig = writerConfig;
     }
@@ -114,7 +117,7 @@ public class GeoPkgDataStoreFactory extends JDBCDataStoreFactory {
     @Override
     protected void setupParameters(Map parameters) {
         super.setupParameters(parameters);
-        
+
         // remove unnecessary parameters
         parameters.remove(HOST.key);
         parameters.remove(PORT.key);
@@ -136,7 +139,9 @@ public class GeoPkgDataStoreFactory extends JDBCDataStoreFactory {
     }
 
     /**
-     * This is left for public API compatibility but it's not as efficient as using the GeoPackage internal pool
+     * This is left for public API compatibility but it's not as efficient as using the 
+     * GeoPackage internal pool
+     *
      * @param params Map of connection parameter.
      * @return
      * @throws IOException
@@ -173,12 +178,12 @@ public class GeoPkgDataStoreFactory extends JDBCDataStoreFactory {
         // }
         // TODO: add this and make configurable once we upgrade to a sqlitejdbc exposing mmap_size
         // config.setPragma(SQLiteConfig.Pragma.MMAP_SIZE, String.valueOf(1024 * 1024 * 1000));
-        
+
         // use native "pool", which is actually not pooling anything (that's fast and
         // has less scalability overhead)
         SQLiteConnectionPoolDataSource ds = new SQLiteConnectionPoolDataSource(config);
         ds.setUrl(getJDBCUrl(params));
-                
+
         return ds;
     }
 
@@ -188,12 +193,13 @@ public class GeoPkgDataStoreFactory extends JDBCDataStoreFactory {
         config.enableLoadExtension(true);
 
         for (Map.Entry e : config.toProperties().entrySet()) {
-            dataSource.addConnectionProperty((String)e.getKey(), (String)e.getValue());
+            dataSource.addConnectionProperty((String) e.getKey(), (String) e.getValue());
         }
     }
 
     @Override
-    protected JDBCDataStore createDataStoreInternal(JDBCDataStore dataStore, Map params) throws IOException {
+    protected JDBCDataStore createDataStoreInternal(JDBCDataStore dataStore, Map params) throws 
+            IOException {
         dataStore.setDatabaseSchema(null);
         return dataStore;
     }

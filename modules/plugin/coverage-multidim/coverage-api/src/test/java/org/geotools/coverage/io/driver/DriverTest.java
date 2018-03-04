@@ -49,7 +49,8 @@ public class DriverTest extends Assert {
     private static CoordinateReferenceSystem WGS84;
 
     private final static Logger LOGGER = org.geotools.util.logging.Logging
-            .getLogger(TestDriver.class.toString());;
+            .getLogger(TestDriver.class.toString());
+    ;
 
     static {
         try {
@@ -64,7 +65,8 @@ public class DriverTest extends Assert {
     @Test
     public void testDriver() throws IOException {
 
-        SimpleInternationalString driverName = new SimpleInternationalString(TestDriver.TEST_DRIVER);
+        SimpleInternationalString driverName = new SimpleInternationalString(TestDriver
+                .TEST_DRIVER);
 
         // Testing main driver capabilities. That's a Dummy Driver, it can only connect
         Map<String, Serializable> connectionParams = new HashMap<String, Serializable>();

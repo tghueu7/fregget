@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
- *        
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -104,7 +104,7 @@ import com.vividsolutions.jts.geom.Geometry;
  * <ul>
  * <li>Any instance of Number
  * <li>"1234" - aka Integer
- * <li>"#FFF" - aka Integer 
+ * <li>"#FFF" - aka Integer
  * <li>"123.0" - aka Double
  * </ul>
  * A few things (like Geometry and "ABC") will not be considered addative.
@@ -118,17 +118,18 @@ import com.vividsolutions.jts.geom.Geometry;
  * a constructor can be tried, and toString() assumed to be the inverse. This
  * lets many things (like URL and Date) function without modification.
  * </p>
- * 
- * @author Jody Garnett (LISAsoft)
- * @since GeoTools 2.2
- * @version 8.0
  *
+ * @author Jody Garnett (LISAsoft)
+ * @version 8.0
  * @source $URL$
+ * @since GeoTools 2.2
  */
 public class Filters {
-    /** <code>NOTFOUND</code> indicates int value was unavailable */
+    /**
+     * <code>NOTFOUND</code> indicates int value was unavailable
+     */
     public static final int NOTFOUND = -1;
-    
+
     /**
      * Private implementation used to handle static methods. Because this is a private instance we
      * do not have to override setFilterFactory; nobody will be messing with the factory and
@@ -145,108 +146,103 @@ public class Filters {
     private static final boolean STRICT = false;
 
     org.opengis.filter.FilterFactory2 ff;
-	
-    /** Create Filters helper object using global FilterFactory provided by CommonFactoryFinder */
+
+    /**
+     * Create Filters helper object using global FilterFactory provided by CommonFactoryFinder
+     */
     public Filters() {
         this(CommonFactoryFinder.getFilterFactory2(null));
     }
-    /** Create a Filters helper using the provided FilterFactory */
+
+    /**
+     * Create a Filters helper using the provided FilterFactory
+     */
     public Filters(org.opengis.filter.FilterFactory2 factory) {
         ff = factory;
     }
+
     public void setFilterFactory(org.opengis.filter.FilterFactory2 factory) {
         ff = factory;
     }
-    
-	/**
-	 * Safe version of FilterFactory *and* that is willing to combine
-	 * filter1 and filter2 correctly in the even either of them is already
-	 * an And filter.
-	 * 
-	 * @param ff
-	 * @param filter1
-	 * @param filter2
-	 * @return And
-	 */
-    public static Filter and( org.opengis.filter.FilterFactory ff, Filter filter1, Filter filter2 ){
+
+    /**
+     * Safe version of FilterFactory *and* that is willing to combine
+     * filter1 and filter2 correctly in the even either of them is already
+     * an And filter.
+     *
+     * @param ff
+     * @param filter1
+     * @param filter2
+     * @return And
+     */
+    public static Filter and(org.opengis.filter.FilterFactory ff, Filter filter1, Filter filter2) {
         ArrayList<Filter> list = new ArrayList<Filter>(2);
-        if( filter1 == null ){
+        if (filter1 == null) {
             // ignore
+        } else if (filter1 instanceof And) {
+            And some = (And) filter1;
+            list.addAll(some.getChildren());
+        } else {
+            list.add(filter1);
         }
-        else if( filter1 instanceof And){
-            And some = (And) filter1;            
-            list.addAll( some.getChildren() );
-        }
-        else {
-            list.add( filter1 );
-        }
-        
-        if( filter2 == null ){
+
+        if (filter2 == null) {
             // ignore
+        } else if (filter2 instanceof And) {
+            And more = (And) filter2;
+            list.addAll(more.getChildren());
+        } else {
+            list.add(filter2);
         }
-        else if( filter2 instanceof And){
-            And more = (And) filter2;            
-            list.addAll( more.getChildren() );
-        }
-        else {
-            list.add( filter2 );
-        }
-        
-        if( list.size() == 0 ){
+
+        if (list.size() == 0) {
             return Filter.EXCLUDE;
-        }
-        else if( list.size() == 1 ){
+        } else if (list.size() == 1) {
             return list.get(0);
-        }
-        else {
-            return ff.and( list );
+        } else {
+            return ff.and(list);
         }
     }
+
     /**
      * Safe version of FilterFactory *or* that is willing to combine
      * filter1 and filter2 correctly in the even either of them is already
      * an Or filter.
-     * 
+     *
      * @param ff
      * @param filter1
      * @param filter2
      * @return
      */
-    public static Filter or( org.opengis.filter.FilterFactory ff, Filter filter1, Filter filter2 ){
+    public static Filter or(org.opengis.filter.FilterFactory ff, Filter filter1, Filter filter2) {
         ArrayList<Filter> list = new ArrayList<Filter>();
-        if( filter1 == null ){
+        if (filter1 == null) {
             // ignore
+        } else if (filter1 instanceof Or) {
+            Or some = (Or) filter1;
+            list.addAll(some.getChildren());
+        } else {
+            list.add(filter1);
         }
-        else if( filter1 instanceof Or){
-            Or some = (Or) filter1;            
-            list.addAll( some.getChildren() );
-        }
-        else {
-            list.add( filter1 );
-        }
-        
-        if( filter2 == null){
+
+        if (filter2 == null) {
             // ignore
+        } else if (filter2 instanceof Or) {
+            Or more = (Or) filter2;
+            list.addAll(more.getChildren());
+        } else {
+            list.add(filter2);
         }
-        else if( filter2 instanceof Or){
-            Or more = (Or) filter2;            
-            list.addAll( more.getChildren() );
-        }
-        else {
-            list.add( filter2 );
-        }
-        
-        if( list.size() == 0 ){
+
+        if (list.size() == 0) {
             return Filter.EXCLUDE;
-        }
-        else if( list.size() == 1 ){
+        } else if (list.size() == 1) {
             return list.get(0);
-        }
-        else {
-            return ff.or( list );
+        } else {
+            return ff.or(list);
         }
     }
-    
+
 
     /**
      * Deep copy the filter.
@@ -256,19 +252,22 @@ public class Filters {
      * the Filters referenced therein.
      * </p>
      */
-    public Filter duplicate( Filter filter ){
-    	DuplicatingFilterVisitor xerox = new DuplicatingFilterVisitor( ff );
-    	Filter copy = (Filter) filter.accept( xerox, ff );
-    	return copy;
+    public Filter duplicate(Filter filter) {
+        DuplicatingFilterVisitor xerox = new DuplicatingFilterVisitor(ff);
+        Filter copy = (Filter) filter.accept(xerox, ff);
+        return copy;
     }
+
     /**
-     * Convert expression to a constant for use in switch statements. This is an alternative to performing instanceof checks.
+     * Convert expression to a constant for use in switch statements. This is an alternative to 
+     * performing instanceof checks.
      * p>
-     * This utility method for those upgrading to a newer version of GeoTools, instance of checks are preferred as they
+     * This utility method for those upgrading to a newer version of GeoTools, instance of checks
+     * are preferred as they
      * will take into account new kinds of expressions as the filter specification grows over time.
      * </p>
      * Example:
-     * 
+     * <p>
      * <pre>
      * <code>
      * BEFORE: expression.getType() == ExpressionType.MATH_ADD
@@ -276,11 +275,12 @@ public class Filters {
      * AFTER: expression instanceof Add
      * </code>
      * </pre>
-     * @see ExpressionType
+     *
      * @param experssion
      * @return ExpressionType constant.
+     * @see ExpressionType
      */
-    public static short getExpressionType( org.opengis.filter.expression.Expression experssion ){
+    public static short getExpressionType(org.opengis.filter.expression.Expression experssion) {
         if (experssion == null)
             return 0;
         else if (experssion instanceof PropertyName)
@@ -307,32 +307,29 @@ public class Filters {
             } else {
                 return ExpressionType.LITERAL_UNDECLARED;
             }
-        }
-        else if (experssion instanceof Add){
+        } else if (experssion instanceof Add) {
             return ExpressionType.MATH_ADD;
-        }
-        else if (experssion instanceof Divide){
+        } else if (experssion instanceof Divide) {
             return ExpressionType.MATH_DIVIDE;
-        }
-        else if (experssion instanceof Multiply){
+        } else if (experssion instanceof Multiply) {
             return ExpressionType.MATH_MULTIPLY;
-        }
-        else if (experssion instanceof Subtract){
+        } else if (experssion instanceof Subtract) {
             return ExpressionType.MATH_SUBTRACT;
-        }
-        else {
+        } else {
             return 0;
         }
     }
-    
+
     /**
-     * Convert filter to a constant for use in switch statements. This is an alternative to performing instanceof checks.
+     * Convert filter to a constant for use in switch statements. This is an alternative to 
+     * performing instanceof checks.
      * <p>
-     * This utility method for those upgrading to a newer version of GeoTools, instance of checks are preferred as they will take into account new
+     * This utility method for those upgrading to a newer version of GeoTools, instance of checks
+     * are preferred as they will take into account new
      * kinds of filters (example temporal filters added for Filter 2.0 specification).
      * </p>
      * Example:
-     * 
+     * <p>
      * <pre>
      * <code>
      * BEFORE: filter.getFilterType() == FilterType.GEOMETRY_CONTAINS
@@ -340,62 +337,64 @@ public class Filters {
      * AFTER: filter instanceof Contains
      * </code>
      * </pre>
-     * 
+     *
      * @param filter
      * @deprecated please use instanceof checks
      */
-    public static short getFilterType( org.opengis.filter.Filter filter ){
-        if( filter == null ) return 0;
-        if( filter == org.opengis.filter.Filter.EXCLUDE ) return FilterType.ALL;
-        if( filter == org.opengis.filter.Filter.INCLUDE ) return FilterType.NONE;
-        if( filter instanceof PropertyIsBetween ) return FilterType.BETWEEN;
-        if( filter instanceof PropertyIsEqualTo ) return FilterType.COMPARE_EQUALS;
-        if( filter instanceof PropertyIsGreaterThan ) return FilterType.COMPARE_GREATER_THAN;
-        if( filter instanceof PropertyIsGreaterThanOrEqualTo ) return FilterType.COMPARE_GREATER_THAN_EQUAL;
-        if( filter instanceof PropertyIsLessThan) return FilterType.COMPARE_LESS_THAN;
-        if( filter instanceof PropertyIsLessThanOrEqualTo ) return FilterType.COMPARE_LESS_THAN_EQUAL;
-        if( filter instanceof PropertyIsNotEqualTo ) return FilterType.COMPARE_NOT_EQUALS;
-        if( filter instanceof Id ) return FilterType.FID;
-        if( filter instanceof BBOX ) return FilterType.GEOMETRY_BBOX;
-        if( filter instanceof Beyond) return FilterType.GEOMETRY_BEYOND;
-        if( filter instanceof Contains ) return FilterType.GEOMETRY_CONTAINS;
-        if( filter instanceof Crosses ) return FilterType.GEOMETRY_CROSSES;
-        if( filter instanceof Disjoint ) return FilterType.GEOMETRY_DISJOINT;
-        if( filter instanceof DWithin) return FilterType.GEOMETRY_DWITHIN;
-        if( filter instanceof Equals) return FilterType.GEOMETRY_EQUALS;
-        if( filter instanceof Intersects) return FilterType.GEOMETRY_INTERSECTS;
-        if( filter instanceof Overlaps) return FilterType.GEOMETRY_OVERLAPS;
-        if( filter instanceof Touches) return FilterType.GEOMETRY_TOUCHES;
-        if( filter instanceof Within) return FilterType.GEOMETRY_WITHIN;
-        if( filter instanceof PropertyIsLike) return FilterType.LIKE;
-        if( filter instanceof And) return FilterType.LOGIC_AND;
-        if( filter instanceof Not) return FilterType.LOGIC_NOT;
-        if( filter instanceof Or ) return FilterType.LOGIC_OR;        
-        if( filter instanceof PropertyIsNull) return FilterType.NULL;
-        
-        if( filter instanceof Filter){
+    public static short getFilterType(org.opengis.filter.Filter filter) {
+        if (filter == null) return 0;
+        if (filter == org.opengis.filter.Filter.EXCLUDE) return FilterType.ALL;
+        if (filter == org.opengis.filter.Filter.INCLUDE) return FilterType.NONE;
+        if (filter instanceof PropertyIsBetween) return FilterType.BETWEEN;
+        if (filter instanceof PropertyIsEqualTo) return FilterType.COMPARE_EQUALS;
+        if (filter instanceof PropertyIsGreaterThan) return FilterType.COMPARE_GREATER_THAN;
+        if (filter instanceof PropertyIsGreaterThanOrEqualTo)
+            return FilterType.COMPARE_GREATER_THAN_EQUAL;
+        if (filter instanceof PropertyIsLessThan) return FilterType.COMPARE_LESS_THAN;
+        if (filter instanceof PropertyIsLessThanOrEqualTo)
+            return FilterType.COMPARE_LESS_THAN_EQUAL;
+        if (filter instanceof PropertyIsNotEqualTo) return FilterType.COMPARE_NOT_EQUALS;
+        if (filter instanceof Id) return FilterType.FID;
+        if (filter instanceof BBOX) return FilterType.GEOMETRY_BBOX;
+        if (filter instanceof Beyond) return FilterType.GEOMETRY_BEYOND;
+        if (filter instanceof Contains) return FilterType.GEOMETRY_CONTAINS;
+        if (filter instanceof Crosses) return FilterType.GEOMETRY_CROSSES;
+        if (filter instanceof Disjoint) return FilterType.GEOMETRY_DISJOINT;
+        if (filter instanceof DWithin) return FilterType.GEOMETRY_DWITHIN;
+        if (filter instanceof Equals) return FilterType.GEOMETRY_EQUALS;
+        if (filter instanceof Intersects) return FilterType.GEOMETRY_INTERSECTS;
+        if (filter instanceof Overlaps) return FilterType.GEOMETRY_OVERLAPS;
+        if (filter instanceof Touches) return FilterType.GEOMETRY_TOUCHES;
+        if (filter instanceof Within) return FilterType.GEOMETRY_WITHIN;
+        if (filter instanceof PropertyIsLike) return FilterType.LIKE;
+        if (filter instanceof And) return FilterType.LOGIC_AND;
+        if (filter instanceof Not) return FilterType.LOGIC_NOT;
+        if (filter instanceof Or) return FilterType.LOGIC_OR;
+        if (filter instanceof PropertyIsNull) return FilterType.NULL;
+
+        if (filter instanceof Filter) {
             return 0;
-        }        
+        }
         return 0;
     }
+
     /**
      * Obtain the provided Expression as an integer.
      * <p>
      * This method is quickly used to safely check Literal expressions.
-     * 
+     *
      * @param expr
      * @return int value of first Number, or NOTFOUND
      */
-    public static int asInt( Expression expr ) {
-        if( expr == null ) return NOTFOUND;
+    public static int asInt(Expression expr) {
+        if (expr == null) return NOTFOUND;
         try {
-            Integer number = expr.evaluate( null, Integer.class );
-            if( number == null ){
+            Integer number = expr.evaluate(null, Integer.class);
+            if (number == null) {
                 return NOTFOUND;
             }
             return number;
-        }
-        catch( NullPointerException npe ){
+        } catch (NullPointerException npe) {
             return NOTFOUND; // well that was not unexpected
         }
         /*
@@ -426,42 +425,40 @@ public class Filters {
      * This method only reliably works when the Expression is a Literal.
      *
      * @param expr
-     *
      * @return Expression as a String, or null
      */
     public static String asString(Expression expr) {
-        if( expr == null ) return null;
+        if (expr == null) return null;
         try {
-            return expr.evaluate( null, String.class );
-        }
-        catch( NullPointerException npe){
+            return expr.evaluate(null, String.class);
+        } catch (NullPointerException npe) {
             // must be a more complicated expression than a literal
-            return null;            
+            return null;
         }
     }
 
     /**
      * Obtain the provided Expression as a double.
+     *
      * @param expr
      * @return int value of first Number, or Double.NaN
      */
     public static double asDouble(Expression expr) {
-        if( expr == null ) {
+        if (expr == null) {
             return Double.NaN;
-        }        
-        try {
-            Double number = expr.evaluate(null, Double.class );
-            if( number == null ) {
-                return Double.NaN;
-            }   
-            return number.doubleValue();
         }
-        catch( NullPointerException npe){
+        try {
+            Double number = expr.evaluate(null, Double.class);
+            if (number == null) {
+                return Double.NaN;
+            }
+            return number.doubleValue();
+        } catch (NullPointerException npe) {
             // must be a more complicated expression than a literal
-            return Double.NaN;            
+            return Double.NaN;
         }
     }
-    
+
     /**
      * Navigate through the expression searching for something that can be a TYPE.
      * <p>
@@ -469,7 +466,7 @@ public class Filters {
      * feature. It works especially well when the Expression is a Literal
      * literal (which is usually the case).
      * </p>
-     * 
+     * <p>
      * <p>
      * If you have a specific Feature, please do this:
      * <pre><code>
@@ -478,27 +475,24 @@ public class Filters {
      * </code></pre>
      * </p>
      *
-     * @param expr This only really works for down casting literals to a value
+     * @param expr   This only really works for down casting literals to a value
      * @param Target type
-     *
      * @return expr smunched into indicated type
      * @deprecated This is not a good idea; use expr.evaulate( null, TYPE )
      */
     public static <T> T asType(Expression expr, Class<T> TYPE) {
         if (expr == null) {
             return null;
-        }        
-        if( STRICT ){
-            return expr.evaluate(null, TYPE );
-        }        
-        else if (expr instanceof Literal) {
-        		Literal literal = (Literal) expr;        		
-        	return (T) literal.evaluate(null, TYPE );            
         }
-        else if (expr instanceof Function) {
-        		Function function = (Function) expr;
-        		List<Expression> params = function.getParameters();
-            if ( params != null && params.size() != 0 ) {
+        if (STRICT) {
+            return expr.evaluate(null, TYPE);
+        } else if (expr instanceof Literal) {
+            Literal literal = (Literal) expr;
+            return (T) literal.evaluate(null, TYPE);
+        } else if (expr instanceof Function) {
+            Function function = (Function) expr;
+            List<Expression> params = function.getParameters();
+            if (params != null && params.size() != 0) {
                 for (int i = 0; i < params.size(); i++) {
                     Expression e = (Expression) params.get(i);
                     T value = asType(e, TYPE);
@@ -508,10 +502,9 @@ public class Filters {
                     }
                 }
             }
-        }
-        else {
+        } else {
             try { // this is a bad idea, not expected to work much
-                T value = expr.evaluate(null, TYPE );
+                T value = expr.evaluate(null, TYPE);
 
                 if (TYPE.isInstance(value)) {
                     return value;
@@ -523,7 +516,7 @@ public class Filters {
         }
         return null; // really need a Feature to acomplish this one
     }
-    
+
     /**
      * Treat provided value as a Number, used for math opperations.
      * <p>
@@ -537,33 +530,35 @@ public class Filters {
      * <li>Number
      * <li>String - valid Integer and Double encodings
      * </ul>
-     * 
+     * <p>
      * </p>
+     *
      * @param value
      * @return double or Double.NaN;
-     * @throws IllegalArgumentException For non numerical among us -- like Geometry 
+     * @throws IllegalArgumentException For non numerical among us -- like Geometry
      */
     public static double number(Object value) {
-    	if( value == null ) return Double.NaN;
-    	if( value instanceof Number ){
-    		Number number = (Number) value;
-    		return number.doubleValue();
-    	}
-    	if( value instanceof String ){
-    		String text = (String) value;
-    		try {
-				Number number = (Number) gets( text, Number.class );
-				return number.doubleValue();
-			} catch (Throwable e) {
-				throw new IllegalArgumentException("Unable to decode '"+text+"' as a number" );				
-			}    		
-    	}
-    	if( value instanceof Expression ){
-    		throw new IllegalArgumentException("Cannot deal with un evaulated Expression");
-    	}
-    	throw new IllegalArgumentException("Unable to evaulate "+value.getClass()+" in a numeric context");
+        if (value == null) return Double.NaN;
+        if (value instanceof Number) {
+            Number number = (Number) value;
+            return number.doubleValue();
+        }
+        if (value instanceof String) {
+            String text = (String) value;
+            try {
+                Number number = (Number) gets(text, Number.class);
+                return number.doubleValue();
+            } catch (Throwable e) {
+                throw new IllegalArgumentException("Unable to decode '" + text + "' as a number");
+            }
+        }
+        if (value instanceof Expression) {
+            throw new IllegalArgumentException("Cannot deal with un evaulated Expression");
+        }
+        throw new IllegalArgumentException("Unable to evaulate " + value.getClass() + " in a " +
+                "numeric context");
     }
-    
+
     /**
      * Used to upcovnert a "Text Value" into the provided TYPE.
      * <p>
@@ -578,17 +573,17 @@ public class Filters {
      * A couple notes:
      * <ul>
      * <li>Usual trick of reflection for a Constructors that
-     *     supports a String parameter is used as a last ditch effort.
-     *     </li>
+     * supports a String parameter is used as a last ditch effort.
+     * </li>
      * <li>will do its best to turn Object into the indicated Class
      * <li>will be used for ordering literals against attribute values
-     *     are calculated at runtime (like Date.)
+     * are calculated at runtime (like Date.)
      * </ul>
      * Remember Strong typing is for whimps who know what they are
      * doing ahead of time. Real programmers let their program
      * learn at runtime... :-)
      * </p>
-     * 
+     *
      * @param text
      * @param TYPE
      * @throws open set of Throwable reflection for TYPE( String )
@@ -623,8 +618,8 @@ public class Filters {
         }
         // Original fall back position of reflection against constructor
         try {
-            Constructor<T> create = TYPE.getConstructor(new Class[] { String.class });
-            return create.newInstance(new Object[] { text });
+            Constructor<T> create = TYPE.getConstructor(new Class[]{String.class});
+            return create.newInstance(new Object[]{text});
         } catch (SecurityException e) {
             // hates you
         } catch (NoSuchMethodException e) {
@@ -643,6 +638,7 @@ public class Filters {
         }
         return null; // give up
     }
+
     /**
      * Convert provided number to a suitable text representation
      * <p>
@@ -651,6 +647,7 @@ public class Filters {
      * <li>Filters.puts( 3.14 ) => "3.14"</li>
      * <li>Filters.puts( 1.0 ) => "1"</li>
      * </ul>
+     *
      * @param number
      * @return text representation
      */
@@ -660,6 +657,7 @@ public class Filters {
         }
         return Double.toString(number);
     }
+
     /**
      * Inverse of eval, used to softly type supported
      * types into Text for use as literals.
@@ -667,13 +665,14 @@ public class Filters {
      * This method has been superseeded by Converters
      * which offers a more general and open ended solution.
      * </p>
+     *
      * @return String representation of provided object
      */
     public static String puts(Object obj) {
-        if (obj == null){
+        if (obj == null) {
             return null;
         }
-        if (obj instanceof String){
+        if (obj instanceof String) {
             return (String) obj;
         }
         if (obj instanceof Color) {
@@ -684,8 +683,8 @@ public class Filters {
             Number number = (Number) obj;
             return puts(number.doubleValue());
         }
-        String text = Converters.convert( obj, String.class );
-        if( text != null ){
+        String text = Converters.convert(obj, String.class);
+        if (text != null) {
             return text;
         }
         return obj.toString();
@@ -697,7 +696,7 @@ public class Filters {
      * This method has been superseeded by Converters which offers a more general and open ended
      * solution.
      * </p>
-     * 
+     *
      * @param color
      * @return String representation of provided color.
      */
@@ -723,12 +722,14 @@ public class Filters {
 //    }
 
     /**
-     * Returns true if the given filter can contain more than one subfilter.  Only And and Or filters match this now.
+     * Returns true if the given filter can contain more than one subfilter.  Only And and Or 
+     * filters match this now.
      * @param filter
      * @return
      */
 //    static boolean isGroupFilter(Filter filter) {
-//        //Note: Can't use BinaryLogicOperator here because the Not implementation also inherits from it.
+//        //Note: Can't use BinaryLogicOperator here because the Not implementation also inherits
+// from it.
 //        return ( (filter instanceof And) || (filter instanceof Or));
 //    }
 
@@ -740,12 +741,13 @@ public class Filters {
      * that no filters are left.</li>
      * <li>If the targetFilter does not equal the base filter, no change is made and the baseFilter
      * is returned.</li>
-     * <li>If removing the targetFilter would leave only a single term within the baseFilter, then the single
+     * <li>If removing the targetFilter would leave only a single term within the baseFilter, 
+     * then the single
      * remaining term is returned instead of the (now invalid) baseFilter.
      * </li>If the last item is removed from an Or statement then Filter.EXCLUDE is return
      * </li>If the last item is removed from an And statement then Filter.INCLUDE is returned
      * </ul>
-     * 
+     *
      * @param baseFilter
      * @param targetFilter
      * @return
@@ -753,34 +755,38 @@ public class Filters {
     public Filter remove(Filter baseFilter, Filter targetFilter) {
         return remove(baseFilter, targetFilter, true);
     }
-    
-    public static Filter removeFilter( Filter baseFilter, Filter targetFilter ){
+
+    public static Filter removeFilter(Filter baseFilter, Filter targetFilter) {
         return STATIC.remove(baseFilter, targetFilter);
     }
-    
+
     /**
-     * Removes the targetFilter from the baseFilter if the baseFilter is a group filter (And or Or).  See
-     * {@link #removeFilter(org.opengis.filter.Filter, org.opengis.filter.Filter)} for details, except this method
+     * Removes the targetFilter from the baseFilter if the baseFilter is a group filter (And or 
+     * Or).  See
+     * {@link #removeFilter(org.opengis.filter.Filter, org.opengis.filter.Filter)} for details, 
+     * except this method
      * includes the option to not recurse into child filters.
+     *
      * @param baseFilter
      * @param targetFilter
-     * @param recurse true if the method should descend into child group filters looking for the target
+     * @param recurse      true if the method should descend into child group filters looking for
+     *                    the target
      * @return
      */
     public Filter remove(Filter baseFilter, final Filter targetFilter, boolean recurse) {
-        if (baseFilter == null){
+        if (baseFilter == null) {
             //return null if nothing to start with
             return baseFilter;
         }
-        if (targetFilter == null){
+        if (targetFilter == null) {
             //similarly, just return the existing one if the target is null
             return baseFilter;
         }
-        if (baseFilter.equals(targetFilter)){
+        if (baseFilter.equals(targetFilter)) {
             //if they are the same filter, return Filter.INCLUDE to signify no filters left
             return Filter.INCLUDE;
         }
-        if( !(baseFilter instanceof BinaryLogicOperator)){
+        if (!(baseFilter instanceof BinaryLogicOperator)) {
             return baseFilter; // nothing to traverse
         }
         if (recurse) {
@@ -797,6 +803,7 @@ public class Filters {
                         return getFactory(extraData).or(newChildren);
                     }
                 }
+
                 public Object visit(And filter, Object extraData) {
                     List<Filter> newChildren = children(filter, targetFilter, extraData);
                     if (newChildren.isEmpty()) {
@@ -809,13 +816,14 @@ public class Filters {
                         return getFactory(extraData).and(newChildren);
                     }
                 }
+
                 private List<Filter> children(BinaryLogicOperator filter,
-                        final Filter targetFilter, Object extraData) {
+                                              final Filter targetFilter, Object extraData) {
                     List<Filter> children = filter.getChildren();
                     List<Filter> newChildren = new ArrayList<Filter>();
-                    for (Iterator<Filter> iter = children.iterator(); iter.hasNext();) {
+                    for (Iterator<Filter> iter = children.iterator(); iter.hasNext(); ) {
                         Filter child = iter.next();
-                        if( targetFilter.equals(child)){
+                        if (targetFilter.equals(child)) {
                             continue; // skip this one
                         }
                         if (child != null) {
@@ -827,72 +835,65 @@ public class Filters {
                 }
             };
             return (Filter) baseFilter.accept(remove, ff);
-        }
-        else {
+        } else {
             BinaryLogicOperator blo = (BinaryLogicOperator) baseFilter;
             List<Filter> children = blo.getChildren();
-            if (children == null ){
+            if (children == null) {
                 children = Collections.emptyList();
             }
-            
-            List<Filter> copy = new ArrayList<Filter>( children.size() );
-            for( Filter filter : children ){
-                if( targetFilter.equals(filter) ){
+
+            List<Filter> copy = new ArrayList<Filter>(children.size());
+            for (Filter filter : children) {
+                if (targetFilter.equals(filter)) {
                     continue; // skip this one
                 }
-                copy.add( filter );
+                copy.add(filter);
             }
-            if( copy.isEmpty() ){
-                if( baseFilter instanceof And){
+            if (copy.isEmpty()) {
+                if (baseFilter instanceof And) {
                     // every time you remove a filter from an And
                     // filter you get more stuff, so removing the last is ...
                     return Filter.INCLUDE;
-                }
-                else if( baseFilter instanceof Or){
+                } else if (baseFilter instanceof Or) {
                     // every time you remove a filter from an Or
                     // expression you get less stuff, so removing the last is ...
                     return Filter.EXCLUDE;
-                }
-                else {
+                } else {
                     return Filter.EXCLUDE;
                 }
-            }
-            else if (copy.size() == 1){
-                return copy.get(0); 
-            }
-            else if (baseFilter instanceof And){
-                return ff.and( children );
-            }
-            else if (baseFilter instanceof Or){
-                return ff.or( children );
-            }
-            else {
+            } else if (copy.size() == 1) {
+                return copy.get(0);
+            } else if (baseFilter instanceof And) {
+                return ff.and(children);
+            } else if (baseFilter instanceof Or) {
+                return ff.or(children);
+            } else {
                 return Filter.INCLUDE;
             }
         }
     }
-    
+
     public static Filter removeFilter(Filter baseFilter, Filter targetFilter, boolean recurse) {
-        return STATIC.remove(baseFilter, targetFilter, recurse );
+        return STATIC.remove(baseFilter, targetFilter, recurse);
     }
-    
+
     /**
      * Uses FilterAttributeExtractor to return the list of all mentioned attribute names.
      * <p>
      * You can use this method to quickly build up the set of any mentioned attribute names.
-     * 
+     *
      * @param filter
      * @return Set of propertyNames
      */
-    public Set<String> attributeNames( Filter filter ){
-        if( filter == null ){
+    public Set<String> attributeNames(Filter filter) {
+        if (filter == null) {
             return Collections.emptySet();
         }
         FilterAttributeExtractor extractor = new FilterAttributeExtractor();
-        filter.accept( extractor, new HashSet<String>() );
+        filter.accept(extractor, new HashSet<String>());
         return extractor.getAttributeNameSet();
     }
-    
+
     /**
      * Traverses the filter and returns any encountered property names.
      * <p>
@@ -917,7 +918,8 @@ public class Filters {
      * attributeName does not match the actual name of the type.
      * </p>
      */
-    public static Set<PropertyName> propertyNames(Filter filter, final SimpleFeatureType featureType) {
+    public static Set<PropertyName> propertyNames(Filter filter, final SimpleFeatureType 
+            featureType) {
         if (filter == null) {
             return Collections.emptySet();
         }
@@ -942,7 +944,7 @@ public class Filters {
      * </p>
      */
     public static Set<PropertyName> propertyNames(Expression expression,
-            final SimpleFeatureType featureType) {
+                                                  final SimpleFeatureType featureType) {
         if (expression == null) {
             return Collections.emptySet();
         }
@@ -958,16 +960,18 @@ public class Filters {
     public static Set<PropertyName> propertyNames(Expression expression) {
         return propertyNames(expression, null);
     }
+
     /**
      * True if the filter makes use of propertyName
      * <p>
      * Note this is a simple test and is faster than calling
      * <code>attributeNames( filter ).contains( name )</code>
+     *
      * @param filter
      * @param property - name of the property to look for
      * @return
      */
-    static boolean uses(Filter filter, final String propertyName ) {
+    static boolean uses(Filter filter, final String propertyName) {
         if (filter == null) {
             return false;
         }
@@ -975,17 +979,20 @@ public class Filters {
             protected boolean found(Object data) {
                 return Boolean.TRUE == data;
             }
-            public Object visit(PropertyName name, Object data) {                
-                if( Utilities.equals(name.getPropertyName(), propertyName ) ){
+
+            public Object visit(PropertyName name, Object data) {
+                if (Utilities.equals(name.getPropertyName(), propertyName)) {
                     return true;
                 }
                 return data;
             }
-        };
+        }
+        ;
         SearchFilterVisitor search = new SearchFilterVisitor();
-        boolean found = (Boolean) filter.accept(search, false );
+        boolean found = (Boolean) filter.accept(search, false);
         return found;
     }
+
     /**
      * Check if the provided filter has child filters of some sort.
      * <p>
@@ -996,16 +1003,17 @@ public class Filters {
      * <li>Or: has a list of child filters</li>
      * </ul>
      * Any other filter will return false.
+     *
      * @param filter
      * @return list of child filters
      */
-    static public boolean hasChildren( Filter filter ){
+    static public boolean hasChildren(Filter filter) {
         return filter instanceof BinaryLogicOperator || filter instanceof Not;
     }
-    
+
     /**
      * List of child filters.
-     * 
+     * <p>
      * Where a child filter is considered:
      * <ul>
      * <li>Not: has a single child filter being negated</li>
@@ -1020,15 +1028,17 @@ public class Filters {
      * new filter when you are ready. To make that explicit I am returning an ArrayList so it
      * is clear that the result can be modified.
      * </p>
+     *
      * @param filter
      * @return are belong to us
      */
-    static public ArrayList<Filter> children( Filter filter ){
-        return children( filter, false );
+    static public ArrayList<Filter> children(Filter filter) {
+        return children(filter, false);
     }
+
     /**
      * List of child filters.
-     * 
+     * <p>
      * Where a child filter is considered:
      * <ul>
      * <li>Not: has a single child filter being negated</li>
@@ -1045,65 +1055,67 @@ public class Filters {
      * new filter when you are ready. To make that explicit I am returning an ArrayList so it
      * is clear that the result can be modified.
      * </p>
+     *
      * @param filter
-     * @param all true to recurse into the filter and retrieve all children; false to only
-     * return the top level children
+     * @param all    true to recurse into the filter and retrieve all children; false to only
+     *               return the top level children
      * @return are belong to us
      */
-    static public ArrayList<Filter> children( Filter filter, boolean all ){
-        final ArrayList<Filter> children =  new ArrayList<Filter>();
-        if( filter == null ){
+    static public ArrayList<Filter> children(Filter filter, boolean all) {
+        final ArrayList<Filter> children = new ArrayList<Filter>();
+        if (filter == null) {
             return children;
         }
-        if( all ){
-            filter.accept( new DefaultFilterVisitor() {
+        if (all) {
+            filter.accept(new DefaultFilterVisitor() {
                 public Object visit(And filter, Object data) {
                     List<Filter> childList = filter.getChildren();
                     if (childList != null) {
-                        for( Filter child : childList) {
-                            if (child == null ) continue;
-                            
-                            children.add( child );
-                            data = child.accept(this, data);                            
+                        for (Filter child : childList) {
+                            if (child == null) continue;
+
+                            children.add(child);
+                            data = child.accept(this, data);
                         }
                     }
                     return data;
                 }
+
                 public Object visit(Or filter, Object data) {
                     List<Filter> childList = filter.getChildren();
                     if (childList != null) {
-                        for( Filter child : childList) {
-                            if (child == null ) continue;
-                            
-                            children.add( child );
-                            data = child.accept(this, data);                            
+                        for (Filter child : childList) {
+                            if (child == null) continue;
+
+                            children.add(child);
+                            data = child.accept(this, data);
                         }
                     }
                     return data;
                 }
+
                 public Object visit(Not filter, Object data) {
                     Filter child = filter.getFilter();
                     if (child != null) {
-                        children.add( child );
+                        children.add(child);
                         data = child.accept(this, data);
                     }
                     return data;
                 }
-            }, null );
-        }
-        else {
-            if( filter instanceof Not){
+            }, null);
+        } else {
+            if (filter instanceof Not) {
                 Not not = (Not) filter;
-                if( not.getFilter() != null ){
-                    children.add( not.getFilter() );
+                if (not.getFilter() != null) {
+                    children.add(not.getFilter());
                 }
             }
-            if (filter instanceof BinaryLogicOperator ){
+            if (filter instanceof BinaryLogicOperator) {
                 BinaryLogicOperator parent = (BinaryLogicOperator) filter;
                 List<Filter> reviewChildren = parent.getChildren();
-                if( reviewChildren != null ){
-                    for( Filter child : reviewChildren ){
-                        if( child != null ){
+                if (reviewChildren != null) {
+                    for (Filter child : reviewChildren) {
+                        if (child != null) {
                             children.add(child);
                         }
                     }
@@ -1112,19 +1124,21 @@ public class Filters {
         }
         return children;
     }
-    
+
     /**
      * Find the first child-filter (or the base filter itself) that is of the given type and uses
      * the specified property.
+     *
      * @param filter
      * @param filterType - class of the filter to look for
-     * @param property - name of the property to look for
+     * @param property   - name of the property to look for
      * @return
      */
-    public static <T extends Filter> T search(Filter filter, Class<T> filterType, String propertyName ){
+    public static <T extends Filter> T search(Filter filter, Class<T> filterType, String 
+            propertyName) {
         List<Filter> allBase = children(filter);
-        for( Filter base : allBase ){
-            if( filterType.isInstance(base) && uses(base, propertyName) ){                
+        for (Filter base : allBase) {
+            if (filterType.isInstance(base) && uses(base, propertyName)) {
                 return filterType.cast(base);
             }
         }
@@ -1132,8 +1146,10 @@ public class Filters {
     }
 
     /**
-     * Given a filter which contains a term which is a PropertyName, returns the name of the property.
+     * Given a filter which contains a term which is a PropertyName, returns the name of the 
+     * property.
      * Returns null if no PropertyName is passed
+     *
      * @param filter
      * @return
      */
@@ -1145,29 +1161,33 @@ public class Filters {
             protected boolean found(Object data) {
                 return data != null;
             }
+
             public Object visit(PropertyName name, Object data) {
                 return name.getPropertyName();
             }
-        };
+        }
+        ;
         SearchFilterVisitor search = new SearchFilterVisitor();
-        return (String)filter.accept(search, null );
+        return (String) filter.accept(search, null);
     }
 
     /**
      * Find all filters (including the base filter itself) that are of the given type and use
      * the specified property.
+     *
      * @param filter
      * @param filterType
      * @param property
      * @return all filters that are of the given type using the specified property
      */
-    static <T extends Filter> List<T> findAllByTypeAndName(Filter filter, Class<T> filterType, String property) {
-        List<T> retVal = new ArrayList<T>();        
+    static <T extends Filter> List<T> findAllByTypeAndName(Filter filter, Class<T> filterType, 
+                                                           String property) {
+        List<T> retVal = new ArrayList<T>();
         List<Filter> allBase = children(filter);
-        allBase.add( 0, filter );
-        for( Filter base : allBase ){
-            if( filterType.isInstance(base) && uses(base, property) ){                
-                retVal.add( filterType.cast(base) );
+        allBase.add(0, filter);
+        for (Filter base : allBase) {
+            if (filterType.isInstance(base) && uses(base, property)) {
+                retVal.add(filterType.cast(base));
             }
         }
         return retVal;

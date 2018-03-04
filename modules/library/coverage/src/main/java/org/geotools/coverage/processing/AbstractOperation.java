@@ -40,18 +40,17 @@ import org.opengis.util.InternationalString;
  * The descriptive information includes such information as the name of the operation, operation
  * description, and number of source grid coverages required for the operation.
  *
- * @since 2.2
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.2
  */
 public abstract class AbstractOperation implements Operation, Serializable {
     /**
      * Serial number for interoperability with different versions.
      */
-    private static final long serialVersionUID = -1441856042779942954L;;
+    private static final long serialVersionUID = -1441856042779942954L;
+    ;
 
     /**
      * The parameters descriptor.
@@ -89,7 +88,7 @@ public abstract class AbstractOperation implements Operation, Serializable {
     @Deprecated
     public String getDescription() {
         final InternationalString remarks = descriptor.getRemarks();
-        return (remarks!=null) ? remarks.toString() : null;
+        return (remarks != null) ? remarks.toString() : null;
     }
 
     /**
@@ -136,7 +135,7 @@ public abstract class AbstractOperation implements Operation, Serializable {
      */
     private static int getNumSources(final ParameterDescriptorGroup descriptor) {
         int count = 0;
-        for (final Iterator it=descriptor.descriptors().iterator(); it.hasNext();) {
+        for (final Iterator it = descriptor.descriptors().iterator(); it.hasNext(); ) {
             final GeneralParameterDescriptor candidate = (GeneralParameterDescriptor) it.next();
             if (candidate instanceof ParameterDescriptorGroup) {
                 count += getNumSources((ParameterDescriptorGroup) candidate);
@@ -160,14 +159,16 @@ public abstract class AbstractOperation implements Operation, Serializable {
     }
 
     /**
-     * Applies a process operation to a coverage. This method is invoked by {@link DefaultProcessor}.
+     * Applies a process operation to a coverage. This method is invoked by 
+     * {@link DefaultProcessor}.
      *
-     * @param  parameters List of name value pairs for the parameters required for the operation.
-     * @param  hints A set of rendering hints, or {@code null} if none. The {@code DefaultProcessor}
-     *         may provides hints for the following keys: {@link Hints#COORDINATE_OPERATION_FACTORY}
-     *         and {@link Hints#JAI_INSTANCE}.
+     * @param parameters List of name value pairs for the parameters required for the operation.
+     * @param hints      A set of rendering hints, or {@code null} if none. The {@code 
+     * DefaultProcessor}
+     *                   may provides hints for the following keys: 
+     *                   {@link Hints#COORDINATE_OPERATION_FACTORY}
+     *                   and {@link Hints#JAI_INSTANCE}.
      * @return The result as a coverage.
-     *
      * @throws CoverageProcessingException if the operation can't be applied.
      */
     public abstract Coverage doOperation(final ParameterValueGroup parameters, final Hints hints)
@@ -181,7 +182,7 @@ public abstract class AbstractOperation implements Operation, Serializable {
     public int hashCode() {
         // Since we should have only one operation registered for each name,
         // the descriptors hash code should be enough.
-        return descriptor.hashCode() ^ (int)serialVersionUID;
+        return descriptor.hashCode() ^ (int) serialVersionUID;
     }
 
     /**
@@ -192,7 +193,7 @@ public abstract class AbstractOperation implements Operation, Serializable {
      */
     @Override
     public boolean equals(final Object object) {
-        if (object!=null && object.getClass().equals(getClass())) {
+        if (object != null && object.getClass().equals(getClass())) {
             final AbstractOperation that = (AbstractOperation) object;
             return Utilities.equals(this.descriptor, that.descriptor);
         }

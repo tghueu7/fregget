@@ -29,11 +29,8 @@ import org.junit.Test;
 
 /**
  * Online test for {@link SchemaCatalog}.
- * 
+ *
  * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
- *
- *
- *
  * @source $URL$
  */
 public class SchemaCacheOnlineTest extends OnlineTestSupport {
@@ -44,7 +41,8 @@ public class SchemaCacheOnlineTest extends OnlineTestSupport {
     private static final String HTTPS_PROTOCOLS = "https.protocols";
 
     /**
-     * Downloaded files are stored in this directory. We intentionally use a non-canonical cache directory to test that resolved locations are
+     * Downloaded files are stored in this directory. We intentionally use a non-canonical cache 
+     * directory to test that resolved locations are
      * canonical.
      */
     private static final File CACHE_DIRECTORY = new File("target/schema-cache/../schema-cache");
@@ -52,7 +50,8 @@ public class SchemaCacheOnlineTest extends OnlineTestSupport {
     /**
      * Schema that is downloaded.
      */
-    private static final String SCHEMA_LOCATION = "http://www.geosciml.org/geosciml/2.0/xsd/geosciml.xsd";
+    private static final String SCHEMA_LOCATION = "http://www.geosciml" +
+            ".org/geosciml/2.0/xsd/geosciml.xsd";
 
     /**
      * Filename of the schema.

@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -18,6 +18,7 @@ package org.geotools.filter;
 
 
 // Java Topology Suite dependencies
+
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
@@ -42,23 +43,30 @@ import com.vividsolutions.jts.geom.Geometry;
  *
  * @author Rob Hranac, TOPP<br>
  * @author Chris Holmes, TOPP
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class ExpressionSAXParser {
-    /** The logger for the filter module. */
-    private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org.geotools.filter");
+    /**
+     * The logger for the filter module.
+     */
+    private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org" +
+            ".geotools.filter");
 
-    /** Factory to construct filters. */
+    /**
+     * Factory to construct filters.
+     */
     private FilterFactory2 ff;
-    private FunctionFinder functionFinder = new FunctionFinder( null );
+    private FunctionFinder functionFinder = new FunctionFinder(null);
 
-    /** A nested expression parser for math sub expressions */
+    /**
+     * A nested expression parser for math sub expressions
+     */
     private ExpressionSAXParser expFactory = null;
 
-    /** The current expression being constructed */
+    /**
+     * The current expression being constructed
+     */
     private Expression curExprssn = null;
 
     /**
@@ -66,11 +74,14 @@ public class ExpressionSAXParser {
      * can be made..
      */
     private String currentState = null; //DJB: appears this can be leftValue rightValue complete.
-                                        //DJB: added "accumulate" for <Function> 
-    
-    private ArrayList accumalationOfExpressions = new ArrayList(); //DJB: keep a list of the expressions used in a <Function>
+    //DJB: added "accumulate" for <Function> 
 
-    /** The type of expression being constructed. */
+    private ArrayList accumalationOfExpressions = new ArrayList(); //DJB: keep a list of the 
+    // expressions used in a <Function>
+
+    /**
+     * The type of expression being constructed.
+     */
     private String declaredType = null;
 
     /**
@@ -94,26 +105,34 @@ public class ExpressionSAXParser {
     public ExpressionSAXParser() {
         this(CommonFactoryFinder.getFilterFactory2());
     }
-    public ExpressionSAXParser(FilterFactory2 factory ){
-        this( null, factory );
+
+    public ExpressionSAXParser(FilterFactory2 factory) {
+        this(null, factory);
     }
+
     /**
      * Constructor with a schema to read the attribute againset.
      *
      * @param schema The schema for attributes (null is fine, as the code for
-     *        this is not in place.
+     *               this is not in place.
      */
     public ExpressionSAXParser(SimpleFeatureType schema) {
-        this( schema, CommonFactoryFinder.getFilterFactory2() );    	
+        this(schema, CommonFactoryFinder.getFilterFactory2());
     }
-    /** Constructor injection */
-    public ExpressionSAXParser( SimpleFeatureType schema, FilterFactory2 factory ){
-    	this.schema = schema;
-        ff = factory;    	
+
+    /**
+     * Constructor injection
+     */
+    public ExpressionSAXParser(SimpleFeatureType schema, FilterFactory2 factory) {
+        this.schema = schema;
+        ff = factory;
     }
-    /** Setter injection */
-    public void setFilterFactory( FilterFactory2 factory ){
-    	ff = factory;
+
+    /**
+     * Setter injection
+     */
+    public void setFilterFactory(FilterFactory2 factory) {
+        ff = factory;
     }
 
     /**
@@ -121,53 +140,50 @@ public class ExpressionSAXParser {
      * filter handler reaches a new expression.
      *
      * @param declaredType The string representation of the expression type.
-     *
      * @throws IllegalFilterException If there are problems creating
-     *         expressions.
+     *                                expressions.
      */
-    public void start(String declaredType,Attributes atts) throws IllegalFilterException {
+    public void start(String declaredType, Attributes atts) throws IllegalFilterException {
         LOGGER.finer("incoming type: " + declaredType);
         LOGGER.finer("declared type: " + this.declaredType);
         LOGGER.finer("current state: " + currentState);
 
-        if (expFactory == null) 
-        {
+        if (expFactory == null) {
             this.declaredType = declaredType;
-            
+
             short convertType = convertType(declaredType);
-            if (DefaultExpression.isFunctionExpression(convertType))
-            {
-            	 expFactory = new ExpressionSAXParser(schema);
-            	 String name = getFunctionName(atts);
-            	 Function function = functionFinder.findFunction( name );
-            	 if( function != null && function instanceof FunctionExpression){
-            	     curExprssn = (FunctionExpression) function;
-            	 }
-            	 else {
-            	     throw new IllegalFilterException( name + " not availabel as FunctionExpressio:"+function);
-            	 }
-                 LOGGER.finer("is <function> expression");
+            if (DefaultExpression.isFunctionExpression(convertType)) {
+                expFactory = new ExpressionSAXParser(schema);
+                String name = getFunctionName(atts);
+                Function function = functionFinder.findFunction(name);
+                if (function != null && function instanceof FunctionExpression) {
+                    curExprssn = (FunctionExpression) function;
+                } else {
+                    throw new IllegalFilterException(name + " not availabel as " +
+                            "FunctionExpressio:" + function);
+                }
+                LOGGER.finer("is <function> expression");
             }
 
             // if the expression is math, then create a factory for its
             // sub expressions, otherwise just instantiate the main expression
             if (DefaultExpression.isMathExpression(convertType)) {
                 expFactory = new ExpressionSAXParser(schema);
-                switch(convertType) {
-                case ExpressionType.MATH_ADD:
-                    curExprssn =  new AddImpl(null,null);
-                    break;
-                case ExpressionType.MATH_SUBTRACT:
-                    curExprssn =  new SubtractImpl(null,null);
-                    break;
-                case ExpressionType.MATH_MULTIPLY:
-                    curExprssn =  new MultiplyImpl(null,null);
-                    break;
-                case ExpressionType.MATH_DIVIDE:
-                    curExprssn =  new DivideImpl(null,null);
-                    break;
-                default:
-                    throw new IllegalFilterException("Unsupported math expression");
+                switch (convertType) {
+                    case ExpressionType.MATH_ADD:
+                        curExprssn = new AddImpl(null, null);
+                        break;
+                    case ExpressionType.MATH_SUBTRACT:
+                        curExprssn = new SubtractImpl(null, null);
+                        break;
+                    case ExpressionType.MATH_MULTIPLY:
+                        curExprssn = new MultiplyImpl(null, null);
+                        break;
+                    case ExpressionType.MATH_DIVIDE:
+                        curExprssn = new DivideImpl(null, null);
+                        break;
+                    default:
+                        throw new IllegalFilterException("Unsupported math expression");
                 }
                 LOGGER.finer("is math expression");
             } else if (DefaultExpression.isLiteralExpression(convertType)) {
@@ -182,7 +198,7 @@ public class ExpressionSAXParser {
             currentState = setInitialState(curExprssn);
             readyFlag = false;
         } else {
-            expFactory.start(declaredType,atts);
+            expFactory.start(declaredType, atts);
         }
     }
 
@@ -190,9 +206,8 @@ public class ExpressionSAXParser {
      * Called when the filter handler has reached the end of an expression
      *
      * @param message the expression to end.
-     *
      * @throws IllegalFilterException If there are problems creating
-     *         exceptions.
+     *                                exceptions.
      */
     public void end(String message) throws IllegalFilterException {
         LOGGER.finer("declared type: " + declaredType);
@@ -216,38 +231,37 @@ public class ExpressionSAXParser {
             if (expFactory.isReady()) {
                 if (currentState.equals("leftValue")) {
                     ((MathExpressionImpl) curExprssn).setExpression1(expFactory
-                        .create());
+                            .create());
                     currentState = "rightValue";
                     expFactory = new ExpressionSAXParser(schema);
                     LOGGER.finer("just added left value: " + currentState);
                 } else if (currentState.equals("rightValue")) {
                     ((MathExpressionImpl) curExprssn).setExpression2(expFactory
-                        .create());
+                            .create());
                     currentState = "complete";
                     expFactory = null;
                     LOGGER.finer("just added right value: " + currentState);
                 } else if (currentState.equals("accumulate")) {
-                        accumalationOfExpressions.add(expFactory.create());
-                        expFactory = null;
-                        // currentState = "accumulate";  //leave unchanged
-                        LOGGER.finer("just added a parameter for a function: " + currentState);
-                                  
-                        if (  ((FunctionExpression) curExprssn).getFunctionName().getArgumentCount() ==   accumalationOfExpressions.size())
-                        {
-                        	//hay, we've parsed all the arguments!
-                        	currentState = "complete";
-                        	
-                        	//accumalationOfExpressions
-                            ((FunctionExpression) curExprssn).setParameters( accumalationOfExpressions );
-                        }
-                        else
-                        {
-                        	expFactory = new ExpressionSAXParser(schema); // we're gonna get more expressions
-                        }
+                    accumalationOfExpressions.add(expFactory.create());
+                    expFactory = null;
+                    // currentState = "accumulate";  //leave unchanged
+                    LOGGER.finer("just added a parameter for a function: " + currentState);
+
+                    if (((FunctionExpression) curExprssn).getFunctionName().getArgumentCount() ==
+                            accumalationOfExpressions.size()) {
+                        //hay, we've parsed all the arguments!
+                        currentState = "complete";
+
+                        //accumalationOfExpressions
+                        ((FunctionExpression) curExprssn).setParameters(accumalationOfExpressions);
                     } else {
+                        expFactory = new ExpressionSAXParser(schema); // we're gonna get more 
+                        // expressions
+                    }
+                } else {
                     throw new IllegalFilterException(
-                        "Attempted to add sub expression in a bad state: "
-                        + currentState);
+                            "Attempted to add sub expression in a bad state: "
+                                    + currentState);
                 }
             }
         } else if (declaredType.equals(message)
@@ -258,8 +272,8 @@ public class ExpressionSAXParser {
             readyFlag = true;
         } else { // otherwise, throw exception
             throw new IllegalFilterException(
-                "Reached end of unready, non-nested expression: "
-                + currentState);
+                    "Reached end of unready, non-nested expression: "
+                            + currentState);
         }
     }
 
@@ -267,7 +281,7 @@ public class ExpressionSAXParser {
      * Checks to see if this expression is ready to be returned.
      *
      * @return <tt>true</tt> if the expression is ready to be returned,
-     *         <tt>false</tt> otherwise.
+     * <tt>false</tt> otherwise.
      */
     public boolean isReady() {
         return readyFlag;
@@ -277,16 +291,14 @@ public class ExpressionSAXParser {
      * Handles incoming characters.
      *
      * @param message the incoming chars from the SAX handler.
-     *
      * @throws IllegalFilterException If there are problems with filter
-     *         constrcution.
-     *
+     *                                constrcution.
      * @task TODO: this function is a mess, but it's mostly due to filters
-     *       being loosely coupled with schemas, so we have to make a lot of
-     *       guesses.
+     * being loosely coupled with schemas, so we have to make a lot of
+     * guesses.
      * @task TODO: Revisit stripping leading characters.  Needed now to get
-     *       things working, and may be the best choice in the end, but it
-     *       should be thought through more.
+     * things working, and may be the best choice in the end, but it
+     * should be thought through more.
      */
     public void message(String message, boolean convertToNumber) throws IllegalFilterException {
         // TODO 2:
@@ -338,32 +350,32 @@ public class ExpressionSAXParser {
                 //  like filter?)
                 //HACK: This should also not use exception catching, it's 
                 //expensive and bad code practice.
-                if (convertToNumber){
-	            	try {
-	                    Object temp = new Integer(message);
-	                    ((LiteralExpressionImpl) curExprssn).setValue(temp);
-	                    currentState = "complete";
-	                } catch (NumberFormatException nfe1) {
-	                    try {
-	                        Object temp = new Double(message);
-	                        ((LiteralExpressionImpl) curExprssn).setValue(temp);
-	                        currentState = "complete";
-	                    } catch (NumberFormatException nfe2) {
-	                        Object temp = message;
-	                        ((LiteralExpressionImpl) curExprssn).setValue(temp);
-	                        currentState = "complete";
-	                    }
-	                }
-                }else{
+                if (convertToNumber) {
+                    try {
+                        Object temp = new Integer(message);
+                        ((LiteralExpressionImpl) curExprssn).setValue(temp);
+                        currentState = "complete";
+                    } catch (NumberFormatException nfe1) {
+                        try {
+                            Object temp = new Double(message);
+                            ((LiteralExpressionImpl) curExprssn).setValue(temp);
+                            currentState = "complete";
+                        } catch (NumberFormatException nfe2) {
+                            Object temp = message;
+                            ((LiteralExpressionImpl) curExprssn).setValue(temp);
+                            currentState = "complete";
+                        }
+                    }
+                } else {
                     Object temp = message;
                     ((LiteralExpressionImpl) curExprssn).setValue(temp);
                     currentState = "complete";
                 }
             } else if (expFactory != null) {
-                expFactory.message(message,convertToNumber);
+                expFactory.message(message, convertToNumber);
             }
         } else if (expFactory != null) {
-            expFactory.message(message,convertToNumber);
+            expFactory.message(message, convertToNumber);
         }
     }
 
@@ -371,9 +383,8 @@ public class ExpressionSAXParser {
      * Gets geometry.
      *
      * @param geometry The geometry from the filter.
-     *
      * @throws IllegalFilterException If there are problems creating
-     *         expression.
+     *                                expression.
      */
     public void geometry(Geometry geometry) throws IllegalFilterException {
         // Sets the geometry for the expression, as appropriate
@@ -394,12 +405,11 @@ public class ExpressionSAXParser {
      * Creates and returns the expression.
      *
      * @return The expression currently held by this parser.
-     *
      * @task REVISIT: shouldn't this check the readyFlag?
      */
     public Expression create() {
         LOGGER.finer("about to create expression: "
-            + curExprssn.toString());
+                + curExprssn.toString());
 
         return curExprssn;
     }
@@ -408,28 +418,24 @@ public class ExpressionSAXParser {
      * Sets the appropriate state.
      *
      * @param expression the expression being evaluated.
-     *
      * @return <tt>leftValue</tt> if curExprssn is a mathExpression, an
-     *         empty string if a literal or attribute, illegal expression
-     *         thrown otherwise.
-     *
+     * empty string if a literal or attribute, illegal expression
+     * thrown otherwise.
      * @throws IllegalFilterException if the current expression is not math,
-     *         attribute, or literal.
+     *                                attribute, or literal.
      */
     private static String setInitialState(org.opengis.filter.expression.Expression expression)
-        throws IllegalFilterException {
+            throws IllegalFilterException {
         if (expression instanceof BinaryExpression) {
             return "leftValue";
         } else if ((expression instanceof PropertyName)
                 || (expression instanceof Literal)) {
             return "";
-        }else if(expression instanceof FunctionExpression)
-        {
-        	return "accumulate";  // start storing values!
-        }
-		else {
+        } else if (expression instanceof FunctionExpression) {
+            return "accumulate";  // start storing values!
+        } else {
             throw new IllegalFilterException("Created illegal expression: "
-                + expression.getClass().toString());
+                    + expression.getClass().toString());
         }
     }
 
@@ -438,7 +444,6 @@ public class ExpressionSAXParser {
      * DefaultExpression short type.
      *
      * @param expType Type of filter for check.
-     *
      * @return the short representation of the expression.
      */
     protected static short convertType(String expType) {
@@ -455,33 +460,33 @@ public class ExpressionSAXParser {
             return ExpressionType.ATTRIBUTE_DOUBLE;
         } else if (expType.equals("Literal")) {
             return ExpressionType.LITERAL_DOUBLE;
-        }
-        else if (expType.equals("Function")) {
+        } else if (expType.equals("Function")) {
             return ExpressionType.FUNCTION;
         }
 
         return ExpressionType.ATTRIBUTE_UNDECLARED;
     }
-    
+
     /**
      * stolen from the DOM parser -- for a list of attributes, find the "name"
      * ie. for <Function name="geomLength"> return "geomLength"
-     * NOTE: if someone uses <Function name="geomLength">  or <Function ogc:name="geomLength"> this will work,
-     * if they use a different prefix, it will not. 
+     * NOTE: if someone uses <Function name="geomLength">  or <Function ogc:name="geomLength"> 
+     *     this will work,
+     * if they use a different prefix, it will not.
+     *
      * @param map
      */
-    public String getFunctionName(Attributes map)
-    {
-	   String result = map.getValue("name");
-	   if (result == null)
-	   {
-	   	   result = map.getValue("ogc:name"); // highly unlikely for this to happen.  But, it might...  
-	   }
-	   if (result == null)
-	   {
-	   	   result = map.getValue("ows:name"); // highly unlikely for this to happen.  But, it might...  
-	   }
-	   return result;
+    public String getFunctionName(Attributes map) {
+        String result = map.getValue("name");
+        if (result == null) {
+            result = map.getValue("ogc:name"); // highly unlikely for this to happen.  But, it 
+            // might...  
+        }
+        if (result == null) {
+            result = map.getValue("ows:name"); // highly unlikely for this to happen.  But, it 
+            // might...  
+        }
+        return result;
     }
 }
 

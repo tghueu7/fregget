@@ -58,9 +58,6 @@ import org.geotools.xml.Configuration;
  * Parser configuration for the http://earth.google.com/kml/2.1 schema.
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class KMLConfiguration extends Configuration {
@@ -112,7 +109,8 @@ public class KMLConfiguration extends Configuration {
         //container.registerComponentImplementation(KML.colorModeEnum, ColorModeEnumBinding.class);
         container.registerComponentImplementation(KML.ColorStyleType, ColorStyleTypeBinding.class);
         container.registerComponentImplementation(KML.ContainerType, ContainerTypeBinding.class);
-        container.registerComponentImplementation(KML.CoordinatesType, CoordinatesTypeBinding.class);
+        container.registerComponentImplementation(KML.CoordinatesType, CoordinatesTypeBinding
+                .class);
         //container.registerComponentImplementation(KML.CreateType, CreateTypeBinding.class);
         container.registerComponentImplementation(KML.dateTimeType, DateTimeTypeBinding.class);
         //container.registerComponentImplementation(KML.DeleteType, DeleteTypeBinding.class);
@@ -149,18 +147,21 @@ public class KMLConfiguration extends Configuration {
         container.registerComponentImplementation(KML.MetadataType, MetadataTypeBinding.class);
         //container.registerComponentImplementation(KML.ModelType, ModelTypeBinding.class);
         container.registerComponentImplementation(KML.MultiGeometryType,
-            MultiGeometryTypeBinding.class);
+                MultiGeometryTypeBinding.class);
         //container.registerComponentImplementation(KML.NetworkLinkControlType,
         //    NetworkLinkControlTypeBinding.class);
-        //container.registerComponentImplementation(KML.NetworkLinkType, NetworkLinkTypeBinding.class);
+        //container.registerComponentImplementation(KML.NetworkLinkType, NetworkLinkTypeBinding
+        // .class);
         container.registerComponentImplementation(KML.ObjectType, ObjectTypeBinding.class);
-        //container.registerComponentImplementation(KML.OrientationType, OrientationTypeBinding.class);
+        //container.registerComponentImplementation(KML.OrientationType, OrientationTypeBinding
+        // .class);
         //container.registerComponentImplementation(KML.OverlayType, OverlayTypeBinding.class);
         container.registerComponentImplementation(KML.PlacemarkType, PlacemarkTypeBinding.class);
         container.registerComponentImplementation(KML.PointType, PointTypeBinding.class);
         container.registerComponentImplementation(KML.PolygonType, PolygonTypeBinding.class);
         container.registerComponentImplementation(KML.PolyStyleType, PolyStyleTypeBinding.class);
-        //container.registerComponentImplementation(KML.refreshModeEnum, RefreshModeEnumBinding.class);
+        //container.registerComponentImplementation(KML.refreshModeEnum, RefreshModeEnumBinding
+        // .class);
         container.registerComponentImplementation(KML.RegionType, RegionTypeBinding.class);
         //container.registerComponentImplementation(KML.ReplaceType, ReplaceTypeBinding.class);
         //container.registerComponentImplementation(KML.ScaleType, ScaleTypeBinding.class);
@@ -172,7 +173,8 @@ public class KMLConfiguration extends Configuration {
         //container.registerComponentImplementation(KML.StyleMapType, StyleMapTypeBinding.class);
         //container.registerComponentImplementation(KML.StyleSelectorType,
         //    StyleSelectorTypeBinding.class);
-        //container.registerComponentImplementation(KML.styleStateEnum, StyleStateEnumBinding.class);
+        //container.registerComponentImplementation(KML.styleStateEnum, StyleStateEnumBinding
+        // .class);
         container.registerComponentImplementation(KML.StyleType, StyleTypeBinding.class);
 
         //container.registerComponentImplementation(KML.TimePrimitiveType,

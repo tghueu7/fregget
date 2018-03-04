@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 
@@ -36,10 +36,8 @@ package org.opengis.filter.expression;
  * definition only the fews that aren't suitable for constant replacement during
  * a single run against a feature collection should be marked as
  * <em>volatile</em>
- * 
+ *
  * @author Andrea Aime - GeoSolutions
- *
- *
  * @source $URL$
  */
 public interface VolatileFunction extends Function {

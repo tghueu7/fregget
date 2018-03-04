@@ -18,12 +18,12 @@ public class VersionTest {
     public void bitwise() {
         for (Action action : Action.values()) {
             long encoded = Version.UNION_ACTION | ((long) action.ordinal());
-            
-            assertTrue( (encoded & Version.UNION_ACTION) > 0 );
-            long decoded = Version.UNION_MASK & ((long)encoded);
-            
-            Action found = Action.lookup((int)decoded);
-            assertEquals( action, found );
+
+            assertTrue((encoded & Version.UNION_ACTION) > 0);
+            long decoded = Version.UNION_MASK & ((long) encoded);
+
+            Action found = Action.lookup((int) decoded);
+            assertEquals(action, found);
         }
 
     }
@@ -42,17 +42,17 @@ public class VersionTest {
         } catch (IllegalArgumentException e) {
             assertTrue(true);
         }
-        
+
         Integer testInt = new Integer(1234567890);
         Version version = new Version(testInt);
 
         assertNotNull(version.getIndex());
-        assertTrue( version.isIndex() );
+        assertTrue(version.isIndex());
         assertEquals(1234567890, (int) version.getIndex());
 
-        assertFalse( version.isVersionAction() );
+        assertFalse(version.isVersionAction());
         assertNull(version.getVersionAction());
-        
+
         assertNull(version.getDateTime());
     }
 
@@ -62,7 +62,7 @@ public class VersionTest {
 
         Version version = new Version(now);
 
-        assertTrue( version.isDateTime() );
+        assertTrue(version.isDateTime());
         assertEquals(now, version.getDateTime());
         assertNull(version.getIndex());
         assertNull(version.getVersionAction());
@@ -73,12 +73,13 @@ public class VersionTest {
         Version version = new Version(Version.Action.ALL);
 
         assertEquals(Version.Action.ALL, version.getVersionAction());
-        
+
         assertTrue(version.isVersionAction());
 
         assertNull(version.getIndex());
         assertNull(version.getDateTime());
     }
+
     @Test
     public void versionEmpty() {
         Version version = new Version();

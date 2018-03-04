@@ -19,6 +19,7 @@ package org.geotools.metadata;
 import java.util.Map;
 import java.util.logging.Logger;
 import javax.swing.tree.TreeModel;
+
 import org.geotools.util.logging.Logging;
 
 
@@ -29,12 +30,10 @@ import org.geotools.util.logging.Logging;
  * implementation of {@linkplain #AbstractMetadata(Object) copy constructor},
  * {@link #equals} and {@link #hashCode} methods.
  *
- * @since 2.4
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (Geomatys)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.4
  */
 public abstract class AbstractMetadata {
     /**
@@ -51,7 +50,7 @@ public abstract class AbstractMetadata {
     /**
      * A view of this metadata as a map. Will be created only when first needed.
      */
-    private transient Map<String,Object> asMap;
+    private transient Map<String, Object> asMap;
 
     /**
      * Creates an initially empty metadata.
@@ -65,16 +64,17 @@ public abstract class AbstractMetadata {
      * the {@linkplain #getStandard standard}) than this class, but don't need to be the same
      * implementation class. The copy is performed using Java reflections.
      *
-     * @param  source The metadata to copy values from.
-     * @throws ClassCastException if the specified metadata don't implements the expected
-     *         metadata interface.
+     * @param source The metadata to copy values from.
+     * @throws ClassCastException            if the specified metadata don't implements the expected
+     *                                       metadata interface.
      * @throws UnmodifiableMetadataException if this class don't define {@code set} methods
-     *         corresponding to the {@code get} methods found in the implemented interface,
-     *         or if this instance is not modifiable for some other reason.
+     *                                       corresponding to the {@code get} methods found in 
+     *                                       the implemented interface,
+     *                                       or if this instance is not modifiable for some other
+     *                                       reason.
      */
     protected AbstractMetadata(final Object source)
-            throws ClassCastException, UnmodifiableMetadataException
-    {
+            throws ClassCastException, UnmodifiableMetadataException {
         getStandard().shallowCopy(source, this, true);
     }
 
@@ -102,10 +102,10 @@ public abstract class AbstractMetadata {
      * uses heuristic rules which return {@code false} if and only if:
      * <p>
      * <ul>
-     *   <li>this class do not contains any {@code set*(...)} method</li>
-     *   <li>All {@code get*()} methods return a presumed immutable object.
-     *       The maining of "<cite>presumed immutable</cite>" may vary in
-     *       different Geotools versions.</li>
+     * <li>this class do not contains any {@code set*(...)} method</li>
+     * <li>All {@code get*()} methods return a presumed immutable object.
+     * The maining of "<cite>presumed immutable</cite>" may vary in
+     * different Geotools versions.</li>
      * </ul>
      * <p>
      * Otherwise, this method conservatively returns {@code true}. Subclasses
@@ -135,7 +135,7 @@ public abstract class AbstractMetadata {
      *
      * @return A view of this metadata object as a map.
      */
-    public synchronized Map<String,Object> asMap() {
+    public synchronized Map<String, Object> asMap() {
         if (asMap == null) {
             asMap = getStandard().asMap(this);
         }
@@ -166,7 +166,7 @@ public abstract class AbstractMetadata {
      * providing that every childs implement the {@link Object#equals} method as well. This
      * is the case by default if every childs are subclasses of {@code AbstractMetadata}.
      *
-     * @param  object The object to compare with this metadata.
+     * @param object The object to compare with this metadata.
      * @return {@code true} if the given object is equals to this metadata.
      */
     @Override
@@ -174,7 +174,7 @@ public abstract class AbstractMetadata {
         if (object == this) {
             return true;
         }
-        if (object==null || !object.getClass().equals(getClass())) {
+        if (object == null || !object.getClass().equals(getClass())) {
             return false;
         }
         /*

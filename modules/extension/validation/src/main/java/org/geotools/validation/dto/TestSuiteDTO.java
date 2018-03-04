@@ -23,31 +23,35 @@ import java.util.Map;
 
 /**
  * TestSuiteConfig purpose.
- * 
+ * <p>
  * <p>
  * Description of TestSuiteConfig ...
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class TestSuiteDTO {
-    /** the test suite name */
+    /**
+     * the test suite name
+     */
     private String name;
 
-    /** the test suite description */
+    /**
+     * the test suite description
+     */
     private String description;
 
-    /** the list of tests */
+    /**
+     * the list of tests
+     */
     private Map tests;
 
     /**
      * TestSuiteConfig constructor.
-     * 
+     * <p>
      * <p>
      * Does nothing
      * </p>
@@ -57,7 +61,7 @@ public class TestSuiteDTO {
 
     /**
      * TestSuiteConfig constructor.
-     * 
+     * <p>
      * <p>
      * Creates a copy of the TestSuiteConfig passed in.
      * </p>
@@ -81,7 +85,6 @@ public class TestSuiteDTO {
      * Implementation of clone.
      *
      * @return An instance of TestSuiteConfig.
-     *
      * @see java.lang.Object#clone()
      */
     public Object clone() {
@@ -110,9 +113,7 @@ public class TestSuiteDTO {
      * Implementation of equals.
      *
      * @param obj An object to compare for equality.
-     *
      * @return true when the objects have the same data in the same order.
-     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     public boolean equals(Object obj) {

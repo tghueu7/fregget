@@ -19,7 +19,9 @@ package org.geotools.sld.bindings;
 import org.picocontainer.MutablePicoContainer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 import javax.xml.namespace.QName;
+
 import org.geotools.styling.ContrastEnhancement;
 import org.geotools.styling.SelectedChannelType;
 import org.geotools.styling.StyleFactory;
@@ -28,9 +30,9 @@ import org.geotools.xml.*;
 
 /**
  * Binding object for the type http://www.opengis.net/sld:SelectedChannelType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="SelectedChannelType"&gt;
  *      &lt;xsd:sequence&gt;
@@ -44,9 +46,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDSelectedChannelTypeBinding extends AbstractComplexBinding {
@@ -99,9 +98,9 @@ public class SLDSelectedChannelTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return styleFactory.createSelectedChannelType((String) node.getChildValue(
                 "SourceChannelName"),
-            (ContrastEnhancement) node.getChildValue("ContrastEnhancement"));
+                (ContrastEnhancement) node.getChildValue("ContrastEnhancement"));
     }
 }

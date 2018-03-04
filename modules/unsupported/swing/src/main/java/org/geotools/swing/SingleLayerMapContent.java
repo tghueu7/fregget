@@ -22,21 +22,20 @@ import org.geotools.map.MapContent;
 
 /**
  * Used by {@linkplain DefaultRenderingExecutor} to hold a single {@code Layer}
- * that is being passed to a renderer. Calling the {@code dispose} method of 
+ * that is being passed to a renderer. Calling the {@code dispose} method of
  * this class does not dispose of the layer unlike {@linkplain MapContent#dispose()}.
  * It does not permit subsequent changes to its layer list.
- * 
- * @author Michael Bedward
- * @since 8.0
  *
- * @source $URL$
+ * @author Michael Bedward
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 public class SingleLayerMapContent extends MapContent {
 
     /**
      * Creates a new instance to hold the given layer.
-     * 
+     *
      * @param layer the layer
      * @throws IllegalArgumentException if {@code layer} is {@code null}
      */
@@ -49,8 +48,8 @@ public class SingleLayerMapContent extends MapContent {
 
     /**
      * Throws an {@code UnsupportedOperationException} if called.
-     * 
-     * @return 
+     *
+     * @return
      */
     @Override
     public boolean addLayer(Layer layer) {
@@ -59,8 +58,8 @@ public class SingleLayerMapContent extends MapContent {
 
     /**
      * Throws an {@code UnsupportedOperationException} if called.
-     * 
-     * @return 
+     *
+     * @return
      */
     @Override
     public void moveLayer(int sourcePosition, int destPosition) {
@@ -69,14 +68,14 @@ public class SingleLayerMapContent extends MapContent {
 
     /**
      * Throws an {@code UnsupportedOperationException} if called.
-     * 
-     * @return 
+     *
+     * @return
      */
     @Override
     public boolean removeLayer(Layer layer) {
         throw new UnsupportedOperationException("Should not be called");
     }
-    
+
     /**
      * Does nothing.
      */
@@ -92,5 +91,5 @@ public class SingleLayerMapContent extends MapContent {
     protected void finalize() throws Throwable {
         // does nothing
     }
-    
+
 }

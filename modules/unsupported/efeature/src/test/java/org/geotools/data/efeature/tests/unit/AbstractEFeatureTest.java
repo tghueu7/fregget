@@ -30,23 +30,21 @@ import junit.framework.TestCase;
 
 /**
  * @author kengu - 14. juni 2011
- *
- *
  * @source $URL$
  */
 public abstract class AbstractEFeatureTest extends TestCase {
 
     public static boolean isDebugging = true;
-    /** 
-     * Logger for all {@link AbstractResourceTest} implementations 
+    /**
+     * Logger for all {@link AbstractResourceTest} implementations
      */
     protected final Logger LOGGER;
     protected static final int TIME_DELTA = 1;
     protected static final int TIME_TOTAL = 2;
-    
+
     private long sTime;
     private long dTime;
-    
+
     // ----------------------------------------------------- 
     //  Constructors
     // -----------------------------------------------------
@@ -59,21 +57,21 @@ public abstract class AbstractEFeatureTest extends TestCase {
         sTime();
         LOGGER = Logging.getLogger(name);
     }
-    
+
     // ----------------------------------------------------- 
     //  Helper methods
     // -----------------------------------------------------
-    
+
     protected void trace(String message) {
         if (isDebugging) {
-            LOGGER.log(Level.INFO,message);
+            LOGGER.log(Level.INFO, message);
         }
     }
-    
+
     protected long sTime() {
         sTime = System.currentTimeMillis();
         dTime = sTime;
-        return sTime; 
+        return sTime;
     }
 
     protected long dTime() {
@@ -83,10 +81,10 @@ public abstract class AbstractEFeatureTest extends TestCase {
     protected void trace(String message, int delta) {
         if (isDebugging) {
             long tac = System.currentTimeMillis();
-            if(delta==TIME_DELTA) {
-                message += ", Time: +" + (tac-dTime)/1000.0;
-            } else if(delta==TIME_TOTAL) {
-                message += ", Time: ~" + (tac-sTime)/1000.0;
+            if (delta == TIME_DELTA) {
+                message += ", Time: +" + (tac - dTime) / 1000.0;
+            } else if (delta == TIME_TOTAL) {
+                message += ", Time: ~" + (tac - sTime) / 1000.0;
             }
             dTime = tac;
             trace(message);
@@ -95,7 +93,7 @@ public abstract class AbstractEFeatureTest extends TestCase {
 
     /**
      * Records a failure due to an exception that should not have been thrown.
-     * 
+     *
      * @param e the exception
      */
     protected void fail(Exception e) {
@@ -104,15 +102,14 @@ public abstract class AbstractEFeatureTest extends TestCase {
     }
 
     /**
-     * Asserts that we can find an object having the specified id, 
+     * Asserts that we can find an object having the specified id,
      * relative to the specified offset object.
-     * 
-     * @param offset - the object from which to start looking 
-     *  (to which the <code>id</code> is relative). This can be a 
-     *  resource or an element
-     * @param id - a slash-delimited qualified id, relative to the 
-     *  provided <code>offset</code>
-     * 
+     *
+     * @param offset - the object from which to start looking
+     *               (to which the <code>id</code> is relative). This can be a
+     *               resource or an element
+     * @param id     - a slash-delimited qualified id, relative to the
+     *               provided <code>offset</code>
      * @see #find(Object, String)
      */
     protected void assertFound(Object offset, String id) {
@@ -122,13 +119,12 @@ public abstract class AbstractEFeatureTest extends TestCase {
     /**
      * Asserts that we cannot find an object having the specified name, relative to the specified
      * starting object.
-     * 
-     * @param offset - the object from which to start looking 
-     *  (to which the <code>name</code> is relative). This can be a 
-     *  resource or an element
-     * @param id - a slash-delimited qualified id, relative to the 
-     *  provided <code>offset</code>
-     * 
+     *
+     * @param offset - the object from which to start looking
+     *               (to which the <code>name</code> is relative). This can be a
+     *               resource or an element
+     * @param id     - a slash-delimited qualified id, relative to the
+     *               provided <code>offset</code>
      * @see #find(Object, String)
      */
     protected void assertNotFound(Object offset, String id) {
@@ -137,21 +133,21 @@ public abstract class AbstractEFeatureTest extends TestCase {
 
     /**
      * Finds the object in the test model having the specified id, starting from some object.
-     * 
+     *
      * @param offset - the starting object (resource or element)
-     * @param id - a slash-delimited qualified id, relative to the provided <code>offset</code>
+     * @param id     - a slash-delimited qualified id, relative to the provided <code>offset</code>
      * @return the matching object, or <code>null</code> if not found
      */
     protected EObject find(Object offset, String id) {
         EObject result = null;
         Object current = offset;
-    
+
         String[] ids = tokenize(id);
-    
+
         for (int i = 0; (current != null) && (i < ids.length); i++) {
             id = ids[i];
             result = null;
-    
+
             for (EObject it : getContents(current)) {
                 if (id.equals(EcoreUtil.getID(it))) {
                     result = it;
@@ -160,13 +156,13 @@ public abstract class AbstractEFeatureTest extends TestCase {
             }
             current = result;
         }
-    
+
         return result;
     }
 
     /**
      * Gets the contents of an object.
-     * 
+     *
      * @param object an object, which may be a resource or an element
      * @return its immediate contents (children)
      */
@@ -182,7 +178,7 @@ public abstract class AbstractEFeatureTest extends TestCase {
 
     /**
      * Tokenizes a qualified id on the slashes.
-     * 
+     *
      * @param id - a qualified id
      * @return the parts between the slashes
      */

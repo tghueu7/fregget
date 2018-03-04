@@ -19,8 +19,6 @@ package org.geotools.data.postgis;
 import org.geotools.jdbc.JDBCPrimaryKeyFinderTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class PostgisPrimaryKeyFinderTestSetup extends JDBCPrimaryKeyFinderTestSetup {
@@ -33,8 +31,8 @@ public class PostgisPrimaryKeyFinderTestSetup extends JDBCPrimaryKeyFinderTestSe
     protected void createMetadataTable() throws Exception {
         run("CREATE TABLE gt_pk_metadata ( " + "table_schema VARCHAR(32), "
                 + "table_name VARCHAR(32) NOT NULL, " + "pk_column VARCHAR(32) NOT NULL, "
-                + "pk_column_idx INTEGER, " + "pk_policy VARCHAR(32), " + "pk_sequence VARCHAR(64)," 
-                + "unique (table_schema, table_name, pk_column)," 
+                + "pk_column_idx INTEGER, " + "pk_policy VARCHAR(32), " + "pk_sequence VARCHAR(64),"
+                + "unique (table_schema, table_name, pk_column),"
                 + "check (pk_policy in ('sequence', 'assigned', 'autoincrement')))");
     }
 
@@ -50,12 +48,12 @@ public class PostgisPrimaryKeyFinderTestSetup extends JDBCPrimaryKeyFinderTestSe
         run("SELECT AddGeometryColumn('seqtable', 'geom', -1, 'GEOMETRY', 2)");
         run("CREATE SEQUENCE pksequence START WITH 1");
 
-        run( "INSERT INTO \"seqtable\" (\"key\", \"name\",\"geom\" ) VALUES (" + 
-            "(SELECT NEXTVAL('PKSEQUENCE')),'one',NULL)");
-        run( "INSERT INTO \"seqtable\" (\"key\", \"name\",\"geom\" ) VALUES (" +
-            "(SELECT NEXTVAL('PKSEQUENCE')),'two',NULL)");
-        run( "INSERT INTO \"seqtable\" (\"key\", \"name\",\"geom\" ) VALUES (" + 
-            "(SELECT NEXTVAL('PKSEQUENCE')),'three',NULL)");
+        run("INSERT INTO \"seqtable\" (\"key\", \"name\",\"geom\" ) VALUES (" +
+                "(SELECT NEXTVAL('PKSEQUENCE')),'one',NULL)");
+        run("INSERT INTO \"seqtable\" (\"key\", \"name\",\"geom\" ) VALUES (" +
+                "(SELECT NEXTVAL('PKSEQUENCE')),'two',NULL)");
+        run("INSERT INTO \"seqtable\" (\"key\", \"name\",\"geom\" ) VALUES (" +
+                "(SELECT NEXTVAL('PKSEQUENCE')),'three',NULL)");
 
         run("INSERT INTO gt_pk_metadata VALUES"
                 + "(NULL, 'seqtable', 'key', 0, 'sequence', 'PKSEQUENCE')");
@@ -63,8 +61,8 @@ public class PostgisPrimaryKeyFinderTestSetup extends JDBCPrimaryKeyFinderTestSe
 
     @Override
     protected void dropSequencedPrimaryKeyTable() throws Exception {
-        runSafe( "DROP TABLE \"seqtable\"");
-        runSafe( "DROP SEQUENCE pksequence");
+        runSafe("DROP TABLE \"seqtable\"");
+        runSafe("DROP SEQUENCE pksequence");
     }
 
     @Override

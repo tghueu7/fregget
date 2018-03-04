@@ -22,8 +22,6 @@ import org.geotools.xml.Binding;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class NotBindingTest extends FilterTestSupport {
@@ -46,7 +44,7 @@ public class NotBindingTest extends FilterTestSupport {
     public void testEncode() throws Exception {
         Document dom = encode(FilterMockData.not(), OGC.Not);
         assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyIsEqualTo.getLocalPart())
-               .getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyIsEqualTo.getLocalPart())
+                        .getLength());
     }
 }

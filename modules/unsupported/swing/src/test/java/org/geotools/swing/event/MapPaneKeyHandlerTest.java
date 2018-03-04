@@ -18,6 +18,7 @@
 package org.geotools.swing.event;
 
 import org.geotools.swing.testutils.GraphicsTestBase;
+
 import java.awt.Frame;
 import java.awt.Dimension;
 import java.util.concurrent.CountDownLatch;
@@ -29,6 +30,7 @@ import org.fest.swing.core.KeyPressInfo;
 import org.fest.swing.edt.GuiActionRunner;
 import org.fest.swing.edt.GuiQuery;
 import org.fest.swing.fixture.FrameFixture;
+
 import static org.fest.swing.core.KeyPressInfo.*;
 
 import org.geotools.geometry.jts.ReferencedEnvelope;
@@ -40,16 +42,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.Ignore;
+
 import static org.junit.Assert.*;
 
 /**
  * Unit tests for MapPaneKeyHandler. Requires graphics environment.
- * 
- * @author Michael Bedward
- * @since 8.0
  *
- * @source $URL$
+ * @author Michael Bedward
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 @RunWith(GraphicsTestRunner.class)
 public class MapPaneKeyHandlerTest extends GraphicsTestBase<Frame> {
@@ -59,27 +61,27 @@ public class MapPaneKeyHandlerTest extends GraphicsTestBase<Frame> {
 
     private MapPaneKeyHandler handler;
     private MockMapPane2 mapPane;
-    
+
     @Before
     public void setup() {
-        TestFrame frame = GuiActionRunner.execute(new GuiQuery<TestFrame>(){
+        TestFrame frame = GuiActionRunner.execute(new GuiQuery<TestFrame>() {
             @Override
             protected TestFrame executeInEDT() throws Throwable {
                 mapPane = new MockMapPane2();
                 mapPane.setName("pane");
                 handler = new MapPaneKeyHandler(mapPane);
                 mapPane.addKeyListener(handler);
-                
+
                 TestFrame frame = new TestFrame(mapPane);
                 return frame;
             }
         });
-        
+
         windowFixture = new FrameFixture(frame);
         ((FrameFixture) windowFixture).show(new Dimension(WIDTH, HEIGHT));
     }
-    
-    
+
+
     @Test
     public void scrollLeft() throws Exception {
         assertScroll(MapPaneKeyHandler.Action.SCROLL_LEFT, 1, 0);
@@ -89,7 +91,7 @@ public class MapPaneKeyHandlerTest extends GraphicsTestBase<Frame> {
     public void scrollRight() throws Exception {
         assertScroll(MapPaneKeyHandler.Action.SCROLL_RIGHT, -1, 0);
     }
-    
+
     @Test
     public void scrollUp() throws Exception {
         assertScroll(MapPaneKeyHandler.Action.SCROLL_UP, 0, 1);
@@ -99,36 +101,36 @@ public class MapPaneKeyHandlerTest extends GraphicsTestBase<Frame> {
     public void scrollDown() throws Exception {
         assertScroll(MapPaneKeyHandler.Action.SCROLL_DOWN, 0, -1);
     }
-    
+
     @Ignore("problem with this test")
     @Test
     public void zoomIn() throws Exception {
         ReferencedEnvelope startEnv = mapPane.getDisplayArea();
-        
+
         KeyPressInfo info = getKeyPressInfo(MapPaneKeyHandler.Action.ZOOM_IN);
         windowFixture.panel("pane").pressAndReleaseKey(info);
-        
+
         assertTrue(mapPane.latch.await(WAIT_TIMEOUT, TimeUnit.MILLISECONDS));
-        
+
         ReferencedEnvelope endEnv = mapPane.getDisplayArea();
         assertEquals(-1, sign(endEnv.getWidth() - startEnv.getWidth()));
     }
-    
-    private void assertScroll(MapPaneKeyHandler.Action action, int expectedDx, int expectedDy) 
+
+    private void assertScroll(MapPaneKeyHandler.Action action, int expectedDx, int expectedDy)
             throws Exception {
-        
+
         KeyPressInfo info = getKeyPressInfo(action);
         windowFixture.panel("pane").pressAndReleaseKey(info);
-        
+
         assertTrue(mapPane.latch.await(WAIT_TIMEOUT, TimeUnit.MILLISECONDS));
         assertEquals(sign(expectedDx), sign(mapPane.dx));
         assertEquals(sign(expectedDy), sign(mapPane.dy));
     }
-    
+
     private int sign(int i) {
         return (i < 0 ? -1 : (i > 0 ? 1 : 0));
     }
-    
+
     private int sign(double d) {
         return Double.compare(d, 0);
     }
@@ -136,7 +138,7 @@ public class MapPaneKeyHandlerTest extends GraphicsTestBase<Frame> {
     /**
      * Looks up the key binding for an action and converts it to a FEST
      * KeyPressInfo object.
-     * 
+     *
      * @param action the action
      * @return a new KeyPressInfo object
      */
@@ -144,7 +146,7 @@ public class MapPaneKeyHandlerTest extends GraphicsTestBase<Frame> {
         KeyInfo keyId = handler.getBindingForAction(action);
         return keyCode(keyId.getKeyCode()).modifiers(keyId.getModifiers());
     }
-    
+
     /**
      * A frame containing a mock map pane.
      */
@@ -153,15 +155,15 @@ public class MapPaneKeyHandlerTest extends GraphicsTestBase<Frame> {
             add(mapPane);
         }
     }
-    
+
     private static class MockMapPane2 extends MockMapPane {
         CountDownLatch latch = new CountDownLatch(1);
-        
+
         ReferencedEnvelope env = new ReferencedEnvelope(0, 100, 0, 100, null);
         int dx = 0;
         int dy = 0;
         private boolean gotReset = false;
-        
+
         @Override
         public void moveImage(int dx, int dy) {
             this.dx = dx;
@@ -179,7 +181,7 @@ public class MapPaneKeyHandlerTest extends GraphicsTestBase<Frame> {
             this.env = new ReferencedEnvelope(envelope);
             latch.countDown();
         }
-        
+
         @Override
         public void reset() {
             gotReset = true;

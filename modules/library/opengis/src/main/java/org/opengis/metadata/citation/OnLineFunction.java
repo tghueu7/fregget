@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.metadata.citation;
@@ -22,14 +22,12 @@ import static org.opengis.annotation.Specification.*;
 /**
  * Class of information to which the referencing entity applies.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 2.0
+ * @source $URL$
+ * @since GeoAPI 2.0
  */
-@UML(identifier="CI_OnLineFunctionCode", specification=ISO_19115)
+@UML(identifier = "CI_OnLineFunctionCode", specification = ISO_19115)
 public final class OnLineFunction extends CodeList<OnLineFunction> {
     /**
      * Serial number for compatibility with different versions.
@@ -45,31 +43,31 @@ public final class OnLineFunction extends CodeList<OnLineFunction> {
     /**
      * Online instructions for transferring data from one storage device or system to another.
      */
-    @UML(identifier="download", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "download", obligation = CONDITIONAL, specification = ISO_19115)
     public static final OnLineFunction DOWNLOAD = new OnLineFunction("DOWNLOAD");
 
     /**
      * Online information about the resource.
      */
-    @UML(identifier="information", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "information", obligation = CONDITIONAL, specification = ISO_19115)
     public static final OnLineFunction INFORMATION = new OnLineFunction("INFORMATION");
 
     /**
      * Online instructions for requesting the resource from the provider.
      */
-    @UML(identifier="offlineAccess", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "offlineAccess", obligation = CONDITIONAL, specification = ISO_19115)
     public static final OnLineFunction OFFLINE_ACCESS = new OnLineFunction("OFFLINE_ACCESS");
 
     /**
      * Online order process for obtaining the resource.
      */
-    @UML(identifier="order", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "order", obligation = CONDITIONAL, specification = ISO_19115)
     public static final OnLineFunction ORDER = new OnLineFunction("ORDER");
 
     /**
      * Online search interface for seeking out information about the resource.
      */
-    @UML(identifier="search", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "search", obligation = CONDITIONAL, specification = ISO_19115)
     public static final OnLineFunction SEARCH = new OnLineFunction("SEARCH");
 
     /**

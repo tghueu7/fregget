@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2014 - 2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -41,13 +41,13 @@ import org.opengis.filter.expression.Subtract;
 /**
  * Returns the output type of the visited expression, taking into account functions output types,
  * property types, and general promotion rules in arithmetic expressions
- * 
- * @author Andrea Aime - GeoSolutions
  *
+ * @author Andrea Aime - GeoSolutions
  */
 public class ExpressionTypeVisitor implements ExpressionVisitor {
 
-    static final Map<Class<?>, List<Class<?>>> PROMOTIONS = new HashMap<Class<?>, List<Class<?>>>() {
+    static final Map<Class<?>, List<Class<?>>> PROMOTIONS = new HashMap<Class<?>, List<Class<?>>>
+            () {
         {
             put(Byte.class, Arrays.asList((Class<?>) Byte.class, Short.class, Integer.class,
                     Long.class, Float.class, Double.class, BigInteger.class, BigDecimal.class));
@@ -132,7 +132,7 @@ public class ExpressionTypeVisitor implements ExpressionVisitor {
     /**
      * Traverses the super-classes trying to find a common superclass. Won't consider interfaces
      * (good enough for the moment, all basic types we handle have a common superclass)
-     * 
+     *
      * @param c1
      * @param c2
      * @return

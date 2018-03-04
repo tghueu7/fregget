@@ -1,10 +1,10 @@
 package org.geotools.data.dxf.parser;
 
-/** 
+/**
  * An enumeration that represents all valid DXF Group Codes with
  * associated value types as listed in specs.
- * 
  */
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

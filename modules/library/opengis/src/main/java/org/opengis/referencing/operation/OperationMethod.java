@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.referencing.operation;
@@ -23,16 +23,14 @@ import static org.opengis.annotation.Specification.*;
  * methods use a number of operation parameters, although some coordinate conversions
  * use none. Each coordinate operation using the method assigns values to these parameters.
  *
- *
- *
+ * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract 
+ * specification 2.0</A>
  * @source $URL$
- * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract specification 2.0</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
- *
  * @see Operation
+ * @since GeoAPI 1.0
  */
-@UML(identifier="CC_OperationMethod", specification=ISO_19111)
+@UML(identifier = "CC_OperationMethod", specification = ISO_19111)
 public interface OperationMethod extends IdentifiedObject {
     /**
      * Key for the <code>{@value}</code> property.
@@ -49,7 +47,7 @@ public interface OperationMethod extends IdentifiedObject {
      *
      * @return The formula used by this method.
      */
-    @UML(identifier="formula", obligation=MANDATORY, specification=ISO_19111)
+    @UML(identifier = "formula", obligation = MANDATORY, specification = ISO_19111)
     InternationalString getFormula();
 
     /**
@@ -57,7 +55,7 @@ public interface OperationMethod extends IdentifiedObject {
      *
      * @return The dimension of source CRS.
      */
-    @UML(identifier="sourceDimensions", obligation=MANDATORY, specification=ISO_19111)
+    @UML(identifier = "sourceDimensions", obligation = MANDATORY, specification = ISO_19111)
     int getSourceDimensions();
 
     /**
@@ -65,7 +63,7 @@ public interface OperationMethod extends IdentifiedObject {
      *
      * @return The dimension of target CRS.
      */
-    @UML(identifier="targetDimensions", obligation=MANDATORY, specification=ISO_19111)
+    @UML(identifier = "targetDimensions", obligation = MANDATORY, specification = ISO_19111)
     int getTargetDimensions();
 
     /**
@@ -73,6 +71,6 @@ public interface OperationMethod extends IdentifiedObject {
      *
      * @return The parameters, or an empty group if none.
      */
-    @UML(identifier="usesParameter", obligation=MANDATORY, specification=ISO_19111)
+    @UML(identifier = "usesParameter", obligation = MANDATORY, specification = ISO_19111)
     ParameterDescriptorGroup getParameters();
 }

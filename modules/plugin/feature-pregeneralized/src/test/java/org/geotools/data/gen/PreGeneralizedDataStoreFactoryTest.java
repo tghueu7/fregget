@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -28,8 +28,6 @@ import org.geotools.data.DefaultRepository;
 import org.junit.Assert;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class PreGeneralizedDataStoreFactoryTest extends TestCase {

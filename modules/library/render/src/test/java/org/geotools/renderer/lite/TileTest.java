@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -37,12 +37,8 @@ import org.junit.Test;
 
 /**
  * Tests for rendering and reprojection
- * 
+ *
  * @author jandm
- * 
- *
- *
- *
  * @source $URL$
  */
 public class TileTest {

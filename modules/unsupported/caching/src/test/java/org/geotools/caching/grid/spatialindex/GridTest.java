@@ -26,8 +26,6 @@ import org.geotools.caching.spatialindex.Region;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GridTest extends AbstractSpatialIndexTest {
@@ -38,33 +36,34 @@ public class GridTest extends AbstractSpatialIndexTest {
     }
 
     protected AbstractSpatialIndex createIndex() {
-        index = new GridSpatialIndex(new Region(universe), 100, MemoryStorage.createInstance(), 2000);
+        index = new GridSpatialIndex(new Region(universe), 100, MemoryStorage.createInstance(), 
+                2000);
 
         return index;
     }
 
     public void testInsertion() {
         super.testInsertion();
-        
+
         //************************************
         //This section tests that duplicate items are added to
         //the grid correctly.
         //********************************
         String data = "My Feature";
         Region r = new Region(universe);
-        
+
         long datacount = index.getStatistics().getNumberOfData();
         index.insertData(data, r);
-        assertEquals(datacount+1, index.getStatistics().getNumberOfData());
-        
+        assertEquals(datacount + 1, index.getStatistics().getNumberOfData());
+
         //lets try to insert the same data again; this should not add anything
-        index.insertData(data, r);	
-        assertEquals(datacount+1, index.getStatistics().getNumberOfData());
-  
+        index.insertData(data, r);
+        assertEquals(datacount + 1, index.getStatistics().getNumberOfData());
+
         //different data, same region
         index.insertData("New Data", r);
-        assertEquals(datacount+2, index.getStatistics().getNumberOfData());
-        
+        assertEquals(datacount + 2, index.getStatistics().getNumberOfData());
+
     }
-    
+
 }

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2015, Boundless
  *
@@ -18,8 +18,10 @@
 package org.geotools.data.mongodb;
 
 import com.mongodb.DBObject;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import org.geotools.util.Converters;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
@@ -27,7 +29,7 @@ import org.opengis.feature.type.AttributeDescriptor;
 
 /**
  * Maps a collection containing valid GeoJSON.
- * 
+ *
  * @author tkunicki@boundlessgeo.com
  */
 public abstract class AbstractCollectionMapper implements CollectionMapper {
@@ -52,7 +54,8 @@ public abstract class AbstractCollectionMapper implements CollectionMapper {
                         .getBinding()));
             }
         }
-        SimpleFeature feature = new MongoFeature(rootDBO, values.toArray(), featureType, rootDBO.get("_id").toString());
+        SimpleFeature feature = new MongoFeature(rootDBO, values.toArray(), featureType, rootDBO
+                .get("_id").toString());
         // we store a reference to the original feature in the user data
         feature.getUserData().put(MONGO_OBJECT_FEATURE_KEY, feature);
         return feature;

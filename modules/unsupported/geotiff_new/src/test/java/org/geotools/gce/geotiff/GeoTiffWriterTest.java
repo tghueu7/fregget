@@ -63,9 +63,6 @@ import org.opengis.referencing.operation.TransformException;
 /**
  * @author Simone Giannecchini, GeoSolutions SAS
  * @author Daniele Romagnoli, GeoSolutions SAS
- *
- *
- *
  * @source $URL$
  */
 public class GeoTiffWriterTest extends Assert {
@@ -80,7 +77,7 @@ public class GeoTiffWriterTest extends Assert {
 
     /**
      * Testing {@link GeoTiffWriter} capabilities to write a cropped coverage.
-     * 
+     *
      * @throws IllegalArgumentException
      * @throws IOException
      * @throws UnsupportedOperationException
@@ -157,8 +154,8 @@ public class GeoTiffWriterTest extends Assert {
         double yc = sourceEnvelope.getMedian(1);
         double xl = sourceEnvelope.getSpan(0);
         double yl = sourceEnvelope.getSpan(1);
-        final GeneralEnvelope cropEnvelope = new GeneralEnvelope(new double[] { xc - xl / 4.0,
-                yc - yl / 4.0 }, new double[] { xc + xl / 4.0, yc + yl / 4.0 });
+        final GeneralEnvelope cropEnvelope = new GeneralEnvelope(new double[]{xc - xl / 4.0,
+                yc - yl / 4.0}, new double[]{xc + xl / 4.0, yc + yl / 4.0});
         final CoverageProcessor processor = new CoverageProcessor();
         final ParameterValueGroup param = processor.getOperation("CoverageCrop").getParameters();
         param.parameter("Source").setValue(gc);
@@ -180,7 +177,8 @@ public class GeoTiffWriterTest extends Assert {
         assertTrue("max x do not match after crop", 90 == croppedGR.getMaxX());
         assertTrue("max y do not match after crop", 91 == croppedGR.getMaxY());
         // check that the affine transform are the same thing
-        assertTrue("The Grdi2World tranformations of the original and the cropped covearage do not match",
+        assertTrue("The Grdi2World tranformations of the original and the cropped covearage do " +
+                        "not match",
                 sourceG2W.equals(croppedG2W));
         // check that the envelope is correct
         final GeneralEnvelope expectedEnvelope = new GeneralEnvelope(croppedGR,
@@ -196,7 +194,7 @@ public class GeoTiffWriterTest extends Assert {
         //
         //
         // /////////////////////////////////////////////////////////////////////
-        final File writeFile = new File(writedir.getAbsolutePath() + File.separatorChar 
+        final File writeFile = new File(writedir.getAbsolutePath() + File.separatorChar
                 + cropped.getName().toString() + ".tiff");
         final GridCoverageWriter writer = format.getWriter(writeFile);
         // /////////////////////////////////////////////////////////////////////
@@ -213,7 +211,7 @@ public class GeoTiffWriterTest extends Assert {
             } catch (Throwable e) {
             }
         }
-        
+
         // release things
         cropped.dispose(true);
         gc.dispose(true);
@@ -224,7 +222,7 @@ public class GeoTiffWriterTest extends Assert {
             } catch (Throwable e) {
             }
         }
-        
+
         try {
             reader = new GeoTiffReader(writeFile, null);
             assertNotNull(reader);
@@ -262,16 +260,25 @@ public class GeoTiffWriterTest extends Assert {
     @Test
     @Ignore
     public void testWriteGoogleMercator() throws Exception {
-        final String google= "PROJCS[\"WGS84 / Google Mercator\", GEOGCS[\"WGS 84\", DATUM[\"World Geodetic System 1984\", SPHEROID[\"WGS 84\", 6378137.0, 298.257223563, AUTHORITY[\"EPSG\",\"7030\"]], AUTHORITY[\"EPSG\",\"6326\"]], PRIMEM[\"Greenwich\", 0.0, AUTHORITY[\"EPSG\",\"8901\"]], UNIT[\"degree\", 0.017453292519943295], AUTHORITY[\"EPSG\",\"4326\"]], PROJECTION[\"Mercator (1SP)\", AUTHORITY[\"EPSG\",\"9804\"]], PARAMETER[\"semi_major\", 6378137.0], PARAMETER[\"semi_minor\", 6378137.0], PARAMETER[\"latitude_of_origin\", 0.0], PARAMETER[\"central_meridian\", 0.0], PARAMETER[\"scale_factor\", 1.0], PARAMETER[\"false_easting\", 0.0], PARAMETER[\"false_northing\", 0.0], UNIT[\"m\", 1.0],  AUTHORITY[\"EPSG\",\"900913\"]]";
-        final CoordinateReferenceSystem googleCRS= CRS.parseWKT(google);
-        
+        final String google = "PROJCS[\"WGS84 / Google Mercator\", GEOGCS[\"WGS 84\", " +
+                "DATUM[\"World Geodetic System 1984\", SPHEROID[\"WGS 84\", 6378137.0, " +
+                "298.257223563, AUTHORITY[\"EPSG\",\"7030\"]], AUTHORITY[\"EPSG\",\"6326\"]], " +
+                "PRIMEM[\"Greenwich\", 0.0, AUTHORITY[\"EPSG\",\"8901\"]], UNIT[\"degree\", " +
+                "0.017453292519943295], AUTHORITY[\"EPSG\",\"4326\"]], PROJECTION[\"Mercator " +
+                "(1SP)\", AUTHORITY[\"EPSG\",\"9804\"]], PARAMETER[\"semi_major\", 6378137.0], " +
+                "PARAMETER[\"semi_minor\", 6378137.0], PARAMETER[\"latitude_of_origin\", 0.0], " +
+                "PARAMETER[\"central_meridian\", 0.0], PARAMETER[\"scale_factor\", 1.0], " +
+                "PARAMETER[\"false_easting\", 0.0], PARAMETER[\"false_northing\", 0.0], " +
+                "UNIT[\"m\", 1.0],  AUTHORITY[\"EPSG\",\"900913\"]]";
+        final CoordinateReferenceSystem googleCRS = CRS.parseWKT(google);
+
         //
         // world geotiff
         //
         final File testFile = TestData.file(GeoTiffReaderTest.class, "latlon.tiff");
         final AbstractGridFormat format = new GeoTiffFormat();
         assertTrue(format.accepts(testFile));
-        
+
         // getting a reader
         GeoTiffReader reader = new GeoTiffReader(testFile);
 
@@ -281,19 +288,21 @@ public class GeoTiffWriterTest extends Assert {
         // check coverage and crs
         assertNotNull(coverage);
         assertNotNull(coverage.getCoordinateReferenceSystem());
-        assertEquals(CRS.lookupIdentifier(coverage.getCoordinateReferenceSystem(), true), "EPSG:4267");
+        assertEquals(CRS.lookupIdentifier(coverage.getCoordinateReferenceSystem(), true), 
+                "EPSG:4267");
         reader.dispose();
-        
+
         // reproject
-        coverage=(GridCoverage2D) Operations.DEFAULT.resample(coverage, googleCRS);
-        
+        coverage = (GridCoverage2D) Operations.DEFAULT.resample(coverage, googleCRS);
+
         // get a writer
-        final File mercator = new File(TestData.file(GeoTiffReaderTest.class, "."),"wms_900913.tif");
+        final File mercator = new File(TestData.file(GeoTiffReaderTest.class, "."), 
+                "wms_900913.tif");
         GeoTiffWriter writer = new GeoTiffWriter(mercator);
-        
-        writer.write(coverage,null );
+
+        writer.write(coverage, null);
         writer.dispose();
-        
+
         // getting a reader
         reader = new GeoTiffReader(mercator);
         // reading the coverage
@@ -301,12 +310,13 @@ public class GeoTiffWriterTest extends Assert {
         // check coverage and crs
         assertNotNull(coverageMercator);
         assertNotNull(coverageMercator.getCoordinateReferenceSystem());
-        assertTrue(CRS.equalsIgnoreMetadata(coverage.getCoordinateReferenceSystem(),googleCRS));
-        assertTrue(coverage.getEnvelope2D().getFrame().equals(coverageMercator.getEnvelope2D().getFrame()));
+        assertTrue(CRS.equalsIgnoreMetadata(coverage.getCoordinateReferenceSystem(), googleCRS));
+        assertTrue(coverage.getEnvelope2D().getFrame().equals(coverageMercator.getEnvelope2D()
+                .getFrame()));
         reader.dispose();
         coverage.dispose(true);
         coverage.dispose(true);
-                
+
     }
 
     @Test
@@ -334,24 +344,27 @@ public class GeoTiffWriterTest extends Assert {
         // check coverage and crs
         assertNotNull(coverage);
         assertNotNull(coverage.getCoordinateReferenceSystem());
-        assertEquals(CRS.lookupIdentifier(coverage.getCoordinateReferenceSystem(), true), "EPSG:32632");
+        assertEquals(CRS.lookupIdentifier(coverage.getCoordinateReferenceSystem(), true), 
+                "EPSG:32632");
         reader.dispose();
 
         // get a writer
-        final File noCrsTFW = new File(TestData.file(GeoTiffReaderTest.class, "."), "no_crs_tfw.tif");
+        final File noCrsTFW = new File(TestData.file(GeoTiffReaderTest.class, "."), "no_crs_tfw" +
+                ".tif");
         GeoTiffWriter writer = new GeoTiffWriter(noCrsTFW);
 
         final ParameterValue<Boolean> tfw = GeoTiffFormat.WRITE_TFW.createValue();
         tfw.setValue(true);
-        writer.write(coverage, new GeneralParameterValue[] { tfw });
+        writer.write(coverage, new GeneralParameterValue[]{tfw});
         writer.dispose();
         coverage.dispose(true);
 
-        final File finalTFW = new File(noCrsTFW.getParent(), noCrsTFW.getName().replace("tif", "tfw"));
+        final File finalTFW = new File(noCrsTFW.getParent(), noCrsTFW.getName().replace("tif", 
+                "tfw"));
         assertTrue(finalTFW.canRead());
 
     }
-	
+
     @Test
     @Ignore
     public void testWriteWithMetadata() throws Exception {
@@ -375,82 +388,88 @@ public class GeoTiffWriterTest extends Assert {
         reader.dispose();
 
         // get a writer
-        final File output = new File(TestData.file(GeoTiffReaderTest.class, "."), "outMetadata.tif");
+        final File output = new File(TestData.file(GeoTiffReaderTest.class, "."), "outMetadata" +
+                ".tif");
         GeoTiffWriter writer = new GeoTiffWriter(output);
-        
+
         // Setting a COPYRIGHT metadata
         String copyrightInfo = "(C) GEOTOOLS sample writer";
         String software = "GeoTools Coverage Writer test";
-        
+
         writer.setMetadataValue(Integer.toString(BaselineTIFFTagSet.TAG_COPYRIGHT), copyrightInfo);
-        writer.setMetadataValue(TagSet.BASELINE + ":" + Integer.toString(BaselineTIFFTagSet.TAG_SOFTWARE), software);
-        
-        writer.write(coverage,null);
+        writer.setMetadataValue(TagSet.BASELINE + ":" + Integer.toString(BaselineTIFFTagSet
+                .TAG_SOFTWARE), software);
+
+        writer.write(coverage, null);
         writer.dispose();
         coverage.dispose(true);
-        
+
         // getting a reader
         reader = new GeoTiffReader(output);
 
         // TODO FIX ME
 //        GeoTiffIIOMetadataDecoder metadata = reader.getMetadata();
-//        String readSoftware = metadata.getAsciiTIFFTag(Integer.toString(BaselineTIFFTagSet.TAG_SOFTWARE));
+//        String readSoftware = metadata.getAsciiTIFFTag(Integer.toString(BaselineTIFFTagSet
+// .TAG_SOFTWARE));
 //        assertTrue(software.equalsIgnoreCase(readSoftware));
-//        String readCopyright = metadata.getAsciiTIFFTag(Integer.toString(BaselineTIFFTagSet.TAG_COPYRIGHT));
+//        String readCopyright = metadata.getAsciiTIFFTag(Integer.toString(BaselineTIFFTagSet
+// .TAG_COPYRIGHT));
 //        assertTrue(copyrightInfo.equalsIgnoreCase(readCopyright));
 //        
         reader.dispose();
     }
-    
+
     @Test
     public void testWriteBigTiff() throws Exception {
 
         String files[] = new String[]{"geo.tiff", "no_crs_no_envelope.tif"};
-        
-        int i=0;
-        for (String file : files){
+
+        int i = 0;
+        for (String file : files) {
             final File input = TestData.file(GeoTiffReaderTest.class, file);
             final AbstractGridFormat format = new GeoTiffFormat();
             assertTrue(format.accepts(input));
-    
+
             // getting a reader
             GeoTiffReader reader = new GeoTiffReader(input);
-    
+
             // reading the coverage
             GridCoverage2D coverage = (GridCoverage2D) reader.read(null);
-    
+
             // check coverage and crs
             assertNotNull(coverage);
             assertNotNull(coverage.getCoordinateReferenceSystem());
             reader.dispose();
-    
+
             // get a writer
-            final File output = new File(TestData.file(GeoTiffReaderTest.class, "."), "bigtiff" + i + ".tif");
+            final File output = new File(TestData.file(GeoTiffReaderTest.class, "."), "bigtiff" +
+                    i + ".tif");
             GeoTiffWriter writer = new GeoTiffWriter(output);
-            
+
             GeoTiffWriteParams params = new GeoTiffWriteParams();
             params.setForceToBigTIFF(true);
-            ParameterValue<GeoToolsWriteParams> value = GeoTiffFormat.GEOTOOLS_WRITE_PARAMS.createValue();
+            ParameterValue<GeoToolsWriteParams> value = GeoTiffFormat.GEOTOOLS_WRITE_PARAMS
+                    .createValue();
             value.setValue(params);
-            
+
             writer.write(coverage, new GeneralParameterValue[]{value});
             writer.dispose();
             coverage.dispose(true);
-            
+
             // getting a reader
             reader = new GeoTiffReader(output);
             RenderedImage ri = reader.read(null).getRenderedImage();
             assertEquals(ri.getWidth(), i == 0 ? 120 : 12);
             assertEquals(ri.getHeight(), i == 0 ? 120 : 12);
             reader.dispose();
-            
+
             FileInputStream fis = null;
             try {
                 fis = new FileInputStream(output);
-            
+
                 byte[] bytes = new byte[6];
                 fis.read(bytes);
-                if (bytes[0] == 77 && bytes[1] == 77){
+                if (bytes[0] == 77 && bytes[1] == 77) {
                     //Big Endian Case
                     assertEquals(bytes[3], 43); //43 is the magic number of BigTiff
                 } else {
@@ -458,16 +477,16 @@ public class GeoTiffWriterTest extends Assert {
                     assertEquals(bytes[2], 43); //43 is the magic number of BigTiff
                 }
             } finally {
-                if (fis != null){
+                if (fis != null) {
                     try {
                         fis.close();
-                    } catch (Throwable t){
-                        
+                    } catch (Throwable t) {
+
                     }
                 }
             }
             i++;
         }
     }
-    
+
 }

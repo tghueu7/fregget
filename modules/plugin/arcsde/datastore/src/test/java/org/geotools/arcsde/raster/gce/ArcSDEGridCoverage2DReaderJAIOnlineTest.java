@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.geotools.arcsde.raster.gce;
 
@@ -65,12 +65,9 @@ import com.esri.sde.sdk.client.SeRaster;
 
 /**
  * @author groldan
- * 
- *
- *
  * @source $URL$
  */
-@SuppressWarnings({ "deprecation", "nls" })
+@SuppressWarnings({"deprecation", "nls"})
 @Ignore
 public class ArcSDEGridCoverage2DReaderJAIOnlineTest {
 
@@ -241,7 +238,7 @@ public class ArcSDEGridCoverage2DReaderJAIOnlineTest {
     @Test
     public void testRead_16bit_U_ColorMapped() throws Exception {
         int[] ARGB = new int[65536];
-        ColorUtilities.expand(new Color[] { Color.BLACK, Color.WHITE }, ARGB, 0, ARGB.length);
+        ColorUtilities.expand(new Color[]{Color.BLACK, Color.WHITE}, ARGB, 0, ARGB.length);
         IndexColorModel colorModel = ColorUtilities.getIndexColorModel(ARGB);
         tableName = rasterTestData.getRasterTableName(TYPE_16BIT_U, 1, true);
         rasterTestData.loadTestRaster(tableName, 1, TYPE_16BIT_U, colorModel);
@@ -378,7 +375,8 @@ public class ArcSDEGridCoverage2DReaderJAIOnlineTest {
     }
 
     private GridCoverage2D testReadFullLevel0(final RasterCellType cellType, final int numBands,
-            final RasterCellType resultingCellType) throws Exception {
+                                              final RasterCellType resultingCellType) throws 
+            Exception {
 
         tableName = rasterTestData.getRasterTableName(cellType, numBands, false);
         rasterTestData.loadTestRaster(tableName, numBands, cellType, null);
@@ -387,7 +385,8 @@ public class ArcSDEGridCoverage2DReaderJAIOnlineTest {
     }
 
     private GridCoverage2D testReadFullLevel0(final RasterCellType cellType, final int numBands,
-            final RasterCellType resultingCellType, final String fileNamePostFix) throws Exception {
+                                              final RasterCellType resultingCellType, final 
+                                              String fileNamePostFix) throws Exception {
 
         final AbstractGridCoverage2DReader reader = getReader();
         assertNotNull("Couldn't obtain a reader for " + fileNamePostFix, reader);
@@ -414,7 +413,8 @@ public class ArcSDEGridCoverage2DReaderJAIOnlineTest {
         GeneralEnvelope envelope = (GeneralEnvelope) coverage.getEnvelope();
         assertTrue(originalEnvelope.intersects(envelope, true));
 
-        // ///////////////////////////////////////////////////////////assertEquals(originalGridRange,
+        // ///////////////////////////////////////////////////////////assertEquals
+        // (originalGridRange,
         // gridGeometry.getGridRange());
 
         final String fileName = "testReadFullLevel0_" + fileNamePostFix;
@@ -429,18 +429,19 @@ public class ArcSDEGridCoverage2DReaderJAIOnlineTest {
 
         if (colorModel instanceof IndexColorModel) {
             switch (cellType) {
-            case TYPE_1BIT:
-                assertEquals("1-bit image should have been promoted to 8-bit", 8, sampleSize[0]);
-                break;
-            case TYPE_8BIT_U:
-                assertEquals("8-bit indexed image should have been "
-                        + "promoted to 16bit to account for no-data values", 16, sampleSize[0]);
-                break;
-            case TYPE_16BIT_U:
-                assertEquals(16, sampleSize[0]);
-                break;
-            default:
-                throw new IllegalArgumentException(cellType.toString());
+                case TYPE_1BIT:
+                    assertEquals("1-bit image should have been promoted to 8-bit", 8, 
+                            sampleSize[0]);
+                    break;
+                case TYPE_8BIT_U:
+                    assertEquals("8-bit indexed image should have been "
+                            + "promoted to 16bit to account for no-data values", 16, sampleSize[0]);
+                    break;
+                case TYPE_16BIT_U:
+                    assertEquals(16, sampleSize[0]);
+                    break;
+                default:
+                    throw new IllegalArgumentException(cellType.toString());
             }
         } else {
             for (int band = 0; band < numBands; band++) {
@@ -663,7 +664,8 @@ public class ArcSDEGridCoverage2DReaderJAIOnlineTest {
     }
 
     private GridCoverage2D readCoverage(final AbstractGridCoverage2DReader reader,
-            final int reqWidth, final int reqHeight, final Envelope reqEnv) throws Exception {
+                                        final int reqWidth, final int reqHeight, final Envelope 
+                                                reqEnv) throws Exception {
 
         GeneralParameterValue[] requestParams = new Parameter[2];
 

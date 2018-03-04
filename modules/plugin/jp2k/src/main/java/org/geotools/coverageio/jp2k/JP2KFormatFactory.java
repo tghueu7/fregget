@@ -44,79 +44,84 @@ import com.sun.media.imageioimpl.plugins.jpeg2000.J2KImageReaderSpi;
  *
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini (simboss), GeoSolutions
- *
- *
  * @source $URL$
  */
 public final class JP2KFormatFactory implements GridFormatFactorySpi {
-    /** Logger. */
-    private final static Logger LOGGER = org.geotools.util.logging.Logging.getLogger(JP2KFormatFactory.class);
-    
-    static ImageReaderSpi cachedSpi; 
-    
+    /**
+     * Logger.
+     */
+    private final static Logger LOGGER = org.geotools.util.logging.Logging.getLogger
+            (JP2KFormatFactory.class);
+
+    static ImageReaderSpi cachedSpi;
+
     public static ImageReaderSpi getCachedSpi() {
-		return cachedSpi;
-	}
+        return cachedSpi;
+    }
 
-	static{
-    	try{
-    		new ParameterBlockJAI("ImageReadMT");
-    	} catch (final Exception e){
-    		try{
-    			ImageReadDescriptorMT.register(JAI.getDefaultInstance());
-    		} catch (final Exception e1){
+    static {
+        try {
+            new ParameterBlockJAI("ImageReadMT");
+        } catch (final Exception e) {
+            try {
+                ImageReadDescriptorMT.register(JAI.getDefaultInstance());
+            } catch (final Exception e1) {
 
-    		}
-    	}
-    	
-    	boolean hasKakaduSpi = false;
-    	boolean hasNativeJp2 = false;
-    	boolean hasStandardJp2 = false;
-    	String kakaduJp2Name = null;
-    	String standardJp2Name = null;
-    	String jp2CodecLibName = null;
-    	try{
-			//check if our jp2k plugin is in the path
-    		Class.forName("it.geosolutions.imageio.plugins.jp2k.JP2KKakaduImageReaderSpi");
-			kakaduJp2Name=it.geosolutions.imageio.plugins.jp2k.JP2KKakaduImageReaderSpi.class.getName();
-			hasKakaduSpi = true;
-		} catch (ClassNotFoundException e) {
-			if (LOGGER.isLoggable(Level.WARNING))
-    			LOGGER.log(Level.WARNING, "Unable to load specific JP2K reader spi",e);
-		} 
-		
-		try{
-			Class.forName("com.sun.media.imageioimpl.plugins.jpeg2000.J2KImageReaderSpi");
-			standardJp2Name=com.sun.media.imageioimpl.plugins.jpeg2000.J2KImageReaderSpi.class.getName();
-			hasStandardJp2 = true;
-	        
-		} catch (ClassNotFoundException e) {
-			if (LOGGER.isLoggable(Level.WARNING))
-    			LOGGER.log(Level.WARNING, "Unable to load specific JP2K reader spi",e);
-		} 
-		
-		try{
-			Class.forName("com.sun.media.imageioimpl.plugins.jpeg2000.J2KImageReaderCodecLibSpi");
-			jp2CodecLibName=com.sun.media.imageioimpl.plugins.jpeg2000.J2KImageReaderCodecLibSpi.class.getName();
-			hasNativeJp2 = true;
-			
-		} catch (ClassNotFoundException e) {
-			if (LOGGER.isLoggable(Level.WARNING))
-    			LOGGER.log(Level.WARNING, "Unable to load specific JP2K reader spi",e);
-		} 
-		
-		if (hasKakaduSpi && KakaduUtilities.isKakaduAvailable()){
-			cachedSpi = new JP2KKakaduImageReaderSpi();
-			if (hasStandardJp2)
-				ImageIOUtilities.replaceProvider(ImageReaderSpi.class, kakaduJp2Name, standardJp2Name, "JPEG2000");
-			if (hasNativeJp2)
-				ImageIOUtilities.replaceProvider(ImageReaderSpi.class, kakaduJp2Name, jp2CodecLibName, "JPEG2000");
-		}
-		else if (hasStandardJp2)
-			cachedSpi = new J2KImageReaderSpi();
-		else
-			cachedSpi = new J2KImageReaderCodecLibSpi();
-		
+            }
+        }
+
+        boolean hasKakaduSpi = false;
+        boolean hasNativeJp2 = false;
+        boolean hasStandardJp2 = false;
+        String kakaduJp2Name = null;
+        String standardJp2Name = null;
+        String jp2CodecLibName = null;
+        try {
+            //check if our jp2k plugin is in the path
+            Class.forName("it.geosolutions.imageio.plugins.jp2k.JP2KKakaduImageReaderSpi");
+            kakaduJp2Name = it.geosolutions.imageio.plugins.jp2k.JP2KKakaduImageReaderSpi.class
+                    .getName();
+            hasKakaduSpi = true;
+        } catch (ClassNotFoundException e) {
+            if (LOGGER.isLoggable(Level.WARNING))
+                LOGGER.log(Level.WARNING, "Unable to load specific JP2K reader spi", e);
+        }
+
+        try {
+            Class.forName("com.sun.media.imageioimpl.plugins.jpeg2000.J2KImageReaderSpi");
+            standardJp2Name = com.sun.media.imageioimpl.plugins.jpeg2000.J2KImageReaderSpi.class
+                    .getName();
+            hasStandardJp2 = true;
+
+        } catch (ClassNotFoundException e) {
+            if (LOGGER.isLoggable(Level.WARNING))
+                LOGGER.log(Level.WARNING, "Unable to load specific JP2K reader spi", e);
+        }
+
+        try {
+            Class.forName("com.sun.media.imageioimpl.plugins.jpeg2000.J2KImageReaderCodecLibSpi");
+            jp2CodecLibName = com.sun.media.imageioimpl.plugins
+                    .jpeg2000.J2KImageReaderCodecLibSpi.class.getName();
+            hasNativeJp2 = true;
+
+        } catch (ClassNotFoundException e) {
+            if (LOGGER.isLoggable(Level.WARNING))
+                LOGGER.log(Level.WARNING, "Unable to load specific JP2K reader spi", e);
+        }
+
+        if (hasKakaduSpi && KakaduUtilities.isKakaduAvailable()) {
+            cachedSpi = new JP2KKakaduImageReaderSpi();
+            if (hasStandardJp2)
+                ImageIOUtilities.replaceProvider(ImageReaderSpi.class, kakaduJp2Name, 
+                        standardJp2Name, "JPEG2000");
+            if (hasNativeJp2)
+                ImageIOUtilities.replaceProvider(ImageReaderSpi.class, kakaduJp2Name, 
+                        jp2CodecLibName, "JPEG2000");
+        } else if (hasStandardJp2)
+            cachedSpi = new J2KImageReaderSpi();
+        else
+            cachedSpi = new J2KImageReaderCodecLibSpi();
+
     }
 
     /**
@@ -133,7 +138,7 @@ public final class JP2KFormatFactory implements GridFormatFactorySpi {
             Class.forName("javax.media.jai.JAI");
             Class.forName("com.sun.media.jai.operator.ImageReadDescriptor");
             if (cachedSpi != null)
-            	available = true;
+                available = true;
 //            Class.forName("it.geosolutions.imageio.plugins.jp2k.JP2KKakaduImageReaderSpi");
 //            available = KakaduUtilities.isKakaduAvailable();
 

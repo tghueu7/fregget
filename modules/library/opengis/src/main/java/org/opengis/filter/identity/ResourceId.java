@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.filter.identity;
@@ -35,18 +35,18 @@ public interface ResourceId extends FeatureId {
     /**
      * Used to navigate versions of a resource.
      * <p>
-     * 
+     *
      * @return Version based resource query; non {@code null} but possibly {@link Version#isEmpty()
-     *         empty} if used a date range query or asked for a specific feature id + version id
+     * empty} if used a date range query or asked for a specific feature id + version id
      */
     @XmlElement("version")
     Version getVersion();
 
     /**
      * Used to select versions of a resource between start and end time. </p>
-     * 
+     *
      * @return start time for a time based query; or {@code null} if using version or an end time
-     *         was provided but the start time is unconstrained
+     * was provided but the start time is unconstrained
      * TODO: consider using an org.geotools.util.Range<Date> instead of both start and end time?
      */
     @XmlElement("startTime")
@@ -54,12 +54,12 @@ public interface ResourceId extends FeatureId {
 
     /**
      * Used to select versions of a resource between start and end time.
-     * 
+     *
      * @return end time for a time based query; or {@code null} if using version or an start time
-     *         was provided but the end time is unconstrained
+     * was provided but the end time is unconstrained
      * TODO: consider using an org.geotools.util.Range<Date> instead of both start and end time?
      */
     @XmlElement("endTime")
     Date getEndTime();
-    
+
 }

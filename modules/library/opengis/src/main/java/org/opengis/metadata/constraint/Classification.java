@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.metadata.constraint;
@@ -22,14 +22,12 @@ import static org.opengis.annotation.Specification.*;
 /**
  * Name of the handling restrictions on the dataset.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 2.0
+ * @source $URL$
+ * @since GeoAPI 2.0
  */
-@UML(identifier="MD_ClassificationCode", specification=ISO_19115)
+@UML(identifier = "MD_ClassificationCode", specification = ISO_19115)
 public final class Classification extends CodeList<Classification> {
     /**
      * Serial number for compatibility with different versions.
@@ -45,31 +43,31 @@ public final class Classification extends CodeList<Classification> {
     /**
      * Available for general disclosure.
      */
-    @UML(identifier="unclassified", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "unclassified", obligation = CONDITIONAL, specification = ISO_19115)
     public static final Classification UNCLASSIFIED = new Classification("UNCLASSIFIED");
 
     /**
      * Not for general disclosure.
      */
-    @UML(identifier="restricted", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "restricted", obligation = CONDITIONAL, specification = ISO_19115)
     public static final Classification RESTRICTED = new Classification("RESTRICTED");
 
     /**
      * Available for someone who can be entrusted with information.
      */
-    @UML(identifier="confidential", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "confidential", obligation = CONDITIONAL, specification = ISO_19115)
     public static final Classification CONFIDENTIAL = new Classification("CONFIDENTIAL");
 
     /**
      * Kept or meant to be kept private, unknown, or hidden from all but a select group of people.
      */
-    @UML(identifier="secret", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "secret", obligation = CONDITIONAL, specification = ISO_19115)
     public static final Classification SECRET = new Classification("SECRET");
 
     /**
      * Of the highest secrecy.
      */
-    @UML(identifier="topsecret", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "topsecret", obligation = CONDITIONAL, specification = ISO_19115)
     public static final Classification TOP_SECRET = new Classification("TOP_SECRET");
 
     /**

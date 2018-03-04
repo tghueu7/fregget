@@ -38,8 +38,6 @@ import com.vividsolutions.jts.geom.Envelope;
 /**
  * Data Utilities for Caching.
  *
- *
- *
  * @source $URL$
  */
 public class DataUtilities {
@@ -88,7 +86,7 @@ public class DataUtilities {
     }
 
     public static void saveFilters(List<Filter> filterset, File f)
-        throws Exception {
+            throws Exception {
         FileOutputStream fos = new FileOutputStream(f);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         dumpFilterSet(oos, filterset);
@@ -116,10 +114,10 @@ public class DataUtilities {
     }
 
     public static void dumpFilterSet(ObjectOutputStream oos, List<Filter> filterset)
-        throws Exception {
+            throws Exception {
         oos.writeInt(filterset.size());
 
-        for (Iterator<Filter> it = filterset.iterator(); it.hasNext();) {
+        for (Iterator<Filter> it = filterset.iterator(); it.hasNext(); ) {
             Envelope e = CacheUtil.extractEnvelope((BBOXImpl) it.next());
             oos.writeObject(e);
         }

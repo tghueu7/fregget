@@ -24,30 +24,29 @@ import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class FreeMarkerConfig {
 
     private static Configuration cfg;
-    
+
     public static void createConfiguration(String directoryPath) {
         Configuration cfg = new Configuration();
 
         try {
-           cfg.setDirectoryForTemplateLoading(
+            cfg.setDirectoryForTemplateLoading(
                     new File(directoryPath));
-       } catch (IOException e) {
-           throw new RuntimeException(e);
-       }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-        cfg.setObjectWrapper(new DefaultObjectWrapper()); 
+        cfg.setObjectWrapper(new DefaultObjectWrapper());
     }
-    
+
     public static Configuration getInstance() {
         return cfg;
     }
-    
-    private FreeMarkerConfig() {}
+
+    private FreeMarkerConfig() {
+    }
 }

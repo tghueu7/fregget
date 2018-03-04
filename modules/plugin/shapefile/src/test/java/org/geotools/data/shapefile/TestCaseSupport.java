@@ -49,35 +49,45 @@ import com.vividsolutions.jts.io.WKTReader;
  * <p>
  * Note: a nearly identical copy of this file exists in the {@code ext/shape}
  * module.
- * 
  *
- *
- * @source $URL$
- * @version $Id$
  * @author Ian Schneider
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
  */
 public class TestCaseSupport {
-    
 
-    /** References a known test file provided by sample data. */
+
+    /**
+     * References a known test file provided by sample data.
+     */
     final static String STATE_POP = "shapes/statepop.shp";
-    
-    /** References a known test file provided by sample data. */
+
+    /**
+     * References a known test file provided by sample data.
+     */
     final static String STREAM = "shapes/stream.shp";
-    
-    /** References a known test file provided by sample data. */
+
+    /**
+     * References a known test file provided by sample data.
+     */
     final static String DANISH = "shapes/danish_point.shp";
-    
-    /** References a known test file provided by sample data. */
+
+    /**
+     * References a known test file provided by sample data.
+     */
     final static String CHINESE = "shapes/chinese_poly.shp";
-    
-    /** References a known test file provided by sample data. */
+
+    /**
+     * References a known test file provided by sample data.
+     */
     final static String RUSSIAN = "shapes/rus-windows-1251.shp";
 
-    /** References a known test file provided by sample data. */
+    /**
+     * References a known test file provided by sample data.
+     */
     final static FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
-    
+
     /**
      * Set to {@code true} if {@code println} are wanted during normal
      * execution. It doesn't apply to message displayed in case of errors.
@@ -94,7 +104,7 @@ public class TestCaseSupport {
      */
     @After
     public void tearDown() throws Exception {
-        
+
         Runtime.getRuntime().runFinalization();
         // it seems that not all files marked as temp will get erased, perhaps
         // this is because they have been rewritten? Don't know, don't _really_
@@ -125,7 +135,7 @@ public class TestCaseSupport {
             if (file.delete()) {
                 // dead
             } else {
-                System.out.println("Couldn't delete "+file);
+                System.out.println("Couldn't delete " + file);
                 file.deleteOnExit(); // dead later
             }
         }
@@ -151,13 +161,11 @@ public class TestCaseSupport {
 
     /**
      * Read a geometry of the given name.
-     * 
-     * @param wktResource
-     *                The resource name to load, without its {@code .wkt}
-     *                extension.
+     *
+     * @param wktResource The resource name to load, without its {@code .wkt}
+     *                    extension.
      * @return The geometry.
-     * @throws IOException
-     *                 if reading failed.
+     * @throws IOException if reading failed.
      */
     protected Geometry readGeometry(final String wktResource)
             throws IOException {
@@ -248,22 +256,22 @@ public class TestCaseSupport {
         }
         File copy = TestData.copy(TestCaseSupport.class, name);
         markTempFile(copy);
-        
+
         return copy;
     }
-    
-    protected int countIterator(CloseableIterator it)  {
+
+    protected int countIterator(CloseableIterator it) {
         int count = 0;
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             count++;
             it.next();
         }
         try {
             it.close();
-        } catch(IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        
+
         return count;
     }
 

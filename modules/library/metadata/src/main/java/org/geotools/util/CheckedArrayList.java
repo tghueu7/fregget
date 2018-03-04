@@ -36,17 +36,13 @@ import org.geotools.resources.i18n.ErrorKeys;
  * of indirection levels and with the addition of overrideable methods.
  *
  * @param <E> The type of elements in the list.
- *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Jody Garnett (Refractions Research)
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see Collections#checkedList
  * @see Collections#synchronizedList
+ * @since 2.1
  */
 public class CheckedArrayList<E> extends ArrayList<E> implements CheckedCollection<E>, Cloneable {
     /**
@@ -73,9 +69,8 @@ public class CheckedArrayList<E> extends ArrayList<E> implements CheckedCollecti
     /**
      * Constructs a list of the specified type and initial capacity.
      *
-     * @param type The element type (should not be null).
+     * @param type     The element type (should not be null).
      * @param capacity The initial capacity.
-     *
      * @since 2.4
      */
     public CheckedArrayList(final Class<E> type, final int capacity) {
@@ -106,11 +101,11 @@ public class CheckedArrayList<E> extends ArrayList<E> implements CheckedCollecti
      * Checks the type of the specified object. The default implementation ensure
      * that the object is assignable to the type specified at construction time.
      *
-     * @param  element the object to check, or {@code null}.
+     * @param element the object to check, or {@code null}.
      * @throws IllegalArgumentException if the specified element is not of the expected type.
      */
     protected void ensureValidType(final E element) throws IllegalArgumentException {
-        if (element!=null && !type.isInstance(element)) {
+        if (element != null && !type.isInstance(element)) {
             throw new IllegalArgumentException(Errors.format(
                     ErrorKeys.ILLEGAL_CLASS_$2, element.getClass(), type));
         }
@@ -119,10 +114,11 @@ public class CheckedArrayList<E> extends ArrayList<E> implements CheckedCollecti
     /**
      * Checks the type of all elements in the specified collection.
      *
-     * @param  collection the collection to check, or {@code null}.
+     * @param collection the collection to check, or {@code null}.
      * @throws IllegalArgumentException if at least one element is not of the expected type.
      */
-    private void ensureValid(final Collection<? extends E> collection) throws IllegalArgumentException {
+    private void ensureValid(final Collection<? extends E> collection) throws 
+            IllegalArgumentException {
         if (collection != null) {
             for (final E element : collection) {
                 ensureValidType(element);
@@ -138,7 +134,6 @@ public class CheckedArrayList<E> extends ArrayList<E> implements CheckedCollecti
      * access.
      *
      * @throws UnsupportedOperationException if this collection is unmodifiable.
-     *
      * @since 2.5
      */
     protected void checkWritePermission() throws UnsupportedOperationException {
@@ -150,7 +145,6 @@ public class CheckedArrayList<E> extends ArrayList<E> implements CheckedCollecti
      * when this list is {@linkplain #clone cloned}.
      *
      * @return The synchronization lock.
-     *
      * @since 2.5
      */
     protected Object getLock() {
@@ -178,7 +172,7 @@ public class CheckedArrayList<E> extends ArrayList<E> implements CheckedCollecti
      */
     @Override
     public int size() {
-	synchronized (getLock()) {
+        synchronized (getLock()) {
             return super.size();
         }
     }
@@ -188,7 +182,7 @@ public class CheckedArrayList<E> extends ArrayList<E> implements CheckedCollecti
      */
     @Override
     public boolean isEmpty() {
-	synchronized (getLock()) {
+        synchronized (getLock()) {
             return super.isEmpty();
         }
     }
@@ -198,7 +192,7 @@ public class CheckedArrayList<E> extends ArrayList<E> implements CheckedCollecti
      */
     @Override
     public boolean contains(final Object o) {
-	synchronized (getLock()) {
+        synchronized (getLock()) {
             return super.contains(o);
         }
     }
@@ -209,7 +203,7 @@ public class CheckedArrayList<E> extends ArrayList<E> implements CheckedCollecti
      */
     @Override
     public int indexOf(Object o) {
-	synchronized (getLock()) {
+        synchronized (getLock()) {
             return super.indexOf(o);
         }
     }
@@ -220,7 +214,7 @@ public class CheckedArrayList<E> extends ArrayList<E> implements CheckedCollecti
      */
     @Override
     public int lastIndexOf(Object o) {
-	synchronized (getLock()) {
+        synchronized (getLock()) {
             return super.lastIndexOf(o);
         }
     }
@@ -238,17 +232,16 @@ public class CheckedArrayList<E> extends ArrayList<E> implements CheckedCollecti
     /**
      * Replaces the element at the specified position in this list with the specified element.
      *
-     * @param  index   index of element to replace.
-     * @param  element element to be stored at the specified position.
+     * @param index   index of element to replace.
+     * @param element element to be stored at the specified position.
      * @return the element previously at the specified position.
-     * @throws IndexOutOfBoundsException if index out of range.
-     * @throws IllegalArgumentException if the specified element is not of the expected type.
+     * @throws IndexOutOfBoundsException     if index out of range.
+     * @throws IllegalArgumentException      if the specified element is not of the expected type.
      * @throws UnsupportedOperationException if this collection is unmodifiable.
      */
     @Override
     public E set(final int index, final E element)
-            throws IllegalArgumentException, UnsupportedOperationException
-    {
+            throws IllegalArgumentException, UnsupportedOperationException {
         ensureValidType(element);
         synchronized (getLock()) {
             checkWritePermission();
@@ -259,15 +252,14 @@ public class CheckedArrayList<E> extends ArrayList<E> implements CheckedCollecti
     /**
      * Appends the specified element to the end of this list.
      *
-     * @param  element element to be appended to this list.
+     * @param element element to be appended to this list.
      * @return always {@code true}.
-     * @throws IllegalArgumentException if the specified element is not of the expected type.
+     * @throws IllegalArgumentException      if the specified element is not of the expected type.
      * @throws UnsupportedOperationException if this collection is unmodifiable.
      */
     @Override
     public boolean add(final E element)
-            throws IllegalArgumentException, UnsupportedOperationException
-    {
+            throws IllegalArgumentException, UnsupportedOperationException {
         ensureValidType(element);
         synchronized (getLock()) {
             checkWritePermission();
@@ -278,16 +270,15 @@ public class CheckedArrayList<E> extends ArrayList<E> implements CheckedCollecti
     /**
      * Inserts the specified element at the specified position in this list.
      *
-     * @param  index index at which the specified element is to be inserted.
-     * @param  element element to be inserted.
-     * @throws IndexOutOfBoundsException if index out of range.
-     * @throws IllegalArgumentException if the specified element is not of the expected type.
+     * @param index   index at which the specified element is to be inserted.
+     * @param element element to be inserted.
+     * @throws IndexOutOfBoundsException     if index out of range.
+     * @throws IllegalArgumentException      if the specified element is not of the expected type.
      * @throws UnsupportedOperationException if this collection is unmodifiable.
      */
     @Override
     public void add(final int index, final E element)
-            throws IllegalArgumentException, UnsupportedOperationException
-    {
+            throws IllegalArgumentException, UnsupportedOperationException {
         ensureValidType(element);
         synchronized (getLock()) {
             checkWritePermission();
@@ -301,13 +292,12 @@ public class CheckedArrayList<E> extends ArrayList<E> implements CheckedCollecti
      *
      * @param collection the elements to be inserted into this list.
      * @return {@code true} if this list changed as a result of the call.
-     * @throws IllegalArgumentException if at least one element is not of the expected type.
+     * @throws IllegalArgumentException      if at least one element is not of the expected type.
      * @throws UnsupportedOperationException if this collection is unmodifiable.
      */
     @Override
     public boolean addAll(final Collection<? extends E> collection)
-            throws IllegalArgumentException, UnsupportedOperationException
-    {
+            throws IllegalArgumentException, UnsupportedOperationException {
         ensureValid(collection);
         synchronized (getLock()) {
             checkWritePermission();
@@ -319,16 +309,15 @@ public class CheckedArrayList<E> extends ArrayList<E> implements CheckedCollecti
      * Inserts all of the elements in the specified collection into this list,
      * starting at the specified position.
      *
-     * @param index index at which to insert first element fromm the specified collection.
+     * @param index      index at which to insert first element fromm the specified collection.
      * @param collection elements to be inserted into this list.
      * @return {@code true} if this list changed as a result of the call.
-     * @throws IllegalArgumentException if at least one element is not of the expected type.
+     * @throws IllegalArgumentException      if at least one element is not of the expected type.
      * @throws UnsupportedOperationException if this collection is unmodifiable.
      */
     @Override
     public boolean addAll(final int index, final Collection<? extends E> collection)
-            throws IllegalArgumentException, UnsupportedOperationException
-    {
+            throws IllegalArgumentException, UnsupportedOperationException {
         ensureValid(collection);
         synchronized (getLock()) {
             checkWritePermission();

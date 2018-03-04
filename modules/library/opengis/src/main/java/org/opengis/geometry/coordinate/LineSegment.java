@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.coordinate;
@@ -20,32 +20,30 @@ import static org.opengis.annotation.Specification.*;
  * by a straight line. Thus its interpolation attribute shall be
  * {@link org.opengis.geometry.primitive.CurveInterpolation#LINEAR LINEAR}.
  * The default parameterization is:
- *
+ * <p>
  * <blockquote><pre>
  * L = {@linkplain #getEndParam endParam} - {@linkplain #getStartParam startParam}
- * c(s) = ControlPoint[1]+((s-{@linkplain #getStartParam startParam})/L)*(ControlPoint[2]-ControlPoint[1])
+ * c(s) = ControlPoint[1]+((s-{@linkplain #getStartParam startParam})/L)*
+ * (ControlPoint[2]-ControlPoint[1])
  * </pre></blockquote>
- *
+ * <p>
  * Any other point in the control point array must fall on this line. The control points of a
  * {@code LineSegment} shall all lie on the straight line between its start point and end
  * point. Between these two points, other positions may be interpolated linearly. The linear
  * interpolation, given using a constructive parameter <var>t</var>, 0 ? <var>t</var> ? 1.0,
  * where c(o) = c.{@linkplain #getStartPoint startPoint} and c(1)=c.{@link #getEndPoint endPoint},
  * is:
- *
+ * <p>
  * <blockquote>
  * <var>c</var>(<var>t</var>) = <var>c</var>(0)(1-<var>t</var>) + <var>c</var>(1)<var>t</var>
  * </blockquote>
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
- * @since GeoAPI 1.0
- *
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @see GeometryFactory#createLineSegment
+ * @since GeoAPI 1.0
  */
-@UML(identifier="GM_LineSegment", specification=ISO_19107)
+@UML(identifier = "GM_LineSegment", specification = ISO_19107)
 public interface LineSegment extends LineString {
 }

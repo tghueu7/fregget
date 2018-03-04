@@ -2,7 +2,7 @@
  *    GeoTools - OpenSource mapping toolkit
  *    http://geotools.org
  *    (C) 2005-2006, GeoTools Project Managment Committee (PMC)
- * 
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -23,25 +23,22 @@ import java.io.IOException;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class EdigeoParser {
-	
-    public BufferedReader reader = null; 
+
+    public BufferedReader reader = null;
     public String line = ""; // Current line buffer
     public int lineNumber = 0;  // not sure to be useful?
-    
+
     /**
      * to comment....
-     *
      */
-    public EdigeoParser(File file) throws FileNotFoundException {  
-    	super();
+    public EdigeoParser(File file) throws FileNotFoundException {
+        super();
         reader = new BufferedReader(new FileReader(file));
     }
-    
+
     /**
      * Stores the next non-null line from file buffer in the line buffer
      *
@@ -53,7 +50,7 @@ public class EdigeoParser {
         do {
             try {
                 buffer = reader.readLine();
-               
+
                 if (buffer == null) {
                     return readLine(""); //EOF
                 }
@@ -72,7 +69,6 @@ public class EdigeoParser {
      * "Reads" a line from the given line, and initializes the token.
      *
      * @param line
-     *
      * @return true if could read a non empty line (i.e. line != "")
      */
     public boolean readLine(String line) {
@@ -95,10 +91,10 @@ public class EdigeoParser {
 
         return untrimmed;
     }
-    
+
     /**
      * Gets value of the specified descriptor
-     * 
+     *
      * @param target Descriptor
      * @return String
      */
@@ -111,17 +107,17 @@ public class EdigeoParser {
         String value = line.substring(index + 8, index + nbchar + 8);
         return value;
     }
-    
-    
+
+
     /**
      * Closes the associated reader.
      */
     public void close() {
         try {
             reader.close();
-            reader = null ;
+            reader = null;
         } catch (IOException e) {
         }
     }
-    
+
 }

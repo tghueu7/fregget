@@ -25,14 +25,11 @@ import org.opengis.util.ProgressListener;
  * An implementation of ProgressListener to use when testing.
  * <p>
  * This implementation is good about throwing illegal state exceptions and so forth.
- * 
+ *
  * @author Jody
- * 
- *
- *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/test/java/org
- *         /geotools/arcsde/data/TestProgressListener.java $
+ * http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/test/java/org
+ * /geotools/arcsde/data/TestProgressListener.java $
  */
 public class TestProgressListener implements ProgressListener {
     int progressCount;
@@ -131,7 +128,7 @@ public class TestProgressListener implements ProgressListener {
     }
 
     public void warningOccurred(String source, String location, String warning) {
-        this.warning = new String[] { source, location, warning };
+        this.warning = new String[]{source, location, warning};
     }
 
 }

@@ -35,15 +35,11 @@ import org.geotools.geometry.jts.ReferencedEnvelope;
  * ReferencedEnvelope gridBounds = Envelopes.expandToInclude(latLonEnv, gridSize);
  * </code></pre>
  *
- * @todo move this class or its methods to a more general module
- *
  * @author mbedward
- * @since 2.7
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @todo move this class or its methods to a more general module
+ * @source $URL$
+ * @since 2.7
  */
 public class Envelopes {
 
@@ -65,10 +61,9 @@ public class Envelopes {
      * roundedEnv.expandToInclude(inputEnv, 100);
      * </code></pre>
      *
-     * @param srcEnv the envelope to include
+     * @param srcEnv     the envelope to include
      * @param resolution resolution (in world distance units) of the resulting
-     *        boundary coordinates
-     *
+     *                   boundary coordinates
      * @return a new envelope with 'rounded' bounding coordinates
      */
     public static ReferencedEnvelope expandToInclude(ReferencedEnvelope srcEnv, double resolution) {
@@ -76,7 +71,7 @@ public class Envelopes {
         double maxX = roundOrdinate(srcEnv.getMaxX(), resolution, true);
         double minY = roundOrdinate(srcEnv.getMinY(), resolution, false);
         double maxY = roundOrdinate(srcEnv.getMaxY(), resolution, true);
-        
+
         ReferencedEnvelope expanded = new ReferencedEnvelope(srcEnv);
         expanded.expandToInclude(minX, minY);
         expanded.expandToInclude(maxX, maxY);
@@ -97,10 +92,10 @@ public class Envelopes {
      * // this will return 1300
      * rounded = roundOrdinate(ordinate, resolution, true);
      * </code></pre>
-     * @param ordinate the ordinate to round up or down.
-     * @param resolution the desired resolution
-     * @param roundUp true to round up; false to round down
      *
+     * @param ordinate   the ordinate to round up or down.
+     * @param resolution the desired resolution
+     * @param roundUp    true to round up; false to round down
      * @return the rounded ordinate value
      */
     private static double roundOrdinate(double ordinate, double resolution, boolean roundUp) {

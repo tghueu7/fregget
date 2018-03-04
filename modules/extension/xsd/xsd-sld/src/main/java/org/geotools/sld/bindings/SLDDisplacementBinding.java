@@ -29,9 +29,9 @@ import org.picocontainer.MutablePicoContainer;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:Displacement.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="Displacement"&gt;
  *      &lt;xsd:annotation&gt;
@@ -52,9 +52,6 @@ import org.picocontainer.MutablePicoContainer;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDDisplacementBinding extends AbstractComplexBinding {
@@ -107,7 +104,7 @@ public class SLDDisplacementBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         Expression x = (Expression) node.getChildValue("DisplacementX");
         Expression y = (Expression) node.getChildValue("DisplacementY");
 

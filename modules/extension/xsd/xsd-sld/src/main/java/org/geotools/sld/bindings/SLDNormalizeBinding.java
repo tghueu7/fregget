@@ -32,9 +32,9 @@ import org.picocontainer.MutablePicoContainer;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:Normalize.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="Normalize"&gt;
  *      &lt;xsd:complexType/&gt;
@@ -45,19 +45,17 @@ import org.picocontainer.MutablePicoContainer;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDNormalizeBinding extends AbstractComplexBinding {
     StyleFactory styleFactory;
     FilterFactory filterFactory;
-    
+
     public SLDNormalizeBinding(StyleFactory styleFactory, FilterFactory filterFactory) {
         this.styleFactory = styleFactory;
         this.filterFactory = filterFactory;
     }
+
     /**
      * @generated
      */
@@ -101,15 +99,15 @@ public class SLDNormalizeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        
-        NormalizeContrastMethodStrategy ret = new  NormalizeContrastMethodStrategy();
+            throws Exception {
+
+        NormalizeContrastMethodStrategy ret = new NormalizeContrastMethodStrategy();
         if (node.getChildValue("Algorithm") != null) {
-           Expression algor = (Expression) node.getChildValue("Algorithm");
+            Expression algor = (Expression) node.getChildValue("Algorithm");
             ret.setAlgorithm(algor);
         }
         List<Node> params = node.getChildren("Parameter");
-        for(Node param:params) {
+        for (Node param : params) {
             String key = (String) param.getAttributeValue("name");
             ret.addParameter(key, (Expression) param.getValue());
         }

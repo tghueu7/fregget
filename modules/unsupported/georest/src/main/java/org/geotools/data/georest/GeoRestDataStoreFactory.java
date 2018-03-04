@@ -44,11 +44,8 @@ import org.geotools.data.DataStoreFactorySpi;
  * </ul>
  * For a more detailed description, look up the projects documentation.
  * </p>
- * 
+ *
  * @author Pieter De Graef, Geosparc
- *
- *
- *
  * @source $URL$
  */
 public class GeoRestDataStoreFactory implements DataStoreFactorySpi {
@@ -77,9 +74,8 @@ public class GeoRestDataStoreFactory implements DataStoreFactorySpi {
 
     /**
      * Create a new {@link GeoRestDataStore}, given the list of parameters.
-     * 
-     * @param params
-     *            The actual list of parameters. Must contain the 'url' and 'layers' parameters.
+     *
+     * @param params The actual list of parameters. Must contain the 'url' and 'layers' parameters.
      */
     public DataStore createDataStore(Map<String, Serializable> params) throws IOException {
         return new GeoRestDataStore(params);
@@ -101,11 +97,10 @@ public class GeoRestDataStoreFactory implements DataStoreFactorySpi {
 
     /**
      * Checks to see if the 'url' and 'layers' parameters are available in the given parameter list.
-     * 
-     * @param params
-     *            The list of parameters that need checking.
+     *
+     * @param params The list of parameters that need checking.
      * @return Returns true or false indicating if the given parameter list is suitable to create a
-     *         {@link GeoRestDataStore}.
+     * {@link GeoRestDataStore}.
      */
     public boolean canProcess(Map<String, Serializable> params) {
         for (Param p : parameters) {
@@ -125,7 +120,7 @@ public class GeoRestDataStoreFactory implements DataStoreFactorySpi {
     }
 
     public Param[] getParametersInfo() {
-        return parameters.toArray(new Param[] {});
+        return parameters.toArray(new Param[]{});
     }
 
     public boolean isAvailable() {

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -26,13 +26,11 @@ import org.opengis.metadata.quality.FormatConsistency;
  * Degree to which data is stored in accordance with the physical structure of
  * the dataset, as described by the scope.
  *
- * @since 2.4
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
+ * @version $Id$
+ * @source $URL$
+ * @since 2.4
  */
 public class FormatConsistencyImpl extends LogicalConsistencyImpl implements FormatConsistency {
     /**

@@ -24,16 +24,15 @@ import org.geotools.util.URLs;
 
 /**
  * Creates a directory datastore pointing to a directory of shapefiles
- * 
+ *
  * @author Andrea Aime
- * 
- *
- *
  * @source $URL$
- *         main/java/org/geotools/data/dir/DirectoryDataStoreFactory.java $
+ * main/java/org/geotools/data/dir/DirectoryDataStoreFactory.java $
  */
 public class ShapefileDirectoryFactory extends ShapefileDataStoreFactory {
-    /** The directory to be scanned for file data stores */
+    /**
+     * The directory to be scanned for file data stores
+     */
     public static final Param URLP = new Param("url", URL.class,
             "Directory containing geospatial files", true);
 

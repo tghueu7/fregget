@@ -23,22 +23,20 @@ import org.geotools.validation.DefaultFeatureValidationBeanInfo;
 
 /**
  * DomainValidationBeanInfo purpose.
- * 
+ * <p>
  * <p>
  * Description of GazetteerNameValidationBeanInfo ...
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class DomainValidationBeanInfo extends DefaultFeatureValidationBeanInfo {
     /**
      * GazetteerNameValidationBeanInfo constructor.
-     * 
+     * <p>
      * <p>
      * Description
      * </p>
@@ -49,7 +47,6 @@ public class DomainValidationBeanInfo extends DefaultFeatureValidationBeanInfo {
 
     /**
      * Implementation of getPropertyDescriptors.
-     *
      *
      * @see java.beans.BeanInfo#getPropertyDescriptors()
      */

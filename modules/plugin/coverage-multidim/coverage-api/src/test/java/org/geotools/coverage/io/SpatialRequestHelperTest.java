@@ -51,9 +51,7 @@ import org.opengis.referencing.NoSuchAuthorityCodeException;
 import org.opengis.referencing.operation.TransformException;
 
 /**
- * 
  * @author Nicola Lagomarsini Geosolutions
- *
  */
 public class SpatialRequestHelperTest {
 
@@ -67,7 +65,7 @@ public class SpatialRequestHelperTest {
 
     @BeforeClass
     public static void setup() {
-        image = ConstantDescriptor.create(512f, 512f, new Byte[] { 1 }, GeoTools.getDefaultHints());
+        image = ConstantDescriptor.create(512f, 512f, new Byte[]{1}, GeoTools.getDefaultHints());
         Envelope envelope = new ReferencedEnvelope(-180, 180, -85, 85, DefaultGeographicCRS.WGS84);
         // Creation of a dummy GridCoverage 2D
         coverage = new GridCoverageFactory(GeoTools.getDefaultHints()).create("testCoverage",
@@ -102,9 +100,9 @@ public class SpatialRequestHelperTest {
 
         // Calculate the expected results
         AffineTransform requestedGridToWorld = helper.getRequestedGridToWorld();
-        double[] calculatedResolution = new double[] {
+        double[] calculatedResolution = new double[]{
                 XAffineTransform.getScaleX0(requestedGridToWorld),
-                XAffineTransform.getScaleY0(requestedGridToWorld) };
+                XAffineTransform.getScaleY0(requestedGridToWorld)};
         Rectangle calculatedRasterArea = new Rectangle(1024, 1024);
 
         // Ensure the same Coverage properties
@@ -182,8 +180,8 @@ public class SpatialRequestHelperTest {
         final GridToEnvelopeMapper geMapper = new GridToEnvelopeMapper(
                 new GridEnvelope2D(gridRange), temp);
         final AffineTransform tempTransform = geMapper.createAffineTransform();
-        double[] calculatedResolution = new double[] { XAffineTransform.getScaleX0(tempTransform),
-                XAffineTransform.getScaleY0(tempTransform) };
+        double[] calculatedResolution = new double[]{XAffineTransform.getScaleX0(tempTransform),
+                XAffineTransform.getScaleY0(tempTransform)};
 
         // Ensure is not empty
         assertTrue(!helper.isEmpty());

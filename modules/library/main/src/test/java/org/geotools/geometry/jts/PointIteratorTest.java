@@ -12,15 +12,15 @@ import com.vividsolutions.jts.io.WKTReader;
 
 public class PointIteratorTest {
 
-    
+
     @Test
     public void testPointIteration() throws Exception {
         Point p = (Point) new WKTReader().read("POINT(1 10)");
         AffineTransform at = AffineTransform.getScaleInstance(2, 2);
         PointIterator it = new PointIterator(p, at);
         double[] coords = new double[2];
-        
-        
+
+
         assertFalse(it.isDone());
         assertEquals(PathIterator.SEG_MOVETO, it.currentSegment(coords));
         assertEquals(2.0, coords[0], 0d);

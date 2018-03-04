@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.geotools.filter.temporal;
@@ -14,8 +14,6 @@ import org.opengis.temporal.Period;
 import org.opengis.temporal.TemporalPrimitive;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class AfterImplTest extends TemporalFilterTestSupport {
@@ -27,7 +25,7 @@ public class AfterImplTest extends TemporalFilterTestSupport {
         doAssert(i1, i2, true);
         doAssert(i1, i3, false);
         doAssert(i1, i1, false);
-        
+
         Period p1 = period("2001-07-05T12:08:56.235-0700", "2001-07-05T12:09:56.235-0700");
         Period p2 = period("2001-07-05T12:09:56.235-0700", "2001-07-05T12:10:56.235-0700");
         Period p3 = period("2001-07-05T12:010:56.235-0700", "2001-07-05T12:11:56.235-0700");
@@ -40,7 +38,7 @@ public class AfterImplTest extends TemporalFilterTestSupport {
         Period p4 = period("2001-07-04T12:08:56.234-0700", "2001-07-04T12:08:56.235-0700");
         doAssert(i4, p4, false);
         doAssert(i5, p4, true);
-        
+
         Instant i6 = instant("2001-07-04T12:08:56.234-0700");
         Instant i7 = instant("2001-07-04T12:08:56.233-0700");
         doAssert(p4, i6, false);

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2015, Boundless
  *
@@ -57,7 +57,7 @@ public class FilterToMongoTest extends TestCase {
 
     FilterFactory2 ff;
     FilterToMongo filterToMongo;
-    MongoGeometryBuilder geometryBuilder; 
+    MongoGeometryBuilder geometryBuilder;
 
     @Override
     protected void setUp() throws Exception {
@@ -71,7 +71,7 @@ public class FilterToMongoTest extends TestCase {
         tb.add("geometry", Point.class);
         tb.add("dateProperty", Date.class);
         filterToMongo.setFeatureType(tb.buildFeatureType());
-        
+
         geometryBuilder = new MongoGeometryBuilder();
     }
 
@@ -83,105 +83,116 @@ public class FilterToMongoTest extends TestCase {
         assertEquals(1, obj.keySet().size());
         assertEquals("bar", obj.get("properties.foo"));
     }
-    
+
     public void testBBOX() {
         BBOX bbox = ff.bbox("loc", 10d, 10d, 20d, 20d, "epsg:4326");
         BasicDBObject obj = (BasicDBObject) bbox.accept(filterToMongo, null);
         assertNotNull(obj);
-        
+
         BasicDBObject filterGeometry = (BasicDBObject) obj.get("geometry");
         assertNotNull(filterGeometry);
 
         BasicDBObject filterIntersects = (BasicDBObject) filterGeometry.get("$geoIntersects");
         assertNotNull(filterIntersects);
-        
+
         BasicDBObject filterIntersectsGeometry = (BasicDBObject) filterIntersects.get("$geometry");
         assertNotNull(filterIntersectsGeometry);
 
         Geometry geometry = geometryBuilder.toGeometry(filterIntersectsGeometry);
         assertTrue(CGAlgorithms.isCCW(geometry.getCoordinates()));
-        
+
         BasicDBObject filterIntersectsCrs = (BasicDBObject) filterIntersectsGeometry.get("crs");
         assertNotNull(filterIntersectsCrs);
-        
-        BasicDBObject filterIntersectsCrsProperties = (BasicDBObject) filterIntersectsCrs.get("properties");
+
+        BasicDBObject filterIntersectsCrsProperties = (BasicDBObject) filterIntersectsCrs.get
+                ("properties");
         assertNotNull(filterIntersectsCrsProperties);
-        
-        String filterIntersectsCrsPropertiesName = (String) filterIntersectsCrsProperties.get("name");
+
+        String filterIntersectsCrsPropertiesName = (String) filterIntersectsCrsProperties.get
+                ("name");
         assertNotNull(filterIntersectsCrsPropertiesName);
-        assertEquals("urn:x-mongodb:crs:strictwinding:EPSG:4326", filterIntersectsCrsPropertiesName);
+        assertEquals("urn:x-mongodb:crs:strictwinding:EPSG:4326", 
+                filterIntersectsCrsPropertiesName);
     }
-    
+
     public void testIntersects() {
-        Coordinate[] coordinates = new Coordinate[] {
-			new Coordinate(10.0, 10.0),
-			new Coordinate(20.0, 10.0),
-			new Coordinate(20.0, 20.0),
-			new Coordinate(10.0, 20.0),
-			new Coordinate(10.0, 10.0),
+        Coordinate[] coordinates = new Coordinate[]{
+                new Coordinate(10.0, 10.0),
+                new Coordinate(20.0, 10.0),
+                new Coordinate(20.0, 20.0),
+                new Coordinate(10.0, 20.0),
+                new Coordinate(10.0, 10.0),
         };
 
-        Intersects intersects = ff.intersects(ff.property("geom"), ff.literal(new GeometryFactory().createPolygon(coordinates)));
+        Intersects intersects = ff.intersects(ff.property("geom"), ff.literal(new GeometryFactory
+                ().createPolygon(coordinates)));
         BasicDBObject obj = (BasicDBObject) intersects.accept(filterToMongo, null);
         assertNotNull(obj);
-        
+
         BasicDBObject filterGeometry = (BasicDBObject) obj.get("geometry");
         assertNotNull(filterGeometry);
 
         BasicDBObject filterIntersects = (BasicDBObject) filterGeometry.get("$geoIntersects");
         assertNotNull(filterIntersects);
-        
+
         BasicDBObject filterIntersectsGeometry = (BasicDBObject) filterIntersects.get("$geometry");
         assertNotNull(filterIntersectsGeometry);
 
         Geometry geometry = geometryBuilder.toGeometry(filterIntersectsGeometry);
         assertTrue(CGAlgorithms.isCCW(geometry.getCoordinates()));
-        
+
         BasicDBObject filterIntersectsCrs = (BasicDBObject) filterIntersectsGeometry.get("crs");
         assertNotNull(filterIntersectsCrs);
-        
-        BasicDBObject filterIntersectsCrsProperties = (BasicDBObject) filterIntersectsCrs.get("properties");
+
+        BasicDBObject filterIntersectsCrsProperties = (BasicDBObject) filterIntersectsCrs.get
+                ("properties");
         assertNotNull(filterIntersectsCrsProperties);
-        
-        String filterIntersectsCrsPropertiesName = (String) filterIntersectsCrsProperties.get("name");
+
+        String filterIntersectsCrsPropertiesName = (String) filterIntersectsCrsProperties.get
+                ("name");
         assertNotNull(filterIntersectsCrsPropertiesName);
-        assertEquals("urn:x-mongodb:crs:strictwinding:EPSG:4326", filterIntersectsCrsPropertiesName);
+        assertEquals("urn:x-mongodb:crs:strictwinding:EPSG:4326", 
+                filterIntersectsCrsPropertiesName);
     }
-    
+
     public void testWithin() {
-        Coordinate[] coordinates = new Coordinate[] {
-			new Coordinate(10.0, 10.0),
-			new Coordinate(20.0, 10.0),
-			new Coordinate(20.0, 20.0),
-			new Coordinate(10.0, 20.0),
-			new Coordinate(10.0, 10.0),
+        Coordinate[] coordinates = new Coordinate[]{
+                new Coordinate(10.0, 10.0),
+                new Coordinate(20.0, 10.0),
+                new Coordinate(20.0, 20.0),
+                new Coordinate(10.0, 20.0),
+                new Coordinate(10.0, 10.0),
         };
 
-        Within within = ff.within(ff.property("geom"), ff.literal(new GeometryFactory().createPolygon(coordinates)));
+        Within within = ff.within(ff.property("geom"), ff.literal(new GeometryFactory()
+                .createPolygon(coordinates)));
         BasicDBObject obj = (BasicDBObject) within.accept(filterToMongo, null);
         assertNotNull(obj);
-        
+
         BasicDBObject filterGeometry = (BasicDBObject) obj.get("geometry");
         assertNotNull(filterGeometry);
 
         BasicDBObject filterWithin = (BasicDBObject) filterGeometry.get("$geoWithin");
         assertNotNull(filterWithin);
-        
+
         BasicDBObject filterIntersectsGeometry = (BasicDBObject) filterWithin.get("$geometry");
         assertNotNull(filterIntersectsGeometry);
 
         Geometry geometry = geometryBuilder.toGeometry(filterIntersectsGeometry);
         assertTrue(CGAlgorithms.isCCW(geometry.getCoordinates()));
-        
+
         BasicDBObject filterIntersectsCrs = (BasicDBObject) filterIntersectsGeometry.get("crs");
         assertNotNull(filterIntersectsCrs);
-        
-        BasicDBObject filterIntersectsCrsProperties = (BasicDBObject) filterIntersectsCrs.get("properties");
+
+        BasicDBObject filterIntersectsCrsProperties = (BasicDBObject) filterIntersectsCrs.get
+                ("properties");
         assertNotNull(filterIntersectsCrsProperties);
-        
-        String filterIntersectsCrsPropertiesName = (String) filterIntersectsCrsProperties.get("name");
+
+        String filterIntersectsCrsPropertiesName = (String) filterIntersectsCrsProperties.get
+                ("name");
         assertNotNull(filterIntersectsCrsPropertiesName);
-        assertEquals("urn:x-mongodb:crs:strictwinding:EPSG:4326", filterIntersectsCrsPropertiesName);
+        assertEquals("urn:x-mongodb:crs:strictwinding:EPSG:4326", 
+                filterIntersectsCrsPropertiesName);
     }
 
     public void testLike() throws Exception {
@@ -244,23 +255,23 @@ public class FilterToMongoTest extends TestCase {
         BasicDBObject obj = (BasicDBObject) lt.accept(filterToMongo, null);
 
         assertNotNull(obj);
-        
+
         BasicDBObject filter = (BasicDBObject) obj.get("properties.dateProperty");
         assertNotNull(filter);
         assertEquals(MongoTestSetup.parseDate(LOWER_BOUND), filter.get("$gte"));
         assertEquals(MongoTestSetup.parseDate(UPPER_BOUND), filter.get("$lte"));
     }
-    
+
     public void testAndComparison() {
         PropertyIsGreaterThan greaterThan = ff.greater(ff.property("property"), ff.literal(0));
         PropertyIsLessThan lessThan = ff.less(ff.property("property"), ff.literal(10));
         And and = ff.and(greaterThan, lessThan);
         BasicDBObject obj = (BasicDBObject) and.accept(filterToMongo, null);
         assertNotNull(obj);
-        
+
         BasicDBList andFilter = (BasicDBList) obj.get("$and");
         assertNotNull(andFilter);
-        assertEquals(andFilter.size(), 2);  
+        assertEquals(andFilter.size(), 2);
     }
 
     public void testEqualToInteger() throws Exception {
@@ -291,7 +302,8 @@ public class FilterToMongoTest extends TestCase {
         assertEquals("10", obj.get("properties.foo"));
     }
 
-    @Test public void testLiteralsHandling() throws Exception {
+    @Test
+    public void testLiteralsHandling() throws Exception {
         // test NULL properties, supported primitives types should be preserved
         testLiteralEncoding(null, null, null);
         testLiteralEncoding(null, Object.class, null);

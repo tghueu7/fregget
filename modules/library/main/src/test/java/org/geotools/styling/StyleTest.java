@@ -29,14 +29,12 @@ import org.opengis.style.StyleVisitor;
  * instances.
  * </ul>
  *
- *
- *
  * @source $URL$
  */
 public class StyleTest {
     static FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
     static StyleFactoryImpl2 sf = new StyleFactoryImpl2(ff);
-    
+
     @Test
     public void displacement() {
         assertNull(DisplacementImpl.cast(null));
@@ -47,8 +45,8 @@ public class StyleTest {
 
         assertSame(displacement, DisplacementImpl.cast(displacement));
 
-        assertEquals( displacement, sf.displacement( ff.literal(1.0), ff.literal(1.0)));
-        
+        assertEquals(displacement, sf.displacement(ff.literal(1.0), ff.literal(1.0)));
+
         org.opengis.style.Displacement external = new Displacement() {
             public Expression getDisplacementY() {
                 return ff.literal(1.0);
@@ -61,51 +59,53 @@ public class StyleTest {
             public Object accept(StyleVisitor visitor, Object data) {
                 return visitor.visit(this, data);
             }
-        };        
-        displacement = DisplacementImpl.cast( external );
-        assertEquals( ff.literal(1.0), displacement.getDisplacementX());
-        
+        };
+        displacement = DisplacementImpl.cast(external);
+        assertEquals(ff.literal(1.0), displacement.getDisplacementX());
+
     }
+
     @SuppressWarnings("deprecation")
     @Test
     public void font() throws Exception {
         List<Expression> family = new ArrayList<Expression>();
-        family.add( ff.literal("ariel"));
-        family.add( ff.literal("Helvetica"));
-        family.add( ff.literal("sanserif"));
-     
-        Expression style=ff.literal("noraml");
+        family.add(ff.literal("ariel"));
+        family.add(ff.literal("Helvetica"));
+        family.add(ff.literal("sanserif"));
+
+        Expression style = ff.literal("noraml");
         Expression weight = ff.literal("normal");
         Expression size = ff.literal(12);
-        
+
         Font font = sf.font(family, style, weight, size);
-        
-        assertEquals( family, font.getFamily() );
-        assertEquals( style, font.getStyle()); // oblique or italic
-        assertEquals( weight, font.getWeight() ); // bold or normal
-        assertEquals( size, font.getSize() );
-        
-        assertSame( font.getFontStyle(), font.getStyle() );
-        assertSame( font.getFontFamily(), family.get(0));
-        assertSame( font.getFontWeight(), font.getWeight() );
-        assertSame( font.getFontSize(), font.getSize());
-        
-        FontImpl cast = FontImpl.cast( font );
-        assertSame( cast, font );
+
+        assertEquals(family, font.getFamily());
+        assertEquals(style, font.getStyle()); // oblique or italic
+        assertEquals(weight, font.getWeight()); // bold or normal
+        assertEquals(size, font.getSize());
+
+        assertSame(font.getFontStyle(), font.getStyle());
+        assertSame(font.getFontFamily(), family.get(0));
+        assertSame(font.getFontWeight(), font.getWeight());
+        assertSame(font.getFontSize(), font.getSize());
+
+        FontImpl cast = FontImpl.cast(font);
+        assertSame(cast, font);
     }
+
     @Test
     public void graphic() throws Exception {
         List<GraphicalSymbol> symbols = new ArrayList<GraphicalSymbol>();
         symbols.add(sf.mark(ff.literal("square"), null, null));
         symbols.add(sf.mark(ff.literal("circle"), null, null));
-        
+
         Expression opacity = null;
         Expression size = null;
         Expression rotation = null;
         AnchorPoint anchor = null;
         Displacement disp = null;
         Graphic graphic = sf.graphic(symbols, opacity, size, rotation, anchor, disp);
-        
-        assertNotNull( graphic );
+
+        assertNotNull(graphic);
     }
 }

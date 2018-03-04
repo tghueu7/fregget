@@ -22,8 +22,6 @@ import org.geotools.gce.imagemosaic.properties.PropertiesCollector;
 import org.geotools.gce.imagemosaic.properties.PropertiesCollectorSPI;
 
 /**
- * 
- *
  * @source $URL$
  */
 public final class FloatFileNameExtractorSPI extends NumericFileNameExtractorSPI
@@ -35,7 +33,7 @@ public final class FloatFileNameExtractorSPI extends NumericFileNameExtractorSPI
 
     @Override
     protected PropertiesCollector createInternal(PropertiesCollectorSPI spi,
-            List<String> propertyNames, String regex) {
+                                                 List<String> propertyNames, String regex) {
         return new NumericFileNameExtractor.FloatFileNameExtractor(spi, propertyNames, regex);
     }
 

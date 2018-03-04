@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -20,15 +20,15 @@ package org.geotools.filter;
 /**
  * Defines an exception for illegal filters.
  *
- *
- *
  * @source $URL$
  * TODO: JD: Changed this exception to runtime exception. Go through all methods
  * that throw this expception and reflect the new geoapi method throws it with
  * a javadoc.
  */
 public class IllegalFilterException extends RuntimeException {
-    /** Prevent warning. */
+    /**
+     * Prevent warning.
+     */
     private static final long serialVersionUID = 6991878877158220201L;
 
     /**
@@ -54,7 +54,7 @@ public class IllegalFilterException extends RuntimeException {
      * Constructs an instance of <code>IllegalFilterException</code> with the
      * specified detail message and root cause.
      *
-     * @param msg the detail message.
+     * @param msg   the detail message.
      * @param cause the root cause of the exceptions.
      */
     public IllegalFilterException(String msg, Exception cause) {

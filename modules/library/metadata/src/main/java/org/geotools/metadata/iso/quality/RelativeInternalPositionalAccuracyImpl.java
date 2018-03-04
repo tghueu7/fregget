@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -26,18 +26,14 @@ import org.opengis.metadata.quality.RelativeInternalPositionalAccuracy;
  * Closeness of the relative positions of features in the scope to their respective
  * relative positions accepted as or being true.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class RelativeInternalPositionalAccuracyImpl extends PositionalAccuracyImpl
-        implements RelativeInternalPositionalAccuracy
-{
+        implements RelativeInternalPositionalAccuracy {
     /**
      * Serial number for interoperability with different versions.
      */

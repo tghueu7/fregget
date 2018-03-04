@@ -4,7 +4,7 @@
  *
  *    (C) 2016 Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2016 Boundless Spatial
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -107,7 +107,7 @@ public abstract class YsldEncodeHandler<T> implements Iterator<Object> {
 
     /**
      * Should be used to encode values parsed with Util.name
-     * 
+     *
      * @param key
      * @param expr
      * @return
@@ -184,6 +184,7 @@ public abstract class YsldEncodeHandler<T> implements Iterator<Object> {
 
     /**
      * See {@link #toObjOrNull(Expression, boolean)}
+     *
      * @param expr
      * @return
      */
@@ -217,13 +218,13 @@ public abstract class YsldEncodeHandler<T> implements Iterator<Object> {
      * Takes an {@link Expression} and encodes it as YSLD. Literals are encoded as Strings.
      * Concatenation expressions are removed, as they are implicit in the YSLD syntax.
      * Other non-literal expressions are wrapped in ${}.
-     *
-     * If the resulting string can be converted to the number, returns an appropriate {@link Number} object.
+     * <p>
+     * If the resulting string can be converted to the number, returns an appropriate 
+     * {@link Number} object.
      * Otherwise returns a {@link String}.
      * Returns null if the passed expressison was null
      *
-     *
-     * @param expr Expression to encode
+     * @param expr   Expression to encode
      * @param isname
      * @return {@link String} or {@link Number} representation of expr, or null if expr is null.
      */

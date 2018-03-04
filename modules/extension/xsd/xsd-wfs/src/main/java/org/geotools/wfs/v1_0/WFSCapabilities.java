@@ -23,12 +23,14 @@ import javax.xml.namespace.QName;
 /**
  * XSD for wfs 1.0. capabilities document; for non capabilities use {@link WFS}, as it's based on a
  * different schema.
- * 
+ *
  * @see WFSCapabilitiesConfiguration
  */
 public final class WFSCapabilities extends org.geotools.wfs.WFS {
 
-    /** singleton instance */
+    /**
+     * singleton instance
+     */
     private static final WFSCapabilities instance = new WFSCapabilities();
 
     /**
@@ -38,7 +40,7 @@ public final class WFSCapabilities extends org.geotools.wfs.WFS {
         return instance;
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     protected void addDependencies(Set dependencies) {
         dependencies.add(org.geotools.filter.v1_0.capabilities.OGC.getInstance());

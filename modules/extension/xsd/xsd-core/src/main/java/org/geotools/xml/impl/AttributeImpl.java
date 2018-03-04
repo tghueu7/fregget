@@ -24,8 +24,6 @@ import org.geotools.xml.AttributeInstance;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class AttributeImpl extends InstanceComponentImpl implements AttributeInstance {

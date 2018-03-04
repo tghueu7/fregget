@@ -28,14 +28,11 @@ import org.opengis.coverage.grid.GridCoordinates;
  * {@linkplain GridPoint grid point} within the {@linkplain Grid grid}. This class extends
  * {@link Point} for interoperability with Java2D.
  *
- * @since 2.5
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
- *
+ * @version $Id$
+ * @source $URL$
  * @see GeneralGridCoordinates
+ * @since 2.5
  */
 public class GridCoordinates2D extends Point implements GridCoordinates {
     /**
@@ -57,7 +54,7 @@ public class GridCoordinates2D extends Point implements GridCoordinates {
      * @param y The <var>y</var> coordinate value.
      */
     public GridCoordinates2D(final int x, final int y) {
-        super(x,y);
+        super(x, y);
     }
 
     /**
@@ -81,7 +78,7 @@ public class GridCoordinates2D extends Point implements GridCoordinates {
      * ({@linkplain #x x},{@linkplain #y y}) in an array of length 2.
      */
     public int[] getCoordinateValues() {
-        return new int[] {x,y};
+        return new int[]{x, y};
     }
 
     /**
@@ -89,33 +86,40 @@ public class GridCoordinates2D extends Point implements GridCoordinates {
      * <code>{@linkplain #getCoordinateValues()}[<var>i</var>]</code>. It is provided for
      * efficienty.
      *
-     * @param  dimension The dimension from 0 inclusive to {@link #getDimension} exclusive.
+     * @param dimension The dimension from 0 inclusive to {@link #getDimension} exclusive.
      * @return The value at the requested dimension.
      * @throws IndexOutOfBoundsException if the specified dimension is out of bounds.
      */
     public int getCoordinateValue(final int dimension) throws IndexOutOfBoundsException {
         switch (dimension) {
-            case 0:  return x;
-            case 1:  return y;
-            default: throw new IndexOutOfBoundsException(indexOutOfBounds(dimension));
+            case 0:
+                return x;
+            case 1:
+                return y;
+            default:
+                throw new IndexOutOfBoundsException(indexOutOfBounds(dimension));
         }
     }
 
     /**
      * Sets the coordinate value at the specified dimension.
      *
-     * @param  dimension The index of the value to set.
-     * @param  value The new value.
-     * @throws IndexOutOfBoundsException if the specified dimension is out of bounds.
+     * @param dimension The index of the value to set.
+     * @param value     The new value.
+     * @throws IndexOutOfBoundsException     if the specified dimension is out of bounds.
      * @throws UnsupportedOperationException if this grid coordinates is not modifiable.
      */
     public void setCoordinateValue(final int dimension, final int value)
-            throws IndexOutOfBoundsException, UnsupportedOperationException
-    {
+            throws IndexOutOfBoundsException, UnsupportedOperationException {
         switch (dimension) {
-            case 0:  x = value; break;
-            case 1:  y = value; break;
-            default: throw new IndexOutOfBoundsException(indexOutOfBounds(dimension));
+            case 0:
+                x = value;
+                break;
+            case 1:
+                y = value;
+                break;
+            default:
+                throw new IndexOutOfBoundsException(indexOutOfBounds(dimension));
         }
     }
 
@@ -148,18 +152,17 @@ public class GridCoordinates2D extends Point implements GridCoordinates {
         return (GridCoordinates2D) super.clone();
     }
 
-	/**
-	 * Makes sure that an argument is non-null.
-	 *
-	 * @param  name   Argument name.
-	 * @param  object User argument.
-	 * @throws IllegalArgumentException if {@code object} is null.
-	 */
-	static void ensureNonNull(final String name, final Object object)
-	    throws IllegalArgumentException
-	{
-	    if (object == null) {
-	        throw new IllegalArgumentException(Errors.format(ErrorKeys.NULL_ARGUMENT_$1, name));
-	    }
-	}
+    /**
+     * Makes sure that an argument is non-null.
+     *
+     * @param name   Argument name.
+     * @param object User argument.
+     * @throws IllegalArgumentException if {@code object} is null.
+     */
+    static void ensureNonNull(final String name, final Object object)
+            throws IllegalArgumentException {
+        if (object == null) {
+            throw new IllegalArgumentException(Errors.format(ErrorKeys.NULL_ARGUMENT_$1, name));
+        }
+    }
 }

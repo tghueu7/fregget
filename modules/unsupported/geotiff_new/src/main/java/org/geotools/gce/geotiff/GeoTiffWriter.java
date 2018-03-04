@@ -71,25 +71,23 @@ import org.opengis.referencing.operation.TransformException;
 
 /**
  * {@link AbstractGridCoverageWriter} implementation for the geotiff format.
- * 
+ *
  * @author Simone Giannecchini, GeoSolutions SAS
  * @author Daniele Romagnoli, GeoSolutions SAS
- *
- *
- *
  * @source $URL$
- * @todo add method to look for no data. 
+ * @todo add method to look for no data.
  */
 public class GeoTiffWriter extends AbstractGridCoverageWriter implements
-		GridCoverageWriter {
+        GridCoverageWriter {
 
-    private final static Logger LOGGER = org.geotools.util.logging.Logging.getLogger(GeoTiffWriter.class.toString());
+    private final static Logger LOGGER = org.geotools.util.logging.Logging.getLogger
+            (GeoTiffWriter.class.toString());
 
-    private final Map<String, String> metadataKeyValue = new HashMap<String, String>(); 
-	/** Logger for the {@link GeoTiffReader} class. */
+    private final Map<String, String> metadataKeyValue = new HashMap<String, String>();
+    /** Logger for the {@link GeoTiffReader} class. */
     /**
      * Constructor for a {@link GeoTiffWriter}.
-     * 
+     *
      * @param destination
      * @throws IOException
      */
@@ -100,16 +98,14 @@ public class GeoTiffWriter extends AbstractGridCoverageWriter implements
 
     /**
      * Allows to setup metadata by leveraging on Ascii TIFF Tags.
-     * 
-     * @param name
-     *            is the Ascii TIFF Tag identifier. It can be a String
-     *            representing: 
-     *            1) a simple Integer (referring to a tag ID) (in
-     *            that case it will refer to the BaselineTIFFTagSet 
-     *            2) OR an identifier in the form: TIFFTagSet:TIFFTagID. As an instance:
-     *            "BaselineTIFFTagSet:305" in order to add the Copyright info.
-     * @param value
-     *            is the value to be assigned to that tag.
+     *
+     * @param name  is the Ascii TIFF Tag identifier. It can be a String
+     *              representing:
+     *              1) a simple Integer (referring to a tag ID) (in
+     *              that case it will refer to the BaselineTIFFTagSet
+     *              2) OR an identifier in the form: TIFFTagSet:TIFFTagID. As an instance:
+     *              "BaselineTIFFTagSet:305" in order to add the Copyright info.
+     * @param value is the value to be assigned to that tag.
      * @see GeoTiffIIOMetadataEncoder.TagSet
      */
     @Override
@@ -121,7 +117,7 @@ public class GeoTiffWriter extends AbstractGridCoverageWriter implements
 
     /**
      * Constructor for a {@link GeoTiffWriter}.
-     * 
+     *
      * @param destination
      * @param hints
      * @throws IOException
@@ -164,7 +160,6 @@ public class GeoTiffWriter extends AbstractGridCoverageWriter implements
     }
 
     /**
-     * 
      * @see org.opengis.coverage.grid.GridCoverageWriter#getFormat()
      */
     public Format getFormat() {
@@ -172,9 +167,9 @@ public class GeoTiffWriter extends AbstractGridCoverageWriter implements
     }
 
     /**
-     * 
-     * @see org.opengis.coverage.grid.GridCoverageWriter#write(org.opengis.coverage.grid.GridCoverage,
-     *      org.opengis.parameter.GeneralParameterValue[])
+     * @see org.opengis.coverage.grid.GridCoverageWriter#write(org.opengis.coverage.grid
+     * .GridCoverage,
+     * org.opengis.parameter.GeneralParameterValue[])
      */
     public void write(final GridCoverage gc, final GeneralParameterValue[] params)
             throws IllegalArgumentException, IOException, IndexOutOfBoundsException {
@@ -271,34 +266,31 @@ public class GeoTiffWriter extends AbstractGridCoverageWriter implements
      * GeoTiff file we are writing or the ModelTransformation in case a more
      * general {@link AffineTransform} is needed to represent the raster space
      * to model space transform.
-     * 
+     * <p>
      * <p>
      * This method works regardles of the nature fo the crs without making any
      * assumptions on the order or the direction of the axes, but checking them
      * from the supplied CRS.
-     * 
-     * @see {@link http
-     *      ://lists.maptools.org/pipermail/geotiff/2006-January/000213.html}
-     * @see      {@http://lists.maptools.org/pipermail/geotiff/2006-January/000212.html
-     * }
-     * @param crs
-     *            The {@link CoordinateReferenceSystem} of the
-     *            {@link GridCoverage2D} to encode.
-     * @param metadata
-     *            where to set the georeferencing information.
-     * @param range
-     *            that describes the raster space for this geotiff.
-     * @param rasterToModel
-     *            describes the {@link AffineTransform} between raster space and
-     *            model space.
-     * 
+     *
+     * @param crs           The {@link CoordinateReferenceSystem} of the
+     *                      {@link GridCoverage2D} to encode.
+     * @param metadata      where to set the georeferencing information.
+     * @param range         that describes the raster space for this geotiff.
+     * @param rasterToModel describes the {@link AffineTransform} between raster space and
+     *                      model space.
      * @throws IndexOutOfBoundsException
      * @throws IOException
      * @throws TransformException
+     * @see {@link http
+     * ://lists.maptools.org/pipermail/geotiff/2006-January/000213.html}
+     * @see {@http://lists.maptools.org/pipermail/geotiff/2006-January/000212.html
+     * }
      */
     private static void setGeoReference(final CoordinateReferenceSystem crs,
-            final GeoTiffIIOMetadataEncoder metadata, final AffineTransform rasterToModel,
-            GridEnvelope2D range) throws IndexOutOfBoundsException, IOException {
+                                        final GeoTiffIIOMetadataEncoder metadata, final 
+                                        AffineTransform rasterToModel,
+                                        GridEnvelope2D range) throws IndexOutOfBoundsException, 
+            IOException {
 
         // /////////////////////////////////////////////////////////////////////
         //
@@ -389,11 +381,12 @@ public class GeoTiffWriter extends AbstractGridCoverageWriter implements
     /**
      * Writes the provided rendered image to the provided image output stream
      * using the supplied geotiff metadata.
-     * 
+     *
      * @param gtParams
      */
     private boolean writeImage(final RenderedImage image, final ImageOutputStream outputStream,
-            final GeoTiffIIOMetadataEncoder geoTIFFMetadata, GeoToolsWriteParams gtParams)
+                               final GeoTiffIIOMetadataEncoder geoTIFFMetadata, 
+                               GeoToolsWriteParams gtParams)
             throws IOException {
         if (image == null || outputStream == null) {
             throw new NullPointerException("Some input parameters are null");
@@ -416,7 +409,7 @@ public class GeoTiffWriter extends AbstractGridCoverageWriter implements
             // IMAGEWRITE
             //
             writer.setOutput(outputStream);
-            writer.write(writer.getDefaultStreamMetadata(params), 
+            writer.write(writer.getDefaultStreamMetadata(params),
                     new IIOImage(image, null, metadata), params);
 
         } finally {

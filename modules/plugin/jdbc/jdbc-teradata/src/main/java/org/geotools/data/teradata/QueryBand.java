@@ -21,11 +21,8 @@ import java.util.Map;
 
 /**
  * Thread local table that holds transaction local query bands.
- * 
+ *
  * @author Justin Deoliveira, OpenGeo
- *
- *
- *
  * @source $URL$
  */
 public class QueryBand {
@@ -34,7 +31,7 @@ public class QueryBand {
      * Session query band for name of application.
      */
     public static String APPLICATION = "Application";
-    
+
     /**
      * Local query band for user name executing request.
      */
@@ -51,20 +48,22 @@ public class QueryBand {
      * Local query band for type of statement, SELECT, DELETE, etc...
      */
     public static String PROCESS = "Process";
-    
-    static ThreadLocal<Map<String,String>> LOCAL = new ThreadLocal<Map<String,String>>() {
-        protected Map<String,String> initialValue() {
+
+    static ThreadLocal<Map<String, String>> LOCAL = new ThreadLocal<Map<String, String>>() {
+        protected Map<String, String> initialValue() {
             return new HashMap<String, String>();
-        };
+        }
+
+        ;
     };
-    
+
     /**
      * Returns local query band map.
      */
-    public static Map<String,String> local() {
+    public static Map<String, String> local() {
         return LOCAL.get();
     }
-    
+
     /**
      * Clears the local query band thread local.
      */

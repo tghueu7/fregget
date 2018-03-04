@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -21,7 +21,7 @@ import java.awt.image.WritableRaster;
 
 /**
  * A color component accessor for byte oriented rasters in RGB order
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 class ByteRgbAccessor implements RgbaAccessor {

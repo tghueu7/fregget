@@ -17,24 +17,24 @@
 package org.geotools.xs.bindings;
 
 import javax.xml.namespace.QName;
+
 import org.geotools.xml.ElementInstance;
 import org.geotools.xs.TestSchema;
 import org.geotools.xs.XS;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class XSDoubleStrategyTest extends TestSchema {
     /**
-     * For example, -1E4, 1267.43233E12, 12.78e-2, 12 , -0, 0 and INF are all legal literals for double.
-     *
+     * For example, -1E4, 1267.43233E12, 12.78e-2, 12 , -0, 0 and INF are all legal literals for 
+     * double.
      */
 
     /*
-     * Test method for 'org.geotools.xml.strategies.xs.XSDoubleStrategy.parse(Element, Node[], Object)'
+     * Test method for 'org.geotools.xml.strategies.xs.XSDoubleStrategy.parse(Element, Node[], 
+     * Object)'
      */
     public void testParse() throws Exception {
         validateValues("-1E4", new Double(-1E4));

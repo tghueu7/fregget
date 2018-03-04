@@ -34,27 +34,28 @@ import org.geotools.swt.utils.Messages;
 /**
  * A zoom-in tool for JMapPane.
  * <p>
- * For mouse clicks, the display will be zoomed-in such that the 
+ * For mouse clicks, the display will be zoomed-in such that the
  * map centre is the position of the mouse click and the map
  * width and height are calculated as:
  * <pre>   {@code len = len.old / z} </pre>
  * where {@code z} is the linear zoom increment (>= 1.0)
- * <p>
+ *
  * The tool also responds to the user drawing a box on the map mapPane with
  * mouse click-and-drag to define the zoomed-in area.
- * 
+ *
  * @author Michael Bedward
  * @author Andrea Antonello (www.hydrologis.com)
- *
- *
- *
  * @source $URL$
  */
 public class ZoomInTool extends AbstractZoomTool {
 
-    /** Tool name */
+    /**
+     * Tool name
+     */
     public static final String TOOL_NAME = Messages.getString("tool_name_zoom_in");
-    /** Tool tip text */
+    /**
+     * Tool tip text
+     */
     public static final String TOOL_TIP = Messages.getString("tool_tip_zoom_in");
 
     private Cursor cursor;
@@ -68,7 +69,7 @@ public class ZoomInTool extends AbstractZoomTool {
      * a combination of multiple SWT-masks.
      *
      * @param triggerButtonMask Mouse button which triggers the tool's activation
-     * or {@value #ANY_BUTTON} if the tool is to be triggered by any button
+     *                          or {@value #ANY_BUTTON} if the tool is to be triggered by any button
      */
     public ZoomInTool(int triggerButtonMask) {
         super(triggerButtonMask);
@@ -90,13 +91,13 @@ public class ZoomInTool extends AbstractZoomTool {
      * Zoom in by the currently set increment, with the map
      * centred at the location (in world coords) of the mouse
      * click
-     * 
+     *
      * @param e map mapPane mouse event
      */
     @Override
-    public void onMouseClicked( MapMouseEvent e ) {
+    public void onMouseClicked(MapMouseEvent e) {
 
-        if ( ! isTriggerMouseButton(e)) {
+        if (!isTriggerMouseButton(e)) {
             return;
         }
 
@@ -111,7 +112,7 @@ public class ZoomInTool extends AbstractZoomTool {
      * @param ev the mouse event
      */
     @Override
-    public void onMousePressed( MapMouseEvent ev ) {
+    public void onMousePressed(MapMouseEvent ev) {
     }
 
     /**
@@ -120,9 +121,9 @@ public class ZoomInTool extends AbstractZoomTool {
      * @param ev the mouse event
      */
     @Override
-    public void onMouseDragged( MapMouseEvent ev ) {
+    public void onMouseDragged(MapMouseEvent ev) {
 
-        if ( ! isTriggerMouseButton(ev)) {
+        if (!isTriggerMouseButton(ev)) {
             return;
         }
 
@@ -138,9 +139,9 @@ public class ZoomInTool extends AbstractZoomTool {
      * @param ev the mouse event
      */
     @Override
-    public void onMouseReleased( MapMouseEvent ev ) {
+    public void onMouseReleased(MapMouseEvent ev) {
 
-        if ( ! isTriggerMouseButton(ev)) {
+        if (!isTriggerMouseButton(ev)) {
             return;
         }
 
@@ -155,7 +156,8 @@ public class ZoomInTool extends AbstractZoomTool {
             double scale = getMapPane().getWorldToScreenTransform().getScaleX();
             double newScale = scale * zoom;
 
-            DirectPosition2D corner = new DirectPosition2D(startDragPos.getX() - 0.5d * paneArea.width / newScale,
+            DirectPosition2D corner = new DirectPosition2D(startDragPos.getX() - 0.5d * paneArea
+                    .width / newScale,
                     startDragPos.getY() + 0.5d * paneArea.height / newScale);
 
             Envelope2D newMapArea = new Envelope2D();
@@ -182,11 +184,11 @@ public class ZoomInTool extends AbstractZoomTool {
     }
 
     @Override
-	public boolean isDrawing() {
-		return dragged;
-	}
+    public boolean isDrawing() {
+        return dragged;
+    }
 
-	public static double pythagoras( double d1, double d2 ) {
+    public static double pythagoras(double d1, double d2) {
         return sqrt(pow(d1, 2.0) + pow(d2, 2.0));
     }
 }

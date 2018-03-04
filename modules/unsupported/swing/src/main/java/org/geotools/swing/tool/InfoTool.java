@@ -42,7 +42,7 @@ import org.geotools.util.logging.Logging;
  * the work of querying feature data.
  * <p>
  * Feature information is displayed on screen using a {@linkplain JTextReporter}
- * dialog. If you want to access the displayed text programmatically you can 
+ * dialog. If you want to access the displayed text programmatically you can
  * override the {@linkplain #onReporterUpdated()} method as shown here:
  * <pre><code>
  * InfoTool tool = new InfoTool() {
@@ -55,33 +55,43 @@ import org.geotools.util.logging.Logging;
  * </code></pre>
  *
  * @author Michael Bedward
- * @since 2.6
- * @source $URL$
  * @version $URL$
+ * @source $URL$
+ * @since 2.6
  */
 public class InfoTool extends CursorTool implements TextReporterListener {
     private static final Logger LOGGER = Logging.getLogger("org.geotools.swing");
 
-    /** The tool name */
+    /**
+     * The tool name
+     */
     public static final String TOOL_NAME = LocaleUtils.getValue("CursorTool", "Info");
-    
-    /** Tool tip text */
+
+    /**
+     * Tool tip text
+     */
     public static final String TOOL_TIP = LocaleUtils.getValue("CursorTool", "InfoTooltip");
-    
-    /** Cursor */
+
+    /**
+     * Cursor
+     */
     public static final String CURSOR_IMAGE = "/org/geotools/swing/icons/mActionIdentify.png";
-    
-    /** Cursor hotspot coordinates */
+
+    /**
+     * Cursor hotspot coordinates
+     */
     public static final Point CURSOR_HOTSPOT = new Point(0, 0);
-    
-    /** Icon for the control */
+
+    /**
+     * Icon for the control
+     */
     public static final String ICON_IMAGE = "/org/geotools/swing/icons/mActionIdentify.png";
 
     private Cursor cursor;
     private WeakHashMap<Layer, InfoToolHelper> helperTable;
 
     private JTextReporter.Connection textReporterConnection;
-    
+
     /**
      * Constructor
      */
@@ -104,7 +114,6 @@ public class InfoTool extends CursorTool implements TextReporterListener {
      * vector layers are being used.
      *
      * @param ev mouse event
-     *
      * @see JTextReporter
      * @see InfoToolHelper
      */
@@ -147,33 +156,33 @@ public class InfoTool extends CursorTool implements TextReporterListener {
                     InfoToolResult result = helper.getInfo(pos);
                     textReporterConnection.append(layerName + "\n");
                     textReporterConnection.append(result.toString(), 4);
-                    
+
                     if (++n < nlayers) {
                         textReporterConnection.append("\n");
                     }
-                    
+
                 } catch (Exception ex) {
                     LOGGER.log(Level.WARNING, "Unable to query layer {0}", layerName);
                 }
             }
         }
-        
+
         textReporterConnection.appendSeparatorLine(10, '-');
         textReporterConnection.appendNewline();
     }
-    
+
     /**
      * Gets the connection to the text reporter displayed by this tool. Returns
      * {@code null} if the reporter dialog is not currently displayed. The
      * connection should not be stored because it will expire when the reporter
      * dialog is closed.
      * <p>
-     * This method was added for unit test purposes but may be useful for 
+     * This method was added for unit test purposes but may be useful for
      * applications wishing to access the feature data report text, e.g. by
      * overriding {@linkplain #onReporterUpdated()}.
-     * 
+     *
      * @return the text reporter connection or {@code null} if the reporter dialog
-     *     is not currently displayed
+     * is not currently displayed
      */
     public JTextReporter.Connection getTextReporterConnection() {
         return textReporterConnection;
@@ -189,17 +198,17 @@ public class InfoTool extends CursorTool implements TextReporterListener {
     }
 
     /**
-     * Creates and shows a {@code JTextReporter}. Does nothing if the 
+     * Creates and shows a {@code JTextReporter}. Does nothing if the
      * reporter is already active.
      */
     private void createReporter() {
         if (textReporterConnection == null) {
             textReporterConnection = JTextReporter.showDialog(
-                    "Feature info", 
-                    null, 
+                    "Feature info",
+                    null,
                     JTextReporter.DEFAULT_FLAGS,
                     20, 40);
-            
+
             textReporterConnection.addListener(this);
         }
     }
@@ -211,7 +220,7 @@ public class InfoTool extends CursorTool implements TextReporterListener {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @return Always returns false
      */
     @Override
@@ -228,9 +237,8 @@ public class InfoTool extends CursorTool implements TextReporterListener {
     }
 
     /**
-     * Called when text is updated in a {@linkplain JTextReporter} dialog being used 
+     * Called when text is updated in a {@linkplain JTextReporter} dialog being used
      * by this tool. This is an empty method but may be useful to override.
-     * 
      */
     @Override
     public void onReporterUpdated() {

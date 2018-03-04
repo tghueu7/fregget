@@ -32,14 +32,15 @@ import org.picocontainer.MutablePicoContainer;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:FeatureTypeConstraint.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="FeatureTypeConstraint"&gt;
  *      &lt;xsd:annotation&gt;
  *          &lt;xsd:documentation&gt;         A FeatureTypeConstraint identifies a
- *              specific feature type and         supplies fitlering.       &lt;/xsd:documentation&gt;
+ *              specific feature type and         supplies fitlering.       &lt;
+ *              /xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
  *      &lt;xsd:complexType&gt;
  *          &lt;xsd:sequence&gt;
@@ -55,9 +56,6 @@ import org.picocontainer.MutablePicoContainer;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDFeatureTypeConstraintBinding extends AbstractComplexBinding {
@@ -110,7 +108,7 @@ public class SLDFeatureTypeConstraintBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         String featureTypeName = (String) node.getChildValue("FeatureTypeName");
         Filter filter = (Filter) node.getChildValue("Filter");
 

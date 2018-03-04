@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -19,6 +19,7 @@ package org.geotools.maven.taglet;
 import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+
 import com.sun.javadoc.Tag;
 import com.sun.tools.doclets.Taglet;
 
@@ -26,9 +27,9 @@ import com.sun.tools.doclets.Taglet;
  * The <code>@source</code> tag. This tag expects an URL to the source in the SVN repository.
  * The SVN URL keyword is ignored.
  *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
  */
 public final class Source implements Taglet {
 
@@ -41,6 +42,7 @@ public final class Source implements Taglet {
         final Source tag = new Source();
         tagletMap.put(tag.getName(), tag);
     }
+
     /**
      * The delimiter for SVN keywords.
      */
@@ -54,7 +56,7 @@ public final class Source implements Taglet {
      */
     final Pattern findURL = Pattern.compile(
             "\\s*(\\" + SVN_KEYWORD_DELIMITER + "URL\\s*\\:)?\\s*(.+?)\\s*"
-            + "(\\" + SVN_KEYWORD_DELIMITER + "\\s*)?");
+                    + "(\\" + SVN_KEYWORD_DELIMITER + "\\s*)?");
     static final int URL_CAPTURE_GROUP = 2;
     /**
      * The pattern to use for fetching the module name from an URL.
@@ -68,13 +70,13 @@ public final class Source implements Taglet {
         super();
         findModule = Pattern.compile(
                 "https?\\Q://\\E" + // http or https
-                "[a-zA-Z\\.\\-]+" + // host e.g. svn.osgeo.org
-                "\\/geotools" + // /geotools
-                "\\/[a-z]+" + // trunk or tags or branches
-                "(\\/[a-zA-Z0-9\\-\\_\\.]+)?" + // group 1: tag or branch name or null if trunk
-                "\\/(((modules)\\/(library|plugin|extension|unsupported))|demo)" + // groups 2 - 5
-                "\\/(.+)" + // group 6: module name
-                "\\/src.*");
+                        "[a-zA-Z\\.\\-]+" + // host e.g. svn.osgeo.org
+                        "\\/geotools" + // /geotools
+                        "\\/[a-z]+" + // trunk or tags or branches
+                        "(\\/[a-zA-Z0-9\\-\\_\\.]+)?" + // group 1: tag or branch name or null if trunk
+                        "\\/(((modules)\\/(library|plugin|extension|unsupported))|demo)" + // groups 2 - 5
+                        "\\/(.+)" + // group 6: module name
+                        "\\/src.*");
     }
 
     /**

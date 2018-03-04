@@ -55,15 +55,15 @@ public class ColorSpaceNameCollectorSPI implements CoverageNameCollectorSPI {
                 ColorSpace cs = cm.getColorSpace();
                 int type = cs.getType();
                 switch (type) {
-                case ColorSpace.TYPE_GRAY:
-                    coverageName = GRAY;
-                    break;
-                case ColorSpace.TYPE_RGB:
-                    coverageName = RGB;
-                    break;
-                default:
-                    throw new IllegalArgumentException(
-                            "The specified ColorSpace's type is not supported: " + type);
+                    case ColorSpace.TYPE_GRAY:
+                        coverageName = GRAY;
+                        break;
+                    case ColorSpace.TYPE_RGB:
+                        coverageName = RGB;
+                        break;
+                    default:
+                        throw new IllegalArgumentException(
+                                "The specified ColorSpace's type is not supported: " + type);
                 }
             } catch (IOException e) {
                 throw new IllegalArgumentException(e);

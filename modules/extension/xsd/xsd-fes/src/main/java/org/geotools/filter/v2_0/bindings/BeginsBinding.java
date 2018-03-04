@@ -28,18 +28,19 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/fes/2.0:Begins.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
- *  &lt;xsd:element name="Begins" substitutionGroup="fes:temporalOps" type="fes:BinaryTemporalOpType"/&gt; 
- * 	
+ *  &lt;xsd:element name="Begins" substitutionGroup="fes:temporalOps" 
+ *  type="fes:BinaryTemporalOpType"/&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
  */
 public class BeginsBinding extends AbstractComplexBinding {
@@ -59,7 +60,7 @@ public class BeginsBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -70,10 +71,10 @@ public class BeginsBinding extends AbstractComplexBinding {
     public int getExecutionMode() {
         return AFTER;
     }
-    
+
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {

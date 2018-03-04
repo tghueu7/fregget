@@ -28,9 +28,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:AbstractFeatureCollectionBaseType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="AbstractFeatureCollectionBaseType" abstract="true"&gt;
  *      &lt;annotation&gt;
@@ -55,9 +55,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLAbstractFeatureCollectionBaseTypeBinding extends AbstractComplexBinding {
@@ -91,7 +88,7 @@ public class GMLAbstractFeatureCollectionBaseTypeBinding extends AbstractComplex
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //TODO: the geotools feature api doesn't allow for use to supply the 
         // "correct" subclass without hacking, so for now we just create a 
         // default feature collection.

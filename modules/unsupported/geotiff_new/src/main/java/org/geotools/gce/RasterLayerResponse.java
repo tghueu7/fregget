@@ -78,123 +78,125 @@ import org.opengis.util.InternationalString;
 /**
  * A RasterLayerResponse. An instance of this class is produced everytime a
  * requestCoverage is called to a reader.
- * 
+ *
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini, GeoSolutions
- * 
  */
-class RasterLayerResponse{
-	
-    private static final class SimplifiedGridSampleDimension extends GridSampleDimension implements SampleDimension{
-        
-        	/**
-        	 * 
-        	 */
-        	private static final long serialVersionUID = 2227219522016820587L;
-        
-        
-        	private double nodata;
-        	private double minimum;
-        	private double maximum;
-        	private double scale;
-        	private double offset;
-        	private Unit<?> unit;
-        	private SampleDimensionType type;
-        	private ColorInterpretation color;
-        	private Category bkg;
-        
-        	public SimplifiedGridSampleDimension(
-        			CharSequence description,
-        			SampleDimensionType type, 
-        			ColorInterpretation color,
-        			double nodata,
-        			double minimum, 
-        			double maximum, 
-        			double scale, 
-        			double offset,
-        			Unit<?> unit) {
-        		super(description,!Double.isNaN(nodata)?
-        				new Category[]{new Category(Vocabulary
-        	                    .formatInternational(VocabularyKeys.NODATA), new Color[]{new Color(0, 0, 0, 0)} , NumberRange
-        	                    .create(nodata, nodata), NumberRange
-        	                    .create(nodata, nodata))}:null,unit);
-        		this.nodata=nodata;
-        		this.minimum=minimum;
-        		this.maximum=maximum;
-        		this.scale=scale;
-        		this.offset=offset;
-        		this.unit=unit;
-        		this.type=type;
-        		this.color=color;
-        		this.bkg=new Category("Background", GeoTiffUtils.TRANSPARENT, 0);
-        	}
-        
-        
-        
-        	@Override
-        	public double getMaximumValue() {
-        		return maximum;
-        	}
-        
-        	@Override
-        	public double getMinimumValue() {
-        		return minimum;
-        	}
-        
-        	@Override
-        	public double[] getNoDataValues() throws IllegalStateException {
-        		return new double[]{nodata};
-        	}
-        
-        	@Override
-        	public double getOffset() throws IllegalStateException {
-        		return offset;
-        	}
-        
-        	@Override
-        	public NumberRange<? extends Number> getRange() {
-        		return super.getRange();
-        	}
-        
-        	@Override
-        	public SampleDimensionType getSampleDimensionType() {
-        		return type;
-        	}
-        
-        	@Override
-        	public MathTransform1D getSampleToGeophysics() {
-        		return super.getSampleToGeophysics();
-        	}
-        
-        	@Override
-        	public Unit<?> getUnits() {
-        		return unit;
-        	}
-        	
-        	@Override
-        	public double getScale() {
-        		return scale;
-        	}
-        	
-        	@Override
-        	public ColorInterpretation getColorInterpretation() {
-        		return color;
-        	}
-        
-        
-        	@Override
-        	public Category getBackground() {
-        		return bkg;
-        	}
-        
-        	@Override
-        	public InternationalString[] getCategoryNames()
-        			throws IllegalStateException {
-        		return new InternationalString[]{SimpleInternationalString.wrap("Background")};
-        	}
+class RasterLayerResponse {
+
+    private static final class SimplifiedGridSampleDimension extends GridSampleDimension 
+            implements SampleDimension {
+
+        /**
+         *
+         */
+        private static final long serialVersionUID = 2227219522016820587L;
+
+
+        private double nodata;
+        private double minimum;
+        private double maximum;
+        private double scale;
+        private double offset;
+        private Unit<?> unit;
+        private SampleDimensionType type;
+        private ColorInterpretation color;
+        private Category bkg;
+
+        public SimplifiedGridSampleDimension(
+                CharSequence description,
+                SampleDimensionType type,
+                ColorInterpretation color,
+                double nodata,
+                double minimum,
+                double maximum,
+                double scale,
+                double offset,
+                Unit<?> unit) {
+            super(description, !Double.isNaN(nodata) ?
+                    new Category[]{new Category(Vocabulary
+                            .formatInternational(VocabularyKeys.NODATA), new Color[]{new Color(0,
+                            0, 0, 0)}, NumberRange
+                            .create(nodata, nodata), NumberRange
+                            .create(nodata, nodata))} : null, unit);
+            this.nodata = nodata;
+            this.minimum = minimum;
+            this.maximum = maximum;
+            this.scale = scale;
+            this.offset = offset;
+            this.unit = unit;
+            this.type = type;
+            this.color = color;
+            this.bkg = new Category("Background", GeoTiffUtils.TRANSPARENT, 0);
         }
 
-    /** Logger. */
+
+        @Override
+        public double getMaximumValue() {
+            return maximum;
+        }
+
+        @Override
+        public double getMinimumValue() {
+            return minimum;
+        }
+
+        @Override
+        public double[] getNoDataValues() throws IllegalStateException {
+            return new double[]{nodata};
+        }
+
+        @Override
+        public double getOffset() throws IllegalStateException {
+            return offset;
+        }
+
+        @Override
+        public NumberRange<? extends Number> getRange() {
+            return super.getRange();
+        }
+
+        @Override
+        public SampleDimensionType getSampleDimensionType() {
+            return type;
+        }
+
+        @Override
+        public MathTransform1D getSampleToGeophysics() {
+            return super.getSampleToGeophysics();
+        }
+
+        @Override
+        public Unit<?> getUnits() {
+            return unit;
+        }
+
+        @Override
+        public double getScale() {
+            return scale;
+        }
+
+        @Override
+        public ColorInterpretation getColorInterpretation() {
+            return color;
+        }
+
+
+        @Override
+        public Category getBackground() {
+            return bkg;
+        }
+
+        @Override
+        public InternationalString[] getCategoryNames()
+                throws IllegalStateException {
+            return new InternationalString[]{SimpleInternationalString.wrap("Background")};
+        }
+    }
+
+    /**
+     * Logger.
+     */
     private final static Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger(RasterLayerResponse.class);
 
@@ -203,13 +205,19 @@ class RasterLayerResponse{
      */
     private GridCoverage2D gridCoverage;
 
-    /** The {@link RasterLayerRequest} originating this response */
+    /**
+     * The {@link RasterLayerRequest} originating this response
+     */
     private RasterLayerRequest request;
 
-    /** The coverage factory producing a {@link GridCoverage} from an image */
+    /**
+     * The coverage factory producing a {@link GridCoverage} from an image
+     */
     private GridCoverageFactory coverageFactory;
 
-    /** The base envelope related to the input coverage */
+    /**
+     * The base envelope related to the input coverage
+     */
     private GeneralEnvelope coverageEnvelope;
 
     private RasterManager rasterManager;
@@ -227,7 +235,7 @@ class RasterLayerResponse{
     private int overviewsLevel = 0;
 
     private EnhancedImageReadParam baseReadParameters = new EnhancedImageReadParam();
-    
+
     private MathTransform baseGridToWorld;
 
     private double[] backgroundValues;
@@ -241,16 +249,14 @@ class RasterLayerResponse{
      * {@link RasterLayerRequest}, a {@code GridCoverageFactory} to produce
      * {@code GridCoverage}s and an {@code ImageReaderSpi} to be used for
      * instantiating an Image Reader for a read operation,
-     * 
-     * @param request
-     *            a {@link RasterLayerRequest} originating this response.
-     * @param coverageFactory
-     *            a {@code GridCoverageFactory} to produce a {@code GridCoverage} 
-     *            when calling the {@link #compute()} method.
-     * @param readerSpi
-     *            the Image Reader Service provider interface.
+     *
+     * @param request         a {@link RasterLayerRequest} originating this response.
+     * @param coverageFactory a {@code GridCoverageFactory} to produce a {@code GridCoverage}
+     *                        when calling the {@link #compute()} method.
+     * @param readerSpi       the Image Reader Service provider interface.
      */
-    public RasterLayerResponse(final RasterLayerRequest request, final RasterManager rasterManager) {
+    public RasterLayerResponse(final RasterLayerRequest request, final RasterManager 
+            rasterManager) {
         this.request = request;
         hints = rasterManager.getHints();
         coverageEnvelope = rasterManager.getCoverageEnvelope();
@@ -258,7 +264,7 @@ class RasterLayerResponse{
         coverageFactory = rasterManager.getGridCoverageFactory();
         this.rasterManager = rasterManager;
         backgroundValues = request.getBackgroundValues();
-        transparentColor = request.getInputTransparentColor();        
+        transparentColor = request.getInputTransparentColor();
 
     }
 
@@ -266,9 +272,9 @@ class RasterLayerResponse{
      * Compute the coverage request and produce a grid coverage which will be
      * returned by {@link #createResponse()}. The produced grid coverage may be
      * {@code null} in case of empty request.
-     * 
+     *
      * @return the {@link GridCoverage} produced as computation of this response
-     *         using the {@link #compute()} method.
+     * using the {@link #compute()} method.
      * @throws IOException
      * @uml.property name="gridCoverage"
      */
@@ -279,47 +285,44 @@ class RasterLayerResponse{
 
     /**
      * @return the {@link RasterLayerRequest} originating this response.
-     * 
      * @uml.property name="request"
      */
     public RasterLayerRequest getOriginatingCoverageRequest() {
         return request;
     }
+
     /**
      * This method creates the GridCoverage2D from the underlying file given a
      * specified envelope, and a requested dimension.
-     * 
-     * @param iUseJAI
-     *            specify if the underlying read process should leverage on a
-     *            JAI ImageRead operation or a simple direct call to the {@code
-     *            read} method of a proper {@code ImageReader}.
-     * @param overviewPolicy
-     *            the overview policy which need to be adopted
+     *
+     * @param iUseJAI        specify if the underlying read process should leverage on a
+     *                       JAI ImageRead operation or a simple direct call to the {@code
+     *                       read} method of a proper {@code ImageReader}.
+     * @param overviewPolicy the overview policy which need to be adopted
      * @return a {@code GridCoverage}
-     * 
      * @throws java.io.IOException
      */
-    private  void processRequest() throws IOException {
+    private void processRequest() throws IOException {
 
-            if (request.isEmpty())
-            {
-                    if(LOGGER.isLoggable(Level.FINE))
-                            LOGGER.log(Level.FINE,"Request is empty: "+request.toString());
-                    this.gridCoverage=null;
-                    return;
-            }
-            
-            // assemble granules
-            final RenderedImage mosaic = prepareResponse();
-            
-            //postproc
-            RenderedImage finalRaster = postProcessRaster(mosaic);
-            //create the coverage
-            gridCoverage = prepareCoverage(finalRaster);
-            
+        if (request.isEmpty()) {
+            if (LOGGER.isLoggable(Level.FINE))
+                LOGGER.log(Level.FINE, "Request is empty: " + request.toString());
+            this.gridCoverage = null;
+            return;
+        }
+
+        // assemble granules
+        final RenderedImage mosaic = prepareResponse();
+
+        //postproc
+        RenderedImage finalRaster = postProcessRaster(mosaic);
+        //create the coverage
+        gridCoverage = prepareCoverage(finalRaster);
+
     }
+
     /**
-     * This method loads the granules which overlap the requested {@link GeneralEnvelope} using 
+     * This method loads the granules which overlap the requested {@link GeneralEnvelope} using
      * the provided values for alpha and input ROI.
      */
     private RenderedImage prepareResponse() throws DataSourceException {
@@ -334,7 +337,8 @@ class RasterLayerResponse{
             // and envelope. The grid to world transforms for the other levels can be computed 
             // accordingly knowning the scale factors.
             if (request.getRequestedBBox() != null && request.getRequestedRasterArea() != null) {
-                overviewsLevel = setReadParams(request.getOverviewPolicy(), baseReadParameters, request);
+                overviewsLevel = setReadParams(request.getOverviewPolicy(), baseReadParameters, 
+                        request);
             } else {
                 overviewsLevel = 0;
             }
@@ -357,59 +361,64 @@ class RasterLayerResponse{
             g2w.concatenate(CoverageUtilities.CENTER_TO_CORNER);
 
             // keep into account levels and subsampling
-            final OverviewLevel level = rasterManager.overviewsController.resolutionsLevels.get(overviewsLevel);
-            final OverviewLevel baseLevel = rasterManager.overviewsController.resolutionsLevels.get(0);
+            final OverviewLevel level = rasterManager.overviewsController.resolutionsLevels.get
+                    (overviewsLevel);
+            final OverviewLevel baseLevel = rasterManager.overviewsController.resolutionsLevels
+                    .get(0);
             final AffineTransform2D adjustments = new AffineTransform2D(
                     (level.resolutionX / baseLevel.resolutionX)
                             * baseReadParameters.getSourceXSubsampling(), 0, 0,
                     (level.resolutionY / baseLevel.resolutionY)
                             * baseReadParameters.getSourceYSubsampling(), 0, 0);
             g2w.concatenate(adjustments);
-            
+
             // move it to the corner
             finalGridToWorldCorner = new AffineTransform2D(g2w);
-            finalWorldToGridCorner = finalGridToWorldCorner.inverse();            
-            final GeneralEnvelope tempRasterBounds = CRS.transform(finalWorldToGridCorner, finalBBox);
-            rasterBounds=tempRasterBounds.toRectangle2D().getBounds();
+            finalWorldToGridCorner = finalGridToWorldCorner.inverse();
+            final GeneralEnvelope tempRasterBounds = CRS.transform(finalWorldToGridCorner, 
+                    finalBBox);
+            rasterBounds = tempRasterBounds.toRectangle2D().getBounds();
             if (rasterBounds.width == 0)
                 rasterBounds.width++;
             if (rasterBounds.height == 0)
                 rasterBounds.height++;
-            
+
             final double[] requestRes = request.getRequestedResolution();
             final double resX = baseLevel.resolutionX;
-            final double resY = baseLevel.resolutionY;            
-            if ((requestRes[0] < resX || requestRes[1] < resY) ) {
+            final double resY = baseLevel.resolutionY;
+            if ((requestRes[0] < resX || requestRes[1] < resY)) {
                 // Using the best available resolution
                 oversampledRequest = true;
-            }             
-            if(oversampledRequest)
-                rasterBounds.grow(2, 2);            
+            }
+            if (oversampledRequest)
+                rasterBounds.grow(2, 2);
 
 
-
-            RenderedImage theImage=null;
+            RenderedImage theImage = null;
             try {
 
-                RasterLoadingResult result = rasterManager.rasterDescriptor.loadRaster(baseReadParameters, overviewsLevel, finalBBox,
+                RasterLoadingResult result = rasterManager.rasterDescriptor.loadRaster
+                        (baseReadParameters, overviewsLevel, finalBBox,
                         finalWorldToGridCorner, request, request.getTileDimensions());
-                theImage =result.getRaster();
+                theImage = result.getRaster();
                 if (theImage == null) {
                     if (LOGGER.isLoggable(Level.FINE)) {
-                        LOGGER.log(Level.FINE, "Unable to load the raster with request " + request.toString());
+                        LOGGER.log(Level.FINE, "Unable to load the raster with request " + 
+                                request.toString());
                     }
 
                 }
-                
+
                 //
                 // Set final transformation
                 //
-                RasterLayerResponse.this.finalGridToWorldCorner=new AffineTransform2D(result.gridToWorld);
+                RasterLayerResponse.this.finalGridToWorldCorner = new AffineTransform2D(result
+                        .gridToWorld);
 
 
             } catch (ImagingException e) {
                 if (LOGGER.isLoggable(Level.INFO)) {
-                    LOGGER.fine("Unable to load the raster with request "  + request);
+                    LOGGER.fine("Unable to load the raster with request " + request);
                 }
                 theImage = null;
             } catch (Throwable e) {
@@ -451,26 +460,30 @@ class RasterLayerResponse{
                 // if provided (defaulting to 0), as well as the compute raster
                 // bounds, envelope and grid to world.
 
-                final Number[] values = ImageUtilities.getBackgroundValues(rasterManager.baseImageType.getSampleModel(), backgroundValues);
+                final Number[] values = ImageUtilities.getBackgroundValues(rasterManager
+                        .baseImageType.getSampleModel(), backgroundValues);
                 // create a constant image with a proper layout
                 final RenderedImage finalImage = ConstantDescriptor.create(
                         Float.valueOf(rasterBounds.width),
                         Float.valueOf(rasterBounds.height),
                         values,
                         null);
-                if(rasterManager.baseImageType!=null&&rasterManager.baseImageType.getColorModel()!=null){
-                    final ImageLayout2 il= new ImageLayout2();
+                if (rasterManager.baseImageType != null && rasterManager.baseImageType
+                        .getColorModel() != null) {
+                    final ImageLayout2 il = new ImageLayout2();
                     il.setColorModel(rasterManager.baseImageType.getColorModel());
-                    Dimension tileSize= request.getTileDimensions();
-                    if(tileSize==null){
-                        tileSize=JAI.getDefaultTileSize();
-                    } 
-                    il.setSampleModel(rasterManager.baseImageType.getColorModel().createCompatibleSampleModel(tileSize.width, tileSize.height));
-                    il.setTileGridXOffset(0).setTileGridYOffset(0).setTileWidth((int)tileSize.getWidth()).setTileHeight((int)tileSize.getHeight());
+                    Dimension tileSize = request.getTileDimensions();
+                    if (tileSize == null) {
+                        tileSize = JAI.getDefaultTileSize();
+                    }
+                    il.setSampleModel(rasterManager.baseImageType.getColorModel()
+                            .createCompatibleSampleModel(tileSize.width, tileSize.height));
+                    il.setTileGridXOffset(0).setTileGridYOffset(0).setTileWidth((int) tileSize
+                            .getWidth()).setTileHeight((int) tileSize.getHeight());
                     return FormatDescriptor.create(
                             finalImage,
                             Integer.valueOf(il.getSampleModel(null).getDataType()),
-                            new RenderingHints(JAI.KEY_IMAGE_LAYOUT,il));
+                            new RenderingHints(JAI.KEY_IMAGE_LAYOUT, il));
                 }
                 return finalImage;
             }
@@ -484,120 +497,102 @@ class RasterLayerResponse{
 
     /**
      * This method is responsible for creating a coverage from the supplied {@link RenderedImage}.
-     * 
+     *
      * @param image
      * @return
      * @throws IOException
      */
     private GridCoverage2D prepareCoverage(RenderedImage image) throws IOException {
-        
+
         // creating bands
-        final SampleModel sm=image.getSampleModel();
-        final ColorModel cm=image.getColorModel();
+        final SampleModel sm = image.getSampleModel();
+        final ColorModel cm = image.getColorModel();
         final int numBands = sm.getNumBands();
         final GridSampleDimension[] bands = new GridSampleDimension[numBands];
         // setting bands names.
         for (int i = 0; i < numBands; i++) {
-                // color interpretation
-        final ColorInterpretation colorInterpretation=TypeMap.getColorInterpretation(cm, i);
-        if(colorInterpretation==null)
-               throw new IOException("Unrecognized sample dimension type");
-        
-        // sample dimension type
-        final SampleDimensionType st=TypeMap.getSampleDimensionType(sm, i);
-            
-        // set some no data values, as well as Min and Max values
-        final double noData;
-        double min=-Double.MAX_VALUE,max=Double.MAX_VALUE;
-        if(backgroundValues!=null)
-        {
-                // sometimes background values are not specified as 1 per each band, therefore we need to be careful
-                noData= backgroundValues[backgroundValues.length > i ? i:0];
+            // color interpretation
+            final ColorInterpretation colorInterpretation = TypeMap.getColorInterpretation(cm, i);
+            if (colorInterpretation == null)
+                throw new IOException("Unrecognized sample dimension type");
+
+            // sample dimension type
+            final SampleDimensionType st = TypeMap.getSampleDimensionType(sm, i);
+
+            // set some no data values, as well as Min and Max values
+            final double noData;
+            double min = -Double.MAX_VALUE, max = Double.MAX_VALUE;
+            if (backgroundValues != null) {
+                // sometimes background values are not specified as 1 per each band, therefore we
+                // need to be careful
+                noData = backgroundValues[backgroundValues.length > i ? i : 0];
+            } else {
+                if (st.compareTo(SampleDimensionType.REAL_32BITS) == 0)
+                    noData = Float.NaN;
+                else if (st.compareTo(SampleDimensionType.REAL_64BITS) == 0)
+                    noData = Double.NaN;
+                else if (st.compareTo(SampleDimensionType.SIGNED_16BITS) == 0) {
+                    noData = Short.MIN_VALUE;
+                    min = Short.MIN_VALUE;
+                    max = Short.MAX_VALUE;
+                } else if (st.compareTo(SampleDimensionType.SIGNED_32BITS) == 0) {
+                    noData = Integer.MIN_VALUE;
+
+                    min = Integer.MIN_VALUE;
+                    max = Integer.MAX_VALUE;
+                } else if (st.compareTo(SampleDimensionType.SIGNED_8BITS) == 0) {
+                    noData = -128;
+                    min = -128;
+                    max = 127;
+                } else {
+                    //unsigned
+                    noData = 0;
+                    min = 0;
+
+
+                    // compute max
+                    if (st.compareTo(SampleDimensionType.UNSIGNED_1BIT) == 0)
+                        max = 1;
+                    else if (st.compareTo(SampleDimensionType.UNSIGNED_2BITS) == 0)
+                        max = 3;
+                    else if (st.compareTo(SampleDimensionType.UNSIGNED_4BITS) == 0)
+                        max = 7;
+                    else if (st.compareTo(SampleDimensionType.UNSIGNED_8BITS) == 0)
+                        max = 255;
+                    else if (st.compareTo(SampleDimensionType.UNSIGNED_16BITS) == 0)
+                        max = 65535;
+                    else if (st.compareTo(SampleDimensionType.UNSIGNED_32BITS) == 0)
+                        max = Math.pow(2, 32) - 1;
+
+                }
+
+
+            }
+            bands[i] = new SimplifiedGridSampleDimension(
+                    colorInterpretation.name(),
+                    st,
+                    colorInterpretation,
+                    noData,
+                    min,
+                    max,
+                    1,                                                      //no scale 
+                    0,                                                      //no offset
+                    null
+            ).geophysics(true);
         }
-        else
-        {
-                if(st.compareTo(SampleDimensionType.REAL_32BITS)==0)
-                        noData= Float.NaN;
-                else
-                        if(st.compareTo(SampleDimensionType.REAL_64BITS)==0)
-                                noData= Double.NaN;
-                        else
-                                if(st.compareTo(SampleDimensionType.SIGNED_16BITS)==0)
-                                {
-                                        noData=Short.MIN_VALUE;
-                                        min=Short.MIN_VALUE;
-                                        max=Short.MAX_VALUE;
-                                }
-                                else
-                                        if(st.compareTo(SampleDimensionType.SIGNED_32BITS)==0)
-                                        {
-                                                noData= Integer.MIN_VALUE;
-    
-                                                min=Integer.MIN_VALUE;
-                                                max=Integer.MAX_VALUE;                                                  
-                                        }
-                                        else
-                                                if(st.compareTo(SampleDimensionType.SIGNED_8BITS)==0)
-                                                {
-                                                        noData= -128;
-                                                        min=-128;
-                                                        max=127;
-                                                }
-                                                else
-                                                {
-                                                        //unsigned
-                                                        noData= 0;
-                                                        min=0;
-                                                        
-                                                        
-                                                        // compute max
-                                                        if(st.compareTo(SampleDimensionType.UNSIGNED_1BIT)==0)
-                                                                max=1;
-                                                        else
-                                                                if(st.compareTo(SampleDimensionType.UNSIGNED_2BITS)==0)
-                                                                        max=3;
-                                                                else
-                                                                        if(st.compareTo(SampleDimensionType.UNSIGNED_4BITS)==0)
-                                                                                max=7;
-                                                                        else
-                                                                                if(st.compareTo(SampleDimensionType.UNSIGNED_8BITS)==0)
-                                                                                        max=255;
-                                                                                else
-                                                                                        if(st.compareTo(SampleDimensionType.UNSIGNED_16BITS)==0)
-                                                                                                max=65535;
-                                                                                        else
-                                                                                                if(st.compareTo(SampleDimensionType.UNSIGNED_32BITS)==0)
-                                                                                                        max=Math.pow(2, 32)-1;
-                                                                                                                        
-                                                }
-                
-                                     
-        }
-        bands[i] = new SimplifiedGridSampleDimension(
-                        colorInterpretation.name(),
-                        st,
-                        colorInterpretation,
-                        noData,
-                        min,
-                        max,
-                        1,                                                      //no scale 
-                        0,                                                      //no offset
-                        null
-                        ).geophysics(true);
-        }
-    
+
         return coverageFactory.create(
                 rasterManager.getCoverageIdentifier(),
                 image,
                 new GridGeometry2D(
-                        new GridEnvelope2D(PlanarImage.wrapRenderedImage(image).getBounds()), 
+                        new GridEnvelope2D(PlanarImage.wrapRenderedImage(image).getBounds()),
                         PixelInCell.CELL_CORNER,
                         finalGridToWorldCorner,
                         this.rasterManager.getCoverageCRS(),
                         hints),
                 bands,
-                null, 
-                null);          
+                null,
+                null);
 
     }
 
@@ -605,8 +600,8 @@ class RasterLayerResponse{
     /**
      * This method is responsible for preparing the read param for doing an
      * {@link ImageReader#read(int, ImageReadParam)}.
-     * 
-     * 
+     * <p>
+     * <p>
      * <p>
      * This method is responsible for preparing the read param for doing an
      * {@link ImageReader#read(int, ImageReadParam)}. It sets the passed
@@ -614,26 +609,22 @@ class RasterLayerResponse{
      * provided requestedEnvelope and requestedDim to evaluate the needed
      * resolution. It also returns and {@link Integer} representing the index of
      * the raster to be read when dealing with multipage raster.
-     * 
-     * @param overviewPolicy
-     *            it can be one of {@link Hints#VALUE_OVERVIEW_POLICY_IGNORE},
-     *            {@link Hints#VALUE_OVERVIEW_POLICY_NEAREST},
-     *            {@link Hints#VALUE_OVERVIEW_POLICY_QUALITY} or
-     *            {@link Hints#VALUE_OVERVIEW_POLICY_SPEED}. It specifies the
-     *            policy to compute the levels level upon request.
-     * @param readParams
-     *            an instance of {@link ImageReadParam} for setting the
-     *            subsampling factors.
-     * @param requestedEnvelope
-     *            the {@link GeneralEnvelope} we are requesting.
-     * @param requestedDim
-     *            the requested dimensions.
+     *
+     * @param overviewPolicy    it can be one of {@link Hints#VALUE_OVERVIEW_POLICY_IGNORE},
+     *                          {@link Hints#VALUE_OVERVIEW_POLICY_NEAREST},
+     *                          {@link Hints#VALUE_OVERVIEW_POLICY_QUALITY} or
+     *                          {@link Hints#VALUE_OVERVIEW_POLICY_SPEED}. It specifies the
+     *                          policy to compute the levels level upon request.
+     * @param readParams        an instance of {@link ImageReadParam} for setting the
+     *                          subsampling factors.
+     * @param requestedEnvelope the {@link GeneralEnvelope} we are requesting.
+     * @param requestedDim      the requested dimensions.
      * @return the index of the raster to read in the underlying data sourceFile.
      * @throws IOException
      * @throws TransformException
      */
     private int setReadParams(final OverviewPolicy overviewPolicy,
-            final ImageReadParam readParams, final RasterLayerRequest request)
+                              final ImageReadParam readParams, final RasterLayerRequest request)
             throws IOException, TransformException {
 
         // Default image index 0
@@ -688,10 +679,12 @@ class RasterLayerResponse{
 //            try {
 //                
 //                // creating sourceFile grid to world corrected to the pixel corner
-//                final AffineTransform sourceGridToWorld = new AffineTransform((AffineTransform) finalGridToWorldCorner);
+//                final AffineTransform sourceGridToWorld = new AffineTransform((AffineTransform)
+// finalGridToWorldCorner);
 //                
 //                // target world to grid at the corner
-//                final AffineTransform targetGridToWorld = new AffineTransform(request.getRequestedGridToWorld());
+//                final AffineTransform targetGridToWorld = new AffineTransform(request
+// .getRequestedGridToWorld());
 //                targetGridToWorld.concatenate(CoverageUtilities.CENTER_TO_CORNER);
 //                
 //                // target world to grid at the corner
@@ -706,7 +699,8 @@ class RasterLayerResponse{
 //                // If so call the copy operation.
 //                //
 //                // we are in raster space here, so 1E-3 is safe
-//                if(XAffineTransform.isIdentity(targetWorldToGrid, GeoTiffUtils.AFFINE_IDENTITY_EPS))
+//                if(XAffineTransform.isIdentity(targetWorldToGrid, GeoTiffUtils
+// .AFFINE_IDENTITY_EPS))
 //                    return image;
 //                
 //                // create final image

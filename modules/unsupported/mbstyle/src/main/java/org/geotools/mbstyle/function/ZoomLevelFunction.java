@@ -23,36 +23,33 @@ import org.geotools.filter.capability.FunctionNameImpl;
 import org.opengis.filter.capability.FunctionName;
 
 /**
- * 
  * Function that takes a scale denominator and a srid and outputs the zoom level.
- * 
- * Note: EPSG:3857 is currently the only supported srid, and zoom levels are assumed to be at the equator.
+ * <p>
+ * Note: EPSG:3857 is currently the only supported srid, and zoom levels are assumed to be at the
+ * equator.
  * <br/><br/>
  * Example:
- * 
+ * <p>
  * <pre>
  * ff.function("zoomLevel",
  *               ff.function("env", ff.literal("wms_scale_denominator")),
  *               ff.literal("EPSG:3857")
  *            );
  * </pre>
- * 
+ * <p>
  * The above function would evaluate to the zoomLevel that corresponds to the current environment's
  * wms_scale_denominator, for EPSG:3857.
  * <br/><br/>
  * Example 2:
- * 
+ * <p>
  * <pre>
  * ff.function("zoomLevel",
  *               ff.literal(136494.693347),
  *               ff.literal("EPSG:3857")
  *            );
  * </pre>
- * 
+ * <p>
  * The above function would evaluate to a zoomLevel of 12.
- * 
- * 
- *          
  */
 public class ZoomLevelFunction extends FunctionExpressionImpl {
 

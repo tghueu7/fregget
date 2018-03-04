@@ -52,22 +52,24 @@ import com.vividsolutions.jts.index.strtree.STRtree;
  * FeatureCollection used to stage information for display using a SpatialIndex.
  * <p>
  * Please note that this feature collection cannot be modified after the spatial index is created.
- * 
+ *
  * @author Jody
- *
- *
  * @source $URL$
  */
 public class SpatialIndexFeatureCollection implements SimpleFeatureCollection {
 
     static Logger LOGGER = Logging.getLogger(SpatialIndexFeatureCollection.class);
 
-    /** SpatialIndex holding the contents of the FeatureCollection */
+    /**
+     * SpatialIndex holding the contents of the FeatureCollection
+     */
     protected STRtree index;
 
     protected SimpleFeatureType schema;
 
-    /** Listeners */
+    /**
+     * Listeners
+     */
     protected List<CollectionListener> listeners = null;
 
     public SpatialIndexFeatureCollection() {
@@ -81,7 +83,7 @@ public class SpatialIndexFeatureCollection implements SimpleFeatureCollection {
 
     public SpatialIndexFeatureCollection(SimpleFeatureCollection copy) throws IOException {
         this(copy.getSchema());
-        
+
         addAll(copy);
     }
 
@@ -146,22 +148,23 @@ public class SpatialIndexFeatureCollection implements SimpleFeatureCollection {
         SpatialIndexFeatureCollection ret = new SpatialIndexFeatureCollection(schema);
         Envelope env = new Envelope();
         env = (Envelope) filter.accept(ExtractBoundsFilterVisitor.BOUNDS_VISITOR, env);
-        if (LOGGER.isLoggable(Level.FINEST)&& Double.isInfinite(env.getWidth())) {
-            LOGGER.fine("Found no spatial element in "+filter);
+        if (LOGGER.isLoggable(Level.FINEST) && Double.isInfinite(env.getWidth())) {
+            LOGGER.fine("Found no spatial element in " + filter);
             LOGGER.fine("Just going to iterate");
         }
-        for (Iterator<SimpleFeature> iter = (Iterator<SimpleFeature>) index.query(env).iterator(); iter
-                .hasNext();) {
-            
+        for (Iterator<SimpleFeature> iter = (Iterator<SimpleFeature>) index.query(env).iterator()
+             ; iter
+                .hasNext(); ) {
+
             SimpleFeature sample = iter.next();
 
-            if(LOGGER.isLoggable(Level.FINEST)) {
-                LOGGER.finest("Looking at "+sample);
+            if (LOGGER.isLoggable(Level.FINEST)) {
+                LOGGER.finest("Looking at " + sample);
             }
             if (filter.evaluate(sample)) {
 
-                if(LOGGER.isLoggable(Level.FINEST)) {
-                    LOGGER.finest("accepting "+sample);
+                if (LOGGER.isLoggable(Level.FINEST)) {
+                    LOGGER.finest("accepting " + sample);
                 }
                 ret.add(sample);
             }
@@ -258,7 +261,7 @@ public class SpatialIndexFeatureCollection implements SimpleFeatureCollection {
             SimpleFeature feature = (SimpleFeature) obj;
             ReferencedEnvelope bounds = ReferencedEnvelope.reference(feature.getBounds());
             for (Iterator<SimpleFeature> iter = (Iterator<SimpleFeature>) index.query(bounds); iter
-                    .hasNext();) {
+                    .hasNext(); ) {
                 SimpleFeature sample = iter.next();
                 if (sample == feature) {
                     return true;

@@ -33,7 +33,7 @@ import com.vividsolutions.jts.geom.Polygon;
 /**
  * Function which wraps an instance of geometry in its associatd multi geometry
  * type.
- * 
+ * <p>
  * <p>
  * <ul>
  * <li>Point -> MultiPoint
@@ -45,21 +45,16 @@ import com.vividsolutions.jts.geom.Polygon;
  * This function takes a single argument expression which must evaluate to an
  * instanceof {@link com.vividsolutions.jts.geom.Geometry}.
  * </p>
- * 
+ *
  * @author Justin Deoliveira (The Open Planning Project)
- * 
- *
- *
- *
- *
  * @source $URL$
  */
 public class AsMultiGeometryFunctionExpression extends FunctionExpressionImpl {
-    
+
     public static FunctionName NAME = new FunctionNameImpl("asMultiGeometry",
-            parameter("multi-geometry",Geometry.class),
-            parameter("geometry",Geometry.class));
-    
+            parameter("multi-geometry", Geometry.class),
+            parameter("geometry", Geometry.class));
+
     public AsMultiGeometryFunctionExpression() {
         super(NAME);
     }
@@ -93,13 +88,13 @@ public class AsMultiGeometryFunctionExpression extends FunctionExpressionImpl {
     private GeometryCollection wrap(Geometry geometry) {
         if (geometry instanceof Point) {
             return geometry.getFactory().createMultiPoint(
-                    new Point[] { (Point) geometry });
+                    new Point[]{(Point) geometry});
         } else if (geometry instanceof LineString) {
             return geometry.getFactory().createMultiLineString(
-                    new LineString[] { (LineString) geometry });
+                    new LineString[]{(LineString) geometry});
         } else if (geometry instanceof Polygon) {
             return geometry.getFactory().createMultiPolygon(
-                    new Polygon[] { (Polygon) geometry });
+                    new Polygon[]{(Polygon) geometry});
 
         }
 

@@ -37,8 +37,6 @@ import org.opengis.feature.Feature;
 import com.vividsolutions.jts.geom.Point;
 
 /**
- * 
- * 
  * @source $URL$
  */
 public class LRSGeocodeProcessTest {

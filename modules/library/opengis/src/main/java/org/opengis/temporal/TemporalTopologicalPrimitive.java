@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.temporal;
@@ -20,10 +20,8 @@ import static org.opengis.annotation.Specification.*;
  * topological primitives within a topological complex.
  *
  * @author Alexander Petkov
- *
- *
  * @source $URL$
  */
-@UML(identifier="TM_TopologicalPrimitive", specification=ISO_19108)
+@UML(identifier = "TM_TopologicalPrimitive", specification = ISO_19108)
 public interface TemporalTopologicalPrimitive {
 }

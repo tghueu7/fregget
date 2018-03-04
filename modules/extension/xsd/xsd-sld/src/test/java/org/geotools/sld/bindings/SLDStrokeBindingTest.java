@@ -22,13 +22,11 @@ import org.geotools.styling.Stroke;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SLDStrokeBindingTest extends SLDTestSupport {
     public void testType() throws Exception {
-        assertEquals(Stroke.class, new SLDStrokeBinding(null,null).getType());
+        assertEquals(Stroke.class, new SLDStrokeBinding(null, null).getType());
     }
 
     public void test() throws Exception {

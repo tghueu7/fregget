@@ -42,21 +42,19 @@ import org.opengis.feature.Property;
 import com.vividsolutions.jts.geom.Geometry;
 
 /**
- * This is an internal implementation of the {@link EFeature} contract. 
+ * This is an internal implementation of the {@link EFeature} contract.
  * <p>
- * It does not implement the {@link EFeature} interfaces, just the interface 
- * methods. This allows for a minimal base class common for both 
- * {@link EFeatureImpl} and {@link EFeatureDelegate} classes.   
+ * It does not implement the {@link EFeature} interfaces, just the interface
+ * methods. This allows for a minimal base class common for both
+ * {@link EFeatureImpl} and {@link EFeatureDelegate} classes.
  * </p>
- * 
- * @author kengu - 29. mai 2011
- * 
- * @see {@link EFeature} - the interface which this class is a minimal base for  
- * @see {@link EFeatureImpl} - default implementation of {@link EFeature}. All models 
- * which extend the {@link EFeature} EMF model implements this class. 
- * @see {@link EFeatureDelegate} - a class which is able to delegate {@link EFeature} delegate 
  *
+ * @author kengu - 29. mai 2011
  * @source $URL$
+ * @see {@link EFeature} - the interface which this class is a minimal base for
+ * @see {@link EFeatureImpl} - default implementation of {@link EFeature}. All models
+ * which extend the {@link EFeature} EMF model implements this class.
+ * @see {@link EFeatureDelegate} - a class which is able to delegate {@link EFeature} delegate
  */
 public class EFeatureInternal {
 
@@ -83,18 +81,19 @@ public class EFeatureInternal {
     /**
      * The default value of the '{@link #getStructure() <em>Structure</em>}' attribute.
      */
-    protected static final EFeatureInfo STRUCTURE_EDEFAULT = EFeatureConstants.DEFAULT_FEATURE_STRUCTURE;
+    protected static final EFeatureInfo STRUCTURE_EDEFAULT = EFeatureConstants
+            .DEFAULT_FEATURE_STRUCTURE;
 
     /**
      * Current {@link EFeature} ID.
      */
     protected String eID;
-    
+
     /**
      * The cached value of the '{@link #getStructure() <em>Structure</em>}' attribute.
      */
     protected EFeatureInfo eStructure = STRUCTURE_EDEFAULT;
-    
+
     /**
      * Cached {@link EObject} which this delegates to.
      * <p>
@@ -104,114 +103,116 @@ public class EFeatureInternal {
     protected WeakReference<EFeature> eImpl;
 
     /**
-     * Flag indicating that the {@link EFeature#getID EFeature ID} 
+     * Flag indicating that the {@link EFeature#getID EFeature ID}
      * holder check is not performed.
      */
     protected boolean doIDHolderCheck = true;
 
     /**
-     * Flag indicating that the {@link EFeature#getID EFeature ID} 
+     * Flag indicating that the {@link EFeature#getID EFeature ID}
      * holder check is in progress. If {@link #getID()} is
-     * called when this flag is <code>true</code>, then this is the ID 
-     * holder. This follows from the fact that the 
-     * {@link #eImpl() actual implementation} is delegating its 
+     * called when this flag is <code>true</code>, then this is the ID
+     * holder. This follows from the fact that the
+     * {@link #eImpl() actual implementation} is delegating its
      * {@link EAttribute ID attribute} to {@link #getID() this}.
      */
     protected boolean isIDHolderChecking = false;
-    
+
     /**
      * Flag indicating that the {@link EFeature#getID()} value is hold by this.
      */
     protected boolean isIDHolder = false;
 
     /**
-     * Cached list of to {@link EFeatureProperty} instances in same order 
+     * Cached list of to {@link EFeatureProperty} instances in same order
      * as {@link EAttribute}s in current {@link #eStructure EFeatureInfo}.
      */
-    protected List<EFeaturePropertyDelegate<?, ? extends Property, ? extends EStructuralFeature>> eProperties;
-    
+    protected List<EFeaturePropertyDelegate<?, ? extends Property, ? extends EStructuralFeature>>
+            eProperties;
+
     /**
      * Cached property name to {@link EFeatureProperty} instances map.
      */
-    protected Map<String, EFeaturePropertyDelegate<?, ? extends Property, ? extends EStructuralFeature>> ePropertyMap;
-    
+    protected Map<String, EFeaturePropertyDelegate<?, ? extends Property, ? extends 
+            EStructuralFeature>> ePropertyMap;
+
     /**
      * Flag storing current detached values state. Since {@link #eHints} is mutable,
      * current state change must be cached in order to track actual changes made to hints.
      */
     protected boolean eValuesDetached = false;
-    
+
     /**
-     * Cached set of validated {@link EFeatureInfo#eUID}s  
+     * Cached set of validated {@link EFeatureInfo#eUID}s
      */
-    protected static Map<EClass,Set<Long>> eValidatedClassMap = 
-        Collections.synchronizedMap(new WeakHashMap<EClass,Set<Long>>());
-    
+    protected static Map<EClass, Set<Long>> eValidatedClassMap =
+            Collections.synchronizedMap(new WeakHashMap<EClass, Set<Long>>());
+
     /**
      * Transaction used when not explicitly specified
      */
     protected Transaction eTx = Transaction.AUTO_COMMIT;
-    
+
     /**
      * Cached {@link EFeatureHints}
      */
     protected EFeatureHints eHints;
 
     /**
-     * Cached {@link ESimpleFeature} singleton instance. 
+     * Cached {@link ESimpleFeature} singleton instance.
      * <p>
-     * This is used {@link ThreadLocal thread local} to allow 
-     * multiple threads to work on {@link ESimpleFeature} 
+     * This is used {@link ThreadLocal thread local} to allow
+     * multiple threads to work on {@link ESimpleFeature}
      * singletons without concurrent modification problems.
      * </p>
+     *
      * @see {@link EFeatureHints#EFEATURE_SINGLETON_FEATURES}
      */
-    protected static ThreadLocal<ESimpleFeatureInternal> 
-        eSingleton = new ThreadLocal<ESimpleFeatureInternal>();
+    protected static ThreadLocal<ESimpleFeatureInternal>
+            eSingleton = new ThreadLocal<ESimpleFeatureInternal>();
 
     // ----------------------------------------------------- 
     //  Constructors
     // -----------------------------------------------------
-    
+
     /**
      * Context-unaware constructor.
      * <p>
      * Use this constructor when the {@link EFeatureContext} is unknown.
      * <p>
-     * The implementation is weakly referenced to allow garbage collection 
-     * when the implementation is no longer referenced. 
+     * The implementation is weakly referenced to allow garbage collection
+     * when the implementation is no longer referenced.
      * <p>
-     * {@link EFeatureContext Context} and {@link EFeatureInfo structure} must 
-     * be set before it can be read by {@link EFeatureReader}. 
-     * </p> 
+     * {@link EFeatureContext Context} and {@link EFeatureInfo structure} must
+     * be set before it can be read by {@link EFeatureReader}.
+     * </p>
+     *
      * @param eImpl - {@link EObject} instance which implements {@link EFeature}.
-     * 
      * @see {@link EFeatureContextHelper} - read more about the context startup problem.
      * @see {@link #setStructure(EFeatureInfo)} - set {@link EFeatureInfo#eContext() context}
      * and {@link EFeatureInfo structure}.
-     * 
      */
     public EFeatureInternal(EFeature eImpl) {
-        this(eInternalContext(eImpl),eImpl);
-    }        
+        this(eInternalContext(eImpl), eImpl);
+    }
 
     /**
      * Auto-configuring structure constructor.
      * <p>
-     * This constructor builds the {@link EFeatureInfo structure} 
+     * This constructor builds the {@link EFeatureInfo structure}
      * from given {@link EObject} instance using EMF reflection.
      * <p>
-     * <b>Note</b>: The constructor verifies the structure. 
+     * <b>Note</b>: The constructor verifies the structure.
      * If invalid, a {@link IllegalArgumentException} is thrown.
      * </p>
+     *
      * @param eContext - the {@link EFeatureContext} which this belongs
-     * @param eImpl - {@link EObject} instance which implements {@link EFeature}.
+     * @param eImpl    - {@link EObject} instance which implements {@link EFeature}.
      * @throws IllegalArgumentException If the {@link EFeatureInfo structure} of this feature
-     *         {@link EFeatureInfo#validate(EPackage, EClass) fails to validate}.
-     * 
+     *                                  {@link EFeatureInfo#validate(EPackage, EClass) fails to validate}.
      */
     public EFeatureInternal(EFeatureContext eContext, EFeature eImpl)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         //
         // Build EFeature structure from EObject instance
         //
@@ -221,15 +222,16 @@ public class EFeatureInternal {
     /**
      * Explicit-configuring constructor.
      * <p>
-     * <b>Note</b>: This constructor verifies the structure. 
+     * <b>Note</b>: This constructor verifies the structure.
      * If invalid, a {@link IllegalArgumentException} is thrown.
      * </p>
+     *
      * @param eStructure - {@link EFeatureInfo structure} instance.
-     * @param eImpl - {@link EObject} instance which implements {@link EFeature}.
-     * @param eHints - {@link EFeatureHints} instance. If <code>null</code>, 
-     * {@link EFeatureInfo#eHints() structure hints} is used.
+     * @param eImpl      - {@link EObject} instance which implements {@link EFeature}.
+     * @param eHints     - {@link EFeatureHints} instance. If <code>null</code>,
+     *                   {@link EFeatureInfo#eHints() structure hints} is used.
      * @throws IllegalArgumentException If the {@link EFeatureInfo structure} of this feature
-     *         {@link EFeatureInfo#validate(EPackage, EClass) fails to validate}.
+     *                                  {@link EFeatureInfo#validate(EPackage, EClass) fails to validate}.
      */
     public EFeatureInternal(EFeatureInfo eStructure, EFeature eImpl, EFeatureHints eHints)
             throws IllegalArgumentException {
@@ -240,7 +242,7 @@ public class EFeatureInternal {
         //
         // Copy structure hints
         //
-        this.eHints = (eHints==null ? new EFeatureHints(eStructure.eHints()) : eHints);
+        this.eHints = (eHints == null ? new EFeatureHints(eStructure.eHints()) : eHints);
         //
         // Set structure
         //
@@ -273,7 +275,7 @@ public class EFeatureInternal {
         //
         // Is checking if this is the ID holder?
         //
-        if(isIDHolderChecking) {
+        if (isIDHolderChecking) {
             //
             // The re-entry implies that this is the ID holder
             //
@@ -282,17 +284,16 @@ public class EFeatureInternal {
         //
         // Get ID held by this?
         //
-        if(isIDHolder) 
-        {
+        if (isIDHolder) {
             return eID;
-        }         
+        }
         //
         // ------------------------------------
         //  Enter "Check if ID Holder" mode?
         // ------------------------------------
         //  This is only done once per instance
         //
-        else if(doIDHolderCheck) {
+        else if (doIDHolderCheck) {
             //
             // --------------------------------
             //  If this method is called 
@@ -304,7 +305,7 @@ public class EFeatureInternal {
             //
             isIDHolderChecking = true;
         }
-        
+
         //
         // Implementation holds the ID value. Get EFeature ID attribute.
         //
@@ -312,11 +313,11 @@ public class EFeatureInternal {
         //
         // Get current EFeature ID (will recurse into this method if ID holder)
         //
-        eID = (String)eImpl().eGet(eAttribute);
+        eID = (String) eImpl().eGet(eAttribute);
         //
         // Reset ID holder check flags?
         //
-        if(doIDHolderCheck) {
+        if (doIDHolderCheck) {
             //
             // Run check only once
             //
@@ -329,18 +330,18 @@ public class EFeatureInternal {
         //
         // Finished
         //
-        return (eID!=null ? eID.toString() : null);
+        return (eID != null ? eID.toString() : null);
     }
-    
+
     public void setID(String eNewID) {
         //
         // Forward
         //
         eSetID(eNewID, true);
-    }    
+    }
 
     public String getSRID() {
-        return eStructure==null ? SRID_EDEFAULT : getStructure().getSRID();
+        return eStructure == null ? SRID_EDEFAULT : getStructure().getSRID();
     }
 
     public void setSRID(String newSRID) {
@@ -374,7 +375,7 @@ public class EFeatureInternal {
         //
         // Get ESimpleFeature instance
         //
-        return eSimpleFeature(this,eHints);
+        return eSimpleFeature(this, eHints);
     }
 
     public ESimpleFeature setData(Feature newData, Transaction transaction) {
@@ -393,8 +394,8 @@ public class EFeatureInternal {
         // Adapt data to ESimpleFeature 
         // (EMF notifications are raised if anything changed)
         //
-        if(eHints.eValuesDetached()) {
-            return eAdapter.eAdapt(eStructure, eSimpleFeature(this,eHints), eTx);
+        if (eHints.eValuesDetached()) {
+            return eAdapter.eAdapt(eStructure, eSimpleFeature(this, eHints), eTx);
         } else {
             return eAdapter.eAdapt(eStructure, eImpl(), eTx);
         }
@@ -415,22 +416,22 @@ public class EFeatureInternal {
     public EFeatureInfo getStructure() {
         return eStructure;
     }
-    
+
     public boolean setStructure(EFeatureInfo eNewStructure) {
         //
         // Do sanity checks
         //
-        if(eNewStructure==null) {
+        if (eNewStructure == null) {
             throw new NullPointerException("EFeatureInfo structure can not be null");
         }
         //
         // Calculate change
         //
-        boolean bFlag = this.eStructure!=eNewStructure;
+        boolean bFlag = this.eStructure != eNewStructure;
         //
         // Is changed
         //
-        if(bFlag) {
+        if (bFlag) {
             //
             // Cache reference to old structure
             //
@@ -446,9 +447,9 @@ public class EFeatureInternal {
             //  validate this implementation against each unique 
             //  structure once.
             //
-            if(!eNewStructure.eEqualTo(eOldStructure)) {
+            if (!eNewStructure.eEqualTo(eOldStructure)) {
                 validate(eNewStructure, eImpl());
-            } 
+            }
             //
             // Is valid, initialize this instance
             //
@@ -465,18 +466,18 @@ public class EFeatureInternal {
             //
             // Tell listeners in old structure about the change?
             //
-            if(eOldStructure!=null) {
-                eOldStructure.eNotify(this, 
-                        EFeaturePackage.EFEATURE__STRUCTURE, 
+            if (eOldStructure != null) {
+                eOldStructure.eNotify(this,
+                        EFeaturePackage.EFEATURE__STRUCTURE,
                         eOldStructure, eNewStructure);
-            }            
+            }
         }
         //
         // Finished
         //
         return bFlag;
-    }   
-    
+    }
+
     public <V> EFeatureAttributeList<V> getAttributeList(Class<V> valueType) {
         verify();
         return new EFeatureAttributeList<V>(getPropertyList(valueType), valueType);
@@ -486,29 +487,29 @@ public class EFeatureInternal {
         verify();
         return new EFeatureGeometryList<V>(getPropertyList(valueType), valueType);
     }
-    
-       
+
+
     // ----------------------------------------------------- 
     //  EFeatureInternal methods
     // -----------------------------------------------------
-    
+
     public void enter(Transaction transaction) {
         this.eTx = transaction;
     }
-        
+
     public void leave() {
         this.eTx = Transaction.AUTO_COMMIT;
     }
-    
+
     public EFeatureHints eHints() {
         return eHints;
     }
-    
+
     public void eReplace(EFeatureHints eHints, boolean eSetInitDetachedValues) {
         //
         // Verify state
         //
-        if(eStructure==null) {
+        if (eStructure == null) {
             throw new IllegalStateException("EFeatureInternal is not created");
         }
         //
@@ -518,7 +519,7 @@ public class EFeatureInternal {
         //
         // Discover ID? (only possible added to resource and not a proxy)
         //
-        if( !(eImpl().eResource()==null || eImpl().eIsProxy()) ) {
+        if (!(eImpl().eResource() == null || eImpl().eIsProxy())) {
             //
             // Structure not change (eID was not reset)
             //
@@ -531,15 +532,15 @@ public class EFeatureInternal {
         //
         // Tell all EFeatureProperty instances to initialize detached values?
         //
-        if(eSetInitDetachedValues) eSetInitDetachedValues();        
+        if (eSetInitDetachedValues) eSetInitDetachedValues();
     }
-    
-    public void eReplace(EFeatureInfo eStructure, EFeature eImpl, 
-            EFeatureHints eHints, boolean eSetInitDetachedValues) {
+
+    public void eReplace(EFeatureInfo eStructure, EFeature eImpl,
+                         EFeatureHints eHints, boolean eSetInitDetachedValues) {
         //
         // Replace weak reference?
         //
-        if(this.eImpl.get()!=eImpl) {
+        if (this.eImpl.get() != eImpl) {
             this.eImpl = new WeakReference<EFeature>(eImpl);
         }
         //
@@ -549,7 +550,7 @@ public class EFeatureInternal {
         //
         // Discover ID? (only possible added to resource and not a proxy)
         //
-        if( !(setStructure(eStructure) || eImpl.eResource()==null || eImpl.eIsProxy()) ) {
+        if (!(setStructure(eStructure) || eImpl.eResource() == null || eImpl.eIsProxy())) {
             //
             // Structure not change (eID was not reset)
             //
@@ -562,9 +563,9 @@ public class EFeatureInternal {
         //
         // Tell all EFeatureProperty instances to initialize detached values?
         //
-        if(eSetInitDetachedValues) eSetInitDetachedValues();        
+        if (eSetInitDetachedValues) eSetInitDetachedValues();
     }
-        
+
     public String eSetID(String eNewID, boolean eSetUsage) {
         //
         // Verify current state
@@ -573,7 +574,7 @@ public class EFeatureInternal {
         //
         // Tell ID factory of ID usage?
         //
-        if(eSetUsage) {
+        if (eSetUsage) {
             //
             // Get ID factory
             //
@@ -593,18 +594,17 @@ public class EFeatureInternal {
             //  context does therefore not support creation and 
             //  usage of IDs (throws OperationUnsupportedException).
             //
-            if(!(eIDFactory instanceof EFeatureVoidIDFactory)) {
+            if (!(eIDFactory instanceof EFeatureVoidIDFactory)) {
                 //
                 // Tell ID factory of ID usage, a new ID is returned if not unique
                 //
-                eNewID = eIDFactory.useID(eImpl(),eNewID);            
+                eNewID = eIDFactory.useID(eImpl(), eNewID);
             }
         }
         //
         // Is ID held by this?
         //
-        if(isIDHolder)
-        {
+        if (isIDHolder) {
             //
             // Cache old for later use
             //
@@ -616,9 +616,8 @@ public class EFeatureInternal {
             //
             // Notify?
             //
-            eNotify(EFeaturePackage.EFEATURE__ID, eOldID, eNewID);            
-        } 
-        else {
+            eNotify(EFeaturePackage.EFEATURE__ID, eOldID, eNewID);
+        } else {
             //
             // Implementation holds the ID value. Get EFeature ID attribute.
             //
@@ -627,45 +626,46 @@ public class EFeatureInternal {
             // Since the implementation holds the ID value, the
             // the eAttribute must be changeable. 
             //
-            if(!eAttribute.isChangeable()) {
+            if (!eAttribute.isChangeable()) {
                 throw new IllegalStateException("EAttribute must be " +
-                                "changeable when the eImpl() is the " +
-                                "ID holder.");
+                        "changeable when the eImpl() is the " +
+                        "ID holder.");
             }
             //
             // Update ID attribute value
             //
-            eImpl().eSet(eAttribute,eNewID);            
+            eImpl().eSet(eAttribute, eNewID);
         }
         //
         // Finished
         //
         return eNewID;
-    }        
-    
+    }
+
     // ----------------------------------------------------- 
     //  Public static helper methods
     // -----------------------------------------------------           
-        
-    public static final EFeatureInternal eInternal(EFeatureInfo eStructure, 
-            EObject eObject) throws IllegalArgumentException {
-        
-        if(eObject instanceof EFeatureInternal) {
-            return (EFeatureInternal)eObject;
-        } else if(eObject instanceof EFeatureImpl) {
-            return ((EFeatureImpl)eObject).eInternal();
-        } else if(eObject instanceof EFeatureDelegate) {
-            return ((EFeatureDelegate)eObject).eInternal();
+
+    public static final EFeatureInternal eInternal(EFeatureInfo eStructure,
+                                                   EObject eObject) throws 
+            IllegalArgumentException {
+
+        if (eObject instanceof EFeatureInternal) {
+            return (EFeatureInternal) eObject;
+        } else if (eObject instanceof EFeatureImpl) {
+            return ((EFeatureImpl) eObject).eInternal();
+        } else if (eObject instanceof EFeatureDelegate) {
+            return ((EFeatureDelegate) eObject).eInternal();
         }
         throw new IllegalArgumentException("EObject " + eObject + " does not implement EFeature");
-        
+
     }
-    
-    
+
+
     // ----------------------------------------------------- 
     //  Protected helper methods
     // -----------------------------------------------------           
-    
+
     /**
      * Reset ID information, forcing ID holder checks
      */
@@ -675,7 +675,7 @@ public class EFeatureInternal {
         isIDHolder = false;
         isIDHolderChecking = false;
     }
-    
+
 //    /**
 //     * Set {@link EFeatureHints} instance.
 //     * @param eHints - new {@link EFeatureHints} instance.
@@ -699,70 +699,74 @@ public class EFeatureInternal {
 //        //
 //        return bFlag;
 //    }
-       
+
     protected void eSetInitDetachedValues() {
-        if(eProperties!=null) {
-            for(EFeaturePropertyDelegate<?, ?, ?> it : eProperties) {
+        if (eProperties != null) {
+            for (EFeaturePropertyDelegate<?, ?, ?> it : eProperties) {
                 it.eSetInitDetachedValues();
             }
         }
     }
-    
+
     /**
      * Verify that state is available
      */
-    protected void verify() throws IllegalStateException
-    {
-        if(eStructure==null)
+    protected void verify() throws IllegalStateException {
+        if (eStructure == null)
             throw new IllegalStateException(this + " is not valid. " +
-            		"Please specify the structure.");
-    }      
- 
+                    "Please specify the structure.");
+    }
+
     /**
      * Get {@link InternalEObject} instance containing {@link EFeature} data.
+     *
      * @return a {@link InternalEObject} instance.
      * @throws NullPointerException If garbage collected (is weakly referenced)
      */
     protected InternalEObject eImpl() throws NullPointerException {
-        InternalEObject eObject = (InternalEObject)eImpl.get();
-        if(eObject instanceof EFeatureDelegate) {
-            eObject = ((EFeatureDelegate)eObject).eImpl();
+        InternalEObject eObject = (InternalEObject) eImpl.get();
+        if (eObject instanceof EFeatureDelegate) {
+            eObject = ((EFeatureDelegate) eObject).eImpl();
         }
         if (eObject == null) {
-            throw (NullPointerException)(new NullPointerException("EFeature implementation " 
-                    + eStructure.eClassName() + " is finalized (garbage collected).")).fillInStackTrace();
+            throw (NullPointerException) (new NullPointerException("EFeature implementation "
+                    + eStructure.eClassName() + " is finalized (garbage collected)."))
+                    .fillInStackTrace();
         }
         return eObject;
     }
-    
+
     /**
      * Get {@link InternalEObject} instance implementing {@link EFeature} data.
+     *
      * @return a {@link EFeature} instance.
      * @throws NullPointerException If garbage collected (is weakly referenced)
      */
     protected InternalEObject eFeature() throws NullPointerException {
-        InternalEObject eObject = (InternalEObject)this.eImpl.get();
+        InternalEObject eObject = (InternalEObject) this.eImpl.get();
         if (eObject == null) {
-            throw (NullPointerException)(new NullPointerException("EFeature implementation " 
-                    + eStructure.eClassName() + " is finalized (garbage collected).")).fillInStackTrace();
-        } 
+            throw (NullPointerException) (new NullPointerException("EFeature implementation "
+                    + eStructure.eClassName() + " is finalized (garbage collected)."))
+                    .fillInStackTrace();
+        }
         return eObject;
     }
-        
+
 
     protected void eNotify(int feature, Object oldValue, Object newValue) {
         eNotify(eImpl(), feature, oldValue, newValue);
     }
-        
+
     /**
      * Get current list of {@link EFeatureProperty} instances.
      * <p>
      * This method implements lazy creation of {@link EFeatureProperty} instances.
      * </p>
-     * 
+     *
      * @return list of {@link EFeatureProperty} instances.
      */
-    protected List<EFeaturePropertyDelegate<?, ? extends Property, ? extends EStructuralFeature>> getProperties() {
+    protected List<EFeaturePropertyDelegate<?, ? extends Property, ? extends EStructuralFeature>>
+    getProperties() {
         if (eProperties == null) {
             //
             // Get all attributes in structure
@@ -779,26 +783,27 @@ public class EFeatureInternal {
                 EAttribute eAttribute = it.eAttribute();
                 Class<?> type = eAttribute.getEAttributeType().getInstanceClass();
                 eProperties.add(newProperty(this, it.eName(), type));
-            }            
+            }
         }
         return eProperties;
     }
-    
+
     /**
      * Get {@link EFeatureProperty} name to instances mappin.
      * <p>
      * This method implements lazy creation of instance map.
      * </p>
-     * 
+     *
      * @return map of {@link EFeatureProperty} instances.
      */
-    protected Map<String, ? extends EFeaturePropertyDelegate<?, ? extends Property, ? extends EStructuralFeature>> getPropertyMap() {
+    protected Map<String, ? extends EFeaturePropertyDelegate<?, ? extends Property, ? extends 
+            EStructuralFeature>> getPropertyMap() {
         if (ePropertyMap == null) {
             //
             // Get all properties in structure
             //
-            List<EFeaturePropertyDelegate<?, ? extends Property, ? extends EStructuralFeature>> 
-                eList = getProperties();
+            List<EFeaturePropertyDelegate<?, ? extends Property, ? extends EStructuralFeature>>
+                    eList = getProperties();
             //
             // Initialize map
             //
@@ -806,7 +811,8 @@ public class EFeatureInternal {
             //
             // Loop over all attributes
             //
-            for (EFeaturePropertyDelegate<?, ? extends Property, ? extends EStructuralFeature> it : eList) {
+            for (EFeaturePropertyDelegate<?, ? extends Property, ? extends EStructuralFeature> it
+                    : eList) {
                 String eName = it.getName();
                 ePropertyMap.put(eName, it);
             }
@@ -820,7 +826,7 @@ public class EFeatureInternal {
      * This method implements lazy creation of {@link EFeatureProperty} instances. After creation,
      * the instances are cached in {@link #ePropertyMap}
      * </p>
-     * 
+     *
      * @return list of {@link EFeatureProperty} instances.
      */
     @SuppressWarnings("unchecked")
@@ -846,21 +852,22 @@ public class EFeatureInternal {
         //
         return eSelected;
     }
-    
-    
+
+
     // ----------------------------------------------------- 
     //  Static helper methods
     // -----------------------------------------------------
-            
-    protected static void eNotify(InternalEObject eObject, int feature, Object oldValue, Object newValue) {
+
+    protected static void eNotify(InternalEObject eObject, int feature, Object oldValue, Object 
+            newValue) {
         if (eObject.eNotificationRequired()) {
             eObject.eNotify(
                     new ENotificationImpl(eObject, Notification.SET,
                             feature, oldValue, newValue));
         }
-        
-    }    
-    
+
+    }
+
     /**
      * Get a {@link ESimpleFeature} instance.
      * <p>
@@ -868,10 +875,12 @@ public class EFeatureInternal {
      * {@link EFeatureInfo#eHints()} if a new instance
      * or the singleton instance should be returned
      * </p>
+     *
      * @param eInternal EFeatureInternal that contains the ESimpleFeature data
      * @return a {@link ESimpleFeature} instance
      */
-    protected static ESimpleFeature eSimpleFeature(EFeatureInternal eInternal, EFeatureHints eHints) {
+    protected static ESimpleFeature eSimpleFeature(EFeatureInternal eInternal, EFeatureHints 
+            eHints) {
         //
         // Prepare
         //
@@ -879,7 +888,7 @@ public class EFeatureInternal {
         //
         // Is instance singleton?
         //
-        if(eHints.eSingletonFeatures()) {
+        if (eHints.eSingletonFeatures()) {
             //
             // Get singleton instance
             //
@@ -887,7 +896,7 @@ public class EFeatureInternal {
             //
             // Create new singleton instance?
             //
-            if(eData==null || eData.isReleased()) {
+            if (eData == null || eData.isReleased()) {
                 //
                 // Create instance
                 //
@@ -896,13 +905,13 @@ public class EFeatureInternal {
                 // Update thread local instance
                 //
                 eSingleton.set(eData);
-            } 
+            }
             //
             // else, set internal implementation
             //
             else eData.eReplace(eInternal);
-                
-            
+
+
         } else {
             //
             // Create new instance
@@ -915,17 +924,17 @@ public class EFeatureInternal {
         return eData;
     }
 
-    
+
     protected static final EFeatureContext eInternalContext(EFeature eImpl) {
         return EFeatureContextHelper.eContext(eImpl);
     }
-    
+
     protected static final void validate(EFeatureInfo eStructure, EObject eObject)
             throws IllegalArgumentException {
         //
         // Synchronize multiple threads access to map
         //
-        synchronized(eValidatedClassMap) {            
+        synchronized (eValidatedClassMap) {
             //
             // Prepare
             //
@@ -938,18 +947,18 @@ public class EFeatureInternal {
             //
             // Found no validated structures?
             //
-            if( eValidSet == null) {
+            if (eValidSet == null) {
                 eValidSet = new HashSet<Long>();
                 eValidatedClassMap.put(eClass, eValidSet);
-            } 
-            if( !eValidSet.contains(eStructure.eUID())) {
+            }
+            if (!eValidSet.contains(eStructure.eUID())) {
                 //
                 // Get parent class?
                 //
-                EClass eParent = null; 
+                EClass eParent = null;
                 if (!eStructure.isRoot()) {
                     eParent = EFeatureUtils.eGetContainingClass(eObject);
-                }        
+                }
                 //
                 // Validate structure against EObject instance EClass
                 //
@@ -961,20 +970,22 @@ public class EFeatureInternal {
                 // Add to verified structures
                 //
                 eValidSet.add(eStructure.eUID());
-            }           
+            }
         }
-    }    
-    
+    }
+
     @SuppressWarnings("unchecked")
-    protected static EFeaturePropertyDelegate<?, ? extends Property, ? extends EStructuralFeature> newProperty(
+    protected static EFeaturePropertyDelegate<?, ? extends Property, ? extends 
+            EStructuralFeature> newProperty(
             EFeatureInternal eInternal, String eName, Class<?> type) {
         if (Geometry.class.isAssignableFrom(type)) {
-            return newGeometry(eInternal, eName, (Class<? extends Geometry>)type);
+            return newGeometry(eInternal, eName, (Class<? extends Geometry>) type);
         }
         return newAttribute(eInternal, eName, type);
     }
 
-    protected static <V> EFeatureAttributeDelegate<V> newAttribute(EFeatureInternal eInternal, String eName, Class<V> type) {
+    protected static <V> EFeatureAttributeDelegate<V> newAttribute(EFeatureInternal eInternal, 
+                                                                   String eName, Class<V> type) {
         return new EFeatureAttributeDelegate<V>(eInternal, eName, type);
     }
 
@@ -982,6 +993,6 @@ public class EFeatureInternal {
             EFeatureInternal eInternal, String eName, Class<V> type) {
         return new EFeatureGeometryDelegate<V>(eInternal, eName, type);
     }
-    
+
 
 }

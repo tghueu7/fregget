@@ -4,18 +4,20 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2008, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.style;
 
 import java.util.List;
+
 import org.opengis.annotation.Extension;
 import org.opengis.filter.Filter;
 import org.opengis.annotation.UML;
 import org.opengis.annotation.XmlElement;
 
 import org.opengis.metadata.citation.OnLineResource;
+
 import static org.opengis.annotation.Obligation.*;
 import static org.opengis.annotation.Specification.*;
 
@@ -26,17 +28,16 @@ import static org.opengis.annotation.Specification.*;
  * Filter passes, then every Symbolizer for that rule is applied to the given
  * feature.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding Implementation Specification 1.1.0</A>
  * @author Open Geospatial Consortium
  * @author Johann Sorel (Geomatys)
  * @author Chris Dillard (SYS Technologies)
+ * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding 
+ * Implementation Specification 1.1.0</A>
+ * @source $URL$
  * @since GeoAPI 2.2
  */
 @XmlElement("Rule")
-@UML(identifier="PF_PortrayalRule", specification=ISO_19117)
+@UML(identifier = "PF_PortrayalRule", specification = ISO_19117)
 public interface Rule {
 
     /**
@@ -44,10 +45,11 @@ public interface Rule {
      * This can be any string that uniquely identifies this rule within a given
      * canvas.  It is not meant to be human-friendly.  (The "title" property is
      * meant to be human friendly.)
+     *
      * @return a name for this rule.
      */
     @XmlElement("Name")
-    @UML(identifier="ruleName", obligation=MANDATORY, specification=ISO_19117)
+    @UML(identifier = "ruleName", obligation = MANDATORY, specification = ISO_19117)
     String getName();
 
     /**
@@ -57,7 +59,7 @@ public interface Rule {
      * for user interfaces.
      */
     @XmlElement("Description")
-    @UML(identifier="description", obligation=OPTIONAL, specification=ISO_19117)
+    @UML(identifier = "description", obligation = OPTIONAL, specification = ISO_19117)
     Description getDescription();
 
     /**
@@ -68,6 +70,7 @@ public interface Rule {
      * indicates how features of a given type are being portrayed.  Through its
      * {@code LegendGraphic} property, a {@code Rule} may provide a custom picture
      * to be used in such a legend window.
+     *
      * @return
      */
     @XmlElement("LegendGraphic")
@@ -78,15 +81,19 @@ public interface Rule {
      * fire.  This can only be non-null if {@link #isElseFilter} returns false.  If this
      * value is null and {@code isElseFilter} is false, this means that this {@code Rule}
      * should fire for all features.
-     * @return Filter, use Filter.INCLUDES to indicate everything; or Filter.EXCLUDES for an "else" rule
+     *
+     * @return Filter, use Filter.INCLUDES to indicate everything; or Filter.EXCLUDES for an 
+     * "else" rule
      */
     @XmlElement("Filter")
-    @UML(identifier="queryStatement", obligation=MANDATORY, specification=ISO_19117)
+    @UML(identifier = "queryStatement", obligation = MANDATORY, specification = ISO_19117)
     Filter getFilter();
 
     /**
      * Returns true if this {@code Rule} is to fire only if no other rules in the containing
-     * style have fired yet.  If this is true, then the {@linkplain #getFilter filter} must be Filter.EXCLUDES.
+     * style have fired yet.  If this is true, then the {@linkplain #getFilter filter} must be 
+     * Filter.EXCLUDES.
+     *
      * @return true if the filter is an else filter
      */
     @XmlElement("ElseFilter")
@@ -98,6 +105,7 @@ public interface Rule {
      * If, for example, the {@code MinScaleDenominator} were 10000, then this rule
      * would only fire at scales of 1:X where X is greater than 10000.
      * A value of zero indicates that there is no minimum.
+     *
      * @return Min scale double value
      */
     @XmlElement("MinScaleDenominator")
@@ -109,6 +117,7 @@ public interface Rule {
      * If, for example, the {@code MaxScaleDenominator} were 98765, then this rule
      * would only fire at scales of 1:X where X is less than 98765.
      * A value of {@link Double#POSITIVE_INFINITY} indicates that there is no maximum.
+     *
      * @return Max scale double value
      */
     @XmlElement("MaxScaleDenominator")
@@ -117,7 +126,7 @@ public interface Rule {
     /**
      * This method returns the list of Symbolizer objects
      * contained by this {@code Rule}.
-     *
+     * <p>
      * We use a list of <? extends Symbolizer> to enable the possibility
      * for an implementation to return a special type of Symbolizer.
      * This doesnt mean a Rule must return a list of PointSymbolizer or
@@ -126,23 +135,23 @@ public interface Rule {
      * and then avoid redundant cast in the code.
      * If you dont intend to use a special interface you can override this method
      * by : List<Symbolizer> symbolizers();
-     * 
+     *
      * @return the list of Symbolizer
      */
     @XmlElement("Symbolizer")
-    @UML(identifier="portrayAction", obligation=MANDATORY, specification=ISO_19117)
+    @UML(identifier = "portrayAction", obligation = MANDATORY, specification = ISO_19117)
     List<? extends Symbolizer> symbolizers();
-    
+
     /**
      * It is common to have a style coming from a external xml file, this method
      * provide a way to get the original source if there is one.
      * OGC SLD specification can use this method to know if a style must be
      * written completely or if writing the online resource path is enough.
-     * 
+     *
      * @return OnlineResource or null
      */
     OnLineResource getOnlineResource();
-    
+
     /**
      * calls the visit method of a StyleVisitor
      *
@@ -150,5 +159,5 @@ public interface Rule {
      */
     @Extension
     Object accept(StyleVisitor visitor, Object extraData);
-    
+
 }

@@ -46,32 +46,30 @@ import org.xml.sax.helpers.NamespaceSupport;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+
 /**
  * This tests property selection using nested x-paths, combined with feature selection
- * 
+ *
  * @author Niels Charlier (Curtin University of Technology)
- * 
- *
- *
- *
- *
  * @source $URL$
  */
 public class PropSelectionTest extends AppSchemaTestSupport {
-    
+
     private static final String schemaBase = "/test-data/";
-    
+
     static final String GSMLNS = "urn:cgi:xmlns:CGI:GeoSciML:2.0";
 
     static final String GMLNS = "http://www.opengis.net/gml";
-    
+
     static final Name GEOLOGIC_UNIT = Types.typeName(GSMLNS, "GeologicUnit");
-    
+
     static final Name MAPPED_FEATURE = Types.typeName(GSMLNS, "MappedFeature");
-    
+
     private FeatureSource<FeatureType, Feature> mfSource;
 
-    /** namespace aware filter factory **/
+    /**
+     * namespace aware filter factory
+     **/
     private FilterFactory2 ff;
 
     @Before
@@ -83,10 +81,10 @@ public class PropSelectionTest extends AppSchemaTestSupport {
         namespaces.declarePrefix("gsml", GSMLNS);
         namespaces.declarePrefix("gml", GMLNS);
         ff = new FilterFactoryImplNamespaceAware(namespaces);
-        
+
         /**
          * Load mapped feature data access
-         */        
+         */
         Map<String, Serializable> dsParams = new HashMap<String, Serializable>();
         URL url = PropSelectionTest.class.getResource(schemaBase + "MappedFeaturePropertyfile.xml");
         assertNotNull(url);
@@ -95,7 +93,7 @@ public class PropSelectionTest extends AppSchemaTestSupport {
         dsParams.put("url", url.toExternalForm());
         DataAccess<FeatureType, Feature> mfDataAccess = DataAccessFinder.getDataStore(dsParams);
         assertNotNull(mfDataAccess);
-        
+
         /**
          * Load geologic unit data access
          */
@@ -108,29 +106,31 @@ public class PropSelectionTest extends AppSchemaTestSupport {
         DataAccess<FeatureType, Feature> guDataAccess = DataAccessFinder.getDataStore(dsParams);
         assertNotNull(guDataAccess);
 
-        mfSource = mfDataAccess.getFeatureSource(MAPPED_FEATURE);            
+        mfSource = mfDataAccess.getFeatureSource(MAPPED_FEATURE);
     }
 
     /**
      * Testing Property Name Selection
-     * 
+     *
      * @throws IOException
      */
     @Test
     public void testPropertyNameSelection() throws IOException {
-        
-        PropertyName propertyName1 = ff.property("gsml:specification/gsml:GeologicUnit/gml:description");
-        PropertyName propertyName2 = ff.property("gsml:specification/gsml:GeologicUnit/gsml:occurrence");
-                
-        List<PropertyName> properties = new ArrayList<PropertyName>();   
+
+        PropertyName propertyName1 = ff.property
+                ("gsml:specification/gsml:GeologicUnit/gml:description");
+        PropertyName propertyName2 = ff.property
+                ("gsml:specification/gsml:GeologicUnit/gsml:occurrence");
+
+        List<PropertyName> properties = new ArrayList<PropertyName>();
         properties.add(propertyName1);
-        Query query = new Query();        
+        Query query = new Query();
         query.setProperties(properties);
-        
+
         FeatureCollection<FeatureType, Feature> mfCollection = mfSource.getFeatures(query);
-                
+
         FeatureIterator iterator = mfCollection.features();
-        
+
         int i = 0;
         while (iterator.hasNext()) {
             Feature feature = iterator.next();
@@ -139,16 +139,16 @@ public class PropSelectionTest extends AppSchemaTestSupport {
             i++;
         }
         assertEquals(4, i);
-        
-        
-        properties = new ArrayList<PropertyName>();   
+
+
+        properties = new ArrayList<PropertyName>();
         properties.add(propertyName2);
         query.setProperties(properties);
-        
+
         mfCollection = mfSource.getFeatures(query);
-        
+
         iterator = mfCollection.features();
-        
+
         i = 0;
         while (iterator.hasNext()) {
             Feature feature = iterator.next();
@@ -157,9 +157,8 @@ public class PropSelectionTest extends AppSchemaTestSupport {
             i++;
         }
         assertEquals(4, i);
-        
+
     }
 
-    
 
 }

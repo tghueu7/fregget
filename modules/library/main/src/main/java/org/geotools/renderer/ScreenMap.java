@@ -35,7 +35,7 @@ import org.opengis.referencing.operation.TransformException;
 /**
  * The screenmap is a packed bitmap of the screen, one bit per pixels. It can be used to avoid
  * rendering a lot of very small features in the same pixel.
- * 
+ * <p>
  * <p>
  * The screenmap can be used two ways:
  * <ul>
@@ -43,14 +43,12 @@ import org.opengis.referencing.operation.TransformException;
  * <li>By working with real world envelopes using {@link #checkAndSet(Envelope)}, in that case the
  * full math transform from data to screen, and the generalization spans must be set</li>
  * </ul>
- * 
+ * <p>
  * When checkAndSet returns false the geometry sits in a pixel that has been already populated
  * and can be skipped.
- * 
+ *
  * @author jeichar
  * @author Andrea Aime - OpenGeo
- *
- *
  * @source $URL$
  */
 public class ScreenMap {
@@ -82,9 +80,10 @@ public class ScreenMap {
         pixels = new int[arraySize];
         this.mt = mt;
     }
-    
+
     public ScreenMap(ScreenMap original, int expandBy) {
-        this(original.minx - expandBy, original.miny - expandBy, original.width + expandBy * 2, original.height + expandBy * 2);
+        this(original.minx - expandBy, original.miny - expandBy, original.width + expandBy * 2, 
+                original.height + expandBy * 2);
     }
 
     public ScreenMap(int x, int y, int width, int height) {
@@ -186,6 +185,7 @@ public class ScreenMap {
     /**
      * Returns geometry suitable for rendering the pixel that has just been occupied.
      * The geometry is designed to actually fill the pixel
+     *
      * @param minx
      * @param miny
      * @param maxx
@@ -196,13 +196,15 @@ public class ScreenMap {
      */
     public Geometry getSimplifiedShape(Geometry geometry) {
         Envelope envelope = geometry.getEnvelopeInternal();
-        return getSimplifiedShape(envelope.getMinX(), envelope.getMinY(), envelope.getMaxX(), envelope.getMaxY(), 
+        return getSimplifiedShape(envelope.getMinX(), envelope.getMinY(), envelope.getMaxX(), 
+                envelope.getMaxY(),
                 geometry.getFactory(), geometry.getClass());
     }
 
     /**
      * Returns geometry suitable for rendering the pixel that has just been occupied.
      * The geometry is designed to actually fill the pixel
+     *
      * @param minx
      * @param miny
      * @param maxx
@@ -212,7 +214,7 @@ public class ScreenMap {
      * @return
      */
     public Geometry getSimplifiedShape(double minx, double miny, double maxx, double maxy,
-            GeometryFactory geometryFactory, Class geometryType) {
+                                       GeometryFactory geometryFactory, Class geometryType) {
         CoordinateSequenceFactory csf = geometryFactory.getCoordinateSequenceFactory();
         double midx = (minx + maxx) / 2;
         double midy = (miny + maxy) / 2;
@@ -229,8 +231,8 @@ public class ScreenMap {
                 // people should not call this method for a point, but... whatever
                 return geometryFactory.createPoint(cs);
             } else {
-                return geometryFactory.createMultiPoint(new Point[] { geometryFactory
-                        .createPoint(cs) });
+                return geometryFactory.createMultiPoint(new Point[]{geometryFactory
+                        .createPoint(cs)});
             }
         } else if (LineString.class.isAssignableFrom(geometryType)
                 || MultiLineString.class.isAssignableFrom(geometryType)) {
@@ -240,8 +242,8 @@ public class ScreenMap {
             cs.setOrdinate(1, 0, x1);
             cs.setOrdinate(1, 1, y1);
             if (MultiLineString.class.isAssignableFrom(geometryType)) {
-                return geometryFactory.createMultiLineString(new LineString[] { geometryFactory
-                        .createLineString(cs) });
+                return geometryFactory.createMultiLineString(new LineString[]{geometryFactory
+                        .createLineString(cs)});
             } else {
                 return geometryFactory.createLineString(cs);
             }
@@ -259,14 +261,14 @@ public class ScreenMap {
             cs.setOrdinate(4, 1, y0);
             LinearRing ring = geometryFactory.createLinearRing(cs);
             if (MultiPolygon.class.isAssignableFrom(geometryType)) {
-                return geometryFactory.createMultiPolygon(new Polygon[] { geometryFactory
-                        .createPolygon(ring, null) });
+                return geometryFactory.createMultiPolygon(new Polygon[]{geometryFactory
+                        .createPolygon(ring, null)});
             } else {
                 return geometryFactory.createPolygon(ring, null);
             }
         }
     }
-    
+
     /**
      * Sets location at position x,y to the value.
      */
@@ -289,5 +291,5 @@ public class ScreenMap {
             pixels[index] = tmp;
         }
     }
-    
+
 }

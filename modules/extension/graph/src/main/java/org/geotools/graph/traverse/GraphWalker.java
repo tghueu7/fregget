@@ -20,32 +20,27 @@ import org.geotools.graph.structure.Graphable;
 
 
 /**
- * Iterated over the components of a graph using a standard visitor 
+ * Iterated over the components of a graph using a standard visitor
  * pattern.
- * 
+ *
  * @author Justin Deoliveira, Refractions Research Inc, jdeolive@refractions.net
- *
- *
- *
  * @source $URL$
  */
 public interface GraphWalker {
-    
+
     /**
      * Visits a graph component.
      *
-     * @param element The component being visited.
+     * @param element   The component being visited.
      * @param traversal The traversal controlling the sequence of graph
-     *        component visits.
-     *
-     * @return GraphTraversal#CONTINUE to signal that the traversal should 
-     *         continue.<BR> 
-     *         GraphTraversal#CONTINUE to signal that the traversal should 
-     *         suspend.<BR>
-     *         GraphTraversal#KILL_BRANCH to signal that the traversal should
-     *         kill its current branch.<BR>
-     *         GraphTraversal#STOP to signal that the traversal should stop.<BR>
-     * 
+     *                  component visits.
+     * @return GraphTraversal#CONTINUE to signal that the traversal should
+     * continue.<BR>
+     * GraphTraversal#CONTINUE to signal that the traversal should
+     * suspend.<BR>
+     * GraphTraversal#KILL_BRANCH to signal that the traversal should
+     * kill its current branch.<BR>
+     * GraphTraversal#STOP to signal that the traversal should stop.<BR>
      * @see GraphTraversal
      * @see GraphIterator
      */
@@ -53,9 +48,9 @@ public interface GraphWalker {
 
     /**
      * Called when the graph traversal is completed. Wether this method is called
-     * after a traversal has been stopped with a return signal is up to the 
+     * after a traversal has been stopped with a return signal is up to the
      * implementation of GraphTraversal.
-     * 
+     *
      * @see GraphTraversal
      */
     public void finish();

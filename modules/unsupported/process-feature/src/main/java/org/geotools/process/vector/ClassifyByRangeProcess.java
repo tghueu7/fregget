@@ -37,27 +37,39 @@ import org.opengis.filter.expression.Function;
 
 /**
  * Computes a new attribute to classify another attribute by intervals over vector data sets.
- * 
- * @author Mauro Bartolomeoli
  *
+ * @author Mauro Bartolomeoli
  * @source $URL$
  */
-@DescribeProcess(title = "ClassifyByRange", description = "Computes a new attribute to classify another attribute by intervals over vector data sets.")
+@DescribeProcess(title = "ClassifyByRange", description = "Computes a new attribute to classify " +
+        "another attribute by intervals over vector data sets.")
 public class ClassifyByRangeProcess implements VectorProcess {
 
     private static final FilterFactory FF = CommonFactoryFinder.getFilterFactory(null);
 
     @DescribeResult(name = "result", description = "Classified feature collection")
     public SimpleFeatureCollection execute(
-            @DescribeParameter(name = "features", description = "Input feature collection") SimpleFeatureCollection features,
-            @DescribeParameter(name = "classifyOnAttribute", description = "Attribute to be classified using intervals of values.") String classifyOnAttribute,
-            @DescribeParameter(name = "thresholds", min = 0, description = "List of thresholds (use this one to specify custom intervals). Ignored if classifier is specified (use classes in that case).") String[] thresholds,
-            @DescribeParameter(name = "outputValues", min = 0, description = "List of class values for each given threshold (+1 for out of range).") String[] outputValues,
-            @DescribeParameter(name = "classifier", min = 0, description = "Classifier type (EqualInterval, Quantile, Jenks, etc.). Use with classes to calculate intervals automatically") String classifier,
-            @DescribeParameter(name = "classes", min = 0, description = "Classifier # of classes, used when classifier is specified (defaults to 5).") Integer classes,
-            @DescribeParameter(name = "include", min = 0, defaultValue = "FALSE", description = "Include or exclude current threshold in the interval.") Boolean include,
-            @DescribeParameter(name = "outputAttribute", min = 0, description = "Name of the output attribute with class values (defaults to class).") String outputAttribute,
-            @DescribeParameter(name = "outputType", min = 0, description = "Optional binding type for output values (defaults to String).") String outputType)
+            @DescribeParameter(name = "features", description = "Input feature collection") 
+                    SimpleFeatureCollection features,
+            @DescribeParameter(name = "classifyOnAttribute", description = "Attribute to be " +
+                    "classified using intervals of values.") String classifyOnAttribute,
+            @DescribeParameter(name = "thresholds", min = 0, description = "List of thresholds " +
+                    "(use this one to specify custom intervals). Ignored if classifier is " +
+                    "specified (use classes in that case).") String[] thresholds,
+            @DescribeParameter(name = "outputValues", min = 0, description = "List of class " +
+                    "values for each given threshold (+1 for out of range).") String[] outputValues,
+            @DescribeParameter(name = "classifier", min = 0, description = "Classifier type " +
+                    "(EqualInterval, Quantile, Jenks, etc.). Use with classes to calculate " +
+                    "intervals automatically") String classifier,
+            @DescribeParameter(name = "classes", min = 0, description = "Classifier # of classes," +
+                    " used when classifier is specified (defaults to 5).") Integer classes,
+            @DescribeParameter(name = "include", min = 0, defaultValue = "FALSE", description = 
+                    "Include or exclude current threshold in the interval.") Boolean include,
+            @DescribeParameter(name = "outputAttribute", min = 0, description = "Name of the " +
+                    "output attribute with class values (defaults to class).") String 
+                    outputAttribute,
+            @DescribeParameter(name = "outputType", min = 0, description = "Optional binding type" +
+                    " for output values (defaults to String).") String outputType)
             throws ProcessException {
 
         if (features == null) {

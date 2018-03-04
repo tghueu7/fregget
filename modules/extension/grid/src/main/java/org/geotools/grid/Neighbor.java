@@ -21,12 +21,9 @@ package org.geotools.grid;
  * Constants for neighbor positions used when bulding polygonal grids.
  *
  * @author mbedward
- * @since 2.7
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.7
  */
 public enum Neighbor {
     UPPER,

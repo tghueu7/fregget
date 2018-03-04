@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.referencing.crs;
 
 import java.util.List;
+
 import org.opengis.annotation.UML;
 
 import static org.opengis.annotation.Obligation.*;
@@ -34,11 +35,11 @@ import static org.opengis.annotation.Specification.*;
  * or redundant axes. Valid combinations include:
  * <p>
  * <UL>
- *   <LI>Geographic 2D + Vertical</LI>
- *   <LI>Geographic 2D + Engineering 1D (near vertical)</LI>
- *   <LI>Projected + Vertical</LI>
- *   <LI>Projected + Engineering 1D (near vertical)</LI>
- *   <LI>Engineering (horizontal 2D or 1D linear) + Vertical</LI>
+ * <LI>Geographic 2D + Vertical</LI>
+ * <LI>Geographic 2D + Engineering 1D (near vertical)</LI>
+ * <LI>Projected + Vertical</LI>
+ * <LI>Projected + Engineering 1D (near vertical)</LI>
+ * <LI>Engineering (horizontal 2D or 1D linear) + Vertical</LI>
  * </UL>
  * <p>
  * Any coordinate reference system, or any of the above listed combinations of coordinate
@@ -48,20 +49,19 @@ import static org.opengis.annotation.Specification.*;
  * milliseconds (signal travel time). A second time axis indicates how it changes with time
  * (years), e.g. as a reservoir is gradually exhausted of its recoverable oil or gas).
  *
- *
- *
+ * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract 
+ * specification 2.0</A>
  * @source $URL$
- * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract specification 2.0</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
+ * @since GeoAPI 1.0
  */
-@UML(identifier="SC_CompoundCRS", specification=ISO_19111)
+@UML(identifier = "SC_CompoundCRS", specification = ISO_19111)
 public interface CompoundCRS extends CoordinateReferenceSystem {
     /**
      * The ordered list of coordinate reference systems.
      *
      * @return The ordered list of coordinate reference systems.
      */
-    @UML(identifier="includesCRS", obligation=MANDATORY, specification=ISO_19111)
+    @UML(identifier = "includesCRS", obligation = MANDATORY, specification = ISO_19111)
     List<CoordinateReferenceSystem> getCoordinateReferenceSystems();
 }

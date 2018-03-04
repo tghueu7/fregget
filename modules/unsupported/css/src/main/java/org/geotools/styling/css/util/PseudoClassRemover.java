@@ -33,9 +33,8 @@ import org.geotools.styling.css.selector.TypeName;
 
 /**
  * Simplifies out all pseudo classes, replacing them with {@link Selector#ACCEPT}
- * 
- * @author Andrea Aime - GeoSolutions
  *
+ * @author Andrea Aime - GeoSolutions
  */
 public class PseudoClassRemover implements SelectorVisitor {
 

@@ -47,15 +47,13 @@ import org.geotools.resources.NIOUtilities;
  * WritableFileChannel out = new FileOutputStream(&quot;thefile.dbf&quot;).getChannel();
  * DbaseFileWriter w = new DbaseFileWriter(header,out);
  * while ( moreRecords ) {
- *   w.write( getMyRecord() );
+ * w.write( getMyRecord() );
  * }
  * w.close();
  * </PRE></CODE> You must supply the <CODE>moreRecords</CODE> and
  * <CODE>getMyRecord()</CODE> logic...
- * 
+ *
  * @author Ian Schneider
- *
- *
  * @source $URL$
  */
 public class DbaseFileWriter {
@@ -72,62 +70,56 @@ public class DbaseFileWriter {
     private StreamLogging streamLogger = new StreamLogging("Dbase File Writer");
     private Charset charset;
     private TimeZone timeZone;
-    
-    private boolean reportFieldSizeErrors = Boolean.getBoolean("org.geotools.shapefile.reportFieldSizeErrors");
+
+    private boolean reportFieldSizeErrors = Boolean.getBoolean("org.geotools.shapefile" +
+            ".reportFieldSizeErrors");
 
     /**
      * Create a DbaseFileWriter using the specified header and writing to the
      * given channel.
-     * 
-     * @param header
-     *                The DbaseFileHeader to write.
-     * @param out
-     *                The Channel to write to.
-     * @throws IOException
-     *                 If errors occur while initializing.
+     *
+     * @param header The DbaseFileHeader to write.
+     * @param out    The Channel to write to.
+     * @throws IOException If errors occur while initializing.
      */
     public DbaseFileWriter(DbaseFileHeader header, WritableByteChannel out)
             throws IOException {
         this(header, out, null, null);
     }
-    
+
     /**
      * Create a DbaseFileWriter using the specified header and writing to the
      * given channel.
-     * 
-     * @param header
-     *                The DbaseFileHeader to write.
-     * @param out
-     *                The Channel to write to.
-     * @throws IOException
-     *                 If errors occur while initializing.
+     *
+     * @param header The DbaseFileHeader to write.
+     * @param out    The Channel to write to.
+     * @throws IOException If errors occur while initializing.
      */
     public DbaseFileWriter(DbaseFileHeader header, WritableByteChannel out, Charset charset)
             throws IOException {
         this(header, out, charset, null);
     }
-    
+
 
     /**
      * Create a DbaseFileWriter using the specified header and writing to the
      * given channel.
-     * 
-     * @param header
-     *                The DbaseFileHeader to write.
-     * @param out
-     *                The Channel to write to.
+     *
+     * @param header  The DbaseFileHeader to write.
+     * @param out     The Channel to write to.
      * @param charset The charset the dbf is (will be) encoded in
-     * @throws IOException
-     *                 If errors occur while initializing.
+     * @throws IOException If errors occur while initializing.
      */
-    public DbaseFileWriter(DbaseFileHeader header, WritableByteChannel out, Charset charset, TimeZone timeZone)
+    public DbaseFileWriter(DbaseFileHeader header, WritableByteChannel out, Charset charset, 
+                           TimeZone timeZone)
             throws IOException {
         header.writeHeader(out);
         this.header = header;
         this.channel = out;
         this.charset = charset == null ? Charset.defaultCharset() : charset;
         this.timeZone = timeZone == null ? TimeZone.getDefault() : timeZone;
-        this.formatter = new DbaseFileWriter.FieldFormatter(this.charset, this.timeZone, ! reportFieldSizeErrors);
+        this.formatter = new DbaseFileWriter.FieldFormatter(this.charset, this.timeZone, 
+                !reportFieldSizeErrors);
         streamLogger.open();
 
         // As the 'shapelib' osgeo project does, we use specific values for
@@ -137,37 +129,37 @@ public class DbaseFileWriter {
         for (int i = 0; i < nullValues.length; i++) {
             char nullChar;
             switch (header.getFieldType(i)) {
-            case 'C':
-            case 'c':
-            case 'M':
-            case 'G':
-                nullChar = '\0';
-                break;
-            case 'L':
-            case 'l':
-                nullChar = '?';
-                break;
-            case 'N':
-            case 'n':
-            case 'F':
-            case 'f':
-                nullChar = '*';
-                break;
-            case 'D':
-            case 'd':
-                nullChar = '0';
-                break;
-            case '@':
-                // becomes day 0 time 0.
-                nullChar = '\0';
-                break;
-            default:
-                // catches at least 'D', and 'd'
-                nullChar = '0';
-                break;
+                case 'C':
+                case 'c':
+                case 'M':
+                case 'G':
+                    nullChar = '\0';
+                    break;
+                case 'L':
+                case 'l':
+                    nullChar = '?';
+                    break;
+                case 'N':
+                case 'n':
+                case 'F':
+                case 'f':
+                    nullChar = '*';
+                    break;
+                case 'D':
+                case 'd':
+                    nullChar = '0';
+                    break;
+                case '@':
+                    // becomes day 0 time 0.
+                    nullChar = '\0';
+                    break;
+                default:
+                    // catches at least 'D', and 'd'
+                    nullChar = '0';
+                    break;
             }
             nullValues[i] = new byte[header.getFieldLength(i)];
-            Arrays.fill(nullValues[i], (byte)nullChar);
+            Arrays.fill(nullValues[i], (byte) nullChar);
         }
         buffer = NIOUtilities.allocate(header.getRecordLength());
     }
@@ -179,16 +171,13 @@ public class DbaseFileWriter {
             ; // do nothing
         }
     }
-    
+
     /**
      * Write a single dbase record.
-     * 
-     * @param record
-     *                The entries to write.
-     * @throws IOException
-     *                 If IO error occurs.
-     * @throws DbaseFileException
-     *                 If the entry doesn't comply to the header.
+     *
+     * @param record The entries to write.
+     * @throws IOException        If IO error occurs.
+     * @throws DbaseFileException If the entry doesn't comply to the header.
      */
     public void write(Object[] record) throws IOException, DbaseFileException {
         if (record.length != header.getNumFields()) {
@@ -221,80 +210,78 @@ public class DbaseFileWriter {
         write();
     }
 
-    
+
     /**
      * Called to convert the given object to bytes.
-     * 
-     * @param obj
-     *            The value to convert; never null.
-     * @param col
-     *            The column this object will be encoded into.
+     *
+     * @param obj The value to convert; never null.
+     * @param col The column this object will be encoded into.
      * @return The bytes of a string representation of the given object in the
-     *         current character encoding.
-     * @throws UnsupportedEncodingException Thrown if the current charset is unsupported. 
+     * current character encoding.
+     * @throws UnsupportedEncodingException Thrown if the current charset is unsupported.
      */
     private byte[] fieldBytes(Object obj, final int col)
             throws UnsupportedEncodingException {
         String o;
         final int fieldLen = header.getFieldLength(col);
         switch (header.getFieldType(col)) {
-        case 'C':
-        case 'c':
-            o = formatter.getFieldString(fieldLen, obj.toString());
-            break;
-        case 'L':
-        case 'l':
-            if (obj instanceof Boolean) {
-                o = ((Boolean)obj).booleanValue() ? "T" : "F";
-            } else {
-                o = "?";
-            }
-            break;
-        case 'M':
-        case 'G':
-            o = formatter.getFieldString(fieldLen, obj.toString());
-            break;
-        case 'N':
-        case 'n':
-            // int?
-            if (header.getFieldDecimalCount(col) == 0) {
-                o = formatter.getFieldString(fieldLen, 0, (Number)obj);
+            case 'C':
+            case 'c':
+                o = formatter.getFieldString(fieldLen, obj.toString());
                 break;
-            }
-        case 'F':
-        case 'f':
-            o = formatter.getFieldString(fieldLen,
-                    header.getFieldDecimalCount(col),
-                    (Number)obj);
-            break;
-        case 'D':
-        case 'd':
-            if (obj instanceof java.util.Calendar) {
-                o = formatter.getFieldString(((Calendar) obj).getTime());
+            case 'L':
+            case 'l':
+                if (obj instanceof Boolean) {
+                    o = ((Boolean) obj).booleanValue() ? "T" : "F";
+                } else {
+                    o = "?";
+                }
+                break;
+            case 'M':
+            case 'G':
+                o = formatter.getFieldString(fieldLen, obj.toString());
+                break;
+            case 'N':
+            case 'n':
+                // int?
+                if (header.getFieldDecimalCount(col) == 0) {
+                    o = formatter.getFieldString(fieldLen, 0, (Number) obj);
+                    break;
+                }
+            case 'F':
+            case 'f':
+                o = formatter.getFieldString(fieldLen,
+                        header.getFieldDecimalCount(col),
+                        (Number) obj);
+                break;
+            case 'D':
+            case 'd':
+                if (obj instanceof java.util.Calendar) {
+                    o = formatter.getFieldString(((Calendar) obj).getTime());
 
-            } else {
-                o = formatter.getFieldString((Date) obj);
-            }
-            break;
-        case '@':
-            o = formatter.getFieldStringDateTime((Date)obj);
-            if (Boolean.getBoolean("org.geotools.shapefile.datetime")) {
-                // Adding the charset to getBytes causes the output to
-                // get altered for the '@: Timestamp' field.
-                // And using String.getBytes returns a different array
-                // in 64-bit platforms so we get chars and cast to byte
-                // one element at a time.
-                char[] carr = o.toCharArray();
-                byte[] barr = new byte[carr.length];
-                for (int i = 0; i < carr.length; i++) {
-                    barr[i] = (byte)carr[i];
-                }                            
-                return barr;
-            }
-            break;   
-        default:
-            throw new RuntimeException("Unknown type "
-                    + header.getFieldType(col));
+                } else {
+                    o = formatter.getFieldString((Date) obj);
+                }
+                break;
+            case '@':
+                o = formatter.getFieldStringDateTime((Date) obj);
+                if (Boolean.getBoolean("org.geotools.shapefile.datetime")) {
+                    // Adding the charset to getBytes causes the output to
+                    // get altered for the '@: Timestamp' field.
+                    // And using String.getBytes returns a different array
+                    // in 64-bit platforms so we get chars and cast to byte
+                    // one element at a time.
+                    char[] carr = o.toCharArray();
+                    byte[] barr = new byte[carr.length];
+                    for (int i = 0; i < carr.length; i++) {
+                        barr[i] = (byte) carr[i];
+                    }
+                    return barr;
+                }
+                break;
+            default:
+                throw new RuntimeException("Unknown type "
+                        + header.getFieldType(col));
         }
 
         // convert the string to bytes with the given charset.
@@ -303,9 +290,8 @@ public class DbaseFileWriter {
 
     /**
      * Release resources associated with this writer. <B>Highly recommended</B>
-     * 
-     * @throws IOException
-     *                 If errors occur.
+     *
+     * @throws IOException If errors occur.
      */
     public void close() throws IOException {
         // IANS - GEOT 193, bogus 0x00 written. According to dbf spec, optional
@@ -320,7 +306,7 @@ public class DbaseFileWriter {
             channel.close();
             streamLogger.close();
         }
-        if(buffer != null) {
+        if (buffer != null) {
             NIOUtilities.clean(buffer, false);
         }
         buffer = null;
@@ -328,17 +314,19 @@ public class DbaseFileWriter {
         formatter = null;
     }
 
-    /** Utility for formatting Dbase fields. */
+    /**
+     * Utility for formatting Dbase fields.
+     */
     public static class FieldFormatter {
         private StringBuffer buffer = new StringBuffer(255);
         private NumberFormat numFormat = NumberFormat.getNumberInstance(Locale.US);
         private Calendar calendar;
-        private final long MILLISECS_PER_DAY = 24*60*60*1000;
+        private final long MILLISECS_PER_DAY = 24 * 60 * 60 * 1000;
 
         private String emptyString;
         private static final int MAXCHARS = 255;
         private Charset charset;
-        
+
         private boolean swallowFieldSizeErrors = false;
         private static Logger logger = org.geotools.util.logging.Logging
                 .getLogger("org.geotools.data.shapefile");
@@ -353,13 +341,13 @@ public class DbaseFileWriter {
             for (int i = 0; i < MAXCHARS; i++) {
                 sb.setCharAt(i, ' ');
             }
-            
+
             this.charset = charset;
-            
+
             this.calendar = Calendar.getInstance(timeZone, Locale.US);
 
             emptyString = sb.toString();
-            
+
             this.swallowFieldSizeErrors = swallowFieldSizeErrors;
         }
 
@@ -393,22 +381,22 @@ public class DbaseFileWriter {
                 }
 
                 buffer.setLength(maxSize);
-    
+
                 return buffer.toString();
-            } catch(UnsupportedEncodingException e) {
+            } catch (UnsupportedEncodingException e) {
                 throw new RuntimeException("This error should never occurr", e);
             }
         }
 
         public String getFieldString(Date d) {
 
-        	if (d != null) {
+            if (d != null) {
                 buffer.delete(0, buffer.length());
-                
+
                 calendar.setTime(d);
                 int year = calendar.get(Calendar.YEAR);
                 int month = calendar.get(Calendar.MONTH) + 1; // returns 0
-                                                                // based month?
+                // based month?
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
 
                 if (year < 1000) {
@@ -441,105 +429,109 @@ public class DbaseFileWriter {
         }
 
         public String getFieldStringDateTime(Date d) {
-              
+
             // Sanity check
             if (d == null) return null;
-            
+
             final long difference = d.getTime() - DbaseFileHeader.MILLIS_SINCE_4713;
-            
+
             final int days = (int) (difference / MILLISECS_PER_DAY);
             final int time = (int) (difference % MILLISECS_PER_DAY);
-            
-            try{
+
+            try {
                 ByteArrayOutputStream o_bytes = new ByteArrayOutputStream();
                 DataOutputStream o_stream;
                 o_stream = new DataOutputStream(new BufferedOutputStream(o_bytes));
                 o_stream.writeInt(days);
                 o_stream.writeInt(time);
-                o_stream.flush();                       
+                o_stream.flush();
                 byte[] bytes = o_bytes.toByteArray();
                 // Cast the byte values to char as a workaround for erroneous byte
                 // array retrieval in 64-bit machines
                 char[] out = {
-                    // Days, after reverse.
-                    (char) bytes[3], (char) bytes[2],(char)  bytes[1], (char) bytes[0], 
-                    // Time in millis, after reverse.
-                    (char) bytes[7], (char) bytes[6], (char) bytes[5], (char) bytes[4],
+                        // Days, after reverse.
+                        (char) bytes[3], (char) bytes[2], (char) bytes[1], (char) bytes[0],
+                        // Time in millis, after reverse.
+                        (char) bytes[7], (char) bytes[6], (char) bytes[5], (char) bytes[4],
                 };
 
-                return  new String(out);   
-            }catch(IOException e){
+                return new String(out);
+            } catch (IOException e) {
                 // This is always just a int serialization, 
                 // there is no way to recover from here.
                 return null;
-            }       
+            }
         }
-        
+
         public String getFieldString(int size, int decimalPlaces, Number n) {
             buffer.delete(0, buffer.length());
 
             if (n != null) {
-            	double dval = n.doubleValue();
-            	
-        		/* DecimalFormat documentation:
-        		 * NaN is formatted as a string, which typically has a single character \uFFFD. 
-        		 * This string is determined by the DecimalFormatSymbols object. 
-        		 * This is the only value for which the prefixes and suffixes are not used.
-        		 * 
-        		 * Infinity is formatted as a string, which typically has a single character \u221E, 
-        		 * with the positive or negative prefixes and suffixes applied. 
-        		 * The infinity string is determined by the DecimalFormatSymbols object.
-        		 */
-        		/* However, the Double.toString method returns an ascii string, which is more ESRI-friendly */
-            	if (Double.isNaN(dval) || Double.isInfinite(dval)) {
-            		buffer.append(n.toString());
-            		/* Should we use toString for integral numbers as well? */
-            	} else {
-	            	
-	        		numFormat.setMaximumFractionDigits(decimalPlaces);
-	        		numFormat.setMinimumFractionDigits(decimalPlaces);
-	        		FieldPosition fp = new FieldPosition(NumberFormat.FRACTION_FIELD);
-	        		numFormat.format(n, buffer, fp);
-	        		
-	        		// large-magnitude numbers may overflow the field size in non-exponent notation,
-	        		// so do a safety check and fall back to native representation to preserve value
-	        		if (fp.getBeginIndex() >= size) {
-	        			buffer.delete(0, buffer.length());
-	        			buffer.append(n.toString());
-	        			if (buffer.length() > size) {
-	                    	// we have a grevious problem -- the value does not fit in the required size.
-	        				logger.logp(Level.WARNING, this.getClass().getName(), "getFieldString", 
-	        						"Writing DBF data, value {0} cannot be represented in size {1,number}", new Object[] {n, size});
-	        				if ( ! swallowFieldSizeErrors) {
-		                    	// rather than truncate, and corrupt the data, we throw a Runtime
-		                    	throw new IllegalArgumentException("Value "+n+" cannot be represented in size " + size);	        				
-	        				}
-	        			}
-	        		}
-            	}
+                double dval = n.doubleValue();
+
+                /* DecimalFormat documentation:
+                 * NaN is formatted as a string, which typically has a single character \uFFFD.
+                 * This string is determined by the DecimalFormatSymbols object.
+                 * This is the only value for which the prefixes and suffixes are not used.
+                 *
+                 * Infinity is formatted as a string, which typically has a single character \u221E,
+                 * with the positive or negative prefixes and suffixes applied.
+                 * The infinity string is determined by the DecimalFormatSymbols object.
+                 */
+                /* However, the Double.toString method returns an ascii string, which is more 
+                ESRI-friendly */
+                if (Double.isNaN(dval) || Double.isInfinite(dval)) {
+                    buffer.append(n.toString());
+                    /* Should we use toString for integral numbers as well? */
+                } else {
+
+                    numFormat.setMaximumFractionDigits(decimalPlaces);
+                    numFormat.setMinimumFractionDigits(decimalPlaces);
+                    FieldPosition fp = new FieldPosition(NumberFormat.FRACTION_FIELD);
+                    numFormat.format(n, buffer, fp);
+
+                    // large-magnitude numbers may overflow the field size in non-exponent notation,
+                    // so do a safety check and fall back to native representation to preserve value
+                    if (fp.getBeginIndex() >= size) {
+                        buffer.delete(0, buffer.length());
+                        buffer.append(n.toString());
+                        if (buffer.length() > size) {
+                            // we have a grevious problem -- the value does not fit in the 
+                            // required size.
+                            logger.logp(Level.WARNING, this.getClass().getName(), "getFieldString",
+                                    "Writing DBF data, value {0} cannot be represented in size " +
+                                            "{1,number}", new Object[]{n, size});
+                            if (!swallowFieldSizeErrors) {
+                                // rather than truncate, and corrupt the data, we throw a Runtime
+                                throw new IllegalArgumentException("Value " + n + " cannot be " +
+                                        "represented in size " + size);
+                            }
+                        }
+                    }
+                }
             }
 
             int diff = size - buffer.length();
             if (diff > 0) {
-            	buffer.insert(0, emptyString.substring(0, diff));
+                buffer.insert(0, emptyString.substring(0, diff));
             } else if (diff < 0) {
-            	buffer.setLength(size);
+                buffer.setLength(size);
             }
             return buffer.toString();
         }
     }
 
-	public boolean getReportFieldSizeErrors() {
-		return reportFieldSizeErrors;
-	}
+    public boolean getReportFieldSizeErrors() {
+        return reportFieldSizeErrors;
+    }
 
-	public void setReportFieldSizeErrors(boolean reportFieldSizeErrors) {
-		this.reportFieldSizeErrors = reportFieldSizeErrors;
-	}
+    public void setReportFieldSizeErrors(boolean reportFieldSizeErrors) {
+        this.reportFieldSizeErrors = reportFieldSizeErrors;
+    }
 
-	public DbaseFileHeader getHeader() {
-	    return this.header;
-	}
+    public DbaseFileHeader getHeader() {
+        return this.header;
+    }
 
-	
+
 }

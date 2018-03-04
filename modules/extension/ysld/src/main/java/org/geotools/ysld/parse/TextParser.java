@@ -4,7 +4,7 @@
  *
  *    (C) 2016 Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2016 Boundless Spatial
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -24,7 +24,6 @@ import org.opengis.filter.FilterFactory;
 
 /**
  * Handles parsing a Ysld "text" symbolizer property into a {@link Symbolizer} object.
- *
  */
 public class TextParser extends SymbolizerParser<TextSymbolizer> {
 

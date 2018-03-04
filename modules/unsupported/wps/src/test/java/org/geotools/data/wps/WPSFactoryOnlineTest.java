@@ -57,18 +57,13 @@ import com.vividsolutions.jts.io.WKTReader;
  * Test requests using the WPSFactory and WPSProcess objects
  *
  * @author GDavis
- *
- *
- *
- *
- *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/wps/src/test/java/org/geotools
- *         /data/wps/OnlineWPSFactoryTest.java $
+ * http://svn.osgeo.org/geotools/trunk/modules/unsupported/wps/src/test/java/org/geotools
+ * /data/wps/OnlineWPSFactoryTest.java $
  */
-public class WPSFactoryOnlineTest extends OnlineTestCase
-{
-    private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org.geotools.data.wps");
+public class WPSFactoryOnlineTest extends OnlineTestCase {
+    private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org" +
+            ".geotools.data.wps");
 
     private WebProcessingService wps;
 
@@ -80,35 +75,31 @@ public class WPSFactoryOnlineTest extends OnlineTestCase
      * The wps.geoserver fixture consisting of service and processId.
      */
     @Override
-    protected String getFixtureId()
-    {
+    protected String getFixtureId() {
         return "wps";
     }
 
     @Override
-    protected Properties createExampleFixture()
-    {
+    protected Properties createExampleFixture() {
         Properties example = new Properties();
-        example.put("service", "http://localhost:8080/geoserver/ows?service=wps&version=1.0.0&request=GetCapabilities");
+        example.put("service", "http://localhost:8080/geoserver/ows?service=wps&version=1.0.0" +
+                "&request=GetCapabilities");
         example.put("processId", "buffer");
 
         return example;
     }
 
     @Override
-    public void connect() throws ServiceException, IOException
-    {
-        if (fixture == null)
-        {
+    public void connect() throws ServiceException, IOException {
+        if (fixture == null) {
             return;
         }
 
         // local server
         String serviceProperty = fixture.getProperty("service");
-        if (serviceProperty == null)
-        {
+        if (serviceProperty == null) {
             throw new ServiceException(
-                "Service URL not provided by test fixture");
+                    "Service URL not provided by test fixture");
         }
         url = new URL(serviceProperty);
         processIden = fixture.getProperty("processId");
@@ -147,10 +138,9 @@ public class WPSFactoryOnlineTest extends OnlineTestCase
      * @throws ServiceException
      */
     @Test
-    public void testExecuteProcessBufferLocal() throws ParseException, ServiceException, IOException, ProcessException
-    {
-        if (fixture == null)
-        {
+    public void testExecuteProcessBufferLocal() throws ParseException, ServiceException, 
+            IOException, ProcessException {
+        if (fixture == null) {
             return;
         }
 
@@ -159,9 +149,11 @@ public class WPSFactoryOnlineTest extends OnlineTestCase
         Geometry geom1 = reader.read("POLYGON((20 10, 30 0, 40 10, 30 20, 20 10))");
         Geometry geom2 = reader.read("POINT (160 200)");
         Geometry geom3 = reader.read("LINESTRING (100 240, 220 140, 380 240, 480 220)");
-        Geometry geom4 = reader.read("MULTILINESTRING ((140 280, 180 180, 400 260), (340 120, 160 100, 80 200))");
+        Geometry geom4 = reader.read("MULTILINESTRING ((140 280, 180 180, 400 260), (340 120, 160" +
+                " 100, 80 200))");
         Geometry geom5 = reader.read("MULTIPOINT (180 180, 260 280, 340 200)");
-        Geometry geom6 = reader.read("MULTIPOLYGON (((160 320, 120 140, 360 140, 320 340, 160 320), (440 260, 580 140, 580 240, 440 260)))");
+        Geometry geom6 = reader.read("MULTIPOLYGON (((160 320, 120 140, 360 140, 320 340, 160 " +
+                "320), (440 260, 580 140, 580 240, 440 260)))");
 
         // run the local buffer execute test for each geom input
         runExecuteProcessBufferLocal(geom1);
@@ -172,11 +164,10 @@ public class WPSFactoryOnlineTest extends OnlineTestCase
         runExecuteProcessBufferLocal(geom6);
     }
 
-    private void runExecuteProcessBufferLocal(Geometry geom1) throws ServiceException, IOException, ParseException,
-        ProcessException
-    {
-        if (fixture == null)
-        {
+    private void runExecuteProcessBufferLocal(Geometry geom1) throws ServiceException, 
+            IOException, ParseException,
+            ProcessException {
+        if (fixture == null) {
             return;
         }
 
@@ -190,11 +181,9 @@ public class WPSFactoryOnlineTest extends OnlineTestCase
         // does the server contain the specific process I want
         boolean found = false;
         Iterator iterator = processes.iterator();
-        while (iterator.hasNext())
-        {
+        while (iterator.hasNext()) {
             ProcessBriefType process = (ProcessBriefType) iterator.next();
-            if (process.getIdentifier().getValue().equalsIgnoreCase(processIden))
-            {
+            if (process.getIdentifier().getValue().equalsIgnoreCase(processIden)) {
                 found = true;
 
                 break;
@@ -202,8 +191,7 @@ public class WPSFactoryOnlineTest extends OnlineTestCase
         }
 
         // exit test if my process doesn't exist on server
-        if (!found)
-        {
+        if (!found) {
             return;
         }
 
@@ -216,7 +204,7 @@ public class WPSFactoryOnlineTest extends OnlineTestCase
 
         execRequest.addInput("buffer", Arrays.asList(wps.createLiteralInputValue("350")));
         execRequest.addInput("geom1", Arrays.asList(wps.createBoundingBoxInputValue(
-                    "EPSG:4326", 2, Arrays.asList(-180.0, -90.0), Arrays.asList(-180.0, -90.0))));
+                "EPSG:4326", 2, Arrays.asList(-180.0, -90.0), Arrays.asList(-180.0, -90.0))));
 
 
         ResponseDocumentType respDoc = wps.createResponseDocumentType(false, true, true, "result");
@@ -234,7 +222,8 @@ public class WPSFactoryOnlineTest extends OnlineTestCase
 
         // based on the describeprocess, setup the execute
         ProcessDescriptionsType processDesc = descResponse.getProcessDesc();
-        ProcessDescriptionType pdt = (ProcessDescriptionType) processDesc.getProcessDescription().get(0);
+        ProcessDescriptionType pdt = (ProcessDescriptionType) processDesc.getProcessDescription()
+                .get(0);
         WPSFactory wpsfactory = new WPSFactory(pdt, this.url);
         Process process = wpsfactory.create();
 
@@ -266,10 +255,9 @@ public class WPSFactoryOnlineTest extends OnlineTestCase
      * @throws ParseException
      */
     @Test
-    public void testExecuteLocalUnion() throws ServiceException, IOException, ParseException, ProcessException
-    {
-        if (fixture == null)
-        {
+    public void testExecuteLocalUnion() throws ServiceException, IOException, ParseException, 
+            ProcessException {
+        if (fixture == null) {
             return;
         }
 
@@ -285,11 +273,9 @@ public class WPSFactoryOnlineTest extends OnlineTestCase
         // does the server contain the specific process I want
         boolean found = false;
         Iterator iterator = processes.iterator();
-        while (iterator.hasNext())
-        {
+        while (iterator.hasNext()) {
             ProcessBriefType process = (ProcessBriefType) iterator.next();
-            if (process.getIdentifier().getValue().equalsIgnoreCase(processIdenLocal))
-            {
+            if (process.getIdentifier().getValue().equalsIgnoreCase(processIdenLocal)) {
                 found = true;
 
                 break;
@@ -297,8 +283,7 @@ public class WPSFactoryOnlineTest extends OnlineTestCase
         }
 
         // exit test if my process doesn't exist on server
-        if (!found)
-        {
+        if (!found) {
             return;
         }
 
@@ -310,7 +295,8 @@ public class WPSFactoryOnlineTest extends OnlineTestCase
 
         // based on the describeprocess, setup the execute
         ProcessDescriptionsType processDesc = descResponse.getProcessDesc();
-        ProcessDescriptionType pdt = (ProcessDescriptionType) processDesc.getProcessDescription().get(0);
+        ProcessDescriptionType pdt = (ProcessDescriptionType) processDesc.getProcessDescription()
+                .get(0);
         WPSFactory wpsfactory = new WPSFactory(pdt, this.url);
         Process process = wpsfactory.create();
 
@@ -352,10 +338,9 @@ public class WPSFactoryOnlineTest extends OnlineTestCase
      * @throws ParseException
      */
     @Test
-    public void testBADExecuteLocalUnion() throws ServiceException, IOException, ParseException, ProcessException
-    {
-        if (fixture == null)
-        {
+    public void testBADExecuteLocalUnion() throws ServiceException, IOException, ParseException, 
+            ProcessException {
+        if (fixture == null) {
             return;
         }
 
@@ -371,11 +356,9 @@ public class WPSFactoryOnlineTest extends OnlineTestCase
         // does the server contain the specific process I want
         boolean found = false;
         Iterator iterator = processes.iterator();
-        while (iterator.hasNext())
-        {
+        while (iterator.hasNext()) {
             ProcessBriefType process = (ProcessBriefType) iterator.next();
-            if (process.getIdentifier().getValue().equalsIgnoreCase(processIdenLocal))
-            {
+            if (process.getIdentifier().getValue().equalsIgnoreCase(processIdenLocal)) {
                 found = true;
 
                 break;
@@ -383,8 +366,7 @@ public class WPSFactoryOnlineTest extends OnlineTestCase
         }
 
         // exit test if my process doesn't exist on server
-        if (!found)
-        {
+        if (!found) {
             return;
         }
 
@@ -396,7 +378,8 @@ public class WPSFactoryOnlineTest extends OnlineTestCase
 
         // based on the describeprocess, setup the execute
         ProcessDescriptionsType processDesc = descResponse.getProcessDesc();
-        ProcessDescriptionType pdt = (ProcessDescriptionType) processDesc.getProcessDescription().get(0);
+        ProcessDescriptionType pdt = (ProcessDescriptionType) processDesc.getProcessDescription()
+                .get(0);
         WPSFactory wpsfactory = new WPSFactory(pdt, this.url);
         Process process = wpsfactory.create();
 
@@ -419,10 +402,9 @@ public class WPSFactoryOnlineTest extends OnlineTestCase
      * @throws ParseException
      */
     @Test
-    public void testExecuteLocalAdd() throws ServiceException, IOException, ParseException, ProcessException
-    {
-        if (fixture == null)
-        {
+    public void testExecuteLocalAdd() throws ServiceException, IOException, ParseException, 
+            ProcessException {
+        if (fixture == null) {
             return;
         }
 
@@ -438,11 +420,9 @@ public class WPSFactoryOnlineTest extends OnlineTestCase
         // does the server contain the specific process I want
         boolean found = false;
         Iterator iterator = processes.iterator();
-        while (iterator.hasNext())
-        {
+        while (iterator.hasNext()) {
             ProcessBriefType process = (ProcessBriefType) iterator.next();
-            if (process.getIdentifier().getValue().equalsIgnoreCase(processIdenLocal))
-            {
+            if (process.getIdentifier().getValue().equalsIgnoreCase(processIdenLocal)) {
                 found = true;
 
                 break;
@@ -450,8 +430,7 @@ public class WPSFactoryOnlineTest extends OnlineTestCase
         }
 
         // exit test if my process doesn't exist on server
-        if (!found)
-        {
+        if (!found) {
             return;
         }
 
@@ -463,7 +442,8 @@ public class WPSFactoryOnlineTest extends OnlineTestCase
 
         // based on the describeprocess, setup the execute
         ProcessDescriptionsType processDesc = descResponse.getProcessDesc();
-        ProcessDescriptionType pdt = (ProcessDescriptionType) processDesc.getProcessDescription().get(0);
+        ProcessDescriptionType pdt = (ProcessDescriptionType) processDesc.getProcessDescription()
+                .get(0);
         WPSFactory wpsfactory = new WPSFactory(pdt, this.url);
         Process process = wpsfactory.create();
 
@@ -493,20 +473,19 @@ public class WPSFactoryOnlineTest extends OnlineTestCase
      * GEOT-4364: parsing LiteralOutput with null DataType
      */
     @Test
-    public void testDescribeProcessNullDatatype() throws ServiceException, IOException, ParseException, ProcessException
-    {
+    public void testDescribeProcessNullDatatype() throws ServiceException, IOException, 
+            ParseException, ProcessException {
 //        Assume.assumeTrue(fixture != null);
 //        Assume.assumeTrue(! DISABLE );
 
-        if (fixture == null)
-        {
+        if (fixture == null) {
             return;
         }
 
         String requestedProcess = "JTS:geometryType";
 
         WPSCapabilitiesType capabilities = wps.getCapabilities();
-        
+
         ProcessOfferingsType processOfferings = capabilities.getProcessOfferings();
         List<ProcessBriefType> processes = processOfferings.getProcess();
 
@@ -514,8 +493,7 @@ public class WPSFactoryOnlineTest extends OnlineTestCase
         boolean found = false;
         for (ProcessBriefType process : processes) {
 
-            if (process.getIdentifier().getValue().equalsIgnoreCase(requestedProcess))
-            {
+            if (process.getIdentifier().getValue().equalsIgnoreCase(requestedProcess)) {
                 found = true;
                 break;
             }
@@ -529,7 +507,8 @@ public class WPSFactoryOnlineTest extends OnlineTestCase
 
         DescribeProcessResponse descResponse = wps.issueRequest(descRequest);
         ProcessDescriptionsType processDesc = descResponse.getProcessDesc();
-        ProcessDescriptionType pdt = (ProcessDescriptionType) processDesc.getProcessDescription().get(0);
+        ProcessDescriptionType pdt = (ProcessDescriptionType) processDesc.getProcessDescription()
+                .get(0);
         WPSFactory wpsfactory = new WPSFactory(pdt, this.url);
     }
 
@@ -537,14 +516,13 @@ public class WPSFactoryOnlineTest extends OnlineTestCase
      * GEOT-4364 [2]: parsing LiteralOutput/DataType with null ows:reference
      */
     @Test
-    public void testDescribeProcessDatatypeWithoutRef() throws ServiceException, IOException, ParseException, ProcessException
-    {
+    public void testDescribeProcessDatatypeWithoutRef() throws ServiceException, IOException, 
+            ParseException, ProcessException {
 //        Assume.assumeTrue(fixture != null);
 //        Assume.assumeTrue(! DISABLE );
 
-        if (fixture == null)
-        {
-            LOGGER.info("Skipping " + getName()+": fixture not found");
+        if (fixture == null) {
+            LOGGER.info("Skipping " + getName() + ": fixture not found");
             return;
         }
 
@@ -559,8 +537,7 @@ public class WPSFactoryOnlineTest extends OnlineTestCase
         boolean found = false;
         for (ProcessBriefType process : processes) {
 
-            if (process.getIdentifier().getValue().equalsIgnoreCase(requestedProcess))
-            {
+            if (process.getIdentifier().getValue().equalsIgnoreCase(requestedProcess)) {
                 found = true;
                 break;
             }
@@ -574,7 +551,8 @@ public class WPSFactoryOnlineTest extends OnlineTestCase
 
         DescribeProcessResponse descResponse = wps.issueRequest(descRequest);
         ProcessDescriptionsType processDesc = descResponse.getProcessDesc();
-        ProcessDescriptionType pdt = (ProcessDescriptionType) processDesc.getProcessDescription().get(0);
+        ProcessDescriptionType pdt = (ProcessDescriptionType) processDesc.getProcessDescription()
+                .get(0);
         WPSFactory wpsfactory = new WPSFactory(pdt, this.url);
     }
 

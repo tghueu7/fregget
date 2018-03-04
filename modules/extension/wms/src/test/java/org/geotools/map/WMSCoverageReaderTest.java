@@ -42,20 +42,22 @@ public class WMSCoverageReaderTest {
         ParameterParser pp = new ParameterParser();
         List params = pp.parse(query, '&');
         Map<String, String> result = new HashMap<String, String>();
-        for (Iterator it = params.iterator(); it.hasNext();) {
+        for (Iterator it = params.iterator(); it.hasNext(); ) {
             NameValuePair pair = (NameValuePair) it.next();
             result.put(pair.getName().toUpperCase(), pair.getValue());
         }
         return result;
-    };
-    
+    }
+
+    ;
+
     @Before
     public void setup() {
         System.setProperty("org.geotools.referencing.forceXY", "true");
         Hints.putSystemDefault(Hints.FORCE_AXIS_ORDER_HONORING, "http");
         CRS.reset("all");
     }
-    
+
     @After
     public void teardown() {
         System.clearProperty("org.geotools.referencing.forceXY");
@@ -71,14 +73,15 @@ public class WMSCoverageReaderTest {
         CoordinateReferenceSystem wgs84 = CRS.decode("EPSG:4326", true);
         ReferencedEnvelope worldEnvelope = new ReferencedEnvelope(-180, 180, -90, 90, wgs84);
         GridGeometry2D gg = new GridGeometry2D(new GridEnvelope2D(0, 0, 180, 90), worldEnvelope);
-        final Parameter<GridGeometry2D> ggParam = (Parameter<GridGeometry2D>) AbstractGridFormat.READ_GRIDGEOMETRY2D
+        final Parameter<GridGeometry2D> ggParam = (Parameter<GridGeometry2D>) AbstractGridFormat
+                .READ_GRIDGEOMETRY2D
                 .createValue();
         ggParam.setValue(gg);
-        GridCoverage2D coverage = reader.read(new GeneralParameterValue[] { ggParam });
+        GridCoverage2D coverage = reader.read(new GeneralParameterValue[]{ggParam});
         assertTrue(CRS.equalsIgnoreMetadata(wgs84, coverage.getCoordinateReferenceSystem()));
         assertEquals(worldEnvelope, new ReferencedEnvelope(coverage.getEnvelope()));
     }
-    
+
     @Test
     public void test4326wms13RequestFlipped() throws Exception {
         WMSCoverageReader reader = getReader4326wms13();
@@ -87,31 +90,33 @@ public class WMSCoverageReaderTest {
         CoordinateReferenceSystem wgs84 = CRS.decode("urn:ogc:def:crs:EPSG::4326", true);
         ReferencedEnvelope worldEnvelope = new ReferencedEnvelope(-90, 90, -180, 180, wgs84);
         GridGeometry2D gg = new GridGeometry2D(new GridEnvelope2D(0, 0, 180, 90), worldEnvelope);
-        final Parameter<GridGeometry2D> ggParam = (Parameter<GridGeometry2D>) AbstractGridFormat.READ_GRIDGEOMETRY2D
+        final Parameter<GridGeometry2D> ggParam = (Parameter<GridGeometry2D>) AbstractGridFormat
+                .READ_GRIDGEOMETRY2D
                 .createValue();
         ggParam.setValue(gg);
-        GridCoverage2D coverage = reader.read(new GeneralParameterValue[] { ggParam });
+        GridCoverage2D coverage = reader.read(new GeneralParameterValue[]{ggParam});
         assertTrue(CRS.equalsIgnoreMetadata(wgs84, coverage.getCoordinateReferenceSystem()));
         assertEquals(worldEnvelope, new ReferencedEnvelope(coverage.getEnvelope()));
     }
-    
+
     @Test
     public void test4326wms13RequestFlippedStandardEPSG() throws Exception {
         // reset the CRS system to its defaults
         System.clearProperty("org.geotools.referencing.forceXY");
         Hints.putSystemDefault(Hints.FORCE_AXIS_ORDER_HONORING, "");
         CRS.reset("all");
-        
+
         WMSCoverageReader reader = getReader4326wms13();
 
         // build a getmap request and check it
         CoordinateReferenceSystem wgs84 = CRS.decode("urn:ogc:def:crs:EPSG::4326", true);
         ReferencedEnvelope worldEnvelope = new ReferencedEnvelope(-90, 90, -180, 180, wgs84);
         GridGeometry2D gg = new GridGeometry2D(new GridEnvelope2D(0, 0, 180, 90), worldEnvelope);
-        final Parameter<GridGeometry2D> ggParam = (Parameter<GridGeometry2D>) AbstractGridFormat.READ_GRIDGEOMETRY2D
+        final Parameter<GridGeometry2D> ggParam = (Parameter<GridGeometry2D>) AbstractGridFormat
+                .READ_GRIDGEOMETRY2D
                 .createValue();
         ggParam.setValue(gg);
-        GridCoverage2D coverage = reader.read(new GeneralParameterValue[] { ggParam });
+        GridCoverage2D coverage = reader.read(new GeneralParameterValue[]{ggParam});
         assertTrue(CRS.equalsIgnoreMetadata(wgs84, coverage.getCoordinateReferenceSystem()));
         assertEquals(worldEnvelope, new ReferencedEnvelope(coverage.getEnvelope()));
     }
@@ -146,7 +151,7 @@ public class WMSCoverageReaderTest {
         WMSCoverageReader reader = new WMSCoverageReader(server, getLayer(server, "world4326"));
         return reader;
     }
-    
+
     @Test
     public void testGetMapNoContentType() throws Exception {
         // reset the CRS system to its defaults
@@ -173,7 +178,9 @@ public class WMSCoverageReaderTest {
                         public void dispose() {
                             disposeCalled.set(true);
                             super.dispose();
-                        };
+                        }
+
+                        ;
                     };
                 } else {
                     throw new IllegalArgumentException(
@@ -191,11 +198,12 @@ public class WMSCoverageReaderTest {
         CoordinateReferenceSystem wgs84 = CRS.decode("urn:ogc:def:crs:EPSG::4326", true);
         ReferencedEnvelope worldEnvelope = new ReferencedEnvelope(-90, 90, -180, 180, wgs84);
         GridGeometry2D gg = new GridGeometry2D(new GridEnvelope2D(0, 0, 180, 90), worldEnvelope);
-        final Parameter<GridGeometry2D> ggParam = (Parameter<GridGeometry2D>) AbstractGridFormat.READ_GRIDGEOMETRY2D
+        final Parameter<GridGeometry2D> ggParam = (Parameter<GridGeometry2D>) AbstractGridFormat
+                .READ_GRIDGEOMETRY2D
                 .createValue();
         ggParam.setValue(gg);
         try {
-            reader.read(new GeneralParameterValue[] { ggParam });
+            reader.read(new GeneralParameterValue[]{ggParam});
             fail("Should have thrown an exception, the GetMap content type was null");
         } catch (Exception e) {
             // it's fine
@@ -204,7 +212,7 @@ public class WMSCoverageReaderTest {
         assertTrue(disposeCalled.get());
     }
 
-    
+
     @Test
     public void test4326wms11() throws Exception {
         WMSCoverageReader reader = getReader4326wms11();
@@ -215,15 +223,16 @@ public class WMSCoverageReaderTest {
         // build a getmap request and check it
         ReferencedEnvelope worldEnvelope = new ReferencedEnvelope(-180, 180, -90, 90, wgs84);
         GridGeometry2D gg = new GridGeometry2D(new GridEnvelope2D(0, 0, 180, 90), worldEnvelope);
-        final Parameter<GridGeometry2D> ggParam = (Parameter<GridGeometry2D>) AbstractGridFormat.READ_GRIDGEOMETRY2D
+        final Parameter<GridGeometry2D> ggParam = (Parameter<GridGeometry2D>) AbstractGridFormat
+                .READ_GRIDGEOMETRY2D
                 .createValue();
         ggParam.setValue(gg);
-        GridCoverage2D coverage = reader.read(new GeneralParameterValue[] { ggParam });
+        GridCoverage2D coverage = reader.read(new GeneralParameterValue[]{ggParam});
         assertTrue(CRS.equalsIgnoreMetadata(wgs84, coverage.getCoordinateReferenceSystem()));
         assertEquals(worldEnvelope, new ReferencedEnvelope(coverage.getEnvelope()));
     }
 
-    
+
     private WMSCoverageReader getReader4326wms11() throws IOException, ServiceException,
             MalformedURLException {
         // prepare the responses
@@ -264,7 +273,8 @@ public class WMSCoverageReaderTest {
                 if (url.getQuery().contains("GetCapabilities")) {
                     URL caps130 = WMSCoverageReaderTest.class.getResource("caps130_crs84.xml");
                     return new MockHttpResponse(caps130, "text/xml");
-                } else if (url.getQuery().contains("GetMap") && url.getQuery().contains("world84")) {
+                } else if (url.getQuery().contains("GetMap") && url.getQuery().contains
+                        ("world84")) {
                     Map<String, String> params = parseParams(url.getQuery());
                     assertEquals("1.3.0", params.get("VERSION"));
                     assertEquals("CRS:84", params.get("CRS"));
@@ -286,11 +296,12 @@ public class WMSCoverageReaderTest {
         CoordinateReferenceSystem wgs84 = CRS.decode("EPSG:4326", true);
         ReferencedEnvelope worldEnvelope = new ReferencedEnvelope(-180, 180, -90, 90, wgs84);
         GridGeometry2D gg = new GridGeometry2D(new GridEnvelope2D(0, 0, 180, 90), worldEnvelope);
-        final Parameter<GridGeometry2D> ggParam = (Parameter<GridGeometry2D>) AbstractGridFormat.READ_GRIDGEOMETRY2D
+        final Parameter<GridGeometry2D> ggParam = (Parameter<GridGeometry2D>) AbstractGridFormat
+                .READ_GRIDGEOMETRY2D
                 .createValue();
         ggParam.setValue(gg);
 
-        GridCoverage2D coverage = reader.read(new GeneralParameterValue[] { ggParam });
+        GridCoverage2D coverage = reader.read(new GeneralParameterValue[]{ggParam});
         assertTrue(CRS.equalsIgnoreMetadata(wgs84, coverage.getCoordinateReferenceSystem()));
         assertEquals(worldEnvelope, new ReferencedEnvelope(coverage.getEnvelope()));
     }

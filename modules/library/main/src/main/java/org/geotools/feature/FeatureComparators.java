@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -22,20 +22,20 @@ import org.opengis.feature.simple.SimpleFeature;
  * A utility class for creating simple Comparators for Features.
  *
  * @author Ian Schneider
- *
- *
  * @source $URL$
  */
 public final class FeatureComparators {
-    /** A utility comparator for comparison by id. */
+    /**
+     * A utility comparator for comparison by id.
+     */
     public static final java.util.Comparator BY_ID = new java.util.Comparator() {
-            public int compare(Object o1, Object o2) {
-                SimpleFeature f1 = (SimpleFeature) o1;
-                SimpleFeature f2 = (SimpleFeature) o2;
+        public int compare(Object o1, Object o2) {
+            SimpleFeature f1 = (SimpleFeature) o1;
+            SimpleFeature f2 = (SimpleFeature) o2;
 
-                return f1.getID().compareTo(f2.getID());
-            }
-        };
+            return f1.getID().compareTo(f2.getID());
+        }
+    };
 
     /**
      * Private constructor so default constructor is not available for this
@@ -51,7 +51,6 @@ public final class FeatureComparators {
      * the given index are the same.
      *
      * @param idx The index to look up attributes at.
-     *
      * @return A new Comparator.
      */
     public static java.util.Comparator byAttributeIndex(final int idx) {
@@ -65,7 +64,6 @@ public final class FeatureComparators {
      * found are the same class.
      *
      * @param name The xpath to use while comparing.
-     *
      * @return A new Comparator.
      */
     public static java.util.Comparator byAttributeName(final String name) {
@@ -77,7 +75,9 @@ public final class FeatureComparators {
      * index.
      */
     public static class Index implements java.util.Comparator {
-        /** the index of the attribute to compare against. */
+        /**
+         * the index of the attribute to compare against.
+         */
         private final int idx;
 
         /**
@@ -95,7 +95,6 @@ public final class FeatureComparators {
          *
          * @param o1 The first Feature.
          * @param o2 The second Feature
-         *
          * @return A value indicating less than, equal, or greater than.
          */
         public int compare(Object o1, Object o2) {
@@ -110,7 +109,6 @@ public final class FeatureComparators {
          *
          * @param att1 The first attribute to compare.
          * @param att2 The second attribute to compare.
-         *
          * @return A value indicating less than, equal, or greater than.
          */
         protected int compareAtts(Object att1, Object att2) {
@@ -123,7 +121,9 @@ public final class FeatureComparators {
      * name.
      */
     public static class Name implements java.util.Comparator {
-        /** The name to compare on */
+        /**
+         * The name to compare on
+         */
         private final String name;
 
         /**
@@ -141,7 +141,6 @@ public final class FeatureComparators {
          *
          * @param o1 The first Feature.
          * @param o2 The second Feature
-         *
          * @return A value indicating less than, equal, or greater than.
          */
         public int compare(Object o1, Object o2) {
@@ -156,21 +155,20 @@ public final class FeatureComparators {
          *
          * @param att1 The first attribute to compare.
          * @param att2 The second attribute to compare.
-         *
          * @return A value indicating less than, equal, or greater than.
          */
         protected int compareAtts(Object att1, Object att2) {
             if ((att1 == null) && (att2 == null)) {
                 return 0;
             }
-            
+
             if (att1 == null) {
                 return -1;
             }
-            
+
             if (att2 == null) {
                 return 1;
-            }                        
+            }
 
             return ((Comparable) att1).compareTo((Comparable) att2);
         }

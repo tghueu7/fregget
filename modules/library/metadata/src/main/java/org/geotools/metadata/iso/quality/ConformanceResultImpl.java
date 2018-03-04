@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -28,13 +28,10 @@ import org.opengis.util.InternationalString;
  * Information about the outcome of evaluating the obtained value (or set of values) against
  * a specified acceptable conformance quality level.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class ConformanceResultImpl extends ResultImpl implements ConformanceResult {
@@ -77,13 +74,12 @@ public class ConformanceResultImpl extends ResultImpl implements ConformanceResu
     /**
      * Creates a conformance result initialized to the given values.
      */
-    public ConformanceResultImpl(final Citation            specification,
+    public ConformanceResultImpl(final Citation specification,
                                  final InternationalString explanation,
-                                 final boolean             pass)
-    {
+                                 final boolean pass) {
         setSpecification(specification);
-        setExplanation  (explanation);
-        setPass         (pass);
+        setExplanation(explanation);
+        setPass(pass);
     }
 
     /**

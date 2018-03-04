@@ -26,7 +26,7 @@ import org.opengis.filter.expression.VolatileFunction;
  * volatile} (i.e. explicitly stating evaluation needs to happen for each object in the collection
  * being traversed) and {@link InternalFunction internal} (i.e. are not subject of SPI lookup, such
  * as anonymous inner classes).
- * 
+ *
  * @since 9.0
  */
 public abstract class InternalVolatileFunction extends FunctionImpl implements InternalFunction,
@@ -47,8 +47,9 @@ public abstract class InternalVolatileFunction extends FunctionImpl implements I
      * A subclass that do expect {@link Expression} parameters shall override this method and return
      * a new instance of the same kind of InternalFunction configured to work against the given
      * {@code parameters}.
-     * 
-     * @see org.opengis.filter.expression.InternalFunction#duplicate(org.opengis.filter.expression.Expression[])
+     *
+     * @see org.opengis.filter.expression.InternalFunction#duplicate(org.opengis.filter
+     * .expression.Expression[])
      */
     @Override
     public InternalFunction duplicate(Expression... parameters) {

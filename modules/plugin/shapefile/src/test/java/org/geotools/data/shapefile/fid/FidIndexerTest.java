@@ -26,8 +26,6 @@ import org.geotools.util.URLs;
 import org.junit.Test;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class FidIndexerTest extends FIDTestCase {

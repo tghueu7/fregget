@@ -53,16 +53,16 @@ public class GML3CurveParsingTest extends GML3TestSupport {
         Object arc = p.parse(GML3CurveParsingTest.class.getResourceAsStream("v3_2/singleArc.xml"));
         assertThat(arc, instanceOf(CircularString.class));
         CircularString cs = (CircularString) arc;
-        assertArrayEquals(new double[] { 10, 15, 15, 20, 20, 15 }, cs.getControlPoints(), 0d);
+        assertArrayEquals(new double[]{10, 15, 15, 20, 20, 15}, cs.getControlPoints(), 0d);
         assertEquals(TOLERANCE, cs.getTolerance());
     }
-    
+
     public void testArcString() throws Exception {
         Parser p = new Parser(gml);
         Object arc = p.parse(GML3CurveParsingTest.class.getResourceAsStream("v3_2/arcString.xml"));
         assertThat(arc, instanceOf(CircularString.class));
         CircularString cs = (CircularString) arc;
-        assertArrayEquals(new double[] { 10, 35, 15, 40, 20, 35, 25, 30, 30, 35 },
+        assertArrayEquals(new double[]{10, 35, 15, 40, 20, 35, 25, 30, 30, 35},
                 cs.getControlPoints(), 0d);
         assertEquals(TOLERANCE, cs.getTolerance());
     }
@@ -83,7 +83,7 @@ public class GML3CurveParsingTest extends GML3TestSupport {
         assertEquals(new Coordinate(20, 45), ls1.getCoordinateN(1));
 
         CircularString cs = (CircularString) components.get(1);
-        assertArrayEquals(new double[] { 20.0, 45.0, 23.0, 48.0, 20.0, 51.0 },
+        assertArrayEquals(new double[]{20.0, 45.0, 23.0, 48.0, 20.0, 51.0},
                 cs.getControlPoints(), 0d);
 
         LineString ls2 = components.get(2);
@@ -111,7 +111,7 @@ public class GML3CurveParsingTest extends GML3TestSupport {
         assertEquals(new Coordinate(20, 78), ls.getCoordinateN(3));
 
         CircularString cs = (CircularString) components.get(1);
-        assertArrayEquals(new double[] { 20, 78, 15, 80, 10, 78 }, cs.getControlPoints(), 0d);
+        assertArrayEquals(new double[]{20, 78, 15, 80, 10, 78}, cs.getControlPoints(), 0d);
     }
 
     public void testCirclePolygon() throws Exception {
@@ -154,7 +154,7 @@ public class GML3CurveParsingTest extends GML3TestSupport {
         assertEquals(new Coordinate(14, 10), ls.getCoordinateN(2));
 
         CircularString cs = (CircularString) components.get(1);
-        assertArrayEquals(new double[] { 14, 10, 10, 14, 6, 10 }, cs.getControlPoints(), 0d);
+        assertArrayEquals(new double[]{14, 10, 10, 14, 6, 10}, cs.getControlPoints(), 0d);
     }
 
     public void testCompoundPolygonWithHole() throws Exception {
@@ -185,7 +185,7 @@ public class GML3CurveParsingTest extends GML3TestSupport {
         assertEquals(new Coordinate(27, 30), ls.getCoordinateN(6));
 
         CircularString cs = (CircularString) components.get(1);
-        assertArrayEquals(new double[] { 27, 30, 25, 27, 20, 30 }, cs.getControlPoints(), 0d);
+        assertArrayEquals(new double[]{27, 30, 25, 27, 20, 30}, cs.getControlPoints(), 0d);
 
         // the inner ring
         assertTrue(cp.getInteriorRingN(0) instanceof CircularRing);
@@ -210,7 +210,8 @@ public class GML3CurveParsingTest extends GML3TestSupport {
         assertTrue(p1.getExteriorRing() instanceof CompoundCurvedGeometry<?>);
         assertEquals(2, ((CompoundCurvedGeometry<?>) p1.getExteriorRing()).getComponents().size());
         assertEquals(1, p1.getNumInteriorRing());
-        assertEquals(2, ((CompoundCurvedGeometry<?>) p1.getInteriorRingN(0)).getComponents().size());
+        assertEquals(2, ((CompoundCurvedGeometry<?>) p1.getInteriorRingN(0)).getComponents().size
+                ());
 
         CurvePolygon p2 = (CurvePolygon) mp.getGeometryN(1);
         assertTrue(p2.getExteriorRing() instanceof CompoundCurvedGeometry<?>);
@@ -232,7 +233,7 @@ public class GML3CurveParsingTest extends GML3TestSupport {
         assertEquals(new Coordinate(5, 5), ls.getCoordinateN(1));
 
         CircularString cs = (CircularString) mc.getGeometryN(1);
-        assertArrayEquals(new double[] { 4, 0, 4, 4, 8, 4 }, cs.getControlPoints(), 0d);
+        assertArrayEquals(new double[]{4, 0, 4, 4, 8, 4}, cs.getControlPoints(), 0d);
     }
 
 }

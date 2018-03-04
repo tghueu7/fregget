@@ -31,9 +31,9 @@ import org.picocontainer.MutablePicoContainer;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:Mark.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="Mark"&gt;
  *      &lt;xsd:annotation&gt;
@@ -54,9 +54,6 @@ import org.picocontainer.MutablePicoContainer;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDMarkBinding extends AbstractComplexBinding {
@@ -111,7 +108,7 @@ public class SLDMarkBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         String wkName = (String) node.getChildValue("WellKnownName");
         Stroke stroke = (Stroke) node.getChildValue("Stroke");
         Fill fill = (Fill) node.getChildValue("Fill");

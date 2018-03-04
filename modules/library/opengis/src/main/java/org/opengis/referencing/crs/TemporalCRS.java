@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.referencing.crs;
@@ -19,31 +19,30 @@ import static org.opengis.annotation.Specification.*;
 
 /**
  * A 1D coordinate reference system used for the recording of time.
- *
+ * <p>
  * <TABLE CELLPADDING='6' BORDER='1'>
  * <TR BGCOLOR="#EEEEFF"><TH NOWRAP>Used with CS type(s)</TH></TR>
  * <TR><TD>
- *   {@link org.opengis.referencing.cs.TimeCS Time}
+ * {@link org.opengis.referencing.cs.TimeCS Time}
  * </TD></TR></TABLE>
  *
- *
- *
+ * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract 
+ * specification 2.0</A>
  * @source $URL$
- * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract specification 2.0</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
+ * @since GeoAPI 1.0
  */
-@UML(identifier="SC_TemporalCRS", specification=ISO_19111)
+@UML(identifier = "SC_TemporalCRS", specification = ISO_19111)
 public interface TemporalCRS extends SingleCRS {
     /**
      * Returns the coordinate system, which must be temporal.
      */
-    @UML(identifier="usesCS", obligation=MANDATORY, specification=ISO_19111)
+    @UML(identifier = "usesCS", obligation = MANDATORY, specification = ISO_19111)
     TimeCS getCoordinateSystem();
 
     /**
      * Returns the datum, which must be temporal.
      */
-    @UML(identifier="usesDatum", obligation=MANDATORY, specification=ISO_19111)
+    @UML(identifier = "usesDatum", obligation = MANDATORY, specification = ISO_19111)
     TemporalDatum getDatum();
 }

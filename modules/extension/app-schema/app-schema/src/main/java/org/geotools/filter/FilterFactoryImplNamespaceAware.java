@@ -21,8 +21,6 @@ import org.opengis.filter.expression.PropertyName;
 import org.xml.sax.helpers.NamespaceSupport;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class FilterFactoryImplNamespaceAware extends FilterFactoryImpl {

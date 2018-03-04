@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -41,17 +41,13 @@ import org.opengis.geometry.BoundingBox;
 
 /**
  * @author Christian Mueller
- * 
+ * <p>
  * Decorator Class for Simple Feature objects having pregeneralized geometries
- * 
+ * <p>
  * This feature object is read only, modifying calls result in a
  * {@link UnsupportedOperationException}
- * 
+ * <p>
  * The special thing is that a generalized geometry is returned.
- * 
- *
- *
- *
  * @source $URL$
  */
 public class PreGeneralizedSimpleFeature implements SimpleFeature {
@@ -69,7 +65,8 @@ public class PreGeneralizedSimpleFeature implements SimpleFeature {
     int[] indexMapping;
 
     public PreGeneralizedSimpleFeature(SimpleFeatureType featureTyp, int indexMapping[],
-            SimpleFeature feature, String geomPropertyName, String backendGeomPropertyName) {
+                                       SimpleFeature feature, String geomPropertyName, String 
+                                               backendGeomPropertyName) {
 
         this.feature = feature;
         this.geomPropertyName = geomPropertyName;

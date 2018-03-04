@@ -22,25 +22,25 @@ import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 
 /**
- * Interface for objects which need to take over parsing control from the main 
+ * Interface for objects which need to take over parsing control from the main
  * parsing driver.
  * <p>
- * An example of such a case is when a schema dynamically imports content from 
- * other schemas. 
+ * An example of such a case is when a schema dynamically imports content from
+ * other schemas.
  * </p>
  * <p>
  * Instances of these objects are declared in the {@link Configuration#getContext()}. Example:
  * <pre>
  * MyParserDelegate delegate = new MyParserDelegate();
  * Configuration configuration = ...;
- * 
+ *
  * configuration.getContext().registerComponentInstance( delegate );
  * </pre>
  * </p>
- * @author Justin Deoliveira, OpenGEO
  *
- * @see ParserDelegate2
+ * @author Justin Deoliveira, OpenGEO
  * @source $URL$
+ * @see ParserDelegate2
  */
 public interface ParserDelegate extends ContentHandler {
 
@@ -49,24 +49,23 @@ public interface ParserDelegate extends ContentHandler {
      * <p>
      * A common check in this method would be to check the namespace of the element.
      * </p>
+     *
      * @param elementName The name of the element to potentially handle.
-     * 
      * @return True if this delegate handles elements of the specified name and should
      * take over parsing.
-     * 
-     * @deprecated This method is deprecated and 
-     * {@link ParserDelegate2#canHandle(QName, Attributes, Handler)} should be used. After one major 
-     * release cycle ParserDelegate2 methods will be pulled into this interface and this method will 
+     * @deprecated This method is deprecated and
+     * {@link ParserDelegate2#canHandle(QName, Attributes, Handler)} should be used. After one major
+     * release cycle ParserDelegate2 methods will be pulled into this interface and this method will
      * be removed. In preparation implementations should implement both interfaces.
      */
-    boolean canHandle( QName elementName );
-    
+    boolean canHandle(QName elementName);
+
     /**
      * Gets the final parsed object from the delegate.
      * <p>
-     * This method is called after parsing control returns to the main parsing 
+     * This method is called after parsing control returns to the main parsing
      * driver.
-     * </p> 
+     * </p>
      */
     Object getParsedObject();
 }

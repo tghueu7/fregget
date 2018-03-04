@@ -18,16 +18,18 @@ package org.geotools.ows.bindings;
 
 import net.opengis.ows10.Ows10Factory;
 import net.opengis.ows10.ServiceIdentificationType;
+
 import javax.xml.namespace.QName;
+
 import org.geotools.ows.OWS;
 import org.geotools.xml.*;
 
 
 /**
  * Binding object for the type http://www.opengis.net/ows:_ServiceIdentification.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="_ServiceIdentification"&gt;
  *      &lt;complexContent&gt;
@@ -35,22 +37,35 @@ import org.geotools.xml.*;
  *              &lt;sequence&gt;
  *                  &lt;element name="ServiceType" type="ows:CodeType"&gt;
  *                      &lt;annotation&gt;
- *                          &lt;documentation&gt;A service type name from a registry of services. For example, the values of the codeSpace URI and name and code string may be "OGC" and "catalogue." This type name is normally used for machine-to-machine communication. &lt;/documentation&gt;
+ *                          &lt;documentation&gt;A service type name from a registry of services.
+ *                          For example, the values of the codeSpace URI and name and code string
+ *                          may be "OGC" and "catalogue." This type name is normally used for 
+ *                          machine-to-machine communication. &lt;/documentation&gt;
  *                      &lt;/annotation&gt;
  *                  &lt;/element&gt;
- *                  &lt;element maxOccurs="unbounded" name="ServiceTypeVersion" type="ows:VersionType"&gt;
+ *                  &lt;element maxOccurs="unbounded" name="ServiceTypeVersion" 
+ *                  type="ows:VersionType"&gt;
  *                      &lt;annotation&gt;
- *                          &lt;documentation&gt;Unordered list of one or more versions of this service type implemented by this server. This information is not adequate for version negotiation, and shall not be used for that purpose. &lt;/documentation&gt;
+ *                          &lt;documentation&gt;Unordered list of one or more versions of this 
+ *                          service type implemented by this server. This information is not 
+ *                          adequate for version negotiation, and shall not be used for that 
+ *                          purpose. &lt;/documentation&gt;
  *                      &lt;/annotation&gt;
  *                  &lt;/element&gt;
  *                  &lt;element minOccurs="0" ref="ows:Fees"&gt;
  *                      &lt;annotation&gt;
- *                          &lt;documentation&gt;If this element is omitted, no meaning is implied. &lt;/documentation&gt;
+ *                          &lt;documentation&gt;If this element is omitted, no meaning is 
+ *                          implied. &lt;/documentation&gt;
  *                      &lt;/annotation&gt;
  *                  &lt;/element&gt;
  *                  &lt;element maxOccurs="unbounded" minOccurs="0" ref="ows:AccessConstraints"&gt;
  *                      &lt;annotation&gt;
- *                          &lt;documentation&gt;Unordered list of access constraints applied to assure the protection of privacy or intellectual property, and any other restrictions on retrieving or using data from or otherwise using this server. The reserved value NONE (case insensitive) shall be used to mean no access constraints are imposed. If this element is omitted, no meaning is implied. &lt;/documentation&gt;
+ *                          &lt;documentation&gt;Unordered list of access constraints applied to 
+ *                          assure the protection of privacy or intellectual property, and any 
+ *                          other restrictions on retrieving or using data from or otherwise 
+ *                          using this server. The reserved value NONE (case insensitive) shall 
+ *                          be used to mean no access constraints are imposed. If this element is
+ *                          omitted, no meaning is implied. &lt;/documentation&gt;
  *                      &lt;/annotation&gt;
  *                  &lt;/element&gt;
  *              &lt;/sequence&gt;
@@ -63,9 +78,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class _ServiceIdentificationBinding extends AbstractComplexEMFBinding {
@@ -97,7 +109,7 @@ public class _ServiceIdentificationBinding extends AbstractComplexEMFBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //TODO: implement and remove call to super
         return super.parse(instance, node, value);
     }

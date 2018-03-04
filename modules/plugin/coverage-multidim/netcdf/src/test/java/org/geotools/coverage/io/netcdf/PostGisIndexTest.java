@@ -74,7 +74,7 @@ import org.opengis.filter.sort.SortOrder;
 
 /**
  * Testing Low level index based on PostGis
- * 
+ *
  * @author Daniele Romagnoli, GeoSolutions SAS
  * @source $URL$
  */
@@ -218,7 +218,8 @@ public final class PostGisIndexTest extends OnlineTestCase {
         }
     }
 
-    private File createDatastoreProperties(File dir, Map<String, String> override) throws IOException {
+    private File createDatastoreProperties(File dir, Map<String, String> override) throws 
+            IOException {
         FileWriter out = null;
         File outFile = null;
         try {
@@ -229,7 +230,7 @@ public final class PostGisIndexTest extends OnlineTestCase {
             final Properties props = createExampleFixture();
             if (override != null && !override.isEmpty()) {
                 Set<String> mapKeys = override.keySet();
-                for (String mapKey: mapKeys) {
+                for (String mapKey : mapKeys) {
                     String value = override.get(mapKey);
                     props.setProperty(mapKey, value);
                 }
@@ -285,11 +286,11 @@ public final class PostGisIndexTest extends OnlineTestCase {
             // get typenames
             final String[] typeNames = cs.getTypeNames();
             for (String typeName : typeNames) {
-                
+
                 final List<CoverageSlice> granules = cs.getGranules(new Query(typeName,
                         Filter.INCLUDE));
                 checkGranules(granules);
-                
+
             }
             // dipose reader and read it again once the catalog has been created
             reader.dispose();
@@ -315,8 +316,8 @@ public final class PostGisIndexTest extends OnlineTestCase {
     @Test
     public void testMosaicUsingPostGisIndexForNC() throws Exception {
         // prepare a "mosaic" with just one NetCDF
-        File nc1 = TestData.file(this,"polyphemus_20130301_test.nc");
-        File mosaic = new File(TestData.file(this,"."),"mosaic");
+        File nc1 = TestData.file(this, "polyphemus_20130301_test.nc");
+        File mosaic = new File(TestData.file(this, "."), "mosaic");
         if (mosaic.exists()) {
             FileUtils.deleteDirectory(mosaic);
         }
@@ -324,9 +325,9 @@ public final class PostGisIndexTest extends OnlineTestCase {
         FileUtils.copyFileToDirectory(nc1, mosaic);
 
         // The indexer
-        String indexer = "TimeAttribute=time\n" + 
+        String indexer = "TimeAttribute=time\n" +
                 "Schema=the_geom:Polygon,location:String,imageindex:Integer,time:java.util.Date\n"
-                +"AuxiliaryDatastoreFile=mddatastore.properties";
+                + "AuxiliaryDatastoreFile=mddatastore.properties";
         FileUtils.writeStringToFile(new File(mosaic, "indexer.properties"), indexer);
 
         // using an H2 based datastore for imageMosaic index
@@ -350,7 +351,7 @@ public final class PostGisIndexTest extends OnlineTestCase {
             GranuleSource source = reader.getGranules("O3", true);
             FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
             Query q = new Query(Query.ALL);
-            q.setSortBy(new SortBy[] {ff.sort("time", SortOrder.ASCENDING)});
+            q.setSortBy(new SortBy[]{ff.sort("time", SortOrder.ASCENDING)});
             SimpleFeatureCollection granules = source.getGranules(q);
             assertEquals(2, granules.size());
             it = granules.features();
@@ -358,12 +359,14 @@ public final class PostGisIndexTest extends OnlineTestCase {
             SimpleFeature f = it.next();
             assertEquals("polyphemus_20130301_test.nc", f.getAttribute("location"));
             assertEquals(0, f.getAttribute("imageindex"));
-            assertEquals("2013-03-01T00:00:00.000Z", ConvertersHack.convert(f.getAttribute("time"), String.class));
+            assertEquals("2013-03-01T00:00:00.000Z", ConvertersHack.convert(f.getAttribute
+                    ("time"), String.class));
             assertTrue(it.hasNext());
             f = it.next();
             assertEquals("polyphemus_20130301_test.nc", f.getAttribute("location"));
             assertEquals(1, f.getAttribute("imageindex"));
-            assertEquals("2013-03-01T01:00:00.000Z", ConvertersHack.convert(f.getAttribute("time"), String.class));
+            assertEquals("2013-03-01T01:00:00.000Z", ConvertersHack.convert(f.getAttribute
+                    ("time"), String.class));
             it.close();
 
             // close the reader and re-open it
@@ -375,7 +378,7 @@ public final class PostGisIndexTest extends OnlineTestCase {
             Thread.sleep(1000);
 
             // now replace the netcdf file with a more up to date version of the same 
-            File nc2 = TestData.file(this,"polyphemus_20130302_test.nc");
+            File nc2 = TestData.file(this, "polyphemus_20130302_test.nc");
             File target = new File(mosaic, "polyphemus_20130302_test.nc");
             FileUtils.copyFile(nc2, target, false);
             File fileToHarvest = new File(mosaic, "polyphemus_20130302_test.nc");
@@ -393,7 +396,7 @@ public final class PostGisIndexTest extends OnlineTestCase {
 
             assertNotNull(reader.read("O3", null));
         } finally {
-            if(it != null) {
+            if (it != null) {
                 it.close();
             }
             reader.dispose();
@@ -419,7 +422,7 @@ public final class PostGisIndexTest extends OnlineTestCase {
 
     /**
      * recursively delete indexes
-     * 
+     *
      * @param file
      */
     private void cleanupFolders(final File file) {
@@ -441,14 +444,14 @@ public final class PostGisIndexTest extends OnlineTestCase {
     private void cleanUp() throws Exception {
         final File dir = TestData.file(this, ".");
         cleanupFolders(dir);
-        removeTables(new String[] { "O3", "NO2", "Band1" }, "catalogtest");
-        removeTables(new String[] { "O3"}, "lowlevelindex");
+        removeTables(new String[]{"O3", "NO2", "Band1"}, "catalogtest");
+        removeTables(new String[]{"O3"}, "lowlevelindex");
         Hints.removeSystemDefault(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER);
     }
 
     /**
      * Remove the postgis created tables
-     * 
+     *
      * @param tables
      * @param database
      * @throws Exception

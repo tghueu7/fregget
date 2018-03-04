@@ -22,16 +22,12 @@ import java.util.Set;
 
 /**
  * @author Christian Mueller
- * 
+ * <p>
  * DB2 speficfic WKB Constants
- *
- *
- *
- *
  * @source $URL$
  */
 public class DB2WKBConstants {
-    
+
     // well-known binary geometry types
     // the original values used by DB2 didn't match the values
     // in the 2006 OGC spec for WKB when z and/or m is present
@@ -94,42 +90,42 @@ public class DB2WKBConstants {
     protected final static int wkbOGCGeomCollectionZ = 1007;
     protected final static int wkbGeomCollectionZ = 3000012;
     protected final static int wkbOGCGeomCollectionM = 2007;
-    protected final static int wkbGeomCollectionM = 4000012; 
-    
+    protected final static int wkbGeomCollectionM = 4000012;
+
     protected static Set<Integer> zTypes;
     protected static Set<Integer> zmTypes;
-    
+
     static {
-        zTypes=new HashSet<Integer>();
-        zTypes.add(wkbPointZ); 
+        zTypes = new HashSet<Integer>();
+        zTypes.add(wkbPointZ);
         zTypes.add(wkbOGCPointZ);
-        zTypes.add(wkbLineStringZ); 
+        zTypes.add(wkbLineStringZ);
         zTypes.add(wkbOGCLineStringZ);
-        zTypes.add(wkbPolygonZ); 
+        zTypes.add(wkbPolygonZ);
         zTypes.add(wkbOGCPolygonZ);
-        zTypes.add(wkbMultiPointZ); 
+        zTypes.add(wkbMultiPointZ);
         zTypes.add(wkbOGCMultiPointZ);
-        zTypes.add(wkbMultiLineStringZ); 
+        zTypes.add(wkbMultiLineStringZ);
         zTypes.add(wkbOGCMultiLineStringZ);
-        zTypes.add(wkbMultiPolygonZ); 
+        zTypes.add(wkbMultiPolygonZ);
         zTypes.add(wkbOGCMultiPolygonZ);
-        zTypes.add(wkbGeomCollectionZ); 
+        zTypes.add(wkbGeomCollectionZ);
         zTypes.add(wkbOGCGeomCollectionZ);
-        
-        zmTypes=new HashSet<Integer>();
-        zmTypes.add(wkbPointZM); 
+
+        zmTypes = new HashSet<Integer>();
+        zmTypes.add(wkbPointZM);
         zmTypes.add(wkbOGCPointZM);
-        zmTypes.add(wkbLineStringZM); 
+        zmTypes.add(wkbLineStringZM);
         zmTypes.add(wkbOGCLineStringZM);
-        zmTypes.add(wkbPolygonZM); 
+        zmTypes.add(wkbPolygonZM);
         zmTypes.add(wkbOGCPolygonZM);
-        zmTypes.add(wkbMultiPointZM); 
+        zmTypes.add(wkbMultiPointZM);
         zmTypes.add(wkbOGCMultiPointZM);
-        zmTypes.add(wkbMultiLineStringZM); 
+        zmTypes.add(wkbMultiLineStringZM);
         zmTypes.add(wkbOGCMultiLineStringZM);
-        zmTypes.add(wkbMultiPolygonZM); 
+        zmTypes.add(wkbMultiPolygonZM);
         zmTypes.add(wkbOGCMultiPolygonZM);
-        zmTypes.add(wkbGeomCollectionZM); 
+        zmTypes.add(wkbGeomCollectionZM);
         zmTypes.add(wkbOGCGeomCollectionZM);
     }
 

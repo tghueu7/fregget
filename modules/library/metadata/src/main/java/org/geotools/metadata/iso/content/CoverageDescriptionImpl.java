@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -20,6 +20,7 @@
 package org.geotools.metadata.iso.content;
 
 import java.util.Collection;
+
 import org.opengis.metadata.content.CoverageContentType;
 import org.opengis.metadata.content.CoverageDescription;
 import org.opengis.metadata.content.RangeDimension;
@@ -29,19 +30,18 @@ import org.opengis.util.RecordType;
 /**
  * Information about the content of a grid data cell.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class CoverageDescriptionImpl extends ContentInformationImpl implements CoverageDescription {
     /**
      * Serial number for interoperability with different versions.
      */
-    private static final long serialVersionUID = -326050615789333559L;;
+    private static final long serialVersionUID = -326050615789333559L;
+    ;
 
     /**
      * Description of the attribute described by the measurement value.
@@ -114,7 +114,7 @@ public class CoverageDescriptionImpl extends ContentInformationImpl implements C
 
     /**
      * Set the information on the dimensions of the cell measurement value.
-     *
+     * <p>
      * since 2.4
      */
     public synchronized void setDimensions(final Collection<? extends RangeDimension> newValues) {

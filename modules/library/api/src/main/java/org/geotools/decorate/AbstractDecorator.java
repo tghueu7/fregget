@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2017, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -22,7 +22,8 @@ import java.io.Serializable;
  * Generic delegating base class. Provides the following features:
  * <ul>
  * <li>null check for the delegate object</li>
- * <li>direct forwarding of {@link #equals(Object)}, {@link #hashCode()} and {@link #toString()} to the delegate</li>
+ * <li>direct forwarding of {@link #equals(Object)}, {@link #hashCode()} and {@link #toString()} 
+ * to the delegate</li>
  * <li>implements the Wrapper interface for programmatic extraction</li>
  * </ul>
  */

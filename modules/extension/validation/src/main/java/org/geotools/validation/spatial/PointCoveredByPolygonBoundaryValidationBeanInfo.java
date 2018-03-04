@@ -21,33 +21,31 @@ import java.beans.PropertyDescriptor;
 
 /**
  * LineAbstractValidationBeanInfopurpose.
- * 
+ * <p>
  * <p>
  * Description of LineAbstractValidationBeanInfo...
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
-public class PointCoveredByPolygonBoundaryValidationBeanInfo extends PointPolygonAbstractValidationBeanInfo{
+public class PointCoveredByPolygonBoundaryValidationBeanInfo extends 
+        PointPolygonAbstractValidationBeanInfo {
     /**
      * LineAbstractValidationBeanInfoconstructor.
-     * 
+     * <p>
      * <p>
      * Description
      * </p>
      */
-    public PointCoveredByPolygonBoundaryValidationBeanInfo(){
+    public PointCoveredByPolygonBoundaryValidationBeanInfo() {
         super();
     }
 
     /**
      * Implementation of getPropertyDescriptors.
-     *
      *
      * @see java.beans.BeanInfo#getPropertyDescriptors()
      */

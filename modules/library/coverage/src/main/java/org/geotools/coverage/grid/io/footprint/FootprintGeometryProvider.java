@@ -25,16 +25,18 @@ import com.vividsolutions.jts.geom.Geometry;
 public interface FootprintGeometryProvider {
 
     /**
-     * Retrieves the footprint. If a feature is specified, return the footprint from the current granule 
+     * Retrieves the footprint. If a feature is specified, return the footprint from the current 
+     * granule
      * representative feature as it comes from the index.
-     * 
-     * @param feature the granule representative feature (if any). 
-     * Specifying a null feature will return a default footprint (this is used in general for single-granule stores) 
+     *
+     * @param feature the granule representative feature (if any).
+     *                Specifying a null feature will return a default footprint (this is used in 
+     *                general for single-granule stores)
      * @return
      * @throws IOException
      */
     Geometry getFootprint(SimpleFeature feature) throws IOException;
-    
+
     /**
      * Close up the provider (in case it holds onto persistent resources such as files or
      * database connections)

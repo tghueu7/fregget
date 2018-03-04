@@ -53,14 +53,15 @@ public class CoverageReadRequest extends CoverageRequest {
      * The requested area in the destination raster space.
      * <p>
      * This field shall basically contain the screen dimension of the requested area in pixels.
-     * 
+     *
      * @uml.property name="rasterArea"
      */
     protected Rectangle rasterArea;
 
     /**
-     * The requested area in geographic coordinates, which means the area in destination world space which we want to get data for.
-     * 
+     * The requested area in geographic coordinates, which means the area in destination world 
+     * space which we want to get data for.
+     *
      * @uml.property name="geographicArea"
      */
     protected ReferencedEnvelope geographicArea;
@@ -68,15 +69,16 @@ public class CoverageReadRequest extends CoverageRequest {
     /**
      * The request {@link MathTransform2D} which would map the pixel into the requested world area.
      * <p>
-     * Note that having a raster are and a world area is not enough, unless we have a simple scale-and-translate grid-to-workd transform.
-     * 
+     * Note that having a raster are and a world area is not enough, unless we have a simple 
+     * scale-and-translate grid-to-workd transform.
+     *
      * @uml.property name="gridToWorldTransform"
      */
     protected MathTransform2D gridToWorldTransform;
 
     /**
      * The subset of the original {@link RangeType} we want to obtain.
-     * 
+     *
      * @uml.property name="rangeSubset"
      * @uml.associationEnd
      */
@@ -84,14 +86,14 @@ public class CoverageReadRequest extends CoverageRequest {
 
     /**
      * The vertical positions for which we want to get some data.
-     * 
+     *
      * @uml.property name="verticalSubset"
      */
     private Set<NumberRange<Double>> verticalSubset;
 
     /**
      * The temporal positions for which we want to get some data.
-     * 
+     *
      * @uml.property name="temporalSubset"
      */
     private SortedSet<DateRange> temporalSubset;
@@ -103,7 +105,9 @@ public class CoverageReadRequest extends CoverageRequest {
 
     private Map<String, Set<?>> additionalDomainsSubset = new HashMap<String, Set<?>>();
 
-    /** Custom filter for additional queries */
+    /**
+     * Custom filter for additional queries
+     */
     private Filter filter;
 
     /**
@@ -114,11 +118,13 @@ public class CoverageReadRequest extends CoverageRequest {
     }
 
     /**
-     * @see org.geotools.coverage.io.CoverageReadRequest#setDomainSubset(java.awt.Rectangle, org.opengis.referencing.operation.MathTransform2D,
-     *      org.opengis.referencing.crs.CoordinateReferenceSystem)
+     * @see org.geotools.coverage.io.CoverageReadRequest#setDomainSubset(java.awt.Rectangle, org
+     * .opengis.referencing.operation.MathTransform2D,
+     * org.opengis.referencing.crs.CoordinateReferenceSystem)
      */
     public void setDomainSubset(final Rectangle rasterArea,
-            final MathTransform2D gridToWorldTrasform, final CoordinateReferenceSystem crs)
+                                final MathTransform2D gridToWorldTrasform, final 
+                                CoordinateReferenceSystem crs)
             throws MismatchedDimensionException, TransformException {
 
         // get input elements
@@ -126,13 +132,15 @@ public class CoverageReadRequest extends CoverageRequest {
         this.gridToWorldTransform = gridToWorldTrasform;
 
         // create a bbox
-        GeneralEnvelope env = CRS.transform(gridToWorldTrasform, new ReferencedEnvelope(rasterArea.getBounds2D(), crs));
+        GeneralEnvelope env = CRS.transform(gridToWorldTrasform, new ReferencedEnvelope
+                (rasterArea.getBounds2D(), crs));
         this.geographicArea = new ReferencedEnvelope(new ReferencedEnvelope(env), crs);
     }
 
     /**
-     * @see org.geotools.coverage.io.CoverageReadRequest#setDomainSubset(java.awt.Rectangle, org.opengis.geometry.BoundingBox,
-     *      org.opengis.referencing.datum.PixelInCell)
+     * @see org.geotools.coverage.io.CoverageReadRequest#setDomainSubset(java.awt.Rectangle, org
+     * .opengis.geometry.BoundingBox,
+     * org.opengis.referencing.datum.PixelInCell)
      */
     public void setDomainSubset(final Rectangle rasterArea, final ReferencedEnvelope worldArea) {
         // get input elements
@@ -152,7 +160,7 @@ public class CoverageReadRequest extends CoverageRequest {
      * Set the range subset we are requesting.
      * <p>
      * Note that a null {@link RangeType} means get everything.
-     * 
+     *
      * @param value
      * @uml.property name="rangeSubset"
      */
@@ -185,8 +193,8 @@ public class CoverageReadRequest extends CoverageRequest {
     public SortedSet<DateRange> getTemporalSubset() {
         if (temporalSubset == null) {
             temporalSubset = new DateRangeTreeSet();
-        } 
-        
+        }
+
         return new DateRangeTreeSet(temporalSubset);
     }
 

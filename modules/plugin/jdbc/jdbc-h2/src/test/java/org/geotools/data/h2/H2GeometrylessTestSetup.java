@@ -21,8 +21,6 @@ import org.geotools.jdbc.JDBCGeometrylessTestSetup;
 import org.geotools.jdbc.JDBCTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class H2GeometrylessTestSetup extends JDBCGeometrylessTestSetup {
@@ -34,10 +32,10 @@ public class H2GeometrylessTestSetup extends JDBCGeometrylessTestSetup {
     @Override
     protected void setUpDataStore(JDBCDataStore dataStore) {
         super.setUpDataStore(dataStore);
-        
-        dataStore.setDatabaseSchema( null );
+
+        dataStore.setDatabaseSchema(null);
     }
-    
+
     @Override
     protected void createPersonTable() throws Exception {
         run("CREATE TABLE \"person\"(\"fid\" int AUTO_INCREMENT(0) PRIMARY KEY, \"id\" int, "

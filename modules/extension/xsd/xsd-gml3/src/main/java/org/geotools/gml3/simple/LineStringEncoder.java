@@ -27,7 +27,7 @@ import com.vividsolutions.jts.geom.LineString;
 
 /**
  * Encodes a GML3 line string
- * 
+ *
  * @author Justin Deoliveira, OpenGeo
  * @author Andrea Aime - GeoSolutions
  */

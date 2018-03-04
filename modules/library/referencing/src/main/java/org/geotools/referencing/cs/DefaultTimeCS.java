@@ -37,19 +37,17 @@ import org.geotools.resources.i18n.VocabularyKeys;
  * A one-dimensional coordinate system containing a single time axis, used to describe the
  * temporal position of a point in the specified time units from a specified time origin.
  * A {@code TimeCS} shall have one {@linkplain #getAxis axis}.
- *
+ * <p>
  * <TABLE CELLPADDING='6' BORDER='1'>
  * <TR BGCOLOR="#EEEEFF"><TH NOWRAP>Used with CRS type(s)</TH></TR>
  * <TR><TD>
- *   {@link org.geotools.referencing.crs.DefaultTemporalCRS Temporal}
+ * {@link org.geotools.referencing.crs.DefaultTemporalCRS Temporal}
  * </TD></TR></TABLE>
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class DefaultTimeCS extends AbstractCS implements TimeCS {
     /**
@@ -75,7 +73,6 @@ public class DefaultTimeCS extends AbstractCS implements TimeCS {
      * axis in {@linkplain javax.measure.unit.SI#SECOND second} units.
      *
      * @see org.geotools.referencing.crs.DefaultTemporalCRS#UNIX
-     *
      * @since 2.5
      */
     public static final DefaultTimeCS SECONDS;
@@ -86,7 +83,6 @@ public class DefaultTimeCS extends AbstractCS implements TimeCS {
      * axis in millisecond units.
      *
      * @see org.geotools.referencing.crs.DefaultTemporalCRS#JAVA
-     *
      * @since 2.5
      */
     public static final DefaultTimeCS MILLISECONDS;
@@ -95,13 +91,14 @@ public class DefaultTimeCS extends AbstractCS implements TimeCS {
      * Creates the constants, reusing some intermediate constructs for efficienty.
      */
     static {
-        final Map<String,Object> properties = name(VocabularyKeys.TEMPORAL);
+        final Map<String, Object> properties = name(VocabularyKeys.TEMPORAL);
         CoordinateSystemAxis axis = DefaultCoordinateSystemAxis.TIME;
         DAYS = new DefaultTimeCS(properties, axis);
         final InternationalString name = axis.getAlias().iterator().next().toInternationalString();
         axis = new DefaultCoordinateSystemAxis(name, "t", AxisDirection.FUTURE, SI.SECOND);
         SECONDS = new DefaultTimeCS(properties, axis);
-        axis = new DefaultCoordinateSystemAxis(name, "t", AxisDirection.FUTURE, SI.MILLI(SI.SECOND));
+        axis = new DefaultCoordinateSystemAxis(name, "t", AxisDirection.FUTURE, SI.MILLI(SI
+                .SECOND));
         MILLISECONDS = new DefaultTimeCS(properties, axis);
     }
 
@@ -113,7 +110,6 @@ public class DefaultTimeCS extends AbstractCS implements TimeCS {
      * i.e. the properties are not cloned.
      *
      * @param cs The coordinate system to copy.
-     *
      * @since 2.2
      */
     public DefaultTimeCS(final TimeCS cs) {
@@ -123,24 +119,24 @@ public class DefaultTimeCS extends AbstractCS implements TimeCS {
     /**
      * Constructs a coordinate system from a name.
      *
-     * @param name  The coordinate system name.
-     * @param axis  The axis.
+     * @param name The coordinate system name.
+     * @param axis The axis.
      */
     public DefaultTimeCS(final String name, final CoordinateSystemAxis axis) {
-        super(name, new CoordinateSystemAxis[] {axis});
+        super(name, new CoordinateSystemAxis[]{axis});
         ensureTimeUnit(getAxis(0).getUnit());
     }
 
     /**
      * Constructs a coordinate system from a set of properties.
      * The properties map is given unchanged to the
-     * {@linkplain AbstractCS#AbstractCS(Map,CoordinateSystemAxis[]) super-class constructor}.
+     * {@linkplain AbstractCS#AbstractCS(Map, CoordinateSystemAxis[]) super-class constructor}.
      *
      * @param properties Set of properties. Should contains at least {@code "name"}.
      * @param axis       The axis.
      */
-    public DefaultTimeCS(final Map<String,?> properties, final CoordinateSystemAxis axis) {
-        super(properties, new CoordinateSystemAxis[] {axis});
+    public DefaultTimeCS(final Map<String, ?> properties, final CoordinateSystemAxis axis) {
+        super(properties, new CoordinateSystemAxis[]{axis});
         ensureTimeUnit(getAxis(0).getUnit());
     }
 
@@ -168,15 +164,14 @@ public class DefaultTimeCS extends AbstractCS implements TimeCS {
     /**
      * Computes the time difference between two points.
      *
-     * @param  coord1 Coordinates of the first point.
-     * @param  coord2 Coordinates of the second point.
+     * @param coord1 Coordinates of the first point.
+     * @param coord2 Coordinates of the second point.
      * @return The time difference between {@code coord1} and {@code coord2}.
      * @throws MismatchedDimensionException if a coordinate doesn't have the expected dimension.
      */
     @Override
     public Measure distance(final double[] coord1, final double[] coord2)
-            throws MismatchedDimensionException
-    {
+            throws MismatchedDimensionException {
         ensureDimensionMatch("coord1", coord1);
         ensureDimensionMatch("coord2", coord2);
         return new Measure(Math.abs(coord1[0] - coord2[0]), getDistanceUnit());

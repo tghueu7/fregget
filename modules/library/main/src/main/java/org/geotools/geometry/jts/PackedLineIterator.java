@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,7 +17,7 @@
 package org.geotools.geometry.jts;
 
 import java.awt.geom.AffineTransform;
- 
+
 import org.opengis.referencing.operation.MathTransform;
 
 import com.vividsolutions.jts.geom.LineString;
@@ -31,46 +31,63 @@ import com.vividsolutions.jts.geom.impl.PackedCoordinateSequence.Double;
  * LineString object.
  *
  * @author Andrea Aime
- *
- *
- * @source $URL$
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @source $URL$
  */
 public final class PackedLineIterator extends AbstractLiteIterator {
-    /** Transform applied on the coordinates during iteration */
+    /**
+     * Transform applied on the coordinates during iteration
+     */
     private AffineTransform at;
 
-    /** The array of coordinates that represents the line geometry */
+    /**
+     * The array of coordinates that represents the line geometry
+     */
     private PackedCoordinateSequence.Double coordinates = null;
-    
-    /** Current line coordinate */
+
+    /**
+     * Current line coordinate
+     */
     private int currentCoord = 0;
 
-    /** The previous coordinate (during iteration) */
+    /**
+     * The previous coordinate (during iteration)
+     */
     private float oldX = Float.NaN;
     private float oldY = Float.NaN;
 
-    /** True when the iteration is terminated */
+    /**
+     * True when the iteration is terminated
+     */
     private boolean done = false;
 
-    /** True if the line is a ring */
+    /**
+     * True if the line is a ring
+     */
     private boolean isClosed;
 
-    /** If true, apply simple distance based generalization */
+    /**
+     * If true, apply simple distance based generalization
+     */
     private boolean generalize = false;
 
-    /** Maximum distance for point elision when generalizing */
+    /**
+     * Maximum distance for point elision when generalizing
+     */
     private float maxDistance = 1.0f;
 
-    /** Horizontal scale, got from the affine transform and cached */
+    /**
+     * Horizontal scale, got from the affine transform and cached
+     */
     private float xScale;
 
-    /** Vertical scale, got from the affine transform and cached */
+    /**
+     * Vertical scale, got from the affine transform and cached
+     */
     private float yScale;
 
-	private int coordinateCount;
+    private int coordinateCount;
 
     /**
      * Creates a new instance of LineIterator
@@ -79,7 +96,7 @@ public final class PackedLineIterator extends AbstractLiteIterator {
      * @param at The affine transform applied to coordinates during iteration
      */
     public PackedLineIterator(LineString ls, AffineTransform at, boolean generalize,
-            float maxDistance) {
+                              float maxDistance) {
         if (at == null) {
             at = new AffineTransform();
         }
@@ -87,15 +104,15 @@ public final class PackedLineIterator extends AbstractLiteIterator {
         this.at = at;
         xScale = (float) Math.sqrt(
                 (at.getScaleX() * at.getScaleX())
-                + (at.getShearX() * at.getShearX()));
+                        + (at.getShearX() * at.getShearX()));
         yScale = (float) Math.sqrt(
                 (at.getScaleY() * at.getScaleY())
-                + (at.getShearY() * at.getShearY()));
+                        + (at.getShearY() * at.getShearY()));
 
         coordinates = (Double) ls.getCoordinateSequence();
         coordinateCount = coordinates.size();
         isClosed = ls instanceof LinearRing;
-        
+
         this.generalize = generalize;
         this.maxDistance = maxDistance;
     }
@@ -159,9 +176,7 @@ public final class PackedLineIterator extends AbstractLiteIterator {
      * any points.
      *
      * @param coords an array that holds the data returned from this method
-     *
      * @return the path-segment type of the current path segment.
-     *
      * @see #SEG_MOVETO
      * @see #SEG_LINETO
      * @see #SEG_QUADTO
@@ -219,7 +234,6 @@ public final class PackedLineIterator extends AbstractLiteIterator {
      * Returns the winding rule for determining the interior of the path.
      *
      * @return the winding rule.
-     *
      * @see #WIND_EVEN_ODD
      * @see #WIND_NON_ZERO
      */
@@ -231,7 +245,7 @@ public final class PackedLineIterator extends AbstractLiteIterator {
      * Tests if the iteration is complete.
      *
      * @return <code>true</code> if all the segments have been read;
-     *         <code>false</code> otherwise.
+     * <code>false</code> otherwise.
      */
     public boolean isDone() {
         return done;
@@ -243,9 +257,9 @@ public final class PackedLineIterator extends AbstractLiteIterator {
      * direction.
      */
     public void next() {
-		if (
-            ((currentCoord == (coordinateCount - 1)) && !isClosed)
-                || ((currentCoord == coordinateCount) && isClosed)) {
+        if (
+                ((currentCoord == (coordinateCount - 1)) && !isClosed)
+                        || ((currentCoord == coordinateCount) && isClosed)) {
             done = true;
         } else {
             if (generalize) {
@@ -262,7 +276,7 @@ public final class PackedLineIterator extends AbstractLiteIterator {
                     do {
                         currentCoord++;
                         x = (float) coordinates.getX(currentCoord);
-                        y = (float) coordinates.getY(currentCoord); 
+                        y = (float) coordinates.getY(currentCoord);
 
                         if (currentCoord < coordinateCount) {
                             distx = Math.abs(
@@ -271,11 +285,11 @@ public final class PackedLineIterator extends AbstractLiteIterator {
                                     y - oldY);
                         }
                     } while (
-                        ((distx * xScale) < maxDistance)
-                            && ((disty * yScale) < maxDistance)
-                            && ((!isClosed
-                            && (currentCoord < (coordinateCount - 1)))
-                            || (isClosed && (currentCoord < coordinateCount))));
+                            ((distx * xScale) < maxDistance)
+                                    && ((disty * yScale) < maxDistance)
+                                    && ((!isClosed
+                                    && (currentCoord < (coordinateCount - 1)))
+                                    || (isClosed && (currentCoord < coordinateCount))));
 
                     if (currentCoord < coordinateCount) {
                         oldX = x;
@@ -291,13 +305,13 @@ public final class PackedLineIterator extends AbstractLiteIterator {
         }
     }
 
-	/**
-	 * @see java.awt.geom.PathIterator#currentSegment(double[])
-	 */
-	public int currentSegment(double[] coords) {
-		System.out.println("Double!");
-		return 0;
-	}
+    /**
+     * @see java.awt.geom.PathIterator#currentSegment(double[])
+     */
+    public int currentSegment(double[] coords) {
+        System.out.println("Double!");
+        return 0;
+    }
 
 
 }

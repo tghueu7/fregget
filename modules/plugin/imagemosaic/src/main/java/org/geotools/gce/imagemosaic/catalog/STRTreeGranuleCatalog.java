@@ -61,22 +61,26 @@ import com.vividsolutions.jts.index.strtree.STRtree;
 
 /**
  * This class simply builds an SRTREE spatial index in memory for fast indexed geometric queries.
- * 
  * <p>
- * Since the {@link ImageMosaicReader} heavily uses spatial queries to find out which are the involved tiles during mosaic creation, it is better to
- * do some caching and keep the index in memory as much as possible, hence we came up with this index.
- * 
- * @author Simone Giannecchini, S.A.S.
- * @author Stefan Alfons Krueger (alfonx), Wikisquare.de : Support for jar:file:foo.jar/bar.properties URLs
- * @since 2.5
- * @version 10.0
+ * <p>
+ * Since the {@link ImageMosaicReader} heavily uses spatial queries to find out which are the 
+ * involved tiles during mosaic creation, it is better to
+ * do some caching and keep the index in memory as much as possible, hence we came up with this 
+ * index.
  *
+ * @author Simone Giannecchini, S.A.S.
+ * @author Stefan Alfons Krueger (alfonx), Wikisquare.de : Support for jar:file:foo.jar/bar
+ * .properties URLs
+ * @version 10.0
  * @source $URL$
+ * @since 2.5
  */
 @SuppressWarnings("unused")
 class STRTreeGranuleCatalog extends GranuleCatalog {
 
-    /** Logger. */
+    /**
+     * Logger.
+     */
     final static Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger(STRTreeGranuleCatalog.class);
 
@@ -120,7 +124,7 @@ class STRTreeGranuleCatalog extends GranuleCatalog {
             if (maxGranules > 0 && granuleIndex > maxGranules) {
                 return; // Skip
             }
-            if(adaptee.isVisitComplete()) {
+            if (adaptee.isVisitComplete()) {
                 return; // Skipt
             }
             if (o instanceof GranuleDescriptor) {
@@ -142,8 +146,9 @@ class STRTreeGranuleCatalog extends GranuleCatalog {
 
     private String typeName;
 
-    public STRTreeGranuleCatalog(final Properties params, AbstractGTDataStoreGranuleCatalog wrappedCatalogue,
-            final Hints hints) {
+    public STRTreeGranuleCatalog(final Properties params, AbstractGTDataStoreGranuleCatalog 
+            wrappedCatalogue,
+                                 final Hints hints) {
         super(hints);
         Utilities.ensureNonNull("params", params);
         this.wrappedCatalogue = wrappedCatalogue;
@@ -153,7 +158,9 @@ class STRTreeGranuleCatalog extends GranuleCatalog {
         }
     }
 
-    /** The {@link STRtree} index. */
+    /**
+     * The {@link STRtree} index.
+     */
     private STRtree index;
 
     private final ReadWriteLock rwLock = new ReentrantReadWriteLock(true);
@@ -162,7 +169,6 @@ class STRTreeGranuleCatalog extends GranuleCatalog {
      * Constructs a {@link STRTreeGranuleCatalog} out of a {@link FeatureCollection}.
      *
      * @param readLock
-     *
      * @param features
      * @throws IOException
      */
@@ -192,7 +198,8 @@ class STRTreeGranuleCatalog extends GranuleCatalog {
     }
 
     /**
-     * This method shall only be called when the <code>indexLocation</code> is of protocol <code>file:</code>
+     * This method shall only be called when the <code>indexLocation</code> is of protocol 
+     * <code>file:</code>
      */
     private void createIndex() {
 
@@ -215,7 +222,8 @@ class STRTreeGranuleCatalog extends GranuleCatalog {
                     });
             if (features == null)
                 throw new NullPointerException(
-                        "The provided SimpleFeatureCollection is null, it's impossible to create an index!");
+                        "The provided SimpleFeatureCollection is null, it's impossible to create " +
+                                "an index!");
 
             if (LOGGER.isLoggable(Level.FINE))
                 LOGGER.fine("Index Loaded");
@@ -251,7 +259,8 @@ class STRTreeGranuleCatalog extends GranuleCatalog {
     /*
      * (non-Javadoc)
      *
-     * @see org.geotools.gce.imagemosaic.FeatureIndex#findFeatures(com.vividsolutions.jts.geom.Envelope)
+     * @see org.geotools.gce.imagemosaic.FeatureIndex#findFeatures(com.vividsolutions.jts.geom
+     * .Envelope)
      */
     @SuppressWarnings("unchecked")
     public List<GranuleDescriptor> getGranules(final BoundingBox envelope) throws IOException {
@@ -270,7 +279,8 @@ class STRTreeGranuleCatalog extends GranuleCatalog {
     /*
      * (non-Javadoc)
      *
-     * @see org.geotools.gce.imagemosaic.FeatureIndex#findFeatures(com.vividsolutions.jts.geom.Envelope, com.vividsolutions.jts.index.ItemVisitor)
+     * @see org.geotools.gce.imagemosaic.FeatureIndex#findFeatures(com.vividsolutions.jts.geom
+     * .Envelope, com.vividsolutions.jts.index.ItemVisitor)
      */
     public void getGranules(final BoundingBox envelope, final GranuleCatalogVisitor visitor)
             throws IOException {
@@ -391,8 +401,9 @@ class STRTreeGranuleCatalog extends GranuleCatalog {
             } else {
                 final List<GranuleDescriptor> unfilteredGranules = index.query(requestedBBox);
                 List<GranuleDescriptor> granules = unfilteredGranules.stream().
-                        filter(gd -> filter.evaluate(gd.getOriginator())).collect(Collectors.toList());
-                
+                        filter(gd -> filter.evaluate(gd.getOriginator())).collect(Collectors
+                        .toList());
+
                 Comparator<GranuleDescriptor> granuleComparator = (gd1, gd2) -> {
                     SimpleFeature sf1 = gd1.getOriginator();
                     SimpleFeature sf2 = gd2.getOriginator();
@@ -450,7 +461,7 @@ class STRTreeGranuleCatalog extends GranuleCatalog {
 
     @Override
     public String[] getTypeNames() {
-        return typeName != null ? new String[] { typeName } : null;
+        return typeName != null ? new String[]{typeName} : null;
     }
 
     public void computeAggregateFunction(Query query, FeatureCalc function) throws IOException {
@@ -493,7 +504,7 @@ class STRTreeGranuleCatalog extends GranuleCatalog {
 
     @Override
     public void addGranules(String typeName, Collection<SimpleFeature> granules,
-            Transaction transaction) throws IOException {
+                            Transaction transaction) throws IOException {
         throw new UnsupportedOperationException("Unsupported operation");
 
     }
@@ -519,7 +530,7 @@ class STRTreeGranuleCatalog extends GranuleCatalog {
 
     @Override
     public QueryCapabilities getQueryCapabilities(String typeName) {
-        if(this.typeName.equals(typeName)) {
+        if (this.typeName.equals(typeName)) {
             return getQueryCapabilities();
         }
         throw new UnsupportedOperationException("Unsupported operation");

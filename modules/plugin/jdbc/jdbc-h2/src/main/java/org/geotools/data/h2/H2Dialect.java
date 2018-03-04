@@ -57,33 +57,29 @@ import com.vividsolutions.jts.io.WKTWriter;
 /**
  * Delegate for {@link H2DialectBasic} and {@link H2DialectPrepared} which implements
  * the common parts of the dialect api.
- * 
+ *
  * @author Justin Deoliveira, OpenGEO
- *
- *
- *
- *
  * @source $URL$
  */
 public class H2Dialect extends SQLDialect {
-    
+
     public static String H2_SPATIAL_INDEX = "org.geotools.data.h2.spatialIndex";
-    
-    public H2Dialect( JDBCDataStore dataStore ) {
-        super( dataStore );
+
+    public H2Dialect(JDBCDataStore dataStore) {
+        super(dataStore);
     }
-    
+
     public String getNameEscape() {
         return "\"";
     }
 
-    
+
     @Override
     public void initializeConnection(Connection cx) throws SQLException {
         //spatialize the database
         GeoDB.InitGeoDB(cx);
     }
-    
+
     @Override
     public boolean includeTable(String schemaName, String tableName, Connection cx)
             throws SQLException {
@@ -96,19 +92,19 @@ public class H2Dialect extends SQLDialect {
 
         return true;
     }
-    
+
     @Override
     public Class<?> getMapping(ResultSet columnMetaData, Connection cx)
             throws SQLException {
-        
+
         String typeName = columnMetaData.getString("TYPE_NAME");
-        if("UUID".equalsIgnoreCase(typeName)) {
+        if ("UUID".equalsIgnoreCase(typeName)) {
             return UUID.class;
         } else if ("BLOB".equalsIgnoreCase(typeName) || "VARBINARY".equalsIgnoreCase(typeName)) {
             String schemaName = columnMetaData.getString("TABLE_SCHEM");
             String tableName = columnMetaData.getString("TABLE_NAME");
             String columnName = columnMetaData.getString("COLUMN_NAME");
-            
+
             //look up in geometry columns table
             StringBuffer sql = new StringBuffer("SELECT type FROM geometry_columns WHERE ");
             if (schemaName != null) {
@@ -116,7 +112,7 @@ public class H2Dialect extends SQLDialect {
             }
             sql.append("f_table_name = '").append(tableName).append("' AND ");
             sql.append("f_geometry_column = '").append(columnName).append("'");
-            
+
             Statement st = cx.createStatement();
             try {
                 LOGGER.fine(sql.toString());
@@ -130,49 +126,47 @@ public class H2Dialect extends SQLDialect {
                         }
                         LOGGER.warning("Geometry type " + type + " not supported.");
                     }
-                }
-                finally {
+                } finally {
                     dataStore.closeSafe(rs);
                 }
-            }
-            finally {
+            } finally {
                 dataStore.closeSafe(st);
             }
-            
+
             //not a geometry blob, return byte[].class
             return byte[].class;
         }
-        
+
         //do a check for a column remark which marks this as a geometry
         // do this mostly for backwards compatability
-        String remark = columnMetaData.getString( "REMARKS" );
-        if ( remark != null ) {
+        String remark = columnMetaData.getString("REMARKS");
+        if (remark != null) {
             Geometries g = Geometries.getForName(remark);
             if (g != null) {
                 return g.getBinding();
             }
         }
-        
+
         return null;
     }
-    
+
     @Override
     public void encodePostColumnCreateTable(AttributeDescriptor att,
-            StringBuffer sql) {
-        if ( att instanceof GeometryDescriptor ) {
+                                            StringBuffer sql) {
+        if (att instanceof GeometryDescriptor) {
             //try to narrow down the type with a comment
             Class binding = att.getType().getBinding();
             if (isConcreteGeometry(binding)) {
-                sql.append( " COMMENT '").append( binding.getSimpleName().toUpperCase() )
-                    .append( "'");
+                sql.append(" COMMENT '").append(binding.getSimpleName().toUpperCase())
+                        .append("'");
             }
         }
     }
-    
+
     @Override
     public void registerSqlTypeToClassMappings(Map<Integer, Class<?>> mappings) {
         super.registerSqlTypeToClassMappings(mappings);
-        
+
         //clear BLOB, we handle them custom
         mappings.remove(Types.BLOB);
     }
@@ -182,36 +176,34 @@ public class H2Dialect extends SQLDialect {
         super.registerClassToSqlMappings(mappings);
         mappings.put(Geometry.class, Types.BLOB);
     }
-    
+
     @Override
     public void postCreateTable(String schemaName,
-            SimpleFeatureType featureType, Connection cx) throws SQLException {
-        
+                                SimpleFeatureType featureType, Connection cx) throws SQLException {
+
         Statement st = cx.createStatement();
         String tableName = featureType.getTypeName();
         schemaName = schemaName != null ? schemaName : "PUBLIC";
-        
+
         try {
             //post process the feature type and set up constraints based on geometry type
-            for ( PropertyDescriptor ad : featureType.getDescriptors() ) {
-                if ( ad instanceof GeometryDescriptor ) {
-                    GeometryDescriptor gd = (GeometryDescriptor)ad;
+            for (PropertyDescriptor ad : featureType.getDescriptors()) {
+                if (ad instanceof GeometryDescriptor) {
+                    GeometryDescriptor gd = (GeometryDescriptor) ad;
                     Class binding = ad.getType().getBinding();
                     String propertyName = ad.getName().getLocalPart();
-                  
+
                     //create a spatial index
                     int epsg = -1;
                     try {
                         CoordinateReferenceSystem crs = gd.getCoordinateReferenceSystem();
                         if (crs != null) {
-                            Integer code = CRS.lookupEpsgCode(crs, true); 
+                            Integer code = CRS.lookupEpsgCode(crs, true);
                             epsg = code != null ? code : -1;
-                        }
-                        else {
+                        } else {
                             LOGGER.warning("Column " + gd.getLocalName() + " has no crs");
                         }
-                    } 
-                    catch (FactoryException e) {
+                    } catch (FactoryException e) {
                         LOGGER.log(Level.FINER, "Unable to look epsg code", e);
                     }
 
@@ -222,41 +214,40 @@ public class H2Dialect extends SQLDialect {
                     sql.append(", '").append(tableName).append("'");
                     sql.append(", '").append(gd.getLocalName()).append("'");
                     sql.append(", ").append(epsg);
-                    sql.append(", '").append(Geometries.getForBinding(binding).getName()).append("'");
+                    sql.append(", '").append(Geometries.getForBinding(binding).getName()).append
+                            ("'");
                     sql.append(", ").append(2); //TODO: dimension
                     sql.append(")");
-                    
+
                     LOGGER.fine(sql.toString());
                     st.execute(sql.toString());
-                    
+
                     if (epsg != -1) {
                         sql = new StringBuffer();
                         sql.append("CALL CreateSpatialIndex(");
                         if (schemaName == null) {
                             sql.append("NULL");
-                        }
-                        else {
+                        } else {
                             sql.append("'").append(schemaName).append("'");
                         }
-                       
+
                         sql.append(",'").append(tableName).append("'");
                         sql.append(",'").append(propertyName).append("'");
                         sql.append(",'").append(epsg).append("')");
-                        
+
                         LOGGER.fine(sql.toString());
                         st.execute(sql.toString());
                     }
                 }
             }
-        }
-        finally {
-            dataStore.closeSafe( st );
+        } finally {
+            dataStore.closeSafe(st);
         }
     }
-    
+
     @Override
     public void postCreateFeatureType(SimpleFeatureType featureType, DatabaseMetaData metadata,
-            String schemaName, Connection cx) throws SQLException {
+                                      String schemaName, Connection cx) throws SQLException {
         //figure out if the table has a spatial index and mark the feature type as so
         if (featureType.getGeometryDescriptor() == null) {
             return;
@@ -266,10 +257,10 @@ public class H2Dialect extends SQLDialect {
                 dataStore.escapeNamePattern(metadata, idxTableName), new String[]{"TABLE"});
         try {
             if (rs.next()) {
-                featureType.getGeometryDescriptor().getUserData().put(H2_SPATIAL_INDEX, idxTableName);
+                featureType.getGeometryDescriptor().getUserData().put(H2_SPATIAL_INDEX, 
+                        idxTableName);
             }
-        }
-        finally {
+        } finally {
             dataStore.closeSafe(rs);
         }
     }
@@ -286,8 +277,7 @@ public class H2Dialect extends SQLDialect {
             sql.append("CALL DropSpatialIndex(");
             if (schemaName == null) {
                 sql.append("NULL");
-            }
-            else {
+            } else {
                 sql.append("'").append(schemaName).append("'");
             }
 
@@ -296,8 +286,7 @@ public class H2Dialect extends SQLDialect {
 
             try {
                 st.execute(sql.toString());
-            }
-            catch(SQLException e) {
+            } catch (SQLException e) {
                 //table may not have had a spatial index
                 //TODO: do a better check
                 LOGGER.log(Level.FINE, e.getLocalizedMessage(), e);
@@ -308,8 +297,7 @@ public class H2Dialect extends SQLDialect {
             sql.append("CALL DropGeometryColumns(");
             if (schemaName == null) {
                 sql.append("NULL");
-            }
-            else {
+            } else {
                 sql.append("'").append(schemaName).append("'");
             }
 
@@ -317,30 +305,29 @@ public class H2Dialect extends SQLDialect {
             LOGGER.fine(sql.toString());
 
             st.execute(sql.toString());
-        }
-        finally {
+        } finally {
             dataStore.closeSafe(st);
         }
     }
 
-    boolean isConcreteGeometry( Class binding ) {
-        return Point.class.isAssignableFrom(binding) 
-            || LineString.class.isAssignableFrom(binding)
-            || Polygon.class.isAssignableFrom(binding) 
-            || MultiPoint.class.isAssignableFrom( binding ) 
-            || MultiLineString.class.isAssignableFrom(binding) 
-            || MultiPolygon.class.isAssignableFrom( binding );
+    boolean isConcreteGeometry(Class binding) {
+        return Point.class.isAssignableFrom(binding)
+                || LineString.class.isAssignableFrom(binding)
+                || Polygon.class.isAssignableFrom(binding)
+                || MultiPoint.class.isAssignableFrom(binding)
+                || MultiLineString.class.isAssignableFrom(binding)
+                || MultiPolygon.class.isAssignableFrom(binding);
     }
-    
+
     public Integer getGeometrySRID(String schemaName, String tableName, String columnName,
-        Connection cx) throws SQLException {
-        
+                                   Connection cx) throws SQLException {
+
         //first try getting from table metadata
         int srid = GeoDB.GetSRID(cx, schemaName, tableName);
         if (srid > -1) {
             return srid;
         }
-        
+
         //try grabbing directly from a geometry
         StringBuffer sql = new StringBuffer();
         sql.append("SELECT ST_SRID(");
@@ -369,7 +356,7 @@ public class H2Dialect extends SQLDialect {
                     return new Integer(rs.getInt(1));
                 } else {
                     //could not find o
-           return null;
+                    return null;
                 }
             } finally {
                 dataStore.closeSafe(rs);
@@ -388,15 +375,15 @@ public class H2Dialect extends SQLDialect {
 
     @Override
     public Envelope decodeGeometryEnvelope(ResultSet rs, int column,
-            Connection cx) throws SQLException, IOException {
-        
+                                           Connection cx) throws SQLException, IOException {
+
         //TODO: change spatialdb in a box to return ReferencedEnvelope
         return (Envelope) rs.getObject(column);
     }
 
     public void encodeGeometryValue(Geometry value, int srid, StringBuffer sql)
-        throws IOException {
-        if(value == null || value.isEmpty()) {
+            throws IOException {
+        if (value == null || value.isEmpty()) {
             sql.append("ST_GeomFromText ('");
             sql.append(new WKTWriter().write(value));
             sql.append("',");
@@ -406,11 +393,11 @@ public class H2Dialect extends SQLDialect {
             sql.append("NULL");
         }
     }
-    
-    
+
 
     public Geometry decodeGeometryValue(GeometryDescriptor descriptor, ResultSet rs, String column,
-                                        GeometryFactory factory, Connection cx, Hints hints) throws IOException, SQLException {
+                                        GeometryFactory factory, Connection cx, Hints hints) 
+            throws IOException, SQLException {
         byte[] bytes = rs.getBytes(column);
 
         if (bytes == null) {
@@ -433,55 +420,52 @@ public class H2Dialect extends SQLDialect {
 
     @Override
     public String getSequenceForColumn(String schemaName, String tableName,
-            String columnName, Connection cx) throws SQLException {
-        
-        String sequenceName = tableName + "_" + columnName + "_SEQUENCE"; 
-        
+                                       String columnName, Connection cx) throws SQLException {
+
+        String sequenceName = tableName + "_" + columnName + "_SEQUENCE";
+
         //sequence names have to be upper case to select values from them
         sequenceName = sequenceName.toUpperCase();
         Statement st = cx.createStatement();
         try {
             StringBuffer sql = new StringBuffer();
-            sql.append( "SELECT * FROM INFORMATION_SCHEMA.SEQUENCES ");
-            sql.append( "WHERE SEQUENCE_NAME = '").append( sequenceName ).append( "'" );
-            
-            dataStore.getLogger().fine( sql.toString() );
-            ResultSet rs = st.executeQuery( sql.toString() );
+            sql.append("SELECT * FROM INFORMATION_SCHEMA.SEQUENCES ");
+            sql.append("WHERE SEQUENCE_NAME = '").append(sequenceName).append("'");
+
+            dataStore.getLogger().fine(sql.toString());
+            ResultSet rs = st.executeQuery(sql.toString());
             try {
-                if ( rs.next() ) {
+                if (rs.next()) {
                     return sequenceName;
                 }
             } finally {
                 dataStore.closeSafe(rs);
             }
-        }
-        finally {
+        } finally {
             dataStore.closeSafe(st);
         }
-        
+
         return null;
     }
-    
+
     @Override
     public Object getNextSequenceValue(String schemaName, String sequenceName,
-            Connection cx) throws SQLException {
-        
+                                       Connection cx) throws SQLException {
+
         Statement st = cx.createStatement();
         try {
             String sql = "SELECT " + encodeNextSequenceValue(schemaName, sequenceName);
-            dataStore.getLogger().fine( sql );
-            ResultSet rs = st.executeQuery( sql );
+            dataStore.getLogger().fine(sql);
+            ResultSet rs = st.executeQuery(sql);
             try {
                 rs.next();
-                return rs.getInt( 1 );
+                return rs.getInt(1);
+            } finally {
+                dataStore.closeSafe(rs);
             }
-            finally {
-                dataStore.closeSafe( rs );
-            }
-            
-        }
-        finally {
-            dataStore.closeSafe( st );
+
+        } finally {
+            dataStore.closeSafe(st);
         }
     }
 
@@ -492,9 +476,9 @@ public class H2Dialect extends SQLDialect {
 
     @Override
     public Object getNextAutoGeneratedValue(String schemaName,
-            String tableName, String columnName, Connection cx)
+                                            String tableName, String columnName, Connection cx)
             throws SQLException {
-        
+
         Statement st = cx.createStatement();
         try {
             ResultSet rs = st.executeQuery("SELECT b.COLUMN_DEFAULT "
@@ -535,26 +519,26 @@ public class H2Dialect extends SQLDialect {
             dataStore.closeSafe(st);
         }
     }
-    
+
     @Override
     public boolean isLimitOffsetSupported() {
         return true;
     }
-    
+
     @Override
     public void applyLimitOffset(StringBuffer sql, int limit, int offset) {
-        if(limit >= 0 && limit < Integer.MAX_VALUE) {
+        if (limit >= 0 && limit < Integer.MAX_VALUE) {
             sql.append(" LIMIT " + limit);
-            if(offset > 0) {
+            if (offset > 0) {
                 sql.append(" OFFSET " + offset);
             }
-        } else if(offset > 0) {
+        } else if (offset > 0) {
             // H2 pretends to have limit specified along with offset
             sql.append(" LIMIT " + Integer.MAX_VALUE);
             sql.append(" OFFSET " + offset);
         }
     }
-    
+
     @Override
     protected boolean supportsSchemaForIndex() {
         return true;

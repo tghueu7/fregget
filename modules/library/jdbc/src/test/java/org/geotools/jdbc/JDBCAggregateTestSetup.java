@@ -19,8 +19,6 @@ package org.geotools.jdbc;
 import java.sql.SQLException;
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class JDBCAggregateTestSetup extends JDBCDelegatingTestSetup {
@@ -28,7 +26,7 @@ public abstract class JDBCAggregateTestSetup extends JDBCDelegatingTestSetup {
     protected JDBCAggregateTestSetup(JDBCTestSetup delegate) {
         super(delegate);
     }
-    
+
     protected final void setUpData() throws Exception {
         super.setUpData();
         //kill all the data

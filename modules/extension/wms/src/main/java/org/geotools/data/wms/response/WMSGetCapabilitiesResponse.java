@@ -3,7 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -34,11 +34,8 @@ import org.xml.sax.SAXException;
 
 /**
  * Provides a hook up to parse the capabilties document from inputstream.
- * 
+ *
  * @author Richard Gould
- *
- *
- *
  * @source $URL$
  */
 public class WMSGetCapabilitiesResponse extends GetCapabilitiesResponse {
@@ -46,14 +43,15 @@ public class WMSGetCapabilitiesResponse extends GetCapabilitiesResponse {
     public WMSGetCapabilitiesResponse(HTTPResponse response) throws ServiceException, IOException {
         this(response, null);
     }
-    
-    public WMSGetCapabilitiesResponse(HTTPResponse response, Map<String, Object> hints) throws ServiceException, IOException {
+
+    public WMSGetCapabilitiesResponse(HTTPResponse response, Map<String, Object> hints) throws 
+            ServiceException, IOException {
         super(response);
 
         try {
             hints = hints == null ? new HashMap<>() : new HashMap<>(hints);
             hints.put(DocumentHandler.DEFAULT_NAMESPACE_HINT_KEY, WMSSchema.getInstance());
-            if( !hints.containsKey(DocumentFactory.VALIDATION_HINT)){
+            if (!hints.containsKey(DocumentFactory.VALIDATION_HINT)) {
                 hints.put(DocumentFactory.VALIDATION_HINT, Boolean.FALSE);
             }
             Object object;

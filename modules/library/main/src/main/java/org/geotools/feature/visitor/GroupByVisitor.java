@@ -68,7 +68,8 @@ public class GroupByVisitor implements FeatureCalc, FeatureAttributeVisitor {
     }
 
     /**
-     * This method computes and returns the group by visitor result. If the computation was optimized
+     * This method computes and returns the group by visitor result. If the computation was 
+     * optimized
      * the optimization result is returned otherwise the result is computed in memory. If for some
      * reason an optimization result exists and there are visited features, an in memory computation
      * is performed and is merged with the existing optimization results.
@@ -79,7 +80,8 @@ public class GroupByVisitor implements FeatureCalc, FeatureAttributeVisitor {
     public CalcResult getResult() {
         // do a in memory computation for any visited feature
         Map<List<Object>, CalcResult> results = inMemoryGroupBy.visit();
-        // create the result, if no feature was visited this will be an empty result that can be safely merged
+        // create the result, if no feature was visited this will be an empty result that can be 
+        // safely merged
         GroupByResult result = new GroupByResult(results, aggregate, groupByAttributes);
         if (optimizationResult == CalcResult.NULL_RESULT) {
             // there is no optimization result so we just return the created one
@@ -117,7 +119,8 @@ public class GroupByVisitor implements FeatureCalc, FeatureAttributeVisitor {
         Map<List<Object>, CalcResult> results = new HashMap<>();
         for (GroupByRawResult groupByRawResult : value) {
             // wrap the aggregate visitor result with the appropriate feature calculation type
-            results.put(groupByRawResult.groupByValues, aggregate.wrap(expression, groupByRawResult.visitorValue));
+            results.put(groupByRawResult.groupByValues, aggregate.wrap(expression, 
+                    groupByRawResult.visitorValue));
         }
         // create a new group by result using the raw values returned by the optimization
         GroupByResult newResult = new GroupByResult(results, aggregate, groupByAttributes);
@@ -178,7 +181,8 @@ public class GroupByVisitor implements FeatureCalc, FeatureAttributeVisitor {
          */
         Map<List<Object>, CalcResult> visit() {
             Map<List<Object>, CalcResult> results = new HashMap<>();
-            for (Map.Entry<List<Object>, DefaultFeatureCollection> entry : groupByIndexes.entrySet()) {
+            for (Map.Entry<List<Object>, DefaultFeatureCollection> entry : groupByIndexes
+                    .entrySet()) {
                 // creating a new aggregation visitor for the current feature collection
                 FeatureCalc visitor = aggregate.create(expression);
                 try {
@@ -203,7 +207,8 @@ public class GroupByVisitor implements FeatureCalc, FeatureAttributeVisitor {
         private final Aggregate aggregateVisitor;
         private final List<Expression> groupByAttributes;
 
-        public GroupByResult(Map<List<Object>, CalcResult> results, Aggregate aggregateVisitor, List<Expression> groupByAttributes) {
+        public GroupByResult(Map<List<Object>, CalcResult> results, Aggregate aggregateVisitor, 
+                             List<Expression> groupByAttributes) {
             this.results = results;
             this.aggregateVisitor = aggregateVisitor;
             this.groupByAttributes = groupByAttributes;
@@ -232,7 +237,8 @@ public class GroupByVisitor implements FeatureCalc, FeatureAttributeVisitor {
                 return false;
             }
             GroupByResult groupByResult = (GroupByResult) newResult;
-            // compatible only if the aggregation visitor is the same and the group by attributes are the same
+            // compatible only if the aggregation visitor is the same and the group by attributes
+            // are the same
             return aggregateVisitor == groupByResult.getAggregateVisitor()
                     && groupByAttributes.equals(groupByResult.getGroupByAttributes());
         }
@@ -251,7 +257,8 @@ public class GroupByVisitor implements FeatureCalc, FeatureAttributeVisitor {
             }
             // the merged results are initialized with the content of this result
             Map<List<Object>, CalcResult> mergedResults = new HashMap<>(results);
-            for (Map.Entry<List<Object>, CalcResult> entry : ((GroupByResult) newResult).getResults().entrySet()) {
+            for (Map.Entry<List<Object>, CalcResult> entry : ((GroupByResult) newResult)
+                    .getResults().entrySet()) {
                 // check if this result contains the same aggregation result
                 CalcResult existingResult = mergedResults.get(entry.getKey());
                 if (existingResult != null) {
@@ -327,7 +334,8 @@ public class GroupByVisitor implements FeatureCalc, FeatureAttributeVisitor {
         }
 
         /**
-         * The keys of the map will be List instead of arrays, since arrays don't give a decent hash code.
+         * The keys of the map will be List instead of arrays, since arrays don't give a decent 
+         * hash code.
          */
         @Override
         public Map toMap() {

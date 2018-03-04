@@ -45,10 +45,12 @@ public class S3Connector {
     }
 
     /**
-     * Create an S3 connector from a URI-ish S3:// string. Notably, this constructor supports awsRegion and useAnon
+     * Create an S3 connector from a URI-ish S3:// string. Notably, this constructor supports 
+     * awsRegion and useAnon
      * as query parameters to control these settings.
-     *
-     * Also of note, this URL is largely ignored outside of the query parameters. Mainly this is used to control
+     * <p>
+     * Also of note, this URL is largely ignored outside of the query parameters. Mainly this is 
+     * used to control
      * authentication options
      *
      * @param input an s3:// style URL.
@@ -104,7 +106,6 @@ public class S3Connector {
     }
 
     /**
-     *
      * @param s3Path the s3:// url style path
      * @return bucket and key parts of the given S3 path, IN THAT ORDER
      */
@@ -113,12 +114,12 @@ public class S3Connector {
         StringBuilder keyBuilder = new StringBuilder();
 
         String bucket = parts[2];
-        for (int i=3; i < parts.length; i++ ) {
+        for (int i = 3; i < parts.length; i++) {
             keyBuilder.append("/").append(parts[i]);
         }
         String key = keyBuilder.toString();
         key = key.startsWith("/") ? key.substring(1) : key;
 
-        return new String[] { bucket, key };
+        return new String[]{bucket, key};
     }
 }

@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -25,26 +25,26 @@ import org.geotools.util.Utilities;
 
 /**
  * Holds styling information (from a StyleLayerDescriptor document).
- * 
+ * <p>
  * <p>
  * This class is based on version 1.0 of the SLD specification.
  * </p>
- * 
+ * <p>
  * <p>
  * For many of us in geotools this is the reason we came along for the ride - a
  * pretty picture. For documentation on the use of this class please consult
  * the SLD 1.0 specification.
  * </p>
- * 
+ * <p>
  * <p>
  * We may experiment with our own (or SLD 1.1) ideas but will mark such
  * experiments for you. This is only an issue of you are considering writing
  * out these objects for interoptability with other systems.
  * </p>
- * 
+ * <p>
  * <p>
  * General strategy for supporting multiple SLD versions (and experiments):
- * 
+ * <p>
  * <ul>
  * <li>
  * These classes will be <b>BIGGER</b> and more capabile then any one
@@ -65,23 +65,30 @@ import org.geotools.util.Utilities;
  * </ul>
  * </p>
  *
- *
  * @source $URL$
  */
 public class StyledLayerDescriptorImpl implements StyledLayerDescriptor {
-    /** The logger for the default core module. */
+    /**
+     * The logger for the default core module.
+     */
     private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger(
             "org.geotools.styling");
 
-    /** Holds value of property name. */
+    /**
+     * Holds value of property name.
+     */
     private String name;
 
-    /** Holds value of property title. */
+    /**
+     * Holds value of property title.
+     */
     private String title;
 
-    /** Holds value of property abstract. */
+    /**
+     * Holds value of property abstract.
+     */
     private String abstractStr;
-    
+
     private List<StyledLayer> layers = new ArrayList<StyledLayer>();
 
     /**
@@ -89,7 +96,7 @@ public class StyledLayerDescriptorImpl implements StyledLayerDescriptor {
      * StyledLayerDescriptor.
      *
      * @return first Style (in SLD-->UserLayers-->UserStyles) that claims to be
-     *         the default
+     * the default
      */
     public Style getDefaultStyle() {
         //descend into the layers
@@ -116,7 +123,7 @@ public class StyledLayerDescriptorImpl implements StyledLayerDescriptor {
 
     public StyledLayer[] getStyledLayers() {
         return (StyledLayerImpl[]) layers.toArray(new StyledLayerImpl[layers
-            .size()]);
+                .size()]);
     }
 
     public void setStyledLayers(StyledLayer[] layers) {
@@ -127,15 +134,15 @@ public class StyledLayerDescriptorImpl implements StyledLayerDescriptor {
         }
 
         LOGGER.fine("StyleLayerDescriptorImpl added " + this.layers.size()
-            + " styled layers");
+                + " styled layers");
     }
-    
+
     public List<StyledLayer> layers() {
         return layers;
     }
 
     public void addStyledLayer(StyledLayer layer) {
-        layers.add( (StyledLayerImpl) layer);
+        layers.add((StyledLayerImpl) layer);
     }
 
     /**
@@ -196,20 +203,20 @@ public class StyledLayerDescriptorImpl implements StyledLayerDescriptor {
         visitor.visit(this);
     }
 
-	public boolean equals(Object oth) {
+    public boolean equals(Object oth) {
         if (this == oth) {
             return true;
         }
 
         if (oth instanceof StyledLayerDescriptorImpl) {
-        	StyledLayerDescriptorImpl other = (StyledLayerDescriptorImpl) oth;
-        	
-        	return (Utilities.equals(abstractStr, other.abstractStr)
-        	&& Utilities.equals(layers, other.layers)
-        	&& Utilities.equals(name, other.name)
-        	&& Utilities.equals(title, other.title));
+            StyledLayerDescriptorImpl other = (StyledLayerDescriptorImpl) oth;
+
+            return (Utilities.equals(abstractStr, other.abstractStr)
+                    && Utilities.equals(layers, other.layers)
+                    && Utilities.equals(name, other.name)
+                    && Utilities.equals(title, other.title));
         }
-        
+
         return false;
-	}
+    }
 }

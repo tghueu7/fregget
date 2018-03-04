@@ -37,6 +37,7 @@ import org.opengis.util.InternationalString;
 import org.opengis.util.LocalName;
 import org.opengis.util.NameSpace;
 import org.opengis.util.ScopedName;
+
 import static org.opengis.referencing.IdentifiedObject.REMARKS_KEY;
 
 import org.geotools.resources.i18n.Errors;
@@ -57,7 +58,7 @@ import org.geotools.util.Utilities;
  * {@linkplain AbstractIdentifiedObject#getAlias aliases}. Casting an alias's
  * {@linkplain GenericName generic name} to an {@linkplain ReferenceIdentifier identifier}
  * gives access to more informations, like the URL of the authority.
- * <P>
+ * <p>
  * The {@linkplain GenericName generic name} will be infered from
  * {@linkplain ReferenceIdentifier identifier} attributes. More specifically, a
  * {@linkplain ScopedName scoped name} will be constructed using the shortest authority's
@@ -69,16 +70,13 @@ import org.geotools.util.Utilities;
  * titles} often contains abreviation (for example "DCW" as an alternative title for
  * "<cite>Digital Chart of the World</cite>").
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class NamedIdentifier implements ReferenceIdentifier, GenericName,
-                                        Comparable<GenericName>, Serializable
-{
+        Comparable<GenericName>, Serializable {
     /**
      * Serial number for interoperability with different versions.
      */
@@ -88,7 +86,7 @@ public class NamedIdentifier implements ReferenceIdentifier, GenericName,
      * A pool of {@link LocalName} values for given {@link InternationalString}.
      * Will be constructed only when first needed.
      */
-    private static Map<CharSequence,GenericName> SCOPES;
+    private static Map<CharSequence, GenericName> SCOPES;
 
     /**
      * Identifier code or name, optionally from a controlled list or pattern
@@ -135,38 +133,38 @@ public class NamedIdentifier implements ReferenceIdentifier, GenericName,
      * in the table below are optional.
      * <p>
      * <table border='1'>
-     *   <tr bgcolor="#CCCCFF" class="TableHeadingColor">
-     *     <th nowrap>Property name</th>
-     *     <th nowrap>Value type</th>
-     *     <th nowrap>Value given to</th>
-     *   </tr>
-     *   <tr>
-     *     <td nowrap>&nbsp;{@link #CODE_KEY "code"}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link String}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link #getCode}</td>
-     *   </tr>
-     *   <tr>
-     *     <td nowrap>&nbsp;{@link #CODESPACE_KEY "code"}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link String}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link #getCodeSpace}</td>
-     *   </tr>
-     *   <tr>
-     *     <td nowrap>&nbsp;{@link #AUTHORITY_KEY "authority"}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link String} or {@link Citation}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link #getAuthority}</td>
-     *   </tr>
-     *   <tr>
-     *     <td nowrap>&nbsp;{@link #VERSION_KEY "version"}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link String}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link #getVersion}</td>
-     *   </tr>
-     *   <tr>
-     *     <td nowrap>&nbsp;{@link #REMARKS_KEY "remarks"}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link String} or {@link InternationalString}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link #getRemarks}</td>
-     *   </tr>
+     * <tr bgcolor="#CCCCFF" class="TableHeadingColor">
+     * <th nowrap>Property name</th>
+     * <th nowrap>Value type</th>
+     * <th nowrap>Value given to</th>
+     * </tr>
+     * <tr>
+     * <td nowrap>&nbsp;{@link #CODE_KEY "code"}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link String}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link #getCode}</td>
+     * </tr>
+     * <tr>
+     * <td nowrap>&nbsp;{@link #CODESPACE_KEY "code"}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link String}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link #getCodeSpace}</td>
+     * </tr>
+     * <tr>
+     * <td nowrap>&nbsp;{@link #AUTHORITY_KEY "authority"}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link String} or {@link Citation}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link #getAuthority}</td>
+     * </tr>
+     * <tr>
+     * <td nowrap>&nbsp;{@link #VERSION_KEY "version"}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link String}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link #getVersion}</td>
+     * </tr>
+     * <tr>
+     * <td nowrap>&nbsp;{@link #REMARKS_KEY "remarks"}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link String} or {@link InternationalString}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link #getRemarks}</td>
+     * </tr>
      * </table>
-     *
+     * <p>
      * <P><code>"remarks"</code> is a localizable attributes which may have a language and country
      * code suffix. For example the <code>"remarks_fr"</code> property stands for remarks in
      * {@linkplain Locale#FRENCH French} and the <code>"remarks_fr_CA"</code> property stands
@@ -174,9 +172,9 @@ public class NamedIdentifier implements ReferenceIdentifier, GenericName,
      *
      * @param properties The properties to be given to this identifier.
      * @throws InvalidParameterValueException if a property has an invalid value.
-     * @throws IllegalArgumentException if a property is invalid for some other reason.
+     * @throws IllegalArgumentException       if a property is invalid for some other reason.
      */
-    public NamedIdentifier(final Map<String,?> properties) throws IllegalArgumentException {
+    public NamedIdentifier(final Map<String, ?> properties) throws IllegalArgumentException {
         this(properties, true);
     }
 
@@ -185,7 +183,8 @@ public class NamedIdentifier implements ReferenceIdentifier, GenericName,
      * constructor for commonly-used parameters. If more control are wanted (for example adding
      * remarks), use the {@linkplain #NamedIdentifier(Map) constructor with a properties map}.
      *
-     * @param authority The authority (e.g. {@link Citations#OGC OGC} or {@link Citations#EPSG EPSG}).
+     * @param authority The authority (e.g. {@link Citations#OGC OGC} or 
+     * {@link Citations#EPSG EPSG}).
      * @param code      The code. The {@linkplain Locale#US English name} is used
      *                  for the code, and the international string is used for the
      *                  {@linkplain GenericName generic name}.
@@ -201,7 +200,8 @@ public class NamedIdentifier implements ReferenceIdentifier, GenericName,
      * constructor for commonly-used parameters. If more control are wanted (for example adding
      * remarks), use the {@linkplain #NamedIdentifier(Map) constructor with a properties map}.
      *
-     * @param authority The authority (e.g. {@link Citations#OGC OGC} or {@link Citations#EPSG EPSG}).
+     * @param authority The authority (e.g. {@link Citations#OGC OGC} or 
+     * {@link Citations#EPSG EPSG}).
      * @param code      The code. This parameter is mandatory.
      */
     public NamedIdentifier(final Citation authority, final String code) {
@@ -213,7 +213,8 @@ public class NamedIdentifier implements ReferenceIdentifier, GenericName,
      * constructor for commonly-used parameters. If more control are wanted (for example adding
      * remarks), use the {@linkplain #NamedIdentifier(Map) constructor with a properties map}.
      *
-     * @param authority The authority (e.g. {@link Citations#OGC OGC} or {@link Citations#EPSG EPSG}).
+     * @param authority The authority (e.g. {@link Citations#OGC OGC} or 
+     * {@link Citations#EPSG EPSG}).
      * @param code      The code. This parameter is mandatory.
      * @param version   The version, or {@code null} if none.
      */
@@ -225,14 +226,13 @@ public class NamedIdentifier implements ReferenceIdentifier, GenericName,
      * Work around for RFE #4093999 in Sun's bug database
      * ("Relax constraint on placement of this()/super() call in constructors").
      */
-    private static Map<String,?> toMap(final Citation authority,
-                                       final String   code,
-                                       final String   version)
-    {
-        final Map<String,Object> properties = new HashMap<String,Object>(4);
+    private static Map<String, ?> toMap(final Citation authority,
+                                        final String code,
+                                        final String version) {
+        final Map<String, Object> properties = new HashMap<String, Object>(4);
         if (authority != null) properties.put(AUTHORITY_KEY, authority);
-        if (code      != null) properties.put(     CODE_KEY, code     );
-        if (version   != null) properties.put(  VERSION_KEY, version  );
+        if (code != null) properties.put(CODE_KEY, code);
+        if (version != null) properties.put(VERSION_KEY, version);
         return properties;
     }
 
@@ -245,19 +245,17 @@ public class NamedIdentifier implements ReferenceIdentifier, GenericName,
      *
      * @param properties The properties to parse, as described in the public constructor.
      * @param standalone {@code true} for parsing "remarks" as well.
-     *
      * @throws InvalidParameterValueException if a property has an invalid value.
-     * @throws IllegalArgumentException if a property is invalid for some other reason.
+     * @throws IllegalArgumentException       if a property is invalid for some other reason.
      */
-    NamedIdentifier(final Map<String,?> properties, final boolean standalone)
-            throws IllegalArgumentException
-    {
+    NamedIdentifier(final Map<String, ?> properties, final boolean standalone)
+            throws IllegalArgumentException {
         ensureNonNull("properties", properties);
-        Object code      = null;
+        Object code = null;
         Object codespace = null;
-        Object version   = null;
+        Object version = null;
         Object authority = null;
-        Object remarks   = null;
+        Object remarks = null;
         GrowableInternationalString growable = null;
         /*
          * Iterate through each map entry. This have two purposes:
@@ -268,10 +266,10 @@ public class NamedIdentifier implements ReferenceIdentifier, GenericName,
          * This algorithm is sub-optimal if the map contains a lot of entries of no interest to
          * this identifier. Hopefully, most users will fill a map only with usefull entries.
          */
-        String key   = null;
+        String key = null;
         Object value = null;
-        for (final Map.Entry<String,?> entry : properties.entrySet()) {
-            key   = entry.getKey().trim().toLowerCase();
+        for (final Map.Entry<String, ?> entry : properties.entrySet()) {
+            key = entry.getKey().trim().toLowerCase();
             value = entry.getValue();
             /*
              * Note: String.hashCode() is part of J2SE specification,
@@ -346,12 +344,13 @@ public class NamedIdentifier implements ReferenceIdentifier, GenericName,
          * both as InternationalString and as String for some locales (which is a weird
          * usage...), then current implementation discart the later with a warning.
          */
-        if (growable!=null && !growable.getLocales().isEmpty()) {
+        if (growable != null && !growable.getLocales().isEmpty()) {
             if (remarks == null) {
                 remarks = growable;
             } else {
                 final Logger logger = Logging.getLogger(NamedIdentifier.class);
-                final LogRecord record = Loggings.format(Level.WARNING, LoggingKeys.LOCALES_DISCARTED);
+                final LogRecord record = Loggings.format(Level.WARNING, LoggingKeys
+                        .LOCALES_DISCARTED);
                 record.setLoggerName(logger.getName());
                 logger.log(record);
             }
@@ -369,11 +368,16 @@ public class NamedIdentifier implements ReferenceIdentifier, GenericName,
          * are rethrown them as more informative exceptions.
          */
         try {
-            key=      CODE_KEY; this.code      = (String)              (value=code);
-            key=   VERSION_KEY; this.version   = (String)              (value=version);
-            key= CODESPACE_KEY; this.codespace = (String)              (value=codespace);
-            key= AUTHORITY_KEY; this.authority = (Citation)            (value=authority);
-            key=   REMARKS_KEY; this.remarks   = (InternationalString) (value=remarks);
+            key = CODE_KEY;
+            this.code = (String) (value = code);
+            key = VERSION_KEY;
+            this.version = (String) (value = version);
+            key = CODESPACE_KEY;
+            this.codespace = (String) (value = codespace);
+            key = AUTHORITY_KEY;
+            this.authority = (Citation) (value = authority);
+            key = REMARKS_KEY;
+            this.remarks = (InternationalString) (value = remarks);
         } catch (ClassCastException exception) {
             InvalidParameterValueException e = new InvalidParameterValueException(
                     Errors.format(ErrorKeys.ILLEGAL_ARGUMENT_$2, key, value), key, value);
@@ -389,16 +393,15 @@ public class NamedIdentifier implements ReferenceIdentifier, GenericName,
      * except for the more accurate stack trace. It is duplicated
      * there in order to avoid a dependency to {@link AbstractIdentifiedObject}.
      *
-     * @param  name   Argument name.
-     * @param  object User argument.
+     * @param name   Argument name.
+     * @param object User argument.
      * @throws InvalidParameterValueException if {@code object} is null.
      */
     private static void ensureNonNull(final String name, final Object object)
-        throws IllegalArgumentException
-    {
+            throws IllegalArgumentException {
         if (object == null) {
             throw new InvalidParameterValueException(Errors.format(
-                        ErrorKeys.NULL_ARGUMENT_$1, name), name, object);
+                    ErrorKeys.NULL_ARGUMENT_$1, name), name, object);
         }
     }
 
@@ -483,7 +486,7 @@ public class NamedIdentifier implements ReferenceIdentifier, GenericName,
         GenericName scope;
         synchronized (NamedIdentifier.class) {
             if (SCOPES == null) {
-                SCOPES = new WeakValueHashMap<CharSequence,GenericName>();
+                SCOPES = new WeakValueHashMap<CharSequence, GenericName>();
             }
             scope = SCOPES.get(title);
             if (scope == null) {
@@ -504,7 +507,7 @@ public class NamedIdentifier implements ReferenceIdentifier, GenericName,
         if (alt != null) {
             for (final InternationalString candidate : alt) {
                 final int candidateLength = candidate.length();
-                if (candidateLength>0 && candidateLength<length) {
+                if (candidateLength > 0 && candidateLength < length) {
                     title = candidate;
                     length = candidateLength;
                 }
@@ -544,7 +547,7 @@ public class NamedIdentifier implements ReferenceIdentifier, GenericName,
         if (codespace == null) {
             return false;
         }
-        for (int i=codespace.length(); --i>=0;) {
+        for (int i = codespace.length(); --i >= 0; ) {
             if (!Character.isJavaIdentifierPart(codespace.charAt(i))) {
                 return false;
             }
@@ -699,13 +702,13 @@ public class NamedIdentifier implements ReferenceIdentifier, GenericName,
      */
     @Override
     public boolean equals(final Object object) {
-        if (object!=null && object.getClass().equals(getClass())) {
+        if (object != null && object.getClass().equals(getClass())) {
             final NamedIdentifier that = (NamedIdentifier) object;
-            return Utilities.equals(this.code,      that.code     ) &&
-                   Utilities.equals(this.codespace, that.codespace) &&
-                   Utilities.equals(this.version,   that.version  ) &&
-                   Utilities.equals(this.authority, that.authority) &&
-                   Utilities.equals(this.remarks,   that.remarks  );
+            return Utilities.equals(this.code, that.code) &&
+                    Utilities.equals(this.codespace, that.codespace) &&
+                    Utilities.equals(this.version, that.version) &&
+                    Utilities.equals(this.authority, that.authority) &&
+                    Utilities.equals(this.remarks, that.remarks);
         }
         return false;
     }
@@ -720,7 +723,7 @@ public class NamedIdentifier implements ReferenceIdentifier, GenericName,
             hash ^= code.hashCode();
         }
         if (version != null) {
-            hash = hash*37 + version.hashCode();
+            hash = hash * 37 + version.hashCode();
         }
         return hash;
     }

@@ -22,8 +22,6 @@ import org.opengis.filter.FilterFactory2;
 import org.opengis.filter.spatial.BBOX;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DataStoreTest extends TestCase {
@@ -68,7 +66,7 @@ public class DataStoreTest extends TestCase {
         int count = source.getCount(new Query(FEATURESOURCE, Filter.INCLUDE));
         Assert.assertTrue(count > 0);
         BBOX bbox = FF.bbox("geometry", 0, 0, 10, 10, "EPSG:4326");
-        count = source.getCount(new Query(FEATURESOURCE, bbox, 5, new String[] {}, ""));
+        count = source.getCount(new Query(FEATURESOURCE, bbox, 5, new String[]{}, ""));
         Assert.assertTrue(count == 5);
     }
 

@@ -45,15 +45,15 @@ import static java.lang.Math.*;
  * This implementation, and its subclasses, provides transforms for six cases of the
  * stereographic projection:
  * <ul>
- *   <li>{@code "Oblique_Stereographic"} (EPSG code 9809), alias {@code "Double_Stereographic"}
- *       in ESRI software</li>
- *   <li>{@code "Stereographic"} in ESRI software (<strong>NOT</strong> EPSG code 9809)</li>
- *   <li>{@code "Polar_Stereographic"} (EPSG code 9810, uses a series calculation for the
- *       inverse)</li>
- *   <li>{@code "Polar_Stereographic (variant B)"} (EPSG code 9829, uses a series calculation
- *       for the inverse)</li>
- *   <li>{@code "Stereographic_North_Pole"} in ESRI software (uses iteration for the inverse)</li>
- *   <li>{@code "Stereographic_South_Pole"} in ESRI software (uses iteration for the inverse)</li>
+ * <li>{@code "Oblique_Stereographic"} (EPSG code 9809), alias {@code "Double_Stereographic"}
+ * in ESRI software</li>
+ * <li>{@code "Stereographic"} in ESRI software (<strong>NOT</strong> EPSG code 9809)</li>
+ * <li>{@code "Polar_Stereographic"} (EPSG code 9810, uses a series calculation for the
+ * inverse)</li>
+ * <li>{@code "Polar_Stereographic (variant B)"} (EPSG code 9829, uses a series calculation
+ * for the inverse)</li>
+ * <li>{@code "Stereographic_North_Pole"} in ESRI software (uses iteration for the inverse)</li>
+ * <li>{@code "Stereographic_South_Pole"} in ESRI software (uses iteration for the inverse)</li>
  * </ul>
  * <p>
  * Both the {@code "Oblique_Stereographic"} and {@code "Stereographic"}
@@ -106,34 +106,36 @@ import static java.lang.Math.*;
  * <p>
  * <b>References:</b>
  * <ul>
- *   <li>John P. Snyder (Map Projections - A Working Manual,<br>
- *       U.S. Geological Survey Professional Paper 1395, 1987)</li>
- *   <li>"Coordinate Conversions and Transformations including Formulas",<br>
- *       EPSG Guidence Note Number 7, Version 19.</li>
- *   <li>Gerald Evenden. <A HREF="http://members.bellatlantic.net/~vze2hc4d/proj4/sterea.pdf">
- *       "Supplementary PROJ.4 Notes - Oblique Stereographic Alternative"</A></li>
- *   <li>Krakiwsky, E.J., D.B. Thomson, and R.R. Steeves. 1977. A Manual
- *       For Geodetic Coordinate Transformations in the Maritimes.
- *       Geodesy and Geomatics Engineering, UNB. Technical Report No. 48.</li>
- *   <li>Thomson, D.B., M.P. Mepham and R.R. Steeves. 1977.
- *       The Stereographic Double Projection.
- *       Geodesy and Geomatics Engineereng, UNB. Technical Report No. 46.</li>
+ * <li>John P. Snyder (Map Projections - A Working Manual,<br>
+ * U.S. Geological Survey Professional Paper 1395, 1987)</li>
+ * <li>"Coordinate Conversions and Transformations including Formulas",<br>
+ * EPSG Guidence Note Number 7, Version 19.</li>
+ * <li>Gerald Evenden. <A HREF="http://members.bellatlantic.net/~vze2hc4d/proj4/sterea.pdf">
+ * "Supplementary PROJ.4 Notes - Oblique Stereographic Alternative"</A></li>
+ * <li>Krakiwsky, E.J., D.B. Thomson, and R.R. Steeves. 1977. A Manual
+ * For Geodetic Coordinate Transformations in the Maritimes.
+ * Geodesy and Geomatics Engineering, UNB. Technical Report No. 48.</li>
+ * <li>Thomson, D.B., M.P. Mepham and R.R. Steeves. 1977.
+ * The Stereographic Double Projection.
+ * Geodesy and Geomatics Engineereng, UNB. Technical Report No. 46.</li>
  * </ul>
  *
- * @see <A HREF="http://mathworld.wolfram.com/StereographicProjection.html">Stereographic projection on MathWorld</A>
- * @see <A HREF="http://www.remotesensing.org/geotiff/proj_list/polar_stereographic.html">Polar_Stereographic</A>
- * @see <A HREF="http://www.remotesensing.org/geotiff/proj_list/oblique_stereographic.html">Oblique_Stereographic</A>
- * @see <A HREF="http://www.remotesensing.org/geotiff/proj_list/stereographic.html">Stereographic</A>
- * @see <A HREF="http://www.remotesensing.org/geotiff/proj_list/random_issues.html#stereographic">Some Random Stereographic Issues</A>
- *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author André Gosselin
  * @author Martin Desruisseaux (PMO, IRD)
  * @author Rueben Schulz
+ * @version $Id$
+ * @source $URL$
+ * @see <A HREF="http://mathworld.wolfram.com/StereographicProjection.html">Stereographic 
+ * projection on MathWorld</A>
+ * @see <A HREF="http://www.remotesensing.org/geotiff/proj_list/polar_stereographic
+ * .html">Polar_Stereographic</A>
+ * @see <A HREF="http://www.remotesensing.org/geotiff/proj_list/oblique_stereographic
+ * .html">Oblique_Stereographic</A>
+ * @see <A HREF="http://www.remotesensing.org/geotiff/proj_list/stereographic
+ * .html">Stereographic</A>
+ * @see <A HREF="http://www.remotesensing.org/geotiff/proj_list/random_issues
+ * .html#stereographic">Some Random Stereographic Issues</A>
+ * @since 2.1
  */
 public abstract class Stereographic extends MapProjection {
     /**
@@ -154,13 +156,12 @@ public abstract class Stereographic extends MapProjection {
     /**
      * Creates a transform from the specified group of parameter values.
      *
-     * @param  parameters The group of parameter values.
-     * @param  descriptor The expected parameter descriptor.
+     * @param parameters The group of parameter values.
+     * @param descriptor The expected parameter descriptor.
      * @throws ParameterNotFoundException if a required parameter was not found.
      */
     Stereographic(final ParameterValueGroup parameters, final ParameterDescriptorGroup descriptor)
-            throws ParameterNotFoundException
-    {
+            throws ParameterNotFoundException {
         // Fetch parameters
         super(parameters, descriptor.descriptors());
         this.descriptor = descriptor;
@@ -196,8 +197,6 @@ public abstract class Stereographic extends MapProjection {
     }
 
 
-
-
     //////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////
     ////////                                                                          ////////
@@ -212,11 +211,10 @@ public abstract class Stereographic extends MapProjection {
      * This is <strong>not</strong> the provider for EPSG 9809. For the later, use
      * {@link ObliqueStereographic.Provider} instead.
      *
-     * @since 2.4
-     * @version $Id$
      * @author Rueben Schulz
-     *
+     * @version $Id$
      * @see org.geotools.referencing.operation.DefaultMathTransformFactory
+     * @since 2.4
      */
     public static class Provider extends AbstractProvider {
         /**
@@ -233,16 +231,17 @@ public abstract class Stereographic extends MapProjection {
         /**
          * The parameters group.
          */
-        static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(new NamedIdentifier[] {
-                new NamedIdentifier(Citations.ESRI,     "Stereographic"),
-                new NamedIdentifier(Citations.GEOTIFF,  "CT_Stereographic"),
+        static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(new 
+                NamedIdentifier[]{
+                new NamedIdentifier(Citations.ESRI, "Stereographic"),
+                new NamedIdentifier(Citations.GEOTIFF, "CT_Stereographic"),
                 new NamedIdentifier(Citations.GEOTOOLS, NAME)
-            }, new ParameterDescriptor[] {
-                SEMI_MAJOR,          SEMI_MINOR,
-                CENTRAL_MERIDIAN,    LATITUDE_OF_ORIGIN,
+        }, new ParameterDescriptor[]{
+                SEMI_MAJOR, SEMI_MINOR,
+                CENTRAL_MERIDIAN, LATITUDE_OF_ORIGIN,
                 SCALE_FACTOR,
-                FALSE_EASTING,       FALSE_NORTHING
-            });
+                FALSE_EASTING, FALSE_NORTHING
+        });
 
         /**
          * Constructs a new provider with default parameters for EPSG stereographic oblique.
@@ -273,39 +272,39 @@ public abstract class Stereographic extends MapProjection {
         /**
          * Creates a transform from the specified group of parameter values.
          *
-         * @param  parameters The group of parameter values.
+         * @param parameters The group of parameter values.
          * @return The created math transform.
          * @throws ParameterNotFoundException if a required parameter was not found.
          */
         protected MathTransform createMathTransform(final ParameterValueGroup parameters)
-                throws ParameterNotFoundException
-        {
+                throws ParameterNotFoundException {
             // Values here are in radians (the standard units for the map projection package)
-            final double latitudeOfOrigin = abs(AbstractProvider.doubleValue(LATITUDE_OF_ORIGIN, parameters));
-            final boolean     isSpherical = isSpherical(parameters);
+            final double latitudeOfOrigin = abs(AbstractProvider.doubleValue(LATITUDE_OF_ORIGIN, 
+                    parameters));
+            final boolean isSpherical = isSpherical(parameters);
             final ParameterDescriptorGroup descriptor = getParameters();
             // Polar case.
-            if (abs(latitudeOfOrigin - PI/2) < EPSILON) {
+            if (abs(latitudeOfOrigin - PI / 2) < EPSILON) {
                 if (isSpherical) {
                     return new PolarStereographic.Spherical(parameters, descriptor, null);
                 } else {
                     return new PolarStereographic(parameters, descriptor, null);
                 }
             } else
-            // Equatorial case.
-            if (latitudeOfOrigin < EPSILON) {
-                if (isSpherical) {
-                    return new EquatorialStereographic.Spherical(parameters, descriptor);
-                } else {
-                    return createMathTransform(parameters, descriptor);
-                }
-            } else
-            // Generic (oblique) case.
-            if (isSpherical) {
-                return new StereographicUSGS.Spherical(parameters, descriptor);
-            } else {
-                return createMathTransform(parameters, descriptor);
-            }
+                // Equatorial case.
+                if (latitudeOfOrigin < EPSILON) {
+                    if (isSpherical) {
+                        return new EquatorialStereographic.Spherical(parameters, descriptor);
+                    } else {
+                        return createMathTransform(parameters, descriptor);
+                    }
+                } else
+                    // Generic (oblique) case.
+                    if (isSpherical) {
+                        return new StereographicUSGS.Spherical(parameters, descriptor);
+                    } else {
+                        return createMathTransform(parameters, descriptor);
+                    }
         }
 
         /**
@@ -313,8 +312,7 @@ public abstract class Stereographic extends MapProjection {
          */
         MathTransform createMathTransform(final ParameterValueGroup parameters,
                                           final ParameterDescriptorGroup descriptor)
-                throws ParameterNotFoundException
-        {
+                throws ParameterNotFoundException {
             return new StereographicUSGS(parameters, descriptor);
         }
     }

@@ -28,13 +28,11 @@ import com.vividsolutions.jts.io.WKTWriter;
 
 /**
  * Converts between JTS and OGR geometries
- * 
+ *
  * @author Andrea Aime - GeoSolutions
- * 
- * 
  * @source $URL:
- *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/ogr/src/main/java/org/geotools
- *         /data/ogr/GeometryMapper.java $
+ * http://svn.osgeo.org/geotools/trunk/modules/unsupported/ogr/src/main/java/org/geotools
+ * /data/ogr/GeometryMapper.java $
  */
 @SuppressWarnings("rawtypes")
 abstract class GeometryMapper {
@@ -66,7 +64,7 @@ abstract class GeometryMapper {
         /**
          * Reads the current feature's geometry using wkb encoding. A wkbReader should be provided
          * since it's not thread safe by design.
-         * 
+         *
          * @throws IOException
          */
         Geometry parseOgrGeometry(Object geom) throws IOException {
@@ -107,7 +105,7 @@ abstract class GeometryMapper {
         /**
          * Reads the current feature's geometry using wkb encoding. A wkbReader should be provided
          * since it's not thread safe by design.
-         * 
+         *
          * @throws IOException
          */
         Geometry parseOgrGeometry(Object geom) throws IOException {

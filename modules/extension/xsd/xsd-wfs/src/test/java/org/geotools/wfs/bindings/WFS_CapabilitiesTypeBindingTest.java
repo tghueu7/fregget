@@ -45,14 +45,12 @@ import org.w3c.dom.Element;
 
 /**
  * Unit test suite for {@link WFS_CapabilitiesTypeBinding}
- * 
+ *
  * @author Justin Deoliveira
  * @version $Id: WFS_CapabilitiesTypeBindingTest.java 27749 2007-11-05 09:51:33Z
- *          groldan $
- * @since 2.5.x
- *
- *
+ * groldan $
  * @source $URL$
+ * @since 2.5.x
  */
 public class WFS_CapabilitiesTypeBindingTest extends WFSTestSupport {
     public WFS_CapabilitiesTypeBindingTest() {
@@ -145,13 +143,13 @@ public class WFS_CapabilitiesTypeBindingTest extends WFSTestSupport {
         final SpatialCapabilities spatialCaps;
         final IdCapabilities idCaps;
         {
-            Operator[] operators = { filterFac.operator("LessThan"),
-                    filterFac.operator("GreaterThan") };
+            Operator[] operators = {filterFac.operator("LessThan"),
+                    filterFac.operator("GreaterThan")};
             ComparisonOperators comparisonOps = filterFac.comparisonOperators(operators);
 
             boolean simple = true;
-            FunctionName[] functionNames = { filterFac.functionName("MIN", 2),
-                    filterFac.functionName("ABS", 1) };
+            FunctionName[] functionNames = {filterFac.functionName("MIN", 2),
+                    filterFac.functionName("ABS", 1)};
 
             Functions functions = filterFac.functions(functionNames);
             final ArithmeticOperators aritmeticOps = filterFac.arithmeticOperators(simple,
@@ -161,10 +159,10 @@ public class WFS_CapabilitiesTypeBindingTest extends WFSTestSupport {
             scalarCaps = filterFac.scalarCapabilities(comparisonOps, aritmeticOps, logicalOps);
         }
         {
-            GeometryOperand[] geomOperands = { GeometryOperand.Envelope, GeometryOperand.Point };
+            GeometryOperand[] geomOperands = {GeometryOperand.Envelope, GeometryOperand.Point};
             String name = "Disjoint";
             GeometryOperand[] operands = {};
-            SpatialOperator[] spatialOps = { filterFac.spatialOperator(name, operands) };
+            SpatialOperator[] spatialOps = {filterFac.spatialOperator(name, operands)};
             SpatialOperators spatialOperators = filterFac.spatialOperators(spatialOps);
             spatialCaps = filterFac.spatialCapabilities(geomOperands, spatialOperators);
         }

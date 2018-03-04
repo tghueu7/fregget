@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2007-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -22,10 +22,10 @@ import java.util.logging.Level;
 /**
  * A dummy implementation of {@link LoggingAdapter} class for testing purpose.
  *
- * @since 2.4
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @since 2.4
  */
 final class DummyLogger extends LoggerAdapter {
     /**
@@ -51,7 +51,7 @@ final class DummyLogger extends LoggerAdapter {
      */
     public void clear() {
         level = Level.OFF;
-        last  = null;
+        last = null;
     }
 
     @Override
@@ -72,42 +72,42 @@ final class DummyLogger extends LoggerAdapter {
     @Override
     public void severe(String message) {
         level = Level.SEVERE;
-        last  = message;
+        last = message;
     }
 
     @Override
     public void warning(String message) {
         level = Level.WARNING;
-        last  = message;
+        last = message;
     }
 
     @Override
     public void info(String message) {
         level = Level.INFO;
-        last  = message;
+        last = message;
     }
 
     @Override
     public void config(String message) {
         level = Level.CONFIG;
-        last  = message;
+        last = message;
     }
 
     @Override
     public void fine(String message) {
         level = Level.FINE;
-        last  = message;
+        last = message;
     }
 
     @Override
     public void finer(String message) {
         level = Level.FINER;
-        last  = message;
+        last = message;
     }
 
     @Override
     public void finest(String message) {
         level = Level.FINEST;
-        last  = message;
+        last = message;
     }
 }

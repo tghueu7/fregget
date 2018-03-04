@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -28,13 +28,11 @@ import org.opengis.filter.sort.SortBy;
  * the need for a more complete set of capabilities is well known and a new proposal should be done
  * in order to define the complete set of capabilities a FeatureSource should advertise.
  * </p>
- * 
+ *
  * @author Gabriel Roldan (TOPP)
  * @version $Id$
- * @since 2.5.x
- *
- *
  * @source $URL$
+ * @since 2.5.x
  */
 public class QueryCapabilities {
 
@@ -53,6 +51,7 @@ public class QueryCapabilities {
      *
      */
     // public boolean isCRSForcingSupported();
+
     /**
      * Is offset supported. A value of true implies ability to have a consistent sort order. At
      * least {@link SortBy#NATURAL_ORDER} shall be supported, and be the default order if a Query
@@ -75,34 +74,36 @@ public class QueryCapabilities {
      * When the array is not null and not empty, by default returns false.
      * FeatureSource implementations should override as needed.
      * </p>
-     * 
+     *
      * @return whether the FeatureType this query capabilities refers to can be natively sorted by
-     *         the provided list of attribtue/order pairs
+     * the provided list of attribtue/order pairs
      */
     public boolean supportsSorting(SortBy[] sortAttributes) {
         return (sortAttributes == null) || (sortAttributes.length == 0);
     }
-    
+
     /**
      * Returns whether the feature source is capable of producing "reliable" fids.
      * <p>
      * In this content the term "reliable" refers to the ability to read the same feature
-     * twice (with no transactions against the feature source in the interim) and get the 
+     * twice (with no transactions against the feature source in the interim) and get the
      * same feature id back both times.
      * </p>
+     *
      * @return True to indicate reliable fids are supported, otherwise false.
      */
     public boolean isReliableFIDSupported() {
         return true;
     }
-    
+
     /**
      * If true the datastore supports using the provided feature id in the data insertion
-     * workflow as opposed to generating a new id. In that case it will look into the user data 
+     * workflow as opposed to generating a new id. In that case it will look into the user data
      * map ({@link Feature#getUserData()}) for a {@link Hints#USE_PROVIDED_FID} key associated to a
-     * {@link Boolean#TRUE} value, if the key/value pair is there an attempt to use the provided 
-     * id will be made, and the operation will fail of the key cannot be parsed into a valid 
+     * {@link Boolean#TRUE} value, if the key/value pair is there an attempt to use the provided
+     * id will be made, and the operation will fail of the key cannot be parsed into a valid
      * storage identifier.
+     *
      * @return
      */
     public boolean isUseProvidedFIDSupported() {
@@ -115,7 +116,7 @@ public class QueryCapabilities {
     public boolean isJoiningSupported() {
         return false;
     }
-    
+
     /**
      * If true the datastore supports version information and allows version based queries.
      */

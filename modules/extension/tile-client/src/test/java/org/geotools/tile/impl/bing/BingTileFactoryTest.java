@@ -93,7 +93,8 @@ public class BingTileFactoryTest extends TileFactoryTest {
     }
 
     private TileService createService() {
-        String baseURL = "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/${code}?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z";
+        String baseURL = "http://ak.dynamic.t2.tiles.virtualearth" +
+                ".net/comp/ch/${code}?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z";
         return new BingService("Road", baseURL);
 
     }

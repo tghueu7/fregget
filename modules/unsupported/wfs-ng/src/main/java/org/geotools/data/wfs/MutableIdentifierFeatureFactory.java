@@ -49,13 +49,13 @@ class MutableIdentifierFeatureFactory extends AbstractFeatureFactoryImpl {
     };
 
     @Override
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public Feature createFeature(Collection value, AttributeDescriptor descriptor, String id) {
         return new FeatureImpl(value, descriptor, MUTABLE_FIDS_FILTER_FACTORY.featureId(id));
     }
 
     @Override
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public Feature createFeature(Collection value, FeatureType type, String id) {
         return new FeatureImpl(value, type, MUTABLE_FIDS_FILTER_FACTORY.featureId(id));
     }

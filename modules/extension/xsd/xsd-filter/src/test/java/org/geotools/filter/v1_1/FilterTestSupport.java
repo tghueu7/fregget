@@ -21,8 +21,6 @@ import org.geotools.xml.test.XMLTestSupport;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class FilterTestSupport extends XMLTestSupport {

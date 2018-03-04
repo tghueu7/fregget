@@ -18,20 +18,33 @@ package org.geotools.ows.bindings;
 
 import net.opengis.ows10.CapabilitiesBaseType;
 import net.opengis.ows10.Ows10Factory;
+
 import javax.xml.namespace.QName;
+
 import org.geotools.ows.OWS;
 import org.geotools.xml.*;
 
 
 /**
  * Binding object for the type http://www.opengis.net/ows:CapabilitiesBaseType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="CapabilitiesBaseType"&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;XML encoded GetCapabilities operation response. This document provides clients with service metadata about a specific service instance, usually including metadata about the tightly-coupled data served. If the server does not implement the updateSequence parameter, the server shall always return the complete Capabilities document, without the updateSequence parameter. When the server implements the updateSequence parameter and the GetCapabilities operation request included the updateSequence parameter with the current value, the server shall return this element with only the "version" and "updateSequence" attributes. Otherwise, all optional elements shall be included or not depending on the actual value of the Contents parameter in the GetCapabilities operation request. This base type shall be extended by each specific OWS to include the additional contents needed. &lt;/documentation&gt;
+ *          &lt;documentation&gt;XML encoded GetCapabilities operation response. This document 
+ *          provides clients with service metadata about a specific service instance, usually 
+ *          including metadata about the tightly-coupled data served. If the server does not 
+ *          implement the updateSequence parameter, the server shall always return the complete 
+ *          Capabilities document, without the updateSequence parameter. When the server 
+ *          implements the updateSequence parameter and the GetCapabilities operation request 
+ *          included the updateSequence parameter with the current value, the server shall return
+ *          this element with only the "version" and "updateSequence" attributes. Otherwise, all 
+ *          optional elements shall be included or not depending on the actual value of the 
+ *          Contents parameter in the GetCapabilities operation request. This base type shall be 
+ *          extended by each specific OWS to include the additional contents needed. &lt;
+ *          /documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;sequence&gt;
  *          &lt;element minOccurs="0" ref="ows:ServiceIdentification"/&gt;
@@ -47,9 +60,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class CapabilitiesBaseTypeBinding extends AbstractComplexEMFBinding {
@@ -81,7 +91,7 @@ public class CapabilitiesBaseTypeBinding extends AbstractComplexEMFBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //TODO: implement and remove call to super
         return super.parse(instance, node, value);
     }

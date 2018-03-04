@@ -22,21 +22,19 @@ import org.geotools.data.efeature.query.EGeometryValueBBox;
 
 /**
  * @author kengu - 14. juni 2011
- *
- *
  * @source $URL$
  */
 public class EGeometryValueBBoxTest extends AbstractEGeometryValueTest {
-    
+
     // ----------------------------------------------------- 
     //  Constructors
     // -----------------------------------------------------
-    
+
     /**
      * @param name
      */
     public EGeometryValueBBoxTest(String name) {
-        super(name,BBOX);
+        super(name, BBOX);
     }
 
     // ----------------------------------------------------- 

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -27,20 +27,18 @@ import org.opengis.util.InternationalString;
 /**
  * Handling restrictions imposed on the resource for national security or similar security concerns.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class SecurityConstraintsImpl extends ConstraintsImpl implements SecurityConstraints {
     /**
      * Serial number for interoperability with different versions.
      */
-    private static final long serialVersionUID = 6412833018607679734L;;
+    private static final long serialVersionUID = 6412833018607679734L;
+    ;
 
     /**
      * Name of the handling restrictions on the resource.
@@ -101,7 +99,8 @@ public class SecurityConstraintsImpl extends ConstraintsImpl implements Security
     }
 
     /**
-     * Returns the explanation of the application of the legal constraints or other restrictions and legal
+     * Returns the explanation of the application of the legal constraints or other restrictions 
+     * and legal
      * prerequisites for obtaining and using the resource.
      */
     public InternationalString getUserNote() {
@@ -109,7 +108,8 @@ public class SecurityConstraintsImpl extends ConstraintsImpl implements Security
     }
 
     /**
-     * Set the explanation of the application of the legal constraints or other restrictions and legal
+     * Set the explanation of the application of the legal constraints or other restrictions and 
+     * legal
      * prerequisites for obtaining and using the resource.
      */
     public synchronized void setUserNote(final InternationalString newValue) {

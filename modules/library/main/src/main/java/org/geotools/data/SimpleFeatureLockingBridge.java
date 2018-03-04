@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -24,7 +24,8 @@ import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.filter.Filter;
 
 /**
- * Bridges between {@link FeatureLocking<SimpleFeatureType, SimpleFeature>} and {@link SimpleFeatureLocking}
+ * Bridges between {@link FeatureLocking<SimpleFeatureType, SimpleFeature>} and 
+ * {@link SimpleFeatureLocking}
  */
 class SimpleFeatureLockingBridge extends SimpleFeatureStoreBridge implements
         SimpleFeatureLocking {
@@ -33,10 +34,10 @@ class SimpleFeatureLockingBridge extends SimpleFeatureStoreBridge implements
         super(delegate);
     }
 
-    protected FeatureLocking<SimpleFeatureType, SimpleFeature> delegate(){
+    protected FeatureLocking<SimpleFeatureType, SimpleFeature> delegate() {
         return (FeatureLocking<SimpleFeatureType, SimpleFeature>) delegate;
     }
-    
+
     public int lockFeatures(Query query) throws IOException {
         return delegate().lockFeatures(query);
     }
@@ -55,7 +56,7 @@ class SimpleFeatureLockingBridge extends SimpleFeatureStoreBridge implements
 
     public void unLockFeatures() throws IOException {
         delegate().unLockFeatures();
-        
+
     }
 
     public void unLockFeatures(Filter filter) throws IOException {

@@ -25,7 +25,6 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @author User
- * 
  */
 public class NetCDFTimeUtilities {
 
@@ -70,7 +69,7 @@ public class NetCDFTimeUtilities {
     }
 
     /**
-     * 
+     *
      */
     private NetCDFTimeUtilities() {
     }
@@ -145,7 +144,7 @@ public class NetCDFTimeUtilities {
     }
 
     /**
-     * 
+     *
      */
     public static int getTimeSubUnitsValue(String units, Double vd) {
         if (units == null || units.isEmpty()) {
@@ -201,7 +200,7 @@ public class NetCDFTimeUtilities {
 
     /**
      * Converts NetCDF time units into opportune Calendar ones.
-     * 
+     *
      * @param units {@link String}
      * @param d
      * @return int
@@ -214,7 +213,7 @@ public class NetCDFTimeUtilities {
         if (MONTH_SET.contains(unit)) {
             if (vd == null || vd == 0.0)
                 // if no day, it is the first day
-                return Calendar.MONTH; 
+                return Calendar.MONTH;
             else {
                 // TODO: FIXME
             }
@@ -272,20 +271,19 @@ public class NetCDFTimeUtilities {
     }
 
     /**
-     * 
      * @param value
      * @return
      */
     public static String trimFractionalPart(String value) {
         value = value.trim();
-        for (int i = value.length(); --i >= 0;) {
+        for (int i = value.length(); --i >= 0; ) {
             switch (value.charAt(i)) {
-            case '0':
-                continue;
-            case '.':
-                return value.substring(0, i);
-            default:
-                return value;
+                case '0':
+                    continue;
+                case '.':
+                    return value.substring(0, i);
+                default:
+                    return value;
             }
         }
         return value;
@@ -293,10 +291,10 @@ public class NetCDFTimeUtilities {
 
     /**
      * Add a quantity of time units to a Calendar
-     * 
-     * @param cal Calendar to add to
+     *
+     * @param cal  Calendar to add to
      * @param unit Calendar unit to add
-     * @param val Quantity of unit to add
+     * @param val  Quantity of unit to add
      */
     public static void addTimeUnit(Calendar cal, int unit, int val) {
         addTimeUnit(cal, unit, (long) val);
@@ -304,10 +302,10 @@ public class NetCDFTimeUtilities {
 
     /**
      * Add a quantity of time units to a Calendar
-     * 
-     * @param cal Calendar to add to
+     *
+     * @param cal  Calendar to add to
      * @param unit Calendar unit to add
-     * @param val Quantity of TimeUnit to add
+     * @param val  Quantity of TimeUnit to add
      */
     public static void addTimeUnit(Calendar cal, int unit, long val) {
         if (unit == Calendar.DATE) {

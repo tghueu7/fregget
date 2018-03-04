@@ -25,15 +25,13 @@ import org.opengis.coverage.grid.GridEnvelope;
 
 /**
  * Captures information about a query for a single raster in a raster dataset.
- * 
+ *
  * @author Gabriel Roldan
- *
- *
- * @source $URL$
  * @version $Id$
- * @since 2.5.6
+ * @source $URL$
  * @see RasterUtils#findMatchingRasters
  * @see RasterUtils#fitRequestToRaster
+ * @since 2.5.6
  */
 public final class RasterQueryInfo {
 
@@ -104,7 +102,7 @@ public final class RasterQueryInfo {
 
     /**
      * @return the rasterId (as in SeRaster.getId()) for the raster in the raster dataset this query
-     *         works upon
+     * works upon
      */
     public Long getRasterId() {
         return rasterId;
@@ -198,7 +196,7 @@ public final class RasterQueryInfo {
     }
 
     public double[] getResolution() {
-        return resolution == null ? new double[] { -1, -1 } : resolution;
+        return resolution == null ? new double[]{-1, -1} : resolution;
     }
 
     void setRasterIndex(int rasterN) {
@@ -220,10 +218,10 @@ public final class RasterQueryInfo {
     }
 
     void setResultGridRange(GridEnvelope resultGridRange) {
-        this.resultGridRange = resultGridRange;     
+        this.resultGridRange = resultGridRange;
     }
-    
-    public GridEnvelope getResultGridRange(){
+
+    public GridEnvelope getResultGridRange() {
         return resultGridRange;
     }
 }

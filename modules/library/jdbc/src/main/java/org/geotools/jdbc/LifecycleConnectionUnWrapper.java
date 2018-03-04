@@ -7,7 +7,7 @@ import org.geotools.data.jdbc.datasource.UnWrapper;
 
 /**
  * Un-wraps the {@link LifecycleConnection} instances
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 public class LifecycleConnectionUnWrapper implements UnWrapper {

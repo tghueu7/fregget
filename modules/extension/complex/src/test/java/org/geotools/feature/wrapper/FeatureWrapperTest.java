@@ -98,7 +98,8 @@ public class FeatureWrapperTest {
     }
 
     @Test(expected = InvalidClassException.class)
-    public void wrap_invalidFeatureCannotResolvePath_throwsInvalidClassException() throws Exception {
+    public void wrap_invalidFeatureCannotResolvePath_throwsInvalidClassException() throws 
+            Exception {
         // Arrange
         Collection<Property> properties = new ArrayList<Property>();
         Feature mine = new FeatureImpl(properties, Mine.MINETYPE_TYPE, new FeatureIdImpl(
@@ -111,7 +112,9 @@ public class FeatureWrapperTest {
             ExceptionChecker
                     .assertExceptionMessage(
                             ice,
-                            "Unable to wrap attribute in class 'class org.geotools.feature.wrapper.MineType'. Reference to mineName could not be found in the attribute.");
+                            "Unable to wrap attribute in class 'class org.geotools.feature" +
+                                    ".wrapper.MineType'. Reference to mineName could not be found" +
+                                    " in the attribute.");
         }
     }
 
@@ -163,7 +166,9 @@ public class FeatureWrapperTest {
             ExceptionChecker
                     .assertExceptionMessage(
                             ice,
-                            "Unable to wrap attribute in class 'class org.geotools.feature.wrapper.MineNameType'. urn:org:example:mineName could not be found in the attribute.");
+                            "Unable to wrap attribute in class 'class org.geotools.feature" +
+                                    ".wrapper.MineNameType'. urn:org:example:mineName could not " +
+                                    "be found in the attribute.");
         }
     }
 
@@ -199,7 +204,9 @@ public class FeatureWrapperTest {
             ExceptionChecker
                     .assertExceptionMessage(
                             ice,
-                            "Unable to wrap attribute in class 'org.geotools.feature.wrapper.MineNamePropertyType'. 'urn:org:example:MineName' doesn't have required property 'urn:org:example:MineNameType'.");
+                            "Unable to wrap attribute in class 'org.geotools.feature.wrapper" +
+                                    ".MineNamePropertyType'. 'urn:org:example:MineName' doesn't " +
+                                    "have required property 'urn:org:example:MineNameType'.");
         }
     }
 
@@ -228,7 +235,10 @@ public class FeatureWrapperTest {
             ExceptionChecker
                     .assertExceptionMessage(
                             ice,
-                            "Unable to wrap attribute in class 'org.geotools.feature.wrapper.MineNamePropertyType'. 'urn:org:example:MineNamePropertyType' doesn't have required property 'urn:org:example:MineName'.");
+                            "Unable to wrap attribute in class 'org.geotools.feature.wrapper" +
+                                    ".MineNamePropertyType'. " +
+                                    "'urn:org:example:MineNamePropertyType' doesn't have required" +
+                                    " property 'urn:org:example:MineName'.");
         }
     }
 }

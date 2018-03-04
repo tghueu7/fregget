@@ -24,22 +24,22 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the type http://www.opengis.net/wfs/2.0:TupleType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:complexType name="TupleType"&gt;
  *      &lt;xsd:sequence&gt;
  *          &lt;xsd:element maxOccurs="unbounded" minOccurs="2" ref="wfs:member"/&gt;
  *      &lt;/xsd:sequence&gt;
- *  &lt;/xsd:complexType&gt; 
- * 	
+ *  &lt;/xsd:complexType&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
  */
 public class TupleTypeBinding extends AbstractComplexBinding {
@@ -53,7 +53,7 @@ public class TupleTypeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -62,7 +62,7 @@ public class TupleTypeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {

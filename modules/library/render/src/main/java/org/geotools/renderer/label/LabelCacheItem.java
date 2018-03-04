@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -31,19 +31,18 @@ import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * The Labelling information that is put in the label cache.
- * 
+ *
  * @author jeichar
  * @author dblasby
  * @author simone giannecchini
  * @author Andrea Aime - OpenGeo
- *
- *
- *
  * @source $URL$
  */
 public class LabelCacheItem implements Comparable<LabelCacheItem> {
-    
-    public enum GraphicResize {NONE, STRETCH, PROPORTIONAL};
+
+    public enum GraphicResize {NONE, STRETCH, PROPORTIONAL}
+
+    ;
 
     TextStyle2D textStyle;
 
@@ -58,7 +57,7 @@ public class LabelCacheItem implements Comparable<LabelCacheItem> {
     private Set<String> layerIds = new HashSet<String>();
 
     int maxDisplacement = 0;
-    
+
     int[] displacementAngles;
 
     int minGroupDistance = 0;
@@ -76,23 +75,23 @@ public class LabelCacheItem implements Comparable<LabelCacheItem> {
     double maxAngleDelta;
 
     int autoWrap = 100;
-    
+
     boolean forceLeftToRightEnabled = true;
-    
+
     boolean conflictResolutionEnabled = true;
-    
+
     double goodnessOfFit = 0;
-    
+
     PolygonAlignOptions polygonAlign = PolygonAlignOptions.NONE;
-    
+
     GraphicResize graphicsResize = GraphicResize.NONE;
-    
+
     int[] graphicMargin = null;
 
     boolean textUnderlined = false;
-    
+
     boolean textStrikethrough = false;
-    
+
     double wordSpacing;
 
     TextSymbolizer symbolizer;
@@ -106,6 +105,7 @@ public class LabelCacheItem implements Comparable<LabelCacheItem> {
     /**
      * A value between 0 and 1 representing the portion of the label
      * that overlaps with the geometry (atm used only for polygons)
+     *
      * @param goodnessOfFit
      */
     public void setGoodnessOfFit(double goodnessOfFit) {
@@ -145,14 +145,15 @@ public class LabelCacheItem implements Comparable<LabelCacheItem> {
     /**
      * Construct <code>LabelCacheItem</code>.
      */
-    public LabelCacheItem(String layerId, TextStyle2D textStyle, LiteShape2 shape, String label, TextSymbolizer symbolizer) {
+    public LabelCacheItem(String layerId, TextStyle2D textStyle, LiteShape2 shape, String label, 
+                          TextSymbolizer symbolizer) {
         this.textStyle = textStyle;
         this.geoms.add(shape.getGeometry());
         this.label = label;
         this.layerIds.add(layerId);
         this.symbolizer = symbolizer;
     }
-    
+
     /**
      * Construct <code>LabelCacheItem</code>.
      */
@@ -187,7 +188,7 @@ public class LabelCacheItem implements Comparable<LabelCacheItem> {
 
     /**
      * Return a modifiable set of ids
-     * 
+     *
      * @return
      */
     public Set<String> getLayerIds() {
@@ -223,7 +224,7 @@ public class LabelCacheItem implements Comparable<LabelCacheItem> {
      * Max amount of pixels the label will be moved around trying to find a non
      * conflicting location (how and if the moving will be done is geometry type
      * dependent)
-     * 
+     *
      * @return
      */
     public int getMaxDisplacement() {
@@ -235,9 +236,9 @@ public class LabelCacheItem implements Comparable<LabelCacheItem> {
     }
 
     /**
-     * defines the actual angle towards which displacement of label will take place 
+     * defines the actual angle towards which displacement of label will take place
      * (applies only in polygon or point features)
-     * 
+     *
      * @return
      */
     public int[] getDisplacementAngles() {
@@ -247,11 +248,11 @@ public class LabelCacheItem implements Comparable<LabelCacheItem> {
     public void setDisplacementAngles(int[] displacementAngles) {
         this.displacementAngles = displacementAngles;
     }
-    
+
     /**
      * When enabled, repeats labels every "repeat" pixels (works on lines only
      * atm)
-     * 
+     *
      * @return
      */
     public int getRepeat() {
@@ -265,7 +266,7 @@ public class LabelCacheItem implements Comparable<LabelCacheItem> {
     /**
      * When grouping, wheter we should label only the biggest geometry, or the
      * others as well
-     * 
+     *
      * @return
      */
     public boolean labelAllGroup() {
@@ -286,7 +287,7 @@ public class LabelCacheItem implements Comparable<LabelCacheItem> {
 
     /**
      * Wheter labels are allowed to go past the start/end of the line
-     * 
+     *
      * @return
      */
     public boolean allowOverruns() {
@@ -304,7 +305,7 @@ public class LabelCacheItem implements Comparable<LabelCacheItem> {
     /**
      * Minimum cartesian distance between two labels in the same group, in
      * pixels
-     * 
+     *
      * @param minGroupDistance
      */
     public void setMinGroupDistance(int minGroupDistance) {
@@ -313,7 +314,7 @@ public class LabelCacheItem implements Comparable<LabelCacheItem> {
 
     /**
      * Enables curved labels on linear features
-     * 
+     *
      * @return
      */
     public boolean isFollowLineEnabled() {
@@ -328,7 +329,7 @@ public class LabelCacheItem implements Comparable<LabelCacheItem> {
      * Max angle between two subsequence characters in a curved label, in
      * degrees. Good visual results are obtained with an angle of less than 25
      * degrees.
-     * 
+     *
      * @return
      */
     public double getMaxAngleDelta() {
@@ -342,7 +343,7 @@ public class LabelCacheItem implements Comparable<LabelCacheItem> {
     /**
      * Automatically wraps long labels when the label width, in pixels, exceeds
      * the autowrap length
-     * 
+     *
      * @return
      */
     public int getAutoWrap() {
@@ -355,7 +356,7 @@ public class LabelCacheItem implements Comparable<LabelCacheItem> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     public int compareTo(LabelCacheItem other) {
@@ -364,8 +365,9 @@ public class LabelCacheItem implements Comparable<LabelCacheItem> {
 
     /**
      * If enabled, text will be forced to follow a left to right alignement
-     * (that makes it readable) no matter what the natural orientation of the 
+     * (that makes it readable) no matter what the natural orientation of the
      * line is
+     *
      * @return
      */
     public boolean isForceLeftToRightEnabled() {
@@ -375,24 +377,26 @@ public class LabelCacheItem implements Comparable<LabelCacheItem> {
     public void setForceLeftToRightEnabled(boolean forceLeftToRight) {
         this.forceLeftToRightEnabled = forceLeftToRight;
     }
-    
+
     /**
      * Checks if conflict resolution has been enabled for this label
+     *
      * @return
      */
     public boolean isConflictResolutionEnabled() {
         return conflictResolutionEnabled;
     }
-    
+
     /**
      * Sets conflict resolution for this label. When on, this label outline/bbox will
      * be stored in the conflict resolution map and will prevent every other label
      * to be drawn in the same area
+     *
      * @param conflictResolutionEnabled
      */
     public void setConflictResolutionEnabled(boolean conflictResolutionEnabled) {
         this.conflictResolutionEnabled = conflictResolutionEnabled;
- 
+
     }
 
     public GraphicResize getGraphicsResize() {
@@ -434,7 +438,7 @@ public class LabelCacheItem implements Comparable<LabelCacheItem> {
     public void setTextUnderlined(boolean textUnderlined) {
         this.textUnderlined = textUnderlined;
     }
-    
+
     public boolean isTextStrikethrough() {
         return textStrikethrough;
     }
@@ -442,7 +446,7 @@ public class LabelCacheItem implements Comparable<LabelCacheItem> {
     public void setTextStrikethrough(boolean textStrikethrough) {
         this.textStrikethrough = textStrikethrough;
     }
-    
+
     public double getWordSpacing() {
         return wordSpacing;
     }
@@ -475,10 +479,10 @@ public class LabelCacheItem implements Comparable<LabelCacheItem> {
         } else if (!label.equals(other.label))
             return false;
         if (symbolizer != other.symbolizer) {
-                return false;
+            return false;
         }
         return true;
     }
-    
+
 }
 

@@ -29,10 +29,9 @@ import org.geotools.swing.event.MapMouseEvent;
 
 /**
  * Allow scrolling with the mouse wheel.
- * 
+ *
  * @author Ian Turton
  * @since 2.15
- *
  */
 public class ScrollWheelTool extends AbstractZoomTool {
 
@@ -72,7 +71,7 @@ public class ScrollWheelTool extends AbstractZoomTool {
 
         //I would prefer to offset the new map based on the cursor but this matches
         //the current zoom in/out tools.
-        
+
         Envelope2D newMapArea = new Envelope2D();
         newMapArea.setFrameFromCenter(mapPos, corner);
         getMapPane().setDisplayArea(newMapArea);

@@ -21,33 +21,30 @@ import java.beans.PropertyDescriptor;
 
 /**
  * LineAbstractValidationBeanInfopurpose.
- * 
+ * <p>
  * <p>
  * Description of LineAbstractValidationBeanInfo...
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
-public class LinesNotOverlapValidationBeanInfo extends LineLineAbstractValidationBeanInfo{
+public class LinesNotOverlapValidationBeanInfo extends LineLineAbstractValidationBeanInfo {
     /**
      * LineAbstractValidationBeanInfoconstructor.
-     * 
+     * <p>
      * <p>
      * Description
      * </p>
      */
-    public LinesNotOverlapValidationBeanInfo(){
+    public LinesNotOverlapValidationBeanInfo() {
         super();
     }
 
     /**
      * Implementation of getPropertyDescriptors.
-     *
      *
      * @see java.beans.BeanInfo#getPropertyDescriptors()
      */

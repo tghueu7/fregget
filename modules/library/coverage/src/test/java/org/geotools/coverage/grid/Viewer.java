@@ -46,11 +46,9 @@ import org.geotools.util.Utilities;
  * capability, no user interaction and ignores the coordinate system. It is just
  * for quick test of grid coverage.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
  */
 @SuppressWarnings("serial")
 public class Viewer extends JPanel {
@@ -113,7 +111,7 @@ public class Viewer extends JPanel {
      * A convenience method showing an image. The application
      * will be terminated when the user close the frame.
      *
-     * @param  image The coverage to display.
+     * @param image The coverage to display.
      * @return The viewer, for information.
      */
     public static Viewer show(final RenderedImage image) {
@@ -124,8 +122,8 @@ public class Viewer extends JPanel {
      * A convenience method showing an image. The application
      * will be terminated when the user close the frame.
      *
-     * @param  image The coverage to display.
-     * @param  title The windows title, or {@code null} for a default one.
+     * @param image The coverage to display.
+     * @param title The windows title, or {@code null} for a default one.
      * @return The viewer, for information.
      */
     public static Viewer show(final RenderedImage image, final String title) {
@@ -136,7 +134,7 @@ public class Viewer extends JPanel {
      * A convenience method showing a grid coverage. The application
      * will be terminated when the user close the frame.
      *
-     * @param  coverage The coverage to display.
+     * @param coverage The coverage to display.
      * @return The viewer, for information.
      */
     public static Viewer show(final GridCoverage2D coverage) {
@@ -147,8 +145,8 @@ public class Viewer extends JPanel {
      * A convenience method showing a grid coverage. The application
      * will be terminated when the user close the frame.
      *
-     * @param  coverage The coverage to display.
-     * @param  title The window title.
+     * @param coverage The coverage to display.
+     * @param title    The window title.
      * @return The viewer, for information.
      */
     public static Viewer show(final GridCoverage2D coverage, final String title) {
@@ -168,8 +166,8 @@ public class Viewer extends JPanel {
      * A convenience method showing a grid coverage. The application
      * will be terminated when the user close the frame.
      *
-     * @param  viewer The viewer to display.
-     * @param  title  The frame title, or {@code null} if none.
+     * @param viewer The viewer to display.
+     * @param title  The frame title, or {@code null} if none.
      * @return The viewer, for convenience.
      */
     private static Viewer show(final Viewer viewer, final String title) {
@@ -205,14 +203,18 @@ public class Viewer extends JPanel {
             final byte[] R = new byte[size];
             final byte[] G = new byte[size];
             final byte[] B = new byte[size];
-            palette.getReds  (R);
+            palette.getReds(R);
             palette.getGreens(G);
-            palette.getBlues (B);
-            for (int i=0; i<size; i++) {
-                format(out,   i);  out.print(":    RGB[");
-                format(out, R[i]); out.print(',');
-                format(out, G[i]); out.print(',');
-                format(out, R[i]); out.print(']');
+            palette.getBlues(B);
+            for (int i = 0; i < size; i++) {
+                format(out, i);
+                out.print(":    RGB[");
+                format(out, R[i]);
+                out.print(',');
+                format(out, G[i]);
+                out.print(',');
+                format(out, R[i]);
+                out.print(']');
                 if (categories != null) {
                     final String label = categories.getLabel(i, locale);
                     if (label != null) {
@@ -231,18 +233,18 @@ public class Viewer extends JPanel {
      * Format a unsigned byte to the specified output stream.
      * The number will be right-justified in a cell of 3 spaces width.
      *
-     * @param The writer where to print the number.
+     * @param The   writer where to print the number.
      * @param value The number to format.
      */
     private static void format(final PrintWriter out, final byte value) {
-        format(out, ((int)value) & 0xFF);
+        format(out, ((int) value) & 0xFF);
     }
 
     /**
      * Format an integer to the specified output stream.
      * The number will be right-justified in a cell of 3 spaces width.
      *
-     * @param The writer where to print the number.
+     * @param The   writer where to print the number.
      * @param value The number to format.
      */
     private static void format(final PrintWriter out, final int value) {
@@ -259,10 +261,10 @@ public class Viewer extends JPanel {
      */
     public static void main(String[] args) throws IOException {
         final Arguments arguments = new Arguments(args);
-        final PrintWriter     out = arguments.out;
-        final Locale       locale = arguments.locale;
-        final String    operation = arguments.getOptionalString ("-operation");
-        final boolean     palette = arguments.getFlag           ("-palette");
+        final PrintWriter out = arguments.out;
+        final Locale locale = arguments.locale;
+        final String operation = arguments.getOptionalString("-operation");
+        final boolean palette = arguments.getFlag("-palette");
         args = arguments.getRemainingArguments(1);
         if (args.length == 0) {
             out.println("Usage: Viewer [options] example");
@@ -272,7 +274,8 @@ public class Viewer extends JPanel {
             out.println(" inclusive)");
             out.println("and [options] includes:");
             out.println();
-            out.println("  -operation=[s]  An operation name to apply (e.g. \"GradientMagniture\").");
+            out.println("  -operation=[s]  An operation name to apply (e.g. " +
+                    "\"GradientMagniture\").");
             out.println("                  For a list of available operations, run the following:");
             out.println("                  java org.geotools.coverage.processing.DefaultProcessor");
             out.println("  -palette        Dumps RGB codes to standard output.");

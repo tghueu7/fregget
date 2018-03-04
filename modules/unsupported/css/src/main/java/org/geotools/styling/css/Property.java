@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
  * A CSS property, having a name and a list of {@link Value} associated to it
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 public class Property {
@@ -75,7 +75,7 @@ public class Property {
 
     /**
      * True if the property has been used during the conversion
-     * 
+     *
      * @return
      */
     boolean isUsed() {
@@ -84,7 +84,7 @@ public class Property {
 
     /**
      * The property name
-     * 
+     *
      * @return
      */
     public String getName() {
@@ -93,7 +93,7 @@ public class Property {
 
     /**
      * The list of property values
-     * 
+     *
      * @return
      */
     public List<Value> getValues() {

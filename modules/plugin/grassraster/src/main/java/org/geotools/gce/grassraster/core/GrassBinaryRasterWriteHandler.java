@@ -45,15 +45,13 @@ import org.opengis.util.ProgressListener;
  * <p>
  * Reading and writing is supported.
  * </p>
- * 
+ *
  * @author Andrea Antonello (www.hydrologis.com)
- * @since 3.0
+ * @source $URL$
  * @see GrassBinaryImageReader
  * @see GrassBinaryImageReadParam
  * @see GrassBinaryImageMetadata
- *
- *
- * @source $URL$
+ * @since 3.0
  */
 public class GrassBinaryRasterWriteHandler {
 
@@ -113,13 +111,13 @@ public class GrassBinaryRasterWriteHandler {
     /**
      * A constructor to build a {@link GrassBinaryRasterWriteHandler} usable for writing grass
      * rasters.
-     * 
+     *
      * @param destMapset the mapset file into which the map has to be written.
      * @param newMapName the name for the written map.
      * @param monitor
      */
-    public GrassBinaryRasterWriteHandler( File destMapset, String newMapName,
-            ProgressListener monitor ) {
+    public GrassBinaryRasterWriteHandler(File destMapset, String newMapName,
+                                         ProgressListener monitor) {
         if (monitor != null)
             this.monitor = monitor;
         writerGrassEnv = new JGrassMapEnvironment(destMapset, newMapName);
@@ -128,19 +126,20 @@ public class GrassBinaryRasterWriteHandler {
 
     /**
      * Writes the raster, given an raster iterator and region metadata.
-     * 
+     *
      * @param renderedImage the {@link RenderedImage} to write.
-     * @param columns the columns of the raster to write.
-     * @param rows the rows of the raster to write.
-     * @param west the western bound of the raster to write.
-     * @param south the southern bound of the raster to write.
-     * @param xRes the east-west resolution of the raster to write.
-     * @param yRes the north-south resolution of the raster to write.
-     * @param noDataValue the value representing noData.
+     * @param columns       the columns of the raster to write.
+     * @param rows          the rows of the raster to write.
+     * @param west          the western bound of the raster to write.
+     * @param south         the southern bound of the raster to write.
+     * @param xRes          the east-west resolution of the raster to write.
+     * @param yRes          the north-south resolution of the raster to write.
+     * @param noDataValue   the value representing noData.
      * @throws IOException
      */
-    public void writeRaster( RenderedImage renderedImage, int columns, int rows, double west,
-            double south, double xRes, double yRes, double noDataValue ) throws IOException {
+    public void writeRaster(RenderedImage renderedImage, int columns, int rows, double west,
+                            double south, double xRes, double yRes, double noDataValue) throws 
+            IOException {
         boolean hasListeners = false;
         if (!checkStructure())
             throw new IOException("Inconsistent output structure for grass map. Check your paths.");
@@ -176,7 +175,7 @@ public class GrassBinaryRasterWriteHandler {
 
     /**
      * Calculates the region that is going to be written.
-     * 
+     *
      * @return the region that will be written by this Writer.
      * @throws IOException
      */
@@ -188,7 +187,7 @@ public class GrassBinaryRasterWriteHandler {
         return writeRegion;
     }
 
-    public void setWriteRegion( JGrassRegion writeRegion ) {
+    public void setWriteRegion(JGrassRegion writeRegion) {
         this.writeRegion = writeRegion;
     }
 
@@ -211,7 +210,7 @@ public class GrassBinaryRasterWriteHandler {
      * <p>
      * <b>INFO:</b> this is a writer method.
      * </p>
-     * 
+     *
      * @return true is the structure is ok.
      */
     private boolean checkStructure() {
@@ -262,11 +261,11 @@ public class GrassBinaryRasterWriteHandler {
      * The space for the header of the rasterfile is created, filling the spaces with zeros. After
      * the compression the values will be rewritten
      * </p>
-     * 
+     *
      * @param rows number of rows that will be written.
      * @throws IOException if an error occurs while trying to write the header.
      */
-    private void createEmptyHeader( int rows ) throws IOException {
+    private void createEmptyHeader(int rows) throws IOException {
         addressesOfRows = new long[rows + 1];
         // the size of a long in C?
         imageOS.write(4);
@@ -274,7 +273,7 @@ public class GrassBinaryRasterWriteHandler {
         // much
         // they will be compressed, they will be filled after the
         // compression
-        for( int i = 0; i < rows + 1; i++ ) {
+        for (int i = 0; i < rows + 1; i++) {
             imageOS.writeInt(0);
         }
         pointerInFilePosition = imageOS.getStreamPosition();
@@ -283,10 +282,10 @@ public class GrassBinaryRasterWriteHandler {
 
     /**
      * Creates all support files needed in the grass filesystem for a raster map.
-     * 
+     *
      * @param dataRegion data region to be written, used for writing of the cellheader.
      */
-    private void createUtilityFiles( JGrassRegion dataRegion ) throws IOException {
+    private void createUtilityFiles(JGrassRegion dataRegion) throws IOException {
         // create the right files in the right places
         // cats/<name>
         OutputStreamWriter catsWriter = new OutputStreamWriter(new FileOutputStream(writerGrassEnv
@@ -309,9 +308,11 @@ public class GrassBinaryRasterWriteHandler {
         OutputStreamWriter cell_miscFormatWriter = new OutputStreamWriter(new FileOutputStream(
                 writerGrassEnv.getCELLMISC_FORMAT()));
         if (outputToDiskType * 4 == 8) {
-            cell_miscFormatWriter.write("type: double\nbyte_order: xdr\nlzw_compression_bits: -1"); //$NON-NLS-1$
+            cell_miscFormatWriter.write("type: double\nbyte_order: xdr\nlzw_compression_bits: " +
+                    "-1"); //$NON-NLS-1$
         } else {
-            cell_miscFormatWriter.write("type: float\nbyte_order: xdr\nlzw_compression_bits: -1"); //$NON-NLS-1$
+            cell_miscFormatWriter.write("type: float\nbyte_order: xdr\nlzw_compression_bits: -1")
+            ; //$NON-NLS-1$
         }
 
         cell_miscFormatWriter.close();
@@ -323,7 +324,8 @@ public class GrassBinaryRasterWriteHandler {
         cell_miscQantWriter.close();
 
         // f_range
-        OutputStream cell_miscRangeStream = new FileOutputStream(writerGrassEnv.getCELLMISC_RANGE());
+        OutputStream cell_miscRangeStream = new FileOutputStream(writerGrassEnv.getCELLMISC_RANGE
+                ());
         cell_miscRangeStream.write(double2bytearray(range[0]));
         cell_miscRangeStream.write(double2bytearray(range[1]));
         cell_miscRangeStream.close();
@@ -355,25 +357,26 @@ public class GrassBinaryRasterWriteHandler {
 
     /**
      * Changes the cellhd file inserting the new values passed.
-     * 
-     * @param chproj the proj value.
-     * @param chzone the zone value.
-     * @param chn northern boundary.
-     * @param chs southern boundary.
-     * @param che eastern boundary.
-     * @param chw western boundary.
-     * @param chcols number of columns.
-     * @param chrows number of rows.
-     * @param chnsres the north-south resolution.
-     * @param chewres the east-west resolution.
-     * @param chformat the map type.
+     *
+     * @param chproj       the proj value.
+     * @param chzone       the zone value.
+     * @param chn          northern boundary.
+     * @param chs          southern boundary.
+     * @param che          eastern boundary.
+     * @param chw          western boundary.
+     * @param chcols       number of columns.
+     * @param chrows       number of rows.
+     * @param chnsres      the north-south resolution.
+     * @param chewres      the east-west resolution.
+     * @param chformat     the map type.
      * @param chcompressed the compression type.
      * @throws IOException
      */
     @SuppressWarnings("nls")
-    private void createCellhd( int chproj, int chzone, double chn, double chs, double che,
-            double chw, int chcols, int chrows, double chnsres, double chewres, int chformat,
-            int chcompressed ) throws IOException {
+    private void createCellhd(int chproj, int chzone, double chn, double chs, double che,
+                              double chw, int chcols, int chrows, double chnsres, double chewres,
+                              int chformat,
+                              int chcompressed) throws IOException {
         StringBuffer data = new StringBuffer(512);
         data.append("proj:   " + chproj + "\n").append("zone:   " + chzone + "\n").append(
                 "north:   " + chn + "\n").append("south:   " + chs + "\n").append(
@@ -389,15 +392,15 @@ public class GrassBinaryRasterWriteHandler {
 
     /**
      * Converts a double value to its byte representation.
-     * 
+     *
      * @param value the value to convert.
      * @return the byte array for the double.
      */
-    private byte[] double2bytearray( double value ) {
+    private byte[] double2bytearray(double value) {
         long l = Double.doubleToLongBits(value);
         byte[] b = new byte[8];
         int shift = 64 - 8;
-        for( int k = 0; k < 8; k++, shift -= 8 ) {
+        for (int k = 0; k < 8; k++, shift -= 8) {
             b[k] = (byte) (l >>> shift);
         }
         return b;
@@ -405,16 +408,16 @@ public class GrassBinaryRasterWriteHandler {
 
     /**
      * Setter for the noData value.
-     * 
+     *
      * @param noData the nodata value to set.
      */
-    public void setNoData( double noData ) {
+    public void setNoData(double noData) {
         this.noData = noData;
     }
 
     /**
      * Getter for the noData value.
-     * 
+     *
      * @return the nodata value.
      */
     public double getNoData() {
@@ -428,7 +431,7 @@ public class GrassBinaryRasterWriteHandler {
      * usually in a non parsable internal format. In JGrass we ask the user to choose the CRS. If
      * the user doesn't do so, the CRS will result to be undefined.
      * </p>
-     * 
+     *
      * @return the {@link CoordinateReferenceSystem} for the map. Null if it is not defined.
      * @throws IOException if there were problems in parsing the CRS file.
      */
@@ -445,7 +448,7 @@ public class GrassBinaryRasterWriteHandler {
             StringBuffer wtkString = new StringBuffer();
             try {
                 String line = null;
-                while( (line = crsReader.readLine()) != null ) {
+                while ((line = crsReader.readLine()) != null) {
                     wtkString.append(line.trim());
                 }
             } finally {
@@ -474,7 +477,7 @@ public class GrassBinaryRasterWriteHandler {
 
     /**
      * Getter for the abortrequired flag.
-     * 
+     *
      * @return the abortRequired flag.
      */
     public boolean isAborting() {

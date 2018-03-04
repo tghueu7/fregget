@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -24,11 +24,11 @@ import org.geotools.styling.Style;
 
 /**
  * Layer responsible for raster content.
- * @since 8.0
- * @version 8.0
- * @author Jody Garnett
  *
+ * @author Jody Garnett
+ * @version 8.0
  * @source $URL$
+ * @since 8.0
  */
 public abstract class RasterLayer extends StyleLayer {
 
@@ -56,12 +56,12 @@ public abstract class RasterLayer extends StyleLayer {
     @Override
     public synchronized SimpleFeatureSource getFeatureSource() {
         if (this.source == null) {
-            if( getUserData().containsKey("source") ){
+            if (getUserData().containsKey("source")) {
                 // we tried already and got null - toFeatureCollection is not available!
                 return null;
             }
             SimpleFeatureCollection featureCollection = toFeatureCollection();
-            if( featureCollection != null ){
+            if (featureCollection != null) {
                 this.source = DataUtilities.source(featureCollection);
             }
             // Note we store source in the user data map to communicate with MapLayer
@@ -74,14 +74,14 @@ public abstract class RasterLayer extends StyleLayer {
     public void dispose() {
         // We assume that preDispose() has been called by the 
         // by the sub-class
-        
-        if( source != null ){
+
+        if (source != null) {
             getUserData().remove("source");
             source = null;
         }
         super.dispose();
     }
-    
+
     /**
      * Supply a FeatureCollection indicating where the raster is located, we ask that the features
      * use the same coordinate reference system as your raster data and form an outline or foot
@@ -101,7 +101,7 @@ public abstract class RasterLayer extends StyleLayer {
      * <p>
      * You may find the {@link FeatureUtilities} useful in wrapping up your raster content.
      * </p>
-     * 
+     *
      * @return SimpleFeatureCollection indicating the location of raster content
      */
     public abstract SimpleFeatureCollection toFeatureCollection();

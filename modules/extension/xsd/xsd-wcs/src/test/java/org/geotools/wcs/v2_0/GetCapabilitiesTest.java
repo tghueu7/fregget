@@ -28,7 +28,7 @@ public class GetCapabilitiesTest {
         List sections = caps.getSections().getSection();
         assertEquals(1, sections.size());
         assertEquals("OperationsMetadata", sections.get(0));
-        
+
         List formats = caps.getAcceptFormats().getOutputFormat();
         assertEquals(1, formats.size());
         assertEquals("application/xml", formats.get(0));

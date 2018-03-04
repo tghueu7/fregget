@@ -17,6 +17,7 @@
 package org.geotools.filter.v1_0;
 
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.PropertyIsNull;
 import org.opengis.filter.expression.Expression;
@@ -29,9 +30,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:PropertyIsNullType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="PropertyIsNullType"&gt;
  *      &lt;xsd:complexContent&gt;
@@ -49,9 +50,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OGCPropertyIsNullTypeBinding extends AbstractComplexBinding {
@@ -85,12 +83,12 @@ public class OGCPropertyIsNullTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return factory.isNull((Expression) node.getChildValue(Expression.class));
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         PropertyIsNull isNull = (PropertyIsNull) object;
 
         if (OGC.PropertyName.equals(name) && isNull.getExpression() instanceof PropertyName) {

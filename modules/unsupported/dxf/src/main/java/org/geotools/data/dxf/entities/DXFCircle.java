@@ -4,12 +4,14 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LinearRing;
 import org.geotools.data.dxf.parser.DXFLineNumberReader;
+
 import java.io.EOFException;
 import java.io.IOException;
 
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.geotools.data.GeometryType;
 import org.geotools.data.dxf.parser.DXFUnivers;
 import org.geotools.data.dxf.header.DXFLayer;
@@ -21,8 +23,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DXFCircle extends DXFEntity {
@@ -32,29 +32,35 @@ public class DXFCircle extends DXFEntity {
     public double _radius = 0;
 
     public DXFCircle(DXFCircle newCircle) {
-        this(new DXFPoint(newCircle._point._point.x, newCircle._point._point.y, newCircle.getColor(), newCircle.getRefLayer(), 0, newCircle.getThickness()),
-                newCircle._radius, newCircle.getLineType(), newCircle.getColor(), newCircle.getRefLayer(), 0, newCircle.getThickness());
+        this(new DXFPoint(newCircle._point._point.x, newCircle._point._point.y, newCircle
+                        .getColor(), newCircle.getRefLayer(), 0, newCircle.getThickness()),
+                newCircle._radius, newCircle.getLineType(), newCircle.getColor(), newCircle
+                        .getRefLayer(), 0, newCircle.getThickness());
 
         setType(newCircle.getType());
         setStartingLineNumber(newCircle.getStartingLineNumber());
         setUnivers(newCircle.getUnivers());
     }
 
-    public DXFCircle(DXFPoint p, double r, DXFLineType lineType, int c, DXFLayer l, int visibility, double thickness) {
+    public DXFCircle(DXFPoint p, double r, DXFLineType lineType, int c, DXFLayer l, int 
+            visibility, double thickness) {
         super(c, l, visibility, lineType, thickness);
         _point = p;
         _radius = r;
         setName("DXFCircle");
     }
-    public DXFCircle(DXFPoint p, double r, DXFLineType lineType, int c, DXFLayer l, int visibility, double thickness, DXFExtendedData extData) {
-    	super(c, l, visibility, lineType, thickness);
-    	_point = p;
-    	_radius = r;
-    	setName("DXFCircle");
-    	_extendedData = extData;
+
+    public DXFCircle(DXFPoint p, double r, DXFLineType lineType, int c, DXFLayer l, int 
+            visibility, double thickness, DXFExtendedData extData) {
+        super(c, l, visibility, lineType, thickness);
+        _point = p;
+        _radius = r;
+        setName("DXFCircle");
+        _extendedData = extData;
     }
 
-    public static DXFCircle read(DXFLineNumberReader br, DXFUnivers univers) throws NumberFormatException, IOException {
+    public static DXFCircle read(DXFLineNumberReader br, DXFUnivers univers) throws 
+            NumberFormatException, IOException {
 
         int visibility = 0, c = 0;
         double x = 0, y = 0, r = 0, thickness = 1;
@@ -111,16 +117,17 @@ public class DXFCircle extends DXFEntity {
                     r = cvp.getDoubleValue();
                     break;
                 case XDATA_APPLICATION_NAME:
-                	String appName = cvp.getStringValue();
-            		_extData = DXFExtendedData.getExtendedData(br);
-            		_extData.setAppName(appName);
+                    String appName = cvp.getStringValue();
+                    _extData = DXFExtendedData.getExtendedData(br);
+                    _extData.setAppName(appName);
                     break;
                 default:
                     break;
             }
 
         }
-        DXFCircle e = new DXFCircle(new DXFPoint(x, y, c, l, visibility, 1), r, lineType, c, l, visibility, thickness);
+        DXFCircle e = new DXFCircle(new DXFPoint(x, y, c, l, visibility, 1), r, lineType, c, l, 
+                visibility, thickness);
         e.setType(GeometryType.POLYGON);
         e.setStartingLineNumber(sln);
         e.setUnivers(univers);
@@ -139,12 +146,12 @@ public class DXFCircle extends DXFEntity {
         double endAngle = 2 * Math.PI;
         double segAngle = 2 * Math.PI / _radius;
 
-        if(_radius < DXFUnivers.NUM_OF_SEGMENTS){
+        if (_radius < DXFUnivers.NUM_OF_SEGMENTS) {
             segAngle = DXFUnivers.MIN_ANGLE;
         }
 
         double angle = startAngle;
-        for (;;) {
+        for (; ; ) {
             double x = _point._point.getX() + _radius * Math.cos(angle);
             double y = _point._point.getY() + _radius * Math.sin(angle);
             Coordinate c = new Coordinate(x, y);

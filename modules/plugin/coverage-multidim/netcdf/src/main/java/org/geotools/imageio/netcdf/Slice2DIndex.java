@@ -27,31 +27,32 @@ import java.util.List;
 
 /**
  * A bean that represents a row in the index used for mapping 2d grids to 2d slices in NetCDF files.
- * 
+ * <p>
  * <p>
  * The elements are:
  * <ol>
- *      <li><b>imageIndex</b> the index of the image to work with</li>
- *      <li><b>tIndex</b> the index of the time dimension for this 2d slice</li>
- *      <li><b>zIndex</b> the index of the elevation dimension for this 2d slice</li>
- *      <li><b>variableName</b> the name of this variable, e.g. temperature</li>
+ * <li><b>imageIndex</b> the index of the image to work with</li>
+ * <li><b>tIndex</b> the index of the time dimension for this 2d slice</li>
+ * <li><b>zIndex</b> the index of the elevation dimension for this 2d slice</li>
+ * <li><b>variableName</b> the name of this variable, e.g. temperature</li>
  * </ol>
- * 
+ *
  * @author Andrea Antonello
  * @author Simone Giannecchini, GeoSolutions
- *
  */
 public class Slice2DIndex {
 
-    /** DEFAULT_INDEX */
+    /**
+     * DEFAULT_INDEX
+     */
     public static final int DEFAULT_INDEX = -1;
-    
+
     private int[] index;
-    
+
     private final String variableName;
-    
+
     public Slice2DIndex(String variableName) {
-        this(new int[] {}, variableName);
+        this(new int[]{}, variableName);
     }
 
     public Slice2DIndex(int[] index, String variableName) {
@@ -83,7 +84,8 @@ public class Slice2DIndex {
         final int prime = 31;
         int result = 1;
         for (int i = 0; i < index.length; i++) {
-            result = prime * result + index[i];        }
+            result = prime * result + index[i];
+        }
         result = prime * result + ((variableName == null) ? 0 : variableName.hashCode());
         return result;
     }
@@ -105,8 +107,7 @@ public class Slice2DIndex {
         if (index == null) {
             if (other.index != null) {
                 return false;
-            }
-            else {
+            } else {
                 return true;
             }
         } else if (other.index == null) {
@@ -127,13 +128,12 @@ public class Slice2DIndex {
 
         return true;
     }
-      
+
     /**
      * An wrapper for variable index files.
-     * 
+     *
      * @author Andrea Antonello
      * @author Simone Giannecchini, GeoSolutions
-     *
      */
     public static class Slice2DIndexManager {
 
@@ -159,7 +159,7 @@ public class Slice2DIndex {
 
         /**
          * Read a {@link Slice2DIndex} from file given the imageIndex.
-         * 
+         *
          * @param imageIndex the imageIndex to look for.
          * @return the {@link Slice2DIndex} for the picked image.
          * @throws IOException
@@ -197,6 +197,7 @@ public class Slice2DIndex {
 
             return new Slice2DIndex(index, varName);
         }
+
         public void dispose() throws IOException {
             if (raf != null) {
                 raf.close();
@@ -205,28 +206,31 @@ public class Slice2DIndex {
 
         /**
          * Utility method to write an index file.
-         * 
-         * @param file the file to write to.
+         *
+         * @param file      the file to write to.
          * @param indexList the list of {@link Slice2DIndex} to dump to file.
          * @throws IOException
          */
-        public static void writeIndexFile(File file, List<Slice2DIndex> indexList) throws IOException {
+        public static void writeIndexFile(File file, List<Slice2DIndex> indexList) throws 
+                IOException {
             RandomAccessFile raf = null;
             try {
                 raf = new RandomAccessFile(file, "rw");
                 int size = indexList.size();
                 // write number of records
                 raf.writeInt(size);
-                long dataPosition = ADDRESS_POSITION + (size + 1) * ADDRESS_SIZE; // the +1 is to have the end address
+                long dataPosition = ADDRESS_POSITION + (size + 1) * ADDRESS_SIZE; // the +1 is to
+                // have the end address
 
                 long[] pointer = new long[size];
                 raf.seek(dataPosition);
 
-                for( int i = 0; i < size; i++ ) {
+                for (int i = 0; i < size; i++) {
                     Slice2DIndex sliceNDIndex = indexList.get(i);
                     long pos = raf.getFilePointer();
                     pointer[i] = pos;
-                    //write as negative value, so if negative is missing -> old file (backwards compatibility)
+                    //write as negative value, so if negative is missing -> old file (backwards 
+                    // compatibility)
                     raf.writeInt(-sliceNDIndex.getNCount());
                     for (int j = 0; j < sliceNDIndex.getNCount(); j++) {
                         raf.writeInt(sliceNDIndex.getNIndex(j));
@@ -236,7 +240,7 @@ public class Slice2DIndex {
                 long dataEnd = raf.getFilePointer();
 
                 raf.seek(ADDRESS_POSITION);
-                for( long address : pointer ) {
+                for (long address : pointer) {
                     raf.writeLong(address);
                 }
                 // add also the data end position
@@ -252,6 +256,6 @@ public class Slice2DIndex {
         public int getNumberOfRecords() throws IOException {
             return numberOfRecords;
         }
-    
+
     }
 }

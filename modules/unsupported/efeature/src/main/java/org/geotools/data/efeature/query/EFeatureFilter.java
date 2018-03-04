@@ -5,8 +5,6 @@ import org.eclipse.emf.query.conditions.eobjects.EObjectCondition;
 import org.eclipse.emf.query.statements.WHERE;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class EFeatureFilter {

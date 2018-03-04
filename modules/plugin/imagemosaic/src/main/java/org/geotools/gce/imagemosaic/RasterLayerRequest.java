@@ -60,13 +60,15 @@ import org.opengis.referencing.operation.TransformException;
 
 /**
  * A class to handle coverage requests to a reader for a single 2D layer..
- * 
+ *
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini, GeoSolutions
  */
 @SuppressWarnings("rawtypes")
 public class RasterLayerRequest {
-    /** Logger. */
+    /**
+     * Logger.
+     */
     private final static Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger(RasterLayerRequest.class);
 
@@ -77,18 +79,25 @@ public class RasterLayerRequest {
 
     SpatialRequestHelper spatialRequestHelper;
 
-    /** The desired decimation Policy for this request */
+    /**
+     * The desired decimation Policy for this request
+     */
     private DecimationPolicy decimationPolicy;
 
-    /** The desired overview Policy for this request */
+    /**
+     * The desired overview Policy for this request
+     */
     private OverviewPolicy overviewPolicy;
 
-    /** The Interpolation required to serve this request */
+    /**
+     * The Interpolation required to serve this request
+     */
     private Interpolation interpolation;
 
     private FootprintBehavior footprintBehavior = FootprintBehavior.None;
 
-    private int defaultArtifactsFilterThreshold = Integer.MIN_VALUE;;
+    private int defaultArtifactsFilterThreshold = Integer.MIN_VALUE;
+    ;
 
     private double artifactsFilterPTileThreshold;
 
@@ -97,20 +106,25 @@ public class RasterLayerRequest {
     RasterManager rasterManager;
 
     private Color inputTransparentColor = AbstractGridFormat.INPUT_TRANSPARENT_COLOR
-            .getDefaultValue();;
+            .getDefaultValue();
+    ;
 
     private boolean blend = ImageMosaicFormat.FADING.getDefaultValue();
 
-    /** Specifies the behavior for the merging of the final mosaic. */
+    /**
+     * Specifies the behavior for the merging of the final mosaic.
+     */
     private MergeBehavior mergeBehavior = MergeBehavior.getDefault();
 
     private Color outputTransparentColor = ImageMosaicFormat.OUTPUT_TRANSPARENT_COLOR
-            .getDefaultValue();;
+            .getDefaultValue();
+    ;
 
     /**
      * Max number of tiles that this plugin will load.
-     *
-     * If this number is exceeded, i.e. we request an area which is too large instead of getting stuck with opening thousands of files I give you back
+     * <p>
+     * If this number is exceeded, i.e. we request an area which is too large instead of getting 
+     * stuck with opening thousands of files I give you back
      * a fake coverage.
      */
     private int maximumNumberOfGranules = ImageMosaicFormat.MAX_ALLOWED_TILES.getDefaultValue()
@@ -135,7 +149,9 @@ public class RasterLayerRequest {
     // the bands parameter define the order and which bands should be returned
     private int[] bands;
 
-    /** Sort clause on data source. */
+    /**
+     * Sort clause on data source.
+     */
     private String sortClause;
 
     /*
@@ -205,16 +221,16 @@ public class RasterLayerRequest {
 
     /**
      * Build a new {@code CoverageRequest} given a set of input parameters.
-     * 
-     * @param params The {@code GeneralParameterValue}s to initialize this request
+     *
+     * @param params                   The {@code GeneralParameterValue}s to initialize this request
      * @param baseGridCoverage2DReader
-     * @throws IOException 
+     * @throws IOException
      */
     public RasterLayerRequest(final GeneralParameterValue[] params,
-            final RasterManager rasterManager) throws IOException {
+                              final RasterManager rasterManager) throws IOException {
 
         this.params = params;
-        
+
         // //
         //
         // Setting default parameters
@@ -265,15 +281,18 @@ public class RasterLayerRequest {
         spatialRequestHelper.compute();
     }
 
-    protected ReferencedEnvelope computeCoverageBoundingBox(final RasterManager rasterManager) throws IOException {
+    protected ReferencedEnvelope computeCoverageBoundingBox(final RasterManager rasterManager) 
+            throws IOException {
         try {
-            ReferencedEnvelope queryBounds =  null;
+            ReferencedEnvelope queryBounds = null;
             if (requestedBounds != null) {
                 try {
                     ReferencedEnvelope re = ReferencedEnvelope.reference(requestedBounds);
-                    queryBounds = re.transform(rasterManager.spatialDomainManager.coverageCRS2D, true);
+                    queryBounds = re.transform(rasterManager.spatialDomainManager.coverageCRS2D, 
+                            true);
                 } catch (TransformException | FactoryException e) {
-                    LOGGER.log(Level.FINE, "Failed to reproject requested envelope in native, skipping spatial filter in output bounds computation", e);
+                    LOGGER.log(Level.FINE, "Failed to reproject requested envelope in native, " +
+                            "skipping spatial filter in output bounds computation", e);
                 }
             }
             MosaicQueryBuilder builder = new MosaicQueryBuilder(this, queryBounds);
@@ -300,7 +319,8 @@ public class RasterLayerRequest {
 
     private void setDefaultParameterValues() {
 
-        // get the read parameters for this format plus the ones for the basic format and set them to the default
+        // get the read parameters for this format plus the ones for the basic format and set 
+        // them to the default
         final ParameterValueGroup readParams = this.rasterManager.parentReader.getFormat()
                 .getReadParameters();
         if (readParams == null) {
@@ -330,7 +350,7 @@ public class RasterLayerRequest {
                 if (value == null)
                     continue;
                 final GridGeometry2D gg = (GridGeometry2D) value;
-                
+
                 spatialRequestHelper.setRequestedGridGeometry(gg);
                 continue;
             }
@@ -495,7 +515,7 @@ public class RasterLayerRequest {
                 accurateResolution = ((Boolean) value).booleanValue();
                 return;
             }
-            
+
             if (name.equals(ImageMosaicFormat.EXCESS_GRANULE_REMOVAL.getName())) {
                 if (value == null)
                     continue;
@@ -508,9 +528,9 @@ public class RasterLayerRequest {
 
     /**
      * Set proper fields from the specified input parameter.
-     * 
+     *
      * @param param the input {@code ParamaterValue} object
-     * @param name the name of the parameter
+     * @param name  the name of the parameter
      */
     private void extractParameter(ParameterValue<?> param, Identifier name) {
 
@@ -525,7 +545,7 @@ public class RasterLayerRequest {
                 return;
             final GridGeometry2D gg = (GridGeometry2D) value;
             this.requestedBounds = gg.getEnvelope2D();
-            
+
             if (rasterManager.getConfiguration().getCatalogConfigurationBean()
                     .isHeterogeneousCRS()) {
                 GridEnvelope2D paddedRange = new GridEnvelope2D(gg.getGridRange2D());
@@ -817,7 +837,8 @@ public class RasterLayerRequest {
             return;
         }
 
-        // setup the the bands parameter which defines the order and the bands that should be returned
+        // setup the the bands parameter which defines the order and the bands that should be 
+        // returned
         if (name.equals(ImageMosaicFormat.BANDS.getName())) {
             // if the parameter is NULL no problem
             bands = (int[]) param.getValue();
@@ -850,10 +871,12 @@ public class RasterLayerRequest {
     }
 
     /**
-     * Check the type of read operation which will be performed and return {@code true} if a JAI imageRead operation need to be performed or
+     * Check the type of read operation which will be performed and return {@code true} if a JAI 
+     * imageRead operation need to be performed or
      * {@code false} if a simple read operation is needed.
-     * 
-     * @return {@code true} if the read operation will use a JAI ImageRead operation instead of a simple {@code ImageReader.read(...)} call.
+     *
+     * @return {@code true} if the read operation will use a JAI ImageRead operation instead of a
+     * simple {@code ImageReader.read(...)} call.
      */
     private void checkReadType() {
         // //

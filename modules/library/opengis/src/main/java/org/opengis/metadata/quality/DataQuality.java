@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.metadata.quality;
 
 import java.util.Collection;
+
 import org.opengis.metadata.lineage.Lineage;
 import org.opengis.annotation.UML;
 import org.opengis.annotation.Profile;
@@ -22,22 +23,20 @@ import static org.opengis.annotation.ComplianceLevel.*;
 /**
  * Quality information for the data specified by a data quality scope.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 2.0
+ * @source $URL$
+ * @since GeoAPI 2.0
  */
-@Profile (level=CORE)
-@UML(identifier="DQ_DataQuality", specification=ISO_19115)
+@Profile(level = CORE)
+@UML(identifier = "DQ_DataQuality", specification = ISO_19115)
 public interface DataQuality {
     /**
      * The specific data to which the data quality information applies.
      *
      * @return The specific data to which the data quality information applies.
      */
-    @UML(identifier="scope", obligation=MANDATORY, specification=ISO_19115)
+    @UML(identifier = "scope", obligation = MANDATORY, specification = ISO_19115)
     Scope getScope();
 
     /**
@@ -47,7 +46,7 @@ public interface DataQuality {
      *
      * @return Quantitative quality information for the data.
      */
-    @UML(identifier="report", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "report", obligation = CONDITIONAL, specification = ISO_19115)
     Collection<? extends Element> getReports();
 
     /**
@@ -56,9 +55,9 @@ public interface DataQuality {
      * {@linkplain org.opengis.metadata.maintenance.ScopeCode#DATASET dataset}.
      *
      * @return Non-quantitative quality information about the lineage of the data specified,
-     *         or {@code null}.
+     * or {@code null}.
      */
-    @Profile (level=CORE)
-    @UML(identifier="lineage", obligation=CONDITIONAL, specification=ISO_19115)
+    @Profile(level = CORE)
+    @UML(identifier = "lineage", obligation = CONDITIONAL, specification = ISO_19115)
     Lineage getLineage();
 }

@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -24,13 +24,9 @@ import org.opengis.filter.expression.PropertyName;
 
 /**
  * Test class for {@link InFunction}.
- * 
- * @author Stefano Costa, GeoSolutions
- * 
- * 
- * 
- * @source $URL$
  *
+ * @author Stefano Costa, GeoSolutions
+ * @source $URL$
  */
 public class InFunctionTest extends FunctionTestSupport {
 
@@ -97,8 +93,8 @@ public class InFunctionTest extends FunctionTestSupport {
 
     public void testMixedType() {
         PropertyName exp = ff.property("group");
-        Expression[] args = new Expression[] { exp, ff.literal(1), ff.literal(2.5),
-                ff.literal("Group1"), ff.literal(4) };
+        Expression[] args = new Expression[]{exp, ff.literal(1), ff.literal(2.5),
+                ff.literal("Group1"), ff.literal(4)};
         Function func = ff.function(FUNCTION_NAME, args);
         Object result = func.evaluate(feature);
         assertEquals(false, result);
@@ -108,7 +104,7 @@ public class InFunctionTest extends FunctionTestSupport {
         func = ff.function(FUNCTION_NAME, args);
         result = func.evaluate(feature);
         assertEquals(true, result);
-        
+
         exp = ff.property("bar");
         args[0] = exp;
         func = ff.function(FUNCTION_NAME, args);
@@ -141,7 +137,7 @@ public class InFunctionTest extends FunctionTestSupport {
         Function func = ff.function(FUNCTION_NAME, exp, ff.literal(1), ff.literal(null));
         Object result = func.evaluate(feature);
         assertEquals(true, result);
-        
+
         func = ff.function(FUNCTION_NAME, exp, ff.literal("1"), ff.literal(2));
         result = func.evaluate(feature);
         assertEquals(false, result);

@@ -26,14 +26,17 @@ import org.opengis.style.ContrastMethod;
 
 /**
  * @author iant
- *
  */
 public class ExponentialContrastMethodStrategy extends AbstractContrastMethodStrategy {
 
-    /** CORRECTION_FACTOR */
+    /**
+     * CORRECTION_FACTOR
+     */
     private static final String CORRECTION_FACTOR = "correctionFactor";
 
-    /** NORMALIZATION_FACTOR */
+    /**
+     * NORMALIZATION_FACTOR
+     */
     private static final String NORMALIZATION_FACTOR = "normalizationFactor";
 
     final static List<String> PARAM_NAMES = Arrays.asList(NORMALIZATION_FACTOR,
@@ -43,18 +46,18 @@ public class ExponentialContrastMethodStrategy extends AbstractContrastMethodStr
             .getLogger("org.geotools.core");
 
     /**
-     * 
+     *
      */
     public ExponentialContrastMethodStrategy() {
-       
+
         method = ContrastMethod.EXPONENTIAL;
-        
+
     }
 
     public void addParameter(String key, Expression value) {
         if (!PARAM_NAMES.contains(key)) {
             LOGGER.log(Level.WARNING, "Adding unexpected parameter {0} to {1} Contrast Enhancer",
-                    new Object[] { key, method.name() });
+                    new Object[]{key, method.name()});
         }
         super.addParameter(key, value);
     }

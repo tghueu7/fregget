@@ -34,8 +34,6 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.MathTransform;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class OracleDialectEpsgMediatorOnlineStressTest extends
@@ -46,14 +44,14 @@ public class OracleDialectEpsgMediatorOnlineStressTest extends
     final static int MAX_TIME = 5 * 60 * 1000;
     final static boolean SHOW_OUTPUT = false;
     final static int MAX_WORKERS = 2;
-    
+
     OracleDialectEpsgMediator mediator;
     static String[] codes;
     Hints hints;
-    
+
     protected void connect() throws Exception {
         super.connect();
-        hints = new Hints(Hints.CACHE_POLICY, "none");     
+        hints = new Hints(Hints.CACHE_POLICY, "none");
         hints.put(Hints.AUTHORITY_MAX_ACTIVE, new Integer(MAX_WORKERS));
         if (datasource == null) {
             fail("no datasource available");
@@ -61,12 +59,12 @@ public class OracleDialectEpsgMediatorOnlineStressTest extends
         mediator = new OracleDialectEpsgMediator(80, hints, datasource);
         codes = getCodes();
     }
-    
+
     public void testRunners() throws Throwable {
-        
+
         TestRunnable runners[] = new TestRunnable[RUNNER_COUNT];
         for (int i = 0; i < RUNNER_COUNT; i++) {
-            ClientThread thread = new ClientThread(i, mediator); 
+            ClientThread thread = new ClientThread(i, mediator);
             thread.iterations = ITERATIONS;
             runners[i] = thread;
         }
@@ -74,7 +72,7 @@ public class OracleDialectEpsgMediatorOnlineStressTest extends
         long timeStart = System.currentTimeMillis();
         mttr.runTestRunnables(MAX_TIME);
         long timeElapsed = System.currentTimeMillis() - timeStart;
-        
+
         //count exceptions and metrics
         int exceptions = 0;
         int totalTime = 0;
@@ -97,7 +95,8 @@ public class OracleDialectEpsgMediatorOnlineStressTest extends
             System.out.println("Cumulative Time: " + totalTime + " ms");
             System.out.println("Cumulative Iterations: " + totalRuns);
             System.out.println("Overall Time: " + timeElapsed);
-            System.out.println("Throughput: " + (1000 * totalRuns / new Long(totalTime).doubleValue()) + " Hz");
+            System.out.println("Throughput: " + (1000 * totalRuns / new Long(totalTime)
+                    .doubleValue()) + " Hz");
             System.out.println("Min: " + minTime);
             System.out.println("Max: " + maxTime);
             System.out.println("BUFFER_POLICY: " + hints.get(Hints.CACHE_POLICY).toString());
@@ -129,7 +128,8 @@ public class OracleDialectEpsgMediatorOnlineStressTest extends
             String header = null;
             String content = sb.toString();
             if (!file.exists()) {
-                header = "THREADS, MAX_WORKERS, ITERATIONS_PER_THREAD, CACHE, AVG_TIME, TOTAL_TIME, TOTAL_RUNS, THROUGHPUT, MIN_TIME, MAX_TIME, EXCEPTIONS";
+                header = "THREADS, MAX_WORKERS, ITERATIONS_PER_THREAD, CACHE, AVG_TIME, " +
+                        "TOTAL_TIME, TOTAL_RUNS, THROUGHPUT, MIN_TIME, MAX_TIME, EXCEPTIONS";
             }
             file.createNewFile();
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
@@ -144,15 +144,15 @@ public class OracleDialectEpsgMediatorOnlineStressTest extends
             fail(exceptions + " exception(s) occurred");
         }
     }
-    
+
     /**
      * Returns a selection of CRS codes for UTM and NAD zones.
-     * 
+     *
      * @return array of EPSG codes
      * @throws FactoryException
      */
     public static String[] getCodes() {
-        return new String[] { "4269", "2043", "31528", "2936", "32639", "2027",
+        return new String[]{"4269", "2043", "31528", "2936", "32639", "2027",
                 "2028", "2029", "2030", "2031", "2032", "2033", "2034", "2035",
                 "2040", "2041", "2042", "2043", "2058", "2059", "2060", "2061",
                 "2063", "2064", "2067", "2077", "2078", "2079", "2080", "2084",
@@ -331,7 +331,7 @@ public class OracleDialectEpsgMediatorOnlineStressTest extends
                 "32155", "32156", "32157", "32158", "32161", "32180", "32181",
                 "32182", "32183", "32184", "32185", "32186", "32187", "32188",
                 "32189", "32190", "32191", "32192", "32193", "32194", "32195",
-                "32196", "32197", "32198" };
+                "32196", "32197", "32198"};
     }
 
     public static class ClientThread extends TestRunnable {
@@ -346,12 +346,14 @@ public class OracleDialectEpsgMediatorOnlineStressTest extends
         public long totalTime = 0;
         public int totalRuns = 0;
 
-        /** number of iterations to perform */
+        /**
+         * number of iterations to perform
+         */
         public int iterations = 10;
 
         Random rand = new Random();
         OracleDialectEpsgMediator mediator; //victim
-        
+
         public ClientThread(int id, OracleDialectEpsgMediator mediator) {
             this.id = id;
             this.mediator = mediator;
@@ -363,16 +365,16 @@ public class OracleDialectEpsgMediatorOnlineStressTest extends
             }
             return codes[rand.nextInt(codes.length)];
         }
-        
+
         private CoordinateReferenceSystem acquireCRS(String code) throws FactoryException {
             return mediator.createCoordinateReferenceSystem(code);
         }
-        
+
         public void runTest() throws Throwable {
             for (int i = 0; i < iterations; i++) {
                 //record start time
                 long timeStart = System.currentTimeMillis();
-                
+
                 //select first CRS
                 String code1 = "4326";
                 CoordinateReferenceSystem crs1 = acquireCRS(code1);

@@ -29,7 +29,7 @@ public class FeatureTypeListTypeBinding extends AbstractComplexEMFBinding {
     public FeatureTypeListTypeBinding(Wfs20Factory factory) {
         super(factory);
     }
-    
+
     @Override
     public QName getTarget() {
         return WFS.FeatureTypeListType;

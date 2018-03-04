@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 1999-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -28,16 +28,13 @@ import org.geotools.resources.ClassChanger;
  * An angle in degrees. An angle is the amount of rotation needed to bring one line or plane
  * into coincidence with another, generally measured in degrees, sexagesimal degrees or grads.
  *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (PMO, IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see Latitude
  * @see Longitude
  * @see AngleFormat
+ * @since 2.0
  */
 public class Angle implements Comparable<Angle>, Serializable {
     /**
@@ -54,7 +51,7 @@ public class Angle implements Comparable<Angle>, Serializable {
      * Define how angle can be converted to {@link Number} objects.
      */
     static {
-        ClassChanger.register(new ClassChanger<Angle,Double>(Angle.class, Double.class) {
+        ClassChanger.register(new ClassChanger<Angle, Double>(Angle.class, Double.class) {
             protected Double convert(final Angle o) {
                 return o.theta;
             }
@@ -84,7 +81,7 @@ public class Angle implements Comparable<Angle>, Serializable {
      * represented by the string. The string should represents an angle in either fractional
      * degrees (e.g. 45.5°) or degrees with minutes and seconds (e.g. 45°30').
      *
-     * @param  string A string to be converted to an {@code Angle}.
+     * @param string A string to be converted to an {@code Angle}.
      * @throws NumberFormatException if the string does not contain a parsable angle.
      */
     public Angle(final String string) throws NumberFormatException {
@@ -137,18 +134,18 @@ public class Angle implements Comparable<Angle>, Serializable {
         if (object == this) {
             return true;
         }
-        if (object!=null && getClass().equals(object.getClass())) {
+        if (object != null && getClass().equals(object.getClass())) {
             final Angle that = (Angle) object;
             return Double.doubleToLongBits(this.theta) ==
-                   Double.doubleToLongBits(that.theta);
-        }  else {
+                    Double.doubleToLongBits(that.theta);
+        } else {
             return false;
         }
     }
 
     /**
      * Compares two {@code Angle} objects numerically. The comparaison
-     * is done as if by the {@link Double#compare(double,double)} method.
+     * is done as if by the {@link Double#compare(double, double)} method.
      */
     public int compareTo(final Angle that) {
         return Double.compare(this.theta, that.theta);

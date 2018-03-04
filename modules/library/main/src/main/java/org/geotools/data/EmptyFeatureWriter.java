@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -26,8 +26,6 @@ import org.opengis.feature.simple.SimpleFeatureType;
  * Represents an Empty, Typed, FeatureWriter.
  *
  * @author Jody Garnett, Refractions Research
- *
- *
  * @source $URL$
  */
 public class EmptyFeatureWriter implements FeatureWriter<SimpleFeatureType, SimpleFeature> {
@@ -53,9 +51,7 @@ public class EmptyFeatureWriter implements FeatureWriter<SimpleFeatureType, Simp
      * Throws NoSuchElementException as this is an Empty FeatureWriter.
      *
      * @return Does not return
-     *
      * @throws NoSuchElementException
-     *
      * @see org.geotools.data.FeatureWriter#next()
      */
     public SimpleFeature next() throws NoSuchElementException {
@@ -67,7 +63,7 @@ public class EmptyFeatureWriter implements FeatureWriter<SimpleFeatureType, Simp
      */
     public void remove() throws IOException {
         throw new IOException(
-            "FeatureWriter is empty and does not support remove()");
+                "FeatureWriter is empty and does not support remove()");
     }
 
     /**
@@ -75,14 +71,13 @@ public class EmptyFeatureWriter implements FeatureWriter<SimpleFeatureType, Simp
      */
     public void write() throws IOException {
         throw new IOException(
-            "FeatureWriter is empty and does not support write()");
+                "FeatureWriter is empty and does not support write()");
     }
 
     /**
      * There is no next Feature.
      *
      * @return <code>false</code>
-     *
      * @see org.geotools.data.FeatureWriter#hasNext()
      */
     public boolean hasNext() {

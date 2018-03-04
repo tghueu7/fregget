@@ -14,9 +14,10 @@ public class SQLServerViewOnlineTest extends JDBCViewOnlineTest {
         return new SQLServerViewTestSetup();
     }
 
-    
+
     /**
-     * Override since sql server metadata over nullability over views works differently than in other databases
+     * Override since sql server metadata over nullability over views works differently than in 
+     * other databases
      */
     protected void assertAttributesEqual(AttributeDescriptor expected, AttributeDescriptor actual) {
         assertEquals(aname(expected.getName()), actual.getName());
@@ -28,14 +29,12 @@ public class SQLServerViewOnlineTest extends JDBCViewOnlineTest {
         AttributeType texpected = expected.getType();
         AttributeType tactual = actual.getType();
 
-        if ( Number.class.isAssignableFrom( texpected.getBinding() ) ) {
-            assertTrue( Number.class.isAssignableFrom( tactual.getBinding() ) );
-        }
-        else if ( Geometry.class.isAssignableFrom( texpected.getBinding())) {
-            assertTrue( Geometry.class.isAssignableFrom( tactual.getBinding()));
-        }
-        else {
-            assertTrue(texpected.getBinding().isAssignableFrom(tactual.getBinding()));    
+        if (Number.class.isAssignableFrom(texpected.getBinding())) {
+            assertTrue(Number.class.isAssignableFrom(tactual.getBinding()));
+        } else if (Geometry.class.isAssignableFrom(texpected.getBinding())) {
+            assertTrue(Geometry.class.isAssignableFrom(tactual.getBinding()));
+        } else {
+            assertTrue(texpected.getBinding().isAssignableFrom(tactual.getBinding()));
         }
     }
 }

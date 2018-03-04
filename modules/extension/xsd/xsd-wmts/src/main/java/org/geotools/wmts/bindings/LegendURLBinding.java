@@ -13,11 +13,12 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/wmts/1.0:LegendURL.
- *
  * <p>
- *    <pre>
- *	 <code>
- *  &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;element name="LegendURL" xmlns="http://www.w3.org/2001/XMLSchema"&gt;
+ * <p>
+ * <pre>
+ * 	 <code>
+ *  &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;element name="LegendURL" xmlns="http://www
+ *  .w3.org/2001/XMLSchema"&gt;
  *  		&lt;annotation&gt;
  *  			&lt;documentation&gt;
  *          Zero or more LegendURL elements may be provided, providing an
@@ -35,31 +36,37 @@ import javax.xml.namespace.QName;
  *  			&lt;complexContent&gt;
  *  				&lt;extension base="ows:OnlineResourceType"&gt;
  *  					&lt;annotation&gt;
- *  						&lt;documentation&gt;The URL from which the legend image can be retrieved&lt;/documentation&gt;
+ *  						&lt;documentation&gt;The URL from which the legend image can be 
+ *  						retrieved&lt;/documentation&gt;
  *  					&lt;/annotation&gt;
  *  					&lt;attribute name="format" type="ows:MimeType"&gt;
  *  						&lt;annotation&gt;
- *  							&lt;documentation&gt;A supported output format for the legend image&lt;/documentation&gt;
+ *  							&lt;documentation&gt;A supported output format for the legend 
+ *  							image&lt;/documentation&gt;
  *  						&lt;/annotation&gt;
  *  					&lt;/attribute&gt;
  *  					&lt;attribute name="minScaleDenominator" type="double"&gt;
  *  						&lt;annotation&gt;
- *  							&lt;documentation&gt;Denominator of the minimum scale (inclusive) for which this legend image is valid&lt;/documentation&gt;
+ *  							&lt;documentation&gt;Denominator of the minimum scale (inclusive) 
+ *  							for which this legend image is valid&lt;/documentation&gt;
  *  						&lt;/annotation&gt;
  *  					&lt;/attribute&gt;
  *  					&lt;attribute name="maxScaleDenominator" type="double"&gt;
  *  						&lt;annotation&gt;
- *  							&lt;documentation&gt;Denominator of the maximum scale (exclusive) for which this legend image is valid&lt;/documentation&gt;
+ *  							&lt;documentation&gt;Denominator of the maximum scale (exclusive) 
+ *  							for which this legend image is valid&lt;/documentation&gt;
  *  						&lt;/annotation&gt;
  *  					&lt;/attribute&gt;
  *  					&lt;attribute name="width" type="positiveInteger"&gt;
  *  						&lt;annotation&gt;
- *  							&lt;documentation&gt;Width (in pixels) of the legend image&lt;/documentation&gt;
+ *  							&lt;documentation&gt;Width (in pixels) of the legend image&lt;
+ *  							/documentation&gt;
  *  						&lt;/annotation&gt;
  *  					&lt;/attribute&gt;
  *  					&lt;attribute name="height" type="positiveInteger"&gt;
  *  						&lt;annotation&gt;
- *  							&lt;documentation&gt;Height (in pixels) of the legend image&lt;/documentation&gt;
+ *  							&lt;documentation&gt;Height (in pixels) of the legend image&lt;
+ *  							/documentation&gt;
  *  						&lt;/annotation&gt;
  *  					&lt;/attribute&gt;
  *  				&lt;/extension&gt;
@@ -68,14 +75,13 @@ import javax.xml.namespace.QName;
  *  		&lt;/complexType&gt;
  *  	&lt;/element&gt;
  *
- *	  </code>
+ * 	  </code>
  *    </pre>
  * </p>
  *
  * @generated
  */
-public class LegendURLBinding extends AbstractComplexBinding
-{
+public class LegendURLBinding extends AbstractComplexBinding {
     wmtsv_1Factory factory;
 
     public LegendURLBinding(wmtsv_1Factory factory) {

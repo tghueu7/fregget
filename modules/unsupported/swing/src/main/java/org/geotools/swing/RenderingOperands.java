@@ -5,13 +5,12 @@
 package org.geotools.swing;
 
 import java.awt.Graphics2D;
+
 import org.geotools.map.Layer;
 import org.geotools.renderer.GTRenderer;
 
 /**
- *
  * @author michael
- *
  * @source $URL$
  */
 public class RenderingOperands {

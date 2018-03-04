@@ -24,14 +24,16 @@ import org.geotools.styling.css.selector.Selector;
 import org.geotools.util.Range;
 
 /**
- * Extracts the scale range from a {@link Selector}, throws an exception if the selector contains more than one scale range in a OR
- * 
+ * Extracts the scale range from a {@link Selector}, throws an exception if the selector contains
+ * more than one scale range in a OR
+ *
  * @author Andrea Aime - GeoSolutions
  */
 public class ScaleRangeExtractor extends AbstractSelectorVisitor {
 
     /**
-     * Flags whether we are inside a OR or not. If a OR contains a range, we are going to reject the extraction
+     * Flags whether we are inside a OR or not. If a OR contains a range, we are going to reject 
+     * the extraction
      */
     private boolean insideOr;
 
@@ -70,7 +72,8 @@ public class ScaleRangeExtractor extends AbstractSelectorVisitor {
     public Object visit(ScaleRange scaleRange) {
         if (insideOr) {
             throw new IllegalStateException(
-                    "Cannot translate to SLD when a scale range is used inside a OR in the selector");
+                    "Cannot translate to SLD when a scale range is used inside a OR in the " +
+                            "selector");
         }
         if (range == null) {
             range = scaleRange.range;

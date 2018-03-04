@@ -4,7 +4,7 @@
  *
  *    (C) 2016 Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2016 Boundless Spatial
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -67,6 +67,7 @@ public class TracingEmitter implements Emitable {
 
     /**
      * Writes logged events to out
+     *
      * @param out
      */
     public void dump(PrintStream out) {

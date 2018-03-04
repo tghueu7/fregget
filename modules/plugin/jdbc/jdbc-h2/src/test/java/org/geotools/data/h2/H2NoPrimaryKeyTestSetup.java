@@ -20,8 +20,6 @@ import org.geotools.jdbc.JDBCDataStore;
 import org.geotools.jdbc.JDBCNoPrimaryKeyTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class H2NoPrimaryKeyTestSetup extends JDBCNoPrimaryKeyTestSetup {
@@ -29,12 +27,12 @@ public class H2NoPrimaryKeyTestSetup extends JDBCNoPrimaryKeyTestSetup {
     protected H2NoPrimaryKeyTestSetup() {
         super(new H2TestSetup());
     }
-    
+
     @Override
     protected void setUpDataStore(JDBCDataStore dataStore) {
         super.setUpDataStore(dataStore);
-        
-        dataStore.setDatabaseSchema( null );
+
+        dataStore.setDatabaseSchema(null);
     }
 
     @Override

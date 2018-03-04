@@ -17,6 +17,7 @@
 package org.geotools.coverage.processing.operation;
 
 // JAI dependencies (for javadoc)
+
 import it.geosolutions.jaiext.JAIExt;
 import it.geosolutions.jaiext.algebra.AlgebraDescriptor.Operator;
 
@@ -39,36 +40,33 @@ import org.opengis.util.InternationalString;
 
 /**
  * Takes the natural logarithm of the sample values of a coverage.
- *
+ * <p>
  * <P><STRONG>Name:</STRONG>&nbsp;<CODE>"Log"</CODE><BR>
- *    <STRONG>JAI operator:</STRONG>&nbsp;<CODE>"{@linkplain LogDescriptor Log}"</CODE><BR>
- *    <STRONG>Parameters:</STRONG></P>
+ * <STRONG>JAI operator:</STRONG>&nbsp;<CODE>"{@linkplain LogDescriptor Log}"</CODE><BR>
+ * <STRONG>Parameters:</STRONG></P>
  * <table border='3' cellpadding='6' bgcolor='F4F8FF'>
- *   <tr bgcolor='#B9DCFF'>
- *     <th>Name</th>
- *     <th>Class</th>
- *     <th>Default value</th>
- *     <th>Minimum value</th>
- *     <th>Maximum value</th>
- *   </tr>
- *   <tr>
- *     <td>{@code "Source"}</td>
- *     <td>{@link org.geotools.coverage.grid.GridCoverage2D}</td>
- *     <td align="center">N/A</td>
- *     <td align="center">N/A</td>
- *     <td align="center">N/A</td>
- *   </tr>
+ * <tr bgcolor='#B9DCFF'>
+ * <th>Name</th>
+ * <th>Class</th>
+ * <th>Default value</th>
+ * <th>Minimum value</th>
+ * <th>Maximum value</th>
+ * </tr>
+ * <tr>
+ * <td>{@code "Source"}</td>
+ * <td>{@link org.geotools.coverage.grid.GridCoverage2D}</td>
+ * <td align="center">N/A</td>
+ * <td align="center">N/A</td>
+ * <td align="center">N/A</td>
+ * </tr>
  * </table>
  *
- * @since 2.2
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see org.geotools.coverage.processing.Operations#log
  * @see LogDescriptor
+ * @since 2.2
  */
 public class Log extends BaseMathOperationJAI {
     /**
@@ -80,9 +78,9 @@ public class Log extends BaseMathOperationJAI {
      * Constructs a default {@code "Log"} operation.
      */
     public Log() {
-    	super("Log", getOperationDescriptor(JAIExt.getOperationName("Log")));
+        super("Log", getOperationDescriptor(JAIExt.getOperationName("Log")));
     }
-    
+
     public String getName() {
         return "Log";
     }
@@ -96,20 +94,24 @@ public class Log extends BaseMathOperationJAI {
         final double max = Math.log(range.getMaximum());
         return NumberRange.create(min, max);
     }
-    
-    protected void handleJAIEXTParams(ParameterBlockJAI parameters, ParameterValueGroup parameters2) {
-        if(JAIExt.isJAIExtOperation("algebric")){
+
+    protected void handleJAIEXTParams(ParameterBlockJAI parameters, ParameterValueGroup 
+            parameters2) {
+        if (JAIExt.isJAIExtOperation("algebric")) {
             parameters.set(Operator.LOG, 0);
-            Collection<GridCoverage2D> sources = (Collection<GridCoverage2D>) parameters2.parameter("sources").getValue();
-            for(GridCoverage2D source : sources){
+            Collection<GridCoverage2D> sources = (Collection<GridCoverage2D>) 
+                    parameters2.parameter("sources").getValue();
+            for (GridCoverage2D source : sources) {
                 handleROINoDataInternal(parameters, source, "algebric", 1, 2);
             }
         }
     }
-    
+
     protected Map<String, ?> getProperties(RenderedImage data, CoordinateReferenceSystem crs,
-            InternationalString name, MathTransform gridToCRS, GridCoverage2D[] sources,
-            Parameters parameters) {
-        return handleROINoDataProperties(null, parameters.parameters, sources[0], "algebric", 1, 2, 3);
+                                           InternationalString name, MathTransform gridToCRS, 
+                                           GridCoverage2D[] sources,
+                                           Parameters parameters) {
+        return handleROINoDataProperties(null, parameters.parameters, sources[0], "algebric", 1, 
+                2, 3);
     }
 }

@@ -39,7 +39,6 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 /**
  * @author Richard Gould
  * @author ian
- *
  * @source $URL$
  */
 public class WebMapTileServerOnlineTest extends OnlineTestCase {

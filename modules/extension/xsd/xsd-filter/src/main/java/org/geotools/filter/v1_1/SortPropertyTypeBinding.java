@@ -17,6 +17,7 @@
 package org.geotools.filter.v1_1;
 
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.expression.PropertyName;
 import org.opengis.filter.sort.SortBy;
@@ -28,9 +29,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:SortPropertyType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="SortPropertyType"&gt;
  *      &lt;xsd:sequence&gt;
@@ -44,9 +45,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SortPropertyTypeBinding extends AbstractComplexBinding {
@@ -80,7 +78,7 @@ public class SortPropertyTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         PropertyName name = (PropertyName) node.getChildValue(PropertyName.class);
         SortOrder order = (SortOrder) node.getChildValue(SortOrder.class);
 
@@ -92,7 +90,7 @@ public class SortPropertyTypeBinding extends AbstractComplexBinding {
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         SortBy sortBy = (SortBy) object;
 
         if (OGC.PropertyName.equals(name)) {

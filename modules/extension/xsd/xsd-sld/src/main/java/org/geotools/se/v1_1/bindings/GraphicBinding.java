@@ -28,9 +28,9 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/se:Graphic.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:element name="Graphic" type="se:GraphicType"&gt;
@@ -40,16 +40,14 @@ import javax.xml.namespace.QName;
  *          shape, size, and coloring.
  *        &lt;/xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
- *  &lt;/xsd:element&gt; 
- * 	
+ *  &lt;/xsd:element&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class GraphicBinding extends SLDGraphicBinding {
@@ -69,10 +67,10 @@ public class GraphicBinding extends SLDGraphicBinding {
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
         Graphic g = (Graphic) super.parse(instance, node, value);
         if (node.hasChild(AnchorPoint.class)) {
-            g.setAnchorPoint((AnchorPoint)node.getChildValue(AnchorPoint.class));
+            g.setAnchorPoint((AnchorPoint) node.getChildValue(AnchorPoint.class));
         }
         if (node.hasChild(Displacement.class)) {
-            g.setDisplacement((Displacement)node.getChildValue(Displacement.class));
+            g.setDisplacement((Displacement) node.getChildValue(Displacement.class));
         }
         return g;
     }

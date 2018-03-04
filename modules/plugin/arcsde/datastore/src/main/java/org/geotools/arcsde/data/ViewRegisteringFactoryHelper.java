@@ -51,7 +51,7 @@ import org.geotools.util.logging.Logging;
  * This class helps to minimize the work needed to provide such a mapping of various SQL views to an
  * in-process feature type by defining the following structure for a Map&lt;String,String&gt; passed
  * to createDataStore. Example .properties file:
- * 
+ * <p>
  * <pre>
  * &lt;code&gt;
  *      dbtype=...
@@ -60,24 +60,22 @@ import org.geotools.util.logging.Logging;
  *      sqlView.1.sqlQuery = select gid, the_geom, table2.someField \
  *                           from table1, table2 \
  *                           where table1.gid = table2.table1_id
- *     
+ *
  *      sqlView.2.typeName = ViewType2
  *      sqlView.2.sqlQuery = select ...
  * &lt;/code&gt;
  * </pre>
- * 
+ * <p>
  * This way, this class' utility method {@linkplain #registerSqlViews(SqlDataStore, Map)} will
  * receive a {@linkplain org.geotools.data.sql.SqlDataStore} and the Map of datastore factory
  * parameters and call {@linkplain org.geotools.data.sql.SqlDataStore#registerView(String, String)}
  * for each pair of <code>sqlView.N.typeName, sqlView.N.sqlQuery</code> </p>
- * 
+ *
  * @author Gabriel Roldan, Axios Engineering
  * @version $Id$
- *
- *
  * @source $URL$
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
- *         /org/geotools/arcsde/data/ViewRegisteringFactoryHelper.java $
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
+ * /org/geotools/arcsde/data/ViewRegisteringFactoryHelper.java $
  */
 public class ViewRegisteringFactoryHelper {
     private static final Logger LOGGER = Logging.getLogger(ViewRegisteringFactoryHelper.class
@@ -90,7 +88,7 @@ public class ViewRegisteringFactoryHelper {
     /**
      * Registers the sql views provided in <code>params</code> on the SqlDataStore
      * <code>dataStore</code>
-     * 
+     *
      * @param dataStore
      * @param params
      * @throws IOException
@@ -113,14 +111,15 @@ public class ViewRegisteringFactoryHelper {
     /**
      * Looks up the set of "sqlView.N.typeName" and "sqlView.N.sqlQuery" keys in <code>params</code>
      * and returns a cleaned up map of typeName/query.
-     * 
+     *
      * @param params
      * @return
      */
-    public static Map<String, Serializable> cleanUpViewDefinitions(Map<String, Serializable> params) {
+    public static Map<String, Serializable> cleanUpViewDefinitions(Map<String, Serializable> 
+                                                                           params) {
         Map<String, Serializable> cleanedUpViews = new HashMap<String, Serializable>();
         for (Map.Entry<String, Serializable> entry : params.entrySet()) {
-            String key =  entry.getKey();
+            String key = entry.getKey();
             if (!key.startsWith("sqlView.")) {
                 continue;
             }

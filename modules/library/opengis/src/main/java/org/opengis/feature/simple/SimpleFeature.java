@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2007 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.feature.simple;
@@ -20,31 +20,31 @@ import org.opengis.feature.type.Name;
  * <p>
  * The definition of a "simple feature" can be summed up as the following:
  * <ul>
- *   <li>made up of only non-complex attributes, no associations
- *   <li>attributes are of multiplicity 1
- *   <li>attributes are ordered
- *   <li>attribute names are unqualified (namespaceURI == null)
+ * <li>made up of only non-complex attributes, no associations
+ * <li>attributes are of multiplicity 1
+ * <li>attributes are ordered
+ * <li>attribute names are unqualified (namespaceURI == null)
  * </ul>
  * </p>
  * <p>
- *  <h3>Attribute Access</h3>
- *  The order and multiplicity restrictions on simple feature make attribute
- *  values accessible via an index. For example consider the following shapefile
- *  entry:
- *  <pre>
+ * <h3>Attribute Access</h3>
+ * The order and multiplicity restrictions on simple feature make attribute
+ * values accessible via an index. For example consider the following shapefile
+ * entry:
+ * <pre>
  *  | GEOMETRY   | INT | STRING |
  *  | POINT(0 0) |  0  | "zero" |
  *  </pre>
- *  Accessing attributes via index would look like:
- *  <pre>
+ * Accessing attributes via index would look like:
+ * <pre>
  *  SimpleFeature feature = ...;
  *
  *  Geometry g = (Geometry) feature.getAttribute( 0 );
  *  Integer i = (Integer) feature.getAttribute( 1 );
  *  String s = (String) feature.getAttribute( 2 );
  *  </pre>
- *  One could also access by name:
- *  <pre>
+ * One could also access by name:
+ * <pre>
  *  SimpleFeature feature = ...;
  *
  *  Geometry g = (Geometry) feature.getAttribute( "GEOMETRY" );
@@ -58,26 +58,23 @@ import org.opengis.feature.type.Name;
  * {@link ComplexAttribute#getProperty(String)} can be used.
  * </p>
  *
- * @see SimpleFeatureType
- *
  * @author Jody Garnett (LISAsoft)
  * @author Justin Deoliveira (The Open Planning Project)
- * @since 2.5
  * @version 8.0
- *
- *
  * @source $URL$
+ * @see SimpleFeatureType
+ * @since 2.5
  */
 public interface SimpleFeature extends Feature {
     /**
      * Unique Identifier for the SimpleFeature
      * <p>
      * This value is non-null and should be the same as getIdentifier().toString().
-     * Please note that an ID may be provided  
+     * Please note that an ID may be provided
      * </p>
      *
      * @return A unique identifier for the attribute, or <code>null</code> if
-     *         the attribute is non-identifiable.
+     * the attribute is non-identifiable.
      */
     String getID();
 
@@ -91,6 +88,7 @@ public interface SimpleFeature extends Feature {
      * <p>
      * This method is a synonym for {@link #getType()}.
      * </p>
+     *
      * @see #getType()
      */
     SimpleFeatureType getFeatureType();
@@ -129,9 +127,10 @@ public interface SimpleFeature extends Feature {
      * }
      * </pre>
      * </p>
+     *
      * @param values The attribute values to set.
      */
-    void setAttributes( List<Object> values );
+    void setAttributes(List<Object> values);
 
     /**
      * Sets the values of the attributes contained by the feature.
@@ -147,9 +146,10 @@ public interface SimpleFeature extends Feature {
      * }
      * </pre>
      * </p>
+     *
      * @param values The attribute values to set.
      */
-    void setAttributes( Object[] values );
+    void setAttributes(Object[] values);
 
     /**
      * Gets an attribute value by name.
@@ -160,12 +160,12 @@ public interface SimpleFeature extends Feature {
      * return p.getValue();
      * </pre>
      * </p>
-     * @param name The name of the attribute whose value to retrieve.
      *
+     * @param name The name of the attribute whose value to retrieve.
      * @return The attribute value, or <code>null</code> if no such attribute
      * exists with the specified name.
      */
-    Object getAttribute( String name );
+    Object getAttribute(String name);
 
     /**
      * Sets an attribute value by name.
@@ -176,10 +176,11 @@ public interface SimpleFeature extends Feature {
      * p.setValue(value);
      * </pre>
      * </p>
-     * @param name The name of the attribute whose value to set.
+     *
+     * @param name  The name of the attribute whose value to set.
      * @param value The new value of the attribute.
      */
-    void setAttribute( String name, Object value );
+    void setAttribute(String name, Object value);
 
     /**
      * Gets an attribute value by name.
@@ -194,12 +195,12 @@ public interface SimpleFeature extends Feature {
      * Since attribute names in simple features do not have a namespace uri
      * this method is equivalent to calling <code>getAttribute(name.getLocalPart())</code>.
      * </p>
-     * @param name The name of the attribute whose value to retrieve.
      *
+     * @param name The name of the attribute whose value to retrieve.
      * @return The attribute value, or <code>null</code> if no such attribute
      * exists with the specified name.
      */
-    Object getAttribute( Name name );
+    Object getAttribute(Name name);
 
     /**
      * Sets an attribute value by name.
@@ -214,10 +215,11 @@ public interface SimpleFeature extends Feature {
      * Since attribute names in simple features do not have a namespace uri
      * this method is equivalent to calling <code>setAttribute(name.getLocalPart(), value)</code>.
      * </p>
-     * @param name The name of the attribute whose value to set.
+     *
+     * @param name  The name of the attribute whose value to set.
      * @param value The new value of the attribute.
      */
-    void setAttribute( Name name, Object value );
+    void setAttribute(Name name, Object value);
 
     /**
      * Gets an attribute value by index.
@@ -228,12 +230,12 @@ public interface SimpleFeature extends Feature {
      * return p.getValue();
      * </pre>
      * </p>
-     * @param index The index of the attribute whose value to get.
      *
+     * @param index The index of the attribute whose value to get.
      * @return The attribute value at the specified index.
      * @throws IndexOutOfBoundsException If the specified index is out of bounds.
      */
-    Object getAttribute( int index ) throws IndexOutOfBoundsException;
+    Object getAttribute(int index) throws IndexOutOfBoundsException;
 
     /**
      * Sets an attribute value by index.
@@ -244,12 +246,12 @@ public interface SimpleFeature extends Feature {
      * p.setValue(value);
      * </pre>
      * </p>
+     *
      * @param index The index of the attribute whose value to set.
      * @param value The new value of the attribute.
-     *
      * @throws IndexOutOfBoundsException If the specified index is out of bounds.
      */
-    void setAttribute( int index, Object value ) throws IndexOutOfBoundsException;
+    void setAttribute(int index, Object value) throws IndexOutOfBoundsException;
 
     /**
      * The number of attributes the feature is composed of.
@@ -259,6 +261,7 @@ public interface SimpleFeature extends Feature {
      *   return getAttributes().size();
      * </pre>
      * </p>
+     *
      * @return Number of attributes of the feature.
      */
     int getAttributeCount();
@@ -271,9 +274,9 @@ public interface SimpleFeature extends Feature {
      * return getDefaultGeometry().getValue();
      * </pre>
      * </p>
+     *
      * @return The default geometry, or <code>null</code> if no default geometry
      * attribute exists.
-     *
      */
     Object getDefaultGeometry();
 
@@ -285,6 +288,7 @@ public interface SimpleFeature extends Feature {
      * getDefaultGeometry().setValue(geometry);
      * </pre>
      * </p>
+     *
      * @param geometry The new default geometry value.
      */
     void setDefaultGeometry(Object geometry);

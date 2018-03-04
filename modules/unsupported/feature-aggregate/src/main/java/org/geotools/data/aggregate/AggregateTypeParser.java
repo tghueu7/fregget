@@ -26,6 +26,7 @@ import org.xml.sax.SAXException;
 class AggregateTypeParser {
 
     protected static Validator VALIDATOR;
+
     static {
 
         SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
@@ -48,7 +49,7 @@ class AggregateTypeParser {
             factory.setIgnoringComments(true);
             factory.setNamespaceAware(true);
             factory.setIgnoringElementContentWhitespace(true);
-    
+
             try {
                 DocumentBuilder db = factory.newDocumentBuilder();
                 doc = db.parse(is);
@@ -62,10 +63,10 @@ class AggregateTypeParser {
                 throw new IOException("Unrecognized version " + version
                         + ", the only valid value now is 1.0");
             }
-    
+
             return parseConfigurations(root);
         } finally {
-            if(is != null) {
+            if (is != null) {
                 is.close();
             }
         }
@@ -77,35 +78,35 @@ class AggregateTypeParser {
         for (int i = 0; i < configNodes.getLength(); i++) {
             // build the config object
             Node configNode = configNodes.item(i);
-            if(!"AggregateType".equals(configNode.getLocalName())) {
+            if (!"AggregateType".equals(configNode.getLocalName())) {
                 continue;
             }
-            
+
             String name = getAttributeValue(configNode, "name");
             AggregateTypeConfiguration config = new AggregateTypeConfiguration(name);
-            
+
             // populate with the sources
             NodeList sourceNodes = configNode.getChildNodes();
             for (int j = 0; j < sourceNodes.getLength(); j++) {
                 Node sourceNode = sourceNodes.item(j);
-                if(!"Source".equals(sourceNode.getLocalName())) {
+                if (!"Source".equals(sourceNode.getLocalName())) {
                     continue;
                 }
                 String store = getAttributeValue(sourceNode, "store");
                 String type = getAttributeValue(sourceNode, "type");
                 config.addSourceType(buildName(store), type);
             }
-            
+
             result.add(config);
         }
 
         return result;
     }
-    
+
     /**
      * Builds a qualified name from a name containing the ":" separator, otherwise the given name
      * will be used as the local part
-     * 
+     *
      * @param name
      * @return
      */
@@ -122,11 +123,11 @@ class AggregateTypeParser {
 
     private String getAttributeValue(Node node, String attribute) {
         NamedNodeMap attributes = node.getAttributes();
-        if(attributes == null) {
+        if (attributes == null) {
             return null;
         }
         Node namedItem = attributes.getNamedItem(attribute);
-        if(namedItem == null) {
+        if (namedItem == null) {
             return null;
         } else {
             return namedItem.getTextContent();

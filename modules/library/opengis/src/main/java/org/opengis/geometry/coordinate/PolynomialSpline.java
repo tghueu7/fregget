@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.coordinate;
 
 import java.util.List;
+
 import org.opengis.geometry.primitive.CurveInterpolation;
 import org.opengis.annotation.UML;
 
@@ -33,41 +34,39 @@ import static org.opengis.annotation.Specification.*;
  * is that polynomial splines pass through their control points, making the control point and
  * sample point array identical.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @since GeoAPI 2.0
  */
-@UML(identifier="GM_PolynomialSpline", specification=ISO_19107)
+@UML(identifier = "GM_PolynomialSpline", specification = ISO_19107)
 public interface PolynomialSpline extends SplineCurve {
     /**
      * The interpolation mechanism for a {@code PolynomialSpline}
      * is {@link CurveInterpolation#POLYNOMIAL_SPLINE POLYNOMIAL_SPLINE}.
      */
-    @UML(identifier="interpolation", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "interpolation", obligation = MANDATORY, specification = ISO_19107)
     CurveInterpolation getInterpolation();
 
     /**
      * The values used for the initial derivative (up to {@linkplain #getDegree degree} - 2)
      * used for interpolation in this {@code PolynomialSpline} at the start point
      * of the spline.
-     *
+     * <p>
      * The {@linkplain List#size size} of the returned list is
      * <code>({@linkplain #getDegree degree} - 2)</code>.
      */
-    @UML(identifier="vectorAtStart", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "vectorAtStart", obligation = MANDATORY, specification = ISO_19107)
     List/*double[]*/ getVectorAtStart();
 
     /**
      * The values used for the final derivative (up to {@linkplain #getDegree degree} - 2)
      * used for interpolation in this {@code PolynomialSpline} at the end point of
      * the spline.
-     *
+     * <p>
      * The {@linkplain List#size size} of the returned list is
      * <code>({@linkplain #getDegree degree} - 2)</code>.
      */
-    @UML(identifier="vectorAtEnd", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "vectorAtEnd", obligation = MANDATORY, specification = ISO_19107)
     List/*double[]*/ getVectorAtEnd();
 }

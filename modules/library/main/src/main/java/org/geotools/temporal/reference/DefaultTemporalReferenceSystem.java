@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -18,6 +18,7 @@ package org.geotools.temporal.reference;
 
 import java.util.Collection;
 import java.util.Set;
+
 import org.geotools.util.Utilities;
 import org.opengis.metadata.extent.Extent;
 import org.opengis.referencing.ReferenceIdentifier;
@@ -26,11 +27,7 @@ import org.opengis.util.GenericName;
 import org.opengis.util.InternationalString;
 
 /**
- *
  * @author Mehdi Sidhoum (Geomatys)
- *
- *
- *
  * @source $URL$
  */
 public class DefaultTemporalReferenceSystem implements TemporalReferenceSystem {
@@ -47,7 +44,9 @@ public class DefaultTemporalReferenceSystem implements TemporalReferenceSystem {
     private InternationalString remarks;
 
     /**
-     * Creates a new instance of TemporalReferenceSystem by passing a ReferenceIdentifier name and a domain of validity.
+     * Creates a new instance of TemporalReferenceSystem by passing a ReferenceIdentifier name 
+     * and a domain of validity.
+     *
      * @param name
      * @param domainOfValidity
      */
@@ -66,6 +65,7 @@ public class DefaultTemporalReferenceSystem implements TemporalReferenceSystem {
 
     /**
      * This method is deprecated, please use getDomainOfValidity() method.
+     *
      * @return
      */
     @Deprecated

@@ -9,18 +9,18 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/fes/2.0:And.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
- *  &lt;xsd:element name="And" substitutionGroup="fes:logicOps" type="fes:BinaryLogicOpType"/&gt; 
- * 	
+ *  &lt;xsd:element name="And" substitutionGroup="fes:logicOps" type="fes:BinaryLogicOpType"/&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
  */
 public class AndBinding extends OGCAndBinding {

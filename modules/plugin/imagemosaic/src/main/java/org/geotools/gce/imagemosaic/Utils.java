@@ -127,7 +127,8 @@ import net.sf.ehcache.Cache;
 import net.sf.ehcache.Element;
 
 /**
- * Sparse utilities for the various mosaic classes. I use them to extract complex code from other places.
+ * Sparse utilities for the various mosaic classes. I use them to extract complex code from other
+ * places.
  *
  * @author Simone Giannecchini, GeoSolutions S.A.S.
  * @source $URL$
@@ -153,7 +154,7 @@ public class Utils {
     public final static Key PARENT_DIR = new Key(String.class);
 
     public final static Key MOSAIC_READER = new Key(ImageMosaicReader.class);
-    
+
     public final static Key REPOSITORY = new Key(Repository.class);
 
     public final static String RANGE_SPLITTER_CHAR = ";";
@@ -173,10 +174,11 @@ public class Utils {
     /**
      * RGB to GRAY coefficients (for Luminance computation)
      */
-    public final static double RGB_TO_GRAY_MATRIX[][] = { { 0.114, 0.587, 0.299, 0 } };
+    public final static double RGB_TO_GRAY_MATRIX[][] = {{0.114, 0.587, 0.299, 0}};
 
     /**
-     * Flag indicating whether to compute optimized crop ops (instead of standard mosaicking op) when possible (As an instance when mosaicking a
+     * Flag indicating whether to compute optimized crop ops (instead of standard mosaicking op) 
+     * when possible (As an instance when mosaicking a
      * single granule)
      */
     final static boolean OPTIMIZE_CROP;
@@ -246,7 +248,7 @@ public class Utils {
         public static final String RESOLUTION_X_ATTRIBUTE = "ResolutionXAttribute";
 
         public static final String RESOLUTION_Y_ATTRIBUTE = "ResolutionYAttribute";
-        
+
         /**
          * Sets if the target schema should be used to locate granules (default is FALSE)<br/>
          * {@value TRUE|FALSE}
@@ -254,7 +256,7 @@ public class Utils {
         public final static String USE_EXISTING_SCHEMA = "UseExistingSchema";
 
         public final static String TYPENAME = "TypeName";
-        
+
         public final static String STORE_NAME = "StoreName";
 
         public final static String PATH_TYPE = "PathType";
@@ -302,7 +304,8 @@ public class Utils {
         public static final String GRANULE_COLLECTOR_FACTORY = "GranuleCollectorFactory";
 
         /**
-         * The NoData value used in case no granule is found, but the request falls inside the image mosaic bounds
+         * The NoData value used in case no granule is found, but the request falls inside the 
+         * image mosaic bounds
          */
         public static final String NO_DATA = "NoData";
     }
@@ -310,7 +313,8 @@ public class Utils {
     /**
      * Extracts a bbox from a filter in case there is at least one.
      * <p>
-     * I am simply looking for the BBOX filter but I am sure we could use other filters as well. I will leave this as a todo for the moment.
+     * I am simply looking for the BBOX filter but I am sure we could use other filters as well. 
+     * I will leave this as a todo for the moment.
      *
      * @author Simone Giannecchini, GeoSolutions SAS.
      * @todo TODO use other spatial filters as well
@@ -379,17 +383,23 @@ public class Utils {
             }
         }
 
-        /** Return the File (if any) of the source object */
+        /**
+         * Return the File (if any) of the source object
+         */
         public File getFile() {
             return file;
         }
 
-        /** Return the URL (if any) of the source object */
+        /**
+         * Return the URL (if any) of the source object
+         */
         public URL getUrl() {
             return url;
         }
 
-        /** Return the original source object */
+        /**
+         * Return the original source object
+         */
         public Object getSource() {
             return source;
         }
@@ -413,21 +423,25 @@ public class Utils {
     /**
      * Creates a mosaic for the provided input parameters.
      *
-     * @param location path to the directory where to gather the elements for the mosaic.
-     * @param indexName name to give to this mosaic
-     * @param wildcard wildcard to use for walking through files. We are using commonsIO for this task
+     * @param location     path to the directory where to gather the elements for the mosaic.
+     * @param indexName    name to give to this mosaic
+     * @param wildcard     wildcard to use for walking through files. We are using commonsIO for 
+     *                     this task
      * @param absolutePath tells the catalogue builder to use absolute paths.
-     * @param hints hints to control reader instantiations
-     * @return <code>true</code> if everything is right, <code>false</code>if something bad happens, in which case the reason should be logged to the
-     *         logger.
+     * @param hints        hints to control reader instantiations
+     * @return <code>true</code> if everything is right, <code>false</code>if something bad 
+     * happens, in which case the reason should be logged to the
+     * logger.
      */
     static boolean createMosaic(final String location, final String indexName,
-            final String wildcard, final boolean absolutePath, final Hints hints) {
+                                final String wildcard, final boolean absolutePath, final Hints 
+                                        hints) {
 
         // create a mosaic index builder and set the relevant elements
         final CatalogBuilderConfiguration configuration = new CatalogBuilderConfiguration();
         // check if the indexer.properties is there
-        configuration.setHints(hints);// retain hints as this may contain an instance of an ImageMosaicReader
+        configuration.setHints(hints);// retain hints as this may contain an instance of an 
+        // ImageMosaicReader
         List<Parameter> parameterList = configuration.getIndexer().getParameters().getParameter();
 
         IndexerUtils.setParam(parameterList, Prop.ABSOLUTE_PATH, Boolean.toString(absolutePath));
@@ -454,7 +468,8 @@ public class Utils {
         final Queue<Throwable> exceptions = new LinkedList<Throwable>();
         try {
 
-            final ImageMosaicEventHandlers.ProcessingEventListener listener = new ImageMosaicEventHandlers.ProcessingEventListener() {
+            final ImageMosaicEventHandlers.ProcessingEventListener listener = new 
+                    ImageMosaicEventHandlers.ProcessingEventListener() {
 
                 @Override
                 public void exceptionOccurred(ImageMosaicEventHandlers.ExceptionEvent event) {
@@ -534,7 +549,8 @@ public class Utils {
     }
 
     private static MosaicConfigurationBean loadMosaicProperties(final URL sourceURL,
-            final Set<String> ignorePropertiesSet) {
+                                                                final Set<String> 
+                                                                        ignorePropertiesSet) {
 
         if (LOGGER.isLoggable(Level.FINE)) {
             LOGGER.log(Level.FINE, "Trying to load properties file from URL:" + sourceURL);
@@ -625,7 +641,8 @@ public class Utils {
             if (pairs.length != levelsNumber) {
                 if (LOGGER.isLoggable(Level.INFO))
                     LOGGER.info(
-                            "Levels number is different from the provided number of levels resoltion.");
+                            "Levels number is different from the provided number of levels " +
+                                    "resoltion.");
                 return null;
             }
             final double[][] resolutions = new double[levelsNumber][2];
@@ -634,7 +651,8 @@ public class Utils {
                 if (pair == null || pair.length != 2) {
                     if (LOGGER.isLoggable(Level.INFO))
                         LOGGER.info(
-                                "OverviewLevel number is different from the provided number of levels resoltion.");
+                                "OverviewLevel number is different from the provided number of " +
+                                        "levels resoltion.");
                     return null;
                 }
                 resolutions[i][0] = Double.parseDouble(pair[0]);
@@ -677,7 +695,7 @@ public class Utils {
                     .trim();
             retValue.setElevationAttribute(elevationAttribute);
         }
-        
+
         //
         // crs attribute is optional
         //
@@ -801,8 +819,10 @@ public class Utils {
         // CoverageNameCollectorSpi
         //
         if (!ignoreSome || !ignorePropertiesSet.contains(Prop.COVERAGE_NAME_COLLECTOR_SPI)) {
-            String coverageNameCollectorSpi = properties.getProperty(Prop.COVERAGE_NAME_COLLECTOR_SPI);
-            if (coverageNameCollectorSpi != null && ((coverageNameCollectorSpi = coverageNameCollectorSpi.trim()) != null)) {
+            String coverageNameCollectorSpi = properties.getProperty(Prop
+                    .COVERAGE_NAME_COLLECTOR_SPI);
+            if (coverageNameCollectorSpi != null && ((coverageNameCollectorSpi = 
+                    coverageNameCollectorSpi.trim()) != null)) {
                 retValue.setCoverageNameCollectorSpi(coverageNameCollectorSpi);
             }
         }
@@ -845,14 +865,14 @@ public class Utils {
         if (indexer != null) {
             retValue.setIndexer(indexer);
             String granuleCollectorFactorySPI = IndexerUtils.getParameter(
-                Prop.GRANULE_COLLECTOR_FACTORY, indexer);
+                    Prop.GRANULE_COLLECTOR_FACTORY, indexer);
             if (granuleCollectorFactorySPI == null || granuleCollectorFactorySPI.length() <= 0) {
                 boolean isHeterogeneousCRS = Boolean
-                    .parseBoolean(IndexerUtils.getParameter(Prop.HETEROGENEOUS_CRS, indexer));
+                        .parseBoolean(IndexerUtils.getParameter(Prop.HETEROGENEOUS_CRS, indexer));
                 if (isHeterogeneousCRS) {
                     //in this case we know we need the reprojecting collector anyway, let's use it
                     IndexerUtils.setParam(indexer, Prop.GRANULE_COLLECTOR_FACTORY,
-                        ReprojectingSubmosaicProducerFactory.class.getName());
+                            ReprojectingSubmosaicProducerFactory.class.getName());
                 }
             }
         }
@@ -898,7 +918,7 @@ public class Utils {
     }
 
     public static IOFileFilter excludeFilters(final IOFileFilter inputFilter,
-            IOFileFilter... filters) {
+                                              IOFileFilter... filters) {
         IOFileFilter retFilter = inputFilter;
         for (IOFileFilter filter : filters) {
             retFilter = FileFilterUtils.and(retFilter, FileFilterUtils.notFileFilter(filter));
@@ -907,13 +927,16 @@ public class Utils {
     }
 
     /**
-     * Look for an {@link ImageReader} instance that is able to read the provided {@link ImageInputStream}, which must be non null.
+     * Look for an {@link ImageReader} instance that is able to read the provided 
+     * {@link ImageInputStream}, which must be non null.
      * <p>
      * <p>
      * In case no reader is found, <code>null</code> is returned.
      *
-     * @param inStream an instance of {@link ImageInputStream} for which we need to find a suitable {@link ImageReader}.
-     * @return a suitable instance of {@link ImageReader} or <code>null</code> if one cannot be found.
+     * @param inStream an instance of {@link ImageInputStream} for which we need to find a 
+     *                 suitable {@link ImageReader}.
+     * @return a suitable instance of {@link ImageReader} or <code>null</code> if one cannot be 
+     * found.
      */
     static ImageReader getReader(final ImageInputStream inStream) {
         Utilities.ensureNonNull("inStream", inStream);
@@ -927,17 +950,21 @@ public class Utils {
     }
 
     /**
-     * Retrieves the dimensions of the {@link RenderedImage} at index <code>imageIndex</code> for the provided {@link ImageReader} and
+     * Retrieves the dimensions of the {@link RenderedImage} at index <code>imageIndex</code> for
+     * the provided {@link ImageReader} and
      * {@link ImageInputStream}.
      * <p>
      * <p>
-     * Notice that none of the input parameters can be <code>null</code> or a {@link NullPointerException} will be thrown. Morevoer the
-     * <code>imageIndex</code> cannot be negative or an {@link IllegalArgumentException} will be thrown.
+     * Notice that none of the input parameters can be <code>null</code> or a 
+     * {@link NullPointerException} will be thrown. Morevoer the
+     * <code>imageIndex</code> cannot be negative or an {@link IllegalArgumentException} will be 
+     * thrown.
      *
      * @param imageIndex the index of the image to get the dimensions for.
-     * @param inStream the {@link ImageInputStream} to use as an input
-     * @param reader the {@link ImageReader} to decode the image dimensions.
-     * @return a {@link Rectangle} that contains the dimensions for the image at index <code>imageIndex</code>
+     * @param inStream   the {@link ImageInputStream} to use as an input
+     * @param reader     the {@link ImageReader} to decode the image dimensions.
+     * @return a {@link Rectangle} that contains the dimensions for the image at index 
+     * <code>imageIndex</code>
      * @throws IOException in case the {@link ImageReader} or the {@link ImageInputStream} fail.
      */
     static Rectangle getDimension(final int imageIndex, final ImageReader reader)
@@ -965,7 +992,8 @@ public class Utils {
      * Checks that a {@link File} is a real file, exists and is readable.
      *
      * @param file the {@link File} instance to check. Must not be null.
-     * @return <code>true</code> in case the file is a real file, exists and is readable; <code>false </code> otherwise.
+     * @return <code>true</code> in case the file is a real file, exists and is readable; 
+     * <code>false </code> otherwise.
      */
     public static boolean checkFileReadable(final File file) {
         if (LOGGER.isLoggable(Level.FINE)) {
@@ -978,7 +1006,8 @@ public class Utils {
     }
 
     /**
-     * Creates a human readable message that describe the provided {@link File} object in terms of its properties.
+     * Creates a human readable message that describe the provided {@link File} object in terms 
+     * of its properties.
      * <p>
      * <p>
      * Useful for creating meaningful log messages.
@@ -1064,7 +1093,8 @@ public class Utils {
 
     public static final DataStoreFactorySpi SHAPE_SPI = new ShapefileDataStoreFactory();
 
-    static final String DIRECT_KAKADU_PLUGIN = "it.geosolutions.imageio.plugins.jp2k.JP2KKakaduImageReader";
+    static final String DIRECT_KAKADU_PLUGIN = "it.geosolutions.imageio.plugins.jp2k" +
+            ".JP2KKakaduImageReader";
 
     public static final boolean DEFAULT_RECURSION_BEHAVIOR = true;
 
@@ -1097,15 +1127,15 @@ public class Utils {
      * Store a sample image from which we can derive the default SM and CM
      *
      * @param sampleImageFile where we should store the image
-     * @param defaultSM the {@link SampleModel} for the sample image.
-     * @param defaultCM the {@link ColorModel} for the sample image.
+     * @param defaultSM       the {@link SampleModel} for the sample image.
+     * @param defaultCM       the {@link ColorModel} for the sample image.
      * @throws IOException in case something bad occurs during writing.
      */
     public static void storeSampleImage(final File sampleImageFile, final SampleModel defaultSM,
-            final ColorModel defaultCM) throws IOException {
-        
+                                        final ColorModel defaultCM) throws IOException {
+
         SampleImage sampleImage = new SampleImage(defaultSM, defaultCM);
-        
+
         // serialize it
         OutputStream outStream = null;
         ObjectOutputStream ooStream = null;
@@ -1130,10 +1160,12 @@ public class Utils {
     }
 
     /**
-     * Load a sample image from which we can take the sample model and color model to be used to fill holes in responses.
+     * Load a sample image from which we can take the sample model and color model to be used to 
+     * fill holes in responses.
      *
      * @param sampleImageFile the path to sample image.
-     * @return a sample image from which we can take the sample model and color model to be used to fill holes in responses.
+     * @return a sample image from which we can take the sample model and color model to be used 
+     * to fill holes in responses.
      */
     public static RenderedImage loadSampleImage(final File sampleImageFile) {
         // serialize it
@@ -1148,29 +1180,32 @@ public class Utils {
 
                 // load the image
                 Object object = oiStream.readObject();
-                if(object instanceof SampleImage) {
+                if (object instanceof SampleImage) {
                     SampleImage si = (SampleImage) object;
                     return si.toBufferedImage();
-                } else if(object instanceof SerializableRenderedImage) {
+                } else if (object instanceof SerializableRenderedImage) {
                     SerializableRenderedImage sri = (SerializableRenderedImage) object;
                     // SerializableRenderedImage is a finalization thread killer, try to replace
                     // it with SampleImage on disk instead
-                    if(sampleImageFile.canWrite()) {
+                    if (sampleImageFile.canWrite()) {
                         try {
-                            storeSampleImage(sampleImageFile, sri.getSampleModel(), sri.getColorModel());
-                        } catch(Exception e) {
-                            if(LOGGER.isLoggable(Level.WARNING)) {
-                                LOGGER.log(Level.WARNING, "Failed to upgrade the sample image to the new storage format", e);
+                            storeSampleImage(sampleImageFile, sri.getSampleModel(), sri
+                                    .getColorModel());
+                        } catch (Exception e) {
+                            if (LOGGER.isLoggable(Level.WARNING)) {
+                                LOGGER.log(Level.WARNING, "Failed to upgrade the sample image to " +
+                                        "the new storage format", e);
                             }
                         }
                     }
                     // note, disposing the SerializableRenderedImage here is not done on purpose,
                     // as it will hang, timeout and fail, and then on finalize
                     // it will do it again, so there is really no point in doing that
-                    return new SampleImage(sri.getSampleModel(), sri.getColorModel()).toBufferedImage();
+                    return new SampleImage(sri.getSampleModel(), sri.getColorModel())
+                            .toBufferedImage();
                 } else {
-                    if(LOGGER.isLoggable(Level.WARNING)) {
-                        LOGGER.warning("Unrecognized sample_image content: " +  object);
+                    if (LOGGER.isLoggable(Level.WARNING)) {
+                        LOGGER.warning("Unrecognized sample_image content: " + object);
                     }
                     return null;
                 }
@@ -1241,7 +1276,8 @@ public class Utils {
     }
 
     public static Map<String, Serializable> filterDataStoreParams(Properties properties,
-            DataStoreFactorySpi spi) throws IOException {
+                                                                  DataStoreFactorySpi spi) throws
+            IOException {
         // get the params
         final Map<String, Serializable> params = new HashMap<String, Serializable>();
         final Param[] paramsInfo = spi.getParametersInfo();
@@ -1448,7 +1484,7 @@ public class Utils {
                 return name;
             }
         }
-        
+
         return null;
     }
 
@@ -1463,9 +1499,9 @@ public class Utils {
      * @return
      */
     private static URL updateSourceURL(URL sourceURL, boolean datastoreFound, String locationPath,
-            String defaultIndexName/*
-                                    * , File emptyFile
-                                    */) {
+                                       String defaultIndexName/*
+     * , File emptyFile
+     */) {
         if (!datastoreFound) {
             File shapeFile = new File(locationPath, defaultIndexName + ".shp");
 
@@ -1494,7 +1530,7 @@ public class Utils {
     }
 
     private static boolean checkMosaicHasBeenInitialized(String locationPath,
-            String defaultIndexName) {
+                                                         String defaultIndexName) {
         File mosaicFile = new File(locationPath, defaultIndexName + ".xml");
         if (Utils.checkFileReadable(mosaicFile)) {
             return true;
@@ -1641,11 +1677,12 @@ public class Utils {
      * Check if the provided granule's footprint covers the same area of the granule's bbox.
      *
      * @param granuleFootprint the granule Footprint
-     * @param granuleBBOX the granule bbox
+     * @param granuleBBOX      the granule bbox
      * @return {@code true} in case the footprint isn't covering the FULL granule's bbox.
      */
     static boolean areaIsDifferent(final Geometry granuleFootprint,
-            final AffineTransform baseGridToWorld, final ReferencedEnvelope granuleBBOX) {
+                                   final AffineTransform baseGridToWorld, final 
+                                   ReferencedEnvelope granuleBBOX) {
 
         // //
         //
@@ -1696,7 +1733,8 @@ public class Utils {
     }
 
     /**
-     * Checks if the Shape equates to a Rectangle, if it does it performs a conversion, otherwise returns null
+     * Checks if the Shape equates to a Rectangle, if it does it performs a conversion, otherwise
+     * returns null
      *
      * @param shape
      * @return
@@ -1898,13 +1936,13 @@ public class Utils {
      * @return
      */
     public static boolean homogeneousCheck(final int numberOfLevels, double[][] resolutionLevels,
-            double[][] compareLevels) {
+                                           double[][] compareLevels) {
         for (int k = 0; k < numberOfLevels; k++) {
             if (Math.abs(resolutionLevels[k][0] - compareLevels[k][0]) > RESOLUTION_TOLERANCE_FACTOR
                     * compareLevels[k][0]
                     || Math.abs(resolutionLevels[k][1]
-                            - compareLevels[k][1]) > RESOLUTION_TOLERANCE_FACTOR
-                                    * compareLevels[k][1]) {
+                    - compareLevels[k][1]) > RESOLUTION_TOLERANCE_FACTOR
+                    * compareLevels[k][1]) {
                 return false;
             }
         }
@@ -1929,11 +1967,13 @@ public class Utils {
     }
 
     /**
-     * This method checks the {@link ColorModel} of the current image with the one of the first image in order to check if they are compatible or not
+     * This method checks the {@link ColorModel} of the current image with the one of the first 
+     * image in order to check if they are compatible or not
      * in order to perform a mosaic operation.
      * <p>
      * <p>
-     * It is worth to point out that we also check if, in case we have two index color model image, we also try to suggest whether or not we should do
+     * It is worth to point out that we also check if, in case we have two index color model 
+     * image, we also try to suggest whether or not we should do
      * a color expansion.
      *
      * @param defaultCM
@@ -1942,7 +1982,7 @@ public class Utils {
      * @return a boolean asking to skip this feature.
      */
     public static boolean checkColorModels(ColorModel defaultCM, byte[][] defaultPalette,
-            ColorModel actualCM) {
+                                           ColorModel actualCM) {
 
         // check the number of color components
         final int defNumComponents = defaultCM.getNumColorComponents();
@@ -1976,7 +2016,7 @@ public class Utils {
     }
 
     public static void fixH2DatabaseLocation(Map<String, Serializable> params,
-            String parentLocation) throws MalformedURLException {
+                                             String parentLocation) throws MalformedURLException {
         if (params.containsKey(DATABASE_KEY)) {
             String dbname = (String) params.get(DATABASE_KEY);
             // H2 database URLs must not be percent-encoded: see GEOT-4262.
@@ -2025,7 +2065,8 @@ public class Utils {
     }
 
     /**
-     * Merge basic statistics on destination {@link PAMDataset} {@link PAMRasterBand}s need to have same size. No checks are performed here
+     * Merge basic statistics on destination {@link PAMDataset} {@link PAMRasterBand}s need to 
+     * have same size. No checks are performed here
      *
      * @param inputPamDataset
      * @param outputPamDataset
@@ -2040,14 +2081,15 @@ public class Utils {
     }
 
     /**
-     * Merge basic statistics on {@link PAMRasterBand} by updating min/max Other statistics still need some work. {@link MDI}s need to have same size.
+     * Merge basic statistics on {@link PAMRasterBand} by updating min/max Other statistics still
+     * need some work. {@link MDI}s need to have same size.
      * No checks are performed here
      *
      * @param inputPamRasterBand
      * @param outputPamRasterBand
      */
     private static void updateRasterBand(PAMRasterBand inputPamRasterBand,
-            PAMRasterBand outputPamRasterBand) {
+                                         PAMRasterBand outputPamRasterBand) {
         List<MDI> mdiInputs = inputPamRasterBand.getMetadata().getMDI();
         List<MDI> mdiOutputs = outputPamRasterBand.getMetadata().getMDI();
         for (int i = 0; i < mdiInputs.size(); i++) {
@@ -2059,7 +2101,8 @@ public class Utils {
     }
 
     /**
-     * Update min and max for mdiOutput. Other statistics need better management. For the moment we simply returns the min between them
+     * Update min and max for mdiOutput. Other statistics need better management. For the moment 
+     * we simply returns the min between them
      *
      * @param mdiInput
      * @param mdiOutput
@@ -2083,7 +2126,8 @@ public class Utils {
     }
 
     /**
-     * Initialize a list of {@link PAMRasterBand}s having same size of the sample {@link PAMDataset} and same metadata names.
+     * Initialize a list of {@link PAMRasterBand}s having same size of the sample 
+     * {@link PAMDataset} and same metadata names.
      *
      * @param merged
      * @param samplePam
@@ -2130,7 +2174,8 @@ public class Utils {
     }
 
     public static ImageReaderSpi getReaderSpiFromStream(ImageReaderSpi suggestedSPI,
-            ImageInputStream inStream) throws IOException {
+                                                        ImageInputStream inStream) throws 
+            IOException {
         ImageReaderSpi readerSPI = null;
         // get a reader and try to cache the suggested SPI first
         inStream.mark();
@@ -2188,7 +2233,7 @@ public class Utils {
      * Returns true if the type is usable as a mosaic index
      */
     public static boolean isValidMosaicSchema(SimpleFeatureType schema,
-            String locationAttributeName) {
+                                              String locationAttributeName) {
         // does it have a geometry?
         if (schema.getGeometryDescriptor() == null) {
             return false;
@@ -2199,15 +2244,19 @@ public class Utils {
         return location != null
                 && CharSequence.class.isAssignableFrom(location.getType().getBinding());
     }
-    
-    public static ReferencedEnvelope reprojectEnvelope(ReferencedEnvelope sourceEnvelope, CoordinateReferenceSystem targetCRS, ReferencedEnvelope targetReferenceEnvelope)
+
+    public static ReferencedEnvelope reprojectEnvelope(ReferencedEnvelope sourceEnvelope, 
+                                                       CoordinateReferenceSystem targetCRS, 
+                                                       ReferencedEnvelope targetReferenceEnvelope)
             throws FactoryException, TransformException {
-        Geometry reprojected = Utils.reprojectEnvelopeToGeometry(sourceEnvelope, targetCRS, targetReferenceEnvelope);
-        if(reprojected == null) {
+        Geometry reprojected = Utils.reprojectEnvelopeToGeometry(sourceEnvelope, targetCRS, 
+                targetReferenceEnvelope);
+        if (reprojected == null) {
             return new ReferencedEnvelope(targetCRS);
         } else {
-            if(reprojected.getNumGeometries() > 1) {
-                return new ReferencedEnvelope(reprojected.getGeometryN(0).getEnvelopeInternal(), targetCRS);
+            if (reprojected.getNumGeometries() > 1) {
+                return new ReferencedEnvelope(reprojected.getGeometryN(0).getEnvelopeInternal(), 
+                        targetCRS);
             } else {
                 return new ReferencedEnvelope(reprojected.getEnvelopeInternal(), targetCRS);
             }
@@ -2216,9 +2265,10 @@ public class Utils {
     }
 
     /**
-     * Reprojects an envelope using the {@link ProjectionHandler} machinery. The output can be a multipolygon in case
+     * Reprojects an envelope using the {@link ProjectionHandler} machinery. The output can be a 
+     * multipolygon in case
      * of wrapping, which might or might not be what you want, act accordingly
-     * 
+     *
      * @param sourceEnvelope
      * @param targetCRS
      * @param targetReferenceEnvelope
@@ -2226,14 +2276,16 @@ public class Utils {
      * @throws FactoryException
      * @throws TransformException
      */
-    public static Geometry reprojectEnvelopeToGeometry(ReferencedEnvelope sourceEnvelope, CoordinateReferenceSystem targetCRS, ReferencedEnvelope targetReferenceEnvelope)
+    public static Geometry reprojectEnvelopeToGeometry(ReferencedEnvelope sourceEnvelope, 
+                                                       CoordinateReferenceSystem targetCRS, 
+                                                       ReferencedEnvelope targetReferenceEnvelope)
             throws FactoryException, TransformException {
         ProjectionHandler handler;
         CoordinateReferenceSystem sourceCRS = sourceEnvelope.getCoordinateReferenceSystem();
-        if(targetReferenceEnvelope == null) {
+        if (targetReferenceEnvelope == null) {
             targetReferenceEnvelope = ReferencedEnvelope.reference(getCRSEnvelope(targetCRS));
         }
-        if(targetReferenceEnvelope != null) {
+        if (targetReferenceEnvelope != null) {
             handler = ProjectionHandlerFinder.getHandler(targetReferenceEnvelope, sourceCRS, true);
         } else {
             // cannot handle wrapping if we do not have a reference envelope, but
@@ -2241,35 +2293,35 @@ public class Utils {
             ReferencedEnvelope reference = new ReferencedEnvelope(targetCRS);
             handler = ProjectionHandlerFinder.getHandler(reference, sourceCRS, false);
         }
-        
-        if(handler != null) {
+
+        if (handler != null) {
             MathTransform transform = CRS.findMathTransform(sourceCRS, targetCRS);
             Geometry footprint = JTS.toGeometry(sourceEnvelope);
             Geometry preProcessed = handler.preProcess(footprint);
-            if(preProcessed == null) {
+            if (preProcessed == null) {
                 return null;
             }
             Geometry transformed = JTS.transform(preProcessed, transform);
             // this might generate multipolygons for data crossing the dataline, which 
             // is actually what we want
             Geometry postProcessed = handler.postProcess(transform.inverse(), transformed);
-            if(postProcessed == null) {
+            if (postProcessed == null) {
                 return null;
             }
             return postProcessed;
         } else {
             sourceEnvelope = new ReferencedEnvelope(CRS.transform(sourceEnvelope, targetCRS));
         }
-        
-        
+
+
         return JTS.toGeometry(sourceEnvelope);
     }
 
     private static org.opengis.geometry.Envelope getCRSEnvelope(CoordinateReferenceSystem targetCRS)
             throws FactoryException, NoSuchAuthorityCodeException {
-        if(targetCRS.getDomainOfValidity() == null) {
+        if (targetCRS.getDomainOfValidity() == null) {
             Integer code = CRS.lookupEpsgCode(targetCRS, true);
-            if(code != null) {
+            if (code != null) {
                 CRS.decode("EPSG:" + code, CRS.getAxisOrder(targetCRS) != AxisOrder.NORTH_EAST);
             }
         }

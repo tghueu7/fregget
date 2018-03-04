@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -28,18 +28,18 @@ import javax.swing.Icon;
 /**
  * Abstract base class for implementing style factories.
  *
- *
  * @source $URL$
  */
 public abstract class AbstractStyleFactory implements StyleFactory {
     public abstract TextSymbolizer createTextSymbolizer(Fill fill,
-        Font[] fonts, Halo halo, Expression label,
-        LabelPlacement labelPlacement, String geometryPropertyName);
+                                                        Font[] fonts, Halo halo, Expression label,
+                                                        LabelPlacement labelPlacement, String 
+                                                                geometryPropertyName);
 
     public abstract ExternalGraphic createExternalGraphic(URL url, String format);
 
     public abstract ExternalGraphic createExternalGraphic(String uri,
-        String format);
+                                                          String format);
 
     public abstract ExternalGraphic createExternalGraphic(Icon inlineContent, String format);
 
@@ -52,7 +52,7 @@ public abstract class AbstractStyleFactory implements StyleFactory {
 
     //    public abstract PointPlacement createPointPlacement();
     public abstract Mark createMark(Expression wellKnownName, Stroke stroke,
-        Fill fill, Expression size, Expression rotation);
+                                    Fill fill, Expression size, Expression rotation);
 
     /**
      * Convinence method for obtaining a mark of a fixed shape
@@ -105,12 +105,13 @@ public abstract class AbstractStyleFactory implements StyleFactory {
     public abstract Halo createHalo(Fill fill, Expression radius);
 
     public abstract Fill createFill(Expression color,
-        Expression backgroundColor, Expression opacity, Graphic graphicFill);
+                                    Expression backgroundColor, Expression opacity, Graphic 
+                                            graphicFill);
 
     public abstract LineSymbolizer createLineSymbolizer();
 
     public abstract PointSymbolizer createPointSymbolizer(Graphic graphic,
-        String geometryPropertyName);
+                                                          String geometryPropertyName);
 
     public abstract Style createStyle();
 
@@ -123,16 +124,14 @@ public abstract class AbstractStyleFactory implements StyleFactory {
     public abstract TextSymbolizer createTextSymbolizer();
 
     public abstract PointPlacement createPointPlacement(
-        AnchorPoint anchorPoint, Displacement displacement, Expression rotation);
+            AnchorPoint anchorPoint, Displacement displacement, Expression rotation);
 
     /**
      * A convienice method to make a simple stroke
      *
      * @param color the color of the line
      * @param width the width of the line
-     *
      * @return the stroke object
-     *
      * @see org.geotools.stroke
      */
     public abstract Stroke createStroke(Expression color, Expression width);
@@ -140,70 +139,70 @@ public abstract class AbstractStyleFactory implements StyleFactory {
     /**
      * A convienice method to make a simple stroke
      *
-     * @param color the color of the line
-     * @param width The width of the line
+     * @param color   the color of the line
+     * @param width   The width of the line
      * @param opacity The opacity of the line
-     *
      * @return The stroke
-     *
      * @see org.geotools.stroke
      */
     public abstract Stroke createStroke(Expression color, Expression width,
-        Expression opacity);
+                                        Expression opacity);
 
     /**
      * creates a stroke
      *
-     * @param color The color of the line
-     * @param width The width of the line
-     * @param opacity The opacity of the line
-     * @param lineJoin - the type of Line joint
-     * @param lineCap - the type of line cap
-     * @param dashArray - an array of floats describing the dashes in the line
-     * @param dashOffset - where in the dash array to start drawing from
-     * @param graphicFill - a graphic object to fill the line with
+     * @param color         The color of the line
+     * @param width         The width of the line
+     * @param opacity       The opacity of the line
+     * @param lineJoin      - the type of Line joint
+     * @param lineCap       - the type of line cap
+     * @param dashArray     - an array of floats describing the dashes in the line
+     * @param dashOffset    - where in the dash array to start drawing from
+     * @param graphicFill   - a graphic object to fill the line with
      * @param graphicStroke - a graphic object to draw the line with
-     *
      * @return The completed stroke.
-     *
      * @see org.geotools.stroke
      */
     public abstract Stroke createStroke(Expression color, Expression width,
-        Expression opacity, Expression lineJoin, Expression lineCap,
-        float[] dashArray, Expression dashOffset, Graphic graphicFill,
-        Graphic graphicStroke);
+                                        Expression opacity, Expression lineJoin, Expression lineCap,
+                                        float[] dashArray, Expression dashOffset, Graphic 
+                                                graphicFill,
+                                        Graphic graphicStroke);
 
     public abstract Rule createRule();
 
     public abstract LineSymbolizer createLineSymbolizer(Stroke stroke,
-        String geometryPropertyName);
+                                                        String geometryPropertyName);
 
     public abstract FeatureTypeStyle createFeatureTypeStyle();
 
     public abstract Graphic createGraphic(ExternalGraphic[] externalGraphics,
-        Mark[] marks, Symbol[] symbols, Expression opacity, Expression size,
-        Expression rotation);
+                                          Mark[] marks, Symbol[] symbols, Expression opacity, 
+                                          Expression size,
+                                          Expression rotation);
 
     public abstract Font createFont(Expression fontFamily,
-        Expression fontStyle, Expression fontWeight, Expression fontSize);
+                                    Expression fontStyle, Expression fontWeight, Expression 
+                                            fontSize);
 
     public abstract Mark createMark();
 
     public abstract PolygonSymbolizer createPolygonSymbolizer(Stroke stroke,
-        Fill fill, String geometryPropertyName);
+                                                              Fill fill, String 
+                                                                      geometryPropertyName);
 
     public abstract RasterSymbolizer createRasterSymbolizer(
-        String geometryPropertyName, Expression opacity,
-        ChannelSelection channel, Expression overlap, ColorMap colorMap,
-        ContrastEnhancement ce, ShadedRelief relief, Symbolizer outline);
+            String geometryPropertyName, Expression opacity,
+            ChannelSelection channel, Expression overlap, ColorMap colorMap,
+            ContrastEnhancement ce, ShadedRelief relief, Symbolizer outline);
 
     public abstract RasterSymbolizer getDefaultRasterSymbolizer();
 
     public abstract ChannelSelection createChannelSelection(
-        SelectedChannelType[] channels);
+            SelectedChannelType[] channels);
 
     public abstract SelectedChannelType createSelectedChannelType(String name,
-        Expression enhancement);
+                                                                  Expression enhancement);
 
     public abstract ColorMap createColorMap();
 
@@ -244,7 +243,7 @@ public abstract class AbstractStyleFactory implements StyleFactory {
      *
      * @return DOCUMENT ME!
      */
-    public Map<RenderingHints.Key,?> getImplementationHints() {
+    public Map<RenderingHints.Key, ?> getImplementationHints() {
         return Collections.emptyMap();
     }
 }

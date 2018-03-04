@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2016, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -33,12 +33,9 @@ import org.opengis.util.InternationalString;
 /**
  * Implementation fo SimpleFeatureType, subtypes must be atomic and are stored
  * in a list.
- * 
+ *
  * @author Justin
  * @author Ben Caradoc-Davies, CSIRO Exploration and Mining
- *
- *
- *
  * @source $URL$
  */
 public class SimpleFeatureTypeImpl extends FeatureTypeImpl implements
@@ -51,9 +48,9 @@ public class SimpleFeatureTypeImpl extends FeatureTypeImpl implements
 
     @SuppressWarnings("unchecked")
     public SimpleFeatureTypeImpl(Name name, List<AttributeDescriptor> schema,
-            GeometryDescriptor defaultGeometry, boolean isAbstract,
-            List<Filter> restrictions, AttributeType superType,
-            InternationalString description) {
+                                 GeometryDescriptor defaultGeometry, boolean isAbstract,
+                                 List<Filter> restrictions, AttributeType superType,
+                                 InternationalString description) {
         // Note intentional circumvention of generics type checking;
         // this is only valid if schema is not modified.
         super(name, (List) schema, defaultGeometry, isAbstract, restrictions,
@@ -120,12 +117,12 @@ public class SimpleFeatureTypeImpl extends FeatureTypeImpl implements
     }
 
     public int indexOf(Name name) {
-        if(name.getNamespaceURI() == null) {
+        if (name.getNamespaceURI() == null) {
             return indexOf(name.getLocalPart());
         }
         // otherwise do a full scan
         int index = 0;
-        for (AttributeDescriptor descriptor :  getAttributeDescriptors()) {
+        for (AttributeDescriptor descriptor : getAttributeDescriptors()) {
             if (descriptor.getName().equals(name)) {
                 return index;
             }
@@ -136,7 +133,7 @@ public class SimpleFeatureTypeImpl extends FeatureTypeImpl implements
 
     public int indexOf(String name) {
         Integer idx = index.get(name);
-        if(idx != null) {
+        if (idx != null) {
             return idx.intValue();
         } else {
             return -1;
@@ -153,6 +150,7 @@ public class SimpleFeatureTypeImpl extends FeatureTypeImpl implements
 
     /**
      * Builds the name -> position index used by simple features for fast attribute lookup
+     *
      * @param featureType
      * @return
      */

@@ -68,12 +68,8 @@ import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Point;
 
 /**
- * 
  * @author Gabriel Roldan (Axios Engineering)
  * @version $Id$
- *
- *
- *
  * @source $URL$
  * @since 2.4
  */
@@ -110,7 +106,7 @@ public class AppSchemaDataAccessTest extends AppSchemaTestSupport {
         dataStore = new AppSchemaDataAccess(Collections.singleton(mapping));
 
     }
-    
+
     @After
     public void tearDown() throws Exception {
         DataAccessRegistry.unregisterAndDisposeAll();
@@ -158,7 +154,7 @@ public class AppSchemaDataAccessTest extends AppSchemaTestSupport {
 
         FeatureTypeMapping mapping = (FeatureTypeMapping) mappings.iterator().next();
 
-        FeatureSource<?,?> mappedSource = mapping.getSource();
+        FeatureSource<?, ?> mappedSource = mapping.getSource();
         Envelope expected = getBounds(mappedSource);
         Envelope actual = getBounds(source);
 
@@ -277,7 +273,7 @@ public class AppSchemaDataAccessTest extends AppSchemaTestSupport {
 
         PropertyIsEqualTo equivalentSourceFilter = ff.equals(ff.property("ph"), ff
                 .literal(new Integer(3)));
-        FeatureCollection<?,?> collection = mapping.getSource()
+        FeatureCollection<?, ?> collection = mapping.getSource()
                 .getFeatures(equivalentSourceFilter);
 
         int count = 0;
@@ -299,7 +295,7 @@ public class AppSchemaDataAccessTest extends AppSchemaTestSupport {
 
     /**
      * Loads config from an xml config file which uses a property datastore as source of features.
-     * 
+     *
      * @throws IOException
      */
     @Test
@@ -352,14 +348,14 @@ public class AppSchemaDataAccessTest extends AppSchemaTestSupport {
 
         // test to see if the mapping can successfully substitute a valid narrower type 
         Name subName = Types.typeName(nsUri, "broadTypeEl");
-        
+
         descriptor = (AttributeDescriptor) Types.descriptor(type, subName);
 
         ComplexType subbedType = (ComplexType) descriptor.getType();
 
         AttributeDescriptor sub = (AttributeDescriptor) Types
                 .descriptor(subbedType, subName);
- 
+
         FeatureCollection<FeatureType, Feature> content = source.getFeatures();
         FeatureIterator<Feature> features = content.features();
         int count = 0;

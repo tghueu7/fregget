@@ -23,46 +23,48 @@ import org.opengis.filter.FilterFactory2;
 import org.opengis.filter.expression.PropertyName;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class PropertyNameBuilder implements Builder<PropertyName> {
-    protected FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);    
+    protected FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
     String xpath = null; // will result in Expression.NIL
     Name name = null;
     boolean unset = false;
-    
-    public PropertyNameBuilder(){
-         reset();        
+
+    public PropertyNameBuilder() {
+        reset();
     }
-    public PropertyNameBuilder( PropertyName propertyName ){
-        reset( propertyName );        
+
+    public PropertyNameBuilder(PropertyName propertyName) {
+        reset(propertyName);
     }
-    public PropertyNameBuilder property( String xpath ){
-        return name( xpath );
+
+    public PropertyNameBuilder property(String xpath) {
+        return name(xpath);
     }
-    public PropertyNameBuilder name( String name ){
+
+    public PropertyNameBuilder name(String name) {
         this.xpath = name;
         this.name = null;
         unset = false;
         return this;
     }
-    public PropertyNameBuilder name( Name name ){
+
+    public PropertyNameBuilder name(Name name) {
         this.name = name;
         this.xpath = null;
         unset = false;
         return this;
     }
+
     public PropertyName build() {
-        if( unset ){
+        if (unset) {
             return null;
         }
-        if( name != null ){
-            return ff.property( name );
-        }
-        else {
-            return ff.property( xpath );
+        if (name != null) {
+            return ff.property(name);
+        } else {
+            return ff.property(xpath);
         }
     }
 
@@ -72,7 +74,7 @@ public class PropertyNameBuilder implements Builder<PropertyName> {
         return this;
     }
 
-    public PropertyNameBuilder reset( PropertyName original) {
+    public PropertyNameBuilder reset(PropertyName original) {
         unset = false;
         xpath = original.getPropertyName();
         return this;

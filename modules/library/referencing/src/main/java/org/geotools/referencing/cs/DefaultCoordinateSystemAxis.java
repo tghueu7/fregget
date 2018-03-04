@@ -58,19 +58,15 @@ import org.geotools.util.Utilities;
  * {@linkplain org.opengis.referencing.crs.GeographicCRS geographic coordinate reference system}.
  * Conversely, these names shall not be used in any other context.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see AbstractCS
  * @see Unit
+ * @since 2.1
  */
 public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
-        implements CoordinateSystemAxis
-{
+        implements CoordinateSystemAxis {
     /**
      * Serial number for interoperability with different versions.
      */
@@ -92,18 +88,19 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      * The list of predefined constants declared in this class,
      * in declaration order. This order matter.
      */
-    private static final DefaultCoordinateSystemAxis[] PREDEFINED = new DefaultCoordinateSystemAxis[26];
+    private static final DefaultCoordinateSystemAxis[] PREDEFINED = new 
+            DefaultCoordinateSystemAxis[26];
 
     /**
      * Default axis info for geodetic longitudes in a
      * {@linkplain org.opengis.referencing.crs.GeographicCRS geographic CRS}.
-     *
+     * <p>
      * Increasing ordinates values go {@linkplain AxisDirection#EAST East}
      * and units are {@linkplain NonSI#DEGREE_ANGLE decimal degrees}.
-     *
+     * <p>
      * The ISO 19111 name is "<cite>geodetic longitude</cite>" and the abbreviation is "&lambda;"
      * (lambda).
-     *
+     * <p>
      * This axis is usually part of a {@link #GEODETIC_LONGITUDE}, {@link #GEODETIC_LATITUDE},
      * {@link #ELLIPSOIDAL_HEIGHT} set.
      *
@@ -111,18 +108,19 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      * @see #SPHERICAL_LONGITUDE
      * @see #GEODETIC_LATITUDE
      */
-    public static final DefaultCoordinateSystemAxis GEODETIC_LONGITUDE = new DefaultCoordinateSystemAxis(
+    public static final DefaultCoordinateSystemAxis GEODETIC_LONGITUDE = new 
+            DefaultCoordinateSystemAxis(
             VocabularyKeys.GEODETIC_LONGITUDE, "\u03BB", AxisDirection.EAST, NonSI.DEGREE_ANGLE);
 
     /**
      * Default axis info for geodetic latitudes in a
      * {@linkplain org.opengis.referencing.crs.GeographicCRS geographic CRS}.
-     *
+     * <p>
      * Increasing ordinates values go {@linkplain AxisDirection#NORTH North}
      * and units are {@linkplain NonSI#DEGREE_ANGLE decimal degrees}.
-     *
+     * <p>
      * The ISO 19111 name is "<cite>geodetic latitude</cite>" and the abbreviation is "&phi;" (phi).
-     *
+     * <p>
      * This axis is usually part of a {@link #GEODETIC_LONGITUDE}, {@link #GEODETIC_LATITUDE},
      * {@link #ELLIPSOIDAL_HEIGHT} set.
      *
@@ -130,17 +128,18 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      * @see #SPHERICAL_LATITUDE
      * @see #GEODETIC_LONGITUDE
      */
-    public static final DefaultCoordinateSystemAxis GEODETIC_LATITUDE = new DefaultCoordinateSystemAxis(
+    public static final DefaultCoordinateSystemAxis GEODETIC_LATITUDE = new 
+            DefaultCoordinateSystemAxis(
             VocabularyKeys.GEODETIC_LATITUDE, "\u03C6", AxisDirection.NORTH, NonSI.DEGREE_ANGLE);
 
     /**
      * Default axis info for longitudes.
-     *
+     * <p>
      * Increasing ordinates values go {@linkplain AxisDirection#EAST East}
      * and units are {@linkplain NonSI#DEGREE_ANGLE decimal degrees}.
-     *
+     * <p>
      * The abbreviation is "&lambda;" (lambda).
-     *
+     * <p>
      * This axis is usually part of a {@link #LONGITUDE}, {@link #LATITUDE}, {@link #ALTITUDE} set.
      *
      * @see #GEODETIC_LONGITUDE
@@ -152,12 +151,12 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
 
     /**
      * Default axis info for latitudes.
-     *
+     * <p>
      * Increasing ordinates values go {@linkplain AxisDirection#NORTH North}
      * and units are {@linkplain NonSI#DEGREE_ANGLE decimal degrees}.
-     *
+     * <p>
      * The abbreviation is "&phi;" (phi).
-     *
+     * <p>
      * This axis is usually part of a {@link #LONGITUDE}, {@link #LATITUDE}, {@link #ALTITUDE} set.
      *
      * @see #GEODETIC_LATITUDE
@@ -170,13 +169,13 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
     /**
      * The default axis for height values above the ellipsoid in a
      * {@linkplain org.opengis.referencing.crs.GeographicCRS geographic CRS}.
-     *
+     * <p>
      * Increasing ordinates values go {@linkplain AxisDirection#UP up}
      * and units are {@linkplain SI#METER metres}.
-     *
+     * <p>
      * The ISO 19111 name is "<cite>ellipsoidal heigt</cite>" and the abbreviation is lower case
      * "<var>h</var>".
-     *
+     * <p>
      * This axis is usually part of a {@link #GEODETIC_LONGITUDE}, {@link #GEODETIC_LATITUDE},
      * {@link #ELLIPSOIDAL_HEIGHT} set.
      *
@@ -185,15 +184,16 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      * @see #GRAVITY_RELATED_HEIGHT
      * @see #DEPTH
      */
-    public static final DefaultCoordinateSystemAxis ELLIPSOIDAL_HEIGHT = new DefaultCoordinateSystemAxis(
+    public static final DefaultCoordinateSystemAxis ELLIPSOIDAL_HEIGHT = new 
+            DefaultCoordinateSystemAxis(
             VocabularyKeys.ELLIPSOIDAL_HEIGHT, "h", AxisDirection.UP, SI.METER);
 
     /**
      * The default axis for height values measured from gravity.
-     *
+     * <p>
      * Increasing ordinates values go {@linkplain AxisDirection#UP up}
      * and units are {@linkplain SI#METER metres}.
-     *
+     * <p>
      * The ISO 19111 name is "<cite>gravity-related height</cite>" and the abbreviation is lower
      * case "<var>H</var>".
      *
@@ -202,17 +202,18 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      * @see #GEOCENTRIC_RADIUS
      * @see #DEPTH
      */
-    public static final DefaultCoordinateSystemAxis GRAVITY_RELATED_HEIGHT = new DefaultCoordinateSystemAxis(
+    public static final DefaultCoordinateSystemAxis GRAVITY_RELATED_HEIGHT = new 
+            DefaultCoordinateSystemAxis(
             VocabularyKeys.GRAVITY_RELATED_HEIGHT, "H", AxisDirection.UP, SI.METER);
 
     /**
      * The default axis for altitude values.
-     *
+     * <p>
      * Increasing ordinates values go {@linkplain AxisDirection#UP up}
      * and units are {@linkplain SI#METER metres}.
-     *
+     * <p>
      * The abbreviation is lower case "<var>h</var>".
-     *
+     * <p>
      * This axis is usually part of a {@link #LONGITUDE}, {@link #LATITUDE}, {@link #ALTITUDE} set.
      *
      * @see #ELLIPSOIDAL_HEIGHT
@@ -225,10 +226,10 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
 
     /**
      * The default axis for depth.
-     *
+     * <p>
      * Increasing ordinates values go {@linkplain AxisDirection#DOWN down}
      * and units are {@linkplain SI#METER metres}.
-     *
+     * <p>
      * The ISO 19111 name is "<cite>depth</cite>".
      *
      * @see #ALTITUDE
@@ -238,6 +239,7 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      */
     public static final DefaultCoordinateSystemAxis DEPTH = new DefaultCoordinateSystemAxis(
             VocabularyKeys.DEPTH, "d", AxisDirection.DOWN, SI.METER);
+
     static {
         ALTITUDE.opposite = DEPTH;
         DEPTH.opposite = ALTITUDE;
@@ -247,13 +249,13 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      * Default axis info for radius in a
      * {@linkplain org.opengis.referencing.crs.GeocentricCRS geocentric CRS} using
      * {@linkplain org.opengis.referencing.cs.SphericalCS spherical CS}.
-     *
+     * <p>
      * Increasing ordinates values go {@linkplain AxisDirection#UP up}
      * and units are {@linkplain SI#METER metres}.
-     *
+     * <p>
      * The ISO 19111 name is "<cite>geocentric radius</cite>" and the abbreviation is lower case
      * "<var>r</var>".
-     *
+     * <p>
      * This axis is usually part of a {@link #SPHERICAL_LONGITUDE}, {@link #SPHERICAL_LATITUDE},
      * {@link #GEOCENTRIC_RADIUS} set.
      *
@@ -262,20 +264,21 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      * @see #GRAVITY_RELATED_HEIGHT
      * @see #DEPTH
      */
-    public static final DefaultCoordinateSystemAxis GEOCENTRIC_RADIUS = new DefaultCoordinateSystemAxis(
+    public static final DefaultCoordinateSystemAxis GEOCENTRIC_RADIUS = new 
+            DefaultCoordinateSystemAxis(
             VocabularyKeys.GEOCENTRIC_RADIUS, "r", AxisDirection.UP, SI.METER);
 
     /**
      * Default axis info for longitudes in a
      * {@linkplain org.opengis.referencing.crs.GeocentricCRS geocentric CRS} using
      * {@linkplain org.opengis.referencing.crs.SphericalCS spherical CS}.
-     *
+     * <p>
      * Increasing ordinates values go {@linkplain AxisDirection#EAST East}
      * and units are {@linkplain NonSI#DEGREE_ANGLE decimal degrees}.
-     *
+     * <p>
      * The ISO 19111 name is "<cite>spherical longitude</cite>" and the abbreviation is "&Omega;"
      * (omega).
-     *
+     * <p>
      * This axis is usually part of a {@link #SPHERICAL_LONGITUDE}, {@link #SPHERICAL_LATITUDE},
      * {@link #GEOCENTRIC_RADIUS} set.
      *
@@ -283,20 +286,21 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      * @see #GEODETIC_LONGITUDE
      * @see #SPHERICAL_LATITUDE
      */
-    public static final DefaultCoordinateSystemAxis SPHERICAL_LONGITUDE = new DefaultCoordinateSystemAxis(
+    public static final DefaultCoordinateSystemAxis SPHERICAL_LONGITUDE = new 
+            DefaultCoordinateSystemAxis(
             VocabularyKeys.SPHERICAL_LONGITUDE, "\u03A9", AxisDirection.EAST, NonSI.DEGREE_ANGLE);
 
     /**
      * Default axis info for latitudes in a
      * {@linkplain org.opengis.referencing.crs.GeocentricCRS geocentric CRS} using
      * {@linkplain org.opengis.referencing.cs.SphericalCS spherical CS}.
-     *
+     * <p>
      * Increasing ordinates values go {@linkplain AxisDirection#NORTH North}
      * and units are {@linkplain NonSI#DEGREE_ANGLE decimal degrees}.
-     *
+     * <p>
      * The ISO 19111 name is "<cite>spherical latitude</cite>" and the abbreviation is "&Theta;"
      * (theta).
-     *
+     * <p>
      * This axis is usually part of a {@link #SPHERICAL_LONGITUDE}, {@link #SPHERICAL_LATITUDE},
      * {@link #GEOCENTRIC_RADIUS} set.
      *
@@ -304,18 +308,19 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      * @see #GEODETIC_LATITUDE
      * @see #SPHERICAL_LONGITUDE
      */
-    public static final DefaultCoordinateSystemAxis SPHERICAL_LATITUDE = new DefaultCoordinateSystemAxis(
+    public static final DefaultCoordinateSystemAxis SPHERICAL_LATITUDE = new 
+            DefaultCoordinateSystemAxis(
             VocabularyKeys.SPHERICAL_LATITUDE, "\u03B8", AxisDirection.NORTH, NonSI.DEGREE_ANGLE);
 
     /**
      * Default axis info for <var>x</var> values in a
      * {@linkplain org.opengis.referencing.cs.CartesianCS cartesian CS}.
-     *
+     * <p>
      * Increasing ordinates values go {@linkplain AxisDirection#EAST East}
      * and units are {@linkplain SI#METER metres}.
-     *
+     * <p>
      * The abbreviation is lower case "<var>x</var>".
-     *
+     * <p>
      * This axis is usually part of a {@link #X}, {@link #Y}, {@link #Z} set.
      *
      * @see #EASTING
@@ -330,12 +335,12 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
     /**
      * Default axis info for <var>y</var> values in a
      * {@linkplain org.opengis.referencing.cs.CartesianCS cartesian CS}.
-     *
+     * <p>
      * Increasing ordinates values go {@linkplain AxisDirection#NORTH North}
      * and units are {@linkplain SI#METER metres}.
-     *
+     * <p>
      * The abbreviation is lower case "<var>y</var>".
-     *
+     * <p>
      * This axis is usually part of a {@link #X}, {@link #Y}, {@link #Z} set.
      *
      * @see #NORTHING
@@ -350,12 +355,12 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
     /**
      * Default axis info for <var>z</var> values in a
      * {@linkplain org.opengis.referencing.cs.CartesianCS cartesian CS}.
-     *
+     * <p>
      * Increasing ordinates values go {@linkplain AxisDirection#UP up}
      * and units are {@linkplain SI#METER metres}.
-     *
+     * <p>
      * The abbreviation is lower case "<var>z</var>".
-     *
+     * <p>
      * This axis is usually part of a {@link #X}, {@link #Y}, {@link #Z} set.
      */
     public static final DefaultCoordinateSystemAxis Z = new DefaultCoordinateSystemAxis(
@@ -365,13 +370,13 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      * Default axis info for <var>x</var> values in a
      * {@linkplain org.opengis.referencing.crs.GeocentricCRS geocentric CRS} using
      * {@linkplain org.opengis.referencing.cs.CartesianCS cartesian CS}.
-     *
+     * <p>
      * Increasing ordinates values go toward prime meridian
      * and units are {@linkplain SI#METER metres}.
-     *
+     * <p>
      * The ISO 19111 name is "<cite>geocentric X</cite>" and the abbreviation is upper case
      * "<var>X</var>".
-     *
+     * <p>
      * This axis is usually part of a {@link #GEOCENTRIC_X}, {@link #GEOCENTRIC_Y},
      * {@link #GEOCENTRIC_Z} set.
      */
@@ -382,13 +387,13 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      * Default axis info for <var>y</var> values in a
      * {@linkplain org.opengis.referencing.crs.GeocentricCRS geocentric CRS} using
      * {@linkplain org.opengis.referencing.cs.CartesianCS cartesian CS}.
-     *
+     * <p>
      * Increasing ordinates values go {@linkplain AxisDirection#EAST East}
      * and units are {@linkplain SI#METER metres}.
-     *
+     * <p>
      * The ISO 19111 name is "<cite>geocentric Y</cite>" and the abbreviation is upper case
      * "<var>Y</var>".
-     *
+     * <p>
      * This axis is usually part of a {@link #GEOCENTRIC_X}, {@link #GEOCENTRIC_Y},
      * {@link #GEOCENTRIC_Z} set.
      */
@@ -399,13 +404,13 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      * Default axis info for <var>z</var> values in a
      * {@linkplain org.opengis.referencing.crs.GeocentricCRS geocentric CRS} using
      * {@linkplain org.opengis.referencing.cs.CartesianCS cartesian CS}.
-     *
+     * <p>
      * Increasing ordinates values go {@linkplain AxisDirection#NORTH North}
      * and units are {@linkplain SI#METER metres}.
-     *
+     * <p>
      * The ISO 19111 name is "<cite>geocentric Z</cite>" and the abbreviation is upper case
      * "<var>Z</var>".
-     *
+     * <p>
      * This axis is usually part of a {@link #GEOCENTRIC_X}, {@link #GEOCENTRIC_Y},
      * {@link #GEOCENTRIC_Z} set.
      */
@@ -415,13 +420,13 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
     /**
      * Default axis info for Easting values in a
      * {@linkplain org.opengis.referencing.crs.ProjectedCRS projected CRS}.
-     *
+     * <p>
      * Increasing ordinates values go {@linkplain AxisDirection#EAST East}
      * and units are {@linkplain SI#METER metres}.
-     *
+     * <p>
      * The ISO 19111 name is "<cite>easting</cite>" and the abbreviation is upper case
      * "<var>E</var>".
-     *
+     * <p>
      * This axis is usually part of a {@link #EASTING}, {@link #NORTHING} set.
      *
      * @see #X
@@ -434,10 +439,10 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
     /**
      * Default axis info for Westing values in a
      * {@linkplain org.opengis.referencing.crs.ProjectedCRS projected CRS}.
-     *
+     * <p>
      * Increasing ordinates values go {@linkplain AxisDirection#WEST West}
      * and units are {@linkplain SI#METER metres}.
-     *
+     * <p>
      * The ISO 19111 name is "<cite>westing</cite>" and the abbreviation is upper case
      * "<var>W</var>".
      *
@@ -447,6 +452,7 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      */
     public static final DefaultCoordinateSystemAxis WESTING = new DefaultCoordinateSystemAxis(
             VocabularyKeys.WESTING, "W", AxisDirection.WEST, SI.METER);
+
     static {
         EASTING.opposite = WESTING;
         WESTING.opposite = EASTING;
@@ -455,13 +461,13 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
     /**
      * Default axis info for Northing values in a
      * {@linkplain org.opengis.referencing.crs.ProjectedCRS projected CRS}.
-     *
+     * <p>
      * Increasing ordinates values go {@linkplain AxisDirection#NORTH North}
      * and units are {@linkplain SI#METER metres}.
-     *
+     * <p>
      * The ISO 19111 name is "<cite>northing</cite>" and the abbreviation is upper case
      * "<var>N</var>".
-     *
+     * <p>
      * This axis is usually part of a {@link #EASTING}, {@link #NORTHING} set.
      *
      * @see #Y
@@ -474,10 +480,10 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
     /**
      * Default axis info for Southing values in a
      * {@linkplain org.opengis.referencing.crs.ProjectedCRS projected CRS}.
-     *
+     * <p>
      * Increasing ordinates values go {@linkplain AxisDirection#SOUTH South}
      * and units are {@linkplain SI#METER metres}.
-     *
+     * <p>
      * The ISO 19111 name is "<cite>southing</cite>" and the abbreviation is upper case
      * "<var>S</var>".
      *
@@ -487,6 +493,7 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      */
     public static final DefaultCoordinateSystemAxis SOUTHING = new DefaultCoordinateSystemAxis(
             VocabularyKeys.SOUTHING, "S", AxisDirection.SOUTH, SI.METER);
+
     static {
         NORTHING.opposite = SOUTHING;
         SOUTHING.opposite = NORTHING;
@@ -494,10 +501,10 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
 
     /**
      * A default axis for time values in a {@linkplain org.opengis.referencing.cs.TimeCS time CS}.
-     *
+     * <p>
      * Increasing time go toward {@linkplain AxisDirection#FUTURE future}
      * and units are {@linkplain NonSI#DAY days}.
-     *
+     * <p>
      * The abbreviation is lower case "<var>t</var>".
      */
     public static final DefaultCoordinateSystemAxis TIME = new DefaultCoordinateSystemAxis(
@@ -507,7 +514,7 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      * A default axis for column indices in a {@linkplain org.opengis.coverage.grid.GridCoverage
      * grid coverage}. Increasing values go toward {@linkplain AxisDirection#COLUMN_POSITIVE
      * positive column number}.
-     *
+     * <p>
      * The abbreviation is lower case "<var>i</var>".
      */
     public static final DefaultCoordinateSystemAxis COLUMN = new DefaultCoordinateSystemAxis(
@@ -517,7 +524,7 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      * A default axis for row indices in a {@linkplain org.opengis.coverage.grid.GridCoverage grid
      * coverage}. Increasing values go toward {@linkplain AxisDirection#ROW_POSITIVE positive row
      * number}.
-     *
+     * <p>
      * The abbreviation is lower case "<var>j</var>".
      */
     public static final DefaultCoordinateSystemAxis ROW = new DefaultCoordinateSystemAxis(
@@ -526,7 +533,7 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
     /**
      * A default axis for <var>x</var> values in a display device. Increasing values go toward
      * {@linkplain AxisDirection#DISPLAY_RIGHT display right}.
-     *
+     * <p>
      * The abbreviation is lower case "<var>x</var>".
      *
      * @since 2.2
@@ -537,7 +544,7 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
     /**
      * A default axis for <var>y</var> values in a display device. Increasing values go toward
      * {@linkplain AxisDirection#DISPLAY_DOWN display down}.
-     *
+     * <p>
      * The abbreviation is lower case "<var>y</var>".
      *
      * @since 2.2
@@ -556,15 +563,16 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      * name is for. The actual axis instance doesn't matter (the algorithm using this map should
      * work for any axis instance); it is just a way to differentiate latitude and longitude.
      */
-    private static final Map<String,CoordinateSystemAxis> ALIASES =
-            new HashMap<String,CoordinateSystemAxis>(12);
+    private static final Map<String, CoordinateSystemAxis> ALIASES =
+            new HashMap<String, CoordinateSystemAxis>(12);
+
     static {
-        ALIASES.put("lat",                GEODETIC_LATITUDE);
-        ALIASES.put("latitude",           GEODETIC_LATITUDE);
-        ALIASES.put("geodetic latitude",  GEODETIC_LATITUDE);
-        ALIASES.put("lon",                GEODETIC_LONGITUDE);
-        ALIASES.put("long",               GEODETIC_LONGITUDE);
-        ALIASES.put("longitude",          GEODETIC_LONGITUDE);
+        ALIASES.put("lat", GEODETIC_LATITUDE);
+        ALIASES.put("latitude", GEODETIC_LATITUDE);
+        ALIASES.put("geodetic latitude", GEODETIC_LATITUDE);
+        ALIASES.put("lon", GEODETIC_LONGITUDE);
+        ALIASES.put("long", GEODETIC_LONGITUDE);
+        ALIASES.put("longitude", GEODETIC_LONGITUDE);
         ALIASES.put("geodetic longitude", GEODETIC_LONGITUDE);
         /*
          * "x" and "y" are sometime used in WKT for meaning "Easting" and "Northing".
@@ -583,19 +591,24 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      * {@link #ALIASES} map, we avoid undesirable side effects like considering "Easting"
      * as equivalent to "Westing".
      *
-     * @param  xy   The name which may be "x" or "y".
-     * @param  name The second name to compare with.
+     * @param xy   The name which may be "x" or "y".
+     * @param name The second name to compare with.
      * @return {@code true} if the second name is equivalent to "x" or "y" (depending on
-     *         the {@code xy} value), or {@code false} otherwise.
+     * the {@code xy} value), or {@code false} otherwise.
      */
     private static boolean nameMatchesXY(String xy, final String name) {
         xy = xy.trim();
         if (xy.length() == 1) {
             final DefaultCoordinateSystemAxis axis;
             switch (Character.toLowerCase(xy.charAt(0))) {
-                case 'x': axis=EASTING;  break;
-                case 'y': axis=NORTHING; break;
-                default : return false;
+                case 'x':
+                    axis = EASTING;
+                    break;
+                case 'y':
+                    axis = NORTHING;
+                    break;
+                default:
+                    return false;
             }
             return axis.nameMatches(name) || axis.getOpposite().nameMatches(name);
         }
@@ -644,16 +657,15 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      * i.e. the properties are not cloned.
      *
      * @param axis The coordinate system axis to copy.
-     *
      * @since 2.2
      */
     public DefaultCoordinateSystemAxis(final CoordinateSystemAxis axis) {
         super(axis);
         abbreviation = axis.getAbbreviation();
-        direction    = axis.getDirection();
-        unit         = axis.getUnit();
-        minimum      = axis.getMinimumValue();
-        maximum      = axis.getMaximumValue();
+        direction = axis.getDirection();
+        unit = axis.getUnit();
+        minimum = axis.getMinimumValue();
+        maximum = axis.getMaximumValue();
         rangeMeaning = axis.getRangeMeaning();
     }
 
@@ -671,30 +683,29 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      * @param maximum      The maximum value normally allowed for this axis.
      * @param rangeMeaning The meaning of axis value range specified by the minimum and
      *                     maximum values.
-     *
      * @since 2.3
      */
-    public DefaultCoordinateSystemAxis(final Map<String,?> properties,
-                                       final String        abbreviation,
+    public DefaultCoordinateSystemAxis(final Map<String, ?> properties,
+                                       final String abbreviation,
                                        final AxisDirection direction,
-                                       final Unit<?>       unit,
-                                       final double        minimum,
-                                       final double        maximum,
-                                       final RangeMeaning  rangeMeaning)
-    {
+                                       final Unit<?> unit,
+                                       final double minimum,
+                                       final double maximum,
+                                       final RangeMeaning rangeMeaning) {
         super(properties);
         this.abbreviation = abbreviation;
-        this.direction    = direction;
-        this.unit         = unit;
-        this.minimum      = minimum;
-        this.maximum      = maximum;
+        this.direction = direction;
+        this.unit = unit;
+        this.minimum = minimum;
+        this.maximum = maximum;
         this.rangeMeaning = rangeMeaning;
         ensureNonNull("abbreviation", abbreviation);
-        ensureNonNull("direction",    direction);
-        ensureNonNull("unit",         unit);
+        ensureNonNull("direction", direction);
+        ensureNonNull("unit", unit);
         ensureNonNull("rangeMeaning", rangeMeaning);
         if (!(minimum < maximum)) { // Use '!' for catching NaN
-            throw new IllegalArgumentException(Errors.format(ErrorKeys.BAD_RANGE_$2, minimum, maximum));
+            throw new IllegalArgumentException(Errors.format(ErrorKeys.BAD_RANGE_$2, minimum, 
+                    maximum));
         }
     }
 
@@ -712,20 +723,19 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      * @param unit         The {@linkplain #getUnit unit of measure} used for this coordinate
      *                     system axis.
      */
-    public DefaultCoordinateSystemAxis(final Map<String,?> properties,
-                                       final String        abbreviation,
+    public DefaultCoordinateSystemAxis(final Map<String, ?> properties,
+                                       final String abbreviation,
                                        final AxisDirection direction,
-                                       final Unit<?>       unit)
-    {
+                                       final Unit<?> unit) {
         // NOTE: we would invoke this(properties, abbreviation, ...) instead if Sun fixed
         // RFE #4093999 ("Relax constraint on placement of this()/super() call in constructors").
         super(properties);
         this.abbreviation = abbreviation;
-        this.direction    = direction;
-        this.unit         = unit;
+        this.direction = direction;
+        this.unit = unit;
         ensureNonNull("abbreviation", abbreviation);
-        ensureNonNull("direction",    direction);
-        ensureNonNull("unit",         unit);
+        ensureNonNull("direction", direction);
+        ensureNonNull("unit", unit);
         if (unit.isCompatible(NonSI.DEGREE_ANGLE)) {
             final UnitConverter fromDegrees = NonSI.DEGREE_ANGLE.getConverterTo(unit);
             final AxisDirection dir = direction.absolute();
@@ -758,10 +768,9 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      * @param unit         The {@linkplain #getUnit unit of measure} used for this coordinate
      *                     system axis.
      */
-    public DefaultCoordinateSystemAxis(final String        abbreviation,
+    public DefaultCoordinateSystemAxis(final String abbreviation,
                                        final AxisDirection direction,
-                                       final Unit<?>       unit)
-    {
+                                       final Unit<?> unit) {
         this(Collections.singletonMap(NAME_KEY, abbreviation), abbreviation, direction, unit);
     }
 
@@ -781,10 +790,9 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      *                     system axis.
      */
     public DefaultCoordinateSystemAxis(final InternationalString name,
-                                       final String        abbreviation,
+                                       final String abbreviation,
                                        final AxisDirection direction,
-                                       final Unit<?>       unit)
-    {
+                                       final Unit<?> unit) {
         this(toMap(name), abbreviation, direction, unit);
     }
 
@@ -792,12 +800,12 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      * Work around for RFE #4093999 in Sun's bug database
      * ("Relax constraint on placement of this()/super() call in constructors").
      */
-    private static Map<String,Object> toMap(final InternationalString name) {
-        final Map<String,Object> properties = new HashMap<String,Object>(4);
+    private static Map<String, Object> toMap(final InternationalString name) {
+        final Map<String, Object> properties = new HashMap<String, Object>(4);
         if (name != null) {
             // The "null" locale argument is required for getting the unlocalized version.
-            properties.put(NAME_KEY,  name.toString(null));
-            properties.put(ALIAS_KEY, NameFactory.create(new InternationalString[] {name}));
+            properties.put(NAME_KEY, name.toString(null));
+            properties.put(ALIAS_KEY, NameFactory.create(new InternationalString[]{name}));
         }
         return properties;
     }
@@ -813,12 +821,11 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      * @param unit         The {@linkplain #getUnit unit of measure} used for this coordinate
      *                     system axis.
      */
-    private DefaultCoordinateSystemAxis(final int           name,
-                                        final String        abbreviation,
+    private DefaultCoordinateSystemAxis(final int name,
+                                        final String abbreviation,
                                         final AxisDirection direction,
-                                        final Unit<?>       unit)
-    {
-        this(name>=0 ? Vocabulary.formatInternational(name) :
+                                        final Unit<?> unit) {
+        this(name >= 0 ? Vocabulary.formatInternational(name) :
                 new SimpleInternationalString(abbreviation), abbreviation, direction, unit);
         PREDEFINED[PREDEFINED_COUNT++] = this;
     }
@@ -843,17 +850,16 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      * {@link #X} and {@link #DISPLAY_X} axis. If this argument is {@code null}, then the first
      * axis with a matching name or abbreviation will be returned.
      *
-     * @param  name The axis name or abbreviation.
-     * @param  direction An optional direction, or {@code null}.
+     * @param name      The axis name or abbreviation.
+     * @param direction An optional direction, or {@code null}.
      * @return One of the constants declared in this class, or {@code null}.
-     *
      * @since 2.4
      */
     public static DefaultCoordinateSystemAxis getPredefined(String name, AxisDirection direction) {
         ensureNonNull("name", name);
         name = name.trim();
         DefaultCoordinateSystemAxis found = null;
-        for (int i=0; i<PREDEFINED_COUNT; i++) {
+        for (int i = 0; i < PREDEFINED_COUNT; i++) {
             final DefaultCoordinateSystemAxis candidate = PREDEFINED[i];
             if (direction != null && !direction.equals(candidate.getDirection())) {
                 continue;
@@ -901,7 +907,7 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
     /**
      * Returns an axis direction constants from its name.
      *
-     * @param  direction The direction name (e.g. "north", "east", etc.).
+     * @param direction The direction name (e.g. "north", "east", etc.).
      * @return The axis direction for the given name.
      * @throws NoSuchElementException if the given name is not a know axis direction.
      */
@@ -914,7 +920,8 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
         }
 
         /*
-         * In latest version of the database north-east and north-west are now northeast and northwest respectively,
+         * In latest version of the database north-east and north-west are now northeast and 
+         * northwest respectively,
          * and none of these heuristics pick that up, so we add a few special cases here.
          */
         if ("northeast".equalsIgnoreCase(direction)) {
@@ -950,13 +957,13 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      * {@linkplain AxisDirection#NORTH north} or {@linkplain AxisDirection#SOUTH south},
      * {@linkplain AxisDirection#EAST  east}  or {@linkplain AxisDirection#WEST  west},
      * {@linkplain AxisDirection#UP    up}    or {@linkplain AxisDirection#DOWN  down}.
-     *
+     * <p>
      * <P>Within any set of coordinate system axes, only one of each pair of terms
      * can be used. For earth-fixed coordinate reference systems, this direction is often
      * approximate and intended to provide a human interpretable meaning to the axis. When a
      * geodetic datum is used, the precise directions of the axes may therefore vary slightly
      * from this approximate direction.</P>
-     *
+     * <p>
      * <P>Note that an {@link org.geotools.referencing.crs.DefaultEngineeringCRS} often requires
      * specific descriptions of the directions of its coordinate system axes.</P>
      */
@@ -1035,7 +1042,6 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      *
      * @param direction The axis direction to test.
      * @return {@code true} if the given direction is a compass direction.
-     *
      * @since 2.4
      */
     public static boolean isCompassDirection(final AxisDirection direction) {
@@ -1064,20 +1070,19 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      * a left-handed system. Example:
      * <p>
      * <ul>
-     *   <li>The angle from {@linkplain AxisDirection#EAST EAST} to
-     *       {@linkplain AxisDirection#NORTH NORTH} is 90°</li>
-     *   <li>The angle from {@linkplain AxisDirection#SOUTH SOUTH} to
-     *       {@linkplain AxisDirection#WEST WEST} is -90°</li>
-     *   <li>The angle from "<cite>North along 90 deg East</cite>" to
-     *       "<cite>North along 0 deg</cite>" is 90°.</li>
+     * <li>The angle from {@linkplain AxisDirection#EAST EAST} to
+     * {@linkplain AxisDirection#NORTH NORTH} is 90°</li>
+     * <li>The angle from {@linkplain AxisDirection#SOUTH SOUTH} to
+     * {@linkplain AxisDirection#WEST WEST} is -90°</li>
+     * <li>The angle from "<cite>North along 90 deg East</cite>" to
+     * "<cite>North along 0 deg</cite>" is 90°.</li>
      * </ul>
      *
-     * @param  source The source axis direction.
-     * @param  target The target axis direction.
+     * @param source The source axis direction.
+     * @param target The target axis direction.
      * @return The arithmetic angle (in degrees) of the rotation to apply on a line pointing toward
-     *         the source direction in order to make it point toward the target direction, or
-     *         {@link Double#NaN} if this value can't be computed.
-     *
+     * the source direction in order to make it point toward the target direction, or
+     * {@link Double#NaN} if this value can't be computed.
      * @since 2.4
      */
     public static double getAngle(final AxisDirection source, final AxisDirection target) {
@@ -1105,14 +1110,14 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      */
     static int getCompassAngle(final AxisDirection source, final AxisDirection target) {
         final int base = AxisDirection.NORTH.ordinal();
-        final int src  = source.ordinal() - base;
+        final int src = source.ordinal() - base;
         if (src >= 0 && src < COMPASS_DIRECTION_COUNT) {
             int tgt = target.ordinal() - base;
             if (tgt >= 0 && tgt < COMPASS_DIRECTION_COUNT) {
                 tgt = src - tgt;
-                if (tgt < -COMPASS_DIRECTION_COUNT/2) {
+                if (tgt < -COMPASS_DIRECTION_COUNT / 2) {
                     tgt += COMPASS_DIRECTION_COUNT;
-                } else if (tgt > COMPASS_DIRECTION_COUNT/2) {
+                } else if (tgt > COMPASS_DIRECTION_COUNT / 2) {
                     tgt -= COMPASS_DIRECTION_COUNT;
                 }
                 return tgt;
@@ -1124,10 +1129,9 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
     /**
      * Returns {@code true} if the specified directions are perpendicular.
      *
-     * @param first The first axis direction to test.
+     * @param first  The first axis direction to test.
      * @param second The second axis direction to test.
      * @return {@code true} if the given axis direction are perpendicular.
-     *
      * @since 2.4
      */
     public static boolean perpendicular(final AxisDirection first, final AxisDirection second) {
@@ -1142,14 +1146,13 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      * @throws IllegalArgumentException If the specified unit is incompatible with the expected one.
      */
     final DefaultCoordinateSystemAxis usingUnit(final Unit<?> newUnit)
-            throws IllegalArgumentException
-    {
+            throws IllegalArgumentException {
         if (unit.equals(newUnit)) {
             return this;
         }
         if (unit.isCompatible(newUnit)) {
             return new DefaultCoordinateSystemAxis(getProperties(this, null),
-                       abbreviation, direction, newUnit, minimum, maximum, rangeMeaning);
+                    abbreviation, direction, newUnit, minimum, maximum, rangeMeaning);
         }
         throw new IllegalArgumentException(Errors.format(ErrorKeys.INCOMPATIBLE_UNIT_$1, newUnit));
     }
@@ -1161,10 +1164,10 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      * super-class}, with the addition of special processing for latitudes and longitudes:
      * <p>
      * <ul>
-     *   <li>{@code "Lat"}, {@code "Latitude"} and {@code "Geodetic latitude"} are considered
-     *       equivalent.</li>
-     *   <li>{@code "Lon"}, {@code "Longitude"} and {@code "Geodetic longitude"} are considered
-     *       equivalent.</li>
+     * <li>{@code "Lat"}, {@code "Latitude"} and {@code "Geodetic latitude"} are considered
+     * equivalent.</li>
+     * <li>{@code "Lon"}, {@code "Longitude"} and {@code "Geodetic longitude"} are considered
+     * equivalent.</li>
      * </ul>
      * <p>
      * The above special cases are needed in order to workaround a conflict in specifications:
@@ -1172,9 +1175,9 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      * "Geodetic latitude" and "Geodetic longitude", will legacy OGC 01-009 (where WKT is defined)
      * said that the default values shall be "Lat" and "Lon".
      *
-     * @param  name The name to compare.
+     * @param name The name to compare.
      * @return {@code true} if the primary name of at least one alias
-     *         matches the specified {@code name}.
+     * matches the specified {@code name}.
      */
     @Override
     public boolean nameMatches(final String name) {
@@ -1197,9 +1200,10 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
     /**
      * Compares the specified object with this axis for equality.
      *
-     * @param  object The object to compare to {@code this}.
-     * @param  compareMetadata {@code true} for performing a strict comparaison, or
-     *         {@code false} for comparing only properties relevant to transformations.
+     * @param object          The object to compare to {@code this}.
+     * @param compareMetadata {@code true} for performing a strict comparaison, or
+     *                        {@code false} for comparing only properties relevant to 
+     *                                    transformations.
      * @return {@code true} if both objects are equal.
      */
     @Override
@@ -1220,14 +1224,12 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      * toward units conversions through {@link AbstractCS#swapAndScaleAxis}.
      */
     final boolean equals(final DefaultCoordinateSystemAxis that,
-                         final boolean compareMetadata, final boolean compareUnit)
-    {
+                         final boolean compareMetadata, final boolean compareUnit) {
         if (compareMetadata) {
             if (!Utilities.equals(this.abbreviation, that.abbreviation) ||
-                !Utilities.equals(this.rangeMeaning, that.rangeMeaning) ||
-                Double.doubleToLongBits(minimum) != Double.doubleToLongBits(that.minimum) ||
-                Double.doubleToLongBits(maximum) != Double.doubleToLongBits(that.maximum))
-            {
+                    !Utilities.equals(this.rangeMeaning, that.rangeMeaning) ||
+                    Double.doubleToLongBits(minimum) != Double.doubleToLongBits(that.minimum) ||
+                    Double.doubleToLongBits(maximum) != Double.doubleToLongBits(that.maximum)) {
                 return false;
             }
         } else {
@@ -1268,7 +1270,7 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
             }
         }
         return Utilities.equals(this.direction, that.direction) &&
-               (!compareUnit || Utilities.equals(this.unit, that.unit));
+                (!compareUnit || Utilities.equals(this.unit, that.unit));
     }
 
     /**
@@ -1277,20 +1279,21 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
      */
     @Override
     public int hashCode() {
-        int code = (int)serialVersionUID;
-        code = code*37 + abbreviation.hashCode();
-        code = code*37 + direction   .hashCode();
-        code = code*37 + unit        .hashCode();
+        int code = (int) serialVersionUID;
+        code = code * 37 + abbreviation.hashCode();
+        code = code * 37 + direction.hashCode();
+        code = code * 37 + unit.hashCode();
         return code;
     }
 
     /**
      * Format the inner part of a
-     * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
+     * <A HREF="http://geoapi.sourceforge
+     * .net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
      * Known Text</cite> (WKT)</A> element. WKT is returned by the {@link #toString toString} method
      * and looks like <code>AXIS["name",NORTH]</code>.
      *
-     * @param  formatter The formatter to use.
+     * @param formatter The formatter to use.
      * @return The WKT element name, which is "AXIS".
      */
     @Override

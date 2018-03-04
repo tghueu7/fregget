@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -35,8 +35,10 @@ import org.opengis.filter.Filter;
  */
 public class DiffTransactionState implements Transaction.State {
     protected Diff diff;
-    
-    /** The transaction (ie session) associated with this state */
+
+    /**
+     * The transaction (ie session) associated with this state
+     */
     protected Transaction transaction;
 
     /**
@@ -47,26 +49,27 @@ public class DiffTransactionState implements Transaction.State {
 
     /**
      * Transaction state responsible for holding an in memory {@link Diff}.
-     * 
+     *
      * @param state ContentState for the transaction
      */
     public DiffTransactionState(ContentState state) {
         this.state = state;
         this.diff = new Diff();
     }
-    
+
     /**
      * Transaction state responsible for holding an in memory {@link Diff}.
-     * 
+     *
      * @param state ContentState for the transaction
      */
-    protected DiffTransactionState(ContentState state, Diff diff ) {
+    protected DiffTransactionState(ContentState state, Diff diff) {
         this.state = state;
         this.diff = diff;
     }
-    
+
     /**
      * Access the in memory Diff.
+     *
      * @return in memory diff.
      */
     public Diff getDiff() {
@@ -74,7 +77,7 @@ public class DiffTransactionState implements Transaction.State {
     }
 
     @Override
-    
+
     /**
      * We are already holding onto our transaction from
      * ContentState; however this method does check that
@@ -89,34 +92,34 @@ public class DiffTransactionState implements Transaction.State {
     }
 
     @Override
-    
+
     /**
      * Will apply differences to store.
-     * 
+     *
      * <p>
      * The provided diff will be modified as the differences are applied,
      * If the operations are all successful diff will be empty at
      * the end of this process.
      * </p>
-     * 
+     *
      * <p>
      * diff can be used to represent the following operations:
      * </p>
-     * 
+     *
      * <ul>
      * <li>
      * fid|null: represents a fid being removed</li>
-     * 
+     *
      * <li>
      * fid|feature: where fid exists, represents feature modification</li>
      * <li>
      * fid|feature: where fid does not exist, represents feature being modified</li>
      * </ul>
-     * 
-     * 
+     *
+     *
      * @param typeName typeName being updated
      * @param diff differences to apply to FeatureWriter
-     * 
+     *
      * @throws IOException If the entire diff cannot be writen out
      * @t
      * @see org.geotools.data.Transaction.State#commit()
@@ -234,26 +237,25 @@ public class DiffTransactionState implements Transaction.State {
     }
 
     @Override
-    
+
     /**
      * @see org.geotools.data.Transaction.State#addAuthorization(java.lang.String)
      */
     public synchronized void addAuthorization(String AuthID) throws IOException {
         // not required for TransactionStateDiff
     }
-    
+
     /**
      * Provides a wrapper on the provided reader which gives a diff writer.
      *
-     * @param contentFeatureStore ContentFeatureStore 
-     * @param reader FeatureReader requiring diff support
-     *
+     * @param contentFeatureStore ContentFeatureStore
+     * @param reader              FeatureReader requiring diff support
      * @return FeatureWriter with diff support
      */
     public FeatureWriter<SimpleFeatureType, SimpleFeature> diffWriter(
             ContentFeatureStore contentFeatureStore,
             FeatureReader<SimpleFeatureType, SimpleFeature> reader) {
-        
-        return new DiffContentFeatureWriter( contentFeatureStore, diff, reader);
+
+        return new DiffContentFeatureWriter(contentFeatureStore, diff, reader);
     }
 }

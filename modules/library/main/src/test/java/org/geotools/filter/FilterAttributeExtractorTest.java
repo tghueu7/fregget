@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -50,8 +50,6 @@ import com.vividsolutions.jts.geom.PrecisionModel;
  * the filters themselves.  There is a seperate unit test for expressions.
  *
  * @author Andrea Aime, SATA
- *
- *
  * @source $URL$
  */
 public class FilterAttributeExtractorTest extends TestCase {
@@ -59,7 +57,9 @@ public class FilterAttributeExtractorTest extends TestCase {
     FilterAttributeExtractor fae;
     org.opengis.filter.FilterFactory2 fac;
 
-    /** Test suite for this test case */
+    /**
+     * Test suite for this test case
+     */
     TestSuite suite = null;
 
     /**
@@ -107,41 +107,43 @@ public class FilterAttributeExtractorTest extends TestCase {
 
         fac = CommonFactoryFinder.getFilterFactory2(null);
     }
-    
+
     public void testPropertyNameSet() throws IllegalFilterException {
         Filter filter = fac.equals(fac.property("testString"), fac.literal("test string data"));
         Expression expression1 = fac.property("code");
         Expression expression2 = fac.function("length", fac.property("identification"));
-        
+
         FilterAttributeExtractor extract = new FilterAttributeExtractor(null);
-        
+
         Set<String> names = new HashSet<String>();
         // used to collect names from expression1, expression2, and filter
-        
+
         expression1.accept(extract, names);
         expression2.accept(extract, names);
         filter.accept(extract, names);
-        
+
         String array[] = extract.getAttributeNames();
         Set<String> attributes = extract.getAttributeNameSet();
         Set<PropertyName> properties = extract.getPropertyNameSet();
-        
-        assertEquals( 3 , array.length );
-        assertEquals( 3, attributes.size() );
-        assertEquals( 3, properties.size() );
+
+        assertEquals(3, array.length);
+        assertEquals(3, attributes.size());
+        assertEquals(3, properties.size());
     }
+
     /**
      * Sets up a schema and a test feature.
      *
      * @throws IllegalFilterException If the constructed filter is not valid.
      */
     public void testCompare() throws IllegalFilterException {
-        PropertyIsEqualTo filter = fac.equals(fac.property("testString"), fac.literal("test string data"));
+        PropertyIsEqualTo filter = fac.equals(fac.property("testString"), fac.literal("test " +
+                "string data"));
         assertAttributeName(filter, "testString");
     }
 
     private void assertAttributeName(org.opengis.filter.Filter filter, String name) {
-        assertAttributeName(filter, new String[] { name });
+        assertAttributeName(filter, new String[]{name});
     }
 
     private void assertAttributeName(org.opengis.filter.Filter filter, String[] names) {
@@ -156,16 +158,16 @@ public class FilterAttributeExtractorTest extends TestCase {
         for (int i = 0; i < names.length; i++) {
             assertTrue(attNames.contains(names[i]));
         }
-        
+
         // make sure the property name set is aligned
         Set<PropertyName> propNames = fae.getPropertyNameSet();
         assertNotNull(propNames);
         assertEquals(attNames.size(), propNames.size());
-        
+
         for (PropertyName pn : propNames) {
             assertTrue(attNames.contains(pn.getPropertyName()));
         }
-        
+
     }
 
     /**
@@ -185,7 +187,7 @@ public class FilterAttributeExtractorTest extends TestCase {
      */
     public void testNull() throws IllegalFilterException {
         PropertyIsNull filter = fac.isNull(fac.property("foo"));
-        assertAttributeName( filter, new String[]{"foo"} );        
+        assertAttributeName(filter, new String[]{"foo"});
     }
 
     /**
@@ -205,8 +207,8 @@ public class FilterAttributeExtractorTest extends TestCase {
         assertAttributeName(fac.between(pint, lower, upper), "testInteger");
         assertAttributeName(fac.between(pint, pint, pint), "testInteger");
 
-        assertAttributeName(fac.between(pint, plong, pfloat), 
-                new String[] { "testInteger", "testLong", "testFloat" });
+        assertAttributeName(fac.between(pint, plong, pfloat),
+                new String[]{"testInteger", "testLong", "testFloat"});
     }
 
     /**
@@ -224,7 +226,7 @@ public class FilterAttributeExtractorTest extends TestCase {
         PropertyName att = fac.property("testGeometry");
         GeometryFactory gf = new GeometryFactory(new PrecisionModel());
         Literal geom = fac.literal(gf.createLineString(coords));
-        
+
         Equals filter = fac.equal(att, geom);
         assertAttributeName(filter, "testGeometry");
 
@@ -245,7 +247,7 @@ public class FilterAttributeExtractorTest extends TestCase {
 
         GeometryFactory gf = new GeometryFactory(new PrecisionModel());
         Literal right = fac.literal(gf.createPolygon(
-                    gf.createLinearRing(coords2), null));
+                gf.createLinearRing(coords2), null));
         DWithin filter = fac.dwithin(fac.property("testGeometry"), right, 10, "m");
 
         assertAttributeName(filter, "testGeometry");
@@ -262,22 +264,23 @@ public class FilterAttributeExtractorTest extends TestCase {
      * @throws IllegalFilterException If the constructed filter is not valid.
      */
     public void testLogic() throws IllegalFilterException {
-        
+
         PropertyName testAttribute = fac.property("testString");
 
         // Set up true sub filter
         PropertyIsEqualTo filterTrue = fac.equals(testAttribute, fac.literal("test string data"));
 
         // Set up false sub filter
-        PropertyIsEqualTo filterFalse = fac.equals(testAttribute, fac.literal("incorrect test string data"));
+        PropertyIsEqualTo filterFalse = fac.equals(testAttribute, fac.literal("incorrect test " +
+                "string data"));
 
         // Test OR for false negatives
-        Or filter = fac.or(Arrays.asList((org.opengis.filter.Filter) filterFalse, 
+        Or filter = fac.or(Arrays.asList((org.opengis.filter.Filter) filterFalse,
                 (org.opengis.filter.Filter) filterTrue));
 
         assertAttributeName(filter, "testString");
     }
-    
+
     public void testDynamicProperty() throws Exception {
         Function func = fac.function("property", fac.function("env", fac.literal("pname")));
         PropertyIsEqualTo filter = fac.equals(func, fac.literal("test"));

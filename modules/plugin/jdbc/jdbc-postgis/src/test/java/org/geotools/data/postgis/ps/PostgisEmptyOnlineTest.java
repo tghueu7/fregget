@@ -21,8 +21,6 @@ import org.geotools.jdbc.JDBCEmptyOnlineTest;
 import org.geotools.jdbc.JDBCEmptyTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class PostgisEmptyOnlineTest extends JDBCEmptyOnlineTest {

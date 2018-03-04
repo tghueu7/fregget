@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -26,13 +26,10 @@ import org.opengis.metadata.identification.ServiceIdentification;
  * Identification of capabilities which a service provider makes available to a service user
  * through a set of interfaces that define a behaviour.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class ServiceIdentificationImpl extends IdentificationImpl implements ServiceIdentification {

@@ -39,9 +39,9 @@ import org.picocontainer.MutablePicoContainer;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:TextSymbolizer.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="TextSymbolizer" substitutionGroup="sld:Symbolizer"&gt;
  *      &lt;xsd:annotation&gt;
@@ -59,9 +59,10 @@ import org.picocontainer.MutablePicoContainer;
  *                      &lt;xsd:element ref="sld:LabelPlacement" minOccurs="0"/&gt;
  *                      &lt;xsd:element ref="sld:Halo" minOccurs="0"/&gt;
  *                      &lt;xsd:element ref="sld:Fill" minOccurs="0"/&gt;
- *                      
+ *
  *                      &lt;!-- geotools specific vendor option --&gt;
- *                      &lt;xsd:element ref="sld:VendorOption" minOccurs="0" maxOccurs="unbounded"/&gt;
+ *                      &lt;xsd:element ref="sld:VendorOption" minOccurs="0" 
+ *                      maxOccurs="unbounded"/&gt;
  *                  &lt;/xsd:sequence&gt;
  *              &lt;/xsd:extension&gt;
  *          &lt;/xsd:complexContent&gt;
@@ -73,9 +74,6 @@ import org.picocontainer.MutablePicoContainer;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDTextSymbolizerBinding extends AbstractComplexBinding {
@@ -128,13 +126,13 @@ public class SLDTextSymbolizerBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         TextSymbolizer ts = styleFactory.createTextSymbolizer();
 
         //&lt;xsd:element ref="sld:Geometry" minOccurs="0"/&gt;
-        if(node.hasChild("Geometry")) {
+        if (node.hasChild("Geometry")) {
             Expression geometry = (Expression) node.getChildValue("Geometry");
-            if(geometry instanceof PropertyName) {
+            if (geometry instanceof PropertyName) {
                 PropertyName propertyName = (PropertyName) geometry;
                 ts.setGeometryPropertyName(propertyName.getPropertyName());
             } else {
@@ -149,7 +147,7 @@ public class SLDTextSymbolizerBinding extends AbstractComplexBinding {
 
         //&lt;xsd:element ref="sld:Font" minOccurs="0"/&gt;
         if (node.hasChild("Font")) {
-            ts.fonts().add( (Font) node.getChildValue("Font"));
+            ts.fonts().add((Font) node.getChildValue("Font"));
         }
 
         //&lt;xsd:element ref="sld:LabelPlacement" minOccurs="0"/&gt;
@@ -166,7 +164,7 @@ public class SLDTextSymbolizerBinding extends AbstractComplexBinding {
         if (node.hasChild("Fill")) {
             ts.setFill((Fill) node.getChildValue("Fill"));
         }
-        
+
         if (node.hasChild("Graphic") && ts instanceof TextSymbolizer2) {
             ((TextSymbolizer2) ts).setGraphic((Graphic) node.getChildValue("Graphic"));
         }
@@ -177,7 +175,8 @@ public class SLDTextSymbolizerBinding extends AbstractComplexBinding {
 
         //&lt;xsd:element ref="sld:VendorOption" minOccurs="0" maxOccurs="unbounded"/&gt;
         for (CssParameter param : (List<CssParameter>) node.getChildValues(CssParameter.class)) {
-            ts.getOptions().put(param.getName(), param.getExpression().evaluate(null, String.class));
+            ts.getOptions().put(param.getName(), param.getExpression().evaluate(null, String
+                    .class));
         }
         return ts;
     }

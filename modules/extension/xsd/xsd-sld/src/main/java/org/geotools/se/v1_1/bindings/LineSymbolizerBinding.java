@@ -28,25 +28,24 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/se:LineSymbolizer.
- *
  * <p>
- *	<pre>
- *	 <code>
- *  &lt;xsd:element name="LineSymbolizer" substitutionGroup="se:Symbolizer" type="se:LineSymbolizerType"&gt;
+ * <p>
+ * <pre>
+ * 	 <code>
+ *  &lt;xsd:element name="LineSymbolizer" substitutionGroup="se:Symbolizer" 
+ *  type="se:LineSymbolizerType"&gt;
  *      &lt;xsd:annotation&gt;
  *          &lt;xsd:documentation&gt;
  *          A LineSymbolizer is used to render a "stroke" along a linear geometry.
  *        &lt;/xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
- *  &lt;/xsd:element&gt; 
- *		
- *	  </code>
- *	 </pre>
+ *  &lt;/xsd:element&gt;
+ *
+ * 	  </code>
+ * 	 </pre>
  * </p>
  *
  * @generated
- *
- *
  * @source $URL$
  */
 public class LineSymbolizerBinding extends SLDLineSymbolizerBinding {
@@ -66,20 +65,20 @@ public class LineSymbolizerBinding extends SLDLineSymbolizerBinding {
     public int getExecutionMode() {
         return BEFORE;
     }
-    
+
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
         LineSymbolizer sym = (LineSymbolizer) super.parse(instance, node, value);
-        
+
         //&lt;xsd:element minOccurs="0" ref="se:PerpendicularOffset"/&gt;
         if (node.hasChild("PerpendicularOffset")) {
             sym.setPerpendicularOffset((Expression) node.getChildValue("PerpendicularOffset"));
         }
-        
+
         return sym;
     }
 

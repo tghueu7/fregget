@@ -28,7 +28,7 @@ import org.geotools.tile.impl.ZoomLevel;
  * href="https://msdn.microsoft.com/en-us/library/bb259689.aspx>Bing Maps Tile
  * System</a>.
  * </p>
- * 
+ *
  * @author Ugo Taddei
  * @since 12
  */

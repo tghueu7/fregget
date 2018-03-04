@@ -67,7 +67,7 @@ public class RenderingTransformationTest {
     @Before
     public void setup() {
         // System.setProperty("org.geotools.test.interactive", "true");
-        System.setProperty( GeoTools.FORCE_LONGITUDE_FIRST_AXIS_ORDER, "false" );
+        System.setProperty(GeoTools.FORCE_LONGITUDE_FIRST_AXIS_ORDER, "false");
         CRS.reset("all");
     }
 
@@ -96,9 +96,12 @@ public class RenderingTransformationTest {
                 TIME, re);
         // if everything worked we are going to have a red dot in the middle of the map
         assertEquals(Color.RED, getPixelColor(image, image.getWidth() / 2, image.getHeight() / 2));
-        assertEquals(Color.WHITE, getPixelColor(image, image.getWidth() / 4, image.getHeight() / 2));
-        assertEquals(Color.WHITE, getPixelColor(image, image.getWidth() / 2, image.getHeight() / 4));
-        assertEquals(Color.WHITE, getPixelColor(image, image.getWidth() / 4, image.getHeight() / 4));
+        assertEquals(Color.WHITE, getPixelColor(image, image.getWidth() / 4, image.getHeight() / 
+                2));
+        assertEquals(Color.WHITE, getPixelColor(image, image.getWidth() / 2, image.getHeight() / 
+                4));
+        assertEquals(Color.WHITE, getPixelColor(image, image.getWidth() / 4, image.getHeight() / 
+                4));
     }
 
     @Test
@@ -115,14 +118,16 @@ public class RenderingTransformationTest {
         CoordinateReferenceSystem crs = factory.createCoordinateReferenceSystem("EPSG:4326");
 
         ReferencedEnvelope reWgs84 = new ReferencedEnvelope(
-            9.848993475036622,
-            11.958867853088378,
-            40.74254816253662,
-            41.64941961090088,
-            crs);
+                9.848993475036622,
+                11.958867853088378,
+                40.74254816253662,
+                41.64941961090088,
+                crs);
 
-        BufferedImage image = RendererBaseTest.showRender("Transform BBOX", renderer,  4000, reWgs84);
-        //last pixel is white when doing a transformation and the rendering transform BBOX transforms are
+        BufferedImage image = RendererBaseTest.showRender("Transform BBOX", renderer, 4000, 
+                reWgs84);
+        //last pixel is white when doing a transformation and the rendering transform BBOX 
+        // transforms are
         //incorrect, it shouldn't be
         assertNotEquals(Color.WHITE, getPixelColor(image, 299, 0));
         assertEquals(new Color(133, 130, 188), getPixelColor(image, 299, 0));
@@ -148,22 +153,25 @@ public class RenderingTransformationTest {
                 TIME, re);
         // if everything worked we are going to have a red dot in the middle of the map
         assertEquals(Color.RED, getPixelColor(image, image.getWidth() / 2, image.getHeight() / 2));
-        assertEquals(Color.WHITE, getPixelColor(image, image.getWidth() / 4, image.getHeight() / 2));
-        assertEquals(Color.WHITE, getPixelColor(image, image.getWidth() / 2, image.getHeight() / 4));
-        assertEquals(Color.WHITE, getPixelColor(image, image.getWidth() / 4, image.getHeight() / 4));
+        assertEquals(Color.WHITE, getPixelColor(image, image.getWidth() / 4, image.getHeight() / 
+                2));
+        assertEquals(Color.WHITE, getPixelColor(image, image.getWidth() / 2, image.getHeight() / 
+                4));
+        assertEquals(Color.WHITE, getPixelColor(image, image.getWidth() / 4, image.getHeight() / 
+                4));
     }
-    
+
     @Test
     public void testTransformNullCoverage() throws Exception {
         Style style = RendererBaseTest.loadStyle(this, "coverageCenter.sld");
 
         GridCoverage2DReader reader = new AbstractGridCoverage2DReader() {
-            
+
             @Override
             public Format getFormat() {
                 return null;
             }
-            
+
             @Override
             public GridCoverage2D read(GeneralParameterValue[] parameters)
                     throws IllegalArgumentException, IOException {
@@ -182,7 +190,8 @@ public class RenderingTransformationTest {
         ReferencedEnvelope re = new ReferencedEnvelope(-70, 70, -160, 160,
                 CRS.decode("EPSG:4326"));
 
-        BufferedImage image = RendererBaseTest.showRender("Transformation with null input", renderer,
+        BufferedImage image = RendererBaseTest.showRender("Transformation with null input", 
+                renderer,
                 TIME, re);
         // full white, no NPE
         double[] minimums = new ImageWorker(image).getMinimums();
@@ -254,7 +263,7 @@ public class RenderingTransformationTest {
 
         // prepare a feature layer with a query and the rendering tx
         FeatureLayer layer = new FeatureLayer(fs, style);
-        
+
         // prepare a bbox in UTM-32N
         ReferencedEnvelope reWgs84 = new ReferencedEnvelope(0, 12, 0, 12, CRS.decode("EPSG:4326"));
         ReferencedEnvelope reUTM32N = reWgs84.transform(CRS.decode("EPSG:3857"), true);
@@ -286,7 +295,7 @@ public class RenderingTransformationTest {
 
     /**
      * Gets a specific pixel color from the specified buffered image
-     * 
+     *
      * @param image
      * @param i
      * @param j

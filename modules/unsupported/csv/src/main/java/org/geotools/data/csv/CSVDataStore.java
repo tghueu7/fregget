@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- *    
+ *
  * 	  (c) 2014 - 2015 Open Source Geospatial Foundation - all rights reserved
  * 	  (c) 2012 - 2014 OpenPlans
  *
@@ -90,10 +90,12 @@ public class CSVDataStore extends ContentDataStore implements FileDataStore {
     public FeatureReader<SimpleFeatureType, SimpleFeature> getFeatureReader() throws IOException {
         return new CSVFeatureSource(this).getReader();
     }
-    
+
     @Override
     public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriter(Filter filter,
-            Transaction transaction) throws IOException {
+                                                                            Transaction 
+                                                                                    transaction) 
+            throws IOException {
         return super.getFeatureWriter(this.csvFileState.getTypeName(), filter, transaction);
     }
 
@@ -112,7 +114,7 @@ public class CSVDataStore extends ContentDataStore implements FileDataStore {
     public CSVStrategy getCSVStrategy() {
         return csvStrategy;
     }
-    
+
     @Override
     public void createSchema(SimpleFeatureType featureType) throws IOException {
         this.csvStrategy.createSchema(featureType);

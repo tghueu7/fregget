@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -23,15 +23,14 @@ import org.opengis.filter.expression.Expression;
 /**
  * An AnchorPoint identifies the location inside a label or graphic to use as an
  * "anchor" for positioning it relative to a point geometry.
- * 
+ *
  * @author Ian Turton
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
-public interface AnchorPoint extends org.opengis.style.AnchorPoint{
+public interface AnchorPoint extends org.opengis.style.AnchorPoint {
     //TODO: add AnchorPoint to GeoAPI
+
     /**
      * get the x coordinate of the anchor point
      *
@@ -43,7 +42,7 @@ public interface AnchorPoint extends org.opengis.style.AnchorPoint{
         private void cannotModifyConstant() {
             throw new UnsupportedOperationException("Constant Stroke may not be modified");
         }
-        
+
         public void setAnchorPointX(Expression x) {
             cannotModifyConstant();
         }
@@ -55,7 +54,7 @@ public interface AnchorPoint extends org.opengis.style.AnchorPoint{
         public void accept(org.geotools.styling.StyleVisitor visitor) {
             cannotModifyConstant();
         }
-        
+
         public Object accept(org.opengis.style.StyleVisitor visitor, Object data) {
             cannotModifyConstant();
             return null;
@@ -69,7 +68,7 @@ public interface AnchorPoint extends org.opengis.style.AnchorPoint{
             return ConstantExpression.constant(0.5);
         }
     };
-    
+
     /**
      * Set the X coordinate for the anchor point
      *

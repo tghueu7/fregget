@@ -37,83 +37,83 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import static org.junit.Assert.*;
 
 /**
  * Unit tests for JMapPane methods which require graphics.
- * 
- * @author Michael Bedward
- * @since 8.0
  *
- * @source $URL$
+ * @author Michael Bedward
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 @RunWith(GraphicsTestRunner.class)
 public class JMapPaneGraphicsTest extends JMapPaneGraphicsTestBase {
-    
-    @BeforeClass 
+
+    @BeforeClass
     public static void setUpOnce() {
         FailOnThreadViolationRepaintManager.install();
     }
-    
+
     @Before
     public void setup() {
         listener = new WaitingMapPaneListener();
-        
-        TestFrame frame = GuiActionRunner.execute(new GuiQuery<TestFrame>(){
+
+        TestFrame frame = GuiActionRunner.execute(new GuiQuery<TestFrame>() {
             @Override
             protected TestFrame executeInEDT() throws Throwable {
                 return new TestFrame(listener);
             }
         });
-        
+
         window = new FrameFixture(frame);
     }
-    
+
     @After
     public void cleanup() {
         window.cleanUp();
         listener = null;
         mapPane = null;
     }
-    
+
     @Test
     public void resizingPaneFiresEvent() {
         window.show(new Dimension(WIDTH, HEIGHT));
         MapContent mapContent = createMapContent(createMatchedBounds(mapPane.getVisibleRect()));
         mapPane.setMapContent(mapContent);
-        
+
         listener.setExpected(MapPaneEvent.Type.DISPLAY_AREA_CHANGED);
         window.resizeTo(new Dimension(WIDTH * 2, HEIGHT * 2));
-        assertTrue( listener.await(MapPaneEvent.Type.DISPLAY_AREA_CHANGED, WAIT_TIMEOUT) );
-        
+        assertTrue(listener.await(MapPaneEvent.Type.DISPLAY_AREA_CHANGED, WAIT_TIMEOUT));
+
         Object obj = listener.getEvent(MapPaneEvent.Type.DISPLAY_AREA_CHANGED).getData();
         assertNotNull(obj);
         assertTrue(obj instanceof ReferencedEnvelope);
     }
-    
+
     @Test
     public void moveImageUp() {
         // remeber: moving image up means negative dy
         assertMoveImage(0, -10);
     }
-    
+
     @Test
     public void moveImageDown() {
         // remeber: moving image down means positive dy
         assertMoveImage(0, 10);
     }
-    
+
     @Test
     public void moveImageLeft() {
         assertMoveImage(-10, 0);
     }
-    
+
     @Test
     public void moveImageRight() {
         assertMoveImage(10, 0);
     }
-    
+
     private void assertMoveImage(int dx, int dy) {
         window.show(new Dimension(WIDTH, HEIGHT));
         MapContent mapContent = createMapContent(createMatchedBounds(mapPane.getVisibleRect()));
@@ -123,20 +123,20 @@ public class JMapPaneGraphicsTest extends JMapPaneGraphicsTestBase {
         listener.setExpected(MapPaneEvent.Type.DISPLAY_AREA_CHANGED);
         listener.setExpected(MapPaneEvent.Type.NEW_MAPCONTENT);
         mapPane.setMapContent(mapContent);
-        
+
         assertTrue(listener.await(MapPaneEvent.Type.DISPLAY_AREA_CHANGED, WAIT_TIMEOUT));
         assertTrue(listener.await(MapPaneEvent.Type.NEW_MAPCONTENT, WAIT_TIMEOUT));
         ReferencedEnvelope startEnv = mapContent.getViewport().getBounds();
-        
+
         listener.setExpected(MapPaneEvent.Type.DISPLAY_AREA_CHANGED);
         mapPane.moveImage(dx, dy);
         assertTrue(listener.await(MapPaneEvent.Type.DISPLAY_AREA_CHANGED, WAIT_TIMEOUT));
-        
+
         ReferencedEnvelope newEnv = mapPane.getDisplayArea();
-        
+
         assertEquals(startEnv.getWidth(), newEnv.getWidth(), TOL);
         assertEquals(startEnv.getHeight(), newEnv.getHeight(), TOL);
-        
+
         if (dx == 0) {
             assertEquals(startEnv.getMinX(), newEnv.getMinX(), TOL);
         } else if (dx < 0) {
@@ -144,7 +144,7 @@ public class JMapPaneGraphicsTest extends JMapPaneGraphicsTestBase {
         } else {
             assertTrue(startEnv.getMinX() > newEnv.getMinX());
         }
-        
+
         if (dy == 0) {
             assertEquals(startEnv.getMinY(), newEnv.getMinY(), TOL);
         } else if (dy < 0) {
@@ -153,7 +153,7 @@ public class JMapPaneGraphicsTest extends JMapPaneGraphicsTestBase {
             assertTrue(startEnv.getMinY() < newEnv.getMinY());
         }
     }
-    
+
     @Test
     public void mapPaneShouldHonourInitialViewportBounds() throws Exception {
         window.show(new Dimension(WIDTH, HEIGHT));
@@ -164,19 +164,19 @@ public class JMapPaneGraphicsTest extends JMapPaneGraphicsTestBase {
                 window.component().setVisible(false);
             }
         });
-        
+
         ReferencedEnvelope fullBounds = createMatchedBounds(mapPane.getVisibleRect());
         MapContent mapContent = createMapContent(fullBounds);
-        
+
         ReferencedEnvelope subBounds = new ReferencedEnvelope(
                 fullBounds.getMinX(), fullBounds.getMinX() + fullBounds.getWidth() / 2,
                 fullBounds.getMinY(), fullBounds.getMinY() + fullBounds.getHeight() / 2,
                 fullBounds.getCoordinateReferenceSystem());
-        
+
         mapContent.getViewport().setBounds(subBounds);
         listener.setExpected(MapPaneEvent.Type.NEW_MAPCONTENT);
         mapPane.setMapContent(mapContent);
-        
+
         // wait for the map pane to be ready
         assertTrue(listener.await(MapPaneEvent.Type.NEW_MAPCONTENT, WAIT_TIMEOUT));
 
@@ -185,5 +185,5 @@ public class JMapPaneGraphicsTest extends JMapPaneGraphicsTestBase {
 
         assertTrue(subBounds.boundsEquals2D(displayArea, TOL));
     }
-    
+
 }

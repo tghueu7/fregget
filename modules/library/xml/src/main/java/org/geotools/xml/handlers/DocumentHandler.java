@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -34,13 +34,14 @@ import org.xml.sax.SAXNotRecognizedException;
  * </p>
  *
  * @author dzwiers www.refractions.net
- *
- *
  * @source $URL$
  */
 public class DocumentHandler extends XMLElementHandler {
-    /** Supplied {@link Schema} for parsing and validation */
-    public final static String DEFAULT_NAMESPACE_HINT_KEY = "org.geotools.xml.handlers.DocumentHandler.DEFAULT_NAMESPACE_HINT_KEY";
+    /**
+     * Supplied {@link Schema} for parsing and validation
+     */
+    public final static String DEFAULT_NAMESPACE_HINT_KEY = "org.geotools.xml.handlers" +
+            ".DocumentHandler.DEFAULT_NAMESPACE_HINT_KEY";
     private XMLElementHandler xeh = null;
     private ElementHandlerFactory ehf;
 
@@ -62,28 +63,28 @@ public class DocumentHandler extends XMLElementHandler {
 
     /**
      * @see org.geotools.xml.XMLElementHandler#endElement(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
-    public void endElement(URI namespaceURI, String localName, Map hints){
+    public void endElement(URI namespaceURI, String localName, Map hints) {
         // do nothing
     }
 
     /**
      * @see org.geotools.xml.XMLElementHandler#getHandler(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
     public XMLElementHandler getHandler(URI namespaceURI, String localName,
-        Map hints) throws SAXException {
+                                        Map hints) throws SAXException {
         if (xeh != null) {
             throw new SAXNotRecognizedException(
-                "XML Documents may only have one top-level element");
+                    "XML Documents may only have one top-level element");
         }
-        if(hints!=null && hints.containsKey(DEFAULT_NAMESPACE_HINT_KEY)){
+        if (hints != null && hints.containsKey(DEFAULT_NAMESPACE_HINT_KEY)) {
             Object t = hints.get(DEFAULT_NAMESPACE_HINT_KEY);
-            if(t instanceof Schema)
-                ehf.startPrefixMapping("",(Schema)t);
+            if (t instanceof Schema)
+                ehf.startPrefixMapping("", (Schema) t);
             else
-                ehf.startPrefixMapping("",t.toString());
+                ehf.startPrefixMapping("", t.toString());
         }
         xeh = ehf.createElementHandler(namespaceURI, localName);
 
@@ -92,9 +93,9 @@ public class DocumentHandler extends XMLElementHandler {
 
     /**
      * @see org.geotools.xml.XMLElementHandler#startElement(java.lang.String,
-     *      java.lang.String, org.xml.sax.Attributes)
+     * java.lang.String, org.xml.sax.Attributes)
      */
-    public void startElement(URI namespaceURI, String localName, Attributes attr){
+    public void startElement(URI namespaceURI, String localName, Attributes attr) {
         // do nothing
     }
 

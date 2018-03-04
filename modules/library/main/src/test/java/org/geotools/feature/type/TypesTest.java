@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -40,36 +40,36 @@ import org.opengis.filter.PropertyIsEqualTo;
  * @source $URL$
  */
 public class TypesTest extends TestCase {
-    
-    public void testAttributeBuilder(){
+
+    public void testAttributeBuilder() {
         FilterFactory ff = CommonFactoryFinder.getFilterFactory();
         AttributeTypeBuilder builder = new AttributeTypeBuilder();
-        
+
         builder.binding(Integer.class);
         builder.minOccurs(1).maxOccurs(1);
         builder.defaultValue(0);
         builder.name("percent").description("Percent between 0 and 100");
         builder
-            .restriction( ff.greaterOrEqual(ff.property("."), ff.literal(0)) )
-            .restriction(ff.lessOrEqual(ff.property("."), ff.literal(100)) );
-        
+                .restriction(ff.greaterOrEqual(ff.property("."), ff.literal(0)))
+                .restriction(ff.lessOrEqual(ff.property("."), ff.literal(100)));
+
         final AttributeType PERCENT = builder.buildType();
-        
+
         builder.minOccurs(1).maxOccurs(1);
         builder.defaultValue(0);
         builder.name("percent").description("Percent between 0 and 100");
-        
-        AttributeDescriptor a = builder.buildDescriptor("a", PERCENT );
-        
-        assertSame( a.getType(), PERCENT );
-        assertEquals( a.getDefaultValue(), 0 );
-        
+
+        AttributeDescriptor a = builder.buildDescriptor("a", PERCENT);
+
+        assertSame(a.getType(), PERCENT);
+        assertEquals(a.getDefaultValue(), 0);
+
         Filter restrictions = ff.and(PERCENT.getRestrictions());
-        assertTrue( restrictions.evaluate(50) );
-        assertFalse( restrictions.evaluate(150) );
+        assertTrue(restrictions.evaluate(50));
+        assertFalse(restrictions.evaluate(150));
     }
-    
-    public void testWithoutRestriction(){
+
+    public void testWithoutRestriction() {
         // used to prevent warning
         FilterFactory fac = CommonFactoryFinder.getFilterFactory(null);
 
@@ -78,12 +78,13 @@ public class TypesTest extends TestCase {
         builder.setName("test");
         builder.add(attributeName, String.class);
         SimpleFeatureType featureType = builder.buildFeatureType();
-        
+
         SimpleFeature feature = SimpleFeatureBuilder.build(featureType, new Object[]{"Value"},
                 null);
-        
-        assertNotNull( feature );        
+
+        assertNotNull(feature);
     }
+
     /**
      * This utility class is used by Types to prevent attribute modification.
      */
@@ -98,46 +99,45 @@ public class TypesTest extends TestCase {
         builder.setName("test");
         builder.restriction(filter).add(attributeName, String.class);
         SimpleFeatureType featureType = builder.buildFeatureType();
-        
+
         SimpleFeature feature = SimpleFeatureBuilder.build(featureType, new Object[]{"Value"},
                 null);
-        
-        assertNotNull( feature );
+
+        assertNotNull(feature);
 
     }
-    
-    public void testAssertNamedAssignable(){
+
+    public void testAssertNamedAssignable() {
         SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
         builder.setName("Test");
-        builder.add("name", String.class );
-        builder.add("age", Double.class );
+        builder.add("name", String.class);
+        builder.add("age", Double.class);
         SimpleFeatureType test = builder.buildFeatureType();
-        
+
         builder.setName("Test");
-        builder.add("age", Double.class );
-        builder.add("name",String.class);
+        builder.add("age", Double.class);
+        builder.add("name", String.class);
         SimpleFeatureType test2 = builder.buildFeatureType();
-        
+
         builder.setName("Test");
-        builder.add("name",String.class);
+        builder.add("name", String.class);
         SimpleFeatureType test3 = builder.buildFeatureType();
-     
+
         builder.setName("Test");
-        builder.add("name",String.class);
-        builder.add("distance", Double.class );
+        builder.add("name", String.class);
+        builder.add("distance", Double.class);
         SimpleFeatureType test4 = builder.buildFeatureType();
-     
-        Types.assertNameAssignable( test, test );        
-        Types.assertNameAssignable( test, test2 );
-        Types.assertNameAssignable( test2, test );        
+
+        Types.assertNameAssignable(test, test);
+        Types.assertNameAssignable(test, test2);
+        Types.assertNameAssignable(test2, test);
         try {
-            Types.assertNameAssignable( test, test3 );    
+            Types.assertNameAssignable(test, test3);
             fail("Expected assertNameAssignable to fail as age is not covered");
+        } catch (IllegalArgumentException expected) {
         }
-        catch ( IllegalArgumentException expected ){            
-        }
-        
-        Types.assertOrderAssignable( test, test4 );
+
+        Types.assertOrderAssignable(test, test4);
     }
-    
+
 }

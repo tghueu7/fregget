@@ -4,13 +4,14 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.referencing.datum;
 
 import java.util.List;
 import java.util.ArrayList;
+
 import org.opengis.util.CodeList;
 import org.opengis.annotation.UML;
 
@@ -24,14 +25,13 @@ import static org.opengis.annotation.Specification.*;
  * This code list is similar to {@link org.opengis.metadata.spatial.PixelOrientation}
  * except that the later is more clearly restricted to the two-dimensional case.
  *
- *
- *
+ * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract 
+ * specification 2.0</A>
  * @source $URL$
- * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract specification 2.0</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
+ * @since GeoAPI 1.0
  */
-@UML(identifier="CD_PixelInCell", specification=ISO_19111)
+@UML(identifier = "CD_PixelInCell", specification = ISO_19111)
 public final class PixelInCell extends CodeList<PixelInCell> {
     /**
      * Serial number for compatibility with different versions.
@@ -49,7 +49,7 @@ public final class PixelInCell extends CodeList<PixelInCell> {
      *
      * @see org.opengis.metadata.spatial.PixelOrientation#CENTER
      */
-    @UML(identifier="cell center", obligation=CONDITIONAL, specification=ISO_19111)
+    @UML(identifier = "cell center", obligation = CONDITIONAL, specification = ISO_19111)
     public static final PixelInCell CELL_CENTER = new PixelInCell("CELL_CENTER");
 
     /**
@@ -58,7 +58,7 @@ public final class PixelInCell extends CodeList<PixelInCell> {
      *
      * @see org.opengis.metadata.spatial.PixelOrientation#LOWER_LEFT
      */
-    @UML(identifier="cell corner", obligation=CONDITIONAL, specification=ISO_19111)
+    @UML(identifier = "cell corner", obligation = CONDITIONAL, specification = ISO_19111)
     public static final PixelInCell CELL_CORNER = new PixelInCell("CELL_CORNER");
 
     /**

@@ -18,12 +18,9 @@ import javax.swing.JTextField;
  * classes.
  *
  * @author Michael Bedward
- * @since 2.6.1
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.6.1
  */
 public abstract class JValueField extends JTextField {
 
@@ -42,7 +39,7 @@ public abstract class JValueField extends JTextField {
      *
      * @param listener the listener to register
      */
-    public void addValueChangedListener( ValueChangedListener listener ) {
+    public void addValueChangedListener(ValueChangedListener listener) {
         listeners.add(listener);
     }
 
@@ -52,7 +49,7 @@ public abstract class JValueField extends JTextField {
      *
      * @param listener the listener to remove
      */
-    public void removeValueChangedListener( ValueChangedListener listener ) {
+    public void removeValueChangedListener(ValueChangedListener listener) {
         listeners.remove(listener);
     }
 
@@ -61,7 +58,7 @@ public abstract class JValueField extends JTextField {
      *
      * @param ev the event with details of the value change
      */
-    protected void fireValueChangedEvent( ValueChangedEvent ev ) {
+    protected void fireValueChangedEvent(ValueChangedEvent ev) {
         for (ValueChangedListener listener : listeners) {
             listener.onValueChanged(ev);
         }

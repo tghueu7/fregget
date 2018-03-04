@@ -20,8 +20,6 @@ import org.geotools.jdbc.JDBCBooleanTestSetup;
 import org.geotools.jdbc.JDBCTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class PostGISBooleanTestSetup extends JDBCBooleanTestSetup {
@@ -32,15 +30,15 @@ public class PostGISBooleanTestSetup extends JDBCBooleanTestSetup {
 
     @Override
     protected void createBooleanTable() throws Exception {
-        run( "CREATE TABLE \"b\" ( \"id\" serial PRIMARY KEY, \"boolProperty\" boolean)" );
-        run( "INSERT INTO \"b\" (\"boolProperty\") VALUES (false)");
-        run( "INSERT INTO \"b\" (\"boolProperty\") VALUES (true)");
+        run("CREATE TABLE \"b\" ( \"id\" serial PRIMARY KEY, \"boolProperty\" boolean)");
+        run("INSERT INTO \"b\" (\"boolProperty\") VALUES (false)");
+        run("INSERT INTO \"b\" (\"boolProperty\") VALUES (true)");
     }
 
     @Override
     protected void dropBooleanTable() throws Exception {
-        run( "DROP TABLE \"b\"");
+        run("DROP TABLE \"b\"");
     }
-    
+
 
 }

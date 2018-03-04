@@ -38,13 +38,10 @@ import com.esri.sde.sdk.client.SeTable;
 
 /**
  * @author Gabriel Roldan (TOPP)
- * 
- *
- *
- * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/test/java/org
- *         /geotools/arcsde/data/FIDReaderTest.java $
  * @version $Id$
+ * @source $URL$
+ * http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/test/java/org
+ * /geotools/arcsde/data/FIDReaderTest.java $
  * @since 2.5.x
  */
 @Ignore
@@ -93,9 +90,11 @@ public class FIDReaderTest {
 
     /**
      * Test method for
-     * {@link org.geotools.arcsde.data.FIDReader#getFidReader(org.geotools.arcsde.session.ISession, com.esri.sde.sdk.client.SeTable, com.esri.sde.sdk.client.SeLayer, com.esri.sde.sdk.client.SeRegistration)}
+     * {@link org.geotools.arcsde.data.FIDReader#getFidReader(org.geotools.arcsde.session
+     * .ISession, com.esri.sde.sdk.client.SeTable, com.esri.sde.sdk.client.SeLayer, com.esri.sde
+     * .sdk.client.SeRegistration)}
      * .
-     * 
+     *
      * @throws IOException
      */
     @Test

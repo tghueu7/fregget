@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2007 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.feature;
@@ -28,14 +28,14 @@ import org.opengis.filter.identity.Identifier;
  * An analogy for an attribute is a "field" in a java object. A field also
  * brings together a field name, value and type.
  * </p>
- *
+ * <p>
  * <p>
  * <h3>Identifiable</h3>
- *
+ * <p>
  * When an attribute is identifiable the {@link #getID()} method returns a
  * unique identifier for the attribute. The type of the attribute is used to
  * determine identifiability.
- *
+ * <p>
  * <pre>
  * Attribute attribute = ...;
  * if ( attribute.getType().isIdentified() ) {
@@ -44,17 +44,14 @@ import org.opengis.filter.identity.Identifier;
  * </pre>
  * </p>
  * <h3>Validation</h3>
- * 
+ * <p>
  * An attribute may hold any value at runtime; checking that the value meets the constraints
  * supplied by the AttributeType is the work of the validate() method.
- * 
- * @see Property
  *
  * @author Jody Garnett (Refractions Research)
  * @author Justin Deoliveira (The Open Planning Project)
- *
- *
  * @source $URL$
+ * @see Property
  */
 public interface Attribute extends Property {
 
@@ -62,8 +59,8 @@ public interface Attribute extends Property {
      * Override of {@link Property#getDescriptor()} which type narrows to
      * {@link AttributeDescriptor}.
      *
-     * @see Property#getDescriptor()
      * @return The attribute descriptor, may be null if this is a top level type
+     * @see Property#getDescriptor()
      */
     AttributeDescriptor getDescriptor();
 
@@ -71,8 +68,8 @@ public interface Attribute extends Property {
      * Override of {@link Property#getType()} which type narrows to
      * {@link AttributeType}.
      *
-     * @see Property#getType()
      * @return The attribute type.
+     * @see Property#getType()
      */
     AttributeType getType();
 
@@ -84,10 +81,10 @@ public interface Attribute extends Property {
      * </p>
      *
      * @return A unique identifier for the attribute, or <code>null</code> if
-     *         the attribute is non-identifiable.
+     * the attribute is non-identifiable.
      */
     Identifier getIdentifier();
-    
+
     /**
      * Check the attribute value against the constraints provided by the AttributeDescriptor.
      * <p>
@@ -97,7 +94,7 @@ public interface Attribute extends Property {
      * <p>
      * To check the the number of times an attribute is used (minOccurs and maxOccurs) please
      * use ComplexAttribute.validate().
-     * 
+     *
      * @thorws IllegalAttributeException If value fails validation
      */
     void validate() throws IllegalAttributeException;

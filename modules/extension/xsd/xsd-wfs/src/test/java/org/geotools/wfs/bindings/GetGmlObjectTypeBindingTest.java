@@ -33,13 +33,11 @@ import org.w3c.dom.Element;
 
 /**
  * Unit test suite for {@link GetGmlObjectTypeBinding}
- * 
+ *
  * @author Gabriel Roldan (TOPP)
  * @version $Id$
- * @since 2.5.x
- *
- *
  * @source $URL$
+ * @since 2.5.x
  */
 public class GetGmlObjectTypeBindingTest extends WFSTestSupport {
 
@@ -69,7 +67,7 @@ public class GetGmlObjectTypeBindingTest extends WFSTestSupport {
         assertEquals("GML2", root.getAttribute("outputFormat"));
         assertEquals("3", root.getAttribute("traverseXlinkDepth"));
         assertEquals("2", root.getAttribute("traverseXlinkExpiry"));
-        
+
         Element gmlObjectId = getElementByQName(root, OGC.GmlObjectId);
         assertNotNull(gmlObjectId);
         assertEquals("gmlid.1", gmlObjectId.getAttributeNS(GML.NAMESPACE, GML.id.getLocalPart()));

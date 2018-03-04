@@ -49,32 +49,32 @@ import org.geotools.maven.taglet.Source;
  * mvn exec:java -Dexec.args="path-to-module-src-dir options"
  * </code></pre>
  * Where<br>
- * 
+ * <p>
  * {@code path-to-module-src-dir} is a full or relative path to the module's top src directory<br>
- * 
+ * <p>
  * {@code options} is zero or more of the following:<br>
- * 
+ * <p>
  * {@code --add-header} to add an empty class javadoc block if none exists (default is to skip
  * files with no class javadoc block)<br>
- * 
- * {@code --any-class} process all classes, interfaces and enums (default is only those 
+ * <p>
+ * {@code --any-class} process all classes, interfaces and enums (default is only those
  * that are public)<br>
- * 
+ * <p>
  * {@code --fix} attempt to fix existing source tags that have been incorrectly broken across lines
  * (default is just report broken tags)<br>
- * 
+ * <p>
  * {@code --replace-tag} to force replacement of existing source tags (default is no replacement)<br>
- * 
+ * <p>
  * {@code --svn} add Subversion delimiters ($URL, $) to the source path to enable auto-updating
  * when the file is committed using svn (default is to add delimiters)<br>
- * 
+ * <p>
  * <p>
  * Adapted from the CommentUpdater class previously in this package that was written
  * by Martin Desruisseaux.
  *
  * @author Michael Bedward
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class InsertSourceTag {
 
@@ -108,7 +108,7 @@ public class InsertSourceTag {
      */
     private static final String FIX_BROKEN_TAG_OPTION = "--fix";
     private boolean optionFixBreaks;
-    /** 
+    /**
      * Option to replace existing source taglet if one is found.
      */
     private static final String REPLACE_OPTION = "--replace-tag";
@@ -227,7 +227,6 @@ public class InsertSourceTag {
      *
      * @param file file to process
      * @return true if the source tag was inserted into the file; false otherwise
-     *
      * @throws FileNotFoundException
      * @throws IOException
      */
@@ -359,11 +358,11 @@ public class InsertSourceTag {
                      * the replace tag option is false, skip this file.
                      */
                     for (int blockLineNo = javadocStartLine;
-                            blockLineNo <= javadocEndLine; blockLineNo++) {
+                         blockLineNo <= javadocEndLine; blockLineNo++) {
                         String commentText = buffer.get(blockLineNo);
                         matcher = findSourceTag.matcher(commentText);
                         if (matcher.find()) {
-                            /* 
+                            /*
                              * Check that those pesky Eclipse users haven't
                              * split the source tag across multiple lines with
                              * their auto-format thing.
@@ -459,17 +458,15 @@ public class InsertSourceTag {
      * Writes the file with a newly generated source tag in the class header
      * javadocs
      *
-     * @param file the file to write
-     * @param buffer file contents
+     * @param file          the file to write
+     * @param buffer        file contents
      * @param sourceTagLine line number for the new source tag
-     * @param sourceTag text for the new source tag
-     *
+     * @param sourceTag     text for the new source tag
      * @return always returns true
-     * 
      * @throws IOException
      */
     private boolean writeFile(File file, List<String> buffer,
-            int sourceTagLine, String sourceTag)
+                              int sourceTagLine, String sourceTag)
             throws IOException {
 
         FileWriter writer = new FileWriter(file);

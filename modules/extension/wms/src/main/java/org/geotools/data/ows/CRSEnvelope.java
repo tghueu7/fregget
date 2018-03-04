@@ -3,7 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -37,21 +37,21 @@ import org.opengis.referencing.operation.CoordinateOperationAuthorityFactory;
  * <p>
  * Represents one of the following:
  * <ul>
- * <li>EX_GeographicBoundingBox: (implicit CRS:84) limits of the enclosing rectangle in longitude and latitude decimal degrees</li>
- * <li>BoundingBox: The BoundingBox attributes indicate the limits of the bounding box in units of the specified coordinate reference system.</li>
+ * <li>EX_GeographicBoundingBox: (implicit CRS:84) limits of the enclosing rectangle in longitude
+ * and latitude decimal degrees</li>
+ * <li>BoundingBox: The BoundingBox attributes indicate the limits of the bounding box in units 
+ * of the specified coordinate reference system.</li>
  * </ul>
  * The interpretation of the srsName is based on the version of WMS specification used:
  * <ul>
  * <li>After WMS 1.3.0: axis order be returned with forceXY=false</li>
  * <li>Before WMS 1.3.0: axis order defined using forceXY=true</li>
  * </ul>
- * 
+ *
  * @author Richard Gould
- *
- *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/branches/2.6.x/modules/extension/wms/src/main/java/org
- *         /geotools/data/ows/CRSEnvelope.java $
+ * http://svn.osgeo.org/geotools/branches/2.6.x/modules/extension/wms/src/main/java/org
+ * /geotools/data/ows/CRSEnvelope.java $
  */
 public class CRSEnvelope implements Envelope {
     /**
@@ -59,42 +59,57 @@ public class CRSEnvelope implements Envelope {
      * code such as "EPSG:4326"
      */
     private String srsName;
-    
-    /** Min of axis 0 as specified by CRS */
+
+    /**
+     * Min of axis 0 as specified by CRS
+     */
     protected double minX;
-    /** Min of axis 1 as specified by CRS */
+    /**
+     * Min of axis 1 as specified by CRS
+     */
     protected double minY;
-    /** Max of axis 0 as specified by CRS */
+    /**
+     * Max of axis 0 as specified by CRS
+     */
     protected double maxX;
-    /** Max of axis 1 as specified by CRS */
+    /**
+     * Max of axis 1 as specified by CRS
+     */
     protected double maxY;
-    
-    /** CRS as defined my WebMapServer (CRS:84 implicit if null) */
+
+    /**
+     * CRS as defined my WebMapServer (CRS:84 implicit if null)
+     */
     private CoordinateReferenceSystem crs;
 
-    /** optional spatial resolution in the units of crs */
-    protected double resX;
-    
-    /** optional spatial resolution in the units of crs */
-    protected double resY;
-    
     /**
-     * Indicate how srsName is defined. Use <code>null</code> if unknown (will default to global GeoTools setting), <code>True</code> to forceXY axis
-     * order (used prior to WMS 1.3.0), <code>False</code> to use provided axis order (WMS 1.3.0 and later )
+     * optional spatial resolution in the units of crs
      */
-    private Boolean forceXY=null;
+    protected double resX;
+
+    /**
+     * optional spatial resolution in the units of crs
+     */
+    protected double resY;
+
+    /**
+     * Indicate how srsName is defined. Use <code>null</code> if unknown (will default to global 
+     * GeoTools setting), <code>True</code> to forceXY axis
+     * order (used prior to WMS 1.3.0), <code>False</code> to use provided axis order (WMS 1.3.0 
+     * and later )
+     */
+    private Boolean forceXY = null;
 
     /**
      * Construct an empty BoundingBox
      */
-    public CRSEnvelope() {        
+    public CRSEnvelope() {
     }
 
     /**
      * Create a bounding box with the specified properties
-     * 
-     * @param epsgCode
-     *            The Coordinate Reference System this bounding box is in
+     *
+     * @param epsgCode The Coordinate Reference System this bounding box is in
      * @param minX
      * @param minY
      * @param maxX
@@ -107,12 +122,13 @@ public class CRSEnvelope implements Envelope {
         this.minY = minY;
         this.maxY = maxY;
     }
+
     public CRSEnvelope(Envelope envelope) {
-        this.srsName = CRS.toSRS( envelope.getCoordinateReferenceSystem());
+        this.srsName = CRS.toSRS(envelope.getCoordinateReferenceSystem());
         //this.srsName = epsgCode;
         this.minX = envelope.getMinimum(0);
         this.maxX = envelope.getMaximum(0);
-        this.minY = envelope.getMinimum(1);       
+        this.minY = envelope.getMinimum(1);
         this.maxY = envelope.getMaximum(1);
     }
 
@@ -125,11 +141,10 @@ public class CRSEnvelope implements Envelope {
             if (crs == null) {
                 try {
                     String srs = srsName != null ? srsName : "CRS:84";
-                    if( forceXY == null ){
+                    if (forceXY == null) {
                         crs = CRS.decode(srs);
-                    }
-                    else {
-                        crs = AbstractGetMapRequest.toServerCRS(srsName, forceXY );
+                    } else {
+                        crs = AbstractGetMapRequest.toServerCRS(srsName, forceXY);
                     }
                 } catch (NoSuchAuthorityCodeException e) {
                     crs = DefaultEngineeringCRS.CARTESIAN_2D;
@@ -143,7 +158,7 @@ public class CRSEnvelope implements Envelope {
 
     /**
      * The CRS is bounding box's Coordinate Reference System.
-     * 
+     *
      * @return the CRS/SRS value, or null for implicit CRS:84
      */
     public String getSRSName() {
@@ -152,7 +167,7 @@ public class CRSEnvelope implements Envelope {
 
     /**
      * Helper method to set srsName.
-     * 
+     *
      * @see setSRSName
      */
     public void setEPSGCode(String epsgCode) {
@@ -173,15 +188,15 @@ public class CRSEnvelope implements Envelope {
      * <ul>
      * <li>CRS:84: default in lon / lat order</li>
      * </ul>
-     * @param srsName
-     *            The SRSName for this envelope; usually an EPSG code
+     *
+     * @param srsName The SRSName for this envelope; usually an EPSG code
      * @deprecated Please use setSRSName(String,boolean) to explicitly indicate axis handling
      */
     public void setSRSName(String srsName) {
         this.srsName = srsName;
-        this.forceXY=null;
+        this.forceXY = null;
     }
-    
+
     /**
      * The CRS is bounding box's Coordinate Reference System.
      * <p>
@@ -189,12 +204,14 @@ public class CRSEnvelope implements Envelope {
      * <ul>
      * <li>CRS:84: default in lon / lat order</li>
      * </ul>
+     *
      * @param srsName The SRSName for this envelope; usually an EPSG code
-     * @param forceXY True to forceXY axis order (used prior to WMS 1.3.0), False to use provided axis order (WMS 1.3.0 and later ) 
+     * @param forceXY True to forceXY axis order (used prior to WMS 1.3.0), False to use provided
+     *               axis order (WMS 1.3.0 and later )
      */
     public void setSRSName(String srsName, boolean forceXY) {
         this.srsName = srsName;
-        this.forceXY= forceXY;
+        this.forceXY = forceXY;
     }
 
     public int getDimension() {
@@ -260,7 +277,7 @@ public class CRSEnvelope implements Envelope {
 
     /**
      * The maxX value is the higher X coordinate value
-     * 
+     *
      * @return the bounding box's maxX value
      */
     public double getMaxX() {
@@ -269,9 +286,8 @@ public class CRSEnvelope implements Envelope {
 
     /**
      * The maxX value is the higher X coordinate value
-     * 
-     * @param maxX
-     *            the new value for maxX. Should be greater than minX.
+     *
+     * @param maxX the new value for maxX. Should be greater than minX.
      */
     public void setMaxX(double maxX) {
         this.maxX = maxX;
@@ -279,7 +295,7 @@ public class CRSEnvelope implements Envelope {
 
     /**
      * The maxY value is the higher Y coordinate value
-     * 
+     *
      * @return the bounding box's maxY value
      */
     public double getMaxY() {
@@ -288,9 +304,8 @@ public class CRSEnvelope implements Envelope {
 
     /**
      * The maxY value is the higher Y coordinate value
-     * 
-     * @param maxY
-     *            the new value for maxY. Should be greater than minY.
+     *
+     * @param maxY the new value for maxY. Should be greater than minY.
      */
     public void setMaxY(double maxY) {
         this.maxY = maxY;
@@ -298,7 +313,7 @@ public class CRSEnvelope implements Envelope {
 
     /**
      * The minX value is the lower X coordinate value
-     * 
+     *
      * @return the bounding box's minX value
      */
     public double getMinX() {
@@ -307,9 +322,8 @@ public class CRSEnvelope implements Envelope {
 
     /**
      * The minX value is the lower X coordinate value
-     * 
-     * @param minX
-     *            the new value for minX. Should be less than maxX.
+     *
+     * @param minX the new value for minX. Should be less than maxX.
      */
     public void setMinX(double minX) {
         this.minX = minX;
@@ -317,7 +331,7 @@ public class CRSEnvelope implements Envelope {
 
     /**
      * The minY value is the lower Y coordinate value
-     * 
+     *
      * @return the bounding box's minY value
      */
     public double getMinY() {
@@ -326,9 +340,8 @@ public class CRSEnvelope implements Envelope {
 
     /**
      * The minY value is the lower Y coordinate value
-     * 
-     * @param minY
-     *            the new value for minY. Should be less than maxY.
+     *
+     * @param minY the new value for minY. Should be less than maxY.
      */
     public void setMinY(double minY) {
         this.minY = minY;
@@ -336,6 +349,7 @@ public class CRSEnvelope implements Envelope {
 
     /**
      * Optional spatial resolution in the units of crs.
+     *
      * @return spatial resolutionm, or Double.NaN if not provided
      */
     public double getResX() {
@@ -344,20 +358,25 @@ public class CRSEnvelope implements Envelope {
 
     /**
      * Optional spatial resolution in the units of crs.
+     *
      * @param resX spatial resolutionm, or Double.NaN if not provided
      */
     public void setResX(double resX) {
         this.resX = resX;
     }
+
     /**
      * Optional spatial resolution in the units of crs.
+     *
      * @return spatial resolutionm, or Double.NaN if not provided
      */
     public double getResY() {
         return resY;
     }
+
     /**
      * Optional spatial resolution in the units of crs.
+     *
      * @param resY spatial resolutionm, or Double.NaN if not provided
      */
     public void setResY(double resY) {
@@ -370,27 +389,26 @@ public class CRSEnvelope implements Envelope {
         build.append(minX);
         build.append(",");
         build.append(maxX);
-        if( !Double.isNaN( resX )){
+        if (!Double.isNaN(resX)) {
             build.append(",");
-            build.append( resX);
+            build.append(resX);
         }
         build.append(" ");
         build.append(minY);
         build.append(",");
         build.append(maxY);
-        if( !Double.isNaN( resY )){
+        if (!Double.isNaN(resY)) {
             build.append(",");
-            build.append( resY);
+            build.append(resY);
         }
-        if( srsName != null ){
+        if (srsName != null) {
             build.append(" crs=");
-            build.append( srsName );            
-        }
-        else {
+            build.append(srsName);
+        } else {
             build.append(" default=CRS:84");
         }
         build.append("]");
-        
+
         return build.toString();
     }
 

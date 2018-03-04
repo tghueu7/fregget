@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -29,8 +29,6 @@ import java.net.URI;
  * </p>
  *
  * @author dzwiers www.refractions.net
- *
- *
  * @source $URL$
  */
 public interface AttributeGroup {
@@ -39,7 +37,6 @@ public interface AttributeGroup {
      * Represents the Namespace attribute of an AnyAttribute child occuring
      * within this attributeGroup.
      * </p>
-     *
      */
     public String getAnyAttributeNameSpace();
 
@@ -49,7 +46,6 @@ public interface AttributeGroup {
      * encourage the order of this list to follow the order the attributes
      * were declared in, there is no such requirement.
      * </p>
-     *
      */
     public Attribute[] getAttributes();
 
@@ -57,7 +53,6 @@ public interface AttributeGroup {
      * <p>
      * The Schema ID for this attributeGroup definition.
      * </p>
-     *
      */
     public String getId();
 
@@ -65,13 +60,11 @@ public interface AttributeGroup {
      * <p>
      * The name of this Attribute Group declaration within the XML Schema
      * </p>
-     *
      */
     public String getName();
 
     /**
      * DOCUMENT ME!
-     *
      */
     public URI getNamespace();
 }

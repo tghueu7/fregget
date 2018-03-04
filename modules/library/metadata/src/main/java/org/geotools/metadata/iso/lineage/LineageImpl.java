@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -20,6 +20,7 @@
 package org.geotools.metadata.iso.lineage;
 
 import java.util.Collection;
+
 import org.opengis.metadata.lineage.Lineage;
 import org.opengis.metadata.lineage.ProcessStep;
 import org.opengis.metadata.lineage.Source;
@@ -30,17 +31,14 @@ import org.geotools.metadata.iso.MetadataEntity;
 /**
  * Information about the events or source data used in constructing the data specified by
  * the scope or lack of knowledge about lineage.
- *
+ * <p>
  * Only one of {@linkplain #getStatement statement}, {@linkplain #getProcessSteps process steps}
  * and {@link #getSources sources} should be provided.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class LineageImpl extends MetadataEntity implements Lineage {
@@ -111,7 +109,7 @@ public class LineageImpl extends MetadataEntity implements Lineage {
      * Set information about an event in the creation process for the data specified
      * by the scope.
      */
-    public synchronized void setProcessSteps(final Collection<? extends ProcessStep> newValues)  {
+    public synchronized void setProcessSteps(final Collection<? extends ProcessStep> newValues) {
         processSteps = copyCollection(newValues, processSteps, ProcessStep.class);
     }
 

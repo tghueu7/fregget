@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2007-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -41,12 +41,10 @@ import org.geotools.resources.i18n.Errors;
  * {@value org.geotools.util.GenericName#DEFAULT_SEPARATOR} character.
  *
  * @author Martin Desruisseaux
- *
  * @source $URL$
  */
 public class HTTP_AuthorityFactory extends AuthorityFactoryAdapter implements CRSAuthorityFactory,
-        CSAuthorityFactory, DatumAuthorityFactory, CoordinateOperationAuthorityFactory
-{
+        CSAuthorityFactory, DatumAuthorityFactory, CoordinateOperationAuthorityFactory {
     /**
      * The base URL, which is {@value}.
      */
@@ -85,9 +83,8 @@ public class HTTP_AuthorityFactory extends AuthorityFactoryAdapter implements CR
      * {@link Boolean#FALSE}. This method compares {@link Hints#FORCE_AXIS_ORDER_HONORING} with
      * the specified authority.
      *
-     * @param  hints The hints to use (may be {@code null}).
-     * @param  authority The authority factory under creation.
-     *
+     * @param hints     The hints to use (may be {@code null}).
+     * @param authority The authority factory under creation.
      * @todo Should not looks at system hints; this is {@link ReferencingFactoryFinder}'s job.
      */
     static boolean defaultAxisOrderHints(final Hints hints, final String authority) {
@@ -102,9 +99,9 @@ public class HTTP_AuthorityFactory extends AuthorityFactoryAdapter implements CR
             final String list = value.toString();
             int i = 0;
             while ((i = list.indexOf(authority, i)) >= 0) {
-                if (i==0 || !Character.isJavaIdentifierPart(list.charAt(i - 1))) {
+                if (i == 0 || !Character.isJavaIdentifierPart(list.charAt(i - 1))) {
                     final int j = i + authority.length();
-                    if (j==list.length() || !Character.isJavaIdentifierPart(list.charAt(j))) {
+                    if (j == list.length() || !Character.isJavaIdentifierPart(list.charAt(j))) {
                         // Found the authority in the list: we need to use the global setting.
                         return true;
                     }
@@ -139,7 +136,7 @@ public class HTTP_AuthorityFactory extends AuthorityFactoryAdapter implements CR
      * Removes the URL base ({@value #BASE_URL}) from the specified code
      * before to pass it to the wrapped factories.
      *
-     * @param  code The code given to this factory.
+     * @param code The code given to this factory.
      * @return The code to give to the underlying factories.
      * @throws FactoryException if the code can't be converted.
      */
@@ -151,7 +148,7 @@ public class HTTP_AuthorityFactory extends AuthorityFactoryAdapter implements CR
             code = code.substring(length);
             if (code.indexOf('/') < 0) {
                 final int split = code.indexOf('#');
-                if (split >= 0 && code.indexOf('#', split+1) < 0) {
+                if (split >= 0 && code.indexOf('#', split + 1) < 0) {
                     String authority = code.substring(0, split).trim();
                     final int ext = authority.lastIndexOf('.');
                     if (ext > 0) {

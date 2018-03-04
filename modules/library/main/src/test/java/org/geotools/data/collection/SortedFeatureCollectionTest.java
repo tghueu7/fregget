@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2016, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -34,32 +34,32 @@ public class SortedFeatureCollectionTest extends FeatureCollectionWrapperTestSup
 
     public void testNaturalSort() throws Exception {
         SortedSimpleFeatureCollection sorted = new SortedSimpleFeatureCollection(delegate,
-                new SortBy[] { SortBy.NATURAL_ORDER });
+                new SortBy[]{SortBy.NATURAL_ORDER});
         checkSorted(sorted, DataUtilities.sortComparator(SortBy.NATURAL_ORDER));
     }
 
     public void testReverseSort() throws Exception {
         SortedSimpleFeatureCollection sorted = new SortedSimpleFeatureCollection(delegate,
-                new SortBy[] { SortBy.REVERSE_ORDER });
+                new SortBy[]{SortBy.REVERSE_ORDER});
         checkSorted(sorted, DataUtilities.sortComparator(SortBy.REVERSE_ORDER));
     }
 
     public void testSortAttribute() throws Exception {
         SortBy sort = ff.sort("someAtt", SortOrder.ASCENDING);
         SortedSimpleFeatureCollection sorted = new SortedSimpleFeatureCollection(delegate,
-                new SortBy[] { sort });
+                new SortBy[]{sort});
         checkSorted(sorted, DataUtilities.sortComparator(sort));
     }
-    
+
     public void testSortAttributeDescending() throws Exception {
         SortBy sort = ff.sort("someAtt", SortOrder.DESCENDING);
         SortedSimpleFeatureCollection sorted = new SortedSimpleFeatureCollection(delegate,
-                new SortBy[] { sort });
+                new SortBy[]{sort});
         checkSorted(sorted, DataUtilities.sortComparator(sort));
     }
 
     private void checkSorted(SortedSimpleFeatureCollection sorted,
-            Comparator<SimpleFeature> comparator) {
+                             Comparator<SimpleFeature> comparator) {
         SimpleFeatureIterator fi = sorted.features();
         SimpleFeature prev = null;
         while (fi.hasNext()) {

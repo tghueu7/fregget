@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2007 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 
@@ -23,9 +23,8 @@ package org.opengis.feature;
  * transformations and an implementations may intercept known visitors
  * (such as "bounds" or reprojection) and engage an alternate work flow.
  * </p>
+ *
  * @author Cory Horner (Refractions Research, Inc)
- *
- *
  * @source $URL$
  */
 public interface FeatureVisitor {
@@ -34,6 +33,7 @@ public interface FeatureVisitor {
      * <p>
      * Please consult the documentation for the FeatureCollection you are visiting
      * to learn more - the provided feature may be invalid, or read only.
+     *
      * @param feature
      */
     void visit(Feature feature);

@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -39,15 +39,10 @@ import org.xml.sax.SAXException;
 
 /**
  * @author Christian Mueller
- * 
+ * <p>
  * The default implementation for GeneralizationInfosProvider, reading the info from an XML file.
- * 
+ * <p>
  * The xml schema file is "/geninfos_1.0.xsd"
- * 
- * 
- *
- *
- *
  * @source $URL$
  */
 public class GeneralizationInfosProviderImpl implements GeneralizationInfosProvider {
@@ -73,6 +68,7 @@ public class GeneralizationInfosProviderImpl implements GeneralizationInfosProvi
     protected final static String VERSION_ATTR = "version";
 
     protected static Validator VALIDATOR;
+
     static {
 
         SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);

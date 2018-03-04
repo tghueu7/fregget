@@ -41,15 +41,17 @@ public class SolrSpatialStrategyTest {
     @Test
     public void testCreate() throws Exception {
 
-        assertTrue(SolrSpatialStrategy.createStrategy(newDescriptor(null)) instanceof DefaultStrategy);
+        assertTrue(SolrSpatialStrategy.createStrategy(newDescriptor(null)) instanceof 
+                DefaultStrategy);
         assertTrue(SolrSpatialStrategy.createStrategy(newDescriptor(
-            "org.apache.solr.schema.SpatialRecursivePrefixTreeFieldType")) instanceof DefaultStrategy);
+                "org.apache.solr.schema.SpatialRecursivePrefixTreeFieldType")) instanceof 
+                DefaultStrategy);
         assertTrue(SolrSpatialStrategy.createStrategy(newDescriptor(
-            "org.apache.solr.schema.LatLonType")) instanceof DefaultStrategy);
+                "org.apache.solr.schema.LatLonType")) instanceof DefaultStrategy);
         assertTrue(SolrSpatialStrategy.createStrategy(newDescriptor(
-            "org.apache.solr.schema.BBoxField")) instanceof BBoxStrategy);
+                "org.apache.solr.schema.BBoxField")) instanceof BBoxStrategy);
         assertTrue(SolrSpatialStrategy.createStrategy(newDescriptor(
-            "org.apache.solr.spatial.pending.BBoxFieldType")) instanceof BBoxStrategy);
+                "org.apache.solr.spatial.pending.BBoxFieldType")) instanceof BBoxStrategy);
     }
 
     @Test
@@ -72,7 +74,7 @@ public class SolrSpatialStrategyTest {
         assertTrue(g instanceof Polygon);
 
         String[] bbox = ss.encode(g).split(",");
-        bbox[0] = bbox[0].substring(bbox[0].indexOf("(")+1, bbox[0].length());
+        bbox[0] = bbox[0].substring(bbox[0].indexOf("(") + 1, bbox[0].length());
         bbox[3] = bbox[3].substring(0, bbox[3].indexOf(")"));
         NumberFormat format = NumberFormat.getInstance(Locale.ENGLISH);
         assertEquals(1.0, format.parse(bbox[0]).doubleValue(), 0.1);
@@ -80,13 +82,14 @@ public class SolrSpatialStrategyTest {
         assertEquals(4.0, format.parse(bbox[2]).doubleValue(), 0.1);
         assertEquals(2.0, format.parse(bbox[3]).doubleValue(), 0.1);
     }
-    
+
     GeometryDescriptor newDescriptor(String solrTypeValue) {
         FeatureTypeFactory ftf = new FeatureTypeFactoryImpl();
         GeometryType type =
-            ftf.createGeometryType(new NameImpl("fooType"), Geometry.class, null, false, false, null, null, null);
+                ftf.createGeometryType(new NameImpl("fooType"), Geometry.class, null, false, 
+                        false, null, null, null);
         GeometryDescriptor att = ftf
-            .createGeometryDescriptor(type, new NameImpl("foo"), 1, 1, true, null);
+                .createGeometryDescriptor(type, new NameImpl("foo"), 1, 1, true, null);
 
         att.getUserData().put(SolrFeatureSource.KEY_SOLR_TYPE, solrTypeValue);
         return att;

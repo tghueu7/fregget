@@ -32,9 +32,9 @@ import org.geotools.xml.Node;
 /**
  * Binding object for the type
  * http://www.opengis.net/wfs:DescribeFeatureTypeType.
- *
  * <p>
- *
+ * <p>
+ * <p>
  * <pre>
  *         <code>
  *  &lt;xsd:complexType name=&quot;DescribeFeatureTypeType&quot;&gt;
@@ -70,7 +70,8 @@ import org.geotools.xml.Node;
  *                  &lt;/xsd:element&gt;
  *              &lt;/xsd:sequence&gt;
  *              &lt;xsd:attribute default=&quot;text/xml; subtype=gml/3.1.1&quot;
- *                  name=&quot;outputFormat&quot; type=&quot;xsd:string&quot; use=&quot;optional&quot;&gt;
+ *                  name=&quot;outputFormat&quot; type=&quot;xsd:string&quot; use=&quot;
+ *                  optional&quot;&gt;
  *                  &lt;xsd:annotation&gt;
  *                      &lt;xsd:documentation&gt;
  *                       The outputFormat attribute is used to specify what schema
@@ -96,13 +97,10 @@ import org.geotools.xml.Node;
  *  &lt;/xsd:complexType&gt;
  * </code>
  *         </pre>
- *
+ * <p>
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class DescribeFeatureTypeTypeBinding extends AbstractComplexEMFBinding {
@@ -122,8 +120,8 @@ public class DescribeFeatureTypeTypeBinding extends AbstractComplexEMFBinding {
 
     /**
      * @return {@link Binding#BEFORE} so at parse time we can return an instance
-     *         of {@link DescribeFeatureTypeType}, or the framework would try
-     *         to create a {@link BaseRequestType},which is abstract.
+     * of {@link DescribeFeatureTypeType}, or the framework would try
+     * to create a {@link BaseRequestType},which is abstract.
      */
     public int getExecutionMode() {
         return BEFORE;
@@ -134,7 +132,7 @@ public class DescribeFeatureTypeTypeBinding extends AbstractComplexEMFBinding {
      * the framework to reflectively set the object properties.
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return wfsFactory.createDescribeFeatureTypeType();
     }
 }

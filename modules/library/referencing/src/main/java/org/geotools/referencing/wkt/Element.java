@@ -33,22 +33,20 @@ import org.geotools.util.logging.LoggedFormat;
 /**
  * An element in a <cite>Well Know Text</cite> (WKT). A {@code Element} is
  * made of {@link String}, {@link Number} and other {@link Element}. For example:
- *
+ * <p>
  * <blockquote><pre>
  * PRIMEM["Greenwich", 0.0, AUTHORITY["some authority", "Greenwich"]]
  * </pre></blockquote>
- *
+ * <p>
  * Each {@code Element} object can contains an arbitrary amount of other elements.
  * The result is a tree, which can be printed with {@link #print}.
  * Elements can be pull in a <cite>first in, first out</cite> order.
  *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Remi Eve
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.0
  */
 public final class Element {
     /**
@@ -74,34 +72,33 @@ public final class Element {
      * @param singleton The only children for this root.
      */
     Element(final Element singleton) {
-        offset  = 0;
+        offset = 0;
         keyword = null;
-        list    = new LinkedList<Object>();
+        list = new LinkedList<Object>();
         list.add(singleton);
     }
 
     /**
      * Constructs a new {@code Element}.
      *
-     * @param  text       The text to parse.
-     * @param  position   In input, the position where to start parsing from.
-     *                    In output, the first character after the separator.
+     * @param text     The text to parse.
+     * @param position In input, the position where to start parsing from.
+     *                 In output, the first character after the separator.
      */
     Element(final AbstractParser parser, final String text, final ParsePosition position)
-            throws ParseException
-    {
+            throws ParseException {
         /*
          * Find the first keyword in the specified string. If a keyword is found, then
          * the position is set to the index of the first character after the keyword.
          */
         int lower = position.getIndex();
         final int length = text.length();
-        while (lower<length && Character.isWhitespace(text.charAt(lower))) {
+        while (lower < length && Character.isWhitespace(text.charAt(lower))) {
             lower++;
         }
         offset = lower;
         int upper = lower;
-        while (upper<length && Character.isUnicodeIdentifierPart(text.charAt(upper))) {
+        while (upper < length && Character.isUnicodeIdentifierPart(text.charAt(upper))) {
             upper++;
         }
         if (upper <= lower) {
@@ -123,7 +120,8 @@ public final class Element {
                 return;
             }
         }
-        while (!parseOptionalSeparator(text, position, parser.symbols.openingBrackets[bracketIndex]));
+        while (!parseOptionalSeparator(text, position, parser.symbols
+                .openingBrackets[bracketIndex]));
         list = new LinkedList<Object>();
         /*
          * Parse all elements inside the bracket. Elements are parsed sequentially
@@ -179,17 +177,16 @@ public final class Element {
      * separator is found, then the position is set to the first character after the separator.
      * Otherwise, the position is set on the first non-blank character.
      *
-     * @param  text       The text to parse.
-     * @param  position   In input, the position where to start parsing from.
-     *                    In output, the first character after the separator.
-     * @param  separator  The character to search.
+     * @param text      The text to parse.
+     * @param position  In input, the position where to start parsing from.
+     *                  In output, the first character after the separator.
+     * @param separator The character to search.
      * @return {@code true} if the next non-whitespace character is the separator,
-     *         or {@code false} otherwise.
+     * or {@code false} otherwise.
      */
-    private static boolean parseOptionalSeparator(final String        text,
+    private static boolean parseOptionalSeparator(final String text,
                                                   final ParsePosition position,
-                                                  final char          separator)
-    {
+                                                  final char separator) {
         final int length = text.length();
         int index = position.getIndex();
         while (index < length) {
@@ -213,17 +210,16 @@ public final class Element {
      * specified separator. If the separator is found, it is skipped. Otherwise, this
      * method thrown a {@link ParseException}.
      *
-     * @param  text       The text to parse.
-     * @param  position   In input, the position where to start parsing from.
-     *                    In output, the first character after the separator.
-     * @param  separator  The character to search.
+     * @param text      The text to parse.
+     * @param position  In input, the position where to start parsing from.
+     *                  In output, the first character after the separator.
+     * @param separator The character to search.
      * @throws ParseException if the separator was not found.
      */
-    private void parseSeparator(final String        text,
+    private void parseSeparator(final String text,
                                 final ParsePosition position,
-                                final char          separator)
-        throws ParseException
-    {
+                                final char separator)
+            throws ParseException {
         if (!parseOptionalSeparator(text, position, separator)) {
             position.setErrorIndex(position.getIndex());
             throw unparsableString(text, position);
@@ -231,21 +227,20 @@ public final class Element {
     }
 
 
-
-
     //////////////////////////////////////////////////////////////////////////////////////
     ////////                                                                      ////////
     ////////    Construction of a ParseException when a string can't be parsed    ////////
     ////////                                                                      ////////
     //////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Returns a {@link ParseException} with the specified cause. A localized string
      * <code>"Error in <{@link #keyword}>"</code> will be prepend to the message.
      * The error index will be the starting index of this {@code Element}.
      *
-     * @param  cause   The cause of the failure, or {@code null} if none.
-     * @param  message The message explaining the cause of the failure, or {@code null}
-     *                 for reusing the same message than {@code cause}.
+     * @param cause   The cause of the failure, or {@code null} if none.
+     * @param message The message explaining the cause of the failure, or {@code null}
+     *                for reusing the same message than {@code cause}.
      * @return The exception to be thrown.
      */
     public ParseException parseFailed(final Exception cause, String message) {
@@ -264,8 +259,8 @@ public final class Element {
      * {@link ParsePosition#getIndex} and {@link ParsePosition#getErrorIndex} must be accurate
      * before this method is invoked.
      *
-     * @param  text The unparsable string.
-     * @param  position The position in the string.
+     * @param text     The unparsable string.
+     * @param position The position in the string.
      * @return An exception with a formatted error message.
      */
     private ParseException unparsableString(final String text, final ParsePosition position) {
@@ -278,12 +273,12 @@ public final class Element {
     /**
      * Returns an exception saying that a character is missing.
      *
-     * @param c The missing character.
+     * @param c        The missing character.
      * @param position The error position.
      */
     private ParseException missingCharacter(final char c, final int position) {
         return trim("missingCharacter", new ParseException(complete(
-                    Errors.format(ErrorKeys.MISSING_CHARACTER_$1, Character.valueOf(c))), position));
+                Errors.format(ErrorKeys.MISSING_CHARACTER_$1, Character.valueOf(c))), position));
     }
 
     /**
@@ -297,13 +292,13 @@ public final class Element {
             error += keyword.length();
         }
         return trim("missingParameter", new ParseException(complete(
-                    Errors.format(ErrorKeys.MISSING_PARAMETER_$1, key)), error));
+                Errors.format(ErrorKeys.MISSING_PARAMETER_$1, key)), error));
     }
 
     /**
      * Append a prefix "Error in <keyword>: " before the error message.
      *
-     * @param  message The message to complete.
+     * @param message The message to complete.
      * @return The completed message.
      */
     private String complete(String message) {
@@ -318,13 +313,13 @@ public final class Element {
      * not the place where the failure occurs; the error occurs in the factory's
      * caller.
      *
-     * @param  factory   The name of the factory method.
-     * @param  exception The exception to trim.
+     * @param factory   The name of the factory method.
+     * @param exception The exception to trim.
      * @return {@code exception} for convenience.
      */
     private static ParseException trim(final String factory, final ParseException exception) {
         StackTraceElement[] trace = exception.getStackTrace();
-        if (trace!=null && trace.length!=0) {
+        if (trace != null && trace.length != 0) {
             if (factory.equals(trace[0].getMethodName())) {
                 trace = XArray.remove(trace, 0, 1);
                 exception.setStackTrace(trace);
@@ -339,7 +334,6 @@ public final class Element {
      * false for all other elements inside, like {@code "DATUM"}.
      *
      * @return {@code true} if this element is the root element.
-     *
      * @since 2.3
      */
     public boolean isRoot() {
@@ -347,18 +341,17 @@ public final class Element {
     }
 
 
-
-
     //////////////////////////////////////////////////////////////////////////////////////
     ////////                                                                      ////////
     ////////    Pull elements from the tree                                       ////////
     ////////                                                                      ////////
     //////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Removes the next {@link Number} from the list and returns it.
      *
-     * @param  key The parameter name. Used for formatting
-     *         an error message if no number are found.
+     * @param key The parameter name. Used for formatting
+     *            an error message if no number are found.
      * @return The next {@link Number} on the list as a {@code double}.
      * @throws ParseException if no more number is available.
      */
@@ -368,7 +361,7 @@ public final class Element {
             final Object object = iterator.next();
             if (object instanceof Number) {
                 iterator.remove();
-                return ((Number)object).doubleValue();
+                return ((Number) object).doubleValue();
             }
         }
         throw missingParameter(key);
@@ -378,11 +371,11 @@ public final class Element {
      * Removes the next {@link Number} from the list and returns it
      * as an integer.
      *
-     * @param  key The parameter name. Used for formatting
-     *         an error message if no number are found.
+     * @param key The parameter name. Used for formatting
+     *            an error message if no number are found.
      * @return The next {@link Number} on the list as an {@code int}.
      * @throws ParseException if no more number is available, or the number
-     *         is not an integer.
+     *                        is not an integer.
      */
     public int pullInteger(final String key) throws ParseException {
         final Iterator iterator = list.iterator();
@@ -404,25 +397,26 @@ public final class Element {
     /**
      * Removes the next {@link String} from the list and returns it.
      *
-     * @param  key The parameter name. Used for formatting
-     *         an error message if no number are found.
+     * @param key The parameter name. Used for formatting
+     *            an error message if no number are found.
      * @return The next {@link String} on the list.
      * @throws ParseException if no more string is available.
      */
     public String pullString(final String key) throws ParseException {
-    	String optionalString = pullOptionalString(key);
-    	if (optionalString != null) {
-    		return optionalString;
-    	}
+        String optionalString = pullOptionalString(key);
+        if (optionalString != null) {
+            return optionalString;
+        }
         throw missingParameter(key);
     }
 
     /**
      * Removes the next {@link String} from the list and returns it.
+     *
      * @param key The parameter name. Used for formatting
-     *         an error message if no number are found.
-     * @return The next {@link String} on the list 
-	 *         or {@code null} if no more element is available.
+     *            an error message if no number are found.
+     * @return The next {@link String} on the list
+     * or {@code null} if no more element is available.
      */
     public String pullOptionalString(final String key) {
         final Iterator iterator = list.iterator();
@@ -430,7 +424,7 @@ public final class Element {
             final Object object = iterator.next();
             if (object instanceof String) {
                 iterator.remove();
-                return (String)object;
+                return (String) object;
             }
         }
         return null;
@@ -439,7 +433,7 @@ public final class Element {
     /**
      * Removes the next {@link Element} from the list and returns it.
      *
-     * @param  key The element name (e.g. <code>"PRIMEM"</code>).
+     * @param key The element name (e.g. <code>"PRIMEM"</code>).
      * @return The next {@link Element} on the list.
      * @throws ParseException if no more element is available.
      */
@@ -454,9 +448,9 @@ public final class Element {
     /**
      * Removes the next {@link Element} from the list and returns it.
      *
-     * @param  key The element name (e.g. <code>"PRIMEM"</code>).
+     * @param key The element name (e.g. <code>"PRIMEM"</code>).
      * @return The next {@link Element} on the list,
-     *         or {@code null} if no more element is available.
+     * or {@code null} if no more element is available.
      */
     public Element pullOptionalElement(String key) {
         key = key.toUpperCase();
@@ -465,7 +459,7 @@ public final class Element {
             final Object object = iterator.next();
             if (object instanceof Element) {
                 final Element element = (Element) object;
-                if (element.list!=null && element.keyword.equals(key)) {
+                if (element.list != null && element.keyword.equals(key)) {
                     iterator.remove();
                     return element;
                 }
@@ -478,7 +472,7 @@ public final class Element {
      * Removes and returns the next {@link Element} with no bracket.
      * The key is used only for only for formatting an error message.
      *
-     * @param  key The parameter name. Used only for formatting an error message.
+     * @param key The parameter name. Used only for formatting an error message.
      * @return The next {@link Element} in the list, with no bracket.
      * @throws ParseException if no more void element is available.
      */
@@ -496,11 +490,11 @@ public final class Element {
         }
         throw missingParameter(key);
     }
-    
+
     /**
      * Removes and returns the next {@link Element} with no bracket, if available, or
      * null otherwise.
-
+     *
      * @return The next {@link Element} in the list, with no bracket, or null if none was found
      * @throws ParseException if no more void element is available.
      */
@@ -535,9 +529,9 @@ public final class Element {
      * @throws ParseException If the list still contains some unprocessed elements.
      */
     public void close() throws ParseException {
-        if (list!=null && !list.isEmpty()) {
+        if (list != null && !list.isEmpty()) {
             throw new ParseException(complete(Errors.format(ErrorKeys.UNEXPECTED_PARAMETER_$1,
-                                              list.get(0))), offset+keyword.length());
+                    list.get(0))), offset + keyword.length());
         }
     }
 
@@ -554,8 +548,8 @@ public final class Element {
      * Print this {@code Element} as a tree.
      * This method is used for debugging purpose only.
      *
-     * @param  out    The output stream.
-     * @param  level  The indentation level (usually 0).
+     * @param out   The output stream.
+     * @param level The indentation level (usually 0).
      */
     public void print(final PrintWriter out, final int level) {
         final int tabWidth = 4;
@@ -565,12 +559,12 @@ public final class Element {
             return;
         }
         final int size = list.size();
-        for (int j=0; j<size; j++) {
+        for (int j = 0; j < size; j++) {
             final Object object = list.get(j);
             if (object instanceof Element) {
-                ((Element)object).print(out, level+1);
+                ((Element) object).print(out, level + 1);
             } else {
-                out.print(Utilities.spaces(tabWidth * (level+1)));
+                out.print(Utilities.spaces(tabWidth * (level + 1)));
                 out.println(object);
             }
         }

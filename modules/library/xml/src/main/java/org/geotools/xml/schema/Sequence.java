@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -26,11 +26,8 @@ package org.geotools.xml.schema;
  * </p>
  *
  * @author dzwiers www.refractions.net
- *
- * @see ElementGrouping
- *
- *
  * @source $URL$
+ * @see ElementGrouping
  */
 public interface Sequence extends ElementGrouping {
     /**
@@ -38,7 +35,6 @@ public interface Sequence extends ElementGrouping {
      * This method returns an ORDERED list of children. The children in the
      * list may be singular elements, sequences, choices, ... , or groups.
      * </p>
-     *
      */
     public ElementGrouping[] getChildren();
 
@@ -46,7 +42,6 @@ public interface Sequence extends ElementGrouping {
      * <p>
      * The Schema ID for this sequence definition.
      * </p>
-     *
      */
     public String getId();
 

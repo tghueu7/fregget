@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2001-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -19,6 +19,7 @@ package org.geotools.util.logging;
 import java.util.logging.Logger;
 
 import org.junit.*;
+
 import static org.junit.Assert.*;
 import static org.junit.Assume.*;
 
@@ -26,11 +27,9 @@ import static org.junit.Assume.*;
 /**
  * Test the {@link MonolineFormatter} class.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
  */
 public final class MonolineFormatterTest {
     /**
@@ -42,22 +41,22 @@ public final class MonolineFormatterTest {
     @Ignore
     public void testInitialization() {
         final String[] namespaces = {
-            "org.geotools.core",
-            "org.geotools.resources",
-            "org.geotools.referencing",
-            "org.opengis.referencing"   // Non-geotools logger should not be affected.
+                "org.geotools.core",
+                "org.geotools.resources",
+                "org.geotools.referencing",
+                "org.opengis.referencing"   // Non-geotools logger should not be affected.
         };
-        for (int i=0; i<namespaces.length; i++) {
+        for (int i = 0; i < namespaces.length; i++) {
             System.out.println();
             System.out.print("Testing ");
             final Logger logger = Logging.getLogger(namespaces[i]);
             System.out.println(logger.getName());
-            logger.severe ("Don't worry, just a test");
+            logger.severe("Don't worry, just a test");
             logger.warning("This is an imaginary warning");
-            logger.info   ("This is a pseudo-information message");
-            logger.config ("Not really configuring anything...");
-            logger.fine   ("This is a detailed (but useless) message\nWe log this one on two lines!");
-            logger.finer  ("This is a debug message");
+            logger.info("This is a pseudo-information message");
+            logger.config("Not really configuring anything...");
+            logger.fine("This is a detailed (but useless) message\nWe log this one on two lines!");
+            logger.finer("This is a debug message");
         }
     }
 }

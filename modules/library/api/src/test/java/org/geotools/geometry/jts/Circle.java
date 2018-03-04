@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2014, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -24,7 +24,7 @@ import com.vividsolutions.jts.geom.CoordinateSequence;
 
 /**
  * Utility class for the test, represents a circle in the origin with a given radius
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 class Circle {

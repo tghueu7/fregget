@@ -33,8 +33,6 @@ import org.opengis.feature.type.AttributeType;
 import com.vividsolutions.jts.geom.Geometry;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class IngresDataStoreTest extends JDBCDataStoreTest {
@@ -43,9 +41,9 @@ public class IngresDataStoreTest extends JDBCDataStoreTest {
     protected JDBCTestSetup createTestSetup() {
         return new IngresTestSetup();
     }
-    
+
     public void testCreateSchemaWithConstraints() throws Exception {
-    	//fails because Ingres truncates on too long varchar, it doesn't fail
-    	//otherwise this test passes 100%
+        //fails because Ingres truncates on too long varchar, it doesn't fail
+        //otherwise this test passes 100%
     }
 }

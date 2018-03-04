@@ -43,17 +43,19 @@ public class HSQLCRSTest extends AbstractCRSTest {
     protected Properties createOfflineFixture() {
         return new Properties();
     }
-    
+
     @Override
     protected boolean supportsED50QuickScan() {
         return true;
     }
-    
+
     @Test
-    public void testMercatorProjectionTolerance() throws NoSuchAuthorityCodeException, FactoryException, MismatchedDimensionException, TransformException {
+    public void testMercatorProjectionTolerance() throws NoSuchAuthorityCodeException, 
+            FactoryException, MismatchedDimensionException, TransformException {
         CoordinateReferenceSystem targetCrs = CRS.decode("EPSG:25831");
         System.out.println(targetCrs.getDomainOfValidity());
-        MathTransform mathTransform = CRS.findMathTransform(DefaultGeographicCRS.WGS84, targetCrs, true);
+        MathTransform mathTransform = CRS.findMathTransform(DefaultGeographicCRS.WGS84, 
+                targetCrs, true);
         DirectPosition2D position2D = new DirectPosition2D(DefaultGeographicCRS.WGS84, 0.1, 39);
         DirectPosition2D position2Dres = new DirectPosition2D();
         mathTransform.transform(position2D, position2Dres);

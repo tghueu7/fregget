@@ -40,37 +40,35 @@ import org.geotools.util.Utilities;
 /**
  * A contextually local coordinate reference system. It can be divided into two broad categories:
  * <ul>
- *   <li>earth-fixed systems applied to engineering activities on or near the surface of the
- *       earth;</li>
- *   <li>CRSs on moving platforms such as road vehicles, vessels, aircraft, or spacecraft.</li>
+ * <li>earth-fixed systems applied to engineering activities on or near the surface of the
+ * earth;</li>
+ * <li>CRSs on moving platforms such as road vehicles, vessels, aircraft, or spacecraft.</li>
  * </ul>
- *
+ * <p>
  * <TABLE CELLPADDING='6' BORDER='1'>
  * <TR BGCOLOR="#EEEEFF"><TH NOWRAP>Used with CS type(s)</TH></TR>
  * <TR><TD>
- *   {@link org.opengis.referencing.cs.CartesianCS    Cartesian},
- *   {@link org.opengis.referencing.cs.AffineCS       Affine},
- *   {@link org.opengis.referencing.cs.EllipsoidalCS  Ellipsoidal},
- *   {@link org.opengis.referencing.cs.SphericalCS    Spherical},
- *   {@link org.opengis.referencing.cs.CylindricalCS  Cylindrical},
- *   {@link org.opengis.referencing.cs.PolarCS        Polar},
- *   {@link org.opengis.referencing.cs.VerticalCS     Vertical},
- *   {@link org.opengis.referencing.cs.LinearCS       Linear}
+ * {@link org.opengis.referencing.cs.CartesianCS    Cartesian},
+ * {@link org.opengis.referencing.cs.AffineCS       Affine},
+ * {@link org.opengis.referencing.cs.EllipsoidalCS  Ellipsoidal},
+ * {@link org.opengis.referencing.cs.SphericalCS    Spherical},
+ * {@link org.opengis.referencing.cs.CylindricalCS  Cylindrical},
+ * {@link org.opengis.referencing.cs.PolarCS        Polar},
+ * {@link org.opengis.referencing.cs.VerticalCS     Vertical},
+ * {@link org.opengis.referencing.cs.LinearCS       Linear}
  * </TD></TR></TABLE>
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class DefaultEngineeringCRS extends AbstractSingleCRS implements EngineeringCRS {
     /**
      * Serial number for interoperability with different versions.
      */
     private static final long serialVersionUID = 6695541732063382701L;
-    
+
     /**
      * Marks the CRS as a wildcard one. Wildcard CRS will transform to any other CRS with the
      * identity transform
@@ -86,7 +84,8 @@ public class DefaultEngineeringCRS extends AbstractSingleCRS implements Engineer
      * {@linkplain DefaultGeographicCRS geographic coordinate reference system} for example).
      */
     public static final DefaultEngineeringCRS CARTESIAN_2D =
-            new DefaultEngineeringCRS(VocabularyKeys.CARTESIAN_2D, DefaultCartesianCS.GENERIC_2D, false);
+            new DefaultEngineeringCRS(VocabularyKeys.CARTESIAN_2D, DefaultCartesianCS.GENERIC_2D,
+                    false);
 
     /**
      * A three-dimensional cartesian coordinate reference system with
@@ -98,7 +97,8 @@ public class DefaultEngineeringCRS extends AbstractSingleCRS implements Engineer
      * {@linkplain DefaultGeographicCRS geographic coordinate reference system} for example).
      */
     public static final DefaultEngineeringCRS CARTESIAN_3D =
-            new DefaultEngineeringCRS(VocabularyKeys.CARTESIAN_3D, DefaultCartesianCS.GENERIC_3D, false);
+            new DefaultEngineeringCRS(VocabularyKeys.CARTESIAN_3D, DefaultCartesianCS.GENERIC_3D,
+                    false);
 
     /**
      * A two-dimensional wildcard coordinate system with
@@ -113,7 +113,8 @@ public class DefaultEngineeringCRS extends AbstractSingleCRS implements Engineer
      * transform. This CRS is usefull as a kind of wildcard when no CRS were explicitly specified.
      */
     public static final DefaultEngineeringCRS GENERIC_2D =
-            new DefaultEngineeringCRS(VocabularyKeys.GENERIC_CARTESIAN_2D, DefaultCartesianCS.GENERIC_2D, true);
+            new DefaultEngineeringCRS(VocabularyKeys.GENERIC_CARTESIAN_2D, DefaultCartesianCS
+                    .GENERIC_2D, true);
 
     /**
      * A three-dimensional wildcard coordinate system with
@@ -129,9 +130,10 @@ public class DefaultEngineeringCRS extends AbstractSingleCRS implements Engineer
      * transform. This CRS is usefull as a kind of wildcard when no CRS were explicitly specified.
      */
     public static final DefaultEngineeringCRS GENERIC_3D =
-            new DefaultEngineeringCRS(VocabularyKeys.GENERIC_CARTESIAN_3D, DefaultCartesianCS.GENERIC_3D, true);
-    
-    
+            new DefaultEngineeringCRS(VocabularyKeys.GENERIC_CARTESIAN_3D, DefaultCartesianCS
+                    .GENERIC_3D, true);
+
+
     DefaultEngineeringCRS(final int key, final CoordinateSystem cs, boolean wildcard) {
         this(name(key), DefaultEngineeringDatum.UNKNOWN, cs);
         this.wildcard = wildcard;
@@ -145,12 +147,11 @@ public class DefaultEngineeringCRS extends AbstractSingleCRS implements Engineer
      * i.e. the properties are not cloned.
      *
      * @param crs The CRS to copy.
-     *
      * @since 2.2
      */
     public DefaultEngineeringCRS(final EngineeringCRS crs) {
         super(crs);
-        if(crs instanceof DefaultEngineeringCRS) {
+        if (crs instanceof DefaultEngineeringCRS) {
             this.wildcard = ((DefaultEngineeringCRS) crs).wildcard;
         }
     }
@@ -158,46 +159,46 @@ public class DefaultEngineeringCRS extends AbstractSingleCRS implements Engineer
     /**
      * Constructs an engineering CRS from a name.
      *
-     * @param name The name.
+     * @param name  The name.
      * @param datum The datum.
-     * @param cs The coordinate system.
+     * @param cs    The coordinate system.
      */
-    public DefaultEngineeringCRS(final String            name,
+    public DefaultEngineeringCRS(final String name,
                                  final EngineeringDatum datum,
-                                 final CoordinateSystem    cs)
-    {
+                                 final CoordinateSystem cs) {
         this(Collections.singletonMap(NAME_KEY, name), datum, cs);
     }
 
     /**
      * Constructs an engineering CRS from a set of properties. The properties are given unchanged to
-     * the {@linkplain AbstractReferenceSystem#AbstractReferenceSystem(Map) super-class constructor}.
+     * the 
+     * {@linkplain AbstractReferenceSystem#AbstractReferenceSystem(Map) super-class constructor}.
      *
      * @param properties Set of properties. Should contains at least {@code "name"}.
-     * @param datum The datum.
-     * @param cs The coordinate system.
+     * @param datum      The datum.
+     * @param cs         The coordinate system.
      */
-    public DefaultEngineeringCRS(final Map<String,?> properties,
-                                 final EngineeringDatum   datum,
-                                 final CoordinateSystem      cs)
-    {
+    public DefaultEngineeringCRS(final Map<String, ?> properties,
+                                 final EngineeringDatum datum,
+                                 final CoordinateSystem cs) {
         super(properties, datum, cs);
     }
-    
+
     /**
      * Constructs an engineering CRS from a set of properties. The properties are given unchanged to
-     * the {@linkplain AbstractReferenceSystem#AbstractReferenceSystem(Map) super-class constructor}.
+     * the 
+     * {@linkplain AbstractReferenceSystem#AbstractReferenceSystem(Map) super-class constructor}.
      *
      * @param properties Set of properties. Should contains at least {@code "name"}.
-     * @param datum The datum.
-     * @param cs The coordinate system.
-     * @param wildcard When true the CRS will transform to any other CRS with the identity transform
+     * @param datum      The datum.
+     * @param cs         The coordinate system.
+     * @param wildcard   When true the CRS will transform to any other CRS with the identity 
+     *                   transform
      */
-    public DefaultEngineeringCRS(final Map<String,?> properties,
-                                 final EngineeringDatum   datum,
-                                 final CoordinateSystem      cs,
-                                 final boolean         wildcard)
-    {
+    public DefaultEngineeringCRS(final Map<String, ?> properties,
+                                 final EngineeringDatum datum,
+                                 final CoordinateSystem cs,
+                                 final boolean wildcard) {
         super(properties, datum, cs);
         this.wildcard = wildcard;
     }
@@ -214,19 +215,20 @@ public class DefaultEngineeringCRS extends AbstractSingleCRS implements Engineer
      * Returns a hash value for this derived CRS.
      *
      * @return The hash code value. This value doesn't need to be the same
-     *         in past or future versions of this class.
+     * in past or future versions of this class.
      */
     @Override
     public int hashCode() {
-        return (int)serialVersionUID ^ super.hashCode();
+        return (int) serialVersionUID ^ super.hashCode();
     }
 
     /**
      * Format the inner part of a
-     * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
+     * <A HREF="http://geoapi.sourceforge
+     * .net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
      * Known Text</cite> (WKT)</A> element.
      *
-     * @param  formatter The formatter to use.
+     * @param formatter The formatter to use.
      * @return The name of the WKT element type, which is {@code "LOCAL_CS"}.
      */
     @Override
@@ -234,7 +236,7 @@ public class DefaultEngineeringCRS extends AbstractSingleCRS implements Engineer
         formatDefaultWKT(formatter);
         return "LOCAL_CS";
     }
-    
+
     /**
      * Compares the specified object to this CRS for equality. This method is overridden
      * because, otherwise, {@code CARTESIAN_xD} and {@code GENERIC_xD} would be considered
@@ -256,11 +258,12 @@ public class DefaultEngineeringCRS extends AbstractSingleCRS implements Engineer
     /**
      * Returns true if this is a wildcard CRS, that is, one that will transform from and to
      * any other CRS using the identity transformation
+     *
      * @return
      */
     public boolean isWildcard() {
         return wildcard;
     }
-    
-    
+
+
 }

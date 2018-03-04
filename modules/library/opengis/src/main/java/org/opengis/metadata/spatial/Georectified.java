@@ -4,13 +4,14 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.metadata.spatial;
 
 import java.util.Collection;
 import java.util.List;
+
 import org.opengis.util.InternationalString;
 import org.opengis.geometry.primitive.Point;
 import org.opengis.annotation.UML;
@@ -25,14 +26,12 @@ import static org.opengis.annotation.Specification.*;
  * in the grid can be geolocated given its grid coordinate and the grid origin, cell spacing,
  * and orientation indication of whether or not geographic.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 2.0
+ * @source $URL$
+ * @since GeoAPI 2.0
  */
-@UML(identifier="MD_Georectified", specification=ISO_19115)
+@UML(identifier = "MD_Georectified", specification = ISO_19115)
 public interface Georectified extends GridSpatialRepresentation {
     /**
      * Indication of whether or not geographic position points are available to test the
@@ -40,7 +39,7 @@ public interface Georectified extends GridSpatialRepresentation {
      *
      * @return Whether or not geographic position points are available to test accuracy.
      */
-    @UML(identifier="checkPointAvailability", obligation=MANDATORY, specification=ISO_19115)
+    @UML(identifier = "checkPointAvailability", obligation = MANDATORY, specification = ISO_19115)
     boolean isCheckPointAvailable();
 
     /**
@@ -49,7 +48,7 @@ public interface Georectified extends GridSpatialRepresentation {
      *
      * @return Description of geographic position points used to test accuracy, or {@code null}.
      */
-    @UML(identifier="checkPointDescription", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "checkPointDescription", obligation = OPTIONAL, specification = ISO_19115)
     InternationalString getCheckPointDescription();
 
     /**
@@ -60,7 +59,7 @@ public interface Georectified extends GridSpatialRepresentation {
      *
      * @return The corner points.
      */
-    @UML(identifier="cornerPoints", obligation=MANDATORY, specification=ISO_19115)
+    @UML(identifier = "cornerPoints", obligation = MANDATORY, specification = ISO_19115)
     List<? extends Point> getCornerPoints();
 
     /**
@@ -70,7 +69,7 @@ public interface Georectified extends GridSpatialRepresentation {
      *
      * @return The center point, or {@code null}.
      */
-    @UML(identifier="centerPoint", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "centerPoint", obligation = OPTIONAL, specification = ISO_19115)
     Point getCenterPoint();
 
     /**
@@ -78,7 +77,7 @@ public interface Georectified extends GridSpatialRepresentation {
      *
      * @return Earth location of the pixel.
      */
-    @UML(identifier="pointInPixel", obligation=MANDATORY, specification=ISO_19115)
+    @UML(identifier = "pointInPixel", obligation = MANDATORY, specification = ISO_19115)
     PixelOrientation getPointInPixel();
 
     /**
@@ -86,7 +85,8 @@ public interface Georectified extends GridSpatialRepresentation {
      *
      * @return Description of the information about grid dimensions, or {@code null}.
      */
-    @UML(identifier="transformationDimensionDescription", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "transformationDimensionDescription", obligation = OPTIONAL, specification 
+            = ISO_19115)
     InternationalString getTransformationDimensionDescription();
 
     /**
@@ -94,6 +94,7 @@ public interface Georectified extends GridSpatialRepresentation {
      *
      * @return Information about which grid dimensions are the spatial dimensions, or {@code null}.
      */
-    @UML(identifier="transformationDimensionMapping", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "transformationDimensionMapping", obligation = OPTIONAL, specification = 
+            ISO_19115)
     Collection<? extends InternationalString> getTransformationDimensionMapping();
 }

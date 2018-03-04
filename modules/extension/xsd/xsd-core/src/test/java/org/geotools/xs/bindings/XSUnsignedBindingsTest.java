@@ -42,22 +42,26 @@ public class XSUnsignedBindingsTest extends TestCase {
     }
 
     public void testParseUnsignedInt() throws Exception {
-        Long l = (Long) p.parse(new ByteArrayInputStream(doc("unsignedInt", "12").getBytes(Charset.forName("UTF-8"))));
+        Long l = (Long) p.parse(new ByteArrayInputStream(doc("unsignedInt", "12").getBytes
+                (Charset.forName("UTF-8"))));
         assertEquals(12l, l.longValue());
     }
 
     public void testParseUnsignedByte() throws Exception {
-        Short s = (Short) p.parse(new ByteArrayInputStream(doc("unsignedByte", "12").getBytes(Charset.forName("UTF-8"))));
+        Short s = (Short) p.parse(new ByteArrayInputStream(doc("unsignedByte", "12").getBytes
+                (Charset.forName("UTF-8"))));
         assertEquals(12, s.shortValue());
     }
 
     public void testParseUnsignedShort() throws Exception {
-        Integer i = (Integer) p.parse(new ByteArrayInputStream(doc("unsignedShort", "12").getBytes(Charset.forName("UTF-8"))));
+        Integer i = (Integer) p.parse(new ByteArrayInputStream(doc("unsignedShort", "12")
+                .getBytes(Charset.forName("UTF-8"))));
         assertEquals(12, i.longValue());
     }
-    
+
     public void testParseUnsignedLong() throws Exception {
-        BigDecimal l = (BigDecimal) p.parse(new ByteArrayInputStream(doc("unsignedLong", "12").getBytes(Charset.forName("UTF-8"))));
+        BigDecimal l = (BigDecimal) p.parse(new ByteArrayInputStream(doc("unsignedLong", "12")
+                .getBytes(Charset.forName("UTF-8"))));
         assertEquals(12l, l.longValue());
     }
 
@@ -66,8 +70,8 @@ public class XSUnsignedBindingsTest extends TestCase {
         copy(TestSchema.class.getResourceAsStream("sample.xsd"), sampleXsd);
 
         return String.format("<my:%s xmlns:my='http://localhost/xob/test' " +
-                            "schemaLocation='http://localhost/xob/test %s'>%s</my:%s>",
-            elName, URLs.fileToUrl(sampleXsd), elValue, elName);
+                        "schemaLocation='http://localhost/xob/test %s'>%s</my:%s>",
+                elName, URLs.fileToUrl(sampleXsd), elValue, elName);
     }
 
     void copy(InputStream in, File to) throws IOException {
@@ -75,7 +79,7 @@ public class XSUnsignedBindingsTest extends TestCase {
         byte[] buffer = new byte[1024];
         int n = 0;
 
-        while (( n = in.read(buffer)) > 0) {
+        while ((n = in.read(buffer)) > 0) {
             fout.write(buffer, 0, n);
         }
         fout.flush();

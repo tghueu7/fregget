@@ -27,12 +27,9 @@ import org.opengis.feature.Feature;
  * Decorator for Iterator&lt;Feature&gt; to provide a FeatureIterator&lt;Feature&gt; that adds a
  * close method that does nothing. This class exists only to satisfy the {@link FeatureCollection}
  * API. All iteration is performed using the iterator passed to the constructor.
- * 
+ *
  * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
  * @version $Id$
- *
- *
- *
  * @source $URL$
  * @since 2.6
  */
@@ -43,9 +40,8 @@ public class SampleDataAccessFeatureIterator implements FeatureIterator<Feature>
 
     /**
      * Constructor.
-     * 
-     * @param iterator
-     *            iterator to which all iteration is delegated.
+     *
+     * @param iterator iterator to which all iteration is delegated.
      */
     public SampleDataAccessFeatureIterator(Iterator<Feature> iterator) {
         this.iterator = iterator;
@@ -74,7 +70,7 @@ public class SampleDataAccessFeatureIterator implements FeatureIterator<Feature>
 
     /**
      * Nothing to close.
-     * 
+     *
      * @see org.geotools.feature.FeatureIterator#close()
      */
     public void close() {

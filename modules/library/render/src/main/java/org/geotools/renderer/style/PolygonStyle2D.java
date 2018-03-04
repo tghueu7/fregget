@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,6 +17,7 @@
 package org.geotools.renderer.style;
 
 // J2SE dependencies
+
 import java.awt.Composite;
 import java.awt.Paint;
 
@@ -27,10 +28,8 @@ import org.geotools.resources.Classes;
  * A style that contains the specification to renderer both the contour and the interior of a shape
  *
  * @author Andrea Aime
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class PolygonStyle2D extends LineStyle2D {
     protected Paint fill;
@@ -39,16 +38,16 @@ public class PolygonStyle2D extends LineStyle2D {
 
 
     /**
-     * Returns a Style2D used for filling the {@linkplain org.geotools.renderer.geom.Polygon polygon}
+     * Returns a Style2D used for filling the 
+     * {@linkplain org.geotools.renderer.geom.Polygon polygon}
      * to be rendered, or <code>null</code> if none.
-     * 
+     *
      * @return the current fill or null if none
      */
-    public Style2D getGraphicFill()
-    {
-    	return graphicFill;
+    public Style2D getGraphicFill() {
+        return graphicFill;
     }
-    
+
     /**
      * Sets a Style2D for filling the {@linkplain org.geotools.renderer.geom.Polygon polygon} to be
      * rendered. Set it to <code>null</code> if no Style2D filling is to be performed.

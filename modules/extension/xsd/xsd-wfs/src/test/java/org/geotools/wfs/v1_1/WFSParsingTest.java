@@ -80,8 +80,6 @@ import net.opengis.wfs.TransactionResponseType;
 import net.opengis.wfs.WFSCapabilitiesType;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class WFSParsingTest {
@@ -89,7 +87,7 @@ public class WFSParsingTest {
 
     @Before
     public void setUp() throws Exception {
-        
+
         configuration = new org.geotools.wfs.v1_1.WFSConfiguration();
     }
 
@@ -108,9 +106,10 @@ public class WFSParsingTest {
         assertFilterCapabilities(caps);
         assertFeatureTypeListOperations(caps);
     }
-    
+
     /**
      * TODO: fix me
+     *
      * @throws Exception
      */
     public void _testParseGetCapabilitiesDeegree() throws Exception {
@@ -132,18 +131,20 @@ public class WFSParsingTest {
         assertNotNull(om);
 
         assertEquals(6, om.getOperation().size());
-        
+
         OperationType getCapsOp = (OperationType) om.getOperation().get(2);
         assertEquals("GetCapabilities", getCapsOp.getName());
-        assertEquals( 1, getCapsOp.getDCP().size());
-        
+        assertEquals(1, getCapsOp.getDCP().size());
+
         DCPType dcp = (DCPType) getCapsOp.getDCP().get(0);
-        assertEquals( 1, dcp.getHTTP().getGet().size() );
-        assertEquals( 1, dcp.getHTTP().getPost().size() );
-        
-        assertEquals( "http://demo.deegree.org/deegree-wfs/services?", ((RequestMethodType) dcp.getHTTP().getGet().get(0)).getHref() );
-        assertEquals( "http://demo.deegree.org/deegree-wfs/services", ((RequestMethodType) dcp.getHTTP().getPost().get(0)).getHref() );
-        
+        assertEquals(1, dcp.getHTTP().getGet().size());
+        assertEquals(1, dcp.getHTTP().getPost().size());
+
+        assertEquals("http://demo.deegree.org/deegree-wfs/services?", ((RequestMethodType) dcp
+                .getHTTP().getGet().get(0)).getHref());
+        assertEquals("http://demo.deegree.org/deegree-wfs/services", ((RequestMethodType) dcp
+                .getHTTP().getPost().get(0)).getHref());
+
         assertEquals("GetFeature", ((OperationType) om.getOperation().get(0)).getName());
         assertEquals("DescribeFeatureType", ((OperationType) om.getOperation().get(1)).getName());
         assertEquals("GetFeatureWithLock", ((OperationType) om.getOperation().get(3)).getName());
@@ -171,18 +172,20 @@ public class WFSParsingTest {
         assertNotNull(om);
 
         assertEquals(6, om.getOperation().size());
-        
+
         OperationType getCapsOp = (OperationType) om.getOperation().get(0);
         assertEquals("GetCapabilities", getCapsOp.getName());
-        assertEquals( 1, getCapsOp.getDCP().size());
-        
+        assertEquals(1, getCapsOp.getDCP().size());
+
         DCPType dcp = (DCPType) getCapsOp.getDCP().get(0);
-        assertEquals( 1, dcp.getHTTP().getGet().size() );
-        assertEquals( 1, dcp.getHTTP().getPost().size() );
-        
-        assertEquals( "http://localhost:8080/geoserver/wfs", ((RequestMethodType) dcp.getHTTP().getGet().get(0)).getHref() );
-        assertEquals( "http://localhost:8080/geoserver/wfs", ((RequestMethodType) dcp.getHTTP().getPost().get(0)).getHref() );
-        
+        assertEquals(1, dcp.getHTTP().getGet().size());
+        assertEquals(1, dcp.getHTTP().getPost().size());
+
+        assertEquals("http://localhost:8080/geoserver/wfs", ((RequestMethodType) dcp.getHTTP()
+                .getGet().get(0)).getHref());
+        assertEquals("http://localhost:8080/geoserver/wfs", ((RequestMethodType) dcp.getHTTP()
+                .getPost().get(0)).getHref());
+
         assertEquals("DescribeFeatureType", ((OperationType) om.getOperation().get(1)).getName());
         assertEquals(1, ((OperationType) om.getOperation().get(1)).getDCP().size());
         assertEquals("GetFeature", ((OperationType) om.getOperation().get(2)).getName());
@@ -194,7 +197,7 @@ public class WFSParsingTest {
         assertEquals("Transaction", ((OperationType) om.getOperation().get(5)).getName());
         assertEquals(1, ((OperationType) om.getOperation().get(5)).getDCP().size());
     }
-    
+
     void assertFeatureTypeListOperations(WFSCapabilitiesType caps) {
         OperationsType o = caps.getFeatureTypeList().getOperations();
         assertNotNull(o);
@@ -205,7 +208,7 @@ public class WFSParsingTest {
         assertEquals("Update", ((net.opengis.wfs.OperationType) o.getOperation().get(2)).getName());
         assertEquals("Delete", ((net.opengis.wfs.OperationType) o.getOperation().get(3)).getName());
         assertEquals("Lock", ((net.opengis.wfs.OperationType) o.getOperation().get(4)).getName());
-        
+
     }
 
     void assertFeatureTypeList(WFSCapabilitiesType caps) {
@@ -250,10 +253,10 @@ public class WFSParsingTest {
         QName name = new QName(targetNs, featureName);
         XSDElementDeclaration elementDeclaration = Schemas.getElementDeclaration(schema, name);
         assertNotNull(elementDeclaration);
-        
+
 
         XSDComplexTypeDefinition type = (XSDComplexTypeDefinition) elementDeclaration.getType();
-        
+
         assertEquals("PrimitiveGeoFeatureType", type.getName());
         assertEquals(targetNs, type.getTargetNamespace());
     }
@@ -276,12 +279,13 @@ public class WFSParsingTest {
         Document doc = db.parse(in);
 
         // http://cite.opengeospatial.org/gmlsf
-        // http://localhost:8080/geoserver/wfs?service=WFS&amp;version=1.1.0&amp;request=DescribeFeatureType&amp;typeName=sf:PrimitiveGeoFeature
+        // http://localhost:8080/geoserver/wfs?service=WFS&amp;version=1.1.0&amp;
+        // request=DescribeFeatureType&amp;typeName=sf:PrimitiveGeoFeature
         String schemaLocation = doc.getDocumentElement().getAttributeNS(
                 "http://www.w3.org/2001/XMLSchema-instance", "schemaLocation");
-        String absolutePath = URLs.fileToUrl( tmp ).toExternalForm();
-        
-		schemaLocation = schemaLocation.replaceAll("http://cite.opengeospatial.org/gmlsf .*",
+        String absolutePath = URLs.fileToUrl(tmp).toExternalForm();
+
+        schemaLocation = schemaLocation.replaceAll("http://cite.opengeospatial.org/gmlsf .*",
                 "http://cite.opengeospatial.org/gmlsf " + absolutePath);
         doc.getDocumentElement().setAttributeNS("http://www.w3.org/2001/XMLSchema-instance",
                 "schemaLocation", schemaLocation);
@@ -325,14 +329,14 @@ public class WFSParsingTest {
             Object intProperty = f.getAttribute("intProperty");
             assertNotNull(intProperty);
             assertTrue(intProperty.getClass().getName(), intProperty instanceof BigInteger);
-            
+
             assertEquals(BigInteger.valueOf(155), intProperty);
             assertEquals(new URI("http://www.opengeospatial.org/"), f.getAttribute("uriProperty"));
             assertEquals(new Float(12765.0), f.getAttribute("measurand"));
             assertTrue(f.getAttribute("dateProperty") instanceof Date);
             assertEquals(BigDecimal.valueOf(5.03), f.getAttribute("decimalProperty"));
         } finally {
-            if( features != null ){
+            if (features != null) {
                 features.close();
             }
         }
@@ -364,32 +368,35 @@ public class WFSParsingTest {
 
         assertEquals(5, n);
     }
-    
+
     @Test
-    public void testParseTransactionResponse() throws IOException, SAXException, ParserConfigurationException{
+    public void testParseTransactionResponse() throws IOException, SAXException, 
+            ParserConfigurationException {
         Parser parser = new Parser(configuration);
         Object parsed = parser.parse(getClass().getResourceAsStream("transactionResponse.xml"));
 
         assertNotNull(parsed);
         assertTrue(parsed.getClass().getName(), parsed instanceof TransactionResponseType);
-        
+
         TransactionResponseType response = (TransactionResponseType) parsed;
-        
+
         InsertResultsType insert = response.getInsertResults();
-        
+
         assertEquals(0, insert.getFeature().size());
-        
+
         parsed = parser.parse(getClass().getResourceAsStream("transactionResponse2.xml"));
 
         assertNotNull(parsed);
         assertTrue(parsed.getClass().getName(), parsed instanceof TransactionResponseType);
-        
+
         response = (TransactionResponseType) parsed;
-        
+
         insert = response.getInsertResults();
-        
+
         assertEquals(2, insert.getFeature().size());
-        assertEquals("fid1", ((InsertedFeatureType) insert.getFeature().get(0)).getFeatureId().get(0).toString());
-        assertEquals("fid2", ((InsertedFeatureType) insert.getFeature().get(1)).getFeatureId().get(0).toString());
+        assertEquals("fid1", ((InsertedFeatureType) insert.getFeature().get(0)).getFeatureId()
+                .get(0).toString());
+        assertEquals("fid2", ((InsertedFeatureType) insert.getFeature().get(1)).getFeatureId()
+                .get(0).toString());
     }
 }

@@ -17,6 +17,7 @@
 package org.geotools.referencing.factory.epsg;
 
 // J2SE dependencies
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,79 +44,76 @@ import org.geotools.referencing.factory.AbstractAuthorityFactory;
  * {@value #CONFIGURATION_FILE} file is found in current directory or in the user's home
  * directory, then the following properties are fetched. Note that the default value may change
  * in a future version if a public server becomes available.
- * <P>
+ * <p>
  * <TABLE BORDER="1">
  * <TR>
- *   <TH>Property</TH>
- *   <TH>Type</TH>
- *   <TH>Description</TH>
- *   <TH>Geotools Default</TH>
+ * <TH>Property</TH>
+ * <TH>Type</TH>
+ * <TH>Description</TH>
+ * <TH>Geotools Default</TH>
  * </TR>
  * <TR>
- *   <TD>{@code serverName}</TD>
- *   <TD>String</TD>
- *   <TD>Oracle database server host name</TD>
- *   <TD>{@code localhost}</TD>
+ * <TD>{@code serverName}</TD>
+ * <TD>String</TD>
+ * <TD>Oracle database server host name</TD>
+ * <TD>{@code localhost}</TD>
  * </TR>
  * <TR>
- *   <TD>{@code databaseName}</TD>
- *   <TD>String</TD>
- *   <TD>Oracle database name</TD>
- *   <TD>{@code EPSG}</TD>
+ * <TD>{@code databaseName}</TD>
+ * <TD>String</TD>
+ * <TD>Oracle database name</TD>
+ * <TD>{@code EPSG}</TD>
  * </TR>
  * <TR>
- *   <TD>{@code schema}</TD>
- *   <TD>String</TD>
- *   <TD>The schema for the EPSG tables</TD>
- *   <TD></TD>
+ * <TD>{@code schema}</TD>
+ * <TD>String</TD>
+ * <TD>The schema for the EPSG tables</TD>
+ * <TD></TD>
  * </TR>
  * <TR>
- *   <TD>{@code portNumber}</TD>
- *   <TD>int</TD>
- *   <TD>TCP port which the Oracle database server is listening on</TD>
- *   <TD>{@code 1521}</TD>
+ * <TD>{@code portNumber}</TD>
+ * <TD>int</TD>
+ * <TD>TCP port which the Oracle database server is listening on</TD>
+ * <TD>{@code 1521}</TD>
  * </TR>
  * <TR>
- *   <TD>{@code user}</TD>
- *   <TD>String</TD>
- *   <TD>User used to make database connections</TD>
- *   <TD>{@code GeoTools}</TD>
+ * <TD>{@code user}</TD>
+ * <TD>String</TD>
+ * <TD>User used to make database connections</TD>
+ * <TD>{@code GeoTools}</TD>
  * </TR>
  * <TR>
- *   <TD>{@code password}</TD>
- *   <TD>String</TD>
- *   <TD>Password used to make database connections</TD>
- *   <TD>{@code GeoTools}</TD></TR>
+ * <TD>{@code password}</TD>
+ * <TD>String</TD>
+ * <TD>Password used to make database connections</TD>
+ * <TD>{@code GeoTools}</TD></TR>
  * </TABLE>
- * <P>
+ * <p>
  * The database version is given in the
  * {@linkplain org.opengis.metadata.citation.Citation#getEdition edition attribute}
  * of the {@linkplain org.opengis.referencing.AuthorityFactory#getAuthority authority}.
  * The Oracle database should be read only.
- * <P>
+ * <p>
  * Just having this class accessible in the classpath, together with the registration in
  * the {@code META-INF/services/} directory, is sufficient to get a working EPSG authority
  * factory backed by this database. Vendors can create a copy of this class, modify it and
  * bundle it with their own distribution if they want to connect their users to an other
  * database.
  *
- * @since 2.4
- *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Didier Richard
  * @author Martin Desruisseaux
  * @author Jody Garnett
+ * @version $Id$
+ * @source $URL$
+ * @since 2.4
  */
 public class ThreadedOracleEpsgFactory extends ThreadedEpsgFactory {
     /**
      * The user configuration file. This class search first for the first file found in the
      * following directories:
      * <ul>
-     *   <li>The current directory</li>
-     *   <li>The user's home directory</li>
+     * <li>The current directory</li>
+     * <li>The user's home directory</li>
      * </ul>
      */
     public static final String CONFIGURATION_FILE = "EPSG-DataSource.properties";
@@ -161,7 +159,7 @@ public class ThreadedOracleEpsgFactory extends ThreadedEpsgFactory {
             in.close();
         } catch (IOException exception) {
             Logging.unexpectedException("org.geotools.referencing.factory", DataSource.class,
-                                        "<init>", exception);
+                    "<init>", exception);
             // Continue. We will try to work with whatever properties are available.
         }
         return p;
@@ -172,7 +170,7 @@ public class ThreadedOracleEpsgFactory extends ThreadedEpsgFactory {
      */
     protected DataSource createDataSource() throws SQLException {
         DataSource source = super.createDataSource();
-        if( source != null ){
+        if (source != null) {
             return source;
         }
         final Properties p = load();
@@ -182,21 +180,21 @@ public class ThreadedOracleEpsgFactory extends ThreadedEpsgFactory {
         } catch (NumberFormatException exception) {
             portNumber = 5432;
             Logging.unexpectedException("org.geotools.referencing.factory", DataSource.class,
-                                        "<init>", exception);
+                    "<init>", exception);
         }
         String serverName = p.getProperty("serverName", "localhost");
-        String databaseName =  p.getProperty("databaseName", "EPSG");
-        String user  = p.getProperty("user", "Geotools");
-        String password =  p.getProperty("password", "Geotools");
+        String databaseName = p.getProperty("databaseName", "EPSG");
+        String user = p.getProperty("user", "Geotools");
+        String password = p.getProperty("password", "Geotools");
         schema = p.getProperty("schema", null);
-        
+
         return source;
     }
 
     /**
      * Returns the backing-store factory for Oracle syntax.
      *
-     * @param  hints A map of hints, including the low-level factories to use for CRS creation.
+     * @param hints A map of hints, including the low-level factories to use for CRS creation.
      * @return The EPSG factory using Oracle syntax.
      * @throws SQLException if connection to the database failed.
      */

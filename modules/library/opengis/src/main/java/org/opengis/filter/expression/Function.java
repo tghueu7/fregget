@@ -4,9 +4,10 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
- */package org.opengis.filter.expression;
+ */
+package org.opengis.filter.expression;
 
 import java.util.List;
 
@@ -26,12 +27,10 @@ import org.opengis.filter.capability.FunctionName;
  * OGC Filter specification.  However, no functions are required to be supported
  * by that specification.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengis.org/docs/02-059.pdf">Implementation specification 1.0</A>
- * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding Implementation Specification 1.1.0</A>
  * @author Chris Dillard (SYS Technologies)
+ * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding 
+ * Implementation Specification 1.1.0</A>
+ * @source $URL$
  * @since GeoAPI 2.0
  */
 @XmlElement("Function")
@@ -45,15 +44,15 @@ public interface Function extends Expression {
      * the required parameters you will need to consult the documentation.
      */
     String getName();
-    
+
     /**
      * Access to the FunctionName description as used in a FilterCapabilities document.
-     * 
+     *
      * @return FunctionName description, if available.
      */
     FunctionName getFunctionName();
 
-   /**
+    /**
      * Returns the list subexpressions that will be evaluated to provide the
      * parameters to the function.
      */
@@ -65,7 +64,6 @@ public interface Function extends Expression {
      * function, then the result value is determined by executing the function.
      *
      * @return Optional literal to use if an implementation for this function is not available.
-     *
      * @since GeoAPI 2.2
      */
     @XmlElement("fallbackValue")

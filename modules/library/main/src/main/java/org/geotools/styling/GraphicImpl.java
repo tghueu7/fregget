@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -38,20 +38,21 @@ import org.opengis.util.Cloneable;
  *
  * @author Ian Turton, CCG
  * @author Johann Sorel (Geomatys)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class GraphicImpl implements Graphic, Cloneable {
-    /** The logger for the default core module. */
-    //private static final java.util.logging.Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org.geotools.core");
-    
+    /**
+     * The logger for the default core module.
+     */
+    //private static final java.util.logging.Logger LOGGER = org.geotools.util.logging.Logging
+    // .getLogger("org.geotools.core");
+
     private final List<GraphicalSymbol> graphics = new ArrayList<GraphicalSymbol>();
     private AnchorPointImpl anchor;
     private Expression gap;
     private Expression initialGap;
-    
+
     private FilterFactory filterFactory;
     private Expression rotation = null;
     private Expression size = null;
@@ -62,22 +63,23 @@ public class GraphicImpl implements Graphic, Cloneable {
      * Creates a new instance of DefaultGraphic
      */
     protected GraphicImpl() {
-        this( CommonFactoryFinder.getFilterFactory(GeoTools.getDefaultHints())); 
+        this(CommonFactoryFinder.getFilterFactory(GeoTools.getDefaultHints()));
     }
 
     public GraphicImpl(FilterFactory factory) {
-        this(factory,null,null,null);
+        this(factory, null, null, null);
     }
-    
-    public GraphicImpl(FilterFactory factory, AnchorPoint anchor,Expression gap, Expression initialGap) {
+
+    public GraphicImpl(FilterFactory factory, AnchorPoint anchor, Expression gap, Expression 
+            initialGap) {
         filterFactory = factory;
         this.anchor = AnchorPointImpl.cast(anchor);
-        
-        if(gap == null) this.gap = ConstantExpression.constant(0);
+
+        if (gap == null) this.gap = ConstantExpression.constant(0);
         else this.gap = gap;
-        if(initialGap == null) this.initialGap = ConstantExpression.constant(0);
+        if (initialGap == null) this.initialGap = ConstantExpression.constant(0);
         else this.initialGap = initialGap;
-        
+
     }
 
     @Deprecated
@@ -96,33 +98,33 @@ public class GraphicImpl implements Graphic, Cloneable {
      * supported, then the list of Marks should be used instead.
      *
      * @return An array of ExternalGraphics objects which should be equivalents
-     *         but in different formats.  If null is returned use getMarks
-     *         instead.
+     * but in different formats.  If null is returned use getMarks
+     * instead.
      */
     @Deprecated
-    public ExternalGraphic[] getExternalGraphics() {        
+    public ExternalGraphic[] getExternalGraphics() {
         Collection<ExternalGraphic> exts = new ArrayList<ExternalGraphic>();
-        
-        for(GraphicalSymbol s : graphics){
-            if(s instanceof ExternalGraphic){
+
+        for (GraphicalSymbol s : graphics) {
+            if (s instanceof ExternalGraphic) {
                 exts.add((ExternalGraphic) s);
             }
         }
-        
+
         return exts.toArray(new ExternalGraphic[0]);
     }
 
     @Deprecated
     public void setExternalGraphics(ExternalGraphic[] externalGraphics) {
-    	Collection<GraphicalSymbol> currExternalGraphics = new ArrayList<GraphicalSymbol>();
-    	for(GraphicalSymbol s : graphics){
-            if (s instanceof ExternalGraphic){
+        Collection<GraphicalSymbol> currExternalGraphics = new ArrayList<GraphicalSymbol>();
+        for (GraphicalSymbol s : graphics) {
+            if (s instanceof ExternalGraphic) {
                 currExternalGraphics.add(s);
             }
         }
-    	graphics.removeAll(currExternalGraphics);
-        
-        for(ExternalGraphic g : externalGraphics){
+        graphics.removeAll(currExternalGraphics);
+
+        for (ExternalGraphic g : externalGraphics) {
             graphics.add(g);
         }
     }
@@ -138,33 +140,33 @@ public class GraphicImpl implements Graphic, Cloneable {
      * or if none of the external graphics formats are supported.
      *
      * @return An array of marks to use when displaying this Graphic. By
-     *         default, a "square" with 50% gray fill and black outline with a
-     *         size of 6 pixels (unless a size is specified) is provided.
+     * default, a "square" with 50% gray fill and black outline with a
+     * size of 6 pixels (unless a size is specified) is provided.
      */
     @Deprecated
-    public Mark[] getMarks() {        
+    public Mark[] getMarks() {
         Collection<Mark> exts = new ArrayList<Mark>();
-        
-        for(GraphicalSymbol s : graphics){
-            if(s instanceof Mark){
+
+        for (GraphicalSymbol s : graphics) {
+            if (s instanceof Mark) {
                 exts.add((Mark) s);
             }
         }
-        
+
         return exts.toArray(new Mark[0]);
     }
 
     @Deprecated
     public void setMarks(Mark[] marks) {
-    	Collection<GraphicalSymbol> currMarks = new ArrayList<GraphicalSymbol>();
-    	for(GraphicalSymbol s : graphics){
-            if (s instanceof Mark){
+        Collection<GraphicalSymbol> currMarks = new ArrayList<GraphicalSymbol>();
+        for (GraphicalSymbol s : graphics) {
+            if (s instanceof Mark) {
                 currMarks.add(s);
             }
         }
-    	graphics.removeAll(currMarks);
-        
-        for(Mark g : marks){
+        graphics.removeAll(currMarks);
+
+        for (Mark g : marks) {
             graphics.add(g);
         }
     }
@@ -188,20 +190,20 @@ public class GraphicImpl implements Graphic, Cloneable {
      * state it is only there as a sensible default for rendering.
      *
      * @return An array of symbols to use when displaying this Graphic. By
-     *         default, a "square" with 50% gray fill and black outline with a
-     *         size of 6 pixels (unless a size is specified) is provided.
+     * default, a "square" with 50% gray fill and black outline with a
+     * size of 6 pixels (unless a size is specified) is provided.
      */
     @Deprecated
     public Symbol[] getSymbols() {
         ArrayList<Symbol> symbols = new ArrayList<Symbol>();
-        for( GraphicalSymbol graphic : graphics ){
-            if( graphic instanceof Symbol ){
-                symbols.add( (Symbol) graphic );
+        for (GraphicalSymbol graphic : graphics) {
+            if (graphic instanceof Symbol) {
+                symbols.add((Symbol) graphic);
             }
         }
         return symbols.toArray(new Symbol[0]);
     }
-    
+
 //    public List<Symbol> graphicalSymbols() {
 //        return symbols;
 //    }
@@ -209,8 +211,8 @@ public class GraphicImpl implements Graphic, Cloneable {
     @Deprecated
     public void setSymbols(Symbol[] symbols) {
         graphics.clear();
-        
-        for(Symbol g : symbols){
+
+        for (Symbol g : symbols) {
             graphics.add(g);
         }
     }
@@ -219,17 +221,17 @@ public class GraphicImpl implements Graphic, Cloneable {
     public void addSymbol(Symbol symbol) {
         graphics.add(symbol);
     }
-    
+
     public AnchorPointImpl getAnchorPoint() {
         return anchor;
     }
 
     public void setAnchorPoint(org.geotools.styling.AnchorPoint anchor) {
-        this.anchor = AnchorPointImpl.cast( anchor );
+        this.anchor = AnchorPointImpl.cast(anchor);
     }
 
     public void setAnchorPoint(org.opengis.style.AnchorPoint anchorPoint) {
-        this.anchor = AnchorPointImpl.cast( anchorPoint );
+        this.anchor = AnchorPointImpl.cast(anchorPoint);
     }
 
     /**
@@ -241,7 +243,7 @@ public class GraphicImpl implements Graphic, Cloneable {
      * 1.0 (opaque).
      *
      * @return The opacity of the Graphic, where 0.0 is completely transparent
-     *         and 1.0 is completely opaque.
+     * and 1.0 is completely opaque.
      */
     public Expression getOpacity() {
         return opacity;
@@ -253,8 +255,8 @@ public class GraphicImpl implements Graphic, Cloneable {
      * as a floating point number.
      *
      * @return The angle of rotation in decimal degrees. Negative values
-     *         represent counter-clockwise rotation.  The default is 0.0 (no
-     *         rotation).
+     * represent counter-clockwise rotation.  The default is 0.0 (no
+     * rotation).
      */
     public Expression getRotation() {
         return rotation;
@@ -263,7 +265,7 @@ public class GraphicImpl implements Graphic, Cloneable {
     /**
      * This paramteter gives the absolute size of the graphic in pixels encoded
      * as a floating point number.
-     * 
+     * <p>
      * <p>
      * The default size of an image format (such as GIFD) is the inherent size
      * of the image.  The default size of a format without an inherent size
@@ -274,7 +276,7 @@ public class GraphicImpl implements Graphic, Cloneable {
      * </p>
      *
      * @return The size of the graphic, the default is context specific.
-     *         Negative values are not possible.
+     * Negative values are not possible.
      */
     public Expression getSize() {
         return size;
@@ -287,21 +289,21 @@ public class GraphicImpl implements Graphic, Cloneable {
     public Expression getInitialGap() {
         return initialGap;
     }
-    
-    public void setInitialGap( Expression initialGap ){
+
+    public void setInitialGap(Expression initialGap) {
         this.initialGap = initialGap;
     }
 
     public Expression getGap() {
         return gap;
     }
-    
+
     public void setGap(Expression gap) {
         this.gap = gap;
     }
-    
+
     public void setDisplacement(org.opengis.style.Displacement offset) {
-        this.displacement = DisplacementImpl.cast( offset );
+        this.displacement = DisplacementImpl.cast(offset);
     }
 
     public void setOpacity(Expression opacity) {
@@ -342,19 +344,18 @@ public class GraphicImpl implements Graphic, Cloneable {
     }
 
     public Object accept(StyleVisitor visitor, Object data) {
-        return visitor.visit((org.opengis.style.GraphicStroke)this, data);
+        return visitor.visit((org.opengis.style.GraphicStroke) this, data);
     }
 
     public void accept(org.geotools.styling.StyleVisitor visitor) {
         visitor.visit(this);
     }
 
-    
+
     /**
      * Creates a deep copy clone.
      *
      * @return The deep copy clone.
-     *
      * @throws RuntimeException DOCUMENT ME!
      */
     public Object clone() {
@@ -364,7 +365,7 @@ public class GraphicImpl implements Graphic, Cloneable {
             clone = (GraphicImpl) super.clone();
             clone.graphics.clear();
             clone.graphics.addAll(graphics);
-            
+
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException(e); // this should never happen.
         }
@@ -396,7 +397,7 @@ public class GraphicImpl implements Graphic, Cloneable {
         if (opacity != null) {
             result = (PRIME * result) + opacity.hashCode();
         }
-        
+
 //        if (gap != null) {
 //            result = (PRIME * result) + gap.hashCode();
 //        }
@@ -410,7 +411,7 @@ public class GraphicImpl implements Graphic, Cloneable {
 
     /**
      * Compares this GraphicImpl with another for equality.
-     * 
+     * <p>
      * <p>
      * Two graphics are equal if and only if they both have the same geometry
      * property name and the same list of symbols and the same rotation, size
@@ -418,7 +419,6 @@ public class GraphicImpl implements Graphic, Cloneable {
      * </p>
      *
      * @param oth The other GraphicsImpl to compare with.
-     *
      * @return True if this is equal to oth according to the above conditions.
      */
     public boolean equals(Object oth) {
@@ -430,13 +430,13 @@ public class GraphicImpl implements Graphic, Cloneable {
             GraphicImpl other = (GraphicImpl) oth;
 
             return Utilities.equals(this.size, other.size)
-            && Utilities.equals(this.rotation, other.rotation)
-            && Utilities.equals(this.opacity, other.opacity)
-            &&    Arrays.equals(this.getMarks(), other.getMarks() )
-            &&    Arrays.equals( this.getExternalGraphics(), other.getExternalGraphics() )
-            &&    Arrays.equals( this.getSymbols(), other.getSymbols() ); 
-            
-            
+                    && Utilities.equals(this.rotation, other.rotation)
+                    && Utilities.equals(this.opacity, other.opacity)
+                    && Arrays.equals(this.getMarks(), other.getMarks())
+                    && Arrays.equals(this.getExternalGraphics(), other.getExternalGraphics())
+                    && Arrays.equals(this.getSymbols(), other.getSymbols());
+
+
 //                        return 
 //            Utilities.equals(this.geometryPropertyName,other.geometryPropertyName)
 //            && Utilities.equals(this.size, other.size)
@@ -446,30 +446,27 @@ public class GraphicImpl implements Graphic, Cloneable {
 //            && Utilities.equals(this.anchor, other.anchor)
 //            && Utilities.equals(this.gap, other.gap)
 //            && Utilities.equals(this.initialGap, other.initialGap);       
-            
+
         }
 
         return false;
     }
 
     static GraphicImpl cast(org.opengis.style.Graphic graphic) {
-        if( graphic == null){
+        if (graphic == null) {
             return null;
-        }
-        else if ( graphic instanceof GraphicImpl){
+        } else if (graphic instanceof GraphicImpl) {
             return (GraphicImpl) graphic;
-        }
-        else {
-            GraphicImpl copy = new GraphicImpl();            
-            copy.setAnchorPoint( graphic.getAnchorPoint() );
-            copy.setDisplacement( graphic.getDisplacement() );
-            if( graphic.graphicalSymbols() != null ){
-                for ( GraphicalSymbol item : graphic.graphicalSymbols()) {
-                    if( item instanceof org.opengis.style.ExternalGraphic){
-                        copy.graphicalSymbols().add( ExternalGraphicImpl.cast( item ));
-                    }
-                    else if( item instanceof org.opengis.style.Mark){
-                        copy.graphicalSymbols().add( MarkImpl.cast( item ));
+        } else {
+            GraphicImpl copy = new GraphicImpl();
+            copy.setAnchorPoint(graphic.getAnchorPoint());
+            copy.setDisplacement(graphic.getDisplacement());
+            if (graphic.graphicalSymbols() != null) {
+                for (GraphicalSymbol item : graphic.graphicalSymbols()) {
+                    if (item instanceof org.opengis.style.ExternalGraphic) {
+                        copy.graphicalSymbols().add(ExternalGraphicImpl.cast(item));
+                    } else if (item instanceof org.opengis.style.Mark) {
+                        copy.graphicalSymbols().add(MarkImpl.cast(item));
                     }
                 }
             }

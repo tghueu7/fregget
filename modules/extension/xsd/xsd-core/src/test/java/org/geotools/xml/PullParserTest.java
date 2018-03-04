@@ -11,9 +11,9 @@ import junit.framework.TestCase;
 public class PullParserTest extends TestCase {
 
     public void testParse() throws Exception {
-        PullParser parser = new PullParser(new MLConfiguration(), 
-            ML.class.getResourceAsStream("mails.xml"), new QName(ML.NAMESPACE, "mail"));
-        
+        PullParser parser = new PullParser(new MLConfiguration(),
+                ML.class.getResourceAsStream("mails.xml"), new QName(ML.NAMESPACE, "mail"));
+
         Mail m = (Mail) parser.parse();
         assertNotNull(m);
         assertEquals(0, m.getId().intValue());

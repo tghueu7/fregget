@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2007 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.feature;
@@ -75,31 +75,30 @@ import org.opengis.feature.type.AttributeType;
  *   Attribute foo =  fooAssociation.getValue();
  * </pre>
  * </p>
- * 
+ *
  * @author Jody Garnett, Refractions Research
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
  * @source $URL$
  */
 public interface Association extends Property {
 
     /**
      * Description of the relationship between two attributes.
-     * 
+     * <p>
      * Override of {@link Property#getDescriptor()} which type narrows to
      * {@link AssociationDescriptor}.
      *
+     * @return AssociationDescriptor used to describe the relationship between two attributes; 
+     * because
+     * two attributes are required the descriptor should not be null.
      * @see Property#getDescriptor()
-     * @return AssociationDescriptor used to describe the relationship between two attributes; because
-     *         two attributes are required the descriptor should not be null.
      */
     AssociationDescriptor getDescriptor();
 
-     /**
-      * Type of association represented.
-      * <p>
-      * 
+    /**
+     * Type of association represented.
+     * <p>
+     * <p>
      * Override of {@link Property#getType()} which type narrows to
      * {@link AssociationType}.
      *

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,6 +17,7 @@
 package org.geotools.temporal.object;
 
 import java.util.Date;
+
 import org.geotools.util.Utilities;
 import org.opengis.temporal.Instant;
 import org.opengis.temporal.Period;
@@ -24,11 +25,8 @@ import org.opengis.temporal.RelativePosition;
 
 /**
  * A one-dimensional geometric primitive that represent extent in time.
- * 
+ *
  * @author Mehdi Sidhoum (Geomatys)
- *
- *
- *
  * @source $URL$
  */
 public class DefaultPeriod extends DefaultTemporalGeometricPrimitive implements Period {
@@ -47,11 +45,15 @@ public class DefaultPeriod extends DefaultTemporalGeometricPrimitive implements 
             this.begining = begining;
             this.ending = ending;
         }
-        /*if (((DefaultInstant) begining).getPosition().getDate().before(((DefaultInstant) ending).getPosition().getDate())) {
+        /*if (((DefaultInstant) begining).getPosition().getDate().before(((DefaultInstant) 
+        ending).getPosition().getDate())) {
             this.begining = begining;
             this.ending = ending;
-        } */else {
-            throw new IllegalArgumentException("The temporal position of the beginning of the period must be less than (i.e. earlier than) the temporal position of the end of the period");
+        } */
+        else {
+            throw new IllegalArgumentException("The temporal position of the beginning of the " +
+                    "period must be less than (i.e. earlier than) the temporal position of the " +
+                    "end of the period");
         }
     }
 
@@ -102,26 +104,27 @@ public class DefaultPeriod extends DefaultTemporalGeometricPrimitive implements 
         return false;
     }
 
- //   /**
- //     * Verify if this entry is identical to the specified object.
- //     */
- //    public int compareTo(Object object) {
- //        if (object == this) {
- //            return 0;
- //        }
- //        if (object instanceof DefaultPeriod) {
- //            final DefaultPeriod that = (DefaultPeriod) object;
- //
- //            if (Utilities.equals(this.begining, that.begining) &&
- //                    Utilities.equals(this.ending, that.ending))
- //                return 0;
- //            else {
- //                // TODO
- //            }
- //        }
- //        
- //       throw new ClassCastException("Object of type " + object.getClass() + " cannot be compared to " + this.getClass());
- //    }
+    //   /**
+    //     * Verify if this entry is identical to the specified object.
+    //     */
+    //    public int compareTo(Object object) {
+    //        if (object == this) {
+    //            return 0;
+    //        }
+    //        if (object instanceof DefaultPeriod) {
+    //            final DefaultPeriod that = (DefaultPeriod) object;
+    //
+    //            if (Utilities.equals(this.begining, that.begining) &&
+    //                    Utilities.equals(this.ending, that.ending))
+    //                return 0;
+    //            else {
+    //                // TODO
+    //            }
+    //        }
+    //        
+    //       throw new ClassCastException("Object of type " + object.getClass() + " cannot be 
+    // compared to " + this.getClass());
+    //    }
 
     @Override
     public int hashCode() {

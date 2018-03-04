@@ -35,9 +35,8 @@ import org.geotools.text.Text;
  * Internally this factory makes use of the information provided by
  * the {@link DescribeProcess} annotations to produce the correct
  * process description.
- * 
- * @author Jody Garnett (LISAsoft)
  *
+ * @author Jody Garnett (LISAsoft)
  * @source $URL$
  */
 public class VectorProcessFactory extends AnnotatedBeanProcessFactory {

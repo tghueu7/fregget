@@ -20,14 +20,12 @@ import org.geotools.styling.FeatureTypeConstraint;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SLDFeatureTypeConstraintBindingTest extends SLDTestSupport {
     public void testType() throws Exception {
         assertEquals(FeatureTypeConstraint.class,
-            new SLDFeatureTypeConstraintBinding(null).getType());
+                new SLDFeatureTypeConstraintBinding(null).getType());
     }
 
     public void testNormal() throws Exception {

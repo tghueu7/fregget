@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -26,18 +26,18 @@ import java.sql.SQLException;
  * A metadata entity which implements (indirectly) metadata
  * interfaces like {@link org.opengis.metadata.MetaData},
  * {@link org.opengis.metadata.citation.Citation}, etc.
- *
+ * <p>
  * Any call to a method in a metadata interface is redirected toward the
  * {@link #invoke} method. This method use reflection in order to find
  * the caller's method and class name. The class name is translated into
  * a table name, and the method name is translated into a column name.
  * Then the information is fetch in the underlying metadata database.
  *
- * @since 2.1
- * @source $URL$
- * @version $Id$
  * @author Touraïvane
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 final class MetadataEntity implements InvocationHandler {
     /**
@@ -63,7 +63,7 @@ final class MetadataEntity implements InvocationHandler {
      */
     public MetadataEntity(final String identifier, final MetadataSource source) {
         this.identifier = identifier;
-        this.source     = source;
+        this.source = source;
     }
 
     /**
@@ -75,11 +75,10 @@ final class MetadataEntity implements InvocationHandler {
      */
     public Object invoke(final Object proxy,
                          final Method method,
-                         final Object[] args)
-    {
+                         final Object[] args) {
         final Class<?> type = method.getDeclaringClass();
         if (type.getName().startsWith(source.metadataPackage)) {
-            if (args!=null && args.length!=0) {
+            if (args != null && args.length != 0) {
                 throw new MetadataException("Unexpected argument."); // TODO: localize
             }
             /*

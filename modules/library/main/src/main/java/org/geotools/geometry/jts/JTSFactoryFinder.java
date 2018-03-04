@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -37,11 +37,9 @@ import org.geotools.resources.LazySet;
  * {@linkplain CoordinateSequenceFactory coordinate sequence} or
  * {@linkplain PrecisionModel precision model} factories.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
  */
 public class JTSFactoryFinder extends FactoryFinder {
     /**
@@ -64,8 +62,8 @@ public class JTSFactoryFinder extends FactoryFinder {
     private static FactoryRegistry getServiceRegistry() {
         assert Thread.holdsLock(JTSFactoryFinder.class);
         if (registry == null) {
-            registry = new FactoryCreator(Arrays.asList(new Class<?>[] { GeometryFactory.class } ));
-            registry.registerFactory( new GeometryFactory(), GeometryFactory.class );
+            registry = new FactoryCreator(Arrays.asList(new Class<?>[]{GeometryFactory.class}));
+            registry.registerFactory(new GeometryFactory(), GeometryFactory.class);
         }
         return registry;
     }
@@ -80,27 +78,31 @@ public class JTSFactoryFinder extends FactoryFinder {
      * {@link Hints#JTS_PRECISION_MODEL             JTS_PRECISION_MODEL} and
      * {@link Hints#JTS_SRID                        JTS_SRID}.
      *
-     * @param  hints An optional map of hints, or {@code null} if none.
+     * @param hints An optional map of hints, or {@code null} if none.
      * @return The first geometry factory that matches the supplied hints.
      * @throws FactoryRegistryException if no implementation was found or can be created for the
-     *         {@link GeometryFactory} category and the given hints.
+     *                                  {@link GeometryFactory} category and the given hints.
      */
-    public static synchronized GeometryFactory getGeometryFactory(Hints hints) throws FactoryRegistryException {
+    public static synchronized GeometryFactory getGeometryFactory(Hints hints) throws 
+            FactoryRegistryException {
         hints = mergeSystemHints(hints);
         return getServiceRegistry()
                 .getFactory(GeometryFactory.class, null, hints, Hints.JTS_GEOMETRY_FACTORY);
     }
+
     /**
      * Returns the first implementation of {@link GeometryFactory}, a new one is created if
      * possible or an exception is thrown otherwise.
      *
      * @return The first geometry factory available on the classpath
      * @throws FactoryRegistryException if no implementation was found or can be created for the
-     *         {@link GeometryFactory} category.
+     *                                  {@link GeometryFactory} category.
      */
-    public static synchronized GeometryFactory getGeometryFactory() throws FactoryRegistryException {
+    public static synchronized GeometryFactory getGeometryFactory() throws 
+            FactoryRegistryException {
         return getGeometryFactory(null);
     }
+
     /**
      * Returns a set of all available implementations for the {@link GeometryFactory} category.
      *
@@ -116,12 +118,13 @@ public class JTSFactoryFinder extends FactoryFinder {
      * If no implementation matches, a new one is created if possible or an exception is thrown
      * otherwise.
      *
-     * @param  hints An optional map of hints, or {@code null} if none.
+     * @param hints An optional map of hints, or {@code null} if none.
      * @return The first precision model that matches the supplied hints.
      * @throws FactoryRegistryException if no implementation was found or can be created for the
-     *         {@link PrecisionModel} category and the given hints.
+     *                                  {@link PrecisionModel} category and the given hints.
      */
-    public static synchronized PrecisionModel getPrecisionModel(Hints hints) throws FactoryRegistryException {
+    public static synchronized PrecisionModel getPrecisionModel(Hints hints) throws 
+            FactoryRegistryException {
         hints = mergeSystemHints(hints);
         return getServiceRegistry()
                 .getFactory(PrecisionModel.class, null, hints, Hints.JTS_PRECISION_MODEL);
@@ -142,15 +145,17 @@ public class JTSFactoryFinder extends FactoryFinder {
      * hints. If no implementation matches, a new one is created if possible or an exception is
      * thrown otherwise.
      *
-     * @param  hints An optional map of hints, or {@code null} if none.
+     * @param hints An optional map of hints, or {@code null} if none.
      * @return The first coordinate sequence factory that matches the supplied hints.
      * @throws FactoryRegistryException if no implementation was found or can be created for the
-     *         {@link CoordinateSequenceFactory} interface and the given hints.
+     *                                  {@link CoordinateSequenceFactory} interface and the given
+     *                                  hints.
      */
     public static synchronized CoordinateSequenceFactory getCoordinateSequenceFactory(Hints hints) throws FactoryRegistryException {
         hints = mergeSystemHints(hints);
         return getServiceRegistry()
-                .getFactory(CoordinateSequenceFactory.class, null, hints, Hints.JTS_COORDINATE_SEQUENCE_FACTORY);
+                .getFactory(CoordinateSequenceFactory.class, null, hints, Hints
+                        .JTS_COORDINATE_SEQUENCE_FACTORY);
     }
 
     /**
@@ -160,7 +165,8 @@ public class JTSFactoryFinder extends FactoryFinder {
      * @return Set of available coordinate sequence factory implementations.
      */
     public static synchronized Set<CoordinateSequenceFactory> getCoordinateSequenceFactories() {
-        return new LazySet<CoordinateSequenceFactory>(getServiceRegistry().getFactories(CoordinateSequenceFactory.class, null, null));
+        return new LazySet<CoordinateSequenceFactory>(getServiceRegistry().getFactories
+                (CoordinateSequenceFactory.class, null, null));
     }
 
     /**
@@ -190,7 +196,7 @@ public class JTSFactoryFinder extends FactoryFinder {
          * Creates a registry for JTS factories.
          */
         public Registry() {
-            super(Arrays.asList(new Class<?>[] {
+            super(Arrays.asList(new Class<?>[]{
                     GeometryFactory.class,
                     PrecisionModel.class,
                     CoordinateSequenceFactory.class}));
@@ -199,22 +205,20 @@ public class JTSFactoryFinder extends FactoryFinder {
         /**
          * Creates a new instance of the specified factory using the specified hints.
          *
-         * @param  category The category to instantiate.
-         * @param  implementation The factory class to instantiate.
-         * @param  hints The implementation hints.
+         * @param category       The category to instantiate.
+         * @param implementation The factory class to instantiate.
+         * @param hints          The implementation hints.
          * @return The factory.
          * @throws FactoryRegistryException if the factory creation failed.
          */
         protected Object createServiceProvider(final Class category,
                                                final Class implementation,
                                                final Hints hints)
-                throws FactoryRegistryException
-        {
+                throws FactoryRegistryException {
             if (GeometryFactory.class.isAssignableFrom(category) &&
-                GeometryFactory.class.equals(implementation))
-            {
+                    GeometryFactory.class.equals(implementation)) {
                 return new GeometryFactory(getPrecisionModel(hints), getSRID(hints),
-                                           getCoordinateSequenceFactory(hints));
+                        getCoordinateSequenceFactory(hints));
             }
             return super.createServiceProvider(category, implementation, hints);
         }
@@ -246,18 +250,18 @@ public class JTSFactoryFinder extends FactoryFinder {
          * @param hints    The user requirements.
          * @return {@code true} if the {@code provider} meets the user requirements.
          */
-        protected boolean isAcceptable(final Object provider, final Class category, final Hints hints) {
+        protected boolean isAcceptable(final Object provider, final Class category, final Hints 
+                hints) {
             if (GeometryFactory.class.isAssignableFrom(category)) {
-                final GeometryFactory           factory   = (GeometryFactory) provider;
-                final CoordinateSequenceFactory sequence  = factory.getCoordinateSequenceFactory();
-                final PrecisionModel            precision = factory.getPrecisionModel();
-                if (!isAcceptable(sequence,  hints.get(Hints.JTS_COORDINATE_SEQUENCE_FACTORY)) ||
-                    !isAcceptable(precision, hints.get(Hints.JTS_PRECISION_MODEL)))
-                {
+                final GeometryFactory factory = (GeometryFactory) provider;
+                final CoordinateSequenceFactory sequence = factory.getCoordinateSequenceFactory();
+                final PrecisionModel precision = factory.getPrecisionModel();
+                if (!isAcceptable(sequence, hints.get(Hints.JTS_COORDINATE_SEQUENCE_FACTORY)) ||
+                        !isAcceptable(precision, hints.get(Hints.JTS_PRECISION_MODEL))) {
                     return false;
                 }
                 final int SRID = getSRID(hints);
-                if (SRID!=0 && SRID!=factory.getSRID()) {
+                if (SRID != 0 && SRID != factory.getSRID()) {
                     return false;
                 }
             }
@@ -267,21 +271,21 @@ public class JTSFactoryFinder extends FactoryFinder {
         /**
          * Checks if an actual {@link GeometryFactory} property matches the given hint.
          *
-         * @param actual The geometry factory property, either a {@link CoordinateSequenceFactory}
-         *               or a {@link PrecisionModel} concrete implementation.
+         * @param actual    The geometry factory property, either a 
+         * {@link CoordinateSequenceFactory}
+         *                  or a {@link PrecisionModel} concrete implementation.
          * @param requested The user's hint, either a concrete implementation of the same class
          *                  than {@code actual}, a {@link Class} or an array of them.
          * @return {@code true} if the {@code actual} value matches the {@code requested}
-         *         value, or {@code false} otherwise.
+         * value, or {@code false} otherwise.
          */
         private static boolean isAcceptable(final Object actual,
-                                            final Object requested)
-        {
+                                            final Object requested) {
             /*
              * If the user didn't provided any hint, or if the factory
              * already uses the requested object, accepts.
              */
-            if (requested==null || requested.equals(actual)) {
+            if (requested == null || requested.equals(actual)) {
                 return true;
             }
             /*
@@ -290,7 +294,7 @@ public class JTSFactoryFinder extends FactoryFinder {
              */
             if (requested.getClass().isArray()) {
                 final int length = Array.getLength(requested);
-                for (int i=0; i<length; i++) {
+                for (int i = 0; i < length; i++) {
                     if (!isAcceptable(actual, Array.get(requested, i))) {
                         return false;
                     }
@@ -301,7 +305,7 @@ public class JTSFactoryFinder extends FactoryFinder {
              * If hint is only a class instead of an actual implementation,
              * accepts instances of this class or any subclasses.
              */
-            if (actual!=null && requested instanceof Class) {
+            if (actual != null && requested instanceof Class) {
                 return ((Class) requested).isAssignableFrom(actual.getClass());
             }
             return false;

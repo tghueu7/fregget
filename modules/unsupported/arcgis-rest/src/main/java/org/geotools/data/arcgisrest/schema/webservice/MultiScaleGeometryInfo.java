@@ -1,8 +1,8 @@
-
 package org.geotools.data.arcgisrest.schema.webservice;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -12,31 +12,25 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class MultiScaleGeometryInfo {
 
     /**
-     * 
      * (Required)
-     * 
      */
     @SerializedName("levels")
     @Expose
     private List<Integer> levels = new ArrayList<Integer>();
 
     /**
-     * 
      * (Required)
-     * 
-     * @return
-     *     The levels
+     *
+     * @return The levels
      */
     public List<Integer> getLevels() {
         return levels;
     }
 
     /**
-     * 
      * (Required)
-     * 
-     * @param levels
-     *     The levels
+     *
+     * @param levels The levels
      */
     public void setLevels(List<Integer> levels) {
         this.levels = levels;

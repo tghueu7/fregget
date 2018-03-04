@@ -24,14 +24,11 @@ import java.nio.ByteOrder;
 import java.nio.channels.FileChannel;
 
 /**
- * 
  * @author jamesm
  * @author Ian Schneider
- *
- *
  * @source $URL$
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/shapefile/src/main/java/org
- *         /geotools/data/shapefile/shp/ShapefileHeader.java $
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/shapefile/src/main/java/org
+ * /geotools/data/shapefile/shp/ShapefileHeader.java $
  */
 public class ShapefileHeader {
 
@@ -106,7 +103,7 @@ public class ShapefileHeader {
     }
 
     public void write(ByteBuffer file, ShapeType type, int numGeoms, int length, double minX,
-            double minY, double maxX, double maxY) throws IOException {
+                      double minY, double maxX, double maxY) throws IOException {
         file.order(ByteOrder.BIG_ENDIAN);
 
         file.putInt(MAGIC);

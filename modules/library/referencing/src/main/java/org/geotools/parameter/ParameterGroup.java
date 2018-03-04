@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -51,16 +51,13 @@ import org.geotools.util.Utilities;
  * values of one or more {@link ParameterValue}s which suitably distinquish among
  * those groups.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Jody Garnett (Refractions Research)
- *
+ * @version $Id$
+ * @source $URL$
  * @see DefaultParameterDescriptorGroup
  * @see Parameter
+ * @since 2.1
  */
 public class ParameterGroup extends AbstractParameter implements ParameterValueGroup {
     /**
@@ -72,7 +69,8 @@ public class ParameterGroup extends AbstractParameter implements ParameterValueG
      * An empty parameter value group. This group contains no parameter value.
      */
     public static ParameterValueGroup EMPTY = new ParameterGroup(
-            Collections.singletonMap(ParameterDescriptorGroup.NAME_KEY, "Void"), new ParameterValue[0]);
+            Collections.singletonMap(ParameterDescriptorGroup.NAME_KEY, "Void"), new 
+            ParameterValue[0]);
 
     /**
      * The {@linkplain #values() parameter values} for this group.
@@ -85,7 +83,7 @@ public class ParameterGroup extends AbstractParameter implements ParameterValueG
      * A view of {@link #values} as an immutable list. Will be constructed only when first
      * needed. Note that while this list may be immutable, <strong>elements</strong> in this
      * list stay modifiable. The goal is to allows the following idiom:
-     *
+     * <p>
      * <blockquote><pre>
      * values().get(i).setValue(myValue);
      * </pre></blockquote>
@@ -104,7 +102,7 @@ public class ParameterGroup extends AbstractParameter implements ParameterValueG
         final List<GeneralParameterDescriptor> parameters = descriptor.descriptors();
         values = new ArrayList<GeneralParameterValue>(parameters.size());
         for (final GeneralParameterDescriptor element : parameters) {
-            for (int count=element.getMinimumOccurs(); --count>=0;) {
+            for (int count = element.getMinimumOccurs(); --count >= 0; ) {
                 final GeneralParameterValue value = element.createValue();
                 ensureNonNull("createValue", value);
                 values.add(value);
@@ -116,24 +114,23 @@ public class ParameterGroup extends AbstractParameter implements ParameterValueG
      * Constructs a parameter group from the specified descriptor and list of parameters.
      *
      * @param descriptor The descriptor for this group.
-     * @param values The list of parameter values.
-     *
+     * @param values     The list of parameter values.
      * @throws IllegalStateException if the number of {@linkplain ParameterValue parameter}
-     *         occurences doesn't matches the number declared in the
-     *         {@linkplain ParameterDescriptorGroup descriptor}.
+     *                               occurences doesn't matches the number declared in the
+     *                               {@linkplain ParameterDescriptorGroup descriptor}.
      */
     public ParameterGroup(final ParameterDescriptorGroup descriptor,
-                          final GeneralParameterValue[]  values)
-    {
+                          final GeneralParameterValue[] values) {
         super(descriptor);
         ensureNonNull("values", values);
         this.values = new ArrayList<GeneralParameterValue>(values.length);
-        for (int i=0; i<values.length; i++) {
+        for (int i = 0; i < values.length; i++) {
             this.values.add(values[i]);
         }
         final List<GeneralParameterDescriptor> parameters = descriptor.descriptors();
-        final Map<GeneralParameterDescriptor,int[]> occurences =
-                new LinkedHashMap<GeneralParameterDescriptor,int[]>(Math.round(parameters.size()/0.75f)+1, 0.75f);
+        final Map<GeneralParameterDescriptor, int[]> occurences =
+                new LinkedHashMap<GeneralParameterDescriptor, int[]>(Math.round(parameters.size()
+                        / 0.75f) + 1, 0.75f);
         for (final GeneralParameterDescriptor param : parameters) {
             ensureNonNull("parameters", param);
             occurences.put(param, new int[1]);
@@ -146,18 +143,17 @@ public class ParameterGroup extends AbstractParameter implements ParameterValueG
      * Constructs a parameter group from the specified list of parameters.
      *
      * @param properties The properties for the
-     *        {@linkplain DefaultParameterDescriptorGroup operation parameter group}
-     *        to construct from the list of parameters.
-     * @param values The list of parameter values.
-     *
+     *                   {@linkplain DefaultParameterDescriptorGroup operation parameter group}
+     *                   to construct from the list of parameters.
+     * @param values     The list of parameter values.
      * @throws IllegalStateException if the number of {@linkplain ParameterValue parameter}
-     *         occurences doesn't matches the number declared in the
-     *         {@linkplain ParameterDescriptorGroup descriptor}.
+     *                               occurences doesn't matches the number declared in the
+     *                               {@linkplain ParameterDescriptorGroup descriptor}.
      */
-    public ParameterGroup(final Map<String,?> properties, final GeneralParameterValue[] values) {
+    public ParameterGroup(final Map<String, ?> properties, final GeneralParameterValue[] values) {
         super(createDescriptor(properties, values));
         this.values = new ArrayList<GeneralParameterValue>(values.length);
-        for (int i=0; i<values.length; i++) {
+        for (int i = 0; i < values.length; i++) {
             this.values.add(values[i]);
         }
     }
@@ -167,16 +163,16 @@ public class ParameterGroup extends AbstractParameter implements ParameterValueG
      * ("Relax constraint on placement of this()/super() call in constructors").
      *
      * @throws IllegalStateException if the number of {@linkplain ParameterValue parameter}
-     *         occurences doesn't matches the number declared in the
-     *         {@linkplain ParameterDescriptorGroup descriptor}.
+     *                               occurences doesn't matches the number declared in the
+     *                               {@linkplain ParameterDescriptorGroup descriptor}.
      */
-    private static ParameterDescriptorGroup createDescriptor(final Map<String,?> properties,
-                                                             final GeneralParameterValue[] values)
-    {
+    private static ParameterDescriptorGroup createDescriptor(final Map<String, ?> properties,
+                                                             final GeneralParameterValue[] values) {
         ensureNonNull("values", values);
-        final Map<GeneralParameterDescriptor,int[]> occurences =
-                new LinkedHashMap<GeneralParameterDescriptor,int[]>(Math.round(values.length/0.75f)+1, 0.75f);
-        for (int i=0; i<values.length; i++) {
+        final Map<GeneralParameterDescriptor, int[]> occurences =
+                new LinkedHashMap<GeneralParameterDescriptor, int[]>(Math.round(values.length / 
+                        0.75f) + 1, 0.75f);
+        for (int i = 0; i < values.length; i++) {
             ensureNonNull("values", values, i);
             occurences.put(values[i].getDescriptor(), new int[1]);
             // The value 'int[1]' will be used by 'ensureValidOccurs'
@@ -184,50 +180,48 @@ public class ParameterGroup extends AbstractParameter implements ParameterValueG
         ensureValidOccurs(values, occurences);
         final Set<GeneralParameterDescriptor> descriptors = occurences.keySet();
         return new DefaultParameterDescriptorGroup(properties,
-                   descriptors.toArray(new GeneralParameterDescriptor[descriptors.size()]));
+                descriptors.toArray(new GeneralParameterDescriptor[descriptors.size()]));
     }
 
     /**
      * Make sure that the number of occurences of each values is inside the expected range.
      *
-     * @param values The list of parameter values.
+     * @param values     The list of parameter values.
      * @param occurences A map of the number of occurences of a value for each descriptor.
-     *        The key must be {@link GeneralParameterDescriptor} instances and the values
-     *        must be {@code int[]} array of length 1 initialized with the 0 value.
-     *
+     *                   The key must be {@link GeneralParameterDescriptor} instances and the values
+     *                   must be {@code int[]} array of length 1 initialized with the 0 value.
      * @throws IllegalStateException if the number of {@linkplain ParameterValue parameter}
-     *         occurences doesn't matches the number declared in the
-     *         {@linkplain ParameterDescriptorGroup descriptor}.
+     *                               occurences doesn't matches the number declared in the
+     *                               {@linkplain ParameterDescriptorGroup descriptor}.
      */
     private static void ensureValidOccurs(final GeneralParameterValue[] values,
-                                          final Map<GeneralParameterDescriptor,int[]> occurences)
-    {
+                                          final Map<GeneralParameterDescriptor, int[]> occurences) {
         /*
          * Count the parameters occurences.
          */
-        for (int i=0; i<values.length; i++) {
+        for (int i = 0; i < values.length; i++) {
             ensureNonNull("values", values, i);
             final GeneralParameterDescriptor descriptor = values[i].getDescriptor();
             final int[] count = occurences.get(descriptor);
             if (count == null) {
                 final String name = getName(descriptor);
                 throw new InvalidParameterTypeException(Errors.format(
-                          ErrorKeys.ILLEGAL_DESCRIPTOR_FOR_PARAMETER_$1, name), name);
+                        ErrorKeys.ILLEGAL_DESCRIPTOR_FOR_PARAMETER_$1, name), name);
             }
             count[0]++;
         }
         /*
          * Now check if the occurences are in the expected ranges.
          */
-        for (final Map.Entry<GeneralParameterDescriptor,int[]> entry : occurences.entrySet()) {
+        for (final Map.Entry<GeneralParameterDescriptor, int[]> entry : occurences.entrySet()) {
             final GeneralParameterDescriptor descriptor = entry.getKey();
             final int count = entry.getValue()[0];
-            final int min   = descriptor.getMinimumOccurs();
-            final int max   = descriptor.getMaximumOccurs();
-            if (!(count>=min && count<=max)) {
+            final int min = descriptor.getMinimumOccurs();
+            final int max = descriptor.getMaximumOccurs();
+            if (!(count >= min && count <= max)) {
                 final String name = getName(descriptor);
                 throw new InvalidParameterCardinalityException(Errors.format(
-                          ErrorKeys.ILLEGAL_OCCURS_FOR_PARAMETER_$4, name, count, min, max), name);
+                        ErrorKeys.ILLEGAL_OCCURS_FOR_PARAMETER_$4, name, count, min, max), name);
             }
         }
     }
@@ -255,7 +249,7 @@ public class ParameterGroup extends AbstractParameter implements ParameterValueG
     /**
      * Returns the parameter value at the specified index.
      *
-     * @param  index The zero-based index.
+     * @param index The zero-based index.
      * @return The parameter value at the specified index.
      * @throws IndexOutOfBoundsException if the specified index is out of bounds.
      */
@@ -273,26 +267,26 @@ public class ParameterGroup extends AbstractParameter implements ParameterValueG
      * then a {@linkplain ParameterValue parameter value} is
      * automatically created and initialized to its
      * {@linkplain ParameterDescriptor#getDefaultValue default value} (if any).
-     *
+     * <p>
      * <P>This convenience method provides a way to get and set parameter values by name. For
      * example the following idiom fetches a floating point value for the
      * <code>"false_easting"</code> parameter:</P>
-     *
+     * <p>
      * <blockquote><code>
      * double value =
      * parameter("false_easting").{@linkplain ParameterValue#doubleValue() doubleValue()};
      * </code></blockquote>
-     *
+     * <p>
      * <P>This method do not search recursively in subgroups. This is because more than one
      * subgroup may exist for the same {@linkplain ParameterDescriptorGroup descriptor}. The
      * user must {@linkplain #groups query all subgroups} and select explicitly
      * the appropriate one to use.</P>
      *
-     * @param  name The case insensitive {@linkplain Identifier#getCode identifier code} of the
-     *              parameter to search for.
+     * @param name The case insensitive {@linkplain Identifier#getCode identifier code} of the
+     *             parameter to search for.
      * @return The parameter value for the given identifier code.
      * @throws ParameterNotFoundException if there is no parameter value for the given identifier
-     *         code.
+     *                                    code.
      */
     public ParameterValue parameter(String name) throws ParameterNotFoundException {
         ensureNonNull("name", name);
@@ -319,7 +313,7 @@ public class ParameterGroup extends AbstractParameter implements ParameterValueG
             }
         }
         throw new ParameterNotFoundException(Errors.format(
-                  ErrorKeys.MISSING_PARAMETER_$1, name), name);
+                ErrorKeys.MISSING_PARAMETER_$1, name), name);
     }
 
     /**
@@ -328,11 +322,11 @@ public class ParameterGroup extends AbstractParameter implements ParameterValueG
      * <code>{@linkplain ParameterDescriptor#getMinimumOccurs minimumOccurs} == 0</code>)
      * and no value were set, then this method returns an empty set.
      *
-     * @param  name The case insensitive {@linkplain Identifier#getCode identifier code}
-     *         of the parameter group to search for.
+     * @param name The case insensitive {@linkplain Identifier#getCode identifier code}
+     *             of the parameter group to search for.
      * @return The set of all parameter group for the given identifier code.
      * @throws ParameterNotFoundException if no {@linkplain ParameterDescriptorGroup descriptor}
-     *         was found for the given name.
+     *                                    was found for the given name.
      */
     public List<ParameterValueGroup> groups(String name) throws ParameterNotFoundException {
         ensureNonNull("name", name);
@@ -356,7 +350,7 @@ public class ParameterGroup extends AbstractParameter implements ParameterValueG
                     ((ParameterDescriptorGroup) descriptor).descriptor(name);
             if (!(check instanceof ParameterDescriptorGroup)) {
                 throw new ParameterNotFoundException(Errors.format(
-                          ErrorKeys.MISSING_PARAMETER_$1, name), name);
+                        ErrorKeys.MISSING_PARAMETER_$1, name), name);
             }
         }
         return groups;
@@ -367,26 +361,26 @@ public class ParameterGroup extends AbstractParameter implements ParameterValueG
      * {@linkplain Identifier#getCode identifier code} of a {@linkplain ParameterDescriptorGroup
      * descriptor group}.
      *
-     * @param  name The case insensitive {@linkplain Identifier#getCode identifier code} of the
-     *              parameter group to create.
+     * @param name The case insensitive {@linkplain Identifier#getCode identifier code} of the
+     *             parameter group to create.
      * @return A newly created parameter group for the given identifier code.
-     * @throws ParameterNotFoundException if no {@linkplain ParameterDescriptorGroup descriptor}
-     *         was found for the given name.
+     * @throws ParameterNotFoundException           if no 
+     * {@linkplain ParameterDescriptorGroup descriptor}
+     *                                              was found for the given name.
      * @throws InvalidParameterCardinalityException if this parameter group already contains the
-     *         {@linkplain ParameterDescriptorGroup#getMaximumOccurs maximum number of occurences}
-     *         of subgroups of the given name.
+     *                                              {@linkplain ParameterDescriptorGroup#getMaximumOccurs maximum number of occurences}
+     *                                              of subgroups of the given name.
      */
     public ParameterValueGroup addGroup(String name)
-            throws ParameterNotFoundException, InvalidParameterCardinalityException
-    {
+            throws ParameterNotFoundException, InvalidParameterCardinalityException {
         final GeneralParameterDescriptor check =
                 ((ParameterDescriptorGroup) descriptor).descriptor(name);
         if (!(check instanceof ParameterDescriptorGroup)) {
             throw new ParameterNotFoundException(Errors.format(
-                      ErrorKeys.MISSING_PARAMETER_$1, name), name);
+                    ErrorKeys.MISSING_PARAMETER_$1, name), name);
         }
         int count = 0;
-        for (final Iterator it=values.iterator(); it.hasNext();) {
+        for (final Iterator it = values.iterator(); it.hasNext(); ) {
             final GeneralParameterValue value = (GeneralParameterValue) it.next();
             if (AbstractIdentifiedObject.nameMatches(value.getDescriptor(), name)) {
                 count++;
@@ -394,7 +388,7 @@ public class ParameterGroup extends AbstractParameter implements ParameterValueG
         }
         if (count >= check.getMaximumOccurs()) {
             throw new InvalidParameterCardinalityException(Errors.format(
-                      ErrorKeys.TOO_MANY_OCCURENCES_$2, name, count), name);
+                    ErrorKeys.TOO_MANY_OCCURENCES_$2, name, count), name);
         }
         final ParameterValueGroup value = ((ParameterDescriptorGroup) check).createValue();
         values.add(value);
@@ -404,7 +398,7 @@ public class ParameterGroup extends AbstractParameter implements ParameterValueG
     /**
      * Compares the specified object with this parameter for equality.
      *
-     * @param  object The object to compare to {@code this}.
+     * @param object The object to compare to {@code this}.
      * @return {@code true} if both objects are equal.
      */
     @Override
@@ -423,7 +417,7 @@ public class ParameterGroup extends AbstractParameter implements ParameterValueG
      * Returns a hash value for this parameter.
      *
      * @return The hash code value. This value doesn't need to be the same
-     *         in past or future versions of this class.
+     * in past or future versions of this class.
      */
     @Override
     public int hashCode() {
@@ -440,7 +434,7 @@ public class ParameterGroup extends AbstractParameter implements ParameterValueG
     public ParameterGroup clone() {
         final ParameterGroup copy = (ParameterGroup) super.clone();
         copy.values = (ArrayList<GeneralParameterValue>) copy.values.clone();
-        for (int i=copy.values.size(); --i>=0;) {
+        for (int i = copy.values.size(); --i >= 0; ) {
             // TODO: remove cast with J2SE 1.5
             copy.values.set(i, copy.values.get(i).clone());
         }

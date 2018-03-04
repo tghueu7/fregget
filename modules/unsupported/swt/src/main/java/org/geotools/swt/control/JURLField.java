@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -36,12 +36,9 @@ import org.geotools.util.URLs;
 
 /**
  * Widget for URL; provides a "Browse" button to open a file dialog.
- * 
+ *
  * @author Jody Garnett
  * @author Andrea Antonello (www.hydrologis.com)
- *
- *
- *
  * @source $URL$
  */
 public class JURLField extends ParamField {
@@ -50,7 +47,7 @@ public class JURLField extends ParamField {
 
     private Button browse;
 
-    public JURLField( Composite parent, Parameter< ? > parameter ) {
+    public JURLField(Composite parent, Parameter<?> parameter) {
         super(parent, parameter);
     }
 
@@ -67,8 +64,8 @@ public class JURLField extends ParamField {
         browse = new Button(composite, SWT.PUSH);
         browse.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
         browse.setText("...");
-        browse.addSelectionListener(new SelectionAdapter(){
-            public void widgetSelected( SelectionEvent e ) {
+        browse.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e) {
                 browse();
             }
         });
@@ -83,10 +80,12 @@ public class JURLField extends ParamField {
                     (FileDataStoreFactorySpi) format);
             dialog = tmpdialog.getFileDialog();
         } else if (format instanceof String) {
-            JFileDataStoreChooser tmpdialog = new JFileDataStoreChooser(parent.getShell(), SWT.NONE, (String) format);
+            JFileDataStoreChooser tmpdialog = new JFileDataStoreChooser(parent.getShell(), SWT
+                    .NONE, (String) format);
             dialog = tmpdialog.getFileDialog();
         } else if (format instanceof String[]) {
-            JFileDataStoreChooser tmpdialog = new JFileDataStoreChooser(parent.getShell(), SWT.NONE, (String[]) format);
+            JFileDataStoreChooser tmpdialog = new JFileDataStoreChooser(parent.getShell(), SWT
+                    .NONE, (String[]) format);
             dialog = tmpdialog.getFileDialog();
         } else {
             dialog = new FileDialog(parent.getShell(), SWT.NONE);
@@ -134,7 +133,7 @@ public class JURLField extends ParamField {
         return null; // not a file
     }
 
-    public void setValue( Object value ) {
+    public void setValue(Object value) {
         if (value instanceof File) {
             File file = (File) value;
             field.setText(file.toString());

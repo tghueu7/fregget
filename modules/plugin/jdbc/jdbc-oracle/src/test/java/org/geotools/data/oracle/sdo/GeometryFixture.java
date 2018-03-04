@@ -3,7 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -38,12 +38,11 @@ import com.vividsolutions.jts.geom.PrecisionModel;
  * <p>
  * Several examples are from the the Oracle Spatial Geometry Spec.
  * </p>
- * 
- * @see net.refractions.jspatial.jts
+ *
  * @author jgarnett, Refractions Reasearch Inc.
- * 
- * @source $URL$
  * @version CVS Version
+ * @source $URL$
+ * @see net.refractions.jspatial.jts
  */
 public class GeometryFixture {
     GeometryFactory gf;
@@ -64,7 +63,9 @@ public class GeometryFixture {
      */
     public Polygon rectangle;
 
-    /** Polygon used for testing */
+    /**
+     * Polygon used for testing
+     */
     public Polygon polygon;
 
     /**
@@ -99,22 +100,34 @@ public class GeometryFixture {
      */
     public Point point;
 
-    /** LineString used for testing */
+    /**
+     * LineString used for testing
+     */
     public LineString lineString;
 
-    /** MultiPoint used for testing */
+    /**
+     * MultiPoint used for testing
+     */
     public MultiPoint multiPoint;
 
-    /** MultiLineString used for testing */
+    /**
+     * MultiLineString used for testing
+     */
     public MultiLineString multiLineString;
 
-    /** MultiPolygon used for testing */
+    /**
+     * MultiPolygon used for testing
+     */
     public MultiPolygon multiPolygon;
 
-    /** MultiPolygon used for testing */
+    /**
+     * MultiPolygon used for testing
+     */
     public MultiPolygon multiPolygonWithHole;
 
-    /** GeometryCollection used for testing */
+    /**
+     * GeometryCollection used for testing
+     */
     public GeometryCollection geometryCollection;
 
     /**
@@ -158,7 +171,8 @@ public class GeometryFixture {
      * A Rectangle with expected encoding:</p>
      * <ul>
      * <li><b>SDO_GTYPE:</b><code>2003</code><br/>
-     * 2 dimensional polygon </li> <li><b>SDO_SRID:</b><code>NULL</code></li> <li><b>SDO_POINT:</b>NULL></li> <li><b>SDO_ELEM_INFO:</b>
+     * 2 dimensional polygon </li> <li><b>SDO_SRID:</b><code>NULL</code></li> 
+     * <li><b>SDO_POINT:</b>NULL></li> <li><b>SDO_ELEM_INFO:</b>
      * <code>(1,1003,3)</code><br/>
      * 03 indicates this is a rectangle</li> <li><b>SDO_ORDINATES:</b><code>(1,1,5,7)</code><br/>
      * bottom left and upper right</li> </ul>
@@ -174,11 +188,11 @@ public class GeometryFixture {
      *   MDSYS.SDO_ORDINATE_ARRAY(1,1,5,7)
      * )
      * </pre></code>
-     * 
+     *
      * @see GeometryFixture.rectangle
      */
     protected Polygon createRectangle() {
-        Polygon rect = gf.createPolygon(ring(new double[] { 1, 1, 5, 1, 5, 7, 1, 7, 1, 1 }), null);
+        Polygon rect = gf.createPolygon(ring(new double[]{1, 1, 5, 1, 5, 7, 1, 7, 1, 1}), null);
         return rect;
     }
 
@@ -221,7 +235,7 @@ public class GeometryFixture {
      * </pre></code>
      */
     protected Polygon createPolygon() {
-        Polygon poly = gf.createPolygon(ring(new double[] { 9, 5, 13, 5, 11, 8, 9, 5 }), null);
+        Polygon poly = gf.createPolygon(ring(new double[]{9, 5, 13, 5, 11, 8, 9, 5}), null);
         poly.setSRID(-1); // don't have an SRID number
         return poly;
     }
@@ -256,7 +270,7 @@ public class GeometryFixture {
      * Two triplets
      * <ul>
      * <li>(1,1003,1): exterior polygon ring starting at 1</li>
-     * 
+     * <p>
      * <li>(19,2003,1): interior polygon ring starting at 19</li>
      * </ul>
      * </li>
@@ -264,7 +278,7 @@ public class GeometryFixture {
      *        (2,4, 4,3, 10,3, 13,5, 13,9, 11,13, 5,13, 2,11, 2,4,
      *         7,5, 7,10, 10,10, 10,5, 7,5)
      *     </code>
-     * 
+     * <p>
      * <pre/></li>
      * </ul>
      * <p>
@@ -282,9 +296,9 @@ public class GeometryFixture {
      * </pre></code>
      */
     protected Polygon createPolygonWithHole() {
-        Polygon poly = gf.createPolygon(ring(new double[] { 2, 4, 4, 3, 10, 3, 13, 5, 13, 9, 11,
-                13, 5, 13, 2, 11, 2, 4 }), new LinearRing[] { ring(new double[] { 7, 5, 7, 10, 10,
-                10, 10, 5, 7, 5 }), });
+        Polygon poly = gf.createPolygon(ring(new double[]{2, 4, 4, 3, 10, 3, 13, 5, 13, 9, 11,
+                13, 5, 13, 2, 11, 2, 4}), new LinearRing[]{ring(new double[]{7, 5, 7, 10, 10,
+                10, 10, 5, 7, 5}),});
         poly.setSRID(-1); // don't have an SRID number
         return poly;
     }
@@ -322,7 +336,7 @@ public class GeometryFixture {
      * </pre></code>
      */
     protected Point createPoint() {
-        Point point = gf.createPoint(coords(new double[] { 12, 14 }));
+        Point point = gf.createPoint(coords(new double[]{12, 14}));
         return point;
     }
 
@@ -361,18 +375,18 @@ public class GeometryFixture {
      * </pre></code>
      */
     protected LineString createLineString() {
-        LineString lineString = gf.createLineString(coords(new double[] { 1, 2, 2, 1, 3, 1, 4, 2,
-                4, 7 }));
+        LineString lineString = gf.createLineString(coords(new double[]{1, 2, 2, 1, 3, 1, 4, 2,
+                4, 7}));
         return lineString;
     }
 
     /**
      * MultiPoint geometry for testing fixture. <code><pre>
-     * 
+     * <p>
      *      5,5+
-     * 
+     * <p>
      *    3,3+
-     * 
+     * <p>
      *  2,2+
      * 1,1+
      * </pre></code>
@@ -402,7 +416,7 @@ public class GeometryFixture {
      */
     protected MultiPoint createMultiPoint() {
         MultiPoint multiPoint = gf
-                .createMultiPoint(coords(new double[] { 1, 1, 2, 2, 3, 3, 5, 5 }));
+                .createMultiPoint(coords(new double[]{1, 1, 2, 2, 3, 3, 5, 5}));
         return multiPoint;
     }
 
@@ -428,12 +442,12 @@ public class GeometryFixture {
      * Two triplets
      * <ul>
      * <li>(1,2,1): linestring(2) of straight lines(1) starting at 1</li>
-     * 
+     * <p>
      * <li>(11,2,1): linestring(2) of straight lines(1) starting at 1</li>
      * </ul>
      * </li>
      * <li><b>SDO_ORDINATES:</b><code>(1,2, 2,1, 3,1, 4,2 4,7,
-     *                                 2,7, 4,7, 5,7)</code></li>
+     * 2,7, 4,7, 5,7)</code></li>
      * </ul>
      * <p>
      * SQL:
@@ -450,10 +464,10 @@ public class GeometryFixture {
      */
     protected MultiLineString createMultiLineString() {
         LineString line1 = gf
-                .createLineString(coords(new double[] { 1, 2, 2, 1, 3, 1, 4, 2, 4, 7 }));
-        LineString line2 = gf.createLineString(coords(new double[] { 2, 7, 4, 7, 5, 7 }));
+                .createLineString(coords(new double[]{1, 2, 2, 1, 3, 1, 4, 2, 4, 7}));
+        LineString line2 = gf.createLineString(coords(new double[]{2, 7, 4, 7, 5, 7}));
         MultiLineString multiLineString = gf
-                .createMultiLineString(new LineString[] { line1, line2 });
+                .createMultiLineString(new LineString[]{line1, line2});
 
         return multiLineString;
     }
@@ -464,8 +478,8 @@ public class GeometryFixture {
      * Used to illustrate multi polyugon encoding.
      * </p>
      * <code><pre>
-     * 
-     * 2,9+------+7,9   
+     * <p>
+     * 2,9+------+7,9
      *    |      |      +11,8
      *    |      |     / \
      *    |      |    /   \
@@ -485,7 +499,7 @@ public class GeometryFixture {
      * Three triplets
      * <ul>
      * <li>(1,1003,1): exterior(1000) polygon(3) starting at 1 with straight edges(1)</li>
-     * 
+     * <p>
      * <li>(11,1003,1): exterior(1000) polygon(3) starting at 11 with straight edges(1)</li>
      * </ul>
      * </li>
@@ -493,7 +507,7 @@ public class GeometryFixture {
      *        (2,3, 7,3, 7,9, 2,9, 2,3,
      *         9,5, 13,5, 11,5, 9,5)
      *     </code>
-     * 
+     * <p>
      * <pre/></li>
      * </ul>
      * <p>
@@ -511,9 +525,9 @@ public class GeometryFixture {
      * </pre></code>
      */
     protected MultiPolygon createMultiPolygon() {
-        Polygon poly1 = gf.createPolygon(ring(new double[] { 2, 3, 7, 3, 7, 9, 2, 9, 2, 3 }), null);
-        Polygon poly2 = gf.createPolygon(ring(new double[] { 9, 5, 13, 5, 11, 8, 9, 5 }), null);
-        MultiPolygon multiPolygon = gf.createMultiPolygon(new Polygon[] { poly1, poly2 });
+        Polygon poly1 = gf.createPolygon(ring(new double[]{2, 3, 7, 3, 7, 9, 2, 9, 2, 3}), null);
+        Polygon poly2 = gf.createPolygon(ring(new double[]{9, 5, 13, 5, 11, 8, 9, 5}), null);
+        MultiPolygon multiPolygon = gf.createMultiPolygon(new Polygon[]{poly1, poly2});
         return multiPolygon;
     }
 
@@ -523,8 +537,8 @@ public class GeometryFixture {
      * Used to illustrate multi polyugon encoding.
      * </p>
      * <code><pre>
-     * 
-     * 2,9+-------+7,9   
+     * <p>
+     * 2,9+-------+7,9
      *    |3,8 6,8|        +11,8
      *    | +---+ |      / \
      *    | |  /  |     /   \
@@ -549,7 +563,7 @@ public class GeometryFixture {
      * <li>(1,2003,1): interior(2000) polygon(3) starting at 11 with straight edges(1)</li>
      * </ul>
      * </li>
-     * 
+     * <p>
      * <li>(11,1003,1): exterior(1000) polygon(3) starting at 19 with straight edges(1)</li>
      * </ul>
      * </li>
@@ -558,7 +572,7 @@ public class GeometryFixture {
      *         3,4, 3,8, 6,8, 3,4,
      *         9,5, 13,5, 11,8, 9,5)
      *     </code>
-     * 
+     * <p>
      * <pre/></li>
      * </ul>
      * <p>
@@ -571,29 +585,29 @@ public class GeometryFixture {
      *   NULL,
      *   MDSYS.SDO_ELEM_INFO_ARRAY(1,1003,1,11,2003,1,19,1003,1),
      *   MDSYS.SDO_ORDINATE_ARRAY(2,3, 7,3, 7,9, 2,9, 2,3,
-     *         3,4, 3,8, 6,8, 3,4, 
+     *         3,4, 3,8, 6,8, 3,4,
      *         9,5, 13,5, 11,8, 9,5)
      * )
      * </pre></code>
      */
     protected MultiPolygon createMultiPolygonWithHole() {
-        Polygon poly1 = gf.createPolygon(ring(new double[] { 2, 3, 7, 3, 7, 9, 2, 9, 2, 3 }),
-                new LinearRing[] { ring(new double[] { 3, 4, 6, 8, 3, 8, 3, 4 }), });
-        Polygon poly2 = gf.createPolygon(ring(new double[] { 9, 5, 11, 8, 13, 5, 9, 5 }), null);
-        MultiPolygon multiPolygon = gf.createMultiPolygon(new Polygon[] { poly1, poly2 });
+        Polygon poly1 = gf.createPolygon(ring(new double[]{2, 3, 7, 3, 7, 9, 2, 9, 2, 3}),
+                new LinearRing[]{ring(new double[]{3, 4, 6, 8, 3, 8, 3, 4}),});
+        Polygon poly2 = gf.createPolygon(ring(new double[]{9, 5, 11, 8, 13, 5, 9, 5}), null);
+        MultiPolygon multiPolygon = gf.createMultiPolygon(new Polygon[]{poly1, poly2});
         return multiPolygon;
     }
 
     /**
      * General Geometry Collection - with point, line, polygon, and a polygonWithHole. <code><pre>
-     *                          
+     * <p>
      *                5,5+-------+9,5
      *                   |  +6,4/
      *                   | /|  /
-     *                   |/ | / 
+     *                   |/ | /
      *  2,3 +---+3,3  5,3+--+/6,3
      *      |2,2|        |  /
-     * 1,2+ +---+3,2     | / 
+     * 1,2+ +---+3,2     | /
      *     \             |/
      * 1,1+ +2,1      5,1+
      * </pre></code> A GeometryCollection with expected encoding:</p>
@@ -608,7 +622,7 @@ public class GeometryFixture {
      * <li>(1,1,1): starting at 1, a point(1) (single(1))</li>
      * <li>(3,2,1): starting at 3, a line(2) with straight segments(1)</li>
      * <li>(7,1003,1): starting at 5, an exterior(1000), polygon(3)</li>
-     * 
+     * <p>
      * <li>(15,1003,1, 23,2003,1) polygon with:
      * <ul>
      * <li>starting at 15 and exterior(1003) and straight edges 1</li>
@@ -623,7 +637,7 @@ public class GeometryFixture {
      *         5,1, 5,5, 9,5, 5,1,
      *         5,3, 6,4, 6,3, 5,3)
      *     </code>
-     * 
+     * <p>
      * <pre/></li>
      * </ul>
      * <p>
@@ -646,12 +660,12 @@ public class GeometryFixture {
      * </pre></code>
      */
     protected GeometryCollection createGeometryCollection() {
-        return gf.createGeometryCollection(new Geometry[] {
-                gf.createPoint(coords(new double[] { 1, 1 })),
-                gf.createLineString(coords(new double[] { 1, 2, 2, 1 })),
-                gf.createPolygon(ring(new double[] { 2, 2, 3, 2, 3, 3, 2, 3, 2, 2 }), null),
-                gf.createPolygon(ring(new double[] { 5, 1, 9, 5, 5, 5, 5, 1 }),
-                        new LinearRing[] { ring(new double[] { 5, 3, 6, 4, 6, 3, 5, 3, }) }) });
+        return gf.createGeometryCollection(new Geometry[]{
+                gf.createPoint(coords(new double[]{1, 1})),
+                gf.createLineString(coords(new double[]{1, 2, 2, 1})),
+                gf.createPolygon(ring(new double[]{2, 2, 3, 2, 3, 3, 2, 3, 2, 2}), null),
+                gf.createPolygon(ring(new double[]{5, 1, 9, 5, 5, 5, 5, 1}),
+                        new LinearRing[]{ring(new double[]{5, 3, 6, 4, 6, 3, 5, 3,})})});
     }
 
     //

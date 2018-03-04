@@ -29,14 +29,12 @@ import org.geotools.arcsde.session.ISession;
 /**
  * Qualifies a column reference (aliased) the ArcSDE "table.user." prefix as required by the ArcSDE
  * java api to not get confused when using joined tables.
- * 
+ *
  * @author Gabriel Roldan, Axios Engineering
  * @version $Id$
- *
- *
  * @source $URL$
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
- *         /org/geotools/arcsde/data/view/ColumnReferenceQualifier.java $
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
+ * /org/geotools/arcsde/data/view/ColumnReferenceQualifier.java $
  * @since 2.3.x
  */
 public class ColumnReferenceQualifier implements ColumnReferenceVisitor {
@@ -48,7 +46,7 @@ public class ColumnReferenceQualifier implements ColumnReferenceVisitor {
 
     /**
      * Creates a new ColumnReferenceQualifier object.
-     * 
+     *
      * @param session
      */
     private ColumnReferenceQualifier(ISession session, Map<String, Object> tableAliases) {
@@ -57,7 +55,7 @@ public class ColumnReferenceQualifier implements ColumnReferenceVisitor {
     }
 
     public static ColumnReference qualify(ISession session, Map<String, Object> tableAliases,
-            ColumnReference colRef) {
+                                          ColumnReference colRef) {
         if (colRef == null) {
             return null;
         }

@@ -22,8 +22,6 @@ import com.vividsolutions.jts.geom.Polygon;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class MultiSurface extends MultiPolygon {

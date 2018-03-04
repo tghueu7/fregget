@@ -22,12 +22,10 @@ import java.io.Serializable;
 /**
  * A {@link VirtualTable} parameter. Has a name, a default value, and a {@link Validator} to protect
  * the parameters against sql injection attacks.
- * 
+ * <p>
  * The class includes some default validators
- * 
+ *
  * @author Andrea Aime - OpenGeo
- *
- *
  * @source $URL$
  */
 public class VirtualTableParameter implements Serializable {
@@ -40,7 +38,7 @@ public class VirtualTableParameter implements Serializable {
     public VirtualTableParameter(String name, String defaultValue) {
         this(name, defaultValue, null);
     }
-    
+
     public VirtualTableParameter(String name, String defaultValue, Validator validator) {
         this.name = name;
         this.defaultValue = defaultValue;
@@ -109,16 +107,14 @@ public class VirtualTableParameter implements Serializable {
     }
 
 
-
     /**
      * Interface to be implemented by parameter value validators
-     * 
+     *
      * @author aaime
-     * 
      */
     public interface Validator extends Serializable {
         public void validate(String value) throws IllegalArgumentException;
     }
-    
-    
+
+
 }

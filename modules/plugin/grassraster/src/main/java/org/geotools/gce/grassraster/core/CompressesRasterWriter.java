@@ -37,12 +37,10 @@ import org.opengis.util.ProgressListener;
  * <p>
  * Write compressed JGrass rasters to disk
  * </p>
- * 
+ *
  * @author Andrea Antonello (www.hydrologis.com)
- * @since 1.1.0
- *
- *
  * @source $URL$
+ * @since 1.1.0
  */
 public class CompressesRasterWriter {
 
@@ -66,7 +64,7 @@ public class CompressesRasterWriter {
 
     /**
      * Preparing the environment for compressing and writing the map to disk
-     * 
+     *
      * @param _outputToDiskType
      * @param _novalue
      * @param _jump
@@ -76,9 +74,11 @@ public class CompressesRasterWriter {
      * @param _dataWindow
      * @param monitor
      */
-    public CompressesRasterWriter( int _outputToDiskType, double _novalue, boolean _jump,
-            double[] _range, long _pointerInFilePosition, long[] _rowaddresses,
-            JGrassRegion _dataWindow, ProgressListener monitor, String mapName ) {
+    public CompressesRasterWriter(int _outputToDiskType, double _novalue, boolean _jump,
+                                  double[] _range, long _pointerInFilePosition, long[] 
+                                          _rowaddresses,
+                                  JGrassRegion _dataWindow, ProgressListener monitor, String 
+                                          mapName) {
         outputToDiskType = _outputToDiskType;
         novalue = _novalue;
         jump = _jump;
@@ -100,15 +100,16 @@ public class CompressesRasterWriter {
      * the place for the header is written to file, in the end the header is re-written with the
      * right rowaddresses (at the begin we do not know how much compression will influence).
      * </p>
-     * 
-     * @param theCreatedFile - handler for the main map file
+     *
+     * @param theCreatedFile     - handler for the main map file
      * @param theCreatedNullFile - handler for the file of the null map (in cell_misc)
      * @param renderedImage
      * @return successfull or not
      * @throws IOException
      */
-    public void compressAndWrite( ImageOutputStream theCreatedFile,
-            ImageOutputStream theCreatedNullFile, RenderedImage renderedImage ) throws IOException {
+    public void compressAndWrite(ImageOutputStream theCreatedFile,
+                                 ImageOutputStream theCreatedNullFile, RenderedImage 
+                                         renderedImage) throws IOException {
         // set the number of bytes needed for the values to write to disk
         int numberofbytes = outputToDiskType * 4;
         // set the the novalue to identify the nulls
@@ -147,9 +148,9 @@ public class CompressesRasterWriter {
         monitor.started();
         monitor.setTask(new SimpleInternationalString("Writing map to disk: " + mapName));
         float progress = 0;
-        for( int i = 0; i < dataWindowRows; i++ ) {
-            for( int j = 0; j < dataWindowCols; j++ ) {
-                double value = iterator.getSampleDouble(j,i,0);
+        for (int i = 0; i < dataWindowRows; i++) {
+            for (int j = 0; j < dataWindowCols; j++) {
+                double value = iterator.getSampleDouble(j, i, 0);
 
                 if (Double.isNaN(value) || value == novalue) {
                     // put in the map the placeholder = 0.0 ...
@@ -183,7 +184,6 @@ public class CompressesRasterWriter {
                      */
                     k++;
 
-        
 
                 }
             }
@@ -194,9 +194,9 @@ public class CompressesRasterWriter {
              */
             int l = 0;
             byte[] bytearray = new byte[(numberOfValuesPerRow + paddings) / 8];
-            for( int e = 0; e < (numberOfValuesPerRow + paddings) / 8; e++ ) {
+            for (int e = 0; e < (numberOfValuesPerRow + paddings) / 8; e++) {
                 bytearray[e] = 0;
-                for( int f = 0; f < 8; f++ ) {
+                for (int f = 0; f < 8; f++) {
                     if (nullbits.get(l)) {
                         bytearray[e] += (byte) Math.pow(2.0, (double) (7 - f));
                     }
@@ -234,9 +234,9 @@ public class CompressesRasterWriter {
 
             rowaddresses[i + 1] = pointerInFilePosition = theCreatedFile.getStreamPosition();
 //            System.out.println("row: " + (i+1) + " position: " + pointerInFilePosition);
-            
+
             rowAsByteBuffer.clear();
-            
+
             progress = (float) (progress + 100f * i / dataWindowRows);
             monitor.progress(progress);
         }
@@ -246,10 +246,11 @@ public class CompressesRasterWriter {
          * the header
          */
         theCreatedFile.seek(1);
-        for( int i = 0; i < rowaddresses.length; i++ ) {
+        for (int i = 0; i < rowaddresses.length; i++) {
             theCreatedFile.writeInt((int) rowaddresses[i]);
         }
     }
+
     public JGrassRegion getDataWindow() {
         return dataWindow;
     }

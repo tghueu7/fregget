@@ -21,9 +21,8 @@ import java.util.Comparator;
 
 /**
  * Orders rules by their selector selectivity
- * 
+ *
  * @author Andrea Aime - GeoSolutions
- * 
  */
 class CssRuleComparator implements Comparator<CssRule> {
 

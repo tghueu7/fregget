@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -34,49 +34,69 @@ import com.vividsolutions.jts.geom.Polygon;
  *
  * @author Andrea Aime
  * @author simone giannecchini
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
-public final  class PolygonIterator extends AbstractLiteIterator {
-    /** Transform applied on the coordinates during iteration */
+public final class PolygonIterator extends AbstractLiteIterator {
+    /**
+     * Transform applied on the coordinates during iteration
+     */
     private AffineTransform at;
 
-    /** The rings describing the polygon geometry */
+    /**
+     * The rings describing the polygon geometry
+     */
     private LineString[] rings;
 
-    /** The current ring during iteration */
+    /**
+     * The current ring during iteration
+     */
     private int currentRing = 0;
 
-    /** Current line coordinate */
+    /**
+     * Current line coordinate
+     */
     private int currentCoord = 0;
 
-    /** The array of coordinates that represents the line geometry */
+    /**
+     * The array of coordinates that represents the line geometry
+     */
     private CoordinateSequence coords = null;
 
-    /** The previous coordinate (during iteration) */
+    /**
+     * The previous coordinate (during iteration)
+     */
     private Coordinate oldCoord = null;
 
-    /** True when the iteration is terminated */
+    /**
+     * True when the iteration is terminated
+     */
     private boolean done = false;
 
-    /** If true, apply simple distance based generalization */
+    /**
+     * If true, apply simple distance based generalization
+     */
     private boolean generalize = false;
 
-    /** Maximum distance for point elision when generalizing */
+    /**
+     * Maximum distance for point elision when generalizing
+     */
     private double maxDistance = 1.0;
 
-    /** Horizontal scale, got from the affine transform and cached */
+    /**
+     * Horizontal scale, got from the affine transform and cached
+     */
     private double xScale;
 
-    /** Vertical scale, got from the affine transform and cached */
+    /**
+     * Vertical scale, got from the affine transform and cached
+     */
     private double yScale;
 
     /**
      * Creates a new PolygonIterator object.
      *
-     * @param p The polygon
+     * @param p  The polygon
      * @param at The affine transform applied to coordinates during iteration
      */
     public PolygonIterator(Polygon p, AffineTransform at) {
@@ -104,8 +124,8 @@ public final  class PolygonIterator extends AbstractLiteIterator {
     /**
      * Creates a new PolygonIterator object.
      *
-     * @param p The polygon
-     * @param at The affine transform applied to coordinates during iteration
+     * @param p          The polygon
+     * @param at         The affine transform applied to coordinates during iteration
      * @param generalize if true apply simple distance based generalization
      */
     public PolygonIterator(Polygon p, AffineTransform at, boolean generalize) {
@@ -116,14 +136,14 @@ public final  class PolygonIterator extends AbstractLiteIterator {
     /**
      * Creates a new PolygonIterator object.
      *
-     * @param p The polygon
-     * @param at The affine transform applied to coordinates during iteration
-     * @param generalize if true apply simple distance based generalization
+     * @param p           The polygon
+     * @param at          The affine transform applied to coordinates during iteration
+     * @param generalize  if true apply simple distance based generalization
      * @param maxDistance during iteration, a point will be skipped if it's
-     *        distance from the previous is less than maxDistance
+     *                    distance from the previous is less than maxDistance
      */
     public PolygonIterator(Polygon p, AffineTransform at, boolean generalize,
-        double maxDistance) {
+                           double maxDistance) {
         this(p, at, generalize);
         this.maxDistance = maxDistance;
     }
@@ -159,9 +179,7 @@ public final  class PolygonIterator extends AbstractLiteIterator {
      * any points.
      *
      * @param coords an array that holds the data returned from this method
-     *
      * @return the path-segment type of the current path segment.
-     *
      * @see #SEG_MOVETO
      * @see #SEG_LINETO
      * @see #SEG_QUADTO
@@ -187,9 +205,9 @@ public final  class PolygonIterator extends AbstractLiteIterator {
             return SEG_LINETO;
         }
     }
-    
-    protected void transform(double[] src, int index, double[] dest, int destIndex, int numPoints){
-            at.transform(src, index, dest, destIndex, numPoints);
+
+    protected void transform(double[] src, int index, double[] dest, int destIndex, int numPoints) {
+        at.transform(src, index, dest, destIndex, numPoints);
     }
 
     /**
@@ -205,7 +223,7 @@ public final  class PolygonIterator extends AbstractLiteIterator {
      * Tests if the iteration is complete.
      *
      * @return <code>true</code> if all the segments have been read;
-     *         <code>false</code> otherwise.
+     * <code>false</code> otherwise.
      */
     public boolean isDone() {
         return done;
@@ -258,5 +276,5 @@ public final  class PolygonIterator extends AbstractLiteIterator {
             }
         }
     }
-    
+
 }

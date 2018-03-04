@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -28,11 +28,8 @@ import org.opengis.feature.type.AttributeDescriptor;
  * row-based approach for accessing the data.
  *
  * @author Ian Schneider
- *
- *
- * @source $URL$
  * @version $Id$
- *
+ * @source $URL$
  * @see AttributeAcceptor
  */
 public interface AttributeReader {
@@ -49,7 +46,7 @@ public interface AttributeReader {
      * @return AttributeType at given index
      */
     AttributeDescriptor getAttributeType(int index)
-        throws ArrayIndexOutOfBoundsException;
+            throws ArrayIndexOutOfBoundsException;
 
     /**
      * Release any resources associated with this reader
@@ -60,7 +57,7 @@ public interface AttributeReader {
      * Does another set of attributes exist in this reader?
      *
      * @return <code>true</code> if additional content exists for
-     *         AttributeReader
+     * AttributeReader
      */
     boolean hasNext() throws IOException;
 

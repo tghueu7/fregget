@@ -22,23 +22,20 @@ import java.util.logging.SimpleFormatter;
 
 /**
  * @author kengu - 6. juni 2011
- *
- *
  * @source $URL$
  */
 public class EFeatureLogFormatter extends Formatter {
-    
+
     private static boolean bMinimal = false;
     private static SimpleFormatter eStandard = new SimpleFormatter();
 
-    
-    
+
     @Override
     public String format(LogRecord record) {
         //
         // Apply minimal format?
         //
-        if(bMinimal) {
+        if (bMinimal) {
             //
             // Create a StringBuffer to contain the 
             // formatted record start with the date.
@@ -71,14 +68,14 @@ public class EFeatureLogFormatter extends Formatter {
         //
         return eStandard.format(record);
     }
-    
+
     public static final void setMinimal() {
-        bMinimal = true;        
+        bMinimal = true;
     }
-    
+
     public static final void setStandard() {
-        bMinimal = false;        
+        bMinimal = false;
     }
-    
+
 
 }

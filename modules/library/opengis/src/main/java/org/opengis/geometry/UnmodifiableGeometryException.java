@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry;
@@ -18,10 +18,8 @@ package org.opengis.geometry;
  * implementation dependent.
  *
  * @author Martin Desruisseaux (IRD)
- * @since GeoAPI 2.0
- *
- *
  * @source $URL$
+ * @since GeoAPI 2.0
  */
 public class UnmodifiableGeometryException extends UnsupportedOperationException {
     /**
@@ -39,8 +37,8 @@ public class UnmodifiableGeometryException extends UnsupportedOperationException
     /**
      * Creates an exception with the specified message.
      *
-     * @param  message The detail message. The detail message is saved for
-     *         later retrieval by the {@link #getMessage()} method.
+     * @param message The detail message. The detail message is saved for
+     *                later retrieval by the {@link #getMessage()} method.
      */
     public UnmodifiableGeometryException(final String message) {
         super(message);

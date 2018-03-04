@@ -44,17 +44,13 @@ import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * Tests for {@link ComplexAttributeConverterFactory}.
- * 
+ *
  * @author Rini Angreani (CSIRO Earth Science and Resource Engineering)
  * @author Niels Charlier
- *
- *
- *
- *
  * @source $URL$
  */
 public class ComplexAttributeConverterFactoryTest extends TestCase {
-    
+
     /**
      * Test extracting complex attribute leaf value should be successful.
      */
@@ -63,11 +59,12 @@ public class ComplexAttributeConverterFactoryTest extends TestCase {
         AttributeDescriptor descriptor = new AttributeDescriptorImpl(XSSchema.STRING_TYPE,
                 ComplexFeatureConstants.SIMPLE_CONTENT, 1, 1, true, (Object) null);
         attributes.add(new AttributeImpl("rini", descriptor, null));
-        ComplexAttribute gmlName = new ComplexAttributeImpl(attributes, GMLSchema.CODETYPE_TYPE, null);
+        ComplexAttribute gmlName = new ComplexAttributeImpl(attributes, GMLSchema.CODETYPE_TYPE, 
+                null);
         String nameString = Converters.convert(gmlName, String.class);
         assertEquals("rini", nameString);
     }
-    
+
     /**
      * Test extracting complex attribute non-leaf value should fail.
      */
@@ -76,13 +73,15 @@ public class ComplexAttributeConverterFactoryTest extends TestCase {
         AttributeDescriptor descriptor = new AttributeDescriptorImpl(XSSchema.STRING_TYPE,
                 ComplexFeatureConstants.SIMPLE_CONTENT, 1, 1, true, (Object) null);
         attributes.add(new AttributeImpl("rini", descriptor, null));
-        ComplexAttribute gmlName = new ComplexAttributeImpl(attributes, GMLSchema.CODETYPE_TYPE, null);
-        
+        ComplexAttribute gmlName = new ComplexAttributeImpl(attributes, GMLSchema.CODETYPE_TYPE, 
+                null);
+
         Collection<Property> parentAttributes = new ArrayList<Property>();
         parentAttributes.add(gmlName);
-        ComplexAttribute parentAtt = new ComplexAttributeImpl(parentAttributes, GMLSchema.ABSTRACTFEATURETYPE_TYPE, null);
+        ComplexAttribute parentAtt = new ComplexAttributeImpl(parentAttributes, GMLSchema
+                .ABSTRACTFEATURETYPE_TYPE, null);
         String nameString = Converters.convert(parentAtt, String.class);
-        
+
         assertEquals(parentAtt.toString(), nameString);
         assertNotSame("rini", nameString);
     }
@@ -94,14 +93,16 @@ public class ComplexAttributeConverterFactoryTest extends TestCase {
         AttributeDescriptor descriptor = new AttributeDescriptorImpl(XSSchema.STRING_TYPE,
                 ComplexFeatureConstants.SIMPLE_CONTENT, 1, 1, true, (Object) null);
         Attribute att = new AttributeImpl("rini", descriptor, null);
-        Set<ConverterFactory> factories = Converters.getConverterFactories(att.getClass(), String.class);
+        Set<ConverterFactory> factories = Converters.getConverterFactories(att.getClass(), String
+                .class);
         for (ConverterFactory factory : factories) {
             assertFalse(factory instanceof ComplexAttributeConverterFactory);
         }
     }
-    
+
     /**
      * Test converting String to FeatureId successful. This is required by feature chaining.
+     *
      * @throws Exception
      */
     public void testFeatureId() throws Exception {
@@ -109,16 +110,18 @@ public class ComplexAttributeConverterFactoryTest extends TestCase {
         assertNotNull(id);
         assertEquals(id.getID(), "blah");
     }
-    
+
     /**
-    * Test extracting geometry from geometryattribute should be successful.
-    */
+     * Test extracting geometry from geometryattribute should be successful.
+     */
     public void testGeometry() {
-    	Geometry geometry = new EmptyGeometry();
-		GeometryAttribute geoatt = new GeometryAttributeImpl(geometry, new GeometryDescriptorImpl(new GeometryTypeImpl(new NameImpl(""), EmptyGeometry.class, null, false, false, null, null, null), new NameImpl(""), 0, 0, false, null), null);
-		Geometry geometry2 = Converters.convert(geoatt, Geometry.class);
-   		assertTrue(geometry == geometry2);
+        Geometry geometry = new EmptyGeometry();
+        GeometryAttribute geoatt = new GeometryAttributeImpl(geometry, new GeometryDescriptorImpl
+                (new GeometryTypeImpl(new NameImpl(""), EmptyGeometry.class, null, false, false, 
+                        null, null, null), new NameImpl(""), 0, 0, false, null), null);
+        Geometry geometry2 = Converters.convert(geoatt, Geometry.class);
+        assertTrue(geometry == geometry2);
     }
-   
-    
+
+
 }

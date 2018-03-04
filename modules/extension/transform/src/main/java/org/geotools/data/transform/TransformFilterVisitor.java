@@ -24,8 +24,8 @@ import org.opengis.filter.expression.PropertyName;
 
 /**
  * Visits a filter and expands the transforming expressions into it
- * 
- * @author Andrea Aime - GeoSolutions 
+ *
+ * @author Andrea Aime - GeoSolutions
  */
 class TransformFilterVisitor extends DuplicatingFilterVisitor {
 

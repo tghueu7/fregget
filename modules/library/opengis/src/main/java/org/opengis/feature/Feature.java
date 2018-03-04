@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2007 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.feature;
@@ -15,28 +15,28 @@ import org.opengis.geometry.BoundingBox;
 
 /**
  * An instance of {@link FeatureType} representing a geographic feature composed of geometric
- * and non-geometric properties. 
+ * and non-geometric properties.
  * <p>
  * Beyond being a complex attribute, a feature contains the following additional information:
  * <ul>
  * <li>A default geometry. To be used when drawing when nothing more
- *     specific has been provided.
+ * specific has been provided.
  * <li>The bounds of all the geometric attributes of the feature
  * </ul>
  * </p>
- * @see FeatureType
+ *
  * @author Jody Garnett (Refractions Research)
  * @author Justin Deoliveira (The Open Planning Project)
- * @since GeoAPI 2.2
- *
- *
- * @source $URL$
  * @version 8.0
+ * @source $URL$
+ * @see FeatureType
+ * @since GeoAPI 2.2
  */
 public interface Feature extends ComplexAttribute {
 
     /**
      * Override and type narrow to FeatureType.
+     *
      * @return The feature type
      */
     FeatureType getType();
@@ -103,11 +103,9 @@ public interface Feature extends ComplexAttribute {
      * feature.
      * </p>
      *
-     * @param geometryAttribute
-     *            The new geomtric attribute.
-     *
+     * @param geometryAttribute The new geomtric attribute.
      * @throws IllegalArgumentException If the specified attribute is not already
-     * an attribute of the feature.
+     *                                  an attribute of the feature.
      */
     void setDefaultGeometryProperty(GeometryAttribute geometryAttribute);
 }

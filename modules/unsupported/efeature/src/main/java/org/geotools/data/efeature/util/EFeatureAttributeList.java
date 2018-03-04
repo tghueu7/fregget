@@ -4,15 +4,14 @@ import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import org.geotools.data.efeature.EFeatureAttribute;
 import org.geotools.data.efeature.EFeatureProperty;
 
 /**
  * Unmodifiable list of {@link EFeatureAttribute} instances.
- * 
- * @author kengu, 22. apr. 2011
- * 
  *
+ * @author kengu, 22. apr. 2011
  * @source $URL$
  */
 public class EFeatureAttributeList<V> extends AbstractList<EFeatureAttribute<V>> {
@@ -79,7 +78,8 @@ public class EFeatureAttributeList<V> extends AbstractList<EFeatureAttribute<V>>
 //        return toList(eFeatureInfo, eObject, Object.class, eTx);
 //    }
 //
-//    public static <V> List<EFeatureAttribute<V>> toList(EFeatureInfo eFeatureInfo, EObject eObject,
+//    public static <V> List<EFeatureAttribute<V>> toList(EFeatureInfo eFeatureInfo, EObject 
+// eObject,
 //            Class<V> type, Transaction eTx) {
 //        EClass eClass = eFeatureInfo.eClass();
 //        if (eClass.isSuperTypeOf(eObject.eClass())) {
@@ -89,7 +89,8 @@ public class EFeatureAttributeList<V> extends AbstractList<EFeatureAttribute<V>>
 //        return null;
 //    }
 //
-//    public static <V> List<EFeatureAttribute<V>> toList(EFeatureInfo eFeatureInfo, EObject eObject,
+//    public static <V> List<EFeatureAttribute<V>> toList(EFeatureInfo eFeatureInfo, EObject 
+// eObject,
 //            Collection<EAttribute> eAttributes, Class<V> type, Transaction eTx) {
 //        List<EFeatureAttribute<V>> list = new ArrayList<EFeatureAttribute<V>>(eAttributes.size());
 //        for (EAttribute it : eAttributes) {

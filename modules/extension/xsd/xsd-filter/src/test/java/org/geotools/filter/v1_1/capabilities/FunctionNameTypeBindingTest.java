@@ -17,7 +17,9 @@
 package org.geotools.filter.v1_1.capabilities;
 
 import org.w3c.dom.Document;
+
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.capability.FunctionName;
 import org.geotools.filter.v1_1.OGC;
 import org.geotools.xml.Binding;
@@ -25,9 +27,9 @@ import org.geotools.xml.Binding;
 
 /**
  * Binding test case for http://www.opengis.net/ogc:FunctionNameType.
- *
  * <p>
- *  <pre>
+ * <p>
+ * <pre>
  *   <code>
  *  &lt;xsd:complexType name="FunctionNameType"&gt;
  *      &lt;xsd:simpleContent&gt;
@@ -42,9 +44,6 @@ import org.geotools.xml.Binding;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class FunctionNameTypeBindingTest extends OGCTestSupport {

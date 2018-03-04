@@ -27,8 +27,6 @@ import org.opengis.feature.simple.SimpleFeatureType;
 import java.util.HashMap;
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class JDBCUDTOnlineTest extends JDBCTestSupport {
@@ -40,41 +38,41 @@ public abstract class JDBCUDTOnlineTest extends JDBCTestSupport {
         SimpleFeatureType type = dataStore.getSchema(tname("udt"));
         assertNotNull(type);
         assertNotNull(type.getDescriptor(aname("ut")));
-            
+
         assertEquals(String.class, type.getDescriptor(aname("ut")).getType().getBinding());
     }
-    
+
     public void testRead() throws Exception {
         SimpleFeatureType type = dataStore.getSchema(tname("udt"));
-            
+
         SimpleFeatureCollection features = dataStore.getFeatureSource(tname("udt")).getFeatures();
-        try(SimpleFeatureIterator fi = features.features()) {
+        try (SimpleFeatureIterator fi = features.features()) {
             assertTrue(fi.hasNext());
             assertEquals("12ab", fi.next().getAttribute(aname("ut")));
             assertFalse(fi.hasNext());
         }
-        
+
     }
 
     public void testWrite() throws Exception {
         int count = dataStore.getFeatureSource(tname("udt")).getCount(Query.ALL);
-        
-        try(FeatureWriter w = dataStore.getFeatureWriterAppend(tname("udt"), Transaction.AUTO_COMMIT)) {
+
+        try (FeatureWriter w = dataStore.getFeatureWriterAppend(tname("udt"), Transaction
+                .AUTO_COMMIT)) {
             w.hasNext();
-            
+
             SimpleFeature f = (SimpleFeature) w.next();
             f.setAttribute(aname("ut"), "abcd");
             try {
                 w.write();
                 fail("Write should have failed with UDT constraint failure");
-            }
-            catch(Exception e) {
+            } catch (Exception e) {
             }
             f.setAttribute(aname("ut"), "34cd");
             w.write();
         }
-        
-        assertEquals(count+1, dataStore.getFeatureSource(tname("udt")).getCount(Query.ALL));
+
+        assertEquals(count + 1, dataStore.getFeatureSource(tname("udt")).getCount(Query.ALL));
     }
 
     @Override

@@ -66,19 +66,19 @@ import com.esri.sde.sdk.client.SeException;
  * spatial filters (or spatial constraints, in SDE vocabulary) provided by
  * <code>GeometryEncoderSDE</code>; mirroring the java SDE api approach for easy programing
  * </p>
- * 
+ *
  * @author Saul Farber
  * @author Gabriel Roldan
- * @see org.geotools.data.sde.GeometryEncoderSDE
- * 
- * 
  * @source $URL$
- *         http://gtsvn.refractions.net/geotools/branches/2.4.x/modules/unsupported/arcsde/datastore
- *         /src/main/java/org/geotools/arcsde/filter/FilterToSQLSDE.java $
+ * http://gtsvn.refractions.net/geotools/branches/2.4.x/modules/unsupported/arcsde/datastore
+ * /src/main/java/org/geotools/arcsde/filter/FilterToSQLSDE.java $
+ * @see org.geotools.data.sde.GeometryEncoderSDE
  */
 @SuppressWarnings("deprecation")
 public class FilterToSQLSDE extends FilterToSQL implements FilterVisitor {
-    /** Standard java logger */
+    /**
+     * Standard java logger
+     */
     private static Logger LOGGER = Logging.getLogger(FilterToSQLSDE.class.getName());
 
     private final String layerFidFieldName;
@@ -93,15 +93,16 @@ public class FilterToSQLSDE extends FilterToSQL implements FilterVisitor {
     private final ISession conn;
 
     /**
-     * @param layerQName full qualified name of the ArcSDE layer
+     * @param layerQName      full qualified name of the ArcSDE layer
      * @param layerFidColName name of the column that holds fids
      * @param ft
      * @param definitionQuery
-     * @param conn2 only used to encode date literals in a RDBMS specific format according to
-     *        {@link SeDate#toWhereStr(SeConnection)}
+     * @param conn2           only used to encode date literals in a RDBMS specific format 
+     *                        according to
+     *                        {@link SeDate#toWhereStr(SeConnection)}
      */
     public FilterToSQLSDE(String layerQName, String layerFidColName, SimpleFeatureType ft,
-            PlainSelect definitionQuery, ISession session) {
+                          PlainSelect definitionQuery, ISession session) {
         this.layerFidFieldName = layerFidColName;
         this.featureType = ft;
         this.definitionQuery = definitionQuery;
@@ -118,7 +119,8 @@ public class FilterToSQLSDE extends FilterToSQL implements FilterVisitor {
                     String msg = "for item '"
                             + item
                             + "': only SelectExpressionItems should be in query at this stage."
-                            + " AllColumns and AllTableColumns instances should be resolved to their list "
+                            + " AllColumns and AllTableColumns instances should be resolved to " +
+                            "their list "
                             + " of column names at view registration time.";
                     LOGGER.severe(msg);
                     throw new IllegalStateException(msg);
@@ -143,7 +145,7 @@ public class FilterToSQLSDE extends FilterToSQL implements FilterVisitor {
     /**
      * Returns the full qualifed name of sql expression that is registered as the source of the
      * attribute named <code>alias</code>.
-     * 
+     *
      * @param alias
      * @return
      */
@@ -174,7 +176,6 @@ public class FilterToSQLSDE extends FilterToSQL implements FilterVisitor {
     /**
      * Overrides the superclass implementation to indicate that we support pushing FeatureId filters
      * down into the data store.
-     * 
      */
     @Override
     protected FilterCapabilities createFilterCapabilities() {
@@ -195,7 +196,6 @@ public class FilterToSQLSDE extends FilterToSQL implements FilterVisitor {
 
     /**
      * overrides just to avoid the "WHERE" keyword
-     * 
      */
     @Override
     public void encode(Filter filter) throws FilterToSQLException {
@@ -209,7 +209,7 @@ public class FilterToSQLSDE extends FilterToSQL implements FilterVisitor {
     /**
      * This only exists the fulfill the interface - unless There is a way of determining the FID
      * column in the database...
-     * 
+     *
      * @param filter the Fid Filter.
      */
     @Override
@@ -243,7 +243,7 @@ public class FilterToSQLSDE extends FilterToSQL implements FilterVisitor {
 
     // return a string
     private String buildFidFilter(long[] fids, String fidAttribute, String prefix, String suffix,
-            String separator, int groupSize, String groupSeparator) {
+                                  String separator, int groupSize, String groupSeparator) {
         final int count = fids.length;
         final int groups = count / groupSize;
         final int remainder = count % groupSize;
@@ -284,7 +284,7 @@ public class FilterToSQLSDE extends FilterToSQL implements FilterVisitor {
      * Writes the SQL for the attribute Expression. NOTE: If the feature type is the product of an
      * in process sql query, the attribute name encoded will be the actual one, not the alias (if
      * any) used in the sql query.
-     * 
+     *
      * @param expression the attribute to turn to SQL.
      * @throws RuntimeException for io exception with writer
      */
@@ -317,9 +317,9 @@ public class FilterToSQLSDE extends FilterToSQL implements FilterVisitor {
     }
 
     /**
-     * @see {@link FilterVisitor#visit(ExcludeFilter, Object)} Writes the SQL for the IncludeFilter
-     *      by writing "FALSE".
      * @param the filter to be visited
+     * @see {@link FilterVisitor#visit(ExcludeFilter, Object)} Writes the SQL for the IncludeFilter
+     * by writing "FALSE".
      */
     @Override
     public Object visit(ExcludeFilter filter, Object extraData) {
@@ -332,9 +332,9 @@ public class FilterToSQLSDE extends FilterToSQL implements FilterVisitor {
     }
 
     /**
-     * @see {@link FilterVisitor#visit(IncludeFilter, Object)} Writes the SQL for the IncludeFilter
-     *      by writing "TRUE".
      * @param the filter to be visited
+     * @see {@link FilterVisitor#visit(IncludeFilter, Object)} Writes the SQL for the IncludeFilter
+     * by writing "TRUE".
      */
     @Override
     public Object visit(IncludeFilter filter, Object extraData) {

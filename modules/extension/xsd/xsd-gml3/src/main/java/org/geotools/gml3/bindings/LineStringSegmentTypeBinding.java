@@ -30,45 +30,60 @@ import com.vividsolutions.jts.geom.LineString;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:LineStringSegmentType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="LineStringSegmentType"&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;A LineStringSegment is a curve segment that is defined by two or more coordinate tuples, with linear interpolation between them.
- *                                  Note: LineStringSegment implements GM_LineString of ISO 19107.&lt;/documentation&gt;
+ *          &lt;documentation&gt;A LineStringSegment is a curve segment that is defined by two or
+ *          more coordinate tuples, with linear interpolation between them.
+ *                                  Note: LineStringSegment implements GM_LineString of ISO 
+ *                                  19107.&lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;complexContent&gt;
  *          &lt;extension base="gml:AbstractCurveSegmentType"&gt;
  *              &lt;sequence&gt;
  *                  &lt;choice&gt;
  *                      &lt;annotation&gt;
- *                          &lt;documentation&gt;GML supports two different ways to specify the control points of a curve segment.
- *  1. A sequence of "pos" (DirectPositionType) or "pointProperty" (PointPropertyType) elements. "pos" elements are control points that are only part of this curve segment, "pointProperty" elements contain a point that may be referenced from other geometry elements or reference another point defined outside of this curve segment (reuse of existing points).
- *  2. The "posList" element allows for a compact way to specifiy the coordinates of the control points, if all control points are in the same coordinate reference systems and belong to this curve segment only. The number of direct positions in the list must be at least two.&lt;/documentation&gt;
+ *                          &lt;documentation&gt;GML supports two different ways to specify the 
+ *                          control points of a curve segment.
+ *  1. A sequence of "pos" (DirectPositionType) or "pointProperty" (PointPropertyType) elements. 
+ *  "pos" elements are control points that are only part of this curve segment, "pointProperty" 
+ *  elements contain a point that may be referenced from other geometry elements or reference 
+ *  another point defined outside of this curve segment (reuse of existing points).
+ *  2. The "posList" element allows for a compact way to specifiy the coordinates of the control 
+ *  points, if all control points are in the same coordinate reference systems and belong to this
+ *  curve segment only. The number of direct positions in the list must be at least two.&lt;
+ *  /documentation&gt;
  *                      &lt;/annotation&gt;
  *                      &lt;choice maxOccurs="unbounded" minOccurs="2"&gt;
  *                          &lt;element ref="gml:pos"/&gt;
  *                          &lt;element ref="gml:pointProperty"/&gt;
  *                          &lt;element ref="gml:pointRep"&gt;
  *                              &lt;annotation&gt;
- *                                  &lt;documentation&gt;Deprecated with GML version 3.1.0. Use "pointProperty" instead. Included for backwards compatibility with GML 3.0.0.&lt;/documentation&gt;
+ *                                  &lt;documentation&gt;Deprecated with GML version 3.1.0. Use 
+ *                                  "pointProperty" instead. Included for backwards compatibility
+ *                                  with GML 3.0.0.&lt;/documentation&gt;
  *                              &lt;/annotation&gt;
  *                          &lt;/element&gt;
  *                      &lt;/choice&gt;
  *                      &lt;element ref="gml:posList"/&gt;
  *                      &lt;element ref="gml:coordinates"&gt;
  *                          &lt;annotation&gt;
- *                              &lt;documentation&gt;Deprecated with GML version 3.1.0. Use "posList" instead.&lt;/documentation&gt;
+ *                              &lt;documentation&gt;Deprecated with GML version 3.1.0. Use 
+ *                              "posList" instead.&lt;/documentation&gt;
  *                          &lt;/annotation&gt;
  *                      &lt;/element&gt;
  *                  &lt;/choice&gt;
  *              &lt;/sequence&gt;
- *              &lt;attribute fixed="linear" name="interpolation" type="gml:CurveInterpolationType"&gt;
+ *              &lt;attribute fixed="linear" name="interpolation" 
+ *              type="gml:CurveInterpolationType"&gt;
  *                  &lt;annotation&gt;
- *                      &lt;documentation&gt;The attribute "interpolation" specifies the curve interpolation mechanism used for this segment. This mechanism
- *  uses the control points and control parameters to determine the position of this curve segment. For a LineStringSegment the interpolation is fixed as "linear".&lt;/documentation&gt;
+ *                      &lt;documentation&gt;The attribute "interpolation" specifies the curve 
+ *                      interpolation mechanism used for this segment. This mechanism
+ *  uses the control points and control parameters to determine the position of this curve 
+ *  segment. For a LineStringSegment the interpolation is fixed as "linear".&lt;/documentation&gt;
  *                  &lt;/annotation&gt;
  *              &lt;/attribute&gt;
  *          &lt;/extension&gt;
@@ -80,9 +95,6 @@ import com.vividsolutions.jts.geom.LineString;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class LineStringSegmentTypeBinding extends AbstractComplexBinding {
@@ -118,12 +130,12 @@ public class LineStringSegmentTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return GML3ParsingUtils.lineString(node, gf, csf);
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         if ("posList".equals(name.getLocalPart())) {
             return GML3EncodingUtils.positions((LineString) object);
         }

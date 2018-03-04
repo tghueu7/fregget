@@ -21,6 +21,7 @@ import java.util.List;
 import org.picocontainer.MutablePicoContainer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 import javax.xml.namespace.QName;
 
 import org.opengis.filter.expression.Expression;
@@ -34,9 +35,9 @@ import org.geotools.xml.*;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:PointSymbolizer.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="PointSymbolizer" substitutionGroup="sld:Symbolizer"&gt;
  *      &lt;xsd:annotation&gt;
@@ -61,9 +62,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDPointSymbolizerBinding extends AbstractComplexBinding {
@@ -116,13 +114,13 @@ public class SLDPointSymbolizerBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         PointSymbolizer ps = styleFactory.createPointSymbolizer();
 
         //&lt;xsd:element ref="sld:Geometry" minOccurs="0"/&gt;
-        if(node.hasChild("Geometry")) {
+        if (node.hasChild("Geometry")) {
             Expression geometry = (Expression) node.getChildValue("Geometry");
-            if(geometry instanceof PropertyName) {
+            if (geometry instanceof PropertyName) {
                 PropertyName propertyName = (PropertyName) geometry;
                 ps.setGeometryPropertyName(propertyName.getPropertyName());
             } else {
@@ -134,10 +132,11 @@ public class SLDPointSymbolizerBinding extends AbstractComplexBinding {
         if (node.hasChild("Graphic")) {
             ps.setGraphic((Graphic) node.getChildValue("Graphic"));
         }
-        
+
         //&lt;xsd:element ref="sld:VendorOption" minOccurs="0" maxOccurs="unbounded"/&gt;
         for (CssParameter param : (List<CssParameter>) node.getChildValues(CssParameter.class)) {
-            ps.getOptions().put(param.getName(), param.getExpression().evaluate(null, String.class));
+            ps.getOptions().put(param.getName(), param.getExpression().evaluate(null, String
+                    .class));
         }
 
         return ps;

@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.AbstractList;
 import java.util.RandomAccess;
 import java.io.Serializable;
+
 import org.opengis.util.Cloneable;
 import org.geotools.resources.XArray;
 import org.geotools.resources.i18n.Errors;
@@ -33,14 +34,13 @@ import org.geotools.resources.i18n.ErrorKeys;
  * This class is <strong>not</strong> thread-safe. Synchronizations (if wanted) are user's
  * reponsability.
  *
- * @since 2.5
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (Geomatys)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.5
  */
-public class IntegerList extends AbstractList<Integer> implements RandomAccess, Serializable, Cloneable {
+public class IntegerList extends AbstractList<Integer> implements RandomAccess, Serializable, 
+        Cloneable {
     /**
      * For cross-version compatibility.
      */
@@ -88,7 +88,7 @@ public class IntegerList extends AbstractList<Integer> implements RandomAccess, 
      * Creates an initially empty list with the given initial capacity.
      *
      * @param initialCapacity The initial capacity.
-     * @param maximalValue The maximal value to be allowed, inclusive.
+     * @param maximalValue    The maximal value to be allowed, inclusive.
      */
     public IntegerList(int initialCapacity, int maximalValue) {
         this(initialCapacity, maximalValue, false);
@@ -99,9 +99,9 @@ public class IntegerList extends AbstractList<Integer> implements RandomAccess, 
      * The value of all elements are initialized to 0.
      *
      * @param initialCapacity The initial capacity.
-     * @param maximalValue The maximal value to be allowed, inclusive.
-     * @param fill If {@code true}, the initial {@linkplain #size} is set to the initial
-     *        capacity with all values set to 0.
+     * @param maximalValue    The maximal value to be allowed, inclusive.
+     * @param fill            If {@code true}, the initial {@linkplain #size} is set to the initial
+     *                        capacity with all values set to 0.
      */
     public IntegerList(final int initialCapacity, int maximalValue, final boolean fill) {
         if (initialCapacity <= 0) {
@@ -205,14 +205,21 @@ public class IntegerList extends AbstractList<Integer> implements RandomAccess, 
         } else if (value == mask) {
             p = -1L; // All bits set to 1.
         } else switch (bitCount) {
-            case  1: value |= (value << 1);  // Fall through
-            case  2: value |= (value << 2);  // Fall through
-            case  4: value |= (value << 4);  // Fall through
-            case  8: value |= (value << 8);  // Fall through
-            case 16: value |= (value << 16); // Fall through
-            case 32: p = (value & 0xFFFFFFFFL) | ((long) value << 32); break;
+            case 1:
+                value |= (value << 1);  // Fall through
+            case 2:
+                value |= (value << 2);  // Fall through
+            case 4:
+                value |= (value << 4);  // Fall through
+            case 8:
+                value |= (value << 8);  // Fall through
+            case 16:
+                value |= (value << 16); // Fall through
+            case 32:
+                p = (value & 0xFFFFFFFFL) | ((long) value << 32);
+                break;
             default: { // General case (unoptimized)
-                for (int i=0; i<size; i++) {
+                for (int i = 0; i < size; i++) {
                     setUnchecked(i, value);
                 }
                 return;
@@ -233,7 +240,7 @@ public class IntegerList extends AbstractList<Integer> implements RandomAccess, 
      * Adds the given element to this list.
      *
      * @param value The value to add.
-     * @throws NullPointerException if the given value is null.
+     * @throws NullPointerException     if the given value is null.
      * @throws IllegalArgumentException if the given value is out of bounds.
      */
     @Override
@@ -255,7 +262,7 @@ public class IntegerList extends AbstractList<Integer> implements RandomAccess, 
         }
         final int length = length(++size);
         if (length > values.length) {
-            values = XArray.resize(values, 2*values.length);
+            values = XArray.resize(values, 2 * values.length);
         }
         setUnchecked(size - 1, value);
     }
@@ -280,12 +287,13 @@ public class IntegerList extends AbstractList<Integer> implements RandomAccess, 
      */
     public int getInteger(int index) throws IndexOutOfBoundsException {
         if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException(Errors.format(ErrorKeys.INDEX_OUT_OF_BOUNDS_$1, index));
+            throw new IndexOutOfBoundsException(Errors.format(ErrorKeys.INDEX_OUT_OF_BOUNDS_$1, 
+                    index));
         }
         index *= bitCount;
-        int base   = index >>> BASE_SHIFT;
+        int base = index >>> BASE_SHIFT;
         int offset = index & OFFSET_MASK;
-        int value  = (int) (values[base] >>> offset);
+        int value = (int) (values[base] >>> offset);
         offset = VALUE_SIZE - offset;
         if (offset < bitCount) {
             final int high = (int) values[++base];
@@ -302,8 +310,8 @@ public class IntegerList extends AbstractList<Integer> implements RandomAccess, 
      * @param value The value at the given index.
      * @return The previous value at the given index.
      * @throws IndexOutOfBoundsException if the given index is out of bounds.
-     * @throws IllegalArgumentException if the given value is out of bounds.
-     * @throws NullPointerException if the given value is null.
+     * @throws IllegalArgumentException  if the given value is out of bounds.
+     * @throws NullPointerException      if the given value is null.
      */
     @Override
     public Integer set(final int index, final Integer value) throws IndexOutOfBoundsException {
@@ -318,11 +326,12 @@ public class IntegerList extends AbstractList<Integer> implements RandomAccess, 
      * @param index The element index.
      * @param value The value at the given index.
      * @throws IndexOutOfBoundsException if the given index is out of bounds.
-     * @throws IllegalArgumentException if the given value is out of bounds.
+     * @throws IllegalArgumentException  if the given value is out of bounds.
      */
     public void setInteger(int index, int value) throws IndexOutOfBoundsException {
         if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException(Errors.format(ErrorKeys.INDEX_OUT_OF_BOUNDS_$1, index));
+            throw new IndexOutOfBoundsException(Errors.format(ErrorKeys.INDEX_OUT_OF_BOUNDS_$1, 
+                    index));
         }
         if (value < 0 || value > mask) {
             throw new IllegalArgumentException(Errors.format(ErrorKeys.VALUE_OUT_OF_BOUNDS_$3,
@@ -338,11 +347,11 @@ public class IntegerList extends AbstractList<Integer> implements RandomAccess, 
      * @param index The element index.
      * @param value The value at the given index.
      * @throws IndexOutOfBoundsException if the given index is out of bounds.
-     * @throws IllegalArgumentException if the given value is out of bounds.
+     * @throws IllegalArgumentException  if the given value is out of bounds.
      */
     private void setUnchecked(int index, int value) {
         index *= bitCount;
-        int base   = index >>> BASE_SHIFT;
+        int base = index >>> BASE_SHIFT;
         int offset = index & OFFSET_MASK;
         values[base] &= ~(((long) mask) << offset);
         values[base] |= ((long) value) << offset;
@@ -363,7 +372,7 @@ public class IntegerList extends AbstractList<Integer> implements RandomAccess, 
     public int occurence(final int value) {
         int count = 0;
         final int size = size();
-        for (int i=0; i<size; i++) {
+        for (int i = 0; i < size; i++) {
             if (getInteger(i) == value) {
                 count++;
             }

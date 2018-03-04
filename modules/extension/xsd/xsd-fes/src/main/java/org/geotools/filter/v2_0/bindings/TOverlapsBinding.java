@@ -28,18 +28,19 @@ import org.opengis.filter.temporal.TOverlaps;
 
 /**
  * Binding object for the element http://www.opengis.net/fes/2.0:TOverlaps.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
- *  &lt;xsd:element name="TOverlaps" substitutionGroup="fes:temporalOps" type="fes:BinaryTemporalOpType"/&gt; 
- * 	
+ *  &lt;xsd:element name="TOverlaps" substitutionGroup="fes:temporalOps" 
+ *  type="fes:BinaryTemporalOpType"/&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
  */
 public class TOverlapsBinding extends AbstractComplexBinding {
@@ -59,7 +60,7 @@ public class TOverlapsBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -68,7 +69,7 @@ public class TOverlapsBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {

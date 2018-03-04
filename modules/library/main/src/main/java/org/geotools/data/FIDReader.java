@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -20,16 +20,17 @@ import java.io.IOException;
 
 
 /**
- *  FeatureReader<SimpleFeatureType, SimpleFeature> customized for FeatureID handling.
- * 
+ * FeatureReader<SimpleFeatureType, SimpleFeature> customized for FeatureID handling.
+ * <p>
  * <p>
  * An experimental method for doing FIDs.   I'd like to see it and
  * AttributeReader extend a similar base.  Perhaps BaseReader or something?
- * And perhaps have  FeatureReader<SimpleFeatureType, SimpleFeature> extend it too? This reader just returns an
+ * And perhaps have  FeatureReader<SimpleFeatureType, SimpleFeature> extend it too? This reader 
+ * just returns an
  * incrementing index.  May be sufficient for files, representing rows in a
  * file.  For jdbc datasources another fid reader should be used.
  * </p>
- * 
+ * <p>
  * <p>
  * We could have FIDReader implement AttributeReader, but it doesn't seem to
  * make sense, as the getAttributeType doesn't make much sense, as our
@@ -38,10 +39,8 @@ import java.io.IOException;
  * </p>
  *
  * @author Chris Holmes
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public interface FIDReader {
     /**

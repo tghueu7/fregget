@@ -1,9 +1,9 @@
 package org.geotools.data;
 
 /**
- *
  * @author Gertjan
  */
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;

@@ -23,7 +23,7 @@ import org.geotools.util.ConverterFactory;
 
 /**
  * Converts between enumerations and strings
- * 
+ *
  * @author Andrea Aime - OpenGeo
  */
 public class EnumerationConverterFactory implements ConverterFactory {

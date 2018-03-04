@@ -58,10 +58,11 @@ public class ImageMosaicRepositoryTest {
     static final GeneralParameterValue[] NO_DEFERRED_LOAD;
 
     static final ImageMosaicFormat FORMAT = new ImageMosaicFormat();
+
     static {
         final ParameterValue<Boolean> useJai = AbstractGridFormat.USE_JAI_IMAGEREAD.createValue();
         useJai.setValue(false);
-        NO_DEFERRED_LOAD = new GeneralParameterValue[] { useJai };
+        NO_DEFERRED_LOAD = new GeneralParameterValue[]{useJai};
     }
 
     @Rule
@@ -84,7 +85,8 @@ public class ImageMosaicRepositoryTest {
         assertNotNull(reader);
         reader.dispose();
 
-        // clean up and rename all shapefiles to make sure the store is not overwriting it by accident
+        // clean up and rename all shapefiles to make sure the store is not overwriting it by 
+        // accident
         removeSupportFiles(testDirectory);
         for (File f : testDirectory
                 .listFiles(f -> f.getName().startsWith(testDirectory.getName()))) {
@@ -139,7 +141,8 @@ public class ImageMosaicRepositoryTest {
         assertNotNull(reader);
         reader.dispose();
 
-        // clean up and rename all shapefiles to make sure the store is not overwriting it by accident
+        // clean up and rename all shapefiles to make sure the store is not overwriting it by 
+        // accident
         removeSupportFiles(testDirectory);
         for (File f : testDirectory
                 .listFiles(f -> f.getName().startsWith(testDirectory.getName()))) {
@@ -230,7 +233,7 @@ public class ImageMosaicRepositoryTest {
 
     /**
      * Removes the sample image and
-     * 
+     *
      * @param directory
      */
     private void removeSupportFiles(File directory) {

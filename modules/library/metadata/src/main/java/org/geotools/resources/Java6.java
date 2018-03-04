@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -28,11 +28,9 @@ import java.lang.reflect.Method;
  * The Java 6 methods that we would like to use are commented-out at the begining
  * of each method.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
  */
 public final class Java6 {
     private Java6() {
@@ -40,14 +38,15 @@ public final class Java6 {
 
     /**
      * Placeholder for {@link Arrays#binarySearch(int[], int, int, int)}.
-     *
+     * <p>
      * Note that I'm too lazy for implementing a real binary search.
      * Lets switch to Java 6 and throw away this code soon!
      */
-    public static int binarySearch(final int[] a, final int fromIndex, final int toIndex, final int key) {
+    public static int binarySearch(final int[] a, final int fromIndex, final int toIndex, final 
+    int key) {
 //      return Arrays.binarySearch(a, fromIndex, toIndex, key);
 
-        for (int i=fromIndex; i<toIndex; i++) {
+        for (int i = fromIndex; i < toIndex; i++) {
             final int v = a[i];
             if (v == key) {
                 return i;

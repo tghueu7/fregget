@@ -47,7 +47,7 @@ import org.opengis.referencing.operation.TransformException;
 public class FeatureTypeInfoImpl implements FeatureTypeInfo {
 
     private final FeatureTypeType eType;
-    
+
     private final WFSConfig config;
 
     public FeatureTypeInfoImpl(FeatureTypeType eType, WFSConfig config) {
@@ -84,7 +84,7 @@ public class FeatureTypeInfoImpl implements FeatureTypeInfo {
 
     @Override
     public String getDescription() {
-        return eType.getAbstract() == null || eType.getAbstract().isEmpty() ? null : 
+        return eType.getAbstract() == null || eType.getAbstract().isEmpty() ? null :
                 eType.getAbstract().get(0).getValue();
     }
 
@@ -92,7 +92,7 @@ public class FeatureTypeInfoImpl implements FeatureTypeInfo {
     public String getName() {
         return config.localTypeName(eType.getName());
     }
-    
+
     public QName getQName() {
         return eType.getName();
     }

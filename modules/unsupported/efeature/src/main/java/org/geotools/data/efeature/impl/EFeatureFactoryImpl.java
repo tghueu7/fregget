@@ -1,7 +1,7 @@
 /**
  * <copyright>
  * </copyright>
- *
+ * <p>
  * $Id$
  */
 package org.geotools.data.efeature.impl;
@@ -29,30 +29,31 @@ import com.vividsolutions.jts.io.ParseException;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!-- end-user-doc -->
- * @generated
  *
+ * @generated
  * @source $URL$
  */
 public class EFeatureFactoryImpl extends EFactoryImpl implements EFeatureFactory {
-    
+
     /**
      * Cached {@link Logger} for this class
      */
     protected static final Logger LOGGER = Logging.getLogger(EFeatureFactoryImpl.class);
-    
+
     /**
      * Creates the default factory implementation.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      */
     public static EFeatureFactory initGen() {
         try {
-            EFeatureFactory theEFeatureFactory = (EFeatureFactory)EPackage.Registry.INSTANCE.getEFactory("http://geotools.org/data/efeature/efeature.ecore/1.0"); 
+            EFeatureFactory theEFeatureFactory = (EFeatureFactory) EPackage.Registry.INSTANCE
+                    .getEFactory("http://geotools.org/data/efeature/efeature.ecore/1.0");
             if (theEFeatureFactory != null) {
                 return theEFeatureFactory;
             }
-        }
-        catch (Exception exception) {
+        } catch (Exception exception) {
             EcorePlugin.INSTANCE.log(exception);
         }
         return new EFeatureFactoryImpl();
@@ -60,16 +61,17 @@ public class EFeatureFactoryImpl extends EFactoryImpl implements EFeatureFactory
 
     /**
      * Creates the default factory implementation. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated NOT
      */
     public static EFeatureFactory init() {
         try {
-            EFeatureFactory theEFeatureFactory = (EFeatureFactory)EPackage.Registry.INSTANCE.getEFactory("http://geotools.org/data/efeature/efeature.ecore/1.0"); 
+            EFeatureFactory theEFeatureFactory = (EFeatureFactory) EPackage.Registry.INSTANCE
+                    .getEFactory("http://geotools.org/data/efeature/efeature.ecore/1.0");
             if (theEFeatureFactory != null) {
                 return theEFeatureFactory;
             }
-        }
-        catch (Exception exception) {
+        } catch (Exception exception) {
             LOGGER.log(Level.SEVERE, "Failed to initialize EFeatureFactory", exception);
         }
         return new EFeatureFactoryImpl();
@@ -78,6 +80,7 @@ public class EFeatureFactoryImpl extends EFactoryImpl implements EFeatureFactory
     /**
      * Creates an instance of the factory.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      */
     public EFeatureFactoryImpl() {
@@ -86,18 +89,21 @@ public class EFeatureFactoryImpl extends EFactoryImpl implements EFeatureFactory
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      */
     @Override
     public EObject create(EClass eClass) {
         switch (eClass.getClassifierID()) {
             default:
-                throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+                throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a" +
+                        " valid classifier");
         }
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      */
     @Override
@@ -112,12 +118,14 @@ public class EFeatureFactoryImpl extends EFactoryImpl implements EFeatureFactory
             case EFeaturePackage.ESTRUCTURAL_FEATURE:
                 return createEStructuralFeatureFromString(eDataType, initialValue);
             default:
-                throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+                throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is" +
+                        " not a valid classifier");
         }
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      */
     @Override
@@ -132,20 +140,23 @@ public class EFeatureFactoryImpl extends EFactoryImpl implements EFeatureFactory
             case EFeaturePackage.ESTRUCTURAL_FEATURE:
                 return convertEStructuralFeatureToString(eDataType, instanceValue);
             default:
-                throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+                throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is" +
+                        " not a valid classifier");
         }
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      */
     public Property createPropertyFromString(EDataType eDataType, String initialValue) {
-        return (Property)super.createFromString(eDataType, initialValue);
+        return (Property) super.createFromString(eDataType, initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      */
     public String convertPropertyToString(EDataType eDataType, Object instanceValue) {
@@ -154,14 +165,16 @@ public class EFeatureFactoryImpl extends EFactoryImpl implements EFeatureFactory
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      */
     public Attribute createAttributeFromString(EDataType eDataType, String initialValue) {
-        return (Attribute)super.createFromString(eDataType, initialValue);
+        return (Attribute) super.createFromString(eDataType, initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      */
     public String convertAttributeToString(EDataType eDataType, Object instanceValue) {
@@ -170,14 +183,16 @@ public class EFeatureFactoryImpl extends EFactoryImpl implements EFeatureFactory
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      */
     public Geometry createGeometryFromStringGen(EDataType eDataType, String initialValue) {
-        return (Geometry)super.createFromString(eDataType, initialValue);
+        return (Geometry) super.createFromString(eDataType, initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated NOT
      */
     public Geometry createGeometryFromString(EDataType eDataType, String initialValue) {
@@ -188,13 +203,13 @@ public class EFeatureFactoryImpl extends EFactoryImpl implements EFeatureFactory
         //
         // Only serialize Geometry instances
         //
-        if(DataTypes.isGeometry(type)) {
-            try {                
+        if (DataTypes.isGeometry(type)) {
+            try {
                 //
                 // Convert to Geometry
                 //
                 return DataBuilder.toGeometry(initialValue);
-                
+
             } catch (ParseException e) {
                 //
                 // Notify
@@ -215,7 +230,7 @@ public class EFeatureFactoryImpl extends EFactoryImpl implements EFeatureFactory
                     //
                     return null;
                 }
-            }            
+            }
         }
         //
         // Forward to default implementation
@@ -225,6 +240,7 @@ public class EFeatureFactoryImpl extends EFactoryImpl implements EFeatureFactory
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      */
     public String convertGeometryToString(EDataType eDataType, Object instanceValue) {
@@ -233,15 +249,17 @@ public class EFeatureFactoryImpl extends EFactoryImpl implements EFeatureFactory
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      */
     public EStructuralFeature createEStructuralFeatureFromString(EDataType eDataType,
-            String initialValue) {
-        return (EStructuralFeature)super.createFromString(eDataType, initialValue);
+                                                                 String initialValue) {
+        return (EStructuralFeature) super.createFromString(eDataType, initialValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      */
     public String convertEStructuralFeatureToString(EDataType eDataType, Object instanceValue) {
@@ -250,17 +268,19 @@ public class EFeatureFactoryImpl extends EFactoryImpl implements EFeatureFactory
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      */
     @Override
     public EFeaturePackage getEFeaturePackage() {
-        return (EFeaturePackage)getEPackage();
+        return (EFeaturePackage) getEPackage();
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @deprecated
+     *
      * @generated
+     * @deprecated
      */
     @Deprecated
     public static EFeaturePackage getPackage() {

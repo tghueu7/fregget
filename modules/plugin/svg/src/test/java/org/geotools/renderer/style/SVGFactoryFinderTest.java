@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -24,32 +24,30 @@ import junit.framework.TestCase;
 
 /**
  * Makes sure the symbol factory lookup works as advertised
+ *
  * @author Andrea Aime - TOPP
- *
- *
- *
- *
  * @source $URL$
  */
 public class SVGFactoryFinderTest extends TestCase {
 
     public void testLookupExternalGraphicFactories() {
-        List<ExternalGraphicFactory> result = loadIterator(DynamicSymbolFactoryFinder.getExternalGraphicFactories());
+        List<ExternalGraphicFactory> result = loadIterator(DynamicSymbolFactoryFinder
+                .getExternalGraphicFactories());
         assertTrue(result.size() >= 1);
         assertContainsClassInstance(result, SVGGraphicFactory.class);
     }
-    
+
     public void assertContainsClassInstance(List list, Class clazz) {
         for (Object item : list) {
-            if(item != null && clazz.isAssignableFrom(item.getClass()))
+            if (item != null && clazz.isAssignableFrom(item.getClass()))
                 return;
         }
         fail("List does not contain any element of class " + clazz.getName());
     }
-    
+
     public <T> List<T> loadIterator(Iterator<T> iterator) {
         List<T> result = new ArrayList<T>();
-        while(iterator.hasNext())
+        while (iterator.hasNext())
             result.add(iterator.next());
         return result;
     }

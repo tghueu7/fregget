@@ -30,11 +30,11 @@ import org.geotools.jdbc.VirtualTable;
 
 
 public class H2ConnectionLifecycleTest extends JDBCConnectionLifecycleOnlineTest {
-    
+
     private class SetVariableListener implements ConnectionLifecycleListener {
 
         double value;
-        
+
         public void onBorrow(JDBCDataStore store, Connection cx) throws SQLException {
             Statement st = null;
             try {
@@ -58,27 +58,28 @@ public class H2ConnectionLifecycleTest extends JDBCConnectionLifecycleOnlineTest
         }
 
     }
-    
+
     protected JDBCTestSetup createTestSetup() {
         return new H2TestSetup();
     }
-    
+
     public void testVariableListener() throws Exception {
         // setup a virtual table using the user variable
-        VirtualTable vt = new VirtualTable("ft1var", "select * from  \"geotools\".\"ft1\" where \"doubleProperty\" > @MYVAR");
+        VirtualTable vt = new VirtualTable("ft1var", "select * from  \"geotools\".\"ft1\" where " +
+                "\"doubleProperty\" > @MYVAR");
         dataStore.addVirtualTable(vt);
-        
+
         // setup a listener that uses said variable
         SetVariableListener listener = new SetVariableListener();
         dataStore.getConnectionLifecycleListeners().add(listener);
-        
+
         // set the value and test
         listener.value = 1.0;
         SimpleFeatureSource fs = dataStore.getFeatureSource("ft1var");
         assertEquals(2, fs.getCount(Query.ALL));
-        
+
         listener.value = 10;
         assertEquals(0, fs.getCount(Query.ALL));
-        
+
     }
 }

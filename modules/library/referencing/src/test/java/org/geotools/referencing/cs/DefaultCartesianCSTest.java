@@ -23,18 +23,16 @@ import org.opengis.referencing.cs.CoordinateSystem;
 import org.geotools.referencing.CRS;
 
 import org.junit.*;
+
 import static org.junit.Assert.*;
 
 
 /**
  * Tests the {@link CartesianCS} class.
  *
- *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
  */
 public final class DefaultCartesianCSTest {
     /**
@@ -96,19 +94,19 @@ public final class DefaultCartesianCSTest {
     @Test
     public void testStandard() {
         // ----------- Axis to test ------ Expected axis --
-        assertOrdered("East", "North",    "East", "North");
-        assertOrdered("North", "East",    "East", "North");
-        assertOrdered("South", "East",    "East", "North");
-        assertOrdered("South", "West",    "East", "North");
+        assertOrdered("East", "North", "East", "North");
+        assertOrdered("North", "East", "East", "North");
+        assertOrdered("South", "East", "East", "North");
+        assertOrdered("South", "West", "East", "North");
 
-        assertOrdered("East",                       "North");
-        assertOrdered("South-East",                 "North-East");
-        assertOrdered("North along  90 deg East",   "North along   0 deg");
-        assertOrdered("North along  90 deg East",   "North along   0 deg");
-        assertOrdered("North along  75 deg West",   "North along 165 deg West");
-        assertOrdered("South along  90 deg West",   "South along   0 deg");
-        assertOrdered("South along 180 deg",        "South along  90 deg West");
-        assertOrdered("North along 130 deg West",   "North along 140 deg East");
+        assertOrdered("East", "North");
+        assertOrdered("South-East", "North-East");
+        assertOrdered("North along  90 deg East", "North along   0 deg");
+        assertOrdered("North along  90 deg East", "North along   0 deg");
+        assertOrdered("North along  75 deg West", "North along 165 deg West");
+        assertOrdered("South along  90 deg West", "South along   0 deg");
+        assertOrdered("South along 180 deg", "South along  90 deg West");
+        assertOrdered("North along 130 deg West", "North along 140 deg East");
     }
 
     /**
@@ -142,7 +140,7 @@ public final class DefaultCartesianCSTest {
      */
     private static DefaultCartesianCS create(final String x, final String y) {
         return create(DefaultCoordinateSystemAxis.getDirection(x),
-                      DefaultCoordinateSystemAxis.getDirection(y));
+                DefaultCoordinateSystemAxis.getDirection(y));
     }
 
     /**
@@ -157,9 +155,8 @@ public final class DefaultCartesianCSTest {
      * Creates a cartesian CS using the provided test axis, invoke {@link AbstractCS#standard}
      * with it and compare with the expected axis.
      */
-    private static void assertOrdered(final String testX,     final String testY,
-                                      final String expectedX, final String expectedY)
-    {
+    private static void assertOrdered(final String testX, final String testY,
+                                      final String expectedX, final String expectedY) {
         final CoordinateSystem cs = AbstractCS.standard(create(testX, testY));
         assertTrue(CRS.equalsIgnoreMetadata(create(expectedX, expectedY), cs));
     }

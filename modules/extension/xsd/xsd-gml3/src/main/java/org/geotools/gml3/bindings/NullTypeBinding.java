@@ -26,15 +26,15 @@ import com.vividsolutions.jts.geom.Envelope;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:NullType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  &lt;code&gt;
  *  &lt;simpleType name=&quot;NullType&quot;&gt;
  *      &lt;annotation&gt;
  *          &lt;documentation&gt;
- *          If a bounding shape is not provided for a feature collection, 
+ *          If a bounding shape is not provided for a feature collection,
  *          explain why. Allowable values are:
  *          innapplicable - the features do not have geometry
  *          unknown - the boundingBox cannot be computed
@@ -48,17 +48,14 @@ import com.vividsolutions.jts.geom.Envelope;
  *          &lt;enumeration value=&quot;unavailable&quot;/&gt;
  *          &lt;enumeration value=&quot;missing&quot;/&gt;
  *      &lt;/restriction&gt;
- *  &lt;/simpleType&gt; 
- * 	
+ *  &lt;/simpleType&gt;
+ *
  *   &lt;/code&gt;
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class NullTypeBinding extends AbstractSimpleBinding {
@@ -72,13 +69,13 @@ public class NullTypeBinding extends AbstractSimpleBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
         return Envelope.class;
     }
-    
+
     @Override
     public int getExecutionMode() {
         return OVERRIDE;
@@ -86,7 +83,7 @@ public class NullTypeBinding extends AbstractSimpleBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value) throws Exception {
@@ -94,7 +91,7 @@ public class NullTypeBinding extends AbstractSimpleBinding {
         e.setToNull();
         return e;
     }
-    
+
     @Override
     public String encode(Object object, String value) throws Exception {
         return "unknown";

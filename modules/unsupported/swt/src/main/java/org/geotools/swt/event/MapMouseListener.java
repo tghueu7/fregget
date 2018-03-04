@@ -21,14 +21,11 @@ package org.geotools.swt.event;
  * Interface for classes that listen to JMapPaneMouseEvents
  *
  * @author Michael Bedward
- * @since 2.6
- *
- *
- *
  * @source $URL$
+ * @since 2.6
  */
 public interface MapMouseListener {
-    
+
     /**
      * Respond to a mouse click event received from the map pane
      *

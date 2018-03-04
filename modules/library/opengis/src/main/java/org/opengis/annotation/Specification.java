@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.annotation;
@@ -13,11 +13,9 @@ package org.opengis.annotation;
 /**
  * The specifications from which an interface, method or code list was derived.
  *
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 2.0
- *
- *
+ * @author Martin Desruisseaux (IRD)
  * @source $URL$
+ * @since GeoAPI 2.0
  */
 public enum Specification {
     /**
@@ -61,7 +59,8 @@ public enum Specification {
      * ISO 19117, Portrayal.
      * This is an abstract specification for portraying features.
      *
-     * @see <A HREF="http://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=40395">Buy from ISO</A>
+     * @see <A HREF="http://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail
+     * .htm?csnumber=40395">Buy from ISO</A>
      */
     ISO_19117,
 
@@ -113,9 +112,8 @@ public enum Specification {
      * Filter encoding implementation specification.
      * This is the specification for package {@link org.opengis.filter} and sub-packages.
      *
-     * @see <A HREF="http://www.opengeospatial.org/standards/filter">Download from OGC</A>
-     *
      * @todo Need to be updated to {@code OGC 04-095}.
+     * @see <A HREF="http://www.opengeospatial.org/standards/filter">Download from OGC</A>
      */
     OGC_02059,
 
@@ -123,9 +121,8 @@ public enum Specification {
      * Styled Layer Descriptor (SLD) implementation specification.
      * This is the specification for package {@link org.opengis.sld} and sub-packages.
      *
-     * @see <A HREF="http://www.opengeospatial.org/standards/sld">Download from OGC</A>
-     *
      * @todo Need to be updated to {@code OGC 05-078}.
+     * @see <A HREF="http://www.opengeospatial.org/standards/sld">Download from OGC</A>
      */
     OGC_02070,
 
@@ -141,9 +138,8 @@ public enum Specification {
      * Observations and Measurements, part 1.
      * This is the specification for package {@link org.opengis.observation}.
      *
-     * @see <A HREF="http://www.opengeospatial.org/standards/bp#05-087r4">Download from OGC</A>
-     *
      * @todo Need to update the hyperlink.
+     * @see <A HREF="http://www.opengeospatial.org/standards/bp#05-087r4">Download from OGC</A>
      */
     OGC_07022,
 
@@ -151,9 +147,8 @@ public enum Specification {
      * Observations and Measurements, part 2: Sampling Features.
      * This is the specification for package {@link org.opengis.observation.sampling}.
      *
-     * @see <A HREF="http://www.opengeospatial.org/standards/bp#05-087r4">Download from OGC</A>
-     *
      * @todo Need to update the hyperlink.
+     * @see <A HREF="http://www.opengeospatial.org/standards/bp#05-087r4">Download from OGC</A>
      */
     OGC_07002,
 

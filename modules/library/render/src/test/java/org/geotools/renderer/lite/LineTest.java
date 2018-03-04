@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2012 - 2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -46,8 +46,6 @@ import org.junit.Test;
 import org.opengis.feature.simple.SimpleFeature;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class LineTest {
@@ -112,8 +110,9 @@ public class LineTest {
     private StreamingRenderer setupLineMap(String styleFile) throws IOException {
         return setupMap(fs, styleFile);
     }
-    
-    private StreamingRenderer setupMap(SimpleFeatureSource fs, String styleFile) throws IOException {
+
+    private StreamingRenderer setupMap(SimpleFeatureSource fs, String styleFile) throws 
+            IOException {
         Style style = RendererBaseTest.loadStyle(this, styleFile);
 
         return setupMap(fs, style);
@@ -198,19 +197,21 @@ public class LineTest {
                 renderer, TIME, bounds);
         ImageAssert.assertEquals(file("renderingTransform"), image, 10);
     }
-    
+
     @Test
     public void testPerpendicularOffsetLeftRight() throws Exception {
-        StreamingRenderer renderer = setupMap(fs, RendererBaseTest.loadSEStyle(this, "linePerpendicularOffset-se.sld"));
+        StreamingRenderer renderer = setupMap(fs, RendererBaseTest.loadSEStyle(this, 
+                "linePerpendicularOffset-se.sld"));
 
         BufferedImage image = RendererBaseTest.showRender("Perpendicular offset",
                 renderer, TIME, bounds);
         ImageAssert.assertEquals(file("linePerpendincularOffset"), image, 10);
     }
-    
+
     @Test
     public void testPerpendicularOffsetLeftRightSquares() throws Exception {
-        StreamingRenderer renderer = setupMap(squares, RendererBaseTest.loadSEStyle(this, "linePerpendicularOffset-se.sld"));
+        StreamingRenderer renderer = setupMap(squares, RendererBaseTest.loadSEStyle(this, 
+                "linePerpendicularOffset-se.sld"));
 
         BufferedImage image = RendererBaseTest.showRender("Perpendicular offset",
                 renderer, TIME, bounds);
@@ -219,23 +220,25 @@ public class LineTest {
 
     @Test
     public void testPerpendicularOffsetNPE() throws Exception {
-        StreamingRenderer renderer = setupMap(fsAround, RendererBaseTest.loadStyle(this, "linePerpendicularOffsetSmall.sld"));
+        StreamingRenderer renderer = setupMap(fsAround, RendererBaseTest.loadStyle(this, 
+                "linePerpendicularOffsetSmall.sld"));
 
         final AtomicInteger errors = new AtomicInteger(0);
         BufferedImage image = RendererBaseTest.showRender("Perpendicular offset",
-                renderer, TIME, new ReferencedEnvelope[] {new ReferencedEnvelope(1, 4, 1, 4, DefaultGeographicCRS.WGS84)}, new RenderListener() {
-                    
+                renderer, TIME, new ReferencedEnvelope[]{new ReferencedEnvelope(1, 4, 1, 4, 
+                        DefaultGeographicCRS.WGS84)}, new RenderListener() {
+
                     @Override
                     public void featureRenderer(SimpleFeature feature) {
                         // nothing to do
                     }
-                    
+
                     @Override
                     public void errorOccurred(Exception e) {
                         errors.incrementAndGet();
-                        
+
                     }
-                } );
+                });
         assertEquals(0, errors.get());
     }
 

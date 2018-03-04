@@ -17,7 +17,9 @@
 package org.geotools.filter.v1_0;
 
 import org.picocontainer.MutablePicoContainer;
+
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.PropertyIsBetween;
 import org.opengis.filter.expression.Expression;
@@ -28,9 +30,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:PropertyIsBetweenType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="PropertyIsBetweenType"&gt;
  *      &lt;xsd:complexContent&gt;
@@ -49,9 +51,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OGCPropertyIsBetweenTypeBinding extends AbstractComplexBinding {
@@ -94,7 +93,7 @@ public class OGCPropertyIsBetweenTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         Expression e = (Expression) node.getChildValue(0);
         Expression l = (Expression) node.getChildValue(1);
         Expression u = (Expression) node.getChildValue(2);
@@ -103,7 +102,7 @@ public class OGCPropertyIsBetweenTypeBinding extends AbstractComplexBinding {
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         PropertyIsBetween between = (PropertyIsBetween) object;
 
         //&lt;xsd:element ref="ogc:expression"/&gt;

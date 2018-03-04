@@ -26,25 +26,25 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/se:CoverageStyle.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:element name="CoverageStyle" type="se:CoverageStyleType"&gt;
  *      &lt;xsd:annotation&gt;
  *          &lt;xsd:documentation&gt;
  *          A CoverageStyle contains styling information specific to one
- *          Coverage offering. 
+ *          Coverage offering.
  *        &lt;/xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
- *  &lt;/xsd:element&gt; 
- * 	
+ *  &lt;/xsd:element&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * *
- * 
+ * <p>
  * <pre>
  *       <code>
  *  &lt;xsd:complexType name="CoverageStyleType"&gt;
@@ -59,16 +59,14 @@ import javax.xml.namespace.QName;
  *          &lt;/xsd:choice&gt;
  *      &lt;/xsd:sequence&gt;
  *      &lt;xsd:attribute name="version" type="se:VersionType"/&gt;
- *  &lt;/xsd:complexType&gt; 
- *              
+ *  &lt;/xsd:complexType&gt;
+ *
  *        </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class CoverageStyleBinding extends FeatureTypeStyleBinding {
@@ -86,7 +84,7 @@ public class CoverageStyleBinding extends FeatureTypeStyleBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
@@ -95,8 +93,8 @@ public class CoverageStyleBinding extends FeatureTypeStyleBinding {
 
         if (node.hasChild("CoverageName")) {
             QName name = (QName) node.getChildValue("CoverageName");
-            fts.setFeatureTypeName(name.getPrefix() != null ? 
-                name.getPrefix()+":"+name.getLocalPart() : name.getLocalPart());
+            fts.setFeatureTypeName(name.getPrefix() != null ?
+                    name.getPrefix() + ":" + name.getLocalPart() : name.getLocalPart());
         }
 
         return fts;

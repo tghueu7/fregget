@@ -19,10 +19,9 @@ package org.geotools.filter.v1_1;
 import org.geotools.xml.XSDParserDelegate;
 
 /**
- * Parser delegate for the Filter 1.1 schema. 
- * 
- * @author Andrea Aime - GeoSolutions
+ * Parser delegate for the Filter 1.1 schema.
  *
+ * @author Andrea Aime - GeoSolutions
  */
 public class FilterParserDelegate extends XSDParserDelegate {
 

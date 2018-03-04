@@ -43,14 +43,12 @@ import org.w3c.dom.Element;
 
 /**
  * Unit test suite for {@link QueryTypeBinding}
- * 
+ *
  * @author Justin Deoliveira
  * @author Gabriel Roldan
  * @version $Id$
- * @since 2.5.x
- *
- *
  * @source $URL$
+ * @since 2.5.x
  */
 public class QueryTypeBindingTest extends WFSTestSupport {
     public QueryTypeBindingTest() {
@@ -117,7 +115,7 @@ public class QueryTypeBindingTest extends WFSTestSupport {
 
         assertName(WFS.Query, root);
         assertEquals(8, root.getChildNodes().getLength());
-        
+
         assertEquals("typeName1", root.getAttribute("typeName"));
 
         assertEquals(2, getElementsByQName(dom, WFS.PropertyName).getLength());
@@ -140,17 +138,17 @@ public class QueryTypeBindingTest extends WFSTestSupport {
      * Builds a {@link QueryType} instance equivalent to the test query in the
      * file <code>test-data/QueryTypeBinding.xml</code> in the
      * <code>org.geotools.wfs.bindings</code> package of the test resources.
-     * 
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
     private QueryType buildTestQuery() {
         FilterFactory ff = CommonFactoryFinder.getFilterFactory(null);
 
-        final Function function1 = ff.function("MAX", new Expression[] { ff.literal(1),
-                ff.literal(2) });
-        final Function function2 = ff.function("MIN", new Expression[] { ff.literal(1),
-                ff.literal(2) });
+        final Function function1 = ff.function("MAX", new Expression[]{ff.literal(1),
+                ff.literal(2)});
+        final Function function2 = ff.function("MIN", new Expression[]{ff.literal(1),
+                ff.literal(2)});
 
         final XlinkPropertyNameType xlinkPropertyName1 = factory.createXlinkPropertyNameType();
         xlinkPropertyName1.setTraverseXlinkExpiry(BigInteger.valueOf(10));

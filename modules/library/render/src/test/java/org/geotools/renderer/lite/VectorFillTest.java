@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2009 - 2016, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -47,7 +47,7 @@ import org.junit.Test;
  * Similar to {@link FillTest}, but uses the vector rendering hint, and only
  * tests stuff that can work with such hint. Also accounts for the fact the
  * texture paint and the full vector rendering do not provide the same output
- * 
+ *
  * @source $URL$
  */
 public class VectorFillTest {
@@ -76,7 +76,7 @@ public class VectorFillTest {
         // System.setProperty("org.geotools.test.interactive", "true");
 
     }
-    
+
     private void runSingleLayerTest(String styleName) throws Exception {
         runSingleLayerTest(styleName, 100);
     }
@@ -98,13 +98,13 @@ public class VectorFillTest {
         Map<String, Object> rendererParams = new HashMap<String, Object>();
         rendererParams.put(StreamingRenderer.VECTOR_RENDERING_KEY, Boolean.TRUE);
         renderer.setRendererHints(rendererParams);
-        
+
         BufferedImage image = RendererBaseTest.showRender(fileName, renderer, TIME, bounds);
         File reference = new File("./src/test/resources/org/geotools/renderer/lite/test-data/vector"
                 + fileName + ".png");
         ImageAssert.assertEquals(reference, image, threshold);
     }
-    
+
 
     @Test
     public void testCrossFill() throws Exception {
@@ -161,37 +161,37 @@ public class VectorFillTest {
     public void testFontFill() throws Exception {
         runSingleLayerTest("fillTTFDecorative.sld");
     }
-    
+
     @Test
     public void testVertLine() throws Exception {
         testParametricMark("vertline", "shape://vertline");
     }
-    
+
     @Test
     public void testHorLine() throws Exception {
         testParametricMark("horline", "shape://horline");
     }
-    
+
     @Test
     public void testBackslash() throws Exception {
         testParametricMark("backslash", "shape://backslash");
     }
-    
+
     @Test
     public void testPlus() throws Exception {
         testParametricMark("plus", "shape://plus");
     }
-    
+
     @Test
     public void testTimes() throws Exception {
         testParametricMark("times", "shape://times");
     }
-    
+
     @Test
     public void testWktShortSlash() throws Exception {
         testParametricMark("shortslash", "wkt://LINESTRING(-0.5 0, 0.5 0.5)");
     }
-    
+
     @Test
     public void testWktShortBackslash() throws Exception {
         testParametricMark("shortbackslash", "wkt://LINESTRING(-0.5 0.5, 0.5 0)");
@@ -199,9 +199,10 @@ public class VectorFillTest {
 
     @Test
     public void testWktComposite() throws Exception {
-        testParametricMark("wktcomposite", "wkt://MULTILINESTRING((-0.5 -0.5, 0.5 0.5), (0 -0.5, 0 0.5))");
+        testParametricMark("wktcomposite", "wkt://MULTILINESTRING((-0.5 -0.5, 0.5 0.5), (0 -0.5, " +
+                "0 0.5))");
     }
-    
+
     public void testParametricMark(String fileName, final String markName) throws Exception {
         Style slashStyle = RendererBaseTest.loadStyle(this, "fillSlash.sld");
         final DuplicatingStyleVisitor markReplacer = new DuplicatingStyleVisitor() {
@@ -216,5 +217,5 @@ public class VectorFillTest {
         Style style = (Style) markReplacer.getCopy();
         runSingleLayerTest(fileName, 100, style);
     }
-    
+
 }

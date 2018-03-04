@@ -32,20 +32,18 @@ import org.opengis.coverage.grid.GridCoverageReader;
  *
  * @author Daniele Romagnoli, GeoSolutions.
  * @author Simone Giannecchini (simboss), GeoSolutions
- * @since 2.5.x
- *
- *
  * @source $URL$
+ * @since 2.5.x
  */
-public final class ErdasImgReader extends BaseGDALGridCoverage2DReader implements GridCoverageReader {
+public final class ErdasImgReader extends BaseGDALGridCoverage2DReader implements 
+        GridCoverageReader {
     private final static String worldFileExt = "";
 
     /**
      * Creates a new instance of a {@link ErdasImgReader}. I assume nothing about
      * file extension.
      *
-     * @param input
-     *            Source object for which we want to build an {@link ErdasImgReader}.
+     * @param input Source object for which we want to build an {@link ErdasImgReader}.
      * @throws DataSourceException
      */
     public ErdasImgReader(Object input) throws DataSourceException {
@@ -56,10 +54,8 @@ public final class ErdasImgReader extends BaseGDALGridCoverage2DReader implement
      * Creates a new instance of a {@link ErdasImgReader}. I assume nothing about
      * file extension.
      *
-     * @param input
-     *            Source object for which we want to build an {@link ErdasImgReader}.
-     * @param hints
-     *            Hints to be used by this reader throughout his life.
+     * @param input Source object for which we want to build an {@link ErdasImgReader}.
+     * @param hints Hints to be used by this reader throughout his life.
      * @throws DataSourceException
      */
     public ErdasImgReader(Object input, Hints hints) throws DataSourceException {

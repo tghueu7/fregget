@@ -91,7 +91,8 @@ public class CSVDataStoreTest {
         assertEquals("Unexpected coordinates", expectedCoordinates, geometries);
 
         List<String> expectedCities = Arrays
-                .asList("Trento, St Paul, Bangkok, Ottawa, Minneapolis, Lausanne, Victoria, Cape Town, Sydney"
+                .asList(("Trento, St Paul, Bangkok, Ottawa, Minneapolis, Lausanne, Victoria, Cape " +
+                        "Town, Sydney")
                         .split(", "));
         assertEquals("Unexecpted cities", expectedCities, cities);
 
@@ -99,82 +100,86 @@ public class CSVDataStoreTest {
                 .split(", "));
         assertEquals("Unexpected numbers", expectedNumbers, numbers);
     }
-    
+
     /**
      * Test query with a start index
+     *
      * @throws IOException
      * @throws FileNotFoundException
      */
-     @Test
-     public void testOffset() throws FileNotFoundException, IOException {
-         Query query = new Query(Query.ALL);
-         query.setStartIndex(3);
-         SimpleFeatureSource rows = csvDataStore.getFeatureSource();
-         SimpleFeatureCollection matches = rows.getFeatures(query);
-         List<String> offsetCities = Arrays.asList("Ottawa", "Minneapolis", "Lausanne", "Victoria", "Cape Town", "Sydney");
-         int count = 0;
-         SimpleFeatureIterator iter = matches.features();
-         while(iter.hasNext()) {
-             SimpleFeature f = iter.next();
-             assertTrue(offsetCities.contains(f.getAttribute("CITY")));
-             count++;
-         }
-         iter.close();
-         assertEquals(6, count);
-         assertEquals(6, matches.size());
-         assertEquals(6, rows.getCount(query));
-    
-    
-     }
-    
-     /**
+    @Test
+    public void testOffset() throws FileNotFoundException, IOException {
+        Query query = new Query(Query.ALL);
+        query.setStartIndex(3);
+        SimpleFeatureSource rows = csvDataStore.getFeatureSource();
+        SimpleFeatureCollection matches = rows.getFeatures(query);
+        List<String> offsetCities = Arrays.asList("Ottawa", "Minneapolis", "Lausanne", 
+                "Victoria", "Cape Town", "Sydney");
+        int count = 0;
+        SimpleFeatureIterator iter = matches.features();
+        while (iter.hasNext()) {
+            SimpleFeature f = iter.next();
+            assertTrue(offsetCities.contains(f.getAttribute("CITY")));
+            count++;
+        }
+        iter.close();
+        assertEquals(6, count);
+        assertEquals(6, matches.size());
+        assertEquals(6, rows.getCount(query));
+
+
+    }
+
+    /**
      * Test query with maxFeatures
+     *
      * @throws IOException
      * @throws FileNotFoundException
      */
-     @Test
-     public void testLimit() throws FileNotFoundException, IOException {
-         Query query = new Query(Query.ALL);
-         query.setMaxFeatures(3);
-         SimpleFeatureSource rows = csvDataStore.getFeatureSource();
-         SimpleFeatureCollection matches = rows.getFeatures(query);
-         List<String> limitCities = Arrays.asList("Trento", "St Paul", "Bangkok");
-         int count = 0;
-         SimpleFeatureIterator iter = matches.features();
-         while(iter.hasNext()) {
-             SimpleFeature f = iter.next();
-             assertTrue(limitCities.contains(f.getAttribute("CITY")));
-             count++;
-         }
-         iter.close();
-         assertEquals(3, count);
-         assertEquals(3, matches.size());
-         assertEquals(3, rows.getCount(query));
-     }
-    
-     /**
+    @Test
+    public void testLimit() throws FileNotFoundException, IOException {
+        Query query = new Query(Query.ALL);
+        query.setMaxFeatures(3);
+        SimpleFeatureSource rows = csvDataStore.getFeatureSource();
+        SimpleFeatureCollection matches = rows.getFeatures(query);
+        List<String> limitCities = Arrays.asList("Trento", "St Paul", "Bangkok");
+        int count = 0;
+        SimpleFeatureIterator iter = matches.features();
+        while (iter.hasNext()) {
+            SimpleFeature f = iter.next();
+            assertTrue(limitCities.contains(f.getAttribute("CITY")));
+            count++;
+        }
+        iter.close();
+        assertEquals(3, count);
+        assertEquals(3, matches.size());
+        assertEquals(3, rows.getCount(query));
+    }
+
+    /**
      * Test query with maxFeatures and startIndex
+     *
      * @throws IOException
      * @throws FileNotFoundException
      */
-     @Test
-     public void testLimitOffset() throws FileNotFoundException, IOException {
-         Query query = new Query(Query.ALL);
-         query.setMaxFeatures(3);
-         query.setStartIndex(3);
-         SimpleFeatureSource rows = csvDataStore.getFeatureSource();
-         SimpleFeatureCollection matches = rows.getFeatures(query);
-         List<String> limitCities = Arrays.asList("Ottawa", "Minneapolis", "Lausanne");
-         int count = 0;
-         SimpleFeatureIterator iter = matches.features();
-         while(iter.hasNext()) {
-             SimpleFeature f = iter.next();
-             assertTrue(limitCities.contains(f.getAttribute("CITY")));
-             count++;
-         }
-         iter.close();
-         assertEquals(3, count);
-         assertEquals(3, matches.size());
-         assertEquals(3, rows.getCount(query));
-     }
+    @Test
+    public void testLimitOffset() throws FileNotFoundException, IOException {
+        Query query = new Query(Query.ALL);
+        query.setMaxFeatures(3);
+        query.setStartIndex(3);
+        SimpleFeatureSource rows = csvDataStore.getFeatureSource();
+        SimpleFeatureCollection matches = rows.getFeatures(query);
+        List<String> limitCities = Arrays.asList("Ottawa", "Minneapolis", "Lausanne");
+        int count = 0;
+        SimpleFeatureIterator iter = matches.features();
+        while (iter.hasNext()) {
+            SimpleFeature f = iter.next();
+            assertTrue(limitCities.contains(f.getAttribute("CITY")));
+            count++;
+        }
+        iter.close();
+        assertEquals(3, count);
+        assertEquals(3, matches.size());
+        assertEquals(3, rows.getCount(query));
+    }
 }

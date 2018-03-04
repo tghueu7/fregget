@@ -46,18 +46,16 @@ import org.geotools.resources.i18n.ErrorKeys;
  * <p>
  * Most methods in this implementation are final for performance reason.
  *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see DirectPosition1D
  * @see DirectPosition2D
  * @see java.awt.geom.Point2D
+ * @since 2.0
  */
-public class GeneralDirectPosition extends AbstractDirectPosition implements Serializable, Cloneable {
+public class GeneralDirectPosition extends AbstractDirectPosition implements Serializable, 
+        Cloneable {
     /**
      * Serial number for interoperability with different versions.
      */
@@ -88,7 +86,7 @@ public class GeneralDirectPosition extends AbstractDirectPosition implements Ser
     /**
      * Constructs a position with the specified number of dimensions.
      *
-     * @param  numDim Number of dimensions.
+     * @param numDim Number of dimensions.
      * @throws NegativeArraySizeException if {@code numDim} is negative.
      */
     public GeneralDirectPosition(final int numDim) throws NegativeArraySizeException {
@@ -109,29 +107,29 @@ public class GeneralDirectPosition extends AbstractDirectPosition implements Ser
      * Constructs a 2D position from the specified ordinates. Despite their name, the
      * (<var>x</var>,<var>y</var>) coordinates don't need to be oriented toward
      * ({@linkplain org.opengis.referencing.cs.AxisDirection#EAST  East},
-     *  {@linkplain org.opengis.referencing.cs.AxisDirection#NORTH North}).
+     * {@linkplain org.opengis.referencing.cs.AxisDirection#NORTH North}).
      * See the {@link DirectPosition2D} javadoc for details.
      *
      * @param x The first ordinate value.
      * @param y The second ordinate value.
      */
     public GeneralDirectPosition(final double x, final double y) {
-        ordinates = new double[] {x,y};
+        ordinates = new double[]{x, y};
     }
 
     /**
      * Constructs a 3D position from the specified ordinates. Despite their name, the
      * (<var>x</var>,<var>y</var>,<var>z</var>) coordinates don't need to be oriented toward
      * ({@linkplain org.opengis.referencing.cs.AxisDirection#EAST  East},
-     *  {@linkplain org.opengis.referencing.cs.AxisDirection#NORTH North},
-     *  {@linkplain org.opengis.referencing.cs.AxisDirection#UP    Up}).
+     * {@linkplain org.opengis.referencing.cs.AxisDirection#NORTH North},
+     * {@linkplain org.opengis.referencing.cs.AxisDirection#UP    Up}).
      *
      * @param x The first ordinate value.
      * @param y The second ordinate value.
      * @param z The third ordinate value.
      */
     public GeneralDirectPosition(final double x, final double y, final double z) {
-        ordinates = new double[] {x,y,z};
+        ordinates = new double[]{x, y, z};
     }
 
     /**
@@ -147,7 +145,6 @@ public class GeneralDirectPosition extends AbstractDirectPosition implements Ser
      * Constructs a position initialized to the same values than the specified point.
      *
      * @param point The position to copy.
-     *
      * @since 2.2
      */
     public GeneralDirectPosition(final DirectPosition point) {
@@ -172,11 +169,10 @@ public class GeneralDirectPosition extends AbstractDirectPosition implements Ser
      *
      * @param crs The new coordinate reference system, or {@code null}.
      * @throws MismatchedDimensionException if the specified CRS doesn't have the expected
-     *         number of dimensions.
+     *                                      number of dimensions.
      */
     public void setCoordinateReferenceSystem(final CoordinateReferenceSystem crs)
-            throws MismatchedDimensionException
-    {
+            throws MismatchedDimensionException {
         checkCoordinateReferenceSystemDimension(crs, getDimension());
         this.crs = crs;
     }
@@ -206,7 +202,7 @@ public class GeneralDirectPosition extends AbstractDirectPosition implements Ser
     /**
      * Returns the ordinate at the specified dimension.
      *
-     * @param  dimension The dimension in the range 0 to {@linkplain #getDimension dimension}-1.
+     * @param dimension The dimension in the range 0 to {@linkplain #getDimension dimension}-1.
      * @return The coordinate at the specified dimension.
      * @throws IndexOutOfBoundsException if the specified dimension is out of bounds.
      */
@@ -218,7 +214,7 @@ public class GeneralDirectPosition extends AbstractDirectPosition implements Ser
      * Sets the ordinate value along the specified dimension.
      *
      * @param dimension the dimension for the ordinate of interest.
-     * @param value the ordinate value of interest.
+     * @param value     the ordinate value of interest.
      * @throws IndexOutOfBoundsException if the specified dimension is out of bounds.
      */
     public final void setOrdinate(int dimension, double value) throws IndexOutOfBoundsException {
@@ -230,15 +226,15 @@ public class GeneralDirectPosition extends AbstractDirectPosition implements Ser
      * contains a {@linkplain CoordinateReferenceSystem coordinate reference system},
      * then the CRS for this position will be set to the CRS of the specified position.
      *
-     * @param  position The new position for this point.
+     * @param position The new position for this point.
      * @throws MismatchedDimensionException if this point doesn't have the expected dimension.
-     *
      * @since 2.2
      */
-    public final void setLocation(final DirectPosition position) throws MismatchedDimensionException {
+    public final void setLocation(final DirectPosition position) throws 
+            MismatchedDimensionException {
         ensureDimensionMatch("position", position.getDimension(), ordinates.length);
         setCoordinateReferenceSystem(position.getCoordinateReferenceSystem());
-        for (int i=0; i<ordinates.length; i++) {
+        for (int i = 0; i < ordinates.length; i++) {
             ordinates[i] = position.getOrdinate(i);
         }
     }
@@ -248,10 +244,11 @@ public class GeneralDirectPosition extends AbstractDirectPosition implements Ser
      * {@link #setLocation(DirectPosition)}, but is slightly faster in the special case
      * of an {@code GeneralDirectPosition} implementation.
      *
-     * @param  position The new position for this point.
+     * @param position The new position for this point.
      * @throws MismatchedDimensionException if this point doesn't have the expected dimension.
      */
-    public final void setLocation(final GeneralDirectPosition position) throws MismatchedDimensionException {
+    public final void setLocation(final GeneralDirectPosition position) throws 
+            MismatchedDimensionException {
         ensureDimensionMatch("position", position.ordinates.length, ordinates.length);
         setCoordinateReferenceSystem(position.crs);
         System.arraycopy(position.ordinates, 0, ordinates, 0, ordinates.length);
@@ -261,7 +258,7 @@ public class GeneralDirectPosition extends AbstractDirectPosition implements Ser
      * Set this coordinate to the specified {@link Point2D}.
      * This coordinate must be two-dimensional.
      *
-     * @param  point The new coordinate for this point.
+     * @param point The new coordinate for this point.
      * @throws MismatchedDimensionException if this coordinate point is not two-dimensional.
      */
     public final void setLocation(final Point2D point) throws MismatchedDimensionException {

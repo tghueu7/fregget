@@ -29,8 +29,6 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GMLConfigurationTest extends TestCase {
@@ -48,7 +46,7 @@ public class GMLConfigurationTest extends TestCase {
 
     public void testGetSchemaLocation() {
         assertEquals(GMLConfiguration.class.getResource("feature.xsd").toString(),
-            configuration.getSchemaFileURL());
+                configuration.getSchemaFileURL());
     }
 
     public void testDependencies() {
@@ -59,11 +57,11 @@ public class GMLConfigurationTest extends TestCase {
 
     public void testSchemaLocationResolver() {
         assertEquals(GMLConfiguration.class.getResource("feature.xsd").toString(),
-            configuration.getSchemaLocationResolver()
-                         .resolveSchemaLocation(null, GML.NAMESPACE, "feature.xsd"));
+                configuration.getSchemaLocationResolver()
+                        .resolveSchemaLocation(null, GML.NAMESPACE, "feature.xsd"));
         assertEquals(GMLConfiguration.class.getResource("geometry.xsd").toString(),
-            configuration.getSchemaLocationResolver()
-                         .resolveSchemaLocation(null, GML.NAMESPACE, "geometry.xsd"));
+                configuration.getSchemaLocationResolver()
+                        .resolveSchemaLocation(null, GML.NAMESPACE, "geometry.xsd"));
     }
 
     public void testContext() {

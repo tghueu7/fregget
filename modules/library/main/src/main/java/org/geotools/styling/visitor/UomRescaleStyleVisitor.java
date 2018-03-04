@@ -53,11 +53,9 @@ import org.opengis.style.GraphicalSymbol;
  * This visitor extends {@link DuplicatingStyleVisitor} and as such yields a copy of the original
  * Style. Usage is simply to call the desired visit() method and then call getCopy() to retrieve the
  * result.
- * 
+ *
  * @author milton
  * @author Andrea Aime - GeoSolutions
- * 
- * 
  * @source $URL$
  */
 public class UomRescaleStyleVisitor extends DuplicatingStyleVisitor {
@@ -66,9 +64,10 @@ public class UomRescaleStyleVisitor extends DuplicatingStyleVisitor {
 
     /**
      * Constructor: requires the current mapScale to inform the window to viewport (world to screen)
-     * relation in order to correctly rescaleDashArray sizes according to units of measure given in world
+     * relation in order to correctly rescaleDashArray sizes according to units of measure given 
+     * in world
      * units (e.g., SI.METER, NonSI.FOOT, etc).
-     * 
+     *
      * @param mapScale The specified map scale, given in pixels per meter.
      */
     public UomRescaleStyleVisitor(double mapScale) {
@@ -84,7 +83,7 @@ public class UomRescaleStyleVisitor extends DuplicatingStyleVisitor {
      *
      * @param unscaled the unscaled value.
      * @param mapScale the mapScale in pixels per meter.
-     * @param uom the unit of measure that will be used to scale.
+     * @param uom      the unit of measure that will be used to scale.
      * @return the expression multiplied by the provided scale.
      */
     protected Expression rescale(Expression unscaled, Unit<Length> uom) {
@@ -105,7 +104,7 @@ public class UomRescaleStyleVisitor extends DuplicatingStyleVisitor {
         }
         List<Expression> rescaled = new ArrayList<>(expressions.size());
         final Expression scale = rescale(ff.literal(1), uom);
-        
+
         for (Expression expression : expressions) {
             Expression rescale = ff.function("listMultiply", scale, expression);
             if (expression instanceof Literal) {
@@ -122,7 +121,7 @@ public class UomRescaleStyleVisitor extends DuplicatingStyleVisitor {
      *
      * @param unscaled the unscaled value.
      * @param mapScale the mapScale in pixels per meter.
-     * @param uom the unit of measure that will be used to scale.
+     * @param uom      the unit of measure that will be used to scale.
      * @return the expression multiplied by the provided scale.
      */
     protected String rescale(String unscaled, Unit<Length> uom) {
@@ -137,9 +136,9 @@ public class UomRescaleStyleVisitor extends DuplicatingStyleVisitor {
     /**
      * Used to rescaleDashArray the provided stroke.
      *
-     * @param stroke the unscaled stroke, which will be modified in-place.
+     * @param stroke   the unscaled stroke, which will be modified in-place.
      * @param mapScale the mapScale in pixels per meter.
-     * @param uom the unit of measure that will be used to scale.
+     * @param uom      the unit of measure that will be used to scale.
      */
     protected void rescaleStroke(Stroke stroke, Unit<Length> uom) {
         if (stroke != null) {
@@ -227,7 +226,7 @@ public class UomRescaleStyleVisitor extends DuplicatingStyleVisitor {
         for (Font font : copy.fonts()) {
             font.setSize(rescale(font.getSize(), uom));
         }
-        
+
         // rescales label placement
         LabelPlacement placement = copy.getLabelPlacement();
         if (placement instanceof PointPlacement) {
@@ -281,7 +280,7 @@ public class UomRescaleStyleVisitor extends DuplicatingStyleVisitor {
     }
 
     private void scaleIntArrayOption(Map<String, String> options, String optionName,
-            Unit<Length> uom) {
+                                     Unit<Length> uom) {
         if (options.containsKey(optionName)) {
             String strValue = options.get(optionName);
             String[] splitted = strValue.split("\\s+");
@@ -294,7 +293,7 @@ public class UomRescaleStyleVisitor extends DuplicatingStyleVisitor {
             options.put(optionName, sb.toString());
         }
     }
-    
+
     String toInt(String value) {
         Double dv = Double.valueOf(value);
         return String.valueOf(dv.intValue());

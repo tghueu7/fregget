@@ -17,6 +17,7 @@
 package org.geotools.filter.v2_0.bindings;
 
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.PropertyIsLessThanOrEqualTo;
 import org.opengis.filter.expression.Expression;
@@ -29,13 +30,13 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the element http://www.opengis.net/fes/2.0:PropertyIsLessThanOrEqualTo.
- *
  * <p>
- *      <pre>
+ * <p>
+ * <pre>
  *       <code>
  *  &lt;xsd:element name="PropertyIsLessThanOrEqualTo"
- *      substitutionGroup="fes:comparisonOps" type="fes:BinaryComparisonOpType"/&gt; 
- *              
+ *      substitutionGroup="fes:comparisonOps" type="fes:BinaryComparisonOpType"/&gt;
+ *
  *        </code>
  *       </pre>
  * </p>

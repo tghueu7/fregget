@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -32,19 +32,15 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 /**
  * @author Frank Gasdorf, fgdrf@users.sourceforge.net
  * @author Sebastian Graca, ISPiK S.A.
- *
- *
- *
- *
  * @source $URL$
  */
 public class MemoryDataStoreBoundsTest extends DataTestCase {
     MemoryDataStore data;
     ReferencedEnvelope riverBounds;
-    
-	public MemoryDataStoreBoundsTest(String name) {
-		super(name);
-	}
+
+    public MemoryDataStoreBoundsTest(String name) {
+        super(name);
+    }
 
     /*
      * @see TestCase#setUp()
@@ -53,8 +49,9 @@ public class MemoryDataStoreBoundsTest extends DataTestCase {
         super.setUp();
         data = new MemoryDataStore();
         data.addFeatures(roadFeatures);
-        
-        SimpleFeatureType riverTypeWithCrs = SimpleFeatureTypeBuilder.retype(riverType, CRS.decode("EPSG:4326"));
+
+        SimpleFeatureType riverTypeWithCrs = SimpleFeatureTypeBuilder.retype(riverType, CRS
+                .decode("EPSG:4326"));
         data.addFeature(SimpleFeatureBuilder.retype(riverFeatures[0], riverTypeWithCrs));
         riverBounds = new ReferencedEnvelope(riverFeatures[0].getBounds());
     }
@@ -70,15 +67,15 @@ public class MemoryDataStoreBoundsTest extends DataTestCase {
     public void testGetBounds() throws Exception {
         assertEquals(roadBounds, data.getFeatureSource("road").getBounds(Query.ALL));
     }
-    
+
     public void testGetBoundsFilter() throws Exception {
         // the Bounds of the queried features should be equal to the bounding 
         // box of the road2 feature, because of the road2 FID filter  
         Query query = new Query("road", rd2Filter);
-        assertEquals(roadFeatures[1].getBounds(), 
+        assertEquals(roadFeatures[1].getBounds(),
                 data.getFeatureSource("road").getFeatures(query).getBounds());
     }
-    
+
     public void testNoCrs() throws Exception {
         Query query = new Query(Query.ALL);
         ReferencedEnvelope envelope = data.getFeatureSource("road").getBounds(query);
@@ -90,9 +87,10 @@ public class MemoryDataStoreBoundsTest extends DataTestCase {
         query.setCoordinateSystem(DefaultEngineeringCRS.CARTESIAN_2D);
         ReferencedEnvelope envelope = data.getFeatureSource("river").getBounds(query);
         assertEquals(DefaultEngineeringCRS.CARTESIAN_2D, envelope.getCoordinateReferenceSystem());
-        assertEquals(new ReferencedEnvelope(riverBounds, DefaultEngineeringCRS.CARTESIAN_2D), envelope);
+        assertEquals(new ReferencedEnvelope(riverBounds, DefaultEngineeringCRS.CARTESIAN_2D), 
+                envelope);
     }
-    
+
     public void testReprojectEnvelopeCrsFromQuery() throws Exception {
         Query query = new Query(Query.ALL);
         CoordinateReferenceSystem sourceCRS = CRS.decode("EPSG:4326");
@@ -103,7 +101,7 @@ public class MemoryDataStoreBoundsTest extends DataTestCase {
         assertEquals(new ReferencedEnvelope(riverBounds, sourceCRS).
                 transform(targetCRS, true), envelope);
     }
-    
+
     public void testSetReprojectEnvelopeCrsFromQuery() throws Exception {
         Query query = new Query(Query.ALL);
         query.setCoordinateSystem(DefaultEngineeringCRS.GENERIC_2D);
@@ -136,9 +134,9 @@ public class MemoryDataStoreBoundsTest extends DataTestCase {
         SimpleFeatureType type = DataUtilities.createType(getName() + ".test",
                 "id:0,geom:LineString,name:String");
         SimpleFeature[] features = new SimpleFeature[3];
-        features[0] = SimpleFeatureBuilder.build(type, new Object[] {1, null, "r1"}, "test.f1");
-        features[1] = SimpleFeatureBuilder.build(type, new Object[] {2, null, "r2"}, "test.f2");
-        features[2] = SimpleFeatureBuilder.build(type, new Object[] {3, null, "r3"}, "test.f3");
+        features[0] = SimpleFeatureBuilder.build(type, new Object[]{1, null, "r1"}, "test.f1");
+        features[1] = SimpleFeatureBuilder.build(type, new Object[]{2, null, "r2"}, "test.f2");
+        features[2] = SimpleFeatureBuilder.build(type, new Object[]{3, null, "r3"}, "test.f3");
         data.addFeatures(features);
 
         SimpleFeatureSource featureSource = data.getFeatureSource("test");

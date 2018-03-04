@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2017, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -25,7 +25,6 @@ package org.geotools.decorate;
  * <p>
  * This interface extends JDK Wrapper class, overriding the thrown exception with
  * a more meaningful named one.
- * 
  */
 public interface Wrapper extends java.sql.Wrapper {
 
@@ -41,11 +40,10 @@ public interface Wrapper extends java.sql.Wrapper {
      * expensive <code>unwrap</code> calls that may fail. If this method
      * returns true then calling <code>unwrap</code> with the same argument
      * should succeed.
-     * 
-     * @param iface
-     *            a Class defining an interface.
+     *
+     * @param iface a Class defining an interface.
      * @return true if this implements the interface or directly or indirectly
-     *         wraps an object that does.
+     * wraps an object that does.
      */
     @Override
     public boolean isWrapperFor(Class<?> iface);
@@ -53,7 +51,7 @@ public interface Wrapper extends java.sql.Wrapper {
     /**
      * Returns an object that implements the given interface to allow access to
      * non-standard methods, or standard methods not exposed by the proxy.
-     * 
+     * <p>
      * If the receiver implements the interface then the result is the receiver
      * or a proxy for the receiver. If the receiver is a wrapper and the wrapped
      * object implements the interface then the result is the wrapped object or
@@ -61,13 +59,11 @@ public interface Wrapper extends java.sql.Wrapper {
      * calling <code>unwrap</code> recursively on the wrapped object or a
      * proxy for that result. If the receiver is not a wrapper and does not
      * implement the interface, then an <code>IllegalArgumentException</code> is thrown.
-     * 
-     * @param iface
-     *            A Class defining an interface that the result must implement.
+     *
+     * @param iface A Class defining an interface that the result must implement.
      * @return an object that implements the interface. May be a proxy for the
-     *         actual implementing object.
-     * @throws IllegalArgumentException
-     *             If no object found that implements the interface
+     * actual implementing object.
+     * @throws IllegalArgumentException If no object found that implements the interface
      */
     @Override
     public <T> T unwrap(Class<T> iface) throws IllegalArgumentException;

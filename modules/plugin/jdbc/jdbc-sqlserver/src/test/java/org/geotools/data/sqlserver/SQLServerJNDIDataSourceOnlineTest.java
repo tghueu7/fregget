@@ -26,12 +26,10 @@ import org.geotools.jdbc.JDBCJNDITestSetup;
 import org.geotools.util.logging.Logging;
 
 /**
- * 
- *
  * @source $URL$
  */
-public  class SQLServerJNDIDataSourceOnlineTest extends JDBCJNDIDataSourceOnlineTest {
-    
+public class SQLServerJNDIDataSourceOnlineTest extends JDBCJNDIDataSourceOnlineTest {
+
     static final Logger LOGGER = Logging.getLogger(SQLServerJNDIDataSourceOnlineTest.class);
 
     protected JDBCJNDITestSetup createTestSetup() {
@@ -47,25 +45,27 @@ public  class SQLServerJNDIDataSourceOnlineTest extends JDBCJNDIDataSourceOnline
     protected JDBCDataStoreFactory getDataStoreFactory() {
         return new SQLServerDataStoreFactory();
     }
-    
+
     @Override
     protected void runTest() throws Throwable {
-        if(isMicrosoftDriverAvailable()) {
+        if (isMicrosoftDriverAvailable()) {
             super.runTest();
         } else {
-            LOGGER.info("Skipping SQLServerJNDIDataSourceOnlineTest test as the Microsoft driver is not available");
+            LOGGER.info("Skipping SQLServerJNDIDataSourceOnlineTest test as the Microsoft driver " +
+                    "is not available");
         }
     }
-    
+
     /**
      * Returns true if the Microsoft JDBC Driver is available in the classpath, false otherwise
+     *
      * @return
      */
     private boolean isMicrosoftDriverAvailable() {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             return true;
-        } catch(ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             return false;
         }
     }

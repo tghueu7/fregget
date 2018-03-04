@@ -29,17 +29,17 @@ import org.opengis.filter.capability.FunctionName;
 import org.opengis.filter.expression.Expression;
 
 /**
- * Function that takes an input and applies a text transformation (one of "lowercase", "uppercase", or "none"). The default transformation is "none".
+ * Function that takes an input and applies a text transformation (one of "lowercase", 
+ * "uppercase", or "none"). The default transformation is "none".
  * <br/>
  * <br/>
  * ECQL Examples:
- * 
+ * <p>
  * <pre>
  *  StringTransform('SoMeString', 'uppercase') evaluates to 'SOMESTRING'
  *  StringTransform('SoMeString', 'lowercase') evaluates to 'somestring'
  *  StringTransform('SoMeString', 'none')      evaluates to 'SoMeString'
  * </pre>
- * 
  */
 public class StringTransformFunction extends FunctionImpl {
 

@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2008, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.style;
 
 import javax.swing.Icon;
+
 import org.opengis.annotation.Extension;
 import org.opengis.annotation.XmlElement;
 import org.opengis.metadata.citation.OnLineResource;
@@ -20,19 +21,18 @@ import org.opengis.metadata.citation.OnLineResource;
  * external mark archive would be a TrueType font file, with MarkIndex being used to
  * select an individual glyph from that file.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding Implementation Specification 1.1.0</A>
  * @author Open Geospatial Consortium
  * @author Johann Sorel (Geomatys)
+ * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding 
+ * Implementation Specification 1.1.0</A>
+ * @source $URL$
  * @since GeoAPI 2.2
  */
 public interface ExternalMark {
 
     /**
      * Returns on online resource defined by an URI.
-     *
+     * <p>
      * Both OnlineResource and InlineContent can't be null and both
      * can't be set at the same time.
      *
@@ -43,7 +43,7 @@ public interface ExternalMark {
 
     /**
      * Returns on inline content.
-     *
+     * <p>
      * Both OnlineResource and InlineContent can't be null and both
      * can't be set at the same time.
      *
@@ -76,5 +76,5 @@ public interface ExternalMark {
      */
     @Extension
     Object accept(StyleVisitor visitor, Object extraData);
-    
+
 }

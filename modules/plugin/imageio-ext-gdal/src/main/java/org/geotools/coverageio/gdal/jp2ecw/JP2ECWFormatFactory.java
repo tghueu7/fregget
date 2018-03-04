@@ -28,23 +28,24 @@ import org.opengis.coverage.grid.Format;
 /**
  * Implementation of the {@link Format} service provider interface for JP2K
  * files.
- * 
+ *
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini (simboss), GeoSolutions
- * @since 2.5.x
- *
- *
  * @source $URL$
+ * @since 2.5.x
  */
-public final class JP2ECWFormatFactory extends BaseGridFormatFactorySPI implements GridFormatFactorySpi {
-    /** Logger. */
+public final class JP2ECWFormatFactory extends BaseGridFormatFactorySPI implements 
+        GridFormatFactorySpi {
+    /**
+     * Logger.
+     */
     private final static Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger("org.geotools.coverageio.gdal.jp2ecw");
 
     /**
      * Tells me if the coverage plugin to access JP2K via ECW driver is
      * available or not.
-     * 
+     *
      * @return {@code true} if the plugin is available, {@code false} otherwise.
      */
     public boolean isAvailable() {
@@ -77,7 +78,7 @@ public final class JP2ECWFormatFactory extends BaseGridFormatFactorySPI implemen
 
     /**
      * Creating a {@link JP2ECWFormat}.
-     * 
+     *
      * @return A {@link JP2ECWFormat}.;
      */
     public JP2ECWFormat createFormat() {

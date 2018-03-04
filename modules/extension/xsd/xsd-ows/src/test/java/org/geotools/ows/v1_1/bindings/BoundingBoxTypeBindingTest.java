@@ -30,8 +30,6 @@ import org.w3c.dom.Node;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class BoundingBoxTypeBindingTest extends OWSTestSupport {
@@ -44,22 +42,23 @@ public class BoundingBoxTypeBindingTest extends OWSTestSupport {
     }
 
     public void testParse() throws Exception {
-        String xml = "<ows:BoundingBox dimensions=\"2\" crs=\"EPSG:4326\" xmlns:ows=\"http://www.opengis.net/ows\" version=\"1.1.0\">\n" + 
-        		"          <ows:LowerCorner>-180.0 -90.0</ows:LowerCorner>\n" + 
-        		"          <ows:UpperCorner>180.0 90.0</ows:UpperCorner>\n" + 
-        		"        </ows:BoundingBox>";
+        String xml = "<ows:BoundingBox dimensions=\"2\" crs=\"EPSG:4326\" xmlns:ows=\"http://www" +
+                ".opengis.net/ows\" version=\"1.1.0\">\n" +
+                "          <ows:LowerCorner>-180.0 -90.0</ows:LowerCorner>\n" +
+                "          <ows:UpperCorner>180.0 90.0</ows:UpperCorner>\n" +
+                "        </ows:BoundingBox>";
 
         buildDocument(xml);
 
         BoundingBoxType box = (BoundingBoxType) parse();
         assertNotNull(box);
-        
-        assertEquals( new BigInteger("2"), box.getDimensions() );
-        assertEquals( "EPSG:4326", box.getCrs() );
-        assertEquals( Arrays.asList(-180.0, -90.0), box.getLowerCorner() );
-        assertEquals( Arrays.asList(180.0, 90.0), box.getUpperCorner() );
+
+        assertEquals(new BigInteger("2"), box.getDimensions());
+        assertEquals("EPSG:4326", box.getCrs());
+        assertEquals(Arrays.asList(-180.0, -90.0), box.getLowerCorner());
+        assertEquals(Arrays.asList(180.0, 90.0), box.getUpperCorner());
     }
-    
+
     public void testEncode() throws Exception {
         BoundingBoxType bbox = Ows11Factory.eINSTANCE.createBoundingBoxType();
         bbox.setLowerCorner(Arrays.asList(-180.0, -90.0));

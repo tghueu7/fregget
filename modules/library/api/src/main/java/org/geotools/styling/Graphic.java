@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -27,7 +27,7 @@ import org.opengis.style.GraphicalSymbol;
 /**
  * A Graphic is a "graphical symbol" with an inherent shape, color(s), and
  * possibly size.
- *
+ * <p>
  * <p>
  * A "graphic" can very informally be defined as "a little picture" and can be
  * of either a raster or vector graphic source type.  The term graphic is used
@@ -40,7 +40,7 @@ import org.opengis.style.GraphicalSymbol;
  * from the external format or be defined to be the  "central point" of the
  * graphic.
  * </p>
- *
+ * <p>
  * <p>
  * The details of this object are taken from the <a
  * href="https://portal.opengeospatial.org/files/?artifact_id=1188"> OGC
@@ -69,17 +69,17 @@ import org.opengis.style.GraphicalSymbol;
  * &lt;/xsd:element&gt;
  * </code></pre>
  * </p>
- *
+ * <p>
  * <p>
  * Renderers can ue this information when displaying styled features, though it
  * must be remembered that not all renderers will be able to fully represent
  * strokes as set out by this interface.  For example, opacity may not be
  * supported.
  * </p>
- *
+ * <p>
  * <p>
  * Notes:
- *
+ * <p>
  * <ul>
  * <li>
  * The graphical parameters and their values are derived from SVG/CSS2
@@ -89,15 +89,13 @@ import org.opengis.style.GraphicalSymbol;
  * </p>
  *
  * @task REVISIT: There are no setter methods in this interface, is this a
- *       problem?
- *
- *
+ * problem?
  * @source $URL$
  */
 public interface Graphic extends GraphicLegend,
-                                 org.opengis.style.Graphic,
-                                 org.opengis.style.GraphicFill, 
-                                 org.opengis.style.GraphicStroke {
+        org.opengis.style.Graphic,
+        org.opengis.style.GraphicFill,
+        org.opengis.style.GraphicStroke {
     /**
      * A default Graphic instance.
      * <p>
@@ -106,39 +104,40 @@ public interface Graphic extends GraphicLegend,
      * </p>
      */
     public static final Graphic DEFAULT = new ConstantGraphic() {
-            public ExternalGraphic[] getExternalGraphics() {
-                return ExternalGraphic.EXTERNAL_GRAPHICS_EMPTY;
-            }
+        public ExternalGraphic[] getExternalGraphics() {
+            return ExternalGraphic.EXTERNAL_GRAPHICS_EMPTY;
+        }
 
-            public Mark[] getMarks() {
-                return Mark.MARKS_EMPTY;
-            }
+        public Mark[] getMarks() {
+            return Mark.MARKS_EMPTY;
+        }
 
-            public Symbol[] getSymbols() {
-                return Symbol.SYMBOLS_EMPTY;
-            }
+        public Symbol[] getSymbols() {
+            return Symbol.SYMBOLS_EMPTY;
+        }
 
-            public List<GraphicalSymbol> graphicalSymbols() {
-	            return Collections.emptyList();
-            }
-            public Expression getOpacity() {
-                return ConstantExpression.ONE;
-            }
+        public List<GraphicalSymbol> graphicalSymbols() {
+            return Collections.emptyList();
+        }
 
-            public Expression getSize() {
-                // default size is unknown, it depends on the target
-                return Expression.NIL;
-            }
+        public Expression getOpacity() {
+            return ConstantExpression.ONE;
+        }
 
-            public Displacement getDisplacement() {
-                return Displacement.DEFAULT;
-            }
+        public Expression getSize() {
+            // default size is unknown, it depends on the target
+            return Expression.NIL;
+        }
 
-            public Expression getRotation() {
-                return ConstantExpression.ZERO;
-            }
+        public Displacement getDisplacement() {
+            return Displacement.DEFAULT;
+        }
 
-        };
+        public Expression getRotation() {
+            return ConstantExpression.ZERO;
+        }
+
+    };
 
     /**
      * Indicates an absense of graphic.
@@ -149,48 +148,51 @@ public interface Graphic extends GraphicLegend,
      * </p>
      */
     public static final Graphic NULL = new ConstantGraphic() {
-            public ExternalGraphic[] getExternalGraphics() {
-                return ExternalGraphic.EXTERNAL_GRAPHICS_EMPTY;
-            }
+        public ExternalGraphic[] getExternalGraphics() {
+            return ExternalGraphic.EXTERNAL_GRAPHICS_EMPTY;
+        }
 
-            public Mark[] getMarks() {
-                return Mark.MARKS_EMPTY;
-            }
+        public Mark[] getMarks() {
+            return Mark.MARKS_EMPTY;
+        }
 
-            public Symbol[] getSymbols() {
-                return Symbol.SYMBOLS_EMPTY;
-            }
-            public List<GraphicalSymbol> graphicalSymbols() {
-	            return Collections.emptyList();
-            }
-            public Expression getOpacity() {
-                return ConstantExpression.NULL;
-            }
+        public Symbol[] getSymbols() {
+            return Symbol.SYMBOLS_EMPTY;
+        }
 
-            public Expression getSize() {
-                return ConstantExpression.NULL;
-            }
+        public List<GraphicalSymbol> graphicalSymbols() {
+            return Collections.emptyList();
+        }
 
-            public Displacement getDisplacement() {
-                return Displacement.NULL;
-            }
+        public Expression getOpacity() {
+            return ConstantExpression.NULL;
+        }
 
-            public Expression getRotation() {
-                return ConstantExpression.NULL;
-            }
+        public Expression getSize() {
+            return ConstantExpression.NULL;
+        }
+
+        public Displacement getDisplacement() {
+            return Displacement.NULL;
+        }
+
+        public Expression getRotation() {
+            return ConstantExpression.NULL;
+        }
 
 //            public String getGeometryPropertyName() {
 //                return "";
 //            }
 
-        };
+    };
 
     /**
-     * List of all symbols used to represent this graphic. 
+     * List of all symbols used to represent this graphic.
+     *
      * @return List of ExternalGraphic or Mark in the order provided.
      */
     List<GraphicalSymbol> graphicalSymbols();
-        
+
     /**
      * Provides a list of external graphics which can be used to represent this
      * graphic. Each one should be an equivalent representation but in a
@@ -198,21 +200,20 @@ public interface Graphic extends GraphicLegend,
      * supported, then the list of Marks should be used instead.
      *
      * @return An array of ExternalGraphics objects which should be equivalents
-     *         but in different formats.  If null is returned, use getMarks
-     *         instead.
-     *
+     * but in different formats.  If null is returned, use getMarks
+     * instead.
      * @task REVISIT: The following may be a handy extra to have in this
-     *       interface. public ExternalGraphic getExternalGraphic(String
-     *       formats); return the first external graphic to match one of the
-     *       given formats
-     * 
+     * interface. public ExternalGraphic getExternalGraphic(String
+     * formats); return the first external graphic to match one of the
+     * given formats
      * @deprecated this method is replaced by a set : graphicalSymbols
      */
     ExternalGraphic[] getExternalGraphics();
 
     /**
-     * @param externalGraphics 
-     * @deprecated Please use graphicalSymbols().clear(); and graphicalSymbols().addAll( externalGraphics )
+     * @param externalGraphics
+     * @deprecated Please use graphicalSymbols().clear(); and graphicalSymbols().addAll( 
+     * externalGraphics )
      */
     void setExternalGraphics(ExternalGraphic[] externalGraphics);
 
@@ -227,9 +228,8 @@ public interface Graphic extends GraphicLegend,
      * or if none of the external graphics formats are supported.
      *
      * @return An array of marks to use when displaying this Graphic.  By
-     *         default, a "square" with 50% gray fill and black outline with a
-     *         size of 6 pixels (unless a size is specified) is provided.
-     * 
+     * default, a "square" with 50% gray fill and black outline with a
+     * size of 6 pixels (unless a size is specified) is provided.
      * @deprecated Please use graphicalSymbols()
      */
     Mark[] getMarks();
@@ -251,13 +251,12 @@ public interface Graphic extends GraphicLegend,
      * were set.
      *
      * @return An array of symbols to use when displaying this Graphic.  By
-     *         default, a "square" with 50% gray fill and black outline with a
-     *         size of 6 pixels (unless a size is specified) is provided.
-     * 
+     * default, a "square" with 50% gray fill and black outline with a
+     * size of 6 pixels (unless a size is specified) is provided.
      * @deprecated Please use graphicalSymbols
      */
     Symbol[] getSymbols();
-    
+
     /**
      * @deprecated symbolizers and underneath classes will be immutable in 2.6.x
      */
@@ -283,14 +282,14 @@ public interface Graphic extends GraphicLegend,
      * @return AnchorPoint , if null should use a default point X=0.5 Y=0.5
      */
     public AnchorPoint getAnchorPoint();
-    
+
     /**
      * Anchor point (expressed as an x/y percentage of the graphic size).
-     * 
+     *
      * @param anchorPoint
      */
     public void setAnchorPoint(org.opengis.style.AnchorPoint anchorPoint);
-    
+
     /**
      * This specifies the level of translucency to use when rendering the  graphic.<br>
      * The value is encoded as a floating-point value between 0.0 and 1.0 with
@@ -300,7 +299,7 @@ public interface Graphic extends GraphicLegend,
      * 1.0 (opaque).
      *
      * @return The opacity of the Graphic, where 0.0 is completely  transparent
-     *         and 1.0 is completely opaque.
+     * and 1.0 is completely opaque.
      */
     Expression getOpacity();
 
@@ -312,7 +311,7 @@ public interface Graphic extends GraphicLegend,
     /**
      * This paramteter gives the absolute size of the graphic in pixels encoded
      * as a floating point number.
-     *
+     * <p>
      * <p>
      * The default size of an image format (such as GIFD) is the inherent size
      * of the image.  The default size of a format without an inherent size
@@ -323,7 +322,7 @@ public interface Graphic extends GraphicLegend,
      * </p>
      *
      * @return The size of the graphic.  The default is context specific.
-     *         Negative values are not possible.
+     * Negative values are not possible.
      */
     Expression getSize();
 
@@ -348,8 +347,8 @@ public interface Graphic extends GraphicLegend,
      * encoded as a floating point number.
      *
      * @return The angle of rotation in decimal degrees.  Negative values
-     *         represent counter-clockwise rotation. The default is 0.0 (no
-     *         rotation).
+     * represent counter-clockwise rotation. The default is 0.0 (no
+     * rotation).
      */
     Expression getRotation();
 
@@ -357,19 +356,19 @@ public interface Graphic extends GraphicLegend,
      * This parameter defines the rotation of a graphic in the clockwise
      * direction about its centre point in decimal degrees.   The value
      * encoded as a floating point number.
-     * 
+     *
      * @param rotation in decimal degrees
      */
     void setRotation(Expression rotation);
 
     Expression getGap();
-    
-    void setGap(Expression gap );
-    
+
+    void setGap(Expression gap);
+
     Expression getInitialGap();
-    
-    void setInitialGap( Expression initialGap );
-    
+
+    void setInitialGap(Expression initialGap);
+
     /**
      * accepts a StyleVisitor - used by xmlencoder and other packages which
      * need to walk the style tree
@@ -384,7 +383,7 @@ abstract class ConstantGraphic implements Graphic {
     private void cannotModifyConstant() {
         throw new UnsupportedOperationException("Constant Graphic may not be modified");
     }
-    
+
     public void setDisplacement(org.opengis.style.Displacement offset) {
         cannotModifyConstant();
     }
@@ -436,15 +435,15 @@ abstract class ConstantGraphic implements Graphic {
     public void setAnchorPoint(AnchorPoint anchor) {
         cannotModifyConstant();
     }
-    
+
     public Object accept(org.opengis.style.StyleVisitor visitor, Object data) {
-        return visitor.visit((org.opengis.style.GraphicStroke)this,data);
+        return visitor.visit((org.opengis.style.GraphicStroke) this, data);
     }
-    
+
     public void accept(org.geotools.styling.StyleVisitor visitor) {
         visitor.visit(this);
     }
-    
+
     public List<GraphicalSymbol> graphicalSymbols() {
         return Collections.emptyList();
     }
@@ -452,17 +451,17 @@ abstract class ConstantGraphic implements Graphic {
     public AnchorPoint getAnchorPoint() {
         return org.geotools.styling.AnchorPoint.DEFAULT;
     }
-    
+
     public void setAnchorPoint(org.opengis.style.AnchorPoint anchorPoint) {
         cannotModifyConstant();
     }
-    
-    public Expression getGap(){
+
+    public Expression getGap() {
         return ConstantExpression.constant(0);
     }
-    
-    public Expression getInitialGap(){
+
+    public Expression getInitialGap() {
         return ConstantExpression.constant(0);
     }
-    
+
 }

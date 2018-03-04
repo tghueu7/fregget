@@ -4,7 +4,7 @@
  *
  *    (C) 2016 Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2016 Boundless Spatial
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -50,7 +50,8 @@ public class TransformEncoder extends YsldEncodeHandler<Expression> {
     protected void encode(Expression tx) {
         if (loadProcessFunctionFactory() == null) {
             FeatureStyleEncoder.LOG.warning(
-                    "Skipping transform, unable to load process factory, ensure process modules installed");
+                    "Skipping transform, unable to load process factory, ensure process modules " +
+                            "installed");
             return;
         }
 
@@ -93,7 +94,8 @@ public class TransformEncoder extends YsldEncodeHandler<Expression> {
             if (fexpr.getParameters().size() == 1) {
                 // TODO: handle multiple input parameters.
                 input = paramName;
-                continue; // It's an input parameter so don't include it in the regular parameter list
+                continue; // It's an input parameter so don't include it in the regular parameter
+                // list
             } else if (fexpr.getParameters().size() == 2) {
                 paramValue = intermediateExpression(fexpr.getParameters().get(1));
             } else {

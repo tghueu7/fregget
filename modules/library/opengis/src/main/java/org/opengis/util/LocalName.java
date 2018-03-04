@@ -4,13 +4,14 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.util;
 
 import java.util.List;
 import java.util.Collections;
+
 import org.opengis.annotation.UML;
 import org.opengis.annotation.Extension;
 
@@ -26,14 +27,11 @@ import static org.opengis.annotation.Specification.*;
  *
  * @author Martin Desruisseaux (IRD)
  * @author Bryce Nordgren (USDA)
- * @since GeoAPI 2.0
- *
- * @see NameFactory#createLocalName
- *
- *
  * @source $URL$
+ * @see NameFactory#createLocalName
+ * @since GeoAPI 2.0
  */
-@UML(identifier="LocalName", specification=ISO_19103)
+@UML(identifier = "LocalName", specification = ISO_19103)
 public interface LocalName extends GenericName {
     /**
      * Returns the depth, which is always 1 for a local name.
@@ -45,7 +43,7 @@ public interface LocalName extends GenericName {
      * this method always returns a {@linkplain Collections#singleton singleton}
      * containing only {@code this}.
      */
-    @UML(identifier="parsedName", obligation=MANDATORY, specification=ISO_19103)
+    @UML(identifier = "parsedName", obligation = MANDATORY, specification = ISO_19103)
     List<? extends LocalName> getParsedNames();
 
     /**
@@ -69,6 +67,6 @@ public interface LocalName extends GenericName {
      * Returns a locale-independant string representation of this local name.
      */
 /// @Override
-    @UML(identifier="aName", obligation=MANDATORY, specification=ISO_19103)
+    @UML(identifier = "aName", obligation = MANDATORY, specification = ISO_19103)
     String toString();
 }

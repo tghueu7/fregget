@@ -18,23 +18,20 @@ import org.opengis.feature.type.Name;
 import org.opengis.filter.Filter;
 
 /**
- * 
  * @author kengu
- *
- *
  * @source $URL$
  */
 @SuppressWarnings("deprecation")
 public class EFeatureAttributeInfo extends EStructureInfo<EFeatureInfo> {
-    
+
     protected String eName;
-    
+
     protected String eNsURI;
-    
+
     protected String eFolderName;
-    
+
     protected String eFeatureName;
-        
+
     protected boolean eIsID;
 
     protected WeakReference<EAttribute> eAttribute;
@@ -42,7 +39,7 @@ public class EFeatureAttributeInfo extends EStructureInfo<EFeatureInfo> {
     protected Map<Object, Object> userData;
 
     private AttributeDescriptorDelegate eDescriptor;
-    
+
     // ----------------------------------------------------- 
     //  Constructors
     // -----------------------------------------------------
@@ -51,30 +48,32 @@ public class EFeatureAttributeInfo extends EStructureInfo<EFeatureInfo> {
      * Default constructor
      */
     protected EFeatureAttributeInfo() { /*NOP*/ }
-    
+
     /**
      * Structure copy constructor.
      * <p>
-     * This method copies the structure into given context. 
+     * This method copies the structure into given context.
      * </p>
-     * <b>NOTE</b>: This method only adds a one-way reference from 
-     * copied instance to given {@link EFeatureContext context}. 
-     * No reference is added from the context to this attribute. 
-     * </p>  
+     * <b>NOTE</b>: This method only adds a one-way reference from
+     * copied instance to given {@link EFeatureContext context}.
+     * No reference is added from the context to this attribute.
+     * </p>
+     *
      * @param eAttributeInfo - copy from this {@link EFeatureAttributeInfo} instance
-     * @param eFeatureInfo - copy into this structure
+     * @param eFeatureInfo   - copy into this structure
      */
-    protected EFeatureAttributeInfo(EFeatureAttributeInfo eAttributeInfo, EFeatureInfo eFeatureInfo) {
+    protected EFeatureAttributeInfo(EFeatureAttributeInfo eAttributeInfo, EFeatureInfo 
+            eFeatureInfo) {
         //
         // Forward (copies context, state and hints)
         //
-        super(eAttributeInfo, eFeatureInfo);        
+        super(eAttributeInfo, eFeatureInfo);
         //
         // Copy context path
         //
         this.eNsURI = eAttributeInfo.eNsURI;
         this.eFolderName = eAttributeInfo.eFolderName;
-        this.eFeatureName = eAttributeInfo.eName();        
+        this.eFeatureName = eAttributeInfo.eName();
         //
         // Copy attribute 
         //
@@ -90,7 +89,7 @@ public class EFeatureAttributeInfo extends EStructureInfo<EFeatureInfo> {
     // ----------------------------------------------------- 
     //  EFeatureAttribute methods
     // -----------------------------------------------------
-    
+
     public boolean isID() {
         return eIsID;
     }
@@ -98,19 +97,19 @@ public class EFeatureAttributeInfo extends EStructureInfo<EFeatureInfo> {
     public String eName() {
         return eName;
     }
-    
+
     public String eNsURI() {
         return eNsURI;
     }
-    
+
     public String eFolderName() {
         return eFolderName;
     }
-    
+
     public String eFeatureName() {
         return eFeatureName;
-    }    
-    
+    }
+
     @Override
     protected EFeatureInfo eParentInfo(boolean checkIsValid) {
         //
@@ -121,23 +120,23 @@ public class EFeatureAttributeInfo extends EStructureInfo<EFeatureInfo> {
         // Try complete structure first
         //
         EFeaturePackageInfo ePackageInfo = eContextInfo.
-            eGetPackageInfo(eNsURI);
+                eGetPackageInfo(eNsURI);
         //
         // Full structure exists?
         //
-        if(ePackageInfo!=null) {
+        if (ePackageInfo != null) {
             return ePackageInfo.
-                eGetFolderInfo(eFolderName).
+                    eGetFolderInfo(eFolderName).
                     eGetFeatureInfo(eFeatureName);
         }
         //
         // No it dosn't, try EFeature cache
         //
-        return eContextInfo.eFeatureInfoCache().get(eNsURI, eFolderName, eFeatureName);        
+        return eContextInfo.eFeatureInfoCache().get(eNsURI, eFolderName, eFeatureName);
     }
 
     public EAttribute eAttribute() {
-        return eAttribute!=null ? eAttribute.get() : null;
+        return eAttribute != null ? eAttribute.get() : null;
     }
 
     public AttributeDescriptor getDescriptor() {
@@ -163,7 +162,8 @@ public class EFeatureAttributeInfo extends EStructureInfo<EFeatureInfo> {
         //
         String eName = eAttribute.getName();
         if (!this.eName.equals(eName)) {
-            return failure(this, eName(), "Attribute mismatch: Found + " + eName + ", expected " + this.eName);
+            return failure(this, eName(), "Attribute mismatch: Found + " + eName + ", expected " 
+                    + this.eName);
         }
         //
         // Get feature structure
@@ -173,7 +173,7 @@ public class EFeatureAttributeInfo extends EStructureInfo<EFeatureInfo> {
         // 3) Verify that the EFeatureID factory instance create IDs for given attribute?
         //
         //
-        if(isID && eInfo!=null) {
+        if (isID && eInfo != null) {
             //
             // Get EFeatureIDFactory instance
             //
@@ -182,13 +182,13 @@ public class EFeatureAttributeInfo extends EStructureInfo<EFeatureInfo> {
             // Verify that the EFeatureID factory instance exists and 
             // creates IDs for this attribute
             //
-            if(eFactory==null) {
+            if (eFactory == null) {
                 return failure(this, eName(), "Attribute mismatch: " +
-                        "No EFeatureIDFactory found");            
-            }
-            else if(!(eFactory instanceof EFeatureVoidIDFactory || eFactory.creates(eAttribute))) {
+                        "No EFeatureIDFactory found");
+            } else if (!(eFactory instanceof EFeatureVoidIDFactory || eFactory.creates
+                    (eAttribute))) {
                 return failure(this, eName(), "Attribute mismatch: " +
-                		"EFeatureIDFactory does not create IDs for attribute " + eName);
+                        "EFeatureIDFactory does not create IDs for attribute " + eName);
             }
         }
         //
@@ -204,7 +204,7 @@ public class EFeatureAttributeInfo extends EStructureInfo<EFeatureInfo> {
 
     /**
      * Validate attribute against this structure.
-     * 
+     *
      * @param attribute - attribute to be validated
      * @return <code>true</code> if valid.
      */
@@ -220,7 +220,7 @@ public class EFeatureAttributeInfo extends EStructureInfo<EFeatureInfo> {
 
     /**
      * Validate {@link Property#getValue() attribute value} against this structure.
-     * 
+     *
      * @param value - attribute value to be validated
      * @return <code>true</code> if valid.
      */
@@ -243,16 +243,16 @@ public class EFeatureAttributeInfo extends EStructureInfo<EFeatureInfo> {
     // -----------------------------------------------------
 
     @Override
-    protected void doInvalidate(boolean deep) { 
+    protected void doInvalidate(boolean deep) {
         this.eIsID = false;
     }
 
     @Override
-    protected void doDispose() {        
-        userData.clear();        
+    protected void doDispose() {
+        userData.clear();
         userData = null;
         eAttribute = null;
-        eDescriptor = null;        
+        eDescriptor = null;
     }
 
     // ----------------------------------------------------- 
@@ -301,7 +301,7 @@ public class EFeatureAttributeInfo extends EStructureInfo<EFeatureInfo> {
                 // Create anonymous attribute type implementation
                 //
                 attributeType = new AttributeTypeImpl(getName(), cls, eIsID, false,
-                        Collections.<Filter> emptyList(), null, null) {
+                        Collections.<Filter>emptyList(), null, null) {
                     @Override
                     public Object parse(Object value) throws IllegalArgumentException {
                         return DataBuilder.parse(cls, value);
@@ -326,19 +326,20 @@ public class EFeatureAttributeInfo extends EStructureInfo<EFeatureInfo> {
     // ----------------------------------------------------- 
     //  Object methods
     // -----------------------------------------------------
-    
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[" + eName + "]";
     }
-    
-    
+
+
     // ----------------------------------------------------- 
     //  Helper methods
     // -----------------------------------------------------
-    
+
     /**
      * Create {@link EFeatureAttributeInfo} from given {@link EAttribute}
+     *
      * @param eFactory
      * @param eContextID
      * @param isID
@@ -347,7 +348,7 @@ public class EFeatureAttributeInfo extends EStructureInfo<EFeatureInfo> {
      */
     protected static EFeatureAttributeInfo create(
             EFeatureInfo eFeatureInfo, boolean isID, EAttribute eAttribute) {
-        
+
         //
         // Create new instance
         //
@@ -367,7 +368,7 @@ public class EFeatureAttributeInfo extends EStructureInfo<EFeatureInfo> {
         //
         eInfo.eNsURI = eFeatureInfo.eNsURI;
         eInfo.eFolderName = eFeatureInfo.eFolderName;
-        eInfo.eFeatureName = eFeatureInfo.eName();        
+        eInfo.eFeatureName = eFeatureInfo.eName();
         //
         // Set other members
         //
@@ -385,27 +386,27 @@ public class EFeatureAttributeInfo extends EStructureInfo<EFeatureInfo> {
     }
 
     protected final EFeatureStatus attributeIsValid() {
-        StackTraceElement trace = EFeatureUtils.getStackTraceElement(0,1);
-        return success("Attribute is valid: " 
-                + trace.getClassName()+ "[" + eName() + "]#" + trace.getMethodName());
+        StackTraceElement trace = EFeatureUtils.getStackTraceElement(0, 1);
+        return success("Attribute is valid: "
+                + trace.getClassName() + "[" + eName() + "]#" + trace.getMethodName());
     }
 
     protected final EFeatureStatus attributeIsInvalid() {
-        StackTraceElement trace = EFeatureUtils.getStackTraceElement(0,1);
+        StackTraceElement trace = EFeatureUtils.getStackTraceElement(0, 1);
         return failure(this, eName(), "Attribute is invalid: "
-                + trace.getClassName()+ "[" + eName() + "]#" + trace.getMethodName());
+                + trace.getClassName() + "[" + eName() + "]#" + trace.getMethodName());
     }
 
     protected final EFeatureStatus valueIsValid() {
-        StackTraceElement trace = EFeatureUtils.getStackTraceElement(0,1);
-        return success("Attribute value is valid: " 
-                + trace.getClassName()+ "[" + eName() + "]#" + trace.getMethodName());
+        StackTraceElement trace = EFeatureUtils.getStackTraceElement(0, 1);
+        return success("Attribute value is valid: "
+                + trace.getClassName() + "[" + eName() + "]#" + trace.getMethodName());
     }
 
     protected final EFeatureStatus valueIsInvalid(Throwable cause) {
-        StackTraceElement trace = EFeatureUtils.getStackTraceElement(0,1);
-        return failure(this, eName(), "Attribute value is invalid: " 
-                + trace.getClassName()+ "[" + eName() + "]#" + trace.getMethodName());
+        StackTraceElement trace = EFeatureUtils.getStackTraceElement(0, 1);
+        return failure(this, eName(), "Attribute value is invalid: "
+                + trace.getClassName() + "[" + eName() + "]#" + trace.getMethodName());
     }
 
 }

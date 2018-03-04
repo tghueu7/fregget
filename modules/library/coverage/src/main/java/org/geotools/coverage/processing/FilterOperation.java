@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,6 +17,7 @@
 package org.geotools.coverage.processing;
 
 // OpenGIS dependencies
+
 import org.opengis.coverage.processing.OperationNotFoundException;
 
 // Geotools dependencies
@@ -25,7 +26,7 @@ import org.geotools.coverage.GridSampleDimension;
 
 /**
  * Common super-class for filter operation. The following is adapted from OpenGIS specification:
- *
+ * <p>
  * <blockquote>
  * Filtering is an enhancement operation that alters the grid values on the basis of the
  * neighborhood grid values. For this reason, filtering is considered to be a spatial or
@@ -49,12 +50,10 @@ import org.geotools.coverage.GridSampleDimension;
  * duplicated to fill a complete kernel.
  * </blockquote>
  *
- * @since 2.2
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.2
  */
 public class FilterOperation extends OperationJAI {
     /**
@@ -65,7 +64,7 @@ public class FilterOperation extends OperationJAI {
     /**
      * Constructs a new filter operation.
      *
-     * @param  name The JAI operation name.
+     * @param name The JAI operation name.
      * @throws OperationNotFoundException if no JAI descriptor was found for the given name.
      */
     public FilterOperation(final String name) throws OperationNotFoundException {
@@ -77,8 +76,7 @@ public class FilterOperation extends OperationJAI {
      * values, this method returns the same sample dimension than the first source.
      */
     protected GridSampleDimension[] deriveSampleDimension(final GridSampleDimension[][] bandLists,
-                                                          final Parameters parameters)
-    {
+                                                          final Parameters parameters) {
         return bandLists[0];
     }
 }

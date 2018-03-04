@@ -32,14 +32,12 @@ import org.w3c.dom.Document;
 
 /**
  * Unit test suite for {@link GetFeatureTypeBinding}
- * 
+ *
  * @author Justin Deoliveira
  * @version $Id: GetFeatureTypeBindingTest.java 27749 2007-11-05 09:51:33Z
- *          groldan $
- * @since 2.5.x
- *
- *
+ * groldan $
  * @source $URL$
+ * @since 2.5.x
  */
 public class GetFeatureTypeBindingTest extends WFSTestSupport {
     public GetFeatureTypeBindingTest() {

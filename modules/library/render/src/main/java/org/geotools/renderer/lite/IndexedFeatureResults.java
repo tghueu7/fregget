@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -38,125 +38,123 @@ import com.vividsolutions.jts.index.strtree.STRtree;
 
 /**
  * IndexedFeatureReader
- * 
+ *
  * @author wolf
- *
- *
  * @source $URL$
  */
 public final class IndexedFeatureResults extends DataFeatureCollection {
-	STRtree index = new STRtree();
-	Envelope bounds;
-	int count;
-	private Envelope queryBounds;
+    STRtree index = new STRtree();
+    Envelope bounds;
+    int count;
+    private Envelope queryBounds;
 
-	public IndexedFeatureResults(SimpleFeatureCollection results) throws IOException,
-			IllegalAttributeException {
-		// copy results attributes
-		super(null,results.getSchema());
-		
-				
-		// load features into the index
-		SimpleFeatureIterator reader = null;
-		bounds = new Envelope();
-		count = 0;
-		try {
-			reader = results.features();
-			SimpleFeature f;
-			Envelope env;
-			while (reader.hasNext()) {
-				f = reader.next();
-				env = ((Geometry) f.getDefaultGeometry()).getEnvelopeInternal();
-				bounds.expandToInclude(env);
-				count++;
-				index.insert(env, f);
-			}
-		} finally {
-			if(reader != null)
-				reader.close();
-		}
-	}
-
-	/**
-	 * @see org.geotools.data.FeatureResults#reader()
-	 */
-	public  FeatureReader<SimpleFeatureType, SimpleFeature> reader(Envelope envelope) throws IOException {
-		List results = index.query(envelope);
-		final Iterator resultsIterator = results.iterator();
-		
-		return new FeatureReader<SimpleFeatureType, SimpleFeature>() {
-			/**
-			 * @see org.geotools.data.FeatureReader#getFeatureType()
-			 */
-			public SimpleFeatureType getFeatureType() {
-				return getSchema();
-			}
-
-			/**
-			 * @see org.geotools.data.FeatureReader#next()
-			 */
-			public SimpleFeature next() throws IOException,
-					IllegalAttributeException, NoSuchElementException {
-				return (SimpleFeature) resultsIterator.next();
-			}
-
-			/**
-			 * @see org.geotools.data.FeatureReader#hasNext()
-			 */
-			public boolean hasNext() throws IOException {
-				return resultsIterator.hasNext();
-			}
-
-			/**
-			 * @see org.geotools.data.FeatureReader#close()
-			 */
-			public void close() throws IOException {
-			}
-		};
-	}
-
-	/**
-	 * @see org.geotools.data.FeatureResults#getBounds()
-	 */
-	public ReferencedEnvelope getBounds() {
-		return ReferencedEnvelope.reference(bounds);
-	}
-
-	/**
-	 * @see org.geotools.data.FeatureResults#getCount()
-	 */
-	public int getCount() throws IOException {
-		return count;
-	}
-
-	/**
-	 * @see org.geotools.data.FeatureResults#collection()
-	 */
-	public SimpleFeatureCollection collection() throws IOException {
-	    DefaultFeatureCollection fc = new DefaultFeatureCollection();
-		List<SimpleFeature> results = index.query(bounds);
-		for (Iterator<SimpleFeature> it = results.iterator(); it.hasNext();) {
-			fc.add(it.next());
-		}
-		return fc;
-	}
+    public IndexedFeatureResults(SimpleFeatureCollection results) throws IOException,
+            IllegalAttributeException {
+        // copy results attributes
+        super(null, results.getSchema());
 
 
-	/**
-	 * @see org.geotools.data.FeatureResults#reader()
-	 */
-	public  FeatureReader<SimpleFeatureType, SimpleFeature> reader() throws IOException {
-		if(queryBounds != null)
-			return reader(queryBounds);
-		else
-			return reader(bounds);
-	}
+        // load features into the index
+        SimpleFeatureIterator reader = null;
+        bounds = new Envelope();
+        count = 0;
+        try {
+            reader = results.features();
+            SimpleFeature f;
+            Envelope env;
+            while (reader.hasNext()) {
+                f = reader.next();
+                env = ((Geometry) f.getDefaultGeometry()).getEnvelopeInternal();
+                bounds.expandToInclude(env);
+                count++;
+                index.insert(env, f);
+            }
+        } finally {
+            if (reader != null)
+                reader.close();
+        }
+    }
 
-	/**
-	 * @param queryBounds an Envelope defining the boundary of the query
-	 * 
-	 */
-	public void setQueryBounds(Envelope queryBounds) {
-		this.queryBounds = queryBounds;
-	}
+    /**
+     * @see org.geotools.data.FeatureResults#reader()
+     */
+    public FeatureReader<SimpleFeatureType, SimpleFeature> reader(Envelope envelope) throws 
+            IOException {
+        List results = index.query(envelope);
+        final Iterator resultsIterator = results.iterator();
+
+        return new FeatureReader<SimpleFeatureType, SimpleFeature>() {
+            /**
+             * @see org.geotools.data.FeatureReader#getFeatureType()
+             */
+            public SimpleFeatureType getFeatureType() {
+                return getSchema();
+            }
+
+            /**
+             * @see org.geotools.data.FeatureReader#next()
+             */
+            public SimpleFeature next() throws IOException,
+                    IllegalAttributeException, NoSuchElementException {
+                return (SimpleFeature) resultsIterator.next();
+            }
+
+            /**
+             * @see org.geotools.data.FeatureReader#hasNext()
+             */
+            public boolean hasNext() throws IOException {
+                return resultsIterator.hasNext();
+            }
+
+            /**
+             * @see org.geotools.data.FeatureReader#close()
+             */
+            public void close() throws IOException {
+            }
+        };
+    }
+
+    /**
+     * @see org.geotools.data.FeatureResults#getBounds()
+     */
+    public ReferencedEnvelope getBounds() {
+        return ReferencedEnvelope.reference(bounds);
+    }
+
+    /**
+     * @see org.geotools.data.FeatureResults#getCount()
+     */
+    public int getCount() throws IOException {
+        return count;
+    }
+
+    /**
+     * @see org.geotools.data.FeatureResults#collection()
+     */
+    public SimpleFeatureCollection collection() throws IOException {
+        DefaultFeatureCollection fc = new DefaultFeatureCollection();
+        List<SimpleFeature> results = index.query(bounds);
+        for (Iterator<SimpleFeature> it = results.iterator(); it.hasNext(); ) {
+            fc.add(it.next());
+        }
+        return fc;
+    }
+
+
+    /**
+     * @see org.geotools.data.FeatureResults#reader()
+     */
+    public FeatureReader<SimpleFeatureType, SimpleFeature> reader() throws IOException {
+        if (queryBounds != null)
+            return reader(queryBounds);
+        else
+            return reader(bounds);
+    }
+
+    /**
+     * @param queryBounds an Envelope defining the boundary of the query
+     */
+    public void setQueryBounds(Envelope queryBounds) {
+        this.queryBounds = queryBounds;
+    }
 }

@@ -32,10 +32,8 @@ import org.geotools.util.logging.Logging;
 /**
  * Compares two images using perceptual criterias: the assertions will fail if the images would look
  * different to a human being.
- * 
+ *
  * @author Andrea Aime - GeoSolutions
- *
- *
  * @source $URL$
  */
 public class ImageAssert {
@@ -45,7 +43,7 @@ public class ImageAssert {
      * overwrite the expected image
      */
     static final boolean INTERACTIVE = Boolean.getBoolean("org.geotools.image.test.interactive");
-    
+
     /**
      * Forces the image comparison tests to be skipped
      */
@@ -56,7 +54,7 @@ public class ImageAssert {
     /**
      * Checks the image in the reference file and the actual image are equals from a human
      * perception p.o.v
-     * 
+     *
      * @param expectedFile
      * @param actualImage
      * @param threshold
@@ -72,40 +70,43 @@ public class ImageAssert {
 
     /**
      * Checks the expected image and the actual image are equals from a human perception p.o.v
-     * 
+     *
      * @param expectedFile
      * @param actualImage
      * @param threshold
      */
     public static void assertEquals(RenderedImage expectedImage, RenderedImage actualImage,
-            int threshold) {
-        ImageComparator comparator = new ImageComparator(Mode.IgnoreAntialiasing, expectedImage, actualImage);
+                                    int threshold) {
+        ImageComparator comparator = new ImageComparator(Mode.IgnoreAntialiasing, expectedImage, 
+                actualImage);
         if (comparator.getMismatchCount() > threshold) {
             if (INTERACTIVE) {
                 CompareImageDialog.show(expectedImage, actualImage, false);
-            } 
+            }
             throw new AssertionError("Images are visibly different, found "
                     + comparator.getMismatchCount() + " different pixels, against a threshold of "
                     + threshold
-                    + "\nYou can add -Dorg.geotools.image.test.interactive=true to show a dialog comparing them (requires GUI support)");
+                    + "\nYou can add -Dorg.geotools.image.test.interactive=true to show a dialog " +
+                    "comparing them (requires GUI support)");
         }
     }
 
     /**
      * Checks the expected image and the actual image are equals from a human perception p.o.v
-     * 
+     *
      * @param expectedFile
      * @param actualImage
      * @param threshold
      * @throws IOException
      */
     public static void assertEquals(File expectedImage, RenderedImage actualImage, int threshold,
-            Mode mode) throws IOException {
+                                    Mode mode) throws IOException {
         assertImagesResemble(expectedImage, actualImage, mode, threshold, true);
     }
 
     private static void assertImagesResemble(File expectedFile, RenderedImage actualImage,
-            Mode mode, int threshold, boolean actualReferenceFile) throws IOException {
+                                             Mode mode, int threshold, boolean 
+                                                     actualReferenceFile) throws IOException {
         // do we have the reference image at all?
         if (!expectedFile.exists()) {
 
@@ -127,7 +128,8 @@ public class ImageAssert {
                 }
             } else {
                 throw new AssertionError("Reference image is missing: " + expectedFile
-                        + ", add -Dorg.geotools.image.test.interactive=true to show a dialog comparing them (requires GUI support)");
+                        + ", add -Dorg.geotools.image.test.interactive=true to show a dialog " +
+                        "comparing them (requires GUI support)");
             }
         } else {
             RenderedImage expectedImage = ImageIO.read(expectedFile);
@@ -139,7 +141,9 @@ public class ImageAssert {
                     overwrite = CompareImageDialog.show(realignImage(expectedImage),
                             realignImage(actualImage), actualReferenceFile);
                 } else {
-                    LOGGER.info("Images are different, add -Dorg.geotools.image.test.interactive=true to show a dialog comparing them (requires GUI support)");
+                    LOGGER.info("Images are different, add -Dorg.geotools.image.test" +
+                            ".interactive=true to show a dialog comparing them (requires GUI " +
+                            "support)");
                 }
 
                 if (overwrite) {
@@ -148,7 +152,8 @@ public class ImageAssert {
                     throw new AssertionError("Images are visibly different, found "
                             + comparator.getMismatchCount()
                             + " different pixels, against a threshold of " + threshold
-                            + "\nYou can add -Dorg.geotools.image.test.interactive=true to show a dialog comparing them (requires GUI support)");
+                            + "\nYou can add -Dorg.geotools.image.test.interactive=true to show a" +
+                            " dialog comparing them (requires GUI support)");
                 }
             } else {
                 LOGGER.fine("Images are not visibly different, found "
@@ -168,10 +173,11 @@ public class ImageAssert {
             throw new IllegalArgumentException("Expected image file should be a png or a tiff");
         }
     }
-    
+
     /**
      * Makes sure the image starts at 0,0, all images coming from files do but the ones
      * coming from a JAI chain might not
+     *
      * @param image
      * @return
      */
@@ -179,7 +185,7 @@ public class ImageAssert {
         if (image.getMinX() > 0 || image.getMinY() > 0) {
             return new BufferedImage(image.getColorModel(),
                     ((WritableRaster) image.getData()).createWritableTranslatedChild(0, 0), image
-                            .getColorModel().isAlphaPremultiplied(), null);
+                    .getColorModel().isAlphaPremultiplied(), null);
         } else {
             return image;
         }

@@ -4,13 +4,14 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2008, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.style;
 
 import java.util.List;
 import java.util.ArrayList;
+
 import org.opengis.util.CodeList;
 
 import org.opengis.annotation.XmlElement;
@@ -22,21 +23,20 @@ import org.opengis.annotation.XmlElement;
  * can take only one of the following values:
  * <p>
  * <ul>
- *   <li>{@code generic:point}</li>
- *   <li>{@code generic:line}</li>
- *   <li>{@code generic:polygon}</li>
- *   <li>{@code generic:text}</li>
- *   <li>{@code generic:raster}</li>
- *   <li>{@code generic:any}</li>
+ * <li>{@code generic:point}</li>
+ * <li>{@code generic:line}</li>
+ * <li>{@code generic:polygon}</li>
+ * <li>{@code generic:text}</li>
+ * <li>{@code generic:raster}</li>
+ * <li>{@code generic:any}</li>
  * </ul>
  * <p>
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding Implementation Specification 1.1.0</A>
  * @author Open Geospatial Consortium
  * @author Johann Sorel (Geomatys)
+ * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding 
+ * Implementation Specification 1.1.0</A>
+ * @source $URL$
  * @since GeoAPI 2.2
  */
 @XmlElement("SemanticTypeIdentifier")

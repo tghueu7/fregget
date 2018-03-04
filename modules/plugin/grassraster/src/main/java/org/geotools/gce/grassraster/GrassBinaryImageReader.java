@@ -47,15 +47,13 @@ import org.opengis.util.ProgressListener;
  * <p>
  * The reader extends imageio's {@link ImageReader} to support the reading of GRASS raster data.
  * </p>
- * 
+ *
  * @author Andrea Antonello (www.hydrologis.com)
- * @since 3.0
+ * @source $URL$
  * @see ImageReader
  * @see GrassBinaryRasterReadHandler
  * @see GrassBinaryImageMetadata
- *
- *
- * @source $URL$
+ * @since 3.0
  */
 public class GrassBinaryImageReader extends ImageReader {
 
@@ -63,12 +61,12 @@ public class GrassBinaryImageReader extends ImageReader {
      * This method set the input only if the input object is a File.
      */
     @Override
-    public void setInput( Object input, boolean seekForwardOnly, boolean ignoreMetadata ) {
+    public void setInput(Object input, boolean seekForwardOnly, boolean ignoreMetadata) {
         if (input != null) {
             boolean found = false;
             if (originatingProvider != null) {
                 Class<?>[] classes = originatingProvider.getInputTypes();
-                for( int i = 0; i < classes.length; i++ ) {
+                for (int i = 0; i < classes.length; i++) {
                     if (classes[i].isInstance(input)) {
                         found = true;
                         break;
@@ -139,21 +137,21 @@ public class GrassBinaryImageReader extends ImageReader {
      * A progress monitor, set to a dummy one, in the case it is not set by the user.
      */
     private ProgressListener monitor = new DummyProgressListener();
-    
-    public void setUseSubSamplingAsRequestedRowcols( boolean useSubSamplingAsRequestedRowcols ) {
+
+    public void setUseSubSamplingAsRequestedRowcols(boolean useSubSamplingAsRequestedRowcols) {
         this.useSubSamplingAsRequestedRowcols = useSubSamplingAsRequestedRowcols;
     }
 
-    public void setCastDoubleToFloating( boolean castDoubleToFloating ) {
+    public void setCastDoubleToFloating(boolean castDoubleToFloating) {
         this.castDoubleToFloating = castDoubleToFloating;
     }
 
     /**
      * constructs an {@link ImageReader} able to read grass raster maps.
-     * 
+     *
      * @param originatingProvider the service provider interface for the reader.
      */
-    public GrassBinaryImageReader( GrassBinaryImageReaderSpi originatingProvider ) {
+    public GrassBinaryImageReader(GrassBinaryImageReaderSpi originatingProvider) {
         super(originatingProvider);
     }
 
@@ -167,7 +165,7 @@ public class GrassBinaryImageReader extends ImageReader {
      * This method has to be called before any data access, in order to already have the native
      * raster data metadata available.
      * </p>
-     * 
+     *
      * @return <code>true</code> if everything is consistent
      * @throws IIOException
      */
@@ -178,7 +176,7 @@ public class GrassBinaryImageReader extends ImageReader {
         }
     }
 
-    public int getHeight( final int imageIndex ) throws IOException {
+    public int getHeight(final int imageIndex) throws IOException {
         // BufferedImage bufferedImage = imagesMap.get(imageIndex);
         // if (bufferedImage != null) {
         // return bufferedImage.getHeight();
@@ -190,7 +188,7 @@ public class GrassBinaryImageReader extends ImageReader {
         return -1;
     }
 
-    public int getWidth( final int imageIndex ) throws IOException {
+    public int getWidth(final int imageIndex) throws IOException {
         ensureOpen();
         if (rasterHandler != null) {
             return rasterHandler.getRasterMapWidth();
@@ -198,11 +196,11 @@ public class GrassBinaryImageReader extends ImageReader {
         return -1;
     }
 
-    public int getNumImages( final boolean allowSearch ) throws IOException {
+    public int getNumImages(final boolean allowSearch) throws IOException {
         return imagesMap.size();
     }
 
-    public synchronized Iterator<ImageTypeSpecifier> getImageTypes( final int imageIndex )
+    public synchronized Iterator<ImageTypeSpecifier> getImageTypes(final int imageIndex)
             throws IOException {
         ensureOpen();
         csm = rasterHandler.getSampleModel();
@@ -221,13 +219,13 @@ public class GrassBinaryImageReader extends ImageReader {
         return null;
     }
 
-    public IIOMetadata getImageMetadata( final int imageIndex ) throws IOException {
+    public IIOMetadata getImageMetadata(final int imageIndex) throws IOException {
         ensureOpen();
         if (metadata == null)
             metadata = new GrassBinaryImageMetadata(this.rasterHandler);
         return metadata;
     }
-    
+
 //    public PlanarImage read( final int imageIndex, ImageReadParam param,
 //            boolean useSubSamplingAsRequestedRowcols, boolean castDoubleToFloating,
 //            IProgressMonitorJGrass monitor, int tileSize ) throws IOException {
@@ -253,29 +251,37 @@ public class GrassBinaryImageReader extends ImageReader {
 //
 //        return image;
 //    }
-    
-    public void setMonitor( ProgressListener monitor ) {
+
+    public void setMonitor(ProgressListener monitor) {
         this.monitor = monitor;
     }
 
     /**
      * Performs the read method adding the possibility to override subsampling.
-     * 
-     * @param imageIndex same as {@link GrassBinaryImageReader#read(int, ImageReadParam)}
-     * @param param same as {@link GrassBinaryImageReader#read(int, ImageReadParam)}
+     *
+     * @param imageIndex                       same as 
+     * {@link GrassBinaryImageReader#read(int, ImageReadParam)}
+     * @param param                            same as 
+     * {@link GrassBinaryImageReader#read(int, ImageReadParam)}
      * @param useSubSamplingAsRequestedRowcols a flag that gives the possibility to bypass the
-     *        imageio subsampling mechanism. With GRASS maps this is often more performant in some
-     *        boundary situations. In the case this flag is set to true, the subsampling values will
-     *        be handled as the requested columns and rows.
-     * @param castDoubleToFloating a flag that gives the possibility to force the reading of a map
-     *        as a floating point map. This is necessary right now because of a imageio bug:
-     *        https://jai-imageio-core.dev.java.net/issues/show_bug.cgi?id=180
+     *                                         imageio subsampling mechanism. With GRASS maps 
+     *                                         this is often more performant in some
+     *                                         boundary situations. In the case this flag is set 
+     *                                         to true, the subsampling values will
+     *                                         be handled as the requested columns and rows.
+     * @param castDoubleToFloating             a flag that gives the possibility to force the 
+     *                                         reading of a map
+     *                                         as a floating point map. This is necessary right 
+     *                                         now because of a imageio bug:
+     *                                         https://jai-imageio-core.dev.java
+     *                                         .net/issues/show_bug.cgi?id=180
      * @return same as {@link GrassBinaryImageReader#read(int, ImageReadParam)}
      * @throws IOException same as {@link GrassBinaryImageReader#read(int, ImageReadParam)}
      */
-    public BufferedImage read( final int imageIndex, ImageReadParam param,
-            boolean useSubSamplingAsRequestedRowcols, boolean castDoubleToFloating,
-            ProgressListener monitor ) throws IOException {
+    public BufferedImage read(final int imageIndex, ImageReadParam param,
+                              boolean useSubSamplingAsRequestedRowcols, boolean 
+                                      castDoubleToFloating,
+                              ProgressListener monitor) throws IOException {
         this.useSubSamplingAsRequestedRowcols = useSubSamplingAsRequestedRowcols;
         this.castDoubleToFloating = castDoubleToFloating;
         this.monitor = monitor;
@@ -283,7 +289,7 @@ public class GrassBinaryImageReader extends ImageReader {
         return read(imageIndex, param);
     }
 
-    public BufferedImage read( final int imageIndex, ImageReadParam param ) throws IOException {
+    public BufferedImage read(final int imageIndex, ImageReadParam param) throws IOException {
         ensureOpen();
 
         if (hasListeners) {
@@ -308,12 +314,12 @@ public class GrassBinaryImageReader extends ImageReader {
         return bi;
     }
 
-    public BufferedImage read( final int imageIndex ) throws IOException {
+    public BufferedImage read(final int imageIndex) throws IOException {
         ensureOpen();
         return read(imageIndex, null);
     }
 
-    public Raster readRaster( final int imageIndex, ImageReadParam param ) throws IOException {
+    public Raster readRaster(final int imageIndex, ImageReadParam param) throws IOException {
         ensureOpen();
         try {
             return rasterHandler.readRaster(param, useSubSamplingAsRequestedRowcols,
@@ -326,7 +332,7 @@ public class GrassBinaryImageReader extends ImageReader {
     /**
      * A simple method which returns the proper {@link GrassBinaryRasterReadHandler} used to perform
      * reading operations
-     * 
+     *
      * @return Returns the rasterReader.
      */
     public GrassBinaryRasterReadHandler getRasterReader() {
@@ -377,7 +383,6 @@ public class GrassBinaryImageReader extends ImageReader {
     protected synchronized boolean abortRequested() {
         return rasterHandler.isAborting();
     }
-
 
 
 }

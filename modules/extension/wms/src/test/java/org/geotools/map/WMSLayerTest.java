@@ -42,7 +42,6 @@ import org.junit.Test;
 
 /**
  * @author ian
- *
  */
 public class WMSLayerTest {
     private WebMapServer server;
@@ -51,12 +50,15 @@ public class WMSLayerTest {
         ParameterParser pp = new ParameterParser();
         List params = pp.parse(query, '&');
         Map<String, String> result = new HashMap<String, String>();
-        for (Iterator it = params.iterator(); it.hasNext();) {
+        for (Iterator it = params.iterator(); it.hasNext(); ) {
             NameValuePair pair = (NameValuePair) it.next();
             result.put(pair.getName().toUpperCase(), pair.getValue());
         }
         return result;
-    };
+    }
+
+    ;
+
     /**
      * @throws java.lang.Exception
      */
@@ -82,11 +84,11 @@ public class WMSLayerTest {
                 if (url.getQuery().contains("GetCapabilities")) {
                     Map<String, String> params = parseParams(url.getQuery());
                     URL caps = null;
-                    if("1.3.0".equals(params.get("VERSION"))) {
+                    if ("1.3.0".equals(params.get("VERSION"))) {
                         caps = WMSCoverageReaderTest.class.getResource("caps130.xml");
-                    } else if("1.1.0".equals(params.get("VERSION"))) {
+                    } else if ("1.1.0".equals(params.get("VERSION"))) {
                         caps = WMSCoverageReaderTest.class.getResource("caps110.xml");
-                    } 
+                    }
                     return new MockHttpResponse(caps, "text/xml");
                 } else {
                     throw new IllegalArgumentException(
@@ -108,22 +110,22 @@ public class WMSLayerTest {
     }
 
     /**
-     * Test method for {@link org.geotools.map.WMSLayer#WMSLayer(org.geotools.data.wms.WebMapServer, org.geotools.data.ows.Layer)}.
+     * Test method for 
+     * {@link org.geotools.map.WMSLayer#WMSLayer(org.geotools.data.wms.WebMapServer, org.geotools.data.ows.Layer)}.
      */
     @Test
     public void testWMSLayer() {
         org.geotools.data.ows.Layer[] wmsLayers = WMSUtils.getNamedLayers(server.getCapabilities());
-        
+
         WMSLayer l = new WMSLayer(server, wmsLayers[0]);
         assertNotNull(l);
         List<StyleImpl> styles = wmsLayers[0].getStyles();
         assertEquals(4, styles.size());
-        l = new WMSLayer(server, wmsLayers[0],styles.get(1).getName());
-        
+        l = new WMSLayer(server, wmsLayers[0], styles.get(1).getName());
+
         WMSLayer l2 = new WMSLayer(server, wmsLayers[0], styles.get(3).getName());
         assertNotNull(l2);
     }
-
 
 
 }

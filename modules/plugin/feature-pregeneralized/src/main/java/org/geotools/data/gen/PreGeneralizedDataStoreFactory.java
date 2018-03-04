@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -33,23 +33,20 @@ import org.geotools.data.gen.info.GeneralizationInfosProviderImpl;
 
 /**
  * @author Christian Mueller
- * 
+ * <p>
  * Factory for {@link PreGeneralizedDataStore} objects.
- * 
+ * <p>
  * Params
- * 
- * 
+ * <p>
+ * <p>
  * RepositoryClassName (String,mandatory) Name of a class implementing {@link Repository}
- * 
- * 
+ * <p>
+ * <p>
  * GeneralizationInfosProviderClassName (String,mandatory) Name of a class implementing
  * {@link GeneralizationInfosProvider}
- * 
+ * <p>
  * GeneralizationInfosProviderProviderParam (Object,optional) Parameter object for
  * {@link GeneralizationInfosProvider#getGeneralizationInfos(Object)}
- *
- *
- *
  * @source $URL$
  */
 
@@ -57,7 +54,7 @@ public class PreGeneralizedDataStoreFactory implements DataStoreFactorySpi {
 
     public static final Param REPOSITORY_CLASS = new Param("RepositoryClassName", String.class,
             "Class name for data store repository implementation", true, DSFinderRepository.class
-                    .getName());
+            .getName());
 
     public static final Param GENERALIZATION_INFOS_PROVIDER_CLASS = new Param(
             "GeneralizationInfosProviderClassName", String.class,
@@ -126,8 +123,8 @@ public class PreGeneralizedDataStoreFactory implements DataStoreFactorySpi {
     }
 
     public Param[] getParametersInfo() {
-        return new Param[] { REPOSITORY_CLASS, GENERALIZATION_INFOS_PROVIDER_CLASS,
-                GENERALIZATION_INFOS_PROVIDER_PARAM, NAMESPACEP };
+        return new Param[]{REPOSITORY_CLASS, GENERALIZATION_INFOS_PROVIDER_CLASS,
+                GENERALIZATION_INFOS_PROVIDER_PARAM, NAMESPACEP};
     }
 
     public boolean isAvailable() {

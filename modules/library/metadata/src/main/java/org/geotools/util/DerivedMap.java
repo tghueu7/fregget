@@ -38,15 +38,12 @@ import java.util.Set;
  * @param <BK> The type of keys in the backing map.
  * @param <K>  The type of keys in this map.
  * @param <V>  The type of values in both this map and the underlying map.
- *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.0
  */
-public abstract class DerivedMap<BK,K,V> extends AbstractMap<K,V> implements Serializable {
+public abstract class DerivedMap<BK, K, V> extends AbstractMap<K, V> implements Serializable {
     /**
      * Serial number for interoperability with different versions.
      */
@@ -58,7 +55,7 @@ public abstract class DerivedMap<BK,K,V> extends AbstractMap<K,V> implements Ser
      * @see #baseToDerived
      * @see #derivedToBase
      */
-    protected final Map<BK,V> base;
+    protected final Map<BK, V> base;
 
     /**
      * Key set. Will be constructed only when first needed.
@@ -72,7 +69,7 @@ public abstract class DerivedMap<BK,K,V> extends AbstractMap<K,V> implements Ser
      *
      * @see #entrySet
      */
-    private transient Set<Map.Entry<K,V>> entrySet;
+    private transient Set<Map.Entry<K, V>> entrySet;
 
     /**
      * The derived key type.
@@ -83,24 +80,22 @@ public abstract class DerivedMap<BK,K,V> extends AbstractMap<K,V> implements Ser
      * Creates a new derived map from the specified base map.
      *
      * @param base The base map.
-     *
      * @deprecated Use {@link #DerivedMap(Map, Class} instead.
      */
     @SuppressWarnings("unchecked")
-    public DerivedMap(final Map<BK,V> base) {
+    public DerivedMap(final Map<BK, V> base) {
         this(base, (Class) Object.class);
     }
 
     /**
      * Creates a new derived map from the specified base map.
      *
-     * @param base The base map.
+     * @param base    The base map.
      * @param keyType the type of keys in the derived map.
-     *
      * @since 2.5
      */
-    public DerivedMap(final Map<BK,V> base, final Class<K> keyType) {
-        this.base    = base;
+    public DerivedMap(final Map<BK, V> base, final Class<K> keyType) {
+        this.base = base;
         this.keyType = keyType;
     }
 
@@ -109,16 +104,16 @@ public abstract class DerivedMap<BK,K,V> extends AbstractMap<K,V> implements Ser
      * If there is no key in the derived map for the specified base key,
      * then this method returns {@code null}.
      *
-     * @param  key A ley from the {@linkplain #base} map.
+     * @param key A ley from the {@linkplain #base} map.
      * @return The key that this view should contains instead of {@code key},
-     *         or {@code null}.
+     * or {@code null}.
      */
     protected abstract K baseToDerived(final BK key);
 
     /**
      * Transforms a key from this derived map to a key in the {@linkplain #base} map.
      *
-     * @param  key A key in this map.
+     * @param key A key in this map.
      * @return The key stored in the {@linkplain #base} map.
      */
     protected abstract BK derivedToBase(final K key);
@@ -130,7 +125,7 @@ public abstract class DerivedMap<BK,K,V> extends AbstractMap<K,V> implements Ser
      */
     @Override
     public int size() {
-	return super.size();
+        return super.size();
     }
 
     /**
@@ -140,7 +135,7 @@ public abstract class DerivedMap<BK,K,V> extends AbstractMap<K,V> implements Ser
      */
     @Override
     public boolean isEmpty() {
-	return base.isEmpty() || super.isEmpty();
+        return base.isEmpty() || super.isEmpty();
     }
 
     /**
@@ -160,7 +155,7 @@ public abstract class DerivedMap<BK,K,V> extends AbstractMap<K,V> implements Ser
      * The default implementation invokes
      * <code>{@linkplain #base}.containsKey({@linkplain #derivedToBase derivedToBase}(key))</code>.
      *
-     * @param  key key whose presence in this map is to be tested.
+     * @param key key whose presence in this map is to be tested.
      * @return {@code true} if this map contains a mapping for the specified key.
      */
     @Override
@@ -177,7 +172,7 @@ public abstract class DerivedMap<BK,K,V> extends AbstractMap<K,V> implements Ser
      * The default implementation invokes
      * <code>{@linkplain #base}.get({@linkplain #derivedToBase derivedToBase}(key))</code>.
      *
-     * @param  key key whose associated value is to be returned.
+     * @param key key whose associated value is to be returned.
      * @return the value to which this map maps the specified key.
      */
     @Override
@@ -194,12 +189,12 @@ public abstract class DerivedMap<BK,K,V> extends AbstractMap<K,V> implements Ser
      * The default implementation invokes
      * <code>{@linkplain #base}.put({@linkplain #derivedToBase derivedToBase}(key), value)</code>.
      *
-     * @param  key key with which the specified value is to be associated.
-     * @param  value value to be associated with the specified key.
+     * @param key   key with which the specified value is to be associated.
+     * @param value value to be associated with the specified key.
      * @return previous value associated with specified key, or {@code null}
-     *	       if there was no mapping for key.
+     * if there was no mapping for key.
      * @throws UnsupportedOperationException if the {@linkplain #base} map doesn't
-     *         supports the {@code put} operation.
+     *                                       supports the {@code put} operation.
      */
     @Override
     public V put(final K key, final V value) throws UnsupportedOperationException {
@@ -211,11 +206,11 @@ public abstract class DerivedMap<BK,K,V> extends AbstractMap<K,V> implements Ser
      * The default implementation invokes
      * <code>{@linkplain #base}.remove({@linkplain #derivedToBase derivedToBase}(key))</code>.
      *
-     * @param  key key whose mapping is to be removed from the map.
+     * @param key key whose mapping is to be removed from the map.
      * @return previous value associated with specified key, or {@code null}
-     *	       if there was no entry for key.
+     * if there was no entry for key.
      * @throws UnsupportedOperationException if the {@linkplain #base} map doesn't
-     *         supports the {@code remove} operation.
+     *                                       supports the {@code remove} operation.
      */
     @Override
     public V remove(final Object key) throws UnsupportedOperationException {
@@ -256,7 +251,7 @@ public abstract class DerivedMap<BK,K,V> extends AbstractMap<K,V> implements Ser
      */
     @Override
     @SuppressWarnings("unchecked")
-    public Set<Map.Entry<K,V>> entrySet() {
+    public Set<Map.Entry<K, V>> entrySet() {
         if (entrySet == null) {
             entrySet = (Set) new EntrySet(base.entrySet());
         }
@@ -266,7 +261,7 @@ public abstract class DerivedMap<BK,K,V> extends AbstractMap<K,V> implements Ser
     /**
      * The key set.
      */
-    private final class KeySet extends DerivedSet<BK,K> {
+    private final class KeySet extends DerivedSet<BK, K> {
         private static final long serialVersionUID = -2931806200277420177L;
 
         public KeySet(final Set<BK> base) {
@@ -285,20 +280,20 @@ public abstract class DerivedMap<BK,K,V> extends AbstractMap<K,V> implements Ser
     /**
      * The entry set.
      */
-    private final class EntrySet extends DerivedSet<Map.Entry<BK,V>, Entry<BK,K,V>> {
+    private final class EntrySet extends DerivedSet<Map.Entry<BK, V>, Entry<BK, K, V>> {
         private static final long serialVersionUID = -2931806200277420177L;
 
         @SuppressWarnings("unchecked")
-        public EntrySet(final Set<Map.Entry<BK,V>> base) {
+        public EntrySet(final Set<Map.Entry<BK, V>> base) {
             super(base, (Class) Entry.class);
         }
 
-        protected Entry<BK,K,V> baseToDerived(final Map.Entry<BK,V> entry) {
+        protected Entry<BK, K, V> baseToDerived(final Map.Entry<BK, V> entry) {
             final K derived = DerivedMap.this.baseToDerived(entry.getKey());
-            return derived!=null ? new Entry<BK,K,V>(entry, derived) : null;
+            return derived != null ? new Entry<BK, K, V>(entry, derived) : null;
         }
 
-        protected Map.Entry<BK,V> derivedToBase(final Entry<BK,K,V> element) {
+        protected Map.Entry<BK, V> derivedToBase(final Entry<BK, K, V> element) {
             return element.entry;
         }
     }
@@ -306,12 +301,12 @@ public abstract class DerivedMap<BK,K,V> extends AbstractMap<K,V> implements Ser
     /**
      * The entry element.
      */
-    private static final class Entry<BK,K,V> implements Map.Entry<K,V> {
-        public final Map.Entry<BK,V> entry;
+    private static final class Entry<BK, K, V> implements Map.Entry<K, V> {
+        public final Map.Entry<BK, V> entry;
         private final K derived;
 
-        public Entry(final Map.Entry<BK,V> entry, final K derived) {
-            this.entry   = entry;
+        public Entry(final Map.Entry<BK, V> entry, final K derived) {
+            this.entry = entry;
             this.derived = derived;
         }
 

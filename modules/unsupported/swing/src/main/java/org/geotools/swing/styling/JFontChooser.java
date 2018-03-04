@@ -45,29 +45,33 @@ import org.opengis.filter.expression.Literal;
  * <p>
  *
  * @author Michael Bedward
- * @since 2.6
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.6
  */
 public class JFontChooser extends JDialog {
 
-    /** serialVersionUID */
+    /**
+     * serialVersionUID
+     */
     private static final long serialVersionUID = -1543116265293436599L;
     private static StyleFactory sf = CommonFactoryFinder.getStyleFactory(null);
     private static FilterFactory ff = CommonFactoryFinder.getFilterFactory(null);
 
-    private static final String[] families = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+    private static final String[] families = GraphicsEnvironment.getLocalGraphicsEnvironment()
+            .getAvailableFontFamilyNames();
     private static final String[] styles = {"Normal", "Italic"};
     private static final String[] weights = {"Normal", "Bold"};
-    private static final Integer[] sizes = {2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 28, 32, 36, 48, 72};
+    private static final Integer[] sizes = {2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 28, 32, 
+            36, 48, 72};
 
     private static final String sampleText =
             "ABCDEFGHIJKLMNOPQRSTUVWXYZ\n" +
-            "abcdefghijklmnopqrstuvwxyz\n" +
-            "0123456789\n" +
-            "The quick brown fox jumped over the lazy dog";
+                    "abcdefghijklmnopqrstuvwxyz\n" +
+                    "0123456789\n" +
+                    "The quick brown fox jumped over the lazy dog";
     private static final int sampleTextLines = 4;
-    
+
     private JComboBox<String> familyCBox;
     private JComboBox<String> styleCBox;
     private JComboBox<String> weightCBox;
@@ -86,13 +90,10 @@ public class JFontChooser extends JDialog {
      * Static method to display a JFontChooser dialog and return the selected
      * font as a new Font object.
      *
-     * @param owner the parent {@code JFrame} or {@code JDialog}; may be {@code null}
-     *
-     * @param title dialog title
-     *
+     * @param owner     the parent {@code JFrame} or {@code JDialog}; may be {@code null}
+     * @param title     dialog title
      * @param labelFont the initial font displayed by the dialog, or {@code null}
-     *        for the default GeoTools font
-     *
+     *                  for the default GeoTools font
      * @return a new Font object or {@code null} if the user cancelled the dialog
      */
     public static Font showDialog(Component owner, String title, Font labelFont) {
@@ -126,10 +127,10 @@ public class JFontChooser extends JDialog {
     /**
      * Constructor
      *
-     * @param owner parent frame or {@code null}
-     * @param title dialog title
+     * @param owner       parent frame or {@code null}
+     * @param title       dialog title
      * @param initialFont the initial font for the chooser to display, or {@code null}
-     *        for the GeoTools default font
+     *                    for the GeoTools default font
      */
     public JFontChooser(JFrame owner, String title, Font initialFont) {
         super(owner, title, true);
@@ -143,10 +144,10 @@ public class JFontChooser extends JDialog {
     /**
      * Constructor
      *
-     * @param owner parent dialog or {@code null}
-     * @param title dialog title
+     * @param owner       parent dialog or {@code null}
+     * @param title       dialog title
      * @param initialFont the initial font for the chooser to display, or {@code null}
-     *        for the GeoTools default font
+     *                    for the GeoTools default font
      */
     public JFontChooser(JDialog owner, String title, Font initialFont) {
         super(owner, title, true);
@@ -159,6 +160,7 @@ public class JFontChooser extends JDialog {
 
     /**
      * Query if the dialog was completed (user clicked the Apply button)
+     *
      * @return true if completed; false otherwise
      */
     public boolean completed() {
@@ -167,7 +169,7 @@ public class JFontChooser extends JDialog {
 
     /**
      * Get the selected font
-     * 
+     *
      * @return the selected font or {@code null} if the dialog
      * was cancelled
      */
@@ -315,7 +317,7 @@ public class JFontChooser extends JDialog {
 
     private void showSample() {
         StringBuilder sb = new StringBuilder(families[familyIndex]);
-        
+
         if (weightIndex == 0) {
             if (styleIndex == 0) {
                 sb.append("-PLAIN-");

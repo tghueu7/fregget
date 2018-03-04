@@ -35,67 +35,69 @@ import org.junit.Test;
  * Tests for SingleTaskRenderingExecutor.
  *
  * @author Michael Bedward
- * @since 8.0
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 public class DefaultRenderingExecutorTest extends RenderingExecutorTestBase {
-    
+
     @Before
     public void localSetup() {
         super.setup();
     }
-    
+
     @Test
     public void shutdownExecutor() {
         assertFalse(executor.isShutdown());
         executor.shutdown();
         assertTrue(executor.isShutdown());
     }
-    
-    @Test(expected=IllegalStateException.class)
+
+    @Test(expected = IllegalStateException.class)
     public void submitAfterShutdown() {
         executor.shutdown();
         createSubmitObjects();
         executor.submit(mapContent, renderer, graphics, listener);
     }
-    
+
     @Test
     public void setAndGetPollingInterval() {
         long poll = executor.getPollingInterval();
         executor.setPollingInterval(poll * 2);
         assertEquals(poll * 2, executor.getPollingInterval());
     }
-    
+
     @Test
     public void invalidPollingInterval() {
         long poll = executor.getPollingInterval();
-        
+
         // should be ignored
         executor.setPollingInterval(-1);
         assertEquals(poll, executor.getPollingInterval());
     }
-    
+
     /**
      * GEOT-5563
-     * 
+     * <p>
      * Tests that the renderer continue to work on subsequent submits after a single
      * submit has failed due to a layer failure.
-     * 
      */
     @Test
     public void testContinuedOperationAfterLayerFail() {
         createSubmitObjects();
-        //Test requires that a map is _actually_ drawn, so cannot use the MockRenderer - replace it here
+        //Test requires that a map is _actually_ drawn, so cannot use the MockRenderer - replace 
+        // it here
         class FailableMockRenderer extends MockRenderer {
             boolean mockFail;
+
             public FailableMockRenderer(MapContent map) {
                 super(map);
             }
+
             public void setFail(boolean fail) {
                 this.mockFail = fail;
             }
+
             //Just fill the graphics with red ... our test will be looking for this
             @Override
             protected void pretendToPaint() {
@@ -107,15 +109,17 @@ public class DefaultRenderingExecutorTest extends RenderingExecutorTestBase {
                 //which simulate the actual behaviour if the map has multiple layers, only
                 //one of which fails.
                 if (mockFail) {
-                    listeners.forEach(listener->listener.errorOccurred(new RuntimeException("Simulated layer rendering failure")));
+                    listeners.forEach(listener -> listener.errorOccurred(new RuntimeException
+                            ("Simulated layer rendering failure")));
                 }
             }
-        };
- 
+        }
+        ;
+
         FailableMockRenderer failableRenderer = new FailableMockRenderer(mapContent);
         this.renderer = failableRenderer;
         renderer.setPaintTime(10);
-        
+
         //Execute with no problems
         clearGraphics();
         listener.setExpected(WaitingRenderingExecutorListener.Type.STARTED);
@@ -127,7 +131,7 @@ public class DefaultRenderingExecutorTest extends RenderingExecutorTestBase {
         assertTrue(listener.eventReceived(WaitingRenderingExecutorListener.Type.STARTED));
         assertTrue(listener.eventReceived(WaitingRenderingExecutorListener.Type.COMPLETED));
         checkGraphicsWasPainted();
-        
+
         //Now deliberately fail the render
         clearGraphics();
         listener.setExpected(WaitingRenderingExecutorListener.Type.STARTED);
@@ -140,7 +144,7 @@ public class DefaultRenderingExecutorTest extends RenderingExecutorTestBase {
         assertTrue(listener.eventReceived(WaitingRenderingExecutorListener.Type.FAILED));
         //Actual failed submission still paints as expected
         checkGraphicsWasPainted();
-        
+
         //Now remove the failure and submit again
         clearGraphics();
         listener.setExpected(WaitingRenderingExecutorListener.Type.STARTED);
@@ -152,13 +156,13 @@ public class DefaultRenderingExecutorTest extends RenderingExecutorTestBase {
         assertTrue(listener.eventReceived(WaitingRenderingExecutorListener.Type.STARTED));
         assertTrue(listener.eventReceived(WaitingRenderingExecutorListener.Type.COMPLETED));
         checkGraphicsWasPainted();             //Prior to fix, nothing is drawn
-       
-        
+
+
     }
 
     private void checkGraphicsWasPainted() {
         WritableRaster raster = image.getRaster();
-        
+
         int[] pixel = new int[4];
         raster.getPixel(1, 1, pixel);
         assertEquals("Pixel at (1,1) was not renderered", 255, pixel[0]);

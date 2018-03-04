@@ -26,24 +26,22 @@ import com.vividsolutions.jts.geom.Envelope;
 
 /**
  * LineCoveredByFeatureLineValidation purpose.
- * 
+ * <p>
  * <p>
  * TODO No idea, fill this in.
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: jive $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class LineCoveredByFeatureLineValidation
-    extends DefaultIntegrityValidation {
-    
+        extends DefaultIntegrityValidation {
+
     /**
      * LineCoveredByFeatureLineValidation constructor.
-     * 
+     * <p>
      * <p>
      * Description
      * </p>
@@ -54,25 +52,22 @@ public class LineCoveredByFeatureLineValidation
 
     /**
      * Ensure Line is covered by the Line.
-     * 
+     * <p>
      * <p></p>
      *
-     * @param layers a HashMap of key="TypeName" value="FeatureSource"
+     * @param layers   a HashMap of key="TypeName" value="FeatureSource"
      * @param envelope The bounding box of modified features
-     * @param results Storage for the error and warning messages
-     *
+     * @param results  Storage for the error and warning messages
      * @return True if no features intersect. If they do then the validation
-     *         failed.
-     *
+     * failed.
      * @throws Exception DOCUMENT ME!
-     *
      * @see org.geotools.validation.IntegrityValidation#validate(java.util.Map,
-     *      com.vividsolutions.jts.geom.Envelope,
-     *      org.geotools.validation.ValidationResults)
+     * com.vividsolutions.jts.geom.Envelope,
+     * org.geotools.validation.ValidationResults)
      */
     public boolean validate(Map layers, Envelope envelope,
-        ValidationResults results) throws Exception {
-        
+                            ValidationResults results) throws Exception {
+
         //TODO Fix Me
         return false;
     }

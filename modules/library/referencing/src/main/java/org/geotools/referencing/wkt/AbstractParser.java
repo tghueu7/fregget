@@ -41,16 +41,16 @@ import org.geotools.resources.i18n.ErrorKeys;
 /**
  * Base class for <cite>Well Know Text</cite> (WKT) parser.
  *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Remi Eve
  * @author Martin Desruisseaux (IRD)
- *
- * @see <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html">Well Know Text specification</A>
- * @see <A HREF="http://gdal.velocet.ca/~warmerda/wktproblems.html">OGC WKT Coordinate System Issues</A>
+ * @version $Id$
+ * @source $URL$
+ * @see <A HREF="http://geoapi.sourceforge
+ * .net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html">Well Know Text 
+ * specification</A>
+ * @see <A HREF="http://gdal.velocet.ca/~warmerda/wktproblems.html">OGC WKT Coordinate System 
+ * Issues</A>
+ * @since 2.0
  */
 public abstract class AbstractParser extends Format {
     /**
@@ -84,7 +84,7 @@ public abstract class AbstractParser extends Format {
      * @param symbols The set of symbols to use.
      */
     public AbstractParser(final Symbols symbols) {
-        this.symbols      = symbols;
+        this.symbols = symbols;
         this.numberFormat = (NumberFormat) symbols.numberFormat.clone();
         if (SCIENTIFIC_NOTATION && numberFormat instanceof DecimalFormat) {
             final DecimalFormat numberFormat = (DecimalFormat) this.numberFormat;
@@ -121,7 +121,7 @@ public abstract class AbstractParser extends Format {
     public void setAuthority(final Citation authority) {
         if (authority == null) {
             throw new IllegalArgumentException(Errors.format(
-                      ErrorKeys.NULL_ARGUMENT_$1, "authority"));
+                    ErrorKeys.NULL_ARGUMENT_$1, "authority"));
         }
         getFormatter().setAuthority(authority);
     }
@@ -131,7 +131,6 @@ public abstract class AbstractParser extends Format {
      * By default, syntax coloring is disabled.
      *
      * @return {@code true} if syntax coloring are enabled.
-     *
      * @since 2.4
      */
     public boolean isColorEnabled() {
@@ -145,7 +144,6 @@ public abstract class AbstractParser extends Format {
      * {@link org.geotools.referencing.CRS#equalsIgnoreMetadata}.
      *
      * @param enabled {@code true} for enabling syntax coloring.
-     *
      * @since 2.4
      */
     public void setColorEnabled(final boolean enabled) {
@@ -155,7 +153,7 @@ public abstract class AbstractParser extends Format {
     /**
      * Parses a <cite>Well Know Text</cite> (WKT).
      *
-     * @param  text The text to be parsed.
+     * @param text The text to be parsed.
      * @return The object.
      * @throws ParseException if the string can't be parsed.
      */
@@ -170,8 +168,8 @@ public abstract class AbstractParser extends Format {
     /**
      * Parses a <cite>Well Know Text</cite> (WKT).
      *
-     * @param  text The text to be parsed.
-     * @param  position The position to start parsing from.
+     * @param text     The text to be parsed.
+     * @param position The position to start parsing from.
      * @return The object.
      */
     public final Object parseObject(final String text, final ParsePosition position) {
@@ -200,7 +198,7 @@ public abstract class AbstractParser extends Format {
             Number number = numberFormat.parse(text, position);
             if (number != null) {
                 int i = position.getIndex();
-                if (i<text.length() && text.charAt(i)=='e') {
+                if (i < text.length() && text.charAt(i) == 'e') {
                     final StringBuilder buffer = new StringBuilder(text);
                     buffer.setCharAt(i, 'E');
                     text = buffer.toString();
@@ -217,7 +215,7 @@ public abstract class AbstractParser extends Format {
     /**
      * Parses the next element in the specified <cite>Well Know Text</cite> (WKT) tree.
      *
-     * @param  element The element to be parsed.
+     * @param element The element to be parsed.
      * @return The object.
      * @throws ParseException if the element can't be parsed.
      */
@@ -226,15 +224,14 @@ public abstract class AbstractParser extends Format {
     /**
      * Returns a tree of {@link Element} for the specified text.
      *
-     * @param  text       The text to parse.
-     * @param  position   In input, the position where to start parsing from.
-     *                    In output, the first character after the separator.
+     * @param text     The text to parse.
+     * @param position In input, the position where to start parsing from.
+     *                 In output, the first character after the separator.
      * @return The tree of elements to parse.
      * @throws ParseException If an parsing error occured while creating the tree.
      */
     protected final Element getTree(final String text, final ParsePosition position)
-            throws ParseException
-    {
+            throws ParseException {
         return new Element(new Element(this, text, position));
     }
 
@@ -262,13 +259,11 @@ public abstract class AbstractParser extends Format {
      * @param object     The object to format.
      * @param toAppendTo Where the text is to be appended.
      * @param pos        An identification of a field in the formatted text.
-     *
      * @see #getWarning
      */
-    public StringBuffer format(final Object        object,
-                               final StringBuffer  toAppendTo,
-                               final FieldPosition pos)
-    {
+    public StringBuffer format(final Object object,
+                               final StringBuffer toAppendTo,
+                               final FieldPosition pos) {
         final Formatter formatter = getFormatter();
         try {
             formatter.clear();
@@ -296,20 +291,19 @@ public abstract class AbstractParser extends Format {
      * an unparsable WKT has been hit. In this later case, an error message is
      * formatted to the specified error stream.
      *
-     * @param  in  The input stream.
-     * @param  out The output stream.
-     * @param  err The error stream.
+     * @param in  The input stream.
+     * @param out The output stream.
+     * @param err The error stream.
      * @throws IOException if an error occured while reading from the input stream
-     *         or writting to the output stream.
+     *                     or writting to the output stream.
      */
     public void reformat(final BufferedReader in, final Writer out, final PrintWriter err)
-            throws IOException
-    {
+            throws IOException {
         final String lineSeparator = System.getProperty("line.separator", "\n");
         String line = null;
         try {
-            while ((line=in.readLine()) != null) {
-                if ((line=line.trim()).length() != 0) {
+            while ((line = in.readLine()) != null) {
+                if ((line = line.trim()).length() != 0) {
                     out.write(lineSeparator);
                     out.write(format(parseObject(line)));
                     out.write(lineSeparator);
@@ -335,7 +329,6 @@ public abstract class AbstractParser extends Format {
      * every time a new object is formatted.
      *
      * @return The last warning, or {@code null} if none.
-     *
      * @since 2.4
      */
     public String getWarning() {
@@ -343,7 +336,8 @@ public abstract class AbstractParser extends Format {
             if (formatter.warning != null) {
                 return formatter.warning;
             }
-            return Errors.format(ErrorKeys.INVALID_WKT_FORMAT_$1, formatter.getUnformattableClass());
+            return Errors.format(ErrorKeys.INVALID_WKT_FORMAT_$1, formatter.getUnformattableClass
+                    ());
         }
         return null;
     }
@@ -351,18 +345,18 @@ public abstract class AbstractParser extends Format {
     /**
      * Report a failure while parsing the specified line.
      *
-     * @param err  The stream where to report the failure.
-     * @param line The line that failed.
+     * @param err         The stream where to report the failure.
+     * @param line        The line that failed.
      * @param errorOffset The error offset in the specified line. This is usually the
-     *        value provided by {@link ParseException#getErrorOffset}.
+     *                    value provided by {@link ParseException#getErrorOffset}.
      */
     static void reportError(final PrintWriter err, String line, int errorOffset) {
         line = line.replace('\r', ' ').replace('\n', ' ');
-        final int WINDOW_WIDTH    = 80; // Arbitrary value.
-        int           stop        = line.length();
-        int           base        = errorOffset - WINDOW_WIDTH/2;
-        final int     baseMax     = stop - WINDOW_WIDTH;
-        final boolean hasTrailing = (Math.max(base,0) < baseMax);
+        final int WINDOW_WIDTH = 80; // Arbitrary value.
+        int stop = line.length();
+        int base = errorOffset - WINDOW_WIDTH / 2;
+        final int baseMax = stop - WINDOW_WIDTH;
+        final boolean hasTrailing = (Math.max(base, 0) < baseMax);
         if (!hasTrailing) {
             base = baseMax;
         }

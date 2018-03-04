@@ -23,16 +23,16 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/se:MapItem.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
- *  &lt;xsd:element name="MapItem" substitutionGroup="ogc:expression" type="se:MapItemType"/&gt; 
- * 	
+ *  &lt;xsd:element name="MapItem" substitutionGroup="ogc:expression" type="se:MapItemType"/&gt;
+ *
  *   </code>
  * </pre>
- ** 
+ * *
  * <pre>
  *       <code>
  *  &lt;xsd:complexType name="MapItemType"&gt;
@@ -44,16 +44,14 @@ import javax.xml.namespace.QName;
  *              &lt;/xsd:sequence&gt;
  *          &lt;/xsd:extension&gt;
  *      &lt;/xsd:complexContent&gt;
- *  &lt;/xsd:complexType&gt; 
- *              
+ *  &lt;/xsd:complexType&gt;
+ *
  *        </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class MapItemBinding extends AbstractComplexBinding {
@@ -67,7 +65,7 @@ public class MapItemBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -76,7 +74,7 @@ public class MapItemBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {

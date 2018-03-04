@@ -17,6 +17,7 @@
 package org.geotools.kml.bindings;
 
 import javax.xml.namespace.QName;
+
 import com.vividsolutions.jts.geom.LinearRing;
 import org.geotools.kml.KML;
 import org.geotools.xml.AbstractComplexBinding;
@@ -26,9 +27,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://earth.google.com/kml/2.1:boundaryType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType final="#all" name="boundaryType"&gt;
  *      &lt;all&gt;
@@ -41,9 +42,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class BoundaryTypeBinding extends AbstractComplexBinding {
@@ -71,15 +69,15 @@ public class BoundaryTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return node.getChildValue(LinearRing.class);
     }
-    
+
     public Object getProperty(Object object, QName name) throws Exception {
-        if ( KML.LinearRing.getLocalPart().equals( name.getLocalPart() ) ) {
+        if (KML.LinearRing.getLocalPart().equals(name.getLocalPart())) {
             return object;
         }
-        
+
         return null;
     }
 }

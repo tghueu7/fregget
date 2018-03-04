@@ -28,7 +28,6 @@ import org.geotools.gce.imagemosaic.Utils.SourceGetter;
 /**
  * A {@link CoverageNameCollectorSPI} implementation setting up the coverage name based on a regex
  * applied to the fileName.
- *
  */
 public class FileNameRegexNameCollectorSPI implements CoverageNameCollectorSPI {
 

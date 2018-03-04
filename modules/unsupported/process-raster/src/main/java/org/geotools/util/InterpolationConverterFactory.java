@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2014, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -31,29 +31,30 @@ import org.geotools.factory.Hints;
 
 /**
  * Convert String to Interpolation classes.
- * 
+ *
  * @author Simone Giannecchini, GeoSolutions
- * @since 12.0
  * @version 11.0
- * 
  * @source $URL$
+ * @since 12.0
  */
 public class InterpolationConverterFactory implements ConverterFactory {
 
     private static final Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger(InterpolationConverterFactory.class);
 
-    private final static InterpolationConverter THE_INTERPOLATION_CONVERTER = new InterpolationConverter();
+    private final static InterpolationConverter THE_INTERPOLATION_CONVERTER = new 
+            InterpolationConverter();
 
     /**
      * Delegates to {@link ConvertUtils#lookup(java.lang.Class)} to create a converter instance.
-     * 
+     *
      * @see ConverterFactory#createConverter(Class, Class, Hints).
      */
     public Converter createConverter(Class<?> source, Class<?> target, Hints hints) {
         if (source == null || target == null || !source.equals(String.class)) {
             if (LOGGER.isLoggable(Level.FINE)) {
-                LOGGER.fine("InterpolationConverterFactory can be applied from Strings to Interpolation only.");
+                LOGGER.fine("InterpolationConverterFactory can be applied from Strings to " +
+                        "Interpolation only.");
             }
             return null; // only do strings
         }
@@ -61,13 +62,15 @@ public class InterpolationConverterFactory implements ConverterFactory {
             return THE_INTERPOLATION_CONVERTER;
         } else {
             if (LOGGER.isLoggable(Level.FINE)) {
-                LOGGER.fine("InterpolationConverterFactory can be applied from Strings to Interpolation  only.");
+                LOGGER.fine("InterpolationConverterFactory can be applied from Strings to " +
+                        "Interpolation  only.");
             }
         }
         return null;
     }
 
     // some additional converters
+
     /**
      * converts a string to an Interpolation Object.
      */
@@ -95,7 +98,8 @@ public class InterpolationConverterFactory implements ConverterFactory {
             InterpolationParser parser = InterpolationParser.valueOf(key);
             if (parser == null) {
                 if (LOGGER.isLoggable(Level.FINE)) {
-                    LOGGER.fine("InterpolationConverterFactory can be applied to Strings like interpolation????(XXX). "
+                    LOGGER.fine("InterpolationConverterFactory can be applied to Strings like " +
+                            "interpolation????(XXX). "
                             + source + " is invalid!");
                 }
             }
@@ -111,9 +115,7 @@ public class InterpolationConverterFactory implements ConverterFactory {
     }
 
     /**
-     * 
      * @author Simone Giannecchini, GeoSolutions
-     * 
      */
     enum InterpolationParser {
         INTERPOLATIONNEAREST {
@@ -137,7 +139,8 @@ public class InterpolationConverterFactory implements ConverterFactory {
         INTERPOLATIONBILINEAR {
 
             /** INTERPOLATION_BILINEAR */
-            private final InterpolationBilinear INTERPOLATION_BILINEAR = new InterpolationBilinear();
+            private final InterpolationBilinear INTERPOLATION_BILINEAR = new 
+                    InterpolationBilinear();
 
             private final Pattern INTERPOLATION_BILINEAR_PATTERN_MATCH = Pattern
                     .compile("InterpolationBilinear\\(\\d+\\)");

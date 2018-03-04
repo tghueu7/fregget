@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -19,6 +19,7 @@ package org.geotools.factory;
 import java.util.Map;
 import java.util.Collections;
 import java.awt.RenderingHints;
+
 import static org.junit.Assert.*;
 
 
@@ -28,9 +29,9 @@ import static org.junit.Assert.*;
  * just need a {@code InternalFactory.class} value different
  * than {@code DummyFactory.class}.
  *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
  */
 interface InternalFactory extends Factory {
 }
@@ -38,12 +39,9 @@ interface InternalFactory extends Factory {
 /**
  * Dummy factory interface for {@link FactoryRegistryTest}.
  *
- *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
  */
 public interface DummyFactory extends InternalFactory {
     /**
@@ -68,7 +66,7 @@ public interface DummyFactory extends InternalFactory {
 
         public Map<RenderingHints.Key, ?> getImplementationHints() {
             return Collections.singletonMap(Hints.KEY_INTERPOLATION,
-                                            Hints.VALUE_INTERPOLATION_BILINEAR);
+                    Hints.VALUE_INTERPOLATION_BILINEAR);
         }
     }
 
@@ -116,7 +114,7 @@ public interface DummyFactory extends InternalFactory {
 
         public Map<RenderingHints.Key, ?> getImplementationHints() {
             return Collections.singletonMap(Hints.KEY_INTERPOLATION,
-                                            Hints.VALUE_INTERPOLATION_BICUBIC);
+                    Hints.VALUE_INTERPOLATION_BICUBIC);
         }
     }
 
@@ -133,7 +131,7 @@ public interface DummyFactory extends InternalFactory {
         }
 
         public Example5(Hints hints) {
-            if (hints!=null && hints.containsKey(Hints.KEY_INTERPOLATION)) {
+            if (hints != null && hints.containsKey(Hints.KEY_INTERPOLATION)) {
                 value = hints.get(Hints.KEY_INTERPOLATION);
             }
         }

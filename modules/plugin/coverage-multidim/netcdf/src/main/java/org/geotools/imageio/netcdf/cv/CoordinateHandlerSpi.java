@@ -23,45 +23,49 @@ import ucar.nc2.dataset.CoordinateAxis1D;
 
 /**
  * Constructs a live CoordinateHandler
- *
+ * <p>
  * <p>
  * In addition to implementing this interface, this service file should be defined:
  * </p>
- *
+ * <p>
  * <p>
  * <code>META-INF/services/org.geotools.imageio.netcdf.cv.CoordinateHandlerSpi</code>
  * </p>
- *
+ * <p>
  * <p>
  * The file should contain a single line which gives the full name of the implementing class.
  * </p>
- *
+ * <p>
  * <p>
  * example:<br/>
  * <code>e.g.
  * org.geotools.imageio.netcdf.cv.ClimatologicalTimeHandlerSPI</code>
  * </p>
- *
  * <p>
- * The factories are never called directly by users, instead the CoordinateHandlerFinder class is used.
+ * <p>
+ * The factories are never called directly by users, instead the CoordinateHandlerFinder class is
+ * used.
  * </p>
- *
  */
 public interface CoordinateHandlerSpi {
 
-    /** 
-     * Check if the specified spi can handle the provided axis 
+    /**
+     * Check if the specified spi can handle the provided axis
      * through a {@link CoordinateHandler}
-
+     *
      * @param axis
      * @return
      */
     public boolean canHandle(CoordinateAxis axis);
 
-    /** Create a {@link CoordinateHandler} */
+    /**
+     * Create a {@link CoordinateHandler}
+     */
     public CoordinateHandler createHandler();
 
-    /** Return a set of dimensions to be ignored */
+    /**
+     * Return a set of dimensions to be ignored
+     */
     public Set<String> getIgnoreSet();
 
     public interface CoordinateHandler {

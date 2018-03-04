@@ -30,9 +30,9 @@ import com.vividsolutions.jts.geom.MultiPolygon;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:MultiPolygonPropertyType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="MultiPolygonPropertyType"&gt;
  *      &lt;annotation&gt;
@@ -56,9 +56,6 @@ import com.vividsolutions.jts.geom.MultiPolygon;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLMultiPolygonPropertyTypeBinding extends AbstractComplexBinding {
@@ -86,18 +83,19 @@ public class GMLMultiPolygonPropertyTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return node.getChildValue((MultiPolygon.class));
     }
-    
+
     @Override
     public Object getProperty(Object object, QName name) throws Exception {
-        return GML2EncodingUtils.GeometryPropertyType_getProperty((MultiPolygon)object,name,false);
+        return GML2EncodingUtils.GeometryPropertyType_getProperty((MultiPolygon) object, name, 
+                false);
     }
-    
+
     @Override
     public List getProperties(Object object, XSDElementDeclaration element)
             throws Exception {
-        return GML2EncodingUtils.GeometryPropertyType_getProperties((MultiPolygon)object);
+        return GML2EncodingUtils.GeometryPropertyType_getProperties((MultiPolygon) object);
     }
 }

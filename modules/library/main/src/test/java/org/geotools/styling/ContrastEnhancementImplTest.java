@@ -28,9 +28,8 @@ import org.opengis.style.ContrastMethod;
 
 /**
  * The ContrastEnhancementImpl UnitTest
+ *
  * @author Jared Erickson
- *
- *
  * @source $URL$
  */
 public class ContrastEnhancementImplTest extends TestCase {
@@ -45,7 +44,8 @@ public class ContrastEnhancementImplTest extends TestCase {
         ContrastEnhancementImpl contrastEnhancementImpl = new ContrastEnhancementImpl();
         double expected = 1.5;
         contrastEnhancementImpl.setGammaValue(filterFactory.literal(expected));
-        double actual = ((Double)((Literal)contrastEnhancementImpl.getGammaValue()).getValue()).doubleValue();
+        double actual = ((Double) ((Literal) contrastEnhancementImpl.getGammaValue()).getValue())
+                .doubleValue();
         assertEquals(expected, actual, 0.1);
     }
 

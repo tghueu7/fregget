@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
- *   
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -28,11 +28,10 @@ import org.opengis.referencing.crs.CRSAuthorityFactory;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
- * A factory providing NetCDF/GRIB custom {@link CoordinateReferenceSystem} 
+ * A factory providing NetCDF/GRIB custom {@link CoordinateReferenceSystem}
  * instances with the related custom EPSG.
- * 
- * @author Daniele Romagnoli - GeoSolutions
  *
+ * @author Daniele Romagnoli - GeoSolutions
  */
 public class NetCDFCRSAuthorityFactory extends FactoryUsingWKT implements CRSAuthorityFactory {
     public static final String SYSTEM_DEFAULT_USER_PROJ_FILE = "netcdf.projections.file";

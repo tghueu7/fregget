@@ -48,7 +48,8 @@ class IndexedShapefileFeatureWriter extends ShapefileFeatureWriter implements Fi
     private IndexManager indexes;
 
     public IndexedShapefileFeatureWriter(IndexManager indexes,
-            ShapefileFeatureReader featureReader, Charset charset, TimeZone timeZone)
+                                         ShapefileFeatureReader featureReader, Charset charset, 
+                                         TimeZone timeZone)
             throws IOException {
         super(indexes.shpFiles, featureReader, charset, timeZone);
         this.indexes = indexes;

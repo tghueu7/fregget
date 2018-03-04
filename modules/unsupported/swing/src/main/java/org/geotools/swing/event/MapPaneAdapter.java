@@ -20,13 +20,12 @@ package org.geotools.swing.event;
 /**
  * An adapter class that implements all of the methods defined by
  * {@code MapPaneListener} as empty methods, allowing sub-classes
- * to just override the methods they need. 
+ * to just override the methods they need.
  *
  * @author Michael Bedward
- * @since 2.6
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.6
  */
 public class MapPaneAdapter implements MapPaneListener {
 
@@ -34,24 +33,28 @@ public class MapPaneAdapter implements MapPaneListener {
      * {@inheritDoc}
      */
     @Override
-    public void onNewMapContent(MapPaneEvent ev) {}
+    public void onNewMapContent(MapPaneEvent ev) {
+    }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void onDisplayAreaChanged(MapPaneEvent ev) {}
+    public void onDisplayAreaChanged(MapPaneEvent ev) {
+    }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void onRenderingStarted(MapPaneEvent ev) {}
+    public void onRenderingStarted(MapPaneEvent ev) {
+    }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void onRenderingStopped(MapPaneEvent ev) {}
+    public void onRenderingStopped(MapPaneEvent ev) {
+    }
 
 }

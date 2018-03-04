@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -45,19 +45,15 @@ import org.geotools.resources.i18n.Errors;
 /**
  * The definition of a group of related parameters used by an operation method.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see ParameterGroup
  * @see DefaultParameterDescriptor
+ * @since 2.1
  */
 public class DefaultParameterDescriptorGroup extends AbstractParameterDescriptor
-        implements ParameterDescriptorGroup
-{
+        implements ParameterDescriptorGroup {
     /**
      * Serial number for interoperability with different versions.
      */
@@ -97,12 +93,11 @@ public class DefaultParameterDescriptorGroup extends AbstractParameterDescriptor
      * Constructs a parameter group from a name.
      * This parameter group will be required exactly once.
      *
-     * @param name The parameter group name.
+     * @param name       The parameter group name.
      * @param parameters The {@linkplain #descriptors() parameter descriptors} for this group.
      */
     public DefaultParameterDescriptorGroup(final String name,
-                                           final GeneralParameterDescriptor[] parameters)
-    {
+                                           final GeneralParameterDescriptor[] parameters) {
         this(Collections.singletonMap(NAME_KEY, name), parameters);
     }
 
@@ -110,30 +105,28 @@ public class DefaultParameterDescriptorGroup extends AbstractParameterDescriptor
      * Constructs a parameter group from a name and an authority.
      * This parameter group will be required exactly once.
      *
-     * @param authority The authority (e.g.
-     *        {@link org.geotools.metadata.iso.citation.Citations#OGC OGC}).
-     * @param name The parameter group name.
+     * @param authority  The authority (e.g.
+     *                   {@link org.geotools.metadata.iso.citation.Citations#OGC OGC}).
+     * @param name       The parameter group name.
      * @param parameters The {@linkplain #descriptors() parameter descriptors} for this group.
-     *
      * @since 2.2
      */
     public DefaultParameterDescriptorGroup(final Citation authority, final String name,
-                                           final GeneralParameterDescriptor[] parameters)
-    {
+                                           final GeneralParameterDescriptor[] parameters) {
         this(Collections.singletonMap(NAME_KEY, new NamedIdentifier(authority, name)), parameters);
     }
 
     /**
      * Constructs a parameter group from a set of properties.
      * This parameter group will be required exactly once. The properties map is given unchanged to
-     * the {@linkplain AbstractIdentifiedObject#AbstractIdentifiedObject(Map) super-class constructor}.
+     * the 
+     * {@linkplain AbstractIdentifiedObject#AbstractIdentifiedObject(Map) super-class constructor}.
      *
      * @param properties Set of properties. Should contains at least {@code "name"}.
      * @param parameters The {@linkplain #descriptors() parameter descriptors} for this group.
      */
-    public DefaultParameterDescriptorGroup(final Map<String,?> properties,
-                                           final GeneralParameterDescriptor[] parameters)
-    {
+    public DefaultParameterDescriptorGroup(final Map<String, ?> properties,
+                                           final GeneralParameterDescriptor[] parameters) {
         this(properties, 1, 1, parameters);
     }
 
@@ -142,23 +135,22 @@ public class DefaultParameterDescriptorGroup extends AbstractParameterDescriptor
      * unchanged to the {@linkplain AbstractIdentifiedObject#AbstractIdentifiedObject(Map)
      * super-class constructor}.
      *
-     * @param properties Set of properties. Should contains at least {@code "name"}.
+     * @param properties    Set of properties. Should contains at least {@code "name"}.
      * @param minimumOccurs The {@linkplain #getMinimumOccurs minimum number of times}
-     *        that values for this parameter group are required.
+     *                      that values for this parameter group are required.
      * @param maximumOccurs The {@linkplain #getMaximumOccurs maximum number of times}
-     *        that values for this parameter group are required.
-     * @param parameters The {@linkplain #descriptors() parameter descriptors} for this group.
+     *                      that values for this parameter group are required.
+     * @param parameters    The {@linkplain #descriptors() parameter descriptors} for this group.
      */
-    public DefaultParameterDescriptorGroup(final Map<String,?> properties,
+    public DefaultParameterDescriptorGroup(final Map<String, ?> properties,
                                            final int minimumOccurs,
                                            final int maximumOccurs,
-                                           GeneralParameterDescriptor[] parameters)
-    {
+                                           GeneralParameterDescriptor[] parameters) {
         super(properties, minimumOccurs, maximumOccurs);
         this.maximumOccurs = maximumOccurs;
         ensureNonNull("parameters", parameters);
         this.parameters = new GeneralParameterDescriptor[parameters.length];
-        for (int i=0; i<parameters.length; i++) {
+        for (int i = 0; i < parameters.length; i++) {
             this.parameters[i] = parameters[i];
             ensureNonNull("parameters", parameters, i);
         }
@@ -166,14 +158,14 @@ public class DefaultParameterDescriptorGroup extends AbstractParameterDescriptor
          * Ensure there is no conflict in parameter names.
          */
         parameters = this.parameters;
-        for (int i=0; i<parameters.length; i++) {
+        for (int i = 0; i < parameters.length; i++) {
             final String name = parameters[i].getName().getCode();
-            for (int j=0; j<parameters.length; j++) {
+            for (int j = 0; j < parameters.length; j++) {
                 if (i != j) {
                     if (nameMatches(parameters[j], name)) {
                         throw new InvalidParameterNameException(Errors.format(
-                            ErrorKeys.PARAMETER_NAME_CLASH_$4,
-                            parameters[j].getName().getCode(), j, name, i), name);
+                                ErrorKeys.PARAMETER_NAME_CLASH_$4,
+                                parameters[j].getName().getCode(), j, name, i), name);
                     }
                 }
             }
@@ -206,18 +198,26 @@ public class DefaultParameterDescriptorGroup extends AbstractParameterDescriptor
      * often for a parameter validity.
      */
     private static final class AsList extends UnmodifiableArrayList<GeneralParameterDescriptor> {
-        /** For compatibility with different versions. */
+        /**
+         * For compatibility with different versions.
+         */
         private static final long serialVersionUID = -2116304004367396735L;
 
-        /** The element as a set. Will be constructed only when first needed. */
+        /**
+         * The element as a set. Will be constructed only when first needed.
+         */
         private transient Set<GeneralParameterDescriptor> asSet;
 
-        /** Constructs a list for the specified array. */
+        /**
+         * Constructs a list for the specified array.
+         */
         public AsList(final GeneralParameterDescriptor[] array) {
             super(array);
         }
 
-        /** Tests for the inclusion of the specified descriptor. */
+        /**
+         * Tests for the inclusion of the specified descriptor.
+         */
         @Override
         public boolean contains(final Object object) {
             if (asSet == null) {
@@ -236,11 +236,19 @@ public class DefaultParameterDescriptorGroup extends AbstractParameterDescriptor
             if (parameters == null) {
                 asList = Collections.emptyList();
             } else switch (parameters.length) {
-                case 0:  asList = Collections.emptyList();                  break;
-                case 1:  asList = Collections.singletonList(parameters[0]); break;
+                case 0:
+                    asList = Collections.emptyList();
+                    break;
+                case 1:
+                    asList = Collections.singletonList(parameters[0]);
+                    break;
                 case 2:  // fall through
-                case 3:  asList = UnmodifiableArrayList.wrap(parameters);   break;
-                default: asList = new AsList(parameters);                   break;
+                case 3:
+                    asList = UnmodifiableArrayList.wrap(parameters);
+                    break;
+                default:
+                    asList = new AsList(parameters);
+                    break;
             }
         }
         return asList;
@@ -250,7 +258,7 @@ public class DefaultParameterDescriptorGroup extends AbstractParameterDescriptor
      * Returns the first parameter in this group for the specified
      * {@linkplain org.opengis.metadata.Identifier#getCode identifier code}.
      *
-     * @param  name The case insensitive identifier code of the parameter to search for.
+     * @param name The case insensitive identifier code of the parameter to search for.
      * @return The parameter for the given identifier code.
      * @throws ParameterNotFoundException if there is no parameter for the given identifier code.
      */
@@ -277,21 +285,22 @@ public class DefaultParameterDescriptorGroup extends AbstractParameterDescriptor
              * Looks in subgroups only after all parameters in the current group have been verified.
              * Search in a "first in, first out" basis.
              */
-            if (subgroups==null || subgroups.isEmpty()) {
+            if (subgroups == null || subgroups.isEmpty()) {
                 break;
             }
             parameters = subgroups.remove(0).descriptors();
         }
         throw new ParameterNotFoundException(Errors.format(
-                  ErrorKeys.MISSING_PARAMETER_$1, name), name);
+                ErrorKeys.MISSING_PARAMETER_$1, name), name);
     }
 
     /**
      * Compares the specified object with this parameter group for equality.
      *
-     * @param  object The object to compare to {@code this}.
-     * @param  compareMetadata {@code true} for performing a strict comparaison, or
-     *         {@code false} for comparing only properties relevant to transformations.
+     * @param object          The object to compare to {@code this}.
+     * @param compareMetadata {@code true} for performing a strict comparaison, or
+     *                        {@code false} for comparing only properties relevant to 
+     *                                    transformations.
      * @return {@code true} if both objects are equal.
      */
     @Override
@@ -311,14 +320,14 @@ public class DefaultParameterDescriptorGroup extends AbstractParameterDescriptor
      * Returns a hash value for this parameter.
      *
      * @return The hash code value. This value doesn't need to be the same
-     *         in past or future versions of this class.
+     * in past or future versions of this class.
      */
     @Override
     public int hashCode() {
         int code = super.hashCode();
         // TODO: We should use Arrays.deepHashCode instead in J2SE 1.5.
-        for (int i=0; i<parameters.length; i++) {
-            code = code*37 + parameters[i].hashCode();
+        for (int i = 0; i < parameters.length; i++) {
+            code = code * 37 + parameters[i].hashCode();
         }
         return code;
     }

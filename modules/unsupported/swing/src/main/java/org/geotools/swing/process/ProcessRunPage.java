@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -42,12 +42,11 @@ import com.vividsolutions.jts.geom.Geometry;
 /**
  * This page is responsible for actually executing the process with the given parameters and then
  * displaying the result.
- * 
- * @author gdavis
- * @since 8.0
  *
- * @source $URL$
+ * @author gdavis
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 public class ProcessRunPage extends JPage {
     ProcessFactory factory;

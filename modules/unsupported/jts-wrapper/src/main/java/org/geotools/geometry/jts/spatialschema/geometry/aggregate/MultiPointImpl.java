@@ -2,7 +2,8 @@
  **
  ** $Id$
  **
- ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/aggregate/MultiPointImpl.java,v $
+ ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/aggregate
+ * /MultiPointImpl.java,v $
  **
  ** Copyright (C) 2003 Open GIS Consortium, Inc. All Rights Reserved. http://www.opengis.org/Legal/
  **
@@ -13,14 +14,10 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.geometry.aggregate.MultiPoint;
 
 /**
- *
- *
- *
- *
  * @source $URL$
  */
-public class MultiPointImpl extends AggregateImpl 
-	implements MultiPoint {
+public class MultiPointImpl extends AggregateImpl
+        implements MultiPoint {
 
     public MultiPointImpl() {
         this(null);

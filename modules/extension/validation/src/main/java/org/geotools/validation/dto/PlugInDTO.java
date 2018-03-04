@@ -23,34 +23,40 @@ import java.util.Map;
 
 /**
  * PlugInConfig purpose.
- * 
+ * <p>
  * <p>
  * Description of PlugInConfig ...
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class PlugInDTO {
-    /** the plug-in name */
+    /**
+     * the plug-in name
+     */
     private String name;
 
-    /** the plug-in description */
+    /**
+     * the plug-in description
+     */
     private String description;
 
-    /** the class name this plug-in represents */
+    /**
+     * the class name this plug-in represents
+     */
     private String className;
 
-    /** the default arguments */
+    /**
+     * the default arguments
+     */
     private Map args;
 
     /**
      * PlugInDTO constructor.
-     * 
+     * <p>
      * <p>
      * Does nothing.
      * </p>
@@ -60,7 +66,7 @@ public class PlugInDTO {
 
     /**
      * PlugInDTO constructor.
-     * 
+     * <p>
      * <p>
      * Creates a copy of the DTO passed in in this object.
      * </p>
@@ -81,7 +87,7 @@ public class PlugInDTO {
 
                 //TODO clone value.
                 args.put(key,
-                    new ArgumentDTO((ArgumentDTO) pi.getArgs().get(key)));
+                        new ArgumentDTO((ArgumentDTO) pi.getArgs().get(key)));
             }
         }
     }
@@ -90,7 +96,6 @@ public class PlugInDTO {
      * Implementation of clone.
      *
      * @return a copy of this class.
-     *
      * @see java.lang.Object#clone()
      */
     public Object clone() {
@@ -101,9 +106,7 @@ public class PlugInDTO {
      * Implementation of equals.
      *
      * @param obj
-     *
      * @return true when the two objects are equal.
-     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     public boolean equals(Object obj) {
@@ -145,7 +148,6 @@ public class PlugInDTO {
      * Implementation of hashCode.
      *
      * @return the hashcode.
-     *
      * @see java.lang.Object#hashCode()
      */
     public int hashCode() {

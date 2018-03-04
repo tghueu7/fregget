@@ -20,17 +20,18 @@ public class RountTripLocalUomTest extends SETestSupport {
         // print(doc);
         // what... nothing getting encoded??
     }
-    
+
     @Test
     public void testRoundTripPolygon() throws Exception {
-        PolygonSymbolizer sym = (PolygonSymbolizer) parse("example-polygonsymbolizer-local-uom.xml");
+        PolygonSymbolizer sym = (PolygonSymbolizer) parse("example-polygonsymbolizer-local-uom" +
+                ".xml");
         assertEquals(SI.METER, sym.getUnitOfMeasure());
         assertEquals("2m", sym.getStroke().getWidth().evaluate(null, String.class));
         Document doc = encode(sym, SE.PolygonSymbolizer);
         // print(doc);
         // what... nothing getting encoded??
     }
-    
+
     @Test
     public void testRoundTripText() throws Exception {
         TextSymbolizer sym = (TextSymbolizer) parse("example-textsymbolizer-local-uom.xml");

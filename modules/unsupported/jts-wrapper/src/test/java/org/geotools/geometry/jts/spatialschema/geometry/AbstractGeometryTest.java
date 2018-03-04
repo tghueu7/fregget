@@ -3,7 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -13,7 +13,7 @@
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
- */ 
+ */
 package org.geotools.geometry.jts.spatialschema.geometry;
 
 import java.util.ArrayList;
@@ -40,13 +40,9 @@ import junit.framework.TestCase;
 
 /**
  * Provided test case.
- *  
+ *
  * @author Jody Garnett
  * @author Joel Skelton
- *
- *
- *
- *
  * @source $URL$
  */
 public abstract class AbstractGeometryTest extends TestCase {
@@ -70,7 +66,7 @@ public abstract class AbstractGeometryTest extends TestCase {
      * @throws FactoryException
      */
     public void setUp() throws FactoryException {
-        CRSFactory crsFact = ReferencingFactoryFinder.getCRSFactory(null);        
+        CRSFactory crsFact = ReferencingFactoryFinder.getCRSFactory(null);
         crs = crsFact.createFromWKT(WGS84_WKT);
         gFact = new GeometryFactoryImpl(crs);
         pFact = new PrimitiveFactoryImpl(crs);
@@ -143,6 +139,7 @@ public abstract class AbstractGeometryTest extends TestCase {
 
     /**
      * Creates a simple polygon with no holes
+     *
      * @param points points defining the polygon (surface)
      * @return the surface created out of the points
      */

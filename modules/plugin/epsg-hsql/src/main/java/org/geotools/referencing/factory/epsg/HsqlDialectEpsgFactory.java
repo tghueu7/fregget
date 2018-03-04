@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
- * 
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -17,6 +17,7 @@
 package org.geotools.referencing.factory.epsg;
 
 // J2SE dependencies
+
 import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -33,10 +34,10 @@ import org.geotools.factory.Hints;
  * query. Unfortunately, those parenthesis are required by MS-Access. We need to
  * removes them programmatically here.
  *
- * @since 2.2
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @since 2.2
  */
 final class HsqlDialectEpsgFactory extends AnsiDialectEpsgFactory {
     /**
@@ -45,16 +46,17 @@ final class HsqlDialectEpsgFactory extends AnsiDialectEpsgFactory {
      */
     private static final Pattern OPENING_PATTERN =
             Pattern.compile("\\s+FROM\\s*\\(",
-            Pattern.CASE_INSENSITIVE);
+                    Pattern.CASE_INSENSITIVE);
 
     /**
      * Constructs the factory for the given connection to the HSQL database.
-     * @throws SQLException 
+     *
+     * @throws SQLException
      */
     public HsqlDialectEpsgFactory(final Hints hints) throws SQLException {
         super(hints, HsqlEpsgDatabase.createDataSource());
     }
-    
+
     /**
      * Constructs the factory for the given connection to the HSQL database.
      */
@@ -69,10 +71,10 @@ final class HsqlDialectEpsgFactory extends AnsiDialectEpsgFactory {
         query = super.adaptSQL(query);
         final Matcher matcher = OPENING_PATTERN.matcher(query);
         if (matcher.find()) {
-            final int opening = matcher.end()-1;
-            final int length  = query.length();
+            final int opening = matcher.end() - 1;
+            final int length = query.length();
             int closing = opening;
-            for (int count=0; ; closing++) {
+            for (int count = 0; ; closing++) {
                 if (closing >= length) {
                     // Should never happen with well formed SQL statement.
                     // If it happen anyway, don't change anything and let
@@ -80,17 +82,22 @@ final class HsqlDialectEpsgFactory extends AnsiDialectEpsgFactory {
                     return query;
                 }
                 switch (query.charAt(closing)) {
-                    case '(': count++; break;
-                    case ')': count--; break;
-                    default : continue;
+                    case '(':
+                        count++;
+                        break;
+                    case ')':
+                        count--;
+                        break;
+                    default:
+                        continue;
                 }
                 if (count == 0) {
                     break;
                 }
             }
-            query = query.substring(0,         opening) +
-                    query.substring(opening+1, closing) +
-                    query.substring(closing+1);
+            query = query.substring(0, opening) +
+                    query.substring(opening + 1, closing) +
+                    query.substring(closing + 1);
         }
         return query;
     }

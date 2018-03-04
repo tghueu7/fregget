@@ -25,11 +25,9 @@ import org.geotools.jdbc.JDBCJNDIDataStoreFactory;
 import org.geotools.jdbc.JDBCJNDITestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
-public  class PostgisJNDIDataSourceOnlineTest extends JDBCJNDIDataSourceOnlineTest {
+public class PostgisJNDIDataSourceOnlineTest extends JDBCJNDIDataSourceOnlineTest {
 
     protected JDBCJNDITestSetup createTestSetup() {
         return new JDBCJNDITestSetup(new PostGISTestSetup());
@@ -44,7 +42,7 @@ public  class PostgisJNDIDataSourceOnlineTest extends JDBCJNDIDataSourceOnlineTe
     protected JDBCDataStoreFactory getDataStoreFactory() {
         return new PostgisNGDataStoreFactory();
     }
-    
+
     /**
      * Make sure the JNDI factory exposes all the extra params that the non JNDI one exposes
      */

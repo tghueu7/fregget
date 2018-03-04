@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -25,27 +25,28 @@ import org.opengis.filter.identity.FeatureId;
  * a datastore can update the internal fid to reflect the real identify
  * assigned by the database or wfs.
  * <p>
- * @author Justin Deoliveira, The Open Planning Project
  *
+ * @author Justin Deoliveira, The Open Planning Project
+ * @version 8.0
  * @source $URL$
  * @since 2.5
- * @version 8.0
  */
 public class FeatureIdVersionedImpl extends FeatureIdImpl {
-    
+
     protected String featureVersion;
     protected String previousRid;
-    
-    public FeatureIdVersionedImpl(String fid, String version ) {
-        this( fid, version, null);
+
+    public FeatureIdVersionedImpl(String fid, String version) {
+        this(fid, version, null);
     }
+
     public FeatureIdVersionedImpl(String fid, String version, String previousRid) {
-        super( fid );
+        super(fid);
         this.featureVersion = version;
         this.previousRid = previousRid;
     }
 
-    
+
     public String toString() {
         return fid;
     }
@@ -64,8 +65,8 @@ public class FeatureIdVersionedImpl extends FeatureIdImpl {
     @Override
     public boolean equalsExact(FeatureId id) {
         if (id instanceof FeatureId) {
-            return fid.equals( id.getID() ) &&
-                    fid.equals( id.getRid() ) &&
+            return fid.equals(id.getID()) &&
+                    fid.equals(id.getRid()) &&
                     id.getPreviousRid() == null &&
                     id.getFeatureVersion() == null;
         }
@@ -74,8 +75,8 @@ public class FeatureIdVersionedImpl extends FeatureIdImpl {
 
     @Override
     public boolean equalsFID(FeatureId id) {
-        if( id == null ) return false;
-        
+        if (id == null) return false;
+
         return getID().equals(id.getID());
     }
 
@@ -89,7 +90,7 @@ public class FeatureIdVersionedImpl extends FeatureIdImpl {
     public String getPreviousRid() {
         return previousRid;
     }
-    
+
     @Override
     public String getFeatureVersion() {
         return featureVersion;

@@ -23,8 +23,6 @@ import org.w3c.dom.Document;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class MultiSurfaceTypeBindingTest extends GML32TestSupport {
@@ -32,6 +30,6 @@ public class MultiSurfaceTypeBindingTest extends GML32TestSupport {
         Document dom = encode(GML3MockData.multiPolygon(), GML.MultiSurface);
         // print(dom);
         assertEquals(2,
-            dom.getElementsByTagNameNS(GML.NAMESPACE, GML.Polygon.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(GML.NAMESPACE, GML.Polygon.getLocalPart()).getLength());
     }
 }

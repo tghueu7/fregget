@@ -1,7 +1,7 @@
 /**
  * <copyright>
  * </copyright>
- *
+ * <p>
  * $Id$
  */
 package org.geotools.data.efeature;
@@ -14,7 +14,7 @@ import org.opengis.feature.Property;
 
 /**
  * Generic interface for accessing {@link GeometryAttribute feature geometry} data.
- * 
+ * <p>
  * <p>
  * The following features are supported:
  * <ul>
@@ -23,16 +23,13 @@ import org.opengis.feature.Property;
  * <li>{@link EFeatureGeometry#getStructure <em>Structure</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @param <V> - Actual {@link Property#getValue() property value} class.
- * 
+ * @author kengu
+ * @source $URL$
  * @see EFeatureAttribute
  * @see EFeaturePackage#getEFeatureAttribute()
  * @see EFeaturePackage#getEFeatureGeometry()
- * 
- * @author kengu
- *
- * @source $URL$
  */
 public interface EFeatureGeometry<V extends Geometry> extends
         EFeatureProperty<V, GeometryAttribute> {
@@ -40,21 +37,21 @@ public interface EFeatureGeometry<V extends Geometry> extends
     /**
      * Check if the {@link Property#getValue() feature geometry value} is {@link Geometry#isEmpty()
      * empty}
-     * 
+     *
      * @return the value of the '<em>Default</em>' attribute.
      */
     boolean isEmpty();
 
     /**
      * Check if this is the {@link Feature#getDefaultGeometryProperty() default feature geometry}
-     * 
+     *
      * @return the value of the '<em>Default</em>' attribute.
      */
     boolean isDefault();
 
     /**
      * Get the attribute {@link EFeatureGeometryInfo structure} instance.
-     * 
+     *
      * @return the value of the '<em>Structure</em>' attribute.
      */
     @Override

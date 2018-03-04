@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -28,18 +28,17 @@ import org.opengis.filter.expression.Function;
  * Recoding: Transformation of discrete values to any other values. This is needed
  * when integers have to be translated into text or, reversely, text contents into other
  * texts or numeric values or colors.
- *
+ * <p>
  * This function recodes values from a property or expression into corresponding values of
  * arbitrary type. The comparisons are performed checking for identical values.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding Implementation Specification 1.1.0</A>
  * @author Johann Sorel (Geomatys)
+ * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding 
+ * Implementation Specification 1.1.0</A>
+ * @source $URL$
  */
 @XmlElement("Recode")
-public interface Recode extends Function{
+public interface Recode extends Function {
 
     /**
      * Get lookup value.

@@ -21,8 +21,6 @@ import org.geotools.styling.Halo;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SLDHaloBindingTest extends SLDTestSupport {
@@ -38,7 +36,7 @@ public class SLDHaloBindingTest extends SLDTestSupport {
         assertNotNull(halo.getFill());
         assertEquals(1.0d, Filters.asDouble(halo.getRadius()), 0d);
     }
-    
+
     public void testDefaults() throws Exception {
         SLDMockData.halo(document, document, false);
 

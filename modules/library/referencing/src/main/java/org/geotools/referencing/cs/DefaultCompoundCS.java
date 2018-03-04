@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -30,19 +30,17 @@ import org.geotools.referencing.AbstractIdentifiedObject;
 
 /**
  * A coordinate system made of two or more independent coordinate systems.
- *
+ * <p>
  * <TABLE CELLPADDING='6' BORDER='1'>
  * <TR BGCOLOR="#EEEEFF"><TH NOWRAP>Used with CRS type(s)</TH></TR>
  * <TR><TD>
- *   {@link org.geotools.referencing.crs.DefaultCompoundCRS Compound}
+ * {@link org.geotools.referencing.crs.DefaultCompoundCRS Compound}
  * </TD></TR></TABLE>
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class DefaultCompoundCS extends AbstractCS {
     /**
@@ -67,7 +65,7 @@ public class DefaultCompoundCS extends AbstractCS {
      * @param cs The set of coordinate syztem.
      */
     public DefaultCompoundCS(CoordinateSystem[] cs) {
-        super(getName(cs=clone(cs)), getAxis(cs));
+        super(getName(cs = clone(cs)), getAxis(cs));
         this.cs = cs;
     }
 
@@ -78,7 +76,7 @@ public class DefaultCompoundCS extends AbstractCS {
     private static CoordinateSystem[] clone(CoordinateSystem[] cs) {
         ensureNonNull("cs", cs);
         cs = cs.clone();
-        for (int i=0; i<cs.length; i++) {
+        for (int i = 0; i < cs.length; i++) {
             ensureNonNull("cs", cs, i);
         }
         return cs;
@@ -89,15 +87,15 @@ public class DefaultCompoundCS extends AbstractCS {
      */
     private static CoordinateSystemAxis[] getAxis(final CoordinateSystem[] cs) {
         int count = 0;
-        for (int i=0; i<cs.length; i++) {
+        for (int i = 0; i < cs.length; i++) {
             count += cs[i].getDimension();
         }
         final CoordinateSystemAxis[] axis = new CoordinateSystemAxis[count];
         count = 0;
-        for (int i=0; i<cs.length; i++) {
+        for (int i = 0; i < cs.length; i++) {
             final CoordinateSystem c = cs[i];
             final int dim = c.getDimension();
-            for (int j=0; j<dim; j++) {
+            for (int j = 0; j < dim; j++) {
                 axis[count++] = c.getAxis(j);
             }
         }
@@ -108,12 +106,12 @@ public class DefaultCompoundCS extends AbstractCS {
     /**
      * Constructs a name from a merge of the name of all coordinate systems.
      *
-     * @param cs The coordinate systems.
+     * @param cs     The coordinate systems.
      * @param locale The locale for the name.
      */
     private static String getName(final CoordinateSystem[] cs) {
         final StringBuilder buffer = new StringBuilder();
-        for (int i=0; i<cs.length; i++) {
+        for (int i = 0; i < cs.length; i++) {
             if (buffer.length() != 0) {
                 buffer.append(" / ");
             }
@@ -135,9 +133,10 @@ public class DefaultCompoundCS extends AbstractCS {
     /**
      * Compares this coordinate system with the specified object for equality.
      *
-     * @param  object The object to compare to {@code this}.
-     * @param  compareMetadata {@code true} for performing a strict comparaison, or
-     *         {@code false} for comparing only properties relevant to transformations.
+     * @param object          The object to compare to {@code this}.
+     * @param compareMetadata {@code true} for performing a strict comparaison, or
+     *                        {@code false} for comparing only properties relevant to 
+     *                                    transformations.
      * @return {@code true} if both objects are equal.
      */
     @Override

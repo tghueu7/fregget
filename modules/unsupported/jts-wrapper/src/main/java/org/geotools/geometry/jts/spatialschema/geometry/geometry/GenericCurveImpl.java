@@ -2,7 +2,8 @@
  **
  ** $Id$
  **
- ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/geometry/GenericCurveImpl.java,v $
+ ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/geometry
+ * /GenericCurveImpl.java,v $
  **
  ** Copyright (C) 2003 Open GIS Consortium, Inc. All Rights Reserved. http://www.opengis.org/Legal/
  **
@@ -10,21 +11,18 @@
 package org.geotools.geometry.jts.spatialschema.geometry.geometry;
 
 // OpenGIS direct dependencies
+
 import org.opengis.geometry.coordinate.GenericCurve;
 
 import org.geotools.geometry.jts.JTSGeometry;
 
 /**
  * The {@code GenericCurveImpl} class/interface...
- * 
+ *
  * @author SYS Technologies
  * @author crossley
- *
- *
- *
- *
- * @source $URL$
  * @version $Revision $
+ * @source $URL$
  */
 public abstract class GenericCurveImpl implements GenericCurve, JTSGeometry {
 

@@ -49,7 +49,9 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
  */
 class WMSCoverageReader extends AbstractGridCoverage2DReader {
 
-    /** The logger for the map module. */
+    /**
+     * The logger for the map module.
+     */
     static public final Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger("org.geotools.map");
 
@@ -117,7 +119,7 @@ class WMSCoverageReader extends AbstractGridCoverage2DReader {
 
     /**
      * Builds a new WMS coverage reader
-     * 
+     *
      * @param wms
      * @param layer
      */
@@ -207,17 +209,17 @@ class WMSCoverageReader extends AbstractGridCoverage2DReader {
 
     /**
      * Issues GetFeatureInfo against a point using the params of the last GetMap request
-     * 
+     *
      * @param pos
      * @return
      * @throws IOException
      */
     public InputStream getFeatureInfo(DirectPosition2D pos, String infoFormat, int featureCount,
-            GetMapRequest getmap) throws IOException {
+                                      GetMapRequest getmap) throws IOException {
         GetFeatureInfoRequest request = wms.createGetFeatureInfoRequest(getmap);
         request.setFeatureCount(1);
         LinkedHashSet<Layer> queryLayers = new LinkedHashSet<Layer>();
-        for(LayerStyle ls:layers) {
+        for (LayerStyle ls : layers) {
             queryLayers.add(ls.getLayer());
         }
         request.setQueryLayers(queryLayers);
@@ -293,7 +295,7 @@ class WMSCoverageReader extends AbstractGridCoverage2DReader {
      * Execute the GetMap request
      */
     GridCoverage2D getMap(ReferencedEnvelope requestedEnvelope, int width, int height,
-            Color backgroundColor) throws IOException {
+                          Color backgroundColor) throws IOException {
         // build the request
         ReferencedEnvelope gridEnvelope = initMapRequest(requestedEnvelope, width, height,
                 backgroundColor);
@@ -322,8 +324,9 @@ class WMSCoverageReader extends AbstractGridCoverage2DReader {
     }
 
     /**
-     * Sets up a max request with the provided parameters, making sure it is compatible with the layers own native SRS list
-     * 
+     * Sets up a max request with the provided parameters, making sure it is compatible with the 
+     * layers own native SRS list
+     *
      * @param bbox
      * @param width
      * @param height
@@ -331,7 +334,7 @@ class WMSCoverageReader extends AbstractGridCoverage2DReader {
      * @throws IOException
      */
     ReferencedEnvelope initMapRequest(ReferencedEnvelope bbox, int width, int height,
-            Color backgroundColor) throws IOException {
+                                      Color backgroundColor) throws IOException {
         ReferencedEnvelope gridEnvelope = bbox;
         String requestSrs = srsName;
         try {
@@ -408,7 +411,7 @@ class WMSCoverageReader extends AbstractGridCoverage2DReader {
 
     /**
      * Returns the layer bounds
-     * 
+     *
      * @return
      */
     public void updateBounds() {
@@ -424,7 +427,7 @@ class WMSCoverageReader extends AbstractGridCoverage2DReader {
 
     /**
      * Converts a {@link Envelope} into a {@link ReferencedEnvelope}
-     * 
+     *
      * @param envelope
      * @return
      */
@@ -437,7 +440,7 @@ class WMSCoverageReader extends AbstractGridCoverage2DReader {
 
     /**
      * Converts a {@link GeneralEnvelope} into a {@link ReferencedEnvelope}
-     * 
+     *
      * @param ge
      * @return
      */
@@ -448,7 +451,7 @@ class WMSCoverageReader extends AbstractGridCoverage2DReader {
 
     @Override
     public String[] getMetadataNames() {
-        return new String[] { REPROJECTING_READER };
+        return new String[]{REPROJECTING_READER};
     }
 
     @Override
@@ -458,10 +461,10 @@ class WMSCoverageReader extends AbstractGridCoverage2DReader {
         }
         return super.getMetadataValue(name);
     }
-    
+
     /**
      * fetch the WMS Layers used in this coverage.
-     * 
+     *
      * @return the layers
      */
     public List<Layer> getLayers() {
@@ -473,9 +476,9 @@ class WMSCoverageReader extends AbstractGridCoverage2DReader {
     }
 
     /**
-     * fetch the names of the styles used in this layer. 
+     * fetch the names of the styles used in this layer.
      * Empty string means the default style.
-     * 
+     *
      * @return the style names.
      */
     public List<String> getStyles() {
@@ -488,9 +491,8 @@ class WMSCoverageReader extends AbstractGridCoverage2DReader {
 
     /**
      * Utility class to hold a layer and its style name.
-     * 
-     * @author ian
      *
+     * @author ian
      */
     private class LayerStyle {
         private Layer layer;

@@ -33,9 +33,9 @@ import org.picocontainer.MutablePicoContainer;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:Graphic.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="Graphic"&gt;
  *      &lt;xsd:annotation&gt;
@@ -63,9 +63,6 @@ import org.picocontainer.MutablePicoContainer;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDGraphicBinding extends AbstractComplexBinding {
@@ -118,7 +115,7 @@ public class SLDGraphicBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
 
         List<Symbol> symbols = node.getChildValues(Symbol.class);
 
@@ -127,7 +124,8 @@ public class SLDGraphicBinding extends AbstractComplexBinding {
         Expression rotation = (Expression) node.getChildValue("Rotation");
 
         Graphic graphic = styleFactory
-                .createGraphic(null, null, (Symbol[]) symbols.toArray(new Symbol[symbols.size()]), opacity, size, rotation);
+                .createGraphic(null, null, (Symbol[]) symbols.toArray(new Symbol[symbols.size()])
+                        , opacity, size, rotation);
 
         if (node.getChild("Displacement") != null) {
             graphic.setDisplacement((Displacement) node.getChildValue("Displacement"));

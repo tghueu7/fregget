@@ -36,8 +36,6 @@ import com.vividsolutions.jts.geom.Polygon;
  * database. You might need to override some of the tests method to fix the expectations
  * for specific geometry class types.
  *
- *
- *
  * @source $URL$
  */
 public abstract class JDBCGeometryOnlineTest extends JDBCTestSupport {
@@ -48,41 +46,43 @@ public abstract class JDBCGeometryOnlineTest extends JDBCTestSupport {
     public void testPoint() throws Exception {
         assertEquals(Point.class, checkGeometryType(Point.class));
     }
-    
+
     public void testLineString() throws Exception {
         assertEquals(LineString.class, checkGeometryType(LineString.class));
     }
-    
+
     public void testLinearRing() throws Exception {
         assertEquals(LinearRing.class, checkGeometryType(LinearRing.class));
     }
-    
+
     public void testPolygon() throws Exception {
         assertEquals(Polygon.class, checkGeometryType(Polygon.class));
     }
-    
+
     public void testMultiPoint() throws Exception {
         assertEquals(MultiPoint.class, checkGeometryType(MultiPoint.class));
     }
-    
+
     public void testMultiLineString() throws Exception {
         assertEquals(MultiLineString.class, checkGeometryType(MultiLineString.class));
     }
-    
+
     public void testMultiPolygon() throws Exception {
         assertEquals(MultiPolygon.class, checkGeometryType(MultiPolygon.class));
     }
-    
+
     /**
      * Sometimes the source cannot anticipate the geometry type, can we cope with this?
+     *
      * @throws Exception
      */
     public void testGeometry() throws Exception {
         assertEquals(Geometry.class, checkGeometryType(Geometry.class));
     }
-    
+
     /**
-     * Same goes for heterogeneous collections 
+     * Same goes for heterogeneous collections
+     *
      * @throws Exception
      */
     public void testGeometryCollection() throws Exception {

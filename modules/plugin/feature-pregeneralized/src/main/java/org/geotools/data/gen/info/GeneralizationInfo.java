@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -23,21 +23,16 @@ import java.util.TreeSet;
 
 /**
  * Container having a base feature and 0..n generalizations
- * 
+ * <p>
  * The base feature is the original feature for which generalizations were build
- * 
+ * <p>
  * The feature type of the base feature is the feature type of a PregeneralizedFeature, except
  * geometry properties holding generalized geometries
- * 
+ * <p>
  * if a generalized geometry is stored in a different feature source, this feature source must
  * include all non geometry properties from the baseFeatureSource
- * 
- * 
+ *
  * @author Christian Mueller
- * 
- *
- *
- *
  * @source $URL$
  */
 public class GeneralizationInfo {
@@ -51,7 +46,7 @@ public class GeneralizationInfo {
     private GeneralizationInfos parent;
 
     public GeneralizationInfo(String baseFeatureName, String featureName, String geomPropertyName,
-            GeneralizationInfos parent) {
+                              GeneralizationInfos parent) {
         super();
         this.baseFeatureName = baseFeatureName;
         this.featureName = featureName;
@@ -79,9 +74,9 @@ public class GeneralizationInfo {
     /**
      * @param requestedDistance
      * @return The proper Generalization for the requested distance, null if no proper distance
-     *         found example: Given are generalizations for 10.0 and 20 0<= requestedDistance < 10
-     *         ---> return null 10<= requestedDistance < 20 ---> return distance info for 10.0 20<=
-     *         requestedDistance ---> return distance info for 20.0
+     * found example: Given are generalizations for 10.0 and 20 0<= requestedDistance < 10
+     * ---> return null 10<= requestedDistance < 20 ---> return distance info for 10.0 20<=
+     * requestedDistance ---> return distance info for 20.0
      */
     public Generalization getGeneralizationForDistance(Double requestedDistance) {
 
@@ -100,7 +95,6 @@ public class GeneralizationInfo {
 
     /**
      * @return data source name for base feature.
-     * 
      */
     public String getDataSourceName() {
         if (dataSourceName != null)
@@ -128,11 +122,10 @@ public class GeneralizationInfo {
 
     /**
      * Validates not null instance variables
-     * 
-     * @throws IOException
-     *             1)if data source, feature name, base feature name or geometry property name is
-     *             null 2) if the validation of generalizations fails
-     * 
+     *
+     * @throws IOException 1)if data source, feature name, base feature name or geometry property
+     * name is
+     *                     null 2) if the validation of generalizations fails
      */
     public void validate() throws IOException {
         if (getDataSourceName() == null)

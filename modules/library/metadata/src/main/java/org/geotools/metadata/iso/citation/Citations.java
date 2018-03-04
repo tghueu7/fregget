@@ -21,6 +21,7 @@ package org.geotools.metadata.iso.citation;
 
 import java.util.Collection;
 import java.util.Iterator;
+
 import org.opengis.metadata.Identifier;
 import org.opengis.metadata.citation.Citation;
 import org.opengis.metadata.citation.OnLineFunction;
@@ -45,16 +46,13 @@ import org.geotools.util.SimpleInternationalString;
  * codes maintained by the authority. For example the identifier for the {@link #EPSG} citation
  * is {@code "EPSG"}, and EPSG codes look like {@code "EPSG:4326"}.
  *
- * @since 2.2
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Jody Garnett
- *
+ * @version $Id$
+ * @source $URL$
  * @todo Classify the pre-defined constants using the javadoc {@code @category} tag
- *       once it will be available (targeted for J2SE 1.6).
+ * once it will be available (targeted for J2SE 1.6).
+ * @since 2.2
  */
 public final class Citations {
     /**
@@ -62,8 +60,6 @@ public final class Citations {
      */
     private Citations() {
     }
-
-
 
 
     ///////////////////////////////////////////////////////////////////////
@@ -82,6 +78,7 @@ public final class Citations {
      * @see #OPEN_GIS
      */
     public static final Citation OGC;
+
     static {
         final CitationImpl c = new CitationImpl(ResponsiblePartyImpl.OGC);
         c.getAlternateTitles().add(new SimpleInternationalString("OGC"));
@@ -101,6 +98,7 @@ public final class Citations {
      * @see #OGC
      */
     public static final Citation OPEN_GIS;
+
     static {
         final CitationImpl c = new CitationImpl(ResponsiblePartyImpl.OPEN_GIS);
         final Collection<InternationalString> alt = c.getAlternateTitles();
@@ -117,6 +115,7 @@ public final class Citations {
      * @see ResponsiblePartyImpl#ESRI
      */
     public static final Citation ESRI;
+
     static {
         final CitationImpl c = new CitationImpl(ResponsiblePartyImpl.ESRI);
         c.addAuthority("ESRI", true);
@@ -130,6 +129,7 @@ public final class Citations {
      * @see ResponsiblePartyImpl#ORACLE
      */
     public static final Citation ORACLE;
+
     static {
         final CitationImpl c = new CitationImpl(ResponsiblePartyImpl.ORACLE);
         c.freeze();
@@ -140,10 +140,10 @@ public final class Citations {
      * The <A HREF="http://postgis.refractions.net">PostGIS</A> project.
      *
      * @see ResponsiblePartyImpl#POSTGIS
-     *
      * @since 2.4
      */
     public static final Citation POSTGIS;
+
     static {
         final CitationImpl c = new CitationImpl(ResponsiblePartyImpl.POSTGIS);
         c.freeze();
@@ -156,13 +156,12 @@ public final class Citations {
      * @see ResponsiblePartyImpl#GEOTOOLS
      */
     public static final Citation GEOTOOLS;
+
     static {
         final CitationImpl c = new CitationImpl(ResponsiblePartyImpl.GEOTOOLS);
         c.freeze();
         GEOTOOLS = c;
     }
-
-
 
 
     ///////////////////////////////////////////////////////////////////////
@@ -184,6 +183,7 @@ public final class Citations {
      * @see OnLineResourceImpl#WMS
      */
     public static final Citation WMS;
+
     static {
         final CitationImpl c = new CitationImpl("Web Map Service");
         final Collection<InternationalString> titles = c.getAlternateTitles();
@@ -212,6 +212,7 @@ public final class Citations {
      * @see ResponsiblePartyImpl#GEOTIFF
      */
     public static final Citation GEOTIFF;
+
     static {
         final CitationImpl c = new CitationImpl(ResponsiblePartyImpl.GEOTIFF);
         c.getPresentationForm().add(PresentationForm.DOCUMENT_DIGITAL);
@@ -227,6 +228,7 @@ public final class Citations {
      * @see ResponsiblePartyImpl#SUN_MICROSYSTEMS
      */
     public static final Citation JAI;
+
     static {
         final CitationImpl c = new CitationImpl("Java Advanced Imaging");
         c.getAlternateTitles().add(new SimpleInternationalString("JAI"));
@@ -234,8 +236,6 @@ public final class Citations {
         c.freeze();
         JAI = c;
     }
-
-
 
 
     ///////////////////////////////////////////////////////////////////////
@@ -253,11 +253,14 @@ public final class Citations {
      * <p>
      * This citation is used as an authority for
      * {@linkplain org.opengis.referencing.crs.CoordinateReferenceSystem coordinate reference system}
-     * identifiers. When searching an {@linkplain org.opengis.referencing.crs.CRSAuthorityFactory CRS
+     * identifiers. When searching an {@linkplain org.opengis.referencing.crs.CRSAuthorityFactory
+     * CRS
      * authority factory} on EPSG data, Geotools compares the {@code "EPSG"} string against the
-     * {@linkplain Citation#getIdentifiers identifiers} (or against the {@linkplain Citation#getTitle
-     * title} and {@linkplain Citation#getAlternateTitles alternate titles} if there is no identifier)
-     * using the {@link #identifierMatches(Citation,String) identifierMatches} method.
+     * {@linkplain Citation#getIdentifiers identifiers} (or against the {@linkplain 
+     * Citation#getTitle
+     * title} and {@linkplain Citation#getAlternateTitles alternate titles} if there is no 
+     * identifier)
+     * using the {@link #identifierMatches(Citation, String) identifierMatches} method.
      *
      * @see ResponsiblePartyImpl#EPSG
      * @see #AUTO
@@ -265,6 +268,7 @@ public final class Citations {
      * @see #CRS
      */
     public static final Citation EPSG;
+
     static {
         final CitationImpl c = new CitationImpl(ResponsiblePartyImpl.EPSG);
         c.addAuthority("EPSG", true);
@@ -284,11 +288,14 @@ public final class Citations {
      * <p>
      * This citation is used as an authority for
      * {@linkplain org.opengis.referencing.crs.CoordinateReferenceSystem coordinate reference system}
-     * identifiers. When searching an {@linkplain org.opengis.referencing.crs.CRSAuthorityFactory CRS
+     * identifiers. When searching an {@linkplain org.opengis.referencing.crs.CRSAuthorityFactory
+     * CRS
      * authority factory} on AUTO data, Geotools compares the {@code "AUTO"} string against the
-     * {@linkplain Citation#getIdentifiers identifiers} (or against the {@linkplain Citation#getTitle
-     * title} and {@linkplain Citation#getAlternateTitles alternate titles} if there is no identifier)
-     * using the {@link #identifierMatches(Citation,String) identifierMatches} method.
+     * {@linkplain Citation#getIdentifiers identifiers} (or against the {@linkplain 
+     * Citation#getTitle
+     * title} and {@linkplain Citation#getAlternateTitles alternate titles} if there is no 
+     * identifier)
+     * using the {@link #identifierMatches(Citation, String) identifierMatches} method.
      *
      * @see <A HREF="http://www.opengeospatial.org/">Open Geospatial Consortium</A>
      * @see <A HREF="http://www.opengis.org/docs/01-068r3.pdf">WMS 1.1.1 specification</A>
@@ -298,6 +305,7 @@ public final class Citations {
      * @see #EPSG
      */
     public static final Citation AUTO;
+
     static { // Sanity check ensure that all @see tags are actually available in the metadata
         final CitationImpl c = new CitationImpl("Automatic Projections");
         c.addAuthority("AUTO", false);
@@ -309,7 +317,7 @@ public final class Citations {
         final Collection<ResponsibleParty> parties = c.getCitedResponsibleParties();
         parties.add(ResponsiblePartyImpl.OGC);
         parties.add(ResponsiblePartyImpl.OGC(Role.PUBLISHER, OnLineFunction.DOWNLOAD,
-                                             "http://www.opengis.org/docs/01-068r3.pdf"));
+                "http://www.opengis.org/docs/01-068r3.pdf"));
         c.getPresentationForm().add(PresentationForm.DOCUMENT_DIGITAL); // See comment in WMS.
         c.freeze();
         AUTO = c;
@@ -328,11 +336,14 @@ public final class Citations {
      * <p>
      * This citation is used as an authority for
      * {@linkplain org.opengis.referencing.crs.CoordinateReferenceSystem coordinate reference system}
-     * identifiers. When searching an {@linkplain org.opengis.referencing.crs.CRSAuthorityFactory CRS
+     * identifiers. When searching an {@linkplain org.opengis.referencing.crs.CRSAuthorityFactory
+     * CRS
      * authority factory} on AUTO2 data, Geotools compares the {@code "AUTO2"} string against the
-     * {@linkplain Citation#getIdentifiers identifiers} (or against the {@linkplain Citation#getTitle
-     * title} and {@linkplain Citation#getAlternateTitles alternate titles} if there is no identifier)
-     * using the {@link #identifierMatches(Citation,String) identifierMatches} method.
+     * {@linkplain Citation#getIdentifiers identifiers} (or against the {@linkplain 
+     * Citation#getTitle
+     * title} and {@linkplain Citation#getAlternateTitles alternate titles} if there is no 
+     * identifier)
+     * using the {@link #identifierMatches(Citation, String) identifierMatches} method.
      *
      * @see <A HREF="http://www.opengeospatial.org/">Open Geospatial Consortium</A>
      * @see <A HREF="http://portal.opengis.org/files/?artifact_id=5316">WMS 1.3.0 specification</A>
@@ -342,6 +353,7 @@ public final class Citations {
      * @see #EPSG
      */
     public static final Citation AUTO2;
+
     static {
         final CitationImpl c = new CitationImpl("Automatic Projections");
         c.addAuthority("AUTO2", false);
@@ -369,6 +381,7 @@ public final class Citations {
      * @see #EPSG
      */
     public static final Citation CRS;
+
     static {
         final CitationImpl c = new CitationImpl("Web Map Service CRS");
         c.addAuthority("CRS", false);
@@ -386,6 +399,7 @@ public final class Citations {
      * @since 2.4
      */
     public static final Citation URN_OGC;
+
     static {
         final CitationImpl c = new CitationImpl("URN in OGC namespace");
         c.addAuthority("urn:ogc:def", false);
@@ -404,6 +418,7 @@ public final class Citations {
      * @since 2.4
      */
     public static final Citation HTTP_OGC;
+
     static {
         final CitationImpl c = new CitationImpl("URL in OGC namespace");
         c.addAuthority("http://www.opengis.net/gml", false);
@@ -417,10 +432,11 @@ public final class Citations {
      * HTTP URI in the OGC namespace. This citation contains the
      * {@code "http://www.opengis.net/def"} {@linkplain Citation#getIdentifiers identifiers}
      * for the "Authority name" {@linkplain Citation#getIdentifierTypes identifier type}.
-     * 
+     *
      * @since 9
      */
     public static final Citation HTTP_URI_OGC;
+
     static {
         final CitationImpl c = new CitationImpl("HTTP URI in OGC namespace");
         c.addAuthority("http://www.opengis.net/def", false);
@@ -429,8 +445,6 @@ public final class Citations {
         c.freeze();
         HTTP_URI_OGC = c;
     }
-
-
 
 
     ///////////////////////////////////////////////////////////////////////
@@ -443,7 +457,7 @@ public final class Citations {
      * List of citations declared in this class.
      */
     private static final Citation[] AUTHORITIES = {
-        OGC, OPEN_GIS, ESRI, ORACLE, GEOTOOLS, WMS, GEOTIFF, JAI, EPSG, AUTO, AUTO2, CRS
+            OGC, OPEN_GIS, ESRI, ORACLE, GEOTOOLS, WMS, GEOTIFF, JAI, EPSG, AUTO, AUTO2, CRS
     };
 
     /**
@@ -453,11 +467,11 @@ public final class Citations {
      * then this constant is returned. Otherwise, a new citation is created with the specified
      * name as the title.
      *
-     * @param  title The citation title (or alternate title).
+     * @param title The citation title (or alternate title).
      * @return A citation using the specified name
      */
     public static Citation fromName(final String title) {
-        for (int i=0; i<AUTHORITIES.length; i++) {
+        for (int i = 0; i < AUTHORITIES.length; i++) {
             final Citation citation = AUTHORITIES[i];
             if (titleMatches(citation, title)) {
                 return citation;
@@ -472,8 +486,8 @@ public final class Citations {
      * or alternate title in {@code c2}. The comparaison is case-insensitive and ignores leading
      * and trailing spaces. The titles ordering is not significant.
      *
-     * @param  c1 The first citation to compare.
-     * @param  c2 the second citation to compare.
+     * @param c1 The first citation to compare.
+     * @param c2 the second citation to compare.
      * @return {@code true} if at least one title or alternate title matches.
      */
     public static boolean titleMatches(final Citation c1, final Citation c2) {
@@ -486,7 +500,7 @@ public final class Citations {
                 return true;
             }
             final String asLocalized = candidate.toString();
-            if (asLocalized!=asString && titleMatches(c1, asLocalized)) {
+            if (asLocalized != asString && titleMatches(c1, asLocalized)) {
                 return true;
             }
             if (iterator == null) {
@@ -510,8 +524,8 @@ public final class Citations {
      * matches the given string. The comparaison is case-insensitive and ignores leading
      * and trailing spaces.
      *
-     * @param  citation The citation to check for.
-     * @param  title The title or alternate title to compare.
+     * @param citation The citation to check for.
+     * @param title    The title or alternate title to compare.
      * @return {@code true} if the title or alternate title matches the given string.
      */
     public static boolean titleMatches(final Citation citation, String title) {
@@ -525,11 +539,12 @@ public final class Citations {
                 return true;
             }
             final String asLocalized = candidate.toString();
-            if (asLocalized!=asString && asLocalized.trim().equalsIgnoreCase(title)) {
+            if (asLocalized != asString && asLocalized.trim().equalsIgnoreCase(title)) {
                 return true;
             }
             if (iterator == null) {
-                final Collection<? extends InternationalString> titles = citation.getAlternateTitles();
+                final Collection<? extends InternationalString> titles = citation
+                        .getAlternateTitles();
                 if (titles == null) {
                     break;
                 }
@@ -549,12 +564,12 @@ public final class Citations {
      * and ignores leading and trailing spaces. The identifier ordering is not significant.
      * <p>
      * If (and <em>only</em> if) the citations do not contains any identifier, then this method
-     * fallback on titles comparaison using the {@link #titleMatches(Citation,Citation)
+     * fallback on titles comparaison using the {@link #titleMatches(Citation, Citation)
      * titleMatches} method. This fallback exists for compatibility with client codes using
      * citation {@linkplain Citation#getTitle titles} without identifiers.
      *
-     * @param  c1 The first citation to compare.
-     * @param  c2 the second citation to compare.
+     * @param c1 The first citation to compare.
+     * @param c2 the second citation to compare.
      * @return {@code true} if at least one identifier, title or alternate title matches.
      */
     public static boolean identifierMatches(Citation c1, Citation c2) {
@@ -589,8 +604,8 @@ public final class Citations {
      * String) titleMatches} method. This fallback exists for compatibility with client codes using
      * citation {@linkplain Citation#getTitle titles} without identifiers.
      *
-     * @param  citation The citation to check for.
-     * @param  identifier The identifier to compare.
+     * @param citation   The citation to check for.
+     * @param identifier The identifier to compare.
      * @return {@code true} if the title or alternate title matches the given string.
      */
     public static boolean identifierMatches(final Citation citation, String identifier) {
@@ -616,7 +631,6 @@ public final class Citations {
      *
      * @param citation The citation for which to get the identifier.
      * @return The shortest identifier of the given citation.
-     *
      * @since 2.4
      */
     public static String getIdentifier(final Citation citation) {

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -41,9 +41,9 @@ import static java.util.stream.Collectors.toList;
  * Prints a list of factory. This is used for {@link ReferencingFactoryFinder#listProviders}
  * implementation only.
  *
- * @source $URL$
- * @version $Id$
  * @author Desruisseaux
+ * @version $Id$
+ * @source $URL$
  */
 final class FactoryPrinter implements Comparator<Class<?>> {
     /**
@@ -67,7 +67,7 @@ final class FactoryPrinter implements Comparator<Class<?>> {
         } else {
             // Or sort by name
             return Classes.getShortName(factory1).compareToIgnoreCase(
-                   Classes.getShortName(factory2));
+                    Classes.getShortName(factory2));
         }
     }
 
@@ -76,14 +76,13 @@ final class FactoryPrinter implements Comparator<Class<?>> {
      * the first implementation listed is the default one. This method provides a way to check the
      * state of a system, usually for debugging purpose.
      *
-     * @param  FactoryRegistry Where the factories are registered.
-     * @param  out The output stream where to format the list.
-     * @param  locale The locale for the list, or {@code null}.
+     * @param FactoryRegistry Where the factories are registered.
+     * @param out             The output stream where to format the list.
+     * @param locale          The locale for the list, or {@code null}.
      * @throws IOException if an error occurs while writing to {@code out}.
      */
     public void list(final FactoryRegistry registry, final Writer out, final Locale locale)
-            throws IOException
-    {
+            throws IOException {
         /*
          * Gets the categories in some sorted order.
          */
@@ -95,7 +94,7 @@ final class FactoryPrinter implements Comparator<Class<?>> {
          * Prints the table header.
          */
         final Vocabulary resources = Vocabulary.getResources(locale);
-        final TableWriter table  = new TableWriter(out, TableWriter.SINGLE_VERTICAL_LINE);
+        final TableWriter table = new TableWriter(out, TableWriter.SINGLE_VERTICAL_LINE);
         table.setMultiLinesCells(true);
         table.writeHorizontalSeparator();
         table.write(resources.getString(VocabularyKeys.FACTORY));
@@ -107,9 +106,9 @@ final class FactoryPrinter implements Comparator<Class<?>> {
         table.write(resources.getString(VocabularyKeys.IMPLEMENTATIONS));
         table.nextLine();
         table.nextLine(TableWriter.DOUBLE_HORIZONTAL_LINE);
-        final StringBuilder vendors         = new StringBuilder();
+        final StringBuilder vendors = new StringBuilder();
         final StringBuilder implementations = new StringBuilder();
-        for (final Iterator<Class<?>> it=categories.iterator(); it.hasNext();) {
+        for (final Iterator<Class<?>> it = categories.iterator(); it.hasNext(); ) {
             /*
              * Writes the category name (CRSFactory, DatumFactory, etc.)
              */
@@ -122,8 +121,8 @@ final class FactoryPrinter implements Comparator<Class<?>> {
             final Iterator<?> providers = registry.getFactories(category, null, null).iterator();
             while (providers.hasNext()) {
                 if (implementations.length() != 0) {
-                    table          .write ('\n');
-                    vendors        .append('\n');
+                    table.write('\n');
+                    vendors.append('\n');
                     implementations.append('\n');
                 }
                 final Factory provider = (Factory) providers.next();

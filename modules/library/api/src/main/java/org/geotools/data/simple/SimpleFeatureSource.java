@@ -11,10 +11,9 @@ import org.opengis.filter.Filter;
 /**
  * FeatureSource explicitly working with SimpleFeatureCollection.
  *
- *
  * @source $URL$
  */
-public interface SimpleFeatureSource extends FeatureSource<SimpleFeatureType,SimpleFeature> {
+public interface SimpleFeatureSource extends FeatureSource<SimpleFeatureType, SimpleFeature> {
     public SimpleFeatureCollection getFeatures() throws IOException;
 
     public SimpleFeatureCollection getFeatures(Filter filter)

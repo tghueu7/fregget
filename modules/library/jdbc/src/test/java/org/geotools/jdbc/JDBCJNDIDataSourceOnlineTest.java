@@ -27,23 +27,19 @@ import org.geotools.data.DataStoreFinder;
 
 /**
  * @author Christian Mueller
- * 
+ * <p>
  * Abstract test class for getting a jdbc data source via JNDI lookup
- * 
- *
- *
- *
  * @source $URL$
  */
 public abstract class JDBCJNDIDataSourceOnlineTest extends JDBCTestSupport {
 
     @Override
     protected abstract JDBCJNDITestSetup createTestSetup();
-    
+
     public void testJNDIDataSource() throws Exception {
 
-        ((JDBCJNDITestSetup)setup).setupJNDIEnvironment(getDataStoreFactory());
-        
+        ((JDBCJNDITestSetup) setup).setupJNDIEnvironment(getDataStoreFactory());
+
         HashMap params = new HashMap();
 
         String dbtype = setup.createDataStoreFactory().getDatabaseID();
@@ -52,12 +48,12 @@ public abstract class JDBCJNDIDataSourceOnlineTest extends JDBCTestSupport {
         params.put(JDBCJNDIDataStoreFactory.JNDI_REFNAME.key, "ds");
 
         JDBCDataStore dataStore = (JDBCDataStore) DataStoreFinder.getDataStore(params);
-        try(Connection con = dataStore.getDataSource().getConnection()) {
+        try (Connection con = dataStore.getDataSource().getConnection()) {
             assertTrue(con != null);
             assertFalse(con.isClosed());
         }
     }
-    
+
     /**
      * Make sure the JNDI factory exposes all the extra params that the non JNDI one exposes
      */
@@ -80,7 +76,8 @@ public abstract class JDBCJNDIDataSourceOnlineTest extends JDBCTestSupport {
     protected abstract JDBCDataStoreFactory getDataStoreFactory();
 
     /**
-     * Extracts the base params all non JNDI JDBC factories have 
+     * Extracts the base params all non JNDI JDBC factories have
+     *
      * @return
      */
     protected List<String> getBaseParams() {
@@ -124,20 +121,22 @@ public abstract class JDBCJNDIDataSourceOnlineTest extends JDBCTestSupport {
         };
         return factory;
     }
-    
+
     /**
      * Extracts the common params all JNDI factories have
+     *
      * @return
      */
     protected List<String> getBaseJNDIParams() {
         JDBCJNDIDataStoreFactory factory = new JDBCJNDIDataStoreFactory(getBaseFactory()) {
-            
+
         };
         return getParamKeys(factory);
     }
 
     /**
      * Extracts the set of params available for a given factory
+     *
      * @param factory
      * @return
      */

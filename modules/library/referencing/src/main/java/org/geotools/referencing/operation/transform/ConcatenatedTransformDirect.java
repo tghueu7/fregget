@@ -26,10 +26,10 @@ import org.opengis.geometry.DirectPosition;
  * dimension. This fact allows some optimizations, the most important one being the possibility
  * to avoid the use of an intermediate buffer in some case.
  *
- * @since 2.0
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.0
  */
 class ConcatenatedTransformDirect extends ConcatenatedTransform {
     /**
@@ -41,8 +41,7 @@ class ConcatenatedTransformDirect extends ConcatenatedTransform {
      * Constructs a concatenated transform.
      */
     public ConcatenatedTransformDirect(final MathTransform transform1,
-                                       final MathTransform transform2)
-    {
+                                       final MathTransform transform2) {
         super(transform1, transform2);
     }
 
@@ -52,8 +51,8 @@ class ConcatenatedTransformDirect extends ConcatenatedTransform {
     @Override
     boolean isValid() {
         return super.isValid() &&
-               transform1.getSourceDimensions() == transform1.getTargetDimensions() &&
-               transform2.getSourceDimensions() == transform2.getTargetDimensions();
+                transform1.getSourceDimensions() == transform1.getTargetDimensions() &&
+                transform2.getSourceDimensions() == transform2.getTargetDimensions();
     }
 
     /**
@@ -61,11 +60,10 @@ class ConcatenatedTransformDirect extends ConcatenatedTransform {
      */
     @Override
     public DirectPosition transform(final DirectPosition ptSrc, DirectPosition ptDst)
-            throws TransformException
-    {
+            throws TransformException {
         assert isValid();
         ptDst = transform1.transform(ptSrc, ptDst);
-        return  transform2.transform(ptDst, ptDst);
+        return transform2.transform(ptDst, ptDst);
     }
 
     /**
@@ -74,8 +72,7 @@ class ConcatenatedTransformDirect extends ConcatenatedTransform {
     @Override
     public void transform(final double[] srcPts, final int srcOff,
                           final double[] dstPts, final int dstOff, final int numPts)
-            throws TransformException
-    {
+            throws TransformException {
         assert isValid();
         transform1.transform(srcPts, srcOff, dstPts, dstOff, numPts);
         transform2.transform(dstPts, dstOff, dstPts, dstOff, numPts);

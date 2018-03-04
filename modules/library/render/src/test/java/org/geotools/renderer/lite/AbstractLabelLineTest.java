@@ -55,8 +55,9 @@ public abstract class AbstractLabelLineTest {
     @Before
     public void setUp() throws Exception {
         FontCache.getDefaultInstance().registerFont(
-                Font.createFont(Font.TRUETYPE_FONT, TestData.getResource(this, "Vera.ttf").openStream()));
-        
+                Font.createFont(Font.TRUETYPE_FONT, TestData.getResource(this, "Vera.ttf")
+                        .openStream()));
+
         // load the data, in this case a set of different linestring
         File property = new File(TestData.getResource(this, "nonStraightLines.properties").toURI());
         PropertyDataStore dataStore = new PropertyDataStore(property.getParentFile());
@@ -65,25 +66,27 @@ public abstract class AbstractLabelLineTest {
         bounds = featureSource.getBounds();
         bounds.expandBy(1, 1);
     }
-    
-    protected Style loadParametricStyle(Object loader, String sldFilename, String... parameters) throws IOException {
+
+    protected Style loadParametricStyle(Object loader, String sldFilename, String... parameters) 
+            throws IOException {
         StyleFactory factory = CommonFactoryFinder.getStyleFactory(null);
 
         java.net.URL url = TestData.getResource(loader, sldFilename);
         String styleTemplate = IOUtils.toString(url);
-        for (int i = 0; i < parameters.length; i+=2) {
+        for (int i = 0; i < parameters.length; i += 2) {
             String key = parameters[i];
             String value = parameters[i + 1];
             styleTemplate = styleTemplate.replace("%" + key + "%", value);
         }
-        
+
         SLDParser stylereader = new SLDParser(factory, new StringReader(styleTemplate));
 
         Style style = stylereader.readXML()[0];
         return style;
     }
 
-    protected BufferedImage renderNonStraightLines(SimpleFeatureSource featureSource, Style style, int width, int height, ReferencedEnvelope bounds) {
+    protected BufferedImage renderNonStraightLines(SimpleFeatureSource featureSource, Style 
+            style, int width, int height, ReferencedEnvelope bounds) {
         MapContent mapContent = new MapContent();
         mapContent.addLayer(new FeatureLayer(featureSource, style));
         // instantiate and initiate the render
@@ -100,5 +103,5 @@ public abstract class AbstractLabelLineTest {
         mapContent.dispose();
         return image;
     }
-    
+
 }

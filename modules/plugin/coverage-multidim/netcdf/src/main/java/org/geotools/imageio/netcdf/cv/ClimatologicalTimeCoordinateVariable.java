@@ -41,14 +41,15 @@ import org.opengis.temporal.Position;
 import ucar.nc2.dataset.CoordinateAxis;
 
 /**
- * A {@link CoordinateVariable} used to wrap Coordinates 
- * expressing climatological time 
+ * A {@link CoordinateVariable} used to wrap Coordinates
+ * expressing climatological time
  */
 public class ClimatologicalTimeCoordinateVariable extends CoordinateVariable<Date> {
 
     private static final String ORIGIN_DATE = "0000-01-01T00:00:00";
 
-    private static final Logger LOGGER = Logger.getLogger(ClimatologicalTimeCoordinateVariable.class.toString());
+    private static final Logger LOGGER = Logger.getLogger(ClimatologicalTimeCoordinateVariable
+            .class.toString());
 
     public ClimatologicalTimeCoordinateVariable(CoordinateAxis coordinateAxis) {
         super(Date.class, coordinateAxis);

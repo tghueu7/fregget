@@ -34,7 +34,6 @@ import org.opengis.filter.expression.PropertyName;
 
 /**
  * @author ian
- *
  */
 public class PolygonLabelFunctionFactoryTest {
 
@@ -46,7 +45,8 @@ public class PolygonLabelFunctionFactoryTest {
     }
 
     /**
-     * Test method for {@link org.geotools.process.geometry.PolygonLabelFunctionFactory#getFunctionNames()}.
+     * Test method for 
+     * {@link org.geotools.process.geometry.PolygonLabelFunctionFactory#getFunctionNames()}.
      */
     @Test
     public void testGetFunctionNames() {
@@ -54,13 +54,13 @@ public class PolygonLabelFunctionFactoryTest {
         List<FunctionName> names = ff.getFunctionNames();
         assertEquals("labelPoint", names.get(0).toString());
     }
-    
+
     @Test
     public void testFactory() {
         FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
         PropertyName geom = ff.property("the_geom");
         Literal d = ff.literal(1.0);
-        Function func = ff.function("labelPoint", new Expression[] {geom,d});
+        Function func = ff.function("labelPoint", new Expression[]{geom, d});
         assertNotNull(func);
     }
 }

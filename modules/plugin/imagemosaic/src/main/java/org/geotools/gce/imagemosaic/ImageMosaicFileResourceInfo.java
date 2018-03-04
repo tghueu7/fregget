@@ -56,11 +56,12 @@ import org.opengis.filter.sort.SortBy;
 import org.opengis.filter.sort.SortOrder;
 
 /**
- * {@link FileResourceInfo} implementation for ImageMosaic. The specific implementation is able to retrieve support files such as, as an instance, prj
+ * {@link FileResourceInfo} implementation for ImageMosaic. The specific implementation is able 
+ * to retrieve support files such as, as an instance, prj
  * and world file for TIFFs.
  */
 public class ImageMosaicFileResourceInfo extends DefaultResourceInfo implements FileResourceInfo {
-    
+
     static final Logger LOGGER = Logging.getLogger(ImageMosaicFileResourceInfo.class);
 
     private final static String PRJ = ".PRJ";
@@ -89,9 +90,9 @@ public class ImageMosaicFileResourceInfo extends DefaultResourceInfo implements 
 
     /**
      * A collector of supportFiles.
-     * 
-     * It will look for ancillary files having same name but different extension, trying from a set of possible values.
-     *
+     * <p>
+     * It will look for ancillary files having same name but different extension, trying from a 
+     * set of possible values.
      */
     static class SupportFilesCollector {
         private String[] supportingExtensions;
@@ -102,7 +103,7 @@ public class ImageMosaicFileResourceInfo extends DefaultResourceInfo implements 
 
         /**
          * Return supportFiles (if found) for the specified file
-         * 
+         *
          * @param filePath
          * @return
          */
@@ -126,12 +127,13 @@ public class ImageMosaicFileResourceInfo extends DefaultResourceInfo implements 
     }
 
     final static Map<String, SupportFilesCollector> COLLECTORS;
+
     static {
         // Improve that, to be pluggable in future versions
         COLLECTORS = new HashMap<String, SupportFilesCollector>();
-        String[] JPG_ = new String[] { WLD_, PRJ_, JGW_, WLD, JGW, PRJ };
-        String[] GIF_ = new String[] { WLD_, PRJ_, WLD, PRJ };
-        String[] TIF_ = new String[] { TFW_, PRJ_, WLD_, OVR_, MSK_, TFW, WLD, PRJ, OVR, MSK };
+        String[] JPG_ = new String[]{WLD_, PRJ_, JGW_, WLD, JGW, PRJ};
+        String[] GIF_ = new String[]{WLD_, PRJ_, WLD, PRJ};
+        String[] TIF_ = new String[]{TFW_, PRJ_, WLD_, OVR_, MSK_, TFW, WLD, PRJ, OVR, MSK};
         SupportFilesCollector JPG = new SupportFilesCollector(JPG_);
         SupportFilesCollector TIF = new SupportFilesCollector(TIF_);
         SupportFilesCollector GIF = new SupportFilesCollector(GIF_);
@@ -143,13 +145,18 @@ public class ImageMosaicFileResourceInfo extends DefaultResourceInfo implements 
     }
 
     /**
-     * A {@link CloseableIterator} implementation taking care of retrieving {@link FileGroup}s from a {@link SimpleFeatureIterator}.
-     * 
-     * Note on files grouping: Each returned FileGroup should contain a different file. When dealing with multidimensional data, multiple features can
-     * contain same file (records will be different in terms of time value, elevation value, and so on. Therefore, we need to aggregate features
-     * related to the same file location by scanning the underlying iterator and caching the next feature which doesn't belong to same file.
-     * 
-     * Important note: the featureIterator need to be get using a sortBy clause on location to make sure underlying features come sorted by location.
+     * A {@link CloseableIterator} implementation taking care of retrieving {@link FileGroup}s 
+     * from a {@link SimpleFeatureIterator}.
+     * <p>
+     * Note on files grouping: Each returned FileGroup should contain a different file. When 
+     * dealing with multidimensional data, multiple features can
+     * contain same file (records will be different in terms of time value, elevation value, and 
+     * so on. Therefore, we need to aggregate features
+     * related to the same file location by scanning the underlying iterator and caching the next
+     * feature which doesn't belong to same file.
+     * <p>
+     * Important note: the featureIterator need to be get using a sortBy clause on location to 
+     * make sure underlying features come sorted by location.
      */
     class CloseableFileGroupIterator implements CloseableIterator<FileGroup> {
 
@@ -221,15 +228,17 @@ public class ImageMosaicFileResourceInfo extends DefaultResourceInfo implements 
         }
 
         /**
-         * Aggregate multipleFeatures related to the same file, on the same {@link FileGroup}. This is usually needed when the underlying coverage
-         * isn't a simple 2D coverage but it has multiple dimensions (as an instance, time, elevation, custom...)
-         * 
+         * Aggregate multipleFeatures related to the same file, on the same {@link FileGroup}. 
+         * This is usually needed when the underlying coverage
+         * isn't a simple 2D coverage but it has multiple dimensions (as an instance, time, 
+         * elevation, custom...)
+         * <p>
          * The method also look for supportFiles.
-         * 
+         *
          * @param file
-         * @paran aggregate, whether aggregation queries should be invoked to extract domains
          * @param firstFeature, sample feature to be used when no aggregation is needed
          * @return
+         * @paran aggregate, whether aggregation queries should be invoked to extract domains
          */
         private FileGroup buildFileGroup(File file, boolean aggregate, SimpleFeature firstFeature) {
             // Looking for supportFiles for the current file
@@ -248,14 +257,14 @@ public class ImageMosaicFileResourceInfo extends DefaultResourceInfo implements 
 
         /**
          * Collects features domain to be exposed as metadata
-         * 
+         *
          * @param filePath
          * @param aggregate
          * @param firstFeature
          * @return
          */
         private Map<String, Object> computeGroupMetadata(String filePath, boolean aggregate,
-                SimpleFeature firstFeature) {
+                                                         SimpleFeature firstFeature) {
             Map<String, Object> metadataMap = null;
             List<DimensionDescriptor> dimensionDescriptors = rasterManager
                     .getDimensionDescriptors();
@@ -301,9 +310,11 @@ public class ImageMosaicFileResourceInfo extends DefaultResourceInfo implements 
             return metadataMap;
         }
 
-        /** Add the bbox element to the metadata Map */
+        /**
+         * Add the bbox element to the metadata Map
+         */
         private void addBBOX(boolean aggregate, Filter filter, SimpleFeature firstFeature,
-                Map<String, Object> metadataMap) throws IOException {
+                             Map<String, Object> metadataMap) throws IOException {
             ReferencedEnvelope envelope = null;
             if (aggregate) {
                 BoundsVisitor boundsVisitor = new BoundsVisitor();
@@ -323,7 +334,7 @@ public class ImageMosaicFileResourceInfo extends DefaultResourceInfo implements 
          * Add a metadata element to the FileGroup metadata map
          */
         private void addMetadaElement(String name, Comparable min, Comparable max,
-                Map<String, Object> metadataMap) {
+                                      Map<String, Object> metadataMap) {
             if (Utils.TIME_DOMAIN.equalsIgnoreCase(name) || min instanceof Date) {
                 metadataMap.put(name.toUpperCase(), new DateRange((Date) min, (Date) max));
             } else if (Utils.ELEVATION_DOMAIN.equalsIgnoreCase(name) || min instanceof Number) {
@@ -343,7 +354,8 @@ public class ImageMosaicFileResourceInfo extends DefaultResourceInfo implements 
     private final static FilterFactory2 FF = FeatureUtilities.DEFAULT_FILTER_FACTORY;
 
     /**
-     * parentLocation used to rebuild full file paths in case the imageMosaic is storing granules location on DB with relative paths
+     * parentLocation used to rebuild full file paths in case the imageMosaic is storing granules
+     * location on DB with relative paths
      */
     private String parentLocation;
 
@@ -353,7 +365,8 @@ public class ImageMosaicFileResourceInfo extends DefaultResourceInfo implements 
     private String locationAttributeName;
 
     /**
-     * The RasterManager used to retrieve granule index info such as typeName, PathType, granuleCatalog, dimensions and attributes
+     * The RasterManager used to retrieve granule index info such as typeName, PathType, 
+     * granuleCatalog, dimensions and attributes
      */
     private RasterManager rasterManager;
 
@@ -374,13 +387,14 @@ public class ImageMosaicFileResourceInfo extends DefaultResourceInfo implements 
 
     /**
      * ImageMosaicFileResourceInfo constructor
-     * 
-     * @param rasterManager manager the {@link RasterManager} instance for underlying index info retrieval and management
-     * @param parentLocation the granules parentLocation (relative paths refer to that)
+     *
+     * @param rasterManager         manager the {@link RasterManager} instance for underlying 
+     *                              index info retrieval and management
+     * @param parentLocation        the granules parentLocation (relative paths refer to that)
      * @param locationAttributeName the actual location attribute name
      */
     public ImageMosaicFileResourceInfo(RasterManager rasterManager, String parentLocation,
-            String locationAttributeName) {
+                                       String locationAttributeName) {
         this.rasterManager = rasterManager;
         this.granuleCatalog = rasterManager.getGranuleCatalog();
         this.typeName = rasterManager.getTypeName();
@@ -418,13 +432,14 @@ public class ImageMosaicFileResourceInfo extends DefaultResourceInfo implements 
             clauses.add(new SortByImpl(
                     FeatureUtilities.DEFAULT_FILTER_FACTORY.property(locationAttributeName),
                     SortOrder.ASCENDING));
-            final SortBy[] sb = clauses.toArray(new SortBy[] {});
+            final SortBy[] sb = clauses.toArray(new SortBy[]{});
             final boolean isSortBySupported = granuleCatalog.getQueryCapabilities(typeName)
                     .supportsSorting(sb);
             if (isSortBySupported) {
                 updatedQuery.setSortBy(sb);
             } else {
-                LOGGER.severe("Sorting parameter ignored, underlying datastore cannot sort on " + Arrays.toString(sb));
+                LOGGER.severe("Sorting parameter ignored, underlying datastore cannot sort on " +
+                        Arrays.toString(sb));
             }
             updatedQuery.setTypeName(typeName);
 

@@ -9,8 +9,6 @@ import org.opengis.filter.FilterFactory;
 /**
  * FitlerBuilder acting as a simple wrapper around an Expression.
  *
- *
- *
  * @source $URL$
  */
 public class FilterBuilder implements Builder<Filter> {
@@ -18,19 +16,20 @@ public class FilterBuilder implements Builder<Filter> {
     protected FilterFactory ff = CommonFactoryFinder.getFilterFactory2(null);
     protected boolean unset = false;
     protected Builder<? extends Filter> delegate = null;
-    
-    public FilterBuilder(){
-        reset();    
+
+    public FilterBuilder() {
+        reset();
     }
-    public FilterBuilder( Filter filter ){
-        reset( filter );
+
+    public FilterBuilder(Filter filter) {
+        reset(filter);
     }
-    
+
     /**
      * Build the expression.
      */
     public Filter build() {
-        if( unset ) {
+        if (unset) {
             return null;
         }
         return filter;
@@ -42,9 +41,9 @@ public class FilterBuilder implements Builder<Filter> {
         this.unset = false;
         return this;
     }
-    
+
     public FilterBuilder reset(Filter filter) {
-        if( filter == null ){
+        if (filter == null) {
             return unset();
         }
         this.filter = filter;
@@ -54,7 +53,7 @@ public class FilterBuilder implements Builder<Filter> {
 
     public FilterBuilder unset() {
         this.unset = true;
-        this.delegate =null;
+        this.delegate = null;
         this.filter = Filter.EXCLUDE;
         return this;
     }

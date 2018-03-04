@@ -20,27 +20,33 @@ package org.geotools.brewer.color;
 /**
  * This class doubles as a filter and an identifier for colour palettes.
  *
- *
- *
  * @source $URL$
  */
 public class PaletteType {
-    /** name of the type, if null this will match any name */
+    /**
+     * name of the type, if null this will match any name
+     */
     String name;
 
-    /** is the palette appropriate for numerical ranges? */
+    /**
+     * is the palette appropriate for numerical ranges?
+     */
     boolean suitableRanged;
 
-    /** is the palette appropriate for categorical data (unique values)? */
+    /**
+     * is the palette appropriate for categorical data (unique values)?
+     */
     boolean suitableUnique;
 
-    /** interal flag for marking the type as UNKNOWN */
+    /**
+     * interal flag for marking the type as UNKNOWN
+     */
     boolean isEmpty = false;
 
     /**
      * Creates an identifier for palettes
      *
-     * @param name simple identifier
+     * @param name           simple identifier
      * @param suitableRanged
      * @param suitableUnique
      */
@@ -51,7 +57,6 @@ public class PaletteType {
     }
 
     /**
-     *
      * @param suitableRanged true, false, or null (for don't care)
      * @param suitableUnique
      */

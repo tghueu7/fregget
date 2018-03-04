@@ -43,8 +43,6 @@ import com.vividsolutions.jts.geom.LineString;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class CacheDisplayPanel extends JPanel {
@@ -86,8 +84,8 @@ public class CacheDisplayPanel extends JPanel {
 
         try {
             cache.tracker.setDoRecordAccess(false);
-            cache.tracker.intersectionQuery(new Region(new double[] { 0, 0 }, new double[] { 1, 1 }),
-                v);
+            cache.tracker.intersectionQuery(new Region(new double[]{0, 0}, new double[]{1, 1}),
+                    v);
         } finally {
             cache.tracker.setDoRecordAccess(true);
             cache.readUnLock();
@@ -95,7 +93,7 @@ public class CacheDisplayPanel extends JPanel {
 
         if (!queries.isEmpty()) {
             for (Iterator<Entry<String, Envelope>> it = queries.entrySet().iterator();
-                    it.hasNext();) {
+                 it.hasNext(); ) {
                 Entry<String, Envelope> next = it.next();
                 Envelope query = next.getValue();
                 g2d.setColor(Color.BLUE);

@@ -42,7 +42,7 @@ import org.opengis.referencing.operation.TransformException;
  * <p>
  * TileLayer is a direct map layer that does the mosaicking work for tiles of a given tile service.
  * </p>
- * 
+ *
  * @author Ugo Taddei
  * @since 12
  */
@@ -54,7 +54,9 @@ public class TileLayer extends DirectLayer {
 
     private TileService service;
 
-    /** Resolution in DPI */
+    /**
+     * Resolution in DPI
+     */
     private double resolution = 90;
 
     private GridCoverage2D coverage;
@@ -97,7 +99,8 @@ public class TileLayer extends DirectLayer {
     }
 
     protected void renderTiles(Collection<Tile> tiles, Graphics2D g2d,
-            ReferencedEnvelope viewportExtent, AffineTransform worldToImageTransform) {
+                               ReferencedEnvelope viewportExtent, AffineTransform 
+                                       worldToImageTransform) {
 
         g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
                 RenderingHints.VALUE_INTERPOLATION_BILINEAR);

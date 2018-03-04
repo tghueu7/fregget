@@ -26,27 +26,26 @@ import org.fest.swing.fixture.FrameFixture;
 
 /**
  * Test base class which adds a frame fixture for graphics tests.
- * 
- * @author Michael Bedward
- * @since 8.0
  *
- * @source $URL$
+ * @author Michael Bedward
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 public class JMapPaneGraphicsTestBase extends JMapPaneTestBase {
-    
+
     protected FrameFixture window;
-    
+
     protected class TestFrame extends JFrame {
-        
+
         public TestFrame(MapPaneListener listener) {
             mapPane = new JMapPane();
             mapPane.addMapPaneListener(listener);
-            
+
             setLayout(new BorderLayout());
             add(mapPane, BorderLayout.CENTER);
             pack();
         }
     }
-    
+
 }

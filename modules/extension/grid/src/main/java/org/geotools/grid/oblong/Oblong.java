@@ -24,12 +24,9 @@ import org.geotools.grid.PolygonElement;
  * chosen to avoid the inevitable confusion with {@code java.awt.Rectangle}
  *
  * @author mbedward
- * @since 2.7
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.7
  */
 public interface Oblong extends PolygonElement {
 

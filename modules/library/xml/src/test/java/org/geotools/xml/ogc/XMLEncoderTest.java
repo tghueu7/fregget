@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -52,23 +52,25 @@ import org.w3c.dom.NodeList;
 
 /**
  * This code uses the filter parser to generate test cases, and runs it through the encoder.
- * 
+ * <p>
  * TODO create the filters manually, and check the output.
  *
  * @author James MacGill, CCG
  * @author Rob Hranac, TOPP
  * @author David Zwiers
- *
- *
  * @source $URL$
  */
 public class XMLEncoderTest extends TestCase {
 
-    /** Standard logging instance */
+    /**
+     * Standard logging instance
+     */
     protected static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger(
             "org.geotools.filter");
-    
-    /** Constructor with test name. */
+
+    /**
+     * Constructor with test name.
+     */
     String dataFolder = "";
 
     public XMLEncoderTest(String testName) {
@@ -79,12 +81,12 @@ public class XMLEncoderTest extends TestCase {
 
         dataFolder = System.getProperty("dataFolder");
 
-        if( dataFolder == null){
-        	try {
-				TestData.file( this, null );
-			} catch (IOException e) {
-				LOGGER.finer("data folder is unavailable" + dataFolder);
-			}
+        if (dataFolder == null) {
+            try {
+                TestData.file(this, null);
+            } catch (IOException e) {
+                LOGGER.finer("data folder is unavailable" + dataFolder);
+            }
         }
         if (dataFolder == null) {
             //then we are being run by maven        	
@@ -116,15 +118,15 @@ public class XMLEncoderTest extends TestCase {
 
     public void test1() throws Exception {
         Filter test = parseDocument("test1.xml");
-        assertNotNull( test );
-        StringWriter output = new StringWriter();        
-        DocumentWriter.writeFragment( test, FilterSchema.getInstance(), output, null);
+        assertNotNull(test);
+        StringWriter output = new StringWriter();
+        DocumentWriter.writeFragment(test, FilterSchema.getInstance(), output, null);
         //System.out.println( output );
-        InputStream stream = new StringBufferInputStream( output.toString() );
-                
-        Object o = DocumentFactory.getInstance( stream, new HashMap<String,Object>(), Level.FINEST );
-        assertNotNull( o );
-        assertEquals( test, o );
+        InputStream stream = new StringBufferInputStream(output.toString());
+
+        Object o = DocumentFactory.getInstance(stream, new HashMap<String, Object>(), Level.FINEST);
+        assertNotNull(o);
+        assertEquals(test, o);
         //LOGGER.fine("parsed filter is: " + test);        
     }
 
@@ -136,24 +138,24 @@ public class XMLEncoderTest extends TestCase {
 
     public void test3b() throws Exception {
         Filter test = parseDocument("test3b.xml");
-        StringWriter output = new StringWriter();        
-        DocumentWriter.writeFragment( test, FilterSchema.getInstance(), output, null);
+        StringWriter output = new StringWriter();
+        DocumentWriter.writeFragment(test, FilterSchema.getInstance(), output, null);
 
         //LOGGER.fine("parsed filter is: " + test);
     }
 
     public void test4() throws Exception {
         Filter test = parseDocument("test4.xml");
-        StringWriter output = new StringWriter();        
-        DocumentWriter.writeFragment( test, FilterSchema.getInstance(), output, null);
+        StringWriter output = new StringWriter();
+        DocumentWriter.writeFragment(test, FilterSchema.getInstance(), output, null);
 
         //LOGGER.fine("parsed filter is: " + test);
     }
 
     public void test5() throws Exception {
         Filter test = parseDocument("test5.xml");
-        StringWriter output = new StringWriter();        
-        DocumentWriter.writeFragment( test, FilterSchema.getInstance(), output, null);
+        StringWriter output = new StringWriter();
+        DocumentWriter.writeFragment(test, FilterSchema.getInstance(), output, null);
 
         //LOGGER.fine("parsed filter is: " + test);
     }
@@ -163,48 +165,48 @@ public class XMLEncoderTest extends TestCase {
 
         StringWriter output = new StringWriter();
         DocumentWriter.writeFragment(test,
-            FilterSchema.getInstance(), output, null);
-        
+                FilterSchema.getInstance(), output, null);
+
         //System.out.println(output);
         //LOGGER.fine("parsed filter is: " + test);
     }
 
     public void test9() throws Exception {
         Filter test = parseDocument("test9.xml");
-        StringWriter output = new StringWriter();        
-        DocumentWriter.writeFragment( test, FilterSchema.getInstance(), output, null);
+        StringWriter output = new StringWriter();
+        DocumentWriter.writeFragment(test, FilterSchema.getInstance(), output, null);
 
         //LOGGER.fine("parsed filter is: " + test);
     }
 
     public void test12() throws Exception {
         Filter test = parseDocument("test12.xml");
-        StringWriter output = new StringWriter();        
-        DocumentWriter.writeFragment( test, FilterSchema.getInstance(), output, null);
+        StringWriter output = new StringWriter();
+        DocumentWriter.writeFragment(test, FilterSchema.getInstance(), output, null);
 
         // LOGGER.fine("parsed filter is: " + test);
     }
 
     public void test13() throws Exception {
         Filter test = parseDocument("test13.xml");
-        StringWriter output = new StringWriter();        
-        DocumentWriter.writeFragment( test, FilterSchema.getInstance(), output, null);
+        StringWriter output = new StringWriter();
+        DocumentWriter.writeFragment(test, FilterSchema.getInstance(), output, null);
 
         //LOGGER.fine("parsed filter is: " + test);
     }
 
     public void test14() throws Exception {
         Filter test = parseDocument("test14.xml");
-        StringWriter output = new StringWriter();        
-        DocumentWriter.writeFragment( test, FilterSchema.getInstance(), output, null);
+        StringWriter output = new StringWriter();
+        DocumentWriter.writeFragment(test, FilterSchema.getInstance(), output, null);
 
         //LOGGER.fine("parsed filter is: " + test);
     }
 
     public void test28() throws Exception {
         Filter test = parseDocument("test28.xml");
-        StringWriter output = new StringWriter();        
-        DocumentWriter.writeFragment( test, FilterSchema.getInstance(), output, null);
+        StringWriter output = new StringWriter();
+        DocumentWriter.writeFragment(test, FilterSchema.getInstance(), output, null);
 
         //System.out.println(output);
 //        LOGGER.fine("parsedfilter is: " + test);
@@ -238,26 +240,26 @@ public class XMLEncoderTest extends TestCase {
 
                 StringWriter output = new StringWriter();
                 DocumentWriter.writeFragment(filter,
-                    FilterSchema.getInstance(), output, null);
-                
+                        FilterSchema.getInstance(), output, null);
+
 //                System.out.println(output);
             }
         }
-        
+
         return filter;
     }
-    
+
     // TODO test or ( null, and( fidFilter, null ) ) filter
     public void testStrictHintComplexFilter() throws Exception {
         FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
-        
-        PropertyIsNull null1=ff.isNull( ff.property("name") );
-        PropertyIsNull null2=ff.isNull( ff.property("geom") );
-        
+
+        PropertyIsNull null1 = ff.isNull(ff.property("name"));
+        PropertyIsNull null2 = ff.isNull(ff.property("geom"));
+
         HashSet<FeatureId> set = new HashSet<FeatureId>();
-        set.add( ff.featureId("FID.1"));        
-        Filter filter=ff.or( null2, ff.and( null1,  ff.id( set ) ) );
-        
+        set.add(ff.featureId("FID.1"));
+        Filter filter = ff.or(null2, ff.and(null1, ff.id(set)));
+
         StringWriter output = new StringWriter();
         XMLHandlerHints hints = new XMLHandlerHints();
         hints.put(XMLHandlerHints.FILTER_COMPLIANCE_STRICTNESS,
@@ -265,39 +267,45 @@ public class XMLEncoderTest extends TestCase {
         DocumentWriter.writeFragment(filter, FilterSchema.getInstance(),
                 output, hints);
         String string = output.toString().replaceAll("\\s", "");
-        String xml = "<Filterxmlns=\"http://www.opengis.net/ogc\"xmlns:gml=\"http://www.opengis.net/gml\">" +
-        "<PropertyIsNull><PropertyName>geom</PropertyName></PropertyIsNull>" +
-        "<Filter><FeatureIdfid=\"FID.1\"/></Filter>" +
-        "</Filter>";
+        String xml = "<Filterxmlns=\"http://www.opengis.net/ogc\"xmlns:gml=\"http://www.opengis" +
+                ".net/gml\">" +
+                "<PropertyIsNull><PropertyName>geom</PropertyName></PropertyIsNull>" +
+                "<Filter><FeatureIdfid=\"FID.1\"/></Filter>" +
+                "</Filter>";
         assertEquals(
                 xml,
                 string);
-        
-        // Note:  Round trip doesn't work in this case because request may returns more features than "filter" will accept
+
+        // Note:  Round trip doesn't work in this case because request may returns more features 
+        // than "filter" will accept
     }
 
     public void testStrictHintOR() throws Exception {
         FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
         HashSet<FeatureId> set = new HashSet<FeatureId>();
-        set.add( ff.featureId("FID.1"));
-        set.add( ff.featureId("FID.2"));        
-		Filter filter=ff.id( set );
-		
+        set.add(ff.featureId("FID.1"));
+        set.add(ff.featureId("FID.2"));
+        Filter filter = ff.id(set);
+
         StringWriter output = new StringWriter();
-        XMLHandlerHints hints=new XMLHandlerHints();
-        hints.put(XMLHandlerHints.FILTER_COMPLIANCE_STRICTNESS, XMLHandlerHints.VALUE_FILTER_COMPLIANCE_MEDIUM);
+        XMLHandlerHints hints = new XMLHandlerHints();
+        hints.put(XMLHandlerHints.FILTER_COMPLIANCE_STRICTNESS, XMLHandlerHints
+                .VALUE_FILTER_COMPLIANCE_MEDIUM);
         DocumentWriter.writeFragment(filter,
-            FilterSchema.getInstance(), output, hints);
-		String string=output.toString().replaceAll("\\s", "");
-        // The following test fails with Java 1.6. May be caused by some iteration order dependent code.
+                FilterSchema.getInstance(), output, hints);
+        String string = output.toString().replaceAll("\\s", "");
+        // The following test fails with Java 1.6. May be caused by some iteration order 
+        // dependent code.
         if (TestData.isBaseJavaPlatform()) {
-            assertEquals("<Filterxmlns=\"http://www.opengis.net/ogc\"xmlns:gml=\"http://www.opengis.net/gml\"><FeatureIdfid=\"FID.1\"/><FeatureIdfid=\"FID.2\"/></Filter>",
-        		string);
+            assertEquals("<Filterxmlns=\"http://www.opengis.net/ogc\"xmlns:gml=\"http://www" +
+                            ".opengis.net/gml\"><FeatureIdfid=\"FID.1\"/><FeatureIdfid=\"FID.2" +
+                            "\"/></Filter>",
+                    string);
         }
         ByteArrayInputStream byteStream = new ByteArrayInputStream(output.toString().getBytes());
-        Filter roundTrip=(Filter) DocumentFactory.getInstance(byteStream, null, Level.OFF);
+        Filter roundTrip = (Filter) DocumentFactory.getInstance(byteStream, null, Level.OFF);
         assertEquals(filter, roundTrip);
     }
-    
-    
+
+
 }

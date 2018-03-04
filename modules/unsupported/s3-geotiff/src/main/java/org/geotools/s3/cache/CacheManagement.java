@@ -47,14 +47,13 @@ public enum CacheManagement {
         CacheManager manager;
         if (config.getConfigurationPath() != null) {
             manager = CacheManager.newInstance(config.getConfigurationPath());
-        }
-        else {
+        } else {
             Configuration cacheConfig = new Configuration();
             cacheConfig.setMaxBytesLocalDisk((long) config.getDiskCacheSize());
             cacheConfig.setMaxBytesLocalHeap((long) config.getHeapSize());
             CacheConfiguration defaultCacheConfiguration = new CacheConfiguration()
-                .persistence(new PersistenceConfiguration().strategy(
-                    PersistenceConfiguration.Strategy.LOCALTEMPSWAP));
+                    .persistence(new PersistenceConfiguration().strategy(
+                            PersistenceConfiguration.Strategy.LOCALTEMPSWAP));
             cacheConfig.defaultCache(defaultCacheConfiguration);
 
             if (config.isUseDiskCache()) {
@@ -62,12 +61,13 @@ public enum CacheManagement {
                 diskConfig.setPath(config.getCacheDirectory().toAbsolutePath().toString());
                 cacheConfig.diskStore(diskConfig);
             }
-            
+
             manager = new CacheManager(cacheConfig);
 
             manager.addCache(DEFAULT_CACHE);
             Cache cache = manager.getCache(DEFAULT_CACHE);
-            SelfPopulatingCache populatingCache = new SelfPopulatingCache(cache, new S3ChunkEntryFactory(config));
+            SelfPopulatingCache populatingCache = new SelfPopulatingCache(cache, new 
+                    S3ChunkEntryFactory(config));
             manager.replaceCacheWithDecoratedCache(cache, populatingCache);
         }
 

@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -23,19 +23,22 @@ import org.opengis.filter.Filter;
 
 
 /**
- *
- *
- *
  * @source $URL$
  */
 public class FeatureTypeConstraintImpl implements FeatureTypeConstraint, Cloneable {
-    /** the feature type name */
+    /**
+     * the feature type name
+     */
     String featureTypeName;
 
-    /** the filter */
+    /**
+     * the filter
+     */
     Filter filter;
 
-    /** the extents */
+    /**
+     * the extents
+     */
     Extent[] extents;
 
     public String getFeatureTypeName() {
@@ -65,39 +68,39 @@ public class FeatureTypeConstraintImpl implements FeatureTypeConstraint, Cloneab
     public void accept(StyleVisitor visitor) {
         visitor.visit(this);
     }
-    
+
     public int hashCode() {
-    	final int PRIME = 1000003;
-		int result = 0;
-		
-		if (featureTypeName != null) {
-			result = (PRIME * result) + featureTypeName.hashCode();
-		}
-		
-		if (filter != null) {
-			result =  (PRIME * result) + filter.hashCode();
-		}
-		
-		if (extents != null) {
-			result =  (PRIME * result) + extents.hashCode();
-	
-		}
-		return result;
+        final int PRIME = 1000003;
+        int result = 0;
+
+        if (featureTypeName != null) {
+            result = (PRIME * result) + featureTypeName.hashCode();
+        }
+
+        if (filter != null) {
+            result = (PRIME * result) + filter.hashCode();
+        }
+
+        if (extents != null) {
+            result = (PRIME * result) + extents.hashCode();
+
+        }
+        return result;
     }
-    
+
     public boolean equals(Object obj) {
-    	if (this == obj) {
-    		return true;
-    	}
-    	
-    	if (obj instanceof FeatureTypeConstraintImpl) {
-    		FeatureTypeConstraintImpl other = (FeatureTypeConstraintImpl)obj;
-    		return Utilities.equals(featureTypeName,other.featureTypeName) && 
-    			Utilities.equals(filter,other.filter) && 
-    			Arrays.equals(extents,other.extents);
-    	}
-    	
-    	return false;
-    		
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj instanceof FeatureTypeConstraintImpl) {
+            FeatureTypeConstraintImpl other = (FeatureTypeConstraintImpl) obj;
+            return Utilities.equals(featureTypeName, other.featureTypeName) &&
+                    Utilities.equals(filter, other.filter) &&
+                    Arrays.equals(extents, other.extents);
+        }
+
+        return false;
+
     }
 }

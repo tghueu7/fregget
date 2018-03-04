@@ -29,9 +29,9 @@ import org.opengis.filter.expression.PropertyName;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:PropertyIsLikeType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="PropertyIsLikeType"&gt;
  *      &lt;xsd:complexContent&gt;
@@ -52,9 +52,6 @@ import org.opengis.filter.expression.PropertyName;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OGCPropertyIsLikeTypeBinding extends AbstractComplexBinding {
@@ -88,7 +85,7 @@ public class OGCPropertyIsLikeTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         PropertyName name = (PropertyName) node.getChildValue(PropertyName.class);
         Literal literal = (Literal) node.getChildValue(Literal.class);
 
@@ -97,7 +94,7 @@ public class OGCPropertyIsLikeTypeBinding extends AbstractComplexBinding {
         String escape = (String) node.getAttributeValue("escape");
         boolean matchCase = true;
 
-        if (node.getAttributeValue("matchCase") != null){
+        if (node.getAttributeValue("matchCase") != null) {
             matchCase = (Boolean) node.getAttributeValue("matchCase");
         }
 
@@ -110,7 +107,7 @@ public class OGCPropertyIsLikeTypeBinding extends AbstractComplexBinding {
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         PropertyIsLike isLike = (PropertyIsLike) object;
 
         if (OGC.PropertyName.equals(name)) {
@@ -118,7 +115,7 @@ public class OGCPropertyIsLikeTypeBinding extends AbstractComplexBinding {
         }
 
         if (OGC.Literal.equals(name)) {
-            return isLike.getLiteral() != null ? factory.literal( isLike.getLiteral() ) : null; 
+            return isLike.getLiteral() != null ? factory.literal(isLike.getLiteral()) : null;
         }
 
         if ("wildCard".equals(name.getLocalPart())) {
@@ -136,7 +133,7 @@ public class OGCPropertyIsLikeTypeBinding extends AbstractComplexBinding {
         if ("matchCase".equals(name.getLocalPart())) {
             return isLike.isMatchingCase();
         }
-        
+
         return null;
     }
 }

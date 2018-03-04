@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -44,7 +44,7 @@ import org.opengis.feature.simple.SimpleFeature;
 
 /**
  * Z-order rendering test making use of FeatureTypeStyle sortBy to refine query used for styling.
- * 
+ *
  * @source $URL$
  */
 public class ZOrderTest {
@@ -132,7 +132,7 @@ public class ZOrderTest {
     }
 
     private void runRoadsTest(String styleName, String sortBy, String sortByGroup,
-            String referenceImageName) throws Exception {
+                              String referenceImageName) throws Exception {
         Style style = RendererBaseTest.loadStyle(this, styleName);
         forceSortBy(style, sortBy);
         forceSortByGroup(style, sortByGroup);
@@ -144,7 +144,7 @@ public class ZOrderTest {
     }
 
     private void runRoadsBuildingTest(String sortBy, String sortByGroup,
-            String referenceImageName) throws Exception {
+                                      String referenceImageName) throws Exception {
         Style roadsStyle = RendererBaseTest.loadStyle(this, "zorder/zroads.sld");
         forceSortBy(roadsStyle, sortBy);
         forceSortByGroup(roadsStyle, sortByGroup);
@@ -203,8 +203,7 @@ public class ZOrderTest {
             }
         }
     }
-    
-    
+
 
     @Test
     public void testInvalidAttribute() throws Exception {
@@ -336,7 +335,7 @@ public class ZOrderTest {
     }
 
     private void runZRoadsFailureTest(String styleName, String sortBy, String sortByGroup,
-            RenderListener listener)
+                                      RenderListener listener)
             throws Exception {
         Style style = RendererBaseTest.loadStyle(this, styleName);
         forceSortBy(style, sortBy);
@@ -358,7 +357,8 @@ public class ZOrderTest {
     }
 
     private void runRoadsBuildFailureTest(String styleName, String sortByRoads,
-            String sortByBuildings, String sortByGroup, RenderListener listener) throws Exception {
+                                          String sortByBuildings, String sortByGroup, 
+                                          RenderListener listener) throws Exception {
         Style roadsStyle = RendererBaseTest.loadStyle(this, "zorder/zroads.sld");
         forceSortBy(roadsStyle, sortByRoads);
         forceSortByGroup(roadsStyle, sortByGroup);
@@ -373,7 +373,7 @@ public class ZOrderTest {
 
         runFailureTest(listener, mc);
     }
-    
+
     @Test
     public void testZOrderComposite() throws Exception {
         Style roadsStyle = RendererBaseTest.loadStyle(this, "zorder/zroads.sld");

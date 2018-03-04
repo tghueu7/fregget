@@ -27,13 +27,14 @@ import org.geotools.xml.InstanceComponent;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:doubleList.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;simpleType name="doubleList"&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;XML List based on XML Schema double type.  An element of this type contains a space-separated list of double values&lt;/documentation&gt;
+ *          &lt;documentation&gt;XML List based on XML Schema double type.  An element of this 
+ *          type contains a space-separated list of double values&lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;list itemType="double"/&gt;
  *  &lt;/simpleType&gt;
@@ -43,9 +44,6 @@ import org.geotools.xml.InstanceComponent;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class DoubleListBinding extends AbstractSimpleBinding {
@@ -78,7 +76,7 @@ public class DoubleListBinding extends AbstractSimpleBinding {
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
+            throws Exception {
         List list = (List) value;
 
         return list.toArray(new Double[list.size()]);

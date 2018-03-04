@@ -33,20 +33,15 @@ import org.opengis.feature.Property;
 
 /**
  * Special node pointer for {@link org.geotools.feature.Feature}.
- * 
+ *
  * @author Justin Deoliveira (The Open Planning Project)
  * @author Gabriel Roldan (Axios Engineering)
- * 
- *
- *
- *
- *
  * @source $URL$
  */
 public class AttributeNodePointer extends NodePointer {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -5637103253645991273L;
 
@@ -67,7 +62,7 @@ public class AttributeNodePointer extends NodePointer {
     }
 
     public boolean isLeaf() {
-        return !(feature instanceof ComplexAttribute);       
+        return !(feature instanceof ComplexAttribute);
     }
 
     public boolean isCollection() {
@@ -87,9 +82,9 @@ public class AttributeNodePointer extends NodePointer {
     }
 
     public Object getImmediateNode() {
-        return ComplexFeatureConstants.unpack(feature);        
+        return ComplexFeatureConstants.unpack(feature);
     }
-       
+
     public Attribute getImmediateAttribute() {
         return feature;
     }
@@ -110,8 +105,8 @@ public class AttributeNodePointer extends NodePointer {
             if (!nodeNameTest.isWildcard()) {
                 String localName = nodeNameTest.getNodeName().getName();
                 String nameSpace = nodeNameTest.getNamespaceURI();
-                if (nameSpace==null) nameSpace = getNamespaceResolver().getNamespaceURI("");
-                                
+                if (nameSpace == null) nameSpace = getNamespaceResolver().getNamespaceURI("");
+
                 return new AttributeNodeIterator(this, Types.typeName(nameSpace, localName));
             } else {
                 return new AttributeNodeIterator(this);
@@ -128,8 +123,9 @@ public class AttributeNodePointer extends NodePointer {
         return super.childIterator(test, reverse, startWith);
     }
 
-    public NodeIterator attributeIterator(QName qname) {        
-        return new XmlAttributeNodeIterator(this, Types.typeName(getNamespaceResolver().getNamespaceURI(qname.getPrefix()), qname.getName()));
+    public NodeIterator attributeIterator(QName qname) {
+        return new XmlAttributeNodeIterator(this, Types.typeName(getNamespaceResolver()
+                .getNamespaceURI(qname.getPrefix()), qname.getName()));
     }
 
 }

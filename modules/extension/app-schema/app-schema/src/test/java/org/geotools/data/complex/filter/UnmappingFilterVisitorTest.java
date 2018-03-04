@@ -100,12 +100,8 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Polygon;
 
 /**
- * 
  * @author Gabriel Roldan (Axios Engineering)
  * @version $Id$
- *
- *
- *
  * @source $URL$
  * @since 2.4
  */
@@ -132,7 +128,7 @@ public class UnmappingFilterVisitorTest extends AppSchemaTestSupport {
         visitor = new UnmappingFilterVisitor(mapping);
         targetDescriptor = mapping.getTargetFeature();
     }
-    
+
     @BeforeClass
     public static void oneTimeSetUp() throws IOException {
         final String schemaBase = "/test-data/";
@@ -149,7 +145,7 @@ public class UnmappingFilterVisitorTest extends AppSchemaTestSupport {
      * Creates a mapping from the test case simple source to a complex type with an
      * "areaOfInfluence" attribute, which is a buffer over the simple "location" attribute and
      * another which is the concatenation of the attributes "anzlic_no" and "project_no"
-     * 
+     *
      * @return
      * @throws Exception
      */
@@ -187,7 +183,7 @@ public class UnmappingFilterVisitorTest extends AppSchemaTestSupport {
         attMappings.add(new AttributeMapping(null, strConcat, XPath.steps(targetFeature,
                 "concatenated", namespaces)));
 
-        FeatureSource<?,?> simpleSource = mapping.getSource();
+        FeatureSource<?, ?> simpleSource = mapping.getSource();
         FeatureTypeMapping mapping = new FeatureTypeMapping(simpleSource, targetFeature,
                 attMappings, namespaces);
         return mapping;
@@ -205,7 +201,7 @@ public class UnmappingFilterVisitorTest extends AppSchemaTestSupport {
         Filter unrolled = (Filter) fidFilter.accept(visitor, null);
         assertNotNull(unrolled);
 
-        FeatureCollection<SimpleFeatureType,SimpleFeature> results = mapping.getSource()
+        FeatureCollection<SimpleFeatureType, SimpleFeature> results = mapping.getSource()
                 .getFeatures(unrolled);
         assertEquals(1, getCount(results));
 
@@ -217,9 +213,9 @@ public class UnmappingFilterVisitorTest extends AppSchemaTestSupport {
         Object object = unmappedFeature.getProperty("station_no").getValue();
         assertEquals(fid, object);
     }
-    
+
     /**
-     * The type of filter that returns should be in a single Or filter OR(a,b,c) instead 
+     * The type of filter that returns should be in a single Or filter OR(a,b,c) instead
      * of ((a OR b) or c)
      */
     @Test
@@ -245,7 +241,7 @@ public class UnmappingFilterVisitorTest extends AppSchemaTestSupport {
 
         FeatureIterator<SimpleFeature> features = results.features();
         SimpleFeature unmappedFeature = (SimpleFeature) features.next();
-        
+
         features.close();
 
         assertNotNull(unmappedFeature);
@@ -253,7 +249,7 @@ public class UnmappingFilterVisitorTest extends AppSchemaTestSupport {
         assertEquals(fid1, object);
     }
 
-    private int getCount(FeatureCollection<?,?> features) {
+    private int getCount(FeatureCollection<?, ?> features) {
         FeatureIterator<?> iterator = features.features();
         int count = 0;
         try {
@@ -287,10 +283,10 @@ public class UnmappingFilterVisitorTest extends AppSchemaTestSupport {
         checkUnrollIdExpression(CommonFactoryFinder.getFilterFactory(null).function("getID",
                 new org.opengis.filter.expression.Expression[0]));
     }
-    
+
     /**
      * Implementation for tests of fid -> fid unmapping.
-     * 
+     *
      * @param idExpression
      * @throws Exception
      */
@@ -298,7 +294,7 @@ public class UnmappingFilterVisitorTest extends AppSchemaTestSupport {
         AttributeMapping featureMapping = null;
         Name featurePath = mapping.getTargetFeature().getName();
         QName featureName = Types.toQName(featurePath);
-        for (Iterator it = mapping.getAttributeMappings().iterator(); it.hasNext();) {
+        for (Iterator it = mapping.getAttributeMappings().iterator(); it.hasNext(); ) {
             AttributeMapping attMapping = (AttributeMapping) it.next();
             StepList targetXPath = attMapping.getTargetXPath();
             if (targetXPath.size() > 1) {
@@ -312,24 +308,24 @@ public class UnmappingFilterVisitorTest extends AppSchemaTestSupport {
         }
         featureMapping.setIdentifierExpression(idExpression);
         this.visitor = new UnmappingFilterVisitor(this.mapping);
-        
+
         // retrieve a single sample feature
-        Feature sourceFeature = DataUtilities.first( mapping.getSource().getFeatures() );
+        Feature sourceFeature = DataUtilities.first(mapping.getSource().getFeatures());
         String fid = sourceFeature.getIdentifier().toString();
         Id fidFilter = ff.id(Collections.singleton(ff.featureId(fid)));
         Filter unrolled = (Filter) fidFilter.accept(visitor, null);
         assertNotNull(unrolled);
         assertTrue(unrolled instanceof Id);
 
-        FeatureCollection<SimpleFeatureType,SimpleFeature> results = mapping.getSource()
+        FeatureCollection<SimpleFeatureType, SimpleFeature> results = mapping.getSource()
                 .getFeatures(unrolled);
         assertEquals(1, getCount(results));
-        
-        SimpleFeature unmappedFeature =  DataUtilities.first( results);
-        
+
+        SimpleFeature unmappedFeature = DataUtilities.first(results);
+
         assertEquals(fid, unmappedFeature.getID());
     }
-    
+
     @Test
     public void testPropertyName() throws Exception {
         PropertyName ae = ff.property("/wq_plus/measurement/result");
@@ -373,16 +369,16 @@ public class UnmappingFilterVisitorTest extends AppSchemaTestSupport {
     /**
      * An xpath expression may target a "client property" mapping (in xml land, an xml attribute
      * rather than a xml element).
-     * 
+     *
      * @throws Exception
      */
     @Test
     public void testPropertyNameWithXlinkAttribute() throws Exception {
         final String XMMLNS = "http://www.opengis.net/xmml";
         final Name typeName = new NameImpl(XMMLNS, "Borehole");
-        
+
         AppSchemaDataAccess complexDs = (AppSchemaDataAccess) mappingDataStore;
-        
+
         mapping = complexDs.getMappingByNameOrElement(typeName);
 
         NamespaceSupport namespaces = new NamespaceSupport();
@@ -405,7 +401,7 @@ public class UnmappingFilterVisitorTest extends AppSchemaTestSupport {
     /**
      * An x-path expression may target a "client property" mapping (in xml land, an xml attribute
      * rather than a xml element).
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -464,7 +460,7 @@ public class UnmappingFilterVisitorTest extends AppSchemaTestSupport {
         assertTrue(att instanceof PropertyName);
         String propertyName = ((PropertyName) att).getPropertyName();
         assertEquals("results_value", propertyName);
-    }       
+    }
 
     @Test
     public void testCompareFilter() throws Exception {
@@ -501,21 +497,21 @@ public class UnmappingFilterVisitorTest extends AppSchemaTestSupport {
      * <li>gml:name[3] = NAME</li>
      * <li>gml:name[4] = ORIGINAL_N</li>
      * </ul>
-     * 
-     * This means the "unrolled" filter for <code>gml:name = "SWADLINCOTE"</code> should be
-     * <code>strConcat( strConcat(QS, ...) = "SWADLINCOTE" 
-     *          OR BGS_ID = "SWADLINCOTE" 
-     *          OR NAME = "SWADLINCOTE" 
-     *          OR ORIGINAL_N = "SWADLINCOTE"</code>
      * <p>
-     * 
+     * This means the "unrolled" filter for <code>gml:name = "SWADLINCOTE"</code> should be
+     * <code>strConcat( strConcat(QS, ...) = "SWADLINCOTE"
+     * OR BGS_ID = "SWADLINCOTE"
+     * OR NAME = "SWADLINCOTE"
+     * OR ORIGINAL_N = "SWADLINCOTE"</code>
+     * <p>
+     *
      * @throws Exception
      */
     @Test
     public void testCompareFilterMultipleMappingsPerPropertyName() throws Exception {
         final String XMMLNS = "http://www.opengis.net/xmml";
         final Name typeName = new NameImpl(XMMLNS, "Borehole");
-        
+
         AppSchemaDataAccess complexDs = (AppSchemaDataAccess) mappingDataStore;
         mapping = complexDs.getMappingByNameOrElement(typeName);
 
@@ -561,7 +557,7 @@ public class UnmappingFilterVisitorTest extends AppSchemaTestSupport {
 
         assertEquals("BGS_ID", ((PropertyName) filter2.getExpression1()).getPropertyName());
         assertEquals("NAME", ((PropertyName) filter3.getExpression1()).getPropertyName());
-        assertEquals("ORIGINAL_N", ((PropertyName) filter4.getExpression1()).getPropertyName());        
+        assertEquals("ORIGINAL_N", ((PropertyName) filter4.getExpression1()).getPropertyName());
     }
 
     @Test
@@ -670,7 +666,7 @@ public class UnmappingFilterVisitorTest extends AppSchemaTestSupport {
         assertTrue(unmappedExpr instanceof PropertyName);
         assertEquals("determinand_description", ((PropertyName) unmappedExpr).getPropertyName());
     }
-    
+
     @Test
     public void testLiteralExpression() throws Exception {
         Expression literal = ff.literal(new Integer(0));
@@ -758,25 +754,25 @@ public class UnmappingFilterVisitorTest extends AppSchemaTestSupport {
         assertTrue(unmappedAtt instanceof PropertyName);
         assertEquals("results_value", ((PropertyName) unmappedAtt).getPropertyName());
     }
-    
+
     @Test
     public void testBBox3D() throws Exception {
-    	BBOX bbox = ff.bbox("location", new ReferencedEnvelope3D(0, 10, 20, 50, 60, 70, null));
-    	
-    	assertTrue(bbox instanceof BBOX3DImpl);
-    	BBOX3DImpl bbox3d = (BBOX3DImpl) bbox;
-    	
-    	Filter unrolled = (Filter) bbox.accept(visitor, null);
-    	
-    	assertTrue(unrolled instanceof BBOX3DImpl);
-    	BBOX3DImpl unrolled3d = (BBOX3DImpl) unrolled;
-    	assertEquals(bbox3d.getMinX(), unrolled3d.getMinX(), 0.0);
-    	assertEquals(bbox3d.getMaxX(), unrolled3d.getMaxX(), 0.0);
-    	assertEquals(bbox3d.getMinY(), unrolled3d.getMinY(), 0.0);
-    	assertEquals(bbox3d.getMaxY(), unrolled3d.getMaxY(), 0.0);
-    	assertEquals(bbox3d.getMinZ(), unrolled3d.getMinZ(), 0.0);
-    	assertEquals(bbox3d.getMaxZ(), unrolled3d.getMaxZ(), 0.0);
-    	
+        BBOX bbox = ff.bbox("location", new ReferencedEnvelope3D(0, 10, 20, 50, 60, 70, null));
+
+        assertTrue(bbox instanceof BBOX3DImpl);
+        BBOX3DImpl bbox3d = (BBOX3DImpl) bbox;
+
+        Filter unrolled = (Filter) bbox.accept(visitor, null);
+
+        assertTrue(unrolled instanceof BBOX3DImpl);
+        BBOX3DImpl unrolled3d = (BBOX3DImpl) unrolled;
+        assertEquals(bbox3d.getMinX(), unrolled3d.getMinX(), 0.0);
+        assertEquals(bbox3d.getMaxX(), unrolled3d.getMaxX(), 0.0);
+        assertEquals(bbox3d.getMinY(), unrolled3d.getMinY(), 0.0);
+        assertEquals(bbox3d.getMaxY(), unrolled3d.getMaxY(), 0.0);
+        assertEquals(bbox3d.getMinZ(), unrolled3d.getMinZ(), 0.0);
+        assertEquals(bbox3d.getMaxZ(), unrolled3d.getMaxZ(), 0.0);
+
     }
 
 }

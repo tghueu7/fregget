@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2007-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -29,6 +29,7 @@ import org.geotools.referencing.datum.*;
 import org.geotools.referencing.ReferencingFactoryFinder;
 
 import org.junit.*;
+
 import static org.junit.Assert.*;
 
 
@@ -36,10 +37,8 @@ import static org.junit.Assert.*;
  * Tests the {@link AuthorityFactoryProxy} implementation.
  *
  * @author Martin Desruisseaux
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public final class AuthorityFactoryProxyTest {
     /**
@@ -47,13 +46,16 @@ public final class AuthorityFactoryProxyTest {
      */
     @Test
     public void testType() {
-        assertEquals(             ProjectedCRS.class, AuthorityFactoryProxy.getType(        ProjectedCRS.class));
-        assertEquals(             ProjectedCRS.class, AuthorityFactoryProxy.getType( DefaultProjectedCRS.class));
-        assertEquals(            GeographicCRS.class, AuthorityFactoryProxy.getType(       GeographicCRS.class));
-        assertEquals(            GeographicCRS.class, AuthorityFactoryProxy.getType(DefaultGeographicCRS.class));
-        assertEquals(               DerivedCRS.class, AuthorityFactoryProxy.getType(   DefaultDerivedCRS.class));
-        assertEquals(CoordinateReferenceSystem.class, AuthorityFactoryProxy.getType(  AbstractDerivedCRS.class));
-        assertEquals(            GeodeticDatum.class, AuthorityFactoryProxy.getType(DefaultGeodeticDatum.class));
+        assertEquals(ProjectedCRS.class, AuthorityFactoryProxy.getType(ProjectedCRS.class));
+        assertEquals(ProjectedCRS.class, AuthorityFactoryProxy.getType(DefaultProjectedCRS.class));
+        assertEquals(GeographicCRS.class, AuthorityFactoryProxy.getType(GeographicCRS.class));
+        assertEquals(GeographicCRS.class, AuthorityFactoryProxy.getType(DefaultGeographicCRS
+                .class));
+        assertEquals(DerivedCRS.class, AuthorityFactoryProxy.getType(DefaultDerivedCRS.class));
+        assertEquals(CoordinateReferenceSystem.class, AuthorityFactoryProxy.getType
+                (AbstractDerivedCRS.class));
+        assertEquals(GeodeticDatum.class, AuthorityFactoryProxy.getType(DefaultGeodeticDatum
+                .class));
     }
 
     /**
@@ -61,7 +63,8 @@ public final class AuthorityFactoryProxyTest {
      */
     @Test
     public void testCreate() throws FactoryException {
-        final CRSAuthorityFactory factory = ReferencingFactoryFinder.getCRSAuthorityFactory("CRS", null);
+        final CRSAuthorityFactory factory = ReferencingFactoryFinder.getCRSAuthorityFactory
+                ("CRS", null);
         final CoordinateReferenceSystem expected = factory.createCoordinateReferenceSystem("83");
         AuthorityFactoryProxy proxy;
         /*
@@ -119,20 +122,22 @@ public final class AuthorityFactoryProxyTest {
      */
     @Test
     public void testCreateFromCodes() throws FactoryException {
-        final CRSAuthorityFactory factory = ReferencingFactoryFinder.getCRSAuthorityFactory("CRS", null);
-        final IdentifiedObjectFinder proxy = new IdentifiedObjectFinder(factory, GeographicCRS.class);
+        final CRSAuthorityFactory factory = ReferencingFactoryFinder.getCRSAuthorityFactory
+                ("CRS", null);
+        final IdentifiedObjectFinder proxy = new IdentifiedObjectFinder(factory, GeographicCRS
+                .class);
         CoordinateReferenceSystem expected = factory.createCoordinateReferenceSystem("84");
         assertNotSame(expected, DefaultGeographicCRS.WGS84);
-        assertSame   (expected, proxy.createFromCodes      (expected, false));
-        assertSame   (expected, proxy.createFromIdentifiers(expected));
-        assertNull   (          proxy.createFromNames      (expected));
-        assertSame   (expected, proxy.createFromCodes      (DefaultGeographicCRS.WGS84, false));
-        assertNull   (          proxy.createFromIdentifiers(DefaultGeographicCRS.WGS84));
-        assertNull   (          proxy.createFromNames      (DefaultGeographicCRS.WGS84));
+        assertSame(expected, proxy.createFromCodes(expected, false));
+        assertSame(expected, proxy.createFromIdentifiers(expected));
+        assertNull(proxy.createFromNames(expected));
+        assertSame(expected, proxy.createFromCodes(DefaultGeographicCRS.WGS84, false));
+        assertNull(proxy.createFromIdentifiers(DefaultGeographicCRS.WGS84));
+        assertNull(proxy.createFromNames(DefaultGeographicCRS.WGS84));
 
         expected = factory.createCoordinateReferenceSystem("83");
-        assertSame   (expected, proxy.createFromCodes      (expected, false));
-        assertSame   (expected, proxy.createFromIdentifiers(expected));
-        assertNull   (          proxy.createFromNames      (expected));
+        assertSame(expected, proxy.createFromCodes(expected, false));
+        assertSame(expected, proxy.createFromIdentifiers(expected));
+        assertNull(proxy.createFromNames(expected));
     }
 }

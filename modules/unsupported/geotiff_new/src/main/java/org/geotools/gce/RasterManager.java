@@ -45,8 +45,6 @@ import org.opengis.referencing.operation.MathTransform2D;
 import org.opengis.referencing.operation.TransformException;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class RasterManager {
@@ -54,21 +52,20 @@ public class RasterManager {
     /**
      * This class is responsible for putting together all the 2D spatial
      * information needed for a certain raster.
-     * 
+     * <p>
      * <p>
      * Notice that when this structure will be extended to work in ND this will
      * become much more complex or as an alternative a sibling
      * TemporalDomainManager will be created.
-     * 
+     *
      * @author Simone Giannecchini, GeoSolutions SAS
-     * 
      */
     class SpatialDomainManager {
 
         public SpatialDomainManager(
                 CoordinateReferenceSystem coverageCRS,
-                GeneralEnvelope coverageEnvelope, 
-                MathTransform2D coverageGridToWorld2D, 
+                GeneralEnvelope coverageEnvelope,
+                MathTransform2D coverageGridToWorld2D,
                 Rectangle coverageRasterArea) throws TransformException, FactoryException {
             this.coverageCRS = coverageCRS;
             this.coverageEnvelope = coverageEnvelope;
@@ -77,13 +74,19 @@ public class RasterManager {
             prepareCoverageSpatialElements();
         }
 
-        /** The base envelope 2D */
+        /**
+         * The base envelope 2D
+         */
         ReferencedEnvelope coverageBBox;
 
-        /** The CRS for the coverage */
+        /**
+         * The CRS for the coverage
+         */
         CoordinateReferenceSystem coverageCRS;
 
-        /** The CRS related to the base envelope 2D */
+        /**
+         * The CRS related to the base envelope 2D
+         */
         CoordinateReferenceSystem coverageCRS2D;
 
         // ////////////////////////////////////////////////////////////////////////
@@ -91,25 +94,30 @@ public class RasterManager {
         // Base coverage properties
         //
         // ////////////////////////////////////////////////////////////////////////
-        /** The base envelope read from file */
+        /**
+         * The base envelope read from file
+         */
         GeneralEnvelope coverageEnvelope;
 
 
-        /** WGS84 envelope 2D for this coverage */
+        /**
+         * WGS84 envelope 2D for this coverage
+         */
         ReferencedEnvelope coverageGeographicBBox;
 
         CoordinateReferenceSystem coverageGeographicCRS2D;
 
         MathTransform2D coverageGridToWorld2D;
 
-        /** The base grid range for the coverage */
+        /**
+         * The base grid range for the coverage
+         */
         Rectangle coverageRasterArea;
 
         /**
          * Initialize the 2D properties (CRS and Envelope) of this coverage
-         * 
+         *
          * @throws TransformException
-         * 
          * @throws FactoryException
          * @throws TransformException
          * @throws FactoryException
@@ -120,7 +128,8 @@ public class RasterManager {
             //
             coverageGeographicBBox = new ReferencedEnvelope(CRS.transform(coverageEnvelope,
                     GeoTiffUtils.WGS84));
-            coverageGeographicCRS2D = coverageGeographicBBox!=null?coverageGeographicBBox.getCoordinateReferenceSystem():null;
+            coverageGeographicCRS2D = coverageGeographicBBox != null ? coverageGeographicBBox
+                    .getCoordinateReferenceSystem() : null;
 
             //
             // Get the original envelope 2d and its spatial reference system
@@ -145,7 +154,9 @@ public class RasterManager {
      */
     String coverageIdentifier;
 
-    /** The hints to be used to produce this coverage */
+    /**
+     * The hints to be used to produce this coverage
+     */
     Hints hints;
 
     OverviewsController overviewsController;
@@ -162,8 +173,12 @@ public class RasterManager {
 
     RasterDescriptor rasterDescriptor;
 
-    /** Logger. */
-    private final static Logger LOGGER = org.geotools.util.logging.Logging.getLogger(RasterManager.class);
+    /**
+     * Logger.
+     */
+    private final static Logger LOGGER = org.geotools.util.logging.Logging.getLogger
+            (RasterManager.class);
+
     public RasterManager(
             String identifier,
             Hints hints,
@@ -171,10 +186,10 @@ public class RasterManager {
             GeneralEnvelope envelope,
             MathTransform2D gridToWorld,
             Rectangle originalRasterRange,
-            double [][] resolutions,
+            double[][] resolutions,
             ImageTypeSpecifier baseImageType,
             GeoTiffReader reader) throws DataSourceException {
-        Utilities.ensureNonNull("GeoTiffReader", reader);        
+        Utilities.ensureNonNull("GeoTiffReader", reader);
         initialize(
                 identifier,
                 hints,
@@ -186,18 +201,18 @@ public class RasterManager {
                 baseImageType,
                 reader);
 
-        
+
     }
-    
+
     private void initialize(
-            String identifier, 
-            Hints hints, 
+            String identifier,
+            Hints hints,
             CoordinateReferenceSystem crs,
-            GeneralEnvelope envelope, 
-            MathTransform2D gridToWorld, 
+            GeneralEnvelope envelope,
+            MathTransform2D gridToWorld,
             Rectangle originalRasterRange,
-            double[][] resolutions, 
-            ImageTypeSpecifier baseImageType, 
+            double[][] resolutions,
+            ImageTypeSpecifier baseImageType,
             GeoTiffReader reader) throws DataSourceException {
         Utilities.ensureNonNull("GeoTiffReader", reader);
         this.parent = reader;
@@ -208,13 +223,14 @@ public class RasterManager {
 
         // base image type
         this.baseImageType = baseImageType;
-        
+
         // default ImageLayout
-        defaultImageLayout= new ImageLayout().setColorModel( baseImageType.getColorModel()).setSampleModel(baseImageType.getSampleModel());
+        defaultImageLayout = new ImageLayout().setColorModel(baseImageType.getColorModel())
+                .setSampleModel(baseImageType.getSampleModel());
 
 
         //instantiating controller for subsampling and levels
-        overviewsController=new OverviewsController(resolutions);
+        overviewsController = new OverviewsController(resolutions);
         try {
             spatialDomainManager = new SpatialDomainManager(
                     crs,
@@ -228,40 +244,40 @@ public class RasterManager {
         }
         // rasterDescriptor creation
         rasterDescriptor = new RasterDescriptor(this);
-        
+
     }
 
     public RasterManager(final GeoTiffReader reader) throws DataSourceException {
         Utilities.ensureNonNull("GeoTiffReader", reader);
-        
+
         // extract levels
-        double [][]resolutions = new double[reader.getNumberOfOverviews()+1][2];
-        double[][] overviewResolutions=reader.getOverviewsResolution();
-        resolutions[0]=reader.getHighestRes();
-        for(int i=1; i<resolutions.length;i++)
-            resolutions[i]=overviewResolutions[i-1];
+        double[][] resolutions = new double[reader.getNumberOfOverviews() + 1][2];
+        double[][] overviewResolutions = reader.getOverviewsResolution();
+        resolutions[0] = reader.getHighestRes();
+        for (int i = 1; i < resolutions.length; i++)
+            resolutions[i] = overviewResolutions[i - 1];
         initialize(
                 reader.getName(),
                 reader.getHints(),
                 reader.getCrs(),
                 reader.getOriginalEnvelope(),
-                (MathTransform2D)reader.getOriginalGridToWorld(PixelInCell.CELL_CENTER), 
-                (Rectangle) reader.getOriginalGridRange(), 
+                (MathTransform2D) reader.getOriginalGridToWorld(PixelInCell.CELL_CENTER),
+                (Rectangle) reader.getOriginalGridRange(),
                 resolutions,
-                reader.baseImageType, 
+                reader.baseImageType,
                 reader);
     }
 
     /**
      * This method is responsible for checking the overview policy as defined by
      * the provided {@link Hints}.
-     * 
+     *
      * @return the overview policy which can be one of
-     *         {@link Hints#VALUE_OVERVIEW_POLICY_IGNORE},
-     *         {@link Hints#VALUE_OVERVIEW_POLICY_NEAREST},
-     *         {@link Hints#VALUE_OVERVIEW_POLICY_SPEED},
-     *         {@link Hints#VALUE_OVERVIEW_POLICY_QUALITY}. Default is
-     *         {@link Hints#VALUE_OVERVIEW_POLICY_NEAREST}.
+     * {@link Hints#VALUE_OVERVIEW_POLICY_IGNORE},
+     * {@link Hints#VALUE_OVERVIEW_POLICY_NEAREST},
+     * {@link Hints#VALUE_OVERVIEW_POLICY_SPEED},
+     * {@link Hints#VALUE_OVERVIEW_POLICY_QUALITY}. Default is
+     * {@link Hints#VALUE_OVERVIEW_POLICY_NEAREST}.
      */
     private OverviewPolicy extractOverviewPolicy() {
 
@@ -275,13 +291,14 @@ public class RasterManager {
 
         // use default if not provided. Default is nearest
         if (overviewPolicy == null) {
-			overviewPolicy = OverviewPolicy.getDefaultPolicy();
+            overviewPolicy = OverviewPolicy.getDefaultPolicy();
         }
         assert overviewPolicy != null;
         return overviewPolicy;
     }
 
-    public Collection<GridCoverage2D> read(final GeneralParameterValue[] params) throws IOException {
+    public Collection<GridCoverage2D> read(final GeneralParameterValue[] params) throws 
+            IOException {
 
         // create a request
         final RasterLayerRequest request = new RasterLayerRequest(params, this);

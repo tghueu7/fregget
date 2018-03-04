@@ -76,16 +76,13 @@ import org.geotools.resources.i18n.ErrorKeys;
  * {@code Default} prefix instead. An exception to this rule may occurs when it is not possible to
  * identify the exact type.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class AbstractCoordinateOperation extends AbstractIdentifiedObject
-        implements CoordinateOperation
-{
+        implements CoordinateOperation {
     /**
      * Serial number for interoperability with different versions.
      */
@@ -148,19 +145,18 @@ public class AbstractCoordinateOperation extends AbstractIdentifiedObject
      * defining conversion, together with the specified source and target CRS. This
      * constructor is used by {@link DefaultConversion} only.
      */
-    AbstractCoordinateOperation(final Conversion               definition,
+    AbstractCoordinateOperation(final Conversion definition,
                                 final CoordinateReferenceSystem sourceCRS,
                                 final CoordinateReferenceSystem targetCRS,
-                                final MathTransform             transform)
-    {
+                                final MathTransform transform) {
         super(definition);
-        this.sourceCRS                   = sourceCRS;
-        this.targetCRS                   = targetCRS;
-        this.operationVersion            = definition.getOperationVersion();
+        this.sourceCRS = sourceCRS;
+        this.targetCRS = targetCRS;
+        this.operationVersion = definition.getOperationVersion();
         this.coordinateOperationAccuracy = definition.getCoordinateOperationAccuracy();
-        this.domainOfValidity            = definition.getDomainOfValidity();
-        this.scope                       = definition.getScope();
-        this.transform                   = transform;
+        this.domainOfValidity = definition.getDomainOfValidity();
+        this.scope = definition.getScope();
+        this.transform = transform;
     }
 
     /**
@@ -170,68 +166,71 @@ public class AbstractCoordinateOperation extends AbstractIdentifiedObject
      * Additionally, the following properties are understood by this construtor:
      * <p>
      * <table border='1'>
-     *   <tr bgcolor="#CCCCFF" class="TableHeadingColor">
-     *     <th nowrap>Property name</th>
-     *     <th nowrap>Value type</th>
-     *     <th nowrap>Value given to</th>
-     *   </tr>
-     *   <tr>
-     *     <td nowrap>&nbsp;{@value org.opengis.referencing.operation.CoordinateOperation#OPERATION_VERSION_KEY}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link String}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link #getOperationVersion}</td>
-     *   </tr>
-     *   <tr>
-     *     <td nowrap>&nbsp;{@value org.opengis.referencing.operation.CoordinateOperation#COORDINATE_OPERATION_ACCURACY_KEY}&nbsp;</td>
-     *     <td nowrap>&nbsp;<code>{@linkplain PositionalAccuracy}[]</code>&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link #getCoordinateOperationAccuracy}</td>
-     *   </tr>
-     *   <tr>
-     *     <td nowrap>&nbsp;{@value org.opengis.referencing.operation.CoordinateOperation#DOMAIN_OF_VALIDITY_KEY}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link Extent}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link #getDomainOfValidity}</td>
-     *   </tr>
-     *   <tr>
-     *     <td nowrap>&nbsp;{@value org.opengis.referencing.operation.CoordinateOperation#SCOPE_KEY}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link String} or {@link InternationalString}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link #getScope}</td>
-     *   </tr>
+     * <tr bgcolor="#CCCCFF" class="TableHeadingColor">
+     * <th nowrap>Property name</th>
+     * <th nowrap>Value type</th>
+     * <th nowrap>Value given to</th>
+     * </tr>
+     * <tr>
+     * <td nowrap>&nbsp;{@value org.opengis.referencing.operation
+     * .CoordinateOperation#OPERATION_VERSION_KEY}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link String}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link #getOperationVersion}</td>
+     * </tr>
+     * <tr>
+     * <td nowrap>&nbsp;{@value org.opengis.referencing.operation
+     * .CoordinateOperation#COORDINATE_OPERATION_ACCURACY_KEY}&nbsp;</td>
+     * <td nowrap>&nbsp;<code>{@linkplain PositionalAccuracy}[]</code>&nbsp;</td>
+     * <td nowrap>&nbsp;{@link #getCoordinateOperationAccuracy}</td>
+     * </tr>
+     * <tr>
+     * <td nowrap>&nbsp;{@value org.opengis.referencing.operation
+     * .CoordinateOperation#DOMAIN_OF_VALIDITY_KEY}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link Extent}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link #getDomainOfValidity}</td>
+     * </tr>
+     * <tr>
+     * <td nowrap>&nbsp;{@value org.opengis.referencing.operation
+     * .CoordinateOperation#SCOPE_KEY}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link String} or {@link InternationalString}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link #getScope}</td>
+     * </tr>
      * </table>
      *
      * @param properties Set of properties. Should contains at least {@code "name"}.
-     * @param sourceCRS The source CRS.
-     * @param targetCRS The target CRS.
-     * @param transform Transform from positions in the {@linkplain #getSourceCRS source CRS}
-     *                  to positions in the {@linkplain #getTargetCRS target CRS}.
+     * @param sourceCRS  The source CRS.
+     * @param targetCRS  The target CRS.
+     * @param transform  Transform from positions in the {@linkplain #getSourceCRS source CRS}
+     *                   to positions in the {@linkplain #getTargetCRS target CRS}.
      */
-    public AbstractCoordinateOperation(final Map<String,?>            properties,
+    public AbstractCoordinateOperation(final Map<String, ?> properties,
                                        final CoordinateReferenceSystem sourceCRS,
                                        final CoordinateReferenceSystem targetCRS,
-                                       final MathTransform             transform)
-    {
-        this(properties, new HashMap<String,Object>(), sourceCRS, targetCRS, transform);
+                                       final MathTransform transform) {
+        this(properties, new HashMap<String, Object>(), sourceCRS, targetCRS, transform);
     }
 
     /**
      * Work around for RFE #4093999 in Sun's bug database
      * ("Relax constraint on placement of this()/super() call in constructors").
      */
-    private AbstractCoordinateOperation(final Map<String,?>            properties,
-                                        final Map<String,Object>    subProperties,
+    private AbstractCoordinateOperation(final Map<String, ?> properties,
+                                        final Map<String, Object> subProperties,
                                         final CoordinateReferenceSystem sourceCRS,
                                         final CoordinateReferenceSystem targetCRS,
-                                        final MathTransform             transform)
-    {
+                                        final MathTransform transform) {
         super(properties, subProperties, LOCALIZABLES);
         PositionalAccuracy[] positionalAccuracy;
-        domainOfValidity   = (Extent)               subProperties.get(DOMAIN_OF_VALIDITY_KEY);
-        scope              = (InternationalString)  subProperties.get(SCOPE_KEY);
-        operationVersion   = (String)               subProperties.get(OPERATION_VERSION_KEY);
-        positionalAccuracy = (PositionalAccuracy[]) subProperties.get(COORDINATE_OPERATION_ACCURACY_KEY);
-        if (positionalAccuracy==null || positionalAccuracy.length==0) {
+        domainOfValidity = (Extent) subProperties.get(DOMAIN_OF_VALIDITY_KEY);
+        scope = (InternationalString) subProperties.get(SCOPE_KEY);
+        operationVersion = (String) subProperties.get(OPERATION_VERSION_KEY);
+        positionalAccuracy = (PositionalAccuracy[]) subProperties.get
+                (COORDINATE_OPERATION_ACCURACY_KEY);
+        if (positionalAccuracy == null || positionalAccuracy.length == 0) {
             positionalAccuracy = null;
         } else {
             positionalAccuracy = positionalAccuracy.clone();
-            for (int i=0; i<positionalAccuracy.length; i++) {
+            for (int i = 0; i < positionalAccuracy.length; i++) {
                 ensureNonNull(COORDINATE_OPERATION_ACCURACY_KEY, positionalAccuracy, i);
             }
         }
@@ -253,14 +252,16 @@ public class AbstractCoordinateOperation extends AbstractIdentifiedObject
      * does not override this method.
      *
      * @throws IllegalArgumentException if at least one of {@code transform}, {@code sourceCRS}
-     *         or {@code targetCRS} is invalid. We throw this kind of exception rather than
-     *         {@link IllegalStateException} because this method is invoked by the constructor
-     *         for checking argument validity.
+     *                                  or {@code targetCRS} is invalid. We throw this kind of 
+     *                                  exception rather than
+     *                                  {@link IllegalStateException} because this method is 
+     *                                  invoked by the constructor
+     *                                  for checking argument validity.
      */
     void validate() throws IllegalArgumentException {
-        ensureNonNull ("sourceCRS", transform);
-        ensureNonNull ("targetCRS", transform);
-        ensureNonNull ("transform", transform);
+        ensureNonNull("sourceCRS", transform);
+        ensureNonNull("targetCRS", transform);
+        ensureNonNull("transform", transform);
         checkDimension("sourceCRS", sourceCRS, transform.getSourceDimensions());
         checkDimension("targetCRS", targetCRS, transform.getTargetDimensions());
     }
@@ -274,8 +275,7 @@ public class AbstractCoordinateOperation extends AbstractIdentifiedObject
      */
     private static void checkDimension(final String name,
                                        final CoordinateReferenceSystem crs,
-                                       final int expected)
-    {
+                                       final int expected) {
         final int actual = crs.getCoordinateSystem().getDimension();
         if (actual != expected) {
             throw new IllegalArgumentException(Errors.format(
@@ -314,9 +314,7 @@ public class AbstractCoordinateOperation extends AbstractIdentifiedObject
      * operation, assuming no errors in source coordinates.
      *
      * @return The position error estimates, or an empty collection if not available.
-     *
      * @see #getAccuracy()
-     *
      * @since 2.4
      */
     public Collection<PositionalAccuracy> getCoordinateOperationAccuracy() {
@@ -332,9 +330,7 @@ public class AbstractCoordinateOperation extends AbstractIdentifiedObject
      * operation, assuming no errors in source coordinates.
      *
      * @return The position error estimates, or an empty collection if not available.
-     *
      * @see #getAccuracy()
-     *
      * @deprecated Renamed as {@link #getCoordinateOperationAccuracy}.
      */
     public Collection<PositionalAccuracy> getPositionalAccuracy() {
@@ -350,7 +346,6 @@ public class AbstractCoordinateOperation extends AbstractIdentifiedObject
      * should override this method if they can provide a more accurate algorithm.
      *
      * @return The accuracy in meters, or NaN if unknown.
-     *
      * @since 2.2
      */
     public double getAccuracy() {
@@ -360,33 +355,32 @@ public class AbstractCoordinateOperation extends AbstractIdentifiedObject
     /**
      * Convenience method returning the accuracy in meters for the specified operation. This method
      * try each of the following procedures and returns the first successful one:
-     *
+     * <p>
      * <ul>
-     *   <li>If a {@linkplain QuantitativeResult quantitative} positional accuracy is found with a
-     *       linear unit, then this accuracy estimate is converted to {@linkplain SI#METER meters}
-     *       and returned.</li>
-     *
-     *   <li>Otherwise, if the operation is a {@linkplain Conversion conversion}, then returns
-     *       0 since a conversion is by definition accurates up to rounding errors.</li>
-     *
-     *   <li>Otherwise, if the operation is a {@linkplain Transformation transformation}, then
-     *       checks if the datum shift were applied with the help of Bursa-Wolf parameters.
-     *       This procedure looks for Geotools-specific
-     *       {@link PositionalAccuracyImpl#DATUM_SHIFT_APPLIED DATUM_SHIFT_APPLIED} and
-     *       {@link PositionalAccuracyImpl#DATUM_SHIFT_OMITTED DATUM_SHIFT_OMITTED} metadata.
-     *       If a datum shift has been applied, returns 25 meters. If a datum shift should have
-     *       been applied but has been omitted, returns 1000 meters. The 1000 meters value is
-     *       higher than the highest value (999 meters) found in the EPSG database version 6.7.
-     *       The 25 meters value is the next highest value found in the EPSG database for a
-     *       significant number of transformations.
-     *
-     *   <li>Otherwise, if the operation is a {@linkplain ConcatenatedOperation concatenated one},
-     *       returns the sum of the accuracy of all components.</li>
+     * <li>If a {@linkplain QuantitativeResult quantitative} positional accuracy is found with a
+     * linear unit, then this accuracy estimate is converted to {@linkplain SI#METER meters}
+     * and returned.</li>
+     * <p>
+     * <li>Otherwise, if the operation is a {@linkplain Conversion conversion}, then returns
+     * 0 since a conversion is by definition accurates up to rounding errors.</li>
+     * <p>
+     * <li>Otherwise, if the operation is a {@linkplain Transformation transformation}, then
+     * checks if the datum shift were applied with the help of Bursa-Wolf parameters.
+     * This procedure looks for Geotools-specific
+     * {@link PositionalAccuracyImpl#DATUM_SHIFT_APPLIED DATUM_SHIFT_APPLIED} and
+     * {@link PositionalAccuracyImpl#DATUM_SHIFT_OMITTED DATUM_SHIFT_OMITTED} metadata.
+     * If a datum shift has been applied, returns 25 meters. If a datum shift should have
+     * been applied but has been omitted, returns 1000 meters. The 1000 meters value is
+     * higher than the highest value (999 meters) found in the EPSG database version 6.7.
+     * The 25 meters value is the next highest value found in the EPSG database for a
+     * significant number of transformations.
+     * <p>
+     * <li>Otherwise, if the operation is a {@linkplain ConcatenatedOperation concatenated one},
+     * returns the sum of the accuracy of all components.</li>
      * </ul>
      *
-     * @param  operation The operation to inspect for accuracy.
+     * @param operation The operation to inspect for accuracy.
      * @return The accuracy estimate (always in meters), or NaN if unknow.
-     *
      * @since 2.2
      */
     public static double getAccuracy(final CoordinateOperation operation) {
@@ -404,7 +398,8 @@ public class AbstractCoordinateOperation extends AbstractIdentifiedObject
      * never-ending recursive calls.
      */
     private static double getAccuracy0(final CoordinateOperation operation) {
-        final Collection<PositionalAccuracy> accuracies = operation.getCoordinateOperationAccuracy();
+        final Collection<PositionalAccuracy> accuracies = operation
+                .getCoordinateOperationAccuracy();
         if (accuracies != null) for (final PositionalAccuracy accuracy : accuracies) {
             if (accuracy != null) for (final Result result : accuracy.getResults()) {
                 if (result instanceof QuantitativeResult) {
@@ -412,7 +407,7 @@ public class AbstractCoordinateOperation extends AbstractIdentifiedObject
                     final Collection<? extends Record> records = quantity.getValues();
                     if (records != null) {
                         final Unit<?> unit = quantity.getValueUnit();
-                        if (unit!=null && SI.METER.isCompatible(unit)) {
+                        if (unit != null && SI.METER.isCompatible(unit)) {
                             for (final Record record : records) {
                                 for (final Object value : record.getAttributes().values()) {
                                     if (value instanceof Number) {
@@ -454,7 +449,7 @@ public class AbstractCoordinateOperation extends AbstractIdentifiedObject
         double accuracy = Double.NaN;
         if (operation instanceof ConcatenatedOperation) {
             final Collection components = ((ConcatenatedOperation) operation).getOperations();
-            for (final Iterator it=components.iterator(); it.hasNext();) {
+            for (final Iterator it = components.iterator(); it.hasNext(); ) {
                 final double candidate = Math.abs(getAccuracy((CoordinateOperation) it.next()));
                 if (!Double.isNaN(candidate)) {
                     if (Double.isNaN(accuracy)) {
@@ -482,7 +477,6 @@ public class AbstractCoordinateOperation extends AbstractIdentifiedObject
      * Area in which this operation is valid.
      *
      * @return Coordinate operation valid area, or {@code null} if not available.
-     *
      * @deprecated Renamed {@link #getDomainOfValidity}.
      */
     public Extent getValidArea() {
@@ -508,18 +502,18 @@ public class AbstractCoordinateOperation extends AbstractIdentifiedObject
     /**
      * Returns the most specific GeoAPI interface implemented by the specified operation.
      *
-     * @param  object A coordinate operation.
+     * @param object A coordinate operation.
      * @return The most specific GeoAPI interface
-     *         (e.g. <code>{@linkplain Transformation}.class</code>).
+     * (e.g. <code>{@linkplain Transformation}.class</code>).
      */
     public static Class<? extends CoordinateOperation> getType(final CoordinateOperation object) {
-        if (object instanceof        Transformation) return        Transformation.class;
-        if (object instanceof       ConicProjection) return       ConicProjection.class;
+        if (object instanceof Transformation) return Transformation.class;
+        if (object instanceof ConicProjection) return ConicProjection.class;
         if (object instanceof CylindricalProjection) return CylindricalProjection.class;
-        if (object instanceof      PlanarProjection) return      PlanarProjection.class;
-        if (object instanceof            Projection) return            Projection.class;
-        if (object instanceof            Conversion) return            Conversion.class;
-        if (object instanceof             Operation) return             Operation.class;
+        if (object instanceof PlanarProjection) return PlanarProjection.class;
+        if (object instanceof Projection) return Projection.class;
+        if (object instanceof Conversion) return Conversion.class;
+        if (object instanceof Operation) return Operation.class;
         return CoordinateOperation.class;
     }
 
@@ -529,9 +523,10 @@ public class AbstractCoordinateOperation extends AbstractIdentifiedObject
      * compared including {@linkplain #getDomainOfValidity domain of validity} and
      * {@linkplain #getScope scope}.
      *
-     * @param  object The object to compare to {@code this}.
-     * @param  compareMetadata {@code true} for performing a strict comparaison, or
-     *         {@code false} for comparing only properties relevant to transformations.
+     * @param object          The object to compare to {@code this}.
+     * @param compareMetadata {@code true} for performing a strict comparaison, or
+     *                        {@code false} for comparing only properties relevant to 
+     *                                    transformations.
      * @return {@code true} if both objects are equal.
      */
     @Override
@@ -542,14 +537,14 @@ public class AbstractCoordinateOperation extends AbstractIdentifiedObject
         if (super.equals(object, compareMetadata)) {
             final AbstractCoordinateOperation that = (AbstractCoordinateOperation) object;
             if (equals(this.sourceCRS, that.sourceCRS, compareMetadata) &&
-                Utilities.equals(this.transform, that.transform))
-                // See comment in DefaultOperation.equals(...) about why we compare MathTransform.
+                    Utilities.equals(this.transform, that.transform))
+            // See comment in DefaultOperation.equals(...) about why we compare MathTransform.
             {
                 if (compareMetadata) {
                     if (!Utilities.equals(this.domainOfValidity, that.domainOfValidity) ||
-                        !Utilities.equals(this.scope, that.scope) ||
-                        !Utilities.equals(this.coordinateOperationAccuracy, that.coordinateOperationAccuracy))
-                    {
+                            !Utilities.equals(this.scope, that.scope) ||
+                            !Utilities.equals(this.coordinateOperationAccuracy, that
+                                    .coordinateOperationAccuracy)) {
                         return false;
                     }
                 }
@@ -558,7 +553,7 @@ public class AbstractCoordinateOperation extends AbstractIdentifiedObject
                  * field that is set to this AbstractCoordinateOperation.
                  */
                 final Boolean comparing = AbstractDerivedCRS._COMPARING.get();
-                if (comparing!=null && comparing.booleanValue()) {
+                if (comparing != null && comparing.booleanValue()) {
                     return true;
                 }
                 try {
@@ -577,7 +572,7 @@ public class AbstractCoordinateOperation extends AbstractIdentifiedObject
      */
     @Override
     public int hashCode() {
-        int code = (int)serialVersionUID;
+        int code = (int) serialVersionUID;
         if (sourceCRS != null) code ^= sourceCRS.hashCode();
         if (targetCRS != null) code ^= targetCRS.hashCode();
         if (transform != null) code ^= transform.hashCode();
@@ -589,7 +584,7 @@ public class AbstractCoordinateOperation extends AbstractIdentifiedObject
      * operation at the time this method was written. This method may change in any future version
      * until a standard format is found.
      *
-     * @param  formatter The formatter to use.
+     * @param formatter The formatter to use.
      * @return The WKT element name.
      */
     @Override
@@ -608,10 +603,11 @@ public class AbstractCoordinateOperation extends AbstractIdentifiedObject
      * @param type      The label to put in front of the object name.
      */
     @SuppressWarnings("serial")
-    static void append(final Formatter formatter, final IdentifiedObject object, final String type) {
+    static void append(final Formatter formatter, final IdentifiedObject object, final String 
+            type) {
         if (object != null) {
-            final Map<String,Object> properties = new HashMap<String,Object>(4);
-            properties.put(IdentifiedObject.NAME_KEY,        formatter.getName(object));
+            final Map<String, Object> properties = new HashMap<String, Object>(4);
+            properties.put(IdentifiedObject.NAME_KEY, formatter.getName(object));
             properties.put(IdentifiedObject.IDENTIFIERS_KEY, formatter.getIdentifier(object));
             formatter.append((IdentifiedObject) new AbstractIdentifiedObject(properties) {
                 @Override

@@ -35,28 +35,29 @@ import org.fest.swing.fixture.FrameFixture;
 import org.fest.swing.fixture.JPanelFixture;
 
 import org.junit.Before;
+
 import static org.junit.Assert.*;
 
 /**
  * Base class for tests of map pane cursor tools. Sets up the map pane and test data.
  * Extends {@linkplain GraphicsTestBase} to install the FEST error-detecting repaint
  * manager.
- * 
+ *
  * @author Michael Bedward
- * @since 8.0
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 public abstract class CursorToolTestBase extends GraphicsTestBase {
 
     // Allow a long time for initial rendering of the test data
     protected static final long RENDERING_TIMEOUT = 5000;
-    
+
     // Allow shorter time for event handling
     protected static final long EVENT_TIMEOUT = 1000;
-    
+
     protected static final Rectangle SCREEN = new Rectangle(300, 300);
-    
+
     protected static final double TOL = 1.0e-8;
 
     protected MockMapContent mapContent;
@@ -75,20 +76,22 @@ public abstract class CursorToolTestBase extends GraphicsTestBase {
             protected JFrame executeInEDT() throws Throwable {
                 JFrame frame = new JFrame("Cursor tool test");
                 mapPane = new JMapPane(mapContent);
-                mapPane.setPreferredSize(new Dimension(ZoomInToolTest.SCREEN.width, ZoomInToolTest.SCREEN.height));
+                mapPane.setPreferredSize(new Dimension(ZoomInToolTest.SCREEN.width, 
+                        ZoomInToolTest.SCREEN.height));
                 frame.add(mapPane);
                 return frame;
             }
         });
-        
+
         listener = new WaitingMapPaneListener();
         mapPane.addMapPaneListener(listener);
         windowFixture = new FrameFixture(frame);
         mapPaneFixture = new JPanelFixture(windowFixture.robot, mapPane);
         listener.setExpected(MapPaneEvent.Type.RENDERING_STOPPED);
         ((FrameFixture) windowFixture).show();
-        assertTrue(listener.await(MapPaneEvent.Type.RENDERING_STOPPED, ZoomInToolTest.RENDERING_TIMEOUT));
+        assertTrue(listener.await(MapPaneEvent.Type.RENDERING_STOPPED, ZoomInToolTest
+                .RENDERING_TIMEOUT));
     }
-    
+
     protected abstract Layer getTestLayer() throws Exception;
 }

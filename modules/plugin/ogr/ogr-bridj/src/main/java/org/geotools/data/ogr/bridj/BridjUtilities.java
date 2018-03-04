@@ -3,8 +3,6 @@ package org.geotools.data.ogr.bridj;
 import org.bridj.Pointer;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class BridjUtilities {
@@ -18,7 +16,7 @@ public class BridjUtilities {
     }
 
     public static Pointer<Pointer<Byte>> pointerToCStrings(String[] strings) {
-        Pointer<Pointer<Byte>> p = null; 
+        Pointer<Pointer<Byte>> p = null;
         if (strings != null && strings.length > 0) {
             // The array of Strings must end in a null string
             String[] newStrings = new String[strings.length + 1];
@@ -27,5 +25,5 @@ public class BridjUtilities {
         }
         return p;
     }
-   
+
 }

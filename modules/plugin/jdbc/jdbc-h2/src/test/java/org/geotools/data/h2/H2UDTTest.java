@@ -20,8 +20,6 @@ import org.geotools.jdbc.JDBCUDTOnlineTest;
 import org.geotools.jdbc.JDBCUDTTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class H2UDTTest extends JDBCUDTOnlineTest {

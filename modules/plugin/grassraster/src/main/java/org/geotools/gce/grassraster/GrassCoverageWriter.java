@@ -47,14 +47,12 @@ import org.opengis.util.ProgressListener;
  * The class writes a GRASS raster map to a GRASS workspace (see package documentation for further
  * info). The writing is really done via Imageio extended classes.
  * </p>
- * 
+ *
  * @author Andrea Antonello (www.hydrologis.com)
- * @since 3.0
+ * @source $URL$
  * @see GrassBinaryImageWriter
  * @see GrassBinaryRasterWriteHandler
- *
- *
- * @source $URL$
+ * @since 3.0
  */
 public class GrassCoverageWriter extends AbstractGridCoverageWriter implements GridCoverageWriter {
     private File output;
@@ -63,7 +61,7 @@ public class GrassCoverageWriter extends AbstractGridCoverageWriter implements G
     /**
      * Constructor for the {@link GrassCoverageWriter}.
      */
-    public GrassCoverageWriter( Object output ) {
+    public GrassCoverageWriter(Object output) {
         if (output instanceof File) {
             this.output = (File) output;
         } else {
@@ -71,7 +69,7 @@ public class GrassCoverageWriter extends AbstractGridCoverageWriter implements G
         }
     }
 
-    public void setProgressListener( ProgressListener monitor ) {
+    public void setProgressListener(ProgressListener monitor) {
         this.monitor = monitor;
     }
 
@@ -80,11 +78,11 @@ public class GrassCoverageWriter extends AbstractGridCoverageWriter implements G
      * <p>
      * Note that this also takes care to cloes the file handle after writing to disk.
      * </p>
-     * 
+     *
      * @param gridCoverage2D the coverage to write.
      * @throws IOException
      */
-    public void writeRaster( GridCoverage2D gridCoverage2D ) throws IOException {
+    public void writeRaster(GridCoverage2D gridCoverage2D) throws IOException {
         try {
             Envelope2D env = gridCoverage2D.getEnvelope2D();
             GridEnvelope2D worldToGrid = gridCoverage2D.getGridGeometry().worldToGrid(env);
@@ -107,14 +105,14 @@ public class GrassCoverageWriter extends AbstractGridCoverageWriter implements G
 
     }
 
-    public void writeRaster( GridCoverage2D gridCoverage2D, GeneralParameterValue[] params )
+    public void writeRaster(GridCoverage2D gridCoverage2D, GeneralParameterValue[] params)
             throws IOException {
         GeneralEnvelope requestedEnvelope = null;
         Rectangle dim = null;
         JGrassRegion writeRegion = null;
         if (params != null) {
-            for( int i = 0; i < params.length; i++ ) {
-                final ParameterValue< ? > param = (ParameterValue< ? >) params[i];
+            for (int i = 0; i < params.length; i++) {
+                final ParameterValue<?> param = (ParameterValue<?>) params[i];
                 final String name = param.getDescriptor().getName().getCode();
                 if (name.equals(AbstractGridFormat.READ_GRIDGEOMETRY2D.getName().toString())) {
                     final GridGeometry2D gg = (GridGeometry2D) param.getValue();
@@ -149,7 +147,7 @@ public class GrassCoverageWriter extends AbstractGridCoverageWriter implements G
         return new GrassCoverageFormat();
     }
 
-    public void write( GridCoverage coverage, GeneralParameterValue[] parameters )
+    public void write(GridCoverage coverage, GeneralParameterValue[] parameters)
             throws IllegalArgumentException, IOException {
         if (coverage instanceof GridCoverage2D) {
             GridCoverage2D gridCoverage = (GridCoverage2D) coverage;

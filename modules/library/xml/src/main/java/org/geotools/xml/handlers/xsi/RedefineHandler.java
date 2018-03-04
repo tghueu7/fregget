@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -25,20 +25,20 @@ import org.xml.sax.Attributes;
 
 /**
  * RedefineHandler purpose.
- * 
+ * <p>
  * <p>
  * represents a 'redefine' element
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc. http://www.refractions.net
  * @author $Author:$ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class RedefineHandler extends XSIElementHandler {
-    /** 'redefine' */
+    /**
+     * 'redefine'
+     */
     public final static String LOCALNAME = "redefine";
     private static int offset = 0;
     private String id;
@@ -60,15 +60,16 @@ public class RedefineHandler extends XSIElementHandler {
      * @see java.lang.Object#hashCode()
      */
     public int hashCode() {
-        return (LOCALNAME.hashCode() * ((id == null) ? 1 : id.hashCode()) * ((schemaLocation == null)
-        ? 1 : schemaLocation.hashCode())) + hashCodeOffset;
+        return (LOCALNAME.hashCode() * ((id == null) ? 1 : id.hashCode()) * ((schemaLocation == 
+                null)
+                ? 1 : schemaLocation.hashCode())) + hashCodeOffset;
     }
 
     /**
      * @see org.geotools.xml.XSIElementHandler#getHandler(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
-    public XSIElementHandler getHandler(String namespaceURI, String localName){
+    public XSIElementHandler getHandler(String namespaceURI, String localName) {
         if (SchemaHandler.namespaceURI.equalsIgnoreCase(namespaceURI)) {
             // child types
             //
@@ -126,10 +127,10 @@ public class RedefineHandler extends XSIElementHandler {
 
     /**
      * @see org.geotools.xml.XSIElementHandler#startElement(java.lang.String,
-     *      java.lang.String, org.xml.sax.Attributes)
+     * java.lang.String, org.xml.sax.Attributes)
      */
     public void startElement(String namespaceURI, String localName,
-        Attributes atts){
+                             Attributes atts) {
         id = atts.getValue("", "id");
 
         if (id == null) {
@@ -154,7 +155,6 @@ public class RedefineHandler extends XSIElementHandler {
      * <p>
      * Returns a list of AttributeGroupHandlers
      * </p>
-     *
      */
     public List getAttributeGroups() {
         return attributeGroups;
@@ -164,7 +164,6 @@ public class RedefineHandler extends XSIElementHandler {
      * <p>
      * Returns a list of ComplexTypeHandlers
      * </p>
-     *
      */
     public List getComplexTypes() {
         return complexTypes;
@@ -174,7 +173,6 @@ public class RedefineHandler extends XSIElementHandler {
      * <p>
      * Returns a list of GroupHandlers
      * </p>
-     *
      */
     public List getGroups() {
         return groups;
@@ -184,7 +182,6 @@ public class RedefineHandler extends XSIElementHandler {
      * <p>
      * Returns the id attribute
      * </p>
-     *
      */
     public String getId() {
         return id;
@@ -194,7 +191,6 @@ public class RedefineHandler extends XSIElementHandler {
      * <p>
      * Returns the schemaLocation attribute
      * </p>
-     *
      */
     public String getSchemaLocation() {
         return schemaLocation;
@@ -204,7 +200,6 @@ public class RedefineHandler extends XSIElementHandler {
      * <p>
      * Returns a list of SimpleTypeHandlers
      * </p>
-     *
      */
     public List getSimpleTypes() {
         return simpleTypes;
@@ -219,9 +214,9 @@ public class RedefineHandler extends XSIElementHandler {
 
     /**
      * @see org.geotools.xml.XSIElementHandler#endElement(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
-    public void endElement(String namespaceURI, String localName){
+    public void endElement(String namespaceURI, String localName) {
         // do nothing
     }
 }

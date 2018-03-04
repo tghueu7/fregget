@@ -23,7 +23,6 @@ import org.junit.Test;
 
 /**
  * @author ian
- *
  */
 public class WMTSTileOnLineTest extends OnlineTestCase {
 
@@ -74,7 +73,9 @@ public class WMTSTileOnLineTest extends OnlineTestCase {
     //
     // @Test
     // public void testGetURL() {
-    // Assert.assertEquals("http://raspberrypi:8080/geoserver/gwc/service/wmts?request=getTile&tilematrixset=epsg%3A900913&TileRow=12&service=WMTS&format=image%2Fpng&style=&TileCol=10&version=1.0.0&layer=topp%3Astates&TileMatrix=epsg%3A900913%3A5&",
+    // Assert.assertEquals("http://raspberrypi:8080/geoserver/gwc/service/wmts?request=getTile
+    // &tilematrixset=epsg%3A900913&TileRow=12&service=WMTS&format=image%2Fpng&style=&TileCol=10
+    // &version=1.0.0&layer=topp%3Astates&TileMatrix=epsg%3A900913%3A5&",
     // this.kvpTile.getUrl().toString());
     //
     //

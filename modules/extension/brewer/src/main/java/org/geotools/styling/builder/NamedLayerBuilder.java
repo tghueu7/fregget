@@ -24,13 +24,12 @@ import org.geotools.styling.NamedLayer;
 import org.geotools.styling.Style;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class NamedLayerBuilder extends AbstractSLDBuilder<NamedLayer> {
 
-    List<FeatureTypeConstraintBuilder> featureTypeConstraint = new ArrayList<FeatureTypeConstraintBuilder>();
+    List<FeatureTypeConstraintBuilder> featureTypeConstraint = new 
+            ArrayList<FeatureTypeConstraintBuilder>();
 
     private String name;
 

@@ -82,28 +82,36 @@ import org.opengis.util.InternationalString;
 import com.vividsolutions.jts.geom.Geometry;
 
 /**
- * {@link OperationJAI} subclass used for executing the "Merge" of multiple coverages into a single coverage with multiple bands. This operation can
- * be used also for merging coverages which are not aligned and with different resolutions. The user should only set: *
+ * {@link OperationJAI} subclass used for executing the "Merge" of multiple coverages into a 
+ * single coverage with multiple bands. This operation can
+ * be used also for merging coverages which are not aligned and with different resolutions. The 
+ * user should only set: *
  * <ul>
  * <li>the Coverages (Note that they must be in the same CRS).</li>
  * <li>the optional Geometry to use as ROI.</li>
- * <li>The optional policy for choosing the Grid To World transformation(FIRST for that of the first coverage, LAST for the last one, INDEX for that
+ * <li>The optional policy for choosing the Grid To World transformation(FIRST for that of the 
+ * first coverage, LAST for the last one, INDEX for that
  * of a coverage defined by the "index" parameter).</li>
  * <li>the index parameter for choosing the main Coverage.</li>
  * </ul>
- * 
+ *
  * @author Nicola Lagomarsini, GeoSolutions S.A.S.
- * 
  */
 public class BandMerge extends OperationJAI {
 
-    /** Name for the TRANSFORM_CHOICE parameter */
+    /**
+     * Name for the TRANSFORM_CHOICE parameter
+     */
     public static final String TRANSFORM_CHOICE = "transform_choice";
 
-    /** Name for the COVERAGE_INDEX parameter */
+    /**
+     * Name for the COVERAGE_INDEX parameter
+     */
     public static final String COVERAGE_INDEX = "coverage_idx";
 
-    /** Name for the GEOMETRY parameter */
+    /**
+     * Name for the GEOMETRY parameter
+     */
     public static final String GEOMETRY = "geometry";
 
     /**
@@ -131,7 +139,8 @@ public class BandMerge extends OperationJAI {
             false);
 
     /**
-     * The parameter descriptor for the Source index to use for selecting the Affine Transformation to use.
+     * The parameter descriptor for the Source index to use for selecting the Affine 
+     * Transformation to use.
      */
     public static final ParameterDescriptor INDEX = new DefaultParameterDescriptor(Citations.JAI,
             COVERAGE_INDEX, Integer.class, // Value class (mandatory)
@@ -170,12 +179,13 @@ public class BandMerge extends OperationJAI {
     }
 
     /**
-     * Enum used for selecting an Affine Transformation to use for backward mapping the final coverage pixel to the Model Space. The method
-     * "getTransformationList" returns a List of the AffineTransformations to use for backward mapping the destination pixels into each source
+     * Enum used for selecting an Affine Transformation to use for backward mapping the final 
+     * coverage pixel to the Model Space. The method
+     * "getTransformationList" returns a List of the AffineTransformations to use for backward 
+     * mapping the destination pixels into each source
      * coverage pixel.
-     * 
+     *
      * @author Nicola Lagomarsini, GeoSolutions S.A.S.
-     * 
      */
     public enum TransformList {
         FIRST("first") {
@@ -240,8 +250,9 @@ public class BandMerge extends OperationJAI {
         };
 
         /**
-         * Returns a List of AffineTransformations objects to use for backward mapping the destination image pixels into each source image
-         * 
+         * Returns a List of AffineTransformations objects to use for backward mapping the 
+         * destination image pixels into each source image
+         *
          * @param list
          * @param index
          * @return
@@ -261,7 +272,9 @@ public class BandMerge extends OperationJAI {
             return transforms;
         }
 
-        /** Name associated to the {@link TransformList} object */
+        /**
+         * Name associated to the {@link TransformList} object
+         */
         private String name;
 
         // private constructor, avoiding instantiation
@@ -270,8 +283,9 @@ public class BandMerge extends OperationJAI {
         }
 
         /**
-         * Returns the Grid To World transformation from the following GridGeometry list. The result depends on the implementation
-         * 
+         * Returns the Grid To World transformation from the following GridGeometry list. The 
+         * result depends on the implementation
+         *
          * @param list
          * @param index
          * @return
@@ -279,15 +293,18 @@ public class BandMerge extends OperationJAI {
         public abstract AffineTransform getGridToCRS2D(List<GridGeometry2D> list, int index);
 
         /**
-         * Returns the World To Grid transformation from the following GridGeometry list. The result depends on the implementation
-         * 
+         * Returns the World To Grid transformation from the following GridGeometry list. The 
+         * result depends on the implementation
+         *
          * @param list
          * @param index
          * @return
          */
         public abstract AffineTransform getCRStoGrid2D(List<GridGeometry2D> list, int index);
 
-        /** Static method for choosing the TransformList Object associated to the input string */
+        /**
+         * Static method for choosing the TransformList Object associated to the input string
+         */
         public static TransformList getTransformList(String choice) {
             if (choice.equalsIgnoreCase(LAST.name)) {
                 return LAST;
@@ -299,7 +316,7 @@ public class BandMerge extends OperationJAI {
 
         /**
          * Static method for taking the AffineTransform from the List
-         * 
+         *
          * @param list
          * @param index
          * @return
@@ -329,7 +346,8 @@ public class BandMerge extends OperationJAI {
     public Coverage doOperation(ParameterValueGroup parameters, Hints hints)
             throws CoverageProcessingException {
         /*
-         * Extracts the source grid coverages now as a List. The sources will be set in the ParameterBlockJAI (as RenderedImages) later.
+         * Extracts the source grid coverages now as a List. The sources will be set in the 
+         * ParameterBlockJAI (as RenderedImages) later.
          */
         final Collection<GridCoverage2D> sourceCollection = new ArrayList<GridCoverage2D>();
         extractSources(parameters, sourceCollection);
@@ -396,9 +414,10 @@ public class BandMerge extends OperationJAI {
     }
 
     /**
-     * Method for searching the index of the coverage associated to the Main g2w transformation If nothing is found the first coverage is taken(index
+     * Method for searching the index of the coverage associated to the Main g2w transformation 
+     * If nothing is found the first coverage is taken(index
      * = 0)
-     * 
+     *
      * @param parameters
      * @return
      */
@@ -413,8 +432,9 @@ public class BandMerge extends OperationJAI {
     }
 
     /**
-     * Extraction of the sources from the parameter called SOURCES. The sources are stored inside a List. 
-     * 
+     * Extraction of the sources from the parameter called SOURCES. The sources are stored inside
+     * a List.
+     *
      * @param parameters
      * @param sources
      * @return
@@ -422,7 +442,8 @@ public class BandMerge extends OperationJAI {
      * @throws InvalidParameterValueException
      */
     protected void extractSources(final ParameterValueGroup parameters,
-            final Collection<GridCoverage2D> sources) throws ParameterNotFoundException,
+                                  final Collection<GridCoverage2D> sources) throws 
+            ParameterNotFoundException,
             InvalidParameterValueException {
         Utilities.ensureNonNull("parameters", parameters);
         Utilities.ensureNonNull("sources", sources);
@@ -446,28 +467,31 @@ public class BandMerge extends OperationJAI {
 
     /**
      * Applies the BandMerge operation to a grid coverage. The following steps are performed:
-     * 
+     * <p>
      * <ul>
-     * <li>Gets the {@linkplain GridSampleDimension sample dimensions} for the target images by invoking the {@link #deriveSampleDimension
+     * <li>Gets the {@linkplain GridSampleDimension sample dimensions} for the target images by 
+     * invoking the {@link #deriveSampleDimension
      * deriveSampleDimension(...)} method.</li>
      * <li>Applied the JAI operation using {@link #createRenderedImage}.</li>
      * <li>Wraps the result in a {@link GridCoverage2D} object.</li>
      * </ul>
-     * 
-     * @param sources The source coverages.
+     *
+     * @param sources    The source coverages.
      * @param parameters Parameters, rendering hints and coordinate reference system to use.
      * @return The result as a grid coverage.
-     * 
      * @see #doOperation
      * @see JAI#createNS
      */
     private GridCoverage2D deriveGridCoverage(final GridCoverage2D[] sources,
-            final BandMergeParams parameters) {
+                                              final BandMergeParams parameters) {
         GridCoverage2D primarySource = sources[PRIMARY_SOURCE_INDEX];
         /*
-         * Gets the target SampleDimensions. If they are identical to the SampleDimensions of one of the source GridCoverage2D, then this
-         * GridCoverage2D will be used at the primary source. It will affect the target GridCoverage2D's name and the visible band. Then, a new color
-         * model will be constructed from the new SampleDimensions, taking in account the visible band.
+         * Gets the target SampleDimensions. If they are identical to the SampleDimensions of one
+          * of the source GridCoverage2D, then this
+         * GridCoverage2D will be used at the primary source. It will affect the target 
+         * GridCoverage2D's name and the visible band. Then, a new color
+         * model will be constructed from the new SampleDimensions, taking in account the visible
+          * band.
          */
         final GridSampleDimension[][] list = new GridSampleDimension[sources.length][];
         for (int i = 0; i < list.length; i++) {
@@ -481,7 +505,7 @@ public class BandMerge extends OperationJAI {
         int primarySourceIndex = PRIMARY_SOURCE_INDEX;
         /*
          * Set the rendering hints image layout. Only the following properties will be set:
-         * 
+         *
          * - Color model
          */
         RenderingHints hints = ImageUtilities.getRenderingHints(parameters.getSource());
@@ -523,8 +547,10 @@ public class BandMerge extends OperationJAI {
         }
 
         /*
-         * Performs the operation using JAI and construct the new grid coverage. Uses the coordinate system from the main source coverage in order to
-         * preserve the extra dimensions (if any). The first two dimensions should be equal to the coordinate system set in the 'parameters' block.
+         * Performs the operation using JAI and construct the new grid coverage. Uses the 
+         * coordinate system from the main source coverage in order to
+         * preserve the extra dimensions (if any). The first two dimensions should be equal to 
+         * the coordinate system set in the 'parameters' block.
          */
         final InternationalString name = deriveName(sources, primarySourceIndex, null);
         final CoordinateReferenceSystem crs = primarySource.getCoordinateReferenceSystem();
@@ -545,13 +571,15 @@ public class BandMerge extends OperationJAI {
 
     /**
      * This method is used for setting the final image layout.
-     * 
+     *
      * @param parameters
      * @param layout
      * @param bbox
      */
-    private void updateLayout(final BandMergeParams parameters, ImageLayout layout, Envelope2D bbox) {
-        // Creation of a GridGeoemtry with the selected BBOX and the defined World2Grid transformation
+    private void updateLayout(final BandMergeParams parameters, ImageLayout layout, Envelope2D 
+            bbox) {
+        // Creation of a GridGeoemtry with the selected BBOX and the defined World2Grid 
+        // transformation
         GridGeometry2D gg2D = new GridGeometry2D(PixelInCell.CELL_CORNER, parameters.gridToCRS,
                 bbox, null);
 
@@ -564,8 +592,9 @@ public class BandMerge extends OperationJAI {
     }
 
     protected Map getProperties(RenderedImage data, CoordinateReferenceSystem crs,
-            InternationalString name, MathTransform toCRS, GridCoverage2D[] sources,
-            BandMergeParams parameters) {
+                                InternationalString name, MathTransform toCRS, GridCoverage2D[] 
+                                        sources,
+                                BandMergeParams parameters) {
         // Merge the coverage properties
         Map properties = new HashMap();
 
@@ -586,7 +615,7 @@ public class BandMerge extends OperationJAI {
     }
 
     protected GridSampleDimension[] deriveSampleDimension(GridSampleDimension[][] list,
-            Parameters parameters) {
+                                                          Parameters parameters) {
         // Total number of sample dimensions
         int numDim = 0;
         // Cycle on the input list in order to calculate the number of sample dimensions
@@ -612,8 +641,9 @@ public class BandMerge extends OperationJAI {
     }
 
     /**
-     * This method prepares the {@link ParameterBlockJAI} to pass to JAI in order to execute the {@link BandMerge} operation.
-     * 
+     * This method prepares the {@link ParameterBlockJAI} to pass to JAI in order to execute the 
+     * {@link BandMerge} operation.
+     *
      * @param parameters
      * @param sources
      * @param tr
@@ -624,7 +654,8 @@ public class BandMerge extends OperationJAI {
      * @throws TransformException
      */
     private ParameterBlockJAI prepareParameters(final ParameterValueGroup parameters,
-            GridCoverage2D[] sources, List<AffineTransform> tr, AffineTransform2D crsToGRID)
+                                                GridCoverage2D[] sources, List<AffineTransform> 
+                                                        tr, AffineTransform2D crsToGRID)
             throws MismatchedDimensionException, ParameterNotFoundException, TransformException {
         final ImagingParameters copy = (ImagingParameters) descriptor.createValue();
         final ParameterBlockJAI block = (ParameterBlockJAI) copy.parameters;
@@ -693,7 +724,8 @@ public class BandMerge extends OperationJAI {
                 block.setParameter("roi", roi);
             }
 
-            // Setting the destination No Data Value as the NoData of the principal coverage selected
+            // Setting the destination No Data Value as the NoData of the principal coverage 
+            // selected
             block.setParameter("destinationNoData", nodata[getIndex(parameters)].getMin()
                     .doubleValue());
         }
@@ -703,7 +735,7 @@ public class BandMerge extends OperationJAI {
 
     /**
      * Method for creating the nodata range associated to each coverage
-     * 
+     *
      * @param cov
      * @param dataType
      * @return
@@ -711,30 +743,31 @@ public class BandMerge extends OperationJAI {
     private Range createNoDataRange(GridCoverage2D cov, int dataType) {
         // Extract NoData property from gridCoverage
         NoDataContainer container = CoverageUtilities.getNoDataProperty(cov);
-        if(container != null){
+        if (container != null) {
             return container.getAsRange();
         }
         // No property set, use the input NoData Range
         double[] nodatas = CoverageUtilities.getBackgroundValues(cov);
-        if(nodatas != null && nodatas.length > 0){
+        if (nodatas != null && nodatas.length > 0) {
             Range noData = RangeFactory
                     .convert(RangeFactory.create(nodatas[0], nodatas[0]), dataType);
             return noData;
         }
         return null;
-       
+
     }
 
     /**
-     * Container class used for passing various parameters to the deriveGridCoverage method. The structure is similar to that of the
+     * Container class used for passing various parameters to the deriveGridCoverage method. The 
+     * structure is similar to that of the
      * {@link Parameters} class.
-     * 
+     *
      * @author Nicola Lagomarsini, GeoSolutions S.A.S.
-     * 
      */
     static class BandMergeParams {
         /**
-         * The two dimensional coordinate reference system for all sources and the destination {@link GridCoverage2D}.
+         * The two dimensional coordinate reference system for all sources and the destination 
+         * {@link GridCoverage2D}.
          */
         public final CoordinateReferenceSystem crs;
 
@@ -749,7 +782,8 @@ public class BandMerge extends OperationJAI {
         public final ParameterBlockJAI parameters;
 
         /**
-         * The rendering hints to be given to the {@link JAI#createNS} method. The {@link JAI} instance to use for the {@code createNS} call will be
+         * The rendering hints to be given to the {@link JAI#createNS} method. The {@link JAI} 
+         * instance to use for the {@code createNS} call will be
          * fetch from the {@link Hints#JAI_INSTANCE} key.
          */
         public final Hints hints;
@@ -763,9 +797,9 @@ public class BandMerge extends OperationJAI {
          * Constructs a new instance with the specified values.
          */
         BandMergeParams(final CoordinateReferenceSystem crs, final AffineTransform2D gridToCRS,
-                final Envelope2D bbox,
+                        final Envelope2D bbox,
 
-                final ParameterBlockJAI parameters, final Hints hints) {
+                        final ParameterBlockJAI parameters, final Hints hints) {
             this.crs = crs;
             this.gridToCRS = gridToCRS;
             this.bbox = bbox;

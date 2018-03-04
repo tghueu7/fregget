@@ -26,9 +26,9 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/se:Substring.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:element name="Substring" substitutionGroup="se:Function" type="se:SubstringType"&gt;
@@ -37,11 +37,11 @@ import javax.xml.namespace.QName;
  *  Returns substrings.
  *               &lt;/xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
- *  &lt;/xsd:element&gt; 
- * 	
+ *  &lt;/xsd:element&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * <pre>
  *       <code>
  *  &lt;xsd:complexType name="SubstringType"&gt;
@@ -54,26 +54,24 @@ import javax.xml.namespace.QName;
  *              &lt;/xsd:sequence&gt;
  *          &lt;/xsd:extension&gt;
  *      &lt;/xsd:complexContent&gt;
- *  &lt;/xsd:complexType&gt; 
- *              
+ *  &lt;/xsd:complexType&gt;
+ *
  *        </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class SubstringBinding extends AbstractComplexBinding {
 
     FilterFactory filterFactory;
-    
+
     public SubstringBinding(FilterFactory filterFactory) {
         this.filterFactory = filterFactory;
     }
-    
+
     /**
      * @generated
      */
@@ -83,7 +81,7 @@ public class SubstringBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -92,25 +90,25 @@ public class SubstringBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
         //&lt;xsd:element ref="se:StringValue"/&gt;
         Expression string = (Expression) node.getChildValue("StringValue");
-        
+
         //&lt;xsd:element minOccurs="0" ref="se:Position"/&gt;
         Expression position = (Expression) node.getChildValue("Position");
-        
+
         //function is one based
         position = filterFactory.subtract(position, filterFactory.literal(1));
-        
+
         //&lt;xsd:element minOccurs="0" ref="se:Length"/&gt;
         Expression length = (Expression) node.getChildValue("Length");
 
         //our strSubstring function works with begin,end rather than begin,length
         Expression end = filterFactory.add(position, length);
-        
+
         return filterFactory.function("strSubstring", string, position, end);
     }
 

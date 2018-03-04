@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -52,12 +52,12 @@ import org.xml.sax.SAXException;
  * </p>
  *
  * @author dzwiers www.refractions.net
- *
- *
  * @source $URL$
  */
 public class GMLSchema implements Schema {
-    /** GML target namespace */
+    /**
+     * GML target namespace
+     */
     public static final URI NAMESPACE = makeURI("http://www.opengis.net/gml");
 
     // static attribute set
@@ -72,10 +72,10 @@ public class GMLSchema implements Schema {
     // static attribute group set
     private static AttributeGroup[] attributeGroups = {
             new GMLAssociationAttributeGroup(),
-        };
+    };
 
     // static simpleType set
-    private static SimpleType[] simpleTypes = { new GMLNullType(), };
+    private static SimpleType[] simpleTypes = {new GMLNullType(),};
     private static Schema instance = new GMLSchema();
 
     /**
@@ -119,7 +119,7 @@ public class GMLSchema implements Schema {
         ComplexType[] complexTypes1 = new ComplexType[31];
         complexTypes1[0] = GMLComplexTypes.AbstractGeometryType.getInstance();
         complexTypes1[1] = GMLComplexTypes.AbstractGeometryCollectionBaseType
-            .getInstance();
+                .getInstance();
         complexTypes1[2] = GMLComplexTypes.GeometryAssociationType.getInstance();
         complexTypes1[3] = GMLComplexTypes.PointMemberType.getInstance();
         complexTypes1[4] = GMLComplexTypes.LineStringMemberType.getInstance();
@@ -138,9 +138,9 @@ public class GMLSchema implements Schema {
         complexTypes1[17] = GMLComplexTypes.CoordinatesType.getInstance();
         complexTypes1[18] = GMLComplexTypes.AbstractFeatureType.getInstance();
         complexTypes1[19] = GMLComplexTypes.AbstractFeatureCollectionsBaseType
-            .getInstance();
+                .getInstance();
         complexTypes1[20] = GMLComplexTypes.AbstractFeatureCollectionType
-            .getInstance();
+                .getInstance();
         complexTypes1[21] = GMLComplexTypes.GeometryPropertyType.getInstance();
         complexTypes1[22] = GMLComplexTypes.FeatureAssociationType.getInstance();
         complexTypes1[23] = GMLComplexTypes.BoundingShapeType.getInstance();
@@ -149,10 +149,10 @@ public class GMLSchema implements Schema {
         complexTypes1[26] = GMLComplexTypes.LineStringPropertyType.getInstance();
         complexTypes1[27] = GMLComplexTypes.MultiPointPropertyType.getInstance();
         complexTypes1[28] = GMLComplexTypes.MultiLineStringPropertyType
-            .getInstance();
+                .getInstance();
         complexTypes1[29] = GMLComplexTypes.MultiPolygonPropertyType.getInstance();
         complexTypes1[30] = GMLComplexTypes.MultiGeometryPropertyType
-            .getInstance();
+                .getInstance();
 
         return complexTypes1;
     }
@@ -164,8 +164,11 @@ public class GMLSchema implements Schema {
         return complexTypes;
     }
 
-    /** GMLSchema.getInstance().getElements()[GMLSchema.BOX] */
+    /**
+     * GMLSchema.getInstance().getElements()[GMLSchema.BOX]
+     */
     public static final int BOX = 41;
+
     /*
      * Used to load the set of elements stored in the static class variable
      * representing the element set in the GML Schema
@@ -311,7 +314,8 @@ public class GMLSchema implements Schema {
         elements1[46] = new GMLElement("coord",
                 GMLComplexTypes.CoordType.getInstance(), 1, 1, false, null); // gml:CoordType
         elements1[47] = new GMLElement("coordinates",
-                GMLComplexTypes.CoordinatesType.getInstance(), 1, 1, false, null); // gml:CoordinatesType
+                GMLComplexTypes.CoordinatesType.getInstance(), 1, 1, false, null); // 
+        // gml:CoordinatesType
 
         return elements1;
     }
@@ -352,8 +356,9 @@ public class GMLSchema implements Schema {
     }
 
     private static Schema[] imports = new Schema[]{
-        XLinkSchema.getInstance()
+            XLinkSchema.getInstance()
     };
+
     /**
      * @see schema.Schema#getImports()
      */
@@ -434,8 +439,8 @@ public class GMLSchema implements Schema {
     static class AttributeList {
         static final Attribute[] attributes1 = {
                 new GMLAttribute("remoteSchema",
-                    XSISimpleTypes.AnyURI.getInstance()),
-            };
+                        XSISimpleTypes.AnyURI.getInstance()),
+        };
     }
 
     /**
@@ -446,7 +451,6 @@ public class GMLSchema implements Schema {
      * </p>
      *
      * @author dzwiers
-     *
      * @see Element
      */
     static class GMLElement implements Element {
@@ -480,7 +484,7 @@ public class GMLSchema implements Schema {
          * @param substitutionGroup
          */
         public GMLElement(String name, Type type, int min, int max,
-            boolean abstracT, Element substitutionGroup) {
+                          boolean abstracT, Element substitutionGroup) {
             this.abstracT = abstracT;
             this.max = max;
             this.min = min;
@@ -623,16 +627,16 @@ public class GMLSchema implements Schema {
             return GMLSchema.NAMESPACE;
         }
 
-		public Element findChildElement(String localName, URI namespaceURI) {
-			if (this.name != null) {
+        public Element findChildElement(String localName, URI namespaceURI) {
+            if (this.name != null) {
                 if (this.name.equals(localName)
-                		&& getNamespace().equals(namespaceURI)) {
+                        && getNamespace().equals(namespaceURI)) {
                     return this;
                 }
             }
 
             return null;
-		}
+        }
     }
 
     /**
@@ -642,7 +646,6 @@ public class GMLSchema implements Schema {
      * </p>
      *
      * @author dzwiers
-     *
      * @see ComplexType
      */
     static abstract class GMLComplexType implements ComplexType {
@@ -720,7 +723,6 @@ public class GMLSchema implements Schema {
      * </p>
      *
      * @author dzwiers
-     *
      * @see Attribute
      */
     static class GMLAttribute implements Attribute {
@@ -771,7 +773,7 @@ public class GMLSchema implements Schema {
          * @param def
          */
         public GMLAttribute(String name, SimpleType simpleType, int use,
-            String def) {
+                            String def) {
             this.name = name;
             this.simpleType = simpleType;
             this.use = use;
@@ -842,15 +844,14 @@ public class GMLSchema implements Schema {
      * </p>
      *
      * @author dzwiers
-     *
      * @see AttributeGroup
      */
     static class GMLAssociationAttributeGroup implements AttributeGroup {
         // package visible attribute set
         static final Attribute[] attributes1 = {
                 new GMLAttribute("remoteSchema",
-                    XSISimpleTypes.AnyURI.getInstance()),
-            };
+                        XSISimpleTypes.AnyURI.getInstance()),
+        };
 
         // package visible child declaration
         static final AttributeGroup child = XLinkSchema.SimpleLink.getInstance();
@@ -897,7 +898,6 @@ public class GMLSchema implements Schema {
      * </p>
      *
      * @author dzwiers
-     *
      * @see SimpleType
      */
     static class GMLNullType implements SimpleType {
@@ -940,7 +940,7 @@ public class GMLSchema implements Schema {
          * @see schema.Type#getValue(java.lang.String)
          */
         public Object getValue(Element element, ElementValue[] value,
-            Attributes attr, Map hints) throws SAXException {
+                               Attributes attr, Map hints) throws SAXException {
             if ((value == null) || (value.length != 1)
                     || (value[0].getValue() == null)) {
                 return null;
@@ -955,19 +955,20 @@ public class GMLSchema implements Schema {
 
             final String[] enumeration = {
                     "inapplicable", "unknown", "unavailable", "missing"
-                };
+            };
 
             if (contains(enumeration, text)) {
                 return value[0].getValue();
             }
 
             throw new SAXException(
-                "The value passed in to gml:NullType was not one of the allowable enumerated values."); //unacceptable result
+                    "The value passed in to gml:NullType was not one of the allowable enumerated " +
+                            "values."); //unacceptable result
         }
 
         private boolean contains(String[] enumeration, String text) {
             for (int i = 0; i < enumeration.length; i++) {
-                if( enumeration[i].equalsIgnoreCase(text))
+                if (enumeration[i].equalsIgnoreCase(text))
                     return true;
             }
             return false;
@@ -982,13 +983,13 @@ public class GMLSchema implements Schema {
 
         /**
          * @see org.geotools.xml.schema.SimpleType#toAttribute(org.geotools.xml.schema.Attribute,
-         *      java.lang.Object, java.util.Map)
+         * java.lang.Object, java.util.Map)
          */
         public AttributeValue toAttribute(Attribute attribute, Object value,
-            Map hints) {
+                                          Map hints) {
             final String[] enumeration = {
                     "inapplicable", "unknown", "unavailable", "missing"
-                };
+            };
 
             if (Arrays.binarySearch(enumeration, value) < 0) {
                 // not found
@@ -999,37 +1000,38 @@ public class GMLSchema implements Schema {
         }
 
         /**
-         * @see org.geotools.xml.schema.SimpleType#canCreateAttributes(org.geotools.xml.schema.Attribute,
-         *      java.lang.Object, java.util.Map)
+         * @see org.geotools.xml.schema.SimpleType#canCreateAttributes(org.geotools.xml.schema
+         * .Attribute,
+         * java.lang.Object, java.util.Map)
          */
         public boolean canCreateAttributes(Attribute attribute, Object value,
-            Map hints) {
+                                           Map hints) {
             final String[] enumeration = {
                     "inapplicable", "unknown", "unavailable", "missing"
-                };
+            };
 
             return Arrays.binarySearch(enumeration, value) < 0;
         }
 
         /**
          * @see org.geotools.xml.schema.Type#canEncode(org.geotools.xml.schema.Element,
-         *      java.lang.Object, java.util.Map)
+         * java.lang.Object, java.util.Map)
          */
         public boolean canEncode(Element element, Object value, Map hints) {
             final String[] enumeration = {
                     "inapplicable", "unknown", "unavailable", "missing"
-                };
+            };
 
             return Arrays.binarySearch(enumeration, value) < 0;
         }
 
         /**
          * @see org.geotools.xml.schema.Type#encode(org.geotools.xml.schema.Element,
-         *      java.lang.Object, org.geotools.xml.PrintHandler,
-         *      java.util.Map)
+         * java.lang.Object, org.geotools.xml.PrintHandler,
+         * java.util.Map)
          */
         public void encode(Element element, Object value, PrintHandler output,
-            Map hints) throws IOException{
+                           Map hints) throws IOException {
             output.startElement(element.getNamespace(), element.getName(), null);
             output.characters(value.toString());
             output.endElement(element.getNamespace(), element.getName());
@@ -1046,18 +1048,18 @@ public class GMLSchema implements Schema {
          * @see org.geotools.xml.schema.SimpleType#getParents()
          */
         public SimpleType[] getParents() {
-            return new SimpleType[] { XSISimpleTypes.String.getInstance(), };
+            return new SimpleType[]{XSISimpleTypes.String.getInstance(),};
         }
 
         /**
          * @see org.geotools.xml.schema.SimpleType#getFacets()
          */
         public Facet[] getFacets() {
-            return new Facet[] {
-                new FacetGT(Facet.ENUMERATION, "inapplicable"),
-                new FacetGT(Facet.ENUMERATION, "unknown"),
-                new FacetGT(Facet.ENUMERATION, "unavailable"),
-                new FacetGT(Facet.ENUMERATION, "missing"),
+            return new Facet[]{
+                    new FacetGT(Facet.ENUMERATION, "inapplicable"),
+                    new FacetGT(Facet.ENUMERATION, "unknown"),
+                    new FacetGT(Facet.ENUMERATION, "unavailable"),
+                    new FacetGT(Facet.ENUMERATION, "missing"),
             };
         }
 

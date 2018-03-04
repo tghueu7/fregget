@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,6 +17,7 @@
 package org.geotools.coverage.processing.operation;
 
 // JAI dependencies (for javadoc)
+
 import it.geosolutions.jaiext.JAIExt;
 import it.geosolutions.jaiext.algebra.AlgebraDescriptor.Operator;
 
@@ -39,36 +40,33 @@ import org.opengis.util.InternationalString;
 
 /**
  * Computes the mathematical absolute value of each sample value.
- *
+ * <p>
  * <P><STRONG>Name:</STRONG>&nbsp;<CODE>"Absolute"</CODE><BR>
- *    <STRONG>JAI operator:</STRONG>&nbsp;<CODE>"{@linkplain AbsoluteDescriptor Absolute}"</CODE><BR>
- *    <STRONG>Parameters:</STRONG></P>
+ * <STRONG>JAI operator:</STRONG>&nbsp;<CODE>"{@linkplain AbsoluteDescriptor Absolute}"</CODE><BR>
+ * <STRONG>Parameters:</STRONG></P>
  * <table border='3' cellpadding='6' bgcolor='F4F8FF'>
- *   <tr bgcolor='#B9DCFF'>
- *     <th>Name</th>
- *     <th>Class</th>
- *     <th>Default value</th>
- *     <th>Minimum value</th>
- *     <th>Maximum value</th>
- *   </tr>
- *   <tr>
- *     <td>{@code "Source"}</td>
- *     <td>{@link org.geotools.coverage.grid.GridCoverage2D}</td>
- *     <td align="center">N/A</td>
- *     <td align="center">N/A</td>
- *     <td align="center">N/A</td>
- *   </tr>
+ * <tr bgcolor='#B9DCFF'>
+ * <th>Name</th>
+ * <th>Class</th>
+ * <th>Default value</th>
+ * <th>Minimum value</th>
+ * <th>Maximum value</th>
+ * </tr>
+ * <tr>
+ * <td>{@code "Source"}</td>
+ * <td>{@link org.geotools.coverage.grid.GridCoverage2D}</td>
+ * <td align="center">N/A</td>
+ * <td align="center">N/A</td>
+ * <td align="center">N/A</td>
+ * </tr>
  * </table>
  *
- * @since 2.2
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see org.geotools.coverage.processing.Operations#absolute
  * @see AbsoluteDescriptor
+ * @since 2.2
  */
 public class Absolute extends BaseMathOperationJAI {
     private static final String ALGEBRIC = "algebric";
@@ -84,7 +82,7 @@ public class Absolute extends BaseMathOperationJAI {
     public Absolute() {
         super(ABSOLUTE, getOperationDescriptor(JAIExt.getOperationName(ABSOLUTE)));
     }
-    
+
     public String getName() {
         return ABSOLUTE;
     }
@@ -96,22 +94,26 @@ public class Absolute extends BaseMathOperationJAI {
         final NumberRange range = ranges[0];
         final double min = Math.abs(range.getMinimum());
         final double max = Math.abs(range.getMaximum());
-        return (max<min) ? NumberRange.create(max, min) : NumberRange.create(min, max);
+        return (max < min) ? NumberRange.create(max, min) : NumberRange.create(min, max);
     }
 
-    protected void handleJAIEXTParams(ParameterBlockJAI parameters, ParameterValueGroup parameters2) {
-        if(JAIExt.isJAIExtOperation(ALGEBRIC)){
+    protected void handleJAIEXTParams(ParameterBlockJAI parameters, ParameterValueGroup 
+            parameters2) {
+        if (JAIExt.isJAIExtOperation(ALGEBRIC)) {
             parameters.set(Operator.ABSOLUTE, 0);
-            Collection<GridCoverage2D> sources = (Collection<GridCoverage2D>) parameters2.parameter("sources").getValue();
-            for(GridCoverage2D source : sources){
+            Collection<GridCoverage2D> sources = (Collection<GridCoverage2D>) 
+                    parameters2.parameter("sources").getValue();
+            for (GridCoverage2D source : sources) {
                 handleROINoDataInternal(parameters, source, ALGEBRIC, 1, 2);
             }
         }
     }
-    
+
     protected Map<String, ?> getProperties(RenderedImage data, CoordinateReferenceSystem crs,
-            InternationalString name, MathTransform gridToCRS, GridCoverage2D[] sources,
-            Parameters parameters) {
-        return handleROINoDataProperties(null, parameters.parameters, sources[0], ALGEBRIC, 1, 2, 3);
+                                           InternationalString name, MathTransform gridToCRS, 
+                                           GridCoverage2D[] sources,
+                                           Parameters parameters) {
+        return handleROINoDataProperties(null, parameters.parameters, sources[0], ALGEBRIC, 1, 2,
+                3);
     }
 }

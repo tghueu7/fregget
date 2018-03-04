@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -29,11 +29,8 @@ import org.opengis.filter.expression.Subtract;
 /**
  * Empty "abstract" implementation of ExpressionVisitor. Subclasses should
  * override desired methods.
- * 
+ *
  * @author Cory Horner, Refractions Research Inc.
- *
- *
- *
  * @source $URL$
  */
 public class AbstractExpressionVisitor implements ExpressionVisitor {

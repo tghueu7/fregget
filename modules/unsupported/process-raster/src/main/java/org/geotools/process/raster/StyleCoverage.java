@@ -31,19 +31,21 @@ import org.geotools.styling.Style;
 
 /**
  * Applies a raster symbolizer to the coverage
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  * @author ETj <etj at geo-solutions.it>
- *
  * @source $URL$
  */
-@DescribeProcess(title = "Style Coverage", description = "Styles a raster using a given SLD and raster symbolizer.")
+@DescribeProcess(title = "Style Coverage", description = "Styles a raster using a given SLD and " +
+        "raster symbolizer.")
 public class StyleCoverage implements RasterProcess {
 
     @DescribeResult(name = "result", description = "Styled image")
     public GridCoverage2D execute(
-            @DescribeParameter(name = "coverage", description = "Input raster") GridCoverage2D coverage,
-            @DescribeParameter(name = "style", description = "Styled Layer Descriptor (SLD) style containing a raster symbolizer") Style style)
+            @DescribeParameter(name = "coverage", description = "Input raster") GridCoverage2D 
+                    coverage,
+            @DescribeParameter(name = "style", description = "Styled Layer Descriptor (SLD) style" +
+                    " containing a raster symbolizer") Style style)
             throws IOException {
         // TODO: perform a lookup in the entire style?
         final RasterSymbolizer symbolizer = (RasterSymbolizer) style.featureTypeStyles().get(0)

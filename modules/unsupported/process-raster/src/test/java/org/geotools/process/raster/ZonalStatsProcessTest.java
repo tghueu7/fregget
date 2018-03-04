@@ -65,7 +65,6 @@ import java.util.Map;
 
 /**
  * @author DamianoG
- * 
  */
 public class ZonalStatsProcessTest extends Assert {
 
@@ -74,26 +73,105 @@ public class ZonalStatsProcessTest extends Assert {
     private DataStore ds;
 
     private static Map<String, String> results = null;
+
     static {
         results = new HashMap<String, String>();
         results.put(
                 "testpolygon.11",
-                "SimpleFeatureImpl:testpolygon=[SimpleFeatureImpl.Attribute: z_the_geom<z_the_geom id=testpolygon.1>=MULTIPOLYGON (((11.89513017802011 46.20793481460109, 11.895809089115916 46.20792743071521, 11.895112009452415 46.2070509839355, 11.89513017802011 46.20793481460109))), SimpleFeatureImpl.Attribute: z_name<z_name id=testpolygon.1>=, SimpleFeatureImpl.Attribute: classification<classification id=testpolygon.1>=1, SimpleFeatureImpl.Attribute: count<count id=testpolygon.1>=661, SimpleFeatureImpl.Attribute: min<min id=testpolygon.1>=1251.0, SimpleFeatureImpl.Attribute: max<max id=testpolygon.1>=1630.0, SimpleFeatureImpl.Attribute: sum<sum id=testpolygon.1>=894829.0, SimpleFeatureImpl.Attribute: avg<avg id=testpolygon.1>=1353.7503782148278, SimpleFeatureImpl.Attribute: stddev<stddev id=testpolygon.1>=69.14742498772046]");
+                "SimpleFeatureImpl:testpolygon=[SimpleFeatureImpl.Attribute: " +
+                        "z_the_geom<z_the_geom id=testpolygon.1>=MULTIPOLYGON ((" +
+                        "(11.89513017802011 46.20793481460109, 11.895809089115916 " +
+                        "46.20792743071521, 11.895112009452415 46.2070509839355, " +
+                        "11.89513017802011 46.20793481460109))), SimpleFeatureImpl.Attribute: " +
+                        "z_name<z_name id=testpolygon.1>=, SimpleFeatureImpl.Attribute: " +
+                        "classification<classification id=testpolygon.1>=1, SimpleFeatureImpl" +
+                        ".Attribute: count<count id=testpolygon.1>=661, SimpleFeatureImpl" +
+                        ".Attribute: min<min id=testpolygon.1>=1251.0, SimpleFeatureImpl" +
+                        ".Attribute: max<max id=testpolygon.1>=1630.0, SimpleFeatureImpl" +
+                        ".Attribute: sum<sum id=testpolygon.1>=894829.0, SimpleFeatureImpl" +
+                        ".Attribute: avg<avg id=testpolygon.1>=1353.7503782148278, " +
+                        "SimpleFeatureImpl.Attribute: stddev<stddev " +
+                        "id=testpolygon.1>=69.14742498772046]");
         results.put(
                 "testpolygon.12",
-                "SimpleFeatureImpl:testpolygon=[SimpleFeatureImpl.Attribute: z_the_geom<z_the_geom id=testpolygon.1>=MULTIPOLYGON (((11.89513017802011 46.20793481460109, 11.895809089115916 46.20792743071521, 11.895112009452415 46.2070509839355, 11.89513017802011 46.20793481460109))), SimpleFeatureImpl.Attribute: z_name<z_name id=testpolygon.1>=, SimpleFeatureImpl.Attribute: classification<classification id=testpolygon.1>=2, SimpleFeatureImpl.Attribute: count<count id=testpolygon.1>=696, SimpleFeatureImpl.Attribute: min<min id=testpolygon.1>=1251.0, SimpleFeatureImpl.Attribute: max<max id=testpolygon.1>=1589.0, SimpleFeatureImpl.Attribute: sum<sum id=testpolygon.1>=944959.0, SimpleFeatureImpl.Attribute: avg<avg id=testpolygon.1>=1357.6997126436784, SimpleFeatureImpl.Attribute: stddev<stddev id=testpolygon.1>=70.2289804693121]");
+                "SimpleFeatureImpl:testpolygon=[SimpleFeatureImpl.Attribute: " +
+                        "z_the_geom<z_the_geom id=testpolygon.1>=MULTIPOLYGON ((" +
+                        "(11.89513017802011 46.20793481460109, 11.895809089115916 " +
+                        "46.20792743071521, 11.895112009452415 46.2070509839355, " +
+                        "11.89513017802011 46.20793481460109))), SimpleFeatureImpl.Attribute: " +
+                        "z_name<z_name id=testpolygon.1>=, SimpleFeatureImpl.Attribute: " +
+                        "classification<classification id=testpolygon.1>=2, SimpleFeatureImpl" +
+                        ".Attribute: count<count id=testpolygon.1>=696, SimpleFeatureImpl" +
+                        ".Attribute: min<min id=testpolygon.1>=1251.0, SimpleFeatureImpl" +
+                        ".Attribute: max<max id=testpolygon.1>=1589.0, SimpleFeatureImpl" +
+                        ".Attribute: sum<sum id=testpolygon.1>=944959.0, SimpleFeatureImpl" +
+                        ".Attribute: avg<avg id=testpolygon.1>=1357.6997126436784, " +
+                        "SimpleFeatureImpl.Attribute: stddev<stddev " +
+                        "id=testpolygon.1>=70.2289804693121]");
         results.put(
                 "testpolygon.21",
-                "SimpleFeatureImpl:testpolygon=[SimpleFeatureImpl.Attribute: z_the_geom<z_the_geom id=testpolygon.2>=MULTIPOLYGON (((11.896630238926786 46.207395686643665, 11.897000925691524 46.207985638846736, 11.897753464657697 46.20749492858355, 11.896630238926786 46.207395686643665))), SimpleFeatureImpl.Attribute: z_name<z_name id=testpolygon.2>=, SimpleFeatureImpl.Attribute: classification<classification id=testpolygon.2>=1, SimpleFeatureImpl.Attribute: count<count id=testpolygon.2>=722, SimpleFeatureImpl.Attribute: min<min id=testpolygon.2>=1191.0, SimpleFeatureImpl.Attribute: max<max id=testpolygon.2>=1411.0, SimpleFeatureImpl.Attribute: sum<sum id=testpolygon.2>=904757.0, SimpleFeatureImpl.Attribute: avg<avg id=testpolygon.2>=1253.1260387811649, SimpleFeatureImpl.Attribute: stddev<stddev id=testpolygon.2>=42.393728281454365]");
+                "SimpleFeatureImpl:testpolygon=[SimpleFeatureImpl.Attribute: " +
+                        "z_the_geom<z_the_geom id=testpolygon.2>=MULTIPOLYGON ((" +
+                        "(11.896630238926786 46.207395686643665, 11.897000925691524 " +
+                        "46.207985638846736, 11.897753464657697 46.20749492858355, " +
+                        "11.896630238926786 46.207395686643665))), SimpleFeatureImpl.Attribute: " +
+                        "z_name<z_name id=testpolygon.2>=, SimpleFeatureImpl.Attribute: " +
+                        "classification<classification id=testpolygon.2>=1, SimpleFeatureImpl" +
+                        ".Attribute: count<count id=testpolygon.2>=722, SimpleFeatureImpl" +
+                        ".Attribute: min<min id=testpolygon.2>=1191.0, SimpleFeatureImpl" +
+                        ".Attribute: max<max id=testpolygon.2>=1411.0, SimpleFeatureImpl" +
+                        ".Attribute: sum<sum id=testpolygon.2>=904757.0, SimpleFeatureImpl" +
+                        ".Attribute: avg<avg id=testpolygon.2>=1253.1260387811649, " +
+                        "SimpleFeatureImpl.Attribute: stddev<stddev " +
+                        "id=testpolygon.2>=42.393728281454365]");
         results.put(
                 "testpolygon.22",
-                "SimpleFeatureImpl:testpolygon=[SimpleFeatureImpl.Attribute: z_the_geom<z_the_geom id=testpolygon.2>=MULTIPOLYGON (((11.896630238926786 46.207395686643665, 11.897000925691524 46.207985638846736, 11.897753464657697 46.20749492858355, 11.896630238926786 46.207395686643665))), SimpleFeatureImpl.Attribute: z_name<z_name id=testpolygon.2>=, SimpleFeatureImpl.Attribute: classification<classification id=testpolygon.2>=2, SimpleFeatureImpl.Attribute: count<count id=testpolygon.2>=704, SimpleFeatureImpl.Attribute: min<min id=testpolygon.2>=1192.0, SimpleFeatureImpl.Attribute: max<max id=testpolygon.2>=1430.0, SimpleFeatureImpl.Attribute: sum<sum id=testpolygon.2>=883082.0, SimpleFeatureImpl.Attribute: avg<avg id=testpolygon.2>=1254.3778409090917, SimpleFeatureImpl.Attribute: stddev<stddev id=testpolygon.2>=43.45595854784222]");
+                "SimpleFeatureImpl:testpolygon=[SimpleFeatureImpl.Attribute: " +
+                        "z_the_geom<z_the_geom id=testpolygon.2>=MULTIPOLYGON ((" +
+                        "(11.896630238926786 46.207395686643665, 11.897000925691524 " +
+                        "46.207985638846736, 11.897753464657697 46.20749492858355, " +
+                        "11.896630238926786 46.207395686643665))), SimpleFeatureImpl.Attribute: " +
+                        "z_name<z_name id=testpolygon.2>=, SimpleFeatureImpl.Attribute: " +
+                        "classification<classification id=testpolygon.2>=2, SimpleFeatureImpl" +
+                        ".Attribute: count<count id=testpolygon.2>=704, SimpleFeatureImpl" +
+                        ".Attribute: min<min id=testpolygon.2>=1192.0, SimpleFeatureImpl" +
+                        ".Attribute: max<max id=testpolygon.2>=1430.0, SimpleFeatureImpl" +
+                        ".Attribute: sum<sum id=testpolygon.2>=883082.0, SimpleFeatureImpl" +
+                        ".Attribute: avg<avg id=testpolygon.2>=1254.3778409090917, " +
+                        "SimpleFeatureImpl.Attribute: stddev<stddev " +
+                        "id=testpolygon.2>=43.45595854784222]");
         results.put(
                 "testpolygon.31",
-                "SimpleFeatureImpl:testpolygon=[SimpleFeatureImpl.Attribute: z_the_geom<z_the_geom id=testpolygon.3>=MULTIPOLYGON (((11.897871315022112 46.20812076814061, 11.898581076580497 46.20816171238038, 11.898470449632523 46.20767324666812, 11.897871315022112 46.20812076814061))), SimpleFeatureImpl.Attribute: z_name<z_name id=testpolygon.3>=, SimpleFeatureImpl.Attribute: classification<classification id=testpolygon.3>=1, SimpleFeatureImpl.Attribute: count<count id=testpolygon.3>=398, SimpleFeatureImpl.Attribute: min<min id=testpolygon.3>=1178.0, SimpleFeatureImpl.Attribute: max<max id=testpolygon.3>=1351.0, SimpleFeatureImpl.Attribute: sum<sum id=testpolygon.3>=509230.0, SimpleFeatureImpl.Attribute: avg<avg id=testpolygon.3>=1279.472361809045, SimpleFeatureImpl.Attribute: stddev<stddev id=testpolygon.3>=35.005332302692366]");
+                "SimpleFeatureImpl:testpolygon=[SimpleFeatureImpl.Attribute: " +
+                        "z_the_geom<z_the_geom id=testpolygon.3>=MULTIPOLYGON ((" +
+                        "(11.897871315022112 46.20812076814061, 11.898581076580497 " +
+                        "46.20816171238038, 11.898470449632523 46.20767324666812, " +
+                        "11.897871315022112 46.20812076814061))), SimpleFeatureImpl.Attribute: " +
+                        "z_name<z_name id=testpolygon.3>=, SimpleFeatureImpl.Attribute: " +
+                        "classification<classification id=testpolygon.3>=1, SimpleFeatureImpl" +
+                        ".Attribute: count<count id=testpolygon.3>=398, SimpleFeatureImpl" +
+                        ".Attribute: min<min id=testpolygon.3>=1178.0, SimpleFeatureImpl" +
+                        ".Attribute: max<max id=testpolygon.3>=1351.0, SimpleFeatureImpl" +
+                        ".Attribute: sum<sum id=testpolygon.3>=509230.0, SimpleFeatureImpl" +
+                        ".Attribute: avg<avg id=testpolygon.3>=1279.472361809045, " +
+                        "SimpleFeatureImpl.Attribute: stddev<stddev " +
+                        "id=testpolygon.3>=35.005332302692366]");
         results.put(
                 "testpolygon.32",
-                "SimpleFeatureImpl:testpolygon=[SimpleFeatureImpl.Attribute: z_the_geom<z_the_geom id=testpolygon.3>=MULTIPOLYGON (((11.897871315022112 46.20812076814061, 11.898581076580497 46.20816171238038, 11.898470449632523 46.20767324666812, 11.897871315022112 46.20812076814061))), SimpleFeatureImpl.Attribute: z_name<z_name id=testpolygon.3>=, SimpleFeatureImpl.Attribute: classification<classification id=testpolygon.3>=2, SimpleFeatureImpl.Attribute: count<count id=testpolygon.3>=383, SimpleFeatureImpl.Attribute: min<min id=testpolygon.3>=1189.0, SimpleFeatureImpl.Attribute: max<max id=testpolygon.3>=1348.0, SimpleFeatureImpl.Attribute: sum<sum id=testpolygon.3>=490572.0, SimpleFeatureImpl.Attribute: avg<avg id=testpolygon.3>=1280.8668407310697, SimpleFeatureImpl.Attribute: stddev<stddev id=testpolygon.3>=32.66128762163009]");
+                "SimpleFeatureImpl:testpolygon=[SimpleFeatureImpl.Attribute: " +
+                        "z_the_geom<z_the_geom id=testpolygon.3>=MULTIPOLYGON ((" +
+                        "(11.897871315022112 46.20812076814061, 11.898581076580497 " +
+                        "46.20816171238038, 11.898470449632523 46.20767324666812, " +
+                        "11.897871315022112 46.20812076814061))), SimpleFeatureImpl.Attribute: " +
+                        "z_name<z_name id=testpolygon.3>=, SimpleFeatureImpl.Attribute: " +
+                        "classification<classification id=testpolygon.3>=2, SimpleFeatureImpl" +
+                        ".Attribute: count<count id=testpolygon.3>=383, SimpleFeatureImpl" +
+                        ".Attribute: min<min id=testpolygon.3>=1189.0, SimpleFeatureImpl" +
+                        ".Attribute: max<max id=testpolygon.3>=1348.0, SimpleFeatureImpl" +
+                        ".Attribute: sum<sum id=testpolygon.3>=490572.0, SimpleFeatureImpl" +
+                        ".Attribute: avg<avg id=testpolygon.3>=1280.8668407310697, " +
+                        "SimpleFeatureImpl.Attribute: stddev<stddev " +
+                        "id=testpolygon.3>=32.66128762163009]");
     }
 
     @Before
@@ -131,7 +209,8 @@ public class ZonalStatsProcessTest extends Assert {
             // build the DataFile
             final File tiff = TestData.file(this, "test.tif");
             final File tfw = TestData.file(this, "test.tfw");
-            reader = (it.geosolutions.imageioimpl.plugins.tiff.TIFFImageReader) new TIFFImageReaderSpi()
+            reader = (it.geosolutions.imageioimpl.plugins.tiff.TIFFImageReader) new 
+                    TIFFImageReaderSpi()
                     .createReaderInstance();
             assertNotNull(reader);
             reader.setInput(ImageIO.createImageInputStream(tiff));
@@ -143,7 +222,7 @@ public class ZonalStatsProcessTest extends Assert {
                     image,
                     new GridGeometry2D(new GridEnvelope2D(PlanarImage.wrapRenderedImage(image)
                             .getBounds()), transform, DefaultGeographicCRS.WGS84),
-                    new GridSampleDimension[] { new GridSampleDimension("coverage") }, null, null);
+                    new GridSampleDimension[]{new GridSampleDimension("coverage")}, null, null);
             assertNotNull(coverage2D);
 
             // build the classificator
@@ -151,8 +230,8 @@ public class ZonalStatsProcessTest extends Assert {
             final BufferedImage imageClassificator = new BufferedImage(120, 80,
                     BufferedImage.TYPE_BYTE_INDEXED);
             final WritableRaster raster = imageClassificator.getRaster();
-            for (int i = raster.getWidth(); --i >= 0;) {
-                for (int j = raster.getHeight(); --j >= 0;) {
+            for (int i = raster.getWidth(); --i >= 0; ) {
+                for (int j = raster.getHeight(); --j >= 0; ) {
                     // create a simple raster used for classification
                     int sampleValue = (i % 2 == 0) ? 1 : 2;
                     raster.setSample(i, j, 0, sampleValue);
@@ -164,7 +243,7 @@ public class ZonalStatsProcessTest extends Assert {
                     imageClassificator,
                     new GridGeometry2D(new GridEnvelope2D(PlanarImage.wrapRenderedImage(
                             imageClassificator).getBounds()), coverage2D.getEnvelope()),
-                    new GridSampleDimension[] { new GridSampleDimension("coverage") }, null, null);
+                    new GridSampleDimension[]{new GridSampleDimension("coverage")}, null, null);
             assertNotNull(coverage2D);
 
             // invoke the process
@@ -225,13 +304,14 @@ public class ZonalStatsProcessTest extends Assert {
         graphics.setColor(Color.WHITE);
         graphics.fillRect(0, 0, 50, 100);
         graphics.dispose();
-        final MathTransform transform = new AffineTransform2D(AffineTransform.getScaleInstance(1, 1));
+        final MathTransform transform = new AffineTransform2D(AffineTransform.getScaleInstance(1,
+                1));
         GridCoverage2D coverage2D = CoverageFactoryFinder.getGridCoverageFactory(null).create(
                 "coverage",
                 image,
                 new GridGeometry2D(new GridEnvelope2D(PlanarImage.wrapRenderedImage(image)
                         .getBounds()), transform, crs),
-                new GridSampleDimension[] {new GridSampleDimension("coverage")}, null, null);
+                new GridSampleDimension[]{new GridSampleDimension("coverage")}, null, null);
         assertNotNull(coverage2D);
 
         // prepare one rectangle feature that covers (and more) the top half of the raster
@@ -241,13 +321,14 @@ public class ZonalStatsProcessTest extends Assert {
         tb.setName("zones");
         SimpleFeatureType schema = tb.buildFeatureType();
         Polygon poly = JTS.toGeometry(new Envelope(-10, 110, -10, 50));
-        SimpleFeature feature = SimpleFeatureBuilder.build(schema, new Object[]{poly, Integer.valueOf(1)}, "fid123");
+        SimpleFeature feature = SimpleFeatureBuilder.build(schema, new Object[]{poly, Integer
+                .valueOf(1)}, "fid123");
         SimpleFeatureCollection features = DataUtilities.collection(feature);
 
         RasterZonalStatistics stats = new RasterZonalStatistics();
         SimpleFeatureCollection results = stats.execute(coverage2D, 0, features, coverage2D);
         List<SimpleFeature> resultList = DataUtilities.list(results);
-        
+
         assertEquals(2, resultList.size());
         Map<Integer, Integer> countsSummary = new LinkedHashMap<>();
         for (SimpleFeature sf : resultList) {

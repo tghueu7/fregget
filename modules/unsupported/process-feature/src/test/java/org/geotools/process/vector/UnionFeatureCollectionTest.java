@@ -38,11 +38,9 @@ import com.vividsolutions.jts.geom.LinearRing;
 import com.vividsolutions.jts.geom.PrecisionModel;
 
 /**
- * 
- *
  * @source $URL$
  */
-public class UnionFeatureCollectionTest  {
+public class UnionFeatureCollectionTest {
 
     FilterFactory ff = CommonFactoryFinder.getFilterFactory(null);
 

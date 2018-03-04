@@ -35,12 +35,10 @@ import org.geotools.resources.i18n.ErrorKeys;
  * This class do not holds any state. The decision to implement {@link java.io.Serializable}
  * or {@link org.geotools.util.Cloneable} interfaces is left to implementors.
  *
- * @since 2.4
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.4
  */
 public abstract class AbstractEnvelope implements Envelope {
     /**
@@ -52,22 +50,22 @@ public abstract class AbstractEnvelope implements Envelope {
     /**
      * Returns the common CRS of specified points.
      *
-     * @param  minDP The first position.
-     * @param  maxDP The second position.
+     * @param minDP The first position.
+     * @param maxDP The second position.
      * @return Their common CRS, or {@code null} if none.
      * @throws MismatchedReferenceSystemException if the two positions don't use the same CRS.
      */
     static CoordinateReferenceSystem getCoordinateReferenceSystem(final DirectPosition minDP,
-            final DirectPosition maxDP) throws MismatchedReferenceSystemException
-    {
+                                                                  final DirectPosition maxDP) 
+            throws MismatchedReferenceSystemException {
         final CoordinateReferenceSystem crs1 = minDP.getCoordinateReferenceSystem();
         final CoordinateReferenceSystem crs2 = maxDP.getCoordinateReferenceSystem();
         if (crs1 == null) {
             return crs2;
         } else {
-            if (crs2!=null && !crs1.equals(crs2)) {
+            if (crs2 != null && !crs1.equals(crs2)) {
                 throw new MismatchedReferenceSystemException(
-                          Errors.format(ErrorKeys.MISMATCHED_COORDINATE_REFERENCE_SYSTEM));
+                        Errors.format(ErrorKeys.MISMATCHED_COORDINATE_REFERENCE_SYSTEM));
             }
             return crs1;
         }
@@ -120,12 +118,12 @@ public abstract class AbstractEnvelope implements Envelope {
         final int dimension = envelope.getDimension();
         if (dimension != 0) {
             String separator = "[(";
-            for (int i=0; i<dimension; i++) {
+            for (int i = 0; i < dimension; i++) {
                 buffer.append(separator).append(envelope.getMinimum(i));
                 separator = ", ";
             }
             separator = "), (";
-            for (int i=0; i<dimension; i++) {
+            for (int i = 0; i < dimension; i++) {
                 buffer.append(separator).append(envelope.getMaximum(i));
                 separator = ", ";
             }
@@ -143,9 +141,9 @@ public abstract class AbstractEnvelope implements Envelope {
         int code = 1;
         boolean p = true;
         do {
-            for (int i=0; i<dimension; i++) {
+            for (int i = 0; i < dimension; i++) {
                 final long bits = Double.doubleToLongBits(p ? getMinimum(i) : getMaximum(i));
-                code = 31 * code + ((int)(bits) ^ (int)(bits >>> 32));
+                code = 31 * code + ((int) (bits) ^ (int) (bits >>> 32));
             }
         } while ((p = !p) == false);
         final CoordinateReferenceSystem crs = getCoordinateReferenceSystem();
@@ -161,27 +159,24 @@ public abstract class AbstractEnvelope implements Envelope {
      *
      * @param object The object to compare with this envelope.
      * @return {@code true} if the given object is equals to this envelope.
-     *
      * @todo Current implementation requires that {@code object} is of the same class.
-     *       We can not relax this rule before we ensure that every implementations in
-     *       the Geotools code base follow the same contract.
+     * We can not relax this rule before we ensure that every implementations in
+     * the Geotools code base follow the same contract.
      */
     @Override
     public boolean equals(final Object object) {
-        if (object!=null && object.getClass().equals(getClass())) {
+        if (object != null && object.getClass().equals(getClass())) {
             final Envelope that = (Envelope) object;
             final int dimension = getDimension();
             if (dimension == that.getDimension()) {
-                for (int i=0; i<dimension; i++) {
+                for (int i = 0; i < dimension; i++) {
                     if (!Utilities.equals(this.getMinimum(i), that.getMinimum(i)) ||
-                        !Utilities.equals(this.getMaximum(i), that.getMaximum(i)))
-                    {
+                            !Utilities.equals(this.getMaximum(i), that.getMaximum(i))) {
                         return false;
                     }
                 }
                 if (Utilities.equals(this.getCoordinateReferenceSystem(),
-                                     that.getCoordinateReferenceSystem()))
-                {
+                        that.getCoordinateReferenceSystem())) {
                     assert hashCode() == that.hashCode() : this;
                     return true;
                 }
@@ -195,17 +190,23 @@ public abstract class AbstractEnvelope implements Envelope {
      * This class delegates its work to the enclosing envelope.
      */
     private abstract class Corner extends AbstractDirectPosition {
-        /** The coordinate reference system in which the coordinate is given. */
+        /**
+         * The coordinate reference system in which the coordinate is given.
+         */
         public CoordinateReferenceSystem getCoordinateReferenceSystem() {
             return AbstractEnvelope.this.getCoordinateReferenceSystem();
         }
 
-        /** The length of coordinate sequence (the number of entries). */
+        /**
+         * The length of coordinate sequence (the number of entries).
+         */
         public int getDimension() {
             return AbstractEnvelope.this.getDimension();
         }
 
-        /** Sets the ordinate value along the specified dimension. */
+        /**
+         * Sets the ordinate value along the specified dimension.
+         */
         public void setOrdinate(int dimension, double value) {
             throw new UnsupportedOperationException();
         }

@@ -44,25 +44,24 @@ import org.opengis.referencing.operation.MathTransform;
 
 
 /**
- * Polyconic (American). 
- * 
+ * Polyconic (American).
+ * <p>
  * <b>References:</b>
  * <ul>
- *   <li>John P. Snyder (Map Projections - A Working Manual,<br>
- *       U.S. Geological Survey Professional Paper 1395, 1987)</li>
- *   <li>"Coordinate Conversions and Transformations including Formulas",<br>
- *       EPSG Guidence Note Number 7, Version 19.</li>
+ * <li>John P. Snyder (Map Projections - A Working Manual,<br>
+ * U.S. Geological Survey Professional Paper 1395, 1987)</li>
+ * <li>"Coordinate Conversions and Transformations including Formulas",<br>
+ * EPSG Guidence Note Number 7, Version 19.</li>
  * </ul>
  *
- * @see <A HREF="http://mathworld.wolfram.com/PolyconicProjection.html">Polyconic projection on MathWorld</A>
- * @see <A HREF="http://www.remotesensing.org/geotiff/proj_list/polyconic.html">"Polyconic" on RemoteSensing.org</A>
- *
- * @since 2.6.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Andrea Aime
+ * @version $Id$
+ * @source $URL$
+ * @see <A HREF="http://mathworld.wolfram.com/PolyconicProjection.html">Polyconic projection on 
+ * MathWorld</A>
+ * @see <A HREF="http://www.remotesensing.org/geotiff/proj_list/polyconic.html">"Polyconic" on 
+ * RemoteSensing.org</A>
+ * @since 2.6.1
  */
 public class Polyconic extends MapProjection {
     /**
@@ -74,7 +73,7 @@ public class Polyconic extends MapProjection {
      * Maximum difference allowed when comparing real numbers.
      */
     private static final double EPSILON = 1E-10;
-    
+
     /**
      * Maximum number of iterations for iterative computations.
      */
@@ -84,7 +83,7 @@ public class Polyconic extends MapProjection {
      * Difference allowed in iterative computations.
      */
     private static final double ITERATION_TOLERANCE = 1E-12;
-    
+
     /**
      * Meridian distance at the {@code latitudeOfOrigin}.
      * Used for calculations for the ellipsoid.
@@ -94,16 +93,16 @@ public class Polyconic extends MapProjection {
     /**
      * Constructs a new map projection from the supplied parameters.
      *
-     * @param  parameters The parameter values in standard units.
+     * @param parameters The parameter values in standard units.
      * @throws ParameterNotFoundException if a mandatory parameter is missing.
      */
     protected Polyconic(final ParameterValueGroup parameters) throws ParameterNotFoundException {
         super(parameters);
-        
+
         //  Compute constants
         ml0 = mlfn(latitudeOfOrigin, sin(latitudeOfOrigin), cos(latitudeOfOrigin));
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -143,14 +142,13 @@ public class Polyconic extends MapProjection {
      * and stores the result in {@code ptDst}.
      */
     protected Point2D inverseTransformNormalized(double x, double y, final Point2D ptDst)
-            throws ProjectionException
-    {
+            throws ProjectionException {
         double lam, phi;
-        
+
         y += ml0;
-        if (abs(y) <= EPSILON) { 
-            lam = x; 
-            phi = 0.; 
+        if (abs(y) <= EPSILON) {
+            lam = x;
+            phi = 0.;
         } else {
             final double r = y * y + x * x;
             phi = y;
@@ -167,12 +165,12 @@ public class Polyconic extends MapProjection {
                 final double ml = mlfn(phi, sp, cp);
                 final double mlb = ml * ml + r;
                 mlp = (1. - excentricitySquared) / (mlp * mlp * mlp);
-                final double dPhi = ( ml + ml + c * mlb - 2. * y * (c * ml + 1.) ) / (
-                            excentricitySquared * s2ph * (mlb - 2. * y * ml) / c +
-                            2.* (y - ml) * (c * mlp - 1. / s2ph) - mlp - mlp );
+                final double dPhi = (ml + ml + c * mlb - 2. * y * (c * ml + 1.)) / (
+                        excentricitySquared * s2ph * (mlb - 2. * y * ml) / c +
+                                2. * (y - ml) * (c * mlp - 1. / s2ph) - mlp - mlp);
                 if (abs(dPhi) <= ITERATION_TOLERANCE)
                     break;
-                            
+
                 phi += dPhi;
             }
             if (i > MAXIMUM_ITERATIONS)
@@ -187,10 +185,10 @@ public class Polyconic extends MapProjection {
         }
         return new Point2D.Double(lam, phi);
     }
-    
+
     @Override
     protected double getToleranceForAssertions(double longitude, double latitude) {
-        if (abs(longitude - centralMeridian)/2 + abs(latitude  - latitudeOfOrigin) > 10) {
+        if (abs(longitude - centralMeridian) / 2 + abs(latitude - latitudeOfOrigin) > 10) {
             // When far from the valid area, use a larger tolerance.
             return 0.1;
         }
@@ -203,7 +201,7 @@ public class Polyconic extends MapProjection {
     @Override
     public int hashCode() {
         final long code = Double.doubleToLongBits(ml0);
-        return ((int)code ^ (int)(code >>> 32)) + 37*super.hashCode();
+        return ((int) code ^ (int) (code >>> 32)) + 37 * super.hashCode();
     }
 
     /**
@@ -217,12 +215,12 @@ public class Polyconic extends MapProjection {
         }
         if (super.equals(object)) {
             final Polyconic that = (Polyconic) object;
-            return equals(this.ml0,  that.ml0);
+            return equals(this.ml0, that.ml0);
         }
         return false;
     }
-    
-    
+
+
     //////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////
     ////////                                                                          ////////
@@ -235,11 +233,10 @@ public class Polyconic extends MapProjection {
      * The {@linkplain org.geotools.referencing.operation.MathTransformProvider math transform
      * provider} for a {@linkplain Mercator1SP Mercator 1SP} projection (EPSG code 9804).
      *
-     * @since 2.6.2
-     * @version $Id$
      * @author Andrea Aime
-     *
+     * @version $Id$
      * @see org.geotools.referencing.operation.DefaultMathTransformFactory
+     * @since 2.6.2
      */
     public static class Provider extends AbstractProvider {
         /**
@@ -250,18 +247,19 @@ public class Polyconic extends MapProjection {
         /**
          * The parameters group.
          */
-        static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(new NamedIdentifier[] {
-                new NamedIdentifier(Citations.OGC,      "Polyconic"),
-                new NamedIdentifier(Citations.EPSG,     "American Polyconic"),
-                new NamedIdentifier(Citations.EPSG,     "9818"),
-                new NamedIdentifier(Citations.GEOTIFF,  "Polyconic"),
+        static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(new 
+                NamedIdentifier[]{
+                new NamedIdentifier(Citations.OGC, "Polyconic"),
+                new NamedIdentifier(Citations.EPSG, "American Polyconic"),
+                new NamedIdentifier(Citations.EPSG, "9818"),
+                new NamedIdentifier(Citations.GEOTIFF, "Polyconic"),
                 new NamedIdentifier(Citations.GEOTOOLS, Vocabulary.formatInternational(
-                                    VocabularyKeys.POLYCONIC_PROJECTION))
-            }, new ParameterDescriptor[] {
+                        VocabularyKeys.POLYCONIC_PROJECTION))
+        }, new ParameterDescriptor[]{
                 SEMI_MAJOR, SEMI_MINOR,
                 LATITUDE_OF_ORIGIN, CENTRAL_MERIDIAN, SCALE_FACTOR,
                 FALSE_EASTING, FALSE_NORTHING
-            });
+        });
 
         /**
          * Constructs a new provider.
@@ -281,15 +279,15 @@ public class Polyconic extends MapProjection {
         /**
          * Creates a transform from the specified group of parameter values.
          *
-         * @param  parameters The group of parameter values.
+         * @param parameters The group of parameter values.
          * @return The created math transform.
          * @throws ParameterNotFoundException if a required parameter was not found.
          */
         protected MathTransform createMathTransform(final ParameterValueGroup parameters)
-                throws ParameterNotFoundException
-        {
+                throws ParameterNotFoundException {
             if (isSpherical(parameters))
-                LOGGER.log(Level.WARNING, "Polyconic spherical case not implemented, falling back on the elliptical equations");
+                LOGGER.log(Level.WARNING, "Polyconic spherical case not implemented, falling back" +
+                        " on the elliptical equations");
             return new Polyconic(parameters);
         }
     }

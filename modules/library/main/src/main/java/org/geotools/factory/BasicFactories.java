@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2006-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -17,6 +17,7 @@
 package org.geotools.factory;
 
 // J2SE dependencies
+
 import java.util.Map;
 
 import org.geotools.referencing.ReferencingFactoryFinder;
@@ -42,20 +43,19 @@ import org.opengis.util.NameFactory;
 
 /**
  * Defines a common abstraction for getting the different factories. This default implementation
- * provides support for only the most basic factories ({@linkplain ReferencingFactoryFinder referencing},
+ * provides support for only the most basic factories 
+ * ({@linkplain ReferencingFactoryFinder referencing},
  * <cite>etc.</cite>). Many methods thrown an {@link FactoryNotFoundException} in all cases, for
  * example all methods related to GO-1 canvas objects. Those methods will be implemented later
  * in a subclass.
  *
- * @since 2.3
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @since 2.3
  */
 public class BasicFactories {
-    
+
     /**
      * The default authority name for authority factories.
      */
@@ -77,11 +77,11 @@ public class BasicFactories {
      * Creates a new instance of {@code BasicFactories} with the specified set of hints. The
      * {@code hints} map should contains only the minimum set of hints, since this constructor
      * will keep a reference to all objects found in this map.
-     * 
+     *
      * @param hints The hints to be used for all factory creation, or {@code null} if none.
      */
     public BasicFactories(final Map hints) {
-        this.hints = (hints!=null) ? new Hints(hints) : null;
+        this.hints = (hints != null) ? new Hints(hints) : null;
     }
 
     /**
@@ -112,7 +112,6 @@ public class BasicFactories {
      *
      * @throws FactoryNotFoundException if no factory was found for the requested type.
      * @throws FactoryRegistryException if the factory can't be obtained for an other reason.
-     * 
      * @deprecated use {@link #getFeatureTypeFactory()}.
      */
     public FeatureTypeFactory getTypeFactory() throws FactoryRegistryException {
@@ -127,14 +126,13 @@ public class BasicFactories {
      *
      * @throws FactoryNotFoundException if no factory was found for the requested type.
      * @throws FactoryRegistryException if the factory can't be obtained for an other reason.
-     * 
-     * @deprecated use {@link #getFeatureTypeFactory()}.
      * @since 2.5
+     * @deprecated use {@link #getFeatureTypeFactory()}.
      */
     public FeatureTypeFactory getFeatureTypeFactory() throws FactoryRegistryException {
         throw new FactoryNotFoundException(unsupportedFactory(FeatureTypeFactory.class));
     }
-    
+
     /**
      * Returns the {@linkplain FilterFactory filter factory} singleton.
      * <p>
@@ -242,9 +240,9 @@ public class BasicFactories {
      * @throws FactoryRegistryException if the factory can't be obtained for an other reason.
      */
     public CoordinateOperationAuthorityFactory getCoordinateOperationAuthorityFactory()
-            throws FactoryRegistryException
-    {
-        return ReferencingFactoryFinder.getCoordinateOperationAuthorityFactory(DEFAULT_AUTHORITY, hints);
+            throws FactoryRegistryException {
+        return ReferencingFactoryFinder.getCoordinateOperationAuthorityFactory(DEFAULT_AUTHORITY,
+                hints);
     }
 
     /**
@@ -254,8 +252,7 @@ public class BasicFactories {
      * @throws FactoryRegistryException if the factory can't be obtained for an other reason.
      */
     public CoordinateOperationFactory getCoordinateOperationFactory()
-            throws FactoryRegistryException
-    {
+            throws FactoryRegistryException {
         return ReferencingFactoryFinder.getCoordinateOperationFactory(hints);
     }
 
@@ -267,16 +264,14 @@ public class BasicFactories {
      * The default implementation thrown an exception in all case.
      *
      * @param crs the {@linkplain CoordinateReferenceSystem coordinate reference system} the
-     *        {@linkplain GeometryFactory geometry factory} should use.
-     * @return the requested {@linkplain GeometryFactory geometry factory} or {@code null} if the 
-     *         {@linkplain CoordinateReferenceSystem coordinate reference system} is not supported.
-     *
+     *            {@linkplain GeometryFactory geometry factory} should use.
+     * @return the requested {@linkplain GeometryFactory geometry factory} or {@code null} if the
+     * {@linkplain CoordinateReferenceSystem coordinate reference system} is not supported.
      * @throws FactoryNotFoundException if no factory was found for the requested type.
      * @throws FactoryRegistryException if the factory can't be obtained for an other reason.
      */
     public GeometryFactory getGeometryFactory(final CoordinateReferenceSystem crs)
-            throws FactoryRegistryException
-    {
+            throws FactoryRegistryException {
         throw new FactoryNotFoundException(unsupportedFactory(GeometryFactory.class));
     }
 
@@ -288,16 +283,14 @@ public class BasicFactories {
      * The default implementation thrown an exception in all case.
      *
      * @param crs the {@linkplain CoordinateReferenceSystem coordinate reference system} the
-     *        {@linkplain PrimitiveFactory primitive factory} should use.
-     * @return the requested {@linkplain PrimitiveFactory primitive factory} or {@code null} if the 
-     *         {@linkplain CoordinateReferenceSystem coordinate reference system} is not supported.
-     *
+     *            {@linkplain PrimitiveFactory primitive factory} should use.
+     * @return the requested {@linkplain PrimitiveFactory primitive factory} or {@code null} if the
+     * {@linkplain CoordinateReferenceSystem coordinate reference system} is not supported.
      * @throws FactoryNotFoundException if no factory was found for the requested type.
      * @throws FactoryRegistryException if the factory can't be obtained for an other reason.
      */
     public PrimitiveFactory getPrimitiveFactory(final CoordinateReferenceSystem crs)
-            throws FactoryRegistryException
-    {
+            throws FactoryRegistryException {
         throw new FactoryNotFoundException(unsupportedFactory(PrimitiveFactory.class));
     }
 }

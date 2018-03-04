@@ -38,9 +38,8 @@ import org.opengis.util.ProgressListener;
 
 /**
  * Base class extending {@link DefaultDriver} leveraging on URLs.
- * 
+ *
  * @author Simone Giannecchini, GeoSolutions
- * 
  * @source $URL$
  */
 public class DefaultFileDriver extends DefaultDriver implements FileDriver {
@@ -48,19 +47,20 @@ public class DefaultFileDriver extends DefaultDriver implements FileDriver {
     private final static Logger LOGGER = Logging.getLogger(DefaultFileDriver.class);
 
     /**
-     * Parameter "url" used to indicate to a local file or remote resource being accessed as a coverage.
+     * Parameter "url" used to indicate to a local file or remote resource being accessed as a 
+     * coverage.
      */
     public final static Parameter<URL> URL = new Parameter<URL>("url", java.net.URL.class,
             new SimpleInternationalString("URL"), new SimpleInternationalString(
-                    "Url to a local file or remote location"));
+            "Url to a local file or remote location"));
 
     private final List<String> fileExtensions;
 
     protected DefaultFileDriver(final String name, final String description, final String title,
-            final Hints implementationHints, final List<String> fileExtensions,
-            final EnumSet<DriverCapabilities> driverCapabilities) {
-        super(name, description, title, driverCapabilities,implementationHints);
-        
+                                final Hints implementationHints, final List<String> fileExtensions,
+                                final EnumSet<DriverCapabilities> driverCapabilities) {
+        super(name, description, title, driverCapabilities, implementationHints);
+
         Utilities.ensureNonNull("fileExtensions", fileExtensions);
         this.fileExtensions = new ArrayList<String>(fileExtensions);
     }
@@ -116,7 +116,7 @@ public class DefaultFileDriver extends DefaultDriver implements FileDriver {
 
     @Override
     protected CoverageAccess connect(Map<String, Serializable> params, Hints hints,
-            ProgressListener listener) throws IOException {
+                                     ProgressListener listener) throws IOException {
         // check for URL
         if (params == null)
             throw new IllegalArgumentException("Invalid or no input provided.");
@@ -131,7 +131,7 @@ public class DefaultFileDriver extends DefaultDriver implements FileDriver {
 
     @Override
     protected CoverageAccess create(Map<String, Serializable> params, Hints hints,
-            ProgressListener listener) throws IOException {
+                                    ProgressListener listener) throws IOException {
         // check for URL
         if (params == null)
             throw new IllegalArgumentException("Invalid or no input provided.");
@@ -146,7 +146,7 @@ public class DefaultFileDriver extends DefaultDriver implements FileDriver {
 
     @Override
     protected CoverageAccess delete(Map<String, Serializable> params, Hints hints,
-            ProgressListener listener) throws IOException {
+                                    ProgressListener listener) throws IOException {
         // check for URL
         if (params == null)
             throw new IllegalArgumentException("Invalid or no input provided.");
@@ -160,7 +160,7 @@ public class DefaultFileDriver extends DefaultDriver implements FileDriver {
     }
 
     public boolean canProcess(DriverCapabilities operation, URL url,
-            Map<String, Serializable> params) {
+                              Map<String, Serializable> params) {
 
         if (!getDriverCapabilities().contains(operation))
             throw new UnsupportedOperationException("Operation " + operation
@@ -179,26 +179,27 @@ public class DefaultFileDriver extends DefaultDriver implements FileDriver {
 
         // check the operation
         switch (operation) {
-        case CONNECT:
-            return canConnect(url, params);
-        case DELETE:
-            return canDelete(url, params);
-        case CREATE:
-            return canCreate(url, params);
-        default:
-            throw new IllegalArgumentException("Unrecognized operation " + operation);
+            case CONNECT:
+                return canConnect(url, params);
+            case DELETE:
+                return canDelete(url, params);
+            case CREATE:
+                return canCreate(url, params);
+            default:
+                throw new IllegalArgumentException("Unrecognized operation " + operation);
         }
     }
 
     public CoverageAccess process(DriverCapabilities operation, URL url,
-            Map<String, Serializable> params, Hints hints, ProgressListener listener)
+                                  Map<String, Serializable> params, Hints hints, ProgressListener
+                                          listener)
             throws IOException {
 
-        if (!getDriverCapabilities().contains(operation)){
+        if (!getDriverCapabilities().contains(operation)) {
             throw new UnsupportedOperationException("Operation " + operation
                     + " is not supported by this driver");
         }
-        
+
         // check input URL
         if (url == null) {
             // check for URL
@@ -212,14 +213,14 @@ public class DefaultFileDriver extends DefaultDriver implements FileDriver {
 
         // check the operation
         switch (operation) {
-        case CONNECT:
-            return connect(url, params, hints, listener);
-        case DELETE:
-            return delete(url, params, hints, listener);
-        case CREATE:
-            return create(url, params, hints, listener);
-        default:
-            throw new IllegalArgumentException("Unrecognized operation " + operation);
+            case CONNECT:
+                return connect(url, params, hints, listener);
+            case DELETE:
+                return delete(url, params, hints, listener);
+            case CREATE:
+                return create(url, params, hints, listener);
+            default:
+                throw new IllegalArgumentException("Unrecognized operation " + operation);
         }
     }
 
@@ -236,17 +237,17 @@ public class DefaultFileDriver extends DefaultDriver implements FileDriver {
     }
 
     protected CoverageAccess connect(java.net.URL url, Map<String, Serializable> params,
-            Hints hints, ProgressListener listener) throws IOException {
+                                     Hints hints, ProgressListener listener) throws IOException {
         throw new UnsupportedOperationException("Operation not currently implemented");
     }
 
     protected CoverageAccess create(java.net.URL url, Map<String, Serializable> params,
-            Hints hints, ProgressListener listener) throws IOException {
+                                    Hints hints, ProgressListener listener) throws IOException {
         throw new UnsupportedOperationException("Operation not currently implemented");
     }
 
     protected CoverageAccess delete(java.net.URL url, Map<String, Serializable> params,
-            Hints hints, ProgressListener listener) throws IOException {
+                                    Hints hints, ProgressListener listener) throws IOException {
         throw new UnsupportedOperationException("Operation not currently implemented");
     }
 

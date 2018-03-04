@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2016, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -56,38 +56,35 @@ import org.opengis.temporal.Instant;
  * </ul>
  * </p>
  * <p>
- * The hint {@link ConverterFactory#SAFE_CONVERSION} is used to control which conversions will be 
+ * The hint {@link ConverterFactory#SAFE_CONVERSION} is used to control which conversions will be
  * applied.
  * </p>
  * <p>
  * The hint {@link #DATE_FORMAT} can be used to control the format of converting a temporal value to
  * a String.
  * </p>
- * 
+ *
  * @author Justin Deoliveira, The Open Planning Project
- * @since 2.4
- *
- *
- *
  * @source $URL$
+ * @since 2.4
  */
 public class TemporalConverterFactory implements ConverterFactory {
 
     public Converter createConverter(Class source, Class target, Hints hints) {
         boolean isSafeOnly = false;
-        
-        if (hints != null){
+
+        if (hints != null) {
             Object safe = hints.get(ConverterFactory.SAFE_CONVERSION);
-            if (safe instanceof Boolean && ((Boolean)safe).booleanValue()){
+            if (safe instanceof Boolean && ((Boolean) safe).booleanValue()) {
                 isSafeOnly = true;
             }
         }
-        
+
         if (Date.class.isAssignableFrom(source)) {
             // handle all of (java.util.Date,java.sql.Timestamp,and java.sql.Time) ->
             // java.util.Calendar
             if (Calendar.class.isAssignableFrom(target)) {
-                if (isSafeOnly && Timestamp.class.isAssignableFrom(source)){
+                if (isSafeOnly && Timestamp.class.isAssignableFrom(source)) {
                     //java.sql.Timestamp -> Calendar is not a safe conversion
                     return null;
                 }
@@ -106,11 +103,11 @@ public class TemporalConverterFactory implements ConverterFactory {
             if (Timestamp.class.isAssignableFrom(target) || Time.class.isAssignableFrom(target)
                     || java.sql.Date.class.isAssignableFrom(target)) {
 
-                if ( isSafeOnly && Time.class.isAssignableFrom( target ) ) {
+                if (isSafeOnly && Time.class.isAssignableFrom(target)) {
                     //not safe
                     return null;
                 }
-                
+
                 return new Converter() {
 
                     public Object convert(Object source, Class target) throws Exception {
@@ -138,7 +135,7 @@ public class TemporalConverterFactory implements ConverterFactory {
             if (Long.class.equals(target)) {
                 return new Converter() {
                     public <T> T convert(Object source, Class<T> target) throws Exception {
-                        return (T) Long.valueOf(((Date)source).getTime());
+                        return (T) Long.valueOf(((Date) source).getTime());
                     }
                 };
             }
@@ -148,7 +145,7 @@ public class TemporalConverterFactory implements ConverterFactory {
         // (java.util.Date,java.sql.Timestamp,java.util.Time}
         if (Calendar.class.isAssignableFrom(source)) {
             if (Date.class.isAssignableFrom(target)) {
-                if (isSafeOnly && Time.class.isAssignableFrom( target )){
+                if (isSafeOnly && Time.class.isAssignableFrom(target)) {
                     //Calendar -> Time is not saf
                     return null;
                 }
@@ -157,7 +154,8 @@ public class TemporalConverterFactory implements ConverterFactory {
                     public Object convert(Object source, Class target) throws Exception {
                         Calendar calendar = (Calendar) source;
 
-                        return timeMillisToDate(calendar.getTimeInMillis(), target, calendar.getTimeZone());
+                        return timeMillisToDate(calendar.getTimeInMillis(), target, calendar
+                                .getTimeZone());
                     }
                 };
             }
@@ -173,7 +171,7 @@ public class TemporalConverterFactory implements ConverterFactory {
                     }
                 };
             }
-            
+
         }
 
         if (XMLGregorianCalendar.class.isAssignableFrom(source)) {
@@ -199,7 +197,7 @@ public class TemporalConverterFactory implements ConverterFactory {
                 };
             }
         }
-        
+
         if (TimeZone.class.isAssignableFrom(source)) {
             if (String.class == target) {
                 return new Converter() {
@@ -212,9 +210,9 @@ public class TemporalConverterFactory implements ConverterFactory {
                 };
             }
         }
-        
-        if(Instant.class.isAssignableFrom(source)) {
-            if(Date.class == target) {
+
+        if (Instant.class.isAssignableFrom(source)) {
+            if (Date.class == target) {
                 return new Converter() {
 
                     @Override
@@ -222,7 +220,7 @@ public class TemporalConverterFactory implements ConverterFactory {
                         Instant instant = (Instant) source;
                         return (T) instant.getPosition().getDate();
                     }
-                    
+
                 };
             }
         }
@@ -241,39 +239,41 @@ public class TemporalConverterFactory implements ConverterFactory {
         }
         return null;
     }
-    
+
     /**
      * Turns a timestamp specified in milliseconds into a date, making sure to shave off
      * the un-necessary parts when building java.sql time related classes
-     * @param time the number of milliseconds since January 1, 1970, 00:00:00 <b>GMT</b>
+     *
+     * @param time   the number of milliseconds since January 1, 1970, 00:00:00 <b>GMT</b>
      * @param target
      * @return
      */
     Date timeMillisToDate(long time, Class target) {
         return timeMillisToDate(time, target, TimeZone.getDefault());
     }
+
     Date timeMillisToDate(long time, Class target, TimeZone zone) {
-    	if(Timestamp.class.isAssignableFrom(target)) {
-        	return new Timestamp(time);
-        } else if(java.sql.Date.class.isAssignableFrom(target)) {
-        	Calendar cal = Calendar.getInstance(zone);
-        	cal.setTimeInMillis(time);
-        	cal.set(Calendar.HOUR, 0);
-        	cal.set(Calendar.MINUTE, 0);
-        	cal.set(Calendar.SECOND, 0);
-        	cal.set(Calendar.MILLISECOND, 0);
-         	return new java.sql.Date(cal.getTimeInMillis());
-        } else if(java.sql.Time.class.isAssignableFrom(target)) {
-        	Calendar cal = Calendar.getInstance(zone);
-        	cal.setTimeInMillis(time);
-        	cal.set(Calendar.YEAR, 0);
-        	cal.set(Calendar.MONTH, 0);
-        	cal.set(Calendar.DAY_OF_MONTH, 0);
-         	return new java.sql.Time(cal.getTimeInMillis());
-        } else if(java.util.Date.class.isAssignableFrom(target)) {
-        	return new java.util.Date(time);
+        if (Timestamp.class.isAssignableFrom(target)) {
+            return new Timestamp(time);
+        } else if (java.sql.Date.class.isAssignableFrom(target)) {
+            Calendar cal = Calendar.getInstance(zone);
+            cal.setTimeInMillis(time);
+            cal.set(Calendar.HOUR, 0);
+            cal.set(Calendar.MINUTE, 0);
+            cal.set(Calendar.SECOND, 0);
+            cal.set(Calendar.MILLISECOND, 0);
+            return new java.sql.Date(cal.getTimeInMillis());
+        } else if (java.sql.Time.class.isAssignableFrom(target)) {
+            Calendar cal = Calendar.getInstance(zone);
+            cal.setTimeInMillis(time);
+            cal.set(Calendar.YEAR, 0);
+            cal.set(Calendar.MONTH, 0);
+            cal.set(Calendar.DAY_OF_MONTH, 0);
+            return new java.sql.Time(cal.getTimeInMillis());
+        } else if (java.util.Date.class.isAssignableFrom(target)) {
+            return new java.util.Date(time);
         } else {
-        	throw new IllegalArgumentException("Unsupported target type " + target);
+            throw new IllegalArgumentException("Unsupported target type " + target);
         }
     }
 

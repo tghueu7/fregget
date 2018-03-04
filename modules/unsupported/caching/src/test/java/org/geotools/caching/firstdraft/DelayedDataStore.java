@@ -34,11 +34,7 @@ import org.opengis.filter.Filter;
 
 
 /**
- * @author  crousson
- *
- *
- *
- *
+ * @author crousson
  * @source $URL$
  */
 public class DelayedDataStore implements DataStore {
@@ -56,8 +52,8 @@ public class DelayedDataStore implements DataStore {
     }
 
     /**
-     * @param msResponseDelay  the msResponseDelay to set
-     * @uml.property  name="msResponseDelay"
+     * @param msResponseDelay the msResponseDelay to set
+     * @uml.property name="msResponseDelay"
      */
     public void setMsResponseDelay(long ms) {
         this.msResponseDelay = ms;
@@ -81,35 +77,35 @@ public class DelayedDataStore implements DataStore {
     }
 
     public FeatureReader getFeatureReader(Query arg0, Transaction arg1)
-        throws IOException {
+            throws IOException {
         idle();
 
         return this.sourceDataStore.getFeatureReader(arg0, arg1);
     }
 
     public SimpleFeatureSource getFeatureSource(String arg0)
-        throws IOException {
+            throws IOException {
         idle();
 
         return this.sourceDataStore.getFeatureSource(arg0);
     }
 
     public FeatureWriter getFeatureWriter(String arg0, Transaction arg1)
-        throws IOException {
+            throws IOException {
         idle();
 
         return this.sourceDataStore.getFeatureWriter(arg0, arg1);
     }
 
     public FeatureWriter getFeatureWriter(String arg0, Filter arg1, Transaction arg2)
-        throws IOException {
+            throws IOException {
         idle();
 
         return this.sourceDataStore.getFeatureWriter(arg0, arg1, arg2);
     }
 
     public FeatureWriter getFeatureWriterAppend(String arg0, Transaction arg1)
-        throws IOException {
+            throws IOException {
         idle();
 
         return this.sourceDataStore.getFeatureWriterAppend(arg0, arg1);
@@ -128,37 +124,37 @@ public class DelayedDataStore implements DataStore {
     }
 
     public void updateSchema(String arg0, SimpleFeatureType arg1)
-        throws IOException {
+            throws IOException {
         this.sourceDataStore.updateSchema(arg0, arg1);
     }
 
-	public void dispose() {
-		sourceDataStore.dispose();
-		
-	}
+    public void dispose() {
+        sourceDataStore.dispose();
 
-	public SimpleFeatureSource getFeatureSource(
-			Name typeName) throws IOException {
-		 idle();
-		return sourceDataStore.getFeatureSource(typeName);
-	}
+    }
 
-	public ServiceInfo getInfo() {
-		return sourceDataStore.getInfo();
-	}
+    public SimpleFeatureSource getFeatureSource(
+            Name typeName) throws IOException {
+        idle();
+        return sourceDataStore.getFeatureSource(typeName);
+    }
 
-	public List<Name> getNames() throws IOException {
-		return sourceDataStore.getNames();
-	}
+    public ServiceInfo getInfo() {
+        return sourceDataStore.getInfo();
+    }
 
-	public SimpleFeatureType getSchema(Name name) throws IOException {
-		 idle();
-		return sourceDataStore.getSchema(name);
-	}
+    public List<Name> getNames() throws IOException {
+        return sourceDataStore.getNames();
+    }
 
-	public void updateSchema(Name typeName, SimpleFeatureType featureType)
-			throws IOException {
-		 idle();
-		sourceDataStore.updateSchema(typeName, featureType);		
-	}
+    public SimpleFeatureType getSchema(Name name) throws IOException {
+        idle();
+        return sourceDataStore.getSchema(name);
+    }
+
+    public void updateSchema(Name typeName, SimpleFeatureType featureType)
+            throws IOException {
+        idle();
+        sourceDataStore.updateSchema(typeName, featureType);
+    }
 }

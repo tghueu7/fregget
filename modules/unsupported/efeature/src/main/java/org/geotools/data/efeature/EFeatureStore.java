@@ -26,8 +26,6 @@ import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
  * @author kengu - 10. juli 2011
- *
- *
  * @source $URL$
  */
 @SuppressWarnings("unchecked")
@@ -37,7 +35,7 @@ public class EFeatureStore extends ContentFeatureStore {
      * Cached {@link EFeatureInfo} instance
      */
     protected final EFeatureInfo eStructure;
-    
+
     // ----------------------------------------------------- 
     //  Constructors
     // -----------------------------------------------------
@@ -60,7 +58,7 @@ public class EFeatureStore extends ContentFeatureStore {
         // 
         this.schema = eStructure.getFeatureType();
     }
-    
+
     // ----------------------------------------------------- 
     //  Overridden methods
     // -----------------------------------------------------
@@ -70,9 +68,9 @@ public class EFeatureStore extends ContentFeatureStore {
      */
     @Override
     public EFeatureDataStore getDataStore() {
-        return (EFeatureDataStore)entry.getDataStore();
+        return (EFeatureDataStore) entry.getDataStore();
     }
-    
+
     // ----------------------------------------------------- 
     //  ContentFeatureStore implementation
     // -----------------------------------------------------
@@ -83,7 +81,7 @@ public class EFeatureStore extends ContentFeatureStore {
     }
 
     @Override
-    protected ReferencedEnvelope getBoundsInternal(Query query) throws IOException {        
+    protected ReferencedEnvelope getBoundsInternal(Query query) throws IOException {
         return EFeatureSource.getBounds(getDataStore(), getSchema(), getReader(query));
     }
 

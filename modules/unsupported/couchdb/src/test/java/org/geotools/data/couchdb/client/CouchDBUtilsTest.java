@@ -3,7 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -19,12 +19,11 @@ package org.geotools.data.couchdb.client;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 /**
- *
  * @author Ian Schneider (OpenGeo)
- *
  * @source $URL$
  */
 public class CouchDBUtilsTest {

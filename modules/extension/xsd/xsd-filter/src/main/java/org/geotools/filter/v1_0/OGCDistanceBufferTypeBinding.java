@@ -17,7 +17,9 @@
 package org.geotools.filter.v1_0;
 
 import org.picocontainer.MutablePicoContainer;
+
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.FilterFactory2;
 import org.opengis.filter.spatial.DistanceBufferOperator;
 import org.geotools.xml.AbstractComplexBinding;
@@ -27,9 +29,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:DistanceBufferType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="DistanceBufferType"&gt;
  *      &lt;xsd:complexContent&gt;
@@ -48,9 +50,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OGCDistanceBufferTypeBinding extends AbstractComplexBinding {
@@ -93,7 +92,7 @@ public class OGCDistanceBufferTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //implemented by element bindings
         return null;
 
@@ -105,12 +104,14 @@ public class OGCDistanceBufferTypeBinding extends AbstractComplexBinding {
         //
         //        String name = instance.getName();
         //
-        //        //<xsd:element name="DWithin" substitutionGroup="ogc:spatialOps" type="ogc:DistanceBufferType"/>
+        //        //<xsd:element name="DWithin" substitutionGroup="ogc:spatialOps" 
+        // type="ogc:DistanceBufferType"/>
         //        if ("DWithin".equals(name)) {
         //            //TOOD: units
         //            return factory.dwithin(propertyName, geometry, distance.doubleValue(), null);
         //        }
-        //        //<xsd:element name="Beyond" substitutionGroup="ogc:spatialOps" type="ogc:DistanceBufferType"/>
+        //        //<xsd:element name="Beyond" substitutionGroup="ogc:spatialOps" 
+        // type="ogc:DistanceBufferType"/>
         //        else if ("Beyond".equals(name)) {
         //            //TODO: units
         //            return factory.beyond(propertyName, geometry, distance.doubleValue(), null);
@@ -120,7 +121,7 @@ public class OGCDistanceBufferTypeBinding extends AbstractComplexBinding {
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         DistanceBufferOperator operator = (DistanceBufferOperator) object;
         Object property = OGCUtils.property(operator.getExpression1(), operator.getExpression2(),
                 name);

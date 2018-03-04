@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -24,8 +24,6 @@ import org.opengis.feature.type.Name;
 import org.opengis.filter.capability.TemporalOperator;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class TemporalOperatorImpl implements TemporalOperator {
@@ -43,7 +41,7 @@ public class TemporalOperatorImpl implements TemporalOperator {
     }
 
     public Collection<Name> getTemporalOperands() {
-        return operands; 
+        return operands;
     }
 
     @Override

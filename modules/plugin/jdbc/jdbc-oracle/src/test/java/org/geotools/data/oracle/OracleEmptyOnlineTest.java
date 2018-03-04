@@ -4,8 +4,6 @@ import org.geotools.jdbc.JDBCEmptyOnlineTest;
 import org.geotools.jdbc.JDBCEmptyTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class OracleEmptyOnlineTest extends JDBCEmptyOnlineTest {

@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2008, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.style;
 
 import java.util.Map;
+
 import org.opengis.filter.expression.Expression;
 
 /**
@@ -18,17 +19,15 @@ import org.opengis.filter.expression.Expression;
  *
  * @author Open Geospatial Consortium
  * @author Johann Sorel (Geomatys)
- * @since GeoAPI 2.3
- *
- *
  * @source $URL$
+ * @since GeoAPI 2.3
  */
 public interface ExtensionSymbolizer extends Symbolizer {
-    
+
     /**
-     * Returns the name of the extension, this name should be commun to all 
+     * Returns the name of the extension, this name should be commun to all
      * implementation of a given extension symbolizer sub class.
-     * 
+     *
      * @return the symbolizer extension name
      */
     String getExtensionName();
@@ -39,7 +38,7 @@ public interface ExtensionSymbolizer extends Symbolizer {
      *
      * @return map of all expressions.
      */
-    Map<String,Expression> getParameters();
+    Map<String, Expression> getParameters();
 
     /**
      * Calls the visit method of a StyleVisitor

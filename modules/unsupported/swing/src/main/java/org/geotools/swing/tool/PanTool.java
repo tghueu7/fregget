@@ -31,35 +31,44 @@ import org.geotools.swing.event.MapMouseEvent;
 
 /**
  * A cursor tool to pan the map pane display.
- * 
- * @author Michael Bedward
- * @since 2.6
  *
- * @source $URL$
+ * @author Michael Bedward
  * @version $Id$
+ * @source $URL$
+ * @since 2.6
  */
 public class PanTool extends CursorTool {
-    
-    /** Tool name */
+
+    /**
+     * Tool name
+     */
     public static final String TOOL_NAME = LocaleUtils.getValue("CursorTool", "Pan");
-    
-    /** Tool tip text */
+
+    /**
+     * Tool tip text
+     */
     public static final String TOOL_TIP = LocaleUtils.getValue("CursorTool", "PanTooltip");
-    
-    /** Cursor */
+
+    /**
+     * Cursor
+     */
     public static final String CURSOR_IMAGE = "/org/geotools/swing/icons/mActionPan.png";
-    
-    /** Cursor hotspot coordinates */
+
+    /**
+     * Cursor hotspot coordinates
+     */
     public static final Point CURSOR_HOTSPOT = new Point(15, 15);
-    
-    /** Icon for the control */
+
+    /**
+     * Icon for the control
+     */
     public static final String ICON_IMAGE = "/org/geotools/swing/icons/mActionPan.png";
-    
+
     private Cursor cursor;
 
     private Point panePos;
     boolean panning;
-    
+
     /**
      * Constructor
      */
@@ -74,6 +83,7 @@ public class PanTool extends CursorTool {
     /**
      * Respond to a mouse button press event from the map mapPane. This may
      * signal the start of a mouse drag. Records the event's window position.
+     *
      * @param ev the mouse event
      */
     @Override
@@ -84,6 +94,7 @@ public class PanTool extends CursorTool {
 
     /**
      * Respond to a mouse dragged event. Calls {@link org.geotools.swing.MapPane#moveImage()}
+     *
      * @param ev the mouse event
      */
     @Override
@@ -100,6 +111,7 @@ public class PanTool extends CursorTool {
     /**
      * If this button release is the end of a mouse dragged event, requests the
      * map mapPane to repaint the display
+     *
      * @param ev the mouse event
      */
     @Override
@@ -114,7 +126,7 @@ public class PanTool extends CursorTool {
     public Cursor getCursor() {
         return cursor;
     }
-    
+
     /**
      * Returns false to indicate that this tool does not draw a box
      * on the map display when the mouse is being dragged

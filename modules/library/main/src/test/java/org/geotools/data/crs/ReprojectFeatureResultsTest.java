@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2016, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -46,44 +46,47 @@ import com.vividsolutions.jts.geom.Point;
 import junit.framework.TestCase;
 
 /**
- * Test ForceCoordinateSystemFeatureResults feature collection wrapper. 
+ * Test ForceCoordinateSystemFeatureResults feature collection wrapper.
  *
  * @source $URL$
  */
 public class ReprojectFeatureResultsTest extends TestCase {
-    
+
     private static final String FEATURE_TYPE_NAME = "testType";
     private CoordinateReferenceSystem wgs84;
     private CoordinateReferenceSystem utm32n;
-    
+
     FeatureVisitor lastVisitor = null;
     private ListFeatureCollection visitorCollection;
-    
+
     protected void setUp() throws Exception {
         lastVisitor = null;
         wgs84 = CRS.decode("EPSG:4326");
         utm32n = CRS.decode("EPSG:32632");
-        
-        GeometryFactory fac=new GeometryFactory();
-        Point p = fac.createPoint(new Coordinate(10,10) );
-        
+
+        GeometryFactory fac = new GeometryFactory();
+        Point p = fac.createPoint(new Coordinate(10, 10));
+
         SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
         builder.setName(FEATURE_TYPE_NAME);
         builder.setCRS(wgs84);
-        builder.add("geom", Point.class );
-        
+        builder.add("geom", Point.class);
+
         SimpleFeatureType ft = builder.buildFeatureType();
         SimpleFeatureBuilder b = new SimpleFeatureBuilder(ft);
-        b.add( p );
-        
+        b.add(p);
+
         visitorCollection = new ListFeatureCollection(ft) {
-            public void accepts(FeatureVisitor visitor, ProgressListener progress) throws java.io.IOException {
-                lastVisitor = visitor; 
-            };
-            
+            public void accepts(FeatureVisitor visitor, ProgressListener progress) throws java.io
+                    .IOException {
+                lastVisitor = visitor;
+            }
+
+            ;
+
             @Override
             public SimpleFeatureCollection subCollection(Filter filter) {
-                if(filter == Filter.INCLUDE) {
+                if (filter == Filter.INCLUDE) {
                     return this;
                 } else {
                     return super.subCollection(filter);
@@ -94,24 +97,27 @@ public class ReprojectFeatureResultsTest extends TestCase {
     }
 
     public void testMaxVisitorDelegation() throws Exception {
-        MaxVisitor visitor = new MaxVisitor(CommonFactoryFinder.getFilterFactory2().property("value"));
+        MaxVisitor visitor = new MaxVisitor(CommonFactoryFinder.getFilterFactory2().property
+                ("value"));
         assertOptimalVisit(visitor);
     }
-    
+
     public void testCountVisitorDelegation() throws Exception {
         FeatureVisitor visitor = new CountVisitor();
         assertOptimalVisit(visitor);
     }
 
     private void assertOptimalVisit(FeatureVisitor visitor) throws Exception {
-        SimpleFeatureCollection retypedCollection = new ReprojectFeatureResults(visitorCollection, utm32n);
+        SimpleFeatureCollection retypedCollection = new ReprojectFeatureResults
+                (visitorCollection, utm32n);
         retypedCollection.accepts(visitor, null);
         assertSame(lastVisitor, visitor);
     }
-    
+
     public void testBoundsNotOptimized() throws Exception {
         BoundsVisitor boundsVisitor = new BoundsVisitor();
-        SimpleFeatureCollection retypedCollection = new ReprojectFeatureResults(visitorCollection, utm32n);
+        SimpleFeatureCollection retypedCollection = new ReprojectFeatureResults
+                (visitorCollection, utm32n);
         retypedCollection.accepts(boundsVisitor, null);
         // not optimized
         assertNull(lastVisitor);

@@ -28,8 +28,6 @@ import org.opengis.style.PolygonSymbolizer;
 import org.opengis.style.Symbolizer;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class RasterSymbolizerBuilder extends SymbolizerBuilder<RasterSymbolizer> {

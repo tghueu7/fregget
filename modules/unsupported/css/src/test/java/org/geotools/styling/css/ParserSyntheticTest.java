@@ -759,7 +759,8 @@ public class ParserSyntheticTest extends CssBaseTest {
 
     @Test
     public void testSubruleWithTitle() {
-        String css = "/* @title All */ * { mark: symbol(circle); /* @title special */ [a = 10] { mark: symbol(triangle)}}";
+        String css = "/* @title All */ * { mark: symbol(circle); /* @title special */ [a = 10] { " +
+                "mark: symbol(triangle)}}";
         Stylesheet ss = CssParser.parse(css);
         assertEquals(1, ss.getRules().size());
         CssRule rule = ss.getRules().get(0);
@@ -784,7 +785,8 @@ public class ParserSyntheticTest extends CssBaseTest {
 
     @Test
     public void testMultiNestedSelectors() {
-        String css = "* { stroke: black; [a <= 10] { fill: yellow }; [a > 10] { fill: red}; stroke-opacity: 50%}";
+        String css = "* { stroke: black; [a <= 10] { fill: yellow }; [a > 10] { fill: red}; " +
+                "stroke-opacity: 50%}";
         Stylesheet ss = CssParser.parse(css);
         assertEquals(1, ss.getRules().size());
         CssRule rule = ss.getRules().get(0);

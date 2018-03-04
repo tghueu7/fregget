@@ -30,22 +30,21 @@ import org.opengis.feature.type.Schema;
  * http://www.w3.org/2001/XMLSchema schema.
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public final class XS extends XSD {
-    
+
     public static final String NAMESPACE = "http://www.w3.org/2001/XMLSchema";
     public static final QName ALL = new QName("http://www.w3.org/2001/XMLSchema", "all");
     public static final QName ALLNNI = new QName("http://www.w3.org/2001/XMLSchema", "allNNI");
-    public static final QName ANNOTATED = new QName("http://www.w3.org/2001/XMLSchema", "annotated");
+    public static final QName ANNOTATED = new QName("http://www.w3.org/2001/XMLSchema", 
+            "annotated");
     public static final QName ANYSIMPLETYPE = new QName("http://www.w3.org/2001/XMLSchema",
             "anySimpleType");
     public static final QName ANYTYPE = new QName("http://www.w3.org/2001/XMLSchema", "anyType");
     public static final QName ANYURI = new QName("http://www.w3.org/2001/XMLSchema", "anyURI");
-    public static final QName ATTRIBUTE = new QName("http://www.w3.org/2001/XMLSchema", "attribute");
+    public static final QName ATTRIBUTE = new QName("http://www.w3.org/2001/XMLSchema", 
+            "attribute");
     public static final QName ATTRIBUTEGROUP = new QName("http://www.w3.org/2001/XMLSchema",
             "attributeGroup");
     public static final QName ATTRIBUTEGROUPREF = new QName("http://www.w3.org/2001/XMLSchema",
@@ -83,13 +82,15 @@ public final class XS extends XSD {
             "fullDerivationSet");
     public static final QName GDAY = new QName("http://www.w3.org/2001/XMLSchema", "gDay");
     public static final QName GMONTH = new QName("http://www.w3.org/2001/XMLSchema", "gMonth");
-    public static final QName GMONTHDAY = new QName("http://www.w3.org/2001/XMLSchema", "gMonthDay");
+    public static final QName GMONTHDAY = new QName("http://www.w3.org/2001/XMLSchema", 
+            "gMonthDay");
     public static final QName GROUP = new QName("http://www.w3.org/2001/XMLSchema", "group");
     public static final QName GROUPREF = new QName("http://www.w3.org/2001/XMLSchema", "groupRef");
     public static final QName GYEAR = new QName("http://www.w3.org/2001/XMLSchema", "gYear");
     public static final QName GYEARMONTH = new QName("http://www.w3.org/2001/XMLSchema",
             "gYearMonth");
-    public static final QName HEXBINARY = new QName("http://www.w3.org/2001/XMLSchema", "hexBinary");
+    public static final QName HEXBINARY = new QName("http://www.w3.org/2001/XMLSchema", 
+            "hexBinary");
     public static final QName ID = new QName("http://www.w3.org/2001/XMLSchema", "ID");
     public static final QName IDREF = new QName("http://www.w3.org/2001/XMLSchema", "IDREF");
     public static final QName IDREFS = new QName("http://www.w3.org/2001/XMLSchema", "IDREFS");
@@ -128,13 +129,16 @@ public final class XS extends XSD {
             "normalizedString");
     public static final QName NOTATION = new QName("http://www.w3.org/2001/XMLSchema", "NOTATION");
     public static final QName NUMFACET = new QName("http://www.w3.org/2001/XMLSchema", "numFacet");
-    public static final QName OPENATTRS = new QName("http://www.w3.org/2001/XMLSchema", "openAttrs");
+    public static final QName OPENATTRS = new QName("http://www.w3.org/2001/XMLSchema", 
+            "openAttrs");
     public static final QName POSITIVEINTEGER = new QName("http://www.w3.org/2001/XMLSchema",
             "positiveInteger");
     public static final QName PUBLIC = new QName("http://www.w3.org/2001/XMLSchema", "public");
     public static final QName QNAME = new QName("http://www.w3.org/2001/XMLSchema", "QName");
-    public static final QName REALGROUP = new QName("http://www.w3.org/2001/XMLSchema", "realGroup");
-    public static final QName REDUCEDDERIVATIONCONTROL = new QName("http://www.w3.org/2001/XMLSchema",
+    public static final QName REALGROUP = new QName("http://www.w3.org/2001/XMLSchema", 
+            "realGroup");
+    public static final QName REDUCEDDERIVATIONCONTROL = new QName("http://www" +
+            ".w3.org/2001/XMLSchema",
             "reducedDerivationControl");
     public static final QName RESTRICTIONTYPE = new QName("http://www.w3.org/2001/XMLSchema",
             "restrictionType");
@@ -173,18 +177,19 @@ public final class XS extends XSD {
     public static final QName WILDCARD = new QName("http://www.w3.org/2001/XMLSchema", "wildcard");
 
     //manually added
-    
+
     /**
      * This is a psuedo type name which allows the handling of the special case of of complex types
      * with simple content.
      */
-    public static final QName SIMPLECONTENTTYPE = new QName("http://www.w3.org/2001/XMLSchema", "simpleContent");
-    
+    public static final QName SIMPLECONTENTTYPE = new QName("http://www.w3.org/2001/XMLSchema", 
+            "simpleContent");
+
     /**
      * singleton instance.
      */
     private static XS instance = new XS();
-    
+
     private XS() {
     }
 
@@ -199,7 +204,7 @@ public final class XS extends XSD {
     protected Schema buildTypeSchema() {
         return new XSSchema();
     }
-    
+
     @Override
     protected Schema buildTypeMappingProfile(Schema schema) {
         Set proper = new HashSet();
@@ -219,11 +224,11 @@ public final class XS extends XSD {
         proper.add(name(INTEGER)); //BigInteger.class
         proper.add(name(DECIMAL)); //BigDecimal.class
         proper.add(name(ANYURI)); //URI.class
-        Schema profile = schema.profile( proper );
-        
+        Schema profile = schema.profile(proper);
+
         return profile;
     }
-    
+
     /**
      * Returns 'http://www.w3.org/2001/XMLSchema'.
      */

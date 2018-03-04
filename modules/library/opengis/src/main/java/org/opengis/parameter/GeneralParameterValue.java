@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.parameter;
@@ -18,17 +18,15 @@ import static org.opengis.annotation.Specification.*;
 /**
  * Abstract parameter value or group of parameter values.
  *
- *
- *
+ * @author Martin Desruisseaux (IRD)
+ * @author Jody Garnett (Refractions Research)
+ * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract 
+ * specification 2.0</A>
  * @source $URL$
- * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract specification 2.0</A>
- * @author  Martin Desruisseaux (IRD)
- * @author  Jody Garnett (Refractions Research)
- * @since   GeoAPI 1.0
- *
  * @see GeneralParameterDescriptor
+ * @since GeoAPI 1.0
  */
-@UML(identifier="CC_GeneralParameterValue", specification=ISO_19111)
+@UML(identifier = "CC_GeneralParameterValue", specification = ISO_19111)
 public interface GeneralParameterValue extends Cloneable {
     /**
      * Returns the abstract definition of this parameter or group of parameters.

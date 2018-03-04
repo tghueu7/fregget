@@ -29,7 +29,8 @@ import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.feature.type.Name;
 
 /**
- * A Postgis transforming feature store, will transform on the fly all attempts to write so that the underlying features are getting modified while
+ * A Postgis transforming feature store, will transform on the fly all attempts to write so that 
+ * the underlying features are getting modified while
  * exposing a different feature type to its callers.
  */
 public class PostgisTransformFeatureStore extends TransformFeatureStore {
@@ -37,7 +38,8 @@ public class PostgisTransformFeatureStore extends TransformFeatureStore {
     DataStore datastore;
 
     public PostgisTransformFeatureStore(SimpleFeatureStore store, Name name,
-            List<Definition> definitions, DataStore datastore) throws IOException {
+                                        List<Definition> definitions, DataStore datastore) throws
+            IOException {
         super(store, name, definitions);
         this.datastore = datastore;
     }

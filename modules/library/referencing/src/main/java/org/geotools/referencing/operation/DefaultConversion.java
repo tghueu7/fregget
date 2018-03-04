@@ -31,14 +31,11 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
  * coordinate conversions are defined rather than empirically derived. Note that some
  * conversions have no parameters.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see DefaultTransformation
+ * @since 2.1
  */
 public class DefaultConversion extends DefaultOperation implements Conversion {
     /**
@@ -52,16 +49,15 @@ public class DefaultConversion extends DefaultOperation implements Conversion {
      * typically a {@linkplain DefiningConversion defining conversion}.
      *
      * @param definition The defining conversion.
-     * @param sourceCRS The source CRS.
-     * @param targetCRS The target CRS.
-     * @param transform Transform from positions in the {@linkplain #getSourceCRS source CRS}
-     *                  to positions in the {@linkplain #getTargetCRS target CRS}.
+     * @param sourceCRS  The source CRS.
+     * @param targetCRS  The target CRS.
+     * @param transform  Transform from positions in the {@linkplain #getSourceCRS source CRS}
+     *                   to positions in the {@linkplain #getTargetCRS target CRS}.
      */
-    public DefaultConversion(final Conversion               definition,
+    public DefaultConversion(final Conversion definition,
                              final CoordinateReferenceSystem sourceCRS,
                              final CoordinateReferenceSystem targetCRS,
-                             final MathTransform             transform)
-    {
+                             final MathTransform transform) {
         super(definition, sourceCRS, targetCRS, transform);
     }
 
@@ -70,18 +66,17 @@ public class DefaultConversion extends DefaultOperation implements Conversion {
      * follow the same rules than for the {@link AbstractCoordinateOperation} constructor.
      *
      * @param properties Set of properties. Should contains at least {@code "name"}.
-     * @param sourceCRS The source CRS.
-     * @param targetCRS The target CRS.
-     * @param transform Transform from positions in the {@linkplain #getSourceCRS source CRS}
-     *                  to positions in the {@linkplain #getTargetCRS target CRS}.
-     * @param method    The operation method.
+     * @param sourceCRS  The source CRS.
+     * @param targetCRS  The target CRS.
+     * @param transform  Transform from positions in the {@linkplain #getSourceCRS source CRS}
+     *                   to positions in the {@linkplain #getTargetCRS target CRS}.
+     * @param method     The operation method.
      */
-    public DefaultConversion(final Map<String,?>             properties,
+    public DefaultConversion(final Map<String, ?> properties,
                              final CoordinateReferenceSystem sourceCRS,
                              final CoordinateReferenceSystem targetCRS,
-                             final MathTransform             transform,
-                             final OperationMethod           method)
-    {
+                             final MathTransform transform,
+                             final OperationMethod method) {
         super(properties, sourceCRS, targetCRS, transform, method);
     }
 
@@ -117,21 +112,19 @@ public class DefaultConversion extends DefaultOperation implements Conversion {
      *                   <code>{@linkplain CylindricalProjection}.class</code> or
      *                   <code>{@linkplain ConicProjection}.class</code>, or {@code null}.
      * @return The conversion of the given type if possible.
-     *
      * @see DefaultOperation#create
-     *
      * @since 2.4
      */
-    public static Conversion create(final Conversion               definition,
+    public static Conversion create(final Conversion definition,
                                     final CoordinateReferenceSystem sourceCRS,
                                     final CoordinateReferenceSystem targetCRS,
-                                    final MathTransform             transform,
-                                    final Class<? extends Conversion> typeHint)
-    {
+                                    final MathTransform transform,
+                                    final Class<? extends Conversion> typeHint) {
         Class<? extends CoordinateOperation> type = getType(definition);
         final OperationMethod method = definition.getMethod();
         if (method instanceof MathTransformProvider) {
-            final Class<? extends Operation> candidate = ((MathTransformProvider) method).getOperationType();
+            final Class<? extends Operation> candidate = ((MathTransformProvider) method)
+                    .getOperationType();
             if (candidate != null) {
                 if (type.isAssignableFrom(candidate)) {
                     type = candidate;

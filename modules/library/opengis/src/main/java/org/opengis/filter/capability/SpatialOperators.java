@@ -4,12 +4,12 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005 Open Geospatial Consortium Inc.
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation; either
  *    version 2.1 of the License, or (at your option) any later version.
- *   
+ *
  *    This library is distributed in the hope that it will be useful,
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
@@ -40,10 +40,8 @@ import java.util.Collection;
  *  &lt;/xsd:complexType&gt;
  * </pre>
  * </p>
+ *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
  * @source $URL$
  */
 public interface SpatialOperators {
@@ -57,8 +55,7 @@ public interface SpatialOperators {
      * Looks up an operator by name, returning null if no such operator found.
      *
      * @param name the name of the operator.
-     *
      * @return The operator, or null.
      */
-    SpatialOperator getOperator( String name );
+    SpatialOperator getOperator(String name);
 }

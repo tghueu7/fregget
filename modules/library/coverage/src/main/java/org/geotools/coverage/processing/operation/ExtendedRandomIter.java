@@ -28,20 +28,21 @@ import it.geosolutions.jaiext.iterators.RandomIterFactory;
 
 /**
  * Helper class disposing the border op image along with the iterator when {@link #done()} is called
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
-class ExtendedRandomIter implements RandomIter{
+class ExtendedRandomIter implements RandomIter {
 
     RandomIter delegate;
     RenderedOp op;
-    
+
     public static RandomIter getRandomIterator(final PlanarImage src, int leftPad, int rightPad,
-            int topPad, int bottomPad, BorderExtender extender) {
+                                               int topPad, int bottomPad, BorderExtender extender) {
         RandomIter iterSource;
         if (extender != null) {
             ImageWorker w = new ImageWorker(src).setRenderingHints(GeoTools.getDefaultHints());
-            RenderedOp op = w.border(leftPad, rightPad, topPad, bottomPad, extender).getRenderedOperation();
+            RenderedOp op = w.border(leftPad, rightPad, topPad, bottomPad, extender)
+                    .getRenderedOperation();
             RandomIter it = RandomIterFactory.create(op, op.getBounds(), true, true);
             return new ExtendedRandomIter(it, op);
         } else {
@@ -49,7 +50,7 @@ class ExtendedRandomIter implements RandomIter{
         }
         return iterSource;
     }
-    
+
     ExtendedRandomIter(RandomIter delegate, RenderedOp op) {
         super();
         this.delegate = delegate;
@@ -84,7 +85,6 @@ class ExtendedRandomIter implements RandomIter{
         delegate.done();
         op.dispose();
     }
-    
-    
+
 
 }

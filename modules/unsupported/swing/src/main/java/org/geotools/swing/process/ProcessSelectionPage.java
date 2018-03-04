@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008-2011, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -50,12 +50,11 @@ import org.opengis.util.InternationalString;
 /**
  * This page is responsible for making a process selection widget that moves onto to the selected
  * process page.
- * 
- * @author gdavis (Refractions)
- * @since 8.0
  *
- * @source $URL$
+ * @author gdavis (Refractions)
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 public class ProcessSelectionPage extends JPage {
     /**
@@ -64,7 +63,9 @@ public class ProcessSelectionPage extends JPage {
      */
     Map<String, Object> input;
 
-    /** List of available processes */
+    /**
+     * List of available processes
+     */
     JTree processList;
 
     /**
@@ -72,10 +73,14 @@ public class ProcessSelectionPage extends JPage {
      */
     Set<ProcessFactory> processFactories;
 
-    /** Description of the current process */
+    /**
+     * Description of the current process
+     */
     JTextField descLabel;
 
-    /** The currently selected factory responsible for describing a process */
+    /**
+     * The currently selected factory responsible for describing a process
+     */
     ProcessFactory selectedFactory;
 
     private Name selectedName;
@@ -188,7 +193,7 @@ public class ProcessSelectionPage extends JPage {
 
     /**
      * Populates an array of strings with the process factory titles based on the factory set
-     * 
+     *
      * @param processFactories2 the string array to populate
      * @return
      */
@@ -298,7 +303,7 @@ public class ProcessSelectionPage extends JPage {
     /**
      * Returns the first instance of a ProcssFactory in the factories set that has a title matching
      * the given title.
-     * 
+     *
      * @param title
      * @return ProcessFactory instance
      */
@@ -316,7 +321,7 @@ public class ProcessSelectionPage extends JPage {
 
     /**
      * Update the process description based on the selected process
-     * 
+     *
      * @param selection title of selected process
      * @param name
      */
@@ -330,7 +335,7 @@ public class ProcessSelectionPage extends JPage {
         selectedFactory = factory;
         selectedName = name;
         updateNavButtons();
-        descLabel.setText("<html><b>"+title+"</b>"+description);
+        descLabel.setText("<html><b>" + title + "</b>" + description);
         updateNavButtons();
     }
 

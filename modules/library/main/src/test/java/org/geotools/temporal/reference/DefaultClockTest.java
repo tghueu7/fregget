@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,6 +17,7 @@
 package org.geotools.temporal.reference;
 
 import java.util.Collection;
+
 import org.geotools.metadata.iso.citation.Citations;
 import org.geotools.referencing.NamedIdentifier;
 import org.geotools.temporal.object.DefaultClockTime;
@@ -24,7 +25,9 @@ import org.geotools.util.SimpleInternationalString;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
+
 import org.opengis.temporal.Calendar;
 import org.opengis.temporal.Clock;
 import org.opengis.temporal.ClockTime;
@@ -34,11 +37,7 @@ import org.opengis.util.InternationalString;
 
 
 /**
- *
  * @author Mehdi Sidhoum (Geomatys)
- *
- *
- *
  * @source $URL$
  */
 public class DefaultClockTest {
@@ -58,8 +57,10 @@ public class DefaultClockTest {
         ClockTime clocktime2 = new DefaultClockTime(frame2, null, clockTime2);
         ClockTime utcReference1 = new DefaultClockTime(frame1, null, clockTime1);
         ClockTime utcReference2 = new DefaultClockTime(frame2, null, clockTime2);
-        clock1 = new DefaultClock(name1, null, new SimpleInternationalString("reference event"), clocktime1, utcReference1);
-        clock2 = new DefaultClock(name2, null, new SimpleInternationalString("description"), clocktime2, utcReference2);
+        clock1 = new DefaultClock(name1, null, new SimpleInternationalString("reference event"), 
+                clocktime1, utcReference1);
+        clock2 = new DefaultClock(name2, null, new SimpleInternationalString("description"), 
+                clocktime2, utcReference2);
     }
 
     @After
@@ -127,7 +128,8 @@ public class DefaultClockTest {
     @Test
     public void testSetReferenceTime() {
         ClockTime result = clock1.getReferenceTime();
-        ((DefaultClock) clock1).setReferenceTime(new DefaultClockTime(clock1, IndeterminateValue.UNKNOWN, null));
+        ((DefaultClock) clock1).setReferenceTime(new DefaultClockTime(clock1, IndeterminateValue
+                .UNKNOWN, null));
         assertFalse(clock1.getReferenceTime().equals(result));
     }
 
@@ -137,7 +139,8 @@ public class DefaultClockTest {
     @Test
     public void testSetUtcReference() {
         ClockTime result = clock1.getUTCReference();
-        ((DefaultClock) clock1).setUtcReference(new DefaultClockTime(clock1, IndeterminateValue.UNKNOWN, null));
+        ((DefaultClock) clock1).setUtcReference(new DefaultClockTime(clock1, IndeterminateValue
+                .UNKNOWN, null));
         assertFalse(clock1.getUTCReference().equals(result));
     }
 

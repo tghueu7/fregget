@@ -24,23 +24,22 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryCollection;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class MultiGeometryTypeBindingTest extends GML3TestSupport {
-    
+
 
     public void testParse() throws Exception {
         GML3MockData.multiGeometry(document, document);
-    
+
         GeometryCollection multiGeom = (GeometryCollection) parse();
         assertNotNull(multiGeom);
-    
+
         assertEquals(3, multiGeom.getNumGeometries());
     }
-    
-    public void testEncode() throws Exception {        Geometry geometry = GML3MockData.multiGeometry();
+
+    public void testEncode() throws Exception {
+        Geometry geometry = GML3MockData.multiGeometry();
         GML3EncodingUtils.setID(geometry, "geometry");
         Document dom = encode(geometry, GML.MultiGeometry);
         // print(dom);

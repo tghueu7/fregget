@@ -50,11 +50,9 @@ import com.vividsolutions.jts.geom.Envelope;
 /**
  * Test the {@link GridGeometry} implementation.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
  */
 public final class GridGeometryTest extends GridCoverageTestBase {
 
@@ -65,8 +63,8 @@ public final class GridGeometryTest extends GridCoverageTestBase {
      */
     @Test
     public void testIdentity() {
-        final int[] lower = new int[] {0,     0, 2};
-        final int[] upper = new int[] {100, 200, 4};
+        final int[] lower = new int[]{0, 0, 2};
+        final int[] upper = new int[]{100, 200, 4};
         final MathTransform identity = IdentityTransform.create(3);
         GridGeometry2D gg;
         try {
@@ -101,35 +99,39 @@ public final class GridGeometryTest extends GridCoverageTestBase {
 
     /**
      * Tests the construction from an envelope.
-     * @throws TransformException 
-     * @throws NoninvertibleTransformException 
-     * @throws InvalidGridGeometryException 
+     *
+     * @throws TransformException
+     * @throws NoninvertibleTransformException
+     * @throws InvalidGridGeometryException
      */
     @Test
-    public void testEnvelope() throws InvalidGridGeometryException, NoninvertibleTransformException, TransformException {
-        final int[]    lower   = new int[]    {   0,   0,  4};
-        final int[]    upper   = new int[]    {  90,  45,  5};
-        final double[] minimum = new double[] {-180, -90,  9};
-        final double[] maximum = new double[] {+180, +90, 10};
-        final GridGeometry2D gg= new GridGeometry2D(new GeneralGridEnvelope(lower, upper, false),
-                                 new GeneralEnvelope(minimum, maximum));
+    public void testEnvelope() throws InvalidGridGeometryException, 
+            NoninvertibleTransformException, TransformException {
+        final int[] lower = new int[]{0, 0, 4};
+        final int[] upper = new int[]{90, 45, 5};
+        final double[] minimum = new double[]{-180, -90, 9};
+        final double[] maximum = new double[]{+180, +90, 10};
+        final GridGeometry2D gg = new GridGeometry2D(new GeneralGridEnvelope(lower, upper, false),
+                new GeneralEnvelope(minimum, maximum));
         final AffineTransform tr = (AffineTransform) gg.getGridToCRS2D();
         assertEquals(AffineTransform.TYPE_UNIFORM_SCALE |
-                     AffineTransform.TYPE_TRANSLATION   |
-                     AffineTransform.TYPE_FLIP, tr.getType());
+                AffineTransform.TYPE_TRANSLATION |
+                AffineTransform.TYPE_FLIP, tr.getType());
 
-        assertEquals(   4, tr.getScaleX(),     0);
-        assertEquals(  -4, tr.getScaleY(),     0);
+        assertEquals(4, tr.getScaleX(), 0);
+        assertEquals(-4, tr.getScaleY(), 0);
         assertEquals(-178, tr.getTranslateX(), 0);
-        assertEquals(  88, tr.getTranslateY(), 0);
-        
-        final MathTransform 		transform= PixelTranslation.translate(gg.getGridToCRS2D(), PixelInCell.CELL_CENTER, PixelInCell.CELL_CORNER);
-        final GeneralEnvelope		envelope=CRS.transform(transform.inverse(), gg.getEnvelope2D());
-        final GeneralGridEnvelope 	ge= new GeneralGridEnvelope(envelope,PixelInCell.CELL_CORNER,true);
-        assertEquals(   0, ge.getLow(0),     0);
-        assertEquals(   0, ge.getLow(1),     0);
-        assertEquals(   90, ge.getHigh(0),     0);
-        assertEquals(   45, ge.getHigh(1),     0);
+        assertEquals(88, tr.getTranslateY(), 0);
+
+        final MathTransform transform = PixelTranslation.translate(gg.getGridToCRS2D(), 
+                PixelInCell.CELL_CENTER, PixelInCell.CELL_CORNER);
+        final GeneralEnvelope envelope = CRS.transform(transform.inverse(), gg.getEnvelope2D());
+        final GeneralGridEnvelope ge = new GeneralGridEnvelope(envelope, PixelInCell.CELL_CORNER,
+                true);
+        assertEquals(0, ge.getLow(0), 0);
+        assertEquals(0, ge.getLow(1), 0);
+        assertEquals(90, ge.getHigh(0), 0);
+        assertEquals(45, ge.getHigh(1), 0);
     }
 
     /**
@@ -138,15 +140,17 @@ public final class GridGeometryTest extends GridCoverageTestBase {
     @Test
     public void testPixelInCell() {
         final MathTransform identity = IdentityTransform.create(4);
-        final int[] lower = new int[] {100, 300, 3, 6};
-        final int[] upper = new int[] {200, 400, 4, 7};
+        final int[] lower = new int[]{100, 300, 3, 6};
+        final int[] upper = new int[]{200, 400, 4, 7};
         final GeneralGridEnvelope range = new GeneralGridEnvelope(lower, upper, false);
-        GridGeometry2D gg = new GridGeometry2D(range, PixelInCell.CELL_CORNER, identity, null, null);
+        GridGeometry2D gg = new GridGeometry2D(range, PixelInCell.CELL_CORNER, identity, null, 
+                null);
 
-        assertSame (identity, gg.getGridToCRS(PixelInCell.CELL_CORNER));
+        assertSame(identity, gg.getGridToCRS(PixelInCell.CELL_CORNER));
         assertFalse(identity.equals(gg.getGridToCRS(PixelInCell.CELL_CENTER)));
         assertFalse(identity.equals(gg.getGridToCRS(PixelOrientation.CENTER)));
-        assertSame (gg.getGridToCRS(PixelInCell.CELL_CENTER), gg.getGridToCRS(PixelOrientation.CENTER));
+        assertSame(gg.getGridToCRS(PixelInCell.CELL_CENTER), gg.getGridToCRS(PixelOrientation
+                .CENTER));
 
         AffineTransform tr = (AffineTransform) gg.getGridToCRS2D(PixelOrientation.CENTER);
         assertFalse(tr.isIdentity());
@@ -157,7 +161,7 @@ public final class GridGeometryTest extends GridCoverageTestBase {
         tr = (AffineTransform) gg.getGridToCRS2D(PixelOrientation.UPPER_LEFT);
         assertTrue(tr.isIdentity());
     }
-    
+
     @Test
     public void testWorldToGridPoint() throws Exception {
         GridGeometry2D gg = getRandomCoverage().getGridGeometry();
@@ -177,14 +181,15 @@ public final class GridGeometryTest extends GridCoverageTestBase {
         assertTrue(gridExp.equals(gridCalc));
 
         // This is a specific example that previously broke this unit test
-        Double minX =  -78.523;
+        Double minX = -78.523;
         Double minY = 38.010;
         Double maxX = -78.451;
         Double maxY = 38.069;
         int width = 400;
         int height = 300;
 
-        ReferencedEnvelope bounds = new ReferencedEnvelope(new Envelope(minX, maxX, minY, maxY), DefaultGeographicCRS.WGS84);
+        ReferencedEnvelope bounds = new ReferencedEnvelope(new Envelope(minX, maxX, minY, maxY), 
+                DefaultGeographicCRS.WGS84);
         Rectangle rect = new Rectangle(0, 0, width, height);
         GeneralGridEnvelope ggEnvelope = new GeneralGridEnvelope(rect, bounds.getDimension());
         GridGeometry2D gm = new GridGeometry2D(ggEnvelope, bounds);
@@ -222,7 +227,7 @@ public final class GridGeometryTest extends GridCoverageTestBase {
                 gridBounds.width - 2,
                 gridBounds.height - 2);
 
-        assertTrue( gridEnv.equals(expectedEnv) );
+        assertTrue(gridEnv.equals(expectedEnv));
     }
 
     @Test
@@ -240,14 +245,14 @@ public final class GridGeometryTest extends GridCoverageTestBase {
         GridCoordinates2D low = gridBounds.getLow();
         DirectPosition2D dp = (DirectPosition2D) gg.gridToWorld(low);
 
-        assertTrue(Math.abs(dp.x - (cellWidthX/2) - worldBounds.getMinX()) < TOL);
-        assertTrue(Math.abs(dp.y + (cellWidthY/2) - worldBounds.getMaxY()) < TOL);
+        assertTrue(Math.abs(dp.x - (cellWidthX / 2) - worldBounds.getMinX()) < TOL);
+        assertTrue(Math.abs(dp.y + (cellWidthY / 2) - worldBounds.getMaxY()) < TOL);
 
         GridCoordinates2D high = gridBounds.getHigh();
         dp = (DirectPosition2D) gg.gridToWorld(high);
 
-        assertTrue(Math.abs(dp.x + (cellWidthX/2) - worldBounds.getMaxX()) < TOL);
-        assertTrue(Math.abs(dp.y - (cellWidthY/2) - worldBounds.getMinY()) < TOL);
+        assertTrue(Math.abs(dp.x + (cellWidthX / 2) - worldBounds.getMaxX()) < TOL);
+        assertTrue(Math.abs(dp.y - (cellWidthY / 2) - worldBounds.getMinY()) < TOL);
     }
 
     @Test
@@ -279,7 +284,7 @@ public final class GridGeometryTest extends GridCoverageTestBase {
                 worldBounds.getWidth() - 2 * cellWidthX,
                 worldBounds.getHeight() - 2 * cellWidthY);
 
-        assertTrue( expectedEnv.boundsEquals(subEnv, 0, 1, TOL) );
+        assertTrue(expectedEnv.boundsEquals(subEnv, 0, 1, TOL));
     }
 
     @Test

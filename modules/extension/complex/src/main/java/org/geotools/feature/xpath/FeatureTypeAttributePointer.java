@@ -31,22 +31,17 @@ import org.opengis.feature.type.PropertyDescriptor;
 
 /**
  * Pointer to a single attribute of a feature type.
- * 
+ *
  * @author Niels Charlier (Curtin University of Technology)
- * 
- *
- *
- *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/app-schema/app-schema/src/main
- *         /java/org/geotools/feature/xpath/FeatureTypeAttributePointer.java $
- * 
+ * http://svn.osgeo.org/geotools/trunk/modules/unsupported/app-schema/app-schema/src/main
+ * /java/org/geotools/feature/xpath/FeatureTypeAttributePointer.java $
  */
 
 public class FeatureTypeAttributePointer extends NodePointer {
-    
+
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -7238823373667263032L;
 
@@ -59,11 +54,11 @@ public class FeatureTypeAttributePointer extends NodePointer {
      * the feature type
      */
     protected AttributeType attType;
-    
+
     /**
      * descriptor
      */
-    protected PropertyDescriptor descriptor;    
+    protected PropertyDescriptor descriptor;
 
     /**
      * the indedx of hte property being pointed at
@@ -72,37 +67,34 @@ public class FeatureTypeAttributePointer extends NodePointer {
 
     /**
      * Creates the pointer.
-     * 
-     * @param parent
-     *            The parent pointer, pointer at the feature type.
-     * @param parentType
-     *           Feature Type of parent
-     * @param name
-     *           Name of Attribute
-     */    
+     *
+     * @param parent     The parent pointer, pointer at the feature type.
+     * @param parentType Feature Type of parent
+     * @param name       Name of Attribute
+     */
     public FeatureTypeAttributePointer(NodePointer parent, ComplexType parentType, Name name) {
         super(parent);
-        
+
         this.parentType = parentType;
         this.name = name;
-                
+
         descriptor = getDescriptor();
-        attType = (AttributeType) descriptor.getType();        
+        attType = (AttributeType) descriptor.getType();
     }
-    
+
     public PropertyDescriptor getDescriptor() {
-        return Types.findDescriptor(parentType, name);        
+        return Types.findDescriptor(parentType, name);
     }
 
     /**
-     * 
+     *
      */
     public boolean isLeaf() {
         return !(attType instanceof ComplexType);
     }
 
     /**
-     * 
+     *
      */
     public boolean isCollection() {
         return false;
@@ -116,7 +108,7 @@ public class FeatureTypeAttributePointer extends NodePointer {
     }
 
     /**
-     * Returns the qname 
+     * Returns the qname
      */
     public QName getName() {
         return new QName(name.getNamespaceURI(), name.getLocalPart());
@@ -129,7 +121,7 @@ public class FeatureTypeAttributePointer extends NodePointer {
     public Object getImmediateNode() {
         return descriptor;
     }
-     
+
 
     public void setValue(Object value) {
         throw new UnsupportedOperationException("Feature types are immutable");
@@ -142,17 +134,17 @@ public class FeatureTypeAttributePointer extends NodePointer {
     public NodeIterator childIterator(NodeTest test, boolean reverse, NodePointer startWith) {
         if (test instanceof NodeNameTest) {
             NodeNameTest nodeNameTest = (NodeNameTest) test;
-            
+
 
             if (!nodeNameTest.isWildcard()) {
                 String localName = nodeNameTest.getNodeName().getName();
                 String nameSpace = nodeNameTest.getNamespaceURI();
-                if (nameSpace==null) nameSpace = getNamespaceResolver().getNamespaceURI("");
-                                
-                return new SingleFeatureTypeAttributeIterator(this, 
+                if (nameSpace == null) nameSpace = getNamespaceResolver().getNamespaceURI("");
+
+                return new SingleFeatureTypeAttributeIterator(this,
                         ((ComplexType) attType), Types.typeName(nameSpace, localName));
             } else {
-                return new FeatureTypeAttributeIterator(this, 
+                return new FeatureTypeAttributeIterator(this,
                         ((ComplexType) attType));
             }
         }
@@ -161,15 +153,16 @@ public class FeatureTypeAttributePointer extends NodePointer {
             NodeTypeTest nodeTypeTest = (NodeTypeTest) test;
 
             if (nodeTypeTest.getNodeType() == Compiler.NODE_TYPE_NODE) {
-                return new FeatureTypeAttributeIterator(this, 
+                return new FeatureTypeAttributeIterator(this,
                         ((ComplexType) attType));
             }
         }
 
         return super.childIterator(test, reverse, startWith);
     }
-    
-    public NodeIterator attributeIterator(QName qname) {        
-        return new DescriptorXmlAttributeNodeIterator(this, Types.typeName(getNamespaceResolver().getNamespaceURI(qname.getPrefix()), qname.getName()));
+
+    public NodeIterator attributeIterator(QName qname) {
+        return new DescriptorXmlAttributeNodeIterator(this, Types.typeName(getNamespaceResolver()
+                .getNamespaceURI(qname.getPrefix()), qname.getName()));
     }
 }

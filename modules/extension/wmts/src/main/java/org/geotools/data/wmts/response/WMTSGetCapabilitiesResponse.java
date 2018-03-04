@@ -37,7 +37,7 @@ import net.opengis.wmts.v_1.CapabilitiesType;
 
 /**
  * Provides a hook up to parse the capabilties document from inputstream.
- *
+ * <p>
  * (Based on existing work by rgould for WMS service)
  *
  * @author ian

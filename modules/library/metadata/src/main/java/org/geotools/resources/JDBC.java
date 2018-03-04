@@ -29,12 +29,9 @@ import org.geotools.resources.i18n.LoggingKeys;
 /**
  * A set of utilities methods related to JDBC (<cite>Java Database Connectivity</cite>).
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @todo This class may be removed when we will be allowed to compile for J2SE 1.6.
  */
 public final class JDBC {
@@ -56,10 +53,9 @@ public final class JDBC {
      * with a message at the {@link Level#CONFIG CONFIG} level on success, or at the
      * {@link Level#WARNING WARNING} level on failure.
      *
-     * @param  driver The JDBC driver to load, as a fully qualified Java class name.
+     * @param driver The JDBC driver to load, as a fully qualified Java class name.
      * @return A log message with driver information, or {@code null} if the driver was already
-     *         loaded.
-     *
+     * loaded.
      * @todo Remember to invoke {@link LogRecord#setLoggerName}.
      */
     public static LogRecord loadDriver(final String driver) {
@@ -70,7 +66,7 @@ public final class JDBC {
                     try {
                         final Driver d = (Driver) Class.forName(driver).newInstance();
                         log = Loggings.format(Level.CONFIG, LoggingKeys.LOADED_JDBC_DRIVER_$3,
-                                              driver, d.getMajorVersion(), d.getMinorVersion());
+                                driver, d.getMajorVersion(), d.getMinorVersion());
                         DRIVERS.add(driver);
                     } catch (Exception exception) {
                         log = new LogRecord(Level.WARNING, exception.toString());

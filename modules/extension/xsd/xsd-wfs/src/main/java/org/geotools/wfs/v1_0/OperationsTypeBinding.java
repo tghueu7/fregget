@@ -30,9 +30,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://www.opengis.net/wfs:OperationsType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="OperationsType"&gt;
  *      &lt;xsd:sequence&gt;
@@ -45,15 +45,12 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OperationsTypeBinding extends AbstractComplexEMFBinding {
-    
+
     private WfsFactory factory;
-    
+
     public OperationsTypeBinding(WfsFactory factory) {
         super(factory);
         this.factory = factory;
@@ -83,13 +80,13 @@ public class OperationsTypeBinding extends AbstractComplexEMFBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {                
-        OperationsType om = factory.createOperationsType();        
-        for (Object ob : OperationType.VALUES){
-            if (node.getChild(((OperationType) ob).getName()) != null){
+            throws Exception {
+        OperationsType om = factory.createOperationsType();
+        for (Object ob : OperationType.VALUES) {
+            if (node.getChild(((OperationType) ob).getName()) != null) {
                 om.getOperation().add(ob);
             }
-        }        
-        return om;        
-    } 
+        }
+        return om;
+    }
 }

@@ -17,7 +17,8 @@ public class SQLServerViewTestSetup extends JDBCViewTestSetup {
                 + "geometry::STGeomFromText('POLYGON((12 6, 14 8, 16 6, 16 4, 14 4, 12 6))',4326),"
                 + "'muddy')");
 
-        run("CREATE SPATIAL INDEX _lakes_geometry_index on lakes(geom) WITH (BOUNDING_BOX = (-100, -100, 100, 100))");
+        run("CREATE SPATIAL INDEX _lakes_geometry_index on lakes(geom) WITH (BOUNDING_BOX = " +
+                "(-100, -100, 100, 100))");
     }
 
     @Override

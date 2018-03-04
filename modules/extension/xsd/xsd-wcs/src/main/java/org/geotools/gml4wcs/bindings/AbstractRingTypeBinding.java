@@ -9,10 +9,10 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:AbstractRingType.
- *
  * <p>
- *	<pre>
- *	 <code>
+ * <p>
+ * <pre>
+ * 	 <code>
  *  &lt;complexType abstract="true" name="AbstractRingType"&gt;
  *      &lt;annotation&gt;
  *          &lt;documentation&gt;
@@ -22,47 +22,45 @@ import javax.xml.namespace.QName;
  *      &lt;complexContent&gt;
  *          &lt;extension base="gml:AbstractGeometryType"/&gt;
  *      &lt;/complexContent&gt;
- *  &lt;/complexType&gt; 
- *		
- *	  </code>
- *	 </pre>
+ *  &lt;/complexType&gt;
+ *
+ * 	  </code>
+ * 	 </pre>
  * </p>
  *
  * @generated
- *
- *
  * @source $URL$
  */
 public class AbstractRingTypeBinding extends AbstractComplexBinding {
 
-	/**
-	 * @generated
-	 */
-	public QName getTarget() {
-		return GML.AbstractRingType;
-	}
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 *	
-	 * @generated modifiable
-	 */	
-	public Class getType() {
-		return null;
-	}
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 *	
-	 * @generated modifiable
-	 */	
-	public Object parse(ElementInstance instance, Node node, Object value) 
-		throws Exception {
-		
-		//TODO: implement and remove call to super
-		return super.parse(instance,node,value);
-	}
+    /**
+     * @generated
+     */
+    public QName getTarget() {
+        return GML.AbstractRingType;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     *
+     * @generated modifiable
+     */
+    public Class getType() {
+        return null;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     *
+     * @generated modifiable
+     */
+    public Object parse(ElementInstance instance, Node node, Object value)
+            throws Exception {
+
+        //TODO: implement and remove call to super
+        return super.parse(instance, node, value);
+    }
 
 }

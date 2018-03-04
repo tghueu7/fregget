@@ -51,8 +51,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ExecuteTest extends XMLTestSupport {
@@ -109,7 +107,7 @@ public class ExecuteTest extends XMLTestSupport {
         e.setIndenting(true);
         e.encode(response, WPS.ExecuteResponse, System.out);
     }
-    
+
     public void testExecuteResponseProgress() throws Exception {
         Wps10Factory f = Wps10Factory.eINSTANCE;
         ExecuteResponseType response = f.createExecuteResponseType();
@@ -131,8 +129,8 @@ public class ExecuteTest extends XMLTestSupport {
 
     public void testParserDelegateNamespaces() throws Exception {
         Parser p = new Parser(new WPSConfiguration());
-        ExecuteType exec = (ExecuteType) 
-            p.parse(getClass().getResourceAsStream("wpsExecute_inlineGetFeature_request.xml"));
+        ExecuteType exec = (ExecuteType)
+                p.parse(getClass().getResourceAsStream("wpsExecute_inlineGetFeature_request.xml"));
         assertNotNull(exec);
         assertEquals(1, exec.getDataInputs().getInput().size());
 
@@ -143,15 +141,15 @@ public class ExecuteTest extends XMLTestSupport {
         assertTrue(ref.getBody() instanceof GetFeatureType);
         GetFeatureType gft = (GetFeatureType) ref.getBody();
 
-        QName typeName = (QName) ((QueryType)gft.getQuery().get(0)).getTypeName().get(0);
+        QName typeName = (QName) ((QueryType) gft.getQuery().get(0)).getTypeName().get(0);
         assertEquals("states", typeName.getLocalPart());
         assertEquals("http://usa.org", typeName.getNamespaceURI());
     }
-    
+
     public void testFilterParserDelegate() throws Exception {
         Parser p = new Parser(new WPSConfiguration());
-        ExecuteType exec = (ExecuteType) 
-            p.parse(getClass().getResourceAsStream("wpsExecuteFilterInline.xml"));
+        ExecuteType exec = (ExecuteType)
+                p.parse(getClass().getResourceAsStream("wpsExecuteFilterInline.xml"));
         assertNotNull(exec);
         assertEquals(1, exec.getDataInputs().getInput().size());
 
@@ -160,7 +158,8 @@ public class ExecuteTest extends XMLTestSupport {
         assertNotNull(cd);
         Filter filter = (Filter) cd.getData().get(0);
         FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
-        Filter expected = ff.or(ff.greaterOrEqual(ff.property("PERSONS"), ff.literal("10000000")), ff.lessOrEqual(ff.property("PERSONS"), ff.literal("20000000")));
+        Filter expected = ff.or(ff.greaterOrEqual(ff.property("PERSONS"), ff.literal("10000000"))
+                , ff.lessOrEqual(ff.property("PERSONS"), ff.literal("20000000")));
         assertEquals(expected, filter);
     }
 

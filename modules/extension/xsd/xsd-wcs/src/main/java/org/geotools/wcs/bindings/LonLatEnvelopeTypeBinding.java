@@ -28,32 +28,32 @@ import org.w3c.dom.Element;
 
 /**
  * Binding object for the type http://www.opengis.net/wcs:LonLatEnvelopeType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
- *	 <code>
+ * 	 <code>
  *  &lt;complexType name=&quot;LonLatEnvelopeType&quot;&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;Defines spatial extent by extending LonLatEnvelope with an optional time position pair. &lt;/documentation&gt;
+ *          &lt;documentation&gt;Defines spatial extent by extending LonLatEnvelope with an 
+ *          optional time position pair. &lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;complexContent&gt;
  *          &lt;extension base=&quot;wcs:LonLatEnvelopeBaseType&quot;&gt;
  *              &lt;sequence minOccurs=&quot;0&quot;&gt;
- *                  &lt;element maxOccurs=&quot;2&quot; minOccurs=&quot;2&quot; ref=&quot;gml:timePosition&quot;/&gt;
+ *                  &lt;element maxOccurs=&quot;2&quot; minOccurs=&quot;2&quot; ref=&quot;
+ *                  gml:timePosition&quot;/&gt;
  *              &lt;/sequence&gt;
  *          &lt;/extension&gt;
  *      &lt;/complexContent&gt;
- *  &lt;/complexType&gt; 
- * 	
+ *  &lt;/complexType&gt;
+ *
  * </code>
- *	 </pre>
- * 
+ * 	 </pre>
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class LonLatEnvelopeTypeBinding extends AbstractComplexBinding {
@@ -67,7 +67,7 @@ public class LonLatEnvelopeTypeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -75,10 +75,10 @@ public class LonLatEnvelopeTypeBinding extends AbstractComplexBinding {
     }
 
     /**
-     * <!-- begin-user-doc --> 
+     * <!-- begin-user-doc -->
      * ATTENTION: I'm assuming a LatLon envelope here.
      * <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
@@ -94,7 +94,8 @@ public class LonLatEnvelopeTypeBinding extends AbstractComplexBinding {
             properties.put(CoordinateReferenceSystem.DOMAIN_OF_VALIDITY_KEY, ExtentImpl.WORLD);
 
             CoordinateReferenceSystem crs = new DefaultCompoundCRS(properties,
-                    new CoordinateReferenceSystem[] {envelope.getCoordinateReferenceSystem(), DefaultTemporalCRS.TRUNCATED_JULIAN });
+                    new CoordinateReferenceSystem[]{envelope.getCoordinateReferenceSystem(), 
+                            DefaultTemporalCRS.TRUNCATED_JULIAN});
 
             double[] minCP = new double[envelope.getDimension() + 1];
             double[] maxCP = new double[envelope.getDimension() + 1];
@@ -104,12 +105,15 @@ public class LonLatEnvelopeTypeBinding extends AbstractComplexBinding {
                 maxCP[i] = envelope.getUpperCorner().getOrdinate(i);
             }
 
-            DefaultTemporalCRS TCRS = (DefaultTemporalCRS) ((CompoundCRS) crs).getCoordinateReferenceSystems().get(1);
+            DefaultTemporalCRS TCRS = (DefaultTemporalCRS) ((CompoundCRS) crs)
+                    .getCoordinateReferenceSystems().get(1);
 
             Node timePositionNodeBegin = timePositions.get(0);
             Node timePositionNodeEnd = timePositions.get(1);
-            minCP[minCP.length - 1] = TCRS.toValue(((DefaultPosition)timePositionNodeBegin.getValue()).getDate());
-            maxCP[maxCP.length - 1] = TCRS.toValue(((DefaultPosition)timePositionNodeEnd.getValue()).getDate());
+            minCP[minCP.length - 1] = TCRS.toValue(((DefaultPosition) timePositionNodeBegin
+                    .getValue()).getDate());
+            maxCP[maxCP.length - 1] = TCRS.toValue(((DefaultPosition) timePositionNodeEnd
+                    .getValue()).getDate());
 
             GeneralDirectPosition minDP = new GeneralDirectPosition(minCP);
             minDP.setCoordinateReferenceSystem(crs);
@@ -126,7 +130,7 @@ public class LonLatEnvelopeTypeBinding extends AbstractComplexBinding {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.xml.AbstractComplexBinding#getExecutionMode()
      */
     @Override
@@ -175,8 +179,11 @@ public class LonLatEnvelopeTypeBinding extends AbstractComplexBinding {
             if (temporalCRS != null) {
                 List<Position> envelopePositions = new LinkedList<Position>();
 
-                Position beginning = new DefaultPosition(((DefaultTemporalCRS) temporalCRS).toDate(envelope.getLowerCorner().getOrdinate(envelope.getDimension() - 1)));
-                Position ending = new DefaultPosition(((DefaultTemporalCRS) temporalCRS).toDate(envelope.getUpperCorner().getOrdinate(envelope.getDimension() - 1)));
+                Position beginning = new DefaultPosition(((DefaultTemporalCRS) temporalCRS)
+                        .toDate(envelope.getLowerCorner().getOrdinate(envelope.getDimension() - 
+                                1)));
+                Position ending = new DefaultPosition(((DefaultTemporalCRS) temporalCRS).toDate
+                        (envelope.getUpperCorner().getOrdinate(envelope.getDimension() - 1)));
 
                 envelopePositions.add(beginning);
                 envelopePositions.add(ending);

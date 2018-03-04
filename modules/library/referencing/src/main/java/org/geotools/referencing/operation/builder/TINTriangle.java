@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -19,6 +19,7 @@ package org.geotools.referencing.operation.builder;
 import org.geotools.geometry.DirectPosition2D;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.geometry.DirectPosition;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -27,32 +28,38 @@ import java.util.List;
 /**
  * A triangle, with special methods for use with RubberSheetTransform.
  *
- * @since 2.4
- * @source $URL$
- * @version $Id$
  * @author Jan Jezek
- *
+ * @version $Id$
+ * @source $URL$
+ * @since 2.4
  */
 class TINTriangle extends Polygon {
-    /** The first vertex. */
+    /**
+     * The first vertex.
+     */
     public DirectPosition p0;
 
-    /** The second vertex. */
+    /**
+     * The second vertex.
+     */
     public DirectPosition p1;
 
-    /** The third vertex. */
+    /**
+     * The third vertex.
+     */
     public DirectPosition p2;
-    private final List <TINTriangle> adjacentTriangles = new ArrayList <TINTriangle>();
+    private final List<TINTriangle> adjacentTriangles = new ArrayList<TINTriangle>();
 
     /**
      * Creates a Triangle.
+     *
      * @param p0 one vertex
      * @param p1 another vertex
      * @param p2 another vertex
      */
     protected TINTriangle(DirectPosition p0, DirectPosition p1,
-        DirectPosition p2) {
-        super(new DirectPosition[] { p0, p1, p2, p0 });
+                          DirectPosition p2) {
+        super(new DirectPosition[]{p0, p1, p2, p0});
         this.p0 = p0;
         this.p1 = p1;
         this.p2 = p2;
@@ -65,10 +72,10 @@ class TINTriangle extends Polygon {
      */
     protected Circle getCircumCicle() {
         //DirectPosition center = new DirectPosition2D();
-        List <DirectPosition> reducedVertices = reduce();
+        List<DirectPosition> reducedVertices = reduce();
 
         CoordinateReferenceSystem crs = ((DirectPosition) reducedVertices
-            .get(1)).getCoordinateReferenceSystem();
+                .get(1)).getCoordinateReferenceSystem();
 
         double x1 = ((DirectPosition) reducedVertices.get(1)).getCoordinate()[0];
         double y1 = ((DirectPosition) reducedVertices.get(1)).getCoordinate()[1];
@@ -78,7 +85,7 @@ class TINTriangle extends Polygon {
 
         // Calculation of Circumcicle center
         double t = (0.5 * (((x1 * x1) + (y1 * y1)) - (x1 * x2) - (y1 * y2))) / ((y1 * x2)
-            - (x1 * y2));
+                - (x1 * y2));
 
         //t = Math.abs(t);
         DirectPosition2D center = new DirectPosition2D(crs,
@@ -86,7 +93,7 @@ class TINTriangle extends Polygon {
                 (y2 / 2) + (t * x2) + p0.getCoordinate()[1]);
 
         return new Circle(center.getDirectPosition(),
-            center.distance(new DirectPosition2D(p0)));
+                center.distance(new DirectPosition2D(p0)));
     }
 
     /**
@@ -94,12 +101,11 @@ class TINTriangle extends Polygon {
      * TINTriangle at a newVertex.
      *
      * @param newVertex the split point (must be inside triangle).
-     *
      * @return three Triangles created by splitting this TINTriangle at a
-     *         newVertex.
+     * newVertex.
      */
-    public List <TINTriangle> subTriangles(DirectPosition newVertex) {
-        ArrayList <TINTriangle> triangles = new ArrayList<TINTriangle>();
+    public List<TINTriangle> subTriangles(DirectPosition newVertex) {
+        ArrayList<TINTriangle> triangles = new ArrayList<TINTriangle>();
         TINTriangle trigA = new TINTriangle(p0, p1, newVertex);
         TINTriangle trigB = new TINTriangle(p1, p2, newVertex);
         TINTriangle trigC = new TINTriangle(p2, p0, newVertex);
@@ -127,7 +133,7 @@ class TINTriangle extends Polygon {
         triangles.add(trigB);
         triangles.add(trigC);
 
-        Iterator <TINTriangle> i = this.getAdjacentTriangles().iterator();
+        Iterator<TINTriangle> i = this.getAdjacentTriangles().iterator();
 
         while (i.hasNext()) {
             TINTriangle trig = (TINTriangle) i.next();
@@ -140,11 +146,12 @@ class TINTriangle extends Polygon {
     /**
      * Tries to add {@code adjacent} triangles. Before adding they are checked
      * whether they are really adjacent or not and whether they are not already known.
+     *
      * @param adjacents triangles to be added
      * @return number of successfully added triangles
      */
-    protected int tryToAddAdjacent(List <TINTriangle> adjacents) {
-        Iterator <TINTriangle> i = adjacents.iterator();
+    protected int tryToAddAdjacent(List<TINTriangle> adjacents) {
+        Iterator<TINTriangle> i = adjacents.iterator();
         int count = 0;
 
         while (i.hasNext()) {
@@ -172,12 +179,13 @@ class TINTriangle extends Polygon {
 
     /**
      * Adds adjacent triangles.
+     *
      * @param adjacent triangles to be added
-     * @throws TriangulationException if triangle is not adjacent
      * @return true if the triangle is adjacent
+     * @throws TriangulationException if triangle is not adjacent
      */
     protected boolean addAdjacentTriangle(TINTriangle adjacent)
-        throws TriangulationException {
+            throws TriangulationException {
         if (isAdjacent(adjacent)) {
             adjacentTriangles.add(adjacent);
 
@@ -189,12 +197,13 @@ class TINTriangle extends Polygon {
 
     /**
      * Checks whether triangle is adjacent.
+     *
      * @param adjacent triangle to be tested
      * @return true if triangle is adjacent
-     * @throws TriangulationException if 
+     * @throws TriangulationException if
      */
     private boolean isAdjacent(TINTriangle adjacent)
-        throws TriangulationException {
+            throws TriangulationException {
         int identicalVertices = 0;
 
         if (adjacent.hasVertex(p0)) {
@@ -222,14 +231,16 @@ class TINTriangle extends Polygon {
 
     /**
      * Returns adjacent triangles
+     *
      * @return adjacent triangles
      */
-    public List <TINTriangle> getAdjacentTriangles() {
+    public List<TINTriangle> getAdjacentTriangles() {
         return adjacentTriangles;
     }
 
     /**
      * Removes adjacent triangles
+     *
      * @param remAdjacent
      */
     protected void removeAdjacent(TINTriangle remAdjacent) {

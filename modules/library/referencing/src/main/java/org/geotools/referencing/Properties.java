@@ -37,12 +37,12 @@ import org.geotools.referencing.operation.AbstractCoordinateOperation;
  * An immutable map fetching all properties from the specified identified object. Calls
  * to {@code get} methods are forwarded to the appropriate {@link IdentifiedObject} method.
  *
- * @since 2.1
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
-final class Properties extends AbstractMap<String,Object> {
+final class Properties extends AbstractMap<String, Object> {
     /**
      * The object where all properties come from.
      */
@@ -51,7 +51,7 @@ final class Properties extends AbstractMap<String,Object> {
     /**
      * The entries set. Will be constructed only when first needed.
      */
-    private transient Set<Entry<String,Object>> entries;
+    private transient Set<Entry<String, Object>> entries;
 
     /**
      * Creates new properties from the specified identified object.
@@ -77,7 +77,7 @@ final class Properties extends AbstractMap<String,Object> {
     public Object get(final Object key) {
         if (key instanceof String) {
             final String s = ((String) key).trim();
-            for (int i=0; i<KEYS.length; i++) {
+            for (int i = 0; i < KEYS.length; i++) {
                 if (KEYS[i].equalsIgnoreCase(s)) {
                     return get(i);
                 }
@@ -92,10 +92,15 @@ final class Properties extends AbstractMap<String,Object> {
      */
     private Object get(final int key) {
         switch (key) {
-            case 0: return info.getName();
-            case 1: return info.getIdentifiers().toArray(AbstractIdentifiedObject.EMPTY_IDENTIFIER_ARRAY);
-            case 2: return info.getAlias().toArray(AbstractIdentifiedObject.EMPTY_ALIAS_ARRAY);
-            case 3: return info.getRemarks();
+            case 0:
+                return info.getName();
+            case 1:
+                return info.getIdentifiers().toArray(AbstractIdentifiedObject
+                        .EMPTY_IDENTIFIER_ARRAY);
+            case 2:
+                return info.getAlias().toArray(AbstractIdentifiedObject.EMPTY_ALIAS_ARRAY);
+            case 3:
+                return info.getRemarks();
             case 4: {
                 if (info instanceof ReferenceSystem) {
                     return ((ReferenceSystem) info).getScope();
@@ -140,27 +145,28 @@ final class Properties extends AbstractMap<String,Object> {
      * @todo Add properties for {@link IdentifiedObject} sub-interfaces.
      */
     private static final String[] KEYS = {
-        /*[0]*/IdentifiedObject    .NAME_KEY,
-        /*[1]*/IdentifiedObject    .IDENTIFIERS_KEY,
-        /*[2]*/IdentifiedObject    .ALIAS_KEY,
-        /*[3]*/IdentifiedObject    .REMARKS_KEY,
-        /*[4]*/CoordinateOperation .SCOPE_KEY,              // same in Datum and ReferenceSystem
-        /*[5]*/CoordinateOperation .DOMAIN_OF_VALIDITY_KEY, // same in Datum and ReferenceSystem
-        /*[6]*/CoordinateOperation .OPERATION_VERSION_KEY,
-        /*[7]*/CoordinateOperation .COORDINATE_OPERATION_ACCURACY_KEY
+            /*[0]*/IdentifiedObject.NAME_KEY,
+            /*[1]*/IdentifiedObject.IDENTIFIERS_KEY,
+            /*[2]*/IdentifiedObject.ALIAS_KEY,
+            /*[3]*/IdentifiedObject.REMARKS_KEY,
+            /*[4]*/CoordinateOperation.SCOPE_KEY,              // same in Datum and ReferenceSystem
+            /*[5]*/CoordinateOperation.DOMAIN_OF_VALIDITY_KEY, // same in Datum and ReferenceSystem
+            /*[6]*/CoordinateOperation.OPERATION_VERSION_KEY,
+            /*[7]*/CoordinateOperation.COORDINATE_OPERATION_ACCURACY_KEY
     };
 
     /**
      * Returns a set view of the mappings contained in this map.
      */
     @Override
-    public Set<Entry<String,Object>> entrySet() {
+    public Set<Entry<String, Object>> entrySet() {
         if (entries == null) {
-            entries = new HashSet<Entry<String,Object>>(Math.round(KEYS.length / 0.75f) + 1, 0.75f);
-            for (int i=0; i<KEYS.length; i++) {
+            entries = new HashSet<Entry<String, Object>>(Math.round(KEYS.length / 0.75f) + 1, 
+                    0.75f);
+            for (int i = 0; i < KEYS.length; i++) {
                 final Object value = get(i);
                 if (value != null) {
-                    entries.add(new MapEntry<String,Object>(KEYS[i], value));
+                    entries.add(new MapEntry<String, Object>(KEYS[i], value));
                 }
             }
             entries = Collections.unmodifiableSet(entries);

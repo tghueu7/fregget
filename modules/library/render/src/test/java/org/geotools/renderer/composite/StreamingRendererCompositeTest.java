@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -65,7 +65,7 @@ import com.vividsolutions.jts.geom.Polygon;
 /**
  * Runs the same compositions as the {@link CompositeTest}, but going through the StreamingRenderer
  * and testing feature type and symbolizer based compositions
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 @RunWith(Parameterized.class)
@@ -92,30 +92,30 @@ public class StreamingRendererCompositeTest {
         List<Object[]> result = new ArrayList<>();
 
         // compositing modes
-        result.add(new Object[] { "copy" });
-        result.add(new Object[] { "destination" });
-        result.add(new Object[] { "source-over" });
-        result.add(new Object[] { "destination-over" });
-        result.add(new Object[] { "source-in" });
-        result.add(new Object[] { "destination-in" });
-        result.add(new Object[] { "source-out" });
-        result.add(new Object[] { "destination-out" });
-        result.add(new Object[] { "source-atop" });
-        result.add(new Object[] { "destination-atop" });
-        result.add(new Object[] { "xor" });
+        result.add(new Object[]{"copy"});
+        result.add(new Object[]{"destination"});
+        result.add(new Object[]{"source-over"});
+        result.add(new Object[]{"destination-over"});
+        result.add(new Object[]{"source-in"});
+        result.add(new Object[]{"destination-in"});
+        result.add(new Object[]{"source-out"});
+        result.add(new Object[]{"destination-out"});
+        result.add(new Object[]{"source-atop"});
+        result.add(new Object[]{"destination-atop"});
+        result.add(new Object[]{"xor"});
 
         // blending modes
-        result.add(new Object[] { "multiply" });
-        result.add(new Object[] { "screen" });
-        result.add(new Object[] { "overlay" });
-        result.add(new Object[] { "darken" });
-        result.add(new Object[] { "lighten" });
-        result.add(new Object[] { "color-dodge" });
-        result.add(new Object[] { "color-burn" });
-        result.add(new Object[] { "hard-light" });
-        result.add(new Object[] { "soft-light" });
-        result.add(new Object[] { "difference" });
-        result.add(new Object[] { "exclusion" });
+        result.add(new Object[]{"multiply"});
+        result.add(new Object[]{"screen"});
+        result.add(new Object[]{"overlay"});
+        result.add(new Object[]{"darken"});
+        result.add(new Object[]{"lighten"});
+        result.add(new Object[]{"color-dodge"});
+        result.add(new Object[]{"color-burn"});
+        result.add(new Object[]{"hard-light"});
+        result.add(new Object[]{"soft-light"});
+        result.add(new Object[]{"difference"});
+        result.add(new Object[]{"exclusion"});
 
         return result;
     }

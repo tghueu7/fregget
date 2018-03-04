@@ -58,18 +58,15 @@ import org.geotools.resources.i18n.ErrorKeys;
  * WKT parsing. For caching, this factory should be wrapped in some buffered factory like
  * {@link BufferedAuthorityFactory}.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Jody Garnett
  * @author Rueben Schulz
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class PropertyAuthorityFactory extends DirectAuthorityFactory
-        implements CRSAuthorityFactory, CSAuthorityFactory, DatumAuthorityFactory
-{
+        implements CRSAuthorityFactory, CSAuthorityFactory, DatumAuthorityFactory {
     /**
      * The authority for this factory.
      */
@@ -116,18 +113,17 @@ public class PropertyAuthorityFactory extends DirectAuthorityFactory
     /**
      * Creates a factory for the specified authority from the specified file.
      *
-     * @param  factories   The underlying factories used for objects creation.
-     * @param  authority   The organization or party responsible for definition and maintenance of
-     *                     the database.
-     * @param  definitions URL to the definition file.
+     * @param factories   The underlying factories used for objects creation.
+     * @param authority   The organization or party responsible for definition and maintenance of
+     *                    the database.
+     * @param definitions URL to the definition file.
      * @throws IOException if the definitions can't be read.
      */
     public PropertyAuthorityFactory(final ReferencingFactoryContainer factories,
-                                    final Citation                    authority,
-                                    final URL                         definitions)
-            throws IOException
-    {
-        this(factories, new Citation[] {authority}, definitions);
+                                    final Citation authority,
+                                    final URL definitions)
+            throws IOException {
+        this(factories, new Citation[]{authority}, definitions);
     }
 
     /**
@@ -141,19 +137,17 @@ public class PropertyAuthorityFactory extends DirectAuthorityFactory
      * CRS can be identified as {@code "ESRI:53001"} and {@code "EPSG:53001"}, where
      * {@code "53001"} is a unused code in the official EPSG database.
      *
-     * @param  factories   The underlying factories used for objects creation.
-     * @param  authorities The organizations or party responsible for definition
-     *                     and maintenance of the database.
-     * @param  definitions URL to the definition file.
+     * @param factories   The underlying factories used for objects creation.
+     * @param authorities The organizations or party responsible for definition
+     *                    and maintenance of the database.
+     * @param definitions URL to the definition file.
      * @throws IOException if the definitions can't be read.
-     *
      * @since 2.4
      */
     public PropertyAuthorityFactory(final ReferencingFactoryContainer factories,
-                                    final Citation[]                  authorities,
-                                    final URL                         definitions)
-            throws IOException
-    {
+                                    final Citation[] authorities,
+                                    final URL definitions)
+            throws IOException {
         super(factories, MINIMUM_PRIORITY + 10);
         // The following hints have no effect on this class behaviour,
         // but tell to the user what this factory do about axis order.
@@ -161,8 +155,8 @@ public class PropertyAuthorityFactory extends DirectAuthorityFactory
         // TODO: Following line should not be commented-out.
         // See http://jira.codehaus.org/browse/GEOT-1699
 //      hints.put(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER, Boolean.FALSE);
-        hints.put(Hints.FORCE_STANDARD_AXIS_DIRECTIONS,   Boolean.FALSE);
-        hints.put(Hints.FORCE_STANDARD_AXIS_UNITS,        Boolean.FALSE);
+        hints.put(Hints.FORCE_STANDARD_AXIS_DIRECTIONS, Boolean.FALSE);
+        hints.put(Hints.FORCE_STANDARD_AXIS_UNITS, Boolean.FALSE);
         ensureNonNull("authorities", authorities);
         if (authorities.length == 0) {
             throw new IllegalArgumentException(Errors.format(ErrorKeys.EMPTY_ARRAY));
@@ -206,29 +200,28 @@ public class PropertyAuthorityFactory extends DirectAuthorityFactory
      * an instance of CRSAuthorityFactory, then:
      * <p>
      * <ul>
-     *  <li>{@code CoordinateReferenceSystem.class} asks for all authority codes accepted by
-     *      {@link #createGeographicCRS createGeographicCRS},
-     *      {@link #createProjectedCRS  createProjectedCRS},
-     *      {@link #createVerticalCRS   createVerticalCRS},
-     *      {@link #createTemporalCRS   createTemporalCRS}
-     *      and their friends.</li>
-     *  <li>{@code ProjectedCRS.class} asks only for authority codes accepted by
-     *      {@link #createProjectedCRS createProjectedCRS}.</li>
+     * <li>{@code CoordinateReferenceSystem.class} asks for all authority codes accepted by
+     * {@link #createGeographicCRS createGeographicCRS},
+     * {@link #createProjectedCRS  createProjectedCRS},
+     * {@link #createVerticalCRS   createVerticalCRS},
+     * {@link #createTemporalCRS   createTemporalCRS}
+     * and their friends.</li>
+     * <li>{@code ProjectedCRS.class} asks only for authority codes accepted by
+     * {@link #createProjectedCRS createProjectedCRS}.</li>
      * </ul>
-     *
+     * <p>
      * The default implementaiton filters the set of codes based on the
      * {@code "PROJCS"} and {@code "GEOGCS"} at the start of the WKT strings.
      *
-     * @param  type The spatial reference objects type (may be {@code Object.class}).
+     * @param type The spatial reference objects type (may be {@code Object.class}).
      * @return The set of authority codes for spatial reference objects of the given type.
-     *         If this factory doesn't contains any object of the given type, then this method
-     *         returns an empty set.
+     * If this factory doesn't contains any object of the given type, then this method
+     * returns an empty set.
      * @throws FactoryException if access to the underlying database failed.
      */
     public Set<String> getAuthorityCodes(final Class<? extends IdentifiedObject> type)
-            throws FactoryException
-    {
-        if (type==null || type.isAssignableFrom(IdentifiedObject.class)) {
+            throws FactoryException {
+        if (type == null || type.isAssignableFrom(IdentifiedObject.class)) {
             return codes;
         }
         if (filteredCodes == null) {
@@ -237,8 +230,7 @@ public class PropertyAuthorityFactory extends DirectAuthorityFactory
         synchronized (filteredCodes) {
             Set<String> filtered = filteredCodes.get(type);
             if (filtered == null) {
-                @SuppressWarnings("unchecked")
-                final Map<String,String> map = (Map) definitions;
+                @SuppressWarnings("unchecked") final Map<String, String> map = (Map) definitions;
                 filtered = new Codes(map, type);
                 filteredCodes.put(type, filtered);
             }
@@ -266,14 +258,13 @@ public class PropertyAuthorityFactory extends DirectAuthorityFactory
         /**
          * The reference to {@link PropertyAuthorityFactory#definitions}.
          */
-        private final Map<String,String> definitions;
+        private final Map<String, String> definitions;
 
         /**
          * Constructs a set of codes for the specified type.
          */
-        public Codes(final Map<String,String> definitions,
-                     final Class<? extends IdentifiedObject> type)
-        {
+        public Codes(final Map<String, String> definitions,
+                     final Class<? extends IdentifiedObject> type) {
             super(definitions.keySet(), String.class);
             this.definitions = definitions;
             this.type = type;
@@ -286,8 +277,9 @@ public class PropertyAuthorityFactory extends DirectAuthorityFactory
         protected String baseToDerived(final String key) {
             final String wkt = definitions.get(key);
             final int length = wkt.length();
-            int i=0; while (i<length && Character.isJavaIdentifierPart(wkt.charAt(i))) i++;
-            Class<?> candidate = Parser.getClassOf(wkt.substring(0,i));
+            int i = 0;
+            while (i < length && Character.isJavaIdentifierPart(wkt.charAt(i))) i++;
+            Class<?> candidate = Parser.getClassOf(wkt.substring(0, i));
             if (candidate == null) {
                 candidate = IdentifiedObject.class;
             }
@@ -305,7 +297,7 @@ public class PropertyAuthorityFactory extends DirectAuthorityFactory
     /**
      * Returns the Well Know Text from a code.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The Well Know Text (WKT) for the specified code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
      */
@@ -321,15 +313,14 @@ public class PropertyAuthorityFactory extends DirectAuthorityFactory
     /**
      * Gets a description of the object corresponding to a code.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return A description of the object, or {@code null} if the object
-     *         corresponding to the specified {@code code} has no description.
+     * corresponding to the specified {@code code} has no description.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the query failed for some other reason.
+     * @throws FactoryException             if the query failed for some other reason.
      */
     public InternationalString getDescriptionText(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final String wkt = getWKT(code);
         int start = wkt.indexOf('"');
         if (start >= 0) {
@@ -355,14 +346,13 @@ public class PropertyAuthorityFactory extends DirectAuthorityFactory
      * Returns an arbitrary object from a code. If the object type is know at compile time, it is
      * recommended to invoke the most precise method instead of this one.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
+     * @throws FactoryException             if the object creation failed for some other reason.
      */
     @Override
     public IdentifiedObject createObject(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final String wkt = getWKT(code);
         final Parser parser = getParser();
         try {
@@ -379,14 +369,13 @@ public class PropertyAuthorityFactory extends DirectAuthorityFactory
      * Returns a coordinate reference system from a code. If the object type is know at compile
      * time, it is recommended to invoke the most precise method instead of this one.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
+     * @throws FactoryException             if the object creation failed for some other reason.
      */
     @Override
     public CoordinateReferenceSystem createCoordinateReferenceSystem(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final String wkt = getWKT(code);
         final Parser parser = getParser();
         try {
@@ -405,19 +394,19 @@ public class PropertyAuthorityFactory extends DirectAuthorityFactory
      * {@linkplain #PropertyAuthorityFactory(ReferencingFactoryContainer, Citation[], URL)
      * construction time}, then any of them may appears as the scope in the supplied code.
      *
-     * @param  code The code to trim.
+     * @param code The code to trim.
      * @return The code without the authority scope.
      */
     @Override
     protected String trimAuthority(String code) {
         code = code.trim();
-        final GenericName name  = NameFactory.create(code);
+        final GenericName name = NameFactory.create(code);
         final GenericName scope = name.scope().name();
         if (scope == null) {
             return code;
         }
         final String candidate = scope.toString();
-        for (int i=0; i<authorities.length; i++) {
+        for (int i = 0; i < authorities.length; i++) {
             if (Citations.identifierMatches(authorities[i], candidate)) {
                 return name.tip().toString().trim();
             }
@@ -451,17 +440,17 @@ public class PropertyAuthorityFactory extends DirectAuthorityFactory
          * Add the authority code to the specified properties, if not already present.
          */
         @Override
-        protected Map<String,Object> alterProperties(Map<String,Object> properties) {
+        protected Map<String, Object> alterProperties(Map<String, Object> properties) {
             Object candidate = properties.get(IdentifiedObject.IDENTIFIERS_KEY);
             if (candidate == null && code != null) {
-                properties = new HashMap<String,Object>(properties);
+                properties = new HashMap<String, Object>(properties);
                 code = trimAuthority(code);
                 final Object identifiers;
                 if (authorities.length <= 1) {
                     identifiers = new NamedIdentifier(authority, code);
                 } else {
                     final NamedIdentifier[] ids = new NamedIdentifier[authorities.length];
-                    for (int i=0; i<ids.length; i++) {
+                    for (int i = 0; i < ids.length; i++) {
                         ids[i] = new NamedIdentifier(authorities[i], code);
                     }
                     identifiers = ids;

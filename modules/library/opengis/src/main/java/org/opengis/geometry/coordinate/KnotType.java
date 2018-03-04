@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.coordinate;
@@ -28,14 +28,12 @@ import static org.opengis.annotation.Specification.*;
  * This code list is used to describe the distribution of knots in the parameter space of
  * various splines.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @since GeoAPI 2.0
  */
-@UML(identifier="GM_KnotType", specification=ISO_19107)
+@UML(identifier = "GM_KnotType", specification = ISO_19107)
 public class KnotType extends CodeList<KnotType> {
     /**
      * Serial number for compatibility with different versions.
@@ -51,19 +49,19 @@ public class KnotType extends CodeList<KnotType> {
     /**
      * The form of knots is appropriate for a uniform B-spline.
      */
-    @UML(identifier="uniform", obligation=CONDITIONAL, specification=ISO_19107)
+    @UML(identifier = "uniform", obligation = CONDITIONAL, specification = ISO_19107)
     public static final KnotType UNIFORM = new KnotType("UNIFORM");
 
     /**
      * The form of knots is appropriate for a quasi-uniform B-spline.
      */
-    @UML(identifier="quasiUniform", obligation=CONDITIONAL, specification=ISO_19107)
+    @UML(identifier = "quasiUniform", obligation = CONDITIONAL, specification = ISO_19107)
     public static final KnotType QUASI_UNIFORM = new KnotType("QUASI_UNIFORM");
 
     /**
      * The form of knots is appropriate for a piecewise Bezier curve.
      */
-    @UML(identifier="piecewiseBezier", obligation=CONDITIONAL, specification=ISO_19107)
+    @UML(identifier = "piecewiseBezier", obligation = CONDITIONAL, specification = ISO_19107)
     public static final KnotType PIECEWISE_BEZIER = new KnotType("PIECEWISE_BEZIER");
 
     /**

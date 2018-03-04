@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2001-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -50,16 +50,12 @@ import org.geotools.resources.i18n.Vocabulary;
  * {@code Default} prefix instead. An exception to this rule may occurs when it is not possible to
  * identify the exact type.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
- * @since 2.1
- *
+ * @version $Id$
+ * @source $URL$
  * @see org.geotools.referencing.cs.AbstractCS
  * @see org.geotools.referencing.crs.AbstractCRS
+ * @since 2.1
  */
 public class AbstractDatum extends AbstractIdentifiedObject implements Datum {
     /**
@@ -105,71 +101,72 @@ public class AbstractDatum extends AbstractIdentifiedObject implements Datum {
      * i.e. the properties are not cloned.
      *
      * @param datum The datum to copy.
-     *
      * @since 2.2
      */
     public AbstractDatum(final Datum datum) {
         super(datum);
         final Date epoch = datum.getRealizationEpoch();
-        realizationEpoch = (epoch!=null) ? epoch.getTime() : Long.MIN_VALUE;
+        realizationEpoch = (epoch != null) ? epoch.getTime() : Long.MIN_VALUE;
         domainOfValidity = datum.getDomainOfValidity();
-        scope            = datum.getScope();
-        anchorPoint      = datum.getAnchorPoint();
+        scope = datum.getScope();
+        anchorPoint = datum.getAnchorPoint();
     }
 
     /**
      * Constructs a datum from a set of properties. The properties given in argument follow
-     * the same rules than for the {@linkplain AbstractIdentifiedObject#AbstractIdentifiedObject(Map)
+     * the same rules than for the {@linkplain AbstractIdentifiedObject#AbstractIdentifiedObject
+     * (Map)
      * super-class constructor}. Additionally, the following properties are understood by this
      * construtor:
      * <br><br>
      * <table border='1'>
-     *   <tr bgcolor="#CCCCFF" class="TableHeadingColor">
-     *     <th nowrap>Property name</th>
-     *     <th nowrap>Value type</th>
-     *     <th nowrap>Value given to</th>
-     *   </tr>
-     *   <tr>
-     *     <td nowrap>&nbsp;{@link #ANCHOR_POINT_KEY "anchorPoint"}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link InternationalString} or {@link String}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link #getAnchorPoint}</td>
-     *   </tr>
-     *   <tr>
-     *     <td nowrap>&nbsp;{@link #REALIZATION_EPOCH_KEY "realizationEpoch"}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link Date}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link #getRealizationEpoch}</td>
-     *   </tr>
-     *   <tr>
-     *     <td nowrap>&nbsp;{@link #DOMAIN_OF_VALIDITY_KEY "domainOfValidity"}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link Extent}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link #getDomainOfValidity}</td>
-     *   </tr>
-     *   <tr>
-     *     <td nowrap>&nbsp;{@link #SCOPE_KEY "scope"}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link InternationalString} or {@link String}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link #getScope}</td>
-     *   </tr>
+     * <tr bgcolor="#CCCCFF" class="TableHeadingColor">
+     * <th nowrap>Property name</th>
+     * <th nowrap>Value type</th>
+     * <th nowrap>Value given to</th>
+     * </tr>
+     * <tr>
+     * <td nowrap>&nbsp;{@link #ANCHOR_POINT_KEY "anchorPoint"}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link InternationalString} or {@link String}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link #getAnchorPoint}</td>
+     * </tr>
+     * <tr>
+     * <td nowrap>&nbsp;{@link #REALIZATION_EPOCH_KEY "realizationEpoch"}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link Date}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link #getRealizationEpoch}</td>
+     * </tr>
+     * <tr>
+     * <td nowrap>&nbsp;{@link #DOMAIN_OF_VALIDITY_KEY "domainOfValidity"}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link Extent}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link #getDomainOfValidity}</td>
+     * </tr>
+     * <tr>
+     * <td nowrap>&nbsp;{@link #SCOPE_KEY "scope"}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link InternationalString} or {@link String}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link #getScope}</td>
+     * </tr>
      * </table>
      *
      * @param properties The properties to be given to the identified object.
      */
-    public AbstractDatum(final Map<String,?> properties) {
-        this(properties, new HashMap<String,Object>());
+    public AbstractDatum(final Map<String, ?> properties) {
+        this(properties, new HashMap<String, Object>());
     }
 
     /**
      * Work around for RFE #4093999 in Sun's bug database
      * ("Relax constraint on placement of this()/super() call in constructors").
      */
-    private AbstractDatum(final Map<String,?> properties, final Map<String,Object> subProperties) {
+    private AbstractDatum(final Map<String, ?> properties, final Map<String, Object> 
+            subProperties) {
         super(properties, subProperties, LOCALIZABLES);
         final Date realizationEpoch;
-        anchorPoint      = (InternationalString) subProperties.get(ANCHOR_POINT_KEY      );
-        realizationEpoch = (Date)                subProperties.get(REALIZATION_EPOCH_KEY );
-        domainOfValidity = (Extent)              subProperties.get(DOMAIN_OF_VALIDITY_KEY);
-        scope            = (InternationalString) subProperties.get(SCOPE_KEY             );
+        anchorPoint = (InternationalString) subProperties.get(ANCHOR_POINT_KEY);
+        realizationEpoch = (Date) subProperties.get(REALIZATION_EPOCH_KEY);
+        domainOfValidity = (Extent) subProperties.get(DOMAIN_OF_VALIDITY_KEY);
+        scope = (InternationalString) subProperties.get(SCOPE_KEY);
         this.realizationEpoch = (realizationEpoch != null) ?
-                                 realizationEpoch.getTime() : Long.MIN_VALUE;
+                realizationEpoch.getTime() : Long.MIN_VALUE;
     }
 
     /**
@@ -177,10 +174,10 @@ public class AbstractDatum extends AbstractIdentifiedObject implements Datum {
      * the unlocalized name (usually in English locale), because the name is part of the elements
      * compared by the {@link #equals} method.
      */
-    static Map<String,Object> name(final int key) {
-        final Map<String,Object> properties = new HashMap<String,Object>(4);
+    static Map<String, Object> name(final int key) {
+        final Map<String, Object> properties = new HashMap<String, Object>(4);
         final InternationalString name = Vocabulary.formatInternational(key);
-        properties.put(NAME_KEY,  name.toString(null)); // "null" required for unlocalized version.
+        properties.put(NAME_KEY, name.toString(null)); // "null" required for unlocalized version.
         properties.put(ALIAS_KEY, name);
         return properties;
     }
@@ -188,22 +185,22 @@ public class AbstractDatum extends AbstractIdentifiedObject implements Datum {
     /**
      * Description, possibly including coordinates, of the point or points used to anchor the datum
      * to the Earth. Also known as the "origin", especially for Engineering and Image Datums.
-     *
+     * <p>
      * <ul>
-     *   <li>For a geodetic datum, this point is also known as the fundamental point, which is
-     *       traditionally the point where the relationship between geoid and ellipsoid is defined.
-     *       In some cases, the "fundamental point" may consist of a number of points. In those
-     *       cases, the parameters defining the geoid/ellipsoid relationship have then been averaged
-     *       for these points, and the averages adopted as the datum definition.</li>
-     *
-     *   <li>For an engineering datum, the anchor point may be a physical point, or it may be a
-     *       point with defined coordinates in another CRS.</li>
-     *
-     *   <li>For an image datum, the anchor point is usually either the centre of the image or the
-     *       corner of the image.</li>
-     *
-     *   <li>For a temporal datum, this attribute is not defined. Instead of the anchor point,
-     *       a temporal datum carries a separate time origin of type {@link Date}.</li>
+     * <li>For a geodetic datum, this point is also known as the fundamental point, which is
+     * traditionally the point where the relationship between geoid and ellipsoid is defined.
+     * In some cases, the "fundamental point" may consist of a number of points. In those
+     * cases, the parameters defining the geoid/ellipsoid relationship have then been averaged
+     * for these points, and the averages adopted as the datum definition.</li>
+     * <p>
+     * <li>For an engineering datum, the anchor point may be a physical point, or it may be a
+     * point with defined coordinates in another CRS.</li>
+     * <p>
+     * <li>For an image datum, the anchor point is usually either the centre of the image or the
+     * corner of the image.</li>
+     * <p>
+     * <li>For a temporal datum, this attribute is not defined. Instead of the anchor point,
+     * a temporal datum carries a separate time origin of type {@link Date}.</li>
      * </ul>
      */
     public InternationalString getAnchorPoint() {
@@ -220,7 +217,7 @@ public class AbstractDatum extends AbstractIdentifiedObject implements Datum {
      * superseded datum.
      */
     public Date getRealizationEpoch() {
-        return (realizationEpoch!=Long.MIN_VALUE) ? new Date(realizationEpoch) : null;
+        return (realizationEpoch != Long.MIN_VALUE) ? new Date(realizationEpoch) : null;
     }
 
     /**
@@ -264,9 +261,10 @@ public class AbstractDatum extends AbstractIdentifiedObject implements Datum {
     /**
      * Compares the specified object with this datum for equality.
      *
-     * @param  object The object to compare to {@code this}.
-     * @param  compareMetadata {@code true} for performing a strict comparaison, or
-     *         {@code false} for comparing only properties relevant to transformations.
+     * @param object          The object to compare to {@code this}.
+     * @param compareMetadata {@code true} for performing a strict comparaison, or
+     *                        {@code false} for comparing only properties relevant to 
+     *                                    transformations.
      * @return {@code true} if both objects are equal.
      */
     @Override
@@ -280,27 +278,28 @@ public class AbstractDatum extends AbstractIdentifiedObject implements Datum {
                  * have already been compared by the subclass.
                  */
                 return nameMatches(object.getName().getCode()) ||
-                       object.nameMatches(getName().getCode());
+                        object.nameMatches(getName().getCode());
             }
             final AbstractDatum that = (AbstractDatum) object;
             return this.realizationEpoch == that.realizationEpoch &&
-                   Utilities.equals(this.domainOfValidity, that.domainOfValidity) &&
-                   Utilities.equals(this.anchorPoint,      that.anchorPoint) &&
-                   Utilities.equals(this.scope,            that.scope);
+                    Utilities.equals(this.domainOfValidity, that.domainOfValidity) &&
+                    Utilities.equals(this.anchorPoint, that.anchorPoint) &&
+                    Utilities.equals(this.scope, that.scope);
         }
         return false;
     }
 
     /**
      * Format the inner part of a
-     * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
+     * <A HREF="http://geoapi.sourceforge
+     * .net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
      * Known Text</cite> (WKT)</A> element.
-     *
+     * <p>
      * Note: All subclasses will override this method, but only {@link DefaultGeodeticDatum} will
-     *       <strong>not</strong> invokes this parent method, because horizontal datum do not write
-     *       the datum type.
+     * <strong>not</strong> invokes this parent method, because horizontal datum do not write
+     * the datum type.
      *
-     * @param  formatter The formatter to use.
+     * @param formatter The formatter to use.
      * @return The WKT element name.
      */
     @Override

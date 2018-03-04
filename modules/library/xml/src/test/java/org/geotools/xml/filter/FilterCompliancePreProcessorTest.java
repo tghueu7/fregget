@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2017, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -30,8 +30,6 @@ import org.opengis.filter.Filter;
 import org.opengis.filter.FilterFactory2;
 
 /**
- *
- *
  * @source $URL$
  */
 public class FilterCompliancePreProcessorTest extends TestCase {
@@ -43,7 +41,8 @@ public class FilterCompliancePreProcessorTest extends TestCase {
 
     public void testSingleNOTHighCompliance() throws Exception {
         FilterFactory2 ff2 = CommonFactoryFinder.getFilterFactory2(null);
-        FilterCompliancePreProcessor compliancePreProcessor = new FilterCompliancePreProcessor(XMLHandlerHints.VALUE_FILTER_COMPLIANCE_HIGH);
+        FilterCompliancePreProcessor compliancePreProcessor = new FilterCompliancePreProcessor
+                (XMLHandlerHints.VALUE_FILTER_COMPLIANCE_HIGH);
         Filter not = ff2.not(ff2.isNull(ff2.property("GM_CODE")));
         not.accept(compliancePreProcessor, null);
         Filter processed = compliancePreProcessor.getFilter();
@@ -68,7 +67,8 @@ public class FilterCompliancePreProcessorTest extends TestCase {
         transform.setIndentation(2);
 
         String xml = transform.transform(and);
-        FilterCompliancePreProcessor compliancePreProcessor = new FilterCompliancePreProcessor(XMLHandlerHints.VALUE_FILTER_COMPLIANCE_HIGH);
+        FilterCompliancePreProcessor compliancePreProcessor = new FilterCompliancePreProcessor
+                (XMLHandlerHints.VALUE_FILTER_COMPLIANCE_HIGH);
         and.accept(compliancePreProcessor, null);
 
         Filter processed = compliancePreProcessor.getFilter();

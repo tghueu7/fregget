@@ -22,46 +22,53 @@ import net.opengis.wmts.v_1.wmtsv_1Factory;
 
 /**
  * Binding object for the type http://www.opengis.net/wmts/1.0:LayerType.
- *
+ * <p>
  * <p>
  * <pre>
- *	 <code>
- *  &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;complexType name="LayerType" xmlns="http://www.w3.org/2001/XMLSchema"&gt;
+ * 	 <code>
+ *  &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;complexType name="LayerType" 
+ *  xmlns="http://www.w3.org/2001/XMLSchema"&gt;
  *  		&lt;complexContent&gt;
  *  			&lt;extension base="ows:DatasetDescriptionSummaryBaseType"&gt;
  *  				&lt;sequence&gt;
  *  					&lt;element maxOccurs="unbounded" ref="wmts:Style"&gt;
  *  						&lt;annotation&gt;
- *  							&lt;documentation&gt;Metadata about the styles of this layer&lt;/documentation&gt;
+ *  							&lt;documentation&gt;Metadata about the styles of this layer&lt;
+ *  							/documentation&gt;
  *  						&lt;/annotation&gt;
  *  					&lt;/element&gt;
  *  					&lt;element maxOccurs="unbounded" name="Format" type="ows:MimeType"&gt;
  *  						&lt;annotation&gt;
- *  							&lt;documentation&gt;Supported valid output MIME types for a tile&lt;/documentation&gt;
+ *  							&lt;documentation&gt;Supported valid output MIME types for a 
+ *  							tile&lt;/documentation&gt;
  *  						&lt;/annotation&gt;
  *  					&lt;/element&gt;
- *  					&lt;element maxOccurs="unbounded" minOccurs="0" name="InfoFormat" type="ows:MimeType"&gt;
+ *  					&lt;element maxOccurs="unbounded" minOccurs="0" name="InfoFormat" 
+ *  					type="ows:MimeType"&gt;
  *  						&lt;annotation&gt;
  *  							&lt;documentation&gt;
- *  							Supported valid output MIME types for a FeatureInfo. 
+ *  							Supported valid output MIME types for a FeatureInfo.
  *  							If there isn't any, The server do not support FeatureInfo requests
  *  							for this layer.&lt;/documentation&gt;
  *  						&lt;/annotation&gt;
  *  					&lt;/element&gt;
  *  					&lt;element maxOccurs="unbounded" minOccurs="0" ref="wmts:Dimension"&gt;
  *  						&lt;annotation&gt;
- *  							&lt;documentation&gt;Extra dimensions for a tile and FeatureInfo requests.&lt;/documentation&gt;
+ *  							&lt;documentation&gt;Extra dimensions for a tile and FeatureInfo 
+ *  							requests.&lt;/documentation&gt;
  *  						&lt;/annotation&gt;
  *  					&lt;/element&gt;
  *  					&lt;element maxOccurs="unbounded" ref="wmts:TileMatrixSetLink"&gt;
  *  						&lt;annotation&gt;
- *  							&lt;documentation&gt;Reference to a tileMatrixSet and limits&lt;/documentation&gt;
+ *  							&lt;documentation&gt;Reference to a tileMatrixSet and limits&lt;
+ *  							/documentation&gt;
  *  						&lt;/annotation&gt;
  *  					&lt;/element&gt;
- *  					&lt;element maxOccurs="unbounded" minOccurs="0" name="ResourceURL" type="wmts:URLTemplateType"&gt;
+ *  					&lt;element maxOccurs="unbounded" minOccurs="0" name="ResourceURL" 
+ *  					type="wmts:URLTemplateType"&gt;
  *  						&lt;annotation&gt;
  *  							&lt;documentation&gt;
- *  								URL template to a tile or a FeatureInfo resource on 
+ *  								URL template to a tile or a FeatureInfo resource on
  *  								resource oriented architectural style
  *  							&lt;/documentation&gt;
  *  						&lt;/annotation&gt;
@@ -69,9 +76,9 @@ import net.opengis.wmts.v_1.wmtsv_1Factory;
  *  				&lt;/sequence&gt;
  *  			&lt;/extension&gt;
  *  		&lt;/complexContent&gt;
- *  	&lt;/complexType&gt; 
- *		
- *	  </code>
+ *  	&lt;/complexType&gt;
+ *
+ * 	  </code>
  * </pre>
  * </p>
  *
@@ -95,7 +102,7 @@ public class LayerTypeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class<LayerType> getType() {
@@ -104,7 +111,7 @@ public class LayerTypeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     @SuppressWarnings("unchecked")
@@ -112,7 +119,7 @@ public class LayerTypeBinding extends AbstractComplexBinding {
         LayerType layer = factory.createLayerType();
 
         List<Node> children;
-        
+
         children = node.getChildren("Abstract");
         for (Node c : children) {
             layer.getAbstract().add(c.getValue());
@@ -146,11 +153,11 @@ public class LayerTypeBinding extends AbstractComplexBinding {
         layer.setIdentifier((CodeType) node.getChildValue("Identifier"));
 
         children = node.getChildren("Keyword");
-        for(Node c: children) {
+        for (Node c : children) {
             layer.getKeywords().add(c.getValue());
         }
         children = node.getChildren(MetadataType.class);
-        for(Node c: children) {
+        for (Node c : children) {
             layer.getMetadata().add(c.getValue());
         }
         children = node.getChildren("ResourceURL");

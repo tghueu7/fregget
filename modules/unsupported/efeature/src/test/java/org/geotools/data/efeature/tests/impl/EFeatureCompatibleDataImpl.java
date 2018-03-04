@@ -1,7 +1,7 @@
 /**
  * <copyright>
  * </copyright>
- *
+ * <p>
  * $Id$
  */
 package org.geotools.data.efeature.tests.impl;
@@ -22,22 +22,23 @@ import org.geotools.data.efeature.tests.EFeatureTestsPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.geotools.data.efeature.tests.impl.EFeatureCompatibleDataImpl#getID <em>ID</em>}</li>
- *   <li>{@link org.geotools.data.efeature.tests.impl.EFeatureCompatibleDataImpl#getAttribute <em>Attribute</em>}</li>
- *   <li>{@link org.geotools.data.efeature.tests.impl.EFeatureCompatibleDataImpl#getGeometry <em>Geometry</em>}</li>
- *   <li>{@link org.geotools.data.efeature.tests.impl.EFeatureCompatibleDataImpl#getSRID <em>SRID</em>}</li>
- *   <li>{@link org.geotools.data.efeature.tests.impl.EFeatureCompatibleDataImpl#getDefault <em>Default</em>}</li>
+ * <li>{@link org.geotools.data.efeature.tests.impl.EFeatureCompatibleDataImpl#getID <em>ID</em>}</li>
+ * <li>{@link org.geotools.data.efeature.tests.impl.EFeatureCompatibleDataImpl#getAttribute <em>Attribute</em>}</li>
+ * <li>{@link org.geotools.data.efeature.tests.impl.EFeatureCompatibleDataImpl#getGeometry <em>Geometry</em>}</li>
+ * <li>{@link org.geotools.data.efeature.tests.impl.EFeatureCompatibleDataImpl#getSRID <em>SRID</em>}</li>
+ * <li>{@link org.geotools.data.efeature.tests.impl.EFeatureCompatibleDataImpl#getDefault <em>Default</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
- *
  * @source $URL$
  */
-public class EFeatureCompatibleDataImpl<A, G extends Geometry> extends EObjectImpl implements EFeatureCompatibleData<A, G> {
+public class EFeatureCompatibleDataImpl<A, G extends Geometry> extends EObjectImpl implements 
+        EFeatureCompatibleData<A, G> {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      */
     protected EFeatureCompatibleDataImpl() {
@@ -47,6 +48,7 @@ public class EFeatureCompatibleDataImpl<A, G extends Geometry> extends EObjectIm
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      */
     @Override
@@ -57,6 +59,7 @@ public class EFeatureCompatibleDataImpl<A, G extends Geometry> extends EObjectIm
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      */
     @Override
@@ -67,16 +70,18 @@ public class EFeatureCompatibleDataImpl<A, G extends Geometry> extends EObjectIm
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      */
     @Override
     public A getAttribute() {
-        return (A)eGet(EFeatureTestsPackage.Literals.EFEATURE_COMPATIBLE_DATA__ATTRIBUTE, true);
+        return (A) eGet(EFeatureTestsPackage.Literals.EFEATURE_COMPATIBLE_DATA__ATTRIBUTE, true);
     }
 
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      */
     @Override
@@ -87,16 +92,18 @@ public class EFeatureCompatibleDataImpl<A, G extends Geometry> extends EObjectIm
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      */
     @Override
     public G getGeometry() {
-        return (G)eGet(EFeatureTestsPackage.Literals.EFEATURE_COMPATIBLE_DATA__GEOMETRY, true);
+        return (G) eGet(EFeatureTestsPackage.Literals.EFEATURE_COMPATIBLE_DATA__GEOMETRY, true);
     }
 
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      */
     @Override
@@ -107,16 +114,18 @@ public class EFeatureCompatibleDataImpl<A, G extends Geometry> extends EObjectIm
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      */
     @Override
     public String getSRID() {
-        return (String)eGet(EFeatureTestsPackage.Literals.EFEATURE_COMPATIBLE_DATA__SRID, true);
+        return (String) eGet(EFeatureTestsPackage.Literals.EFEATURE_COMPATIBLE_DATA__SRID, true);
     }
 
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      */
     @Override
@@ -127,16 +136,18 @@ public class EFeatureCompatibleDataImpl<A, G extends Geometry> extends EObjectIm
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      */
     @Override
     public String getDefault() {
-        return (String)eGet(EFeatureTestsPackage.Literals.EFEATURE_COMPATIBLE_DATA__DEFAULT, true);
+        return (String) eGet(EFeatureTestsPackage.Literals.EFEATURE_COMPATIBLE_DATA__DEFAULT, true);
     }
 
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      */
     @Override
@@ -147,16 +158,18 @@ public class EFeatureCompatibleDataImpl<A, G extends Geometry> extends EObjectIm
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      */
     @Override
     public String getID() {
-        return (String)eGet(EFeatureTestsPackage.Literals.EFEATURE_COMPATIBLE_DATA__ID, true);
+        return (String) eGet(EFeatureTestsPackage.Literals.EFEATURE_COMPATIBLE_DATA__ID, true);
     }
 
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      */
     @Override

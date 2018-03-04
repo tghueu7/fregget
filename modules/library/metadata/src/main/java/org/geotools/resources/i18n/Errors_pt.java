@@ -20,12 +20,10 @@ package org.geotools.resources.i18n;
 /**
  * Portuguese language resource.
  *
- * @since 2.2
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @since 2.2
  */
 public class Errors_pt extends Errors {
 }

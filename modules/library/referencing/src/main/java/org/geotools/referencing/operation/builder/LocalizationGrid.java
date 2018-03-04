@@ -66,7 +66,7 @@ import org.geotools.referencing.operation.transform.ProjectiveTransform;
  * The example below goes through the steps of constructing a coordinate reference system for a grid
  * coverage from its grid of localization. This example assumes that the "real world" coordinates
  * are longitudes and latitudes on the {@linkplain DefaultGeodeticDatum#WGS84 WGS84} ellipsoid.
- *
+ * <p>
  * <blockquote><table border='2' cellpadding='6'><tr><td><pre>
  * <FONT color='#008000'>//
  * // Constructs a localization grid of size 10&times;10.
@@ -76,7 +76,8 @@ import org.geotools.referencing.operation.transform.ProjectiveTransform;
  *     for (int i=0; i<10; i++) {
  *         double x = ...; <FONT color='#008000'>// Set longitude here</FONT>
  *         double y = ...; <FONT color='#008000'>// Set latitude here</FONT>
- *         grid.{@linkplain #setLocalizationPoint(int,int,double,double) setLocalizationPoint}(i,j,x,y);
+ *         grid.{@linkplain #setLocalizationPoint(int, int, double, double) setLocalizationPoint}
+ *         (i,j,x,y);
  *     }
  * }
  * <FONT color='#008000'>//
@@ -86,14 +87,17 @@ import org.geotools.referencing.operation.transform.ProjectiveTransform;
  * // invokes {@linkplain #getMathTransform()} instead, or use the special value of 0 for the degree
  * // argument.
  * //</FONT>
- * MathTransform2D        realToGrid = grid.{@linkplain #getPolynomialTransform(int) getPolynomialTransform}(degree).inverse();
+ * MathTransform2D        realToGrid = grid
+ * .{@linkplain #getPolynomialTransform(int) getPolynomialTransform}(degree).inverse();
  * CoordinateReferenceSystem realCRS = DefaultGeographicCRS.WGS84;
  * CoordinateReferenceSystem gridCRS = new {@linkplain DefaultDerivedCRS}("The grid CRS",
- *         new {@linkplain DefaultOperationMethod#DefaultOperationMethod(MathTransform) DefaultOperationMethod}(realToGrid),
+ *         new 
+ *         {@linkplain DefaultOperationMethod#DefaultOperationMethod(MathTransform) DefaultOperationMethod}(realToGrid),
  *         realCRS,     <FONT color='#008000'>// The target ("real world") CRS</FONT>
- *         realToGrid,  <FONT color='#008000'>// How the grid CRS relates to the "real world" CRS</FONT>
+ *         realToGrid,  <FONT color='#008000'>// How the grid CRS relates to the "real world" 
+ *         CRS</FONT>
  *         {@linkplain DefaultCartesianCS#GRID});
- *
+ * <p>
  * <FONT color='#008000'>//
  * // Constructs the grid coverage using the grid coordinate system (not the "real world"
  * // one). It is usefull to display the coverage in its native CRS before we resample it.
@@ -103,7 +107,8 @@ import org.geotools.referencing.operation.transform.ProjectiveTransform;
  * // 1 pixel, then skip 3, then defines the location of 1 pixel, etc., then the affine
  * // transform should be AffineTransform.getScaleInstance(0.25, 0.25).
  * //</FONT>
- * {@linkplain WritableRaster} raster = {@linkplain RasterFactory}.createBandedRaster(DataBuffer.TYPE_FLOAT,
+ * {@linkplain WritableRaster} raster = {@linkplain RasterFactory}.createBandedRaster(DataBuffer
+ * .TYPE_FLOAT,
  *                                                          width, height, 1, null);
  * for (int y=0; y<height; y++) {
  *     for (int x=0; x<width; x++) {
@@ -123,16 +128,13 @@ import org.geotools.referencing.operation.transform.ProjectiveTransform;
  * coverage.show();
  * </pre></td></tr></table></blockquote>
  *
- * @since 2.4
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Remi Eve
  * @author Martin Desruisseaux (IRD)
  * @author Alessio Fabiani
- *
+ * @version $Id$
+ * @source $URL$
  * @see org.opengis.referencing.crs.DerivedCRS
+ * @since 2.4
  */
 public class LocalizationGrid {
     /**
@@ -197,24 +199,24 @@ public class LocalizationGrid {
         if (height < 2) {
             throw new IllegalArgumentException(String.valueOf(height));
         }
-        this.width  = width;
+        this.width = width;
         this.height = height;
-        this.grid   = new double[width * height * CP_LENGTH];
+        this.grid = new double[width * height * CP_LENGTH];
         Arrays.fill(grid, Float.NaN);
     }
 
     /**
      * Calcule l'indice d'un enregistrement dans la grille.
      *
-     * @param  row  Coordonnee x du point.
-     * @param  col  Coordonnee y du point.
+     * @param row Coordonnee x du point.
+     * @param col Coordonnee y du point.
      * @return l'indice de l'enregistrement ou du point dans la matrice.
      */
     private int computeOffset(final int col, final int row) {
-        if (col<0 || col>=width) {
+        if (col < 0 || col >= width) {
             throw new IndexOutOfBoundsException(String.valueOf(col));
         }
-        if (row<0 || row>=height) {
+        if (row < 0 || row >= height) {
             throw new IndexOutOfBoundsException(String.valueOf(row));
         }
         return (col + row * width) * CP_LENGTH;
@@ -235,21 +237,21 @@ public class LocalizationGrid {
      * transformations involving non-integer grid coordinates and/or coordinates
      * outside this grid's range, use {@link #getMathTransform} instead.
      *
-     * @param  source The point in grid coordinates.
+     * @param source The point in grid coordinates.
      * @return target The corresponding point in "real world" coordinates.
      * @throws IndexOutOfBoundsException If the source point is not in this grid's range.
      */
     public synchronized Point2D getLocalizationPoint(final Point source) {
         final int offset = computeOffset(source.x, source.y);
         return new Point2D.Double(grid[offset + X_OFFSET],
-                                  grid[offset + Y_OFFSET]);
+                grid[offset + Y_OFFSET]);
     }
 
     /**
      * Set a point in this localization grid.
      *
-     * @param  source The point in grid coordinates.
-     * @param  target The corresponding point in "real world" coordinates.
+     * @param source The point in grid coordinates.
+     * @param target The corresponding point in "real world" coordinates.
      * @throws IndexOutOfBoundsException If the source point is not in this grid's range.
      */
     public void setLocalizationPoint(final Point source, final Point2D target) {
@@ -259,17 +261,16 @@ public class LocalizationGrid {
     /**
      * Set a point in this localization grid.
      *
-     * @param sourceX  <var>x</var> coordinates in grid coordinates,
-     *                 in the range {@code [0..width-1]} inclusive.
-     * @param sourceY  <var>y</var> coordinates in grid coordinates.
-     *                 in the range {@code [0..height-1]} inclusive.
-     * @param targetX  <var>x</var> coordinates in "real world" coordinates.
-     * @param targetY  <var>y</var> coordinates in "real world" coordinates.
+     * @param sourceX <var>x</var> coordinates in grid coordinates,
+     *                in the range {@code [0..width-1]} inclusive.
+     * @param sourceY <var>y</var> coordinates in grid coordinates.
+     *                in the range {@code [0..height-1]} inclusive.
+     * @param targetX <var>x</var> coordinates in "real world" coordinates.
+     * @param targetY <var>y</var> coordinates in "real world" coordinates.
      * @throws IndexOutOfBoundsException If the source coordinates is not in this grid's range.
      */
-    public synchronized void setLocalizationPoint(int    sourceX, int    sourceY,
-                                                  double targetX, double targetY)
-    {
+    public synchronized void setLocalizationPoint(int sourceX, int sourceY,
+                                                  double targetX, double targetY) {
         final int offset = computeOffset(sourceX, sourceY);
         notifyChange();
         global = null;
@@ -282,15 +283,15 @@ public class LocalizationGrid {
      * of this grid.
      *
      * @param transform The transform to apply.
-     * @param region The bounding rectangle (in grid coordinate) for region where to
-     *        apply the transform, or {@code null} to transform the whole grid.
+     * @param region    The bounding rectangle (in grid coordinate) for region where to
+     *                  apply the transform, or {@code null} to transform the whole grid.
      */
     public synchronized void transform(final AffineTransform transform, final Rectangle region) {
-        assert X_OFFSET  == 0 : X_OFFSET;
-        assert Y_OFFSET  == 1 : Y_OFFSET;
+        assert X_OFFSET == 0 : X_OFFSET;
+        assert Y_OFFSET == 1 : Y_OFFSET;
         assert CP_LENGTH == 2 : CP_LENGTH;
         if (region == null) {
-            transform.transform(grid, 0, grid, 0, width*height);
+            transform.transform(grid, 0, grid, 0, width * height);
             return;
         }
         computeOffset(region.x, region.y); // Range check.
@@ -312,7 +313,7 @@ public class LocalizationGrid {
      * contains at least one {@code NaN} value.
      */
     public synchronized boolean isNaN() {
-        for (int i=grid.length; --i>=0;) {
+        for (int i = grid.length; --i >= 0; ) {
             if (Double.isNaN(grid[i])) {
                 return true;
             }
@@ -324,53 +325,62 @@ public class LocalizationGrid {
      * Returns {@code true} if all coordinates in this grid are increasing or decreasing.
      * More specifically, returns {@code true} if the following conditions are meets:
      * <ul>
-     *   <li>Coordinates in a row must be increasing or decreasing. If {@code strict} is
-     *       {@code true}, then coordinates must be strictly increasing or decreasing (i.e.
-     *       equals value are not accepted). {@code NaN} values are always ignored.</li>
-     *   <li>Coordinates in all rows must be increasing, or coordinates in all rows must be
-     *       decreasing.</li>
-     *   <li>Idem for columns (Coordinates in a columns must be increasing or decreasing,
-     *       etc.).</li>
+     * <li>Coordinates in a row must be increasing or decreasing. If {@code strict} is
+     * {@code true}, then coordinates must be strictly increasing or decreasing (i.e.
+     * equals value are not accepted). {@code NaN} values are always ignored.</li>
+     * <li>Coordinates in all rows must be increasing, or coordinates in all rows must be
+     * decreasing.</li>
+     * <li>Idem for columns (Coordinates in a columns must be increasing or decreasing,
+     * etc.).</li>
      * </ul>
-     *
+     * <p>
      * <var>x</var> and <var>y</var> coordinates are tested independently.
      *
-     * @param  strict {@code true} to require strictly increasing or decreasing order,
-     *         or {@code false} to accept values that are equals.
+     * @param strict {@code true} to require strictly increasing or decreasing order,
+     *               or {@code false} to accept values that are equals.
      * @return {@code true} if coordinates are increasing or decreasing in the same
-     *         direction for all rows and columns.
+     * direction for all rows and columns.
      */
     public synchronized boolean isMonotonic(final boolean strict) {
-        int orderX = INCREASING|DECREASING;
-        int orderY = INCREASING|DECREASING;
+        int orderX = INCREASING | DECREASING;
+        int orderY = INCREASING | DECREASING;
         if (!strict) {
             orderX |= EQUALS;
             orderY |= EQUALS;
         }
-        for (int i=0; i<width; i++) {
-            final int offset = computeOffset(i,0);
+        for (int i = 0; i < width; i++) {
+            final int offset = computeOffset(i, 0);
             final int s = CP_LENGTH * width;
-            if ((orderX = testOrder(grid, offset+X_OFFSET, height, s, orderX)) == 0) return false;
-            if ((orderY = testOrder(grid, offset+Y_OFFSET, height, s, orderY)) == 0) return false;
+            if ((orderX = testOrder(grid, offset + X_OFFSET, height, s, orderX)) == 0) return false;
+            if ((orderY = testOrder(grid, offset + Y_OFFSET, height, s, orderY)) == 0) return false;
         }
-        orderX = INCREASING|DECREASING;
-        orderY = INCREASING|DECREASING;
+        orderX = INCREASING | DECREASING;
+        orderY = INCREASING | DECREASING;
         if (!strict) {
             orderX |= EQUALS;
             orderY |= EQUALS;
         }
-        for (int j=0; j<height; j++) {
-            final int offset = computeOffset(0,j);
+        for (int j = 0; j < height; j++) {
+            final int offset = computeOffset(0, j);
             final int s = CP_LENGTH;
-            if ((orderX = testOrder(grid, offset+X_OFFSET, width, s, orderX)) == 0) return false;
-            if ((orderY = testOrder(grid, offset+Y_OFFSET, width, s, orderY)) == 0) return false;
+            if ((orderX = testOrder(grid, offset + X_OFFSET, width, s, orderX)) == 0) return false;
+            if ((orderY = testOrder(grid, offset + Y_OFFSET, width, s, orderY)) == 0) return false;
         }
         return true;
     }
 
-    /** Constant for {@link #testOrder}. */ private static final int INCREASING = 1;
-    /** Constant for {@link #testOrder}. */ private static final int DECREASING = 2;
-    /** Constant for {@link #testOrder}. */ private static final int EQUALS     = 4;
+    /**
+     * Constant for {@link #testOrder}.
+     */
+    private static final int INCREASING = 1;
+    /**
+     * Constant for {@link #testOrder}.
+     */
+    private static final int DECREASING = 2;
+    /**
+     * Constant for {@link #testOrder}.
+     */
+    private static final int EQUALS = 4;
 
     /**
      * Checks the ordering of elements in a sub-array. {@link Float#NaN} values are ignored.
@@ -381,26 +391,27 @@ public class LocalizationGrid {
      * @param step   The amount to increment {@code offset} in order to reach the next element.
      * @param flags  A combinaison of {@link #INCREASING}, {@link #DECREASING} and {@link #EQUALS}
      *               that specify which ordering are accepted.
-     * @return       0 if the array is unordered. Otherwise, returns {@code flags} with maybe
-     *               one of {@link #INCREASING} or {@link #DECREASING} flags cleared.
+     * @return 0 if the array is unordered. Otherwise, returns {@code flags} with maybe
+     * one of {@link #INCREASING} or {@link #DECREASING} flags cleared.
      */
-    private static int testOrder(final double[] grid, int offset, int num, final int step, int flags) {
+    private static int testOrder(final double[] grid, int offset, int num, final int step, int 
+            flags) {
         // We will check (num-1) combinaisons of coordinates.
-        for (--num; --num>=0; offset += step) {
+        for (--num; --num >= 0; offset += step) {
             final double v1 = grid[offset];
             if (Double.isNaN(v1)) continue;
             while (true) {
                 final double v2 = grid[offset + step];
                 final int required, clear;
                 if (v1 == v2) {
-                    required =  EQUALS;      // "equals" must be accepted.
-                    clear    = ~0;           // Do not clear anything.
+                    required = EQUALS;      // "equals" must be accepted.
+                    clear = ~0;           // Do not clear anything.
                 } else if (v2 > v1) {
-                    required =  INCREASING;  // "increasing" must be accepted.
-                    clear    = ~DECREASING;  // do not accepts "decreasing" anymore.
+                    required = INCREASING;  // "increasing" must be accepted.
+                    clear = ~DECREASING;  // do not accepts "decreasing" anymore.
                 } else if (v2 < v1) {
-                    required =  DECREASING;  // "decreasing" must be accepted.
-                    clear    = ~INCREASING;  // do not accepts "increasing" anymore.
+                    required = DECREASING;  // "decreasing" must be accepted.
+                    clear = ~INCREASING;  // do not accepts "increasing" anymore.
                 } else {
                     // 'v2' is NaN. Search for the next element.
                     if (--num < 0) {
@@ -426,23 +437,23 @@ public class LocalizationGrid {
      */
     public void removeSingularities() {
         removeSingularities(X_OFFSET, false);
-        removeSingularities(X_OFFSET, true );
+        removeSingularities(X_OFFSET, true);
         removeSingularities(Y_OFFSET, false);
-        removeSingularities(Y_OFFSET, true );
+        removeSingularities(Y_OFFSET, true);
     }
 
     /**
      * Applies a linear interpolation on consecutive identical ordinates.
      *
-     * @param index     The offset of the ordinate to test.
-     *                  Should be {@link #X_OFFSET} or {@link #Y_OFFSET}.
-     * @param vertical  {@code true} to scan the grid vertically, or
-     *                  {@code false} to scan the grid horizontally.
+     * @param index    The offset of the ordinate to test.
+     *                 Should be {@link #X_OFFSET} or {@link #Y_OFFSET}.
+     * @param vertical {@code true} to scan the grid vertically, or
+     *                 {@code false} to scan the grid horizontally.
      */
     private void removeSingularities(final int index, final boolean vertical) {
         final int step, val1, val2;
         if (vertical) {
-            step = CP_LENGTH*width;
+            step = CP_LENGTH * width;
             val1 = width;
             val2 = height;
         } else {
@@ -450,69 +461,71 @@ public class LocalizationGrid {
             val1 = height;
             val2 = width;
         }
-        for (int i=0; i<val1; i++) {
+        for (int i = 0; i < val1; i++) {
             final int offset;
             if (vertical) {
-                offset = computeOffset(i,0) + index;
+                offset = computeOffset(i, 0) + index;
             } else {
-                offset = computeOffset(0,i) + index;
+                offset = computeOffset(0, i) + index;
             }
             int singularityOffset = -1;
-            for (int j=1; j<val2 ; j++) {
-                final int previousOffset = offset+step*(j-1);
-                final int currentOffset  = previousOffset + step;
-                if (grid[previousOffset] == grid [currentOffset]) {
+            for (int j = 1; j < val2; j++) {
+                final int previousOffset = offset + step * (j - 1);
+                final int currentOffset = previousOffset + step;
+                if (grid[previousOffset] == grid[currentOffset]) {
                     if (singularityOffset == -1) {
-                        singularityOffset = (previousOffset==offset) ? previousOffset
-                                                                     : previousOffset-step;
+                        singularityOffset = (previousOffset == offset) ? previousOffset
+                                : previousOffset - step;
                     }
                 } else if (singularityOffset != -1) {
-                    final int num = (currentOffset-singularityOffset)/step + 1;
-                    replaceSingularity(grid, singularityOffset,num,step);
+                    final int num = (currentOffset - singularityOffset) / step + 1;
+                    replaceSingularity(grid, singularityOffset, num, step);
                     singularityOffset = -1;
                 }
             }
             if (singularityOffset != -1) {
-                final int currentOffset = offset+step*(val2-1);
-                final int num = (currentOffset-singularityOffset)/step + 1;
-                replaceSingularity(grid,singularityOffset,num,step);
+                final int currentOffset = offset + step * (val2 - 1);
+                final int num = (currentOffset - singularityOffset) / step + 1;
+                replaceSingularity(grid, singularityOffset, num, step);
             }
         }
     }
 
     /**
      * Replace consecutive singularity by linear values in sub-array.
-     *
+     * <p>
      * Example (we consider a grid of five element with singularity) :
-     *
-     *                  before
-     *              *--*--*--*--*--*
-     *              |07|08|08|08|11|
-     *              *--*--*--*--*--*
-     *
+     * <p>
+     * before
+     * *--*--*--*--*--*
+     * |07|08|08|08|11|
+     * *--*--*--*--*--*
+     * <p>
      * Params are : offset = 0, num = 5, step = 1
+     * <p>
+     * after
+     * *--*--*--*--*--*
+     * |07|08|09|10|11|
+     * *--*--*--*--*--*
+     * |           |
+     * |           |
+     * linear values are
+     * computed with these
+     * values
      *
-     *                  after
-     *              *--*--*--*--*--*
-     *              |07|08|09|10|11|
-     *              *--*--*--*--*--*
-     *                |           |
-     *                |           |
-     *              linear values are
-     *              computed with these
-     *              values
-     *
-     * @param grid The {link #grid} array.
+     * @param grid   The {link #grid} array.
      * @param offset The first element.
      * @param num    The number of element.
      * @param step   The amount to increment {@code offset} in order to reach the next element.
      */
-    private static void replaceSingularity(final double[] grid, int offset, int num, final int step) {
-        final double increment = (grid[offset+(num-1)*step] - grid[offset])/((double)(num-1));
+    private static void replaceSingularity(final double[] grid, int offset, int num, final int 
+            step) {
+        final double increment = (grid[offset + (num - 1) * step] - grid[offset]) / ((double) 
+                (num - 1));
         final double value = grid[offset];
-        offset+= step;
-        for (int i=0; i<(num-2); i++, offset += step) {
-            grid[offset] = value + (increment * (i+1));
+        offset += step;
+        for (int i = 0; i < (num - 2); i++, offset += step) {
+            grid[offset] = value + (increment * (i + 1));
         }
     }
 
@@ -526,8 +539,10 @@ public class LocalizationGrid {
     public synchronized AffineTransform getAffineTransform() {
         if (global == null) {
             final double[] matrix = new double[6];
-            fitPlane(X_OFFSET, matrix); assert X_OFFSET==0 : X_OFFSET;
-            fitPlane(Y_OFFSET, matrix); assert Y_OFFSET==1 : Y_OFFSET;
+            fitPlane(X_OFFSET, matrix);
+            assert X_OFFSET == 0 : X_OFFSET;
+            fitPlane(Y_OFFSET, matrix);
+            assert Y_OFFSET == 1 : Y_OFFSET;
             global = new AffineTransform(matrix);
         }
         return (AffineTransform) global.clone();
@@ -537,7 +552,7 @@ public class LocalizationGrid {
      * Fit a plane through the longitude or latitude values. More specifically, find
      * coefficients <var>c</var>, <var>cx</var> and <var>cy</var> for the following
      * equation:
-     *
+     * <p>
      * <pre>[longitude or latitude] = c + cx*x + cy*y</pre>.
      *
      * where <var>x</var> and <var>cx</var> are grid coordinates.
@@ -548,10 +563,10 @@ public class LocalizationGrid {
      *               are longitude and latitude values).
      * @param coeff  An array of length 6 in which to store plane's coefficients.
      *               Coefficients will be store in the following order:
-     *
-     *                  {@code coeff[0 + offset] = cx;}
-     *                  {@code coeff[2 + offset] = cy;}
-     *                  {@code coeff[4 + offset] = c;}
+     *               <p>
+     *               {@code coeff[0 + offset] = cx;}
+     *               {@code coeff[2 + offset] = cy;}
+     *               {@code coeff[4 + offset] = c;}
      */
     private void fitPlane(final int offset, final double[] coeff) {
         /*
@@ -562,41 +577,41 @@ public class LocalizationGrid {
          *           1 + 2 + 3 ... + n    =    n*(n+1)/2              (arithmetic series)
          *        1² + 2² + 3² ... + n²   =    n*(n+0.5)*(n+1)/3
          */
-        double x,y,z, xx,yy, xy, zx,zy;
+        double x, y, z, xx, yy, xy, zx, zy;
         z = zx = zy = 0; // To be computed in the loop.
-        int n=offset;
-        for (int yi=0; yi<height; yi++) {
-            for (int xi=0; xi<width; xi++) {
-                assert computeOffset(xi,yi)+offset == n : n;
+        int n = offset;
+        for (int yi = 0; yi < height; yi++) {
+            for (int xi = 0; xi < width; xi++) {
+                assert computeOffset(xi, yi) + offset == n : n;
                 final double zi = grid[n];
-                z  += zi;
-                zx += zi*xi;
-                zy += zi*yi;
-                n  += CP_LENGTH;
+                z += zi;
+                zx += zi * xi;
+                zy += zi * yi;
+                n += CP_LENGTH;
             }
         }
-        n = (n-offset)/CP_LENGTH;
+        n = (n - offset) / CP_LENGTH;
         assert n == width * height : n;
-        x  = (n * (double) (width -1))            / 2;
-        y  = (n * (double) (height-1))            / 2;
-        xx = (n * (width -0.5) * (width -1))      / 3;
-        yy = (n * (height-0.5) * (height-1))      / 3;
-        xy = (n * (double)((height-1)*(width-1))) / 4;
+        x = (n * (double) (width - 1)) / 2;
+        y = (n * (double) (height - 1)) / 2;
+        xx = (n * (width - 0.5) * (width - 1)) / 3;
+        yy = (n * (height - 0.5) * (height - 1)) / 3;
+        xy = (n * (double) ((height - 1) * (width - 1))) / 4;
         /*
          * Solve the following equations for cx and cy:
          *
          *    ( zx - z*x )  =  cx*(xx - x*x) + cy*(xy - x*y)
          *    ( zy - z*y )  =  cx*(xy - x*y) + cy*(yy - y*y)
          */
-        zx -= z*x/n;
-        zy -= z*y/n;
-        xx -= x*x/n;
-        xy -= x*y/n;
-        yy -= y*y/n;
-        final double den= (xy*xy - xx*yy);
-        final double cy = (zx*xy - zy*xx) / den;
-        final double cx = (zy*xy - zx*yy) / den;
-        final double c  = (z - (cx*x + cy*y)) / n;
+        zx -= z * x / n;
+        zy -= z * y / n;
+        xx -= x * x / n;
+        xy -= x * y / n;
+        yy -= y * y / n;
+        final double den = (xy * xy - xx * yy);
+        final double cy = (zx * xy - zy * xx) / den;
+        final double cx = (zy * xy - zx * yy) / den;
+        final double c = (z - (cx * x + cy * y)) / n;
         coeff[0 + offset] = cx;
         coeff[2 + offset] = cy;
         coeff[4 + offset] = c;
@@ -608,26 +623,26 @@ public class LocalizationGrid {
      * is wrapped into a {@link WarpTransform2D}.
      */
     private MathTransform2D fitWarps(final int degree) {
-        final float[] srcCoords = new float[width*height*2];
+        final float[] srcCoords = new float[width * height * 2];
         final float[] dstCoords = new float[srcCoords.length];
         int gridOffset = 0;
         int warpOffset = 0;
-        for (int yi=0; yi<height; yi++) {
-            for (int xi=0; xi<width; xi++) {
+        for (int yi = 0; yi < height; yi++) {
+            for (int xi = 0; xi < width; xi++) {
                 assert gridOffset == computeOffset(xi, yi);
                 final float x = (float) grid[gridOffset + X_OFFSET];
                 final float y = (float) grid[gridOffset + Y_OFFSET];
                 if (!Float.isNaN(x) && !Float.isNaN(y)) {
-                    srcCoords[warpOffset  ] = xi;
-                    srcCoords[warpOffset+1] = yi;
-                    dstCoords[warpOffset  ] = x;
-                    dstCoords[warpOffset+1] = y;
+                    srcCoords[warpOffset] = xi;
+                    srcCoords[warpOffset + 1] = yi;
+                    dstCoords[warpOffset] = x;
+                    dstCoords[warpOffset + 1] = y;
                     warpOffset += 2;
                 }
                 gridOffset += CP_LENGTH;
             }
         }
-        return new WarpTransform2D(null, srcCoords, 0, null, dstCoords, 0, warpOffset/2, degree);
+        return new WarpTransform2D(null, srcCoords, 0, null, dstCoords, 0, warpOffset / 2, degree);
     }
 
     /**
@@ -638,10 +653,10 @@ public class LocalizationGrid {
      * degree 1, quadratic transform for degree 2, cubic transform for degree 3, etc.).
      *
      * @param degree The polynomial degree for the fitting, or 0 for a transform backed by the
-     *        whole grid.
+     *               whole grid.
      */
     public synchronized MathTransform2D getPolynomialTransform(final int degree) {
-        if (degree < 0  ||  degree >= WarpTransform2D.MAX_DEGREE+1) {
+        if (degree < 0 || degree >= WarpTransform2D.MAX_DEGREE + 1) {
             // TODO: provides a localized error message.
             throw new IllegalArgumentException();
         }
@@ -657,7 +672,7 @@ public class LocalizationGrid {
                     tr = new LocalizationGridTransform2D(width, height, grid, getAffineTransform());
                     break;
                 }
-                case 1:  {
+                case 1: {
                     tr = (MathTransform2D) ProjectiveTransform.create(getAffineTransform());
                     break;
                 }

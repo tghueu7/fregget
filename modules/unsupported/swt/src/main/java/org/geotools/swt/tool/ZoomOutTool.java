@@ -29,25 +29,26 @@ import org.geotools.swt.utils.Messages;
 /**
  * A zoom-out tool for JMapPane.
  * <p>
- * For mouse clicks, the display will be zoomed-out such that the 
+ * For mouse clicks, the display will be zoomed-out such that the
  * map centre is the position of the mouse click and the map
  * width and height are calculated as:
  * <pre>   {@code len = len.old * z} </pre>
  * where {@code z} is the linear zoom increment (>= 1.0)
- * 
+ *
  * @author Michael Bedward
  * @author Andrea Antonello (www.hydrologis.com)
- * @since 2.6
- *
- *
- *
  * @source $URL$
+ * @since 2.6
  */
 public class ZoomOutTool extends AbstractZoomTool {
 
-    /** Tool name */
+    /**
+     * Tool name
+     */
     public static final String TOOL_NAME = Messages.getString("tool_name_zoom_out");
-    /** Tool tip text */
+    /**
+     * Tool tip text
+     */
     public static final String TOOL_TIP = Messages.getString("tool_tip_zoom_out");
 
     private Cursor cursor;
@@ -58,7 +59,7 @@ public class ZoomOutTool extends AbstractZoomTool {
      * a combination of multiple SWT-masks.
      *
      * @param triggerButtonMask Mouse button which triggers the tool's activation
-     * or {@value #ANY_BUTTON} if the tool is to be triggered by any button
+     *                          or {@value #ANY_BUTTON} if the tool is to be triggered by any button
      */
     public ZoomOutTool(int triggerButtonMask) {
         super(triggerButtonMask);
@@ -80,9 +81,9 @@ public class ZoomOutTool extends AbstractZoomTool {
      * @param ev the mouse event
      */
     @Override
-    public void onMouseClicked( MapMouseEvent ev ) {
+    public void onMouseClicked(MapMouseEvent ev) {
 
-        if ( ! isTriggerMouseButton(ev)) {
+        if (!isTriggerMouseButton(ev)) {
             return;
         }
 
@@ -92,7 +93,8 @@ public class ZoomOutTool extends AbstractZoomTool {
         double scale = getMapPane().getWorldToScreenTransform().getScaleX();
         double newScale = scale / zoom;
 
-        DirectPosition2D corner = new DirectPosition2D(mapPos.getX() - 0.5d * paneArea.width / newScale, mapPos.getY() + 0.5d
+        DirectPosition2D corner = new DirectPosition2D(mapPos.getX() - 0.5d * paneArea.width / 
+                newScale, mapPos.getY() + 0.5d
                 * paneArea.height / newScale);
 
         Envelope2D newMapArea = new Envelope2D();

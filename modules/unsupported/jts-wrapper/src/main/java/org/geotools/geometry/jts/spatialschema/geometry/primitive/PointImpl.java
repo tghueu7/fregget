@@ -2,7 +2,8 @@
  **
  ** $Id$
  **
- ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/primitive/PointImpl.java,v $
+ ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/primitive
+ * /PointImpl.java,v $
  **
  ** Copyright (C) 2003 Open GIS Consortium, Inc. All Rights Reserved. http://www.opengis.org/Legal/
  **
@@ -10,6 +11,7 @@
 package org.geotools.geometry.jts.spatialschema.geometry.primitive;
 
 //J2SE dependencies
+
 import java.util.Collections;
 import java.util.Set;
 
@@ -47,16 +49,12 @@ import org.geotools.referencing.crs.DefaultGeographicCRS;
  * position attribute. The only exception to this is if the {@code Point}
  * has been subclassed to provide additional non-geometric information such as
  * symbology.
- * 
+ *
  * @author SYS Technologies
  * @author crossley
  * @author cdillard
- *
- *
- *
- *
- * @source $URL$
  * @version $Revision $
+ * @source $URL$
  */
 public class PointImpl extends GeometryImpl implements Point {
 
@@ -74,11 +72,12 @@ public class PointImpl extends GeometryImpl implements Point {
      * Creates a new {@code PointImpl}.
      */
     public PointImpl() {
-    	this( null, DefaultGeographicCRS.WGS84 );
+        this(null, DefaultGeographicCRS.WGS84);
     }
 
     /**
      * Creates a new {@code PointImpl}.
+     *
      * @param position
      */
     public PointImpl(final DirectPosition position) {
@@ -87,6 +86,7 @@ public class PointImpl extends GeometryImpl implements Point {
 
     /**
      * Creates a new {@code PointImpl}.
+     *
      * @param position
      * @param crs
      */
@@ -123,7 +123,8 @@ public class PointImpl extends GeometryImpl implements Point {
      * point is not in the same coordinate reference system as this primitive,
      * then we attempt to convert it.
      */
-    public void setDirectPosition(final DirectPosition position) throws UnmodifiableGeometryException {
+    public void setDirectPosition(final DirectPosition position) throws 
+            UnmodifiableGeometryException {
         if (isMutable()) {
             CoordinateReferenceSystem myCRS = getCoordinateReferenceSystem();
             CoordinateReferenceSystem pointCRS = position.getCoordinateReferenceSystem();
@@ -131,19 +132,16 @@ public class PointImpl extends GeometryImpl implements Point {
             if ((myCRS != null) && (pointCRS != null) && (!myCRS.equals(pointCRS))) {
                 // Do the conversion.
                 try {
-                	BasicFactories commonFactory = BasicFactories.getDefault(); 
+                    BasicFactories commonFactory = BasicFactories.getDefault();
                     CoordinateOperationFactory cof = commonFactory.getCoordinateOperationFactory();
                     CoordinateOperation coordOp = cof.createOperation(pointCRS, myCRS);
                     MathTransform mt = coordOp.getMathTransform();
                     mt.transform(position, copy);
-                }
-                catch (OperationNotFoundException e) {
+                } catch (OperationNotFoundException e) {
                     throw new RuntimeException("Unable to find an operation", e);
-                }
-                catch (FactoryException e) {
+                } catch (FactoryException e) {
                     throw new RuntimeException("Factory exception", e);
-                }
-                catch (TransformException e) {
+                } catch (TransformException e) {
                     throw new RuntimeException("Error transforming", e);
                 }
             }
@@ -151,8 +149,7 @@ public class PointImpl extends GeometryImpl implements Point {
             this.position = copy;
             // Let our cache know that something has changed so we can recompute.
             invalidateCachedJTSPeer();
-        }
-        else {
+        } else {
             throw new UnmodifiableGeometryException();
         }
     }
@@ -195,28 +192,28 @@ public class PointImpl extends GeometryImpl implements Point {
         return null;
     }
 
-	public int hashCode() {
-		final int PRIME = 31;
-		int result = 1;
-		result = PRIME * result + ((position == null) ? 0 : position.hashCode());
-		return result;
-	}
+    public int hashCode() {
+        final int PRIME = 31;
+        int result = 1;
+        result = PRIME * result + ((position == null) ? 0 : position.hashCode());
+        return result;
+    }
 
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		final PointImpl other = (PointImpl) obj;
-		if (position == null) {
-			if (other.position != null)
-				return false;
-		} else if (!position.equals(other.position))
-			return false;
-		return true;
-	}
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final PointImpl other = (PointImpl) obj;
+        if (position == null) {
+            if (other.position != null)
+                return false;
+        } else if (!position.equals(other.position))
+            return false;
+        return true;
+    }
 
 }
 

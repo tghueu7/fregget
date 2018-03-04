@@ -23,8 +23,6 @@ import org.opengis.style.LinePlacement;
 import org.opengis.style.Mark;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class CookbookLineTest extends AbstractStyleTest {
@@ -87,9 +85,9 @@ public class CookbookLineTest extends AbstractStyleTest {
         LineSymbolizer ls = (LineSymbolizer) collector.symbolizers.get(0);
         assertEquals(3, (int) ls.getStroke().getWidth().evaluate(null, Integer.class));
         assertEquals(Color.BLUE, ls.getStroke().getColor().evaluate(null, Color.class));
-        assertTrue(Arrays.equals(new float[] { 5, 2 }, ls.getStroke().getDashArray()));
+        assertTrue(Arrays.equals(new float[]{5, 2}, ls.getStroke().getDashArray()));
     }
-    
+
     @Test
     public void testOffset() {
         FeatureTypeStyleBuilder fts = new FeatureTypeStyleBuilder();
@@ -159,7 +157,7 @@ public class CookbookLineTest extends AbstractStyleTest {
 
         // check the dots
         LineSymbolizer ls = (LineSymbolizer) collector.symbolizers.get(0);
-        assertTrue(Arrays.equals(new float[] { 4, 6 }, ls.getStroke().getDashArray()));
+        assertTrue(Arrays.equals(new float[]{4, 6}, ls.getStroke().getDashArray()));
         Graphic graphic = ls.getStroke().getGraphicStroke();
         List<GraphicalSymbol> symbols = graphic.graphicalSymbols();
         assertEquals(1, symbols.size());
@@ -190,11 +188,11 @@ public class CookbookLineTest extends AbstractStyleTest {
         LineSymbolizer ls = (LineSymbolizer) collector.symbolizers.get(0);
         assertEquals(1, (int) ls.getStroke().getWidth().evaluate(null, Integer.class));
         assertEquals(Color.BLUE, ls.getStroke().getColor().evaluate(null, Color.class));
-        assertTrue(Arrays.equals(new float[] { 10, 10 }, ls.getStroke().getDashArray()));
+        assertTrue(Arrays.equals(new float[]{10, 10}, ls.getStroke().getDashArray()));
 
         // check the dots
         ls = (LineSymbolizer) collector.symbolizers.get(1);
-        assertTrue(Arrays.equals(new float[] { 5, 15 }, ls.getStroke().getDashArray()));
+        assertTrue(Arrays.equals(new float[]{5, 15}, ls.getStroke().getDashArray()));
         assertEquals(7.5, ls.getStroke().getDashOffset().evaluate(null, Double.class), 0.0);
         Graphic graphic = ls.getStroke().getGraphicStroke();
         List<GraphicalSymbol> symbols = graphic.graphicalSymbols();
@@ -334,11 +332,12 @@ public class CookbookLineTest extends AbstractStyleTest {
         // check rules and styles
         checkScaleBasedRule(collector.rules.get(0), "Large", 0, 180000000, 6);
         checkScaleBasedRule(collector.rules.get(1), "Medium", 180000000, 360000000, 4);
-        checkScaleBasedRule(collector.rules.get(2), "Small", 360000000, Double.POSITIVE_INFINITY, 2);
+        checkScaleBasedRule(collector.rules.get(2), "Small", 360000000, Double.POSITIVE_INFINITY,
+                2);
     }
 
     private void checkScaleBasedRule(Rule rule, String name, double minDenominator,
-            double maxDenominator, int size) {
+                                     double maxDenominator, int size) {
         assertEquals(name, rule.getName());
         assertEquals(minDenominator, rule.getMinScaleDenominator(), 0.0);
         assertEquals(maxDenominator, rule.getMaxScaleDenominator(), 0.0);

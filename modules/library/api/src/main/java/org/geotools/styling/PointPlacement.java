@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -24,7 +24,7 @@ import org.opengis.filter.expression.Expression;
 /**
  * A PointPlacement specifies how a text label is positioned relative to a
  * geometric point.
- *
+ * <p>
  * <p>
  * The details of this object are taken from the <a
  * href="https://portal.opengeospatial.org/files/?artifact_id=1188"> OGC
@@ -47,17 +47,15 @@ import org.opengis.filter.expression.Expression;
  * &lt;/xsd:element&gt;
  * </code></pre>
  * </p>
- *
+ * <p>
  * <p>
  * $Id$
  * </p>
  *
  * @author Ian Turton
- *
- *
  * @source $URL$
  */
-public interface PointPlacement extends org.opengis.style.PointPlacement,LabelPlacement {
+public interface PointPlacement extends org.opengis.style.PointPlacement, LabelPlacement {
     /**
      * Returns the AnchorPoint which identifies the location inside a textlabel
      * to use as an "anchor" for positioning it relative to a point geometry.
@@ -69,6 +67,7 @@ public interface PointPlacement extends org.opengis.style.PointPlacement,LabelPl
     /**
      * sets the AnchorPoint which identifies the location inside a textlabel to
      * use as an "anchor" for positioning it relative to a point geometry.
+     *
      * @param anchorPoint relative to the origional geometry
      */
     void setAnchorPoint(org.opengis.style.AnchorPoint anchorPoint);
@@ -96,9 +95,10 @@ public interface PointPlacement extends org.opengis.style.PointPlacement,LabelPl
 
     /**
      * sets the rotation of the label.
-     *
+     * <p>
      * Sets the rotation of the label.
-     * @param rotation 
+     *
+     * @param rotation
      */
     void setRotation(Expression rotation);
 

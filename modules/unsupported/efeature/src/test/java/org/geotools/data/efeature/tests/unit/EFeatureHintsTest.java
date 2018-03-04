@@ -31,23 +31,20 @@ import org.geotools.data.efeature.tests.EFeatureTestsPackage;
 import org.geotools.data.efeature.tests.impl.EFeatureTestsContextHelper;
 
 /**
- * 
- * @author kengu - 4. mai 2011  
- *
- *
+ * @author kengu - 4. mai 2011
  * @source $URL$
  */
 public class EFeatureHintsTest extends AbstractResourceTest {
-    
+
     private static boolean binary = false;
-    
+
     private int eFeatureCount = 12;
     private EFeatureTestData eData;
-    
+
     private ParameterInfoTestData eParams;
     private EFeatureDataStoreFactory eStoreFactory;
     private EFeatureTestsContextHelper eContextHelper;
- 
+
     // ----------------------------------------------------- 
     //  Tests
     // -----------------------------------------------------
@@ -77,7 +74,8 @@ public class EFeatureHintsTest extends AbstractResourceTest {
 //            //
 //            // Loop over types
 //            //
-//            for(String eType : new String[]{"efeature.EFeatureData","efeature.EFeatureCompatibleData"}) {
+//            for(String eType : new String[]{"efeature.EFeatureData","efeature
+// .EFeatureCompatibleData"}) {
 //                //
 //                // Prepare loop objects
 //                //
@@ -94,9 +92,12 @@ public class EFeatureHintsTest extends AbstractResourceTest {
 //                query.getHints().put(EFeatureHints.EFEATURE_SINGLETON_FEATURES, false);
 //                ESimpleFeature f1 = eReader.next();
 //                ESimpleFeature f2 = eReader.next();
-//                assertNotSame("Features are same instances ["+eType+",detached:="+eDetached+",singleton:=false]", f1,f2);
-//                assertNotSame("EObjects are same instances ["+eType+",detached:="+eDetached+",singleton:=false]", f1.eObject(),f2.eObject());
-//                assertNotSame("EFeatures are same instances ["+eType+",detached:="+eDetached+",singleton:=false]", f1.eFeature(),f2.eFeature());
+//                assertNotSame("Features are same instances ["+eType+",detached:="+eDetached+",
+// singleton:=false]", f1,f2);
+//                assertNotSame("EObjects are same instances ["+eType+",detached:="+eDetached+",
+// singleton:=false]", f1.eObject(),f2.eObject());
+//                assertNotSame("EFeatures are same instances ["+eType+",detached:="+eDetached+",
+// singleton:=false]", f1.eFeature(),f2.eFeature());
 //                //
 //                // -------------------------------------------------------
 //                //  A.2) Test singleton ESimpleFeature mode
@@ -105,9 +106,12 @@ public class EFeatureHintsTest extends AbstractResourceTest {
 //                eHints.eSetSingletonFeatures(true);
 //                f1 = eReader.next();
 //                f2 = eReader.next();
-//                assertSame("Features are not same instances ["+eType+",detached:="+eDetached+",singleton:=true]", f1,f2);
-//                assertSame("EObjects are not same instances ["+eType+",detached:="+eDetached+",singleton:=true]", f1.eObject(),f2.eObject());
-//                assertSame("EFeatures are not same instances ["+eType+",detached:="+eDetached+",singleton:=true]", f1.eFeature(),f2.eFeature());
+//                assertSame("Features are not same instances ["+eType+",detached:="+eDetached+",
+// singleton:=true]", f1,f2);
+//                assertSame("EObjects are not same instances ["+eType+",detached:="+eDetached+",
+// singleton:=true]", f1.eObject(),f2.eObject());
+//                assertSame("EFeatures are not same instances ["+eType+",
+// detached:="+eDetached+",singleton:=true]", f1.eFeature(),f2.eFeature());
 //                //
 //                // -----------------------------------------------------------------------------
 //                //  A.3) Test instance ESimpleFeature mode again, this time ensuring hint resets
@@ -116,9 +120,12 @@ public class EFeatureHintsTest extends AbstractResourceTest {
 //                eHints.eSetSingletonFeatures(false);
 //                f1 = eReader.next();
 //                f2 = eReader.next();
-//                assertNotSame("Features are same instances [transitive,"+eType+",detached:="+eDetached+",singleton:=false]", f1,f2);
-//                assertNotSame("EObjects are same instances [transitive,"+eType+",detached:="+eDetached+",singleton:=false]", f1.eObject(),f2.eObject());
-//                assertNotSame("EFeatures are same instances [transitive,"+eType+",detached:="+eDetached+",singleton:=false]", f1.eFeature(),f2.eFeature());
+//                assertNotSame("Features are same instances [transitive,"+eType+",
+// detached:="+eDetached+",singleton:=false]", f1,f2);
+//                assertNotSame("EObjects are same instances [transitive,"+eType+",
+// detached:="+eDetached+",singleton:=false]", f1.eObject(),f2.eObject());
+//                assertNotSame("EFeatures are same instances [transitive,"+eType+",
+// detached:="+eDetached+",singleton:=false]", f1.eFeature(),f2.eFeature());
 //                //
 //                // Dispose data store
 //                //
@@ -151,7 +158,8 @@ public class EFeatureHintsTest extends AbstractResourceTest {
 //            //
 //            // Loop over types
 //            //
-//            for(String eType : new String[]{"efeature.EFeatureData","efeature.EFeatureCompatibleData"}) {
+//            for(String eType : new String[]{"efeature.EFeatureData","efeature
+// .EFeatureCompatibleData"}) {
 //                //
 //                // Prepare loop objects
 //                //
@@ -172,8 +180,10 @@ public class EFeatureHintsTest extends AbstractResourceTest {
 //                EFeature eFeature = feature.eFeature();
 //                EFeatureInfo eStructure = eFeature.getStructure();
 //                List<Object> eValues = feature.getAttributes();
-//                assertTrue("Feature and EObject values not same [1,"+eType+",singleton:="+eSingleton+",detached:=false]", 
-//                        eValues.equals(EFeatureUtils.eGetFeatureValues(eStructure, eFeature, Transaction.AUTO_COMMIT)));
+//                assertTrue("Feature and EObject values not same [1,"+eType+",
+// singleton:="+eSingleton+",detached:=false]", 
+//                        eValues.equals(EFeatureUtils.eGetFeatureValues(eStructure, eFeature, 
+// Transaction.AUTO_COMMIT)));
 //                //
 //                // --------------------------------------------------------------------
 //                //  2) Test that feature and EObject both change values
@@ -182,8 +192,10 @@ public class EFeatureHintsTest extends AbstractResourceTest {
 //                Long v = 1L*(int)(Math.random()*10000);
 //                eFeature.eSet(eAttr, v);
 //                eValues = feature.getAttributes();
-//                assertTrue("Feature and EObject values not same [2,"+eType+",singleton:="+eSingleton+",detached:=false]", 
-//                        eValues.equals(EFeatureUtils.eGetFeatureValues(eStructure, eFeature, Transaction.AUTO_COMMIT)));
+//                assertTrue("Feature and EObject values not same [2,"+eType+",
+// singleton:="+eSingleton+",detached:=false]", 
+//                        eValues.equals(EFeatureUtils.eGetFeatureValues(eStructure, eFeature, 
+// Transaction.AUTO_COMMIT)));
 //                //
 //                // ---------------------------------------------------------------------
 //                //  3) Test detached ESimpleFeature values mode (establishes base line)
@@ -198,8 +210,10 @@ public class EFeatureHintsTest extends AbstractResourceTest {
 //                System.out.println(eID);
 //                eStructure = eFeature.getStructure();
 //                eValues = feature.getAttributes();
-//                assertTrue("Feature and EObject values not same [3,"+eType+",singleton:="+eSingleton+",detached:=true]", 
-//                        eValues.equals(EFeatureUtils.eGetFeatureValues(eStructure, eFeature, Transaction.AUTO_COMMIT)));
+//                assertTrue("Feature and EObject values not same [3,"+eType+",
+// singleton:="+eSingleton+",detached:=true]", 
+//                        eValues.equals(EFeatureUtils.eGetFeatureValues(eStructure, eFeature, 
+// Transaction.AUTO_COMMIT)));
 //                //
 //                // --------------------------------------------------------------------
 //                //  4) Test that ESimpleValues values does not change
@@ -208,8 +222,10 @@ public class EFeatureHintsTest extends AbstractResourceTest {
 //                v = 1L*(int)(Math.random()*10000);
 //                eFeature.eSet(eAttr, v);
 //                eValues = feature.getAttributes();
-//                assertFalse("Feature and EObject values same [4,"+eType+",singleton:="+eSingleton+",detached:=true]", 
-//                        eValues.equals(EFeatureUtils.eGetFeatureValues(eStructure, eFeature, Transaction.AUTO_COMMIT)));
+//                assertFalse("Feature and EObject values same [4,"+eType+",
+// singleton:="+eSingleton+",detached:=true]", 
+//                        eValues.equals(EFeatureUtils.eGetFeatureValues(eStructure, eFeature, 
+// Transaction.AUTO_COMMIT)));
 //                //
 //                // Dispose data store
 //                //
@@ -220,26 +236,26 @@ public class EFeatureHintsTest extends AbstractResourceTest {
 //            fail(e);
 //        }
 //    }    
-    
+
     @org.junit.Test
     public void testChangeRecorder() {
         try {
             //
             // Prepare common objects
             //
-            Map<String,Serializable> params = eParams.createParams(eResourceURI.toString(), null);
+            Map<String, Serializable> params = eParams.createParams(eResourceURI.toString(), null);
             EFeatureDataStore eStore = eStoreFactory.createDataStore(params);
 
             EAttribute eAttribute = EFeaturePackage.eINSTANCE.getEFeature_ID();
             EObjectCondition eCondition = newIsEqual(eAttribute, "F1");
             WHERE where = new WHERE(eCondition);
             eAttribute = EFeatureTestsPackage.eINSTANCE.getEFeatureData_Attribute();
-            
-            TreeIterator<EObject> eObjects = eResource.getAllContents();                
+
+            TreeIterator<EObject> eObjects = eResource.getAllContents();
             EFeatureFilter eFilter = new EFeatureFilter(where);
             EFeatureQuery eQuery = new EFeatureQuery(eObjects, eFilter);
             EFeatureIterator it = eQuery.iterator();
-            EObject eFeature = it.next();        
+            EObject eFeature = it.next();
             Object v = 1200L;
             System.out.println("V: " + v);
             ChangeRecorder r = new ChangeRecorder(eFeature);
@@ -255,9 +271,9 @@ public class EFeatureHintsTest extends AbstractResourceTest {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
             fail(e);
         }
-        
+
     }
-    
+
     // ----------------------------------------------------- 
     //  TestCase setup
     // -----------------------------------------------------
@@ -275,15 +291,16 @@ public class EFeatureHintsTest extends AbstractResourceTest {
     public EFeatureHintsTest(String name) {
         super(name, binary ? "bin" : "xmi", true, false);
     }
-    
+
     /**
      * Required suite builder.
+     *
      * @return A test suite for this unit test.
      */
     public static Test suite() {
         return new TestSuite(EFeatureHintsTest.class);
     }
-        
+
     @Override
     protected void doSetUp() throws Exception {
         //
@@ -293,37 +310,37 @@ public class EFeatureHintsTest extends AbstractResourceTest {
         eContextHelper = new EFeatureTestsContextHelper(true, binary);
         eStoreFactory = EFeatureFactoryFinder.getDataStoreFactory();
     }
-    
+
     // ----------------------------------------------------- 
     //  AbstractStandaloneTest implementation
     // -----------------------------------------------------
-            
+
     @Override
-    protected ResourceSet createResourceSet() {        
+    protected ResourceSet createResourceSet() {
         return eContextHelper.getResourceSet();
     }
-    
+
     @Override
     protected EditingDomain createEditingDomain(ResourceSet rset) {
         return eContextHelper.getEditingDomain();
     }
-        
+
     @Override
     protected void createTestData(String name, Resource eResource) throws Exception {
         //
         // Create data used by all tests
         //
         eData = new EFeatureTestData(eResource);
-        eData.random(0,eFeatureCount,eFeatureCount);
+        eData.random(0, eFeatureCount, eFeatureCount);
         eData.save();
     }
-    
+
     // ----------------------------------------------------- 
     //  Helper methods
     // -----------------------------------------------------
-        
+
     // ----------------------------------------------------- 
     //  Test assertion methods
     // -----------------------------------------------------
-    
+
 }

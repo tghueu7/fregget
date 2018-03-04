@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,17 +17,15 @@
 package org.geotools.temporal.object;
 
 import javax.measure.unit.Unit;
+
 import org.geotools.util.Utilities;
 import org.opengis.temporal.IntervalLength;
 
 /**
- *A data type for intervals of time which supports the expression of duration in
+ * A data type for intervals of time which supports the expression of duration in
  * terms of a specified multiple of a single unit of time.
- * 
+ *
  * @author Mehdi Sidhoum (Geomatys)
- *
- *
- *
  * @source $URL$
  */
 public class DefaultIntervalLength extends DefaultDuration implements IntervalLength {
@@ -45,12 +43,15 @@ public class DefaultIntervalLength extends DefaultDuration implements IntervalLe
      */
     private int factor;
     /**
-     * This is the length of the time interval as an integer multiple of one radix(exp -factor) of the specified unit.
+     * This is the length of the time interval as an integer multiple of one radix(exp -factor) 
+     * of the specified unit.
      */
     private int value;
 
     /**
-     * Creates a new instance of IntervalUnit example : Unit="second" radix=10 factor=3 value=7 specifies a time interval length of 7ms.
+     * Creates a new instance of IntervalUnit example : Unit="second" radix=10 factor=3 value=7 
+     * specifies a time interval length of 7ms.
+     *
      * @param unit
      * @param radix
      * @param factor

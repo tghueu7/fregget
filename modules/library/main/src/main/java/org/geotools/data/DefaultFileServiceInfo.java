@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -19,13 +19,15 @@ package org.geotools.data;
 import java.util.List;
 
 /**
- * Default implementation of {@link FileServiceInfo}. 
- * It simply returns a {@link DefaultCloseableIterator} built on top of 
+ * Default implementation of {@link FileServiceInfo}.
+ * It simply returns a {@link DefaultCloseableIterator} built on top of
  * the underlying file list.
  */
 public class DefaultFileServiceInfo extends DefaultServiceInfo implements FileServiceInfo {
 
-    /** serialVersionUID */
+    /**
+     * serialVersionUID
+     */
     private static final long serialVersionUID = 3278465948006711812L;
     protected List<FileGroup> files;
 
@@ -35,8 +37,8 @@ public class DefaultFileServiceInfo extends DefaultServiceInfo implements FileSe
 
     /**
      * Default implementation will ignore the specified query.
-     * 
-     * Subclasses should override this method to implement 
+     * <p>
+     * Subclasses should override this method to implement
      * proper query parsing
      */
     @Override

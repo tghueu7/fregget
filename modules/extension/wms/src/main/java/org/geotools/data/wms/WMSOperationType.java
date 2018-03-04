@@ -3,7 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -24,8 +24,6 @@ import org.geotools.data.ows.OperationType;
  * having to cast them.
  *
  * @author Richard Gould
- *
- *
  * @source $URL$
  * @deprecated Use of OperationType should be sufficient
  */
@@ -35,24 +33,24 @@ public class WMSOperationType extends OperationType {
     }
 
     /**
-     * 
+     *
      * @deprecated Use OperationType.getFormats();
      *
     public String[] getFormatStrings() {
-        return (String[]) formats.toArray(new String[formats.size()]);
+    return (String[]) formats.toArray(new String[formats.size()]);
     }
 
     /**
-     * 
+     *
      * @param formats
      * @deprecated Use OpeartionType.setFormats();
      *
     public void setFormatStrings(String[] formats) {
-    	if (formats == null) {
-    		this.formats = null;
-    	} else {
-    		this.formats = new ArrayList(formats.length);
-    		this.formats.addAll(Arrays.asList(formats));
-    	}    	
+    if (formats == null) {
+    this.formats = null;
+    } else {
+    this.formats = new ArrayList(formats.length);
+    this.formats.addAll(Arrays.asList(formats));
+    }    	
     }*/
 }

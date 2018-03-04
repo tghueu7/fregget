@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2014, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -77,13 +77,13 @@ public class SolrUtils {
 
         /**
          * Fills the uniqueKey and multivalued field details
-         * 
+         *
          * @param processSchema LukeResponse with SOLR schema definition
-         * @param processField LukeResponse with dynamic and static fields details
-         * @param fieldName name of SOLR field to examine
+         * @param processField  LukeResponse with dynamic and static fields details
+         * @param fieldName     name of SOLR field to examine
          */
         public ExtendedFieldSchemaInfo(LukeResponse processSchema, LukeResponse processField,
-                String fieldName) {
+                                       String fieldName) {
             NamedList schema = (NamedList) processSchema.getResponse().get("schema");
             NamedList<NamedList> flds = (NamedList<NamedList>) schema.get("fields");
             for (Entry<String, NamedList> entry : flds) {

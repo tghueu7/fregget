@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2015, Boundless
  *
@@ -24,14 +24,15 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.feature.type.Name;
 
 /**
- *
  * @author tkunicki@boundlessgeo.com
  */
 public class MongoSchemaDBStore implements MongoSchemaStore {
@@ -41,20 +42,20 @@ public class MongoSchemaDBStore implements MongoSchemaStore {
 
     final MongoClient client;
     final DBCollection collection;
-    
+
     public MongoSchemaDBStore(String uri) throws IOException {
         this(new MongoClientURI(uri));
     }
-    
+
     public MongoSchemaDBStore(MongoClientURI uri) throws IOException {
         client = new MongoClient(uri);
-        
+
         String databaseName = uri.getDatabase();
         if (databaseName == null) {
             databaseName = DEFAULT_databaseName;
         }
         DB database = client.getDB(databaseName);
-        
+
         String collectionName = uri.getCollection();
         if (collectionName == null) {
             collectionName = DEFAULT_collectionName;
@@ -64,7 +65,7 @@ public class MongoSchemaDBStore implements MongoSchemaStore {
                 new BasicDBObject(FeatureTypeDBObject.KEY_typeName, 1),
                 new BasicDBObject("unique", true));
     }
-    
+
     @Override
     public void storeSchema(SimpleFeatureType schema) throws IOException {
         if (schema != null) {
@@ -82,12 +83,13 @@ public class MongoSchemaDBStore implements MongoSchemaStore {
     public SimpleFeatureType retrieveSchema(Name name) throws IOException {
         if (name == null) {
             return null;
-        } 
+        }
         String typeName = name.getLocalPart();
         if (typeName == null) {
             return null;
         }
-        DBObject document = collection.findOne(new BasicDBObject(FeatureTypeDBObject.KEY_typeName, typeName));
+        DBObject document = collection.findOne(new BasicDBObject(FeatureTypeDBObject
+                .KEY_typeName, typeName));
         SimpleFeatureType featureType = null;
         if (document != null) {
             try {
@@ -103,7 +105,7 @@ public class MongoSchemaDBStore implements MongoSchemaStore {
     public void deleteSchema(Name name) throws IOException {
         if (name == null) {
             return;
-        } 
+        }
         String typeName = name.getLocalPart();
         if (typeName == null) {
             return;
@@ -121,7 +123,7 @@ public class MongoSchemaDBStore implements MongoSchemaStore {
             if (document != null) {
                 Object typeName = document.get(FeatureTypeDBObject.KEY_typeName);
                 if (typeName instanceof String) {
-                    typeNames.add((String)typeName);
+                    typeNames.add((String) typeName);
                 }
             }
         }
@@ -132,5 +134,5 @@ public class MongoSchemaDBStore implements MongoSchemaStore {
     public void close() {
         client.close();
     }
-    
+
 }

@@ -26,9 +26,9 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/se:ContrastEnhancement.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:element name="ContrastEnhancement" type="se:ContrastEnhancementType"&gt;
@@ -40,16 +40,14 @@ import javax.xml.namespace.QName;
  *          more visible.
  *        &lt;/xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
- *  &lt;/xsd:element&gt; 
- * 	
+ *  &lt;/xsd:element&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class ContrastEnhancementBinding extends SLDContrastEnhancementBinding {

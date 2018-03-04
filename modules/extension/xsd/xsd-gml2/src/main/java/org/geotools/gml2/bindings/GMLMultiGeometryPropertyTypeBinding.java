@@ -28,9 +28,9 @@ import com.vividsolutions.jts.geom.GeometryCollection;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:MultiGeometryPropertyType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="MultiGeometryPropertyType"&gt;
  *      &lt;annotation&gt;
@@ -52,9 +52,6 @@ import com.vividsolutions.jts.geom.GeometryCollection;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLMultiGeometryPropertyTypeBinding extends AbstractComplexBinding {
@@ -92,7 +89,7 @@ public class GMLMultiGeometryPropertyTypeBinding extends AbstractComplexBinding 
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return (GeometryCollection) value;
     }
 }

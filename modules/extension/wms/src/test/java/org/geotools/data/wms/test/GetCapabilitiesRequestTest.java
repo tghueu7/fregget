@@ -29,16 +29,14 @@ import org.geotools.ows.ServiceException;
 
 
 /**
- *
- *
- *
  * @source $URL$
  */
 public class GetCapabilitiesRequestTest extends ServerTestCase {
-    
+
     public void testGetCapabilitiesRequest() throws Exception {
         URL testURL = new URL(
-                "http://office.refractions.net:4001/cgi-bin/mapserv?map=/opt/dra2/orthophotos/tiles.map&");
+                "http://office.refractions" +
+                        ".net:4001/cgi-bin/mapserv?map=/opt/dra2/orthophotos/tiles.map&");
         AbstractGetCapabilitiesRequest request = new Request(testURL);
         URL finalURL = request.getFinalURL();
 
@@ -47,9 +45,9 @@ public class GetCapabilitiesRequestTest extends ServerTestCase {
         urlWithoutQuery = finalURL.toExternalForm().substring(0, index);
 
         assertEquals(urlWithoutQuery,
-            "http://office.refractions.net:4001/cgi-bin/mapserv");
+                "http://office.refractions.net:4001/cgi-bin/mapserv");
 
-        HashMap<String,String> map = new HashMap<>();
+        HashMap<String, String> map = new HashMap<>();
         map.put("VERSION", "1.1.1");
         map.put("MAP", "/opt/dra2/orthophotos/tiles.map");
         map.put("REQUEST", "GetCapabilities");
@@ -64,7 +62,7 @@ public class GetCapabilitiesRequestTest extends ServerTestCase {
             assertEquals((String) map.get(param[0]), param[1]);
         }
     }
-    
+
     protected class Request extends AbstractGetCapabilitiesRequest {
         /**
          * DOCUMENT ME!
@@ -84,12 +82,13 @@ public class GetCapabilitiesRequestTest extends ServerTestCase {
             setProperty("VERSION", "1.1.1");
         }
 
-		protected void initService() {
-			setProperty("SERVICE", "WMS");
-		}
+        protected void initService() {
+            setProperty("SERVICE", "WMS");
+        }
 
-		public Response createResponse(HTTPResponse httpResponse) throws ServiceException, IOException {
-			return new WMSGetCapabilitiesResponse(httpResponse, hints);
-		}
+        public Response createResponse(HTTPResponse httpResponse) throws ServiceException, 
+                IOException {
+            return new WMSGetCapabilitiesResponse(httpResponse, hints);
+        }
     }
 }

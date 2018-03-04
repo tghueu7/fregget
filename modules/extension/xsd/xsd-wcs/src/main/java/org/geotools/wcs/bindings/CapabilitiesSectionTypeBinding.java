@@ -12,14 +12,15 @@ import org.geotools.xml.InstanceComponent;
 /**
  * Binding object for the type
  * http://www.opengis.net/wcs:CapabilitiesSectionType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
- *	 <code>
+ * 	 <code>
  *  &lt;simpleType name=&quot;CapabilitiesSectionType&quot;&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;Identification of desired part of full Capabilities XML document to be returned. &lt;/documentation&gt;
+ *          &lt;documentation&gt;Identification of desired part of full Capabilities XML document
+ *          to be returned. &lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;restriction base=&quot;string&quot;&gt;
  *          &lt;enumeration value=&quot;/&quot;&gt;
@@ -43,16 +44,14 @@ import org.geotools.xml.InstanceComponent;
  *              &lt;/annotation&gt;
  *          &lt;/enumeration&gt;
  *      &lt;/restriction&gt;
- *  &lt;/simpleType&gt; 
- * 	
+ *  &lt;/simpleType&gt;
+ *
  * </code>
- *	 </pre>
- * 
+ * 	 </pre>
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class CapabilitiesSectionTypeBinding extends AbstractSimpleBinding {
@@ -66,7 +65,7 @@ public class CapabilitiesSectionTypeBinding extends AbstractSimpleBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -75,12 +74,12 @@ public class CapabilitiesSectionTypeBinding extends AbstractSimpleBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value)
             throws Exception {
-        return CapabilitiesSectionType.get((String)value);
+        return CapabilitiesSectionType.get((String) value);
     }
 
 }

@@ -23,37 +23,34 @@ import org.geotools.validation.DefaultFeatureValidationBeanInfo;
 
 /**
  * LineAbstractValidationBeanInfopurpose.
- * 
+ * <p>
  * <p>
  * Description of LineAbstractValidationBeanInfo...
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: jive $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
-public class LineNoSelfOverlappingValidationBeanInfo extends DefaultFeatureValidationBeanInfo{
+public class LineNoSelfOverlappingValidationBeanInfo extends DefaultFeatureValidationBeanInfo {
     /**
      * LineAbstractValidationBeanInfoconstructor.
-     * 
+     * <p>
      * <p>
      * Description
      * </p>
      */
-    public LineNoSelfOverlappingValidationBeanInfo(){
+    public LineNoSelfOverlappingValidationBeanInfo() {
         super();
     }
 
     /**
      * Implementation of getPropertyDescriptors.
      *
-     *
      * @see java.beans.BeanInfo#getPropertyDescriptors()
      */
     public PropertyDescriptor[] getPropertyDescriptors() {
-    	return super.getPropertyDescriptors();
+        return super.getPropertyDescriptors();
     }
 }

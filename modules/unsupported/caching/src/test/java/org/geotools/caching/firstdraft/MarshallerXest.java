@@ -36,8 +36,6 @@ import org.opengis.feature.simple.SimpleFeature;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class MarshallerXest extends TestCase {
@@ -45,14 +43,15 @@ public class MarshallerXest extends TestCase {
         return new TestSuite(MarshallerXest.class);
     }
 
-    /** Marshall and unmarshall a DefaultFeature, and test for equality with the result.
+    /**
+     * Marshall and unmarshall a DefaultFeature, and test for equality with the result.
      *
      * @throws IOException
      * @throws ClassNotFoundException
      * @throws IllegalAttributeException
      */
     public void testMarshall()
-        throws IOException, ClassNotFoundException, IllegalAttributeException {
+            throws IOException, ClassNotFoundException, IllegalAttributeException {
         Generator gen = new Generator(1000, 1000);
         SimpleFeature f = gen.createFeature(0);
         SimpleFeatureMarshaller m = new SimpleFeatureMarshaller();
@@ -70,22 +69,22 @@ public class MarshallerXest extends TestCase {
         assertTrue(f.equals(newf));
     }
 
-    /** Same as testMarshall, but uses complex representation of DefaultFeature.
+    /**
+     * Same as testMarshall, but uses complex representation of DefaultFeature.
      * Marshall and unmarshall, and test for equality with the result.
-     *
-     * @task seems to be a bug in DefaultFeature.equals() or JTS.Geometry.equals()
-     *       test is disabled.
      *
      * @throws IOException
      * @throws ClassNotFoundException
      * @throws IllegalAttributeException
+     * @task seems to be a bug in DefaultFeature.equals() or JTS.Geometry.equals()
+     * test is disabled.
      */
     public void ztestComplexMarshall()
-        throws IOException, ClassNotFoundException, IllegalAttributeException {
+            throws IOException, ClassNotFoundException, IllegalAttributeException {
         Generator gen = new Generator(1000, 1000);
         SimpleFeature f = gen.createFeature(0);
         SimpleFeatureMarshaller m = new SimpleFeatureMarshaller();
-        
+
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream(baos);
         m.marshall(f, oos);
@@ -101,11 +100,12 @@ public class MarshallerXest extends TestCase {
         assertTrue(f.equals(newf));
     }
 
-    /** Disabled test to mesure time to marshall/unmarshall features.
-     *  Test results on my PC :
-     *   <ul><li>0.8 ms per feature for a marshall/unmarshall cycle
-     *       <li>0.2 ms per feature for marshalling only
-     *   </ul>
+    /**
+     * Disabled test to mesure time to marshall/unmarshall features.
+     * Test results on my PC :
+     * <ul><li>0.8 ms per feature for a marshall/unmarshall cycle
+     * <li>0.2 ms per feature for marshalling only
+     * </ul>
      */
     public void ztestMarshallTime() {
         Generator gen = new Generator(1000, 1000);

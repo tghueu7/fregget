@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -28,18 +28,14 @@ import org.opengis.metadata.SpatialAttributeSupplement;
 /**
  * Spatial attributes in the application schema for the feature types.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class SpatialAttributeSupplementImpl extends MetadataEntity
-        implements SpatialAttributeSupplement
-{
+        implements SpatialAttributeSupplement {
     /**
      * Serial number for compatibility with different versions.
      */
@@ -83,8 +79,7 @@ public class SpatialAttributeSupplementImpl extends MetadataEntity
      * Set information about the list of feature types with the same spatial representation.
      */
     public synchronized void setFeatureTypeList(
-            final Collection<? extends FeatureTypeList> newValues)
-    {
+            final Collection<? extends FeatureTypeList> newValues) {
         featureTypeList = copyCollection(newValues, featureTypeList, FeatureTypeList.class);
     }
 }

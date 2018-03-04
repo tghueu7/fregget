@@ -7,8 +7,6 @@ import org.geotools.jdbc.JDBCDateTestSetup;
 import org.geotools.jdbc.JDBCTimeZoneDateOnlineTest;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class TeradataTimeZoneCETDateOnlineTest extends JDBCTimeZoneDateOnlineTest {
@@ -18,5 +16,5 @@ public class TeradataTimeZoneCETDateOnlineTest extends JDBCTimeZoneDateOnlineTes
         super.setTimeZone(TimeZone.getTimeZone("CET"));
         return new TeradataDateTestSetup(new TeradataTestSetup());
     }
-    
+
 }

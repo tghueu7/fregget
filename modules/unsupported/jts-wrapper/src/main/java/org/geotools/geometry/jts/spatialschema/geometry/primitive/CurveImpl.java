@@ -2,7 +2,8 @@
  **
  ** $Id$
  **
- ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/primitive/CurveImpl.java,v $
+ ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/primitive
+ * /CurveImpl.java,v $
  **
  ** Copyright (C) 2003 Open GIS Consortium, Inc. All Rights Reserved. http://www.opengis.org/Legal/
  **
@@ -10,6 +11,7 @@
 package org.geotools.geometry.jts.spatialschema.geometry.primitive;
 
 // J2SE direct dependencies
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -38,9 +40,6 @@ import org.opengis.geometry.primitive.CurveBoundary;
  * any number of CurveSegment objects (such as LineStrings) that must be
  * connected end-to-end.
  *
- *
- *
- *
  * @source $URL$
  */
 public class CurveImpl extends GeometryImpl implements Curve {
@@ -62,6 +61,7 @@ public class CurveImpl extends GeometryImpl implements Curve {
 
     /**
      * Creates a new {@code CurveImpl}.
+     *
      * @param crs
      */
     public CurveImpl(final CoordinateReferenceSystem crs) {
@@ -76,6 +76,7 @@ public class CurveImpl extends GeometryImpl implements Curve {
     public CurveBoundary getBoundary() {
         return (CurveBoundary) super.getBoundary();
     }
+
     /**
      * @inheritDoc
      * @see org.opengis.geometry.primitive.Curve#getSegments()
@@ -97,14 +98,14 @@ public class CurveImpl extends GeometryImpl implements Curve {
      * @see org.opengis.geometry.coordinate.GenericCurve#getEndPoint()
      */
     public final DirectPosition getEndPoint() {
-        return ((CurveSegment) curveSegments.get(curveSegments.size()-1)).getEndPoint();
+        return ((CurveSegment) curveSegments.get(curveSegments.size() - 1)).getEndPoint();
     }
 
     /**
      * @inheritDoc
      * @see org.opengis.geometry.coordinate.GenericCurve#getTangent(double)
      */
-    public double [] getTangent(double s) {
+    public double[] getTangent(double s) {
         // PENDING(CSD): Implement me!
         return new double[0];
     }
@@ -136,19 +137,17 @@ public class CurveImpl extends GeometryImpl implements Curve {
         int i = (int) cp;
         if (i < 0) {
             i = 0;
-        }
-        else if (i > n) {
+        } else if (i > n) {
             i = n;
         }
         if (i == n) {
-            return ((CurveSegment) curveSegments.get(n-1)).getEndPoint();
-        }
-        else {
+            return ((CurveSegment) curveSegments.get(n - 1)).getEndPoint();
+        } else {
             CurveSegment cs = (CurveSegment) curveSegments.get(i);
             double d = cp - i; // 0 <= d < 1
             return cs.forConstructiveParam(
-                (1-d) * cs.getStartConstructiveParam() +
-                  d   * cs.getEndConstructiveParam());
+                    (1 - d) * cs.getStartConstructiveParam() +
+                            d * cs.getEndConstructiveParam());
         }
     }
 
@@ -185,36 +184,36 @@ public class CurveImpl extends GeometryImpl implements Curve {
      * In future versions this could be implemented by delegating to the comprising segments.
      */
     public LineString asLineString(double maxSpacing, double maxOffset) {
-    	int count = curveSegments.size();
-    	if (count == 1) {
-    		Object segment1 = curveSegments.get(0);
-    		if (segment1 instanceof LineString) {
-    			return (LineString) segment1;
-    		}
-    	} else if (count > 0) {
-			boolean allLineString = true;
-			LineStringImpl lsi = new LineStringImpl();
-			LineString ls = null;
-			List retList = lsi.getControlPoints();
-			Object lastPoint = null;
-			List segList = null;
-			for (int i = 0; i < count && allLineString; i++) {
-	    		Object segment = curveSegments.get(0);
-	    		if (segment instanceof LineString) {
-	    			segList = ((LineString) segment).getControlPoints();
-	    			if (segList.get(0).equals(lastPoint)) {
-	    				retList.remove(retList.size() - 1);
-	    			}
-	    			retList.addAll(segList);
-	    			lastPoint = retList.get(retList.size() - 1);
-	    		} else {
-	    			allLineString = false;
-	    		}
-			}
-			if (allLineString) {
-				return lsi;
-			}
-    	}
+        int count = curveSegments.size();
+        if (count == 1) {
+            Object segment1 = curveSegments.get(0);
+            if (segment1 instanceof LineString) {
+                return (LineString) segment1;
+            }
+        } else if (count > 0) {
+            boolean allLineString = true;
+            LineStringImpl lsi = new LineStringImpl();
+            LineString ls = null;
+            List retList = lsi.getControlPoints();
+            Object lastPoint = null;
+            List segList = null;
+            for (int i = 0; i < count && allLineString; i++) {
+                Object segment = curveSegments.get(0);
+                if (segment instanceof LineString) {
+                    segList = ((LineString) segment).getControlPoints();
+                    if (segList.get(0).equals(lastPoint)) {
+                        retList.remove(retList.size() - 1);
+                    }
+                    retList.addAll(segList);
+                    lastPoint = retList.get(retList.size() - 1);
+                } else {
+                    allLineString = false;
+                }
+            }
+            if (allLineString) {
+                return lsi;
+            }
+        }
         return null;
     }
 
@@ -272,19 +271,19 @@ public class CurveImpl extends GeometryImpl implements Curve {
         // For each segment that comprises us, get the JTS peer.
         int n = curveSegments.size();
         ArrayList allCoords = new ArrayList();
-        for (int i=0; i<n; i++) {
+        for (int i = 0; i < n; i++) {
             JTSGeometry g = (JTSGeometry) curveSegments.get(i);
             com.vividsolutions.jts.geom.LineString jts =
-                (com.vividsolutions.jts.geom.LineString) g.getJTSGeometry();
+                    (com.vividsolutions.jts.geom.LineString) g.getJTSGeometry();
             int m = jts.getNumPoints();
-            for (int j=0; j<m; j++) {
+            for (int j = 0; j < m; j++) {
                 allCoords.add(jts.getCoordinateN(j));
             }
-            if (i != (n-1))
-                allCoords.remove(allCoords.size()-1);
+            if (i != (n - 1))
+                allCoords.remove(allCoords.size() - 1);
         }
-        com.vividsolutions.jts.geom.Coordinate [] coords =
-            new com.vividsolutions.jts.geom.Coordinate[allCoords.size()];
+        com.vividsolutions.jts.geom.Coordinate[] coords =
+                new com.vividsolutions.jts.geom.Coordinate[allCoords.size()];
         allCoords.toArray(coords);
         return JTSUtils.GEOMETRY_FACTORY.createLineString(coords);
     }

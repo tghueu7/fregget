@@ -49,17 +49,17 @@ import junit.framework.TestSuite;
  * <p>
  * Note: a nearly identical copy of this file exists in the {@code ext/shape} module.
  *
- * @source $URL$
+ * @author Ian Schneider
+ * @author Martin Desruisseaux
  * @version $Id$
- * @author  Ian Schneider
- * @author  Martin Desruisseaux
+ * @source $URL$
  */
 public abstract class TestCaseSupport extends TestCase {
     final static String STATE_POP = "shapes/statepop.shp";
 
     final static String MIXED = "mif/mixed.MIF";
 
-    
+
     /**
      * Set to {@code true} if {@code println} are wanted during normal execution.
      * It doesn't apply to message displayed in case of errors.
@@ -112,7 +112,8 @@ public abstract class TestCaseSupport extends TestCase {
         if (gdalAvailable()) {
             super.run(result);
         } else {
-            System.out.println("Skipping test " + getClass().getSimpleName()+ " "+ getName() + " since GDAL is not available");
+            System.out.println("Skipping test " + getClass().getSimpleName() + " " + getName() + 
+                    " since GDAL is not available");
         }
     }
 
@@ -146,32 +147,31 @@ public abstract class TestCaseSupport extends TestCase {
         final Iterator f = tmpFiles.iterator();
         while (f.hasNext()) {
             File targetFile = (File) f.next();
-            
+
             targetFile.deleteOnExit();
-            dieDieDIE( sibling(targetFile, "dbf") );
-            dieDieDIE( sibling(targetFile, "shx") );
-            dieDieDIE( sibling(targetFile, "qix") );
-            dieDieDIE( sibling(targetFile, "fix") );
+            dieDieDIE(sibling(targetFile, "dbf"));
+            dieDieDIE(sibling(targetFile, "shx"));
+            dieDieDIE(sibling(targetFile, "qix"));
+            dieDieDIE(sibling(targetFile, "fix"));
             // TODDO: r i tree must die
-            dieDieDIE( sibling(targetFile, "prj") );
-            dieDieDIE( sibling(targetFile, "shp.xml") );
-                        
+            dieDieDIE(sibling(targetFile, "prj"));
+            dieDieDIE(sibling(targetFile, "shp.xml"));
+
             f.remove();
         }
         super.tearDown();
     }
-    
-    private void dieDieDIE( File file ){
-        if( file.exists() ){
-            if( file.delete() ){
+
+    private void dieDieDIE(File file) {
+        if (file.exists()) {
+            if (file.delete()) {
                 // dead
-            }
-            else {
+            } else {
                 file.deleteOnExit(); // dead later
             }
         }
     }
-    
+
     /**
      * Helper method for {@link #tearDown}.
      */
@@ -193,7 +193,7 @@ public abstract class TestCaseSupport extends TestCase {
     /**
      * Read a geometry of the given name.
      *
-     * @param  wktResource The resource name to load, without its {@code .wkt} extension.
+     * @param wktResource The resource name to load, without its {@code .wkt} extension.
      * @return The geometry.
      * @throws IOException if reading failed.
      */
@@ -226,28 +226,30 @@ public abstract class TestCaseSupport extends TestCase {
 
     /**
      * Creates a temporary file, to be automatically deleted at the end of the test suite.
+     *
      * @param filePrefix TODO
-     * @param extension TODO
+     * @param extension  TODO
      */
     protected File getTempFile(String filePrefix, String extension) throws IOException {
         File tmpFile = File.createTempFile(filePrefix, extension, new File("./target"));
         assertTrue(tmpFile.isFile());
-        
+
         // keep track of all temp files so we can delete them
         markTempFile(tmpFile);
-        
+
         return tmpFile;
     }
 
-    private void markTempFile( File tmpFile ) {
-        tmpFiles.add(tmpFile);        
+    private void markTempFile(File tmpFile) {
+        tmpFiles.add(tmpFile);
     }
 
     /**
      * Copies the specified shape file into the {@code test-data} directory, together with its
      * sibling ({@code .dbf}, {@code .shp}, {@code .shx} and {@code .prj} files).
      */
-    protected void copy(final String name, String[] requiredExtensions, String[] optionalExtensions) throws IOException {
+    protected void copy(final String name, String[] requiredExtensions, String[] 
+            optionalExtensions) throws IOException {
         for (int i = 0; i < requiredExtensions.length; i++) {
             assertTrue(TestData.copy(this, sibling(name, requiredExtensions[i])).canRead());
         }
@@ -259,19 +261,19 @@ public abstract class TestCaseSupport extends TestCase {
             }
         }
     }
-    
+
     /**
      * Returns the absolute path of a test file, given its location in the test data set
-     * 
+     *
      * @param testData
      * @return
      * @throws IOException
      */
     protected String getAbsolutePath(String testData) throws IOException {
         if (testData.endsWith(".shp"))
-            copy(testData, new String[] { "shp", "dbf", "shx" }, new String[] { "prj" });
+            copy(testData, new String[]{"shp", "dbf", "shx"}, new String[]{"prj"});
         else if (testData.endsWith(".MIF"))
-            copy(testData, new String[] { "MIF", "MID" }, new String[0]);
+            copy(testData, new String[]{"MIF", "MID"}, new String[0]);
         File f = URLs.urlToFile(TestData.url(this, testData));
         return f.getAbsolutePath();
     }
@@ -282,9 +284,10 @@ public abstract class TestCaseSupport extends TestCase {
     public static Test suite(Class c) {
         return new TestSuite(c);
     }
-    
+
     /**
      * True if OGR supports the specified format
+     *
      * @param format
      * @return
      */

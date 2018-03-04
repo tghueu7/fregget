@@ -24,15 +24,11 @@ import org.opengis.feature.type.FeatureType;
 
 /**
  * Interface for cache storage options.
- * 
- *
- *
- *
  *
  * @source $URL$
  */
 public interface Storage {
-    
+
     public static final String STORAGE_TYPE_PROPERTY = "Storage.Type";
 
     /**
@@ -45,14 +41,14 @@ public interface Storage {
     /**
      * Removes a node from the store given a node identifier
      *
-     * @param id  identifier of the node to remove
+     * @param id identifier of the node to remove
      */
     public void remove(NodeIdentifier id);
 
     /**
      * Reads a node from the store given an node identifier
      *
-     * @param id  identifier of the node to read
+     * @param id identifier of the node to read
      * @return
      */
     public Node get(NodeIdentifier id);
@@ -77,15 +73,15 @@ public interface Storage {
      * </p>
      */
     public void flush();
-    
+
     /**
      * Disposes of the store.
      */
     public void dispose();
-    
+
 
     public NodeIdentifier findUniqueInstance(NodeIdentifier id);
-        
+
     /**
      * @returns an unmodifiable collection of all the features types of the stored features
      */
@@ -97,19 +93,19 @@ public interface Storage {
      * @param ft feature type to add
      */
     public void addFeatureType(FeatureType ft);
-    
+
     /**
      * Removes all feature types associated with the store.
      */
     public void clearFeatureTypes();
-    
+
     /**
      * Sets the bounds of the data in the cache.
      *
      * @param bounds
      */
     public void setBounds(ReferencedEnvelope bounds);
-    
+
     /**
      * Gets the bounds of the cached data.
      *

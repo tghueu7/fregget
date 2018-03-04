@@ -57,14 +57,11 @@ import org.geotools.util.Utilities;
  * elt_<var>&lt;num_row-1&gt;</var>_<var>&lt;num_col-1&gt;</var>
  * </pre></blockquote>
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see MatrixParameters
+ * @since 2.1
  */
 public class MatrixParameterDescriptors extends DefaultParameterDescriptorGroup {
     /**
@@ -115,12 +112,13 @@ public class MatrixParameterDescriptors extends DefaultParameterDescriptorGroup 
 
     /**
      * Constructs a parameter group with default name format matching
-     * <cite><A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html">Well
+     * <cite><A HREF="http://geoapi.sourceforge
+     * .net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html">Well
      * Known Text</A></cite> usages.
      *
      * @param properties Set of properties. Should contains at least {@code "name"}.
      */
-    public MatrixParameterDescriptors(final Map<String,?> properties) {
+    public MatrixParameterDescriptors(final Map<String, ?> properties) {
         /*
          * Note: the upper limit given in the operation parameters is arbitrary. A high
          *       value doesn't make much sense anyway  since matrix size for projective
@@ -128,9 +126,9 @@ public class MatrixParameterDescriptors extends DefaultParameterDescriptorGroup 
          *       used in this implementation is inefficient  for large amount of matrix
          *       elements.
          */
-        this(properties, new ParameterDescriptor[] {
-        		DefaultParameterDescriptor.create("num_row", DEFAULT_MATRIX_SIZE, 2, 50),
-        		DefaultParameterDescriptor.create("num_col", DEFAULT_MATRIX_SIZE, 2, 50)
+        this(properties, new ParameterDescriptor[]{
+                DefaultParameterDescriptor.create("num_row", DEFAULT_MATRIX_SIZE, 2, 50),
+                DefaultParameterDescriptor.create("num_col", DEFAULT_MATRIX_SIZE, 2, 50)
         }, "elt_", '_');
     }
 
@@ -146,11 +144,10 @@ public class MatrixParameterDescriptors extends DefaultParameterDescriptorGroup 
      * @param prefix     The prefix to insert in front of parameter name for each matrix elements.
      * @param separator  The separator between the row and the column index in parameter names.
      */
-    public MatrixParameterDescriptors(final Map<String,?>      properties,
+    public MatrixParameterDescriptors(final Map<String, ?> properties,
                                       ParameterDescriptor<?>[] parameters,
-                                      final String             prefix,
-                                      final char               separator)
-    {
+                                      final String prefix,
+                                      final char separator) {
         super(properties, parameters);
         if (parameters.length < 2) {
             // TODO: provide a localized message
@@ -159,24 +156,23 @@ public class MatrixParameterDescriptors extends DefaultParameterDescriptorGroup 
         numRow = Parameters.cast(parameters[0], Integer.class);
         numCol = Parameters.cast(parameters[1], Integer.class);
         ensureNonNull("prefix", prefix);
-        this.prefix    = prefix;
+        this.prefix = prefix;
         this.separator = separator;
     }
 
     /**
      * Verify that the specified index is included in the expected range of values.
      *
-     * @param  name  The parameter name. To be used for formatting error message.
-     * @param  index The indice to check.
-     * @param  upper The upper range value, exclusive.
+     * @param name  The parameter name. To be used for formatting error message.
+     * @param index The indice to check.
+     * @param upper The upper range value, exclusive.
      * @throws IndexOutOfBoundsException if {@code index} is outside the expected range.
      */
     static void checkIndice(final String name, final int index, final int upper)
-            throws IndexOutOfBoundsException
-    {
-        if (index<0 || index>=upper) {
+            throws IndexOutOfBoundsException {
+        if (index < 0 || index >= upper) {
             throw new IndexOutOfBoundsException(Errors.format(
-                      ErrorKeys.ILLEGAL_ARGUMENT_$2, name, index));
+                    ErrorKeys.ILLEGAL_ARGUMENT_$2, name, index));
         }
     }
 
@@ -187,31 +183,29 @@ public class MatrixParameterDescriptors extends DefaultParameterDescriptorGroup 
      * and <var>col</var> are row and column indices respectively. For example {@code "elt_2_1"}
      * is the element name for the value at line 2 and row 1. The row and column index are 0 based.
      *
-     * @param  name The case insensitive name of the parameter to search for.
+     * @param name The case insensitive name of the parameter to search for.
      * @return The parameter for the given name.
      * @throws ParameterNotFoundException if there is no parameter for the given name.
      */
     @Override
     @SuppressWarnings("unchecked")
     public final GeneralParameterDescriptor descriptor(final String name)
-            throws ParameterNotFoundException
-    {
+            throws ParameterNotFoundException {
         return descriptor(name, ((Number) numRow.getMaximumValue()).intValue(),
-                                ((Number) numCol.getMaximumValue()).intValue());
+                ((Number) numCol.getMaximumValue()).intValue());
     }
 
     /**
      * Implementation of the {@link #descriptor(String)} method.
      *
-     * @param  name   The case insensitive name of the parameter to search for.
-     * @param  numRow The maximum number of rows.
-     * @param  numCol The maximum number of columns.
+     * @param name   The case insensitive name of the parameter to search for.
+     * @param numRow The maximum number of rows.
+     * @param numCol The maximum number of columns.
      * @return The parameter for the given name.
      * @throws ParameterNotFoundException if there is no parameter for the given name.
      */
     final GeneralParameterDescriptor descriptor(String name, final int numRow, final int numCol)
-            throws ParameterNotFoundException
-    {
+            throws ParameterNotFoundException {
         ensureNonNull("name", name);
         name = name.trim();
         RuntimeException cause = null;
@@ -219,7 +213,7 @@ public class MatrixParameterDescriptors extends DefaultParameterDescriptorGroup 
             final int split = name.indexOf(separator, prefix.length());
             if (split >= 0) try {
                 final int row = Integer.parseInt(name.substring(prefix.length(), split));
-                final int col = Integer.parseInt(name.substring(split+1));
+                final int col = Integer.parseInt(name.substring(split + 1));
                 return descriptor(row, col, numRow, numCol);
             } catch (NumberFormatException exception) {
                 cause = exception;
@@ -249,39 +243,37 @@ public class MatrixParameterDescriptors extends DefaultParameterDescriptorGroup 
      * {@linkplain ParameterDescriptor#getMaximumValue maximum values}
      * given to the {@link #numRow} and {@link #numCol} parameters.
      *
-     * @param  row    The row indice.
-     * @param  column The column indice
+     * @param row    The row indice.
+     * @param column The column indice
      * @return The parameter descriptor for the specified matrix element.
      * @throws IndexOutOfBoundsException if {@code row} or {@code column} is out of bounds.
      */
     @SuppressWarnings("unchecked")
     public final ParameterDescriptor<Double> descriptor(final int row, final int column)
-            throws IndexOutOfBoundsException
-    {
+            throws IndexOutOfBoundsException {
         return descriptor(row, column, ((Number) numRow.getMaximumValue()).intValue(),
-                                       ((Number) numCol.getMaximumValue()).intValue());
+                ((Number) numCol.getMaximumValue()).intValue());
     }
 
     /**
-     * Implementation of the {@link #descriptor(int,int)} method.
+     * Implementation of the {@link #descriptor(int, int)} method.
      *
-     * @param  row    The row indice.
-     * @param  column The column indice
-     * @param  numRow The maximum number of rows.
-     * @param  numCol The maximum number of columns.
+     * @param row    The row indice.
+     * @param column The column indice
+     * @param numRow The maximum number of rows.
+     * @param numCol The maximum number of columns.
      * @return The parameter descriptor for the specified matrix element.
      * @throws IndexOutOfBoundsException if {@code row} or {@code column} is out of bounds.
      */
-    final ParameterDescriptor<Double> descriptor(final int row,    final int column,
+    final ParameterDescriptor<Double> descriptor(final int row, final int column,
                                                  final int numRow, final int numCol)
-            throws IndexOutOfBoundsException
-    {
-        checkIndice("row",    row,    numRow);
+            throws IndexOutOfBoundsException {
+        checkIndice("row", row, numRow);
         checkIndice("column", column, numCol);
         int index = -1;
         ParameterDescriptor<Double> param;
-        if (row<CACHE_SIZE && column<CACHE_SIZE) {
-            index = row*CACHE_SIZE + column;
+        if (row < CACHE_SIZE && column < CACHE_SIZE) {
+            index = row * CACHE_SIZE + column;
             param = parameters[index];
             if (param != null) {
                 return param;
@@ -313,7 +305,7 @@ public class MatrixParameterDescriptors extends DefaultParameterDescriptorGroup 
     @Override
     public final List<GeneralParameterDescriptor> descriptors() {
         return descriptors(this.numRow.getDefaultValue().intValue(),
-                           this.numCol.getDefaultValue().intValue());
+                this.numCol.getDefaultValue().intValue());
     }
 
     /**
@@ -325,13 +317,14 @@ public class MatrixParameterDescriptors extends DefaultParameterDescriptorGroup 
      * @return The matrix parameters, including all elements.
      */
     final List<GeneralParameterDescriptor> descriptors(final int numRow, final int numCol) {
-        final GeneralParameterDescriptor[] parameters = new GeneralParameterDescriptor[numRow*numCol + 2];
+        final GeneralParameterDescriptor[] parameters = new GeneralParameterDescriptor[numRow * 
+                numCol + 2];
         int k = 0;
         parameters[k++] = this.numRow;
         parameters[k++] = this.numCol;
-        for (int j=0; j<numRow; j++) {
-            for (int i=0; i<numCol; i++) {
-                parameters[k++] = descriptor(j,i, numRow, numCol);
+        for (int j = 0; j < numRow; j++) {
+            for (int i = 0; i < numCol; i++) {
+                parameters[k++] = descriptor(j, i, numRow, numCol);
             }
         }
         assert k == parameters.length : k;
@@ -354,13 +347,12 @@ public class MatrixParameterDescriptors extends DefaultParameterDescriptorGroup 
     /**
      * Constructs a matrix from a group of parameters.
      *
-     * @param  parameters The group of parameters.
+     * @param parameters The group of parameters.
      * @return A matrix constructed from the specified group of parameters.
      * @throws InvalidParameterNameException if a parameter name was not recognized.
      */
     public Matrix getMatrix(final ParameterValueGroup parameters)
-            throws InvalidParameterNameException
-    {
+            throws InvalidParameterNameException {
         if (parameters instanceof MatrixParameters) {
             // More efficient implementation
             return ((MatrixParameters) parameters).getMatrix();
@@ -374,7 +366,7 @@ public class MatrixParameterDescriptors extends DefaultParameterDescriptorGroup 
         final List<GeneralParameterValue> params = parameters.values();
         if (params != null) {
             for (final GeneralParameterValue param : params) {
-                if (param==numRowParam || param==numColParam) {
+                if (param == numRowParam || param == numColParam) {
                     continue;
                 }
                 RuntimeException cause = null;
@@ -383,7 +375,7 @@ public class MatrixParameterDescriptors extends DefaultParameterDescriptorGroup 
                     final int split = name.indexOf(separator, prefix.length());
                     if (split >= 0) try {
                         final int row = Integer.parseInt(name.substring(prefix.length(), split));
-                        final int col = Integer.parseInt(name.substring(split+1));
+                        final int col = Integer.parseInt(name.substring(split + 1));
                         matrix.setElement(row, col, ((ParameterValue) param).doubleValue());
                         continue;
                     } catch (NumberFormatException exception) {
@@ -394,7 +386,7 @@ public class MatrixParameterDescriptors extends DefaultParameterDescriptorGroup 
                 }
                 final InvalidParameterNameException exception;
                 exception = new InvalidParameterNameException(Errors.format(
-                                ErrorKeys.UNEXPECTED_PARAMETER_$1, name), name);
+                        ErrorKeys.UNEXPECTED_PARAMETER_$1, name), name);
                 if (cause != null) {
                     exception.initCause(cause);
                 }
@@ -407,9 +399,10 @@ public class MatrixParameterDescriptors extends DefaultParameterDescriptorGroup 
     /**
      * Compares the specified object with this parameter group for equality.
      *
-     * @param  object The object to compare to {@code this}.
-     * @param  compareMetadata {@code true} for performing a strict comparaison, or
-     *         {@code false} for comparing only properties relevant to transformations.
+     * @param object          The object to compare to {@code this}.
+     * @param compareMetadata {@code true} for performing a strict comparaison, or
+     *                        {@code false} for comparing only properties relevant to 
+     *                                    transformations.
      * @return {@code true} if both objects are equal.
      */
     @Override
@@ -425,10 +418,10 @@ public class MatrixParameterDescriptors extends DefaultParameterDescriptorGroup 
      * Returns a hash value for this parameter.
      *
      * @return The hash code value. This value doesn't need to be the same
-     *         in past or future versions of this class.
+     * in past or future versions of this class.
      */
     @Override
     public int hashCode() {
-        return super.hashCode() ^ prefix.hashCode() ^ 37*separator;
+        return super.hashCode() ^ prefix.hashCode() ^ 37 * separator;
     }
 }

@@ -15,13 +15,12 @@
  *    Lesser General Public License for more details.
  */
 package org.geotools.data.ingres;
+
 import org.geotools.jdbc.JDBCFeatureStoreExposePkTest;
 import org.geotools.jdbc.JDBCTestSetup;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class IngresFeatureStoreExposePkTest extends JDBCFeatureStoreExposePkTest {

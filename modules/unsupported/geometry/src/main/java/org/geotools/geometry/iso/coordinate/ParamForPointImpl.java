@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- *    
+ *
  *    (C) 2006-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -25,50 +25,47 @@ import org.opengis.geometry.coordinate.ParamForPoint;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ParamForPointImpl extends ArrayList<Double> implements
-		ParamForPoint {
+        ParamForPoint {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1875728979337736219L;
-	
-	private GenericCurve genericCurve;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -1875728979337736219L;
 
-	/**
-	 * @param genericCurve
-	 * 
-	 */
-	public ParamForPointImpl(GenericCurve genericCurve) {
-		this.genericCurve = genericCurve;
-	}
+    private GenericCurve genericCurve;
 
-	public Set<Number> getDistances() {
-		// TODO semantic SJ, JR
-		// TODO implementation
-		// TODO test
-		// TODO documentation
-		return null;
-	}
+    /**
+     * @param genericCurve
+     */
+    public ParamForPointImpl(GenericCurve genericCurve) {
+        this.genericCurve = genericCurve;
+    }
 
-	public double getDistance() {
-		// TODO semantic SJ, JR
-		// TODO implementation
-		// TODO test
-		// TODO documentation
-		return 0;
-	}
+    public Set<Number> getDistances() {
+        // TODO semantic SJ, JR
+        // TODO implementation
+        // TODO test
+        // TODO documentation
+        return null;
+    }
 
-	public DirectPosition getPosition() {
-		// TODO semantic SJ, JR
-		// TODO implementation
-		// TODO test
-		// TODO documentation		
-		return null;
-	}
+    public double getDistance() {
+        // TODO semantic SJ, JR
+        // TODO implementation
+        // TODO test
+        // TODO documentation
+        return 0;
+    }
+
+    public DirectPosition getPosition() {
+        // TODO semantic SJ, JR
+        // TODO implementation
+        // TODO test
+        // TODO documentation		
+        return null;
+    }
 
 }

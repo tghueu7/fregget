@@ -45,40 +45,50 @@ public class TransparencyFillDescriptor extends OperationDescriptorImpl {
     }
 
     /**
-     * The resource strings that provide the general documentation and specify the parameter list for a TransparencyFill operation.
+     * The resource strings that provide the general documentation and specify the parameter list
+     * for a TransparencyFill operation.
      */
-    private static final String[][] resources = { 
-            { "GlobalName", "TransparencyFill" },
-            { "LocalName", "TransparencyFill" }, 
-            { "Vendor", "it.geosolutions.jaiext" },
-            { "Description", "Transparency pixels Filler" },
-            { "DocURL", "" },
-            { "Version", "1.0"},
-            { "arg0Desc", "Type of fill"}
+    private static final String[][] resources = {
+            {"GlobalName", "TransparencyFill"},
+            {"LocalName", "TransparencyFill"},
+            {"Vendor", "it.geosolutions.jaiext"},
+            {"Description", "Transparency pixels Filler"},
+            {"DocURL", ""},
+            {"Version", "1.0"},
+            {"arg0Desc", "Type of fill"}
     };
 
-    /** The parameter names for the TransparencyFill operation. */
+    /**
+     * The parameter names for the TransparencyFill operation.
+     */
     private static final String[] paramNames = {
             "type"
     };
 
-    /** The parameter class types for the TransparencyFill operation. */
+    /**
+     * The parameter class types for the TransparencyFill operation.
+     */
     private static final Class[] paramClasses = {
             FillType.class
     };
 
-    /** The parameter default values for the TransparencyFill operation. */
+    /**
+     * The parameter default values for the TransparencyFill operation.
+     */
     private static final Object[] paramDefaults = {
             FILL_AVERAGE
     };
 
-    /** Constructor. */
+    /**
+     * Constructor.
+     */
     public TransparencyFillDescriptor() {
         super(resources, 1, paramClasses, paramNames, paramDefaults);
     }
 
     /**
-     * Returns an array of <code>PropertyGenerators</code> implementing property inheritance for the "TransparencyFill" operation.
+     * Returns an array of <code>PropertyGenerators</code> implementing property inheritance for 
+     * the "TransparencyFill" operation.
      *
      * @return An array of property generators.
      */

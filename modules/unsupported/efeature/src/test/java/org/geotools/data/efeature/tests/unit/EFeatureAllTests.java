@@ -1,7 +1,7 @@
 /**
  * <copyright>
  * </copyright>
- *
+ * <p>
  * $Id$
  */
 package org.geotools.data.efeature.tests.unit;
@@ -17,10 +17,8 @@ import junit.textui.TestRunner;
 
 /**
  * Test suite for {@link EFeature} implementation.
- * 
+ *
  * @author kengu
- *
- *
  * @source $URL$
  */
 public class EFeatureAllTests extends TestSuite {
@@ -32,7 +30,7 @@ public class EFeatureAllTests extends TestSuite {
     public EFeatureAllTests(String name) {
         super(name);
     }
-    
+
     public static Test suite() {
         //
         // Create test suite
@@ -45,8 +43,8 @@ public class EFeatureAllTests extends TestSuite {
         suite.addTestSuite(EFeatureContextTest.class);
         suite.addTestSuite(EFeatureQueryTest.class);
         suite.addTestSuite(EFeatureDataStoreTest.class);
-        suite.addTestSuite(EFeatureReaderTest.class);        
-        suite.addTestSuite(EFeatureHintsTest.class);        
+        suite.addTestSuite(EFeatureReaderTest.class);
+        suite.addTestSuite(EFeatureHintsTest.class);
         suite.addTest(EAttributeFilterAllTests.suite());
         //
         // Ready to execute

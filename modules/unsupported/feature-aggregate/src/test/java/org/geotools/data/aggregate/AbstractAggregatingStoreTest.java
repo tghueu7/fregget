@@ -13,8 +13,6 @@ import org.junit.Before;
 import org.opengis.feature.type.Name;
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class AbstractAggregatingStoreTest {
@@ -39,13 +37,14 @@ public abstract class AbstractAggregatingStoreTest {
         store3 = new PropertyDataStore(new File(base + "store3"));
         store3.setNamespaceURI(null);
         repository.register(new NameImpl("gt", "store3"), store3);
-        
+
         store4 = new PropertyDataStore(new File(base + "store4"));
         store4.setNamespaceURI(null);
         repository.register("store4", store4);
     }
-    
-    protected void assertSingleSourceType(String typeName, Name storeName, AggregateTypeConfiguration config) {
+
+    protected void assertSingleSourceType(String typeName, Name storeName, 
+                                          AggregateTypeConfiguration config) {
         List<SourceType> sourceTypes = config.getSourceTypes(storeName);
         assertEquals(1, sourceTypes.size());
         SourceType st = sourceTypes.get(0);

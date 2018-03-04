@@ -17,6 +17,7 @@
 package org.geotools.filter.v2_0.bindings;
 
 import javax.xml.namespace.QName;
+
 import com.vividsolutions.jts.geom.GeometryFactory;
 import org.opengis.filter.FilterFactory2;
 import org.opengis.filter.expression.Expression;
@@ -30,22 +31,22 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the element http://www.opengis.net/ogc:Contains.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
- *  &lt;xsd:element name="Contains" substitutionGroup="ogc:spatialOps" type="ogc:BinarySpatialOpType"/&gt;
+ *  &lt;xsd:element name="Contains" substitutionGroup="ogc:spatialOps" 
+ *  type="ogc:BinarySpatialOpType"/&gt;
  *
  *          </code>
  *         </pre>
  * </p>
  *
  * @generated
- *
  * @source $URL$
  */
 public class ContainsBinding extends OGCContainsBinding {
-    
+
     public ContainsBinding(FilterFactory2 filterFactory, GeometryFactory geometryFactory) {
         super(filterFactory, geometryFactory);
     }

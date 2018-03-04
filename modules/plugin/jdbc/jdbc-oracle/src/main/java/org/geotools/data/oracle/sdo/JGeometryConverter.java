@@ -3,7 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -26,12 +26,8 @@ package org.geotools.data.oracle.sdo;
  * Converts between JGeometry and JTS geometries. Is used by the SDO*Dialect classes, which
  * have proven not to deal performance gains, but I keep it here for historical purposes,
  * so that anyone willing to try this out won't have to re-code everything from scratch.
- * 
+ *
  * @author Andrea Aime - OpenGeo
- * 
- *
- *
- *
  * @source $URL$
  */
 public class JGeometryConverter {
@@ -44,7 +40,8 @@ public class JGeometryConverter {
 //        int dimensions = geom.getDimensions();
 //        int lrs = geom.isLRSGeometry() ? dimensions : 0;
 //        int gtype = dimensions * 1000 + lrs * 100 + geom.getType();
-//        return SDO.create(gf, gtype, geom.getSRID(), geom.getPoint(), geom.getElemInfo(), geom.getOrdinatesArray());
+//        return SDO.create(gf, gtype, geom.getSRID(), geom.getPoint(), geom.getElemInfo(), geom
+// .getOrdinatesArray());
 //    }
 //    
 //    /**

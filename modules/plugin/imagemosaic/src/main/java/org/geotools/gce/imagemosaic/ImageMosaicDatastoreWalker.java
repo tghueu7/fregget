@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2013 - 2016, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -30,29 +30,30 @@ import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
- * This class is responsible for walking through the target schema and check all the located granules.
- * 
+ * This class is responsible for walking through the target schema and check all the located 
+ * granules.
  * <p>
- * Its role is basically to simplify the construction of the mosaic by implementing a visitor pattern for the files that we have to use for the index.
- * 
- * 
+ * <p>
+ * Its role is basically to simplify the construction of the mosaic by implementing a visitor 
+ * pattern for the files that we have to use for the index.
+ *
  * @author Carlo Cancellieri - GeoSolutions SAS
- * 
  * @TODO check the schema structure
- * 
  */
 class ImageMosaicDatastoreWalker extends ImageMosaicWalker {
 
-    /** Default Logger * */
+    /**
+     * Default Logger *
+     */
     final static Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger(ImageMosaicDatastoreWalker.class);
 
     /**
-     * @param updateFeatures if true update catalog with loaded granules
+     * @param updateFeatures           if true update catalog with loaded granules
      * @param imageMosaicConfigHandler TODO
      */
     public ImageMosaicDatastoreWalker(ImageMosaicConfigHandler configHandler,
-            ImageMosaicEventHandlers eventHandler) {
+                                      ImageMosaicEventHandlers eventHandler) {
         super(configHandler, eventHandler);
     }
 

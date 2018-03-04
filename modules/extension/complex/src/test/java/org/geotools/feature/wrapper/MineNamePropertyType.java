@@ -14,9 +14,8 @@ import org.geotools.feature.wrapper.XSDMapping;
 
 /**
  * A sample implementation of FeatureWrapper.
- * 
+ *
  * @author Adam Brown (Curtin University of Technology)
- * 
  */
 @XSDMapping(namespace = "urn:org:example", separator = ":")
 public class MineNamePropertyType extends FeatureWrapper {

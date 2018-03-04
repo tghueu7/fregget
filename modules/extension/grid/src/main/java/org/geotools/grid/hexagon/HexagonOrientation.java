@@ -18,9 +18,6 @@ package org.geotools.grid.hexagon;
  * </ul>
  *
  * @author michael
- *
- *
- *
  * @source $URL$
  */
 public enum HexagonOrientation {
@@ -28,12 +25,12 @@ public enum HexagonOrientation {
      * An {@code ANGLED} element has a "pointy" top with a single vertex
      * touching the upper edge of its bounding rectangle.
      */
-    ANGLED, 
-    
+    ANGLED,
+
     /**
      * A {@code FLAT} element has edges that run along the upper and
      * lower edges of its bounding rectangle
-     */ 
+     */
     FLAT
-    
+
 }

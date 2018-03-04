@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2015, Boundless
  *
@@ -103,7 +103,7 @@ import static org.geotools.util.Converters.convert;
 
 /**
  * Visitor responsible for generating a BasicDBObject to use as a MongoDB query.
- * 
+ *
  * @author Gerald Gay, Data Tactics Corp.
  * @author Alan Mangan, Data Tactics Corp.
  * @author Tom Kunicki, Boundless Spatial Inc.
@@ -118,7 +118,9 @@ public class FilterToMongo implements FilterVisitor, ExpressionVisitor {
 
     final MongoGeometryBuilder geometryBuilder;
 
-    /** The schmema the encoder will use as reference to drive filter encoding */
+    /**
+     * The schmema the encoder will use as reference to drive filter encoding
+     */
     SimpleFeatureType featureType;
 
     public FilterToMongo(CollectionMapper mapper) {
@@ -140,9 +142,10 @@ public class FilterToMongo implements FilterVisitor, ExpressionVisitor {
     /**
      * Sets the feature type the encoder is encoding a filter for.
      * <p>
-     * The type of the attributes may drive how the filter is translated to a mongodb query document.
+     * The type of the attributes may drive how the filter is translated to a mongodb query 
+     * document.
      * </p>
-     * 
+     *
      * @param featureType
      */
     public void setFeatureType(SimpleFeatureType featureType) {
@@ -252,7 +255,7 @@ public class FilterToMongo implements FilterVisitor, ExpressionVisitor {
     }
 
     BasicDBObject encodeBinaryComparisonOp(BinaryComparisonOperator filter, String op,
-            Object extraData) {
+                                           Object extraData) {
         BasicDBObject output = asDBObject(extraData);
 
         Expression left = filter.getExpression1();
@@ -274,11 +277,13 @@ public class FilterToMongo implements FilterVisitor, ExpressionVisitor {
 
     private Class getJsonSelectType(Expression expression) {
         if (expression instanceof JsonSelectFunction) {
-            PropertyDescriptor descriptor = featureType.getDescriptor(((JsonSelectFunction) expression).getJsonPath());
+            PropertyDescriptor descriptor = featureType.getDescriptor(((JsonSelectFunction) 
+                    expression).getJsonPath());
             return descriptor == null ? null : descriptor.getType().getBinding();
         }
         if (expression instanceof JsonSelectAllFunction) {
-            PropertyDescriptor descriptor = featureType.getDescriptor(((JsonSelectAllFunction) expression).getJsonPath());
+            PropertyDescriptor descriptor = featureType.getDescriptor(((JsonSelectAllFunction) 
+                    expression).getJsonPath());
             return descriptor == null ? null : descriptor.getType().getBinding();
         }
         return null;
@@ -347,7 +352,7 @@ public class FilterToMongo implements FilterVisitor, ExpressionVisitor {
 
     /**
      * Encode LIKE using MongoDB Regex.
-     * 
+     * <p>
      * <ul>
      * <li>filter.getWildCard() returns SQL-like '%'</li>
      * <li>filter.getSingleChar() returns SQL-like '_'</li>
@@ -640,7 +645,8 @@ public class FilterToMongo implements FilterVisitor, ExpressionVisitor {
         } else if (literal instanceof String) {
             if (targetType != null && Date.class.isAssignableFrom(targetType)) {
                 // try parse string assuming it's ISO-8601 formatted
-                return Date.from(Instant.from(DateTimeFormatter.ISO_DATE_TIME.parse((String) literal)));
+                return Date.from(Instant.from(DateTimeFormatter.ISO_DATE_TIME.parse((String) 
+                        literal)));
             }
             // try to convert to the expected type
             return convertLiteral(literal, targetType);
@@ -653,8 +659,8 @@ public class FilterToMongo implements FilterVisitor, ExpressionVisitor {
     /**
      * Java primitives types supported by MongoDB.
      */
-    private static final Class[] SUPPORTED_PRIMITIVES_TYPES = new Class[] { Boolean.class,
-            Double.class, Integer.class, Long.class, String.class, };
+    private static final Class[] SUPPORTED_PRIMITIVES_TYPES = new Class[]{Boolean.class,
+            Double.class, Integer.class, Long.class, String.class,};
 
     /**
      * Helper method that tries to convert a literal to the expected type. If the target

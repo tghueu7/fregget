@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -24,6 +24,7 @@ import org.opengis.referencing.operation.MathTransform;
 import org.opengis.geometry.DirectPosition;
 import org.opengis.geometry.MismatchedDimensionException;
 import org.opengis.geometry.MismatchedReferenceSystemException;
+
 import java.util.List;
 
 /**
@@ -52,20 +53,24 @@ import java.util.List;
  *  m = (A<sup>T</sup>PA)<sup>-1</sup> A<sup>T</sup>Px'  </blockquote> </pre>
  *
  * @author Jan Jezek
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  * @since 2.4
  */
 public class ProjectiveTransformBuilder extends MathTransformBuilder {
-    /** Matrix of derivations */
+    /**
+     * Matrix of derivations
+     */
     protected GeneralMatrix A;
 
-    /** Matrix of wights */
+    /**
+     * Matrix of wights
+     */
     protected GeneralMatrix P = null;
 
-    /** Matrix of target values */
+    /**
+     * Matrix of target values
+     */
     protected GeneralMatrix X;
 
     protected ProjectiveTransformBuilder() {
@@ -74,19 +79,16 @@ public class ProjectiveTransformBuilder extends MathTransformBuilder {
     /**
      * Creates ProjectiveTransformBuilder for the set of properties.
      *
-     *
      * @param vectors list of {@linkplain MappedPosition
      *                MappedPosition}
-     * @throws MismatchedSizeException
-     *                 if the number of properties is not set properly.
-     * @throws MismatchedDimensionException
-     *                 if the dimension of properties is not set properly.
-     * @throws MismatchedReferenceSystemException
-     *                 -if there is mismatch in coordinate system in
-     *                 {@linkplain MappedPosition MappedPosition}
+     * @throws MismatchedSizeException            if the number of properties is not set properly.
+     * @throws MismatchedDimensionException       if the dimension of properties is not set 
+     * properly.
+     * @throws MismatchedReferenceSystemException -if there is mismatch in coordinate system in
+     *                                            {@linkplain MappedPosition MappedPosition}
      */
-    public ProjectiveTransformBuilder(List <MappedPosition> vectors)
-        throws IllegalArgumentException, MismatchedDimensionException,
+    public ProjectiveTransformBuilder(List<MappedPosition> vectors)
+            throws IllegalArgumentException, MismatchedDimensionException,
             MismatchedReferenceSystemException {
         super.setMappedPositions(vectors);
     }
@@ -97,7 +99,7 @@ public class ProjectiveTransformBuilder extends MathTransformBuilder {
      * affine transform builders} will reduce this minimum.
      *
      * @return minimum number of points required by this builder, which is 4 by
-     *         default.
+     * default.
      */
     public int getMinimumPointCount() {
         return 4;
@@ -109,7 +111,7 @@ public class ProjectiveTransformBuilder extends MathTransformBuilder {
      *
      * @return required coordinate system type
      */
-    public Class <? extends CartesianCS> getCoordinateSystemType() {
+    public Class<? extends CartesianCS> getCoordinateSystemType() {
         return CartesianCS.class;
     }
 
@@ -125,18 +127,18 @@ public class ProjectiveTransformBuilder extends MathTransformBuilder {
 
         for (int i = 0; i < getMappedPositions().size(); i = i + 2) {
             if (Double.compare(
-                        (((MappedPosition) getMappedPositions().get(i))
-                        .getAccuracy()), Double.NaN) == 0) {
+                    (((MappedPosition) getMappedPositions().get(i))
+                            .getAccuracy()), Double.NaN) == 0) {
                 throw new MissingInfoException(
-                    "Accuracy has to be defined for all points");
+                        "Accuracy has to be defined for all points");
             }
 
             // weight for x
             P.setElement(i, i,
-                1 / ((MappedPosition) getMappedPositions().get(i)).getAccuracy());
+                    1 / ((MappedPosition) getMappedPositions().get(i)).getAccuracy());
             // weight for y
             P.setElement(i + 1, i + 1,
-                1 / ((MappedPosition) getMappedPositions().get(i)).getAccuracy());
+                    1 / ((MappedPosition) getMappedPositions().get(i)).getAccuracy());
         }
     }
 
@@ -157,7 +159,7 @@ public class ProjectiveTransformBuilder extends MathTransformBuilder {
             double ys = sourcePoints[j].getCoordinate()[1];
             double xd = targetPoints[j].getCoordinate()[0];
 
-            A.setRow(j, new double[] { xs, ys, 1, 0, 0, 0, -xd * xs, -xd * ys });
+            A.setRow(j, new double[]{xs, ys, 1, 0, 0, 0, -xd * xs, -xd * ys});
         }
 
         // fill second half
@@ -166,7 +168,7 @@ public class ProjectiveTransformBuilder extends MathTransformBuilder {
             double ys = sourcePoints[j - (numRow / 2)].getCoordinate()[1];
             double yd = targetPoints[j - (numRow / 2)].getCoordinate()[1];
 
-            A.setRow(j, new double[] { 0, 0, 0, xs, ys, 1, -yd * xs, -yd * ys });
+            A.setRow(j, new double[]{0, 0, 0, xs, ys, 1, -yd * xs, -yd * ys});
         }
     }
 
@@ -186,15 +188,19 @@ public class ProjectiveTransformBuilder extends MathTransformBuilder {
 
         for (int j = numRow / 2; j < numRow; j++) {
             X.setElement(j, 0,
-                getTargetPoints()[j - (numRow / 2)].getCoordinate()[1]);
+                    getTargetPoints()[j - (numRow / 2)].getCoordinate()[1]);
         }
     }
 
     /**
-     * Switch whether to include weights into the calculation. Weights are derived from each point accuracy.
+     * Switch whether to include weights into the calculation. Weights are derived from each 
+     * point accuracy.
      * Weight p = 1 / accuracy<sup>2<sup>.
-     * @param include if true then the weights will be included onto the calculation. False is default.
-     * @throws FactoryException if all or some of the {@linkplain #setMappedPositions(List) points} does not have accuracy setup properly.
+     *
+     * @param include if true then the weights will be included onto the calculation. False is 
+     *                default.
+     * @throws FactoryException if all or some of the 
+     * {@linkplain #setMappedPositions(List) points} does not have accuracy setup properly.
      */
     public void includeWeights(boolean include) throws MissingInfoException {
         this.P = new GeneralMatrix(getMappedPositions().size() * 2,
@@ -241,7 +247,7 @@ public class ProjectiveTransformBuilder extends MathTransformBuilder {
         ATP.mul(AT, P); // ATP
         ATPA.mul(ATP, A); // ATPA
         ATPX.mul(ATP, X); // ATPX
-        ATPA.invert();        
+        ATPA.invert();
         x.mul(ATPA, ATPX);
         ATPA.invert();
 
@@ -254,7 +260,7 @@ public class ProjectiveTransformBuilder extends MathTransformBuilder {
      * Returns the matrix of parameters for Projective transformation.
      * This method should by override for the special cases like affine or
      * similar transformation. The M matrix looks like this:<pre>
-     *
+     * <p>
      *  [  m00  m01  m02  ]
      *  [  m10  m11  m12  ]
      *  [  m20  m21   1   ]
@@ -267,9 +273,9 @@ public class ProjectiveTransformBuilder extends MathTransformBuilder {
 
         // double[] param = generateMMatrix();
         double[] param = calculateLSM();
-        double[] m0 = { param[0], param[1], param[2] };
-        double[] m1 = { param[3], param[4], param[5] };
-        double[] m2 = { param[6], param[7], 1 };
+        double[] m0 = {param[0], param[1], param[2]};
+        double[] m1 = {param[3], param[4], param[5]};
+        double[] m2 = {param[6], param[7], 1};
         M.setRow(0, m0);
         M.setRow(1, m1);
         M.setRow(2, m2);

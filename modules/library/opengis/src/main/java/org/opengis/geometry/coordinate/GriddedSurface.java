@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.coordinate;
@@ -22,32 +22,31 @@ import static org.opengis.annotation.Specification.*;
  * pair of parametric coordinates (<var>s</var>,&nbsp;<var>t</var>), that the horizontal curves for
  * each integer offset are calculated and evaluated at <var>s</var>. This defines a sequence of
  * control points:
- *
+ * <p>
  * <blockquote>
  * &lt;c<sub>n</sub>(<var>s</var>) : <var>s</var> = 1 &hellip; columns&gt;
  * </blockquote>
- *
- * From this sequence, a vertical curve is calculated for <var>s</var>, and evaluated at <var>t</var>.
+ * <p>
+ * From this sequence, a vertical curve is calculated for <var>s</var>, and evaluated at 
+ * <var>t</var>.
  * In most cases, the order of calculation (horizontal-vertical versus vertical-horizontal) does not
  * make a difference. Where it does, the horizontal-vertical order shall be the one used.
  * <p>
  * The most common case of a gridded surface is a 2D spline. In this case the weight functions for
  * each parameter make order of calculation unimportant:
- *
+ * <p>
  * <blockquote>TODO: copy equations there</blockquote>
- *
+ * <p>
  * Logically, any pair of curve interpolation types can lead to a subtype of {@code GriddedSurface}.
  * The sub-interfaces provided in this package define some of the most commonly encountered surfaces
  * that can be represented in this manner.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @since GeoAPI 2.0
  */
-@UML(identifier="GM_GriddedSurface", specification=ISO_19107)
+@UML(identifier = "GM_GriddedSurface", specification = ISO_19107)
 public interface GriddedSurface extends ParametricCurveSurface {
     /**
      * Returns the doubly indexed sequence of control points, given in row major form.
@@ -55,18 +54,18 @@ public interface GriddedSurface extends ParametricCurveSurface {
      * need not effect a "2&frac12;D" surface, consecutive points may be equal in any or
      * all of their ordinates. Further, the curves in either or both directions may close.
      */
-    @UML(identifier="controlPoint", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "controlPoint", obligation = MANDATORY, specification = ISO_19107)
     PointGrid getControlPoints();
 
     /**
      * Returns the number of rows in the parameter grid.
      */
-    @UML(identifier="rows", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "rows", obligation = MANDATORY, specification = ISO_19107)
     int getRows();
 
     /**
      * Returns the number of columns in the parameter grid.
      */
-    @UML(identifier="columns", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "columns", obligation = MANDATORY, specification = ISO_19107)
     int getColumns();
 }

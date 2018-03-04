@@ -29,10 +29,10 @@ import org.junit.Test;
 import junit.framework.TestCase;
 
 /**
- * Tests for time zone aspects of date conversion in {@link XmlConverterFactory} and {@link XSDateBinding}.
- * 
- * @author awaterme
+ * Tests for time zone aspects of date conversion in {@link XmlConverterFactory} and 
+ * {@link XSDateBinding}.
  *
+ * @author awaterme
  */
 public class DateConversionTimezoneTest extends TestCase {
 
@@ -45,13 +45,13 @@ public class DateConversionTimezoneTest extends TestCase {
 
     /**
      * Tests date encoding having {@link Hints#LOCAL_DATE_TIME_HANDLING} activated
-     * 
+     *
      * @throws Exception
      */
     @Test
     public void testLocalEncode() throws Exception {
         Hints.putSystemDefault(Hints.LOCAL_DATE_TIME_HANDLING, true);
-        
+
         // UTC
         assertDateEquals("2015-09-02", 2015, 9, 2, 0, "UTC");
         assertDateEquals("2015-09-02", 2015, 9, 2, 1, "UTC");
@@ -73,7 +73,7 @@ public class DateConversionTimezoneTest extends TestCase {
 
     /**
      * Tests date encoding having {@link Hints#LOCAL_DATE_TIME_HANDLING} activated
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -98,7 +98,7 @@ public class DateConversionTimezoneTest extends TestCase {
     }
 
     private void assertDateEquals(String expected, int year, int month, int day, int hour,
-            String timezoneId) throws Exception {
+                                  String timezoneId) throws Exception {
         TimeZone timeZone = TimeZone.getTimeZone(timezoneId);
         TimeZone.setDefault(timeZone);
         Calendar calendar = Calendar.getInstance();

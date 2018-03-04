@@ -33,8 +33,6 @@ import org.opengis.filter.Filter;
 import org.opengis.filter.identity.FeatureId;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DirectoryFeatureStore extends DirectoryFeatureSource implements
@@ -55,14 +53,14 @@ public class DirectoryFeatureStore extends DirectoryFeatureSource implements
             throws IOException {
         fstore.modifyFeatures(attributeName, attributeValue, filter);
     }
-    
+
     public void modifyFeatures(AttributeDescriptor type, Object value,
-            Filter filter) throws IOException {
+                               Filter filter) throws IOException {
         fstore.modifyFeatures(type, value, filter);
     }
-    
+
     public void modifyFeatures(Name[] name, Object[] value,
-            Filter filter) throws IOException {
+                               Filter filter) throws IOException {
         fstore.modifyFeatures(name, value, filter);
     }
 
@@ -74,9 +72,9 @@ public class DirectoryFeatureStore extends DirectoryFeatureSource implements
     public void modifyFeatures(String[] names, Object[] values, Filter filter) throws IOException {
         fstore.modifyFeatures(names, values, filter);
     }
-    
+
     public void modifyFeatures(AttributeDescriptor[] type, Object[] value,
-            Filter filter) throws IOException {
+                               Filter filter) throws IOException {
         fstore.modifyFeatures(type, value, filter);
     }
 
@@ -103,7 +101,7 @@ public class DirectoryFeatureStore extends DirectoryFeatureSource implements
             throws IOException {
         return fstore.addFeatures(collection);
     }
-    
+
     @Override
     public SimpleFeatureStore unwrap() {
         return fstore;

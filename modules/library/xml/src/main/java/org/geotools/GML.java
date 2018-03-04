@@ -104,33 +104,36 @@ import net.opengis.wfs.WfsFactory;
  * own measures.
  * <p>
  *
- *
  * @source $URL$
  */
 public class GML {
-    /** Version of encoder to use */
+    /**
+     * Version of encoder to use
+     */
     public static enum Version {
         GML2, GML3, WFS1_0, WFS1_1
     }
-    
-    
+
+
     /**
      * {@link ContextCustomizer} setting up a {@link FeatureTypeCache} that will not cache
      * dynamically build feature types, thus allowing all features to have their own schema,
      * instead of relying on the schema of the first feature found
      */
     private static class DynamicFeatureTypeCacheCustomizer implements ContextCustomizer {
-        
+
         boolean dynamicTypeFound = false;
-        
+
         /**
-         * Does not cache feature types generated from a feature instance (as opposed to a feature schema)
+         * Does not cache feature types generated from a feature instance (as opposed to a 
+         * feature schema)
          */
         FeatureTypeCache dynamicFeatureTypeCache = new FeatureTypeCache() {
             @Override
             public void put(FeatureType type) {
                 // only add to cache if the feature type has been parsed from schema
-                if(Boolean.TRUE.equals(type.getUserData().get(GML2ParsingUtils.PARSED_FROM_SCHEMA_KEY))) {
+                if (Boolean.TRUE.equals(type.getUserData().get(GML2ParsingUtils
+                        .PARSED_FROM_SCHEMA_KEY))) {
                     super.put(type);
                 } else {
                     dynamicTypeFound = true;
@@ -138,7 +141,7 @@ public class GML {
             }
         };
 
-        
+
         public boolean isDynamicTypeFound() {
             return dynamicTypeFound;
         }
@@ -156,7 +159,9 @@ public class GML {
 
     private URL baseURL;
 
-    /** GML Configuration to use */
+    /**
+     * GML Configuration to use
+     */
     private Configuration gmlConfiguration;
 
     private String gmlNamespace;
@@ -183,9 +188,8 @@ public class GML {
      * <p>
      * Note that when working with GML2 you need to supply additional information prior to use (in
      * order to indicate where for XSD file is located).
-     * 
-     * @param version
-     *            Version of GML to use
+     *
+     * @param version Version of GML to use
      */
     public GML(Version version) {
         this.version = version;
@@ -200,7 +204,7 @@ public class GML {
      * correct (something you can only tell when parsing the produced result!). Setting this value
      * to false will use the same GMLConfiguration employed when parsing and has less risk of
      * producing invalid content.
-     * 
+     *
      * @param legacy
      */
     public void setLegacy(boolean legacy) {
@@ -209,7 +213,7 @@ public class GML {
 
     /**
      * Set the target namespace for the encoding.
-     * 
+     *
      * @param prefix
      * @param namespace
      */
@@ -220,7 +224,7 @@ public class GML {
 
     /**
      * Set the encoding to use.
-     * 
+     *
      * @param encoding
      */
     public void setEncoding(Charset encoding) {
@@ -239,7 +243,7 @@ public class GML {
      * <p>
      * In a few cases (such as decoding a SimpleFeatureType) the file format does not include the
      * required CooridinateReferenceSystem and you are asked to supply it.
-     * 
+     *
      * @param crs
      */
     public void setCoordinateReferenceSystem(CoordinateReferenceSystem crs) {
@@ -258,7 +262,7 @@ public class GML {
      * <li>wfs1.0 - not yet available</li>
      * <li>wfs1.1 - not yet available</li>
      * </ul>
-     * 
+     *
      * @param version
      */
     protected void init() {
@@ -358,7 +362,8 @@ public class GML {
             }
         }
         if (version == Version.WFS1_0) {
-            org.geotools.wfs.v1_0.WFSConfiguration configuration = new org.geotools.wfs.v1_0.WFSConfiguration();
+            org.geotools.wfs.v1_0.WFSConfiguration configuration = new org.geotools.wfs
+                    .v1_0.WFSConfiguration();
             configuration.getProperties().add(GMLConfiguration.OPTIMIZED_ENCODING);
             Encoder e = new Encoder(configuration);
             e.getNamespaces().declarePrefix(prefix, namespace);
@@ -371,7 +376,8 @@ public class GML {
             e.encode(featureCollectionType, org.geotools.wfs.WFS.FeatureCollection, out);
         }
         if (version == Version.WFS1_1) {
-            org.geotools.wfs.v1_1.WFSConfiguration configuration = new org.geotools.wfs.v1_1.WFSConfiguration();
+            org.geotools.wfs.v1_1.WFSConfiguration configuration = new org.geotools.wfs
+                    .v1_1.WFSConfiguration();
             configuration.getProperties().add(GMLConfiguration.OPTIMIZED_ENCODING);
             Encoder e = new Encoder(configuration);
             e.getNamespaces().declarePrefix(prefix, namespace);
@@ -445,13 +451,10 @@ public class GML {
      * <li>simpleFeatureType.geName().getNamespaceURI() is used for the simpleFeatureType itself,
      * providing simpleFeatureType.getUserData().get("prefix") is defined</li>
      * </ul>
-     * 
-     * @param simpleFeatureType
-     *            To be encoded as an XSD document
-     * @param prefix
-     *            Prefix to use for for target namespace
-     * @param namespace
-     *            Target namespace
+     *
+     * @param simpleFeatureType To be encoded as an XSD document
+     * @param prefix            Prefix to use for for target namespace
+     * @param namespace         Target namespace
      */
     public void encode(OutputStream out, SimpleFeatureType simpleFeatureType) throws IOException {
         XSDSchema xsd = xsd(simpleFeatureType);
@@ -464,7 +467,7 @@ public class GML {
      * <p>
      * The XMLSchema does not include CoordinateReferenceSystem we need to ask you to supply this
      * information.
-     * 
+     *
      * @param schemaLocation
      * @param typeName
      * @return SimpleFeatureType
@@ -473,7 +476,8 @@ public class GML {
     public SimpleFeatureType decodeSimpleFeatureType(URL schemaLocation, Name typeName)
             throws IOException {
         if (Version.WFS1_1 == version) {
-            final QName featureName = new QName(typeName.getNamespaceURI(), typeName.getLocalPart());
+            final QName featureName = new QName(typeName.getNamespaceURI(), typeName.getLocalPart
+                    ());
 
             String namespaceURI = featureName.getNamespaceURI();
             String uri = schemaLocation.toExternalForm();
@@ -485,7 +489,8 @@ public class GML {
         }
 
         if (Version.WFS1_0 == version) {
-            final QName featureName = new QName(typeName.getNamespaceURI(), typeName.getLocalPart());
+            final QName featureName = new QName(typeName.getNamespaceURI(), typeName.getLocalPart
+                    ());
 
             String namespaceURI = featureName.getNamespaceURI();
             String uri = schemaLocation.toExternalForm();
@@ -507,33 +512,38 @@ public class GML {
         }
         return null;
     }
-    
+
     /**
-     * Decodes a feature collection from the stream provided. It assumes the features are uniform and that all
+     * Decodes a feature collection from the stream provided. It assumes the features are uniform
+     * and that all
      * attributes are available in the first feature
-     * 
+     *
      * @param in
      * @return
      * @throws IOException
      * @throws SAXException
      * @throws ParserConfigurationException
      */
-    public SimpleFeatureCollection decodeFeatureCollection(InputStream in) throws IOException, SAXException, ParserConfigurationException {
+    public SimpleFeatureCollection decodeFeatureCollection(InputStream in) throws IOException, 
+            SAXException, ParserConfigurationException {
         return decodeFeatureCollection(in, false);
     }
 
     /**
      * Decodes a feature collection from the stream provided.
-     * 
+     *
      * @param in
-     * @param computeFullFeatureType When true, all features are parsed and then a global feature type is determined that has attributes
-     * covering all feature needs, when false, the first feature attributes 
+     * @param computeFullFeatureType When true, all features are parsed and then a global feature
+     *                              type is determined that has attributes
+     *                               covering all feature needs, when false, the first feature 
+     *                               attributes
      * @return
      * @throws IOException
      * @throws SAXException
      * @throws ParserConfigurationException
      */
-    public SimpleFeatureCollection decodeFeatureCollection(InputStream in, boolean computeFullFeatureType) throws IOException,
+    public SimpleFeatureCollection decodeFeatureCollection(InputStream in, boolean 
+            computeFullFeatureType) throws IOException,
             SAXException, ParserConfigurationException {
         if (Version.GML2 == version || Version.WFS1_0 == version || Version.GML2 == version
                 || Version.GML3 == version || Version.WFS1_0 == version
@@ -541,18 +551,18 @@ public class GML {
             Configuration cfg = gmlConfiguration;
             Parser parser = new Parser(cfg);
             DynamicFeatureTypeCacheCustomizer customizer = null;
-            if(computeFullFeatureType) {
+            if (computeFullFeatureType) {
                 customizer = new DynamicFeatureTypeCacheCustomizer();
                 parser.setContextCustomizer(customizer);
             }
             Object obj = parser.parse(in);
             SimpleFeatureCollection collection = toFeatureCollection(obj);
             // have we figured out the schema feature by feature? If so, harmonize
-            if(computeFullFeatureType && customizer.isDynamicTypeFound()) {
+            if (computeFullFeatureType && customizer.isDynamicTypeFound()) {
                 SimpleFeatureType harmonizedType = getCompleteFeatureType(collection);
                 collection = new ReTypingFeatureCollection(collection, harmonizedType);
             }
-            
+
             return collection;
         }
         return null;
@@ -560,60 +570,63 @@ public class GML {
 
     /**
      * Gets the complete feature type of a collection having potentially mixed attributes
+     *
      * @param collection
      * @return
      */
     private SimpleFeatureType getCompleteFeatureType(SimpleFeatureCollection collection) {
-        if(collection.isEmpty()) {
+        if (collection.isEmpty()) {
             return collection.getSchema();
         }
-        
+
         // compute the largest feature type from features, assuming some attributes
         // are shared, while others appear only in some features
-        PartiallyOrderedSet<AttributeDescriptor> attributes = new PartiallyOrderedSet<AttributeDescriptor>();
+        PartiallyOrderedSet<AttributeDescriptor> attributes = new 
+                PartiallyOrderedSet<AttributeDescriptor>();
         Set<String> attributeNames = new HashSet<>();
-        
+
         String typeName = null;
-        try(SimpleFeatureIterator fi = collection.features()) {
-            while(fi.hasNext()) {
+        try (SimpleFeatureIterator fi = collection.features()) {
+            while (fi.hasNext()) {
                 SimpleFeature f = fi.next();
                 SimpleFeatureType type = f.getFeatureType();
-                if(typeName == null) {
+                if (typeName == null) {
                     typeName = type.getTypeName();
                 }
-                List<AttributeDescriptor> descriptorList = f.getFeatureType().getAttributeDescriptors();
+                List<AttributeDescriptor> descriptorList = f.getFeatureType()
+                        .getAttributeDescriptors();
                 for (int i = 0; i < descriptorList.size(); i++) {
                     AttributeDescriptor curr = descriptorList.get(i);
                     String name = curr.getLocalName();
-                    if(!attributeNames.contains(name)) {
+                    if (!attributeNames.contains(name)) {
                         attributes.add(curr);
-                        if(i > 0) {
+                        if (i > 0) {
                             AttributeDescriptor prev = descriptorList.get(i - 1);
                             attributes.setOrder(prev, curr);
                         }
-                        if(i < descriptorList.size() - 1) {
+                        if (i < descriptorList.size() - 1) {
                             AttributeDescriptor next = descriptorList.get(i + 1);
                             attributes.add(next);
                             attributes.setOrder(curr, next);
                         }
                     }
-                    
+
                 }
             }
         }
-        
+
         SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
         tb.setName(typeName);
         for (AttributeDescriptor ad : attributes) {
             tb.add(ad);
         }
-        
+
         return tb.buildFeatureType();
     }
 
     /**
      * Convert parse results into a SimpleFeatureCollection.
-     * 
+     *
      * @param obj SimpleFeatureCollection, Collection<?>, SimpleFeature, etc...
      * @return SimpleFeatureCollection of the results
      */
@@ -654,7 +667,7 @@ public class GML {
      * the inputstream of content one feature at a time without loading everything into memory.
      * <p>
      * The schema used by the XML is consulted to determine what element extends AbstractFeature.
-     * 
+     *
      * @param in
      * @return Iterator that can be used to parse features one at a time
      * @throws SAXException
@@ -674,12 +687,11 @@ public class GML {
      * schema is not available or correctly defined. The returned elements are wrapped up as a
      * Feature if needed. This mehtod can be used to retrive only the Geometry elements from a GML
      * docuemnt.
-     * 
-     * @param in
-     *            InputStream used as a source of SimpleFeature content
-     * @param xpath
-     *            Optional xpath used to indicate simple feature element; the schema will be checked
-     *            for an entry that extends AbstratFeatureType
+     *
+     * @param in    InputStream used as a source of SimpleFeature content
+     * @param xpath Optional xpath used to indicate simple feature element; the schema will be 
+     *              checked
+     *              for an entry that extends AbstratFeatureType
      * @return
      * @throws SAXException
      * @throws ParserConfigurationException
@@ -702,7 +714,7 @@ public class GML {
 
     /**
      * Go through collection contents and morph contents into SimpleFeatures as required.
-     * 
+     *
      * @param collection
      * @return SimpleFeatureCollection
      */
@@ -727,7 +739,7 @@ public class GML {
      * <ul>
      * <li>SimpleFeature - is returned as is
      * <li>
-     * 
+     *
      * @param parser
      * @return
      */
@@ -827,7 +839,7 @@ public class GML {
 
     /**
      * Morph provided obj to a SimpleFeature if possible.
-     * 
+     *
      * @param obj
      * @param schema
      * @return SimpleFeature, or null if not possible
@@ -925,18 +937,15 @@ public class GML {
      * Build the XSD definition for the provided type.
      * <p>
      * The generated definition is recorded in the XSDSchema prior to being returned.
-     * 
-     * @param xsd
-     *            The XSDSchema being worked on
-     * @param type
-     *            ComplexType to capture as an encoding, usually a SimpleFeatureType
-     * @param L_TYPE
-     *            definition to use as the base type, or null
+     *
+     * @param xsd    The XSDSchema being worked on
+     * @param type   ComplexType to capture as an encoding, usually a SimpleFeatureType
+     * @param L_TYPE definition to use as the base type, or null
      * @return XSDComplexTypeDefinition generated for the provided type
      */
     @SuppressWarnings("unchecked")
     protected XSDComplexTypeDefinition xsd(XSDSchema xsd, ComplexType type,
-            final XSDComplexTypeDefinition BASE_TYPE) {
+                                           final XSDComplexTypeDefinition BASE_TYPE) {
         XSDFactory factory = XSDFactory.eINSTANCE;
 
         XSDComplexTypeDefinition definition = factory.createXSDComplexTypeDefinition();
@@ -949,7 +958,7 @@ public class GML {
         List<String> skip = Collections.emptyList();
         if ("AbstractFeatureType".equals(BASE_TYPE.getName())) {
             // should look at ABSTRACT_FEATURE_TYPE to determine contents to skip
-            skip = Arrays.asList(new String[] { "nounds", "description", "boundedBy" });
+            skip = Arrays.asList(new String[]{"nounds", "description", "boundedBy"});
         }
 
         // attributes
@@ -981,7 +990,8 @@ public class GML {
                         ComplexType complexType = (ComplexType) attributeType;
                         // any complex contents must resolve (we cannot encode against
                         // an abstract type for example)
-                        if (xsd.resolveTypeDefinition(name.getNamespaceURI(), name.getLocalPart()) == null) {
+                        if (xsd.resolveTypeDefinition(name.getNamespaceURI(), name.getLocalPart()
+                        ) == null) {
                             // not yet added; better add it into the mix
                             xsd(xsd, complexType, null);
                         }

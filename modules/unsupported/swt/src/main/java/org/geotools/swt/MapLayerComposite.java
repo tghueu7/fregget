@@ -46,9 +46,6 @@ import org.geotools.swt.utils.Messages;
  *
  * @author Andrea Antonello (www.hydrologis.com)
  * @author Michael Bedward
- *
- *
- *
  * @source $URL$
  */
 public class MapLayerComposite extends Composite {
@@ -59,7 +56,7 @@ public class MapLayerComposite extends Composite {
      * Default constructor. A subsequent call to {@linkplain #setMapPane}
      * will be required.
      */
-    public MapLayerComposite( Composite parent, int style ) {
+    public MapLayerComposite(Composite parent, int style) {
         super(parent, style);
         init();
     }
@@ -69,9 +66,9 @@ public class MapLayerComposite extends Composite {
      *
      * @param pane the map pane
      */
-    public void setMapPane( SwtMapPane pane ) {
+    public void setMapPane(SwtMapPane pane) {
         this.pane = pane;
-        
+
         mapLayerTableViewer.clear();
 
         pane.setMapLayerTable(this);
@@ -79,7 +76,7 @@ public class MapLayerComposite extends Composite {
 
         MapContent mapContent = pane.getMapContent();
         List<Layer> layers = mapContent.layers();
-        for( Layer mapLayer : layers ) {
+        for (Layer mapLayer : layers) {
             mapLayerTableViewer.addLayer(mapLayer);
         }
     }
@@ -91,7 +88,7 @@ public class MapLayerComposite extends Composite {
      *
      * @param layer the map layer
      */
-    public void onAddLayer( Layer layer ) {
+    public void onAddLayer(Layer layer) {
         mapLayerTableViewer.addLayer(layer);
     }
 
@@ -102,7 +99,7 @@ public class MapLayerComposite extends Composite {
      *
      * @param layer the map layer
      */
-    public void onRemoveLayer( Layer layer ) {
+    public void onRemoveLayer(Layer layer) {
         mapLayerTableViewer.removeLayer(layer);
     }
 
@@ -111,7 +108,7 @@ public class MapLayerComposite extends Composite {
      *
      * @param layer the map layer
      */
-    public void repaint( Layer layer ) {
+    public void repaint(Layer layer) {
         mapLayerTableViewer.refresh(layer, true);
     }
 
@@ -127,7 +124,8 @@ public class MapLayerComposite extends Composite {
         mapLayersGroup.setLayout(new GridLayout(1, false));
         mapLayersGroup.setText(Messages.getString("layers_list_title"));
 
-        mapLayerTableViewer = new MaplayerTableViewer(mapLayersGroup, SWT.BORDER | SWT.FULL_SELECTION);
+        mapLayerTableViewer = new MaplayerTableViewer(mapLayersGroup, SWT.BORDER | SWT
+                .FULL_SELECTION);
         GridData listGD = new GridData(SWT.FILL, SWT.FILL, true, true);
         mapLayerTableViewer.getTable().setLayoutData(listGD);
 
@@ -139,8 +137,8 @@ public class MapLayerComposite extends Composite {
         removeLayerButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
         removeLayerButton.setToolTipText(Messages.getString("remove_layer"));
         removeLayerButton.setImage(ImageCache.getInstance().getImage(ImageCache.REMOVE_LAYER));
-        removeLayerButton.addSelectionListener(new SelectionAdapter(){
-            public void widgetSelected( SelectionEvent e ) {
+        removeLayerButton.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e) {
                 Layer selectedMapLayer = mapLayerTableViewer.getSelectedMapLayer();
                 if (selectedMapLayer == null) {
                     return;
@@ -155,8 +153,8 @@ public class MapLayerComposite extends Composite {
         showLayersButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
         showLayersButton.setToolTipText(Messages.getString("show_all_layers"));
         showLayersButton.setImage(ImageCache.getInstance().getImage(ImageCache.CHECKED));
-        showLayersButton.addSelectionListener(new SelectionAdapter(){
-            public void widgetSelected( SelectionEvent e ) {
+        showLayersButton.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e) {
                 onShowAllLayers();
             }
         });
@@ -165,8 +163,8 @@ public class MapLayerComposite extends Composite {
         hideLayersButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
         hideLayersButton.setToolTipText(Messages.getString("hide_all_layers"));
         hideLayersButton.setImage(ImageCache.getInstance().getImage(ImageCache.UNCHECKED));
-        hideLayersButton.addSelectionListener(new SelectionAdapter(){
-            public void widgetSelected( SelectionEvent e ) {
+        hideLayersButton.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e) {
                 onHideAllLayers();
             }
         });
@@ -175,8 +173,8 @@ public class MapLayerComposite extends Composite {
         layerUpButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
         layerUpButton.setToolTipText(Messages.getString("layer_up"));
         layerUpButton.setImage(ImageCache.getInstance().getImage(ImageCache.UP));
-        layerUpButton.addSelectionListener(new SelectionAdapter(){
-            public void widgetSelected( SelectionEvent e ) {
+        layerUpButton.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e) {
                 moveLayer(-1);
             }
         });
@@ -185,8 +183,8 @@ public class MapLayerComposite extends Composite {
         layerDownButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
         layerDownButton.setToolTipText(Messages.getString("layer_down"));
         layerDownButton.setImage(ImageCache.getInstance().getImage(ImageCache.DOWN));
-        layerDownButton.addSelectionListener(new SelectionAdapter(){
-            public void widgetSelected( SelectionEvent e ) {
+        layerDownButton.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e) {
                 moveLayer(1);
             }
         });
@@ -199,7 +197,7 @@ public class MapLayerComposite extends Composite {
      *
      * @param ev the event
      */
-    private void moveLayer( int delta ) {
+    private void moveLayer(int delta) {
         Layer selectedMapLayer = mapLayerTableViewer.getSelectedMapLayer();
         if (selectedMapLayer == null)
             return;
@@ -215,9 +213,9 @@ public class MapLayerComposite extends Composite {
         }
 
         /*
-        * MapLayerTable stores layers in the reverse order to
-        * DefaultMapContext (see comment in javadocs for this class)
-        */
+         * MapLayerTable stores layers in the reverse order to
+         * DefaultMapContext (see comment in javadocs for this class)
+         */
         int newContextIndex = contextIndex - delta;
         if (newContextIndex < 0 || newContextIndex > mapContent.layers().size() - 1) {
             return;
@@ -234,7 +232,7 @@ public class MapLayerComposite extends Composite {
 
     private void onShowAllLayers() {
         if (pane != null && pane.getMapContent() != null) {
-            for( Layer layer : pane.getMapContent().layers() ) {
+            for (Layer layer : pane.getMapContent().layers()) {
                 if (!layer.isVisible()) {
                     layer.setVisible(true);
                 }
@@ -246,7 +244,7 @@ public class MapLayerComposite extends Composite {
 
     private void onHideAllLayers() {
         if (pane != null && pane.getMapContent() != null) {
-            for( Layer layer : pane.getMapContent().layers() ) {
+            for (Layer layer : pane.getMapContent().layers()) {
                 if (layer.isVisible()) {
                     layer.setVisible(false);
                 }

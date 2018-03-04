@@ -12,27 +12,29 @@ import org.opengis.feature.simple.SimpleFeatureType;
 /**
  * {@link EPackage} information class implementation.
  * <p>
- * 
- * @author kengu
- * 
  *
+ * @author kengu
  * @source $URL$
  */
 public class EFeaturePackageInfo extends EStructureInfo<EFeatureContextInfo> {
 
-    /** Cached {@link EPackage} name space */
+    /**
+     * Cached {@link EPackage} name space
+     */
     protected String eNsURI;
 
-    /** Map of {@link EFeatureFolderInfo} instances */
+    /**
+     * Map of {@link EFeatureFolderInfo} instances
+     */
     protected Map<String, EFeatureFolderInfo> eFolderInfoMap;
-    
+
     // ----------------------------------------------------- 
     //  EFeaturePackage methods
     // -----------------------------------------------------
-    
+
     @Override
     public boolean isAvailable() {
-        if(super.isAvailable()){
+        if (super.isAvailable()) {
             for (EFeatureFolderInfo it : eFolderInfoMap.values()) {
                 if (it.isAvailable())
                     return true;
@@ -40,20 +42,20 @@ public class EFeaturePackageInfo extends EStructureInfo<EFeatureContextInfo> {
         }
         return false;
     }
-    
+
     public String eNsURI() {
         return eNsURI;
     }
-    
-    public EPackage ePackage()
-    {
+
+    public EPackage ePackage() {
         return eContext().eGetPackage(eNsURI);
     }
+
     @Override
     protected EFeatureContextInfo eParentInfo(boolean checkIsValid) {
         return eContext(checkIsValid).eStructure();
-    }    
-    
+    }
+
     public EFeatureFolderInfo eGetFolderInfo(String eName) {
         return eFolderInfoMap.get(eName);
     }
@@ -64,7 +66,7 @@ public class EFeaturePackageInfo extends EStructureInfo<EFeatureContextInfo> {
 
     /**
      * Check if this data store contains a folder with given name
-     * 
+     *
      * @param eName - {@link EFeature} folder name
      * @return <code>true</code> if exists, <code>false</code> otherwise
      */
@@ -76,19 +78,19 @@ public class EFeaturePackageInfo extends EStructureInfo<EFeatureContextInfo> {
      * Get {@link EFeature} folder name from {@link SimpleFeatureType} name
      * <p>
      * {@link SimpleFeatureType} names have the following
-     * 
+     * <p>
      * <pre>
      * eType=&lt;eFolder&gt;.&lt;eFeature&gt;
-     * 
+     *
      * where
-     * 
+     *
      * eFolder = {@link EFeature} folder name
      * eFeature = {@link EFeature} class | reference name
      * </pre>
-     * 
+     *
      * @param eType - given {@link SimpleFeatureType} name
      * @return a {@link EFeature} folder name if {@link #isSimpleFeatureType(String)},
-     *         <code>null</code> otherwise.
+     * <code>null</code> otherwise.
      */
     public String toFolderName(String eType) {
         return EFeatureUtils.toFolderName(eType);
@@ -98,19 +100,19 @@ public class EFeaturePackageInfo extends EStructureInfo<EFeatureContextInfo> {
      * Get {@link EFeature} name from {@link SimpleFeatureType} name
      * <p>
      * {@link SimpleFeatureType} names have the following
-     * 
+     * <p>
      * <pre>
      * eType=&lt;eFolder&gt;.&lt;eFeature&gt;
-     * 
+     *
      * where
-     * 
+     *
      * eFolder = {@link EFeature} folder name
      * eFeature = {@link EFeature} class | reference name
      * </pre>
-     * 
+     *
      * @param eType - given {@link SimpleFeatureType} name
      * @return a {@link EFeature} name if {@link #isSimpleFeatureType(String)}, <code>null</code>
-     *         otherwise.
+     * otherwise.
      */
     public String toFeatureName(String eType) {
         return EFeatureUtils.toFeatureName(eType);
@@ -119,15 +121,14 @@ public class EFeaturePackageInfo extends EStructureInfo<EFeatureContextInfo> {
     /**
      * Get {@link EFeature} folder names in this {@link FeatureStore} definition.
      * <p>
-     * 
+     *
      * @param eQuery - (optional) query used to select which {@link EFeature} folders to include
      * @return an array of {@link EFeature} folder names if found, <code>empty</code> array
-     *         otherwise.
+     * otherwise.
      */
     public String[] eGetFolderNames(String eQuery) {
         Set<String> subSet = new HashSet<String>(eFolderInfoMap.keySet());
-        if( !( eQuery==null || eQuery.length()==0) )
-        {
+        if (!(eQuery == null || eQuery.length() == 0)) {
             Set<String> eNames = new HashSet<String>();
             for (String eFolder : eQuery.split("+")) {
                 int i = eFolder.indexOf(':');
@@ -142,16 +143,16 @@ public class EFeaturePackageInfo extends EStructureInfo<EFeatureContextInfo> {
      * Check if given eType is a {@link SimpleFeatureType}.
      * <p>
      * {@link SimpleFeatureType} names have the following
-     * 
+     * <p>
      * <pre>
      * eType=&lt;eFolder&gt;.&lt;eFeature&gt;
-     * 
+     *
      * where
-     * 
+     *
      * eFolder = {@link EFeature} folder name
      * eFeature = {@link EFeature} class | reference name
      * </pre>
-     * 
+     *
      * @param eType - given {@link SimpleFeatureType} name
      * @return a {@link EFeatureInfo} instance if found, <code>null</code> otherwise.
      * @see {@link EFeatureInfo#getReferenceName()}
@@ -173,20 +174,20 @@ public class EFeaturePackageInfo extends EStructureInfo<EFeatureContextInfo> {
      * Get {@link EFeature} with given name.
      * <p>
      * {@link SimpleFeatureType} names have the following format:
-     * 
+     * <p>
      * <pre>
      * eType=&lt;eFolder&gt;.&lt;eFeature&gt;
-     * 
+     *
      * where
-     * 
+     *
      * eFolder = {@link EFeature} folder name
      * eFeature = {@link EFeature} class | reference name
      * </pre>
-     * 
+     *
      * @param eType - given {@link SimpleFeatureType} name
      * @return a {@link EFeatureInfo} instance if found, <code>null</code> otherwise.
-     * @see {@link EFeatureInfo#getReferenceName()}
      * @throws IllegalArgumentException
+     * @see {@link EFeatureInfo#getReferenceName()}
      */
     public EFeatureInfo eGetFeatureInfo(String eType) throws IllegalArgumentException {
         if (!(eType == null || eType.length() == 0)) {
@@ -196,8 +197,9 @@ public class EFeaturePackageInfo extends EStructureInfo<EFeatureContextInfo> {
                 if (eFolderInfo != null) {
                     return eFolderInfo.eGetFeatureInfo(eParts[1]);
                 }
-            }            
-            throw new IllegalArgumentException("Type name have illegal format. Expected \"<efolder>.<efeature>\"");
+            }
+            throw new IllegalArgumentException("Type name have illegal format. Expected " +
+                    "\"<efolder>.<efeature>\"");
         }
         throw new IllegalArgumentException("Type name can not be null or empty");
     }
@@ -206,19 +208,19 @@ public class EFeaturePackageInfo extends EStructureInfo<EFeatureContextInfo> {
      * Get {@link SimpleFeatureType} names defined by this {@link FeatureStore} information.
      * <p>
      * {@link SimpleFeatureType} names have the following format:
-     * 
+     * <p>
      * <pre>
      * eType=&lt;eFolder&gt;.&lt;eFeature&gt;
-     * 
+     *
      * where
-     * 
+     *
      * eFolder = {@link EFeature} folder name
      * eFeature = {@link EFeature} class | reference name
      * </pre>
-     * 
+     *
      * @param eQuery - query used to select which {@link EFeature} folders to include
      * @return an array of {@link SimpleFeatureType} names if found, <code>empty</code> array
-     *         otherwise.
+     * otherwise.
      */
     public String[] getTypeNames(String eQuery) {
         Set<String> eNames = new HashSet<String>();
@@ -232,26 +234,24 @@ public class EFeaturePackageInfo extends EStructureInfo<EFeatureContextInfo> {
     }
 
     /**
-     * Validate given {@link EPackage} instance against 
+     * Validate given {@link EPackage} instance against
      * the {@link EFeaturePackageInfo structure} .
      */
     public EFeatureStatus validate() {
         //
         // 1) Verify that not disposed
         //
-        if(isDisposed)
-        {
+        if (isDisposed) {
             return failure(this, eNsURI, "Is disposed");
         }
         //        
         // Invalidate structure
         //
-        invalidate(false);        
+        invalidate(false);
         // 
         // 2) Verify that registry is cached
         //
-        if(!isCached(eContextID))
-        {
+        if (!isCached(eContextID)) {
             return failure(this, eNsURI, "EFeatureContext with ID: " + eContextID + " not found");
         }
         EFeatureContext eContext = eContext(false);
@@ -269,7 +269,7 @@ public class EFeaturePackageInfo extends EStructureInfo<EFeatureContextInfo> {
         for (String eName : eGetFolderNames(null)) {
             EFeatureFolderInfo eInfo = eFolderInfoMap.get(eName);
             if (eInfo != null) {
-                if (!(s = eInfo.validate(ePackage)).isSuccess()){
+                if (!(s = eInfo.validate(ePackage)).isSuccess()) {
                     return s;
                 }
             } else {
@@ -282,11 +282,11 @@ public class EFeaturePackageInfo extends EStructureInfo<EFeatureContextInfo> {
         return structureIsValid(eNsURI());
 
     }
-    
+
     // ----------------------------------------------------- 
     //  EStructureInfo implementation
     // -----------------------------------------------------
-    
+
     @Override
     protected void doInvalidate(boolean deep) {
         if (deep) {
@@ -304,20 +304,21 @@ public class EFeaturePackageInfo extends EStructureInfo<EFeatureContextInfo> {
         eFolderInfoMap.clear();
         eFolderInfoMap = null;
     }
-    
+
     // ----------------------------------------------------- 
     //  Helper methods
     // -----------------------------------------------------
-    
+
     /**
-     * Create a {@link EFeaturePackageInfo} from {@link EFeatureContext} 
-     * information cached with given ids.     
+     * Create a {@link EFeaturePackageInfo} from {@link EFeatureContext}
+     * information cached with given ids.
+     *
      * @param eContextInfo - {@link EFeatureContextInfo} instance
-     * @param eNsURI - {@link EPackage#getNsURI() name space URI} 
+     * @param eNsURI       - {@link EPackage#getNsURI() name space URI}
      */
-    protected static EFeaturePackageInfo create(EFeatureContextFactory eFactory, 
-            EFeatureContextInfo eContextInfo, String eNsURI) 
-        throws IllegalArgumentException {
+    protected static EFeaturePackageInfo create(EFeatureContextFactory eFactory,
+                                                EFeatureContextInfo eContextInfo, String eNsURI)
+            throws IllegalArgumentException {
         EFeaturePackageInfo eInfo = new EFeaturePackageInfo();
         eInfo.eHints = eContextInfo.eHints;
         eInfo.eContextID = eContextInfo.eContextID;
@@ -327,15 +328,16 @@ public class EFeaturePackageInfo extends EStructureInfo<EFeatureContextInfo> {
         eInfo.eFolderInfoMap = folders(eInfo);
         return eInfo;
     }
-    
+
     /**
      * Construct {@link EFeatureFolderInfo} instances from {@link EFeaturePackageInfo} instance.
-     * <p>     
+     * <p>
+     *
      * @param ePackageInfo - {@link EFeaturePackageInfo} instance
      * @throws IllegalArgumentException If a {@link EPackage} instance was not found.
      */
     protected static Map<String, EFeatureFolderInfo> folders(EFeaturePackageInfo ePackageInfo)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         //
         // Prepare
         //
@@ -355,7 +357,7 @@ public class EFeaturePackageInfo extends EStructureInfo<EFeatureContextInfo> {
         //
         // Map name to instance
         //
-        eMap.put(eFolderInfo.eName,eFolderInfo);
+        eMap.put(eFolderInfo.eName, eFolderInfo);
         //
         // Success
         //

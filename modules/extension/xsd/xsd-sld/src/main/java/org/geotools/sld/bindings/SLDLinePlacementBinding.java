@@ -20,6 +20,7 @@ import org.opengis.filter.expression.Expression;
 import org.picocontainer.MutablePicoContainer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 import javax.xml.namespace.QName;
 
 import org.geotools.styling.LinePlacement;
@@ -29,9 +30,9 @@ import org.geotools.xml.*;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:LinePlacement.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="LinePlacement"&gt;
  *      &lt;xsd:annotation&gt;
@@ -51,19 +52,16 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDLinePlacementBinding extends AbstractComplexBinding {
-    
+
     StyleFactory styleFactory;
-    
+
     public SLDLinePlacementBinding(StyleFactory styleFactory) {
         this.styleFactory = styleFactory;
     }
-    
+
     /**
      * @generated
      */
@@ -98,8 +96,8 @@ public class SLDLinePlacementBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        
+            throws Exception {
+
         Expression offset = null;
         if (node.hasChild("PerpendicularOffset")) {
             offset = (Expression) node.getChildValue("PerpendicularOffset");

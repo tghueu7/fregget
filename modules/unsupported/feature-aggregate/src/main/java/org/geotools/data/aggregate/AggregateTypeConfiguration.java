@@ -25,9 +25,8 @@ import org.opengis.feature.type.Name;
 
 /**
  * Maps a set of source datastores and type names into an aggregated feature type
- * 
- * @author Andrea Aime - GeoSolutions
  *
+ * @author Andrea Aime - GeoSolutions
  * @source $URL$
  */
 public class AggregateTypeConfiguration implements Serializable {
@@ -49,7 +48,7 @@ public class AggregateTypeConfiguration implements Serializable {
 
     /**
      * Builds a new aggreate type configuration
-     * 
+     *
      * @param name the name of the aggregate type
      */
     public AggregateTypeConfiguration(String name) {
@@ -63,8 +62,8 @@ public class AggregateTypeConfiguration implements Serializable {
     /**
      * Builds a new aggregate type configuration, with a store list, assuming the feature type in
      * the store has always the same name
-     * 
-     * @param name the name of the aggregate type
+     *
+     * @param name       the name of the aggregate type
      * @param storeNames the name of the various stores
      */
     public AggregateTypeConfiguration(String name, Name... storeNames) {
@@ -79,8 +78,8 @@ public class AggregateTypeConfiguration implements Serializable {
     /**
      * Builds a new aggregate type configuration, with a store list, assuming the feature type in
      * the store has always the same name
-     * 
-     * @param name the name of the aggregate type
+     *
+     * @param name       the name of the aggregate type
      * @param storeNames the name of the various stores
      */
     public AggregateTypeConfiguration(String name, String... storeNames) {
@@ -105,7 +104,7 @@ public class AggregateTypeConfiguration implements Serializable {
 
     /**
      * Adds a source store/type for this aggregated feature type
-     * 
+     *
      * @param storeName
      * @param typeName
      */
@@ -119,7 +118,7 @@ public class AggregateTypeConfiguration implements Serializable {
 
     /**
      * Adds a source store/type for this aggregated feature type
-     * 
+     *
      * @param storeName
      * @param typeName
      */
@@ -181,7 +180,7 @@ public class AggregateTypeConfiguration implements Serializable {
     /**
      * Builds a qualified name from a name containing the ":" separator, otherwise the given name
      * will be used as the local part
-     * 
+     *
      * @param name
      * @return
      */

@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -22,13 +22,13 @@ import org.opengis.filter.expression.Expression;
  * Default color map entry implementation
  *
  * @author aaime
- *
- *
  * @source $URL$
  */
 public class ColorMapEntryImpl implements ColorMapEntry {
-    //private static final java.util.logging.Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org.geotools.core");
-    //private static final FilterFactory filterFactory = CommonFactoryFinder.getFilterFactory(GeoTools.getDefaultHints());
+    //private static final java.util.logging.Logger LOGGER = org.geotools.util.logging.Logging
+    // .getLogger("org.geotools.core");
+    //private static final FilterFactory filterFactory = CommonFactoryFinder.getFilterFactory
+    // (GeoTools.getDefaultHints());
     private Expression quantity;
     private Expression opacity;
     private Expression color;
@@ -143,5 +143,5 @@ public class ColorMapEntryImpl implements ColorMapEntry {
                 + color + ", label=" + label + "]";
     }
 
-    
+
 }

@@ -22,8 +22,6 @@ import org.geotools.data.postgis.PostGISTestSetup;
 import org.geotools.jdbc.JDBCDataStore;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class PostGISPSTestSetup extends PostGISTestSetup {
@@ -31,9 +29,10 @@ public class PostGISPSTestSetup extends PostGISTestSetup {
     @Override
     protected void setUpDataStore(JDBCDataStore dataStore) {
         super.setUpDataStore(dataStore);
-        
+
         // for this test we need a PS based dialect
-        PostGISPSDialect dialect = new PostGISPSDialect(dataStore, (PostGISDialect) dataStore.getSQLDialect());
+        PostGISPSDialect dialect = new PostGISPSDialect(dataStore, (PostGISDialect) dataStore
+                .getSQLDialect());
         dialect.setLooseBBOXEnabled(false);
         dataStore.setSQLDialect(dialect);
     }

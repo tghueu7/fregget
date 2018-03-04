@@ -4,7 +4,7 @@
  *
  *    (C) 2016 Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2016 Boundless Spatial
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -88,11 +88,13 @@ public class Util {
     }
 
     /**
-     * Simplifies an {@link Expression} which may contain multiple {@link ConcatenateFunction} into a single top-level
+     * Simplifies an {@link Expression} which may contain multiple {@link ConcatenateFunction} 
+     * into a single top-level
      * {@link ConcatenateFunction} with a flat list of parameters.
-     *
+     * <p>
      * If the passed {@link Expression} performs no concatenation, it is returned as-is.
-     * If the passed {@link Expression} represents an empty value, a {@link Literal} expression with value null is returned.
+     * If the passed {@link Expression} represents an empty value, a {@link Literal} expression 
+     * with value null is returned.
      *
      * @param expr
      * @param factory Function factory
@@ -105,12 +107,13 @@ public class Util {
         } else if (list.size() == 1) {
             return list.get(0);
         } else {
-            return factory.filter.function("Concatenate", list.toArray(new Expression[] {}));
+            return factory.filter.function("Concatenate", list.toArray(new Expression[]{}));
         }
     }
 
     /**
-     * Splits an {@link Expression} into a list of expressions by removing {@link ConcatenateFunction} and
+     * Splits an {@link Expression} into a list of expressions by removing 
+     * {@link ConcatenateFunction} and
      * {@link FilterFunction_strConcat} Functions, and listing the children of those functions.
      * This is applied recursively, so nested Expressions are also handled.
      * Null-valued or empty {@link Literal} Expressions are removed.
@@ -127,9 +130,11 @@ public class Util {
     /**
      * Parses an expression from its string representation.
      * <p>
-     * The <tt>safe</tt> parameter when set to true will cause null to be returned when the string can not be parsed as a ECQL expression. When false
+     * The <tt>safe</tt> parameter when set to true will cause null to be returned when the 
+     * string can not be parsed as a ECQL expression. When false
      * it will result in an exception thrown back.
      * </p>
+     *
      * @return The parsed expression, or null if the string value was empty.
      */
     public static Expression expression(String value, boolean safe, Factory factory) {
@@ -141,7 +146,8 @@ public class Util {
         expr = unwrapConcatenates(expr, factory);
         // Expression expr = ECQL.toExpression(value, factory.filter);
         /*
-         * if (expr instanceof PropertyName && !ATTRIBUTE_PATTERN.matcher(value).matches()) { // treat as literal return
+         * if (expr instanceof PropertyName && !ATTRIBUTE_PATTERN.matcher(value).matches()) { // 
+         * treat as literal return
          * factory.filter.literal(((PropertyName) expr).getPropertyName()); }
          */
         return expr;
@@ -283,16 +289,20 @@ public class Util {
 
     /**
      * Finds an applicable {@link ZoomContext} based on a name
-     * @param name Name of the ZoomContext.
+     *
+     * @param name         Name of the ZoomContext.
      * @param zCtxtFinders List of finders for the {@link ZoomContext}
-     * @throws IllegalArgumentException If name is "EPSG:4326", "EPSG:3857", or "EPSG:900913" (These names cause ambiguities).
      * @return {@link ZoomContext} matching the name.
+     * @throws IllegalArgumentException If name is "EPSG:4326", "EPSG:3857", or "EPSG:900913" 
+     * (These names cause ambiguities).
      */
-    public static @Nullable ZoomContext getNamedZoomContext(String name,
-            List<ZoomContextFinder> zCtxtFinders) {
+    public static @Nullable
+    ZoomContext getNamedZoomContext(String name,
+                                    List<ZoomContextFinder> zCtxtFinders) {
         if (name.equalsIgnoreCase("EPSG:4326")) {
             throw new IllegalArgumentException(
-                    "Should not use EPSG code to refer to WGS84 zoom levels as it causes ambiguities");
+                    "Should not use EPSG code to refer to WGS84 zoom levels as it causes " +
+                            "ambiguities");
         }
         if (name.equalsIgnoreCase("EPSG:3857") || name.equalsIgnoreCase("EPSG:900913")) {
             throw new IllegalArgumentException(
@@ -327,8 +337,8 @@ public class Util {
     }
 
     /**
-     * 
-     * @return A number parsed from the provided string, or the string itself if parsing failed. Also returns null if the string was null.
+     * @return A number parsed from the provided string, or the string itself if parsing failed. 
+     * Also returns null if the string was null.
      */
     public static Object makeNumberIfPossible(String str) {
         if (str == null)
@@ -359,8 +369,8 @@ public class Util {
     }
 
     /**
-     * 
-     * @return The string with quotes (') stripped from the beginning and end, or null if the string was null.
+     * @return The string with quotes (') stripped from the beginning and end, or null if the 
+     * string was null.
      */
     public static String stripQuotes(String str) {
         if (str == null) {
@@ -378,7 +388,7 @@ public class Util {
 
     /**
      * Parse all vendor options (keys starting with 'x-')
-     * 
+     *
      * @param sourceMap YamlMap to parse
      * @return A map of the vendor options
      */

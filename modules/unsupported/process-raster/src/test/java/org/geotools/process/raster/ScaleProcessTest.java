@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2014-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -56,25 +56,39 @@ import org.opengis.coverage.grid.GridCoverageReader;
 
 public class ScaleProcessTest {
 
-    /** Tolerance value used for double comparison */
+    /**
+     * Tolerance value used for double comparison
+     */
     private static final double TOLERANCE = 0.01;
 
-    /** Coverage to elaborate */
+    /**
+     * Coverage to elaborate
+     */
     private static GridCoverage2D coverage;
 
-    /** Nearest Interpolation */
+    /**
+     * Nearest Interpolation
+     */
     private static InterpolationNearest nearest;
 
-    /** Bilinear Interpolation */
+    /**
+     * Bilinear Interpolation
+     */
     private static InterpolationBilinear bilinear;
 
-    /** Bicubic Interpolation */
+    /**
+     * Bicubic Interpolation
+     */
     private static InterpolationBicubic bicubic;
 
-    /** Scale X parameter */
+    /**
+     * Scale X parameter
+     */
     private static double scaleX;
 
-    /** Scale Y parameter */
+    /**
+     * Scale Y parameter
+     */
     private static double scaleY;
 
     private static GridCoverage2D coverageNoData;
@@ -99,26 +113,31 @@ public class ScaleProcessTest {
         coverage = (GridCoverage2D) reader.read(null);
         // Coverage properties
         Map properties = coverage.getProperties();
-        if(properties == null){
+        if (properties == null) {
             properties = new HashMap<>();
         }
         GridCoverageFactory gcf = new GridCoverageFactory(GeoTools.getDefaultHints());
-        
+
         // Same coverage with NoData Property
         Map properties1 = new HashMap(properties);
-        CoverageUtilities.setNoDataProperty(properties1, RangeFactory.create((short)-1, (short)1));
-        coverageNoData = gcf.create("nodata", coverage.getRenderedImage(), coverage.getEnvelope(), coverage.getSampleDimensions(), null, properties1);
+        CoverageUtilities.setNoDataProperty(properties1, RangeFactory.create((short) -1, (short) 
+                1));
+        coverageNoData = gcf.create("nodata", coverage.getRenderedImage(), coverage.getEnvelope()
+                , coverage.getSampleDimensions(), null, properties1);
         // Same Coverage with ROI Property
         Map properties2 = new HashMap(properties);
         roi = new ROIShape(new Rectangle(8, 8, 2, 2));
         CoverageUtilities.setROIProperty(properties2, roi);
-        coverageROI = gcf.create("roi", coverage.getRenderedImage(), coverage.getEnvelope(), coverage.getSampleDimensions(), null, properties2);
+        coverageROI = gcf.create("roi", coverage.getRenderedImage(), coverage.getEnvelope(), 
+                coverage.getSampleDimensions(), null, properties2);
 
         // Same Coverage with ROI and NoData Property
         Map properties3 = new HashMap(properties);
-        CoverageUtilities.setNoDataProperty(properties3, RangeFactory.create((short)-1, (short)-1));
+        CoverageUtilities.setNoDataProperty(properties3, RangeFactory.create((short) -1, (short) 
+                -1));
         CoverageUtilities.setROIProperty(properties3, roi);
-        coverageNoDataROI = gcf.create("roiNoData", coverage.getRenderedImage(), coverage.getEnvelope(), coverage.getSampleDimensions(), null, properties3);
+        coverageNoDataROI = gcf.create("roiNoData", coverage.getRenderedImage(), coverage
+                .getEnvelope(), coverage.getSampleDimensions(), null, properties3);
 
         // Reader disposal
         reader.dispose();
@@ -181,10 +200,11 @@ public class ScaleProcessTest {
     public void testNearestInterp() throws IOException {
         // Selection of the Scale process
         ScaleCoverage process = new ScaleCoverage();
-        // Definition of the Transformation object to use (The final image should be doubled and translated)
+        // Definition of the Transformation object to use (The final image should be doubled and 
+        // translated)
 
         // Execution of the operation
-        GridCoverage2D result = process.execute(coverage, scaleX, scaleY,0, 0,
+        GridCoverage2D result = process.execute(coverage, scaleX, scaleY, 0, 0,
                 nearest);
 
         // Check if the final image is correct
@@ -195,7 +215,8 @@ public class ScaleProcessTest {
     public void testBilinearInterp() throws IOException {
         // Selection of the Scale process
         ScaleCoverage process = new ScaleCoverage();
-        // Definition of the Transformation object to use (The final image should be doubled and translated)
+        // Definition of the Transformation object to use (The final image should be doubled and 
+        // translated)
 
         // Execution of the operation
         GridCoverage2D result = process.execute(coverage, scaleX, scaleY, 0, 0,
@@ -209,7 +230,8 @@ public class ScaleProcessTest {
     public void testBicubicInterp() throws IOException {
         // Selection of the Affine process
         ScaleCoverage process = new ScaleCoverage();
-        // Definition of the Transformation object to use (The final image should be doubled and translated)
+        // Definition of the Transformation object to use (The final image should be doubled and 
+        // translated)
 
         // Execution of the operation
         GridCoverage2D result = process.execute(coverage, scaleX, scaleY, 0, 0,
@@ -223,7 +245,8 @@ public class ScaleProcessTest {
     public void testNoData() throws IOException {
         // Selection of the Affine process
         ScaleCoverage process = new ScaleCoverage();
-        // Definition of the Transformation object to use (The final image should be doubled and translated)
+        // Definition of the Transformation object to use (The final image should be doubled and 
+        // translated)
 
         // Execution of the operation
         GridCoverage2D result = process.execute(coverageNoData, scaleX, scaleY, 0, 0,
@@ -231,7 +254,7 @@ public class ScaleProcessTest {
 
         // Check if the final image is correct
         ensureCorrectTransformation(result, scaleX, scaleY);
-        
+
         // Check if the NoData property is present
         NoDataContainer container = CoverageUtilities.getNoDataProperty(result);
         assertNotNull(container);
@@ -241,22 +264,23 @@ public class ScaleProcessTest {
 
         assertEquals(nod.getMax().intValue(), 1);
         assertEquals(minNodata, -1);
-        
+
         // Check if all the values are equal to nodata
         ImageWorker w = new ImageWorker(result.getRenderedImage());
         w.setNoData(null);
         int max = (int) w.getMaximums()[0];
         int min = (int) w.getMinimums()[0];
-        
+
         assertEquals(max, minNodata);
         assertEquals(min, minNodata);
     }
-  
+
     @Test
     public void testROI() throws IOException {
         // Selection of the Affine process
         ScaleCoverage process = new ScaleCoverage();
-        // Definition of the Transformation object to use (The final image should be doubled and translated)
+        // Definition of the Transformation object to use (The final image should be doubled and 
+        // translated)
 
         // Execution of the operation
         GridCoverage2D result = process.execute(coverageROI, scaleX, scaleY, 0, 0,
@@ -264,11 +288,11 @@ public class ScaleProcessTest {
 
         // Check if the final image is correct
         ensureCorrectTransformation(result, scaleX, scaleY);
-        
+
         // Check if the NoData property is present
         NoDataContainer container = CoverageUtilities.getNoDataProperty(result);
         assertNull(container);
-        
+
         // Check if the ROI property is present
         ROI roiNew = CoverageUtilities.getROIProperty(result);
         assertNotNull(roiNew);
@@ -280,30 +304,31 @@ public class ScaleProcessTest {
         assertEquals(bounds.y, inBounds.y * scaleY, 0.0001);
         assertEquals(bounds.width, inBounds.width * scaleX, 0.0001);
         assertEquals(bounds.height, inBounds.height * scaleY, 0.0001);
-        
+
         RenderedImage img = result.getRenderedImage();
         RandomIter it = RandomIterFactory.create(img, null, true, true);
-        
+
         int minX = img.getMinX();
         int minY = img.getMinY();
         int maxX = img.getWidth() + minX;
         int maxY = img.getHeight() + minY;
-        
-        for(int x = minX; x < maxX; x++){
-            for(int y = minY; y < maxY; y++){
+
+        for (int x = minX; x < maxX; x++) {
+            for (int y = minY; y < maxY; y++) {
                 int sample = it.getSample(x, y, 0);
-                if(!roiNew.contains(x, y)){
+                if (!roiNew.contains(x, y)) {
                     assertEquals(sample, 0);
                 }
-            }    
+            }
         }
     }
-  
+
     @Test
     public void testROINoData() throws IOException {
         // Selection of the Affine process
         ScaleCoverage process = new ScaleCoverage();
-        // Definition of the Transformation object to use (The final image should be doubled and translated)
+        // Definition of the Transformation object to use (The final image should be doubled and 
+        // translated)
 
         // Execution of the operation
         GridCoverage2D result = process.execute(coverageNoDataROI, scaleX, scaleY, 0, 0,
@@ -311,11 +336,11 @@ public class ScaleProcessTest {
 
         // Check if the final image is correct
         ensureCorrectTransformation(result, scaleX, scaleY);
-        
+
         // Check if the NoData property is present
         NoDataContainer container = CoverageUtilities.getNoDataProperty(result);
         assertNotNull(container);
-        
+
         // Check if the ROI property is present
         ROI roiNew = CoverageUtilities.getROIProperty(result);
         assertNotNull(roiNew);
@@ -327,28 +352,28 @@ public class ScaleProcessTest {
         assertEquals(bounds.y, inBounds.y * scaleY, 0.0001);
         assertEquals(bounds.width, inBounds.width * scaleX, 0.0001);
         assertEquals(bounds.height, inBounds.height * scaleY, 0.0001);
-        
+
         RenderedImage img = result.getRenderedImage();
         RandomIter it = RandomIterFactory.create(img, null, true, true);
-        
+
         int minX = img.getMinX();
         int minY = img.getMinY();
         int maxX = img.getWidth() + minX;
         int maxY = img.getHeight() + minY;
-        
-        for(int x = minX; x < maxX; x++){
-            for(int y = minY; y < maxY; y++){
+
+        for (int x = minX; x < maxX; x++) {
+            for (int y = minY; y < maxY; y++) {
                 int sample = it.getSample(x, y, 0);
-                if(!roiNew.contains(x, y)){
+                if (!roiNew.contains(x, y)) {
                     assertEquals(sample, -1);
                 }
-            }    
+            }
         }
     }
 
     /**
      * Check if the Coverage is correctly transformed.
-     * 
+     *
      * @param result
      * @param m00
      * @param m11

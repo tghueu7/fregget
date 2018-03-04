@@ -39,7 +39,7 @@ import org.mockito.stubbing.Answer;
 
 /**
  * Tests for {@link JDBCTransactionState}.
- * 
+ *
  * @author awaterme
  */
 public class JDBCTransactionStateTest {
@@ -82,8 +82,9 @@ public class JDBCTransactionStateTest {
     }
 
     /**
-     * Tests if connection gets closed on internally managed connections and creation of log statements.
-     * 
+     * Tests if connection gets closed on internally managed connections and creation of log 
+     * statements.
+     *
      * @throws IOException
      * @throws SQLException
      */

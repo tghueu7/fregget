@@ -32,9 +32,7 @@ import org.geotools.util.logging.Logging;
 import org.opengis.feature.simple.SimpleFeature;
 
 /**
- * 
  * @author Simone Giannecchini, GeoSolutions SAS
- * 
  */
 class TimestampFileNameExtractor extends RegExPropertiesCollector {
     private final static Logger LOGGER = Logging.getLogger(TimestampFileNameExtractor.class);
@@ -44,15 +42,16 @@ class TimestampFileNameExtractor extends RegExPropertiesCollector {
     private DateFormat customFormat;
 
     /**
-     * @deprecated use {@link TimestampFileNameExtractor#TimestampFileNameExtractor(PropertiesCollectorSPI, List, String, String, boolean)
+     * @deprecated use {@link TimestampFileNameExtractor#TimestampFileNameExtractor
+     * (PropertiesCollectorSPI, List, String, String, boolean)
      */
     public TimestampFileNameExtractor(PropertiesCollectorSPI spi, List<String> propertyNames,
-            String regex, String format) {
+                                      String regex, String format) {
         this(spi, propertyNames, regex, format, false);
     }
 
     public TimestampFileNameExtractor(PropertiesCollectorSPI spi, List<String> propertyNames,
-            String regex, String format, boolean fullPath) {
+                                      String regex, String format, boolean fullPath) {
         super(spi, propertyNames, regex, fullPath);
         if (format != null) {
             customFormat = new SimpleDateFormat(format);

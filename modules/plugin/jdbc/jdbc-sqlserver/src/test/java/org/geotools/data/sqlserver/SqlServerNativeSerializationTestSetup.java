@@ -6,8 +6,6 @@ import org.geotools.jdbc.JDBCDataStore;
 import java.util.Properties;
 
 /**
- *
- *
  * @source $URL$
  */
 public class SqlServerNativeSerializationTestSetup extends SQLServerTestSetup {

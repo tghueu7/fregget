@@ -39,17 +39,14 @@ import junit.framework.Assert;
 
 /**
  * Tests of {@link AppSchemaConfiguration} used with {@link Schemas#findSchemas(Configuration)}.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * Note that the test configurations constructed in this fixture will be of no use in production
  * because they do not add a GML dependency such as GMLConfiguration, which is necessary to have
  * Java bindings.
- * 
+ *
  * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
- *
- *
- *
  * @source $URL$
  */
 public class AppSchemaConfigurationTest {
@@ -108,7 +105,7 @@ public class AppSchemaConfigurationTest {
         Configuration configuration = new AppSchemaConfiguration(
                 "http://schemas.example.org/catalog-test",
                 "http://schemas.example.org/catalog-test/catalog-test.xsd", new SchemaResolver(
-                        SchemaCatalog.build(getClass().getResource("/test-data/catalog.xml"))));
+                SchemaCatalog.build(getClass().getResource("/test-data/catalog.xml"))));
         SchemaIndex schemaIndex = null;
         try {
             schemaIndex = Schemas.findSchemas(configuration);

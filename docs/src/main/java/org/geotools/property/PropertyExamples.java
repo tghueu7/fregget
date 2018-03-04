@@ -19,7 +19,7 @@ import org.opengis.feature.simple.SimpleFeatureType;
 public class PropertyExamples {
 
     static File directory;
-    
+
     public static void main(String[] args) {
         File tmp = null;
         try {
@@ -36,7 +36,7 @@ public class PropertyExamples {
             }
             File example = new File(tmp, "example.properties");
 
-            BufferedWriter writer = new BufferedWriter(new FileWriter(example));            
+            BufferedWriter writer = new BufferedWriter(new FileWriter(example));
             writer.write("_=id:Integer,name:String,geom:Point");
             writer.newLine();
             writer.write("fid1=1|jody garnett|POINT(0 0)");
@@ -66,7 +66,7 @@ public class PropertyExamples {
             tmp.delete();
         }
     }
-    
+
     private static void example3() throws IOException {
         System.out.println("example3 start\n");
         // example3 start

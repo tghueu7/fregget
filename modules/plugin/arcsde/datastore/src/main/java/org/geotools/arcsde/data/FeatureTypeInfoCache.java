@@ -66,13 +66,13 @@ import com.esri.sde.sdk.client.SeTable;
  * names in the server and clear the feature type cache. See the constructor's javadoc for more
  * info.
  * </p>
- * 
+ *
  * @author Gabriel Roldan
  * @version $Id$
- * @since 2.5.6
  * @source $URL:
- *         http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/main/java/org
- *         /geotools/arcsde/data/FeatureTypeInfoCache.java $
+ * http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/main/java/org
+ * /geotools/arcsde/data/FeatureTypeInfoCache.java $
+ * @since 2.5.6
  */
 final class FeatureTypeInfoCache {
 
@@ -124,18 +124,18 @@ final class FeatureTypeInfoCache {
      * available layers needs to be updated. This update happens at this class' construction time
      * and, optionally, every {@code cacheUpdateFreqSecs} seconds.
      * </p>
-     * 
+     *
      * @param sessionPool
-     * @param namespace
-     *            the namespace {@link FeatureType}s are created with, may be {@code null}
-     * @param cacheUpdateFreqSecs
-     *            layer name cache update frequency, in seconds. {@code <= 0} means do never update.
-     * @param allowNonSpatialTables
-     *            whether non spatial table names are requested
+     * @param namespace             the namespace {@link FeatureType}s are created with, may be 
+     * {@code null}
+     * @param cacheUpdateFreqSecs   layer name cache update frequency, in seconds. {@code <= 0} 
+     *                              means do never update.
+     * @param allowNonSpatialTables whether non spatial table names are requested
      * @throws IOException
      */
     public FeatureTypeInfoCache(final ISessionPool sessionPool, final String namespace,
-            final int cacheUpdateFreqSecs, boolean allowNonSpatialTables) throws IOException {
+                                final int cacheUpdateFreqSecs, boolean allowNonSpatialTables) 
+            throws IOException {
 
         availableLayerNames = new TreeSet<String>();
         featureTypeInfos = new HashMap<String, FeatureTypeInfo>();
@@ -213,7 +213,7 @@ final class FeatureTypeInfoCache {
     /**
      * Check inProcessFeatureTypeInfos and featureTypeInfos for the provided typeName, checking the
      * ArcSDE server as a last resort.
-     * 
+     *
      * @param typeName
      * @return
      */
@@ -244,7 +244,7 @@ final class FeatureTypeInfoCache {
      * They are making use of this function because they already have their own Session to request
      * the ftInfo if needed.
      * </p>
-     * 
+     *
      * @param typeName
      * @param session
      * @return
@@ -448,7 +448,8 @@ final class FeatureTypeInfoCache {
                                 + " as it is non spatial");
                         continue;
                     }
-                    if (reg.getRowIdColumnType() == SeRegistration.SE_REGISTRATION_ROW_ID_COLUMN_TYPE_NONE) {
+                    if (reg.getRowIdColumnType() == SeRegistration
+                            .SE_REGISTRATION_ROW_ID_COLUMN_TYPE_NONE) {
                         LOGGER.finer("Ignoring ArcSDE registered table " + tableName
                                 + " as it has no row id column");
                         continue;

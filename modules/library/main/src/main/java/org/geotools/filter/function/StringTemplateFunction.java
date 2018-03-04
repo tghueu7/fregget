@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -41,7 +41,7 @@ import org.opengis.filter.expression.Literal;
  * <li>A template using ${0} for the fully matched string, ${n} for the n-th matching group
  * <li>An optional value returned if the regular expresion does not match the input string
  * </ol>
- * 
+ * <p>
  * Here are some examples using CQL as the expression language:
  * <ol>
  * <li>
@@ -53,7 +53,6 @@ import org.opengis.filter.expression.Literal;
  * <li>
  * <code>stringTemplate('abcd', '\d{4}-\d{2}-\d{2}T(\d{2}):\d{2}:\d{2}', '${1}', 'default')</code>
  * will return <code>default</code> (no match, but there is a default value </old>
- * 
  */
 public class StringTemplateFunction implements Function {
 
@@ -62,7 +61,7 @@ public class StringTemplateFunction implements Function {
     private Pattern staticPattern;
     private final Literal fallback;
     volatile Object[] convertedValues;
-    
+
     /**
      * Make the instance of FunctionName available in
      * a consistent spot.
@@ -78,11 +77,12 @@ public class StringTemplateFunction implements Function {
     public StringTemplateFunction(List<Expression> parameters, Literal fallback) {
         this.parameters = parameters;
         this.fallback = fallback;
-        
+
         // check for valid structure
         if (parameters.size() < 3) {
             throw new IllegalArgumentException(
-                    "We need at least 3 input values, the input string, the regular expression, and the template");
+                    "We need at least 3 input values, the input string, the regular expression, " +
+                            "and the template");
         } else if (parameters.size() > 4) {
             throw new IllegalArgumentException("We need at least 3 or 4 input values, "
                     + parameters.size()
@@ -93,9 +93,11 @@ public class StringTemplateFunction implements Function {
     public String getName() {
         return NAME.getName();
     }
+
     public FunctionName getFunctionName() {
         return NAME;
     }
+
     public List<Expression> getParameters() {
         return Collections.unmodifiableList(parameters);
     }
@@ -109,15 +111,15 @@ public class StringTemplateFunction implements Function {
     }
 
     public <T> T evaluate(Object object, Class<T> context) {
-        
+
         // get the default value
         String defaultValue;
-        if(parameters.size() == 4) {
+        if (parameters.size() == 4) {
             defaultValue = parameters.get(3).evaluate(object, String.class);
         } else {
             defaultValue = null;
         }
-        
+
         // the input string
         String input = parameters.get(0).evaluate(object, String.class);
         Pattern pattern = getPattern(object);
@@ -129,7 +131,7 @@ public class StringTemplateFunction implements Function {
                 result = applyTemplate(template, matcher);
             }
         }
-        
+
         if (context != null) {
             return Converters.convert(result, context);
         } else {
@@ -178,5 +180,5 @@ public class StringTemplateFunction implements Function {
     public Literal getFallbackValue() {
         return fallback;
     }
-    
+
 }

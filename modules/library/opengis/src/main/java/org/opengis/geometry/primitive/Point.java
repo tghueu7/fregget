@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.primitive;
@@ -26,18 +26,14 @@ import static org.opengis.annotation.Specification.*;
  * has been subclassed to provide additional non-geometric information such as
  * symbology.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
- * @since GeoAPI 1.0
- *
- * @see PrimitiveFactory#createPoint
- *
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @todo Some associations are commented out for now.
+ * @see PrimitiveFactory#createPoint
+ * @since GeoAPI 1.0
  */
-@UML(identifier="GM_Point", specification=ISO_19107)
+@UML(identifier = "GM_Point", specification = ISO_19107)
 public interface Point extends Primitive, Position {
     /**
      * Returns the direct position of this point. {@code Point} is the only subclass
@@ -50,7 +46,7 @@ public interface Point extends Primitive, Position {
      *
      * @return The direct position.
      */
-    @UML(identifier="position", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "position", obligation = MANDATORY, specification = ISO_19107)
     DirectPosition getDirectPosition();
 
     /**
@@ -62,12 +58,11 @@ public interface Point extends Primitive, Position {
      * allowing {@code Point} to use this technique, infinitely recursive references
      * are prevented.
      *
-     * @param  position The direct position.
+     * @param position The direct position.
      * @throws UnmodifiableGeometryException if this geometry is not modifiable.
-     *
      * @since GeoAPI 2.2
      */
-    @UML(identifier="position", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "position", obligation = MANDATORY, specification = ISO_19107)
     void setDirectPosition(DirectPosition position) throws UnmodifiableGeometryException;
 
     /**
@@ -75,7 +70,7 @@ public interface Point extends Primitive, Position {
      *
      * @return Always {@code null}.
      */
-    @UML(identifier="boundary", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "boundary", obligation = MANDATORY, specification = ISO_19107)
     PrimitiveBoundary getBoundary();
 
     /**
@@ -92,7 +87,7 @@ public interface Point extends Primitive, Position {
      * @param toPoint the destination point.
      * @return The tangent to the curve between this point and the passed position.
      */
-    @UML(identifier="bearing", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "bearing", obligation = MANDATORY, specification = ISO_19107)
     Bearing getBearing(Position toPoint);
 
     /**
@@ -101,7 +96,7 @@ public interface Point extends Primitive, Position {
      * @issue http://jira.codehaus.org/browse/GEO-63
      */
     @Association("Oriented")
-    @UML(identifier="proxy", obligation=FORBIDDEN, specification=ISO_19107)
+    @UML(identifier = "proxy", obligation = FORBIDDEN, specification = ISO_19107)
     OrientablePrimitive[] getProxy();
 
 //    public org.opengis.geometry.complex.GM_CompositePoint composite[];

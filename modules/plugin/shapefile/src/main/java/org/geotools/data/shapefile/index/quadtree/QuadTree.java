@@ -34,12 +34,10 @@ import com.vividsolutions.jts.geom.Envelope;
  * <br>
  * Note that this implementation is <b>not thread safe</b>, so don't share the
  * same instance across two or more threads.
- * 
+ * <p>
  * TODO: example of typical use...
- * 
+ *
  * @author Tommaso Nolli
- *
- *
  * @source $URL$
  */
 public class QuadTree {
@@ -59,11 +57,9 @@ public class QuadTree {
 
     /**
      * Constructor. The maxDepth will be calculated.
-     * 
-     * @param numShapes
-     *                The total number of shapes to index
-     * @param maxBounds
-     *                The bounds of all geometries to be indexed
+     *
+     * @param numShapes The total number of shapes to index
+     * @param maxBounds The bounds of all geometries to be indexed
      */
     public QuadTree(int numShapes, Envelope maxBounds, IndexFile file) {
         this(numShapes, 0, maxBounds, file);
@@ -71,16 +67,13 @@ public class QuadTree {
 
     /**
      * Constructor.
-     * 
-     * @param numShapes
-     *                The total number of shapes to index
-     * @param maxDepth
-     *                The max depth of the index, must be <= 65535
-     * @param maxBounds
-     *                The bounds of all geometries to be indexed
+     *
+     * @param numShapes The total number of shapes to index
+     * @param maxDepth  The max depth of the index, must be <= 65535
+     * @param maxBounds The bounds of all geometries to be indexed
      */
     public QuadTree(int numShapes, int maxDepth, Envelope maxBounds,
-            IndexFile file) {
+                    IndexFile file) {
         if (maxDepth > 65535) {
             throw new IllegalArgumentException("maxDepth must be <= 65535");
         }
@@ -110,11 +103,9 @@ public class QuadTree {
     /**
      * Constructor. WARNING: using this constructor, you have to manually set
      * the root
-     * 
-     * @param numShapes
-     *                The total number of shapes to index
-     * @param maxDepth
-     *                The max depth of the index, must be <= 65535
+     *
+     * @param numShapes The total number of shapes to index
+     * @param maxDepth  The max depth of the index, must be <= 65535
      */
     public QuadTree(int numShapes, int maxDepth, IndexFile file) {
         this(numShapes, maxDepth, null, file);
@@ -122,11 +113,9 @@ public class QuadTree {
 
     /**
      * Inserts a shape record id in the quadtree
-     * 
-     * @param recno
-     *                The record number
-     * @param bounds
-     *                The bounding box
+     *
+     * @param recno  The record number
+     * @param bounds The bounding box
      */
     public void insert(int recno, Envelope bounds) throws StoreException {
         this.insert(this.root, recno, bounds, this.maxDepth);
@@ -134,7 +123,7 @@ public class QuadTree {
 
     /**
      * Inserts a shape record id in the quadtree
-     * 
+     *
      * @param node
      * @param recno
      * @param bounds
@@ -157,7 +146,7 @@ public class QuadTree {
                     return;
                 }
             }
-        } 
+        }
         if (maxDepth > 1 && node.getNumSubNodes() < 4) {
             /*
              * Otherwise, consider creating four subnodes if could fit into
@@ -177,18 +166,18 @@ public class QuadTree {
             quad3 = tmp[0];
             quad4 = tmp[1];
 
-            Node subnode = null;            
+            Node subnode = null;
             if (quad1.contains(bounds)) {
                 subnode = new Node(quad1);
-            } else if(quad2.contains(bounds)) {
+            } else if (quad2.contains(bounds)) {
                 subnode = new Node(quad2);
-            } else if(quad3.contains(bounds)) {
+            } else if (quad3.contains(bounds)) {
                 subnode = new Node(quad3);
-            } else if(quad4.contains(bounds)) {
+            } else if (quad4.contains(bounds)) {
                 subnode = new Node(quad4);
             }
-            
-            if(subnode != null) {
+
+            if (subnode != null) {
                 node.addSubNode(subnode);
                 this.insert(subnode, recno, bounds, maxDepth - 1);
                 return;
@@ -200,7 +189,6 @@ public class QuadTree {
     }
 
     /**
-     * 
      * @param bounds
      * @return A List of Integer
      */
@@ -219,7 +207,7 @@ public class QuadTree {
 
     /**
      * Closes this QuadTree after use...
-     * 
+     *
      * @throws StoreException
      */
     public void close(Iterator iter) throws IOException {
@@ -227,7 +215,7 @@ public class QuadTree {
     }
 
     /**
-     * 
+     *
      */
     public boolean trim() throws StoreException {
         LOGGER.fine("Trimming the tree...");
@@ -236,9 +224,8 @@ public class QuadTree {
 
     /**
      * Trim subtrees, and free subnodes that come back empty.
-     * 
-     * @param node
-     *                The node to trim
+     *
+     * @param node The node to trim
      * @return true if this node has been trimmed
      */
     private boolean trim(Node node) throws StoreException {
@@ -274,9 +261,8 @@ public class QuadTree {
 
     /**
      * Splits the specified Envelope
-     * 
-     * @param in
-     *                an Envelope to split
+     *
+     * @param in an Envelope to split
      * @return an array of 2 Envelopes
      */
     private Envelope[] splitBounds(Envelope in) {
@@ -318,8 +304,7 @@ public class QuadTree {
     }
 
     /**
-     * @param maxDepth
-     *                The maxDepth to set.
+     * @param maxDepth The maxDepth to set.
      */
     public void setMaxDepth(int maxDepth) {
         this.maxDepth = maxDepth;
@@ -333,8 +318,7 @@ public class QuadTree {
     }
 
     /**
-     * @param numShapes
-     *                The numShapes to set.
+     * @param numShapes The numShapes to set.
      */
     public void setNumShapes(int numShapes) {
         this.numShapes = numShapes;
@@ -348,8 +332,7 @@ public class QuadTree {
     }
 
     /**
-     * @param root
-     *                The root to set.
+     * @param root The root to set.
      */
     public void setRoot(Node root) {
         this.root = root;

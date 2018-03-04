@@ -62,10 +62,6 @@ import com.vividsolutions.jts.util.Stopwatch;
  * inside another complex attribute.
  *
  * @author Rini Angreani (CSIRO Earth Science and Resource Engineering)
- *
- *
- *
- *
  * @source $URL$
  */
 public class FeatureChainingTest extends AppSchemaTestSupport {
@@ -465,7 +461,8 @@ public class FeatureChainingTest extends AppSchemaTestSupport {
         // </ogc:PropertyIsLike>
         // </ogc:Filter>
 
-        Expression property = ff.property("gsml:specification/gsml:GeologicUnit/gml:description", namespaces);
+        Expression property = ff.property("gsml:specification/gsml:GeologicUnit/gml:description",
+                namespaces);
         Filter filter = ff.like(property,
                 "Olivine basalt, tuff, microgabbro, minor sedimentary rocks");
         FeatureCollection<FeatureType, Feature> filteredResults = mfSource.getFeatures(filter);
@@ -482,12 +479,14 @@ public class FeatureChainingTest extends AppSchemaTestSupport {
         /**
          * Test filtering on multi valued properties
          */
-        FeatureSource<FeatureType, Feature> guSource = AppSchemaDataAccessRegistry.getFeatureSource(GEOLOGIC_UNIT_NAME);
+        FeatureSource<FeatureType, Feature> guSource = AppSchemaDataAccessRegistry
+                .getFeatureSource(GEOLOGIC_UNIT_NAME);
         // composition part is a multi valued property
         // we're testing that we can get a geologic unit which has a composition part with a
         // significant proportion value
         property = ff
-                .property("gsml:composition/gsml:CompositionPart/gsml:proportion/gsml:CGI_TermValue/gsml:value", namespaces);
+                .property("gsml:composition/gsml:CompositionPart/gsml:proportion/gsml" +
+                        ":CGI_TermValue/gsml:value", namespaces);
         filter = ff.equals(property, ff.literal("significant"));
         filteredResults = guSource.getFeatures(filter);
         assertEquals(2, size(filteredResults));
@@ -501,7 +500,8 @@ public class FeatureChainingTest extends AppSchemaTestSupport {
         /**
          * Test filtering client properties on chained features
          */
-        property = ff.property("gsml:specification/gsml:GeologicUnit/gsml:occurrence/@xlink:href", namespaces);
+        property = ff.property("gsml:specification/gsml:GeologicUnit/gsml:occurrence/@xlink:href" +
+                "", namespaces);
         filter = ff.like(property, "urn:cgi:feature:MappedFeature:mf1");
         filteredResults = mfSource.getFeatures(filter);
         assertEquals(1, size(filteredResults));
@@ -730,13 +730,15 @@ public class FeatureChainingTest extends AppSchemaTestSupport {
     }
 
     /**
-     * Tests that equivalent source data stores (i.e. with exactly the same configuration parameters) are detected and only one instance of them is
+     * Tests that equivalent source data stores (i.e. with exactly the same configuration 
+     * parameters) are detected and only one instance of them is
      * created and shared between all feature mappings referencing it.
-     * 
      * <p>
-     * Note: the above holds true in the context of a single {@link AppSchemaDataAccess} instance, not across data stores.
+     * <p>
+     * Note: the above holds true in the context of a single {@link AppSchemaDataAccess} 
+     * instance, not across data stores.
      * </p>
-     * 
+     *
      * @throws IOException
      */
     @Test
@@ -757,7 +759,8 @@ public class FeatureChainingTest extends AppSchemaTestSupport {
         assertTrue(cgiFs instanceof MappingFeatureSource);
         FeatureTypeMapping cgiMapping = ((MappingFeatureSource) cgiFs).getMapping();
 
-        // these feature types all come from the same AppSchemaDataAccess and their source data store
+        // these feature types all come from the same AppSchemaDataAccess and their source data 
+        // store
         // configuration is the same --> they point to the same source data store instance
         FeatureSource guSourceFs = guMapping.getSource();
         assertEquals(guSourceFs.getDataStore(), cpMapping.getSource().getDataStore());
@@ -814,7 +817,8 @@ public class FeatureChainingTest extends AppSchemaTestSupport {
         FeatureType guType = guDataAccess.getSchema(GEOLOGIC_UNIT);
         assertNotNull(guType);
 
-        FeatureSource<FeatureType, Feature> guSource = (FeatureSource<FeatureType, Feature>) guDataAccess
+        FeatureSource<FeatureType, Feature> guSource = (FeatureSource<FeatureType, Feature>) 
+                guDataAccess
                 .getFeatureSource(GEOLOGIC_UNIT);
         guFeatures = (FeatureCollection) guSource.getFeatures();
 

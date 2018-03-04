@@ -24,11 +24,8 @@ package org.geotools.jdbc;
  * the max value of the key and adding 1 to it. If the column is character based
  * a random string is generated.
  * </p>
+ *
  * @author Justin Deoliveira, OpenGEO
- *
- *
- *
- *
  * @source $URL$
  */
 public class NonIncrementingPrimaryKeyColumn extends PrimaryKeyColumn {

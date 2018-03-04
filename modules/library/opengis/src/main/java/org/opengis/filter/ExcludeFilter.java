@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.filter;
@@ -18,17 +18,15 @@ import java.io.Serializable;
  * This is a placeholder filter intended to be used in data structuring definition.
  * <p>
  * <ul>
- *   <li>EXCLUDE or Filter ==> Filter</li>
- *   <li>EXCLUDE and Filter ==> EXCLUDE</li>
- *   <li>EXCLUDE ==> INCLUDE</li>
+ * <li>EXCLUDE or Filter ==> Filter</li>
+ * <li>EXCLUDE and Filter ==> EXCLUDE</li>
+ * <li>EXCLUDE ==> INCLUDE</li>
  * </ul>
  * <p>
  * The above does imply that the AND opperator can short circuit on encountering ALL.
  *
  * @author Jody Garnett (Refractions Research, Inc.)
  * @author Martin Desruisseaux (Geomatys)
- *
- *
  * @source $URL$
  */
 public final class ExcludeFilter implements Filter, Serializable {

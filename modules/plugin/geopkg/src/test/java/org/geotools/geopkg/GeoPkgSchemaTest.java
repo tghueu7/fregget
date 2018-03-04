@@ -28,6 +28,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.junit.After;
@@ -40,7 +41,8 @@ public class GeoPkgSchemaTest {
 
     @Before
     public void setUp() throws Exception {
-        geopackage = new GeoPackage(File.createTempFile("GeoPkgSchemaTest", "db", new File("target")));
+        geopackage = new GeoPackage(File.createTempFile("GeoPkgSchemaTest", "db", new File
+                ("target")));
         geopackage.init();
     }
 

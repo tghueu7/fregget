@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -31,12 +31,10 @@ import org.opengis.feature.simple.SimpleFeatureType;
  * Basic support for reading Features from an AttributeReader.
  *
  * @author Ian Schneider
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
-public class DefaultFeatureReader implements  FeatureReader<SimpleFeatureType, SimpleFeature> {
+public class DefaultFeatureReader implements FeatureReader<SimpleFeatureType, SimpleFeature> {
     private final AttributeReader attributeReader;
     private final SimpleFeatureType schema;
     protected final Object[] attributes;
@@ -45,12 +43,11 @@ public class DefaultFeatureReader implements  FeatureReader<SimpleFeatureType, S
      * Creates a new instance of AbstractFeatureReader
      *
      * @param attributeReader AttributeReader for contents
-     * @param schema FeatureType to use, <code>null</code> if not provided
-     *
+     * @param schema          FeatureType to use, <code>null</code> if not provided
      * @throws SchemaException If Schema could not be obtained
      */
     public DefaultFeatureReader(AttributeReader attributeReader,
-        SimpleFeatureType schema) throws SchemaException {
+                                SimpleFeatureType schema) throws SchemaException {
         this.attributeReader = attributeReader;
 
         if (schema == null) {
@@ -62,12 +59,12 @@ public class DefaultFeatureReader implements  FeatureReader<SimpleFeatureType, S
     }
 
     public DefaultFeatureReader(AttributeReader attributeReader)
-        throws SchemaException {
+            throws SchemaException {
         this(attributeReader, null);
     }
 
     public SimpleFeature next()
-        throws IOException, IllegalAttributeException, NoSuchElementException {
+            throws IOException, IllegalAttributeException, NoSuchElementException {
         SimpleFeature f = null;
 
         if (attributeReader.hasNext()) {
@@ -79,10 +76,10 @@ public class DefaultFeatureReader implements  FeatureReader<SimpleFeatureType, S
     }
 
     protected SimpleFeatureType createSchema() throws SchemaException {
-        
+
         SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
         for (int i = 0, ii = attributeReader.getAttributeCount(); i < ii;
-                i++) {
+             i++) {
             builder.add(attributeReader.getAttributeType(i));
         }
 
@@ -90,12 +87,12 @@ public class DefaultFeatureReader implements  FeatureReader<SimpleFeatureType, S
     }
 
     protected SimpleFeature readFeature(AttributeReader atts)
-        throws IllegalAttributeException, IOException {
+            throws IllegalAttributeException, IOException {
         for (int i = 0, ii = atts.getAttributeCount(); i < ii; i++) {
             attributes[i] = atts.read(i);
         }
 
-        return SimpleFeatureBuilder.build( schema, attributes, null );
+        return SimpleFeatureBuilder.build(schema, attributes, null);
     }
 
     public void close() throws IOException {

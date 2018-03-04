@@ -29,7 +29,7 @@ public abstract class JDBCCompound3DTestSetup extends JDBCDelegatingTestSetup {
         super(delegate);
     }
 
-    
+
     protected final void setUpData() throws Exception {
         //kill all the data
         try {
@@ -66,11 +66,11 @@ public abstract class JDBCCompound3DTestSetup extends JDBCDelegatingTestSetup {
      * </p>
      * <p>
      * The table should be populated with the following data (assume 3d coordinates):
-     *  0 | LINESTRING( 1 1 0, 2 2 0, 4 2 1, 5 1 1);srid=7415 | "l2"
+     * 0 | LINESTRING( 1 1 0, 2 2 0, 4 2 1, 5 1 1);srid=7415 | "l2"
      * </p>
      */
     protected abstract void createLineCompound3DTable() throws Exception;
-    
+
     /**
      * Creates a table with the following schema:
      * <p>
@@ -78,8 +78,8 @@ public abstract class JDBCCompound3DTestSetup extends JDBCDelegatingTestSetup {
      * </p>
      * <p>
      * The table should be populated with the following data (assume 3d coordinates):
-     *  0 | POINT(1 1 1);srid=7415 | "p1"
-     *  1 | POINT(3 0 1);srid=7415 | "p2"
+     * 0 | POINT(1 1 1);srid=7415 | "p1"
+     * 1 | POINT(3 0 1);srid=7415 | "p2"
      * </p>
      */
     protected abstract void createPointCompound3DTable() throws Exception;

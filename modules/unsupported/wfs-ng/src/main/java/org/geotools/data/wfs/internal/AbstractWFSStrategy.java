@@ -98,28 +98,34 @@ import org.opengis.filter.spatial.Intersects;
  * <li> {@link #buildDescribeFeatureTypeParametersForGET}
  * <li> {@link #buildGetFeatureParametersForGET}
  * </ul>
- * 
  */
 public abstract class AbstractWFSStrategy extends WFSStrategy {
 
     protected static final Logger LOGGER = Loggers.MODULE;
 
-    public static final Configuration FILTER_1_0_CONFIGURATION = new org.geotools.filter.v1_0.OGCConfiguration();
+    public static final Configuration FILTER_1_0_CONFIGURATION = new org.geotools.filter
+            .v1_0.OGCConfiguration();
 
-    public static final Configuration WFS_1_0_CAPABILITIES_CONFIGURATION = new org.geotools.wfs.v1_0.WFSCapabilitiesConfiguration();
+    public static final Configuration WFS_1_0_CAPABILITIES_CONFIGURATION = new org.geotools.wfs
+            .v1_0.WFSCapabilitiesConfiguration();
 
-    public static final Configuration WFS_1_0_CONFIGURATION = new org.geotools.wfs.v1_0.WFSConfiguration();
+    public static final Configuration WFS_1_0_CONFIGURATION = new org.geotools.wfs
+            .v1_0.WFSConfiguration();
 
-    public static final Configuration FILTER_1_1_CONFIGURATION = new org.geotools.filter.v1_1.OGCConfiguration();
+    public static final Configuration FILTER_1_1_CONFIGURATION = new org.geotools.filter
+            .v1_1.OGCConfiguration();
 
-    public static final Configuration WFS_1_1_CONFIGURATION = new org.geotools.wfs.v1_1.WFSConfiguration();
+    public static final Configuration WFS_1_1_CONFIGURATION = new org.geotools.wfs
+            .v1_1.WFSConfiguration();
 
-    public static final Configuration FILTER_2_0_CONFIGURATION = new org.geotools.filter.v2_0.FESConfiguration();
+    public static final Configuration FILTER_2_0_CONFIGURATION = new org.geotools.filter
+            .v2_0.FESConfiguration();
 
-    public static final Configuration WFS_2_0_CONFIGURATION = new org.geotools.wfs.v2_0.WFSConfiguration();
+    public static final Configuration WFS_2_0_CONFIGURATION = new org.geotools.wfs
+            .v2_0.WFSConfiguration();
 
     protected WFSConfig config;
-    
+
     public AbstractWFSStrategy() {
         this.config = new WFSConfig();
     }
@@ -158,7 +164,8 @@ public abstract class AbstractWFSStrategy extends WFSStrategy {
     protected abstract EObject createListStoredQueriesRequestPost(ListStoredQueriesRequest request)
             throws IOException;
 
-    protected abstract EObject createDescribeStoredQueriesRequestPost(DescribeStoredQueriesRequest request)
+    protected abstract EObject createDescribeStoredQueriesRequestPost
+            (DescribeStoredQueriesRequest request)
             throws IOException;
 
     /**
@@ -169,7 +176,7 @@ public abstract class AbstractWFSStrategy extends WFSStrategy {
 
     /**
      * Returns the xml configuration used to encode all POST requests.
-     * 
+     *
      * @see #getPostContents(WFSRequest)
      */
     public abstract Configuration getWfsConfiguration();
@@ -185,9 +192,8 @@ public abstract class AbstractWFSStrategy extends WFSStrategy {
 
     /**
      * Factory method to create GetCapabilities Request
-     * 
-     * @param server
-     *            the URL that points to the server's getCapabilities document
+     *
+     * @param server the URL that points to the server's getCapabilities document
      * @return a configured GetCapabilitiesRequest that can be used to access the Document
      */
     @Override
@@ -207,7 +213,7 @@ public abstract class AbstractWFSStrategy extends WFSStrategy {
     public WFSConfig getConfig() {
         return config;
     }
-    
+
     protected String encodePropertyName(String propertyName) {
         return propertyName;
     }
@@ -238,7 +244,7 @@ public abstract class AbstractWFSStrategy extends WFSStrategy {
         if (request.getPropertyNames() != null && request.getPropertyNames().length > 0) {
             List<String> propertyNames = Arrays.asList(request.getPropertyNames());
             StringBuilder pnames = new StringBuilder();
-            for (Iterator<String> it = propertyNames.iterator(); it.hasNext();) {
+            for (Iterator<String> it = propertyNames.iterator(); it.hasNext(); ) {
                 pnames.append(it.next());
                 if (it.hasNext()) {
                     pnames.append(',');
@@ -268,7 +274,7 @@ public abstract class AbstractWFSStrategy extends WFSStrategy {
         if (supportedFilter instanceof Id) {
             final Set<Identifier> identifiers = ((Id) supportedFilter).getIdentifiers();
             StringBuffer idValues = new StringBuffer();
-            for (Iterator<Identifier> it = identifiers.iterator(); it.hasNext();) {
+            for (Iterator<Identifier> it = identifiers.iterator(); it.hasNext(); ) {
                 Object id = it.next().getID();
                 if (id instanceof FeatureId) {
                     idValues.append(((FeatureId) id).getRid());
@@ -374,9 +380,9 @@ public abstract class AbstractWFSStrategy extends WFSStrategy {
         String overrideOutputFormat = config.getOutputformatOverride();
         if (overrideOutputFormat != null && supportedOutputFormats.contains(overrideOutputFormat)) {
             return overrideOutputFormat;
-        }        
-            
-        List<String> clientSupportedFormats = getClientSupportedOutputFormats(operation);        
+        }
+
+        List<String> clientSupportedFormats = getClientSupportedOutputFormats(operation);
         for (String clientSupported : clientSupportedFormats) {
             if (supportedOutputFormats.contains(clientSupported)) {
                 return clientSupported;
@@ -604,11 +610,10 @@ public abstract class AbstractWFSStrategy extends WFSStrategy {
     /**
      * Splits the filter provided by the geotools query into the server supported and unsupported
      * ones.
-     * 
+     *
      * @param typeName
-     * 
      * @return a two-element array where the first element is the supported filter and the second
-     *         the one to post-process
+     * the one to post-process
      * @see org.geotools.data.wfs.internal.WFSStrategy#splitFilters(org.opengis.filter.Filter)
      */
     @Override
@@ -630,7 +635,8 @@ public abstract class AbstractWFSStrategy extends WFSStrategy {
                     if (spatialOps != null) {
                         if (null != spatialOps.getOperator("Intersect")) {
                             trace("WFS 1.0 capabilities states the spatial operator Intersect. ",
-                                    "Assuming it is Intersects and adding Intersects as a supported filter type");
+                                    "Assuming it is Intersects and adding Intersects as a " +
+                                            "supported filter type");
                             filterCaps.addName(Intersects.NAME);
                         }
                     }
@@ -667,7 +673,7 @@ public abstract class AbstractWFSStrategy extends WFSStrategy {
             post = splitter.getFilterPost();
 
         }
-        return new Filter[] { server, post };
+        return new Filter[]{server, post};
     }
 
     protected Filter simplify(Filter filter) {
@@ -687,20 +693,23 @@ public abstract class AbstractWFSStrategy extends WFSStrategy {
         Map<String, String> requestParams;
 
         switch (operation) {
-        case GET_FEATURE:
-            requestParams = buildGetFeatureParametersForGET((GetFeatureRequest) request);
-            break;
-        case DESCRIBE_FEATURETYPE:
-            requestParams = buildDescribeFeatureTypeParametersForGET((DescribeFeatureTypeRequest) request);
-            break;
-        case DESCRIBE_STORED_QUERIES:
-            requestParams = buildDescribeStoredQueriesParametersForGET((DescribeStoredQueriesRequest) request);
-            break;
-        case LIST_STORED_QUERIES:
-            requestParams = buildListStoredQueriesParametersForGET((ListStoredQueriesRequest) request);
-            break;
-        default:
-            throw new UnsupportedOperationException();
+            case GET_FEATURE:
+                requestParams = buildGetFeatureParametersForGET((GetFeatureRequest) request);
+                break;
+            case DESCRIBE_FEATURETYPE:
+                requestParams = buildDescribeFeatureTypeParametersForGET(
+                        (DescribeFeatureTypeRequest) request);
+                break;
+            case DESCRIBE_STORED_QUERIES:
+                requestParams = buildDescribeStoredQueriesParametersForGET(
+                        (DescribeStoredQueriesRequest) request);
+                break;
+            case LIST_STORED_QUERIES:
+                requestParams = buildListStoredQueriesParametersForGET((ListStoredQueriesRequest)
+                        request);
+                break;
+            default:
+                throw new UnsupportedOperationException();
         }
 
         URL baseUrl = getOperationURL(operation, GET);
@@ -716,7 +725,7 @@ public abstract class AbstractWFSStrategy extends WFSStrategy {
 
         final WFSOperationType operation = wfsRequest.getOperation();
 
-        if (DESCRIBE_FEATURETYPE.equals(operation) || 
+        if (DESCRIBE_FEATURETYPE.equals(operation) ||
                 DESCRIBE_STORED_QUERIES.equals(operation) ||
                 LIST_STORED_QUERIES.equals(operation)) {
             return "text/xml";
@@ -730,7 +739,7 @@ public abstract class AbstractWFSStrategy extends WFSStrategy {
     /**
      * Returns the input stream with the POST body contents for the given request.
      * <p>
-     * 
+     *
      * @see #createDescribeFeatureTypeRequestPost
      * @see #createGetFeatureRequestPost
      * @see #prepareEncoder
@@ -741,24 +750,27 @@ public abstract class AbstractWFSStrategy extends WFSStrategy {
         EObject requestObject;
 
         switch (request.getOperation()) {
-        case DESCRIBE_FEATURETYPE:
-            requestObject = createDescribeFeatureTypeRequestPost((DescribeFeatureTypeRequest) request);
-            break;
-        case DESCRIBE_STORED_QUERIES:
-            requestObject = createDescribeStoredQueriesRequestPost((DescribeStoredQueriesRequest) request);
-            break;
-        case GET_FEATURE:
-            requestObject = createGetFeatureRequestPost((GetFeatureRequest) request);
-            break;
-        case LIST_STORED_QUERIES:
-            requestObject = createListStoredQueriesRequestPost((ListStoredQueriesRequest) request);
-            break;
-        case TRANSACTION:
-            requestObject = createTransactionRequest((TransactionRequest) request);
-            break;
-        default:
-            throw new UnsupportedOperationException("not yet implemented for "
-                    + request.getOperation());
+            case DESCRIBE_FEATURETYPE:
+                requestObject = createDescribeFeatureTypeRequestPost((DescribeFeatureTypeRequest)
+                        request);
+                break;
+            case DESCRIBE_STORED_QUERIES:
+                requestObject = createDescribeStoredQueriesRequestPost(
+                        (DescribeStoredQueriesRequest) request);
+                break;
+            case GET_FEATURE:
+                requestObject = createGetFeatureRequestPost((GetFeatureRequest) request);
+                break;
+            case LIST_STORED_QUERIES:
+                requestObject = createListStoredQueriesRequestPost((ListStoredQueriesRequest) 
+                        request);
+                break;
+            case TRANSACTION:
+                requestObject = createTransactionRequest((TransactionRequest) request);
+                break;
+            default:
+                throw new UnsupportedOperationException("not yet implemented for "
+                        + request.getOperation());
         }
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -775,7 +787,7 @@ public abstract class AbstractWFSStrategy extends WFSStrategy {
         return new ByteArrayInputStream(out.toByteArray());
 
     }
-    
+
     @Override
     public Map<QName, Class<?>> getFieldTypeMappings() {
         return null;

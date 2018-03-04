@@ -55,8 +55,6 @@ import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.io.WKTReader;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class LabelObstacleTest {
@@ -91,14 +89,14 @@ public class LabelObstacleTest {
         tb.add("geom", MultiLineString.class);
         tb.add("name", String.class);
         mem.createSchema(tb.buildFeatureType());
-        
+
         loadData(mem, "roads");
         loadData(mem, "points");
         loadData(mem, "lines");
         loadData(mem, "polys");
         loadData(mem, "lines2");
     }
-    
+
     static void loadData(MemoryDataStore mem, String name) throws Exception {
         WKTReader wkt = new WKTReader();
 
@@ -159,7 +157,7 @@ public class LabelObstacleTest {
         map.setAreaOfInterest(env);
         map.setCoordinateReferenceSystem(env.getCoordinateReferenceSystem());
         for (int i = 0; i < sources.length; i++) {
-            if(styles[i] != null) {
+            if (styles[i] != null) {
                 map.addLayer(sources[i], styles[i]);
             }
         }
@@ -168,7 +166,7 @@ public class LabelObstacleTest {
             StreamingRenderer r = new StreamingRenderer();
             r.setJava2DHints(new RenderingHints(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON));
             r.setContext(map);
-    
+
             return RendererBaseTest.showRender("testPointLabeling", r, 5000, env);
         } finally {
             map.dispose();
@@ -179,14 +177,15 @@ public class LabelObstacleTest {
         return new File("src/test/resources/org/geotools/renderer/lite/test-data/obstacles/" + name
                 + ".png");
     }
-    
+
     @Test
     public void testExternalGraphicNoObstacle() throws Exception {
-        BufferedImage labels = render(sources("roads", "points"), styles("label", "grinNoObstacle"));
+        BufferedImage labels = render(sources("roads", "points"), styles("label", 
+                "grinNoObstacle"));
         BufferedImage points = render(sources("roads", "points"), styles(null, "grinNoObstacle"));
-        
+
         ImageWorker extrema = intersectionExtrema(labels, points);
-        
+
         // we should have intersections, thus min should be 1
         double[] minimum = extrema.getMinimums();//(double[]) extrema.getProperty("minimum");
         assertEquals(0.0, minimum[0], 1.0);
@@ -196,7 +195,7 @@ public class LabelObstacleTest {
     public void testExternalGraphic() throws Exception {
         BufferedImage labels = render(sources("roads", "points"), styles("label", "grin"));
         BufferedImage points = render(sources("roads", "points"), styles(null, "grin"));
-        
+
         checkNoIntersection(labels, points);
     }
 
@@ -204,7 +203,7 @@ public class LabelObstacleTest {
     public void testMark() throws Exception {
         BufferedImage labels = render(sources("roads", "points"), styles("label", "mark"));
         BufferedImage marks = render(sources("roads", "points"), styles(null, "mark"));
-        
+
         checkNoIntersection(labels, marks);
     }
 
@@ -212,7 +211,7 @@ public class LabelObstacleTest {
     public void testPolygon() throws Exception {
         BufferedImage labels = render(sources("roads", "polys"), styles("label", "poly"));
         BufferedImage polys = render(sources("roads", "polys"), styles(null, "poly"));
-                
+
         checkNoIntersection(labels, polys);
     }
 
@@ -220,19 +219,20 @@ public class LabelObstacleTest {
     public void testLine() throws Exception {
         BufferedImage labels = render(sources("roads", "lines"), styles("label", "line"));
         BufferedImage roads = render(sources("roads", "lines"), styles(null, "line"));
-        
+
         checkNoIntersection(labels, roads);
     }
-    
+
     @Test
     public void testLineWithGraphicStroke() throws Exception {
         BufferedImage img = render(sources("lines2"), styles("hatch"));
         // differences between JDKs account to up to 1300 pixels being different...
         ImageAssert.assertEquals(file("hatch"), img, 10);
     }
-    
+
     /**
      * Checks the label and the obstacle image do not overlap
+     *
      * @param labels
      * @param obstacle
      */
@@ -242,10 +242,11 @@ public class LabelObstacleTest {
         double[] minimum = extrema.getMinimums();//(double[]) extrema.getProperty("minimum");
         assertEquals(1.0, minimum[0], 0.0);
     }
-    
+
     /**
-     * Computes the overlap between labels and obstacles, returning the extrema of 
+     * Computes the overlap between labels and obstacles, returning the extrema of
      * the binary overlap
+     *
      * @param labels
      * @param obstacles
      * @return
@@ -255,26 +256,29 @@ public class LabelObstacleTest {
         ImageWorker w = new ImageWorker(labels);
         ImageWorker w1 = new ImageWorker(obstacles);
         //RenderedImage labelsCombine = w.bandCombine(new double[][] { {
-                //1 / 3.0, 1 / 3.0, 1 / 3.0, 0, 0 } }).getRenderedImage();
-        w.bandCombine(new double[][] { {
-            1 / 3.0, 1 / 3.0, 1 / 3.0, 0, 0 } });
-        w1.bandCombine(new double[][] { {
-            1 / 3.0, 1 / 3.0, 1 / 3.0, 0, 0 } });
+        //1 / 3.0, 1 / 3.0, 1 / 3.0, 0, 0 } }).getRenderedImage();
+        w.bandCombine(new double[][]{{
+                1 / 3.0, 1 / 3.0, 1 / 3.0, 0, 0}});
+        w1.bandCombine(new double[][]{{
+                1 / 3.0, 1 / 3.0, 1 / 3.0, 0, 0}});
         //RenderedImage pointsCombine = w1.bandCombine(new double[][] { {
         //    1 / 3.0, 1 / 3.0, 1 / 3.0, 0, 0 } }).getRenderedImage();
         //RenderedImage labelsCombine = BandCombineDescriptor.create(labels, new double[][] { {
-                //1 / 3.0, 1 / 3.0, 1 / 3.0, 0, 0 } }, null);
+        //1 / 3.0, 1 / 3.0, 1 / 3.0, 0, 0 } }, null);
         //RenderedImage pointsCombine = BandCombineDescriptor.create(obstacles, new double[][] { {
-                //1 / 3.0, 1 / 3.0, 1 / 3.0, 0, 0 } }, null);
+        //1 / 3.0, 1 / 3.0, 1 / 3.0, 0, 0 } }, null);
         // get only pitch black
         w.binarize(1).getRenderedImage();
-        //RenderedImage binaryLabel = w.binarize(1).getRenderedImage();//BinarizeDescriptor.create(labelsCombine, 1.0, null);
+        //RenderedImage binaryLabel = w.binarize(1).getRenderedImage();//BinarizeDescriptor
+        // .create(labelsCombine, 1.0, null);
         // get anything that is not fully white
-        RenderedImage binaryObstacles = w1.binarize(250).getRenderedImage();//BinarizeDescriptor.create(pointsCombine, 250.0, null);
-        
+        RenderedImage binaryObstacles = w1.binarize(250).getRenderedImage();//BinarizeDescriptor
+        // .create(pointsCombine, 250.0, null);
+
         // combine the two, only pixels that are both black in both images will be black (0)
         w.or(binaryObstacles);
-        //RenderedImage or = w.or(binaryObstacles).getRenderedImage();//OrDescriptor.create(binaryObstacles, binaryLabel, null);
+        //RenderedImage or = w.or(binaryObstacles).getRenderedImage();//OrDescriptor.create
+        // (binaryObstacles, binaryLabel, null);
         // get the extrema
         //RenderedImage extrema = ExtremaDescriptor.create(or, null, 1, 1, false, 1, null);
         w.getMinimums();

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2013 - 2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -59,15 +59,18 @@ public class PartialsTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
 
-        File property_point = new File(TestData.getResource(this, "partialPointLabel.properties").toURI());
+        File property_point = new File(TestData.getResource(this, "partialPointLabel.properties")
+                .toURI());
         PropertyDataStore ds_point = new PropertyDataStore(property_point.getParentFile());
         fs_point = ds_point.getFeatureSource("partialPointLabel");
 
-        File property_line = new File(TestData.getResource(this, "partialLineLabel.properties").toURI());
+        File property_line = new File(TestData.getResource(this, "partialLineLabel.properties")
+                .toURI());
         PropertyDataStore ds_line = new PropertyDataStore(property_line.getParentFile());
         fs_line = ds_line.getFeatureSource("partialLineLabel");
 
-        File property_area = new File(TestData.getResource(this, "partialAreaLabel.properties").toURI());
+        File property_area = new File(TestData.getResource(this, "partialAreaLabel.properties")
+                .toURI());
         PropertyDataStore ds_area = new PropertyDataStore(property_area.getParentFile());
         fs_area = ds_area.getFeatureSource("partialAreaLabel");
 
@@ -104,7 +107,7 @@ public class PartialsTest extends TestCase {
 
         renderer.setContext(mc);
         final BufferedImage image = RendererBaseTest.renderImage(renderer, bounds, null);
-        RendererBaseTest.assertPixel(image, 282,152, Color.WHITE);
+        RendererBaseTest.assertPixel(image, 282, 152, Color.WHITE);
 
         // Write to file
         // ImageIO.write(image, "png", new File("C:/Temp/testPartialPointLabelNo.png"));
@@ -122,7 +125,7 @@ public class PartialsTest extends TestCase {
 
         renderer.setContext(mc);
         final BufferedImage image = RendererBaseTest.renderImage(renderer, bounds, null);
-        RendererBaseTest.assertPixel(image, 282,152, Color.WHITE);
+        RendererBaseTest.assertPixel(image, 282, 152, Color.WHITE);
 
         // Write to file
         // ImageIO.write(image, "png", new File("C:/Temp/testPartialPointLabelFalse.png"));
@@ -141,7 +144,7 @@ public class PartialsTest extends TestCase {
         renderer.setContext(mc);
 
         final BufferedImage image = RendererBaseTest.renderImage(renderer, bounds, null);
-        RendererBaseTest.assertPixel(image, 282,152, Color.BLACK);
+        RendererBaseTest.assertPixel(image, 282, 152, Color.BLACK);
 
         // Write to file
         // ImageIO.write(image, "png", new File("C:/Temp/testPartialPointLabelTrue.png"));
@@ -160,7 +163,7 @@ public class PartialsTest extends TestCase {
         renderer.setContext(mc);
 
         final BufferedImage image = RendererBaseTest.renderImage(renderer, bounds, null);
-        RendererBaseTest.assertPixel(image, 282,155, Color.WHITE);
+        RendererBaseTest.assertPixel(image, 282, 155, Color.WHITE);
 
         // Write to file
         // ImageIO.write(image, "png", new File("C:/Temp/testPartialLineLabelNo.png"));
@@ -179,7 +182,7 @@ public class PartialsTest extends TestCase {
         renderer.setContext(mc);
 
         final BufferedImage image = RendererBaseTest.renderImage(renderer, bounds, null);
-        RendererBaseTest.assertPixel(image, 282,155, Color.WHITE);
+        RendererBaseTest.assertPixel(image, 282, 155, Color.WHITE);
 
         // Write to file
         // ImageIO.write(image, "png", new File("C:/Temp/testPartialLineLabelFalse.png"));
@@ -213,7 +216,7 @@ public class PartialsTest extends TestCase {
         renderer.setContext(mc);
 
         final BufferedImage image = RendererBaseTest.renderImage(renderer, bounds, null);
-        RendererBaseTest.assertPixel(image, 282,152, Color.WHITE);
+        RendererBaseTest.assertPixel(image, 282, 152, Color.WHITE);
 
         // Write to file
         // ImageIO.write(image, "png", new File("C:/Temp/testPartialAreaLabelNo.png"));
@@ -232,7 +235,7 @@ public class PartialsTest extends TestCase {
         renderer.setContext(mc);
 
         final BufferedImage image = RendererBaseTest.renderImage(renderer, bounds, null);
-        RendererBaseTest.assertPixel(image, 282,152, Color.WHITE);
+        RendererBaseTest.assertPixel(image, 282, 152, Color.WHITE);
 
         // Write to file
         // ImageIO.write(image, "png", new File("C:/Temp/testPartialAreaLabelFalse.png"));
@@ -251,7 +254,7 @@ public class PartialsTest extends TestCase {
         renderer.setContext(mc);
 
         final BufferedImage image = RendererBaseTest.renderImage(renderer, bounds, null);
-        RendererBaseTest.assertPixel(image, 282,152, Color.BLACK);
+        RendererBaseTest.assertPixel(image, 282, 152, Color.BLACK);
 
         // Write to file
         // ImageIO.write(image, "png", new File("C:/Temp/testPartialAreaLabelTrue.png"));
@@ -264,39 +267,39 @@ public class PartialsTest extends TestCase {
             throws InterruptedException {
         //final String headless = System.getProperty("java.awt.headless", "false");
         //if (!headless.equalsIgnoreCase("true") && TestData.isInteractiveTest()) {
-            try {
-                Frame frame = new Frame(testName);
-                frame.addWindowListener(new WindowAdapter() {
+        try {
+            Frame frame = new Frame(testName);
+            frame.addWindowListener(new WindowAdapter() {
 
-                    public void windowClosing(WindowEvent e) {
-                        e.getWindow().dispose();
-                    }
-                });
+                public void windowClosing(WindowEvent e) {
+                    e.getWindow().dispose();
+                }
+            });
 
-                Panel p = new Panel() {
+            Panel p = new Panel() {
 
-                    /** <code>serialVersionUID</code> field */
-                    private static final long serialVersionUID = 1L;
+                /** <code>serialVersionUID</code> field */
+                private static final long serialVersionUID = 1L;
 
-                    {
-                        setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
-                    }
+                {
+                    setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
+                }
 
-                    public void paint(Graphics g) {
-                        g.drawImage(image, 0, 0, this);
-                    }
+                public void paint(Graphics g) {
+                    g.drawImage(image, 0, 0, this);
+                }
 
-                };
+            };
 
-                frame.add(p);
-                frame.pack();
-                frame.setVisible(true);
+            frame.add(p);
+            frame.pack();
+            frame.setVisible(true);
 
-                Thread.sleep(timeOut);
-                frame.dispose();
-            } catch (HeadlessException exception) {
-                // The test is running on a machine without X11 display. Ignore.
-            }
+            Thread.sleep(timeOut);
+            frame.dispose();
+        } catch (HeadlessException exception) {
+            // The test is running on a machine without X11 display. Ignore.
+        }
         //}
     }
 

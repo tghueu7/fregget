@@ -31,24 +31,26 @@ import org.opengis.util.ProgressListener;
 /**
  * A driver adding the ability to work with a new coverage format or service.
  * <p>
- * Classes implementing this interface basically act as factory for creating connections to coverage sources like files, WCS services, WMS services,
+ * Classes implementing this interface basically act as factory for creating connections to 
+ * coverage sources like files, WCS services, WMS services,
  * databases, etc...
  * <p>
- * This class also offers basic create / delete functionality (which can be useful for file based coverage formats).
+ * This class also offers basic create / delete functionality (which can be useful for file based
+ * coverage formats).
  * <p>
- * Purpose of this class is to provide basic information about a certain coverage service/format as well as about the parameters needed in order to
+ * Purpose of this class is to provide basic information about a certain coverage service/format 
+ * as well as about the parameters needed in order to
  * connect to a source which such a service/format is able to work against.
- * 
  * <p>
- * Notice that as part as the roll of a "factory" interface this class makes available an {@link #isAvailable()} method which should check if all the
+ * <p>
+ * Notice that as part as the roll of a "factory" interface this class makes available an 
+ * {@link #isAvailable()} method which should check if all the
  * needed dependencies which can be jars as well as native libs or configuration files.
- * 
- * 
+ *
  * @author Simone Giannecchini, GeoSolutions.
  * @author Jody Garnett
- * @since 2.5
- * 
  * @source $URL$
+ * @since 2.5
  */
 public interface Driver extends OptionalFactory, Factory {
 
@@ -60,18 +62,20 @@ public interface Driver extends OptionalFactory, Factory {
     /**
      * Unique name (non human readable) that can be used to refer to this implementation.
      * <p>
-     * While the Title and Description will change depending on the users local this name will be consistent.
+     * While the Title and Description will change depending on the users local this name will be
+     * consistent.
      * </p>
-     * Please note that a given file may be readable by several Drivers (the description of each implementation should be provided to the user so they
+     * Please note that a given file may be readable by several Drivers (the description of each 
+     * implementation should be provided to the user so they
      * can make an intellegent choice in the matter).
-     * 
+     *
      * @return name of this {@link Driver}
      */
     public String getName();
 
     /**
      * Human readable title for this {@link Driver}.
-     * 
+     *
      * @return human readable title for presentation in user interfaces
      */
     public InternationalString getTitle();
@@ -83,9 +87,9 @@ public interface Driver extends OptionalFactory, Factory {
      * indicate the format or service being made available in human readable
      * terms.
      * </p>
-     * 
+     *
      * @return A human readable description that is suitable for inclusion in a
-     *         list of available {@link Driver}s.
+     * list of available {@link Driver}s.
      */
     public InternationalString getDescription();
 
@@ -96,9 +100,9 @@ public interface Driver extends OptionalFactory, Factory {
      * One may ask how this is different than {@link #canConnect(Map)}, and
      * basically available can be used by finder mechanisms to list available
      * {@link Driver}s.
-     * 
+     *
      * @return <tt>true</tt> if and only if this factory has all the
-     *         appropriate dependencies on the classpath to create DataStores.
+     * appropriate dependencies on the classpath to create DataStores.
      */
     public boolean isAvailable();
 
@@ -109,11 +113,9 @@ public interface Driver extends OptionalFactory, Factory {
     public EnumSet<DriverCapabilities> getDriverCapabilities();
 
     /**
-     * 
-     * 
      * Simone: Return <code>null</code> in case the delete succeds.
      * TODO think about a neater approach
-     * 
+     *
      * @param opreation
      * @param params
      * @param hints
@@ -121,6 +123,7 @@ public interface Driver extends OptionalFactory, Factory {
      * @return
      * @throws IOException
      */
-    public CoverageAccess access(DriverCapabilities opreation, Map<String, Serializable> params,Hints hints, final ProgressListener listener)throws IOException;
+    public CoverageAccess access(DriverCapabilities opreation, Map<String, Serializable> params, 
+                                 Hints hints, final ProgressListener listener) throws IOException;
 
 }

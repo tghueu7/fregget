@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry;
 
 import java.util.Set;
+
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.MathTransform;
 import org.opengis.referencing.operation.TransformException;
@@ -29,42 +30,43 @@ import static org.opengis.annotation.Specification.*;
  * be regarded as an infinite set of points that satisfies the set operation interfaces for a set
  * of direct positions, {@link TransfiniteSet TransfiniteSet&lt;DirectPosition&gt;}.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @since GeoAPI 1.0
  */
-@UML(identifier="GM_Object", specification=ISO_19107)
+@UML(identifier = "GM_Object", specification = ISO_19107)
 public interface Geometry extends TransfiniteSet {
     /**
      * Returns the coordinate reference system used in {@linkplain DirectPosition direct position}
      * coordinates. If {@code null}, then this {@code Geometry} uses the coordinate reference
      * system from another {@code Geometry} in which it is contained.
-     *
+     * <p>
      * The most common example where the coordinate reference system is {@code null} is the elements
-     * and subcomplexes of a maximal {@linkplain Complex complex}. The {@linkplain Complex complex} can
+     * and subcomplexes of a maximal {@linkplain Complex complex}. The 
+     * {@linkplain Complex complex} can
      * carry the {@linkplain CoordinateReferenceSystem coordinate reference system} for all
      * {@linkplain org.opengis.geometry.primitive.Primitive primitive} elements
      * and for all {@link Complex} subcomplexes.
      * <p>
-     * This association is only navigable from {@code Geometry} to {@linkplain CoordinateReferenceSystem
-     * coordinate reference system}. This means that the coordinate reference system objects in a data set do
+     * This association is only navigable from {@code Geometry} to {@linkplain 
+     * CoordinateReferenceSystem
+     * coordinate reference system}. This means that the coordinate reference system objects in a
+     * data set do
      * not keep a list of {@code Geometry}s that use them.
      *
      * @return The coordinate reference system used in {@linkplain DirectPosition direct position}
-     *         coordinates.
-     *
+     * coordinates.
      * @see #getCoordinateDimension
      */
-    @UML(identifier="CRS", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "CRS", obligation = MANDATORY, specification = ISO_19107)
     CoordinateReferenceSystem getCoordinateReferenceSystem();
 
     /**
      * Returns the precision model used to guide the accuracy of topology operations.
      * <p>
      * </p>
+     *
      * @return the precision model used for topological operations.
      */
     Precision getPrecision();
@@ -79,11 +81,10 @@ public interface Geometry extends TransfiniteSet {
      * types are not defined within this specification.
      *
      * @return The minimum bounding region.
-     *
      * @see #getEnvelope
      * @see #getBoundary
      */
-    @UML(identifier="mbRegion", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "mbRegion", obligation = MANDATORY, specification = ISO_19107)
     Geometry getMbRegion();
 
     /**
@@ -93,10 +94,9 @@ public interface Geometry extends TransfiniteSet {
      * be for the placement of labels in systems based on graphic presentation.
      *
      * @return The representative point.
-     *
      * @see #getCentroid
      */
-    @UML(identifier="representativePoint", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "representativePoint", obligation = MANDATORY, specification = ISO_19107)
     DirectPosition getRepresentativePoint();
 
     /**
@@ -111,13 +111,12 @@ public interface Geometry extends TransfiniteSet {
      * dimension than the original element.
      *
      * @return The sets of positions on the boundary.
-     *
      * @see #getMbRegion
      * @see #getClosure
      * @see #getBuffer
      * @see #getDistance
      */
-    @UML(identifier="boundary", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "boundary", obligation = MANDATORY, specification = ISO_19107)
     Boundary getBoundary();
 
     /**
@@ -125,16 +124,16 @@ public interface Geometry extends TransfiniteSet {
      * this {@code Geometry} and this object (the union of the object and its boundary). These
      * object collections shall have further internal structure where appropriate. The finite set
      * of {@code Geometry}s returned shall be in the same coordinate reference system as this
-     * {@code Geometry}. If the {@code Geometry} is in a {@linkplain Complex complex}, then the boundary
+     * {@code Geometry}. If the {@code Geometry} is in a {@linkplain Complex complex}, then the 
+     * boundary
      * {@code Geometry}s returned shall be in the same {@linkplain Complex complex}. If the
      * {@code Geometry} is not in any {@linkplain Complex complex}, then the boundary
      * {@code Geometry}s returned may have been constructed in response to the operation.
      *
      * @return The sets of points on the union of this object and its boundary.
-     *
      * @see #getBoundary
      */
-    @UML(identifier="closure", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "closure", obligation = MANDATORY, specification = ISO_19107)
     Complex getClosure();
 
     /**
@@ -152,20 +151,22 @@ public interface Geometry extends TransfiniteSet {
      * {@code true}).
      *
      * @return {@code true} if this object has no interior point of self-intersection or
-     *         selftangency.
-     *
+     * selftangency.
      * @see #isCycle
      */
-    @UML(identifier="isSimple", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "isSimple", obligation = MANDATORY, specification = ISO_19107)
     boolean isSimple();
 
     /**
      * Returns {@code true} if this {@code Geometry} has an empty boundary after topological
      * simplification (removal of overlaps between components in non-structured aggregates, such as
-     * subclasses of {@link org.opengis.geometry.aggregate.Aggregate}). This condition is alternatively
+     * subclasses of {@link org.opengis.geometry.aggregate.Aggregate}). This condition is 
+     * alternatively
      * referred to as being "closed" as in a "closed curve." This creates some confusion since there
-     * are two distinct and incompatible definitions for the word "closed". The use of the word cycle
-     * is rarer (generally restricted to the field of algebraic topology), but leads to less confusion.
+     * are two distinct and incompatible definitions for the word "closed". The use of the word 
+     * cycle
+     * is rarer (generally restricted to the field of algebraic topology), but leads to less 
+     * confusion.
      * Essentially, an object is a cycle if it is isomorphic to a geometric object that is the
      * boundary of a region in some Euclidean space. Thus a curve is a cycle if it is isomorphic
      * to a circle (has the same start and end point). A surface is a cycle if it isomorphic to the
@@ -173,11 +174,10 @@ public interface Geometry extends TransfiniteSet {
      * never a cycle.
      *
      * @return {@code true} if this {@code Geometry} has an empty boundary after
-     *         topological simplification.
-     *
+     * topological simplification.
      * @see #isSimple
      */
-    @UML(identifier="isCycle", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "isCycle", obligation = MANDATORY, specification = ISO_19107)
     boolean isCycle();
 
     /**
@@ -197,29 +197,28 @@ public interface Geometry extends TransfiniteSet {
      * between points (and therefore between geometric objects): map distance, geodesic distance,
      * and terrain distance.
      * <ul>
-     *   <li>Map distance is the distance between the points as defined by their positions in a
-     *       coordinate projection (such as on a map when scale is taken into account). Map distance
-     *       is usually accurate for small areas where scale functions have well-behaved derivatives.</li>
-     *   <li>Geodesic distance is the length of the shortest curve between those two points along the
-     *       surface of the earth model being used by the coordinate reference system. Geodesic
-     *       distance behaves well for wide areas of coverage, and takes the earth's curvature
-     *       into account. It is especially handy for air and sea navigation, although care should
-     *       be taken to distinguish between rhumb line (curves of constant bearing) and geodesic
-     *       curve distance.</li>
-     *   <li>Terrain distance takes into account the local vertical displacements (hypsography).
-     *       Terrain distance can be based either on a geodesic distance or a map distance.</li>
+     * <li>Map distance is the distance between the points as defined by their positions in a
+     * coordinate projection (such as on a map when scale is taken into account). Map distance
+     * is usually accurate for small areas where scale functions have well-behaved derivatives.</li>
+     * <li>Geodesic distance is the length of the shortest curve between those two points along the
+     * surface of the earth model being used by the coordinate reference system. Geodesic
+     * distance behaves well for wide areas of coverage, and takes the earth's curvature
+     * into account. It is especially handy for air and sea navigation, although care should
+     * be taken to distinguish between rhumb line (curves of constant bearing) and geodesic
+     * curve distance.</li>
+     * <li>Terrain distance takes into account the local vertical displacements (hypsography).
+     * Terrain distance can be based either on a geodesic distance or a map distance.</li>
      * </ul>
      *
-     * @param  geometry The other object.
+     * @param geometry The other object.
      * @return The distance between the two objects.
      * @unitof Distance
-     * @since GeoAPI 2.1
-     *
      * @see #getBoundary
      * @see #getBuffer
      * @see org.opengis.referencing.cs.CoordinateSystem#getAxis
+     * @since GeoAPI 2.1
      */
-    @UML(identifier="distance", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "distance", obligation = MANDATORY, specification = ISO_19107)
     double distance(Geometry geometry);
 
     /**
@@ -236,10 +235,9 @@ public interface Geometry extends TransfiniteSet {
      *
      * @param point The point where to evaluate the dimension, or {@code null}.
      * @return The inherent dimension.
-     *
      * @see #getCoordinateDimension
      */
-    @UML(identifier="dimension", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "dimension", obligation = MANDATORY, specification = ISO_19107)
     int getDimension(DirectPosition point);
 
     /**
@@ -248,11 +246,10 @@ public interface Geometry extends TransfiniteSet {
      * {@code Geometry}.
      *
      * @return The coordinate dimension.
-     *
      * @see #getDimension
      * @see #getCoordinateReferenceSystem
      */
-    @UML(identifier="coordinateDimension", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "coordinateDimension", obligation = MANDATORY, specification = ISO_19107)
     int getCoordinateDimension();
 
     /**
@@ -263,7 +260,7 @@ public interface Geometry extends TransfiniteSet {
      *
      * @return The set of maximal complexes within which this {@code Geometry} is contained.
      */
-    @UML(identifier="maximalComplex", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "maximalComplex", obligation = MANDATORY, specification = ISO_19107)
     Set<? extends Complex> getMaximalComplex();
 
     /**
@@ -271,11 +268,11 @@ public interface Geometry extends TransfiniteSet {
      * {@code Geometry} into the passed coordinate reference system within the accuracy
      * of the transformation.
      *
-     * @param  newCRS The new coordinate reference system.
+     * @param newCRS The new coordinate reference system.
      * @return The transformed {@code Geometry}.
      * @throws TransformException if the transformation failed.
      */
-    @UML(identifier="transform", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "transform", obligation = MANDATORY, specification = ISO_19107)
     Geometry transform(CoordinateReferenceSystem newCRS) throws TransformException;
 
     /**
@@ -284,14 +281,15 @@ public interface Geometry extends TransfiniteSet {
      * specified transform. It is the user responsability to ensure that the supplied
      * transform is appropriate for this geometry.
      *
-     * @param  newCRS The new coordinate reference system.
-     * @param  transform The transform from the existing coordinate reference system
-     *         to the new coordinate reference system.
-     * @throws TransformException if the transformation failed.
+     * @param newCRS    The new coordinate reference system.
+     * @param transform The transform from the existing coordinate reference system
+     *                  to the new coordinate reference system.
      * @return The transformed {@code Geometry}.
+     * @throws TransformException if the transformation failed.
      */
     @Extension
-    Geometry transform(CoordinateReferenceSystem newCRS, MathTransform transform) throws TransformException;
+    Geometry transform(CoordinateReferenceSystem newCRS, MathTransform transform) throws 
+            TransformException;
 
     /**
      * Returns the minimum bounding box for this {@code Geometry}. This shall be the
@@ -303,10 +301,9 @@ public interface Geometry extends TransfiniteSet {
      * domain of validity of the object's coordinate reference system.
      *
      * @return The envelope.
-     *
      * @see #getMbRegion
      */
-    @UML(identifier="envelope", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "envelope", obligation = MANDATORY, specification = ISO_19107)
     Envelope getEnvelope();
 
     /**
@@ -317,10 +314,9 @@ public interface Geometry extends TransfiniteSet {
      * contribute to the average.
      *
      * @return The centroid.
-     *
      * @see #getRepresentativePoint
      */
-    @UML(identifier="centroid", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "centroid", obligation = MANDATORY, specification = ISO_19107)
     DirectPosition getCentroid();
 
     /**
@@ -333,7 +329,7 @@ public interface Geometry extends TransfiniteSet {
      *
      * @return The convex hull.
      */
-    @UML(identifier="convexHull", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "convexHull", obligation = MANDATORY, specification = ISO_19107)
     Geometry getConvexHull();
 
     /**
@@ -343,19 +339,19 @@ public interface Geometry extends TransfiniteSet {
      * {@code Geometry}. The dimension of the returned {@code Geometry} is normally
      * the same as the coordinate dimension - a collection of
      * {@linkplain org.opengis.geometry.primitive.Surface surfaces} in 2D space and a collection of
-     * {@linkplain org.opengis.geometry.primitive.Solid solids} in 3D space, but this may be application
+     * {@linkplain org.opengis.geometry.primitive.Solid solids} in 3D space, but this may be 
+     * application
      * defined.
      *
      * @param distance The distance.
      * @return A geometry containing all points whose distance from this {@code Geometry}
-     *         is less than or equal to the specified distance.
+     * is less than or equal to the specified distance.
      * @unitof Distance (for the argument)
-     *
      * @see #getBoundary
      * @see #getDistance
      * @see org.opengis.referencing.cs.CoordinateSystem#getAxis
      */
-    @UML(identifier="buffer", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "buffer", obligation = MANDATORY, specification = ISO_19107)
     Geometry getBuffer(double distance);
 
     /**
@@ -363,27 +359,27 @@ public interface Geometry extends TransfiniteSet {
      * guarantee to never change their state, neither directly (through a change in this object)
      * or indirectly (through a change in an other object this geometry depends upon). Immutable
      * geometries avoid the need for {@linkplain #clone cloning them}. More specifically:
-     *
+     * <p>
      * <UL>
-     *   <LI><P>If {@code false}, then this geometry is <cite>immutable</cite>. It is
-     *       guarantee that a call to any {@code setFoo(...)} method will throws an
-     *       {@link UnmodifiableGeometryException} (that said, <cite>immutable</cite> geometries
-     *       are necessarily <cite>unmodifiable</cite>. The converse is not true, see next point
-     *       below). This geometry will never change its state, and there is no need for
-     *       {@linkplain #clone cloning it}.</P></LI>
-     *   <LI><P>If {@code true}, then this geometry is <cite>mutable</cite>. Note that
-     *       <cite>mutable</cite> geometry is not synonymous of <cite>modifiable</cite>
-     *       geometry. The nuance lays in whatever the geometry may changes its state
-     *       directly (as of user request) or indirectly:<P></LI>
-     *       <UL>
-     *         <LI><P>This geometry may be <cite>modifiable</cite>, in which case invoking
-     *             {@code setFoo(...)} methods is legal and will not throws exception.</P></LI>
-     *         <LI><P>This geometry may still <cite>unmodifiable</cite>. User is not allowed to
-     *             modify it himself and invoking any {@code setFoo(...)} method will throws
-     *             an {@link UnmodifiableGeometryException}. However, the implementation may change
-     *             the geometry itself (for example a time-varying geometry).</P></LI>
-     *       </UL>
-     *   </LI>
+     * <LI><P>If {@code false}, then this geometry is <cite>immutable</cite>. It is
+     * guarantee that a call to any {@code setFoo(...)} method will throws an
+     * {@link UnmodifiableGeometryException} (that said, <cite>immutable</cite> geometries
+     * are necessarily <cite>unmodifiable</cite>. The converse is not true, see next point
+     * below). This geometry will never change its state, and there is no need for
+     * {@linkplain #clone cloning it}.</P></LI>
+     * <LI><P>If {@code true}, then this geometry is <cite>mutable</cite>. Note that
+     * <cite>mutable</cite> geometry is not synonymous of <cite>modifiable</cite>
+     * geometry. The nuance lays in whatever the geometry may changes its state
+     * directly (as of user request) or indirectly:<P></LI>
+     * <UL>
+     * <LI><P>This geometry may be <cite>modifiable</cite>, in which case invoking
+     * {@code setFoo(...)} methods is legal and will not throws exception.</P></LI>
+     * <LI><P>This geometry may still <cite>unmodifiable</cite>. User is not allowed to
+     * modify it himself and invoking any {@code setFoo(...)} method will throws
+     * an {@link UnmodifiableGeometryException}. However, the implementation may change
+     * the geometry itself (for example a time-varying geometry).</P></LI>
+     * </UL>
+     * </LI>
      * </UL>
      *
      * @return {@code true} if this geometry is mutable.
@@ -408,27 +404,27 @@ public interface Geometry extends TransfiniteSet {
 
     /**
      * Returns a clone of this geometry with <em>deep</em> copy semantic. Any change on this object
-     * will have no impact on the returned clone, and conversely. For big geometries, implementations
+     * will have no impact on the returned clone, and conversely. For big geometries, 
+     * implementations
      * are encouraged to share as much internal data as possible (as opposed to performing a real
      * copy of the data), while preserving the deep copy semantic.
-     *
+     * <p>
      * <P>Special cases:</P>
-     *
+     * <p>
      * <UL>
-     *   <LI><P>If this geometry is immutable (<code>{@linkplain #isMutable} == false</code>), then
-     *       there is no need for cloning this object. This method may return {@code this}
-     *       or returns a modifiable copy of this object, at implementation choice.</P></LI>
-     *   <LI><P>If a deep copy semantic is not possible at a reasonable cost (for example for some
-     *       database backend), then this method throws a {@link CloneNotSupportedException}.</P></LI>
-     *   <LI><P>If a deep cloning is possible for all case (i.e. if this method never throws
-     *       {@link CloneNotSupportedException}), then the implementation should implements
-     *       the {@link Cloneable} interface.</P></LI>
+     * <LI><P>If this geometry is immutable (<code>{@linkplain #isMutable} == false</code>), then
+     * there is no need for cloning this object. This method may return {@code this}
+     * or returns a modifiable copy of this object, at implementation choice.</P></LI>
+     * <LI><P>If a deep copy semantic is not possible at a reasonable cost (for example for some
+     * database backend), then this method throws a {@link CloneNotSupportedException}.</P></LI>
+     * <LI><P>If a deep cloning is possible for all case (i.e. if this method never throws
+     * {@link CloneNotSupportedException}), then the implementation should implements
+     * the {@link Cloneable} interface.</P></LI>
      * </UL>
      *
      * @return A clone of this geometry, which may or may not be mutable.
      * @throws CloneNotSupportedException if this object do not support clone. This exception is
-     *         never throws if this object implements {@link Cloneable}.
-     *
+     *                                    never throws if this object implements {@link Cloneable}.
      * @see Cloneable
      * @see #isMutable
      */

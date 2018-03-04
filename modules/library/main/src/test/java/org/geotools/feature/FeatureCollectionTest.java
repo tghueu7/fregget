@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -13,7 +13,7 @@
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
- *    
+ *
  *    Created on July 21, 2003, 5:58 PM
  */
 
@@ -44,19 +44,18 @@ import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.PrecisionModel;
 
 /**
- *
- * @author  en
- *
- *
+ * @author en
  * @source $URL$
  */
 public class FeatureCollectionTest extends org.geotools.data.collection.FeatureCollectionTest {
     public FeatureCollectionTest(String testName) {
         super(testName);
     }
-    protected SimpleFeatureCollection newCollection(SimpleFeatureType schema, List<SimpleFeature> list ) {
+
+    protected SimpleFeatureCollection newCollection(SimpleFeatureType schema, List<SimpleFeature>
+            list) {
         DefaultFeatureCollection features = new DefaultFeatureCollection();
-        features.addAll( list );
+        features.addAll(list);
         return features;
     }
 }

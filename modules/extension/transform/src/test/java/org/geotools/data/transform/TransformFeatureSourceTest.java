@@ -121,7 +121,7 @@ public class TransformFeatureSourceTest extends AbstractTransformTest {
     public void testBoundsWithSelectNoGeom() throws Exception {
         SimpleFeatureSource transformed = transformWithSelection();
         ReferencedEnvelope re = transformed.getBounds(new Query("states_mini", Filter.INCLUDE,
-                new String[] { "state_name" }));
+                new String[]{"state_name"}));
         assertNull(re);
     }
 
@@ -178,7 +178,7 @@ public class TransformFeatureSourceTest extends AbstractTransformTest {
     public void testSortFeaturesWithSelect() throws Exception {
         SimpleFeatureSource transformed = transformWithSelection();
 
-        SortBy[] sortBy = new SortBy[] { FF.sort("state_name", SortOrder.DESCENDING) };
+        SortBy[] sortBy = new SortBy[]{FF.sort("state_name", SortOrder.DESCENDING)};
 
         // check we can sort
         assertTrue(transformed.getQueryCapabilities().supportsSorting(sortBy));
@@ -284,7 +284,7 @@ public class TransformFeatureSourceTest extends AbstractTransformTest {
     public void testSortFeaturesWithRename() throws Exception {
         SimpleFeatureSource transformed = transformWithRename();
 
-        SortBy[] sortBy = new SortBy[] { FF.sort("name", SortOrder.DESCENDING) };
+        SortBy[] sortBy = new SortBy[]{FF.sort("name", SortOrder.DESCENDING)};
 
         // check we can sort
         assertTrue(transformed.getQueryCapabilities().supportsSorting(sortBy));
@@ -322,7 +322,7 @@ public class TransformFeatureSourceTest extends AbstractTransformTest {
         SimpleFeatureSource transformed = transformWithExpressions();
         checkTransfomedSchemaWithExpressions(transformed);
     }
-    
+
     @Test
     public void testSchemaTransformFromEmptySource() throws Exception {
         SimpleFeatureSource transformed = transformWithExpressionsWithEmptySource();
@@ -411,7 +411,7 @@ public class TransformFeatureSourceTest extends AbstractTransformTest {
     public void testSortFeaturesWithTransform() throws Exception {
         SimpleFeatureSource transformed = transformWithExpressions();
 
-        SortBy[] sortBy = new SortBy[] { FF.sort("total", SortOrder.DESCENDING) };
+        SortBy[] sortBy = new SortBy[]{FF.sort("total", SortOrder.DESCENDING)};
 
         // check we can sort
         assertTrue(transformed.getQueryCapabilities().supportsSorting(sortBy));

@@ -35,15 +35,13 @@ import org.geotools.data.Repository;
 import org.geotools.util.KVP;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class AggregatingDataStoreFactory extends AbstractDataStoreFactory {
 
     public static final Param REPOSITORY_PARAM = new Param("repository", Repository.class,
             "The repository that will provide the store intances", true, null, new KVP(Param.LEVEL,
-                    "advanced"));
+            "advanced"));
 
     public static final Param STORES_PARAM = new Param("stores", String[].class,
             "List of data stores to connect to", false, null, new KVP(Param.ELEMENT, String.class));
@@ -74,8 +72,8 @@ public class AggregatingDataStoreFactory extends AbstractDataStoreFactory {
     }
 
     public Param[] getParametersInfo() {
-        return new Param[] { REPOSITORY_PARAM, NAMESPACE, CONFIGURATION,
-                TOLERATE_CONNECTION_FAILURE, PARALLELISM };
+        return new Param[]{REPOSITORY_PARAM, NAMESPACE, CONFIGURATION,
+                TOLERATE_CONNECTION_FAILURE, PARALLELISM};
     }
 
     public boolean isAvailable() {
@@ -150,7 +148,7 @@ public class AggregatingDataStoreFactory extends AbstractDataStoreFactory {
     /**
      * Looks up a parameter, if not found it returns the default value, assuming there is one, or
      * null otherwise
-     * 
+     *
      * @param <T>
      * @param param
      * @param params
@@ -158,7 +156,8 @@ public class AggregatingDataStoreFactory extends AbstractDataStoreFactory {
      * @return
      * @throws IOException
      */
-    <T> T lookup(Param param, Map<String, Serializable> params, Class<T> target) throws IOException {
+    <T> T lookup(Param param, Map<String, Serializable> params, Class<T> target) throws 
+            IOException {
         T result = (T) param.lookUp(params);
         if (result == null) {
             return (T) param.getDefaultValue();

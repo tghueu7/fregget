@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -24,10 +24,10 @@ import org.opengis.referencing.IdentifiedObject;
  * for the creation of SQL queries. The MS-Access dialect of SQL is assumed (it will
  * be translated into ANSI SQL later by {@link DirectEpsgFactory#adaptSQL} if needed).
  *
- * @since 2.2
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @since 2.2
  */
 final class TableInfo {
     /**
@@ -69,8 +69,7 @@ final class TableInfo {
      * Stores information about a specific table.
      */
     TableInfo(final Class<?> type, final String table,
-              final String codeColumn, final String nameColumn)
-    {
+              final String codeColumn, final String nameColumn) {
         this(type, table, codeColumn, nameColumn, null, null, null);
     }
 
@@ -79,31 +78,30 @@ final class TableInfo {
      */
     TableInfo(final Class<?> type,
               final String table, final String codeColumn, final String nameColumn,
-              final String typeColumn, final Class<?>[] subTypes, final String[] typeNames)
-    {
-        this.type       = type;
-        this.table      = table;
+              final String typeColumn, final Class<?>[] subTypes, final String[] typeNames) {
+        this.type = type;
+        this.table = table;
         this.codeColumn = codeColumn;
         this.nameColumn = nameColumn;
         this.typeColumn = typeColumn;
-        this.subTypes   = subTypes;
-        this.typeNames  = typeNames;
+        this.subTypes = subTypes;
+        this.typeNames = typeNames;
     }
 
     /**
      * Checks {@link Class#isAssignableFrom} both ways. It may seems strange but try
      * to catch the following use cases:
-     *
+     * <p>
      * <ul>
-     *   <li><p>{@code table.type.isAssignableFrom(kind)}<br>
-     *       is for the case where a table is for {@code CoordinateReferenceSystem} while the user
-     *       type is some subtype like {@code GeographicCRS}. The {@code GeographicCRS} need to be
-     *       queried into the {@code CoordinateReferenceSystem} table. An additional filter will be
-     *       applied inside the {@link AuthorityCodes} class implementation.</p></li>
-     *
-     *   <li><p>{@code kind.isAssignableFrom(table.type)}<br>
-     *       is for the case where the user type is {@code IdentifiedObject} or {@code Object},
-     *       in which case we basically want to iterate through every tables.</p></li>
+     * <li><p>{@code table.type.isAssignableFrom(kind)}<br>
+     * is for the case where a table is for {@code CoordinateReferenceSystem} while the user
+     * type is some subtype like {@code GeographicCRS}. The {@code GeographicCRS} need to be
+     * queried into the {@code CoordinateReferenceSystem} table. An additional filter will be
+     * applied inside the {@link AuthorityCodes} class implementation.</p></li>
+     * <p>
+     * <li><p>{@code kind.isAssignableFrom(table.type)}<br>
+     * is for the case where the user type is {@code IdentifiedObject} or {@code Object},
+     * in which case we basically want to iterate through every tables.</p></li>
      * </ul>
      */
     public boolean isTypeOf(final Class<?> kind) {

@@ -21,7 +21,7 @@ import org.geotools.xml.Encoder;
 
 /**
  * Encodes a GML2 linear ring
- * 
+ *
  * @author Justin Deoliveira, OpenGeo
  * @author Andrea Aime - GeoSolutions
  */

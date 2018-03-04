@@ -31,12 +31,10 @@ import org.geotools.gce.imagemosaic.catalog.index.SchemasType;
 import org.geotools.util.Utilities;
 
 /**
- * Simple bean that conveys the information needed by the CatalogBuilder to create a catalogue of granules
- * 
+ * Simple bean that conveys the information needed by the CatalogBuilder to create a catalogue of
+ * granules
+ *
  * @author Simone Giannecchini, GeoSolutions SAS
- * 
- *
- *
  * @source $URL$
  */
 public class CatalogBuilderConfiguration {
@@ -50,8 +48,8 @@ public class CatalogBuilderConfiguration {
     private Indexer indexer;
 
     /**
-     * @deprecated parse indexer parameters instead.
      * @return
+     * @deprecated parse indexer parameters instead.
      */
     public String getEnvelope2D() {
         return getParameter(Prop.ENVELOPE2D);
@@ -91,16 +89,16 @@ public class CatalogBuilderConfiguration {
     }
 
     /**
-     * @deprecated parse indexer parameters instead.
      * @return
+     * @deprecated parse indexer parameters instead.
      */
     public boolean isRecursive() {
         return Boolean.parseBoolean(getParameter(Prop.RECURSIVE));
     }
 
     /**
-     * @deprecated parse indexer parameters instead.
      * @return
+     * @deprecated parse indexer parameters instead.
      */
     public boolean isCaching() {
         return Boolean.parseBoolean(getParameter(Prop.CACHING));
@@ -108,7 +106,7 @@ public class CatalogBuilderConfiguration {
 
     /**
      * Get the schema with the specified name
-     * 
+     *
      * @param name
      * @return
      */
@@ -172,48 +170,48 @@ public class CatalogBuilderConfiguration {
     }
 
     /**
-     * @deprecated parse indexer parameters instead.
      * @return
+     * @deprecated parse indexer parameters instead.
      */
     public String getIndexName() {
         return getParameter(Prop.INDEX_NAME);
     }
 
     /**
-     * @deprecated parse indexer parameters instead.
      * @return
+     * @deprecated parse indexer parameters instead.
      */
     public boolean isFootprintManagement() {
         return Boolean.parseBoolean(getParameter(Prop.FOOTPRINT_MANAGEMENT));
     }
 
     /**
-     * @deprecated parse indexer parameters instead.
      * @return
+     * @deprecated parse indexer parameters instead.
      */
     public String getLocationAttribute() {
         return getParameter(Prop.LOCATION_ATTRIBUTE);
     }
 
     /**
-     * @deprecated parse indexer parameters instead.
      * @return
+     * @deprecated parse indexer parameters instead.
      */
     public String getRootMosaicDirectory() {
         return getParameter(Prop.ROOT_MOSAIC_DIR);
     }
 
     /**
-     * @deprecated parse Indexer parameters instead.
      * @return
+     * @deprecated parse Indexer parameters instead.
      */
     public String getWildcard() {
         return getParameter(Prop.WILDCARD);
     }
 
     /**
-     * @deprecated parse Indexer parameters instead.
      * @return
+     * @deprecated parse Indexer parameters instead.
      */
     public boolean isAbsolute() {
         return Boolean.parseBoolean(getParameter(Prop.ABSOLUTE_PATH));
@@ -250,7 +248,8 @@ public class CatalogBuilderConfiguration {
     }
 
     private static boolean equalsParameter(CatalogBuilderConfiguration thisConfig,
-            CatalogBuilderConfiguration thatConfig, String parameterName) {
+                                           CatalogBuilderConfiguration thatConfig, String 
+                                                   parameterName) {
         String thisValue = thisConfig.getParameter(parameterName);
         String thatValue = thatConfig.getParameter(parameterName);
         if (!(thisValue == null && thatValue == null) && !thisValue.equals(thatValue)) {

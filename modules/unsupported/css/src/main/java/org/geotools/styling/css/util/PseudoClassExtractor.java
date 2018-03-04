@@ -33,7 +33,7 @@ import org.opengis.filter.Filter;
 
 /**
  * Takes a {@link Selector} and collects all available pseudo classes in it
- * 
+ *
  * @author Andrea Aime
  */
 public class PseudoClassExtractor extends AbstractSelectorVisitor {

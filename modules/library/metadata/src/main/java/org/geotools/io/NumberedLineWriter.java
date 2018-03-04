@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -27,12 +27,9 @@ import org.geotools.resources.Arguments;
 /**
  * A writer that put line number in front of every line.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class NumberedLineWriter extends IndentedLineWriter {
@@ -48,12 +45,16 @@ public class NumberedLineWriter extends IndentedLineWriter {
      * {@linkplain System#out standard output stream}.
      */
     private static final class Uncloseable extends NumberedLineWriter {
-        /** Constructs a stream. */
+        /**
+         * Constructs a stream.
+         */
         public Uncloseable(final Writer out) {
             super(out);
         }
 
-        /** Flush the stream without closing it. */
+        /**
+         * Flush the stream without closing it.
+         */
         @Override
         public void close() throws IOException {
             flush();

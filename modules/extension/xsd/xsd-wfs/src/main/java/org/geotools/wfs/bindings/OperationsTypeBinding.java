@@ -29,9 +29,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://www.opengis.net/wfs:OperationsType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="OperationsType"&gt;
  *      &lt;xsd:sequence&gt;
@@ -44,9 +44,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OperationsTypeBinding extends AbstractComplexEMFBinding {
@@ -78,7 +75,7 @@ public class OperationsTypeBinding extends AbstractComplexEMFBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //TODO: implement and remove call to super
         return super.parse(instance, node, value);
     }

@@ -3,7 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -13,7 +13,7 @@
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
- */ 
+ */
 package org.geotools.geometry.jts.spatialschema.geometry;
 
 import org.opengis.referencing.FactoryException;
@@ -26,10 +26,6 @@ import org.opengis.geometry.primitive.Surface;
 /**
  * @author Jody Garnett
  * @author Joel Skelton
- *
- *
- *
- *
  * @source $URL$
  */
 public class IntersectionTest extends AbstractGeometryTest {
@@ -67,7 +63,7 @@ public class IntersectionTest extends AbstractGeometryTest {
 
         TransfiniteSet result = sA.intersection(sB);
         assertTrue(result instanceof Surface);
-        Surface surfaceResult = (Surface)result;
+        Surface surfaceResult = (Surface) result;
         assertEquals(1.0 + Math.sqrt(2.0), surfaceResult.getPerimeter(), 0.0);
     }
 
@@ -94,7 +90,7 @@ public class IntersectionTest extends AbstractGeometryTest {
 
         TransfiniteSet result = sA.intersection(sB);
         assertTrue(result instanceof Curve);
-        Curve curveResult = (Curve)result;
+        Curve curveResult = (Curve) result;
         assertEquals(0.0, curveResult.getStartParam(), 1.0e-8);
         assertEquals(Math.sqrt(2.0), curveResult.getEndParam(), 1.0e-8);
     }

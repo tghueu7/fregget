@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -34,11 +34,8 @@ import java.util.Set;
  * @author Jody Garnett, Refractions Research
  * @author David Zwiers, Refractions Research
  * @author Justin Deoliveira, The Open Planning Project
- * @since 2.5
- *
- *
- *
  * @source $URL$
+ * @since 2.5
  */
 public interface ServiceInfo {
 
@@ -49,6 +46,7 @@ public interface ServiceInfo {
      * of a user interface and should make use of the current Locale
      * if possible.
      * </p>
+     *
      * @return title, null if unsupported.
      */
     String getTitle();
@@ -57,13 +55,14 @@ public interface ServiceInfo {
      * Keywords associated with this service.
      * <p>
      * Maps to the Dublin Core Subject element.
+     *
      * @return keywords associated with this service.
      */
     Set<String> getKeywords();
 
     /**
      * Human readable description of this service.
-     *<p>
+     * <p>
      * This use is understood to be in agreement with "dublin-core",
      * implementors may use either abstract or description as needed.
      * <p>
@@ -95,6 +94,7 @@ public interface ServiceInfo {
      * <li>WMS contact info
      * <li>File formats may wish to use the current user, or the last user to modify the file
      * </ul>
+     *
      * @return URI identifying the publisher of this service
      */
     URI getPublisher();
@@ -110,6 +110,7 @@ public interface ServiceInfo {
      * <li>XML schema namespace for this service type.
      * </ul>
      * <p>
+     *
      * @return URI used to identify service type
      */
     URI getSchema();
@@ -124,6 +125,7 @@ public interface ServiceInfo {
      * <li>File formats may wish to use their parent directory
      * </ul>
      * <p>
+     *
      * @return Source of this service
      */
     URI getSource();

@@ -59,18 +59,16 @@ import org.opengis.util.Cloneable;
  * are safe in all cases.
  * </blockquote>
  *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see DirectPosition1D
  * @see GeneralDirectPosition
  * @see java.awt.geom.Point2D
+ * @since 2.0
  */
-public class DirectPosition2D extends Point2D.Double implements DirectPosition, Serializable, Cloneable {
+public class DirectPosition2D extends Point2D.Double implements DirectPosition, Serializable, 
+        Cloneable {
     /**
      * Serial number for interoperability with different versions.
      */
@@ -101,7 +99,7 @@ public class DirectPosition2D extends Point2D.Double implements DirectPosition, 
      * Constructs a 2D position from the specified ordinates. Despite their name,
      * the (<var>x</var>,<var>y</var>) coordinates don't need to be oriented toward
      * ({@linkplain org.opengis.referencing.cs.AxisDirection#EAST  East},
-     *  {@linkplain org.opengis.referencing.cs.AxisDirection#NORTH North}).
+     * {@linkplain org.opengis.referencing.cs.AxisDirection#NORTH North}).
      * Those parameter names simply match the {@linkplain #x x} and {@linkplain #y y}
      * fields. See the {@linkplain DirectPosition2D class javadoc} for details.
      *
@@ -109,25 +107,24 @@ public class DirectPosition2D extends Point2D.Double implements DirectPosition, 
      * @param y The <var>y</var> value.
      */
     public DirectPosition2D(final double x, final double y) {
-        super(x,y);
+        super(x, y);
     }
 
     /**
      * Constructs a 2D position from the specified ordinates in the specified CRS. Despite
      * their name, the (<var>x</var>,<var>y</var>) coordinates don't need to be oriented toward
      * ({@linkplain org.opengis.referencing.cs.AxisDirection#EAST  East},
-     *  {@linkplain org.opengis.referencing.cs.AxisDirection#NORTH North}).
+     * {@linkplain org.opengis.referencing.cs.AxisDirection#NORTH North}).
      * Those parameter names simply match the {@linkplain #x x} and {@linkplain #y y}
      * fields. The actual axis orientations are determined by the specified CRS.
      * See the {@linkplain DirectPosition2D class javadoc} for details.
      *
      * @param crs The coordinate reference system, or {@code null}.
-     * @param x The <var>x</var> value.
-     * @param y The <var>y</var> value.
+     * @param x   The <var>x</var> value.
+     * @param y   The <var>y</var> value.
      */
     public DirectPosition2D(final CoordinateReferenceSystem crs,
-                            final double x, final double y)
-    {
+                            final double x, final double y) {
         super(x, y);
         setCoordinateReferenceSystem(crs);
     }
@@ -202,40 +199,46 @@ public class DirectPosition2D extends Point2D.Double implements DirectPosition, 
      * @return The coordinates
      */
     public double[] getCoordinate() {
-        return new double[] {x,y};
+        return new double[]{x, y};
     }
 
     /**
      * Returns the ordinate at the specified dimension.
      *
-     * @param  dimension The dimension in the range 0 to 1 inclusive.
+     * @param dimension The dimension in the range 0 to 1 inclusive.
      * @return The coordinate at the specified dimension.
      * @throws IndexOutOfBoundsException if the specified dimension is out of bounds.
-     *
      * @todo Provides a more detailled error message.
      */
     public final double getOrdinate(final int dimension) throws IndexOutOfBoundsException {
         switch (dimension) {
-            case 0:  return x;
-            case 1:  return y;
-            default: throw new IndexOutOfBoundsException(String.valueOf(dimension));
+            case 0:
+                return x;
+            case 1:
+                return y;
+            default:
+                throw new IndexOutOfBoundsException(String.valueOf(dimension));
         }
     }
 
     /**
      * Sets the ordinate value along the specified dimension.
      *
-     * @param  dimension the dimension for the ordinate of interest.
-     * @param  value the ordinate value of interest.
+     * @param dimension the dimension for the ordinate of interest.
+     * @param value     the ordinate value of interest.
      * @throws IndexOutOfBoundsException if the specified dimension is out of bounds.
-     *
      * @todo Provides a more detailled error message.
      */
     public final void setOrdinate(int dimension, double value) throws IndexOutOfBoundsException {
         switch (dimension) {
-            case 0:  x=value; break;
-            case 1:  y=value; break;
-            default: throw new IndexOutOfBoundsException(String.valueOf(dimension));
+            case 0:
+                x = value;
+                break;
+            case 1:
+                y = value;
+                break;
+            default:
+                throw new IndexOutOfBoundsException(String.valueOf(dimension));
         }
     }
 
@@ -244,7 +247,7 @@ public class DirectPosition2D extends Point2D.Double implements DirectPosition, 
      * contains a {@linkplain CoordinateReferenceSystem coordinate reference system},
      * then the CRS for this position will be set to the CRS of the specified position.
      *
-     * @param  position The new position for this point.
+     * @param position The new position for this point.
      * @throws MismatchedDimensionException if this point doesn't have the expected dimension.
      */
     public void setLocation(final DirectPosition position) throws MismatchedDimensionException {
@@ -260,7 +263,7 @@ public class DirectPosition2D extends Point2D.Double implements DirectPosition, 
      * @return This position as a point.
      */
     public Point2D toPoint2D() {
-        return new Point2D.Double(x,y);
+        return new Point2D.Double(x, y);
     }
 
     /**
@@ -304,10 +307,9 @@ public class DirectPosition2D extends Point2D.Double implements DirectPosition, 
         if (object instanceof DirectPosition) {
             final DirectPosition other = (DirectPosition) object;
             if (other.getDimension() == 2 &&
-                Utilities.equals(other.getOrdinate(0), x) &&
-                Utilities.equals(other.getOrdinate(1), y) &&
-                Utilities.equals(other.getCoordinateReferenceSystem(), crs))
-            {
+                    Utilities.equals(other.getOrdinate(0), x) &&
+                    Utilities.equals(other.getOrdinate(1), y) &&
+                    Utilities.equals(other.getCoordinateReferenceSystem(), crs)) {
                 assert hashCode() == other.hashCode() : this;
                 return true;
             }

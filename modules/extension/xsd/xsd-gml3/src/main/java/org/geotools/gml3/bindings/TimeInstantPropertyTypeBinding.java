@@ -24,9 +24,9 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:TimeInstantPropertyType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;complexType name="TimeInstantPropertyType"&gt;
@@ -34,13 +34,13 @@ import javax.xml.namespace.QName;
  *          &lt;element ref="gml:TimeInstant"/&gt;
  *      &lt;/sequence&gt;
  *      &lt;attributeGroup ref="gml:AssociationAttributeGroup"/&gt;
- *  &lt;/complexType&gt; 
- * 	
+ *  &lt;/complexType&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
  */
 public class TimeInstantPropertyTypeBinding extends AbstractComplexBinding {
@@ -54,7 +54,7 @@ public class TimeInstantPropertyTypeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -63,7 +63,7 @@ public class TimeInstantPropertyTypeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {

@@ -20,14 +20,11 @@ package org.geotools.swt.event;
 /**
  * An adapter class that implements all of the method
  * defined in the {@code MapPaneListener} interface as empty methods, allowing sub-classes
- * to just override the methods they need. 
+ * to just override the methods they need.
  *
  * @author Michael Bedward
- * @since 2.6
- *
- *
- *
  * @source $URL$
+ * @since 2.6
  */
 public class MapPaneAdapter implements MapPaneListener {
 
@@ -36,21 +33,24 @@ public class MapPaneAdapter implements MapPaneListener {
      *
      * @param ev the event
      */
-    public void onNewContext(MapPaneEvent ev) {}
+    public void onNewContext(MapPaneEvent ev) {
+    }
 
     /**
      * Called by the map pane when a new renderer has been set
      *
      * @param ev the event
      */
-    public void onNewRenderer(MapPaneEvent ev) {}
+    public void onNewRenderer(MapPaneEvent ev) {
+    }
 
     /**
      * Called by the map pane when it has been resized
      *
      * @param ev the event
      */
-    public void onResized(MapPaneEvent ev) {}
+    public void onResized(MapPaneEvent ev) {
+    }
 
     /**
      * Called by the map pane when its display area has been
@@ -58,21 +58,24 @@ public class MapPaneAdapter implements MapPaneListener {
      *
      * @param ev the event
      */
-    public void onDisplayAreaChanged(MapPaneEvent ev) {}
+    public void onDisplayAreaChanged(MapPaneEvent ev) {
+    }
 
     /**
      * Called by the map pane when it has started rendering features
      *
      * @param ev the event
      */
-    public void onRenderingStarted(MapPaneEvent ev) {}
+    public void onRenderingStarted(MapPaneEvent ev) {
+    }
 
     /**
      * Called by the map pane when it has stopped rendering features
      *
      * @param ev the event
      */
-    public void onRenderingStopped(MapPaneEvent ev) {}
+    public void onRenderingStopped(MapPaneEvent ev) {
+    }
 
     /**
      * Called by the map pane when it is rendering features. The
@@ -81,6 +84,7 @@ public class MapPaneAdapter implements MapPaneListener {
      *
      * @param ev the event
      */
-    public void onRenderingProgress(MapPaneEvent ev) {}
+    public void onRenderingProgress(MapPaneEvent ev) {
+    }
 
 }

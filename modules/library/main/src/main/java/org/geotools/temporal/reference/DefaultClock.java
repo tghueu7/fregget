@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,6 +17,7 @@
 package org.geotools.temporal.reference;
 
 import java.util.Collection;
+
 import org.geotools.util.Utilities;
 import org.opengis.temporal.Calendar;
 import org.opengis.temporal.Clock;
@@ -26,11 +27,7 @@ import org.opengis.metadata.extent.Extent;
 import org.opengis.referencing.ReferenceIdentifier;
 
 /**
- *
  * @author Mehdi Sidhoum (Geomatys)
- *
- *
- *
  * @source $URL$
  */
 public class DefaultClock extends DefaultTemporalReferenceSystem implements Clock {
@@ -40,7 +37,8 @@ public class DefaultClock extends DefaultTemporalReferenceSystem implements Cloc
      */
     private InternationalString referenceEvent;
     /**
-     * Provide the time of day associated with the reference event expressed as a time of day in the given clock, the reference time is usually the origin of the clock scale.
+     * Provide the time of day associated with the reference event expressed as a time of day in 
+     * the given clock, the reference time is usually the origin of the clock scale.
      */
     private ClockTime referenceTime;
     /**
@@ -52,7 +50,8 @@ public class DefaultClock extends DefaultTemporalReferenceSystem implements Cloc
      */
     private Collection<Calendar> dateBasis;
 
-    public DefaultClock(ReferenceIdentifier name, Extent domainOfValidity, InternationalString referenceEvent, ClockTime referenceTime, ClockTime utcReference) {
+    public DefaultClock(ReferenceIdentifier name, Extent domainOfValidity, InternationalString 
+            referenceEvent, ClockTime referenceTime, ClockTime utcReference) {
         super(name, domainOfValidity);
         this.referenceEvent = referenceEvent;
         this.referenceTime = referenceTime;
@@ -72,7 +71,9 @@ public class DefaultClock extends DefaultTemporalReferenceSystem implements Cloc
     }
 
     /**
-     * Takes a 24-hour local or UTC time and return the equivalent time of day expressed in terms of the specified clock.
+     * Takes a 24-hour local or UTC time and return the equivalent time of day expressed in terms
+     * of the specified clock.
+     *
      * @param uTime
      * @return
      */
@@ -81,7 +82,9 @@ public class DefaultClock extends DefaultTemporalReferenceSystem implements Cloc
     }
 
     /**
-     * Takes a time of day expressed in terms of the specified clock and return the equivalent time of day in 24-hour local or UTC time.
+     * Takes a time of day expressed in terms of the specified clock and return the equivalent 
+     * time of day in 24-hour local or UTC time.
+     *
      * @param clkTime
      * @return
      */

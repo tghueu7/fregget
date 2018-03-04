@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -36,13 +36,10 @@ import org.geotools.metadata.iso.MetadataEntity;
 /**
  * Information about the scope and frequency of updating.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class MaintenanceInformationImpl extends MetadataEntity implements MaintenanceInformation {
@@ -133,7 +130,7 @@ public class MaintenanceInformationImpl extends MetadataEntity implements Mainte
      * Returns the scheduled revision date for resource.
      */
     public synchronized Date getDateOfNextUpdate() {
-        return (dateOfNextUpdate!=Long.MIN_VALUE) ? new Date(dateOfNextUpdate) : null;
+        return (dateOfNextUpdate != Long.MIN_VALUE) ? new Date(dateOfNextUpdate) : null;
     }
 
     /**
@@ -141,16 +138,15 @@ public class MaintenanceInformationImpl extends MetadataEntity implements Mainte
      */
     public synchronized void setDateOfNextUpdate(final Date newValue) {
         checkWritePermission();
-        dateOfNextUpdate = (newValue!=null) ? newValue.getTime() : Long.MIN_VALUE;
+        dateOfNextUpdate = (newValue != null) ? newValue.getTime() : Long.MIN_VALUE;
     }
 
     /**
      * Returns the maintenance period other than those defined.
      *
      * @return The period, in milliseconds.
-     * 
      * @TODO: needs an implementation of org.opengis.temporal modules to anntote
-     *        this parameter.
+     * this parameter.
      */
     public PeriodDuration getUserDefinedMaintenanceFrequency() {
         return userDefinedMaintenanceFrequency;
@@ -188,7 +184,8 @@ public class MaintenanceInformationImpl extends MetadataEntity implements Mainte
      * @since 2.4
      */
     public synchronized Collection<ScopeDescription> getUpdateScopeDescriptions() {
-        return (updateScopeDescriptions = nonNullCollection(updateScopeDescriptions, ScopeDescription.class));
+        return (updateScopeDescriptions = nonNullCollection(updateScopeDescriptions, 
+                ScopeDescription.class));
     }
 
     /**
@@ -197,9 +194,9 @@ public class MaintenanceInformationImpl extends MetadataEntity implements Mainte
      * @since 2.4
      */
     public synchronized void setUpdateScopeDescriptions(
-            final Collection<? extends ScopeDescription> newValues)
-    {
-        updateScopeDescriptions = copyCollection(newValues, updateScopeDescriptions, ScopeDescription.class);
+            final Collection<? extends ScopeDescription> newValues) {
+        updateScopeDescriptions = copyCollection(newValues, updateScopeDescriptions, 
+                ScopeDescription.class);
     }
 
     /**
@@ -217,8 +214,7 @@ public class MaintenanceInformationImpl extends MetadataEntity implements Mainte
      * @since 2.4
      */
     public synchronized void setMaintenanceNotes(
-            final Collection<? extends InternationalString> newValues)
-    {
+            final Collection<? extends InternationalString> newValues) {
         maintenanceNotes = copyCollection(newValues, maintenanceNotes, InternationalString.class);
     }
 

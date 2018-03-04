@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.coordinate;
@@ -25,79 +25,81 @@ import static org.opengis.annotation.Specification.*;
  * The surface patches that make up the parametric curve surfaces.
  * {@code ParametricCurveSurface} are all continuous families of curves,
  * given by a constructive function of the form:
- *
+ * <p>
  * <blockquote>
  * {@code surface}(<var>s</var>,<var>t</var>):
  * [<var>a</var>,<var>b</var>]&times;[<var>c</var>,<var>d</var>] &rarr; {@link DirectPosition}
  * </blockquote>
- *
+ * <p>
  * By fixing the value of either parameter, we have a one-parameter family of curves.
- *
+ * <p>
  * <blockquote>
  * c<sub>t</sub>(<var>s</var>) = c<sub>s</sub>(<var>t</var>) =
  * {@code surface}(<var>s</var>,<var>t</var>);
  * </blockquote>
- *
+ * <p>
  * The functions on {@code ParametricCurveSurface} shall expose these two families of curves. The
  * first gives us the "horizontal" cross sections c<sub>t</sub>(<var>s</var>), the later the
  * "vertical" cross sections c<sub>s</sub>(<var>t</var>). The terms "horizontal" and "vertical"
- * refer to the parameter space and need not be either horizontal or vertical curves in the coordinate
+ * refer to the parameter space and need not be either horizontal or vertical curves in the 
+ * coordinate
  * reference system. The table below lists some possible pairs of types for these surface curves
  * (other representations of these same surfaces are possible).
  * <p>
  * <table border='1'>
- *   <tr bgcolor="#CCCCFF" class="TableHeadingColor">
- *     <th nowrap>&nbsp;Surface type&nbsp;</th>
- *     <th nowrap>&nbsp;Horizontal Curve type&nbsp;</th>
- *     <th nowrap>&nbsp;Vertical curve type&nbsp;</th>
- *   </tr><tr>
- *     <td nowrap>&nbsp;{@link Cylinder}&nbsp;</td>
- *     <td nowrap>&nbsp;Circle, constant radii&nbsp;</td>
- *     <td nowrap>&nbsp;Line Segment&nbsp;</td>
- *   </tr><tr>
- *     <td nowrap>&nbsp;{@link Cone}&nbsp;</td>
- *     <td nowrap>&nbsp;Circle, decreasing radii&nbsp;</td>
- *     <td nowrap>&nbsp;Line Segment&nbsp;</td>
- *   </tr><tr>
- *     <td nowrap>&nbsp;{@link Sphere}&nbsp;</td>
- *     <td nowrap>&nbsp;Circle of constant latitude&nbsp;</td>
- *     <td nowrap>&nbsp;Circle of constant longitude&nbsp;</td>
- *   </tr><tr>
- *     <td nowrap>&nbsp;{@link BilinearGrid}&nbsp;</td>
- *     <td nowrap>&nbsp;Line string&nbsp;</td>
- *     <td nowrap>&nbsp;Line string&nbsp;</td>
- *   </tr><tr>
- *     <td nowrap>&nbsp;{@link BicubicGrid}&nbsp;</td>
- *     <td nowrap>&nbsp;Cubic spline&nbsp;</td>
- *     <td nowrap>&nbsp;Cubic spline&nbsp;</td>
- *   </tr>
+ * <tr bgcolor="#CCCCFF" class="TableHeadingColor">
+ * <th nowrap>&nbsp;Surface type&nbsp;</th>
+ * <th nowrap>&nbsp;Horizontal Curve type&nbsp;</th>
+ * <th nowrap>&nbsp;Vertical curve type&nbsp;</th>
+ * </tr><tr>
+ * <td nowrap>&nbsp;{@link Cylinder}&nbsp;</td>
+ * <td nowrap>&nbsp;Circle, constant radii&nbsp;</td>
+ * <td nowrap>&nbsp;Line Segment&nbsp;</td>
+ * </tr><tr>
+ * <td nowrap>&nbsp;{@link Cone}&nbsp;</td>
+ * <td nowrap>&nbsp;Circle, decreasing radii&nbsp;</td>
+ * <td nowrap>&nbsp;Line Segment&nbsp;</td>
+ * </tr><tr>
+ * <td nowrap>&nbsp;{@link Sphere}&nbsp;</td>
+ * <td nowrap>&nbsp;Circle of constant latitude&nbsp;</td>
+ * <td nowrap>&nbsp;Circle of constant longitude&nbsp;</td>
+ * </tr><tr>
+ * <td nowrap>&nbsp;{@link BilinearGrid}&nbsp;</td>
+ * <td nowrap>&nbsp;Line string&nbsp;</td>
+ * <td nowrap>&nbsp;Line string&nbsp;</td>
+ * </tr><tr>
+ * <td nowrap>&nbsp;{@link BicubicGrid}&nbsp;</td>
+ * <td nowrap>&nbsp;Cubic spline&nbsp;</td>
+ * <td nowrap>&nbsp;Cubic spline&nbsp;</td>
+ * </tr>
  * </table>
  * <p>
  * The two partial derivatives of the surface parameterization, <b>i</b> and <b>j</b> are given by:
- *
+ * <p>
  * <blockquote>TODO: copy equations there</blockquote>
- *
+ * <p>
  * and
- *
+ * <p>
  * <blockquote>TODO: copy equations there</blockquote>
- *
+ * <p>
  * The default {@linkplain #getUpNormal upNormal} for the surface shall be the vector cross product
  * of these two curve derivatives when they are both non-zero:
- *
+ * <p>
  * <blockquote>
  * <b>k</b> = <b>i</b> &times; <b>j</b>
  * </blockquote>
- *
+ * <p>
  * If the coordinate reference system is 2D, then the vector <b>k</b> extends the local coordinate
  * system by supplying an "upward" elevation vector. In this case the vector basis
  * (<b>i</b>,&nbsp;<b>j</b>) must be a right hand system, that is to say, the oriented angle from
- * <b>i</b> to <b>j</b> must be less than 180&deg;. This gives a right-handed "moving frame" of local
+ * <b>i</b> to <b>j</b> must be less than 180&deg;. This gives a right-handed "moving frame" of 
+ * local
  * coordinate axes given by &lt;<b>i</b>, <b>j</b>&gt;. A moving frame is defined to be a continuous
  * function from the geometric object to a basis for the local tangent space of that object. For
  * curves, this is the derivative of the curve, the local tangent. For surfaces, this is a local
  * pair of tangents. Parameterized curve surfaces have a natural moving frame and it shall be used
  * as defined in this paragraph to define the upNormal of the surface.
- *
+ * <p>
  * <blockquote><font size=2>
  * <strong>NOTE:</strong> The existence of a viable moving frame is the definition of "orientable"
  * manifold. This is why the existence of a continuous {@linkplain #getUpNormal upNormal} implies
@@ -107,33 +109,31 @@ import static org.opengis.annotation.Specification.*;
  * space for non-singular representations.
  * </font></blockquote>
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @since GeoAPI 2.0
  */
-@UML(identifier="GM_ParametricCurveSurface", specification=ISO_19107)
+@UML(identifier = "GM_ParametricCurveSurface", specification = ISO_19107)
 public interface ParametricCurveSurface extends SurfacePatch {
     /**
      * Indicates the type of surface curves used to traverse the surface horizontally
      * with respect to the parameter <var>s</var>.
      */
-    @UML(identifier="horizontalCurveType", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "horizontalCurveType", obligation = MANDATORY, specification = ISO_19107)
     CurveInterpolation getHorizontalCurveType();
 
     /**
      * Indicates the type of surface curves used to traverse the surface vertically with
      * respect to the parameter <var>t</var>.
      */
-    @UML(identifier="verticalCurveType", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "verticalCurveType", obligation = MANDATORY, specification = ISO_19107)
     CurveInterpolation getVerticalCurveType();
 
     /**
      * Constructs a curve that traverses the surface horizontally with respect to the parameter
      * <var>s</var>. This curve holds the parameter <var>t</var> constant.
-     *
+     * <p>
      * <blockquote><font size=2>
      * <strong>NOTE:</strong>
      * The curve returned by this function or by the corresponding vertical curve function, are
@@ -143,25 +143,25 @@ public interface ParametricCurveSurface extends SurfacePatch {
      * the surface map normally to the boundaries of the target surfaces.
      * </font></blockquote>
      *
-     * @param  t The <var>t</var> value to hold constant.
+     * @param t The <var>t</var> value to hold constant.
      * @return The curve that traverses the surface.
      */
-    @UML(identifier="horizontalCurve", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "horizontalCurve", obligation = MANDATORY, specification = ISO_19107)
     Curve horizontalCurve(double t);
 
     /**
      * Constructs a curve that traverses the surface vertically with respect to the parameter
      * <var>t</var>. This curve holds the parameter <var>s</var> constant.
      *
-     * @param  s The <var>s</var> value to hold constant.
+     * @param s The <var>s</var> value to hold constant.
      * @return The curve that traverses the surface.
      */
-    @UML(identifier="verticalCurve", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "verticalCurve", obligation = MANDATORY, specification = ISO_19107)
     Curve verticalCurve(double s);
 
     /**
      * Traverses the surface both vertically and horizontally.
      */
-    @UML(identifier="surface", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "surface", obligation = MANDATORY, specification = ISO_19107)
     DirectPosition surface(double s, double t);
 }

@@ -28,8 +28,6 @@ import org.geotools.xml.Configuration;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class MLConfiguration extends Configuration {
@@ -44,6 +42,6 @@ public class MLConfiguration extends Configuration {
         container.registerComponentImplementation(ML.MAILSTYPE, MLMailsTypeBinding.class);
         container.registerComponentImplementation(ML.MAILTYPE, MLMailTypeBinding.class);
         container.registerComponentImplementation(ML.MIMETOPLEVELTYPE,
-            MLMimeTopLevelTypeBinding.class);
+                MLMimeTopLevelTypeBinding.class);
     }
 }

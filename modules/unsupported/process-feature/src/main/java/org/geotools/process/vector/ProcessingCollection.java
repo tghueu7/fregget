@@ -39,17 +39,16 @@ import org.opengis.util.ProgressListener;
 /**
  * Abstract base class to ease the implementation of a streaming processing collection, that is, one
  * that tries to compute the results on the fly as the iterator is traversed.
- * 
+ * <p>
  * Besides the few methods that the implementor actually needs to override it suggested to consider
  * overriding also the followings to get extra performance gains:
  * <ul>
  * {@link #subCollection(Filter)} {@link #sort(SortBy)}
  * </ul>
- * 
- * @author Andrea Aime - GeoSolutions
- * 
+ *
  * @param <T>
  * @param <F>
+ * @author Andrea Aime - GeoSolutions
  */
 public abstract class ProcessingCollection<T extends FeatureType, F extends Feature>
         extends BaseFeatureCollection<T, F> {
@@ -63,18 +62,21 @@ public abstract class ProcessingCollection<T extends FeatureType, F extends Feat
      */
     @Override
     public abstract FeatureIterator<F> features();
-    
+
     /**
-     * The bounds of features in the output. If the bounds are not known in advance once can call the
-     * getFeatureBounds() which will build it from the features as they are returned from the feature
+     * The bounds of features in the output. If the bounds are not known in advance once can call
+     * the
+     * getFeatureBounds() which will build it from the features as they are returned from the 
+     * feature
      * iterator.
      */
     @Override
     public abstract ReferencedEnvelope getBounds();
 
     /**
-     * Builds once and for all the target feature type. The results are available by calling getSchema()
-     * 
+     * Builds once and for all the target feature type. The results are available by calling 
+     * getSchema()
+     *
      * @return
      */
     protected abstract T buildTargetFeatureType();
@@ -89,36 +91,38 @@ public abstract class ProcessingCollection<T extends FeatureType, F extends Feat
 
     /**
      * Convenience method that counts features by traversing the feature iterator.
-     * 
+     *
      * @return number of features using {@link #features()}
      * @deprecated Use {@link DataUtilities#count(org.geotools.feature.FeatureCollection)
      */
     protected int getFeatureCount() {
-        return DataUtilities.count( this );
+        return DataUtilities.count(this);
     }
-    
+
     /**
      * Utility to get all the features to implement the toArray methods
+     *
      * @deprecated Use {@link DataUtilities#list(org.geotools.feature.FeatureCollection)}
      */
     protected List<F> toList() {
-        return DataUtilities.list( this );
+        return DataUtilities.list(this);
     }
+
     /**
      * Convenience method that computes the feature bounds by traversing the feature iterator.
-     * 
+     *
      * @return bounds calculated using {@link #features()}
      * @deprecated Use {@link DataUtilities#bounds(FeatureIterator)
      */
     protected ReferencedEnvelope getFeatureBounds() {
-        return DataUtilities.bounds( features() );
+        return DataUtilities.bounds(features());
     }
 
     @Override
     public T getSchema() {
-        if(schema == null) {
+        if (schema == null) {
             schema = buildTargetFeatureType();
-        }        
+        }
         return schema;
     }
 

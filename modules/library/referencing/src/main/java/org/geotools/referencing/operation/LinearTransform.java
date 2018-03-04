@@ -31,12 +31,10 @@ import org.geotools.referencing.operation.matrix.XMatrix;
  * and the {@linkplain Matrix#getNumRow number of rows} is equals to the number of
  * {@linkplain #getTargetDimensions target dimensions} plus 1.
  *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.0
  */
 public interface LinearTransform extends MathTransform {
     /**
@@ -50,14 +48,13 @@ public interface LinearTransform extends MathTransform {
      * Tests whether this transform does not move any points, by using the provided
      * {@code tolerance} value. The signification of <cite>tolerance value</cite> is
      * the same than in the following pseudo-code:
-     *
+     * <p>
      * <blockquote><pre>
      * {@linkplain #getMatrix()}.{@linkplain XMatrix#isIdentity(double) isIdentity}(tolerance);
      * </pre></blockquote>
      *
      * @param tolerance The tolerance factor.
      * @return {@code true} if this transform is the identity one
-     *
      * @since 2.4
      */
     boolean isIdentity(double tolerance);

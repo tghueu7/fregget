@@ -51,14 +51,13 @@ import org.opengis.util.InternationalString;
  * <p>
  * Instances of {@link CategoryList} are immutable and thread-safe.
  *
- * @since 2.1
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 class CategoryList extends AbstractList<Category>
-        implements Comparator<Category>, Serializable
-{
+        implements Comparator<Category>, Serializable {
     /**
      * Serial number for interoperability with different versions.
      */
@@ -95,7 +94,7 @@ class CategoryList extends AbstractList<Category>
     /**
      * The "nodata" category (never {@code null}). The "nodata" category is a
      * category mapping the {@link Double#NaN} value.  If none has been
-     * found, a default "nodata" category is used. 
+     * found, a default "nodata" category is used.
      */
     final Category nodata;
 
@@ -131,7 +130,7 @@ class CategoryList extends AbstractList<Category>
      */
     private transient InternationalString name;
 
-    /** 
+    /**
      * The unit information for all quantitative categories. It may be {@code null}
      * if no category has units.
      */
@@ -140,34 +139,32 @@ class CategoryList extends AbstractList<Category>
     /**
      * Constructs a category list using the specified array of categories.
      *
-     * @param  categories The list of categories.
-     * @param  units The geophysics unit, or {@code null} if none.
+     * @param categories The list of categories.
+     * @param units      The geophysics unit, or {@code null} if none.
      * @throws IllegalArgumentException if two or more categories
-     *         have overlapping sample value range.
+     *                                  have overlapping sample value range.
      */
     public CategoryList(final Category[] categories, final Unit<?> units)
-            throws IllegalArgumentException
-    {
+            throws IllegalArgumentException {
         this(categories, units, false);
     }
 
     /**
      * Constructs a category list using the specified array of categories.
+     * <p>
+     * <STRONG>This constructor is for internal use only</STRONG>
      *
-     *         <STRONG>This constructor is for internal use only</STRONG>
-     *
-     *
-     * @param  categories The list of categories.
-     * @param  units The geophysics unit, or {@code null} if none.
-     * @param  searchNearest The policy when {@link #getCategory} doesn't find an exact match
-     *         for a sample value. {@code true} means that it should search for the nearest
-     *         category, while {@code false} means that it should returns {@code null}.
+     * @param categories    The list of categories.
+     * @param units         The geophysics unit, or {@code null} if none.
+     * @param searchNearest The policy when {@link #getCategory} doesn't find an exact match
+     *                      for a sample value. {@code true} means that it should search for the 
+     *                      nearest
+     *                      category, while {@code false} means that it should returns {@code null}.
      * @throws IllegalArgumentException if two or more categories have overlapping sample value
-     *         range.
+     *                                  range.
      */
     CategoryList(Category[] categories, Unit<?> units, boolean searchNearest)
-            throws IllegalArgumentException
-    {
+            throws IllegalArgumentException {
         this.categories = categories = categories.clone();
         Arrays.sort(categories, this);
         assert isSorted(categories);
@@ -177,21 +174,21 @@ class CategoryList extends AbstractList<Category>
          */
         boolean hasGaps = false;
         minimums = new double[categories.length];
-        for (int i=0; i<categories.length; i++) {
+        for (int i = 0; i < categories.length; i++) {
             final double minimum = minimums[i] = categories[i].minimum;
             if (i != 0) {
-                assert !(minimum < minimums[i-1]) : minimum; // Use '!' to accept NaN.
-                final Category previous = categories[i-1];
+                assert !(minimum < minimums[i - 1]) : minimum; // Use '!' to accept NaN.
+                final Category previous = categories[i - 1];
                 if (compare(minimum, previous.maximum) <= 0) {
                     // Two categories have overlapping range;
                     // Formats an error message.
-                    final NumberRange range1 = categories[i-1].getRange();
-                    final NumberRange range2 = categories[i-0].getRange();
-                    final Comparable[] args = new Comparable[] {
-                        range1.getMinValue(), range1.getMaxValue(),
-                        range2.getMinValue(), range2.getMaxValue()
+                    final NumberRange range1 = categories[i - 1].getRange();
+                    final NumberRange range2 = categories[i - 0].getRange();
+                    final Comparable[] args = new Comparable[]{
+                            range1.getMinValue(), range1.getMaxValue(),
+                            range2.getMinValue(), range2.getMaxValue()
                     };
-                    for (int j=0; j<args.length; j++) {
+                    for (int j = 0; j < args.length; j++) {
                         if (args[j] instanceof Number) {
                             final float value = ((Number) args[j]).floatValue();
                             if (Float.isNaN(value)) {
@@ -200,10 +197,11 @@ class CategoryList extends AbstractList<Category>
                             }
                         }
                     }
-                    throw new IllegalArgumentException(Errors.format(ErrorKeys.RANGE_OVERLAP_$4, args));
+                    throw new IllegalArgumentException(Errors.format(ErrorKeys.RANGE_OVERLAP_$4, 
+                            args));
                 }
                 // Checks if there is a gap between this category and the previous one.
-                if (!Double.isNaN(minimum) && minimum!=previous.getRange().getMaximum(false)) {
+                if (!Double.isNaN(minimum) && minimum != previous.getRange().getMaximum(false)) {
                     hasGaps = true;
                 }
             }
@@ -215,7 +213,7 @@ class CategoryList extends AbstractList<Category>
          */
         Category nodata = Category.NODATA;
         final long nodataBits = Double.doubleToRawLongBits(Double.NaN);
-        for (int i=categories.length; --i>=0;) {
+        for (int i = categories.length; --i >= 0; ) {
             final Category candidate = categories[i];
             final double value = candidate.minimum;
             if (Double.isNaN(value)) {
@@ -235,7 +233,7 @@ class CategoryList extends AbstractList<Category>
          */
         double range = 0;
         Category main = null;
-        for (int i=categories.length; --i>=0;) {
+        for (int i = categories.length; --i >= 0; ) {
             final Category candidate = categories[i];
             if (candidate.isQuantitative()) {
                 final Category candidatePeer = candidate;
@@ -255,7 +253,7 @@ class CategoryList extends AbstractList<Category>
          */
         Category overflowFallback = null;
         if (searchNearest) {
-            for (int i=categories.length; --i>=0;) {
+            for (int i = categories.length; --i >= 0; ) {
                 final Category category = categories[i];
                 if (!Double.isNaN(category.maximum)) {
                     overflowFallback = category;
@@ -277,13 +275,13 @@ class CategoryList extends AbstractList<Category>
 
     /**
      * Compares two {@code double} values. This method is similar to
-     * {@link Double#compare(double,double)} except that it also order
+     * {@link Double#compare(double, double)} except that it also order
      * NaN values.
      */
     private static int compare(final double v1, final double v2) {
         if (Double.isNaN(v1) && Double.isNaN(v2)) {
-            final long bits1  = Double.doubleToRawLongBits(v1);
-            final long bits2  = Double.doubleToRawLongBits(v2);
+            final long bits1 = Double.doubleToRawLongBits(v1);
+            final long bits2 = Double.doubleToRawLongBits(v2);
             if (bits1 < bits2) return -1;
             if (bits1 > bits2) return +1;
         }
@@ -295,11 +293,11 @@ class CategoryList extends AbstractList<Category>
      * ignores {@code NaN} values. This method is used for assertions only.
      */
     static boolean isSorted(final Category[] categories) {
-        for (int i=1; i<categories.length; i++) {
+        for (int i = 1; i < categories.length; i++) {
             Category c;
-            assert !((c=categories[i-0]).minimum > c.maximum) : c;
-            assert !((c=categories[i-1]).minimum > c.maximum) : c;
-            if (compare(categories[i-1].maximum, categories[i].minimum) > 0) {
+            assert !((c = categories[i - 0]).minimum > c.maximum) : c;
+            assert !((c = categories[i - 1]).minimum > c.maximum) : c;
+            if (compare(categories[i - 1].maximum, categories[i].minimum) > 0) {
                 return false;
             }
         }
@@ -308,14 +306,14 @@ class CategoryList extends AbstractList<Category>
 
     /**
      * Effectue une recherche bi-linéaire de la valeur spécifiée. Cette
-     * méthode est semblable à {@link Arrays#binarySearch(double[],double)},
+     * méthode est semblable à {@link Arrays#binarySearch(double[], double)},
      * excepté qu'elle peut distinguer différentes valeurs de NaN.
-     *
+     * <p>
      * Note: This method is not private in order to allows testing by {@link CategoryTest}.
      */
     static int binarySearch(final double[] array, final double key) {
-        int low  = 0;
-        int high = array.length-1;
+        int low = 0;
+        int high = array.length - 1;
         final boolean keyIsNaN = Double.isNaN(key);
         while (low <= high) {
             final int mid = (low + high) >> 1;
@@ -354,14 +352,14 @@ class CategoryList extends AbstractList<Category>
             if (keyIsNaN) {
                 // If (mid,key)==(!NaN, NaN): mid is lower.
                 // If two NaN arguments, compare NaN bits.
-                adjustLow = (!midIsNaN || midRawBits<keyRawBits);
+                adjustLow = (!midIsNaN || midRawBits < keyRawBits);
             } else {
                 // If (mid,key)==(NaN, !NaN): mid is greater.
                 // Otherwise, case for (-0.0, 0.0) and (0.0, -0.0).
-                adjustLow = (!midIsNaN && midRawBits<keyRawBits);
+                adjustLow = (!midIsNaN && midRawBits < keyRawBits);
             }
             if (adjustLow) low = mid + 1;
-            else          high = mid - 1;
+            else high = mid - 1;
         }
         return -(low + 1);  // key not found.
     }
@@ -383,7 +381,9 @@ class CategoryList extends AbstractList<Category>
      * The name for this category list. Will be created only when first needed.
      */
     private final class Name extends AbstractInternationalString {
-        /** Returns the name in the specified locale. */
+        /**
+         * Returns the name in the specified locale.
+         */
         public String toString(final Locale locale) {
             final StringBuffer buffer = new StringBuffer(30);
             if (main != null) {
@@ -397,7 +397,9 @@ class CategoryList extends AbstractList<Category>
             return String.valueOf(formatRange(buffer, locale));
         }
 
-        /** Returns the name in the default locale. */
+        /**
+         * Returns the name in the default locale.
+         */
         @Override
         public String toString() {
             return toString(Locale.getDefault());
@@ -421,14 +423,13 @@ class CategoryList extends AbstractList<Category>
      * type (integer, float, etc.) and inclusion/exclusion informations.
      *
      * @return The range of values. May be {@code null} if this category list has no
-     *         quantitative category.
-     *
+     * quantitative category.
      * @see Category#getRange
      */
     public final NumberRange<?> getRange() {
         if (range == null) {
             NumberRange<?> range = null;
-            for (int i=0; i<categories.length; i++) {
+            for (int i = 0; i < categories.length; i++) {
                 final NumberRange extent = categories[i].getRange();
                 if (!Double.isNaN(extent.getMinimum()) && !Double.isNaN(extent.getMaximum())) {
                     if (range != null) {
@@ -446,8 +447,8 @@ class CategoryList extends AbstractList<Category>
     /**
      * Format the range of geophysics values.
      *
-     * @param  buffer The buffer where to write the range of geophysics values.
-     * @param  locale The locale to use for formatting numbers.
+     * @param buffer The buffer where to write the range of geophysics values.
+     * @param locale The locale to use for formatting numbers.
      * @return The {@code buffer} for convenience.
      */
     private StringBuffer formatRange(StringBuffer buffer, final Locale locale) {
@@ -456,7 +457,7 @@ class CategoryList extends AbstractList<Category>
         if (range != null) {
             buffer = format(range.getMinimum(), false, locale, buffer);
             buffer.append(" ... ");
-            buffer = format(range.getMaximum(), true,  locale, buffer);
+            buffer = format(range.getMaximum(), true, locale, buffer);
         } else {
             final Unit<?> unit = getUnits();
             if (unit != null) {
@@ -468,18 +469,17 @@ class CategoryList extends AbstractList<Category>
     }
 
     /**
-     * Format the specified value using the specified locale convention. 
+     * Format the specified value using the specified locale convention.
      *
-     * @param  value The value to format.
-     * @param  writeUnit {@code true} if unit symbol should be formatted after the number.
-     *         Ignored if this category list has no unit.
-     * @param  locale The locale, or {@code null} for a default one.
-     * @param  buffer The buffer where to format.
+     * @param value     The value to format.
+     * @param writeUnit {@code true} if unit symbol should be formatted after the number.
+     *                  Ignored if this category list has no unit.
+     * @param locale    The locale, or {@code null} for a default one.
+     * @param buffer    The buffer where to format.
      * @return The buffer {@code buffer} for convenience.
      */
     StringBuffer format(final double value, final boolean writeUnits,
-                        final Locale locale, StringBuffer buffer)
-    {
+                        final Locale locale, StringBuffer buffer) {
         return buffer.append(value);
     }
 
@@ -487,14 +487,17 @@ class CategoryList extends AbstractList<Category>
      * Returns a color model for this category list. This method builds up the color model
      * from each category's colors (as returned by {@link Category#getColors}).
      *
-     * @param  visibleBand The band to be made visible (usually 0). All other bands, if any
-     *         will be ignored.
-     * @param  numBands The number of bands for the color model (usually 1). The returned color
-     *         model will renderer only the {@code visibleBand} and ignore the others, but
-     *         the existence of all {@code numBands} will be at least tolerated. Supplemental
-     *         bands, even invisible, are useful for processing with Java Advanced Imaging.
+     * @param visibleBand The band to be made visible (usually 0). All other bands, if any
+     *                    will be ignored.
+     * @param numBands    The number of bands for the color model (usually 1). The returned color
+     *                    model will renderer only the {@code visibleBand} and ignore the others,
+     *                    but
+     *                    the existence of all {@code numBands} will be at least tolerated. 
+     *                    Supplemental
+     *                    bands, even invisible, are useful for processing with Java Advanced 
+     *                    Imaging.
      * @return The requested color model, suitable for {@link java.awt.image.RenderedImage}
-     *         objects with values in the <code>{@linkplain #getRange}</code> range.
+     * objects with values in the <code>{@linkplain #getRange}</code> range.
      */
     public final ColorModel getColorModel(final int visibleBand, final int numBands) {
         int type = DataBuffer.TYPE_FLOAT;
@@ -524,17 +527,21 @@ class CategoryList extends AbstractList<Category>
      * Returns a color model for this category list. This method builds up the color model
      * from each category's colors (as returned by {@link Category#getColors}).
      *
-     * @param  visibleBand The band to be made visible (usually 0). All other bands, if any
-     *         will be ignored.
-     * @param  numBands The number of bands for the color model (usually 1). The returned color
-     *         model will renderer only the {@code visibleBand} and ignore the others, but
-     *         the existence of all {@code numBands} will be at least tolerated. Supplemental
-     *         bands, even invisible, are useful for processing with Java Advanced Imaging.
-     * @param  type The transfer type used in the sample model.
+     * @param visibleBand The band to be made visible (usually 0). All other bands, if any
+     *                    will be ignored.
+     * @param numBands    The number of bands for the color model (usually 1). The returned color
+     *                    model will renderer only the {@code visibleBand} and ignore the others,
+     *                    but
+     *                    the existence of all {@code numBands} will be at least tolerated. 
+     *                    Supplemental
+     *                    bands, even invisible, are useful for processing with Java Advanced 
+     *                    Imaging.
+     * @param type        The transfer type used in the sample model.
      * @return The requested color model, suitable for {@link java.awt.image.RenderedImage}
-     *         objects with values in the <code>{@link #getRange}</code> range.
+     * objects with values in the <code>{@link #getRange}</code> range.
      */
-    public final ColorModel getColorModel(final int visibleBand, final int numBands, final int type) {
+    public final ColorModel getColorModel(final int visibleBand, final int numBands, final int 
+            type) {
         return ColorModelFactory.getColorModel(categories, type, visibleBand, numBands);
     }
 
@@ -542,7 +549,7 @@ class CategoryList extends AbstractList<Category>
      * Returns the category of the specified sample value.
      * If no category fits, then this method returns {@code null}.
      *
-     * @param  sample The value.
+     * @param sample The value.
      * @return The category of the supplied value, or {@code null}.
      */
     public final Category getCategory(final double sample) {
@@ -570,7 +577,7 @@ class CategoryList extends AbstractList<Category>
         // 'binarySearch' found the index of "insertion point" (~i). This means that
         // 'sample' is lower than 'Category.minimum' at this index. Consequently, if
         // this value fits in a category's range, it fits in the previous category (~i-1).
-        i = ~i-1;
+        i = ~i - 1;
         if (i >= 0) {
             final Category category = categories[i];
             assert sample > category.minimum : sample;
@@ -583,7 +590,7 @@ class CategoryList extends AbstractList<Category>
                     // ASSERT: if 'upper.minimum' was smaller than 'value', it should has been
                     //         found by 'binarySearch'. We use '!' in order to accept NaN values.
                     assert !(upper.minimum <= sample) : sample;
-                    return (upper.minimum-sample < sample-category.maximum) ? upper : category;
+                    return (upper.minimum - sample < sample - category.maximum) ? upper : category;
                 }
                 return overflowFallback;
             }
@@ -605,16 +612,16 @@ class CategoryList extends AbstractList<Category>
      * be formatted with the appropriate number of digits and the units symbol. Otherwise,
      * if {@code value} is {@code NaN}, then the category name is returned.
      *
-     * @param  value  The sample value (may be {@code NaN}).
-     * @param  locale Locale to use for formatting, or {@code null} for the default locale.
+     * @param value  The sample value (may be {@code NaN}).
+     * @param locale Locale to use for formatting, or {@code null} for the default locale.
      * @return A string representation of the sample value.
      */
     public final String format(final double value, final Locale locale) {
         if (Double.isNaN(value)) {
             Category category = last;
-            if (!(value >= category.minimum  &&  value <= category.maximum) &&
-                 Double.doubleToRawLongBits(value) != Double.doubleToRawLongBits(category.minimum))
-            {
+            if (!(value >= category.minimum && value <= category.maximum) &&
+                    Double.doubleToRawLongBits(value) != Double.doubleToRawLongBits(category
+                            .minimum)) {
                 category = getCategory(value);
                 if (category == null) {
                     return Vocabulary.getResources(locale).getString(VocabularyKeys.UNTITLED);
@@ -627,13 +634,12 @@ class CategoryList extends AbstractList<Category>
     }
 
 
-
-
     //////////////////////////////////////////////////////////////////////////////////////////
     ////////                                                                          ////////
     ////////       I M P L E M E N T A T I O N   O F   List   I N T E R F A C E       ////////
     ////////                                                                          ////////
     //////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Returns the number of categories in this list.
      */
@@ -688,7 +694,7 @@ class CategoryList extends AbstractList<Category>
          */
         for (final Category category : categories) {
             buffer.append("  ").append(category == main ? '\u2023' : ' ').append(' ')
-                  .append(category).append(lineSeparator);
+                    .append(category).append(lineSeparator);
         }
         return buffer.toString();
     }
@@ -708,7 +714,7 @@ class CategoryList extends AbstractList<Category>
             }
             return false;
         }
-        return (overflowFallback==null) && super.equals(object);
+        return (overflowFallback == null) && super.equals(object);
     }
 
     /**
@@ -720,13 +726,12 @@ class CategoryList extends AbstractList<Category>
     }
 
 
-
-
     ///////////////////////////////////////////////////////////////////////////////////////////////
     ////////                                                                               ////////
     ////////    I M P L E M E N T A T I O N   O F   MathTransform1D   I N T E R F A C E    ////////
     ////////                                                                               ////////
     ///////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Gets the dimension of input points, which is 1.
      */
@@ -765,7 +770,6 @@ class CategoryList extends AbstractList<Category>
      *
      * @return The Well Know Text for this object.
      * @throws UnsupportedOperationException If this object can't be formatted as WKT.
-     *
      * @todo Not yet implemented.
      */
     public String toWKT() throws UnsupportedOperationException {

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -36,15 +36,14 @@ import org.opengis.util.InternationalString;
  * A replacement for {@link ComplexTypeImpl} with lazy evaluation of descriptors, to support
  * cyclically-defined types. Note that type equality is defined by name, so do not allow different
  * types with the same name to be put in any Collection.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * Inspired by {@link ComplexTypeImpl}.
- * 
- * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
- * @see ComplexTypeImpl
  *
+ * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
  * @source $URL$
+ * @see ComplexTypeImpl
  */
 public abstract class AbstractLazyComplexTypeImpl extends AbstractLazyAttributeTypeImpl implements
         ComplexType {
@@ -55,7 +54,7 @@ public abstract class AbstractLazyComplexTypeImpl extends AbstractLazyAttributeT
 
     /**
      * Constructor arguments have the same meaning as in {@link ComplexTypeImpl}.
-     * 
+     *
      * @param name
      * @param identified
      * @param isAbstract
@@ -63,18 +62,18 @@ public abstract class AbstractLazyComplexTypeImpl extends AbstractLazyAttributeT
      * @param description
      */
     public AbstractLazyComplexTypeImpl(Name name, boolean identified, boolean isAbstract,
-            List<Filter> restrictions, InternationalString description) {
+                                       List<Filter> restrictions, InternationalString description) {
         super(name, Collection.class, identified, isAbstract, restrictions, description);
     }
 
     /**
      * Subclasses must override this method to return the list of descriptors that define the
      * properties of this type. This method will only be called once at most.
-     * 
      * <p>
-     * 
+     * <p>
+     * <p>
      * If the type has no properties, return either an empty collection or null.
-     * 
+     *
      * @return a collection of descriptors or null if empty
      */
     public abstract Collection<PropertyDescriptor> buildDescriptors();
@@ -91,7 +90,8 @@ public abstract class AbstractLazyComplexTypeImpl extends AbstractLazyAttributeT
             } else {
                 Collection<PropertyDescriptor> localDescriptors = new ArrayList<PropertyDescriptor>(
                         builtDescriptors);
-                Map<Name, PropertyDescriptor> localDescriptorMap = new HashMap<Name, PropertyDescriptor>();
+                Map<Name, PropertyDescriptor> localDescriptorMap = new HashMap<Name, 
+                        PropertyDescriptor>();
                 for (PropertyDescriptor descriptor : localDescriptors) {
                     localDescriptorMap.put(descriptor.getName(), descriptor);
                 }
@@ -130,10 +130,10 @@ public abstract class AbstractLazyComplexTypeImpl extends AbstractLazyAttributeT
      * The namespace-ignorant version of {@link #getDescriptor(Name)}. Note that we honour the same
      * permissive algorithm as {@link ComplexTypeImpl}: (1) try no-namespace, (2) try
      * container-namespace, (2) search for match ignoring namespace. <b>*Shudder*</b>
-     * 
+     *
      * @see org.opengis.feature.type.ComplexType#getDescriptor(java.lang.String)
      * @deprecated Any code that uses this method instead of {@link #getDescriptor(Name)} is
-     *             inherently unsafe.
+     * inherently unsafe.
      */
     @Deprecated
     public PropertyDescriptor getDescriptor(String name) {

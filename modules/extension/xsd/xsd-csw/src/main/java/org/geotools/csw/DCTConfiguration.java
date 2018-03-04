@@ -1,4 +1,5 @@
 package org.geotools.csw;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Map;
@@ -19,15 +20,15 @@ public class DCTConfiguration extends Configuration {
 
     /**
      * Creates a new configuration.
-     * 
+     *
      * @generated
-     */     
+     */
     public DCTConfiguration() {
-       super(DCT.getInstance());
-       
-       addDependency(new DCConfiguration());
+        super(DCT.getInstance());
+
+        addDependency(new DCConfiguration());
     }
-    
+
     /**
      * Registers the bindings for the configuration.
      *
@@ -71,15 +72,18 @@ public class DCTConfiguration extends Configuration {
         bindings.put(DCT.temporal, new SimpleLiteralBinding(DC.SimpleLiteral));
         bindings.put(DCT.valid, new SimpleLiteralBinding(DC.SimpleLiteral));
     }
-    
+
     /**
      * Generates the bindings registrations for this class
+     *
      * @param args
      */
     public static void main(String[] args) {
-        for(Field f : DCT.class.getFields()) {
-            if((f.getModifiers() & (Modifier.STATIC | Modifier.FINAL)) != 0 && f.getType().equals(QName.class)) {
-                System.out.println("bindings.put(DCT." + f.getName() + ", new SimpleLiteralBinding(DC.SimpleLiteral));");
+        for (Field f : DCT.class.getFields()) {
+            if ((f.getModifiers() & (Modifier.STATIC | Modifier.FINAL)) != 0 && f.getType()
+                    .equals(QName.class)) {
+                System.out.println("bindings.put(DCT." + f.getName() + ", new " +
+                        "SimpleLiteralBinding(DC.SimpleLiteral));");
             }
         }
     }

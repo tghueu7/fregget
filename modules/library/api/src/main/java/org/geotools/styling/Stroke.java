@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -75,10 +75,9 @@ import org.opengis.filter.expression.Expression;
  * </ul>
  * </p>
  *
- *
- * @source $URL$
- * @version $Id$
  * @author James Macgill
+ * @version $Id$
+ * @source $URL$
  */
 public interface Stroke extends org.opengis.style.Stroke {
     /**
@@ -89,54 +88,54 @@ public interface Stroke extends org.opengis.style.Stroke {
      * </p>
      */
     static final Stroke DEFAULT = new ConstantStroke() {
-            public Expression getColor() {
-                return ConstantExpression.BLACK;
-            }
+        public Expression getColor() {
+            return ConstantExpression.BLACK;
+        }
 
-            public Color getColor(SimpleFeature f) {
-                return Color.BLACK;
-            }
+        public Color getColor(SimpleFeature f) {
+            return Color.BLACK;
+        }
 
-            public Expression getWidth() {
-                return ConstantExpression.ONE;
-            }
+        public Expression getWidth() {
+            return ConstantExpression.ONE;
+        }
 
-            public Expression getOpacity() {
-                return ConstantExpression.ONE;
-            }
+        public Expression getOpacity() {
+            return ConstantExpression.ONE;
+        }
 
-            public Expression getLineJoin() {
-                return ConstantExpression.constant("miter");
-            }
+        public Expression getLineJoin() {
+            return ConstantExpression.constant("miter");
+        }
 
-            public Expression getLineCap() {
-                return ConstantExpression.constant("butt");
-            }
+        public Expression getLineCap() {
+            return ConstantExpression.constant("butt");
+        }
 
-            public float[] getDashArray() {
-                return null;
-            }
+        public float[] getDashArray() {
+            return null;
+        }
 
-            public List<Expression> dashArray() {
-                return null;
-            }
+        public List<Expression> dashArray() {
+            return null;
+        }
 
-            public Expression getDashOffset() {
-                return ConstantExpression.ZERO;
-            }
+        public Expression getDashOffset() {
+            return ConstantExpression.ZERO;
+        }
 
-            public Graphic getGraphicFill() {
-                return Graphic.DEFAULT;
-            }
+        public Graphic getGraphicFill() {
+            return Graphic.DEFAULT;
+        }
 
-            public Graphic getGraphicStroke() {
-                return Graphic.NULL;
-            }
+        public Graphic getGraphicStroke() {
+            return Graphic.NULL;
+        }
 
-            public Object clone() {
-                return this; // we are constant
-            }
-        };
+        public Object clone() {
+            return this; // we are constant
+        }
+    };
 
     /**
      * Null Stroke capturing the defaults indicated by the standard.
@@ -146,57 +145,57 @@ public interface Stroke extends org.opengis.style.Stroke {
      * </p>
      */
     static final Stroke NULL = new ConstantStroke() {
-            public Expression getColor() {
-                return ConstantExpression.NULL;
-            }
+        public Expression getColor() {
+            return ConstantExpression.NULL;
+        }
 
-            public Color getColor(SimpleFeature f) {
-                return Color.BLACK;
-            }
+        public Color getColor(SimpleFeature f) {
+            return Color.BLACK;
+        }
 
-            public Expression getWidth() {
-                return ConstantExpression.NULL;
-            }
+        public Expression getWidth() {
+            return ConstantExpression.NULL;
+        }
 
-            public Expression getOpacity() {
-                return ConstantExpression.NULL;
-            }
+        public Expression getOpacity() {
+            return ConstantExpression.NULL;
+        }
 
-            public Expression getLineJoin() {
-                return ConstantExpression.NULL;
-            }
+        public Expression getLineJoin() {
+            return ConstantExpression.NULL;
+        }
 
-            public Expression getLineCap() {
-                return ConstantExpression.NULL;
-            }
+        public Expression getLineCap() {
+            return ConstantExpression.NULL;
+        }
 
-            public float[] getDashArray() {
-                return new float[] {  };
-            }
+        public float[] getDashArray() {
+            return new float[]{};
+        }
 
-            public List<Expression> dashArray() {
-                return Collections.EMPTY_LIST;
-            }
+        public List<Expression> dashArray() {
+            return Collections.EMPTY_LIST;
+        }
 
-            public Expression getDashOffset() {
-                return ConstantExpression.NULL;
-            }
+        public Expression getDashOffset() {
+            return ConstantExpression.NULL;
+        }
 
-            public Graphic getGraphicFill() {
-                return Graphic.NULL;
-            }
+        public Graphic getGraphicFill() {
+            return Graphic.NULL;
+        }
 
-            public Graphic getGraphicStroke() {
-                return Graphic.NULL;
-            }
-        };
+        public Graphic getGraphicStroke() {
+            return Graphic.NULL;
+        }
+    };
 
     /**
      * This parameter gives the solid color that will be used for a stroke.<br>
      * The color value returned here as a Java Color object, this is a convinence method
      * that goes above
      * The default color is defined to be Color.BLACK
-     *
+     * <p>
      * Note: in CSS this parameter is just called Stroke and not Color.
      *
      * @return The color of the stroke as a Color object
@@ -211,7 +210,7 @@ public interface Stroke extends org.opengis.style.Stroke {
      * the hash (#) sign.  The hexidecimal digits between A and F may be in
      * either upper or lower case.  For example, full red is encoded as
      * "#ff0000" (with no quotation marks).
-     *
+     * <p>
      * Note: in CSS this parameter is just called Stroke and not Color.
      */
     void setColor(Expression color);
@@ -275,7 +274,7 @@ public interface Stroke extends org.opengis.style.Stroke {
      * second gives the amount of space to leave, and this pattern repeats.<br>
      * If an odd number of values is given, then the pattern is expanded by
      * repeating it twice to give an even number of values.
-     *
+     * <p>
      * For example, "2 1 3 2" would produce:<br>
      * <code>--&nbsp;---&nbsp;&nbsp;--&nbsp;---&nbsp;&nbsp;--&nbsp;---&nbsp;&nbsp;
      * --&nbsp;---&nbsp;&nbsp;--&nbsp;---&nbsp;&nbsp;--</code>
@@ -288,7 +287,7 @@ public interface Stroke extends org.opengis.style.Stroke {
      * second gives the amount of space to leave, and this pattern repeats.<br>
      * If an odd number of values is given, then the pattern is expanded by
      * repeating it twice to give an even number of values.
-     *
+     * <p>
      * For example, "2 1 3 2" would produce:<br>
      * <code>--&nbsp;---&nbsp;&nbsp;--&nbsp;---&nbsp;&nbsp;--&nbsp;---&nbsp;&nbsp;
      * --&nbsp;---&nbsp;&nbsp;--&nbsp;---&nbsp;&nbsp;--</code>
@@ -312,7 +311,7 @@ public interface Stroke extends org.opengis.style.Stroke {
      * used and specifies the fill graphic to use.
      *
      * @return The graphic to use as a stipple fill.
-     *         If null, then no Stipple fill should be used.
+     * If null, then no Stipple fill should be used.
      */
     Graphic getGraphicFill();
 
@@ -325,7 +324,7 @@ public interface Stroke extends org.opengis.style.Stroke {
     /**
      * This parameter indicates that a repeated-linear-graphic graphic stroke
      * type will be used and specifies the graphic to use.
-     *
+     * <p>
      * Proper stroking with a linear graphic requires two "hot-spot" points
      * within the space of the graphic to indicate where the rendering line
      * starts and stops.
@@ -334,14 +333,14 @@ public interface Stroke extends org.opengis.style.Stroke {
      * first pixel column and ending at the last pixel column.
      *
      * @return The graphic to use as a linear graphic.
-     *         If null, then no graphic stroke should be used.
+     * If null, then no graphic stroke should be used.
      */
     Graphic getGraphicStroke();
 
     /**
      * This parameter indicates that a repeated-linear-graphic graphic stroke
      * type will be used and specifies the graphic to use.
-     *
+     * <p>
      * Proper stroking with a linear graphic requires two "hot-spot" points
      * within the space of the graphic to indicate where the rendering line
      * starts and stops.
@@ -404,10 +403,10 @@ abstract class ConstantStroke implements Stroke {
     public void accept(org.geotools.styling.StyleVisitor visitor) {
         cannotModifyConstant();
     }
-    
+
     public Object accept(org.opengis.style.StyleVisitor visitor, Object data) {
         cannotModifyConstant();
         return null;
     }
-    
+
 }

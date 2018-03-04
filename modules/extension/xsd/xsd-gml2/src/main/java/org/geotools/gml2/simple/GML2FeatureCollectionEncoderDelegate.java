@@ -17,6 +17,7 @@
 package org.geotools.gml2.simple;
 
 import com.vividsolutions.jts.geom.GeometryCollection;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -44,18 +45,17 @@ import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * Optimized encoder delegate for GML2 feature collections.
- * 
+ *
  * @author Justin Deoliveira, OpenGeo
  * @author Andrea Aime, GeoSolutions
- *
  */
 public class GML2FeatureCollectionEncoderDelegate extends FeatureCollectionEncoderDelegate {
 
-    
+
     public GML2FeatureCollectionEncoderDelegate(SimpleFeatureCollection features, Encoder encoder) {
         super(features, encoder, new GML2Delegate(encoder));
     }
-    
+
 
     public static class GML2Delegate implements GMLDelegate {
 
@@ -89,24 +89,25 @@ public class GML2FeatureCollectionEncoderDelegate extends FeatureCollectionEncod
             }
         }
 
-        public List getFeatureProperties(SimpleFeature f, XSDElementDeclaration element, Encoder e) {
-            return GML2EncodingUtils.AbstractFeatureType_getProperties(f, element, 
+        public List getFeatureProperties(SimpleFeature f, XSDElementDeclaration element, Encoder 
+                e) {
+            return GML2EncodingUtils.AbstractFeatureType_getProperties(f, element,
                     e.getSchemaIndex(),
                     new HashSet<String>(Arrays.asList("name", "description", "boundedBy")),
                     e.getConfiguration());
-          
+
         }
-        
+
         public EnvelopeEncoder createEnvelopeEncoder(Encoder e) {
             return new EnvelopeEncoder(e, gmlPrefix);
         }
 
         public void initFidAttribute(AttributesImpl atts) {
-            atts.addAttribute( null,"fid","fid",null,"");
+            atts.addAttribute(null, "fid", "fid", null, "");
         }
 
         public void startFeatures(GMLWriter handler) {
-            
+
         }
 
         public void startFeature(GMLWriter handler) throws Exception {
@@ -118,20 +119,21 @@ public class GML2FeatureCollectionEncoderDelegate extends FeatureCollectionEncod
         }
 
         public void endFeatures(GMLWriter handler) {
-            
+
         }
 
         public void setSrsNameAttribute(AttributesImpl atts, CoordinateReferenceSystem crs) {
             atts.addAttribute(null, "srsName", "srsName", null, GML2EncodingUtils.toURI(crs, true));
         }
-        
+
         @Override
         public void setGeometryDimensionAttribute(AttributesImpl srsatts, int dimension) {
             // nothing to do
         }
 
         @Override
-        public void registerGeometryEncoders(Map<Class, GeometryEncoder> encoders, Encoder encoder) {
+        public void registerGeometryEncoders(Map<Class, GeometryEncoder> encoders, Encoder 
+                encoder) {
             encoders.put(Point.class, new PointEncoder(encoder, gmlPrefix));
             encoders.put(MultiPoint.class, new MultiPointEncoder(encoder, gmlPrefix));
             encoders.put(LineString.class, new LineStringEncoder(encoder, gmlPrefix));
@@ -139,7 +141,8 @@ public class GML2FeatureCollectionEncoderDelegate extends FeatureCollectionEncod
             encoders.put(MultiLineString.class, new MultiLineStringEncoder(encoder, gmlPrefix));
             encoders.put(Polygon.class, new PolygonEncoder(encoder, gmlPrefix));
             encoders.put(MultiPolygon.class, new MultiPolygonEncoder(encoder, gmlPrefix));
-            encoders.put(GeometryCollection.class, new GeometryCollectionEncoder(encoder, gmlPrefix));
+            encoders.put(GeometryCollection.class, new GeometryCollectionEncoder(encoder, 
+                    gmlPrefix));
         }
 
         @Override

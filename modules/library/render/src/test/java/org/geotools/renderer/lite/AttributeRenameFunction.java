@@ -28,9 +28,8 @@ import org.opengis.filter.expression.PropertyName;
 
 /**
  * A rendering transformation that renames one attribute in the input feature collection
- * 
+ *
  * @author Andrea Aime - GeoSolutions
- * 
  */
 public class AttributeRenameFunction extends FunctionExpressionImpl implements
         RenderingTransformation {
@@ -66,7 +65,7 @@ public class AttributeRenameFunction extends FunctionExpressionImpl implements
         final List<SimpleFeature> features = new ArrayList<SimpleFeature>();
         try {
             fc.accepts(new FeatureVisitor() {
-                
+
                 @Override
                 public void visit(Feature feature) {
                     fb.init((SimpleFeature) feature);
@@ -74,10 +73,10 @@ public class AttributeRenameFunction extends FunctionExpressionImpl implements
                     features.add(f);
                 }
             }, null);
-        } catch(IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException("Failed to compute output collection", e);
         }
-        
+
         return new ListFeatureCollection(targetSchema, features);
     }
 
@@ -91,9 +90,10 @@ public class AttributeRenameFunction extends FunctionExpressionImpl implements
             return result;
         } catch (Exception e) {
             // probably a type error
-            if(mandatory) {
-                throw new IllegalArgumentException("Could not find function argument #" + expressionIdx
-                    + ", but it's mandatory");
+            if (mandatory) {
+                throw new IllegalArgumentException("Could not find function argument #" + 
+                        expressionIdx
+                        + ", but it's mandatory");
             } else {
                 return null;
             }
@@ -106,25 +106,25 @@ public class AttributeRenameFunction extends FunctionExpressionImpl implements
         final String source = getAttribute(null, 0, String.class, true);
         final String target = getAttribute(null, 1, String.class, true);
         Boolean invert = getAttribute(null, 2, Boolean.class, false);
-        
-        if(invert == null || !invert) {
+
+        if (invert == null || !invert) {
             return null;
         } else {
             Query q = new Query(targetQuery);
-            if(q.getPropertyNames() != null) {
+            if (q.getPropertyNames() != null) {
                 String[] names = Arrays.copyOf(q.getPropertyNames(), q.getPropertyNames().length);
                 for (int i = 0; i < names.length; i++) {
-                    if(names[i].equals(target)) {
+                    if (names[i].equals(target)) {
                         names[i] = source;
                     }
                 }
                 q.setPropertyNames(names);
             }
-            if(q.getFilter() != null) {
+            if (q.getFilter() != null) {
                 Filter renamed = (Filter) q.getFilter().accept(new DuplicatingFilterVisitor() {
                     @Override
                     public Object visit(PropertyName expression, Object extraData) {
-                        if(expression.getPropertyName().equals(target)) {
+                        if (expression.getPropertyName().equals(target)) {
                             return ff.property(source);
                         } else {
                             return super.visit(expression, extraData);
@@ -133,7 +133,7 @@ public class AttributeRenameFunction extends FunctionExpressionImpl implements
                 }, null);
                 q.setFilter(renamed);
             }
-            
+
             return q;
         }
     }

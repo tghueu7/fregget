@@ -83,18 +83,16 @@ import org.opengis.referencing.operation.MathTransform;
 import org.opengis.referencing.operation.TransformException;
 
 /**
- * 
  * @author Gabriel Roldan (OpenGeo)
- * @since 2.5.4
  * @version $Id$
- * 
- *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/main/java/org
- *         /geotools/arcsde/gce/ArcSDEGridCoverage2DReaderJAI.java $
+ * http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/main/java/org
+ * /geotools/arcsde/gce/ArcSDEGridCoverage2DReaderJAI.java $
+ * @since 2.5.4
  */
 @SuppressWarnings("nls")
-public final class ArcSDEGridCoverage2DReaderJAI extends AbstractGridCoverage2DReader implements GridCoverage2DReader{
+public final class ArcSDEGridCoverage2DReaderJAI extends AbstractGridCoverage2DReader implements 
+        GridCoverage2DReader {
 
     private static final Logger LOGGER = Logging.getLogger("org.geotools.arcsde.gce");
 
@@ -113,8 +111,9 @@ public final class ArcSDEGridCoverage2DReaderJAI extends AbstractGridCoverage2DR
     private RasterReaderFactory rasterReaderFactory;
 
     public ArcSDEGridCoverage2DReaderJAI(final ArcSDERasterFormat parent,
-            final RasterReaderFactory rasterReaderFactory, final RasterDatasetInfo rasterInfo,
-            final Hints hints) throws IOException {
+                                         final RasterReaderFactory rasterReaderFactory, final 
+                                         RasterDatasetInfo rasterInfo,
+                                         final Hints hints) throws IOException {
         // check it's a supported format
         {
             final int bitsPerSample = rasterInfo.getBand(0, 0).getCellType().getBitsPerSample();
@@ -195,9 +194,9 @@ public final class ArcSDEGridCoverage2DReaderJAI extends AbstractGridCoverage2DR
     }
 
     /**
-     * @see GridCoverageReader#read(GeneralParameterValue[])
      * @return A new {@linkplain GridCoverage grid coverage} from the input source, or {@code null}
-     *         if the requested envelope is outside the data bounds
+     * if the requested envelope is outside the data bounds
+     * @see GridCoverageReader#read(GeneralParameterValue[])
      */
     public GridCoverage2D read(GeneralParameterValue[] params) throws IOException {
         final GeneralEnvelope requestedEnvelope;
@@ -327,7 +326,8 @@ public final class ArcSDEGridCoverage2DReaderJAI extends AbstractGridCoverage2DR
     }
 
     private void readAllTiledRasters(final List<RasterQueryInfo> queries,
-            final TiledRasterReader rasterReader, final LoggingHelper log) throws IOException {
+                                     final TiledRasterReader rasterReader, final LoggingHelper 
+                                             log) throws IOException {
 
         for (RasterQueryInfo queryInfo : queries) {
 
@@ -351,13 +351,15 @@ public final class ArcSDEGridCoverage2DReaderJAI extends AbstractGridCoverage2DR
                 LOGGER.finer(queryInfo.toString());
                 log.appendLoggingGeometries(LoggingHelper.MOSAIC_EXPECTED,
                         queryInfo.getMosaicLocation());
-                log.appendLoggingGeometries(LoggingHelper.MOSAIC_ENV, queryInfo.getResultEnvelope());
+                log.appendLoggingGeometries(LoggingHelper.MOSAIC_ENV, queryInfo.getResultEnvelope
+                        ());
             }
         }
     }
 
     private List<RasterQueryInfo> findMatchingRasters(final GeneralEnvelope requestedEnvelope,
-            final GridEnvelope requestedDim, final OverviewPolicy overviewPolicy) {
+                                                      final GridEnvelope requestedDim, final 
+                                                      OverviewPolicy overviewPolicy) {
 
         final List<RasterQueryInfo> matchingQueries;
         matchingQueries = RasterUtils.findMatchingRasters(rasterInfo, requestedEnvelope,
@@ -374,7 +376,7 @@ public final class ArcSDEGridCoverage2DReaderJAI extends AbstractGridCoverage2DR
     }
 
     private GeneralEnvelope getResultEnvelope(final List<RasterQueryInfo> queryInfos,
-            final GridEnvelope mosaicGeometry) {
+                                              final GridEnvelope mosaicGeometry) {
 
         // use the same queryInfo used by setMosaicLocations
         final RasterQueryInfo baseQueryInfo = RasterUtils.findLowestResolution(queryInfos);
@@ -400,14 +402,15 @@ public final class ArcSDEGridCoverage2DReaderJAI extends AbstractGridCoverage2DR
 
     /**
      * For each raster: crop->scale->translate->add to mosaic
-     * 
+     *
      * @param queries
      * @param mosaicGeometry
      * @return
      * @throws IOException
      */
     private RenderedImage createMosaic(final List<RasterQueryInfo> queries,
-            final GridEnvelope mosaicGeometry, final LoggingHelper log) throws IOException {
+                                       final GridEnvelope mosaicGeometry, final LoggingHelper 
+                                               log) throws IOException {
 
         List<RenderedImage> transformed = new ArrayList<RenderedImage>(queries.size());
 
@@ -454,7 +457,7 @@ public final class ArcSDEGridCoverage2DReaderJAI extends AbstractGridCoverage2DR
             Float translateY = Float.valueOf(0);
 
             if (!(Float.valueOf(1.0F).equals(scaleX) && Float.valueOf(1.0F).equals(scaleY))) {
-                
+
                 worker.scale(scaleX, scaleY, translateX, translateY,
                         Interpolation.getInstance(Interpolation.INTERP_NEAREST));
 
@@ -506,7 +509,7 @@ public final class ArcSDEGridCoverage2DReaderJAI extends AbstractGridCoverage2DR
             // set background values to raster's no-data
             double[] backgroundValues;
             if (expandCM) {
-                backgroundValues = new double[] { 0, 0, 0, 0 };
+                backgroundValues = new double[]{0, 0, 0, 0};
             } else {
                 final int numBands = rasterInfo.getNumBands();
                 backgroundValues = new double[numBands];
@@ -549,7 +552,7 @@ public final class ArcSDEGridCoverage2DReaderJAI extends AbstractGridCoverage2DR
     /**
      * Crops the image representing a full tile set to the required dimension and returns it, but
      * keeps minx and miny being zero.
-     * 
+     *
      * @param fullTilesRaster
      * @param tiledImageGridRange
      * @param cropTo
@@ -681,7 +684,8 @@ public final class ArcSDEGridCoverage2DReaderJAI extends AbstractGridCoverage2DR
         }
         LOGGER.fine("Overview policy is " + overviewPolicy);
 
-        ArcSDEGridCoverage2DReaderJAI.ReadParameters parsedParams = new ArcSDEGridCoverage2DReaderJAI.ReadParameters();
+        ArcSDEGridCoverage2DReaderJAI.ReadParameters parsedParams = new 
+                ArcSDEGridCoverage2DReaderJAI.ReadParameters();
         parsedParams.requestedEnvelope = reqEnvelope;
         parsedParams.dim = dim;
         parsedParams.overviewPolicy = overviewPolicy;
@@ -689,7 +693,8 @@ public final class ArcSDEGridCoverage2DReaderJAI extends AbstractGridCoverage2DR
     }
 
     private static ReferencedEnvelope toNativeCrs(final GeneralEnvelope requestedEnvelope,
-            final CoordinateReferenceSystem nativeCRS) throws IllegalArgumentException {
+                                                  final CoordinateReferenceSystem nativeCRS) 
+            throws IllegalArgumentException {
 
         ReferencedEnvelope reqEnv = toReferencedEnvelope(requestedEnvelope);
 

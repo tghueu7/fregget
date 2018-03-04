@@ -29,10 +29,6 @@ import org.picocontainer.defaults.BasicComponentParameter;
  * </p>
  *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
- *
  * @source $URL$
  */
 public class OptionalComponentParameter extends BasicComponentParameter {
@@ -49,7 +45,7 @@ public class OptionalComponentParameter extends BasicComponentParameter {
      * in teh container we can always resolve to <code>null</code>.
      */
     public boolean isResolvable(PicoContainer container, ComponentAdapter adapter,
-        Class expectedType) {
+                                Class expectedType) {
         return true;
     }
 }

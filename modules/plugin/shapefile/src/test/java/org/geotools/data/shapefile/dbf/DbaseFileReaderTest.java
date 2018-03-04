@@ -39,11 +39,12 @@ public class DbaseFileReaderTest {
           98538    | 0.000000000
           98586    | 5.210000000
      */
-    @Test public void test() throws Exception {
+    @Test
+    public void test() throws Exception {
         InputStream dbf = this.getClass().getResourceAsStream(
-          "/org/geotools/data/shapefile/test-data/dbase-file-reader/nulls.dbf");
+                "/org/geotools/data/shapefile/test-data/dbase-file-reader/nulls.dbf");
         DbaseFileReader dbfReader = new DbaseFileReader(Channels.newChannel(dbf), false,
-          StandardCharsets.UTF_8);
+                StandardCharsets.UTF_8);
 
         Map<Long, Double> records = new HashMap<>();
         while (dbfReader.hasNext()) {

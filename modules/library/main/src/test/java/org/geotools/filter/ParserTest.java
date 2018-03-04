@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -41,18 +41,23 @@ import com.vividsolutions.jts.geom.GeometryFactory;
  * Unit test for sax parser.
  *
  * @author James MacGill, CCG
- *
- *
  * @source $URL$
  */
 public class ParserTest extends FilterTestSupport {
-    /** Standard logging instance */
-    private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org.geotools.filter");
+    /**
+     * Standard logging instance
+     */
+    private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org" +
+            ".geotools.filter");
 
-    /** Test suite for this test case */
+    /**
+     * Test suite for this test case
+     */
     TestSuite suite = null;
 
-    /** Constructor with test name. */
+    /**
+     * Constructor with test name.
+     */
     String dataFolder = "";
     boolean setup = false;
 
@@ -189,7 +194,7 @@ public class ParserTest extends FilterTestSupport {
     }
 
     public void test13() throws Exception {
-        org.opengis.filter.Filter test = parseDocument( "test13.xml");
+        org.opengis.filter.Filter test = parseDocument("test13.xml");
         LOGGER.fine("filter: " + test.getClass().toString());
         LOGGER.fine("parsed: " + test.toString());
     }
@@ -232,7 +237,7 @@ public class ParserTest extends FilterTestSupport {
     }
 
     public void test19() throws Exception {
-        org.opengis.filter.Filter test = parseDocument( "test19.xml");
+        org.opengis.filter.Filter test = parseDocument("test19.xml");
         LOGGER.fine("filter: " + test.getClass().toString());
         LOGGER.fine("parsed: " + test.toString());
     }
@@ -262,7 +267,8 @@ public class ParserTest extends FilterTestSupport {
         GMLFilterGeometry geometryFilter = new GMLFilterGeometry(filterFilter);
         GMLFilterDocument documentFilter = new GMLFilterDocument(geometryFilter);
 
-        //XMLReader parser = XMLReaderFactory.createXMLReader(/*"org.apache.xerces.parsers.SAXParser"*/); 
+        //XMLReader parser = XMLReaderFactory.createXMLReader(/*"org.apache.xerces.parsers
+        // .SAXParser"*/); 
         // uncomment to use xerces parser
         //parser.setContentHandler(documentFilter);
         //parser.parse(uri);

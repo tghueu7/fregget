@@ -22,19 +22,17 @@ import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
  * {@link EFeature} reader implementation.
- * 
- * @author kengu
- * 
  *
+ * @author kengu
  * @source $URL$
  */
 public class EFeatureReader implements SimpleFeatureReader {
-    
+
     /**
-     * Static LOGGER for all {@link EFEatureReader} instances 
+     * Static LOGGER for all {@link EFEatureReader} instances
      */
     private static final Logger LOGGER = Logging.getLogger(EFeatureReader.class);
-    
+
     /**
      * Cached {@link EFeatureInfo} instance
      */
@@ -45,73 +43,80 @@ public class EFeatureReader implements SimpleFeatureReader {
      * prevent memory leakage.
      */
     protected final EFeatureAttributeReader eReader;
-    
+
     /**
-     * Cached {@link EFeatureDataStore} instance. Reference must be reset when the this reader is closed
+     * Cached {@link EFeatureDataStore} instance. Reference must be reset when the this reader is
+     * closed
      * to prevent memory leakage.
      */
     protected WeakReference<EFeatureDataStore> eDataStore;
-    
+
     /**
      * Cached {@link Transaction}. Can contain locking information
      */
     protected final Transaction eTx;
-    
+
     /**
      * Cached Query hints
      */
     protected EFeatureHints eHints;
-    
+
     // ----------------------------------------------------- 
     //  Constructors
     // -----------------------------------------------------
-    
+
     /**
      * The {@link EFeatureReader} constructor.
-     * 
+     *
      * @param eDataStore - {@link EFeatureDataStore} instance containing {@link EFeature} resource
-     *        information
-     * @param query - {@link Query} instance. Note that {@link Query#getTypeName()}
-     * is expected to be a name of a {@link SimpleFeatureType} in given data store. 
-     * <p>
-     * {@link SimpleFeatureType} names have the following format:
-     * 
-     * <pre>
-     * eName=&lt;eFolder&gt;.&lt;eReference&gt;
-     * 
-     * where
-     * 
-     * eFolder = {@link EFeature} folder name
-     * eReference = {@link EFeature} reference name
-     * </pre>
+     *                   information
+     * @param query      - {@link Query} instance. Note that {@link Query#getTypeName()}
+     *                   is expected to be a name of a {@link SimpleFeatureType} in given data 
+     *                   store.
+     *                   <p>
+     *                   {@link SimpleFeatureType} names have the following format:
+     *                   <p>
+     *                   <pre>
+     *                                                       eName=&lt;eFolder&gt;.&lt;
+     *                                                       eReference&gt;
+     *
+     *                                                       where
+     *
+     *                                                       eFolder = {@link EFeature} folder name
+     *                                                       eReference = {@link EFeature} 
+     *                                                       reference name
+     *                                                       </pre>
      * @throws IOException
      */
     protected EFeatureReader(EFeatureDataStore eDataStore, Query query) throws IOException {
         this(eDataStore, query, Transaction.AUTO_COMMIT);
     }
-    
+
     /**
      * The {@link EFeatureReader} constructor.
-     * 
+     *
      * @param eDataStore - {@link EFeatureDataStore} instance containing {@link EFeature} resource
-     *        information
-     * @param query - {@link Query} instance. Note that {@link Query#getTypeName()}
-     * is expected to be a name of a {@link SimpleFeatureType} in given data store. 
-     * <p>
-     * {@link SimpleFeatureType} names have the following format:
-     * 
-     * <pre>
-     * eName=&lt;eFolder&gt;.&lt;eReference&gt;
-     * 
-     * where
-     * 
-     * eFolder = {@link EFeature} folder name
-     * eReference = {@link EFeature} reference name
-     * </pre>
-     * 
+     *                   information
+     * @param query      - {@link Query} instance. Note that {@link Query#getTypeName()}
+     *                   is expected to be a name of a {@link SimpleFeatureType} in given data 
+     *                   store.
+     *                   <p>
+     *                   {@link SimpleFeatureType} names have the following format:
+     *                   <p>
+     *                   <pre>
+     *                                                       eName=&lt;eFolder&gt;.&lt;
+     *                                                       eReference&gt;
+     *
+     *                                                       where
+     *
+     *                                                       eFolder = {@link EFeature} folder name
+     *                                                       eReference = {@link EFeature} 
+     *                                                       reference name
+     *                                                       </pre>
      * @throws IOException
      */
-    protected EFeatureReader(EFeatureDataStore eDataStore, Query query, Transaction eTx) throws IOException {
+    protected EFeatureReader(EFeatureDataStore eDataStore, Query query, Transaction eTx) throws 
+            IOException {
         //
         // Cache references
         //
@@ -122,27 +127,28 @@ public class EFeatureReader implements SimpleFeatureReader {
         //
         // Copy query hints
         //
-        if(query.getHints() instanceof EFeatureHints) {
+        if (query.getHints() instanceof EFeatureHints) {
             this.eHints = new EFeatureHints(query.getHints());
-        }else {
-            this.eHints = new EFeatureHints(this.eStructure.eHints);            
+        } else {
+            this.eHints = new EFeatureHints(this.eStructure.eHints);
             this.eHints.add(query.getHints());
         }
     }
-    
+
     // ----------------------------------------------------- 
     //  EFeatureReader implementation
     // -----------------------------------------------------
-    
+
     /**
      * Get {@link EFeatureHints}.
      */
     public EFeatureHints eHints() {
         return eHints;
     }
-    
+
     /**
      * Reset current iterator.
+     *
      * @throws IOException
      */
     public void reset() throws IOException {
@@ -154,7 +160,7 @@ public class EFeatureReader implements SimpleFeatureReader {
         this.eReader.close();
         this.eDataStore = null;
     }
-    
+
     public EFeatureInfo eStructure() {
         return eStructure;
     }
@@ -162,7 +168,7 @@ public class EFeatureReader implements SimpleFeatureReader {
     public EFeatureDataStore eDataStore() {
         return eDataStore.get();
     }
-    
+
     @Override
     public SimpleFeatureType getFeatureType() {
         return eReader.getFeatureType();
@@ -174,16 +180,16 @@ public class EFeatureReader implements SimpleFeatureReader {
     }
 
     @Override
-    public ESimpleFeature next() throws IOException, 
-        IllegalArgumentException, NoSuchElementException {
-        
+    public ESimpleFeature next() throws IOException,
+            IllegalArgumentException, NoSuchElementException {
+
         //
         // Sanity check
         //
-        if (!hasNext()) { 
+        if (!hasNext()) {
             throw new NoSuchElementException();
         }
-        
+
         try {
             //
             // Access to EFeatureInfo hints must be synchronized (thread safe)
@@ -208,11 +214,11 @@ public class EFeatureReader implements SimpleFeatureReader {
             //
             // Implements ESimpleFeature?
             //
-            if(feature instanceof ESimpleFeature) {
+            if (feature instanceof ESimpleFeature) {
                 //
                 // This is always the case if EFeatureInternal is used. 
                 //
-                return (ESimpleFeature)feature;
+                return (ESimpleFeature) feature;
             } else {
                 //
                 // If EFeatureInternal is NOT used, this may be required since 
@@ -222,12 +228,13 @@ public class EFeatureReader implements SimpleFeatureReader {
                 // startup problem etc.), a WARNING message is issued telling them that
                 // the this operation may be unsafe. 
                 //
-                LOGGER.log(Level.WARNING,"Non-standard Feature implementation " +
-                		"found. Unpredictable behavior may occur.");
+                LOGGER.log(Level.WARNING, "Non-standard Feature implementation " +
+                        "found. Unpredictable behavior may occur.");
                 //
                 // Forward ESimpleFeature delegate
                 //
-                return new ESimpleFeatureDelegate(eStructure, eFeature, (SimpleFeature)feature, eHints);
+                return new ESimpleFeatureDelegate(eStructure, eFeature, (SimpleFeature) feature, 
+                        eHints);
             }
 
         } finally {
@@ -239,40 +246,43 @@ public class EFeatureReader implements SimpleFeatureReader {
             // Progress to next feature
             //
             eReader.next();
-        }        
+        }
     }
-        
-    protected static EFeature eAdapt(EFeatureInfo eStructure, EObject eObject, EFeatureHints eHints) {
+
+    protected static EFeature eAdapt(EFeatureInfo eStructure, EObject eObject, EFeatureHints 
+            eHints) {
         //
         // Adapt directly? 
         //
-        if(eObject instanceof EFeature) {
+        if (eObject instanceof EFeature) {
             //
             // Replace
             //
-            if(eObject instanceof EFeatureImpl) {
-                ((EFeatureImpl)eObject).eInternal().eReplace(eStructure,(EFeature)eObject,eHints, true);
+            if (eObject instanceof EFeatureImpl) {
+                ((EFeatureImpl) eObject).eInternal().eReplace(eStructure, (EFeature) eObject, 
+                        eHints, true);
             }
             //
             // TODO: Do we need this? Is never called in current implementation...
             //
-            else if(eObject instanceof EFeatureDelegate) {
-                ((EFeatureDelegate)eObject).eInternal().eReplace(eStructure,(EFeature)eObject,eHints, true);
+            else if (eObject instanceof EFeatureDelegate) {
+                ((EFeatureDelegate) eObject).eInternal().eReplace(eStructure, (EFeature) eObject,
+                        eHints, true);
             }
             //
             // Finished
             //
-            return (EFeature)eObject;
+            return (EFeature) eObject;
         }
         //
         // Create new delegate and return it
         //
-        return EFeatureDelegate.create(eStructure, (InternalEObject)eObject, true, eHints);
+        return EFeatureDelegate.create(eStructure, (InternalEObject) eObject, true, eHints);
     }
-    
+
     /**
      * Get current {@link EFeature} id.
-     * 
+     *
      * @return a {@link EFeature} id.
      * @see {@link EcoreUtil#getID(EObject)}
      */
@@ -292,5 +302,5 @@ public class EFeatureReader implements SimpleFeatureReader {
     protected EFeaturePackageInfo getStructure() {
         return eDataStore.get().ePackageInfo;
     }
-    
+
 }

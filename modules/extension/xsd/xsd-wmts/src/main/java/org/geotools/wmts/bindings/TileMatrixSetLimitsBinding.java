@@ -15,12 +15,13 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/wmts/1.0:TileMatrixSetLimits.
- *
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
- *	 <code>
- *  &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;element name="TileMatrixSetLimits" xmlns="http://www.w3.org/2001/XMLSchema"&gt;
+ * 	 <code>
+ *  &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;element name="TileMatrixSetLimits" 
+ *  xmlns="http://www.w3.org/2001/XMLSchema"&gt;
  *  		&lt;annotation&gt;
  *  			&lt;documentation&gt;
  *  				Metadata about a the limits of the tile row and tile col indices.
@@ -31,17 +32,17 @@ import javax.xml.namespace.QName;
  *  				&lt;element maxOccurs="unbounded" ref="wmts:TileMatrixLimits"&gt;
  *  					&lt;annotation&gt;
  *  						&lt;documentation&gt;
- *  							Metadata describing the limits of the TileMatrixSet indices. 
- *  							Multiplicity must be the multiplicity of TileMatrix in this 
+ *  							Metadata describing the limits of the TileMatrixSet indices.
+ *  							Multiplicity must be the multiplicity of TileMatrix in this
  *  							TileMatrixSet.
  *  						&lt;/documentation&gt;
  *  					&lt;/annotation&gt;
  *  				&lt;/element&gt;
  *  			&lt;/sequence&gt;
  *  		&lt;/complexType&gt;
- *  	&lt;/element&gt; 
- *		
- *	  </code>
+ *  	&lt;/element&gt;
+ *
+ * 	  </code>
  * </pre>
  * </p>
  *
@@ -65,7 +66,7 @@ public class TileMatrixSetLimitsBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -74,7 +75,7 @@ public class TileMatrixSetLimitsBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {

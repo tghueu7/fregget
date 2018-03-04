@@ -42,13 +42,10 @@ import org.junit.Test;
 
 /**
  * Unit test suite for {@link ArcSDEConnectionFactory}
- * 
+ *
  * @author Gabriel Roldan (OpenGeo)
- * 
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  * @since 2.5.7
  */
 public class ArcSDEConnectionFactoryTest {
@@ -105,7 +102,7 @@ public class ArcSDEConnectionFactoryTest {
     }
 
     private void assertMandatory(Reference ref, Name name, Context nameCtx,
-            Hashtable<?, ?> environment) throws Exception {
+                                 Hashtable<?, ?> environment) throws Exception {
         try {
             factory.getObjectInstance(ref, name, nameCtx, environment);
             fail("Expected IAE");

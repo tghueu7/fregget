@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2006-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -39,8 +39,6 @@ import org.opengis.filter.expression.PropertyName;
 /**
  * A new function to check if a property exists.
  *
- *
- *
  * @source $URL$
  */
 public class PropertyExistsFunction extends FunctionExpressionImpl {
@@ -49,7 +47,7 @@ public class PropertyExistsFunction extends FunctionExpressionImpl {
     public static FunctionName NAME = new FunctionNameImpl("PropertyExists",
             parameter("exists", Boolean.class),
             parameter("propertyName", Object.class));
-    
+
     public PropertyExistsFunction() {
         super(NAME);
     }
@@ -76,9 +74,9 @@ public class PropertyExistsFunction extends FunctionExpressionImpl {
 
     /**
      * @return {@link Boolean#TRUE} if the <code>feature</code>'s
-     *         {@link FeatureType} contains an attribute named as the property
-     *         name passed as this function argument, {@link Boolean#FALSE}
-     *         otherwise.
+     * {@link FeatureType} contains an attribute named as the property
+     * name passed as this function argument, {@link Boolean#FALSE}
+     * otherwise.
      */
     public Object evaluate(SimpleFeature feature) {
         String propName = getPropertyName();
@@ -89,9 +87,9 @@ public class PropertyExistsFunction extends FunctionExpressionImpl {
 
     /**
      * @return {@link Boolean#TRUE} if the Class of the object passed as
-     *         argument defines a property names as the property name passed as
-     *         this function argument, following the standard Java Beans naming
-     *         conventions for getters. {@link Boolean#FALSE} otherwise.
+     * argument defines a property names as the property name passed as
+     * this function argument, following the standard Java Beans naming
+     * conventions for getters. {@link Boolean#FALSE} otherwise.
      */
     public Object evaluate(Object bean) {
         if (bean instanceof SimpleFeature) {
@@ -100,11 +98,12 @@ public class PropertyExistsFunction extends FunctionExpressionImpl {
 
         final String propName = getPropertyName();
 
-       try {
+        try {
             Class type = bean.getClass();
             //quick 1
 //            try {
-//                String getName = "get"+propName.substring(0,1).toUpperCase()+propName.substring(1);
+//                String getName = "get"+propName.substring(0,1).toUpperCase()+propName.substring
+// (1);
 //                if (type.getMethod(getName, new Class[0]) != null) {
 //                    return true;
 //                }
@@ -119,13 +118,12 @@ public class PropertyExistsFunction extends FunctionExpressionImpl {
 //            } catch (Exception ignore) {
 //            }
             // okay go for real
-            BeanInfo info = Introspector.getBeanInfo( type );
-            for( PropertyDescriptor descriptor : info.getPropertyDescriptors() ){
-                if( descriptor.getName().equals(propName) ){
-                    if( descriptor.getReadMethod() != null ){
+            BeanInfo info = Introspector.getBeanInfo(type);
+            for (PropertyDescriptor descriptor : info.getPropertyDescriptors()) {
+                if (descriptor.getName().equals(propName)) {
+                    if (descriptor.getReadMethod() != null) {
                         return true;
-                    }
-                    else {
+                    } else {
                         return false; // property found but not writable
                     }
                 }

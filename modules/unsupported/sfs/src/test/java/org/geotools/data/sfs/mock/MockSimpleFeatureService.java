@@ -30,32 +30,34 @@ import org.restlet.resource.StringRepresentation;
 
 /**
  * This is the mock service class it serves following urls
- *
+ * <p>
  * http://localhost:8082/simplefeatureservice/capabilities
  * http://localhost:8082/simplefeatureservice/describe/layerAsia
  * http://localhost:8082/simplefeatureservice/data/layerAsia?mode=features
  * http://localhost:8082/simplefeatureservice/data/layerAsia?mode=count
  * http://localhost:8082/simplefeatureservice/data/layerAsia?mode=bounds
  * http://localhost:8082/simplefeatureservice/data/layerAsia/tiger_roads.1
- *
- *
+ * <p>
+ * <p>
  * -----
  * Following commands can be used to test mockup-service at terminal
- * curl -i -H "Accept: application/json" http://localhost:8082/simplefeatureservice/data/layerAsia?mode=features
- * curl -i -H "Accept: application/json" http://localhost:8082/simplefeatureservice/data/layerAsia?mode=count
- * curl -i -H "Accept: application/json" http://localhost:8082/simplefeatureservice/data/layerAsia?mode=bounds
- * curl -i -H "Accept: application/json" -X POST -d "mode=bounds" http://localhost:8082/simplefeatureservice/data/layerAsia
- * curl -i -H "Accept: application/json" http://localhost:8082/simplefeatureservice/data/layerAsia/tiger_roads.1
- *
+ * curl -i -H "Accept: application/json" 
+ * http://localhost:8082/simplefeatureservice/data/layerAsia?mode=features
+ * curl -i -H "Accept: application/json" 
+ * http://localhost:8082/simplefeatureservice/data/layerAsia?mode=count
+ * curl -i -H "Accept: application/json" 
+ * http://localhost:8082/simplefeatureservice/data/layerAsia?mode=bounds
+ * curl -i -H "Accept: application/json" -X POST -d "mode=bounds" 
+ * http://localhost:8082/simplefeatureservice/data/layerAsia
+ * curl -i -H "Accept: application/json" 
+ * http://localhost:8082/simplefeatureservice/data/layerAsia/tiger_roads.1
+ * <p>
  * -----
- *
+ * <p>
  * There are not test cases for this project as
  * you can just fire up your favorite browser and test the mock service
  *
- * @author 
- *
- *
- *
+ * @author
  * @source $URL$
  */
 public class MockSimpleFeatureService extends Application {
@@ -70,7 +72,6 @@ public class MockSimpleFeatureService extends Application {
 
     /**
      * Creates a root Rest-let that will receive all incoming calls.
-     *
      */
     @Override
     public synchronized Restlet createRoot() {
@@ -100,7 +101,8 @@ public class MockSimpleFeatureService extends Application {
                 StringBuilder stringBuilder = new StringBuilder();
 
                 stringBuilder.append("<html>");
-                stringBuilder.append("<head><title>Mockup Service to test OpenDataStore</title></head>");
+                stringBuilder.append("<head><title>Mockup Service to test " +
+                        "OpenDataStore</title></head>");
                 stringBuilder.append("<body bgcolor=white>");
 
                 stringBuilder.append("<table border=\"0\">");
@@ -113,14 +115,15 @@ public class MockSimpleFeatureService extends Application {
                 stringBuilder.append("</body>");
                 stringBuilder.append("</html>");
 
-                response.setEntity(new StringRepresentation(stringBuilder.toString(), MediaType.APPLICATION_JSON));
+                response.setEntity(new StringRepresentation(stringBuilder.toString(), MediaType
+                        .APPLICATION_JSON));
 
             }
         };
         router.attach("", mainpage);
         return router;
     }
-    
+
     public static void main(String[] args) {
         try {
             // Create a new Component.
@@ -130,13 +133,14 @@ public class MockSimpleFeatureService extends Application {
             component.getServers().add(Protocol.HTTP, 8082);
 
             // Attach the application which has all the mock url added
-            component.getDefaultHost().attach("/simplefeatureservice", new MockSimpleFeatureService());
+            component.getDefaultHost().attach("/simplefeatureservice", new 
+                    MockSimpleFeatureService());
 
             // Start the component.
             component.start();
         } catch (Exception e) {
-            
-            System.out.println("Exception in StandAloneApplication "+e.getMessage());
+
+            System.out.println("Exception in StandAloneApplication " + e.getMessage());
         }
     }
 }

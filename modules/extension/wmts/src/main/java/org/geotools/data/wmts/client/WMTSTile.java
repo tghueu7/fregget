@@ -17,6 +17,7 @@
 package org.geotools.data.wmts.client;
 
 import org.geotools.data.wmts.model.WMTSServiceType;
+
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,6 +29,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
@@ -56,10 +58,10 @@ class WMTSTile extends Tile {
 
     /**
      * Cache for tiles.
-     *
+     * <p>
      * Many WMTS tiles may be reloaded over and over, especially in a tiled
      * getMap request.
-     *
+     * <p>
      * You can set the cache size using the property WMTS_TILE_CACHE_SIZE_PROPERTY_NAME.
      */
     private static final ObjectCache tileImages;
@@ -116,12 +118,12 @@ class WMTSTile extends Tile {
             throw new IllegalArgumentException("Unexpected WMTS Service type " + type);
         } else
             switch (type) {
-            case KVP:
-                return getKVPurl(baseUrl, tileIdentifier);
-            case REST:
-                return getRESTurl(baseUrl, tileIdentifier);
-            default:
-                throw new IllegalArgumentException("Unexpected WMTS Service type " + type);
+                case KVP:
+                    return getKVPurl(baseUrl, tileIdentifier);
+                case REST:
+                    return getRESTurl(baseUrl, tileIdentifier);
+                default:
+                    throw new IllegalArgumentException("Unexpected WMTS Service type " + type);
             }
     }
 

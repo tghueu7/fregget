@@ -76,8 +76,6 @@ import com.vividsolutions.jts.util.Stopwatch;
 
 /**
  * Tests over legacy data that should not be deleted
- * 
- *
  *
  * @source $URL$
  */
@@ -168,7 +166,10 @@ public class ArcSDEGridCoverage2DReaderJAILegacyOnlineTest {
 
     private long _testIMG_USGSQUAD_SGBASE(AbstractGridCoverage2DReader reader) throws Exception {
 
-        // http://localhost:8080/geoserver/wms?WIDTH=256&LAYERS=sde%3AIMG_USGSQUAD_SGBASE&STYLES=&SRS=EPSG%3A26986&HEIGHT=256&FORMAT=image%2Fjpeg&TILED=true&TILESORIGIN=169118.35%2C874964.388&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&BBOX=239038.74625,916916.62575,253022.8255,930900.705
+        // http://localhost:8080/geoserver/wms?WIDTH=256&LAYERS=sde%3AIMG_USGSQUAD_SGBASE&STYLES
+        // =&SRS=EPSG%3A26986&HEIGHT=256&FORMAT=image%2Fjpeg&TILED=true&TILESORIGIN=169118.35
+        // %2C874964.388&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd
+        // .ogc.se_inimage&BBOX=239038.74625,916916.62575,253022.8255,930900.705
 
         final GeneralEnvelope originalEnvelope = reader.getOriginalEnvelope();
 
@@ -197,16 +198,20 @@ public class ArcSDEGridCoverage2DReaderJAILegacyOnlineTest {
         final AbstractGridCoverage2DReader reader = getReader();
         assertNotNull("Couldn't obtain a reader for " + tableName, reader);
 
-        // http://localhost:8080/geoserver/wms?WIDTH=256&LAYERS=sde%3AIMG_USGSQUAD_SGBASE&STYLES=&SRS=EPSG%3A26986&HEIGHT=256&FORMAT=image%2Fjpeg&TILED=true&TILESORIGIN=169118.35%2C874964.388&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&BBOX=239038.74625,916916.62575,253022.8255,930900.705
+        // http://localhost:8080/geoserver/wms?WIDTH=256&LAYERS=sde%3AIMG_USGSQUAD_SGBASE&STYLES
+        // =&SRS=EPSG%3A26986&HEIGHT=256&FORMAT=image%2Fjpeg&TILED=true&TILESORIGIN=169118.35
+        // %2C874964.388&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd
+        // .ogc.se_inimage&BBOX=239038.74625,916916.62575,253022.8255,930900.705
 
-        final GeneralEnvelope requestEnvelope =  new GeneralEnvelope(reader.getOriginalEnvelope());
+        final GeneralEnvelope requestEnvelope = new GeneralEnvelope(reader.getOriginalEnvelope());
         final GridEnvelope originalGridRange = reader.getOriginalGridRange();
 
         final int reqWidth = 1000;// originalGridRange.getSpan(0) / 30;
         final int reqHeight = 447;//originalGridRange.getSpan(1) / 30;
 
 
-        requestEnvelope.setEnvelope(249403.30079879,929431.93501181,251110.35576095,930194.98857989);
+        requestEnvelope.setEnvelope(249403.30079879, 929431.93501181, 251110.35576095, 
+                930194.98857989);
         final GridCoverage2D coverage = readCoverage(reader, reqWidth, reqHeight, requestEnvelope);
         assertNotNull("read coverage returned null", coverage);
 
@@ -242,8 +247,14 @@ public class ArcSDEGridCoverage2DReaderJAILegacyOnlineTest {
 
     @Test
     public void testReadIMG_USGSQUADM_Buggy() throws Exception {
-        // http://localhost:8080/geoserver/wms?HEIGHT=500&WIDTH=1200&LAYERS=sde:IMG_USGSQUADM&STYLES=&SRS=EPSG%3A26986&FORMAT=image%2Fjpeg&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&BBOX=253178.45971681,872419.13604732,253521.78247071,872562.18719478
-        // http://arcy.opengeo.org:8080/geoserver/wms?SRS=EPSG%3A26986&WIDTH=950&STYLES=&HEIGHT=400&LAYERS=massgis%3ASDE.IMG_USGSQUADM&FORMAT=image%2Fpng&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&BBOX=290557.15234375,932233.3984375,325347.19140625,946881.8359375
+        // http://localhost:8080/geoserver/wms?HEIGHT=500&WIDTH=1200&LAYERS=sde:IMG_USGSQUADM
+        // &STYLES=&SRS=EPSG%3A26986&FORMAT=image%2Fjpeg&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap
+        // &EXCEPTIONS=application%2Fvnd.ogc.se_inimage&BBOX=253178.45971681,872419.13604732,
+        // 253521.78247071,872562.18719478
+        // http://arcy.opengeo.org:8080/geoserver/wms?SRS=EPSG%3A26986&WIDTH=950&STYLES=&HEIGHT
+        // =400&LAYERS=massgis%3ASDE.IMG_USGSQUADM&FORMAT=image%2Fpng&SERVICE=WMS&VERSION=1.1.1
+        // &REQUEST=GetMap&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&BBOX=290557.15234375,
+        // 932233.3984375,325347.19140625,946881.8359375
         tableName = "SDE.IMG_USGSQUADM";
         final AbstractGridCoverage2DReader reader = getReader();
         assertNotNull("Couldn't obtain a reader for " + tableName, reader);
@@ -252,7 +263,7 @@ public class ArcSDEGridCoverage2DReaderJAILegacyOnlineTest {
         final GeneralEnvelope requestEnvelope = new GeneralEnvelope(reader.getOriginalEnvelope());
         requestEnvelope.setEnvelope(32168.0, 773720.0, 333224.0, 962136.0);
         final int reqWidth = 294;
-        final int reqHeight =184;
+        final int reqHeight = 184;
 
         //requestEnvelope.setEnvelope(33000.0, 774000.0, 333002.0, 962000.0);
 //        final int reqWidth = 150001;// 294;
@@ -314,7 +325,8 @@ public class ArcSDEGridCoverage2DReaderJAILegacyOnlineTest {
     public static void main(String[] argv) {
         try {
             ArcSDEGridCoverage2DReaderJAILegacyOnlineTest.setUpBeforeClass();
-            ArcSDEGridCoverage2DReaderJAILegacyOnlineTest test = new ArcSDEGridCoverage2DReaderJAILegacyOnlineTest();
+            ArcSDEGridCoverage2DReaderJAILegacyOnlineTest test = new 
+                    ArcSDEGridCoverage2DReaderJAILegacyOnlineTest();
             test.setUp();
 
             test.testReadIMG_USGSQUADM();
@@ -343,7 +355,7 @@ public class ArcSDEGridCoverage2DReaderJAILegacyOnlineTest {
 
         List<Callable<Object>> tasks = new ArrayList<Callable<Object>>(threads);
 
-        final long[] stats = { Long.MAX_VALUE, Long.MIN_VALUE, 0, 0 };// min/max/total/max mem
+        final long[] stats = {Long.MAX_VALUE, Long.MIN_VALUE, 0, 0};// min/max/total/max mem
 
         for (int t = 0; t < threads; t++) {
             tasks.add(new Callable<Object>() {
@@ -451,12 +463,12 @@ public class ArcSDEGridCoverage2DReaderJAILegacyOnlineTest {
         RenderedImage image = coverage.getRenderedImage();
         writeToDisk(image, tableName);
 
-        writeBand(image, new int[] { 0 }, "red");
-        writeBand(image, new int[] { 1 }, "green");
-        writeBand(image, new int[] { 2 }, "blue");
-        writeBand(image, new int[] { 3 }, "alpha");
+        writeBand(image, new int[]{0}, "red");
+        writeBand(image, new int[]{1}, "green");
+        writeBand(image, new int[]{2}, "blue");
+        writeBand(image, new int[]{3}, "alpha");
 
-        writeBand(image, new int[] { 0, 1, 2 }, "rgb");
+        writeBand(image, new int[]{0, 1, 2}, "rgb");
     }
 
     @Test
@@ -504,8 +516,8 @@ public class ArcSDEGridCoverage2DReaderJAILegacyOnlineTest {
         final int reqWidth = 100;// 800;// originalGridRange.getSpan(0) / 8;
         final int reqHeight = 75;// 595;// originalGridRange.getSpan(1) / 8;
 
-        GeneralEnvelope reqEnvelope = new GeneralEnvelope(new double[] { 274059, 837434 },
-                new double[] { 355782, 898216 });
+        GeneralEnvelope reqEnvelope = new GeneralEnvelope(new double[]{274059, 837434},
+                new double[]{355782, 898216});
         reqEnvelope.setCoordinateReferenceSystem(originalEnvelope.getCoordinateReferenceSystem());
 
         final GridCoverage2D coverage = readCoverage(reader, reqWidth, reqHeight, reqEnvelope);
@@ -636,7 +648,7 @@ public class ArcSDEGridCoverage2DReaderJAILegacyOnlineTest {
             writer.dispose();
             outStream.close();
         }
-        
+
     }
 
     private static AtomicInteger wc = new AtomicInteger();
@@ -682,7 +694,8 @@ public class ArcSDEGridCoverage2DReaderJAILegacyOnlineTest {
     }
 
     private GridCoverage2D readCoverage(final AbstractGridCoverage2DReader reader,
-            final int reqWidth, final int reqHeight, final Envelope reqEnv) throws Exception {
+                                        final int reqWidth, final int reqHeight, final Envelope 
+                                                reqEnv) throws Exception {
 
         GeneralParameterValue[] requestParams = new Parameter[2];
 

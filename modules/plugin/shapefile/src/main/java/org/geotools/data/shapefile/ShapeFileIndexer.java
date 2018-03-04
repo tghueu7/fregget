@@ -51,19 +51,17 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 
 /**
  * Utility class for Shapefile spatial indexing
- * 
+ *
  * @author Tommaso Nolli
- *
- *
  * @source $URL$
  */
 class ShapeFileIndexer implements FileWriter {
     private static final Logger LOGGER = Logging.getLogger(ShapeFileIndexer.class);
-    
+
     private int max = -1;
     private int leafSize = 16;
 
-	private String byteOrder;
+    private String byteOrder;
     private boolean interactive = false;
     private ShpFiles shpFiles;
 
@@ -137,25 +135,20 @@ class ShapeFileIndexer implements FileWriter {
      * a thread starts, another thread is indexing the same file, this thread
      * will wait that the first thread ends indexing; in this case <b>zero</b>
      * is reurned as result of the indexing process.
-     * 
-     * @param verbose
-     *                enable/disable printing of dots every 500 indexed records
-     * @param listener
-     *                DOCUMENT ME!
-     * 
+     *
+     * @param verbose  enable/disable printing of dots every 500 indexed records
+     * @param listener DOCUMENT ME!
      * @return The number of indexed records (or zero)
-     * 
      * @throws MalformedURLException
      * @throws IOException
      * @throws TreeException
-     * @throws StoreException
-     *                 DOCUMENT ME!
+     * @throws StoreException        DOCUMENT ME!
      * @throws LockTimeoutException
      */
     public int index(boolean verbose, ProgressListener listener)
             throws MalformedURLException, IOException, TreeException,
             StoreException, LockTimeoutException {
-        
+
         if (this.shpFiles == null) {
             throw new IOException("You have to set a shape file name!");
         }
@@ -170,26 +163,26 @@ class ShapeFileIndexer implements FileWriter {
 
         try {
             reader = new ShapefileReader(shpFiles, true, false, new GeometryFactory());
-            
-            if(max == -1) {
+
+            if (max == -1) {
                 // compute a reasonable index max depth, considering a fully developed
                 // 10 levels one already contains 200k index nodes, good for indexing up
                 // to 3M features without consuming too much memory
                 int features = reader.getCount(0);
                 max = 1;
                 int nodes = 1;
-                while(nodes * leafSize < features) {
+                while (nodes * leafSize < features) {
                     max++;
                     nodes *= 4;
                 }
-                if(max < 10) {
+                if (max < 10) {
                     max = 10;
                 }
-                
+
                 reader.close();
                 reader = new ShapefileReader(shpFiles, true, false, new GeometryFactory());
             }
-            
+
             cnt = this.buildQuadTree(reader, treeFile, verbose);
         } finally {
             if (reader != null)
@@ -204,8 +197,9 @@ class ShapeFileIndexer implements FileWriter {
 
     private int buildQuadTree(ShapefileReader reader, File file, boolean verbose)
             throws IOException, StoreException {
-        LOGGER.fine("Building quadtree spatial index with depth " +  max + " for file " + file.getAbsolutePath());
-        
+        LOGGER.fine("Building quadtree spatial index with depth " + max + " for file " + file
+                .getAbsolutePath());
+
         byte order = 0;
 
         if ((this.byteOrder == null) || this.byteOrder.equalsIgnoreCase("NM")) {
@@ -243,8 +237,8 @@ class ShapeFileIndexer implements FileWriter {
             if (verbose)
                 System.out.println("done");
             FileSystemIndexStore store = new FileSystemIndexStore(file, order);
-            
-            if(leafSize > 0) {
+
+            if (leafSize > 0) {
                 if (LOGGER.isLoggable(Level.FINE)) {
                     LOGGER.fine("Optimizing the tree (this might take some time)");
                 }
@@ -253,8 +247,8 @@ class ShapeFileIndexer implements FileWriter {
                     LOGGER.fine("Tree optimized");
                 }
             }
-            
-            if(LOGGER.isLoggable(Level.FINE)) {
+
+            if (LOGGER.isLoggable(Level.FINE)) {
                 printStats(tree);
             }
             store.store(tree);
@@ -263,23 +257,24 @@ class ShapeFileIndexer implements FileWriter {
         }
         return cnt;
     }
-    
-    private Node optimizeTree(QuadTree tree, Node node, int level, ShapefileReader reader, IndexFile index) throws StoreException, IOException {
+
+    private Node optimizeTree(QuadTree tree, Node node, int level, ShapefileReader reader, 
+                              IndexFile index) throws StoreException, IOException {
         // recurse, with a check to avoid too deep recursion due to odd data that has a
-        if(node.getNumShapeIds() > leafSize && node.getNumSubNodes() == 0 && level < max * 2) {
+        if (node.getNumShapeIds() > leafSize && node.getNumSubNodes() == 0 && level < max * 2) {
             // ok, we need to split this baby further
             int[] shapeIds = node.getShapesId();
             int numShapesId = node.getNumShapeIds();
             node.clean();
-            
+
             // get an estimate on how many more levels we need
             int extraLevels = 2;
             int nodes = 4;
-            while(nodes * leafSize < numShapesId) {
+            while (nodes * leafSize < numShapesId) {
                 extraLevels++;
                 nodes *= 4;
             }
-            
+
             for (int i = 0; i < numShapesId; i++) {
                 final int shapeId = shapeIds[i];
                 int offset = index.getOffsetInBytes(shapeId);
@@ -289,29 +284,29 @@ class ShapeFileIndexer implements FileWriter {
                 tree.insert(node, shapeId, env, extraLevels);
             }
         }
-        
+
         // pack the arrays to use less memory (the optimization often makes the tree grow)
         node.pack();
-        
+
         // recurse 
         for (int i = 0; i < node.getNumSubNodes(); i++) {
             optimizeTree(tree, node.getSubNode(i), level + 1, reader, index);
         }
-        
+
         // prune empty subnodes
-        for (int i = 0; i < node.getNumSubNodes();) {
+        for (int i = 0; i < node.getNumSubNodes(); ) {
             Node child = node.getSubNode(i);
-            if(child != null && child.getNumShapeIds() == 0 && child.getNumSubNodes() == 0) {
+            if (child != null && child.getNumShapeIds() == 0 && child.getNumSubNodes() == 0) {
                 // empty child, we don't need it, clean it up
                 node.removeSubNode(child);
             } else {
                 i++;
             }
         }
-        
+
         // handle degenerate chains, we pop up the nodes to the top by keeping
         // their shape ids _and_ their bounds (as it's the only area that has something)
-        if(node.getNumSubNodes() == 1 && node.getNumShapeIds() == 0) {
+        if (node.getNumSubNodes() == 1 && node.getNumShapeIds() == 0) {
             Node subnode = node.getSubNode(0);
             node.clearSubNodes();
             node.setShapesId(subnode);
@@ -322,8 +317,8 @@ class ShapeFileIndexer implements FileWriter {
         } else {
             // limit this node area to the effective child area
             Envelope bounds = new Envelope();
-            if(node.getNumShapeIds() > 0) {
-                int[] shapeIds  = node.getShapesId();
+            if (node.getNumShapeIds() > 0) {
+                int[] shapeIds = node.getShapesId();
                 for (int i = 0; i < shapeIds.length; i++) {
                     final int shapeId = shapeIds[i];
                     int offset = index.getOffsetInBytes(shapeId);
@@ -333,25 +328,25 @@ class ShapeFileIndexer implements FileWriter {
                     bounds.expandToInclude(env);
                 }
             }
-            if(node.getNumSubNodes() > 0) {
+            if (node.getNumSubNodes() > 0) {
                 for (int i = 0; i < node.getNumSubNodes(); i++) {
                     bounds.expandToInclude(node.getSubNode(i).getBounds());
                 }
             }
             node.setBounds(bounds);
-            
+
             // can we shrink?
             int count = node.getNumShapeIds();
             for (int i = 0; i < node.getNumSubNodes(); i++) {
                 Node child = node.getSubNode(i);
-                if(child.getNumSubNodes() > 0) {
+                if (child.getNumSubNodes() > 0) {
                     count = Integer.MAX_VALUE;
                     break;
                 } else {
                     count += child.getNumShapeIds();
                 }
             }
-            if(count < leafSize) {
+            if (count < leafSize) {
                 for (int i = 0; i < node.getNumSubNodes(); i++) {
                     Node child = node.getSubNode(i);
                     int[] shapesId = child.getShapesId();
@@ -362,27 +357,27 @@ class ShapeFileIndexer implements FileWriter {
                 node.clearSubNodes();
             }
         }
-        
+
         return node;
     }
 
     private void printStats(QuadTree tree) throws StoreException {
-       Map<Integer, Integer> stats = new HashMap<Integer, Integer>();
-       gatherStats(tree.getRoot(), stats);
-       
-       List<Integer> nums = new ArrayList<Integer>(stats.keySet());
-       Collections.sort(nums);
-       LOGGER.log(Level.FINE, "Index statistics");
-       for (Integer num : nums) {
-           LOGGER.log(Level.FINE, num + " -> "  + stats.get(num));
-       }
-       
+        Map<Integer, Integer> stats = new HashMap<Integer, Integer>();
+        gatherStats(tree.getRoot(), stats);
+
+        List<Integer> nums = new ArrayList<Integer>(stats.keySet());
+        Collections.sort(nums);
+        LOGGER.log(Level.FINE, "Index statistics");
+        for (Integer num : nums) {
+            LOGGER.log(Level.FINE, num + " -> " + stats.get(num));
+        }
+
     }
 
-    void gatherStats(Node node, Map<Integer, Integer> stats) throws StoreException  {
+    void gatherStats(Node node, Map<Integer, Integer> stats) throws StoreException {
         int num = node.getNumShapeIds();
         Integer count = stats.get(num);
-        if(count == null) {
+        if (count == null) {
             stats.put(num, 1);
         } else {
             stats.put(num, count + 1);
@@ -394,7 +389,7 @@ class ShapeFileIndexer implements FileWriter {
 
     /**
      * For quad tree this is the max depth. I don't know what it is for RTree
-     * 
+     *
      * @param i
      */
     public void setMax(int i) {
@@ -403,7 +398,7 @@ class ShapeFileIndexer implements FileWriter {
 
     /**
      * DOCUMENT ME!
-     * 
+     *
      * @param shpFiles
      */
     public void setShapeFileName(ShpFiles shpFiles) {
@@ -413,9 +408,8 @@ class ShapeFileIndexer implements FileWriter {
 
     /**
      * DOCUMENT ME!
-     * 
-     * @param byteOrder
-     *                The byteOrder to set.
+     *
+     * @param byteOrder The byteOrder to set.
      */
     public void setByteOrder(String byteOrder) {
         this.byteOrder = byteOrder;
@@ -424,12 +418,12 @@ class ShapeFileIndexer implements FileWriter {
     public String id() {
         return getClass().getName();
     }
-    
-    public int getLeafSize() {
-		return leafSize;
-	}
 
-	public void setLeafSize(int leafSize) {
-		this.leafSize = leafSize;
-	}
+    public int getLeafSize() {
+        return leafSize;
+    }
+
+    public void setLeafSize(int leafSize) {
+        this.leafSize = leafSize;
+    }
 }

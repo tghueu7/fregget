@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -22,8 +22,6 @@ import org.opengis.filter.expression.Function;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GeometryFunctionFilterTest extends FunctionTestSupport {
@@ -31,30 +29,30 @@ public class GeometryFunctionFilterTest extends FunctionTestSupport {
     public GeometryFunctionFilterTest() {
         super("GeometryFunctionFilterTest");
     }
-    
+
     public void testBasicTest() throws Exception {
         Function exp = ff.function("geometryType", ff.property("geom"));
-        SimpleFeatureIterator iter=featureCollection.features();
-        while( iter.hasNext() ){
+        SimpleFeatureIterator iter = featureCollection.features();
+        while (iter.hasNext()) {
             SimpleFeature feature = iter.next();
-            assertEquals( "Point", exp.evaluate(feature) );
+            assertEquals("Point", exp.evaluate(feature));
         }
-        
+
         iter.close();
     }
-    
+
     public void testNullTest() throws Exception {
         Function exp = ff.function("geometryType", ff.property("geom"));
-        SimpleFeatureIterator iter=featureCollection.features();
-        while( iter.hasNext() ){
-        	SimpleFeature feature = iter.next();
-            feature.setAttribute("geom",null);
-            assertNull( exp.evaluate(feature) );
+        SimpleFeatureIterator iter = featureCollection.features();
+        while (iter.hasNext()) {
+            SimpleFeature feature = iter.next();
+            feature.setAttribute("geom", null);
+            assertNull(exp.evaluate(feature));
         }
-        
+
         iter.close();
     }
-    
+
     public void testNull() throws Exception {
         assertEquals(null, ff.function("buffer", ff.literal(null), ff.literal(10)).evaluate(null));
     }

@@ -25,8 +25,6 @@ import org.opengis.filter.expression.Subtract;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class BinaryOperatorTypeBindingTest extends FilterTestSupport {
@@ -51,7 +49,7 @@ public class BinaryOperatorTypeBindingTest extends FilterTestSupport {
         Document dom = encode(FilterMockData.add(), OGC.Add);
 
         assertEquals(2,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
     }
 
     public void testSubType() {
@@ -70,7 +68,7 @@ public class BinaryOperatorTypeBindingTest extends FilterTestSupport {
     public void testSubEncode() throws Exception {
         Document dom = encode(FilterMockData.sub(), OGC.Sub);
         assertEquals(2,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
     }
 
     public void testDivType() {
@@ -89,7 +87,7 @@ public class BinaryOperatorTypeBindingTest extends FilterTestSupport {
     public void testDivEncode() throws Exception {
         Document dom = encode(FilterMockData.div(), OGC.Div);
         assertEquals(2,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
     }
 
     public void testMulType() {
@@ -108,6 +106,6 @@ public class BinaryOperatorTypeBindingTest extends FilterTestSupport {
     public void testMulEncode() throws Exception {
         Document dom = encode(FilterMockData.mul(), OGC.Mul);
         assertEquals(2,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
     }
 }

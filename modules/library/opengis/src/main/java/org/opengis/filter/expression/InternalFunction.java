@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 
@@ -24,7 +24,7 @@ import org.opengis.filter.FilterFactory;
  * new instance of the function for the given set of arguments.
  * <p>
  * Usage example:
- * 
+ * <p>
  * <pre>
  *  <code>
  *  InternalFunction function = new InternalFunction(){
@@ -32,7 +32,7 @@ import org.opengis.filter.FilterFactory;
  *      public FunctionName getFunctionName(){ return new FunctionNameImpl(getName(), 0);}
  *      public List<Expression> getParameters(){ return Collections.emptyList(); }
  *      public Literal getFallbackValue() { return null; }
- *      
+ *
  *      public Object evaluate(Object object){
  *        return determineRuntimeFunctionValue(object);
  *      }
@@ -40,12 +40,12 @@ import org.opengis.filter.FilterFactory;
  *        return this;
  *      }
  *  }
- *  
+ *
  *  FilterFactory ff = ..
  *  Filter filter = ff.equals(ff.literal(Boolean.TRUE), function);
  * </code>
  * </pre>
- * 
+ *
  * @since 9.0
  */
 public interface InternalFunction extends Function {
@@ -59,10 +59,10 @@ public interface InternalFunction extends Function {
      * <p>
      * Note however implementations are free to return {@code this} if the actual function instance
      * does not work with {@link Expression} as parameters.
-     * 
+     *
      * @param parameters the parameters the returned InternalFunction works on
      * @return a new instance of the same kind of InternalFunction that works on the given
-     *         parameters
+     * parameters
      */
     public InternalFunction duplicate(Expression... parameters);
 

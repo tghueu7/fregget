@@ -112,7 +112,7 @@ public class SingleFeatureSourceDataStore implements DataStore {
 
     @Override
     public String[] getTypeNames() throws IOException {
-        return new String[] { source.getSchema().getName().getLocalPart() };
+        return new String[]{source.getSchema().getName().getLocalPart()};
     }
 
     @Override
@@ -147,7 +147,9 @@ public class SingleFeatureSourceDataStore implements DataStore {
 
     @Override
     public FeatureReader<SimpleFeatureType, SimpleFeature> getFeatureReader(Query query,
-            Transaction transaction) throws IOException {
+                                                                            Transaction 
+                                                                                    transaction) 
+            throws IOException {
         throw new UnsupportedOperationException(
                 "This store is wrapping a FeatureSource/FeatureStore, which handles "
                         + "transactions in a stateful way as opposed to a per call way. "
@@ -156,7 +158,8 @@ public class SingleFeatureSourceDataStore implements DataStore {
 
     @Override
     public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriter(String typeName,
-            Filter filter, Transaction transaction) throws IOException {
+                                                                            Filter filter, 
+                                                                            Transaction transaction) throws IOException {
         throw new UnsupportedOperationException(
                 "This store is wrapping a FeatureSource/FeatureStore, which handles "
                         + "transactions in a stateful way as opposed to a per call way. "
@@ -165,7 +168,9 @@ public class SingleFeatureSourceDataStore implements DataStore {
 
     @Override
     public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriter(String typeName,
-            Transaction transaction) throws IOException {
+                                                                            Transaction 
+                                                                                    transaction) 
+            throws IOException {
         throw new UnsupportedOperationException(
                 "This store is wrapping a FeatureSource/FeatureStore, which handles "
                         + "transactions in a stateful way as opposed to a per call way. "
@@ -174,7 +179,8 @@ public class SingleFeatureSourceDataStore implements DataStore {
 
     @Override
     public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriterAppend(String typeName,
-            Transaction transaction) throws IOException {
+                                                                                  Transaction 
+                                                                                          transaction) throws IOException {
         throw new UnsupportedOperationException(
                 "This store is wrapping a FeatureSource/FeatureStore, which handles "
                         + "transactions in a stateful way as opposed to a per call way. "

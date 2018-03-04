@@ -50,9 +50,8 @@ import org.xml.sax.SAXParseException;
 
 /**
  * Reads and translates all tests checking for errors in the process
- * 
+ *
  * @author Andrea Aime - GeoSolutions
- * 
  */
 @RunWith(Parameterized.class)
 public abstract class AbstractIntegrationTest extends CssBaseTest {
@@ -88,7 +87,8 @@ public abstract class AbstractIntegrationTest extends CssBaseTest {
                 + (exclusiveRulesEnabled ? "" : "-first") + ".sld");
 
         //Java 9 pretty-print has slightly different indentation
-        File sldFile_java9 = new File(file.getParentFile(), FilenameUtils.getBaseName(file.getName())
+        File sldFile_java9 = new File(file.getParentFile(), FilenameUtils.getBaseName(file
+                .getName())
                 + (exclusiveRulesEnabled ? "" : "-first") + "_java9.sld");
 
         if (!sldFile.exists()) {

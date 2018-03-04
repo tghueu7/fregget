@@ -39,11 +39,9 @@ import org.opengis.feature.simple.SimpleFeatureType;
  * Special property extractor for extracting attributes from features.
  *
  * @author Justin Deoliveira, The Open Planning Project
- * @deprecated This interface is replaced with {@link ComplexBinding#getProperties(Object, XSDElementDeclaration)}
- *
- *
- *
  * @source $URL$
+ * @deprecated This interface is replaced with 
+ * {@link ComplexBinding#getProperties(Object, XSDElementDeclaration)}
  */
 public class FeaturePropertyExtractor implements PropertyExtractor {
     SchemaIndex schemaIndex;
@@ -81,7 +79,7 @@ public class FeaturePropertyExtractor implements PropertyExtractor {
         if (type == null) {
             //type not found, do a check for an element, and use its type
             XSDElementDeclaration e = schemaIndex.getElementDeclaration(new QName(namespace,
-                        typeName));
+                    typeName));
 
             if (e != null) {
                 type = e.getTypeDefinition();
@@ -90,14 +88,14 @@ public class FeaturePropertyExtractor implements PropertyExtractor {
 
         if (type == null) {
             String msg = "Could not find element declaration: (" + namespace + ", " + typeName
-                + " )";
+                    + " )";
             throw new RuntimeException(msg);
         }
 
         List particles = Schemas.getChildElementParticles(type, true);
         List properties = new ArrayList();
 
-        for (Iterator p = particles.iterator(); p.hasNext();) {
+        for (Iterator p = particles.iterator(); p.hasNext(); ) {
             XSDParticle particle = (XSDParticle) p.next();
             XSDElementDeclaration attribute = (XSDElementDeclaration) particle.getContent();
 
@@ -117,7 +115,7 @@ public class FeaturePropertyExtractor implements PropertyExtractor {
 
             //get the value
             Object attributeValue = feature.getAttribute(attribute.getName());
-            properties.add(new Object[] { particle, attributeValue });
+            properties.add(new Object[]{particle, attributeValue});
         }
 
         return properties;

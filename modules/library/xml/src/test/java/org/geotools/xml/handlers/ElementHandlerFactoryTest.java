@@ -28,7 +28,6 @@ import org.xml.sax.SAXException;
 
 /**
  * @author Mauro Bartolomeoli - mauro.bartolomeoli@geo-solutions.it
- *
  */
 public class ElementHandlerFactoryTest extends TestCase {
     private static final Logger logger = Logger

@@ -4,13 +4,14 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.metadata.identification;
 
 import java.util.Collection;
 import java.util.Locale;
+
 import org.opengis.metadata.extent.Extent;
 import org.opengis.metadata.spatial.SpatialRepresentationType;
 import org.opengis.util.InternationalString;
@@ -25,23 +26,21 @@ import static org.opengis.annotation.ComplianceLevel.*;
 /**
  * Information required to identify a dataset.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 2.0
+ * @source $URL$
+ * @since GeoAPI 2.0
  */
-@Profile (level=CORE)
-@UML(identifier="MD_DataIdentification", specification=ISO_19115)
+@Profile(level = CORE)
+@UML(identifier = "MD_DataIdentification", specification = ISO_19115)
 public interface DataIdentification extends Identification {
     /**
      * Method used to spatially represent geographic information.
      *
      * @return Method(s) used to spatially represent geographic information.
      */
-    @Profile (level=CORE)
-    @UML(identifier="spatialRepresentationType", obligation=OPTIONAL, specification=ISO_19115)
+    @Profile(level = CORE)
+    @UML(identifier = "spatialRepresentationType", obligation = OPTIONAL, specification = ISO_19115)
     Collection<SpatialRepresentationType> getSpatialRepresentationTypes();
 
     /**
@@ -50,8 +49,8 @@ public interface DataIdentification extends Identification {
      *
      * @return Factor which provides a general understanding of the density of spatial data.
      */
-    @Profile (level=CORE)
-    @UML(identifier="spatialResolution", obligation=OPTIONAL, specification=ISO_19115)
+    @Profile(level = CORE)
+    @UML(identifier = "spatialResolution", obligation = OPTIONAL, specification = ISO_19115)
     Collection<? extends Resolution> getSpatialResolutions();
 
     /**
@@ -59,8 +58,8 @@ public interface DataIdentification extends Identification {
      *
      * @return Language(s) used.
      */
-    @Profile (level=CORE)
-    @UML(identifier="language", obligation=MANDATORY, specification=ISO_19115)
+    @Profile(level = CORE)
+    @UML(identifier = "language", obligation = MANDATORY, specification = ISO_19115)
     Collection<Locale> getLanguage();
 
     /**
@@ -68,8 +67,8 @@ public interface DataIdentification extends Identification {
      *
      * @return Name(s) of the character coding standard(s) used.
      */
-    @Profile (level=CORE)
-    @UML(identifier="characterSet", obligation=CONDITIONAL, specification=ISO_19115)
+    @Profile(level = CORE)
+    @UML(identifier = "characterSet", obligation = CONDITIONAL, specification = ISO_19115)
     Collection<CharacterSet> getCharacterSets();
 
     /**
@@ -77,8 +76,8 @@ public interface DataIdentification extends Identification {
      *
      * @return Main theme(s).
      */
-    @Profile (level=CORE)
-    @UML(identifier="topicCategory", obligation=MANDATORY, specification=ISO_19115)
+    @Profile(level = CORE)
+    @UML(identifier = "topicCategory", obligation = MANDATORY, specification = ISO_19115)
     Collection<TopicCategory> getTopicCategories();
 
     /**
@@ -87,7 +86,7 @@ public interface DataIdentification extends Identification {
      *
      * @return Description of the dataset in the producer's processing environment, or {@code null}.
      */
-    @UML(identifier="environmentDescription", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "environmentDescription", obligation = OPTIONAL, specification = ISO_19115)
     InternationalString getEnvironmentDescription();
 
     /**
@@ -96,8 +95,8 @@ public interface DataIdentification extends Identification {
      *
      * @return Additional extent information.
      */
-    @Profile (level=CORE)
-    @UML(identifier="extent", obligation=OPTIONAL, specification=ISO_19115)
+    @Profile(level = CORE)
+    @UML(identifier = "extent", obligation = OPTIONAL, specification = ISO_19115)
     Collection<? extends Extent> getExtent();
 
     /**
@@ -105,6 +104,6 @@ public interface DataIdentification extends Identification {
      *
      * @return Other descriptive information, or {@code null}.
      */
-    @UML(identifier="supplementalInformation", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "supplementalInformation", obligation = OPTIONAL, specification = ISO_19115)
     InternationalString getSupplementalInformation();
 }

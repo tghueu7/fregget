@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -21,27 +21,24 @@ import org.geotools.factory.Hints;
 
 /**
  * This class supports the use of Expression/NIL for referring to a 'null' value.
- * 
+ *
  * @author Niels Charlier, Curtin University Of Technology
- * 
- *
- *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/library/main/src/main/java/org/geotools/
- *         filter/expression/NullPropertyAccessorFactory.java $
+ * http://svn.osgeo.org/geotools/trunk/modules/library/main/src/main/java/org/geotools/
+ * filter/expression/NullPropertyAccessorFactory.java $
  */
 public class NullPropertyAccessorFactory implements PropertyAccessorFactory {
 
     static private PropertyAccessor NULLPA = new NullPropertyAccessor();
 
     public PropertyAccessor createPropertyAccessor(Class type, String xpath, Class target,
-            Hints hints) {
+                                                   Hints hints) {
         return NULLPA;
     }
 
     /**
      * Return null for Expression/NIL
-     * 
+     *
      * @author Niels Charlier, CSIRO
      */
     static class NullPropertyAccessor implements PropertyAccessor {

@@ -17,6 +17,7 @@
 package org.geotools.filter.v1_1;
 
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.sort.SortOrder;
 import org.geotools.xml.AbstractSimpleBinding;
@@ -26,9 +27,9 @@ import org.geotools.xml.InstanceComponent;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:SortOrderType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:simpleType name="SortOrderType"&gt;
  *      &lt;xsd:restriction base="xsd:string"&gt;
@@ -42,9 +43,6 @@ import org.geotools.xml.InstanceComponent;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SortOrderTypeBinding extends AbstractSimpleBinding {
@@ -82,7 +80,7 @@ public class SortOrderTypeBinding extends AbstractSimpleBinding {
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
+            throws Exception {
         if ("ASC".equals(value)) {
             return SortOrder.ASCENDING;
         }

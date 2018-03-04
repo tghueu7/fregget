@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.geotools.cql;
 
@@ -22,9 +22,8 @@ import com.vividsolutions.jts.io.WKTReader;
 
 /**
  * This utility class provide the data required by the CQL/ECQL examples.
- * 
+ *
  * @author Mauricio Pazos
- * 
  */
 final class DataExamples extends ECQLExamples {
 
@@ -38,7 +37,7 @@ final class DataExamples extends ECQLExamples {
 
     /**
      * Creates a feature that represent New York city
-     * 
+     *
      * @return a Feature
      * @throws Exception
      */

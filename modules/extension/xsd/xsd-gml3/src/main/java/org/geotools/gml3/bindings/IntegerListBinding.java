@@ -25,13 +25,14 @@ import org.geotools.xml.InstanceComponent;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:integerList.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;simpleType name="integerList"&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;XML List based on XML Schema integer type.  An element of this type contains a space-separated list of integer values&lt;/documentation&gt;
+ *          &lt;documentation&gt;XML List based on XML Schema integer type.  An element of this 
+ *          type contains a space-separated list of integer values&lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;list itemType="integer"/&gt;
  *  &lt;/simpleType&gt;
@@ -41,9 +42,6 @@ import org.geotools.xml.InstanceComponent;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class IntegerListBinding extends AbstractSimpleBinding {
@@ -71,7 +69,7 @@ public class IntegerListBinding extends AbstractSimpleBinding {
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
+            throws Exception {
         String[] values = ((String) value).split(" +");
         int[] integers = new int[values.length];
 

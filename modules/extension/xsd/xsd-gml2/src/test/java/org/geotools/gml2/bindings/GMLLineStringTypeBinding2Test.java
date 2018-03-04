@@ -24,8 +24,6 @@ import com.vividsolutions.jts.geom.LineString;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GMLLineStringTypeBinding2Test extends GMLTestSupport {
@@ -49,6 +47,7 @@ public class GMLLineStringTypeBinding2Test extends GMLTestSupport {
         Document doc = encode(GML2MockData.lineString(), GML.LineString);
 
         assertEquals(1,
-            doc.getElementsByTagNameNS(GML.NAMESPACE, GML.coordinates.getLocalPart()).getLength());
+                doc.getElementsByTagNameNS(GML.NAMESPACE, GML.coordinates.getLocalPart())
+                        .getLength());
     }
 }

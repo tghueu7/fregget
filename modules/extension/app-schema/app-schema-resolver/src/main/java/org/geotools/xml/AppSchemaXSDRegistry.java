@@ -20,6 +20,7 @@ package org.geotools.xml;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -31,12 +32,8 @@ import org.eclipse.xsd.util.XSDSchemaLocator;
  * A singleton registry to store all XSD schema's that are created by app-schema. This registry has
  * two purposes: (1) Reusing schema's that have already been built previously, so that schema
  * content in memory isn't cluttered with multiple versions of the same schema (with respect to .
- * 
+ *
  * @author Niels Charlier (Curtin University of Technology)
- * 
- *
- *
- *
  * @source $URL$
  */
 public final class AppSchemaXSDRegistry implements XSDSchemaLocator {
@@ -57,7 +54,7 @@ public final class AppSchemaXSDRegistry implements XSDSchemaLocator {
 
     /**
      * Get lazy loaded singleton instance
-     * 
+     *
      * @return singleton instance
      */
     public static AppSchemaXSDRegistry getInstance() {
@@ -69,9 +66,8 @@ public final class AppSchemaXSDRegistry implements XSDSchemaLocator {
 
     /**
      * Register schema
-     * 
-     * @param schema
-     *            schema to be registered
+     *
+     * @param schema schema to be registered
      */
     public synchronized void register(XSDSchema schema) {
         schemaRegistry.put(schema.getSchemaLocation(), schema);
@@ -79,9 +75,8 @@ public final class AppSchemaXSDRegistry implements XSDSchemaLocator {
 
     /**
      * Look up schema in register
-     * 
-     * @param schemaLocation
-     *            (resolved) schema location
+     *
+     * @param schemaLocation (resolved) schema location
      * @return schema
      */
     public synchronized XSDSchema lookUp(String schemaLocation) {
@@ -102,14 +97,16 @@ public final class AppSchemaXSDRegistry implements XSDSchemaLocator {
      * Implements schema locator... creates and registers new schema if necessary
      */
     public synchronized XSDSchema locateSchema(XSDSchema xsdSchema, String namespaceURI,
-            String rawSchemaLocationURI, String resolvedSchemaLocationURI) {
+                                               String rawSchemaLocationURI, String 
+                                                       resolvedSchemaLocationURI) {
 
         if (xsdSchema != null) {
             // first see if the schema can already be found in same resource set
             // (to avoid infinite loop)
             ResourceSet resourceSet = xsdSchema.eResource().getResourceSet();
             Resource resolvedResource = resourceSet.getResource(URI
-                    .createURI(resolvedSchemaLocationURI == null ? "" : resolvedSchemaLocationURI),
+                            .createURI(resolvedSchemaLocationURI == null ? "" : 
+                                    resolvedSchemaLocationURI),
                     false);
 
             if (resolvedResource != null && resolvedResource instanceof XSDResourceImpl) {

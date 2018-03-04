@@ -30,12 +30,10 @@ import org.geotools.resources.i18n.ErrorKeys;
 /**
  * A range of dates.
  *
- * @since 2.5
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @since 2.5
  */
 public class DateRange extends Range<Date> {
     /**
@@ -67,21 +65,22 @@ public class DateRange extends Range<Date> {
      * @param isMaxIncluded {@code true} if the end time is inclusive.
      */
     public DateRange(final Date startTime, boolean isMinIncluded,
-                     final Date   endTime, boolean isMaxIncluded)
-    {
+                     final Date endTime, boolean isMaxIncluded) {
         super(Date.class, clone(startTime), isMinIncluded,
-                          clone(  endTime), isMaxIncluded);
+                clone(endTime), isMaxIncluded);
     }
 
     /**
      * Creates a date range from the specified measurement range. Units are converted as needed.
      *
-     * @param range The range to convert.
+     * @param range  The range to convert.
      * @param origin The date to use as the origin.
      * @throws ConversionException if the given range doesn't have a
-     *         {@linkplain MeasurementRange#getUnits unit} compatible with milliseconds.
+     *                             {@linkplain MeasurementRange#getUnits unit} compatible with 
+     *                             milliseconds.
      */
-    public DateRange(final MeasurementRange<?> range, final Date origin) throws ConversionException {
+    public DateRange(final MeasurementRange<?> range, final Date origin) throws 
+            ConversionException {
         this(range, getConverter(range.getUnits()), origin.getTime());
     }
 
@@ -89,12 +88,14 @@ public class DateRange extends Range<Date> {
      * Workaround for RFE #4093999 ("Relax constraint on placement of this()/super()
      * call in constructors").
      */
-    private DateRange(final MeasurementRange<?> range, final UnitConverter converter, final long origin)
-            throws ConversionException
-    {
+    private DateRange(final MeasurementRange<?> range, final UnitConverter converter, final long 
+            origin)
+            throws ConversionException {
         super(Date.class,
-              new Date(origin + Math.round(converter.convert(range.getMinimum()))), range.isMinIncluded(),
-              new Date(origin + Math.round(converter.convert(range.getMaximum()))), range.isMaxIncluded());
+                new Date(origin + Math.round(converter.convert(range.getMinimum()))), range
+                        .isMinIncluded(),
+                new Date(origin + Math.round(converter.convert(range.getMaximum()))), range
+                        .isMaxIncluded());
     }
 
     /**

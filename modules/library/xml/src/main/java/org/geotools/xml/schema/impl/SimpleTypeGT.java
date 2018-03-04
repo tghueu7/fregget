@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -45,8 +45,6 @@ import org.xml.sax.SAXException;
  * </p>
  *
  * @author dzwiers
- *
- *
  * @source $URL$
  */
 public class SimpleTypeGT implements SimpleType {
@@ -66,26 +64,26 @@ public class SimpleTypeGT implements SimpleType {
     /**
      * Creates a new SimpleTypeGT object.
      *
-     * @param id DOCUMENT ME!
-     * @param name DOCUMENT ME!
-     * @param namespace DOCUMENT ME!
-     * @param type DOCUMENT ME!
-     * @param parents DOCUMENT ME!
+     * @param id          DOCUMENT ME!
+     * @param name        DOCUMENT ME!
+     * @param namespace   DOCUMENT ME!
+     * @param type        DOCUMENT ME!
+     * @param parents     DOCUMENT ME!
      * @param constraints DOCUMENT ME!
-     * @param finaL DOCUMENT ME!
+     * @param finaL       DOCUMENT ME!
      */
     public SimpleTypeGT(String id, String name, URI namespace, int type,
-        SimpleType[] parents, Facet[] constraints, int finaL) {
+                        SimpleType[] parents, Facet[] constraints, int finaL) {
         this.id = id;
         this.name = name;
         this.namespace = namespace;
         this.parents = parents;
         this.type = type;
         this.constraints = constraints;
-        if(constraints!=null){
-            for(int i=0;i<constraints.length;i++)
-                if(constraints[i] == null)
-                    throw new NullPointerException(name+" constraint #"+i+" is null");
+        if (constraints != null) {
+            for (int i = 0; i < constraints.length; i++)
+                if (constraints[i] == null)
+                    throw new NullPointerException(name + " constraint #" + i + " is null");
         }
     }
 
@@ -143,16 +141,17 @@ public class SimpleTypeGT implements SimpleType {
      * <p>
      * This method ignores the attributes from the xml node
      * </p>
+     *
      * @throws SAXException
      * @throws OperationNotSupportedException
-     *
      * @see schema.Type#getValue(java.lang.Object, org.xml.sax.Attributes)
      */
     public Object getValue(Element element, ElementValue[] value,
-        Attributes attrs, Map hints) throws OperationNotSupportedException, SAXException {
+                           Attributes attrs, Map hints) throws OperationNotSupportedException, 
+            SAXException {
         if ((value == null) || (value.length != 1)) {
             throw new SAXException(
-                "can only have one text value ... and one is required");
+                    "can only have one text value ... and one is required");
         }
 
         if (type == UNION) {
@@ -170,7 +169,8 @@ public class SimpleTypeGT implements SimpleType {
      * Helper for getValue(Element,ElementValue[])
      */
     private Object getUnionValue(Element element, ElementValue value,
-        Attributes attrs, Map hints) throws OperationNotSupportedException, SAXException {
+                                 Attributes attrs, Map hints) throws 
+            OperationNotSupportedException, SAXException {
         if (parents == null) {
             return null;
         }
@@ -193,7 +193,8 @@ public class SimpleTypeGT implements SimpleType {
      * Helper for getValue(Element,ElementValue[])
      */
     private Object getListValue(Element element, ElementValue value,
-        Attributes attrs, Map hints) throws OperationNotSupportedException, SAXException {
+                                Attributes attrs, Map hints) throws 
+            OperationNotSupportedException, SAXException {
         if ((parents == null) || (parents[0] == null)) {
             return null;
         }
@@ -216,7 +217,8 @@ public class SimpleTypeGT implements SimpleType {
      * Helper for getValue(Element,ElementValue[])
      */
     private Object getRestValue(Element element, ElementValue value,
-        Attributes attrs, Map hints) throws OperationNotSupportedException, SAXException {
+                                Attributes attrs, Map hints) throws 
+            OperationNotSupportedException, SAXException {
         if ((parents == null) || (parents[0] == null)) {
             return null;
         }
@@ -234,7 +236,7 @@ public class SimpleTypeGT implements SimpleType {
 
         String val = (String) value.getValue();
 
-        if (val !=null && constraints[0].getFacetType() == Facet.ENUMERATION) {
+        if (val != null && constraints[0].getFacetType() == Facet.ENUMERATION) {
             for (int i = 0; i < constraints.length; i++) {
                 if (val.equalsIgnoreCase(constraints[i].getValue())) {
                     ElementValue[] t = new ElementValue[1];
@@ -266,168 +268,168 @@ public class SimpleTypeGT implements SimpleType {
         // check each constraint
         for (int i = 0; i < constraints.length; i++) {
             switch (constraints[i].getFacetType()) {
-            case Facet.ENUMERATION:
+                case Facet.ENUMERATION:
                 /*throw new SAXException(
                     "cannot have enumerations mixed with other facets.");*/
-            	break;
+                    break;
 
-            case Facet.FRACTIONDIGITS:
+                case Facet.FRACTIONDIGITS:
 
-                int decimals = val.length() - val.indexOf(".");
-                int maxDec = Integer.parseInt(constraints[i].getValue());
+                    int decimals = val.length() - val.indexOf(".");
+                    int maxDec = Integer.parseInt(constraints[i].getValue());
 
-                if (decimals > maxDec) {
-                    throw new SAXException("Too many decimal places");
-                }
-
-                break;
-
-            case Facet.LENGTH:
-
-                int maxLength = Integer.parseInt(constraints[i].getValue());
-
-                if (val.length() != maxLength) {
-                    throw new SAXException("Too long places");
-                }
-
-                break;
-
-            case Facet.MAXEXCLUSIVE:
-
-                if (nval != null) {
-                    Double max = Double.valueOf(constraints[i].getValue());
-
-                    if (nval.doubleValue() > max.doubleValue()) {
-                        throw new SAXException("Too large a value");
-                    }
-                }
-
-                if (dval != null) {
-                    Date max;
-
-                    try {
-                        max = DateFormat.getDateTimeInstance().parse(constraints[i]
-                                .getValue());
-                    } catch (ParseException e) {
-                        throw new SAXException(e);
+                    if (decimals > maxDec) {
+                        throw new SAXException("Too many decimal places");
                     }
 
-                    if (dval.after(max)) {
-                        throw new SAXException("Too large a value");
-                    }
-                }
+                    break;
 
-                break;
+                case Facet.LENGTH:
 
-            case Facet.MAXINCLUSIVE:
+                    int maxLength = Integer.parseInt(constraints[i].getValue());
 
-                if (nval != null) {
-                    Double max = Double.valueOf(constraints[i].getValue());
-
-                    if (nval.doubleValue() >= max.doubleValue()) {
-                        throw new SAXException("Too large a value");
-                    }
-                }
-
-                if (dval != null) {
-                    Date max;
-
-                    try {
-                        max = DateFormat.getDateTimeInstance().parse(constraints[i]
-                                .getValue());
-                    } catch (ParseException e) {
-                        throw new SAXException(e);
+                    if (val.length() != maxLength) {
+                        throw new SAXException("Too long places");
                     }
 
-                    if (dval.compareTo(max) > 0) {
-                        throw new SAXException("Too large a value");
-                    }
-                }
+                    break;
 
-            case Facet.MAXLENGTH:
-                maxLength = Integer.parseInt(constraints[i].getValue());
+                case Facet.MAXEXCLUSIVE:
 
-                if (val.length() > maxLength) {
-                    throw new SAXException("Too long places");
-                }
+                    if (nval != null) {
+                        Double max = Double.valueOf(constraints[i].getValue());
 
-                break;
-
-            case Facet.MINEXCLUSIVE:
-
-                if (nval != null) {
-                    Double max = Double.valueOf(constraints[i].getValue());
-
-                    if (nval.doubleValue() < max.doubleValue()) {
-                        throw new SAXException("Too large a value");
-                    }
-                }
-
-                if (dval != null) {
-                    Date max;
-
-                    try {
-                        max = DateFormat.getDateTimeInstance().parse(constraints[i]
-                                .getValue());
-                    } catch (ParseException e) {
-                        throw new SAXException(e);
+                        if (nval.doubleValue() > max.doubleValue()) {
+                            throw new SAXException("Too large a value");
+                        }
                     }
 
-                    if (dval.before(max)) {
-                        throw new SAXException("Too large a value");
-                    }
-                }
+                    if (dval != null) {
+                        Date max;
 
-            case Facet.MININCLUSIVE:
+                        try {
+                            max = DateFormat.getDateTimeInstance().parse(constraints[i]
+                                    .getValue());
+                        } catch (ParseException e) {
+                            throw new SAXException(e);
+                        }
 
-                if (nval != null) {
-                    Double max = Double.valueOf(constraints[i].getValue());
-
-                    if (nval.doubleValue() <= max.doubleValue()) {
-                        throw new SAXException("Too large a value");
-                    }
-                }
-
-                if (dval != null) {
-                    Date max;
-
-                    try {
-                        max = DateFormat.getDateTimeInstance().parse(constraints[i]
-                                .getValue());
-                    } catch (ParseException e) {
-                        throw new SAXException(e);
+                        if (dval.after(max)) {
+                            throw new SAXException("Too large a value");
+                        }
                     }
 
-                    if (dval.compareTo(max) < 0) {
-                        throw new SAXException("Too large a value");
+                    break;
+
+                case Facet.MAXINCLUSIVE:
+
+                    if (nval != null) {
+                        Double max = Double.valueOf(constraints[i].getValue());
+
+                        if (nval.doubleValue() >= max.doubleValue()) {
+                            throw new SAXException("Too large a value");
+                        }
                     }
-                }
 
-            case Facet.MINLENGTH:
-                maxLength = Integer.parseInt(constraints[i].getValue());
+                    if (dval != null) {
+                        Date max;
 
-                if (val.length() < maxLength) {
-                    throw new SAXException("Too short places");
-                }
+                        try {
+                            max = DateFormat.getDateTimeInstance().parse(constraints[i]
+                                    .getValue());
+                        } catch (ParseException e) {
+                            throw new SAXException(e);
+                        }
 
-                break;
+                        if (dval.compareTo(max) > 0) {
+                            throw new SAXException("Too large a value");
+                        }
+                    }
 
-            case Facet.PATTERN:
+                case Facet.MAXLENGTH:
+                    maxLength = Integer.parseInt(constraints[i].getValue());
 
-                if (val.split(constraints[i].getValue()).length != 0) {
-                    throw new SAXException("Does not match pattern");
-                }
+                    if (val.length() > maxLength) {
+                        throw new SAXException("Too long places");
+                    }
 
-                break;
+                    break;
 
-            case Facet.TOTALDIGITS:
-                maxLength = Integer.parseInt(constraints[i].getValue()) + 1;
+                case Facet.MINEXCLUSIVE:
 
-                if (val.length() > maxLength) {
-                    throw new SAXException("Too many digits");
-                }
+                    if (nval != null) {
+                        Double max = Double.valueOf(constraints[i].getValue());
 
-                break;
+                        if (nval.doubleValue() < max.doubleValue()) {
+                            throw new SAXException("Too large a value");
+                        }
+                    }
+
+                    if (dval != null) {
+                        Date max;
+
+                        try {
+                            max = DateFormat.getDateTimeInstance().parse(constraints[i]
+                                    .getValue());
+                        } catch (ParseException e) {
+                            throw new SAXException(e);
+                        }
+
+                        if (dval.before(max)) {
+                            throw new SAXException("Too large a value");
+                        }
+                    }
+
+                case Facet.MININCLUSIVE:
+
+                    if (nval != null) {
+                        Double max = Double.valueOf(constraints[i].getValue());
+
+                        if (nval.doubleValue() <= max.doubleValue()) {
+                            throw new SAXException("Too large a value");
+                        }
+                    }
+
+                    if (dval != null) {
+                        Date max;
+
+                        try {
+                            max = DateFormat.getDateTimeInstance().parse(constraints[i]
+                                    .getValue());
+                        } catch (ParseException e) {
+                            throw new SAXException(e);
+                        }
+
+                        if (dval.compareTo(max) < 0) {
+                            throw new SAXException("Too large a value");
+                        }
+                    }
+
+                case Facet.MINLENGTH:
+                    maxLength = Integer.parseInt(constraints[i].getValue());
+
+                    if (val.length() < maxLength) {
+                        throw new SAXException("Too short places");
+                    }
+
+                    break;
+
+                case Facet.PATTERN:
+
+                    if (val.split(constraints[i].getValue()).length != 0) {
+                        throw new SAXException("Does not match pattern");
+                    }
+
+                    break;
+
+                case Facet.TOTALDIGITS:
+                    maxLength = Integer.parseInt(constraints[i].getValue()) + 1;
+
+                    if (val.length() > maxLength) {
+                        throw new SAXException("Too many digits");
+                    }
+
+                    break;
             }
         }
 
@@ -451,10 +453,10 @@ public class SimpleTypeGT implements SimpleType {
     /**
      * @throws OperationNotSupportedException
      * @see org.geotools.xml.schema.SimpleType#toAttribute(org.geotools.xml.schema.Attribute,
-     *      java.lang.Object, java.util.Map)
+     * java.lang.Object, java.util.Map)
      */
     public AttributeValue toAttribute(Attribute attribute, Object value,
-        Map hints) throws OperationNotSupportedException {
+                                      Map hints) throws OperationNotSupportedException {
         if (value == null) {
             return null;
         }
@@ -465,7 +467,7 @@ public class SimpleTypeGT implements SimpleType {
                 // TODO check that 'equals' works here
                 if (parents[i].equals(attribute.getSimpleType())
                         && parents[i].canCreateAttributes(attribute, value,
-                            hints)) {
+                        hints)) {
                     return parents[i].toAttribute(attribute, value, hints);
                 }
             }
@@ -480,12 +482,12 @@ public class SimpleTypeGT implements SimpleType {
 
             if (i.hasNext()) {
                 Object t = parents[0].toAttribute(attribute, i.next(), hints)
-                                     .getValue();
+                        .getValue();
                 s = t.toString();
 
                 while (i.hasNext()) {
                     t = parents[0].toAttribute(attribute, i.next(), hints)
-                                  .getValue();
+                            .getValue();
                     s = s + " " + t.toString();
                 }
             }
@@ -497,11 +499,12 @@ public class SimpleTypeGT implements SimpleType {
     }
 
     /**
-     * @see org.geotools.xml.schema.SimpleType#canCreateAttributes(org.geotools.xml.schema.Attribute,
-     *      java.lang.Object, java.util.Map)
+     * @see org.geotools.xml.schema.SimpleType#canCreateAttributes(org.geotools.xml.schema
+     * .Attribute,
+     * java.lang.Object, java.util.Map)
      */
     public boolean canCreateAttributes(Attribute attribute, Object value,
-        Map hints) {
+                                       Map hints) {
         if (value == null) {
             return false;
         }
@@ -512,7 +515,7 @@ public class SimpleTypeGT implements SimpleType {
                 // TODO check that 'equals' works here
                 if (parents[i].equals(attribute.getSimpleType())
                         && parents[i].canCreateAttributes(attribute, value,
-                            hints)) {
+                        hints)) {
                     return true;
                 }
             }
@@ -529,7 +532,7 @@ public class SimpleTypeGT implements SimpleType {
 
     /**
      * @see org.geotools.xml.schema.Type#canEncode(org.geotools.xml.schema.Element,
-     *      java.lang.Object, java.util.Map)
+     * java.lang.Object, java.util.Map)
      */
     public boolean canEncode(Element element, Object value, Map hints) {
         if (value == null) {
@@ -558,10 +561,10 @@ public class SimpleTypeGT implements SimpleType {
 
     /**
      * @see org.geotools.xml.schema.Type#encode(org.geotools.xml.schema.Element,
-     *      java.lang.Object, org.geotools.xml.PrintHandler, java.util.Map)
+     * java.lang.Object, org.geotools.xml.PrintHandler, java.util.Map)
      */
     public void encode(Element element, Object value, PrintHandler output,
-        Map hints) throws IOException, OperationNotSupportedException {
+                       Map hints) throws IOException, OperationNotSupportedException {
         if (value == null) {
             return;
         }
@@ -590,13 +593,13 @@ public class SimpleTypeGT implements SimpleType {
 
             if (i.hasNext()) {
                 Object t = parents[0].toAttribute(new AttributeGT(null,
-                            null, namespace, parents[0], 0, null, null, false),
+                                null, namespace, parents[0], 0, null, null, false),
                         value, hints).getValue();
                 s = t.toString();
 
                 while (i.hasNext()) {
                     t = parents[0].toAttribute(new AttributeGT(null, null,
-                                namespace, parents[0], 0, null, null, false),
+                                    namespace, parents[0], 0, null, null, false),
                             value, hints).getValue();
                     s = s + " " + t.toString();
                 }

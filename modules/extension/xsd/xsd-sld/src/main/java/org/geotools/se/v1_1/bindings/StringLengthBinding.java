@@ -26,22 +26,23 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/se:StringLength.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
- *  &lt;xsd:element name="StringLength" substitutionGroup="se:Function" type="se:StringLengthType"&gt;
+ *  &lt;xsd:element name="StringLength" substitutionGroup="se:Function" 
+ *  type="se:StringLengthType"&gt;
  *      &lt;xsd:annotation&gt;
  *          &lt;xsd:documentation&gt;
  *  Returns length of string
  *               &lt;/xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
- *  &lt;/xsd:element&gt; 
- * 	
+ *  &lt;/xsd:element&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * <pre>
  *       <code>
  *  &lt;xsd:complexType name="StringLengthType"&gt;
@@ -52,26 +53,24 @@ import javax.xml.namespace.QName;
  *              &lt;/xsd:sequence&gt;
  *          &lt;/xsd:extension&gt;
  *      &lt;/xsd:complexContent&gt;
- *  &lt;/xsd:complexType&gt; 
- *              
+ *  &lt;/xsd:complexType&gt;
+ *
  *        </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class StringLengthBinding extends AbstractComplexBinding {
 
     FilterFactory filterFactory;
-    
+
     public StringLengthBinding(FilterFactory filterFactory) {
         this.filterFactory = filterFactory;
     }
-    
+
     /**
      * @generated
      */
@@ -81,23 +80,23 @@ public class StringLengthBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
-        return  Function.class;
+        return Function.class;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
 
         Expression e = (Expression) node.getChildValue("StringValue");
         return filterFactory.function("strLength", e);
-        
+
     }
 
 }

@@ -59,7 +59,8 @@ public class AbstractHiddenDataAccessDisposalTest extends AppSchemaTestSupport {
         assertFalse(guDataAccess.hidden);
 
         /**
-         * Non-feature types that are included in geologicUnit.xml should be loaded when geologic unit data access is created
+         * Non-feature types that are included in geologicUnit.xml should be loaded when geologic
+         * unit data access is created
          */
         // Composition Part
         AppSchemaDataAccess cpDataAccess = (AppSchemaDataAccess) DataAccessRegistry

@@ -27,22 +27,23 @@ import org.geotools.wfs.v2_0.WFSTestSupport;
 public class CreateStoredQueryTypeBindingTest extends WFSTestSupport {
 
     public void testParse() throws Exception {
-        String xml = 
-            "<wfs:DropStoredQuery " + 
-            "   xmlns:wfs='http://www.opengis.net/wfs/2.0' " + 
-            "   service='WFS' " + 
-            "   version='2.0.0' id='foobar'/> ";
-            
+        String xml =
+                "<wfs:DropStoredQuery " +
+                        "   xmlns:wfs='http://www.opengis.net/wfs/2.0' " +
+                        "   service='WFS' " +
+                        "   version='2.0.0' id='foobar'/> ";
+
         buildDocument(xml);
-        
+
         DropStoredQueryType dsq = (DropStoredQueryType) parse();
         assertNotNull(dsq);
-        
+
         assertEquals("foobar", dsq.getId());
     }
 
     public void testParseUnqualified() throws Exception {
-        String xml = "<CreateStoredQuery xmlns=\"http://www.opengis.net/wfs/2.0\" service=\"WFS\" " +
+        String xml = "<CreateStoredQuery xmlns=\"http://www.opengis.net/wfs/2.0\" service=\"WFS\"" +
+                " " +
                 "version=\"2.0.0\">\n" +
                 "  <StoredQueryDefinition xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"\n" +
                 "                          id=\"urn:example:wfs2-query:GetFeatureByTypeName\">\n" +
@@ -52,7 +53,8 @@ public class CreateStoredQueryTypeBindingTest extends WFSTestSupport {
                 "         <Abstract>Qualified name of feature type (required).</Abstract>\n" +
                 "      </Parameter>\n" +
                 "      <QueryExpressionText isPrivate=\"false\"\n" +
-                "                           language=\"urn:ogc:def:queryLanguage:OGC-WFS::WFSQueryExpression\"\n" +
+                "                           " +
+                "language=\"urn:ogc:def:queryLanguage:OGC-WFS::WFSQueryExpression\"\n" +
                 "                           returnFeatureTypes=\"\">\n" +
                 "         <Query typeNames=\"${typeName}\"/>\n" +
                 "      </QueryExpressionText>\n" +

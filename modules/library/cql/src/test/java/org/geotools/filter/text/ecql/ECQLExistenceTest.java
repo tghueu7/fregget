@@ -22,21 +22,18 @@ import org.geotools.filter.text.cql2.CQLExistenceTest;
 
 /**
  * Test for ECQL Existence Predicate
- * 
+ * <p>
  * <p>
  * Same to CQL
  * </p>
- * 
+ *
  * @author Mauricio Pazos (Axios Engineering)
- * @since 2.6
- *
- *
- *
  * @source $URL$
+ * @since 2.6
  */
 public class ECQLExistenceTest extends CQLExistenceTest {
-    
-    public ECQLExistenceTest(){
+
+    public ECQLExistenceTest() {
         super(Language.ECQL);
     }
 }

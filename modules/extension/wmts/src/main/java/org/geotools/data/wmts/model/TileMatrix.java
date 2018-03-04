@@ -65,8 +65,7 @@ public class TileMatrix {
     }
 
     /**
-     * @param identifier
-     *            the identifier to set
+     * @param identifier the identifier to set
      */
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
@@ -84,8 +83,7 @@ public class TileMatrix {
     }
 
     /**
-     * @param denominator
-     *            the denominator to set
+     * @param denominator the denominator to set
      */
     public void setDenominator(double denominator) {
         this.denominator = denominator;
@@ -100,8 +98,7 @@ public class TileMatrix {
     }
 
     /**
-     * @param topLeft
-     *            the topLeft to set
+     * @param topLeft the topLeft to set
      */
     public void setTopLeft(Point topLeft) {
         this.topLeft = topLeft;
@@ -115,8 +112,7 @@ public class TileMatrix {
     }
 
     /**
-     * @param tileWidth
-     *            the tileWidth to set
+     * @param tileWidth the tileWidth to set
      */
     public void setTileWidth(int tileWidth) {
         this.tileWidth = tileWidth;
@@ -130,8 +126,7 @@ public class TileMatrix {
     }
 
     /**
-     * @param tileHeight
-     *            the tileHeight to set
+     * @param tileHeight the tileHeight to set
      */
     public void setTileHeight(int tileHeight) {
         this.tileHeight = tileHeight;
@@ -145,8 +140,7 @@ public class TileMatrix {
     }
 
     /**
-     * @param matrixWidth
-     *            the matrixWidth to set
+     * @param matrixWidth the matrixWidth to set
      */
     public void setMatrixWidth(int matrixWidth) {
         this.matrixWidth = matrixWidth;
@@ -160,8 +154,7 @@ public class TileMatrix {
     }
 
     /**
-     * @param matrixHeight
-     *            the matrixHeight to set
+     * @param matrixHeight the matrixHeight to set
      */
     public void setMatrixHeight(int matrixHeight) {
         this.matrixHeight = matrixHeight;
@@ -185,7 +178,7 @@ public class TileMatrix {
         boolean isLongitudeFirstAxisOrderForced = Boolean
                 .getBoolean(GeoTools.FORCE_LONGITUDE_FIRST_AXIS_ORDER)
                 || GeoTools.getDefaultHints()
-                        .get(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER) == Boolean.TRUE;
+                .get(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER) == Boolean.TRUE;
 
         CoordinateReferenceSystem crs = getCrs();
         if (isLongitudeFirstAxisOrderForced

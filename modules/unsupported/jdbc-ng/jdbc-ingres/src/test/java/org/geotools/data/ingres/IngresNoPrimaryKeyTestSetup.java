@@ -19,8 +19,6 @@ package org.geotools.data.ingres;
 import org.geotools.jdbc.JDBCNoPrimaryKeyTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class IngresNoPrimaryKeyTestSetup extends JDBCNoPrimaryKeyTestSetup {
@@ -33,7 +31,7 @@ public class IngresNoPrimaryKeyTestSetup extends JDBCNoPrimaryKeyTestSetup {
     protected void createLakeTable() throws Exception {
         run("CREATE TABLE \"lake\"(\"id\" int, "
                 + "\"geom\" geometry SRID 4326, \"name\" varchar )");
-        
+
         run("INSERT INTO \"lake\" (\"id\",\"geom\",\"name\") VALUES (0,"
                 + "GeomFromText('POLYGON((12 6, 14 8, 16 6, 16 4, 14 4, 12 6))',4326),"
                 + "'muddy')");

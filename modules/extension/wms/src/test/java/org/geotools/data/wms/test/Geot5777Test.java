@@ -35,7 +35,6 @@ import org.junit.Test;
 
 /**
  * @author ian
- *
  */
 public class Geot5777Test {
 
@@ -48,7 +47,7 @@ public class Geot5777Test {
 
     @Test
     public void test() throws ServiceException, MalformedURLException, IOException {
-     // prepare the responses
+        // prepare the responses
         MockHttpClient client = new MockHttpClient() {
 
             public HTTPResponse get(URL url) throws IOException {
@@ -62,8 +61,8 @@ public class Geot5777Test {
             }
 
         };
-        
-        
+
+
         WebMapServer wms = new WebMapServer(new URL("http://test.org"), client);
         GetMapRequest request = wms.createGetMapRequest();
         request.setFormat("image/png");

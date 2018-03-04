@@ -20,8 +20,6 @@ import org.geotools.jdbc.JDBCGeometrylessTestSetup;
 import org.geotools.jdbc.JDBCTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class IngresGeometrylessTestSetup extends JDBCGeometrylessTestSetup {
@@ -32,9 +30,10 @@ public class IngresGeometrylessTestSetup extends JDBCGeometrylessTestSetup {
 
     @Override
     protected void createPersonTable() throws Exception {
-    	run("CREATE SEQUENCE PERSON_FID_SEQUENCE");
-        run("CREATE TABLE \"person\"(\"fid\" int PRIMARY KEY WITH DEFAULT NEXT VALUE FOR PERSON_FID_SEQUENCE, " + 
-        		"\"id\" int, \"name\" varchar(256), \"age\" int)");
+        run("CREATE SEQUENCE PERSON_FID_SEQUENCE");
+        run("CREATE TABLE \"person\"(\"fid\" int PRIMARY KEY WITH DEFAULT NEXT VALUE FOR " +
+                "PERSON_FID_SEQUENCE, " +
+                "\"id\" int, \"name\" varchar(256), \"age\" int)");
         run("INSERT INTO \"person\" (\"id\",\"name\",\"age\") VALUES (0,'Paul',32)");
         run("INSERT INTO \"person\" (\"id\",\"name\",\"age\") VALUES (0,'Anne',40)");
     }

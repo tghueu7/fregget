@@ -15,8 +15,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DXFHeader implements DXFConstants {
@@ -29,7 +27,7 @@ public class DXFHeader implements DXFConstants {
     public int _FILLMODE;
     public String _ACADVER;
     public int _SRID;
- 
+
 
     public DXFHeader() {
         _LIMMIN = new DXFPoint(new Point2D.Double(0, 0));
@@ -41,7 +39,8 @@ public class DXFHeader implements DXFConstants {
         _SRID = 28992;
     }
 
-    public DXFHeader(DXFPoint limmin, DXFPoint limmax, DXFPoint extmin, DXFPoint extmax, int fillmode, String version, int srid) {
+    public DXFHeader(DXFPoint limmin, DXFPoint limmax, DXFPoint extmin, DXFPoint extmax, int 
+            fillmode, String version, int srid) {
         _LIMMIN = limmin;
         _LIMMAX = limmax;
         _EXTMIN = extmin;
@@ -89,7 +88,7 @@ public class DXFHeader implements DXFConstants {
                 case VARIABLE_NAME:
                     String variableName = cvp.getStringValue();
                     double x = 0,
-                     y = 0;
+                            y = 0;
                     int tfillmode = 0;
                     String tversion = null;
 
@@ -163,7 +162,8 @@ public class DXFHeader implements DXFConstants {
         return e;
     }
 
-    public String toString(Point2D.Double limmin, Point2D.Double limmax, Point2D.Double extmin, Point2D.Double extmax, int fillmode, String version, int srid) {
+    public String toString(Point2D.Double limmin, Point2D.Double limmax, Point2D.Double extmin, 
+                           Point2D.Double extmax, int fillmode, String version, int srid) {
         StringBuffer s = new StringBuffer();
         s.append("DXFHeader [");
         s.append("limmin: ");

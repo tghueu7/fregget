@@ -13,14 +13,16 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/wmts/1.0:TileMatrixSetLink.
- *
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
- *	 <code>
- *  &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;element name="TileMatrixSetLink" xmlns="http://www.w3.org/2001/XMLSchema"&gt;
+ * 	 <code>
+ *  &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;element name="TileMatrixSetLink" 
+ *  xmlns="http://www.w3.org/2001/XMLSchema"&gt;
  *  		&lt;annotation&gt;
- *  			&lt;documentation&gt;Metadata about the TileMatrixSet reference.&lt;/documentation&gt;
+ *  			&lt;documentation&gt;Metadata about the TileMatrixSet reference.&lt;
+ *  			/documentation&gt;
  *  		&lt;/annotation&gt;
  *  		&lt;complexType&gt;
  *  			&lt;sequence&gt;
@@ -31,16 +33,18 @@ import javax.xml.namespace.QName;
  *  				&lt;/element&gt;
  *  				&lt;element minOccurs="0" ref="wmts:TileMatrixSetLimits"&gt;
  *  					&lt;annotation&gt;
- *  						&lt;documentation&gt;Indices limits for this tileMatrixSet. The absence of this 
- *  						element means that tile row and tile col indices are only limited by 0 
- *  						and the corresponding tileMatrixSet maximum definitions.&lt;/documentation&gt;
+ *  						&lt;documentation&gt;Indices limits for this tileMatrixSet. The 
+ *  						absence of this
+ *  						element means that tile row and tile col indices are only limited by 0
+ *  						and the corresponding tileMatrixSet maximum definitions.&lt;
+ *  						/documentation&gt;
  *  					&lt;/annotation&gt;
  *  				&lt;/element&gt;
  *  			&lt;/sequence&gt;
  *  		&lt;/complexType&gt;
- *  	&lt;/element&gt; 
- *		
- *	  </code>
+ *  	&lt;/element&gt;
+ *
+ * 	  </code>
  * </pre>
  * </p>
  *
@@ -64,7 +68,7 @@ public class TileMatrixSetLinkBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -73,16 +77,17 @@ public class TileMatrixSetLinkBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
         TileMatrixSetLinkType link = factory.createTileMatrixSetLinkType();
-        
+
         link.setTileMatrixSet((String) node.getChildValue("TileMatrixSet"));
-        link.setTileMatrixSetLimits((TileMatrixSetLimitsType) node.getChildValue("TileMatrixSetLimits"));
+        link.setTileMatrixSetLimits((TileMatrixSetLimitsType) node.getChildValue
+                ("TileMatrixSetLimits"));
         return link;
-    
+
     }
 
 }

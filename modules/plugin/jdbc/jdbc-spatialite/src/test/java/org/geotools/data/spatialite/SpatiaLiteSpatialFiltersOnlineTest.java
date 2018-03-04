@@ -20,8 +20,6 @@ import org.geotools.jdbc.JDBCDataStoreAPITestSetup;
 import org.geotools.jdbc.JDBCSpatialFiltersOnlineTest;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SpatiaLiteSpatialFiltersOnlineTest extends JDBCSpatialFiltersOnlineTest {

@@ -32,10 +32,8 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  * Test the {@link JGrassMapEnvironment} class and the created paths.
- * 
+ *
  * @author Andrea Antonello (www.hydrologis.com)
- *
- *
  * @source $URL$
  */
 @SuppressWarnings("nls")
@@ -43,7 +41,7 @@ public class JGrassUtilsTest extends TestCase {
 
     public void testScaling() throws IOException, NoSuchAuthorityCodeException, FactoryException {
         double[][] mapData = new double[][]{//
-        {1000.0, 1000.0, 1200.0, 1250.0, 1300.0, 1350.0, 1450.0}, //
+                {1000.0, 1000.0, 1200.0, 1250.0, 1300.0, 1350.0, 1450.0}, //
                 {750.0, 850.0, 860.0, 900.0, 1000.0, 1200.0, 1250.0}, //
                 {700.0, 750.0, 800.0, 850.0, 900.0, 1000.0, 1100.0}, //
                 {650.0, 700.0, 750.0, 800.0, 850.0, 490.0, 450.0}, //
@@ -52,7 +50,7 @@ public class JGrassUtilsTest extends TestCase {
         };
 
         double[][] mapDataAfter = new double[][]{//
-        {1000.0, 1200.0, 1250.0, 1300.0, 1450.0}, //
+                {1000.0, 1200.0, 1250.0, 1300.0, 1450.0}, //
                 {700.0, 800.0, 850.0, 900.0, 1100.0}, //
                 {650.0, 750.0, 800.0, 850.0, 450.0}, //
                 {700.0, 760.0, 770.0, 850.0, 1150.0} //
@@ -63,9 +61,11 @@ public class JGrassUtilsTest extends TestCase {
         double w = 1640710.0;
         double e = 1640920.0;
         CoordinateReferenceSystem crs = CRS.decode("EPSG:32632");
-        GridCoverage2D elevationCoverage = JGrassUtilities.buildCoverage("elevation", mapData, n, s, w, e, crs, true);
+        GridCoverage2D elevationCoverage = JGrassUtilities.buildCoverage("elevation", mapData, n,
+                s, w, e, crs, true);
 
-        RenderedImage scaledJAIImage = JGrassUtilities.scaleJAIImage(5, 4, elevationCoverage.getRenderedImage(), null);
+        RenderedImage scaledJAIImage = JGrassUtilities.scaleJAIImage(5, 4, elevationCoverage
+                .getRenderedImage(), null);
         checkMatrixEqual(scaledJAIImage, mapDataAfter, 0.0);
     }
 
@@ -107,7 +107,7 @@ public class JGrassUtilsTest extends TestCase {
     // checkMatrixEqual(scaledJAIImage, mapDataAfter, 0.0);
     // }
 
-    protected void checkMatrixEqual( RenderedImage image, double[][] matrix, double delta ) {
+    protected void checkMatrixEqual(RenderedImage image, double[][] matrix, double delta) {
         RectIter rectIter = RectIterFactory.create(image, null);
         int y = 0;
         do {
@@ -121,9 +121,9 @@ public class JGrassUtilsTest extends TestCase {
                     assertEquals(x + " " + y, expectedResult, value, delta);
                 }
                 x++;
-            } while( !rectIter.nextPixelDone() );
+            } while (!rectIter.nextPixelDone());
             rectIter.startPixels();
             y++;
-        } while( !rectIter.nextLineDone() );
+        } while (!rectIter.nextLineDone());
     }
 }

@@ -26,16 +26,16 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 /**
  * Unit tests for CRSListModel.
- * 
- * @author Michael Bedward
- * @since 8.0
  *
- * @source $URL$
+ * @author Michael Bedward
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 public class CRSListModelTest {
     private static final String AUTHORITY = "EPSG";
@@ -43,37 +43,37 @@ public class CRSListModelTest {
     private static Set<String> CODES;
 
     private CRSListModel model;
-    
+
     @BeforeClass
     public static void setupOnce() throws Exception {
         FACTORY = ReferencingFactoryFinder.getCRSAuthorityFactory(AUTHORITY, null);
         CODES = FACTORY.getAuthorityCodes(CoordinateReferenceSystem.class);
     }
-    
+
     @Before
     public void setup() {
         model = new CRSListModel("EPSG");
     }
-    
+
     @Test
     public void modelHasAllCodesExceptSpecialAdditions() {
         assertEquals(CODES.size(), model.getSize());
     }
-    
+
     @Test
     public void filterOnDescriptionSubString() throws Exception {
         final String filter = "albers";
-        
+
         model.setFilter(filter);
         int observedCount = model.getSize();
         int expectedCount = 0;
         for (String code : CODES) {
             String desc = FACTORY.getDescriptionText(AUTHORITY + ":" + code).toString();
             if (desc.toLowerCase().contains(filter)) {
-                expectedCount++ ;
+                expectedCount++;
             }
         }
-        
+
         assertEquals(expectedCount, observedCount);
     }
 }

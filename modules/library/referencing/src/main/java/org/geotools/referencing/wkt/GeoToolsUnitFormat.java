@@ -34,6 +34,7 @@ import org.opengis.metadata.citation.Citation;
 
 /**
  * Provides unit formatting for EPSG and ESRI WKT dialects
+ *
  * @author Andrea Aime - GeoSolutions
  */
 abstract class GeoToolsUnitFormat extends UnitFormat {
@@ -48,6 +49,7 @@ abstract class GeoToolsUnitFormat extends UnitFormat {
 
     /**
      * Base class that just copies {@link UnitFormat} default instance contents
+     *
      * @author Andrea Aime - GeoSolutions
      */
     static abstract class BaseGT2Format extends DefaultFormat {
@@ -97,6 +99,7 @@ abstract class GeoToolsUnitFormat extends UnitFormat {
 
     /**
      * Subclass adding overrides for the EPSG dialect
+     *
      * @author Andrea Aime - GeoSolutions
      */
     static class EPSGFormat extends GeoToolsUnitFormat.BaseGT2Format {
@@ -109,6 +112,7 @@ abstract class GeoToolsUnitFormat extends UnitFormat {
 
     /**
      * Subclass adding overrides for the ESRI dialect
+     *
      * @author Andrea Aime - GeoSolutions
      */
     static class ESRIFormat extends DefaultFormat {

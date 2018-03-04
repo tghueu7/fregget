@@ -21,14 +21,12 @@ import org.geotools.styling.ContrastEnhancement;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SLDContrastEnhancementBindingTest extends SLDTestSupport {
     public void testType() throws Exception {
         assertEquals(ContrastEnhancement.class,
-            new SLDContrastEnhancementBinding(null, null).getType());
+                new SLDContrastEnhancementBinding(null, null).getType());
     }
 
     public void testHistogram() throws Exception {

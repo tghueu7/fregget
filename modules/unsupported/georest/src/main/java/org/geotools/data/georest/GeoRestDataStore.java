@@ -43,11 +43,8 @@ import org.opengis.feature.type.Name;
  * </ul>
  * For a more detailed description, look up the projects documentation.
  * </p>
- * 
+ *
  * @author Pieter De Graef, Geosparc
- *
- *
- *
  * @source $URL$
  */
 public class GeoRestDataStore extends ContentDataStore {

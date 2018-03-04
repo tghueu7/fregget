@@ -48,12 +48,9 @@ import org.opengis.feature.type.Name;
 /**
  * This is a test for AppSchemaDataAccessConfigurator on file-based datastores, including shapefiles
  * and *.properties files.
- * 
+ *
  * @author Tara Athan
  * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
- *
- *
- *
  * @source $URL$
  */
 public class AppSchemaFileDataTest extends AppSchemaTestSupport {
@@ -71,7 +68,7 @@ public class AppSchemaFileDataTest extends AppSchemaTestSupport {
 
     /**
      * Create the test directory.
-     * 
+     *
      * @see junit.framework.TestCase#setUp()
      */
     @Before
@@ -86,7 +83,7 @@ public class AppSchemaFileDataTest extends AppSchemaTestSupport {
 
     /**
      * Remove the test directory.
-     * 
+     *
      * @see junit.framework.TestCase#tearDown()
      */
     @After
@@ -97,11 +94,9 @@ public class AppSchemaFileDataTest extends AppSchemaTestSupport {
 
     /**
      * Copy a file from the test-data directory to another directory.
-     * 
-     * @param baseFileName
-     *            base filename (without any path) of the file to be copied
-     * @param destDir
-     *            destination filename
+     *
+     * @param baseFileName base filename (without any path) of the file to be copied
+     * @param destDir      destination filename
      * @throws IOException
      */
     private static void copyTestData(String baseFileName, File destDir) throws IOException {
@@ -113,9 +108,8 @@ public class AppSchemaFileDataTest extends AppSchemaTestSupport {
 
     /**
      * Return the path to a file in the test directory.
-     * 
-     * @param baseFileName
-     *            file name without any path
+     *
+     * @param baseFileName file name without any path
      * @return
      */
     private static String getTestDirPath(String baseFileName) {
@@ -265,11 +259,9 @@ public class AppSchemaFileDataTest extends AppSchemaTestSupport {
 
     /**
      * copies a mapping file and changes some parameters to test absolute paths to data files
-     * 
-     * @param filePathIn
-     *            the original mapping file
-     * @param filePathOut
-     *            the new mapping file
+     *
+     * @param filePathIn  the original mapping file
+     * @param filePathOut the new mapping file
      * @return
      * @throws Exception
      */
@@ -314,16 +306,14 @@ public class AppSchemaFileDataTest extends AppSchemaTestSupport {
 
     /**
      * extends a base filename with a path relative to the base filename
-     * 
-     * @param baseFilename
-     *            may be absolute, or relative to the current directory
-     * @param relativePath
-     *            must be relative to the base file name
+     *
+     * @param baseFilename may be absolute, or relative to the current directory
+     * @param relativePath must be relative to the base file name
      * @return an absolute, normalized filename
-     * @throws RuntimeException
-     *             if the base filename and relative path are incompatible
+     * @throws RuntimeException if the base filename and relative path are incompatible
      */
-    private String extendFilename(String baseFilename, String relativePath) throws RuntimeException {
+    private String extendFilename(String baseFilename, String relativePath) throws 
+            RuntimeException {
         baseFilename = new File(baseFilename).getAbsolutePath();
         String extendedFilename = FilenameUtils.concat(baseFilename, relativePath);
 

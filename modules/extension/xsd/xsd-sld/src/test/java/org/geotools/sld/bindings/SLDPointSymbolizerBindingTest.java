@@ -21,8 +21,6 @@ import org.opengis.filter.expression.Function;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SLDPointSymbolizerBindingTest extends SLDTestSupport {
@@ -38,7 +36,7 @@ public class SLDPointSymbolizerBindingTest extends SLDTestSupport {
         assertNotNull(ps.getGeometryPropertyName());
         assertNotNull(ps.getGraphic());
     }
-    
+
     public void testTransform() throws Exception {
         SLDMockData.transformedPointSymbolizer(document, document);
 

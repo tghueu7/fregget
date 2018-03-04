@@ -22,9 +22,8 @@ import org.geotools.styling.Rule;
 
 /**
  * A CSS stylesheet, that is, a ordered list of {@link Rule}
- * 
- * @author Andrea Aime - GeoSolutions
  *
+ * @author Andrea Aime - GeoSolutions
  */
 public class Stylesheet {
 
@@ -39,7 +38,7 @@ public class Stylesheet {
 
     /**
      * The list of rules in the stylesheet
-     * 
+     *
      * @return
      */
     List<CssRule> getRules() {
@@ -52,7 +51,7 @@ public class Stylesheet {
 
     /**
      * The list of directives parsed from the style
-     * 
+     *
      * @return
      */
     public List<Directive> getDirectives() {

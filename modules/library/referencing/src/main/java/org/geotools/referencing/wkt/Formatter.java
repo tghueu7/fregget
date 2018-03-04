@@ -57,22 +57,23 @@ import org.geotools.resources.i18n.ErrorKeys;
 
 /**
  * Format {@link Formattable} objects as
- * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
+ * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT
+ * .html"><cite>Well
  * Known Text</cite> (WKT)</A>.
- *
+ * <p>
  * A formatter is constructed with a specified set of symbols.
  * The {@linkplain Locale locale} associated with the symbols is used for querying
  * {@linkplain org.opengis.metadata.citation.Citation#getTitle authority titles}.
  *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
- * @see <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html">Well Know Text specification</A>
- * @see <A HREF="http://home.gdal.org/projects/opengis/wktproblems.html">OGC WKT Coordinate System Issues</A>
+ * @version $Id$
+ * @source $URL$
+ * @see <A HREF="http://geoapi.sourceforge
+ * .net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html">Well Know Text 
+ * specification</A>
+ * @see <A HREF="http://home.gdal.org/projects/opengis/wktproblems.html">OGC WKT Coordinate 
+ * System Issues</A>
+ * @since 2.0
  */
 public class Formatter {
     /**
@@ -81,8 +82,8 @@ public class Formatter {
      * @see #authorityAllowed
      */
     @SuppressWarnings("unchecked")
-    private static final Class<? extends IdentifiedObject>[] AUTHORITY_EXCLUDE = new Class[] {
-        CoordinateSystemAxis.class
+    private static final Class<? extends IdentifiedObject>[] AUTHORITY_EXCLUDE = new Class[]{
+            CoordinateSystemAxis.class
     };
 
     /**
@@ -90,15 +91,15 @@ public class Formatter {
      * has been explicitly enabled.
      */
     private static final String
-            NUMBER_COLOR    = X364.YELLOW,  // Floating point numbers only, not integers.
-            INTEGER_COLOR   = X364.YELLOW,
-            UNIT_COLOR      = X364.YELLOW,
-            AXIS_COLOR      = X364.CYAN,
-            CODELIST_COLOR  = X364.CYAN,
+            NUMBER_COLOR = X364.YELLOW,  // Floating point numbers only, not integers.
+            INTEGER_COLOR = X364.YELLOW,
+            UNIT_COLOR = X364.YELLOW,
+            AXIS_COLOR = X364.CYAN,
+            CODELIST_COLOR = X364.CYAN,
             PARAMETER_COLOR = X364.GREEN,
-            METHOD_COLOR    = X364.GREEN,
-            DATUM_COLOR     = X364.GREEN,
-            ERROR_COLOR     = X364.BACKGROUND_RED;
+            METHOD_COLOR = X364.GREEN,
+            DATUM_COLOR = X364.GREEN,
+            ERROR_COLOR = X364.BACKGROUND_RED;
 
     /**
      * The symbols to use for this formatter.
@@ -133,7 +134,7 @@ public class Formatter {
      * take the same units than itself.
      */
     private Unit<Angle> angularUnit;
-    
+
     public Citation getAuthority() {
         return authority;
     }
@@ -233,14 +234,15 @@ public class Formatter {
      * {@link FormattableObject#SINGLE_LINE}, then the whole WKT will be formatted
      * on a single line.
      *
-     * @param symbols The symbols.
+     * @param symbols     The symbols.
      * @param indentation The amount of spaces to use in indentation. Typical values are 2 or 4.
      */
     public Formatter(final Symbols symbols, final int indentation) {
-        this.symbols     = symbols;
+        this.symbols = symbols;
         this.indentation = indentation;
         if (symbols == null) {
-            throw new IllegalArgumentException(Errors.format(ErrorKeys.NULL_ARGUMENT_$1, "symbols"));
+            throw new IllegalArgumentException(Errors.format(ErrorKeys.NULL_ARGUMENT_$1, 
+                    "symbols"));
         }
         if (indentation < 0) {
             throw new IllegalArgumentException(Errors.format(
@@ -256,7 +258,7 @@ public class Formatter {
      */
     Formatter(final Symbols symbols, final NumberFormat numberFormat) {
         this.symbols = symbols;
-        indentation  = Formattable.getIndentation();
+        indentation = Formattable.getIndentation();
         this.numberFormat = numberFormat; // No clone needed.
         // Do not set the buffer. It will be set by AbstractParser.format.
     }
@@ -314,14 +316,14 @@ public class Formatter {
                 return;
             }
             c = buffer.charAt(--length);
-            if (c==symbols.open || c==symbols.openArray) {
+            if (c == symbols.open || c == symbols.openArray) {
                 return;
             }
-        } while (Character.isWhitespace(c) || c==symbols.space);
+        } while (Character.isWhitespace(c) || c == symbols.space);
         buffer.append(symbols.separator).append(symbols.space);
         if (newLine && indentation != 0) {
             buffer.append(System.getProperty("line.separator", "\n"))
-                  .append(Utilities.spaces(margin));
+                    .append(Utilities.spaces(margin));
             lineChanged = true;
         }
     }
@@ -347,7 +349,7 @@ public class Formatter {
         int base = buffer.length();
         buffer.append(symbols.open);
         final IdentifiedObject info = (formattable instanceof IdentifiedObject)
-                                    ? (IdentifiedObject) formattable : null;
+                ? (IdentifiedObject) formattable : null;
         if (info != null) {
             final String c = getNameColor(info);
             if (c != null) {
@@ -389,7 +391,7 @@ public class Formatter {
          *             AUTHORITY["EPSG","26769"]]
          */
         final Identifier identifier = getIdentifier(info);
-        if (identifier!=null && authorityAllowed(info)) {
+        if (identifier != null && authorityAllowed(info)) {
             final Citation authority = identifier.getAuthority();
             if (authority != null) {
                 /*
@@ -398,12 +400,12 @@ public class Formatter {
                  * as the authority name (e.g. "EPSG").
                  */
                 InternationalString inter = authority.getTitle();
-                String title = (inter!=null) ? inter.toString(symbols.locale) : null;
+                String title = (inter != null) ? inter.toString(symbols.locale) : null;
                 for (final InternationalString alt : authority.getAlternateTitles()) {
                     if (alt != null) {
                         final String candidate = alt.toString(symbols.locale);
                         if (candidate != null) {
-                            if (title==null || candidate.length() < title.length()) {
+                            if (title == null || candidate.length() < title.length()) {
                                 title = candidate;
                             }
                         }
@@ -412,16 +414,16 @@ public class Formatter {
                 if (title != null) {
                     appendSeparator(lineChanged);
                     buffer.append("AUTHORITY")
-                          .append(symbols.open)
-                          .append(symbols.quote)
-                          .append(title)
-                          .append(symbols.quote);
+                            .append(symbols.open)
+                            .append(symbols.quote)
+                            .append(title)
+                            .append(symbols.quote);
                     final String code = identifier.getCode();
                     if (code != null) {
                         buffer.append(symbols.separator)
-                              .append(symbols.quote)
-                              .append(code)
-                              .append(symbols.quote);
+                                .append(symbols.quote)
+                                .append(code)
+                                .append(symbols.quote);
                     }
                     buffer.append(symbols.close);
                 }
@@ -490,7 +492,7 @@ public class Formatter {
      */
     public void append(final GeneralParameterValue parameter) {
         if (parameter instanceof ParameterValueGroup) {
-            for (final GeneralParameterValue param : ((ParameterValueGroup)parameter).values()) {
+            for (final GeneralParameterValue param : ((ParameterValueGroup) parameter).values()) {
                 append(param);
             }
         }
@@ -499,10 +501,10 @@ public class Formatter {
             final ParameterDescriptor<?> descriptor = param.getDescriptor();
             final Unit<?> valueUnit = descriptor.getUnit();
             Unit<?> unit = valueUnit;
-            if (unit!=null && !Unit.ONE.equals(unit)) {
-                if (linearUnit!=null && unit.isCompatible(linearUnit)) {
+            if (unit != null && !Unit.ONE.equals(unit)) {
+                if (linearUnit != null && unit.isCompatible(linearUnit)) {
                     unit = linearUnit;
-                } else if (angularUnit!=null && unit.isCompatible(angularUnit)) {
+                } else if (angularUnit != null && unit.isCompatible(angularUnit)) {
                     unit = angularUnit;
                 }
             }
@@ -551,7 +553,7 @@ public class Formatter {
         if (value.getClass().isArray()) {
             buffer.append(symbols.openArray);
             final int length = Array.getLength(value);
-            for (int i=0; i<length; i++) {
+            for (int i = 0; i < length; i++) {
                 if (i != 0) {
                     buffer.append(symbols.separator).append(symbols.space);
                 }
@@ -636,10 +638,9 @@ public class Formatter {
      * Format an arbitrary number.
      */
     private void format(final Number number) {
-        if (number instanceof Byte  ||
-            number instanceof Short ||
-            number instanceof Integer)
-        {
+        if (number instanceof Byte ||
+                number instanceof Short ||
+                number instanceof Integer) {
             format(number.intValue());
         } else {
             format(number.doubleValue());
@@ -673,14 +674,14 @@ public class Formatter {
      * and a value of {@code +1} reduce it.
      */
     private void indent(final int amount) {
-        margin = Math.max(0, margin + indentation*amount);
+        margin = Math.max(0, margin + indentation * amount);
     }
 
     /**
      * Tells if an {@code "AUTHORITY"} element is allowed for the specified object.
      */
     private static boolean authorityAllowed(final IdentifiedObject info) {
-        for (int i=0; i<AUTHORITY_EXCLUDE.length; i++) {
+        for (int i = 0; i < AUTHORITY_EXCLUDE.length; i++) {
             if (AUTHORITY_EXCLUDE[i].isInstance(info)) {
                 return false;
             }
@@ -695,9 +696,8 @@ public class Formatter {
      * returned. Otherwise, the first identifier is returned. If the specified
      * object contains no identifier, then this method returns {@code null}.
      *
-     * @param  info The object to looks for a preferred identifier.
+     * @param info The object to looks for a preferred identifier.
      * @return The preferred identifier, or {@code null} if none.
-     *
      * @since 2.3
      */
     public Identifier getIdentifier(final IdentifiedObject info) {
@@ -728,8 +728,8 @@ public class Formatter {
         }
         // The "null" locale argument is required for getting the unlocalized version.
         return (citation != null) &&
-               authority.getTitle().toString(null).equalsIgnoreCase(
-                citation.getTitle().toString(null));
+                authority.getTitle().toString(null).equalsIgnoreCase(
+                        citation.getTitle().toString(null));
     }
 
     /**
@@ -738,7 +738,7 @@ public class Formatter {
      * {@linkplain Citations#OGC Open Geospatial}), then this name is
      * returned. Otherwise, the first name found is returned.
      *
-     * @param  info The object to looks for a preferred name.
+     * @param info The object to looks for a preferred name.
      * @return The preferred name.
      */
     public String getName(final IdentifiedObject info) {
@@ -791,7 +791,7 @@ public class Formatter {
      * @param unit The new unit, or {@code null}.
      */
     public void setLinearUnit(final Unit<Length> unit) {
-        if (unit!=null && !SI.METER.isCompatible(unit)) {
+        if (unit != null && !SI.METER.isCompatible(unit)) {
             throw new IllegalArgumentException(Errors.format(ErrorKeys.NON_LINEAR_UNIT_$1, unit));
         }
         linearUnit = unit;
@@ -814,7 +814,7 @@ public class Formatter {
      * @param unit The new unit, or {@code null}.
      */
     public void setAngularUnit(final Unit<Angle> unit) {
-        if (unit!=null && (!SI.RADIAN.isCompatible(unit) || Unit.ONE.equals(unit))) {
+        if (unit != null && (!SI.RADIAN.isCompatible(unit) || Unit.ONE.equals(unit))) {
             throw new IllegalArgumentException(Errors.format(ErrorKeys.NON_ANGULAR_UNIT_$1, unit));
         }
         angularUnit = unit;
@@ -822,7 +822,8 @@ public class Formatter {
 
     /**
      * Returns {@code true} if the WKT in this formatter is not strictly compliant to the
-     * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html">WKT
+     * <A HREF="http://geoapi.sourceforge
+     * .net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html">WKT
      * specification</A>. This method returns {@code true} if {@link #setInvalidWKT} has
      * been invoked at least once. The action to take regarding invalid WKT is caller-dependant.
      * For example {@link Formattable#toString} will accepts loose WKT formatting and ignore this
@@ -832,7 +833,7 @@ public class Formatter {
      * @return {@code true} if the WKT is invalid.
      */
     public boolean isInvalidWKT() {
-        return unformattable != null || (buffer!=null && buffer.length() == 0);
+        return unformattable != null || (buffer != null && buffer.length() == 0);
         /*
          * Note: we really use a "and" condition (not an other "or") for the buffer test because
          *       the buffer is reset to 'null' by AbstractParser after a successfull formatting.
@@ -848,7 +849,8 @@ public class Formatter {
 
     /**
      * Set a flag marking the current WKT as not strictly compliant to the
-     * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html">WKT
+     * <A HREF="http://geoapi.sourceforge
+     * .net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html">WKT
      * specification</A>. This method is invoked by {@link Formattable#formatWKT} methods when the
      * object to format is more complex than what the WKT specification allows. For example this
      * method is invoked when an {@linkplain org.geotools.referencing.crs.DefaultEngineeringCRS
@@ -856,10 +858,8 @@ public class Formatter {
      * {@link #isInvalidWKT} later for checking WKT validity.
      *
      * @param unformattable The type of the component that can't be formatted,
-     *        for example {@link org.opengis.referencing.crs.EngineeringCRS}.
-     *
+     *                      for example {@link org.opengis.referencing.crs.EngineeringCRS}.
      * @see UnformattableObjectException#getUnformattableClass
-     *
      * @since 2.4
      */
     public void setInvalidWKT(final Class<?> unformattable) {
@@ -885,21 +885,21 @@ public class Formatter {
         if (buffer != null) {
             buffer.setLength(0);
         }
-        linearUnit    = null;
-        angularUnit   = null;
+        linearUnit = null;
+        angularUnit = null;
         unformattable = null;
-        warning       = null;
-        invalidWKT    = false;
-        lineChanged   = false;
-        margin        = 0;
+        warning = null;
+        invalidWKT = false;
+        lineChanged = false;
+        margin = 0;
     }
-    
+
 
     /**
      * Set the preferred indentation from the command line. This indentation is used by
      * {@link Formattable#toWKT()} when no indentation were explicitly requested. This
      * method can be invoked from the command line using the following syntax:
-     *
+     * <p>
      * <blockquote>
      * {@code java org.geotools.referencing.wkt.Formatter -indentation=}<var>&lt;preferred
      * indentation&gt;</var>

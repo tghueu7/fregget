@@ -67,7 +67,7 @@ public class BufferFeatureCollectionTest extends TestCase {
             SimpleFeature sf = iterator.next();
             assertTrue(expected.equals((Geometry) sf.getDefaultGeometry()));
         }
-        
+
         assertEquals(new ReferencedEnvelope(-500, 501, -500, 501, null), output.getBounds());
         assertEquals(2, output.size());
     }
@@ -109,7 +109,7 @@ public class BufferFeatureCollectionTest extends TestCase {
             SimpleFeature sf = iterator.next();
             assertTrue(expected.equals((Geometry) sf.getDefaultGeometry()));
         }
-        
+
         assertEquals(new ReferencedEnvelope(-500, 507, -500, 507, null), output.getBounds());
         assertEquals(5, output.size());
     }
@@ -156,7 +156,7 @@ public class BufferFeatureCollectionTest extends TestCase {
             SimpleFeature sf = iterator.next();
             assertTrue(expected.equals((Geometry) sf.getDefaultGeometry()));
         }
-        
+
         assertEquals(new ReferencedEnvelope(-500, 506, -500, 506, null), output.getBounds());
         assertEquals(5, output.size());
     }
@@ -191,7 +191,8 @@ public class BufferFeatureCollectionTest extends TestCase {
         SimpleFeatureCollection output = process.execute(features, null, "buffer");
         assertEquals(5, output.size());
         SimpleFeatureIterator iterator = output.features();
-        ReferencedEnvelope expectedBounds = new ReferencedEnvelope(output.getSchema().getCoordinateReferenceSystem());
+        ReferencedEnvelope expectedBounds = new ReferencedEnvelope(output.getSchema()
+                .getCoordinateReferenceSystem());
         for (int numFeatures = 0; numFeatures < 5; numFeatures++) {
             Coordinate[] array = new Coordinate[4];
             int j = 0;
@@ -207,7 +208,7 @@ public class BufferFeatureCollectionTest extends TestCase {
             SimpleFeature sf = iterator.next();
             assertTrue(expected.equals((Geometry) sf.getDefaultGeometry()));
         }
-        
+
         assertEquals(expectedBounds, output.getBounds());
         assertEquals(5, output.size());
     }

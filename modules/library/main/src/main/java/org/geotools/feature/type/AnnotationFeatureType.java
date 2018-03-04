@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -26,7 +26,7 @@ import org.opengis.feature.type.FeatureTypeFactory;
 
 /**
  * Defines required attributes for Annotations.
- *
+ * <p>
  * <p>
  * Annotations represent a text based geographic feature.
  * The geometry stored in the feature indicates where the
@@ -34,12 +34,13 @@ import org.opengis.feature.type.FeatureTypeFactory;
  * the {@link #ANNOTATION_ATTRIBUTE_NAME} attribute holds
  * the text to be displayed for the feature.
  * </p>
- *
+ * <p>
  * <p>Example:
  * <pre>
  *   if ( feature.getFeatureType().isDescendedFrom( AnnotationFeatureType.ANNOTATION ) )
  *   {
- *     String attributeName = (String)feature.getAttribute( AnnotationFeatureType.ANNOTATION_ATTRIBUTE_NAME );
+ *     String attributeName = (String)feature.getAttribute( AnnotationFeatureType
+ *     .ANNOTATION_ATTRIBUTE_NAME );
  *     String annotationText = (String)feature.getAttribute( attributeName );
  *     ... // Do something with the annotation text and feature
  *   }
@@ -47,12 +48,9 @@ import org.opengis.feature.type.FeatureTypeFactory;
  * </p>
  *
  * @author John Meagher
- *
- *
  * @source $URL$
  */
-public class AnnotationFeatureType
-{
+public class AnnotationFeatureType {
 
     /**
      * The FeatureType reference that should be used for Anotations.
@@ -61,23 +59,24 @@ public class AnnotationFeatureType
 
     /**
      * The attribute name used to store the attribute name containing the annotation text.
-     * This is basically just a level of redirection.  
+     * This is basically just a level of redirection.
      */
     public static final String ANNOTATION_ATTRIBUTE_NAME = "annotation_attribute_name";
 
-    
+
     // Static initializer for the ANNOTATION variable
     static {
         SimpleFeatureType tmp = null;
-        
+
         try {
             SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
-            tb.setName( "annotation" );
-            tb.add( ANNOTATION_ATTRIBUTE_NAME, String.class );
+            tb.setName("annotation");
+            tb.add(ANNOTATION_ATTRIBUTE_NAME, String.class);
             tmp = tb.buildFeatureType();
         } catch (Exception ex) {
-            org.geotools.util.logging.Logging.getLogger( "org.geotools.data.AnnotationFeatureType" ).log(
-               Level.SEVERE, "Error creating ANNOTATION feature type", ex );
+            org.geotools.util.logging.Logging.getLogger("org.geotools.data" +
+                    ".AnnotationFeatureType").log(
+                    Level.SEVERE, "Error creating ANNOTATION feature type", ex);
         }
         ANNOTATION = tmp;
     }
@@ -85,5 +84,6 @@ public class AnnotationFeatureType
     /**
      * Noone else should be able to build me.
      */
-    private AnnotationFeatureType(){}
+    private AnnotationFeatureType() {
+    }
 }

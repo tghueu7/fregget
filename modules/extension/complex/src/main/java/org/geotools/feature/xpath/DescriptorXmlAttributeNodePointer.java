@@ -18,6 +18,7 @@
 package org.geotools.feature.xpath;
 
 import java.util.Iterator;
+
 import org.apache.commons.jxpath.ri.QName;
 import org.apache.commons.jxpath.ri.model.NodePointer;
 import org.eclipse.xsd.XSDAttributeDeclaration;
@@ -30,19 +31,14 @@ import org.opengis.feature.type.PropertyType;
 
 /**
  * Special node pointer for an XML-attribute inside an attribute.
- * 
+ *
  * @author Niels Charlier (Curtin University of Technology)
- * 
- *
- *
- *
- *
  * @source $URL$
  */
 public class DescriptorXmlAttributeNodePointer extends NodePointer {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 8096170689141331692L;
 
@@ -56,7 +52,8 @@ public class DescriptorXmlAttributeNodePointer extends NodePointer {
      */
     PropertyDescriptor descriptor;
 
-    protected DescriptorXmlAttributeNodePointer(NodePointer parent, PropertyDescriptor descriptor, Name name) {
+    protected DescriptorXmlAttributeNodePointer(NodePointer parent, PropertyDescriptor 
+            descriptor, Name name) {
         super(parent);
         this.name = name;
         this.descriptor = descriptor;
@@ -69,13 +66,13 @@ public class DescriptorXmlAttributeNodePointer extends NodePointer {
     public boolean isCollection() {
         return false;
     }
-    
+
     public boolean isAttribute() {
         return true;
     }
 
     public QName getName() {
-        return new QName( name.getURI(), name.getLocalPart() );
+        return new QName(name.getURI(), name.getLocalPart());
     }
 
     public Object getBaseValue() {

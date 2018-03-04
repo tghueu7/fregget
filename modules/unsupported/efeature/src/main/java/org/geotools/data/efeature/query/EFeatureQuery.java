@@ -13,10 +13,8 @@ import org.geotools.data.efeature.EFeatureIterator;
  * <li>support spatial filtering</li>
  * </ol>
  * </p>
- * 
- * @author kengu
- * 
  *
+ * @author kengu
  * @source $URL$
  */
 public class EFeatureQuery {

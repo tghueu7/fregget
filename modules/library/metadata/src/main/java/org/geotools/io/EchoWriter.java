@@ -27,12 +27,9 @@ import java.io.Writer;
  * to the standard output the content sent to a file. This writer is usefull for debugging
  * purpose.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class EchoWriter extends FilterWriter {
@@ -66,13 +63,13 @@ public class EchoWriter extends FilterWriter {
     /**
      * Writes a single character.
      *
-     * @param  c The character to write.
+     * @param c The character to write.
      * @throws IOException If an I/O error occurs.
      */
     @Override
     public void write(final int c) throws IOException {
         synchronized (lock) {
-            out .write(c);
+            out.write(c);
             echo.write(c);
         }
     }
@@ -80,13 +77,13 @@ public class EchoWriter extends FilterWriter {
     /**
      * Writes an array of characters.
      *
-     * @param  cbuf Buffer of characters to be written.
-     * @throws IOException  If an I/O error occurs.
+     * @param cbuf Buffer of characters to be written.
+     * @throws IOException If an I/O error occurs.
      */
     @Override
     public void write(final char[] cbuf) throws IOException {
         synchronized (lock) {
-            out .write(cbuf);
+            out.write(cbuf);
             echo.write(cbuf);
         }
     }
@@ -94,15 +91,15 @@ public class EchoWriter extends FilterWriter {
     /**
      * Writes a portion of an array of characters.
      *
-     * @param  cbuf   Buffer of characters to be written.
-     * @param  offset Offset from which to start reading characters.
-     * @param  length Number of characters to be written.
+     * @param cbuf   Buffer of characters to be written.
+     * @param offset Offset from which to start reading characters.
+     * @param length Number of characters to be written.
      * @throws IOException If an I/O error occurs.
      */
     @Override
     public void write(final char[] cbuf, final int offset, final int length) throws IOException {
         synchronized (lock) {
-            out .write(cbuf, offset, length);
+            out.write(cbuf, offset, length);
             echo.write(cbuf, offset, length);
         }
     }
@@ -110,13 +107,13 @@ public class EchoWriter extends FilterWriter {
     /**
      * Writes a string.
      *
-     * @param  string String to be written.
+     * @param string String to be written.
      * @throws IOException If an I/O error occurs.
      */
     @Override
     public void write(final String string) throws IOException {
         synchronized (lock) {
-            out .write(string);
+            out.write(string);
             echo.write(string);
         }
     }
@@ -124,15 +121,15 @@ public class EchoWriter extends FilterWriter {
     /**
      * Writes a portion of a string.
      *
-     * @param  string String to be written.
-     * @param  offset Offset from which to start writing characters.
-     * @param  length Number of characters to write.
+     * @param string String to be written.
+     * @param offset Offset from which to start writing characters.
+     * @param length Number of characters to write.
      * @throws IOException If an I/O error occurs.
      */
     @Override
     public void write(final String string, final int offset, final int length) throws IOException {
         synchronized (lock) {
-            out .write(string, offset, length);
+            out.write(string, offset, length);
             echo.write(string, offset, length);
         }
     }
@@ -145,7 +142,7 @@ public class EchoWriter extends FilterWriter {
     @Override
     public void flush() throws IOException {
         synchronized (lock) {
-            out .flush();
+            out.flush();
             echo.flush();
         }
     }
@@ -160,7 +157,7 @@ public class EchoWriter extends FilterWriter {
     @Override
     public void close() throws IOException {
         synchronized (lock) {
-            out .close();
+            out.close();
             echo.close(); // Overridden with an uncloseable version for System.out.
         }
     }

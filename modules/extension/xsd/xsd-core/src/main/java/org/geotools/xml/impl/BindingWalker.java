@@ -24,6 +24,7 @@ import org.eclipse.xsd.XSDParticle;
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
 import org.eclipse.xsd.XSDTypeDefinition;
 import org.picocontainer.MutablePicoContainer;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -38,13 +39,11 @@ import org.geotools.xs.XS;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class BindingWalker implements TypeWalker.Visitor {
     BindingLoader loader;
-    
+
     SoftValueHashMap /*<XSDFeature,BindingExecutionChain>*/ chains;
     TypeWalker typeWalker;
     MutablePicoContainer context;
@@ -58,7 +57,7 @@ public class BindingWalker implements TypeWalker.Visitor {
         chains = new SoftValueHashMap(100);
         typeWalker = new TypeWalker();
     }
-    
+
     public Binding getAnyTypeBinding() {
         return loader.loadBinding(XS.ANYTYPE, context);
     }
@@ -71,7 +70,7 @@ public class BindingWalker implements TypeWalker.Visitor {
             bindingName = new QName(type.getTargetNamespace(), type.getName());
         } else {
             //anonymous type, does it belong to a global element
-            for (Iterator e = type.getSchema().getElementDeclarations().iterator(); e.hasNext();) {
+            for (Iterator e = type.getSchema().getElementDeclarations().iterator(); e.hasNext(); ) {
                 XSDElementDeclaration element = (XSDElementDeclaration) e.next();
 
                 if (type.equals(element.getAnonymousTypeDefinition())) {
@@ -87,23 +86,25 @@ public class BindingWalker implements TypeWalker.Visitor {
                 //do we have a containing type?
                 if (container != null) {
                     XSDNamedComponent base = container;
-                    
+
                     //the container itself could be an anonymous type, check for 
                     // a named containing element
-                    if ( container.getName() == null ) {
-                        if ( container.getContainer() instanceof XSDElementDeclaration ) {
-                            XSDElementDeclaration e = (XSDElementDeclaration) container.getContainer();
-                            
+                    if (container.getName() == null) {
+                        if (container.getContainer() instanceof XSDElementDeclaration) {
+                            XSDElementDeclaration e = (XSDElementDeclaration) container
+                                    .getContainer();
+
                             //only do this if the containing element is global
-                            if ( e.isGlobal() ) {
+                            if (e.isGlobal()) {
                                 base = e;
                             }
                         }
                     }
-                    
+
                     //get the anonymous element, and look it up in the container type
                     if (type.getContainer() instanceof XSDElementDeclaration) {
-                        XSDElementDeclaration anonymous = (XSDElementDeclaration) type.getContainer();
+                        XSDElementDeclaration anonymous = (XSDElementDeclaration) type
+                                .getContainer();
                         XSDParticle particle = Schemas.getChildElementParticle(container,
                                 anonymous.getName(), true);
 
@@ -148,7 +149,7 @@ public class BindingWalker implements TypeWalker.Visitor {
     }
 
     public void walk(XSDFeature component, Visitor visitor, XSDTypeDefinition container,
-        MutablePicoContainer context) {
+                     MutablePicoContainer context) {
         BindingExecutionChain chain = (BindingExecutionChain) chains.get(component);
 
         if (chain == null) {

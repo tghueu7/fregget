@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -21,7 +21,7 @@ import java.awt.image.WritableRaster;
 
 /**
  * A color component accessor for integer oriented rasters in BGR order
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 class IntegerBgrAccessor implements RgbaAccessor {
@@ -37,7 +37,7 @@ class IntegerBgrAccessor implements RgbaAccessor {
         this.pixels = new int[raster.getWidth()];
         this.hasAlpha = hasAlpha;
     }
-    
+
     @Override
     public void readRow(int y) {
         raster.getDataElements(0, y, raster.getWidth(), 1, pixels);

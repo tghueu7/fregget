@@ -34,12 +34,14 @@ import org.opengis.coverage.grid.Format;
  *
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini (simboss), GeoSolutions
+ * @source $URL: http://svn.osgeo.org/geotools/trunk/modules/plugin/imageio-ext-gdal/src/main
+ * /java/org/geotools/coverageio/gdal/idrisi/IDRISIFormatFactory.java $
  * @since 2.5.x
- *
- * @source $URL: http://svn.osgeo.org/geotools/trunk/modules/plugin/imageio-ext-gdal/src/main/java/org/geotools/coverageio/gdal/idrisi/IDRISIFormatFactory.java $
  */
 public final class IDRISIFormatFactory implements GridFormatFactorySpi {
-    /** Logger. */
+    /**
+     * Logger.
+     */
     private final static Logger LOGGER = org.geotools.util.logging.Logging.getLogger(
             IDRISIFormatFactory.class.toString());
 
@@ -54,17 +56,18 @@ public final class IDRISIFormatFactory implements GridFormatFactorySpi {
         // if these classes are here, then the runtime environment has
         // access to JAI and the JAI ImageI/O toolbox.
         try {
-            Class.forName("it.geosolutions.imageio.plugins.arcbinarygrid.ArcBinaryGridImageReaderSpi");
+            Class.forName("it.geosolutions.imageio.plugins.arcbinarygrid" +
+                    ".ArcBinaryGridImageReaderSpi");
             available = new IDRISIImageReaderSpi().isAvailable();
 
             if (LOGGER.isLoggable(Level.FINE)) {
-                if (available) 
+                if (available)
                     LOGGER.fine("IDRISIFormatFactory is availaible.");
-                else 
+                else
                     LOGGER.fine("IDRISIFormatFactory is not availaible.");
             }
         } catch (ClassNotFoundException cnf) {
-            if (LOGGER.isLoggable(Level.FINE)) 
+            if (LOGGER.isLoggable(Level.FINE))
                 LOGGER.fine("IDRISIFormatFactory is not availaible.");
 
             available = false;

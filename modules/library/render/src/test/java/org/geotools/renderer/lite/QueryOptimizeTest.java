@@ -18,22 +18,20 @@ import org.opengis.feature.simple.SimpleFeature;
 
 /**
  * Tests the optimized data loading does merge the filters properly (was never released,
- * but a certain point in time only the first one was passed down to the datastore) 
- *
- *
+ * but a certain point in time only the first one was passed down to the datastore)
  *
  * @source $URL$
  */
 public class QueryOptimizeTest extends TestCase {
-    
+
     private static final long TIME = 2000;
-    
+
     SimpleFeatureSource squareFS;
     ReferencedEnvelope bounds;
     StreamingRenderer renderer;
     DefaultMapContext context;
     int count = 0;
-    
+
 
     @Override
     protected void setUp() throws Exception {
@@ -42,7 +40,7 @@ public class QueryOptimizeTest extends TestCase {
         PropertyDataStore ds = new PropertyDataStore(property.getParentFile());
         squareFS = ds.getFeatureSource("square");
         bounds = new ReferencedEnvelope(0, 10, 0, 10, DefaultGeographicCRS.WGS84);
-        
+
         renderer = new StreamingRenderer();
         context = new DefaultMapContext(DefaultGeographicCRS.WGS84);
         renderer.setContext(context);
@@ -50,29 +48,28 @@ public class QueryOptimizeTest extends TestCase {
         hints.put("maxFiltersToSendToDatastore", 2);
         hints.put("optimizedDataLoadingEnabled", true);
         renderer.setRendererHints(hints);
-                
+
 //        System.setProperty("org.geotools.test.interactive", "true");
     }
 
-    
-    
+
     public void testLessFilters() throws Exception {
         Style style = RendererBaseTest.loadStyle(this, "fillSolidTwoRules.sld");
-        
+
         DefaultMapContext mc = new DefaultMapContext(DefaultGeographicCRS.WGS84);
         mc.addLayer(squareFS, style);
-        
+
         renderer.setContext(mc);
         renderer.addRenderListener(new RenderListener() {
-        
+
             public void featureRenderer(SimpleFeature feature) {
                 count++;
             }
-        
+
             public void errorOccurred(Exception e) {
             }
         });
-        
+
         RendererBaseTest.showRender("OneSquare", renderer, TIME, bounds);
         assertEquals(2, count);
     }

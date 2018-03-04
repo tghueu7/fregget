@@ -1,40 +1,39 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.geotools</groupId>
-    <artifactId>ogc</artifactId>
-    <version>20-SNAPSHOT</version>
-  </parent>
+    <parent>
+        <groupId>org.geotools</groupId>
+        <artifactId>ogc</artifactId>
+        <version>20-SNAPSHOT</version>
+    </parent>
 
-  <groupId>org.geotools.ogc</groupId>
-  <artifactId>net.opengis.wcs</artifactId>
-  <packaging>jar</packaging>
+    <groupId>org.geotools.ogc</groupId>
+    <artifactId>net.opengis.wcs</artifactId>
+    <packaging>jar</packaging>
 
-  <name>Web Coverage Service Model</name>
-  
+    <name>Web Coverage Service Model</name>
 
 
-  <description>Web Coverage Service Schema EMF Model</description>
+    <description>Web Coverage Service Schema EMF Model</description>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.geotools.ogc</groupId>
-      <artifactId>net.opengis.ows</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.geotools</groupId>
-      <artifactId>gt-referencing</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.vividsolutions</groupId>
-      <artifactId>jts-core</artifactId>
-      <!-- The version number is specified in the parent POM. -->
-    </dependency>
-  </dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>org.geotools.ogc</groupId>
+            <artifactId>net.opengis.ows</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-referencing</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vividsolutions</groupId>
+            <artifactId>jts-core</artifactId>
+            <!-- The version number is specified in the parent POM. -->
+        </dependency>
+    </dependencies>
 
 
 </project>

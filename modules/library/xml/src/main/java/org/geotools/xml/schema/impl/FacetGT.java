@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -24,8 +24,6 @@ import org.geotools.xml.schema.Facet;
  * </p>
  *
  * @author dzwiers
- *
- *
  * @source $URL$
  */
 public class FacetGT implements Facet {
@@ -39,7 +37,7 @@ public class FacetGT implements Facet {
     /**
      * Creates a new FacetGT object.
      *
-     * @param type DOCUMENT ME!
+     * @param type  DOCUMENT ME!
      * @param value DOCUMENT ME!
      */
     public FacetGT(int type, String value) {

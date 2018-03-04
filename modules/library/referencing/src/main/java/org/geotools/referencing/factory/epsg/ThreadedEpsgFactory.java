@@ -63,34 +63,32 @@ import org.geotools.resources.i18n.VocabularyKeys;
  * <p>
  * This class has the following responsibilities:
  * <ul>
- *   <li>aquire a DataSource (using JNDI or otherwise)</li>
- *   <li>specify a worker class that will talk to the database in
- *     the event of a cache miss. The class will be specific to the delect of SQL
- *     used by the database hosting the EPSG tables.</li>
+ * <li>aquire a DataSource (using JNDI or otherwise)</li>
+ * <li>specify a worker class that will talk to the database in
+ * the event of a cache miss. The class will be specific to the delect of SQL
+ * used by the database hosting the EPSG tables.</li>
  * </ul>
  * Please note we are working with <b>the same</b> tables as defined by EPSG. The only
  * thing that changes is the database used to host these tables.
  * <p>
  * Subclasses should override the following methods:
  * <ul>
- *   <li>{@linkplain #createDataSource} used to aquire a DataSource</li>
- *   <li>{@link #createBackingStore} instance capable to speak that database syntax</li>
+ * <li>{@linkplain #createDataSource} used to aquire a DataSource</li>
+ * <li>{@link #createBackingStore} instance capable to speak that database syntax</li>
  * </ul>
  * <p>
  * Users should not creates instance of this class directly. They should invoke one of
- * <code>{@linkplain ReferencingFactoryFinder}.getFooAuthorityFactory("EPSG")</code> methods instead.
+ * <code>{@linkplain ReferencingFactoryFinder}.getFooAuthorityFactory("EPSG")</code> methods 
+ * instead.
  *
- * @since 2.4
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.4
  */
 public class ThreadedEpsgFactory extends DeferredAuthorityFactory
         implements CRSAuthorityFactory, CSAuthorityFactory, DatumAuthorityFactory,
-                   CoordinateOperationAuthorityFactory
-{
+        CoordinateOperationAuthorityFactory {
     /**
      * The default JDBC {@linkplain DataSource data source} name in JNDI.
      * This is the name used if no other name were specified through the
@@ -106,7 +104,7 @@ public class ThreadedEpsgFactory extends DeferredAuthorityFactory
      * tested in JEE environment.
      *
      * @todo Consider removing completly the code related to JNDI binding. In such
-     *       case, this field and the {@link #registerInto} field would be removed.
+     * case, this field and the {@link #registerInto} field would be removed.
      */
     private static final boolean ALLOW_REGISTRATION = false;
 
@@ -137,9 +135,10 @@ public class ThreadedEpsgFactory extends DeferredAuthorityFactory
      * The data source, or {@code null} if the connection has not yet been etablished.
      */
     protected DataSource datasource;
-    
+
     /**
-     * Whether the DataSource is created along with the backing store, or it's a stable, long lived one
+     * Whether the DataSource is created along with the backing store, or it's a stable, long 
+     * lived one
      */
     protected boolean dynamicDataSource = true;
 
@@ -164,9 +163,9 @@ public class ThreadedEpsgFactory extends DeferredAuthorityFactory
      * {@code FACTORY} hints, in addition of {@link Hints#EPSG_DATA_SOURCE EPSG_DATA_SOURCE}.
      *
      * @param userHints An optional set of hints, or {@code null} if none.
-     * @param priority The priority for this factory, as a number between
-     *        {@link #MINIMUM_PRIORITY MINIMUM_PRIORITY} and
-     *        {@link #MAXIMUM_PRIORITY MAXIMUM_PRIORITY} inclusive.
+     * @param priority  The priority for this factory, as a number between
+     *                  {@link #MINIMUM_PRIORITY MINIMUM_PRIORITY} and
+     *                  {@link #MAXIMUM_PRIORITY MAXIMUM_PRIORITY} inclusive.
      */
     public ThreadedEpsgFactory(final Hints userHints, final int priority) {
         super(userHints, priority);
@@ -174,9 +173,9 @@ public class ThreadedEpsgFactory extends DeferredAuthorityFactory
         Object hint = (userHints == null) ? null : userHints.get(Hints.EPSG_DATA_SOURCE);
 
         if (hint == null) {
-          datasourceName = DATASOURCE_NAME;
-          //datasourceName = GeoTools.fixName(DATASOURCE_NAME);
-          hints.put(Hints.EPSG_DATA_SOURCE, datasourceName);
+            datasourceName = DATASOURCE_NAME;
+            //datasourceName = GeoTools.fixName(DATASOURCE_NAME);
+            hints.put(Hints.EPSG_DATA_SOURCE, datasourceName);
         } else if (hint instanceof String) {
             datasourceName = (String) hint;
             //datasourceName = GeoTools.fixName(datasourceName);
@@ -194,19 +193,22 @@ public class ThreadedEpsgFactory extends DeferredAuthorityFactory
         }
         factories = ReferencingFactoryContainer.instance(userHints);
         long timeout = 30 * 60 * 1000;
-        String defaultTimeout = System.getProperty("org.geotools.epsg.factory.timeout", String.valueOf(30 * 60 * 1000));
+        String defaultTimeout = System.getProperty("org.geotools.epsg.factory.timeout", String
+                .valueOf(30 * 60 * 1000));
         try {
             timeout = Long.valueOf(defaultTimeout);
-        } catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             LOGGER.log(Level.WARNING, "Invalid value for org.geotools.epsg.factory.timeout, " +
-            		"using the default (30 minutes) instead");
+                    "using the default (30 minutes) instead");
         }
         // in case of negative timeout, we don't release the data source and backing store
-        if(timeout > 0) {
-            LOGGER.log(Level.FINE, "Setting the EPSG factory " + getClass().getName() + " to a " + timeout + "ms timeout");
+        if (timeout > 0) {
+            LOGGER.log(Level.FINE, "Setting the EPSG factory " + getClass().getName() + " to a " 
+                    + timeout + "ms timeout");
             setTimeout(timeout); // Close the connection after 1 second of inactivity.
         } else {
-            LOGGER.log(Level.FINE, "The EPSG factory " + getClass().getName() + " will not timeout");
+            LOGGER.log(Level.FINE, "The EPSG factory " + getClass().getName() + " will not " +
+                    "timeout");
         }
     }
 
@@ -218,7 +220,7 @@ public class ThreadedEpsgFactory extends DeferredAuthorityFactory
     @Override
     public Citation getAuthority() {
         final Citation authority = super.getAuthority();
-        return (authority!=null) ? authority : Citations.EPSG;
+        return (authority != null) ? authority : Citations.EPSG;
     }
 
     /**
@@ -229,7 +231,6 @@ public class ThreadedEpsgFactory extends DeferredAuthorityFactory
      *
      * @return The data source.
      * @throws SQLException if the connection to the EPSG database failed.
-     *
      * @see #setDataSource
      * @see #createDataSource
      */
@@ -251,7 +252,7 @@ public class ThreadedEpsgFactory extends DeferredAuthorityFactory
      * it will be disconnected. Users should not invoke this method on the factory returned by
      * {@link ReferencingFactoryFinder}, since it could have a system-wide effect.
      *
-     * @param  datasource The new datasource.
+     * @param datasource The new datasource.
      * @throws SQLException if an error occured.
      */
     public synchronized void setDataSource(final DataSource datasource) throws SQLException {
@@ -289,7 +290,7 @@ public class ThreadedEpsgFactory extends DeferredAuthorityFactory
      * the JDBC-ODBC bridge, which expects an "{@code EPSG}" database registered as an ODBC data
      * source (see the {@linkplain org.geotools.referencing.factory.epsg package javadoc} for
      * installation instructions). Example for a PostgreSQL data source:
-     *
+     * <p>
      * <blockquote><pre>
      * protected DataSource createDataSource() throws SQLException {
      *     DataSource candidate = super.createDataSource();
@@ -309,18 +310,18 @@ public class ThreadedEpsgFactory extends DeferredAuthorityFactory
      */
     protected DataSource createDataSource() throws SQLException {
         InitialContext context = null;
-        DataSource     source  = null;
+        DataSource source = null;
         try {
             context = GeoTools.getInitialContext(new Hints(hints));
             source = (DataSource) context.lookup(datasourceName);
         } catch (IllegalArgumentException exception) {
-         // Fall back on 'return null' below.
+            // Fall back on 'return null' below.
         } catch (NoInitialContextException exception) {
             // Fall back on 'return null' below.
         } catch (NamingException exception) {
             registerInto = context;
             // Fall back on 'return null' below.
-        } 
+        }
         return source;
     }
 
@@ -329,17 +330,18 @@ public class ThreadedEpsgFactory extends DeferredAuthorityFactory
      * a new instance of {@link AccessDialectEpsgFactory} or {@link AnsiDialectEpsgFactory}.
      * Subclasses may override this method in order to returns an instance tuned for the
      * SQL syntax of the underlying database. Example for a PostgreSQL data source:
-     *
+     * <p>
      * <blockquote><pre>
      * protected AbstractAuthorityFactory createBackingStore(Hints hints) throws SQLException {
      *     return new AnsiDialectEpsgFactory(hints, getDataSource().getConnection());
      * }
      * </pre></blockquote>
      *
-     * @param  hints A map of hints, including the low-level factories to use for CRS creation.
-     *         This argument should be given unchanged to {@code DirectEpsgFactory} constructor.
+     * @param hints A map of hints, including the low-level factories to use for CRS creation.
+     *              This argument should be given unchanged to {@code DirectEpsgFactory} 
+     *              constructor.
      * @return The {@linkplain DirectEpsgFactory EPSG factory} using SQL queries appropriate
-     *         for this data source.
+     * for this data source.
      * @throws SQLException if connection to the database failed.
      */
     protected AbstractAuthorityFactory createBackingStore(final Hints hints) throws SQLException {
@@ -364,10 +366,9 @@ public class ThreadedEpsgFactory extends DeferredAuthorityFactory
      *
      * @return The connection to the EPSG database.
      * @throws FactoryException if no data source were found.
-     * @throws SQLException if this method failed to etablish a connection.
-     *
+     * @throws SQLException     if this method failed to etablish a connection.
      * @todo Inline this method into {@link #createBackingStore()} after we removed the
-     *       deprecated code.
+     * deprecated code.
      */
     private AbstractAuthorityFactory createBackingStore0() throws FactoryException, SQLException {
         assert Thread.holdsLock(this);
@@ -383,7 +384,7 @@ public class ThreadedEpsgFactory extends DeferredAuthorityFactory
         DataSource source;
         final InitialContext context;
         try {
-            source  = createDataSource();
+            source = createDataSource();
             context = registerInto;
         } finally {
             registerInto = null;
@@ -424,7 +425,7 @@ public class ThreadedEpsgFactory extends DeferredAuthorityFactory
      *
      * @return The backing store to uses in {@code createXXX(...)} methods.
      * @throws FactoryException if the constructor failed to connect to the EPSG database.
-     *         This exception usually has a {@link SQLException} as its cause.
+     *                          This exception usually has a {@link SQLException} as its cause.
      */
     protected AbstractAuthorityFactory createBackingStore() throws FactoryException {
         final AbstractAuthorityFactory factory;
@@ -433,13 +434,14 @@ public class ThreadedEpsgFactory extends DeferredAuthorityFactory
         try {
             factory = createBackingStore0();
             if (factory instanceof DirectEpsgFactory) {
-                final DatabaseMetaData info = ((DirectEpsgFactory) factory).getConnection().getMetaData();
+                final DatabaseMetaData info = ((DirectEpsgFactory) factory).getConnection()
+                        .getMetaData();
                 product = info.getDatabaseProductName();
-                url     = info.getURL();
+                url = info.getURL();
             }
         } catch (SQLException exception) {
             throw new FactoryException(Errors.format(ErrorKeys.CANT_CONNECT_DATABASE_$1, "EPSG"),
-                                       exception);
+                    exception);
         }
         log(Loggings.format(Level.CONFIG, LoggingKeys.CONNECTED_EPSG_DATABASE_$2, url, product));
         if (factory instanceof DirectEpsgFactory) {
@@ -472,15 +474,15 @@ public class ThreadedEpsgFactory extends DeferredAuthorityFactory
         }
         return super.canDisposeBackingStore(backingStore);
     }
-    
+
     @Override
     protected void disposeBackingStore() {
         super.disposeBackingStore();
-        if(dynamicDataSource) {
+        if (dynamicDataSource) {
             datasource = null;
         }
     }
-    
+
     @Override
     public synchronized void dispose() throws FactoryException {
         super.dispose();

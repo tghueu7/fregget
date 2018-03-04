@@ -28,22 +28,20 @@ import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * LinesNotOverlapValidation purpose.
- * 
+ * <p>
  * <p>
  * Ensures Lines do not overlap.
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class LinesNotOverlapValidation extends LineLineAbstractValidation {
     /**
      * LinesNotOverlapValidation constructor.
-     * 
+     * <p>
      * <p>
      * Description
      * </p>
@@ -57,37 +55,35 @@ public class LinesNotOverlapValidation extends LineLineAbstractValidation {
     /**
      * Ensure Lines do not overlap.
      *
-     * @param layers a HashMap of key="TypeName" value="FeatureSource"
+     * @param layers   a HashMap of key="TypeName" value="FeatureSource"
      * @param envelope The bounding box of modified features
-     * @param results Storage for the error and warning messages
-     *
+     * @param results  Storage for the error and warning messages
      * @return True if no features intersect. If they do then the validation
-     *         failed.
-     *
+     * failed.
      * @throws Exception DOCUMENT ME!
-     *
      * @see org.geotools.validation.IntegrityValidation#validate(java.util.Map,
-     *      com.vividsolutions.jts.geom.Envelope,
-     *      org.geotools.validation.ValidationResults)
+     * com.vividsolutions.jts.geom.Envelope,
+     * org.geotools.validation.ValidationResults)
      */
     public boolean validate(Map layers, Envelope envelope,
-        ValidationResults results) throws Exception {
+                            ValidationResults results) throws Exception {
         SimpleFeatureSource lineSource1 = (SimpleFeatureSource) layers.get(getLineTypeRef());
-        SimpleFeatureSource lineSource2 = (SimpleFeatureSource) layers.get(getRestrictedLineTypeRef());
+        SimpleFeatureSource lineSource2 = (SimpleFeatureSource) layers.get
+                (getRestrictedLineTypeRef());
 
         Object[] lines1 = lineSource1.getFeatures().toArray();
         Object[] lines2 = lineSource2.getFeatures().toArray();
 
         if (!envelope.contains(lineSource1.getBounds())) {
             results.error((SimpleFeature) lines1[0],
-                "Point Feature Source is not contained within the Envelope provided.");
+                    "Point Feature Source is not contained within the Envelope provided.");
 
             return false;
         }
 
         if (!envelope.contains(lineSource2.getBounds())) {
             results.error((SimpleFeature) lines2[0],
-                "Line Feature Source is not contained within the Envelope provided.");
+                    "Line Feature Source is not contained within the Envelope provided.");
 
             return false;
         }
@@ -104,8 +100,8 @@ public class LinesNotOverlapValidation extends LineLineAbstractValidation {
 
                 if (gt.overlaps(gt2)) {
                     results.error(tmp,
-                        "Overlaps with another line specified. Id="
-                        + tmp2.getID());
+                            "Overlaps with another line specified. Id="
+                                    + tmp2.getID());
                     r = false;
                 }
             }

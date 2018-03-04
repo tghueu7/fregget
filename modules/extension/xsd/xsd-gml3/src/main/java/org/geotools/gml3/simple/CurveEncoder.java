@@ -30,7 +30,7 @@ import com.vividsolutions.jts.geom.LineString;
 
 /**
  * Encodes a GML3 Curve
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 class CurveEncoder extends GeometryEncoder<LineString> {
@@ -62,10 +62,10 @@ class CurveEncoder extends GeometryEncoder<LineString> {
 
     public void encode(LineString geometry, AttributesImpl atts, GMLWriter handler, String gmlId)
             throws Exception {
-        if ( gmlId != null) {
+        if (gmlId != null) {
             atts = cloneWithGmlId(atts, gmlId);
         }
-        
+
         handler.startElement(curve, atts);
         handler.startElement(segments, null);
 
@@ -104,7 +104,8 @@ class CurveEncoder extends GeometryEncoder<LineString> {
     private void encodeCurve(SingleCurvedGeometry curve, GMLWriter handler)
             throws Exception {
         AttributesImpl atts = new AttributesImpl();
-        atts.addAttribute(GML.NAMESPACE, "interpolation", "interpolation", "", "circularArc3Points");
+        atts.addAttribute(GML.NAMESPACE, "interpolation", "interpolation", "", 
+                "circularArc3Points");
         handler.startElement(arcString, atts);
 
         handler.posList(new LiteCoordinateSequence(curve.getControlPoints()));

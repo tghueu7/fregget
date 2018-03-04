@@ -1,7 +1,7 @@
 /**
  * <copyright>
  * </copyright>
- *
+ * <p>
  * $Id$
  */
 package org.geotools.data.efeature.tests;
@@ -14,23 +14,22 @@ import org.eclipse.emf.ecore.EObject;
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>EFeature Compatible Data</b></em>'.
  * <!-- end-user-doc -->
- *
+ * <p>
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.geotools.data.efeature.tests.EFeatureCompatibleData#getID <em>ID</em>}</li>
- *   <li>{@link org.geotools.data.efeature.tests.EFeatureCompatibleData#getAttribute <em>Attribute</em>}</li>
- *   <li>{@link org.geotools.data.efeature.tests.EFeatureCompatibleData#getGeometry <em>Geometry</em>}</li>
- *   <li>{@link org.geotools.data.efeature.tests.EFeatureCompatibleData#getSRID <em>SRID</em>}</li>
- *   <li>{@link org.geotools.data.efeature.tests.EFeatureCompatibleData#getDefault <em>Default</em>}</li>
+ * <li>{@link org.geotools.data.efeature.tests.EFeatureCompatibleData#getID <em>ID</em>}</li>
+ * <li>{@link org.geotools.data.efeature.tests.EFeatureCompatibleData#getAttribute <em>Attribute</em>}</li>
+ * <li>{@link org.geotools.data.efeature.tests.EFeatureCompatibleData#getGeometry <em>Geometry</em>}</li>
+ * <li>{@link org.geotools.data.efeature.tests.EFeatureCompatibleData#getSRID <em>SRID</em>}</li>
+ * <li>{@link org.geotools.data.efeature.tests.EFeatureCompatibleData#getDefault <em>Default</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.geotools.data.efeature.tests.EFeatureTestsPackage#getEFeatureCompatibleData()
  * @model GBounds="org.geotools.data.efeature.Geometry"
  * @generated
- *
  * @source $URL$
+ * @see org.geotools.data.efeature.tests.EFeatureTestsPackage#getEFeatureCompatibleData()
  */
 public interface EFeatureCompatibleData<A, G extends Geometry> extends EObject {
     /**
@@ -41,21 +40,25 @@ public interface EFeatureCompatibleData<A, G extends Geometry> extends EObject {
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
+     *
      * @return the value of the '<em>Attribute</em>' attribute.
-     * @see #setAttribute(Object)
-     * @see org.geotools.data.efeature.tests.EFeatureTestsPackage#getEFeatureCompatibleData_Attribute()
      * @model required="true"
      * @generated
+     * @see #setAttribute(Object)
+     * @see org.geotools.data.efeature.tests
+     * .EFeatureTestsPackage#getEFeatureCompatibleData_Attribute()
      */
     A getAttribute();
 
     /**
-     * Sets the value of the '{@link org.geotools.data.efeature.tests.EFeatureCompatibleData#getAttribute <em>Attribute</em>}' attribute.
+     * Sets the value of the 
+     * '{@link org.geotools.data.efeature.tests.EFeatureCompatibleData#getAttribute <em>Attribute</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @param value the new value of the '<em>Attribute</em>' attribute.
-     * @see #getAttribute()
      * @generated
+     * @see #getAttribute()
      */
     void setAttribute(A value);
 
@@ -67,21 +70,25 @@ public interface EFeatureCompatibleData<A, G extends Geometry> extends EObject {
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
+     *
      * @return the value of the '<em>Geometry</em>' attribute.
-     * @see #setGeometry(Geometry)
-     * @see org.geotools.data.efeature.tests.EFeatureTestsPackage#getEFeatureCompatibleData_Geometry()
      * @model required="true"
      * @generated
+     * @see #setGeometry(Geometry)
+     * @see org.geotools.data.efeature.tests
+     * .EFeatureTestsPackage#getEFeatureCompatibleData_Geometry()
      */
     G getGeometry();
 
     /**
-     * Sets the value of the '{@link org.geotools.data.efeature.tests.EFeatureCompatibleData#getGeometry <em>Geometry</em>}' attribute.
+     * Sets the value of the 
+     * '{@link org.geotools.data.efeature.tests.EFeatureCompatibleData#getGeometry <em>Geometry</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @param value the new value of the '<em>Geometry</em>' attribute.
-     * @see #getGeometry()
      * @generated
+     * @see #getGeometry()
      */
     void setGeometry(G value);
 
@@ -93,21 +100,25 @@ public interface EFeatureCompatibleData<A, G extends Geometry> extends EObject {
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
+     *
      * @return the value of the '<em>SRID</em>' attribute.
-     * @see #setSRID(String)
-     * @see org.geotools.data.efeature.tests.EFeatureTestsPackage#getEFeatureCompatibleData_SRID()
      * @model required="true"
      * @generated
+     * @see #setSRID(String)
+     * @see org.geotools.data.efeature.tests.EFeatureTestsPackage#getEFeatureCompatibleData_SRID()
      */
     String getSRID();
 
     /**
-     * Sets the value of the '{@link org.geotools.data.efeature.tests.EFeatureCompatibleData#getSRID <em>SRID</em>}' attribute.
+     * Sets the value of the 
+     * '{@link org.geotools.data.efeature.tests.EFeatureCompatibleData#getSRID <em>SRID</em>}' 
+     * attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @param value the new value of the '<em>SRID</em>' attribute.
-     * @see #getSRID()
      * @generated
+     * @see #getSRID()
      */
     void setSRID(String value);
 
@@ -119,21 +130,25 @@ public interface EFeatureCompatibleData<A, G extends Geometry> extends EObject {
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
+     *
      * @return the value of the '<em>Default</em>' attribute.
-     * @see #setDefault(String)
-     * @see org.geotools.data.efeature.tests.EFeatureTestsPackage#getEFeatureCompatibleData_Default()
      * @model required="true"
      * @generated
+     * @see #setDefault(String)
+     * @see org.geotools.data.efeature.tests
+     * .EFeatureTestsPackage#getEFeatureCompatibleData_Default()
      */
     String getDefault();
 
     /**
-     * Sets the value of the '{@link org.geotools.data.efeature.tests.EFeatureCompatibleData#getDefault <em>Default</em>}' attribute.
+     * Sets the value of the 
+     * '{@link org.geotools.data.efeature.tests.EFeatureCompatibleData#getDefault <em>Default</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @param value the new value of the '<em>Default</em>' attribute.
-     * @see #getDefault()
      * @generated
+     * @see #getDefault()
      */
     void setDefault(String value);
 
@@ -145,21 +160,25 @@ public interface EFeatureCompatibleData<A, G extends Geometry> extends EObject {
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
+     *
      * @return the value of the '<em>ID</em>' attribute.
-     * @see #setID(String)
-     * @see org.geotools.data.efeature.tests.EFeatureTestsPackage#getEFeatureCompatibleData_ID()
      * @model id="true" required="true"
      * @generated
+     * @see #setID(String)
+     * @see org.geotools.data.efeature.tests.EFeatureTestsPackage#getEFeatureCompatibleData_ID()
      */
     String getID();
 
     /**
-     * Sets the value of the '{@link org.geotools.data.efeature.tests.EFeatureCompatibleData#getID <em>ID</em>}' attribute.
+     * Sets the value of the 
+     * '{@link org.geotools.data.efeature.tests.EFeatureCompatibleData#getID <em>ID</em>}' 
+     * attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @param value the new value of the '<em>ID</em>' attribute.
-     * @see #getID()
      * @generated
+     * @see #getID()
      */
     void setID(String value);
 

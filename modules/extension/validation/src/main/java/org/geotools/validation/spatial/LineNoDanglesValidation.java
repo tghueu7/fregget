@@ -25,22 +25,20 @@ import com.vividsolutions.jts.geom.Envelope;
 
 /**
  * LineNoDanglesValidation purpose.
- * 
+ * <p>
  * <p>
  * Ensures Line does not have dangles.
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class LineNoDanglesValidation extends LineAbstractValidation {
     /**
      * LineNoDanglesValidation constructor.
-     * 
+     * <p>
      * <p>
      * Description
      * </p>
@@ -51,24 +49,21 @@ public class LineNoDanglesValidation extends LineAbstractValidation {
 
     /**
      * Ensure Line does not have dangles.
-     * 
+     * <p>
      * <p></p>
      *
-     * @param layers a HashMap of key="TypeName" value="FeatureSource"
+     * @param layers   a HashMap of key="TypeName" value="FeatureSource"
      * @param envelope The bounding box of modified features
-     * @param results Storage for the error and warning messages
-     *
+     * @param results  Storage for the error and warning messages
      * @return True if no features intersect. If they do then the validation
-     *         failed.
-     *
+     * failed.
      * @throws Exception DOCUMENT ME!
-     *
      * @see org.geotools.validation.IntegrityValidation#validate(java.util.Map,
-     *      com.vividsolutions.jts.geom.Envelope,
-     *      org.geotools.validation.ValidationResults)
+     * com.vividsolutions.jts.geom.Envelope,
+     * org.geotools.validation.ValidationResults)
      */
     public boolean validate(Map layers, Envelope envelope,
-        ValidationResults results) throws Exception {
+                            ValidationResults results) throws Exception {
         //TODO Fix Me
         return false;
     }

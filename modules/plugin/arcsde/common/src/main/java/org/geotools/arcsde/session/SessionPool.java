@@ -56,7 +56,7 @@ import com.esri.sde.sdk.client.SeRelease;
  * before getConnection() throws an UnavailableArcSDEConnectionException</li>
  * </ul>
  * </p>
- * 
+ *
  * @author Gabriel Roldan
  * @version $Id$
  */
@@ -68,10 +68,14 @@ class SessionPool implements ISessionPool {
 
     private SeConnectionFactory seConnectionFactory;
 
-    /** this connection pool connection's parameters */
+    /**
+     * this connection pool connection's parameters
+     */
     protected ArcSDEConnectionConfig config;
 
-    /** Apache commons-pool used to pool arcsde connections */
+    /**
+     * Apache commons-pool used to pool arcsde connections
+     */
     private GenericObjectPool pool;
 
     private final Queue<Session> openSessionsNonTransactional = new LinkedList<Session>();// new
@@ -80,14 +84,11 @@ class SessionPool implements ISessionPool {
 
     /**
      * Creates a new SessionPool object for the given config.
-     * 
-     * @param config
-     *            holds connection options such as server, user and password, as well as tuning
-     *            options as maximum number of connections allowed
-     * @throws IOException
-     *             If connection could not be established
-     * @throws NullPointerException
-     *             If config is null
+     *
+     * @param config holds connection options such as server, user and password, as well as tuning
+     *               options as maximum number of connections allowed
+     * @throws IOException          If connection could not be established
+     * @throws NullPointerException If config is null
      */
     protected SessionPool(ArcSDEConnectionConfig config) throws IOException {
         if (config == null) {
@@ -181,7 +182,7 @@ class SessionPool implements ISessionPool {
      * <p>
      * Subclass may overide to customize this behaviour.
      * </p>
-     * 
+     *
      * @return SeConnectionFactory.
      */
     protected SeConnectionFactory createConnectionFactory() {
@@ -190,7 +191,7 @@ class SessionPool implements ISessionPool {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.arcsde.session.ISessionPool#getPoolSize()
      */
     public int getPoolSize() {
@@ -200,7 +201,7 @@ class SessionPool implements ISessionPool {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.arcsde.session.ISessionPool#close()
      */
     public void close() {
@@ -217,7 +218,7 @@ class SessionPool implements ISessionPool {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.arcsde.session.ISessionPool#isClosed()
      */
     public boolean isClosed() {
@@ -262,7 +263,6 @@ class SessionPool implements ISessionPool {
     }
 
 
-
     /**
      * Return the session Object to the ConnectionPool.
      * Method must be synchronized, in order to prevent SessionPool
@@ -303,7 +303,8 @@ class SessionPool implements ISessionPool {
                         }
                     } catch (NoSuchElementException e) {
                         if (LOGGER.isLoggable(Level.FINER)) {
-                            LOGGER.finer("No available sessions in the pool, falling back to queued session");
+                            LOGGER.finer("No available sessions in the pool, falling back to " +
+                                    "queued session");
                         }
                         connection = openSessionsNonTransactional.remove();
                     }
@@ -337,7 +338,7 @@ class SessionPool implements ISessionPool {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.arcsde.session.ISessionPool#getConfig()
      */
     public ArcSDEConnectionConfig getConfig() {
@@ -347,7 +348,7 @@ class SessionPool implements ISessionPool {
     /**
      * PoolableObjectFactory intended to be used by a Jakarta's commons-pool objects pool, that
      * provides ArcSDE's SeConnections.
-     * 
+     *
      * @author Gabriel Roldan, Axios Engineering
      * @version $Id$
      */
@@ -357,7 +358,7 @@ class SessionPool implements ISessionPool {
 
         /**
          * Creates a new SeConnectionFactory object.
-         * 
+         *
          * @param config
          */
         public SeConnectionFactory(ArcSDEConnectionConfig config) {
@@ -373,10 +374,9 @@ class SessionPool implements ISessionPool {
          * under load, SeConnection's constructor uses to throw a nasty
          * {@code NegativeArraySizeException}.
          * </p>
-         * 
+         *
          * @return a newly created <code>SeConnection</code>
-         * @throws SeException
-         *             if the connection can't be created
+         * @throws SeException if the connection can't be created
          */
         @Override
         public synchronized Object makeObject() throws IOException {
@@ -395,11 +395,10 @@ class SessionPool implements ISessionPool {
         /**
          * is invoked in an implementation-specific fashion to determine if an instance is still
          * valid to be returned by the pool. It will only be invoked on an "activated" instance.
-         * 
-         * @param an
-         *            instance of {@link Session} maintained by this pool.
+         *
+         * @param an instance of {@link Session} maintained by this pool.
          * @return <code>true</code> if the connection is still alive and operative (checked by
-         *         asking its user name), <code>false</code> otherwise.
+         * asking its user name), <code>false</code> otherwise.
          */
         @Override
         public boolean validateObject(Object obj) {
@@ -429,9 +428,8 @@ class SessionPool implements ISessionPool {
         /**
          * is invoked on every instance when it is being "dropped" from the pool (whether due to the
          * response from validateObject, or for reasons specific to the pool implementation.)
-         * 
-         * @param obj
-         *            an instance of {@link Session} maintained by this pool.
+         *
+         * @param obj an instance of {@link Session} maintained by this pool.
          */
         @Override
         public void destroyObject(Object obj) {

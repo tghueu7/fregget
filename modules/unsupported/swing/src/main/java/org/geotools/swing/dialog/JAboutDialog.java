@@ -40,7 +40,7 @@ import org.geotools.factory.GeoTools;
 
 /**
  * An 'About' dialog which displays information about the host environment,
- * software licenses pertaining to GeoTools (not implemented yet) and, if provided, 
+ * software licenses pertaining to GeoTools (not implemented yet) and, if provided,
  * summary details about your application.
  * <p>
  * Environment information is obtained from {@linkplain GeoTools#getEnvironmentInfo()}
@@ -50,11 +50,11 @@ import org.geotools.factory.GeoTools;
  * <li>Java version</li>
  * <li>Host operating system and version</li>
  * </ul>
- * 
+ * <p>
  * The GeoTools jar listing is obtained from {@linkplain GeoTools#getGeoToolsJarInfo()}
  * and consists of GeoTools jars (of the active version) on the application's class path.
  * <p>
- * 
+ * <p>
  * To have the dialog display details of your own application, you pass them as a String
  * to the dialog constructor as in this example:
  * <pre><code>
@@ -69,21 +69,21 @@ import org.geotools.factory.GeoTools;
  *     }
  * });
  * </code></pre>
- * 
+ * <p>
  * When no application details are provided the 'Application' category will not be
  * shown in the dialog's category list.
- * 
+ *
  * @author Michael Bedward
- * @since 2.7
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.7
  */
 public class JAboutDialog extends AbstractSimpleDialog {
-    
+
     private static final int DEFAULT_HEIGHT = 400;
     private static final int LIST_WIDTH = 150;
     private static final int TEXT_AREA_WIDTH = 450;
-    
+
     private final String applicationInfo;
     private final boolean hasApplicationInfo;
 
@@ -96,25 +96,26 @@ public class JAboutDialog extends AbstractSimpleDialog {
         LICENCES("Licences"),
         JARS("GeoTools jars"),
         ALL("All");
-        
+
         private final String name;
+
         private Category(String name) {
             this.name = name;
         }
-        
+
         public static Category getByIndex(int index, boolean hasApplicationInfo) {
             if (!hasApplicationInfo) {
                 index++;
             }
             return Category.values()[index];
         }
-        
+
         @Override
         public String toString() {
             return name;
         }
     }
-    
+
     /*
      * Model for the dialog list control which displays categories.
      */
@@ -132,7 +133,7 @@ public class JAboutDialog extends AbstractSimpleDialog {
 
     private JList categoryList;
     private JTextArea textArea;
-    
+
     /**
      * Creates a new dialog to display environment information but no application
      * details.
@@ -144,23 +145,23 @@ public class JAboutDialog extends AbstractSimpleDialog {
     /**
      * Creates a new dialog to display environment information but no application
      * details.
-     * 
+     *
      * @param title dialog title
      */
     public JAboutDialog(String title) {
         this(title, null);
     }
-    
+
     /**
      * Creates a new dialog to display environment information together with
      * application details.
-     * 
-     * @param title dialog title
+     *
+     * @param title           dialog title
      * @param applicationInfo the application information to display
      */
     public JAboutDialog(String title, String applicationInfo) {
         super((JFrame) null, title, true, true);
-        
+
         if (applicationInfo != null && applicationInfo.trim().length() > 0) {
             this.applicationInfo = applicationInfo;
             this.hasApplicationInfo = true;
@@ -168,31 +169,31 @@ public class JAboutDialog extends AbstractSimpleDialog {
             this.applicationInfo = null;
             this.hasApplicationInfo = false;
         }
-        
+
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
     public JPanel createControlPanel() {
         JPanel panel = new JPanel(new BorderLayout());
-        
+
         categoryList = new JList(new CategoryListModel());
         categoryList.setPreferredSize(new Dimension(LIST_WIDTH, DEFAULT_HEIGHT));
         categoryList.setBorder(BorderFactory.createTitledBorder("Categories"));
-        
+
         categoryList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 showInfo(categoryList.getSelectedIndex());
             }
         });
-        
+
         panel.add(categoryList, BorderLayout.WEST);
-        
+
         textArea = new JTextArea();
         textArea.setPreferredSize(new Dimension(TEXT_AREA_WIDTH, DEFAULT_HEIGHT));
         textArea.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -211,10 +212,10 @@ public class JAboutDialog extends AbstractSimpleDialog {
     public void onOK() {
         closeDialog();
     }
-    
+
     /**
      * Creates the button panel with 'Done' and 'Copy to clipboard' buttons.
-     * 
+     *
      * @return the button panel
      */
     @Override
@@ -241,10 +242,10 @@ public class JAboutDialog extends AbstractSimpleDialog {
 
         return panel;
     }
-    
+
     /**
      * Called when a category has been selected in the list control.
-     * 
+     *
      * @param index category index
      */
     private void showInfo(int index) {
@@ -252,79 +253,79 @@ public class JAboutDialog extends AbstractSimpleDialog {
             case APPLICATION:
                 showApplicationInfo();
                 break;
-                
+
             case ENVIRONMENT:
                 showEnvironmentInfo();
                 break;
-                
+
             case JARS:
                 showJarInfo();
                 break;
-                
+
             case LICENCES:
                 showLicenceInfo();
                 break;
-                
+
             case ALL:
                 showAllInfo();
                 break;
-                
+
             default:
                 throw new IndexOutOfBoundsException("Bad index value: " + index);
         }
     }
 
     /**
-     * Displays application information. This is only called on the event 
+     * Displays application information. This is only called on the event
      * dispatch thread.
      */
     private void showApplicationInfo() {
         textArea.setText(applicationInfo);
     }
-    
+
     /**
-     * Displays environment information. This is only called on the event 
+     * Displays environment information. This is only called on the event
      * dispatch thread.
      */
     private void showEnvironmentInfo() {
         textArea.setText(GeoTools.getEnvironmentInfo());
     }
-    
+
     /**
-     * Displays licence information. This is only called on the event 
+     * Displays licence information. This is only called on the event
      * dispatch thread.
      */
     private void showLicenceInfo() {
         textArea.setText("This is the licence info");
     }
-    
+
     /**
-     * Displays GeoTools jars on the classpath. This is only called on the event 
+     * Displays GeoTools jars on the classpath. This is only called on the event
      * dispatch thread.
      */
     private void showJarInfo() {
         textArea.setText(GeoTools.getGeoToolsJarInfo());
     }
-    
+
     /**
-     * Displays all information combined. This is only called on the event 
+     * Displays all information combined. This is only called on the event
      * dispatch thread.
      */
     private void showAllInfo() {
         final String newline = String.format("%n");
         final StringBuilder sb = new StringBuilder();
-        
+
         if (hasApplicationInfo) {
             sb.append(applicationInfo).append(newline).append(newline);
         }
-        
+
         sb.append(GeoTools.getEnvironmentInfo()).append(newline).append(newline);
         sb.append(GeoTools.getGeoToolsJarInfo()).append(newline).append(newline);
         sb.append("This is the licence info");
-        
+
         textArea.setText(sb.toString());
     }
-    
+
     /**
      * Copies the current contents of the dialog text area to the system clipboard.
      */

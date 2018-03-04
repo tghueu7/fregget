@@ -40,24 +40,27 @@ import org.opengis.feature.type.Name;
 /**
  * @author Daniele Romagnoli, GeoSolutions SAS
  * @author Simone Giannecchini, GeoSolutions SAS
- *
  * @source $URL$
  */
-public abstract class GeoSpatialImageReader extends ImageReader implements FileSetManager{
+public abstract class GeoSpatialImageReader extends ImageReader implements FileSetManager {
 
-    /** The source file */
+    /**
+     * The source file
+     */
     protected File file;
 
-    /** the coverage slices slicesCatalog */
+    /**
+     * the coverage slices slicesCatalog
+     */
     private CoverageSlicesCatalog slicesCatalog;
 
     protected int numImages = -1;
 
     private String auxiliaryFilesPath = null;
 
-    /** 
-     * Path of the auxiliary datastore properties file, used as 
-     * low level granules index 
+    /**
+     * Path of the auxiliary datastore properties file, used as
+     * low level granules index
      */
     private String auxiliaryDatastorePath = null;
     private Repository repository;
@@ -76,13 +79,13 @@ public abstract class GeoSpatialImageReader extends ImageReader implements FileS
     @Override
     public void dispose() {
         super.dispose();
-        
+
         try {
             if (slicesCatalog != null) {
                 slicesCatalog.dispose();
             }
         } catch (Throwable t) {
-            
+
         } finally {
             slicesCatalog = null;
         }
@@ -94,13 +97,12 @@ public abstract class GeoSpatialImageReader extends ImageReader implements FileS
     }
 
     /**
-     * Simple check of the specified image index. Valid indexes are belonging 
+     * Simple check of the specified image index. Valid indexes are belonging
      * the range [0 - numRasters]. In case this constraint is not respected, an
      * {@link IndexOutOfBoundsException} is thrown.
-     * 
+     *
      * @param imageIndex the index to be checked
-     * 
-     * @throw {@link IndexOutOfBoundsException} in case the provided imageIndex 
+     * @throw {@link IndexOutOfBoundsException} in case the provided imageIndex
      * is not in the range of supported ones.
      */
     protected void checkImageIndex(final int imageIndex) {
@@ -125,14 +127,13 @@ public abstract class GeoSpatialImageReader extends ImageReader implements FileS
     public abstract int getCoveragesNumber();
 
     /**
-     * 
      * @param name
      * @return
      */
     public abstract CoverageSourceDescriptor getCoverageDescriptor(Name name);
 
     protected void setCatalog(CoverageSlicesCatalog catalog) {
-        if(slicesCatalog!=null){
+        if (slicesCatalog != null) {
             slicesCatalog.dispose();
         }
         slicesCatalog = catalog;
@@ -141,9 +142,9 @@ public abstract class GeoSpatialImageReader extends ImageReader implements FileS
     /**
      * Return the list of imageIndex related to the feature in the slicesCatalog
      * which result from the specified query.
-     * 
-     * @param filterQuery the filter query (temporal, vertical, name selection) to 
-     * restrict the requested imageIndexes 
+     *
+     * @param filterQuery the filter query (temporal, vertical, name selection) to
+     *                    restrict the requested imageIndexes
      * @return
      * @throws IOException
      */
@@ -151,7 +152,8 @@ public abstract class GeoSpatialImageReader extends ImageReader implements FileS
         List<CoverageSlice> descs = slicesCatalog.getGranules(filterQuery);
         List<Integer> indexes = new ArrayList<Integer>();
         for (CoverageSlice desc : descs) {
-            Integer index = (Integer) desc.getOriginator().getAttribute(CoverageSlice.Attributes.INDEX);
+            Integer index = (Integer) desc.getOriginator().getAttribute(CoverageSlice.Attributes
+                    .INDEX);
             indexes.add(index);
         }
         return indexes;
@@ -172,14 +174,14 @@ public abstract class GeoSpatialImageReader extends ImageReader implements FileS
     public void setAuxiliaryDatastorePath(String auxiliaryDatastorePath) {
         this.auxiliaryDatastorePath = auxiliaryDatastorePath;
     }
-    
+
     public void setRepository(Repository repository) {
         this.repository = repository;
     }
 
     /**
-     * Returns the underlying slicesCatalog. 
-     * 
+     * Returns the underlying slicesCatalog.
+     *
      * @return
      */
     public CoverageSlicesCatalog getCatalog() {
@@ -188,27 +190,27 @@ public abstract class GeoSpatialImageReader extends ImageReader implements FileS
 
     /**
      * Init the slicesCatalog based on the provided parameters
-     * 
-     * @param parentLocation 
-     * @param databaseName 
+     *
+     * @param parentLocation
+     * @param databaseName
      * @throws IOException
-     * 
-     * @deprecated: use the {@link #initCatalog(DataStoreConfiguration)} instead 
+     * @deprecated: use the {@link #initCatalog(DataStoreConfiguration)} instead
      */
     protected void initCatalog(File parentLocation, String databaseName) throws IOException {
         slicesCatalog = new CoverageSlicesCatalog(databaseName, parentLocation, repository);
     }
 
     /**
-     * Initialize a slicesCatalog on top of the provided {@link DataStoreConfiguration} 
+     * Initialize a slicesCatalog on top of the provided {@link DataStoreConfiguration}
      * instance
+     *
      * @param datastoreConfig
      * @throws IOException
      */
     protected void initCatalog(DataStoreConfiguration datastoreConfig) throws IOException {
         slicesCatalog = datastoreConfig.isShared() ?
                 new WrappedCoverageSlicesCatalog(datastoreConfig, file, repository) :
-                    new CoverageSlicesCatalog(datastoreConfig, repository);
+                new CoverageSlicesCatalog(datastoreConfig, repository);
     }
 
     @Override

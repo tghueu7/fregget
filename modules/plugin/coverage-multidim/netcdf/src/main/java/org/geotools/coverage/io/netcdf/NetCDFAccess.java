@@ -58,21 +58,20 @@ import org.opengis.util.ProgressListener;
 
 /**
  * {@link CoverageAccess} implementation for NetCDF Data format.
- * 
- * @author Romagnoli Daniele, GeoSolutions SAS
- * 
  *
+ * @author Romagnoli Daniele, GeoSolutions SAS
  * @source $URL$
  */
-public class NetCDFAccess extends DefaultFileCoverageAccess implements CoverageAccess, FileSetManager {
+public class NetCDFAccess extends DefaultFileCoverageAccess implements CoverageAccess, 
+        FileSetManager {
 
     private final static Logger LOGGER = Logging.getLogger(NetCDFAccess.class.toString());
 
     GeoSpatialImageReader reader = null;
 
     /**
-     * Constructor 
-     * 
+     * Constructor
+     *
      * @param driver
      * @param source
      * @param additionalParameters
@@ -81,13 +80,16 @@ public class NetCDFAccess extends DefaultFileCoverageAccess implements CoverageA
      * @throws IOException
      */
     @SuppressWarnings("serial")
-    NetCDFAccess( Driver driver, URL source, Map<String, Serializable> additionalParameters, Hints hints,
-            ProgressListener listener ) throws DataSourceException {
+    NetCDFAccess(Driver driver, URL source, Map<String, Serializable> additionalParameters, Hints
+            hints,
+                 ProgressListener listener) throws DataSourceException {
 
         super(
                 driver,
                 EnumSet.of(AccessType.READ_ONLY),
-                new HashMap<String, Parameter< ? >>(){{put(DefaultFileDriver.URL.key, DefaultFileDriver.URL);}},
+                new HashMap<String, Parameter<?>>() {{
+                    put(DefaultFileDriver.URL.key, DefaultFileDriver.URL);
+                }},
                 source,
                 additionalParameters);
 
@@ -95,17 +97,19 @@ public class NetCDFAccess extends DefaultFileCoverageAccess implements CoverageA
         final String protocol = source.getProtocol();
 
         // file
-        if (!(protocol.equalsIgnoreCase("file")||protocol.equalsIgnoreCase("http") || protocol.equalsIgnoreCase("dods"))) {
-            throw new DataSourceException("Wrong protocol for URL:"+source.toExternalForm().toString());
+        if (!(protocol.equalsIgnoreCase("file") || protocol.equalsIgnoreCase("http") || protocol
+                .equalsIgnoreCase("dods"))) {
+            throw new DataSourceException("Wrong protocol for URL:" + source.toExternalForm()
+                    .toString());
         }
         File sourceFile = null;
-        if (protocol.equalsIgnoreCase("file")){
+        if (protocol.equalsIgnoreCase("file")) {
             // convert to file
             sourceFile = URLs.urlToFile(source);
-            
+
             // check that it is a file,exists and can be at least read
-            if (!sourceFile.exists() || !sourceFile.isFile() || !sourceFile.canRead()){
-                throw new DataSourceException("Invalid source");            
+            if (!sourceFile.exists() || !sourceFile.isFile() || !sourceFile.canRead()) {
+                throw new DataSourceException("Invalid source");
             }
         }
 
@@ -134,7 +138,7 @@ public class NetCDFAccess extends DefaultFileCoverageAccess implements CoverageA
     /**
      * Scan the provided hints (if any) and look for auxiliary entries to be
      * set into the reader.
-     * 
+     *
      * @param hints
      */
     private void setAuxiliaryEntries(Hints hints) {
@@ -173,26 +177,27 @@ public class NetCDFAccess extends DefaultFileCoverageAccess implements CoverageA
         return names.remove(name);
     }
 
-    public CoverageSource access( Name name, Map<String, Serializable> params, AccessType accessType, Hints hints,
-            ProgressListener listener ) throws IOException {
+    public CoverageSource access(Name name, Map<String, Serializable> params, AccessType 
+            accessType, Hints hints,
+                                 ProgressListener listener) throws IOException {
         if (listener == null) {
             listener = new NullProgressListener();
         }
         listener.started();
         try {
-            return new NetCDFSource((NetCDFImageReader)reader, name);
+            return new NetCDFSource((NetCDFImageReader) reader, name);
         } catch (Throwable e) {
             LOGGER.log(Level.SEVERE, "Failed to access the NetCDF source", e);
             listener.exceptionOccurred(e);
             return null;
-        }finally {
+        } finally {
             listener.complete();
         }
     }
 
     @Override
-    public ServiceInfo getInfo( ProgressListener listener ) {
-        if (listener == null){
+    public ServiceInfo getInfo(ProgressListener listener) {
+        if (listener == null) {
             listener = new NullProgressListener();
         }
         listener.started();
@@ -221,7 +226,7 @@ public class NetCDFAccess extends DefaultFileCoverageAccess implements CoverageA
             try {
                 reader.dispose();
             } catch (Throwable t) {
-                
+
             }
         }
     }
@@ -229,7 +234,7 @@ public class NetCDFAccess extends DefaultFileCoverageAccess implements CoverageA
     @Override
     public void addFile(String filePath) {
         reader.addFile(filePath);
-        
+
     }
 
     @Override
@@ -240,7 +245,7 @@ public class NetCDFAccess extends DefaultFileCoverageAccess implements CoverageA
     @Override
     public void removeFile(String filePath) {
         reader.removeFile(filePath);
-        
+
     }
 
     @Override

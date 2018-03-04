@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -34,68 +34,63 @@ import org.opengis.feature.type.Name;
  * This methods opperate directly on the interfaces provided by geoapi, no
  * actual classes were harmed in the making of these utility methods.
  * </p>
- * 
+ *
  * @author Jody Garnett
  * @author Justin Deoliveira
- * 
- * @since 2.5
- *
- *
- *
  * @source $URL$
+ * @since 2.5
  */
 public class Descriptors {
-    private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger(Descriptors.class.getPackage().getName());
-    
+    private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger(Descriptors
+            .class.getPackage().getName());
+
     /**
      * Wraps a list of {@link AttributeType} in {@link AttributeDescriptor}.
-     * 
+     *
      * @param typeList The list of attribute types.
      * @return The list of attribute descriptors.
-     * 
      * @see #wrapAttributeType(AttributeType)
      */
-	public final static List wrapAttributeTypes( List/*<AttributeType>*/ typeList ){
-		List descriptors = new ArrayList( typeList.size() );
-		for( Iterator i = typeList.iterator(); i.hasNext(); ){
-			AttributeType attributeType = (AttributeType) i.next();
-			descriptors.add( wrapAttributeType(attributeType));
-		}
-		return descriptors;
-	}
-	
-	/**
+    public final static List wrapAttributeTypes(List/*<AttributeType>*/ typeList) {
+        List descriptors = new ArrayList(typeList.size());
+        for (Iterator i = typeList.iterator(); i.hasNext(); ) {
+            AttributeType attributeType = (AttributeType) i.next();
+            descriptors.add(wrapAttributeType(attributeType));
+        }
+        return descriptors;
+    }
+
+    /**
      * Wraps a {@link AttributeType} in {@link AttributeDescriptor}.
-     * 
+     *
      * @param type The attribute type.
      * @return The attribute descriptor.
      */
-	public final static AttributeDescriptor wrapAttributeType( AttributeType type ) {
-		if ( type == null ) {
-			return null;
-		}
-		return new AttributeDescriptorImpl(type, type.getName(), 1,1,true,null );
-	}
-	
-	/**
-	 * Returns the attribute descriptor from a list which matches the specified
-	 * name, or <code>null</code> if no such descriptor is found.
-	 * 
-	 * @param descriptors The list of {@link AttributeDescriptor}.
-	 * @param name The name to match.
-	 * 
-	 * @return The matching attribute descriptor, or <code>null</code>.
-	 */
-	public final static AttributeDescriptor find( List descriptors, Name name ){
-		if( name == null ) return null;
-		for( Iterator i = descriptors.iterator(); i.hasNext(); ){
-			AttributeDescriptor attributeType = (AttributeDescriptor) i.next();
-			if( name.equals( attributeType.getType().getName() ) ){
-				return attributeType;
-			}
-		}
-		return null; // no default geometry here?
-	}
+    public final static AttributeDescriptor wrapAttributeType(AttributeType type) {
+        if (type == null) {
+            return null;
+        }
+        return new AttributeDescriptorImpl(type, type.getName(), 1, 1, true, null);
+    }
+
+    /**
+     * Returns the attribute descriptor from a list which matches the specified
+     * name, or <code>null</code> if no such descriptor is found.
+     *
+     * @param descriptors The list of {@link AttributeDescriptor}.
+     * @param name        The name to match.
+     * @return The matching attribute descriptor, or <code>null</code>.
+     */
+    public final static AttributeDescriptor find(List descriptors, Name name) {
+        if (name == null) return null;
+        for (Iterator i = descriptors.iterator(); i.hasNext(); ) {
+            AttributeDescriptor attributeType = (AttributeDescriptor) i.next();
+            if (name.equals(attributeType.getType().getName())) {
+                return attributeType;
+            }
+        }
+        return null; // no default geometry here?
+    }
 
     // /**
     // * Handle subtyping in a "sensible" manner.
@@ -158,7 +153,7 @@ public class Descriptors {
      * <p>
      * This is the way XMLSchema handles it ...
      * </p>
-     * 
+     *
      * @param schema
      * @param sub
      * @return
@@ -346,10 +341,11 @@ public class Descriptors {
     // return type;
     //		
     // }
+
     /**
      * We can only restrict node if the restricftion is a subtype that used by
      * node.
-     * 
+     *
      * @param node
      * @param restrict
      * @return restrict, iff restrict.getType() ISA node.getType()
@@ -359,7 +355,8 @@ public class Descriptors {
         if (node.getType() == restrict.getType()) {
             return restrict;
         }
-        for (AttributeType/* <?> */type = restrict.getType(); type != null; type = type.getSuper()) {
+        for (AttributeType/* <?> */type = restrict.getType(); type != null; type = type.getSuper
+                ()) {
             if (node.getType().equals(type)) {
                 return restrict;
             }
@@ -389,7 +386,7 @@ public class Descriptors {
      * Namespaces are not taken in count, so if two properties share the same
      * local name, the first one that matches will be returned.
      * </p>
-     * 
+     *
      * @param schema
      * @param name
      * @return
@@ -407,7 +404,7 @@ public class Descriptors {
      * Namespaces are not taken in count, so if two properties share the same
      * local name, the first one that matches will be returned.
      * </p>
-     * 
+     *
      * @param schema
      * @param name
      * @return
@@ -418,7 +415,7 @@ public class Descriptors {
 
     /**
      * Locate type associated with provided name, or null if not found.
-     * 
+     *
      * @param schema
      * @param name
      * @return
@@ -433,7 +430,7 @@ public class Descriptors {
     /**
      * Finds the first node associated with the provided name disregarding
      * namespaces
-     * 
+     *
      * @param schema
      * @param name
      * @return
@@ -441,7 +438,7 @@ public class Descriptors {
     static public AttributeDescriptor node(ComplexType schema, String name) {
         // return node(schema,new org.geotools.feature.Name(name));
 
-        for (Iterator itr = list(schema).iterator(); itr.hasNext();) {
+        for (Iterator itr = list(schema).iterator(); itr.hasNext(); ) {
             AttributeDescriptor node = (AttributeDescriptor) itr.next();
 
             if (node.getName() == null) {
@@ -481,11 +478,11 @@ public class Descriptors {
 
     /**
      * Finds the node associated with the provided name.
-     * 
+     *
      * @param schema
      * @param name
      * @return AttributeDescriptor assoicated with provided name, or null if not
-     *         found.
+     * found.
      */
     static public AttributeDescriptor node(ComplexType schema, Name name) {
         return node(list(schema), name);
@@ -493,14 +490,14 @@ public class Descriptors {
 
     /**
      * Finds the node associated with the provided name.
-     * 
+     *
      * @param schema
      * @param name
      * @return AttributeDescriptor assoicated with provided name, or null if not
-     *         found.
+     * found.
      */
     static public AttributeDescriptor node(Collection schema, Name name) {
-        for (Iterator itr = schema.iterator(); itr.hasNext();) {
+        for (Iterator itr = schema.iterator(); itr.hasNext(); ) {
 
             AttributeDescriptor node = (AttributeDescriptor) itr.next();
 
@@ -539,14 +536,14 @@ public class Descriptors {
      * Note a type may be included in more then one node, in which case this
      * will only find the first one.
      * </p>
-     * 
+     *
      * @param schema
      * @param type
      * @return AttributeDescriptor assoicated with provided name, or null if not
-     *         found.
+     * found.
      */
     static public AttributeDescriptor node(ComplexType schema, AttributeType type) {
-        for (Iterator itr = list(schema).iterator(); itr.hasNext();) {
+        for (Iterator itr = list(schema).iterator(); itr.hasNext(); ) {
             AttributeDescriptor node = (AttributeDescriptor) itr.next();
             if (node.getType() == type) {
                 return node;
@@ -557,14 +554,14 @@ public class Descriptors {
 
     /**
      * List of nodes matching AttributeType.
-     * 
+     *
      * @param schema
      * @param type
      * @return List of nodes for the provided type, or empty.
      */
     static public List/* <AttributeDescriptor> */nodes(ComplexType schema, AttributeType type) {
         List/* <AttributeDescriptor> */nodes = new ArrayList/* <AttributeDescriptor> */();
-        for (Iterator itr = list(schema).iterator(); itr.hasNext();) {
+        for (Iterator itr = list(schema).iterator(); itr.hasNext(); ) {
             AttributeDescriptor node = (AttributeDescriptor) itr.next();
             if (node.getType().equals(type)) {
                 nodes.add(node);
@@ -579,13 +576,13 @@ public class Descriptors {
      * On the cases where order matters, the returned list preserves the order
      * of descriptors declared in <code>schema</code>
      * </p>
-     * 
+     *
      * @param type
      * @return List of nodes for the provided type, or empty.
      */
     static public List/* <AttributeType> */types(AttributeType type) {
         List/* <AttributeType> */types = new ArrayList/* <AttributeType> */();
-        for (Iterator itr = list(type).iterator(); itr.hasNext();) {
+        for (Iterator itr = list(type).iterator(); itr.hasNext(); ) {
             AttributeDescriptor node = (AttributeDescriptor) itr.next();
             types.add(node.getType());
         }
@@ -600,7 +597,7 @@ public class Descriptors {
      * <li>The AttributeType is referenced by more then one node.
      * <li>The node referencing the type has multiplicy greater then 1
      * </ul>
-     * 
+     *
      * @param schema
      * @param type
      * @return
@@ -616,7 +613,7 @@ public class Descriptors {
             return 0;
 
         int max = 0;
-        for (Iterator itr = nodes.iterator(); itr.hasNext();) {
+        for (Iterator itr = nodes.iterator(); itr.hasNext(); ) {
             AttributeDescriptor node = (AttributeDescriptor) itr.next();
             if (max == Integer.MAX_VALUE) {
                 return Integer.MAX_VALUE;
@@ -629,7 +626,7 @@ public class Descriptors {
     /**
      * Returns the list of descriptors defined in the provided schema,
      * preserving declaration order when relevant.
-     * 
+     *
      * @param schema
      * @return
      */
@@ -661,14 +658,12 @@ public class Descriptors {
 
     /**
      * Determines if a collection of attribute descriptors is "simple".
-     * 
-     * @param schema
-     *            Collection of attribute descriptors.
-     * 
+     *
+     * @param schema Collection of attribute descriptors.
      * @return True if schema is simple, otherwise false.
      */
     public static boolean isSimple(Collection/* <AttributeDescriptor> */schema) {
-        for (Iterator itr = schema.iterator(); itr.hasNext();) {
+        for (Iterator itr = schema.iterator(); itr.hasNext(); ) {
             AttributeDescriptor d = (AttributeDescriptor) itr.next();
             if (d.getMinOccurs() != 1 || d.getMaxOccurs() != 1) {
                 return false;

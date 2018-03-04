@@ -23,25 +23,23 @@ import org.geotools.referencing.factory.epsg.oracle.OracleOnlineTestCase;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class OracleDialectEpsgFactoryOnlineTest extends OracleOnlineTestCase {
 
     private OracleDialectEpsgFactory factory;
-    
+
     protected void connect() throws Exception {
         super.connect();
-        Hints hints = new Hints(Hints.CACHE_POLICY, "none");     
+        Hints hints = new Hints(Hints.CACHE_POLICY, "none");
         factory = new OracleDialectEpsgFactory(hints, datasource.getConnection());
     }
-    
+
     public void testCreation() throws Exception {
         assertNotNull(factory);
         CoordinateReferenceSystem epsg4326 = factory.createCoordinateReferenceSystem("EPSG:4326");
         CoordinateReferenceSystem code4326 = factory.createCoordinateReferenceSystem("4326");
-        
+
         assertNotNull(epsg4326);
         assertEquals("4326 equals EPSG:4326", code4326, epsg4326);
         assertSame("4326 == EPSG:4326", code4326, epsg4326);

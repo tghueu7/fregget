@@ -23,7 +23,7 @@ public class WMSConfigurationTest {
             p.parse(is);
         }
         if (!p.getValidationErrors().isEmpty()) {
-            for (Iterator e = p.getValidationErrors().iterator(); e.hasNext();) {
+            for (Iterator e = p.getValidationErrors().iterator(); e.hasNext(); ) {
                 SAXParseException ex = (SAXParseException) e.next();
                 System.out.println(
                         ex.getLineNumber() + "," + ex.getColumnNumber() + " -" + ex.toString());

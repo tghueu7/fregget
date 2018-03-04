@@ -17,20 +17,23 @@
 package org.geotools.ows.bindings;
 
 import net.opengis.ows10.Ows10Factory;
+
 import javax.xml.namespace.QName;
+
 import org.geotools.ows.OWS;
 import org.geotools.xml.*;
 
 
 /**
  * Binding object for the type http://www.opengis.net/ows:ServiceType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;simpleType name="ServiceType"&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;Service type identifier, where the string value is the OWS type abbreviation, such as "WMS" or "WFS". &lt;/documentation&gt;
+ *          &lt;documentation&gt;Service type identifier, where the string value is the OWS type 
+ *          abbreviation, such as "WMS" or "WFS". &lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;restriction base="string"/&gt;
  *  &lt;/simpleType&gt;
@@ -40,9 +43,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class ServiceTypeBinding extends AbstractSimpleBinding {
@@ -73,7 +73,7 @@ public class ServiceTypeBinding extends AbstractSimpleBinding {
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
+            throws Exception {
         //TODO: implement and remove call to super
         return super.parse(instance, value);
     }

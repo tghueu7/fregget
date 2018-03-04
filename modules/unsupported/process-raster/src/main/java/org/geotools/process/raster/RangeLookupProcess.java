@@ -49,139 +49,160 @@ import org.opengis.util.ProgressListener;
 
 /**
  * A raster reclassified process
- * 
+ *
  * @author Andrea Antonello (www.hydrologis.com)
  * @author Emanuele Tajariol (GeoSolutions)
  * @author Simone Giannecchini (GeoSolutions)
  * @author Andrea Aime - GeoSolutions
  * @author Daniele Romagnoli - GeoSolutions
- *
  * @source $URL$
  */
-@DescribeProcess(title = "Reclassify", description = "Reclassifies a continous raster into integer values defined by a set of ranges")
+@DescribeProcess(title = "Reclassify", description = "Reclassifies a continous raster into " +
+        "integer values defined by a set of ranges")
 public class RangeLookupProcess implements RasterProcess {
-	
+
     private final static double DEFAULT_NODATA = 0d;
 
     @DescribeResult(name = "reclassified", description = "The reclassified raster")
     public GridCoverage2D execute(
-            @DescribeParameter(name = "coverage", description = "Input raster") GridCoverage2D coverage,
-            @DescribeParameter(name = "band", description = "Source band to use for classification (default is 0)", min = 0, defaultValue = "0") Integer classificationBand,
-            @DescribeParameter(name = "ranges", description = "Specifier for a value range in the format ( START ; END ).  START and END values are optional. [ and ] can also be used as brackets, to indicate inclusion of the relevant range endpoint.", 
-            collectionType=Range.class) List<Range> classificationRanges,
-            @DescribeParameter(name = "outputPixelValues", description = "Value to be assigned to corresponding range", min = 0 ) int[] outputPixelValues,
-            @DescribeParameter(name = "noData", description = "Value to be assigned to pixels outside any range (defaults to 0)", min = 0, defaultValue = "0" ) Double noData,
+            @DescribeParameter(name = "coverage", description = "Input raster") GridCoverage2D 
+                    coverage,
+            @DescribeParameter(name = "band", description = "Source band to use for " +
+                    "classification (default is 0)", min = 0, defaultValue = "0") Integer 
+                    classificationBand,
+            @DescribeParameter(name = "ranges", description = "Specifier for a value range in the" +
+                    " format ( START ; END ).  START and END values are optional. [ and ] can " +
+                    "also be used as brackets, to indicate inclusion of the relevant range " +
+                    "endpoint.",
+                    collectionType = Range.class) List<Range> classificationRanges,
+            @DescribeParameter(name = "outputPixelValues", description = "Value to be assigned to" +
+                    " corresponding range", min = 0) int[] outputPixelValues,
+            @DescribeParameter(name = "noData", description = "Value to be assigned to pixels " +
+                    "outside any range (defaults to 0)", min = 0, defaultValue = "0") Double noData,
             ProgressListener listener) throws ProcessException {
-    	
-    	//
-    	// initial checks
-    	//
-    	if(coverage==null){
-    		throw new ProcessException(Errors.format(ErrorKeys.NULL_ARGUMENT_$1,"coverage"));
-    	}
-    	if(classificationRanges==null){
-    		throw new ProcessException(Errors.format(ErrorKeys.NULL_ARGUMENT_$1,"classificationRanges"));
-    	}
-    	double nd = DEFAULT_NODATA;
-    	NoDataContainer noDataProperty = org.geotools.resources.coverage.CoverageUtilities.getNoDataProperty(coverage);
+
+        //
+        // initial checks
+        //
+        if (coverage == null) {
+            throw new ProcessException(Errors.format(ErrorKeys.NULL_ARGUMENT_$1, "coverage"));
+        }
+        if (classificationRanges == null) {
+            throw new ProcessException(Errors.format(ErrorKeys.NULL_ARGUMENT_$1, 
+                    "classificationRanges"));
+        }
+        double nd = DEFAULT_NODATA;
+        NoDataContainer noDataProperty = org.geotools.resources.coverage.CoverageUtilities
+                .getNoDataProperty(coverage);
         if (noData != null) {
             nd = noData.doubleValue();
         } else if (noDataProperty != null) {
             nd = noDataProperty.getAsSingleValue();
         }
-    	
-    	if (outputPixelValues != null && outputPixelValues.length > 0){
-    	    final int ranges = classificationRanges.size();
-    	    if (ranges != outputPixelValues.length){
-    	        throw new ProcessException(Errors.format(ErrorKeys.MISMATCHED_ARRAY_LENGTH, "outputPixelValues"));
-    	    }
-    	}
+
+        if (outputPixelValues != null && outputPixelValues.length > 0) {
+            final int ranges = classificationRanges.size();
+            if (ranges != outputPixelValues.length) {
+                throw new ProcessException(Errors.format(ErrorKeys.MISMATCHED_ARRAY_LENGTH, 
+                        "outputPixelValues"));
+            }
+        }
 
         RenderedImage sourceImage = coverage.getRenderedImage();
-    	
+
         ImageWorker worker = new ImageWorker(sourceImage);
-        
+
         // parse the band
         if (classificationBand != null) {
             final int band = classificationBand;
-            final int numbands=sourceImage.getSampleModel().getNumBands();
-            if(band<0 || numbands<=band){
-            	throw new ProcessException(Errors.format(ErrorKeys.ILLEGAL_ARGUMENT_$2,"band",band));
+            final int numbands = sourceImage.getSampleModel().getNumBands();
+            if (band < 0 || numbands <= band) {
+                throw new ProcessException(Errors.format(ErrorKeys.ILLEGAL_ARGUMENT_$2, "band", 
+                        band));
             }
-            
-            if(band==0 && numbands>0 || band>0){
-                worker.retainBands(new int []{band});
+
+            if (band == 0 && numbands > 0 || band > 0) {
+                worker.retainBands(new int[]{band});
             }
         }
 
 
         //
-        // Check the number of ranges we have in order to decide which type we can use for the output values. 
+        // Check the number of ranges we have in order to decide which type we can use for the 
+        // output values. 
         // Our goal is to use the smallest possible data type that can hold the image values.
         //
         Object lookupTable;
-        final int size=classificationRanges.size();
+        final int size = classificationRanges.size();
         int transferType = ColorUtilities.getTransferType(size);
-        if(JAIExt.isJAIExtOperation("RLookup")){
-            lookupTable = CoverageUtilities.getRangeLookupTableJAIEXT(classificationRanges, outputPixelValues, nd, transferType);
-        }else{
+        if (JAIExt.isJAIExtOperation("RLookup")) {
+            lookupTable = CoverageUtilities.getRangeLookupTableJAIEXT(classificationRanges, 
+                    outputPixelValues, nd, transferType);
+        } else {
             // Builds the range lookup table
             //final RangeLookupTable lookupTable;
 
             switch (transferType) {
-                    case DataBuffer.TYPE_BYTE:
-                            lookupTable = CoverageUtilities.getRangeLookupTable(classificationRanges, outputPixelValues, (byte) nd );
-                            break;
-                    case DataBuffer.TYPE_USHORT:
-                            lookupTable = CoverageUtilities.getRangeLookupTable(classificationRanges, outputPixelValues, (short) nd );
-                            break;
-                    case DataBuffer.TYPE_INT:
-                            lookupTable = CoverageUtilities.getRangeLookupTable(classificationRanges, outputPixelValues, nd );
-                            break;                  
-                    default:
-                            throw new IllegalArgumentException(org.geotools.resources.i18n.Errors.format(ErrorKeys.ILLEGAL_ARGUMENT_$2,
-                                    "classification ranges size",size));
-                    }
-            
+                case DataBuffer.TYPE_BYTE:
+                    lookupTable = CoverageUtilities.getRangeLookupTable(classificationRanges, 
+                            outputPixelValues, (byte) nd);
+                    break;
+                case DataBuffer.TYPE_USHORT:
+                    lookupTable = CoverageUtilities.getRangeLookupTable(classificationRanges, 
+                            outputPixelValues, (short) nd);
+                    break;
+                case DataBuffer.TYPE_INT:
+                    lookupTable = CoverageUtilities.getRangeLookupTable(classificationRanges, 
+                            outputPixelValues, nd);
+                    break;
+                default:
+                    throw new IllegalArgumentException(org.geotools.resources.i18n.Errors.format
+                            (ErrorKeys.ILLEGAL_ARGUMENT_$2,
+                            "classification ranges size", size));
+            }
+
         }
         worker.setROI(org.geotools.resources.coverage.CoverageUtilities.getROIProperty(coverage));
         worker.setBackground(new double[]{nd});
         final RenderedOp indexedClassification = worker.rangeLookup(lookupTable)
                 .getRenderedOperation();
 
-        
+
         //
         // build the output coverage
         //
-        
-        
+
+
         // build the output sample dimensions, use the default value ( 0 ) as the no data
         final GridSampleDimension outSampleDimension = new GridSampleDimension("classification",
-                new Category[] { Category.NODATA }, null);
-        final GridCoverageFactory factory = CoverageFactoryFinder.getGridCoverageFactory(GeoTools.getDefaultHints());
-        HashMap<String,Object> properties = new HashMap<String,Object>(){{
-        	put(NoDataContainer.GC_NODATA,new NoDataContainer(0d));
+                new Category[]{Category.NODATA}, null);
+        final GridCoverageFactory factory = CoverageFactoryFinder.getGridCoverageFactory(GeoTools
+                .getDefaultHints());
+        HashMap<String, Object> properties = new HashMap<String, Object>() {{
+            put(NoDataContainer.GC_NODATA, new NoDataContainer(0d));
         }};
-        org.geotools.resources.coverage.CoverageUtilities.setROIProperty(properties, worker.getROI());
+        org.geotools.resources.coverage.CoverageUtilities.setROIProperty(properties, worker
+                .getROI());
         final GridCoverage2D output = factory.create("reclassified", indexedClassification, coverage
-                .getGridGeometry(), new GridSampleDimension[] { outSampleDimension },
-                new GridCoverage[] { coverage }, properties);
+                        .getGridGeometry(), new GridSampleDimension[]{outSampleDimension},
+                new GridCoverage[]{coverage}, properties);
         return output;
     }
-    
-    
+
+
     /**
      * Execute the RangeLookupProcess on the provided coverage (left for backwards compatibility)
-     * 
-     * @param coverage The continuous coverage to be reclassified
-     * @param classificationBand The band to be used for classification
+     *
+     * @param coverage             The continuous coverage to be reclassified
+     * @param classificationBand   The band to be used for classification
      * @param classificationRanges The list of ranges to be applied
-     * @param listener The progress listener
+     * @param listener             The progress listener
      * @return The reclassified coverage
      * @throws ProcessException
      */
     public GridCoverage2D execute(GridCoverage2D coverage, Integer classificationBand,
-            List<Range> classificationRanges, ProgressListener listener) throws ProcessException {
+                                  List<Range> classificationRanges, ProgressListener listener) 
+            throws ProcessException {
         return execute(coverage, classificationBand, classificationRanges, null, 0d, listener);
     }
 

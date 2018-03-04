@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -28,8 +28,6 @@ import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.filter.sort.SortBy;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SortedFeatureIterator implements SimpleFeatureIterator {
@@ -39,7 +37,7 @@ public class SortedFeatureIterator implements SimpleFeatureIterator {
     /**
      * Checks if the schema and the sortBy are suitable for merge/sort. All attributes need to be
      * {@link Serializable}, all sorting attributes need to be {@link Comparable}
-     * 
+     *
      * @param schema
      * @param sortBy
      * @return
@@ -50,16 +48,16 @@ public class SortedFeatureIterator implements SimpleFeatureIterator {
 
     /**
      * Builds a new sorting feature iterator
-     * 
-     * @param iterator The iterator to be sorted
-     * @param schema The iterator schema
-     * @param sortBy The sorting directives
+     *
+     * @param iterator    The iterator to be sorted
+     * @param schema      The iterator schema
+     * @param sortBy      The sorting directives
      * @param maxFeatures The maximum number of features to keep in memory, or a negative number to
-     *        use the system default
+     *                    use the system default
      * @throws IOException
      */
     public SortedFeatureIterator(SimpleFeatureIterator iterator, SimpleFeatureType schema,
-            SortBy[] sortBy, int maxFeatures) throws IOException {
+                                 SortBy[] sortBy, int maxFeatures) throws IOException {
         DelegateSimpleFeatureReader reader = new DelegateSimpleFeatureReader(schema, iterator);
         SimpleFeatureReader sorted = new SortedFeatureReader(reader, sortBy, maxFeatures);
         this.delegate = new FeatureReaderFeatureIterator(sorted);

@@ -34,9 +34,9 @@ import com.vividsolutions.jts.geom.Envelope;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:BoxType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="BoxType"&gt;
  *      &lt;annotation&gt;
@@ -60,9 +60,6 @@ import com.vividsolutions.jts.geom.Envelope;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLBoxTypeBinding extends AbstractComplexBinding {
@@ -86,13 +83,13 @@ public class GMLBoxTypeBinding extends AbstractComplexBinding {
     /**
      * <!-- begin-user-doc -->
      * This method returns an object of type
+     *
      * @link com.vividsolutions.jts.geom.Envelope.
      * <!-- end-user-doc -->
-     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         List coordinates = node.getChildren("coord");
 
         if (!coordinates.isEmpty() && (coordinates.size() == 2)) {
@@ -122,14 +119,15 @@ public class GMLBoxTypeBinding extends AbstractComplexBinding {
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         Envelope e = (Envelope) object;
 
         if (GML.coord.equals(name)) {
-            return new Coordinate[] {
-                new Coordinate(e.getMinX(), e.getMinY()), new Coordinate(e.getMaxX(), e.getMaxY())
+            return new Coordinate[]{
+                    new Coordinate(e.getMinX(), e.getMinY()), new Coordinate(e.getMaxX(), e
+                    .getMaxY())
             };
-        } else if("srsName".equals(name.getLocalPart()) && e instanceof ReferencedEnvelope) {
+        } else if ("srsName".equals(name.getLocalPart()) && e instanceof ReferencedEnvelope) {
             return GML2EncodingUtils.toURI(((ReferencedEnvelope) e).getCoordinateReferenceSystem());
         }
 

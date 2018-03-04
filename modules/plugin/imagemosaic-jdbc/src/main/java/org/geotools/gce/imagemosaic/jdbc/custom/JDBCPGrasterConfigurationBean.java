@@ -21,18 +21,19 @@ import java.util.Properties;
 import org.geotools.factory.Hints.Key;
 
 /**
- * A Configuration bean storing datastore properties, tableName, coverageName, table prefixes, file extension
- * 
+ * A Configuration bean storing datastore properties, tableName, coverageName, table prefixes, 
+ * file extension
+ *
  * @author Daniele Romagnoli, GeoSolutions SAS
- * 
  */
 public class JDBCPGrasterConfigurationBean {
 
     public final static Key CONFIG_KEY = new Key(JDBCPGrasterConfigurationBean.class);
 
     public JDBCPGrasterConfigurationBean(Properties datastoreProperties, String tableName,
-            String tileTablePrefix, String fileExtension, String coverageName,
-            String importOptions, String schema, final int epsgCode) {
+                                         String tileTablePrefix, String fileExtension, String 
+                                                 coverageName,
+                                         String importOptions, String schema, final int epsgCode) {
         this.datastoreProperties = datastoreProperties;
         this.tableName = tableName;
         this.tileTablePrefix = tileTablePrefix;

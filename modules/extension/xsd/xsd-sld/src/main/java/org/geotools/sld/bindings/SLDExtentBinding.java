@@ -19,7 +19,9 @@ package org.geotools.sld.bindings;
 import org.picocontainer.MutablePicoContainer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 import javax.xml.namespace.QName;
+
 import org.geotools.styling.Extent;
 import org.geotools.styling.StyleFactory;
 import org.geotools.xml.*;
@@ -27,9 +29,9 @@ import org.geotools.xml.*;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:Extent.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="Extent"&gt;
  *      &lt;xsd:annotation&gt;
@@ -49,9 +51,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDExtentBinding extends AbstractComplexBinding {
@@ -104,7 +103,7 @@ public class SLDExtentBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         String name = (String) node.getChildValue("Name");
         String valu = (String) node.getChildValue("Value");
 

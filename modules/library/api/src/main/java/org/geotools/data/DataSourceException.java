@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -25,7 +25,6 @@ package org.geotools.data;
  * problems from external services, providing the root cause is
  * important.
  * </p>
- *
  *
  * @source $URL$
  */
@@ -54,7 +53,7 @@ public class DataSourceException extends java.io.IOException {
     /**
      * Constructs a new instance of DataSourceException
      *
-     * @param msg A message explaining the exception
+     * @param msg   A message explaining the exception
      * @param cause the throwable object which caused this exception
      */
     public DataSourceException(String msg, Throwable cause) {

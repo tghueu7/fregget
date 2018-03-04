@@ -28,15 +28,12 @@ import org.opengis.feature.type.Name;
 /**
  * Sample implementation of {@link DataAccess} for testing. Create with
  * {@link SampleDataAccessFactory}.
- * 
+ *
  * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
  * @version $Id$
- *
- *
- *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/app-schema/sample-data-access
- *         /src/main/java/org/geotools/data/SampleDataAccess.java $
+ * http://svn.osgeo.org/geotools/trunk/modules/unsupported/app-schema/sample-data-access
+ * /src/main/java/org/geotools/data/SampleDataAccess.java $
  * @since 2.6
  */
 @SuppressWarnings("serial")
@@ -44,7 +41,7 @@ public class SampleDataAccess implements DataAccess<FeatureType, Feature> {
 
     /**
      * Unsupported operation.
-     * 
+     *
      * @see org.geotools.data.DataAccess#createSchema(org.opengis.feature.type.FeatureType)
      */
     public void createSchema(FeatureType featureType) throws IOException {
@@ -54,7 +51,7 @@ public class SampleDataAccess implements DataAccess<FeatureType, Feature> {
 
     /**
      * Nothing to dispose.
-     * 
+     *
      * @see org.geotools.data.DataAccess#dispose()
      */
     public void dispose() {
@@ -81,7 +78,7 @@ public class SampleDataAccess implements DataAccess<FeatureType, Feature> {
 
     /**
      * Unsupported operation.
-     * 
+     *
      * @see org.geotools.data.DataAccess#getInfo()
      */
     public ServiceInfo getInfo() {
@@ -91,7 +88,7 @@ public class SampleDataAccess implements DataAccess<FeatureType, Feature> {
     /**
      * Get the feature type names provided by this {@link DataAccess}. Only
      * {@link SampleDataAccessData.MAPPEDFEATURE_TYPE_NAME} is supported.
-     * 
+     *
      * @see org.geotools.data.DataAccess#getNames()
      */
     public List<Name> getNames() throws IOException {
@@ -106,7 +103,7 @@ public class SampleDataAccess implements DataAccess<FeatureType, Feature> {
     /**
      * Return the feature type for supported type name. Only
      * {@link SampleDataAccessData.MAPPEDFEATURE_TYPE_NAME} is supported.
-     * 
+     *
      * @see org.geotools.data.DataAccess#getSchema(org.opengis.feature.type.Name)
      */
     public FeatureType getSchema(Name name) throws IOException {
@@ -121,9 +118,9 @@ public class SampleDataAccess implements DataAccess<FeatureType, Feature> {
 
     /**
      * Unsupported operation.
-     * 
+     *
      * @see org.geotools.data.DataAccess#updateSchema(org.opengis.feature.type.Name,
-     *      org.opengis.feature.type.FeatureType)
+     * org.opengis.feature.type.FeatureType)
      */
     public void updateSchema(Name typeName, FeatureType featureType) throws IOException {
         throw new UnsupportedOperationException();
@@ -132,7 +129,7 @@ public class SampleDataAccess implements DataAccess<FeatureType, Feature> {
 
     /**
      * Unsupported operation.
-     * 
+     *
      * @see org.geotools.data.DataAccess#removeSchema(org.opengis.feature.type.Name)
      */
     public void removeSchema(Name typeName) throws IOException {

@@ -53,15 +53,11 @@ import org.opengis.feature.type.Name;
  * This tests AppSchemaDataAccessRegistry class. When an appschema data access is created, it would
  * be registered in the registry. Once it's in the registry, its feature type mapping and feature
  * source (simple or mapped) would be accessible globally.
- * 
+ *
  * @author Rini Angreani (CSIRO Earth Science and Resource Engineering)
- * 
- *
- *
- *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/app-schema/app-schema/src/test
- *         /java/org/geotools/data/complex/AppSchemaDataAccessRegistryTest.java $
+ * http://svn.osgeo.org/geotools/trunk/modules/unsupported/app-schema/app-schema/src/test
+ * /java/org/geotools/data/complex/AppSchemaDataAccessRegistryTest.java $
  */
 public class AppSchemaDataAccessRegistryTest extends AppSchemaTestSupport {
 
@@ -126,7 +122,7 @@ public class AppSchemaDataAccessRegistryTest extends AppSchemaTestSupport {
 
     /**
      * Test registering and unregistering all data accesses works.
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -154,7 +150,7 @@ public class AppSchemaDataAccessRegistryTest extends AppSchemaTestSupport {
     /**
      * Test that asking for a nonexistent type causes an excception to be thrown with the correct
      * number of type names in the detail message.
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -174,7 +170,7 @@ public class AppSchemaDataAccessRegistryTest extends AppSchemaTestSupport {
 
     /**
      * Load all data accesses
-     * 
+     *
      * @throws Exception
      */
     public static void loadDataAccesses() throws Exception {
@@ -281,17 +277,14 @@ public class AppSchemaDataAccessRegistryTest extends AppSchemaTestSupport {
 
     /**
      * Tests that registry works.
-     * 
-     * @param dataAccess
-     *            The app schema data access to check
-     * @param typeName
-     *            Feature type
-     * @param isNonFeature
-     *            true if the type is non feature
+     *
+     * @param dataAccess   The app schema data access to check
+     * @param typeName     Feature type
+     * @param isNonFeature true if the type is non feature
      * @throws IOException
      */
     private void checkRegisteredDataAccess(AppSchemaDataAccess dataAccess, Name typeName,
-            boolean isNonFeature) throws IOException {
+                                           boolean isNonFeature) throws IOException {
         FeatureTypeMapping mapping = AppSchemaDataAccessRegistry.getMappingByName(typeName);
         assertNotNull(mapping);
         // compare with the supplied data access
@@ -316,11 +309,9 @@ public class AppSchemaDataAccessRegistryTest extends AppSchemaTestSupport {
 
     /**
      * Tests that unregistering data access works
-     * 
-     * @param dataAccess
-     *            The data access
-     * @param typeName
-     *            The feature type name
+     *
+     * @param dataAccess The data access
+     * @param typeName   The feature type name
      * @throws IOException
      */
     private void unregister(DataAccess dataAccess, Name typeName) throws IOException {
@@ -333,7 +324,8 @@ public class AppSchemaDataAccessRegistryTest extends AppSchemaTestSupport {
             assertTrue(e.getMessage().startsWith("Feature type " + typeName + " not found"));
         }
         if (!notFound) {
-            fail("Expecting DataSourceException but didn't occur. Deregistering data access fails.");
+            fail("Expecting DataSourceException but didn't occur. Deregistering data access fails" +
+                    ".");
         }
         notFound = false;
         try {
@@ -343,14 +335,15 @@ public class AppSchemaDataAccessRegistryTest extends AppSchemaTestSupport {
             assertTrue(e.getMessage().startsWith("Feature type " + typeName + " not found"));
         }
         if (!notFound) {
-            fail("Expecting DataSourceException but didn't occur. Deregistering data access fails.");
+            fail("Expecting DataSourceException but didn't occur. Deregistering data access fails" +
+                    ".");
         }
     }
 
     /**
      * Fail scenarios for breaking uniqueness of FeatureTypeMapping key (mappingName or
      * targetElement).
-     * 
+     *
      * @throws IOException
      */
     @Test
@@ -375,7 +368,8 @@ public class AppSchemaDataAccessRegistryTest extends AppSchemaTestSupport {
             assertTrue(e
                     .getMessage()
                     .startsWith(
-                            "Duplicate mappingName or targetElement across FeatureTypeMapping instances detected."));
+                            "Duplicate mappingName or targetElement across FeatureTypeMapping " +
+                                    "instances detected."));
             threwException = true;
         }
         assertTrue(threwException);
@@ -401,7 +395,8 @@ public class AppSchemaDataAccessRegistryTest extends AppSchemaTestSupport {
             assertTrue(e
                     .getMessage()
                     .startsWith(
-                            "Duplicate mappingName or targetElement across FeatureTypeMapping instances detected."));
+                            "Duplicate mappingName or targetElement across FeatureTypeMapping " +
+                                    "instances detected."));
             threwException = true;
         }
         assertTrue(threwException);
@@ -425,7 +420,8 @@ public class AppSchemaDataAccessRegistryTest extends AppSchemaTestSupport {
             assertTrue(e
                     .getMessage()
                     .startsWith(
-                            "Duplicate mappingName or targetElement across FeatureTypeMapping instances detected."));
+                            "Duplicate mappingName or targetElement across FeatureTypeMapping " +
+                                    "instances detected."));
             threwException = true;
         }
         assertTrue(threwException);
@@ -434,9 +430,8 @@ public class AppSchemaDataAccessRegistryTest extends AppSchemaTestSupport {
     /**
      * Success scenarios for keeping uniqueness of FeatureTypeMapping key (mappingName or
      * targetElement).
-     * 
+     *
      * @throws IOException
-     * 
      * @throws IOException
      */
     @Test

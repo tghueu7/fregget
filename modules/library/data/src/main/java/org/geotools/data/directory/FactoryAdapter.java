@@ -35,9 +35,8 @@ import org.geotools.util.logging.Logging;
  * Wraps a factory for a potential file data store, that is, a factory that has
  * a URL or File as one of its connection, and hides the parameter differences
  * to the file cache
- * 
+ *
  * @author Andrea Aime - OpenGeo
- * 
  */
 class FactoryAdapter {
     static final Logger LOGGER = Logging.getLogger(DirectoryTypeCache.class);
@@ -49,7 +48,7 @@ class FactoryAdapter {
     Param nsParam;
 
     public FactoryAdapter(DataStoreFactorySpi factory, Param fileParam,
-            Param nsParam) {
+                          Param nsParam) {
         this.factory = factory;
         this.fileParam = fileParam;
         this.nsParam = nsParam;
@@ -84,7 +83,7 @@ class FactoryAdapter {
         }
         return null;
     }
-    
+
     @Override
     public String toString() {
         return factory.getClass().toString();

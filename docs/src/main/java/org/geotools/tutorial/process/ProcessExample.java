@@ -45,35 +45,36 @@ public class ProcessExample {
         // octo start
         WKTReader wktReader = new WKTReader(new GeometryFactory());
         Geometry geom = wktReader.read("MULTIPOINT (1 1, 5 4, 7 9, 5 5, 2 2)");
-        
-        Name name = new NameImpl("tutorial","octagonalEnvelope");
-        Process process = Processors.createProcess( name );
-        
+
+        Name name = new NameImpl("tutorial", "octagonalEnvelope");
+        Process process = Processors.createProcess(name);
+
         ProcessExecutor engine = Processors.newProcessExecutor(2);
-        
+
         // quick map of inputs
-        Map<String,Object> input = new KVP("geom", geom);
-        Progress working = engine.submit(process, input );
-        
+        Map<String, Object> input = new KVP("geom", geom);
+        Progress working = engine.submit(process, input);
+
         // you could do other stuff whle working is doing its thing
-        if( working.isCancelled() ){
+        if (working.isCancelled()) {
             return;
         }
-        
-        Map<String,Object> result = working.get(); // get is BLOCKING
+
+        Map<String, Object> result = working.get(); // get is BLOCKING
         Geometry octo = (Geometry) result.get("result");
-        
-        System.out.println( octo );
+
+        System.out.println(octo);
         // octo end
     }
+
     public static void exampleParam() throws Exception {
         // param start
-        Name name = new NameImpl("tutorial","octagonalEnvelope");
+        Name name = new NameImpl("tutorial", "octagonalEnvelope");
 
         Map<String, Parameter<?>> paramInfo = Processors.getParameterInfo(name);
         // param end
     }
-    
+
     public static void example2() throws Exception {
 
         WKTReader reader = new WKTReader(new GeometryFactory());

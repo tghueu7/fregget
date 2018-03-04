@@ -38,27 +38,25 @@ import com.vividsolutions.jts.geom.impl.CoordinateArraySequenceFactory;
  * Parser configuration for the http://www.opengis.net/gml schema.
  *
  * @generated
- *
- *
  * @source $URL$
  */
 public class GMLConfiguration extends Configuration {
 
     /**
      * Creates a new configuration.
-     * 
+     *
      * @generated
-     */     
+     */
     public GMLConfiguration() {
-       super(GML.getInstance());
-       
-       addDependency(new XLINKConfiguration());
+        super(GML.getInstance());
+
+        addDependency(new XLINKConfiguration());
     }
-    
+
     @Override
     protected void registerBindings(Map bindings) {
         super.registerBindings(bindings);
-        
+
         final EFactory gmlFactory = Gml4wcsFactory.eINSTANCE;
         register(bindings, gmlFactory, GML._GeometricPrimitive);
         register(bindings, gmlFactory, GML._Geometry);
@@ -68,7 +66,8 @@ public class GMLConfiguration extends Configuration {
         register(bindings, gmlFactory, GML._Ring);
         register(bindings, gmlFactory, GML._Surface);
 
-        bindings.put(GML.AbstractGeometricPrimitiveType, new AbstractGeometricPrimitiveTypeBinding());
+        bindings.put(GML.AbstractGeometricPrimitiveType, new 
+                AbstractGeometricPrimitiveTypeBinding());
         bindings.put(GML.AbstractGeometryBaseType, new AbstractGeometryBaseTypeBinding());
         bindings.put(GML.AbstractGeometryType, new AbstractGeometryTypeBinding());
 
@@ -80,7 +79,7 @@ public class GMLConfiguration extends Configuration {
         bindings.put(GML.TimeDurationType, new TimeDurationTypeBinding());
         bindings.put(GML.TimePositionType, new TimePositionTypeBinding());
         bindings.put(GML.TemporalPositionType, new TemporalPositionTypeBinding());
-        
+
         // gml:pos
         bindings.put(GML.DirectPositionType, new DirectPositionTypeBinding());
 
@@ -91,16 +90,16 @@ public class GMLConfiguration extends Configuration {
         // Envelope
         bindings.put(GML.EnvelopeType, new EnvelopeTypeBinding());
         bindings.put(GML.EnvelopeWithTimePeriodType, new EnvelopeWithTimePeriodTypeBinding());
-        
+
         // Grid
         bindings.put(GML.GridEnvelopeType, new GridEnvelopeTypeBinding());
         bindings.put(GML.GridLimitsType, new GridLimitsTypeBinding());
-        
+
         bindings.put(GML.GridType, new GridTypeBinding());
         //register(bindings, gmlFactory, GML.RectifiedGridType);
         //register(bindings, gmlFactory, GML.GridType);
     }
-    
+
     private void register(Map bindings, EFactory factory, QName qname) {
         bindings.put(qname, new ComplexEMFBinding(factory, qname));
     }
@@ -112,40 +111,59 @@ public class GMLConfiguration extends Configuration {
 //     */
 //    protected final void registerBindings( MutablePicoContainer container ) {
 //        //Types
-//        container.registerComponentImplementation(GML.AbstractGeometricPrimitiveType,AbstractGeometricPrimitiveTypeBinding.class);
-//        container.registerComponentImplementation(GML.AbstractGeometryBaseType,AbstractGeometryBaseTypeBinding.class);
-//        container.registerComponentImplementation(GML.AbstractGeometryType,AbstractGeometryTypeBinding.class);
-//        container.registerComponentImplementation(GML.AbstractGMLType,AbstractGMLTypeBinding.class);
-//        container.registerComponentImplementation(GML.AbstractMetaDataType,AbstractMetaDataTypeBinding.class);
-//        container.registerComponentImplementation(GML.AbstractRingPropertyType,AbstractRingPropertyTypeBinding.class);
-//        container.registerComponentImplementation(GML.AbstractRingType,AbstractRingTypeBinding.class);
-//        container.registerComponentImplementation(GML.AbstractSurfaceType,AbstractSurfaceTypeBinding.class);
-//        container.registerComponentImplementation(GML.BoundingShapeType,BoundingShapeTypeBinding.class);
+//        container.registerComponentImplementation(GML.AbstractGeometricPrimitiveType,
+// AbstractGeometricPrimitiveTypeBinding.class);
+//        container.registerComponentImplementation(GML.AbstractGeometryBaseType,
+// AbstractGeometryBaseTypeBinding.class);
+//        container.registerComponentImplementation(GML.AbstractGeometryType,
+// AbstractGeometryTypeBinding.class);
+//        container.registerComponentImplementation(GML.AbstractGMLType,AbstractGMLTypeBinding
+// .class);
+//        container.registerComponentImplementation(GML.AbstractMetaDataType,
+// AbstractMetaDataTypeBinding.class);
+//        container.registerComponentImplementation(GML.AbstractRingPropertyType,
+// AbstractRingPropertyTypeBinding.class);
+//        container.registerComponentImplementation(GML.AbstractRingType,AbstractRingTypeBinding
+// .class);
+//        container.registerComponentImplementation(GML.AbstractSurfaceType,
+// AbstractSurfaceTypeBinding.class);
+//        container.registerComponentImplementation(GML.BoundingShapeType,
+// BoundingShapeTypeBinding.class);
 //        container.registerComponentImplementation(GML.CodeListType,CodeListTypeBinding.class);
 //        container.registerComponentImplementation(GML.CodeType,CodeTypeBinding.class);
-//        container.registerComponentImplementation(GML.DirectPositionType,DirectPositionTypeBinding.class);
+//        container.registerComponentImplementation(GML.DirectPositionType,
+// DirectPositionTypeBinding.class);
 //        container.registerComponentImplementation(GML.doubleList,DoubleListBinding.class);
 //        container.registerComponentImplementation(GML.EnvelopeType,EnvelopeTypeBinding.class);
-//        container.registerComponentImplementation(GML.EnvelopeWithTimePeriodType,EnvelopeWithTimePeriodTypeBinding.class);
-//        container.registerComponentImplementation(GML.GridEnvelopeType,GridEnvelopeTypeBinding.class);
+//        container.registerComponentImplementation(GML.EnvelopeWithTimePeriodType,
+// EnvelopeWithTimePeriodTypeBinding.class);
+//        container.registerComponentImplementation(GML.GridEnvelopeType,GridEnvelopeTypeBinding
+// .class);
 //        container.registerComponentImplementation(GML.GridLimitsType,GridLimitsTypeBinding.class);
 //        container.registerComponentImplementation(GML.GridType,GridTypeBinding.class);
 //        container.registerComponentImplementation(GML.integerList,IntegerListBinding.class);
 //        container.registerComponentImplementation(GML.LinearRingType,LinearRingTypeBinding.class);
-//        container.registerComponentImplementation(GML.MetaDataPropertyType,MetaDataPropertyTypeBinding.class);
+//        container.registerComponentImplementation(GML.MetaDataPropertyType,
+// MetaDataPropertyTypeBinding.class);
 //        container.registerComponentImplementation(GML.NameList,NameListBinding.class);
 //        container.registerComponentImplementation(GML.PointType,PointTypeBinding.class);
 //        container.registerComponentImplementation(GML.PolygonType,PolygonTypeBinding.class);
-//        container.registerComponentImplementation(GML.RectifiedGridType,RectifiedGridTypeBinding.class);
+//        container.registerComponentImplementation(GML.RectifiedGridType,
+// RectifiedGridTypeBinding.class);
 //        container.registerComponentImplementation(GML.ReferenceType,ReferenceTypeBinding.class);
-//        container.registerComponentImplementation(GML.StringOrRefType,StringOrRefTypeBinding.class);
-//        container.registerComponentImplementation(GML.TemporalPositionType,TemporalPositionTypeBinding.class);
-//        container.registerComponentImplementation(GML.TimeDurationType,TimeDurationTypeBinding.class);
-//        container.registerComponentImplementation(GML.TimeIndeterminateValueType,TimeIndeterminateValueTypeBinding.class);
-//        container.registerComponentImplementation(GML.TimePositionType,TimePositionTypeBinding.class);
+//        container.registerComponentImplementation(GML.StringOrRefType,StringOrRefTypeBinding
+// .class);
+//        container.registerComponentImplementation(GML.TemporalPositionType,
+// TemporalPositionTypeBinding.class);
+//        container.registerComponentImplementation(GML.TimeDurationType,TimeDurationTypeBinding
+// .class);
+//        container.registerComponentImplementation(GML.TimeIndeterminateValueType,
+// TimeIndeterminateValueTypeBinding.class);
+//        container.registerComponentImplementation(GML.TimePositionType,TimePositionTypeBinding
+// .class);
 //        container.registerComponentImplementation(GML.VectorType,VectorTypeBinding.class);
 //    }
-    
+
     /**
      * Configures the gml3 context.
      * <p>
@@ -158,12 +176,13 @@ public class GMLConfiguration extends Configuration {
      */
     public void configureContext(MutablePicoContainer container) {
         container.registerComponentInstance(Gml4wcsFactory.eINSTANCE);
-        
+
         container.registerComponentInstance(new FeatureTypeCache());
         container.registerComponentImplementation(FeaturePropertyExtractor.class);
 
         //factories
-        container.registerComponentInstance(CoordinateSequenceFactory.class, CoordinateArraySequenceFactory.instance());
+        container.registerComponentInstance(CoordinateSequenceFactory.class, 
+                CoordinateArraySequenceFactory.instance());
         container.registerComponentImplementation(GeometryFactory.class);
         container.registerComponentImplementation(DefaultFeatureCollections.class);
     }

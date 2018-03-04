@@ -6,21 +6,19 @@ import org.geotools.filter.spatial.BBOXImpl;
 import com.vividsolutions.jts.geom.Envelope;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class CacheUtil {
-	/**
-	 * Extracts an envelope from a bbox filter.
-	 * 
-	 * @param filter
-	 * @return
-	 */
-	public static Envelope extractEnvelope(BBOXImpl filter) {
+    /**
+     * Extracts an envelope from a bbox filter.
+     *
+     * @param filter
+     * @return
+     */
+    public static Envelope extractEnvelope(BBOXImpl filter) {
         return new Envelope(filter.getMinX(), filter.getMaxX(), filter.getMinY(), filter.getMaxY());
     }
-	
+
     /**
      * Converts and envelope to a region.
      *
@@ -29,8 +27,8 @@ public class CacheUtil {
      */
     public static Region convert(Envelope e) {
         if (e == null) return null;
-        return new Region(new double[] { e.getMinX(), e.getMinY() },
-            new double[] { e.getMaxX(), e.getMaxY() });
+        return new Region(new double[]{e.getMinX(), e.getMinY()},
+                new double[]{e.getMaxX(), e.getMaxY()});
     }
 
     /**

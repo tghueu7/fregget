@@ -29,11 +29,10 @@ import java.util.logging.Logger;
 
 /**
  * An implementation of {@link Format} for the SRP format.
- * 
- * @author Andrea Aime, GeoSolutions
- * @since 19.x
  *
+ * @author Andrea Aime, GeoSolutions
  * @source $URL$
+ * @since 19.x
  */
 public final class SRPFormat extends BaseGDALGridFormat implements Format {
     /**
@@ -66,7 +65,7 @@ public final class SRPFormat extends BaseGDALGridFormat implements Format {
 
     /**
      * @see org.geotools.data.coverage.grid.AbstractGridFormat#getReader(Object,
-     *      Hints)
+     * Hints)
      */
     public SRPReader getReader(Object source, Hints hints) {
         try {

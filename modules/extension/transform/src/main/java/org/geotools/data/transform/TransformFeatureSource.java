@@ -47,7 +47,7 @@ import org.opengis.filter.sort.SortBy;
 
 /**
  * A feature source that can transform a source feature source using a set of expressions
- * 
+ * <p>
  * Usages:
  * <ul>
  * <li>hide, rename fields - compute new fields</li>
@@ -57,7 +57,7 @@ import org.opengis.filter.sort.SortBy;
  * <li>on the fly simplification for WFS (just use environment variables) and in general dynamic
  * processing based on params without stored queries</li>
  * </ul>
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 public class TransformFeatureSource implements SimpleFeatureSource {
@@ -70,17 +70,18 @@ public class TransformFeatureSource implements SimpleFeatureSource {
 
     protected SimpleFeatureSource source;
 
-    
+
     /**
      * Creates a transformed feature source from the original source, giving it a certain name and a
      * set of computed properties
-     * 
+     *
      * @param source
      * @param name
      * @param definitions
      * @throws IOException
      */
-    public TransformFeatureSource(SimpleFeatureSource source, Name name, List<Definition> definitions)
+    public TransformFeatureSource(SimpleFeatureSource source, Name name, List<Definition> 
+            definitions)
             throws IOException {
         this.transformer = new Transformer(source, name, definitions, null);
         this.source = source;
@@ -151,8 +152,9 @@ public class TransformFeatureSource implements SimpleFeatureSource {
                                 if (LOGGER.isLoggable(Level.FINE)) {
                                     LOGGER.log(
                                             Level.FINE,
-                                            "Can't sort on {0} because its property type {1} is not comparable",
-                                            new Object[] { descriptor.getLocalName(), binding });
+                                            "Can't sort on {0} because its property type {1} is " +
+                                                    "not comparable",
+                                            new Object[]{descriptor.getLocalName(), binding});
                                 }
                                 return false;
                             }
@@ -219,7 +221,7 @@ public class TransformFeatureSource implements SimpleFeatureSource {
         if (LOGGER.isLoggable(Level.FINE)) {
             LOGGER.log(Level.FINE,
                     "The original query for bounds computation{0} has been tranformed to {1}",
-                    new Object[] { query, txQuery });
+                    new Object[]{query, txQuery});
         }
 
         return source.getBounds(txQuery);
@@ -227,7 +229,7 @@ public class TransformFeatureSource implements SimpleFeatureSource {
 
     /**
      * Returns the set of names actually selected by the query
-     * 
+     *
      * @param attributeNames
      * @param query
      * @return
@@ -257,7 +259,7 @@ public class TransformFeatureSource implements SimpleFeatureSource {
         if (LOGGER.isLoggable(Level.FINE)) {
             LOGGER.log(Level.FINE,
                     "The original query for count computation{0} has been transformed to {1}",
-                    new Object[] { query, txQuery });
+                    new Object[]{query, txQuery});
         }
 
         return source.getCount(txQuery);

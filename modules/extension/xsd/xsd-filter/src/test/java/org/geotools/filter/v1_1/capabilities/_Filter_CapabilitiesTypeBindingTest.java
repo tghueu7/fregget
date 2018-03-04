@@ -24,9 +24,9 @@ import org.geotools.xml.Binding;
 
 /**
  * Binding test case for http://www.opengis.net/ogc:_Filter_Capabilities.
- *
  * <p>
- *  <pre>
+ * <p>
+ * <pre>
  *   <code>
  *  &lt;xsd:complexType name="_Filter_Capabilities"&gt;
  *      &lt;xsd:sequence&gt;
@@ -41,9 +41,6 @@ import org.geotools.xml.Binding;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class _Filter_CapabilitiesTypeBindingTest extends OGCTestSupport {

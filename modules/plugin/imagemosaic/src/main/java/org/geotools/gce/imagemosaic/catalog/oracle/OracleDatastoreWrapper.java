@@ -24,11 +24,11 @@ import org.geotools.data.simple.SimpleFeatureStore;
 import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
- * Specific Oracle implementation for a {@link DataStoreWrapper} Oracle DB has a couple of limitations: 1) All attributes and type names are UPPERCASE
+ * Specific Oracle implementation for a {@link DataStoreWrapper} Oracle DB has a couple of 
+ * limitations: 1) All attributes and type names are UPPERCASE
  * 2) attribute and type names can't be longer than 30 chars
- * 
- * @author Daniele Romagnoli, GeoSolutions SAS
  *
+ * @author Daniele Romagnoli, GeoSolutions SAS
  */
 public class OracleDatastoreWrapper extends DataStoreWrapper {
 
@@ -44,7 +44,8 @@ public class OracleDatastoreWrapper extends DataStoreWrapper {
 
     @Override
     protected SimpleFeatureSource transformFeatureStore(SimpleFeatureStore store,
-            FeatureTypeMapper mapper) throws IOException {
+                                                        FeatureTypeMapper mapper) throws 
+            IOException {
         SimpleFeatureSource transformedSource = mapper.getSimpleFeatureSource();
         if (transformedSource != null) {
             return transformedSource;

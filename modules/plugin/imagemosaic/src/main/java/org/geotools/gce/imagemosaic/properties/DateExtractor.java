@@ -31,9 +31,7 @@ import org.geotools.util.logging.Logging;
 import org.opengis.feature.simple.SimpleFeature;
 
 /**
- * 
  * @author Niels Charlier
- * 
  */
 class DateExtractor extends PropertiesCollector {
 

@@ -27,9 +27,9 @@ import com.vividsolutions.jts.geom.Envelope;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:NullType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;simpleType name="NullType"&gt;
  *      &lt;annotation&gt;
@@ -54,9 +54,6 @@ import com.vividsolutions.jts.geom.Envelope;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLNullTypeBinding implements SimpleBinding {
@@ -97,7 +94,7 @@ public class GMLNullTypeBinding implements SimpleBinding {
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
+            throws Exception {
         //dont do anything special, here just return the string
         return value;
     }

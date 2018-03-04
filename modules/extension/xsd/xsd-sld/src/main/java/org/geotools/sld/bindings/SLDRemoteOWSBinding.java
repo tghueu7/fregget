@@ -19,8 +19,10 @@ package org.geotools.sld.bindings;
 import org.picocontainer.MutablePicoContainer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 import java.net.URI;
 import javax.xml.namespace.QName;
+
 import org.geotools.styling.RemoteOWS;
 import org.geotools.styling.StyleFactory;
 import org.geotools.xml.*;
@@ -28,9 +30,9 @@ import org.geotools.xml.*;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:RemoteOWS.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="RemoteOWS"&gt;
  *      &lt;xsd:annotation&gt;
@@ -50,9 +52,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDRemoteOWSBinding extends AbstractComplexBinding {
@@ -105,8 +104,8 @@ public class SLDRemoteOWSBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return styleFactory.createRemoteOWS((String) node.getChildValue("Service"),
-            ((URI) node.getChildValue("OnlineResource")).toString());
+                ((URI) node.getChildValue("OnlineResource")).toString());
     }
 }

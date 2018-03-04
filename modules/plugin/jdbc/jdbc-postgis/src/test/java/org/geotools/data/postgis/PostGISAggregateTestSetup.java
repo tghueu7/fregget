@@ -19,8 +19,6 @@ package org.geotools.data.postgis;
 import org.geotools.jdbc.JDBCAggregateTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class PostGISAggregateTestSetup extends JDBCAggregateTestSetup {
@@ -33,13 +31,14 @@ public class PostGISAggregateTestSetup extends JDBCAggregateTestSetup {
     protected void createAggregateTable() throws Exception {
         run("CREATE TABLE \"aggregate\"(\"fid\" serial PRIMARY KEY, \"id\" int, "
                 + "\"geom\" geometry, \"name\" varchar )");
-        run("INSERT INTO GEOMETRY_COLUMNS VALUES('', 'public', 'aggregate', 'geom', 2, '4326', 'POLYGON')");
+        run("INSERT INTO GEOMETRY_COLUMNS VALUES('', 'public', 'aggregate', 'geom', 2, '4326', " +
+                "'POLYGON')");
 
-        if (((PostGISTestSetup)delegate).isVersion2()) {
+        if (((PostGISTestSetup) delegate).isVersion2()) {
             run("ALTER TABLE \"aggregate\" ALTER COLUMN  \"geom\" TYPE geometry(Polygon,4326);");
         }
         run("CREATE INDEX AGGREGATE_GEOM_INDEX ON \"aggregate\" USING GIST (\"geom\") ");
-        
+
         // advance the sequence to 1 to compensate for hand insertions
         run("SELECT nextval(pg_get_serial_sequence('aggregate','fid'))");
 
@@ -59,6 +58,6 @@ public class PostGISAggregateTestSetup extends JDBCAggregateTestSetup {
         runSafe("DELETE FROM GEOMETRY_COLUMNS WHERE F_TABLE_NAME = 'aggregate'");
         runSafe("DROP TABLE \"aggregate\"");
     }
-    
+
 
 }

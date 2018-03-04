@@ -54,20 +54,19 @@ import org.opengis.util.ProgressListener;
  * <li>{@link DescribeResult} - describes a process result
  * <li>{@link DescribeParameter} - describes a process parameter
  * </ul>
- * 
+ *
  * @author jody
  * @author aaime
- *
  * @source $URL$
  */
 public abstract class AnnotationDrivenProcessFactory implements ProcessFactory {
-    
+
     static final Logger LOGGER = Logging.getLogger(AnnotationDrivenProcessFactory.class);
-    
+
     protected String namespace;
 
     InternationalString title;
-    
+
     private static Map<Class, Class> PRIMITIVE_MAPPER = new HashMap<Class, Class>() {
         {
             put(boolean.class, Boolean.class);
@@ -112,7 +111,8 @@ public abstract class AnnotationDrivenProcessFactory implements ProcessFactory {
         Class<?>[] paramTypes = getMethodParamTypes(method);
         for (int i = 0; i < paramTypes.length; i++) {
             if (!(ProgressListener.class.isAssignableFrom(paramTypes[i]))) {
-                Parameter<?> param = paramInfo(method.getDeclaringClass(), i, paramTypes[i], params[i]);
+                Parameter<?> param = paramInfo(method.getDeclaringClass(), i, paramTypes[i], 
+                        params[i]);
                 input.put(param.key, param);
             }
         }
@@ -125,11 +125,11 @@ public abstract class AnnotationDrivenProcessFactory implements ProcessFactory {
     private Class<?>[] getMethodParamTypes(Method method) {
         Class<?>[] paramTypes = method.getParameterTypes();
         for (int i = 0; i < paramTypes.length; i++) {
-            if(paramTypes[i].isPrimitive()) {
+            if (paramTypes[i].isPrimitive()) {
                 paramTypes[i] = PRIMITIVE_MAPPER.get(paramTypes[i]);
-            } 
+            }
         }
-        
+
         return paramTypes;
     }
 
@@ -146,7 +146,7 @@ public abstract class AnnotationDrivenProcessFactory implements ProcessFactory {
                 DescribeResult info = (DescribeResult) annotation;
                 // see if a type has been declared, otherwise use the annotation
                 addResult(method, result, info);
-            } else if(annotation instanceof DescribeResults) {
+            } else if (annotation instanceof DescribeResults) {
                 DescribeResults info = (DescribeResults) annotation;
                 for (DescribeResult dr : info.value()) {
                     addResult(method, result, dr);
@@ -170,7 +170,7 @@ public abstract class AnnotationDrivenProcessFactory implements ProcessFactory {
         if (Object.class.equals(resultType)) {
             resultType = method.getReturnType();
         }
-        
+
         // metadata
         Map<String, Object> metadata = null;
         if (info != null && info.meta() != null && info.meta().length > 0) {
@@ -182,7 +182,7 @@ public abstract class AnnotationDrivenProcessFactory implements ProcessFactory {
         int min = info.primary() ? 0 : 1;
         Parameter resultParam = new Parameter(info.name(), resultType,
                 new SimpleInternationalString(info.name()), new SimpleInternationalString(
-                        info.description()), min > 0, min, 1, null, metadata);
+                info.description()), min > 0, min, 1, null, metadata);
         result.put(resultParam.key, resultParam);
     }
 
@@ -271,23 +271,24 @@ public abstract class AnnotationDrivenProcessFactory implements ProcessFactory {
         }
         if (min == 0 && max == 1 && type.isPrimitive()) {
             throw new IllegalArgumentException("Optional values cannot be primitives, " +
-            		"use the associated object wrapper instead: " + info.name() + " in process " + process.getName());
+                    "use the associated object wrapper instead: " + info.name() + " in process " 
+                    + process.getName());
         }
-        
+
         HashMap<String, Object> metadata = new HashMap<String, Object>();
-        if (info != null){
-        	double minValue = info.minValue();
-        	if (minValue != Double.NEGATIVE_INFINITY){
-        		metadata.put(Parameter.MIN, Double.valueOf(minValue));
-        	}
-        	double maxValue = info.maxValue();
-        	if (maxValue != Double.POSITIVE_INFINITY){
-        		metadata.put(Parameter.MAX, Double.valueOf(maxValue));
-        	}
+        if (info != null) {
+            double minValue = info.minValue();
+            if (minValue != Double.NEGATIVE_INFINITY) {
+                metadata.put(Parameter.MIN, Double.valueOf(minValue));
+            }
+            double maxValue = info.maxValue();
+            if (maxValue != Double.POSITIVE_INFINITY) {
+                metadata.put(Parameter.MAX, Double.valueOf(maxValue));
+            }
         }
-    
+
         Object defaultValue = null;
-        if(info != null && !DescribeParameter.DEFAULT_NULL.equals(info.defaultValue())) {
+        if (info != null && !DescribeParameter.DEFAULT_NULL.equals(info.defaultValue())) {
             String strDefault = info.defaultValue();
 
             // lookup for constant value
@@ -298,22 +299,24 @@ public abstract class AnnotationDrivenProcessFactory implements ProcessFactory {
                 defaultValue = Converters.convert(strDefault, type);
             }
 
-            if(defaultValue == null) {
-                throw new IllegalArgumentException("Default value " + strDefault + " could not be converted to target type " + type);
+            if (defaultValue == null) {
+                throw new IllegalArgumentException("Default value " + strDefault + " could not be" +
+                        " converted to target type " + type);
             }
         }
-        
+
         // other metadata
         if (info != null && info.meta() != null && info.meta().length > 0) {
             String[] meta = info.meta();
             fillParameterMetadata(meta, metadata);
         }
-        
-        
+
+
         // finally build the parameter
         if (info != null) {
             return new Parameter(info.name(), type, new SimpleInternationalString(info.name()),
-                    new SimpleInternationalString(info.description()), min > 0, min, max, defaultValue, 
+                    new SimpleInternationalString(info.description()), min > 0, min, max, 
+                    defaultValue,
                     metadata);
         } else {
             return new Parameter("arg" + i, type, new SimpleInternationalString("Argument " + i),
@@ -340,19 +343,19 @@ public abstract class AnnotationDrivenProcessFactory implements ProcessFactory {
 
     /**
      * Uses the provided path to look up a constant of the specified type.
-     * If the path 
-     * 
+     * If the path
+     *
      * @param strDefault
      * @param type
      * @return
      */
     private Object lookupConstant(String path, Class<?> process, Class<?> type) {
         int hashIdx = path.indexOf("#");
-        if(hashIdx == -1) {
+        if (hashIdx == -1) {
             // simple reference into the target type, let's see if the constant is is the
             // process class
             Object result = getConstantValue(path, process, type);
-            if(result == null) {
+            if (result == null) {
                 // see if it's in the target class then
                 result = getConstantValue(path, type, type);
             }
@@ -364,7 +367,7 @@ public abstract class AnnotationDrivenProcessFactory implements ProcessFactory {
             try {
                 Class holder = Class.forName(className);
                 return getConstantValue(field, holder, type);
-            } catch(ClassNotFoundException e) {
+            } catch (ClassNotFoundException e) {
                 throw new IllegalArgumentException("Failed to locate class " + className);
             }
         }
@@ -374,33 +377,36 @@ public abstract class AnnotationDrivenProcessFactory implements ProcessFactory {
         Field field = null;
         try {
             field = holder.getDeclaredField(path);
-        } catch(NoSuchFieldException e) {
-            if(LOGGER.isLoggable(Level.FINE)) {
-                LOGGER.log(Level.FINE, "Failed to locate the field " + path + " in class " + holder);
+        } catch (NoSuchFieldException e) {
+            if (LOGGER.isLoggable(Level.FINE)) {
+                LOGGER.log(Level.FINE, "Failed to locate the field " + path + " in class " + 
+                        holder);
             }
             return null;
         }
-        
+
         // is it a constant?
-        if((field.getModifiers() & (Modifier.FINAL | Modifier.STATIC)) == 0) {
-            if(LOGGER.isLoggable(Level.FINE)) {
-                LOGGER.log(Level.FINE, "Field " + path + " found in class " + holder + ", but it's not a costant");
+        if ((field.getModifiers() & (Modifier.FINAL | Modifier.STATIC)) == 0) {
+            if (LOGGER.isLoggable(Level.FINE)) {
+                LOGGER.log(Level.FINE, "Field " + path + " found in class " + holder + ", but " +
+                        "it's not a costant");
             }
             return null;
         }
-        
+
         try {
             // make the field accessible, the constant is not necessarily public, especially in the
             // process class
-            if(!field.isAccessible()) {
+            if (!field.isAccessible()) {
                 field.setAccessible(true);
             }
-            
+
             Object result = field.get(null);
             return Converters.convert(result, target);
         } catch (Exception e) {
-            if(LOGGER.isLoggable(Level.FINE)) {
-                LOGGER.log(Level.FINE, "Field " + path + " found in class " + holder + ", but failed to access it", e);
+            if (LOGGER.isLoggable(Level.FINE)) {
+                LOGGER.log(Level.FINE, "Field " + path + " found in class " + holder + ", but " +
+                        "failed to access it", e);
             }
             return null;
         }
@@ -416,19 +422,20 @@ public abstract class AnnotationDrivenProcessFactory implements ProcessFactory {
      * </ul>
      */
     public Process create(Name name) {
-    	String methodName = name.getLocalPart();
+        String methodName = name.getLocalPart();
         Method meth = method(methodName);
-    	Object process = createProcessBean(name); 
-    	if (process != null && (lookupInvertGridGeometry(process, meth.getName()) != null 
-    	        || lookupInvertQuery(process, meth.getName()) != null)) {
-    		return new InvokeMethodRenderingProcess(meth, process);
-    	} else {
-    		return new InvokeMethodProcess(meth, process);
-    	}
+        Object process = createProcessBean(name);
+        if (process != null && (lookupInvertGridGeometry(process, meth.getName()) != null
+                || lookupInvertQuery(process, meth.getName()) != null)) {
+            return new InvokeMethodRenderingProcess(meth, process);
+        } else {
+            return new InvokeMethodProcess(meth, process);
+        }
     }
 
     /**
      * Looks up a method in an object by simple name (restricted to public methods).
+     *
      * @param targetObject object, usually a java bean, on which to perform reflection
      * @param methodName
      * @return Method found
@@ -436,14 +443,14 @@ public abstract class AnnotationDrivenProcessFactory implements ProcessFactory {
     Method lookupMethod(Object targetObject, String methodName) {
         Method method = null;
         for (Method m : targetObject.getClass().getMethods()) {
-            if (Modifier.isPublic(m.getModifiers()) &&  methodName.equals(m.getName())) {
+            if (Modifier.isPublic(m.getModifiers()) && methodName.equals(m.getName())) {
                 method = m;
                 break;
             }
         }
         return method;
     }
-    
+
     /**
      * Used to recognise {@link RenderingProcess} implementations; returns a non null
      * method for {@link RenderingProcess#invertGridGeometry(Map, Query, GridGeometry)}.
@@ -456,19 +463,19 @@ public abstract class AnnotationDrivenProcessFactory implements ProcessFactory {
      * <li>For {@literal "execute"} method name "invertGridGeometry" will be used.</li>
      * <li>For {@literal "buffer"} method name "bufferInvertGridGeometry" will be used</li>
      * </ul>
-     * 
+     *
      * @param targetObject Target object; may be null for static method lookup
-     * @param methodName method to use for "invertGridGeometry"
-     * @return method to use for RenderingProcess "invertGridGeometry", or null if not a RenderingProcess
+     * @param methodName   method to use for "invertGridGeometry"
+     * @return method to use for RenderingProcess "invertGridGeometry", or null if not a 
+     * RenderingProcess
      */
-    protected Method lookupInvertGridGeometry( Object targetObject, String methodName ){
-        if( methodName == null || "execute".equals(methodName) ){
+    protected Method lookupInvertGridGeometry(Object targetObject, String methodName) {
+        if (methodName == null || "execute".equals(methodName)) {
             methodName = "invertGridGeometry";
-        }
-        else {
+        } else {
             methodName = methodName + "InvertGridGeometry";
         }
-        return lookupMethod( targetObject, methodName );
+        return lookupMethod(targetObject, methodName);
     }
 
 
@@ -484,25 +491,26 @@ public abstract class AnnotationDrivenProcessFactory implements ProcessFactory {
      * <li>For {@literal "execute"} method name "invertQuery" will be used.</li>
      * <li>For {@literal "buffer"} method name "bufferInvertQuery" will be used</li>
      * </ul>
+     *
      * @param targetObject Target object; may be null for static method lookup
-     * @param methodName method to use for "invertQuery"
-     * @return method to use for RenderingProcess "invertQuery", or <code>null</code> if not a RenderingProcess
+     * @param methodName   method to use for "invertQuery"
+     * @return method to use for RenderingProcess "invertQuery", or <code>null</code> if not a 
+     * RenderingProcess
      */
-    protected Method lookupInvertQuery( Object targetObject, String methodName ){
-        if( methodName == null || "execute".equals(methodName)){
+    protected Method lookupInvertQuery(Object targetObject, String methodName) {
+        if (methodName == null || "execute".equals(methodName)) {
             methodName = "invertQuery";
-        }
-        else {
+        } else {
             methodName = methodName + "InvertQuery";
         }
-        return lookupMethod( targetObject, methodName );
+        return lookupMethod(targetObject, methodName);
     }
 
     /**
      * Creates the bean upon which the process execution method will be invoked.
      * <p>
      * Can be null in case the method is a static one
-     * 
+     *
      * @param name Name of the process bean
      * @return intance of process bean; or null if the method is a static method
      */
@@ -510,11 +518,10 @@ public abstract class AnnotationDrivenProcessFactory implements ProcessFactory {
 
     /**
      * A wrapper which executes the given method as a {@link Process}.
-     * When the process {@link #execute(Map, ProgressListener)} is called 
+     * When the process {@link #execute(Map, ProgressListener)} is called
      * the method is invoked to produce a result.
-     * The mapping from the process parameters to the method parameters 
+     * The mapping from the process parameters to the method parameters
      * is determined by the {@link DescribeParameter} annotations on the method parameters.
-     * 
      */
     class InvokeMethodProcess implements Process {
         /**
@@ -528,8 +535,8 @@ public abstract class AnnotationDrivenProcessFactory implements ProcessFactory {
 
         /**
          * Creates a wrapper for invoking a method as a process
-         * 
-         * @param method method to invoke.  May be static
+         *
+         * @param method       method to invoke.  May be static
          * @param targetObject object used to invoke method.  May be null
          */
         public InvokeMethodProcess(Method method, Object targetObject) {
@@ -597,7 +604,7 @@ public abstract class AnnotationDrivenProcessFactory implements ProcessFactory {
                     if (annotation instanceof DescribeResult) {
                         DescribeResult info = (DescribeResult) annotation;
                         Object resultValue = map.get(info.name());
-                        if(resultValue != null) {
+                        if (resultValue != null) {
                             addResult(result, resultValue, info);
                         }
                     }
@@ -605,7 +612,7 @@ public abstract class AnnotationDrivenProcessFactory implements ProcessFactory {
                         DescribeResults info = (DescribeResults) annotation;
                         for (DescribeResult dr : info.value()) {
                             Object resultValue = map.get(dr.name());
-                            if(resultValue != null) {
+                            if (resultValue != null) {
                                 addResult(result, resultValue, dr);
                             }
                         }
@@ -636,7 +643,8 @@ public abstract class AnnotationDrivenProcessFactory implements ProcessFactory {
             }
         }
 
-        protected Object[] buildProcessArguments(Method method, Map<String, Object> input, ProgressListener monitor, boolean skip)
+        protected Object[] buildProcessArguments(Method method, Map<String, Object> input, 
+                                                 ProgressListener monitor, boolean skip)
                 throws ProcessException {
             // build the array of arguments we'll use to invoke the method
             Class<?>[] paramTypes = getMethodParamTypes(method);
@@ -648,17 +656,18 @@ public abstract class AnnotationDrivenProcessFactory implements ProcessFactory {
                     args[i] = monitor;
                 } else {
                     // if we can skip and there is no annotation, skip
-                    if((annotations[i] == null || annotations[i].length == 0) && skip) {
+                    if ((annotations[i] == null || annotations[i].length == 0) && skip) {
                         continue;
                     }
-                    
+
                     // find the corresponding argument in the input
                     // map and set it
-                    Class<? extends Object> target = targetObject == null ? null : targetObject.getClass();
-					Parameter p = paramInfo(target, i, paramTypes[i], annotations[i]);
+                    Class<? extends Object> target = targetObject == null ? null : targetObject
+                            .getClass();
+                    Parameter p = paramInfo(target, i, paramTypes[i], annotations[i]);
                     Object value = input.get(p.key);
-                    
-                    if(value == null && p.getDefaultValue() != null) {
+
+                    if (value == null && p.getDefaultValue() != null) {
                         value = p.getDefaultValue();
                     }
 
@@ -677,7 +686,7 @@ public abstract class AnnotationDrivenProcessFactory implements ProcessFactory {
                                 + " is missing but has min multiplicity > 0");
                     } else if (p.maxOccurs > 1) {
                         int size = -1;
-                        if(args[i] == null) {
+                        if (args[i] == null) {
                             size = 0;
                         } else if (paramTypes[i].isArray()) {
                             size = Array.getLength(args[i]);
@@ -698,14 +707,13 @@ public abstract class AnnotationDrivenProcessFactory implements ProcessFactory {
             return args;
         }
     }
-    
-    
-    
+
+
     /**
      * A wrapper which executes the given method as a {@linkplain RenderingProcess}.
-     * When the process {@link #execute(Map, ProgressListener)} is called 
+     * When the process {@link #execute(Map, ProgressListener)} is called
      * the method is invoked to produce a result.
-     * The mapping from the process parameters to the method parameters 
+     * The mapping from the process parameters to the method parameters
      * is determined by the {@link DescribeParameter} annotations on the method parameters.
      * <p>
      * This implementation supports the additional methods required for a RenderingProcess:
@@ -718,14 +726,13 @@ public abstract class AnnotationDrivenProcessFactory implements ProcessFactory {
      * but may have any number of parameters preceding them.
      * These parameters must be a subset of the parameters of the given execution
      * method, and they use the same annotation to describe them.
-     * 
      */
     class InvokeMethodRenderingProcess extends InvokeMethodProcess implements RenderingProcess {
-        
+
         /**
          * Creates a wrapper for invoking a method as a process
-         * 
-         * @param method method to invoke.  May be static
+         *
+         * @param method       method to invoke.  May be static
          * @param targetObject object used to invoke method.  May be null
          */
         public InvokeMethodRenderingProcess(Method method, Object targetObject) {
@@ -733,8 +740,8 @@ public abstract class AnnotationDrivenProcessFactory implements ProcessFactory {
         }
 
         public Query invertQuery(Map<String, Object> input, Query targetQuery,
-                GridGeometry targetGridGeometry) throws ProcessException {
-            Method invertQueryMethod = lookupInvertQuery(targetObject, method.getName() );
+                                 GridGeometry targetGridGeometry) throws ProcessException {
+            Method invertQueryMethod = lookupInvertQuery(targetObject, method.getName());
 
             if (invertQueryMethod == null) {
                 return targetQuery;
@@ -761,9 +768,11 @@ public abstract class AnnotationDrivenProcessFactory implements ProcessFactory {
         }
 
         public GridGeometry invertGridGeometry(Map<String, Object> input, Query targetQuery,
-                GridGeometry targetGridGeometry) throws ProcessException {
-            
-           Method invertGridGeometryMethod = lookupInvertGridGeometry(targetObject, this.method.getName() );
+                                               GridGeometry targetGridGeometry) throws 
+                ProcessException {
+
+            Method invertGridGeometryMethod = lookupInvertGridGeometry(targetObject, this.method
+                    .getName());
 
             if (invertGridGeometryMethod == null) {
                 return targetGridGeometry;
@@ -786,7 +795,7 @@ public abstract class AnnotationDrivenProcessFactory implements ProcessFactory {
                 }
             }
         }
-        
+
     }
 
 }

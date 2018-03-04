@@ -4,13 +4,14 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.parameter;
 
 import java.net.URI;
 import javax.measure.unit.Unit;
+
 import org.opengis.annotation.UML;
 
 import static org.opengis.annotation.Obligation.*;
@@ -25,19 +26,16 @@ import static org.opengis.annotation.Specification.*;
  * Others getters and setters are parameter-type dependents.
  *
  * @param <T> The type of parameter values.
- *
- *
- *
+ * @author Martin Desruisseaux (IRD)
+ * @author Jody Garnett (Refractions Research)
+ * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract 
+ * specification 2.0</A>
  * @source $URL$
- * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract specification 2.0</A>
- * @author  Martin Desruisseaux (IRD)
- * @author  Jody Garnett (Refractions Research)
- * @since   GeoAPI 1.0
- *
  * @see ParameterDescriptor
  * @see ParameterValueGroup
+ * @since GeoAPI 1.0
  */
-@UML(identifier="CC_ParameterValue", specification=ISO_19111)
+@UML(identifier = "CC_ParameterValue", specification = ISO_19111)
 public interface ParameterValue<T> extends GeneralParameterValue {
     /**
      * Returns the abstract definition of this parameter value.
@@ -53,7 +51,6 @@ public interface ParameterValue<T> extends GeneralParameterValue {
      * "dimensionless".
      *
      * @return The unit of measure of the parameter value.
-     *
      * @see #doubleValue()
      * @see #doubleValueList
      * @see #getValue
@@ -64,14 +61,13 @@ public interface ParameterValue<T> extends GeneralParameterValue {
      * Returns the numeric value of the coordinate operation parameter in the specified unit
      * of measure. This convenience method applies unit conversion on the fly as needed.
      *
-     * @param  unit The unit of measure for the value to be returned.
+     * @param unit The unit of measure for the value to be returned.
      * @return The numeric value represented by this parameter after conversion to type
-     *         {@code double} and conversion to {@code unit}.
+     * {@code double} and conversion to {@code unit}.
      * @throws InvalidParameterTypeException if the value is not a numeric type.
-     * @throws IllegalArgumentException if the specified unit is invalid for this parameter.
-     *
+     * @throws IllegalArgumentException      if the specified unit is invalid for this parameter.
      * @see #getUnit
-     * @see #setValue(double,Unit)
+     * @see #setValue(double, Unit)
      * @see #doubleValueList(Unit)
      */
     double doubleValue(Unit<?> unit) throws InvalidParameterTypeException;
@@ -80,20 +76,19 @@ public interface ParameterValue<T> extends GeneralParameterValue {
      * Returns the numeric value of the coordinate operation parameter with its
      * associated {@linkplain #getUnit unit of measure}.
      *
-     * @return The numeric value represented by this parameter after conversion to type {@code double}.
+     * @return The numeric value represented by this parameter after conversion to type {@code 
+     * double}.
      * @throws InvalidParameterTypeException if the value is not a numeric type.
      * @unitof Measure
-     *
      * @rename Renamed {@code value} to {@code doubleValue} for consistency with
-     *         {@link Number#doubleValue} and the other {@code fooValue} in this interface.
-     *         Also because {@link #getValue} is already used for an {@link Object} type, for
-     *         consistency with {@link #setValue(Object)}.
-     *
+     * {@link Number#doubleValue} and the other {@code fooValue} in this interface.
+     * Also because {@link #getValue} is already used for an {@link Object} type, for
+     * consistency with {@link #setValue(Object)}.
      * @see #getUnit
      * @see #setValue(double)
      * @see #doubleValueList
      */
-    @UML(identifier="value", obligation=CONDITIONAL, specification=ISO_19111)
+    @UML(identifier = "value", obligation = CONDITIONAL, specification = ISO_19111)
     double doubleValue() throws InvalidParameterTypeException;
 
     /**
@@ -102,14 +97,12 @@ public interface ParameterValue<T> extends GeneralParameterValue {
      *
      * @return The numeric value represented by this parameter after conversion to type {@code int}.
      * @throws InvalidParameterTypeException if the value is not an integer type.
-     *
      * @rename Renamed {@code integerValue} to {@code intValue} for consistency with
-     *         {@link Number#intValue} and the Java primitive type {@code int}.
-     *
+     * {@link Number#intValue} and the Java primitive type {@code int}.
      * @see #setValue(int)
      * @see #intValueList
      */
-    @UML(identifier="integerValue", obligation=CONDITIONAL, specification=ISO_19111)
+    @UML(identifier = "integerValue", obligation = CONDITIONAL, specification = ISO_19111)
     int intValue() throws InvalidParameterTypeException;
 
     /**
@@ -118,10 +111,9 @@ public interface ParameterValue<T> extends GeneralParameterValue {
      *
      * @return The boolean value represented by this parameter.
      * @throws InvalidParameterTypeException if the value is not a boolean type.
-     *
      * @see #setValue(boolean)
      */
-    @UML(identifier="booleanValue", obligation=CONDITIONAL, specification=ISO_19111)
+    @UML(identifier = "booleanValue", obligation = CONDITIONAL, specification = ISO_19111)
     boolean booleanValue() throws InvalidParameterTypeException;
 
     /**
@@ -130,25 +122,23 @@ public interface ParameterValue<T> extends GeneralParameterValue {
      *
      * @return The string value represented by this parameter.
      * @throws InvalidParameterTypeException if the value is not a string.
-     *
      * @see #getValue
      * @see #setValue(Object)
      */
-    @UML(identifier="stringValue", obligation=CONDITIONAL, specification=ISO_19111)
+    @UML(identifier = "stringValue", obligation = CONDITIONAL, specification = ISO_19111)
     String stringValue() throws InvalidParameterTypeException;
 
     /**
      * Returns an ordered sequence of numeric values in the specified unit of measure.
      * This convenience method applies unit conversions on the fly as needed.
      *
-     * @param  unit The unit of measure for the value to be returned.
+     * @param unit The unit of measure for the value to be returned.
      * @return The sequence of values represented by this parameter after conversion to type
-     *         {@code double} and conversion to {@code unit}.
+     * {@code double} and conversion to {@code unit}.
      * @throws InvalidParameterTypeException if the value is not an array of {@code double}s.
-     * @throws IllegalArgumentException if the specified unit is invalid for this parameter.
-     *
+     * @throws IllegalArgumentException      if the specified unit is invalid for this parameter.
      * @see #getUnit
-     * @see #setValue(double[],Unit)
+     * @see #setValue(double[], Unit)
      * @see #doubleValue(Unit)
      */
     double[] doubleValueList(Unit<?> unit) throws InvalidParameterTypeException;
@@ -160,17 +150,15 @@ public interface ParameterValue<T> extends GeneralParameterValue {
      * @return The sequence of values represented by this parameter.
      * @throws InvalidParameterTypeException if the value is not an array of {@code double}s.
      * @unitof Measure
-     *
+     * @rename Renamed {@code valueList} as {@code doubleValueList} for consistency
+     * with {@link #doubleValue()}. Also because, like {@code doubleValue()}, this
+     * method returns a {@code double} value rather than a {@code Measure}
+     * object.
      * @see #getUnit
      * @see #setValue(Object)
      * @see #doubleValue()
-     *
-     * @rename Renamed {@code valueList} as {@code doubleValueList} for consistency
-     *         with {@link #doubleValue()}. Also because, like {@code doubleValue()}, this
-     *         method returns a {@code double} value rather than a {@code Measure}
-     *         object.
      */
-    @UML(identifier="valueList", obligation=CONDITIONAL, specification=ISO_19111)
+    @UML(identifier = "valueList", obligation = CONDITIONAL, specification = ISO_19111)
     double[] doubleValueList() throws InvalidParameterTypeException;
 
     /**
@@ -179,16 +167,14 @@ public interface ParameterValue<T> extends GeneralParameterValue {
      *
      * @return The sequence of values represented by this parameter.
      * @throws InvalidParameterTypeException if the value is not an array of {@code int}s.
-     *
+     * @rename Renamed {@code valueList} as {@code doubleValueList} for consistency
+     * with {@link #doubleValue()}. Also because, like {@code doubleValue()}, this
+     * method returns a {@code double} value rather than a {@code Measure}
+     * object.
      * @see #setValue(Object)
      * @see #intValue
-     *
-     * @rename Renamed {@code valueList} as {@code doubleValueList} for consistency
-     *         with {@link #doubleValue()}. Also because, like {@code doubleValue()}, this
-     *         method returns a {@code double} value rather than a {@code Measure}
-     *         object.
      */
-    @UML(identifier="integerValueList", obligation=CONDITIONAL, specification=ISO_19111)
+    @UML(identifier = "integerValueList", obligation = CONDITIONAL, specification = ISO_19111)
     int[] intValueList() throws InvalidParameterTypeException;
 
     /**
@@ -199,11 +185,10 @@ public interface ParameterValue<T> extends GeneralParameterValue {
      *
      * @return The reference to a file containing parameter values.
      * @throws InvalidParameterTypeException if the value is not a reference to a file or an URI.
-     *
      * @see #getValue
      * @see #setValue(Object)
      */
-    @UML(identifier="valueFile", obligation=CONDITIONAL, specification=ISO_19111)
+    @UML(identifier = "valueFile", obligation = CONDITIONAL, specification = ISO_19111)
     URI valueFile() throws InvalidParameterTypeException;
 
     /**
@@ -212,32 +197,32 @@ public interface ParameterValue<T> extends GeneralParameterValue {
      * {@code int[]}.
      *
      * @return The parameter value as an object.
-     *
      * @see #setValue(Object)
      */
-    @UML(identifier="value", obligation=CONDITIONAL, specification=ISO_19111)
+    @UML(identifier = "value", obligation = CONDITIONAL, specification = ISO_19111)
     T getValue();
 
     /**
      * Sets the parameter value as an array of floating point and their associated unit.
      *
-     * @param  values The parameter values.
-     * @param  unit The unit for the specified value.
+     * @param values The parameter values.
+     * @param unit   The unit for the specified value.
      * @throws InvalidParameterValueException if the floating point type is inappropriate for this
-     *         parameter, or if the value is illegal for some other reason (for example a value out
-     *         of range).
+     *                                        parameter, or if the value is illegal for some 
+     *                                        other reason (for example a value out
+     *                                        of range).
      */
     void setValue(double[] values, Unit<?> unit) throws InvalidParameterValueException;
 
     /**
      * Sets the parameter value as a floating point and its associated unit.
      *
-     * @param  value The parameter value.
-     * @param  unit The unit for the specified value.
+     * @param value The parameter value.
+     * @param unit  The unit for the specified value.
      * @throws InvalidParameterValueException if the floating point type is inappropriate for this
-     *         parameter, or if the value is illegal for some other reason (for example a value out
-     *         of range).
-     *
+     *                                        parameter, or if the value is illegal for some 
+     *                                        other reason (for example a value out
+     *                                        of range).
      * @see #setValue(double)
      * @see #doubleValue(Unit)
      */
@@ -246,12 +231,12 @@ public interface ParameterValue<T> extends GeneralParameterValue {
     /**
      * Sets the parameter value as a floating point.
      *
-     * @param  value The parameter value.
+     * @param value The parameter value.
      * @throws InvalidParameterValueException if the floating point type is inappropriate for this
-     *         parameter, or if the value is illegal for some other reason (for example a value out
-     *         of range).
-     *
-     * @see #setValue(double,Unit)
+     *                                        parameter, or if the value is illegal for some 
+     *                                        other reason (for example a value out
+     *                                        of range).
+     * @see #setValue(double, Unit)
      * @see #doubleValue()
      */
     void setValue(double value) throws InvalidParameterValueException;
@@ -259,10 +244,11 @@ public interface ParameterValue<T> extends GeneralParameterValue {
     /**
      * Set the parameter value as an integer.
      *
-     * @param  value The parameter value.
-     * @throws InvalidParameterValueException if the integer type is inappropriate for this parameter,
-     *         or if the value is illegal for some other reason (for example a value out of range).
-     *
+     * @param value The parameter value.
+     * @throws InvalidParameterValueException if the integer type is inappropriate for this 
+     * parameter,
+     *                                        or if the value is illegal for some other reason 
+     *                                        (for example a value out of range).
      * @see #intValue
      */
     void setValue(int value) throws InvalidParameterValueException;
@@ -270,9 +256,9 @@ public interface ParameterValue<T> extends GeneralParameterValue {
     /**
      * Set the parameter value as a boolean.
      *
-     * @param  value The parameter value.
-     * @throws InvalidParameterValueException if the boolean type is inappropriate for this parameter.
-     *
+     * @param value The parameter value.
+     * @throws InvalidParameterValueException if the boolean type is inappropriate for this 
+     * parameter.
      * @see #booleanValue
      */
     void setValue(boolean value) throws InvalidParameterValueException;
@@ -287,11 +273,11 @@ public interface ParameterValue<T> extends GeneralParameterValue {
      * parameter}("<var>name</var>").setValue(<var>value</var>)</code>) and
      * because some implementations may choose to convert a wider range of types.
      *
-     * @param  value The parameter value.
+     * @param value The parameter value.
      * @throws InvalidParameterValueException if the type of {@code value} is inappropriate
-     *         for this parameter, or if the value is illegal for some other reason (for example
-     *         the value is numeric and out of range).
-     *
+     *                                        for this parameter, or if the value is illegal for 
+     *                                        some other reason (for example
+     *                                        the value is numeric and out of range).
      * @see #getValue
      */
     void setValue(Object value) throws InvalidParameterValueException;

@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2008, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.style;
@@ -23,20 +23,18 @@ import org.opengis.annotation.XmlElement;
  * LATEST_ON_TOP or EARLIEST_ON_TOP.   The default behaviour is
  * system-dependent.
  *
- * @return LATEST_ON_TOP, EARLIEST_ON_TOP, AVERAGE or RANDOM
- *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding Implementation Specification 1.1.0</A>
  * @author Open Geospatial Consortium
  * @author Johann Sorel (Geomatys)
- * @since GeoAPI 2.2  
+ * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding 
+ * Implementation Specification 1.1.0</A>
+ * @return LATEST_ON_TOP, EARLIEST_ON_TOP, AVERAGE or RANDOM
+ * @source $URL$
+ * @since GeoAPI 2.2
  */
 @XmlElement("OverlapBehavior")
 public enum OverlapBehavior {
-    LATEST_ON_TOP, 
-    EARLIEST_ON_TOP, 
+    LATEST_ON_TOP,
+    EARLIEST_ON_TOP,
     AVERAGE,
     RANDOM
 }

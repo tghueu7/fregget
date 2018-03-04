@@ -26,8 +26,6 @@ import org.geotools.styling.Symbolizer;
 import org.opengis.filter.Filter;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class RuleBuilder extends AbstractStyleBuilder<Rule> {

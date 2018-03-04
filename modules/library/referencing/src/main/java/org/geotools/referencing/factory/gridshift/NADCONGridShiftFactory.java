@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2012, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -42,9 +42,8 @@ import org.opengis.referencing.FactoryException;
 
 /**
  * Loads and caches NADCON grid shifts
- * 
- * @author Andrea Aime - GeoSolutions
  *
+ * @author Andrea Aime - GeoSolutions
  */
 public class NADCONGridShiftFactory extends ReferencingFactory implements BufferedFactory {
 
@@ -170,10 +169,10 @@ public class NADCONGridShiftFactory extends ReferencingFactory implements Buffer
      * values) are all floats and have a 4 byte separator (0's) before the data. Row records are
      * organized from low y (latitude) to high and columns are orderd from low longitude to high.
      * Everything is written in low byte order.
-     * 
-     * @param latGridUrl URL to the binary latitude shift file (.las extention).
+     *
+     * @param latGridUrl  URL to the binary latitude shift file (.las extention).
      * @param longGridUrl URL to the binary longitude shift file (.los extention).
-     * @throws IOException if the data files cannot be read.
+     * @throws IOException      if the data files cannot be read.
      * @throws FactoryException if there is an inconsistency in the data
      */
     private NADConGridShift loadBinaryGrid(final URL latGridUrl, final URL longGridUrl)
@@ -188,82 +187,83 @@ public class NADCONGridShiftFactory extends ReferencingFactory implements Buffer
         ByteBuffer longBuffer;
 
         try {
-	        // //////////////////////
-	        // setup
-	        // //////////////////////
-	        latChannel = getReadChannel(latGridUrl);
-	        latBuffer = fillBuffer(latChannel, HEADER_BYTES);
-	
-	        longChannel = getReadChannel(longGridUrl);
-	        longBuffer = fillBuffer(longChannel, HEADER_BYTES);
-	
-	        // //////////////////////
-	        // read header info
-	        // //////////////////////
-	        // skip the header description
-	        latBuffer.position(latBuffer.position() + DESCRIPTION_LENGTH);
-	
-	        int nc = latBuffer.getInt();
-	        int nr = latBuffer.getInt();
-	        int nz = latBuffer.getInt();
-	
-	        float xmin = latBuffer.getFloat();
-	        float dx = latBuffer.getFloat();
-	        float ymin = latBuffer.getFloat();
-	        float dy = latBuffer.getFloat();
-	
-	        float angle = latBuffer.getFloat();
-	        float xmax = xmin + ((nc - 1) * dx);
-	        float ymax = ymin + ((nr - 1) * dy);
-	
-	        // skip the longitude header description
-	        longBuffer.position(longBuffer.position() + DESCRIPTION_LENGTH);
-	
-	        // check that latitude grid header is the same as for latitude grid
-	        if ((nc != longBuffer.getInt()) || (nr != longBuffer.getInt())
-	                || (nz != longBuffer.getInt()) || (xmin != longBuffer.getFloat())
-	                || (dx != longBuffer.getFloat()) || (ymin != longBuffer.getFloat())
-	                || (dy != longBuffer.getFloat()) || (angle != longBuffer.getFloat())) {
-	            throw new FactoryException(Errors.format(ErrorKeys.GRID_LOCATIONS_UNEQUAL));
-	        }
-	
-	        // //////////////////////
-	        // read grid shift data into LocalizationGrid
-	        // //////////////////////
-	        final int RECORD_LENGTH = (nc * 4) + SEPARATOR_BYTES;
-	        final int NUM_BYTES_LEFT = ((nr + 1) * RECORD_LENGTH) - HEADER_BYTES;
-	        final int START_OF_DATA = RECORD_LENGTH - HEADER_BYTES;
-	
-	        latBuffer = fillBuffer(latChannel, NUM_BYTES_LEFT);
-	        latBuffer.position(START_OF_DATA); // start of second record (data)
-	
-	        longBuffer = fillBuffer(longChannel, NUM_BYTES_LEFT);
-	        longBuffer.position(START_OF_DATA);
-	
-	        gridShift = new NADConGridShift(xmin, ymin, xmax, ymax, dx, dy, nc, nr);
-	
-	        int i = 0;
-	        int j = 0;
-	        for (i = 0; i < nr; i++) {
-	            latBuffer.position(latBuffer.position() + SEPARATOR_BYTES); // skip record separator
-	            longBuffer.position(longBuffer.position() + SEPARATOR_BYTES);
-	
-	            for (j = 0; j < nc; j++) {
-	                gridShift.setLocalizationPoint(j, i, longBuffer.getFloat(), latBuffer.getFloat());
-	            }
-	        }
-	
-	        assert i == nr : i;
-	        assert j == nc : j;
+            // //////////////////////
+            // setup
+            // //////////////////////
+            latChannel = getReadChannel(latGridUrl);
+            latBuffer = fillBuffer(latChannel, HEADER_BYTES);
+
+            longChannel = getReadChannel(longGridUrl);
+            longBuffer = fillBuffer(longChannel, HEADER_BYTES);
+
+            // //////////////////////
+            // read header info
+            // //////////////////////
+            // skip the header description
+            latBuffer.position(latBuffer.position() + DESCRIPTION_LENGTH);
+
+            int nc = latBuffer.getInt();
+            int nr = latBuffer.getInt();
+            int nz = latBuffer.getInt();
+
+            float xmin = latBuffer.getFloat();
+            float dx = latBuffer.getFloat();
+            float ymin = latBuffer.getFloat();
+            float dy = latBuffer.getFloat();
+
+            float angle = latBuffer.getFloat();
+            float xmax = xmin + ((nc - 1) * dx);
+            float ymax = ymin + ((nr - 1) * dy);
+
+            // skip the longitude header description
+            longBuffer.position(longBuffer.position() + DESCRIPTION_LENGTH);
+
+            // check that latitude grid header is the same as for latitude grid
+            if ((nc != longBuffer.getInt()) || (nr != longBuffer.getInt())
+                    || (nz != longBuffer.getInt()) || (xmin != longBuffer.getFloat())
+                    || (dx != longBuffer.getFloat()) || (ymin != longBuffer.getFloat())
+                    || (dy != longBuffer.getFloat()) || (angle != longBuffer.getFloat())) {
+                throw new FactoryException(Errors.format(ErrorKeys.GRID_LOCATIONS_UNEQUAL));
+            }
+
+            // //////////////////////
+            // read grid shift data into LocalizationGrid
+            // //////////////////////
+            final int RECORD_LENGTH = (nc * 4) + SEPARATOR_BYTES;
+            final int NUM_BYTES_LEFT = ((nr + 1) * RECORD_LENGTH) - HEADER_BYTES;
+            final int START_OF_DATA = RECORD_LENGTH - HEADER_BYTES;
+
+            latBuffer = fillBuffer(latChannel, NUM_BYTES_LEFT);
+            latBuffer.position(START_OF_DATA); // start of second record (data)
+
+            longBuffer = fillBuffer(longChannel, NUM_BYTES_LEFT);
+            longBuffer.position(START_OF_DATA);
+
+            gridShift = new NADConGridShift(xmin, ymin, xmax, ymax, dx, dy, nc, nr);
+
+            int i = 0;
+            int j = 0;
+            for (i = 0; i < nr; i++) {
+                latBuffer.position(latBuffer.position() + SEPARATOR_BYTES); // skip record separator
+                longBuffer.position(longBuffer.position() + SEPARATOR_BYTES);
+
+                for (j = 0; j < nc; j++) {
+                    gridShift.setLocalizationPoint(j, i, longBuffer.getFloat(), latBuffer
+                            .getFloat());
+                }
+            }
+
+            assert i == nr : i;
+            assert j == nc : j;
         } finally {
-        	if(latChannel != null) {
+            if (latChannel != null) {
                 latChannel.close();
-        	}
-        	if(longChannel != null) {
-        		longChannel.close();
-        	}
+            }
+            if (longChannel != null) {
+                longChannel.close();
+            }
         }
-        
+
 
         return gridShift;
     }
@@ -271,11 +271,11 @@ public class NADCONGridShiftFactory extends ReferencingFactory implements Buffer
     /**
      * Returns a new bytebuffer, of numBytes length and little endian byte order, filled from the
      * channel.
-     * 
-     * @param channel the channel to fill the buffer from
+     *
+     * @param channel  the channel to fill the buffer from
      * @param numBytes number of bytes to read
      * @return a new bytebuffer filled from the channel
-     * @throws IOException if there is a problem reading the channel
+     * @throws IOException  if there is a problem reading the channel
      * @throws EOFException if the end of the channel is reached
      */
     private ByteBuffer fillBuffer(ReadableByteChannel channel, int numBytes) throws IOException {
@@ -293,8 +293,8 @@ public class NADCONGridShiftFactory extends ReferencingFactory implements Buffer
 
     /**
      * Fills the bytebuffer from the channel. Code was lifted from ShapefileDataStore.
-     * 
-     * @param buffer bytebuffer to fill from the channel
+     *
+     * @param buffer  bytebuffer to fill from the channel
      * @param channel channel to fill the buffer from
      * @return number of bytes read
      * @throws IOException if there is a problem reading the channel
@@ -319,7 +319,7 @@ public class NADCONGridShiftFactory extends ReferencingFactory implements Buffer
      * Obtain a ReadableByteChannel from the given URL. If the url protocol is file, a FileChannel
      * will be returned. Otherwise a generic channel will be obtained from the urls input stream.
      * Code swiped from ShapefileDataStore.
-     * 
+     *
      * @param url URL to create the channel from
      * @return a new PeadableByteChannel from the input url
      * @throws IOException if there is a problem creating the channel
@@ -351,10 +351,10 @@ public class NADCONGridShiftFactory extends ReferencingFactory implements Buffer
      * x, delta x, min y, delta y and angle. Shift data values follow this and are also separated by
      * spaces. Row records are organized from low y (latitude) to high and columns are orderd from
      * low longitude to high.
-     * 
-     * @param latGridUrl URL to the text latitude shift file (.laa extention).
+     *
+     * @param latGridUrl  URL to the text latitude shift file (.laa extention).
      * @param longGridUrl URL to the text longitude shift file (.loa extention).
-     * @throws IOException if the data files cannot be read.
+     * @throws IOException      if the data files cannot be read.
      * @throws FactoryException if there is an inconsistency in the data
      */
     private NADConGridShift loadTextGrid(URL latGridUrl, URL longGridUrl) throws IOException,
@@ -428,7 +428,7 @@ public class NADCONGridShiftFactory extends ReferencingFactory implements Buffer
         int i = 0;
         int j = 0;
         for (i = 0; i < nr; i++) {
-            for (j = 0; j < nc;) {
+            for (j = 0; j < nc; ) {
                 latLine = latBr.readLine();
                 latSt = new StringTokenizer(latLine, " ");
                 longLine = longBr.readLine();

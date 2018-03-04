@@ -23,23 +23,25 @@ import java.util.Map;
 
 /**
  * TestConfig purpose.
- * 
+ * <p>
  * <p>
  * Description of TestConfig ...
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class TestDTO {
-    /** the test name */
+    /**
+     * the test name
+     */
     private String name;
 
-    /** the test description */
+    /**
+     * the test description
+     */
     private String description;
 
     /**
@@ -56,7 +58,7 @@ public class TestDTO {
 
     /**
      * TestConfig constructor.
-     * 
+     * <p>
      * <p>
      * Does nothing
      * </p>
@@ -66,7 +68,7 @@ public class TestDTO {
 
     /**
      * TestConfig constructor.
-     * 
+     * <p>
      * <p>
      * Creates a copy from the TestConfig specified.
      * </p>
@@ -87,7 +89,7 @@ public class TestDTO {
 
                 //TODO clone value.
                 args.put(key,
-                    new ArgumentDTO((ArgumentDTO) t.getArgs().get(key)));
+                        new ArgumentDTO((ArgumentDTO) t.getArgs().get(key)));
             }
         }
     }
@@ -96,7 +98,6 @@ public class TestDTO {
      * Implementation of clone.
      *
      * @return A copy of this TestConfig
-     *
      * @see java.lang.Object#clone()
      */
     public Object clone() {
@@ -107,9 +108,7 @@ public class TestDTO {
      * Implementation of equals.
      *
      * @param obj
-     *
      * @return true when they have the same data.
-     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     public boolean equals(Object obj) {
@@ -159,7 +158,6 @@ public class TestDTO {
      * Implementation of hashCode.
      *
      * @return int hashcode
-     *
      * @see java.lang.Object#hashCode()
      */
     public int hashCode() {

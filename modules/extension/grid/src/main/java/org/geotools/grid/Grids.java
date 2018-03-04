@@ -26,16 +26,13 @@ import org.geotools.grid.oblong.Oblongs;
 /**
  * A utility class to create polygonal vector grids with basic attributes. For simple
  * grids this is the only class you need. For finer control of grid attributes, such
- * as working with a user-supplied SimpleFeatureType, see the {@link Oblongs} and 
+ * as working with a user-supplied SimpleFeatureType, see the {@link Oblongs} and
  * {@link Hexagons} utility classes.
  *
  * @author mbedward
- * @since 2.7
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.7
  */
 public class Grids {
 
@@ -55,15 +52,11 @@ public class Grids {
      * <li>id - type Integer
      * </ul>
      *
-     * @param bounds bounds of the grid
-     *
+     * @param bounds  bounds of the grid
      * @param sideLen the side length of grid elements
-     *
      * @return the vector grid
-     *
-     * @throws IllegalArgumentException
-     *         if bounds is null or empty; or
-     *         if sideLen is {@code <=} 0
+     * @throws IllegalArgumentException if bounds is null or empty; or
+     *                                  if sideLen is {@code <=} 0
      */
     public static SimpleFeatureSource createSquareGrid(
             ReferencedEnvelope bounds, double sideLen) {
@@ -84,7 +77,7 @@ public class Grids {
      * approximate curves. The density of vertices is controlled by
      * the value of {@code vertexSpacing} which specifies the maximum distance
      * between adjacent vertices. Vertices are added more or less uniformly.
-     *
+     * <p>
      * The coordinate reference system is taken from the input bounds.
      * A {@code null} coordinate reference system is permitted.
      * <p>
@@ -99,23 +92,18 @@ public class Grids {
      * <li>id - type Integer
      * </ul>
      *
-     * @param bounds bounds of the grid
-     *
-     * @param sideLen the side length of grid elements
-     *
+     * @param bounds        bounds of the grid
+     * @param sideLen       the side length of grid elements
      * @param vertexSpacing maximum distance between adjacent vertices in a grid
-     *        element; if {@code <= 0} or {@code >= sideLen / 2.0} it is ignored
-     *        and the polygons will not be densified
-     *
+     *                      element; if {@code <= 0} or {@code >= sideLen / 2.0} it is ignored
+     *                      and the polygons will not be densified
      * @return the vector grid
-     *
-     * @throws IllegalArgumentException
-     *         if bounds is null or empty; or
-     *         if sideLen is {@code <=} 0
+     * @throws IllegalArgumentException if bounds is null or empty; or
+     *                                  if sideLen is {@code <=} 0
      */
     public static SimpleFeatureSource createSquareGrid(
             ReferencedEnvelope bounds, double sideLen, double vertexSpacing) {
-        
+
         if (bounds == null) {
             throw new IllegalArgumentException("bounds should not be null");
         }
@@ -132,7 +120,7 @@ public class Grids {
      * approximate curves. The density of vertices is controlled by
      * the value of {@code vertexSpacing} which specifies the maximum distance
      * between adjacent vertices. Vertices are added more or less uniformly.
-     *
+     * <p>
      * The coordinate reference system is taken from the {@code GridFeatureBuilder}.
      * A {@code null} coordinate reference system is permitted but if both the
      * builder and bounding envelope have non-{@code null} reference systems set
@@ -142,26 +130,21 @@ public class Grids {
      * If the width and/or height of the bounding envelope is not a simple multiple
      * of the requested side length, there will be some unfilled space.
      *
-     * @param bounds bounds of the grid
-     *
-     * @param sideLen the side length of grid elements
-     *
+     * @param bounds        bounds of the grid
+     * @param sideLen       the side length of grid elements
      * @param vertexSpacing maximum distance between adjacent vertices in a grid
-     *        element; if {@code <= 0} or {@code >= sideLen / 2.0} the polygons
-     *        will not be densified
-     *
-     * @param builder the {@code GridFeatureBuilder} used to control feature
-     *        creation and the setting of feature attribute values
-     *
+     *                      element; if {@code <= 0} or {@code >= sideLen / 2.0} the polygons
+     *                      will not be densified
+     * @param builder       the {@code GridFeatureBuilder} used to control feature
+     *                      creation and the setting of feature attribute values
      * @return the vector grid
-     *
-     * @throws IllegalArgumentException
-     *         if bounds is null or empty; or
-     *         if sideLen is {@code <=} 0; or
-     *         if builder is null; or
-     *         if the {@code CoordinateReferenceSystems}
-     *         set for the bounds and the {@code GridFeatureBuilder} are both
-     *         non-null but different
+     * @throws IllegalArgumentException if bounds is null or empty; or
+     *                                  if sideLen is {@code <=} 0; or
+     *                                  if builder is null; or
+     *                                  if the {@code CoordinateReferenceSystems}
+     *                                  set for the bounds and the {@code GridFeatureBuilder} are
+     *                                  both
+     *                                  non-null but different
      */
     public static SimpleFeatureSource createSquareGrid(
             ReferencedEnvelope bounds, double sideLen, double vertexSpacing,
@@ -190,15 +173,11 @@ public class Grids {
      * <li>id - type Integer
      * </ul>
      *
-     * @param bounds bounds of the grid
-     *
+     * @param bounds  bounds of the grid
      * @param sideLen the length
-     *
      * @return the vector grid
-     *
-     * @throws IllegalArgumentException
-     *         if bounds is null or empty; or
-     *         if sideLen is {@code <=} 0
+     * @throws IllegalArgumentException if bounds is null or empty; or
+     *                                  if sideLen is {@code <=} 0
      */
     public static SimpleFeatureSource createHexagonalGrid(
             ReferencedEnvelope bounds, double sideLen) {
@@ -239,19 +218,14 @@ public class Grids {
      * <li>id - type Integer
      * </ul>
      *
-     * @param bounds bounds of the grid
-     *
-     * @param sideLen the length
-     *
+     * @param bounds        bounds of the grid
+     * @param sideLen       the length
      * @param vertexSpacing maximum distance between adjacent vertices in a grid
-     *        element; if {@code <= 0} or {@code >= sideLen / 2.0} the polygons
-     *        will not be densified
-     *
+     *                      element; if {@code <= 0} or {@code >= sideLen / 2.0} the polygons
+     *                      will not be densified
      * @return the vector grid
-     *
-     * @throws IllegalArgumentException
-     *         if bounds is null or empty; or
-     *         if sideLen is {@code <=} 0
+     * @throws IllegalArgumentException if bounds is null or empty; or
+     *                                  if sideLen is {@code <=} 0
      */
     public static SimpleFeatureSource createHexagonalGrid(
             ReferencedEnvelope bounds, double sideLen, double vertexSpacing) {
@@ -292,26 +266,21 @@ public class Grids {
      * <li>id - type Integer
      * </ul>
      *
-     * @param bounds bounds of the grid
-     *
-     * @param sideLen the length
-     *
+     * @param bounds        bounds of the grid
+     * @param sideLen       the length
      * @param vertexSpacing maximum distance between adjacent vertices in a grid
-     *        element; if {@code <= 0} or {@code >= sideLen / 2.0} the polygons
-     *        will not be densified
-     *
-     * @param builder the {@code GridFeatureBuilder} used to control feature
-     *        creation and the setting of feature attribute values
-     *
+     *                      element; if {@code <= 0} or {@code >= sideLen / 2.0} the polygons
+     *                      will not be densified
+     * @param builder       the {@code GridFeatureBuilder} used to control feature
+     *                      creation and the setting of feature attribute values
      * @return the vector grid
-     *
-     * @throws IllegalArgumentException
-     *         if bounds is null or empty; or
-     *         if sideLen is {@code <=} 0; or
-     *         if builder is null; or
-     *         if the {@code CoordinateReferenceSystems}
-     *         set for the bounds and the {@code GridFeatureBuilder} are both
-     *         non-null but different
+     * @throws IllegalArgumentException if bounds is null or empty; or
+     *                                  if sideLen is {@code <=} 0; or
+     *                                  if builder is null; or
+     *                                  if the {@code CoordinateReferenceSystems}
+     *                                  set for the bounds and the {@code GridFeatureBuilder} are
+     *                                  both
+     *                                  non-null but different
      */
     public static SimpleFeatureSource createHexagonalGrid(
             ReferencedEnvelope bounds, double sideLen, double vertexSpacing,

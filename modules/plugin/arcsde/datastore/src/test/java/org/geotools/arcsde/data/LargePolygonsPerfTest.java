@@ -49,7 +49,6 @@ import com.vividsolutions.jts.util.Stopwatch;
  * This is a legacy benchmarking suite I'm using to assess the performance of some very large
  * datasets. Will be removed.
  *
- *
  * @source $URL$
  */
 @Ignore
@@ -241,7 +240,7 @@ public class LargePolygonsPerfTest {
         final String typeName = schema.getTypeName();
         final String spatialColName = schema.getGeometryDescriptor().getLocalName();
 
-        Query query = new Query(typeName, Filter.INCLUDE, new String[] { spatialColName });
+        Query query = new Query(typeName, Filter.INCLUDE, new String[]{spatialColName});
         long runTime = 0;
         for (int run = 0; run < numRuns; run++) {
             runTime += iterate(fs, query);
@@ -259,7 +258,7 @@ public class LargePolygonsPerfTest {
         DataStore ds = testData.getDataStore();
         SimpleFeatureSource fs = ds.getFeatureSource(typeName);
         try {
-            Query query = new Query(typeName, Filter.INCLUDE, new String[] { "TOWN_ID" });
+            Query query = new Query(typeName, Filter.INCLUDE, new String[]{"TOWN_ID"});
             long runTime = 0;
             for (int run = 0; run < numRuns; run++) {
                 runTime += iterate(fs, query);
@@ -282,15 +281,15 @@ public class LargePolygonsPerfTest {
 
         SeConnection conn = new SeConnection(String.valueOf(props.get("server")),
                 Integer.parseInt(String.valueOf(props.get("port"))), String.valueOf(props
-                        .get("instance")), String.valueOf(props.get("user")), String.valueOf(props
-                        .get("password")));
+                .get("instance")), String.valueOf(props.get("user")), String.valueOf(props
+                .get("password")));
 
         try {
             SeQuery query;
             SeQueryInfo queryInfo;
 
             queryInfo = new SeQueryInfo();
-            queryInfo.setColumns(new String[] { "SHAPE" });
+            queryInfo.setColumns(new String[]{"SHAPE"});
             queryInfo.setConstruct(new SeSqlConstruct(typeName));
 
             long runTime = 0;
@@ -315,15 +314,15 @@ public class LargePolygonsPerfTest {
         Map<String, Serializable> props = testData.getConProps();
         SeConnection conn = new SeConnection(String.valueOf(props.get("server")),
                 Integer.parseInt(String.valueOf(props.get("port"))), String.valueOf(props
-                        .get("instance")), String.valueOf(props.get("user")), String.valueOf(props
-                        .get("password")));
+                .get("instance")), String.valueOf(props.get("user")), String.valueOf(props
+                .get("password")));
 
         try {
             SeQuery query;
             SeQueryInfo queryInfo;
 
             queryInfo = new SeQueryInfo();
-            queryInfo.setColumns(new String[] { "SHAPE" });
+            queryInfo.setColumns(new String[]{"SHAPE"});
             queryInfo.setConstruct(new SeSqlConstruct(typeName));
 
             long runTime = 0;

@@ -32,24 +32,28 @@ public class LabelStrikethoughtTest extends AbstractLabelLineTest {
     @Test
     public void testLabelsStrikethrough() throws Exception {
         // load the style that will strikethrough the labels
-        Style style = loadParametricStyle(this, "lineStyleTemplate.sld", "VENDOR_KEY", TextSymbolizer.STRIKETHROUGH_TEXT_KEY, "VENDOR_VALUE", "true");
+        Style style = loadParametricStyle(this, "lineStyleTemplate.sld", "VENDOR_KEY", 
+                TextSymbolizer.STRIKETHROUGH_TEXT_KEY, "VENDOR_VALUE", "true");
         // set the map content
         BufferedImage image = renderNonStraightLines(featureSource, style, 1000, 1000, bounds);
         // let's see if the result image match our expectations
         File reference = new File(
-                "./src/test/resources/org/geotools/renderer/lite/test-data/strikethroughStyle.sld.png");
+                "./src/test/resources/org/geotools/renderer/lite/test-data/strikethroughStyle.sld" +
+                        ".png");
         ImageAssert.assertEquals(reference, image, 3000);
     }
-    
+
     @Test
     public void testLabelsNotStrikethrough() throws Exception {
         // load the style that will strikethrough the labels
-        Style style = loadParametricStyle(this, "lineStyleTemplate.sld", "VENDOR_KEY", TextSymbolizer.STRIKETHROUGH_TEXT_KEY, "VENDOR_VALUE", "false");
+        Style style = loadParametricStyle(this, "lineStyleTemplate.sld", "VENDOR_KEY", 
+                TextSymbolizer.STRIKETHROUGH_TEXT_KEY, "VENDOR_VALUE", "false");
         // set the map content
         BufferedImage image = renderNonStraightLines(featureSource, style, 1000, 1000, bounds);
         // let's see if the result image match our expectations
         File reference = new File(
-                "./src/test/resources/org/geotools/renderer/lite/test-data/strikethroughDisabledStyle.sld.png");
+                "./src/test/resources/org/geotools/renderer/lite/test-data" +
+                        "/strikethroughDisabledStyle.sld.png");
         ImageAssert.assertEquals(reference, image, 3000);
     }
 }

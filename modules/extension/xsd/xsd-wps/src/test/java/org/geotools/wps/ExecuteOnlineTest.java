@@ -29,8 +29,6 @@ import junit.framework.TestCase;
 import org.xml.sax.SAXException;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ExecuteOnlineTest extends TestCase {
@@ -40,7 +38,8 @@ public class ExecuteOnlineTest extends TestCase {
      */
     public void testExecute() throws IOException, SAXException, ParserConfigurationException {
         URL url = new URL(
-                "http://schemas.opengis.net/wps/1.0.0/examples/51_wpsExecute_request_ResponseDocument.xml");
+                "http://schemas.opengis" +
+                        ".net/wps/1.0.0/examples/51_wpsExecute_request_ResponseDocument.xml");
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
             org.geotools.xml.Parser parser = new org.geotools.xml.Parser(new WPSConfiguration());
@@ -54,5 +53,5 @@ public class ExecuteOnlineTest extends TestCase {
                     + "in anycase this represents a failure of network" + "and not our software");
         }
     }
-    
+
 }

@@ -42,25 +42,25 @@ import com.vividsolutions.jts.geom.Polygon;
 /**
  * Returns a clone of the provided filter where all geometries and bboxes have
  * inverted coordinates (x, y) -> (y, x).
- * 
+ *
  * @author "Mauro Bartolomeoli - mauro.bartolomeoli@geo-solutions.it"
  */
 public class InvertAxisFilterVisitor extends DuplicatingFilterVisitor {
 
     private GeometryFactory geometryFactory;
-    
+
     public InvertAxisFilterVisitor(FilterFactory2 factory,
-            GeometryFactory geometryFactory) {
+                                   GeometryFactory geometryFactory) {
         super(factory);
         this.geometryFactory = geometryFactory;
     }
-    
+
     public Object visit(BBOX filter, Object extraData) {
         if (filter.getExpression2() instanceof Literal) {
             Literal bboxLiteral = (Literal) filter.getExpression2();
             if (bboxLiteral.getValue() instanceof BoundingBox) {
                 BoundingBox bounds = (BoundingBox) bboxLiteral.getValue();
-    
+
                 return ff.bbox(filter.getExpression1(), new ReferencedEnvelope(
                         bounds.getMinY(), bounds.getMaxY(), bounds.getMinX(),
                         bounds.getMaxX(), bounds.getCoordinateReferenceSystem()));
@@ -73,7 +73,8 @@ public class InvertAxisFilterVisitor extends DuplicatingFilterVisitor {
                 } else if (filter.getSRS() != null) {
                     try {
                         crs = CRS.decode(filter.getSRS());
-                    } catch (FactoryException e) {}
+                    } catch (FactoryException e) {
+                    }
                 }
                 return ff.bbox(filter.getExpression1(), new ReferencedEnvelope(
                         geomEnvelope.getMinY(), geomEnvelope.getMaxY(),
@@ -82,16 +83,16 @@ public class InvertAxisFilterVisitor extends DuplicatingFilterVisitor {
         }
         return filter;
     }
-    
+
     public Object visit(Literal expression, Object extraData) {
         if (!(expression.getValue() instanceof Geometry))
             return super.visit(expression, extraData);
-        
+
         Geometry geom = (Geometry) expression.getValue();
-    
+
         return ff.literal(invertGeometryCoordinates(geom));
     }
-    
+
     /**
      * @param geom
      * @return
@@ -151,7 +152,7 @@ public class InvertAxisFilterVisitor extends DuplicatingFilterVisitor {
         throw new IllegalArgumentException("Unknown geometry type: "
                 + geom.getGeometryType());
     }
-    
+
     /**
      * @param coordinates
      * @return
@@ -163,7 +164,7 @@ public class InvertAxisFilterVisitor extends DuplicatingFilterVisitor {
         }
         return result;
     }
-    
+
     /**
      * @param coordinate
      * @return
@@ -171,5 +172,5 @@ public class InvertAxisFilterVisitor extends DuplicatingFilterVisitor {
     private Coordinate invertCoordinate(Coordinate coordinate) {
         return new Coordinate(coordinate.y, coordinate.x, coordinate.z);
     }
-    
+
 }

@@ -17,15 +17,15 @@
 package org.geotools.filter.v1_0.capabilities;
 
 import org.w3c.dom.Document;
+
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.capability.ArithmeticOperators;
 import org.opengis.filter.capability.ScalarCapabilities;
 import org.geotools.xml.Binding;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class Scalar_CapabilitiesTypeBindingTest extends FilterCapabilitiesTestSupport {

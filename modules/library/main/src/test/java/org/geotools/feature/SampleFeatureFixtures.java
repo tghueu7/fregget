@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -32,8 +32,6 @@ import com.vividsolutions.jts.geom.Point;
  * This is a support class which creates test features for use in testing.
  *
  * @author jamesm
- *
- *
  * @source $URL$
  */
 public class SampleFeatureFixtures {
@@ -54,7 +52,7 @@ public class SampleFeatureFixtures {
             SimpleFeatureType testType = createTestType();
             Object[] attributes = createAttributes();
 
-            return SimpleFeatureBuilder.build( testType,attributes,null);
+            return SimpleFeatureBuilder.build(testType, attributes, null);
         } catch (Exception e) {
             Error ae = new AssertionError(
                     "Sample Feature for tests has been misscoded");
@@ -80,7 +78,6 @@ public class SampleFeatureFixtures {
 
     /**
      * creates and returns an array of sample attributes.
-     *
      */
     public static Object[] createAttributes() {
         Object[] attributes = new Object[10];
@@ -108,48 +105,48 @@ public class SampleFeatureFixtures {
     public static AttributeDescriptor[] createType1Choices() {
         AttributeTypeBuilder ab = new AttributeTypeBuilder();
         AttributeDescriptor[] choices = new AttributeDescriptor[3];
-        
+
         ab.setBinding(Byte.class);
-        choices[0] = ab.buildDescriptor( "testByte" );
-        
+        choices[0] = ab.buildDescriptor("testByte");
+
         ab.setBinding(Double.class);
-        choices[1] = ab.buildDescriptor( "testDouble");
-        
+        choices[1] = ab.buildDescriptor("testDouble");
+
         ab.setBinding(String.class);
-        choices[2] = ab.buildDescriptor( "testString");
-        
+        choices[2] = ab.buildDescriptor("testString");
+
         return choices;
     }
 
     public static AttributeDescriptor getChoiceAttrType2() {
         AttributeTypeBuilder ab = new AttributeTypeBuilder();
         AttributeDescriptor[] choices = new AttributeDescriptor[2];
-        
+
         ab.setBinding(String.class);
-        choices[0] = ab.buildDescriptor( "testString" );
-        
+        choices[0] = ab.buildDescriptor("testString");
+
         ab.setBinding(Integer.class);
-        choices[1] = ab.buildDescriptor( "testInt" );
-        
+        choices[1] = ab.buildDescriptor("testInt");
+
         return createChoiceAttrType("choiceTest2", choices);
     }
 
     public static AttributeDescriptor createChoiceAttrType(String name,
-        AttributeDescriptor[] choices) {
-        
+                                                           AttributeDescriptor[] choices) {
+
         throw new RuntimeException("Figure out how to handle choice");
         //return new ChoiceAttributeType(name, choices);
     }
 
     public static AttributeDescriptor createGeomChoiceAttrType(String name,
-        GeometryDescriptor[] choices) {
+                                                               GeometryDescriptor[] choices) {
         throw new RuntimeException("Figure out how to handle choice");
         //return new ChoiceAttributeType.Geometric(name, choices);
     }
 
     public static AttributeDescriptor getChoiceGeomType() {
         throw new RuntimeException("Figure out how to handle choice");
-        
+
 //        GeometryAttributeType[] choices = new GeometryAttributeType[2];
 //        choices[0] = (GeometryAttributeType) AttributeTypeFactory
 //            .newAttributeType("testLine", LineString.class);
@@ -161,7 +158,7 @@ public class SampleFeatureFixtures {
 
     public static SimpleFeatureType createChoiceFeatureType() {
         throw new RuntimeException("Figure out how to handle choice");
-        
+
 //        DefaultFeatureTypeBuilder tb = new DefaultFeatureTypeBuilder();
 //        tb.setName( "test" );
 //        
@@ -175,7 +172,6 @@ public class SampleFeatureFixtures {
 
     /**
      * DOCUMENT ME!
-     *
      *
      * @throws SchemaException
      */
@@ -193,9 +189,9 @@ public class SampleFeatureFixtures {
         tb.add("testFloat", Float.class);
         tb.add("testDouble", Double.class);
         tb.add("testString", String.class);
-        
+
         tb.setDefaultGeometry("testGeometry");
         return tb.buildFeatureType();
-        
+
     }
 }

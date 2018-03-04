@@ -47,8 +47,10 @@ public class GridCoverageAngleCalcTest {
         DirectPosition2D position = new DirectPosition2D(crs, 2626.018310546785 * 1000,
                 -1118.3695068359375 * 1000);
         Assert.assertEquals(16.0573598047079d, angleCalc.getConvergenceAngle(position), TOLERANCE);
-        position = new DirectPosition2D(crs, -1201.9818115234375 * 1000, -1172.3695068359375 * 1000);
-        Assert.assertEquals(-7.461565880473206d, angleCalc.getConvergenceAngle(position), TOLERANCE);
+        position = new DirectPosition2D(crs, -1201.9818115234375 * 1000, -1172.3695068359375 * 
+                1000);
+        Assert.assertEquals(-7.461565880473206d, angleCalc.getConvergenceAngle(position), 
+                TOLERANCE);
     }
 
     @Test
@@ -59,7 +61,8 @@ public class GridCoverageAngleCalcTest {
         CoordinateReferenceSystem crs = CRS.decode("EPSG:3411");
         GridConvergenceAngleCalc angleCalc = new GridConvergenceAngleCalc(crs);
         DirectPosition2D position = new DirectPosition2D(crs, -5050427.62537, -3831167.39071);
-        Assert.assertEquals(-52.81667373163404d, angleCalc.getConvergenceAngle(position), TOLERANCE);
+        Assert.assertEquals(-52.81667373163404d, angleCalc.getConvergenceAngle(position), 
+                TOLERANCE);
     }
 
     @Test

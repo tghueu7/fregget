@@ -35,12 +35,9 @@ import org.geotools.util.Utilities;
  * context only. For an image datum, the anchor point is usually either the centre of the image
  * or the corner of the image.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class DefaultImageDatum extends AbstractDatum implements ImageDatum {
@@ -62,7 +59,6 @@ public class DefaultImageDatum extends AbstractDatum implements ImageDatum {
      * i.e. the properties are not cloned.
      *
      * @param datum The datum to copy.
-     *
      * @since 2.2
      */
     public DefaultImageDatum(final ImageDatum datum) {
@@ -73,7 +69,7 @@ public class DefaultImageDatum extends AbstractDatum implements ImageDatum {
     /**
      * Constructs an image datum from a name.
      *
-     * @param name The datum name.
+     * @param name        The datum name.
      * @param pixelInCell the way the image grid is associated with the image data attributes.
      */
     public DefaultImageDatum(final String name, final PixelInCell pixelInCell) {
@@ -87,7 +83,7 @@ public class DefaultImageDatum extends AbstractDatum implements ImageDatum {
      * @param properties  Set of properties. Should contains at least {@code "name"}.
      * @param pixelInCell the way the image grid is associated with the image data attributes.
      */
-    public DefaultImageDatum(final Map<String,?> properties, final PixelInCell pixelInCell) {
+    public DefaultImageDatum(final Map<String, ?> properties, final PixelInCell pixelInCell) {
         super(properties);
         this.pixelInCell = pixelInCell;
         ensureNonNull("pixelInCell", pixelInCell);
@@ -105,9 +101,10 @@ public class DefaultImageDatum extends AbstractDatum implements ImageDatum {
     /**
      * Compare this datum with the specified object for equality.
      *
-     * @param  object The object to compare to {@code this}.
-     * @param  compareMetadata {@code true} for performing a strict comparaison, or
-     *         {@code false} for comparing only properties relevant to transformations.
+     * @param object          The object to compare to {@code this}.
+     * @param compareMetadata {@code true} for performing a strict comparaison, or
+     *                        {@code false} for comparing only properties relevant to 
+     *                                    transformations.
      * @return {@code true} if both objects are equal.
      */
     @Override
@@ -130,7 +127,7 @@ public class DefaultImageDatum extends AbstractDatum implements ImageDatum {
      * <code>{@link #equals equals}(AbstractIdentifiedObject, <strong>false</strong>)</code>.
      *
      * @return The hash code value. This value doesn't need to be the same
-     *         in past or future versions of this class.
+     * in past or future versions of this class.
      */
     @Override
     public int hashCode() {
@@ -139,12 +136,13 @@ public class DefaultImageDatum extends AbstractDatum implements ImageDatum {
 
     /**
      * Format the inner part of a
-     * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
+     * <A HREF="http://geoapi.sourceforge
+     * .net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
      * Known Text</cite> (WKT)</A> element.
-     *
+     * <p>
      * <strong>Note:</strong> WKT of image datum is not yet part of OGC specification.
      *
-     * @param  formatter The formatter to use.
+     * @param formatter The formatter to use.
      * @return The WKT element name.
      */
     @Override

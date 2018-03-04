@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -20,6 +20,7 @@
 package org.geotools.metadata.iso.distribution;
 
 import java.util.Date;
+
 import org.opengis.util.InternationalString;
 import org.opengis.metadata.distribution.StandardOrderProcess;
 import org.geotools.metadata.iso.MetadataEntity;
@@ -29,13 +30,10 @@ import org.geotools.metadata.iso.MetadataEntity;
  * Common ways in which the resource may be obtained or received, and related instructions
  * and fee information.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Jody Garnett
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class StandardOrderProcessImpl extends MetadataEntity implements StandardOrderProcess {
@@ -102,7 +100,7 @@ public class StandardOrderProcessImpl extends MetadataEntity implements Standard
      * Returns the date and time when the dataset will be available.
      */
     public synchronized Date getPlannedAvailableDateTime() {
-        return (plannedAvailableDateTime!=Long.MIN_VALUE) ?
+        return (plannedAvailableDateTime != Long.MIN_VALUE) ?
                 new Date(plannedAvailableDateTime) : null;
     }
 
@@ -111,7 +109,7 @@ public class StandardOrderProcessImpl extends MetadataEntity implements Standard
      */
     public synchronized void setPlannedAvailableDateTime(final Date newValue) {
         checkWritePermission();
-        plannedAvailableDateTime = (newValue!=null) ? newValue.getTime() : Long.MIN_VALUE;
+        plannedAvailableDateTime = (newValue != null) ? newValue.getTime() : Long.MIN_VALUE;
     }
 
     /**

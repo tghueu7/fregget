@@ -21,12 +21,15 @@ import org.geotools.mbstyle.parse.MBObjectParser;
 import org.json.simple.JSONObject;
 
 /**
- * 
- * Wrapper around a {@link JSONObject} containing the "sources" in a Mapbox style. Mapbox sources supply data to be shown on the map. The type of
- * source is specified by the "type" property, and must be one of vector, raster, geojson, image, video, canvas.
- *  
- * "Layers refer to a source and give it a visual representation. This makes it possible to style the same source in different ways, like differentiating between types of roads in a highways layer."
- * 
+ * Wrapper around a {@link JSONObject} containing the "sources" in a Mapbox style. Mapbox sources
+ * supply data to be shown on the map. The type of
+ * source is specified by the "type" property, and must be one of vector, raster, geojson, image,
+ * video, canvas.
+ * <p>
+ * "Layers refer to a source and give it a visual representation. This makes it possible to style
+ * the same source in different ways, like differentiating between types of roads in a highways 
+ * layer."
+ * <p>
  * <p>Internally we use a wtms end-point to refer to the data source:
  * <pre>
  * "us-states": {
@@ -41,29 +44,30 @@ import org.json.simple.JSONObject;
  *   LAYER=dfs:ne_110m_coastline&STYLE=&TILEMATRIX=EPSG:4326:2&TILEMATRIXSET=EPSG:4326&
  *   FORMAT=application/x-protobuf;type=mapbox-vector
  *   &TILECOL=3&TILEROW=1</pre>
- * 
- * @see <a href="https://www.mapbox.com/mapbox-gl-js/style-spec/#sources">https://www.mapbox.com/mapbox-gl-js/style-spec/#sources</a>
  *
+ * @see <a href="https://www.mapbox.com/mapbox-gl-js/style-spec/#sources">https://www.mapbox
+ * .com/mapbox-gl-js/style-spec/#sources</a>
  */
 public abstract class MBSource {
-    
+
     protected JSONObject json;
     protected MBObjectParser parser;
 
     public MBSource(JSONObject json) {
         this(json, null);
     }
-    
+
     public MBSource(JSONObject json, MBObjectParser parser) {
         this.json = json != null ? json : new JSONObject();
         this.parser = parser != null ? parser : new MBObjectParser(MBSource.class);
     }
-    
-    public static MBSource create(JSONObject json, MBObjectParser parser ) {
+
+    public static MBSource create(JSONObject json, MBObjectParser parser) {
         if (!json.containsKey("type") || !(json.get("type") instanceof String)) {
-            throw new MBFormatException("Mapbox source \"type\" is required and must be one of: vector, raster, geojson, image, video, or canvas.");
+            throw new MBFormatException("Mapbox source \"type\" is required and must be one of: " +
+                    "vector, raster, geojson, image, video, or canvas.");
         }
-        
+
         String type = ((String) json.get("type")).toLowerCase().trim();
 
         if ("vector".equalsIgnoreCase(type)) {
@@ -84,9 +88,10 @@ public abstract class MBSource {
         if ("canvas".equalsIgnoreCase(type)) {
             return new CanvasMBSource(json, parser);
         }
-        throw new MBFormatException("Mapbox source \"type\" is required and must be one of: vector, raster, geojson, image, video, or canvas.");
+        throw new MBFormatException("Mapbox source \"type\" is required and must be one of: " +
+                "vector, raster, geojson, image, video, or canvas.");
     }
-    
+
     /**
      * Must be one of "vector", "raster", "geojson", "image", "video", "canvas"
      */

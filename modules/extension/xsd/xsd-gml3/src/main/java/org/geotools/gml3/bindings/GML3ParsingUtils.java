@@ -45,40 +45,35 @@ import com.vividsolutions.jts.geom.Point;
 
 /**
  * Utility class for gml3 parsing.
- * 
+ *
  * @author Justin Deoliveira, The Open Planning Project, jdeolive@openplans.org
- * 
- * 
- * 
- * 
  * @source $URL$
  */
 public class GML3ParsingUtils {
     /**
      * Utility method to implement Binding.parse for a binding which parses into A feature.
-     * 
-     * @param instance The instance being parsed.
-     * @param node The parse tree.
-     * @param value The value from the last binding in the chain.
-     * @param ftCache The feature type cache.
+     *
+     * @param instance  The instance being parsed.
+     * @param node      The parse tree.
+     * @param value     The value from the last binding in the chain.
+     * @param ftCache   The feature type cache.
      * @param bwFactory Binding walker factory.
-     * 
      * @return A feature.
      */
     public static SimpleFeature parseFeature(ElementInstance instance, Node node, Object value,
-            FeatureTypeCache ftCache, BindingWalkerFactory bwFactory) throws Exception {
+                                             FeatureTypeCache ftCache, BindingWalkerFactory 
+                                                     bwFactory) throws Exception {
         return GML2ParsingUtils.parseFeature(instance, node, value, ftCache, bwFactory);
     }
 
     /**
      * Turns a xml type definition into a geotools feature type.
-     * 
+     *
      * @param type The xml schema tupe.
-     * 
      * @return The corresponding geotools feature type.
      */
     public static SimpleFeatureType featureType(XSDElementDeclaration element,
-            BindingWalkerFactory bwFactory) throws Exception {
+                                                BindingWalkerFactory bwFactory) throws Exception {
         return GML2ParsingUtils.featureType(element, bwFactory);
     }
 
@@ -99,7 +94,7 @@ public class GML3ParsingUtils {
      * has it, not the posList). If no srsDimension can be found, check the srsName the same way
      * and return the srsDimensions instead.
      * Returns 2 if no srsDimension or srsName attribute could be found.
-     * 
+     *
      * @param node
      * @return
      */
@@ -133,7 +128,7 @@ public class GML3ParsingUtils {
     }
 
     static LineString line(Node node, GeometryFactory gf, CoordinateSequenceFactory csf,
-            boolean ring) {
+                           boolean ring) {
         if (node.hasChild(DirectPosition.class)) {
             List dps = node.getChildValues(DirectPosition.class);
             DirectPosition dp = (DirectPosition) dps.get(0);
@@ -177,7 +172,7 @@ public class GML3ParsingUtils {
             if (dps.length == 0) {
                 seq = JTS.createCS(csf, 0, 0);
             } else {
-                seq = JTS.createCS(csf,dps.length, dps[0].getDimension());
+                seq = JTS.createCS(csf, dps.length, dps[0].getDimension());
 
                 for (int i = 0; i < dps.length; i++) {
                     DirectPosition dp = dps[i];
@@ -204,14 +199,15 @@ public class GML3ParsingUtils {
     /**
      * Returns a curved geometry factory given the linearization constraints, the original factory,
      * and a coordinate sequence representing the control points of a curved geometry
-     * 
+     *
      * @param arcParameters
      * @param gFactory
      * @param cs
      * @return
      */
     public static CurvedGeometryFactory getCurvedGeometryFactory(ArcParameters arcParameters,
-            GeometryFactory gFactory, CoordinateSequence cs) {
+                                                                 GeometryFactory gFactory, 
+                                                                 CoordinateSequence cs) {
         CurvedGeometryFactory factory;
         if (gFactory instanceof CurvedGeometryFactory) {
             factory = (CurvedGeometryFactory) gFactory;

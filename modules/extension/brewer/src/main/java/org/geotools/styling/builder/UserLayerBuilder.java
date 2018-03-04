@@ -26,8 +26,6 @@ import org.geotools.styling.UserLayer;
 import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class UserLayerBuilder extends AbstractSLDBuilder<UserLayer> {
@@ -38,7 +36,8 @@ public class UserLayerBuilder extends AbstractSLDBuilder<UserLayer> {
 
     RemoteOWSBuilder remoteOWS = new RemoteOWSBuilder().unset();
 
-    List<FeatureTypeConstraintBuilder> featureTypeConstraint = new ArrayList<FeatureTypeConstraintBuilder>();
+    List<FeatureTypeConstraintBuilder> featureTypeConstraint = new 
+            ArrayList<FeatureTypeConstraintBuilder>();
 
     List<StyleBuilder> userStyles = new ArrayList<StyleBuilder>();
 
@@ -93,7 +92,7 @@ public class UserLayerBuilder extends AbstractSLDBuilder<UserLayer> {
 
     /**
      * Reset builder to provided original stroke.
-     * 
+     *
      * @param stroke
      */
     public UserLayerBuilder reset(UserLayer other) {

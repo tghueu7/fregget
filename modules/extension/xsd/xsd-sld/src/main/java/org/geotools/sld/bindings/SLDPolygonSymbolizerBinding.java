@@ -21,6 +21,7 @@ import java.util.List;
 import org.picocontainer.MutablePicoContainer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 import javax.xml.namespace.QName;
 
 import org.opengis.filter.expression.Expression;
@@ -35,15 +36,16 @@ import org.geotools.xml.*;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:PolygonSymbolizer.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="PolygonSymbolizer" substitutionGroup="sld:Symbolizer"&gt;
  *      &lt;xsd:annotation&gt;
  *          &lt;xsd:documentation&gt;         A &quot;PolygonSymbolizer&quot;
  *              specifies the rendering of a polygon or         area
- *              geometry, including its interior fill and border stroke.       &lt;/xsd:documentation&gt;
+ *              geometry, including its interior fill and border stroke.       &lt;
+ *              /xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
  *      &lt;xsd:complexType&gt;
  *          &lt;xsd:complexContent&gt;
@@ -63,9 +65,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDPolygonSymbolizerBinding extends AbstractComplexBinding {
@@ -118,13 +117,13 @@ public class SLDPolygonSymbolizerBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         PolygonSymbolizer ps = styleFactory.createPolygonSymbolizer();
 
         //&lt;xsd:element ref="sld:Geometry" minOccurs="0"/&gt;
-        if(node.hasChild("Geometry")) {
+        if (node.hasChild("Geometry")) {
             Expression geometry = (Expression) node.getChildValue("Geometry");
-            if(geometry instanceof PropertyName) {
+            if (geometry instanceof PropertyName) {
                 PropertyName propertyName = (PropertyName) geometry;
                 ps.setGeometryPropertyName(propertyName.getPropertyName());
             } else {
@@ -141,10 +140,11 @@ public class SLDPolygonSymbolizerBinding extends AbstractComplexBinding {
         if (node.hasChild(Stroke.class)) {
             ps.setStroke((Stroke) node.getChildValue(Stroke.class));
         }
-        
+
         //&lt;xsd:element ref="sld:VendorOption" minOccurs="0" maxOccurs="unbounded"/&gt;
         for (CssParameter param : (List<CssParameter>) node.getChildValues(CssParameter.class)) {
-            ps.getOptions().put(param.getName(), param.getExpression().evaluate(null, String.class));
+            ps.getOptions().put(param.getName(), param.getExpression().evaluate(null, String
+                    .class));
         }
 
         return ps;

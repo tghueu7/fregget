@@ -24,10 +24,9 @@ import javax.swing.JPanel;
  * Base class for items in {@linkplain JMapStatusBar}.
  *
  * @author Michael Bedward
- * @since 8.0
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 public abstract class StatusBarItem extends JPanel {
     private static int ITEM_ID = 0;
@@ -49,12 +48,12 @@ public abstract class StatusBarItem extends JPanel {
     /**
      * Creates a new item with the given name.
      *
-     * @param name item name; or {@code null} for a default name
+     * @param name   item name; or {@code null} for a default name
      * @param border whether to draw a border around this item
      */
     public StatusBarItem(String name, boolean border) {
-        this.id = ITEM_ID++ ;
-        
+        this.id = ITEM_ID++;
+
         if (name == null || name.trim().length() == 0) {
             setName("Item_" + id);
         } else {
@@ -67,7 +66,7 @@ public abstract class StatusBarItem extends JPanel {
         }
 
         setOpaque(false);
-        minHeight = getHeight(); 
+        minHeight = getHeight();
     }
 
     /**
@@ -95,6 +94,7 @@ public abstract class StatusBarItem extends JPanel {
      *
      * @param numDecimals number of digits after decimal place
      */
-    public void setNumDecimals(int numDecimals) {}
+    public void setNumDecimals(int numDecimals) {
+    }
 
 }

@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -26,14 +26,12 @@ import org.opengis.feature.simple.SimpleFeatureType;
  * ResultSetFIDReader should be used.
  *
  * @author Chris Holmes
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class DefaultFIDReader implements FIDReader {
     protected static final String CLOSE_MESG = "Close has already been called"
-        + " on this FIDReader";
+            + " on this FIDReader";
 
     private int len;
     protected int index = 0;
@@ -60,7 +58,6 @@ public class DefaultFIDReader implements FIDReader {
      * Does another set of attributes exist in this reader?
      *
      * @return <code>true</code> if more attributes exist
-     *
      * @throws IOException If closed
      */
     public boolean hasNext() throws IOException {
@@ -75,7 +72,6 @@ public class DefaultFIDReader implements FIDReader {
      * Read the attribute at the given index.
      *
      * @return Attribute at index
-     *
      * @throws IOException If closed
      */
     public String next() throws IOException {
@@ -88,5 +84,5 @@ public class DefaultFIDReader implements FIDReader {
 
         return buffer.toString();
     }
-    
+
 }

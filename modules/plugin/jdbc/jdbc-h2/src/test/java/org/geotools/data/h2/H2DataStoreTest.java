@@ -24,10 +24,6 @@ import org.geotools.jdbc.JDBCTestSetup;
  * Datastore test for H2.
  *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
- *
  * @source $URL$
  */
 public class H2DataStoreTest extends JDBCDataStoreOnlineTest {

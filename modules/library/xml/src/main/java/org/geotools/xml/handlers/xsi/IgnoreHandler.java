@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -28,19 +28,19 @@ import org.xml.sax.Attributes;
  *
  * @author dzwiers, Refractions Research, Inc. http://www.refractions.net
  * @author $Author:$ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class IgnoreHandler extends XSIElementHandler {
-    /** "" */
+    /**
+     * ""
+     */
     public final static String LOCALNAME = "";
 
     /**
      * @see org.geotools.xml.XSIElementHandler#characters(java.lang.String)
      */
-    public void characters(String text){
+    public void characters(String text) {
         // do nothing
     }
 
@@ -53,9 +53,9 @@ public class IgnoreHandler extends XSIElementHandler {
 
     /**
      * @see org.geotools.xml.XSIElementHandler#getHandler(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
-    public XSIElementHandler getHandler(String namespaceURI, String localName){
+    public XSIElementHandler getHandler(String namespaceURI, String localName) {
         return this;
     }
 
@@ -75,18 +75,18 @@ public class IgnoreHandler extends XSIElementHandler {
 
     /**
      * @see org.geotools.xml.XSIElementHandler#endElement(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
-    public void endElement(String namespaceURI, String localName){
+    public void endElement(String namespaceURI, String localName) {
         // do nothing
     }
 
     /**
      * @see org.geotools.xml.XSIElementHandler#startElement(java.lang.String,
-     *      java.lang.String, org.xml.sax.Attributes)
+     * java.lang.String, org.xml.sax.Attributes)
      */
     public void startElement(String namespaceURI, String localName,
-        Attributes attr){
+                             Attributes attr) {
         // do nothing
     }
 }

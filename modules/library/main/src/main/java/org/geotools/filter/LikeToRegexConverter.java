@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2014, Open Source Geospatial Foundation (OSGeo)
- *        
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -24,7 +24,7 @@ import org.opengis.filter.PropertyIsLike;
 
 /**
  * Helper class that takes a LikeFilter and generates the equivalent Java Pattern syntax
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  * @since 13.x
  */
@@ -73,10 +73,11 @@ public class LikeToRegexConverter {
                 chr = pattern.charAt(i);
             }
 
-            if (pattern.regionMatches(false, i, wildcardMulti, 0, wildcardMulti.length())) { // replace
-                                                                                             // with
-                                                                                             // java
-                                                                                             // wildcard
+            if (pattern.regionMatches(false, i, wildcardMulti, 0, wildcardMulti.length())) { // 
+                // replace
+                // with
+                // java
+                // wildcard
                 LOGGER.finer("multi wildcard");
 
                 if (escapedMode) {
@@ -133,9 +134,8 @@ public class LikeToRegexConverter {
 
     /**
      * Convenience method to determine if a character is special to the regex system.
-     * 
+     *
      * @param chr the character to test
-     * 
      * @return is the character a special character.
      */
     private boolean isSpecial(final char chr) {
@@ -146,10 +146,9 @@ public class LikeToRegexConverter {
 
     /**
      * Convenience method to escape any character that is special to the regex system.
-     * 
+     *
      * @param inString the string to fix
-     * @param escape the escape charatter
-     * 
+     * @param escape   the escape charatter
      * @return the fixed string
      */
     private String fixSpecials(final String inString, final String escape) {
@@ -170,7 +169,7 @@ public class LikeToRegexConverter {
 
     /**
      * Returns the equivalent Java pattern
-     * 
+     *
      * @return
      */
     public String getPattern() {

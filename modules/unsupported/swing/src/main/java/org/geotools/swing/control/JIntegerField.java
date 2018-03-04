@@ -38,12 +38,9 @@ import javax.swing.event.DocumentListener;
  * </code></pre>
  *
  * @author Michael Bedward
- * @since 2.6.1
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.6.1
  */
 public class JIntegerField extends JValueField {
 
@@ -62,7 +59,7 @@ public class JIntegerField extends JValueField {
      * Creates a new text field with an initial value of 0.
      *
      * @param allowNegative true if this field should allow negative values to
-     *        be entered; false if only positive values are allowed
+     *                      be entered; false if only positive values are allowed
      */
     public JIntegerField(boolean allowsNegative) {
         this(0, allowsNegative);
@@ -81,9 +78,9 @@ public class JIntegerField extends JValueField {
     /**
      * Creates a new text field with the given initial value.
      *
-     * @param value the initial value to display
+     * @param value         the initial value to display
      * @param allowNegative true if this field should allow negative values to
-     *        be entered; false if only positive values are allowed
+     *                      be entered; false if only positive values are allowed
      */
     public JIntegerField(int value, boolean allowNegative) {
         this.document = new IntegerDocument(allowNegative);
@@ -97,7 +94,7 @@ public class JIntegerField extends JValueField {
                     ValueChangedEvent<Integer> ev = new ValueChangedEvent<Integer>(
                             JIntegerField.this, Integer.valueOf(document.getValue()));
 
-                    fireValueChangedEvent( ev );
+                    fireValueChangedEvent(ev);
                 }
             }
 
@@ -106,7 +103,7 @@ public class JIntegerField extends JValueField {
                     ValueChangedEvent<Integer> ev = new ValueChangedEvent<Integer>(
                             JIntegerField.this, Integer.valueOf(document.getValue()));
 
-                    fireValueChangedEvent( ev );
+                    fireValueChangedEvent(ev);
                 }
             }
 
@@ -127,11 +124,10 @@ public class JIntegerField extends JValueField {
     /**
      * Set the integer value of this control. A {@code ValueChangedEvent} will be
      * published to all {@code ValueChangedListeners}.
-     * 
-     * @param value the value to set
      *
+     * @param value the value to set
      * @throws IllegalArgumentException if {@code value} is negative but the field
-     *         only allows positive values
+     *                                  only allows positive values
      */
     public void setValue(int value) {
         setValue(value, true);
@@ -146,19 +142,19 @@ public class JIntegerField extends JValueField {
      * In such a setting, firing change events can result in an endless cycle or a
      * mutex violation.
      *
-     * @param value the value to set
+     * @param value        the value to set
      * @param publishEvent true to notify listeners of this change; false to skip
-     *        notification
-     *
+     *                     notification
      * @throws IllegalArgumentException if {@code value} is negative but the field
-     *         only allows positive values
+     *                                  only allows positive values
      */
     public void setValue(int value, boolean publishEvent) {
         fireEvents = publishEvent;
 
         if (!document.getAllowsNegative() && value < 0) {
             throw new IllegalArgumentException(
-                    String.format("Negative value (%d) but text field set to only allow positive values", value));
+                    String.format("Negative value (%d) but text field set to only allow positive " +
+                            "values", value));
         }
         setText(String.valueOf(value));
         fireEvents = true;

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -26,18 +26,14 @@ import org.opengis.metadata.extent.GeographicDescription;
 /**
  * Description of the geographic area using identifiers.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class GeographicDescriptionImpl extends GeographicExtentImpl
-        implements GeographicDescription
-{
+        implements GeographicDescription {
     /**
      * Serial number for interoperability with different versions.
      */
@@ -66,9 +62,9 @@ public class GeographicDescriptionImpl extends GeographicExtentImpl
     /**
      * Creates a geographic description initialized to the specified value.
      */
-     public GeographicDescriptionImpl(final Identifier geographicIdentifier) {
-         setGeographicIdentifier(geographicIdentifier);
-     }
+    public GeographicDescriptionImpl(final Identifier geographicIdentifier) {
+        setGeographicIdentifier(geographicIdentifier);
+    }
 
     /**
      * Returns the identifier used to represent a geographic area.

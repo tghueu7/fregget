@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2014 - 2016 , Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -48,7 +48,7 @@ public class LabelPainterTest {
     private TextStyle2D style;
     private TextSymbolizer symbolizer;
     LiteShape2 shape;
-    
+
     @Before
     public void setUp() throws TransformException, FactoryException {
         graphics = Mockito.mock(Graphics2D.class);
@@ -63,7 +63,7 @@ public class LabelPainterTest {
                 ProjectiveTransform.create(new AffineTransform()), null, false);
         symbolizer = styleFactory.createTextSymbolizer();
     }
-    
+
     @Test
     public void testEmptyLinesInLabel() {
         LabelPainter painter = new LabelPainter(graphics, LabelRenderingMode.STRING);
@@ -73,7 +73,7 @@ public class LabelPainterTest {
         painter.setLabel(labelItem);
         assertEquals(3, painter.getLineCount());
     }
-    
+
     @Test
     public void testEmptyLinesInLabelWithAutoWrap() {
         LabelPainter painter = new LabelPainter(graphics, LabelRenderingMode.STRING);
@@ -83,7 +83,7 @@ public class LabelPainterTest {
         painter.setLabel(labelItem);
         assertEquals(3, painter.getLineCount());
     }
-    
+
     @Test
     public void testOnlyNewlines() {
         LabelPainter painter = new LabelPainter(graphics, LabelRenderingMode.STRING);

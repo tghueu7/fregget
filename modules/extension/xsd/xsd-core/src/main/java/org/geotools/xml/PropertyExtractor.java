@@ -17,6 +17,7 @@
 package org.geotools.xml;
 
 import org.eclipse.xsd.XSDElementDeclaration;
+
 import java.util.List;
 
 
@@ -24,10 +25,6 @@ import java.util.List;
  * Factory used by the encoder to obtain child values from objects being encoded.
  *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
- *
  * @source $URL$
  */
 public interface PropertyExtractor {
@@ -35,9 +32,8 @@ public interface PropertyExtractor {
      * Determines if this extractor can handle objects of the given type.
      *
      * @param object The object being encoded.
-     *
      * @return <code>true</code> if the extractor can handle the object,
-     *         otherwise <code>false<code>.
+     * otherwise <code>false<code>.
      */
     boolean canHandle(Object object);
 
@@ -48,9 +44,8 @@ public interface PropertyExtractor {
      * ({@link org.eclipse.xsd.XSDParticle},Object).
      * </p>
      *
-     * @param object The object being encoded.
+     * @param object  The object being encoded.
      * @param element The element declaration corresponding to the object being encoded.
-     *
      * @return A set of element, object tuples.
      */
     List /*Object[2]*/ properties(Object object, XSDElementDeclaration element);

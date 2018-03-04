@@ -28,13 +28,11 @@ import java.util.logging.Logger;
 
 /**
  * An implementation of {@link Format} for the VRT format
- * 
+ *
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini (simboss), GeoSolutions
- * @since 2.10.x
- *
- *
  * @source $URL$
+ * @since 2.10.x
  */
 public final class VRTFormat extends BaseGDALGridFormat implements Format {
     /**

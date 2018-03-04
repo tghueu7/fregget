@@ -30,12 +30,10 @@ package org.geotools.caching.spatialindex;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public interface Entry {
-    
+
     public Shape getShape();
 
 } // IEntry

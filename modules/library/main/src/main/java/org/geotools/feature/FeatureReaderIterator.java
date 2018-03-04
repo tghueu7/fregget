@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -37,12 +37,10 @@ import org.opengis.feature.type.FeatureType;
  * from {@link #next()} or eating an exception from the underlying feature reader at
  * {@link #hasNext()}, this iterator will auto-close.
  * </p>
- * 
+ *
  * @author jeichar
  * @author Jody Garnett
  * @author Gabriel Roldan
- *
- *
  * @source $URL$
  */
 public class FeatureReaderIterator<F extends Feature> implements Iterator<F>, Closeable {
@@ -92,7 +90,9 @@ public class FeatureReaderIterator<F extends Feature> implements Iterator<F>, Cl
         }
     }
 
-    /** If this is a problem, a different iterator can be made based on FeatureWriter */
+    /**
+     * If this is a problem, a different iterator can be made based on FeatureWriter
+     */
     public void remove() {
         throw new UnsupportedOperationException("Modification of contents is not supported");
     }

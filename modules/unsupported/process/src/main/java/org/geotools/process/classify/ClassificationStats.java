@@ -27,7 +27,7 @@ import org.jaitools.numeric.Statistic;
 public interface ClassificationStats {
 
     /**
-     * Number of classes. 
+     * Number of classes.
      */
     int size();
 
@@ -37,7 +37,7 @@ public interface ClassificationStats {
     Set<Statistic> getStats();
 
     /**
-     * The value range for the specified class. 
+     * The value range for the specified class.
      */
     Range range(int i);
 

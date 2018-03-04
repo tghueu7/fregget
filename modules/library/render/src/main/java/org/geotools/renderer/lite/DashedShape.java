@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -34,10 +34,8 @@ import javax.imageio.ImageIO;
 /**
  * A shape wrapper that generates a stroked version of the shape without actually holding it all in
  * memory (it is streamed through the path iterator)
- * 
+ *
  * @author Andrea Aime - OpenGeo
- *
- *
  * @source $URL$
  */
 public class DashedShape implements Shape {
@@ -102,6 +100,7 @@ public class DashedShape implements Shape {
 
     /**
      * The iterator that generates the dashed segments in a streaming fashion
+     *
      * @author Andrea Aime - OpenGeo
      */
     public class DashedIterator implements PathIterator {
@@ -178,7 +177,7 @@ public class DashedShape implements Shape {
         private float dx;
 
         /**
-         * Both used to reset the dash state when doing a MOVE_TO 
+         * Both used to reset the dash state when doing a MOVE_TO
          */
         float dashPhase;
         int baseDashIndex;
@@ -236,11 +235,11 @@ public class DashedShape implements Shape {
         public void next() {
             // have we exhausted the previous segment?
             if (segmentLength == 0) {
-                if(!delegate.isDone()) {
+                if (!delegate.isDone()) {
                     prevCoords[0] = currCoords[0];
                     prevCoords[1] = currCoords[1];
                     lastType = delegate.currentSegment(currCoords);
-                    if(lastType == PathIterator.SEG_MOVETO) {
+                    if (lastType == PathIterator.SEG_MOVETO) {
                         // start over and move to the next value
                         segmentOffset = 0;
                         dashOffset = dashPhase;
@@ -253,7 +252,7 @@ public class DashedShape implements Shape {
                         delegate.next();
                         // if no segment after move we're done
                         done = delegate.isDone();
-                    } else { 
+                    } else {
                         // prepare for the next round of dash array application
                         dx = currCoords[0] - prevCoords[0];
                         dy = currCoords[1] - prevCoords[1];
@@ -312,7 +311,7 @@ public class DashedShape implements Shape {
         Graphics2D graphics = image.createGraphics();
 
         Shape stroked = new DashedShape(new Rectangle2D.Double(0, 0, 4, 4),
-                new float[] { 2, 2}, 0);
+                new float[]{2, 2}, 0);
         graphics.draw(stroked);
 
         graphics.dispose();

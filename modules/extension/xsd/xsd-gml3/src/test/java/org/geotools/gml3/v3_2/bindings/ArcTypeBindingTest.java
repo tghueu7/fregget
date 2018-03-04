@@ -23,14 +23,11 @@ import org.geotools.gml3.v3_2.GML32TestSupport;
 import com.vividsolutions.jts.geom.LineString;
 
 /**
- *
  * @author Erik van de Pol
- *
- *
  * @source $URL$
  */
 public class ArcTypeBindingTest extends GML32TestSupport {
-    
+
     public void testParse() throws Exception {
         GML3MockData.arcWithPosList(document, document);
         LineString lineString = (LineString) parse();

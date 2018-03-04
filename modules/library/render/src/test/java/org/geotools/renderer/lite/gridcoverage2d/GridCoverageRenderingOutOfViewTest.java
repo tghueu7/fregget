@@ -1,11 +1,11 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit http://geotools.org
  *    (C) 2016, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or modify it under
  *    the terms of the GNU Lesser General Public License as published by the Free
  *    Software Foundation; version 2.1 of the License.
- *    
+ *
  *    This library is distributed in the hope that it will be useful, but WITHOUT
  *    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  *    FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
@@ -44,11 +44,12 @@ public class GridCoverageRenderingOutOfViewTest {
     private final String rasterBase = "test_raster_NZTM";
 
     @Test
-    public void test() throws IOException, URISyntaxException, MismatchedDimensionException, NoSuchAuthorityCodeException, FactoryException {
+    public void test() throws IOException, URISyntaxException, MismatchedDimensionException, 
+            NoSuchAuthorityCodeException, FactoryException {
         StreamingRenderer renderer = new StreamingRenderer();
 
         MapContent map = new MapContent();
-        URL raster = getClass().getResource(rasterBase+".png");
+        URL raster = getClass().getResource(rasterBase + ".png");
         GridCoverage2D gc = readGeoReferencedImageFile(new File(raster.toURI()));
 
         map.addLayer(loadGeoReferencedImageFile(gc, "test"));
@@ -76,13 +77,14 @@ public class GridCoverageRenderingOutOfViewTest {
         assertNull(error.get());
     }
 
-    public Layer loadGeoReferencedImageFile(GridCoverage2D gc, String title) throws IOException, URISyntaxException {
+    public Layer loadGeoReferencedImageFile(GridCoverage2D gc, String title) throws IOException, 
+            URISyntaxException {
 
 
         StyleBuilder sb = new StyleBuilder();
         RasterSymbolizer rs = sb.createRasterSymbolizer();
         return new GridCoverageLayer(gc, sb.createStyle(rs), "");
-    } 
+    }
 
     public GridCoverage2D readGeoReferencedImageFile(File f) throws IOException {
         WorldImageReader reader = null;

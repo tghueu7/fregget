@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -21,6 +21,7 @@ package org.geotools.metadata.iso.citation;
 
 import java.util.Collection;
 import java.util.Date;
+
 import org.opengis.metadata.Identifier;
 import org.opengis.metadata.citation.Citation;
 import org.opengis.metadata.citation.CitationDate;
@@ -36,13 +37,11 @@ import org.geotools.util.SimpleInternationalString;
 /**
  * Standardized resource reference.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Jody Garnett
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class CitationImpl extends MetadataEntity implements Citation {
     /**
@@ -216,8 +215,7 @@ public class CitationImpl extends MetadataEntity implements Citation {
      * Set the short name or other language name by which the cited information is known.
      */
     public synchronized void setAlternateTitles(
-            final Collection<? extends InternationalString> newValues)
-    {
+            final Collection<? extends InternationalString> newValues) {
         alternateTitles = copyCollection(newValues, alternateTitles, InternationalString.class);
     }
 
@@ -254,7 +252,7 @@ public class CitationImpl extends MetadataEntity implements Citation {
      * Returns the date of the edition, or {@code null} if none.
      */
     public synchronized Date getEditionDate() {
-        return (editionDate!=Long.MIN_VALUE) ? new Date(editionDate) : null;
+        return (editionDate != Long.MIN_VALUE) ? new Date(editionDate) : null;
     }
 
     /**
@@ -264,7 +262,7 @@ public class CitationImpl extends MetadataEntity implements Citation {
      */
     public synchronized void setEditionDate(final Date newValue) {
         checkWritePermission();
-        editionDate = (newValue!=null) ? newValue.getTime() : Long.MIN_VALUE;
+        editionDate = (newValue != null) ? newValue.getTime() : Long.MIN_VALUE;
     }
 
     /**
@@ -297,17 +295,16 @@ public class CitationImpl extends MetadataEntity implements Citation {
      * for the resource. Returns an empty string if there is none.
      */
     public synchronized void setCitedResponsibleParties(
-            final Collection<? extends ResponsibleParty> newValues)
-    {
+            final Collection<? extends ResponsibleParty> newValues) {
         citedResponsibleParties = copyCollection(newValues, citedResponsibleParties,
-                                                 ResponsibleParty.class);
+                ResponsibleParty.class);
     }
 
     /**
      * Returns the mode in which the resource is represented, or an empty string if none.
      */
     public synchronized Collection<PresentationForm> getPresentationForm() {
-        return (presentationForm = nonNullCollection(presentationForm, 
+        return (presentationForm = nonNullCollection(presentationForm,
                 PresentationForm.class));
     }
 
@@ -315,8 +312,7 @@ public class CitationImpl extends MetadataEntity implements Citation {
      * Set the mode in which the resource is represented, or an empty string if none.
      */
     public synchronized void setPresentationForm(
-            final Collection<? extends PresentationForm> newValues)
-    {
+            final Collection<? extends PresentationForm> newValues) {
         presentationForm = copyCollection(newValues, presentationForm, PresentationForm.class);
     }
 

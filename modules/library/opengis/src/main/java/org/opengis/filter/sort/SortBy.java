@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.filter.sort;
@@ -35,14 +35,12 @@ import org.opengis.filter.expression.PropertyName;
  * AttributeExpression as an optional parameter. Note function is defined
  * to return a single value (so we don't need to worry there).
  * </p>
+ *
+ * @author Jody Garnett (Refractions Research)
+ * @source $URL$
  * @see <a href="http://schemas.opengis.net/filter/1.1.0/sort.xsd">
  * @see <a href="http://schemas.opengis.net/wfs/1.1.0/wfs.xsd">
- *
  * @since GeoAPI 2.1
- * @author Jody Garnett (Refractions Research)
- *
- *
- * @source $URL$
  */
 public interface SortBy {
     /**
@@ -86,13 +84,14 @@ public interface SortBy {
      * <p>
      * Not sure if this is allowed to be a xPath expression?
      * <ul>
-     *   <li>It would be consist with our use in GeoTools</li>
-     *   <li>It would not seem to agree with the short hand notation
-     *       used by WFS1.1 (ie. "year A, month A, day A" )</li>
+     * <li>It would be consist with our use in GeoTools</li>
+     * <li>It would not seem to agree with the short hand notation
+     * used by WFS1.1 (ie. "year A, month A, day A" )</li>
      * </ul>
      * </p>
-     * @todo Use QName
+     *
      * @return Name of property to sort by.
+     * @todo Use QName
      */
     PropertyName getPropertyName();
 

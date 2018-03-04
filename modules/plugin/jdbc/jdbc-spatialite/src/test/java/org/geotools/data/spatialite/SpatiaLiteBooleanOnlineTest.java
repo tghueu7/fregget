@@ -20,8 +20,6 @@ import org.geotools.jdbc.JDBCBooleanOnlineTest;
 import org.geotools.jdbc.JDBCBooleanTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SpatiaLiteBooleanOnlineTest extends JDBCBooleanOnlineTest {
@@ -30,17 +28,17 @@ public class SpatiaLiteBooleanOnlineTest extends JDBCBooleanOnlineTest {
     protected JDBCBooleanTestSetup createTestSetup() {
         return new SpatiaLiteBooleanTestSetup();
     }
-    
+
     //sqlite does not do booleans, they are actually just varchars
     // TODO: figure out a way to this and reenable these tests 
     @Override
     public void testGetFeatures() throws Exception {
-        
+
     }
-    
+
     @Override
     public void testGetSchema() throws Exception {
-        
+
     }
 
 }

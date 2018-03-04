@@ -47,8 +47,6 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 
 /**
- * 
- * 
  * @source $URL$
  */
 public class FidQueryTest extends FIDTestCase {
@@ -199,7 +197,7 @@ public class FidQueryTest extends FIDTestCase {
 
         int i = 0;
 
-        for (Iterator iter = fids.entrySet().iterator(); iter.hasNext();) {
+        for (Iterator iter = fids.entrySet().iterator(); iter.hasNext(); ) {
             i++;
             Map.Entry entry = (Map.Entry) iter.next();
             String fid = (String) entry.getKey();
@@ -208,7 +206,7 @@ public class FidQueryTest extends FIDTestCase {
             query.setFilter(filter);
             SimpleFeatureIterator features = null;
             try {
-            	features = featureStore.getFeatures(query).features();
+                features = featureStore.getFeatures(query).features();
                 assertTrue("Missing feature for fid " + fid, features.hasNext());
                 SimpleFeature feature = features.next();
                 assertFalse("More than one feature with fid " + fid, features.hasNext());

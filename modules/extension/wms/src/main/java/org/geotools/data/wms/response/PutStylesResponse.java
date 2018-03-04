@@ -3,7 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -26,12 +26,10 @@ import org.xml.sax.SAXException;
 
 /**
  * Represents the results of a PutStyles request.
- * 
+ * <p>
  * Success can be checked using the success() method.
- * 
+ *
  * @author Richard Gould
- *
- *
  * @source $URL$
  */
 public class PutStylesResponse extends Response {
@@ -43,14 +41,14 @@ public class PutStylesResponse extends Response {
      * @param inputStream
      * @throws SAXException
      */
-    public PutStylesResponse( HTTPResponse httpResponse ) throws ServiceException, IOException {
+    public PutStylesResponse(HTTPResponse httpResponse) throws ServiceException, IOException {
         super(httpResponse);
 
         if ("application/vnd.ogc.success+xml".equals(getContentType())) {
             success = true;
         }
     }
-    
+
     /**
      * @return true if the request successfully executed, false otherwise
      */

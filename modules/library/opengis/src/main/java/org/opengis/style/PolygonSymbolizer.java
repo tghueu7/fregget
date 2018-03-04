@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2008, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.style;
@@ -17,13 +17,12 @@ import org.opengis.filter.expression.Expression;
 /**
  * Holds the information that indicates how to draw the lines and the interior of polygons.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding Implementation Specification 1.1.0</A>
  * @author Open Geospatial Consortium
  * @author Johann Sorel (Geomatys)
  * @author Chris Dillard (SYS Technologies)
+ * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding 
+ * Implementation Specification 1.1.0</A>
+ * @source $URL$
  * @since GeoAPI 2.2
  */
 @XmlElement("PolygonSymbolizer")
@@ -64,7 +63,7 @@ public interface PolygonSymbolizer extends Symbolizer {
      * smaller or larger than their actual geometry. The distance is in uoms and is positive to the
      * outside of the polygon. Negative numbers mean drawing the polygon smaller. The default
      * offset is 0.
-
+     *
      * @return Expression
      */
     @XmlElement("PerpendicularOffset")
@@ -77,5 +76,5 @@ public interface PolygonSymbolizer extends Symbolizer {
      */
     @Extension
     Object accept(StyleVisitor visitor, Object extraData);
-    
+
 }

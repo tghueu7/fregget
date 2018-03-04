@@ -47,7 +47,7 @@ import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * Helper which translates the GeoTools filters into the filter bits that OGR understands
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 class OGRFilterTranslator {
@@ -110,7 +110,7 @@ class OGRFilterTranslator {
 
     /**
      * Returns true if this filter can be fully encoded without requiring further post processing
-     * 
+     *
      * @return
      */
     public boolean isFilterFullySupported() {
@@ -128,7 +128,7 @@ class OGRFilterTranslator {
 
     /**
      * Returns the post filter that could not be encoded
-     * 
+     *
      * @return
      */
     public Filter getPostFilter() {
@@ -157,7 +157,7 @@ class OGRFilterTranslator {
     /**
      * Parses the Geotools filter and tries to extract an intersecting geometry that can be used as
      * the OGR spatial filter
-     * 
+     *
      * @param schema
      * @param filter
      * @return
@@ -189,7 +189,7 @@ class OGRFilterTranslator {
     /**
      * Parses the GeoTools filter and tries to extract an SQL expression that can be used as the OGR
      * attribute filter
-     * 
+     *
      * @param schema
      * @param filter
      * @return

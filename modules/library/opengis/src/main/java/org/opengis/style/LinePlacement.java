@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2008, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.style;
@@ -18,13 +18,12 @@ import org.opengis.filter.expression.Expression;
  * The "LinePlacement" specifies where and how a text label should be rendered
  * relative to a line.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding Implementation Specification 1.1.0</A>
  * @author Open Geospatial Consortium
  * @author Johann Sorel (Geomatys)
  * @author Ian Turton, CCG
+ * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding 
+ * Implementation Specification 1.1.0</A>
+ * @source $URL$
  * @since GeoAPI 2.2
  */
 @XmlElement("LinePlacement")
@@ -33,7 +32,7 @@ public interface LinePlacement extends LabelPlacement {
     /**
      * The PerpendicularOffset element of a LinePlacement gives the perpendicular distance
      * away from a line to draw a label.
-     *
+     * <p>
      * The distance is in uoms and is positive to the left-hand side of the line string. Negative
      * numbers mean right. The default offset is 0.
      *
@@ -88,7 +87,7 @@ public interface LinePlacement extends LabelPlacement {
      */
     @XmlElement("GeneralizeLine")
     boolean isGeneralizeLine();
-    
+
     /**
      * calls the visit method of a StyleVisitor
      *

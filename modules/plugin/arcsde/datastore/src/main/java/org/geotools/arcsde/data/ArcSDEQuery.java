@@ -75,16 +75,18 @@ import com.vividsolutions.jts.geom.Envelope;
 /**
  * Wrapper class for SeQuery to hold a SeConnection until close() is called and provide utility
  * methods.
- * 
+ *
  * @author Gabriel Roldan, Axios Engineering
- * @source $URL:
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
- *         /org/geotools/arcsde/data/ArcSDEQuery.java $
  * @version $Id$
+ * @source $URL:
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
+ * /org/geotools/arcsde/data/ArcSDEQuery.java $
  */
 @SuppressWarnings("deprecation")
 class ArcSDEQuery {
-    /** Shared package's logger */
+    /**
+     * Shared package's logger
+     */
     private static final Logger LOGGER = Logging.getLogger(ArcSDEQuery.class.getName());
 
     /**
@@ -126,21 +128,20 @@ class ArcSDEQuery {
 
     /**
      * Creates a new SDEQuery object.
-     * 
-     * @param session
-     *            the session attached to the life cycle of this query
-     * @param schema
-     *            the schema with all the attributes as expected.
+     *
+     * @param session           the session attached to the life cycle of this query
+     * @param schema            the schema with all the attributes as expected.
      * @param filterSet
-     * @param versioningHandler
-     *            used to transparently set up SeQuery streams pointing to the propper version edit
-     *            state when appropriate
+     * @param versioningHandler used to transparently set up SeQuery streams pointing to the 
+     *                          propper version edit
+     *                          state when appropriate
      * @throws DataSourceException
      * @see prepareQuery
      */
     private ArcSDEQuery(final ISession session, final SimpleFeatureType schema,
-            final FilterSet filterSet, final String sortByClause, final FIDReader fidReader,
-            ArcSdeVersionHandler versioningHandler) throws DataSourceException {
+                        final FilterSet filterSet, final String sortByClause, final FIDReader 
+                                fidReader,
+                        ArcSdeVersionHandler versioningHandler) throws DataSourceException {
         this.session = session;
         this.schema = schema;
         this.filters = filterSet;
@@ -152,21 +153,23 @@ class ArcSDEQuery {
     /**
      * Creates a Query to be executed over a registered ArcSDE layer (whether it is from a table or
      * a spatial view).
-     * 
-     * @param session
-     *            the session the query works over. As its managed by the calling code its the
-     *            calling code responsibility to close it when done.
+     *
+     * @param session          the session the query works over. As its managed by the calling 
+     *                         code its the
+     *                         calling code responsibility to close it when done.
      * @param fullSchema
      * @param query
-     * @param isMultiversioned
-     *            whether the table is versioned, if so, the default version and current state will
-     *            be used for the SeQuery
+     * @param isMultiversioned whether the table is versioned, if so, the default version and 
+     *                         current state will
+     *                         be used for the SeQuery
      * @return
      * @throws IOException
      */
     public static ArcSDEQuery createQuery(final ISession session,
-            final SimpleFeatureType fullSchema, final Query query, final FIDReader fidReader,
-            final ArcSdeVersionHandler versioningHandler) throws IOException {
+                                          final SimpleFeatureType fullSchema, final Query query, 
+                                          final FIDReader fidReader,
+                                          final ArcSdeVersionHandler versioningHandler) throws 
+            IOException {
 
         Filter filter = query.getFilter();
 
@@ -199,15 +202,16 @@ class ArcSDEQuery {
     /**
      * Creates a query to be executed over an inprocess view (a view defined by a SQL SELECT
      * statement at the datastore configuration)
-     * 
+     *
      * @return the newly created ArcSDEQuery.
-     * @throws IOException
-     *             see <i>throws DataSourceException</i> bellow.
+     * @throws IOException see <i>throws DataSourceException</i> bellow.
      * @see ArcSDEDataStore#registerView(String, PlainSelect)
      */
     public static ArcSDEQuery createInprocessViewQuery(final ISession session,
-            final SimpleFeatureType fullSchema, final Query query,
-            final SeQueryInfo definitionQuery, final PlainSelect viewSelectStatement)
+                                                       final SimpleFeatureType fullSchema, final 
+                                                       Query query,
+                                                       final SeQueryInfo definitionQuery, final 
+                                                       PlainSelect viewSelectStatement)
             throws IOException {
 
         final Filter filter = query.getFilter();
@@ -256,20 +260,21 @@ class ArcSDEQuery {
     /**
      * Returns a {@link SimpleFeatureType} whichs a "view" of the <code>fullSchema</code> adapted as
      * per the required query property names.
-     * 
-     * @param queryProperties
-     *            the query containing the list of property names required by the output schema and
-     *            the {@link Filter query predicate} from which to fetch required properties to be
-     *            used at runtime filter evaluation.
+     *
+     * @param queryProperties   the query containing the list of property names required by the 
+     *                          output schema and
+     *                          the {@link Filter query predicate} from which to fetch required 
+     *                          properties to be
+     *                          used at runtime filter evaluation.
      * @param unsupportedFilter
-     * @param fullSchema
-     *            a feature type representing an ArcSDE layer full schema.
+     * @param fullSchema        a feature type representing an ArcSDE layer full schema.
      * @return a FeatureType derived from <code>fullSchema</code> which contains the property names
-     *         required by the <code>query</code> and the ones referenced in the query filter.
+     * required by the <code>query</code> and the ones referenced in the query filter.
      * @throws DataSourceException
      */
     public static SimpleFeatureType getQuerySchema(final String[] queryProperties,
-            Filter unsupportedFilter, final SimpleFeatureType fullSchema)
+                                                   Filter unsupportedFilter, final 
+                                                   SimpleFeatureType fullSchema)
             throws DataSourceException {
         // guess which properties need to actually be retrieved.
         final List<String> queryColumns = getQueryColumns(queryProperties, unsupportedFilter,
@@ -289,13 +294,14 @@ class ArcSDEQuery {
     }
 
     private static List<String> getQueryColumns(final String[] queryProperties,
-            final Filter unsupportedFilter, final SimpleFeatureType fullSchema)
+                                                final Filter unsupportedFilter, final 
+                                                SimpleFeatureType fullSchema)
             throws DataSourceException {
         final List<String> columnNames = new ArrayList<String>();
 
         if ((queryProperties == null) || (queryProperties.length == 0)) {
             final List<AttributeDescriptor> attNames = fullSchema.getAttributeDescriptors();
-            for (Iterator<AttributeDescriptor> it = attNames.iterator(); it.hasNext();) {
+            for (Iterator<AttributeDescriptor> it = attNames.iterator(); it.hasNext(); ) {
                 AttributeDescriptor att = it.next();
                 String attName = att.getLocalName();
                 // de namespace-ify the names
@@ -329,7 +335,6 @@ class ArcSDEQuery {
 
     /**
      * Returns the FID strategy used
-     * 
      */
     public FIDReader getFidReader() {
         return this.fidReader;
@@ -337,7 +342,7 @@ class ArcSDEQuery {
 
     /**
      * Returns the stream used to fetch rows, creating it if it was not yet created.
-     * 
+     *
      * @throws SeException
      * @throws IOException
      */
@@ -362,12 +367,11 @@ class ArcSDEQuery {
      * <code>SeQuery.setSpatialConstraints</code> to NOT return geometry based bitmasks, which are
      * needed for calculating the query extent and result count, but not for fetching SeRows.
      * </p>
-     * 
-     * @param propertyNames
-     *            names of attributes to build the query for, respecting order
-     * @throws SeException
-     *             if the ArcSDE Java API throws it while creating the SeQuery or setting it the
-     *             spatial constraints.
+     *
+     * @param propertyNames names of attributes to build the query for, respecting order
+     * @throws SeException if the ArcSDE Java API throws it while creating the SeQuery or setting
+     * it the
+     *                     spatial constraints.
      * @throws IOException
      */
     private SeQuery createSeQueryForFetch(String[] propertyNames) throws SeException, IOException {
@@ -397,7 +401,8 @@ class ArcSDEQuery {
     }
 
     private static String buildSortByClause(final SimpleFeatureType fullSchema,
-            final SortBy[] sortByAttributes, final FIDReader fidReader) {
+                                            final SortBy[] sortByAttributes, final FIDReader 
+                                                    fidReader) {
 
         if (sortByAttributes == null || sortByAttributes.length == 0) {
             return null;
@@ -476,7 +481,7 @@ class ArcSDEQuery {
 
     /**
      * Returns the schema of the originating Query
-     * 
+     *
      * @return the schema of the originating Query
      */
     public SimpleFeatureType getSchema() {
@@ -491,7 +496,8 @@ class ArcSDEQuery {
      * Convenient method to just calculate the result count of a given query.
      */
     public static int calculateResultCount(final ISession session, final FeatureTypeInfo typeInfo,
-            final Query query, final ArcSdeVersionHandler versioningHandler) throws IOException,
+                                           final Query query, final ArcSdeVersionHandler 
+                                                   versioningHandler) throws IOException,
             UnsupportedOperationException {
 
         ArcSDEQuery countQuery = null;
@@ -505,7 +511,8 @@ class ArcSDEQuery {
                         viewSelectStatement);
             } else {
                 final FIDReader fidStrategy = typeInfo.getFidStrategy();
-                countQuery = createQuery(session, fullSchema, query, fidStrategy, versioningHandler);
+                countQuery = createQuery(session, fullSchema, query, fidStrategy, 
+                        versioningHandler);
             }
             count = countQuery.calculateResultCount();
         } finally {
@@ -520,8 +527,9 @@ class ArcSDEQuery {
      * Convenient method to just calculate the resulting bound box of a given query.
      */
     public static Envelope calculateQueryExtent(final ISession session,
-            final FeatureTypeInfo typeInfo, final Query query,
-            final ArcSdeVersionHandler versioningHandler) throws IOException {
+                                                final FeatureTypeInfo typeInfo, final Query query,
+                                                final ArcSdeVersionHandler versioningHandler) 
+            throws IOException {
 
         final SimpleFeatureType fullSchema = typeInfo.getFeatureType();
         final GeometryDescriptor geometryDescriptor = fullSchema.getGeometryDescriptor();
@@ -533,7 +541,7 @@ class ArcSDEQuery {
         // we're calculating the bounds, so we'd better be sure and add the
         // spatial column to the query's propertynames
         final Query realQuery = new Query(query);
-        realQuery.setPropertyNames(new String[] { defaultGeomAttName });
+        realQuery.setPropertyNames(new String[]{defaultGeomAttName});
 
         final ArcSDEQuery boundsQuery;
 
@@ -569,13 +577,12 @@ class ArcSDEQuery {
      * by this way, because the ArcSDE Java API throws a <code>"DATABASE LEVEL
      * ERROR OCURRED"</code> exception. So, in this case, a query over the shape field is made and
      * the result is traversed counting the number of rows inside a while loop
-     * 
      */
     public int calculateResultCount() throws IOException, UnsupportedOperationException {
 
         final SimpleFeatureType schema = this.schema;
 
-        final List <String> colNames = new ArrayList<String>(2);
+        final List<String> colNames = new ArrayList<String>(2);
         {
             String fidAtt;
             if (fidReader.getFidColumn() == null) {
@@ -590,78 +597,80 @@ class ArcSDEQuery {
             //geomCol = filters.getSqlEncoder().getColumnDefinition(geomCol);
             colNames.add(geomCol);
         }
-        
-        final SeQueryInfo queryInfo = filters.getQueryInfo(colNames.toArray(new String[colNames.size()]));
+
+        final SeQueryInfo queryInfo = filters.getQueryInfo(colNames.toArray(new String[colNames
+                .size()]));
         final SeFilter[] spatialFilters = filters.getSpatialFilters();
         final boolean hasSpatialFilter = spatialFilters != null && spatialFilters.length > 0;
 
-    final Command<Integer> countCmd = new Command<Integer>() {
-        final boolean calcMasks = true; // use the spatial query to calculate
+        final Command<Integer> countCmd = new Command<Integer>() {
+            final boolean calcMasks = true; // use the spatial query to calculate
 
-        // statistics.
-        final short searchOrder = SeQuery.SE_OPTIMIZE;
+            // statistics.
+            final short searchOrder = SeQuery.SE_OPTIMIZE;
 
-        @Override
-        public Integer execute(ISession session, SeConnection connection)
-                throws SeException, IOException {
-            SeQuery query = new SeQuery(connection);
+            @Override
+            public Integer execute(ISession session, SeConnection connection)
+                    throws SeException, IOException {
+                SeQuery query = new SeQuery(connection);
 
-            try {
-                versioningHandler.setUpStream(session, query);
+                try {
+                    versioningHandler.setUpStream(session, query);
 
-                if (hasSpatialFilter) {
-                    /*
-                     * Despite the FeatureSource.getCount() contract saying it's
-                     * ok to return -1 if count is too expensive to calculate,
-                     * the GeoServer codebase is plagued of
-                     * FeatureCollection.size() calls depending on actual result
-                     * counts or some operations don't work at all. return -1;
-                     */
-                    /*
-                     * On Oracle at least, calculateTableStatistics can be VERY
-                     * slow, so compute result count directly
-                     */
-                    final SeDBMSInfo dbmsInfo = connection.getDBMSInfo();
-                    final boolean isStatsUnsupportedOrSlow = dbmsInfo.dbmsId == SeDBMSInfo.SE_DBMS_IS_ORACLE;
-                    if (isStatsUnsupportedOrSlow) {
-                        LOGGER.fine("Calculating count statistics by running query");
-                        return computeCountByQueryRun(query, queryInfo);
+                    if (hasSpatialFilter) {
+                        /*
+                         * Despite the FeatureSource.getCount() contract saying it's
+                         * ok to return -1 if count is too expensive to calculate,
+                         * the GeoServer codebase is plagued of
+                         * FeatureCollection.size() calls depending on actual result
+                         * counts or some operations don't work at all. return -1;
+                         */
+                        /*
+                         * On Oracle at least, calculateTableStatistics can be VERY
+                         * slow, so compute result count directly
+                         */
+                        final SeDBMSInfo dbmsInfo = connection.getDBMSInfo();
+                        final boolean isStatsUnsupportedOrSlow = dbmsInfo.dbmsId == SeDBMSInfo
+                                .SE_DBMS_IS_ORACLE;
+                        if (isStatsUnsupportedOrSlow) {
+                            LOGGER.fine("Calculating count statistics by running query");
+                            return computeCountByQueryRun(query, queryInfo);
+                        }
+                        // otherwise, set the spatial filter for use in calculateTableStatistics
+                        query.setSpatialConstraints(searchOrder, calcMasks,
+                                spatialFilters);
                     }
-                    // otherwise, set the spatial filter for use in calculateTableStatistics
-                    query.setSpatialConstraints(searchOrder, calcMasks,
-                            spatialFilters);
+                    final int defaultMaxDistinctValues = 0;
+                    final String statsCol = colNames.get(0);
+                    final SeTable.SeTableStats tableStats = query
+                            .calculateTableStatistics(statsCol,
+                                    SeTable.SeTableStats.SE_COUNT_STATS, queryInfo,
+                                    defaultMaxDistinctValues);
+                    int count = tableStats.getCount();
+                    return new Integer(count);
+                } finally {
+                    query.close();
                 }
-                final int defaultMaxDistinctValues = 0;
-                final String statsCol = colNames.get(0);
-                final SeTable.SeTableStats tableStats = query
-                        .calculateTableStatistics(statsCol,
-                                SeTable.SeTableStats.SE_COUNT_STATS, queryInfo,
-                                defaultMaxDistinctValues);
-                int count = tableStats.getCount();
-                return new Integer(count);
-            } finally {
-                query.close();
             }
-        }
 
-        private int computeCountByQueryRun(SeQuery query,
-                final SeQueryInfo queryInfo) throws SeException {
-            /*
-             * Spatial constraints must be set AFTER prepareQueryInfo
-             * (undocumented SDE API quirk)
-             */
-            query.prepareQueryInfo(queryInfo);
-            query.setSpatialConstraints(searchOrder, calcMasks, spatialFilters);
-            query.execute();
-            int count = 0;
-            while (query.fetch() != null) {
-                count++;
+            private int computeCountByQueryRun(SeQuery query,
+                                               final SeQueryInfo queryInfo) throws SeException {
+                /*
+                 * Spatial constraints must be set AFTER prepareQueryInfo
+                 * (undocumented SDE API quirk)
+                 */
+                query.prepareQueryInfo(queryInfo);
+                query.setSpatialConstraints(searchOrder, calcMasks, spatialFilters);
+                query.execute();
+                int count = 0;
+                while (query.fetch() != null) {
+                    count++;
+                }
+                return count;
             }
-            return count;
-        }
-    };
-    final Integer count = session.issue(countCmd);
-    return count.intValue();
+        };
+        final Integer count = session.issue(countCmd);
+        return count.intValue();
     }
 
     /**
@@ -684,7 +693,7 @@ class ArcSDEQuery {
                         List<String> cols = new ArrayList<String>(2);
                         String geomCol = schema.getGeometryDescriptor().getLocalName();
                         geomCol = filters.getSqlEncoder().getColumnDefinition(geomCol);
-                        
+
                         String fidAtt;
                         if (fidReader.getFidColumn() == null) {
                             fidAtt = schema.getDescriptor(0).getLocalName();
@@ -766,7 +775,7 @@ class ArcSDEQuery {
 
     /**
      * Silently closes this query.
-     * 
+     *
      * @param query
      * @throws IOException
      */
@@ -788,7 +797,7 @@ class ArcSDEQuery {
      * provided by the calling code and thus it is its responsibility to handle the connection life
      * cycle.
      * </p>
-     * 
+     *
      * @throws IOException
      */
     public void close() throws IOException {
@@ -798,7 +807,7 @@ class ArcSDEQuery {
 
     /**
      * Tells the server to execute a stream operation.
-     * 
+     *
      * @throws IOException
      */
     public void execute() throws IOException {
@@ -817,11 +826,10 @@ class ArcSDEQuery {
 
     /**
      * Fetches an SeRow of data.
-     * 
-     * @throws IOException
-     *             (DataSourceException) if the fetching fails
-     * @throws IllegalStateException
-     *             if the query was already closed or {@link #execute()} hastn't been called yet
+     *
+     * @throws IOException           (DataSourceException) if the fetching fails
+     * @throws IllegalStateException if the query was already closed or {@link #execute()} 
+     * hastn't been called yet
      */
     public SdeRow fetch() throws IOException, IllegalStateException {
         if (this.query == null) {
@@ -870,9 +878,8 @@ class ArcSDEQuery {
     /**
      * Sets the spatial filters on the query using SE_OPTIMIZE as the policy for spatial index
      * search
-     * 
-     * @param filters
-     *            a set of spatial constraints to filter upon
+     *
+     * @param filters a set of spatial constraints to filter upon
      * @throws IOException
      */
     public void setSpatialConstraints(SeFilter[] filters) throws IOException {
@@ -891,15 +898,12 @@ class ArcSDEQuery {
     /**
      * Helper class to split out the geotools request filter into the supported non spatial one,
      * supported spatial one and unsupported filters.
-     * 
+     *
      * @author $author$
-     * 
-     * 
-     * 
-     * @source $URL$
-     *         http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/main/java
-     *         /org/geotools/arcsde/data/ArcSDEQuery.java $
      * @version $Revision: 1.9 $
+     * @source $URL$
+     * http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/main/java
+     * /org/geotools/arcsde/data/ArcSDEQuery.java $
      */
     public static class FilterSet {
 
@@ -941,14 +945,14 @@ class ArcSDEQuery {
 
         /**
          * Creates a new FilterSet object.
-         * 
+         *
          * @param sdeLayer
          * @param sourceFilter
          * @param session
          */
         public FilterSet(SeTable table, SeLayer sdeLayer, Filter sourceFilter,
-                SimpleFeatureType ft, SeQueryInfo definitionQuery,
-                PlainSelect layerSelectStatement, FIDReader fidReader, ISession session) {
+                         SimpleFeatureType ft, SeQueryInfo definitionQuery,
+                         PlainSelect layerSelectStatement, FIDReader fidReader, ISession session) {
             this.conn = session;
             assert table != null;
             // sdeLayer may be null if it is a registered, non spatial table
@@ -971,18 +975,20 @@ class ArcSDEQuery {
          * filters, one for the supported SQL based filter, another for the supported Geometry based
          * filter, and the last one for the unsupported filter. All of them can be retrieved from
          * its corresponding getter.
-         * 
+         *
          * @param conn
          */
         private void createGeotoolsFilters() {
             FilterToSQLSDE sqlEncoder = getSqlEncoder();
-            
+
             // first off, simplify the filter
-            ArcSdeSimplifyingFilterVisitor visitor = new ArcSdeSimplifyingFilterVisitor(featureType);
+            ArcSdeSimplifyingFilterVisitor visitor = new ArcSdeSimplifyingFilterVisitor
+                    (featureType);
             Filter simplified = (Filter) sourceFilter.accept(visitor, null);
-            
+
             // then perform the splits
-            PostPreProcessFilterSplittingVisitor unpacker = new PostPreProcessFilterSplittingVisitor(
+            PostPreProcessFilterSplittingVisitor unpacker = new 
+                    PostPreProcessFilterSplittingVisitor(
                     sqlEncoder.getCapabilities(), featureType, null);
             simplified.accept(unpacker, null);
 
@@ -1021,13 +1027,13 @@ class ArcSDEQuery {
          * or a layer with joins. The SeQueryInfo object lacks the set of column names to fetch. It
          * is the responsibility of the calling code to call setColumns(String []) on the returned
          * object to specify which properties to fetch.
-         * 
-         * @param unqualifiedPropertyNames
-         *            non null, possibly empty, list of property names to fetch
+         *
+         * @param unqualifiedPropertyNames non null, possibly empty, list of property names to fetch
          * @return
          * @throws IOException
          */
-        public SeQueryInfo getQueryInfo(final String[] unqualifiedPropertyNames) throws IOException {
+        public SeQueryInfo getQueryInfo(final String[] unqualifiedPropertyNames) throws 
+                IOException {
             assert unqualifiedPropertyNames != null;
             String[] tables;
             String byClause = null;
@@ -1038,7 +1044,7 @@ class ArcSDEQuery {
 
             try {
                 if (definitionQuery == null) {
-                    tables = new String[] { this.sdeTable.getQualifiedName() };
+                    tables = new String[]{this.sdeTable.getQualifiedName()};
                 } else {
                     tables = definitionQuery.getConstruct().getTables();
                     String joinWhere = definitionQuery.getConstruct().getWhere();
@@ -1086,12 +1092,11 @@ class ArcSDEQuery {
         }
 
         /**
-         * 
          * @return the SeSqlConstruct corresponding to the given SeLayer and SQL based filter.
-         *         Should never return null.
-         * @throws DataSourceException
-         *             if an error occurs encoding the sql filter to a SQL where clause, or creating
-         *             the SeSqlConstruct for the given layer and where clause.
+         * Should never return null.
+         * @throws DataSourceException if an error occurs encoding the sql filter to a SQL where 
+         * clause, or creating
+         *                             the SeSqlConstruct for the given layer and where clause.
          */
         public SeSqlConstruct getSeSqlConstruct() throws DataSourceException {
             if (this.sdeSqlConstruct == null) {
@@ -1123,7 +1128,7 @@ class ArcSDEQuery {
          * Lazily creates the array of <code>SeShapeFilter</code> objects that map the corresponding
          * geometry related filters included in the original <code>org.geotools.data.Query</code>
          * passed to the constructor.
-         * 
+         *
          * @return an array with the spatial filters to be applied to the SeQuery, or null if none.
          * @throws DataSourceException
          */
@@ -1146,30 +1151,27 @@ class ArcSDEQuery {
         }
 
         /**
-         * 
          * @return the subset, non geometry related, of the original filter this datastore
-         *         implementation supports natively, or <code>Filter.INCLUDE</code> if the original
-         *         Query does not contains non spatial filters that we can deal with at the ArcSDE
-         *         Java API side.
+         * implementation supports natively, or <code>Filter.INCLUDE</code> if the original
+         * Query does not contains non spatial filters that we can deal with at the ArcSDE
+         * Java API side.
          */
         public Filter getSqlFilter() {
             return (this._sqlFilter == null) ? Filter.INCLUDE : this._sqlFilter;
         }
 
         /**
-         * 
          * @return the geometry related subset of the original filter this datastore implementation
-         *         supports natively, or <code>Filter.INCLUDE</code> if the original Query does not
-         *         contains spatial filters that we can deal with at the ArcSDE Java API side.
+         * supports natively, or <code>Filter.INCLUDE</code> if the original Query does not
+         * contains spatial filters that we can deal with at the ArcSDE Java API side.
          */
         public Filter getGeometryFilter() {
             return (this.geometryFilter == null) ? Filter.INCLUDE : this.geometryFilter;
         }
 
         /**
-         * 
          * @return the part of the original filter this datastore implementation does not supports
-         *         natively, or <code>Filter.INCLUDE</code> if we support the whole Query filter.
+         * natively, or <code>Filter.INCLUDE</code> if we support the whole Query filter.
          */
         public Filter getUnsupportedFilter() {
             return (this.unsupportedFilter == null) ? Filter.INCLUDE : this.unsupportedFilter;

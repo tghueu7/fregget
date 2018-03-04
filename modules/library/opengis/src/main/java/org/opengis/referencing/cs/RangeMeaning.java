@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.referencing.cs;
@@ -24,16 +24,14 @@ import static org.opengis.annotation.Specification.*;
  * {@linkplain CoordinateSystemAxis#getMinimumValue minimum value} and
  * {@linkplain CoordinateSystemAxis#getMaximumValue maximum value}.
  *
- *
- *
+ * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract 
+ * specification 2.0</A>
  * @source $URL$
- * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract specification 2.0</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 2.1
- *
  * @see CoordinateSystemAxis#getRangeMeaning
+ * @since GeoAPI 2.1
  */
-@UML(identifier="CS_RangeMeaning", specification=ISO_19111)
+@UML(identifier = "CS_RangeMeaning", specification = ISO_19111)
 public final class RangeMeaning extends CodeList<RangeMeaning> {
     /**
      * Serial number for compatibility with different versions.
@@ -47,10 +45,11 @@ public final class RangeMeaning extends CodeList<RangeMeaning> {
     private static final List<RangeMeaning> VALUES = new ArrayList<RangeMeaning>(2);
 
     /**
-     * Any value between and including {@linkplain CoordinateSystemAxis#getMinimumValue minimum value}
+     * Any value between and including 
+     * {@linkplain CoordinateSystemAxis#getMinimumValue minimum value}
      * and {@linkplain CoordinateSystemAxis#getMaximumValue maximum value} is valid.
      */
-    @UML(identifier="exact", obligation=CONDITIONAL, specification=ISO_19111)
+    @UML(identifier = "exact", obligation = CONDITIONAL, specification = ISO_19111)
     public static final RangeMeaning EXACT = new RangeMeaning("EXACT");
 
     /**
@@ -60,7 +59,7 @@ public final class RangeMeaning extends CodeList<RangeMeaning> {
      * Values with the same meaning repeat modulo the difference between maximum value and
      * minimum value.
      */
-    @UML(identifier="wraparound", obligation=CONDITIONAL, specification=ISO_19111)
+    @UML(identifier = "wraparound", obligation = CONDITIONAL, specification = ISO_19111)
     public static final RangeMeaning WRAPAROUND = new RangeMeaning("WRAPAROUND");
 
     /**

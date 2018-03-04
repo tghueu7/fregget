@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.referencing;
@@ -13,6 +13,7 @@ import org.opengis.referencing.datum.Datum;
 
 import org.junit.*;
 import org.opengis.referencing.operation.CoordinateOperation;
+
 import static org.opengis.referencing.ReferenceSystem.*;
 import static org.junit.Assert.*;
 
@@ -21,8 +22,6 @@ import static org.junit.Assert.*;
  * Tests the value of key constants.
  *
  * @author Martin Desruisseaux (Geomatys)
- *
- *
  * @source $URL$
  */
 public final class KeyConstantsTest {
@@ -33,9 +32,9 @@ public final class KeyConstantsTest {
      */
     @Test
     public void testSame() {
-        assertSame(SCOPE_KEY,              Datum              .SCOPE_KEY);
-        assertSame(SCOPE_KEY,              CoordinateOperation.SCOPE_KEY);
-        assertSame(DOMAIN_OF_VALIDITY_KEY, Datum              .DOMAIN_OF_VALIDITY_KEY);
+        assertSame(SCOPE_KEY, Datum.SCOPE_KEY);
+        assertSame(SCOPE_KEY, CoordinateOperation.SCOPE_KEY);
+        assertSame(DOMAIN_OF_VALIDITY_KEY, Datum.DOMAIN_OF_VALIDITY_KEY);
         assertSame(DOMAIN_OF_VALIDITY_KEY, CoordinateOperation.DOMAIN_OF_VALIDITY_KEY);
     }
 }

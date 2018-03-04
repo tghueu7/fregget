@@ -27,8 +27,6 @@ import org.w3c.dom.Document;
 import com.vividsolutions.jts.geom.LineString;
 
 /**
- * 
- * 
  * @source $URL$
  */
 public class GeometryPropertyTypeBindingTest extends GML3TestSupport {
@@ -45,8 +43,8 @@ public class GeometryPropertyTypeBindingTest extends GML3TestSupport {
 
     public void testEncodeCurve() throws Exception {
         LineString curve = new CurvedGeometryFactory(0.1)
-                .createCurvedGeometry(new LiteCoordinateSequence(new double[] { 1, 1, 2, 2, 3, 1,
-                        5, 5, 7, 3 }));
+                .createCurvedGeometry(new LiteCoordinateSequence(new double[]{1, 1, 2, 2, 3, 1,
+                        5, 5, 7, 3}));
 
         Document dom = encode(curve, GML.geometryMember);
         // print(dom);

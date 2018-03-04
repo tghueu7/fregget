@@ -29,15 +29,13 @@ import org.opengis.util.InternationalString;
 
 /**
  * {@link ResourceInfo} adapter for a {@link FeatureTypeInfo} and {@link ArcSdeFeatureSource}
- * 
+ *
  * @author Gabriel Roldan (TOPP)
  * @version $Id$
- * @since 2.5.x
- *
- *
  * @source $URL$
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
- *         /org/geotools/arcsde/data/ArcSdeResourceInfo.java $
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
+ * /org/geotools/arcsde/data/ArcSdeResourceInfo.java $
+ * @since 2.5.x
  */
 public final class ArcSdeResourceInfo implements ResourceInfo {
 
@@ -50,11 +48,9 @@ public final class ArcSdeResourceInfo implements ResourceInfo {
     private URI namespace;
 
     /**
-     * @param info
-     *            where to grab most of the information from
-     * @param source
-     *            where the grab the bounds. Its a live value, so asked every time
-     *            {@link #getBounds()} is called
+     * @param info   where to grab most of the information from
+     * @param source where the grab the bounds. Its a live value, so asked every time
+     *               {@link #getBounds()} is called
      */
     ArcSdeResourceInfo(final FeatureTypeInfo info, final ArcSdeFeatureSource source) {
         this.info = info;
@@ -143,7 +139,7 @@ public final class ArcSdeResourceInfo implements ResourceInfo {
 
     /**
      * Returns whether the ArcSDE Table is multi-versioned
-     * 
+     *
      * @return {@code true} if the table is marked as multiversioned, {@code false} otherwise
      */
     public boolean isVersioned() {
@@ -152,7 +148,7 @@ public final class ArcSdeResourceInfo implements ResourceInfo {
 
     /**
      * Returns whether the ArcSDE Table is a registered View
-     * 
+     *
      * @return {@code true} if the table is an ArcSDE registered View, {@code false} otherwise
      */
     public boolean isView() {
@@ -162,9 +158,9 @@ public final class ArcSdeResourceInfo implements ResourceInfo {
     /**
      * Returns whether the FeatureType is built at runtime by a SQL SELECT statement in the ArcSDE
      * DataStore configuration parameters.
-     * 
+     *
      * @return {@code true} if the FeatureType does not refers to an actual table or registered
-     *         view, but is built from a SQL SELECT statement, {@code false} otherwise
+     * view, but is built from a SQL SELECT statement, {@code false} otherwise
      */
     public boolean isInProcessView() {
         return info.isInProcessView();

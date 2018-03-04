@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -34,28 +34,29 @@ import org.opengis.feature.simple.SimpleFeatureType;
  * that make use of system resources. As an alterantive please
  * see ResourceFetaureIterator.
  * </p>
+ *
  * @author Jody Garnett, Refractions Research, Inc.
- *
- *
  * @source $URL$
  */
-public class DelegateSimpleFeatureIterator extends DelegateFeatureIterator<SimpleFeature> implements SimpleFeatureIterator {
+public class DelegateSimpleFeatureIterator extends DelegateFeatureIterator<SimpleFeature> 
+        implements SimpleFeatureIterator {
 
-	/**
-	 * Wrap the provided iterator up as a FeatureIterator.
-	 * 
-	 * @param iterator Iterator to be used as a delegate.
-	 */
-	public DelegateSimpleFeatureIterator( Iterator<SimpleFeature> iterator ){
-		super( iterator );
-	}
-	
-	/**
-	 * Wrap the provided iterator up as a FeatureIterator.
-	 * 
-	 * @param iterator Iterator to be used as a delegate.
-	 */
-	public DelegateSimpleFeatureIterator( FeatureCollection<SimpleFeatureType,SimpleFeature> collection, Iterator<SimpleFeature> iterator ){
-		super( collection, iterator );
-	}
+    /**
+     * Wrap the provided iterator up as a FeatureIterator.
+     *
+     * @param iterator Iterator to be used as a delegate.
+     */
+    public DelegateSimpleFeatureIterator(Iterator<SimpleFeature> iterator) {
+        super(iterator);
+    }
+
+    /**
+     * Wrap the provided iterator up as a FeatureIterator.
+     *
+     * @param iterator Iterator to be used as a delegate.
+     */
+    public DelegateSimpleFeatureIterator(FeatureCollection<SimpleFeatureType, SimpleFeature> 
+                                                 collection, Iterator<SimpleFeature> iterator) {
+        super(collection, iterator);
+    }
 }

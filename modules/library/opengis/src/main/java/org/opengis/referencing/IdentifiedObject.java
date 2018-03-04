@@ -4,13 +4,14 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.referencing;
 
 import java.util.Set;
 import java.util.Collection;
+
 import org.opengis.util.GenericName;
 import org.opengis.util.InternationalString;
 import org.opengis.annotation.UML;
@@ -29,20 +30,18 @@ import static org.opengis.annotation.Specification.*;
  * respectively. The other values may or may not be set. If the authority is EPSG, the
  * implementer may consider using the corresponding metadata values in the EPSG tables.
  *
- * @departure
- *   ISO 19111 defines also an {@code IdentifiedObjectBase} interface. The later is omitted in GeoAPI
- *   because the split between {@code IdentifiedObject} and {@code IdentifiedObjectBase} in OGC/ISO
- *   specification was mostly a workaround for introducing {@code IdentifiedObject} in ISO 19111
- *   without changing the {@code ReferenceSystem} definition in ISO 19115.
- *
- *
- *
+ * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract 
+ * specification 2.0</A>
+ * @departure ISO 19111 defines also an {@code IdentifiedObjectBase} interface. The later is 
+ * omitted in GeoAPI
+ * because the split between {@code IdentifiedObject} and {@code IdentifiedObjectBase} in OGC/ISO
+ * specification was mostly a workaround for introducing {@code IdentifiedObject} in ISO 19111
+ * without changing the {@code ReferenceSystem} definition in ISO 19115.
  * @source $URL$
- * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract specification 2.0</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 2.0
+ * @since GeoAPI 2.0
  */
-@UML(identifier="IO_IdentifiedObject", specification=ISO_19111)
+@UML(identifier = "IO_IdentifiedObject", specification = ISO_19111)
 public interface IdentifiedObject {
     /**
      * Key for the <code>{@value}</code> property to be given to the
@@ -85,7 +84,7 @@ public interface IdentifiedObject {
      *
      * @return The primary name.
      */
-    @UML(identifier="name", obligation=MANDATORY, specification=ISO_19111)
+    @UML(identifier = "name", obligation = MANDATORY, specification = ISO_19111)
     ReferenceIdentifier getName();
 
     /**
@@ -93,7 +92,7 @@ public interface IdentifiedObject {
      *
      * @return The aliases, or an empty collection if there is none.
      */
-    @UML(identifier="alias", obligation=OPTIONAL, specification=ISO_19111)
+    @UML(identifier = "alias", obligation = OPTIONAL, specification = ISO_19111)
     Collection<GenericName> getAlias();
 
     /**
@@ -102,7 +101,7 @@ public interface IdentifiedObject {
      *
      * @return This object identifiers, or an empty set if there is none.
      */
-    @UML(identifier="identifier", obligation=OPTIONAL, specification=ISO_19111)
+    @UML(identifier = "identifier", obligation = OPTIONAL, specification = ISO_19111)
     Set<ReferenceIdentifier> getIdentifiers();
 
     /**
@@ -110,11 +109,12 @@ public interface IdentifiedObject {
      *
      * @return The remarks, or {@code null} if none.
      */
-    @UML(identifier="remarks", obligation=OPTIONAL, specification=ISO_19111)
+    @UML(identifier = "remarks", obligation = OPTIONAL, specification = ISO_19111)
     InternationalString getRemarks();
 
     /**
-     * Returns a <A HREF="doc-files/WKT.html"><cite>Well Known Text</cite> (WKT)</A> for this object.
+     * Returns a <A HREF="doc-files/WKT.html"><cite>Well Known Text</cite> (WKT)</A> for this 
+     * object.
      * This operation may fails if an object is too complex for the WKT format capability (for
      * example an {@linkplain org.opengis.referencing.crs.EngineeringCRS engineering CRS} with
      * different unit for each axis).

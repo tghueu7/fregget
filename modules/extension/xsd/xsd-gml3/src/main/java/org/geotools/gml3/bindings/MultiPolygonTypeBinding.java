@@ -32,13 +32,15 @@ import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:MultiPolygonType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="MultiPolygonType"&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;A MultiPolygon is defined by one or more Polygons, referenced through polygonMember elements. Deprecated with GML version 3.0. Use MultiSurfaceType instead.&lt;/documentation&gt;
+ *          &lt;documentation&gt;A MultiPolygon is defined by one or more Polygons, referenced 
+ *          through polygonMember elements. Deprecated with GML version 3.0. Use MultiSurfaceType
+ *          instead.&lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;complexContent&gt;
  *          &lt;extension base="gml:AbstractGeometricAggregateType"&gt;
@@ -54,9 +56,6 @@ import com.vividsolutions.jts.geom.Polygon;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class MultiPolygonTypeBinding extends AbstractComplexBinding implements Comparable {
@@ -94,14 +93,14 @@ public class MultiPolygonTypeBinding extends AbstractComplexBinding implements C
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         List polys = node.getChildValues(Polygon.class);
 
         return gFactory.createMultiPolygon((Polygon[]) polys.toArray(new Polygon[polys.size()]));
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         if (GML.polygonMember.equals(name)) {
             MultiPolygon multiPolygon = (MultiPolygon) object;
             Polygon[] members = new Polygon[multiPolygon.getNumGeometries()];

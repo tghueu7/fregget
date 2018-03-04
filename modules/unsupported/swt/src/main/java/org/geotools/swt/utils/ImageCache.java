@@ -31,11 +31,8 @@ import org.eclipse.swt.widgets.Display;
 
 /**
  * A singleton cache for images.
- * 
+ *
  * @author Andrea Antonello (www.hydrologis.com)
- *
- *
- *
  * @source $URL$
  */
 @SuppressWarnings("nls")
@@ -74,14 +71,13 @@ public class ImageCache {
 
     /**
      * Get an image for a certain key.
-     * 
+     * <p>
      * <p><b>The only keys to be used are the static strings in this class</b></p>
-     * 
+     *
      * @param key a file key, as for example {@link ImageCache#IMAGE_PAN}.
-     * 
      * @return the image.
      */
-    public Image getImage( String key ) {
+    public Image getImage(String key) {
         Image image = imageMap.get(key);
         if (image == null) {
             image = createImage(key);
@@ -90,7 +86,7 @@ public class ImageCache {
         return image;
     }
 
-    private Image createImage( String key ) {
+    private Image createImage(String key) {
         Image image = null;
         try {
 
@@ -101,7 +97,7 @@ public class ImageCache {
             FileOutputStream out = new FileOutputStream(temporaryFile);
             byte[] buffer = new byte[1024];
             int len;
-            while( (len = in.read(buffer)) != -1 ) {
+            while ((len = in.read(buffer)) != -1) {
                 out.write(buffer, 0, len);
             }
 
@@ -121,7 +117,7 @@ public class ImageCache {
      */
     public void dispose() {
         Set<Entry<String, Image>> entrySet = imageMap.entrySet();
-        for( Entry<String, Image> entry : entrySet ) {
+        for (Entry<String, Image> entry : entrySet) {
             entry.getValue().dispose();
         }
         imageMap.clear();
@@ -129,25 +125,26 @@ public class ImageCache {
 
     /**
      * Method to add images with key.
-     * 
-     * <p>This is handy for example in cases in which 
+     * <p>
+     * <p>This is handy for example in cases in which
      * it is not possible to retrieve the images from
      * within the bundle. Ex. eclipse plugin environment.
      *
-     * @param key the key for the image.
+     * @param key   the key for the image.
      * @param image the image to add.
      */
-    public void addImage( String key, Image image ) {
+    public void addImage(String key, Image image) {
         imageMap.put(key, image);
     }
 
     /**
      * Getter for the list of keys of the images, which are also the relative path.
-     * 
+     *
      * @return the list of keys.
      */
     public List<String> getRelativePaths() {
-        return Arrays.asList(CHECKED, UNCHECKED, STYLE, GRID, FEATURE, UP, DOWN, OPEN, REMOVE_LAYER, IMAGE_INFO, IMAGE_INFO_ICON,
+        return Arrays.asList(CHECKED, UNCHECKED, STYLE, GRID, FEATURE, UP, DOWN, OPEN, 
+                REMOVE_LAYER, IMAGE_INFO, IMAGE_INFO_ICON,
                 IMAGE_PAN, IMAGE_ZOOMIN, IMAGE_ZOOMOUT, IMAGE_FULLEXTENT);
     }
 }

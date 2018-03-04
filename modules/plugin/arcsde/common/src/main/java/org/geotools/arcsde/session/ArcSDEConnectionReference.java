@@ -31,7 +31,7 @@ import java.io.IOException;
  * <p>
  * This is an aggressive experiment designed to cut down the number of connections needed.
  * <p>
- * 
+ *
  * @author Jody Garnett
  * @since 2.5
  */
@@ -54,7 +54,7 @@ final class ArcSDEConnectionReference extends SessionPool {
             UnavailableConnectionException {
         if (cached == null) {
             ISession session = super.getSession(transactional); // this will block if session is
-                                                                // already in use
+            // already in use
             this.cached = new SessionWrapper(session) {
                 @Override
                 public void dispose() {

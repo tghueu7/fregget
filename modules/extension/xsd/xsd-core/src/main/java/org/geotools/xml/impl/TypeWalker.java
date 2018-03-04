@@ -17,14 +17,13 @@
 package org.geotools.xml.impl;
 
 import org.eclipse.xsd.XSDTypeDefinition;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class TypeWalker {
@@ -51,7 +50,6 @@ public class TypeWalker {
 
     /**
      * Walks from the top of the type hierachy to the bottom.
-     *
      */
     public void rwalk(XSDTypeDefinition base, Visitor visitor) {
         List types = types(base);
@@ -96,7 +94,6 @@ public class TypeWalker {
          * Supplies the current type to the visitor.
          *
          * @param type The current type.
-         *
          * @return True to signal that the walk should continue, false to
          * signal the walk should stop.
          */

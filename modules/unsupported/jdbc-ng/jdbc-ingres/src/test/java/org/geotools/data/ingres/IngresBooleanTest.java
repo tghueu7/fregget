@@ -25,8 +25,6 @@ import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class IngresBooleanTest extends JDBCBooleanTest {
@@ -35,12 +33,12 @@ public class IngresBooleanTest extends JDBCBooleanTest {
     protected JDBCBooleanTestSetup createTestSetup() {
         return new IngresBooleanTestSetup(new IngresTestSetup());
     }
-    
+
     public void testGetSchema() throws Exception {
-    	//not supported yet
+        //not supported yet
     }
-    
+
     public void testGetFeatures() throws Exception {
-    	//not supported yet
+        //not supported yet
     }
 }

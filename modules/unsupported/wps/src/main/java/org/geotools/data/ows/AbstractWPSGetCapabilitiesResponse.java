@@ -29,33 +29,26 @@ import org.geotools.ows.ServiceException;
  * parse the Capabilities document in inputStream in the constructor.
  *
  * @author gdavis
- *
- *
- *
- *
  * @source $URL$
  */
-public abstract class AbstractWPSGetCapabilitiesResponse extends Response
-{
+public abstract class AbstractWPSGetCapabilitiesResponse extends Response {
 
     protected WPSCapabilitiesType capabilities;
     protected ExceptionReportType excepResponse;
 
-    public AbstractWPSGetCapabilitiesResponse(HTTPResponse httpResponse) throws ServiceException, IOException
-    {
+    public AbstractWPSGetCapabilitiesResponse(HTTPResponse httpResponse) throws ServiceException,
+            IOException {
         super(httpResponse);
     }
 
     /**
      * Returns the capabilities object parsed during the response
      */
-    public WPSCapabilitiesType getCapabilities()
-    {
+    public WPSCapabilitiesType getCapabilities() {
         return capabilities;
     }
 
-    public ExceptionReportType getExceptionResponse()
-    {
+    public ExceptionReportType getExceptionResponse() {
         return excepResponse;
     }
 }

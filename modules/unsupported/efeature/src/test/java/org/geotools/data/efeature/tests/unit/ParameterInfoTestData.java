@@ -32,17 +32,15 @@ import org.geotools.data.efeature.tests.impl.EFeatureTestsContextHelper;
 
 /**
  * @author kengu
- *
- *
  * @source $URL$
  */
 public class ParameterInfoTestData {
-    
+
     /**
      * @see EFeatureDataStoreFactory#EFEATURE_CONTEXT_ID_PARAM
      */
     public static final Param EFEATURE_CONTEXT_ID_PARAM = new Param(
-            EFEATURE_CONTEXT_ID, String.class, 
+            EFEATURE_CONTEXT_ID, String.class,
             "Extension point id to an EFeatyreRegistry instance",
             true, EFeatureTestsContextHelper.eCONTEXT_ID);
 
@@ -60,7 +58,7 @@ public class ParameterInfoTestData {
     public static final Param EPACKAGE_NS_URI_PARAM = new Param(
             EPACKAGE_NS_URI, String.class,
             "The namespace URI of the EPackage which "
-            + "defines EObjects containing EFeatures or EFeature compatible data", 
+                    + "defines EObjects containing EFeatures or EFeature compatible data",
             true, EFeatureTestsContextHelper.eNS_URI);
 
     /**
@@ -69,33 +67,32 @@ public class ParameterInfoTestData {
     public static final Param ERESOURCE_URI_PARAM = new Param(
             ERESOURCE_URI, String.class,
             "URI to ENF Resource instance containing EFeatures or "
-            + "EFeature compatible data managed by the editing domain", true);
+                    + "EFeature compatible data managed by the editing domain", true);
 
     /**
      * @see EFeatureDataStoreFactory#EFOLDERS_QUERY_PARAM
      */
     public static final Param EFOLDERS_QUERY_PARAM = new Param(
             EFOLDERS_QUERY, String.class,
-            "A query that defines which EFeature folders to include in a EFeatureStore.", 
+            "A query that defines which EFeature folders to include in a EFeatureStore.",
             false);
-    
+
     public Param[] getParametersInfo() {
-        return new Param[] { EFEATURE_CONTEXT_ID_PARAM, EDITING_DOMAIN_ID_PARAM,
+        return new Param[]{EFEATURE_CONTEXT_ID_PARAM, EDITING_DOMAIN_ID_PARAM,
                 EPACKAGE_NS_URI_PARAM, ERESOURCE_URI_PARAM, EFOLDERS_QUERY_PARAM};
-    } 
-    
+    }
+
     public Map<String, Serializable> createParams(String eURI, String eFolders) {
         Map<String, Serializable> params = new HashMap<String, Serializable>();
-        for(Param it : getParametersInfo())
-        {
-            if(it.sample!=null) {
-                params.put(it.key,(Serializable)it.sample);
+        for (Param it : getParametersInfo()) {
+            if (it.sample != null) {
+                params.put(it.key, (Serializable) it.sample);
             }
         }
-        if(!(eURI==null || eURI.length()==0)) 
-            params.put(ERESOURCE_URI_PARAM.key,eURI);
-        if(!(eFolders==null || eFolders.length()==0)) 
-            params.put(EFOLDERS_QUERY_PARAM.key,eFolders);
+        if (!(eURI == null || eURI.length() == 0))
+            params.put(ERESOURCE_URI_PARAM.key, eURI);
+        if (!(eFolders == null || eFolders.length() == 0))
+            params.put(EFOLDERS_QUERY_PARAM.key, eFolders);
         return params;
     }
 }

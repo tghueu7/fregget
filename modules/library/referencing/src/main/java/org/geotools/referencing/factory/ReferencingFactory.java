@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -41,26 +41,24 @@ import org.geotools.resources.i18n.VocabularyKeys;
 /**
  * Base class for all factories in the referencing module.
  * Factories can be grouped in two categories:
- *
+ * <p>
  * <ul>
- *   <li><p>{@linkplain org.opengis.referencing.AuthorityFactory Authority factories}
- *       creates objects from a compact string defined by an authority.
- *   <br><em>These classes are working as "builders": they hold the definition or recipies
- *       used to construct an objet.</em></p></li>
- *
- *   <li><p>{@linkplain org.opengis.referencing.ObjectFactory Object factories}
- *       allows applications to make objects that cannot be created by an authority factory.
- *       This factory is very flexible, whereas the authority factory is easier to use.
- *   <br><em>These classes are working as "Factories": they provide a series of
- *       {@code create} methods that can be used like a constructor.</em></p></li>
+ * <li><p>{@linkplain org.opengis.referencing.AuthorityFactory Authority factories}
+ * creates objects from a compact string defined by an authority.
+ * <br><em>These classes are working as "builders": they hold the definition or recipies
+ * used to construct an objet.</em></p></li>
+ * <p>
+ * <li><p>{@linkplain org.opengis.referencing.ObjectFactory Object factories}
+ * allows applications to make objects that cannot be created by an authority factory.
+ * This factory is very flexible, whereas the authority factory is easier to use.
+ * <br><em>These classes are working as "Factories": they provide a series of
+ * {@code create} methods that can be used like a constructor.</em></p></li>
  * </ul>
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class ReferencingFactory extends AbstractFactory implements Factory {
     /**
@@ -76,6 +74,7 @@ public class ReferencingFactory extends AbstractFactory implements Factory {
      * because we want to avoid this dependency in {@link IdentifiedObjectFinder}).
      */
     static final Citation ALL;
+
     static {
         final CitationImpl citation = new CitationImpl(Vocabulary.format(VocabularyKeys.ALL));
         citation.freeze();
@@ -93,8 +92,8 @@ public class ReferencingFactory extends AbstractFactory implements Factory {
      * Constructs a factory with the specified priority.
      *
      * @param priority The priority for this factory, as a number between
-     *        {@link #MINIMUM_PRIORITY MINIMUM_PRIORITY} and
-     *        {@link #MAXIMUM_PRIORITY MAXIMUM_PRIORITY} inclusive.
+     *                 {@link #MINIMUM_PRIORITY MINIMUM_PRIORITY} and
+     *                 {@link #MAXIMUM_PRIORITY MAXIMUM_PRIORITY} inclusive.
      */
     protected ReferencingFactory(final int priority) {
         super(priority);
@@ -115,16 +114,15 @@ public class ReferencingFactory extends AbstractFactory implements Factory {
      * Makes sure that an argument is non-null. This is a
      * convenience method for subclass methods.
      *
-     * @param  name   Argument name.
-     * @param  object User argument.
+     * @param name   Argument name.
+     * @param object User argument.
      * @throws InvalidParameterValueException if {@code object} is null.
      */
     protected static void ensureNonNull(final String name, final Object object)
-        throws InvalidParameterValueException
-    {
+            throws InvalidParameterValueException {
         if (object == null) {
             throw new InvalidParameterValueException(Errors.format(
-                        ErrorKeys.NULL_ARGUMENT_$1, name), name, object);
+                    ErrorKeys.NULL_ARGUMENT_$1, name), name, object);
         }
     }
 

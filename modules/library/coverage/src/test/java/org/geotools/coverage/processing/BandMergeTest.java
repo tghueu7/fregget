@@ -18,6 +18,7 @@ package org.geotools.coverage.processing;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+
 import it.geosolutions.jaiext.range.NoDataContainer;
 
 import java.awt.image.RenderedImage;
@@ -39,15 +40,13 @@ import org.opengis.referencing.operation.TransformException;
 
 /**
  * Tests the BandMerge operation.
- *
  */
 public final class BandMergeTest extends GridProcessingTestBase {
 
     /**
      * Tests the "BandMerge" operation
-     * 
-     * @throws IOException
      *
+     * @throws IOException
      */
     @Test
     public void testBandMerge() throws TransformException, IOException {

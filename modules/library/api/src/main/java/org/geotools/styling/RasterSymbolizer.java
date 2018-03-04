@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -23,7 +23,7 @@ import org.opengis.style.OverlapBehavior;
 /**
  * The RasterSymbolizer describes how to render raster/matrix-coverage data
  * (e.g., satellite photos, DEMs).
- *
+ * <p>
  * <p>
  * The details of this object are taken from the <a
  * href="https://portal.opengeospatial.org/files/?artifact_id=1188"> OGC
@@ -121,7 +121,7 @@ import org.opengis.style.OverlapBehavior;
  *
  * @source $URL$
  */
-public interface RasterSymbolizer extends org.opengis.style.RasterSymbolizer,Symbolizer {
+public interface RasterSymbolizer extends org.opengis.style.RasterSymbolizer, Symbolizer {
     /**
      * sets the opacity for the coverage, it has the usual meaning.
      *
@@ -172,7 +172,7 @@ public interface RasterSymbolizer extends org.opengis.style.RasterSymbolizer,Sym
      * system-dependent.
      *
      * @param overlap the expression which evaluates to LATEST_ON_TOP,
-     *        EARLIEST_ON_TOP, AVERAGE or RANDOM
+     *                EARLIEST_ON_TOP, AVERAGE or RANDOM
      */
     void setOverlap(Expression overlap);
 
@@ -189,12 +189,13 @@ public interface RasterSymbolizer extends org.opengis.style.RasterSymbolizer,Sym
      * system-dependent.
      *
      * @return The expression which evaluates to LATEST_ON_TOP,
-     *         EARLIEST_ON_TOP, AVERAGE or RANDOM
+     * EARLIEST_ON_TOP, AVERAGE or RANDOM
      */
     Expression getOverlap();
 
     /**
      * Set the overlap behavior.
+     *
      * @param overlapBehavior
      */
     void setOverlapBehavior(OverlapBehavior overlapBehavior);
@@ -333,8 +334,8 @@ public interface RasterSymbolizer extends org.opengis.style.RasterSymbolizer,Sym
      * the fill.
      *
      * @param symbolizer the symbolizer to be used. If this is <B>not</B> a
-     *        polygon or a line symbolizer an unexpected argument exception
-     *        may be thrown by an implementing class.
+     *                   polygon or a line symbolizer an unexpected argument exception
+     *                   may be thrown by an implementing class.
      */
     void setImageOutline(org.opengis.style.Symbolizer symbolizer);
 
@@ -361,5 +362,5 @@ public interface RasterSymbolizer extends org.opengis.style.RasterSymbolizer,Sym
      * @return The relevent symbolizer
      */
     Symbolizer getImageOutline();
-   
+
 }

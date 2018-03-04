@@ -24,16 +24,16 @@ import javax.measure.converter.ConversionException;
 /**
  * A converter from fractional degrees to sexagesimal degrees.
  * Sexagesimal degrees are pseudo-unit in the format
- *
+ * <p>
  * <cite>sign - degrees - decimal point - minutes (two digits) - integer seconds (two digits) -
  * fraction of seconds (any precision)</cite>.
- *
+ * <p>
  * Unfortunatly, this pseudo-unit is extensively used in the EPSG database.
  *
- * @since 2.1
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 class SexagesimalConverter extends UnitConverter {
     /**
@@ -72,8 +72,8 @@ class SexagesimalConverter extends UnitConverter {
      * Constructs a converter for sexagesimal units.
      *
      * @param divider The value to divide DMS unit by.
-     *        For "degree minute second" (EPSG code 9107), this is 1.
-     *        For "sexagesimal degree" (EPSG code 9110), this is 10000.
+     *                For "degree minute second" (EPSG code 9107), this is 1.
+     *                For "sexagesimal degree" (EPSG code 9110), this is 10000.
      */
     private SexagesimalConverter(final int divider) {
         this.divider = divider;
@@ -100,11 +100,14 @@ class SexagesimalConverter extends UnitConverter {
      * Performs a conversion from fractional degrees to sexagesimal degrees.
      */
     public double convert(double value) throws ConversionException {
-        final int deg,min,sec;  deg = (int) value; // Round toward 0
-        value = (value-deg)*60; min = (int) value; // Round toward 0
-        value = (value-min)*60; sec = (int) value; // Round toward 0
+        final int deg, min, sec;
+        deg = (int) value; // Round toward 0
+        value = (value - deg) * 60;
+        min = (int) value; // Round toward 0
+        value = (value - min) * 60;
+        sec = (int) value; // Round toward 0
         value -= sec;          // The remainer (fraction of seconds)
-        return (((deg*100 + min)*100 + sec) + value)/divider;
+        return (((deg * 100 + min) * 100 + sec) + value) / divider;
     }
 
     /**
@@ -143,11 +146,16 @@ class SexagesimalConverter extends UnitConverter {
      */
     protected Object readResolve() throws ObjectStreamException {
         UnitConverter candidate = INTEGER;
-        for (int i=0; i<=3; i++) {
+        for (int i = 0; i <= 3; i++) {
             switch (i) {
-                case 0:  break; // Do nothing since candidate is already set to INTEGER/
-                case 2:  candidate = FRACTIONAL; break;
-                default: candidate = candidate.inverse(); break;
+                case 0:
+                    break; // Do nothing since candidate is already set to INTEGER/
+                case 2:
+                    candidate = FRACTIONAL;
+                    break;
+                default:
+                    candidate = candidate.inverse();
+                    break;
             }
             if (equals(candidate)) {
                 return candidate;
@@ -178,26 +186,30 @@ class SexagesimalConverter extends UnitConverter {
         @Override
         public double convert(double value) throws ConversionException {
             value *= this.divider;
-            int deg,min;
-            deg = (int) (value/10000); value -= 10000*deg;
-            min = (int) (value/  100); value -=   100*min;
-            if (min<=-60 || min>=60) {  // Accepts NaN
+            int deg, min;
+            deg = (int) (value / 10000);
+            value -= 10000 * deg;
+            min = (int) (value / 100);
+            value -= 100 * min;
+            if (min <= -60 || min >= 60) {  // Accepts NaN
                 if (Math.abs(Math.abs(min) - 100) <= EPS) {
-                    if (min >= 0) deg++; else deg--;
+                    if (min >= 0) deg++;
+                    else deg--;
                     min = 0;
                 } else {
-                    throw new ConversionException("Invalid minutes: "+min);
+                    throw new ConversionException("Invalid minutes: " + min);
                 }
             }
-            if (value<=-60 || value>=60) { // Accepts NaN
+            if (value <= -60 || value >= 60) { // Accepts NaN
                 if (Math.abs(Math.abs(value) - 100) <= EPS) {
-                    if (value >= 0) min++; else min--;
+                    if (value >= 0) min++;
+                    else min--;
                     value = 0;
                 } else {
-                    throw new ConversionException("Invalid secondes: "+value);
+                    throw new ConversionException("Invalid secondes: " + value);
                 }
             }
-            value = ((value/60) + min)/60 + deg;
+            value = ((value / 60) + min) / 60 + deg;
             return value;
         }
 

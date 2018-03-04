@@ -1,7 +1,9 @@
 package org.geotools.data.dxf.entities;
 
 import java.io.EOFException;
+
 import org.geotools.data.dxf.parser.DXFLineNumberReader;
+
 import java.io.IOException;
 
 import org.geotools.data.GeometryType;
@@ -17,8 +19,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DXFDimension extends DXFBlockReference {
@@ -29,28 +29,34 @@ public class DXFDimension extends DXFBlockReference {
     public DXFPoint _point_WCS = new DXFPoint();//10,20
 
     public DXFDimension(DXFDimension newDimension) {
-        this(newDimension._angle, newDimension._dimension, newDimension._point_WCS._point.x, newDimension._point_WCS._point.y,
-                newDimension._refBlock, newDimension._blockName, newDimension.getRefLayer(), 0, newDimension.getColor(), newDimension.getLineType());
+        this(newDimension._angle, newDimension._dimension, newDimension._point_WCS._point.x, 
+                newDimension._point_WCS._point.y,
+                newDimension._refBlock, newDimension._blockName, newDimension.getRefLayer(), 0, 
+                newDimension.getColor(), newDimension.getLineType());
 
         setType(newDimension.getType());
         setStartingLineNumber(newDimension.getStartingLineNumber());
         setUnivers(newDimension.getUnivers());
     }
 
-    public DXFDimension(double a, String dim, double x, double y, DXFBlock refBlock, String nomBlock, DXFLayer l, int visibility, int c, DXFLineType lineType) {
+    public DXFDimension(double a, String dim, double x, double y, DXFBlock refBlock, String 
+            nomBlock, DXFLayer l, int visibility, int c, DXFLineType lineType) {
         super(c, l, visibility, null, nomBlock, refBlock);
         _angle = a;
         _dimension = dim;
         _point_WCS = new DXFPoint(x, y, c, null, visibility, 1);
         setName("DXFDimension");
     }
-    public DXFDimension(double a, String dim, double x, double y, DXFBlock refBlock, String nomBlock, DXFLayer l, int visibility, int c, DXFLineType lineType, DXFExtendedData extData) {
-    	super(c, l, visibility, null, nomBlock, refBlock);
-    	_angle = a;
-    	_dimension = dim;
-    	_point_WCS = new DXFPoint(x, y, c, null, visibility, 1);
-    	setName("DXFDimension");
-    	_extendedData = extData;
+
+    public DXFDimension(double a, String dim, double x, double y, DXFBlock refBlock, String 
+            nomBlock, DXFLayer l, int visibility, int c, DXFLineType lineType, DXFExtendedData 
+            extData) {
+        super(c, l, visibility, null, nomBlock, refBlock);
+        _angle = a;
+        _dimension = dim;
+        _point_WCS = new DXFPoint(x, y, c, null, visibility, 1);
+        setName("DXFDimension");
+        _extendedData = extData;
     }
 
     public static DXFDimension read(DXFLineNumberReader br, DXFUnivers univers) throws IOException {
@@ -116,16 +122,17 @@ public class DXFDimension extends DXFBlockReference {
                     c = cvp.getShortValue();
                     break;
                 case XDATA_APPLICATION_NAME:
-                	String appName = cvp.getStringValue();
-            		_extData = DXFExtendedData.getExtendedData(br);
-            		_extData.setAppName(appName);
+                    String appName = cvp.getStringValue();
+                    _extData = DXFExtendedData.getExtendedData(br);
+                    _extData.setAppName(appName);
                     break;
                 default:
                     break;
             }
         }
 
-        d = new DXFDimension(angle, dimension, x, y, refBlock, nomBlock, l, visibility, c, lineType, _extData);
+        d = new DXFDimension(angle, dimension, x, y, refBlock, nomBlock, l, visibility, c, 
+                lineType, _extData);
         d.setType(GeometryType.UNSUPPORTED);
         d.setStartingLineNumber(sln);
         d.setUnivers(univers);
@@ -136,12 +143,13 @@ public class DXFDimension extends DXFBlockReference {
         return d;
     }
 
-    public void updateGeometry(){
+    public void updateGeometry() {
         // not supported
     }
 
 
-    public String toString(String dimension, double angle, String nomBlock, double x, double y, int visibility, int c) {
+    public String toString(String dimension, double angle, String nomBlock, double x, double y, 
+                           int visibility, int c) {
         StringBuffer s = new StringBuffer();
         s.append("DXFDimension [");
         s.append("dimension: ");

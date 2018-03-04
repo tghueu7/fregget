@@ -35,8 +35,6 @@ import org.geotools.gml3.GML;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class BinarySpatialOpTypeBindingTest extends FilterTestSupport {
@@ -56,21 +54,23 @@ public class BinarySpatialOpTypeBindingTest extends FilterTestSupport {
         assertNotNull(beyond.getExpression1());
         assertNotNull(beyond.getExpression2());
         assertEquals(1.0, beyond.getDistance(), 0.1);
-        assertEquals("m",beyond.getDistanceUnits());
+        assertEquals("m", beyond.getDistanceUnits());
     }
 
     public void testBeyondEncode() throws Exception {
         Document dom = encode(FilterMockData.beyond(), OGC.Beyond);
 
         assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart())
+                        .getLength());
         assertEquals(1,
-            dom.getElementsByTagNameNS(GML.NAMESPACE, GML.Point.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(GML.NAMESPACE, GML.Point.getLocalPart()).getLength());
         assertEquals(1, dom.getElementsByTagNameNS(OGC.NAMESPACE, "Distance").getLength());
         assertEquals("1.0",
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, "Distance").item(0).getFirstChild()
-               .getNodeValue());
-        //assertEquals( "m",((Element)dom.getElementsByTagNameNS(OGC.NAMESPACE, "Distance").item(0)).getAttribute("units"));
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, "Distance").item(0).getFirstChild()
+                        .getNodeValue());
+        //assertEquals( "m",((Element)dom.getElementsByTagNameNS(OGC.NAMESPACE, "Distance").item
+        // (0)).getAttribute("units"));
     }
 
     public void testDWithinType() {
@@ -85,20 +85,21 @@ public class BinarySpatialOpTypeBindingTest extends FilterTestSupport {
         assertNotNull(dwithin.getExpression1());
         assertNotNull(dwithin.getExpression2());
         assertEquals(1.0, dwithin.getDistance(), 0.1);
-        assertEquals("m",dwithin.getDistanceUnits());
+        assertEquals("m", dwithin.getDistanceUnits());
     }
 
     public void testDWithinEncode() throws Exception {
         Document dom = encode(FilterMockData.beyond(), OGC.DWithin);
 
         assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart())
+                        .getLength());
         assertEquals(1,
-            dom.getElementsByTagNameNS(GML.NAMESPACE, GML.Point.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(GML.NAMESPACE, GML.Point.getLocalPart()).getLength());
         assertEquals(1, dom.getElementsByTagNameNS(OGC.NAMESPACE, "Distance").getLength());
         assertEquals("1.0",
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, "Distance").item(0).getFirstChild()
-               .getNodeValue());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, "Distance").item(0).getFirstChild()
+                        .getNodeValue());
     }
 
     public void testBinarySpatialOpType() {
@@ -122,9 +123,10 @@ public class BinarySpatialOpTypeBindingTest extends FilterTestSupport {
         Document dom = encode(FilterMockData.contains(), OGC.Contains);
 
         assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart())
+                        .getLength());
         assertEquals(1,
-            dom.getElementsByTagNameNS(GML.NAMESPACE, GML.Point.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(GML.NAMESPACE, GML.Point.getLocalPart()).getLength());
     }
 
     public void testCrossesType() {
@@ -144,9 +146,10 @@ public class BinarySpatialOpTypeBindingTest extends FilterTestSupport {
         Document dom = encode(FilterMockData.crosses(), OGC.Crosses);
 
         assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart())
+                        .getLength());
         assertEquals(1,
-            dom.getElementsByTagNameNS(GML.NAMESPACE, GML.Point.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(GML.NAMESPACE, GML.Point.getLocalPart()).getLength());
     }
 
     public void testDisjointType() {
@@ -166,9 +169,10 @@ public class BinarySpatialOpTypeBindingTest extends FilterTestSupport {
         Document dom = encode(FilterMockData.disjoint(), OGC.Disjoint);
 
         assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart())
+                        .getLength());
         assertEquals(1,
-            dom.getElementsByTagNameNS(GML.NAMESPACE, GML.Point.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(GML.NAMESPACE, GML.Point.getLocalPart()).getLength());
     }
 
     public void testEqualsType() {
@@ -188,9 +192,10 @@ public class BinarySpatialOpTypeBindingTest extends FilterTestSupport {
         Document dom = encode(FilterMockData.equals(), OGC.Equals);
 
         assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart())
+                        .getLength());
         assertEquals(1,
-            dom.getElementsByTagNameNS(GML.NAMESPACE, GML.Point.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(GML.NAMESPACE, GML.Point.getLocalPart()).getLength());
     }
 
     public void testIntersectsType() {
@@ -210,9 +215,10 @@ public class BinarySpatialOpTypeBindingTest extends FilterTestSupport {
         Document dom = encode(FilterMockData.intersects(), OGC.Intersects);
 
         assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart())
+                        .getLength());
         assertEquals(1,
-            dom.getElementsByTagNameNS(GML.NAMESPACE, GML.Point.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(GML.NAMESPACE, GML.Point.getLocalPart()).getLength());
     }
 
     public void testOverlapsType() {
@@ -232,9 +238,10 @@ public class BinarySpatialOpTypeBindingTest extends FilterTestSupport {
         Document dom = encode(FilterMockData.overlaps(), OGC.Overlaps);
 
         assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart())
+                        .getLength());
         assertEquals(1,
-            dom.getElementsByTagNameNS(GML.NAMESPACE, GML.Point.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(GML.NAMESPACE, GML.Point.getLocalPart()).getLength());
     }
 
     public void testTouchesType() {
@@ -254,9 +261,10 @@ public class BinarySpatialOpTypeBindingTest extends FilterTestSupport {
         Document dom = encode(FilterMockData.touches(), OGC.Touches);
 
         assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart())
+                        .getLength());
         assertEquals(1,
-            dom.getElementsByTagNameNS(GML.NAMESPACE, GML.Point.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(GML.NAMESPACE, GML.Point.getLocalPart()).getLength());
     }
 
     public void testWithinType() {
@@ -276,26 +284,27 @@ public class BinarySpatialOpTypeBindingTest extends FilterTestSupport {
         Document dom = encode(FilterMockData.within(), OGC.Within);
 
         assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart())
+                        .getLength());
         assertEquals(1,
-            dom.getElementsByTagNameNS(GML.NAMESPACE, GML.Point.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(GML.NAMESPACE, GML.Point.getLocalPart()).getLength());
     }
-    
+
     public void testWithFunctionParse() throws Exception {
-    	FilterMockData.withinWithFunction(document, document);
-        
+        FilterMockData.withinWithFunction(document, document);
+
         Within within = (Within) parse();
-        
+
         assertNotNull(within.getExpression1());
         assertNotNull(within.getExpression2());
-        
-        assertTrue( within.getExpression2() instanceof Function);
+
+        assertTrue(within.getExpression2() instanceof Function);
     }
-    
+
     public void testWithFunctionEncode() throws Exception {
         Document dom = encode(FilterMockData.withinWithFunction(), OGC.Within);
-        
+
         assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Function.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Function.getLocalPart()).getLength());
     }
 }

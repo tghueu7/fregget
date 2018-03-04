@@ -38,16 +38,17 @@ import org.opengis.parameter.GeneralParameterDescriptor;
 
 /**
  * Provides basic information about the grass raster format IO.
- * 
+ *
  * @author Andrea Antonello (www.hydrologis.com)
- *
- *
  * @source $URL$
  */
 public final class GrassCoverageFormat extends AbstractGridFormat implements Format {
 
-    /** Logger. */
-    private final static Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org.geotools.gce.grassraster");
+    /**
+     * Logger.
+     */
+    private final static Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org" +
+            ".geotools.gce.grassraster");
 
     /**
      * Creates an instance and sets the metadata.
@@ -67,11 +68,11 @@ public final class GrassCoverageFormat extends AbstractGridFormat implements For
                 new GeneralParameterDescriptor[]{GEOTOOLS_WRITE_PARAMS}));
     }
 
-    public GrassCoverageReader getReader( final Object o ) {
+    public GrassCoverageReader getReader(final Object o) {
         return getReader(o, null);
     }
 
-    public GrassCoverageWriter getWriter( final Object destination, Hints hints ) {
+    public GrassCoverageWriter getWriter(final Object destination, Hints hints) {
         try {
             return new GrassCoverageWriter(destination);
         } catch (Exception e) {
@@ -81,11 +82,11 @@ public final class GrassCoverageFormat extends AbstractGridFormat implements For
         }
     }
 
-    public GridCoverageWriter getWriter( Object destination ) {
+    public GridCoverageWriter getWriter(Object destination) {
         return getWriter(destination, null);
     }
 
-    public boolean accepts( final Object o, Hints hints ) {
+    public boolean accepts(final Object o, Hints hints) {
         File fileToUse;
 
         if (o instanceof File) {
@@ -106,7 +107,7 @@ public final class GrassCoverageFormat extends AbstractGridFormat implements For
         return false;
     }
 
-    public GrassCoverageReader getReader( final Object o, Hints hints ) {
+    public GrassCoverageReader getReader(final Object o, Hints hints) {
 
         try {
             GrassCoverageReader coverageReader = new GrassCoverageReader(o);
@@ -122,7 +123,7 @@ public final class GrassCoverageFormat extends AbstractGridFormat implements For
     /**
      * Always returns null since for the moment there are no
      * {@link GeoToolsWriteParams} availaible for this format.
-     * 
+     *
      * @return always null.
      */
     public GeoToolsWriteParams getDefaultImageIOWriteParameters() {

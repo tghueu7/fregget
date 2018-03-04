@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -25,18 +25,14 @@ import org.opengis.metadata.quality.AccuracyOfATimeMeasurement;
 /**
  * Correctness of the temporal references of an item (reporting of error in time measurement).
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class AccuracyOfATimeMeasurementImpl extends TemporalAccuracyImpl
-        implements AccuracyOfATimeMeasurement
-{
+        implements AccuracyOfATimeMeasurement {
     /**
      * Serial number for interoperability with different versions.
      */

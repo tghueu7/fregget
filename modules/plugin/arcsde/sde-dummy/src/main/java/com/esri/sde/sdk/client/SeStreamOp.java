@@ -3,8 +3,6 @@ package com.esri.sde.sdk.client;
 import java.io.IOException;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SeStreamOp {

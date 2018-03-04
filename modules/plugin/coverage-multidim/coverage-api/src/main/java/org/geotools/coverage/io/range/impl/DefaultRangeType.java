@@ -29,9 +29,8 @@ import org.opengis.util.InternationalString;
 
 /**
  * Default implementation of {@link RangeType}
- * 
- * @author Simone Giannecchini, GeoSolutions.
  *
+ * @author Simone Giannecchini, GeoSolutions.
  * @source $URL$
  */
 public class DefaultRangeType implements RangeType {
@@ -43,15 +42,19 @@ public class DefaultRangeType implements RangeType {
 
     private Set<Name> fieldTypesNames;
 
-    public DefaultRangeType(final String name, final String description, final FieldType fieldType) {
-        this(new NameImpl(name), new SimpleInternationalString(description), Collections.singleton(fieldType));
+    public DefaultRangeType(final String name, final String description, final FieldType 
+            fieldType) {
+        this(new NameImpl(name), new SimpleInternationalString(description), Collections
+                .singleton(fieldType));
     }
 
-    public DefaultRangeType(final String name, final String description, final Set<FieldType> fieldTypes) {
+    public DefaultRangeType(final String name, final String description, final Set<FieldType> 
+            fieldTypes) {
         this(new NameImpl(name), new SimpleInternationalString(description), fieldTypes);
     }
 
-    public DefaultRangeType(final Name name, final InternationalString description, final Set<FieldType> fieldTypes) {
+    public DefaultRangeType(final Name name, final InternationalString description, final 
+    Set<FieldType> fieldTypes) {
         this.name = name;
         this.description = description;
         this.fieldTypes = new LinkedHashSet<FieldType>(fieldTypes);

@@ -31,21 +31,21 @@ import org.junit.Test;
 import org.opengis.filter.Filter;
 
 public class StrategyTest {
-    
+
     @Test
     public void testResultTypeHits() throws ServiceException, IOException {
         TestWFSClient wfsClient = createTestProtocol(GEOS_STATES_11.CAPABILITIES);
         wfsClient.setProtocol(false);
-        
+
         GetFeatureRequest request = wfsClient.createGetFeatureRequest();
         request.setTypeName(GEOS_STATES_11.TYPENAME);
         request.setFilter(Filter.INCLUDE);
         request.setResultType(ResultType.HITS);
         URL url = request.getFinalURL();
-        
+
         //System.out.println(url);
         assertTrue(url.toString().contains("RESULTTYPE=HITS"));
-        
+
     }
 
 }

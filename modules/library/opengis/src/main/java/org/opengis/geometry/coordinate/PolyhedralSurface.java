@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.coordinate;
 
 import java.util.List;
+
 import org.opengis.geometry.primitive.Surface;
 import org.opengis.annotation.UML;
 
@@ -22,20 +23,17 @@ import static org.opengis.annotation.Specification.*;
  * boundary curves. This differs from {@link Surface} only in the restriction on the types of
  * surface patches acceptable.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
- * @since GeoAPI 2.0
- *
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @see GeometryFactory#createPolyhedralSurface
+ * @since GeoAPI 2.0
  */
-@UML(identifier="GM_PolyhedralSurface", specification=ISO_19107)
+@UML(identifier = "GM_PolyhedralSurface", specification = ISO_19107)
 public interface PolyhedralSurface extends Surface {
     /**
      * Associates this surface with its individual facet polygons.
      */
-    @UML(identifier="patch", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "patch", obligation = MANDATORY, specification = ISO_19107)
     List<? extends Polygon> getPatches();
 }

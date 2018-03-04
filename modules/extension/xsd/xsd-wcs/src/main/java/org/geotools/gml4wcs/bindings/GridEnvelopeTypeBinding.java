@@ -14,29 +14,30 @@ import org.w3c.dom.Element;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:GridEnvelopeType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
- *	 <code>
+ * 	 <code>
  *  &lt;complexType name=&quot;GridEnvelopeType&quot;&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;Provides grid coordinate values for the diametrically opposed corners of an envelope that bounds a section of grid. The value of a single coordinate is the number of offsets from the origin of the grid in the direction of a specific axis.&lt;/documentation&gt;
+ *          &lt;documentation&gt;Provides grid coordinate values for the diametrically opposed 
+ *          corners of an envelope that bounds a section of grid. The value of a single 
+ *          coordinate is the number of offsets from the origin of the grid in the direction of a
+ *          specific axis.&lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;sequence&gt;
  *          &lt;element name=&quot;low&quot; type=&quot;gml:integerList&quot;/&gt;
  *          &lt;element name=&quot;high&quot; type=&quot;gml:integerList&quot;/&gt;
  *      &lt;/sequence&gt;
- *  &lt;/complexType&gt; 
- * 	
+ *  &lt;/complexType&gt;
+ *
  * </code>
- *	 </pre>
- * 
+ * 	 </pre>
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class GridEnvelopeTypeBinding extends AbstractComplexBinding {
@@ -50,7 +51,7 @@ public class GridEnvelopeTypeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -59,7 +60,7 @@ public class GridEnvelopeTypeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
@@ -80,7 +81,8 @@ public class GridEnvelopeTypeBinding extends AbstractComplexBinding {
         GeneralEnvelope envelope = (GeneralEnvelope) object;
 
         if (envelope.isNull()) {
-            value.appendChild(document.createElementNS(GML.NAMESPACE, org.geotools.gml3.GML.Null.getLocalPart()));
+            value.appendChild(document.createElementNS(GML.NAMESPACE, org.geotools.gml3.GML.Null
+                    .getLocalPart()));
         }
 
         return null;

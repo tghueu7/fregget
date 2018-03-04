@@ -30,9 +30,9 @@ import org.picocontainer.MutablePicoContainer;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:ColorMapEntry.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="ColorMapEntry"&gt;
  *      &lt;xsd:complexType&gt;
@@ -48,9 +48,6 @@ import org.picocontainer.MutablePicoContainer;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDColorMapEntryBinding extends AbstractComplexBinding {
@@ -105,11 +102,11 @@ public class SLDColorMapEntryBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         ColorMapEntry entry = styleFactory.createColorMapEntry();
 
         Expression color = filterFactory.literal((String) node.getAttributeValue(
-                    "color"));
+                "color"));
         entry.setColor(color);
 
         if (node.getAttributeValue("opacity") != null) {

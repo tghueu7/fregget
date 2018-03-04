@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -24,17 +24,15 @@ import org.xml.sax.SAXNotRecognizedException;
 
 /**
  * FacetHandler purpose.
- * 
+ * <p>
  * <p>
  * Abstract class representing common Facet abilites + attributes.
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc. http://www.refractions.net
  * @author $Author:$ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public abstract class FacetHandler extends XSIElementHandler {
     //    /** ENUMERATION  */
@@ -73,9 +71,9 @@ public abstract class FacetHandler extends XSIElementHandler {
 
     /**
      * @see org.geotools.xml.XSIElementHandler#endElement(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
-    public void endElement(String namespaceURI, String localName){
+    public void endElement(String namespaceURI, String localName) {
         // do nothing
     }
 
@@ -90,7 +88,6 @@ public abstract class FacetHandler extends XSIElementHandler {
      * <p>
      * Return the int mask for the facet type.
      * </p>
-     *
      */
     public abstract int getType();
 
@@ -103,23 +100,24 @@ public abstract class FacetHandler extends XSIElementHandler {
 
     /**
      * @see org.geotools.xml.XSIElementHandler#getHandler(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
     public XSIElementHandler getHandler(String namespaceURI, String localName)
-        throws SAXException {
-    	if (localName.equalsIgnoreCase("annotation") || localName.equalsIgnoreCase("documentation")) {
-    		return new IgnoreHandler();
-    	}
+            throws SAXException {
+        if (localName.equalsIgnoreCase("annotation") || localName.equalsIgnoreCase
+                ("documentation")) {
+            return new IgnoreHandler();
+        }
         throw new SAXNotRecognizedException(
-            "Facets are not allowed to have sub-elements");
+                "Facets are not allowed to have sub-elements");
     }
 
     /**
      * @see org.geotools.xml.XSIElementHandler#startElement(java.lang.String,
-     *      java.lang.String, org.xml.sax.Attributes)
+     * java.lang.String, org.xml.sax.Attributes)
      */
     public void startElement(String namespaceURI, String localName,
-        Attributes atts){
+                             Attributes atts) {
         value = atts.getValue("", "value");
 
         if (value == null) {
@@ -131,7 +129,6 @@ public abstract class FacetHandler extends XSIElementHandler {
      * <p>
      * Returns the Facet Value
      * </p>
-     *
      */
     public String getValue() {
         return value;

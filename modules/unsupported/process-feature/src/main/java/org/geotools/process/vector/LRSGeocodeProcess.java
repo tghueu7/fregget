@@ -43,11 +43,13 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.linearref.LengthIndexedLine;
 
-@DescribeProcess(title = "Geocode point in LRS", description = "Extracts points at a given measure from LRS features")
+@DescribeProcess(title = "Geocode point in LRS", description = "Extracts points at a given " +
+        "measure from LRS features")
 /**
- * 
  *
- * @source $URL: http://svn.osgeo.org/geotools/trunk/modules/unsupported/process-feature/src/main/java/org/geotools/process/feature/gs/NearestProcess.java $
+ *
+ * @source $URL: http://svn.osgeo.org/geotools/trunk/modules/unsupported/process-feature/src/main
+ * /java/org/geotools/process/feature/gs/NearestProcess.java $
  */
 public class LRSGeocodeProcess implements VectorProcess {
     private static final Logger LOGGER = Logging.getLogger(LRSGeocodeProcess.class);
@@ -56,19 +58,23 @@ public class LRSGeocodeProcess implements VectorProcess {
 
     /**
      * Process the input data set.
-     * 
+     *
      * @param featureCollection the data set
-     * @param crs the CRS
-     * @param point the given point
+     * @param crs               the CRS
+     * @param point             the given point
      * @return the snapped to feature
      * @throws ProcessException error
      */
     @DescribeResult(name = "result", description = "Output feature collection")
     public FeatureCollection execute(
-            @DescribeParameter(name = "features", description = "Input feature collection") FeatureCollection featureCollection,
-            @DescribeParameter(name = "from_measure_attb", description = "Attribute providing start measure of feature") String fromMeasureAttb,
-            @DescribeParameter(name = "to_measure_attb", description = "Attribute providing end measure of feature") String toMeasureAttb,
-            @DescribeParameter(name = "measure", description = "Measure of the point along the feature to be computed") Double measure)
+            @DescribeParameter(name = "features", description = "Input feature collection") 
+                    FeatureCollection featureCollection,
+            @DescribeParameter(name = "from_measure_attb", description = "Attribute providing " +
+                    "start measure of feature") String fromMeasureAttb,
+            @DescribeParameter(name = "to_measure_attb", description = "Attribute providing end " +
+                    "measure of feature") String toMeasureAttb,
+            @DescribeParameter(name = "measure", description = "Measure of the point along the " +
+                    "feature to be computed") Double measure)
             throws ProcessException {
         DefaultFeatureCollection results = new DefaultFeatureCollection();
         try {
@@ -79,7 +85,8 @@ public class LRSGeocodeProcess implements VectorProcess {
             if (fromMeasureAttb == null
                     || featureCollection.getSchema().getDescriptor(fromMeasureAttb) == null) {
                 throw new ProcessException(
-                        "The from_measure_attb parameter was not provided or not defined in schema");
+                        "The from_measure_attb parameter was not provided or not defined in " +
+                                "schema");
             }
             if (toMeasureAttb == null
                     || featureCollection.getSchema().getDescriptor(toMeasureAttb) == null) {
@@ -130,7 +137,7 @@ public class LRSGeocodeProcess implements VectorProcess {
 
     /**
      * Create the modified feature type.
-     * 
+     *
      * @param sourceFeatureType the source feature type
      * @return the modified feature type
      * @throws ProcessException errror
@@ -160,16 +167,16 @@ public class LRSGeocodeProcess implements VectorProcess {
 
     /**
      * Create the modified feature.
-     * 
-     * @param feature the source feature
+     *
+     * @param feature           the source feature
      * @param targetFeatureType the modified feature type
-     * @param nearestDistance the snap distance
-     * @param nearestBearing the snap bearing
+     * @param nearestDistance   the snap distance
+     * @param nearestBearing    the snap bearing
      * @return the modified feature
      * @throws ProcessException error
      */
     private SimpleFeature createTargetFeature(Feature feature, SimpleFeatureType targetFeatureType,
-            Coordinate geocodePoint) throws ProcessException {
+                                              Coordinate geocodePoint) throws ProcessException {
         try {
             AttributeDescriptor geomAttbType = targetFeatureType.getGeometryDescriptor();
             Object[] attributes = new Object[targetFeatureType.getAttributeCount()];

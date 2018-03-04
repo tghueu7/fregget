@@ -4,13 +4,14 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2008, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.style;
 
 import java.util.List;
 import java.util.Set;
+
 import org.opengis.annotation.Extension;
 import org.opengis.annotation.UML;
 import org.opengis.annotation.XmlElement;
@@ -18,6 +19,7 @@ import org.opengis.annotation.XmlElement;
 import org.opengis.feature.type.Name;
 import org.opengis.filter.Id;
 import org.opengis.metadata.citation.OnLineResource;
+
 import static org.opengis.annotation.Obligation.*;
 import static org.opengis.annotation.Specification.*;
 
@@ -26,17 +28,16 @@ import org.opengis.filter.expression.Expression;
 /**
  * Represents a style that applies to features or coverage.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding Implementation Specification 1.1.0</A>
  * @author Open Geospatial Consortium
  * @author Johann Sorel (Geomatys)
  * @author Chris Dillard (SYS Technologies)
+ * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding 
+ * Implementation Specification 1.1.0</A>
+ * @source $URL$
  * @since GeoAPI 2.2
  */
 @XmlElement("FeatureTypeStyle")
-@UML(identifier="PF_FeaturePortrayal", specification=ISO_19117)
+@UML(identifier = "PF_FeaturePortrayal", specification = ISO_19117)
 public interface FeatureTypeStyle {
 
     /**
@@ -44,6 +45,7 @@ public interface FeatureTypeStyle {
      * This can be any string that uniquely identifies this style within a given
      * canvas.  It is not meant to be human-friendly.  (The "title" property is
      * meant to be human friendly.)
+     *
      * @return a name for this style.
      */
     @XmlElement("Name")
@@ -56,12 +58,12 @@ public interface FeatureTypeStyle {
      * for user interfaces.
      */
     @XmlElement("Description")
-    @UML(identifier="description", obligation=OPTIONAL, specification=ISO_19117)
+    @UML(identifier = "description", obligation = OPTIONAL, specification = ISO_19117)
     Description getDescription();
 
     /**
      * Returns a collection of Object identifying features object.
-     *
+     * <p>
      * <p>
      * ISO 19117 extends FeatureTypeStyle be providing this method.
      * This method enable the possibility to use a feature type style
@@ -70,9 +72,9 @@ public interface FeatureTypeStyle {
      *
      * @return Collection<String>
      */
-    @UML(identifier="definedForInst", obligation=OPTIONAL, specification=ISO_19117)
+    @UML(identifier = "definedForInst", obligation = OPTIONAL, specification = ISO_19117)
     Id getFeatureInstanceIDs();
-    
+
     /**
      * <p>
      * Returns the names of the feature type that this style is meant to act
@@ -89,7 +91,7 @@ public interface FeatureTypeStyle {
      * to act upon.
      */
     @XmlElement("FeatureTypeName")
-    @UML(identifier="definedFor", obligation=OPTIONAL, specification=ISO_19117)
+    @UML(identifier = "definedFor", obligation = OPTIONAL, specification = ISO_19117)
     Set<Name> featureTypeNames();
 
     /**
@@ -99,15 +101,14 @@ public interface FeatureTypeStyle {
      * can take only one of the following values:
      * <p>
      * <ul>
-     *   <li>{@code generic:point}</li>
-     *   <li>{@code generic:line}</li>
-     *   <li>{@code generic:polygon}</li>
-     *   <li>{@code generic:text}</li>
-     *   <li>{@code generic:raster}</li>
-     *   <li>{@code generic:any}</li>
+     * <li>{@code generic:point}</li>
+     * <li>{@code generic:line}</li>
+     * <li>{@code generic:polygon}</li>
+     * <li>{@code generic:text}</li>
+     * <li>{@code generic:raster}</li>
+     * <li>{@code generic:any}</li>
      * </ul>
      * <p>
-     *
      */
     @XmlElement("SemanticTypeIdentifier")
     Set<SemanticType> semanticTypeIdentifiers();
@@ -118,7 +119,7 @@ public interface FeatureTypeStyle {
      * @return the list of rules. can not be null but can be empty.
      */
     @XmlElement("Rule")
-    @UML(identifier="portrayalRule", obligation=MANDATORY, specification=ISO_19117)
+    @UML(identifier = "portrayalRule", obligation = MANDATORY, specification = ISO_19117)
     List<? extends Rule> rules();
 
     /**
@@ -126,20 +127,20 @@ public interface FeatureTypeStyle {
      * provide a way to get the original source if there is one.
      * OGC SLD specification can use this method to know if a style must be
      * written completely or if writing the online resource path is enough.
-     * 
+     *
      * @return OnlineResource or null
      */
     @XmlElement("OnlineResource")
     OnLineResource getOnlineResource();
-    
+
     /**
      * gets the transformation as expression
-     * 
+     *
      * @return Transformation or null
      */
     @XmlElement("Transformation")
     Expression getTransformation();
-    
+
     /**
      * calls the visit method of a StyleVisitor
      *

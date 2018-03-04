@@ -53,12 +53,8 @@ import org.opengis.feature.type.Name;
 
 /**
  * This is to ensure we have a working GeologicUnit configuration test.
- * 
+ *
  * @author Rini Angreani (CSIRO Earth Science and Resource Engineering)
- *
- *
- *
- *
  * @source $URL$
  */
 public class GeologicUnitTest extends AppSchemaTestSupport {
@@ -71,9 +67,8 @@ public class GeologicUnitTest extends AppSchemaTestSupport {
 
     /**
      * Set up the reader
-     * 
-     * @throws Exception
-     *             If any exception occurs
+     *
+     * @throws Exception If any exception occurs
      */
     @BeforeClass
     public static void oneTimeSetUp() throws Exception {
@@ -87,9 +82,8 @@ public class GeologicUnitTest extends AppSchemaTestSupport {
 
     /**
      * Load schema
-     * 
-     * @param location
-     *            schema location path that can be found through getClass().getResource()
+     *
+     * @param location schema location path that can be found through getClass().getResource()
      * @return
      */
     private SchemaIndex loadSchema(final String location) throws IOException {
@@ -101,7 +95,7 @@ public class GeologicUnitTest extends AppSchemaTestSupport {
     /**
      * Tests if the schema-to-FM parsing code developed for complex data store configuration loading
      * can parse the GeoSciML types
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -111,26 +105,25 @@ public class GeologicUnitTest extends AppSchemaTestSupport {
         AppSchemaFeatureTypeRegistry typeRegistry = new AppSchemaFeatureTypeRegistry();
         try {
             typeRegistry.addSchemas(schemaIndex);
-    
+
             Name typeName = Types.typeName(GSMLNS, "GeologicUnitType");
             ComplexType mf = (ComplexType) typeRegistry.getAttributeType(typeName);
             assertNotNull(mf);
             assertTrue(mf instanceof FeatureType);
-    
+
             AttributeType superType = mf.getSuper();
             assertNotNull(superType);
             Name superTypeName = Types.typeName(GSMLNS, "GeologicFeatureType");
             assertEquals(superTypeName, superType.getName());
             assertTrue(superType instanceof FeatureType);
-        }
-        finally {
+        } finally {
             typeRegistry.disposeSchemaIndexes();
         }
     }
 
     /**
      * Test that mappings are loaded OK.
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -147,8 +140,9 @@ public class GeologicUnitTest extends AppSchemaTestSupport {
     }
 
     /**
-     * Tests that a {@link FeatureSource} can be obtained for all names returned by {@link AppSchemaDataAccess#getNames()}.
-     * 
+     * Tests that a {@link FeatureSource} can be obtained for all names returned by 
+     * {@link AppSchemaDataAccess#getNames()}.
+     *
      * @throws Exception
      */
     @Test
@@ -165,15 +159,15 @@ public class GeologicUnitTest extends AppSchemaTestSupport {
         DataAccess<?, ?> guDataStore = DataAccessFinder.getDataStore(dsParams);
         assertNotNull(guDataStore);
 
-        for (Name name: guDataStore.getNames()) {
-            FeatureSource<?, ?>  fs = guDataStore.getFeatureSource(name);
+        for (Name name : guDataStore.getNames()) {
+            FeatureSource<?, ?> fs = guDataStore.getFeatureSource(name);
             assertNotNull(fs);
         }
     }
 
     /**
      * Test that geologic unit features are returned correctly.
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -224,8 +218,7 @@ public class GeologicUnitTest extends AppSchemaTestSupport {
             for (; i.hasNext(); i.next()) {
                 size++;
             }
-        }
-        finally {
+        } finally {
             i.close();
         }
         return size;

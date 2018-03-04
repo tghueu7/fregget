@@ -32,19 +32,23 @@ import com.vividsolutions.jts.geom.Point;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:MultiPointType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="MultiPointType"&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;A MultiPoint is defined by one or more Points, referenced through pointMember elements.&lt;/documentation&gt;
+ *          &lt;documentation&gt;A MultiPoint is defined by one or more Points, referenced 
+ *          through pointMember elements.&lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;complexContent&gt;
  *          &lt;extension base="gml:AbstractGeometricAggregateType"&gt;
  *              &lt;sequence&gt;
  *                  &lt;annotation&gt;
- *                      &lt;documentation&gt;The members of the geometric aggregate can be specified either using the "standard" property or the array property style. It is also valid to use both the "standard" and the array property style in the same collection.
+ *                      &lt;documentation&gt;The members of the geometric aggregate can be 
+ *                      specified either using the "standard" property or the array property 
+ *                      style. It is also valid to use both the "standard" and the array property
+ *                      style in the same collection.
  *  NOTE: Array properties cannot reference remote geometry elements.&lt;/documentation&gt;
  *                  &lt;/annotation&gt;
  *                  &lt;element maxOccurs="unbounded" minOccurs="0" ref="gml:pointMember"/&gt;
@@ -59,9 +63,6 @@ import com.vividsolutions.jts.geom.Point;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class MultiPointTypeBinding extends AbstractComplexBinding {
@@ -99,7 +100,7 @@ public class MultiPointTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         ArrayList points = new ArrayList();
 
         if (node.hasChild(Point.class)) {
@@ -117,7 +118,7 @@ public class MultiPointTypeBinding extends AbstractComplexBinding {
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         if ("pointMember".equals(name.getLocalPart())) {
             MultiPoint multiPoint = (MultiPoint) object;
             Point[] members = new Point[multiPoint.getNumGeometries()];

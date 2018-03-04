@@ -36,23 +36,22 @@ import org.geotools.util.URLs;
 
 /**
  * Cache containing XML schemas. (Should also work for other file types.)
- * 
  * <p>
- * 
- * If configured to permit downloading, schemas not present in the cache are downloaded from the network.
- * 
  * <p>
- * 
+ * <p>
+ * If configured to permit downloading, schemas not present in the cache are downloaded from the 
+ * network.
+ * <p>
+ * <p>
+ * <p>
  * Only http/https URLs are supported.
- * 
  * <p>
- * 
- * Files are stored according to the Simple HTTP Resource Path (see {@link SchemaResolver#getSimpleHttpResourcePath(URI))}.
- * 
+ * <p>
+ * <p>
+ * Files are stored according to the Simple HTTP Resource Path (see 
+ * {@link SchemaResolver#getSimpleHttpResourcePath(URI))}.
+ *
  * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
- * 
- * 
- * 
  * @source $URL$
  */
 public class SchemaCache {
@@ -66,29 +65,33 @@ public class SchemaCache {
     private static final int DEFAULT_DOWNLOAD_BLOCK_SIZE = 4096;
 
     /**
-     * This is the default value of the keep query flag used when building an automatically configured SchemaCache.
+     * This is the default value of the keep query flag used when building an automatically 
+     * configured SchemaCache.
      */
     private static final boolean DEFAULT_KEEP_QUERY = true;
 
     /**
      * Filenames used to recognise a GeoServer data directory if automatic configuration is enabled.
      */
-    private static final String[] GEOSERVER_DATA_DIRECTORY_FILENAMES = { "global.xml", "wcs.xml",
-            "wfs.xml", "wms.xml" };
+    private static final String[] GEOSERVER_DATA_DIRECTORY_FILENAMES = {"global.xml", "wcs.xml",
+            "wfs.xml", "wms.xml"};
 
     /**
-     * Subdirectories used to recognise a GeoServer data directory if automatic configuration is enabled.
+     * Subdirectories used to recognise a GeoServer data directory if automatic configuration is 
+     * enabled.
      */
-    private static final String[] GEOSERVER_DATA_DIRECTORY_SUBDIRECTORIES = { "styles",
-            "workspaces" };
+    private static final String[] GEOSERVER_DATA_DIRECTORY_SUBDIRECTORIES = {"styles",
+            "workspaces"};
 
     /**
-     * Name of the subdirectory of a GeoServer data directory (or other directory) used for the cache if automatic configuration is enabled.
+     * Name of the subdirectory of a GeoServer data directory (or other directory) used for the 
+     * cache if automatic configuration is enabled.
      */
     private static final String CACHE_DIRECTORY_NAME = "app-schema-cache";
 
     /**
-     * Is support for automatic detection of GeoServer data directories or existing cache directories enabled? It is useful to disable this in tests,
+     * Is support for automatic detection of GeoServer data directories or existing cache 
+     * directories enabled? It is useful to disable this in tests,
      * to prevent downloading.
      */
     private static boolean automaticConfigurationEnabled = true;
@@ -102,45 +105,53 @@ public class SchemaCache {
      * True if resources not found in the cache are downloaded from the net.
      */
     private final boolean download;
-        
+
     /**
      * True if query string components should be part of the discriminator for
      */
     private final boolean keepQuery;
-    
+
     /**
      * Default download timeout. Change it with -Dschema.cache.download.timeout=<milliseconds>
      */
     private static int downloadTimeout = 60000;
-    
-    
+
+
     static {
-        if(System.getProperty("schema.cache.download.timeout") != null) {
+        if (System.getProperty("schema.cache.download.timeout") != null) {
             try {
-                downloadTimeout = Integer.parseInt(System.getProperty("schema.cache.download.timeout"));
-            } catch(NumberFormatException e) {
-                LOGGER.warning("schema.cache.download.timeout has a wrong format: should be a number");
+                downloadTimeout = Integer.parseInt(System.getProperty("schema.cache.download" +
+                        ".timeout"));
+            } catch (NumberFormatException e) {
+                LOGGER.warning("schema.cache.download.timeout has a wrong format: should be a " +
+                        "number");
             }
         }
     }
 
     /**
-     * A cache of XML schemas (or other file types) rooted in the given directory, with optional downloading.
-     * 
+     * A cache of XML schemas (or other file types) rooted in the given directory, with optional 
+     * downloading.
+     *
      * @param directory the directory in which downloaded schemas are stored
-     * @param download is downloading of schemas permitted. If false, only schemas already present in the cache will be resolved.
+     * @param download  is downloading of schemas permitted. If false, only schemas already 
+     *                  present in the cache will be resolved.
      */
     public SchemaCache(File directory, boolean download) {
         this(directory, download, false);
     }
 
     /**
-     * A cache of XML schemas (or other file types) rooted in the given directory, with optional downloading.
-     * 
+     * A cache of XML schemas (or other file types) rooted in the given directory, with optional 
+     * downloading.
+     *
      * @param directory the directory in which downloaded schemas are stored
-     * @param download is downloading of schemas permitted. If false, only schemas already present in the cache will be resolved.
-     * @param keepQuery indicates whether or not the query components should be included in the path. If this is set to true then the query portion is
-     *        converted to an MD5 message digest and that string is used to identify the file in the cache.
+     * @param download  is downloading of schemas permitted. If false, only schemas already 
+     *                  present in the cache will be resolved.
+     * @param keepQuery indicates whether or not the query components should be included in the 
+     *                  path. If this is set to true then the query portion is
+     *                  converted to an MD5 message digest and that string is used to identify 
+     *                  the file in the cache.
      */
     public SchemaCache(File directory, boolean download, boolean keepQuery) {
         this.directory = directory;
@@ -154,7 +165,7 @@ public class SchemaCache {
     public File getDirectory() {
         return directory;
     }
-    
+
     /**
      * Return the temp directory for not cached downloads (those
      * occurring during another download, to avoid conflicts among threads).
@@ -169,7 +180,7 @@ public class SchemaCache {
             LOGGER.severe("Can't create temporary folder");
             throw new RuntimeException(e);
         }
-    
+
     }
 
     /**
@@ -181,7 +192,7 @@ public class SchemaCache {
 
     /**
      * Recursively delete a directory or file.
-     * 
+     *
      * @param file
      */
     static void delete(File file) {
@@ -195,12 +206,12 @@ public class SchemaCache {
 
     /**
      * Store the bytes in the given file, creating any necessary intervening directories.
-     * 
+     *
      * @param file
      * @param bytes
      */
     static void store(File file, byte[] bytes) {
-    
+
         OutputStream output = null;
         try {
             if (file.getParentFile() != null && !file.getParentFile().exists()) {
@@ -223,11 +234,11 @@ public class SchemaCache {
 
     /**
      * Retrieve the contents of a remote URL.
-     * 
+     *
      * @param location and absolute http/https URL.
      * @return the bytes contained by the resource, or null if it could not be downloaded
      */
-    static byte[] download(String location) {        
+    static byte[] download(String location) {
         URI locationUri;
         try {
             locationUri = new URI(location);
@@ -239,7 +250,7 @@ public class SchemaCache {
 
     /**
      * Retrieve the contents of a remote URL.
-     * 
+     *
      * @param location and absolute http/https URL.
      * @return the bytes contained by the resource, or null if it could not be downloaded
      */
@@ -249,12 +260,12 @@ public class SchemaCache {
 
     /**
      * Retrieve the contents of a remote URL.
-     * 
-     * @param location and absolute http/https URL.
+     *
+     * @param location  and absolute http/https URL.
      * @param blockSize download block size
      * @return the bytes contained by the resource, or null if it could not be downloaded
      */
-    static byte[] download(URI location, int blockSize) {        
+    static byte[] download(URI location, int blockSize) {
         try {
             URL url = location.toURL();
             String protocol = url.getProtocol();
@@ -323,7 +334,7 @@ public class SchemaCache {
 
     /**
      * Return the local file URL of a schema, downloading it if not found in the cache.
-     * 
+     *
      * @param location the absolute http/https URL of the schema
      * @return the canonical local file URL of the schema, or null if not found
      */
@@ -334,41 +345,44 @@ public class SchemaCache {
         }
         String relativePath = path.substring(1);
         File file;
-        
+
         try {
             file = new File(getDirectory(), relativePath).getCanonicalFile();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        
-        synchronized(SchemaCache.class) {
-            if(file.exists()) {
+
+        synchronized (SchemaCache.class) {
+            if (file.exists()) {
                 return URLs.fileToUrl(file).toExternalForm();
             }
         }
-        
+
         if (isDownloadAllowed()) {
             byte[] bytes = download(location);
             if (bytes == null) {
                 return null;
             }
-            synchronized(SchemaCache.class) {
-                if(!file.exists()) {
+            synchronized (SchemaCache.class) {
+                if (!file.exists()) {
                     store(file, bytes);
                     LOGGER.info("Cached XML schema: " + location);
                 }
                 return URLs.fileToUrl(file).toExternalForm();
             }
-        } 
+        }
         return null;
     }
 
     /**
-     * If automatic configuration is enabled, recursively search parent directories of file url for a GeoServer data directory or directory containing
-     * an existing cache. If found, use it to create a cache in the "app-schema-cache" subdirectory with downloading enabled.
-     * 
+     * If automatic configuration is enabled, recursively search parent directories of file url 
+     * for a GeoServer data directory or directory containing
+     * an existing cache. If found, use it to create a cache in the "app-schema-cache" 
+     * subdirectory with downloading enabled.
+     *
      * @param url a URL for a file in a GeoServer data directory.
-     * @return a cache in the "app-schema-cache" subdirectory or null if not found or automatic configuration disabled.
+     * @return a cache in the "app-schema-cache" subdirectory or null if not found or automatic 
+     * configuration disabled.
      */
     public static SchemaCache buildAutomaticallyConfiguredUsingFileUrl(URL url) {
         if (!automaticConfigurationEnabled) {
@@ -388,7 +402,8 @@ public class SchemaCache {
     }
 
     /**
-     * Turn off support for automatic configuration of a cache in GeoServer data directory or detection of an existing cache. Intended for testing.
+     * Turn off support for automatic configuration of a cache in GeoServer data directory or 
+     * detection of an existing cache. Intended for testing.
      * Automatic configuration is enabled by default.
      */
     public static void disableAutomaticConfiguration() {
@@ -396,7 +411,8 @@ public class SchemaCache {
     }
 
     /**
-     * The opposite of {@link #disableAutomaticConfiguration()}. Automatic configuration is enabled by default.
+     * The opposite of {@link #disableAutomaticConfiguration()}. Automatic configuration is 
+     * enabled by default.
      */
     public static void enableAutomaticConfiguration() {
         automaticConfigurationEnabled = true;
@@ -404,7 +420,7 @@ public class SchemaCache {
 
     /**
      * Is automatic configuration enabled? Automatic configuration is enabled by default.
-     * 
+     *
      * @see #disableAutomaticConfiguration()
      */
     public static boolean isAutomaticConfigurationEnabled() {
@@ -412,11 +428,13 @@ public class SchemaCache {
     }
 
     /**
-     * Guess whether a file is a GeoServer data directory or contains an existing app-schema-cache subdirectory.
-     * 
+     * Guess whether a file is a GeoServer data directory or contains an existing 
+     * app-schema-cache subdirectory.
+     *
      * @param directory the candidate file
-     * @return true if it has the files and subdirectories expected of a GeoServer data directory, or contains an existing app-schema-cache
-     *         subdirectory
+     * @return true if it has the files and subdirectories expected of a GeoServer data 
+     * directory, or contains an existing app-schema-cache
+     * subdirectory
      */
     static boolean isSuitableDirectoryToContainCache(File directory) {
         if (directory.isDirectory() == false) {

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -25,8 +25,6 @@ import org.opengis.filter.expression.PropertyName;
  * Tests UniqueIntervalFunction
  *
  * @author Cory Horner
- *
- *
  * @source $URL$
  */
 public class UniqueIntervalFunctionTest extends FunctionTestSupport {
@@ -38,7 +36,8 @@ public class UniqueIntervalFunctionTest extends FunctionTestSupport {
     }
 
     public static junit.framework.Test suite() {
-        junit.framework.TestSuite suite = new junit.framework.TestSuite(UniqueIntervalFunctionTest.class);
+        junit.framework.TestSuite suite = new junit.framework.TestSuite
+                (UniqueIntervalFunctionTest.class);
 
         return suite;
     }
@@ -68,7 +67,8 @@ public class UniqueIntervalFunctionTest extends FunctionTestSupport {
     public void testSetClasses() throws Exception {
         Literal classes = ff.literal(3);
         PropertyName exp = ff.property("foo");
-        UniqueIntervalFunction func = (UniqueIntervalFunction) ff.function("UniqueInterval", exp, classes);
+        UniqueIntervalFunction func = (UniqueIntervalFunction) ff.function("UniqueInterval", exp,
+                classes);
         assertEquals(3, func.getClasses());
         func.setClasses(12);
         assertEquals(12, func.getClasses());
@@ -81,7 +81,8 @@ public class UniqueIntervalFunctionTest extends FunctionTestSupport {
     public void testEvaluate() throws Exception {
         Literal classes = ff.literal(2);
         PropertyName exp = ff.property("foo");
-        UniqueIntervalFunction func = (UniqueIntervalFunction) ff.function("UniqueInterval", exp, classes);
+        UniqueIntervalFunction func = (UniqueIntervalFunction) ff.function("UniqueInterval", exp,
+                classes);
 
         Object result = func.evaluate(featureCollection);
         assertTrue(result instanceof ExplicitClassifier);
@@ -89,6 +90,6 @@ public class UniqueIntervalFunctionTest extends FunctionTestSupport {
         assertEquals(2, classifier.getSize());
         assertEquals(classifier.values[0].size(), classifier.values[1].size());
         assertFalse(classifier.values[0].removeAll(classifier.values[1]));
-        
+
     }
 }

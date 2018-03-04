@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -29,19 +29,16 @@ import org.geotools.factory.Hints;
  * <p>
  * Handles the following conversions:
  * <ul>
- *   <li>String -> URL
- *   <li>String -> URI
- *   <li>URL -> URI
- *   <li>URI -> URL
+ * <li>String -> URL
+ * <li>String -> URI
+ * <li>URL -> URI
+ * <li>URI -> URL
  * </ul>
  * </p>
  *
  * @author Justin Deoliveira, OpenGEO
- * @since 2.5
- *
- *
- *
  * @source $URL$
+ * @since 2.5
  */
 public class URConverterFactory implements ConverterFactory {
 
@@ -49,41 +46,39 @@ public class URConverterFactory implements ConverterFactory {
         public <T> T convert(Object source, Class<T> target) throws Exception {
             String s = (String) source;
             try {
-                return (T) new URL( s );
-            }
-            catch( MalformedURLException e1 ) {
-                File f = new File( s );
+                return (T) new URL(s);
+            } catch (MalformedURLException e1) {
+                File f = new File(s);
                 try {
                     return (T) f.toURI().toURL();
+                } catch (MalformedURLException e2) {
                 }
-                catch( MalformedURLException e2 ) {}
             }
 
             return null;
 
         }
     };
-    
+
     public static final Converter StringToURI = new Converter() {
 
         public <T> T convert(Object source, Class<T> target) throws Exception {
             String s = (String) source;
             try {
-                return (T) new URI( s );
-            }
-            catch( URISyntaxException e1 ) {
-                File f = new File( s );
+                return (T) new URI(s);
+            } catch (URISyntaxException e1) {
+                File f = new File(s);
                 try {
                     return (T) f.toURI();
+                } catch (Exception e2) {
                 }
-                catch( Exception e2 ) {}
             }
 
             return null;
         }
-        
+
     };
-    
+
     public static final Converter URLToURI = new Converter() {
 
         public <T> T convert(Object source, Class<T> target) throws Exception {
@@ -91,33 +86,33 @@ public class URConverterFactory implements ConverterFactory {
             return (T) url.toURI();
         }
     };
-    
+
     public static final Converter URIToURL = new Converter() {
-      
+
         public <T> T convert(Object source, Class<T> target) throws Exception {
             URI uri = (URI) source;
             return (T) uri.toURL();
         }
     };
-    
+
     public Converter createConverter(Class<?> source, Class<?> target,
-            Hints hints) {
-        if ( String.class.equals( source ) ) {
-            if ( URL.class.equals( target ) ) {
+                                     Hints hints) {
+        if (String.class.equals(source)) {
+            if (URL.class.equals(target)) {
                 return StringToURL;
             }
-            if ( URI.class.equals( target ) ) {
+            if (URI.class.equals(target)) {
                 return StringToURI;
             }
         }
-        
-        if ( URL.class.equals( source ) && URI.class.equals( target ) ) {
+
+        if (URL.class.equals(source) && URI.class.equals(target)) {
             return URLToURI;
         }
-        if ( URI.class.equals( source ) && URL.class.equals( target ) ) {
+        if (URI.class.equals(source) && URL.class.equals(target)) {
             return URIToURL;
         }
-        
+
         return null;
     }
 

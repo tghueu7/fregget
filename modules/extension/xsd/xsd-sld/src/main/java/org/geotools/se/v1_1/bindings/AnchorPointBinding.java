@@ -25,9 +25,9 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/se:AnchorPoint.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:element name="AnchorPoint" type="se:AnchorPointType"&gt;
@@ -37,16 +37,14 @@ import javax.xml.namespace.QName;
  *          use an an 'anchor' for positioning it relative to a point geometry.
  *        &lt;/xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
- *  &lt;/xsd:element&gt; 
- * 	
+ *  &lt;/xsd:element&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class AnchorPointBinding extends SLDAnchorPointBinding {

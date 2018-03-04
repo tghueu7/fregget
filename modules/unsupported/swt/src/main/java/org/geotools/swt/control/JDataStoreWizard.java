@@ -32,11 +32,8 @@ import org.geotools.util.URLs;
 
 /**
  * Data store wizard.
- * 
+ *
  * @author Andrea Antonello (www.hydrologis.com)
- *
- *
- *
  * @source $URL$
  */
 public class JDataStoreWizard extends Wizard {
@@ -46,15 +43,15 @@ public class JDataStoreWizard extends Wizard {
     private JDataChoosePage dataChoosePage;
     private JDataStorePage dataStorePage;
 
-    public JDataStoreWizard( String extension ) {
+    public JDataStoreWizard(String extension) {
         this(extension == null ? null : FileDataStoreFinder.getDataStoreFactory(extension));
     }
 
-    public JDataStoreWizard( DataStoreFactorySpi format ) {
+    public JDataStoreWizard(DataStoreFactorySpi format) {
         this(format, new HashMap<String, Object>());
     }
 
-    public JDataStoreWizard( DataStoreFactorySpi format, Map<String, Object> params ) {
+    public JDataStoreWizard(DataStoreFactorySpi format, Map<String, Object> params) {
         setWindowTitle(format == null ? "Connect" : format == null ? "" : format.getDisplayName());
 
         if (params == null) {
@@ -89,10 +86,10 @@ public class JDataStoreWizard extends Wizard {
         return true;
     }
 
-    private void fillInDefaults( DataStoreFactorySpi format, Map<String, Object> params ) {
+    private void fillInDefaults(DataStoreFactorySpi format, Map<String, Object> params) {
         if (format == null)
             return;
-        for( Param param : format.getParametersInfo() ) {
+        for (Param param : format.getParametersInfo()) {
             if (param.required && "program".equals(param.getLevel())) {
                 if (!params.containsKey(param.key)) {
                     params.put(param.key, param.sample);
@@ -101,7 +98,7 @@ public class JDataStoreWizard extends Wizard {
         }
     }
 
-    private int countParamsAtLevel( DataStoreFactorySpi format, String level ) {
+    private int countParamsAtLevel(DataStoreFactorySpi format, String level) {
         if (format == null)
             return 0;
         int count = 0;
@@ -109,7 +106,7 @@ public class JDataStoreWizard extends Wizard {
         if (level == null) {
             return parametersInfo.length;
         }
-        for( Param param : parametersInfo ) {
+        for (Param param : parametersInfo) {
             String check = param.getLevel();
             if (level.equals(check)) {
                 count++;
@@ -124,7 +121,7 @@ public class JDataStoreWizard extends Wizard {
 
     /**
      * Helper method to check if for "url" parameter.
-     * 
+     *
      * @return url parameters as a File, or null if not applicable
      */
     public File getFile() {
@@ -134,10 +131,10 @@ public class JDataStoreWizard extends Wizard {
 
     /**
      * Setter for the format.
-     * 
+     *
      * @param format the format to set.
      */
-    public void setFormat( DataStoreFactorySpi format ) {
+    public void setFormat(DataStoreFactorySpi format) {
         if (this.format == format) {
             return;
         }
@@ -149,7 +146,7 @@ public class JDataStoreWizard extends Wizard {
         }
     }
 
-    public static void main( String[] args ) {
+    public static void main(String[] args) {
         Display display = new Display();
         Shell shell = new Shell(display);
         JDataStoreWizard wizard = new JDataStoreWizard(".shp");

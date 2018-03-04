@@ -16,22 +16,25 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/wmts/1.0:GetTile.
- *
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
- *	 <code>
- *  &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;element name="GetTile" xmlns="http://www.w3.org/2001/XMLSchema"&gt;
+ * 	 <code>
+ *  &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;element name="GetTile" xmlns="http://www
+ *  .w3.org/2001/XMLSchema"&gt;
  *  		&lt;complexType&gt;
  *  			&lt;sequence&gt;
  *  				&lt;element name="Layer" type="string"&gt;
  *  					&lt;annotation&gt;
- *  						&lt;documentation&gt;A layer identifier has to be referenced&lt;/documentation&gt;
+ *  						&lt;documentation&gt;A layer identifier has to be referenced&lt;
+ *  						/documentation&gt;
  *  					&lt;/annotation&gt;
  *  				&lt;/element&gt;
  *  				&lt;element name="Style" type="string"&gt;
  *  					&lt;annotation&gt;
- *  						&lt;documentation&gt;A style identifier has to be referenced.&lt;/documentation&gt;
+ *  						&lt;documentation&gt;A style identifier has to be referenced.&lt;
+ *  						/documentation&gt;
  *  					&lt;/annotation&gt;
  *  				&lt;/element&gt;
  *  				&lt;element name="Format" type="ows:MimeType"&gt;
@@ -39,19 +42,22 @@ import javax.xml.namespace.QName;
  *  						&lt;documentation&gt;Output format of the tile&lt;/documentation&gt;
  *  					&lt;/annotation&gt;
  *  				&lt;/element&gt;
- *  				&lt;element maxOccurs="unbounded" minOccurs="0" ref="wmts:DimensionNameValue"&gt;
+ *  				&lt;element maxOccurs="unbounded" minOccurs="0" 
+ *  				ref="wmts:DimensionNameValue"&gt;
  *  					&lt;annotation&gt;
  *  						&lt;documentation&gt;Dimension name and value&lt;/documentation&gt;
  *  					&lt;/annotation&gt;
  *  				&lt;/element&gt;
  *  				&lt;element name="TileMatrixSet" type="string"&gt;
  *  					&lt;annotation&gt;
- *  						&lt;documentation&gt;A TileMatrixSet identifier has to be referenced&lt;/documentation&gt;
+ *  						&lt;documentation&gt;A TileMatrixSet identifier has to be 
+ *  						referenced&lt;/documentation&gt;
  *  					&lt;/annotation&gt;
  *  				&lt;/element&gt;
  *  				&lt;element name="TileMatrix" type="string"&gt;
  *  					&lt;annotation&gt;
- *  						&lt;documentation&gt;A TileMatrix identifier has to be referenced&lt;/documentation&gt;
+ *  						&lt;documentation&gt;A TileMatrix identifier has to be referenced&lt;
+ *  						/documentation&gt;
  *  					&lt;/annotation&gt;
  *  				&lt;/element&gt;
  *  				&lt;element name="TileRow" type="nonNegativeInteger"&gt;
@@ -68,9 +74,9 @@ import javax.xml.namespace.QName;
  *  			&lt;attribute fixed="WMTS" name="service" type="string" use="required"/&gt;
  *  			&lt;attribute fixed="1.0.0" name="version" type="string" use="required"/&gt;
  *  		&lt;/complexType&gt;
- *  	&lt;/element&gt; 
- *		
- *	  </code>
+ *  	&lt;/element&gt;
+ *
+ * 	  </code>
  * </pre>
  * </p>
  *
@@ -94,7 +100,7 @@ public class GetTileBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -103,12 +109,12 @@ public class GetTileBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
         GetTileType getTile = factory.createGetTileType();
-        
+
         getTile.setLayer((String) node.getChildValue("Layer"));
         getTile.setStyle((String) node.getChildValue("Style"));
         getTile.setFormat((String) node.getChildValue("Format"));
@@ -119,10 +125,10 @@ public class GetTileBinding extends AbstractComplexBinding {
         getTile.setTileMatrix((String) node.getChildValue("TileMatrix"));
         getTile.setTileMatrixSet((String) node.getChildValue("TileMatrixSet"));
         List<Node> children = node.getChildren(DimensionType.class);
-        for(Node c:children) {  
+        for (Node c : children) {
             getTile.getDimensionNameValue().add((DimensionNameValueType) c.getValue());
         }
-        
+
         return getTile;
     }
 

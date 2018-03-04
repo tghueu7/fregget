@@ -22,11 +22,11 @@ import java.util.LinkedHashSet;
 import java.util.List;
 
 /**
- * Base class for selectors that have a list of children. Internally we keep the children in a set because "A and B" == "B and A" and "A or B" == "B
+ * Base class for selectors that have a list of children. Internally we keep the children in a 
+ * set because "A and B" == "B and A" and "A or B" == "B
  * or A"
- * 
- * @author Andrea Aime - GeoSolutions
  *
+ * @author Andrea Aime - GeoSolutions
  */
 public abstract class Composite extends Selector {
     private LinkedHashSet<Selector> children;

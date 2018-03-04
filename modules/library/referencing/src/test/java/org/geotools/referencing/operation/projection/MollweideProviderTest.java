@@ -37,7 +37,8 @@ public class MollweideProviderTest {
     private String SEMI_MINOR = Mollweide.MollweideProvider.SEMI_MINOR.getName().getCode();
     private String FALSE_NORTHING = Mollweide.MollweideProvider.FALSE_NORTHING.getName().getCode();
     private String FALSE_EASTING = Mollweide.MollweideProvider.FALSE_EASTING.getName().getCode();
-    private String CENTRAL_MERIDIAN = Mollweide.MollweideProvider.CENTRAL_MERIDIAN.getName().getCode();
+    private String CENTRAL_MERIDIAN = Mollweide.MollweideProvider.CENTRAL_MERIDIAN.getName()
+            .getCode();
 
     @Test
     public void testParameters() throws Exception {
@@ -59,7 +60,7 @@ public class MollweideProviderTest {
         String wkt = mathTransform.toWKT();
         Assert.assertTrue(wkt.contains("\"semi_major\", 6000.0"));
         Assert.assertTrue("Mollweide is only spherically defined. Axis must be equal",
-                          wkt.contains("\"semi_minor\", 6000.0"));
+                wkt.contains("\"semi_minor\", 6000.0"));
     }
 
 }

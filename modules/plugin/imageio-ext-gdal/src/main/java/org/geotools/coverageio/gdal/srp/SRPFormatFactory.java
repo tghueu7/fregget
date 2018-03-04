@@ -29,7 +29,8 @@ import java.util.logging.Logger;
  *
  * @author Andrea Aime, GeoSolutions
  */
-public final class SRPFormatFactory extends BaseGridFormatFactorySPI implements GridFormatFactorySpi {
+public final class SRPFormatFactory extends BaseGridFormatFactorySPI implements 
+        GridFormatFactorySpi {
     /**
      * Logger.
      */

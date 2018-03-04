@@ -31,40 +31,38 @@ import org.opengis.util.ProgressListener;
  * An implementation of the Progress interface.
  *
  * @author gdavis, Jody
- *
- *
- *
- *
  * @source $URL$
  */
 public class ProgressTask implements Runnable, Progress {
 
-    /** Synchronization control */
+    /**
+     * Synchronization control
+     */
     private final Synchronizer synchronizer;
-     
+
     /**
      * Creates a ProgressTask that will execute the
      * given Process when run.
      *
-     * @param  process the process to execute
-     * @param input the inputs to use when executing the process
+     * @param process the process to execute
+     * @param input   the inputs to use when executing the process
      * @throws NullPointerException if process is null
      */
-    public ProgressTask(Process process, Map<String,Object> input) {
-        if (process== null) {
+    public ProgressTask(Process process, Map<String, Object> input) {
+        if (process == null) {
             throw new NullPointerException();
         }
-        synchronizer = new Synchronizer(process, input);            
-    }	
-	
+        synchronizer = new Synchronizer(process, input);
+    }
+
     public float getProgress() {
         return synchronizer.getProgress();
     }
-    
+
     public boolean isCancelled() {
         return synchronizer.innerIsCancelled();
     }
-    
+
     public boolean isDone() {
         return synchronizer.innerIsDone();
     }
@@ -72,13 +70,13 @@ public class ProgressTask implements Runnable, Progress {
     public boolean cancel(boolean mayInterruptIfRunning) {
         return synchronizer.innerCancel(mayInterruptIfRunning);
     }
-    
-    public Map<String,Object> get() throws InterruptedException, ExecutionException {
+
+    public Map<String, Object> get() throws InterruptedException, ExecutionException {
         return synchronizer.innerGet();
     }
 
-    public Map<String,Object> get(long timeout, TimeUnit unit)
-        throws InterruptedException, ExecutionException, TimeoutException {
+    public Map<String, Object> get(long timeout, TimeUnit unit)
+            throws InterruptedException, ExecutionException, TimeoutException {
         return synchronizer.innerGet(unit.toNanos(timeout));
     }
 
@@ -86,19 +84,20 @@ public class ProgressTask implements Runnable, Progress {
      * This protected method is invoked when this process transitions to state
      * isDone (whether normally or via cancellation). The
      * default implementation does nothing.  Subclasses may override
-     * this method to invoke completion callbacks.  You can query status inside 
+     * this method to invoke completion callbacks.  You can query status inside
      * the implementation of this method to determine whether this task
      * has been canceled.
      */
-    protected void done() { }
+    protected void done() {
+    }
 
     /**
      * Sets the result of this ProgressTask to the given value unless
      * this ProgressTask has already been set or has been canceled.
-     * 
+     *
      * @param value the value to set
-     */ 
-    protected void set(Map<String,Object> value) {
+     */
+    protected void set(Map<String, Object> value) {
         synchronizer.innerSet(value);
     }
 
@@ -106,13 +105,13 @@ public class ProgressTask implements Runnable, Progress {
      * Causes this ProgressTask to report an ExecutionException
      * with the given throwable as its cause, unless this ProgressTask has
      * already been set or has been canceled.
-     * 
+     *
      * @param t the cause of failure.
-     */ 
+     */
     protected void setException(Throwable t) {
         synchronizer.innerSetException(t);
     }
-    
+
     /**
      * Sets this ProgressTask to the result of the computation unless
      * it has been canceled.
@@ -127,7 +126,7 @@ public class ProgressTask implements Runnable, Progress {
      * computation encounters an exception or is canceled.  This is
      * designed for use with processes that execute more
      * than once.
-     * 
+     *
      * @return true if successfully run and reset
      */
     protected boolean runAndReset() {
@@ -135,38 +134,53 @@ public class ProgressTask implements Runnable, Progress {
     }
 
     /**
-     * Synchronization control for ProgressTask. 
-	 *
-	 * This must be a non-static inner class in order to invoke the protected
+     * Synchronization control for ProgressTask.
+     * <p>
+     * This must be a non-static inner class in order to invoke the protected
      * done method. For clarity, all inner class support
      * methods are same as outer, prefixed with "inner".
-     *
+     * <p>
      * Uses AQS synchronizer state to represent run status
      */
-	private final class Synchronizer extends AbstractQueuedSynchronizer implements ProgressListener {
+    private final class Synchronizer extends AbstractQueuedSynchronizer implements 
+            ProgressListener {
 
-		private static final long serialVersionUID = 6633428077533811475L;
+        private static final long serialVersionUID = 6633428077533811475L;
 
-        /** State for process running */
+        /**
+         * State for process running
+         */
         private static final int RUNNING = 1;
-        /** State for process completed */
+        /**
+         * State for process completed
+         */
         private static final int COMPLETED = 2;
-        /** State for process canceled */
+        /**
+         * State for process canceled
+         */
         private static final int CANCELED = 4;
 
-        /** The process */
+        /**
+         * The process
+         */
         private final Process process;
-        
-        /** The process input parameters */
-        private Map<String,Object> input;
-        
-        /** The result to return from get() */
-        private Map<String,Object> result;
-        
-        /** The exception to throw from get() */
+
+        /**
+         * The process input parameters
+         */
+        private Map<String, Object> input;
+
+        /**
+         * The result to return from get()
+         */
+        private Map<String, Object> result;
+
+        /**
+         * The exception to throw from get()
+         */
         private Throwable exception;
 
-        /** 
+        /**
          * The thread running process. When it is nulled after set/cancel, this
          * indicates that the results are now accessible.  This must be
          * volatile to ensure visibility upon completion.
@@ -175,7 +189,7 @@ public class ProgressTask implements Runnable, Progress {
         private float percentComplete;
         private InternationalString processName;
 
-        Synchronizer(Process process, Map<String,Object> input ) {
+        Synchronizer(Process process, Map<String, Object> input) {
             this.process = process;
             this.input = input;
         }
@@ -189,7 +203,7 @@ public class ProgressTask implements Runnable, Progress {
          */
         @Override
         protected int tryAcquireShared(int ignore) {
-            return innerIsDone()? 1 : -1;
+            return innerIsDone() ? 1 : -1;
         }
 
         /**
@@ -199,18 +213,18 @@ public class ProgressTask implements Runnable, Progress {
         @Override
         protected boolean tryReleaseShared(int ignore) {
             runningThread = null;
-            return true; 
+            return true;
         }
 
         boolean innerIsCancelled() {
             return getState() == CANCELED;
         }
-        
+
         boolean innerIsDone() {
             return ranOrCancelled(getState()) && runningThread == null;
         }
 
-        Map<String,Object> innerGet() throws InterruptedException, ExecutionException {
+        Map<String, Object> innerGet() throws InterruptedException, ExecutionException {
             acquireSharedInterruptibly(0);
             if (getState() == CANCELED) {
                 throw new CancellationException();
@@ -218,13 +232,14 @@ public class ProgressTask implements Runnable, Progress {
             if (exception != null) {
                 throw new ExecutionException(exception);
             }
-            
+
             return result;
         }
 
-        Map<String,Object> innerGet(long nanosTimeout) throws InterruptedException, ExecutionException, TimeoutException {
+        Map<String, Object> innerGet(long nanosTimeout) throws InterruptedException, 
+                ExecutionException, TimeoutException {
             if (!tryAcquireSharedNanos(0, nanosTimeout)) {
-                throw new TimeoutException();    
+                throw new TimeoutException();
             }
             if (getState() == CANCELED) {
                 throw new CancellationException();
@@ -232,61 +247,61 @@ public class ProgressTask implements Runnable, Progress {
             if (exception != null) {
                 throw new ExecutionException(exception);
             }
-            
+
             return result;
         }
 
-        void innerSet(Map<String,Object> v) {
-	        for (;;) {
-	        	int s = getState();
-	        	if (ranOrCancelled(s)) {
-	        		return;
-	        	}
-	        	if (compareAndSetState(s, COMPLETED)) {
-	        		break;
-	        	}
-	        }
-	        
+        void innerSet(Map<String, Object> v) {
+            for (; ; ) {
+                int s = getState();
+                if (ranOrCancelled(s)) {
+                    return;
+                }
+                if (compareAndSetState(s, COMPLETED)) {
+                    break;
+                }
+            }
+
             result = v;
             releaseShared(0);
             done();
         }
 
         void innerSetException(Throwable t) {
-	        for (;;) {
-		        int s = getState();
-		        if (ranOrCancelled(s)) {
-		            return;
-		        }
-		        if (compareAndSetState(s, COMPLETED)) {
-		            break;
-		        }
-	        }
-	        
-	        exception = t;
-	        result = null;
-	        releaseShared(0);
-	        done();
+            for (; ; ) {
+                int s = getState();
+                if (ranOrCancelled(s)) {
+                    return;
+                }
+                if (compareAndSetState(s, COMPLETED)) {
+                    break;
+                }
+            }
+
+            exception = t;
+            result = null;
+            releaseShared(0);
+            done();
         }
 
         boolean innerCancel(boolean mayInterruptIfRunning) {
-        	for (;;) {
-        		int s = getState();
-        		if (ranOrCancelled(s)) {
-        			return false;
-        		}
-        		if (compareAndSetState(s, CANCELED)) {
-        			break;
-        		}
-        	}
-        	
+            for (; ; ) {
+                int s = getState();
+                if (ranOrCancelled(s)) {
+                    return false;
+                }
+                if (compareAndSetState(s, CANCELED)) {
+                    break;
+                }
+            }
+
             if (mayInterruptIfRunning) {
                 Thread r = runningThread;
                 if (r != null) {
                     r.interrupt();
                 }
             }
-            
+
             releaseShared(0);
             done();
             return true;
@@ -296,29 +311,29 @@ public class ProgressTask implements Runnable, Progress {
             if (!compareAndSetState(0, RUNNING)) {
                 return;
             }
-            
+
             try {
                 runningThread = Thread.currentThread();
-                innerSet(process.execute( input, this ));
-            } catch(Throwable ex) {
+                innerSet(process.execute(input, this));
+            } catch (Throwable ex) {
                 innerSetException(ex);
-            } 
+            }
         }
 
         boolean innerRunAndReset() {
             if (!compareAndSetState(0, RUNNING)) {
                 return false;
             }
-            
+
             try {
                 runningThread = Thread.currentThread();
-                process.execute( input, this ); // don't set the result
+                process.execute(input, this); // don't set the result
                 runningThread = null;
                 return compareAndSetState(RUNNING, 0);
-            } catch(Throwable ex) {
+            } catch (Throwable ex) {
                 innerSetException(ex);
                 return false;
-            } 
+            }
         }
 
         public void complete() {
@@ -329,8 +344,8 @@ public class ProgressTask implements Runnable, Progress {
             // ignore
         }
 
-        public void exceptionOccurred( Throwable t ) {
-            innerSetException( t );
+        public void exceptionOccurred(Throwable t) {
+            innerSetException(t);
         }
 
         @Deprecated
@@ -350,30 +365,30 @@ public class ProgressTask implements Runnable, Progress {
             return innerIsCancelled();
         }
 
-        public void progress( float percent ) {
+        public void progress(float percent) {
             this.percentComplete = percent;
         }
 
-        public void setCanceled( boolean stop ) {
-            innerCancel( stop );
+        public void setCanceled(boolean stop) {
+            innerCancel(stop);
         }
 
         @Deprecated
-        public void setDescription( String description ) {
-            processName = new SimpleInternationalString( description );
+        public void setDescription(String description) {
+            processName = new SimpleInternationalString(description);
         }
 
-        public void setTask( InternationalString arg0 ) {
-            this.processName = arg0; 
+        public void setTask(InternationalString arg0) {
+            this.processName = arg0;
         }
 
         public void started() {
-        	// ignore
+            // ignore
         }
 
-        public void warningOccurred( String arg0, String arg1, String arg2 ) {
-        	// ignore 
+        public void warningOccurred(String arg0, String arg1, String arg2) {
+            // ignore 
         }
-        
+
     } // end Synchornizer inner class
 }

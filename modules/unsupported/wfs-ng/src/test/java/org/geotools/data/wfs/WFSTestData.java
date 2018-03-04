@@ -77,18 +77,15 @@ public class WFSTestData {
         public final URL DATA;
 
         /**
-         * @param folder
-         *            the folder name under {@code test-data} where the test files for this feature
-         *            type are stored
-         * @param qName
-         *            the qualified type name (ns + local name)
-         * @param featureTypeName
-         *            the name as stated in the capabilities
-         * @param crs
-         *            the default feature type CRS as stated in the capabilities
+         * @param folder          the folder name under {@code test-data} where the test files 
+         *                        for this feature
+         *                        type are stored
+         * @param qName           the qualified type name (ns + local name)
+         * @param featureTypeName the name as stated in the capabilities
+         * @param crs             the default feature type CRS as stated in the capabilities
          */
         TestDataType(final String folder, final QName qName, final String featureTypeName,
-                final String crs) {
+                     final String crs) {
 
             TYPENAME = qName;
             FEATURETYPENAME = featureTypeName;
@@ -140,7 +137,7 @@ public class WFSTestData {
     public static final TestDataType IONIC_STATISTICAL_UNIT = new TestDataType(
             "Ionic_unknown/1.1.0", new QName("http://www.fgdc.gov/fgdc/gubs", "StatisticalUnit"),
             "gubs_StatisticalUnit", "EPSG:4269");
-   
+
 
     /**
      * Creates the test {@link #wfs} with a default connection factory that parses the capabilities
@@ -148,15 +145,15 @@ public class WFSTestData {
      * <p>
      * Tests methods call this one to set up a protocolHandler to test
      * </p>
-     * 
-     * @param capabilitiesFileName
-     *            the relative path under {@code test-data} for the file containing the
-     *            WFS_Capabilities document.
-     * @throws IOException 
-     * @throws FileNotFoundException 
-     * @throws ServiceException 
+     *
+     * @param capabilitiesFileName the relative path under {@code test-data} for the file 
+     *                             containing the
+     *                             WFS_Capabilities document.
+     * @throws IOException
+     * @throws FileNotFoundException
+     * @throws ServiceException
      */
-    public static TestWFSClient createTestProtocol(String capabilitiesFileName) 
+    public static TestWFSClient createTestProtocol(String capabilitiesFileName)
             throws ServiceException, FileNotFoundException, IOException {
         return createTestProtocol(capabilitiesFileName, new MockHTTPClient(null));
     }
@@ -167,12 +164,13 @@ public class WFSTestData {
      * <p>
      * Tests methods call this one to set up a protocolHandler to test
      * </p>
-     * 
+     *
      * @param capabilitiesURL
-     * @throws IOException 
-     * @throws ServiceException 
+     * @throws IOException
+     * @throws ServiceException
      */
-    public static TestWFSClient createTestProtocol(URL capabilitiesURL) throws ServiceException, IOException {
+    public static TestWFSClient createTestProtocol(URL capabilitiesURL) throws ServiceException, 
+            IOException {
         return new TestWFSClient(capabilitiesURL, new MockHTTPClient(null));
     }
 
@@ -182,30 +180,32 @@ public class WFSTestData {
      * <p>
      * Tests methods call this one to set up a protocolHandler to test
      * </p>
-     * 
-     * @param capabilitiesFileName
-     *            the relative path under {@code test-data} for the file containing the
-     *            WFS_Capabilities document.
-     * @throws IOException 
-     * @throws FileNotFoundException 
-     * @throws ServiceException 
+     *
+     * @param capabilitiesFileName the relative path under {@code test-data} for the file 
+     *                             containing the
+     *                             WFS_Capabilities document.
+     * @throws IOException
+     * @throws FileNotFoundException
+     * @throws ServiceException
      */
-    public static TestWFSClient createTestProtocol(String capabilitiesFileName, HTTPClient http) throws ServiceException, FileNotFoundException, IOException {
+    public static TestWFSClient createTestProtocol(String capabilitiesFileName, HTTPClient http) 
+            throws ServiceException, FileNotFoundException, IOException {
         return createTestProtocol(TestData.url(WFSTestData.class, capabilitiesFileName), http);
     }
-    
+
     /**
      * Creates the test {@link #wfs} with the provided connection factory that parses the
      * capabilities object from the test xml file pointed out by {@code capabilitiesURL}
      * <p>
      * Tests methods call this one to set up a protocolHandler to test
      * </p>
-     * 
+     *
      * @param capabilitiesURL
-     * @throws IOException 
-     * @throws ServiceException 
+     * @throws IOException
+     * @throws ServiceException
      */
-    public static TestWFSClient createTestProtocol(URL capabilitiesURL, HTTPClient http) throws ServiceException, IOException {
+    public static TestWFSClient createTestProtocol(URL capabilitiesURL, HTTPClient http) throws 
+            ServiceException, IOException {
         return new TestWFSClient(capabilitiesURL, http);
     }
 
@@ -236,7 +236,7 @@ public class WFSTestData {
 
         @Override
         public HTTPResponse post(final URL url, final InputStream postContent,
-                final String postContentType) throws IOException {
+                                 final String postContentType) throws IOException {
             this.targetUrl = url;
             this.postCallbackContentType = postContentType;
             ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -252,31 +252,31 @@ public class WFSTestData {
         assertNotNull("resource not found: " + resource, url);
         return url;
     }
-    
+
     public static InputStream stream(String resource) {
         InputStream stream = WFSTestData.class.getResourceAsStream("test-data/" + resource);
         assertNotNull("resource not found: " + resource, stream);
         return stream;
     }
-    
+
     protected static class MutableWFSConfig extends WFSConfig {
-        
-        public void setAxisOrder(String axisOrder){
+
+        public void setAxisOrder(String axisOrder) {
             this.axisOrder = axisOrder;
         }
-        
-        public void setAxisOrderFilter(String axisOrderFilter){
+
+        public void setAxisOrderFilter(String axisOrderFilter) {
             this.axisOrderFilter = axisOrderFilter;
         }
-        
+
         public void setUseDefaultSrs(boolean useDefaultSrs) {
             this.useDefaultSrs = useDefaultSrs;
         }
 
         public void setOutputformatOverride(String outputFormatOverride) {
             this.outputformatOverride = outputFormatOverride;
-        }   
-        
+        }
+
         public void setProtocol(Boolean protocol) {
             if (protocol == null) {
                 this.preferredMethod = PreferredHttpMethod.AUTO;
@@ -285,38 +285,40 @@ public class WFSTestData {
                         : PreferredHttpMethod.HTTP_GET;
             }
         }
-        
+
         public void setGmlCompatibleTypeNames(boolean gmlCompatibleTypeNames) {
             this.gmlCompatibleTypenames = gmlCompatibleTypeNames;
         }
     }
-    
+
     public static WFSConfig getGmlCompatibleConfig() {
         MutableWFSConfig config = new MutableWFSConfig();
         config.setGmlCompatibleTypeNames(true);
         return config;
     }
-    
+
     public static class TestWFSClient extends WFSClient {
 
         private URL describeFeatureTypeUrlOverride;
 
         private GetFeatureRequest request;
-        
-        public TestWFSClient(URL capabilitiesURL, HTTPClient http) throws IOException, ServiceException {
+
+        public TestWFSClient(URL capabilitiesURL, HTTPClient http) throws IOException, 
+                ServiceException {
             super(capabilitiesURL, http, getGmlCompatibleConfig());
         }
 
         /**
-         * Allows to set an overriding url for the {@link #getDescribeFeatureTypeURLGet(String)} operation, for test purposes so it is not actually
+         * Allows to set an overriding url for the {@link #getDescribeFeatureTypeURLGet(String)} 
+         * operation, for test purposes so it is not actually
          * needed to download the schema from the internet but from a resource file
-         * 
+         *
          * @param url
          */
         public void setDescribeFeatureTypeURLOverride(URL url) {
             this.describeFeatureTypeUrlOverride = url;
         }
-        
+
         public void setAxisOrderOverride(String axisOrder, String axisOrderFilter) {
             ((MutableWFSConfig) config).setAxisOrder(axisOrder);
             ((MutableWFSConfig) config).setAxisOrderFilter(axisOrderFilter);
@@ -335,11 +337,13 @@ public class WFSTestData {
         }
 
         @Override
-        public DescribeFeatureTypeResponse issueRequest(DescribeFeatureTypeRequest request) throws IOException {
+        public DescribeFeatureTypeResponse issueRequest(DescribeFeatureTypeRequest request) 
+                throws IOException {
             if (describeFeatureTypeUrlOverride == null) {
                 return super.issueRequest(request);
-            }            
-            HTTPResponse response = new TestHttpResponse(request.getOutputFormat(), "UTF-8", describeFeatureTypeUrlOverride);
+            }
+            HTTPResponse response = new TestHttpResponse(request.getOutputFormat(), "UTF-8", 
+                    describeFeatureTypeUrlOverride);
             try {
                 return new DescribeFeatureTypeResponse(request, response);
             } catch (ServiceException e) {

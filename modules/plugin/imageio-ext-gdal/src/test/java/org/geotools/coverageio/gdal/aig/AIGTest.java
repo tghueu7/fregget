@@ -43,23 +43,20 @@ import org.opengis.referencing.NoSuchAuthorityCodeException;
  * @author Andrea Antonello (www.hydrologis.com)
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini (simboss), GeoSolutions
- * 
+ * <p>
  * Testing {@link IDRISIReader}
- *
- *
- *
  * @source $URL$
  */
 public final class AIGTest extends GDALTestCase {
-     /**
+    /**
      * file name of a valid AIG sample data to be used for tests.
      */
 //     private final static String fileName = "abc3x1/hdr.adf";
-     private final static String fileName = "hdr.adf";
+    private final static String fileName = "hdr.adf";
 
     /**
      * Creates a new instance of {@code IDRISIReader}
-     * 
+     *
      * @param name
      */
     public AIGTest() {
@@ -95,7 +92,7 @@ public final class AIGTest extends GDALTestCase {
         final Object source = url;
         final BaseGDALGridCoverage2DReader reader = new AIGReader(source, hints);
         checkReader(reader);
-        
+
         // Testing the getSource method
         Assert.assertEquals(reader.getSource(), source);
 
@@ -120,7 +117,7 @@ public final class AIGTest extends GDALTestCase {
         boolean found = false;
         GridFormatFactorySpi fac = null;
 
-        while( list.hasNext() ) {
+        while (list.hasNext()) {
             fac = (GridFormatFactorySpi) list.next();
 
             if (fac instanceof AIGFormatFactory) {

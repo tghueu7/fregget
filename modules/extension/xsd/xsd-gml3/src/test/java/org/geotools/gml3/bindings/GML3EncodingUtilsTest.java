@@ -54,10 +54,12 @@ public class GML3EncodingUtilsTest {
         SimpleFeatureType featureType = DataUtilities.createType("feature",
                 "geometry1:LineString,geometry2:MultiLineString,geometry3:Polygon," +
                         "geometry4:MultiPolygon,geometry5:Point,geometry6:MultiPoint");
-        // both GML 3.1 and GML 3.2 encoding utils delegate most of the work on the GML encoding utils
+        // both GML 3.1 and GML 3.2 encoding utils delegate most of the work on the GML encoding 
+        // utils
         GMLEncodingUtils encoder = new GMLEncodingUtils(GML.getInstance());
         // create the XSD type definition for our feature type
-        XSDTypeDefinition type = encoder.createXmlTypeFromFeatureType(featureType, index, Collections.emptySet());
+        XSDTypeDefinition type = encoder.createXmlTypeFromFeatureType(featureType, index, 
+                Collections.emptySet());
         // get the XSD elements representing our geometries attributes
         List<XSDElementDeclaration> elements = Schemas.getChildElementDeclarations(type, false);
         assertThat(elements, notNullValue());
@@ -70,7 +72,8 @@ public class GML3EncodingUtilsTest {
                 .collect(Collectors.toList());
         // check that our geometries have the correct type
         assertThat(typesNames.size(), is(6));
-        assertThat(typesNames, hasItems("LineStringPropertyType", "MultiLineStringPropertyType", "PolygonPropertyType",
+        assertThat(typesNames, hasItems("LineStringPropertyType", "MultiLineStringPropertyType", 
+                "PolygonPropertyType",
                 "MultiPolygonPropertyType", "PointPropertyType", "MultiPointPropertyType"));
     }
 }

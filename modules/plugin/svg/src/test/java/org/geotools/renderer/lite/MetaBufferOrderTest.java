@@ -18,7 +18,7 @@ public class MetaBufferOrderTest {
         assertTrue(estimator.isEstimateAccurate());
         assertEquals(32, estimator.getBuffer());
     }
-    
+
     @Test
     public void testSvgPng() throws IOException {
         Style style = RendererBaseTest.loadStyle(this, "pointSvgPng.sld");

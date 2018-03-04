@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2006-2016, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -45,8 +45,6 @@ import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Point;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class PostgisGeographyOnlineTest extends JDBCGeographyOnlineTest {
@@ -59,16 +57,17 @@ public class PostgisGeographyOnlineTest extends JDBCGeographyOnlineTest {
     @Override
     public void testSchema() throws Exception {
         super.testSchema();
-        
+
         if (!isGeographySupportAvailable()) {
             return;
         }
-        
+
         // extra check, pg specific: the native typename is actually geography
         SimpleFeatureType ft = dataStore.getFeatureSource(tname("geopoint")).getSchema();
-        assertEquals("geography", ft.getGeometryDescriptor().getUserData().get(JDBCDataStore.JDBC_NATIVE_TYPENAME));
+        assertEquals("geography", ft.getGeometryDescriptor().getUserData().get(JDBCDataStore
+                .JDBC_NATIVE_TYPENAME));
     }
-    
+
     // As reported in GEOS-4384 (http://jira.codehaus.org/browse/GEOS-4384)
     public void testDWithinOGCUnits() throws Exception {
         validateOGCUnitUsage(10000, "m");
@@ -86,27 +85,28 @@ public class PostgisGeographyOnlineTest extends JDBCGeographyOnlineTest {
         validateOGCUnitUsage(10000 / 1609.344, "mile");
         validateOGCUnitUsage(10000 / 1609.344, "miles");
         validateOGCUnitUsage(10000 / 1852, "NM");
-      }
+    }
 
     private void validateOGCUnitUsage(double distance, String unit) throws Exception {
         Coordinate coordinate = new Coordinate(-110, 30);
         GeometryFactory factory = new GeometryFactory();
         Point point = factory.createPoint(coordinate);
         Geometry[] geometries = {point};
-        GeometryCollection geometry = new GeometryCollection(geometries, factory );
+        GeometryCollection geometry = new GeometryCollection(geometries, factory);
 
         FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
 
         PropertyName geomName = ff.property(aname("geo"));
         Literal lit = ff.literal(geometry);
-        
-        DWithin dwithinGeomFilter  = ((FilterFactory2) ff).dwithin(geomName, lit, distance, unit);
+
+        DWithin dwithinGeomFilter = ((FilterFactory2) ff).dwithin(geomName, lit, distance, unit);
         Query query = new Query(tname("geopoint"), dwithinGeomFilter);
-        SimpleFeatureCollection features = dataStore.getFeatureSource(tname("geopoint")).getFeatures(query);
+        SimpleFeatureCollection features = dataStore.getFeatureSource(tname("geopoint"))
+                .getFeatures(query);
         assertEquals(1, features.size());
         checkSingleResult(features, "Town");
     }
-    
+
     protected void checkSingleResult(FeatureCollection features, String name) {
         assertEquals(1, features.size());
         FeatureIterator fr = features.features();
@@ -117,7 +117,7 @@ public class PostgisGeographyOnlineTest extends JDBCGeographyOnlineTest {
         assertFalse(fr.hasNext());
         fr.close();
     }
-    
+
     public void testSimplifyGeography() throws Exception {
         // try to simplify geometry, but ST_Simplify is not defined for geometry
         Query query = new Query(tname("geoline"));
@@ -125,7 +125,8 @@ public class PostgisGeographyOnlineTest extends JDBCGeographyOnlineTest {
         // used to go boom here
         ContentFeatureSource fs = dataStore.getFeatureSource(tname("geoline"));
         SimpleFeatureCollection features = fs.getFeatures(query);
-        // check the geometry is what we expect (but make it so that if in the future we can simplify
+        // check the geometry is what we expect (but make it so that if in the future we can 
+        // simplify
         // over geography, the test still passes
         SimpleFeature sf = DataUtilities.first(features);
         LineString ls = (LineString) sf.getDefaultGeometry();

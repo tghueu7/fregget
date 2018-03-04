@@ -51,16 +51,14 @@ import com.vividsolutions.jts.geom.Geometry;
 /**
  * This class implements a two step algorithm which adapts
  * a {@link SimpleFeature} to a {@link ESimpleFeature}
- * 
+ *
  * @author kengu - 30. juni 2011
- *
- *
  * @source $URL$
  */
 public final class ESimpleFeatureAdapter {
-    
+
     private String oldSRID;
-    
+
     private String newSRID;
 
     private FeatureType oldType;
@@ -77,9 +75,11 @@ public final class ESimpleFeatureAdapter {
 
     private List<Object> oldValues = new ArrayList<Object>();
     private List<Object> newValues = new ArrayList<Object>();
-    private Map<EAttribute, Object> oldValueMap = new HashMap<EAttribute, Object>();;
-    private Map<EAttribute, Object> newValueMap = new HashMap<EAttribute, Object>();;
-    
+    private Map<EAttribute, Object> oldValueMap = new HashMap<EAttribute, Object>();
+    ;
+    private Map<EAttribute, Object> newValueMap = new HashMap<EAttribute, Object>();
+    ;
+
     // ----------------------------------------------------- 
     //  ESimpleFeatureAdapter methods
     // -----------------------------------------------------
@@ -89,12 +89,14 @@ public final class ESimpleFeatureAdapter {
      * <p>
      * This method writes adapted data to {@link EObject} and then calls {@link EFeature#getData()}.
      * </p>
-     * @param eStructure - structure to adapt 
-     * @param eObject - EFeature {@link EObject data} to adapt
-     * @param transaction - any adaptation is written to this transaction 
+     *
+     * @param eStructure  - structure to adapt
+     * @param eObject     - EFeature {@link EObject data} to adapt
+     * @param transaction - any adaptation is written to this transaction
      * @return a {@link ESimpleFeature} instance with the given structure.
      */
-    public ESimpleFeature eAdapt(EFeatureInfo eStructure, EObject eObject, Transaction transaction) {
+    public ESimpleFeature eAdapt(EFeatureInfo eStructure, EObject eObject, Transaction 
+            transaction) {
         //
         // Prepare
         //
@@ -118,7 +120,7 @@ public final class ESimpleFeatureAdapter {
         //
         // Try to set values
         //        
-        try {                        
+        try {
             //
             // Update SRID for all instances?
             //
@@ -147,29 +149,30 @@ public final class ESimpleFeatureAdapter {
             //
             // Restore notification delivery state
             //
-           eObject.eSetDeliver(eDeliver);
-           //
-           // Notify?
-           //
-           if(eData!=null) {
-               eNotify(eObject, eData);
-           }
-           
+            eObject.eSetDeliver(eDeliver);
+            //
+            // Notify?
+            //
+            if (eData != null) {
+                eNotify(eObject, eData);
+            }
+
         }
 
     }
-    
+
     /**
      * Adapt given EFeature {@link SimpleFeature data} into a {@link ESimpleFeature} instance.
      * </p>
-     * @param eStructure - {@link EFeature} structure of given {@link EObject}
-     * @param eObject - {@link EObject} backing given {@link SimpleFeature data}. If null, 
-     * @param eData - {@link SimpleFeature data} attached to given {@link EObject}
+     *
+     * @param eStructure  - {@link EFeature} structure of given {@link EObject}
+     * @param eObject     - {@link EObject} backing given {@link SimpleFeature data}. If null,
+     * @param eData       - {@link SimpleFeature data} attached to given {@link EObject}
      * @param transaction - any changes are written to this transaction
      * @return updated {@link ESimpleFeature} instance.
      */
-    public ESimpleFeature eAdapt(EFeatureInfo eStructure, 
-            ESimpleFeature eData, Transaction transaction) {
+    public ESimpleFeature eAdapt(EFeatureInfo eStructure,
+                                 ESimpleFeature eData, Transaction transaction) {
         //
         // Get EObject
         //
@@ -193,7 +196,7 @@ public final class ESimpleFeatureAdapter {
         //
         // Try to set values
         //        
-        try {                        
+        try {
             //
             // Update feature directly without any
             // additional validation, since it is
@@ -227,22 +230,23 @@ public final class ESimpleFeatureAdapter {
             eNotify(eObject, eData);
         }
 
-    }        
-    
+    }
+
     // ----------------------------------------------------- 
     //  Construction methods
     // -----------------------------------------------------
-    
+
     /**
      * Attempts to transform new data into valid form
      * </p>
+     *
      * @param eStructure - given EFeature {@link EFeatureInfo structure}
-     * @param eImpl - {@link EObject} containing EFeature data
-     * @param eData - {@link Feature} data to prepare for adaption into given structure
+     * @param eImpl      - {@link EObject} containing EFeature data
+     * @param eData      - {@link Feature} data to prepare for adaption into given structure
      * @return a new {@link ESimpleFeatureAdapter} instance
      */
     public static ESimpleFeatureAdapter create(
-            EFeatureInfo eStructure, 
+            EFeatureInfo eStructure,
             EObject eImpl, Feature eData) {
         //
         // Verify that given data is valid
@@ -272,8 +276,8 @@ public final class ESimpleFeatureAdapter {
             eAdapter.transform = CRS.findMathTransform(
                     eAdapter.newCRS, eAdapter.oldCRS, true);
         } catch (FactoryException e) {
-            throw new IllegalArgumentException("Tranform from " + "'" 
-                    + eAdapter.newCRS + "' to '" + eAdapter.oldCRS 
+            throw new IllegalArgumentException("Tranform from " + "'"
+                    + eAdapter.newCRS + "' to '" + eAdapter.oldCRS
                     + "' not possible");
         }
         //
@@ -320,7 +324,7 @@ public final class ESimpleFeatureAdapter {
                     try {
                         value = JTS.transform((Geometry) value, eAdapter.transform);
                     } catch (Exception e) {
-                        throw new IllegalArgumentException("Failed to " 
+                        throw new IllegalArgumentException("Failed to "
                                 + "transform geometry: " + it);
                     }
                 }
@@ -335,21 +339,21 @@ public final class ESimpleFeatureAdapter {
         // Finished
         //
         return eAdapter;
-    }        
-    
+    }
+
     // ----------------------------------------------------- 
     //  Helper methods
     // -----------------------------------------------------
-    
+
     protected void eNotify(EObject eObject, ESimpleFeature eData) {
         //
         // Any values changed?
         //
-        if(!oldValues.equals(newValues)) {
-            eNotify((InternalEObject)eObject, EFeaturePackage.EFEATURE__DATA, oldValues, eData);
+        if (!oldValues.equals(newValues)) {
+            eNotify((InternalEObject) eObject, EFeaturePackage.EFEATURE__DATA, oldValues, eData);
         }
         if (!isIdentity) {
-            eNotify((InternalEObject)eObject, EFeaturePackage.EFEATURE__SRID, oldSRID, newSRID);                    
+            eNotify((InternalEObject) eObject, EFeaturePackage.EFEATURE__SRID, oldSRID, newSRID);
         }
     }
 
@@ -359,7 +363,7 @@ public final class ESimpleFeatureAdapter {
                     new ENotificationImpl(eObject, Notification.SET,
                             feature, oldValue, newValue));
         }
-        
-    }    
-    
+
+    }
+
 }

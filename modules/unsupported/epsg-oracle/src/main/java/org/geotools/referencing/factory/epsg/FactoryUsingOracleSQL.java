@@ -3,7 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *   
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -17,6 +17,7 @@
 package org.geotools.referencing.factory.epsg;
 
 // J2SE dependencies
+
 import java.sql.Connection;
 import java.util.Iterator;
 import java.util.Map;
@@ -29,19 +30,14 @@ import org.geotools.factory.Hints;
 /**
  * An EPSG factory suitable for Oracle SQL syntax.
  *
- * @since 2.1
- *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author John Grange
- *
+ * @version $Id$
+ * @source $URL$
  * @todo Since this class is constructed through the service provider API rather than directly
- *       instantiated by the user, we need some way to pass the schema information to this class.
- *       one possible approach is to set the schema in preferences. Maybe a better was is to look
- *       for a place in the Oracle {@link javax.sql.DataSource} for that.
- *
+ * instantiated by the user, we need some way to pass the schema information to this class.
+ * one possible approach is to set the schema in preferences. Maybe a better was is to look
+ * for a place in the Oracle {@link javax.sql.DataSource} for that.
+ * @since 2.1
  * @deprecated Please use {@link OracleDialectEpsgFactory}.
  */
 public class FactoryUsingOracleSQL extends FactoryUsingAnsiSQL {
@@ -56,9 +52,8 @@ public class FactoryUsingOracleSQL extends FactoryUsingAnsiSQL {
      * @param userHints  The underlying factories used for objects creation.
      * @param connection The connection to the underlying EPSG database.
      */
-    public FactoryUsingOracleSQL(final Hints      userHints,
-                                    final Connection connection)
-    {
+    public FactoryUsingOracleSQL(final Hints userHints,
+                                 final Connection connection) {
         super(userHints, connection);
     }
 
@@ -74,10 +69,9 @@ public class FactoryUsingOracleSQL extends FactoryUsingAnsiSQL {
      * @param connection The connection to the underlying EPSG database.
      * @param epsgSchema The database schema in which the epsg tables are stored (optional).
      */
-    public FactoryUsingOracleSQL(final Hints      userHints,
-                                    final Connection connection,
-                                    final String     epsgSchema)
-    {
+    public FactoryUsingOracleSQL(final Hints userHints,
+                                 final Connection connection,
+                                 final String epsgSchema) {
         super(userHints, connection);
         adaptTableNames(epsgSchema);
     }
@@ -104,8 +98,8 @@ public class FactoryUsingOracleSQL extends FactoryUsingAnsiSQL {
         if (epsgSchema != null) {
             epsgSchema = epsgSchema.trim();
             if (epsgSchema.length() != 0) {
-                for (final Iterator it=map.entrySet().iterator(); it.hasNext();) {
-                    final Map.Entry  entry = (Map.Entry) it.next();
+                for (final Iterator it = map.entrySet().iterator(); it.hasNext(); ) {
+                    final Map.Entry entry = (Map.Entry) it.next();
                     final String tableName = (String) entry.getValue();
                     /**
                      * Update the map, prepending the schema name to the table name

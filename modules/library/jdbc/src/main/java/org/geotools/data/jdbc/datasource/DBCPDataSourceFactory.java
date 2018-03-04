@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -31,19 +31,15 @@ import org.geotools.data.Parameter;
 
 /**
  * A datasource factory using DBCP connection pool
- * 
+ *
  * @author Andrea Aime - TOPP
- * 
- *
- *
- *
  * @source $URL$
  */
 public class DBCPDataSourceFactory extends AbstractDataSourceFactorySpi {
 
     public static final Param DSTYPE = new Param("dstype", String.class, "Must be DBCP", false,
             null, Collections.singletonMap(Parameter.LEVEL, "program"));
-    
+
     public static final Param USERNAME = new Param("username", String.class,
             "User name to login as", false);
 
@@ -62,13 +58,14 @@ public class DBCPDataSourceFactory extends AbstractDataSourceFactorySpi {
     public static final Param MAXIDLE = new Param("maxIdle", Integer.class,
             "The maximum number of idle connections in the pool", true);
 
-    private static final Param[] PARAMS = new Param[] { DSTYPE, DRIVERCLASS, JDBC_URL, USERNAME, PASSWORD,
-            MAXACTIVE, MAXIDLE };
+    private static final Param[] PARAMS = new Param[]{DSTYPE, DRIVERCLASS, JDBC_URL, USERNAME, 
+            PASSWORD,
+            MAXACTIVE, MAXIDLE};
 
     public DataSource createDataSource(Map params) throws IOException {
         return createNewDataSource(params);
     }
-    
+
     public boolean canProcess(Map params) {
         return super.canProcess(params) && "DBCP".equals(params.get("dstype"));
     }
@@ -88,7 +85,8 @@ public class DBCPDataSourceFactory extends AbstractDataSourceFactorySpi {
         try {
             conn = dataSource.getConnection();
         } catch (SQLException e) {
-            throw new DataSourceException("Connection pool improperly set up: " + e.getMessage(), e);
+            throw new DataSourceException("Connection pool improperly set up: " + e.getMessage(),
+                    e);
         } finally {
             // close the connection at once
             if (conn != null)

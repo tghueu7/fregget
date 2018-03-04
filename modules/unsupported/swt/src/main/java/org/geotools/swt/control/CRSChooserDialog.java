@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.geotools.swt.control;
 
@@ -17,15 +17,15 @@ public class CRSChooserDialog extends Dialog {
     private final CoordinateReferenceSystem initialValue;
     private CoordinateReferenceSystem result;
 
-    public CRSChooserDialog( Shell parentShell, CoordinateReferenceSystem initialValue ) {
+    public CRSChooserDialog(Shell parentShell, CoordinateReferenceSystem initialValue) {
         super(parentShell);
         this.initialValue = initialValue;
     }
 
     @Override
-    protected Control createDialogArea( Composite parent ) {
+    protected Control createDialogArea(Composite parent) {
         getShell().setText(Messages.getString("CRSChooserDialog_title"));
-        chooser.setController(new Controller(){
+        chooser.setController(new Controller() {
 
             public void handleClose() {
                 close();
@@ -52,8 +52,9 @@ public class CRSChooserDialog extends Dialog {
         return result;
     }
 
-    public static void main( String[] args ) {
-        CRSChooserDialog dialog = new CRSChooserDialog(new Shell(Display.getDefault()), DefaultGeographicCRS.WGS84);
+    public static void main(String[] args) {
+        CRSChooserDialog dialog = new CRSChooserDialog(new Shell(Display.getDefault()), 
+                DefaultGeographicCRS.WGS84);
         dialog.setBlockOnOpen(true);
         dialog.open();
 

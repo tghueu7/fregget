@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -18,16 +18,13 @@ package org.geotools.temporal.reference;
 
 import java.util.Collection;
 import java.util.Date;
+
 import org.geotools.util.Utilities;
 import org.opengis.temporal.OrdinalEra;
 import org.opengis.util.InternationalString;
 
 /**
- *
  * @author Mehdi Sidhoum (Geomatys)
- *
- *
- *
  * @source $URL$
  */
 public class DefaultOrdinalEra implements OrdinalEra {
@@ -48,14 +45,16 @@ public class DefaultOrdinalEra implements OrdinalEra {
     private DefaultOrdinalEra group;
 
     public DefaultOrdinalEra(InternationalString name, Date beginning, Date end) {
-        if (! beginning.before(end))
-            throw new IllegalArgumentException("The beginning date of the OrdinalEra must be less than (i.e. earlier than) the end date of this OrdinalEra.");
+        if (!beginning.before(end))
+            throw new IllegalArgumentException("The beginning date of the OrdinalEra must be less" +
+                    " than (i.e. earlier than) the end date of this OrdinalEra.");
         this.name = name;
         this.beginning = beginning;
         this.end = end;
     }
 
-    public DefaultOrdinalEra(InternationalString name, Date beginning, Date end, Collection<OrdinalEra> composition) {
+    public DefaultOrdinalEra(InternationalString name, Date beginning, Date end, 
+                             Collection<OrdinalEra> composition) {
         this.name = name;
         this.beginning = beginning;
         this.end = end;

@@ -25,7 +25,7 @@ import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
  * API to operate on Granules data.
- * 
+ *
  * @author Simone Giannecchini, GeoSolutions SAS
  * @author Andrea Aime, GeoSolutions SAS
  * @author Daniele Romagnoli, GeoSolutions SAS
@@ -33,8 +33,9 @@ import org.opengis.feature.simple.SimpleFeatureType;
 public interface GranuleSource {
 
     /**
-     * Retrieves granules, in the form of a {@code SimpleFeatureCollection}, based on a {@code Query}.
-     * 
+     * Retrieves granules, in the form of a {@code SimpleFeatureCollection}, based on a {@code 
+     * Query}.
+     *
      * @param q the {@link Query} to select granules
      * @return the resulting granules.
      * @throws IOException
@@ -42,9 +43,10 @@ public interface GranuleSource {
     public SimpleFeatureCollection getGranules(Query q) throws IOException;
 
     /**
-     * Gets the number of the granules that would be returned by the given {@code Query}, taking into account any settings for max features and start
+     * Gets the number of the granules that would be returned by the given {@code Query}, taking 
+     * into account any settings for max features and start
      * index set on the {@code Query}.
-     * 
+     *
      * @param q the {@link Query} to select granules
      * @return the number of granules
      * @throws IOException
@@ -53,7 +55,7 @@ public interface GranuleSource {
 
     /**
      * Get the spatial bounds of the granules that would be returned by the given {@code Query}.
-     * 
+     *
      * @param q the {@link Query} to select granules
      * @return The bounding envelope of the requested data
      * @throws IOException
@@ -61,8 +63,9 @@ public interface GranuleSource {
     public ReferencedEnvelope getBounds(Query q) throws IOException;
 
     /**
-     * Retrieves the schema (feature type) that will apply to granules retrieved from this {@code GranuleSource}.
-     * 
+     * Retrieves the schema (feature type) that will apply to granules retrieved from this {@code
+     * GranuleSource}.
+     *
      * @return
      * @throws IOException
      */
@@ -70,7 +73,7 @@ public interface GranuleSource {
 
     /**
      * This will free/release any resource (cached granules, ...).
-     * 
+     *
      * @throws IOException
      */
     public void dispose() throws IOException;

@@ -30,6 +30,7 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.crs.ProjectedCRS;
 
 import org.junit.*;
+
 import static org.junit.Assert.*;
 
 
@@ -37,11 +38,9 @@ import static org.junit.Assert.*;
  * Checks the exception thrown by the fallback system do report actual errors when the code is
  * available but for some reason broken, and not "code not found" ones.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Andrea Aime (TOPP)
+ * @version $Id$
+ * @source $URL$
  */
 public final class FallbackAuthorityFactoryTest {
     /**
@@ -60,7 +59,7 @@ public final class FallbackAuthorityFactoryTest {
     @Before
     public void setUp() {
         assertNull(extra);
-        
+
         CRS.reset("all");
         extra = new FactoryEPSGExtra();
         ReferencingFactoryFinder.addAuthorityFactory(extra);
@@ -83,13 +82,14 @@ public final class FallbackAuthorityFactoryTest {
      */
     @Test
     public void testFactoryOrdering() {
-        Set<CRSAuthorityFactory> factories =  ReferencingFactoryFinder.getCRSAuthorityFactories(null);
-        for( CRSAuthorityFactory factory : factories ){
-            System.out.println("--> "+factory.getClass().getSimpleName() );
+        Set<CRSAuthorityFactory> factories = ReferencingFactoryFinder.getCRSAuthorityFactories
+                (null);
+        for (CRSAuthorityFactory factory : factories) {
+            System.out.println("--> " + factory.getClass().getSimpleName());
         }
         boolean foundWkt = false;
         boolean foundExtra = false;
-        for (Iterator<CRSAuthorityFactory> it = factories.iterator(); it.hasNext();) {
+        for (Iterator<CRSAuthorityFactory> it = factories.iterator(); it.hasNext(); ) {
             CRSAuthorityFactory factory = (CRSAuthorityFactory) it.next();
             Class<?> type = factory.getClass();
             if (VERBOSE) {
@@ -99,7 +99,8 @@ public final class FallbackAuthorityFactoryTest {
                 foundExtra = true;
             } else if (type == FactoryUsingWKT.class) {
                 foundWkt = true;
-                assertTrue("We should have encountered WKT factory after the extra one", foundExtra);
+                assertTrue("We should have encountered WKT factory after the extra one", 
+                        foundExtra);
             }
         }
         assertTrue(foundWkt);

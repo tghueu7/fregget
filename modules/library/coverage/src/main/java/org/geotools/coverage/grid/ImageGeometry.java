@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2007-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -35,15 +35,12 @@ import org.opengis.util.Cloneable;
  * But it is sometime used with plain {@linkplain java.awt.image.RenderedImage rendered image}
  * instances.
  *
- * @since 2.5
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
- *
+ * @version $Id$
+ * @source $URL$
  * @see GridGeometry2D
  * @see GeneralGridGeometry
+ * @since 2.5
  */
 public class ImageGeometry implements GridGeometry, Serializable, Cloneable {
     /**
@@ -65,7 +62,7 @@ public class ImageGeometry implements GridGeometry, Serializable, Cloneable {
      * Creates a grid geometry from the specified bounds and <cite>grid to CRS</cite>
      * affine transform.
      *
-     * @param bounds The image bounds in pixel coordinates.
+     * @param bounds    The image bounds in pixel coordinates.
      * @param gridToCRS The affine transform from pixel coordinates to "real world" coordinates.
      */
     public ImageGeometry(final Rectangle bounds, final AffineTransform gridToCRS) {
@@ -125,7 +122,7 @@ public class ImageGeometry implements GridGeometry, Serializable, Cloneable {
         if (object != null && object.getClass().equals(getClass())) {
             final ImageGeometry that = (ImageGeometry) object;
             return Utilities.equals(gridRange, that.gridRange) &&
-                   Utilities.equals(gridToCRS, that.gridToCRS);
+                    Utilities.equals(gridToCRS, that.gridToCRS);
         }
         return false;
     }

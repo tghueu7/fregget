@@ -24,8 +24,8 @@ import java.util.List;
 public class StoredQueryConfiguration implements Serializable {
     private String storedQueryId;
 
-    private List<ParameterMapping> storedQueryParameterMappings = 
-            new ArrayList<ParameterMapping>(); 
+    private List<ParameterMapping> storedQueryParameterMappings =
+            new ArrayList<ParameterMapping>();
 
     public void setStoredQueryId(String storedQueryId) {
         this.storedQueryId = storedQueryId;

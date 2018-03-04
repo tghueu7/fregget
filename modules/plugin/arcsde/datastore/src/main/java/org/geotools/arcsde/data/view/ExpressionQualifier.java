@@ -64,12 +64,12 @@ import org.geotools.arcsde.session.ISession;
 /**
  * Qualifies the column references (aliased or not) the ArcSDE "table.user." prefix as required by
  * the ArcSDE java api to not get confused when using joined tables.
- * 
+ *
  * @author Gabriel Roldan, Axios Engineering
  * @version $Id$
  * @source $URL:
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
- *         /org/geotools/arcsde/data/view/ExpressionQualifier.java $
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
+ * /org/geotools/arcsde/data/view/ExpressionQualifier.java $
  * @since 2.3.x
  */
 class ExpressionQualifier implements ExpressionVisitor {
@@ -81,7 +81,7 @@ class ExpressionQualifier implements ExpressionVisitor {
 
     /**
      * Creates a new ExpressionQualifier object.
-     * 
+     *
      * @param session
      */
     private ExpressionQualifier(ISession session, Map<String, Object> tableAliases) {
@@ -90,7 +90,7 @@ class ExpressionQualifier implements ExpressionVisitor {
     }
 
     public static Expression qualify(ISession session, Map<String, Object> tableAliases,
-            Expression exp) {
+                                     Expression exp) {
         if (exp == null) {
             return null;
         }
@@ -318,13 +318,15 @@ class ExpressionQualifier implements ExpressionVisitor {
 
     @SuppressWarnings("unchecked")
     public void visit(CaseExpression caseExpression) {
-        Expression switchExpr = qualify(session, tableAliases, caseExpression.getSwitchExpression());
+        Expression switchExpr = qualify(session, tableAliases, caseExpression.getSwitchExpression
+                ());
         Expression elseExpr = qualify(session, tableAliases, caseExpression.getElseExpression());
 
         List<WhenClause> whenClauses = null;
         if (caseExpression.getWhenClauses() != null) {
             whenClauses = new ArrayList<WhenClause>();
-            for (Iterator<WhenClause> it = caseExpression.getWhenClauses().iterator(); it.hasNext();) {
+            for (Iterator<WhenClause> it = caseExpression.getWhenClauses().iterator(); it.hasNext
+                    (); ) {
                 WhenClause whenClause = it.next();
                 WhenClause qWhen = (WhenClause) qualify(session, tableAliases, whenClause);
                 whenClauses.add(qWhen);

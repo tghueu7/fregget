@@ -42,7 +42,7 @@ import au.com.objectix.jgridshift.GridShiftFile;
  * Loads and caches NTv2 grid files. Thisthat incorporates a soft cache mechanism to keep grids in
  * memory when first loaded. It also checks NTv2 grid file format in {@link #isNTv2Grid(String)}
  * method.
- * 
+ *
  * @author Oscar Fonts
  */
 public class NTv2GridShiftFactory extends ReferencingFactory implements BufferedFactory {
@@ -72,10 +72,10 @@ public class NTv2GridShiftFactory extends ReferencingFactory implements Buffered
 
     /**
      * Constructs an instance using the specified priority level.
-     * 
+     *
      * @param priority The priority for this factory, as a number between
-     *        {@link AbstractFactory#MINIMUM_PRIORITY MINIMUM_PRIORITY} and
-     *        {@link AbstractFactory#MAXIMUM_PRIORITY MAXIMUM_PRIORITY} inclusive.
+     *                 {@link AbstractFactory#MINIMUM_PRIORITY MINIMUM_PRIORITY} and
+     *                 {@link AbstractFactory#MAXIMUM_PRIORITY MAXIMUM_PRIORITY} inclusive.
      */
     public NTv2GridShiftFactory(final int priority) {
         super(priority);
@@ -84,7 +84,7 @@ public class NTv2GridShiftFactory extends ReferencingFactory implements Buffered
 
     /**
      * Performs a NTv2 grid file lookup given its name, and checks for file format correctness.
-     * 
+     *
      * @param name The NTv2 grid file name
      * @return {@code true} if file exists and is valid, {@code false} otherwise
      */
@@ -98,16 +98,16 @@ public class NTv2GridShiftFactory extends ReferencingFactory implements Buffered
 
     /**
      * Creates a NTv2 Grid.
-     * 
+     *
      * @param name The NTv2 grid name
      * @return the grid
      * @throws FactoryException if grid cannot be created
      */
     public GridShiftFile createNTv2Grid(URL gridLocation) throws FactoryException {
-        if(gridLocation == null) {
+        if (gridLocation == null) {
             throw new FactoryException("The grid location must be not null");
         }
-        
+
         synchronized (ntv2GridCache) { // Prevent simultaneous threads trying to load same grid
             GridShiftFile grid = ntv2GridCache.get(gridLocation.toExternalForm());
             if (grid != null) { // Cached:
@@ -125,13 +125,12 @@ public class NTv2GridShiftFactory extends ReferencingFactory implements Buffered
         }
     }
 
-    
 
     /**
      * Checks if a given resource is a valid NTv2 file without fully loading it.
-     * 
+     * <p>
      * If file is not valid, the cause is logged at {@link Level#WARNING warning level}.
-     * 
+     *
      * @param location the NTv2 file absolute path
      * @return true if file has NTv2 format, false otherwise
      */
@@ -155,7 +154,7 @@ public class NTv2GridShiftFactory extends ReferencingFactory implements Buffered
                 // will throw an exception if not a valid file
                 new GridShiftFile().loadGridShiftFile(raf);
             } else {
-                InputStream in = new BufferedInputStream(url.openConnection().getInputStream()); 
+                InputStream in = new BufferedInputStream(url.openConnection().getInputStream());
 
                 // will throw an exception if not a valid file
                 new GridShiftFile().loadGridShiftFile(in, false);
@@ -187,9 +186,9 @@ public class NTv2GridShiftFactory extends ReferencingFactory implements Buffered
 
     /**
      * Loads the grid in memory.
-     * 
+     * <p>
      * If file cannot be loaded, the cause is logged at {@link Level#SEVERE severe level}.
-     * 
+     *
      * @param location the NTv2 file absolute path
      * @return the grid, or {@code null} on error
      * @throws FactoryException

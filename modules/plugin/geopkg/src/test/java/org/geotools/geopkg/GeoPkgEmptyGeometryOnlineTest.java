@@ -30,9 +30,8 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.io.WKTReader;
 
 /**
- * 
- *
- * @source $URL: http://svn.osgeo.org/geotools/trunk/modules/plugin/jdbc/jdbc-GeoPkg/src/test/java/org/geotools/data/GeoPkg/GeoPkgEmptyGeometryTest.java $
+ * @source $URL: http://svn.osgeo.org/geotools/trunk/modules/plugin/jdbc/jdbc-GeoPkg/src/test
+ * /java/org/geotools/data/GeoPkg/GeoPkgEmptyGeometryTest.java $
  */
 public class GeoPkgEmptyGeometryOnlineTest extends JDBCEmptyGeometryOnlineTest {
 
@@ -40,10 +39,11 @@ public class GeoPkgEmptyGeometryOnlineTest extends JDBCEmptyGeometryOnlineTest {
     protected JDBCEmptyGeometryTestSetup createTestSetup() {
         return new GeoPkgEmptyGeometryTestSetup(new GeoPkgTestSetup());
     }
+
     public void testEmptyPoint() throws Exception {
         testInsertEmptyGeometry("POINT");
     }
-    
+
     public void testEmptyLine() throws Exception {
         testInsertEmptyGeometry("LINESTRING");
     }
@@ -51,18 +51,19 @@ public class GeoPkgEmptyGeometryOnlineTest extends JDBCEmptyGeometryOnlineTest {
     public void testEmptyPolygon() throws Exception {
         testInsertEmptyGeometry("POLYGON");
     }
-    
+
     public void testEmptyMultiPoint() throws Exception {
         testInsertEmptyGeometry("MULTIPOINT");
     }
-    
+
     public void testEmptyMultiLine() throws Exception {
         testInsertEmptyGeometry("MULTILINESTRING");
     }
-    
+
     public void testEmptyMultiPolygon() throws Exception {
         testInsertEmptyGeometry("MULTIPOLYGON");
     }
+
     //Since we can't have multiple geom columns use multiple tables instead.
     private void testInsertEmptyGeometry(String type) throws Exception {
         WKTReader reader = new WKTReader();
@@ -70,7 +71,7 @@ public class GeoPkgEmptyGeometryOnlineTest extends JDBCEmptyGeometryOnlineTest {
 
         Transaction tx = new DefaultTransaction();
         FeatureWriter<SimpleFeatureType, SimpleFeature> writer = dataStore.getFeatureWriterAppend(
-                tname("empty_"+type.toLowerCase()), tx);
+                tname("empty_" + type.toLowerCase()), tx);
         SimpleFeature feature = writer.next();
         feature.setAttribute(aname("id"), new Integer(100));
         feature.setAttribute(aname("geom_" + type.toLowerCase()), emptyGeometry);
@@ -80,7 +81,8 @@ public class GeoPkgEmptyGeometryOnlineTest extends JDBCEmptyGeometryOnlineTest {
         tx.commit();
         tx.close();
 
-        SimpleFeatureCollection fc = dataStore.getFeatureSource(tname("empty_"+type.toLowerCase())).getFeatures();
+        SimpleFeatureCollection fc = dataStore.getFeatureSource(tname("empty_" + type.toLowerCase
+                ())).getFeatures();
         assertEquals(1, fc.size());
         SimpleFeatureIterator fi = fc.features();
         SimpleFeature nf = fi.next();

@@ -30,7 +30,7 @@ public class GeoPkgIOTest {
 
     @Test
     public void testReadWrite() throws IOException {
-        Geometry g1 = new GeometryBuilder().point(0,0).buffer(10);
+        Geometry g1 = new GeometryBuilder().point(0, 0).buffer(10);
         byte[] bytes = new GeoPkgGeomWriter().write(g1);
 
         Geometry g2 = new GeoPkgGeomReader(bytes).get();
@@ -39,7 +39,7 @@ public class GeoPkgIOTest {
 
     @Test
     public void testHeader() throws IOException {
-        Geometry g1 = new GeometryBuilder().point(0,0).buffer(10);
+        Geometry g1 = new GeometryBuilder().point(0, 0).buffer(10);
         byte[] bytes = new GeoPkgGeomWriter().write(g1);
 
         assertEquals(0x47, bytes[0]);

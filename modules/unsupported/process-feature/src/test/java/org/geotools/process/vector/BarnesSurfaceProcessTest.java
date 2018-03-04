@@ -40,25 +40,25 @@ import com.vividsolutions.jts.geom.impl.PackedCoordinateSequenceFactory;
 
 /**
  * @author Martin Davis - OpenGeo
- * 
  */
 public class BarnesSurfaceProcessTest {
-    
+
     /**
      * A test of a simple surface, validating that the process
      * can be invoked and return a reasonable result in a simple situation.
-     * 
+     *
      * @throws Exception
      */
     @Test
     public void testSimpleSurface() {
 
-        ReferencedEnvelope bounds = new ReferencedEnvelope(0, 30, 0, 30, DefaultGeographicCRS.WGS84);
-        Coordinate[] data = new Coordinate[] { 
+        ReferencedEnvelope bounds = new ReferencedEnvelope(0, 30, 0, 30, DefaultGeographicCRS
+                .WGS84);
+        Coordinate[] data = new Coordinate[]{
                 new Coordinate(10, 10, 100),
-                new Coordinate(10, 20, 20), 
-                new Coordinate(20, 10, 0), 
-                new Coordinate(20, 20, 80) };
+                new Coordinate(10, 20, 20),
+                new Coordinate(20, 10, 0),
+                new Coordinate(20, 20, 80)};
         SimpleFeatureCollection fc = createPoints(data, bounds);
 
         ProgressListener monitor = null;
@@ -80,11 +80,11 @@ public class BarnesSurfaceProcessTest {
                 100, // outputHeight
                 monitor // monitor)
         );
-        
+
 //      System.out.println(coverageValue(cov, 20, 20));
 
         double ERROR_TOL = 10;
-        
+
         for (Coordinate p : data) {
             float covval = coverageValue(cov, p.x, p.y);
             double error = Math.abs(p.z - covval);
@@ -95,16 +95,14 @@ public class BarnesSurfaceProcessTest {
         assertEquals("values", cov.getSampleDimensions()[0].getDescription().toString());
     }
 
-    private float coverageValue(GridCoverage2D cov, double x, double y)
-    {
+    private float coverageValue(GridCoverage2D cov, double x, double y) {
         float[] covVal = new float[1];
         Point2D worldPos = new Point2D.Double(x, y);
         cov.evaluate(worldPos, covVal);
         return covVal[0];
     }
-    
-    private SimpleFeatureCollection createPoints(Coordinate[] pts, ReferencedEnvelope bounds)
-    {
+
+    private SimpleFeatureCollection createPoints(Coordinate[] pts, ReferencedEnvelope bounds) {
 
         SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
         tb.setName("obsType");

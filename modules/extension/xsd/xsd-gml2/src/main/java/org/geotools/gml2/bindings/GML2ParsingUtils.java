@@ -68,39 +68,35 @@ import com.vividsolutions.jts.geom.Polygon;
  * Utility methods used by gml2 bindings when parsing.
  *
  * @author Justin Deoliveira, The Open Planning Project, jdeolive@openplans.org
- *
- *
- *
- *
  * @source $URL$
  */
 public class GML2ParsingUtils {
     /**
      * logging instance
      */
-    static Logger LOGGER = Logging.getLogger( "org.geotools.gml" );
-    
+    static Logger LOGGER = Logging.getLogger("org.geotools.gml");
+
     /**
      * Metadata key used to indicate if a feature type has been parsed from a XML schema, or
      * reflected out of a sample feature
      */
-    public static String PARSED_FROM_SCHEMA_KEY; 
-    
+    public static String PARSED_FROM_SCHEMA_KEY;
+
     /**
      * Utility method to implement Binding.parse for a binding which parses
      * into A feature.
      *
-     * @param instance The instance being parsed.
-     * @param node The parse tree.
-     * @param value The value from the last binding in the chain.
-     * @param ftCache The feature type cache.
+     * @param instance  The instance being parsed.
+     * @param node      The parse tree.
+     * @param value     The value from the last binding in the chain.
+     * @param ftCache   The feature type cache.
      * @param bwFactory Binding walker factory.
-     *
      * @return A feature type.
      */
     public static SimpleFeature parseFeature(ElementInstance instance, Node node, Object value,
-        FeatureTypeCache ftCache, BindingWalkerFactory bwFactory)
-        throws Exception {
+                                             FeatureTypeCache ftCache, BindingWalkerFactory 
+                                                     bwFactory)
+            throws Exception {
         //get the definition of the element
         XSDElementDeclaration decl = instance.getElementDeclaration();
 
@@ -110,7 +106,7 @@ public class GML2ParsingUtils {
         // type, just use the node given to us
         SimpleFeatureType sfType = null;
         FeatureType fType = null;
-        
+
         if (!decl.isAbstract()) {
             //first look in cache
             fType = ftCache.get(new NameImpl(decl.getTargetNamespace(), decl.getName()));
@@ -119,7 +115,8 @@ public class GML2ParsingUtils {
                 sfType = (SimpleFeatureType) fType;
             } else {
                 // TODO: support parsing of non-simple GML features
-                throw new UnsupportedOperationException("Parsing of non-simple GML features not yet supported.");
+                throw new UnsupportedOperationException("Parsing of non-simple GML features not " +
+                        "yet supported.");
             }
 
             if (sfType == null) {
@@ -127,7 +124,8 @@ public class GML2ParsingUtils {
                 CoordinateReferenceSystem crs = null;
                 if (node.hasChild("boundedBy") && node.getChild("boundedBy").hasChild("Box")) {
                     crs = crs(node.getChild("boundedBy").getChild("Box"));
-                } else if (node.hasChild("boundedBy") && node.getChild("boundedBy").hasChild("Envelope")) {
+                } else if (node.hasChild("boundedBy") && node.getChild("boundedBy").hasChild
+                        ("Envelope")) {
                     crs = crs(node.getChild("boundedBy").getChild("Envelope"));
                 }
 
@@ -144,7 +142,8 @@ public class GML2ParsingUtils {
                 sfType = (SimpleFeatureType) fType;
             } else {
                 // TODO: support parsing of non-simple GML features
-                throw new UnsupportedOperationException("Parsing of non-simple GML features not yet supported.");
+                throw new UnsupportedOperationException("Parsing of non-simple GML features not " +
+                        "yet supported.");
             }
 
             if (sfType == null) {
@@ -178,12 +177,12 @@ public class GML2ParsingUtils {
      * Attribute types for the mandatory properties of any gml feature type
      * (description,name,boundedBy) are also created.
      * </p>
-     * @param node The parse node / tree for the feature.
      *
+     * @param node The parse node / tree for the feature.
      * @return A geotools feature type
      */
     public static SimpleFeatureType featureType(Node node)
-        throws Exception {
+            throws Exception {
         SimpleFeatureTypeBuilder ftBuilder = new SimpleFeatureTypeBuilder();
         ftBuilder.setName(node.getComponent().getName());
         ftBuilder.setNamespaceURI(node.getComponent().getNamespace());
@@ -211,7 +210,7 @@ public class GML2ParsingUtils {
         }
 
         //application schema defined attributes
-        for (Iterator c = node.getChildren().iterator(); c.hasNext();) {
+        for (Iterator c = node.getChildren().iterator(); c.hasNext(); ) {
             Node child = (Node) c.next();
             String name = child.getComponent().getName();
             Object valu = child.getValue();
@@ -231,32 +230,26 @@ public class GML2ParsingUtils {
     /**
      * Turns a xml type definition into a geotools feature type.
      *
-     * @param element
-     *            The element declaration.
-     * @param bwFactory
-     *            The binding walker factory.
-     *
+     * @param element   The element declaration.
+     * @param bwFactory The binding walker factory.
      * @return The corresponding geotools feature type.
      */
     public static SimpleFeatureType featureType(XSDElementDeclaration element,
-        BindingWalkerFactory bwFactory) throws Exception {
+                                                BindingWalkerFactory bwFactory) throws Exception {
         return featureType(element, bwFactory, null);
     }
 
     /**
      * Turns a xml type definition into a geotools feature type.
      *
-     * @param element
-     *            The element declaration.
-     * @param bwFactory
-     *            The binding walker factory.
-     * @param crs
-     *            The coordinate reference system to use on this feature type.
-     *
+     * @param element   The element declaration.
+     * @param bwFactory The binding walker factory.
+     * @param crs       The coordinate reference system to use on this feature type.
      * @return The corresponding geotools feature type.
      */
     public static SimpleFeatureType featureType(XSDElementDeclaration element,
-        BindingWalkerFactory bwFactory, CoordinateReferenceSystem crs) throws Exception {
+                                                BindingWalkerFactory bwFactory, 
+                                                CoordinateReferenceSystem crs) throws Exception {
         SimpleFeatureTypeBuilder ftBuilder = new SimpleFeatureTypeBuilder();
         ftBuilder.setName(element.getName());
         ftBuilder.setNamespaceURI(element.getTargetNamespace());
@@ -265,7 +258,7 @@ public class GML2ParsingUtils {
         // actual xml schema type
         List children = Schemas.getChildElementParticles(element.getType(), true);
 
-        for (Iterator itr = children.iterator(); itr.hasNext();) {
+        for (Iterator itr = children.iterator(); itr.hasNext(); ) {
             XSDParticle particle = (XSDParticle) itr.next();
             XSDElementDeclaration property = (XSDElementDeclaration) particle.getContent();
 
@@ -275,17 +268,18 @@ public class GML2ParsingUtils {
 
             final ArrayList bindings = new ArrayList();
             BindingWalker.Visitor visitor = new BindingWalker.Visitor() {
-                    public void visit(Binding binding) {
-                        bindings.add(binding);
-                    }
-                };
+                public void visit(Binding binding) {
+                    bindings.add(binding);
+                }
+            };
 
             bwFactory.walk(property, visitor);
 
             if (bindings.isEmpty()) {
                 // could not find a binding, use the defaults
-                LOGGER.fine( "Could not find binding for " + property.getQName() + ", using XSAnyTypeBinding." );
-                bindings.add( new XSAnyTypeBinding() );
+                LOGGER.fine("Could not find binding for " + property.getQName() + ", using " +
+                        "XSAnyTypeBinding.");
+                bindings.add(new XSAnyTypeBinding());
             }
 
             // get the last binding in the chain to execute
@@ -336,7 +330,7 @@ public class GML2ParsingUtils {
     }
 
     public static SimpleFeature feature(SimpleFeatureType fType, String fid, Node node)
-        throws Exception {
+            throws Exception {
         SimpleFeatureBuilder b = new SimpleFeatureBuilder(fType);
 
         int attributeCount = fType.getAttributeCount();
@@ -380,7 +374,8 @@ public class GML2ParsingUtils {
             if (srs != null) {
                 //TODO: JD, this is a hack until GEOT-1136 has been resolved
                 if ("http".equals(srs.getScheme()) && "www.opengis.net".equals(srs.getAuthority())
-                        && "/gml/srs/epsg.xml".equals(srs.getPath()) && (srs.getFragment() != null)) {
+                        && "/gml/srs/epsg.xml".equals(srs.getPath()) && (srs.getFragment() != 
+                        null)) {
                     try {
                         return CRS.decode("EPSG:" + srs.getFragment());
                     } catch (Exception e) {
@@ -428,13 +423,14 @@ public class GML2ParsingUtils {
 
         return members;
     }
-    
-    static GeometryCollection GeometryCollectionType_parse(Node node, Class clazz, GeometryFactory gFactory) {
+
+    static GeometryCollection GeometryCollectionType_parse(Node node, Class clazz, 
+                                                           GeometryFactory gFactory) {
         //round up children that are geometries, since this type is often 
         // extended by multi geometries, dont reference members by element name
         List geoms = new ArrayList();
 
-        for (Iterator itr = node.getChildren().iterator(); itr.hasNext();) {
+        for (Iterator itr = node.getChildren().iterator(); itr.hasNext(); ) {
             Node cnode = (Node) itr.next();
 
             if (cnode.getValue() instanceof Geometry) {
@@ -443,30 +439,27 @@ public class GML2ParsingUtils {
         }
 
         GeometryCollection gc = null;
-        
+
         if (MultiPoint.class.isAssignableFrom(clazz)) {
             gc = gFactory.createMultiPoint((Point[]) geoms.toArray(new Point[geoms.size()]));
-        }
-        else if (MultiLineString.class.isAssignableFrom(clazz)) {
+        } else if (MultiLineString.class.isAssignableFrom(clazz)) {
             gc = gFactory.createMultiLineString(
-                (LineString[]) geoms.toArray(new LineString[geoms.size()]));
-        }
-        else if (MultiPolygon.class.isAssignableFrom(clazz)) {
+                    (LineString[]) geoms.toArray(new LineString[geoms.size()]));
+        } else if (MultiPolygon.class.isAssignableFrom(clazz)) {
             gc = gFactory.createMultiPolygon((Polygon[]) geoms.toArray(new Polygon[geoms.size()]));
-        }
-        
-        else {
+        } else {
             gc = gFactory.createGeometryCollection((Geometry[]) geoms.toArray(
-                new Geometry[geoms.size()]));
+                    new Geometry[geoms.size()]));
         }
-        
+
         //set an srs if there is one
         CoordinateReferenceSystem crs = crs(node);
 
         if (crs != null) {
             gc.setUserData(crs);
 
-            // since we're setting the CRS on the UserData object, might as well set the SRID for the geom
+            // since we're setting the CRS on the UserData object, might as well set the SRID for
+            // the geom
             // collection
             try {
                 gc.setSRID(CRS.lookupEpsgCode(crs, true));
@@ -474,15 +467,15 @@ public class GML2ParsingUtils {
                 // as long as the provided CRS is valid, this block will be unreachable
             }
         }
-        
+
         return gc;
     }
-    
+
     static Object GeometryCollectionType_getProperty(Object object, QName name) {
-        if ( "srsName".equals( name.getLocalPart() ) ) {
-            CoordinateReferenceSystem crs = GML2EncodingUtils.getCRS((GeometryCollection)object );
-            if ( crs != null ) {
-                return GML2EncodingUtils.toURI(crs,true);
+        if ("srsName".equals(name.getLocalPart())) {
+            CoordinateReferenceSystem crs = GML2EncodingUtils.getCRS((GeometryCollection) object);
+            if (crs != null) {
+                return GML2EncodingUtils.toURI(crs, true);
             }
         }
         return null;

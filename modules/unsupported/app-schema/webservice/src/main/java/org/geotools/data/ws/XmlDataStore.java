@@ -26,16 +26,13 @@ import org.xml.sax.helpers.NamespaceSupport;
 
 /**
  * {@link DataStore} extension interface to provide WFS specific extra information.
- * 
+ *
  * @author rpetty
  * @version $Id$
- * @since 2.5.x
- *
- *
- *
  * @source $URL$
- *         http://svn.geotools.org/geotools/trunk/gt/modules/unsupported/app-schema/webservice/
- *         src/main/java/org/geotools /data/wfs/WFSDataStore.java $
+ * http://svn.geotools.org/geotools/trunk/gt/modules/unsupported/app-schema/webservice/
+ * src/main/java/org/geotools /data/wfs/WFSDataStore.java $
+ * @since 2.5.x
  */
 public interface XmlDataStore extends DataStore {
 
@@ -48,6 +45,6 @@ public interface XmlDataStore extends DataStore {
     Name getName();
 
     XmlResponse getXmlReader(Query query) throws IOException;
-    
+
     XmlResponse getXmlReader(Query query, String xpath, String value) throws IOException;
 }

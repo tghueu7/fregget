@@ -9,29 +9,27 @@ import org.opengis.temporal.Duration;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:TimeDurationType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
- *	 <code>
+ * 	 <code>
  *  &lt;simpleType name=&quot;TimeDurationType&quot;&gt;
  *      &lt;annotation&gt;
  *          &lt;documentation xml:lang=&quot;en&quot;&gt;
- *        Base type for describing temporal length or distance. The value space is further 
+ *        Base type for describing temporal length or distance. The value space is further
  *        constrained by subtypes that conform to the ISO 8601 or ISO 11404 standards.
  *        &lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;union memberTypes=&quot;duration decimal&quot;/&gt;
- *  &lt;/simpleType&gt; 
- * 	
+ *  &lt;/simpleType&gt;
+ *
  * </code>
- *	 </pre>
- * 
+ * 	 </pre>
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class TimeDurationTypeBinding extends AbstractSimpleBinding {
@@ -45,7 +43,7 @@ public class TimeDurationTypeBinding extends AbstractSimpleBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -54,7 +52,7 @@ public class TimeDurationTypeBinding extends AbstractSimpleBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value)

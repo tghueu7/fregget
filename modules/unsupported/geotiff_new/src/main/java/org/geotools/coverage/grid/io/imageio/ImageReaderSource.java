@@ -6,29 +6,27 @@ import javax.imageio.spi.ImageInputStreamSpi;
 import javax.imageio.spi.ImageReaderSpi;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ImageReaderSource<T> {
-    
+
     public int getImageIndex() {
         return imageIndex;
     }
 
     public static ImageReaderSource<File> wrapFile(
             int imageIndex,
-            File source, 
+            File source,
             ImageInputStreamSpi inputStreamSPI,
-            ImageReaderSpi imageReaderSpi){
-        return new FileImageReaderSource(imageIndex,source, inputStreamSPI, imageReaderSpi);
+            ImageReaderSpi imageReaderSpi) {
+        return new FileImageReaderSource(imageIndex, source, inputStreamSPI, imageReaderSpi);
     }
 
     public static class FileImageReaderSource extends ImageReaderSource<File> {
         public FileImageReaderSource(
-                int imageIndex,File source, ImageInputStreamSpi inputStreamSPI,
+                int imageIndex, File source, ImageInputStreamSpi inputStreamSPI,
                 ImageReaderSpi imageReaderSpi) {
-            super(imageIndex,source, inputStreamSPI, imageReaderSpi);
+            super(imageIndex, source, inputStreamSPI, imageReaderSpi);
         }
 
     }
@@ -47,17 +45,17 @@ public class ImageReaderSource<T> {
 
     public ImageReaderSource(
             int imageIndex,
-            T source, 
+            T source,
             ImageInputStreamSpi inputStreamSPI,
             ImageReaderSpi imageReaderSpi) {
-        this.imageIndex=imageIndex;
+        this.imageIndex = imageIndex;
         this.source = source;
         this.inputStreamSPI = inputStreamSPI;
         this.imageReaderSpi = imageReaderSpi;
     }
 
     private int imageIndex;
-    
+
     private T source;
 
     private ImageInputStreamSpi inputStreamSPI;

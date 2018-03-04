@@ -30,14 +30,11 @@ import org.geotools.util.logging.Logging;
 
 /**
  * An {@link HTTPProtocol} implementation that relies on plain {@link HttpURLConnection}
- * 
+ *
  * @author Gabriel Roldan (OpenGeo)
- * @since 2.6.x
  * @version $Id$
- *
- *
- *
  * @source $URL$
+ * @since 2.6.x
  */
 @SuppressWarnings("nls")
 public class SimpleHttpProtocol implements HTTPProtocol {
@@ -59,7 +56,8 @@ public class SimpleHttpProtocol implements HTTPProtocol {
                 InputStream responseStream = conn.getInputStream();
                 responseStream = new BufferedInputStream(responseStream);
                 final String contentEncoding = conn.getContentEncoding();
-                if (contentEncoding != null && contentEncoding.toLowerCase().indexOf("gzip") != -1) {
+                if (contentEncoding != null && contentEncoding.toLowerCase().indexOf("gzip") != 
+                        -1) {
                     responseStream = new GZIPInputStream(responseStream);
                 }
                 this.inputStream = responseStream;
@@ -67,10 +65,10 @@ public class SimpleHttpProtocol implements HTTPProtocol {
             return this.inputStream;
         }
     }
-    
+
     private boolean tryGzip;
 
-   protected int timeoutMillis = -1;
+    protected int timeoutMillis = -1;
 
     public boolean isTryGzip() {
         return this.tryGzip;
@@ -90,23 +88,23 @@ public class SimpleHttpProtocol implements HTTPProtocol {
     }
 
     public HTTPResponse issuePost(URL targetUrl, POSTCallBack callback) throws IOException {
-        HttpURLConnection conn = openConnection(targetUrl); 
+        HttpURLConnection conn = openConnection(targetUrl);
 
         long contentLength = callback.getContentLength();
         conn.setRequestProperty("Content-Length", String.valueOf(contentLength));
 
         String bodyContentType = callback.getContentType();
         conn.setRequestProperty("Content-Type", bodyContentType);
-        
+
         conn.setRequestProperty("SOAPAction", targetUrl.toString());
-            
+
         OutputStream bodyOut = conn.getOutputStream();
         callback.writeBody(bodyOut);
-        
-        if(LOGGER.isLoggable(Level.WARNING)) {
+
+        if (LOGGER.isLoggable(Level.WARNING)) {
             LOGGER.log(Level.WARNING, "Request to webservice backend is:\n" + bodyOut);
         }
-        
+
         HTTPResponse response = new SimpleHttpResponse(conn);
         return response;
     }

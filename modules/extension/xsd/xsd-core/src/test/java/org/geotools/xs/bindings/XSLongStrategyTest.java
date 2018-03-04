@@ -17,13 +17,12 @@
 package org.geotools.xs.bindings;
 
 import javax.xml.namespace.QName;
+
 import org.geotools.xs.TestSchema;
 import org.geotools.xs.XS;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class XSLongStrategyTest extends TestSchema {
@@ -32,14 +31,15 @@ public class XSLongStrategyTest extends TestSchema {
      * optional sign followed by a finite-length sequence
      * of decimal digits (#x30-#x39). If the sign is omitted,
      * "+" is assumed.
-     *
+     * <p>
      * For example: -1, 0, 12678967543233, +100000.
-     * @throws Exception
      *
+     * @throws Exception
      */
 
     /*
-     * Test method for 'org.geotools.xml.strategies.xs.XSLongStrategy.parse(Element, Node[], Object)'
+     * Test method for 'org.geotools.xml.strategies.xs.XSLongStrategy.parse(Element, Node[], 
+     * Object)'
      */
     public void testParse() throws Exception {
         validateValues("-1", new Long(-1));

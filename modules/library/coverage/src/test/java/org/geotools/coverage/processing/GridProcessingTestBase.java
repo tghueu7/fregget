@@ -41,19 +41,17 @@ import org.opengis.referencing.operation.MathTransform;
  * Base class for grid processing tests. This class provides a few convenience
  * methods performing some operations on {@link GridCoverage2D}.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
  */
 public class GridProcessingTestBase extends GridCoverageTestBase {
     /**
      * Rotates the given coverage by the given angle. This method replaces
      * the coverage CRS by a derived one containing the rotated axes.
      *
-     * @param  coverage The coverage to rotate.
-     * @param  angle The rotation angle, in degrees.
+     * @param coverage The coverage to rotate.
+     * @param angle    The rotation angle, in degrees.
      * @return The rotated coverage.
      */
     protected static GridCoverage2D rotate(final GridCoverage2D coverage, final double angle) {
@@ -74,52 +72,50 @@ public class GridProcessingTestBase extends GridCoverageTestBase {
      * @param hints     An optional set of hints, or {@code null} if none.
      * @return The operation name which was applied on the image, or {@code null} if none.
      */
-    protected static GridCoverage2D project(GridCoverage2D            coverage,
-                                      final CoordinateReferenceSystem targetCRS,
-                                      final GridGeometry2D            geometry,
-                                      final Hints                     hints)
-    {
+    protected static GridCoverage2D project(GridCoverage2D coverage,
+                                            final CoordinateReferenceSystem targetCRS,
+                                            final GridGeometry2D geometry,
+                                            final Hints hints) {
         return project(coverage, targetCRS, geometry, "bilinear", hints);
 
-        
+
     }
-    
+
     /**
      * Projects the specified coverage to the specified CRS using the specified hints.
      *
-     * @param coverage  The coverage to project.
-     * @param targetCRS The target CRS, or {@code null} if the same.
-     * @param geometry  The target geometry, or {@code null} if the same.
+     * @param coverage          The coverage to project.
+     * @param targetCRS         The target CRS, or {@code null} if the same.
+     * @param geometry          The target geometry, or {@code null} if the same.
      * @param interpolationType The target interpolation.
-     * @param hints     An optional set of hints, or {@code null} if none.
+     * @param hints             An optional set of hints, or {@code null} if none.
      * @return The operation name which was applied on the image, or {@code null} if none.
      */
-    protected static GridCoverage2D project(GridCoverage2D            coverage,
-                                      final CoordinateReferenceSystem targetCRS,
-                                      final GridGeometry2D            geometry,
-                                      final String                    interpolationType,
-                                      final Hints                     hints) {
+    protected static GridCoverage2D project(GridCoverage2D coverage,
+                                            final CoordinateReferenceSystem targetCRS,
+                                            final GridGeometry2D geometry,
+                                            final String interpolationType,
+                                            final Hints hints) {
         return project(coverage, targetCRS, geometry, interpolationType, null, hints);
     }
-    
+
     /**
      * Projects the specified coverage to the specified CRS using the specified hints.
      *
-     * @param coverage  The coverage to project.
-     * @param targetCRS The target CRS, or {@code null} if the same.
-     * @param geometry  The target geometry, or {@code null} if the same.
+     * @param coverage          The coverage to project.
+     * @param targetCRS         The target CRS, or {@code null} if the same.
+     * @param geometry          The target geometry, or {@code null} if the same.
      * @param interpolationType The target interpolation.
-     * @param backgroundValues The background values
-     * @param hints     An optional set of hints, or {@code null} if none.
+     * @param backgroundValues  The background values
+     * @param hints             An optional set of hints, or {@code null} if none.
      * @return The operation name which was applied on the image, or {@code null} if none.
      */
-    protected static GridCoverage2D project(GridCoverage2D            coverage,
-                                      final CoordinateReferenceSystem targetCRS,
-                                      final GridGeometry2D            geometry,
-                                      final String                    interpolationType,
-                                      final double[]                  backgroundValues,
-                                      final Hints                     hints)
-    {
+    protected static GridCoverage2D project(GridCoverage2D coverage,
+                                            final CoordinateReferenceSystem targetCRS,
+                                            final GridGeometry2D geometry,
+                                            final String interpolationType,
+                                            final double[] backgroundValues,
+                                            final Hints hints) {
         final CoverageProcessor processor = CoverageProcessor.getInstance(hints);
         final ParameterValueGroup param = processor.getOperation("Resample").getParameters();
         param.parameter("Source").setValue(coverage);
@@ -138,8 +134,7 @@ public class GridProcessingTestBase extends GridCoverageTestBase {
         coverage = (GridCoverage2D) processor.doOperation(param);
         return coverage;
     }
-    
-    
+
 
     /**
      * Projects the specified coverage to the specified CRS using the specified hints.
@@ -151,11 +146,10 @@ public class GridProcessingTestBase extends GridCoverageTestBase {
      * @param hints     An optional set of hints, or {@code null} if none.
      * @return The operation name which was applied on the image, or {@code null} if none.
      */
-    protected static String showProjected(GridCoverage2D            coverage,
-                                    final CoordinateReferenceSystem targetCRS,
-                                    final GridGeometry2D            geometry,
-                                    final Hints                     hints)
-    {
+    protected static String showProjected(GridCoverage2D coverage,
+                                          final CoordinateReferenceSystem targetCRS,
+                                          final GridGeometry2D geometry,
+                                          final Hints hints) {
         coverage = project(coverage, targetCRS, geometry, hints);
         final RenderedImage image = coverage.getRenderedImage();
         String operation = null;
@@ -182,20 +176,16 @@ public class GridProcessingTestBase extends GridCoverageTestBase {
      * a translation by 5 units along x and y axes. The result will be displayed in a window
      * if {@link #SHOW} is set to {@code true}.
      *
-     * @param coverage
-     *          The coverage to apply the operation on.
-     * @param hints
-     *          An optional set of hints, or {@code null} if none.
-     * @param asCRS
-     *          The expected operation name if the resampling is performed as a CRS change.
-     * @param asGG
-     *          The expected operation name if the resampling is perofrmed as a Grid Geometry change.
+     * @param coverage The coverage to apply the operation on.
+     * @param hints    An optional set of hints, or {@code null} if none.
+     * @param asCRS    The expected operation name if the resampling is performed as a CRS change.
+     * @param asGG     The expected operation name if the resampling is perofrmed as a Grid 
+     *                 Geometry change.
      */
     protected static void showTranslated(GridCoverage2D coverage,
-                                   final Hints    hints,
-                                   final String   asCRS,
-                                   final String   asGG)
-    {
+                                         final Hints hints,
+                                         final String asCRS,
+                                         final String asGG) {
         final AffineTransform atr = AffineTransform.getTranslateInstance(5, 5);
         atr.concatenate(getAffineTransform(coverage));
         final MathTransform tr = ProjectiveTransform.create(atr);

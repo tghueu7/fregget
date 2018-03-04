@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -26,11 +26,8 @@ import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
  * @author Christian Muüller
- * 
+ * <p>
  * Implementation of {@link FeatureIterator} for {@link PreGeneralizedSimpleFeature}
- *
- *
- *
  * @source $URL$
  */
 public class PreGeneralizedFeatureIterator implements SimpleFeatureIterator {
@@ -44,8 +41,9 @@ public class PreGeneralizedFeatureIterator implements SimpleFeatureIterator {
     protected int[] indexMapping;
 
     public PreGeneralizedFeatureIterator(SimpleFeatureIterator backendIterator,
-            SimpleFeatureType featureTyp, int indexMapping[], String geomPropertyName,
-            String backendGeomPropertyName) {
+                                         SimpleFeatureType featureTyp, int indexMapping[], String
+                                                 geomPropertyName,
+                                         String backendGeomPropertyName) {
         super();
         this.backendIterator = backendIterator;
         this.featureTyp = featureTyp;

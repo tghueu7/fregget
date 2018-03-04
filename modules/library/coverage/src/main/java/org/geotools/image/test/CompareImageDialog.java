@@ -27,7 +27,8 @@ class CompareImageDialog extends JDialog {
         this.setContentPane(content);
         this.setTitle("ImageAssert");
         String message;
-        if (expected.getWidth() != actual.getWidth() || expected.getHeight() != actual.getHeight()) {
+        if (expected.getWidth() != actual.getWidth() || expected.getHeight() != actual.getHeight
+                ()) {
             message = "Image sizes are different, expected " + expected.getWidth() + "x"
                     + expected.getHeight() + " but actual is " + actual.getWidth() + "x"
                     + actual.getHeight();
@@ -87,5 +88,5 @@ class CompareImageDialog extends JDialog {
 
         return dialog.accept;
     }
-    
+
 }

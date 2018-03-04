@@ -25,9 +25,10 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 /**
- * Wrapper that takes the sprite index file (as a JSONObject) for a Mapbox Sprite Sheet and parses the all the individual icons as
+ * Wrapper that takes the sprite index file (as a JSONObject) for a Mapbox Sprite Sheet and 
+ * parses the all the individual icons as
  * {@link IconInfo} objects. For example:
- *
+ * <p>
  * <pre>
  * <code>
  * {
@@ -49,9 +50,8 @@ import java.util.logging.Logger;
  * </code>
  * </pre>
  *
- *
- * @see <a href="https://www.mapbox.com/mapbox-gl-js/style-spec/#sprite">https://www.mapbox.com/mapbox-gl-js/style-spec/#sprite</a>
- *
+ * @see <a href="https://www.mapbox.com/mapbox-gl-js/style-spec/#sprite">https://www.mapbox
+ * .com/mapbox-gl-js/style-spec/#sprite</a>
  */
 public class SpriteIndex {
 
@@ -64,9 +64,8 @@ public class SpriteIndex {
     private static final Logger LOGGER = Logging.getLogger(SpriteIndex.class);
 
     /**
-     *
      * @param spriteIndexUrl The URL of the sprite index file (used for error messages).
-     * @param json The sprite index file as a {@link JSONObject}.
+     * @param json           The sprite index file as a {@link JSONObject}.
      */
     public SpriteIndex(String spriteIndexUrl, JSONObject json) {
         this.spriteIndexUrl = spriteIndexUrl;
@@ -92,7 +91,7 @@ public class SpriteIndex {
      * Parse the {@link IconInfo} for the provided iconName in the provided icon index.
      *
      * @param iconIndex The icon index file.
-     * @param iconName The name of the icon in the index file.
+     * @param iconName  The name of the icon in the index file.
      * @return An {@link IconInfo} for the icon.
      */
     protected static IconInfo parseIconInfoFromIndex(JSONObject iconIndex, String iconName) {
@@ -120,6 +119,7 @@ public class SpriteIndex {
 
     /**
      * Get information about a single icon from the index
+     *
      * @param iconName Name of the icon
      * @return Info object describing the icons
      */
@@ -133,8 +133,9 @@ public class SpriteIndex {
     }
 
     /**
-     * Wrapper for parsing the properties of an individual sprite index entry (JSONObject) for a single icon. For example:
-     *
+     * Wrapper for parsing the properties of an individual sprite index entry (JSONObject) for a 
+     * single icon. For example:
+     * <p>
      * <pre>
      * <code>
      * {
@@ -147,9 +148,8 @@ public class SpriteIndex {
      * </code>
      * </pre>
      *
-     *
-     * @see <a href="https://www.mapbox.com/mapbox-gl-js/style-spec/#sprite">https://www.mapbox.com/mapbox-gl-js/style-spec/#sprite</a>
-     *
+     * @see <a href="https://www.mapbox.com/mapbox-gl-js/style-spec/#sprite">https://www.mapbox
+     * .com/mapbox-gl-js/style-spec/#sprite</a>
      */
     public static class IconInfo {
 
@@ -158,9 +158,8 @@ public class SpriteIndex {
         private JSONObject json;
 
         /**
-         *
          * @param iconName The name of this sprite icon (used for error messages)
-         * @param json The sprite index entry for this icon, as a {@link JSONObject}
+         * @param json     The sprite index entry for this icon, as a {@link JSONObject}
          */
         public IconInfo(String iconName, JSONObject json) {
             this.iconName = iconName;

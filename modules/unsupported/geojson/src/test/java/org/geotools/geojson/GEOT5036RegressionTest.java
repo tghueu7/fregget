@@ -31,8 +31,8 @@ import org.apache.commons.lang.time.FastDateFormat;
 
 /**
  * Exploit bug GEOT-5036, concurrent use of GeoJSONUtil.
- * @author Guido Grazioli <guido.grazioli@gmail.com>
  *
+ * @author Guido Grazioli <guido.grazioli@gmail.com>
  */
 public class GEOT5036RegressionTest extends TestCase {
 
@@ -58,7 +58,8 @@ public class GEOT5036RegressionTest extends TestCase {
     public void setUp() throws java.lang.Exception {
         // perform 50 conversions
         for (int i = 0; i < 50; i++) {
-            final Date date = new Date(System.currentTimeMillis() - rand.nextInt(100) * 1000 * 3600 * 24);
+            final Date date = new Date(System.currentTimeMillis() - rand.nextInt(100) * 1000 * 
+                    3600 * 24);
             expectationMap.put(date, null);
         }
     }

@@ -25,26 +25,24 @@ import org.geotools.validation.spatial.IsValidGeometryValidation;
 
 /**
  * FeatureValidationTest purpose.
- * 
+ * <p>
  * <p>
  * Description of FeatureValidationTest ...
  * </p>
- * 
+ * <p>
  * <p></p>
  *
  * @author jgarnett, Refractions Research, Inc.
  * @author $Author: sploreg $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class FeatureValidationTest extends DataTestCase {
     MemoryDataStore store;
 
     /**
      * FeatureValidationTest constructor.
-     * 
+     * <p>
      * <p>
      * Run test <code>testName</code>.
      * </p>
@@ -59,7 +57,6 @@ public class FeatureValidationTest extends DataTestCase {
      * Construct data store for use.
      *
      * @throws Exception
-     *
      * @see junit.framework.TestCase#setUp()
      */
     protected void setUp() throws Exception {
@@ -73,7 +70,6 @@ public class FeatureValidationTest extends DataTestCase {
      * Override tearDown.
      *
      * @throws Exception
-     *
      * @see junit.framework.TestCase#tearDown()
      */
     protected void tearDown() throws Exception {
@@ -88,15 +84,15 @@ public class FeatureValidationTest extends DataTestCase {
         IsValidGeometryValidation validator = new IsValidGeometryValidation();
         validator.setName("isValidRoad");
         validator.setDescription("Tests to see if a road is valid");
-        validator.setTypeRef( "*" );
+        validator.setTypeRef("*");
         validationResults.setValidation(validator);
         assertTrue(validator.validate(this.newRoad, this.roadType,
                 validationResults));
 
         try {
-            this.newRoad = SimpleFeatureBuilder.build(this.roadType,(new Object[] {
-                        new Integer(2), line(new int[] { 1, 2, 1, 2 }), "r4"
-                    }), "road.rd4");
+            this.newRoad = SimpleFeatureBuilder.build(this.roadType, (new Object[]{
+                    new Integer(2), line(new int[]{1, 2, 1, 2}), "r4"
+            }), "road.rd4");
         } catch (IllegalAttributeException e) {
         }
 
@@ -106,7 +102,7 @@ public class FeatureValidationTest extends DataTestCase {
 
     /**
      * testABunchOfValidations purpose.
-     * 
+     * <p>
      * <p>
      * Description ...
      * </p>
@@ -119,23 +115,23 @@ public class FeatureValidationTest extends DataTestCase {
         IsValidGeometryValidation isValidValidator1 = new IsValidGeometryValidation();
         isValidValidator1.setName("isValidRoad");
         isValidValidator1.setDescription("Tests to see if a road is valid");
-        isValidValidator1.setTypeRef( "roads" );
-        
+        isValidValidator1.setTypeRef("roads");
+
         IsValidGeometryValidation isValidValidator2 = new IsValidGeometryValidation();
         isValidValidator2.setName("isValidRail");
         isValidValidator2.setDescription("Tests to see if a railway is valid");
-        isValidValidator2.setTypeRef( "rails" );
-        
+        isValidValidator2.setTypeRef("rails");
+
         IsValidGeometryValidation isValidValidator3 = new IsValidGeometryValidation();
         isValidValidator3.setName("isValidRiver");
         isValidValidator3.setDescription("Tests to see if a river is valid");
-        isValidValidator3.setTypeRef( "rivers" );
-        
+        isValidValidator3.setTypeRef("rivers");
+
         IsValidGeometryValidation isValidValidator4 = new IsValidGeometryValidation();
         isValidValidator4.setName("isValidAll");
         isValidValidator4.setDescription("Tests to see if all geometries are valid");
-        isValidValidator4.setTypeRef( "*" );
-        
+        isValidValidator4.setTypeRef("*");
+
         // various Integrity tests
         //
         //
@@ -150,25 +146,29 @@ public class FeatureValidationTest extends DataTestCase {
         String[] types1 = isValidValidator1.getTypeNames();
 
         for (int i = 0; i < types1.length; i++) {
-            //isValidValidator1.validate(featuresToTest(types[i]), featureType(types[i]), roadValidationResults);
+            //isValidValidator1.validate(featuresToTest(types[i]), featureType(types[i]), 
+            // roadValidationResults);
         }
 
         String[] types2 = isValidValidator1.getTypeNames();
 
         for (int i = 0; i < types2.length; i++) {
-            //isValidValidator2.validate(featuresToTest(types[i]), featureType(types[i]), roadValidationResults);
+            //isValidValidator2.validate(featuresToTest(types[i]), featureType(types[i]), 
+            // roadValidationResults);
         }
 
         String[] types3 = isValidValidator1.getTypeNames();
 
         for (int i = 0; i < types3.length; i++) {
-            //isValidValidator3.validate(featuresToTest(types[i]), featureType(types[i]), roadValidationResults);
+            //isValidValidator3.validate(featuresToTest(types[i]), featureType(types[i]), 
+            // roadValidationResults);
         }
 
         String[] types4 = isValidValidator1.getTypeNames();
 
         for (int i = 0; i < types4.length; i++) {
-            //isValidValidator4.validate(featuresToTest(types[i]), featureType(types[i]), roadValidationResults);
+            //isValidValidator4.validate(featuresToTest(types[i]), featureType(types[i]), 
+            // roadValidationResults);
         }
 
         // check the results of the roadValidator

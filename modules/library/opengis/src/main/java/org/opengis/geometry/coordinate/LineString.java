@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.coordinate;
 
 import java.util.List;
+
 import org.opengis.geometry.primitive.CurveSegment;
 import org.opengis.annotation.UML;
 
@@ -23,16 +24,13 @@ import static org.opengis.annotation.Specification.*;
  * {@link List List&lt;LineSegment&gt;} into a single object,
  * with the obvious savings of storage space.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
- * @since GeoAPI 1.0
- *
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @see GeometryFactory#createLineString
+ * @since GeoAPI 1.0
  */
-@UML(identifier="GM_LineString", specification=ISO_19107)
+@UML(identifier = "GM_LineString", specification = ISO_19107)
 public interface LineString extends CurveSegment {
     /**
      * Returns a sequence of positions between which the curve is linearly interpolated.
@@ -42,7 +40,7 @@ public interface LineString extends CurveSegment {
      *
      * @return The control points between which the curve is linearly interpolated.
      */
-    @UML(identifier="controlPoint", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "controlPoint", obligation = MANDATORY, specification = ISO_19107)
     PointArray getControlPoints();
 
     /**
@@ -50,6 +48,6 @@ public interface LineString extends CurveSegment {
      *
      * @return The sequence of line segments.
      */
-    @UML(identifier="asGM_LineSegment", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "asGM_LineSegment", obligation = MANDATORY, specification = ISO_19107)
     List<LineSegment> asLineSegments();
 }

@@ -38,17 +38,16 @@ import org.geotools.resources.i18n.Errors;
 
 /**
  * Parser for {@linkplain MathTransform math transform}
- * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
+ * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT
+ * .html"><cite>Well
  * Known Text</cite> (WKT)</A> of math transform.
  *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Remi Eve
  * @author Martin Desruisseaux (IRD)
  * @author Rueben Schulz
+ * @version $Id$
+ * @source $URL$
+ * @since 2.0
  */
 public class MathTransformParser extends AbstractParser {
     /**
@@ -81,7 +80,6 @@ public class MathTransformParser extends AbstractParser {
      * and the default factories.
      *
      * @param symbols The symbols for parsing and formatting numbers.
-     *
      * @todo Pass hints in argument.
      */
     public MathTransformParser(final Symbols symbols) {
@@ -102,7 +100,7 @@ public class MathTransformParser extends AbstractParser {
     /**
      * Parses a math transform element.
      *
-     * @param  text The text to be parsed.
+     * @param text The text to be parsed.
      * @return The math transform.
      * @throws ParseException if the string can't be parsed.
      */
@@ -116,7 +114,7 @@ public class MathTransformParser extends AbstractParser {
     /**
      * Parses the next element in the specified <cite>Well Know Text</cite> (WKT) tree.
      *
-     * @param  element The element to be parsed.
+     * @param element The element to be parsed.
      * @return The object.
      * @throws ParseException if the element can't be parsed.
      */
@@ -128,23 +126,22 @@ public class MathTransformParser extends AbstractParser {
      * Parses the next element (a {@link MathTransform}) in the specified
      * <cite>Well Know Text</cite> (WKT) tree.
      *
-     * @param  element The parent element.
-     * @param  required True if parameter is required and false in other case.
+     * @param element  The parent element.
+     * @param required True if parameter is required and false in other case.
      * @return The next element as a {@link MathTransform} object.
      * @throws ParseException if the next element can't be parsed.
      */
     final MathTransform parseMathTransform(final Element element, final boolean required)
-            throws ParseException
-    {
+            throws ParseException {
         lastMethod = null;
         classification = null;
         final Object key = element.peek();
         if (key instanceof Element) {
             final String keyword = ((Element) key).keyword.trim().toUpperCase(symbols.locale);
-            if ("PARAM_MT"      .equals(keyword))  return parseParamMT      (element);
-            if ("CONCAT_MT"     .equals(keyword))  return parseConcatMT     (element);
-            if ("INVERSE_MT"    .equals(keyword))  return parseInverseMT    (element);
-            if ("PASSTHROUGH_MT".equals(keyword))  return parsePassThroughMT(element);
+            if ("PARAM_MT".equals(keyword)) return parseParamMT(element);
+            if ("CONCAT_MT".equals(keyword)) return parseConcatMT(element);
+            if ("INVERSE_MT".equals(keyword)) return parseInverseMT(element);
+            if ("PASSTHROUGH_MT".equals(keyword)) return parsePassThroughMT(element);
         }
         if (required) {
             throw element.parseFailed(null, Errors.format(ErrorKeys.UNKNOW_TYPE_$1, key));
@@ -154,12 +151,12 @@ public class MathTransformParser extends AbstractParser {
 
     /**
      * Parses a "PARAM_MT" element. This element has the following pattern:
-     *
+     * <p>
      * <blockquote><code>
      * PARAM_MT["<classification-name>" {,<parameter>}* ]
      * </code></blockquote>
      *
-     * @param  parent The parent element.
+     * @param parent The parent element.
      * @return The "PARAM_MT" element as an {@link MathTransform} object.
      * @throws ParseException if the "PARAM_MT" element can't be parsed.
      */
@@ -177,7 +174,7 @@ public class MathTransformParser extends AbstractParser {
          * set the corresponding parameter in the parameter group.
          */
         Element param;
-        while ((param=element.pullOptionalElement("PARAMETER")) != null) {
+        while ((param = element.pullOptionalElement("PARAMETER")) != null) {
             final String name = param.pullString("name");
             final ParameterValue parameter = parameters.parameter(name);
             final Class type = parameter.getDescriptor().getValueClass();
@@ -185,7 +182,7 @@ public class MathTransformParser extends AbstractParser {
                 parameter.setValue(param.pullInteger("value"));
             } else if (Double.class.equals(type)) {
                 parameter.setValue(param.pullDouble("value"));
-            } else if (URI.class.equals(type)){
+            } else if (URI.class.equals(type)) {
                 parameter.setValue(URI.create(param.pullString("value")));
             } else {
                 parameter.setValue(param.pullString("value"));
@@ -211,12 +208,12 @@ public class MathTransformParser extends AbstractParser {
 
     /**
      * Parses a "INVERSE_MT" element. This element has the following pattern:
-     *
+     * <p>
      * <blockquote><code>
      * INVERSE_MT[<math transform>]
      * </code></blockquote>
      *
-     * @param  parent The parent element.
+     * @param parent The parent element.
      * @return The "INVERSE_MT" element as an {@link MathTransform} object.
      * @throws ParseException if the "INVERSE_MT" element can't be parsed.
      */
@@ -227,27 +224,26 @@ public class MathTransformParser extends AbstractParser {
             transform = parseMathTransform(element, true).inverse();
             element.close();
             return transform;
-        }
-        catch (NoninvertibleTransformException exception) {
+        } catch (NoninvertibleTransformException exception) {
             throw element.parseFailed(exception, null);
         }
     }
 
     /**
      * Parses a "PASSTHROUGH_MT" element. This element has the following pattern:
-     *
+     * <p>
      * <blockquote><code>
      * PASSTHROUGH_MT[<integer>, <math transform>]
      * </code></blockquote>
      *
-     * @param  parent The parent element.
+     * @param parent The parent element.
      * @return The "PASSTHROUGH_MT" element as an {@link MathTransform} object.
      * @throws ParseException if the "PASSTHROUGH_MT" element can't be parsed.
      */
     private MathTransform parsePassThroughMT(final Element parent) throws ParseException {
-        final Element           element = parent.pullElement("PASSTHROUGH_MT");
+        final Element element = parent.pullElement("PASSTHROUGH_MT");
         final int firstAffectedOrdinate = parent.pullInteger("firstAffectedOrdinate");
-        final MathTransform   transform = parseMathTransform(element, true);
+        final MathTransform transform = parseMathTransform(element, true);
         element.close();
         try {
             return mtFactory.createPassThroughTransform(firstAffectedOrdinate, transform, 0);
@@ -258,12 +254,12 @@ public class MathTransformParser extends AbstractParser {
 
     /**
      * Parses a "CONCAT_MT" element. This element has the following pattern:
-     *
+     * <p>
      * <blockquote><code>
      * CONCAT_MT[<math transform> {,<math transform>}*]
      * </code></blockquote>
      *
-     * @param  parent The parent element.
+     * @param parent The parent element.
      * @return The "CONCAT_MT" element as an {@link MathTransform} object.
      * @throws ParseException if the "CONCAT_MT" element can't be parsed.
      */
@@ -293,7 +289,8 @@ public class MathTransformParser extends AbstractParser {
              * getLastMethod(). Performs a slower and less robust check as a fallback.
              */
             if (classification != null) {
-                for (final OperationMethod method : mtFactory.getAvailableMethods(Operation.class)) {
+                for (final OperationMethod method : mtFactory.getAvailableMethods(Operation
+                        .class)) {
                     if (AbstractIdentifiedObject.nameMatches(method, classification)) {
                         lastMethod = method;
                         break;

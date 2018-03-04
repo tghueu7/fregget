@@ -27,14 +27,15 @@ import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
  * A {@link GranuleSource} implementation wrapping a {@link GranuleCatalog}.
- * 
+ *
  * @author Daniele Romagnoli, GeoSolutions SAS
  * @author Simone Giannecchini, GeoSolutions SAS
- *
  */
 public class GranuleCatalogSource implements GranuleSource {
 
-    /** The underlying {@link GranuleCatalog} */
+    /**
+     * The underlying {@link GranuleCatalog}
+     */
     protected GranuleCatalog catalog;
 
     protected String typeName;

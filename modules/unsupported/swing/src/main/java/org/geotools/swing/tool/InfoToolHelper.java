@@ -37,17 +37,16 @@ import org.opengis.referencing.operation.MathTransform;
  * features in map layers.
  *
  * @author Michael Bedward
- * @since 2.6
- *
- * @source $URL$
  * @version $URL$
+ * @source $URL$
+ * @since 2.6
  */
 public abstract class InfoToolHelper implements MapBoundsListener {
     private static final Logger LOGGER = Logging.getLogger("org.geotools.swing");
 
     /**
      * String key used for the position element in the {@code Map} passed to
-     * {@linkplain #getInfo( org.geotools.util.KVP )}.
+     * {@linkplain #getInfo(org.geotools.util.KVP)}.
      */
     public static final String KEY_POSITION = "pos";
 
@@ -63,9 +62,7 @@ public abstract class InfoToolHelper implements MapBoundsListener {
      * for a given layer.
      *
      * @param layer the layer
-     *
      * @return {@code true} is this helper can handle the layer
-     *
      * @throws IllegalArgumentException if {@code layer} is {@code null}
      */
     public abstract boolean isSupportedLayer(Layer layer);
@@ -77,14 +74,13 @@ public abstract class InfoToolHelper implements MapBoundsListener {
      *
      * @param pos query position
      * @return layer data
-     *
      * @throws Exception on error querying the layer
      */
     public abstract InfoToolResult getInfo(DirectPosition2D pos) throws Exception;
 
     /**
      * Checks if this helper is holding a reference to a {@code MapContent} and
-     * a {@code Layer}.Helpers only hold a {@code WeakReference} to both the 
+     * a {@code Layer}.Helpers only hold a {@code WeakReference} to both the
      * map content and layer to avoid blocking garbage collection when layers
      * are discarded.
      *
@@ -99,14 +95,13 @@ public abstract class InfoToolHelper implements MapBoundsListener {
      * Sets the map content for this helper.
      *
      * @param layer the map content
-     *
      * @throws IllegalArgumentException if {@code content} is {@code null}
      */
     public void setMapContent(MapContent content) {
         if (content == null) {
             throw new IllegalArgumentException("content must not be null");
         }
-        
+
         contentRef = new WeakReference<MapContent>(content);
         clearTransform();
     }
@@ -124,7 +119,6 @@ public abstract class InfoToolHelper implements MapBoundsListener {
      * Sets the map layer for this helper.
      *
      * @param layer the map layer
-     *
      * @throws IllegalArgumentException if {@code layer} is {@code null}
      */
     public void setLayer(Layer layer) {
@@ -137,9 +131,9 @@ public abstract class InfoToolHelper implements MapBoundsListener {
     }
 
 
-
     /**
      * Gets the map layer associated with this helper.
+     *
      * @return
      */
     public Layer getLayer() {
@@ -161,7 +155,7 @@ public abstract class InfoToolHelper implements MapBoundsListener {
      * {@code Layer}.
      *
      * @return the transform or {@code null} if the layer's CRS is the same
-     *     as that of the map content, or if either has no CRS defined
+     * as that of the map content, or if either has no CRS defined
      */
     protected MathTransform getContentToLayerTransform() {
         if (transform == null && !transformFailed) {
@@ -176,7 +170,7 @@ public abstract class InfoToolHelper implements MapBoundsListener {
                 if (contentCRS != null && layerCRS != null) {
                     if (CRS.equalsIgnoreMetadata(contentCRS, layerCRS)) {
                         transform = new AffineTransform2D(new AffineTransform());
-                        
+
                     } else {
                         try {
                             transform = CRS.findMathTransform(contentCRS, layerCRS, true);

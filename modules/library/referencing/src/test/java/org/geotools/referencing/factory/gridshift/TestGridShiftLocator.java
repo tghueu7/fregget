@@ -16,7 +16,7 @@ import org.opengis.metadata.citation.Citation;
 /**
  * Test helper that can load compressed grids
  */
-public class TestGridShiftLocator  extends AbstractFactory implements GridShiftLocator {
+public class TestGridShiftLocator extends AbstractFactory implements GridShiftLocator {
 
     static final Logger LOGGER = Logging.getLogger(TestGridShiftLocator.class);
 

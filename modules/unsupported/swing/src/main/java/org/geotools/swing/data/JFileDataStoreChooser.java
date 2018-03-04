@@ -47,12 +47,9 @@ import org.geotools.data.FileDataStoreFinder;
  * }</pre>
  *
  * @author Jody Garnett
- * @since 2.6
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.6
  */
 public class JFileDataStoreChooser extends JFileChooser {
     private static final long serialVersionUID = -7482109609487216939L;
@@ -66,7 +63,7 @@ public class JFileDataStoreChooser extends JFileChooser {
         this(new String[]{extension});
     }
 
-    static Map<String, String> associations( List<String> extensions ){
+    static Map<String, String> associations(List<String> extensions) {
         Map<String, String> fileAssociations = new TreeMap<String, String>();
 
         for (String extension : extensions) {
@@ -89,34 +86,35 @@ public class JFileDataStoreChooser extends JFileChooser {
 
                 } else {
                     // fallback
-                    fileAssociations.put(ext, ext.toUpperCase().substring(1) + "files (*" + ext + ")");
+                    fileAssociations.put(ext, ext.toUpperCase().substring(1) + "files (*" + ext +
+                            ")");
                 }
             }
         }
         return fileAssociations;
     }
-    
+
     /**
      * Create a dialog that filters for files with the specified extensions.
      *
      * @param extensions the file extensions, with or without the leading '.'
      */
     public JFileDataStoreChooser(final List<String> extensions) {
-        this( associations( extensions ));
+        this(associations(extensions));
     }
-    
+
     /**
      * Create a dialog that filters for files with the specified extensions.
      *
      * @param extensions the file extensions, with or without the leading '.'
      */
     public JFileDataStoreChooser(final String[] extensions) {
-        this( associations( Arrays.asList(extensions)));
+        this(associations(Arrays.asList(extensions)));
     }
 
     /**
      * Creates a dialog based on the given file associations.
-     *
+     * <p>
      * <pre><code>
      * Map<String, String> assoc = new HashMap<String, String>();
      * assoc.put(".foo", "Foo data files (*.foo)");
@@ -125,17 +123,17 @@ public class JFileDataStoreChooser extends JFileChooser {
      * </code></pre>
      *
      * @param fileAssociations a {@code Map} where keys are extensions (with or
-     *        wirhout the leading dot) and values are descriptions.
+     *                         wirhout the leading dot) and values are descriptions.
      */
     public JFileDataStoreChooser(final Map<String, String> fileAssociations) {
-        init( fileAssociations );
+        init(fileAssociations);
     }
 
     /**
      * Helper method for constructors that creates file filters.
      *
      * @param fileAssociations a {@code Map} where keys are extensions (with or
-     *        wirhout the leading dot) and values are descriptions.
+     *                         wirhout the leading dot) and values are descriptions.
      */
     private void init(final Map<String, String> fileAssociations) {
 
@@ -167,7 +165,7 @@ public class JFileDataStoreChooser extends JFileChooser {
 
     /**
      * Creates a dialog that filters for files matching the specified
-     * data format. 
+     * data format.
      *
      * @param format data file format
      */
@@ -201,8 +199,7 @@ public class JFileDataStoreChooser extends JFileChooser {
      * Show a file open dialog that filters for files with the given extension.
      *
      * @param extension file extension, with or without leading '.'
-     * @param parent parent GUI component (may be {@code null})
-     *
+     * @param parent    parent GUI component (may be {@code null})
      * @return the selected file or null if the user cancelled the selection
      * @throws java.awt.HeadlessException if run in an unsupported environment
      */
@@ -214,11 +211,10 @@ public class JFileDataStoreChooser extends JFileChooser {
     /**
      * Show a file open dialog that filters for files with the given extension.
      *
-     * @param extension file extension, with or without leading '.'
+     * @param extension  file extension, with or without leading '.'
      * @param initialDir initial directory to display; if {@code null} the initial directory
-     *        will be the user's default directory
-     * @param parent parent GUI component (may be {@code null})
-     *
+     *                   will be the user's default directory
+     * @param parent     parent GUI component (may be {@code null})
      * @return the selected file or null if the user cancelled the selection
      * @throws java.awt.HeadlessException if run in an unsupported environment
      */
@@ -232,11 +228,11 @@ public class JFileDataStoreChooser extends JFileChooser {
                 dialog.setCurrentDirectory(initialDir.getParentFile());
             }
         }
-        
+
         if (dialog.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION) {
             return dialog.getSelectedFile();
         }
-        
+
         return null;
     }
 
@@ -244,8 +240,7 @@ public class JFileDataStoreChooser extends JFileChooser {
      * Show a file open dialog that filters for files with the given extensions.
      *
      * @param extensions array of file extension, with or without leading '.'
-     * @param parent parent GUI component (may be null)
-     *
+     * @param parent     parent GUI component (may be null)
      * @return the selected file or null if the user cancelled the selection
      * @throws java.awt.HeadlessException if run in an unsupported environment
      */
@@ -259,9 +254,8 @@ public class JFileDataStoreChooser extends JFileChooser {
      *
      * @param extensions array of file extension, with or without leading '.'
      * @param initialDir initial directory to display; if {@code null} the initial directory
-     *        will be the user's default directory
-     * @param parent parent GUI component (may be null)
-     *
+     *                   will be the user's default directory
+     * @param parent     parent GUI component (may be null)
      * @return the selected file or null if the user cancelled the selection
      * @throws java.awt.HeadlessException if run in an unsupported environment
      */
@@ -290,7 +284,6 @@ public class JFileDataStoreChooser extends JFileChooser {
      *
      * @param format the file data store format
      * @param parent parent GUI component (may be null)
-     *
      * @return the selected file or null if the user cancelled the selection
      * @throws java.awt.HeadlessException if run in an unsupported environment
      */
@@ -303,15 +296,15 @@ public class JFileDataStoreChooser extends JFileChooser {
      * Show a file open dialog that filters for files that match a given file
      * data store format
      *
-     * @param format the file data store format
+     * @param format     the file data store format
      * @param initialDir initial directory to display; if {@code null} the initial directory
-     *        will be the user's default directory
-     * @param parent parent GUI component (may be null)
-     *
+     *                   will be the user's default directory
+     * @param parent     parent GUI component (may be null)
      * @return the selected file or null if the user cancelled the selection
      * @throws java.awt.HeadlessException if run in an unsupported environment
      */
-    public static File showOpenFile(FileDataStoreFactorySpi format, File initialDir, Component parent)
+    public static File showOpenFile(FileDataStoreFactorySpi format, File initialDir, Component 
+            parent)
             throws HeadlessException {
 
         JFileDataStoreChooser dialog = new JFileDataStoreChooser(format);
@@ -343,11 +336,12 @@ public class JFileDataStoreChooser extends JFileChooser {
             JOptionPane.showMessageDialog(null, "Selection cancelled");
         }
     }
+
     /**
-     * Consider the provided file as a candidate for a new filename. 
+     * Consider the provided file as a candidate for a new filename.
      * A number will be appended to the filename if there is a
      * conflict.
-     * 
+     *
      * @param file the candidate file name
      */
     public void setSaveFile(File file) {
@@ -355,19 +349,18 @@ public class JFileDataStoreChooser extends JFileChooser {
         int split = path.lastIndexOf('.');
         String base;
         String extension;
-        if( split == -1 ){
+        if (split == -1) {
             base = path;
             extension = "";
-        }
-        else {
+        } else {
             base = path.substring(0, split);
             extension = path.substring(split);
         }
-        File saveFile = new File( path );
+        File saveFile = new File(path);
         int number = 0;
-        while( saveFile.exists() ){
-            saveFile = new File( base+(number++)+extension );            
+        while (saveFile.exists()) {
+            saveFile = new File(base + (number++) + extension);
         }
-        setSelectedFile( saveFile );        
+        setSelectedFile(saveFile);
     }
 }

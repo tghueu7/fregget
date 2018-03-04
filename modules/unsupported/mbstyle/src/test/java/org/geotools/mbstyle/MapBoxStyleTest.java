@@ -35,18 +35,18 @@ public class MapBoxStyleTest {
     public void validate() throws IOException, ParseException {
         Reader reader = MapboxTestUtils.readerTestStyle("fillStyleTest.json");
         List<Exception> problems = MapBoxStyle.validate(reader);
-        
-        assertTrue("fillStyleTest validate", problems.isEmpty() );
-        
+
+        assertTrue("fillStyleTest validate", problems.isEmpty());
+
         reader = MapboxTestUtils.readerTestStyle("styleInvalidName.json");
         problems = MapBoxStyle.validate(reader);
-        
-        assertEquals("styleInvalidName 1 failure", 1, problems.size() );
+
+        assertEquals("styleInvalidName 1 failure", 1, problems.size());
 
         reader = MapboxTestUtils.readerTestStyle("styleInvalidLayers.json");
         problems = MapBoxStyle.validate(reader);
-        
-        assertEquals("styleInvalidLayers 2 failure", 2, problems.size() );
+
+        assertEquals("styleInvalidLayers 2 failure", 2, problems.size());
     }
 
     @Test
@@ -75,17 +75,20 @@ public class MapBoxStyleTest {
 
         assertEquals("Lakes", sld.getStyledLayers()[0].getName());
         assertTrue(sld.getStyledLayers()[0] instanceof NamedLayer);
-        assertEquals(1, ((NamedLayer)sld.getStyledLayers()[0]).getStyles().length);
-        assertEquals(2, ((NamedLayer)sld.getStyledLayers()[0]).getStyles()[0].featureTypeStyles().size());
+        assertEquals(1, ((NamedLayer) sld.getStyledLayers()[0]).getStyles().length);
+        assertEquals(2, ((NamedLayer) sld.getStyledLayers()[0]).getStyles()[0].featureTypeStyles
+                ().size());
 
         assertEquals("NamedPlaces", sld.getStyledLayers()[1].getName());
         assertTrue(sld.getStyledLayers()[1] instanceof NamedLayer);
-        assertEquals(1, ((NamedLayer)sld.getStyledLayers()[1]).getStyles().length);
-        assertEquals(1, ((NamedLayer)sld.getStyledLayers()[1]).getStyles()[0].featureTypeStyles().size());
+        assertEquals(1, ((NamedLayer) sld.getStyledLayers()[1]).getStyles().length);
+        assertEquals(1, ((NamedLayer) sld.getStyledLayers()[1]).getStyles()[0].featureTypeStyles
+                ().size());
 
         assertEquals("Lakes", sld.getStyledLayers()[2].getName());
         assertTrue(sld.getStyledLayers()[2] instanceof NamedLayer);
-        assertEquals(1, ((NamedLayer)sld.getStyledLayers()[2]).getStyles().length);
-        assertEquals(1, ((NamedLayer)sld.getStyledLayers()[2]).getStyles()[0].featureTypeStyles().size());
+        assertEquals(1, ((NamedLayer) sld.getStyledLayers()[2]).getStyles().length);
+        assertEquals(1, ((NamedLayer) sld.getStyledLayers()[2]).getStyles()[0].featureTypeStyles
+                ().size());
     }
 }

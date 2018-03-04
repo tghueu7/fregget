@@ -36,7 +36,7 @@ import java.util.regex.Pattern;
 
 /**
  * Responsible for traverse {@link MBStyle} and generating {@link StyledLayerDescriptor}.
- * 
+ *
  * @author Jody Garnett (Jody Garnett)
  */
 public class MBStyleTransformer {
@@ -44,13 +44,13 @@ public class MBStyleTransformer {
     private final FilterFactory2 ff;
 
     private final StyleFactory sf;
-    
+
     private final StyleBuilder sb;
 
     private final List<String> defaultFonts;
-    
+
     protected static Pattern mapboxTokenPattern = Pattern.compile("\\{(.*?)\\}");
-    
+
     private static final Logger LOGGER = Logging.getLogger(MBStyleTransformer.class);
 
     public MBStyleTransformer(MBObjectParser parse) {
@@ -64,30 +64,36 @@ public class MBStyleTransformer {
 
     /**
      * <p>
-     * Takes the name of an icon, and an {@link MBStyle} as a context, and returns an External Graphic referencing the full URL of the image for
-     * consumption by the {@link SpriteGraphicFactory}. (The format of the image will be {@link SpriteGraphicFactory#FORMAT}).
+     * Takes the name of an icon, and an {@link MBStyle} as a context, and returns an External 
+     * Graphic referencing the full URL of the image for
+     * consumption by the {@link SpriteGraphicFactory}. (The format of the image will be 
+     * {@link SpriteGraphicFactory#FORMAT}).
      * </p>
-     * 
+     *
+     * @param iconName     The name of the icon inside the spritesheet.
+     * @param iconSize     The size (scale multiplier) to apply to the icon. (Nullable).
+     * @param styleContext The style context in which to resolve the icon name to the full sprite
+     *                    URL (for consumption by the
+     *                     {@link SpriteGraphicFactory}).
+     * @return An external graphic with the full URL of the mage for the 
+     * {@link SpriteGraphicFactory}.
      * @see {@link SpriteGraphicFactory} for more information.
-     * 
-     * @param iconName The name of the icon inside the spritesheet.
-     * @param iconSize The size (scale multiplier) to apply to the icon. (Nullable).
-     * @param styleContext The style context in which to resolve the icon name to the full sprite URL (for consumption by the
-     *        {@link SpriteGraphicFactory}).
-     * @return An external graphic with the full URL of the mage for the {@link SpriteGraphicFactory}.
      */
-    public ExternalGraphic createExternalGraphicForSprite(Expression iconName, Expression iconSize, MBStyle styleContext) {
+    public ExternalGraphic createExternalGraphicForSprite(Expression iconName, Expression 
+            iconSize, MBStyle styleContext) {
         String spriteUrl;
-        String iconNameCql = ECQL.toCQL(ff.function("strURLEncode", iconName));      
-    
+        String iconNameCql = ECQL.toCQL(ff.function("strURLEncode", iconName));
+
         String iconSizeCql = null;
         if (iconSize != null) {
             iconSizeCql = ECQL.toCQL(ff.function("strURLEncode", iconSize));
         }
-        
+
         /*
-         * Note: The provided iconName {@link Expression} will be embedded in the {@link ExternalGraphic}'s URL as a CQL string, in order to support
-         * Mapbox functions. The {@link SLDStyleFactory} will transform it back into a proper {@link Expression} before sending it to the {@link
+         * Note: The provided iconName {@link Expression} will be embedded in the 
+         * {@link ExternalGraphic}'s URL as a CQL string, in order to support
+         * Mapbox functions. The {@link SLDStyleFactory} will transform it back into a proper 
+         * {@link Expression} before sending it to the {@link
          * SpriteGraphicFactory}.
          */
 
@@ -108,93 +114,115 @@ public class MBStyleTransformer {
 
         return sf.createExternalGraphic(spriteUrl, SpriteGraphicFactory.FORMAT);
     }
-    
+
 
     /**
      * <p>
-     * Takes the name of an icon, and an {@link MBStyle} as a context, and returns an External Graphic referencing the full URL of the image for
-     * consumption by the {@link SpriteGraphicFactory}. (The format of the image will be {@link SpriteGraphicFactory#FORMAT}).
+     * Takes the name of an icon, and an {@link MBStyle} as a context, and returns an External 
+     * Graphic referencing the full URL of the image for
+     * consumption by the {@link SpriteGraphicFactory}. (The format of the image will be 
+     * {@link SpriteGraphicFactory#FORMAT}).
      * </p>
-     * 
+     *
+     * @param iconName     The name of the icon inside the spritesheet.
+     * @param styleContext The style context in which to resolve the icon name to the full sprite
+     *                    URL (for consumption by the
+     *                     {@link SpriteGraphicFactory}).
+     * @return An external graphic with the full URL of the mage for the 
+     * {@link SpriteGraphicFactory}.
      * @see {@link SpriteGraphicFactory} for more information.
-     * 
-     * @param iconName The name of the icon inside the spritesheet.
-     * @param styleContext The style context in which to resolve the icon name to the full sprite URL (for consumption by the
-     *        {@link SpriteGraphicFactory}).
-     * @return An external graphic with the full URL of the mage for the {@link SpriteGraphicFactory}.
      */
-    public ExternalGraphic createExternalGraphicForSprite(Expression iconName, MBStyle styleContext) {
+    public ExternalGraphic createExternalGraphicForSprite(Expression iconName, MBStyle 
+            styleContext) {
         return createExternalGraphicForSprite(iconName, ff.literal("1"), styleContext);
     }
-    
 
 
     /**
-     * Given a string of "bottom-right" or "top-left" find the x,y coordinates and create an AnchorPoint
+     * Given a string of "bottom-right" or "top-left" find the x,y coordinates and create an 
+     * AnchorPoint
+     *
      * @param textAnchor The value of the "text-anchor" property in the mapbox style.
      * @return AnchorPoint
      */
     AnchorPoint getAnchorPoint(String textAnchor) {
         TextAnchor anchor = TextAnchor.parse(textAnchor);
         return sb.createAnchorPoint(anchor.getX(), anchor.getY());
-    }     
-    
+    }
+
     /**
-     * <p>Take a string that may contain Mapbox-style tokens, and convert it to a CQL expression string.</p>
-     * 
-     * <p>E.g., convert "<code>String with {tokens}</code>" to a CQL Expression (String) "<code>String with ${tokens}</code>".</p>
-     * 
+     * <p>Take a string that may contain Mapbox-style tokens, and convert it to a CQL expression 
+     * string.</p>
+     * <p>
+     * <p>E.g., convert "<code>String with {tokens}</code>" to a CQL Expression (String) 
+     * "<code>String with ${tokens}</code>".</p>
+     * <p>
      * <p>See documentation of Mapbox {token} values, linked below.</p>
-     * 
-     * @see <a href="https://www.mapbox.com/mapbox-gl-js/style-spec/#layout-symbol-icon-image">Mapbox Style Spec: {token} values for icon-image</a>
-     * @see <a href="https://www.mapbox.com/mapbox-gl-js/style-spec/#layout-symbol-text-field">Mapbox Style Spec: {token} values for text-field</a>
-     * 
+     *
      * @param tokenStr A string with mapbox-style tokens
      * @return A CQL Expression
+     * @see 
+     * <a href="https://www.mapbox.com/mapbox-gl-js/style-spec/#layout-symbol-icon-image">Mapbox 
+     * Style Spec: {token} values for icon-image</a>
+     * @see 
+     * <a href="https://www.mapbox.com/mapbox-gl-js/style-spec/#layout-symbol-text-field">Mapbox 
+     * Style Spec: {token} values for text-field</a>
      */
     public String cqlStringFromTokens(String tokenStr) {
         // Find all {tokens} and turn them into CQL ${expressions}
         Matcher m = mapboxTokenPattern.matcher(tokenStr);
-        return m.replaceAll("\\${$1}");       
+        return m.replaceAll("\\${$1}");
     }
 
     /**
-     * <p>Take a string that may contain Mapbox-style tokens, and convert it to a CQL expression.</p>
-     * 
-     * <p>E.g., convert "<code>String with {tokens}</code>" to a CQL Expression: "<code>String with ${tokens}</code>".</p>
-     * 
+     * <p>Take a string that may contain Mapbox-style tokens, and convert it to a CQL expression
+     * .</p>
+     * <p>
+     * <p>E.g., convert "<code>String with {tokens}</code>" to a CQL Expression: "<code>String 
+     * with ${tokens}</code>".</p>
+     * <p>
      * <p>See documentation of Mapbox {token} values, linked below.</p>
-     * 
-     * @see <a href="https://www.mapbox.com/mapbox-gl-js/style-spec/#layout-symbol-icon-image">Mapbox Style Spec: {token} values for icon-image</a>
-     * @see <a href="https://www.mapbox.com/mapbox-gl-js/style-spec/#layout-symbol-text-field">Mapbox Style Spec: {token} values for text-field</a>
-     * 
+     *
      * @param tokenStr A string with mapbox-style tokens
      * @return A CQL Expression
+     * @see 
+     * <a href="https://www.mapbox.com/mapbox-gl-js/style-spec/#layout-symbol-icon-image">Mapbox 
+     * Style Spec: {token} values for icon-image</a>
+     * @see 
+     * <a href="https://www.mapbox.com/mapbox-gl-js/style-spec/#layout-symbol-text-field">Mapbox 
+     * Style Spec: {token} values for text-field</a>
      */
     public Expression cqlExpressionFromTokens(String tokenStr) {
         try {
             return ExpressionExtractor.extractCqlExpressions(cqlStringFromTokens(tokenStr));
         } catch (IllegalArgumentException iae) {
             LOGGER.warning(
-                    "Exception converting Mapbox token string to CQL expression. Mapbox token string was: \""
+                    "Exception converting Mapbox token string to CQL expression. Mapbox token " +
+                            "string was: \""
                             + tokenStr + "\". Exception was: " + iae.getMessage());
             return ff.literal(tokenStr);
         }
     }
 
     /**
-     * Utility method for getting a concrete value out of an expression, used by transformer methods when GeoTools is unable to accept an expression.
+     * Utility method for getting a concrete value out of an expression, used by transformer 
+     * methods when GeoTools is unable to accept an expression.
      * <ul>
-     * <li>If the provided {@link Expression} is a {@link Literal}, evaluates it and returns the value.</li>
-     * <li>Otherwise, returns the provided fallback value and logs a warning that dynamic styling is not yet supported for this property.</li>
+     * <li>If the provided {@link Expression} is a {@link Literal}, evaluates it and returns the 
+     * value.</li>
+     * <li>Otherwise, returns the provided fallback value and logs a warning that dynamic styling
+     * is not yet supported for this property.</li>
      * </ul>
-     * 
-     * @param expression The expression
-     * @param clazz The type to provide as the context for the expression's evaluation.
-     * @param fallback The value to return if the expression is not a literal
-     * @param propertyName The name of the property that the expression corresponds to, for logging purposes.
-     * @param layerId The ID of the layer that the expression corresponds to, for logging purposes.
-     * @return The evaluated value of the provided {@link Expression}, or the provided fallback value.
+     *
+     * @param expression   The expression
+     * @param clazz        The type to provide as the context for the expression's evaluation.
+     * @param fallback     The value to return if the expression is not a literal
+     * @param propertyName The name of the property that the expression corresponds to, for 
+     *                     logging purposes.
+     * @param layerId      The ID of the layer that the expression corresponds to, for logging 
+     *                     purposes.
+     * @return The evaluated value of the provided {@link Expression}, or the provided fallback 
+     * value.
      */
     public static <T> T requireLiteral(Expression expression, Class<T> clazz, T fallback,
                                        String propertyName, String layerId) {
@@ -207,14 +235,14 @@ public class MBStyleTransformer {
             }
         } else {
             LOGGER.warning("Mapbox '" + propertyName
-                    + "' property: functions not yet supported for this property, falling back to default value."
+                    + "' property: functions not yet supported for this property, falling back to" +
+                    " default value."
                     + " (layerId = '" + layerId + "')");
             return fallback;
         }
     }
 
     /**
-     *
      * @return The list of default font names
      */
     public List<String> getDefaultFonts() {

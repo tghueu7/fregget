@@ -17,6 +17,7 @@
 package org.geotools.kml.bindings;
 
 import javax.xml.namespace.QName;
+
 import com.vividsolutions.jts.geom.Envelope;
 import org.geotools.kml.KML;
 import org.geotools.xml.AbstractComplexBinding;
@@ -26,16 +27,17 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://earth.google.com/kml/2.1:LatLonBoxType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="LatLonBoxType"&gt;
  *      &lt;complexContent&gt;
  *          &lt;extension base="kml:ObjectType"&gt;
  *              &lt;sequence&gt;
  *                  &lt;annotation&gt;
- *                      &lt;documentation&gt;&lt;![CDATA[Yes, north/south range to 180/-180]]&gt;&lt;/documentation&gt;
+ *                      &lt;documentation&gt;&lt;![CDATA[Yes, north/south range to 180/-180]]&gt;
+ *                      &lt;/documentation&gt;
  *                  &lt;/annotation&gt;
  *                  &lt;element default="180.0" minOccurs="0" name="north" type="kml:angle180"/&gt;
  *                  &lt;element default="-180.0" minOccurs="0" name="south" type="kml:angle180"/&gt;
@@ -52,9 +54,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class LatLonBoxTypeBinding extends AbstractComplexBinding {
@@ -82,7 +81,7 @@ public class LatLonBoxTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //&lt;element default="180.0" minOccurs="0" name="north" type="kml:angle180"/&gt;
         Double n = (Double) node.getChildValue("north", Double.valueOf(180d));
 

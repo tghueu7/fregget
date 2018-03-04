@@ -25,15 +25,15 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:RemoteOWS.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:element name="RemoteOWS"&gt;
  *      &lt;xsd:annotation&gt;
  *          &lt;xsd:documentation&gt;
- *          A RemoteOWS gives a reference to a remote WFS/WCS/other-OWS server. 
+ *          A RemoteOWS gives a reference to a remote WFS/WCS/other-OWS server.
  *        &lt;/xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
  *      &lt;xsd:complexType&gt;
@@ -42,16 +42,14 @@ import javax.xml.namespace.QName;
  *              &lt;xsd:element ref="se:OnlineResource"/&gt;
  *          &lt;/xsd:sequence&gt;
  *      &lt;/xsd:complexType&gt;
- *  &lt;/xsd:element&gt; 
- * 	
+ *  &lt;/xsd:element&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class RemoteOWSBinding extends SLDRemoteOWSBinding {

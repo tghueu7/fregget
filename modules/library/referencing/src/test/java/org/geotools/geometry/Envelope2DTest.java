@@ -37,9 +37,8 @@ import org.opengis.referencing.operation.TransformException;
 /**
  * Test case for Envelope2D; mostly added to ensure it correctly meets the BoundingBox
  * API contract.
- * 
- * @author Paul Pfeiffer
  *
+ * @author Paul Pfeiffer
  * @source $URL$
  */
 public class Envelope2DTest {

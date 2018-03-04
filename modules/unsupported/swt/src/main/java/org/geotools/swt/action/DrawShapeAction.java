@@ -38,26 +38,25 @@ import org.geotools.swt.utils.ImageCache;
 
 /**
  * Action that activates the Info tool for the current {@link SwtMapPane map pane}.
- * 
+ *
  * @author Andrea Antonello (www.hydrologis.com)
- *
- *
- *
  * @source $URL$
  */
 public class DrawShapeAction extends MapAction implements MapBoundsListener {
 
     public DrawShapeAction() {
-        super("Drawshape@D", InfoTool.TOOL_TIP, ImageCache.getInstance().getImage(ImageCache.IMAGE_INFO));
+        super("Drawshape@D", InfoTool.TOOL_TIP, ImageCache.getInstance().getImage(ImageCache
+                .IMAGE_INFO));
 
     }
 
     private static boolean odd = true;
     private static boolean first = true;
+
     /**
      * Called when the associated control is activated. Leads to the
      * map pane's cursor tool being set to a PanTool object
-     * 
+     *
      * @param ev the event (not used)
      */
     public void run() {
@@ -79,11 +78,12 @@ public class DrawShapeAction extends MapAction implements MapBoundsListener {
 
     /**
      * Draws shapes on the map.
-     * 
-     * @param visibleRect the rectangle in teh screen space.
+     *
+     * @param visibleRect    the rectangle in teh screen space.
      * @param areaOfInterest the area of interest in world coordinates.
      */
-    private void drawShapes( Rectangle visibleRect, ReferencedEnvelope areaOfInterest, boolean boundsChanged ) {
+    private void drawShapes(Rectangle visibleRect, ReferencedEnvelope areaOfInterest, boolean 
+            boundsChanged) {
         Display display = Display.getDefault();
 
         /*
@@ -91,7 +91,8 @@ public class DrawShapeAction extends MapAction implements MapBoundsListener {
          */
         Color white = display.getSystemColor(SWT.COLOR_WHITE);
         PaletteData palette = new PaletteData(new RGB[]{white.getRGB()});
-        final ImageData sourceData = new ImageData(visibleRect.width, visibleRect.height, 1, palette);
+        final ImageData sourceData = new ImageData(visibleRect.width, visibleRect.height, 1, 
+                palette);
         sourceData.transparentPixel = 0;
 
         // create the image to draw on
@@ -117,8 +118,10 @@ public class DrawShapeAction extends MapAction implements MapBoundsListener {
         // draw lines
         gc.setForeground(display.getSystemColor(SWT.COLOR_MAGENTA));
         gc.setLineWidth(2);
-        gc.drawLine((int) screenCoords[0], (int) screenCoords[1], (int) screenCoords[2], (int) screenCoords[3]);
-        gc.drawLine((int) screenCoords[2], (int) screenCoords[3], (int) screenCoords[4], (int) screenCoords[5]);
+        gc.drawLine((int) screenCoords[0], (int) screenCoords[1], (int) screenCoords[2], (int) 
+                screenCoords[3]);
+        gc.drawLine((int) screenCoords[2], (int) screenCoords[3], (int) screenCoords[4], (int) 
+                screenCoords[5]);
 
         // draw dots
         int size = 10;
@@ -138,12 +141,12 @@ public class DrawShapeAction extends MapAction implements MapBoundsListener {
         getMapPane().setOverlay(img, areaOfInterest, false, boundsChanged);
     }
 
-    public void selectionChanged( IAction action, ISelection selection ) {
+    public void selectionChanged(IAction action, ISelection selection) {
     }
 
-    public void mapBoundsChanged( MapBoundsEvent event ) {
+    public void mapBoundsChanged(MapBoundsEvent event) {
         /*
-         * every time the bounds change (zoom, etc...), the drawing 
+         * every time the bounds change (zoom, etc...), the drawing
          * has to occurr again on the new bounds
          */
         ReferencedEnvelope newAreaOfInterest = event.getNewAreaOfInterest();

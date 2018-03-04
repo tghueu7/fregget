@@ -27,9 +27,9 @@ import org.geotools.xml.AbstractComplexEMFBinding;
 
 /**
  * Binding object for the type http://www.opengis.net/wfs:InsertedFeatureType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="InsertedFeatureType"&gt;
  *      &lt;xsd:sequence&gt;
@@ -62,9 +62,6 @@ import org.geotools.xml.AbstractComplexEMFBinding;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class InsertedFeatureTypeBinding extends AbstractComplexEMFBinding {

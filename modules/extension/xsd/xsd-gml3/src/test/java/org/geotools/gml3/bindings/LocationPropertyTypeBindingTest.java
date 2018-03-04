@@ -22,8 +22,6 @@ import org.w3c.dom.Document;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class LocationPropertyTypeBindingTest extends GML3TestSupport {

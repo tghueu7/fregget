@@ -27,35 +27,32 @@ import org.opengis.filter.Filter;
 import org.opengis.filter.capability.FilterCapabilities;
 
 /**
- * 
  * @author rpetty
  * @version $Id$
- * @since 2.6
- *
- *
- *
  * @source $URL$
- *         http://gtsvn.refractions.net/trunk/modules/unsupported/app-schema/webservice/src/main/java/org/geotools/data
- *         /wfs/protocol/wfs/WFSProtocol.java $
+ * http://gtsvn.refractions.net/trunk/modules/unsupported/app-schema/webservice/src/main/java/org
+ * /geotools/data
+ * /wfs/protocol/wfs/WFSProtocol.java $
+ * @since 2.6
  */
 public interface WSProtocol {
 
     /**
      * Returns the set of type names as extracted from the capabilities document, including the
      * namespace and prefix.
-     * 
+     *
      * @return the set of feature type names as extracted from the capabilities document
      */
     public Set<QName> getFeatureTypeNames();
 
     public FilterCapabilities getFilterCapabilities();
-    
+
     /**
      * Returns the URL for the given operation name and HTTP protocol as stated in the WFS
      * capabilities.
-     * 
+     *
      * @return The URL access point for the given operation and method or {@code null} if the
-     *         capabilities does not declare an access point for the operation/method combination
+     * capabilities does not declare an access point for the operation/method combination
      * @see #supportsOperation(WSOperationType)
      */
     public URL getOperationURL();
@@ -67,11 +64,12 @@ public interface WSProtocol {
     public WSResponse issueGetFeature(Query request) throws IOException,
             UnsupportedOperationException;
 
-   public Filter[] splitFilters(Filter filter);
-   
-   /**
-    * Close input stream for capabilities reader.
-    * @throws IOException
-    */
-   public void clean() throws IOException;
+    public Filter[] splitFilters(Filter filter);
+
+    /**
+     * Close input stream for capabilities reader.
+     *
+     * @throws IOException
+     */
+    public void clean() throws IOException;
 }

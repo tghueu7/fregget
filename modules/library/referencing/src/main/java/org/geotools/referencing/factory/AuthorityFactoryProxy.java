@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2007-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -20,6 +20,7 @@
 package org.geotools.referencing.factory;
 
 // J2SE dependencies
+
 import java.util.Set;
 import java.util.Arrays;
 import java.lang.reflect.Method;
@@ -55,21 +56,21 @@ import org.geotools.resources.i18n.ErrorKeys;
  * <p>
  * <b>Example:</b> The following code creates a proxy which will delegates its work to the
  * {@link CRSAuthorityFactory#createGeographicCRS createGeographicCRS} method.
- *
+ * <p>
  * <blockquote><pre>
  * AuthorityFactory factory = ...;
  * AuthorityFactoryProxy<GeographicCRS> proxy =
  *         AuthorityFactoryProxy.getInstance(GeographicCRS.class, factory);
- *
+ * <p>
  * String code = ...;
  * // Invokes CRSAuthorityFactory.createGeographicCRS(code);
  * GeographicCRS crs = proxy.create(code);
  * </pre></blockquote>
  *
- * @since 2.4
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @since 2.4
  */
 abstract class AuthorityFactoryProxy {
     /**
@@ -77,37 +78,37 @@ abstract class AuthorityFactoryProxy {
      * specific types must appear first in this list.
      */
     private static final Class/*<? extends IdentifiedObject>*/[] TYPES = {
-        CoordinateOperation      .class,
-        OperationMethod          .class,
-        ParameterDescriptor      .class,
-        ProjectedCRS             .class,
-        GeographicCRS            .class,
-        GeocentricCRS            .class,
-        ImageCRS                 .class,
-        DerivedCRS               .class,
-        VerticalCRS              .class,
-        TemporalCRS              .class,
-        EngineeringCRS           .class,
-        CompoundCRS              .class,
-        CoordinateReferenceSystem.class,
-        CoordinateSystemAxis     .class,
-        CartesianCS              .class,
-        EllipsoidalCS            .class,
-        SphericalCS              .class,
-        CylindricalCS            .class,
-        PolarCS                  .class,
-        VerticalCS               .class,
-        TimeCS                   .class,
-        CoordinateSystem         .class,
-        PrimeMeridian            .class,
-        Ellipsoid                .class,
-        GeodeticDatum            .class,
-        ImageDatum               .class,
-        VerticalDatum            .class,
-        TemporalDatum            .class,
-        EngineeringDatum         .class,
-        Datum                    .class,
-        IdentifiedObject         .class
+            CoordinateOperation.class,
+            OperationMethod.class,
+            ParameterDescriptor.class,
+            ProjectedCRS.class,
+            GeographicCRS.class,
+            GeocentricCRS.class,
+            ImageCRS.class,
+            DerivedCRS.class,
+            VerticalCRS.class,
+            TemporalCRS.class,
+            EngineeringCRS.class,
+            CompoundCRS.class,
+            CoordinateReferenceSystem.class,
+            CoordinateSystemAxis.class,
+            CartesianCS.class,
+            EllipsoidalCS.class,
+            SphericalCS.class,
+            CylindricalCS.class,
+            PolarCS.class,
+            VerticalCS.class,
+            TimeCS.class,
+            CoordinateSystem.class,
+            PrimeMeridian.class,
+            Ellipsoid.class,
+            GeodeticDatum.class,
+            ImageDatum.class,
+            VerticalDatum.class,
+            TemporalDatum.class,
+            EngineeringDatum.class,
+            Datum.class,
+            IdentifiedObject.class
     };
 
     /**
@@ -120,13 +121,12 @@ abstract class AuthorityFactoryProxy {
      * Returns a proxy instance which will create objects of the specified type using the
      * specified factory.
      *
-     * @param  factory The factory to use for object creations.
-     * @param  type    The type of objects to be created by the proxy.
+     * @param factory The factory to use for object creations.
+     * @param type    The type of objects to be created by the proxy.
      */
     public static AuthorityFactoryProxy getInstance(final AuthorityFactory factory,
-                                                    Class/*<? extends IdentifiedObject>*/ type)
-    {
-        AbstractAuthorityFactory.ensureNonNull("type",    type);
+                                                    Class/*<? extends IdentifiedObject>*/ type) {
+        AbstractAuthorityFactory.ensureNonNull("type", type);
         AbstractAuthorityFactory.ensureNonNull("factory", factory);
         type = getType(type);
         /*
@@ -134,9 +134,9 @@ abstract class AuthorityFactoryProxy {
          */
         if (factory instanceof CRSAuthorityFactory) {
             final CRSAuthorityFactory crsFactory = (CRSAuthorityFactory) factory;
-            if (type.equals(             ProjectedCRS.class)) return new  Projected(crsFactory);
-            if (type.equals(            GeographicCRS.class)) return new Geographic(crsFactory);
-            if (type.equals(CoordinateReferenceSystem.class)) return new        CRS(crsFactory);
+            if (type.equals(ProjectedCRS.class)) return new Projected(crsFactory);
+            if (type.equals(GeographicCRS.class)) return new Geographic(crsFactory);
+            if (type.equals(CoordinateReferenceSystem.class)) return new CRS(crsFactory);
         }
         /*
          * Fallback on the generic case using reflection.
@@ -153,15 +153,14 @@ abstract class AuthorityFactoryProxy {
      * authority factory}. For example this method may returns {@link ProjectedCRS} or
      * {@link DerivedCRS} class, but not {@link GeneralDerivedCRS}.
      *
-     * @param  type The implementation class.
+     * @param type The implementation class.
      * @return The most specific GeoAPI interface implemented by {@code type}.
      * @throws IllegalArgumentException if the type doesn't implement a valid interface.
      */
     public static Class/*<? extends IdentifiedObject>*/ getType(
             final Class/*<? extends IdentifiedObject>*/ type)
-            throws IllegalArgumentException
-    {
-        for (int i=0; i<TYPES.length; i++) {
+            throws IllegalArgumentException {
+        for (int i = 0; i < TYPES.length; i++) {
             final Class/*<? extends IdentifiedObject>*/ candidate = TYPES[i];
             if (candidate.isAssignableFrom(type)) {
                 return candidate;
@@ -196,7 +195,7 @@ abstract class AuthorityFactoryProxy {
      * will always be of the type returned by {@link #getType()}.
      *
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
+     * @throws FactoryException             if the object creation failed for some other reason.
      */
     public abstract IdentifiedObject create(String code)
             throws NoSuchAuthorityCodeException, FactoryException;
@@ -215,9 +214,9 @@ abstract class AuthorityFactoryProxy {
     final String toString(final Class owner) {
         final AuthorityFactory factory = getAuthorityFactory();
         return Classes.getShortName(owner) + '[' +
-               Classes.getShortName(getType()) + " in " +
-               Classes.getShortClassName(factory) + "(\"" +
-               factory.getAuthority().getTitle() + "\")]";
+                Classes.getShortName(getType()) + " in " +
+                Classes.getShortClassName(factory) + "(\"" +
+                factory.getAuthority().getTitle() + "\")]";
     }
 
 
@@ -225,14 +224,14 @@ abstract class AuthorityFactoryProxy {
      * A default implementation using reflections. To be used only when we don't provide
      * a specialized, more efficient, implementation.
      *
-     * @version $Id$
      * @author Martin Desruisseaux
+     * @version $Id$
      */
     private static final class Default extends AuthorityFactoryProxy {
         /**
          * The argument types of {@code createFoo} methods.
          */
-        private static final Class[] PARAMETERS = new Class[] {String.class};
+        private static final Class[] PARAMETERS = new Class[]{String.class};
 
         /**
          * The authority factory on which to delegates.
@@ -253,16 +252,14 @@ abstract class AuthorityFactoryProxy {
          * Creates a new proxy which will delegates the object creation to the specified instance.
          */
         Default(final AuthorityFactory factory, final Class/*<? extends IdentifiedObject>*/ type)
-                throws IllegalArgumentException
-        {
+                throws IllegalArgumentException {
             this.factory = factory;
             this.type = type;
             final Method[] candidates = factory.getClass().getMethods();
-            for (int i=0; i<candidates.length; i++) {
+            for (int i = 0; i < candidates.length; i++) {
                 final Method c = candidates[i];
                 if (c.getName().startsWith("create") && type.equals(c.getReturnType()) &&
-                        Arrays.equals(PARAMETERS, c.getParameterTypes()))
-                {
+                        Arrays.equals(PARAMETERS, c.getParameterTypes())) {
                     method = c;
                     return;
                 }
@@ -312,11 +309,13 @@ abstract class AuthorityFactoryProxy {
     /**
      * An implementation for {@link CoordinateReferenceSystem} objects.
      *
-     * @version $Id$
      * @author Martin Desruisseaux
+     * @version $Id$
      */
     private static class CRS extends AuthorityFactoryProxy {
-        /** The authority factory on which to delegates. */
+        /**
+         * The authority factory on which to delegates.
+         */
         protected final CRSAuthorityFactory factory;
 
         protected CRS(final CRSAuthorityFactory factory) {
@@ -340,8 +339,8 @@ abstract class AuthorityFactoryProxy {
     /**
      * An implementation for {@link GeographicCRS} objects.
      *
-     * @version $Id$
      * @author Martin Desruisseaux
+     * @version $Id$
      */
     private static final class Geographic extends CRS {
         protected Geographic(final CRSAuthorityFactory factory) {
@@ -363,8 +362,8 @@ abstract class AuthorityFactoryProxy {
     /**
      * An implementation for {@link ProjectedCRS} objects.
      *
-     * @version $Id$
      * @author Martin Desruisseaux
+     * @version $Id$
      */
     private static final class Projected extends CRS {
         protected Projected(final CRSAuthorityFactory factory) {

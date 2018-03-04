@@ -16,6 +16,7 @@ package org.geotools.data.geojson;
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 import java.io.IOException;
 
 import org.geotools.data.FeatureReader;
@@ -41,12 +42,12 @@ public class GeoJSONFeatureStore extends ContentFeatureStore {
         super(entry, query);
 
     }
-    
-    
+
 
     @Override
     protected FeatureWriter<SimpleFeatureType, SimpleFeature> getWriterInternal(Query query,
-            int flags) throws IOException {
+                                                                                int flags) throws
+            IOException {
         return new GeoJSONFeatureWriter(getState(), query);
     }
 

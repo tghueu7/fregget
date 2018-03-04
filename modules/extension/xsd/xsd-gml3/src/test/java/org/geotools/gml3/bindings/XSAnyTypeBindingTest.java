@@ -48,7 +48,8 @@ public class XSAnyTypeBindingTest extends GML3TestSupport {
 
     private static final String SAMPLE_CLASS_VALUE = "1.1.1";
 
-    private static final String SAMPLE_UNRESTRICTED_VALUE = "Arbitrary text content: <value>XML</value> special characters will be escaped automatically.";
+    private static final String SAMPLE_UNRESTRICTED_VALUE = "Arbitrary text content: " +
+            "<value>XML</value> special characters will be escaped automatically.";
 
 
     static class ANYTYPETEST extends XSD {
@@ -75,7 +76,6 @@ public class XSAnyTypeBindingTest extends GML3TestSupport {
         }
 
 
-        
         public String getNamespaceURI() {
             return NAMESPACE;
         }
@@ -93,10 +93,10 @@ public class XSAnyTypeBindingTest extends GML3TestSupport {
             //being built
             return null;
         }
-        
+
         /* Attributes */
     }
-    
+
     class AnyTypeTestConfiguration extends Configuration {
         public AnyTypeTestConfiguration() {
             super(ANYTYPETEST.getInstance());
@@ -105,29 +105,27 @@ public class XSAnyTypeBindingTest extends GML3TestSupport {
         protected void registerBindings(MutablePicoContainer container) {
         }
     }
-    
+
     class MyConfiguration extends Configuration {
 
         public MyConfiguration() {
             super(ANYTYPETEST.getInstance());
             addDependency(new GMLConfiguration());
         }
-        
+
     }
-    
+
     @Override
     protected void registerNamespaces(Element root) {
         super.registerNamespaces(root);
         root.setAttribute("xmlns:test", "http://www.geotools.org/anytypetest");
     }
 
-    
-    
+
     @Override
     protected Configuration createConfiguration() {
         return new MyConfiguration();
     }
-
 
 
     public void testEncode() throws Exception {
@@ -137,8 +135,10 @@ public class XSAnyTypeBindingTest extends GML3TestSupport {
         // print(dom);
         assertEquals("test:Observation", dom.getDocumentElement().getNodeName());
         assertEquals(1, dom.getDocumentElement().getElementsByTagName("test:class").getLength());
-        assertNotNull(dom.getDocumentElement().getElementsByTagName("test:class").item(0).getFirstChild());
-        assertEquals(SAMPLE_CLASS_VALUE,dom.getDocumentElement().getElementsByTagName("test:class").item(0).getFirstChild().getNodeValue());
+        assertNotNull(dom.getDocumentElement().getElementsByTagName("test:class").item(0)
+                .getFirstChild());
+        assertEquals(SAMPLE_CLASS_VALUE, dom.getDocumentElement().getElementsByTagName
+                ("test:class").item(0).getFirstChild().getNodeValue());
     }
 
     public void testEncodeUnrestricted() throws Exception {
@@ -147,7 +147,7 @@ public class XSAnyTypeBindingTest extends GML3TestSupport {
         Document dom = encode(unrestricted, typeName);
         // print(dom);
         assertEquals("test:unrestrictedEl", dom.getDocumentElement().getNodeName());
-        assertEquals(SAMPLE_UNRESTRICTED_VALUE,dom.getDocumentElement().getTextContent());
+        assertEquals(SAMPLE_UNRESTRICTED_VALUE, dom.getDocumentElement().getTextContent());
     }
 
     public ComplexAttribute testAnyTypeTest(QName typeName, String classValue) {
@@ -191,10 +191,12 @@ public class XSAnyTypeBindingTest extends GML3TestSupport {
         propertyDescriptors.add(pd);
         properties.add(new AttributeImpl(contents, pd, null));
 
-        ComplexTypeImpl at = new ComplexTypeImpl(unrestrictedType, propertyDescriptors, false, false,
+        ComplexTypeImpl at = new ComplexTypeImpl(unrestrictedType, propertyDescriptors, false, 
+                false,
                 Collections.EMPTY_LIST, XSSchema.ANYTYPE_TYPE, null);
 
-        AttributeDescriptorImpl ai = new AttributeDescriptorImpl(at, unrestrictedType, 0, 0, false, null);
+        AttributeDescriptorImpl ai = new AttributeDescriptorImpl(at, unrestrictedType, 0, 0, 
+                false, null);
 
         return new ComplexAttributeImpl(properties, ai, null);
     }

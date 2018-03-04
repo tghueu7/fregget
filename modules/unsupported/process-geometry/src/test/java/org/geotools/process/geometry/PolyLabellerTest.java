@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2016, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -13,7 +13,7 @@
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
- *    
+ *
  */
 
 package org.geotools.process.geometry;
@@ -78,7 +78,10 @@ public class PolyLabellerTest extends TestCase {
         GeometryBuilder gb = new GeometryBuilder();
 
         Polygon p = (Polygon) reader.read(
-                "Polygon ((0 5, 5 10, 10 6, 15 10, 20 5, 15 0, 10 4, 5 0, 0 5),(5.4267578125 6.68164062499999822, 3.7451171875 5.30761718749999822, 5.365234375 3.21582031249999822, 8.3388671875 5.08203124999999822, 5.4267578125 6.68164062499999822))");
+                "Polygon ((0 5, 5 10, 10 6, 15 10, 20 5, 15 0, 10 4, 5 0, 0 5),(5.4267578125 " +
+                        "6.68164062499999822, 3.7451171875 5.30761718749999822, 5.365234375 " +
+                        "3.21582031249999822, 8.3388671875 5.08203124999999822, 5.4267578125 " +
+                        "6.68164062499999822))");
         Point point = (Point) PolyLabeller.getPolylabel(p, 1);
 
         Point expected = gb.point(15, 5);
@@ -92,7 +95,9 @@ public class PolyLabellerTest extends TestCase {
         GeometryBuilder gb = new GeometryBuilder();
 
         MultiPolygon p = (MultiPolygon) reader.read(
-                "MultiPolygon (((0 5, 5 10, 10 5, 5 0, 0 5)),((11.74609375 1.6357421875, 11.7255859375 3.24609375, 13.9306640625 3.3076171875, 13.951171875 1.73828125, 11.74609375 1.6357421875)))");
+                "MultiPolygon (((0 5, 5 10, 10 5, 5 0, 0 5)),((11.74609375 1.6357421875, " +
+                        "11.7255859375 3.24609375, 13.9306640625 3.3076171875, 13.951171875 " +
+                        "1.73828125, 11.74609375 1.6357421875)))");
         Point point = (Point) PolyLabeller.getPolylabel(p, 1);
 
         Point expected = gb.point(5, 5);
@@ -119,18 +124,27 @@ public class PolyLabellerTest extends TestCase {
         }
     }
     /*
-     * @Ignore @Test //awaiting valid data set public void testGetPolylabel() throws FileNotFoundException, IOException { File water1 =
-     * TestData.file(this, "water1.json"); Polygon p = fetchPoly(water1); Coordinate expected = new Coordinate(3865.85009765625, 2124.87841796875);
-     * Coordinate c = PolyLabeller.getPolylabel(p, 1); double delta = 0.0001; assertEquals(expected.x, c.x, delta); assertEquals(expected.y, c.y,
+     * @Ignore @Test //awaiting valid data set public void testGetPolylabel() throws 
+     * FileNotFoundException, IOException { File water1 =
+     * TestData.file(this, "water1.json"); Polygon p = fetchPoly(water1); Coordinate expected = 
+     * new Coordinate(3865.85009765625, 2124.87841796875);
+     * Coordinate c = PolyLabeller.getPolylabel(p, 1); double delta = 0.0001; assertEquals
+     * (expected.x, c.x, delta); assertEquals(expected.y, c.y,
      * delta); }
-     * 
-     * @Ignore @Test //awaiting valid data set public void testGetPolylabelPrecision() throws FileNotFoundException, IOException { File water1 =
-     * TestData.file(this, "water1.json"); Polygon p = fetchPoly(water1); Coordinate expected = new Coordinate(3854.296875, 2123.828125); Coordinate c
-     * = PolyLabeller.getPolylabel(p, 50); double delta = 0.0001; assertEquals(expected.x, c.x, delta); assertEquals(expected.y, c.y, delta); }
-     * 
-     * @Ignore @Test //awaiting valid data set public void testGetPolylabel2() throws FileNotFoundException, IOException { File water2 =
-     * TestData.file(this, "water2.json"); Polygon p = fetchPoly(water2); Coordinate expected = new Coordinate(3263.5, 3263.5); Coordinate c =
-     * PolyLabeller.getPolylabel(p, 1); double delta = 0.0001; assertEquals(expected.x, c.x, delta); assertEquals(expected.y, c.y, delta); }
+     *
+     * @Ignore @Test //awaiting valid data set public void testGetPolylabelPrecision() throws 
+     * FileNotFoundException, IOException { File water1 =
+     * TestData.file(this, "water1.json"); Polygon p = fetchPoly(water1); Coordinate expected = 
+     * new Coordinate(3854.296875, 2123.828125); Coordinate c
+     * = PolyLabeller.getPolylabel(p, 50); double delta = 0.0001; assertEquals(expected.x, c.x, 
+     * delta); assertEquals(expected.y, c.y, delta); }
+     *
+     * @Ignore @Test //awaiting valid data set public void testGetPolylabel2() throws 
+     * FileNotFoundException, IOException { File water2 =
+     * TestData.file(this, "water2.json"); Polygon p = fetchPoly(water2); Coordinate expected = 
+     * new Coordinate(3263.5, 3263.5); Coordinate c =
+     * PolyLabeller.getPolylabel(p, 1); double delta = 0.0001; assertEquals(expected.x, c.x, 
+     * delta); assertEquals(expected.y, c.y, delta); }
      */
 
     /**

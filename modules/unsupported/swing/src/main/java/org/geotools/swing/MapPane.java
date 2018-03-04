@@ -30,10 +30,9 @@ import org.opengis.geometry.Envelope;
  * Defines the core map pane methods.
  *
  * @author Michael Bedward
- * @since 8.0
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 public interface MapPane {
 
@@ -52,21 +51,21 @@ public interface MapPane {
      * @param content the map content
      */
     void setMapContent(MapContent content);
-    
+
     /**
      * Gets the current mouse event dispatcher which is responsible for converting
      * each input Java AWT mouse event into a {@linkplain org.geotools.swing.event.MapMouseEvent}
      * and forwarding it to each {@linkplain MapMouseListener}.
-     * 
+     *
      * @return the current mouse event dispatcher (may be {@code null})
      */
     MapMouseEventDispatcher getMouseEventDispatcher();
-    
+
     /**
      * Replaces the current mouse event dispatcher. All current listeners will
-     * be removed. It is the responsibility of the client to add them to the new 
+     * be removed. It is the responsibility of the client to add them to the new
      * dispatcher if this is desired.
-     * 
+     *
      * @param dispatcher the new dispatcher (may be {@code null})
      */
     void setMouseEventDispatcher(MapMouseEventDispatcher dispatcher);
@@ -83,18 +82,18 @@ public interface MapPane {
 
     /**
      * Sets the area to display in world units.
-     * 
+     *
      * @param the new display area
      * @throws IllegalArgumentException if {@code envelope} is {@code null]
      */
     void setDisplayArea(Envelope envelope);
-    
+
     /**
      * Reset the map area to include the full extent of all
      * layers and redraw the display
      */
     void reset();
-    
+
     /**
      * Gets the screen to world coordinate transform. This is a short-cut for
      * {@code mapPane.getMapContent().getViewport().getScreenToWorld()}.
@@ -107,7 +106,7 @@ public interface MapPane {
      * Gets the world to screen coordinate transform. This is a short-cut for
      * {@code mapPane.getMapContent().getViewport().getWorldToScreen()}.
      * <p>
-     * The returned {@code AffineTransform} can be used to determine the 
+     * The returned {@code AffineTransform} can be used to determine the
      * current drawing scale...
      * <pre><code>
      * double scale = mapPane.getWorldToScreenTransform().getScaleX();
@@ -121,11 +120,10 @@ public interface MapPane {
      * Adds a listener to receive {@link org.geotools.swing.event.MapPaneEvent}s.
      *
      * @param listener the listener to add
-     * 
      * @throws IllegalArgumentException if {@code listener} is {@code null}
      */
     void addMapPaneListener(MapPaneListener listener);
-    
+
     /**
      * Removes the specified listener.
      *
@@ -149,10 +147,10 @@ public interface MapPane {
      * @param listener the listener to remove
      */
     void removeMouseListener(MapMouseListener listener);
-    
+
     /**
      * Gets the current cursor tool.
-     * 
+     *
      * @return the current cursor tool (may be {@code null})
      */
     CursorTool getCursorTool();
@@ -163,13 +161,13 @@ public interface MapPane {
      * @param tool the tool; or {@code null} for no cursor tool
      */
     void setCursorTool(CursorTool tool);
-    
+
     /**
      * Moves the image(s) displayed by the map pane from the current
      * origin (x,y) (device pixels) to (x+dx, y+dy). If this method is
-     * called when the map pane is not visible, or when the pane's 
+     * called when the map pane is not visible, or when the pane's
      * visible rectangle is empty, it is ignored.
-     * 
+     *
      * @param dx the x offset in pixels
      * @param dy the y offset in pixels.
      */

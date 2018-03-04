@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -40,7 +40,6 @@ import org.geotools.xml.Schemas;
  * Abstract base class for code generators.
  *
  * @author Justin Deoliveira, The Open Planning Project, jdeolive@openplans.org
- *
  */
 public abstract class AbstractGenerator {
     static Logger logger = org.geotools.util.logging.Logging.getLogger("org.geotools.xml");
@@ -73,12 +72,12 @@ public abstract class AbstractGenerator {
     File[] schemaLookupDirectories;
 
     Set included = null;
-    
+
     /**
      * Sets the base package for generated classes.
      *
      * @param packageBase Dot seperate package name, or <code>null</code> for
-     * no package.
+     *                    no package.
      */
     public void setPackageBase(String packageBase) {
         this.packageBase = packageBase;
@@ -100,7 +99,7 @@ public abstract class AbstractGenerator {
 //    public String getLocation() {
 //        return location;
 //    }
-    
+
     /**
      * Sets the location to write out generated source files.
      *
@@ -109,6 +108,7 @@ public abstract class AbstractGenerator {
     public void setSourceLocation(String sourceLocation) {
         this.sourceLocation = sourceLocation;
     }
+
     /**
      * Sets the location to write out generated test files.
      *
@@ -117,6 +117,7 @@ public abstract class AbstractGenerator {
     public void setTestLocation(String testLocation) {
         this.testLocation = testLocation;
     }
+
     /**
      * Sets the location to write out generated resource files.
      *
@@ -143,23 +144,23 @@ public abstract class AbstractGenerator {
 
     /**
      * Sets the single directory to lookup schemas.
-     * 
+     *
      * @param schemaSourceDirectory A directory.
      */
     public void setSchemaSourceDirectory(File schemaSourceDirectory) {
         this.schemaSourceDirectory = schemaSourceDirectory;
     }
-    
+
     /**
-     * Sets the directories to use when attempting to locate a schema via a 
+     * Sets the directories to use when attempting to locate a schema via a
      * relative reference.
-     * 
+     *
      * @param schemaLookupDirectories An array of directories.
      */
     public void setSchemaLookupDirectories(File[] schemaLookupDirectories) {
-		this.schemaLookupDirectories = schemaLookupDirectories;
-	}
-   
+        this.schemaLookupDirectories = schemaLookupDirectories;
+    }
+
     /**
      * Writes out a string to a file.
      * <p>
@@ -167,11 +168,11 @@ public abstract class AbstractGenerator {
      * generated from {@link #packageBase} appended.
      * </p>
      *
-     * @param result Result to write to the files.
+     * @param result    Result to write to the files.
      * @param className The name of the file to write out.
      */
     protected void write(String result, String className, String baseLocation)
-        throws IOException {
+            throws IOException {
         //convert package to a path
         File location = outputLocation(baseLocation);
 
@@ -186,7 +187,7 @@ public abstract class AbstractGenerator {
         }
 
         BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(
-                    location));
+                location));
 
         if (packageBase != null) {
             out.write(("package " + packageBase + ";\n\n").getBytes());
@@ -210,8 +211,8 @@ public abstract class AbstractGenerator {
     protected void copy(File file, String baseLocation) throws IOException {
         File dest = new File(outputLocation(baseLocation), file.getName());
 
-        logger.info( "Copying " + file + " to " + dest );
-        
+        logger.info("Copying " + file + " to " + dest);
+
         //check for existing file
         if (dest.exists() && !overwriting) {
             logger.warning("Generated file: " + dest + " already exists.");
@@ -231,59 +232,58 @@ public abstract class AbstractGenerator {
         out.close();
         in.close();
     }
-    
+
     /**
-     * Attempts to locate a schema file by name by iterating through 
+     * Attempts to locate a schema file by name by iterating through
      * {@link #schemaLookupDirectories}.
-     * 
+     *
      * @param path The path of the file.
-     * 
      */
-    protected File findSchemaFile( String path ) throws IOException {
+    protected File findSchemaFile(String path) throws IOException {
         File file = null;
         try {
             file = new File(new URL(path).toURI());
-        } catch( MalformedURLException e ) {
+        } catch (MalformedURLException e) {
             file = new File(path);
-        } catch( URISyntaxException e ) {
-            file = new File( path );
+        } catch (URISyntaxException e) {
+            file = new File(path);
         }
-    	
-    	if ( file.isAbsolute() ) {
-    		return file;
-    	}
-    	
-    	if ( schemaSourceDirectory != null ) {
-    	    file = new File( schemaSourceDirectory, path );
-            if ( file.exists() ) {
+
+        if (file.isAbsolute()) {
+            return file;
+        }
+
+        if (schemaSourceDirectory != null) {
+            file = new File(schemaSourceDirectory, path);
+            if (file.exists()) {
                 return file;
             }
-    	}
-    	
-    	if ( schemaLookupDirectories != null ) {
-    		for ( int i = 0; i < schemaLookupDirectories.length; i++ ) {
-    			File dir = schemaLookupDirectories[i];
-    			file = new File( dir, path );
-    			if ( file.exists() ) {
-    				return file;
-    			}
-    		}
-    	}
-    	
-    	return null;
+        }
+
+        if (schemaLookupDirectories != null) {
+            for (int i = 0; i < schemaLookupDirectories.length; i++) {
+                File dir = schemaLookupDirectories[i];
+                file = new File(dir, path);
+                if (file.exists()) {
+                    return file;
+                }
+            }
+        }
+
+        return null;
     }
 
     /**
      * Convenience method for generating the output location of generated files based on
      * {@link #getLocation()}
      */
-    protected File outputLocation( String baseLocation ) {
+    protected File outputLocation(String baseLocation) {
         File location = null;
 
-        if ( baseLocation == null ) {
+        if (baseLocation == null) {
             baseLocation = sourceLocation;
         }
-        
+
         if (baseLocation != null) {
             location = new File(baseLocation);
         } else {
@@ -307,18 +307,14 @@ public abstract class AbstractGenerator {
      *
      * @param templateName The non-qualified class name of the template.
      * @param input        The input to the template.
-     *
      * @return The result of the code generator
-     *
      * @throws ClassNotFoundException If the template class could not be
-     * found.
-     *
-     * @throws RuntimeException If any exceptions ( ex, relection) occur.
-     * while attempting to execute the template.
-     *
+     *                                found.
+     * @throws RuntimeException       If any exceptions ( ex, relection) occur.
+     *                                while attempting to execute the template.
      */
     protected String execute(String templateName, Object input)
-        throws ClassNotFoundException, RuntimeException {
+            throws ClassNotFoundException, RuntimeException {
         Class c = Class.forName("org.geotools.maven.xmlcodegen.templates."
                 + templateName);
 
@@ -326,23 +322,23 @@ public abstract class AbstractGenerator {
             Object template = c.newInstance();
 
             Method generate = c.getMethod("generate",
-                    new Class[] { Object.class });
+                    new Class[]{Object.class});
 
-            return (String) generate.invoke(template, new Object[] { input });
+            return (String) generate.invoke(template, new Object[]{input});
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     String prefix(XSDSchema schema) {
-       return Schemas.getTargetPrefix( schema );
+        return Schemas.getTargetPrefix(schema);
     }
 
     public void setIncluded(Set included) {
-    	this.included = included;
+        this.included = included;
     }
 
     protected boolean included(XSDNamedComponent c) {
-    	return included != null ? included.contains( c.getName() ) : true;
+        return included != null ? included.contains(c.getName()) : true;
     }
 }

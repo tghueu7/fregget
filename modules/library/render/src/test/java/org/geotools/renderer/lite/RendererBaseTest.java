@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -56,14 +56,11 @@ import junit.framework.Assert;
  * Used to test a renderer implementation.
  * <p>
  * Mostly tests that the renderer produces an image at all.
- * 
+ *
  * @author Simone Giannecchini
- * 
- *
- *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/library/render/src/test/java/org/geotools
- *         /renderer/lite/RendererBaseTest.java $
+ * http://svn.osgeo.org/geotools/trunk/modules/library/render/src/test/java/org/geotools
+ * /renderer/lite/RendererBaseTest.java $
  */
 public abstract class RendererBaseTest {
 
@@ -73,46 +70,36 @@ public abstract class RendererBaseTest {
 
     /**
      * bounds may be null
-     * 
-     * @param testName
-     *            Name reported in event of failure
-     * @param renderer
-     *            Renderer being tested
-     * @param timeOut
-     *            Maximum time allowed for test
-     * @param bounds
-     *            area to draw
-     * @throws Exception
-     *             In the event of failure
+     *
+     * @param testName Name reported in event of failure
+     * @param renderer Renderer being tested
+     * @param timeOut  Maximum time allowed for test
+     * @param bounds   area to draw
+     * @throws Exception In the event of failure
      */
     protected static BufferedImage showRender(String testName, GTRenderer renderer, long timeOut,
-            ReferencedEnvelope... bounds) throws Exception {
+                                              ReferencedEnvelope... bounds) throws Exception {
         return showRender(testName, renderer, timeOut, bounds, null);
     }
 
     /**
      * bounds may be null
-     * 
-     * @param testName
-     *            Name reported in event of failure
-     * @param renderer
-     *            Renderer being tested
-     * @param timeOut
-     *            Maximum time allowed for test
-     * @param bounds
-     *            area to draw
-     * @param listener
-     *            Optional listener
-     * @throws Exception
-     *             In the event of failure
+     *
+     * @param testName Name reported in event of failure
+     * @param renderer Renderer being tested
+     * @param timeOut  Maximum time allowed for test
+     * @param bounds   area to draw
+     * @param listener Optional listener
+     * @throws Exception In the event of failure
      */
     protected static BufferedImage showRender(String testName, GTRenderer renderer, long timeOut,
-            ReferencedEnvelope[] bounds, RenderListener listener) throws Exception {
+                                              ReferencedEnvelope[] bounds, RenderListener 
+                                                      listener) throws Exception {
         BufferedImage[] images = new BufferedImage[bounds.length];
         for (int i = 0; i < images.length; i++) {
             images[i] = renderImage(renderer, bounds[i], listener);
         }
-        if(renderer.getMapContent() != null) {
+        if (renderer.getMapContent() != null) {
             renderer.getMapContent().dispose();
         }
         final BufferedImage image = mergeImages(images);
@@ -173,14 +160,14 @@ public abstract class RendererBaseTest {
     }
 
     public static BufferedImage renderImage(GTRenderer renderer, ReferencedEnvelope bounds,
-            RenderListener listener) {
+                                            RenderListener listener) {
         int w = 300;
         int h = 300;
         return renderImage(renderer, bounds, listener, w, h);
     }
 
     public static BufferedImage renderImage(GTRenderer renderer, ReferencedEnvelope bounds,
-            RenderListener listener, int w, int h) {
+                                            RenderListener listener, int w, int h) {
         final BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         Graphics g = image.getGraphics();
         g.setColor(Color.white);
@@ -210,20 +197,15 @@ public abstract class RendererBaseTest {
 
     /**
      * responsible for actually rendering.
-     * 
-     * @param obj
-     *            Rendering implementation being tested, usually GTRenderer
-     * @param g
-     *            graphics used
-     * @param rect
-     *            image area
-     * @param bounds
-     *            world area
-     * @param rendererListener
-     *            optional rendererListener, may be null
+     *
+     * @param obj              Rendering implementation being tested, usually GTRenderer
+     * @param g                graphics used
+     * @param rect             image area
+     * @param bounds           world area
+     * @param rendererListener optional rendererListener, may be null
      */
     private static void render(GTRenderer renderer, Graphics g, Rectangle rect,
-            ReferencedEnvelope bounds, RenderListener rendererListener) {
+                               ReferencedEnvelope bounds, RenderListener rendererListener) {
         try {
             if (rendererListener != null) {
                 renderer.addRenderListener(rendererListener);
@@ -243,7 +225,7 @@ public abstract class RendererBaseTest {
 
     /**
      * Utility to quickly render a set of vector data on top of a buffered image
-     * 
+     *
      * @param sources
      * @param styles
      * @return
@@ -258,7 +240,7 @@ public abstract class RendererBaseTest {
 
     /**
      * Load a style from the test-data directory associated with the object.
-     * 
+     *
      * @param loader
      * @param sldFilename
      * @return
@@ -273,10 +255,10 @@ public abstract class RendererBaseTest {
         Style style = stylereader.readXML()[0];
         return style;
     }
-    
+
     /**
      * Load a Symbology Encoding style from the test-data directory associated with the object.
-     * 
+     *
      * @param loader
      * @param sldFilename
      * @return
@@ -290,24 +272,25 @@ public abstract class RendererBaseTest {
                     DefaultResourceLocator locator = new DefaultResourceLocator();
                     locator.setSourceUrl(surl);
                     container.registerComponentInstance(ResourceLocator.class, locator);
-                };
+                }
+
+                ;
             };
             Parser parser = new Parser(configuration);
 
             StyledLayerDescriptor sld = (StyledLayerDescriptor) parser.parse(surl.openStream());
-            
+
             for (int i = 0; i < sld.getStyledLayers().length; i++) {
                 Style[] styles = null;
-                
+
                 if (sld.getStyledLayers()[i] instanceof NamedLayer) {
                     NamedLayer layer = (NamedLayer) sld.getStyledLayers()[i];
                     styles = layer.getStyles();
-                }
-                else if(sld.getStyledLayers()[i] instanceof UserLayer) {
+                } else if (sld.getStyledLayers()[i] instanceof UserLayer) {
                     UserLayer layer = (UserLayer) sld.getStyledLayers()[i];
                     styles = layer.getUserStyles();
                 }
-                
+
                 if (styles != null) {
                     for (int j = 0; j < styles.length; i++) {
                         if (!(styles[j] instanceof NamedStyle)) {
@@ -315,23 +298,21 @@ public abstract class RendererBaseTest {
                         }
                     }
                 }
-                
+
             }
 
             return null;
-            
-        } 
-        catch(Exception e) {
+
+        } catch (Exception e) {
             if (e instanceof IOException) throw (IOException) e;
             throw (IOException) new IOException().initCause(e);
         }
     }
-    
-    
 
-    
+
     /**
      * Checks the pixel i/j has the specified color
+     *
      * @param image
      * @param i
      * @param j
@@ -339,12 +320,13 @@ public abstract class RendererBaseTest {
      */
     public static void assertPixel(BufferedImage image, int i, int j, Color color) {
         Color actual = getPixelColor(image, i, j);
-        
+
         Assert.assertEquals(color, actual);
     }
-    
+
     /**
      * Checks the pixel i/j has the specified color
+     *
      * @param image
      * @param i
      * @param j
@@ -352,14 +334,15 @@ public abstract class RendererBaseTest {
      */
     public static void assertPixel(BufferedImage image, int i, int j, Color color, int tolerance) {
         Color actual = getPixelColor(image, i, j);
-        
-        Assert.assertTrue( Math.abs( color.getRed() - actual.getRed()) < tolerance );
-        Assert.assertTrue( Math.abs( color.getGreen() - actual.getGreen()) < tolerance );
-        Assert.assertTrue( Math.abs( color.getBlue() - actual.getBlue()) < tolerance );
+
+        Assert.assertTrue(Math.abs(color.getRed() - actual.getRed()) < tolerance);
+        Assert.assertTrue(Math.abs(color.getGreen() - actual.getGreen()) < tolerance);
+        Assert.assertTrue(Math.abs(color.getBlue() - actual.getBlue()) < tolerance);
     }
 
     /**
      * Gets a specific pixel color from the specified buffered image
+     *
      * @param image
      * @param i
      * @param j
@@ -370,10 +353,11 @@ public abstract class RendererBaseTest {
         ColorModel cm = image.getColorModel();
         Raster raster = image.getRaster();
         Object pixel = raster.getDataElements(i, j, null);
-        
+
         Color actual;
-        if(cm.hasAlpha()) {
-            actual = new Color(cm.getRed(pixel), cm.getGreen(pixel), cm.getBlue(pixel), cm.getAlpha(pixel));
+        if (cm.hasAlpha()) {
+            actual = new Color(cm.getRed(pixel), cm.getGreen(pixel), cm.getBlue(pixel), cm
+                    .getAlpha(pixel));
         } else {
             actual = new Color(cm.getRed(pixel), cm.getGreen(pixel), cm.getBlue(pixel), 255);
         }

@@ -65,9 +65,11 @@ public class GeobufDirectoryDataStoreTest {
         String[] pbfNames = {
                 "lines", "points", "polygons"
         };
-        for(String name : pbfNames) {
-            File file = URLs.urlToFile(getClass().getClassLoader().getResource("org/geotools/data/geobuf/" + name + ".pbf"));
-            Files.copy(file.toPath(), new File(directory, file.getName()).toPath(), StandardCopyOption.REPLACE_EXISTING);
+        for (String name : pbfNames) {
+            File file = URLs.urlToFile(getClass().getClassLoader().getResource
+                    ("org/geotools/data/geobuf/" + name + ".pbf"));
+            Files.copy(file.toPath(), new File(directory, file.getName()).toPath(), 
+                    StandardCopyOption.REPLACE_EXISTING);
         }
 
         // Get a DataStore
@@ -77,12 +79,12 @@ public class GeobufDirectoryDataStoreTest {
 
         // Get layers
         List<String> names = Arrays.asList(store.getTypeNames());
-        for(String name : pbfNames) {
+        for (String name : pbfNames) {
             assertTrue(names.contains(name));
         }
 
         // Make sure we can get layers
-        for(String name : names) {
+        for (String name : names) {
             SimpleFeatureSource fs = store.getFeatureSource(name);
             assertNotNull(fs.getBounds());
             assertNotNull(fs.getSchema());
@@ -90,19 +92,23 @@ public class GeobufDirectoryDataStoreTest {
         }
 
         // Write a new Layer
-        SimpleFeatureType featureType = DataUtilities.createType("locations", "geom:Point,name:String,id:int");
+        SimpleFeatureType featureType = DataUtilities.createType("locations", "geom:Point," +
+                "name:String,id:int");
         store.createSchema(featureType);
         SimpleFeatureStore featureStore = (SimpleFeatureStore) store.getFeatureSource("locations");
         GeometryFactory gf = JTSFactoryFinder.getGeometryFactory();
         SimpleFeature feature1 = SimpleFeatureBuilder.build(
-                featureType, new Object[]{gf.createPoint(new Coordinate(-8.349609375, 14.349547837185362)), "ABC", 1},
+                featureType, new Object[]{gf.createPoint(new Coordinate(-8.349609375, 
+                        14.349547837185362)), "ABC", 1},
                 "location.1"
         );
         SimpleFeature feature2 = SimpleFeatureBuilder.build(
-                featureType, new Object[]{gf.createPoint(new Coordinate(-18.349609375, 24.349547837185362)), "DEF", 2},
+                featureType, new Object[]{gf.createPoint(new Coordinate(-18.349609375, 
+                        24.349547837185362)), "DEF", 2},
                 "location.2"
         );
-        SimpleFeatureCollection collection = DataUtilities.collection(new SimpleFeature[]{feature1,feature2});
+        SimpleFeatureCollection collection = DataUtilities.collection(new 
+                SimpleFeature[]{feature1, feature2});
         featureStore.addFeatures(collection);
         assertEquals(2, featureStore.getCount(Query.ALL));
     }

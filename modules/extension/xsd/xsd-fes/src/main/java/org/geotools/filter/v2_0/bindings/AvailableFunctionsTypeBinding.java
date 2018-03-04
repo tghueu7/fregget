@@ -32,7 +32,7 @@ public class AvailableFunctionsTypeBinding extends
     public AvailableFunctionsTypeBinding(Fes20Factory factory) {
         super(factory);
     }
-    
+
     @Override
     public QName getTarget() {
         return FES.AvailableFunctionsType;

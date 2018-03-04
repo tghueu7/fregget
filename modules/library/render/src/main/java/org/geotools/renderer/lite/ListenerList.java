@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -26,7 +26,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * It is a fairly lightweight object, occupying minimal space when
  * no listeners are registered.
  * <p>
- * Note that the <code>add</code> method checks for and eliminates 
+ * Note that the <code>add</code> method checks for and eliminates
  * duplicates based on identity (not equality).  Likewise, the
  * <code>remove</code> method compares based on identity.
  * </p>
@@ -43,9 +43,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * </pre>
  * </p>
  *
- *
  * @source $URL$
- * @deprecated Use {@link CopyOnWriteArrayList} instead, it's part of the JDK and it's more efficient
+ * @deprecated Use {@link CopyOnWriteArrayList} instead, it's part of the JDK and it's more 
+ * efficient
  */
 public final class ListenerList {
     /**
@@ -82,8 +82,8 @@ public final class ListenerList {
     /**
      * Creates a listener list with the given initial capacity.
      *
-     * @param capacity the number of listeners which this list can initially accept 
-     *    without growing its internal representation; must be at least 1
+     * @param capacity the number of listeners which this list can initially accept
+     *                 without growing its internal representation; must be at least 1
      */
     public ListenerList(int capacity) {
         assert capacity >= 1;
@@ -97,7 +97,7 @@ public final class ListenerList {
      * @param listener the listener
      */
     public void add(Object listener) {
-        assert listener!=null;
+        assert listener != null;
         if (size == 0) {
             listeners = new Object[capacity];
         } else {
@@ -152,7 +152,7 @@ public final class ListenerList {
      * Returns whether this listener list is empty.
      *
      * @return <code>true</code> if there are no registered listeners, and
-     *   <code>false</code> otherwise
+     * <code>false</code> otherwise
      */
     public boolean isEmpty() {
         return size == 0;
@@ -165,7 +165,7 @@ public final class ListenerList {
      * @param listener the listener
      */
     public void remove(Object listener) {
-        assert listener!=null;
+        assert listener != null;
         for (int i = 0; i < size; ++i) {
             if (listeners[i] == listener) {
                 if (size == 1) {

@@ -95,17 +95,17 @@ import com.vividsolutions.jts.io.WKTReader;
 
 /**
  * Unit tests for transaction support
- * 
+ *
  * @author Gabriel Roldan, Axios Engineering
- *
- *
- * @source $URL$
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/da/src/test/java/org
- *         /geotools/arcsde/data/ArcSDEFeatureStoreTest.java $
  * @version $Id$
+ * @source $URL$
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/da/src/test/java/org
+ * /geotools/arcsde/data/ArcSDEFeatureStoreTest.java $
  */
 public class ArcSDEFeatureStoreTest {
-    /** package logger */
+    /**
+     * package logger
+     */
     private static Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger(ArcSDEFeatureStoreTest.class.getPackage().getName());
 
@@ -378,8 +378,8 @@ public class ArcSDEFeatureStoreTest {
                 @Override
                 public SeQuery execute(ISession session, SeConnection connection)
                         throws SeException, IOException {
-                    SeQuery seQuery = new SeQuery(connection, new String[] { "ROW_ID", "INT32_COL",
-                            "STRING_COL" }, new SeSqlConstruct(typeName, whereClause));
+                    SeQuery seQuery = new SeQuery(connection, new String[]{"ROW_ID", "INT32_COL",
+                            "STRING_COL"}, new SeSqlConstruct(typeName, whereClause));
                     seQuery.prepareQuery();
                     seQuery.execute();
                     return seQuery;
@@ -409,7 +409,7 @@ public class ArcSDEFeatureStoreTest {
      * Tests that all the features that match a filter based on attribute only filters (aka non
      * spatial filters), are deleted correctly. This test assumes that there are no duplicate values
      * in the test data.
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -471,7 +471,7 @@ public class ArcSDEFeatureStoreTest {
      * Add features to a FeatureWriter with a {@link Transaction} and ensure if the transaction was
      * not committed, a request gets no features, and when the transaction is committed the query
      * returns it.
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -559,7 +559,8 @@ public class ArcSDEFeatureStoreTest {
         final DataStore ds = testData.getDataStore();
         final SimpleFeatureStore fStore;
         fStore = (SimpleFeatureStore) ds.getFeatureSource(typeName);
-        final Transaction transaction = new DefaultTransaction("testInsertTransactionAndQueryByFid");
+        final Transaction transaction = new DefaultTransaction
+                ("testInsertTransactionAndQueryByFid");
         fStore.setTransaction(transaction);
         try {
             final List<FeatureId> addedFids = fStore.addFeatures(testFeatures);
@@ -808,7 +809,8 @@ public class ArcSDEFeatureStoreTest {
             String localName = name.getLocalPart();
             if (!"INT32_COL".equals(localName) && !"SHAPE".equals(localName)
                     && !"DATE_COL".equals(localName)) {
-                assertEquals(name + " does not match", originalAtt.getValue(), actualAtt.getValue());
+                assertEquals(name + " does not match", originalAtt.getValue(), actualAtt.getValue
+                        ());
             }
         }
     }
@@ -920,7 +922,6 @@ public class ArcSDEFeatureStoreTest {
 
     /**
      * Tests the writing of features with autocommit transaction.
-     * 
      */
     private void testInsertAutoCommit(Class<? extends Geometry> geometryClass) throws Exception {
         final String typeName = testData.getTempTableName();
@@ -938,11 +939,11 @@ public class ArcSDEFeatureStoreTest {
         // inner class)
         /*
          * final int[] featureAddedEventCount = { 0 };
-         * 
+         *
          * fsource.addFeatureListener(new FeatureListener() { public void changed(FeatureEvent evt)
          * { if (evt.getEventType() != FeatureEvent.FEATURES_ADDED) { throw new
          * IllegalArgumentException( "Expected FEATURES_ADDED event, got " + evt.getEventType()); }
-         * 
+         *
          * ++featureAddedEventCount[0]; } });
          */
 
@@ -955,7 +956,7 @@ public class ArcSDEFeatureStoreTest {
         SimpleFeature dest;
 
         try {
-            for (SimpleFeatureIterator fi = testFeatures.features(); fi.hasNext();) {
+            for (SimpleFeatureIterator fi = testFeatures.features(); fi.hasNext(); ) {
                 source = fi.next();
                 dest = writer.next();
                 dest.setAttributes(source.getAttributes());
@@ -1027,9 +1028,9 @@ public class ArcSDEFeatureStoreTest {
 
             GeometryFactory gf = new GeometryFactory();
             int index = 10;
-            Coordinate[] coords1 = { new Coordinate(0, 0), new Coordinate(++index, ++index) };
-            Coordinate[] coords2 = { new Coordinate(0, index), new Coordinate(index, 0) };
-            LineString[] lines = { gf.createLineString(coords1), gf.createLineString(coords2) };
+            Coordinate[] coords1 = {new Coordinate(0, 0), new Coordinate(++index, ++index)};
+            Coordinate[] coords2 = {new Coordinate(0, index), new Coordinate(index, 0)};
+            LineString[] lines = {gf.createLineString(coords1), gf.createLineString(coords2)};
             MultiLineString sampleMultiLine = gf.createMultiLineString(lines);
 
             SimpleFeature toBeUpdated = writer.next();
@@ -1059,7 +1060,6 @@ public class ArcSDEFeatureStoreTest {
 
     /**
      * Tests the writing of features with real transactions
-     * 
      */
     @Test
     public void testFeatureWriterTransaction() throws Exception {
@@ -1144,7 +1144,7 @@ public class ArcSDEFeatureStoreTest {
         SimpleFeature source;
         SimpleFeature dest;
 
-        for (SimpleFeatureIterator fi = testFeatures.features(); fi.hasNext();) {
+        for (SimpleFeatureIterator fi = testFeatures.features(); fi.hasNext(); ) {
             assertFalse(writer.hasNext());
             source = fi.next();
             dest = writer.next();
@@ -1162,7 +1162,7 @@ public class ArcSDEFeatureStoreTest {
     /**
      * Ensure modified features for a given FeatureStore are returned by subsequent queries even if
      * the transaction has not been committed.
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -1387,7 +1387,7 @@ public class ArcSDEFeatureStoreTest {
         final Transaction transaction = new DefaultTransaction("testTransactionMultithreadAccess");
         fStore.setTransaction(transaction);
 
-        final boolean[] done = { false, false };
+        final boolean[] done = {false, false};
         final Throwable[] errors = new Throwable[2];
 
         Runnable worker1 = new Runnable() {

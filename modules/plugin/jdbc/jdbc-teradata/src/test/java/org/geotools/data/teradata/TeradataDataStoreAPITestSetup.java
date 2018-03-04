@@ -20,8 +20,6 @@ import org.geotools.jdbc.JDBCDataStoreAPITestSetup;
 import org.geotools.jdbc.JDBCTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class TeradataDataStoreAPITestSetup extends JDBCDataStoreAPITestSetup {
@@ -33,11 +31,15 @@ public class TeradataDataStoreAPITestSetup extends JDBCDataStoreAPITestSetup {
     public TeradataTestSetup getDelegate() {
         return (TeradataTestSetup) delegate;
     }
-    
+
     protected void createLakeTable() throws Exception {
-        run("CREATE TABLE \"lake\"(\"fid\" PRIMARY KEY not null generated always as identity (start with 0) integer, \"id\" int, \"geom\" st_geometry, \"name\" varchar(200) )");
-        run("INSERT INTO SYSSPATIAL.GEOMETRY_COLUMNS (F_TABLE_CATALOG, F_TABLE_SCHEMA, F_TABLE_NAME, F_GEOMETRY_COLUMN, COORD_DIMENSION, SRID, GEOM_TYPE) VALUES ('', '"
-                + fixture.getProperty("schema") + "', 'lake', 'geom', 2, " + getDelegate().getSrid4326() + ", 'POLYGON')");
+        run("CREATE TABLE \"lake\"(\"fid\" PRIMARY KEY not null generated always as identity " +
+                "(start with 0) integer, \"id\" int, \"geom\" st_geometry, \"name\" varchar(200) " +
+                ")");
+        run("INSERT INTO SYSSPATIAL.GEOMETRY_COLUMNS (F_TABLE_CATALOG, F_TABLE_SCHEMA, " +
+                "F_TABLE_NAME, F_GEOMETRY_COLUMN, COORD_DIMENSION, SRID, GEOM_TYPE) VALUES ('', '"
+                + fixture.getProperty("schema") + "', 'lake', 'geom', 2, " + getDelegate()
+                .getSrid4326() + ", 'POLYGON')");
 
         // add the spatial index
         run("CREATE MULTISET TABLE \"lake_geom_idx\""
@@ -60,14 +62,18 @@ public class TeradataDataStoreAPITestSetup extends JDBCDataStoreAPITestSetup {
         // advance the sequence to 1 to compensate for hand insertions
         // run("SELECT nextval(pg_get_serial_sequence('lake','fid'))");
 
-        run("INSERT INTO \"lake\" (\"fid\", \"id\",\"geom\",\"name\") VALUES (0, 0,'POLYGON((12 6, 14 8, 16 6, 16 4, 14 4, 12 6))', 'muddy');");
+        run("INSERT INTO \"lake\" (\"fid\", \"id\",\"geom\",\"name\") VALUES (0, 0,'POLYGON((12 " +
+                "6, 14 8, 16 6, 16 4, 14 4, 12 6))', 'muddy');");
     }
 
     protected void createRiverTable() throws Exception {
-        run("CREATE TABLE \"river\"(\"fid\" PRIMARY KEY not null generated always as identity (start with 0) integer, \"id\" int, "
+        run("CREATE TABLE \"river\"(\"fid\" PRIMARY KEY not null generated always as identity " +
+                "(start with 0) integer, \"id\" int, "
                 + "\"geom\" ST_GEOMETRY, \"river\" varchar(200) , \"flow\" real )");
-        run("INSERT INTO SYSSPATIAL.GEOMETRY_COLUMNS (F_TABLE_CATALOG, F_TABLE_SCHEMA, F_TABLE_NAME, F_GEOMETRY_COLUMN, COORD_DIMENSION, SRID, GEOM_TYPE) VALUES ('', '"
-                + fixture.getProperty("schema") + "', 'river', 'geom', 2, " + getDelegate().getSrid4326() + ", 'MULTILINESTRING')");
+        run("INSERT INTO SYSSPATIAL.GEOMETRY_COLUMNS (F_TABLE_CATALOG, F_TABLE_SCHEMA, " +
+                "F_TABLE_NAME, F_GEOMETRY_COLUMN, COORD_DIMENSION, SRID, GEOM_TYPE) VALUES ('', '"
+                + fixture.getProperty("schema") + "', 'river', 'geom', 2, " + getDelegate()
+                .getSrid4326() + ", 'MULTILINESTRING')");
 
         run("CREATE MULTISET TABLE \"river_geom_idx\""
                 + " (id INTEGER NOT NULL, cellid INTEGER NOT NULL) PRIMARY INDEX (cellid)");
@@ -97,10 +103,13 @@ public class TeradataDataStoreAPITestSetup extends JDBCDataStoreAPITestSetup {
 
     protected void createRoadTable() throws Exception {
         // create table and spatial index
-        run("CREATE TABLE \"road\"(\"fid\" PRIMARY KEY not null generated always as identity (start with 0) integer, \"id\" int, "
+        run("CREATE TABLE \"road\"(\"fid\" PRIMARY KEY not null generated always as identity " +
+                "(start with 0) integer, \"id\" int, "
                 + "\"geom\" ST_GEOMETRY, \"name\" varchar(200) )");
-        run("INSERT INTO SYSSPATIAL.GEOMETRY_COLUMNS (F_TABLE_CATALOG, F_TABLE_SCHEMA, F_TABLE_NAME, F_GEOMETRY_COLUMN, COORD_DIMENSION, SRID, GEOM_TYPE) VALUES ('', '"
-                + fixture.getProperty("schema") + "', 'road', 'geom', 2, " + getDelegate().getSrid4326() + ", 'LINESTRING')");
+        run("INSERT INTO SYSSPATIAL.GEOMETRY_COLUMNS (F_TABLE_CATALOG, F_TABLE_SCHEMA, " +
+                "F_TABLE_NAME, F_GEOMETRY_COLUMN, COORD_DIMENSION, SRID, GEOM_TYPE) VALUES ('', '"
+                + fixture.getProperty("schema") + "', 'road', 'geom', 2, " + getDelegate()
+                .getSrid4326() + ", 'LINESTRING')");
 
         run("CREATE MULTISET TABLE \"road_geom_idx\""
                 + " (id INTEGER NOT NULL, cellid INTEGER NOT NULL) PRIMARY INDEX (cellid)");

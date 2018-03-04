@@ -47,19 +47,16 @@ import org.geotools.util.UnsupportedImplementationException;
  * A parameterized mathematical operation on coordinates that transforms or converts
  * coordinates to another coordinate reference system. This coordinate operation thus
  * uses an operation method, usually with associated parameter values.
- * <P>
+ * <p>
  * In the Geotools implementation, the {@linkplain #getParameterValues parameter values}
  * are inferred from the {@linkplain #transform transform}. Other implementations may have
  * to overrides the {@link #getParameterValues} method.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see DefaultOperationMethod
+ * @since 2.1
  */
 public class DefaultOperation extends DefaultSingleOperation implements Operation {
     /**
@@ -77,11 +74,10 @@ public class DefaultOperation extends DefaultSingleOperation implements Operatio
      * conversion, together with the specified source and target CRS. This constructor
      * is used by {@link DefaultConversion} only.
      */
-    DefaultOperation(final Conversion               definition,
+    DefaultOperation(final Conversion definition,
                      final CoordinateReferenceSystem sourceCRS,
                      final CoordinateReferenceSystem targetCRS,
-                     final MathTransform             transform)
-    {
+                     final MathTransform transform) {
         super(definition, sourceCRS, targetCRS, transform);
         method = definition.getMethod();
     }
@@ -91,18 +87,17 @@ public class DefaultOperation extends DefaultSingleOperation implements Operatio
      * follow the same rules than for the {@link AbstractCoordinateOperation} constructor.
      *
      * @param properties Set of properties. Should contains at least {@code "name"}.
-     * @param sourceCRS The source CRS.
-     * @param targetCRS The target CRS.
-     * @param transform Transform from positions in the {@linkplain #getSourceCRS source CRS}
-     *                  to positions in the {@linkplain #getTargetCRS target CRS}.
-     * @param method    The operation method.
+     * @param sourceCRS  The source CRS.
+     * @param targetCRS  The target CRS.
+     * @param transform  Transform from positions in the {@linkplain #getSourceCRS source CRS}
+     *                   to positions in the {@linkplain #getTargetCRS target CRS}.
+     * @param method     The operation method.
      */
-    public DefaultOperation(final Map<String,?>            properties,
+    public DefaultOperation(final Map<String, ?> properties,
                             final CoordinateReferenceSystem sourceCRS,
                             final CoordinateReferenceSystem targetCRS,
-                            final MathTransform             transform,
-                            final OperationMethod           method)
-    {
+                            final MathTransform transform,
+                            final OperationMethod method) {
         super(properties, sourceCRS, targetCRS, transform);
         ensureNonNull("method", method);
         DefaultOperationMethod.checkDimensions(method, transform);
@@ -114,31 +109,29 @@ public class DefaultOperation extends DefaultSingleOperation implements Operatio
      * {@link Conversion} or {@link Transformation} among others.
      *
      * @param properties Set of properties. Should contains at least {@code "name"}.
-     * @param sourceCRS The source CRS.
-     * @param targetCRS The target CRS.
-     * @param transform Transform from positions in the {@linkplain #getSourceCRS source CRS}
-     *                  to positions in the {@linkplain #getTargetCRS target CRS}.
-     * @param method    The operation method, or {@code null}.
-     * @param type      The minimal type as <code>{@linkplain Conversion}.class</code>,
-     *                  <code>{@linkplain Projection}.class</code>, etc. This method may
-     *                  create an instance of a subclass of {@code type}.
+     * @param sourceCRS  The source CRS.
+     * @param targetCRS  The target CRS.
+     * @param transform  Transform from positions in the {@linkplain #getSourceCRS source CRS}
+     *                   to positions in the {@linkplain #getTargetCRS target CRS}.
+     * @param method     The operation method, or {@code null}.
+     * @param type       The minimal type as <code>{@linkplain Conversion}.class</code>,
+     *                   <code>{@linkplain Projection}.class</code>, etc. This method may
+     *                   create an instance of a subclass of {@code type}.
      * @return A new coordinate operation of the given type.
-     *
      * @see DefaultConversion#create
      */
-    public static CoordinateOperation create(final Map<String,?>            properties,
+    public static CoordinateOperation create(final Map<String, ?> properties,
                                              final CoordinateReferenceSystem sourceCRS,
                                              final CoordinateReferenceSystem targetCRS,
-                                             final MathTransform             transform,
-                                             final OperationMethod           method,
-                                             Class<? extends CoordinateOperation> type)
-    {
+                                             final MathTransform transform,
+                                             final OperationMethod method,
+                                             Class<? extends CoordinateOperation> type) {
         if (method != null) {
             if (method instanceof MathTransformProvider) {
                 final Class<? extends Operation> candidate =
                         ((MathTransformProvider) method).getOperationType();
                 if (candidate != null) {
-                    if (type==null || type.isAssignableFrom(candidate)) {
+                    if (type == null || type.isAssignableFrom(candidate)) {
                         type = candidate.asSubclass(type);
                     }
                 }
@@ -146,31 +139,31 @@ public class DefaultOperation extends DefaultSingleOperation implements Operatio
             if (type != null) {
                 if (Transformation.class.isAssignableFrom(type)) {
                     return new DefaultTransformation(
-                               properties, sourceCRS, targetCRS, transform, method);
+                            properties, sourceCRS, targetCRS, transform, method);
                 }
                 if (ConicProjection.class.isAssignableFrom(type)) {
                     return new DefaultConicProjection(
-                               properties, sourceCRS, targetCRS, transform, method);
+                            properties, sourceCRS, targetCRS, transform, method);
                 }
                 if (CylindricalProjection.class.isAssignableFrom(type)) {
                     return new DefaultCylindricalProjection(
-                               properties, sourceCRS, targetCRS, transform, method);
+                            properties, sourceCRS, targetCRS, transform, method);
                 }
                 if (PlanarProjection.class.isAssignableFrom(type)) {
                     return new DefaultPlanarProjection(
-                               properties, sourceCRS, targetCRS, transform, method);
+                            properties, sourceCRS, targetCRS, transform, method);
                 }
                 if (Projection.class.isAssignableFrom(type)) {
                     return new DefaultProjection(
-                               properties, sourceCRS, targetCRS, transform, method);
+                            properties, sourceCRS, targetCRS, transform, method);
                 }
                 if (Conversion.class.isAssignableFrom(type)) {
                     return new DefaultConversion(
-                               properties, sourceCRS, targetCRS, transform, method);
+                            properties, sourceCRS, targetCRS, transform, method);
                 }
             }
             return new DefaultOperation(
-                       properties, sourceCRS, targetCRS, transform, method);
+                    properties, sourceCRS, targetCRS, transform, method);
         }
         return new DefaultSingleOperation(properties, sourceCRS, targetCRS, transform);
     }
@@ -187,8 +180,7 @@ public class DefaultOperation extends DefaultSingleOperation implements Operatio
      * values from the {@link #transform transform}, if possible.
      *
      * @throws UnsupportedOperationException if the parameters values can't be determined
-     *         for current math transform implementation.
-     *
+     *                                       for current math transform implementation.
      * @see DefaultMathTransformFactory#createParameterizedTransform
      * @see org.geotools.referencing.operation.transform.AbstractMathTransform#getParameterValues
      */
@@ -199,21 +191,23 @@ public class DefaultOperation extends DefaultSingleOperation implements Operatio
     /**
      * Returns the parameter values for the math transform that use the specified descriptor.
      *
-     * @param  mt The math transform for which parameters are desired.
-     * @param  descriptor The descriptor to search for.
-     * @param  required {@code true} if an exception must be thrown if parameters are unknow.
+     * @param mt         The math transform for which parameters are desired.
+     * @param descriptor The descriptor to search for.
+     * @param required   {@code true} if an exception must be thrown if parameters are unknow.
      * @return The parameter values, or null.
      * @throws UnsupportedImplementationException if the math transform implementation do not
-     *         provide information about parameters.
+     *                                            provide information about parameters.
      */
     private static ParameterValueGroup getParameterValues(MathTransform mt,
-            final ParameterDescriptorGroup descriptor, boolean required)
-    {
+                                                          final ParameterDescriptorGroup 
+                                                                  descriptor, boolean required) {
         while (mt != null) {
             if (mt instanceof ConcatenatedTransform) {
                 final ConcatenatedTransform ct = (ConcatenatedTransform) mt;
-                final ParameterValueGroup param1 = getParameterValues(ct.transform1, descriptor, false);
-                final ParameterValueGroup param2 = getParameterValues(ct.transform2, descriptor, false);
+                final ParameterValueGroup param1 = getParameterValues(ct.transform1, descriptor, 
+                        false);
+                final ParameterValueGroup param2 = getParameterValues(ct.transform2, descriptor, 
+                        false);
                 if (param1 == null && param2 != null) return param2;
                 if (param2 == null && param1 != null) return param1;
                 required = true;
@@ -241,9 +235,10 @@ public class DefaultOperation extends DefaultSingleOperation implements Operatio
      * If {@code compareMetadata} is {@code true}, then all available properties
      * are compared including {@linkplain DefaultOperationMethod#getFormula formula}.
      *
-     * @param  object The object to compare to {@code this}.
-     * @param  compareMetadata {@code true} for performing a strict comparaison, or
-     *         {@code false} for comparing only properties relevant to transformations.
+     * @param object          The object to compare to {@code this}.
+     * @param compareMetadata {@code true} for performing a strict comparaison, or
+     *                        {@code false} for comparing only properties relevant to 
+     *                                    transformations.
      * @return {@code true} if both objects are equal.
      */
     @Override
@@ -277,9 +272,10 @@ public class DefaultOperation extends DefaultSingleOperation implements Operatio
              *
              * As a safety, we still compare the name. But I'm not completly sure that it is
              * necessary.
-             * 
+             *
              * AA: this comparison was removed to allow the common case of Conformal 1SP vs
-             * conformal 2SP equivalence to succeed a equalsIgnoreMetadata comparison. Extensive tests
+             * conformal 2SP equivalence to succeed a equalsIgnoreMetadata comparison. Extensive 
+             * tests
              * revealed no regressions, as it was noted above, there is no proof this is actually
              * necessary
              */

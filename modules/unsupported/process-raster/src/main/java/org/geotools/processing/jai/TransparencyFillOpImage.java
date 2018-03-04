@@ -45,14 +45,15 @@ public class TransparencyFillOpImage extends AreaOpImage {
         FILL_AVERAGE {
             @Override
             public void fillPixel(int numBands, byte[][] srcData, byte[][] dstData,
-                    int srcOffset, int srcStride, int dstOffset) {
+                                  int srcOffset, int srcStride, int dstOffset) {
                 for (int k = 0; k < numBands; k++) {
                     if (k != numBands - 1) {
                         int left = (srcData[k][srcOffset - srcStride + k] & 0xFF);
                         int right = (srcData[k][srcOffset + srcStride + k] & 0xFF);
                         dstData[k][dstOffset + k] = (byte) ((left + right) / 2);
                     } else {
-                        dstData[k][dstOffset + k] = ((byte) ((srcData[k][srcOffset - srcStride + k])));
+                        dstData[k][dstOffset + k] = ((byte) ((srcData[k][srcOffset - srcStride + 
+                                k])));
                     }
                 }
             }
@@ -62,7 +63,7 @@ public class TransparencyFillOpImage extends AreaOpImage {
         FILL_CLONE_FIRST {
             @Override
             public void fillPixel(int numBands, byte[][] srcData, byte[][] dstData,
-                    int srcOffset, int srcStride, int dstOffset) {
+                                  int srcOffset, int srcStride, int dstOffset) {
                 for (int k = 0; k < numBands; k++) {
                     dstData[k][dstOffset + k] = ((byte) ((srcData[k][srcOffset - srcStride + k])));
                 }
@@ -73,29 +74,36 @@ public class TransparencyFillOpImage extends AreaOpImage {
         FILL_CLONE_SECOND {
             @Override
             public void fillPixel(int numBands, byte[][] srcData, byte[][] dstData,
-                    int srcOffset, int srcStride, int dstOffset) {
+                                  int srcOffset, int srcStride, int dstOffset) {
                 for (int k = 0; k < numBands; k++) {
                     dstData[k][dstOffset + k] = ((byte) ((srcData[k][srcOffset + srcStride + k])));
                 }
             }
         };
 
-        public abstract void fillPixel(int numBands, byte[][] srcData, byte[][] dstData, int srcOffset, int srcStride, int dstOffset);
-    };
+        public abstract void fillPixel(int numBands, byte[][] srcData, byte[][] dstData, int 
+                srcOffset, int srcStride, int dstOffset);
+    }
+
+    ;
 
     private TransparencyFillAlgorithm fillAlgorithm = null;
 
     /**
-     * Creates a TransparencyFillOpImage given a ParameterBlock containing the image source. The image dimensions are derived
-     * from the source image. The tile grid layout, SampleModel, and ColorModel may optionally be specified by an ImageLayout object.
+     * Creates a TransparencyFillOpImage given a ParameterBlock containing the image source. The 
+     * image dimensions are derived
+     * from the source image. The tile grid layout, SampleModel, and ColorModel may optionally be
+     * specified by an ImageLayout object.
      *
-     * @param source a RenderedImage.
+     * @param source   a RenderedImage.
      * @param extender a BorderExtender, or null.
-     * @param type a {@link FillType} type to be used for transparency filling
-     * @param layout an ImageLayout optionally containing the tile grid layout, SampleModel, and ColorModel, or null.
+     * @param type     a {@link FillType} type to be used for transparency filling
+     * @param layout   an ImageLayout optionally containing the tile grid layout, SampleModel, 
+     *                 and ColorModel, or null.
      */
-    public TransparencyFillOpImage(RenderedImage source, BorderExtender extender, FillType type, Map config,
-            ImageLayout layout) {
+    public TransparencyFillOpImage(RenderedImage source, BorderExtender extender, FillType type, 
+                                   Map config,
+                                   ImageLayout layout) {
         super(source, layout, config, true, extender, 1, 1, 1, 1);
         if (type == null) {
             // Setting up default  
@@ -118,8 +126,9 @@ public class TransparencyFillOpImage extends AreaOpImage {
     /**
      * Performs fill on a specified rectangle. The sources are cobbled.
      *
-     * @param sources an array of source Rasters, guaranteed to provide all necessary source data for computing the output.
-     * @param dest a WritableRaster tile containing the area to be computed.
+     * @param sources  an array of source Rasters, guaranteed to provide all necessary source 
+     *                 data for computing the output.
+     * @param dest     a WritableRaster tile containing the area to be computed.
      * @param destRect the rectangle within dest to be processed.
      */
     protected void computeRect(Raster[] sources, WritableRaster dest, Rectangle destRect) {
@@ -135,12 +144,13 @@ public class TransparencyFillOpImage extends AreaOpImage {
                 getColorModel());
 
         switch (dstAccessor.getDataType()) {
-        case DataBuffer.TYPE_BYTE:
-            byteLoop(srcAccessor, dstAccessor);
-            break;
-        default:
-            // Transparency fill is only supported on byte datatype
-            throw new UnsupportedOperationException("Only byte databuffer is currently supported");
+            case DataBuffer.TYPE_BYTE:
+                byteLoop(srcAccessor, dstAccessor);
+                break;
+            default:
+                // Transparency fill is only supported on byte datatype
+                throw new UnsupportedOperationException("Only byte databuffer is currently " +
+                        "supported");
         }
 
         // If the RasterAccessor object set up a temporary buffer for the
@@ -198,7 +208,8 @@ public class TransparencyFillOpImage extends AreaOpImage {
                     int leftPixel = srcData[imageVerticalOffset - srcPixelStride];
                     if (rightPixel != 0 && leftPixel != 0) {
                         // This has been identified as a pixel of a vertical transparent stripe
-                        fillAlgorithm.fillPixel(numBands, srcDataArrays, dstDataArrays, imageDataVerticalOffset, srcPixelStride, dstPixelOffset);
+                        fillAlgorithm.fillPixel(numBands, srcDataArrays, dstDataArrays, 
+                                imageDataVerticalOffset, srcPixelStride, dstPixelOffset);
                         copySource = false;
                     } else {
                         // A transparent pixel with adjacent transparent pixels along x
@@ -206,8 +217,10 @@ public class TransparencyFillOpImage extends AreaOpImage {
                         if (upperPixel != 0) {
                             int lowerPixel = srcData[imageVerticalOffset + srcScanlineStride];
                             if (lowerPixel != 0) {
-                                // This has been identified as a pixel of an horizontal transparent stripe
-                                fillAlgorithm.fillPixel(numBands, srcDataArrays, dstDataArrays, imageDataVerticalOffset, srcScanlineStride, dstPixelOffset);
+                                // This has been identified as a pixel of an horizontal 
+                                // transparent stripe
+                                fillAlgorithm.fillPixel(numBands, srcDataArrays, dstDataArrays, 
+                                        imageDataVerticalOffset, srcScanlineStride, dstPixelOffset);
                                 copySource = false;
                             }
                         }

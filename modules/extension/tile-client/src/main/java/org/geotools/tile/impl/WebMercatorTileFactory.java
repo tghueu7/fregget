@@ -24,13 +24,14 @@ import org.geotools.tile.TileService;
 
 /**
  * <p>
- * The WebMercatorTileFactory is an abstract class that holds some of the tile calculation logic for Mercator-based tile services.
+ * The WebMercatorTileFactory is an abstract class that holds some of the tile calculation logic 
+ * for Mercator-based tile services.
  * </p>
  * <p>
  * <a href="http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames"> OpenStreetMap Wiki</a>
  * http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#Java
  * </p>
- * 
+ *
  * @author Ugo Taddei
  * @since 12
  */

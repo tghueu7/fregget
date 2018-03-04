@@ -14,8 +14,6 @@ import org.geotools.data.efeature.DataTypes;
 import org.opengis.filter.expression.Literal;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ConditionEncoder {
@@ -37,13 +35,13 @@ public class ConditionEncoder {
     public static Condition eq(EDataType type, Object value) throws EFeatureEncoderException {
         return eq(DataBuilder.toValue(type, value));
     }
-        
+
     public static Condition eq(Object value) throws EFeatureEncoderException {
         if (DataTypes.isNumeric(value)) {
             return eq((Number) value);
         } else if (DataTypes.isDate(value)) {
             return eq((Date) value);
-        } else if (DataTypes.isBoolean(value,false)) {
+        } else if (DataTypes.isBoolean(value, false)) {
             return eq((Boolean) value);
         } else if (DataTypes.isString(value)) {
             return eq((String) value);
@@ -52,25 +50,25 @@ public class ConditionEncoder {
         }
         throw new EFeatureEncoderException("EQ: Literal " + value + " not supported");
     }
-    
+
     public static Condition ne(Literal value) throws EFeatureEncoderException {
         return ne(value.getValue());
     }
-    
+
     public static Condition ne(EDataType type, Literal value) throws EFeatureEncoderException {
         return ne(DataBuilder.toValue(type, value));
-    }    
+    }
 
     public static Condition ne(EDataType type, Object value) throws EFeatureEncoderException {
         return ne(DataBuilder.toValue(type, value));
-    }    
+    }
 
     public static Condition ne(Object value) throws EFeatureEncoderException {
         if (DataTypes.isNumeric(value)) {
             return ne((Number) value);
         } else if (DataTypes.isDate(value)) {
             return ne((Date) value);
-        } else if (DataTypes.isBoolean(value,false)) {
+        } else if (DataTypes.isBoolean(value, false)) {
             return ne((Boolean) value);
         } else if (DataTypes.isString(value)) {
             return ne((String) value);
@@ -83,15 +81,15 @@ public class ConditionEncoder {
     public static Condition lt(Literal value) throws EFeatureEncoderException {
         return lt(value.getValue());
     }
-    
+
     public static Condition lt(EDataType type, Literal value) throws EFeatureEncoderException {
         return lt(DataBuilder.toValue(type, value));
-    }    
-    
+    }
+
     public static Condition lt(EDataType type, Object value) throws EFeatureEncoderException {
         return lt(DataBuilder.toValue(type, value));
-    }    
-    
+    }
+
     public static Condition lt(Object value) throws EFeatureEncoderException {
         if (DataTypes.isNumeric(value)) {
             return lt((Number) value);
@@ -108,14 +106,14 @@ public class ConditionEncoder {
     public static Condition le(Literal value) throws EFeatureEncoderException {
         return le(value.getValue());
     }
-    
+
     public static Condition le(EDataType type, Literal value) throws EFeatureEncoderException {
         return le(DataBuilder.toValue(type, value));
-    }  
-    
+    }
+
     public static Condition le(EDataType type, Object value) throws EFeatureEncoderException {
         return le(DataBuilder.toValue(type, value));
-    }  
+    }
 
     public static Condition le(Object value) throws EFeatureEncoderException {
         if (DataTypes.isNumeric(value)) {
@@ -133,15 +131,15 @@ public class ConditionEncoder {
     public static Condition gt(Literal value) throws EFeatureEncoderException {
         return gt(value.getValue());
     }
-    
+
     public static Condition gt(EDataType type, Literal value) throws EFeatureEncoderException {
         return gt(DataBuilder.toValue(type, value));
-    }  
-    
+    }
+
     public static Condition gt(EDataType type, Object value) throws EFeatureEncoderException {
         return gt(DataBuilder.toValue(type, value));
-    }  
-    
+    }
+
     public static Condition gt(Object value) throws EFeatureEncoderException {
         if (DataTypes.isNumeric(value)) {
             return gt((Number) value);
@@ -158,15 +156,15 @@ public class ConditionEncoder {
     public static Condition ge(Literal value) throws EFeatureEncoderException {
         return ge(value.getValue());
     }
-    
+
     public static Condition ge(EDataType type, Literal value) throws EFeatureEncoderException {
         return ge(DataBuilder.toValue(type, value));
-    }  
-        
+    }
+
     public static Condition ge(EDataType type, Object value) throws EFeatureEncoderException {
         return ge(DataBuilder.toValue(type, value));
-    }  
-        
+    }
+
     public static Condition ge(Object value) throws EFeatureEncoderException {
         if (DataTypes.isNumeric(value)) {
             return ge((Number) value);
@@ -179,38 +177,40 @@ public class ConditionEncoder {
         }
         throw new EFeatureEncoderException("GE: Literal " + value + " not supported");
     }
-    
+
     public static Condition like(Literal value) throws EFeatureEncoderException {
         return like(value.getValue());
     }
-    
+
     public static Condition like(EDataType type, Literal value) throws EFeatureEncoderException {
         return like(DataBuilder.toValue(type, value));
-    } 
-    
+    }
+
     public static Condition like(EDataType type, Object value) throws EFeatureEncoderException {
         return like(DataBuilder.toValue(type, value));
-    } 
-    
+    }
+
     public static Condition like(Object value) throws EFeatureEncoderException {
         if (DataTypes.isString(value)) {
             return like((String) value);
         }
         throw new EFeatureEncoderException("LIKE: Literal " + value + " not supported");
-    }    
+    }
 
     public static Condition between(Literal lower, Literal upper) throws EFeatureEncoderException {
-        return between(lower.getValue(),upper.getValue());
+        return between(lower.getValue(), upper.getValue());
     }
-    
-    public static Condition between(EDataType type, Literal lower, Literal upper) throws EFeatureEncoderException {
-        return between(DataBuilder.toValue(type, lower),DataBuilder.toValue(type, upper));
-    } 
-    
-    public static Condition between(EDataType type, Object lower, Object upper) throws EFeatureEncoderException {
-        return between(DataBuilder.toValue(type, lower),DataBuilder.toValue(type, upper));
-    } 
-    
+
+    public static Condition between(EDataType type, Literal lower, Literal upper) throws 
+            EFeatureEncoderException {
+        return between(DataBuilder.toValue(type, lower), DataBuilder.toValue(type, upper));
+    }
+
+    public static Condition between(EDataType type, Object lower, Object upper) throws 
+            EFeatureEncoderException {
+        return between(DataBuilder.toValue(type, lower), DataBuilder.toValue(type, upper));
+    }
+
     public static Condition between(Object lower, Object upper) throws EFeatureEncoderException {
         isSameType(lower, "lower", upper, "upper", true);
         if (DataTypes.isNumeric(lower)) {
@@ -220,24 +220,26 @@ public class ConditionEncoder {
         } else if (DataTypes.isString(lower)) {
             return between((String) lower, (String) upper);
         } else if (DataTypes.isCharacter(lower)) {
-            return between((Character) lower,(Character) upper);
+            return between((Character) lower, (Character) upper);
         }
-        throw new EFeatureEncoderException("BETWEEN: Literals '" 
+        throw new EFeatureEncoderException("BETWEEN: Literals '"
                 + lower + "' and '" + upper + "' not supported");
     }
-    
+
     public static Condition outside(Literal lower, Literal upper) throws EFeatureEncoderException {
-        return outside(lower.getValue(),upper.getValue());
+        return outside(lower.getValue(), upper.getValue());
     }
-    
-    public static Condition outside(EDataType type, Literal lower, Literal upper) throws EFeatureEncoderException {
-        return outside(DataBuilder.toValue(type, lower),DataBuilder.toValue(type, upper));
-    } 
-    
-    public static Condition outside(EDataType type, Object lower, Object upper) throws EFeatureEncoderException {
-        return outside(DataBuilder.toValue(type, lower),DataBuilder.toValue(type, upper));
+
+    public static Condition outside(EDataType type, Literal lower, Literal upper) throws 
+            EFeatureEncoderException {
+        return outside(DataBuilder.toValue(type, lower), DataBuilder.toValue(type, upper));
     }
-    
+
+    public static Condition outside(EDataType type, Object lower, Object upper) throws 
+            EFeatureEncoderException {
+        return outside(DataBuilder.toValue(type, lower), DataBuilder.toValue(type, upper));
+    }
+
     public static Condition outside(Object lower, Object upper) throws EFeatureEncoderException {
         isSameType(lower, "lower", upper, "upper", true);
         if (DataTypes.isNumeric(lower)) {
@@ -247,11 +249,11 @@ public class ConditionEncoder {
         } else if (DataTypes.isString(lower)) {
             return outside((String) lower, (String) upper);
         } else if (DataTypes.isCharacter(lower)) {
-            return outside((Character) lower,(Character) upper);
+            return outside((Character) lower, (Character) upper);
         }
-        throw new EFeatureEncoderException("OUTSIDE: Literals '" 
+        throw new EFeatureEncoderException("OUTSIDE: Literals '"
                 + lower + "' and '" + upper + "' not supported");
-    }    
+    }
 
     // ----------------------------------------------------- 
     //  Number comparison methods
@@ -378,7 +380,7 @@ public class ConditionEncoder {
             return NumberCondition.between((Byte) lower, (Byte) upper);
         throw new EFeatureEncoderException("Type " + lower + " not supported");
     }
-    
+
     public static Condition outside(Number lower, Number upper) throws EFeatureEncoderException {
         return new Not(between(lower, upper));
     }
@@ -421,13 +423,13 @@ public class ConditionEncoder {
         isSameType(lower, "lower", upper, "upper", true);
         return DateCondition.between(lower, upper);
     }
-    
+
     public static DateCondition outside(Date lower, Date upper) throws EFeatureEncoderException {
         isSameType(lower, "lower", upper, "upper", true);
         return DateCondition.outside(lower, upper);
     }
-    
-    
+
+
     // ----------------------------------------------------- 
     //  Boolean comparison methods
     // -----------------------------------------------------
@@ -481,14 +483,15 @@ public class ConditionEncoder {
         isSameType(lower, "lower", upper, "upper", true);
         return StringCondition.between(lower, upper);
     }
-    
-    public static StringCondition outside(String lower, String upper) 
-        throws EFeatureEncoderException {
+
+    public static StringCondition outside(String lower, String upper)
+            throws EFeatureEncoderException {
         isSameType(lower, "lower", upper, "upper", true);
         return StringCondition.outside(lower, upper);
-    }    
+    }
 
-    public static StringRegularExpressionValue like(String pattern) throws EFeatureEncoderException {
+    public static StringRegularExpressionValue like(String pattern) throws 
+            EFeatureEncoderException {
         isSane(pattern, "pattern", true);
         return new StringRegularExpressionValue(pattern);
     }
@@ -532,12 +535,12 @@ public class ConditionEncoder {
         isSameType(lower, "lower", upper, "upper", true);
         return CharacterCondition.between(lower, upper);
     }
-    
-    public static CharacterCondition outside(Character lower, Character upper) 
-        throws EFeatureEncoderException {
+
+    public static CharacterCondition outside(Character lower, Character upper)
+            throws EFeatureEncoderException {
         isSameType(lower, "lower", upper, "upper", true);
         return CharacterCondition.outside(lower, upper);
-    }    
+    }
 
     // ----------------------------------------------------- 
     //  Public helper methods
@@ -551,8 +554,8 @@ public class ConditionEncoder {
         return true;
     }
 
-    public static boolean isSameType(Object obj1, String name1, 
-            Object obj2, String name2, boolean exception) 
+    public static boolean isSameType(Object obj1, String name1,
+                                     Object obj2, String name2, boolean exception)
             throws EFeatureEncoderException {
         if (!isSane(obj1, name1, exception))
             return false;

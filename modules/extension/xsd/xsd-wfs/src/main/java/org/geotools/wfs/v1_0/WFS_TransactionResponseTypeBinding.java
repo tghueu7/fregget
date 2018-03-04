@@ -26,9 +26,9 @@ import org.geotools.xml.AbstractComplexEMFBinding;
 
 /**
  * Binding object for the type http://www.opengis.net/wfs:TransactionResponseType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="TransactionResponseType"&gt;
  *      &lt;xsd:annotation&gt;
@@ -48,7 +48,8 @@ import org.geotools.xml.AbstractComplexEMFBinding;
  *                 &lt;/xsd:documentation&gt;
  *              &lt;/xsd:annotation&gt;
  *          &lt;/xsd:element&gt;
- *          &lt;xsd:element minOccurs="0" name="TransactionResults" type="wfs:TransactionResultsType"&gt;
+ *          &lt;xsd:element minOccurs="0" name="TransactionResults" 
+ *          type="wfs:TransactionResultsType"&gt;
  *              &lt;xsd:annotation&gt;
  *                  &lt;xsd:documentation xml:lang="en"&gt;
  *                    For systems that do not support atomic transactions,
@@ -86,9 +87,6 @@ import org.geotools.xml.AbstractComplexEMFBinding;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class WFS_TransactionResponseTypeBinding extends AbstractComplexEMFBinding {
@@ -112,16 +110,16 @@ public class WFS_TransactionResponseTypeBinding extends AbstractComplexEMFBindin
     public Class getType() {
         return TransactionResponseType.class;
     }
-    
+
     @Override
-    public Object getProperty(Object object, QName name) throws Exception{
-        if ( "InsertResult".equals(name.getLocalPart()) ){
+    public Object getProperty(Object object, QName name) throws Exception {
+        if ("InsertResult".equals(name.getLocalPart())) {
             return ((TransactionResponseType) object).getInsertResults();
         }
-        if ( "TransactionResult".equals(name.getLocalPart()) ){
+        if ("TransactionResult".equals(name.getLocalPart())) {
             return ((TransactionResponseType) object).getTransactionResults();
         }
-        
+
         return super.getProperty(object, name);
     }
 }

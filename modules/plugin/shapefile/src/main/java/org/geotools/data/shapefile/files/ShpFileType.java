@@ -21,10 +21,8 @@ import java.net.URL;
 
 /**
  * Enumerates the known types of files associated with a shapefile.
- * 
+ *
  * @author jesse
- *
- *
  * @source $URL$
  */
 public enum ShpFileType {
@@ -106,6 +104,6 @@ public enum ShpFileType {
      * return c:\shapefiles\file1 but all other will return null.
      */
     public String toBase(URL url) {
-        return toBase( url.toExternalForm() );        
+        return toBase(url.toExternalForm());
     }
 }

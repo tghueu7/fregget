@@ -10,8 +10,6 @@ import org.geotools.jdbc.JDBCVirtualTableOnlineTest;
 import org.geotools.util.logging.Logging;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class PostgisVirtualTableOnlineTest extends JDBCVirtualTableOnlineTest {

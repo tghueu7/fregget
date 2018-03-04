@@ -15,8 +15,6 @@ import org.geotools.xml.Schemas;
 import org.junit.Test;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SchemasTest {
@@ -25,24 +23,24 @@ public class SchemasTest {
     public void testConcurrentParse() throws Exception {
         URL location = SchemasTest.class.getResource("states.xsd");
         final File schemaFile = new File(location.toURI());
-        final List locators = Arrays.asList( GML.getInstance().createSchemaLocator() );
-        
+        final List locators = Arrays.asList(GML.getInstance().createSchemaLocator());
+
         ExecutorService es = Executors.newFixedThreadPool(32);
         List<Future<Void>> results = new ArrayList<Future<Void>>();
-        for(int i = 0; i < 128; i++) {
+        for (int i = 0; i < 128; i++) {
             Future<Void> future = es.submit(new Callable<Void>() {
 
                 @Override
                 public Void call() throws Exception {
-                    XSDSchema schema = Schemas.parse( schemaFile.getAbsolutePath(), locators, null );
+                    XSDSchema schema = Schemas.parse(schemaFile.getAbsolutePath(), locators, null);
                     Schemas.dispose(schema);
                     return null;
                 }
-                
+
             });
             results.add(future);
         }
-        
+
         // make sure none threw an exception
         for (Future<Void> future : results) {
             future.get();

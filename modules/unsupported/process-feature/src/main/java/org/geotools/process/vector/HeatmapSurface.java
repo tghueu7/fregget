@@ -29,9 +29,8 @@ import com.vividsolutions.jts.geom.Envelope;
  * "edge effects" from distorting the surface within the requested envelope.
  * <p>
  * The values in the output surface are normalized to lie in the range [0, 1].
- * 
+ *
  * @author Martin Davis, OpenGeo
- * 
  */
 public class HeatmapSurface {
     /**
@@ -53,11 +52,11 @@ public class HeatmapSurface {
 
     /**
      * Creates a new heatmap surface.
-     * 
+     *
      * @param kernelRadius the kernel radius, in grid units
-     * @param srcEnv the envelope defining the data space
-     * @param xSize the width of the output grid
-     * @param ySize the height of the output grid
+     * @param srcEnv       the envelope defining the data space
+     * @param xSize        the width of the output grid
+     * @param ySize        the height of the output grid
      */
     public HeatmapSurface(int kernelRadius, Envelope srcEnv, int xSize, int ySize) {
         // radius must be non-negative
@@ -88,13 +87,12 @@ public class HeatmapSurface {
 
     /**
      * Adds a new data point to the surface. Data points can be coincident.
-     * 
-     * @param x the X ordinate of the point
-     * @param y the Y ordinate of the point
+     *
+     * @param x     the X ordinate of the point
+     * @param y     the Y ordinate of the point
      * @param value the data value of the point
      */
-    public void addPoint(double x, double y, double value) 
-    {
+    public void addPoint(double x, double y, double value) {
         /**
          * Input points are converted to grid space, and offset by the grid expansion offset
          */
@@ -104,7 +102,7 @@ public class HeatmapSurface {
         // check if point falls outside grid - skip it if so
         if (gi < 0 || gi > grid.length || gj < 0 || gj > grid[0].length)
             return;
-        
+
         grid[gi][gj] += value;
         // System.out.println("data[" + gi + ", " + gj + "] <- " + value);
     }
@@ -112,7 +110,7 @@ public class HeatmapSurface {
     /**
      * Computes a grid representing the heatmap surface. The grid is structured as an XY matrix,
      * with (0,0) being the bottom left corner of the data space
-     * 
+     *
      * @return a grid representing the surface
      */
     public float[][] computeSurface() {
@@ -169,7 +167,7 @@ public class HeatmapSurface {
     /**
      * DON'T USE This method is too simplistic to determine normalization factor. Would need to use
      * a full 2D grid and smooth it to get correct value
-     * 
+     *
      * @param baseBoxKernelRadius
      * @param radiusIncBreak
      */
@@ -204,7 +202,7 @@ public class HeatmapSurface {
 
     /**
      * Normalizes grid values to range [0,1]
-     * 
+     *
      * @param grid
      */
     private void normalize(float[][] grid) {

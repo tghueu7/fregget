@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.filter;
 
 // OpenGIS direct dependencies
+
 import org.opengis.annotation.XmlElement;
 import org.opengis.filter.expression.Expression;
 
@@ -19,8 +20,9 @@ import org.opengis.filter.expression.Expression;
  * <p>
  * From the specification:
  * <i><pre>
- * The PropertyIsNil operator tests the content of the specified property and evaluates if it is nil. 
- * The operator can also evaluate the nil reason using the nilReason parameter. The implied operator 
+ * The PropertyIsNil operator tests the content of the specified property and evaluates if it is 
+ * nil.
+ * The operator can also evaluate the nil reason using the nilReason parameter. The implied operator
  * for evaluating the nil reason is "equals".
  * </pre></i>
  * </p>
@@ -31,7 +33,9 @@ import org.opengis.filter.expression.Expression;
  */
 @XmlElement("PropertyIsNil")
 public interface PropertyIsNil extends Filter {
-    /** Operator name used to check FilterCapabilities */
+    /**
+     * Operator name used to check FilterCapabilities
+     */
     public static String NAME = "Nil";
 
     /**

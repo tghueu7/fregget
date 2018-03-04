@@ -18,6 +18,7 @@ package org.geotools.filter.v1_1.capabilities;
 
 import java.util.List;
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.capability.ComparisonOperators;
 import org.opengis.filter.capability.Operator;
@@ -27,9 +28,9 @@ import org.geotools.xml.*;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:ComparisonOperatorsType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="ComparisonOperatorsType"&gt;
  *      &lt;xsd:sequence maxOccurs="unbounded"&gt;
@@ -42,9 +43,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class ComparisonOperatorsTypeBinding extends AbstractComplexBinding {
@@ -78,14 +76,14 @@ public class ComparisonOperatorsTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         List ops = node.getChildValues(Operator.class);
 
         return factory.comparisonOperators((Operator[]) ops.toArray(new Operator[ops.size()]));
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         if ("ComparisonOperator".equals(name.getLocalPart())) {
             ComparisonOperators ops = (ComparisonOperators) object;
 

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -23,9 +23,8 @@ import org.geotools.data.FeatureListener;
  * Interface to be implemented by all listeners of CollectionEvents.
  *
  * @author Ray Gallagher
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  * @deprecated Use {@link FeatureListener}
  */
 public interface CollectionListener {

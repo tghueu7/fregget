@@ -39,18 +39,16 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
  * A status bar item that displays the world coordinates of the mouse cursor
  * position.
  *
- * @see JMapStatusBar
- *
  * @author Michael Bedward
- * @since 8.0
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @see JMapStatusBar
+ * @since 8.0
  */
 public class JCoordsStatusBarItem extends StatusBarItem {
     private static final String COMPONENT_NAME =
             LocaleUtils.getValue("StatusBar", "CoordsItemName");
-    
+
     private static final String TOOL_TIP = LocaleUtils.getValue("StatusBar", "CoordsTooltip");
     private static final int DEFAULT_NUM_INTEGER_DIGITS = 3;
 
@@ -77,7 +75,7 @@ public class JCoordsStatusBarItem extends StatusBarItem {
         label = new JLabel();
         label.setFont(JMapStatusBar.DEFAULT_FONT);
         add(label);
-        
+
         setToolTipText(TOOL_TIP);
 
         decLen = JMapStatusBar.DEFAULT_NUM_DECIMAL_DIGITS;
@@ -154,7 +152,7 @@ public class JCoordsStatusBarItem extends StatusBarItem {
         }
         setLabelSizeAndFormat();
     }
-    
+
     /**
      * Sets the minimum width of the coordinate display label and the
      * format string used to print values.
@@ -244,11 +242,10 @@ public class JCoordsStatusBarItem extends StatusBarItem {
      * Gets the length of the integer part of a double value.
      *
      * @param x the value
-     *
      * @return number of digits in the integer part
      */
     private int integerPartLen(double x) {
-        return 1 + (int) Math.log10( Math.abs(x) );
+        return 1 + (int) Math.log10(Math.abs(x));
     }
 
     /**

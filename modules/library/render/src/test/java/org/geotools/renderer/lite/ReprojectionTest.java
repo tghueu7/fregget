@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -48,12 +48,8 @@ import com.vividsolutions.jts.geom.LineString;
 
 /**
  * Tests for rendering and reprojection
- * 
+ *
  * @author wolf
- * 
- * 
- *
- *
  * @source $URL$
  */
 public class ReprojectionTest extends TestCase {
@@ -84,9 +80,9 @@ public class ReprojectionTest extends TestCase {
 
     private SimpleFeature createLine(double x1, double y1, double x2, double y2)
             throws IllegalAttributeException {
-        Coordinate[] coords = new Coordinate[] { new Coordinate(x1, y1), new Coordinate(x2, y2) };
-        return SimpleFeatureBuilder.build(pointFeautureType, new Object[] { gf
-                .createLineString(coords) }, null);
+        Coordinate[] coords = new Coordinate[]{new Coordinate(x1, y1), new Coordinate(x2, y2)};
+        return SimpleFeatureBuilder.build(pointFeautureType, new Object[]{gf
+                .createLineString(coords)}, null);
     }
 
     private Style createLineStyle() {

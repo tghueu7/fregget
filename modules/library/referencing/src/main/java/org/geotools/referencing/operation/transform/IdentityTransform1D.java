@@ -21,10 +21,10 @@ package org.geotools.referencing.operation.transform;
  * A one dimensional, identity transform. Output values are identical to input values.
  * This class is really a special case of {@link LinearTransform1D} optimized for speed.
  *
- * @since 2.0
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.0
  */
 final class IdentityTransform1D extends LinearTransform1D {
     /**
@@ -57,8 +57,7 @@ final class IdentityTransform1D extends LinearTransform1D {
      */
     @Override
     public void transform(final float[] srcPts, int srcOff,
-                          final float[] dstPts, int dstOff, int numPts)
-    {
+                          final float[] dstPts, int dstOff, int numPts) {
         System.arraycopy(srcPts, srcOff, dstPts, dstOff, numPts);
     }
 
@@ -67,8 +66,7 @@ final class IdentityTransform1D extends LinearTransform1D {
      */
     @Override
     public void transform(final double[] srcPts, int srcOff,
-                          final double[] dstPts, int dstOff, int numPts)
-    {
+                          final double[] dstPts, int dstOff, int numPts) {
         System.arraycopy(srcPts, srcOff, dstPts, dstOff, numPts);
     }
 }

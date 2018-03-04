@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.referencing.crs;
@@ -34,24 +34,22 @@ import static org.opengis.annotation.Specification.*;
  * covered by that type of CRS with an acceptable degree of error. The exception to the rule is
  * the subtype "Temporal" which has been added by analogy.
  *
- *
- *
+ * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract 
+ * specification 2.0</A>
  * @source $URL$
- * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract specification 2.0</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 2.0
- *
  * @see org.opengis.referencing.cs.CoordinateSystem
  * @see org.opengis.referencing.datum.Datum
+ * @since GeoAPI 2.0
  */
-@UML(identifier="SC_SingleCRS", specification=ISO_19111)
+@UML(identifier = "SC_SingleCRS", specification = ISO_19111)
 public interface SingleCRS extends CoordinateReferenceSystem {
     /**
      * Returns the coordinate system.
      *
      * @rename Expanded the "CS" abbreviation into "CoordinateSystem".
      */
-    @UML(identifier="usesCS", obligation=MANDATORY, specification=ISO_19111)
+    @UML(identifier = "usesCS", obligation = MANDATORY, specification = ISO_19111)
     CoordinateSystem getCoordinateSystem();
 
     /**
@@ -59,6 +57,6 @@ public interface SingleCRS extends CoordinateReferenceSystem {
      *
      * @return The datum.
      */
-    @UML(identifier="usesDatum", obligation=MANDATORY, specification=ISO_19111)
+    @UML(identifier = "usesDatum", obligation = MANDATORY, specification = ISO_19111)
     Datum getDatum();
 }

@@ -41,11 +41,8 @@ import com.vividsolutions.jts.geom.Geometry;
  * FeatureSource implementation for the {@link GeoRestDataStore}. This means that this model is
  * read-only.
  * </p>
- * 
+ *
  * @author Pieter De Graef, Geosparc
- *
- *
- *
  * @source $URL$
  */
 public class GeoRestFeatureSource extends ContentFeatureSource implements SimpleFeatureSource {

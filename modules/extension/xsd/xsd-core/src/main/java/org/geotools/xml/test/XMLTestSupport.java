@@ -61,7 +61,7 @@ import org.xml.sax.helpers.NamespaceSupport;
  * <p>
  * Subclasses must implement the {@link #createConfiguration()} method. It must
  * return a new instance of {@link Configuration}. Example:
- *
+ * <p>
  * <pre>
  *         <code>
  *  public MailTypeBindingTest extends XMLTestSupport {
@@ -72,13 +72,13 @@ import org.xml.sax.helpers.NamespaceSupport;
  *  }
  *         </code>
  * </pre>
- *
+ * <p>
  * </p>
  * <p>
  * The {@link #parse()} method is used to test binding parsing. Subclasses
  * should call this from test methods after building up an instance document
  * with {@link #document}. Example
- *
+ * <p>
  * <pre>
  *         <code>
  *  public void testParsing() throws Exception {
@@ -100,12 +100,12 @@ import org.xml.sax.helpers.NamespaceSupport;
  *         </code>
  * </pre>
  * </p>
- *
+ * <p>
  * <p>
  * The {@link #encode(Object, QName)} method is used to test binding encoding.
  * Subclasses should call this method from test methods after creating an
  * object to be encoded. Example:
- *
+ * <p>
  * <pre>
  *         <code>
  * public void testEncoding() throws Exception {
@@ -124,12 +124,12 @@ import org.xml.sax.helpers.NamespaceSupport;
  *         </code>
  * </pre>
  * </p>
- *
+ * <p>
  * <p>
  * The {@link #binding(QName)} method is used to obtain an instance of a
  * particular binding. Subclasses should call this method to assert other
  * properties of the binding, such as type mapping and execution mode. Example:
- *
+ * <p>
  * <pre>
  *         <code>
  *  public void testType() {
@@ -152,10 +152,6 @@ import org.xml.sax.helpers.NamespaceSupport;
  * </p>
  *
  * @author Justin Deoliveira, The Open Planning Project, jdeolive@openplans.org
- *
- *
- *
- *
  * @source $URL$
  */
 public abstract class XMLTestSupport extends TestCase {
@@ -174,6 +170,7 @@ public abstract class XMLTestSupport extends TestCase {
      * additional namespace mappings
      */
     protected HashMap namespaceMappings;
+
     /**
      * Creates an empty xml document.
      */
@@ -205,9 +202,9 @@ public abstract class XMLTestSupport extends TestCase {
      * registers the <code>xsi,http://www.w3.org/2001/XMLSchema-instance</code>
      * namespace.
      * </p>
+     *
      * @param root The root node of the instance document.
      * @deprecated use {@link #registerNamespaceMapping(String, String)}
-     *
      */
     protected void registerNamespaces(Element root) {
         root.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
@@ -216,16 +213,17 @@ public abstract class XMLTestSupport extends TestCase {
     /**
      * Registers a namespace mapping.
      * <p>
-     * This mapping will be included in the "namespace context" of both the 
+     * This mapping will be included in the "namespace context" of both the
      * parser and the encoder.
      * </p>
+     *
      * @param prefix The prefix of the namespace, not <code>null</code>.
-     * @param uri The uri of the namespace, not <code>null</code>.
+     * @param uri    The uri of the namespace, not <code>null</code>.
      */
-    protected void registerNamespaceMapping( String prefix, String uri ) {
-        namespaceMappings.put( prefix, uri );
+    protected void registerNamespaceMapping(String prefix, String uri) {
+        namespaceMappings.put(prefix, uri);
     }
-    
+
     /**
      * Tempalte method for subclasses to create the configuration to be used by
      * the parser.
@@ -239,7 +237,8 @@ public abstract class XMLTestSupport extends TestCase {
      * element.
      * <p>
      * This method should be called after building the entire document.
-     *</p>
+     * </p>
+     *
      * @param type The name of the type of the root element of the build document.
      */
     protected Object parse(QName type) throws Exception {
@@ -252,48 +251,48 @@ public abstract class XMLTestSupport extends TestCase {
         Configuration config = createConfiguration();
 
         if (type != null) {
-            config.getContext().registerComponentInstance("http://geotools.org/typeDefinition", type);
+            config.getContext().registerComponentInstance("http://geotools.org/typeDefinition", 
+                    type);
         }
 
         //register additional namespaces
         registerNamespaces(root);
-        for ( Iterator e = namespaceMappings.entrySet().iterator(); e.hasNext(); ) {
+        for (Iterator e = namespaceMappings.entrySet().iterator(); e.hasNext(); ) {
             Map.Entry mapping = (Map.Entry) e.next();
             String prefix = (String) mapping.getKey();
             String uri = (String) mapping.getValue();
-            
-            root.setAttribute("xmlns:" + prefix, uri );
+
+            root.setAttribute("xmlns:" + prefix, uri);
         }
-        
+
         //process the schemaLocation, replace any schema locations that we know about
         if (root.hasAttribute("xsi:schemaLocation")) {
             XSD xsd = config.getXSD();
             List<XSD> deps = xsd.getAllDependencies();
             deps.add(xsd);
-            
+
             String[] locations = root.getAttribute("xsi:schemaLocation").split(" +");
             for (int i = 0; i < locations.length; i += 2) {
                 String uri = locations[i];
                 for (XSD dep : deps) {
                     if (dep.getNamespaceURI().equals(uri)) {
-                        locations[i+1] = dep.getSchemaLocation();
+                        locations[i + 1] = dep.getSchemaLocation();
                     }
                 }
             }
-            
+
             StringBuffer joined = new StringBuffer();
             for (String s : locations) {
                 joined.append(s).append(" ");
             }
-            joined.setLength(joined.length()-1);
+            joined.setLength(joined.length() - 1);
             root.setAttribute("xsi:schemaLocation", joined.toString());
-        }
-        else {
+        } else {
             //no schemaLocation attribute, add one for the schema for this config
             root.setAttribute("xsi:schemaLocation",
-                config.getNamespaceURI() + " " + config.getSchemaFileURL());
+                    config.getNamespaceURI() + " " + config.getSchemaFileURL());
         }
-        
+
 
         DOMParser parser = new DOMParser(config, document);
 
@@ -304,7 +303,7 @@ public abstract class XMLTestSupport extends TestCase {
      * Parses the built document.
      * <p>
      * This method should be called after building the entire document.
-     *</p>
+     * </p>
      */
     protected Object parse() throws Exception {
         return parse(null);
@@ -314,36 +313,35 @@ public abstract class XMLTestSupport extends TestCase {
      * Encodes an object, element name pair explicitly specifying the type of
      * the root element.
      *
-     * @param object The object to encode.
+     * @param object  The object to encode.
      * @param element The name of the element to encode.
-     * @param type The type of the element
-     *
+     * @param type    The type of the element
      * @return The object encoded.
      * @throws Exception
      */
     protected Document encode(Object object, QName element, QName type)
-        throws Exception {
+            throws Exception {
         Configuration configuration = createConfiguration();
 
         if (type != null) {
             //set the hint
             configuration.getContext()
-                         .registerComponentInstance("http://geotools.org/typeDefinition", type);
+                    .registerComponentInstance("http://geotools.org/typeDefinition", type);
         }
 
         XSDSchema schema = configuration.getXSD().getSchema();
 
         Encoder encoder = new Encoder(configuration, schema);
-        
+
         //additional namespaces
-        for ( Iterator e = namespaceMappings.entrySet().iterator(); e.hasNext(); ) {
+        for (Iterator e = namespaceMappings.entrySet().iterator(); e.hasNext(); ) {
             Map.Entry mapping = (Map.Entry) e.next();
             String prefix = (String) mapping.getKey();
             String uri = (String) mapping.getValue();
-            
-            encoder.getNamespaces().declarePrefix( prefix, uri );
+
+            encoder.getNamespaces().declarePrefix(prefix, uri);
         }
-        
+
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         encoder.write(object, element, output);
 
@@ -356,27 +354,24 @@ public abstract class XMLTestSupport extends TestCase {
     /**
      * Encodes an object, element name pair.
      *
-     * @param object The object to encode.
+     * @param object  The object to encode.
      * @param element The name of the element to encode.
-     *
      * @return The object encoded.
      * @throws Exception
      */
     protected Document encode(Object object, QName element)
-        throws Exception {
+            throws Exception {
         return encode(object, element, null);
     }
 
     /**
      * Convenience method to dump the contents of the document to stdout.
-     *
-     *
      */
     public static void print(Node dom) throws Exception {
         TransformerFactory txFactory = TransformerFactory.newInstance();
         Transformer tx = txFactory.newTransformer();
         tx.setOutputProperty(OutputKeys.INDENT, "yes");
-        
+
         tx.transform(new DOMSource(dom), new StreamResult(System.out));
     }
 
@@ -384,8 +379,7 @@ public abstract class XMLTestSupport extends TestCase {
      * Convenience method for obtaining an instance of a binding.
      *
      * @param name The qualified name of the element,attribute,or type the
-     * binding "binds" to, the key of the binding in the container.
-     *
+     *             binding "binds" to, the key of the binding in the container.
      * @return The binding.
      */
     protected Binding binding(QName name) {
@@ -416,7 +410,7 @@ public abstract class XMLTestSupport extends TestCase {
         HashMap mappings = new HashMap();
 
         try {
-            for (Iterator d = configuration.getXSD().getDependencies().iterator(); d.hasNext();) {
+            for (Iterator d = configuration.getXSD().getDependencies().iterator(); d.hasNext(); ) {
                 XSD xsd = (XSD) d.next();
                 XSDSchema schema = xsd.getSchema();
 
@@ -428,7 +422,7 @@ public abstract class XMLTestSupport extends TestCase {
             throw new RuntimeException(e);
         }
 
-        for (Iterator m = mappings.entrySet().iterator(); m.hasNext();) {
+        for (Iterator m = mappings.entrySet().iterator(); m.hasNext(); ) {
             Map.Entry mapping = (Map.Entry) m.next();
             String key = (String) mapping.getKey();
 
@@ -441,12 +435,12 @@ public abstract class XMLTestSupport extends TestCase {
 
         context.registerComponentInstance(namespaces);
         context.registerComponentInstance(new NamespaceSupportWrapper(namespaces));
-        
-        SchemaIndex index = new SchemaIndexImpl( new XSDSchema[]{configuration.schema()} );
+
+        SchemaIndex index = new SchemaIndexImpl(new XSDSchema[]{configuration.schema()});
         context.registerComponentInstance(index);
-        
+
         context.registerComponentInstance(configuration);
-        
+
         return bindingLoader.loadBinding(name, context);
     }
 
@@ -466,7 +460,6 @@ public abstract class XMLTestSupport extends TestCase {
     /**
      * Convenience method for finding a node in a document which matches the
      * specified name.
-     *
      */
     protected Element getElementByQName(Document dom, QName name) {
         return getElementByQName(dom.getDocumentElement(), name);
@@ -475,7 +468,6 @@ public abstract class XMLTestSupport extends TestCase {
     /**
      * Convenience method for finding a single descendant of a particular node
      * which matches the specified name.
-     *
      */
     protected Element getElementByQName(Element parent, QName name) {
         NodeList nodes = parent.getElementsByTagNameNS(name.getNamespaceURI(), name.getLocalPart());
@@ -490,7 +482,6 @@ public abstract class XMLTestSupport extends TestCase {
     /**
      * Convenience method for finding nodes in a document which matche the
      * specified name.
-     *
      */
     protected NodeList getElementsByQName(Document dom, QName name) {
         return getElementsByQName(dom.getDocumentElement(), name);
@@ -499,7 +490,6 @@ public abstract class XMLTestSupport extends TestCase {
     /**
      * Convenience method for finding decendants of a particular node which match
      * the specified name.
-     *
      */
     protected NodeList getElementsByQName(Element parent, QName name) {
         return parent.getElementsByTagNameNS(name.getNamespaceURI(), name.getLocalPart());

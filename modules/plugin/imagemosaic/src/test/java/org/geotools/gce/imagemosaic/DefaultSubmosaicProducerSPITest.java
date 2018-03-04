@@ -77,43 +77,46 @@ public class DefaultSubmosaicProducerSPITest {
         Query q = new Query(gc.getTypeNames()[0], Filter.INCLUDE);
         assertEquals(2, gc.getGranules(q).size());
     }
-    
+
     @Test
-    public void basicTest(){
+    public void basicTest() {
         // get the SPIs
-        Map<String, GranuleAcceptorFactorySPI> spiMap = GranuleAcceptorFactorySPIFinder.getGranuleAcceptorFactorySPI();
-        
+        Map<String, GranuleAcceptorFactorySPI> spiMap = GranuleAcceptorFactorySPIFinder
+                .getGranuleAcceptorFactorySPI();
+
         // make sure it is not empty
         assertNotNull(spiMap);
         Assert.assertTrue(!spiMap.isEmpty());
-        
+
         // check the default ones are there
         Assert.assertTrue(spiMap.containsKey(HeterogeneousCRSAcceptorFactory.class.getName()));
         Assert.assertTrue(spiMap.containsKey(DefaultGranuleAcceptorFactory.class.getName()));
-        
+
         // check the content
-        
+
         // HeterogeneousCRSAcceptorFactory
         assertNotNull(spiMap.get(HeterogeneousCRSAcceptorFactory.class.getName()));
         GranuleAcceptorFactorySPI spi = spiMap.get(HeterogeneousCRSAcceptorFactory.class.getName());
         List<GranuleAcceptor> acceptors = spi.create();
         assertNotNull(acceptors);
-        Assert.assertTrue(acceptors.size()==1);
+        Assert.assertTrue(acceptors.size() == 1);
         GranuleAcceptor granuleAcceptor = acceptors.get(0);
         Assert.assertTrue(granuleAcceptor.getClass().equals(ColorCheckAcceptor.class));
-        
+
         // DefaultGranuleAcceptorFactory
         assertNotNull(spiMap.get(DefaultGranuleAcceptorFactory.class.getName()));
         spi = spiMap.get(DefaultGranuleAcceptorFactory.class.getName());
         acceptors = spi.create();
         assertNotNull(acceptors);
-        Assert.assertTrue(acceptors.size()==2);
+        Assert.assertTrue(acceptors.size() == 2);
         granuleAcceptor = acceptors.get(0);
-        Assert.assertTrue(granuleAcceptor.getClass().equals(ColorCheckAcceptor.class)||granuleAcceptor.getClass().equals(HomogeneousCRSAcceptor.class));
+        Assert.assertTrue(granuleAcceptor.getClass().equals(ColorCheckAcceptor.class) || 
+                granuleAcceptor.getClass().equals(HomogeneousCRSAcceptor.class));
         granuleAcceptor = acceptors.get(1);
-        Assert.assertTrue(granuleAcceptor.getClass().equals(ColorCheckAcceptor.class)||granuleAcceptor.getClass().equals(HomogeneousCRSAcceptor.class));
-        
-        
+        Assert.assertTrue(granuleAcceptor.getClass().equals(ColorCheckAcceptor.class) || 
+                granuleAcceptor.getClass().equals(HomogeneousCRSAcceptor.class));
+
+
     }
 
 }

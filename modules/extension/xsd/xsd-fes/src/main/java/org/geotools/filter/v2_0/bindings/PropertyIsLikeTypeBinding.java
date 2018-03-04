@@ -31,9 +31,9 @@ import org.opengis.filter.expression.PropertyName;
 
 /**
  * Binding object for the type http://www.opengis.net/fes/2.0:PropertyIsLikeType.
- *
  * <p>
- *      <pre>
+ * <p>
+ * <pre>
  *       <code>
  *  &lt;xsd:complexType name="PropertyIsLikeType"&gt;
  *      &lt;xsd:complexContent&gt;
@@ -46,8 +46,8 @@ import org.opengis.filter.expression.PropertyName;
  *              &lt;xsd:attribute name="escapeChar" type="xsd:string" use="required"/&gt;
  *          &lt;/xsd:extension&gt;
  *      &lt;/xsd:complexContent&gt;
- *  &lt;/xsd:complexType&gt; 
- *              
+ *  &lt;/xsd:complexType&gt;
+ *
  *        </code>
  *       </pre>
  * </p>
@@ -56,7 +56,7 @@ import org.opengis.filter.expression.PropertyName;
  */
 public class PropertyIsLikeTypeBinding extends OGCPropertyIsLikeTypeBinding {
     FilterFactory factory;
-    
+
     public PropertyIsLikeTypeBinding(FilterFactory factory) {
         super(factory);
         this.factory = factory;
@@ -65,17 +65,17 @@ public class PropertyIsLikeTypeBinding extends OGCPropertyIsLikeTypeBinding {
     public QName getTarget() {
         return FES.PropertyIsLikeType;
     }
-    
+
     public Object getProperty(Object object, QName name) throws Exception {
         PropertyIsLike isLike = (PropertyIsLike) object;
-    
+
         if (FES.expression.equals(name)) {
-            return new Object[] {
+            return new Object[]{
                     isLike.getExpression(),
                     isLike.getLiteral() != null ? factory.literal(isLike
-                            .getLiteral()) : null };
+                            .getLiteral()) : null};
         }
-    
+
         return super.getProperty(object, name);
     }
 }

@@ -26,21 +26,18 @@ import org.geotools.geometry.GeneralEnvelope;
 /**
  * Holds the state of the {@link ImageMosaicJDBCReader}
  * making the reader thread safe
- *  
+ *
  * @author mcr
- * @since 2.6
- * 
- *
- *
  * @source $URL$
-*/
+ * @since 2.6
+ */
 public class ImageMosaicJDBCReaderState {
 
     private boolean xAxisSwitch = false;
-    private final LinkedBlockingQueue<TileQueueElement> tileQueue= 
-        new LinkedBlockingQueue<TileQueueElement>();
-    
-    
+    private final LinkedBlockingQueue<TileQueueElement> tileQueue =
+            new LinkedBlockingQueue<TileQueueElement>();
+
+
     public GeneralEnvelope getRequestedEnvelope() {
         return requestedEnvelope;
     }

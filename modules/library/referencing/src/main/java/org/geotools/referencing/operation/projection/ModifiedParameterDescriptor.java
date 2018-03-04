@@ -17,6 +17,7 @@
 package org.geotools.referencing.operation.projection;
 
 import java.util.Collection;
+
 import org.opengis.parameter.ParameterDescriptor;
 import org.opengis.parameter.GeneralParameterDescriptor;
 import org.geotools.parameter.DefaultParameterDescriptor;
@@ -26,7 +27,7 @@ import org.geotools.referencing.operation.MathTransformProvider;  // For javadoc
 /**
  * A parameter descriptor identical to the supplied one except for the
  * default value. The constructor expects a model created by one of the
- * {@linkplain MathTransformProvider#createDescriptor(Identifier[],double,double,double,Unit)
+ * {@linkplain MathTransformProvider#createDescriptor(Identifier[], double, double, double, Unit)
  * provider methods}, usually using some neutral default value. For example the base class for
  * map projection providers defines a set of
  * {@linkplain org.geotools.referencing.operation.projection.MapProjection.Provider#SEMI_MAJOR
@@ -35,9 +36,9 @@ import org.geotools.referencing.operation.MathTransformProvider;  // For javadoc
  * and may wish to override the neutral default values with some default value appropriate
  * for that area.
  *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
  */
 final class ModifiedParameterDescriptor extends DefaultParameterDescriptor {
     /**
@@ -60,10 +61,9 @@ final class ModifiedParameterDescriptor extends DefaultParameterDescriptor {
      * default value.
      */
     public ModifiedParameterDescriptor(final ParameterDescriptor original,
-                                       final double defaultValue)
-    {
+                                       final double defaultValue) {
         super(original);
-        this.original     = original;
+        this.original = original;
         this.defaultValue = Double.valueOf(defaultValue);
     }
 
@@ -83,8 +83,7 @@ final class ModifiedParameterDescriptor extends DefaultParameterDescriptor {
      * only if the former fails.
      */
     public static boolean contains(final Collection<GeneralParameterDescriptor> set,
-                                   ParameterDescriptor descriptor)
-    {
+                                   ParameterDescriptor descriptor) {
         if (descriptor instanceof ModifiedParameterDescriptor) {
             descriptor = ((ModifiedParameterDescriptor) descriptor).original;
         }

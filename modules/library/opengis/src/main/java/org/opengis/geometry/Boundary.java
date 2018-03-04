@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry;
@@ -22,20 +22,18 @@ import static org.opengis.annotation.Specification.*;
  * represent its boundary through the operation {@link Geometry#getBoundary}. By the nature of
  * geometry, boundary objects are cycles.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @since GeoAPI 1.0
  */
-@UML(identifier="GM_Boundary", specification=ISO_19107)
+@UML(identifier = "GM_Boundary", specification = ISO_19107)
 public interface Boundary extends Complex {
     /**
      * Always returns {@code true} since boundary objects are cycles.
      *
      * @return Always {@code true}.
      */
-    @UML(identifier="isCycle", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "isCycle", obligation = MANDATORY, specification = ISO_19107)
     boolean isCycle();
 }

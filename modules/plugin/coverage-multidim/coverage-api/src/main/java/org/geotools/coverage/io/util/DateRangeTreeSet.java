@@ -24,14 +24,13 @@ import org.geotools.util.DateRange;
 
 /**
  * A treeset implementation with a built-in comparator for DateRange objects
- * 
+ *
  * @author Andrea Aime - GeoSolutions
- * 
  */
 public class DateRangeTreeSet extends TreeSet<DateRange> {
 
     private static final long serialVersionUID = -1613807310486642564L;
-    
+
     static DateRangeComparator COMPARATOR = new DateRangeComparator();
 
     public DateRangeTreeSet() {

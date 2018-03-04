@@ -28,19 +28,19 @@ public class BingTileUtilTest {
     public void testLonLatToPixelXY() {
 
         int[] pixelXY = BingTileUtil.lonLatToPixelXY(7, 51, 5);
-        Assert.assertArrayEquals(new int[] { 4255, 2742 }, pixelXY);
+        Assert.assertArrayEquals(new int[]{4255, 2742}, pixelXY);
     }
 
     @Test
     public void testLonLatToPixelXYAndBack() {
 
-        double[] coords = { 7, 51 };
+        double[] coords = {7, 51};
 
         int levelOfDetail = 5;
 
         int[] pixelXY = BingTileUtil.lonLatToPixelXY(coords[0], coords[1], levelOfDetail);
 
-        Assert.assertArrayEquals(new int[] { 4255, 2742 }, pixelXY);
+        Assert.assertArrayEquals(new int[]{4255, 2742}, pixelXY);
 
         double[] calculatedCoords = BingTileUtil.pixelXYToLonLat(pixelXY[0], pixelXY[1],
                 levelOfDetail);
@@ -54,7 +54,7 @@ public class BingTileUtilTest {
     @Test
     public void testLonLatToTileQuadRaw() {
 
-        double[] coords = { 7, 51 };
+        double[] coords = {7, 51};
 
         int levelOfDetail = 5;
 
@@ -70,7 +70,7 @@ public class BingTileUtilTest {
     @Test
     public void testLonLatZoomToTileQuad() {
 
-        double[] coords = { 7, 51 };
+        double[] coords = {7, 51};
         int levelOfDetail = 5;
 
         String quadKey = BingTileUtil.lonLatToQuadKey(coords[0], coords[1], levelOfDetail);
@@ -84,7 +84,7 @@ public class BingTileUtilTest {
     @Test
     public void testGetTileBoundingBox() {
 
-        double[] coords = { 7, 51 };
+        double[] coords = {7, 51};
         int levelOfDetail = 8;
 
         ReferencedEnvelope env = BingTileUtil.getTileBoundingBox(coords[0], coords[1],
@@ -114,16 +114,16 @@ public class BingTileUtilTest {
     public void pixelXYToTileXY() {
 
         int[] tileXY = BingTileUtil.pixelXYToTileXY(250, 250);
-        Assert.assertArrayEquals(new int[] { 0, 0 }, tileXY);
+        Assert.assertArrayEquals(new int[]{0, 0}, tileXY);
 
         tileXY = BingTileUtil.pixelXYToTileXY(250, 256);
-        Assert.assertArrayEquals(new int[] { 0, 1 }, tileXY);
+        Assert.assertArrayEquals(new int[]{0, 1}, tileXY);
 
         tileXY = BingTileUtil.pixelXYToTileXY(511, 512);
-        Assert.assertArrayEquals(new int[] { 1, 2 }, tileXY);
+        Assert.assertArrayEquals(new int[]{1, 2}, tileXY);
 
         tileXY = BingTileUtil.pixelXYToTileXY(1024, 1024);
-        Assert.assertArrayEquals(new int[] { 4, 4 }, tileXY);
+        Assert.assertArrayEquals(new int[]{4, 4}, tileXY);
 
     }
 

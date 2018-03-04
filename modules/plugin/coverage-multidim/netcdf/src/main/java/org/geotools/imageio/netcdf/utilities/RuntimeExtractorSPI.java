@@ -23,11 +23,10 @@ import org.geotools.gce.imagemosaic.properties.PropertiesCollector;
 import org.geotools.gce.imagemosaic.properties.PropertiesCollectorSPI;
 
 /**
- * {@link PropertiesCollectorSPI} for a {@link PropertiesCollector} that is able to collect properties from a file name.
- * 
+ * {@link PropertiesCollectorSPI} for a {@link PropertiesCollector} that is able to collect 
+ * properties from a file name.
+ *
  * @author Romagnoli Daniele, GeoSolutions SAS
- * 
- * 
  * @source $URL$
  */
 public class RuntimeExtractorSPI extends DefaultPropertiesCollectorSPI implements
@@ -39,7 +38,7 @@ public class RuntimeExtractorSPI extends DefaultPropertiesCollectorSPI implement
 
     @Override
     protected PropertiesCollector createInternal(PropertiesCollectorSPI spi,
-            List<String> propertyNames, String type) {
+                                                 List<String> propertyNames, String type) {
 
         return new RuntimeExtractor(spi, propertyNames, type);
     }

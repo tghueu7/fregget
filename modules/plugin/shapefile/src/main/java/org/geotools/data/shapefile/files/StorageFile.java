@@ -35,21 +35,18 @@ import org.geotools.util.logging.Logging;
 
 /**
  * Encapsulates the idea of a file for writing data to and then later updating the original.
- * 
+ *
  * @author jesse
- *
- *
- *
  * @source $URL$
  */
 public final class StorageFile implements Comparable<StorageFile>, FileWriter {
     static final Logger LOGGER = Logging.getLogger("org.geotools.data.shapefile");
-    
+
     private final ShpFiles shpFiles;
     private final File tempFile;
     private final ShpFileType type;
 
-    public StorageFile( ShpFiles shpFiles, File tempFile, ShpFileType type ) {
+    public StorageFile(ShpFiles shpFiles, File tempFile, ShpFileType type) {
         this.shpFiles = shpFiles;
         this.tempFile = tempFile;
         this.type = type;
@@ -57,7 +54,7 @@ public final class StorageFile implements Comparable<StorageFile>, FileWriter {
 
     /**
      * Returns the storage file
-     * 
+     *
      * @return the storage file
      */
     public File getFile() {
@@ -71,9 +68,9 @@ public final class StorageFile implements Comparable<StorageFile>, FileWriter {
     /**
      * Replaces the file that the temporary file is acting as a transactional type cache for. Acts
      * similar to a commit.
-     * 
-     * @see #replaceOriginals(StorageFile...)
+     *
      * @throws IOException
+     * @see #replaceOriginals(StorageFile...)
      */
     public void replaceOriginal() throws IOException {
         replaceOriginals(this);
@@ -84,7 +81,7 @@ public final class StorageFile implements Comparable<StorageFile>, FileWriter {
      * {@link #replaceOriginal()}. However, all files that are part of the same {@link ShpFiles}
      * are done within a lock so all of the updates for all the Files of a Shapefile can be updated
      * within a single lock.
-     * 
+     *
      * @param storageFiles files to execute the replace functionality.
      * @throws IOException
      */
@@ -121,7 +118,10 @@ public final class StorageFile implements Comparable<StorageFile>, FileWriter {
                                     + dest + " when attempting to replace with temporary copy.");
                             if (storageFile.shpFiles.numberOfLocks() > 0) {
                                 LOGGER
-                                        .severe("The problem is almost certainly caused by the fact that there are still locks being held on the shapefiles.  Probably a reader or writer was left unclosed");
+                                        .severe("The problem is almost certainly caused by the " +
+                                                "fact that there are still locks being held on " +
+                                                "the shapefiles.  Probably a reader or writer was" +
+                                                " left unclosed");
                                 storageFile.shpFiles.logCurrentLockers(Level.SEVERE);
                             }
                             // throw new IOException("Unable to delete original file: " + url);
@@ -152,7 +152,7 @@ public final class StorageFile implements Comparable<StorageFile>, FileWriter {
 
     }
 
-    private static void copyFile( File storage, URL url, File dest ) throws FileNotFoundException,
+    private static void copyFile(File storage, URL url, File dest) throws FileNotFoundException,
             IOException {
         FileChannel in = null;
         FileChannel out = null;
@@ -164,7 +164,7 @@ public final class StorageFile implements Comparable<StorageFile>, FileWriter {
             int maxCount = (64 * 1024 * 1024) - (32 * 1024);
             long size = in.size();
             long position = 0;
-            while( position < size ) {
+            while (position < size) {
                 position += in.transferTo(position, maxCount, out);
             }
         } finally {
@@ -181,11 +181,11 @@ public final class StorageFile implements Comparable<StorageFile>, FileWriter {
         return shpFiles.acquireWrite(type, this);
     }
 
-    private void unlockWriteURL( URL url ) {
+    private void unlockWriteURL(URL url) {
         shpFiles.unlockWrite(url, this);
     }
 
-    private static void unlock( ShpFiles currentShpFiles, URL shpURL, StorageFile locker ) {
+    private static void unlock(ShpFiles currentShpFiles, URL shpURL, StorageFile locker) {
         // no lock to be unlocked
         if (currentShpFiles == null) {
             return;
@@ -197,12 +197,12 @@ public final class StorageFile implements Comparable<StorageFile>, FileWriter {
     /**
      * Just groups together files that have the same ShpFiles instance
      */
-    public int compareTo( StorageFile o ) {
+    public int compareTo(StorageFile o) {
         // group togheter files that have the same shpefile instance
         if (this == o) {
             return 0;
         }
-        
+
         // assume two StorageFile that do not share the same ShpFiles
         // are not given the same temp file
         return getFile().compareTo(o.getFile());

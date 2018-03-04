@@ -51,9 +51,8 @@ import static org.junit.Assert.*;
 
 /**
  * @author Andrea Aime, GeoSolutions
- *
- *         Testing {@link SRPReader}
- *
+ * <p>
+ * Testing {@link SRPReader}
  * @source $URL$
  */
 public final class SRPTest extends GDALTestCase {
@@ -146,20 +145,20 @@ public final class SRPTest extends GDALTestCase {
         final Rectangle range = ((GridEnvelope2D) reader.getOriginalGridRange());
         final GeneralEnvelope oldEnvelope = reader.getOriginalEnvelope();
 
-        final GeneralEnvelope cropEnvelope = new GeneralEnvelope(new double[] {
+        final GeneralEnvelope cropEnvelope = new GeneralEnvelope(new double[]{
                 oldEnvelope.getLowerCorner().getOrdinate(0) + (oldEnvelope.getSpan(0) / cropFactor),
 
                 oldEnvelope.getLowerCorner().getOrdinate(1)
-                        + (oldEnvelope.getSpan(1) / cropFactor) },
-                new double[] { oldEnvelope.getUpperCorner().getOrdinate(0),
-                        oldEnvelope.getUpperCorner().getOrdinate(1) });
+                        + (oldEnvelope.getSpan(1) / cropFactor)},
+                new double[]{oldEnvelope.getUpperCorner().getOrdinate(0),
+                        oldEnvelope.getUpperCorner().getOrdinate(1)});
         cropEnvelope.setCoordinateReferenceSystem(reader.getCrs());
 
         final ParameterValue gg = AbstractGridFormat.READ_GRIDGEOMETRY2D.createValue();
         gg.setValue(new GridGeometry2D(new GridEnvelope2D(new Rectangle(0, 0,
                 (int) (range.width / 2.0 / cropFactor), (int) (range.height / 2.0 / cropFactor))),
                 cropEnvelope));
-        GridCoverage2D gcSubsampled = reader.read(new GeneralParameterValue[] { gg });
+        GridCoverage2D gcSubsampled = reader.read(new GeneralParameterValue[]{gg});
         assertEquals(32, gcSubsampled.getGridGeometry().getGridRange2D().width);
         assertEquals(32, gcSubsampled.getGridGeometry().getGridRange2D().height);
         forceDataLoading(gcSubsampled);

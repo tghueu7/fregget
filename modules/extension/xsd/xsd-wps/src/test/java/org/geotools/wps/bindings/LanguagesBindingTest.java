@@ -14,8 +14,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class LanguagesBindingTest extends WPSTestSupport {
@@ -23,24 +21,28 @@ public class LanguagesBindingTest extends WPSTestSupport {
     public void testEncode() throws Exception {
         Wps10Factory f = Wps10Factory.eINSTANCE;
         LanguagesType1 languages = f.createLanguagesType1();
-        
+
         DefaultType2 defaultLanguage = f.createDefaultType2();
         languages.setDefault(defaultLanguage);
         defaultLanguage.setLanguage("en-US");
-        
+
         LanguagesType supportedLanguages = f.createLanguagesType();
-        languages.setSupported( supportedLanguages );
-        supportedLanguages.getLanguage().add( "en-US");
-        
-        Document dom = encode( languages, WPS.Languages );
-        
-        Element def = getElementByQName( dom.getDocumentElement(), new QName( WPS.NAMESPACE, "Default") ) ;
-        assertNotNull( def );
-       
-        assertNotNull( getElementByQName( def, OWS.Language ) );
-        assertEquals( "en-US", getElementByQName( def, OWS.Language ).getFirstChild().getTextContent() );
-        
-        assertEquals( "en-US",  getElementByQName( dom.getDocumentElement(), new QName( WPS.NAMESPACE, "Default")).getFirstChild().getTextContent() );
-        assertNotNull( getElementByQName( dom.getDocumentElement(), new QName( WPS.NAMESPACE, "Supported") ) );
+        languages.setSupported(supportedLanguages);
+        supportedLanguages.getLanguage().add("en-US");
+
+        Document dom = encode(languages, WPS.Languages);
+
+        Element def = getElementByQName(dom.getDocumentElement(), new QName(WPS.NAMESPACE, 
+                "Default"));
+        assertNotNull(def);
+
+        assertNotNull(getElementByQName(def, OWS.Language));
+        assertEquals("en-US", getElementByQName(def, OWS.Language).getFirstChild().getTextContent
+                ());
+
+        assertEquals("en-US", getElementByQName(dom.getDocumentElement(), new QName(WPS
+                .NAMESPACE, "Default")).getFirstChild().getTextContent());
+        assertNotNull(getElementByQName(dom.getDocumentElement(), new QName(WPS.NAMESPACE, 
+                "Supported")));
     }
 }

@@ -47,17 +47,15 @@ import org.opengis.referencing.operation.MathTransform;
 /**
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini (simboss), GeoSolutions
- *
+ * <p>
  * Testing {@link JP2KReader}
- *
- *
- *
  * @source $URL$
  */
 public final class JP2KTest extends BaseJP2K {
-	
-    private final static Logger LOGGER = org.geotools.util.logging.Logging.getLogger(JP2KTest.class);
-	
+
+    private final static Logger LOGGER = org.geotools.util.logging.Logging.getLogger(JP2KTest
+            .class);
+
     /**
      * Creates a new instance of JP2KTest
      *
@@ -73,49 +71,50 @@ public final class JP2KTest extends BaseJP2K {
         }
 
         File file = null;
-        try{
+        try {
             file = TestData.file(this, "sample.jp2");
-        }catch (FileNotFoundException fnfe){
+        } catch (FileNotFoundException fnfe) {
             LOGGER.warning("test-data not found: sample.jp2 \nTests are skipped");
             return;
         }
 
-        final JP2KFormat format= factorySpi.createFormat();
+        final JP2KFormat format = factorySpi.createFormat();
         assertTrue(format.accepts(file));
-        
-        
+
+
         // //
         //
         // Setting several parameters
         //
         // //
-        final Hints hints = new Hints(Hints.OVERVIEW_POLICY,OverviewPolicy.getDefaultPolicy());
-        final JP2KReader reader = new JP2KReader(file,hints);
+        final Hints hints = new Hints(Hints.OVERVIEW_POLICY, OverviewPolicy.getDefaultPolicy());
+        final JP2KReader reader = new JP2KReader(file, hints);
         final ParameterValue<GridGeometry2D> gg = JP2KFormat.READ_GRIDGEOMETRY2D.createValue();
         final ParameterValue<Boolean> useMT = JP2KFormat.USE_MULTITHREADING.createValue();
         final ParameterValue<Boolean> useJAI = JP2KFormat.USE_JAI_IMAGEREAD.createValue();
-        final ParameterValue<String> tileSize= JP2KFormat.SUGGESTED_TILE_SIZE.createValue();
-        final ParameterValue<Color> transparentColor = JP2KFormat.INPUT_TRANSPARENT_COLOR.createValue();
+        final ParameterValue<String> tileSize = JP2KFormat.SUGGESTED_TILE_SIZE.createValue();
+        final ParameterValue<Color> transparentColor = JP2KFormat.INPUT_TRANSPARENT_COLOR
+                .createValue();
         transparentColor.setValue(new Color(0, 0, 0));
         tileSize.setValue("128,128");
-        
+
         useMT.setValue(false);
         useJAI.setValue(true);
         final GeneralEnvelope oldEnvelope = reader.getOriginalEnvelope();
         gg.setValue(new GridGeometry2D(reader.getOriginalGridRange(), oldEnvelope));
-        
+
         // //
         //
         // Reading
         //
         // //
         final GridCoverage2D gc = (GridCoverage2D) reader.read(
-        		new GeneralParameterValue[] { gg, useJAI, useMT, tileSize, transparentColor});
+                new GeneralParameterValue[]{gg, useJAI, useMT, tileSize, transparentColor});
         assertNotNull(gc);
         forceDataLoading(gc);
-        
+
         final MathTransform g2w = reader.getRaster2Model();
-        final AffineTransform at = (AffineTransform)g2w;
+        final AffineTransform at = (AffineTransform) g2w;
         assertEquals(at.getScaleX(), 0.9, DELTA);
         assertEquals(at.getScaleY(), -0.9, DELTA);
         assertEquals(at.getTranslateX(), -179.55, DELTA);
@@ -123,7 +122,7 @@ public final class JP2KTest extends BaseJP2K {
         assertEquals(gc.getRenderedImage().getWidth(), 400);
         assertEquals(gc.getRenderedImage().getHeight(), 200);
     }
-    
+
     @Test
     public void test() throws Exception {
         if (!testingEnabled()) {
@@ -131,15 +130,15 @@ public final class JP2KTest extends BaseJP2K {
         }
 
         File file = null;
-        try{
-        	file = TestData.file(this, "bogota.jp2");
-        }catch (FileNotFoundException fnfe){
-        	LOGGER.warning("test-data not found: bogota.jp2 \nTests are skipped");
-        	return;
+        try {
+            file = TestData.file(this, "bogota.jp2");
+        } catch (FileNotFoundException fnfe) {
+            LOGGER.warning("test-data not found: bogota.jp2 \nTests are skipped");
+            return;
         }
-        final JP2KFormat format= factorySpi.createFormat();
+        final JP2KFormat format = factorySpi.createFormat();
         assertTrue(format.accepts(file));
-        
+
         // //
         //
         // Testing Direct read
@@ -149,17 +148,17 @@ public final class JP2KTest extends BaseJP2K {
         final AbstractGridCoverage2DReader reader = new JP2KReader(file);
         final int nCov = reader.getGridCoverageCount();
         assertEquals(nCov, 1);
-        
+
         final ParameterValue<GridGeometry2D> gg = JP2KFormat.READ_GRIDGEOMETRY2D.createValue();
         final ParameterValue<Boolean> useJAI = JP2KFormat.USE_JAI_IMAGEREAD.createValue();
         useJAI.setValue(false);
         final GeneralEnvelope oldEnvelope = reader.getOriginalEnvelope();
         checkReader(reader);
         gg.setValue(new GridGeometry2D(reader.getOriginalGridRange(), oldEnvelope));
-        GridCoverage2D gc = (GridCoverage2D) reader.read(new GeneralParameterValue[] { gg, useJAI});
+        GridCoverage2D gc = (GridCoverage2D) reader.read(new GeneralParameterValue[]{gg, useJAI});
         assertNotNull(gc);
         forceDataLoading(gc);
-        
+
         // //
         //
         // Testing simple imageRead
@@ -169,9 +168,9 @@ public final class JP2KTest extends BaseJP2K {
         useJAI.setValue(true);
         final Envelope wgs84Envelope = CRS.transform(oldEnvelope, DefaultGeographicCRS.WGS84);
         gg.setValue(new GridGeometry2D(reader.getOriginalGridRange(), wgs84Envelope));
-        gc = (GridCoverage2D) reader.read(new GeneralParameterValue[] {gg, useJAI});
+        gc = (GridCoverage2D) reader.read(new GeneralParameterValue[]{gg, useJAI});
         assertNotNull(gc);
         forceDataLoading(gc);
     }
-    
+
 }

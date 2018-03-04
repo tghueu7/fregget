@@ -14,12 +14,10 @@ import org.geotools.styling.Style;
 import org.geotools.test.TestData;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ChartRenderingTest extends TestCase {
-    
+
     private static final long TIME = 10000;
     SimpleFeatureSource fs;
     ReferencedEnvelope bounds;
@@ -33,20 +31,20 @@ public class ChartRenderingTest extends TestCase {
         fs = ds.getFeatureSource("cities");
         bounds = fs.getBounds();
         bounds.expandBy(10);
-        
+
         renderer = new StreamingRenderer();
-        
+
         // System.setProperty("org.geotools.test.interactive", "true");
     }
-    
+
     public void testPieCharts() throws Exception {
         Style style = RendererBaseTest.loadStyle(this, "pieCharts.sld");
-        
+
         DefaultMapContext mc = new DefaultMapContext(DefaultGeographicCRS.WGS84);
         mc.addLayer(fs, style);
-        
+
         renderer.setContext(mc);
-        
+
         RendererBaseTest.showRender("Pie charts", renderer, TIME, bounds, 600, 300);
     }
 

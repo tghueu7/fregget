@@ -30,7 +30,7 @@ import com.vividsolutions.jts.geom.MultiLineString;
  * Builds a {@link #MultiLineString}  using the {@link LineString} made in the parsing process.
  *
  * @author Mauricio Pazos (Axios Engineering)
- * @since 
+ * @since
  */
 final class MultiLineStringBuilder extends GeometryBuilder {
 
@@ -44,7 +44,7 @@ final class MultiLineStringBuilder extends GeometryBuilder {
     }
 
     /**
-     * Makes a {@link #MultiLineString} geometry using the {@link LineString} presents 
+     * Makes a {@link #MultiLineString} geometry using the {@link LineString} presents
      * in the result stack.
      */
     @Override
@@ -52,13 +52,13 @@ final class MultiLineStringBuilder extends GeometryBuilder {
 
         List<Geometry> lineList = popGeometry(linestringtextNode);
 
-        LineString[] lineStrings = lineList.toArray(new LineString[lineList.size()]) ;
-        
-        MultiLineString multiLineString= getGeometryFactory().createMultiLineString(lineStrings);
- 
+        LineString[] lineStrings = lineList.toArray(new LineString[lineList.size()]);
+
+        MultiLineString multiLineString = getGeometryFactory().createMultiLineString(lineStrings);
+
         return multiLineString;
-    
+
     }
 
-    
+
 }

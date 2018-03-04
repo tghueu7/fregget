@@ -33,7 +33,7 @@ import org.geotools.gce.imagemosaic.Utils;
 public class ColorCheckAcceptor implements GranuleAcceptor {
     @Override
     public boolean accepts(GridCoverage2DReader coverage, String inputCoverageName,
-            File fileBeingProcessed, ImageMosaicConfigHandler mosaicConfigHandler)
+                           File fileBeingProcessed, ImageMosaicConfigHandler mosaicConfigHandler)
             throws IOException {
         String targetCoverageName = mosaicConfigHandler.getTargetCoverageName(coverage,
                 inputCoverageName);
@@ -44,7 +44,8 @@ public class ColorCheckAcceptor implements GranuleAcceptor {
                     .getRasterManagerForTargetCoverage(targetCoverageName);
             return checkColorModel(coverage, config, rasterManager, inputCoverageName);
         } else {
-            // can't validate with empty configuration. usually this means we have a brand new mosaic
+            // can't validate with empty configuration. usually this means we have a brand new 
+            // mosaic
             // or the structured coverage doesn't exist in the mosaic yet, meaning downstream code
             // will create it
             return true;
@@ -52,7 +53,8 @@ public class ColorCheckAcceptor implements GranuleAcceptor {
     }
 
     private boolean checkColorModel(GridCoverage2DReader coverage, MosaicConfigurationBean config,
-            RasterManager rasterManager, String inputCoverageName) throws IOException {
+                                    RasterManager rasterManager, String inputCoverageName) throws
+            IOException {
         byte[][] palette = config.getPalette();
         ColorModel colorModel = config.getColorModel();
         ColorModel actualCM = coverage.getImageLayout(inputCoverageName).getColorModel(null);

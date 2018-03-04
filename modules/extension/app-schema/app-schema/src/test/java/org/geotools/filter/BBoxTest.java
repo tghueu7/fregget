@@ -43,11 +43,8 @@ import org.xml.sax.helpers.NamespaceSupport;
 
 /**
  * This is to test bounding box query that previously didn't work for app-schema.
- * 
+ *
  * @author Rini Angreani (CSIRO Earth Science and Resource Engineering)
- *
- *
- *
  * @source $URL$
  */
 public class BBoxTest extends AppSchemaTestSupport {
@@ -99,8 +96,7 @@ public class BBoxTest extends AppSchemaTestSupport {
             assertEquals("mf1", f.getIdentifier().toString());
             f = iterator.next();
             assertEquals("mf3", f.getIdentifier().toString());
-        }
-        finally {
+        } finally {
             iterator.close();
         }
         // prove that it would fail when property name is not a geometry attribute
@@ -128,8 +124,7 @@ public class BBoxTest extends AppSchemaTestSupport {
             assertEquals(f.getIdentifier().toString(), "mf1");
             f = iterator.next();
             assertEquals(f.getIdentifier().toString(), "mf3");
-        }
-        finally {
+        } finally {
             iterator.close();
         }
     }
@@ -141,8 +136,7 @@ public class BBoxTest extends AppSchemaTestSupport {
             for (; i.hasNext(); i.next()) {
                 size++;
             }
-        }
-        finally {
+        } finally {
             i.close();
         }
         return size;

@@ -25,8 +25,6 @@ import com.vividsolutions.jts.geom.Envelope;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class EnvelopeTypeBindingTest extends GML3TestSupport {
@@ -36,16 +34,16 @@ public class EnvelopeTypeBindingTest extends GML3TestSupport {
         assertEquals(1, dom.getElementsByTagNameNS(GML.NAMESPACE, "upperCorner").getLength());
 
         Element lowerCorner = (Element) dom.getElementsByTagNameNS(GML.NAMESPACE, "lowerCorner")
-                                           .item(0);
+                .item(0);
         assertEquals("0.0 0.0", lowerCorner.getFirstChild().getNodeValue());
 
         Element upperCorner = (Element) dom.getElementsByTagNameNS(GML.NAMESPACE, "upperCorner")
-                                           .item(0);
+                .item(0);
         assertEquals("10.0 10.0", upperCorner.getFirstChild().getNodeValue());
 
         //assertEquals("urn:x-ogc:def:crs:EPSG:6.11.2:4326",
         assertEquals("urn:x-ogc:def:crs:EPSG:4326",
-            dom.getDocumentElement().getAttributeNS(null, "srsName"));
+                dom.getDocumentElement().getAttributeNS(null, "srsName"));
     }
 
     public void testEncodeNull() throws Exception {
@@ -55,6 +53,6 @@ public class EnvelopeTypeBindingTest extends GML3TestSupport {
         Document dom = encode(e, GML.Envelope);
 
         assertEquals(1,
-            dom.getElementsByTagNameNS(GML.NAMESPACE, GML.Null.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(GML.NAMESPACE, GML.Null.getLocalPart()).getLength());
     }
 }

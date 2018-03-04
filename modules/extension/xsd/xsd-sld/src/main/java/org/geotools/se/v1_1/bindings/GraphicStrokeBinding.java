@@ -26,9 +26,9 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/se:GraphicStroke.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:element name="GraphicStroke" type="se:GraphicStrokeType"&gt;
@@ -38,16 +38,14 @@ import javax.xml.namespace.QName;
  *          for stroking a line.
  *        &lt;/xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
- *  &lt;/xsd:element&gt; 
- * 	
+ *  &lt;/xsd:element&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class GraphicStrokeBinding extends SLDGraphicStrokeBinding {
@@ -61,14 +59,14 @@ public class GraphicStrokeBinding extends SLDGraphicStrokeBinding {
 
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
         Graphic g = (Graphic) super.parse(instance, node, value);
-        
+
         //&lt;xsd:element minOccurs="0" ref="se:InitialGap"/&gt;
         if (node.hasChild("InitialGap")) {
-            g.setInitialGap((Expression)node.getChildValue("InitialGap"));
+            g.setInitialGap((Expression) node.getChildValue("InitialGap"));
         }
         //&lt;xsd:element minOccurs="0" ref="se:Gap"/&gt;
         if (node.hasChild("Gap")) {
-            g.setGap((Expression)node.getChildValue("Gap"));
+            g.setGap((Expression) node.getChildValue("Gap"));
         }
         return g;
     }

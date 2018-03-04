@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -28,8 +28,6 @@ import org.geotools.xml.schema.Sequence;
  * </p>
  *
  * @author dzwiers
- *
- *
  * @source $URL$
  */
 public class SequenceGT implements Sequence {
@@ -48,7 +46,7 @@ public class SequenceGT implements Sequence {
     }
 
     public SequenceGT(String id, ElementGrouping[] children, int min,
-        int max) {
+                      int max) {
         this.children = children;
         this.min = min;
         this.max = max;
@@ -107,8 +105,8 @@ public class SequenceGT implements Sequence {
         return null;
     }
 
-	public Element findChildElement(String localName, URI namespaceURI) {
-		if (children != null) {
+    public Element findChildElement(String localName, URI namespaceURI) {
+        if (children != null) {
             for (int i = 0; i < children.length; i++) {
                 Element e = children[i].findChildElement(localName, namespaceURI);
 
@@ -119,5 +117,5 @@ public class SequenceGT implements Sequence {
         }
 
         return null;
-	}
+    }
 }

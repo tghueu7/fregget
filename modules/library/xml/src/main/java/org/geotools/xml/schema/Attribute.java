@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -26,8 +26,6 @@ import java.net.URI;
  * </p>
  *
  * @author dzwiers www.refractions.net
- *
- *
  * @source $URL$
  */
 public interface Attribute {
@@ -74,7 +72,6 @@ public interface Attribute {
      * Intended to represent the form of an XML attribute. This method should
      * return True when the attribute is "qualified".
      * </p>
-     *
      */
     public boolean isForm();
 
@@ -82,7 +79,6 @@ public interface Attribute {
      * <p>
      * The Schema ID for this attribute definition.
      * </p>
-     *
      */
     public String getId();
 
@@ -91,13 +87,11 @@ public interface Attribute {
      * The name of the attribute specified if one was provided in the attribute
      * declaration
      * </p>
-     *
      */
     public String getName();
 
     /**
      * DOCUMENT ME!
-     *
      */
     public URI getNamespace();
 
@@ -107,7 +101,6 @@ public interface Attribute {
      * once, optionally once. This method returns the mask which represents
      * the use of this attribute.
      * </p>
-     *
      */
     public int getUse();
 
@@ -116,7 +109,6 @@ public interface Attribute {
      * Provides a reference to the simpleType which defines the data type of
      * this attribute.
      * </p>
-     *
      */
     public SimpleType getSimpleType();
 }

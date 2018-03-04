@@ -34,9 +34,9 @@ import com.vividsolutions.jts.geom.LineString;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:LineStringType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="LineStringType"&gt;
  *      &lt;annotation&gt;
@@ -61,9 +61,6 @@ import com.vividsolutions.jts.geom.LineString;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLLineStringTypeBinding extends AbstractComplexBinding {
@@ -103,7 +100,7 @@ public class GMLLineStringTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         List coordinates = node.getChildren("coord");
 
         if (coordinates.size() == 1) {
@@ -115,7 +112,8 @@ public class GMLLineStringTypeBinding extends AbstractComplexBinding {
             CoordinateSequence seq = (CoordinateSequence) cnode.getValue();
             int dimension = GMLUtil.getDimension(seq);
 
-            CoordinateSequence lineSeq = seq = JTS.createCS(csFactory, coordinates.size(), dimension);
+            CoordinateSequence lineSeq = seq = JTS.createCS(csFactory, coordinates.size(), 
+                    dimension);
 
             for (int i = 0; i < coordinates.size(); i++) {
                 cnode = (Node) coordinates.get(i);
@@ -140,7 +138,7 @@ public class GMLLineStringTypeBinding extends AbstractComplexBinding {
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         LineString lineString = (LineString) object;
 
         if (GML.coordinates.equals(name)) {

@@ -40,7 +40,8 @@ public abstract class JDBCGroupByVisitorOnlineTest extends JDBCTestSupport {
     }
 
     public void testMultipleGroupByWithMax() throws Exception {
-        List<Object[]> value = genericGroupByTestTest(Aggregate.MAX, "building_type", "energy_type");
+        List<Object[]> value = genericGroupByTestTest(Aggregate.MAX, "building_type", 
+                "energy_type");
         assertTrue(value.size() == 11);
         checkValueContains(value, "SCHOOL", "WIND", "20.0");
         checkValueContains(value, "SCHOOL", "FUEL", "60.0");
@@ -82,7 +83,8 @@ public abstract class JDBCGroupByVisitorOnlineTest extends JDBCTestSupport {
     }
 
     public void testMultipleGroupByWithMin() throws Exception {
-        List<Object[]> value = genericGroupByTestTest(Aggregate.MIN, "building_type", "energy_type");
+        List<Object[]> value = genericGroupByTestTest(Aggregate.MIN, "building_type", 
+                "energy_type");
         checkValueContains(value, "SCHOOL", "WIND", "20.0");
         checkValueContains(value, "SCHOOL", "FUEL", "60.0");
         checkValueContains(value, "HOUSE", "NUCLEAR", "4.0");
@@ -123,7 +125,8 @@ public abstract class JDBCGroupByVisitorOnlineTest extends JDBCTestSupport {
     }
 
     public void testMultipleGroupByWithCount() throws Exception {
-        List<Object[]> value = genericGroupByTestTest(Aggregate.COUNT, "building_type", "energy_type");
+        List<Object[]> value = genericGroupByTestTest(Aggregate.COUNT, "building_type", 
+                "energy_type");
         checkValueContains(value, "SCHOOL", "WIND", "1");
         checkValueContains(value, "SCHOOL", "FUEL", "1");
         checkValueContains(value, "HOUSE", "NUCLEAR", "1");
@@ -164,7 +167,8 @@ public abstract class JDBCGroupByVisitorOnlineTest extends JDBCTestSupport {
     }
 
     public void testMultipleGroupByWithSum() throws Exception {
-        List<Object[]> value = genericGroupByTestTest(Aggregate.SUM, "building_type", "energy_type");
+        List<Object[]> value = genericGroupByTestTest(Aggregate.SUM, "building_type", 
+                "energy_type");
         checkValueContains(value, "FABRIC", "FLOWING_WATER", "500.0");
         checkValueContains(value, "FABRIC", "NUCLEAR", "150.0");
         checkValueContains(value, "FABRIC", "SOLAR", "30.0");
@@ -206,7 +210,8 @@ public abstract class JDBCGroupByVisitorOnlineTest extends JDBCTestSupport {
 
     private Query energyConsumptionGreaterThan(double value) {
         FilterFactory filterFactory = dataStore.getFilterFactory();
-        Filter filter = filterFactory.greater(filterFactory.property(aname("energy_consumption")), filterFactory.literal(value));
+        Filter filter = filterFactory.greater(filterFactory.property(aname("energy_consumption"))
+                , filterFactory.literal(value));
         return new Query(tname("buildings"), filter);
     }
 
@@ -217,7 +222,8 @@ public abstract class JDBCGroupByVisitorOnlineTest extends JDBCTestSupport {
 
     private List<Object[]> genericGroupByTestTest(Query query, Aggregate aggregateVisitor,
                                                   String... groupByAttributes) throws IOException {
-        ContentFeatureSource featureSource = dataStore.getFeatureSource(tname("buildings_group_by_tests"));
+        ContentFeatureSource featureSource = dataStore.getFeatureSource(tname
+                ("buildings_group_by_tests"));
         SimpleFeatureType featureType = featureSource.getSchema();
         GroupByVisitorBuilder visitorBuilder = new GroupByVisitorBuilder()
                 .withAggregateAttribute("energy_consumption", featureType)

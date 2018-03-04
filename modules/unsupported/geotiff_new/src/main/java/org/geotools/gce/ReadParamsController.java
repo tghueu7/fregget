@@ -29,12 +29,12 @@ import org.geotools.gce.RasterManager.SpatialDomainManager;
 import org.geotools.geometry.GeneralEnvelope;
 import org.geotools.util.Utilities;
 import org.opengis.referencing.operation.TransformException;
+
 /**
- * Class that fills up properly read params given a {@link RasterLayerRequest}, an {@link OverviewsController}
+ * Class that fills up properly read params given a {@link RasterLayerRequest}, an 
+ * {@link OverviewsController}
+ *
  * @author Simone Giannecchini, GeoSolutions SAS
- *
- *
- *
  * @source $URL$
  */
 public class ReadParamsController {
@@ -44,28 +44,28 @@ public class ReadParamsController {
      * once the best resolution level has been found, in case we have support
      * for levels, or starting from the original coverage in case there are
      * no levels available.
-     * 
+     * <p>
      * Anyhow this method should not be called directly but subclasses should
      * make use of the setReadParams method instead in order to transparently
      * look for levels.
-     * 
+     *
      * @param levelIndex
      * @param readParameters
      * @param requestedRes
      */
-     private static void performDecimation(
+    private static void performDecimation(
             final SpatialDomainManager spatialDomainManager,
             final double[] requestedResolution,
             final int levelIndex,
-            final ImageReadParam readParameters, 
+            final ImageReadParam readParameters,
             final OverviewsController overviewsController
-            ) {
+    ) {
 
         // the read parameters cannot be null
         Utilities.ensureNonNull("readParameters", readParameters);
         Utilities.ensureNonNull("spatialDomainManager", spatialDomainManager);
         Utilities.ensureNonNull("overviewsController", overviewsController);
-        
+
         // get the requested resolution
         if (requestedResolution == null) {
             // if there is no requested resolution we don't do any
@@ -93,8 +93,10 @@ public class ReadParamsController {
             // raster dimensions. The solution is to have the rater
             // dimensions on each level and to confront raster dimensions,
             // which means working
-            rasterWidth = (int) Math.round(spatialDomainManager.coverageBBox.getSpan(0)/ selectedRes[0]);
-            rasterHeight = (int) Math.round(spatialDomainManager.coverageBBox.getSpan(1)/ selectedRes[1]);
+            rasterWidth = (int) Math.round(spatialDomainManager.coverageBBox.getSpan(0) / 
+                    selectedRes[0]);
+            rasterHeight = (int) Math.round(spatialDomainManager.coverageBBox.getSpan(1) / 
+                    selectedRes[1]);
 
         }
         // /////////////////////////////////////////////////////////////////////
@@ -120,7 +122,7 @@ public class ReadParamsController {
 
         readParameters.setSourceSubsampling(subSamplingFactorX, subSamplingFactorY, 0, 0);
     }
-     
+
     /**
      * This method is responsible for preparing the read param for doing an
      * {@link ImageReader#read(int, ImageReadParam)}. It sets the passed
@@ -128,63 +130,61 @@ public class ReadParamsController {
      * provided requestedEnvelope and requestedDim to evaluate the needed
      * resolution. It also returns and {@link Integer} representing the index of
      * the raster to be read when dealing with multipage raster.
-     * 
-     * @param overviewPolicy
-     *            it can be one of {@link Hints#VALUE_OVERVIEW_POLICY_IGNORE},
-     *            {@link Hints#VALUE_OVERVIEW_POLICY_NEAREST},
-     *            {@link Hints#VALUE_OVERVIEW_POLICY_QUALITY} or
-     *            {@link Hints#VALUE_OVERVIEW_POLICY_SPEED}. It specifies the
-     *            policy to compute the levels level upon request.
-     * @param readParams
-     *            an instance of {@link ImageReadParam} for setting the
-     *            subsampling factors.
-     * @param requestedEnvelope
-     *            the {@link GeneralEnvelope} we are requesting.
-     * @param requestedDim
-     *            the requested dimensions.
+     *
+     * @param overviewPolicy    it can be one of {@link Hints#VALUE_OVERVIEW_POLICY_IGNORE},
+     *                          {@link Hints#VALUE_OVERVIEW_POLICY_NEAREST},
+     *                          {@link Hints#VALUE_OVERVIEW_POLICY_QUALITY} or
+     *                          {@link Hints#VALUE_OVERVIEW_POLICY_SPEED}. It specifies the
+     *                          policy to compute the levels level upon request.
+     * @param readParams        an instance of {@link ImageReadParam} for setting the
+     *                          subsampling factors.
+     * @param requestedEnvelope the {@link GeneralEnvelope} we are requesting.
+     * @param requestedDim      the requested dimensions.
      * @return the index of the raster to read in the underlying data sourceFile.
      * @throws IOException
      * @throws TransformException
      */
     static int setReadParams(
-                    final double[] requestedResolution,
-                    OverviewPolicy overviewPolicy,
-                    DecimationPolicy decimationPolicy,
-                    final ImageReadParam readParams,
-                    final RasterManager rasterManager,
-                    final OverviewsController overviewController)
-                    throws IOException, TransformException {
-        
-            Utilities.ensureNonNull("readParams", readParams);
-            Utilities.ensureNonNull("RasterManager", rasterManager);
-            Utilities.ensureNonNull("overviewsController", overviewController);
+            final double[] requestedResolution,
+            OverviewPolicy overviewPolicy,
+            DecimationPolicy decimationPolicy,
+            final ImageReadParam readParams,
+            final RasterManager rasterManager,
+            final OverviewsController overviewController)
+            throws IOException, TransformException {
 
-            if (overviewPolicy == null){
-                overviewPolicy = OverviewPolicy.getDefaultPolicy();
-            }
-            
-            if (decimationPolicy == null){
-                decimationPolicy = DecimationPolicy.getDefaultPolicy();
-            }
-            
-            // Default image index 0
-            int imageChoice = 0;
-            // default values for subsampling
-            readParams.setSourceSubsampling(1, 1, 0, 0);
+        Utilities.ensureNonNull("readParams", readParams);
+        Utilities.ensureNonNull("RasterManager", rasterManager);
+        Utilities.ensureNonNull("overviewsController", overviewController);
 
-            // requested to ignore levels
-            if (overviewPolicy.equals(OverviewPolicy.IGNORE) && decimationPolicy.equals(DecimationPolicy.DISALLOW))
-                    return imageChoice;
+        if (overviewPolicy == null) {
+            overviewPolicy = OverviewPolicy.getDefaultPolicy();
+        }
 
-            if (!overviewPolicy.equals(OverviewPolicy.IGNORE)) {
-                imageChoice = overviewController.pickOverviewLevel(overviewPolicy, requestedResolution);
-            }
-            
-            // DECIMATION ON READING
-            if (!decimationPolicy.equals(DecimationPolicy.DISALLOW)) {
-                ReadParamsController.performDecimation(rasterManager.spatialDomainManager,requestedResolution,imageChoice, readParams,  overviewController);
-            }
+        if (decimationPolicy == null) {
+            decimationPolicy = DecimationPolicy.getDefaultPolicy();
+        }
+
+        // Default image index 0
+        int imageChoice = 0;
+        // default values for subsampling
+        readParams.setSourceSubsampling(1, 1, 0, 0);
+
+        // requested to ignore levels
+        if (overviewPolicy.equals(OverviewPolicy.IGNORE) && decimationPolicy.equals
+                (DecimationPolicy.DISALLOW))
             return imageChoice;
+
+        if (!overviewPolicy.equals(OverviewPolicy.IGNORE)) {
+            imageChoice = overviewController.pickOverviewLevel(overviewPolicy, requestedResolution);
+        }
+
+        // DECIMATION ON READING
+        if (!decimationPolicy.equals(DecimationPolicy.DISALLOW)) {
+            ReadParamsController.performDecimation(rasterManager.spatialDomainManager, 
+                    requestedResolution, imageChoice, readParams, overviewController);
+        }
+        return imageChoice;
 
     }
 }

@@ -61,7 +61,8 @@ import org.opengis.parameter.ParameterDescriptor;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
- * {@link AbstractGridFormat} subclass for controlling {@link ImageMosaicReader} creation. As the name says, it handles mosaic of georeferenced
+ * {@link AbstractGridFormat} subclass for controlling {@link ImageMosaicReader} creation. As the
+ * name says, it handles mosaic of georeferenced
  * images, which means
  * <ol>
  * <li>tiff+tfw+prj</li>
@@ -69,29 +70,40 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
  * <li>png+tfw+prj</li>
  * <li>geotiff</li>
  * </ol>
- * This does not mean that you throw there a couple of images and it will do the trick no matter how these images are. Requirements are:
+ * This does not mean that you throw there a couple of images and it will do the trick no matter 
+ * how these images are. Requirements are:
  * <ul>
  * <li>(almost) equal spatial resolution</li>
  * <li>same number of bands</li>
  * <li>same data type</li>
  * <li>same projection</li>
  * </ul>
- * The first requirement can be relaxed a little but if they have the same spatial resolution the performances are much better. There are parameters
- * that you can use to control the behaviour of the mosaic in terms of thresholding and transparency. They are as follows:
+ * The first requirement can be relaxed a little but if they have the same spatial resolution the
+ * performances are much better. There are parameters
+ * that you can use to control the behaviour of the mosaic in terms of thresholding and 
+ * transparency. They are as follows:
  * <ul>
- * <li>--DefaultParameterDescriptor FINAL_ALPHA = new DefaultParameterDescriptor( "FinalAlpha", Boolean.class, null, Boolean.FALSE)-- It asks the
- * plugin to add transparency on the final created mosaic. IT simply performs a threshonding looking for areas where there is no data, i.e., intensity
- * is really low and transform them into transparent areas. It is obvious that depending on the nature of the input images it might interfere with the
+ * <li>--DefaultParameterDescriptor FINAL_ALPHA = new DefaultParameterDescriptor( "FinalAlpha", 
+ * Boolean.class, null, Boolean.FALSE)-- It asks the
+ * plugin to add transparency on the final created mosaic. IT simply performs a threshonding 
+ * looking for areas where there is no data, i.e., intensity
+ * is really low and transform them into transparent areas. It is obvious that depending on the 
+ * nature of the input images it might interfere with the
  * original values.</li>
- * <li>---ALPHA_THRESHOLD = new DefaultParameterDescriptor( "AlphaThreshold", Double.class, null, new Double(1));--- Controls the transparency
+ * <li>---ALPHA_THRESHOLD = new DefaultParameterDescriptor( "AlphaThreshold", Double.class, null,
+ * new Double(1));--- Controls the transparency
  * addition by specifying the treshold to use.</li>
- * <li>INPUT_IMAGE_THRESHOLD = new DefaultParameterDescriptor( "InputImageROI", Boolean.class, null, Boolean.FALSE)--- INPUT_IMAGE_THRESHOLD_VALUE =
- * new DefaultParameterDescriptor( "InputImageROIThreshold", Integer.class, null, new Integer(1));--- These two can be used to control the application
- * of ROIs on the input images based on tresholding values. Basically using the threshold you can ask the mosaic plugin to load or not certain pixels
+ * <li>INPUT_IMAGE_THRESHOLD = new DefaultParameterDescriptor( "InputImageROI", Boolean.class, 
+ * null, Boolean.FALSE)--- INPUT_IMAGE_THRESHOLD_VALUE =
+ * new DefaultParameterDescriptor( "InputImageROIThreshold", Integer.class, null, new Integer(1))
+ * ;--- These two can be used to control the application
+ * of ROIs on the input images based on tresholding values. Basically using the threshold you can
+ * ask the mosaic plugin to load or not certain pixels
  * of the original images.</li>
  *
  * @author Simone Giannecchini (simboss), GeoSolutions
- * @author Stefan Alfons Krueger (alfonx), Wikisquare.de : Support for jar:file:foo.jar/bar.properties URLs
+ * @author Stefan Alfons Krueger (alfonx), Wikisquare.de : Support for jar:file:foo.jar/bar
+ * .properties URLs
  * @source $URL$
  * @since 2.3
  */
@@ -115,58 +127,67 @@ public final class ImageMosaicFormat extends AbstractGridFormat implements Forma
     /**
      * Control the type of the final mosaic.
      */
-    public static final ParameterDescriptor<Boolean> FADING = new DefaultParameterDescriptor<Boolean>(
-            "Fading", Boolean.class, new Boolean[] { Boolean.TRUE, Boolean.FALSE }, Boolean.FALSE);
+    public static final ParameterDescriptor<Boolean> FADING = new 
+            DefaultParameterDescriptor<Boolean>(
+            "Fading", Boolean.class, new Boolean[]{Boolean.TRUE, Boolean.FALSE}, Boolean.FALSE);
 
     /**
      * Control the transparency of the output coverage.
      */
-    public static final ParameterDescriptor<Color> OUTPUT_TRANSPARENT_COLOR = new DefaultParameterDescriptor<Color>(
+    public static final ParameterDescriptor<Color> OUTPUT_TRANSPARENT_COLOR = new 
+            DefaultParameterDescriptor<Color>(
             "OutputTransparentColor", Color.class, null, null);
 
     /**
      * Control the thresholding on the input coverage
      */
-    public static final ParameterDescriptor<Integer> MAX_ALLOWED_TILES = new DefaultParameterDescriptor<Integer>(
+    public static final ParameterDescriptor<Integer> MAX_ALLOWED_TILES = new 
+            DefaultParameterDescriptor<Integer>(
             "MaxAllowedTiles", Integer.class, null, Integer.valueOf(-1));
 
     /**
      * Control the default artifact filter luminance thresholding on the input coverages
      */
-    public static final ParameterDescriptor<Integer> DEFAULT_ARTIFACTS_FILTER_THRESHOLD = new DefaultParameterDescriptor<Integer>(
+    public static final ParameterDescriptor<Integer> DEFAULT_ARTIFACTS_FILTER_THRESHOLD = new 
+            DefaultParameterDescriptor<Integer>(
             "DefaultArtifactsFilterThreshold", Integer.class, null, Integer.MIN_VALUE);
 
     /**
      * Control the artifact filter ptile thresholding
      */
-    public static final ParameterDescriptor<Double> ARTIFACTS_FILTER_PTILE_THRESHOLD = new DefaultParameterDescriptor<Double>(
+    public static final ParameterDescriptor<Double> ARTIFACTS_FILTER_PTILE_THRESHOLD = new 
+            DefaultParameterDescriptor<Double>(
             "ArtifactsFilterPtileThreshold", Double.class, null,
             Double.valueOf(DEFAULT_ARTIFACTS_FILTER_PTILE_THRESHOLD));
 
     /**
      * Control the threading behavior for this plugin.
      */
-    public static final ParameterDescriptor<Boolean> ALLOW_MULTITHREADING = new DefaultParameterDescriptor<Boolean>(
-            "AllowMultithreading", Boolean.class, new Boolean[] { Boolean.TRUE, Boolean.FALSE },
+    public static final ParameterDescriptor<Boolean> ALLOW_MULTITHREADING = new 
+            DefaultParameterDescriptor<Boolean>(
+            "AllowMultithreading", Boolean.class, new Boolean[]{Boolean.TRUE, Boolean.FALSE},
             Boolean.FALSE);
 
     /**
      * Control the background values for the output coverage
      */
-    public static final ParameterDescriptor<double[]> BACKGROUND_VALUES = new DefaultParameterDescriptor<double[]>(
+    public static final ParameterDescriptor<double[]> BACKGROUND_VALUES = new 
+            DefaultParameterDescriptor<double[]>(
             "BackgroundValues", double[].class, null, null);
 
     /**
      * Control the interpolation to be used in mosaicking
      */
-    public static final ParameterDescriptor<Interpolation> INTERPOLATION = AbstractGridFormat.INTERPOLATION;
+    public static final ParameterDescriptor<Interpolation> INTERPOLATION = AbstractGridFormat
+            .INTERPOLATION;
 
     /**
      * Control the requested resolution calculation.
      */
-    public static final ParameterDescriptor<Boolean> ACCURATE_RESOLUTION = new DefaultParameterDescriptor<Boolean>(
+    public static final ParameterDescriptor<Boolean> ACCURATE_RESOLUTION = new 
+            DefaultParameterDescriptor<Boolean>(
             "Accurate resolution computation", Boolean.class,
-            new Boolean[] { Boolean.TRUE, Boolean.FALSE }, Boolean.FALSE);
+            new Boolean[]{Boolean.TRUE, Boolean.FALSE}, Boolean.FALSE);
 
     /**
      * Optional Sorting for the granules of the mosaic.
@@ -174,30 +195,37 @@ public final class ImageMosaicFormat extends AbstractGridFormat implements Forma
      * <p>
      * It does work only with DBMS as indexes
      */
-    public static final ParameterDescriptor<String> SORT_BY = new DefaultParameterDescriptor<String>(
+    public static final ParameterDescriptor<String> SORT_BY = new 
+            DefaultParameterDescriptor<String>(
             "SORTING", String.class, null, null);
 
     /**
      * Merging behavior for the various granules of the mosaic we are going to produce.
      * <p>
      * <p>
-     * This parameter controls whether we want to merge in a single mosaic or stack all the bands into the final mosaic.
+     * This parameter controls whether we want to merge in a single mosaic or stack all the bands
+     * into the final mosaic.
      */
-    public static final ParameterDescriptor<String> MERGE_BEHAVIOR = new DefaultParameterDescriptor<String>(
+    public static final ParameterDescriptor<String> MERGE_BEHAVIOR = new 
+            DefaultParameterDescriptor<String>(
             "MergeBehavior", String.class, MergeBehavior.valuesAsStrings(),
             MergeBehavior.getDefault().toString());
-    
+
     /**
      * Controls the removal of excess granules
      * <p>
      * <p>
-     * This parameter controls whether the mosaic will attempt to remove excess granules, that is, granules not contributing
-     * pixels to the output, before performing the mosaicking. This is useful only if granules are overlapping, do not
+     * This parameter controls whether the mosaic will attempt to remove excess granules, that 
+     * is, granules not contributing
+     * pixels to the output, before performing the mosaicking. This is useful only if granules 
+     * are overlapping, do not
      * enable otherwise.
      */
-    public static final ParameterDescriptor<ExcessGranulePolicy> EXCESS_GRANULE_REMOVAL = new DefaultParameterDescriptor<ExcessGranulePolicy>(
+    public static final ParameterDescriptor<ExcessGranulePolicy> EXCESS_GRANULE_REMOVAL = new 
+            DefaultParameterDescriptor<ExcessGranulePolicy>(
             "ExcessGranuleRemoval", ExcessGranulePolicy.class,
-            new ExcessGranulePolicy[] { ExcessGranulePolicy.NONE, ExcessGranulePolicy.ROI }, ExcessGranulePolicy.NONE);
+            new ExcessGranulePolicy[]{ExcessGranulePolicy.NONE, ExcessGranulePolicy.ROI}, 
+            ExcessGranulePolicy.NONE);
 
     /**
      * Creates an instance and sets the metadata.
@@ -220,11 +248,11 @@ public final class ImageMosaicFormat extends AbstractGridFormat implements Forma
 
         // reading parameters
         readParameters = new ParameterGroup(new DefaultParameterDescriptorGroup(mInfo,
-                new GeneralParameterDescriptor[] { READ_GRIDGEOMETRY2D, INPUT_TRANSPARENT_COLOR,
+                new GeneralParameterDescriptor[]{READ_GRIDGEOMETRY2D, INPUT_TRANSPARENT_COLOR,
                         OUTPUT_TRANSPARENT_COLOR, USE_JAI_IMAGEREAD, BACKGROUND_VALUES,
                         SUGGESTED_TILE_SIZE, ALLOW_MULTITHREADING, MAX_ALLOWED_TILES, TIME,
                         ELEVATION, FILTER, ACCURATE_RESOLUTION, SORT_BY, MERGE_BEHAVIOR,
-                        FOOTPRINT_BEHAVIOR, OVERVIEW_POLICY, BANDS, EXCESS_GRANULE_REMOVAL }));
+                        FOOTPRINT_BEHAVIOR, OVERVIEW_POLICY, BANDS, EXCESS_GRANULE_REMOVAL}));
 
         // reading parameters
         writeParameters = null;
@@ -499,8 +527,8 @@ public final class ImageMosaicFormat extends AbstractGridFormat implements Forma
     @Override
     public ImageMosaicReader getReader(Object source, Hints hints) {
         try {
-            if(hints == null) {
-                hints = new Hints(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER,Boolean.TRUE);
+            if (hints == null) {
+                hints = new Hints(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER, Boolean.TRUE);
             }
             final ImageMosaicReader reader = new ImageMosaicReader(source, hints);
             return reader;

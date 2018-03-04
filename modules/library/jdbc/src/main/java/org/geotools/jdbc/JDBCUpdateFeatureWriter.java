@@ -37,8 +37,6 @@ import org.opengis.feature.type.AttributeDescriptor;
 import org.opengis.filter.Id;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class JDBCUpdateFeatureWriter extends JDBCFeatureReader implements
@@ -46,53 +44,55 @@ public class JDBCUpdateFeatureWriter extends JDBCFeatureReader implements
 
     ResultSetFeature last;
     ReferencedEnvelope lastBounds;
-    
+
     public JDBCUpdateFeatureWriter(String sql, Connection cx,
-            JDBCFeatureSource featureSource, Query query) throws SQLException, IOException {
-        
+                                   JDBCFeatureSource featureSource, Query query) throws 
+            SQLException, IOException {
+
         super(sql, cx, featureSource, featureSource.getSchema(), query);
         md = rs.getMetaData();
-        last = new ResultSetFeature( rs, cx );
+        last = new ResultSetFeature(rs, cx);
     }
-    
+
     public JDBCUpdateFeatureWriter(PreparedStatement ps, Connection cx,
-            JDBCFeatureSource featureSource, Query query) throws SQLException, IOException {
-        
+                                   JDBCFeatureSource featureSource, Query query) throws 
+            SQLException, IOException {
+
         super(ps, cx, featureSource, featureSource.getSchema(), query);
         md = rs.getMetaData();
-        last = new ResultSetFeature( rs, ps.getConnection());
+        last = new ResultSetFeature(rs, ps.getConnection());
     }
 
     public SimpleFeature next() throws IOException, IllegalArgumentException,
             NoSuchElementException {
-        
+
         ensureNext();
-        
+
         try {
             last.init();
         } catch (Exception e) {
             e.printStackTrace();
         }
-     
+
         //reset next flag
         setNext(null);
-    
-        if( this.featureSource.getEntry().getState(tx).hasListener() ){
+
+        if (this.featureSource.getEntry().getState(tx).hasListener()) {
             // record bounds as we have a listener who will be interested
-            this.lastBounds = new ReferencedEnvelope( last.getBounds() );
-        }        
+            this.lastBounds = new ReferencedEnvelope(last.getBounds());
+        }
         return last;
     }
-    
+
     public void remove() throws IOException {
         try {
             dataStore.delete(featureType, last.getID(), st.getConnection());
-            
+
             // issue notification
             ContentEntry entry = featureSource.getEntry();
-            ContentState state = entry.getState( this.tx );
-            if( state.hasListener() ){
-                state.fireFeatureRemoved( featureSource, last );
+            ContentState state = entry.getState(this.tx);
+            if (state.hasListener()) {
+                state.fireFeatureRemoved(featureSource, last);
             }
         } catch (SQLException e) {
             throw (IOException) new IOException().initCause(e);
@@ -106,8 +106,8 @@ public class JDBCUpdateFeatureWriter extends JDBCFeatureReader implements
             String fid = dataStore.encodeFID(key, rs);
 
             Id filter = dataStore.getFilterFactory()
-                                 .id(Collections.singleton(dataStore.getFilterFactory()
-                                                                    .featureId(fid)));
+                    .id(Collections.singleton(dataStore.getFilterFactory()
+                            .featureId(fid)));
 
             //figure out which attributes changed
             List<AttributeDescriptor> changed = new ArrayList<AttributeDescriptor>();
@@ -122,12 +122,12 @@ public class JDBCUpdateFeatureWriter extends JDBCFeatureReader implements
 
             // do the write
             dataStore.update(featureType, changed, values, filter, st.getConnection());
-            
+
             // issue notification
             ContentEntry entry = featureSource.getEntry();
-            ContentState state = entry.getState( this.tx );
-            if( state.hasListener() ){
-                state.fireFeatureUpdated( featureSource, last, lastBounds );
+            ContentState state = entry.getState(this.tx);
+            if (state.hasListener()) {
+                state.fireFeatureUpdated(featureSource, last, lastBounds);
             }
         } catch (Exception e) {
             throw (IOException) new IOException().initCause(e);
@@ -136,9 +136,9 @@ public class JDBCUpdateFeatureWriter extends JDBCFeatureReader implements
 
     public void close() throws IOException {
         super.close();
-        if ( last != null ) {
+        if (last != null) {
             last.close();
-            last = null;    
+            last = null;
         }
     }
 }

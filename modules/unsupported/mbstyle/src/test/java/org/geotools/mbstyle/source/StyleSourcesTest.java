@@ -175,7 +175,10 @@ public class StyleSourcesTest {
         assertEquals(256, raster.getTileSize().intValue());
         assertEquals(
                 Arrays.asList(
-                        "http://a.example.com/wms?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&width=256&height=256&layers=example"),
+                        "http://a.example" +
+                                ".com/wms?bbox={bbox-epsg-3857}&format=image/png&service=WMS" +
+                                "&version=1.1.1&request=GetMap&srs=EPSG:3857&width=256&height=256" +
+                                "&layers=example"),
                 raster.getTiles());
     }
 

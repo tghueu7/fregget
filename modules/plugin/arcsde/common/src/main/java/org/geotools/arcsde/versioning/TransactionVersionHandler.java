@@ -35,15 +35,13 @@ import com.esri.sde.sdk.client.SeVersion;
 
 /**
  * Handles a versioned table when in transaction mode
- * 
+ *
  * @author Gabriel Roldan (TOPP)
  * @version $Id$
- * @since 2.5.x
- *
- *
  * @source $URL$
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
- *         /org/geotools/arcsde/data/versioning/TransactionVersionHandler.java $
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
+ * /org/geotools/arcsde/data/versioning/TransactionVersionHandler.java $
+ * @since 2.5.x
  */
 public class TransactionVersionHandler implements ArcSdeVersionHandler {
 
@@ -68,7 +66,7 @@ public class TransactionVersionHandler implements ArcSdeVersionHandler {
 
     /**
      * Called by ArcSdeFeatureWriter.createStream
-     * 
+     *
      * @see ArcSdeVersionHandler#
      */
     public void setUpStream(final ISession session, final SeStreamOp streamOperation)
@@ -125,7 +123,7 @@ public class TransactionVersionHandler implements ArcSdeVersionHandler {
 
     /**
      * Not called at all
-     * 
+     *
      * @see ArcSdeVersionHandler#editOperationWritten(SeStreamOp)
      */
     public void editOperationWritten(SeStreamOp editOperation) throws IOException {
@@ -134,7 +132,7 @@ public class TransactionVersionHandler implements ArcSdeVersionHandler {
 
     /**
      * Not called at all
-     * 
+     *
      * @see ArcSdeVersionHandler#editOperationFailed(SeStreamOp)
      */
     public void editOperationFailed(SeStreamOp editOperation) throws IOException {
@@ -143,7 +141,7 @@ public class TransactionVersionHandler implements ArcSdeVersionHandler {
 
     /**
      * Called by ArcTransactionState.commit()
-     * 
+     *
      * @see ArcSdeVersionHandler#commitEditState()
      */
     public void commitEditState() throws IOException {
@@ -177,7 +175,7 @@ public class TransactionVersionHandler implements ArcSdeVersionHandler {
 
     /**
      * Called by ArcTransactionState.rollback()
-     * 
+     *
      * @see ArcSdeVersionHandler#rollbackEditState()
      */
     public void rollbackEditState() throws IOException {

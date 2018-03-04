@@ -7,16 +7,15 @@ import org.geotools.data.DataStore;
 
 /**
  * A delegate that finds the files managed by the directory store and
+ *
  * @author Andrea Aime - OpenGeo
- *
- *
- *
  * @source $URL$
  */
 public interface FileStoreFactory {
-    
+
     /**
      * Returns a store for the specified file
+     *
      * @param file
      * @return
      */

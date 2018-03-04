@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -35,10 +35,8 @@ import org.xml.sax.SAXNotSupportedException;
  *
  * @author dzwiers, Refractions Research, Inc. http://www.refractions.net
  * @author $Author:$ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public abstract class XMLElementHandler implements Serializable {
     /**
@@ -63,10 +61,8 @@ public abstract class XMLElementHandler implements Serializable {
      * interpretation at a later time (
      *
      * @param text
-     *
      * @throws SAXException
      * @throws SAXNotSupportedException
-     *
      * @see endElement(String,String)).
      */
     public void characters(String text) throws SAXException {
@@ -81,15 +77,13 @@ public abstract class XMLElementHandler implements Serializable {
      *
      * @param namespaceURI
      * @param localName
-     * @param hints DOCUMENT ME!
-     *
+     * @param hints        DOCUMENT ME!
      * @throws SAXException
      * @throws OperationNotSupportedException
-     *
      * @see SchemaContentHandler#endElement
      */
     public abstract void endElement(URI namespaceURI, String localName,
-        Map hints) throws SAXException, OperationNotSupportedException;
+                                    Map hints) throws SAXException, OperationNotSupportedException;
 
     /**
      * handles SAX start Element events. This matches the start of the element
@@ -99,13 +93,11 @@ public abstract class XMLElementHandler implements Serializable {
      * @param namespaceURI
      * @param localName
      * @param attr
-     *
      * @throws SAXException
-     *
      * @see SchemaContentHandler#startElement
      */
     public abstract void startElement(URI namespaceURI, String localName,
-        Attributes attr) throws SAXException;
+                                      Attributes attr) throws SAXException;
 
     /**
      * This will find an appropriate XMLElementHandler for the specified child
@@ -116,22 +108,18 @@ public abstract class XMLElementHandler implements Serializable {
      *
      * @param namespaceURI
      * @param localName
-     * @param hints DOCUMENT ME!
-     *
+     * @param hints        DOCUMENT ME!
      * @return XMLElementHandler, or null
-     *
      * @throws SAXException
      */
     public abstract XMLElementHandler getHandler(URI namespaceURI,
-        String localName, Map hints) throws SAXException;
+                                                 String localName, Map hints) throws SAXException;
 
     /**
      * This method will get the value of the element depending on it's type.
      *
      * @return Object (may be null)
-     *
      * @throws SAXException
-     *
      * @see Type#getValue
      */
     public abstract Object getValue() throws SAXException;

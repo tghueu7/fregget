@@ -36,10 +36,8 @@ import com.vividsolutions.jts.geom.Envelope;
 
 /**
  * DOCUMENT ME!
- * 
+ *
  * @author Tommaso Nolli
- *
- *
  * @source $URL$
  */
 public class FileSystemIndexStore implements IndexStore {
@@ -50,7 +48,7 @@ public class FileSystemIndexStore implements IndexStore {
 
     /**
      * Constructor. The byte order defaults to NEW_MSB_ORDER
-     * 
+     *
      * @param file
      */
     public FileSystemIndexStore(File file) {
@@ -60,7 +58,7 @@ public class FileSystemIndexStore implements IndexStore {
 
     /**
      * Constructor
-     * 
+     *
      * @param file
      * @param byteOrder
      */
@@ -124,17 +122,12 @@ public class FileSystemIndexStore implements IndexStore {
 
     /**
      * Wites a tree node to the qix file
-     * 
-     * @param node
-     *                The node
-     * @param channel
-     *                DOCUMENT ME!
-     * @param order
-     *                byte order
-     * 
+     *
+     * @param node    The node
+     * @param channel DOCUMENT ME!
+     * @param order   byte order
      * @throws IOException
-     * @throws StoreException
-     *                 DOCUMENT ME!
+     * @throws StoreException DOCUMENT ME!
      */
     private void writeNode(Node node, FileChannel channel, ByteOrder order)
             throws IOException, StoreException {
@@ -170,12 +163,9 @@ public class FileSystemIndexStore implements IndexStore {
 
     /**
      * Calculates the offset
-     * 
+     *
      * @param node
-     * 
-     * 
-     * @throws StoreException
-     *                 DOCUMENT ME!
+     * @throws StoreException DOCUMENT ME!
      */
     private int getSubNodeOffset(Node node) throws StoreException {
         int offset = 0;
@@ -195,7 +185,7 @@ public class FileSystemIndexStore implements IndexStore {
      * Loads a quadrtee stored in a '.qix' file. <b>WARNING:</b> The resulting
      * quadtree will be immutable; if you perform an insert, an
      * <code>UnsupportedOperationException</code> will be thrown.
-     * 
+     *
      * @see org.geotools.index.quadtree.IndexStore#load()
      */
     public QuadTree load(IndexFile indexfile, boolean useMemoryMapping) throws StoreException {
@@ -251,30 +241,29 @@ public class FileSystemIndexStore implements IndexStore {
 
     /**
      * DOCUMENT ME!
-     * 
+     *
      * @param order
-     * 
      */
     private static ByteOrder byteToOrder(byte order) {
         ByteOrder ret = null;
 
         switch (order) {
-        case IndexHeader.NATIVE_ORDER:
-            ret = ByteOrder.nativeOrder();
+            case IndexHeader.NATIVE_ORDER:
+                ret = ByteOrder.nativeOrder();
 
-            break;
+                break;
 
-        case IndexHeader.LSB_ORDER:
-        case IndexHeader.NEW_LSB_ORDER:
-            ret = ByteOrder.LITTLE_ENDIAN;
+            case IndexHeader.LSB_ORDER:
+            case IndexHeader.NEW_LSB_ORDER:
+                ret = ByteOrder.LITTLE_ENDIAN;
 
-            break;
+                break;
 
-        case IndexHeader.MSB_ORDER:
-        case IndexHeader.NEW_MSB_ORDER:
-            ret = ByteOrder.BIG_ENDIAN;
+            case IndexHeader.MSB_ORDER:
+            case IndexHeader.NEW_MSB_ORDER:
+                ret = ByteOrder.BIG_ENDIAN;
 
-            break;
+                break;
         }
 
         return ret;
@@ -282,7 +271,7 @@ public class FileSystemIndexStore implements IndexStore {
 
     /**
      * DOCUMENT ME!
-     * 
+     *
      * @return Returns the byteOrder.
      */
     public int getByteOrder() {
@@ -291,9 +280,8 @@ public class FileSystemIndexStore implements IndexStore {
 
     /**
      * DOCUMENT ME!
-     * 
-     * @param byteOrder
-     *                The byteOrder to set.
+     *
+     * @param byteOrder The byteOrder to set.
      */
     public void setByteOrder(byte byteOrder) {
         this.byteOrder = byteOrder;

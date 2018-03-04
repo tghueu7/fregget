@@ -22,7 +22,7 @@ import org.geotools.jdbc.JDBCTestSetup;
 import java.io.IOException;
 
 public class OracleInEncodingOnlineTest extends JDBCInEncodingOnlineTest {
-    
+
     @Override
     protected JDBCTestSetup createTestSetup() {
         return new OracleTestSetup();

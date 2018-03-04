@@ -46,9 +46,6 @@ import org.opengis.referencing.NoSuchAuthorityCodeException;
  * @author Daniele Romagnoli, GeoSolutions
  * @author Andrea Aime, GeoSolutions
  * @author Simone Giannecchini, GeoSolutions
- *
- *
- *
  * @source $URL$
  */
 public class ImageCollectionReaderTest extends Assert {
@@ -60,22 +57,24 @@ public class ImageCollectionReaderTest extends Assert {
         final File file = TestData.file(this, "sample");
         final String string = "PATH='folder1/world.tif'";
         Filter filter = CQL.toFilter(string);
-        
+
         final ImageCollectionReader reader = new ImageCollectionReader(file);
-        final ParameterValue<GridGeometry2D> gg =  AbstractGridFormat.READ_GRIDGEOMETRY2D.createValue();
-        final GeneralEnvelope envelope = new GeneralEnvelope(new Rectangle(1000,-800,1000,400));
+        final ParameterValue<GridGeometry2D> gg = AbstractGridFormat.READ_GRIDGEOMETRY2D
+                .createValue();
+        final GeneralEnvelope envelope = new GeneralEnvelope(new Rectangle(1000, -800, 1000, 400));
         envelope.setCoordinateReferenceSystem(CartesianAuthorityFactory.GENERIC_2D);
         final Rectangle rasterArea = new Rectangle(0, 0, 500, 200);
-        final GridEnvelope2D range= new GridEnvelope2D(rasterArea);
+        final GridEnvelope2D range = new GridEnvelope2D(rasterArea);
         gg.setValue(new GridGeometry2D(range, envelope));
-        
-        final ParameterValue<Filter> ff =  ImageCollectionFormat.FILTER.createValue();
+
+        final ParameterValue<Filter> ff = ImageCollectionFormat.FILTER.createValue();
         ff.setValue(filter);
-        
-        final ParameterValue<double[]> background =  ImageCollectionFormat.BACKGROUND_VALUES.createValue();
+
+        final ParameterValue<double[]> background = ImageCollectionFormat.BACKGROUND_VALUES
+                .createValue();
         background.setValue(new double[]{0});
-        
-        GeneralParameterValue[] params = new GeneralParameterValue[] {ff, gg, background};        
+
+        GeneralParameterValue[] params = new GeneralParameterValue[]{ff, gg, background};
         if (reader != null) {
             // reading the coverage
             GridCoverage2D coverage = (GridCoverage2D) reader.read(params);
@@ -84,31 +83,32 @@ public class ImageCollectionReaderTest extends Assert {
             assertTrue(image.getHeight() == 200);
         }
     }
-    
+
     @Test
     public void testForbiddenPath() throws IllegalArgumentException, IOException,
             NoSuchAuthorityCodeException, CQLException {
 
         final File file = TestData.file(this, "sample");
         final String absolutePath = FilenameUtils.separatorsToUnix(file.getAbsolutePath());
-        final String string = "PATH='" + absolutePath + "/folder1/../../forbiddenFolder/classifiedFile.tif'";
+        final String string = "PATH='" + absolutePath + 
+                "/folder1/../../forbiddenFolder/classifiedFile.tif'";
         Filter filter = CQL.toFilter(string);
-        
+
         final ImageCollectionReader reader = new ImageCollectionReader(file);
-        final ParameterValue<Filter> ff =  ImageCollectionFormat.FILTER.createValue();
+        final ParameterValue<Filter> ff = ImageCollectionFormat.FILTER.createValue();
         ff.setValue(filter);
-        
-        GeneralParameterValue[] params = new GeneralParameterValue[] {ff};        
+
+        GeneralParameterValue[] params = new GeneralParameterValue[]{ff};
         if (reader != null) {
             // reading the coverage
-        	GridCoverage2D coverage = null;
-        	boolean exception = true;
-        	try {
-        		coverage = (GridCoverage2D) reader.read(params);
-        		exception = false;
-        	} catch (DataSourceException exc){
-        		assertTrue(exception);
-        	}
+            GridCoverage2D coverage = null;
+            boolean exception = true;
+            try {
+                coverage = (GridCoverage2D) reader.read(params);
+                exception = false;
+            } catch (DataSourceException exc) {
+                assertTrue(exception);
+            }
         }
     }
 }

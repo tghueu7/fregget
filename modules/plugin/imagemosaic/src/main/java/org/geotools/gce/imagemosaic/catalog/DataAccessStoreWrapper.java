@@ -126,7 +126,7 @@ class DataAccessStoreWrapper implements DataStore {
 
     /**
      * Returns a qualified name from an unqualified type name. Ensures a single value is found.
-     * 
+     *
      * @param typeName
      * @return
      * @throws IOException
@@ -147,7 +147,9 @@ class DataAccessStoreWrapper implements DataStore {
 
     @Override
     public FeatureReader<SimpleFeatureType, SimpleFeature> getFeatureReader(Query query,
-            Transaction transaction) throws IOException {
+                                                                            Transaction 
+                                                                                    transaction) 
+            throws IOException {
         SimpleFeatureSource fs = getFeatureSource(query.getTypeName());
         if (fs == null) {
             throw new IOException("Could not find feature type mentioned in query: '"
@@ -163,19 +165,23 @@ class DataAccessStoreWrapper implements DataStore {
 
     @Override
     public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriter(String typeName,
-            Filter filter, Transaction transaction) throws IOException {
+                                                                            Filter filter, 
+                                                                            Transaction transaction) throws IOException {
         throw new UnsupportedOperationException();
     }
 
     @Override
     public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriter(String typeName,
-            Transaction transaction) throws IOException {
+                                                                            Transaction 
+                                                                                    transaction) 
+            throws IOException {
         throw new UnsupportedOperationException();
     }
 
     @Override
     public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriterAppend(String typeName,
-            Transaction transaction) throws IOException {
+                                                                                  Transaction 
+                                                                                          transaction) throws IOException {
         throw new UnsupportedOperationException();
     }
 

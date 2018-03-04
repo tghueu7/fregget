@@ -34,22 +34,18 @@ import org.geotools.xml.impl.DatatypeConverterImpl;
  * <p>
  * Supported converstions:
  * <ul>
- *         <li>String to {@link java.util.Date}
- *         <li>String to {@link java.util.Calendar}
- *         <li>{@link java.util.Date} to String
- *         <li>{@link java.util.Calendar} to String
+ * <li>String to {@link java.util.Date}
+ * <li>String to {@link java.util.Calendar}
+ * <li>{@link java.util.Date} to String
+ * <li>{@link java.util.Calendar} to String
  * </ul>
  * </p>
  *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
- *
  * @source $URL$
  */
 public class XmlConverterFactory implements ConverterFactory {
-    
+
     public Converter createConverter(Class source, Class target, Hints hints) {
         // make sure either source or target is String in order not to step over
         // TemporalConverterFactory
@@ -69,17 +65,17 @@ public class XmlConverterFactory implements ConverterFactory {
 
     static class XmlConverter implements Converter {
         public Object convert(Object source, Class target)
-            throws Exception {
+                throws Exception {
             if (String.class.equals(target)) {
                 return convertToString(source);
             }
             return convertFromString((String) source, target);
         }
-        
+
         private Object convertFromString(final String source, final Class<?> target) {
 
             // don't bother performing conversions if the target types are not dates/times
-            if(!Calendar.class.equals(target) && !Date.class.isAssignableFrom(target))
+            if (!Calendar.class.equals(target) && !Date.class.isAssignableFrom(target))
                 return null;
 
             //JD: this is a bit of a hack but delegate to the 
@@ -87,37 +83,35 @@ public class XmlConverterFactory implements ConverterFactory {
             try {
                 Converter converter = new CommonsConverterFactory().createConverter(String.class,
                         target, null);
-    
+
                 if (converter != null) {
                     Object converted = null;
-    
+
                     try {
                         converted = converter.convert(source, target);
                     } catch (Exception e) {
                         //ignore
                     }
-    
+
                     if (converted != null) {
                         return converted;
                     }
                 }
-            }
-            catch(Exception e) {
+            } catch (Exception e) {
                 //fall through to jaxb parsing
             }
-            
+
             Calendar date;
 
             //try parsing as dateTime
             try {
                 try {
                     date = DatatypeConverterImpl.getInstance().parseDateTime(source);
-                }
-                catch(Exception e) {
+                } catch (Exception e) {
                     //try as just date
-                    date = DatatypeConverterImpl.getInstance().parseDate(source);    
+                    date = DatatypeConverterImpl.getInstance().parseDate(source);
                 }
-                
+
             } catch (Exception e) {
                 //try as just time
                 date = DatatypeConverterImpl.getInstance().parseTime(source);
@@ -157,13 +151,13 @@ public class XmlConverterFactory implements ConverterFactory {
                 Calendar cal = (Calendar) unconvertedValue;
                 textValue = DatatypeConverterImpl.getInstance().printDateTime(cal);
 
-            } else if(unconvertedValue instanceof java.sql.Date){
+            } else if (unconvertedValue instanceof java.sql.Date) {
                 DatatypeConverterImpl converter = DatatypeConverterImpl.getInstance();
                 Object hint = Hints.getSystemDefault(Hints.LOCAL_DATE_TIME_HANDLING);
                 Calendar cal;
-                if(Boolean.TRUE.equals(hint)){
+                if (Boolean.TRUE.equals(hint)) {
                     cal = Calendar.getInstance();
-                }else{
+                } else {
                     cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
                 }
                 cal.setTimeInMillis(((java.util.Date) unconvertedValue).getTime());

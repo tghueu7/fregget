@@ -31,15 +31,14 @@ import org.geotools.resources.i18n.Vocabulary;
 /**
  * Lambert Conical Conformal 2SP Belgium Projection.
  *
- * @see <A HREF="http://www.remotesensing.org/geotiff/proj_list/lambert_conic_conformal_2sp_belgium.html">lambert_conic_conformal_2sp_belgium</A>
- *
- * @since 2.2
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Rueben Schulz
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @see <A HREF="http://www.remotesensing
+ * .org/geotiff/proj_list/lambert_conic_conformal_2sp_belgium
+ * .html">lambert_conic_conformal_2sp_belgium</A>
+ * @since 2.2
  */
 public class LambertConformalBelgium extends LambertConformal {
     /**
@@ -50,12 +49,11 @@ public class LambertConformalBelgium extends LambertConformal {
     /**
      * Constructs a new map projection from the supplied parameters.
      *
-     * @param  parameters The parameter values in standard units.
+     * @param parameters The parameter values in standard units.
      * @throws ParameterNotFoundException if a mandatory parameter is missing.
      */
     protected LambertConformalBelgium(final ParameterValueGroup parameters)
-            throws ParameterNotFoundException
-    {
+            throws ParameterNotFoundException {
         super(parameters, true);
     }
 
@@ -65,8 +63,6 @@ public class LambertConformalBelgium extends LambertConformal {
     public ParameterDescriptorGroup getParameterDescriptors() {
         return Provider.PARAMETERS;
     }
-
-
 
 
     //////////////////////////////////////////////////////////////////////////////////////////
@@ -82,13 +78,12 @@ public class LambertConformalBelgium extends LambertConformal {
      * provider} for a {@linkplain LambertConformalBelgium Lambert Conformal 2SP Belgium}
      * projection (EPSG code 9803).
      *
-     * @since 2.2
-     * @version $Id$
      * @author Rueben Schulz
-     *
+     * @version $Id$
      * @see org.geotools.referencing.operation.DefaultMathTransformFactory
+     * @since 2.2
      */
-     public static final class Provider extends AbstractProvider {
+    public static final class Provider extends AbstractProvider {
         /**
          * For cross-version compatibility.
          */
@@ -97,18 +92,19 @@ public class LambertConformalBelgium extends LambertConformal {
         /**
          * The parameters group.
          */
-        static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(new NamedIdentifier[] {
-                new NamedIdentifier(Citations.OGC,      "Lambert_Conformal_Conic_2SP_Belgium"),
-                new NamedIdentifier(Citations.EPSG,     "Lambert Conic Conformal (2SP Belgium)"),
-                new NamedIdentifier(Citations.EPSG,     "9803"),
+        static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(new 
+                NamedIdentifier[]{
+                new NamedIdentifier(Citations.OGC, "Lambert_Conformal_Conic_2SP_Belgium"),
+                new NamedIdentifier(Citations.EPSG, "Lambert Conic Conformal (2SP Belgium)"),
+                new NamedIdentifier(Citations.EPSG, "9803"),
                 new NamedIdentifier(Citations.GEOTOOLS, Vocabulary.formatInternational(
-                                                        VocabularyKeys.LAMBERT_CONFORMAL_PROJECTION))
-            }, new ParameterDescriptor[] {
-                SEMI_MAJOR,          SEMI_MINOR,
-                CENTRAL_MERIDIAN,    LATITUDE_OF_ORIGIN,
+                        VocabularyKeys.LAMBERT_CONFORMAL_PROJECTION))
+        }, new ParameterDescriptor[]{
+                SEMI_MAJOR, SEMI_MINOR,
+                CENTRAL_MERIDIAN, LATITUDE_OF_ORIGIN,
                 STANDARD_PARALLEL_1, STANDARD_PARALLEL_2,
-                FALSE_EASTING,       FALSE_NORTHING
-            });
+                FALSE_EASTING, FALSE_NORTHING
+        });
 
         /**
          * Constructs a new provider.
@@ -128,13 +124,12 @@ public class LambertConformalBelgium extends LambertConformal {
         /**
          * Creates a transform from the specified group of parameter values.
          *
-         * @param  parameters The group of parameter values.
+         * @param parameters The group of parameter values.
          * @return The created math transform.
          * @throws ParameterNotFoundException if a required parameter was not found.
          */
         protected MathTransform createMathTransform(final ParameterValueGroup parameters)
-                throws ParameterNotFoundException
-        {
+                throws ParameterNotFoundException {
             return new LambertConformalBelgium(parameters);
         }
     }

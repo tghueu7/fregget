@@ -21,26 +21,24 @@ import org.geotools.validation.DefaultIntegrityValidation;
 
 /**
  * PointCoveredByLineValidation purpose.
- * 
+ * <p>
  * <p>
  * Basic typeref information for a 2 polygon validation.
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public abstract class PolygonPolygonAbstractValidation
-    extends DefaultIntegrityValidation {
+        extends DefaultIntegrityValidation {
     private String restrictedPolygonTypeRef;
     private String polygonTypeRef;
 
     /**
      * PointCoveredByLineValidation constructor.
-     * 
+     * <p>
      * <p>
      * Super
      * </p>
@@ -54,7 +52,6 @@ public abstract class PolygonPolygonAbstractValidation
      * overwritten.
      *
      * @return Array of typeNames, or empty array for all, null for disabled
-     *
      * @see org.geotools.validation.Validation#getTypeNames()
      */
     public String[] getTypeRefs() {
@@ -62,7 +59,7 @@ public abstract class PolygonPolygonAbstractValidation
             return null;
         }
 
-        return new String[] { polygonTypeRef, restrictedPolygonTypeRef };
+        return new String[]{polygonTypeRef, restrictedPolygonTypeRef};
     }
 
     /**

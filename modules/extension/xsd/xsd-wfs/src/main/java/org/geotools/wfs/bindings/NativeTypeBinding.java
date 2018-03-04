@@ -28,9 +28,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://www.opengis.net/wfs:NativeType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="NativeType"&gt;
  *      &lt;xsd:attribute name="vendorId" type="xsd:string" use="required"&gt;
@@ -63,9 +63,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class NativeTypeBinding extends AbstractComplexEMFBinding {
@@ -97,7 +94,7 @@ public class NativeTypeBinding extends AbstractComplexEMFBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //TODO: implement and remove call to super
         return super.parse(instance, node, value);
     }

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -33,13 +33,10 @@ import org.geotools.metadata.iso.MetadataEntity;
 /**
  * Description of the event, including related parameters or tolerances.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class ProcessStepImpl extends MetadataEntity implements ProcessStep {
@@ -98,7 +95,7 @@ public class ProcessStepImpl extends MetadataEntity implements ProcessStep {
         setDescription(description);
     }
 
-     /**
+    /**
      * Returns the description of the event, including related parameters or tolerances.
      */
     public InternationalString getDescription() {
@@ -133,7 +130,7 @@ public class ProcessStepImpl extends MetadataEntity implements ProcessStep {
      * the process step occurred.
      */
     public synchronized Date getDate() {
-        return (date!=Long.MIN_VALUE) ? new Date(date) : null;
+        return (date != Long.MIN_VALUE) ? new Date(date) : null;
     }
 
     /**
@@ -142,7 +139,7 @@ public class ProcessStepImpl extends MetadataEntity implements ProcessStep {
      */
     public synchronized void setDate(final Date newValue) {
         checkWritePermission();
-        date = (newValue!=null) ? newValue.getTime() : Long.MIN_VALUE;
+        date = (newValue != null) ? newValue.getTime() : Long.MIN_VALUE;
     }
 
     /**

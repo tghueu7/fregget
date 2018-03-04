@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2016, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -45,17 +45,20 @@ import it.geosolutions.jaiext.utilities.ImageLayout2;
 import com.sun.media.jai.util.PropertyGeneratorImpl;
 
 /**
- * A property generator for the Warp operation that builds the expected ROI bounds even when the source and target image bounds are not superimposed
- * 
+ * A property generator for the Warp operation that builds the expected ROI bounds even when the 
+ * source and target image bounds are not superimposed
+ *
  * @author Andrea Aime - GeoSolutions
  * @author Daniele Romagnoli - GeoSolutions
  */
 public class GTWarpPropertyGenerator extends PropertyGeneratorImpl {
     private static final long serialVersionUID = 6622489670499745306L;
 
-    /** Constructor. */
+    /**
+     * Constructor.
+     */
     public GTWarpPropertyGenerator() {
-        super(new String[] { "ROI" }, new Class[] { ROI.class }, new Class[] { RenderedOp.class });
+        super(new String[]{"ROI"}, new Class[]{ROI.class}, new Class[]{RenderedOp.class});
     }
 
     static boolean registered = false;
@@ -70,8 +73,8 @@ public class GTWarpPropertyGenerator extends PropertyGeneratorImpl {
 
     /**
      * Returns the specified property.
-     * 
-     * @param name Property name.
+     *
+     * @param name   Property name.
      * @param opNode Operation node.
      */
     public Object getProperty(String name, Object opNode) {
@@ -139,7 +142,7 @@ public class GTWarpPropertyGenerator extends PropertyGeneratorImpl {
             hints.add(new RenderingHints(JAI.KEY_IMAGE_LAYOUT, layout));
 
             final PlanarImage constantImage = ConstantDescriptor.create(new Float(w), new Float(h),
-                    new Byte[] { (byte) 255 }, hints);
+                    new Byte[]{(byte) 255}, hints);
 
             PlanarImage roiImage = null;
 
@@ -170,11 +173,12 @@ public class GTWarpPropertyGenerator extends PropertyGeneratorImpl {
             il.setTileHeight(op.getTileHeight());
             localHints.put(JAI.KEY_IMAGE_LAYOUT, il);
             // we need to use JAI-EXT own warp, the JAI one ignores the ROI
-            if(JAIExt.isJAIExtOperation("Warp")) {
+            if (JAIExt.isJAIExtOperation("Warp")) {
                 roiImage = JAI.create("Warp", paramBlk, localHints);
             } else {
                 // force JAI-EXT usage
-                roiImage = PlanarImage.wrapRenderedImage(new WarpRIF().create(paramBlk, localHints));
+                roiImage = PlanarImage.wrapRenderedImage(new WarpRIF().create(paramBlk, 
+                        localHints));
             }
             ROI dstROI = new ROI(roiImage, 1);
 

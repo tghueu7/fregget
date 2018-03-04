@@ -30,10 +30,8 @@ import org.geotools.xml.ComplexEMFBinding;
 
 /**
  * Binding for inputReference attribute of Method element
+ *
  * @author Lucas Reed, Refractions Research Inc
- *
- *
- *
  * @source $URL$
  */
 public class InputReferenceTypeBinding extends ComplexEMFBinding {
@@ -56,7 +54,7 @@ public class InputReferenceTypeBinding extends ComplexEMFBinding {
         Node attr = node.getAttribute("method");
 
         if (null != attr) {
-            attr.setValue(MethodType.get((String)attr.getValue()));
+            attr.setValue(MethodType.get((String) attr.getValue()));
         }
 
         return super.parse(instance, node, value);

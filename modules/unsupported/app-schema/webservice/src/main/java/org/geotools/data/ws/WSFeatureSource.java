@@ -40,26 +40,24 @@ import org.xml.sax.helpers.NamespaceSupport;
  * This implementation is really simple in the sense that it delegates all the hard work to the
  * {@link XmlDataStore} provided.
  * </p>
- * 
+ *
  * @author rpetty
  * @version $Id$
- *
- *
- *
  * @source $URL$
- *         http://svn.geotools.org/trunk/modules/unsupported/app-schema/webservice/src/main/java/org/geotools/wfs/v_1_1_0
- *         /data/XmlSimpleFeatureParser.java $
+ * http://svn.geotools.org/trunk/modules/unsupported/app-schema/webservice/src/main/java/org
+ * /geotools/wfs/v_1_1_0
+ * /data/XmlSimpleFeatureParser.java $
  */
 
 public class WSFeatureSource implements XmlFeatureSource {
 
     private String typeName;
-    
+
     private XmlDataStore dataStore;
 
     private QueryCapabilities queryCapabilities;
 
-    
+
     public WSFeatureSource(final WS_DataStore dataStore, final String typeName, final Name name)
             throws IOException {
         this.typeName = typeName;
@@ -88,13 +86,14 @@ public class WSFeatureSource implements XmlFeatureSource {
     public void setNamespaces(NamespaceSupport namespaces) {
         dataStore.setNamespaces(namespaces);
     }
-    
+
     public void setItemXpath(String itemXpath) {
         dataStore.setItemXpath(itemXpath);
-    } 
+    }
+
     /**
      * Returns available metadata for this resource
-     * 
+     *
      * @return
      */
     public ResourceInfo getInfo() {
@@ -123,7 +122,7 @@ public class WSFeatureSource implements XmlFeatureSource {
     /**
      * @see FeatureSource#getBounds(Query)
      */
-    public ReferencedEnvelope getBounds(Query query) throws IOException {        
+    public ReferencedEnvelope getBounds(Query query) throws IOException {
         throw new UnsupportedOperationException("getBounds not supported");
     }
 
@@ -168,9 +167,9 @@ public class WSFeatureSource implements XmlFeatureSource {
 
     private Query namedQuery(final String typeName, final Query query) {
         String quertyTypeName = query.getTypeName();
-        if (quertyTypeName != null && !quertyTypeName.equals(typeName)) {           
+        if (quertyTypeName != null && !quertyTypeName.equals(typeName)) {
             throw new IllegalArgumentException("Wrong query type name: " + quertyTypeName
-                    + ". Name should be " + typeName);            
+                    + ". Name should be " + typeName);
         }
         DefaultQuery named = new DefaultQuery(query);
         named.setTypeName(typeName);

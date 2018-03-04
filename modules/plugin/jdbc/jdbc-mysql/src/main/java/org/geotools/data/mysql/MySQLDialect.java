@@ -52,13 +52,9 @@ import com.vividsolutions.jts.io.WKBReader;
 
 /**
  * Delegate for {@link MySQLDialectBasic} and {@link MySQLDialectPrepared}
- * which implements the common part of the api. 
- * 
+ * which implements the common part of the api.
+ *
  * @author Justin Deoliveira, OpenGEO
- *
- *
- *
- *
  * @source $URL$
  */
 public class MySQLDialect extends SQLDialect {
@@ -77,14 +73,14 @@ public class MySQLDialect extends SQLDialect {
      * the storage engine to use when creating tables, one of MyISAM, InnoDB
      */
     protected String storageEngine;
-    
+
     /**
-     * flag that indicates that precise spatial operation should be used 
+     * flag that indicates that precise spatial operation should be used
      * (should apply to MySQL versions 5.6 and above)
      */
     protected boolean usePreciseSpatialOps;
-    
-    
+
+
     public MySQLDialect(JDBCDataStore dataStore) {
         super(dataStore);
     }
@@ -92,19 +88,19 @@ public class MySQLDialect extends SQLDialect {
     public void setStorageEngine(String storageEngine) {
         this.storageEngine = storageEngine;
     }
-    
+
     public String getStorageEngine() {
         return storageEngine;
     }
-    
+
     public void setUsePreciseSpatialOps(boolean usePreciseSpatialOps) {
         this.usePreciseSpatialOps = usePreciseSpatialOps;
     }
-    
+
     public boolean getUsePreciseSpatialOps() {
         return usePreciseSpatialOps;
     }
-    
+
     @Override
     public boolean includeTable(String schemaName, String tableName, Connection cx)
             throws SQLException {
@@ -113,7 +109,7 @@ public class MySQLDialect extends SQLDialect {
         }
         return super.includeTable(schemaName, tableName, cx);
     }
-    
+
     public String getNameEscape() {
         return "";
     }
@@ -151,8 +147,8 @@ public class MySQLDialect extends SQLDialect {
     }
 
     public Integer getGeometrySRID(String schemaName, String tableName, String columnName,
-        Connection cx) throws SQLException {
-        
+                                   Connection cx) throws SQLException {
+
         //first check the geometry_columns table
         StringBuffer sql = new StringBuffer();
         sql.append("SELECT ");
@@ -160,25 +156,24 @@ public class MySQLDialect extends SQLDialect {
         sql.append(" FROM ");
         encodeTableName("geometry_columns", sql);
         sql.append(" WHERE ");
-        
+
         encodeColumnName(null, "f_table_schema", sql);
-        
+
         if (schemaName != null) {
-            sql.append( " = '").append(schemaName).append("'");
-        }
-        else {
+            sql.append(" = '").append(schemaName).append("'");
+        } else {
             sql.append(" IS NULL");
         }
         sql.append(" AND ");
-        
+
         encodeColumnName(null, "f_table_name", sql);
         sql.append(" = '").append(tableName).append("' AND ");
-        
+
         encodeColumnName(null, "f_geometry_column", sql);
         sql.append(" = '").append(columnName).append("'");
-        
+
         dataStore.getLogger().fine(sql.toString());
-        
+
         Statement st = cx.createStatement();
         try {
             ResultSet rs = st.executeQuery(sql.toString());
@@ -186,18 +181,15 @@ public class MySQLDialect extends SQLDialect {
                 if (rs.next()) {
                     return new Integer(rs.getInt(1));
                 }
-            }
-            finally {
+            } finally {
                 dataStore.closeSafe(rs);
             }
-        }
-        catch(SQLException e) {
+        } catch (SQLException e) {
             //geometry_columns does not exist
-        }
-        finally {
+        } finally {
             dataStore.closeSafe(st);
         }
-        
+
         //execute SELECT srid(<columnName>) FROM <tableName> LIMIT 1;
         sql = new StringBuffer();
         sql.append("SELECT srid(");
@@ -238,7 +230,7 @@ public class MySQLDialect extends SQLDialect {
 
     @Override
     public void encodeGeometryColumn(GeometryDescriptor gatt, String prefix,
-            int srid, Hints hints, StringBuffer sql) {
+                                     int srid, Hints hints, StringBuffer sql) {
         sql.append("asWKB(");
         encodeColumnName(prefix, gatt.getLocalName(), sql);
         sql.append(")");
@@ -252,7 +244,7 @@ public class MySQLDialect extends SQLDialect {
     }
 
     public Envelope decodeGeometryEnvelope(ResultSet rs, int column,
-                Connection cx) throws SQLException, IOException {
+                                           Connection cx) throws SQLException, IOException {
         //String wkb = rs.getString( column );
         byte[] wkb = rs.getBytes(column);
 
@@ -268,9 +260,10 @@ public class MySQLDialect extends SQLDialect {
     }
 
     public Geometry decodeGeometryValue(GeometryDescriptor descriptor, ResultSet rs, String name,
-                                        GeometryFactory factory, Connection cx, Hints hints) throws IOException, SQLException {
+                                        GeometryFactory factory, Connection cx, Hints hints) 
+            throws IOException, SQLException {
         byte[] bytes = rs.getBytes(name);
-        if ( bytes == null ) {
+        if (bytes == null) {
             return null;
         }
         try {
@@ -321,28 +314,28 @@ public class MySQLDialect extends SQLDialect {
     @Override
     public void registerSqlTypeToSqlTypeNameOverrides(
             Map<Integer, String> overrides) {
-        overrides.put( Types.BOOLEAN, "BOOL");
+        overrides.put(Types.BOOLEAN, "BOOL");
     }
-    
+
     public void encodePostCreateTable(String tableName, StringBuffer sql) {
         //TODO: make this configurable
-        sql.append("ENGINE="+storageEngine);
+        sql.append("ENGINE=" + storageEngine);
     }
-    
+
     @Override
     public void encodePostColumnCreateTable(AttributeDescriptor att, StringBuffer sql) {
         //make geometry columns non null in order to be able to index them
         if (att instanceof GeometryDescriptor && !att.isNillable()) {
-        	if (!sql.toString().trim().endsWith(" NOT NULL")) {
-        		sql.append( " NOT NULL");
-        	}
+            if (!sql.toString().trim().endsWith(" NOT NULL")) {
+                sql.append(" NOT NULL");
+            }
         }
     }
-    
+
     @Override
     public void postCreateTable(String schemaName, SimpleFeatureType featureType, Connection cx)
             throws SQLException, IOException {
-        
+
         //create teh geometry_columns table if necessary
         DatabaseMetaData md = cx.getMetaData();
         ResultSet rs = md.getTables(null, dataStore.escapeNamePattern(md, schemaName),
@@ -355,33 +348,39 @@ public class MySQLDialect extends SQLDialect {
                     StringBuffer sql = new StringBuffer("CREATE TABLE ");
                     encodeTableName("geometry_columns", sql);
                     sql.append("(");
-                    encodeColumnName(null, "f_table_schema", sql); sql.append(" varchar(255), ");
-                    encodeColumnName(null, "f_table_name", sql); sql.append(" varchar(255), ");
-                    encodeColumnName(null, "f_geometry_column", sql); sql.append(" varchar(255), ");
-                    encodeColumnName(null, "coord_dimension", sql); sql.append(" int, ");
-                    encodeColumnName(null, "srid", sql); sql.append(" int, ");
-                    encodeColumnName(null, "type", sql); sql.append(" varchar(32)");
+                    encodeColumnName(null, "f_table_schema", sql);
+                    sql.append(" varchar(255), ");
+                    encodeColumnName(null, "f_table_name", sql);
+                    sql.append(" varchar(255), ");
+                    encodeColumnName(null, "f_geometry_column", sql);
+                    sql.append(" varchar(255), ");
+                    encodeColumnName(null, "coord_dimension", sql);
+                    sql.append(" int, ");
+                    encodeColumnName(null, "srid", sql);
+                    sql.append(" int, ");
+                    encodeColumnName(null, "type", sql);
+                    sql.append(" varchar(32)");
                     sql.append(")");
-                    
-                    if (LOGGER.isLoggable(Level.FINE)) { LOGGER.fine(sql.toString()); }
+
+                    if (LOGGER.isLoggable(Level.FINE)) {
+                        LOGGER.fine(sql.toString());
+                    }
                     st.execute(sql.toString());
-                }
-                finally {
+                } finally {
                     dataStore.closeSafe(st);
                 }
             }
-        }
-        finally {
+        } finally {
             dataStore.closeSafe(rs);
         }
-        
+
         //create spatial index for all geometry columns
         for (AttributeDescriptor ad : featureType.getAttributeDescriptors()) {
             if (!(ad instanceof GeometryDescriptor)) {
                 continue;
             }
             GeometryDescriptor gd = (GeometryDescriptor) ad;
-            
+
             if (!ad.isNillable()) {
                 //can only index non null columns
                 StringBuffer sql = new StringBuffer("ALTER TABLE ");
@@ -389,17 +388,16 @@ public class MySQLDialect extends SQLDialect {
                 sql.append(" ADD SPATIAL INDEX (");
                 encodeColumnName(null, gd.getLocalName(), sql);
                 sql.append(")");
-                
-                LOGGER.fine( sql.toString() );
+
+                LOGGER.fine(sql.toString());
                 Statement st = cx.createStatement();
                 try {
                     st.execute(sql.toString());
-                }
-                finally {
+                } finally {
                     dataStore.closeSafe(st);
                 }
             }
-            
+
             CoordinateReferenceSystem crs = gd.getCoordinateReferenceSystem();
             int srid = -1;
             if (crs != null) {
@@ -411,38 +409,43 @@ public class MySQLDialect extends SQLDialect {
                 }
                 srid = i != null ? i : srid;
             }
-            
+
             StringBuffer sql = new StringBuffer("INSERT INTO ");
             encodeTableName("geometry_columns", sql);
             sql.append(" (");
-            encodeColumnName(null, "f_table_schema", sql); sql.append(", ");
-            encodeColumnName(null, "f_table_name", sql); sql.append(", ");
-            encodeColumnName(null, "f_geometry_column", sql); sql.append(", ");
-            encodeColumnName(null, "coord_dimension", sql); sql.append(", ");
-            encodeColumnName(null, "srid", sql); sql.append(", ");
+            encodeColumnName(null, "f_table_schema", sql);
+            sql.append(", ");
+            encodeColumnName(null, "f_table_name", sql);
+            sql.append(", ");
+            encodeColumnName(null, "f_geometry_column", sql);
+            sql.append(", ");
+            encodeColumnName(null, "coord_dimension", sql);
+            sql.append(", ");
+            encodeColumnName(null, "srid", sql);
+            sql.append(", ");
             encodeColumnName(null, "type", sql);
             sql.append(") ");
             sql.append(" VALUES (");
-            sql.append(schemaName != null ? "'"+schemaName+"'" : "NULL").append(", ");
+            sql.append(schemaName != null ? "'" + schemaName + "'" : "NULL").append(", ");
             sql.append("'").append(featureType.getTypeName()).append("', ");
             sql.append("'").append(ad.getLocalName()).append("', ");
             sql.append("2, ");
             sql.append(srid).append(", ");
-            
-            
-            Geometries g = Geometries.getForBinding((Class<? extends Geometry>) gd.getType().getBinding());
+
+
+            Geometries g = Geometries.getForBinding((Class<? extends Geometry>) gd.getType()
+                    .getBinding());
             sql.append("'").append(g != null ? g.getName().toUpperCase() : "GEOMETRY").append("')");
-            
-            LOGGER.fine( sql.toString() );
+
+            LOGGER.fine(sql.toString());
             Statement st = cx.createStatement();
             try {
                 st.execute(sql.toString());
-            }
-            finally {
+            } finally {
                 dataStore.closeSafe(st);
             }
         }
-        
+
     }
 
     public void encodePrimaryKey(String column, StringBuffer sql) {
@@ -454,26 +457,24 @@ public class MySQLDialect extends SQLDialect {
     public boolean lookupGeneratedValuesPostInsert() {
         return true;
     }
-    
+
     @Override
     public Object getLastAutoGeneratedValue(String schemaName, String tableName, String columnName,
-            Connection cx) throws SQLException {
+                                            Connection cx) throws SQLException {
         Statement st = cx.createStatement();
         try {
             String sql = "SELECT last_insert_id()";
-            dataStore.getLogger().fine( sql);
-            
-            ResultSet rs = st.executeQuery( sql);
+            dataStore.getLogger().fine(sql);
+
+            ResultSet rs = st.executeQuery(sql);
             try {
-                if ( rs.next() ) {
+                if (rs.next()) {
                     return rs.getLong(1);
                 }
-            } 
-            finally {
+            } finally {
                 dataStore.closeSafe(rs);
             }
-        }
-        finally {
+        } finally {
             dataStore.closeSafe(st);
         }
 
@@ -484,24 +485,24 @@ public class MySQLDialect extends SQLDialect {
     public boolean isLimitOffsetSupported() {
         return true;
     }
-    
+
     @Override
     public void applyLimitOffset(StringBuffer sql, int limit, int offset) {
-        if(limit >= 0 && limit < Integer.MAX_VALUE) {
-            if(offset > 0)
+        if (limit >= 0 && limit < Integer.MAX_VALUE) {
+            if (offset > 0)
                 sql.append(" LIMIT " + offset + ", " + limit);
-            else 
+            else
                 sql.append(" LIMIT " + limit);
-        } else if(offset > 0) {
+        } else if (offset > 0) {
             // MySql pretends to have limit specified along with offset
             sql.append(" LIMIT " + offset + ", " + Long.MAX_VALUE);
         }
     }
 
-    
+
     @Override
     public void dropIndex(Connection cx, SimpleFeatureType schema, String databaseSchema,
-            String indexName) throws SQLException {
+                          String indexName) throws SQLException {
         StringBuffer sql = new StringBuffer();
         String escape = getNameEscape();
         sql.append("DROP INDEX ");
@@ -522,7 +523,7 @@ public class MySQLDialect extends SQLDialect {
         try {
             st = cx.createStatement();
             st.execute(sql.toString());
-            if(!cx.getAutoCommit()) {
+            if (!cx.getAutoCommit()) {
                 cx.commit();
             }
         } finally {

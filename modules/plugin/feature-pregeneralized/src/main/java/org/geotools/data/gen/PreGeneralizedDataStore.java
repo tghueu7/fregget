@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -48,24 +48,19 @@ import org.opengis.filter.Filter;
 
 /**
  * @author Christian Mueller
- * 
+ * <p>
  * Datastore for multiple feature types with pregeneralized geometries
- * 
+ * <p>
  * The data store is read only, all modifying methods throw an {@link UnsupportedOperationException}
- * 
+ * <p>
  * This data store does business as usual with the following exception:
- * 
+ * <p>
  * If a method has a {@link Query} parameter and {@link Query#getHints()} includes
  * {@link Hints#GEOMETRY_DISTANCE} with a given distance, the datastore looks for the best fit
  * pregeneralized geometries and returns these geometries instead of the original ones.
- * 
+ * <p>
  * This process results in a lower memory usage, lower cpu usage for further processing and will
  * decrease response time for the user.
- * 
- * 
- *
- *
- *
  * @source $URL$
  */
 public class PreGeneralizedDataStore implements DataStore {
@@ -81,7 +76,6 @@ public class PreGeneralizedDataStore implements DataStore {
     /**
      * @param infos
      * @param repository
-     * 
      */
     public PreGeneralizedDataStore(GeneralizationInfos infos, Repository repository) {
         this(infos, repository, null);
@@ -93,7 +87,8 @@ public class PreGeneralizedDataStore implements DataStore {
      * @param repository
      * @param namespace
      */
-    public PreGeneralizedDataStore(GeneralizationInfos infos, Repository repository, URI namespace) {
+    public PreGeneralizedDataStore(GeneralizationInfos infos, Repository repository, URI 
+            namespace) {
         this.namespace = namespace;
         featureSources = new HashMap<String, PreGeneralizedFeatureSource>();
         for (GeneralizationInfo gi : infos.getGeneralizationInfoCollection()) {
@@ -104,7 +99,9 @@ public class PreGeneralizedDataStore implements DataStore {
     }
 
     public FeatureReader<SimpleFeatureType, SimpleFeature> getFeatureReader(Query query,
-            Transaction transaction) throws IOException {
+                                                                            Transaction 
+                                                                                    transaction) 
+            throws IOException {
         PreGeneralizedFeatureSource fs = featureSources.get(query.getTypeName());
         if (fs == null)
             throw new IOException(query.getTypeName() + " not found");
@@ -121,19 +118,25 @@ public class PreGeneralizedDataStore implements DataStore {
     }
 
     public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriter(String typeName,
-            Transaction transaction) throws IOException {
+                                                                            Transaction 
+                                                                                    transaction) 
+            throws IOException {
 
         throw new UnsupportedOperationException("getFeatureWriter");
     }
 
     public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriter(String typeName,
-            Filter filter, Transaction transaction) throws IOException {
+                                                                            Filter filter, 
+                                                                            Transaction 
+                                                                                    transaction) 
+            throws IOException {
         throw new UnsupportedOperationException("getFeatureWriter");
 
     }
 
     public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriterAppend(String typeName,
-            Transaction transaction) throws IOException {
+                                                                                  Transaction 
+                                                                                          transaction) throws IOException {
         throw new UnsupportedOperationException("getFeatureWriterAppend");
     }
 

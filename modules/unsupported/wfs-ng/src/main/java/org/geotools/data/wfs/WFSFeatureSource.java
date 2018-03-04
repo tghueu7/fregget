@@ -138,8 +138,8 @@ class WFSFeatureSource extends ContentFeatureSource {
 
     /**
      * @return the WFS advertised bounds of the feature type if
-     *         {@code Filter.INCLUDE ==  query.getFilter()}, reprojected to the Query's crs, or
-     *         {@code null} otherwise as it would be too expensive to calculate.
+     * {@code Filter.INCLUDE ==  query.getFilter()}, reprojected to the Query's crs, or
+     * {@code null} otherwise as it would be too expensive to calculate.
      * @see FeatureSource#getBounds(Query)
      * @see org.geotools.data.store.ContentFeatureSource#getBoundsInternal(org.geotools.data.Query)
      */
@@ -164,9 +164,9 @@ class WFSFeatureSource extends ContentFeatureSource {
 
     /**
      * @return the remote WFS advertised number of features for the given query only if the query
-     *         filter is fully supported AND the wfs returns that information in as an attribute of
-     *         the FeatureCollection (since the request is performed with resultType=hits),
-     *         otherwise {@code -1} as it would be too expensive to calculate.
+     * filter is fully supported AND the wfs returns that information in as an attribute of
+     * the FeatureCollection (since the request is performed with resultType=hits),
+     * otherwise {@code -1} as it would be too expensive to calculate.
      * @see FeatureSource#getCount(Query)
      * @see org.geotools.data.store.ContentFeatureSource#getCountInternal(org.geotools.data.Query)
      */
@@ -183,21 +183,23 @@ class WFSFeatureSource extends ContentFeatureSource {
         int resultCount = featureParser.getNumberOfFeatures();
         return resultCount;
     }
-    
+
     /**
      * Invert axis order in the given query filter, if needed.
-     * 
+     *
      * @param query
      */
     private void invertAxisInFilterIfNeeded(Query query) {
-        boolean invertXY = WFSConfig.invertAxisNeeded(client.getAxisOrderFilter(), query.getCoordinateSystem());
+        boolean invertXY = WFSConfig.invertAxisNeeded(client.getAxisOrderFilter(), query
+                .getCoordinateSystem());
         if (invertXY) {
             Filter filter = query.getFilter();
-    
+
             FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
-            InvertAxisFilterVisitor visitor = new InvertAxisFilterVisitor(ff, new GeometryFactory());
+            InvertAxisFilterVisitor visitor = new InvertAxisFilterVisitor(ff, new GeometryFactory
+                    ());
             filter = (Filter) filter.accept(visitor, null);
-    
+
             query.setFilter(filter);
         }
     }
@@ -214,7 +216,7 @@ class WFSFeatureSource extends ContentFeatureSource {
 
         request.setTypeName(remoteTypeName);
         request.setFullType(remoteSimpleFeatureType);
-        
+
         invertAxisInFilterIfNeeded(query);
 
         request.setFilter(query.getFilter());
@@ -229,8 +231,8 @@ class WFSFeatureSource extends ContentFeatureSource {
         request.setPropertyNames(query.getPropertyNames());
         request.setSortBy(query.getSortBy());
 
-        String srsName = getSupportedSrsName(request, query);  
-        
+        String srsName = getSupportedSrsName(request, query);
+
         request.setSrsName(srsName);
         return request;
     }
@@ -250,7 +252,8 @@ class WFSFeatureSource extends ContentFeatureSource {
         GetFeatureRequest request = createGetFeature(localQuery, ResultType.RESULTS);
 
         final SimpleFeatureType destType = getQueryType(localQuery, getSchema());
-        final SimpleFeatureType contentType = getQueryType(localQuery, (SimpleFeatureType) request.getFullType());
+        final SimpleFeatureType contentType = getQueryType(localQuery, (SimpleFeatureType) 
+                request.getFullType());
         request.setQueryType(contentType);
 
         GetFeatureResponse response = client.issueRequest(request);
@@ -261,8 +264,10 @@ class WFSFeatureSource extends ContentFeatureSource {
         FeatureReader<SimpleFeatureType, SimpleFeature> reader;
         reader = new WFSFeatureReader(features);
 
-        if (request.getUnsupportedFilter() != null && request.getUnsupportedFilter() != Filter.INCLUDE) {
-            reader = new FilteringFeatureReader<SimpleFeatureType, SimpleFeature>(reader, request.getUnsupportedFilter());
+        if (request.getUnsupportedFilter() != null && request.getUnsupportedFilter() != Filter
+                .INCLUDE) {
+            reader = new FilteringFeatureReader<SimpleFeatureType, SimpleFeature>(reader, request
+                    .getUnsupportedFilter());
         }
 
         if (!reader.hasNext()) {
@@ -274,7 +279,7 @@ class WFSFeatureSource extends ContentFeatureSource {
             final boolean cloneContents = false;
             reader = new ReTypeFeatureReader(reader, destType, cloneContents);
         }
-        
+
         reader = applyReprojectionDecorator(reader, localQuery, request);
 
         Transaction transaction = getTransaction();
@@ -284,15 +289,17 @@ class WFSFeatureSource extends ContentFeatureSource {
             WFSLocalTransactionState wfsState = (WFSLocalTransactionState) state;
             if (wfsState != null) {
                 WFSDiff diff = wfsState.getDiff();
-                reader = new DiffFeatureReader<SimpleFeatureType, SimpleFeature>(reader, diff, localQuery.getFilter());
+                reader = new DiffFeatureReader<SimpleFeatureType, SimpleFeature>(reader, diff, 
+                        localQuery.getFilter());
             }
         }
         return reader;
     }
-    
+
     protected String getSupportedSrsName(GetFeatureRequest request, Query query) {
         String epsgCode = GML2EncodingUtils.epsgCode(query.getCoordinateSystem());
-        Set<String> supported = request.getStrategy().getSupportedCRSIdentifiers(request.getTypeName());
+        Set<String> supported = request.getStrategy().getSupportedCRSIdentifiers(request
+                .getTypeName());
         for (String supportedSrs : supported) {
             if (supportedSrs.endsWith(":" + epsgCode)) {
                 return supportedSrs;
@@ -300,14 +307,18 @@ class WFSFeatureSource extends ContentFeatureSource {
         }
         return null;
     }
-    
-    protected  FeatureReader<SimpleFeatureType, SimpleFeature> applyReprojectionDecorator(FeatureReader <SimpleFeatureType, SimpleFeature> reader, Query query, GetFeatureRequest request) {
-         FeatureReader<SimpleFeatureType, SimpleFeature> tmp = reader;
+
+    protected FeatureReader<SimpleFeatureType, SimpleFeature> applyReprojectionDecorator
+            (FeatureReader<SimpleFeatureType, SimpleFeature> reader, Query query, 
+             GetFeatureRequest request) {
+        FeatureReader<SimpleFeatureType, SimpleFeature> tmp = reader;
         if (query.getCoordinateSystem() != null
-                && !query.getCoordinateSystem().equals(reader.getFeatureType().getCoordinateReferenceSystem())) {
+                && !query.getCoordinateSystem().equals(reader.getFeatureType()
+                .getCoordinateReferenceSystem())) {
             if (request.getSrsName() != null) {
                 try {
-                    reader = new ForceCoordinateSystemFeatureReader(reader, query.getCoordinateSystem());
+                    reader = new ForceCoordinateSystemFeatureReader(reader, query
+                            .getCoordinateSystem());
                 } catch (SchemaException e) {
                     LOGGER.warning(e.toString());
                     reader = tmp;
@@ -320,7 +331,7 @@ class WFSFeatureSource extends ContentFeatureSource {
                     reader = tmp;
                 }
             }
-        } 
+        }
         return reader;
     }
 
@@ -376,12 +387,13 @@ class WFSFeatureSource extends ContentFeatureSource {
      * Returns the feature type that shall result of issueing the given request, adapting the
      * original feature type for the request's type name in terms of the query CRS and requested
      * attributes.
-     * 
+     *
      * @param query
      * @return
      * @throws IOException
      */
-    SimpleFeatureType getQueryType(final Query query, SimpleFeatureType featureType) throws IOException {
+    SimpleFeatureType getQueryType(final Query query, SimpleFeatureType featureType) throws 
+            IOException {
 
         final CoordinateReferenceSystem coordinateSystemReproject = query
                 .getCoordinateSystemReproject();
@@ -410,7 +422,7 @@ class WFSFeatureSource extends ContentFeatureSource {
 
         return queryType;
     }
-    
+
     @Override
     public ResourceInfo getInfo() {
         try {

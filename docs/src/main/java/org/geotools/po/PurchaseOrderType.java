@@ -19,9 +19,9 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
  * <p>Java class for PurchaseOrderType complex type.
- * 
+ * <p>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
  * &lt;complexType name="PurchaseOrderType">
  *   &lt;complexContent>
@@ -37,15 +37,13 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PurchaseOrderType", propOrder = {
-    "shipTo",
-    "billTo",
-    "comment",
-    "items"
+        "shipTo",
+        "billTo",
+        "comment",
+        "items"
 })
 public class PurchaseOrderType {
 
@@ -62,11 +60,9 @@ public class PurchaseOrderType {
 
     /**
      * Gets the value of the shipTo property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link USAddress }
-     *     
+     *
+     * @return possible object is
+     * {@link USAddress }
      */
     public USAddress getShipTo() {
         return shipTo;
@@ -74,11 +70,9 @@ public class PurchaseOrderType {
 
     /**
      * Sets the value of the shipTo property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link USAddress }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link USAddress }
      */
     public void setShipTo(USAddress value) {
         this.shipTo = value;
@@ -86,11 +80,9 @@ public class PurchaseOrderType {
 
     /**
      * Gets the value of the billTo property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link USAddress }
-     *     
+     *
+     * @return possible object is
+     * {@link USAddress }
      */
     public USAddress getBillTo() {
         return billTo;
@@ -98,11 +90,9 @@ public class PurchaseOrderType {
 
     /**
      * Sets the value of the billTo property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link USAddress }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link USAddress }
      */
     public void setBillTo(USAddress value) {
         this.billTo = value;
@@ -110,11 +100,9 @@ public class PurchaseOrderType {
 
     /**
      * Gets the value of the comment property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getComment() {
         return comment;
@@ -122,11 +110,9 @@ public class PurchaseOrderType {
 
     /**
      * Sets the value of the comment property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setComment(String value) {
         this.comment = value;
@@ -134,11 +120,9 @@ public class PurchaseOrderType {
 
     /**
      * Gets the value of the items property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Items }
-     *     
+     *
+     * @return possible object is
+     * {@link Items }
      */
     public Items getItems() {
         return items;
@@ -146,11 +130,9 @@ public class PurchaseOrderType {
 
     /**
      * Sets the value of the items property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Items }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link Items }
      */
     public void setItems(Items value) {
         this.items = value;
@@ -158,11 +140,9 @@ public class PurchaseOrderType {
 
     /**
      * Gets the value of the orderDate property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link XMLGregorianCalendar }
-     *     
+     *
+     * @return possible object is
+     * {@link XMLGregorianCalendar }
      */
     public XMLGregorianCalendar getOrderDate() {
         return orderDate;
@@ -170,11 +150,9 @@ public class PurchaseOrderType {
 
     /**
      * Sets the value of the orderDate property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link XMLGregorianCalendar }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link XMLGregorianCalendar }
      */
     public void setOrderDate(XMLGregorianCalendar value) {
         this.orderDate = value;

@@ -19,7 +19,9 @@ package org.geotools.sld.bindings;
 import org.picocontainer.MutablePicoContainer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 import javax.xml.namespace.QName;
+
 import org.geotools.styling.Fill;
 import org.geotools.styling.Graphic;
 import org.geotools.xml.*;
@@ -27,9 +29,9 @@ import org.geotools.xml.*;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:GraphicFill.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="GraphicFill"&gt;
  *      &lt;xsd:annotation&gt;
@@ -49,9 +51,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDGraphicFillBinding extends AbstractComplexBinding {
@@ -98,7 +97,7 @@ public class SLDGraphicFillBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return node.getChildValue("Graphic");
     }
 }

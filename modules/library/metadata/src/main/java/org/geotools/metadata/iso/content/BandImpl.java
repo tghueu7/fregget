@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -20,19 +20,17 @@
 package org.geotools.metadata.iso.content;
 
 import javax.measure.unit.Unit;
+
 import org.opengis.metadata.content.Band;
 
 
 /**
  * Range of wavelengths in the electromagnetic spectrum.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class BandImpl extends RangeDimensionImpl implements Band {

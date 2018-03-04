@@ -3,6 +3,7 @@ package org.geotools.swing.action;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
+
 import org.geotools.swing.dialog.JExceptionReporter;
 
 
@@ -14,9 +15,6 @@ import org.geotools.swing.dialog.JExceptionReporter;
  * </p>
  * TODO: provide a background Runnable...
  *
- *
- *
- *
  * @source $URL$
  */
 public abstract class SafeAction extends AbstractAction {
@@ -24,6 +22,7 @@ public abstract class SafeAction extends AbstractAction {
 
     /**
      * Constructor
+     *
      * @param name name for the associated control
      */
     public SafeAction(String name) {
@@ -37,7 +36,7 @@ public abstract class SafeAction extends AbstractAction {
      * @param e the action event
      * @throws Throwable on error
      */
-    public abstract void action( ActionEvent e ) throws Throwable;
+    public abstract void action(ActionEvent e) throws Throwable;
 
     /**
      * Calls the {@linkplain #action } method
@@ -47,7 +46,7 @@ public abstract class SafeAction extends AbstractAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            action( e );
+            action(e);
         } catch (Throwable t) {
             JExceptionReporter.showDialog(t);
         }

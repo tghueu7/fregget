@@ -1,8 +1,8 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
- *     (C) 2002-2016, Open Source Geospatial Foundation (OSGeo). 
+ *
+ *     (C) 2002-2016, Open Source Geospatial Foundation (OSGeo).
  *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
@@ -47,8 +47,10 @@ import org.opengis.filter.Filter;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 import com.vividsolutions.jts.geom.Geometry;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.feature.visitor.MaxVisitor;
 import org.geotools.feature.visitor.MinVisitor;
@@ -72,9 +74,10 @@ public class SolrFeatureSource extends ContentFeatureSource {
     static final String KEY_SOLR_TYPE = "solr_type";
 
     protected SimpleDateFormat dateFormatUTC = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+
     /**
      * Creates the new SOLR feature store.
-     * 
+     *
      * @param entry the datastore entry.
      */
     public SolrFeatureSource(ContentEntry entry) {
@@ -157,10 +160,11 @@ public class SolrFeatureSource extends ContentFeatureSource {
                 }
                 HttpSolrClient server = store.getSolrServer();
                 QueryResponse rsp = server.query(q);
-                count = new Long(rsp.getResults().getNumFound()-rsp.getResults().getStart()).intValue();
+                count = new Long(rsp.getResults().getNumFound() - rsp.getResults().getStart())
+                        .intValue();
                 //Manage max manually
                 if (query.getMaxFeatures() > 0 && query.getMaxFeatures() < Integer.MAX_VALUE) {
-                    if(count > query.getMaxFeatures()){
+                    if (count > query.getMaxFeatures()) {
                         count = query.getMaxFeatures();
                     }
                 }
@@ -307,11 +311,12 @@ public class SolrFeatureSource extends ContentFeatureSource {
     }
 
     private SimpleFeatureType[] buildQueryAndReturnFeatureTypes(SimpleFeatureType featureType,
-            String[] propertyNames, Filter filter) {
+                                                                String[] propertyNames, Filter 
+                                                                        filter) {
 
         SimpleFeatureType[] types = null;
         if (propertyNames == Query.ALL_NAMES) {
-            return new SimpleFeatureType[] { featureType, featureType };
+            return new SimpleFeatureType[]{featureType, featureType};
         } else {
             SimpleFeatureType returnedSchema = SimpleFeatureTypeBuilder.retype(featureType,
                     propertyNames);
@@ -323,7 +328,8 @@ public class SolrFeatureSource extends ContentFeatureSource {
 
                 String[] extraAttributes = extractor.getAttributeNames();
                 if (extraAttributes != null && extraAttributes.length > 0) {
-                    List<String> allAttributes = new ArrayList<String>(Arrays.asList(propertyNames));
+                    List<String> allAttributes = new ArrayList<String>(Arrays.asList
+                            (propertyNames));
                     for (String extraAttribute : extraAttributes) {
                         if (!allAttributes.contains(extraAttribute))
                             allAttributes.add(extraAttribute);
@@ -333,7 +339,7 @@ public class SolrFeatureSource extends ContentFeatureSource {
                     querySchema = SimpleFeatureTypeBuilder.retype(getSchema(), allAttributeArray);
                 }
             }
-            types = new SimpleFeatureType[] { querySchema, returnedSchema };
+            types = new SimpleFeatureType[]{querySchema, returnedSchema};
         }
         return types;
     }
@@ -343,7 +349,8 @@ public class SolrFeatureSource extends ContentFeatureSource {
         if (original != null) {
             SolrFeatureSource featureSource = (SolrFeatureSource) source;
             ;
-            PostPreProcessFilterSplittingVisitor splitter = new PostPreProcessFilterSplittingVisitor(
+            PostPreProcessFilterSplittingVisitor splitter = new 
+                    PostPreProcessFilterSplittingVisitor(
                     getDataStore().getFilterCapabilities(), featureSource.getSchema(), null);
             original.accept(splitter, null);
             split[0] = splitter.getFilterPre();
@@ -392,7 +399,7 @@ public class SolrFeatureSource extends ContentFeatureSource {
 
             PropertyName propName = (PropertyName) exp;
 
-            if(!(nearestVisitor.getValueToMatch() instanceof Date)) {
+            if (!(nearestVisitor.getValueToMatch() instanceof Date)) {
                 return false;
             }
 
@@ -401,8 +408,8 @@ public class SolrFeatureSource extends ContentFeatureSource {
             // Sort by difference from getValueToMatch, should return closest value
             // at the top of the sort
             PropertyName expr = factory.property(
-                "abs(ms(" + dateFormatUTC.format(nearestVisitor.getValueToMatch())
-                + "," + propName.getPropertyName() + "))");
+                    "abs(ms(" + dateFormatUTC.format(nearestVisitor.getValueToMatch())
+                            + "," + propName.getPropertyName() + "))");
 
             sortBy = new SortByImpl(expr, SortOrder.ASCENDING);
 
@@ -412,7 +419,7 @@ public class SolrFeatureSource extends ContentFeatureSource {
         }
 
         Query newQuery = new Query(query);
-        newQuery.setSortBy(new SortBy[] {sortBy});
+        newQuery.setSortBy(new SortBy[]{sortBy});
 
         // We set up the sortBy where we only need a single value instead of the
         // entire collection.

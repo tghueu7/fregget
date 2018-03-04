@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -24,23 +24,21 @@ import org.opengis.filter.PropertyIsGreaterThan;
 import org.opengis.filter.expression.Expression;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class FilterFactoryBeforeTest extends TestCase {
-    
+
     FilterFactory ff = CommonFactoryFinder.getFilterFactory(null);
 
     public void testAfter() throws Exception {
         FilterFactory ff = CommonFactoryFinder.getFilterFactory(null);
-        
+
         Expression left = ff.literal(2);
         Expression right = ff.literal(1);
-        
-        PropertyIsGreaterThan filter = ff.greater( left, right );
-        
-        assertTrue( filter.evaluate( null ) );
-        assertTrue( filter instanceof PropertyIsGreaterThan );
+
+        PropertyIsGreaterThan filter = ff.greater(left, right);
+
+        assertTrue(filter.evaluate(null));
+        assertTrue(filter instanceof PropertyIsGreaterThan);
     }
 }

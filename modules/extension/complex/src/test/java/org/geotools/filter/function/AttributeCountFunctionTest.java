@@ -42,9 +42,8 @@ import org.xml.sax.helpers.NamespaceSupport;
 
 /**
  * Test {@link AttributeCountFunction}
- * 
- * @author Rini Angreani (CSIRO Mineral Resources)
  *
+ * @author Rini Angreani (CSIRO Mineral Resources)
  */
 public class AttributeCountFunctionTest extends FunctionTestSupport {
 

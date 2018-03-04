@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -49,13 +49,11 @@ import org.opengis.style.ContrastMethod;
 
 /**
  * Tests rendering a GridCoverage2D object directly (ie. not via a coverage reader).
- * 
+ *
  * @author mbedward
- *
- *
+ * @version $Id$
  * @source $URL$
  * @since 2.7
- * @version $Id$
  */
 public class DisplayCoverageTest {
 
@@ -74,11 +72,11 @@ public class DisplayCoverageTest {
 
     /**
      * This test was added after changes to the render module broke direct
-     * rendering of GridCoverage2D objects in GridCoverageLayers. 
-     * 
+     * rendering of GridCoverage2D objects in GridCoverageLayers.
+     * <p>
      * It does not compare the rendering to the coverage data. Rather it just
      * checks that rendering is done without error.
-     * 
+     * <p>
      * The test is skipped in a headless build.
      */
     @Test
@@ -98,7 +96,8 @@ public class DisplayCoverageTest {
         renderer.setContext(context);
 
         RenderListener listener = new RenderListener() {
-            public void featureRenderer(SimpleFeature feature) {}
+            public void featureRenderer(SimpleFeature feature) {
+            }
 
             public void errorOccurred(Exception e) {
                 e.printStackTrace();

@@ -11,14 +11,17 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://www.opengis.net/wcs:DomainSetType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
- *	 <code>
+ * 	 <code>
  *  &lt;complexType name=&quot;DomainSetType&quot;&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;Defines the spatial-temporal domain set of a coverage offering. The domainSet shall include a SpatialDomain (describing the spatial locations for which coverages can be requested), a TemporalDomain (describing the time instants or inter-vals for which coverages can be requested), or both. &lt;/documentation&gt;
+ *          &lt;documentation&gt;Defines the spatial-temporal domain set of a coverage offering. 
+ *          The domainSet shall include a SpatialDomain (describing the spatial locations for 
+ *          which coverages can be requested), a TemporalDomain (describing the time instants or 
+ *          inter-vals for which coverages can be requested), or both. &lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;choice&gt;
  *          &lt;sequence&gt;
@@ -27,16 +30,14 @@ import org.geotools.xml.Node;
  *          &lt;/sequence&gt;
  *          &lt;element ref=&quot;wcs:temporalDomain&quot;/&gt;
  *      &lt;/choice&gt;
- *  &lt;/complexType&gt; 
- * 	
+ *  &lt;/complexType&gt;
+ *
  * </code>
- *	 </pre>
- * 
+ * 	 </pre>
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class DomainSetTypeBinding extends AbstractComplexBinding {
@@ -50,7 +51,7 @@ public class DomainSetTypeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -59,7 +60,7 @@ public class DomainSetTypeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)

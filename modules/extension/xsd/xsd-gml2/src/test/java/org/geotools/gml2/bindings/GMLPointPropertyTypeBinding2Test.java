@@ -24,8 +24,6 @@ import com.vividsolutions.jts.geom.Point;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GMLPointPropertyTypeBinding2Test extends GMLTestSupport {
@@ -48,6 +46,6 @@ public class GMLPointPropertyTypeBinding2Test extends GMLTestSupport {
         Document doc = encode(GML2MockData.point(), GML.pointProperty);
 
         assertEquals(1,
-            doc.getElementsByTagNameNS(GML.NAMESPACE, GML.Point.getLocalPart()).getLength());
+                doc.getElementsByTagNameNS(GML.NAMESPACE, GML.Point.getLocalPart()).getLength());
     }
 }

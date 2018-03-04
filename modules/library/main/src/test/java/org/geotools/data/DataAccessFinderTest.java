@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -38,13 +38,10 @@ import org.opengis.feature.type.Name;
 import org.opengis.filter.Filter;
 
 /**
- * 
  * @author Gabriel Roldan (TOPP)
  * @version $Id$
- * @since 2.5.x
- *
- *
  * @source $URL$
+ * @since 2.5.x
  */
 public class DataAccessFinderTest extends TestCase {
 
@@ -76,7 +73,7 @@ public class DataAccessFinderTest extends TestCase {
     /**
      * Can both DataStores and plain DataAccess be aquired through
      * {@link DataAccessFinder}?
-     * 
+     *
      * @throws IOException
      */
     public void testGetDataAccess() throws IOException {
@@ -203,11 +200,10 @@ public class DataAccessFinderTest extends TestCase {
     }
 
     /**
-     * 
      * @author Gabriel Roldan (TOPP)
      * @version $Id$
-     * @since 2.5.x
      * @source $URL$
+     * @since 2.5.x
      */
     public static class MockDataAccessFactory implements DataAccessFactory {
         public boolean isAvailable() {
@@ -252,11 +248,11 @@ public class DataAccessFinderTest extends TestCase {
     /**
      * A mock {@link DataStoreFactorySpi} implementation to test the factory
      * lookup system.
-     * 
+     *
      * @author Gabriel Roldan (TOPP)
      * @version $Id$
-     * @since 2.5.x
      * @source $URL$
+     * @since 2.5.x
      */
     public static class MockDataStoreFactory implements DataStoreFactorySpi {
         public boolean isAvailable() {
@@ -303,11 +299,11 @@ public class DataAccessFinderTest extends TestCase {
 
     /**
      * A test {@link DataStoreFactorySpi} implementation that is unavailable
-     * 
+     *
      * @author Gabriel Roldan (TOPP)
      * @version $Id$
-     * @since 2.5.x
      * @source $URL$
+     * @since 2.5.x
      */
     public static class MockUnavailableDataStoreFactory extends MockDataStoreFactory {
 
@@ -320,7 +316,8 @@ public class DataAccessFinderTest extends TestCase {
     /**
      * Fake DataAccess returned by {@link MockDataAccessFactory}
      */
-    private static final DataAccess<FeatureType, Feature> MOCK_DATAACCESS = new DataAccess<FeatureType, Feature>() {
+    private static final DataAccess<FeatureType, Feature> MOCK_DATAACCESS = new 
+            DataAccess<FeatureType, Feature>() {
 
         public void createSchema(FeatureType featureType) throws IOException {
         }
@@ -358,7 +355,8 @@ public class DataAccessFinderTest extends TestCase {
     private static final DataStore MOCK_DATASTORE = new DataStore() {
 
         public FeatureReader<SimpleFeatureType, SimpleFeature> getFeatureReader(Query query,
-                Transaction transaction) throws IOException {
+                                                                                Transaction 
+                                                                                        transaction) throws IOException {
             return null;
         }
 
@@ -368,12 +366,15 @@ public class DataAccessFinderTest extends TestCase {
         }
 
         public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriter(String typeName,
-                Filter filter, Transaction transaction) throws IOException {
+                                                                                Filter filter, 
+                                                                                Transaction 
+                                                                                        transaction) throws IOException {
             return null;
         }
 
         public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriter(String typeName,
-                Transaction transaction) throws IOException {
+                                                                                Transaction 
+                                                                                        transaction) throws IOException {
             return null;
         }
 
@@ -394,7 +395,8 @@ public class DataAccessFinderTest extends TestCase {
             return null;
         }
 
-        public void updateSchema(String typeName, SimpleFeatureType featureType) throws IOException {
+        public void updateSchema(String typeName, SimpleFeatureType featureType) throws 
+                IOException {
         }
 
         public void removeSchema(String typeName) throws IOException {

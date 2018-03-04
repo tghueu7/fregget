@@ -30,12 +30,10 @@ import org.geotools.util.logging.Logging;
  * which remove their entry from the collection when {@link Reference#clear}
  * is invoked.
  *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.0
  */
 public final class WeakCollectionCleaner extends Thread {
     /**
@@ -48,7 +46,7 @@ public final class WeakCollectionCleaner extends Thread {
      * Those elements must be removed from {@link #table}.
      */
     ReferenceQueue<Object> referenceQueue = new ReferenceQueue<Object>();
-    
+
     /**
      * Constructs and starts a new thread as a daemon. This thread will be sleeping
      * most of the time.  It will run only some few nanoseconds each time a new
@@ -60,7 +58,7 @@ public final class WeakCollectionCleaner extends Thread {
         setDaemon(true);
         start();
     }
-    
+
     public synchronized ReferenceQueue<Object> getReferenceQueue() {
         return referenceQueue;
     }
@@ -71,7 +69,7 @@ public final class WeakCollectionCleaner extends Thread {
     @Override
     public void run() {
         ReferenceQueue<Object> rq;
-        while ((rq = getReferenceQueue ()) != null) {
+        while ((rq = getReferenceQueue()) != null) {
             try {
                 // Block until a reference is enqueded.
                 final Reference ref = rq.remove();
@@ -103,7 +101,7 @@ public final class WeakCollectionCleaner extends Thread {
         }
         Logging.getLogger(WeakCollectionCleaner.class).info("Weak collection cleaner stopped");
     }
-    
+
     /**
      * Stops the cleaner thread. Calling this method is recommended in all long running applications
      * with custom class loaders (e.g., web applications).

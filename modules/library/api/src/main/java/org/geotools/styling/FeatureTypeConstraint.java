@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -22,7 +22,7 @@ import org.opengis.filter.Filter;
 /**
  * A FeatureTypeConstraint identifies a specific feature type and supplies
  * fitlering.
- *
+ * <p>
  * <p>
  * The details of this object are taken from the <a
  * href="https://portal.opengeospatial.org/files/?artifact_id=1188"> OGC
@@ -45,12 +45,10 @@ import org.opengis.filter.Filter;
  * &lt;/xsd:element&gt;
  * </code></pre>
  * </p>
- *
+ * <p>
  * <p></p>
  *
  * @author James Macgill
- *
- *
  * @source $URL$
  */
 public interface FeatureTypeConstraint {

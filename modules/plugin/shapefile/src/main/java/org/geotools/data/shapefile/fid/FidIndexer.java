@@ -28,11 +28,8 @@ import org.geotools.data.shapefile.shp.IndexFile;
 
 /**
  * Creates a .fix file (fid index).
- * 
+ *
  * @author Jesse
- *
- *
- *
  * @source $URL$
  */
 public class FidIndexer {
@@ -52,11 +49,11 @@ public class FidIndexer {
     public static void generate(ShpFiles shpFiles) throws IOException {
         LOGGER.fine("Generating fids for " + shpFiles.get(SHP));
 
-        
+
         IndexFile indexFile = null;
         StorageFile file = shpFiles.getStorageFile(FIX);
         IndexedFidWriter writer = null;
-        
+
         try {
             indexFile = new IndexFile(shpFiles, false);
 

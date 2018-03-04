@@ -20,8 +20,6 @@ import org.geotools.styling.Extent;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SLDExtentBindingTest extends SLDTestSupport {

@@ -15,6 +15,5 @@ public class H2GeometryTest extends JDBCGeometryOnlineTest {
         // linear ring type is not a supported type in postgis
     }
 
-    
-    
+
 }

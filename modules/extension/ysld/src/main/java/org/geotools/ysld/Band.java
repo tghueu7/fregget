@@ -29,7 +29,6 @@ import org.opengis.style.SelectedChannelType;
  */
 public enum Band {
     GRAY("gray") {
-
         @Override
         public org.opengis.style.SelectedChannelType getFrom(
                 org.opengis.style.ChannelSelection sel) {
@@ -38,7 +37,7 @@ public enum Band {
 
         @Override
         public void setTo(org.geotools.styling.ChannelSelection sel,
-                org.geotools.styling.SelectedChannelType chan) {
+                          org.geotools.styling.SelectedChannelType chan) {
             sel.setGrayChannel(chan);
         }
     },
@@ -50,7 +49,7 @@ public enum Band {
 
         @Override
         public void setTo(org.geotools.styling.ChannelSelection sel,
-                org.geotools.styling.SelectedChannelType chan) {
+                          org.geotools.styling.SelectedChannelType chan) {
             org.geotools.styling.SelectedChannelType channels[] = sel.getRGBChannels();
             channels[0] = chan;
             sel.setRGBChannels(channels);
@@ -64,7 +63,7 @@ public enum Band {
 
         @Override
         public void setTo(org.geotools.styling.ChannelSelection sel,
-                org.geotools.styling.SelectedChannelType chan) {
+                          org.geotools.styling.SelectedChannelType chan) {
             org.geotools.styling.SelectedChannelType channels[] = sel.getRGBChannels();
             channels[1] = chan;
             sel.setRGBChannels(channels);
@@ -78,7 +77,7 @@ public enum Band {
 
         @Override
         public void setTo(org.geotools.styling.ChannelSelection sel,
-                org.geotools.styling.SelectedChannelType chan) {
+                          org.geotools.styling.SelectedChannelType chan) {
             org.geotools.styling.SelectedChannelType channels[] = sel.getRGBChannels();
             channels[2] = chan;
             sel.setRGBChannels(channels);
@@ -93,6 +92,7 @@ public enum Band {
 
     /**
      * Get the {@link SelectedChannelType} in sel that is represented by this band.
+     *
      * @param sel
      */
     abstract public org.opengis.style.SelectedChannelType getFrom(
@@ -100,11 +100,12 @@ public enum Band {
 
     /**
      * Set the {@link SelectedChannelType} in sel that is represented by this band to chan.
+     *
      * @param sel
      * @param chan
      */
     abstract public void setTo(org.geotools.styling.ChannelSelection sel,
-            org.geotools.styling.SelectedChannelType chan);
+                               org.geotools.styling.SelectedChannelType chan);
 
     public final String key;
 

@@ -18,8 +18,6 @@ package org.geotools.data.spatialite;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SpatiaLiteGeometrylessTestSetup extends org.geotools.jdbc.JDBCGeometrylessTestSetup {
@@ -30,19 +28,20 @@ public class SpatiaLiteGeometrylessTestSetup extends org.geotools.jdbc.JDBCGeome
 
     @Override
     protected void createPersonTable() throws Exception {
-        run( "CREATE TABLE person (fid INTEGER PRIMARY KEY AUTOINCREMENT, id INTEGER, name VARCHAR, age INTEGER)");
-        run( "INSERT INTO person (id,name,age) VALUES (0, 'Paul', 32)");
-        run( "INSERT INTO person (id,name,age) VALUES (1, 'Anne', 40)");
+        run("CREATE TABLE person (fid INTEGER PRIMARY KEY AUTOINCREMENT, id INTEGER, name " +
+                "VARCHAR, age INTEGER)");
+        run("INSERT INTO person (id,name,age) VALUES (0, 'Paul', 32)");
+        run("INSERT INTO person (id,name,age) VALUES (1, 'Anne', 40)");
     }
 
     @Override
     protected void dropPersonTable() throws Exception {
-        run( "DROP TABLE person");
+        run("DROP TABLE person");
     }
 
     @Override
     protected void dropZipCodeTable() throws Exception {
-        run( "DROP TABLE zipcode");
+        run("DROP TABLE zipcode");
     }
 
 }

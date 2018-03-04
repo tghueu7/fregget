@@ -25,22 +25,21 @@ import org.opengis.filter.expression.Literal;
 
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 /**
  * Unit tests for the Interpolate function.
  *
  * @author Michael Bedward
- *
- *
  * @source $URL$
  */
 public class InterpolateFunctionTest extends SEFunctionTestBase {
 
     private static final double TOL = 1.0e-6d;
-    private final Double[] data   = { 10.0, 20.0, 40.0, 80.0 };
-    private final Double[] values = {  1.0,  2.0,  3.0,  4.0 };
-    private final Color[] colors = { Color.RED, Color.ORANGE, Color.GREEN, Color.BLUE };
+    private final Double[] data = {10.0, 20.0, 40.0, 80.0};
+    private final Double[] values = {1.0, 2.0, 3.0, 4.0};
+    private final Color[] colors = {Color.RED, Color.ORANGE, Color.GREEN, Color.BLUE};
 
     @Before
     public void setup() {
@@ -74,9 +73,9 @@ public class InterpolateFunctionTest extends SEFunctionTestBase {
         Double result;
         double expected;
         for (int i = 1; i < data.length; i++) {
-            double testValue = (data[i] + data[i-1]) / 2.0;
+            double testValue = (data[i] + data[i - 1]) / 2.0;
             result = fn.evaluate(feature(Double.valueOf(testValue)), Double.class);
-            expected = (values[i] + values[i-1]) / 2.0;
+            expected = (values[i] + values[i - 1]) / 2.0;
             assertEquals(expected, result, TOL);
         }
 
@@ -108,12 +107,12 @@ public class InterpolateFunctionTest extends SEFunctionTestBase {
 
         // at mid-points
         for (int i = 1; i < data.length; i++) {
-            double testValue = (data[i] + data[i-1]) / 2.0;
+            double testValue = (data[i] + data[i - 1]) / 2.0;
             result = fn.evaluate(feature(testValue), Color.class);
             Color expected = new Color(
-                    (int) Math.round((colors[i].getRed() + colors[i-1].getRed()) / 2.0),
-                    (int) Math.round((colors[i].getGreen() + colors[i-1].getGreen()) / 2.0),
-                    (int) Math.round((colors[i].getBlue() + colors[i-1].getBlue()) / 2.0) );
+                    (int) Math.round((colors[i].getRed() + colors[i - 1].getRed()) / 2.0),
+                    (int) Math.round((colors[i].getGreen() + colors[i - 1].getGreen()) / 2.0),
+                    (int) Math.round((colors[i].getBlue() + colors[i - 1].getBlue()) / 2.0));
             assertEquals(expected, result);
         }
 
@@ -146,10 +145,11 @@ public class InterpolateFunctionTest extends SEFunctionTestBase {
         Double result;
         double expected;
         for (int i = 1; i < data.length; i++) {
-            double testValue = data[i-1] + t * (data[i] - data[i-1]);
+            double testValue = data[i - 1] + t * (data[i] - data[i - 1]);
             result = fn.evaluate(feature(Double.valueOf(testValue)), Double.class);
 
-            expected = values[i-1] + (values[i] - values[i-1]) * (1.0 - Math.cos(t * Math.PI)) * 0.5;
+            expected = values[i - 1] + (values[i] - values[i - 1]) * (1.0 - Math.cos(t * Math.PI)
+            ) * 0.5;
             assertEquals(expected, result, TOL);
         }
 
@@ -183,12 +183,12 @@ public class InterpolateFunctionTest extends SEFunctionTestBase {
         Double result;
         double expected;
         for (int i = 2; i < data.length - 2; i++) {
-            double testValue = data[i-1] + t * (data[i] - data[i-1]);
+            double testValue = data[i - 1] + t * (data[i] - data[i - 1]);
             result = fn.evaluate(feature(Double.valueOf(testValue)), Double.class);
 
             expected = cubic(testValue,
-                    new double[]{data[i-2], data[i-1], data[i], data[i+1]},
-                    new double[]{values[i-2], values[i-1], values[i], values[i+1]});
+                    new double[]{data[i - 2], data[i - 1], data[i], data[i + 1]},
+                    new double[]{values[i - 2], values[i - 1], values[i], values[i + 1]});
             assertEquals(expected, result, TOL);
         }
 
@@ -214,12 +214,12 @@ public class InterpolateFunctionTest extends SEFunctionTestBase {
 
         // at mid-points
         for (int i = 1; i < data.length; i++) {
-            double rasterValue = (data[i] + data[i-1]) / 2.0;
+            double rasterValue = (data[i] + data[i - 1]) / 2.0;
             result = fn.evaluate(rasterValue, Color.class);
             Color expected = new Color(
-                    (int) Math.round((colors[i].getRed() + colors[i-1].getRed()) / 2.0),
-                    (int) Math.round((colors[i].getGreen() + colors[i-1].getGreen()) / 2.0),
-                    (int) Math.round((colors[i].getBlue() + colors[i-1].getBlue()) / 2.0) );
+                    (int) Math.round((colors[i].getRed() + colors[i - 1].getRed()) / 2.0),
+                    (int) Math.round((colors[i].getGreen() + colors[i - 1].getGreen()) / 2.0),
+                    (int) Math.round((colors[i].getBlue() + colors[i - 1].getBlue()) / 2.0));
             assertEquals(expected, result);
         }
 
@@ -248,8 +248,8 @@ public class InterpolateFunctionTest extends SEFunctionTestBase {
         // curve going out of range: the unclamped curve will dip
         // below 0 betwee points 1 and 2 and go above 255 between
         // points 3 and 4
-        double[] x = {   0, 1, 2,   3,   4,   5 };
-        int[] reds = { 128, 0, 0, 255, 255, 128 };
+        double[] x = {0, 1, 2, 3, 4, 5};
+        int[] reds = {128, 0, 0, 255, 255, 128};
 
         for (int i = 0; i < x.length; i++) {
             parameters.add(ff2.literal(x[i]));
@@ -284,9 +284,9 @@ public class InterpolateFunctionTest extends SEFunctionTestBase {
         Double result;
         double expected;
         for (int i = 1; i < data.length; i++) {
-            double testValue = (data[i] + data[i-1]) / 2.0;
+            double testValue = (data[i] + data[i - 1]) / 2.0;
             result = fn.evaluate(feature(Double.valueOf(testValue)), Double.class);
-            expected = (values[i] + values[i-1]) / 2.0;
+            expected = (values[i] + values[i - 1]) / 2.0;
             assertEquals(expected, result, TOL);
         }
     }
@@ -304,9 +304,9 @@ public class InterpolateFunctionTest extends SEFunctionTestBase {
         Double result;
         double expected;
         for (int i = 1; i < data.length; i++) {
-            double testValue = (data[i] + data[i-1]) / 2.0;
+            double testValue = (data[i] + data[i - 1]) / 2.0;
             result = fn.evaluate(feature(Double.valueOf(testValue)), Double.class);
-            expected = (values[i] + values[i-1]) / 2.0;
+            expected = (values[i] + values[i - 1]) / 2.0;
             assertEquals(expected, result, TOL);
         }
     }
@@ -371,16 +371,16 @@ public class InterpolateFunctionTest extends SEFunctionTestBase {
         double span23 = xi[3] - xi[2];
 
         double t = (x - xi[1]) / span12;
-        double t2 = t*t;
+        double t2 = t * t;
         double t3 = t2 * t;
 
         double m1 = 0.5 * ((yi[2] - yi[1]) / span12 + (yi[1] - yi[0]) / span01);
         double m2 = 0.5 * ((yi[3] - yi[2]) / span23 + (yi[2] - yi[1]) / span12);
 
-        double y = (2*t3 - 3*t2 + 1) * yi[1] +
-                   (t3 - 2*t2 + t) * span12 * m1 +
-                   (-2*t3 + 3*t2) * yi[2] +
-                   (t3 - t2) * span12 * m2;
+        double y = (2 * t3 - 3 * t2 + 1) * yi[1] +
+                (t3 - 2 * t2 + t) * span12 * m1 +
+                (-2 * t3 + 3 * t2) * yi[2] +
+                (t3 - t2) * span12 * m2;
 
         return y;
     }

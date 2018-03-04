@@ -26,7 +26,7 @@ import org.opengis.coverage.grid.GridEnvelope;
  * An Iterator like interface to read ArcSDE rasters for a given ArcSDE raster dataset (whether it
  * is a single raster or a raster catalog).
  * <p>
- * Sample usage: <code> 
+ * Sample usage: <code>
  * <pre>
  * RasterReaderFactory readerFactory = ....
  * RasterDatasetInfo raserInfo = ...
@@ -52,12 +52,10 @@ import org.opengis.coverage.grid.GridEnvelope;
  * dataset and the order they are fetched from the ArcSDE server is non deterministic, and once you
  * opened a stream to a raster you can't open another one and then read the former.
  * </p>
- * 
+ *
  * @author Gabriel Roldan
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  * @since 2.5.7
  */
 public interface TiledRasterReader {
@@ -71,7 +69,7 @@ public interface TiledRasterReader {
     /**
      * Advances to the next available raster in the raster dataset this reader works upon and
      * returns it's {@link SeRasterAttr#getRasterId() raster id}.
-     * 
+     *
      * @return the ID for the raster ready to be read from the queried raster column in the raster
      *         dataset, or {@code null} if there are no more rasters to be read.
      * @throws IOException
@@ -82,17 +80,17 @@ public interface TiledRasterReader {
     /**
      * Reads the image subset determined by the given pyramid level and tile range for the currently
      * available raster attribute in the requested raster column for the given raster dataset.
-     * 
-     * @param pyramidLevel
-     *            the pyramid level to read
-     * @param matchingTiles
-     *            the range of tiles to read at the given pyramid level. The boundaries of the tile
-     *            range are inclusive and starts at {@code 0,0} for the upper left most tile.
+     *
+     * @param pyramidLevel  the pyramid level to read
+     * @param matchingTiles the range of tiles to read at the given pyramid level. The boundaries
+     *                     of the tile
+     *                      range are inclusive and starts at {@code 0,0} for the upper left most
+     *                      tile.
      * @return the rendered image determined by the requested pyramid level and tile range
-     * @throws IOException
-     *             for any exception occurred while reading the image
+     * @throws IOException for any exception occurred while reading the image
      */
-    RenderedImage read(final long rasterId, final int pyramidLevel, final GridEnvelope matchingTiles)
+    RenderedImage read(final long rasterId, final int pyramidLevel, final GridEnvelope 
+            matchingTiles)
             throws IOException;
 
 }

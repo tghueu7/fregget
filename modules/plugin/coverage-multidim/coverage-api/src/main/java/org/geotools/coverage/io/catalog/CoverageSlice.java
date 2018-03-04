@@ -40,10 +40,12 @@ public class CoverageSlice {
         public final static String GEOMETRY = "the_geom";
 
         public static final String BASE_SCHEMA = GEOMETRY + ":Polygon," + INDEX + ":Integer";
-        
-        public static final String BASE_SCHEMA_LOCATION = GEOMETRY + ":Polygon," + INDEX + ":Integer," + LOCATION + ":String";
 
-        public static final String DEFAULT_SCHEMA = BASE_SCHEMA+"," + TIME + ":java.util.Date," + ELEVATION + ":Double";
+        public static final String BASE_SCHEMA_LOCATION = GEOMETRY + ":Polygon," + INDEX + 
+                ":Integer," + LOCATION + ":String";
+
+        public static final String DEFAULT_SCHEMA = BASE_SCHEMA + "," + TIME + ":java.util.Date,"
+                + ELEVATION + ":Double";
     }
 
     ReferencedEnvelope granuleBBOX;

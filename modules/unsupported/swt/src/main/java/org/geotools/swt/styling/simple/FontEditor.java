@@ -29,13 +29,10 @@ import org.geotools.swt.utils.Messages;
  * <p>
  * A "button" with an icon/text that pops up the font window.
  * </p>
- * 
+ *
  * @author aalam
- * @since 0.6.0
- *
- *
- *
  * @source $URL$
+ * @since 0.6.0
  */
 public class FontEditor {
 
@@ -48,11 +45,11 @@ public class FontEditor {
     private SelectionListener parentListener;
     final FontDialog labelFontDialog;
 
-    public FontEditor( Composite parent ) {
+    public FontEditor(Composite parent) {
         this(parent, null);
     }
 
-    public FontEditor( Composite parent, SelectionListener parentListener ) {
+    public FontEditor(Composite parent, SelectionListener parentListener) {
         this.parentListener = parentListener;
         fButton = new Button(parent, SWT.PUSH);
         // fExtent= computeImageSize(parent);
@@ -72,8 +69,8 @@ public class FontEditor {
         labelFontDialog.setText("Choose a Font"); //$NON-NLS-1$
 
         fButton.setImage(fImage);
-        fButton.addSelectionListener(new SelectionAdapter(){
-            public void widgetSelected( SelectionEvent event ) {
+        fButton.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent event) {
                 labelFontDialog.setRGB(fColorValue);
                 labelFontDialog.setFontList(fFontList);
 
@@ -100,8 +97,8 @@ public class FontEditor {
             }
         });
 
-        fButton.addDisposeListener(new DisposeListener(){
-            public void widgetDisposed( DisposeEvent event ) {
+        fButton.addDisposeListener(new DisposeListener() {
+            public void widgetDisposed(DisposeEvent event) {
                 if (fImage != null) {
                     fImage.dispose();
                     fImage = null;
@@ -120,7 +117,7 @@ public class FontEditor {
         });
     }
 
-    public void setListener( SelectionListener parentListener ) {
+    public void setListener(SelectionListener parentListener) {
         this.parentListener = parentListener;
     }
 
@@ -128,7 +125,7 @@ public class FontEditor {
         this.parentListener = null;
     }
 
-    private void notifyParent( SelectionEvent event ) {
+    private void notifyParent(SelectionEvent event) {
         if (parentListener != null)
             parentListener.widgetSelected(event);
     }
@@ -146,7 +143,7 @@ public class FontEditor {
 
     /**
      * Returns the currently selected font object
-     * 
+     *
      * @return Font
      */
     public Font getFont() {
@@ -157,7 +154,7 @@ public class FontEditor {
         return fFontList;
     }
 
-    public void setFontList( FontData[] list ) {
+    public void setFontList(FontData[] list) {
         if (list != null) {
             fFontList = list;
             fFont[0] = new Font(fButton.getDisplay(), list);
@@ -169,14 +166,14 @@ public class FontEditor {
         return fColorValue;
     }
 
-    public void setColorValue( RGB rgb ) {
+    public void setColorValue(RGB rgb) {
         fColorValue = rgb;
         fColor[0] = new Color(fButton.getDisplay(), rgb);
         labelFontDialog.setRGB(rgb);
         updateColorImage();
     }
 
-    public void setColorValue( java.awt.Color colour ) {
+    public void setColorValue(java.awt.Color colour) {
         if (colour != null) {
             setColorValue(new RGB(colour.getRed(), colour.getGreen(), colour.getBlue()));
         }
@@ -196,7 +193,7 @@ public class FontEditor {
          */
     }
 
-    public void setEnabled( boolean enabled ) {
+    public void setEnabled(boolean enabled) {
         fButton.setEnabled(enabled);
     }
 }

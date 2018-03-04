@@ -32,7 +32,7 @@ import org.opengis.geometry.BoundingBox;
 
 /**
  * This is a workaround for shapefiles having a limit on attribute names at 10 chars length.
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 class ShapefileCompatibleFeature implements SimpleFeature {

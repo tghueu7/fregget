@@ -30,8 +30,6 @@ import com.vividsolutions.jts.geom.impl.CoordinateArraySequenceFactory;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GMLCoordTypeBindingTest extends AbstractGMLBindingTest {
@@ -55,10 +53,11 @@ public class GMLCoordTypeBindingTest extends AbstractGMLBindingTest {
     }
 
     public void testParse1D() throws Exception {
-        Node node = createNode(coordinate, new ElementInstance[] { x },
-                new Object[] { new BigDecimal(12.34) }, null, null);
+        Node node = createNode(coordinate, new ElementInstance[]{x},
+                new Object[]{new BigDecimal(12.34)}, null, null);
 
-        GMLCoordTypeBinding strategy = (GMLCoordTypeBinding) container.getComponentInstanceOfType(GMLCoordTypeBinding.class);
+        GMLCoordTypeBinding strategy = (GMLCoordTypeBinding) container.getComponentInstanceOfType
+                (GMLCoordTypeBinding.class);
 
         Coordinate c = (Coordinate) strategy.parse(coordinate, node, null);
         assertNotNull(c);
@@ -66,10 +65,11 @@ public class GMLCoordTypeBindingTest extends AbstractGMLBindingTest {
     }
 
     public void testParse2D() throws Exception {
-        Node node = createNode(coordinate, new ElementInstance[] { x, y },
-                new Object[] { new BigDecimal(12.34), new BigDecimal(56.78) }, null, null);
+        Node node = createNode(coordinate, new ElementInstance[]{x, y},
+                new Object[]{new BigDecimal(12.34), new BigDecimal(56.78)}, null, null);
 
-        GMLCoordTypeBinding strategy = (GMLCoordTypeBinding) container.getComponentInstanceOfType(GMLCoordTypeBinding.class);
+        GMLCoordTypeBinding strategy = (GMLCoordTypeBinding) container.getComponentInstanceOfType
+                (GMLCoordTypeBinding.class);
 
         Coordinate c = (Coordinate) strategy.parse(coordinate, node, null);
         assertNotNull(c);
@@ -78,10 +78,11 @@ public class GMLCoordTypeBindingTest extends AbstractGMLBindingTest {
     }
 
     public void testParse3D() throws Exception {
-        Node node = createNode(coordinate, new ElementInstance[] { x, y, z },
-                new Object[] { new BigDecimal(12.34), new BigDecimal(56.78), new BigDecimal(910.11) },
+        Node node = createNode(coordinate, new ElementInstance[]{x, y, z},
+                new Object[]{new BigDecimal(12.34), new BigDecimal(56.78), new BigDecimal(910.11)},
                 null, null);
-        GMLCoordTypeBinding strategy = (GMLCoordTypeBinding) container.getComponentInstanceOfType(GMLCoordTypeBinding.class);
+        GMLCoordTypeBinding strategy = (GMLCoordTypeBinding) container.getComponentInstanceOfType
+                (GMLCoordTypeBinding.class);
 
         Coordinate c = (Coordinate) strategy.parse(coordinate, node, null);
         assertNotNull(c);

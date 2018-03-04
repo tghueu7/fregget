@@ -20,16 +20,11 @@ package org.geotools.filter;
 import org.opengis.filter.expression.PropertyName;
 
 /**
- * 
  * @author Niels Charlier (Curtin University of Technology)
- *
- *
- *
- *
  * @source $URL$
  */
 public class FilterFactoryImplReportInvalidProperty extends FilterFactoryImpl {
-    
+
     // @Override
     public PropertyName property(String name) {
         AttributeExpressionImpl att = new AttributeExpressionImpl(name);

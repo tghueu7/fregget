@@ -32,14 +32,15 @@ import org.w3c.dom.Element;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:MeasureType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="MeasureType"&gt;
  *      &lt;annotation&gt;
  *          &lt;documentation&gt;Number with a scale.
- *        The value of uom (Units Of Measure) attribute is a reference to a Reference System for the amount, either a ratio or position scale. &lt;/documentation&gt;
+ *        The value of uom (Units Of Measure) attribute is a reference to a Reference System for 
+ *        the amount, either a ratio or position scale. &lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;simpleContent&gt;
  *          &lt;extension base="double"&gt;
@@ -53,9 +54,6 @@ import org.w3c.dom.Element;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class MeasureTypeBinding extends AbstractComplexBinding {
@@ -83,20 +81,20 @@ public class MeasureTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         Double d = Double.valueOf(node.getComponent().getText());
         URI uom = (URI) node.getAttributeValue(URI.class);
 
         if (uom != null) {
             return new Measure(d.doubleValue(), new BaseUnit(uom.toString()) {
-                });
+            });
         }
 
         return new Measure(d.doubleValue(), null);
     }
 
     public Element encode(Object object, Document document, Element value)
-        throws Exception {
+            throws Exception {
         Measure measure = (Measure) object;
         value.appendChild(document.createTextNode("" + measure.doubleValue()));
 
@@ -104,7 +102,7 @@ public class MeasureTypeBinding extends AbstractComplexBinding {
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         if ("uom".equals(name.getLocalPart())) {
             Measure measure = (Measure) object;
 

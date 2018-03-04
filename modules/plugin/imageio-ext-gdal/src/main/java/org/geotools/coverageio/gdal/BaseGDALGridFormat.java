@@ -41,12 +41,9 @@ import org.opengis.parameter.GeneralParameterValue;
 /**
  * A Base abstract class implementing {@link Format}, to be extended by Formats
  * leveraging on GDAL.
- * 
+ *
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini, GeoSolutions
- * 
- *
- *
  * @source $URL$
  */
 public abstract class BaseGDALGridFormat extends AbstractGridFormat implements
@@ -57,6 +54,7 @@ public abstract class BaseGDALGridFormat extends AbstractGridFormat implements
             this.description = description;
             this.name = name;
         }
+
         String description;
         String name;
     }
@@ -64,15 +62,16 @@ public abstract class BaseGDALGridFormat extends AbstractGridFormat implements
     private final static Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger("org.geotools.coverageio.gdal");
 
-    /** The inner {@code ImageReaderSpi} */
+    /**
+     * The inner {@code ImageReaderSpi}
+     */
     private final ImageReaderSpi spi;
 
     /**
      * Constructor for the {@code BaseGDALGridFormat}. It is invoked by the
      * underlying implementations.
-     * 
-     * @param spi
-     *                the format specific {@code ImageReaderSpi} instance
+     *
+     * @param spi the format specific {@code ImageReaderSpi} instance
      */
     protected BaseGDALGridFormat(ImageReaderSpi spi) {
         this.spi = spi;
@@ -93,12 +92,17 @@ public abstract class BaseGDALGridFormat extends AbstractGridFormat implements
      * operation. This will be achieved with the use of the ImageReadMT
      * operation of the ImageIO-Ext.
      */
-    public static final DefaultParameterDescriptor<Boolean> USE_MULTITHREADING = new DefaultParameterDescriptor<Boolean>(
-            USE_MT, Boolean.class, new Boolean[] { Boolean.TRUE, Boolean.FALSE }, Boolean.FALSE);
+    public static final DefaultParameterDescriptor<Boolean> USE_MULTITHREADING = new 
+            DefaultParameterDescriptor<Boolean>(
+            USE_MT, Boolean.class, new Boolean[]{Boolean.TRUE, Boolean.FALSE}, Boolean.FALSE);
 
-    /** Base Parameter Descriptor */
-    protected static final GeneralParameterDescriptor[] PARAM_DESCRIPTOR = new GeneralParameterDescriptor[] {
-            READ_GRIDGEOMETRY2D, USE_JAI_IMAGEREAD, USE_MULTITHREADING, SUGGESTED_TILE_SIZE, FOOTPRINT_BEHAVIOR };
+    /**
+     * Base Parameter Descriptor
+     */
+    protected static final GeneralParameterDescriptor[] PARAM_DESCRIPTOR = new 
+            GeneralParameterDescriptor[]{
+            READ_GRIDGEOMETRY2D, USE_JAI_IMAGEREAD, USE_MULTITHREADING, SUGGESTED_TILE_SIZE, 
+            FOOTPRINT_BEHAVIOR};
 
     /**
      * Each plugin needs to implement this method defining format specific
@@ -108,8 +112,8 @@ public abstract class BaseGDALGridFormat extends AbstractGridFormat implements
 
     /**
      * @see org.geotools.data.coverage.grid.AbstractGridFormat#createWriter(java.lang.Object
-     *      destination)
-     * 
+     * destination)
+     * <p>
      * Actually, the plugin does not support write capabilities. The method
      * throws an {@code UnsupportedOperationException}.
      */
@@ -121,7 +125,7 @@ public abstract class BaseGDALGridFormat extends AbstractGridFormat implements
 
     /**
      * @see org.geotools.data.coverage.grid.AbstractGridFormat#getDefaultImageIOWriteParameters
-     * 
+     * <p>
      * Actually, the plugin does not support write capabilities. The method
      * throws an {@code UnsupportedOperationException}.
      */
@@ -132,20 +136,21 @@ public abstract class BaseGDALGridFormat extends AbstractGridFormat implements
 
     /**
      * @see org.geotools.data.coverage.grid.AbstractGridFormat#createWriter(java.lang.Object
-     *      destination,Hints hints)
-     * 
+     * destination, Hints hints)
+     * <p>
      * Actually, the plugin does not support write capabilities. The method
      * throws an {@code UnsupportedOperationException}.
      */
     public GridCoverageWriter getWriter(Object destination, Hints hints) {
-        throw new UnsupportedOperationException("This plugin does not support writing at this time.");
+        throw new UnsupportedOperationException("This plugin does not support writing at this " +
+                "time.");
     }
 
     /**
      * @see org.geotools.data.coverage.grid.AbstractGridFormat#accepts(java.lang.Object input)
      */
     @Override
-    public boolean accepts(Object input,Hints hints) {
+    public boolean accepts(Object input, Hints hints) {
         try {
             return spi.canDecodeInput(input);
         } catch (IOException e) {
@@ -155,19 +160,20 @@ public abstract class BaseGDALGridFormat extends AbstractGridFormat implements
             return false;
         }
     }
-    
+
     /**
      * Return a ParameterGroup with default General Parameter Descriptors.
+     *
      * @param mInfo Set of properties info
      * @return a {@link ParameterGroup} with Default {@link GeneralParameterDescriptors}.
      */
-    protected static ParameterGroup getDefaultParameterGroup(Map<String,String> mInfo){
+    protected static ParameterGroup getDefaultParameterGroup(Map<String, String> mInfo) {
         return new ParameterGroup(new DefaultParameterDescriptorGroup(mInfo, PARAM_DESCRIPTOR));
     }
 
     /**
      * @see org.geotools.data.coverage.grid.AbstractGridFormat#getReader(Object
-     *      source)
+     * source)
      */
     @Override
     public AbstractGridCoverage2DReader getReader(Object source) {
@@ -179,7 +185,7 @@ public abstract class BaseGDALGridFormat extends AbstractGridFormat implements
         info.put("name", infoWrapper.name);
         info.put("description", infoWrapper.description);
         info.put("vendor", "Geotools");
-        info.put("docURL", ""); 
+        info.put("docURL", "");
         info.put("version", "1.0");
         mInfo = Collections.unmodifiableMap(info);
 

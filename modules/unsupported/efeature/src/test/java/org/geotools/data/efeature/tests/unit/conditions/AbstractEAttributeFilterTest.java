@@ -33,27 +33,25 @@ import org.opengis.filter.Filter;
 
 /**
  * @author kengu - 14. juni 2011
- *
- *
  * @source $URL$
  */
 public abstract class AbstractEAttributeFilterTest<E extends EObject> extends AbstractEFeatureTest {
 
     /**
      * Flag telling {@link Values#getValue(int)} to return all values
-     */    
-    public static final int ALL = Values.ALL;    
-    
-    
+     */
+    public static final int ALL = Values.ALL;
+
+
     // ----------------------------------------------------- 
     //  Test members
     // -----------------------------------------------------
-    
+
     /**
      * Cached {@link Filter} instance
      */
     private Condition eCondition;
-    
+
     /**
      * Cached {@link EObject} fixture instance
      */
@@ -62,7 +60,7 @@ public abstract class AbstractEAttributeFilterTest<E extends EObject> extends Ab
     // ----------------------------------------------------- 
     //  Constructors
     // -----------------------------------------------------
-    
+
     public AbstractEAttributeFilterTest(String name) {
         super(name);
     }
@@ -84,29 +82,28 @@ public abstract class AbstractEAttributeFilterTest<E extends EObject> extends Ab
         //        
         eFixture = createFixture();
     }
-    
+
     @Override
     protected void tearDown() throws Exception {
         try {
-            
+
             //
             // Dispose fixture and condition
             //
             eFixture = null;
             eCondition = null;
-            
+
         } finally {
             trace("===> End   : " + getName(), TIME_TOTAL); //$NON-NLS-1$
             EFeatureLogFormatter.setStandard();
-        }    
+        }
     }
 
-    
 
     // ----------------------------------------------------- 
     //  Tests
     // -----------------------------------------------------
-    
+
     @Test
     public void testCondition() throws Exception {
         //
@@ -121,20 +118,20 @@ public abstract class AbstractEAttributeFilterTest<E extends EObject> extends Ab
         //
         // Sanity check
         //
-        if(passes==0) fail("No passes defined for " + getOperationName());
-        if(values==0) fail("No values defined for " + getOperationName());
+        if (passes == 0) fail("No passes defined for " + getOperationName());
+        if (values == 0) fail("No values defined for " + getOperationName());
         //
         // Loop over all values
         //
-        for(int value=0; value<values; value++) {
+        for (int value = 0; value < values; value++) {
             //
             // Is current value and operand of given operation?
             // 
-            if(isOperand(value)) {
+            if (isOperand(value)) {
                 //
                 // Assert condition given number of passes
                 //
-                for(int pass=0; pass<passes; pass++) {
+                for (int pass = 0; pass < passes; pass++) {
                     //
                     // Update fixture
                     //
@@ -157,42 +154,53 @@ public abstract class AbstractEAttributeFilterTest<E extends EObject> extends Ab
         //
         // Sanity check
         //
-        if(passed==0) fail("No tests defined for " + getOperationName());
+        if (passed == 0) fail("No tests defined for " + getOperationName());
     }
 
     // ----------------------------------------------------- 
     //  Implementation methods
     // -----------------------------------------------------
-    
+
     protected abstract E createFixture() throws Exception;
+
     protected abstract int getPassCount();
+
     protected abstract int getValueCount();
+
     protected abstract String getType(int value);
+
     protected abstract String getOperationName();
+
     protected abstract boolean isOperand(int value);
+
     protected abstract boolean expect(int pass);
+
     protected abstract Object getFilter(int value, int pass);
+
     protected abstract Object getTest(int value, int pass);
+
     protected abstract void updateFixture(E eFixture, int value, int pass) throws Exception;
+
     protected abstract Condition createCondition(int value, int pass) throws Exception;
-    
+
     // ----------------------------------------------------- 
     //  Helper methods
     // -----------------------------------------------------
-    
+
     protected void assertCondition(String message, boolean expected) {
         assertEquals(message, expected, eCondition.isSatisfied(eFixture));
     }
-    
+
     protected final String failure(int value, int pass) {
-        return "Condition [" 
+        return "Condition ["
                 + getType(value) + "] "
                 + toString(getTest(value, pass)) + " "
                 + getOperationName() + " "
                 + toString(getFilter(value, pass)) + " not satisfied";
     }
-    
-    protected static final String nameOf(int operation, Field[] operations) throws IllegalArgumentException {
+
+    protected static final String nameOf(int operation, Field[] operations) throws 
+            IllegalArgumentException {
         try {
             //
             // Compare values
@@ -201,7 +209,8 @@ public abstract class AbstractEAttributeFilterTest<E extends EObject> extends Ab
                 //
                 // Check value
                 //
-                if (Modifier.isStatic(it.getModifiers()) && int.class.isAssignableFrom(it.getType())) {
+                if (Modifier.isStatic(it.getModifiers()) && int.class.isAssignableFrom(it.getType
+                        ())) {
                     //
                     // Found?
                     //
@@ -217,12 +226,12 @@ public abstract class AbstractEAttributeFilterTest<E extends EObject> extends Ab
             // Failure
             //
             fail("Operation " + operation + " not found");
-            
+
         } catch (IllegalAccessException e) {
             //
             // Failure
             //
-            fail(e.getMessage());            
+            fail(e.getMessage());
         }
         //
         // Not found
@@ -233,48 +242,49 @@ public abstract class AbstractEAttributeFilterTest<E extends EObject> extends Ab
     protected static final int indexOf(int operation) {
         String s = Integer.toBinaryString(operation);
         int index = s.lastIndexOf("0");
-        return index==-1 ? 0 : index;
+        return index == -1 ? 0 : index;
     }
 
     protected static final String toString(Object value) {
-        if(value instanceof Collection) {
-            value = Arrays.toString(((Collection<?>)value).toArray());
+        if (value instanceof Collection) {
+            value = Arrays.toString(((Collection<?>) value).toArray());
         }
         return String.valueOf(value);
     }
-        
+
     protected static final boolean isFlag(int pattern, int flag) {
         return (pattern & flag) == flag;
     }
-    
+
     // ----------------------------------------------------- 
     //  Helper classes
     // -----------------------------------------------------
-    
+
     protected final static class Tests {
         final String name;
         final AbstractEAttributeFilterTest.Pass[] passes;
-        
-        public Tests(String name, AbstractEAttributeFilterTest.Pass...passes) {
+
+        public Tests(String name, AbstractEAttributeFilterTest.Pass... passes) {
             this.passes = passes;
             this.name = name;
         }
-    
-        public Tests(String name, Tests...tests) {
-            List<AbstractEAttributeFilterTest.Pass> passes = new ArrayList<AbstractEAttributeFilterTest.Pass>();
-            for(Tests it : tests) {
+
+        public Tests(String name, Tests... tests) {
+            List<AbstractEAttributeFilterTest.Pass> passes = new 
+                    ArrayList<AbstractEAttributeFilterTest.Pass>();
+            for (Tests it : tests) {
                 passes.addAll(Arrays.asList(it.passes));
             }
             this.passes = passes.toArray(new AbstractEAttributeFilterTest.Pass[]{});
             this.name = name;
-        }        
+        }
     }
 
     protected final static class Pass {
         final int test;
         final int[] filter;
         final boolean success;
-        
+
         public Pass(boolean success, int test, int... filter) {
             this.test = test;
             this.filter = filter;
@@ -286,33 +296,33 @@ public abstract class AbstractEAttributeFilterTest<E extends EObject> extends Ab
 
         /**
          * Flag telling {@link getValue(int)} to return all values
-         */    
+         */
         public static final int ALL = -1;
-        
-        
+
+
         final Class<?> type;
         final Object[] values;
         final int operations;
-        
-        public Values(int operations, Class<?> type, Object...values) {
+
+        public Values(int operations, Class<?> type, Object... values) {
             this.type = type;
             int count = values.length;
             this.values = new Object[count];
-            if(count>0) System.arraycopy(values, 0, this.values, 0, count);
+            if (count > 0) System.arraycopy(values, 0, this.values, 0, count);
             this.operations = operations;
         }
-        
+
         public Class<?> getType() {
             return type;
         }
-        
+
         public Object getValue(int index) {
             //
             // Return all values or value at given index only ?
             //            
             return index < 0 ? Arrays.asList(values) : values[index];
         }
-        
+
         public Object getFilter(Pass pass) {
             //
             // Get filter value indices
@@ -321,18 +331,18 @@ public abstract class AbstractEAttributeFilterTest<E extends EObject> extends Ab
             //
             // Has no filter value?
             //
-            if(filter.length==0) return null; 
+            if (filter.length == 0) return null;
             //
             // Single value?
             //
-            if(filter.length==1 || filter[0]<0) {                
+            if (filter.length == 1 || filter[0] < 0) {
                 return getValue(filter[0]);
-            } 
+            }
             //
             // Collect values from indices
             //
-            List<Object> list = new ArrayList<Object>(filter.length); 
-            for(int i : filter) {
+            List<Object> list = new ArrayList<Object>(filter.length);
+            for (int i : filter) {
                 list.add(getValue(i));
             }
             //
@@ -340,22 +350,21 @@ public abstract class AbstractEAttributeFilterTest<E extends EObject> extends Ab
             //
             return list;
         }
-        
+
         public Object getTest(Pass pass) {
             return getValue(pass.test);
-        }        
-    
+        }
+
         public boolean isOperand(int operation) {
             return (operations & operation) == operation;
         }
-                     
+
         @Override
         public String toString() {
             return type.getSimpleName() + " " + Arrays.toString(values);
-        }                
-                
+        }
+
     }
 
-    
-    
+
 }

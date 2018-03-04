@@ -45,7 +45,7 @@ public final class Versions {
         }
         throw new IllegalArgumentException();
     }
-    
+
     public static Version highest() {
         return v2_0_0;
     }

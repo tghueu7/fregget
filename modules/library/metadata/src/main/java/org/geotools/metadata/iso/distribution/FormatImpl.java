@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -20,6 +20,7 @@
 package org.geotools.metadata.iso.distribution;
 
 import java.util.Collection;
+
 import org.opengis.metadata.distribution.Distributor;
 import org.opengis.metadata.distribution.Format;
 import org.opengis.util.InternationalString;
@@ -30,13 +31,10 @@ import org.geotools.metadata.iso.MetadataEntity;
  * Description of the computer language construct that specifies the representation
  * of data objects in a record, file, message, storage device or transmission channel.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class FormatImpl extends MetadataEntity implements Format {
@@ -95,7 +93,7 @@ public class FormatImpl extends MetadataEntity implements Format {
      * Creates a format initialized to the given name.
      */
     public FormatImpl(final InternationalString name, final InternationalString version) {
-        setName   (name   );
+        setName(name);
         setVersion(version);
     }
 
@@ -110,9 +108,9 @@ public class FormatImpl extends MetadataEntity implements Format {
      * Set the name of the data transfer format(s).
      */
     public synchronized void setName(final InternationalString newValue) {
-         checkWritePermission();
-         name = newValue;
-     }
+        checkWritePermission();
+        name = newValue;
+    }
 
     /**
      * Returne the version of the format (date, number, etc.).
@@ -187,8 +185,7 @@ public class FormatImpl extends MetadataEntity implements Format {
      * Set information about the distributors format.
      */
     public synchronized void setFormatDistributors(
-            final Collection<? extends Distributor> newValues)
-    {
+            final Collection<? extends Distributor> newValues) {
         formatDistributors = copyCollection(newValues, formatDistributors, Distributor.class);
     }
 
@@ -196,7 +193,7 @@ public class FormatImpl extends MetadataEntity implements Format {
      * Sets the {@code xmlMarshalling} flag to {@code true}, since the marshalling
      * process is going to be done.
      * This method is automatically called by JAXB, when the marshalling begins.
-     * 
+     *
      * @param marshaller Not used in this implementation.
      */
 ///    private void beforeMarshal(Marshaller marshaller) {
@@ -207,7 +204,7 @@ public class FormatImpl extends MetadataEntity implements Format {
      * Sets the {@code xmlMarshalling} flag to {@code false}, since the marshalling
      * process is finished.
      * This method is automatically called by JAXB, when the marshalling ends.
-     * 
+     *
      * @param marshaller Not used in this implementation
      */
 ///    private void afterMarshal(Marshaller marshaller) {

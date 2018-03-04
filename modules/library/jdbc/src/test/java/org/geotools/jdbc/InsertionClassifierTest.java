@@ -124,7 +124,8 @@ public class InsertionClassifierTest extends TestCase {
         return createLineString(0, 1, 2, 3);
     }
 
-    private SimpleFeature createFeature(SimpleFeatureType featureType, String name, LineString geom1, Geometry geom2) {
+    private SimpleFeature createFeature(SimpleFeatureType featureType, String name, LineString 
+            geom1, Geometry geom2) {
         SimpleFeatureBuilder builder = new SimpleFeatureBuilder(featureType);
         builder.add(name);
         builder.add(geom1);

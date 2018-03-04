@@ -1,4 +1,3 @@
-
 package org.geotools.data.arcgisrest.schema.query;
 
 import org.apache.commons.lang.builder.EqualsBuilder;

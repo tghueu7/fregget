@@ -26,18 +26,16 @@ import com.vividsolutions.jts.geom.Polygon;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SurfacePropertyTypeBindingTest extends GML3TestSupport {
     public void testEncode() throws Exception {
         GeometryFactory gf = new GeometryFactory();
         Polygon polygon = gf.createPolygon(gf.createLinearRing(
-                    new Coordinate[] {
+                new Coordinate[]{
                         new Coordinate(0, 0), new Coordinate(1, 1), new Coordinate(2, 2),
                         new Coordinate(0, 0)
-                    }), null);
+                }), null);
 
         Document dom = encode(polygon, GML.surfaceProperty);
         assertEquals(1, dom.getElementsByTagName("gml:Polygon").getLength());

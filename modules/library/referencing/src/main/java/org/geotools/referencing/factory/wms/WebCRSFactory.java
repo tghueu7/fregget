@@ -17,6 +17,7 @@
 package org.geotools.referencing.factory.wms;
 
 // J2SE dependencies and extensions
+
 import java.util.Map;
 import java.util.HashMap;
 import java.util.TreeMap;
@@ -51,18 +52,17 @@ import org.geotools.referencing.factory.DirectAuthorityFactory;
  * The factory for {@linkplain CoordinateReferenceSystem coordinate reference systems}
  * in the {@code CRS} space.
  *
- * @since 2.2
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
- *
- * @deprecated This class will move in a <code>org.geotools.referencing.factory.<strong>web</strong></code>
- *             package in a future Geotools version, in order to put together other web-related factories defined
- *             outside the WMS specification. Don't use this class directly. You should not need to
- *             anyway - use {@link org.geotools.referencing.ReferencingFactoryFinder} instead, which
- *             will continue to work no matter where this class is located.
+ * @version $Id$
+ * @source $URL$
+ * @since 2.2
+ * @deprecated This class will move in a <code>org.geotools.referencing.factory
+ * .<strong>web</strong></code>
+ * package in a future Geotools version, in order to put together other web-related factories 
+ * defined
+ * outside the WMS specification. Don't use this class directly. You should not need to
+ * anyway - use {@link org.geotools.referencing.ReferencingFactoryFinder} instead, which
+ * will continue to work no matter where this class is located.
  */
 public class WebCRSFactory extends DirectAuthorityFactory implements CRSAuthorityFactory {
     /**
@@ -76,8 +76,8 @@ public class WebCRSFactory extends DirectAuthorityFactory implements CRSAuthorit
     /**
      * The map of pre-defined CRS.
      */
-    private final Map<Integer,CoordinateReferenceSystem> crsMap =
-            new TreeMap<Integer,CoordinateReferenceSystem>();
+    private final Map<Integer, CoordinateReferenceSystem> crsMap =
+            new TreeMap<Integer, CoordinateReferenceSystem>();
 
     /**
      * Constructs a default factory for the {@code CRS} authority.
@@ -102,8 +102,8 @@ public class WebCRSFactory extends DirectAuthorityFactory implements CRSAuthorit
      */
     private synchronized void ensureInitialized() throws FactoryException {
         if (crsMap.isEmpty()) {
-            add(84, "WGS84", DefaultEllipsoid.WGS84      );
-            add(83, "NAD83", DefaultEllipsoid.GRS80      );
+            add(84, "WGS84", DefaultEllipsoid.WGS84);
+            add(83, "NAD83", DefaultEllipsoid.GRS80);
             add(27, "NAD27", DefaultEllipsoid.CLARKE_1866);
         }
     }
@@ -114,29 +114,27 @@ public class WebCRSFactory extends DirectAuthorityFactory implements CRSAuthorit
      * @param code      The CRS code.
      * @param name      The CRS and datum name.
      * @param ellipsoid The ellipsoid.
-     *
      * @throws FactoryException if factories failed to creates the CRS.
      */
-    private void add(final int       code,
-                     final String    name,
+    private void add(final int code,
+                     final String name,
                      final Ellipsoid ellipsoid)
-            throws FactoryException
-    {
+            throws FactoryException {
         assert Thread.holdsLock(this);
-        final Map      properties = new HashMap();
-        final Citation authority  = getAuthority();
-        final String   text       = String.valueOf(code);
+        final Map properties = new HashMap();
+        final Citation authority = getAuthority();
+        final String text = String.valueOf(code);
         properties.put(IdentifiedObject.NAME_KEY, name);
         properties.put(Identifier.AUTHORITY_KEY, authority);
         final GeodeticDatum datum = factories.getDatumFactory().createGeodeticDatum(
-                                    properties, ellipsoid, DefaultPrimeMeridian.GREENWICH);
+                properties, ellipsoid, DefaultPrimeMeridian.GREENWICH);
 
-        properties.put(IdentifiedObject.IDENTIFIERS_KEY, new NamedIdentifier[] {
+        properties.put(IdentifiedObject.IDENTIFIERS_KEY, new NamedIdentifier[]{
                 new NamedIdentifier(authority, text),
                 new NamedIdentifier(authority, PREFIX + text)
         });
         final CoordinateReferenceSystem crs = factories.getCRSFactory().createGeographicCRS(
-                                    properties, datum, DefaultEllipsoidalCS.GEODETIC_2D);
+                properties, datum, DefaultEllipsoidalCS.GEODETIC_2D);
         if (crsMap.put(code, crs) != null) {
             throw new IllegalArgumentException(text);
         }
@@ -163,7 +161,7 @@ public class WebCRSFactory extends DirectAuthorityFactory implements CRSAuthorit
     public Set getAuthorityCodes(final Class type) throws FactoryException {
         ensureInitialized();
         final Set set = new LinkedHashSet();
-        for (final Iterator it=crsMap.entrySet().iterator(); it.hasNext();) {
+        for (final Iterator it = crsMap.entrySet().iterator(); it.hasNext(); ) {
             final Map.Entry entry = (Map.Entry) it.next();
             final CoordinateReferenceSystem crs = (CoordinateReferenceSystem) entry.getValue();
             if (type.isAssignableFrom(crs.getClass())) {
@@ -183,7 +181,8 @@ public class WebCRSFactory extends DirectAuthorityFactory implements CRSAuthorit
 
     /**
      * Creates an object from the specified code. The default implementation delegates to
-     * <code>{@linkplain #createCoordinateReferenceSystem createCoordinateReferenceSystem}(code)</code>.
+     * <code>{@linkplain #createCoordinateReferenceSystem createCoordinateReferenceSystem}(code)
+     * </code>.
      */
     public IdentifiedObject createObject(final String code) throws FactoryException {
         return createCoordinateReferenceSystem(code);
@@ -193,8 +192,7 @@ public class WebCRSFactory extends DirectAuthorityFactory implements CRSAuthorit
      * Creates a coordinate reference system from the specified code.
      */
     public CoordinateReferenceSystem createCoordinateReferenceSystem(final String code)
-            throws FactoryException
-    {
+            throws FactoryException {
         String c = trimAuthority(code).toUpperCase();
         if (c.startsWith(PREFIX)) {
             c = c.substring(PREFIX.length());
@@ -204,7 +202,8 @@ public class WebCRSFactory extends DirectAuthorityFactory implements CRSAuthorit
             i = Integer.parseInt(c);
         } catch (NumberFormatException exception) {
             // If a number can't be parsed, then this is an invalid authority code.
-            NoSuchAuthorityCodeException e = noSuchAuthorityCode(CoordinateReferenceSystem.class, code);
+            NoSuchAuthorityCodeException e = noSuchAuthorityCode(CoordinateReferenceSystem.class,
+                    code);
             e.initCause(exception);
             throw e;
         }

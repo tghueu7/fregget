@@ -26,8 +26,6 @@ import com.vividsolutions.jts.geom.MultiPolygon;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class MultiSurfaceTypeBindingTest extends GML3TestSupport {
@@ -48,16 +46,16 @@ public class MultiSurfaceTypeBindingTest extends GML3TestSupport {
     public void testParseWithSurfaceMember() throws Exception {
         GML3MockData.multiSurface(document, document);
         MultiPolygon mpoly = (MultiPolygon) parse();
-        
+
         assertEquals(2, mpoly.getNumGeometries());
     }
 
     public void testParseWithSurfaceMembers() throws Exception {
         GML3MockData.multiSurface(document, document, false);
         MultiPolygon mpoly = (MultiPolygon) parse();
-        
+
         assertEquals(2, mpoly.getNumGeometries());
     }
-    
-    
+
+
 }

@@ -34,9 +34,8 @@ import org.opengis.filter.expression.NilExpression;
 /**
  * Helper class that parses a measure with eventual local unit of measure and helps the
  * {@link RescalingMode} enumeration to perfom its scaling job
- * 
+ *
  * @author Andrea Aime - GeoSolutions
- * 
  */
 class Measure {
 
@@ -126,7 +125,7 @@ class Measure {
 
     /**
      * Returns true if the uom is set and is not pixel
-     * 
+     *
      * @return
      */
     boolean isRealWorldUnit() {
@@ -135,7 +134,7 @@ class Measure {
 
     /**
      * Returns true if the uom is pixel within a symbolizer whose default unit is also pixel
-     * 
+     *
      * @param measure
      * @return
      */
@@ -145,7 +144,8 @@ class Measure {
     }
 
     /**
-     * @return true, if the uom is a real world unit within a symbolizer whose default unit is pixel.
+     * @return true, if the uom is a real world unit within a symbolizer whose default unit is 
+     * pixel.
      */
     public boolean isRealWorldUnitInPixelDefault() {
         return isRealWorldUnit() && (defaultUnit == null || defaultUnit == NonSI.PIXEL);

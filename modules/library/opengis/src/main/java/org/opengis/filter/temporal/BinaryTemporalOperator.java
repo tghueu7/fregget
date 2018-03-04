@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.filter.temporal;
@@ -15,12 +15,10 @@ import org.opengis.filter.expression.Expression;
 
 /**
  * Base interface for all temporal filter operators.
- *  
+ *
  * @author Justin Deoliveira, OpenGeo
- *
- * @since 8.0
- *
  * @source $URL$
+ * @since 8.0
  */
 @XmlElement("BinaryTemporalOpType")
 public interface BinaryTemporalOperator extends MultiValuedFilter {
@@ -31,7 +29,7 @@ public interface BinaryTemporalOperator extends MultiValuedFilter {
     @XmlElement("expression")
     Expression getExpression1();
 
-   /**
+    /**
      * Returns the second of the two expressions to be compared by this operator.
      */
     @XmlElement("expression")

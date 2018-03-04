@@ -27,71 +27,71 @@ import org.geotools.factory.Hints;
 import org.opengis.feature.simple.SimpleFeature;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class JDBCUpdateInsertFeatureWriter extends JDBCUpdateFeatureWriter {
 
     JDBCInsertFeatureWriter inserter;
-    
+
     public JDBCUpdateInsertFeatureWriter(String sql, Connection cx,
-            JDBCFeatureSource featureSource, Query query) throws SQLException,
+                                         JDBCFeatureSource featureSource, Query query) throws 
+            SQLException,
             IOException {
         super(sql, cx, featureSource, query);
     }
-    
+
     public JDBCUpdateInsertFeatureWriter(PreparedStatement ps, Connection cx,
-            JDBCFeatureSource featureSource, String[] attributeNames, Query query) throws SQLException,
+                                         JDBCFeatureSource featureSource, String[] 
+                                                 attributeNames, Query query) throws SQLException,
             IOException {
         super(ps, cx, featureSource, query);
     }
-    
+
     public boolean hasNext() throws IOException {
-        if ( inserter != null ) {
+        if (inserter != null) {
             return inserter.hasNext();
         }
-        
+
         //check parent
         boolean hasNext = super.hasNext();
-        if ( !hasNext ) {
+        if (!hasNext) {
             //update phase is up, switch to insert mode
-            inserter = new JDBCInsertFeatureWriter( this );
+            inserter = new JDBCInsertFeatureWriter(this);
             return inserter.hasNext();
         }
-    
+
         return hasNext;
     }
 
     public SimpleFeature next() throws IOException, IllegalArgumentException,
             NoSuchElementException {
-        if ( inserter != null ) {
+        if (inserter != null) {
             return inserter.next();
         }
-        
+
         return super.next();
     }
-    
+
     public void remove() throws IOException {
-        if ( inserter != null ) {
+        if (inserter != null) {
             inserter.remove();
             return;
         }
-        
+
         super.remove();
     }
-    
+
     public void write() throws IOException {
-        if ( inserter != null ) {
+        if (inserter != null) {
             inserter.write();
             return;
         }
-        
+
         super.write();
     }
-    
+
     public void close() throws IOException {
-        if ( inserter != null ) {
+        if (inserter != null) {
             //JD: do not call close because the inserter borrowed all of its state
             // from this reader... super will deal with it.
             // AA: yet, make it throw away all references so that we won't get
@@ -99,8 +99,8 @@ public class JDBCUpdateInsertFeatureWriter extends JDBCUpdateFeatureWriter {
             inserter.cleanup();
             inserter = null;
         }
-        
+
         super.close();
     }
-    
+
 }

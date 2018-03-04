@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -25,11 +25,11 @@ import org.opengis.feature.type.FeatureType;
 
 /**
  * Provides the ability to write Features information.
- *
+ * <p>
  * <p>
  * Capabilities:
  * </p>
- *
+ * <p>
  * <ul>
  * <li>
  * Similar API to FeatureReader
@@ -51,7 +51,7 @@ import org.opengis.feature.type.FeatureType;
  * allow new feature creation. These changes
  * </li>
  * </ul>
- *
+ * <p>
  * <p>
  * One thing that is really nice about the approach to adding content is that
  * the generation of FID is not left in the users control.
@@ -59,10 +59,8 @@ import org.opengis.feature.type.FeatureType;
  *
  * @author Ian Schneider
  * @author Jody Garnett, Refractions Research
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public interface FeatureWriter<T extends FeatureType, F extends Feature> extends Closeable {
     /**
@@ -74,7 +72,7 @@ public interface FeatureWriter<T extends FeatureType, F extends Feature> extends
 
     /**
      * Reads a Feature from the underlying AttributeReader.
-     *
+     * <p>
      * <p>
      * This method may return a Feature even though hasNext() returns
      * <code>false</code>, this allows FeatureWriters to provide an ability to
@@ -82,28 +80,27 @@ public interface FeatureWriter<T extends FeatureType, F extends Feature> extends
      * </p>
      *
      * @return Feature from Query, or newly appended Feature
-     *
-     * @throws IOException if the writer has been closed or an I/O error occurs reading the next 
-     * <code>Feature</code>.
+     * @throws IOException if the writer has been closed or an I/O error occurs reading the next
+     *                     <code>Feature</code>.
      */
     F next() throws IOException;
 
     /**
      * Removes current Feature, must be called before hasNext.
-     *
+     * <p>
      * <p>
      * FeatureWriters will need to allow all FeatureSources of the same
      * typeName to issue a FeatureEvent event of type
      * <code>FeatureEvent.FEATURES_REMOVED</code> when this method is called.
      * </p>
-     *
+     * <p>
      * <p>
      * If this FeatureWriter is opperating against a Transaction
      * FEATURES_REMOVED events should only be sent to FeatureSources operating
      * on the same Transaction. When Transaction commit() is called other
      * FeatureSources will be informed of the modifications.
      * </p>
-     *
+     * <p>
      * <p>
      * When the current Feature has been provided as new content, this method
      * "cancels" the add opperation (and notification needed).
@@ -115,12 +112,12 @@ public interface FeatureWriter<T extends FeatureType, F extends Feature> extends
 
     /**
      * Writes the current Feature, must be called before hasNext.
-     *
+     * <p>
      * <p>
      * FeautreWriters will need to allow FeatureSources of the same typeName to
      * issue a FeatureEvent:
      * </p>
-     *
+     * <p>
      * <ul>
      * <li>
      * FeatureEvent.FEATURES_ADDED: when next() has been called with hasNext()
@@ -132,7 +129,7 @@ public interface FeatureWriter<T extends FeatureType, F extends Feature> extends
      * modified.
      * </li>
      * </ul>
-     *
+     * <p>
      * <p>
      * If this FeatureWriter is opperating against a Transaction the
      * FEATURES_MODIFIED or FEATURES_ADDED events should only be sent to
@@ -140,7 +137,7 @@ public interface FeatureWriter<T extends FeatureType, F extends Feature> extends
      * commit() is called other FeatureSources will be informed of the
      * modifications.
      * </p>
-     *
+     * <p>
      * <p>
      * If you have not called write() when you call hasNext() or next(), no
      * modification will occur().
@@ -152,21 +149,20 @@ public interface FeatureWriter<T extends FeatureType, F extends Feature> extends
 
     /**
      * Query whether this FeatureWriter has another Feature.
-     *
+     * <p>
      * <p>
      * Please note: it is more efficient to construct your FeatureWriter with a
      * Filer (to skip entries you do not want), than to force the creation of
      * entire Features only to skip over them.
      * </p>
-     *
+     * <p>
      * <p>
      * FeatureWriters that support append operations will allow calls to next,
      * even when hasNext() returns <code>false</code>.
      * </p>
      *
      * @return <code>true</code> if an additional <code>Feature</code> is
-     *         available, <code>false</code> if not.
-     *
+     * available, <code>false</code> if not.
      * @throws IOException if an I/O error occurs.
      */
     boolean hasNext() throws IOException;
@@ -175,8 +171,7 @@ public interface FeatureWriter<T extends FeatureType, F extends Feature> extends
      * Release the underlying resources.
      *
      * @throws IOException if there there are problems releasing underlying resources, or
-     * possibly if close has been called (up to the implementation).
-     * 
+     *                     possibly if close has been called (up to the implementation).
      * @throws IOException if an I/O error occurs
      */
     void close() throws IOException;

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2006-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -21,12 +21,9 @@ package org.geotools.coverage.processing;
  * Throws when a "crop" operation has been requested
  * but the specified grid coverage can't be scaled.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Simone Giannecchini
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.3
  */
 public class CannotCropException extends CoverageProcessingException {
@@ -47,16 +44,16 @@ public class CannotCropException extends CoverageProcessingException {
      * @param message the detail message.
      */
     public CannotCropException(String message) {
-		super(message);
-	}
+        super(message);
+    }
 
     /**
      * Constructs a new exception with the specified detail message and cause.
      *
      * @param message the detail message.
-     * @param cause The cause of this exception.
+     * @param cause   The cause of this exception.
      */
-	public CannotCropException(String message, Throwable exception) {
-		super(message,exception);
-	}
+    public CannotCropException(String message, Throwable exception) {
+        super(message, exception);
+    }
 }

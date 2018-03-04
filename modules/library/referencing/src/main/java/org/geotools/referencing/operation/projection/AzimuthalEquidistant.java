@@ -49,16 +49,19 @@ import net.sf.geographiclib.GeodesicData;
 
 /**
  * Azimuthal Equidistant projection.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * This implementation does not include the Guam or Micronesia variants.
  *
  * @author Gerald Evenden (original PROJ.4 implementation in C)
  * @author Ben Caradoc-Davies (Transient Software Limited)
- * @see <a href="https://pubs.er.usgs.gov/publication/pp1395"><em>Map Projections: A Working Manual</em>, Snyder (1987)</a>, pages 191-202
- * @see <a href="http://geotiff.maptools.org/proj_list/azimuthal_equidistant.html">PROJ.4 notes on parameters</a>
- * @see <a href="https://github.com/OSGeo/proj.4/blob/master/src/PJ_aeqd.c">PROJ.4 implemention in C</a>
+ * @see <a href="https://pubs.er.usgs.gov/publication/pp1395"><em>Map Projections: A Working 
+ * Manual</em>, Snyder (1987)</a>, pages 191-202
+ * @see <a href="http://geotiff.maptools.org/proj_list/azimuthal_equidistant.html">PROJ.4 notes 
+ * on parameters</a>
+ * @see <a href="https://github.com/OSGeo/proj.4/blob/master/src/PJ_aeqd.c">PROJ.4 implemention 
+ * in C</a>
  * @see <a href="https://en.wikipedia.org/wiki/Azimuthal_equidistant_projection">Wikipedia</a>
  * @see <a href="http://mathworld.wolfram.com/AzimuthalEquidistantProjection.html">Wolfram Alpha</a>
  */
@@ -84,7 +87,9 @@ public class AzimuthalEquidistant {
      */
     public enum Mode {
         NORTH_POLAR, SOUTH_POLAR, EQUATORIAL, OBLIQUE;
-    };
+    }
+
+    ;
 
     /**
      * Abstract base class for Azimuthal Equidistant projections.
@@ -109,7 +114,7 @@ public class AzimuthalEquidistant {
 
         /**
          * Constructor.
-         * 
+         *
          * @param parameters the parameters that define this projection
          * @throws ParameterNotFoundException
          */
@@ -144,8 +149,9 @@ public class AzimuthalEquidistant {
 
         /**
          * The descriptors for the parameters that define the projection.
-         * 
-         * @see org.geotools.referencing.operation.projection.MapProjection#getParameterDescriptors()
+         *
+         * @see org.geotools.referencing.operation.projection
+         * .MapProjection#getParameterDescriptors()
          */
         @Override
         public ParameterDescriptorGroup getParameterDescriptors() {
@@ -154,7 +160,7 @@ public class AzimuthalEquidistant {
 
         /**
          * Return the values of the parameters that define the projection.
-         * 
+         *
          * @see org.geotools.referencing.operation.projection.MapProjection#getParameterValues()
          */
         @Override
@@ -166,7 +172,9 @@ public class AzimuthalEquidistant {
             return values;
         }
 
-    };
+    }
+
+    ;
 
     /**
      * Spherical Azimuthal Equidistant projection.
@@ -176,7 +184,7 @@ public class AzimuthalEquidistant {
 
         /**
          * Constructor.
-         * 
+         *
          * @param parameters the parameters that define this projection
          * @throws ParameterNotFoundException
          */
@@ -187,8 +195,9 @@ public class AzimuthalEquidistant {
 
         /**
          * Forward transform from longitude/latitude in radians to projected coordinates.
-         * 
-         * @see org.geotools.referencing.operation.projection.MapProjection#transformNormalized(double, double, java.awt.geom.Point2D)
+         *
+         * @see org.geotools.referencing.operation.projection.MapProjection#transformNormalized
+         * (double, double, java.awt.geom.Point2D)
          */
         @Override
         protected Point2D transformNormalized(double lambda, double phi, Point2D ptDst)
@@ -199,39 +208,39 @@ public class AzimuthalEquidistant {
             double cosphi = cos(phi);
             double coslam = cos(lambda);
             switch (mode) {
-            case EQUATORIAL:
-            case OBLIQUE:
-                if (mode == Mode.EQUATORIAL) {
-                    y = cosphi * coslam;
-                } else { // Oblique
-                    y = sinph0 * sinphi + cosph0 * cosphi * coslam;
-                }
-                if (abs(abs(y) - 1) < TOL) {
-                    if (y < 0) {
-                        throw new ProjectionException(ErrorKeys.TOLERANCE_ERROR);
-                    } else {
-                        x = 0;
-                        y = 0;
+                case EQUATORIAL:
+                case OBLIQUE:
+                    if (mode == Mode.EQUATORIAL) {
+                        y = cosphi * coslam;
+                    } else { // Oblique
+                        y = sinph0 * sinphi + cosph0 * cosphi * coslam;
                     }
-                } else {
-                    y = acos(y);
-                    y /= sin(y);
-                    x = y * cosphi * sin(lambda);
-                    y *= (mode == Mode.EQUATORIAL) ? sinphi
-                            : (cosph0 * sinphi - sinph0 * cosphi * coslam);
-                }
-                break;
-            case NORTH_POLAR:
-                phi = -phi;
-                coslam = -coslam;
-            case SOUTH_POLAR:
-                if (Math.abs(phi - HALF_PI) < EPS10) {
-                    throw new ProjectionException(ErrorKeys.TOLERANCE_ERROR);
-                }
-                y = HALF_PI + phi;
-                x = y * sin(lambda);
-                y *= coslam;
-                break;
+                    if (abs(abs(y) - 1) < TOL) {
+                        if (y < 0) {
+                            throw new ProjectionException(ErrorKeys.TOLERANCE_ERROR);
+                        } else {
+                            x = 0;
+                            y = 0;
+                        }
+                    } else {
+                        y = acos(y);
+                        y /= sin(y);
+                        x = y * cosphi * sin(lambda);
+                        y *= (mode == Mode.EQUATORIAL) ? sinphi
+                                : (cosph0 * sinphi - sinph0 * cosphi * coslam);
+                    }
+                    break;
+                case NORTH_POLAR:
+                    phi = -phi;
+                    coslam = -coslam;
+                case SOUTH_POLAR:
+                    if (Math.abs(phi - HALF_PI) < EPS10) {
+                        throw new ProjectionException(ErrorKeys.TOLERANCE_ERROR);
+                    }
+                    y = HALF_PI + phi;
+                    x = y * sin(lambda);
+                    y *= coslam;
+                    break;
             }
             if (ptDst == null) {
                 return new Point2D.Double(x, y);
@@ -243,8 +252,9 @@ public class AzimuthalEquidistant {
 
         /**
          * Inverse transform from projected coordinates to latitude/longitude in radians.
-         * 
-         * @see org.geotools.referencing.operation.projection.MapProjection#inverseTransformNormalized(double, double, java.awt.geom.Point2D)
+         *
+         * @see org.geotools.referencing.operation.projection
+         * .MapProjection#inverseTransformNormalized(double, double, java.awt.geom.Point2D)
          */
         @Override
         protected Point2D inverseTransformNormalized(double x, double y, Point2D ptDst)
@@ -298,48 +308,51 @@ public class AzimuthalEquidistant {
     public static class Ellipsoidal extends Abstract {
 
         /**
-         * Geodesic calculator used for this projection. Not used and set to null for polar projections.
+         * Geodesic calculator used for this projection. Not used and set to null for polar 
+         * projections.
          */
         protected final Geodesic geodesic;
 
         /**
-         * Meridian distance from the equator to the pole. Not used and set to NaN for non-polar projections.
+         * Meridian distance from the equator to the pole. Not used and set to NaN for non-polar 
+         * projections.
          */
         protected final double Mp;
 
         /**
          * Constructor.
-         * 
+         *
          * @param parameters the parameters that define this projection
          * @throws ParameterNotFoundException
          */
         protected Ellipsoidal(ParameterValueGroup parameters) throws ParameterNotFoundException {
             super(parameters);
             switch (mode) {
-            case NORTH_POLAR:
-                Mp = mlfn(HALF_PI, 1, 0);
-                geodesic = null;
-                break;
-            case SOUTH_POLAR:
-                Mp = mlfn(-HALF_PI, -1, 0);
-                geodesic = null;
-                break;
-            case EQUATORIAL:
-            case OBLIQUE:
-                Mp = Double.NaN;
-                geodesic = new Geodesic(semiMajor, (semiMajor - semiMinor) / semiMajor);
-                break;
-            default:
-                throw new RuntimeException("Unexpected mode " + mode
-                        + " for ellipsoidal AzimuthalEquidistant projection");
+                case NORTH_POLAR:
+                    Mp = mlfn(HALF_PI, 1, 0);
+                    geodesic = null;
+                    break;
+                case SOUTH_POLAR:
+                    Mp = mlfn(-HALF_PI, -1, 0);
+                    geodesic = null;
+                    break;
+                case EQUATORIAL:
+                case OBLIQUE:
+                    Mp = Double.NaN;
+                    geodesic = new Geodesic(semiMajor, (semiMajor - semiMinor) / semiMajor);
+                    break;
+                default:
+                    throw new RuntimeException("Unexpected mode " + mode
+                            + " for ellipsoidal AzimuthalEquidistant projection");
             }
 
         }
 
         /**
          * Forward transform from longitude/latitude in radians to projected coordinates.
-         * 
-         * @see org.geotools.referencing.operation.projection.MapProjection#transformNormalized(double, double, java.awt.geom.Point2D)
+         *
+         * @see org.geotools.referencing.operation.projection.MapProjection#transformNormalized
+         * (double, double, java.awt.geom.Point2D)
          */
         @Override
         protected Point2D transformNormalized(double lambda, double phi, Point2D ptDst)
@@ -350,27 +363,27 @@ public class AzimuthalEquidistant {
             double cosphi = cos(phi);
             double sinphi = sin(phi);
             switch (mode) {
-            case NORTH_POLAR:
-                coslam = -coslam;
-            case SOUTH_POLAR:
-                double rho = abs(Mp - mlfn(phi, sinphi, cosphi));
-                x = rho * sin(lambda);
-                y = rho * coslam;
-                break;
-            case EQUATORIAL:
-            case OBLIQUE:
-                if (abs(lambda) < EPS10 && abs(phi - latitudeOfOrigin) < EPS10) {
-                    x = 0;
-                    y = 0;
+                case NORTH_POLAR:
+                    coslam = -coslam;
+                case SOUTH_POLAR:
+                    double rho = abs(Mp - mlfn(phi, sinphi, cosphi));
+                    x = rho * sin(lambda);
+                    y = rho * coslam;
                     break;
-                }
-                GeodesicData g = geodesic.Inverse(toDegrees(latitudeOfOrigin),
-                        toDegrees(centralMeridian), toDegrees(phi),
-                        toDegrees(lambda + centralMeridian));
-                double azi1 = toRadians(g.azi1);
-                x = g.s12 * sin(azi1) / semiMajor;
-                y = g.s12 * cos(azi1) / semiMajor;
-                break;
+                case EQUATORIAL:
+                case OBLIQUE:
+                    if (abs(lambda) < EPS10 && abs(phi - latitudeOfOrigin) < EPS10) {
+                        x = 0;
+                        y = 0;
+                        break;
+                    }
+                    GeodesicData g = geodesic.Inverse(toDegrees(latitudeOfOrigin),
+                            toDegrees(centralMeridian), toDegrees(phi),
+                            toDegrees(lambda + centralMeridian));
+                    double azi1 = toRadians(g.azi1);
+                    x = g.s12 * sin(azi1) / semiMajor;
+                    y = g.s12 * cos(azi1) / semiMajor;
+                    break;
             }
             if (ptDst == null) {
                 return new Point2D.Double(x, y);
@@ -382,8 +395,9 @@ public class AzimuthalEquidistant {
 
         /**
          * Inverse transform from projected coordinates to latitude/longitude in radians.
-         * 
-         * @see org.geotools.referencing.operation.projection.MapProjection#inverseTransformNormalized(double, double, java.awt.geom.Point2D)
+         *
+         * @see org.geotools.referencing.operation.projection
+         * .MapProjection#inverseTransformNormalized(double, double, java.awt.geom.Point2D)
          */
         @Override
         protected Point2D inverseTransformNormalized(double x, double y, Point2D ptDst)
@@ -430,14 +444,14 @@ public class AzimuthalEquidistant {
          * The descriptors for the parameters that define the projection.
          */
         public static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(
-                new NamedIdentifier[] {
+                new NamedIdentifier[]{
                         // @formatter:off
                         // see: http://geotiff.maptools.org/proj_list/azimuthal_equidistant.html
                         new NamedIdentifier(Citations.OGC, "Azimuthal_Equidistant"),
                         new NamedIdentifier(Citations.GEOTIFF, "CT_AzimuthalEquidistant"),
                         // there is no EPSG code for this projection
                         // @formatter:on
-                }, new ParameterDescriptor[] {
+                }, new ParameterDescriptor[]{
                         // @formatter:off
                         SEMI_MAJOR,
                         SEMI_MINOR,
@@ -457,9 +471,10 @@ public class AzimuthalEquidistant {
 
         /**
          * Create an Azimuthal Equidistant projection.
-         * 
+         *
          * @return {@link Spherical} or {@link Ellipsoidal} depending on the parameters.
-         * @see org.geotools.referencing.operation.MathTransformProvider#createMathTransform(org.opengis.parameter.ParameterValueGroup)
+         * @see org.geotools.referencing.operation.MathTransformProvider#createMathTransform(org
+         * .opengis.parameter.ParameterValueGroup)
          */
         @Override
         protected MathTransform createMathTransform(ParameterValueGroup parameters)

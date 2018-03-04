@@ -36,19 +36,17 @@ import org.geotools.resources.i18n.Errors;
  * This class provides a {@link #parse} method which performs the following tasks:
  * <p>
  * <ul>
- *   <li>Checks if the string was fully parsed and log a warning if it was not. This is
- *       different than the default {@link #parseObject(String)} behavior which check only
- *       if the <em>begining</em> of the string was parsed and ignore any remaining characters.</li>
- *   <li>Ensures that the parsed object is of some specific class specified at construction time.</li>
- *   <li>If the string can't be fully parsed or is not of the expected class, logs a warning.</li>
+ * <li>Checks if the string was fully parsed and log a warning if it was not. This is
+ * different than the default {@link #parseObject(String)} behavior which check only
+ * if the <em>begining</em> of the string was parsed and ignore any remaining characters.</li>
+ * <li>Ensures that the parsed object is of some specific class specified at construction time.</li>
+ * <li>If the string can't be fully parsed or is not of the expected class, logs a warning.</li>
  * </ul>
  *
- * @since 2.4
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @since 2.4
  */
 public class LoggedFormat<T> extends Format {
     /**
@@ -100,8 +98,8 @@ public class LoggedFormat<T> extends Format {
      */
     protected LoggedFormat(final Format format, final Class<T> type) {
         this.format = format;
-        this.type   = type;
-        this.level  = Level.WARNING;
+        this.type = type;
+        this.level = Level.WARNING;
     }
 
     /**
@@ -128,7 +126,6 @@ public class LoggedFormat<T> extends Format {
      * The default value is {@link Level#WARNING}.
      *
      * @param level The new logging level.
-     *
      * @since 2.5
      */
     public void setLevel(final Level level) {
@@ -146,7 +143,7 @@ public class LoggedFormat<T> extends Format {
      * @param method The method to declare as the warning emitter, or {@code null} if none.
      */
     public void setCaller(final Class<?> caller, final String method) {
-        this.className  = (caller != null) ? caller.getName() : null;
+        this.className = (caller != null) ? caller.getName() : null;
         this.methodName = method;
     }
 
@@ -156,11 +153,11 @@ public class LoggedFormat<T> extends Format {
      * construction time, then it is returned. If the string has not been fully parsed, then
      * a {@linkplain LogRecord log record} is prepared and logged.
      *
-     * @param  text The text to parse, or {@code null}.
+     * @param text The text to parse, or {@code null}.
      * @return The parsed object, or {@code null} if {@code text} was null or can't be parsed.
      */
     public T parse(String text) {
-        if (text == null || (text=text.trim()).length() == 0) {
+        if (text == null || (text = text.trim()).length() == 0) {
             return null;
         }
         final ParsePosition position = new ParsePosition(0);
@@ -172,7 +169,7 @@ public class LoggedFormat<T> extends Format {
         }
         if (index < text.length()) {
             doLogWarning(formatUnparsable(text, 0, index, getWarningLocale(), level));
-        } else if (value!=null && !type.isInstance(value)) {
+        } else if (value != null && !type.isInstance(value)) {
             doLogWarning(Errors.getResources(getWarningLocale()).getLogRecord(level,
                     ErrorKeys.ILLEGAL_CLASS_$2, value.getClass(), type));
             return null;
@@ -185,7 +182,7 @@ public class LoggedFormat<T> extends Format {
      * {@linkplain Format format} specified at construction time. This method to not perform
      * any logging.
      *
-     * @param  text The text to parse.
+     * @param text The text to parse.
      * @return An object parsed from the string.
      * @throws ParseException if parsing failed.
      */
@@ -199,7 +196,7 @@ public class LoggedFormat<T> extends Format {
      * {@linkplain Format format} specified at construction time. This method to not perform
      * any logging.
      *
-     * @param text The text to parse.
+     * @param text     The text to parse.
      * @param position Index and error index information.
      * @return An object parsed from the string, or {@code null} in case of error.
      */
@@ -214,11 +211,10 @@ public class LoggedFormat<T> extends Format {
      * @param value      The object to format.
      * @param toAppendTo The buffer where the text is to be appended.
      * @param position   Identifies a field in the formatted text.
-     * @return           The string buffer passed in with formatted text appended.
+     * @return The string buffer passed in with formatted text appended.
      */
     public StringBuffer format(final Object value, final StringBuffer toAppendTo,
-                               final FieldPosition position)
-    {
+                               final FieldPosition position) {
         return format.format(value, toAppendTo, position);
     }
 
@@ -278,18 +274,16 @@ public class LoggedFormat<T> extends Format {
      * This is provided as a convenience method for creating the message to give to an
      * {@linkplain Exception#Exception(String) exception constructor}.
      *
-     * @param  text The unparsable string.
-     * @param  index The parse position. This is usually {@link ParsePosition#getIndex}.
-     * @param  errorIndex The index where the error occured. This is usually
-     *         {@link ParsePosition#getErrorIndex}.
-     * @param  locale The locale for the message, or {@code null} for the default one.
+     * @param text       The unparsable string.
+     * @param index      The parse position. This is usually {@link ParsePosition#getIndex}.
+     * @param errorIndex The index where the error occured. This is usually
+     *                   {@link ParsePosition#getErrorIndex}.
+     * @param locale     The locale for the message, or {@code null} for the default one.
      * @return A formatted error message.
-     *
      * @since 2.5
      */
     public static String formatUnparsable(final String text, final int index,
-            final int errorIndex, final Locale locale)
-    {
+                                          final int errorIndex, final Locale locale) {
         return (String) doFormatUnparsable(text, index, errorIndex, locale, null);
     }
 
@@ -299,19 +293,18 @@ public class LoggedFormat<T> extends Format {
      * {@link #logWarning} method. It is made public as a convenience for implementors
      * who wish to manage loggings outside this {@code LoggedFormat} class.
      *
-     * @param  text The unparsable string.
-     * @param  index The parse position. This is usually {@link ParsePosition#getIndex}.
-     * @param  errorIndex The index where the error occured. This is usually
-     *         {@link ParsePosition#getErrorIndex}.
-     * @param  locale The locale for the log message, or {@code null} for the default one.
-     * @param  level The log record level.
+     * @param text       The unparsable string.
+     * @param index      The parse position. This is usually {@link ParsePosition#getIndex}.
+     * @param errorIndex The index where the error occured. This is usually
+     *                   {@link ParsePosition#getErrorIndex}.
+     * @param locale     The locale for the log message, or {@code null} for the default one.
+     * @param level      The log record level.
      * @return A formatted log record.
-     *
      * @since 2.5
      */
     public static LogRecord formatUnparsable(final String text, final int index,
-            final int errorIndex, final Locale locale, Level level)
-    {
+                                             final int errorIndex, final Locale locale, Level 
+                                                     level) {
         if (level == null) {
             // It is necessary to ensure that the level argument is non-null,
             // otherwise we would get a ClassCastException in the code below.
@@ -325,8 +318,7 @@ public class LoggedFormat<T> extends Format {
      * if {@code level} is non-null, or a {@link String} otherwise.
      */
     private static Object doFormatUnparsable(String text, final int index, int errorIndex,
-                                             final Locale locale, final Level level)
-    {
+                                             final Locale locale, final Level level) {
         final Errors resources = Errors.getResources(locale);
         final int length = text.length();
         if (errorIndex < index) {

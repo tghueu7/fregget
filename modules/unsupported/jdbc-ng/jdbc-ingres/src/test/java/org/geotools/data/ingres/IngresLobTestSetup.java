@@ -7,8 +7,6 @@ import org.geotools.jdbc.JDBCLobTestSetup;
 import org.geotools.jdbc.JDBCTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class IngresLobTestSetup extends JDBCLobTestSetup {
@@ -19,19 +17,21 @@ public class IngresLobTestSetup extends JDBCLobTestSetup {
 
     @Override
     protected void createLobTable() throws Exception {
-        
+
         Connection con = getDataSource().getConnection();
         con.prepareStatement("create table \"testlob\" (\"fid\" int primary key, " +
-        		"\"blob_field\" LONG BYTE, \"clob_field\" LONG VARCHAR, \"raw_field\" LONG BYTE)").execute();
-        
-        PreparedStatement ps =con.prepareStatement( "INSERT INTO \"testlob\" (\"fid\",\"blob_field\",\"clob_field\",\"raw_field\")  VALUES (?,?,?,?)");
+                "\"blob_field\" LONG BYTE, \"clob_field\" LONG VARCHAR, \"raw_field\" LONG BYTE)" +
+                "").execute();
+
+        PreparedStatement ps = con.prepareStatement("INSERT INTO \"testlob\" (\"fid\"," +
+                "\"blob_field\",\"clob_field\",\"raw_field\")  VALUES (?,?,?,?)");
         ps.setInt(1, 1);
-        ps.setBytes(2, new byte[] {1,2,3,4,5});
+        ps.setBytes(2, new byte[]{1, 2, 3, 4, 5});
         ps.setString(3, "small clob");
-        ps.setBytes(4, new byte[] {6,7,8,9,10});
+        ps.setBytes(4, new byte[]{6, 7, 8, 9, 10});
         ps.execute();
         ps.close();
-        con.close();               
+        con.close();
     }
 
     @Override

@@ -4,13 +4,14 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.filter.sort;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.opengis.annotation.UML;
 import org.opengis.util.CodeList;
 
@@ -21,12 +22,10 @@ import static org.opengis.annotation.Specification.OGC_02059;
 /**
  * Captures the {@link SortBy} order, {@code ASC} or {@code DESC}.
  *
- * @see <a href="http://schemas.opengis.net/filter/1.1.0/sort.xsd">
  * @author Jody Garnett (Refractions Research)
- * @since GeoAPI 2.1
- *
- *
  * @source $URL$
+ * @see <a href="http://schemas.opengis.net/filter/1.1.0/sort.xsd">
+ * @since GeoAPI 2.1
  */
 public final class SortOrder extends CodeList<SortOrder> {
     /**
@@ -47,8 +46,8 @@ public final class SortOrder extends CodeList<SortOrder> {
      * with the Filter 1.1 specification.
      * </p>
      */
-    @UML(identifier="ASC", obligation=CONDITIONAL, specification=OGC_02059)
-    public static final SortOrder ASCENDING  = new SortOrder("ASCENDING", "ASC");
+    @UML(identifier = "ASC", obligation = CONDITIONAL, specification = OGC_02059)
+    public static final SortOrder ASCENDING = new SortOrder("ASCENDING", "ASC");
 
     /**
      * Represents descending order.
@@ -57,7 +56,7 @@ public final class SortOrder extends CodeList<SortOrder> {
      * with the Filter 1.1 specification.
      * </p>
      */
-    @UML(identifier="DESC", obligation=CONDITIONAL, specification=OGC_02059)
+    @UML(identifier = "DESC", obligation = CONDITIONAL, specification = OGC_02059)
     public static final SortOrder DESCENDING = new SortOrder("DESCENDING", "DESC");
 
     /**
@@ -69,7 +68,7 @@ public final class SortOrder extends CodeList<SortOrder> {
      * Constructs an enum with the given name. The new enum is
      * automatically added to the list returned by {@link #values}.
      *
-     * @param name The enum name. This name must not be in use by an other enum of this type.
+     * @param name       The enum name. This name must not be in use by an other enum of this type.
      * @param sqlKeyword The SQL keyword for this sorting order.
      */
     private SortOrder(final String name, final String sqlKeyword) {

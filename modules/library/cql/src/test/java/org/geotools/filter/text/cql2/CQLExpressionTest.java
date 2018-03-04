@@ -27,13 +27,10 @@ import org.opengis.filter.expression.PropertyName;
 
 /**
  * Expression Test
- * 
+ *
  * @author Mauricio Pazos (Axios Engineering)
- * @since 2.6
- *
- *
- *
  * @source $URL$
+ * @since 2.6
  */
 public class CQLExpressionTest {
 
@@ -65,7 +62,7 @@ public class CQLExpressionTest {
 
     /**
      * Bad identifier
-     * 
+     *
      * @throws CQLException
      */
     @Test(expected = CQLException.class)

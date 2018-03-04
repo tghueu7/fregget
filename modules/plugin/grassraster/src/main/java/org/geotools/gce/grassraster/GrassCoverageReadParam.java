@@ -41,14 +41,12 @@ package org.geotools.gce.grassraster;
  * </p>
  * <b>Note:</b> it is enough to have bounds and row-cols, or bounds and resolutions, or also a
  * corner and row-cols and resolutions.
- * 
+ *
  * @author Andrea Antonello (www.hydrologis.com)
- * @since 3.0
+ * @source $URL$
  * @see {@link JGrassRegion}
  * @see {@link JGrassMapEnvironment}
- *
- *
- * @source $URL$
+ * @since 3.0
  */
 public class GrassCoverageReadParam {
 
@@ -60,18 +58,18 @@ public class GrassCoverageReadParam {
 
     /**
      * Constructs a {@link GrassCoverageReadParam}.
-     * 
+     *
      * @param requestedWorldRegion the active region to which to set read region to.
      */
-    public GrassCoverageReadParam( JGrassRegion requestedWorldRegion ) {
+    public GrassCoverageReadParam(JGrassRegion requestedWorldRegion) {
         this.requestedWorldRegion = requestedWorldRegion;
     }
 
     /**
      * Getter for the {@linkplain GrassCoverageReadParam#requestedWorldRegion active region}
-     * 
+     *
      * @param activeRegion the active region. If this is null, the whole raster map region should be
-     *        used.
+     *                     used.
      */
     public JGrassRegion getRequestedWorldRegion() {
         return requestedWorldRegion;

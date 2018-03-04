@@ -28,9 +28,9 @@ import com.vividsolutions.jts.geom.Envelope;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:BoundingShapeType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="BoundingShapeType"&gt;
  *      &lt;annotation&gt;
@@ -50,9 +50,6 @@ import com.vividsolutions.jts.geom.Envelope;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLBoundingShapeTypeBinding extends AbstractComplexBinding {
@@ -80,7 +77,7 @@ public class GMLBoundingShapeTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //do the null check
         if (node.getChild("null") != null) {
             //ignore the description as to why its null
@@ -95,7 +92,7 @@ public class GMLBoundingShapeTypeBinding extends AbstractComplexBinding {
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         Envelope e = (Envelope) object;
 
         if (GML.Box.equals(name) && !e.isNull()) {

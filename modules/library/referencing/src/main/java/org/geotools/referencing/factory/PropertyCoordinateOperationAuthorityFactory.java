@@ -84,9 +84,9 @@ import org.opengis.util.InternationalString;
  * WKT parsing. For caching, this factory should be wrapped in some buffered factory like
  * {@link BufferedAuthorityFactory}.
  *
- * @source $URL$
- * @version $Id$
  * @author Oscar Fonts
+ * @version $Id$
+ * @source $URL$
  */
 public class PropertyCoordinateOperationAuthorityFactory extends
         DirectAuthorityFactory implements CoordinateOperationAuthorityFactory {
@@ -95,58 +95,57 @@ public class PropertyCoordinateOperationAuthorityFactory extends
      * The authority for this factory.
      */
     private final Citation authority;
-    
+
     /**
      * The properties object for our properties file. Keys are CRS code pairs
      * separated by a comma. The associated value is a WKT string for the Math
      * Transform. See {@link PropertyCoordinateOperationAuthorityFactory}.
      */
     private final Properties definitions = new Properties();
-    
+
     /**
      * An unmodifiable view of the authority keys. This view is always up to date
      * even if entries are added or removed in the {@linkplain #definitions} map.
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({"rawtypes", "unchecked"})
     private final Set<String> codes = Collections.unmodifiableSet((Set) definitions.keySet());
-    
+
     /**
      * Creates a factory for the specified authority from the specified file.
      *
-     * @param  factories   The underlying factories used for objects creation.
-     * @param  authority   The organization or party responsible for definition and maintenance of
-     *                     the database.
-     * @param  definitions URL to the definition file.
+     * @param factories   The underlying factories used for objects creation.
+     * @param authority   The organization or party responsible for definition and maintenance of
+     *                    the database.
+     * @param definitions URL to the definition file.
      * @throws IOException if the definitions can't be read.
      */
     public PropertyCoordinateOperationAuthorityFactory(
-            final ReferencingFactoryContainer  factories,
-            final Citation                     authority,
-            final URL                          definitions)
-        throws IOException
-    {
+            final ReferencingFactoryContainer factories,
+            final Citation authority,
+            final URL definitions)
+            throws IOException {
         // Set priority low
         super(factories, MINIMUM_PRIORITY + 10);
-        
+
         // Set authority
         this.authority = authority;
         ensureNonNull("authority", authority);
-        
+
         // Load properties
         final InputStream in = definitions.openStream();
         this.definitions.load(in);
         in.close();
     }
-    
+
     /**
      * Creates an operation from a single operation code.
      *
-     * @param  code Coded value for operation.
+     * @param code Coded value for operation.
      * @return The operation for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
+     * @throws FactoryException             if the object creation failed for some other reason.
      */
-    @Override    
+    @Override
     public CoordinateOperation createCoordinateOperation(String code)
             throws NoSuchAuthorityCodeException, FactoryException {
         String[] crsPair = trimAuthority(code).split(",");
@@ -167,16 +166,16 @@ public class PropertyCoordinateOperationAuthorityFactory extends
      * If operation is invertible, will check also for the inverse one.
      * If operation not found, it will return an empty set.
      *
-     * @param  sourceCRS   Coded value of source coordinate reference system.
-     * @param  targetCRS   Coded value of target coordinate reference system.
+     * @param sourceCRS Coded value of source coordinate reference system.
+     * @param targetCRS Coded value of target coordinate reference system.
      * @return The operation from {@code sourceCRS} to {@code targetCRS} (one single element).
      * @throws NoSuchAuthorityCodeException if a specified code was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
+     * @throws FactoryException             if the object creation failed for some other reason.
      */
     @Override
     public Set<CoordinateOperation> createFromCoordinateReferenceSystemCodes(
             String sourceCRS, String targetCRS)
-                    throws NoSuchAuthorityCodeException, FactoryException {
+            throws NoSuchAuthorityCodeException, FactoryException {
 
         Set<CoordinateOperation> coordops = new HashSet<CoordinateOperation>(1);
 
@@ -192,37 +191,37 @@ public class PropertyCoordinateOperationAuthorityFactory extends
         }
         return coordops;
     }
-    
-    
+
+
     /**
      * Seeks for a WKT definition in the properties file from a CRS pair, parses it,
      * and creates the corresponding CoordinateOperation. Returns {@code null}
      * if something went wrong.
      * <p>
      * Will log a WARNING message if a parsing error occurred.
-     * 
-     * @param  sourceCRS   Coded value of source coordinate reference system.
-     * @param  targetCRS   Coded value of target coordinate reference system.
-     * @param  inverse     {@code true} to create operation from the inverse definition.
+     *
+     * @param sourceCRS Coded value of source coordinate reference system.
+     * @param targetCRS Coded value of target coordinate reference system.
+     * @param inverse   {@code true} to create operation from the inverse definition.
      * @return The operation from {@code sourceCRS} to {@code targetCRS},
-     *         or {@code null} if not found.
+     * or {@code null} if not found.
      * @throws NoSuchAuthorityCodeException if a specified code was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
+     * @throws FactoryException             if the object creation failed for some other reason.
      */
     CoordinateOperation createFromCoordinateReferenceSystemCodes(
             String sourceCRS, String targetCRS, boolean inverse)
-                    throws NoSuchAuthorityCodeException, FactoryException {
+            throws NoSuchAuthorityCodeException, FactoryException {
 
         // Get WKT definition from properties
         sourceCRS = trimAuthority(sourceCRS);
         targetCRS = trimAuthority(targetCRS);
-        String id = sourceCRS+","+targetCRS;
-        String WKT = definitions.getProperty(id);        
-        if(WKT == null) {
+        String id = sourceCRS + "," + targetCRS;
+        String WKT = definitions.getProperty(id);
+        if (WKT == null) {
             // No definition found.
             return null;
         }
-       
+
         // Create MathTransform from WKT
         MathTransform mt = null;
         try {
@@ -235,23 +234,25 @@ public class PropertyCoordinateOperationAuthorityFactory extends
 
         // Create the CRS definitions
         String s = this.authority.getIdentifiers().iterator().next().getCode();
-        CoordinateReferenceSystem source = CRS.decode(s+":"+sourceCRS);
-        CoordinateReferenceSystem target = CRS.decode(s+":"+targetCRS);
-        
+        CoordinateReferenceSystem source = CRS.decode(s + ":" + sourceCRS);
+        CoordinateReferenceSystem target = CRS.decode(s + ":" + targetCRS);
+
         // Need to create a derived MathTransform that will handle axis order and units
         // as defined in CRS. Had to cast to DefaultMathTransformFactory because
         // createBaseToDerived is not defined in MathTransformFactory interface (GeoAPI).
-        DefaultMathTransformFactory mtf = (DefaultMathTransformFactory)factories.
+        DefaultMathTransformFactory mtf = (DefaultMathTransformFactory) factories.
                 getMathTransformFactory();
         MathTransform mt2 = mtf.createBaseToDerived(source, mt, target.getCoordinateSystem());
-        
+
         // Extract name from the transform, if possible, or use class name. 
         String methodName;
         try {
             if (mt instanceof AbstractMathTransform) {
-                methodName = ((AbstractMathTransform)mt).getParameterValues().getDescriptor().getName().getCode();
+                methodName = ((AbstractMathTransform) mt).getParameterValues().getDescriptor()
+                        .getName().getCode();
             } else if (mt instanceof AffineTransform2D) {
-                methodName = ((AffineTransform2D)mt).getParameterValues().getDescriptor().getName().getCode();
+                methodName = ((AffineTransform2D) mt).getParameterValues().getDescriptor()
+                        .getName().getCode();
             } else {
                 methodName = mt.getClass().getSimpleName();
             }
@@ -260,11 +261,11 @@ public class PropertyCoordinateOperationAuthorityFactory extends
         }
         Map<String, String> props = new HashMap<String, String>();
         props.put("name", methodName);
-        
+
         // Create the OperationMethod
         OperationMethod method = new DefaultOperationMethod(props,
                 mt2.getSourceDimensions(), mt2.getTargetDimensions(), null);
-        
+
         // Finally create CoordinateOperation
         CoordinateOperation coordop = null;
         if (!inverse) { // Direct operation
@@ -275,26 +276,26 @@ public class PropertyCoordinateOperationAuthorityFactory extends
             try {
                 props.put("name", targetCRS + " \u21E8 " + sourceCRS);
                 coordop = DefaultOperation.create(props, target, source,
-                    mt2.inverse(), method, CoordinateOperation.class);
+                        mt2.inverse(), method, CoordinateOperation.class);
             } catch (NoninvertibleTransformException e) {
                 return null;
-            }        
+            }
         }
         return coordop;
-    }    
+    }
 
     /**
      * Returns the set of authority codes of the given type.
      * Only CoordinateOperation.class is accepted as type.
-     * 
+     * <p>
      * This factory will not filter codes for its subclasses.
      *
-     * @param  type The CoordinateOperation type (or null, same effect).
+     * @param type The CoordinateOperation type (or null, same effect).
      * @return All of available authority codes, or an empty set.
      */
     @Override
     public Set<String> getAuthorityCodes(Class<? extends IdentifiedObject> type) {
-        if (type==null || type.isAssignableFrom(CoordinateOperation.class)) {
+        if (type == null || type.isAssignableFrom(CoordinateOperation.class)) {
             return codes;
         } else {
             return Collections.emptySet();
@@ -304,22 +305,22 @@ public class PropertyCoordinateOperationAuthorityFactory extends
     /**
      * Gets a description of the object corresponding to a code.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return A description of the object, or {@code null} if the object
-     *         corresponding to the specified {@code code} has no description.
+     * corresponding to the specified {@code code} has no description.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the query failed for some other reason.
+     * @throws FactoryException             if the query failed for some other reason.
      */
     @Override
     public InternationalString getDescriptionText(String code)
             throws NoSuchAuthorityCodeException, FactoryException {
-        
+
         final String wkt = definitions.getProperty(trimAuthority(code));
-        
+
         if (wkt == null) {
             throw noSuchAuthorityCode(IdentifiedObject.class, code);
         }
-        
+
         // The first string literal in WKT will be considered the description text.
         int start = wkt.indexOf('"');
         if (start >= 0) {

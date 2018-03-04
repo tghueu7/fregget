@@ -15,13 +15,11 @@ import org.geotools.data.dxf.parser.DXFUnivers;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class DXFEntity implements DXFConstants {
 
-    private static final Log log = LogFactory.getLog(DXFEntity.class); 
+    private static final Log log = LogFactory.getLog(DXFEntity.class);
     protected GeometryType geometryType;
     /* feature write */
     protected String _name = null;
@@ -43,7 +41,8 @@ public abstract class DXFEntity implements DXFConstants {
     protected DXFExtendedData _extendedData;
 
     public DXFEntity(DXFEntity newEntity) {
-        this(newEntity.getColor(), newEntity.getRefLayer(), 1, newEntity.getLineType(), newEntity.getThickness());
+        this(newEntity.getColor(), newEntity.getRefLayer(), 1, newEntity.getLineType(), newEntity
+                .getThickness());
     }
 
     public DXFEntity(int c, DXFLayer l, int visibility, DXFLineType lineType, double thickness) {
@@ -73,33 +72,35 @@ public abstract class DXFEntity implements DXFConstants {
             visible = false;
         }
     }
-    public DXFEntity(int c, DXFLayer l, int visibility, DXFLineType lineType, double thickness, DXFExtendedData extData) {
-    	
-    	_refLayer = l;
-    	
-    	if (lineType != null && lineType._name.equalsIgnoreCase("BYLAYER") && _refLayer != null) {
-    		//TODO waar zit linetype in layer?
-    	}
-    	_lineType = lineType;
-    	
-    	if (!(this instanceof DXFBlockReference) && !(this instanceof DXFLayer)) {
-    		if ((c < 0) || (c == 255 && _refLayer != null)) {
-    			if (_refLayer == null) {
-    				c = DXFColor.getDefaultColorIndex();
-    			} else {
-    				c = _refLayer._color;
-    			}
-    		}
-    	}
-    	_color = c;
-    	_thickness = thickness;
-    	
-    	if (visibility == 0) {
-    		visible = true;
-    	} else {
-    		visible = false;
-    	}
-    	_extendedData = extData;
+
+    public DXFEntity(int c, DXFLayer l, int visibility, DXFLineType lineType, double thickness, 
+                     DXFExtendedData extData) {
+
+        _refLayer = l;
+
+        if (lineType != null && lineType._name.equalsIgnoreCase("BYLAYER") && _refLayer != null) {
+            //TODO waar zit linetype in layer?
+        }
+        _lineType = lineType;
+
+        if (!(this instanceof DXFBlockReference) && !(this instanceof DXFLayer)) {
+            if ((c < 0) || (c == 255 && _refLayer != null)) {
+                if (_refLayer == null) {
+                    c = DXFColor.getDefaultColorIndex();
+                } else {
+                    c = _refLayer._color;
+                }
+            }
+        }
+        _color = c;
+        _thickness = thickness;
+
+        if (visibility == 0) {
+            visible = true;
+        } else {
+            visible = false;
+        }
+        _extendedData = extData;
     }
 
     public void setBase(Coordinate coord) {
@@ -266,6 +267,7 @@ public abstract class DXFEntity implements DXFConstants {
      * Called when an error occurs but that error is constrained to a single
      * feature/subgeometry. Try to continue parsing features, but do set parseError
      * property to true and add and error message.
+     *
      * @param msg
      */
     public void addError(String msg) {
@@ -297,11 +299,11 @@ public abstract class DXFEntity implements DXFConstants {
         this.geometry = geometry;
     }
 
-	public DXFExtendedData getExtendedData() {
-		return _extendedData;
-	}
+    public DXFExtendedData getExtendedData() {
+        return _extendedData;
+    }
 
-	public void setExtendedData(DXFExtendedData _extendedData) {
-		this._extendedData = _extendedData;
-	}
+    public void setExtendedData(DXFExtendedData _extendedData) {
+        this._extendedData = _extendedData;
+    }
 }

@@ -25,8 +25,6 @@ import com.vividsolutions.jts.geom.MultiPoint;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class MultiPointTypeBindingTest extends GML32TestSupport {
@@ -43,6 +41,7 @@ public class MultiPointTypeBindingTest extends GML32TestSupport {
         Document dom = encode(GML3MockData.multiPoint(), GML.MultiPoint);
         // print(dom);
         assertEquals(2,
-            dom.getElementsByTagNameNS(GML.NAMESPACE, GML.pointMember.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(GML.NAMESPACE, GML.pointMember.getLocalPart())
+                        .getLength());
     }
 }

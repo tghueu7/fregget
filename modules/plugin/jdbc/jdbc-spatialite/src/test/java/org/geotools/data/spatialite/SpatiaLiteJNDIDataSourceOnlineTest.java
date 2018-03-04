@@ -23,11 +23,9 @@ import org.geotools.jdbc.JDBCJNDIDataStoreFactory;
 import org.geotools.jdbc.JDBCJNDITestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
-public  class SpatiaLiteJNDIDataSourceOnlineTest extends JDBCJNDIDataSourceOnlineTest {
+public class SpatiaLiteJNDIDataSourceOnlineTest extends JDBCJNDIDataSourceOnlineTest {
 
     protected JDBCJNDITestSetup createTestSetup() {
         return new JDBCJNDITestSetup(new SpatiaLiteTestSetup());
@@ -42,7 +40,6 @@ public  class SpatiaLiteJNDIDataSourceOnlineTest extends JDBCJNDIDataSourceOnlin
     protected JDBCDataStoreFactory getDataStoreFactory() {
         return new SpatiaLiteDataStoreFactory();
     }
-    
-    
+
 
 }

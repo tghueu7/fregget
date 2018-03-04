@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,6 +17,7 @@
 package org.geotools.resources.image;
 
 // J2SE dependencies
+
 import java.awt.image.BandedSampleModel;
 import java.awt.image.ComponentSampleModel;
 import java.awt.image.DataBuffer;
@@ -35,11 +36,11 @@ import java.util.Arrays;
  * {@code IndexColorModel} behave that way. So we can't rely on this method for checking
  * the number of bands.
  *
- * @since 2.0
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Andrea Aime
+ * @version $Id$
+ * @source $URL$
+ * @since 2.0
  */
 final class MultiBandsIndexColorModel extends IndexColorModel {
     /**
@@ -55,22 +56,22 @@ final class MultiBandsIndexColorModel extends IndexColorModel {
     /**
      * Construct an object with the specified properties.
      *
-     * @param bits      The number of bits each pixel occupies.
-     * @param size      The size of the color component arrays.
-     * @param cmap      The array of color components.
-     * @param start     The starting offset of the first color component.
-     * @param hasalpha  Indicates whether alpha values are contained in the {@code cmap} array.
+     * @param bits         The number of bits each pixel occupies.
+     * @param size         The size of the color component arrays.
+     * @param cmap         The array of color components.
+     * @param start        The starting offset of the first color component.
+     * @param hasalpha     Indicates whether alpha values are contained in the {@code cmap} array.
      * @param transparent  The index of the fully transparent pixel.
      * @param transferType The data type of the array used to represent pixel values. The
      *                     data type must be either {@code DataBuffer.TYPE_BYTE} or
      *                     {@code DataBuffer.TYPE_USHORT}.
      * @param numBands     The number of bands.
      * @param visibleBands The band to display.
-     *
      * @throws IllegalArgumentException if {@code bits} is less than 1 or greater than 16.
      * @throws IllegalArgumentException if {@code size} is less than 1.
      * @throws IllegalArgumentException if {@code transferType} is not one of
-     *         {@code DataBuffer.TYPE_BYTE} or {@code DataBuffer.TYPE_USHORT}.
+     *                                  {@code DataBuffer.TYPE_BYTE} or {@code DataBuffer
+     *                                  .TYPE_USHORT}.
      */
     public MultiBandsIndexColorModel(final int bits,
                                      final int size,
@@ -80,10 +81,9 @@ final class MultiBandsIndexColorModel extends IndexColorModel {
                                      final int transparent,
                                      final int transferType,
                                      final int numBands,
-                                     final int visibleBand)
-    {
+                                     final int visibleBand) {
         super(bits, size, cmap, start, hasAlpha, transparent, transferType);
-        this.numBands    = numBands;
+        this.numBands = numBands;
         this.visibleBand = visibleBand;
     }
 
@@ -105,10 +105,17 @@ final class MultiBandsIndexColorModel extends IndexColorModel {
         if (pixel == null) {
             switch (transferType) {
                 case DataBuffer.TYPE_SHORT:  // fall through
-                case DataBuffer.TYPE_USHORT: pixel=new short[numBands]; break;
-                case DataBuffer.TYPE_BYTE:   pixel=new byte [numBands]; break;
-                case DataBuffer.TYPE_INT:    pixel=new int  [numBands]; break;
-                default: throw new UnsupportedOperationException(unsupported());
+                case DataBuffer.TYPE_USHORT:
+                    pixel = new short[numBands];
+                    break;
+                case DataBuffer.TYPE_BYTE:
+                    pixel = new byte[numBands];
+                    break;
+                case DataBuffer.TYPE_INT:
+                    pixel = new int[numBands];
+                    break;
+                default:
+                    throw new UnsupportedOperationException(unsupported());
             }
         }
         pixel = super.getDataElements(RGB, pixel);
@@ -129,7 +136,8 @@ final class MultiBandsIndexColorModel extends IndexColorModel {
                 Arrays.fill(array, 1, numBands, array[0]);
                 break;
             }
-            default: throw new UnsupportedOperationException(unsupported());
+            default:
+                throw new UnsupportedOperationException(unsupported());
         }
         return pixel;
     }
@@ -142,10 +150,17 @@ final class MultiBandsIndexColorModel extends IndexColorModel {
         final int i;
         switch (transferType) {
             case DataBuffer.TYPE_SHORT:  // Fall through
-            case DataBuffer.TYPE_USHORT: i=((short[])pixel)[visibleBand] & 0xffff; break;
-            case DataBuffer.TYPE_BYTE:   i=((byte [])pixel)[visibleBand] & 0xff;   break;
-            case DataBuffer.TYPE_INT:    i=((int  [])pixel)[visibleBand];          break;
-            default: throw new UnsupportedOperationException(unsupported());
+            case DataBuffer.TYPE_USHORT:
+                i = ((short[]) pixel)[visibleBand] & 0xffff;
+                break;
+            case DataBuffer.TYPE_BYTE:
+                i = ((byte[]) pixel)[visibleBand] & 0xff;
+                break;
+            case DataBuffer.TYPE_INT:
+                i = ((int[]) pixel)[visibleBand];
+                break;
+            default:
+                throw new UnsupportedOperationException(unsupported());
         }
         return getComponents(i, components, offset);
     }
@@ -158,19 +173,19 @@ final class MultiBandsIndexColorModel extends IndexColorModel {
         final int pixel;
         switch (transferType) {
             case DataBuffer.TYPE_BYTE: {
-                pixel = ((byte[])inData)[visibleBand] & 0xff;
+                pixel = ((byte[]) inData)[visibleBand] & 0xff;
                 break;
             }
             case DataBuffer.TYPE_USHORT: {
-                pixel = ((short[])inData)[visibleBand] & 0xffff;
+                pixel = ((short[]) inData)[visibleBand] & 0xffff;
                 break;
             }
             case DataBuffer.TYPE_INT: {
-                pixel = ((int[])inData)[visibleBand];
+                pixel = ((int[]) inData)[visibleBand];
                 break;
             }
             default: {
-               throw new UnsupportedOperationException(unsupported());
+                throw new UnsupportedOperationException(unsupported());
             }
         }
         return getRed(pixel);
@@ -184,24 +199,24 @@ final class MultiBandsIndexColorModel extends IndexColorModel {
         final int pixel;
         switch (transferType) {
             case DataBuffer.TYPE_BYTE: {
-                pixel = ((byte[])inData)[visibleBand] & 0xff;
+                pixel = ((byte[]) inData)[visibleBand] & 0xff;
                 break;
             }
             case DataBuffer.TYPE_USHORT: {
-                pixel = ((short[])inData)[visibleBand] & 0xffff;
+                pixel = ((short[]) inData)[visibleBand] & 0xffff;
                 break;
             }
             case DataBuffer.TYPE_INT: {
-                pixel = ((int[])inData)[visibleBand];
+                pixel = ((int[]) inData)[visibleBand];
                 break;
             }
             default: {
-               throw new UnsupportedOperationException(unsupported());
+                throw new UnsupportedOperationException(unsupported());
             }
         }
         return getGreen(pixel);
     }
-    
+
     /**
      * Returns the blue color component for the specified pixel, scaled
      * from 0 to 255 in the default RGB {@code ColorSpace}, sRGB.
@@ -210,24 +225,24 @@ final class MultiBandsIndexColorModel extends IndexColorModel {
         final int pixel;
         switch (transferType) {
             case DataBuffer.TYPE_BYTE: {
-                pixel = ((byte[])inData)[visibleBand] & 0xff;
+                pixel = ((byte[]) inData)[visibleBand] & 0xff;
                 break;
             }
             case DataBuffer.TYPE_USHORT: {
-                pixel = ((short[])inData)[visibleBand] & 0xffff;
+                pixel = ((short[]) inData)[visibleBand] & 0xffff;
                 break;
             }
             case DataBuffer.TYPE_INT: {
-                pixel = ((int[])inData)[visibleBand];
+                pixel = ((int[]) inData)[visibleBand];
                 break;
             }
             default: {
-               throw new UnsupportedOperationException(unsupported());
+                throw new UnsupportedOperationException(unsupported());
             }
         }
         return getBlue(pixel);
     }
-    
+
     /**
      * Returns the alpha component for the specified pixel, scaled from 0 to 255.
      */
@@ -235,19 +250,19 @@ final class MultiBandsIndexColorModel extends IndexColorModel {
         final int pixel;
         switch (transferType) {
             case DataBuffer.TYPE_BYTE: {
-                pixel = ((byte[])inData)[visibleBand] & 0xff;
+                pixel = ((byte[]) inData)[visibleBand] & 0xff;
                 break;
             }
             case DataBuffer.TYPE_USHORT: {
-                pixel = ((short[])inData)[visibleBand] & 0xffff;
+                pixel = ((short[]) inData)[visibleBand] & 0xffff;
                 break;
             }
             case DataBuffer.TYPE_INT: {
-                pixel = ((int[])inData)[visibleBand];
+                pixel = ((int[]) inData)[visibleBand];
                 break;
             }
             default: {
-               throw new UnsupportedOperationException(unsupported());
+                throw new UnsupportedOperationException(unsupported());
             }
         }
         return getAlpha(pixel);
@@ -261,8 +276,8 @@ final class MultiBandsIndexColorModel extends IndexColorModel {
     }
 
     /**
-     * Creates a {@code WritableRaster} with the specified width 
-     * and height that has a data layout ({@code SampleModel}) 
+     * Creates a {@code WritableRaster} with the specified width
+     * and height that has a data layout ({@code SampleModel})
      * compatible with this {@code ColorModel}.
      */
     public WritableRaster createCompatibleWritableRaster(final int width, final int height) {
@@ -270,30 +285,30 @@ final class MultiBandsIndexColorModel extends IndexColorModel {
     }
 
     /**
-     * Returns {@code true} if {@code raster} is compatible 
+     * Returns {@code true} if {@code raster} is compatible
      * with this {@code ColorModel}.
      */
     public boolean isCompatibleRaster(final Raster raster) {
         return isCompatibleSampleModel(raster.getSampleModel());
     }
-    
+
     /**
-     * Creates a {@code SampleModel} with the specified 
-     * width and height that has a data layout compatible with 
-     * this {@code ColorModel}.  
+     * Creates a {@code SampleModel} with the specified
+     * width and height that has a data layout compatible with
+     * this {@code ColorModel}.
      */
     public SampleModel createCompatibleSampleModel(final int width, final int height) {
         return new BandedSampleModel(transferType, width, height, numBands);
     }
-    
-    /** 
-     * Checks if the specified {@code SampleModel} is compatible 
+
+    /**
+     * Checks if the specified {@code SampleModel} is compatible
      * with this {@code ColorModel}.
      */
     public boolean isCompatibleSampleModel(final SampleModel sm) {
-        return (sm instanceof ComponentSampleModel)                  &&
-                sm.getTransferType()                 == transferType &&
-                sm.getNumBands()                     == numBands     &&
+        return (sm instanceof ComponentSampleModel) &&
+                sm.getTransferType() == transferType &&
+                sm.getNumBands() == numBands &&
                 (1 << sm.getSampleSize(visibleBand)) >= getMapSize();
     }
 }

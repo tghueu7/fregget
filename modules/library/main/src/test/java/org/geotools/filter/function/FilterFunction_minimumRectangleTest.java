@@ -19,6 +19,7 @@ import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * The FilterFunction_minimumRectangle UnitTest
+ *
  * @author Jared Erickson
  */
 public class FilterFunction_minimumRectangleTest {

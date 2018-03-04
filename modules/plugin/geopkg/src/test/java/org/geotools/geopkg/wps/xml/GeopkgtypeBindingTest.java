@@ -30,11 +30,12 @@ import org.opengis.filter.expression.PropertyName;
 
 /**
  * Binding test case for http://www.opengis.net/gpkg:geopkgtype.
- *
  * <p>
- *  <pre>
+ * <p>
+ * <pre>
  *   <code>
- *  &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;xs:complexType name="geopkgtype" xmlns:xs="http://www.w3.org/2001/XMLSchema"&gt;
+ *  &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;xs:complexType name="geopkgtype" 
+ *  xmlns:xs="http://www.w3.org/2001/XMLSchema"&gt;
  *      &lt;xs:sequence&gt;
  *        &lt;xs:element maxOccurs="unbounded" minOccurs="0" name="features"&gt;
  *          &lt;xs:complexType name="geopkgtype_features"&gt;
@@ -72,8 +73,8 @@ import org.opengis.filter.expression.PropertyName;
  *        &lt;/xs:element&gt;
  *      &lt;/xs:sequence&gt;
  *      &lt;xs:attribute name="name" use="required"/&gt;
- *    &lt;/xs:complexType&gt; 
- *      
+ *    &lt;/xs:complexType&gt;
+ *
  *    </code>
  *   </pre>
  * </p>
@@ -81,15 +82,15 @@ import org.opengis.filter.expression.PropertyName;
  * @generated
  */
 public class GeopkgtypeBindingTest extends GPKGTestSupport {
-        
+
     public void testType() {
-        assertEquals(  GeoPackageProcessRequest.class, binding( GPKG.geopkgtype ).getType() );
+        assertEquals(GeoPackageProcessRequest.class, binding(GPKG.geopkgtype).getType());
     }
-    
+
     public void testExecutionMode() {
-        assertEquals( Binding.OVERRIDE, binding( GPKG.geopkgtype ).getExecutionMode() );
+        assertEquals(Binding.OVERRIDE, binding(GPKG.geopkgtype).getExecutionMode());
     }
-    
+
     public void testParse() throws Exception {
         buildDocument("<geopackage name='mygeopackage' path='file://test' remove='true'>"
                 + "<features name=\"features1\" identifier=\"f1\">"
@@ -129,30 +130,34 @@ public class GeopkgtypeBindingTest extends GPKGTestSupport {
         Object result = parse(GPKG.geopkgtype);
         assertTrue(result instanceof GeoPackageProcessRequest);
         GeoPackageProcessRequest request = (GeoPackageProcessRequest) result;
-        
+
         assertNotNull(request.getRemove());
         assertTrue(request.getRemove());
         assertTrue(request.getPath().toString().equalsIgnoreCase("file://test"));
         assertEquals(2, request.getLayerCount());
-        
+
         assertTrue(request.getLayer(0) instanceof GeoPackageProcessRequest.FeaturesLayer);
-        GeoPackageProcessRequest.FeaturesLayer features = (GeoPackageProcessRequest.FeaturesLayer) request.getLayer(0);
+        GeoPackageProcessRequest.FeaturesLayer features = (GeoPackageProcessRequest
+                .FeaturesLayer) request.getLayer(0);
         assertEquals("f1", features.getIdentifier());
         assertEquals("features1", features.getName());
         assertEquals("features1 description", features.getDescription());
         assertEquals("featuretypename", features.getFeatureType().getLocalPart());
         assertEquals(2, features.getPropertyNames().size());
-        assertTrue(features.getPropertyNames().contains(new QName("http://www.opengis.net/gpkg", "property1", "")));
-        assertTrue(features.getPropertyNames().contains(new QName("http://www.opengis.net/gpkg", "property2", "")));
+        assertTrue(features.getPropertyNames().contains(new QName("http://www.opengis.net/gpkg", 
+                "property1", "")));
+        assertTrue(features.getPropertyNames().contains(new QName("http://www.opengis.net/gpkg", 
+                "property2", "")));
         assertTrue(features.getFilter() instanceof PropertyIsEqualTo);
         PropertyIsEqualTo filter = (PropertyIsEqualTo) features.getFilter();
         assertTrue(filter.getExpression1() instanceof PropertyName);
         assertTrue(filter.getExpression2() instanceof Literal);
         assertEquals("propertyx", ((PropertyName) filter.getExpression1()).getPropertyName());
         assertEquals("999", ((Literal) filter.getExpression2()).getValue());
-        
+
         assertTrue(request.getLayer(0) instanceof GeoPackageProcessRequest.FeaturesLayer);
-        GeoPackageProcessRequest.TilesLayer tiles = (GeoPackageProcessRequest.TilesLayer) request.getLayer(1);
+        GeoPackageProcessRequest.TilesLayer tiles = (GeoPackageProcessRequest.TilesLayer) request
+                .getLayer(1);
         assertEquals("t1", tiles.getIdentifier());
         assertEquals("tiles1", tiles.getName());
         assertEquals("tiles1 description", tiles.getDescription());
@@ -166,8 +171,8 @@ public class GeopkgtypeBindingTest extends GPKGTestSupport {
         assertTrue(tiles.getLayers().contains(new QName("http://www.opengis.net/gpkg", "layer2")));
         assertEquals(2, tiles.getStyles().size());
         assertTrue(tiles.getStyles().contains("style1"));
-        assertTrue(tiles.getStyles().contains("style2"));        
-        
+        assertTrue(tiles.getStyles().contains("style2"));
+
     }
-    
+
 }

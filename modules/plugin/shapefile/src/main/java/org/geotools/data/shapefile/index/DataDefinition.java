@@ -3,7 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
- * 
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -21,10 +21,8 @@ import java.util.ArrayList;
 
 /**
  * Field definition
- * 
+ *
  * @author Tommaso Nolli
- *
- *
  * @source $URL$
  */
 public class DataDefinition {
@@ -51,7 +49,7 @@ public class DataDefinition {
 
     /**
      * Well known classes
-     * 
+     * <p>
      * <ul>
      * <li> Short </li>
      * <li> Integer </li>
@@ -60,12 +58,9 @@ public class DataDefinition {
      * <li> Double </li>
      * <li> Date </li>
      * </ul>
-     * 
-     * 
+     *
      * @param clazz
-     * 
-     * @throws TreeException
-     *                 DOCUMENT ME!
+     * @throws TreeException DOCUMENT ME!
      */
     public void addField(Class clazz) {
         if (clazz.isAssignableFrom(Short.class)) {
@@ -88,7 +83,7 @@ public class DataDefinition {
     /**
      * For classes with unknown length; this values will be threated as
      * <code>String</code>s and truncated at the specified len
-     * 
+     *
      * @param len
      */
     public void addField(int len) {
@@ -97,7 +92,6 @@ public class DataDefinition {
 
     /**
      * Character set values are encoded in.
-     * 
      */
     public Charset getCharset() {
         return charset;
@@ -122,7 +116,6 @@ public class DataDefinition {
     /**
      * Gets the len of this field after the encoding, this method may be
      * different from getLen() only if exists strings in the definition
-     * 
      */
     public int getEncodedLen() {
         int len = 0;
@@ -139,7 +132,7 @@ public class DataDefinition {
 
     /**
      * Inner class for Data fields
-     * 
+     *
      * @author Tommaso Nolli
      */
     public class Field {
@@ -153,7 +146,6 @@ public class DataDefinition {
 
         /**
          * DOCUMENT ME!
-         * 
          */
         public Class getFieldClass() {
             return clazz;
@@ -161,7 +153,6 @@ public class DataDefinition {
 
         /**
          * DOCUMENT ME!
-         * 
          */
         public int getLen() {
             return len;
@@ -169,7 +160,6 @@ public class DataDefinition {
 
         /**
          * DOCUMENT ME!
-         * 
          */
         public int getEncodedLen() {
             int ret = this.len;

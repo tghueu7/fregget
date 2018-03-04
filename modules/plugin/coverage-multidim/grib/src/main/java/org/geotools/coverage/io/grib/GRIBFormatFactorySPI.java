@@ -23,7 +23,7 @@ import java.util.Map;
 import org.geotools.coverage.grid.io.AbstractGridFormat;
 import org.geotools.coverage.grid.io.GridFormatFactorySpi;
 
-public class GRIBFormatFactorySPI implements GridFormatFactorySpi{
+public class GRIBFormatFactorySPI implements GridFormatFactorySpi {
 
     @Override
     public boolean isAvailable() {

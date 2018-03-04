@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2015, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -61,7 +61,7 @@ class MergeSortDumper {
                     return false;
                 }
                 Class<?> binding = ad.getType().getBinding();
-                if (!Comparable.class.isAssignableFrom(binding) 
+                if (!Comparable.class.isAssignableFrom(binding)
                         || Geometry.class.isAssignableFrom(binding)) {
                     return false;
                 }
@@ -80,7 +80,7 @@ class MergeSortDumper {
 
     /**
      * Gets the max amount amount of features to keep in memory from the query and system hints
-     * 
+     *
      * @param query
      * @return
      */
@@ -99,7 +99,7 @@ class MergeSortDumper {
     }
 
     static SimpleFeatureReader getDelegateReader(SimpleFeatureReader reader, SortBy[] sortBy,
-            int maxFeatures) throws IOException {
+                                                 int maxFeatures) throws IOException {
         if (maxFeatures < 0) {
             maxFeatures = getMaxFeatures(Query.ALL);
         }
@@ -115,7 +115,8 @@ class MergeSortDumper {
         if (!canSort(schema, sortBy)) {
             throw new IllegalArgumentException(
                     "The specified reader cannot be sorted, either the "
-                            + "sorting properties are not comparable or the attributes are not serializable");
+                            + "sorting properties are not comparable or the attributes are not " +
+                            "serializable");
         }
 
         int count = 0;
@@ -171,7 +172,7 @@ class MergeSortDumper {
 
     /**
      * Writes the feature attributes to a binary file
-     * 
+     *
      * @param features
      * @return
      * @throws IOException

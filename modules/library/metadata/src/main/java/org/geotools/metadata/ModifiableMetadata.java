@@ -41,40 +41,38 @@ import org.geotools.resources.UnmodifiableArrayList;
  * <p>
  * Subclasses should follow the pattern below for every {@code get} and {@code set} methods,
  * with a special processing for {@linkplain Collection collections}:
- *
+ * <p>
  * <blockquote><pre>
  * private Foo property;
- *
+ * <p>
  * public Foo getProperty() {
  *     return property;
  * }
- *
+ * <p>
  * public synchronized void setProperty(Foo newValue) {
  *     {@linkplain #checkWritePermission()};
  *     property = newValue;
  * }
  * </pre></blockquote>
- *
+ * <p>
  * For collections (note that the call to {@link #checkWritePermission()} is implicit):
- *
+ * <p>
  * <blockquote><pre>
  * private Collection&lt;Foo&gt; properties;
- *
+ * <p>
  * public synchronized Collection&lt;Foo&gt; getProperties() {
  *     return properties = {@linkplain #nonNullCollection nonNullCollection}(properties, Foo.class);
  * }
- *
+ * <p>
  * public synchronized void setProperties(Collection&lt;Foo&gt; newValues) {
  *     properties = {@linkplain #copyCollection copyCollection}(newValues, properties, Foo.class);
  * }
  * </pre></blockquote>
  *
- * @since 2.4
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @since 2.4
  */
 public abstract class ModifiableMetadata extends AbstractMetadata implements Cloneable {
     /**
@@ -111,16 +109,17 @@ public abstract class ModifiableMetadata extends AbstractMetadata implements Clo
      * This constructor behavior is as in {@linkplain AbstractMetadata#AbstractMetadata(Object)
      * superclass constructor}.
      *
-     * @param  source The metadata to copy values from.
-     * @throws ClassCastException if the specified metadata don't implements the expected
-     *         metadata interface.
+     * @param source The metadata to copy values from.
+     * @throws ClassCastException            if the specified metadata don't implements the expected
+     *                                       metadata interface.
      * @throws UnmodifiableMetadataException if this class don't define {@code set} methods
-     *         corresponding to the {@code get} methods found in the implemented interface,
-     *         or if this instance is not modifiable for some other reason.
+     *                                       corresponding to the {@code get} methods found in 
+     *                                       the implemented interface,
+     *                                       or if this instance is not modifiable for some other
+     *                                       reason.
      */
     protected ModifiableMetadata(final Object source)
-            throws ClassCastException, UnmodifiableMetadataException
-    {
+            throws ClassCastException, UnmodifiableMetadataException {
         super(source);
     }
 
@@ -178,17 +177,17 @@ public abstract class ModifiableMetadata extends AbstractMetadata implements Clo
      * following heuristic tests:
      * <p>
      * <ul>
-     *   <li>If the specified object is an instance of {@code ModifiableMetadata},
-     *       then {@link #unmodifiable()} is invoked on this object.</li>
-     *   <li>Otherwise, if the object is a {@linkplain Collection collection}, then the
-     *       content is copied into a new collection of similar type, with values replaced
-     *       by their unmodifiable variant.</li>
-     *   <li>Otherwise, if the object implements the {@link org.opengis.util.Cloneable}
-     *       interface, then a clone is returned.</li>
-     *   <li>Otherwise, the object is assumed immutable and returned unchanged.</li>
+     * <li>If the specified object is an instance of {@code ModifiableMetadata},
+     * then {@link #unmodifiable()} is invoked on this object.</li>
+     * <li>Otherwise, if the object is a {@linkplain Collection collection}, then the
+     * content is copied into a new collection of similar type, with values replaced
+     * by their unmodifiable variant.</li>
+     * <li>Otherwise, if the object implements the {@link org.opengis.util.Cloneable}
+     * interface, then a clone is returned.</li>
+     * <li>Otherwise, the object is assumed immutable and returned unchanged.</li>
      * </ul>
      *
-     * @param  object The object to convert in an immutable one.
+     * @param object The object to convert in an immutable one.
      * @return A presumed immutable view of the specified object.
      */
     @SuppressWarnings("unchecked") // We really don't know the collection types.
@@ -215,7 +214,7 @@ public abstract class ModifiableMetadata extends AbstractMetadata implements Clo
                 }
             } else {
                 final Object[] array = collection.toArray();
-                for (int i=0; i<array.length; i++) {
+                for (int i = 0; i < array.length; i++) {
                     array[i] = unmodifiable(array[i]);
                 }
                 // Uses standard Java collections rather than Geotools Checked* classes,
@@ -240,7 +239,7 @@ public abstract class ModifiableMetadata extends AbstractMetadata implements Clo
                 return Collections.EMPTY_MAP;
             }
             map = new LinkedHashMap(map);
-            for (final Iterator<Map.Entry> it=map.entrySet().iterator(); it.hasNext();) {
+            for (final Iterator<Map.Entry> it = map.entrySet().iterator(); it.hasNext(); ) {
                 final Map.Entry entry = it.next();
                 entry.setValue(unmodifiable(entry.getValue()));
             }
@@ -320,27 +319,24 @@ public abstract class ModifiableMetadata extends AbstractMetadata implements Clo
      * <p>
      * A call to {@link #checkWritePermission} is implicit before the copy is performed.
      *
-     * @param  <E>         The type of elements in the list.
-     * @param  source      The source list. {@code null} is synonymous to empty.
-     * @param  target      The target list, or {@code null} if not yet created.
-     * @param  elementType The base type of elements to put in the list.
+     * @param <E>         The type of elements in the list.
+     * @param source      The source list. {@code null} is synonymous to empty.
+     * @param target      The target list, or {@code null} if not yet created.
+     * @param elementType The base type of elements to put in the list.
      * @return {@code target}, or a newly created list.
      * @throws UnmodifiableMetadataException if this metadata is unmodifiable.
-     *
      * @since 2.5
      */
     protected final <E> List<E> copyList(final Collection<? extends E> source,
-            List<E> target, final Class<E> elementType)
-            throws UnmodifiableMetadataException
-    {
+                                         List<E> target, final Class<E> elementType)
+            throws UnmodifiableMetadataException {
         if (unmodifiable == FREEZING) {
             /*
              * freeze() method is under progress. The source list is already
              * an unmodifiable instance created by unmodifiable(Object).
              */
             assert !isModifiable(source);
-            @SuppressWarnings("unchecked")
-            final List<E> unmodifiable = (List<E>) source;
+            @SuppressWarnings("unchecked") final List<E> unmodifiable = (List<E>) source;
             return unmodifiable;
         }
         checkWritePermission();
@@ -374,25 +370,25 @@ public abstract class ModifiableMetadata extends AbstractMetadata implements Clo
      * <p>
      * A call to {@link #checkWritePermission} is implicit before the copy is performed.
      *
-     * @param  <E>         The type of elements in the collection.
-     * @param  source      The source collection. {@code null} is synonymous to empty.
-     * @param  target      The target collection, or {@code null} if not yet created.
-     * @param  elementType The base type of elements to put in the collection.
+     * @param <E>         The type of elements in the collection.
+     * @param source      The source collection. {@code null} is synonymous to empty.
+     * @param target      The target collection, or {@code null} if not yet created.
+     * @param elementType The base type of elements to put in the collection.
      * @return {@code target}, or a newly created collection.
      * @throws UnmodifiableMetadataException if this metadata is unmodifiable.
      */
     protected final <E> Collection<E> copyCollection(final Collection<? extends E> source,
-            Collection<E> target, final Class<E> elementType)
-            throws UnmodifiableMetadataException
-    {
+                                                     Collection<E> target, final Class<E> 
+                                                             elementType)
+            throws UnmodifiableMetadataException {
         if (unmodifiable == FREEZING) {
             /*
              * freeze() method is under progress. The source collection is already
              * an unmodifiable instance created by unmodifiable(Object).
              */
             assert !isModifiable(source);
-            @SuppressWarnings("unchecked")
-            final Collection<E> unmodifiable = (Collection<E>) source;
+            @SuppressWarnings("unchecked") final Collection<E> unmodifiable = (Collection<E>) 
+                    source;
             return unmodifiable;
         }
         checkWritePermission();
@@ -430,14 +426,13 @@ public abstract class ModifiableMetadata extends AbstractMetadata implements Clo
      * This is a convenience method for implementation of {@code getFoo()}
      * methods.
      *
-     * @param  <E> The type of elements in the collection.
-     * @param  c The collection to checks.
-     * @param  elementType The element type (used only if {@code c} is null).
+     * @param <E>         The type of elements in the collection.
+     * @param c           The collection to checks.
+     * @param elementType The element type (used only if {@code c} is null).
      * @return {@code c}, or a new collection if {@code c} is null.
      */
     protected final <E> Collection<E> nonNullCollection(
-            final Collection<E> c, final Class<E> elementType)
-    {
+            final Collection<E> c, final Class<E> elementType) {
         assert Thread.holdsLock(this);
         if (c != null) {
             return c;
@@ -453,11 +448,10 @@ public abstract class ModifiableMetadata extends AbstractMetadata implements Clo
      * This is a convenience method for implementation of {@code getFoo()}
      * methods.
      *
-     * @param  <E> The type of elements in the set.
-     * @param  c The set to checks.
-     * @param  elementType The element type (used only if {@code c} is null).
+     * @param <E>         The type of elements in the set.
+     * @param c           The set to checks.
+     * @param elementType The element type (used only if {@code c} is null).
      * @return {@code c}, or a new set if {@code c} is null.
-     *
      * @since 2.5
      */
     protected final <E> Set<E> nonNullSet(final Set<E> c, final Class<E> elementType) {
@@ -476,9 +470,9 @@ public abstract class ModifiableMetadata extends AbstractMetadata implements Clo
      * This is a convenience method for implementation of {@code getFoo()}
      * methods.
      *
-     * @param  <E> The type of elements in the list.
-     * @param  c The list to checks.
-     * @param  elementType The element type (used only if {@code c} is null).
+     * @param <E>         The type of elements in the list.
+     * @param c           The list to checks.
+     * @param elementType The element type (used only if {@code c} is null).
      * @return {@code c}, or a new list if {@code c} is null.
      */
     protected final <E> List<E> nonNullList(final List<E> c, final Class<E> elementType) {
@@ -548,7 +542,7 @@ public abstract class ModifiableMetadata extends AbstractMetadata implements Clo
 
     /**
      * Returns a shallow copy of this metadata.
-     * <P>
+     * <p>
      * While {@linkplain Cloneable cloneable}, this class do not provides the {@code clone()}
      * operation as part of the public API. The clone operation is required for the internal
      * working of the {@link #unmodifiable()} method, which expect from {@code clone()} a

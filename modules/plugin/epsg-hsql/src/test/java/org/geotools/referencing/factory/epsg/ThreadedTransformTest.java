@@ -43,14 +43,16 @@ import org.opengis.referencing.operation.TransformException;
 /**
  * Unit test for <a href="https://jira.codehaus.org/browse/GEOT-4780">GEOT-4780</>.<br>
  * Detailled description :<br>
- * - One thread continuously retrieves the {@link CoordinateOperationFactory} through the {@link ReferencingFactoryFinder}.<br>
- * - Another thread performs {@link #NUM_ITERATIONS} reprojections using CRS for which the HSQL database indicates a NTv2Transform.<br>
+ * - One thread continuously retrieves the {@link CoordinateOperationFactory} through the 
+ * {@link ReferencingFactoryFinder}.<br>
+ * - Another thread performs {@link #NUM_ITERATIONS} reprojections using CRS for which the HSQL 
+ * database indicates a NTv2Transform.<br>
  * When the second thread ends, the first one is stopped.<br>
  * Using multiple iterations, we quite always produce a deadlock.<br>
- * Note that I could not reproduce the problem with {@link #LENIENT} set to <code>true</code> here, but I could in another application.<br>
+ * Note that I could not reproduce the problem with {@link #LENIENT} set to <code>true</code> 
+ * here, but I could in another application.<br>
  * <br>
- * 
- * 
+ *
  * @author Stephane Wasserhardt
  */
 public class ThreadedTransformTest {
@@ -75,7 +77,7 @@ public class ThreadedTransformTest {
 
     /**
      * Instantiates the test data.
-     * 
+     *
      * @throws java.lang.Exception
      */
     @Before
@@ -114,13 +116,17 @@ public class ThreadedTransformTest {
     }
 
     /**
-     * Main test method. Waits 30 seconds to perform envelope reprojections with multiple threads while one threads retrieves the coordinate operation
-     * factory. If this fails, there's most probably a deadlock that prevents the operations from finishing (use debugger to see threads &
+     * Main test method. Waits 30 seconds to perform envelope reprojections with multiple threads
+     * while one threads retrieves the coordinate operation
+     * factory. If this fails, there's most probably a deadlock that prevents the operations from
+     * finishing (use debugger to see threads &
      * owned/waiting locks).<br>
-     * This may not fail all the time, but using multiple iterations should maximize chances of producing the bug. Although this may vary from a
+     * This may not fail all the time, but using multiple iterations should maximize chances of 
+     * producing the bug. Although this may vary from a
      * computer to another...
-     * 
-     * @throws Exception If an exception occurs while performing {@link #retrieve} or {@link #transform}.
+     *
+     * @throws Exception If an exception occurs while performing {@link #retrieve} or 
+     * {@link #transform}.
      */
     @Test(timeout = 30000L)
     public void testMultithreadDeadlock() throws Exception {
@@ -144,7 +150,7 @@ public class ThreadedTransformTest {
             });
             futures.add(f);
         }
-        
+
         // wait for all
         for (Future<Void> f : futures) {
             f.get();

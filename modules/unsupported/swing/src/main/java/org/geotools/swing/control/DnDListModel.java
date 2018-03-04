@@ -30,13 +30,11 @@ import javax.swing.AbstractListModel;
  * The DnDListModel acts as a wrapper around an internal list of
  * items; providing notification as the items are changed.
  * </p>
+ *
  * @author Michael Bedward
- * @since 2.6
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.6
  */
 public class DnDListModel<T> extends AbstractListModel {
     private static final long serialVersionUID = -6110074993686576005L;
@@ -75,7 +73,7 @@ public class DnDListModel<T> extends AbstractListModel {
     }
 
     /**
-     * Returns a list of the items at the specified indices. 
+     * Returns a list of the items at the specified indices.
      * <p>
      * Note: The returned List contains live references.
      *
@@ -154,9 +152,10 @@ public class DnDListModel<T> extends AbstractListModel {
 
     /**
      * Insert an item into the list at the specified position.
+     *
      * @param destIndex the position of the new item: if &lt; 0 the item will
-     * be inserted at the start of the list; if &gt;= the current list size
-     * the item will be appended to the end of the list
+     *                  be inserted at the start of the list; if &gt;= the current list size
+     *                  the item will be appended to the end of the list
      */
     public void insertItem(int destIndex, T newItem) {
         if (destIndex < 0) {
@@ -177,8 +176,8 @@ public class DnDListModel<T> extends AbstractListModel {
      * Insert new items into the list at the specified position.
      *
      * @param destIndex the position of the new item: if &lt; 0 the items will
-     * be inserted at the start of the list; if &gt;= the current list size
-     * the items will be appended to the end of the list
+     *                  be inserted at the start of the list; if &gt;= the current list size
+     *                  the items will be appended to the end of the list
      */
     public void insertItems(int destIndex, T[] newItems) {
         insertItems(destIndex, Arrays.asList(newItems));
@@ -188,8 +187,8 @@ public class DnDListModel<T> extends AbstractListModel {
      * Insert new items into the list at the specified position.
      *
      * @param destIndex the position of the new item: if &lt; 0 the items will
-     * be inserted at the start of the list; if &gt;= the current list size
-     * the items will be appended to the end of the list
+     *                  be inserted at the start of the list; if &gt;= the current list size
+     *                  the items will be appended to the end of the list
      */
     public void insertItems(int destIndex, Collection<T> newItems) {
         if (destIndex < 0) {
@@ -294,6 +293,6 @@ public class DnDListModel<T> extends AbstractListModel {
 
     @Override
     public String toString() {
-        return "DnD:"+items;
+        return "DnD:" + items;
     }
 }

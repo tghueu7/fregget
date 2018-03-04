@@ -8,18 +8,16 @@ import org.opengis.filter.expression.Function;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class StringFunctionsTest extends TestCase {
 
-	FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
-	
-	public void testConcatenate() throws Exception {
-		Function function = ff.function( "Concatenate",
-				ff.literal("hello"), ff.literal(" "), ff.literal("world"));
-		assertEquals( "hello world", function.evaluate(null, String.class));
-		
-	}
+    FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
+
+    public void testConcatenate() throws Exception {
+        Function function = ff.function("Concatenate",
+                ff.literal("hello"), ff.literal(" "), ff.literal("world"));
+        assertEquals("hello world", function.evaluate(null, String.class));
+
+    }
 }

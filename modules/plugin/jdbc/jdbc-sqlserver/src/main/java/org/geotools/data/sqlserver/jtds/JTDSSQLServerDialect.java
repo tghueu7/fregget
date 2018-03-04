@@ -28,7 +28,6 @@ import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * @author ian.turton
- *
  */
 public class JTDSSQLServerDialect extends SQLServerDialect {
 
@@ -55,7 +54,7 @@ public class JTDSSQLServerDialect extends SQLServerDialect {
         mappings.put("datetime", Timestamp.class);
         mappings.put("time", Time.class);
         mappings.put("date", Date.class);
-        mappings.put( "image", Geometry.class );
+        mappings.put("image", Geometry.class);
         mappings.put("smallmoney", Float.class);
         mappings.put("money", Double.class);
     }

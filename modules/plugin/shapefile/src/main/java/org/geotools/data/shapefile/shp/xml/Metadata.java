@@ -27,16 +27,16 @@ package org.geotools.data.shapefile.shp.xml;
  * Discovery.search( QueryRequest ). When QueryRequest can actually handle
  * normal java beans we can remove this restrictions.
  * </p>
- * 
+ *
  * @author jgarnett
- * @since 0.3
- *
- *
  * @source $URL$
+ * @since 0.3
  */
 public class Metadata {
 
-    /** identification information */
+    /**
+     * identification information
+     */
     IdInfo idinfo;
 
     /**
@@ -47,8 +47,7 @@ public class Metadata {
     }
 
     /**
-     * @param idinfo
-     *                The idinfo to set.
+     * @param idinfo The idinfo to set.
      */
     public void setIdinfo(IdInfo idinfo) {
         this.idinfo = idinfo;

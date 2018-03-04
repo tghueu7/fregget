@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -32,39 +32,39 @@ import org.opengis.filter.capability.FunctionName;
  * <p>
  * This function takes three arguments:
  * <ol>
- *   <li>The look up string</li>
- *   <li>The source string, ie the string to lookup from</li>
- *   <li>The search direction, frontToBack or backToFront
+ * <li>The look up string</li>
+ * <li>The source string, ie the string to lookup from</li>
+ * <li>The search direction, frontToBack or backToFront
  * </ol>
  * </p>
+ *
  * @author Justin Deoliveira, OpenGeo
- *
- *
- *
  * @source $URL$
  */
 public class FilterFunction_strPosition extends FunctionExpressionImpl {
 
     public static FunctionName NAME;
+
     static {
         Parameter<String> method = new Parameter<String>(
-                "method",String.class,
+                "method", String.class,
                 Text.text("direction"),
                 Text.text("direction to search"),
-                true,1,1,
+                true, 1, 1,
                 "forward",
-                new KVP(Parameter.OPTIONS,Arrays.asList(new String[]{"forward","backToFront"}))
+                new KVP(Parameter.OPTIONS, Arrays.asList(new String[]{"forward", "backToFront"}))
         );
         NAME = new FunctionNameImpl("strPosition",
-            parameter("string", String.class),
-            parameter("string", String.class),
-            parameter("lookup", String.class),
-            method);
+                parameter("string", String.class),
+                parameter("string", String.class),
+                parameter("lookup", String.class),
+                method);
     }
+
     public FilterFunction_strPosition() {
         super(NAME);
     }
-    
+
     @Override
     public Object evaluate(Object object) {
         String lookup = getExpression(0).evaluate(object, String.class);
@@ -73,8 +73,7 @@ public class FilterFunction_strPosition extends FunctionExpressionImpl {
 
         if ("backToFront".equalsIgnoreCase(dir)) {
             return new StringBuffer(string).lastIndexOf(lookup) + 1;
-        }
-        else {
+        } else {
             return string.indexOf(lookup) + 1;
         }
     }

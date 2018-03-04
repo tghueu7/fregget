@@ -22,6 +22,7 @@ import org.geotools.util.Version;
  * Sets up a trigger to the feature insertion target table
  * This setup enable to test the increment of multiple database sequences upon
  * a single feature insertion
+ *
  * @author Lorenzo Pini (lorenzo.pini@geo-solutions.it)
  */
 public class GeoPkgFeatureStoreTestSetup extends GeoPkgTestSetup {
@@ -29,42 +30,42 @@ public class GeoPkgFeatureStoreTestSetup extends GeoPkgTestSetup {
     @Override
     protected void setUpData() throws Exception {
         super.setUpData();
-        
+
         // Dummy trigger, inserts an empty row on ft3 table
         // The INSERT is needed to increment the ft3 id sequence
         run("CREATE OR REPLACE FUNCTION after_update_ft1_trigger() " //
-            +"RETURNS TRIGGER " //
-            +"AS $BODY$ " //
-                +"BEGIN " //
-                    +"INSERT INTO ft3 VALUES(DEFAULT); " //
-                    +"RETURN NEW; " //
-                +"END; " //
-            +"$BODY$ " //
-                +"language plpgsql " //
-                +"volatile ; " //
+                + "RETURNS TRIGGER " //
+                + "AS $BODY$ " //
+                + "BEGIN " //
+                + "INSERT INTO ft3 VALUES(DEFAULT); " //
+                + "RETURN NEW; " //
+                + "END; " //
+                + "$BODY$ " //
+                + "language plpgsql " //
+                + "volatile ; " //
         );
-        
+
         // Add the trigger to the existing table
         run("CREATE TRIGGER after_insert_trigger " //
-            +"AFTER INSERT " //
-            +"ON ft1 " //
-            +"FOR EACH ROW " //
-            +"EXECUTE PROCEDURE after_update_ft1_trigger();" //
+                + "AFTER INSERT " //
+                + "ON ft1 " //
+                + "FOR EACH ROW " //
+                + "EXECUTE PROCEDURE after_update_ft1_trigger();" //
         );
     }
-    
-    
+
+
     @Override
     public void tearDown() throws Exception {
-        
+
         // Removes the trigger from the table
         String sql = "DROP TRIGGER ";
-        
-        
-        sql += "after_insert_trigger ON ft1;" ;
-        
+
+
+        sql += "after_insert_trigger ON ft1;";
+
         runSafe(sql);
-        
+
         super.tearDown();
     }
 }

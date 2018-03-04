@@ -21,8 +21,6 @@ import org.opengis.filter.FilterFactory;
 import org.opengis.filter.identity.FeatureId;
 
 /**
- * 
- * 
  * @source $URL$
  */
 public class DuplicateColumnNameReaderTest extends TestCaseSupport {
@@ -74,7 +72,7 @@ public class DuplicateColumnNameReaderTest extends TestCaseSupport {
         FilterFactory ff = CommonFactoryFinder.getFilterFactory(null);
         Filter idFilter = ff.id(Collections.singleton(fid));
         final Query query = new Query(indexedstore.getSchema().getName().getLocalPart(),
-                idFilter, new String[] { testColumn });
+                idFilter, new String[]{testColumn});
         final SimpleFeatureCollection indexedfeatures = indexedstore.getFeatureSource()
                 .getFeatures(query);
 

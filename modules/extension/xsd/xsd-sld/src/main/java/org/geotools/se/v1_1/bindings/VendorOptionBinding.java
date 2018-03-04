@@ -24,12 +24,12 @@ import org.opengis.filter.FilterFactory;
 
 /**
  * Binding object for the element http://www.opengis.net/se:VendorOption.
- * 
+ * <p>
  * <pre>
  * &lt;xsd:element name="VendorOption">
  *   &lt;xsd:annotation>
  *     &lt;xsd:documentation>
- *     GeoTools specific vendor extensions that allow for implementation 
+ *     GeoTools specific vendor extensions that allow for implementation
  *     specific features not necessarily supported by the core SLD spec.
  *     &lt;/xsd:documentation>
  *   &lt;/xsd:annotation>
@@ -42,10 +42,8 @@ import org.opengis.filter.FilterFactory;
  *   &lt;/xsd:complexType>
  * &lt;/xsd:element>
  * </pre>
+ *
  * @author Justin Deoliveira, OpenGeo
- *
- *
- *
  * @source $URL$
  */
 public class VendorOptionBinding extends SLDVendorOptionBinding {
@@ -53,7 +51,7 @@ public class VendorOptionBinding extends SLDVendorOptionBinding {
     public VendorOptionBinding(FilterFactory filterFactory) {
         super(filterFactory);
     }
-    
+
     @Override
     public QName getTarget() {
         return SE.VendorOption;

@@ -17,6 +17,7 @@
 package org.geotools.filter.v1_1.capabilities;
 
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.capability.GeometryOperand;
 import org.opengis.filter.capability.SpatialOperator;
@@ -26,13 +27,14 @@ import org.geotools.xml.*;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:SpatialOperatorType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="SpatialOperatorType"&gt;
  *      &lt;xsd:sequence&gt;
- *          &lt;xsd:element minOccurs="0" name="GeometryOperands" type="ogc:GeometryOperandsType"/&gt;
+ *          &lt;xsd:element minOccurs="0" name="GeometryOperands" 
+ *          type="ogc:GeometryOperandsType"/&gt;
  *      &lt;/xsd:sequence&gt;
  *      &lt;xsd:attribute name="name" type="ogc:SpatialOperatorNameType"/&gt;
  *  &lt;/xsd:complexType&gt;
@@ -42,9 +44,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SpatialOperatorTypeBinding extends AbstractComplexBinding {
@@ -78,7 +77,7 @@ public class SpatialOperatorTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //&lt;xsd:element minOccurs="0" name="GeometryOperands" type="ogc:GeometryOperandsType"/&gt;
         GeometryOperand[] gos = (GeometryOperand[]) node.getChildValue(GeometryOperand[].class);
 
@@ -87,7 +86,7 @@ public class SpatialOperatorTypeBinding extends AbstractComplexBinding {
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         SpatialOperator sop = (SpatialOperator) object;
 
         if ("GeometryOperands".equals(name.getLocalPart())) {

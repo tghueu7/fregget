@@ -20,14 +20,16 @@ import net.opengis.wmts.v_1.wmtsv_1Factory;
 
 /**
  * Binding object for the element http://www.opengis.net/wmts/1.0:Capabilities.
- *
  * <p>
- *    <pre>
+ * <p>
+ * <pre>
  *       <code>
- *  &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;element name="Capabilities" xmlns="http://www.w3.org/2001/XMLSchema"&gt;
+ *  &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;element name="Capabilities" xmlns="http://www
+ *  .w3.org/2001/XMLSchema"&gt;
  *  		&lt;annotation&gt;
  *  			&lt;documentation&gt;XML defines the WMTS GetCapabilities operation response.
- *  			ServiceMetadata document provides clients with service metadata about a specific service
+ *  			ServiceMetadata document provides clients with service metadata about a specific 
+ *  			service
  *  			instance, including metadata about the tightly-coupled data served. If the server
  *  			does not implement the updateSequence parameter, the server SHALL always
  *  			return the complete Capabilities document, without the updateSequence parameter.
@@ -45,7 +47,8 @@ import net.opengis.wmts.v_1.wmtsv_1Factory;
  *  					&lt;sequence&gt;
  *  						&lt;element minOccurs="0" name="Contents" type="wmts:ContentsType"&gt;
  *  							&lt;annotation&gt;
- *  								&lt;documentation&gt;Metadata about the data served by this server.
+ *  								&lt;documentation&gt;Metadata about the data served by this 
+ *  								server.
  *  								For WMTS, this section SHALL contain data about layers and
  *  								TileMatrixSets&lt;/documentation&gt;
  *  							&lt;/annotation&gt;
@@ -57,12 +60,15 @@ import net.opengis.wmts.v_1.wmtsv_1Factory;
  *  								&lt;/documentation&gt;
  *  							&lt;/annotation&gt;
  *  						&lt;/element&gt;
- *  						&lt;element maxOccurs="unbounded" minOccurs="0" name="WSDL" type="ows:OnlineResourceType"&gt;
+ *  						&lt;element maxOccurs="unbounded" minOccurs="0" name="WSDL" 
+ *  						type="ows:OnlineResourceType"&gt;
  *  							&lt;annotation&gt;
- *  								&lt;documentation&gt;Reference to a WSDL resource&lt;/documentation&gt;
+ *  								&lt;documentation&gt;Reference to a WSDL resource&lt;
+ *  								/documentation&gt;
  *  							&lt;/annotation&gt;
  *  						&lt;/element&gt;
- *  						&lt;element maxOccurs="unbounded" minOccurs="0" name="ServiceMetadataURL" type="ows:OnlineResourceType"&gt;
+ *  						&lt;element maxOccurs="unbounded" minOccurs="0" 
+ *  						name="ServiceMetadataURL" type="ows:OnlineResourceType"&gt;
  *  							&lt;annotation&gt;
  *  								&lt;documentation&gt;
  *  								Reference to a ServiceMetadata resource on resource
@@ -76,14 +82,13 @@ import net.opengis.wmts.v_1.wmtsv_1Factory;
  *  		&lt;/complexType&gt;
  *  	&lt;/element&gt;
  *
- *	  </code>
+ * 	  </code>
  *     </pre>
  * </p>
  *
  * @generated
  */
-public class CapabilitiesBinding extends AbstractComplexBinding
-{
+public class CapabilitiesBinding extends AbstractComplexBinding {
     wmtsv_1Factory factory;
 
     public CapabilitiesBinding(wmtsv_1Factory factory) {
@@ -121,9 +126,12 @@ public class CapabilitiesBinding extends AbstractComplexBinding
 
         capabilities.setContents((ContentsType) node.getChildValue(ContentsType.class));
         capabilities.getThemes().addAll(node.getChildren(ThemeType.class));
-        capabilities.setOperationsMetadata((OperationsMetadataType) node.getChildValue(OperationsMetadataType.class));
-        capabilities.setServiceIdentification((ServiceIdentificationType) node.getChildValue(ServiceIdentificationType.class));
-        capabilities.setServiceProvider((ServiceProviderType) node.getChildValue(ServiceProviderType.class));
+        capabilities.setOperationsMetadata((OperationsMetadataType) node.getChildValue
+                (OperationsMetadataType.class));
+        capabilities.setServiceIdentification((ServiceIdentificationType) node.getChildValue
+                (ServiceIdentificationType.class));
+        capabilities.setServiceProvider((ServiceProviderType) node.getChildValue
+                (ServiceProviderType.class));
         capabilities.setUpdateSequence((String) node.getChildValue("UpdateSequence"));
 
         List<Node> children = node.getChildren("ServiceMetadataURL");

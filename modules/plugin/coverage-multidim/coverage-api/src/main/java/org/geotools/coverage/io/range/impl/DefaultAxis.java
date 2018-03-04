@@ -35,63 +35,64 @@ import org.opengis.util.InternationalString;
  * Implementation of a simple {@link Axis} which can be used
  * when defining your own field type.
  *
- *
- *
  * @source $URL$
  */
-public class DefaultAxis<V,Q extends Quantity> implements Axis<V,Q> {
-	private SingleCRS crs;
-	private InternationalString description;
-	private List<Measure<V,Q>> keys;
-	private Name name;
-	private Unit<Q> unit;
-	
-	public DefaultAxis( String name, Measure<V,Q> key, Unit<Q> unit){
-		this( new NameImpl( name ), new SimpleInternationalString( name ), Collections.singletonList(key), unit, null );
-	}
-	
-	public DefaultAxis( String name, List<Measure<V,Q>> keys, Unit<Q> unit){
-		this( new NameImpl( name ), new SimpleInternationalString( name ), keys, unit, null );
-	}
-	
-	public DefaultAxis( Name name, InternationalString description, List<Measure<V,Q>> keys, Unit<Q> unit){
-		this( name, description, keys, unit, null );
-	}
-	
-	public DefaultAxis( Name name, InternationalString description, List<Measure<V,Q>> keys, Unit<Q> unit, SingleCRS crs ){
-		this.name = name;
-		this.unit = unit;
-		this.description = description;
-		this.keys = new ArrayList<Measure<V,Q>>( keys );
-		this.crs = crs;
-	}
-	
-	public SingleCRS getCoordinateReferenceSystem() {
-		return crs;
-	}
+public class DefaultAxis<V, Q extends Quantity> implements Axis<V, Q> {
+    private SingleCRS crs;
+    private InternationalString description;
+    private List<Measure<V, Q>> keys;
+    private Name name;
+    private Unit<Q> unit;
 
-	public InternationalString getDescription() {
-		return description;
-	}
+    public DefaultAxis(String name, Measure<V, Q> key, Unit<Q> unit) {
+        this(new NameImpl(name), new SimpleInternationalString(name), Collections.singletonList
+                (key), unit, null);
+    }
 
-	public Measure<V, Q> getKey(int keyIndex) {
-		return keys.get( keyIndex );
-	}
+    public DefaultAxis(String name, List<Measure<V, Q>> keys, Unit<Q> unit) {
+        this(new NameImpl(name), new SimpleInternationalString(name), keys, unit, null);
+    }
 
-	public List<? extends Measure<V, Q>> getKeys() {
-		return Collections.unmodifiableList(keys);
-	}
+    public DefaultAxis(Name name, InternationalString description, List<Measure<V, Q>> keys, 
+                       Unit<Q> unit) {
+        this(name, description, keys, unit, null);
+    }
 
-	public Name getName() {
-		return name;
-	}
+    public DefaultAxis(Name name, InternationalString description, List<Measure<V, Q>> keys, 
+                       Unit<Q> unit, SingleCRS crs) {
+        this.name = name;
+        this.unit = unit;
+        this.description = description;
+        this.keys = new ArrayList<Measure<V, Q>>(keys);
+        this.crs = crs;
+    }
 
-	public int getNumKeys() {
-		return keys.size();
-	}
+    public SingleCRS getCoordinateReferenceSystem() {
+        return crs;
+    }
 
-	public Unit<Q> getUnitOfMeasure() {
-		return unit;
-	}
-	
+    public InternationalString getDescription() {
+        return description;
+    }
+
+    public Measure<V, Q> getKey(int keyIndex) {
+        return keys.get(keyIndex);
+    }
+
+    public List<? extends Measure<V, Q>> getKeys() {
+        return Collections.unmodifiableList(keys);
+    }
+
+    public Name getName() {
+        return name;
+    }
+
+    public int getNumKeys() {
+        return keys.size();
+    }
+
+    public Unit<Q> getUnitOfMeasure() {
+        return unit;
+    }
+
 }

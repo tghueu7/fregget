@@ -17,6 +17,7 @@
 package org.geotools.filter.v1_0;
 
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.expression.Divide;
 import org.opengis.filter.expression.Expression;
@@ -27,9 +28,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the element http://www.opengis.net/ogc:Div.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="Div" substitutionGroup="ogc:expression" type="ogc:BinaryOperatorType"/&gt;
  *
@@ -38,9 +39,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OGCDivBinding extends AbstractComplexBinding {
@@ -78,8 +76,8 @@ public class OGCDivBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return filterfactory.divide((Expression) node.getChildValue(0),
-            (Expression) node.getChildValue(1));
+                (Expression) node.getChildValue(1));
     }
 }

@@ -34,6 +34,7 @@ import org.opengis.filter.expression.Literal;
 import org.opengis.style.GraphicalSymbol;
 import org.opengis.style.SemanticType;
 import org.opengis.style.Symbolizer;
+
 import javax.measure.unit.NonSI;
 import java.awt.*;
 import java.util.*;
@@ -45,7 +46,7 @@ import java.util.List;
  * MBLayer wrapper around a {@link JSONObject} representation of a "symbol" type layer. All
  * methods act as accessors on provided JSON layer, no other state is maintained. This allows
  * modifications to be made cleanly with out chance of side-effect.
- * 
+ * <p>
  * <ul>
  * <li>get methods: access the json directly</li>
  * <li>query methods: provide logic / transforms to GeoTools classes as required.</li>
@@ -66,7 +67,8 @@ public class SymbolMBLayer extends MBLayer {
         POINT,
 
         /**
-         * The label is placed along the line of the geometry. Can only be used on LineString and Polygon geometries.
+         * The label is placed along the line of the geometry. Can only be used on LineString and
+         * Polygon geometries.
          */
         LINE
     }
@@ -116,6 +118,7 @@ public class SymbolMBLayer extends MBLayer {
          */
         RIGHT
     }
+
     /**
      * Text justification options.
      */
@@ -165,10 +168,14 @@ public class SymbolMBLayer extends MBLayer {
          */
         BOTTOM_RIGHT(1.0, 0.0);
 
-        /** horizontal justification */
+        /**
+         * horizontal justification
+         */
         final private double x;
 
-        /** vertical justification */
+        /**
+         * vertical justification
+         */
         final private double y;
 
         TextAnchor(double x, double y) {
@@ -178,7 +185,7 @@ public class SymbolMBLayer extends MBLayer {
 
         /**
          * Horizontal justification.
-         * 
+         *
          * @return horizontal alignment between 0.0 and 1.0.
          */
         public double getX() {
@@ -187,7 +194,7 @@ public class SymbolMBLayer extends MBLayer {
 
         /**
          * Vertical justification.
-         * 
+         *
          * @return vertical alignment between 0.0 and 1.0.
          */
         public double getY() {
@@ -197,50 +204,53 @@ public class SymbolMBLayer extends MBLayer {
         /**
          * Parse provided jsonString as a TextAnchor.
          * <p>
-         * One of center, left, right, top, bottom, top-left, top-right, bottom-left, bottom-right. Defaults to center.</p>
-         *  
+         * One of center, left, right, top, bottom, top-left, top-right, bottom-left, 
+         * bottom-right. Defaults to center.</p>
+         *
          * @param jsonString text anchor definition
          * @return TextAnchor, defaults TextAnchor#CENTER if undefined
          */
-        public static TextAnchor parse(String jsonString){
-            if( jsonString == null ){
+        public static TextAnchor parse(String jsonString) {
+            if (jsonString == null) {
                 return CENTER;
             }
             String name = jsonString.toUpperCase().trim().replace('-', '_');
             try {
                 return TextAnchor.valueOf(name);
-            }
-            catch (IllegalArgumentException invalid){
-                throw new MBFormatException("Invalid text-alginment '"+jsonString+"' expected one of"
-                        + "center, left, right, top, bottom, top-left, top-right, bottom-left, bottom-right");
+            } catch (IllegalArgumentException invalid) {
+                throw new MBFormatException("Invalid text-alginment '" + jsonString + "' expected" +
+                        " one of"
+                        + "center, left, right, top, bottom, top-left, top-right, bottom-left, " +
+                        "bottom-right");
             }
         }
-        
+
         /**
          * The json representation of this TextAnchor.
-         * 
+         *
          * @return json representation
          */
-        public String json(){
+        public String json() {
             return name().toLowerCase().replace('_', '-');
         }
-        
+
         /**
          * Quickly grab y justification for jsonString.
-         * 
+         *
          * @param jsonString
          * @return vertical anchor, defaults to 0.5
          */
-        public static double getAnchorY(String jsonString){
+        public static double getAnchorY(String jsonString) {
             return TextAnchor.parse(jsonString).getY();
         }
+
         /**
          * Quickly grab x justification for jsonString.
-         * 
+         *
          * @param jsonString
          * @return horizontal anchor, defaults to 0.5
          */
-        public static double getAnchorX(String jsonString){
+        public static double getAnchorX(String jsonString) {
             return TextAnchor.parse(jsonString).getX();
         }
     }
@@ -276,30 +286,30 @@ public class SymbolMBLayer extends MBLayer {
     }
 
     /**
-     * When any of these strings is provided as the sprite source in an MB style, the style's 'icon-image' will actually be interpreted as the
+     * When any of these strings is provided as the sprite source in an MB style, the style's 
+     * 'icon-image' will actually be interpreted as the
      * well-known name of a GeoTools {@link Mark} rather than an actual sprite sheet location.
      */
     protected static final Set<String> MARK_SHEET_ALIASES = ImmutableSet.of("geotoolsmarks",
             "geoservermarks", "");
 
     /**
-     * The default base size (pixels) to use to render GeoTools marks in a MB style. This is needed because MB styles have only a relative "size"
+     * The default base size (pixels) to use to render GeoTools marks in a MB style. This is 
+     * needed because MB styles have only a relative "size"
      * property that scales the icon, but no absolute reference size.
      */
     protected static final int MARK_ICON_DEFAULT_SIZE = 32;
-    
+
     /**
-     * 
      * @param json
      */
     public SymbolMBLayer(JSONObject json) {
-        super(json,new MBObjectParser(SymbolMBLayer.class));
+        super(json, new MBObjectParser(SymbolMBLayer.class));
         paint = super.getPaint();
         layout = super.getLayout();
     }
 
     /**
-     *
      * @return The default semantic type.
      */
     @Override
@@ -309,9 +319,9 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * (Optional) One of point, line. Defaults to point.
-     * 
+     * <p>
      * Label placement relative to its geometry.
-     * 
+     *
      * @return SymbolPlacement
      */
     public SymbolPlacement getSymbolPlacement() {
@@ -325,20 +335,20 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * (Optional) One of point, line. Defaults to point.
-     *
+     * <p>
      * Label placement relative to its geometry.
      *
      * @return SymbolPlacement
      */
     public Expression symbolPlacement() {
-        return parse.string(layout, "symbol-placement", "point");        
+        return parse.string(layout, "symbol-placement", "point");
     }
 
     /**
-     *  (Optional) Units in pixels. Defaults to 250. Requires SymbolPlacement.LINE
-     *  
-     *  Distance between two symbol anchors.
-     * 
+     * (Optional) Units in pixels. Defaults to 250. Requires SymbolPlacement.LINE
+     * <p>
+     * Distance between two symbol anchors.
+     *
      * @return Number representing distance between two symbol anchors
      * @throws MBFormatException
      */
@@ -348,8 +358,8 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * Access symbol-spacing, defaults to 250.
-     * 
-     * @return  Number representing distance between two symbol anchors
+     *
+     * @return Number representing distance between two symbol anchors
      * @throws MBFormatException
      */
     public Expression symbolSpacing() throws MBFormatException {
@@ -358,24 +368,28 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * (Optional) Defaults to false.
-     * 
-     * If true, the symbols will not cross tile edges to avoid mutual collisions. Recommended in layers that don't have
-     * enough padding in the vector tile to prevent collisions, or if it is a point symbol layer placed after a line
+     * <p>
+     * If true, the symbols will not cross tile edges to avoid mutual collisions. Recommended in 
+     * layers that don't have
+     * enough padding in the vector tile to prevent collisions, or if it is a point symbol layer 
+     * placed after a line
      * symbol layer.
-     * 
+     *
      * @return Whether or not the symbols should avoid edges.
      * @throws MBFormatException
      */
     public Boolean getSymbolAvoidEdges() throws MBFormatException {
         return parse.getBoolean(layout, "symbol-avoid-edges", false);
     }
-    
+
     /**
      * Wraps {@link #getSymbolAvoidEdges()} in a GeoTools expression.
-     * 
-     * (Optional) Defaults to false. If true, the symbols will not cross tile edges to avoid mutual collisions. Recommended in layers that don't have
-     * enough padding in the vector tile to prevent collisions, or if it is a point symbol layer placed after a line symbol layer.
-     * 
+     * <p>
+     * (Optional) Defaults to false. If true, the symbols will not cross tile edges to avoid 
+     * mutual collisions. Recommended in layers that don't have
+     * enough padding in the vector tile to prevent collisions, or if it is a point symbol layer 
+     * placed after a line symbol layer.
+     *
      * @return Whether or not the symbols should avoid edges.
      * @throws MBFormatException
      */
@@ -385,7 +399,7 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * (Optional) Defaults to false. Requires icon-image.
-     * 
+     * <p>
      * If true, the icon will be visible even if it collides with other previously drawn symbols.
      *
      * @return Whether or not the symbols should be allowed to overlap other symbols
@@ -397,9 +411,9 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * Wraps {@link #getIconAllowOverlap()} in a GeoTools expression.
-     * 
+     * <p>
      * (Optional) Defaults to false. Requires icon-image.
-     * 
+     * <p>
      * If true, the icon will be visible even if it collides with other previously drawn symbols.
      *
      * @return Whether or not the symbols should be allowed to overlap other symbols
@@ -410,7 +424,7 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * (Optional) Defaults to false. Requires icon-image.
-     * 
+     * <p>
      * If true, other symbols can be visible even if they collide with the icon.
      *
      * @return Whether or not other symbols should be allowed to overlap symbols in this layer.
@@ -421,11 +435,11 @@ public class SymbolMBLayer extends MBLayer {
     }
 
     /**
-     * 
      * Wraps {@link #getIconIgnorePlacement()} in a GeoTools expression.
-     * 
-     * (Optional) Defaults to false. Requires icon-image. If true, other symbols can be visible even if they collide with the icon.
-     * 
+     * <p>
+     * (Optional) Defaults to false. Requires icon-image. If true, other symbols can be visible 
+     * even if they collide with the icon.
+     *
      * @return Whether or not other symbols should be allowed to overlap symbols in this layer.
      * @throws MBFormatException
      */
@@ -435,8 +449,9 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * (Optional) Defaults to false. Requires icon-image. Requires text-field.
-     * 
-     * If true, text will display without their corresponding icons when the icon collides with other symbols and the
+     * <p>
+     * If true, text will display without their corresponding icons when the icon collides with 
+     * other symbols and the
      * text does not.
      *
      * @return Whether or not the label may be drawn when the icon is not drawn due to collisions
@@ -447,13 +462,16 @@ public class SymbolMBLayer extends MBLayer {
     }
 
     /**
-     * Optional enum. One of map, viewport, auto. Defaults to auto. Requires icon-image. In combination with
+     * Optional enum. One of map, viewport, auto. Defaults to auto. Requires icon-image. In 
+     * combination with
      * symbol-placement, determines the rotation
-     * 
-     * Wraps {@link #getIconOptional()} in a GeoTools expression. (Optional) Defaults to false. Requires icon-image. Requires text-field.
-     * 
-     * If true, text will display without their corresponding icons when the icon collides with other symbols and the text does not.
-     * 
+     * <p>
+     * Wraps {@link #getIconOptional()} in a GeoTools expression. (Optional) Defaults to false. 
+     * Requires icon-image. Requires text-field.
+     * <p>
+     * If true, text will display without their corresponding icons when the icon collides with 
+     * other symbols and the text does not.
+     *
      * @return Whether or not the label may be drawn when the icon is not drawn due to collisions
      * @throws MBFormatException
      */
@@ -462,56 +480,62 @@ public class SymbolMBLayer extends MBLayer {
     }
 
     /**
-     * Optional enum. One of map, viewport, auto. Defaults to auto. Requires icon-image. In combination with symbol-placement, determines the rotation
+     * Optional enum. One of map, viewport, auto. Defaults to auto. Requires icon-image. In 
+     * combination with symbol-placement, determines the rotation
      * behavior of icons.
-     * 
+     * <p>
      * Possible values:
-     * 
-     * {@link Alignment#MAP} When symbol-placement is set to point, aligns icons east-west. When symbol-placement is set
+     * <p>
+     * {@link Alignment#MAP} When symbol-placement is set to point, aligns icons east-west. When 
+     * symbol-placement is set
      * to line, aligns icon x-axes with the line.
-     * 
-     * {@link Alignment#VIEWPORT} Produces icons whose x-axes are aligned with the x-axis of the viewport, regardless of
+     * <p>
+     * {@link Alignment#VIEWPORT} Produces icons whose x-axes are aligned with the x-axis of the 
+     * viewport, regardless of
      * the value of symbol-placement.
-     * 
-     * {@link Alignment#AUTO} When symbol-placement is set to point, this is equivalent to viewport. When
+     * <p>
+     * {@link Alignment#AUTO} When symbol-placement is set to point, this is equivalent to 
+     * viewport. When
      * symbol-placement is set to line, this is equivalent to map.
-     * 
+     *
      * @return The icon rotation alignment
      */
     public Alignment getIconRotationAlignment() {
         Object value = layout.get("icon-rotation-alignment");
         if (value != null && "map".equalsIgnoreCase((String) value)) {
             return Alignment.MAP;
-        } else if (value != null && "viewport".equalsIgnoreCase((String) value)){
+        } else if (value != null && "viewport".equalsIgnoreCase((String) value)) {
             return Alignment.VIEWPORT;
         } else {
             return Alignment.AUTO;
         }
-        
+
     }
-    
+
     /**
-     * Converts {@link #getIconRotationAlignment()} to a GeoTools expression. Returns an expression that evaluates to one of "map", "viewport", or "auto".
+     * Converts {@link #getIconRotationAlignment()} to a GeoTools expression. Returns an 
+     * expression that evaluates to one of "map", "viewport", or "auto".
      */
     public Expression iconRotationAlignment() {
-        return parse.enumToExpression(layout, "icon-rotation-alignment", Alignment.class, Alignment.AUTO);
+        return parse.enumToExpression(layout, "icon-rotation-alignment", Alignment.class, 
+                Alignment.AUTO);
     }
 
     /**
      * (Optional) Defaults to 1. Requires icon-image.
-     * 
+     * <p>
      * Scale factor for icon. 1 is original size, 3 triples the size.
      *
      * @return The icon size.
      * @throws MBFormatException
      */
-    public Number getIconSize() throws MBFormatException{
+    public Number getIconSize() throws MBFormatException {
         return parse.optional(Number.class, layout, "icon-size", 1.0);
     }
 
     /**
      * Access icon-size, defaults to 1.
-     * 
+     *
      * @return The icon size.
      * @throws MBFormatException
      */
@@ -520,29 +544,31 @@ public class SymbolMBLayer extends MBLayer {
     }
 
     /**
-     *  (Optional) One of none, width, height, both. Defaults to none. Requires icon-image. Requires text-field.
-     *  Scales the icon to fit around the associated text.
-     *  
+     * (Optional) One of none, width, height, both. Defaults to none. Requires icon-image. 
+     * Requires text-field.
+     * Scales the icon to fit around the associated text.
+     *
      * @return How the icon should be scaled to fit the associated text
      */
     public IconTextFit getIconTextFit() {
         Object value = layout.get("icon-text-fit");
-        if (value != null && "width".equalsIgnoreCase((String) value)){
+        if (value != null && "width".equalsIgnoreCase((String) value)) {
             return IconTextFit.WIDTH;
-        } else if (value != null && "height".equalsIgnoreCase((String) value)){
+        } else if (value != null && "height".equalsIgnoreCase((String) value)) {
             return IconTextFit.HEIGHT;
-        } else if (value != null && "both".equalsIgnoreCase((String) value)){
+        } else if (value != null && "both".equalsIgnoreCase((String) value)) {
             return IconTextFit.BOTH;
         } else {
             return IconTextFit.NONE;
         }
 
     }
-    
+
     /**
      * Wraps {@link #getIconTextFit()} in a GeoTools expression.
-     * 
-     * (Optional) One of none, width, height, both. Defaults to none. Requires icon-image. Requires text-field.
+     * <p>
+     * (Optional) One of none, width, height, both. Defaults to none. Requires icon-image. 
+     * Requires text-field.
      * Scales the icon to fit around the associated text.
      *
      * @return How the icon should be scaled to fit the associated text
@@ -552,9 +578,10 @@ public class SymbolMBLayer extends MBLayer {
     }
 
     /**
-     * (Optional) Units in pixels. Defaults to 0,0,0,0. Requires icon-image. Requires text-field. Requires
+     * (Optional) Units in pixels. Defaults to 0,0,0,0. Requires icon-image. Requires text-field.
+     * Requires
      * icon-text-fit = one of both, width, height.
-     * 
+     * <p>
      * Size of the additional area added to dimensions determined by icon-text-fit, in clockwise
      * order: top, right, bottom, left.
      *
@@ -567,9 +594,10 @@ public class SymbolMBLayer extends MBLayer {
     }
 
     /**
-     * (Optional) Units in pixels. Defaults to 0,0,0,0. Requires icon-image. Requires text-field. Requires
+     * (Optional) Units in pixels. Defaults to 0,0,0,0. Requires icon-image. Requires text-field.
+     * Requires
      * icon-text-fit = one of both, width, height.
-     *
+     * <p>
      * Size of the additional area added to dimensions determined by icon-text-fit, in clockwise
      * order: top, right, bottom, left.
      *
@@ -590,9 +618,8 @@ public class SymbolMBLayer extends MBLayer {
     public String getIconImage() throws MBFormatException {
         return parse.optional(String.class, layout, "icon-image", null);
     }
-    
+
     /**
-     * 
      * @return True if the layer has a icon-image explicitly provided.
      */
     public boolean hasIconImage() throws MBFormatException {
@@ -604,7 +631,6 @@ public class SymbolMBLayer extends MBLayer {
      *
      * @return The name of the icon image
      * @throws MBFormatException
-     * 
      */
     public Expression iconImage() {
         return parse.string(layout, "icon-image", "");
@@ -612,7 +638,7 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * (Optional) Units in degrees. Defaults to 0. Requires icon-image.
-     * 
+     * <p>
      * Rotates the icon clockwise.
      *
      * @return The icon rotation
@@ -634,8 +660,9 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * (Optional) Units in pixels. Defaults to 2. Requires icon-image.
-     * 
-     * Size of the additional area around the icon bounding box used for detecting symbol collisions.
+     * <p>
+     * Size of the additional area around the icon bounding box used for detecting symbol 
+     * collisions.
      *
      * @return Padding around the icon for collision-detection.
      * @throws MBFormatException
@@ -655,11 +682,13 @@ public class SymbolMBLayer extends MBLayer {
     }
 
     /**
-     * (Optional) Defaults to false. Requires icon-image. Requires icon-rotation-alignment = map. Requires symbol-placement = line.
-     * 
+     * (Optional) Defaults to false. Requires icon-image. Requires icon-rotation-alignment = map.
+     * Requires symbol-placement = line.
+     * <p>
      * If true, the icon may be flipped to prevent it from being rendered upside-down.
      *
-     * @return Whether to flip the icon if the orientation of the geometry would cause it to be rendered upside-down
+     * @return Whether to flip the icon if the orientation of the geometry would cause it to be 
+     * rendered upside-down
      * @throws MBFormatException
      */
     public Boolean getIconKeepUpright() throws MBFormatException {
@@ -667,14 +696,15 @@ public class SymbolMBLayer extends MBLayer {
     }
 
     /**
-     * Wraps {@link #getIconKeepUpright()} in a GeoTools expression. 
-     * 
+     * Wraps {@link #getIconKeepUpright()} in a GeoTools expression.
+     * <p>
      * (Optional) Defaults to false. Requires icon-image. Requires
      * icon-rotation-alignment = map. Requires symbol-placement = line.
-     * 
+     * <p>
      * If true, the icon may be flipped to prevent it from being rendered upside-down.
-     * 
-     * @return Whether to flip the icon if the orientation of the geometry would cause it to be rendered upside-down
+     *
+     * @return Whether to flip the icon if the orientation of the geometry would cause it to be 
+     * rendered upside-down
      * @throws MBFormatException
      */
     public Expression iconKeepUpright() {
@@ -683,18 +713,21 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * (Optional) Defaults to 0,0. Requires icon-image.
-     * 
-     * Offset distance of icon from its anchor. Positive values indicate right and down, while negative values indicate left and up. When combined with icon-rotate the offset will be as if the rotated direction was up.
+     * <p>
+     * Offset distance of icon from its anchor. Positive values indicate right and down, while 
+     * negative values indicate left and up. When combined with icon-rotate the offset will be as
+     * if the rotated direction was up.
+     *
      * @return Offset of the icon from its anchor
      * @throws MBFormatException
      */
     public double[] getIconOffset() throws MBFormatException {
-        return parse.array(layout, "icon-offset", new double[] { 0.0, 0.0 });
+        return parse.array(layout, "icon-offset", new double[]{0.0, 0.0});
     }
 
     /**
      * Access icon-offset
-     * 
+     *
      * @return Offset of the icon from its anchor
      * @throws MBFormatException
      */
@@ -711,10 +744,11 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * Maps {@link #getIconOffset()} to a {@link Displacement}
-     * 
-     * (Optional) Defaults to 0,0. Requires icon-image. Offset distance of icon from its anchor. Positive values indicate right and down, while
-     * negative values indicate left and up. When combined with icon-rotate the offset will be as if the rotated direction was up.
-     *
+     * <p>
+     * (Optional) Defaults to 0,0. Requires icon-image. Offset distance of icon from its anchor. 
+     * Positive values indicate right and down, while
+     * negative values indicate left and up. When combined with icon-rotate the offset will be as
+     * if the rotated direction was up.
      */
     public Displacement iconOffsetDisplacement() {
         return parse.displacement(layout, "icon-offset",
@@ -722,69 +756,74 @@ public class SymbolMBLayer extends MBLayer {
     }
 
     /**
-     * 
-     * Optional enum. One of map, viewport, auto. Defaults to auto. Requires text-field. Orientation of text when map is pitched.
-     * 
+     * Optional enum. One of map, viewport, auto. Defaults to auto. Requires text-field. 
+     * Orientation of text when map is pitched.
+     * <p>
      * Possible values:
-     * 
+     * <p>
      * {@link Alignment#MAP} The text is aligned to the plane of the map.
-     * 
+     * <p>
      * {@link Alignment#VIEWPORT} The text is aligned to the plane of the viewport.
-     * 
+     * <p>
      * {@link Alignment#AUTO} Automatically matches the value of text-rotation-alignment.
-     * 
+     *
      * @return Text alignment when the map is pitched.
      */
     public Alignment getTextPitchAlignment() {
         Object value = layout.get("text-pitch-alignment");
         if (value != null && "map".equalsIgnoreCase((String) value)) {
             return Alignment.MAP;
-        } else if (value != null && "viewport".equalsIgnoreCase((String) value)){
+        } else if (value != null && "viewport".equalsIgnoreCase((String) value)) {
             return Alignment.VIEWPORT;
         } else {
             return Alignment.AUTO;
         }
     }
-    
+
     /**
-     * Converts {@link #getTextPitchAlignment()} to a GeoTools expression. Returns an expression that evaluates to one of "map", "viewport", or "auto".
+     * Converts {@link #getTextPitchAlignment()} to a GeoTools expression. Returns an expression 
+     * that evaluates to one of "map", "viewport", or "auto".
      */
     public Expression textPitchAlignment() {
-        return parse.enumToExpression(layout, "text-pitch-alignment", Alignment.class, Alignment.AUTO);
+        return parse.enumToExpression(layout, "text-pitch-alignment", Alignment.class, Alignment
+                .AUTO);
     }
 
     /**
-     * 
-     * Optional enum. One of map, viewport, auto. Defaults to auto. Requires text-field. In combination with symbol-placement, determines the rotation
+     * Optional enum. One of map, viewport, auto. Defaults to auto. Requires text-field. In 
+     * combination with symbol-placement, determines the rotation
      * behavior of the individual glyphs forming the text.
-     * 
+     * <p>
      * Possible values:
-     * 
-     * {@link Alignment#MAP} When symbol-placement is set to point, aligns text east-west. When symbol-placement is set to line, aligns text x-axes
+     * <p>
+     * {@link Alignment#MAP} When symbol-placement is set to point, aligns text east-west. When 
+     * symbol-placement is set to line, aligns text x-axes
      * with the line.
-     * 
-     * {@link Alignment#VIEWPORT} Produces glyphs whose x-axes are aligned with the x-axis of the viewport, regardless of the value of
+     * <p>
+     * {@link Alignment#VIEWPORT} Produces glyphs whose x-axes are aligned with the x-axis of the
+     * viewport, regardless of the value of
      * symbol-placement.
-     * 
-     * {@link Alignment#AUTO} When symbol-placement is set to point, this is equivalent to viewport. When symbol-placement is set to line, this is
+     * <p>
+     * {@link Alignment#AUTO} When symbol-placement is set to point, this is equivalent to 
+     * viewport. When symbol-placement is set to line, this is
      * equivalent to map.
-     * 
+     *
      * @return Text alignment when the map is rotated.
      */
     public Alignment getTextRotationAlignment() {
         Object value = layout.get("text-rotation-alignment");
         if (value != null && "map".equalsIgnoreCase((String) value)) {
             return Alignment.MAP;
-        } else if (value != null && "viewport".equalsIgnoreCase((String) value)){
+        } else if (value != null && "viewport".equalsIgnoreCase((String) value)) {
             return Alignment.VIEWPORT;
         } else {
             return Alignment.AUTO;
         }
     }
-    
+
     /**
      * Converts {@link #getTextRotationAlignment()} to a GeoTools expression.
-     * 
+     *
      * @return A GeoTools expression that evaluates to "map", "viewport", or "auto".
      * @see {@link #getTextRotationAlignment()}}.
      */
@@ -794,8 +833,9 @@ public class SymbolMBLayer extends MBLayer {
     }
 
     /**
-     * (Optional) Value to use for a text label. Feature properties are specified using tokens like {field_name}.
-     * 
+     * (Optional) Value to use for a text label. Feature properties are specified using tokens 
+     * like {field_name}.
+     *
      * @return Value to use for a text label
      * @throws MBFormatException
      */
@@ -805,6 +845,7 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * Access text-field as literal or function expression
+     *
      * @return Value to use for a text label
      * @throws MBFormatException
      */
@@ -813,7 +854,6 @@ public class SymbolMBLayer extends MBLayer {
     }
 
     /**
-     *
      * @return True if the layer has a text-field explicitly provided.
      */
     private boolean hasTextField() throws MBFormatException {
@@ -821,9 +861,10 @@ public class SymbolMBLayer extends MBLayer {
     }
 
     /**
-     * (Optional) Font stack to use for displaying text. 
-     * 
-     * Defaults to <code>["Open Sans Regular","Arial Unicode MS Regular"]</code>. Requires text-field. 
+     * (Optional) Font stack to use for displaying text.
+     * <p>
+     * Defaults to <code>["Open Sans Regular","Arial Unicode MS Regular"]</code>. Requires 
+     * text-field.
      *
      * @return The font to use for the label
      */
@@ -851,7 +892,7 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * (Optional) Units in pixels. Defaults to 16. Requires text-field.
-     * 
+     * <p>
      * Font size.
      *
      * @return The font size
@@ -873,7 +914,7 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * (Optional) Units in ems. Defaults to 10. Requires text-field.
-     * 
+     * <p>
      * The maximum line width for text wrapping.
      *
      * @return Maximum label width
@@ -891,10 +932,9 @@ public class SymbolMBLayer extends MBLayer {
      */
     public Expression textMaxWidth() throws MBFormatException {
         return parse.percentage(layout, "text-max-width", 10.0);
-    }   
-    
+    }
+
     /**
-     * 
      * @return True if the layer has a text-max-width explicitly provided.
      */
     public boolean hasTextMaxWidth() throws MBFormatException {
@@ -903,7 +943,7 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * (Optional) Units in ems. Defaults to 1.2. Requires text-field.
-     * 
+     * <p>
      * Text leading value for multi-line text.
      *
      * @return Label line height
@@ -924,9 +964,9 @@ public class SymbolMBLayer extends MBLayer {
     }
 
     /**
-     *  (Optional) Units in ems. Defaults to 0. Requires text-field.
-     *  
-     *  Text tracking amount.
+     * (Optional) Units in ems. Defaults to 0. Requires text-field.
+     * <p>
+     * Text tracking amount.
      *
      * @return Spacing between label characters
      * @throws MBFormatException
@@ -946,68 +986,69 @@ public class SymbolMBLayer extends MBLayer {
     }
 
     /**
-     * 
      * Optional enum. One of left, center, right. Defaults to center. Requires text-field.
-     * 
+     * <p>
      * Text justification options:
-     * 
+     * <p>
      * {@link Justification#LEFT} The text is aligned to the left.
-     * 
+     * <p>
      * {@link Justification#CENTER} The text is centered.
-     * 
+     * <p>
      * {@link Justification#RIGHT} The text is aligned to the right.
-     * 
+     *
      * @return The label justification.
      */
     public Justification getTextJustify() {
         Object value = layout.get("text-justify");
         if (value != null && "left".equalsIgnoreCase((String) value)) {
             return Justification.LEFT;
-        } else if (value != null && "right".equalsIgnoreCase((String) value)){
+        } else if (value != null && "right".equalsIgnoreCase((String) value)) {
             return Justification.RIGHT;
         } else {
             return Justification.CENTER;
         }
     }
-    
+
     /**
-     * Converts {@link #getTextJustify()} to a GeoTools expression. Returns an expression that evaluates to one of "left", "right", or "center".
-     * 
+     * Converts {@link #getTextJustify()} to a GeoTools expression. Returns an expression that 
+     * evaluates to one of "left", "right", or "center".
+     *
      * @see {@link #getTextJustify()}
      */
     public Expression textJustify() {
-        return parse.enumToExpression(layout, "text-justify", Justification.class, Justification.CENTER);
+        return parse.enumToExpression(layout, "text-justify", Justification.class, Justification
+                .CENTER);
     }
 
     /**
      * Part of the text placed closest to the anchor (requires text-field).
-     * <p> 
+     * <p>
      * Optional enum. One of center, left, right, top, bottom, top-left, top-right, bottom-left,
      * bottom-right. Defaults to center. Requires text-field. Part of the text placed closest to the
      * anchor.
-     * 
+     * <p>
      * {@link TextAnchor#CENTER} The center of the text is placed closest to the anchor.
-     * 
+     * <p>
      * {@link TextAnchor#LEFT} The left side of the text is placed closest to the anchor.
-     * 
+     * <p>
      * {@link TextAnchor#RIGHT} The right side of the text is placed closest to the anchor.
-     * 
+     * <p>
      * {@link TextAnchor#TOP} The top of the text is placed closest to the anchor.
-     * 
+     * <p>
      * {@link TextAnchor#BOTTOM} The bottom of the text is placed closest to the anchor.
-     * 
+     * <p>
      * {@link TextAnchor#TOP_LEFT} The top left corner of the text is placed closest to the anchor.
-     * 
+     * <p>
      * {@link TextAnchor#TOP_RIGHT} The top right corner of the text is placed closest to the
      * anchor.
-     * 
+     * <p>
      * {@link TextAnchor#BOTTOM_LEFT} The bottom left corner of the text is placed closest to the
      * anchor.
-     * 
+     * <p>
      * {@link TextAnchor#BOTTOM_RIGHT} The bottom right corner of the text is placed closest to the
      * anchor.
-     * 
-     * @return part of the text placed closest to the anchor. 
+     *
+     * @return part of the text placed closest to the anchor.
      */
     public TextAnchor getTextAnchor() {
         String json = parse.get(layout, "text-anchor", "center");
@@ -1016,11 +1057,12 @@ public class SymbolMBLayer extends MBLayer {
         }
         return TextAnchor.parse(json);
     }
-    
+
     /**
-     * Converts {@link #getTextAnchor()} to a GeoTools expression. Returns an expression that evaluates to one of "center", "left", or "right", "top",
+     * Converts {@link #getTextAnchor()} to a GeoTools expression. Returns an expression that 
+     * evaluates to one of "center", "left", or "right", "top",
      * "bottom", "top_left", "top_right", "bottom_left", "bottom_right".
-     * 
+     *
      * @see {@link #getTextAnchor()}
      */
     public Expression textAnchor() {
@@ -1028,10 +1070,10 @@ public class SymbolMBLayer extends MBLayer {
                 TextAnchor.CENTER);
     }
 
-    
-    /** 
+
+    /**
      * Layout "text-anchor" provided as {@link AnchorPoint}.
-     * 
+     *
      * @return AnchorPoint defined by "text-anchor".
      */
     public AnchorPoint anchorPoint() {
@@ -1041,12 +1083,13 @@ public class SymbolMBLayer extends MBLayer {
         }
         return sf.anchorPoint(ff.literal(anchor.getX()), ff.literal(anchor.getY()));
     }
-    
+
     /**
-     * (Optional) Units in degrees. Defaults to 45. Requires text-field. Requires symbol-placement = line.
-     * 
+     * (Optional) Units in degrees. Defaults to 45. Requires text-field. Requires 
+     * symbol-placement = line.
+     * <p>
      * Maximum angle change between adjacent characters.
-     * 
+     *
      * @return Maximum label angle between characters when following a line
      * @throws MBFormatException
      */
@@ -1065,7 +1108,6 @@ public class SymbolMBLayer extends MBLayer {
     }
 
     /**
-     *
      * @return True if the layer has a text-max-angle explicitly provided.
      */
     private boolean hasTextMaxAngle() throws MBFormatException {
@@ -1074,7 +1116,7 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * (Optional) Units in degrees. Defaults to 0. Requires text-field.
-     * 
+     * <p>
      * Rotates the text clockwise.
      *
      * @return Rotation angle of the label
@@ -1096,8 +1138,9 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * (Optional) Units in pixels. Defaults to 2. Requires text-field.
-     * 
-     * Size of the additional area around the text bounding box used for detecting symbol collisions.
+     * <p>
+     * Size of the additional area around the text bounding box used for detecting symbol 
+     * collisions.
      *
      * @return Padding around the label for detecting collisions
      * @throws MBFormatException
@@ -1117,11 +1160,13 @@ public class SymbolMBLayer extends MBLayer {
     }
 
     /**
-     * (Optional) Defaults to true. Requires text-field. Requires text-rotation-alignment = map. Requires symbol-placement = line.
-     * 
+     * (Optional) Defaults to true. Requires text-field. Requires text-rotation-alignment = map. 
+     * Requires symbol-placement = line.
+     * <p>
      * If true, the text may be flipped vertically to prevent it from being rendered upside-down.
      *
-     * @return Whether to flip the label if the orientation of the geometry would cause it to be rendered upside-down
+     * @return Whether to flip the label if the orientation of the geometry would cause it to be 
+     * rendered upside-down
      * @throws MBFormatException
      */
     public Boolean getTextKeepUpright() throws MBFormatException {
@@ -1129,11 +1174,12 @@ public class SymbolMBLayer extends MBLayer {
     }
 
     /**
-     * Wraps {@link #getTextKeepUpright()} in a GeoTools expression (Optional) Defaults to true. Requires text-field. Requires text-rotation-alignment
+     * Wraps {@link #getTextKeepUpright()} in a GeoTools expression (Optional) Defaults to true. 
+     * Requires text-field. Requires text-rotation-alignment
      * = map. Requires symbol-placement = line.
-     * 
+     * <p>
      * If true, the text may be flipped vertically to prevent it from being rendered upside-down.
-     * 
+     *
      * @return Boolean
      * @throws MBFormatException
      */
@@ -1143,31 +1189,32 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * One of none, uppercase, lowercase. Defaults to none. Requires text-field.
-     * 
+     * <p>
      * Specifies how to capitalize text, similar to the CSS text-transform property.
-     * 
+     * <p>
      * {@link TextTransform#NONE} The text is not altered.
-     * 
+     * <p>
      * {@link TextTransform#UPPERCASE} Forces all letters to be displayed in uppercase.
-     * 
+     * <p>
      * {@link TextTransform#LOWERCASE} Forces all letters to be displayed in lowercase.
-     * 
+     *
      * @return The tranformation to apply to the label
      */
     public TextTransform getTextTransform() {
         Object value = layout.get("text-transform");
         if (value != null && "uppercase".equalsIgnoreCase((String) value)) {
             return TextTransform.UPPERCASE;
-        } else if (value != null && "lowercase".equalsIgnoreCase((String) value)){
+        } else if (value != null && "lowercase".equalsIgnoreCase((String) value)) {
             return TextTransform.LOWERCASE;
         } else {
             return TextTransform.NONE;
         }
     }
-    
+
     /**
-     * Converts {@link #getTextTransform()} to a GeoTools expression. Returns an expression that evaluates to one of "uppercase", "lowercase", "none".
-     * 
+     * Converts {@link #getTextTransform()} to a GeoTools expression. Returns an expression that 
+     * evaluates to one of "uppercase", "lowercase", "none".
+     *
      * @see {@link #getTextTransform()}
      */
     public Expression textTransform() {
@@ -1177,19 +1224,20 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * (Optional) Units in ems. Defaults to 0,0. Requires text-field.
-     * 
-     * Offset distance of text from its anchor. Positive values indicate right and down, while negative values indicate left and up.
+     * <p>
+     * Offset distance of text from its anchor. Positive values indicate right and down, while 
+     * negative values indicate left and up.
      *
      * @return Offset of the label from its anchor.
      * @throws MBFormatException
      */
     public double[] getTextOffset() throws MBFormatException {
-        return parse.array(layout, "text-offset", new double[] { 0.0, 0.0 });
+        return parse.array(layout, "text-offset", new double[]{0.0, 0.0});
     }
 
     /**
      * Access text-offset
-     * 
+     *
      * @return Offset of the label from its anchor.
      * @throws MBFormatException
      */
@@ -1206,7 +1254,7 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * Maps {@link #getTextOffset()} to a {@link Displacement}.
-     * 
+     * <p>
      * (Optional) Units in ems. Defaults to 0,0. Requires text-field.
      */
     public Displacement textOffsetDisplacement() {
@@ -1216,7 +1264,7 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * (Optional) Defaults to false. Requires text-field.
-     * 
+     * <p>
      * If true, the text will be visible even if it collides with other previously drawn symbols.
      *
      * @return Whether or not the text should be allowed to overlap other symbols
@@ -1225,12 +1273,12 @@ public class SymbolMBLayer extends MBLayer {
     public Boolean getTextAllowOverlap() throws MBFormatException {
         return parse.getBoolean(layout, "text-allow-overlap", false);
     }
-    
+
     /**
      * Wraps {@link #getTextAllowOverlap()} in a GeoTools {@link Expression}.
-     * 
+     * <p>
      * (Optional) Defaults to false. Requires text-field.
-     * 
+     * <p>
      * If true, the text will be visible even if it collides with other previously drawn symbols.
      *
      * @return Whether or not the symbols should be allowed to overlap other symbols
@@ -1241,7 +1289,7 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * Defaults to false. Requires text-field.
-     * 
+     * <p>
      * If true, other symbols can be visible even if they collide with the text.
      *
      * @return Whether or not other symbols should be allowed to overlap text in this layer.
@@ -1252,10 +1300,11 @@ public class SymbolMBLayer extends MBLayer {
     }
 
     /**
-     * Wraps {@link #getTextIgnorePlacement()} in a GeoTools expression Defaults to false. Requires text-field.
-     * 
+     * Wraps {@link #getTextIgnorePlacement()} in a GeoTools expression Defaults to false. 
+     * Requires text-field.
+     * <p>
      * If true, other symbols can be visible even if they collide with the text.
-     * 
+     *
      * @return Boolean
      * @throws MBFormatException
      */
@@ -1265,9 +1314,10 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * Defaults to false. Requires text-field. Requires icon-image.
-     * 
-     * If true, icons will display without their corresponding text when the text collides with other symbols and the icon does not.
-     * 
+     * <p>
+     * If true, icons will display without their corresponding text when the text collides with 
+     * other symbols and the icon does not.
+     *
      * @return Whether or not the symbol may be drawn when the label is not drawn due to collisions
      * @throws MBFormatException
      */
@@ -1277,11 +1327,13 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * Wraps {@link #getTextOptional()} in a GeoTools expression.
-     * 
-     * Defaults to false. Requires text-field. Defaults to false. Requires text-field. Requires icon-image.
-     * 
-     * If true, icons will display without their corresponding text when the text collides with other symbols and the icon does not.
-     * 
+     * <p>
+     * Defaults to false. Requires text-field. Defaults to false. Requires text-field. Requires 
+     * icon-image.
+     * <p>
+     * If true, icons will display without their corresponding text when the text collides with 
+     * other symbols and the icon does not.
+     *
      * @return Boolean
      * @throws MBFormatException
      */
@@ -1291,7 +1343,7 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * (Optional) Defaults to 1. Requires icon-image.
-     * 
+     * <p>
      * The opacity at which the icon will be drawn.
      *
      * @return Opacity of the icon
@@ -1310,36 +1362,36 @@ public class SymbolMBLayer extends MBLayer {
     public Expression iconOpacity() throws MBFormatException {
         return parse.percentage(paint, "icon-opacity", 1.0);
     }
-    
+
     /**
      * (Optional) Defaults to #000000. Requires icon-image.
-     * 
+     * <p>
      * The color of the icon. This can only be used with sdf icons.
      *
      * @link Color of the icon.
      */
     public Color getIconColor() {
-        return parse.optional(Color.class, paint, "icon-color", Color.BLACK );
+        return parse.optional(Color.class, paint, "icon-color", Color.BLACK);
     }
-    
+
     /**
      * Access icon-color as literal or function expression, defaults to black.
      *
      * @link Color of the icon.
      */
-    public Expression iconColor() {      
+    public Expression iconColor() {
         return parse.color(paint, "icon-color", Color.BLACK);
     }
 
     /**
      * (Optional) Defaults to rgba(0, 0, 0, 0). Requires icon-image.
-     * 
+     * <p>
      * The color of the icon's halo. Icon halos can only be used with SDF icons.
      *
      * @return Color of the icon's halo.
      */
     public Color getIconHaloColor() {
-        return parse.optional(Color.class, paint, "icon-halo-color", new Color(0,0,0,0));
+        return parse.optional(Color.class, paint, "icon-halo-color", new Color(0, 0, 0, 0));
     }
 
     /**
@@ -1353,7 +1405,7 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * (Optional) Units in pixels. Defaults to 0. Requires icon-image.
-     * 
+     * <p>
      * Distance of halo to the icon outline.
      *
      * @return Width of the icon halo
@@ -1375,7 +1427,7 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * (Optional) Units in pixels. Defaults to 0. Requires icon-image.
-     * 
+     * <p>
      * Fade out the halo towards the outside.
      *
      * @return Size of the halo fade
@@ -1397,21 +1449,23 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * (Optional) Units in pixels. Defaults to 0,0. Requires icon-image.
-     * 
-     * Distance that the icon's anchor is moved from its original placement. Positive values indicate right and down,
+     * <p>
+     * Distance that the icon's anchor is moved from its original placement. Positive values 
+     * indicate right and down,
      * while negative values indicate left and up.
      *
      * @return Translation of the icon from its origin
      * @throws MBFormatException
      */
     public int[] getIconTranslate() throws MBFormatException {
-        return parse.array( paint, "icon-translate", new int[]{ 0, 0 } );
+        return parse.array(paint, "icon-translate", new int[]{0, 0});
     }
 
     /**
      * Units in pixels. Defaults to 0,0. Requires icon-image.
-     *
-     * Distance that the icon's anchor is moved from its original placement. Positive values indicate right and down,
+     * <p>
+     * Distance that the icon's anchor is moved from its original placement. Positive values 
+     * indicate right and down,
      * while negative values indicate left and up.
      *
      * @return Translation of the icon from its origin
@@ -1424,10 +1478,10 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * Maps {@link #getIconTranslate()} to a {@link Displacement}
-     * 
-     * (Optional) Units in pixels. Defaults to 0,0. Requires icon-image. Distance that the icon's anchor is moved from its original placement. Positive values
+     * <p>
+     * (Optional) Units in pixels. Defaults to 0,0. Requires icon-image. Distance that the icon's
+     * anchor is moved from its original placement. Positive values
      * indicate right and down, while negative values indicate left and up.
-     *
      */
     public Displacement iconTranslateDisplacement() {
         return parse.displacement(paint, "icon-translate",
@@ -1435,14 +1489,15 @@ public class SymbolMBLayer extends MBLayer {
     }
 
     /**
-     * (Optional) One of map, viewport. Defaults to map. Requires icon-image. Requires icon-translate.
-     * 
+     * (Optional) One of map, viewport. Defaults to map. Requires icon-image. Requires 
+     * icon-translate.
+     * <p>
      * Controls the translation reference point.
-     * 
+     * <p>
      * {@link TranslateAnchor#MAP}: Icons are translated relative to the map.
-     * 
+     * <p>
      * {@link TranslateAnchor#VIEWPORT}: Icons are translated relative to the viewport.
-     * 
+     * <p>
      * Defaults to {@link TranslateAnchor#MAP}.
      *
      * @return The location of the translation anchor.
@@ -1455,10 +1510,11 @@ public class SymbolMBLayer extends MBLayer {
             return TranslateAnchor.MAP;
         }
     }
-    
+
     /**
-     * Converts {@link #getIconTranslateAnchor()} to a GeoTools expression. Returns an expression that evaluates to one of "map", "viewport".
-     * 
+     * Converts {@link #getIconTranslateAnchor()} to a GeoTools expression. Returns an expression
+     * that evaluates to one of "map", "viewport".
+     *
      * @see {@link #getIconTranslateAnchor()}
      */
     public Expression iconTranslateAnchor() {
@@ -1468,7 +1524,7 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * (Optional) Defaults to 1. Requires text-field.
-     * 
+     * <p>
      * The opacity at which the text will be drawn.
      *
      * @return Opacity of the label
@@ -1490,7 +1546,7 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * Defaults to #000000. Requires text-field.
-     * 
+     * <p>
      * The color with which the text will be drawn.
      *
      * @return The label color.
@@ -1499,19 +1555,19 @@ public class SymbolMBLayer extends MBLayer {
     public Color getTextColor() throws MBFormatException {
         return parse.convertToColor(parse.optional(String.class, paint, "text-color", "#000000"));
     }
-    
+
     /**
      * Access text-color as literal or function expression, defaults to black.
      *
      * @return The label color.
      */
-    public Expression textColor() {      
+    public Expression textColor() {
         return parse.color(paint, "text-color", Color.BLACK);
     }
 
     /**
      * Defaults to rgba(0, 0, 0, 0). Requires text-field.
-     * 
+     * <p>
      * The color of the text's halo, which helps it stand out from backgrounds.
      *
      * @return The label halo color.
@@ -1519,9 +1575,10 @@ public class SymbolMBLayer extends MBLayer {
      */
     public Color getTextHaloColor() throws MBFormatException {
         if (!paint.containsKey("text-halo-color")) {
-            return new Color(0,0,0,0);
+            return new Color(0, 0, 0, 0);
         } else {
-            return parse.convertToColor(parse.optional(String.class, paint, "text-halo-color", "#000000"));             
+            return parse.convertToColor(parse.optional(String.class, paint, "text-halo-color", 
+                    "#000000"));
         }
     }
 
@@ -1536,7 +1593,7 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * (Optional) Units in pixels. Defaults to 0. Requires text-field.
-     * 
+     * <p>
      * Distance of halo to the font outline. Max text halo width is 1/4 of the font-size.
      *
      * @return Size of the label halo
@@ -1558,7 +1615,7 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * (Optional) Units in pixels. Defaults to 0. Requires text-field.
-     * 
+     * <p>
      * The halo's fadeout distance towards the outside.
      *
      * @return Size of the label halo fade
@@ -1580,21 +1637,23 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * (Optional) Units in pixels. Defaults to 0,0. Requires text-field.
-     * 
-     * Distance that the text's anchor is moved from its original placement. Positive values indicate right and down,
+     * <p>
+     * Distance that the text's anchor is moved from its original placement. Positive values 
+     * indicate right and down,
      * while negative values indicate left and up.
      *
      * @return The translation of hte lable form its anchor.
      * @throws MBFormatException
      */
     public int[] getTextTranslate() {
-        return parse.array( paint, "text-translate", new int[]{ 0, 0 } );
+        return parse.array(paint, "text-translate", new int[]{0, 0});
     }
 
     /**
      * (Optional) Units in pixels. Defaults to 0,0. Requires text-field.
-     *
-     * Distance that the text's anchor is moved from its original placement. Positive values indicate right and down,
+     * <p>
+     * Distance that the text's anchor is moved from its original placement. Positive values 
+     * indicate right and down,
      * while negative values indicate left and up.
      *
      * @return The translation of hte lable form its anchor.
@@ -1607,8 +1666,9 @@ public class SymbolMBLayer extends MBLayer {
 
     /**
      * Maps {@link #getTextTranslate()} to a {@link Displacement}.
-     * 
-     * Distance that the text's anchor is moved from its original placement. Positive values indicate right and down, while negative values indicate
+     * <p>
+     * Distance that the text's anchor is moved from its original placement. Positive values 
+     * indicate right and down, while negative values indicate
      * left and up. (Optional) Units in pixels. Defaults to 0,0. Requires text-field.
      */
     public Displacement textTranslateDisplacement() {
@@ -1617,14 +1677,15 @@ public class SymbolMBLayer extends MBLayer {
     }
 
     /**
-     * (Optional) One of map, viewport. Defaults to map. Requires text-field. Requires text-translate.
-     * 
+     * (Optional) One of map, viewport. Defaults to map. Requires text-field. Requires 
+     * text-translate.
+     * <p>
      * Controls the translation reference point.
-     * 
+     * <p>
      * {@link TranslateAnchor#MAP}: The text is translated relative to the map.
-     * 
+     * <p>
      * {@link TranslateAnchor#VIEWPORT}: The text is translated relative to the viewport.
-     * 
+     * <p>
      * Defaults to {@link TranslateAnchor#MAP}.
      *
      * @return The anchor the tect is translated relative to
@@ -1637,10 +1698,11 @@ public class SymbolMBLayer extends MBLayer {
             return TranslateAnchor.MAP;
         }
     }
-    
+
     /**
-     * Converts {@link #getTextTranslateAnchor()} to a GeoTools expression. Returns an expression that evaluates to one of "map", "viewport".
-     * 
+     * Converts {@link #getTextTranslateAnchor()} to a GeoTools expression. Returns an expression
+     * that evaluates to one of "map", "viewport".
+     *
      * @see {@link #getTextTranslateAnchor()}
      */
     public Expression textTranslateAnchor() {
@@ -1656,7 +1718,8 @@ public class SymbolMBLayer extends MBLayer {
      * <ul>
      * </ul>
      *
-     * @param styleContext The MBStyle to which this layer belongs, used as a context for things like resolving sprite and glyph names to full urls.
+     * @param styleContext The MBStyle to which this layer belongs, used as a context for things 
+     *                     like resolving sprite and glyph names to full urls.
      * @return FeatureTypeStyle
      */
     public List<FeatureTypeStyle> transformInternal(MBStyle styleContext) {
@@ -1668,7 +1731,8 @@ public class SymbolMBLayer extends MBLayer {
         // Create point or line placement
 
         // Functions not yet supported for symbolPlacement, so try to evaluate or use default.
-        String symbolPlacementVal = transformer.requireLiteral(symbolPlacement(), String.class, "point", "symbol-placement", getId());
+        String symbolPlacementVal = transformer.requireLiteral(symbolPlacement(), String.class, 
+                "point", "symbol-placement", getId());
 
         if ("point".equalsIgnoreCase(symbolPlacementVal.trim())) {
             // Point Placement (default)
@@ -1679,7 +1743,8 @@ public class SymbolMBLayer extends MBLayer {
 
             // MapBox text-offset: +y means down
             Displacement textTranslate = textTranslateDisplacement();
-            textTranslate.setDisplacementY(ff.multiply(ff.literal(-1), textTranslate.getDisplacementY()));
+            textTranslate.setDisplacementY(ff.multiply(ff.literal(-1), textTranslate
+                    .getDisplacementY()));
             pointP.setDisplacement(textTranslate);
 
             pointP.setRotation(textRotate());
@@ -1702,7 +1767,8 @@ public class SymbolMBLayer extends MBLayer {
         Fill fill = sf.fill(null, textColor(), textOpacity());
 
 
-        Font font = sb.createFont(ff.literal(""), ff.literal("normal"), ff.literal("normal"), textSize());
+        Font font = sb.createFont(ff.literal(""), ff.literal("normal"), ff.literal("normal"), 
+                textSize());
 
         if (getTextFont() != null) {
             font.getFamily().clear();
@@ -1738,25 +1804,30 @@ public class SymbolMBLayer extends MBLayer {
 
         // text max angle - only for line placement
         // throw MBFormatException if point placement
-        if(labelPlacement instanceof LinePlacement){
+        if (labelPlacement instanceof LinePlacement) {
             // followLine will be true if line placement, it is an implied default of MBstyles.
             symbolizer.getOptions().put("forceLeftToRight", String.valueOf(textKeepUpright()));
             symbolizer.getOptions().put("followLine", "true");
             symbolizer.getOptions().put("maxAngleDelta", String.valueOf(getTextMaxAngle()));
         } else if (hasTextMaxAngle()) {
-        	throw new MBFormatException("Property text-max-angle requires symbol-placement = line but symbol-placement = " + symbolPlacementVal);
+            throw new MBFormatException("Property text-max-angle requires symbol-placement = line" +
+                    " but symbol-placement = " + symbolPlacementVal);
         }
         // conflictResolution
-        // Mapbox allows text overlap and icon overlap separately. GeoTools only has conflictResolution.
-        Boolean textAllowOverlap = transformer.requireLiteral(textAllowOverlap(), Boolean.class, false,
+        // Mapbox allows text overlap and icon overlap separately. GeoTools only has 
+        // conflictResolution.
+        Boolean textAllowOverlap = transformer.requireLiteral(textAllowOverlap(), Boolean.class, 
+                false,
                 "text-allow-overlap", getId());
-        Boolean iconAllowOverlap = transformer.requireLiteral(iconAllowOverlap(), Boolean.class, false,
+        Boolean iconAllowOverlap = transformer.requireLiteral(iconAllowOverlap(), Boolean.class, 
+                false,
                 "icon-allow-overlap", getId());
 
         symbolizer.getOptions().put("conflictResolution",
                 String.valueOf(!(textAllowOverlap || iconAllowOverlap)));
 
-        String textFitVal = transformer.requireLiteral(iconTextFit(), String.class, "none", "icon-text-fit", getId()).trim();
+        String textFitVal = transformer.requireLiteral(iconTextFit(), String.class, "none", 
+                "icon-text-fit", getId()).trim();
         if ("height".equalsIgnoreCase(textFitVal) || "width".equalsIgnoreCase(textFitVal)) {
             symbolizer.getOptions().put("graphic-resize",
                     "stretch");
@@ -1769,18 +1840,25 @@ public class SymbolMBLayer extends MBLayer {
                     "none");
         }
 
-        // MapBox symbol-avoid-edges defaults to false, If true, the symbols will not cross tile edges to avoid
-        // mutual collisions.  This concept is represented by using the Partials option in GeoTools.  The partials
-        // options instructs the renderer to render labels that cross the map extent, which are normally not painted
-        // since there is no guarantee that a map put on the side of the current one (tiled rendering) will contain
-        // the other half of the label. By enabling “partials” the style editor takes responsibility for the other
-        // half being there (maybe because the label points have been placed by hand and are assured not to conflict
+        // MapBox symbol-avoid-edges defaults to false, If true, the symbols will not cross tile 
+        // edges to avoid
+        // mutual collisions.  This concept is represented by using the Partials option in 
+        // GeoTools.  The partials
+        // options instructs the renderer to render labels that cross the map extent, which are 
+        // normally not painted
+        // since there is no guarantee that a map put on the side of the current one (tiled 
+        // rendering) will contain
+        // the other half of the label. By enabling “partials” the style editor takes 
+        // responsibility for the other
+        // half being there (maybe because the label points have been placed by hand and are 
+        // assured not to conflict
         // with each other, at all zoom levels).
         //
         // Based upon the above if symbol-avoid-edges is true we do not need
-        // to add the partials option as the renderer will do this by default. But if symbol-avoid-edges is missing or
+        // to add the partials option as the renderer will do this by default. But if 
+        // symbol-avoid-edges is missing or
         // set to false, then we do need to add the partials option set to true.
-        if (!getSymbolAvoidEdges()){
+        if (!getSymbolAvoidEdges()) {
             symbolizer.getOptions().put("partials", "true");
         }
 
@@ -1793,7 +1871,8 @@ public class SymbolMBLayer extends MBLayer {
         }
 
         // text-padding default value is 2 in mapbox, will override Geoserver defaults
-        if(!hasIconImage() || "point".equalsIgnoreCase(symbolPlacementVal.trim()) || (getTextPadding().doubleValue()) >= (getIconPadding().doubleValue())) { 
+        if (!hasIconImage() || "point".equalsIgnoreCase(symbolPlacementVal.trim()) || 
+                (getTextPadding().doubleValue()) >= (getIconPadding().doubleValue())) {
             symbolizer.getOptions().put("spaceAround", String.valueOf(getTextPadding()));
         }
         // halo blur
@@ -1802,33 +1881,41 @@ public class SymbolMBLayer extends MBLayer {
         // auto wrap
         // getTextSize defaults to 16, and getTextMaxWidth defaults to 10 
         // converts text-max-width(mbstyle) from ems to pixels for autoWrap(sld)
-        // Only supported when text-max-width and text-size are not functions (because vendor options don't take expressions)
+        // Only supported when text-max-width and text-size are not functions (because vendor 
+        // options don't take expressions)
         if (hasTextMaxWidth()) {
-            double textMaxWidth = transformer.requireLiteral(textMaxWidth(), Double.class, 10.0, "text-max-width", getId());
-            double textSize = transformer.requireLiteral(textSize(), Double.class, 16.0, "text-size (when text-max-width is specified)", getId());
-            symbolizer.getOptions().put("autoWrap", String.valueOf(textMaxWidth * textSize));             
+            double textMaxWidth = transformer.requireLiteral(textMaxWidth(), Double.class, 10.0, 
+                    "text-max-width", getId());
+            double textSize = transformer.requireLiteral(textSize(), Double.class, 16.0, 
+                    "text-size (when text-max-width is specified)", getId());
+            symbolizer.getOptions().put("autoWrap", String.valueOf(textMaxWidth * textSize));
         }
 
 
         // If the layer has an icon image, add it to our symbolizer
         if (hasIconImage()) {
             // icon-ignore-placement requires an icon-image so we handle this property here.
-            // By default - or icon-ignore-placement: false, MapBox prevents symbols from being visible if they collide
-            // with other icons.  GeoServer only implements this behavior if the vendorOption labelObstacle is set
+            // By default - or icon-ignore-placement: false, MapBox prevents symbols from being 
+            // visible if they collide
+            // with other icons.  GeoServer only implements this behavior if the vendorOption 
+            // labelObstacle is set
             // to true.
             if (!getIconIgnorePlacement()) {
                 symbolizer.getOptions().put("labelObstacle", "true");
             }
 
-            //Check to see that hasTextField() is true check to see if IconPadding is greater to put to spaceAround
-            if (!hasTextField() || ((getIconPadding().doubleValue()) > (getTextPadding().doubleValue())) && !"point".equalsIgnoreCase(symbolPlacementVal.trim())) {
+            //Check to see that hasTextField() is true check to see if IconPadding is greater to 
+            // put to spaceAround
+            if (!hasTextField() || ((getIconPadding().doubleValue()) > (getTextPadding()
+                    .doubleValue())) && !"point".equalsIgnoreCase(symbolPlacementVal.trim())) {
                 symbolizer.getOptions().put("spaceAround", String.valueOf(getIconPadding()));
             }
             // If we have an icon with a Point placement create a PointSymoblizer for the icon.
             // This enables adjusting the text placement without moving the icon.
             if ("point".equalsIgnoreCase(symbolPlacementVal.trim())) {
                 org.geotools.styling.PointSymbolizer pointSymbolizer = sf.pointSymbolizer(getId(),
-                        ff.property((String) null), sf.description(Text.text("text"), null), NonSI.PIXEL,
+                        ff.property((String) null), sf.description(Text.text("text"), null), 
+                        NonSI.PIXEL,
                         getGraphic(transformer, styleContext));
                 symbolizers.add(pointSymbolizer);
             } else {
@@ -1837,8 +1924,10 @@ public class SymbolMBLayer extends MBLayer {
             }
         }
 
-        // Check that a labelObstacle vendor option hasn't already been placed on the symbolizer and that
-        // textIgnorePlacement is either null or false, if so add it.  If textIgnorePlacement is true, accept default behavior.
+        // Check that a labelObstacle vendor option hasn't already been placed on the symbolizer 
+        // and that
+        // textIgnorePlacement is either null or false, if so add it.  If textIgnorePlacement is 
+        // true, accept default behavior.
         if (symbolizer.getOptions().get("labelObstacle") == null && !getTextIgnorePlacement()) {
             symbolizer.getOptions().put("labelObstacle", "true");
         }
@@ -1858,17 +1947,19 @@ public class SymbolMBLayer extends MBLayer {
                 sf.description(Text.text("MBStyle " + getId()),
                         Text.text("Generated for " + getSourceLayer())),
                 null, // (unused)
-                Collections.emptySet(), filter.semanticTypeIdentifiers(), // we only expect this to be applied to polygons
+                Collections.emptySet(), filter.semanticTypeIdentifiers(), // we only expect this 
+                // to be applied to polygons
                 rules));
     }
 
     /**
-     * Get a graphic for this style's 'icon-image'. It will usually be an {@link ExternalGraphic} to be handled by the {@link SpriteGraphicFactory}, but
+     * Get a graphic for this style's 'icon-image'. It will usually be an {@link ExternalGraphic}
+     * to be handled by the {@link SpriteGraphicFactory}, but
      * this method also supports GeoTools {@link Mark}s as a special case.
-     * 
+     *
      * @param transformer
      * @param styleContext The containing style (used to get the sprite source)
-     * @return A graphic based on this style's 'icon-image' property. 
+     * @return A graphic based on this style's 'icon-image' property.
      */
     private Graphic getGraphic(MBStyleTransformer transformer, MBStyle styleContext) {
         // If the iconImage is a literal string (not a function), then
@@ -1876,28 +1967,34 @@ public class SymbolMBLayer extends MBLayer {
         // Note: the URL is expected to be a CQL STRING ...
         Expression iconExpression = iconImage();
         if (iconExpression instanceof Literal) {
-            iconExpression = transformer.cqlExpressionFromTokens(iconExpression.evaluate(null, String.class));
+            iconExpression = transformer.cqlExpressionFromTokens(iconExpression.evaluate(null, 
+                    String.class));
         }
-        
-        Expression graphicSize = null;        
-        GraphicalSymbol gs; 
-        
-        // In the special case that the 'sprite' source designates the internal GeoTools marks, then create a mark graphic.
+
+        Expression graphicSize = null;
+        GraphicalSymbol gs;
+
+        // In the special case that the 'sprite' source designates the internal GeoTools marks, 
+        // then create a mark graphic.
         // Otherwise, create a sprite-based external graphic.
-        String spriteSheetLocation = styleContext.getSprite() == null ? "" : styleContext.getSprite().trim().toLowerCase();            
+        String spriteSheetLocation = styleContext.getSprite() == null ? "" : styleContext
+                .getSprite().trim().toLowerCase();
         if (MARK_SHEET_ALIASES.contains(spriteSheetLocation)) {
             Fill f = sf.fill(null, iconColor(), null);
             Stroke s = sf.stroke(iconColor(), null, null, null, null, null, null);
             gs = sf.mark(iconExpression, f, s);
         } else {
-            gs = transformer.createExternalGraphicForSprite(iconExpression, iconSize(), styleContext);
-        }            
-        
+            gs = transformer.createExternalGraphicForSprite(iconExpression, iconSize(), 
+                    styleContext);
+        }
+
         if (gs instanceof Mark) {
-            // The graphicSize is specified in pixels, so only set it on the Graphic if the GraphicalSymbol is a mark.
-            // If it is an ExternalGraphic from a sprite sheet, the absolute size of the icon is unknown at this point.
-            graphicSize = ff.multiply(ff.literal(MARK_ICON_DEFAULT_SIZE),  iconSize());
-        }              
+            // The graphicSize is specified in pixels, so only set it on the Graphic if the 
+            // GraphicalSymbol is a mark.
+            // If it is an ExternalGraphic from a sprite sheet, the absolute size of the icon is 
+            // unknown at this point.
+            graphicSize = ff.multiply(ff.literal(MARK_ICON_DEFAULT_SIZE), iconSize());
+        }
 
         Graphic g = sf.graphic(Arrays.asList(gs), iconOpacity(), graphicSize,
                 iconRotate(), null, null);

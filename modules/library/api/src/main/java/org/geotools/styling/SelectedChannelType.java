@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -32,14 +32,13 @@ import org.opengis.filter.expression.Expression;
  *  </pre>
  *
  * @author iant
- *
- *
  * @source $URL$
  */
 public interface SelectedChannelType extends org.opengis.style.SelectedChannelType {
-    
+
     /**
      * Set the source channel name.
+     *
      * @param name name of the source channel
      */
     public void setChannelName(String name);
@@ -61,5 +60,5 @@ public interface SelectedChannelType extends org.opengis.style.SelectedChannelTy
     public ContrastEnhancement getContrastEnhancement();
 
     public void accept(org.geotools.styling.StyleVisitor visitor);
-    
+
 }

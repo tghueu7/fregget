@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -31,26 +31,32 @@ import junit.framework.TestSuite;
  * Unit test for FilterCapabilities.
  *
  * @author Chris Holmes, TOPP
- *
- *
  * @source $URL$
  */
 public class FilterCapabilitiesTest extends TestCase {
-    /** Standard logging instance */
+    /**
+     * Standard logging instance
+     */
     private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger(
             "org.geotools.defaultcore");
 
-    /** Feature on which to preform tests */
+    /**
+     * Feature on which to preform tests
+     */
     private org.opengis.filter.Filter gFilter;
     private org.opengis.filter.Filter compFilter;
     private org.opengis.filter.Filter logFilter;
     private FilterCapabilities capabilities;
     private FilterFactory2 fact = CommonFactoryFinder.getFilterFactory2();
 
-    /** Test suite for this test case */
+    /**
+     * Test suite for this test case
+     */
     TestSuite suite = null;
 
-    /** Constructor with test name. */
+    /**
+     * Constructor with test name.
+     */
     String dataFolder = "";
     boolean setup = false;
 
@@ -127,15 +133,17 @@ public class FilterCapabilitiesTest extends TestCase {
     public void testFullySupports() {
         FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
         try {
-            logFilter = ff.and( gFilter, compFilter);
+            logFilter = ff.and(gFilter, compFilter);
             assertTrue(capabilities.fullySupports(compFilter));
             assertTrue(!(capabilities.fullySupports(gFilter)));
             assertTrue(!(capabilities.fullySupports(logFilter)));
-            logFilter =  ff.and( compFilter,ff.between(ff.property("sample"),ff.literal(1),ff.literal(2)));
+            logFilter = ff.and(compFilter, ff.between(ff.property("sample"), ff.literal(1), ff
+                    .literal(2)));
             assertTrue(capabilities.fullySupports(logFilter));
-            logFilter = ff.or(logFilter,ff.between(ff.property("sample"),ff.literal(1),ff.literal(2)));
+            logFilter = ff.or(logFilter, ff.between(ff.property("sample"), ff.literal(1), ff
+                    .literal(2)));
             assertTrue(capabilities.fullySupports(logFilter));
-            logFilter = ff.and(logFilter,gFilter);
+            logFilter = ff.and(logFilter, gFilter);
             assertTrue(!(capabilities.fullySupports(logFilter)));
         } catch (IllegalFilterException e) {
             LOGGER.fine("Bad filter " + e);

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2014, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -25,7 +25,7 @@ import com.vividsolutions.jts.geom.MultiLineString;
 
 /**
  * A subclass of multi line string that can host also curves and will linearize if needed
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 public class MultiCurve extends MultiLineString implements MultiCurvedGeometry<MultiLineString> {

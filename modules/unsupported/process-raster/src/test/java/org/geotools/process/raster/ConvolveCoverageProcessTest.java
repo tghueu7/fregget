@@ -38,15 +38,17 @@ public class ConvolveCoverageProcessTest {
 
     @Before
     public void setUp() {
-        covData = new float[][] {
-            {1,2,3,4},
-            {5,6,8,9},
-            {8,7,6,5},
-            {4,3,2,1},
+        covData = new float[][]{
+                {1, 2, 3, 4},
+                {5, 6, 8, 9},
+                {8, 7, 6, 5},
+                {4, 3, 2, 1},
         };
 
-        GridCoverageFactory covFactory = CoverageFactoryFinder.getGridCoverageFactory(GeoTools.getDefaultHints());
-        cov = covFactory.create("test", covData, new ReferencedEnvelope(0,10,0,10, DefaultGeographicCRS.WGS84));
+        GridCoverageFactory covFactory = CoverageFactoryFinder.getGridCoverageFactory(GeoTools
+                .getDefaultHints());
+        cov = covFactory.create("test", covData, new ReferencedEnvelope(0, 10, 0, 10, 
+                DefaultGeographicCRS.WGS84));
     }
 
     @Test
@@ -81,7 +83,7 @@ public class ConvolveCoverageProcessTest {
         int w = data.getWidth();
         int h = data.getHeight();
 
-        float[] grid = new float[w*h];
+        float[] grid = new float[w * h];
         data.getDataElements(0, 0, w, h, grid);
 
         return grid;

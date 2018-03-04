@@ -70,12 +70,10 @@ import org.geotools.util.Utilities;
  * <h3>Thread safety</h3>
  * This class is not thread-safe.
  *
- * @since 2.2
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.2
  */
 public class IdentifiedObjectSet extends AbstractSet implements Serializable {
     /**
@@ -160,7 +158,7 @@ public class IdentifiedObjectSet extends AbstractSet implements Serializable {
      */
     private IdentifiedObject get(final String code) throws BackingStoreException {
         IdentifiedObject object = (IdentifiedObject) objects.get(code);
-        if (object==null && objects.containsKey(code)) {
+        if (object == null && objects.containsKey(code)) {
             try {
                 object = createObject(code);
                 objects.put(code, object);
@@ -204,7 +202,7 @@ public class IdentifiedObjectSet extends AbstractSet implements Serializable {
      */
     public boolean removeAll(final Collection collection) {
         boolean modified = false;
-        for (final Iterator it=collection.iterator(); it.hasNext();) {
+        for (final Iterator it = collection.iterator(); it.hasNext(); ) {
             if (remove(it.next())) {
                 modified = true;
             }
@@ -236,7 +234,7 @@ public class IdentifiedObjectSet extends AbstractSet implements Serializable {
      */
     public void resolve(int n) throws FactoryException {
         if (n > 0) try {
-            for (final Iterator it=iterator(); it.hasNext();) {
+            for (final Iterator it = iterator(); it.hasNext(); ) {
                 it.next();
                 if (--n == 0) {
                     break;
@@ -280,7 +278,7 @@ public class IdentifiedObjectSet extends AbstractSet implements Serializable {
     public void setAuthorityCodes(final String[] codes) {
         final Map copy = new HashMap(objects);
         objects.clear();
-        for (int i=0; i<codes.length; i++) {
+        for (int i = 0; i < codes.length; i++) {
             final String code = codes[i];
             objects.put(code, (IdentifiedObject) copy.get(code));
         }
@@ -295,7 +293,7 @@ public class IdentifiedObjectSet extends AbstractSet implements Serializable {
     protected String getAuthorityCode(final IdentifiedObject object) {
         final Identifier id;
         final Set identifiers = object.getIdentifiers();
-        if (identifiers!=null && !identifiers.isEmpty()) {
+        if (identifiers != null && !identifiers.isEmpty()) {
             id = (Identifier) identifiers.iterator().next();
         } else {
             id = object.getName();
@@ -356,8 +354,8 @@ public class IdentifiedObjectSet extends AbstractSet implements Serializable {
      * The iterator over the entries in the enclosing set. This iterator will creates the
      * {@linkplain IdentifiedObject identified objects} when first needed.
      *
-     * @version $Id$
      * @author Martin Desruisseaux (IRD)
+     * @version $Id$
      */
     private final class Iter implements Iterator {
         /**
@@ -382,7 +380,7 @@ public class IdentifiedObjectSet extends AbstractSet implements Serializable {
          * Moves to the next element.
          *
          * @throws BackingStoreException if the underlying factory failed to creates the
-         *         coordinate operation.
+         *                               coordinate operation.
          */
         private void toNext() throws BackingStoreException {
             while (iterator.hasNext()) {

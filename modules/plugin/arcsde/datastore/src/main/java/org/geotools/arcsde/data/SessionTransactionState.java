@@ -38,13 +38,13 @@ import com.esri.sde.sdk.client.SeException;
  * <p>
  * This transaction state is used to hold the SeConnection needed for a Session.
  * </p>
- * 
+ *
  * @author Jake Fear
  * @author Gabriel Roldan
- * @source $URL:
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
- *         /org/geotools/arcsde/data/ArcTransactionState.java $
  * @version $Id$
+ * @source $URL:
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
+ * /org/geotools/arcsde/data/ArcTransactionState.java $
  */
 final class SessionTransactionState implements Transaction.State {
     private static final Logger LOGGER = org.geotools.util.logging.Logging
@@ -63,11 +63,11 @@ final class SessionTransactionState implements Transaction.State {
 
     /**
      * Creates a new ArcTransactionState object.
-     * 
+     *
      * @param listenerManager
-     * @param pool
-     *            connection pool where to grab a connection and hold it while there's a transaction
-     *            open (signaled by any use of {@link #getConnection()}
+     * @param pool            connection pool where to grab a connection and hold it while 
+     *                        there's a transaction
+     *                        open (signaled by any use of {@link #getConnection()}
      */
     private SessionTransactionState(final ISession session) {
         if (!session.isTransactionActive()) {
@@ -115,7 +115,7 @@ final class SessionTransactionState implements Transaction.State {
     }
 
     /**
-     * 
+     *
      */
     public void rollback() throws IOException {
         failIfClosed();
@@ -151,12 +151,11 @@ final class SessionTransactionState implements Transaction.State {
      * If the provided transaction is non null we are being added to the Transaction. If the
      * provided transaction is null we are being shutdown.
      * </p>
-     * 
+     *
+     * @param transaction transaction information, <code>null</code> signals this state lifecycle
+     *                   end.
+     * @throws IllegalStateException if close() is called while a transaction is in progress
      * @see Transaction.State#setTransaction(Transaction)
-     * @param transaction
-     *            transaction information, <code>null</code> signals this state lifecycle end.
-     * @throws IllegalStateException
-     *             if close() is called while a transaction is in progress
      */
     public void setTransaction(final Transaction transaction) {
         if (Transaction.AUTO_COMMIT.equals(transaction)) {
@@ -169,7 +168,8 @@ final class SessionTransactionState implements Transaction.State {
             // assert this assumption
             throw new IllegalStateException(
                     "Once a transaction is set, it is "
-                            + "illegal to call Transaction.State.setTransaction with anything other than null: "
+                            + "illegal to call Transaction.State.setTransaction with anything " +
+                            "other than null: "
                             + transaction);
         }
         this.transaction = transaction;
@@ -177,9 +177,8 @@ final class SessionTransactionState implements Transaction.State {
 
     /**
      * If this state has been closed throws an unchecked exception as its clearly a broken workflow.
-     * 
-     * @throws IllegalStateException
-     *             if the transaction state has been closed.
+     *
+     * @throws IllegalStateException if the transaction state has been closed.
      */
     private void failIfClosed() throws IllegalStateException {
         if (session == null) {
@@ -227,7 +226,7 @@ final class SessionTransactionState implements Transaction.State {
     /**
      * Used only within the package to provide access to a single connection on which this
      * transaction is being conducted.
-     * 
+     *
      * @return the session tied to ths state's transaction
      */
     ISession getConnection() {
@@ -244,12 +243,12 @@ final class SessionTransactionState implements Transaction.State {
      * <p>
      * As of GeoTools 2.5 we store the TransactionState using the connection pool as a key.
      * </p>
-     * 
+     *
      * @return the SessionTransactionState stored in the transaction with
-     *         <code>connectionPool</code> as key.
+     * <code>connectionPool</code> as key.
      */
     public static SessionTransactionState getState(final Transaction transaction,
-            final ISessionPool pool) throws IOException {
+                                                   final ISessionPool pool) throws IOException {
         SessionTransactionState state;
 
         if (transaction == Transaction.AUTO_COMMIT) {
@@ -294,13 +293,13 @@ final class SessionTransactionState implements Transaction.State {
      * worrying if it should or should not actually dispose the session depending on a transaction
      * being in progress or not.
      * </p>
-     * 
+     *
      * @author Gabriel Roldan (TOPP)
      * @version $Id$
-     * @since 2.5.x
      * @source $URL:
-     *         http://svn.geotools.org/trunk/modules/plugin/arcsde/datastore/src/main/java/org/
-     *         geotools/arcsde/pool/SessionTransactionState.java $
+     * http://svn.geotools.org/trunk/modules/plugin/arcsde/datastore/src/main/java/org/
+     * geotools/arcsde/pool/SessionTransactionState.java $
+     * @since 2.5.x
      */
     private static final class TransactionSession extends SessionWrapper {
 

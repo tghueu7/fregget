@@ -13,8 +13,6 @@ import org.junit.Test;
 import org.opengis.style.ContrastMethod;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class CookbookRasterTest extends AbstractStyleTest {
@@ -187,7 +185,7 @@ public class CookbookRasterTest extends AbstractStyleTest {
     }
 
     void assertEntry(String colorHex, double quantity, double opacity, String label,
-            ColorMapEntry colorMapEntry) {
+                     ColorMapEntry colorMapEntry) {
         assertEquals(colorHex, colorMapEntry.getColor().evaluate(null, String.class));
         assertEquals(quantity, colorMapEntry.getQuantity().evaluate(null, Double.class), 0.0);
         assertEquals(opacity, colorMapEntry.getOpacity().evaluate(null, Double.class), 0.0);
@@ -198,7 +196,7 @@ public class CookbookRasterTest extends AbstractStyleTest {
     public void testShadedRelief() {
         Style style = new ShadedReliefBuilder().factor(10).brightnessOnly(true).buildStyle();
         // print(style);
-        
+
         // round up the basic elements and check its simple
         StyleCollector collector = new StyleCollector();
         style.accept(collector);
@@ -212,7 +210,7 @@ public class CookbookRasterTest extends AbstractStyleTest {
         assertEquals(10.0, sr.getReliefFactor().evaluate(null, Double.class), 0.0);
         assertTrue(sr.isBrightnessOnly());
     }
-    
+
     @Test
     public void testGrayChannelSelection() {
         final RasterSymbolizerBuilder rsb = new RasterSymbolizerBuilder();
@@ -230,7 +228,7 @@ public class CookbookRasterTest extends AbstractStyleTest {
         assertNull(rgbChannels[2]);
         assertEquals("BAND1", rs.getChannelSelection().getGrayChannel().getChannelName());
     }
-    
+
     @Test
     public void testRGBChannelSelection() {
         final RasterSymbolizerBuilder rsb = new RasterSymbolizerBuilder();
@@ -239,7 +237,7 @@ public class CookbookRasterTest extends AbstractStyleTest {
         cs.green().channelName("BAND3");
         cs.blue().channelName("BAND5");
         Style style = rsb.buildStyle();
-        
+
         StyleCollector collector = new StyleCollector();
         style.accept(collector);
         assertSimpleStyle(collector);
@@ -251,7 +249,7 @@ public class CookbookRasterTest extends AbstractStyleTest {
         assertEquals("BAND3", rgbChannels[1].getChannelName());
         assertEquals("BAND5", rgbChannels[2].getChannelName());
         assertNull(rs.getChannelSelection().getGrayChannel());
-        
+
     }
 
 }

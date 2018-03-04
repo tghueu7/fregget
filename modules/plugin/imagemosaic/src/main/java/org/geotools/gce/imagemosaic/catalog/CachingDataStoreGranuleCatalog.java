@@ -46,29 +46,33 @@ import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * This class simply builds an SRTREE spatial index in memory for fast indexed geometric queries.
- * 
  * <p>
- * Since the {@link ImageMosaicReader} heavily uses spatial queries to find out which are the involved tiles during mosaic creation, it is better to
- * do some caching and keep the index in memory as much as possible, hence we came up with this index.
- * 
- * @author Simone Giannecchini, S.A.S.
- * @author Stefan Alfons Krueger (alfonx), Wikisquare.de : Support for jar:file:foo.jar/bar.properties URLs
- * @since 2.5
+ * <p>
+ * Since the {@link ImageMosaicReader} heavily uses spatial queries to find out which are the 
+ * involved tiles during mosaic creation, it is better to
+ * do some caching and keep the index in memory as much as possible, hence we came up with this 
+ * index.
  *
+ * @author Simone Giannecchini, S.A.S.
+ * @author Stefan Alfons Krueger (alfonx), Wikisquare.de : Support for jar:file:foo.jar/bar
+ * .properties URLs
  * @source $URL$
+ * @since 2.5
  */
 class CachingDataStoreGranuleCatalog extends GranuleCatalog {
 
-    /** Logger. */
+    /**
+     * Logger.
+     */
     private final static Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger(CachingDataStoreGranuleCatalog.class);
 
     private final AbstractGTDataStoreGranuleCatalog adaptee;
 
-    private final SoftValueHashMap<String, GranuleDescriptor> descriptorsCache = new SoftValueHashMap<String, GranuleDescriptor>();
+    private final SoftValueHashMap<String, GranuleDescriptor> descriptorsCache = new 
+            SoftValueHashMap<String, GranuleDescriptor>();
 
     /**
-     * 
      * @param adaptee
      * @param hints
      */
@@ -79,7 +83,7 @@ class CachingDataStoreGranuleCatalog extends GranuleCatalog {
 
     @Override
     public void addGranules(String typeName, Collection<SimpleFeature> granules,
-            Transaction transaction) throws IOException {
+                            Transaction transaction) throws IOException {
         adaptee.addGranules(typeName, granules, transaction);
     }
 
@@ -140,7 +144,8 @@ class CachingDataStoreGranuleCatalog extends GranuleCatalog {
         final SimpleFeatureCollection features = adaptee.getGranules(q);
         if (features == null) {
             throw new NullPointerException(
-                    "The provided SimpleFeatureCollection is null, it's impossible to create an index!");
+                    "The provided SimpleFeatureCollection is null, it's impossible to create an " +
+                            "index!");
         }
         if (LOGGER.isLoggable(Level.FINE)) {
             LOGGER.fine("Index Loaded");
@@ -154,10 +159,10 @@ class CachingDataStoreGranuleCatalog extends GranuleCatalog {
                 : null;
 
         // visiting the features from the underlying store
-        try(SimpleFeatureIterator fi = features.features()) {
-            while(fi.hasNext() && !visitor.isVisitComplete()) {
+        try (SimpleFeatureIterator fi = features.features()) {
+            while (fi.hasNext() && !visitor.isVisitComplete()) {
                 final SimpleFeature sf = fi.next();
-                
+
                 GranuleDescriptor granule = null;
 
                 // caching by granule's location
@@ -170,11 +175,13 @@ class CachingDataStoreGranuleCatalog extends GranuleCatalog {
                         // create the granule descriptor
                         MultiLevelROI footprint = getGranuleFootprint(sf);
                         if (footprint == null || !footprint.isEmpty()) {
-                            // caching only if the footprint is either absent or present and NON-empty
+                            // caching only if the footprint is either absent or present and 
+                            // NON-empty
                             granule = new GranuleDescriptor(sf, adaptee.suggestedRasterSPI,
                                     adaptee.pathType, adaptee.locationAttribute,
                                     adaptee.parentLocation, footprint, adaptee.heterogeneous,
-                                    adaptee.hints); // retain hints since this may contain a reader or anything
+                                    adaptee.hints); // retain hints since this may contain a 
+                            // reader or anything
                             descriptorsCache.put(featureId, granule);
                         }
                     } catch (Exception e) {
@@ -199,7 +206,7 @@ class CachingDataStoreGranuleCatalog extends GranuleCatalog {
             }
         }
     }
-    
+
     private boolean polygonOverlap(Geometry g1, Geometry g2) {
         // TODO: try to use relate instead
         Geometry intersection = g1.intersection(g2);

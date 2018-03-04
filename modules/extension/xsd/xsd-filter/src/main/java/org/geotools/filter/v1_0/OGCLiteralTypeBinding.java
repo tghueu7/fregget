@@ -37,9 +37,9 @@ import org.w3c.dom.Element;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:LiteralType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="LiteralType"&gt;
  *      &lt;xsd:complexContent mixed="true"&gt;
@@ -56,9 +56,6 @@ import org.w3c.dom.Element;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OGCLiteralTypeBinding extends AbstractComplexBinding {
@@ -112,14 +109,14 @@ public class OGCLiteralTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //number of possibilities here since single child is of type any
 
         //1. has text child elements
         List values = node.getChildValues(Text.class);
         if (!values.isEmpty()) {
             StringBuilder sb = new StringBuilder();
-            for (Object v: values) {
+            for (Object v : values) {
                 Text text = (Text) v;
                 sb.append(text.getValue());
             }
@@ -131,7 +128,7 @@ public class OGCLiteralTypeBinding extends AbstractComplexBinding {
     }
 
     public Element encode(Object object, Document document, Element value)
-        throws Exception {
+            throws Exception {
         Literal literal = (Literal) object;
 
         Object unconvertedValue = literal.getValue();

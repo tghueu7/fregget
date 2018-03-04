@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2006-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -30,44 +30,44 @@ import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class PropertyNameResolvingFilterVisitorTest extends TestCase {
 
     FilterFactory factory;
     SimpleFeatureType featureType;
-    
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        
+
         factory = CommonFactoryFinder.getFilterFactory(null);
         SimpleFeatureTypeBuilder b = new SimpleFeatureTypeBuilder();
-        b.setName( "test" );
-        b.add( "name", String.class );
+        b.setName("test");
+        b.add("name", String.class);
         b.add("geom", Polygon.class, DefaultGeographicCRS.WGS84);
         b.setDefaultGeometry("geom");
         featureType = b.buildFeatureType();
     }
-    
+
     public void testResolvePropertyName() {
-        PropertyIsEqualTo f = factory.equal(factory.property( "gml:name" ), factory.literal( "foo"), true );
-        assertEquals( "gml:name", f.getExpression1().toString() );
-        
-        f = (PropertyIsEqualTo) f.accept( new PropertyNameResolvingVisitor(featureType),null);
-        
-        assertEquals( "name", f.getExpression1().toString() );
+        PropertyIsEqualTo f = factory.equal(factory.property("gml:name"), factory.literal("foo"),
+                true);
+        assertEquals("gml:name", f.getExpression1().toString());
+
+        f = (PropertyIsEqualTo) f.accept(new PropertyNameResolvingVisitor(featureType), null);
+
+        assertEquals("name", f.getExpression1().toString());
     }
-    
+
     public void testResolveEmptyName() {
-        //We use a geometry filter here to test that expression1 does not get filled with the default geometry
+        //We use a geometry filter here to test that expression1 does not get filled with the 
+        // default geometry
         BBOX f = factory.bbox("", 0.0, 0.0, 1.0, 1.0, DefaultGeographicCRS.WGS84.toString());
-        assertEquals( "", f.getExpression1().toString() );
-        
-        f = (BBOX) f.accept( new PropertyNameResolvingVisitor(featureType),null);
-        
-        assertEquals( "", f.getExpression1().toString() );
+        assertEquals("", f.getExpression1().toString());
+
+        f = (BBOX) f.accept(new PropertyNameResolvingVisitor(featureType), null);
+
+        assertEquals("", f.getExpression1().toString());
     }
 }

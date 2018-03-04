@@ -23,17 +23,15 @@ import org.geotools.swt.utils.ImageCache;
 
 /**
  * Action that activates the Zoom in tool for the current {@link SwtMapPane map pane}.
- * 
+ *
  * @author Andrea Antonello (www.hydrologis.com)
- *
- *
- *
  * @source $URL$
  */
 public class ZoomInAction extends MapAction {
 
     public ZoomInAction() {
-        super(ZoomInTool.TOOL_NAME + "@Z", ZoomInTool.TOOL_TIP, ImageCache.getInstance().getImage(ImageCache.IMAGE_ZOOMIN));
+        super(ZoomInTool.TOOL_NAME + "@Z", ZoomInTool.TOOL_TIP, ImageCache.getInstance().getImage
+                (ImageCache.IMAGE_ZOOMIN));
     }
 
     public void run() {

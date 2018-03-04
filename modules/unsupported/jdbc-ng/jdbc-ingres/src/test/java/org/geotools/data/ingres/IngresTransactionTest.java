@@ -33,8 +33,6 @@ import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class IngresTransactionTest extends JDBCTransactionTest {
@@ -46,6 +44,6 @@ public class IngresTransactionTest extends JDBCTransactionTest {
 
     @Override
     public void testConcurrentTransactions() throws IOException {
-    	// disabled, doesn't work on Ingres
+        // disabled, doesn't work on Ingres
     }
 }

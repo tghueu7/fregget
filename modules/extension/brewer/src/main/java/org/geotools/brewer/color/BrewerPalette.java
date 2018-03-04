@@ -24,8 +24,6 @@ import java.awt.Color;
  *
  * @author James Macgill
  * @author Cory Horner, Refractions Research Inc.
- *
- *
  * @source $URL$
  */
 public class BrewerPalette extends ColorPalette {

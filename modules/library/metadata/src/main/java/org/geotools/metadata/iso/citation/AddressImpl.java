@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -20,6 +20,7 @@
 package org.geotools.metadata.iso.citation;
 
 import java.util.Collection;
+
 import org.opengis.metadata.citation.Address;
 import org.opengis.util.InternationalString;
 import org.geotools.metadata.iso.MetadataEntity;
@@ -28,13 +29,10 @@ import org.geotools.metadata.iso.MetadataEntity;
 /**
  * Location of the responsible individual or organization.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class AddressImpl extends MetadataEntity implements Address {
@@ -53,7 +51,7 @@ public class AddressImpl extends MetadataEntity implements Address {
      */
     private InternationalString city;
 
-   /**
+    /**
      * Country of the physical address.
      */
     private InternationalString country;
@@ -112,7 +110,7 @@ public class AddressImpl extends MetadataEntity implements Address {
         return city;
     }
 
-   /**
+    /**
      * Set the city of the location
      */
     public synchronized void setCity(final InternationalString newValue) {
@@ -147,11 +145,10 @@ public class AddressImpl extends MetadataEntity implements Address {
      * Set the address line for the location (as described in ISO 11180, Annex A).
      */
     public synchronized void setDeliveryPoints(
-            final Collection<? extends String> newValues)
-    {
+            final Collection<? extends String> newValues) {
         deliveryPoints = copyCollection(newValues, deliveryPoints, String.class);
     }
-    
+
     /**
      * Returns the address of the electronic mailbox of the responsible organization or individual.
      */
@@ -163,8 +160,7 @@ public class AddressImpl extends MetadataEntity implements Address {
      * Set the address of the electronic mailbox of the responsible organization or individual.
      */
     public synchronized void setElectronicMailAddresses(
-            final Collection<? extends String> newValues)
-    {
+            final Collection<? extends String> newValues) {
         electronicMailAddresses = copyCollection(newValues, electronicMailAddresses, String.class);
     }
 

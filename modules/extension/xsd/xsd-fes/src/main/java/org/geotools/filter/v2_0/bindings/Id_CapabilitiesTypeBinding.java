@@ -32,7 +32,7 @@ public class Id_CapabilitiesTypeBinding extends AbstractComplexEMFBinding {
     public Id_CapabilitiesTypeBinding(Fes20Factory factory) {
         super(factory);
     }
-    
+
     @Override
     public QName getTarget() {
         return FES.Id_CapabilitiesType;

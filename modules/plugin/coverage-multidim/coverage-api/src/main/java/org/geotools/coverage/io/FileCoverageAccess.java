@@ -21,7 +21,6 @@ import java.util.Set;
 
 /**
  * @author Simone Giannecchini, GeoSolutions
- *
  */
 public interface FileCoverageAccess extends CoverageAccess {
 

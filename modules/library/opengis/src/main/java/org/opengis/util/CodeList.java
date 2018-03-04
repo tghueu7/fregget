@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.util;
@@ -18,6 +18,7 @@ import java.lang.reflect.Modifier;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.opengis.annotation.UML;
 
 
@@ -29,12 +30,9 @@ import org.opengis.annotation.UML;
  * returned by {@code values()}.
  *
  * @param <E> The type of this code list.
- *
  * @author Martin Desruisseaux (IRD)
- * @since GeoAPI 1.0
- *
- *
  * @source $URL$
+ * @since GeoAPI 1.0
  */
 public abstract class CodeList<E extends CodeList<E>> implements Comparable<E>, Serializable {
     /**
@@ -52,8 +50,8 @@ public abstract class CodeList<E extends CodeList<E>> implements Comparable<E>, 
      * The types expected in constructors.
      */
     @SuppressWarnings("unchecked")
-    private static final Class<String>[] CONSTRUCTOR_PARAMETERS = new Class[] {
-        String.class
+    private static final Class<String>[] CONSTRUCTOR_PARAMETERS = new Class[]{
+            String.class
     };
 
     /**
@@ -108,9 +106,9 @@ public abstract class CodeList<E extends CodeList<E>> implements Comparable<E>, 
      * found, then a new instance is created using the constructor expecting a single {@link String}
      * argument.
      *
-     * @param <T> The compile-time type given as the {@code codeType} parameter.
+     * @param <T>      The compile-time type given as the {@code codeType} parameter.
      * @param codeType The type of code list.
-     * @param name The name of the code to obtain.
+     * @param name     The name of the code to obtain.
      * @return A code matching the given name.
      */
     public static <T extends CodeList> T valueOf(final Class<T> codeType, String name) {
@@ -136,11 +134,13 @@ public abstract class CodeList<E extends CodeList<E>> implements Comparable<E>, 
                 }
             }
             try {
-                final Constructor<T> constructor = codeType.getDeclaredConstructor(CONSTRUCTOR_PARAMETERS);
+                final Constructor<T> constructor = codeType.getDeclaredConstructor
+                        (CONSTRUCTOR_PARAMETERS);
                 constructor.setAccessible(true);
                 return constructor.newInstance(name);
             } catch (Exception exception) {
-                throw new IllegalArgumentException("Can't create code of type " + codeType.getSimpleName(), exception);
+                throw new IllegalArgumentException("Can't create code of type " + codeType
+                        .getSimpleName(), exception);
             }
         }
     }
@@ -160,7 +160,6 @@ public abstract class CodeList<E extends CodeList<E>> implements Comparable<E>, 
      * The UML identifier shall be the ISO or OGC name for this code constant.
      *
      * @return The ISO/OGC identifier for this code constant, or {@code null} if none.
-     *
      * @since GeoAPI 2.2
      */
     public String identifier() {
@@ -217,7 +216,6 @@ public abstract class CodeList<E extends CodeList<E>> implements Comparable<E>, 
      *
      * @param name The name to check.
      * @return {@code true} if the given name matches the code name or identifier.
-     *
      * @since GeoAPI 2.2
      */
     public boolean matches(String name) {
@@ -251,10 +249,11 @@ public abstract class CodeList<E extends CodeList<E>> implements Comparable<E>, 
      * @return -1 if the given code is less than this code, +1 if greater or 0 if equal.
      */
     public final int compareTo(final E other) {
-        final Class<? extends CodeList> ct =  this.getClass();
+        final Class<? extends CodeList> ct = this.getClass();
         final Class<? extends CodeList> co = other.getClass();
         if (!ct.equals(co)) {
-            throw new ClassCastException("Can't compare " + ct.getSimpleName() + " to " + co.getSimpleName());
+            throw new ClassCastException("Can't compare " + ct.getSimpleName() + " to " + co
+                    .getSimpleName());
         }
         return ordinal - ((CodeList) other).ordinal;
     }
@@ -266,7 +265,6 @@ public abstract class CodeList<E extends CodeList<E>> implements Comparable<E>, 
      *
      * @param object The object to compare with this code.
      * @return {@code true} if the given object is equals to this code.
-     *
      * @since GeoAPI 2.2
      */
     @Override
@@ -313,8 +311,8 @@ public abstract class CodeList<E extends CodeList<E>> implements Comparable<E>, 
                 }
                 // We have verified with codeType.isInstance(code) that every elements are
                 // of the appropriate class. This is the best we can do for type safety.
-                @SuppressWarnings("unchecked")
-                final Collection<CodeList> unsafe = (Collection) values;
+                @SuppressWarnings("unchecked") final Collection<CodeList> unsafe = (Collection) 
+                        values;
                 if (!unsafe.add(this)) {
                     // Paranoiac check - should never happen.
                     throw new InvalidObjectException(name);

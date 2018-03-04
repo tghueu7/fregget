@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *        
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -83,9 +83,10 @@ import org.opengis.filter.temporal.TOverlaps;
 
 /**
  * Encodes a compliant filter to the "restricted where" syntax supported by OGR:
- * 
+ * <p>
  * <pre>
- * @condition@ = @field_name@ @binary_operator@ @value@ | "(" @condition@ ")" @binary_logical_operator@
+ * @condition@ = @field_name@ @binary_operator@ @value@ | "(" @condition@ ")" 
+ * @binary_logical_operator@
  *             "(" @condition@ ")"
  * @binary_operator@ = "<" | ">" | "<=" | ">=" | "<>" | "="
  * @binary_logical_operator@ = "AND" | "OR"
@@ -93,16 +94,20 @@ import org.opengis.filter.temporal.TOverlaps;
  * @value@ = @string_token@ | @numeric_value@ | @string_value@
  * @string_value@ = "'" @characters@ "'"
  * </pre>
- * 
+ * <p>
  * Implementation wise this is a widely cut down version of JDBC's module FilterToSQL
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 class FilterToRestrictedWhere implements FilterVisitor, ExpressionVisitor {
-    /** error message for exceptions */
+    /**
+     * error message for exceptions
+     */
     protected static final String IO_ERROR = "io problem writing filter";
 
-    /** the schema the encoder will be used to be encode sql for */
+    /**
+     * the schema the encoder will be used to be encode sql for
+     */
     protected SimpleFeatureType featureType;
 
     StringWriter out = new StringWriter();
@@ -117,9 +122,8 @@ class FilterToRestrictedWhere implements FilterVisitor, ExpressionVisitor {
 
     /**
      * Writes the SQL for the PropertyIsBetween Filter.
-     * 
+     *
      * @param filter the Filter to be visited.
-     * 
      * @throws RuntimeException for io exception with writer
      */
     public Object visit(PropertyIsBetween filter, Object extraData) throws RuntimeException {
@@ -150,10 +154,9 @@ class FilterToRestrictedWhere implements FilterVisitor, ExpressionVisitor {
 
     /**
      * Write the SQL for an And filter
-     * 
-     * @param filter the filter to visit
+     *
+     * @param filter    the filter to visit
      * @param extraData extra data (unused by this method)
-     * 
      */
     public Object visit(And filter, Object extraData) {
         return visit((BinaryLogicOperator) filter, "AND");
@@ -161,10 +164,9 @@ class FilterToRestrictedWhere implements FilterVisitor, ExpressionVisitor {
 
     /**
      * Write the SQL for an Or filter
-     * 
-     * @param filter the filter to visit
+     *
+     * @param filter    the filter to visit
      * @param extraData extra data (unused by this method)
-     * 
      */
     public Object visit(Or filter, Object extraData) {
         return visit((BinaryLogicOperator) filter, "OR");
@@ -173,8 +175,8 @@ class FilterToRestrictedWhere implements FilterVisitor, ExpressionVisitor {
     /**
      * Common implementation for BinaryLogicOperator filters. This way they're all handled
      * centrally.
-     * 
-     * @param filter the logic statement to be turned into SQL.
+     *
+     * @param filter    the logic statement to be turned into SQL.
      * @param extraData extra filter data. Not modified directly by this method.
      */
     protected Object visit(BinaryLogicOperator filter, Object extraData) {
@@ -270,9 +272,8 @@ class FilterToRestrictedWhere implements FilterVisitor, ExpressionVisitor {
 
     /**
      * Export the contents of a Literal Expresion
-     * 
+     *
      * @param expression the Literal to export
-     * 
      * @throws RuntimeException for io exception with writer
      */
     public Object visit(Literal expression, Object context) throws RuntimeException {
@@ -321,7 +322,7 @@ class FilterToRestrictedWhere implements FilterVisitor, ExpressionVisitor {
      * Writes out a non null, non geometry literal. The base class properly handles null, numeric
      * and booleans (true|false), and turns everything else into a string. Subclasses are expected
      * to override this shall they need a different treatment (e.g. for dates)
-     * 
+     *
      * @param literal
      * @throws IOException
      */

@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.temporal;
@@ -26,13 +26,10 @@ import static org.opengis.annotation.Specification.*;
  * @author Stephane Fellah (Image Matters)
  * @author Alexander Petkov
  * @author Martin Desruisseaux (IRD)
- *
  * @todo Need javadoc for each enumeration.
- *
- *
  * @source $URL$
  */
-@UML(identifier="TM_RelativePosition", specification=ISO_19108)
+@UML(identifier = "TM_RelativePosition", specification = ISO_19108)
 public final class RelativePosition extends CodeList<RelativePosition> {
     /**
      * Serial number for compatibility with different versions.

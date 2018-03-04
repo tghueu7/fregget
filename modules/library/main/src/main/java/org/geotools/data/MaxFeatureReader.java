@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -25,18 +25,18 @@ import org.opengis.feature.type.FeatureType;
 
 
 /**
- * Basic support for a  FeatureReader<SimpleFeatureType, SimpleFeature> that limits itself to the number of
+ * Basic support for a  FeatureReader<SimpleFeatureType, SimpleFeature> that limits itself to the
+ * number of
  * features passed in.
  *
  * @author Chris Holmes
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
-public class MaxFeatureReader<T extends FeatureType, F extends Feature> implements DelegatingFeatureReader<T,F>{
-    
-    protected final  FeatureReader<T, F> featureReader;
+public class MaxFeatureReader<T extends FeatureType, F extends Feature> implements 
+        DelegatingFeatureReader<T, F> {
+
+    protected final FeatureReader<T, F> featureReader;
     protected final int maxFeatures;
     protected int counter = 0;
 
@@ -44,7 +44,7 @@ public class MaxFeatureReader<T extends FeatureType, F extends Feature> implemen
      * Creates a new instance of MaxFeatureReader
      *
      * @param featureReader FeatureReader being maxed
-     * @param maxFeatures DOCUMENT ME!
+     * @param maxFeatures   DOCUMENT ME!
      */
     public MaxFeatureReader(FeatureReader<T, F> featureReader, int maxFeatures) {
         this.featureReader = featureReader;
@@ -54,9 +54,9 @@ public class MaxFeatureReader<T extends FeatureType, F extends Feature> implemen
     public FeatureReader<T, F> getDelegate() {
         return featureReader;
     }
-    
+
     public F next()
-        throws IOException, IllegalAttributeException, NoSuchElementException {
+            throws IOException, IllegalAttributeException, NoSuchElementException {
         if (hasNext()) {
             counter++;
 
@@ -78,8 +78,7 @@ public class MaxFeatureReader<T extends FeatureType, F extends Feature> implemen
      * <p></p>
      *
      * @return <code>true</code> if the featureReader has not passed the max
-     *         and still has more features.
-     *
+     * and still has more features.
      * @throws IOException If the reader we are filtering encounters a problem
      */
     public boolean hasNext() throws IOException {

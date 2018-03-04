@@ -19,6 +19,7 @@ package org.geotools.xs.facets;
 import org.eclipse.xsd.XSDLengthFacet;
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
 import org.eclipse.xsd.XSDTypeDefinition;
+
 import java.lang.reflect.Array;
 import java.util.Collection;
 
@@ -54,10 +55,8 @@ import java.util.Collection;
  *  &lt;/restriction>
  * &lt;/simpleType>
  * </code></pre>
+ *
  * @author Jody Garnett
- *
- *
- *
  * @source $URL$
  */
 public abstract class Length {
@@ -65,30 +64,30 @@ public abstract class Length {
      * string and anyURI measured length is measured in units of characters
      */
     public static final Length CHARACTERS = new Length() {
-            public void validate(XSDTypeDefinition definition, Object value)
+        public void validate(XSDTypeDefinition definition, Object value)
                 throws IllegalArgumentException {
-                String text = (String) value;
+            String text = (String) value;
 
-                if (text.length() > length(definition)) {
-                    throw new IllegalArgumentException(text);
-                }
+            if (text.length() > length(definition)) {
+                throw new IllegalArgumentException(text);
             }
-        };
+        }
+    };
 
     /**
      * hexBinary and base64Binary length is measured in octets (8bits) on
      * binary data
      */
     public static final Length OCTETS = new Length() {
-            public void validate(XSDTypeDefinition definition, Object value)
+        public void validate(XSDTypeDefinition definition, Object value)
                 throws IllegalArgumentException {
-                String text = (String) value;
+            String text = (String) value;
 
-                if (text.getBytes().length > length(definition)) {
-                    throw new IllegalArgumentException(text);
-                }
+            if (text.getBytes().length > length(definition)) {
+                throw new IllegalArgumentException(text);
             }
-        };
+        }
+    };
 
     /**
      * By default this one understands Collection, Array and Integer.
@@ -98,45 +97,45 @@ public abstract class Length {
      * </p>
      */
     public static final Length LIST = new Length() {
-            public int length(XSDTypeDefinition definition) {
-                try {
-                    XSDSimpleTypeDefinition simple = definition
+        public int length(XSDTypeDefinition definition) {
+            try {
+                XSDSimpleTypeDefinition simple = definition
                         .getSimpleType();
-                    XSDLengthFacet facet = simple.getLengthFacet();
+                XSDLengthFacet facet = simple.getLengthFacet();
 
-                    if (facet == null) {
-                        return Integer.MAX_VALUE;
-                    }
-
-                    return Integer.parseInt(facet.getLexicalValue());
-                } catch (NumberFormatException ignore) {
-                    return Integer.MIN_VALUE;
+                if (facet == null) {
+                    return Integer.MAX_VALUE;
                 }
-            }
 
-            public void validate(XSDTypeDefinition definition, Object value)
+                return Integer.parseInt(facet.getLexicalValue());
+            } catch (NumberFormatException ignore) {
+                return Integer.MIN_VALUE;
+            }
+        }
+
+        public void validate(XSDTypeDefinition definition, Object value)
                 throws IllegalArgumentException {
-                int length = Integer.MIN_VALUE;
+            int length = Integer.MIN_VALUE;
 
-                if (value instanceof Collection) {
-                    length = ((Collection) value).size();
-                }
-
-                if (value.getClass().isArray()) {
-                    length = Array.getLength(value);
-                }
-
-                if (value instanceof Integer) {
-                    length = ((Integer) value).intValue();
-                }
-
-                String text = (String) value;
-
-                if (text.getBytes().length > length(definition)) {
-                    throw new IllegalArgumentException(text);
-                }
+            if (value instanceof Collection) {
+                length = ((Collection) value).size();
             }
-        };
+
+            if (value.getClass().isArray()) {
+                length = Array.getLength(value);
+            }
+
+            if (value instanceof Integer) {
+                length = ((Integer) value).intValue();
+            }
+
+            String text = (String) value;
+
+            if (text.getBytes().length > length(definition)) {
+                throw new IllegalArgumentException(text);
+            }
+        }
+    };
 
     private Length() {
     }
@@ -157,5 +156,5 @@ public abstract class Length {
     }
 
     public abstract void validate(XSDTypeDefinition definition, Object value)
-        throws IllegalArgumentException;
+            throws IllegalArgumentException;
 }

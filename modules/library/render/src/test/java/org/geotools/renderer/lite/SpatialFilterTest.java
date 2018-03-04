@@ -64,17 +64,20 @@ public class SpatialFilterTest {
     public void setUp() throws Exception {
         CRS.reset("all");
         Hints.putSystemDefault(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER, Boolean.TRUE);
-        
+
         // the following is only to make the test work in Eclipse, where the test
-        // classpath is tainted by the test classpath of dependent modules (whilst in Maven it's not)
-        Set<CRSAuthorityFactory> factories = ReferencingFactoryFinder.getCRSAuthorityFactories(null);
+        // classpath is tainted by the test classpath of dependent modules (whilst in Maven it's 
+        // not)
+        Set<CRSAuthorityFactory> factories = ReferencingFactoryFinder.getCRSAuthorityFactories
+                (null);
         for (CRSAuthorityFactory factory : factories) {
-            if(factory.getClass().getSimpleName().equals("EPSGCRSAuthorityFactory")) {
+            if (factory.getClass().getSimpleName().equals("EPSGCRSAuthorityFactory")) {
                 ReferencingFactoryFinder.removeAuthorityFactory(factory);
             }
         }
-        assertEquals(AxisOrder.NORTH_EAST, CRS.getAxisOrder(CRS.decode("urn:ogc:def:crs:EPSG::4326")));
-        
+        assertEquals(AxisOrder.NORTH_EAST, CRS.getAxisOrder(CRS.decode
+                ("urn:ogc:def:crs:EPSG::4326")));
+
         // setup data
         File property = new File(TestData.getResource(this, "square.properties").toURI());
         PropertyDataStore ds = new PropertyDataStore(property.getParentFile());
@@ -98,10 +101,10 @@ public class SpatialFilterTest {
                 errorCount++;
             }
         });
-        
-      // System.setProperty("org.geotools.test.interactive", "true");
+
+        // System.setProperty("org.geotools.test.interactive", "true");
     }
-    
+
     @After
     public void tearDown() {
         Hints.removeSystemDefault(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER);
@@ -121,7 +124,7 @@ public class SpatialFilterTest {
         RendererBaseTest.showRender("Spatial with default CRS", renderer, TIME, bounds);
         assertEquals(2, renderedIds.size());
     }
-    
+
     @Test
     public void testSpatialDefaulter() throws Exception {
         // a spatial filter in the same SRS as the geometry
@@ -136,7 +139,7 @@ public class SpatialFilterTest {
         RendererBaseTest.showRender("Spatial without CRS", renderer, TIME, bounds);
         assertEquals(2, renderedIds.size());
     }
-    
+
     @Test
     public void testSpatialDefaulterForceEPSG() throws Exception {
         // a spatial filter in the same SRS as the geometry... but with a different axis order
@@ -146,9 +149,10 @@ public class SpatialFilterTest {
         Style style = sb.createStyle(ps);
         Rule rule = style.featureTypeStyles().get(0).rules().get(0);
         rule.setFilter(ff.bbox("geom", 5, 1, 7, 3, null));
-        
+
         // force EPSG axis order interpretation
-        renderer.setRendererHints(Collections.singletonMap(StreamingRenderer.FORCE_EPSG_AXIS_ORDER_KEY, true));
+        renderer.setRendererHints(Collections.singletonMap(StreamingRenderer
+                .FORCE_EPSG_AXIS_ORDER_KEY, true));
 
         content.addLayer(new FeatureLayer(pointFS, style));
 
@@ -156,7 +160,7 @@ public class SpatialFilterTest {
         assertEquals(1, renderedIds.size());
         assertEquals("point.4", renderedIds.iterator().next());
     }
-    
+
     @Test
     public void testReprojectedBBOX() throws Exception {
         // a spatial filter in a different SRS
@@ -164,15 +168,17 @@ public class SpatialFilterTest {
         CoordinateReferenceSystem wgs84 = CRS.decode("EPSG:4326");
         ReferencedEnvelope envWgs84 = new ReferencedEnvelope(1, 3, 5, 7, wgs84);
         ReferencedEnvelope envUTM31N = envWgs84.transform(utm31n, true);
-        
+
         StyleBuilder sb = new StyleBuilder();
         Symbolizer ps = sb.createPointSymbolizer();
         Style style = sb.createStyle(ps);
         Rule rule = style.featureTypeStyles().get(0).rules().get(0);
-        rule.setFilter(ff.bbox("geom", envUTM31N.getMinX(), envUTM31N.getMinY(), envUTM31N.getMaxX(), envUTM31N.getMaxY(), "EPSG:32631"));
-        
+        rule.setFilter(ff.bbox("geom", envUTM31N.getMinX(), envUTM31N.getMinY(), envUTM31N
+                .getMaxX(), envUTM31N.getMaxY(), "EPSG:32631"));
+
         // force EPSG axis order interpretation
-        renderer.setRendererHints(Collections.singletonMap(StreamingRenderer.FORCE_EPSG_AXIS_ORDER_KEY, true));
+        renderer.setRendererHints(Collections.singletonMap(StreamingRenderer
+                .FORCE_EPSG_AXIS_ORDER_KEY, true));
 
         content.addLayer(new FeatureLayer(pointFS, style));
 
@@ -180,7 +186,7 @@ public class SpatialFilterTest {
         assertEquals(1, renderedIds.size());
         assertEquals("point.4", renderedIds.iterator().next());
     }
-    
+
     @Test
     public void testReprojectedPolygon() throws Exception {
         // a spatial filter in a different SRS
@@ -188,7 +194,7 @@ public class SpatialFilterTest {
         CoordinateReferenceSystem wgs84 = CRS.decode("EPSG:4326");
         ReferencedEnvelope envWgs84 = new ReferencedEnvelope(1, 3, 5, 7, wgs84);
         ReferencedEnvelope envUTM31N = envWgs84.transform(utm31n, true);
-        
+
         StyleBuilder sb = new StyleBuilder();
         Symbolizer ps = sb.createPointSymbolizer();
         Style style = sb.createStyle(ps);
@@ -196,26 +202,26 @@ public class SpatialFilterTest {
         Polygon polygon = JTS.toGeometry(envUTM31N);
         polygon.setUserData(utm31n);
         rule.setFilter(ff.intersects(ff.property("geom"), ff.literal(polygon)));
-        
+
         content.addLayer(new FeatureLayer(pointFS, style));
 
         RendererBaseTest.showRender("Reprojected polygon", renderer, TIME, bounds);
         assertEquals(1, renderedIds.size());
         assertEquals("point.4", renderedIds.iterator().next());
     }
-    
+
     @Test
     public void testReprojectedPolygonFromSLD() throws Exception {
         // same as above, but with the style in SLD form
         Style style = RendererBaseTest.loadStyle(this, "spatialFilter.sld");
-        
+
         content.addLayer(new FeatureLayer(pointFS, style));
 
         RendererBaseTest.showRender("Reprojected polygon from SLD", renderer, TIME, bounds);
         assertEquals(1, renderedIds.size());
         assertEquals("point.4", renderedIds.iterator().next());
     }
-    
+
     @Test
     public void testReprojectedPolygonFromDefinitionQuery() throws Exception {
         // a spatial filter in a different SRS
@@ -223,24 +229,26 @@ public class SpatialFilterTest {
         CoordinateReferenceSystem wgs84 = CRS.decode("EPSG:4326");
         ReferencedEnvelope envWgs84 = new ReferencedEnvelope(1, 3, 5, 7, wgs84);
         ReferencedEnvelope envUTM31N = envWgs84.transform(utm31n, true);
-        
+
         // build the style
         StyleBuilder sb = new StyleBuilder();
         Symbolizer ps = sb.createPointSymbolizer();
         Style style = sb.createStyle(ps);
-        
+
         // build a filter for the layer own definition query
         FeatureLayer layer = new FeatureLayer(pointFS, style);
         Polygon polygon = JTS.toGeometry((Envelope) envUTM31N);
         polygon.setUserData(utm31n);
-        layer.setQuery(new DefaultQuery(null, ff.intersects(ff.property("geom"), ff.literal(polygon))));
-        
+        layer.setQuery(new DefaultQuery(null, ff.intersects(ff.property("geom"), ff.literal
+                (polygon))));
+
         content.addLayer(layer);
 
-        RendererBaseTest.showRender("Reprojected polygon as a definition query", renderer, TIME, bounds);
+        RendererBaseTest.showRender("Reprojected polygon as a definition query", renderer, TIME, 
+                bounds);
         assertEquals(1, renderedIds.size());
         assertEquals("point.4", renderedIds.iterator().next());
     }
-    
-    
+
+
 }

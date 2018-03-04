@@ -38,29 +38,28 @@ import org.geotools.renderer.lite.StreamingRenderer;
  *
  * @author Michael Bedward
  * @author Ian Turton
- * @since 2.6
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.6
  */
 public class JMapPane extends AbstractMapPane {
 
     private GTRenderer renderer;
     private BufferedImage baseImage;
     private Graphics2D baseImageGraphics;
-    
+
     /**
-     * Creates a new map pane. 
+     * Creates a new map pane.
      */
     public JMapPane() {
         this(null);
     }
-    
+
     /**
      * Creates a new map pane.
      *
      * @param content the map content containing the layers to display
-     *     (may be {@code null})
+     *                (may be {@code null})
      */
     public JMapPane(MapContent content) {
         this(content, null, null);
@@ -69,7 +68,7 @@ public class JMapPane extends AbstractMapPane {
     /**
      * Creates a new map pane. Any or all arguments may be {@code null}
      *
-     * @param content the map content containing the layers to display
+     * @param content  the map content containing the layers to display
      * @param executor the rendering executor to manage drawing
      * @param renderer the renderer to use for drawing layers
      */
@@ -77,7 +76,7 @@ public class JMapPane extends AbstractMapPane {
         super(content, executor);
         doSetRenderer(renderer);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -121,7 +120,7 @@ public class JMapPane extends AbstractMapPane {
             if (hints == null) {
                 hints = new HashMap<Object, Object>();
             }
-            
+
             if (newRenderer instanceof StreamingRenderer) {
                 if (hints.containsKey(StreamingRenderer.LABEL_CACHE_KEY)) {
                     labelCache = (LabelCache) hints.get(StreamingRenderer.LABEL_CACHE_KEY);
@@ -130,17 +129,17 @@ public class JMapPane extends AbstractMapPane {
                     hints.put(StreamingRenderer.LABEL_CACHE_KEY, labelCache);
                 }
             }
-            
+
             newRenderer.setRendererHints(hints);
 
             if (mapContent != null) {
                 newRenderer.setMapContent(mapContent);
             }
         }
-        
+
         renderer = newRenderer;
     }
-    
+
     /**
      * Retrieve the map pane's current base image.
      * <p>
@@ -201,7 +200,8 @@ public class JMapPane extends AbstractMapPane {
                 }
 
                 if (mapContent != null && !mapContent.layers().isEmpty()) {
-                    getRenderingExecutor().submit(mapContent, getRenderer(), baseImageGraphics, this);
+                    getRenderingExecutor().submit(mapContent, getRenderer(), baseImageGraphics, 
+                            this);
                 }
             }
         } finally {

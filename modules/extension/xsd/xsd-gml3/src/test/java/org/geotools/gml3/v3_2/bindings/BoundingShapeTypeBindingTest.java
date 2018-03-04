@@ -26,32 +26,31 @@ import org.w3c.dom.Element;
 import com.vividsolutions.jts.geom.Envelope;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class BoundingShapeTypeBindingTest extends GML32TestSupport {
 
     public void testEncode() throws Exception {
-        Envelope e  = new Envelope(-180,-90,180,90);
-        
-        Document dom = encode( e , GML.boundedBy );
-        
-        assertEquals( "gml:Envelope", dom.getDocumentElement().getFirstChild().getNodeName());
+        Envelope e = new Envelope(-180, -90, 180, 90);
+
+        Document dom = encode(e, GML.boundedBy);
+
+        assertEquals("gml:Envelope", dom.getDocumentElement().getFirstChild().getNodeName());
     }
-    
+
     public void testEncodeWithCRS() throws Exception {
-        Envelope e  = new ReferencedEnvelope(-180,-90,180,90,CRS.decode( "EPSG:4326"));
-        Document dom = encode( e , GML.boundedBy );
-        assertEquals( "gml:Envelope", dom.getDocumentElement().getFirstChild().getNodeName());
-        assertTrue( ((Element)dom.getDocumentElement().getFirstChild()).getAttribute( "srsName").endsWith( "4326") );
+        Envelope e = new ReferencedEnvelope(-180, -90, 180, 90, CRS.decode("EPSG:4326"));
+        Document dom = encode(e, GML.boundedBy);
+        assertEquals("gml:Envelope", dom.getDocumentElement().getFirstChild().getNodeName());
+        assertTrue(((Element) dom.getDocumentElement().getFirstChild()).getAttribute("srsName")
+                .endsWith("4326"));
     }
-    
+
     public void testEncodeAsNull() throws Exception {
-        Envelope e  = new Envelope();
+        Envelope e = new Envelope();
         e.setToNull();
-        
-        Document dom = encode( e , GML.boundedBy );
-        assertEquals( "gml:Null", dom.getDocumentElement().getFirstChild().getNodeName());
+
+        Document dom = encode(e, GML.boundedBy);
+        assertEquals("gml:Null", dom.getDocumentElement().getFirstChild().getNodeName());
     }
 }

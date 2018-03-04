@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2010, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -19,16 +19,15 @@ package org.geotools.maven.xmlcodegen;
 
 /**
  * Data transfer object for explicit bindings of XSD types to classes. Properties will be set by Maven using reflection.
- * 
- * @author Ben Caradoc-Davies, CSIRO Earth Science and Resource Engineering 
  *
+ * @author Ben Caradoc-Davies, CSIRO Earth Science and Resource Engineering
  */
 public class TypeBinding {
 
     private String namespace;
-    
+
     private String name;
-    
+
     private String binding;
 
     /**
@@ -51,6 +50,6 @@ public class TypeBinding {
     public String getBinding() {
         return binding;
     }
-    
-    
+
+
 }

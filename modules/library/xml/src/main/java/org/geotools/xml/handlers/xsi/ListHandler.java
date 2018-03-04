@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -24,20 +24,20 @@ import org.xml.sax.SAXNotRecognizedException;
 
 /**
  * ListHandler purpose.
- * 
+ * <p>
  * <p>
  * represents a 'list' element
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc. http://www.refractions.net
  * @author $Author:$ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class ListHandler extends XSIElementHandler {
-    /** 'list' */
+    /**
+     * 'list'
+     */
     public final static String LOCALNAME = "list";
     private String id;
     private String itemType;
@@ -48,15 +48,15 @@ public class ListHandler extends XSIElementHandler {
      */
     public int hashCode() {
         return LOCALNAME.hashCode() * ((id == null) ? 1 : id.hashCode()) * ((itemType == null)
-        ? 1 : itemType.hashCode());
+                ? 1 : itemType.hashCode());
     }
 
     /**
      * @see org.geotools.xml.XSIElementHandler#getHandler(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
     public XSIElementHandler getHandler(String namespaceURI, String localName)
-        throws SAXException {
+            throws SAXException {
         if (SchemaHandler.namespaceURI.equalsIgnoreCase(namespaceURI)) {
             // child types
             //
@@ -68,8 +68,8 @@ public class ListHandler extends XSIElementHandler {
                     simpleType = sth;
                 } else {
                     throw new SAXNotRecognizedException(getLocalName()
-                        + " may only have one '" + AllHandler.LOCALNAME
-                        + "' declaration.");
+                            + " may only have one '" + AllHandler.LOCALNAME
+                            + "' declaration.");
                 }
 
                 return sth;
@@ -81,10 +81,10 @@ public class ListHandler extends XSIElementHandler {
 
     /**
      * @see org.geotools.xml.XSIElementHandler#startElement(java.lang.String,
-     *      java.lang.String, org.xml.sax.Attributes)
+     * java.lang.String, org.xml.sax.Attributes)
      */
     public void startElement(String namespaceURI, String localName,
-        Attributes atts) {
+                             Attributes atts) {
         id = atts.getValue("", "id");
 
         if (id == null) {
@@ -109,7 +109,6 @@ public class ListHandler extends XSIElementHandler {
      * <p>
      * returns the itemType attribute
      * </p>
-     *
      */
     public String getItemType() {
         return itemType;
@@ -119,7 +118,6 @@ public class ListHandler extends XSIElementHandler {
      * <p>
      * returns the nested simpleType if one exists
      * </p>
-     *
      */
     public SimpleTypeHandler getSimpleType() {
         return simpleType;
@@ -134,9 +132,9 @@ public class ListHandler extends XSIElementHandler {
 
     /**
      * @see org.geotools.xml.XSIElementHandler#endElement(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
-    public void endElement(String namespaceURI, String localName){
+    public void endElement(String namespaceURI, String localName) {
         // do nothing
     }
 }

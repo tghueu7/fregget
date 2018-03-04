@@ -25,12 +25,14 @@ import org.geotools.xml.XSD;
 /**
  * XSD for wfs 1.0. capabilities document; for non capabilities use {@link WFS}, as it's based on a
  * different schema.
- * 
+ *
  * @see WFSCapabilitiesConfiguration
  */
 public final class WFSCapabilities extends XSD {
 
-    /** singleton instance */
+    /**
+     * singleton instance
+     */
     private static final WFSCapabilities instance = new WFSCapabilities();
 
     /**
@@ -40,7 +42,7 @@ public final class WFSCapabilities extends XSD {
         return instance;
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     protected void addDependencies(Set dependencies) {
         ///dependencies.add(org.geotools.filter.v1_0.capabilities.OGC.getInstance());
@@ -49,7 +51,7 @@ public final class WFSCapabilities extends XSD {
     public String getSchemaLocation() {
         return getClass().getResource("wfs.xsd").toString();
     }
-    
+
     @Override
     public String getNamespaceURI() {
         return "http://www.opengis.net/wfs/2.0";

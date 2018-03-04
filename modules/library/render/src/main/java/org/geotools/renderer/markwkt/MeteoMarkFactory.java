@@ -33,7 +33,7 @@ import org.opengis.filter.expression.Expression;
 
 /**
  * Adds to the well-known shapes some symbols the weathermen may find useful.
- * 
+ *
  * @author Luca Morandini lmorandini@ieee.org
  * @version $Id$
  */
@@ -41,7 +41,9 @@ public class MeteoMarkFactory implements MarkFactory {
 
     public static final String SHAPE_PREFIX = "extshape://";
 
-    /** The logger for the rendering module. */
+    /**
+     * The logger for the rendering module.
+     */
     private static final Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger(MeteoMarkFactory.class);
 
@@ -129,7 +131,7 @@ public class MeteoMarkFactory implements MarkFactory {
 
     /*
      * Return a shape with the given url.
-     * 
+     *
      * @see org.geotools.renderer.style.MarkFactory#getShape(java.awt.Graphics2D,
      * org.opengis.filter.expression.Expression, org.opengis.feature.Feature)
      */
@@ -178,21 +180,21 @@ public class MeteoMarkFactory implements MarkFactory {
                 throw new IllegalArgumentException("Invalid numerical value " + svalue);
             }
             switch (key) {
-            case ARROW_HEIGHT_RATIO_KEY:
-                validateRange(key, value, 0, 1000);
-                height = value;
-                break;
-            case ARROW_THICKNESS_KEY:
-                validateRange(key, value, 0, 1);
-                thickness = value;
-                break;
-            case ARROWHEAD_BASE_KEY:
-                validateRange(key, value, 0, 1);
-                arrowBase = value;
-                break;
-            default:
-                LOGGER.warning("Unexpected key value pair " + key + "=" + svalue
-                        + " for extshape://arrow");
+                case ARROW_HEIGHT_RATIO_KEY:
+                    validateRange(key, value, 0, 1000);
+                    height = value;
+                    break;
+                case ARROW_THICKNESS_KEY:
+                    validateRange(key, value, 0, 1);
+                    thickness = value;
+                    break;
+                case ARROWHEAD_BASE_KEY:
+                    validateRange(key, value, 0, 1);
+                    arrowBase = value;
+                    break;
+                default:
+                    LOGGER.warning("Unexpected key value pair " + key + "=" + svalue
+                            + " for extshape://arrow");
             }
         }
         return buildDynamicArrow(height, thickness, arrowBase);

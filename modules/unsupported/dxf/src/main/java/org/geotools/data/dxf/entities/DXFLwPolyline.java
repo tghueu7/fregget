@@ -1,7 +1,7 @@
 /*
  * [ 1719398 ] First shot at LWPOLYLINE
  * Peter Hopfgartner - hopfgartner
- *  
+ *
  */
 package org.geotools.data.dxf.entities;
 
@@ -9,6 +9,7 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LinearRing;
 import org.geotools.data.dxf.parser.DXFLineNumberReader;
+
 import java.io.EOFException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,8 +29,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DXFLwPolyline extends DXFEntity {
@@ -39,7 +38,8 @@ public class DXFLwPolyline extends DXFEntity {
     public int _flag = 0;
     public Vector<DXFLwVertex> theVertices = new Vector<DXFLwVertex>();
 
-    public DXFLwPolyline(String name, int flag, int c, DXFLayer l, Vector<DXFLwVertex> v, int visibility, DXFLineType lineType, double thickness) {
+    public DXFLwPolyline(String name, int flag, int c, DXFLayer l, Vector<DXFLwVertex> v, int 
+            visibility, DXFLineType lineType, double thickness) {
         super(c, l, visibility, lineType, thickness);
         _id = name;
 
@@ -55,22 +55,24 @@ public class DXFLwPolyline extends DXFEntity {
         _flag = flag;
         setName("DXFLwPolyline");
     }
-    public DXFLwPolyline(String name, int flag, int c, DXFLayer l, Vector<DXFLwVertex> v, int visibility, DXFLineType lineType, double thickness, DXFExtendedData extData) {
-    	super(c, l, visibility, lineType, thickness);
-    	_id = name;
-    	
-    	
-    	Vector<DXFLwVertex> newV = new Vector<DXFLwVertex>();
-    	
-    	for (int i = 0; i < v.size(); i++) {
-    		DXFLwVertex entity = (DXFLwVertex) v.get(i).clone();
-    		newV.add(entity);
-    	}
-    	
-    	theVertices = newV;
-    	_flag = flag;
-    	setName("DXFLwPolyline");
-    	_extendedData = extData;
+
+    public DXFLwPolyline(String name, int flag, int c, DXFLayer l, Vector<DXFLwVertex> v, int 
+            visibility, DXFLineType lineType, double thickness, DXFExtendedData extData) {
+        super(c, l, visibility, lineType, thickness);
+        _id = name;
+
+
+        Vector<DXFLwVertex> newV = new Vector<DXFLwVertex>();
+
+        for (int i = 0; i < v.size(); i++) {
+            DXFLwVertex entity = (DXFLwVertex) v.get(i).clone();
+            newV.add(entity);
+        }
+
+        theVertices = newV;
+        _flag = flag;
+        setName("DXFLwPolyline");
+        _extendedData = extData;
     }
 
     public DXFLwPolyline(DXFLayer l) {
@@ -100,7 +102,8 @@ public class DXFLwPolyline extends DXFEntity {
         setName("DXFLwPolyline");
     }
 
-    public static DXFLwPolyline read(DXFLineNumberReader br, DXFUnivers univers) throws IOException {
+    public static DXFLwPolyline read(DXFLineNumberReader br, DXFUnivers univers) throws 
+            IOException {
         String name = "";
         int visibility = 0, flag = 0, c = -1;
         DXFLineType lineType = null;
@@ -156,16 +159,17 @@ public class DXFLwPolyline extends DXFEntity {
                     visibility = cvp.getShortValue();
                     break;
                 case XDATA_APPLICATION_NAME:
-                	String appName = cvp.getStringValue();
-            		_extData = DXFExtendedData.getExtendedData(br);
-            		_extData.setAppName(appName);
+                    String appName = cvp.getStringValue();
+                    _extData = DXFExtendedData.getExtendedData(br);
+                    _extData.setAppName(appName);
                     break;
                 default:
                     break;
             }
 
         }
-        DXFLwPolyline e = new DXFLwPolyline(name, flag, c, l, lv, visibility, lineType, DXFTables.defaultThickness, _extData);
+        DXFLwPolyline e = new DXFLwPolyline(name, flag, c, l, lv, visibility, lineType, DXFTables
+                .defaultThickness, _extData);
         if ((flag & 1) == 1) {
             e.setType(GeometryType.POLYGON);
         } else {
@@ -178,7 +182,8 @@ public class DXFLwPolyline extends DXFEntity {
         return e;
     }
 
-    public static void readLwVertices(DXFLineNumberReader br, Vector<DXFLwVertex> theVertices) throws IOException {
+    public static void readLwVertices(DXFLineNumberReader br, Vector<DXFLwVertex> theVertices) 
+            throws IOException {
         double x = 0, y = 0, b = 0;
         boolean xFound = false, yFound = false;
 
@@ -306,7 +311,8 @@ public class DXFLwPolyline extends DXFEntity {
         return rotateAndPlace(lc.toArray(new Coordinate[]{}));
     }
 
-    public String toString(String name, int flag, int numVert, int c, int visibility, double thickness) {
+    public String toString(String name, int flag, int numVert, int c, int visibility, double 
+            thickness) {
         StringBuffer s = new StringBuffer();
         s.append("DXFPolyline [");
         s.append("name: ");
@@ -327,7 +333,8 @@ public class DXFLwPolyline extends DXFEntity {
 
     @Override
     public String toString() {
-        return toString(getName(), _flag, theVertices.size(), getColor(), (isVisible() ? 0 : 1), getThickness());
+        return toString(getName(), _flag, theVertices.size(), getColor(), (isVisible() ? 0 : 1), 
+                getThickness());
     }
 
     @Override

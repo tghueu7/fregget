@@ -29,16 +29,16 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DXFUnivers implements DXFConstants {
 
     private static final Log log = LogFactory.getLog(DXFUnivers.class);
     public static final PrecisionModel precisionModel = new PrecisionModel(PrecisionModel.FLOATING);
-    public static final int NUM_OF_SEGMENTS = 16; // Minimum number of segments for a circle (also used for arc)
-    public static final double MIN_ANGLE = 2 * Math.PI / NUM_OF_SEGMENTS; // Minimum number of segments for a circle (also used for arc)
+    public static final int NUM_OF_SEGMENTS = 16; // Minimum number of segments for a circle 
+    // (also used for arc)
+    public static final double MIN_ANGLE = 2 * Math.PI / NUM_OF_SEGMENTS; // Minimum number of 
+    // segments for a circle (also used for arc)
     private Vector<DXFBlockReference> _entForUpdate = new Vector<DXFBlockReference>();
     public Vector<DXFTables> theTables = new Vector<DXFTables>();
     public Vector<DXFBlock> theBlocks = new Vector<DXFBlock>();
@@ -48,7 +48,8 @@ public class DXFUnivers implements DXFConstants {
     private Geometry errorGeometry = null;
     private HashMap insertsFound = new HashMap();
     private ArrayList dxfInsertsFilter;
-    private String info = ""; // Used for getInfo();  returns this string with information about the file
+    private String info = ""; // Used for getInfo();  returns this string with information about 
+    // the file
 
     public DXFUnivers(ArrayList dxfInsertsFilter) {
         this.dxfInsertsFilter = dxfInsertsFilter;
@@ -130,10 +131,10 @@ public class DXFUnivers implements DXFConstants {
                     } else if (name.equals(ENTITIES)) {
                         DXFEntities dxfes = DXFEntities.readEntities(br, this);
                         theEntities.addAll(dxfes.theEntities);
-                    // toevoegen aan layer doen we even niet, waarschijnlijk niet nodig
-                    //if (o != null && o._refLayer != null) {
-                    //    o._refLayer.theEnt.add(o);
-                    //}
+                        // toevoegen aan layer doen we even niet, waarschijnlijk niet nodig
+                        //if (o != null && o._refLayer != null) {
+                        //    o._refLayer.theEnt.add(o);
+                        //}
                     }
                     break;
                 default:
@@ -225,7 +226,8 @@ public class DXFUnivers implements DXFConstants {
                     Iterator it = refBlockEntities.iterator();
                     while (it.hasNext()) {
                         // Create clone if blockEntity is a insert
-                        DXFEntity e = ((isInsert) ? ((DXFEntity) it.next()).clone() : (DXFEntity) it.next());
+                        DXFEntity e = ((isInsert) ? ((DXFEntity) it.next()).clone() : (DXFEntity)
+                                it.next());
 
                         if (isInsert) {
                             e.setBase(((DXFInsert) bro)._point.toCoordinate());
@@ -237,7 +239,8 @@ public class DXFUnivers implements DXFConstants {
                     }
                 }
             } else {
-                log.error("Can not update refblock: " + bro.getName() + " - " + bro._blockName + " at " + bro.getStartingLineNumber());
+                log.error("Can not update refblock: " + bro.getName() + " - " + bro._blockName + 
+                        " at " + bro.getStartingLineNumber());
             }
 
             if (!isInsert) {
@@ -247,7 +250,8 @@ public class DXFUnivers implements DXFConstants {
 
         // Set information
         if (_entForUpdate.size() > 0) {
-            info += "Num of Blocks: " + _entForUpdate.size() + " of which Inserts: " + numInserts + "\n";
+            info += "Num of Blocks: " + _entForUpdate.size() + " of which Inserts: " + numInserts
+                    + "\n";
             java.util.HashMap list = new java.util.HashMap();
 
             // Count inserts in updateList
@@ -267,10 +271,11 @@ public class DXFUnivers implements DXFConstants {
             ArrayList arrayList = new ArrayList(list.keySet());
             Collections.sort(arrayList);
 
-            for (java.util.Iterator iter = arrayList.iterator(); iter.hasNext();) {
+            for (java.util.Iterator iter = arrayList.iterator(); iter.hasNext(); ) {
                 String key = (String) iter.next();
                 String value = Integer.toString((Integer) list.get(key));
-                String found = ((Boolean) insertsFound.get(key) ? "" : (isFilteredInsert(key) ? "Filtered" : "Missing"));
+                String found = ((Boolean) insertsFound.get(key) ? "" : (isFilteredInsert(key) ? 
+                        "Filtered" : "Missing"));
 
                 key = makeTabs(key, 31);
                 value = makeTabs(value, 12);

@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -37,25 +37,27 @@ import org.opengis.feature.simple.SimpleFeatureType;
  * you will the overhead involved in writing out each feature into
  * a temporary file (when the user may not even modify anything).
  * </p>
+ *
  * @author jgarnett
- * @since 2.1.RC0
  * @source $URL$
+ * @since 2.1.RC0
  */
 final class FeatureWriterIterator implements Iterator<SimpleFeature> {
-    FeatureWriter<SimpleFeatureType, SimpleFeature> writer;    
-    public FeatureWriterIterator( FeatureWriter<SimpleFeatureType, SimpleFeature> writer ){
+    FeatureWriter<SimpleFeatureType, SimpleFeature> writer;
+
+    public FeatureWriterIterator(FeatureWriter<SimpleFeatureType, SimpleFeature> writer) {
         this.writer = writer;
     }
+
     public boolean hasNext() {
         try {
-            if( writer == null ) {
+            if (writer == null) {
                 return false;
             }
             writer.write(); // write out any "changes" made
-            if( writer.hasNext() ){
+            if (writer.hasNext()) {
                 return true;
-            }
-            else {
+            } else {
                 close();
                 return false;
                 // auto close because we don't trust client
@@ -64,34 +66,38 @@ final class FeatureWriterIterator implements Iterator<SimpleFeature> {
         } catch (IOException e) {
             close();
             return false; // failure sounds like lack of next to me
-        }        
+        }
     }
 
     public SimpleFeature next() {
-        if( writer == null ) {
-            throw new NoSuchElementException( "Iterator has been closed" );            
+        if (writer == null) {
+            throw new NoSuchElementException("Iterator has been closed");
         }
         try {
             return writer.next();
         } catch (IOException io) {
-            NoSuchElementException problem = new NoSuchElementException( "Could not obtain the next feature:"+io );
-            problem.initCause( io );
+            NoSuchElementException problem = new NoSuchElementException("Could not obtain the " +
+                    "next feature:" + io);
+            problem.initCause(io);
             throw problem;
-        }       
+        }
     }
+
     public void remove() {
         try {
             writer.remove();
         } catch (IOException problem) {
-            throw (IllegalStateException) new IllegalStateException( "Could not remove feature" ).initCause( problem ); 
-        }        
+            throw (IllegalStateException) new IllegalStateException("Could not remove feature")
+                    .initCause(problem);
+        }
     }
+
     /**
      * This method only needs package visability as only AbstractFeatureCollection
      * is trusted enough to call it.
      */
-    void close(){
-        if( writer != null){
+    void close() {
+        if (writer != null) {
             try {
                 writer.close();
             } catch (IOException e) {

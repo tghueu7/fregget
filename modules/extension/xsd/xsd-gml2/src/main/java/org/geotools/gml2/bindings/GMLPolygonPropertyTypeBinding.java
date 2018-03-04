@@ -31,9 +31,9 @@ import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:PolygonPropertyType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="PolygonPropertyType"&gt;
  *      &lt;annotation&gt;
@@ -56,9 +56,6 @@ import com.vividsolutions.jts.geom.Polygon;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLPolygonPropertyTypeBinding extends AbstractComplexBinding {
@@ -69,7 +66,7 @@ public class GMLPolygonPropertyTypeBinding extends AbstractComplexBinding {
         return GML.POLYGONPROPERTYTYPE;
     }
 
-  /**
+    /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      *
@@ -87,18 +84,18 @@ public class GMLPolygonPropertyTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return node.getChildValue(Polygon.class);
     }
-    
+
     @Override
     public Object getProperty(Object object, QName name) throws Exception {
-        return GML2EncodingUtils.GeometryPropertyType_getProperty((Polygon)object,name,false);
+        return GML2EncodingUtils.GeometryPropertyType_getProperty((Polygon) object, name, false);
     }
-    
+
     @Override
     public List getProperties(Object object, XSDElementDeclaration element)
             throws Exception {
-        return GML2EncodingUtils.GeometryPropertyType_getProperties((Polygon)object);
+        return GML2EncodingUtils.GeometryPropertyType_getProperties((Polygon) object);
     }
 }

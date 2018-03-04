@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2001-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -41,12 +41,10 @@ import org.opengis.referencing.IdentifiedObject;
 /**
  * An operation working on {@link GridCoverage2D} sources.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public abstract class Operation2D extends AbstractOperation {
     /**
@@ -73,12 +71,13 @@ public abstract class Operation2D extends AbstractOperation {
      * is {@code "source0"} (for compatibility with <cite>Java Advanced Imaging</cite>).
      */
     public static final ParameterDescriptor SOURCE_0;
+
     static {
-        final Map<String,Object> properties = new HashMap<String,Object>(4);
-        properties.put(IdentifiedObject.NAME_KEY,  new NamedIdentifier(Citations.OGC, "Source"));
+        final Map<String, Object> properties = new HashMap<String, Object>(4);
+        properties.put(IdentifiedObject.NAME_KEY, new NamedIdentifier(Citations.OGC, "Source"));
         properties.put(IdentifiedObject.ALIAS_KEY, new NamedIdentifier(Citations.JAI, "source0"));
         SOURCE_0 = new DefaultParameterDescriptor(properties, GridCoverage2D.class,
-                        null, null, null, null, null, true);
+                null, null, null, null, null, true);
     }
 
     /**
@@ -92,7 +91,7 @@ public abstract class Operation2D extends AbstractOperation {
     }
 
     /**
-     * Extracts and prepares the sources for this {@code Operation2D} 
+     * Extracts and prepares the sources for this {@code Operation2D}
      * <p>
      * This method fills the {@code sources} array with needed sources
      *
@@ -101,31 +100,27 @@ public abstract class Operation2D extends AbstractOperation {
      * @param sources     On input, an array with the same length than {@code sourceNames}.
      *                    On output, the {@link GridCoverage2D} to be used as sources for
      *                    this operation.
-     * @return            The type of the {@linkplain #PRIMARY_SOURCE_INDEX primary source},
-     *                    or {@code null} if unknow or if the type should not be changed.
-     *
-     * @throws IllegalArgumentException
-     *                  if an argument is {@code null}, or if {@code sources} and
-     *                  {@code sourceNames} doesn't have length.
-     * @throws ParameterNotFoundException
-     *                  if a required source has not been found.
-     * @throws InvalidParameterValueException
-     *                  if a source doesn't contain a value of type {@link GridCoverage2D}.
-     *
+     * @return The type of the {@linkplain #PRIMARY_SOURCE_INDEX primary source},
+     * or {@code null} if unknow or if the type should not be changed.
+     * @throws IllegalArgumentException       if an argument is {@code null}, or if {@code 
+     * sources} and
+     *                                        {@code sourceNames} doesn't have length.
+     * @throws ParameterNotFoundException     if a required source has not been found.
+     * @throws InvalidParameterValueException if a source doesn't contain a value of type 
+     * {@link GridCoverage2D}.
      * @since 2.4
      */
     protected void extractSources(final ParameterValueGroup parameters,
-                                      final String[]            sourceNames,
-                                      final GridCoverage2D[]    sources)
-            throws ParameterNotFoundException, InvalidParameterValueException
-    {
-        Utilities.ensureNonNull("parameters",  parameters);
+                                  final String[] sourceNames,
+                                  final GridCoverage2D[] sources)
+            throws ParameterNotFoundException, InvalidParameterValueException {
+        Utilities.ensureNonNull("parameters", parameters);
         Utilities.ensureNonNull("sourceNames", sourceNames);
-        Utilities.ensureNonNull("sources",     sources);
+        Utilities.ensureNonNull("sources", sources);
         if (sources.length != sourceNames.length) {
             throw new IllegalArgumentException(Errors.format(ErrorKeys.MISMATCHED_ARRAY_LENGTH));
         }
-        for (int i=0; i<sourceNames.length; i++) {
+        for (int i = 0; i < sourceNames.length; i++) {
             Object candidate = parameters.parameter(sourceNames[i]).getValue();
             if (candidate == null) {
                 // assume it is an optional parameter
@@ -133,7 +128,8 @@ public abstract class Operation2D extends AbstractOperation {
             }
             if (!(candidate instanceof GridCoverage2D)) {
                 throw new InvalidParameterValueException(Errors.format(ErrorKeys.ILLEGAL_CLASS_$2,
-                        Classes.getClass(candidate), GridCoverage2D.class), sourceNames[i], candidate);
+                        Classes.getClass(candidate), GridCoverage2D.class), sourceNames[i], 
+                        candidate);
             }
             GridCoverage2D source = (GridCoverage2D) candidate;
             sources[i] = source;

@@ -4,23 +4,22 @@ import org.geotools.jdbc.JDBCDataStoreAPITestSetup;
 import org.geotools.jdbc.JDBCTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class IngresDataStoreAPITestSetup extends JDBCDataStoreAPITestSetup {
 
-	protected IngresDataStoreAPITestSetup(JDBCTestSetup delegate) {
-		super(delegate);
-	}
+    protected IngresDataStoreAPITestSetup(JDBCTestSetup delegate) {
+        super(delegate);
+    }
 
     @Override
     protected void createLakeTable() throws Exception {
-    	run("CREATE SEQUENCE LAKE_FID_SEQUENCE");
-        run("CREATE TABLE \"lake\"(\"fid\" int PRIMARY KEY WITH DEFAULT NEXT VALUE FOR LAKE_FID_SEQUENCE, \"id\" int, "
+        run("CREATE SEQUENCE LAKE_FID_SEQUENCE");
+        run("CREATE TABLE \"lake\"(\"fid\" int PRIMARY KEY WITH DEFAULT NEXT VALUE FOR " +
+                "LAKE_FID_SEQUENCE, \"id\" int, "
                 + "\"geom\" POLYGON SRID 4326, \"name\" varchar(256) )");
 //        run("CREATE INDEX LAKE_GEOM_INDEX ON \"lake\" USING GIST (\"geom\") "); fix later
-        
+
         // advance the sequence to 1 to compensate for hand insertions
 //        run("SELECT nextval(pg_get_serial_sequence('lake','fid'))");
 
@@ -31,16 +30,18 @@ public class IngresDataStoreAPITestSetup extends JDBCDataStoreAPITestSetup {
 
     @Override
     protected void createRiverTable() throws Exception {
-    	run("CREATE SEQUENCE RIVER_FID_SEQUENCE");
-        run("CREATE TABLE \"river\"(\"fid\" int PRIMARY KEY WITH DEFAULT NEXT VALUE FOR RIVER_FID_SEQUENCE, \"id\" int, "
+        run("CREATE SEQUENCE RIVER_FID_SEQUENCE");
+        run("CREATE TABLE \"river\"(\"fid\" int PRIMARY KEY WITH DEFAULT NEXT VALUE FOR " +
+                "RIVER_FID_SEQUENCE, \"id\" int, "
                 + "\"geom\" MULTILINESTRING SRID 4326, \"river\" varchar(256) , \"flow\" real )");
 //        run("CREATE INDEX RIVER_GEOM_INDEX ON \"river\" USING GIST (\"geom\") ");
-        
+
         // advance the sequence to 1 to compensate for hand insertions
 //        run("SELECT nextval(pg_get_serial_sequence('river','fid'))");
 
         run("INSERT INTO \"river\" (\"fid\", \"id\",\"geom\",\"river\", \"flow\") VALUES (0, 0,"
-                + "GeometryFromText('MULTILINESTRING((5 5, 7 4),(7 5, 9 7, 13 7),(7 5, 9 3, 11 3))',4326),"
+                + "GeometryFromText('MULTILINESTRING((5 5, 7 4),(7 5, 9 7, 13 7),(7 5, 9 3, 11 3)" +
+                ")',4326),"
                 + "'rv1', 4.5)");
         run("INSERT INTO \"river\" (\"id\",\"geom\",\"river\", \"flow\") VALUES (1,"
                 + "GeometryFromText('MULTILINESTRING((4 6, 4 8, 6 10))',4326),"
@@ -50,8 +51,9 @@ public class IngresDataStoreAPITestSetup extends JDBCDataStoreAPITestSetup {
     @Override
     protected void createRoadTable() throws Exception {
         // create table and spatial index
-    	run("CREATE SEQUENCE ROAD_FID_SEQUENCE");
-        run("CREATE TABLE \"road\"(\"fid\" int PRIMARY KEY WITH DEFAULT NEXT VALUE FOR ROAD_FID_SEQUENCE, \"id\" int, "
+        run("CREATE SEQUENCE ROAD_FID_SEQUENCE");
+        run("CREATE TABLE \"road\"(\"fid\" int PRIMARY KEY WITH DEFAULT NEXT VALUE FOR " +
+                "ROAD_FID_SEQUENCE, \"id\" int, "
                 + "\"geom\" LINESTRING SRID 4326, \"name\" varchar(256))");
 //        run("CREATE INDEX ROAD_GEOM_INDEX ON \"road\" USING GIST (\"geom\") ");
 

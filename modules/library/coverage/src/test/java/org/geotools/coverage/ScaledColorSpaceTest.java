@@ -28,6 +28,7 @@ import java.util.Random;
 import org.geotools.coverage.grid.Viewer;
 
 import org.junit.*;
+
 import static org.junit.Assert.*;
 
 
@@ -35,11 +36,9 @@ import static org.junit.Assert.*;
  * Tests the {@link ScaledColorSpace} implementation.
  * This is a visual test when run from the command line.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
  */
 public final class ScaledColorSpaceTest {
     /**
@@ -67,22 +66,23 @@ public final class ScaledColorSpaceTest {
      */
     @Before
     public void setUp() {
-        minimum = random.nextDouble()*100;
-        maximum = random.nextDouble()*200 + minimum + 10;
-        colors  = new ScaledColorSpace(0, 1, minimum, maximum);
+        minimum = random.nextDouble() * 100;
+        maximum = random.nextDouble() * 200 + minimum + 10;
+        colors = new ScaledColorSpace(0, 1, minimum, maximum);
 
         final int transparency = Transparency.OPAQUE;
-        final int datatype     = DataBuffer.TYPE_FLOAT;
-        final ColorModel model = new ComponentColorModel(colors, false, false, transparency, datatype);
-        final WritableRaster data = model.createCompatibleWritableRaster(200,200);
+        final int datatype = DataBuffer.TYPE_FLOAT;
+        final ColorModel model = new ComponentColorModel(colors, false, false, transparency, 
+                datatype);
+        final WritableRaster data = model.createCompatibleWritableRaster(200, 200);
         final BufferedImage image = new BufferedImage(model, data, false, null);
-        final int width  = data.getWidth();
+        final int width = data.getWidth();
         final int height = data.getHeight();
-        for (int x=width; --x>=0;) {
-            for (int y=height; --y>=0;) {
-                double v = Math.hypot((double)x / width - 0.5, (double)y / height - 0.5);
-                v = v*(maximum-minimum) + minimum;
-                data.setSample(x,y,0,v);
+        for (int x = width; --x >= 0; ) {
+            for (int y = height; --y >= 0; ) {
+                double v = Math.hypot((double) x / width - 0.5, (double) y / height - 0.5);
+                v = v * (maximum - minimum) + minimum;
+                data.setSample(x, y, 0, v);
             }
         }
         this.image = image;
@@ -97,9 +97,9 @@ public final class ScaledColorSpaceTest {
         assertEquals(maximum, colors.getMaxValue(0), 1E-4);
 
         final float[] array = new float[1];
-        final double step = (maximum-minimum) / 256;
-        for (double x=minimum; x<maximum; x+=step) {
-            array[0] = (float)x;
+        final double step = (maximum - minimum) / 256;
+        for (double x = minimum; x < maximum; x += step) {
+            array[0] = (float) x;
             assertEquals(x, colors.fromRGB(colors.toRGB(array))[0], 1E-3);
         }
     }
@@ -107,7 +107,7 @@ public final class ScaledColorSpaceTest {
     /**
      * Runs the visual test.
      *
-     * @param  args The command line arguments (ignored).
+     * @param args The command line arguments (ignored).
      * @throws Exception if any error occured.
      */
     public static void main(final String[] args) throws Exception {

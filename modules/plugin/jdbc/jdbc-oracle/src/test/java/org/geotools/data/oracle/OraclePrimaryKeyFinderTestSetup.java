@@ -19,8 +19,6 @@ package org.geotools.data.oracle;
 import org.geotools.jdbc.JDBCPrimaryKeyFinderTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class OraclePrimaryKeyFinderTestSetup extends JDBCPrimaryKeyFinderTestSetup {
@@ -33,8 +31,8 @@ public class OraclePrimaryKeyFinderTestSetup extends JDBCPrimaryKeyFinderTestSet
     protected void createMetadataTable() throws Exception {
         run("CREATE TABLE gt_pk_metadata ( " + "table_schema VARCHAR(32), "
                 + "table_name VARCHAR(32) NOT NULL, " + "pk_column VARCHAR(32) NOT NULL, "
-                + "pk_column_idx INTEGER, " + "pk_policy VARCHAR(32), " + "pk_sequence VARCHAR(64)," 
-                + "unique (table_schema, table_name, pk_column)," 
+                + "pk_column_idx INTEGER, " + "pk_policy VARCHAR(32), " + "pk_sequence VARCHAR(64),"
+                + "unique (table_schema, table_name, pk_column),"
                 + "check (pk_policy in ('sequence', 'assigned', 'autoincrement')))");
     }
 
@@ -47,14 +45,15 @@ public class OraclePrimaryKeyFinderTestSetup extends JDBCPrimaryKeyFinderTestSet
     protected void createSequencedPrimaryKeyTable() throws Exception {
         run("CREATE TABLE seqtable ( key integer PRIMARY KEY, "
                 + "name VARCHAR(256), geom MDSYS.SDO_GEOMETRY)");
-        run( "INSERT INTO USER_SDO_GEOM_METADATA (TABLE_NAME, COLUMN_NAME, DIMINFO, SRID )" + 
-                " VALUES ('seqtable','geom',MDSYS.SDO_DIM_ARRAY(MDSYS.SDO_DIM_ELEMENT('X',-180,180,0.5), " + 
+        run("INSERT INTO USER_SDO_GEOM_METADATA (TABLE_NAME, COLUMN_NAME, DIMINFO, SRID )" +
+                " VALUES ('seqtable','geom',MDSYS.SDO_DIM_ARRAY(MDSYS.SDO_DIM_ELEMENT('X',-180," +
+                "180,0.5), " +
                 "MDSYS.SDO_DIM_ELEMENT('Y',-90,90,0.5)), 4326)");
         run("CREATE SEQUENCE pksequence START WITH 1");
 
-        run( "INSERT INTO seqtable VALUES (pksequence.NEXTVAL,'one',NULL)" );
-        run( "INSERT INTO seqtable VALUES (pksequence.NEXTVAL,'two',NULL)" );
-        run( "INSERT INTO seqtable VALUES (pksequence.NEXTVAL,'three',NULL)" );
+        run("INSERT INTO seqtable VALUES (pksequence.NEXTVAL,'one',NULL)");
+        run("INSERT INTO seqtable VALUES (pksequence.NEXTVAL,'two',NULL)");
+        run("INSERT INTO seqtable VALUES (pksequence.NEXTVAL,'three',NULL)");
 
         run("INSERT INTO gt_pk_metadata VALUES"
                 + "(NULL, 'SEQTABLE', 'KEY', 0, 'sequence', 'PKSEQUENCE')");
@@ -62,17 +61,18 @@ public class OraclePrimaryKeyFinderTestSetup extends JDBCPrimaryKeyFinderTestSet
 
     @Override
     protected void dropSequencedPrimaryKeyTable() throws Exception {
-        runSafe( "DROP TABLE seqtable PURGE");
-        runSafe( "DELETE FROM USER_SDO_GEOM_METADATA WHERE TABLE_NAME = 'SEQTABLE'");
-        runSafe( "DROP SEQUENCE pksequence");
+        runSafe("DROP TABLE seqtable PURGE");
+        runSafe("DELETE FROM USER_SDO_GEOM_METADATA WHERE TABLE_NAME = 'SEQTABLE'");
+        runSafe("DROP SEQUENCE pksequence");
     }
 
     @Override
     protected void createPlainTable() throws Exception {
         run("CREATE TABLE plaintable ( key1 int, key2 int, "
                 + "name VARCHAR(256), geom MDSYS.SDO_GEOMETRY )");
-        run( "INSERT INTO USER_SDO_GEOM_METADATA (TABLE_NAME, COLUMN_NAME, DIMINFO, SRID )" + 
-                " VALUES ('plaintable','geom',MDSYS.SDO_DIM_ARRAY(MDSYS.SDO_DIM_ELEMENT('X',-180,180,0.5), " + 
+        run("INSERT INTO USER_SDO_GEOM_METADATA (TABLE_NAME, COLUMN_NAME, DIMINFO, SRID )" +
+                " VALUES ('plaintable','geom',MDSYS.SDO_DIM_ARRAY(MDSYS.SDO_DIM_ELEMENT('X',-180," +
+                "180,0.5), " +
                 "MDSYS.SDO_DIM_ELEMENT('Y',-90,90,0.5)), 4326)");
 
         run("INSERT INTO plaintable VALUES (1, 2, 'one', NULL)");
@@ -83,7 +83,7 @@ public class OraclePrimaryKeyFinderTestSetup extends JDBCPrimaryKeyFinderTestSet
     @Override
     protected void dropPlainTable() throws Exception {
         runSafe("DROP TABLE plaintable");
-        runSafe( "DELETE FROM USER_SDO_GEOM_METADATA WHERE TABLE_NAME = 'PLAINTABLE'");
+        runSafe("DELETE FROM USER_SDO_GEOM_METADATA WHERE TABLE_NAME = 'PLAINTABLE'");
     }
 
     @Override

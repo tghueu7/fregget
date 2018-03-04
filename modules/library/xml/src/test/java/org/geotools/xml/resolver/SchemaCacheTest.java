@@ -27,10 +27,8 @@ import org.junit.Test;
 
 /**
  * Tests for {@link SchemaCache}.
- * 
+ *
  * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
- *
- *
  * @source $URL$
  */
 public class SchemaCacheTest {
@@ -80,7 +78,6 @@ public class SchemaCacheTest {
                 URLs.urlToFile((new URI(resolvedLocation)).toURL()).getCanonicalFile()
                         .toURI().toString());
     }
-    
-    
+
 
 }

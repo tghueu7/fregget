@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.primitive;
@@ -20,7 +20,7 @@ import static org.opengis.annotation.Specification.*;
  * {@linkplain SurfaceBoundary surface boundaries}. In normal 3-dimensional Euclidean
  * space, one {@linkplain Shell shell} is distinguished as the exterior. In the more
  * general case, this is not always possible.
- *
+ * <p>
  * <blockquote><font size=2>
  * <strong>NOTE:</strong> An alternative use of solids with no external shell would be to define
  * "complements" of finite solids. These infinite solids would have only interior boundaries. If
@@ -29,23 +29,20 @@ import static org.opengis.annotation.Specification.*;
  * boundaries are possible.
  * </font></blockquote>
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
- * @since GeoAPI 1.0
- *
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @see SurfaceBoundary
+ * @since GeoAPI 1.0
  */
-@UML(identifier="GM_SolidBoundary", specification=ISO_19107)
+@UML(identifier = "GM_SolidBoundary", specification = ISO_19107)
 public interface SolidBoundary extends PrimitiveBoundary {
     /**
      * Returns the exterior shell, or {@code null} if none.
      *
      * @return The exterior shell, or {@code null}.
      */
-    @UML(identifier="exterior", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "exterior", obligation = MANDATORY, specification = ISO_19107)
     Shell getExterior();
 
     /**
@@ -53,6 +50,6 @@ public interface SolidBoundary extends PrimitiveBoundary {
      *
      * @return The interior shells. Never {@code null}, but may be an empty array.
      */
-    @UML(identifier="interior", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "interior", obligation = MANDATORY, specification = ISO_19107)
     Shell[] getInteriors();
 }

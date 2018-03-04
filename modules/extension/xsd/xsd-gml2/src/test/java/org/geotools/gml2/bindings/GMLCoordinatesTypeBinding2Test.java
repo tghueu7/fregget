@@ -25,8 +25,6 @@ import com.vividsolutions.jts.geom.CoordinateSequence;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GMLCoordinatesTypeBinding2Test extends GMLTestSupport {

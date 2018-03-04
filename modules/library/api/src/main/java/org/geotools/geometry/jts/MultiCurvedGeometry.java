@@ -21,8 +21,8 @@ import com.vividsolutions.jts.geom.Geometry;
 /**
  * This interface is really just a trick for schema building, there
  * are no concrete implementors for it
- * @author Andrea Aime - GeoSolutions
  *
+ * @author Andrea Aime - GeoSolutions
  */
 public interface MultiCurvedGeometry<T extends Geometry> extends CurvedGeometry<T> {
 

@@ -20,8 +20,6 @@ import org.geotools.jdbc.JDBCDateTestSetup;
 import org.geotools.jdbc.JDBCTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class TeradataDateTestSetup extends JDBCDateTestSetup {
@@ -36,10 +34,16 @@ public class TeradataDateTestSetup extends JDBCDateTestSetup {
         run("CREATE TABLE dates (d DATE, dt TIMESTAMP, t TIME)");
 
         //_date('1998/05/31:12:00:00AM', 'yyyy/mm/dd:hh:mi:ssam'));
-        
-        run("INSERT INTO DATES VALUES ('1969-12-23' (DATE, format 'yyyy-MM-dd'), '2009-06-28 15:12:41' (TIMESTAMP, format 'YYYY-MM-ddBHH:mi:ss'), '15:12:41' (TIME, format 'HH:mi:ss') );");
-        run("INSERT INTO DATES VALUES ('2009-01-15' (DATE, format 'yyyy-MM-dd'), '2009-01-15 13:10:12' (TIMESTAMP, format 'YYYY-MM-ddBHH:mi:ss'), '13:10:12' (TIME, format 'HH:mi:ss') );");
-        run("INSERT INTO DATES VALUES ('2009-09-29' (DATE, format 'yyyy-MM-dd'), '2009-09-29 17:54:23' (TIMESTAMP, format 'YYYY-MM-ddBHH:mi:ss'), '17:54:23' (TIME, format 'HH:mi:ss') );");
+
+        run("INSERT INTO DATES VALUES ('1969-12-23' (DATE, format 'yyyy-MM-dd'), '2009-06-28 " +
+                "15:12:41' (TIMESTAMP, format 'YYYY-MM-ddBHH:mi:ss'), '15:12:41' (TIME, format " +
+                "'HH:mi:ss') );");
+        run("INSERT INTO DATES VALUES ('2009-01-15' (DATE, format 'yyyy-MM-dd'), '2009-01-15 " +
+                "13:10:12' (TIMESTAMP, format 'YYYY-MM-ddBHH:mi:ss'), '13:10:12' (TIME, format " +
+                "'HH:mi:ss') );");
+        run("INSERT INTO DATES VALUES ('2009-09-29' (DATE, format 'yyyy-MM-dd'), '2009-09-29 " +
+                "17:54:23' (TIMESTAMP, format 'YYYY-MM-ddBHH:mi:ss'), '17:54:23' (TIME, format " +
+                "'HH:mi:ss') );");
 
     }
 

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -21,7 +21,7 @@ import org.opengis.filter.FilterFactory;
 
 /**
  * Filter builder for CQL expressions.
- * 
+ * <p>
  * <p>
  * Builds Filter or Expression and their components (literal, functions, etc).
  * It maintains the results of semantic actions in the stack used to build complex
@@ -33,18 +33,19 @@ import org.opengis.filter.FilterFactory;
  * @since 2.5
  */
 final class CQLFilterBuilder extends AbstractFilterBuilder {
- 
+
     /**
      * New instance of CQLFilterBuilder
-     * @param cqlSource 
+     *
+     * @param cqlSource
      * @param filterFactory
      */
-    public CQLFilterBuilder(final String cqlSource, final FilterFactory filterFactory){
-        
-        
+    public CQLFilterBuilder(final String cqlSource, final FilterFactory filterFactory) {
+
+
         super(cqlSource, filterFactory);
 
     }
 
-    
+
 }

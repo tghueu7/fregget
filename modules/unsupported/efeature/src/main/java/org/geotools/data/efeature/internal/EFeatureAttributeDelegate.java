@@ -1,7 +1,7 @@
 /**
  * <copyright>
  * </copyright>
- *
+ * <p>
  * $Id$
  */
 package org.geotools.data.efeature.internal;
@@ -21,19 +21,18 @@ import org.opengis.filter.identity.Identifier;
 
 /**
  * An abstract implementation of the model data type {@link EFeatureAttribute}.
- * 
- * @author kengu, 22. apr. 2011
  *
+ * @author kengu, 22. apr. 2011
  * @source $URL$
  */
 public class EFeatureAttributeDelegate<V> extends
         EFeaturePropertyDelegate<V, Attribute, EAttribute> implements EFeatureAttribute<V> {
-    
+
     /**
      * Cached value when detached
      */
     protected V eValue;
-    
+
 
     // ----------------------------------------------------- 
     //  Constructors
@@ -43,8 +42,9 @@ public class EFeatureAttributeDelegate<V> extends
     /**
      * Default constructor.
      * <p>
-     * @param eInternal - 
-     * @param eName - 
+     *
+     * @param eInternal -
+     * @param eName     -
      * @param valueType - {@link #getValue() property value} type.
      */
     public EFeatureAttributeDelegate(EFeatureInternal eInternal, String eName, Class<V> valueType) {

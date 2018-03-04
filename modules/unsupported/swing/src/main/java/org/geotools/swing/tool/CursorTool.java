@@ -25,13 +25,11 @@ import org.geotools.swing.event.MapMouseAdapter;
 /**
  * The base class for map pane cursor tools. Simply adds a getCursor
  * method to the MapToolAdapter
- * 
+ *
  * @author Michael Bedward
- * @since 2.6
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.6
  */
 public abstract class CursorTool extends MapMouseAdapter {
 
@@ -39,6 +37,7 @@ public abstract class CursorTool extends MapMouseAdapter {
 
     /**
      * Set the map pane that this cursor tool is associated with
+     *
      * @param pane the map pane
      * @throws IllegalArgumentException if mapPane is null
      */

@@ -18,6 +18,7 @@
 package org.geotools.swing.dialog;
 
 import org.geotools.swing.testutils.GraphicsTestBase;
+
 import java.awt.image.Raster;
 import java.awt.image.ColorModel;
 import java.awt.Dimension;
@@ -41,26 +42,27 @@ import org.fest.swing.fixture.JLabelFixture;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import static org.junit.Assert.*;
 
 /**
  * Tests for the DialogUtils class.
- * 
+ *
  * @author Michael Bedward
- * @since 8.0
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 @RunWith(GraphicsTestRunner.class)
 public class DialogUtilsTest extends GraphicsTestBase {
-    
-    /** 
+
+    /**
      * Set this to true to display the screen shot image of the label
      * in the test {@linkplain #labelTextIsFittedProperly()}.
      */
     private static final boolean displayLabelImage = false;
-    
-    
+
+
     @Test
     public void labelTextExtentCanBeCalledSafelyOutsideEDT() {
         // Just testing there is no exception
@@ -80,28 +82,28 @@ public class DialogUtilsTest extends GraphicsTestBase {
     public void labelTextIsFittedProperly() throws Exception {
         final StringBuilder sb = new StringBuilder();
         sb.append("<html>");
-        
+
         // Red dot at start of text
         sb.append("<span style=\"color: #FF0000;\">.</span>");
-        
+
         // Long text
         sb.append("This is a very very very very very very very very very very ");
         sb.append("very very very very very very very very very very very very ");
         sb.append("very very very very very very very very very very very very ");
         sb.append("long message");
-        
+
         // Blue dot at end of text
         sb.append("<span style=\"color: #0000FF;\">.</span>");
         sb.append("</html>");
-    
+
         final int labelWidth = 300;
         final Dimension dim = DialogUtils.getHtmlLabelTextExtent(sb.toString(), labelWidth, true);
-        
+
         JFrame frame = GuiActionRunner.execute(new GuiQuery<JFrame>() {
             @Override
             protected JFrame executeInEDT() throws Throwable {
                 JFrame frame = new JFrame();
-                
+
                 /**
                  * mbedward: 
                  * I tried overriding the label's paintComponent method to
@@ -113,65 +115,65 @@ public class DialogUtilsTest extends GraphicsTestBase {
                  */
                 JLabel label = new JLabel(sb.toString());
                 label.setName("TheLabel");
-                
+
                 label.setPreferredSize(dim);
                 frame.add(label);
-                
+
                 frame.pack();
                 return frame;
             }
         });
-        
+
         FrameFixture fixture = new FrameFixture(frame);
         Insets insets = frame.getInsets();
         fixture.show();
-        
+
         JLabelFixture lf = fixture.label("TheLabel");
         Point pos = lf.component().getLocationOnScreen();
         Dimension size = lf.component().getSize();
-        
+
         Robot robot = new Robot();
         BufferedImage img = robot.createScreenCapture(new Rectangle(pos, dim));
         fixture.close();
-        
+
         if (displayLabelImage) {
             CountDownLatch latch = TestImageFrame.showImage(img, "Label screen shot");
             latch.await();
         }
 
         // Search for the red-ish start dot
-        int[] lower = new int[] {200, 0, 0};
-        int[] upper = new int[] {255, 80, 80};
+        int[] lower = new int[]{200, 0, 0};
+        int[] upper = new int[]{255, 80, 80};
         Rectangle bounds = new Rectangle(img.getMinX(), img.getMinY(), 20, 20);
-        assertTrue( findColorInRange(img, bounds, lower, upper) );
-        
+        assertTrue(findColorInRange(img, bounds, lower, upper));
+
         // Search for the blue-ish end dot
-        lower = new int[] {0, 0, 200};
-        upper = new int[] {80, 80, 255};
+        lower = new int[]{0, 0, 200};
+        upper = new int[]{80, 80, 255};
         bounds = new Rectangle(
-                img.getMinX(), img.getMinY() + img.getHeight() - 20, 
+                img.getMinX(), img.getMinY() + img.getHeight() - 20,
                 img.getWidth(), 20);
-        assertTrue( findColorInRange(img, bounds, lower, upper));
-        
+        assertTrue(findColorInRange(img, bounds, lower, upper));
+
         fixture.cleanUp();
     }
-    
-    private boolean findColorInRange(BufferedImage img, 
-            Rectangle bounds, 
-            int[] lowerRGB, 
-            int[] upperRGB) {
-        
+
+    private boolean findColorInRange(BufferedImage img,
+                                     Rectangle bounds,
+                                     int[] lowerRGB,
+                                     int[] upperRGB) {
+
         final Raster raster = img.getData();
         final ColorModel cm = img.getColorModel();
         boolean found = false;
-        
+
         for (int y = bounds.y, ny = 0; ny < bounds.height; y++, ny++) {
             for (int x = bounds.x, nx = 0; nx < bounds.width; x++, nx++) {
                 int sample = img.getRGB(x, y);
                 int red = cm.getRed(sample);
                 int green = cm.getGreen(sample);
                 int blue = cm.getBlue(sample);
-                
+
                 if (red >= lowerRGB[0] && red <= upperRGB[0] &&
                         green >= lowerRGB[1] && green <= upperRGB[1] &&
                         blue >= lowerRGB[2] && blue <= upperRGB[2]) {
@@ -180,8 +182,8 @@ public class DialogUtilsTest extends GraphicsTestBase {
                 }
             }
         }
-        
+
         return found;
     }
-    
+
 }

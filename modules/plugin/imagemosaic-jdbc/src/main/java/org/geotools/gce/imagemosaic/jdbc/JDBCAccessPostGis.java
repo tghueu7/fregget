@@ -37,12 +37,12 @@ import com.vividsolutions.jts.io.WKBWriter;
 
 /**
  * JDBCAccess implentation for PostGis
- * 
+ *
  * @author mcr
- * 
  */
 class JDBCAccessPostGis extends JDBCAccessBase {
-    static String SRSSelect = "select srid from geometry_columns where f_table_schema=? and f_table_name=? and f_geometry_column=? ";
+    static String SRSSelect = "select srid from geometry_columns where f_table_schema=? and " +
+            "f_table_name=? and f_geometry_column=? ";
 
     static String CRSSelect = "select srtext from spatial_ref_sys where srid=?";
 
@@ -66,46 +66,60 @@ class JDBCAccessPostGis extends JDBCAccessBase {
     }
 
     /**
-     * Check if we have an instance of PostGis that uses the "st_" prefix for 
+     * Check if we have an instance of PostGis that uses the "st_" prefix for
      * functions or not.
      * Eg: the extent function is replaced PostGis by st_extent.
      * The prefix is added since version 1.2.2
      */
     private void initForPostGisVersion() {
-        String extentFunctionName="st_extent";
-        Connection con=null;
+        String extentFunctionName = "st_extent";
+        Connection con = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
         try {
             con = dataSource.getConnection();
-            ps = con.prepareStatement("select proname  from pg_proc where proname='"+extentFunctionName+"'");
+            ps = con.prepareStatement("select proname  from pg_proc where proname='" + 
+                    extentFunctionName + "'");
             rs = ps.executeQuery();
-        
-            if (rs.next()==false) { 
-                functionPrefix="";
-                LOGGER.info("Using depricated postgis functions eg 'extent' instead of 'st_extent'");
-            }               
+
+            if (rs.next() == false) {
+                functionPrefix = "";
+                LOGGER.info("Using depricated postgis functions eg 'extent' instead of " +
+                        "'st_extent'");
+            }
         } catch (SQLException ex) {
-            LOGGER.log(Level.WARNING, "could not verify existence of postgis function 'st_extent', falling back to depricated 'extent'");
-            functionPrefix="";
+            LOGGER.log(Level.WARNING, "could not verify existence of postgis function " +
+                    "'st_extent', falling back to depricated 'extent'");
+            functionPrefix = "";
+        } finally {
+            try {
+                if (rs != null) rs.close();
+            } catch (SQLException ex) {
+            }
+            ;
+            try {
+                if (ps != null) ps.close();
+            } catch (SQLException ex) {
+            }
+            ;
+            try {
+                if (con != null) ps.close();
+            } catch (SQLException ex) {
+            }
+            ;
+
         }
-        finally {
-            try { if (rs!=null) rs.close(); } catch (SQLException ex) {};
-            try { if (ps!=null) ps.close(); } catch (SQLException ex) {};
-            try { if (con!=null) ps.close(); } catch (SQLException ex) {};
-                
-        }
-        
+
     }
-    
+
     /**
      * Initialize needed sql statement strings
-     * 
+     *
      * @param config
      */
     private void initStatementStrings(Config config) {
-        final String geomAttr = config.getGeomAttributeNameInSpatialTable();        
-        extentSelect = "select "+ functionPrefix +"extent(" + geomAttr + ") from {0}";
+        final String geomAttr = config.getGeomAttributeNameInSpatialTable();
+        extentSelect = "select " + functionPrefix + "extent(" + geomAttr + ") from {0}";
 
         // ////////////
         final String spatialSelectClause = "select s." + config.getKeyAttributeNameInSpatialTable()
@@ -118,7 +132,8 @@ class JDBCAccessPostGis extends JDBCAccessBase {
         allSelectJoined += (" s." + config.getKeyAttributeNameInSpatialTable() + " = t." + config
                 .getKeyAttributeNameInTileTable());
 
-        String whereClause = functionPrefix + "intersects(" + geomAttr + "," + "st_geomfromwkb(?,?))";
+        String whereClause = functionPrefix + "intersects(" + geomAttr + "," + "st_geomfromwkb(?," +
+                "?))";
 
         gridSelect = allSelect + " WHERE " + whereClause;
         gridSelectJoined = allSelectJoined + " AND " + whereClause;
@@ -126,18 +141,20 @@ class JDBCAccessPostGis extends JDBCAccessBase {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see org.geotools.gce.imagemosaic.jdbc.JDBCAccessBase#getExtentSelectStatment(org.geotools.gce.imagemosaic.jdbc.ImageLevelInfo)
+     *
+     * @see org.geotools.gce.imagemosaic.jdbc.JDBCAccessBase#getExtentSelectStatment(org.geotools
+     * .gce.imagemosaic.jdbc.ImageLevelInfo)
      */
     @Override
     protected String getExtentSelectStatment(ImageLevelInfo li) {
-        return MessageFormat.format(extentSelect, new Object[] { li.getSpatialTableName() });
+        return MessageFormat.format(extentSelect, new Object[]{li.getSpatialTableName()});
     }
 
     /*
      * (non-Javadoc)
-     * 
-     * @see org.geotools.gce.imagemosaic.jdbc.JDBCAccessBase#getExtent(org.geotools.gce.imagemosaic.jdbc.ImageLevelInfo,
+     *
+     * @see org.geotools.gce.imagemosaic.jdbc.JDBCAccessBase#getExtent(org.geotools.gce
+     * .imagemosaic.jdbc.ImageLevelInfo,
      *      java.sql.Connection)
      */
     @Override
@@ -145,8 +162,8 @@ class JDBCAccessPostGis extends JDBCAccessBase {
             IOException {
         String extentSelect = getExtentSelectStatment(li);
 
-        String statementString = MessageFormat.format(extentSelect, new Object[] { li
-                .getSpatialTableName() });
+        String statementString = MessageFormat.format(extentSelect, new Object[]{li
+                .getSpatialTableName()});
         Envelope extent = null;
         PreparedStatement s = con.prepareStatement(statementString);
         ResultSet r = s.executeQuery();
@@ -174,8 +191,9 @@ class JDBCAccessPostGis extends JDBCAccessBase {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see org.geotools.gce.imagemosaic.jdbc.JDBCAccessBase#getEnvelopeFromResultSet(java.sql.ResultSet)
+     *
+     * @see org.geotools.gce.imagemosaic.jdbc.JDBCAccessBase#getEnvelopeFromResultSet(java.sql
+     * .ResultSet)
      */
     @Override
     protected Envelope getEnvelopeFromResultSet(ResultSet r) throws SQLException {
@@ -195,43 +213,46 @@ class JDBCAccessPostGis extends JDBCAccessBase {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see org.geotools.gce.imagemosaic.jdbc.JDBCAccessBase#getRandomTileStatement(org.geotools.gce.imagemosaic.jdbc.ImageLevelInfo)
+     *
+     * @see org.geotools.gce.imagemosaic.jdbc.JDBCAccessBase#getRandomTileStatement(org.geotools
+     * .gce.imagemosaic.jdbc.ImageLevelInfo)
      */
     @Override
     protected String getRandomTileStatement(ImageLevelInfo li) {
         if (li.isImplementedAsTableSplit()) {
-            return MessageFormat.format(allSelectJoined, new Object[] { li.getSpatialTableName(),
-                    li.getTileTableName() });
+            return MessageFormat.format(allSelectJoined, new Object[]{li.getSpatialTableName(),
+                    li.getTileTableName()});
         } else {
-            return MessageFormat.format(allSelect, new Object[] { li.getSpatialTableName() });
+            return MessageFormat.format(allSelect, new Object[]{li.getSpatialTableName()});
         }
     }
 
     /*
      * (non-Javadoc)
-     * 
-     * @see org.geotools.gce.imagemosaic.jdbc.JDBCAccessBase#getGridSelectStatement(org.geotools.gce.imagemosaic.jdbc.ImageLevelInfo)
+     *
+     * @see org.geotools.gce.imagemosaic.jdbc.JDBCAccessBase#getGridSelectStatement(org.geotools
+     * .gce.imagemosaic.jdbc.ImageLevelInfo)
      */
     @Override
     protected String getGridSelectStatement(ImageLevelInfo li) {
         if (li.isImplementedAsTableSplit()) {
-            return MessageFormat.format(gridSelectJoined, new Object[] { li.getSpatialTableName(),
-                    li.getTileTableName() });
+            return MessageFormat.format(gridSelectJoined, new Object[]{li.getSpatialTableName(),
+                    li.getTileTableName()});
         } else {
-            return MessageFormat.format(gridSelect, new Object[] { li.getSpatialTableName() });
+            return MessageFormat.format(gridSelect, new Object[]{li.getSpatialTableName()});
         }
     }
 
     /*
      * (non-Javadoc)
-     * 
-     * @see org.geotools.gce.imagemosaic.jdbc.JDBCAccessBase#setGridSelectParams(java.sql.PreparedStatement,
+     *
+     * @see org.geotools.gce.imagemosaic.jdbc.JDBCAccessBase#setGridSelectParams(java.sql
+     * .PreparedStatement,
      *      org.geotools.geometry.GeneralEnvelope, org.geotools.gce.imagemosaic.jdbc.ImageLevelInfo)
      */
     @Override
     protected void setGridSelectParams(PreparedStatement s, GeneralEnvelope envelope,
-            ImageLevelInfo li) throws SQLException {
+                                       ImageLevelInfo li) throws SQLException {
         WKBWriter w = new WKBWriter();
         byte[] bytes = w.write(polyFromEnvelope(envelope));
         s.setBytes(1, bytes);
@@ -240,8 +261,9 @@ class JDBCAccessPostGis extends JDBCAccessBase {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see org.geotools.gce.imagemosaic.jdbc.JDBCAccessBase#getSRSID(org.geotools.gce.imagemosaic.jdbc.ImageLevelInfo,
+     *
+     * @see org.geotools.gce.imagemosaic.jdbc.JDBCAccessBase#getSRSID(org.geotools.gce
+     * .imagemosaic.jdbc.ImageLevelInfo,
      *      java.sql.Connection)
      */
     @Override
@@ -278,8 +300,8 @@ class JDBCAccessPostGis extends JDBCAccessBase {
 
         if (result == null) {
             String msg = MessageFormat.format("No entry in geometry_columns for {0},{1},{2}",
-                    new Object[] { schema, li.getSpatialTableName(),
-                            config.getGeomAttributeNameInSpatialTable() });
+                    new Object[]{schema, li.getSpatialTableName(),
+                            config.getGeomAttributeNameInSpatialTable()});
             LOGGER.log(Level.SEVERE, msg);
             throw new IOException(msg);
         }
@@ -289,8 +311,9 @@ class JDBCAccessPostGis extends JDBCAccessBase {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see org.geotools.gce.imagemosaic.jdbc.JDBCAccessBase#getCRS(org.geotools.gce.imagemosaic.jdbc.ImageLevelInfo,
+     *
+     * @see org.geotools.gce.imagemosaic.jdbc.JDBCAccessBase#getCRS(org.geotools.gce.imagemosaic
+     * .jdbc.ImageLevelInfo,
      *      java.sql.Connection)
      */
     @Override

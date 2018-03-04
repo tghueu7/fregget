@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2007-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -47,12 +47,10 @@ import com.vividsolutions.jts.geom.Coordinate;
 /**
  * Tests {@link UnnamedExtension}.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
  * @author Jody Garnett
+ * @version $Id$
+ * @source $URL$
  */
 public class UnnamedExtensionTest extends TestCase {
     /**
@@ -97,11 +95,11 @@ public class UnnamedExtensionTest extends TestCase {
     /**
      * Tests the authority code.
      */
-    public void testAuthority(){
+    public void testAuthority() {
         final Citation authority = factory.getAuthority();
         assertNotNull(authority);
         assertEquals("European Petroleum Survey Group", authority.getTitle().toString());
-        assertTrue (Citations.identifierMatches(authority, "EPSG"));
+        assertTrue(Citations.identifierMatches(authority, "EPSG"));
         assertFalse(Citations.identifierMatches(authority, "ESRI"));
         assertTrue(factory instanceof UnnamedExtension);
     }
@@ -109,7 +107,7 @@ public class UnnamedExtensionTest extends TestCase {
     /**
      * Tests the vendor.
      */
-    public void testVendor(){
+    public void testVendor() {
         final Citation vendor = factory.getVendor();
         assertNotNull(vendor);
         assertEquals("Geotools", vendor.getTitle().toString());
@@ -120,7 +118,7 @@ public class UnnamedExtensionTest extends TestCase {
      */
     public void testDuplication() throws FactoryException {
         final StringWriter buffer = new StringWriter();
-        final PrintWriter  writer = new PrintWriter(buffer);
+        final PrintWriter writer = new PrintWriter(buffer);
         final Set duplicated = factory.reportDuplicatedCodes(writer);
         assertTrue(buffer.toString(), duplicated.isEmpty());
     }
@@ -130,7 +128,7 @@ public class UnnamedExtensionTest extends TestCase {
      */
     public void testInstantiation() throws FactoryException {
         final StringWriter buffer = new StringWriter();
-        final PrintWriter  writer = new PrintWriter(buffer);
+        final PrintWriter writer = new PrintWriter(buffer);
         final Set duplicated = factory.reportInstantiationFailures(writer);
         assertTrue(buffer.toString(), duplicated.isEmpty());
     }
@@ -141,11 +139,11 @@ public class UnnamedExtensionTest extends TestCase {
     public void test41001() throws FactoryException {
         CoordinateReferenceSystem actual, expected;
         expected = factory.createCoordinateReferenceSystem("41001");
-        actual   = CRS.decode("EPSG:41001");
+        actual = CRS.decode("EPSG:41001");
         assertSame(expected, actual);
         assertTrue(actual instanceof ProjectedCRS);
         Collection<ReferenceIdentifier> ids = actual.getIdentifiers();
-        assertTrue (ids.contains(new NamedIdentifier(Citations.EPSG, "41001")));
+        assertTrue(ids.contains(new NamedIdentifier(Citations.EPSG, "41001")));
         assertFalse(ids.contains(new NamedIdentifier(Citations.ESRI, "41001")));
     }
 
@@ -183,36 +181,33 @@ public class UnnamedExtensionTest extends TestCase {
         assertNotNull(crs);
     }
 
-	/**
-	 * Test for Google's Projection under its unofficial code (EPSG:900913).
-	 * <p>
-	 * The official supported code for that projection is EPSG:3857, and both
-	 * should be equivalent.
-	 */
-	public void test900913()
-	{
-		try
-		{
-			CoordinateReferenceSystem sourceCRS;
-			sourceCRS = CRS.decode("EPSG:4326");
-			CoordinateReferenceSystem googleCRS = CRS.decode("EPSG:900913");
-			CoordinateReferenceSystem officialCRS = CRS.decode("EPSG:3857");
-			
-			MathTransform transformGoogle = CRS.findMathTransform(sourceCRS, googleCRS, true);
-			MathTransform transformOfficial = CRS.findMathTransform(sourceCRS, officialCRS, true);
-			
-			Coordinate sourceCoord = new Coordinate(-22,-44);
-			Coordinate destCoordGoogle = JTS.transform(sourceCoord, null, transformGoogle);
-			Coordinate destCoordOfficial = JTS.transform(sourceCoord, null, transformOfficial);
-			
-			Assert.assertEquals(destCoordOfficial, destCoordGoogle);
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-			Assert.fail(e.getClass().getSimpleName() + " should not be thrown.");
-		}
-	}    
+    /**
+     * Test for Google's Projection under its unofficial code (EPSG:900913).
+     * <p>
+     * The official supported code for that projection is EPSG:3857, and both
+     * should be equivalent.
+     */
+    public void test900913() {
+        try {
+            CoordinateReferenceSystem sourceCRS;
+            sourceCRS = CRS.decode("EPSG:4326");
+            CoordinateReferenceSystem googleCRS = CRS.decode("EPSG:900913");
+            CoordinateReferenceSystem officialCRS = CRS.decode("EPSG:3857");
+
+            MathTransform transformGoogle = CRS.findMathTransform(sourceCRS, googleCRS, true);
+            MathTransform transformOfficial = CRS.findMathTransform(sourceCRS, officialCRS, true);
+
+            Coordinate sourceCoord = new Coordinate(-22, -44);
+            Coordinate destCoordGoogle = JTS.transform(sourceCoord, null, transformGoogle);
+            Coordinate destCoordOfficial = JTS.transform(sourceCoord, null, transformOfficial);
+
+            Assert.assertEquals(destCoordOfficial, destCoordGoogle);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail(e.getClass().getSimpleName() + " should not be thrown.");
+        }
+    }
+
     /**
      * Tests the extensions through a URI.
      *

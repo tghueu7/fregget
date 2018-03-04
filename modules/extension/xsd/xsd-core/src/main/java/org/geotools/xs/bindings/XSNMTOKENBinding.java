@@ -17,6 +17,7 @@
 package org.geotools.xs.bindings;
 
 import javax.xml.namespace.QName;
+
 import org.geotools.xml.AbstractSimpleBinding;
 import org.geotools.xml.InstanceComponent;
 import org.geotools.xs.XS;
@@ -24,9 +25,9 @@ import org.geotools.xs.XS;
 
 /**
  * Binding object for the type http://www.w3.org/2001/XMLSchema:NMTOKEN.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xs:simpleType name="NMTOKEN" id="NMTOKEN"&gt;
  *      &lt;xs:annotation&gt;
@@ -37,7 +38,8 @@ import org.geotools.xs.XS;
  *              &lt;xs:annotation&gt;
  *                  &lt;xs:documentation
  *                      source="http://www.w3.org/TR/REC-xml#NT-Nmtoken"&gt;
- *                      pattern matches production 7 from the XML spec           &lt;/xs:documentation&gt;
+ *                      pattern matches production 7 from the XML spec           &lt;
+ *                      /xs:documentation&gt;
  *              &lt;/xs:annotation&gt;
  *          &lt;/xs:pattern&gt;
  *      &lt;/xs:restriction&gt;
@@ -48,9 +50,6 @@ import org.geotools.xs.XS;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class XSNMTOKENBinding extends AbstractSimpleBinding {
@@ -78,7 +77,7 @@ public class XSNMTOKENBinding extends AbstractSimpleBinding {
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
+            throws Exception {
         //just return the value passed in
         return value;
     }

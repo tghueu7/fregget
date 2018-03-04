@@ -44,12 +44,11 @@ import org.xml.sax.SAXException;
  *
  * @author James Macgill
  * @author Cory Horner, Refractions Research Inc.
- *
- *
  * @source $URL$
  */
 public class ColorBrewer {
-    private static final java.util.logging.Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org.geotools.brewer.color");
+    private static final java.util.logging.Logger LOGGER = org.geotools.util.logging.Logging
+            .getLogger("org.geotools.brewer.color");
     public static final PaletteType ALL = new PaletteType(true, true, "ALL");
     public static final PaletteType SUITABLE_RANGED = new PaletteType(true, false);
     public static final PaletteType SUITABLE_UNIQUE = new PaletteType(false, true);
@@ -58,7 +57,7 @@ public class ColorBrewer {
     public static final PaletteType QUALITATIVE = new PaletteType(false, true, "QUALITATIVE");
     String name = null;
     String description = null;
-    Hashtable<String,BrewerPalette> palettes = new Hashtable<String,BrewerPalette>();
+    Hashtable<String, BrewerPalette> palettes = new Hashtable<String, BrewerPalette>();
 
     /**
      * Creates a new instance of ColorBrewer
@@ -83,13 +82,13 @@ public class ColorBrewer {
      * Creates a static instance of ColorBrewer containing a subset of the
      * default palettes.
      *
-     * @param  type A PaletteType object which will be used to configure the
-     *              returned ColorBrewer.
+     * @param type A PaletteType object which will be used to configure the
+     *             returned ColorBrewer.
      * @return The ColorBrewer instance with the palette from the parameter.
      * @throws IOException
      */
     public static ColorBrewer instance(PaletteType type)
-        throws IOException {
+            throws IOException {
         ColorBrewer me = new ColorBrewer();
         me.loadPalettes(type);
 
@@ -105,7 +104,7 @@ public class ColorBrewer {
      *
      * @param paletteName A String with the name of the palette
      * @return A boolean, true if the ColorBrewer has a palette of the name
-     *         given.
+     * given.
      */
     public boolean hasPalette(String paletteName) {
         return palettes.containsKey(paletteName);
@@ -175,22 +174,28 @@ public class ColorBrewer {
             int[] suitability = pal.getPaletteSuitability().getSuitability(numClasses);
 
             if (isSet(PaletteSuitability.VIEWER_COLORBLIND, requiredViewers)
-                    && (suitability[PaletteSuitability.VIEWER_COLORBLIND] != PaletteSuitability.QUALITY_GOOD)) {
+                    && (suitability[PaletteSuitability.VIEWER_COLORBLIND] != PaletteSuitability
+                    .QUALITY_GOOD)) {
                 match = false;
             } else if (isSet(PaletteSuitability.VIEWER_CRT, requiredViewers)
-                    && (suitability[PaletteSuitability.VIEWER_CRT] != PaletteSuitability.QUALITY_GOOD)) {
+                    && (suitability[PaletteSuitability.VIEWER_CRT] != PaletteSuitability
+                    .QUALITY_GOOD)) {
                 match = false;
             } else if (isSet(PaletteSuitability.VIEWER_LCD, requiredViewers)
-                    && (suitability[PaletteSuitability.VIEWER_LCD] != PaletteSuitability.QUALITY_GOOD)) {
+                    && (suitability[PaletteSuitability.VIEWER_LCD] != PaletteSuitability
+                    .QUALITY_GOOD)) {
                 match = false;
             } else if (isSet(PaletteSuitability.VIEWER_PHOTOCOPY, requiredViewers)
-                    && (suitability[PaletteSuitability.VIEWER_PHOTOCOPY] != PaletteSuitability.QUALITY_GOOD)) {
+                    && (suitability[PaletteSuitability.VIEWER_PHOTOCOPY] != PaletteSuitability
+                    .QUALITY_GOOD)) {
                 match = false;
             } else if (isSet(PaletteSuitability.VIEWER_PRINT, requiredViewers)
-                    && (suitability[PaletteSuitability.VIEWER_PRINT] != PaletteSuitability.QUALITY_GOOD)) {
+                    && (suitability[PaletteSuitability.VIEWER_PRINT] != PaletteSuitability
+                    .QUALITY_GOOD)) {
                 match = false;
             } else if (isSet(PaletteSuitability.VIEWER_PROJECTOR, requiredViewers)
-                    && (suitability[PaletteSuitability.VIEWER_PROJECTOR] != PaletteSuitability.QUALITY_GOOD)) {
+                    && (suitability[PaletteSuitability.VIEWER_PROJECTOR] != PaletteSuitability
+                    .QUALITY_GOOD)) {
                 match = false;
             }
 
@@ -207,7 +212,7 @@ public class ColorBrewer {
      * ColorBrewer instance.
      *
      * @return A String array with the names of the palettes in the ColorBrewer
-     *         instance.
+     * instance.
      */
     public String[] getPaletteNames() {
         Object[] keys = palettes.keySet().toArray();
@@ -226,7 +231,6 @@ public class ColorBrewer {
      *
      * @param minClasses x
      * @param maxClasses y
-     *
      * @return A string array of palette names filtered by number of classes.
      */
     public String[] getPaletteNames(int minClasses, int maxClasses) {
@@ -297,9 +301,9 @@ public class ColorBrewer {
         }
 
         // force to lower case with US locale for http://jira.codehaus.org/browse/UDIG-1265
-        String paletteSet = type.getName().toLowerCase(Locale.US);        
+        String paletteSet = type.getName().toLowerCase(Locale.US);
         URL url = getClass().getResource("resources/" + paletteSet + ".xml");
-        
+
         InputStream stream;
 
         try {
@@ -318,7 +322,7 @@ public class ColorBrewer {
      * given parameters.
      *
      * @param XMLinput
-     * @param type identifier for palettes. use "new PaletteType();"
+     * @param type     identifier for palettes. use "new PaletteType();"
      */
     public void loadPalettes(InputStream XMLinput, PaletteType type) {
         load(XMLinput, type);
@@ -330,9 +334,9 @@ public class ColorBrewer {
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document document = builder.parse(stream);
             this.name = fixToString(document.getElementsByTagName("name").item(0).getFirstChild()
-                                            .toString());
+                    .toString());
             this.description = fixToString(document.getElementsByTagName("description").item(0)
-                                                   .getFirstChild().toString());
+                    .getFirstChild().toString());
 
             SampleScheme scheme = new SampleScheme();
 
@@ -341,7 +345,7 @@ public class ColorBrewer {
             for (int i = 0; i < samples.getLength(); i++) {
                 Node sample = samples.item(i);
                 int size = Integer.parseInt(sample.getAttributes().getNamedItem("size")
-                                                  .getNodeValue());
+                        .getNodeValue());
                 String values = fixToString(sample.getFirstChild().toString());
                 int[] list = new int[size];
                 StringTokenizer tok = new StringTokenizer(values);
@@ -373,7 +377,7 @@ public class ColorBrewer {
 
                     if (item.getNodeName().equals("colors")) {
                         StringTokenizer oTok = new StringTokenizer(fixToString(
-                                    item.getFirstChild().toString()));
+                                item.getFirstChild().toString()));
                         int numColors = 0;
                         Color[] colors = new Color[15];
 
@@ -402,8 +406,8 @@ public class ColorBrewer {
 
                             if (palScheme.getNodeName().equals("scheme")) {
                                 int paletteSize = Integer.parseInt(palScheme.getAttributes()
-                                                                            .getNamedItem("size")
-                                                                            .getNodeValue());
+                                        .getNamedItem("size")
+                                        .getNodeValue());
 
                                 String values = fixToString(palScheme.getFirstChild().toString());
                                 String[] list = new String[6];
@@ -437,7 +441,7 @@ public class ColorBrewer {
 
     /**
      * Converts "[#text: 1,2,3]" to "1,2,3".
-     *
+     * <p>
      * <p>
      * This is a brutal hack for fixing the org.w3c.dom API. Under j1.4
      * Node.toString() returns "1,2,3", under j1.5 Node.toString() returns
@@ -445,7 +449,6 @@ public class ColorBrewer {
      * </p>
      *
      * @param input A String with the input.
-     *
      * @return A String with the modified input.
      */
     private String fixToString(String input) {
@@ -468,7 +471,7 @@ public class ColorBrewer {
     public void reset() {
         name = null;
         description = null;
-        palettes = new Hashtable<String,BrewerPalette>();
+        palettes = new Hashtable<String, BrewerPalette>();
     }
 
     public boolean isSet(int singleValue, int multipleValue) {

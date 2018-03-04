@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -29,7 +29,7 @@ import org.geotools.styling.Symbolizer;
  * Checks if an AlphaComposite is used anywhere in the style. AlphaComposite is special, as it works
  * properly only if the target for merging also has an alpha channel. BlendComposite does not have
  * such requirements instead.
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 class AlphaCompositeVisitor extends AbstractStyleVisitor {

@@ -22,15 +22,13 @@ import org.geotools.graph.util.Stack;
 
 
 /**
- *
- *
  * @source $URL$
  */
-public class DirectedDepthFirstTopologicalIterator 
-  extends DirectedBreadthFirstTopologicalIterator {
-  
-  protected Queue buildQueue(Graph graph) {
-    return(new Stack(graph.getNodes().size()));
-  }
+public class DirectedDepthFirstTopologicalIterator
+        extends DirectedBreadthFirstTopologicalIterator {
+
+    protected Queue buildQueue(Graph graph) {
+        return (new Stack(graph.getNodes().size()));
+    }
 
 }

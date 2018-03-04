@@ -28,9 +28,9 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the type http://www.opengis.net/fes/2.0:DistanceBufferType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:complexType name="DistanceBufferType"&gt;
@@ -43,13 +43,13 @@ import javax.xml.namespace.QName;
  *              &lt;/xsd:sequence&gt;
  *          &lt;/xsd:extension&gt;
  *      &lt;/xsd:complexContent&gt;
- *  &lt;/xsd:complexType&gt; 
- * 	
+ *  &lt;/xsd:complexType&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
  */
 public class DistanceBufferTypeBinding extends AbstractComplexBinding {
@@ -63,7 +63,7 @@ public class DistanceBufferTypeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -77,7 +77,7 @@ public class DistanceBufferTypeBinding extends AbstractComplexBinding {
 
     @Override
     public List getProperties(Object object, XSDElementDeclaration element) throws Exception {
-        return FESParseEncodeUtil.getProperties((DistanceBufferOperator)object);
+        return FESParseEncodeUtil.getProperties((DistanceBufferOperator) object);
     }
 
 }

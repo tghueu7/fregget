@@ -70,15 +70,14 @@ public abstract class WFSStrategy extends Specification {
     /**
      * Returns the feature type metadata object parsed from the capabilities document for the given
      * {@code typeName}
-     * 
-     * 
-     * @param typeName
-     *            the typeName as stated in the capabilities {@code FeatureTypeList} to get the info
-     *            for
+     *
+     * @param typeName the typeName as stated in the capabilities {@code FeatureTypeList} to get 
+     *                 the info
+     *                 for
      * @return the WFS capabilities metadata for {@code typeName}
-     * @throws IllegalArgumentException
-     *             if {@code typeName} is not the name of a FeatureType stated in the capabilities
-     *             document.
+     * @throws IllegalArgumentException if {@code typeName} is not the name of a FeatureType 
+     * stated in the capabilities
+     *                                  document.
      */
     public abstract FeatureTypeInfo getFeatureTypeInfo(QName typeName);
 
@@ -86,7 +85,7 @@ public abstract class WFSStrategy extends Specification {
 
     /**
      * Returns the WFS protocol version this facade talks to the WFS instance.
-     * 
+     *
      * @return the protocol version in use by this facade
      */
     public abstract Version getServiceVersion();
@@ -97,58 +96,54 @@ public abstract class WFSStrategy extends Specification {
     public abstract Set<String> getServerSupportedOutputFormats(final WFSOperationType operation);
 
     /**
-     * @param typeName
-     *            the feature type name for which to return the supported output formats
+     * @param typeName the feature type name for which to return the supported output formats
      * @return the output formats the server supports for the given type name and operation
      */
     public abstract Set<String> getServerSupportedOutputFormats(final QName typeName,
-            final WFSOperationType operation);
+                                                                final WFSOperationType operation);
 
     /**
      * @return the list of output formats supported by the client for the given operation, in
-     *         preferred order.
+     * preferred order.
      */
     public abstract List<String> getClientSupportedOutputFormats(final WFSOperationType operation);
 
     /**
      * Returns the set of type names as extracted from the capabilities document, including the
      * namespace and prefix.
-     * 
+     *
      * @return the set of feature type names as extracted from the capabilities document
      */
     public abstract Set<QName> getFeatureTypeNames();
 
     /**
      * Returns the parsed version of the FilterCapabilities section in the capabilities document
-     * 
+     *
      * @return a {@link FilterCapabilities} out of the FilterCapabilities section in the
-     *         getcapabilities document
+     * getcapabilities document
      */
     public abstract FilterCapabilities getFilterCapabilities();
 
     /**
      * Splits the filter provided by the geotools query into the server supported and unsupported
      * ones.
-     * 
+     *
      * @param typeName
-     * 
      * @return a two-element array where the first element is the supported filter and the second
-     *         the one to post-process
+     * the one to post-process
      * @see org.geotools.data.wfs.internal.WFSStrategy#splitFilters(org.opengis.filter.Filter)
      */
     public abstract Filter[] splitFilters(QName typeName, Filter filter);
 
     /**
      * Returns whether the service supports the given operation for the given HTTP method.
-     * 
-     * @param operation
-     *            the operation to check if the server supports
-     * @param method
-     *            the HTTP method to check if the server supports for the given operation
+     *
+     * @param operation the operation to check if the server supports
+     * @param method    the HTTP method to check if the server supports for the given operation
      * @return {@code true} if the operation/method is supported as stated in the WFS capabilities
      */
     public abstract boolean supportsOperation(final WFSOperationType operation,
-            final HttpMethod method);
+                                              final HttpMethod method);
 
     public abstract boolean supports(ResultType resultType);
 
@@ -157,13 +152,11 @@ public abstract class WFSStrategy extends Specification {
     /**
      * Returns the URL for the given operation name and HTTP protocol as stated in the WFS
      * capabilities.
-     * 
-     * @param operation
-     *            the name of the WFS operation
-     * @param method
-     *            the HTTP method
+     *
+     * @param operation the name of the WFS operation
+     * @param method    the HTTP method
      * @return The URL access point for the given operation and method or {@code null} if the
-     *         capabilities does not declare an access point for the operation/method combination
+     * capabilities does not declare an access point for the operation/method combination
      * @see #supportsOperation(WFSOperationType, HttpMethod)
      */
     public abstract URL getOperationURL(final WFSOperationType operation, final HttpMethod method);
@@ -173,10 +166,9 @@ public abstract class WFSStrategy extends Specification {
      * as declared in the corresponding FeatureType element in the capabilities document, as well as
      * any globally supported CRS identifier declared as a parameter of the GetFeature oepration in
      * the capabilities document.
-     * 
-     * @param typeName
-     *            the featuretype name as declared in the FeatureType/Name element of the WFS
-     *            capabilities
+     *
+     * @param typeName the featuretype name as declared in the FeatureType/Name element of the WFS
+     *                 capabilities
      * @return the list of supported CRS identifiers for the given feature type
      */
     public abstract Set<String> getSupportedCRSIdentifiers(final QName typeName);
@@ -219,10 +211,10 @@ public abstract class WFSStrategy extends Specification {
         handle.append('#').append(reqHandleSeq.incrementAndGet());
         return handle.toString();
     }
-    
+
     /**
      * Provide additional field type mappings
-     * 
+     *
      * @return field type mappings
      */
     public abstract Map<QName, Class<?>> getFieldTypeMappings();

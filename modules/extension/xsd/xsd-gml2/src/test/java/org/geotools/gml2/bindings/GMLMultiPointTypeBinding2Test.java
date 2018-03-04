@@ -24,8 +24,6 @@ import com.vividsolutions.jts.geom.MultiPoint;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GMLMultiPointTypeBinding2Test extends GMLTestSupport {
@@ -47,12 +45,14 @@ public class GMLMultiPointTypeBinding2Test extends GMLTestSupport {
     public void testEncode() throws Exception {
         Document doc = encode(GML2MockData.multiPoint(), GML.MultiPoint);
         // print(doc);
-        
+
         assertEquals(2,
-            doc.getElementsByTagNameNS(GML.NAMESPACE, GML.pointMember.getLocalPart()).getLength());
+                doc.getElementsByTagNameNS(GML.NAMESPACE, GML.pointMember.getLocalPart())
+                        .getLength());
         assertEquals(2,
                 doc.getElementsByTagNameNS(GML.NAMESPACE, GML.Point.getLocalPart()).getLength());
-        
-        assertEquals("http://www.opengis.net/gml/srs/epsg.xml#4326", doc.getDocumentElement().getAttribute("srsName"));
+
+        assertEquals("http://www.opengis.net/gml/srs/epsg.xml#4326", doc.getDocumentElement()
+                .getAttribute("srsName"));
     }
 }

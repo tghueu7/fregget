@@ -18,11 +18,11 @@ package org.geotools.data.wmts.model;
 
 /**
  * Range subset for a layer in a TileMatrixSet.
- *
+ * <p>
  * To inform the client about the valid range of the TileCol and Tile Row indices
  * a layer definition can optionally use the tileMatrixSetLimits section that specifies a
  * minimum and a maximum that are limits of these indices for each TileMatrix.
- * 
+ *
  * @author ian
  * @author Emanuele Tajariol (etj at geo-solutions dot it)
  */
@@ -40,8 +40,7 @@ public class TileMatrixLimits {
     }
 
     /**
-     * @param tileMatix
-     *            the tileMatix to set
+     * @param tileMatix the tileMatix to set
      */
     public void setTileMatix(String tileMatix) {
         this.tileMatix = tileMatix;
@@ -55,8 +54,7 @@ public class TileMatrixLimits {
     }
 
     /**
-     * @param minrow
-     *            the minrow to set
+     * @param minrow the minrow to set
      */
     public void setMinRow(long minrow) {
         this.minrow = minrow;
@@ -70,8 +68,7 @@ public class TileMatrixLimits {
     }
 
     /**
-     * @param maxrow
-     *            the maxrow to set
+     * @param maxrow the maxrow to set
      */
     public void setMaxRow(long maxrow) {
         this.maxrow = maxrow;
@@ -85,8 +82,7 @@ public class TileMatrixLimits {
     }
 
     /**
-     * @param mincol
-     *            the mincol to set
+     * @param mincol the mincol to set
      */
     public void setMinCol(long mincol) {
         this.mincol = mincol;
@@ -100,8 +96,7 @@ public class TileMatrixLimits {
     }
 
     /**
-     * @param maxcol
-     *            the maxcol to set
+     * @param maxcol the maxcol to set
      */
     public void setMaxCol(long maxcol) {
         this.maxcol = maxcol;

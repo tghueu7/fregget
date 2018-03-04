@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -28,12 +28,12 @@ import org.geotools.factory.Hints;
 
 /**
  * Implementation of Query.ALL.
- *
+ * <p>
  * <p>
  * This query is used to retrive all Features. Query.ALL is the only instance
  * of this class.
  * </p>
- *
+ * <p>
  * <p>
  * Example:
  * </p>
@@ -55,11 +55,11 @@ class ALLQuery extends Query {
     public final int getMaxFeatures() {
         return DEFAULT_MAX; // consider Integer.MAX_VALUE
     }
-    
-    public Integer getStartIndex(){
+
+    public Integer getStartIndex() {
         return null;
     }
-    
+
     public final Filter getFilter() {
         return Filter.INCLUDE;
     }
@@ -89,23 +89,23 @@ class ALLQuery extends Query {
         String[] n = getPropertyNames();
 
         return ((n == null) ? (-1) : ((n.length == 0) ? 0 : (n.length | n[0].hashCode())))
-        | getMaxFeatures() | ((getFilter() == null) ? 0 : getFilter().hashCode())
-        | ((getTypeName() == null) ? 0 : getTypeName().hashCode())
-        | ((getVersion() == null) ? 0 : getVersion().hashCode())
-        | ((getCoordinateSystem() == null) ? 0 : getCoordinateSystem().hashCode())
-        | ((getCoordinateSystemReproject() == null) ? 0 : getCoordinateSystemReproject().hashCode());
+                | getMaxFeatures() | ((getFilter() == null) ? 0 : getFilter().hashCode())
+                | ((getTypeName() == null) ? 0 : getTypeName().hashCode())
+                | ((getVersion() == null) ? 0 : getVersion().hashCode())
+                | ((getCoordinateSystem() == null) ? 0 : getCoordinateSystem().hashCode())
+                | ((getCoordinateSystemReproject() == null) ? 0 : getCoordinateSystemReproject()
+                .hashCode());
     }
 
     /**
      * Equality based on propertyNames, maxFeatures, filter, typeName and
      * version.
-     *
+     * <p>
      * <p>
      * Changing the handle does not change the meaning of the Query.
      * </p>
      *
      * @param obj Other object to compare against
-     *
      * @return <code>true</code> if <code>obj</code> matches this filter
      */
     public boolean equals(Object obj) {
@@ -120,21 +120,22 @@ class ALLQuery extends Query {
         Query other = (Query) obj;
 
         return Arrays.equals(getPropertyNames(), other.getPropertyNames())
-        && (retrieveAllProperties() == other.retrieveAllProperties())
-        && (getMaxFeatures() == other.getMaxFeatures())
-        && ((getFilter() == null) ? (other.getFilter() == null)
-                                  : getFilter().equals(other.getFilter()))
-        && ((getTypeName() == null) ? (other.getTypeName() == null)
-                                    : getTypeName().equals(other.getTypeName()))
-        && ((getVersion() == null) ? (other.getVersion() == null)
-                                   : getVersion().equals(other.getVersion()))
-        && ((getCoordinateSystem() == null) ? (other.getCoordinateSystem() == null)
-                                            : getCoordinateSystem()
-                                                  .equals(other.getCoordinateSystem()))
-        && ((getCoordinateSystemReproject() == null) ? (other.getCoordinateSystemReproject() == null)
-                                                     : getCoordinateSystemReproject()
-                                                           .equals(other
-            .getCoordinateSystemReproject()));
+                && (retrieveAllProperties() == other.retrieveAllProperties())
+                && (getMaxFeatures() == other.getMaxFeatures())
+                && ((getFilter() == null) ? (other.getFilter() == null)
+                : getFilter().equals(other.getFilter()))
+                && ((getTypeName() == null) ? (other.getTypeName() == null)
+                : getTypeName().equals(other.getTypeName()))
+                && ((getVersion() == null) ? (other.getVersion() == null)
+                : getVersion().equals(other.getVersion()))
+                && ((getCoordinateSystem() == null) ? (other.getCoordinateSystem() == null)
+                : getCoordinateSystem()
+                .equals(other.getCoordinateSystem()))
+                && ((getCoordinateSystemReproject() == null) ? (other
+                .getCoordinateSystemReproject() == null)
+                : getCoordinateSystemReproject()
+                .equals(other
+                        .getCoordinateSystemReproject()));
     }
 
     public String toString() {
@@ -145,7 +146,6 @@ class ALLQuery extends Query {
      * Return <code>null</code> as ALLQuery does not require a CS.
      *
      * @return <code>null</code> as override is not required.
-     *
      * @see org.geotools.data.Query#getCoordinateSystem()
      */
     public CoordinateReferenceSystem getCoordinateSystem() {
@@ -156,7 +156,6 @@ class ALLQuery extends Query {
      * Return <code>null</code> as ALLQuery does not require a CS.
      *
      * @return <code>null</code> as reprojection is not required.
-     *
      * @see org.geotools.data.Query#getCoordinateSystemReproject()
      */
     public CoordinateReferenceSystem getCoordinateSystemReproject() {
@@ -176,61 +175,86 @@ class ALLQuery extends Query {
     public Hints getHints() {
         return new Hints();
     }
-    
+
     //
     // Not mutable; all values hard coded
     //
     @Override
     public void setCoordinateSystem(CoordinateReferenceSystem system) {
-        new UnsupportedOperationException("Query.ALL cannot be changed, please just use as a default.");
+        new UnsupportedOperationException("Query.ALL cannot be changed, please just use as a " +
+                "default.");
     }
+
     @Override
     public void setCoordinateSystemReproject(CoordinateReferenceSystem system) {
-        new UnsupportedOperationException("Query.ALL cannot be changed, please just use as a default.");
+        new UnsupportedOperationException("Query.ALL cannot be changed, please just use as a " +
+                "default.");
     }
+
     @Override
     public void setFilter(Filter filter) {
-        new UnsupportedOperationException("Query.ALL cannot be changed, please just use as a default.");
+        new UnsupportedOperationException("Query.ALL cannot be changed, please just use as a " +
+                "default.");
     }
+
     @Override
     public void setHandle(String handle) {
-        new UnsupportedOperationException("Query.ALL cannot be changed, please just use as a default.");
+        new UnsupportedOperationException("Query.ALL cannot be changed, please just use as a " +
+                "default.");
     }
+
     @Override
     public void setHints(Hints hints) {
-        new UnsupportedOperationException("Query.ALL cannot be changed, please just use as a default.");
+        new UnsupportedOperationException("Query.ALL cannot be changed, please just use as a " +
+                "default.");
     }
+
     @Override
     public void setMaxFeatures(int maxFeatures) {
-        new UnsupportedOperationException("Query.ALL cannot be changed, please just use as a default.");
+        new UnsupportedOperationException("Query.ALL cannot be changed, please just use as a " +
+                "default.");
     }
+
     @Override
     public void setNamespace(URI namespace) {
-        new UnsupportedOperationException("Query.ALL cannot be changed, please just use as a default.");
+        new UnsupportedOperationException("Query.ALL cannot be changed, please just use as a " +
+                "default.");
     }
+
     @Override
     public void setPropertyNames(List<String> propNames) {
-        new UnsupportedOperationException("Query.ALL cannot be changed, please just use as a default.");
+        new UnsupportedOperationException("Query.ALL cannot be changed, please just use as a " +
+                "default.");
     }
+
     @Override
     public void setPropertyNames(String[] propNames) {
-        new UnsupportedOperationException("Query.ALL cannot be changed, please just use as a default.");
+        new UnsupportedOperationException("Query.ALL cannot be changed, please just use as a " +
+                "default.");
     }
+
     @Override
     public void setSortBy(SortBy[] sortBy) {
-        new UnsupportedOperationException("Query.ALL cannot be changed, please just use as a default.");
+        new UnsupportedOperationException("Query.ALL cannot be changed, please just use as a " +
+                "default.");
     }
+
     @Override
     public void setStartIndex(Integer startIndex) {
-        new UnsupportedOperationException("Query.ALL cannot be changed, please just use as a default.");
+        new UnsupportedOperationException("Query.ALL cannot be changed, please just use as a " +
+                "default.");
     }
+
     @Override
     public void setTypeName(String typeName) {
-        new UnsupportedOperationException("Query.ALL cannot be changed, please just use as a default.");
+        new UnsupportedOperationException("Query.ALL cannot be changed, please just use as a " +
+                "default.");
     }
+
     @Override
     public void setVersion(String version) {
-        new UnsupportedOperationException("Query.ALL cannot be changed, please just use as a default.");
+        new UnsupportedOperationException("Query.ALL cannot be changed, please just use as a " +
+                "default.");
     }
 
 }

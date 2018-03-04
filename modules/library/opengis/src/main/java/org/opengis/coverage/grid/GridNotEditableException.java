@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.coverage.grid;
@@ -17,18 +17,13 @@ import static org.opengis.annotation.Specification.*;
 /**
  * Thrown when an attempt is made to write in a non-editable grid.
  *
- *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengis.org/docs/01-004.pdf">Grid Coverage specification 1.0</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
- *
+ * @source $URL$
  * @see GridCoverage#isDataEditable
- *
+ * @since GeoAPI 1.0
  */
-@UML(identifier="GC_GridNotEditable", specification=OGC_01004)
+@UML(identifier = "GC_GridNotEditable", specification = OGC_01004)
 public class GridNotEditableException extends IllegalStateException {
     /**
      * Serial number for interoperability with different versions.
@@ -45,8 +40,8 @@ public class GridNotEditableException extends IllegalStateException {
     /**
      * Creates an exception with the specified message.
      *
-     * @param  message The detail message. The detail message is saved for
-     *         later retrieval by the {@link #getMessage()} method.
+     * @param message The detail message. The detail message is saved for
+     *                later retrieval by the {@link #getMessage()} method.
      */
     public GridNotEditableException(String message) {
         super(message);

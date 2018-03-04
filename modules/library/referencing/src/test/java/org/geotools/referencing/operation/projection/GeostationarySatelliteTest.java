@@ -70,24 +70,28 @@ public class GeostationarySatelliteTest {
     @BeforeClass
     public static void setupClass() throws FactoryException, TransformException {
         sphericalGeosCRS = CRS.parseWKT(sphericalGeosWKT);
-        sphericalGeosToGeog = CRS.findMathTransform(sphericalGeosCRS, CRS.getProjectedCRS(sphericalGeosCRS).getBaseCRS(), true);
+        sphericalGeosToGeog = CRS.findMathTransform(sphericalGeosCRS, CRS.getProjectedCRS
+                (sphericalGeosCRS).getBaseCRS(), true);
         geogToSphericalGeos = sphericalGeosToGeog.inverse();
 
         ellipsoidalGeosCRS = CRS.parseWKT(ellipsoidalGeosWKT);
-        ellipsoidalGeosToGeog = CRS.findMathTransform(ellipsoidalGeosCRS, CRS.getProjectedCRS(ellipsoidalGeosCRS).getBaseCRS(), true);
+        ellipsoidalGeosToGeog = CRS.findMathTransform(ellipsoidalGeosCRS, CRS.getProjectedCRS
+                (ellipsoidalGeosCRS).getBaseCRS(), true);
         geogToEllipsoidalGeos = ellipsoidalGeosToGeog.inverse();
     }
 
     @Test
     public void testSpheroidalWKTParameters() {
-        ParameterValueGroup parameters = CRS.getMapProjection(sphericalGeosCRS).getParameterValues();
+        ParameterValueGroup parameters = CRS.getMapProjection(sphericalGeosCRS)
+                .getParameterValues();
         double satelliteHeight = parameters.parameter("satellite_height").doubleValue();
         assertThat(satelliteHeight, is(35832548.5));
     }
 
     @Test
     public void testEllipsoidalWKTParameters() {
-        ParameterValueGroup parameters = CRS.getMapProjection(ellipsoidalGeosCRS).getParameterValues();
+        ParameterValueGroup parameters = CRS.getMapProjection(ellipsoidalGeosCRS)
+                .getParameterValues();
         double satelliteHeight = parameters.parameter("satellite_height").doubleValue();
         assertThat(satelliteHeight, is(35785831.0));
     }
@@ -96,14 +100,16 @@ public class GeostationarySatelliteTest {
     public void testIsGeostationaryCRS() {
         assertThat(GeostationarySatellite.isGeostationaryCRS(sphericalGeosCRS), is(true));
         assertThat(GeostationarySatellite.isGeostationaryCRS(ellipsoidalGeosCRS), is(true));
-        assertThat(GeostationarySatellite.isGeostationaryCRS(DefaultGeographicCRS.WGS84), is(false));
+        assertThat(GeostationarySatellite.isGeostationaryCRS(DefaultGeographicCRS.WGS84), is
+                (false));
         assertThat(GeostationarySatellite.isGeostationaryCRS(null), is(false));
     }
 
     @Test
     public void testCircumscribeFullDisk_Spheroidal() throws TransformException, FactoryException {
 
-        final Envelope2D circumscribed = GeostationarySatellite.circumscribeFullDisk(sphericalGeosCRS);
+        final Envelope2D circumscribed = GeostationarySatellite.circumscribeFullDisk
+                (sphericalGeosCRS);
         assertThat(circumscribed, is(notNullValue()));
 
         final DirectPosition2D p = new DirectPosition2D();
@@ -136,46 +142,63 @@ public class GeostationarySatelliteTest {
         // transformable stepping 1 meter outside the X and Y extents along the
         // orthogonal center axes
         final double tickle = 1;
-        expectProjectionException(new Testable() { public void test() throws Exception {
-            p.setLocation(circumscribed.getCenterX(), circumscribed.getMaxY() + tickle);
-            sphericalGeosToGeog.transform(p, p);
-        }});
-        expectProjectionException(new Testable() { public void test() throws Exception {
-            p.setLocation(circumscribed.getCenterX(), circumscribed.getMinY() - tickle);
-            sphericalGeosToGeog.transform(p, p);
-        }});
-        expectProjectionException(new Testable() { public void test() throws Exception {
-            p.setLocation(circumscribed.getMinX() - tickle, circumscribed.getCenterY());
-            sphericalGeosToGeog.transform(p, p);
-        }});
-        expectProjectionException(new Testable() { public void test() throws Exception {
-            p.setLocation(circumscribed.getMaxX() + tickle, circumscribed.getCenterY());
-            sphericalGeosToGeog.transform(p, p);
-        }});
+        expectProjectionException(new Testable() {
+            public void test() throws Exception {
+                p.setLocation(circumscribed.getCenterX(), circumscribed.getMaxY() + tickle);
+                sphericalGeosToGeog.transform(p, p);
+            }
+        });
+        expectProjectionException(new Testable() {
+            public void test() throws Exception {
+                p.setLocation(circumscribed.getCenterX(), circumscribed.getMinY() - tickle);
+                sphericalGeosToGeog.transform(p, p);
+            }
+        });
+        expectProjectionException(new Testable() {
+            public void test() throws Exception {
+                p.setLocation(circumscribed.getMinX() - tickle, circumscribed.getCenterY());
+                sphericalGeosToGeog.transform(p, p);
+            }
+        });
+        expectProjectionException(new Testable() {
+            public void test() throws Exception {
+                p.setLocation(circumscribed.getMaxX() + tickle, circumscribed.getCenterY());
+                sphericalGeosToGeog.transform(p, p);
+            }
+        });
 
         // show that bounds of rectangle circumscribing full disk image is not transformable
-        expectProjectionException(new Testable() { public void test() throws Exception {
-            p.setLocation(circumscribed.getMaxX(), circumscribed.getMaxY());
-            sphericalGeosToGeog.transform(p, p);
-        }});
-        expectProjectionException(new Testable() { public void test() throws Exception {
-            p.setLocation(circumscribed.getMaxX(), circumscribed.getMinY());
-            sphericalGeosToGeog.transform(p, p);
-        }});
-        expectProjectionException(new Testable() { public void test() throws Exception {
-            p.setLocation(circumscribed.getMinX(), circumscribed.getMaxY());
-            sphericalGeosToGeog.transform(p, p);
-        }});
-        expectProjectionException(new Testable() { public void test() throws Exception {
-            p.setLocation(circumscribed.getMinX(), circumscribed.getMinY());
-            sphericalGeosToGeog.transform(p, p);
-        }});
+        expectProjectionException(new Testable() {
+            public void test() throws Exception {
+                p.setLocation(circumscribed.getMaxX(), circumscribed.getMaxY());
+                sphericalGeosToGeog.transform(p, p);
+            }
+        });
+        expectProjectionException(new Testable() {
+            public void test() throws Exception {
+                p.setLocation(circumscribed.getMaxX(), circumscribed.getMinY());
+                sphericalGeosToGeog.transform(p, p);
+            }
+        });
+        expectProjectionException(new Testable() {
+            public void test() throws Exception {
+                p.setLocation(circumscribed.getMinX(), circumscribed.getMaxY());
+                sphericalGeosToGeog.transform(p, p);
+            }
+        });
+        expectProjectionException(new Testable() {
+            public void test() throws Exception {
+                p.setLocation(circumscribed.getMinX(), circumscribed.getMinY());
+                sphericalGeosToGeog.transform(p, p);
+            }
+        });
     }
 
     @Test
     public void testCircumscribeFullDisk_Ellipsoidal() throws TransformException, FactoryException {
 
-        final Envelope2D circumscribed = GeostationarySatellite.circumscribeFullDisk(ellipsoidalGeosCRS);
+        final Envelope2D circumscribed = GeostationarySatellite.circumscribeFullDisk
+                (ellipsoidalGeosCRS);
         assertThat(circumscribed, is(notNullValue()));
 
         final DirectPosition2D p = new DirectPosition2D();
@@ -208,46 +231,64 @@ public class GeostationarySatelliteTest {
         // transformable stepping 1 meter outside the X and Y extents along the
         // orthogonal center axes
         final double tickle = 1;
-        expectProjectionException(new Testable() { public void test() throws Exception {
-            p.setLocation(circumscribed.getCenterX(), circumscribed.getMaxY() + tickle);
-            ellipsoidalGeosToGeog.transform(p, p);
-        }});
-        expectProjectionException(new Testable() { public void test() throws Exception {
-            p.setLocation(circumscribed.getCenterX(), circumscribed.getMinY() - tickle);
-            ellipsoidalGeosToGeog.transform(p, p);
-        }});
-        expectProjectionException(new Testable() { public void test() throws Exception {
-            p.setLocation(circumscribed.getMinX() - tickle, circumscribed.getCenterY());
-            ellipsoidalGeosToGeog.transform(p, p);
-        }});
-        expectProjectionException(new Testable() { public void test() throws Exception {
-            p.setLocation(circumscribed.getMaxX() + tickle, circumscribed.getCenterY());
-            ellipsoidalGeosToGeog.transform(p, p);
-        }});
+        expectProjectionException(new Testable() {
+            public void test() throws Exception {
+                p.setLocation(circumscribed.getCenterX(), circumscribed.getMaxY() + tickle);
+                ellipsoidalGeosToGeog.transform(p, p);
+            }
+        });
+        expectProjectionException(new Testable() {
+            public void test() throws Exception {
+                p.setLocation(circumscribed.getCenterX(), circumscribed.getMinY() - tickle);
+                ellipsoidalGeosToGeog.transform(p, p);
+            }
+        });
+        expectProjectionException(new Testable() {
+            public void test() throws Exception {
+                p.setLocation(circumscribed.getMinX() - tickle, circumscribed.getCenterY());
+                ellipsoidalGeosToGeog.transform(p, p);
+            }
+        });
+        expectProjectionException(new Testable() {
+            public void test() throws Exception {
+                p.setLocation(circumscribed.getMaxX() + tickle, circumscribed.getCenterY());
+                ellipsoidalGeosToGeog.transform(p, p);
+            }
+        });
 
         // show that bounds of rectangle circumscribing full disk image is not transformable
-        expectProjectionException(new Testable() { public void test() throws Exception {
-            p.setLocation(circumscribed.getMaxX(), circumscribed.getMaxY());
-            ellipsoidalGeosToGeog.transform(p, p);
-        }});
-        expectProjectionException(new Testable() { public void test() throws Exception {
-            p.setLocation(circumscribed.getMaxX(), circumscribed.getMinY());
-            ellipsoidalGeosToGeog.transform(p, p);
-        }});
-        expectProjectionException(new Testable() { public void test() throws Exception {
-            p.setLocation(circumscribed.getMinX(), circumscribed.getMaxY());
-            ellipsoidalGeosToGeog.transform(p, p);
-        }});
-        expectProjectionException(new Testable() { public void test() throws Exception {
-            p.setLocation(circumscribed.getMinX(), circumscribed.getMinY());
-            ellipsoidalGeosToGeog.transform(p, p);
-        }});
+        expectProjectionException(new Testable() {
+            public void test() throws Exception {
+                p.setLocation(circumscribed.getMaxX(), circumscribed.getMaxY());
+                ellipsoidalGeosToGeog.transform(p, p);
+            }
+        });
+        expectProjectionException(new Testable() {
+            public void test() throws Exception {
+                p.setLocation(circumscribed.getMaxX(), circumscribed.getMinY());
+                ellipsoidalGeosToGeog.transform(p, p);
+            }
+        });
+        expectProjectionException(new Testable() {
+            public void test() throws Exception {
+                p.setLocation(circumscribed.getMinX(), circumscribed.getMaxY());
+                ellipsoidalGeosToGeog.transform(p, p);
+            }
+        });
+        expectProjectionException(new Testable() {
+            public void test() throws Exception {
+                p.setLocation(circumscribed.getMinX(), circumscribed.getMinY());
+                ellipsoidalGeosToGeog.transform(p, p);
+            }
+        });
     }
 
     @Test
-    public void testInscribeFullDiskEstimate_Spheroidal() throws TransformException, FactoryException {
+    public void testInscribeFullDiskEstimate_Spheroidal() throws TransformException, 
+            FactoryException {
 
-        final Envelope2D inscribed = GeostationarySatellite.inscribeFullDiskEstimate(sphericalGeosCRS);
+        final Envelope2D inscribed = GeostationarySatellite.inscribeFullDiskEstimate
+                (sphericalGeosCRS);
         assertThat(inscribed, is(notNullValue()));
 
         final DirectPosition2D p = new DirectPosition2D();
@@ -297,9 +338,11 @@ public class GeostationarySatelliteTest {
     }
 
     @Test
-    public void testInscribeFullDiskEstimate_Ellipsoidal() throws TransformException, FactoryException {
+    public void testInscribeFullDiskEstimate_Ellipsoidal() throws TransformException, 
+            FactoryException {
 
-        final Envelope2D inscribed = GeostationarySatellite.inscribeFullDiskEstimate(ellipsoidalGeosCRS);
+        final Envelope2D inscribed = GeostationarySatellite.inscribeFullDiskEstimate
+                (ellipsoidalGeosCRS);
         assertThat(inscribed, is(notNullValue()));
 
         final DirectPosition2D p = new DirectPosition2D();

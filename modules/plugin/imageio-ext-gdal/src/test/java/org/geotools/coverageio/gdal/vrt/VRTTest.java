@@ -48,9 +48,8 @@ import org.opengis.referencing.NoSuchAuthorityCodeException;
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini (simboss), GeoSolutions
  * @author Ugo Moschini, GeoSolutions
- *
- *         Testing {@link VRTReader}
- *
+ * <p>
+ * Testing {@link VRTReader}
  * @source $URL$
  */
 public final class VRTTest extends GDALTestCase {
@@ -134,13 +133,13 @@ public final class VRTTest extends GDALTestCase {
         final Rectangle range = ((GridEnvelope2D) reader.getOriginalGridRange());
         final GeneralEnvelope oldEnvelope = reader.getOriginalEnvelope();
 
-        final GeneralEnvelope cropEnvelope = new GeneralEnvelope(new double[] {
+        final GeneralEnvelope cropEnvelope = new GeneralEnvelope(new double[]{
                 oldEnvelope.getLowerCorner().getOrdinate(0) + (oldEnvelope.getSpan(0) / cropFactor),
 
                 oldEnvelope.getLowerCorner().getOrdinate(1)
-                        + (oldEnvelope.getSpan(1) / cropFactor) },
-                new double[] { oldEnvelope.getUpperCorner().getOrdinate(0),
-                        oldEnvelope.getUpperCorner().getOrdinate(1) });
+                        + (oldEnvelope.getSpan(1) / cropFactor)},
+                new double[]{oldEnvelope.getUpperCorner().getOrdinate(0),
+                        oldEnvelope.getUpperCorner().getOrdinate(1)});
         cropEnvelope.setCoordinateReferenceSystem(reader.getCrs());
 
         final ParameterValue gg = (ParameterValue) ((AbstractGridFormat) reader
@@ -148,7 +147,7 @@ public final class VRTTest extends GDALTestCase {
         gg.setValue(new GridGeometry2D(new GridEnvelope2D(new Rectangle(0, 0,
                 (int) (range.width / 2.0 / cropFactor), (int) (range.height / 2.0 / cropFactor))),
                 cropEnvelope));
-        gc = (GridCoverage2D) reader.read(new GeneralParameterValue[] { gg });
+        gc = (GridCoverage2D) reader.read(new GeneralParameterValue[]{gg});
         forceDataLoading(gc);
     }
 }

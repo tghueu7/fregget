@@ -20,8 +20,6 @@ import org.geotools.styling.RasterSymbolizer;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SLDRasterSymbolizerBindingTest extends SLDTestSupport {

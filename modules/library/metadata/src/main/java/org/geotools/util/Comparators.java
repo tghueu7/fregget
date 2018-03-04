@@ -27,12 +27,10 @@ import java.io.Serializable;
 /**
  * General purpose comparators.
  *
- * @since 2.5
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @since 2.5
  */
 public final class Comparators {
     /**
@@ -52,7 +50,8 @@ public final class Comparators {
      * The {@link #COLLECTIONS} classes explicitly named (rather than anonymous) for avoiding
      * serialization issues.
      */
-    private static final class Collections implements Comparator<Collection<Comparable>>, Serializable {
+    private static final class Collections implements Comparator<Collection<Comparable>>, 
+            Serializable {
         /**
          * For cross-version compatibility.
          */
@@ -72,13 +71,14 @@ public final class Comparators {
                 if (!h2) return +1;
                 final Comparable e1 = i1.next();
                 final Comparable e2 = i2.next();
-                @SuppressWarnings("unchecked")
-                final int cmp = e1.compareTo(e2);
+                @SuppressWarnings("unchecked") final int cmp = e1.compareTo(e2);
                 c = cmp;
             } while (c == 0);
             return c;
         }
-    };
+    }
+
+    ;
 
     /**
      * Returns a comparator for lists of comparable elements. The first element of each list

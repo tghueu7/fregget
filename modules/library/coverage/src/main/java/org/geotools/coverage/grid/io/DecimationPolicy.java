@@ -19,12 +19,10 @@ package org.geotools.coverage.grid.io;
 /**
  * Decimation policies.
  *
- * @since 2.7
- *
- *
- * @source $URL$
  * @author Daniele Romagnoli, GeoSolutions SAS.
  * @author Simone Giannecchini, GeoSolutions SAS.
+ * @source $URL$
+ * @since 2.7
  */
 public enum DecimationPolicy {
 
@@ -37,8 +35,8 @@ public enum DecimationPolicy {
      * Disallows decimation on reading
      */
     DISALLOW;
-    
-    public static DecimationPolicy getDefaultPolicy(){
-    	return ALLOW;
+
+    public static DecimationPolicy getDefaultPolicy() {
+        return ALLOW;
     }
 }

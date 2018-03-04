@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -25,12 +25,9 @@ import org.geotools.resources.i18n.Errors;
  * invoked while the grid geometry were built with a null
  * {@link org.opengis.coverage.grid.GridRange}.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class InvalidGridGeometryException extends IllegalStateException {

@@ -37,31 +37,31 @@ public class GetFeatureStoredQueryBindingTest extends WFSTestSupport {
 
     public void testEncodeGetFeatureWithStoredQueryId() throws Exception {
         Wfs20Factory factory = Wfs20Factory.eINSTANCE;
-        
+
         GetFeatureType request = factory.createGetFeatureType();
-        
+
         StoredQueryType storedQuery = factory.createStoredQueryType();
         storedQuery.setId("fmi::radar::composite::rr24h");
-        
+
         ParameterType param1 = factory.createParameterType();
-        
+
         param1.setName("bbox");
         param1.setValue("21,61,22,62,epsg::4326");
-        
+
         storedQuery.getParameter().add(param1);
-        
+
         request.getAbstractQueryExpression().add(storedQuery);
-        
+
         Document doc = encode(request, WFS.GetFeature);
-        
+
         DOMSource domSource = new DOMSource(doc);
-        
+
         StringWriter writer = new StringWriter();
         StreamResult result = new StreamResult(writer);
         TransformerFactory tf = TransformerFactory.newInstance();
         Transformer transformer = tf.newTransformer();
         transformer.transform(domSource, result);
-        
+
         String asString = writer.toString();
         assertTrue(asString.contains("id=\"fmi::radar::composite::rr24h\""));
         assertTrue(asString.contains(">21,61,22,62,epsg::4326<"));

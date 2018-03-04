@@ -32,10 +32,7 @@ import org.geotools.gml3.Circle;
 
 
 /**
- *
  * @author Erik van de Pol. B3Partners BV.
- *
- *
  * @source $URL$
  */
 public class CircleTypeBinding extends AbstractComplexBinding {
@@ -43,7 +40,8 @@ public class CircleTypeBinding extends AbstractComplexBinding {
     CoordinateSequenceFactory csFactory;
     ArcParameters arcParameters;
 
-    public CircleTypeBinding(GeometryFactory gFactory, CoordinateSequenceFactory csFactory, ArcParameters arcParameters) {
+    public CircleTypeBinding(GeometryFactory gFactory, CoordinateSequenceFactory csFactory, 
+                             ArcParameters arcParameters) {
         this.gFactory = gFactory;
         this.csFactory = csFactory;
         this.arcParameters = arcParameters;
@@ -79,7 +77,7 @@ public class CircleTypeBinding extends AbstractComplexBinding {
      */
     @Override
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
 
         LineString circleLineString = GML3ParsingUtils.lineString(node, gFactory, csFactory);
 
@@ -87,7 +85,8 @@ public class CircleTypeBinding extends AbstractComplexBinding {
         if (circleCoordinates.length != 3) {
             // maybe log this instead and return null
             throw new RuntimeException(
-                    "GML3 parser exception: The number of coordinates of a Circle should be 3. It currently is: " + circleCoordinates.length + "; " + circleLineString);
+                    "GML3 parser exception: The number of coordinates of a Circle should be 3. It" +
+                            " currently is: " + circleCoordinates.length + "; " + circleLineString);
         }
 
         Coordinate c1 = circleCoordinates[0];

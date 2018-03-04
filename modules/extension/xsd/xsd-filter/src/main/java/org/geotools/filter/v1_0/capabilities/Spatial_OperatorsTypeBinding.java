@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.capability.SpatialOperator;
 import org.opengis.filter.capability.SpatialOperators;
@@ -28,9 +29,9 @@ import org.geotools.xml.*;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:Spatial_OperatorsType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="Spatial_OperatorsType"&gt;
  *      &lt;xsd:choice maxOccurs="unbounded"&gt;
@@ -53,9 +54,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class Spatial_OperatorsTypeBinding extends AbstractComplexBinding {
@@ -89,10 +87,10 @@ public class Spatial_OperatorsTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         List ops = new ArrayList();
 
-        for (Iterator i = node.getChildren().iterator(); i.hasNext();) {
+        for (Iterator i = node.getChildren().iterator(); i.hasNext(); ) {
             Node child = (Node) i.next();
             ops.add(factory.spatialOperator(child.getComponent().getName(), null));
         }
@@ -102,7 +100,7 @@ public class Spatial_OperatorsTypeBinding extends AbstractComplexBinding {
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         SpatialOperators spatial = (SpatialOperators) object;
 
         return spatial.getOperator(name.getLocalPart());

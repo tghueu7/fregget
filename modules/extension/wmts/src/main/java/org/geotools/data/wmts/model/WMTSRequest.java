@@ -20,12 +20,11 @@ import org.geotools.data.ows.OperationType;
 
 /**
  * Available WMTS Operations are listed in a Request element.
- *
+ * <p>
  * (Based on existing work by rgould for WMS service)
- * 
+ *
  * @author ian
  * @author Emanuele Tajariol (etj at geo-solutions dot it)
- *
  */
 public class WMTSRequest {
     private OperationType getCapabilities;

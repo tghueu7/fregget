@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -18,6 +18,7 @@ package org.geotools.filter;
 
 
 // Geotools dependencies
+
 import java.util.Date;
 import java.util.logging.Logger;
 
@@ -46,34 +47,36 @@ import org.opengis.filter.expression.Expression;
  * to simplify/make meaningful filter logic.
  *
  * @author Rob Hranac, Vision for New York
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public abstract class CompareFilterImpl extends BinaryComparisonAbstract {
-    /** The logger for the default core module. */
+    /**
+     * The logger for the default core module.
+     */
     static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org.geotools.core");
 
     /**
      * Constructor with filter type.
      *
      * @param filterType The type of comparison.
-     *
      * @throws IllegalFilterException Non-compare type.
-     * @deprecated use {@link #CompareFilterImpl(org.opengis.filter.FilterFactory, org.opengis.filter.expression.Expression, org.opengis.filter.expression.Expression)}
+     * @deprecated use 
+     * {@link #CompareFilterImpl(org.opengis.filter.FilterFactory, org.opengis.filter.expression.Expression, org.opengis.filter.expression.Expression)}
      */
     protected CompareFilterImpl() throws IllegalFilterException {
     }
 
-    protected CompareFilterImpl(org.opengis.filter.expression.Expression e1, org.opengis.filter.expression.Expression e2) {
-    	this(e1,e2,true);
+    protected CompareFilterImpl(org.opengis.filter.expression.Expression e1, org.opengis.filter
+            .expression.Expression e2) {
+        this(e1, e2, true);
     }
-    
-    protected CompareFilterImpl(org.opengis.filter.expression.Expression e1, org.opengis.filter.expression.Expression e2, boolean matchCase ) {
-    	super(e1,e2,matchCase);
+
+    protected CompareFilterImpl(org.opengis.filter.expression.Expression e1, org.opengis.filter
+            .expression.Expression e2, boolean matchCase) {
+        super(e1, e2, matchCase);
     }
-    
+
     public void setExpression1(org.opengis.filter.expression.Expression leftValue) {
         this.expression1 = leftValue;
     }
@@ -81,95 +84,82 @@ public abstract class CompareFilterImpl extends BinaryComparisonAbstract {
     public void setExpression2(org.opengis.filter.expression.Expression rightValue) {
         this.expression2 = rightValue;
     }
-  
+
     /**
      * Subclass convenience method which compares to instances of comparables
-     * in a pretty lax way, converting types among String, Number, Double when 
+     * in a pretty lax way, converting types among String, Number, Double when
      * appropriate.
-     * 
+     *
      * @return same contract as {@link Comparable#compareTo(java.lang.Object)}.
      */
-    protected int compare (Comparable leftObj, Comparable rightObj) {
-    	//implements a lax compare, doing some back flips for numbers
-    	if (!(leftObj instanceof Number && rightObj instanceof Number)) 
-    	{	
-    		//check for case of one number one string
-    		if (!(leftObj.getClass() == rightObj.getClass()))  
-    	    {
-    		    // special handling for dates, as we can do meaningful comparisons among
-    		    // the class hierarchy 
-    		    if(leftObj instanceof Date || rightObj instanceof Date) {
-    		        // they do compare fine if they are both dates, otherwise we need to convert
-    		        if(!(leftObj instanceof Date)) {
-    		            leftObj = Converters.convert(leftObj, Date.class);
-    		        }
-                    if(!(rightObj instanceof Date)) {
+    protected int compare(Comparable leftObj, Comparable rightObj) {
+        //implements a lax compare, doing some back flips for numbers
+        if (!(leftObj instanceof Number && rightObj instanceof Number)) {
+            //check for case of one number one string
+            if (!(leftObj.getClass() == rightObj.getClass())) {
+                // special handling for dates, as we can do meaningful comparisons among
+                // the class hierarchy 
+                if (leftObj instanceof Date || rightObj instanceof Date) {
+                    // they do compare fine if they are both dates, otherwise we need to convert
+                    if (!(leftObj instanceof Date)) {
+                        leftObj = Converters.convert(leftObj, Date.class);
+                    }
+                    if (!(rightObj instanceof Date)) {
                         rightObj = Converters.convert(rightObj, Date.class);
                     }
                     // if conversion failed fall back on string comparison
-                    if(leftObj == null || rightObj == null) {
+                    if (leftObj == null || rightObj == null) {
                         leftObj = leftObj.toString();
                         rightObj = rightObj.toString();
                     }
-   		        } else if ( leftObj instanceof Number && (rightObj.getClass() == String.class) )
-    	    	{
-    	    		try{
-    	    			rightObj = new Double( Double.parseDouble( (String) rightObj ));
-    	    			leftObj  = new Double(  ((Number) leftObj).doubleValue() );
-    	    		}
-    	    		catch(Exception e)
-    				{
-    			    	leftObj = leftObj.toString();
-    			    	rightObj = rightObj.toString();
-    				}
-    	    	}
-    	    	else if ( (leftObj.getClass() == String.class) && rightObj instanceof Number )
-    	    	{
-    	    		try{
-    	    			leftObj = new Double( Double.parseDouble( (String) leftObj ) );
-    	    			rightObj  = new Double(  ((Number) rightObj).doubleValue() );
-    	    		}
-    	    		catch(Exception e)
-    				{
-    			    	leftObj = leftObj.toString();
-    			    	rightObj = rightObj.toString();
-    				}
-    	    	}
-    	    	else
-    	    	{
-    	    		leftObj = leftObj.toString();
-    	    		rightObj = rightObj.toString();
-    	    	}
-    	    } else if (leftObj instanceof String && rightObj instanceof String) {
+                } else if (leftObj instanceof Number && (rightObj.getClass() == String.class)) {
+                    try {
+                        rightObj = new Double(Double.parseDouble((String) rightObj));
+                        leftObj = new Double(((Number) leftObj).doubleValue());
+                    } catch (Exception e) {
+                        leftObj = leftObj.toString();
+                        rightObj = rightObj.toString();
+                    }
+                } else if ((leftObj.getClass() == String.class) && rightObj instanceof Number) {
+                    try {
+                        leftObj = new Double(Double.parseDouble((String) leftObj));
+                        rightObj = new Double(((Number) rightObj).doubleValue());
+                    } catch (Exception e) {
+                        leftObj = leftObj.toString();
+                        rightObj = rightObj.toString();
+                    }
+                } else {
+                    leftObj = leftObj.toString();
+                    rightObj = rightObj.toString();
+                }
+            } else if (leftObj instanceof String && rightObj instanceof String) {
                 //Check for case of strings that can both be converted to Numbers
                 try {
-                    leftObj = new Double( Double.parseDouble( (String) leftObj ) );
-                    rightObj = new Double( Double.parseDouble( (String) rightObj ));
+                    leftObj = new Double(Double.parseDouble((String) leftObj));
+                    rightObj = new Double(Double.parseDouble((String) rightObj));
+                } catch (Exception e) {
+                    leftObj = leftObj.toString();
+                    rightObj = rightObj.toString();
                 }
-                catch(Exception e)
-    	    	{
-    	    		leftObj = leftObj.toString();
-    	    		rightObj = rightObj.toString();
-    	    	}
-    	    }
-    		return leftObj.compareTo(rightObj);
-    	} else {
-    		//both numbers, make double
-    	    double left = ((Number) leftObj).doubleValue();
-    	    double right = ((Number) rightObj).doubleValue();
-    	    return left > right ? 1 : (left == right ? 0 : -1);  
-    	}
+            }
+            return leftObj.compareTo(rightObj);
+        } else {
+            //both numbers, make double
+            double left = ((Number) leftObj).doubleValue();
+            double right = ((Number) rightObj).doubleValue();
+            return left > right ? 1 : (left == right ? 0 : -1);
+        }
     }
-    
+
     /**
      * Returns a string representation of this filter.
      *
      * @return String representation of the compare filter.
      */
     public String toString() {
-        int filterType = Filters.getFilterType( this );
+        int filterType = Filters.getFilterType(this);
         if (filterType == NULL) {
-        	return "[ " + expression1 + " IS NULL ]";
+            return "[ " + expression1 + " IS NULL ]";
         }
         String operator = null;
 
@@ -196,7 +186,7 @@ public abstract class CompareFilterImpl extends BinaryComparisonAbstract {
         if (filterType == COMPARE_NOT_EQUALS) {
             operator = " != ";
         }
-        
+
         return "[ " + expression1 + operator + expression2 + " ]";
     }
 
@@ -206,15 +196,14 @@ public abstract class CompareFilterImpl extends BinaryComparisonAbstract {
      * filter types are the same as well as both of the values.
      *
      * @param obj - the object to compare this CompareFilter against.
-     *
      * @return true if specified object is equal to this filter; false
-     *         otherwise.
+     * otherwise.
      */
     public boolean equals(Object obj) {
-        if(this == obj) {
+        if (this == obj) {
             return true;
         }
-        
+
         if (obj.getClass().equals(this.getClass())) {
             CompareFilterImpl cFilter = (CompareFilterImpl) obj;
 
@@ -223,9 +212,9 @@ public abstract class CompareFilterImpl extends BinaryComparisonAbstract {
             final Expression cfe1 = cFilter.getExpression1();
             final Expression cfe2 = cFilter.getExpression2();
             return (expression1 == cfe1 || (expression1 != null && expression1
-                            .equals(cfe1)))
+                    .equals(cfe1)))
                     && (expression2 == cfe2 || (expression2 != null && expression2
-                            .equals(cfe2)));
+                    .equals(cfe2)));
         } else {
             return false;
         }
@@ -239,12 +228,12 @@ public abstract class CompareFilterImpl extends BinaryComparisonAbstract {
     public int hashCode() {
         int result = 17;
         int filterType = Filters.getFilterType(this);
-        
+
         result = (37 * result) + filterType;
         result = (37 * result)
-            + ((expression1 == null) ? 0 : expression1.hashCode());
+                + ((expression1 == null) ? 0 : expression1.hashCode());
         result = (37 * result)
-            + ((expression2 == null) ? 0 : expression2.hashCode());
+                + ((expression2 == null) ? 0 : expression2.hashCode());
 
         return result;
     }
@@ -257,7 +246,7 @@ public abstract class CompareFilterImpl extends BinaryComparisonAbstract {
      * left to a parent class unless the parents API is identical.
      *
      * @param visitor The visitor which requires access to this filter, the
-     *        method must call visitor.visit(this);
+     *                method must call visitor.visit(this);
      */
-     public abstract Object accept(FilterVisitor visitor, Object extraData);
+    public abstract Object accept(FilterVisitor visitor, Object extraData);
 }

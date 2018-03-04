@@ -45,19 +45,16 @@ import com.vividsolutions.jts.io.WKTReader;
 
 /**
  * Constants and methods to create sample features for {@link SampleDataAccess}.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * The features are similar to MappedFeature found in GeoSciML.
- * 
+ *
  * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
  * @version $Id$
- *
- *
- *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/app-schema/sample-data-access
- *         /src/main/java/org/geotools/data/SampleDataAccessData.java $
+ * http://svn.osgeo.org/geotools/trunk/modules/unsupported/app-schema/sample-data-access
+ * /src/main/java/org/geotools/data/SampleDataAccessData.java $
  * @since 2.6
  */
 @SuppressWarnings("serial")
@@ -71,13 +68,14 @@ public class SampleDataAccessData {
     /**
      * Namespace URI for the sample feature type.
      */
-    public static final String NAMESPACE_URI = "http://www.example.org/sample-data-access/GeoSciML-lite";
+    public static final String NAMESPACE_URI = "http://www.example" +
+            ".org/sample-data-access/GeoSciML-lite";
 
     public static final Name GEOLOGICUNIT_TYPE_NAME = new NameImpl(NAMESPACE_URI, "GeologicUnit");
 
     public static final FeatureType GEOLOGICUNIT_TYPE = new FeatureTypeImpl(GEOLOGICUNIT_TYPE_NAME,
-            Collections.<PropertyDescriptor> emptyList(), null, false, Collections
-                    .<Filter> emptyList(), GMLSchema.ABSTRACTFEATURETYPE_TYPE, null);
+            Collections.<PropertyDescriptor>emptyList(), null, false, Collections
+            .<Filter>emptyList(), GMLSchema.ABSTRACTFEATURETYPE_TYPE, null);
 
     public static final AttributeDescriptor SPECIFICATION_DESCRIPTOR = new AttributeDescriptorImpl(
             GMLSchema.FEATUREPROPERTYTYPE_TYPE, new NameImpl(NAMESPACE_URI, "specification"), 0, 1,
@@ -91,7 +89,8 @@ public class SampleDataAccessData {
     /**
      * The schema of the sample feature type.
      */
-    private static final List<PropertyDescriptor> MAPPEDFEATURE_TYPE_SCHEMA = new ArrayList<PropertyDescriptor>() {
+    private static final List<PropertyDescriptor> MAPPEDFEATURE_TYPE_SCHEMA = new 
+            ArrayList<PropertyDescriptor>() {
         {
             add(SPECIFICATION_DESCRIPTOR);
             add(SHAPE_DESCRIPTOR);
@@ -108,29 +107,26 @@ public class SampleDataAccessData {
      */
     public static final FeatureType MAPPEDFEATURE_TYPE = new FeatureTypeImpl(
             MAPPEDFEATURE_TYPE_NAME, MAPPEDFEATURE_TYPE_SCHEMA, null, false, Collections
-                    .<Filter> emptyList(), GMLSchema.ABSTRACTFEATURETYPE_TYPE, null);
+            .<Filter>emptyList(), GMLSchema.ABSTRACTFEATURETYPE_TYPE, null);
 
     /**
      * Create a sample feature from primitive components.
-     * 
-     * @param id
-     *            feature id
-     * @param bgsid
-     *            an alternate id (not yet used)
-     * @param description
-     *            name of the feature
-     * @param shape
-     *            the shape of the feature
+     *
+     * @param id          feature id
+     * @param bgsid       an alternate id (not yet used)
+     * @param description name of the feature
+     * @param shape       the shape of the feature
      * @return
      */
     public static Feature createMappedFeature(String id, String bgsid, final String description,
-            final String specificationDescription, final Geometry shape) {
+                                              final String specificationDescription, final 
+                                              Geometry shape) {
 
         final Collection<Property> specificationFeatureProperties = new ArrayList<Property>() {
             {
                 add(new AttributeImpl(specificationDescription, new AttributeDescriptorImpl(
                         XSSchema.STRING_TYPE, new NameImpl("http://www.opengis.net/gml",
-                                "description"), 0, 1, false, null), null));
+                        "description"), 0, 1, false, null), null));
             }
         };
         final Feature specificationFeature = new FeatureImpl(specificationFeatureProperties,
@@ -142,7 +138,7 @@ public class SampleDataAccessData {
                 // simpleContent, not currently supported
                 add(new AttributeImpl(description, new AttributeDescriptorImpl(
                         XSSchema.STRING_TYPE, new NameImpl("http://www.opengis.net/gml",
-                                "description"), 0, 1, false, null), null));
+                        "description"), 0, 1, false, null), null));
                 add(new ComplexAttributeImpl(new ArrayList<Property>() {
                     {
                         add(specificationFeature);
@@ -156,7 +152,7 @@ public class SampleDataAccessData {
 
     /**
      * Create a list of two sample features.
-     * 
+     *
      * @return list of sample features
      */
     public static List<Feature> createMappedFeatures() {
@@ -169,22 +165,23 @@ public class SampleDataAccessData {
                         "651",
                         "GUNTHORPE FORMATION",
                         "Gunthorpe specification description",
-                        readGeometry("POLYGON((-1.2 52.5,-1.2 52.6,-1.1 52.6,-1.1 52.5,-1.2 52.5))")));
+                        readGeometry("POLYGON((-1.2 52.5,-1.2 52.6,-1.1 52.6,-1.1 52.5,-1.2 52.5)" +
+                                ")")));
                 add(createMappedFeature(
                         "mf2",
                         "269",
                         "MERCIA MUDSTONE GROUP",
                         "Mercia specification description",
-                        readGeometry("POLYGON((-1.3 52.5,-1.3 52.6,-1.2 52.6,-1.2 52.5,-1.3 52.5))")));
+                        readGeometry("POLYGON((-1.3 52.5,-1.3 52.6,-1.2 52.6,-1.2 52.5,-1.3 52.5)" +
+                                ")")));
             }
         };
     }
 
     /**
      * Convert a shape in Well-Known Text into a {@link Geometry}.
-     * 
-     * @param wellKnownText
-     *            a shape in Well-Known Text
+     *
+     * @param wellKnownText a shape in Well-Known Text
      * @return the corresponding geometry
      */
     public static Geometry readGeometry(String wellKnownText) {

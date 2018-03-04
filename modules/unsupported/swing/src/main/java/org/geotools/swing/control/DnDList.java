@@ -41,24 +41,21 @@ import javax.swing.JList;
  * {@linkplain org.geotools.swing.MapLayerTable} widget but has been written
  * in a general fashion so that it may be used for other pusposes.
  *
- * @see DnDListModel
- *
  * @author Michael Bedward
- * @since 2.6
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @see DnDListModel
+ * @since 2.6
  */
-public class DnDList<T> extends JList implements DragGestureListener, DragSourceListener, DropTargetListener {
+public class DnDList<T> extends JList implements DragGestureListener, DragSourceListener, 
+        DropTargetListener {
     private static final long serialVersionUID = 3310751294076288683L;
 
     private DragSource src;
-    
+
     @SuppressWarnings("unused")
     private DropTarget tgt; // this is not used? what is it for
-    
+
     private boolean movingItems;
     private int overIndex;
     private int[] dragIndices;
@@ -73,11 +70,12 @@ public class DnDList<T> extends JList implements DragGestureListener, DragSource
 
     /**
      * Constructor allowing the list model to be specified
+     *
      * @param model an instance of DnDListModel
      * @throws IllegalArgumentException if model is null
      */
     public DnDList(DnDListModel<T> model) {
-        super( model );
+        super(model);
         if (model == null) {
             throw new IllegalArgumentException("model must not be null");
         }
@@ -97,6 +95,7 @@ public class DnDList<T> extends JList implements DragGestureListener, DragSource
     public DnDListModel<T> getModel() {
         return (DnDListModel<T>) super.getModel();
     }
+
     /**
      * Called by the system when a drag gesture starts
      */
@@ -283,7 +282,7 @@ public class DnDList<T> extends JList implements DragGestureListener, DragSource
     @Override
     public void drop(DropTargetDropEvent dtde) {
         //Transferable stuff = dtde.getTransferable();
-        
+
         /*
          * @todo check DataFlavor of stuff
          */

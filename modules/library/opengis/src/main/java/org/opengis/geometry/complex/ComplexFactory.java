@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.complex;
 
 import java.util.List;
+
 import org.opengis.geometry.primitive.Point;
 import org.opengis.geometry.primitive.OrientableCurve;
 import org.opengis.geometry.primitive.OrientableSurface;
@@ -22,15 +23,12 @@ import org.opengis.geometry.primitive.OrientableSurface;
  * Creating complexes in a different CRS may requires a different instance of
  * {@code ComplexFactory}.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Sanjay Jena
  * @author Prof. Dr. Jackson Roehrig
- * @since GeoAPI 2.1
- *
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @todo Need to check if ISO 19107 defines constructors for complexes.
+ * @since GeoAPI 2.1
  */
 public interface ComplexFactory {
     /**

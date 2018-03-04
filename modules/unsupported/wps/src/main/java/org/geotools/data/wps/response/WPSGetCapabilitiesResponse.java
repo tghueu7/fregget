@@ -40,27 +40,21 @@ import net.opengis.wps10.WPSCapabilitiesType;
  * Provides a hook up to parse the capabilities document from inputstream.
  *
  * @author gdavis
- *
- *
- *
- *
- *
  * @source $URL$
  */
-public class WPSGetCapabilitiesResponse extends AbstractWPSGetCapabilitiesResponse
-{
-    
-    public WPSGetCapabilitiesResponse(HTTPResponse httpResponse) throws ServiceException, IOException {
+public class WPSGetCapabilitiesResponse extends AbstractWPSGetCapabilitiesResponse {
+
+    public WPSGetCapabilitiesResponse(HTTPResponse httpResponse) throws ServiceException, 
+            IOException {
         this(httpResponse, null);
     }
 
-    public WPSGetCapabilitiesResponse(HTTPResponse httpResponse, Map<String, Object> hints) throws ServiceException, IOException
-    {
+    public WPSGetCapabilitiesResponse(HTTPResponse httpResponse, Map<String, Object> hints) 
+            throws ServiceException, IOException {
         super(httpResponse);
 
         InputStream inputStream = null;
-        try
-        {
+        try {
             inputStream = httpResponse.getResponseStream();
 
             // Map hints = new HashMap();
@@ -73,18 +67,15 @@ public class WPSGetCapabilitiesResponse extends AbstractWPSGetCapabilitiesRespon
             Object object;
             excepResponse = null;
             capabilities = null;
-            try
-            {
+            try {
                 // object = DocumentFactory.getInstance(inputStream, hints, Level.WARNING);
                 object = parser.parse(inputStream);
-            }
-            catch (SAXException e)
-            {
-                throw (ServiceException) new ServiceException("Error while parsing XML.").initCause(e);
-            }
-            catch (ParserConfigurationException e)
-            {
-                throw (ServiceException) new ServiceException("Error while parsing XML.").initCause(e);
+            } catch (SAXException e) {
+                throw (ServiceException) new ServiceException("Error while parsing XML.")
+                        .initCause(e);
+            } catch (ParserConfigurationException e) {
+                throw (ServiceException) new ServiceException("Error while parsing XML.")
+                        .initCause(e);
             }
 
             // if (object instanceof ServiceException) {
@@ -92,21 +83,16 @@ public class WPSGetCapabilitiesResponse extends AbstractWPSGetCapabilitiesRespon
             // }
 
             // try casting the response
-            if (object instanceof WPSCapabilitiesType)
-            {
+            if (object instanceof WPSCapabilitiesType) {
                 capabilities = (WPSCapabilitiesType) object;
             }
             // exception caught on server and returned
-            else if (object instanceof ExceptionReportType)
-            {
+            else if (object instanceof ExceptionReportType) {
                 excepResponse = (ExceptionReportType) object;
             }
 
-        }
-        finally
-        {
-            if (inputStream != null)
-            {
+        } finally {
+            if (inputStream != null) {
                 inputStream.close();
             }
         }

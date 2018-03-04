@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.coverage.grid;
@@ -22,15 +22,12 @@ import static org.opengis.annotation.Specification.*;
  * The grid range attribute determines the valid grid coordinates and allows
  * for calculation of grid size. A grid coverage may or may not have georeferencing.
  *
- *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengis.org/docs/01-004.pdf">Grid Coverage specification 1.0</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
+ * @source $URL$
+ * @since GeoAPI 1.0
  */
-@UML(identifier="CV_GridGeometry", specification=OGC_01004)
+@UML(identifier = "CV_GridGeometry", specification = OGC_01004)
 public interface GridGeometry {
     /**
      * The valid coordinate range of a grid coverage.
@@ -40,7 +37,7 @@ public interface GridGeometry {
      *
      * @return The valid coordinate range of a grid coverage.
      */
-    @UML(identifier="gridRange", obligation=MANDATORY, specification=OGC_01004)
+    @UML(identifier = "gridRange", obligation = MANDATORY, specification = OGC_01004)
     GridEnvelope getGridRange();
 
     /**
@@ -51,11 +48,10 @@ public interface GridGeometry {
      * and maps to {@linkplain PixelInCell#CELL_CENTER pixel center}.
      *
      * @return The conversion from grid coordinates to
-     *         {@linkplain org.opengis.coverage.Coverage#getCoordinateReferenceSystem
-     *         real world earth coordinates}.
-     *
+     * {@linkplain org.opengis.coverage.Coverage#getCoordinateReferenceSystem
+     * real world earth coordinates}.
      * @since GeoAPI 2.1
      */
-    @UML(identifier="gridToCoordinateSystem", obligation=MANDATORY, specification=OGC_01004)
+    @UML(identifier = "gridToCoordinateSystem", obligation = MANDATORY, specification = OGC_01004)
     MathTransform getGridToCRS();
 }

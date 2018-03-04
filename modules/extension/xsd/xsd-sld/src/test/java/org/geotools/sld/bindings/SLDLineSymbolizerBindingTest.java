@@ -21,8 +21,6 @@ import org.opengis.filter.expression.Function;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SLDLineSymbolizerBindingTest extends SLDTestSupport {
@@ -38,7 +36,7 @@ public class SLDLineSymbolizerBindingTest extends SLDTestSupport {
 
         assertNotNull(lineSymbolizer.getStroke());
     }
-    
+
     public void testTransform() throws Exception {
         SLDMockData.transformedLineSymbolizer(document, document);
 

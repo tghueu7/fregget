@@ -31,14 +31,10 @@ import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * Process which buffers an entire feature collection.
- * 
+ *
  * @author Justin Deoliveira, OpenGEO
- * @since 2.6
- *
- *
- *
- *
  * @source $URL$
+ * @since 2.6
  */
 public class BufferFeatureCollectionProcess extends FeatureToFeatureProcess {
 
@@ -52,26 +48,29 @@ public class BufferFeatureCollectionProcess extends FeatureToFeatureProcess {
     }
 
     @Override
-    protected void processFeature(SimpleFeature feature, Map<String, Object> input) throws Exception {
-       Double buffer = (Double) input.get( BufferFeatureCollectionFactory.BUFFER.key );
-       
-       Geometry g = (Geometry) feature.getDefaultGeometry();
-       g = g.buffer( buffer );
-       
-       if(g instanceof Polygon) {
-           g = g.getFactory().createMultiPolygon(new Polygon[] {(Polygon) g});
-       }
-       
-       feature.setDefaultGeometry( g );
+    protected void processFeature(SimpleFeature feature, Map<String, Object> input) throws 
+            Exception {
+        Double buffer = (Double) input.get(BufferFeatureCollectionFactory.BUFFER.key);
+
+        Geometry g = (Geometry) feature.getDefaultGeometry();
+        g = g.buffer(buffer);
+
+        if (g instanceof Polygon) {
+            g = g.getFactory().createMultiPolygon(new Polygon[]{(Polygon) g});
+        }
+
+        feature.setDefaultGeometry(g);
     }
 
     @Override
-    protected SimpleFeatureType getTargetSchema(SimpleFeatureType sourceSchema, Map<String, Object> input) {
+    protected SimpleFeatureType getTargetSchema(SimpleFeatureType sourceSchema, Map<String, 
+            Object> input) {
         SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
         for (AttributeDescriptor ad : sourceSchema.getAttributeDescriptors()) {
             GeometryDescriptor defaultGeometry = sourceSchema.getGeometryDescriptor();
-            if(ad == defaultGeometry) {
-                tb.add(ad.getName().getLocalPart(), MultiPolygon.class, defaultGeometry.getCoordinateReferenceSystem());
+            if (ad == defaultGeometry) {
+                tb.add(ad.getName().getLocalPart(), MultiPolygon.class, defaultGeometry
+                        .getCoordinateReferenceSystem());
             } else {
                 tb.add(ad);
             }

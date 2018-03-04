@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -23,8 +23,6 @@ import java.util.Map;
 import org.geotools.data.DataAccessFactory.Param;
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class AbstractDataSourceFactorySpi implements DataSourceFactorySpi {
@@ -34,7 +32,7 @@ public abstract class AbstractDataSourceFactorySpi implements DataSourceFactoryS
      * <p>
      * Will return <code>Foo</code> for <code>org.geotools.data.foo.FooFactory</code>.
      * </p>
-     * 
+     *
      * @return return display name based on class name
      */
     public String getDisplayName() {
@@ -85,7 +83,7 @@ public abstract class AbstractDataSourceFactorySpi implements DataSourceFactoryS
         }
         return true;
     }
-    
+
     /**
      * Returns the implementation hints. The default implementation returns en empty map.
      */

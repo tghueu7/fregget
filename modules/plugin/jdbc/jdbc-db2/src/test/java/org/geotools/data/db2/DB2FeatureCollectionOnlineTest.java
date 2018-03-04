@@ -24,10 +24,6 @@ import org.geotools.jdbc.JDBCTestSetup;
  * SimpleFeatureCollection test for DB2.
  *
  * @author Christian Mueller
- *
- *
- *
- *
  * @source $URL$
  */
 public class DB2FeatureCollectionOnlineTest extends JDBCFeatureCollectionOnlineTest {

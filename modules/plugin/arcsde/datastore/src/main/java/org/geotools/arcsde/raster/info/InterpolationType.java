@@ -24,18 +24,17 @@ import com.esri.sde.sdk.client.SeRaster;
 /**
  * An enumeration that mirrors the different possible raster interpolation types in Arcsde (ie,
  * {@code SeRaster#SE_INTERPOLATION_*})
- * 
+ *
  * @author Gabriel Roldan (OpenGeo)
- * @since 2.5.4
  * @version $Id$
- *
- *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/main/java/org
- *         /geotools/arcsde/raster/info/InterpolationType.java $
+ * http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/main/java/org
+ * /geotools/arcsde/raster/info/InterpolationType.java $
+ * @since 2.5.4
  */
 public enum InterpolationType {
     INTERPOLATION_BICUBIC, INTERPOLATION_BILINEAR, INTERPOLATION_NEAREST, INTERPOLATION_NONE;
+
     static {
         INTERPOLATION_BICUBIC.setSdeTypeId(SeRaster.SE_INTERPOLATION_BICUBIC);
         INTERPOLATION_BILINEAR.setSdeTypeId(SeRaster.SE_INTERPOLATION_BILINEAR);

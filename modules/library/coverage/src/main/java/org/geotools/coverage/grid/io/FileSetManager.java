@@ -23,12 +23,12 @@ import java.util.List;
  */
 public interface FileSetManager {
 
-    /** 
-     * Add a file to the file set manager 
+    /**
+     * Add a file to the file set manager
      */
     void addFile(final String filePath);
 
-    /** 
+    /**
      * Return the list of all the files currently added to the manager
      */
     List<String> list();
@@ -39,7 +39,8 @@ public interface FileSetManager {
     void removeFile(final String filePath);
 
     /**
-     * Remove all the files from the manager (An implementation may also physically remove all the files)
+     * Remove all the files from the manager (An implementation may also physically remove all 
+     * the files)
      */
     void purge();
 }

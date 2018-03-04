@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry;
@@ -15,10 +15,8 @@ package org.opengis.geometry;
  * of a mismatch in the dimensions of object attributes.
  *
  * @author Martin Desruisseaux (IRD)
- * @since GeoAPI 1.0
- *
- *
  * @source $URL$
+ * @since GeoAPI 1.0
  */
 public class MismatchedDimensionException extends IllegalArgumentException {
     /**
@@ -36,8 +34,8 @@ public class MismatchedDimensionException extends IllegalArgumentException {
     /**
      * Creates an exception with the specified message.
      *
-     * @param  message The detail message. The detail message is saved for
-     *         later retrieval by the {@link #getMessage()} method.
+     * @param message The detail message. The detail message is saved for
+     *                later retrieval by the {@link #getMessage()} method.
      */
     public MismatchedDimensionException(final String message) {
         super(message);
@@ -46,9 +44,9 @@ public class MismatchedDimensionException extends IllegalArgumentException {
     /**
      * Creates an exception with the specified message and cause.
      *
-     * @param  message The detail message. The detail message is saved for
-     *         later retrieval by the {@link #getMessage()} method.
-     * @param  cause The cause.
+     * @param message The detail message. The detail message is saved for
+     *                later retrieval by the {@link #getMessage()} method.
+     * @param cause   The cause.
      */
     public MismatchedDimensionException(final String message, final Throwable cause) {
         super(message, cause);

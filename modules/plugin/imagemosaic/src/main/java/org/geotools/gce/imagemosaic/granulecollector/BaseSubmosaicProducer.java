@@ -69,14 +69,19 @@ public class BaseSubmosaicProducer implements SubmosaicProducer {
     final static Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger(DefaultSubmosaicProducer.class);
 
-    /** The final lists for granules to be computed, splitted per dimension value. */
-    protected final List<Future<GranuleDescriptor.GranuleLoadingResult>> granulesFutures = new ArrayList<Future<GranuleDescriptor.GranuleLoadingResult>>();
+    /**
+     * The final lists for granules to be computed, splitted per dimension value.
+     */
+    protected final List<Future<GranuleDescriptor.GranuleLoadingResult>> granulesFutures = new 
+            ArrayList<Future<GranuleDescriptor.GranuleLoadingResult>>();
 
     protected final boolean dryRun;
 
     protected RasterLayerResponse rasterLayerResponse;
 
-    /** The number of collected granules. **/
+    /**
+     * The number of collected granules.
+     **/
     protected int granulesNumber;
 
     protected double[][] sourceThreshold;
@@ -98,7 +103,8 @@ public class BaseSubmosaicProducer implements SubmosaicProducer {
     }
 
     /**
-     * This methods collects the granules from their eventual multithreaded processing and turn them into a {@link MosaicInputs} object.
+     * This methods collects the granules from their eventual multithreaded processing and turn 
+     * them into a {@link MosaicInputs} object.
      *
      * @return a {@link MosaicInputs} ready to be mosaicked.
      */
@@ -138,15 +144,15 @@ public class BaseSubmosaicProducer implements SubmosaicProducer {
                     }
                     continue;
                 }
-                
+
                 // perform excess granule removal in case multithreaded loading is enabled
-                if(isMultithreadedLoadingEnabled()) {
+                if (isMultithreadedLoadingEnabled()) {
                     ROIExcessGranuleRemover remover = rasterLayerResponse.getExcessGranuleRemover();
-                    if(remover != null) {
-                        if(remover.isRenderingAreaComplete()) {
+                    if (remover != null) {
+                        if (remover.isRenderingAreaComplete()) {
                             break;
                         }
-                        if(!remover.addGranule(result)) {
+                        if (!remover.addGranule(result)) {
                             // skip this granule
                             continue;
                         }
@@ -176,8 +182,8 @@ public class BaseSubmosaicProducer implements SubmosaicProducer {
                     // for data type other than byte and ushort. With float and double
                     // it can cut off a large par of the dynamic.
                     //
-                    sourceThreshold = new double[][] { { CoverageUtilities
-                            .getMosaicThreshold(loadedImage.getSampleModel().getDataType()) } };
+                    sourceThreshold = new double[][]{{CoverageUtilities
+                            .getMosaicThreshold(loadedImage.getSampleModel().getDataType())}};
                 }
 
                 // moving on
@@ -213,7 +219,7 @@ public class BaseSubmosaicProducer implements SubmosaicProducer {
                 throw new IOException(e);
             }
         }
-        
+
         // collect paths
         rasterLayerResponse.setGranulesPaths(
                 paths.length() > 1 ? paths.substring(0, paths.length() - 1) : "");
@@ -228,7 +234,8 @@ public class BaseSubmosaicProducer implements SubmosaicProducer {
     }
 
     private MosaicElement preProcessGranuleRaster(RenderedImage granule,
-            final GranuleDescriptor.GranuleLoadingResult result, String canonicalPath) {
+                                                  final GranuleDescriptor.GranuleLoadingResult 
+                                                          result, String canonicalPath) {
 
         //
         // INDEX COLOR MODEL EXPANSION
@@ -269,7 +276,8 @@ public class BaseSubmosaicProducer implements SubmosaicProducer {
                     .getRenderedImage();
             hasAlpha = granule.getColorModel().hasAlpha();
             if (!granule.getColorModel().hasAlpha()) {
-                // if the resulting image has no transparency (can happen with IndexColorModel then we need to try component
+                // if the resulting image has no transparency (can happen with IndexColorModel 
+                // then we need to try component
                 // color model
                 granule = new ImageWorker(granule).forceComponentColorModel(true)
                         .makeColorTransparent(inputTransparentColor).getRenderedImage();
@@ -286,7 +294,8 @@ public class BaseSubmosaicProducer implements SubmosaicProducer {
                 w.forceComponentColorModel();
                 granule = w.getRenderedImage();
             }
-            // doing this here gives the guarantee that I get the correct index for the transparency band
+            // doing this here gives the guarantee that I get the correct index for the 
+            // transparency band
             alphaIndex[0] = granule.getColorModel().getNumComponents() - 1;
             assert alphaIndex[0] < granule.getSampleModel().getNumBands();
 
@@ -345,7 +354,7 @@ public class BaseSubmosaicProducer implements SubmosaicProducer {
                 }
                 ImageWorker w = new ImageWorker(granule)
                         .setRenderingHints(rasterLayerResponse.getHints()).setROI(imageROI);
-                w.setBackground(new double[] { 0 });
+                w.setBackground(new double[]{0});
                 w.artifactsFilter(artifactThreshold, 3);
                 granule = w.getRenderedImage();
             }
@@ -390,19 +399,20 @@ public class BaseSubmosaicProducer implements SubmosaicProducer {
                         .getRasterManager().getParentReader().getMultiThreadedLoader();
                 granulesFutures.add(mtLoader.submit(loader));
             } else {
-                // SINGLE THREADED Execution, we defer the execution to when we have done the loading
+                // SINGLE THREADED Execution, we defer the execution to when we have done the 
+                // loading
                 final FutureTask<GranuleDescriptor.GranuleLoadingResult> task = new FutureTask<>(
                         loader);
                 task.run(); // run in current thread
-                
+
                 // perform excess granule removal, as it makes sense in single threaded mode to
                 // do it while loading, to allow for an early bail out reading granules
                 ROIExcessGranuleRemover remover = rasterLayerResponse.getExcessGranuleRemover();
                 GranuleLoadingResult result;
-                if(remover != null) {
+                if (remover != null) {
                     try {
                         result = task.get();
-                        if(!remover.addGranule(result)) {
+                        if (!remover.addGranule(result)) {
                             return false;
                         }
                     } catch (InterruptedException | ExecutionException e) {
@@ -420,11 +430,12 @@ public class BaseSubmosaicProducer implements SubmosaicProducer {
         granulesNumber++;
         return true;
     }
-    
+
     private boolean isMultithreadedLoadingEnabled() {
         final ExecutorService mtLoader = rasterLayerResponse
                 .getRasterManager().getParentReader().getMultiThreadedLoader();
-        final boolean multiThreadedLoading = rasterLayerResponse.isMultithreadingAllowed() && mtLoader != null;
+        final boolean multiThreadedLoading = rasterLayerResponse.isMultithreadingAllowed() && 
+                mtLoader != null;
         return multiThreadedLoading;
     }
 
@@ -440,5 +451,5 @@ public class BaseSubmosaicProducer implements SubmosaicProducer {
     public boolean hasAlpha() {
         return hasAlpha;
     }
-    
+
 }

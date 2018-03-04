@@ -25,7 +25,7 @@ import com.vividsolutions.jts.geom.Envelope;
 
 /**
  * Encodes a GML2 Envelope
- * 
+ *
  * @author Justin Deoliveira, OpenGeo
  * @author Andrea Aime - GeoSolutions
  */

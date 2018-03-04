@@ -68,6 +68,7 @@ public class ImageLab {
     // docs end main
 
     // docs start get layers
+
     /**
      * Prompts the user for a GeoTIFF file and a Shapefile and passes them to the displayLayers
      * method
@@ -75,10 +76,10 @@ public class ImageLab {
     private void getLayersAndDisplay() throws Exception {
         List<Parameter<?>> list = new ArrayList<>();
         list.add(new Parameter<>("image", File.class, "Image",
-            "GeoTiff or World+Image to display as basemap",
-            new KVP(Parameter.EXT, "tif", Parameter.EXT, "jpg")));
+                "GeoTiff or World+Image to display as basemap",
+                new KVP(Parameter.EXT, "tif", Parameter.EXT, "jpg")));
         list.add(new Parameter<>("shape", File.class, "Shapefile", "Shapefile contents to display",
-            new KVP(Parameter.EXT, "shp")));
+                new KVP(Parameter.EXT, "shp")));
 
         JParameterListWizard wizard = new JParameterListWizard("Image Lab",
                 "Fill in the following layers", list);
@@ -95,23 +96,22 @@ public class ImageLab {
     // docs end get layers
 
     // docs start display layers
+
     /**
      * Displays a GeoTIFF file overlaid with a Shapefile
-     * 
-     * @param rasterFile
-     *            the GeoTIFF file
-     * @param shpFile
-     *            the Shapefile
+     *
+     * @param rasterFile the GeoTIFF file
+     * @param shpFile    the Shapefile
      */
     private void displayLayers(File rasterFile, File shpFile) throws Exception {
-        AbstractGridFormat format = GridFormatFinder.findFormat( rasterFile ); 
+        AbstractGridFormat format = GridFormatFinder.findFormat(rasterFile);
         //this is a bit hacky but does make more geotiffs work
         Hints hints = new Hints();
         if (format instanceof GeoTiffFormat) {
             hints = new Hints(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER, Boolean.TRUE);
         }
         reader = format.getReader(rasterFile, hints);
-        
+
 
         // Initially display the raster in greyscale using the
         // data from the first image band
@@ -128,10 +128,10 @@ public class ImageLab {
         // Set up a MapContent with the two layers
         final MapContent map = new MapContent();
         map.setTitle("ImageLab");
-        
+
         Layer rasterLayer = new GridReaderLayer(reader, rasterStyle);
         map.addLayer(rasterLayer);
-        
+
         Layer shpLayer = new FeatureLayer(shapefileSource, shpStyle);
         map.addLayer(shpLayer);
 
@@ -147,7 +147,7 @@ public class ImageLab {
         JMenu menu = new JMenu("Raster");
         menuBar.add(menu);
 
-        menu.add( new SafeAction("Grayscale display") {
+        menu.add(new SafeAction("Grayscale display") {
             public void action(ActionEvent e) throws Throwable {
                 Style style = createGreyscaleStyle();
                 if (style != null) {
@@ -157,24 +157,25 @@ public class ImageLab {
             }
         });
 
-        menu.add( new SafeAction("RGB display") {
+        menu.add(new SafeAction("RGB display") {
             public void action(ActionEvent e) throws Throwable {
                 Style style = createRGBStyle();
                 if (style != null) {
                     ((StyleLayer) map.layers().get(0)).setStyle(style);
                     frame.repaint();
                 }
-           }
+            }
         });
         // Finally display the map frame.
         // When it is closed the app will exit.
         frame.setVisible(true);
     }
-    
+
     // docs end display layers
 
 
     // docs start create greyscale style
+
     /**
      * Create a Style to display a selected band of the GeoTIFF image
      * as a greyscale layer
@@ -190,7 +191,9 @@ public class ImageLab {
         }
         int numBands = cov.getNumSampleDimensions();
         Integer[] bandNumbers = new Integer[numBands];
-        for (int i = 0; i < numBands; i++) { bandNumbers[i] = i+1; }
+        for (int i = 0; i < numBands; i++) {
+            bandNumbers[i] = i + 1;
+        }
         Object selection = JOptionPane.showInputDialog(
                 frame,
                 "Band to use for greyscale display",
@@ -200,7 +203,7 @@ public class ImageLab {
                 bandNumbers,
                 1);
         if (selection != null) {
-            int band = ((Number)selection).intValue();
+            int band = ((Number) selection).intValue();
             return createGreyscaleStyle(band);
         }
         return null;
@@ -215,7 +218,6 @@ public class ImageLab {
      * by the displayLayers() method when the application first starts.
      *
      * @param band the image band to use for the greyscale display
-     *
      * @return a new Style instance to render the image in greyscale
      */
     private Style createGreyscaleStyle(int band) {
@@ -232,6 +234,7 @@ public class ImageLab {
     // docs end create greyscale style
 
     // docs start create rgb style
+
     /**
      * This method examines the names of the sample dimensions in the provided coverage looking for
      * "red...", "green..." and "blue..." (case insensitive match). If these names are not found
@@ -259,7 +262,7 @@ public class ImageLab {
             sampleDimensionNames[i] = dim.getDescription().toString();
         }
         final int RED = 0, GREEN = 1, BLUE = 2;
-        int[] channelNum = { -1, -1, -1 };
+        int[] channelNum = {-1, -1, -1};
         // We examine the band names looking for "red...", "green...", "blue...".
         // Note that the channel numbers we record are indexed from 1, not 0.
         for (int i = 0; i < numBands; i++) {

@@ -17,6 +17,7 @@
 package org.geotools.filter.v1_0;
 
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.PropertyIsEqualTo;
 import org.opengis.filter.expression.Expression;
@@ -27,9 +28,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the element http://www.opengis.net/ogc:PropertyIsEqualTo.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="PropertyIsEqualTo"
  *      substitutionGroup="ogc:comparisonOps" type="ogc:BinaryComparisonOpType"/&gt;
@@ -39,9 +40,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OGCPropertyIsEqualToBinding extends AbstractComplexBinding {
@@ -79,7 +77,7 @@ public class OGCPropertyIsEqualToBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         Expression e1 = (Expression) node.getChildValue(0);
         Expression e2 = (Expression) node.getChildValue(1);
 

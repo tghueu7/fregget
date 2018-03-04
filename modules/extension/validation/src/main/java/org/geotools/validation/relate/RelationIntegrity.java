@@ -20,24 +20,21 @@ import org.geotools.validation.DefaultIntegrityValidation;
 
 /**
  * @author bowens
- *
+ * <p>
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Generation - Code and Comments
- *
- *
  * @source $URL$
  */
-public abstract class RelationIntegrity extends DefaultIntegrityValidation 
-{
-	protected final static String EMPTY = "";
+public abstract class RelationIntegrity extends DefaultIntegrityValidation {
+    protected final static String EMPTY = "";
     private String geomTypeRefA;
     private String geomTypeRefB = EMPTY;
-    protected boolean expected = false;			// what the user expects this test to return
-    											// they could expect it to fail and return false, therefore they would enter false
+    protected boolean expected = false;            // what the user expects this test to return
+    // they could expect it to fail and return false, therefore they would enter false
 
     /**
      * PointCoveredByLineValidation constructor.
-     * 
+     * <p>
      * <p>
      * Super
      * </p>
@@ -51,18 +48,16 @@ public abstract class RelationIntegrity extends DefaultIntegrityValidation
      * overwritten.
      *
      * @return Array of typeNames, or empty array for all, null for disabled
-     *
      * @see org.geotools.validation.Validation#getTypeRefs()
      */
-    public String[] getTypeRefs() 
-    {
-        if (geomTypeRefA == null) 
+    public String[] getTypeRefs() {
+        if (geomTypeRefA == null)
             return null;
 
         if (geomTypeRefB == null || geomTypeRefB.equals(EMPTY))
-        	return new String[] {geomTypeRefA};
-        
-        return new String[] { geomTypeRefA, geomTypeRefB };
+            return new String[]{geomTypeRefA};
+
+        return new String[]{geomTypeRefA, geomTypeRefB};
     }
 
     /**
@@ -97,31 +92,29 @@ public abstract class RelationIntegrity extends DefaultIntegrityValidation
      *
      * @param typeRefB A String with the restrictedPolygonTypeRef to set.
      */
-    public final void setGeomTypeRefB(String typeRefB) 
-    {
-    	if (typeRefB.equals("") || typeRefB == null)
-    		typeRefB = EMPTY;
-    	else
-    		this.geomTypeRefB = typeRefB;
+    public final void setGeomTypeRefB(String typeRefB) {
+        if (typeRefB.equals("") || typeRefB == null)
+            typeRefB = EMPTY;
+        else
+            this.geomTypeRefB = typeRefB;
     }
-    
-    
-	public final void setExpected(String exp)
-    {
-    	if (exp == null)
-    		expected = false;
-    	else if (exp.equalsIgnoreCase("true") || exp.equalsIgnoreCase("t"))
-    		expected = true;
-    	else
-    		expected = false;
+
+
+    public final void setExpected(String exp) {
+        if (exp == null)
+            expected = false;
+        else if (exp.equalsIgnoreCase("true") || exp.equalsIgnoreCase("t"))
+            expected = true;
+        else
+            expected = false;
     }
-    
-    public final void setExpected(boolean arg){
-    	expected = arg;
+
+    public final void setExpected(boolean arg) {
+        expected = arg;
     }
-    
+
     public final boolean isExpected() {
-   		return expected;
+        return expected;
     }
 
 }

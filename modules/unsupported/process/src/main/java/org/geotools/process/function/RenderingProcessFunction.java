@@ -35,14 +35,15 @@ import org.opengis.filter.expression.Literal;
  * A function wrapping a {@link Process} with a single output. All inputs to the function are
  * supposed to evaluate to Map<String, Object> where the key is the name of an argument and the
  * value is the argument value
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  * @author Daniele Romagnoli - GeoSolutions
  */
 class RenderingProcessFunction extends ProcessFunction implements RenderingTransformation {
 
     public RenderingProcessFunction(Name processName, List<Expression> inputExpressions,
-            Map<String, Parameter<?>> parameters, RenderingProcess process, Literal fallbackValue) {
+                                    Map<String, Parameter<?>> parameters, RenderingProcess 
+                                            process, Literal fallbackValue) {
         super(processName, inputExpressions, parameters, process, fallbackValue);
     }
 

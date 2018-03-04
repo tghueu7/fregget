@@ -32,10 +32,17 @@ import java.util.Map;
 public class MongoNestedMappingFactory implements CustomMappingFactory {
 
     @Override
-    public NestedAttributeMapping createNestedAttributeMapping(AppSchemaDataAccessConfigurator configuration, Expression idExpression,
-                                                               Expression parentExpression, XPathUtil.StepList targetXPath, boolean isMultiValued,
-                                                               Map<Name, Expression> clientProperties, Expression sourceElement,
-                                                               XPathUtil.StepList sourcePath, NamespaceSupport namespaces) {
+    public NestedAttributeMapping createNestedAttributeMapping(AppSchemaDataAccessConfigurator 
+                                                                           configuration, 
+                                                               Expression idExpression,
+                                                               Expression parentExpression, 
+                                                               XPathUtil.StepList targetXPath, 
+                                                               boolean isMultiValued,
+                                                               Map<Name, Expression> 
+                                                                           clientProperties, 
+                                                               Expression sourceElement,
+                                                               XPathUtil.StepList sourcePath, 
+                                                               NamespaceSupport namespaces) {
         try {
             if (parentExpression instanceof CollectionLinkFunction) {
                 return new MongoNestedMapping(idExpression, parentExpression, targetXPath,

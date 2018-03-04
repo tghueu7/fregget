@@ -34,9 +34,8 @@ import org.opengis.referencing.operation.MathTransform2D;
  * Helper class used to reduce a {@link Coverage} {@link GridGeometry2D} to be completely inside a
  * given valid area, assuming the coverage is already cut to it, but might have portions of pixel
  * going beyond the valid area limits
- * 
- * @author Andrea Aime - GeoSolutions
  *
+ * @author Andrea Aime - GeoSolutions
  */
 class GridGeometryReducer {
     static final Logger LOGGER = Logging.getLogger(GridGeometryReducer.class);
@@ -45,7 +44,7 @@ class GridGeometryReducer {
      * The side of the valid area we are inspecting, or the side of the grid geometry range that we
      * are reducing (if the grid to world does not contain rotation, they are the same, otherwise
      * not)
-     * 
+     *
      * @author Andrea Aime - GeoSolutions
      */
     static enum Side {
@@ -61,13 +60,15 @@ class GridGeometryReducer {
             int next = (value + 1) % 4;
             return values()[next];
         }
-    };
+    }
+
+    ;
 
     ReferencedEnvelope validArea;
 
     /**
      * Builds a reduce with a given valid area
-     * 
+     *
      * @param validArea
      */
     public GridGeometryReducer(ReferencedEnvelope validArea) {
@@ -78,7 +79,7 @@ class GridGeometryReducer {
     /**
      * Reduces the given grid geometry by at most one pixel on each side, in an attempt to make it
      * fit the
-     * 
+     *
      * @param gg
      * @return
      */
@@ -106,20 +107,20 @@ class GridGeometryReducer {
             Rectangle bounds = gridRange.getBounds();
             GridEnvelope2D reducedRange = new GridEnvelope2D(gridRange);
             switch (curr) {
-            case TOP:
-                reducedRange.setBounds(bounds.x, bounds.y + 1, bounds.width, bounds.height - 1);
-                break;
-            case RIGHT:
-                reducedRange.setBounds(bounds.x, bounds.y, bounds.width - 1, bounds.height);
-                break;
-            case BOTTOM:
-                reducedRange.setBounds(bounds.x, bounds.y, bounds.width, bounds.height - 1);
-                break;
-            case LEFT:
-                reducedRange.setBounds(bounds.x + 1, bounds.y, bounds.width - 1, bounds.height);
-                break;
-            default:
-                throw new RuntimeException("Unexpected side " + side);
+                case TOP:
+                    reducedRange.setBounds(bounds.x, bounds.y + 1, bounds.width, bounds.height - 1);
+                    break;
+                case RIGHT:
+                    reducedRange.setBounds(bounds.x, bounds.y, bounds.width - 1, bounds.height);
+                    break;
+                case BOTTOM:
+                    reducedRange.setBounds(bounds.x, bounds.y, bounds.width, bounds.height - 1);
+                    break;
+                case LEFT:
+                    reducedRange.setBounds(bounds.x + 1, bounds.y, bounds.width - 1, bounds.height);
+                    break;
+                default:
+                    throw new RuntimeException("Unexpected side " + side);
             }
 
             GridGeometry2D reducedGeometry = new GridGeometry2D(reducedRange, gg.getGridToCRS(),
@@ -128,28 +129,28 @@ class GridGeometryReducer {
             // see if we actually reduced the grid geometry on the side we needed it to
             Envelope reducedEnvelope = reducedGeometry.getEnvelope();
             switch (side) {
-            case TOP:
-                if (reducedEnvelope.getMaximum(1) <= validArea.getMaximum(1)) {
-                    return reducedGeometry;
-                }
-                break;
-            case RIGHT:
-                if (reducedEnvelope.getMaximum(0) <= validArea.getMaximum(0)) {
-                    return reducedGeometry;
-                }
-                break;
-            case BOTTOM:
-                if (reducedEnvelope.getMinimum(1) >= validArea.getMinimum(1)) {
-                    return reducedGeometry;
-                }
-                break;
-            case LEFT:
-                if (reducedEnvelope.getMinimum(0) >= validArea.getMinimum(0)) {
-                    return reducedGeometry;
-                }
-                break;
-            default:
-                throw new RuntimeException("Unexpected side " + side);
+                case TOP:
+                    if (reducedEnvelope.getMaximum(1) <= validArea.getMaximum(1)) {
+                        return reducedGeometry;
+                    }
+                    break;
+                case RIGHT:
+                    if (reducedEnvelope.getMaximum(0) <= validArea.getMaximum(0)) {
+                        return reducedGeometry;
+                    }
+                    break;
+                case BOTTOM:
+                    if (reducedEnvelope.getMinimum(1) >= validArea.getMinimum(1)) {
+                        return reducedGeometry;
+                    }
+                    break;
+                case LEFT:
+                    if (reducedEnvelope.getMinimum(0) >= validArea.getMinimum(0)) {
+                        return reducedGeometry;
+                    }
+                    break;
+                default:
+                    throw new RuntimeException("Unexpected side " + side);
             }
 
             // we did not... oh well, the grid to world might contain a rotation, try the other
@@ -166,7 +167,7 @@ class GridGeometryReducer {
     /**
      * Builds a cut envelope for the Crop operation. Since the crop internals will add back the
      * pixels we just removed due to numerical issues, we keep the envelope a bit on the safe side
-     * 
+     *
      * @param reduced
      * @return
      */

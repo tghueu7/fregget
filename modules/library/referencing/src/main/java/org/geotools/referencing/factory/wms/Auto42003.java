@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *   
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -17,6 +17,7 @@
 package org.geotools.referencing.factory.wms;
 
 // OpenGIS dependencies
+
 import org.opengis.parameter.ParameterValueGroup;
 
 
@@ -25,7 +26,7 @@ import org.opengis.parameter.ParameterValueGroup;
  * In the notation below, "<code>${var}</code>" denotes a reference to the value of a variable
  * "{@code var}". The variables "{@code lat0}" and "{@code lon0}" are the central point of the
  * projection appearing in the CRS parameter of the map request.
- *
+ * <p>
  * <pre>
  * PROJCS["WGS 84 / Auto Orthographic",
  *   GEOGCS["WGS 84",
@@ -38,22 +39,21 @@ import org.opengis.parameter.ParameterValueGroup;
  *   PARAMETER["Central_Meridian", ${central_meridian}],
  *   UNIT["Meter", 1]]
  * </pre>
- *
+ * <p>
  * Where:
- *
+ * <p>
  * <pre>
  * ${latitude_of_origin} = ${lat0}
  * ${central_meridian}   = ${lon0}
  * </pre>
  *
- * @source $URL$
- * @version $Id$
  * @author Jody Garnett
  * @author Rueben Schulz
  * @author Martin Desruisseaux
- *
+ * @version $Id$
+ * @source $URL$
  * @todo The coordinate operation method should uses ellipsoidal formulas,
- *       but this is not yet implemented in Geotools (as of version 2.2).
+ * but this is not yet implemented in Geotools (as of version 2.2).
  */
 final class Auto42003 extends Factlet {
     /**
@@ -92,10 +92,10 @@ final class Auto42003 extends Factlet {
      * {@inheritDoc}
      */
     protected void setProjectionParameters(final ParameterValueGroup parameters, final Code code) {
-        final double   latitudeOfOrigin = code.latitude;
-        final double   centralMeridian  = code.longitude;
+        final double latitudeOfOrigin = code.latitude;
+        final double centralMeridian = code.longitude;
 
         parameters.parameter("latitude_of_origin").setValue(latitudeOfOrigin);
-        parameters.parameter("central_meridian")  .setValue(centralMeridian);
+        parameters.parameter("central_meridian").setValue(centralMeridian);
     }
 }

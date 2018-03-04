@@ -37,7 +37,9 @@ import ucar.nc2.dataset.CoordinateAxis;
  * TODO caching
  */
 class TimeCoordinateVariable extends CoordinateVariable<Date> {
-    /** The LOGGER for this class. */
+    /**
+     * The LOGGER for this class.
+     */
     private static final Logger LOGGER = Logger.getLogger(TimeCoordinateVariable.class.toString());
 
     private String units;
@@ -45,7 +47,7 @@ class TimeCoordinateVariable extends CoordinateVariable<Date> {
     private int baseTimeUnits;
 
     private Date epoch;
-    
+
     /**
      * @param binding
      * @param coordinateAxis
@@ -54,8 +56,10 @@ class TimeCoordinateVariable extends CoordinateVariable<Date> {
         super(Date.class, coordinateAxis);
         units = coordinateAxis.getUnitsString();
         /*
-         * Gets the axis origin. In the particular case of time axis, units are typically written in the form "days since 1990-01-01
-         * 00:00:00". We extract the part before "since" as the units and the part after "since" as the date.
+         * Gets the axis origin. In the particular case of time axis, units are typically written
+          * in the form "days since 1990-01-01
+         * 00:00:00". We extract the part before "since" as the units and the part after "since" 
+         * as the date.
          */
         String origin = null;
         final String[] unitsParts = units.split("(?i)\\s+since\\s+");
@@ -83,7 +87,8 @@ class TimeCoordinateVariable extends CoordinateVariable<Date> {
                 epoch = (Date) NetCDFUtilities.getAxisFormat(AxisType.Time, origin)
                         .parseObject(origin);
             } catch (ParseException e) {
-                LOGGER.warning("Error while parsing time Axis. Skip setting the TemporalExtent from coordinateAxis");
+                LOGGER.warning("Error while parsing time Axis. Skip setting the TemporalExtent " +
+                        "from coordinateAxis");
             }
         }
         init();
@@ -108,12 +113,12 @@ class TimeCoordinateVariable extends CoordinateVariable<Date> {
             cal.setTimeInMillis(0);
         }
         cal.setTimeZone(NetCDFTimeUtilities.UTC_TIMEZONE);
-        final double coordValue = ((Number) o).doubleValue();        
+        final double coordValue = ((Number) o).doubleValue();
         long vi = (long) Math.floor(coordValue);
         double vd = coordValue - vi;
         NetCDFTimeUtilities.addTimeUnit(cal, baseTimeUnits, vi);
         if (vd != 0.0) {
-            NetCDFTimeUtilities.addTimeUnit(cal, 
+            NetCDFTimeUtilities.addTimeUnit(cal,
                     NetCDFTimeUtilities.getTimeUnits(units, vd),
                     NetCDFTimeUtilities.getTimeSubUnitsValue(units, vd));
         }

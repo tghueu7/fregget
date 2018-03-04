@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.referencing.operation;
@@ -14,18 +14,16 @@ import org.opengis.annotation.Extension;
 
 /**
  * Base interface for cylindrical map projections.
- *
+ * <p>
  * <p>&nbsp;</p>
  * <p align="center"><img src="../doc-files/CylindricalProjection.png"></p>
  *
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
- *
- * @see org.opengis.referencing.crs.ProjectedCRS
- * @see <A HREF="http://mathworld.wolfram.com/CylindricalProjection.html">Cylindrical projection on MathWorld</A>
- *
- *
+ * @author Martin Desruisseaux (IRD)
  * @source $URL$
+ * @see org.opengis.referencing.crs.ProjectedCRS
+ * @see <A HREF="http://mathworld.wolfram.com/CylindricalProjection.html">Cylindrical projection 
+ * on MathWorld</A>
+ * @since GeoAPI 1.0
  */
 @Extension
 public interface CylindricalProjection extends Projection {

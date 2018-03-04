@@ -20,11 +20,8 @@ import org.opengis.filter.spatial.BBOX;
  * Test-case that tests the filtering possibilities of the GeoRest service. Keep in mind that such a
  * service does not support the vast amount of filters that GeoTools supports.
  * </p>
- * 
+ *
  * @author Pieter De Graef, Geosparc
- *
- *
- *
  * @source $URL$
  */
 public class GeoRestFilterVisitorTest extends TestCase {

@@ -21,9 +21,9 @@ import org.geotools.jdbc.JDBCTypeNamesTestSetup;
 
 public class SpatiaLiteTypeNamesOnlineTest extends JDBCTypeNamesOnlineTest {
 
-	@Override
-	protected JDBCTypeNamesTestSetup createTestSetup() {
-		return new SpatiaLiteTypeNamesTestSetup();
-	}
+    @Override
+    protected JDBCTypeNamesTestSetup createTestSetup() {
+        return new SpatiaLiteTypeNamesTestSetup();
+    }
 
 }

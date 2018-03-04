@@ -22,8 +22,6 @@ import org.geotools.xml.Node;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GMLNullTypeBindingTest extends AbstractGMLBindingTest {

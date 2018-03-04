@@ -28,8 +28,6 @@ import org.opengis.feature.simple.SimpleFeatureType;
 import com.vividsolutions.jts.geom.Point;
 
 /**
- * 
- * 
  * @source $URL$
  */
 public class PlacemarkTypeBindingTest extends KMLTestSupport {
@@ -99,7 +97,8 @@ public class PlacemarkTypeBindingTest extends KMLTestSupport {
         assertEquals("morx", placemark.getAttribute("quux"));
     }
 
-    // difference between this test and typed data test is schemaURL="foo" instead of schemaURL="#foo"
+    // difference between this test and typed data test is schemaURL="foo" instead of 
+    // schemaURL="#foo"
     public void testParseWithTypedDataSchemaURLNotFragment() throws Exception {
         String xml = "<kml>" + "<Schema name=\"foo\">"
                 + "<SimpleField type=\"int\" name=\"quux\"></SimpleField>" + "</Schema>"

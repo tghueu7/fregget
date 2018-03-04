@@ -2,7 +2,7 @@
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
  *
- *    (C) 2016, Open Source Geospatial Foundation (OSGeo). 
+ *    (C) 2016, Open Source Geospatial Foundation (OSGeo).
  *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
@@ -27,16 +27,16 @@ import org.xml.sax.helpers.AttributesImpl;
 
 /**
  * Encodes a GML3 generic geometry collection
- * 
- * @author 
+ *
+ * @author
  */
 class GeometryCollectionEncoder extends GeometryEncoder<GeometryCollection> {
 
     static final QualifiedName MULTI_GEOMETRY = new QualifiedName(
-        GML.NAMESPACE, "MultiGeometry", "gml");
+            GML.NAMESPACE, "MultiGeometry", "gml");
 
     static final QualifiedName GEOMETRY_MEMBER = new QualifiedName(
-        GML.NAMESPACE, "geometryMember", "gml");
+            GML.NAMESPACE, "geometryMember", "gml");
 
     QualifiedName multiGeometry;
 
@@ -52,7 +52,8 @@ class GeometryCollectionEncoder extends GeometryEncoder<GeometryCollection> {
     }
 
     @Override
-    public void encode(GeometryCollection geometry, AttributesImpl atts, GMLWriter handler, String gmlId)
+    public void encode(GeometryCollection geometry, AttributesImpl atts, GMLWriter handler, 
+                       String gmlId)
             throws Exception {
         atts = cloneWithGmlId(atts, gmlId);
         handler.startElement(multiGeometry, atts);

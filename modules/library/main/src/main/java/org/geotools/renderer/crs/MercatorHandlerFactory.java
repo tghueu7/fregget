@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -28,7 +28,6 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 /**
  * Returns a {@link ProjectionHandler} for the {@link Mercator} projection
  *
- *
  * @source $URL$
  */
 public class MercatorHandlerFactory implements ProjectionHandlerFactory {
@@ -37,14 +36,16 @@ public class MercatorHandlerFactory implements ProjectionHandlerFactory {
             Double.MAX_VALUE, -85, 85,
             DefaultGeographicCRS.WGS84);
 
-    public ProjectionHandler getHandler(ReferencedEnvelope renderingEnvelope, CoordinateReferenceSystem sourceCrs, boolean wrap, int maxWraps) throws FactoryException {
+    public ProjectionHandler getHandler(ReferencedEnvelope renderingEnvelope, 
+                                        CoordinateReferenceSystem sourceCrs, boolean wrap, int 
+                                                maxWraps) throws FactoryException {
         MapProjection mapProjection = CRS.getMapProjection(renderingEnvelope
                 .getCoordinateReferenceSystem());
         if (renderingEnvelope != null && mapProjection instanceof Mercator) {
             ProjectionHandler handler;
             double centralMeridian = mapProjection.getParameterValues()
                     .parameter(AbstractProvider.CENTRAL_MERIDIAN.getName().getCode()).doubleValue();
-            if(wrap && maxWraps > 0) {
+            if (wrap && maxWraps > 0) {
                 handler = new WrappingProjectionHandler(renderingEnvelope, VALID_AREA, sourceCrs,
                         centralMeridian, maxWraps);
             } else {

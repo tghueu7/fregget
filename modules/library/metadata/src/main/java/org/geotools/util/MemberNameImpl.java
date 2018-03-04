@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2006-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -30,19 +30,17 @@ import org.opengis.util.TypeName;
  * It may be more simple to think of {@code MemberName} <em>as</em> a
  * {@link java.util.Map.Entry} - since it is both the "key" and the "value".
  * <ul>
- *   <li>key: {@code this}</li>
- *   <li>value: associated {@link TypeName}</li>
+ * <li>key: {@code this}</li>
+ * <li>value: associated {@link TypeName}</li>
  * </ul>
  * This presents a bit of a conflict in that we are never quite sure
  * what comes first the record or the member during creation time.
  *
- * @since 2.4
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Jody Garnett
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @since 2.4
  */
 public class MemberNameImpl extends LocalName implements MemberName {
     /**
@@ -70,7 +68,7 @@ public class MemberNameImpl extends LocalName implements MemberName {
      * Returns the type of the data associated with the record member.
      *
      * @todo Check in the specification if this association is really navigable that way.
-     *       This association seems redundant with {@link RecordType#locate}.
+     * This association seems redundant with {@link RecordType#locate}.
      */
     public TypeName getAttributeType() {
         return typeName;

@@ -34,11 +34,8 @@ import org.geotools.data.Parameter;
 
 /**
  * Data store wizard page for the {@link JDataStoreWizard data store wizard}.
- * 
+ *
  * @author Andrea Antonello (www.hydrologis.com)
- *
- *
- *
  * @source $URL$
  */
 public class JDataStorePage extends WizardPage {
@@ -49,20 +46,26 @@ public class JDataStorePage extends WizardPage {
      */
     protected DataStoreFactorySpi format;
 
-    /** Map of user interface ParamFields displayed to the user */
+    /**
+     * Map of user interface ParamFields displayed to the user
+     */
     private Map<Param, ParamField> fields = new HashMap<Param, ParamField>();
 
-    /** Connection params for datastore */
+    /**
+     * Connection params for datastore
+     */
     protected Map<String, Object> connectionParameters;
 
-    /** level of parameters to display */
+    /**
+     * level of parameters to display
+     */
     private String level = null;
 
-    public JDataStorePage( DataStoreFactorySpi format ) {
+    public JDataStorePage(DataStoreFactorySpi format) {
         this(format, null);
     }
 
-    public JDataStorePage( DataStoreFactorySpi format, Map<String, Object> params ) {
+    public JDataStorePage(DataStoreFactorySpi format, Map<String, Object> params) {
         super(ID);
         setTitle(format.getDisplayName());
         setDescription(format.getDescription());
@@ -71,7 +74,7 @@ public class JDataStorePage extends WizardPage {
         if (params == null) {
             params = new HashMap<String, Object>();
             if (format != null) {
-                for( Param param : format.getParametersInfo() ) {
+                for (Param param : format.getParametersInfo()) {
                     params.put(param.key, (Serializable) param.sample);
                 }
             }
@@ -79,7 +82,7 @@ public class JDataStorePage extends WizardPage {
         this.connectionParameters = params;
     }
 
-    public void setVisible( boolean visible ) {
+    public void setVisible(boolean visible) {
         if (visible) {
             preDisplayPanel();
         } else {
@@ -89,15 +92,16 @@ public class JDataStorePage extends WizardPage {
         super.setVisible(visible);
     }
 
-    public void createControl( Composite parent ) {
+    public void createControl(Composite parent) {
 
         Composite mainComposite = new Composite(parent, SWT.NONE);
         GridLayout gridLayout = new GridLayout(2, false);
         mainComposite.setLayout(gridLayout);
 
-        for( Param param : format.getParametersInfo() ) {
+        for (Param param : format.getParametersInfo()) {
             if (level != null) {
-                String check = param.metadata == null ? "user" : (String) param.metadata.get(Parameter.LEVEL);
+                String check = param.metadata == null ? "user" : (String) param.metadata.get
+                        (Parameter.LEVEL);
 
                 if (check == null) {
                     check = "user";
@@ -134,7 +138,7 @@ public class JDataStorePage extends WizardPage {
 
     private void preDisplayPanel() {
         // populate panel from params map
-        for( Entry<Param, ParamField> entry : fields.entrySet() ) {
+        for (Entry<Param, ParamField> entry : fields.entrySet()) {
             Param param = entry.getKey();
             ParamField field = entry.getValue();
             Object value = null;
@@ -154,7 +158,7 @@ public class JDataStorePage extends WizardPage {
     }
 
     private void preClosePanel() {
-        for( Entry<Param, ParamField> entry : fields.entrySet() ) {
+        for (Entry<Param, ParamField> entry : fields.entrySet()) {
             Param param = entry.getKey();
             ParamField field = entry.getValue();
 
@@ -168,11 +172,11 @@ public class JDataStorePage extends WizardPage {
         // }
     }
 
-    public void setLevel( String level ) {
+    public void setLevel(String level) {
         this.level = level;
     }
 
-    public void setFormat( DataStoreFactorySpi format ) {
+    public void setFormat(DataStoreFactorySpi format) {
         if (this.format != format) {
             this.format = format;
         }
@@ -180,7 +184,7 @@ public class JDataStorePage extends WizardPage {
 
     public boolean isValid() {
         // populate panel
-        for( Entry<Param, ParamField> entry : fields.entrySet() ) {
+        for (Entry<Param, ParamField> entry : fields.entrySet()) {
             if (!entry.getValue().validate()) {
                 return false; // not validate
             }

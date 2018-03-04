@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -30,13 +30,11 @@ import org.geotools.metadata.iso.MetadataEntity;
 /**
  * Information required to enable contact with the responsible person and/or organization.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class ContactImpl extends MetadataEntity implements Contact {
     /**
@@ -45,17 +43,20 @@ public class ContactImpl extends MetadataEntity implements Contact {
     private static final long serialVersionUID = 3283637180253117382L;
 
     /**
-     * Contact informations for the <A HREF="http://www.opengeospatial.org">Open Geospatial consortium</A>.
+     * Contact informations for the <A HREF="http://www.opengeospatial.org">Open Geospatial 
+     * consortium</A>.
      * "Open Geospatial consortium" is the new name for "OpenGIS consortium".
      *
      * @see OnLineResourceImpl#OGC
      */
     public static final Contact OGC;
+
     static {
         final ContactImpl c = new ContactImpl(OnLineResourceImpl.OGC);
         c.freeze();
         OGC = c;
     }
+
     /**
      * Contact informations for the <A HREF="http://www.opengis.org">OpenGIS consortium</A>.
      * "OpenGIS consortium" is the old name for "Open Geospatial consortium".
@@ -63,6 +64,7 @@ public class ContactImpl extends MetadataEntity implements Contact {
      * @see OnLineResourceImpl#OPEN_GIS
      */
     public static final Contact OPEN_GIS;
+
     static {
         final ContactImpl c = new ContactImpl(OnLineResourceImpl.OPEN_GIS);
         c.freeze();
@@ -76,6 +78,7 @@ public class ContactImpl extends MetadataEntity implements Contact {
      * @see OnLineResourceImpl#EPSG
      */
     public static final Contact EPSG;
+
     static {
         final ContactImpl c = new ContactImpl(OnLineResourceImpl.EPSG);
         c.freeze();
@@ -89,6 +92,7 @@ public class ContactImpl extends MetadataEntity implements Contact {
      * @see OnLineResourceImpl#GEOTIFF
      */
     public static final Contact GEOTIFF;
+
     static {
         final ContactImpl c = new ContactImpl(OnLineResourceImpl.GEOTIFF);
         c.freeze();
@@ -101,6 +105,7 @@ public class ContactImpl extends MetadataEntity implements Contact {
      * @see OnLineResourceImpl#ESRI
      */
     public static final Contact ESRI;
+
     static {
         final ContactImpl c = new ContactImpl(OnLineResourceImpl.ESRI);
         c.freeze();
@@ -113,6 +118,7 @@ public class ContactImpl extends MetadataEntity implements Contact {
      * @see OnLineResourceImpl#ORACLE
      */
     public static final Contact ORACLE;
+
     static {
         final ContactImpl c = new ContactImpl(OnLineResourceImpl.ORACLE);
         c.freeze();
@@ -123,10 +129,10 @@ public class ContactImpl extends MetadataEntity implements Contact {
      * Contact informations for <A HREF="http://postgis.refractions.net">PostGIS</A>.
      *
      * @see OnLineResourceImpl#POSTGIS
-     *
      * @since 2.4
      */
     public static final Contact POSTGIS;
+
     static {
         final ContactImpl c = new ContactImpl(OnLineResourceImpl.POSTGIS);
         c.freeze();
@@ -137,10 +143,10 @@ public class ContactImpl extends MetadataEntity implements Contact {
      * Contact informations for <A HREF="http://www.sun.com/">Sun Microsystems</A>.
      *
      * @see OnLineResourceImpl#SUN_MICROSYSTEMS
-     *
      * @since 2.2
      */
     public static final Contact SUN_MICROSYSTEMS;
+
     static {
         final ContactImpl c = new ContactImpl(OnLineResourceImpl.SUN_MICROSYSTEMS);
         c.freeze();
@@ -153,6 +159,7 @@ public class ContactImpl extends MetadataEntity implements Contact {
      * @see OnLineResourceImpl#GEOTOOLS
      */
     public static final Contact GEOTOOLS;
+
     static {
         final ContactImpl c = new ContactImpl(OnLineResourceImpl.GEOTOOLS);
         c.freeze();
@@ -210,7 +217,8 @@ public class ContactImpl extends MetadataEntity implements Contact {
     }
 
     /**
-     * Returns the physical and email address at which the organization or individual may be contacted.
+     * Returns the physical and email address at which the organization or individual may be 
+     * contacted.
      * Returns {@code null} if none.
      */
     public Address getAddress() {

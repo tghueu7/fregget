@@ -62,16 +62,13 @@ import static org.geotools.referencing.CRS.equalsIgnoreMetadata;
  * authority factory doesn't know about the specified CRS, then the default (standalone)
  * process from the super-class is used as a fallback.
  *
- * @since 2.2
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.2
  */
 public class AuthorityBackedFactory extends DefaultCoordinateOperationFactory
-        implements OptionalFactory
-{
+        implements OptionalFactory {
     /**
      * The priority level for this factory.
      */
@@ -146,8 +143,8 @@ public class AuthorityBackedFactory extends DefaultCoordinateOperationFactory
      */
     private static void noForce(final Hints userHints) {
         userHints.put(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER, Boolean.FALSE);
-        userHints.put(Hints.FORCE_STANDARD_AXIS_DIRECTIONS,   Boolean.FALSE);
-        userHints.put(Hints.FORCE_STANDARD_AXIS_UNITS,        Boolean.FALSE);
+        userHints.put(Hints.FORCE_STANDARD_AXIS_DIRECTIONS, Boolean.FALSE);
+        userHints.put(Hints.FORCE_STANDARD_AXIS_UNITS, Boolean.FALSE);
     }
 
     /**
@@ -178,7 +175,8 @@ public class AuthorityBackedFactory extends DefaultCoordinateOperationFactory
      * Returns an operation for conversion or transformation between two coordinate reference
      * systems. The default implementation extracts the authority code from the supplied
      * {@code sourceCRS} and {@code targetCRS}, and submit them to the
-     * <code>{@linkplain CoordinateOperationAuthorityFactory#createFromCoordinateReferenceSystemCodes
+     * <code>{@linkplain 
+     * CoordinateOperationAuthorityFactory#createFromCoordinateReferenceSystemCodes
      * createFromCoordinateReferenceSystemCodes}(sourceCode, targetCode)</code> methods.
      * If no operation is found for those codes, then this method returns {@code null}.
      * <p>
@@ -187,17 +185,15 @@ public class AuthorityBackedFactory extends DefaultCoordinateOperationFactory
      * {@linkplain org.opengis.referencing.crs.CompoundCRS compound CRS}, but an operation
      * may be available between two components of those compound CRS.
      *
-     * @param  sourceCRS Input coordinate reference system.
-     * @param  targetCRS Output coordinate reference system.
+     * @param sourceCRS Input coordinate reference system.
+     * @param targetCRS Output coordinate reference system.
      * @return A coordinate operation from {@code sourceCRS} to {@code targetCRS}, or {@code null}
-     *         if no such operation is explicitly defined in the underlying database.
-     *
+     * if no such operation is explicitly defined in the underlying database.
      * @since 2.3
      */
     @Override
     protected CoordinateOperation createFromDatabase(final CoordinateReferenceSystem sourceCRS,
-                                                     final CoordinateReferenceSystem targetCRS)
-    {
+                                                     final CoordinateReferenceSystem targetCRS) {
         /*
          * Safety check against recursivity: returns null if the given source and target CRS
          * are already under examination by a previous call to this method. Note: there is no
@@ -210,7 +206,7 @@ public class AuthorityBackedFactory extends DefaultCoordinateOperationFactory
          * Now performs the real work.
          */
         final CoordinateOperationAuthorityFactory authorityFactory = getAuthorityFactory();
-        final Citation  authority = authorityFactory.getAuthority();
+        final Citation authority = authorityFactory.getAuthority();
         final Identifier sourceID = AbstractIdentifiedObject.getIdentifier(sourceCRS, authority);
         if (sourceID == null) {
             return null;
@@ -239,7 +235,8 @@ public class AuthorityBackedFactory extends DefaultCoordinateOperationFactory
         final boolean inverse;
         Set<CoordinateOperation> operations;
         try {
-            operations = authorityFactory.createFromCoordinateReferenceSystemCodes(sourceCode, targetCode);
+            operations = authorityFactory.createFromCoordinateReferenceSystemCodes(sourceCode, 
+                    targetCode);
             inverse = (operations == null || operations.isEmpty());
             if (inverse) {
                 /*
@@ -248,7 +245,8 @@ public class AuthorityBackedFactory extends DefaultCoordinateOperationFactory
                  * projected to a geographic CRS. The EPSG database usually contains transformation
                  * paths for geographic to projected CRS only.
                  */
-                operations = authorityFactory.createFromCoordinateReferenceSystemCodes(targetCode, sourceCode);
+                operations = authorityFactory.createFromCoordinateReferenceSystemCodes
+                        (targetCode, sourceCode);
             }
         } catch (NoSuchAuthorityCodeException exception) {
             /*
@@ -262,11 +260,11 @@ public class AuthorityBackedFactory extends DefaultCoordinateOperationFactory
              * Other kind of error. It may be more serious, but the super-class is capable
              * to provides a raisonable default behavior. Log as a warning and lets continue.
              */
-            log(exception, authorityFactory,Level.FINER);
+            log(exception, authorityFactory, Level.FINER);
             return null;
         }
         if (operations != null) {
-            for (final Iterator<CoordinateOperation> it=operations.iterator(); it.hasNext();) {
+            for (final Iterator<CoordinateOperation> it = operations.iterator(); it.hasNext(); ) {
                 CoordinateOperation candidate;
                 try {
                     // The call to it.next() must be inside the try..catch block,
@@ -305,10 +303,11 @@ public class AuthorityBackedFactory extends DefaultCoordinateOperationFactory
                     if (!equalsIgnoreMetadata(sourceCRS, source)) try {
                         processing.set(Boolean.TRUE);
                         prepend = createOperation(sourceCRS, source).getMathTransform();
-                        source  = sourceCRS;
+                        source = sourceCRS;
                     } finally {
                         processing.remove();
-                    } else {
+                    }
+                    else {
                         prepend = null;
                     }
                     if (!equalsIgnoreMetadata(target, targetCRS)) try {
@@ -317,7 +316,8 @@ public class AuthorityBackedFactory extends DefaultCoordinateOperationFactory
                         target = targetCRS;
                     } finally {
                         processing.remove();
-                    } else {
+                    }
+                    else {
                         append = null;
                     }
                     candidate = transform(source, prepend, candidate, append, target);
@@ -359,25 +359,24 @@ public class AuthorityBackedFactory extends DefaultCoordinateOperationFactory
      * @param append    The transform to append to the operation math transform.
      * @param targetCRS The target CRS to give to the new operation.
      * @return A new operation, or {@code operation} if {@code prepend} and {@code append} were
-     *         nulls or identity transforms.
+     * nulls or identity transforms.
      * @throws FactoryException if the operation can't be constructed.
      */
     private CoordinateOperation transform(final CoordinateReferenceSystem sourceCRS,
-                                          final MathTransform             prepend,
-                                          final CoordinateOperation       operation,
-                                          final MathTransform             append,
+                                          final MathTransform prepend,
+                                          final CoordinateOperation operation,
+                                          final MathTransform append,
                                           final CoordinateReferenceSystem targetCRS)
-            throws FactoryException
-    {
+            throws FactoryException {
         if ((prepend == null || prepend.isIdentity()) && (append == null || append.isIdentity())) {
-            if(!CRS.equalsIgnoreMetadata(sourceCRS, operation.getSourceCRS()) ||
-               !CRS.equalsIgnoreMetadata(targetCRS, operation.getTargetCRS())) {
+            if (!CRS.equalsIgnoreMetadata(sourceCRS, operation.getSourceCRS()) ||
+                    !CRS.equalsIgnoreMetadata(targetCRS, operation.getTargetCRS())) {
                 return new ForcedCRSOperation(operation, sourceCRS, targetCRS);
             } else {
                 return operation;
             }
         }
-        final Map<String,?> properties = AbstractIdentifiedObject.getProperties(operation);
+        final Map<String, ?> properties = AbstractIdentifiedObject.getProperties(operation);
         /*
          * In the particular case of concatenated operations, we can not prepend or append a math
          * transform to the operation as a whole (the math transform for a concatenated operation
@@ -393,9 +392,10 @@ public class AuthorityBackedFactory extends DefaultCoordinateOperationFactory
                 if (op.length == 1) {
                     op[0] = transform(sourceCRS, prepend, first, append, targetCRS);
                 } else {
-                    final CoordinateOperation last = op[op.length-1];
-                    op[0]           = transform(sourceCRS, prepend, first, null, first.getTargetCRS());
-                    op[op.length-1] = transform(last.getSourceCRS(), null, last, append, targetCRS);
+                    final CoordinateOperation last = op[op.length - 1];
+                    op[0] = transform(sourceCRS, prepend, first, null, first.getTargetCRS());
+                    op[op.length - 1] = transform(last.getSourceCRS(), null, last, append, 
+                            targetCRS);
                 }
                 return createConcatenatedOperation(properties, op);
             }
@@ -412,7 +412,8 @@ public class AuthorityBackedFactory extends DefaultCoordinateOperationFactory
             transform = mtFactory.createConcatenatedTransform(transform, append);
         }
         assert !transform.equals(operation.getMathTransform()) : transform;
-        final Class<? extends CoordinateOperation> type = AbstractCoordinateOperation.getType(operation);
+        final Class<? extends CoordinateOperation> type = AbstractCoordinateOperation.getType
+                (operation);
         OperationMethod method = null;
         if (operation instanceof Operation) {
             method = ((Operation) operation).getMethod();
@@ -420,8 +421,7 @@ public class AuthorityBackedFactory extends DefaultCoordinateOperationFactory
                 final int sourceDimensions = transform.getSourceDimensions();
                 final int targetDimensions = transform.getTargetDimensions();
                 if (sourceDimensions != method.getSourceDimensions() ||
-                    targetDimensions != method.getTargetDimensions())
-                {
+                        targetDimensions != method.getTargetDimensions()) {
                     method = new DefaultOperationMethod(method, sourceDimensions, targetDimensions);
                 }
             }
@@ -433,15 +433,17 @@ public class AuthorityBackedFactory extends DefaultCoordinateOperationFactory
      * Logs a warning when an object can't be created from the specified factory.
      */
     private static void log(final Exception exception, final AuthorityFactory factory) {
-       log( exception, factory, Level.WARNING);
+        log(exception, factory, Level.WARNING);
     }
+
     /**
      * Logs a warning when an object can't be created from the specified factory.
      */
-    private static void log(final Exception exception, final AuthorityFactory factory, Level level) {
-        final LogRecord record = Loggings.format( level,
-                                 LoggingKeys.CANT_CREATE_COORDINATE_OPERATION_$1,
-                                 factory.getAuthority().getTitle());
+    private static void log(final Exception exception, final AuthorityFactory factory, Level 
+            level) {
+        final LogRecord record = Loggings.format(level,
+                LoggingKeys.CANT_CREATE_COORDINATE_OPERATION_$1,
+                factory.getAuthority().getTitle());
         record.setSourceClassName(AuthorityBackedFactory.class.getName());
         record.setSourceMethodName("createFromDatabase");
         record.setThrown(exception);

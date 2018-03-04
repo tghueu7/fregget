@@ -26,8 +26,6 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GMLGeometryPropertyTypeBindingTest extends AbstractGMLBindingTest {
@@ -43,10 +41,12 @@ public class GMLGeometryPropertyTypeBindingTest extends AbstractGMLBindingTest {
     }
 
     public void testWithGeometry() throws Exception {
-        Node node = createNode(association, new ElementInstance[] { geometry },
-                new Object[] { new GeometryFactory().createPoint(new Coordinate(0, 0)) }, null, null);
-        GMLGeometryAssociationTypeBinding s = (GMLGeometryAssociationTypeBinding) getBinding(GML.GEOMETRYASSOCIATIONTYPE);
-        GMLGeometryPropertyTypeBinding s1 = (GMLGeometryPropertyTypeBinding) getBinding(GML.GEOMETRYPROPERTYTYPE);
+        Node node = createNode(association, new ElementInstance[]{geometry},
+                new Object[]{new GeometryFactory().createPoint(new Coordinate(0, 0))}, null, null);
+        GMLGeometryAssociationTypeBinding s = (GMLGeometryAssociationTypeBinding) getBinding(GML
+                .GEOMETRYASSOCIATIONTYPE);
+        GMLGeometryPropertyTypeBinding s1 = (GMLGeometryPropertyTypeBinding) getBinding(GML
+                .GEOMETRYPROPERTYTYPE);
         Geometry p = (Geometry) s1.parse(association, node, s.parse(association, node, null));
         assertNotNull(p);
     }

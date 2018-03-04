@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2001-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -26,12 +26,9 @@ import org.geotools.util.Utilities;
 /**
  * Writes characters to a stream while expanding tabs ({@code '\t'}) into spaces.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.0
  */
 public class ExpandedTabWriter extends FilterWriter {
@@ -59,8 +56,8 @@ public class ExpandedTabWriter extends FilterWriter {
      * Constructs a filter which replaces tab characters ({@code '\t'})
      * by spaces, using the specified tab width.
      *
-     * @param  out A writer object to provide the underlying stream.
-     * @param  tabWidth The tab width. Must be greater than 0.
+     * @param out      A writer object to provide the underlying stream.
+     * @param tabWidth The tab width. Must be greater than 0.
      * @throws IllegalArgumentException if {@code tabWidth} is not greater than 0.
      */
     public ExpandedTabWriter(final Writer out, final int tabWidth) throws IllegalArgumentException {
@@ -71,7 +68,7 @@ public class ExpandedTabWriter extends FilterWriter {
     /**
      * Sets the tab width.
      *
-     * @param  tabWidth The tab width. Must be greater than 0.
+     * @param tabWidth The tab width. Must be greater than 0.
      * @throws IllegalArgumentException if {@code tabWidth} is not greater than 0.
      */
     public void setTabWidth(final int tabWidth) throws IllegalArgumentException {
@@ -114,9 +111,15 @@ public class ExpandedTabWriter extends FilterWriter {
         synchronized (lock) {
             switch (c) {
                 case '\r': // fall through
-                case '\n': column=0; break;
-                case '\t': expand(); return;
-                default  : column++; break;
+                case '\n':
+                    column = 0;
+                    break;
+                case '\t':
+                    expand();
+                    return;
+                default:
+                    column++;
+                    break;
             }
             out.write(c);
         }
@@ -125,9 +128,9 @@ public class ExpandedTabWriter extends FilterWriter {
     /**
      * Writes a portion of an array of characters.
      *
-     * @param  buffer  Buffer of characters to be written
-     * @param  offset  Offset from which to start reading characters
-     * @param  length  Number of characters to be written
+     * @param buffer Buffer of characters to be written
+     * @param offset Offset from which to start reading characters
+     * @param length Number of characters to be written
      * @throws IOException If an I/O error occurs.
      */
     @Override
@@ -135,32 +138,35 @@ public class ExpandedTabWriter extends FilterWriter {
         synchronized (lock) {
             int start = offset;
             length += offset;
-            for (int end=offset; end<length; end++) {
+            for (int end = offset; end < length; end++) {
                 final char c = buffer[end];
                 switch (c) {
                     case '\r': // fall through
-                    case '\n': column = 0;
-                               break;
+                    case '\n':
+                        column = 0;
+                        break;
 
-                    case '\t': out.write(buffer, start, end-start);
-                               start = end+1;
-                               expand();
-                               break;
+                    case '\t':
+                        out.write(buffer, start, end - start);
+                        start = end + 1;
+                        expand();
+                        break;
 
-                    default  : column++;
-                               break;
+                    default:
+                        column++;
+                        break;
                 }
             }
-            out.write(buffer, start, length-start);
+            out.write(buffer, start, length - start);
         }
     }
 
     /**
      * Writes a portion of a string.
      *
-     * @param  string  String to be written
-     * @param  offset  Offset from which to start reading characters
-     * @param  length  Number of characters to be written
+     * @param string String to be written
+     * @param offset Offset from which to start reading characters
+     * @param length Number of characters to be written
      * @throws IOException If an I/O error occurs.
      */
     @Override
@@ -168,23 +174,26 @@ public class ExpandedTabWriter extends FilterWriter {
         synchronized (lock) {
             int start = offset;
             length += offset;
-            for (int end=offset; end<length; end++) {
+            for (int end = offset; end < length; end++) {
                 final char c = string.charAt(end);
                 switch (c) {
                     case '\r': // fall through
-                    case '\n': column = 0;
-                               break;
+                    case '\n':
+                        column = 0;
+                        break;
 
-                    case '\t': out.write(string, start, end-start);
-                               start = end+1;
-                               expand();
-                               break;
+                    case '\t':
+                        out.write(string, start, end - start);
+                        start = end + 1;
+                        expand();
+                        break;
 
-                    default  : column++;
-                               break;
+                    default:
+                        column++;
+                        break;
                 }
             }
-            out.write(string, start, length-start);
+            out.write(string, start, length - start);
         }
     }
 }

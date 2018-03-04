@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -28,12 +28,10 @@ import org.opengis.filter.Filter;
 import org.opengis.filter.FilterVisitor;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SubFeatureCollectionTest extends DataTestCase {
-    DefaultFeatureCollection features = new DefaultFeatureCollection(null,null);
+    DefaultFeatureCollection features = new DefaultFeatureCollection(null, null);
 
     public SubFeatureCollectionTest(String testName) {
         super(testName);

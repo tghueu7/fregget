@@ -26,25 +26,23 @@ import com.vividsolutions.jts.geom.Envelope;
 
 /**
  * StarNodeValidation purpose.
- * 
+ * <p>
  * <p>
  * TODO fill this in.
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class AngleSizeValidation extends DefaultIntegrityValidation {
-	
-	private int angle;
-	
+
+    private int angle;
+
     /**
      * StarNodeValidation constructor.
-     * 
+     * <p>
      * <p>
      * Description
      * </p>
@@ -56,39 +54,39 @@ public class AngleSizeValidation extends DefaultIntegrityValidation {
 
     /**
      * Check FeatureType for ...
-     * 
+     * <p>
      * <p>
      * Detailed description...
      * </p>
      *
-     * @param layers Map of SimpleFeatureSource by "dataStoreID:typeName"
+     * @param layers   Map of SimpleFeatureSource by "dataStoreID:typeName"
      * @param envelope The bounding box that encloses the unvalidated data
-     * @param results Used to coallate results information
-     *
+     * @param results  Used to coallate results information
      * @return <code>true</code> if all the features pass this test.
-     *
      * @throws Exception DOCUMENT ME!
      */
     public boolean validate(Map layers, Envelope envelope,
-    		ValidationResults results) throws Exception {
-    	results.warning(null, "Validation not yet implemented");
-    	// TODO fill me in!
-    	return false;
+                            ValidationResults results) throws Exception {
+        results.warning(null, "Validation not yet implemented");
+        // TODO fill me in!
+        return false;
     }
-	/**
-	 * Access angle property.
-	 * 
-	 * @return Returns the angle.
-	 */
-	public int getAngle() {
-		return angle;
-	}
-	/**
-	 * Set angle to angle.
-	 *
-	 * @param angle The angle to set.
-	 */
-	public void setAngle(int angle) {
-		this.angle = angle;
-	}
+
+    /**
+     * Access angle property.
+     *
+     * @return Returns the angle.
+     */
+    public int getAngle() {
+        return angle;
+    }
+
+    /**
+     * Set angle to angle.
+     *
+     * @param angle The angle to set.
+     */
+    public void setAngle(int angle) {
+        this.angle = angle;
+    }
 }

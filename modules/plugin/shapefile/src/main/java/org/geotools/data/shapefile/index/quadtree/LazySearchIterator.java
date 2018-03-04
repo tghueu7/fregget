@@ -34,20 +34,18 @@ import com.vividsolutions.jts.geom.Envelope;
  * time and each time a node is visited the indices are removed from the node so
  * that the memory footprint is kept small. Note that if other iterators operate
  * on the same tree then they can interfere with each other.
- * 
+ *
  * @author Jesse
- *
- *
- *
  * @source $URL$
  */
 public class LazySearchIterator implements CloseableIterator<Data> {
-    
+
     static final int[] ZERO = new int[0];
 
     static final DataDefinition DATA_DEFINITION = new DataDefinition("US-ASCII");
 
     private static final int MAX_INDICES = 32768;
+
     static {
         DATA_DEFINITION.addField(Integer.class);
         DATA_DEFINITION.addField(Long.class);
@@ -66,9 +64,9 @@ public class LazySearchIterator implements CloseableIterator<Data> {
     Iterator data;
 
     private IndexFile indexfile;
-    
+
     ArrayList<Node> parents = new ArrayList<Node>();
-    
+
     Indices indices = new Indices();
 
     QuadTree tree;
@@ -114,7 +112,7 @@ public class LazySearchIterator implements CloseableIterator<Data> {
                     // free the shapes id array of the current node and prepare to move to the next
                     current.setShapesId(new int[0]);
                     idIndex = 0;
-                    
+
                     boolean foundUnvisited = false;
                     for (int i = 0; i < current.getNumSubNodes(); i++) {
                         Node node = current.getSubNode(i);
@@ -130,16 +128,16 @@ public class LazySearchIterator implements CloseableIterator<Data> {
                         // mark as visited and free the subnodes
                         current.setVisited(true);
                         current.clean();
-                        
+
                         // move up to parent
-                        if(parents.isEmpty())
+                        if (parents.isEmpty())
                             current = null;
                         else
                             current = parents.remove(parents.size() - 1);
                     }
                 }
             }
-            
+
             // sort so offset lookup is faster
             indices.sort();
             int size = indices.size();
@@ -183,35 +181,37 @@ public class LazySearchIterator implements CloseableIterator<Data> {
          * The current coordinate
          */
         int curr;
-        
+
         /**
          * The ordinates holder
          */
         int[] indices;
-        
+
         public Indices() {
             indices = new int[100];
             curr = -1;
         }
-        
+
         /**
          * The number of coordinates
+         *
          * @return
          */
         int size() {
             return curr + 1;
         }
-        
+
         /**
          * Adds a coordinate to this list
+         *
          * @param x
          * @param y
          */
         void add(int index) {
             curr++;
-            if((curr * 2 + 1) >= indices.length) {
+            if ((curr * 2 + 1) >= indices.length) {
                 int newSize = indices.length * 3 / 2;
-                if(newSize < 10) {
+                if (newSize < 10) {
                     newSize = 10;
                 }
                 int[] resized = new int[newSize];
@@ -220,18 +220,18 @@ public class LazySearchIterator implements CloseableIterator<Data> {
             }
             indices[curr] = index;
         }
-        
+
         /**
          * Resets the indices
          */
         void clear() {
             curr = -1;
         }
-        
+
         int get(int position) {
             return indices[position];
         }
-        
+
         void sort() {
             Arrays.sort(indices, 0, curr + 1);
         }

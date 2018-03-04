@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2015, Boundless
  *
@@ -18,7 +18,9 @@
 package org.geotools.data.mongodb;
 
 import com.mongodb.DBCollection;
+
 import java.io.IOException;
+
 import org.geotools.data.FeatureReader;
 import org.geotools.data.FeatureWriter;
 import org.geotools.data.Query;
@@ -50,7 +52,7 @@ public class MongoFeatureStore extends ContentFeatureStore {
     public void setMapper(CollectionMapper mapper) {
         delegate.setMapper(mapper);
     }
-    
+
     @Override
     protected boolean handleVisitor(Query query, FeatureVisitor visitor) throws IOException {
         return delegate.handleVisitor(query, visitor);
@@ -104,7 +106,7 @@ public class MongoFeatureStore extends ContentFeatureStore {
 
     @Override
     protected FeatureWriter<SimpleFeatureType, SimpleFeature> getWriterInternal(
-        Query query, int flags) throws IOException {
+            Query query, int flags) throws IOException {
         if ((flags & (WRITER_ADD | WRITER_UPDATE | WRITER_COMMIT)) != 0) {
             return new MongoFeatureWriter(delegate.getCollection(), getSchema(), this);
         }

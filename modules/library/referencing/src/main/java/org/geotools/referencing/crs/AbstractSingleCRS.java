@@ -52,15 +52,12 @@ import org.geotools.referencing.wkt.Formatter;
  * {@code Default} prefix instead. An exception to this rule may occurs when it is not possible to
  * identify the exact type.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see org.geotools.referencing.cs.AbstractCS
  * @see org.geotools.referencing.datum.AbstractDatum
+ * @since 2.1
  */
 public class AbstractSingleCRS extends AbstractCRS implements SingleCRS {
     /**
@@ -81,7 +78,6 @@ public class AbstractSingleCRS extends AbstractCRS implements SingleCRS {
      * i.e. the properties are not cloned.
      *
      * @param crs The coordinate reference system to copy.
-     *
      * @since 2.2
      */
     public AbstractSingleCRS(final SingleCRS crs) {
@@ -96,13 +92,12 @@ public class AbstractSingleCRS extends AbstractCRS implements SingleCRS {
      * super-class constructor}.
      *
      * @param properties Set of properties. Should contains at least {@code "name"}.
-     * @param datum The datum.
-     * @param cs The coordinate system.
+     * @param datum      The datum.
+     * @param cs         The coordinate system.
      */
-    public AbstractSingleCRS(final Map<String,?> properties,
+    public AbstractSingleCRS(final Map<String, ?> properties,
                              final Datum datum,
-                             final CoordinateSystem cs)
-    {
+                             final CoordinateSystem cs) {
         super(properties, cs);
         this.datum = datum;
         ensureNonNull("datum", datum);
@@ -131,9 +126,10 @@ public class AbstractSingleCRS extends AbstractCRS implements SingleCRS {
     /**
      * Returns the axis for the underlying {@linkplain CoordinateSystem coordinate system} at
      * the specified dimension. This is equivalent to
-     * <code>{@linkplain #coordinateSystem}.{@linkplain CoordinateSystem#getAxis getAxis}(dimension)</code>.
+     * <code>{@linkplain #coordinateSystem}.{@linkplain CoordinateSystem#getAxis getAxis}
+     * (dimension)</code>.
      *
-     * @param  dimension The zero based index of axis.
+     * @param dimension The zero based index of axis.
      * @return The axis at the specified dimension.
      * @throws IndexOutOfBoundsException if {@code dimension} is out of bounds.
      */
@@ -146,9 +142,10 @@ public class AbstractSingleCRS extends AbstractCRS implements SingleCRS {
      * If {@code compareMetadata} is {@code true}, then all available properties are
      * compared including {@linkplain #getValidArea valid area} and {@linkplain #getScope scope}.
      *
-     * @param  object The object to compare to {@code this}.
-     * @param  compareMetadata {@code true} for performing a strict comparaison, or
-     *         {@code false} for comparing only properties relevant to transformations.
+     * @param object          The object to compare to {@code this}.
+     * @param compareMetadata {@code true} for performing a strict comparaison, or
+     *                        {@code false} for comparing only properties relevant to 
+     *                                    transformations.
      * @return {@code true} if both objects are equal.
      */
     @Override
@@ -165,11 +162,11 @@ public class AbstractSingleCRS extends AbstractCRS implements SingleCRS {
      * {@linkplain #getIdentifiers identifiers} and {@linkplain #getRemarks remarks}
      * are not taken in account. In other words, two CRS objects will return the same
      * hash value if they are equal in the sense of
-     * <code>{@link #equals(AbstractIdentifiedObject,boolean) equals}(AbstractIdentifiedObject,
+     * <code>{@link #equals(AbstractIdentifiedObject, boolean) equals}(AbstractIdentifiedObject,
      * <strong>false</strong>)</code>.
      *
      * @return The hash code value. This value doesn't need to be the same
-     *         in past or future versions of this class.
+     * in past or future versions of this class.
      */
     @Override
     public int hashCode() {

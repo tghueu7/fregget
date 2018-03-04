@@ -24,8 +24,6 @@ import com.vividsolutions.jts.geom.MultiPoint;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GMLMultiPointPropertyTypeBinding2Test extends GMLTestSupport {
@@ -47,7 +45,9 @@ public class GMLMultiPointPropertyTypeBinding2Test extends GMLTestSupport {
     public void testEncode() throws Exception {
         Document doc = encode(GML2MockData.multiPoint(), GML.multiPointProperty);
         assertEquals(1,
-            doc.getElementsByTagNameNS(GML.NAMESPACE, GML.MultiPoint.getLocalPart()).getLength());
-        assertEquals(2, doc.getElementsByTagNameNS(GML.NAMESPACE, GML.Point.getLocalPart()).getLength());
+                doc.getElementsByTagNameNS(GML.NAMESPACE, GML.MultiPoint.getLocalPart())
+                        .getLength());
+        assertEquals(2, doc.getElementsByTagNameNS(GML.NAMESPACE, GML.Point.getLocalPart())
+                .getLength());
     }
 }

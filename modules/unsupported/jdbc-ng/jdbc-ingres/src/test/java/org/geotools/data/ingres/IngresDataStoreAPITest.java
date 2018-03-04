@@ -4,16 +4,14 @@ import org.geotools.jdbc.JDBCDataStoreAPITest;
 import org.geotools.jdbc.JDBCDataStoreAPITestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class IngresDataStoreAPITest extends JDBCDataStoreAPITest {
 
-	@Override
-	protected JDBCDataStoreAPITestSetup createTestSetup() {
-		return new IngresDataStoreAPITestSetup(new IngresTestSetup());
-	}
+    @Override
+    protected JDBCDataStoreAPITestSetup createTestSetup() {
+        return new IngresDataStoreAPITestSetup(new IngresTestSetup());
+    }
 
     @Override
     public void testGetFeatureWriterConcurrency() throws Exception {

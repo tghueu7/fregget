@@ -38,9 +38,8 @@ import org.opengis.filter.spatial.Within;
 
 /**
  * Extracts property names involved in spatial filters
- * 
+ *
  * @author Andrea Aime - GeoSolutions
- * 
  */
 class SpatialIndexAttributeExtractor extends DefaultFilterVisitor {
 
@@ -107,7 +106,7 @@ class SpatialIndexAttributeExtractor extends DefaultFilterVisitor {
         }
         if (pn != null) {
             String name = pn.getPropertyName();
-            if(spatialProperties.containsKey(name)) {
+            if (spatialProperties.containsKey(name)) {
                 Integer count = spatialProperties.get(name);
                 spatialProperties.put(name, count + 1);
             } else {

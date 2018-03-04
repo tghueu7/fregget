@@ -18,27 +18,29 @@ package org.geotools.coverage.grid;
 
 import java.io.IOException;
 import java.net.InetAddress;
+
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
 
 import org.junit.*;
+
 import static org.junit.Assert.*;
 
 
 /**
  * Tests the {@link GridCoverage2D} implementation.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
  */
 public final class GridCoverageTest extends GridCoverageTestBase {
-    
-    /** Used to avoid errors if building on a system where hostname is not defined */
+
+    /**
+     * Used to avoid errors if building on a system where hostname is not defined
+     */
     private boolean hostnameDefined;
-    
+
     @Before
     public void setup() {
         try {
@@ -57,13 +59,14 @@ public final class GridCoverageTest extends GridCoverageTestBase {
         final CoordinateReferenceSystem crs = DefaultGeographicCRS.WGS84;
         final GridCoverage2D coverage = getRandomCoverage(crs);
         assertRasterEquals(coverage, coverage); // Actually a test of assertEqualRasters(...).
-        assertSame(coverage.getRenderedImage(), coverage.getRenderableImage(0,1).createDefaultRendering());
+        assertSame(coverage.getRenderedImage(), coverage.getRenderableImage(0, 1)
+                .createDefaultRendering());
     }
 
     /**
      * Tests the serialization of a grid coverage.
      *
-     * @throws IOException if an I/O operation was needed and failed.
+     * @throws IOException            if an I/O operation was needed and failed.
      * @throws ClassNotFoundException Should never happen.
      */
     @Test

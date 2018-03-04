@@ -3,7 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -28,9 +28,8 @@ import com.vividsolutions.jts.geom.CoordinateSequenceFactory;
  * <p>
  * This allows us to determine the dimensions of a Geometry.
  * </p>
+ *
  * @author jgarnett
- *
- *
  * @source $URL$
  */
 public interface CoordinateAccessFactory extends CoordinateSequenceFactory {
@@ -38,19 +37,26 @@ public interface CoordinateAccessFactory extends CoordinateSequenceFactory {
      * Create method that allows additional content.
      * <p>
      * Example: (x,y,z,t) getDimension()==2, getNumAttributes()==2
-     * </p> 
+     * </p>
      * <pre><code>
      * <b>xyz</b>:[ [ x1, x2,...,xN], [ y1, y2,...,yN] ]
      * <b>attributes</b>:[ [ z1, z2,...,zN], [ t1, t2,..., tN] ]
      * </code></pre>
-     * @param xyz        an array of doubles in column major order where xyz.length == getDimension()
-     * @param attributes an array of Objects which can be null. Column major measure arrays where attributes.length == getNumAttributes()
-     */    
-    public CoordinateAccess create(double[] xyz[], Object[] attributes );
+     *
+     * @param xyz        an array of doubles in column major order where xyz.length == 
+     *                   getDimension()
+     * @param attributes an array of Objects which can be null. Column major measure arrays where
+     *                  attributes.length == getNumAttributes()
+     */
+    public CoordinateAccess create(double[] xyz[], Object[] attributes);
 
-    /** Number of spatial ordinates() */
+    /**
+     * Number of spatial ordinates()
+     */
     public int getDimension();
-    
-    /** Number of non spatial ordinates() */
+
+    /**
+     * Number of non spatial ordinates()
+     */
     public int getNumAttributes();
 }

@@ -47,19 +47,27 @@ import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 
 /**
- * Generates a set of polygons, each representing the set of points 
+ * Generates a set of polygons, each representing the set of points
  * within a given distance from the central point The data layer must
  * be a point layer, the reference layer must be a polygonal one"
  */
-@DescribeProcess(title = "Point Buffers", description = "Returns a collection of circular buffer polygons with specified radii centered on a given point")
+@DescribeProcess(title = "Point Buffers", description = "Returns a collection of circular buffer " +
+        "polygons with specified radii centered on a given point")
 public class PointBuffers implements VectorProcess {
 
-    @DescribeResult(name = "buffers", description = "Features for the circular buffer polygons around the point, with attributes geom and radius")
+    @DescribeResult(name = "buffers", description = "Features for the circular buffer polygons " +
+            "around the point, with attributes geom and radius")
     public SimpleFeatureCollection execute(
             @DescribeParameter(name = "center", description = "Input point") Point center,
-            @DescribeParameter(name = "crs", description = "Coordinate reference system of the point and the generated buffer polygons", min = 0) CoordinateReferenceSystem crs,
-            @DescribeParameter(name = "distances", description = "Buffer radius distance, in meters") double[] distances,
-            @DescribeParameter(name = "quadrantSegments", description = "Number of line segments per quarter-circle to be generated.  Larger numbers produce smoother shapes but larger numbers of vertices. Default is 8", min = 0, defaultValue = "8") Integer quadrantSegments,
+            @DescribeParameter(name = "crs", description = "Coordinate reference system of the " +
+                    "point and the generated buffer polygons", min = 0) CoordinateReferenceSystem
+                    crs,
+            @DescribeParameter(name = "distances", description = "Buffer radius distance, in " +
+                    "meters") double[] distances,
+            @DescribeParameter(name = "quadrantSegments", description = "Number of line segments " +
+                    "per quarter-circle to be generated.  Larger numbers produce smoother shapes " +
+                    "but larger numbers of vertices. Default is 8", min = 0, defaultValue = "8") 
+                    Integer quadrantSegments,
             ProgressListener listener) {
         SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
         tb.add("geom", Polygon.class, crs);
@@ -100,9 +108,8 @@ public class PointBuffers implements VectorProcess {
 
     /**
      * Generates a buffer
-     * 
+     *
      * @author Andrea Aime - GeoSolutions
-     * 
      */
     static abstract class BufferGenerator {
         Point center;
@@ -138,7 +145,7 @@ public class PointBuffers implements VectorProcess {
     /**
      * Builds the appropriate buffer polygons sampling the actual buffer shape with the
      * GeodeticCalculator
-     * 
+     *
      * @author Andrea Aime - GeoSolutions
      */
     public class GeographicGenerator extends BufferGenerator {
@@ -148,7 +155,8 @@ public class PointBuffers implements VectorProcess {
 
         boolean latLon;
 
-        public GeographicGenerator(Point center, int quadrantSegments, CoordinateReferenceSystem crs) {
+        public GeographicGenerator(Point center, int quadrantSegments, CoordinateReferenceSystem 
+                crs) {
             this.quadrantSegments = quadrantSegments;
             this.center = center;
             this.calculator = new GeodeticCalculator(crs);

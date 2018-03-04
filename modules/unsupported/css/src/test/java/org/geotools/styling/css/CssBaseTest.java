@@ -36,7 +36,7 @@ public class CssBaseTest {
     CssParser parser = CssParser.getInstance();
 
     protected void assertProperty(CssRule r, PseudoClass pseudoClass, int propertyIdx,
-            String propertyName, Value expectedValue) {
+                                  String propertyName, Value expectedValue) {
         Property p = r.getProperties().get(pseudoClass).get(propertyIdx);
         assertEquals(propertyName, p.getName());
         assertEquals(1, p.getValues().size());
@@ -45,7 +45,7 @@ public class CssBaseTest {
     }
 
     protected void assertProperty(CssRule r, int propertyIdx, String propertyName,
-            Value expectedValue) {
+                                  Value expectedValue) {
         assertProperty(r, PseudoClass.ROOT, propertyIdx, propertyName, expectedValue);
     }
 

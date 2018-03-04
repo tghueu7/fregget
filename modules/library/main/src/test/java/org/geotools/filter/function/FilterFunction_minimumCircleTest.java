@@ -19,6 +19,7 @@ import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * The FilterFunction_minimumCircle UnitTest
+ *
  * @author Jared Erickson
  */
 public class FilterFunction_minimumCircleTest {
@@ -47,7 +48,7 @@ public class FilterFunction_minimumCircleTest {
     @Test
     public void testEvaluate() throws Exception {
         SimpleFeatureCollection featureCollection = FunctionTestFixture.polygons();
-        
+
         // Test the Function
         FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(GeoTools.getDefaultHints());
         Function exp = ff.function("mincircle", ff.property("geom"));

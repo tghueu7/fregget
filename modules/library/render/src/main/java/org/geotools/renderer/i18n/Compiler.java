@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -24,13 +24,10 @@ import org.geotools.resources.IndexedResourceCompiler;
 
 /**
  * Resource compiler.
- * 
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Simone Giannecchini
+ * @version $Id$
+ * @source $URL$
  */
 public final class Compiler {
     /**
@@ -43,7 +40,7 @@ public final class Compiler {
      * The resources to process.
      */
     private static final Class[] RESOURCES_TO_PROCESS = {
-        Errors.class, Vocabulary.class
+            Errors.class, Vocabulary.class
     };
 
     /**

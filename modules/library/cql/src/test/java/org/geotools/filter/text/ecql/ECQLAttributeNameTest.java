@@ -29,15 +29,13 @@ import org.geotools.filter.text.cql2.CQLAttributeNameTest;
  * </p>
  *
  * @author Mauricio Pazos (Axios Engineering)
- * @since 2.7
- *
- *
  * @source $URL$
+ * @since 2.7
  */
-public class ECQLAttributeNameTest extends CQLAttributeNameTest{
-	public ECQLAttributeNameTest(){
+public class ECQLAttributeNameTest extends CQLAttributeNameTest {
+    public ECQLAttributeNameTest() {
         super(Language.ECQL);
     }
-	
-	
+
+
 }

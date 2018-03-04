@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.util;
@@ -15,12 +15,9 @@ package org.opengis.util;
  * in the {@link SimpleEnumerationType} class.
  *
  * @author Jesse Crossley (SYS Technologies)
- * @since GeoAPI 1.0
- *
- * @deprecated Not used.
- *
- *
  * @source $URL$
+ * @since GeoAPI 1.0
+ * @deprecated Not used.
  */
 @Deprecated
 public class NoSuchEnumerationException extends Exception {

@@ -20,16 +20,12 @@ package org.geotools.swing.control;
 /**
  * A listener to work with controls derived from {@code JValueTextField}.
  *
+ * @author Michael Bedward
+ * @version $Id$
+ * @source $URL$
  * @see JValueField
  * @see ValueChangedEvent
- * 
- * @author Michael Bedward
  * @since 2.6.1
- *
- *
- *
- * @source $URL$
- * @version $Id$
  */
 public interface ValueChangedListener {
 
@@ -38,6 +34,6 @@ public interface ValueChangedListener {
      *
      * @param ev the event
      */
-    public void onValueChanged( ValueChangedEvent ev );
+    public void onValueChanged(ValueChangedEvent ev);
 
 }

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -34,22 +34,20 @@ import com.vividsolutions.jts.io.WKTWriter;
 /**
  * Text field for filling in a Geometry parameter using WKT.
  *
- *
- *
  * @source $URL$
  */
 public class JGeometryField extends ParamField {
     private Text text;
 
-    public JGeometryField( Composite parent, Parameter< ? > parameter ) {
+    public JGeometryField(Composite parent, Parameter<?> parameter) {
         super(parent, parameter);
     }
 
     public Control doLayout() {
         text = new Text(parent, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
         text.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-        text.addModifyListener(new ModifyListener(){
-            public void modifyText( ModifyEvent arg0 ) {
+        text.addModifyListener(new ModifyListener() {
+            public void modifyText(ModifyEvent arg0) {
                 validate();
             }
         });
@@ -72,12 +70,13 @@ public class JGeometryField extends ParamField {
 
     /**
      * Determine the number of dimensions based on the CRS metadata.
-     * 
+     *
      * @return Number of dimensions expected based on metadata, default of 2
      */
     int getD() {
         try {
-            CoordinateReferenceSystem crs = (CoordinateReferenceSystem) parameter.metadata.get(Parameter.CRS);
+            CoordinateReferenceSystem crs = (CoordinateReferenceSystem) parameter.metadata.get
+                    (Parameter.CRS);
             if (crs == null) {
                 return 2;
             } else {
@@ -88,7 +87,7 @@ public class JGeometryField extends ParamField {
         }
     }
 
-    public void setValue( Object value ) {
+    public void setValue(Object value) {
         Geometry geom = (Geometry) value;
 
         WKTWriter writer = new WKTWriter(getD());

@@ -45,17 +45,17 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  * This class implements the basic format capabilities for a coverage format.
- * 
+ *
  * @author Simone Giannecchini (simboss)
  * @author Stefan Alfons Krueger (alfonx), Wikisquare.de : Support for
- *         jar:file:foo.jar/bar.properties like URLs
- *
- *
+ * jar:file:foo.jar/bar.properties like URLs
  * @source $URL$
  */
 public final class ImagePyramidFormat extends AbstractGridFormat implements Format {
 
-    /** Logger. */
+    /**
+     * Logger.
+     */
     private final static Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger("org.geotools.gce.imagepyramid");
 
@@ -81,11 +81,14 @@ public final class ImagePyramidFormat extends AbstractGridFormat implements Form
         // reading parameters. Inheriting them from the ImageMosaic
         final ImageMosaicFormat formatForParameters = new ImageMosaicFormat();
         final ParameterValueGroup readParams = formatForParameters.getReadParameters();
-        final DefaultParameterDescriptorGroup descriptor = (DefaultParameterDescriptorGroup) readParams.getDescriptor();
+        final DefaultParameterDescriptorGroup descriptor = (DefaultParameterDescriptorGroup) 
+                readParams.getDescriptor();
         List<GeneralParameterDescriptor> descriptors = descriptor.descriptors();
-        GeneralParameterDescriptor[] descriptorArray = new GeneralParameterDescriptor[descriptors.size()];
+        GeneralParameterDescriptor[] descriptorArray = new GeneralParameterDescriptor[descriptors
+                .size()];
         descriptorArray = descriptors.toArray(descriptorArray);
-        readParameters = new ParameterGroup(new DefaultParameterDescriptorGroup(mInfo, descriptorArray));
+        readParameters = new ParameterGroup(new DefaultParameterDescriptorGroup(mInfo, 
+                descriptorArray));
 
         // writing parameters
         writeParameters = null;
@@ -94,10 +97,10 @@ public final class ImagePyramidFormat extends AbstractGridFormat implements Form
     /**
      * Retrieves a reader for this source object in case the provided source can be read using this
      * plugin.
-     * 
+     *
      * @param source Object
      * @return An {@link ImagePyramidReader} if the provided object can be read using this plugin or
-     *         null.
+     * null.
      */
     @Override
     public ImagePyramidReader getReader(Object source) {
@@ -236,11 +239,11 @@ public final class ImagePyramidFormat extends AbstractGridFormat implements Form
     /**
      * Retrieves a reader for this source object in case the provided source can be read using this
      * plugin.
-     * 
+     *
      * @param source Object
-     * @param hints {@link Hints} to control the reader behaviour.
+     * @param hints  {@link Hints} to control the reader behaviour.
      * @return An {@link ImagePyramidReader} if the provided object can be read using this plugin or
-     *         null.
+     * null.
      */
     @Override
     public ImagePyramidReader getReader(Object source, Hints hints) {
@@ -264,7 +267,7 @@ public final class ImagePyramidFormat extends AbstractGridFormat implements Form
 
     /**
      * Throw an exception since this plugin is readonly.
-     * 
+     *
      * @return nothing.
      */
     @Override

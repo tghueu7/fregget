@@ -19,7 +19,7 @@ import com.vividsolutions.jts.geom.Polygon;
 public class KMLEncodingTest extends KMLTestSupport {
 
     public void testEncodePoint() throws Exception {
-        Point p = new GeometryBuilder().point(1,2);
+        Point p = new GeometryBuilder().point(1, 2);
         Document d = encode(p, KML.Point);
 
         assertEquals("Point", d.getDocumentElement().getLocalName());
@@ -53,12 +53,12 @@ public class KMLEncodingTest extends KMLTestSupport {
         Point point1 = geomFactory.createPoint(new Coordinate(40, 50));
         Point point2 = geomFactory.createPoint(new Coordinate(30, 45));
         Point point3 = geomFactory.createPoint(new Coordinate(35, 46));
-        collection.add(SimpleFeatureBuilder.build(type, new Object[] { point1, "first feat.", 17 },
+        collection.add(SimpleFeatureBuilder.build(type, new Object[]{point1, "first feat.", 17},
                 null));
-        collection.add(SimpleFeatureBuilder.build(type, new Object[] { point2, "feature #2", 24 },
+        collection.add(SimpleFeatureBuilder.build(type, new Object[]{point2, "feature #2", 24},
                 null));
         collection.add(SimpleFeatureBuilder.build(type,
-                new Object[] { point3, "third feature", 42 }, null));
+                new Object[]{point3, "third feature", 42}, null));
 
         Encoder encoder = new Encoder(new KMLConfiguration());
         // Note: if indenting is set to true, this will give weird results

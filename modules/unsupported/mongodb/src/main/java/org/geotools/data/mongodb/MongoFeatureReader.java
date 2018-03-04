@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2015, Boundless
  *
@@ -50,7 +50,8 @@ public class MongoFeatureReader implements SimpleFeatureReader {
     }
 
     @Override
-    public SimpleFeature next() throws IOException, IllegalArgumentException, NoSuchElementException {
+    public SimpleFeature next() throws IOException, IllegalArgumentException, 
+            NoSuchElementException {
         DBObject obj = cursor.next();
 
         return mapper.buildFeature(obj, featureSource.getSchema());

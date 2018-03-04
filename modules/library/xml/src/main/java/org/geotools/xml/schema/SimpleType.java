@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -29,8 +29,6 @@ import javax.naming.OperationNotSupportedException;
  * </p>
  *
  * @author dzwiers www.refractions.net
- *
- *
  * @source $URL$
  */
 public interface SimpleType extends Type {
@@ -69,7 +67,6 @@ public interface SimpleType extends Type {
      * This specifies a mask which represents how this XML Schema SimpleType
      * may be extended/restricted ... through Schema declared derivations.
      * </p>
-     *
      */
     public int getFinal();
 
@@ -77,7 +74,6 @@ public interface SimpleType extends Type {
      * <p>
      * The Schema ID for this simpleType definition.
      * </p>
-     *
      */
     public String getId();
 
@@ -89,39 +85,34 @@ public interface SimpleType extends Type {
      * @param attribute
      * @param value
      * @param hints
-     *
      */
     public AttributeValue toAttribute(Attribute attribute, Object value,
-        Map hints) throws OperationNotSupportedException;
+                                      Map hints) throws OperationNotSupportedException;
 
     /**
      * DOCUMENT ME!
      *
      * @param attribute DOCUMENT ME!
-     * @param value DOCUMENT ME!
-     * @param hints DOCUMENT ME!
-     *
+     * @param value     DOCUMENT ME!
+     * @param hints     DOCUMENT ME!
      */
     public boolean canCreateAttributes(Attribute attribute, Object value,
-        Map hints);
+                                       Map hints);
 
     /**
      * Returns an int of either List, Union or Restriction
-     *
      */
     public int getChildType();
 
     /**
      * A simple simpleType when either a List or Restriction ... A set when a
      * Union
-     *
      */
     public SimpleType[] getParents();
 
     /**
      * The list of facets for this Restriction ... Null if another type (List,
      * Union)
-     *
      */
     public Facet[] getFacets();
 }

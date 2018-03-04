@@ -47,20 +47,26 @@ import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * {@link MultiLevelROIProvider} implementation returning a {@link MultiLevelROIRaster} instance
- * 
+ *
  * @author Nicola Lagomarsini
  */
 public class MultiLevelROIRasterProvider implements MultiLevelROIProvider {
 
-    /** Logger used for logging exceptions */
+    /**
+     * Logger used for logging exceptions
+     */
     static final Logger LOGGER = Logging.getLogger(SidecarFootprintProvider.class);
 
-    /** Hints to use for avoiding to search for the imagemosaic format */
+    /**
+     * Hints to use for avoiding to search for the imagemosaic format
+     */
     public static final Hints EXCLUDE_MOSAIC = new Hints(Utils.EXCLUDE_MOSAIC, true);
 
-    /** Mosaic Folder used as root folder */
+    /**
+     * Mosaic Folder used as root folder
+     */
     private File mosaicFolder;
-    
+
     public MultiLevelROIRasterProvider(File mosaicFolder) {
         this.mosaicFolder = mosaicFolder;
     }
@@ -79,7 +85,8 @@ public class MultiLevelROIRasterProvider implements MultiLevelROIProvider {
             MultiLevelROI result = null;
             if (file.exists() && file.canRead()) {
                 try {
-                    // When looking for formats which may parse this file, make sure to exclude the ImageMosaicFormat as return
+                    // When looking for formats which may parse this file, make sure to exclude 
+                    // the ImageMosaicFormat as return
                     AbstractGridFormat format = (AbstractGridFormat) GridFormatFinder
                             .findFormat(file, EXCLUDE_MOSAIC);
                     AbstractGridCoverage2DReader reader = format.getReader(file);
@@ -96,21 +103,26 @@ public class MultiLevelROIRasterProvider implements MultiLevelROIProvider {
                                 ? layout.getNumExternalMaskOverviews() : 0;
                         int totalMasks = numExternalMasks + numInternalMasks
                                 + numExternalMaskOverviews;
-                        
+
                         // Check if masks are present
                         // NOTE No Mask: Outside ROI
                         if (totalMasks > 0) {
                             CoordinateReferenceSystem crs = reader.getCoordinateReferenceSystem();
                             final SimpleFeatureType indexSchema = sf.getFeatureType();
-                            if(crs != null &&  indexSchema != null && indexSchema.getCoordinateReferenceSystem() != null && 
-                                    !CRS.equalsIgnoreMetadata(crs, indexSchema.getCoordinateReferenceSystem())) {
+                            if (crs != null && indexSchema != null && indexSchema
+                                    .getCoordinateReferenceSystem() != null &&
+                                    !CRS.equalsIgnoreMetadata(crs, indexSchema
+                                            .getCoordinateReferenceSystem())) {
                                 // do not trust the feature footprint, it's reprojected
-                                ReferencedEnvelope envelope = ReferencedEnvelope.reference(reader.getOriginalEnvelope());
+                                ReferencedEnvelope envelope = ReferencedEnvelope.reference(reader
+                                        .getOriginalEnvelope());
                                 Polygon nativeFootprint = JTS.toGeometry(envelope);
-                                SimpleFeatureType ftNative = FeatureTypes.transform(indexSchema, reader.getCoordinateReferenceSystem());
+                                SimpleFeatureType ftNative = FeatureTypes.transform(indexSchema, 
+                                        reader.getCoordinateReferenceSystem());
                                 SimpleFeatureBuilder fb = new SimpleFeatureBuilder(ftNative);
                                 fb.init(sf);
-                                fb.set(indexSchema.getGeometryDescriptor().getLocalName(), nativeFootprint);
+                                fb.set(indexSchema.getGeometryDescriptor().getLocalName(), 
+                                        nativeFootprint);
                                 SimpleFeature nativeFeature = fb.buildFeature(sf.getID());
                                 return new MultiLevelROIRaster(layout, file, nativeFeature);
                             } else {
@@ -133,7 +145,9 @@ public class MultiLevelROIRasterProvider implements MultiLevelROIProvider {
         }
     }
 
-    /** Returns the File associated to the imagemosaic feature location */
+    /**
+     * Returns the File associated to the imagemosaic feature location
+     */
     private File getFile(String strValue) throws IOException {
         File file = new File(strValue);
         if (!file.isAbsolute()) {

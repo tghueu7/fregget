@@ -18,8 +18,6 @@ package org.geotools.data.shapefile.index;
 
 /**
  * @author Tommaso Nolli
- *
- *
  * @source $URL$
  */
 public interface Lock {

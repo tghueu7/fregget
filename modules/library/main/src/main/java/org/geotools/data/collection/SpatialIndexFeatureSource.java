@@ -59,7 +59,6 @@ import com.vividsolutions.jts.geom.Geometry;
  * events.
  * </p>
  *
- *
  * @source $URL$
  */
 public class SpatialIndexFeatureSource implements SimpleFeatureSource {
@@ -125,7 +124,7 @@ public class SpatialIndexFeatureSource implements SimpleFeatureSource {
                         + "so there is no way a stable paging (offset/limit) can be performed");
             }
             Query copy = new Query(query);
-            copy.setSortBy(new SortBy[] { SortBy.NATURAL_ORDER });
+            copy.setSortBy(new SortBy[]{SortBy.NATURAL_ORDER});
             query = copy;
         }
         SimpleFeatureCollection collection;
@@ -185,7 +184,7 @@ public class SpatialIndexFeatureSource implements SimpleFeatureSource {
         Envelope result = new Envelope();
         if (filter instanceof And) {
             Envelope bounds = new Envelope();
-            for (Iterator iter = ((And) filter).getChildren().iterator(); iter.hasNext();) {
+            for (Iterator iter = ((And) filter).getChildren().iterator(); iter.hasNext(); ) {
                 Filter f = (Filter) iter.next();
                 Envelope e = getEnvelope(f);
                 if (e == null) {

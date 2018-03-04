@@ -49,44 +49,44 @@ public class DpiRescaleStyleVisitor extends RescaleStyleVisitor {
     @Override
     protected Expression rescale(Expression expr) {
         // handle null values
-        if(expr == null) {
+        if (expr == null) {
             return null;
         }
-        if(expr == Expression.NIL) {
+        if (expr == Expression.NIL) {
             return Expression.NIL;
         }
-        
+
         // delegate the handling of the rescaling to ValueAndUnit 
         // to deal with local uom (px, m, ft suffixes)
         Measure v = new Measure(expr, defaultUnit);
         return RescalingMode.Pixels.rescaleToExpression(scale, v);
     }
-    
-    @Override    
+
+    @Override
     protected void rescaleOption(Map<String, String> options, String key, double defaultValue) {
         double scaleFactor = (double) scale.evaluate(null, Double.class);
         String value = options.get(key);
-        if(value == null) {
+        if (value == null) {
             value = String.valueOf(defaultValue);
         }
-            
+
         Measure v = new Measure(value, defaultUnit);
         String rescaled = RescalingMode.Pixels.rescaleToString(scaleFactor, v);
         options.put(key, String.valueOf(rescaled));
     }
-    
-    @Override        
+
+    @Override
     protected void rescaleOption(Map<String, String> options, String key, int defaultValue) {
         double scaleFactor = (double) scale.evaluate(null, Double.class);
         String value = options.get(key);
-        if(value == null) {
+        if (value == null) {
             value = String.valueOf(defaultValue);
         }
-            
+
         Measure v = new Measure(value, defaultUnit);
         String rescaled = RescalingMode.Pixels.rescaleToString(scaleFactor, v);
         options.put(key, String.valueOf(rescaled));
     }
-    
-    
+
+
 }

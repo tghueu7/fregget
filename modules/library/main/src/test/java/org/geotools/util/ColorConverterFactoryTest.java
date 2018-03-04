@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -24,8 +24,6 @@ import org.geotools.filter.ConstantExpression;
 import junit.framework.TestCase;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ColorConverterFactoryTest extends TestCase {
@@ -35,46 +33,46 @@ public class ColorConverterFactoryTest extends TestCase {
     private static final Color ALICE_BLUE = new Color(240, 248, 255);
     private static final Color GRAY_TRANSPARENT = new Color(128, 128, 128, 128);
     private static final Color GRAY = new Color(128, 128, 128);
-    
+
     ColorConverterFactory factory;
-    
+
     protected void setUp() throws Exception {
         factory = new ColorConverterFactory();
     }
- 
+
     public void testVsConstantExpression() throws Exception {
         ConstantExpression expr = ConstantExpression.color(Color.RED);
-        String expected = expr.evaluate(null, String.class );
-        
-        Converter converter = factory.createConverter( Color.class, String.class, null );
-        String actual = converter.convert( Color.RED, String.class );
-        
-        assertEquals( expected, actual );
-    }
-    
-    public void testFromString() throws Exception {
-        assertEquals( Color.RED, convert( "#FF0000" ) );
-    }
-    
-    public void testFromInteger() throws Exception {
-        assertEquals( Color.RED, convert(0xFF0000) );
-        assertEquals( "no alpha", new Color( 0,0,255,255), convert(0x000000FF) );
-        
-        assertEquals( "255 alpha", new Color( 0,0,255,255), convert(0xFF0000FF) );
-        
-        assertEquals( "1 alpha", new Color( 0,0,255,1), convert(0x010000FF) );
-    }
-    
-    public void testFromLong() throws Exception {
-        assertEquals( Color.RED, convert(0xFF0000) );
-        assertEquals( "no alpha", new Color( 0,0,255,255), convert((long) 0x000000FF) );
-        
-        assertEquals( "255 alpha", new Color( 0,0,255,255), convert((long) 0xFF0000FF) );
-        
-        assertEquals( "1 alpha", new Color( 0,0,255,1), convert((long) 0x010000FF) );
+        String expected = expr.evaluate(null, String.class);
+
+        Converter converter = factory.createConverter(Color.class, String.class, null);
+        String actual = converter.convert(Color.RED, String.class);
+
+        assertEquals(expected, actual);
     }
 
-    
+    public void testFromString() throws Exception {
+        assertEquals(Color.RED, convert("#FF0000"));
+    }
+
+    public void testFromInteger() throws Exception {
+        assertEquals(Color.RED, convert(0xFF0000));
+        assertEquals("no alpha", new Color(0, 0, 255, 255), convert(0x000000FF));
+
+        assertEquals("255 alpha", new Color(0, 0, 255, 255), convert(0xFF0000FF));
+
+        assertEquals("1 alpha", new Color(0, 0, 255, 1), convert(0x010000FF));
+    }
+
+    public void testFromLong() throws Exception {
+        assertEquals(Color.RED, convert(0xFF0000));
+        assertEquals("no alpha", new Color(0, 0, 255, 255), convert((long) 0x000000FF));
+
+        assertEquals("255 alpha", new Color(0, 0, 255, 255), convert((long) 0xFF0000FF));
+
+        assertEquals("1 alpha", new Color(0, 0, 255, 1), convert((long) 0x010000FF));
+    }
+
+
     public void testToCSS() throws Exception {
         Converter converter = factory.createConverter(Color.class, String.class,
                 new Hints(Hints.COLOR_DEFINITION, "CSS"));
@@ -87,7 +85,7 @@ public class ColorConverterFactoryTest extends TestCase {
 
         assertEquals("gray transparent", "rgba(128,128,128,0.5)",
                 converter.convert(GRAY_TRANSPARENT, String.class));
-        
+
         assertEquals("blueish", "rgba(33,66,255,0.992)",
                 converter.convert(new Color(33, 66, 255, 254), String.class));
     }
@@ -109,19 +107,19 @@ public class ColorConverterFactoryTest extends TestCase {
 
         assertEquals("hex alpha", GRAY_TRANSPARENT,
                 converter.convert("#80808080", Color.class));
-        
+
         assertEquals("rgb", GRAY,
                 converter.convert("rgb(128,128,128)", Color.class));
-        
+
         assertEquals("rgba", GRAY_TRANSPARENT,
                 converter.convert("rgba(128,128,128, 0.5)", Color.class));
-        
+
         assertEquals("rgba", GRAY,
                 converter.convert("rgba(128,128,128, 1)", Color.class));
-        
-        assertEquals("rgba", new Color(33,66,255,254),
+
+        assertEquals("rgba", new Color(33, 66, 255, 254),
                 converter.convert("rgba(33,66,255,0.99607843)", Color.class));
-        
+
     }
 
     public void testAlpha() throws Exception {
@@ -130,19 +128,19 @@ public class ColorConverterFactoryTest extends TestCase {
         assertEquals("hex", GRAY, converter.convert("#808080", Color.class));
         assertNull("hex alpha", converter.convert("#80808080", Color.class));
     }
-    
-    Color convert( Object value ) throws Exception {
-        Converter converter = factory.createConverter( value.getClass(), Color.class, null );
-        return (Color) converter.convert( value, Color.class );
+
+    Color convert(Object value) throws Exception {
+        Converter converter = factory.createConverter(value.getClass(), Color.class, null);
+        return (Color) converter.convert(value, Color.class);
     }
-    
-    public void testRegisteredWithConverters(){
-        Color color = Converters.convert("#189E77", Color.class );
-        Color expected = new Color(24,158,119);
-        assertNotNull( "converter not registered", color );
-        assertEquals( expected, color );
+
+    public void testRegisteredWithConverters() {
+        Color color = Converters.convert("#189E77", Color.class);
+        Color expected = new Color(24, 158, 119);
+        assertNotNull("converter not registered", color);
+        assertEquals(expected, color);
     }
-    
+
     public void testCompactColor() {
         Color color = Converters.convert("#aaa", Color.class);
         assertEquals(170, color.getRed());

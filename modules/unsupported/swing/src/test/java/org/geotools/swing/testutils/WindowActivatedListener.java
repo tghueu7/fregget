@@ -25,6 +25,7 @@ import java.awt.event.AWTEventListener;
 import java.awt.event.WindowEvent;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+
 import org.fest.swing.fixture.DialogFixture;
 import org.fest.swing.fixture.FrameFixture;
 import org.fest.swing.fixture.WindowFixture;
@@ -32,11 +33,11 @@ import org.fest.swing.fixture.WindowFixture;
 /**
  * Listens for a window of specified class to be activated on the AWT event thread
  * and, when it appears, creates a FEST {@linkplain WindowFixture} object from it.
- * 
+ *
  * @author Michael Bedward
- * @since 8.0
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 public class WindowActivatedListener implements AWTEventListener {
 
@@ -46,7 +47,7 @@ public class WindowActivatedListener implements AWTEventListener {
 
     /**
      * Creates a new listener.
-     * 
+     *
      * @param windowClass the class to listen for.
      */
     public WindowActivatedListener(Class<? extends Window> windowClass) {
@@ -65,7 +66,7 @@ public class WindowActivatedListener implements AWTEventListener {
     /**
      * Checks if an event pertains to this listener's target window class
      * and is of type {@linkplain WindowEvent#WINDOW_ACTIVATED}.
-     * 
+     *
      * @param event an event
      */
     @Override
@@ -88,12 +89,11 @@ public class WindowActivatedListener implements AWTEventListener {
 
     /**
      * Gets the {@linkplain WindowFixture} created by this listener if available.
-     * 
+     *
      * @param timeOutMillis maximum waiting time in milliseconds
      * @return the fixture or {@code null} if the time-out expires
-     * 
      * @throws InterruptedException on interruption while waiting for the fixture to
-     *     become available
+     *                              become available
      */
     public WindowFixture getFixture(long timeOutMillis) throws InterruptedException {
         if (latch.await(timeOutMillis, TimeUnit.MILLISECONDS)) {

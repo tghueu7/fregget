@@ -58,14 +58,11 @@ import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Point;
 
 /**
- * This is to test functions that convert numeric values to geometry types. This is required when the data store doesn't have geometry columns, but
+ * This is to test functions that convert numeric values to geometry types. This is required when
+ * the data store doesn't have geometry columns, but
  * geometry types are needed.
- * 
+ *
  * @author Rini Angreani (CSIRO Earth Science and Resource Engineering)
- * 
- * 
- * 
- * 
  * @source $URL$
  */
 public class GeometryFunctionsTest extends AppSchemaTestSupport {
@@ -91,7 +88,7 @@ public class GeometryFunctionsTest extends AppSchemaTestSupport {
 
         SimpleFeatureType type = new SimpleFeatureTypeImpl(Types.typeName("GeometryContainer"),
                 schema, null, false, null, GMLSchema.ABSTRACTFEATURETYPE_TYPE, null);
-        feature = SimpleFeatureBuilder.build(type, new Object[] { 5.0, 2.5 }, null);
+        feature = SimpleFeatureBuilder.build(type, new Object[]{5.0, 2.5}, null);
         pointOne = ff.property("pointOne");
         pointTwo = ff.property("pointTwo");
     }
@@ -249,7 +246,8 @@ public class GeometryFunctionsTest extends AppSchemaTestSupport {
      * Test ToLineString with EPSG SRS.
      */
     public void testToLineStringEPSG() {
-        Function function = ff.function("toLineString", ff.literal("EPSG:9902"), pointOne, pointTwo);
+        Function function = ff.function("toLineString", ff.literal("EPSG:9902"), pointOne, 
+                pointTwo);
         Object value = function.evaluate(feature);
         assertTrue(value instanceof LineString);
         LineString linestring = (LineString) value;
@@ -265,7 +263,7 @@ public class GeometryFunctionsTest extends AppSchemaTestSupport {
         assertEquals(linestring.getCoordinateN(1).y, Coordinate.NULL_ORDINATE, 0);
         assertEquals(linestring.getCoordinateN(1).z, Coordinate.NULL_ORDINATE, 0);
     }
-    
+
     @Test
     /**
      * Test ToLineString with non EPSG SRS.
@@ -299,7 +297,8 @@ public class GeometryFunctionsTest extends AppSchemaTestSupport {
             function.evaluate(feature);
             fail();
         } catch (IllegalArgumentException e) {
-            String msg = "Invalid parameters for toLineString function: [null, null]. Usage: toLineString(srsName, point 1, point 2)";
+            String msg = "Invalid parameters for toLineString function: [null, null]. Usage: " +
+                    "toLineString(srsName, point 1, point 2)";
             assertEquals(msg, e.getMessage());
         }
     }
@@ -309,12 +308,15 @@ public class GeometryFunctionsTest extends AppSchemaTestSupport {
      * Test ToLineString with invalid parameters.
      */
     public void testToLineStringInvalidParams() {
-        Function function = ff.function("toLineString", ff.literal("#GA.borehole.100"), Literal.NIL, ff.literal("something"));
+        Function function = ff.function("toLineString", ff.literal("#GA.borehole.100"), Literal
+                .NIL, ff.literal("something"));
         try {
             function.evaluate(feature);
             fail();
         } catch (IllegalArgumentException e) {
-            String msg = "Error converting the parameters for toLineString function: [#GA.borehole.100, Expression.NIL, something]. Usage: toLineString(srsName, point 1, point 2)";
+            String msg = "Error converting the parameters for toLineString function: [#GA" +
+                    ".borehole.100, Expression.NIL, something]. Usage: toLineString(srsName, " +
+                    "point 1, point 2)";
             assertEquals(msg, e.getMessage());
             assertTrue(e.getCause() instanceof NumberFormatException);
         }

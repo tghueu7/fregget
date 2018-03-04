@@ -27,9 +27,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://www.opengis.net/wfs:LockFeatureResponseType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="LockFeatureResponseType"&gt;
  *      &lt;xsd:annotation&gt;
@@ -68,7 +68,8 @@ import org.geotools.xml.Node;
  *                 &lt;/xsd:documentation&gt;
  *              &lt;/xsd:annotation&gt;
  *          &lt;/xsd:element&gt;
- *          &lt;xsd:element minOccurs="0" name="FeaturesNotLocked" type="wfs:FeaturesNotLockedType"&gt;
+ *          &lt;xsd:element minOccurs="0" name="FeaturesNotLocked" 
+ *          type="wfs:FeaturesNotLockedType"&gt;
  *              &lt;xsd:annotation&gt;
  *                  &lt;xsd:documentation&gt;
  *                    In contrast to the FeaturesLocked element, the
@@ -87,9 +88,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class WFS_LockFeatureResponseTypeBinding extends AbstractComplexEMFBinding {
@@ -121,7 +119,7 @@ public class WFS_LockFeatureResponseTypeBinding extends AbstractComplexEMFBindin
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //TODO: implement and remove call to super
         return super.parse(instance, node, value);
     }

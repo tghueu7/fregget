@@ -48,9 +48,10 @@ public abstract class ClassBreaksOpImage extends StatisticsOpImage {
     /* no data value */
     protected Double noData;
 
-    public ClassBreaksOpImage(RenderedImage image, Integer numClasses, Double[][] extrema, 
-        ROI roi, Integer[] bands, Integer xStart, Integer yStart, Integer xPeriod, Integer yPeriod, 
-        Double noData) {
+    public ClassBreaksOpImage(RenderedImage image, Integer numClasses, Double[][] extrema,
+                              ROI roi, Integer[] bands, Integer xStart, Integer yStart, Integer 
+                                      xPeriod, Integer yPeriod,
+                              Double noData) {
 
         super(image, roi, xStart, yStart, xPeriod, yPeriod);
 
@@ -59,7 +60,7 @@ public abstract class ClassBreaksOpImage extends StatisticsOpImage {
         this.bands = bands;
         this.noData = noData;
     }
-    
+
     @Override
     protected String[] getStatisticsNames() {
         return new String[]{ClassBreaksDescriptor.CLASSIFICATION_PROPERTY};
@@ -67,7 +68,7 @@ public abstract class ClassBreaksOpImage extends StatisticsOpImage {
 
     @Override
     public Object getProperty(String name) {
-        Object obj =  properties.getProperty(ClassBreaksDescriptor.CLASSIFICATION_PROPERTY);
+        Object obj = properties.getProperty(ClassBreaksDescriptor.CLASSIFICATION_PROPERTY);
         if (obj == java.awt.Image.UndefinedProperty) {
             // not calculated yet, give subclass a chance to optimize in cases where enough 
             // parameters are specified that the image does not have to be scanned
@@ -75,7 +76,7 @@ public abstract class ClassBreaksOpImage extends StatisticsOpImage {
             if (c != null) {
                 properties.setProperty(ClassBreaksDescriptor.CLASSIFICATION_PROPERTY, c);
             }
-       }
+        }
 
         return super.getProperty(name);
     }
@@ -120,7 +121,7 @@ public abstract class ClassBreaksOpImage extends StatisticsOpImage {
             rectList.addLast(bounds);
         } else {
             rectList = roi.getAsRectangleList(bounds.x, bounds.y,
-                                              bounds.width, bounds.height);
+                    bounds.width, bounds.height);
             if (rectList == null) {
                 return; // ROI does not intersect with Raster boundary.
             }
@@ -131,7 +132,7 @@ public abstract class ClassBreaksOpImage extends StatisticsOpImage {
         ListIterator iterator = rectList.listIterator(0);
 
         while (iterator.hasNext()) {
-            Rectangle r = (Rectangle)iterator.next();
+            Rectangle r = (Rectangle) iterator.next();
             int tx = r.x;
             int ty = r.y;
 
@@ -163,7 +164,7 @@ public abstract class ClassBreaksOpImage extends StatisticsOpImage {
     }
 
     void calculate(PixelAccessor accessor, Raster raster, Rectangle rect,
-            int xPeriod, int yPeriod, Classification c) {
+                   int xPeriod, int yPeriod, Classification c) {
         UnpackedImageData uid = accessor.getPixels(raster, rect, DataBuffer.TYPE_DOUBLE, false);
 
         double[][] doubleData = uid.getDoubleData();
@@ -206,7 +207,9 @@ public abstract class ClassBreaksOpImage extends StatisticsOpImage {
 
     protected abstract void postCalculate(Classification c, int band);
 
-    /** Finds the first pixel at or after <code>pos</code> to be counted. */
+    /**
+     * Finds the first pixel at or after <code>pos</code> to be counted.
+     */
     private int startPosition(int pos, int start, int Period) {
         int t = (pos - start) % Period;
         return t == 0 ? pos : pos + (Period - t);

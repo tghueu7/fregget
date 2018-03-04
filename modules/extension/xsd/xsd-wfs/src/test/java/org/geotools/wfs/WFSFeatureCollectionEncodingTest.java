@@ -32,96 +32,96 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class WFSFeatureCollectionEncodingTest extends TestCase {
 
     FeatureCollectionType fc;
-    
+
     @Override
     protected void setUp() throws Exception {
         fc = WfsFactory.eINSTANCE.createFeatureCollectionType();
         DefaultFeatureCollection features = new DefaultFeatureCollection();
-        
+
         SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
-        tb.setName( "feature" );
-        tb.setNamespaceURI( "http://geotools.org");
-        tb.add( "geometry", Point.class );
-        tb.add( "integer", Integer.class );
-        
-        SimpleFeatureBuilder b = new SimpleFeatureBuilder( tb.buildFeatureType() );
-        b.add( new GeometryFactory().createPoint( new Coordinate( 0, 0 ) ) );
-        b.add( 0 );
-        features.add( b.buildFeature( "zero" ) );
-        
-        b.add( new GeometryFactory().createPoint( new Coordinate( 1, 1 ) ) );
-        b.add( 1 );
-        features.add( b.buildFeature( "one" ) );
-        
-        fc.getFeature().add( features );
+        tb.setName("feature");
+        tb.setNamespaceURI("http://geotools.org");
+        tb.add("geometry", Point.class);
+        tb.add("integer", Integer.class);
+
+        SimpleFeatureBuilder b = new SimpleFeatureBuilder(tb.buildFeatureType());
+        b.add(new GeometryFactory().createPoint(new Coordinate(0, 0)));
+        b.add(0);
+        features.add(b.buildFeature("zero"));
+
+        b.add(new GeometryFactory().createPoint(new Coordinate(1, 1)));
+        b.add(1);
+        features.add(b.buildFeature("one"));
+
+        fc.getFeature().add(features);
     }
-    
+
     public void testEncodeFeatureCollection10() throws Exception {
-        Encoder e = new Encoder( new org.geotools.wfs.v1_0.WFSConfiguration() );
-        e.getNamespaces().declarePrefix( "geotools", "http://geotools.org");
+        Encoder e = new Encoder(new org.geotools.wfs.v1_0.WFSConfiguration());
+        e.getNamespaces().declarePrefix("geotools", "http://geotools.org");
         e.setIndenting(true);
 
-        Document d = e.encodeAsDOM( fc, WFS.FeatureCollection );
+        Document d = e.encodeAsDOM(fc, WFS.FeatureCollection);
         // XMLTestSupport.print(d);
-            
-        assertEquals( 2, d.getElementsByTagName( "gml:Point" ).getLength() );
-        assertTrue( d.getElementsByTagName( "gml:coord" ).getLength() > 2 );
-        assertEquals( 0, d.getElementsByTagName( "gml:pos" ).getLength() );
-        
-        assertEquals( 2, d.getElementsByTagName( "geotools:feature" ).getLength() );
-        assertNotNull( ((Element)d.getElementsByTagName( "geotools:feature").item( 0 )).getAttribute("fid") );
-                
+
+        assertEquals(2, d.getElementsByTagName("gml:Point").getLength());
+        assertTrue(d.getElementsByTagName("gml:coord").getLength() > 2);
+        assertEquals(0, d.getElementsByTagName("gml:pos").getLength());
+
+        assertEquals(2, d.getElementsByTagName("geotools:feature").getLength());
+        assertNotNull(((Element) d.getElementsByTagName("geotools:feature").item(0)).getAttribute
+                ("fid"));
+
     }
-    
+
     public void testEncodeFeatureCollection11() throws Exception {
-        Encoder e = new Encoder( new org.geotools.wfs.v1_1.WFSConfiguration() );
-        e.getNamespaces().declarePrefix( "geotools", "http://geotools.org");
+        Encoder e = new Encoder(new org.geotools.wfs.v1_1.WFSConfiguration());
+        e.getNamespaces().declarePrefix("geotools", "http://geotools.org");
         e.setIndenting(true);
-        
-        Document d = e.encodeAsDOM( fc, WFS.FeatureCollection );
+
+        Document d = e.encodeAsDOM(fc, WFS.FeatureCollection);
         // XMLTestSupport.print(d);
-        assertEquals( 2, d.getElementsByTagName( "gml:Point" ).getLength() );
-        assertEquals( 2, d.getElementsByTagName( "gml:pos" ).getLength() );
-        assertEquals( 0, d.getElementsByTagName( "gml:coord" ).getLength() );
-        
-        assertEquals( 2, d.getElementsByTagName( "geotools:feature" ).getLength() );
-        assertNotNull( ((Element)d.getElementsByTagName( "geotools:feature").item( 0 )).getAttribute("gml:id") );
+        assertEquals(2, d.getElementsByTagName("gml:Point").getLength());
+        assertEquals(2, d.getElementsByTagName("gml:pos").getLength());
+        assertEquals(0, d.getElementsByTagName("gml:coord").getLength());
+
+        assertEquals(2, d.getElementsByTagName("geotools:feature").getLength());
+        assertNotNull(((Element) d.getElementsByTagName("geotools:feature").item(0)).getAttribute
+                ("gml:id"));
     }
-    
+
     public void testEncodeFeatureCollectionMultipleFeatureTypes() throws Exception {
         DefaultFeatureCollection features = new DefaultFeatureCollection();
-        
+
         SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
-        tb.setName( "feature2" );
-        tb.setNamespaceURI( "http://geotools.org/geotools2");
-        tb.add( "geometry", Point.class );
-        tb.add( "integer", Integer.class );
-        
-        SimpleFeatureBuilder b = new SimpleFeatureBuilder( tb.buildFeatureType() );
-        b.add( new GeometryFactory().createPoint( new Coordinate( 0, 0 ) ) );
-        b.add( 0 );
-        features.add( b.buildFeature( "zero" ) );
-        
-        b.add( new GeometryFactory().createPoint( new Coordinate( 1, 1 ) ) );
-        b.add( 1 );
-        features.add( b.buildFeature( "one" ) );
-        
-        fc.getFeature().add( features );
-        
-        Encoder e = new Encoder( new org.geotools.wfs.v1_1.WFSConfiguration() );
-        e.getNamespaces().declarePrefix( "geotools", "http://geotools.org");
-        e.getNamespaces().declarePrefix( "geotools2", "http://geotools.org/geotools2");
+        tb.setName("feature2");
+        tb.setNamespaceURI("http://geotools.org/geotools2");
+        tb.add("geometry", Point.class);
+        tb.add("integer", Integer.class);
+
+        SimpleFeatureBuilder b = new SimpleFeatureBuilder(tb.buildFeatureType());
+        b.add(new GeometryFactory().createPoint(new Coordinate(0, 0)));
+        b.add(0);
+        features.add(b.buildFeature("zero"));
+
+        b.add(new GeometryFactory().createPoint(new Coordinate(1, 1)));
+        b.add(1);
+        features.add(b.buildFeature("one"));
+
+        fc.getFeature().add(features);
+
+        Encoder e = new Encoder(new org.geotools.wfs.v1_1.WFSConfiguration());
+        e.getNamespaces().declarePrefix("geotools", "http://geotools.org");
+        e.getNamespaces().declarePrefix("geotools2", "http://geotools.org/geotools2");
         e.setIndenting(true);
-        
-        Document d = e.encodeAsDOM( fc, WFS.FeatureCollection );
-        assertEquals( 2, d.getElementsByTagName( "geotools:feature").getLength());
-        assertEquals( 2, d.getElementsByTagName( "geotools2:feature2").getLength());
+
+        Document d = e.encodeAsDOM(fc, WFS.FeatureCollection);
+        assertEquals(2, d.getElementsByTagName("geotools:feature").getLength());
+        assertEquals(2, d.getElementsByTagName("geotools2:feature2").getLength());
     }
 }

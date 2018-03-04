@@ -51,28 +51,31 @@ import org.opengis.feature.Feature;
 import org.opengis.filter.expression.Expression;
 
 /**
- * 
  * <p>
- * Implementation of an {@link ExternalGraphicFactory} that takes the address of a Mapbox-style sprite sheet resource and an icon name, and retrieves
+ * Implementation of an {@link ExternalGraphicFactory} that takes the address of a Mapbox-style 
+ * sprite sheet resource and an icon name, and retrieves
  * the icon from the sprite sheet.
  * </p>
- * 
  * <p>
- * Note that this factory expects the {@link MBStyleTransformer} to produce {@link ExternalGraphic} instances with slightly modified URLs using one of the
+ * <p>
+ * Note that this factory expects the {@link MBStyleTransformer} to produce 
+ * {@link ExternalGraphic} instances with slightly modified URLs using one of the
  * following forms:
  * </p>
- * 
+ * <p>
  * <code>{baseUrl}#{iconName}</code>
  * <code>{baseUrl}#icon={iconName}&size={sizeMultiplier}</code>
- * 
  * <p>
- * Only the baseUrl is used to retrieve the sprite sheet (at {baseUrl}.png) and sprite index (at {baseUrl}.json). The iconName (required) is then used by this
- * factory to select the correct icon from the spritesheet, and the size (optional) is used to scale the icon.
+ * <p>
+ * Only the baseUrl is used to retrieve the sprite sheet (at {baseUrl}.png) and sprite index (at 
+ * {baseUrl}.json). The iconName (required) is then used by this
+ * factory to select the correct icon from the spritesheet, and the size (optional) is used to 
+ * scale the icon.
  * </p>
- * 
- * 
+ * <p>
+ * <p>
  * For example, for the following style:
- * 
+ * <p>
  * <pre>
  * {
  *  "version": 8,
@@ -83,19 +86,21 @@ import org.opengis.filter.expression.Expression;
  *  "layers": [...]
  * }
  * </pre>
- *
  * <p>
- * If a layer in this style references an icon in the spritesheet, e.g. iconName, then the constructed URL for the external graphic should be
+ * <p>
+ * If a layer in this style references an icon in the spritesheet, e.g. iconName, then the 
+ * constructed URL for the external graphic should be
  * <code>file:/GeoServerDataDirs/release/styles/testSpritesheet#iconName</code>
  * </p>
- * 
- * @see <a href="https://www.mapbox.com/mapbox-gl-js/style-spec/#sprite">https://www.mapbox.com/mapbox-gl-js/style-spec/#sprite</a>
- * 
+ *
+ * @see <a href="https://www.mapbox.com/mapbox-gl-js/style-spec/#sprite">https://www.mapbox
+ * .com/mapbox-gl-js/style-spec/#sprite</a>
  */
-public class SpriteGraphicFactory implements ExternalGraphicFactory,GraphicCache {
+public class SpriteGraphicFactory implements ExternalGraphicFactory, GraphicCache {
 
     /**
-     * {@link ExternalGraphic} instances with this format will be handled by the {@link SpriteGraphicFactory}.
+     * {@link ExternalGraphic} instances with this format will be handled by the 
+     * {@link SpriteGraphicFactory}.
      */
     public static final String FORMAT = "mbsprite";
 
@@ -126,17 +131,18 @@ public class SpriteGraphicFactory implements ExternalGraphicFactory,GraphicCache
         String iconName = paramsMap.get("icon");
         String sizeStr = paramsMap.get("size");
         sizeStr = sizeStr == null ? "1.0" : sizeStr;
-        
-        Double sizeMultiplier = null;        
+
+        Double sizeMultiplier = null;
         try {
-            sizeMultiplier = Double.parseDouble(sizeStr); 
+            sizeMultiplier = Double.parseDouble(sizeStr);
             if (sizeMultiplier < 0) {
                 sizeMultiplier = 1.0;
             }
         } catch (NumberFormatException e) {
-            throw new MBSpriteException("Exception parsing size parameter from Sprite External Graphic URL. URL was: " + loc, e);
-        }        
-        
+            throw new MBSpriteException("Exception parsing size parameter from Sprite External " +
+                    "Graphic URL. URL was: " + loc, e);
+        }
+
         // Retrieve and parse the sprite index file.
         SpriteIndex spriteIndex = getSpriteIndex(baseUrl);
 
@@ -156,22 +162,24 @@ public class SpriteGraphicFactory implements ExternalGraphicFactory,GraphicCache
             AffineTransformOp ato = new AffineTransformOp(scaleTx, AffineTransformOp.TYPE_BILINEAR);
             iconSubImg = ato.filter(iconSubImg, null);
         }
-        
+
         // Use the size multiplier, if any, to scale the image
         if (sizeMultiplier != null && sizeMultiplier != 1.0) {
-            AffineTransform scaleTx = AffineTransform.getScaleInstance(sizeMultiplier, sizeMultiplier);
+            AffineTransform scaleTx = AffineTransform.getScaleInstance(sizeMultiplier, 
+                    sizeMultiplier);
             AffineTransformOp ato = new AffineTransformOp(scaleTx, AffineTransformOp.TYPE_BILINEAR);
             iconSubImg = ato.filter(iconSubImg, null);
-        }        
+        }
 
         return new ImageIcon(iconSubImg);
     }
-    
+
     /**
-     * 
-     * Parse the parameters from the URL fragment in the provided URL (interpreting the fragment like a query string). The "name" parameter
-     * is required and will cause an {@link MBFormatException} if missing. The "size" parameter is optional and defaults to "1".
-     *      
+     * Parse the parameters from the URL fragment in the provided URL (interpreting the fragment 
+     * like a query string). The "name" parameter
+     * is required and will cause an {@link MBFormatException} if missing. The "size" parameter 
+     * is optional and defaults to "1".
+     *
      * @param url
      * @return
      */
@@ -181,42 +189,46 @@ public class SpriteGraphicFactory implements ExternalGraphicFactory,GraphicCache
 
         if (fragmentIdx == -1) {
             throw new IllegalArgumentException(
-                    "Sprite external graphics must have url with fragment of the form #icon=test&size=1.5. URL was: "
+                    "Sprite external graphics must have url with fragment of the form " +
+                            "#icon=test&size=1.5. URL was: "
                             + urlStr);
         }
 
         String fragment = urlStr.substring(fragmentIdx + 1);
-        
+
         if (fragment.trim().length() == 0) {
             throw new IllegalArgumentException(
-                    "Sprite external graphics must have url with non-empty fragment of the form #icon=test&size=1.5. URL was: "
+                    "Sprite external graphics must have url with non-empty fragment of the form " +
+                            "#icon=test&size=1.5. URL was: "
                             + urlStr);
         }
-        
+
         String[] nvps = fragment.split("&");
-                
-        Map<String, String> paramsMap = new HashMap<>();        
-        for (int i = 0; i < nvps.length; i++) {            
+
+        Map<String, String> paramsMap = new HashMap<>();
+        for (int i = 0; i < nvps.length; i++) {
             try {
-                String[] nvp = nvps[i].split("="); 
+                String[] nvp = nvps[i].split("=");
                 if (nvp.length == 1 && nvps.length == 1) {
                     // Allow the simple case url#iconName (omitting name=iconName) 
                     paramsMap.put("icon", URLDecoder.decode(nvp[0], "utf-8"));
                 } else {
                     String k = URLDecoder.decode(nvp[0], "utf-8").trim().toLowerCase();
                     String v = URLDecoder.decode(nvp[1], "utf-8");
-                    paramsMap.put(k, v);      
+                    paramsMap.put(k, v);
                 }
-              
-            } catch(UnsupportedEncodingException uee) {
-                throw new MBSpriteException("Exception decoding URL fragment for external graphic URL. URL was: " + urlStr, uee);
+
+            } catch (UnsupportedEncodingException uee) {
+                throw new MBSpriteException("Exception decoding URL fragment for external graphic" +
+                        " URL. URL was: " + urlStr, uee);
             }
-            
+
         }
-        
+
         if (paramsMap.get("icon") == null || paramsMap.get("icon").trim().isEmpty()) {
             throw new IllegalArgumentException(
-                    "Sprite external graphics must provide an icon name using a URL fragment of the form #icon=test&size=1.5 . URL was: "
+                    "Sprite external graphics must provide an icon name using a URL fragment of " +
+                            "the form #icon=test&size=1.5 . URL was: "
                             + urlStr);
         }
 
@@ -225,9 +237,9 @@ public class SpriteGraphicFactory implements ExternalGraphicFactory,GraphicCache
 
     /**
      * Parse the icon name from the provided {@link URL}. E.g.,
-     * 
+     * <p>
      * <code>/path/to/sprite#iconName</code> will return <code>iconName</code>.
-     * 
+     *
      * @param url The url from which to parse the icon name.
      * @return The icon name.
      * @throws IllegalArgumentException If the icon name could not be parsed.
@@ -247,7 +259,8 @@ public class SpriteGraphicFactory implements ExternalGraphicFactory,GraphicCache
 
         if (iconName.trim().length() == 0) {
             throw new IllegalArgumentException(
-                    "Mapbox-style sprite external graphics must have non-empty url#{iconName}. URL was: "
+                    "Mapbox-style sprite external graphics must have non-empty url#{iconName}. " +
+                            "URL was: "
                             + urlStr);
         }
 
@@ -257,9 +270,9 @@ public class SpriteGraphicFactory implements ExternalGraphicFactory,GraphicCache
 
     /**
      * Return the base URL (without an appended icon name) from the provided URL.
-     * 
+     * <p>
      * <code>/path/to/sprite#iconName</code> will return <code>path/to/sprite</code>
-     * 
+     *
      * @param loc The URL.
      * @return The URL, without an appended icon name.
      * @throws MalformedURLException
@@ -275,9 +288,9 @@ public class SpriteGraphicFactory implements ExternalGraphicFactory,GraphicCache
     }
 
     /**
-     * 
-     * Retrieve the sprite sheet index for the provided sprite base url. The base url should have no extension.
-     * 
+     * Retrieve the sprite sheet index for the provided sprite base url. The base url should have
+     * no extension.
+     *
      * @param baseUrl The base URL of the Mapbox sprite source (no extension).
      * @return The sprite sheet index
      * @throws IOException
@@ -308,8 +321,9 @@ public class SpriteGraphicFactory implements ExternalGraphicFactory,GraphicCache
     }
 
     /**
-     * Retrieve the sprite sheet for the provided sprite base url. The base url should have no extension.
-     * 
+     * Retrieve the sprite sheet for the provided sprite base url. The base url should have no 
+     * extension.
+     *
      * @param baseUrl The base URL of the Mapbox sprite source (no extension).
      * @return A {@link BufferedImage} for the sprite sheet.
      */

@@ -49,9 +49,8 @@ import junit.framework.TestCase;
 /**
  * Test  class for verifying behaviour of displacementMode vendor option
  * for both single layer and multi-layer map
- * 
- * @author nprigour
  *
+ * @author nprigour
  * @source $URL$
  */
 public class LabelDisplacementModeTest extends TestCase {
@@ -69,43 +68,44 @@ public class LabelDisplacementModeTest extends TestCase {
                         .openStream()));
 
         bounds = new ReferencedEnvelope(0, 10, 0, 10, null);
-        
+
         // System.setProperty("org.geotools.test.interactive", "true");
-        
+
         SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
         builder.add("geom", Point.class);
         builder.add("label", String.class);
         builder.setName("labelDisplacement");
         SimpleFeatureType type = builder.buildFeatureType();
-        
+
         GeometryFactory gf = new GeometryFactory();
         SimpleFeature f1 = SimpleFeatureBuilder.build(
                 type, new Object[]{gf.createPoint(new Coordinate(5, 8.2)), "labelA"}, null);
         SimpleFeature f2 = SimpleFeatureBuilder
-                .build(type, new Object[] { gf.createPoint(new Coordinate(5, 8.0)), "labelA1" }, null);
+                .build(type, new Object[]{gf.createPoint(new Coordinate(5, 8.0)), "labelA1"}, null);
         SimpleFeature f3 = SimpleFeatureBuilder.build(type,
-                new Object[] { gf.createPoint(new Coordinate(5, 2)),
-                        "labelB" }, null);
+                new Object[]{gf.createPoint(new Coordinate(5, 2)),
+                        "labelB"}, null);
         SimpleFeature f4 = SimpleFeatureBuilder.build(type,
-                new Object[] { gf.createPoint(new Coordinate(5, 3)),
-                        "labelB1" }, null);
-        
+                new Object[]{gf.createPoint(new Coordinate(5, 3)),
+                        "labelB1"}, null);
+
         MemoryDataStore data = new MemoryDataStore();
         data.addFeature(f4);
         data.addFeature(f3);
         data.addFeature(f2);
         data.addFeature(f1);
         fs = data.getFeatureSource("labelDisplacement");
-        
-        
+
+
         SimpleFeatureTypeBuilder builder2 = new SimpleFeatureTypeBuilder();
         builder2.add("geom", Polygon.class);
         builder2.add("label", String.class);
         builder2.setName("labelPolyDisplacement");
         SimpleFeatureType type2 = builder2.buildFeatureType();
-        
+
         SimpleFeature f11 = SimpleFeatureBuilder.build(type2, new Object[]{gf.createPolygon(
-                new Coordinate[]{new Coordinate(4, 7), new Coordinate(4, 9), new Coordinate(6, 9), new Coordinate(6, 7), new Coordinate(4, 7)}), "labelPolyA"}, null);
+                new Coordinate[]{new Coordinate(4, 7), new Coordinate(4, 9), new Coordinate(6, 9)
+                        , new Coordinate(6, 7), new Coordinate(4, 7)}), "labelPolyA"}, null);
         /*
         SimpleFeature f22 = SimpleFeatureBuilder
                 .build(type, new Object[] { gf.createPoint(new Coordinate(5, 8.2)),
@@ -123,14 +123,18 @@ public class LabelDisplacementModeTest extends TestCase {
         //data.addFeature(f3);
         //data.addFeature(f4);
         fs2 = data2.getFeatureSource("labelPolyDisplacement");
-        
+
     }
-    
+
     public void testDisplacementStandard() throws Exception {
-        Style style = RendererBaseTest.loadStyle(this, "displacementMode/textDisplacementStandard.sld");
+        Style style = RendererBaseTest.loadStyle(this, "displacementMode/textDisplacementStandard" +
+                ".sld");
         BufferedImage image = renderLabels(fs, style, "Label Default Displacement");
-        //ImageIO.write(image, "PNG", new File("./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementStandard1.png"));
-        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementStandard.png";
+        //ImageIO.write(image, "PNG", new File("
+        // ./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode
+        // /textDisplacementStandard1.png"));
+        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data" +
+                "/displacementMode/textDisplacementStandard.png";
         ImageAssert.assertEquals(new File(refPath), image, 0);
 
     }
@@ -138,35 +142,47 @@ public class LabelDisplacementModeTest extends TestCase {
     public void testDisplacementNorth() throws Exception {
         Style style = RendererBaseTest.loadStyle(this, "displacementMode/textDisplacementN.sld");
         BufferedImage image = renderLabels(fs, style, "Label North Displacement");
-        //ImageIO.write(image, "PNG", new File("./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementVerticalBoth1.png"));
-        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementN.png";
+        //ImageIO.write(image, "PNG", new File("
+        // ./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode
+        // /textDisplacementVerticalBoth1.png"));
+        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data" +
+                "/displacementMode/textDisplacementN.png";
         ImageAssert.assertEquals(new File(refPath), image, 0);
 
     }
-    
+
     public void testDisplacementSouth() throws Exception {
         Style style = RendererBaseTest.loadStyle(this, "displacementMode/textDisplacementS.sld");
         BufferedImage image = renderLabels(fs, style, "Label South Displacement");
-        //ImageIO.write(image, "PNG", new File("./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementVerticalBoth1.png"));
-        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementS.png";
+        //ImageIO.write(image, "PNG", new File("
+        // ./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode
+        // /textDisplacementVerticalBoth1.png"));
+        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data" +
+                "/displacementMode/textDisplacementS.png";
         ImageAssert.assertEquals(new File(refPath), image, 0);
 
     }
-    
+
     public void testDisplacementEast() throws Exception {
         Style style = RendererBaseTest.loadStyle(this, "displacementMode/textDisplacementE.sld");
         BufferedImage image = renderLabels(fs, style, "Label East Displacement");
-        //ImageIO.write(image, "PNG", new File("./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementVerticalBoth1.png"));
-        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementE.png";
+        //ImageIO.write(image, "PNG", new File("
+        // ./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode
+        // /textDisplacementVerticalBoth1.png"));
+        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data" +
+                "/displacementMode/textDisplacementE.png";
         ImageAssert.assertEquals(new File(refPath), image, 0);
 
     }
-    
+
     public void testDisplacementWest() throws Exception {
         Style style = RendererBaseTest.loadStyle(this, "displacementMode/textDisplacementW.sld");
         BufferedImage image = renderLabels(fs, style, "Label West Displacement");
-        //ImageIO.write(image, "PNG", new File("./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementVerticalBoth1.png"));
-        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementW.png";
+        //ImageIO.write(image, "PNG", new File("
+        // ./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode
+        // /textDisplacementVerticalBoth1.png"));
+        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data" +
+                "/displacementMode/textDisplacementW.png";
         ImageAssert.assertEquals(new File(refPath), image, 0);
 
     }
@@ -174,167 +190,224 @@ public class LabelDisplacementModeTest extends TestCase {
     public void testDisplacementNE() throws Exception {
         Style style = RendererBaseTest.loadStyle(this, "displacementMode/textDisplacementNE.sld");
         BufferedImage image = renderLabels(fs, style, "Label NE Displacement");
-        //ImageIO.write(image, "PNG", new File("./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementVerticalBoth1.png"));
-        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementNE.png";
+        //ImageIO.write(image, "PNG", new File("
+        // ./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode
+        // /textDisplacementVerticalBoth1.png"));
+        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data" +
+                "/displacementMode/textDisplacementNE.png";
         ImageAssert.assertEquals(new File(refPath), image, 0);
 
     }
-    
+
     public void testDisplacementNW() throws Exception {
         Style style = RendererBaseTest.loadStyle(this, "displacementMode/textDisplacementNW.sld");
         BufferedImage image = renderLabels(fs, style, "Label NW Displacement");
-        //ImageIO.write(image, "PNG", new File("./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementVerticalBoth1.png"));
-        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementNW.png";
+        //ImageIO.write(image, "PNG", new File("
+        // ./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode
+        // /textDisplacementVerticalBoth1.png"));
+        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data" +
+                "/displacementMode/textDisplacementNW.png";
         ImageAssert.assertEquals(new File(refPath), image, 0);
 
     }
-    
+
     public void testDisplacementSE() throws Exception {
         Style style = RendererBaseTest.loadStyle(this, "displacementMode/textDisplacementSE.sld");
         BufferedImage image = renderLabels(fs, style, "Label SE Displacement");
-        //ImageIO.write(image, "PNG", new File("./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementVerticalBoth1.png"));
-        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementSE.png";
+        //ImageIO.write(image, "PNG", new File("
+        // ./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode
+        // /textDisplacementVerticalBoth1.png"));
+        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data" +
+                "/displacementMode/textDisplacementSE.png";
         ImageAssert.assertEquals(new File(refPath), image, 0);
 
     }
-    
+
     public void testDisplacementSW() throws Exception {
         Style style = RendererBaseTest.loadStyle(this, "displacementMode/textDisplacementSW.sld");
         BufferedImage image = renderLabels(fs, style, "Label SW Displacement");
-        //ImageIO.write(image, "PNG", new File("./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementVerticalBoth1.png"));
-        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementSW.png";
+        //ImageIO.write(image, "PNG", new File("
+        // ./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode
+        // /textDisplacementVerticalBoth1.png"));
+        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data" +
+                "/displacementMode/textDisplacementSW.png";
         ImageAssert.assertEquals(new File(refPath), image, 0);
 
     }
 
     public void testDisplacementDiagonal() throws Exception {
-        Style style = RendererBaseTest.loadStyle(this, "displacementMode/textDisplacementDiagonal.sld");
+        Style style = RendererBaseTest.loadStyle(this, "displacementMode/textDisplacementDiagonal" +
+                ".sld");
         BufferedImage image = renderLabels(fs, style, "Label Diagonal Displacement");
-        //ImageIO.write(image, "PNG", new File("./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementVerticalBoth1.png"));
-        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementDiagonal.png";
+        //ImageIO.write(image, "PNG", new File("
+        // ./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode
+        // /textDisplacementVerticalBoth1.png"));
+        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data" +
+                "/displacementMode/textDisplacementDiagonal.png";
         ImageAssert.assertEquals(new File(refPath), image, 0);
 
     }
 
     public void testDisplacementNotDiagonal() throws Exception {
-        Style style = RendererBaseTest.loadStyle(this, "displacementMode/textDisplacementNotDiagonal.sld");
+        Style style = RendererBaseTest.loadStyle(this, 
+                "displacementMode/textDisplacementNotDiagonal.sld");
         BufferedImage image = renderLabels(fs, style, "Label Not Diagonal Displacement");
-        //ImageIO.write(image, "PNG", new File("./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementVerticalBoth1.png"));
-        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementNotDiagonal.png";
+        //ImageIO.write(image, "PNG", new File("
+        // ./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode
+        // /textDisplacementVerticalBoth1.png"));
+        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data" +
+                "/displacementMode/textDisplacementNotDiagonal.png";
         ImageAssert.assertEquals(new File(refPath), image, 0);
 
     }
-    
+
     public void testDisplacementE_NE() throws Exception {
         Style style = RendererBaseTest.loadStyle(this, "displacementMode/textDisplacementE_NE.sld");
         BufferedImage image = renderLabels(fs, style, "Label E or NE Displacement");
-        //ImageIO.write(image, "PNG", new File("./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementVerticalBoth1.png"));
-        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementE_NE.png";
+        //ImageIO.write(image, "PNG", new File("
+        // ./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode
+        // /textDisplacementVerticalBoth1.png"));
+        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data" +
+                "/displacementMode/textDisplacementE_NE.png";
         ImageAssert.assertEquals(new File(refPath), image, 0);
 
     }
-    
+
     public void testDisplacementRandomConflictDisabled() throws Exception {
-        Style style = RendererBaseTest.loadStyle(this, "displacementMode/textDisplacementRandom_conflict_disabled.sld");
-        BufferedImage image = renderLabels(fs, style, "Label Random Displacement (conflict_disabled)");
-        //ImageIO.write(image, "PNG", new File("./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementVerticalBoth_conflict_disabled.png"));
-        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementRandom_conflict_disabled.png";
+        Style style = RendererBaseTest.loadStyle(this, 
+                "displacementMode/textDisplacementRandom_conflict_disabled.sld");
+        BufferedImage image = renderLabels(fs, style, "Label Random Displacement " +
+                "(conflict_disabled)");
+        //ImageIO.write(image, "PNG", new File("
+        // ./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode
+        // /textDisplacementVerticalBoth_conflict_disabled.png"));
+        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data" +
+                "/displacementMode/textDisplacementRandom_conflict_disabled.png";
         ImageAssert.assertEquals(new File(refPath), image, 0);
 
     }
-    
-    
+
+
     public void testDisplacementStandardMultiLayer() throws Exception {
-        Style style = RendererBaseTest.loadStyle(this, "displacementMode/textDisplacementStandard.sld");
-        Style style2 = RendererBaseTest.loadStyle(this, "displacementMode/textDisplacementStandardPoly.sld");
-        BufferedImage image = renderLabels(new SimpleFeatureSource[]{fs, fs2}, 
-                new Style[] {style, style2}, "Label Default Displacement");
-        //ImageIO.write(image, "PNG", new File("./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementStandard1_multi.png"));
-        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementStandard_multi.png";
+        Style style = RendererBaseTest.loadStyle(this, "displacementMode/textDisplacementStandard" +
+                ".sld");
+        Style style2 = RendererBaseTest.loadStyle(this, 
+                "displacementMode/textDisplacementStandardPoly.sld");
+        BufferedImage image = renderLabels(new SimpleFeatureSource[]{fs, fs2},
+                new Style[]{style, style2}, "Label Default Displacement");
+        //ImageIO.write(image, "PNG", new File("
+        // ./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode
+        // /textDisplacementStandard1_multi.png"));
+        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data" +
+                "/displacementMode/textDisplacementStandard_multi.png";
         ImageAssert.assertEquals(new File(refPath), image, 0);
 
     }
-    
+
     public void testDisplacementNotDiagonalMultiLayer() throws Exception {
-        Style style = RendererBaseTest.loadStyle(this, "displacementMode/textDisplacementNotDiagonal.sld");
-        Style style2 = RendererBaseTest.loadStyle(this, "displacementMode/textDisplacementNotDiagonalPoly.sld");
-        BufferedImage image = renderLabels(new SimpleFeatureSource[]{fs, fs2}, 
-                new Style[] {style, style2}, "Label Not Diagonal Displacement (multi)");
-        //ImageIO.write(image, "PNG", new File("./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementVerticalBoth1_multi.png"));
-        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementNotDiagonal_multi.png";
+        Style style = RendererBaseTest.loadStyle(this, 
+                "displacementMode/textDisplacementNotDiagonal.sld");
+        Style style2 = RendererBaseTest.loadStyle(this, 
+                "displacementMode/textDisplacementNotDiagonalPoly.sld");
+        BufferedImage image = renderLabels(new SimpleFeatureSource[]{fs, fs2},
+                new Style[]{style, style2}, "Label Not Diagonal Displacement (multi)");
+        //ImageIO.write(image, "PNG", new File("
+        // ./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode
+        // /textDisplacementVerticalBoth1_multi.png"));
+        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data" +
+                "/displacementMode/textDisplacementNotDiagonal_multi.png";
         ImageAssert.assertEquals(new File(refPath), image, 0);
 
     }
-    
-    
+
+
     public void testDisplacementVerticalBoth() throws Exception {
-        Style style = RendererBaseTest.loadStyle(this, "displacementMode/textDisplacementVerticalBoth.sld");
+        Style style = RendererBaseTest.loadStyle(this, 
+                "displacementMode/textDisplacementVerticalBoth.sld");
         BufferedImage image = renderLabels(fs, style, "Label Vertical Both Displacement");
-        //ImageIO.write(image, "PNG", new File("./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementVerticalBoth1.png"));
-        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementVerticalBoth.png";
+        //ImageIO.write(image, "PNG", new File("
+        // ./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode
+        // /textDisplacementVerticalBoth1.png"));
+        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data" +
+                "/displacementMode/textDisplacementVerticalBoth.png";
         ImageAssert.assertEquals(new File(refPath), image, 0);
 
     }
-    
-    
+
+
     public void testDisplacementVerticalBothMultiLayer() throws Exception {
-        Style style = RendererBaseTest.loadStyle(this, "displacementMode/textDisplacementVerticalBoth.sld");
-        Style style2 = RendererBaseTest.loadStyle(this, "displacementMode/textDisplacementVerticalBothPoly.sld");
-        BufferedImage image = renderLabels(new SimpleFeatureSource[]{fs, fs2}, 
-                new Style[] {style, style2}, "Label Vertical Both Displacement");
-        //ImageIO.write(image, "PNG", new File("./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementVerticalBoth1_multi.png"));
-        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementVerticalBoth_multi.png";
+        Style style = RendererBaseTest.loadStyle(this, 
+                "displacementMode/textDisplacementVerticalBoth.sld");
+        Style style2 = RendererBaseTest.loadStyle(this, 
+                "displacementMode/textDisplacementVerticalBothPoly.sld");
+        BufferedImage image = renderLabels(new SimpleFeatureSource[]{fs, fs2},
+                new Style[]{style, style2}, "Label Vertical Both Displacement");
+        //ImageIO.write(image, "PNG", new File("
+        // ./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode
+        // /textDisplacementVerticalBoth1_multi.png"));
+        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data" +
+                "/displacementMode/textDisplacementVerticalBoth_multi.png";
         ImageAssert.assertEquals(new File(refPath), image, 0);
 
     }
-    
+
 
     public void testDisplacementVerticalBothConflictDisabled() throws Exception {
-        Style style = RendererBaseTest.loadStyle(this, "displacementMode/textDisplacementVerticalBoth_conflict_disabled.sld");
-        BufferedImage image = renderLabels(fs, style, "Label Vertical Both Displacement (conflict_disabled)");
-        //ImageIO.write(image, "PNG", new File("./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementVerticalBoth_conflict_disabled.png"));
-        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementVerticalBoth_conflict_disabled.png";
+        Style style = RendererBaseTest.loadStyle(this, 
+                "displacementMode/textDisplacementVerticalBoth_conflict_disabled.sld");
+        BufferedImage image = renderLabels(fs, style, "Label Vertical Both Displacement " +
+                "(conflict_disabled)");
+        //ImageIO.write(image, "PNG", new File("
+        // ./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode
+        // /textDisplacementVerticalBoth_conflict_disabled.png"));
+        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data" +
+                "/displacementMode/textDisplacementVerticalBoth_conflict_disabled.png";
         ImageAssert.assertEquals(new File(refPath), image, 0);
 
     }
 
-    
+
     public void testDisplacementVerticalBothConflictDisabledMultiLayer() throws Exception {
-        Style style = RendererBaseTest.loadStyle(this, "displacementMode/textDisplacementVerticalBoth_conflict_disabled.sld");
-        Style style2 = RendererBaseTest.loadStyle(this, "displacementMode/textDisplacementVerticalBoth_conflict_disabledPoly.sld");
-        BufferedImage image = renderLabels(new SimpleFeatureSource[]{fs, fs2}, 
-                new Style[] {style, style2}, "Label Vertical Both Displacement (conflict_disabled)");
-        //ImageIO.write(image, "PNG", new File("./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementVerticalBoth_conflict_disabled_multi.png"));
-        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode/textDisplacementVerticalBoth_conflict_disabled_multi.png";
+        Style style = RendererBaseTest.loadStyle(this, 
+                "displacementMode/textDisplacementVerticalBoth_conflict_disabled.sld");
+        Style style2 = RendererBaseTest.loadStyle(this, 
+                "displacementMode/textDisplacementVerticalBoth_conflict_disabledPoly.sld");
+        BufferedImage image = renderLabels(new SimpleFeatureSource[]{fs, fs2},
+                new Style[]{style, style2}, "Label Vertical Both Displacement (conflict_disabled)");
+        //ImageIO.write(image, "PNG", new File("
+        // ./src/test/resources/org/geotools/renderer/lite/test-data/displacementMode
+        // /textDisplacementVerticalBoth_conflict_disabled_multi.png"));
+        String refPath = "./src/test/resources/org/geotools/renderer/lite/test-data" +
+                "/displacementMode/textDisplacementVerticalBoth_conflict_disabled_multi.png";
         ImageAssert.assertEquals(new File(refPath), image, 0);
     }
-  
-    
+
+
     private BufferedImage renderLabels(SimpleFeatureSource fs, Style style, String title)
             throws Exception {
         MapContent mc = new MapContent();
         mc.getViewport().setCoordinateReferenceSystem(DefaultGeographicCRS.WGS84);
         mc.addLayer(new FeatureLayer(fs, style));
-        
+
         StreamingRenderer renderer = new StreamingRenderer();
         renderer.setJava2DHints(new RenderingHints(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON));
         renderer.setMapContent(mc);
-        
+
         return RendererBaseTest.showRender(title, renderer, TIME, bounds);
     }
-    
+
     private BufferedImage renderLabels(SimpleFeatureSource[] fs, Style[] style, String title)
             throws Exception {
         MapContent mc = new MapContent();
         mc.getViewport().setCoordinateReferenceSystem(DefaultGeographicCRS.WGS84);
-        for (int i = 0; i <fs.length; i++) {
+        for (int i = 0; i < fs.length; i++) {
             mc.addLayer(new FeatureLayer(fs[i], style[i]));
         }
-        
+
         StreamingRenderer renderer = new StreamingRenderer();
         renderer.setJava2DHints(new RenderingHints(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON));
         renderer.setMapContent(mc);
-        
+
         return RendererBaseTest.showRender(title, renderer, TIME, bounds);
     }
 }

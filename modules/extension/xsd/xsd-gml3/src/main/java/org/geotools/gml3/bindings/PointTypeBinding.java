@@ -35,34 +35,45 @@ import com.vividsolutions.jts.geom.Point;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:PointType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="PointType"&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;A Point is defined by a single coordinate tuple.&lt;/documentation&gt;
+ *          &lt;documentation&gt;A Point is defined by a single coordinate tuple.&lt;
+ *          /documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;complexContent&gt;
  *          &lt;extension base="gml:AbstractGeometricPrimitiveType"&gt;
  *              &lt;sequence&gt;
  *                  &lt;choice&gt;
  *                      &lt;annotation&gt;
- *                          &lt;documentation&gt;GML supports two different ways to specify the direct poisiton of a point. 1. The "pos" element is of type
- *                                                          DirectPositionType.&lt;/documentation&gt;
+ *                          &lt;documentation&gt;GML supports two different ways to specify the 
+ *                          direct poisiton of a point. 1. The "pos" element is of type
+ *                                                          DirectPositionType.&lt;
+ *                                                          /documentation&gt;
  *                      &lt;/annotation&gt;
  *                      &lt;element ref="gml:pos"/&gt;
  *                      &lt;element ref="gml:coordinates"&gt;
  *                          &lt;annotation&gt;
- *                              &lt;documentation&gt;Deprecated with GML version 3.1.0 for coordinates with ordinate values that are numbers. Use "pos"
- *                                                                  instead. The "coordinates" element shall only be used for coordinates with ordinates that require a string
- *                                                                  representation, e.g. DMS representations.&lt;/documentation&gt;
+ *                              &lt;documentation&gt;Deprecated with GML version 3.1.0 for 
+ *                              coordinates with ordinate values that are numbers. Use "pos"
+ *                                                                  instead. The "coordinates" 
+ *                                                                  element shall only be used 
+ *                                                                  for coordinates with 
+ *                                                                  ordinates that require a string
+ *                                                                  representation, e.g. DMS 
+ *                                                                  representations.&lt;
+ *                                                                  /documentation&gt;
  *                          &lt;/annotation&gt;
  *                      &lt;/element&gt;
  *                      &lt;element ref="gml:coord"&gt;
  *                          &lt;annotation&gt;
- *                              &lt;documentation&gt;Deprecated with GML version 3.0. Use "pos" instead. The "coord" element is included for
- *                                                                  backwards compatibility with GML 2.&lt;/documentation&gt;
+ *                              &lt;documentation&gt;Deprecated with GML version 3.0. Use "pos" 
+ *                              instead. The "coord" element is included for
+ *                                                                  backwards compatibility with 
+ *                                                                  GML 2.&lt;/documentation&gt;
  *                          &lt;/annotation&gt;
  *                      &lt;/element&gt;
  *                  &lt;/choice&gt;
@@ -76,9 +87,6 @@ import com.vividsolutions.jts.geom.Point;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class PointTypeBinding extends AbstractComplexBinding {
@@ -116,14 +124,15 @@ public class PointTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         if (node.hasChild(DirectPosition.class)) {
             DirectPosition dp = (DirectPosition) node.getChildValue(DirectPosition.class);
 
-            if(dp instanceof DirectPosition2D) {
+            if (dp instanceof DirectPosition2D) {
                 return gFactory.createPoint(new Coordinate(dp.getOrdinate(0), dp.getOrdinate(1)));
             } else {
-                return gFactory.createPoint(new Coordinate(dp.getOrdinate(0), dp.getOrdinate(1), dp.getOrdinate(2)));
+                return gFactory.createPoint(new Coordinate(dp.getOrdinate(0), dp.getOrdinate(1), 
+                        dp.getOrdinate(2)));
             }
         }
 
@@ -142,10 +151,10 @@ public class PointTypeBinding extends AbstractComplexBinding {
     public Object getProperty(Object object, QName name) {
         //hack for xlink stuff
         Geometry geometry = (Geometry) object;
-        if ( geometry.isEmpty() ) {
+        if (geometry.isEmpty()) {
             return null;
         }
-        
+
         if ("pos".equals(name.getLocalPart())) {
             Point point = (Point) object;
             return point.getCoordinateSequence();

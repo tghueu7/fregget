@@ -21,13 +21,11 @@ import org.eclipse.xsd.util.XSDSchemaLocationResolver;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class MLSchemaLocationResolver implements XSDSchemaLocationResolver {
     public String resolveSchemaLocation(XSDSchema xsdSchema, String namespaceURI,
-        String schemaLocationURI) {
+                                        String schemaLocationURI) {
         if (schemaLocationURI == null) {
             return null;
         }

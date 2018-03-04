@@ -28,8 +28,8 @@ import ucar.nc2.dataset.CoordinateAxis;
 /**
  * @author Simone Giannecchini, GeoSolutions SAS
  * @author Niels Charlier
- * 
- *         TODO caching
+ * <p>
+ * TODO caching
  */
 class NumericCoordinateVariable<T extends Number> extends CoordinateVariable<T> {
 
@@ -78,15 +78,15 @@ class NumericCoordinateVariable<T extends Number> extends CoordinateVariable<T> 
     protected synchronized CoordinateReferenceSystem buildCoordinateReferenceSystem() {
         final AxisType axisType = coordinateAxis.getAxisType();
         switch (axisType) {
-        case GeoZ:
-        case Height:
-        case Pressure:
-            String axisName = getName();
-            if (NetCDFCRSUtilities.VERTICAL_AXIS_NAMES.contains(axisName)) {
-                return NetCDFCRSUtilities.buildVerticalCrs(coordinateAxis);
-            }
-        default:
-            return null;
+            case GeoZ:
+            case Height:
+            case Pressure:
+                String axisName = getName();
+                if (NetCDFCRSUtilities.VERTICAL_AXIS_NAMES.contains(axisName)) {
+                    return NetCDFCRSUtilities.buildVerticalCrs(coordinateAxis);
+                }
+            default:
+                return null;
         }
     }
 

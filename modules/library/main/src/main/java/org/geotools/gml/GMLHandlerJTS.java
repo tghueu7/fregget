@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -18,17 +18,15 @@ package org.geotools.gml;
 
 /**
  * LEVEL3 saxGML4j GML handler: Gets JTS objects.
- * 
+ * <p>
  * <p>
  * This handler must be implemented by the parent of a GMLFilterGeometry filter
  * in order to handle the JTS objects passed to it from the child.
  * </p>
  *
  * @author Rob Hranac, Vision for New York
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public interface GMLHandlerJTS extends org.xml.sax.ContentHandler {
     /**

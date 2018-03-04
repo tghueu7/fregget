@@ -29,9 +29,9 @@ import org.geotools.map.Layer;
  * A lookup facility for {@code InfoToolHelper} classes.
  *
  * @author Michael Bedward
- * @since 8.0
- * @source $URL$
  * @version $URL$
+ * @source $URL$
+ * @since 8.0
  */
 class InfoToolHelperLookup {
     private static final Logger LOGGER = Logger.getLogger("org.geotools.swing");
@@ -40,13 +40,13 @@ class InfoToolHelperLookup {
 
     public static InfoToolHelper getHelper(Layer layer) {
         loadProviders();
-        
+
         for (InfoToolHelper helper : cachedInstances) {
             try {
                 if (helper.isSupportedLayer(layer)) {
                     return helper.getClass().newInstance();
                 }
-                
+
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
@@ -60,13 +60,13 @@ class InfoToolHelperLookup {
      */
     private static void loadProviders() {
         List<Class> providers = null;
-        
+
         if (cachedInstances == null) {
             cachedInstances = new ArrayList<InfoToolHelper>();
-            
-            ServiceLoader<InfoToolHelper> loader = 
+
+            ServiceLoader<InfoToolHelper> loader =
                     ServiceLoader.load(InfoToolHelper.class);
-            
+
             Iterator<InfoToolHelper> iter = loader.iterator();
             while (iter.hasNext()) {
                 cachedInstances.add(iter.next());

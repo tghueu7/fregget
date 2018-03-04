@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -45,55 +45,63 @@ import com.vividsolutions.jts.geom.PrecisionModel;
  *
  * @author James MacGill, CCG
  * @author Rob Hranac, TOPP
- *
- *
  * @source $URL$
- */                                
+ */
 public class AreaFunctionTest extends TestCase {
 
-      /** Standard logging instance */
+    /**
+     * Standard logging instance
+     */
     protected static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger(
             "org.geotools.filter");
-    /** Feature on which to preform tests */
+    /**
+     * Feature on which to preform tests
+     */
     private static SimpleFeature testFeature = null;
 
-    /** Schema on which to preform tests */
+    /**
+     * Schema on which to preform tests
+     */
     private static SimpleFeatureType testSchema = null;
     boolean setup = false;
-    /** Test suite for this test case */
+    /**
+     * Test suite for this test case
+     */
     TestSuite suite = null;
 
 
-    /** 
+    /**
      * Constructor with test name.
      */
     public AreaFunctionTest(String testName) {
         super(testName);
         //BasicConfigurator.configure();
-    
-        
-    }        
-    
-    /** 
+
+
+    }
+
+    /**
      * Main for test runner.
      */
     public static void main(String[] args) {
         junit.textui.TestRunner.run(suite());
     }
-    
-    /** 
+
+    /**
      * Required suite builder.
+     *
      * @return A test suite for this unit test.
      */
     public static Test suite() {
-       
+
         TestSuite suite = new TestSuite(AreaFunctionTest.class);
         return suite;
     }
-    
-    /** 
+
+    /**
      * Sets up a schema and a test feature.
-     * @throws SchemaException If there is a problem setting up the schema.
+     *
+     * @throws SchemaException         If there is a problem setting up the schema.
      * @throws IllegalFeatureException If problem setting up the feature.
      */
     protected void setUp() throws SchemaException, IllegalAttributeException {
@@ -108,7 +116,7 @@ public class AreaFunctionTest extends TestCase {
     //HACK - this is cut and pasted from filter module tests.  Should be 
     //in a test support module.
     protected void prepareFeatures()
-        throws SchemaException, IllegalAttributeException {
+            throws SchemaException, IllegalAttributeException {
         //_log.getLoggerRepository().setThreshold(Level.INFO);
         // Create the schema attributes
         LOGGER.finer("creating flat feature...");
@@ -144,7 +152,7 @@ public class AreaFunctionTest extends TestCase {
         Object[] attributes = new Object[10];
         GeometryFactory gf = new GeometryFactory(new PrecisionModel());
         LinearRing ring = gf.createLinearRing(coords);
-        attributes[0] = gf.createPolygon(ring,null);
+        attributes[0] = gf.createPolygon(ring, null);
         attributes[1] = new Boolean(true);
         attributes[2] = new Character('t');
         attributes[3] = new Byte("10");
@@ -162,21 +170,21 @@ public class AreaFunctionTest extends TestCase {
         //_log.getLoggerRepository().setThreshold(Level.DEBUG);
     }
 
-    static org.opengis.filter.FilterFactory filterFactory = CommonFactoryFinder.getFilterFactory(null);
-    
-     /** 
+    static org.opengis.filter.FilterFactory filterFactory = CommonFactoryFinder.getFilterFactory
+            (null);
+
+    /**
      * Tests the min function expression.
      */
     public void testAreaFunction()
-        throws IllegalFilterException {
-            
-        PropertyName a = filterFactory.property("testGeometry");         
-        
+            throws IllegalFilterException {
+
+        PropertyName a = filterFactory.property("testGeometry");
+
         AreaFunction area = new AreaFunction();
-        area.setParameters(Arrays.asList(new org.opengis.filter.expression.Expression[] {a}));         
-        assertEquals(100d,((Double)area.evaluate(testFeature)).doubleValue(),0);
+        area.setParameters(Arrays.asList(new org.opengis.filter.expression.Expression[]{a}));
+        assertEquals(100d, ((Double) area.evaluate(testFeature)).doubleValue(), 0);
     }
-    
-   
-    
+
+
 }

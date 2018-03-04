@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2008 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.feature;
@@ -14,12 +14,10 @@ import org.opengis.feature.type.AttributeDescriptor;
 /**
  * Indicates a validation check has failed; the provided descriptor and value are available via this
  * exception.
- * 
+ *
  * @author Jody Garnett (Refractions Research, Inc.)
- * @since GeoAPI 2.2
- *
- *
  * @source $URL$
+ * @since GeoAPI 2.2
  */
 public class IllegalAttributeException extends IllegalArgumentException {
     private static final long serialVersionUID = 3373066465585246605L;
@@ -47,7 +45,7 @@ public class IllegalAttributeException extends IllegalArgumentException {
     }
 
     public IllegalAttributeException(AttributeDescriptor descriptor, Object value, String message,
-            Throwable t) {
+                                     Throwable t) {
         super(message, t);
         this.descriptor = descriptor;
         this.value = value;
@@ -61,7 +59,7 @@ public class IllegalAttributeException extends IllegalArgumentException {
 
     /**
      * AttribtueDescriptor being checked against.
-     * 
+     *
      * @return AttributeDescriptor being checked.
      */
     public AttributeDescriptor getDescriptor() {
@@ -70,7 +68,7 @@ public class IllegalAttributeException extends IllegalArgumentException {
 
     /**
      * Attribute value that failed validation.
-     * 
+     *
      * @return Attribute value
      */
     public Object getValue() {
@@ -81,20 +79,20 @@ public class IllegalAttributeException extends IllegalArgumentException {
     public String toString() {
         String s = getClass().getName();
         String message = getLocalizedMessage();
-        
+
         StringBuffer buf = new StringBuffer();
         buf.append(s);
-        if( message != null){
+        if (message != null) {
             buf.append(":");
             buf.append(message);
         }
-        if( descriptor != null ){
+        if (descriptor != null) {
             buf.append(":");
-            buf.append( descriptor.getName() );
+            buf.append(descriptor.getName());
         }
         buf.append(" value:");
-        buf.append( value );
-        
+        buf.append(value);
+
         return buf.toString();
     }
 }

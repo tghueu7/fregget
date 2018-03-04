@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -25,58 +25,55 @@ import org.opengis.style.StyleVisitor;
  * A Displacement gives X and Y offset displacements to use for rendering a
  * text label near a point.
  *
- *
  * @author Ian Turton, CCG
  * @version $Id$
- *
- *
  * @source $URL$
  */
-public interface Displacement extends org.opengis.style.Displacement{
+public interface Displacement extends org.opengis.style.Displacement {
     /**
      * Default Displacement instance.
      */
     static final Displacement DEFAULT = new ConstantDisplacement() {
-            private void cannotModifyConstant() {
-                throw new UnsupportedOperationException("Constant Stroke may not be modified");
-            }
+        private void cannotModifyConstant() {
+            throw new UnsupportedOperationException("Constant Stroke may not be modified");
+        }
 
-            public Expression getDisplacementX() {
-                return ConstantExpression.ZERO;
-            }
+        public Expression getDisplacementX() {
+            return ConstantExpression.ZERO;
+        }
 
-            public Expression getDisplacementY() {
-                return ConstantExpression.ZERO;
-            }
+        public Expression getDisplacementY() {
+            return ConstantExpression.ZERO;
+        }
 
-            public Object accept(StyleVisitor visitor, Object extraData) {
-                cannotModifyConstant();
-                return null;
-            }
+        public Object accept(StyleVisitor visitor, Object extraData) {
+            cannotModifyConstant();
+            return null;
+        }
 
-        };
+    };
 
     /**
      * Null Displacement instance.
      */
     static final Displacement NULL = new ConstantDisplacement() {
-            private void cannotModifyConstant() {
-                throw new UnsupportedOperationException("Constant Stroke may not be modified");
-            }
+        private void cannotModifyConstant() {
+            throw new UnsupportedOperationException("Constant Stroke may not be modified");
+        }
 
-            public Expression getDisplacementX() {
-                return ConstantExpression.NULL;
-            }
+        public Expression getDisplacementX() {
+            return ConstantExpression.NULL;
+        }
 
-            public Expression getDisplacementY() {
-                return ConstantExpression.NULL;
-            }
+        public Expression getDisplacementY() {
+            return ConstantExpression.NULL;
+        }
 
-            public Object accept(StyleVisitor visitor, Object extraData) {
-                cannotModifyConstant();
-                return null;
-            }
-        };
+        public Object accept(StyleVisitor visitor, Object extraData) {
+            cannotModifyConstant();
+            return null;
+        }
+    };
 
     /**
      * Returns an expression that computes a pixel offset from the geometry
@@ -120,7 +117,7 @@ abstract class ConstantDisplacement implements Displacement {
     public void accept(org.geotools.styling.StyleVisitor visitor) {
         cannotModifyConstant();
     }
-    
+
     public void accept(StyleVisitor visitor) {
         cannotModifyConstant();
     }

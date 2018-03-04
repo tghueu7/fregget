@@ -22,9 +22,8 @@ import java.sql.SQLException;
 /**
  * This interface can be implemented to perform custom behavior on each connection as it gets
  * borrowed from the connection pool and then released back to the pool.
- * 
+ *
  * @author Andrea Aime - GeoSolutions
- * 
  */
 public interface ConnectionLifecycleListener {
 
@@ -40,10 +39,11 @@ public interface ConnectionLifecycleListener {
 
     /**
      * Called when the connection comes to a commit
-     * @throws SQLException 
+     *
+     * @throws SQLException
      */
     public void onCommit(JDBCDataStore store, Connection cx) throws SQLException;
-    
+
     /**
      * Called when the connection comes to a rollback
      */

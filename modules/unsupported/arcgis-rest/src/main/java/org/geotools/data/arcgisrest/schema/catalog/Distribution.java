@@ -1,9 +1,9 @@
-
 package org.geotools.data.arcgisrest.schema.catalog;
 
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -14,8 +14,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 /**
  * Project Open Data Distribution
  * <p>
- * Validates an entire collection of common core metadata JSON objects. Agencies produce said collections in the form of Data.json files.
- * 
+ * Validates an entire collection of common core metadata JSON objects. Agencies produce said 
+ * collections in the form of Data.json files.
  */
 public class Distribution {
 
@@ -23,7 +23,6 @@ public class Distribution {
      * Metadata Context
      * <p>
      * IRI for the JSON-LD data type. This should be dcat:Distribution for each Distribution
-     * 
      */
     @SerializedName("@type")
     @Expose
@@ -32,7 +31,6 @@ public class Distribution {
      * Download URL
      * <p>
      * URL providing direct access to a downloadable file of a dataset
-     * 
      */
     @SerializedName("downloadURL")
     @Expose
@@ -40,8 +38,8 @@ public class Distribution {
     /**
      * Media Type
      * <p>
-     * The machine-readable file format (IANA Media Type or MIME Type) of the distribution’s downloadURL
-     * 
+     * The machine-readable file format (IANA Media Type or MIME Type) of the distribution’s 
+     * downloadURL
      */
     @SerializedName("mediaType")
     @Expose
@@ -50,7 +48,6 @@ public class Distribution {
      * Format
      * <p>
      * A human-readable description of the file format of a distribution
-     * 
      */
     @SerializedName("format")
     @Expose
@@ -59,7 +56,6 @@ public class Distribution {
      * Access URL
      * <p>
      * URL providing indirect access to a dataset
-     * 
      */
     @SerializedName("accessURL")
     @Expose
@@ -68,7 +64,6 @@ public class Distribution {
      * Description
      * <p>
      * Human-readable description of the distribution
-     * 
      */
     @SerializedName("description")
     @Expose
@@ -77,7 +72,6 @@ public class Distribution {
      * Title
      * <p>
      * Human-readable name of the distribution
-     * 
      */
     @SerializedName("title")
     @Expose
@@ -86,7 +80,6 @@ public class Distribution {
      * Data Standard
      * <p>
      * URL providing indirect access to a dataset
-     * 
      */
     @SerializedName("conformsTo")
     @Expose
@@ -95,7 +88,6 @@ public class Distribution {
      * Data Dictionary
      * <p>
      * URL to the data dictionary for the distribution found at the downloadURL
-     * 
      */
     @SerializedName("describedBy")
     @Expose
@@ -103,8 +95,8 @@ public class Distribution {
     /**
      * Data Dictionary Type
      * <p>
-     * The machine-readable file format (IANA Media Type or MIME Type) of the distribution’s describedBy URL
-     * 
+     * The machine-readable file format (IANA Media Type or MIME Type) of the distribution’s 
+     * describedBy URL
      */
     @SerializedName("describedByType")
     @Expose
@@ -114,9 +106,8 @@ public class Distribution {
      * Metadata Context
      * <p>
      * IRI for the JSON-LD data type. This should be dcat:Distribution for each Distribution
-     * 
-     * @return
-     *     The type
+     *
+     * @return The type
      */
     public Distribution.Type getType() {
         return type;
@@ -126,9 +117,8 @@ public class Distribution {
      * Metadata Context
      * <p>
      * IRI for the JSON-LD data type. This should be dcat:Distribution for each Distribution
-     * 
-     * @param type
-     *     The @type
+     *
+     * @param type The @type
      */
     public void setType(Distribution.Type type) {
         this.type = type;
@@ -138,9 +128,8 @@ public class Distribution {
      * Download URL
      * <p>
      * URL providing direct access to a downloadable file of a dataset
-     * 
-     * @return
-     *     The downloadURL
+     *
+     * @return The downloadURL
      */
     public URI getDownloadURL() {
         return downloadURL;
@@ -150,9 +139,8 @@ public class Distribution {
      * Download URL
      * <p>
      * URL providing direct access to a downloadable file of a dataset
-     * 
-     * @param downloadURL
-     *     The downloadURL
+     *
+     * @param downloadURL The downloadURL
      */
     public void setDownloadURL(URI downloadURL) {
         this.downloadURL = downloadURL;
@@ -161,10 +149,10 @@ public class Distribution {
     /**
      * Media Type
      * <p>
-     * The machine-readable file format (IANA Media Type or MIME Type) of the distribution’s downloadURL
-     * 
-     * @return
-     *     The mediaType
+     * The machine-readable file format (IANA Media Type or MIME Type) of the distribution’s 
+     * downloadURL
+     *
+     * @return The mediaType
      */
     public Object getMediaType() {
         return mediaType;
@@ -173,10 +161,10 @@ public class Distribution {
     /**
      * Media Type
      * <p>
-     * The machine-readable file format (IANA Media Type or MIME Type) of the distribution’s downloadURL
-     * 
-     * @param mediaType
-     *     The mediaType
+     * The machine-readable file format (IANA Media Type or MIME Type) of the distribution’s 
+     * downloadURL
+     *
+     * @param mediaType The mediaType
      */
     public void setMediaType(Object mediaType) {
         this.mediaType = mediaType;
@@ -186,9 +174,8 @@ public class Distribution {
      * Format
      * <p>
      * A human-readable description of the file format of a distribution
-     * 
-     * @return
-     *     The format
+     *
+     * @return The format
      */
     public Object getFormat() {
         return format;
@@ -198,9 +185,8 @@ public class Distribution {
      * Format
      * <p>
      * A human-readable description of the file format of a distribution
-     * 
-     * @param format
-     *     The format
+     *
+     * @param format The format
      */
     public void setFormat(Object format) {
         this.format = format;
@@ -210,9 +196,8 @@ public class Distribution {
      * Access URL
      * <p>
      * URL providing indirect access to a dataset
-     * 
-     * @return
-     *     The accessURL
+     *
+     * @return The accessURL
      */
     public Object getAccessURL() {
         return accessURL;
@@ -222,9 +207,8 @@ public class Distribution {
      * Access URL
      * <p>
      * URL providing indirect access to a dataset
-     * 
-     * @param accessURL
-     *     The accessURL
+     *
+     * @param accessURL The accessURL
      */
     public void setAccessURL(Object accessURL) {
         this.accessURL = accessURL;
@@ -234,9 +218,8 @@ public class Distribution {
      * Description
      * <p>
      * Human-readable description of the distribution
-     * 
-     * @return
-     *     The description
+     *
+     * @return The description
      */
     public Object getDescription() {
         return description;
@@ -246,9 +229,8 @@ public class Distribution {
      * Description
      * <p>
      * Human-readable description of the distribution
-     * 
-     * @param description
-     *     The description
+     *
+     * @param description The description
      */
     public void setDescription(Object description) {
         this.description = description;
@@ -258,9 +240,8 @@ public class Distribution {
      * Title
      * <p>
      * Human-readable name of the distribution
-     * 
-     * @return
-     *     The title
+     *
+     * @return The title
      */
     public Object getTitle() {
         return title;
@@ -270,9 +251,8 @@ public class Distribution {
      * Title
      * <p>
      * Human-readable name of the distribution
-     * 
-     * @param title
-     *     The title
+     *
+     * @param title The title
      */
     public void setTitle(Object title) {
         this.title = title;
@@ -282,9 +262,8 @@ public class Distribution {
      * Data Standard
      * <p>
      * URL providing indirect access to a dataset
-     * 
-     * @return
-     *     The conformsTo
+     *
+     * @return The conformsTo
      */
     public Object getConformsTo() {
         return conformsTo;
@@ -294,9 +273,8 @@ public class Distribution {
      * Data Standard
      * <p>
      * URL providing indirect access to a dataset
-     * 
-     * @param conformsTo
-     *     The conformsTo
+     *
+     * @param conformsTo The conformsTo
      */
     public void setConformsTo(Object conformsTo) {
         this.conformsTo = conformsTo;
@@ -306,9 +284,8 @@ public class Distribution {
      * Data Dictionary
      * <p>
      * URL to the data dictionary for the distribution found at the downloadURL
-     * 
-     * @return
-     *     The describedBy
+     *
+     * @return The describedBy
      */
     public Object getDescribedBy() {
         return describedBy;
@@ -318,9 +295,8 @@ public class Distribution {
      * Data Dictionary
      * <p>
      * URL to the data dictionary for the distribution found at the downloadURL
-     * 
-     * @param describedBy
-     *     The describedBy
+     *
+     * @param describedBy The describedBy
      */
     public void setDescribedBy(Object describedBy) {
         this.describedBy = describedBy;
@@ -329,10 +305,10 @@ public class Distribution {
     /**
      * Data Dictionary Type
      * <p>
-     * The machine-readable file format (IANA Media Type or MIME Type) of the distribution’s describedBy URL
-     * 
-     * @return
-     *     The describedByType
+     * The machine-readable file format (IANA Media Type or MIME Type) of the distribution’s 
+     * describedBy URL
+     *
+     * @return The describedByType
      */
     public Object getDescribedByType() {
         return describedByType;
@@ -341,10 +317,10 @@ public class Distribution {
     /**
      * Data Dictionary Type
      * <p>
-     * The machine-readable file format (IANA Media Type or MIME Type) of the distribution’s describedBy URL
-     * 
-     * @param describedByType
-     *     The describedByType
+     * The machine-readable file format (IANA Media Type or MIME Type) of the distribution’s 
+     * describedBy URL
+     *
+     * @param describedByType The describedByType
      */
     public void setDescribedByType(Object describedByType) {
         this.describedByType = describedByType;
@@ -357,7 +333,9 @@ public class Distribution {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(type).append(downloadURL).append(mediaType).append(format).append(accessURL).append(description).append(title).append(conformsTo).append(describedBy).append(describedByType).toHashCode();
+        return new HashCodeBuilder().append(type).append(downloadURL).append(mediaType).append
+                (format).append(accessURL).append(description).append(title).append(conformsTo)
+                .append(describedBy).append(describedByType).toHashCode();
     }
 
     @Override
@@ -369,7 +347,11 @@ public class Distribution {
             return false;
         }
         Distribution rhs = ((Distribution) other);
-        return new EqualsBuilder().append(type, rhs.type).append(downloadURL, rhs.downloadURL).append(mediaType, rhs.mediaType).append(format, rhs.format).append(accessURL, rhs.accessURL).append(description, rhs.description).append(title, rhs.title).append(conformsTo, rhs.conformsTo).append(describedBy, rhs.describedBy).append(describedByType, rhs.describedByType).isEquals();
+        return new EqualsBuilder().append(type, rhs.type).append(downloadURL, rhs.downloadURL)
+                .append(mediaType, rhs.mediaType).append(format, rhs.format).append(accessURL, 
+                        rhs.accessURL).append(description, rhs.description).append(title, rhs
+                        .title).append(conformsTo, rhs.conformsTo).append(describedBy, rhs
+                        .describedBy).append(describedByType, rhs.describedByType).isEquals();
     }
 
     public enum Type {
@@ -377,10 +359,11 @@ public class Distribution {
         @SerializedName("dcat:Distribution")
         DCAT_DISTRIBUTION("dcat:Distribution");
         private final String value;
-        private final static Map<String, Distribution.Type> CONSTANTS = new HashMap<String, Distribution.Type>();
+        private final static Map<String, Distribution.Type> CONSTANTS = new HashMap<String, 
+                Distribution.Type>();
 
         static {
-            for (Distribution.Type c: values()) {
+            for (Distribution.Type c : values()) {
                 CONSTANTS.put(c.value, c);
             }
         }

@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -29,13 +29,13 @@ import com.vividsolutions.jts.geom.LineString;
  *
  * @author Ian Turton, CCG
  * @author Rob Hranac, Vision for New York
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class SubHandlerLineString extends SubHandler {
-    /** List of coordinates for LineString. */
+    /**
+     * List of coordinates for LineString.
+     */
     private ArrayList coordinateList = new ArrayList();
 
     /**
@@ -57,7 +57,6 @@ public class SubHandlerLineString extends SubHandler {
      * Determine whether or not this LineString is ready to be created.
      *
      * @param message The geometry type.
-     *
      * @return Ready for creation flag.
      */
     public boolean isComplete(String message) {
@@ -72,14 +71,14 @@ public class SubHandlerLineString extends SubHandler {
      * Create the LineString.
      *
      * @param geometryFactory The geometry factory needed to do the build.
-     *
      * @return JTS LineString geometry.
      */
     public Geometry create(GeometryFactory geometryFactory) {
-        Coordinate[] coords = (Coordinate[]) coordinateList.toArray(new Coordinate[ coordinateList.size()]);
+        Coordinate[] coords = (Coordinate[]) coordinateList.toArray(new Coordinate[coordinateList
+                .size()]);
         LineString lineString = geometryFactory.createLineString(coords);
-        lineString.setUserData( getSRS() );
-        lineString.setSRID( getSRID() );
+        lineString.setUserData(getSRS());
+        lineString.setSRID(getSRID());
         return lineString;
     }
 }

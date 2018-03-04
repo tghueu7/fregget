@@ -61,18 +61,16 @@ import freemarker.template.TemplateException;
 /**
  * {@link WSProtocol} implementation to talk to a WFS 1.1.0 server leveraging the GeoTools {@code
  * xml-xsd} subsystem for schema assisted parsing and encoding of WFS requests and responses.
- * 
+ *
  * @author rpetty
  * @version $Id$
- * @since 2.6
- *
- *
- *
  * @source $URL$
- *         http://gtsvn.refractions.net/trunk/modules/unsupported/app-schema/webservice/src/main/java/org/geotools/data
- *         /wfs/v1_1_0/WFS_1_1_0_Protocol.java $
+ * http://gtsvn.refractions.net/trunk/modules/unsupported/app-schema/webservice/src/main/java/org
+ * /geotools/data
+ * /wfs/v1_1_0/WFS_1_1_0_Protocol.java $
+ * @since 2.6
  */
-@SuppressWarnings( { "unchecked", "nls" })
+@SuppressWarnings({"unchecked", "nls"})
 public class WS_Protocol implements WSProtocol {
 
     private static final Logger LOGGER = Logging.getLogger("org.geotools.data.ws");
@@ -94,7 +92,7 @@ public class WS_Protocol implements WSProtocol {
     private InputStream capabilitiesStream;
 
     public WS_Protocol(InputStream capabilitiesReader, WSStrategy strategy, URL query,
-            HTTPProtocol http) throws IOException {
+                       HTTPProtocol http) throws IOException {
         this.strategy = strategy;
         this.capabilitiesStream = capabilitiesReader;
         this.capabilities = parseCapabilities(capabilitiesReader);
@@ -110,7 +108,7 @@ public class WS_Protocol implements WSProtocol {
     public URL getOperationURL() {
         return this.url;
     }
-    
+
     public void clean() throws IOException {
         if (capabilitiesStream != null) {
             capabilitiesStream.close();
@@ -133,7 +131,7 @@ public class WS_Protocol implements WSProtocol {
      * @see WSProtocol#getFeaturePOST(Query, String)
      */
     public WSResponse issueGetFeature(final Query query) throws IOException {
-        
+
         Map dataValues = strategy.getRequestData(query);
         return issuePostRequest(dataValues, url);
     }
@@ -150,34 +148,31 @@ public class WS_Protocol implements WSProtocol {
                 return "text/xml";
             }
 
-            public void writeBody(final OutputStream out) throws IOException {                
+            public void writeBody(final OutputStream out) throws IOException {
                 WS_Protocol.encode(request, strategy, out);
             }
         };
 
         HTTPResponse httpResponse = http.issuePost(url, requestBodyCallback);
         InputStream responseStream = httpResponse.getResponseStream();
-                
+
         return new WSResponse(responseStream);
     }
 
     /**
      * Encodes a WFS request into {@code out}
-     * 
-     * @param request
-     *            one of {@link GetCapabilitiesType}, {@link GetFeatureType}, etc
-     * @param configuration
-     *            the wfs configuration to use for encoding the request into the output stream
-     * @param out
-     *            the output stream where to encode the request into
-     * @param charset
-     *            the charset to use to encode the request in
+     *
+     * @param request       one of {@link GetCapabilitiesType}, {@link GetFeatureType}, etc
+     * @param configuration the wfs configuration to use for encoding the request into the output
+     *                     stream
+     * @param out           the output stream where to encode the request into
+     * @param charset       the charset to use to encode the request in
      * @throws IOException
      */
     public static void encode(final EObject request, final Configuration configuration,
-            final OutputStream out, final Charset charset) throws IOException {
+                              final OutputStream out, final Charset charset) throws IOException {
         Encoder encoder = new Encoder(configuration);
-        encoder.setEncoding(charset);        
+        encoder.setEncoding(charset);
     }
 
     private static void encode(Map data, WSStrategy strategy, OutputStream out)
@@ -212,14 +207,14 @@ public class WS_Protocol implements WSProtocol {
         }
         return (WFSCapabilitiesType) parsed;
     }
-    
+
     /**
      * @see WFSProtocol#getFilterCapabilities()
      */
-    public FilterCapabilities getFilterCapabilities() {        
+    public FilterCapabilities getFilterCapabilities() {
         return capabilities.getFilterCapabilities();
     }
-    
+
     public Filter[] splitFilters(Filter filter) {
         FilterCapabilities filterCapabilities = getFilterCapabilities();
         Capabilities filterCaps = new Capabilities();

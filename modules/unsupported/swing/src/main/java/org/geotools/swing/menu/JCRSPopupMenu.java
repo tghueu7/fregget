@@ -42,13 +42,12 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
  * </ol>
  *
  * @author Michael Bedward
- * @since 2.6
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.6
  */
 public class JCRSPopupMenu extends JPopupMenu {
-    
+
     private static final String SET_CRS_STRING = LocaleUtils.getValue("Menu", "CRS_Set");
     private static final String SHOW_CRS_STRING = LocaleUtils.getValue("Menu", "CRS_Show");
 
@@ -74,7 +73,7 @@ public class JCRSPopupMenu extends JPopupMenu {
         this.mapPane = mapPane;
 
         JMenuItem setCRSItem = new JMenuItem(SET_CRS_STRING);
-                
+
         setCRSItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -106,7 +105,6 @@ public class JCRSPopupMenu extends JPopupMenu {
      * {@inheritDoc}
      * The menu items will only be enabled when both the {@code MapPane} associated with
      * this menu, and its {@code MapContent}, are set.
-     *
      */
     @Override
     public void show(Component invoker, int x, int y) {
@@ -133,8 +131,8 @@ public class JCRSPopupMenu extends JPopupMenu {
                     // do nothing
                 }
             }
-            
-            CoordinateReferenceSystem newCRS = JCRSChooser.showDialog(null, initial, "EPSG" );
+
+            CoordinateReferenceSystem newCRS = JCRSChooser.showDialog(null, initial, "EPSG");
 
             if (newCRS != null && (crs == null || !CRS.equalsIgnoreMetadata(crs, newCRS))) {
                 try {
@@ -153,7 +151,7 @@ public class JCRSPopupMenu extends JPopupMenu {
     private void showCRS() {
         if (mapPane != null && mapPane.getMapContent() != null) {
             CoordinateReferenceSystem crs = mapPane.getMapContent().getCoordinateReferenceSystem();
-            JTextReporter.showDialog("Coordinate reference system", 
+            JTextReporter.showDialog("Coordinate reference system",
                     crs.toWKT(),
                     JTextReporter.FLAG_MODAL);
         }

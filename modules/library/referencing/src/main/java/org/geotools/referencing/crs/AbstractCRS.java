@@ -41,18 +41,17 @@ import org.geotools.util.UnsupportedImplementationException;
 /**
  * Abstract coordinate reference system, usually defined by a coordinate system and a datum.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
+ * @tutorial http://docs.codehaus.org/display/GEOTOOLS/Coordinate+Transformation+Services+for
+ * +Geotools+2.1
  * @see AbstractCS
  * @see org.geotools.referencing.datum.AbstractDatum
- * @tutorial http://docs.codehaus.org/display/GEOTOOLS/Coordinate+Transformation+Services+for+Geotools+2.1
+ * @since 2.1
  */
-public abstract class AbstractCRS extends AbstractReferenceSystem implements CoordinateReferenceSystem {
+public abstract class AbstractCRS extends AbstractReferenceSystem implements 
+        CoordinateReferenceSystem {
     /**
      * Serial number for interoperability with different versions.
      */
@@ -71,7 +70,6 @@ public abstract class AbstractCRS extends AbstractReferenceSystem implements Coo
      * i.e. the properties are not cloned.
      *
      * @param crs The coordinate reference system to copy.
-     *
      * @since 2.2
      */
     public AbstractCRS(final CoordinateReferenceSystem crs) {
@@ -85,9 +83,9 @@ public abstract class AbstractCRS extends AbstractReferenceSystem implements Coo
      * constructor}.
      *
      * @param properties Set of properties. Should contains at least {@code "name"}.
-     * @param cs The coordinate system.
+     * @param cs         The coordinate system.
      */
-    public AbstractCRS(final Map<String,?> properties, final CoordinateSystem cs) {
+    public AbstractCRS(final Map<String, ?> properties, final CoordinateSystem cs) {
         super(properties);
         ensureNonNull("cs", cs);
         this.coordinateSystem = cs;
@@ -102,10 +100,10 @@ public abstract class AbstractCRS extends AbstractReferenceSystem implements Coo
      * the alias, it still possible to consider two objects are equivalent even if their names
      * were formatted in different locales.
      */
-    static Map<String,?> name(final int key) {
-        final Map<String,Object> properties = new HashMap<String,Object>(4);
+    static Map<String, ?> name(final int key) {
+        final Map<String, Object> properties = new HashMap<String, Object>(4);
         final InternationalString name = Vocabulary.formatInternational(key);
-        properties.put(NAME_KEY,  name.toString());
+        properties.put(NAME_KEY, name.toString());
         properties.put(ALIAS_KEY, name);
         return properties;
     }
@@ -130,16 +128,15 @@ public abstract class AbstractCRS extends AbstractReferenceSystem implements Coo
      * Computes the distance between two points. This convenience method delegates the work to
      * the underlyling {@linkplain AbstractCS coordinate system}, if possible.
      *
-     * @param  coord1 Coordinates of the first point.
-     * @param  coord2 Coordinates of the second point.
+     * @param coord1 Coordinates of the first point.
+     * @param coord2 Coordinates of the second point.
      * @return The distance between {@code coord1} and {@code coord2}.
      * @throws UnsupportedOperationException if this coordinate reference system can't compute
-     *         distances.
-     * @throws MismatchedDimensionException if a coordinate doesn't have the expected dimension.
+     *                                       distances.
+     * @throws MismatchedDimensionException  if a coordinate doesn't have the expected dimension.
      */
     public Measure distance(final double[] coord1, final double[] coord2)
-            throws UnsupportedOperationException, MismatchedDimensionException
-    {
+            throws UnsupportedOperationException, MismatchedDimensionException {
         if (coordinateSystem instanceof AbstractCS) {
             return ((AbstractCS) coordinateSystem).distance(coord1, coord2);
         }
@@ -151,9 +148,10 @@ public abstract class AbstractCRS extends AbstractReferenceSystem implements Coo
      * If {@code compareMetadata} is {@code true}, then all available properties are
      * compared including {@linkplain #getValidArea valid area} and {@linkplain #getScope scope}.
      *
-     * @param  object The object to compare to {@code this}.
-     * @param  compareMetadata {@code true} for performing a strict comparaison, or
-     *         {@code false} for comparing only properties relevant to transformations.
+     * @param object          The object to compare to {@code this}.
+     * @param compareMetadata {@code true} for performing a strict comparaison, or
+     *                        {@code false} for comparing only properties relevant to 
+     *                                    transformations.
      * @return {@code true} if both objects are equal.
      */
     @Override
@@ -170,30 +168,31 @@ public abstract class AbstractCRS extends AbstractReferenceSystem implements Coo
      * {@linkplain #getIdentifiers identifiers} and {@linkplain #getRemarks remarks}
      * are not taken in account. In other words, two CRS objects will return the same
      * hash value if they are equal in the sense of
-     * <code>{@link #equals(AbstractIdentifiedObject,boolean) equals}(AbstractIdentifiedObject,
+     * <code>{@link #equals(AbstractIdentifiedObject, boolean) equals}(AbstractIdentifiedObject,
      * <strong>false</strong>)</code>.
      *
      * @return The hash code value. This value doesn't need to be the same
-     *         in past or future versions of this class.
+     * in past or future versions of this class.
      */
     @Override
     public int hashCode() {
-        return (int)serialVersionUID ^ coordinateSystem.hashCode();
+        return (int) serialVersionUID ^ coordinateSystem.hashCode();
     }
 
     /**
      * Formats the inner part of a
-     * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
+     * <A HREF="http://geoapi.sourceforge
+     * .net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
      * Known Text</cite> (WKT)</A> element. The default implementation writes the following
      * elements:
      * <ul>
-     *   <li>The {@linkplain #datum datum}, if any.</li>
-     *   <li>The unit if all axis use the same unit. Otherwise the unit is omitted and
-     *       the WKT format is {@linkplain Formatter#isInvalidWKT flagged as invalid}.</li>
-     *   <li>All {@linkplain #coordinateSystem coordinate system}'s axis.</li>
+     * <li>The {@linkplain #datum datum}, if any.</li>
+     * <li>The unit if all axis use the same unit. Otherwise the unit is omitted and
+     * the WKT format is {@linkplain Formatter#isInvalidWKT flagged as invalid}.</li>
+     * <li>All {@linkplain #coordinateSystem coordinate system}'s axis.</li>
      * </ul>
      *
-     * @param  formatter The formatter to use.
+     * @param formatter The formatter to use.
      * @return The name of the WKT element type (e.g. {@code "GEOGCS"}).
      */
     @Override
@@ -211,7 +210,7 @@ public abstract class AbstractCRS extends AbstractReferenceSystem implements Coo
         final Unit<?> unit = getUnit();
         formatter.append(unit);
         final int dimension = coordinateSystem.getDimension();
-        for (int i=0; i<dimension; i++) {
+        for (int i = 0; i < dimension; i++) {
             formatter.append(coordinateSystem.getAxis(i));
         }
         if (unit == null) {

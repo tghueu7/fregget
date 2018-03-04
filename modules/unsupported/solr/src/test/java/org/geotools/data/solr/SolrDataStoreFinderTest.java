@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2014, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -68,7 +68,7 @@ public class SolrDataStoreFinderTest extends TestCase {
 
     private FactoryRegistry getServiceRegistry() {
         FactoryRegistry registry = new FactoryCreator(
-                Arrays.asList(new Class<?>[] { DataStoreFactorySpi.class }));
+                Arrays.asList(new Class<?>[]{DataStoreFactorySpi.class}));
         return registry;
     }
 
@@ -78,7 +78,7 @@ public class SolrDataStoreFinderTest extends TestCase {
 
     public Stream<DataStoreFactorySpi> getAvailableDataSources() {
         return getServiceRegistry()
-                .getFactories(DataStoreFactorySpi.class, null,null)
+                .getFactories(DataStoreFactorySpi.class, null, null)
                 .filter(ds -> ds instanceof SolrDataStoreFactory)
                 .filter(DataStoreFactorySpi::isAvailable);
     }

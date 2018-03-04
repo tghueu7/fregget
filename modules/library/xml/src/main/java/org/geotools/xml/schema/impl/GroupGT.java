@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -29,8 +29,6 @@ import org.geotools.xml.schema.Group;
  * </p>
  *
  * @author dzwiers
- *
- *
  * @source $URL$
  */
 public class GroupGT implements Group {
@@ -48,15 +46,15 @@ public class GroupGT implements Group {
     /**
      * Creates a new GroupGT object.
      *
-     * @param id DOCUMENT ME!
-     * @param name DOCUMENT ME!
+     * @param id        DOCUMENT ME!
+     * @param name      DOCUMENT ME!
      * @param namespace DOCUMENT ME!
-     * @param child DOCUMENT ME!
-     * @param min DOCUMENT ME!
-     * @param max DOCUMENT ME!
+     * @param child     DOCUMENT ME!
+     * @param min       DOCUMENT ME!
+     * @param max       DOCUMENT ME!
      */
     public GroupGT(String id, String name, URI namespace,
-        ElementGrouping child, int min, int max) {
+                   ElementGrouping child, int min, int max) {
         this.id = id;
         this.name = name;
         name.toCharArray();
@@ -122,7 +120,7 @@ public class GroupGT implements Group {
         return (child == null) ? null : child.findChildElement(name1);
     }
 
-	public Element findChildElement(String localName, URI namespaceURI) {
+    public Element findChildElement(String localName, URI namespaceURI) {
         return (child == null) ? null : child.findChildElement(localName, namespaceURI);
-	}
+    }
 }

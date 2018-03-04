@@ -33,9 +33,9 @@ import org.opengis.filter.Filter;
 
 /**
  * Binding object for the type http://www.opengis.net/wfs:UpdateElementType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="UpdateElementType"&gt;
  *      &lt;xsd:sequence&gt;
@@ -124,9 +124,6 @@ import org.opengis.filter.Filter;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class UpdateElementTypeBinding extends AbstractComplexEMFBinding {
@@ -160,7 +157,7 @@ public class UpdateElementTypeBinding extends AbstractComplexEMFBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         UpdateElementType updateElement = wfsfactory.createUpdateElementType();
 
         //&lt;xsd:element maxOccurs="unbounded" ref="wfs:Property"&gt;
@@ -192,7 +189,7 @@ public class UpdateElementTypeBinding extends AbstractComplexEMFBinding {
     }
 
     public Object getProperty(Object arg0, QName arg1)
-        throws Exception {
+            throws Exception {
         Object result = super.getProperty(arg0, arg1);
 
         //System.out.println("Being asked for " + arg1);

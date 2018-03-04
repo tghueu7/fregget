@@ -27,19 +27,17 @@ import org.geotools.xml.Schemas;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SMIL20SchemaLocator implements XSDSchemaLocator {
     public XSDSchema locateSchema(XSDSchema schema, String namespaceURI,
-        String rawSchemaLocationURI, String resolvedSchemaLocationURI) {
+                                  String rawSchemaLocationURI, String resolvedSchemaLocationURI) {
         if (SMIL20.NAMESPACE.equals(namespaceURI)) {
             String location = getClass().getResource("smil20.xsd").toString();
 
-            XSDSchemaLocationResolver[] locators = new XSDSchemaLocationResolver[] {
+            XSDSchemaLocationResolver[] locators = new XSDSchemaLocationResolver[]{
                     new SMIL20SchemaLocationResolver()
-                };
+            };
 
             try {
                 return Schemas.parse(location, null, locators);
@@ -51,9 +49,9 @@ public class SMIL20SchemaLocator implements XSDSchemaLocator {
         if (SMIL20LANG.NAMESPACE.equals(namespaceURI)) {
             String location = getClass().getResource("smil20-language.xsd").toString();
 
-            XSDSchemaLocationResolver[] locators = new XSDSchemaLocationResolver[] {
+            XSDSchemaLocationResolver[] locators = new XSDSchemaLocationResolver[]{
                     new SMIL20SchemaLocationResolver()
-                };
+            };
 
             try {
                 return Schemas.parse(location, null, locators);

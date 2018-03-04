@@ -19,7 +19,9 @@ package org.geotools.xml.impl.jxpath;
 import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.jxpath.JXPathContextFactory;
 import org.apache.commons.jxpath.JXPathIntrospector;
+
 import java.util.Iterator;
+
 import org.geotools.xml.Configuration;
 import org.geotools.xml.Node;
 import org.geotools.xml.impl.DocumentHandler;
@@ -30,12 +32,12 @@ import org.geotools.xml.impl.StreamingParserHandler;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class JXPathStreamingParserHandler extends StreamingParserHandler {
-    /** xpath to stream **/
+    /**
+     * xpath to stream
+     **/
     String xpath;
 
     public JXPathStreamingParserHandler(Configuration config, String xpath) {
@@ -60,7 +62,7 @@ public class JXPathStreamingParserHandler extends StreamingParserHandler {
 
         Iterator itr = jxpContext.iterate(xpath);
 
-        for (; itr.hasNext();) {
+        for (; itr.hasNext(); ) {
             Object obj = itr.next();
 
             if (handler.getParseNode().equals(obj)) {

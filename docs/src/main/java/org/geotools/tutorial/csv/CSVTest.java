@@ -249,7 +249,7 @@ public class CSVTest {
 
         SimpleFeatureSource featureSource = store.getFeatureSource("locations");
         SimpleFeatureCollection featureCollection = featureSource.getFeatures();
-        
+
         List<String> list = new ArrayList<>();
         try (SimpleFeatureIterator features = featureCollection.features();) {
             while (features.hasNext()) {

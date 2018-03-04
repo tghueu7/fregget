@@ -27,14 +27,11 @@ import org.opengis.coverage.grid.GridCoordinates;
  * Holds the set of grid coordinates that specifies the location of the
  * {@linkplain GridPoint grid point} within the {@linkplain Grid grid}.
  *
- * @since 2.4
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
- *
+ * @version $Id$
+ * @source $URL$
  * @see GridCoordinates2D
+ * @since 2.4
  */
 public class GeneralGridCoordinates implements GridCoordinates, Serializable {
     /**
@@ -70,9 +67,8 @@ public class GeneralGridCoordinates implements GridCoordinates, Serializable {
      * Creates a grid coordinates initialized to the specified values in the specified range.
      *
      * @param coordinates The coordinates to copy.
-     * @param lower Index of the first value to copy, inclusive.
-     * @param upper Index of the last value to copy, exclusive.
-     *
+     * @param lower       Index of the first value to copy, inclusive.
+     * @param upper       Index of the last value to copy, exclusive.
      * @since 2.5
      */
     public GeneralGridCoordinates(final int[] coordinates, final int lower, final int upper) {
@@ -85,7 +81,6 @@ public class GeneralGridCoordinates implements GridCoordinates, Serializable {
      * Creates a grid coordinates which is a copy of the specified one.
      *
      * @param coordinates The grid coordinates to copy.
-     *
      * @since 2.5
      */
     public GeneralGridCoordinates(final GridCoordinates coordinates) {
@@ -108,7 +103,7 @@ public class GeneralGridCoordinates implements GridCoordinates, Serializable {
      * direction of a specific axis.
      *
      * @return A copy of the coordinates. Changes in the returned array will not be reflected
-     *         back in this {@code GeneralGridCoordinates} object.
+     * back in this {@code GeneralGridCoordinates} object.
      */
     public int[] getCoordinateValues() {
         return coordinates.clone();
@@ -119,7 +114,7 @@ public class GeneralGridCoordinates implements GridCoordinates, Serializable {
      * <code>{@linkplain #getCoordinateValues()}[<var>i</var>]</code>. It is provided for
      * efficienty.
      *
-     * @param  dimension The dimension from 0 inclusive to {@link #getDimension} exclusive.
+     * @param dimension The dimension from 0 inclusive to {@link #getDimension} exclusive.
      * @return The value at the requested dimension.
      * @throws ArrayIndexOutOfBoundsException if the specified dimension is out of bounds.
      */
@@ -130,14 +125,13 @@ public class GeneralGridCoordinates implements GridCoordinates, Serializable {
     /**
      * Sets the coordinate value at the specified dimension (optional operation).
      *
-     * @param  dimension The index of the value to set.
-     * @param  value The new value.
+     * @param dimension The index of the value to set.
+     * @param value     The new value.
      * @throws ArrayIndexOutOfBoundsException if the specified dimension is out of bounds.
-     * @throws UnsupportedOperationException if this grid coordinates is not modifiable.
+     * @throws UnsupportedOperationException  if this grid coordinates is not modifiable.
      */
     public void setCoordinateValue(final int dimension, final int value)
-            throws ArrayIndexOutOfBoundsException, UnsupportedOperationException
-    {
+            throws ArrayIndexOutOfBoundsException, UnsupportedOperationException {
         coordinates[dimension] = value;
     }
 
@@ -147,8 +141,8 @@ public class GeneralGridCoordinates implements GridCoordinates, Serializable {
     static String toString(final GridCoordinates coordinates) {
         final StringBuilder buffer = new StringBuilder(Classes.getShortClassName(coordinates));
         final int dimension = coordinates.getDimension();
-        for (int i=0; i<dimension; i++) {
-            buffer.append(i==0 ? '[' : ',').append(coordinates.getCoordinateValue(i));
+        for (int i = 0; i < dimension; i++) {
+            buffer.append(i == 0 ? '[' : ',').append(coordinates.getCoordinateValue(i));
         }
         return buffer.append(']').toString();
     }
@@ -169,7 +163,7 @@ public class GeneralGridCoordinates implements GridCoordinates, Serializable {
     @Override
     public int hashCode() {
         int code = (int) serialVersionUID;
-        for (int i=0; i<coordinates.length; i++) {
+        for (int i = 0; i < coordinates.length; i++) {
             code = code * 37 + coordinates[i];
         }
         return code;
@@ -215,10 +209,10 @@ public class GeneralGridCoordinates implements GridCoordinates, Serializable {
      * instance to be shared by many objects without the cost of cloning. This class is
      * final in order to prevent subclasses from making it mutable again.
      *
-     * @since 2.5
-     * @source $URL$
-     * @version $Id$
      * @author Martin Desruisseaux
+     * @version $Id$
+     * @source $URL$
+     * @since 2.5
      */
     public static final class Immutable extends GeneralGridCoordinates {
         /**
@@ -239,8 +233,8 @@ public class GeneralGridCoordinates implements GridCoordinates, Serializable {
          * Creates an immutable grid coordinates with the specified values in the specified range.
          *
          * @param coordinates The coordinates to copy.
-         * @param lower Index of the first value to copy, inclusive.
-         * @param upper Index of the last value to copy, exclusive.
+         * @param lower       Index of the first value to copy, inclusive.
+         * @param upper       Index of the last value to copy, exclusive.
          */
         public Immutable(final int[] coordinates, final int lower, final int upper) {
             super(coordinates, lower, upper);
@@ -262,7 +256,7 @@ public class GeneralGridCoordinates implements GridCoordinates, Serializable {
          * immutability contract.
          */
         final void translate(final int offset) {
-            for (int i=0; i<coordinates.length; i++) {
+            for (int i = 0; i < coordinates.length; i++) {
                 coordinates[i] += offset;
             }
         }
@@ -274,8 +268,7 @@ public class GeneralGridCoordinates implements GridCoordinates, Serializable {
          */
         @Override
         public void setCoordinateValue(final int dimension, final int value)
-                throws UnsupportedOperationException
-        {
+                throws UnsupportedOperationException {
             throw new UnsupportedOperationException();
         }
 

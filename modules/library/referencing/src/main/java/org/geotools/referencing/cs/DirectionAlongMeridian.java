@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2007-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -28,10 +28,9 @@ import org.opengis.referencing.cs.AxisDirection;
  * "<cite>South along 90 deg East</cite>". Those directions are
  * used in the EPSG database for polar stereographic projections.
  *
- * @version $Id$
- *
- * @source $URL$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
  * @since 2.7.2
  */
 public final class DirectionAlongMeridian implements Comparable, Serializable {
@@ -47,7 +46,7 @@ public final class DirectionAlongMeridian implements Comparable, Serializable {
 
     /**
      * A parser for EPSG axis names. Examples:
-     *
+     * <p>
      * "<cite>South along 180 deg</cite>",
      * "<cite>South along 90 deg East</cite>"
      */
@@ -59,11 +58,11 @@ public final class DirectionAlongMeridian implements Comparable, Serializable {
      * The base directions we are interested in. Any direction not in
      * this group will be rejected by our parser.
      */
-    private static final AxisDirection[] BASE_DIRECTIONS = new AxisDirection[] {
-        AxisDirection.NORTH,
-        AxisDirection.SOUTH,
-        AxisDirection.EAST,
-        AxisDirection.WEST
+    private static final AxisDirection[] BASE_DIRECTIONS = new AxisDirection[]{
+            AxisDirection.NORTH,
+            AxisDirection.SOUTH,
+            AxisDirection.EAST,
+            AxisDirection.WEST
     };
 
     /**
@@ -89,7 +88,7 @@ public final class DirectionAlongMeridian implements Comparable, Serializable {
      */
     private DirectionAlongMeridian(final AxisDirection baseDirection, final double meridian) {
         this.baseDirection = baseDirection;
-        this.meridian      = meridian;
+        this.meridian = meridian;
     }
 
     /**
@@ -151,23 +150,24 @@ public final class DirectionAlongMeridian implements Comparable, Serializable {
     /**
      * Searchs for the specified name in the specified set of directions.
      */
-    private static AxisDirection findDirection(final AxisDirection[] values, final String direction) {
-        for (int i=0; i<values.length; i++) {
+    private static AxisDirection findDirection(final AxisDirection[] values, final String 
+            direction) {
+        for (int i = 0; i < values.length; i++) {
             final AxisDirection candidate = values[i];
             final String name = candidate.name();
             if (direction.equalsIgnoreCase(name)) {
                 return candidate;
-            } 
-            
+            }
+
             // check for common abbreviations
-            if(direction.length() == 1) {
-                if(candidate == AxisDirection.NORTH && direction.equals("N"))
+            if (direction.length() == 1) {
+                if (candidate == AxisDirection.NORTH && direction.equals("N"))
                     return candidate;
-                if(candidate == AxisDirection.SOUTH && direction.equals("S"))
+                if (candidate == AxisDirection.SOUTH && direction.equals("S"))
                     return candidate;
-                if(candidate == AxisDirection.WEST && direction.equals("W"))
+                if (candidate == AxisDirection.WEST && direction.equals("W"))
                     return candidate;
-                if(candidate == AxisDirection.EAST && direction.equals("E"))
+                if (candidate == AxisDirection.EAST && direction.equals("E"))
                     return candidate;
             }
         }
@@ -264,13 +264,13 @@ public final class DirectionAlongMeridian implements Comparable, Serializable {
      * the ordering used for the majority of coordinate systems in the EPSG database, i.e. the
      * ordering of a right-handed coordinate system. Examples of ordered pairs that we should
      * get (extracted from the EPSG database):
-     *
+     * <p>
      * <table>
-     *   <tr><td>North along 90 deg East,</td>  <td>North along 0 deg</td></tr>
-     *   <tr><td>North along 75 deg West,</td>  <td>North along 165 deg West</td></tr>
-     *   <tr><td>South along 90 deg West,</td>  <td>South along 0 deg</td></tr>
-     *   <tr><td>South along 180 deg,</td>      <td>South along 90 deg West</td></tr>
-     *   <tr><td>North along 130 deg West</td>  <td>North along 140 deg East</td></tr>
+     * <tr><td>North along 90 deg East,</td>  <td>North along 0 deg</td></tr>
+     * <tr><td>North along 75 deg West,</td>  <td>North along 165 deg West</td></tr>
+     * <tr><td>South along 90 deg West,</td>  <td>South along 0 deg</td></tr>
+     * <tr><td>South along 180 deg,</td>      <td>South along 90 deg West</td></tr>
+     * <tr><td>North along 130 deg West</td>  <td>North along 140 deg East</td></tr>
      * </table>
      */
     public int compareTo(final Object object) {
@@ -294,7 +294,7 @@ public final class DirectionAlongMeridian implements Comparable, Serializable {
         if (object instanceof DirectionAlongMeridian) {
             final DirectionAlongMeridian that = (DirectionAlongMeridian) object;
             return baseDirection.equals(that.baseDirection) &&
-                   Double.doubleToLongBits(meridian) == Double.doubleToLongBits(that.meridian);
+                    Double.doubleToLongBits(meridian) == Double.doubleToLongBits(that.meridian);
         }
         return false;
     }
@@ -305,7 +305,8 @@ public final class DirectionAlongMeridian implements Comparable, Serializable {
     @Override
     public int hashCode() {
         final long code = Double.doubleToLongBits(meridian);
-        return (int)serialVersionUID ^ (int)code ^ (int)(code >> 32) + 37*baseDirection.hashCode();
+        return (int) serialVersionUID ^ (int) code ^ (int) (code >> 32) + 37 * baseDirection
+                .hashCode();
     }
 
     /**
@@ -322,7 +323,7 @@ public final class DirectionAlongMeridian implements Comparable, Serializable {
         toLowerCase(buffer, 0);
         buffer.append(" along ");
         final double md = Math.abs(meridian);
-        final int    mi = (int) md;
+        final int mi = (int) md;
         if (md == mi) {
             buffer.append(mi);
         } else {
@@ -346,7 +347,7 @@ public final class DirectionAlongMeridian implements Comparable, Serializable {
      * the end of the buffer. For {@link #toString} internal use only.
      */
     private static void toLowerCase(final StringBuilder buffer, final int base) {
-        for (int i=buffer.length(); --i>base;) {
+        for (int i = buffer.length(); --i > base; ) {
             buffer.setCharAt(i, Character.toLowerCase(buffer.charAt(i)));
         }
     }

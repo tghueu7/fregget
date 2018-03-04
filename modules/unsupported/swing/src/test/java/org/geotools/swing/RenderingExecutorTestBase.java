@@ -18,6 +18,7 @@
 package org.geotools.swing;
 
 import org.geotools.swing.testutils.MockRenderer;
+
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -30,29 +31,28 @@ import org.geotools.swing.testutils.WaitingRenderingExecutorListener;
 
 /**
  * Base class for RenderingExecutor tests.
- * 
- * @author Michael Bedward
- * @since 8.0
  *
- * @source $URL$
+ * @author Michael Bedward
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 public abstract class RenderingExecutorTestBase {
 
-    protected static final ReferencedEnvelope WORLD = 
+    protected static final ReferencedEnvelope WORLD =
             new ReferencedEnvelope(150, 152, -33, -35, DefaultGeographicCRS.WGS84);
-    
+
     protected static final Rectangle PANE = new Rectangle(200, 150);
-    
+
     protected static final long WAIT_TIMEOUT = 500;
-    
+
     protected RenderingExecutor executor;
     protected Graphics2D graphics;
     protected BufferedImage image;
     protected WaitingRenderingExecutorListener listener;
     protected MapContent mapContent;
     protected MockRenderer renderer;
-    
+
     protected void setup() {
         executor = new DefaultRenderingExecutor();
         listener = new WaitingRenderingExecutorListener();

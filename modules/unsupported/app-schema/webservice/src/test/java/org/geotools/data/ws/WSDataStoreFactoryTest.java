@@ -35,8 +35,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class WSDataStoreFactoryTest {
@@ -70,7 +68,7 @@ public class WSDataStoreFactoryTest {
 
         params.put(WSDataStoreFactory.TEMPLATE_NAME.key, "request.ftl");
         assertFalse(dsf.canProcess(params));
-        
+
         try {
             params.put(WSDataStoreFactory.TEMPLATE_DIRECTORY.key, new URL(
                     "file:./src/test/resources/test-data"));
@@ -88,7 +86,7 @@ public class WSDataStoreFactoryTest {
         assertTrue(dsf.canProcess(params));
 
         params.put(WSDataStoreFactory.TIMEOUT.key, "30000");
-        assertTrue(dsf.canProcess(params));       
+        assertTrue(dsf.canProcess(params));
     }
 
     @Test
@@ -99,16 +97,16 @@ public class WSDataStoreFactoryTest {
     }
 
     private void testCreateDataStore_WS(final String capabilitiesFile) throws IOException {
-         final WSDataStoreFactory dsf = new WSDataStoreFactory(); 
+        final WSDataStoreFactory dsf = new WSDataStoreFactory();
         Map<String, Serializable> params = new HashMap<String, Serializable>();
-         
-            
+
+
         File file = new File(BASE_DIRECTORY + capabilitiesFile);
         if (!file.exists()) {
             throw new IllegalArgumentException(capabilitiesFile + " not found");
-        }    
+        }
         URL url = file.toURL();
-       
+
         params.put(WSDataStoreFactory.GET_CONNECTION_URL.key, url);
         params.put(WSDataStoreFactory.TEMPLATE_DIRECTORY.key, new URL("file:" + BASE_DIRECTORY));
         params.put(WSDataStoreFactory.TEMPLATE_NAME.key, "request.ftl");

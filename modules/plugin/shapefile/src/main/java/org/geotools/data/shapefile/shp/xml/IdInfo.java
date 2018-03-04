@@ -20,17 +20,19 @@ import com.vividsolutions.jts.geom.Envelope;
 
 /**
  * Bean of idinfo element of shp.xml.
- * 
- *
  *
  * @source $URL$
  */
 public class IdInfo {
 
-    /** spdom/bounding represents */
+    /**
+     * spdom/bounding represents
+     */
     Envelope bounding;
 
-    /** spdom/lbounding represents */
+    /**
+     * spdom/lbounding represents
+     */
     Envelope lbounding;
 
     /**
@@ -41,8 +43,7 @@ public class IdInfo {
     }
 
     /**
-     * @param bounding
-     *                The bounding to set.
+     * @param bounding The bounding to set.
      */
     public void setBounding(Envelope bounding) {
         this.bounding = bounding;
@@ -56,8 +57,7 @@ public class IdInfo {
     }
 
     /**
-     * @param lbounding
-     *                The lbounding to set.
+     * @param lbounding The lbounding to set.
      */
     public void setLbounding(Envelope lbounding) {
         this.lbounding = lbounding;

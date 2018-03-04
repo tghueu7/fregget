@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2006-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -25,14 +25,14 @@ import java.util.Date;
  * <p>
  * Maintains convenient methods to manipulate the duration information.
  * </p>
- * 
- * @since 2.5
- * 
+ *
  * @author Mauricio Pazos - Axios Engineering
  * @author Gabriel Roldan - Axios Engineering
  * @version $Id$
  * @source $URL:
- *         http://svn.geotools.org/geotools/trunk/gt/modules/library/cql/src/main/java/org/geotools/text/filter/cql2/DurationUtil.java $
+ * http://svn.geotools.org/geotools/trunk/gt/modules/library/cql/src/main/java/org/geotools/text
+ * /filter/cql2/DurationUtil.java $
+ * @since 2.5
  */
 final class DurationUtil {
     private static final Calendar CALENDAR = Calendar.getInstance();
@@ -44,7 +44,9 @@ final class DurationUtil {
     private static final int MINUTES = 1;
     private static final int SECONDS = 2;
 
-    /** H,M,S */
+    /**
+     * H,M,S
+     */
     private static int[] DURATION_TIME = new int[3];
 
     private DurationUtil() {
@@ -56,13 +58,13 @@ final class DurationUtil {
      *
      * @param duration
      * @return int[3] with years,months,days, if some value are not present -1
-     *         will be returned.
+     * will be returned.
      */
     private static int[] extractDurationDate(final String duration) {
         // initializes duration date container
         /** Y,M,D */
         int[] durationDate = new int[3];
-        
+
         for (int i = 0; i < durationDate.length; i++) {
             durationDate[i] = -1;
         }
@@ -116,7 +118,7 @@ final class DurationUtil {
      *
      * @param duration
      * @return int[3] with hours, minutes and seconds if some value are not
-     *         present -1 will be returned.
+     * present -1 will be returned.
      */
     private static int[] extractDurationTime(final String duration) {
         for (int i = 0; i < DURATION_TIME.length; i++) {
@@ -168,16 +170,12 @@ final class DurationUtil {
     /**
      * Add duration to date
      *
-     * @param date
-     *            a Date
-     * @param duration
-     *            a String formated like "P##Y##M##D"
-     *
+     * @param date     a Date
+     * @param duration a String formated like "P##Y##M##D"
      * @return a Date
-     *
      */
     public static Date addDurationToDate(final Date date, final String duration)
-        throws NumberFormatException {
+            throws NumberFormatException {
         final int positive = 1;
 
         Date computedDate = null;
@@ -192,15 +190,13 @@ final class DurationUtil {
     /**
      * Adds years, month and days (duration) to initial date.
      *
-     * @param date
-     *            initial date
-     * @param duration
-     *            a String with format: PddYddMddD
+     * @param date     initial date
+     * @param duration a String with format: PddYddMddD
      * @return Date a computed date. if duration have not got duration "P"
-     *         return date value.
-     *
+     * return date value.
      */
-    private static Date computeDateFromDurationDate(final Date date, final String duration, int sign) {
+    private static Date computeDateFromDurationDate(final Date date, final String duration, int 
+            sign) {
 
         int[] durationDate = new int[3];
         durationDate = extractDurationDate(duration);
@@ -250,17 +246,14 @@ final class DurationUtil {
     /**
      * Add or subtract time duration to initial date.
      *
-     * @param date
-     *            initial date
-     * @param duration
-     *            a String with format: TddHddMddS
-     * @param sign
-     *            1 or -1 (add or subract)
+     * @param date     initial date
+     * @param duration a String with format: TddHddMddS
+     * @param sign     1 or -1 (add or subract)
      * @return Date a computed date. if duration have not got duration "T"
-     *         return date value.
+     * return date value.
      */
     private static Date computeDateFromDurationTime(final Date date, final String duration,
-        final int sign) {
+                                                    final int sign) {
         DURATION_TIME = extractDurationTime(duration);
 
         if (isNull(DURATION_TIME)) {
@@ -292,11 +285,8 @@ final class DurationUtil {
     /**
      * Subtracts duration to date
      *
-     * @param date
-     *            a Date
-     * @param duration
-     *            a String formated like "P##Y##M##D"
-     *
+     * @param date     a Date
+     * @param duration a String formated like "P##Y##M##D"
      * @return a Date
      */
     public static Date subtractDurationToDate(Date date, String duration) {

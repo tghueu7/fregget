@@ -27,8 +27,6 @@ import com.vividsolutions.jts.geom.Point;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class AbstractFeatureTypeBindingTest extends GML3TestSupport {

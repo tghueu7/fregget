@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 import javax.xml.namespace.QName;
+
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.CoordinateSequence;
 import com.vividsolutions.jts.geom.CoordinateSequenceFactory;
@@ -31,9 +32,9 @@ import org.geotools.xml.InstanceComponent;
 
 /**
  * Binding object for the type http://earth.google.com/kml/2.1:CoordinatesType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;simpleType name="CoordinatesType"&gt;
  *      &lt;list itemType="string"/&gt;
@@ -44,18 +45,15 @@ import org.geotools.xml.InstanceComponent;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class CoordinatesTypeBinding extends AbstractSimpleBinding {
     CoordinateSequenceFactory csFactory;
-    
-    public CoordinatesTypeBinding( CoordinateSequenceFactory csFactory ) {
+
+    public CoordinatesTypeBinding(CoordinateSequenceFactory csFactory) {
         this.csFactory = csFactory;
     }
-    
+
     /**
      * @generated
      */
@@ -73,7 +71,7 @@ public class CoordinatesTypeBinding extends AbstractSimpleBinding {
         //return Coordinate[].class;
         return CoordinateSequence.class;
     }
-    
+
     public int getExecutionMode() {
         return OVERRIDE;
     }
@@ -85,7 +83,7 @@ public class CoordinatesTypeBinding extends AbstractSimpleBinding {
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
+            throws Exception {
         List list = (List) value;
         Coordinate[] coordinates = new Coordinate[list.size()];
         int i = 0;
@@ -104,22 +102,22 @@ public class CoordinatesTypeBinding extends AbstractSimpleBinding {
             coordinates[i] = c;
         }
 
-        return csFactory.create( coordinates );
+        return csFactory.create(coordinates);
     }
-    
+
     public String encode(Object object, String value) throws Exception {
         StringBuffer sb = new StringBuffer();
         CoordinateSequence cs = (CoordinateSequence) object;
-        for ( int i = 0; i < cs.size(); i++ ) {
+        for (int i = 0; i < cs.size(); i++) {
             Coordinate c = cs.getCoordinate(i);
-            sb.append( c.x ).append(",").append( c.y );
-            if ( cs.getDimension() == 3 && !Double.isNaN( c.z ) ) {
-                sb.append(",").append( c.z );
+            sb.append(c.x).append(",").append(c.y);
+            if (cs.getDimension() == 3 && !Double.isNaN(c.z)) {
+                sb.append(",").append(c.z);
             }
-            sb.append( " " );
+            sb.append(" ");
         }
-        sb.setLength(sb.length()-1);
-    
+        sb.setLength(sb.length() - 1);
+
         return sb.toString();
     }
 }

@@ -27,23 +27,22 @@ import org.opengis.util.InternationalString;
 /**
  * Grabbed from Geotools and generalized a bit, should go back into GeoTools once improved enough.
  * ProcessFactory for classes exposing simple processes as static methods
- * 
- * @since 2.7
  *
  * @source $URL$
+ * @since 2.7
  */
 public class StaticMethodsProcessFactory<T> extends AnnotationDrivenProcessFactory {
     Class<T> targetClass;
 
     public StaticMethodsProcessFactory(InternationalString title, String namespace,
-            Class<T> targetClass) {
+                                       Class<T> targetClass) {
         super(title, namespace);
         this.targetClass = targetClass;
     }
 
     /**
      * Finds the DescribeProcess description for the specified name
-     * 
+     *
      * @param name
      * @return
      */

@@ -21,18 +21,15 @@ import java.nio.ByteBuffer;
 /**
  * A ShapeHandler defines what is needed to construct and persist geometries
  * based upon the shapefile specification.
- * 
+ *
  * @author aaime
  * @author Ian Schneider
- *
- *
  * @source $URL$
- * 
  */
 public interface ShapeHandler {
     /**
      * Get the ShapeType of this handler.
-     * 
+     *
      * @return The ShapeType.
      */
     public ShapeType getShapeType();
@@ -43,9 +40,8 @@ public interface ShapeHandler {
      * well as the shape type integer. The handler need not worry about reading
      * unused information as the ShapefileReader will correctly adjust the
      * buffer position after this call.
-     * 
-     * @param buffer
-     *                The ByteBuffer to read from.
+     *
+     * @param buffer The ByteBuffer to read from.
      * @return A geometry object.
      */
     public Object read(ByteBuffer buffer, ShapeType type, boolean flatGeometry);
@@ -54,11 +50,9 @@ public interface ShapeHandler {
      * Write the geometry into the ByteBuffer. The position, byteOrder, and
      * limit are all set. The handler is not responsible for writing the record
      * or shape type integer.
-     * 
-     * @param buffer
-     *                The ByteBuffer to write to.
-     * @param geometry
-     *                The geometry to write.
+     *
+     * @param buffer   The ByteBuffer to write to.
+     * @param geometry The geometry to write.
      */
     public void write(ByteBuffer buffer, Object geometry);
 
@@ -66,11 +60,10 @@ public interface ShapeHandler {
      * Get the length of the given geometry Object in <b>bytes</b> not 16-bit
      * words. This is easier to keep track of, since the ByteBuffer deals with
      * bytes. <b>Do not include the 8 bytes of record.</b>
-     * 
-     * @param geometry
-     *                The geometry to analyze.
+     *
+     * @param geometry The geometry to analyze.
      * @return The number of <b>bytes</b> the shape will take up.
      */
     public int getLength(Object geometry);
-    
+
 }

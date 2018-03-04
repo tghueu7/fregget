@@ -29,13 +29,14 @@ import org.opengis.coverage.grid.GridCoverageReader;
 /**
  * @author Mathew Wyatt, CSIRO Australia
  * @author Daniele Romagnoli, GeoSolutions.
- *
- *
  * @source $URL$
  */
-public final class EnviHdrReader extends BaseGDALGridCoverage2DReader implements GridCoverageReader {
+public final class EnviHdrReader extends BaseGDALGridCoverage2DReader implements 
+        GridCoverageReader {
     private final static String worldFileExt = ".wld";
-     /** Logger. */
+    /**
+     * Logger.
+     */
     @SuppressWarnings("unused")
     private final static Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger("org.geotools.coverageio.gdal.envihdr");
@@ -43,10 +44,9 @@ public final class EnviHdrReader extends BaseGDALGridCoverage2DReader implements
     /**
      * Creates a new instance of a {@link EnviHdrReader}. I assume nothing about
      * file extension.
-     * 
-     * @param input
-     *                Source object for which we want to build an
-     *                {@link EnviHdrReader}.
+     *
+     * @param input Source object for which we want to build an
+     *              {@link EnviHdrReader}.
      * @throws DataSourceException
      */
     public EnviHdrReader(Object input) throws DataSourceException {
@@ -56,12 +56,10 @@ public final class EnviHdrReader extends BaseGDALGridCoverage2DReader implements
     /**
      * Creates a new instance of a {@link EnviHdrReader}. I assume nothing about
      * file extension.
-     * 
-     * @param input
-     *                Source object for which we want to build an
-     *                {@link EnviHdrReader}.
-     * @param hints
-     *                Hints to be used by this reader throughout his life.
+     *
+     * @param input Source object for which we want to build an
+     *              {@link EnviHdrReader}.
+     * @param hints Hints to be used by this reader throughout his life.
      * @throws DataSourceException
      */
     public EnviHdrReader(Object input, final Hints hints) throws DataSourceException {

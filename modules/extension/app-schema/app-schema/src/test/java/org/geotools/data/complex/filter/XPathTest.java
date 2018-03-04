@@ -38,18 +38,15 @@ import org.opengis.feature.type.ComplexType;
 import org.opengis.feature.type.Name;
 
 /**
- * 
  * @author Gabriel Roldan (Axios Engineering)
  * @version $Id$
- *
- *
- *
  * @source $URL$
  * @since 2.4
  */
 public class XPathTest extends AppSchemaTestSupport {
 
-    private static final String COMPLEX_WITH_TEXT_CONTENT_SCHEMA_LOCATION = "/test-data/complexWithTextContent.xsd";
+    private static final String COMPLEX_WITH_TEXT_CONTENT_SCHEMA_LOCATION = 
+            "/test-data/complexWithTextContent.xsd";
     private static final String URI = "http://www.geotools.org/appschema/test";
 
     private static EmfComplexFeatureReader reader;
@@ -60,7 +57,7 @@ public class XPathTest extends AppSchemaTestSupport {
 
         //need to register custom factory to load schema resources
         Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap()
-                                          .put("xsd", new XSDResourceFactoryImpl());
+                .put("xsd", new XSDResourceFactoryImpl());
     }
 
     /**
@@ -78,6 +75,7 @@ public class XPathTest extends AppSchemaTestSupport {
 
     /**
      * Test that complex elements that can hold text content are correctly detected.
+     *
      * @throws Exception
      */
     @Test

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -19,6 +19,7 @@ package org.geotools.temporal.reference;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
+
 import org.geotools.metadata.iso.citation.Citations;
 import org.geotools.referencing.NamedIdentifier;
 import org.geotools.temporal.object.DefaultCalendarDate;
@@ -33,7 +34,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.opengis.temporal.Calendar;
+
 import static org.junit.Assert.*;
+
 import org.opengis.temporal.CalendarDate;
 import org.opengis.temporal.CalendarEra;
 import org.opengis.temporal.Clock;
@@ -43,11 +46,7 @@ import org.opengis.temporal.IndeterminateValue;
 import org.opengis.temporal.JulianDate;
 
 /**
- *
  * @author Mehdi Sidhoum (Geomatys)
- *
- *
- *
  * @source $URL$
  */
 public class DefaultCalendarTest {
@@ -75,7 +74,8 @@ public class DefaultCalendarTest {
     @Test
     public void testDateTrans_CalendarDate_ClockTime() {
         int[] cal = {2012, 9, 10};
-        CalendarDate calendarDate = new DefaultCalendarDate(calendar1, IndeterminateValue.NOW, new SimpleInternationalString("new Era"), cal);
+        CalendarDate calendarDate = new DefaultCalendarDate(calendar1, IndeterminateValue.NOW, 
+                new SimpleInternationalString("new Era"), cal);
         Number[] clock = {12, 10, 5.488};
         ClockTime clockTime = new DefaultClockTime(calendar1, IndeterminateValue.NOW, clock);
         JulianDate result = calendar1.dateTrans(calendarDate, clockTime);
@@ -127,12 +127,16 @@ public class DefaultCalendarTest {
     public void testSetBasis() throws ParseException {
         Collection<CalendarEra> result = calendar1.getBasis();
         int[] calendarDate = {1, 1, 1};
-        CalendarEra calendarEra = new DefaultCalendarEra(new SimpleInternationalString("Babylonian calendar"),
-                new SimpleInternationalString("Ascension of Nebuchadnezzar II to the throne of Babylon"),
+        CalendarEra calendarEra = new DefaultCalendarEra(new SimpleInternationalString
+                ("Babylonian calendar"),
+                new SimpleInternationalString("Ascension of Nebuchadnezzar II to the throne of " +
+                        "Babylon"),
                 new DefaultCalendarDate(calendar1, null, null, calendarDate),
                 new DefaultJulianDate(calendar1, null, 1721423.25),
-                new DefaultPeriod(new DefaultInstant(new DefaultPosition(new DefaultJulianDate(calendar1, null, 2087769))),
-                new DefaultInstant(new DefaultPosition(new DefaultJulianDate(calendar1, null, 2299160)))));
+                new DefaultPeriod(new DefaultInstant(new DefaultPosition(new DefaultJulianDate
+                        (calendar1, null, 2087769))),
+                        new DefaultInstant(new DefaultPosition(new DefaultJulianDate(calendar1, 
+                                null, 2299160)))));
         Collection<CalendarEra> collection = new ArrayList<CalendarEra>();
         collection.add(calendarEra);
         ((DefaultCalendar) calendar1).setBasis(collection);

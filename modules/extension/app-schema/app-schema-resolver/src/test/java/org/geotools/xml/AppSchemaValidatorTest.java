@@ -25,11 +25,8 @@ import org.junit.Test;
 
 /**
  * Tests for {@link AppSchemaValidator}.
- * 
+ *
  * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
- *
- *
- *
  * @source $URL$
  */
 public class AppSchemaValidatorTest {
@@ -49,13 +46,16 @@ public class AppSchemaValidatorTest {
     @Test
     public void validateErMineralOccurrenceWithErrors() {
         try {
-            AppSchemaValidator.validateResource("/test-data/er_MineralOccurrence_with_errors.xml", null);
-            Assert.fail("Unexpected schema validation success for known-invalid XML instance document");
+            AppSchemaValidator.validateResource("/test-data/er_MineralOccurrence_with_errors" +
+                    ".xml", null);
+            Assert.fail("Unexpected schema validation success for known-invalid XML instance " +
+                    "document");
         } catch (Exception e) {
             Assert.assertTrue(
                     e.getMessage(),
                     e.getMessage().startsWith(
-                            "Schema validation failures: 2" + System.getProperty("line.separator")));
+                            "Schema validation failures: 2" + System.getProperty("line" +
+                                    ".separator")));
         }
     }
 
@@ -86,14 +86,15 @@ public class AppSchemaValidatorTest {
         Assert.assertEquals("UTF-8", AppSchemaValidator
                 .getEncoding("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>"));
         Assert.assertEquals("UTF-8",
-                AppSchemaValidator.getEncoding("<?xml version=\"1.0\" encoding=\"UTF-8\"?><root/>"));
+                AppSchemaValidator.getEncoding("<?xml version=\"1.0\" " +
+                        "encoding=\"UTF-8\"?><root/>"));
     }
 
     /**
      * Test support for testing {@link AppSchemaValidator#validate(String)}. This method converts
      * reads a classpath resource into a string (using the default platform encoding) before
      * applying string schema validation.
-     * 
+     *
      * @param name
      */
     public static void validateResourceAsString(String name) {
@@ -135,12 +136,14 @@ public class AppSchemaValidatorTest {
     public void validateErMineralOccurrenceWithErrorsAsString() {
         try {
             validateResourceAsString("/test-data/er_MineralOccurrence_with_errors.xml");
-            Assert.fail("Unexpected schema validation success for known-invalid XML instance document");
+            Assert.fail("Unexpected schema validation success for known-invalid XML instance " +
+                    "document");
         } catch (Exception e) {
             Assert.assertTrue(
                     e.getMessage(),
                     e.getMessage().startsWith(
-                            "Schema validation failures: 2" + System.getProperty("line.separator")));
+                            "Schema validation failures: 2" + System.getProperty("line" +
+                                    ".separator")));
         }
     }
 

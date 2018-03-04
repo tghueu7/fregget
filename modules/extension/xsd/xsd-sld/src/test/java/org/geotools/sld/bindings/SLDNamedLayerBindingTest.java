@@ -20,8 +20,6 @@ import org.geotools.styling.NamedLayer;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SLDNamedLayerBindingTest extends SLDTestSupport {

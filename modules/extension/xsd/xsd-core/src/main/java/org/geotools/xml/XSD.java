@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.util.XSDResourceImpl;
 import org.eclipse.xsd.util.XSDSchemaLocator;
+
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -52,18 +53,17 @@ import org.opengis.feature.type.Schema;
  * This class should is subclasses for the xs, gml, filter, sld, etc... schemas.
  * Subclasses should be implemented as singletons.
  * </p>
+ *
  * @author Justin Deoliveira, The Open Planning Project
- * @since 2.5
- *
- *
- *
  * @source $URL$
+ * @since 2.5
  */
 public abstract class XSD {
     /**
      * logging instance
      */
-    protected static Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org.geotools.xml");
+    protected static Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org.geotools" +
+            ".xml");
 
     /**
      * schema contents
@@ -78,7 +78,7 @@ public abstract class XSD {
      * type mapping profile
      */
     protected Schema typeMappingProfile;
-    
+
     /**
      * dependencies
      */
@@ -91,70 +91,71 @@ public abstract class XSD {
      * Sets up the schema which maps xml schema types to attribute types.
      */
     protected Schema buildTypeSchema() {
-        return new SchemaImpl( getNamespaceURI() );
+        return new SchemaImpl(getNamespaceURI());
     }
-    
+
     /**
-     * Sets up a profile which uniquely maps a set of java classes to a schema 
+     * Sets up a profile which uniquely maps a set of java classes to a schema
      * element.
      */
-    protected Schema buildTypeMappingProfile( Schema typeSchema ) {
-        return typeSchema.profile( Collections.EMPTY_SET );
+    protected Schema buildTypeMappingProfile(Schema typeSchema) {
+        return typeSchema.profile(Collections.EMPTY_SET);
     }
-    
+
     /**
      * Convenience method to turn a QName into a Name.
      * <p>
-     * Useful for building type mapping profiles. 
+     * Useful for building type mapping profiles.
      * </p>
+     *
      * @param qName The name to transform.
      */
-    protected Name name( QName qName ) {
+    protected Name name(QName qName) {
         return new NameImpl(qName.getNamespaceURI(), qName.getLocalPart());
     }
-    
+
     /**
-     * Returns the schema containing {@link AttributeType}'s for 
+     * Returns the schema containing {@link AttributeType}'s for
      * all xml types.
      */
     public final Schema getTypeSchema() {
-        if( typeSchema == null ) {
-            synchronized ( this ) {
+        if (typeSchema == null) {
+            synchronized (this) {
                 typeSchema = buildTypeSchema();
             }
         }
         return typeSchema;
     }
-    
+
     /**
-     * Returns the sbuset of {@link #getTypeSchema()} which maintains 
+     * Returns the sbuset of {@link #getTypeSchema()} which maintains
      * a unique java class to xml type mapping.
      */
     public final Schema getTypeMappingProfile() {
-        if ( typeMappingProfile == null ){
+        if (typeMappingProfile == null) {
             synchronized (this) {
                 typeMappingProfile = buildTypeMappingProfile(getTypeSchema());
             }
         }
         return typeMappingProfile;
     }
-    
+
     /**
      * Transitively returns the type mapping profile for this schema and all schemas that this
-     * schema depends on. 
+     * schema depends on.
      */
     public final List<Schema> getAllTypeMappingProfiles() {
         LinkedList profiles = new LinkedList();
-        for(XSD xsd : getAllDependencies()) {
+        for (XSD xsd : getAllDependencies()) {
             Schema profile = xsd.getTypeMappingProfile();
             if (!profile.isEmpty()) {
                 profiles.add(profile);
             }
         }
-        
+
         return profiles;
     }
-    
+
 
     /**
      * The namespace uri of the schema.
@@ -190,13 +191,13 @@ public abstract class XSD {
     }
 
     /**
-     * Returns all dependencies , direct and transitive that this xsd 
+     * Returns all dependencies , direct and transitive that this xsd
      * depends on.
      */
     public List<XSD> getAllDependencies() {
         return allDependencies();
     }
-    
+
     protected List allDependencies() {
         LinkedList unpacked = new LinkedList();
 
@@ -249,7 +250,7 @@ public abstract class XSD {
         List locators = new ArrayList();
         List resolvers = new ArrayList();
 
-        for (Iterator d = allDependencies().iterator(); d.hasNext();) {
+        for (Iterator d = allDependencies().iterator(); d.hasNext(); ) {
             XSD dependency = (XSD) d.next();
             SchemaLocator locator = dependency.createSchemaLocator();
 
@@ -263,9 +264,9 @@ public abstract class XSD {
                 resolvers.add(resolver);
             }
         }
-        
+
         XSDSchemaLocator suppSchemaLocator = getSupplementarySchemaLocator();
-        
+
         if (suppSchemaLocator != null) {
             locators.add(suppSchemaLocator);
         }
@@ -288,10 +289,10 @@ public abstract class XSD {
     public SchemaLocationResolver createSchemaLocationResolver() {
         return new SchemaLocationResolver(this);
     }
-    
+
     /**
      * Returns the qualified name for the specified local part.
-     * 
+     *
      * @return The QName, built by simply prepending the namespace for this xsd.
      */
     public QName qName(String local) {
@@ -318,11 +319,12 @@ public abstract class XSD {
     public String toString() {
         return getNamespaceURI();
     }
-    
+
     /**
      * Optionally, a schema locator that helps locating (other) schema's
-     * used for includes/imports that might already exist but are not in 
+     * used for includes/imports that might already exist but are not in
      * dependencies
+     *
      * @return Schema Locator
      */
     public XSDSchemaLocator getSupplementarySchemaLocator() {
@@ -334,7 +336,7 @@ public abstract class XSD {
      * It is important to call this method for every dynamic schema created that is not needed
      * anymore, because references in the static schema's will otherwise keep it alive forever
      */
-    public void dispose() {       
+    public void dispose() {
         if (schema != null) {
             ResourceSet rs = schema.eResource().getResourceSet();
             for (Resource r : rs.getResources()) {
@@ -342,8 +344,8 @@ public abstract class XSD {
                     Schemas.dispose(((XSDResourceImpl) r).getSchema());
                 }
             }
-            
+
             schema = null;
-        }                
+        }
     }
 }

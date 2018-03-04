@@ -81,19 +81,18 @@ import org.opengis.referencing.operation.TransformException;
  * hasMoreGridCoverages() will return true until the only GridCoverage is read. No metadata is
  * currently supported, so all related methods return null. In the early future we will start
  * (hopefully supporting them).
- * 
+ *
  * @author simone giannecchini
  * @author alessio fabiani
  * @author rgould
- *
- *
- *
  * @source $URL$
  */
 public final class WorldImageReader extends AbstractGridCoverage2DReader
         implements GridCoverage2DReader {
 
-    /** Logger. */
+    /**
+     * Logger.
+     */
     private Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org.geotools.gce.image");
 
     private boolean wmsRequest;
@@ -110,7 +109,7 @@ public final class WorldImageReader extends AbstractGridCoverage2DReader
      * Class constructor. Construct a new ImageWorldReader to read a GridCoverage from the source
      * object. The source must point to the raster file itself, not the world file. If the source is
      * a Java URL it checks if it is ponting to a file and if so it converts the url into a file.
-     * 
+     *
      * @param input The source of a GridCoverage, can be a File, a URL or an input stream.
      * @throws DataSourceException
      */
@@ -122,7 +121,7 @@ public final class WorldImageReader extends AbstractGridCoverage2DReader
      * Class constructor. Construct a new ImageWorldReader to read a GridCoverage from the source
      * object. The source must point to the raster file itself, not the world file. If the source is
      * a Java URL it checks if it is ponting to a file and if so it converts the url into a file.
-     * 
+     *
      * @param input The source of a GridCoverage, can be a File, a URL or an input stream.
      * @throws DataSourceException
      */
@@ -271,7 +270,7 @@ public final class WorldImageReader extends AbstractGridCoverage2DReader
 
     /**
      * Gets the relevant information for the underlying raster.
-     * 
+     *
      * @throws IOException
      * @throws TransformException
      */
@@ -364,7 +363,7 @@ public final class WorldImageReader extends AbstractGridCoverage2DReader
 
     /**
      * Returns the format that this Reader accepts.
-     * 
+     *
      * @return a new WorldImageFormat class
      */
     public Format getFormat() {
@@ -376,13 +375,11 @@ public final class WorldImageReader extends AbstractGridCoverage2DReader
      * values from the world file and constructs a new GridCoverage from this information. When
      * reading from a remote stream we do not look for a world fiel but we suppose those information
      * comes from a different way (xml, gml, pigeon?)
-     * 
+     *
      * @param params WorldImageReader supports no parameters, it just ignores them.
-     * 
      * @return a new GridCoverage read from the source.
-     * 
      * @throws IllegalArgumentException DOCUMENT ME!
-     * @throws IOException DOCUMENT ME!
+     * @throws IOException              DOCUMENT ME!
      */
     public GridCoverage2D read(GeneralParameterValue[] params)
             throws IllegalArgumentException, IOException {
@@ -463,7 +460,7 @@ public final class WorldImageReader extends AbstractGridCoverage2DReader
         pbjRead.add(
                 inStreamSPI != null
                         ? inStreamSPI.createInputStreamInstance(source, ImageIO.getUseCache(),
-                                ImageIO.getCacheDirectory())
+                        ImageIO.getCacheDirectory())
                         : ImageIO.createImageInputStream(source));
         // pbjRead.add(wmsRequest ? ImageIO
         // .createImageInputStream(((URL) source).openStream()) : ImageIO
@@ -490,9 +487,8 @@ public final class WorldImageReader extends AbstractGridCoverage2DReader
     /**
      * This method is used to check if we are connecting directly to a WMS with a getmap request. In
      * such a case we skip reading all the parameters we can read from this http string.
-     * 
+     *
      * @param input
-     * 
      * @return true if we are dealing with a WMS request, false otherwise.
      */
     private boolean WMSRequest(Object input) {
@@ -525,10 +521,10 @@ public final class WorldImageReader extends AbstractGridCoverage2DReader
                         // splitting fields
                         kvp = kvp[1].split(",");
                         originalEnvelope = new GeneralEnvelope(
-                                new double[] { Double.parseDouble(kvp[0]),
-                                        Double.parseDouble(kvp[1]) },
-                                new double[] { Double.parseDouble(kvp[2]),
-                                        Double.parseDouble(kvp[3]) });
+                                new double[]{Double.parseDouble(kvp[0]),
+                                        Double.parseDouble(kvp[1])},
+                                new double[]{Double.parseDouble(kvp[2]),
+                                        Double.parseDouble(kvp[3])});
                     }
 
                     // SRS
@@ -570,7 +566,7 @@ public final class WorldImageReader extends AbstractGridCoverage2DReader
      * This method is responsible for reading the CRS whhther a projection file is provided. If no
      * projection file is provided the second choice is the CRS supplied via the crs paramter. If
      * even this one is not avalaible we default to EPSG:4326.
-     * 
+     *
      * @throws IOException
      */
     private void readCRS() throws IOException {
@@ -641,9 +637,9 @@ public final class WorldImageReader extends AbstractGridCoverage2DReader
     /**
      * This method is in charge for reading the metadata file and for creating a valid envelope
      * (whether possible);
-     * 
+     * <p>
      * TODO it would be great to having a centralized management for the world file
-     * 
+     *
      * @throws IOException
      */
     private void prepareWorldImageGridToWorldTransform() throws IOException {
@@ -684,101 +680,98 @@ public final class WorldImageReader extends AbstractGridCoverage2DReader
                     LOGGER.warning("Could not find a world transform file for " + coverageName
                             + ", assuming the identity transform");
                     raster2Model = ProjectiveTransform.create(new AffineTransform());
-				}
-			}
-		}
-	}
+                }
+            }
+        }
+    }
 
-	/**
-	 * This method is responsible for parsing a META file which is nothing more
-	 * than another format of a WorldFile used by the GIDB database.
-	 * 
-	 * @param file2Parse
-	 *            
-	 * 
-	 * @throws NumberFormatException
-	 * @throws IOException
-	 * 
-	 * @task move me to a separate implementation
-	 */
-	private void parseMetaFile(File file2Parse) throws NumberFormatException,
-			IOException {
-		double xMin = 0.0;
-		double yMax = 0.0;
-		double xMax = 0.0;
-		double yMin = 0.0;
+    /**
+     * This method is responsible for parsing a META file which is nothing more
+     * than another format of a WorldFile used by the GIDB database.
+     *
+     * @param file2Parse
+     * @throws NumberFormatException
+     * @throws IOException
+     * @task move me to a separate implementation
+     */
+    private void parseMetaFile(File file2Parse) throws NumberFormatException,
+            IOException {
+        double xMin = 0.0;
+        double yMax = 0.0;
+        double xMax = 0.0;
+        double yMin = 0.0;
 
-		// getting a buffered reader
-		final BufferedReader in = new BufferedReader(new FileReader(file2Parse));
+        // getting a buffered reader
+        final BufferedReader in = new BufferedReader(new FileReader(file2Parse));
 
-		// parsing the lines
-		String str = null;
-		int index = 0;
-		double value = 0;
+        // parsing the lines
+        String str = null;
+        int index = 0;
+        double value = 0;
 
-		while ((str = in.readLine()) != null) {
-			switch (index) {
-			case 1:
-				value = Double.parseDouble(str.substring("Origin Longitude = "
-						.intern().length()));
-				xMin = value;
+        while ((str = in.readLine()) != null) {
+            switch (index) {
+                case 1:
+                    value = Double.parseDouble(str.substring("Origin Longitude = "
+                            .intern().length()));
+                    xMin = value;
 
-				break;
+                    break;
 
-			case 2:
-				value = Double.parseDouble(str.substring("Origin Latitude = "
-						.intern().length()));
-				yMin = value;
+                case 2:
+                    value = Double.parseDouble(str.substring("Origin Latitude = "
+                            .intern().length()));
+                    yMin = value;
 
-				break;
+                    break;
 
-			case 3:
-				value = Double.parseDouble(str.substring("Corner Longitude = "
-						.intern().length()));
-				xMax = value;
+                case 3:
+                    value = Double.parseDouble(str.substring("Corner Longitude = "
+                            .intern().length()));
+                    xMax = value;
 
-				break;
+                    break;
 
-			case 4:
-				value = Double.parseDouble(str.substring("Corner Latitude = "
-						.intern().length()));
-				yMax = value;
+                case 4:
+                    value = Double.parseDouble(str.substring("Corner Latitude = "
+                            .intern().length()));
+                    yMax = value;
 
-				break;
+                    break;
 
-			default:
-				break;
-			}
+                default:
+                    break;
+            }
 
-			index++;
-		}
+            index++;
+        }
 
-		in.close();
+        in.close();
 
-		// building up envelope of this coverage
-		originalEnvelope = new GeneralEnvelope(new double[] { xMin, yMin },
-				new double[] { xMax, yMax });
-		originalEnvelope.setCoordinateReferenceSystem(crs);
-	}
-	
-	/**
-	 * Number of coverages for this reader is 1
-	 * 
-	 * @return the number of coverages for this reader.
-	 */
-	@Override
-	public int getGridCoverageCount() {
-		return 1;
-	}
+        // building up envelope of this coverage
+        originalEnvelope = new GeneralEnvelope(new double[]{xMin, yMin},
+                new double[]{xMax, yMax});
+        originalEnvelope.setCoordinateReferenceSystem(crs);
+    }
 
-	/**
-	 * Returns the file extension of the image. 
-	 * 
-	 * @since 2.7
-	 */
-	public String getExtension() {
-	    return extension;
-	}
+    /**
+     * Number of coverages for this reader is 1
+     *
+     * @return the number of coverages for this reader.
+     */
+    @Override
+    public int getGridCoverageCount() {
+        return 1;
+    }
+
+    /**
+     * Returns the file extension of the image.
+     *
+     * @since 2.7
+     */
+    public String getExtension() {
+        return extension;
+    }
 
     @Override
     protected List<FileGroup> getFiles() {

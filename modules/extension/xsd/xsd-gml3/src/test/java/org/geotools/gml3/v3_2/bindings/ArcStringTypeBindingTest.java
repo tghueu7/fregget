@@ -52,8 +52,8 @@ public class ArcStringTypeBindingTest extends GML32TestSupport {
 
     public void testEncodeSimple() throws Exception {
         LineString curve = new CurvedGeometryFactory(0.1)
-                .createCurvedGeometry(new LiteCoordinateSequence(new double[] { 1, 1, 2, 2, 3, 1,
-                        5, 5, 7, 3 }));
+                .createCurvedGeometry(new LiteCoordinateSequence(new double[]{1, 1, 2, 2, 3, 1,
+                        5, 5, 7, 3}));
         Document dom = encode(curve, GML.curveProperty);
         // print(dom);
         XpathEngine xpath = XMLUnit.newXpathEngine();

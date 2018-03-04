@@ -28,8 +28,6 @@ import org.geotools.data.shapefile.ShapefileDataStore;
 import org.geotools.referencing.CRS;
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class OGRPeformanceTest extends TestCaseSupport {
@@ -60,7 +58,7 @@ public abstract class OGRPeformanceTest extends TestCaseSupport {
         end = System.currentTimeMillis();
         System.out.println("OGR: " + (end - start) / 1000.0);
     }
-    
+
     public void testShapefilePerformance() throws Exception {
         URL url = TestData.url(STATE_POP);
         ShapefileDataStore sds = new ShapefileDataStore(url);

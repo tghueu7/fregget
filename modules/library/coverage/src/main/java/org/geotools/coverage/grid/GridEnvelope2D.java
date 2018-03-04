@@ -37,14 +37,11 @@ import org.opengis.geometry.Envelope;
  * We follow this specification for all getters methods, but keep in mind that this is the
  * opposite of Java2D usage where {@link Rectangle} maximal values are exclusive.
  *
- * @since 2.5
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
- *
+ * @version $Id$
+ * @source $URL$
  * @see GeneralGridEnvelope
+ * @since 2.5
  */
 public class GridEnvelope2D extends Rectangle implements GridEnvelope, Cloneable {
     /**
@@ -70,14 +67,15 @@ public class GridEnvelope2D extends Rectangle implements GridEnvelope, Cloneable
     /**
      * Creates a grid envelope initialized to the specified rectangle.
      *
-     * @param x The minimal <var>x</var> ordinate.
-     * @param y The minimal <var>y</var> ordinate.
+     * @param x      The minimal <var>x</var> ordinate.
+     * @param y      The minimal <var>y</var> ordinate.
      * @param width  The number of valid ordinates along the <var>x</var> axis.
      * @param height The number of valid ordinates along the <var>y</var> axis.
      */
     public GridEnvelope2D(final int x, final int y, final int width, final int height) {
         super(x, y, width, height);
     }
+
     /**
      * Casts the specified envelope into a grid envelope. This is sometime useful after an
      * envelope has been transformed from "real world" coordinates to grid coordinates using the
@@ -85,7 +83,7 @@ public class GridEnvelope2D extends Rectangle implements GridEnvelope, Cloneable
      * The floating point values are rounded toward the nearest integers.
      * <p>
      * <strong>Notice that highest values are interpreted as non-inclusive</strong>
-     * 
+     * <p>
      * <p>
      * <b>Anchor</b><br>
      * According OpenGIS specification, {@linkplain org.opengis.coverage.grid.GridGeometry grid
@@ -100,23 +98,19 @@ public class GridEnvelope2D extends Rectangle implements GridEnvelope, Cloneable
      * {@link org.opengis.metadata.spatial.PixelOrientation} because the latter is restricted to
      * the two-dimensional case while the former can be used for any number of dimensions.
      *
-     * @param envelope
-     *          The envelope to use for initializing this grid envelope.
-     * @param anchor
-     *          Whatever envelope coordinates map to pixel center or pixel corner. Should be
-     *          {@link PixelInCell#CELL_CENTER} for OGC convention (an offset of 0.5 will be
-     *          added to every envelope coordinate values), or {@link PixelInCell#CELL_CORNER}
-     *          for Java2D/JAI convention (no offset will be added).
-     * @throws IllegalArgumentException
-     *          If {@code anchor} is not valid.
-     *
+     * @param envelope The envelope to use for initializing this grid envelope.
+     * @param anchor   Whatever envelope coordinates map to pixel center or pixel corner. Should be
+     *                 {@link PixelInCell#CELL_CENTER} for OGC convention (an offset of 0.5 will be
+     *                 added to every envelope coordinate values), or 
+     *                 {@link PixelInCell#CELL_CORNER}
+     *                 for Java2D/JAI convention (no offset will be added).
+     * @throws IllegalArgumentException If {@code anchor} is not valid.
      */
     public GridEnvelope2D(final Envelope2D envelope, final PixelInCell anchor)
-            throws IllegalArgumentException
-    {
-        this(envelope,anchor,false);
+            throws IllegalArgumentException {
+        this(envelope, anchor, false);
     }
-    
+
     /**
      * Casts the specified envelope into a grid envelope. This is sometime useful after an
      * envelope has been transformed from "real world" coordinates to grid coordinates using the
@@ -150,43 +144,43 @@ public class GridEnvelope2D extends Rectangle implements GridEnvelope, Cloneable
      * {@link org.opengis.metadata.spatial.PixelOrientation} because the latter is restricted to
      * the two-dimensional case while the former can be used for any number of dimensions.
      *
-     * @param envelope
-     *          The envelope to use for initializing this grid envelope.
-     * @param anchor
-     *          Whatever envelope coordinates map to pixel center or pixel corner. Should be
-     *          {@link PixelInCell#CELL_CENTER} for OGC convention (an offset of 0.5 will be
-     *          added to every envelope coordinate values), or {@link PixelInCell#CELL_CORNER}
-     *          for Java2D/JAI convention (no offset will be added).
-     * @param isHighIncluded
-     *          {@code true} if the envelope maximal values are inclusive, or {@code false} if
-     *          they are exclusive. This argument does not apply to minimal values, which are
-     *          always inclusive.
-     * @throws IllegalArgumentException
-     *          If {@code anchor} is not valid.
-     *
+     * @param envelope       The envelope to use for initializing this grid envelope.
+     * @param anchor         Whatever envelope coordinates map to pixel center or pixel corner. 
+     *                       Should be
+     *                       {@link PixelInCell#CELL_CENTER} for OGC convention (an offset of 0.5
+     *                       will be
+     *                       added to every envelope coordinate values), or 
+     *                       {@link PixelInCell#CELL_CORNER}
+     *                       for Java2D/JAI convention (no offset will be added).
+     * @param isHighIncluded {@code true} if the envelope maximal values are inclusive, or {@code
+     * false} if
+     *                       they are exclusive. This argument does not apply to minimal values, 
+     *                                   which are
+     *                       always inclusive.
+     * @throws IllegalArgumentException If {@code anchor} is not valid.
      */
     public GridEnvelope2D(final Envelope2D envelope, final PixelInCell anchor,
-                               final boolean isHighIncluded)
-            throws IllegalArgumentException
-    {
+                          final boolean isHighIncluded)
+            throws IllegalArgumentException {
         final double offset = PixelTranslation.getPixelTranslation(anchor) + 0.5;
         final int dimension = envelope.getDimension();
-        assert dimension==2;
+        assert dimension == 2;
         final int[] index = new int[dimension * 2];
-        for (int i=0; i<dimension; i++) {
+        for (int i = 0; i < dimension; i++) {
             // See "note about conversion of floating point values to integers" in the JavaDoc.
-            index[i            ] = (int) Math.round(envelope.getMinimum(i) + offset);
+            index[i] = (int) Math.round(envelope.getMinimum(i) + offset);
             index[i + dimension] = (int) Math.round(envelope.getMaximum(i) + offset);
         }
         if (isHighIncluded) {
-            for (int i=index.length/2; i<index.length; i++) {
+            for (int i = index.length / 2; i < index.length; i++) {
                 index[i]++;
             }
         }
-        
+
         setLocation(index[0], index[1]);
-        setSize(index[0+dimension]-index[0], index[1+dimension]-index[1]);
+        setSize(index[0 + dimension] - index[0], index[1 + dimension] - index[1]);
     }
+
     /**
      * Returns the number of dimensions, which is always 2.
      */
@@ -217,9 +211,12 @@ public class GridEnvelope2D extends Rectangle implements GridEnvelope, Cloneable
      */
     public int getLow(final int dimension) {
         switch (dimension) {
-            case 0:  return x;
-            case 1:  return y;
-            default: throw new IndexOutOfBoundsException(GridCoordinates2D.indexOutOfBounds(dimension));
+            case 0:
+                return x;
+            case 1:
+                return y;
+            default:
+                throw new IndexOutOfBoundsException(GridCoordinates2D.indexOutOfBounds(dimension));
         }
     }
 
@@ -231,9 +228,12 @@ public class GridEnvelope2D extends Rectangle implements GridEnvelope, Cloneable
      */
     public int getHigh(final int dimension) {
         switch (dimension) {
-            case 0:  return x + width  - 1;
-            case 1:  return y + height - 1;
-            default: throw new IndexOutOfBoundsException(GridCoordinates2D.indexOutOfBounds(dimension));
+            case 0:
+                return x + width - 1;
+            case 1:
+                return y + height - 1;
+            default:
+                throw new IndexOutOfBoundsException(GridCoordinates2D.indexOutOfBounds(dimension));
         }
     }
 
@@ -243,9 +243,12 @@ public class GridEnvelope2D extends Rectangle implements GridEnvelope, Cloneable
      */
     public int getSpan(final int dimension) {
         switch (dimension) {
-            case 0:  return width;
-            case 1:  return height;
-            default: throw new IndexOutOfBoundsException(GridCoordinates2D.indexOutOfBounds(dimension));
+            case 0:
+                return width;
+            case 1:
+                return height;
+            default:
+                throw new IndexOutOfBoundsException(GridCoordinates2D.indexOutOfBounds(dimension));
         }
     }
 

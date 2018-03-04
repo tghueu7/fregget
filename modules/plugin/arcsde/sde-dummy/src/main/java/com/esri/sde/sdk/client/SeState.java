@@ -1,8 +1,6 @@
 package com.esri.sde.sdk.client;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SeState {
@@ -33,23 +31,23 @@ public class SeState {
     public void trimTree(SeObjectId from, SeObjectId to) throws SeException {
     }
 
-    public void delete() throws SeException{
+    public void delete() throws SeException {
     }
 
     public SeObjectId getParentId() {
         return null;
     }
 
-    public void open()throws SeException {
+    public void open() throws SeException {
     }
 
-    public void freeLock()throws SeException {
+    public void freeLock() throws SeException {
     }
 
-    public void lock()throws SeException {
+    public void lock() throws SeException {
     }
 
-    public void merge(SeObjectId id, SeObjectId id2)throws SeException {
+    public void merge(SeObjectId id, SeObjectId id2) throws SeException {
     }
 
     public String getOwner() {

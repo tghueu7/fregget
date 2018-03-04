@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,6 +17,7 @@
 package org.geotools;
 
 // J2SE dependencies
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -39,14 +40,11 @@ import java.nio.channels.ReadableByteChannel;
  * need this directory, then use the {@link org.geotools.test.TestData}
  * class provided in the {@code org.geotools.resources} directory.
  *
- * @since 2.2
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
- *
+ * @version $Id$
+ * @source $URL$
  * @tutorial http://www.geotools.org/display/GEOT/5.8+Test+Data
+ * @since 2.2
  */
 public final class TestData extends org.geotools.test.TestData {
     /**
@@ -61,7 +59,7 @@ public final class TestData extends org.geotools.test.TestData {
      * the resource is not found. This provides a more explicit explanation about the failure
      * reason than the infamous {@link NullPointerException}.
      *
-     * @param  name Path to file in {@code org/geotools/test-data}.
+     * @param name Path to file in {@code org/geotools/test-data}.
      * @return The URL to the {@code test-data} resource.
      * @throws FileNotFoundException if the resource is not found.
      */
@@ -72,15 +70,15 @@ public final class TestData extends org.geotools.test.TestData {
     /**
      * Access to <code>{@linkplain #getResource getResource}(name)</code> as a non-null
      * {@link File}. You can access the {@code test-data} directory with:
-     *
+     * <p>
      * <blockquote><pre>
      * TestData.file(null);
      * </pre></blockquote>
      *
-     * @param  name Path to file in {@code org/geotools/test-data}.
+     * @param name Path to file in {@code org/geotools/test-data}.
      * @return The file to the {@code test-data} resource.
      * @throws FileNotFoundException if the file is not found.
-     * @throws IOException if the resource can't be fetched for an other reason.
+     * @throws IOException           if the resource can't be fetched for an other reason.
      */
     public static File file(final String name) throws IOException {
         return file(TestData.class, name);
@@ -90,10 +88,10 @@ public final class TestData extends org.geotools.test.TestData {
      * Provides a non-null {@link InputStream} for named test data.
      * It is the caller responsability to close this stream after usage.
      *
-     * @param  name Path to file in {@code org/geotools/test-data}.
+     * @param name Path to file in {@code org/geotools/test-data}.
      * @return The input stream.
      * @throws FileNotFoundException if the resource is not found.
-     * @throws IOException if an error occurs during an input operation.
+     * @throws IOException           if an error occurs during an input operation.
      */
     public static InputStream openStream(final String name) throws IOException {
         return openStream(TestData.class, name);
@@ -104,10 +102,10 @@ public final class TestData extends org.geotools.test.TestData {
      * an {@link LineNumberReader} instance, which is useful for displaying line numbers where
      * error occur. It is the caller responsability to close this reader after usage.
      *
-     * @param  name Path to file in {@code org/geotools/test-data}.
+     * @param name Path to file in {@code org/geotools/test-data}.
      * @return The buffered reader.
      * @throws FileNotFoundException if the resource is not found.
-     * @throws IOException if an error occurs during an input operation.
+     * @throws IOException           if an error occurs during an input operation.
      */
     public static LineNumberReader openReader(final String name) throws IOException {
         return openReader(TestData.class, name);
@@ -117,10 +115,10 @@ public final class TestData extends org.geotools.test.TestData {
      * Provides a channel for named test data. It is the caller responsability to close this
      * chanel after usage.
      *
-     * @param  name Path to file in {@code org/geotools/test-data}.
+     * @param name Path to file in {@code org/geotools/test-data}.
      * @return The chanel.
      * @throws FileNotFoundException if the resource is not found.
-     * @throws IOException if an error occurs during an input operation.
+     * @throws IOException           if an error occurs during an input operation.
      */
     public static ReadableByteChannel openChannel(final String name) throws IOException {
         return openChannel(TestData.class, name);
@@ -148,39 +146,42 @@ public final class TestData extends org.geotools.test.TestData {
      * in the {@code target/.../test-data} directory, which is not versionned by SVN and is
      * cleaned by Maven on {@code mvn clean} execution.
      *
-     * @param  caller Calling class or object used to locate the destination {@code test-data}.
-     * @param  name Path to file in {@code org/geotools/test-data}.
+     * @param caller Calling class or object used to locate the destination {@code test-data}.
+     * @param name   Path to file in {@code org/geotools/test-data}.
      * @return The file to the <code>org/geotools/<strong>caller-package</strong>/test-data</code>
-     *         resource copy, returned for convenience.
+     * resource copy, returned for convenience.
      * @throws FileNotFoundException if the file is not found.
-     * @throws IOException if the resource can't be fetched for an other reason.
+     * @throws IOException           if the resource can't be fetched for an other reason.
      */
     public static File copy(final Object caller, final String name) throws IOException {
         return copy(caller, name, null);
     }
-    
+
     /**
-     * See the other copy, this one accepts a target directory name inside "test-data" (useful for test
+     * See the other copy, this one accepts a target directory name inside "test-data" (useful 
+     * for test
      * with directory containing spaces)
+     *
      * @param caller
      * @param name
      * @return
      * @throws IOException
      */
-    public static File copy(final Object caller, final String name, String directoryName) throws IOException {
+    public static File copy(final Object caller, final String name, String directoryName) throws 
+            IOException {
         File path = new File(name);
         File directory = new File(file(caller, null), path.getParent());
-        if(directoryName != null) {
+        if (directoryName != null) {
             directory = new File(directory, directoryName);
         }
-        final File file      = new File(directory, path.getName());
+        final File file = new File(directory, path.getName());
         if (!file.exists()) {
             if (directory.mkdirs()) {
                 deleteOnExit(directory, false);
             }
-            final InputStream   in = openStream(name);
+            final InputStream in = openStream(name);
             final OutputStream out = new FileOutputStream(file);
-            final byte[]    buffer = new byte[4096];
+            final byte[] buffer = new byte[4096];
             deleteOnExit(file, false);
             int count;
             while ((count = in.read(buffer)) >= 0) {

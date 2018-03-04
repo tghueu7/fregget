@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2016, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -28,14 +28,14 @@ public class StaticGeometryTest {
         //First test as ints
         Object arg1 = 3;
         Object arg2 = 2;
-        
+
         assertTrue(StaticGeometry.greaterThan(arg1, arg2));
         assertFalse(StaticGeometry.greaterThan(arg2, arg1));
-        
+
         //And as doubles
         arg1 = 3.;
         arg2 = 2.98;
-        
+
         assertTrue(StaticGeometry.greaterThan(arg1, arg2));
         assertFalse(StaticGeometry.greaterThan(arg2, arg1));
 
@@ -55,12 +55,12 @@ public class StaticGeometryTest {
         //Now test as string numbers
         arg1 = "3";
         arg2 = "2";
-        
+
         assertTrue(StaticGeometry.greaterThan(arg1, arg2));
         assertFalse(StaticGeometry.greaterThan(arg2, arg1));
         arg1 = "3.00";
         arg2 = "2.98";
-        
+
         assertTrue(StaticGeometry.greaterThan(arg1, arg2));
         assertFalse(StaticGeometry.greaterThan(arg2, arg1));
     }
@@ -70,26 +70,26 @@ public class StaticGeometryTest {
         //First test as ints
         Object arg1 = 3;
         Object arg2 = 2;
-        
+
         assertFalse(StaticGeometry.lessThan(arg1, arg2));
         assertTrue(StaticGeometry.lessThan(arg2, arg1));
-        
+
         //And as doubles
         arg1 = 3.;
         arg2 = 2.98;
-        
+
         assertFalse(StaticGeometry.lessThan(arg1, arg2));
         assertTrue(StaticGeometry.lessThan(arg2, arg1));
-        
+
         //Now test as strings
         arg1 = "3";
         arg2 = "2";
-        
+
         assertFalse(StaticGeometry.lessThan(arg1, arg2));
         assertTrue(StaticGeometry.lessThan(arg2, arg1));
         arg1 = "3.00";
         arg2 = "2.98";
-        
+
         assertFalse(StaticGeometry.lessThan(arg1, arg2));
         assertTrue(StaticGeometry.lessThan(arg2, arg1));
     }
@@ -103,25 +103,25 @@ public class StaticGeometryTest {
         assertFalse(StaticGeometry.lessEqualThan(arg1, arg2));
         assertTrue(StaticGeometry.lessEqualThan(arg2, arg1));
         assertTrue(StaticGeometry.lessEqualThan(arg2, arg2));
-        
+
         //And as doubles
         arg1 = 3.;
         arg2 = 2.98;
-        
+
         assertFalse(StaticGeometry.lessEqualThan(arg1, arg2));
         assertTrue(StaticGeometry.lessEqualThan(arg2, arg1));
         assertTrue(StaticGeometry.lessEqualThan(arg2, arg2));
-        
+
         //Now test as strings
         arg1 = "3";
         arg2 = "2";
-        
+
         assertFalse(StaticGeometry.lessEqualThan(arg1, arg2));
         assertTrue(StaticGeometry.lessEqualThan(arg2, arg1));
         assertTrue(StaticGeometry.lessEqualThan(arg2, arg2));
         arg1 = "3.00";
         arg2 = "2.98";
-        
+
         assertFalse(StaticGeometry.lessEqualThan(arg1, arg2));
         assertTrue(StaticGeometry.lessEqualThan(arg2, arg1));
         assertTrue(StaticGeometry.lessEqualThan(arg2, arg2));
@@ -137,25 +137,25 @@ public class StaticGeometryTest {
         assertTrue(StaticGeometry.greaterEqualThan(arg1, arg2));
         assertFalse(StaticGeometry.greaterEqualThan(arg2, arg1));
         assertTrue(StaticGeometry.greaterEqualThan(arg2, arg2));
-        
+
         //And as doubles
         arg1 = 3.;
         arg2 = 2.98;
-        
+
         assertTrue(StaticGeometry.greaterEqualThan(arg1, arg2));
         assertFalse(StaticGeometry.greaterEqualThan(arg2, arg1));
         assertTrue(StaticGeometry.greaterEqualThan(arg2, arg2));
-        
+
         //Now test as strings
         arg1 = "3";
         arg2 = "2";
-        
+
         assertTrue(StaticGeometry.greaterEqualThan(arg1, arg2));
         assertFalse(StaticGeometry.greaterEqualThan(arg2, arg1));
         assertTrue(StaticGeometry.greaterEqualThan(arg2, arg2));
         arg1 = "3.00";
         arg2 = "2.98";
-        
+
         assertTrue(StaticGeometry.greaterEqualThan(arg1, arg2));
         assertFalse(StaticGeometry.greaterEqualThan(arg2, arg1));
         assertTrue(StaticGeometry.greaterEqualThan(arg2, arg2));

@@ -54,9 +54,10 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.operation.distance.DistanceOp;
 
-@DescribeProcess(title = "Nearest Feature", description = "Returns the feature in a given feature collection that has the smallest distance to a given point.")
+@DescribeProcess(title = "Nearest Feature", description = "Returns the feature in a given feature" +
+        " collection that has the smallest distance to a given point.")
 /**
- * 
+ *
  *
  * @source $URL$
  */
@@ -67,22 +68,22 @@ public class NearestProcess implements VectorProcess {
 
     /**
      * Process the input data set.
-     * 
-     * @param featureCollection
-     *            the data set
-     * @param crs
-     *            the CRS
-     * @param point
-     *            the given point
+     *
+     * @param featureCollection the data set
+     * @param crs               the CRS
+     * @param point             the given point
      * @return the snapped to feature
-     * @throws ProcessException
-     *             error
+     * @throws ProcessException error
      */
     @DescribeResult(name = "result", description = "Nearest feature")
     public FeatureCollection execute(
-            @DescribeParameter(name = "features", description = "Input feature collection") FeatureCollection featureCollection,
-            @DescribeParameter(name = "point", description = "Point from which to compute distance") Point point,
-            @DescribeParameter(name = "crs", min = 0, description = "Coordinate reference system of the collection and point (default is the input collection CRS)") CoordinateReferenceSystem crs)
+            @DescribeParameter(name = "features", description = "Input feature collection") 
+                    FeatureCollection featureCollection,
+            @DescribeParameter(name = "point", description = "Point from which to compute " +
+                    "distance") Point point,
+            @DescribeParameter(name = "crs", min = 0, description = "Coordinate reference system " +
+                    "of the collection and point (default is the input collection CRS)") 
+                    CoordinateReferenceSystem crs)
             throws ProcessException {
         try {
             if (crs == null) {
@@ -93,7 +94,8 @@ public class NearestProcess implements VectorProcess {
             }
             if (crs == null) {
                 throw new ProcessException(
-                        "The CRS parameter was not provided and the feature collection does not have a default one either");
+                        "The CRS parameter was not provided and the feature collection does not " +
+                                "have a default one either");
             }
 
             CoordinateReferenceSystem epsg4326;
@@ -121,8 +123,8 @@ public class NearestProcess implements VectorProcess {
                     DistanceOp op = new DistanceOp(point, (Geometry) f.getDefaultGeometryProperty()
                             .getValue());
                     Coordinate[] co = op.closestPoints();
-                    double[] co0 = new double[] { co[0].x, co[0].y, };
-                    double[] co1 = new double[] { co[1].x, co[1].y, };
+                    double[] co0 = new double[]{co[0].x, co[0].y,};
+                    double[] co1 = new double[]{co[1].x, co[1].y,};
                     double[] geo0 = new double[2];
                     double[] geo1 = new double[2];
                     crsTransform.transform(co0, 0, geo0, 0, 1);
@@ -155,12 +157,10 @@ public class NearestProcess implements VectorProcess {
 
     /**
      * Create the modified feature type.
-     * 
-     * @param sourceFeatureType
-     *            the source feature type
+     *
+     * @param sourceFeatureType the source feature type
      * @return the modified feature type
-     * @throws ProcessException
-     *             errror
+     * @throws ProcessException errror
      */
     private SimpleFeatureType createTargetFeatureType(FeatureType sourceFeatureType)
             throws ProcessException {
@@ -186,21 +186,17 @@ public class NearestProcess implements VectorProcess {
 
     /**
      * Create the modified feature.
-     * 
-     * @param feature
-     *            the source feature
-     * @param targetFeatureType
-     *            the modified feature type
-     * @param nearestDistance
-     *            the snap distance
-     * @param nearestBearing
-     *            the snap bearing
+     *
+     * @param feature           the source feature
+     * @param targetFeatureType the modified feature type
+     * @param nearestDistance   the snap distance
+     * @param nearestBearing    the snap bearing
      * @return the modified feature
-     * @throws ProcessException
-     *             error
+     * @throws ProcessException error
      */
     private SimpleFeature createTargetFeature(Feature feature, SimpleFeatureType targetFeatureType,
-            Double nearestDistance, Double nearestBearing) throws ProcessException {
+                                              Double nearestDistance, Double nearestBearing) 
+            throws ProcessException {
         try {
             AttributeDescriptor distanceAttbType = targetFeatureType
                     .getDescriptor("nearest_distance");
@@ -227,9 +223,8 @@ public class NearestProcess implements VectorProcess {
 
     /**
      * Calculate the bearing between two points.
-     * 
-     * @param coords
-     *            the points
+     *
+     * @param coords the points
      * @return the bearing
      */
     private double calcBearing(Coordinate[] coords) {

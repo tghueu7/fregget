@@ -26,12 +26,9 @@ import org.geotools.grid.PolygonElement;
  * Used by {@code Hexagons} class to build grids.
  *
  * @author mbedward
- * @since 2.7
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.7
  */
 public class HexagonBuilder extends PolygonBuilder {
     private final double sideLen;
@@ -41,7 +38,8 @@ public class HexagonBuilder extends PolygonBuilder {
     private int xIndex = 0;
     private int yIndex = 0;
 
-    public HexagonBuilder(ReferencedEnvelope gridBounds, double sideLen, HexagonOrientation orientation) {
+    public HexagonBuilder(ReferencedEnvelope gridBounds, double sideLen, HexagonOrientation 
+            orientation) {
         super(gridBounds);
         this.sideLen = sideLen;
         this.orientation = orientation;
@@ -67,9 +65,7 @@ public class HexagonBuilder extends PolygonBuilder {
      * and {@code LOWER_LEFT}.
      *
      * @param orientation hexagon orientation
-     *
-     * @param neighbor neighbor position
-     *
+     * @param neighbor    neighbor position
      * @return {@code true} if the combination is valid; {@code false} otherwise
      */
     @Override
@@ -98,18 +94,15 @@ public class HexagonBuilder extends PolygonBuilder {
      * Creates a new {@code Hexagon} positioned at the given neighbor position
      * relative to the reference element.
      *
-     * @param el the reference hexagon
-     *
+     * @param el       the reference hexagon
      * @param neighbor a valid neighbour position given the reference hexagon's
-     *        orientation
-     *
+     *                 orientation
      * @return a new {@code Hexagon} object
-     *
      * @throws IllegalArgumentException if either argument is {@code null} or
-     *         if {@code el} is not an instance of {@code Hexagon} or
-     *         if the neighbor position is not valid for the reference hexagon's
-     *         orientation
-     *
+     *                                  if {@code el} is not an instance of {@code Hexagon} or
+     *                                  if the neighbor position is not valid for the reference 
+     *                                  hexagon's
+     *                                  orientation
      * @see #isValidNeighbor(Hexagon.Orientation, Hexagon.Neighbor)
      */
     @Override
@@ -128,7 +121,7 @@ public class HexagonBuilder extends PolygonBuilder {
         if (!isValidNeighbor(neighbor)) {
             throw new IllegalArgumentException(
                     neighbor + " is not a valid neighbour position for orientation " +
-                    hexagon.getOrientation());
+                            hexagon.getOrientation());
         }
 
         ReferencedEnvelope bounds = hexagon.getBounds();

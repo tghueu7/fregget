@@ -2,7 +2,8 @@
  **
  ** $Id$
  **
- ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/geometry/GeometryFactoryImpl.java,v $
+ ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/geometry
+ * /GeometryFactoryImpl.java,v $
  **
  ** Copyright (C) 2003 Open GIS Consortium, Inc. All Rights Reserved. http://www.opengis.org/Legal/
  **
@@ -10,6 +11,7 @@
 package org.geotools.geometry.jts.spatialschema.geometry.geometry;
 
 // J2SE direct dependencies
+
 import org.geotools.geometry.jts.spatialschema.geometry.DirectPositionImpl;
 import org.geotools.geometry.jts.spatialschema.geometry.EnvelopeImpl;
 import org.geotools.geometry.jts.spatialschema.geometry.aggregate.MultiPointImpl;
@@ -51,19 +53,15 @@ import org.opengis.geometry.primitive.SurfaceBoundary;
 
 /**
  * The {@code GeometryFactoryImpl} class/interface...
- * 
+ *
  * @author SYS Technologies
  * @author crossley
- *
- *
- *
- *
- * @source $URL$
  * @version $Revision $
+ * @source $URL$
  * @deprecated Use GeometryFactoryFinder
  */
 public class GeometryFactoryImpl extends JTSGeometryFactory {
-    public GeometryFactoryImpl( CoordinateReferenceSystem crs ){
-        super( crs );
+    public GeometryFactoryImpl(CoordinateReferenceSystem crs) {
+        super(crs);
     }
 }

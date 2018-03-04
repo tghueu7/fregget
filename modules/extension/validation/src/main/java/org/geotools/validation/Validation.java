@@ -18,17 +18,17 @@ package org.geotools.validation;
 
 /**
  * Used to define a type of validation test that is performed on Features.
- * 
+ * <p>
  * <p>
  * Each ValidationPlugIn is very specific in nature: it performs one test
  * extermly well.  This simplifies design decisions, documenation
  * configuration and use.
  * </p>
- * 
+ * <p>
  * <p>
  * The PlugIn is also required to supply some metadata to aid in its
  * deployment, scripting, logging and execution and error recovery:
- * 
+ * <p>
  * <ul>
  * <li>
  * name: user's name of validation test
@@ -47,20 +47,18 @@ package org.geotools.validation;
  *
  * @author bowens, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public interface Validation {
     /**
      * A constant for getPriority() used for Trivial validation checks.
-     * 
+     * <p>
      * <p>
      * This is a Priority Hint to Validation Processor based on computational
      * expense.
      * </p>
-     * 
+     * <p>
      * <p>
      * Trivial is used for thing that don't require any real work - like
      * checking for any O(1) opperations such as checking null values.
@@ -70,12 +68,12 @@ public interface Validation {
 
     /**
      * A constant for getPriority() used for simple validation checks.
-     * 
+     * <p>
      * <p>
      * This is a Priority Hint to Validation Processor based on computational
      * expense.
      * </p>
-     * 
+     * <p>
      * <p>
      * Used for simple attribute or geometry validations, basically anything
      * that is Order(N) like a Bounds check.
@@ -85,17 +83,17 @@ public interface Validation {
 
     /**
      * A constant for getPriority() used for complex validation checks.
-     * 
+     * <p>
      * <p>
      * This is a Priority Hint to Validation Processor based on computational
      * expense.
      * </p>
-     * 
+     * <p>
      * <p>
      * Used for complex validations, basically anything that is has a Chance of
      * being worse then O(N).
      * </p>
-     * 
+     * <p>
      * <p>
      * Any integrity tests between two FeatureTypes should be an example of a
      * PRIORITY_COMPLEX.
@@ -105,17 +103,17 @@ public interface Validation {
 
     /**
      * A constant for getPriority() used for involved validation checks.
-     * 
+     * <p>
      * <p>
      * This is a Priority Hint to Validation Processor based on computational
      * expense.
      * </p>
-     * 
+     * <p>
      * <p>
      * Used for involved validations, basically anything that is has a Chance
      * of being worse then O(N^2).
      * </p>
-     * 
+     * <p>
      * <p>
      * Any integrity tests involving network code, were we have to build the
      * network and then walk it, is an example of PRIORITY_INVOLVED.
@@ -125,7 +123,7 @@ public interface Validation {
 
     /**
      * Empty String array for use with getTypeNames().
-     * 
+     * <p>
      * <p>
      * Used to denote that all FeatureTypes should be tested. (If this does not
      * Pan out we may have to define the wild-card character "" or support
@@ -171,7 +169,7 @@ public interface Validation {
 
     /**
      * Identify the FeatureTypes that this validation test is run against.
-     * 
+     * <p>
      * <p>
      * If this list is empty the ValidationProcess will run the test against
      * all FeatureTypes. The ValidationProcess expects these names to be in
@@ -179,7 +177,7 @@ public interface Validation {
      * </p>
      *
      * @return FeatureType names that this validation test is run against,
-     *         empty for all, null to disable
+     * empty for all, null to disable
      */
     String[] getTypeRefs();
 }

@@ -34,8 +34,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ShpFilesLockingTest implements FileWriter {
@@ -43,9 +41,9 @@ public class ShpFilesLockingTest implements FileWriter {
     @Before
     public void setUp() throws Exception {
         getClass().getClassLoader().setDefaultAssertionStatus(true);
-        
+
     }
-    
+
     @After
     public void tearDown() throws Exception {
         Runtime.getRuntime().runFinalization();
@@ -55,25 +53,26 @@ public class ShpFilesLockingTest implements FileWriter {
     public void testAcquireReadFile() throws Throwable {
         ShpFiles shpFiles = new ShpFiles("http://somefile.com/shp.shp");
 
-        try{
+        try {
             shpFiles.acquireReadFile(DBF, this);
             fail("Not a file should send exception");
-        }catch(IllegalStateException e ){
+        } catch (IllegalStateException e) {
             // good
         }
-        
+
 
         String path = "somefile.shp";
-        shpFiles = new ShpFiles( new File( path ));
+        shpFiles = new ShpFiles(new File(path));
 
         File file = shpFiles.acquireReadFile(SHP, this);
         // under windows the two paths can be just different in terms of case..
-        assertEquals( new File(path).getCanonicalPath().toLowerCase(), file.getPath().toLowerCase());
+        assertEquals(new File(path).getCanonicalPath().toLowerCase(), file.getPath().toLowerCase());
         assertEquals(1, shpFiles.numberOfLocks());
-        
+
         shpFiles.unlockRead(file, this);
         shpFiles.dispose();
     }
+
     @Test
     public void testAcquireWriteFile() throws Throwable {
         ShpFiles shpFiles = new ShpFiles("http://somefile.com/shp.shp");
@@ -84,16 +83,16 @@ public class ShpFilesLockingTest implements FileWriter {
         } catch (IllegalStateException e) {
             // good
         }
-        
+
 
         String path = "somefile.shp";
-        shpFiles = new ShpFiles( new File( path ));
+        shpFiles = new ShpFiles(new File(path));
 
         File file = shpFiles.acquireWriteFile(SHP, this);
         // under windows the two paths can be just different in terms of case..
-        assertEquals(new File( path ).getCanonicalPath().toLowerCase(), file.getPath().toLowerCase());
+        assertEquals(new File(path).getCanonicalPath().toLowerCase(), file.getPath().toLowerCase());
         assertEquals(1, shpFiles.numberOfLocks());
-        
+
         shpFiles.unlockWrite(file, this);
         assertEquals(0, shpFiles.numberOfLocks());
         shpFiles.dispose();

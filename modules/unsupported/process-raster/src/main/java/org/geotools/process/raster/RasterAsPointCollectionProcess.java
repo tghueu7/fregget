@@ -69,66 +69,74 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 
 /**
- * A process that wraps a {@link GridCoverage2D} as a collection of point feature. Optional parameters can be set:
+ * A process that wraps a {@link GridCoverage2D} as a collection of point feature. Optional 
+ * parameters can be set:
  * <ul>
  * <li>targetCRS : can be used for calculating the GridConvergence Angle of each point</li>
  * <li>scale : can be used for scaling the input coverage</li>
  * <li>interpolation : can be used for setting the interpolation method when Scaling is applied</li>
  * <li>emisphere : forces to indicate the hemisphere for each point</li>
  * </ul>
- * 
- * @author Simone Giannecchini, GeoSolutions
- * 
  *
+ * @author Simone Giannecchini, GeoSolutions
  * @source $URL$
  */
-@DescribeProcess(title = "Raster As Point Collection", description = "Returns a collection of point features for the pixels of a raster.  The band values are provided as attributes.")
+@DescribeProcess(title = "Raster As Point Collection", description = "Returns a collection of " +
+        "point features for the pixels of a raster.  The band values are provided as attributes.")
 public class RasterAsPointCollectionProcess implements RasterProcess {
-    
+
     @DescribeResult(name = "result", description = "Point features")
     public SimpleFeatureCollection execute(
             @DescribeParameter(name = "data", description = "Input raster") GridCoverage2D gc2d,
-            @DescribeParameter(name = "targetCRS", description = "CRS in which the points will be displayed", min=0) CoordinateReferenceSystem targetCRS,
-            @DescribeParameter(name = "scale", description = "scale",min=0, defaultValue="1.0f") Float scaleFactor,
-            @DescribeParameter(name = "interpolation", description = "interpolation",min=0, defaultValue="InterpolationNearest") Interpolation interpolation,
-            @DescribeParameter(name = "emisphere", description = "Add Emishpere",min=0, defaultValue="False" ) Boolean emisphere)
+            @DescribeParameter(name = "targetCRS", description = "CRS in which the points will be" +
+                    " displayed", min = 0) CoordinateReferenceSystem targetCRS,
+            @DescribeParameter(name = "scale", description = "scale", min = 0, defaultValue = 
+                    "1.0f") Float scaleFactor,
+            @DescribeParameter(name = "interpolation", description = "interpolation", min = 0, 
+                    defaultValue = "InterpolationNearest") Interpolation interpolation,
+            @DescribeParameter(name = "emisphere", description = "Add Emishpere", min = 0, 
+                    defaultValue = "False") Boolean emisphere)
             throws ProcessException {
-        if (gc2d ==null) {
+        if (gc2d == null) {
             throw new ProcessException("Invalid input, source grid coverage should be not null");
         }
-        
+
         // Get the GridEnvelope associated to the input Raster for selecting its width and height. 
         // These two values are used for check if the scale is needed 
         GridEnvelope2D gridEnv = gc2d.getGridGeometry().getGridRange2D();
         double coverageWidth = gridEnv.getWidth();
         double coverageHeight = gridEnv.getHeight();
-        
+
         ////
         //
-        // scale if/as needed. Also check if the scale expands the coverage dimension for at least 1 pixel. 
+        // scale if/as needed. Also check if the scale expands the coverage dimension for at 
+        // least 1 pixel. 
         //
         ////
-        if (scaleFactor != null && (Math.abs(coverageWidth*(scaleFactor - 1f)) >=1 || Math.abs(coverageHeight*(scaleFactor - 1f)) >= 1) ) {
+        if (scaleFactor != null && (Math.abs(coverageWidth * (scaleFactor - 1f)) >= 1 || Math.abs
+                (coverageHeight * (scaleFactor - 1f)) >= 1)) {
             // Selection of the interpolation parameter
-            Interpolation interp = interpolation != null ? interpolation : new InterpolationNearest();
-            // Selection of the ScaleFactors in order to check if the final Raster has almost 1 pixel for Height and Width
+            Interpolation interp = interpolation != null ? interpolation : new 
+                    InterpolationNearest();
+            // Selection of the ScaleFactors in order to check if the final Raster has almost 1 
+            // pixel for Height and Width
             double scaleX = scaleFactor;
             double scaleY = scaleFactor;
             // RenderedImage associated to the coverage
             final RenderedImage imageToBescaled = gc2d.getRenderedImage();
-            
+
             if (imageToBescaled != null) {
                 final SampleModel sampleModel = imageToBescaled.getSampleModel();
                 final int height = sampleModel.getHeight();
                 final int width = sampleModel.getWidth();
                 if (height * scaleFactor < 1) {
-                    scaleY = 1d/height;
+                    scaleY = 1d / height;
                 }
                 if (width * scaleFactor < 1) {
-                   scaleX = 1d/width;
+                    scaleX = 1d / width;
                 }
             }
-            
+
             // Execution of the Affine process
             gc2d = new AffineProcess().execute(gc2d, scaleX,
                     scaleY, null, null, null, null, null, interp);
@@ -145,19 +153,20 @@ public class RasterAsPointCollectionProcess implements RasterProcess {
     /**
      * TODO @see {@link AdaptorFeatureCollection}
      * TODO @see {@link DefaultFeatureCollection}
-     * @author Simone Giannecchini, GeoSolutions
      *
+     * @author Simone Giannecchini, GeoSolutions
      */
     private final static class RasterAsPointFeatureCollection extends BaseSimpleFeatureCollection {
-    	
-    	/**
-    	 * The {@link GeometryFactory} cached here for building points inside iterators
-    	 */
-        static final GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory( GeoTools.getDefaultHints() );
-        
-    	/**
-    	 * The {@link GridCoverage2D} that we want to expose as a point feature collection.
-    	 */
+
+        /**
+         * The {@link GeometryFactory} cached here for building points inside iterators
+         */
+        static final GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory
+                (GeoTools.getDefaultHints());
+
+        /**
+         * The {@link GridCoverage2D} that we want to expose as a point feature collection.
+         */
         final GridCoverage2D gc2d;
 
         /**
@@ -198,7 +207,7 @@ public class RasterAsPointCollectionProcess implements RasterProcess {
         /**
          * Index for the North Dimension of the coverage CRS
          */
-        private int northDimension=-1;
+        private int northDimension = -1;
 
         /**
          * Target CRS indicating that the input Coverage has been reprojected
@@ -222,33 +231,37 @@ public class RasterAsPointCollectionProcess implements RasterProcess {
 
         public RasterAsPointFeatureCollection(final GridCoverage2D gc2d) throws IOException {
             this(gc2d, false, gc2d.getCoordinateReferenceSystem2D());
-            
+
         }
-        
+
         /**
          * @param gc2d2
          * @param emisphere
-         * @param targetCRS 
+         * @param targetCRS
          */
-        public RasterAsPointFeatureCollection(GridCoverage2D gc2d, boolean emisphere, CoordinateReferenceSystem targetCRS)throws IOException {
-            super(modify(CoverageUtilities.createFeatureType(gc2d, Point.class),emisphere,targetCRS));
-            this.gc2d=gc2d;
-            this.emisphere=emisphere;
-            this.targetCRS=targetCRS;
-            
+        public RasterAsPointFeatureCollection(GridCoverage2D gc2d, boolean emisphere, 
+                                              CoordinateReferenceSystem targetCRS) throws 
+                IOException {
+            super(modify(CoverageUtilities.createFeatureType(gc2d, Point.class), emisphere, 
+                    targetCRS));
+            this.gc2d = gc2d;
+            this.emisphere = emisphere;
+            this.targetCRS = targetCRS;
+
             //
             // get various elements from this coverage
             //
             // SIZE
-            final RenderedImage raster=gc2d.getRenderedImage();
-            size=raster.getWidth()*raster.getHeight();
-            
+            final RenderedImage raster = gc2d.getRenderedImage();
+            size = raster.getWidth() * raster.getHeight();
+
             // GRID TO WORLD for transforming raster points into model points
-            mt2D= gc2d.getGridGeometry().getGridToCRS2D(PixelOrientation.UPPER_LEFT);
-            
+            mt2D = gc2d.getGridGeometry().getGridToCRS2D(PixelOrientation.UPPER_LEFT);
+
             // BOUNDS take into account that we want to map center coordinates
             rasterBounds = PlanarImage.wrapRenderedImage(raster).getBounds();
-            final XRectangle2D rasterBounds_=new XRectangle2D(raster.getMinX()+0.5, raster.getMinY()+0.5, raster.getWidth()-1,  raster.getHeight()-1);
+            final XRectangle2D rasterBounds_ = new XRectangle2D(raster.getMinX() + 0.5, raster
+                    .getMinY() + 0.5, raster.getWidth() - 1, raster.getHeight() - 1);
             try {
                 bounds = new ReferencedEnvelope(CRS.transform(mt2D, rasterBounds_, null),
                         gc2d.getCoordinateReferenceSystem2D());
@@ -261,12 +274,12 @@ public class RasterAsPointCollectionProcess implements RasterProcess {
             // BANDS
             numBands = gc2d.getNumSampleDimensions();
 
-            final CoordinateReferenceSystem coverageCRS=gc2d.getCoordinateReferenceSystem2D();
+            final CoordinateReferenceSystem coverageCRS = gc2d.getCoordinateReferenceSystem2D();
             //
             // Emisphere management
             //
             emisphereManagement(coverageCRS);
-            
+
             //
             // Grid Convergence Angle correction
             //
@@ -275,11 +288,12 @@ public class RasterAsPointCollectionProcess implements RasterProcess {
 
         /**
          * Prepare for Managing the GridConvergenceAngle
-         * 
+         *
          * @param coverageCRS the {@link GridCoverage2D} {@link CoordinateReferenceSystem}
          */
         private void gridConvergenceAngle(final CoordinateReferenceSystem coverageCRS) {
-            // GridCoverage Angle management is required only if the input Coverage has been reprojected
+            // GridCoverage Angle management is required only if the input Coverage has been 
+            // reprojected
             if (targetCRS != null) {
 
                 // there is a real reprojection?
@@ -309,14 +323,15 @@ public class RasterAsPointCollectionProcess implements RasterProcess {
 
         /**
          * Prepare the variables used by the iterator for checking the North Hemisphere.
-         * 
+         *
          * @param coverageCRS CRS of the input coverage
          * @throws IOException
          */
         private void emisphereManagement(CoordinateReferenceSystem coverageCRS) throws IOException {
             // The Hemisphere is evaluated only if the associated flag is set to true
             if (emisphere) {
-                // If the Coverage CRS is already in WGS84 then is is easy to get the Hemisphere from the Y direction value, 
+                // If the Coverage CRS is already in WGS84 then is is easy to get the Hemisphere 
+                // from the Y direction value, 
                 // else a reprojection is needed.
                 if (!CRS.equalsIgnoreMetadata(DefaultGeographicCRS.WGS84, coverageCRS)) {
                     try {
@@ -333,7 +348,8 @@ public class RasterAsPointCollectionProcess implements RasterProcess {
                         final int dimension = coordinateSystem.getDimension();
                         for (int i = 0; i < dimension; i++) {
                             CoordinateSystemAxis axis = coordinateSystem.getAxis(i);
-                            if (axis.getDirection().absolute().compareTo(AxisDirection.NORTH) == 0) {
+                            if (axis.getDirection().absolute().compareTo(AxisDirection.NORTH) == 
+                                    0) {
                                 this.northDimension = i;
                                 break;
                             }
@@ -354,14 +370,14 @@ public class RasterAsPointCollectionProcess implements RasterProcess {
 
         /**
          * Static method which prepares the feature type associated to each Point.
-         * 
+         *
          * @param featureType Input {@link FeatureType} associated to the Coverage
-         * @param emisphere Boolean indicating if the emisphere must be set
-         * @param targetCRS CRS used if the gridConvergence Angle must be calculated 
+         * @param emisphere   Boolean indicating if the emisphere must be set
+         * @param targetCRS   CRS used if the gridConvergence Angle must be calculated
          * @return
          */
         private static SimpleFeatureType modify(SimpleFeatureType featureType, boolean emisphere,
-                CoordinateReferenceSystem targetCRS) {
+                                                CoordinateReferenceSystem targetCRS) {
             if (!emisphere && targetCRS == null) {
                 return featureType;
             }
@@ -411,25 +427,29 @@ public class RasterAsPointCollectionProcess implements RasterProcess {
     }
 
     private final static class RasterAsPointFeatureIterator implements SimpleFeatureIterator {
-    	
-    	private final double[] temp;
 
-    	private final SimpleFeatureBuilder fb;
-    	
-    	private final RasterAsPointFeatureCollection fc;
-        
-        private int index=0;
-        
+        private final double[] temp;
+
+        private final SimpleFeatureBuilder fb;
+
+        private final RasterAsPointFeatureCollection fc;
+
+        private int index = 0;
+
         private final int size;
 
         private final RectIter iterator;
 
         private final Coordinate sourceCoordinate = new Coordinate();
 
-        /** Position of the Point in the source CRS*/
+        /**
+         * Position of the Point in the source CRS
+         */
         private DirectPosition2D sourceCRSPosition;
 
-        /** Position of the Point in the target CRS*/
+        /**
+         * Position of the Point in the target CRS
+         */
         private DirectPosition2D targetCRSPosition;
 
         public RasterAsPointFeatureIterator(final RasterAsPointFeatureCollection fc) {
@@ -440,30 +460,30 @@ public class RasterAsPointCollectionProcess implements RasterProcess {
             // get elements
             this.fc = fc;
             this.fb = new SimpleFeatureBuilder(fc.getSchema());
-            this.size=fc.size;
-            
+            this.size = fc.size;
+
             // create an iterator that only goes forward, it is the fastest one
-            iterator= RectIterFactory.create(fc.gc2d.getRenderedImage(), null);
+            iterator = RectIterFactory.create(fc.gc2d.getRenderedImage(), null);
 
             //
             //start the iterator
             //
             iterator.startLines();
-            if(iterator.finishedLines()){
-                throw new NoSuchElementException("Index beyond size:"+index+">"+size);
+            if (iterator.finishedLines()) {
+                throw new NoSuchElementException("Index beyond size:" + index + ">" + size);
             }
             iterator.startPixels();
-            if(iterator.finishedPixels()){
-                throw new NoSuchElementException("Index beyond size:"+index+">"+size);   
+            if (iterator.finishedPixels()) {
+                throw new NoSuchElementException("Index beyond size:" + index + ">" + size);
             }
-            
+
             // appo
-            temp= new double[fc.numBands];
-            
+            temp = new double[fc.numBands];
+
             // grid convergence angle manager
-            if(fc.gridConvergenceAngleCorrectionNeeded){
-                sourceCRSPosition = new DirectPosition2D(); 
-                targetCRSPosition = new DirectPosition2D(fc.targetCRS);                
+            if (fc.gridConvergenceAngleCorrectionNeeded) {
+                sourceCRSPosition = new DirectPosition2D();
+                targetCRSPosition = new DirectPosition2D(fc.targetCRS);
             }
         }
 
@@ -471,40 +491,41 @@ public class RasterAsPointCollectionProcess implements RasterProcess {
          * Closes this iterator
          */
         public void close() {
-        	// NO OP
+            // NO OP
         }
 
         /**
          * Tells us whether or not we have more elements to iterate on.
          */
         public boolean hasNext() {
-            return index<size;
+            return index < size;
         }
 
         public SimpleFeature next() throws NoSuchElementException {
-            
-            if(!hasNext()){
-                throw new NoSuchElementException("Index beyond size:"+index+">"+size);
+
+            if (!hasNext()) {
+                throw new NoSuchElementException("Index beyond size:" + index + ">" + size);
             }
-            
+
             // iterate
-            if(iterator.finishedPixels()){
-                throw new NoSuchElementException("Index beyond size:"+index+">"+size);
+            if (iterator.finishedPixels()) {
+                throw new NoSuchElementException("Index beyond size:" + index + ">" + size);
             }
-            if(iterator.finishedLines()){
-                throw new NoSuchElementException("Index beyond size:"+index+">"+size);                    
+            if (iterator.finishedLines()) {
+                throw new NoSuchElementException("Index beyond size:" + index + ">" + size);
             }
-            
+
             // ID
-            final int id=index;
-            
+            final int id = index;
+
             // POINT
             // can we reuse the coord?
-            sourceCoordinate.x= 0.5+ fc.rasterBounds.x+index%fc.rasterBounds.width;
-            sourceCoordinate.y= 0.5+ fc.rasterBounds.y+index/fc.rasterBounds.width ;
-            Point point = RasterAsPointFeatureCollection.geometryFactory.createPoint( sourceCoordinate );
+            sourceCoordinate.x = 0.5 + fc.rasterBounds.x + index % fc.rasterBounds.width;
+            sourceCoordinate.y = 0.5 + fc.rasterBounds.y + index / fc.rasterBounds.width;
+            Point point = RasterAsPointFeatureCollection.geometryFactory.createPoint
+                    (sourceCoordinate);
             try {
-                point=(Point) JTS.transform(point, fc.mt2D);
+                point = (Point) JTS.transform(point, fc.mt2D);
                 fb.add(point);
 
                 // VALUES
@@ -528,25 +549,26 @@ public class RasterAsPointCollectionProcess implements RasterProcess {
                 throw nse;
             }
 
-            
+
             // do we need to wrap the line??
-            if(iterator.nextPixelDone()){
-            	if(!iterator.nextLineDone())
-            		iterator.startPixels();
+            if (iterator.nextPixelDone()) {
+                if (!iterator.nextLineDone())
+                    iterator.startPixels();
             }
-            
+
             // return
-            final SimpleFeature returnValue= fb.buildFeature(String.valueOf(id));
-            
+            final SimpleFeature returnValue = fb.buildFeature(String.valueOf(id));
+
             // increase index and iterator
             index++;
-            
+
             return returnValue;
         }
 
         /**
-         * This method adds the GridConvergence Angle attribute to the Point feature if it is needed.
-         * 
+         * This method adds the GridConvergence Angle attribute to the Point feature if it is 
+         * needed.
+         *
          * @param point Input Point to handle.
          */
         private void gridConvergenceAngleManagement(Point point) throws Exception {
@@ -567,14 +589,15 @@ public class RasterAsPointCollectionProcess implements RasterProcess {
 
         /**
          * This method adds the Hemisphere attribute to the Point feature if requested.
-         * 
+         *
          * @param point Input Point to handle.
          * @throws NoSuchElementException
          */
         private void emisphereAttributeManagement(final Point point) throws IOException {
             // If the Hemisphere flag is set to false no calculation is performed
             if (fc.emisphere) {
-                // If the Coverage CRS is WGS84 then the Y coordinate value indicates the associated Hemisphere
+                // If the Coverage CRS is WGS84 then the Y coordinate value indicates the 
+                // associated Hemisphere
                 if (fc.transformToWGS84 == null) {
                     if (point.getY() >= 0) {
                         fb.add("N");
@@ -583,7 +606,8 @@ public class RasterAsPointCollectionProcess implements RasterProcess {
                     }
                 } else {
                     try {
-                        // Else the point must be reprojected previously in order to define the Hemisphere
+                        // Else the point must be reprojected previously in order to define the 
+                        // Hemisphere
                         Point wgs84Point = (Point) JTS.transform(point, fc.transformToWGS84);
                         if (wgs84Point.getCoordinate().getOrdinate(fc.northDimension) >= 0) {
                             fb.add("N");

@@ -31,18 +31,16 @@ import org.opengis.referencing.operation.CylindricalProjection;
 /**
  * Base class for cylindrical map projections.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
- * @since 2.1
- *
+ * @version $Id$
+ * @source $URL$
  * @see org.geotools.referencing.crs.DefaultProjectedCRS
- * @see <A HREF="http://mathworld.wolfram.com/CylindricalProjection.html">Cylindrical projection on MathWorld</A>
+ * @see <A HREF="http://mathworld.wolfram.com/CylindricalProjection.html">Cylindrical projection 
+ * on MathWorld</A>
+ * @since 2.1
  */
-public class DefaultCylindricalProjection extends DefaultProjection implements CylindricalProjection {
+public class DefaultCylindricalProjection extends DefaultProjection implements 
+        CylindricalProjection {
     /**
      * Serial number for interoperability with different versions.
      */
@@ -54,16 +52,15 @@ public class DefaultCylindricalProjection extends DefaultProjection implements C
      * typically a {@linkplain DefiningConversion defining conversion}.
      *
      * @param conversion The defining conversion.
-     * @param sourceCRS The source CRS.
-     * @param targetCRS The target CRS.
-     * @param transform Transform from positions in the {@linkplain #getSourceCRS source CRS}
-     *                  to positions in the {@linkplain #getTargetCRS target CRS}.
+     * @param sourceCRS  The source CRS.
+     * @param targetCRS  The target CRS.
+     * @param transform  Transform from positions in the {@linkplain #getSourceCRS source CRS}
+     *                   to positions in the {@linkplain #getTargetCRS target CRS}.
      */
-    public DefaultCylindricalProjection(final Conversion                conversion,
+    public DefaultCylindricalProjection(final Conversion conversion,
                                         final CoordinateReferenceSystem sourceCRS,
                                         final CoordinateReferenceSystem targetCRS,
-                                        final MathTransform             transform)
-    {
+                                        final MathTransform transform) {
         super(conversion, sourceCRS, targetCRS, transform);
     }
 
@@ -72,19 +69,18 @@ public class DefaultCylindricalProjection extends DefaultProjection implements C
      * follow the same rules than for the {@link AbstractCoordinateOperation} constructor.
      *
      * @param properties Set of properties. Should contains at least {@code "name"}.
-     * @param sourceCRS The source CRS, or {@code null} if not available.
-     * @param targetCRS The target CRS, or {@code null} if not available.
-     * @param transform Transform from positions in the {@linkplain #getSourceCRS source coordinate
-     *                  reference system} to positions in the {@linkplain #getTargetCRS target
-     *                  coordinate reference system}.
-     * @param method    The operation method.
+     * @param sourceCRS  The source CRS, or {@code null} if not available.
+     * @param targetCRS  The target CRS, or {@code null} if not available.
+     * @param transform  Transform from positions in the {@linkplain #getSourceCRS source coordinate
+     *                   reference system} to positions in the {@linkplain #getTargetCRS target
+     *                   coordinate reference system}.
+     * @param method     The operation method.
      */
-    public DefaultCylindricalProjection(final Map<String,?>             properties,
+    public DefaultCylindricalProjection(final Map<String, ?> properties,
                                         final CoordinateReferenceSystem sourceCRS,
                                         final CoordinateReferenceSystem targetCRS,
-                                        final MathTransform             transform,
-                                        final OperationMethod           method)
-    {
+                                        final MathTransform transform,
+                                        final OperationMethod method) {
         super(properties, sourceCRS, targetCRS, transform, method);
     }
 }

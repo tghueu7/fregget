@@ -19,8 +19,6 @@ package org.geotools.jdbc;
 import java.sql.SQLException;
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class JDBCBooleanTestSetup extends JDBCDelegatingTestSetup {
@@ -28,7 +26,7 @@ public abstract class JDBCBooleanTestSetup extends JDBCDelegatingTestSetup {
     protected JDBCBooleanTestSetup(JDBCTestSetup delegate) {
         super(delegate);
     }
-    
+
     protected final void setUpData() throws Exception {
         //kill all the data
         try {
@@ -47,8 +45,8 @@ public abstract class JDBCBooleanTestSetup extends JDBCDelegatingTestSetup {
      * </p>
      * <p>
      * The table should contain the following data.
-     *  0 | false
-     *  1 | true
+     * 0 | false
+     * 1 | true
      * </p>
      */
     protected abstract void createBooleanTable() throws Exception;

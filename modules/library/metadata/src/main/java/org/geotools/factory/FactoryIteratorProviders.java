@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2007-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -19,16 +19,16 @@ package org.geotools.factory;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.LinkedHashSet;
+
 import org.geotools.resources.XArray;
 
 
 /**
  * The list of registered {@linkplain FactoryIteratorProvider factory iterator providers}.
  *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
- *
+ * @version $Id$
+ * @source $URL$
  * @todo Consider removing {@link FactoryRegistry#globalConfiguration} and use listeners instead.
  */
 final class FactoryIteratorProviders {
@@ -44,7 +44,8 @@ final class FactoryIteratorProviders {
     private int modifications = 0;
 
     /**
-     * Alternative scanning methods used by {@link FactoryRegistry#scanForPlugins(Collection,Class)}
+     * Alternative scanning methods used by 
+     * {@link FactoryRegistry#scanForPlugins(Collection, Class)}
      * in addition of the default lookup mechanism. Will be created only when first needed.
      */
     private Set<FactoryIteratorProvider> iteratorProviders;
@@ -62,7 +63,7 @@ final class FactoryIteratorProviders {
      * {@link FactoryIteratorProviders} public static method calls.
      *
      * @return The new iterators providers {@linkplain #addFactoryIteratorProvider added} since
-     *         the last time this method was invoked, or {@code null} if none.
+     * the last time this method was invoked, or {@code null} if none.
      */
     final FactoryIteratorProvider[] synchronizeIteratorProviders() {
         FactoryIteratorProvider[] newProviders = null;
@@ -96,7 +97,7 @@ final class FactoryIteratorProviders {
              * for a immediate scanning.
              */
             int remaining = GLOBAL.iteratorProviders.size();
-            for (final Iterator it=GLOBAL.iteratorProviders.iterator(); it.hasNext();) {
+            for (final Iterator it = GLOBAL.iteratorProviders.iterator(); it.hasNext(); ) {
                 final FactoryIteratorProvider candidate = (FactoryIteratorProvider) it.next();
                 if (iteratorProviders.add(candidate)) {
                     if (newProviders == null) {

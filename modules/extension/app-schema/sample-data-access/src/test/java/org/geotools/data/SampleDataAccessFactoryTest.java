@@ -28,12 +28,9 @@ import org.opengis.feature.type.FeatureType;
 
 /**
  * Test for {@link SampleDataAccessFactory}.
- * 
+ *
  * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
  * @version $Id$
- *
- *
- *
  * @source $URL$
  * @since 2.6
  */
@@ -42,7 +39,7 @@ public class SampleDataAccessFactoryTest extends TestCase {
     /**
      * Test that {@link DataAccessFinder} can find {@link SampleDataAccessFactory} and use it to
      * create a {@link SampleDataAccess}.
-     * 
+     *
      * @throws Exception
      */
     public static void testFindSamplesDataAccessFactory() throws Exception {

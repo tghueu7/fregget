@@ -27,15 +27,13 @@ import java.io.IOException;
  * to return any randomly requested tile, probably by being forced to issue a separate request to
  * the server or do some cacheing.
  * </p>
- * 
+ *
  * @author Gabriel Roldan (OpenGeo)
- * @since 2.5.4
  * @version $Id$
- *
- *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/main/java/org
- *         /geotools/arcsde/gce/TileReader.java $
+ * http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/main/java/org
+ * /geotools/arcsde/gce/TileReader.java $
+ * @since 2.5.4
  */
 public interface TileReader {
 
@@ -76,7 +74,7 @@ public interface TileReader {
 
     /**
      * @return number of bytes in the raw pixel content of a tile, not taking into account any
-     *         trailing bitmask data.
+     * trailing bitmask data.
      */
     public abstract int getBytesPerTile();
 

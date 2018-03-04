@@ -50,8 +50,6 @@ import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.GeometryFactory;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ArcSdeFeatureSource implements SimpleFeatureSource {
@@ -61,17 +59,20 @@ public class ArcSdeFeatureSource implements SimpleFeatureSource {
     /**
      * {@link Hints#FEATURE_DETACHED} and the ones supported by
      * {@link ArcSDEDataStore#getGeometryFactory}
-     * 
+     *
      * @see #getSupportedHints()
      */
     private static final Set<Key> supportedHints = new HashSet<Key>();
+
     static {
         supportedHints.add(Hints.FEATURE_DETACHED);
         supportedHints.add(Hints.JTS_GEOMETRY_FACTORY);
         supportedHints.add(Hints.JTS_COORDINATE_SEQUENCE_FACTORY);
         supportedHints.add(Hints.JTS_PRECISION_MODEL);
         supportedHints.add(Hints.JTS_SRID);
-    };
+    }
+
+    ;
 
     protected Transaction transaction = Transaction.AUTO_COMMIT;
 
@@ -114,9 +115,9 @@ public class ArcSdeFeatureSource implements SimpleFeatureSource {
      * Returns the same name than the feature type (ie, {@code getSchema().getName()} to honor the
      * simple feature land common practice of calling the same both the Features produces and their
      * types
-     * 
-     * @since 2.5
+     *
      * @see FeatureSource#getName()
+     * @since 2.5
      */
     public Name getName() {
         return getSchema().getName();
@@ -159,7 +160,7 @@ public class ArcSdeFeatureSource implements SimpleFeatureSource {
 
     /**
      * @return The bounding box of the query or null if unknown and too expensive for the method to
-     *         calculate or any errors occur.
+     * calculate or any errors occur.
      * @see FeatureSource#getBounds(Query)
      */
     public final ReferencedEnvelope getBounds(final Query query) throws IOException {
@@ -178,7 +179,7 @@ public class ArcSdeFeatureSource implements SimpleFeatureSource {
      * @param namedQuery
      * @param session
      * @return The bounding box of the query or null if unknown and too expensive for the method to
-     *         calculate or any errors occur.
+     * calculate or any errors occur.
      * @throws DataSourceException
      * @throws IOException
      */
@@ -246,7 +247,7 @@ public class ArcSdeFeatureSource implements SimpleFeatureSource {
      * {@link #getCount(Query)}. {@link ArcSdeFeatureStore} overrides to get the connection from the
      * transaction instead of the pool.
      * </p>
-     * 
+     *
      * @return
      */
     protected final ISession getSession() throws IOException {
@@ -320,7 +321,7 @@ public class ArcSdeFeatureSource implements SimpleFeatureSource {
      * {@code JTS_GEOMETRY_FACTORY} hint, that very factory is used and takes precedence over all
      * the other ones.
      * </p>
-     * 
+     *
      * @see FeatureSource#getSupportedHints()
      * @see Hints#FEATURE_DETACHED
      * @see Hints#JTS_GEOMETRY_FACTORY

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2007-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -27,17 +27,16 @@ import org.geotools.referencing.ReferencingFactoryFinder;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
 
 import org.junit.*;
+
 import static org.junit.Assert.*;
 
 
 /**
  * Tests the {@link HTTP_AuthorityFactory} class backed by WMS or AUTO factories.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
  */
 public final class HTTP_AuthorityFactoryTest {
     /**
@@ -83,7 +82,8 @@ public final class HTTP_AuthorityFactoryTest {
      */
     @Test
     public void testCRS() throws FactoryException {
-        CRSAuthorityFactory factory = ReferencingFactoryFinder.getCRSAuthorityFactory("http://www.opengis.net/gml", null);
+        CRSAuthorityFactory factory = ReferencingFactoryFinder.getCRSAuthorityFactory("http://www" +
+                ".opengis.net/gml", null);
         GeographicCRS crs;
         try {
             crs = factory.createGeographicCRS("CRS:84");

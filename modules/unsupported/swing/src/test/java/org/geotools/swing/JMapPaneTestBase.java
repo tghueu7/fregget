@@ -40,12 +40,11 @@ import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
  * Base class for map pane tests.
- * 
- * @author Michael Bedward
- * @since 8.0
  *
- * @source $URL$
+ * @author Michael Bedward
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 public abstract class JMapPaneTestBase {
 
@@ -53,7 +52,7 @@ public abstract class JMapPaneTestBase {
     protected static final int WIDTH = 200;
     protected static final double TOL = 1.0E-6;
     protected static final long WAIT_TIMEOUT = 1000;
-    
+
     protected WaitingMapPaneListener listener;
     protected JMapPane mapPane;
 
@@ -66,19 +65,19 @@ public abstract class JMapPaneTestBase {
      */
     protected ReferencedEnvelope createMatchedBounds(Rectangle screenRect) {
         return new ReferencedEnvelope(
-                0, (double) screenRect.width / screenRect.height, 
-                0, 1.0, 
+                0, (double) screenRect.width / screenRect.height,
+                0, 1.0,
                 DefaultEngineeringCRS.CARTESIAN_2D);
     }
 
     /**
      * Creates a new MapContent optionally populated with single-feature Layers
      * having the specified bounds.
-     * 
+     *
      * @param boundsOfLayers 0 or more bounds for layers
      * @return new map content
      */
-    protected MapContent createMapContent(ReferencedEnvelope ...boundsOfLayers) {
+    protected MapContent createMapContent(ReferencedEnvelope... boundsOfLayers) {
         MapContent mapContent = new MapContent();
         if (boundsOfLayers != null) {
             for (ReferencedEnvelope env : boundsOfLayers) {
@@ -90,7 +89,7 @@ public abstract class JMapPaneTestBase {
 
     /**
      * Creates a new feature layer.
-     * 
+     *
      * @param env layer bounds
      * @return the new layer
      */

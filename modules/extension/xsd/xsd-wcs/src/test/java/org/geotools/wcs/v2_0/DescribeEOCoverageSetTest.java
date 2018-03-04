@@ -27,14 +27,14 @@ public class DescribeEOCoverageSetTest {
         List<String> ids = dcs.getEoId();
         assertEquals(1, ids.size());
         assertEquals("someDatasetSeries", ids.get(0));
-        
+
         assertEquals(100, dcs.getCount());
-        
+
         EList<Section> sections = dcs.getSections().getSection();
         assertEquals(2, sections.size());
         assertEquals(Section.COVERAGEDESCRIPTIONS, sections.get(0));
         assertEquals(Section.DATASETSERIESDESCRIPTIONS, sections.get(1));
-        
+
         EList<DimensionTrimType> trims = dcs.getDimensionTrim();
         assertEquals(3, trims.size());
         DimensionTrimType lonTrim = trims.get(0);

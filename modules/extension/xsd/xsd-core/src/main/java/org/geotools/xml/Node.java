@@ -25,10 +25,6 @@ import java.util.List;
  * contains a parsed value, as well as a reference to the instance.
  *
  * @author Justin Deoliveira,Refractions Research Inc.,jdeolive@refractions.net
- *
- *
- *
- *
  * @source $URL$
  */
 public interface Node {
@@ -53,7 +49,6 @@ public interface Node {
      * Determines if the node has a child with the specified name.
      *
      * @param name The name of a child node.
-     *
      * @return <code>true</code> if a child node exists with the name, otehrwise <code>false</code>.
      */
     boolean hasChild(String name);
@@ -62,8 +57,8 @@ public interface Node {
      * Determines if the node has a child whose value is of the specified class.
      *
      * @param clazz The class of the child node value.
-     *
-     * @return <code>true</code> if a child node exists with the class, otherwise <code>false</code>.
+     * @return <code>true</code> if a child node exists with the class, otherwise 
+     * <code>false</code>.
      */
     boolean hasChild(Class clazz);
 
@@ -80,7 +75,6 @@ public interface Node {
      * the specified name.
      *
      * @param name The name of a child element.
-     *
      * @return A list containing objects of type Node.
      */
     List getChildren(String name);
@@ -90,7 +84,6 @@ public interface Node {
      * that are instances of <code>clazz</code>
      *
      * @param clazz The class of parsed child values.
-     *
      * @return A list containing objects of type Node, such that node#getValue()
      * is an instance of <code>clazz<code>, or an empty list.
      */
@@ -103,7 +96,6 @@ public interface Node {
      * matching the specified name.
      *
      * @param name The name of a child element.
-     *
      * @return The first node that matches a child element with the specified
      * name.
      */
@@ -117,7 +109,6 @@ public interface Node {
      * such child mathing the above criteria.
      *
      * @param clazz The class of the parsed value of a child element.
-     *
      * @return The first node found, or null.
      */
     Node getChild(Class clazz);
@@ -132,6 +123,7 @@ public interface Node {
      * return ((Node)getChildren.get( index )).getValue();
      * </code>
      * </p>
+     *
      * @param index
      * @return the value of the child at the given index
      */
@@ -146,7 +138,6 @@ public interface Node {
      * </p>
      *
      * @param name The name of the child which parsed content is to be retrived.
-     *
      * @return the value of the child with the given name, or <code>null</code>
      * if the child does not exist.
      */
@@ -161,9 +152,8 @@ public interface Node {
      * list of all values matching name use {@link #getChildValues(String)}.
      * </p>
      *
-     * @param name The name of the child which parsed content is to be retrived.
+     * @param name         The name of the child which parsed content is to be retrived.
      * @param defaultValue A defaultValue to return, if no such child found.
-     *
      * @return the value of the child with the given name, or
      * <code>defaultValue</code> if the child does not exist.
      */
@@ -179,7 +169,6 @@ public interface Node {
      * </p>
      *
      * @param clazz The class of parsed child value.
-     *
      * @return the value of the child which is an instance of <code>clazz</code>,
      * or <code>null</code> if no such child exists.
      */
@@ -195,9 +184,8 @@ public interface Node {
      * use {@link #getChildValues(Class)}.
      * </p>
      *
-     * @param clazz The class of parsed child value.
+     * @param clazz        The class of parsed child value.
      * @param defaultValue A defaultValue to return, if no such child found.
-     *
      * @return the value of the child which is an instance of <code>clazz</code>,
      * or <code>defaultValue</code> if no such child exists.
      */
@@ -208,8 +196,7 @@ public interface Node {
      * specified name.
      *
      * @param name The name of the child element in which to retreive the
-     * parsed value.
-     *
+     *             parsed value.
      * @return A list of values representing the parsed values of the children,
      * or an empty list of no such values exist.
      */
@@ -220,7 +207,6 @@ public interface Node {
      * instances of the specified class.
      *
      * @param clazz The class of the child values.
-     *
      * @return A list of child values which are instances of <code>class<code>,
      * or an empty list if no such values exist.
      */
@@ -230,7 +216,6 @@ public interface Node {
      * Determines if the node has an attribute with the specified name.
      *
      * @param name The name of an attribute
-     *
      * @return <code>true</code> if am attribute exists with the name, otehrwise <code>false</code>.
      */
     boolean hasAttribute(String name);
@@ -239,8 +224,8 @@ public interface Node {
      * Determines if the node has an attribute whose value is of the specified class.
      *
      * @param clazz The class of the attribute value
-     *
-     * @return <code>true</code> if an attribute exists with the class, otherwise <code>false</code>.
+     * @return <code>true</code> if an attribute exists with the class, otherwise 
+     * <code>false</code>.
      */
     boolean hasAttribute(Class clazz);
 
@@ -256,7 +241,6 @@ public interface Node {
      * which are instances of <code>clazz</code>.
      *
      * @param clazz The class of parsed attribute values.
-     *
      * @return A list of  attribute nodes whose parsed values are instances of
      * <code>clazz</code>, or an empty list.
      */
@@ -268,7 +252,6 @@ public interface Node {
      * specified name.
      *
      * @param name The name of the attribute.
-     *
      */
     Node getAttribute(String name);
 
@@ -280,7 +263,6 @@ public interface Node {
      * matching this criteria use {@link #getAttributes(Class)}.
      *
      * @param clazz The class of parsed attribute values.
-     *
      * @return The attribute node whose parsed value is an instance of
      * <code>clazz</code>, or <code>null</code> if no such node exists.
      */
@@ -291,8 +273,7 @@ public interface Node {
      * the specified name.
      *
      * @param name The name of the attribute in which to retreive the parsed
-     * value from.
-     *
+     *             value from.
      * @return the parsed value of the attribute matching the criteria, or
      * <code>null</code> if no such attribute is found.
      */
@@ -303,11 +284,10 @@ public interface Node {
      * the specified name, returning a <code>defaultValue</code> when no such
      * attribute is present
      *
-     * @param name The name of the attribute in which to retreive the parsed
-     * value from.
+     * @param name         The name of the attribute in which to retreive the parsed
+     *                     value from.
      * @param defaultValue A defaultValue to return, if no such attribute
-     * found.
-     *
+     *                     found.
      * @return the parsed value of the attribute matching the criteria, or
      * <code>defaultValue</code> if no such attribute is found.
      */
@@ -321,7 +301,6 @@ public interface Node {
      * matching this criteria use {@link #getAttributeValues(Class)}.
      *
      * @param clazz The class of parsed attribute values.
-     *
      * @return the parsed value of the attribute matching the criteria, or
      * <code>null</code> if no such attribute is found.
      */
@@ -335,10 +314,9 @@ public interface Node {
      * first encountered is returned, with no guaratnee of order. For all values
      * matching this criteria use {@link #getAttributeValues(Class)}.
      *
-     * @param clazz The class of parsed attribute values.
+     * @param clazz        The class of parsed attribute values.
      * @param defaultValue A defaultValue to return, if no such attribute
-     * found.
-     *
+     *                     found.
      * @return the parsed value of the attribute matching the criteria, or
      * <code>defaultValue</code> if no such attribute is found.
      */
@@ -349,7 +327,6 @@ public interface Node {
      * parsed values are instances of <code>clazz</code>.
      *
      * @param clazz The class of parsed attribute values.
-     *
      * @return The list of attribute values which are instances of
      * <code>clazz</code>, or an empty list.
      */

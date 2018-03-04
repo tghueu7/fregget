@@ -18,25 +18,29 @@ package org.geotools.ows.bindings;
 
 import net.opengis.ows10.Ows10Factory;
 import net.opengis.ows10.TelephoneType;
+
 import javax.xml.namespace.QName;
+
 import org.geotools.ows.OWS;
 import org.geotools.xml.*;
 
 
 /**
  * Binding object for the type http://www.opengis.net/ows:TelephoneType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="TelephoneType"&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;Telephone numbers for contacting the responsible individual or organization. &lt;/documentation&gt;
+ *          &lt;documentation&gt;Telephone numbers for contacting the responsible individual or 
+ *          organization. &lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;sequence&gt;
  *          &lt;element maxOccurs="unbounded" minOccurs="0" name="Voice" type="string"&gt;
  *              &lt;annotation&gt;
- *                  &lt;documentation&gt;Telephone number by which individuals can speak to the responsible organization or individual. &lt;/documentation&gt;
+ *                  &lt;documentation&gt;Telephone number by which individuals can speak to the 
+ *                  responsible organization or individual. &lt;/documentation&gt;
  *              &lt;/annotation&gt;
  *          &lt;/element&gt;
  *          &lt;element maxOccurs="unbounded" minOccurs="0" name="Facsimile" type="string"&gt;
@@ -53,9 +57,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class TelephoneTypeBinding extends AbstractComplexEMFBinding {
@@ -87,7 +88,7 @@ public class TelephoneTypeBinding extends AbstractComplexEMFBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //TODO: implement and remove call to super
         return super.parse(instance, node, value);
     }

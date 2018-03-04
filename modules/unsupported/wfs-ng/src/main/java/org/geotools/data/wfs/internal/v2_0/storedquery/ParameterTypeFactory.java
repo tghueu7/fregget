@@ -33,18 +33,16 @@ import org.opengis.filter.Filter;
  * Builds parameters to pass to the stored query. It selects a value for each parameter
  * in the stored query. The value is primarily the one passed in as a view parameter and
  * secondarily the value of the mapping configured for the feature type.
- * 
- * @author Sampo Savolainen (Spatineo)
  *
+ * @author Sampo Savolainen (Spatineo)
  */
-public class ParameterTypeFactory
-{
+public class ParameterTypeFactory {
     private final StoredQueryConfiguration config;
     private final StoredQueryDescriptionType desc;
     private final FeatureTypeInfo featureTypeInfo;
 
     public ParameterTypeFactory(StoredQueryConfiguration config, StoredQueryDescriptionType desc,
-            FeatureTypeInfo featureTypeInfo) {
+                                FeatureTypeInfo featureTypeInfo) {
         this.config = config;
         this.desc = desc;
         this.featureTypeInfo = featureTypeInfo;
@@ -69,7 +67,7 @@ public class ParameterTypeFactory
     }
 
     public List<ParameterType> buildStoredQueryParameters(Map<String, String> viewParams,
-            Filter filter) {
+                                                          Filter filter) {
         final Wfs20Factory factory = Wfs20Factory.eINSTANCE;
 
         if (filter == null) {
@@ -115,13 +113,14 @@ public class ParameterTypeFactory
     }
 
 
-    protected String evaluateMapping(ParameterMappingContext mappingContext, ParameterMapping mapping) {
+    protected String evaluateMapping(ParameterMappingContext mappingContext, ParameterMapping 
+            mapping) {
         String value;
 
         if (mapping instanceof ParameterMappingDefaultValue) {
-            value = ((ParameterMappingDefaultValue)mapping).getDefaultValue();
+            value = ((ParameterMappingDefaultValue) mapping).getDefaultValue();
         } else if (mapping instanceof ParameterMappingExpressionValue) {
-            value = ((ParameterMappingExpressionValue)mapping).evaluate(mappingContext);
+            value = ((ParameterMappingExpressionValue) mapping).evaluate(mappingContext);
         } else if (mapping instanceof ParameterMappingBlockValue) {
             value = null;
         } else {

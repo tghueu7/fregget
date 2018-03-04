@@ -75,9 +75,7 @@ import org.opengis.referencing.operation.TransformException;
 import org.opengis.util.ProgressListener;
 
 /**
- * 
  * @author Nicola Lagomarsini Geosolutions
- *
  */
 public class CoverageTest {
 
@@ -112,7 +110,8 @@ public class CoverageTest {
     }
 
     @Test
-    public void testAttributes() throws IOException, MismatchedDimensionException, TransformException {
+    public void testAttributes() throws IOException, MismatchedDimensionException, 
+            TransformException {
         Map<String, Serializable> connectionParams = new HashMap<String, Serializable>();
         connectionParams.put(DefaultFileDriver.URL.key, new URL(TEST_URL));
 
@@ -121,7 +120,7 @@ public class CoverageTest {
 
         final CoverageSource source = access.access(TEST_NAME, null, AccessType.READ_ONLY, null,
                 null);
-        
+
         // Minor checks on the metadata node and attributes
         MetadataNode metadata = source.getMetadata(null, null);
         assertNotNull(metadata);
@@ -230,7 +229,7 @@ public class CoverageTest {
         metadata.put("testKey", "testMetadata");
         List<GridCoverage2D> data = new ArrayList<GridCoverage2D>();
         GridCoverage2D cov = new GridCoverageFactory().create(TEST_NAME.getLocalPart(),
-                new float[][] { { 1.0f, 1.0f } }, new ReferencedEnvelope(0.0d, 1.0d, 0.0d, 1.0d,
+                new float[][]{{1.0f, 1.0f}}, new ReferencedEnvelope(0.0d, 1.0d, 0.0d, 1.0d,
                         null));
         data.add(cov);
         request.setMetadata(metadata);
@@ -262,7 +261,9 @@ public class CoverageTest {
 
         @Override
         public SortedSet<? extends NumberRange<Double>> getVerticalElements(boolean overall,
-                ProgressListener listener) throws IOException {
+                                                                            ProgressListener 
+                                                                                    listener) 
+                throws IOException {
             return new DoubleRangeTreeSet(verticalSubset);
         }
 
@@ -314,16 +315,17 @@ public class CoverageTest {
     public static class TestDriverNew extends DefaultFileDriver implements Driver {
 
         public TestDriverNew() {
-            super(TestDriver.TEST_DRIVER, TestDriver.TEST_DRIVER, TestDriver.TEST_DRIVER, new Hints(), Collections
+            super(TestDriver.TEST_DRIVER, TestDriver.TEST_DRIVER, TestDriver.TEST_DRIVER, new 
+                    Hints(), Collections
                     .singletonList(".EXT"), EnumSet.of(DriverCapabilities.CONNECT,
-                            DriverCapabilities.CREATE, DriverCapabilities.DELETE));
+                    DriverCapabilities.CREATE, DriverCapabilities.DELETE));
         }
 
         private static Map<String, Parameter<?>> emptyMap = Collections.emptyMap();
 
         @Override
         protected CoverageAccess connect(Map<String, Serializable> params, Hints hints,
-                ProgressListener listener) throws IOException {
+                                         ProgressListener listener) throws IOException {
             return new TestCoverageAccessNew(this, EnumSet.of(AccessType.READ_WRITE), emptyMap,
                     params);
         }
@@ -333,19 +335,21 @@ public class CoverageTest {
 
         @Override
         public CoverageSource access(Name name, Map<String, Serializable> params,
-                AccessType accessType, Hints hints, ProgressListener listener) throws IOException {
+                                     AccessType accessType, Hints hints, ProgressListener 
+                                                     listener) throws IOException {
             return new TestCoverageSourceNew(name, new TestCoverageSourceDescriptorNew());
         }
 
         @Override
         public CoverageStore create(Name name, Map<String, Serializable> params, Hints hints,
-                ProgressListener listener) throws IOException {
+                                    ProgressListener listener) throws IOException {
             return new TestCoverageSourceNew(name, new TestCoverageSourceDescriptorNew());
         }
 
         public TestCoverageAccessNew(Driver driver, EnumSet<AccessType> allowedAccessTypes,
-                Map<String, Parameter<?>> accessParams,
-                Map<String, Serializable> connectionParameters) throws DataSourceException {
+                                     Map<String, Parameter<?>> accessParams,
+                                     Map<String, Serializable> connectionParameters) throws 
+                DataSourceException {
             super(driver, allowedAccessTypes, accessParams, null, connectionParameters);
             names = new ArrayList<Name>();
             names.add(TEST_NAME);
@@ -369,7 +373,7 @@ public class CoverageTest {
             response.setStatus(Status.SUCCESS);
             // Adding results
             response.addResult(new GridCoverageFactory().create(TEST_NAME.getLocalPart(),
-                    new float[][] { { 1.0f, 1.0f } }, new ReferencedEnvelope(0.0d, 1.0d, 0.0d,
+                    new float[][]{{1.0f, 1.0f}}, new ReferencedEnvelope(0.0d, 1.0d, 0.0d,
                             1.0d, null)));
 
             return response;
@@ -382,7 +386,8 @@ public class CoverageTest {
         }
 
         @Override
-        public CoverageResponse update(CoverageUpdateRequest writeRequest, ProgressListener progress) {
+        public CoverageResponse update(CoverageUpdateRequest writeRequest, ProgressListener 
+                progress) {
             CoverageResponse response = new CoverageResponse();
             response.setRequest(writeRequest);
             response.addResults((Collection<GridCoverage>) writeRequest.getData());
@@ -390,7 +395,7 @@ public class CoverageTest {
         }
 
         @Override
-        public MetadataNode getMetadata( String metadataDomain, ProgressListener listener ) {
+        public MetadataNode getMetadata(String metadataDomain, ProgressListener listener) {
             MetadataNode metadataNode = new MetadataNode();
             Map<String, MetadataAttribute> attributes = new HashMap<String, MetadataAttribute>();
             attributes.put("testAttribute", new MetadataAttribute());

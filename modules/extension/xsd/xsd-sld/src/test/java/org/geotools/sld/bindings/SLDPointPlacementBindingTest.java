@@ -21,8 +21,6 @@ import org.geotools.styling.PointPlacement;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SLDPointPlacementBindingTest extends SLDTestSupport {

@@ -63,34 +63,44 @@ import net.miginfocom.swing.MigLayout;
  * JMapFrame.showMap(content);
  * }</pre>
  *
+ * @author Michael Bedward
+ * @version $Id$
+ * @source $URL$
  * @see MapLayerTable
  * @see StatusBar
- *
- * @author Michael Bedward
  * @since 2.6
- *
- * @source $URL$
- * @version $Id$
  */
 public class JMapFrame extends JFrame {
-    
-    /* 
+
+    /*
      * The following toolbar button names are primarily for unit testing
      * but could also be useful for applications wanting to control appearance
      * and behaviour at run-time.
      */
-    
-    /** Name assigned to toolbar button for feature info queries. */
+
+    /**
+     * Name assigned to toolbar button for feature info queries.
+     */
     public static final String TOOLBAR_INFO_BUTTON_NAME = "ToolbarInfoButton";
-    /** Name assigned to toolbar button for map panning. */
+    /**
+     * Name assigned to toolbar button for map panning.
+     */
     public static final String TOOLBAR_PAN_BUTTON_NAME = "ToolbarPanButton";
-    /** Name assigned to toolbar button for default pointer. */
+    /**
+     * Name assigned to toolbar button for default pointer.
+     */
     public static final String TOOLBAR_POINTER_BUTTON_NAME = "ToolbarPointerButton";
-    /** Name assigned to toolbar button for map reset. */
+    /**
+     * Name assigned to toolbar button for map reset.
+     */
     public static final String TOOLBAR_RESET_BUTTON_NAME = "ToolbarResetButton";
-    /** Name assigned to toolbar button for map zoom in. */
+    /**
+     * Name assigned to toolbar button for map zoom in.
+     */
     public static final String TOOLBAR_ZOOMIN_BUTTON_NAME = "ToolbarZoomInButton";
-    /** Name assigned to toolbar button for map zoom out. */
+    /**
+     * Name assigned to toolbar button for map zoom out.
+     */
     public static final String TOOLBAR_ZOOMOUT_BUTTON_NAME = "ToolbarZoomOutButton";
 
     /**
@@ -121,11 +131,11 @@ public class JMapFrame extends JFrame {
         /**
          * The zoom display cursor tools.
          */
-        ZOOM, 
+        ZOOM,
         /**
          * The map should zoom with the mouse wheel.
          * No button shown for this.
-         */    
+         */
         SCROLLWHEEL;
     }
 
@@ -166,7 +176,7 @@ public class JMapFrame extends JFrame {
             });
         }
     }
-    
+
     private static void doShowMap(MapContent content) {
         final JMapFrame frame = new JMapFrame(content);
         frame.enableStatusBar(true);
@@ -202,7 +212,7 @@ public class JMapFrame extends JFrame {
         mapPane = new JMapPane(content);
         mapPane.setBackground(Color.WHITE);
         mapPane.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        
+
         // give keyboard focus to the map pane
         addWindowFocusListener(new WindowAdapter() {
             @Override
@@ -210,7 +220,7 @@ public class JMapFrame extends JFrame {
                 mapPane.requestFocusInWindow();
             }
         });
-        
+
         mapPane.addFocusListener(new FocusAdapter() {
 
             @Override
@@ -223,7 +233,7 @@ public class JMapFrame extends JFrame {
                 mapPane.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
             }
         });
-        
+
         mapPane.addMouseListener(new MouseAdapter() {
 
             @Override
@@ -234,11 +244,11 @@ public class JMapFrame extends JFrame {
     }
 
     /**
-     * Sets whether to display the default toolbar (default is false). 
+     * Sets whether to display the default toolbar (default is false).
      * Calling this with state == true is equivalent to
      * calling {@link #enableTool} with all {@link JMapFrame.Tool}
      * constants.
-     * 
+     *
      * @param enabled whether the toolbar is required
      */
     public void enableToolBar(boolean enabled) {
@@ -254,17 +264,17 @@ public class JMapFrame extends JFrame {
      * This method is an alternative to {@link #enableToolBar(boolean)}.
      * It requests that a tool bar be created with specific tools, identified
      * by {@link JMapFrame.Tool} constants.
-     * 
+     * <p>
      * <code><pre>
      * myMapFrame.enableTool(Tool.PAN, Tool.ZOOM);
      * </pre></code>
-     * 
+     * <p>
      * Calling this method with no arguments or {@code null} is equivalent
      * to {@code enableToolBar(false)}.
      *
      * @param tool tools to display on the toolbar
      */
-    public void enableTool(Tool ...tool) {
+    public void enableTool(Tool... tool) {
         if (tool == null || tool.length == 0) {
             enableToolBar(false);
         } else {
@@ -339,7 +349,7 @@ public class JMapFrame extends JFrame {
 
                 "[grow]", // column constraints: col grows when frame is resized
 
-                sb.toString() ));
+                sb.toString()));
 
         /*
          * A toolbar with buttons for zooming in, zooming out,
@@ -357,8 +367,8 @@ public class JMapFrame extends JFrame {
 
             JButton btn;
             ButtonGroup cursorToolGrp = new ButtonGroup();
-            if(toolSet.contains(Tool.SCROLLWHEEL)) {
-               mapPane.addMouseListener(new ScrollWheelTool(mapPane));
+            if (toolSet.contains(Tool.SCROLLWHEEL)) {
+                mapPane.addMouseListener(new ScrollWheelTool(mapPane));
             }
             if (toolSet.contains(Tool.POINTER)) {
                 btn = new JButton(new NoToolAction(mapPane));
@@ -418,9 +428,9 @@ public class JMapFrame extends JFrame {
              * JSplitPane divider
              */
             mapLayerTable.setPreferredSize(new Dimension(200, -1));
-            JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, 
-                    false, 
-                    mapLayerTable, 
+            JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+                    false,
+                    mapLayerTable,
                     mapPane);
             panel.add(splitPane, "grow");
 

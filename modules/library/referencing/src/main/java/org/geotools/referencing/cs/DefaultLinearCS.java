@@ -20,6 +20,7 @@
 package org.geotools.referencing.cs;
 
 import java.util.Map;
+
 import org.opengis.referencing.cs.LinearCS;
 import org.opengis.referencing.cs.CoordinateSystemAxis;
 import org.opengis.geometry.MismatchedDimensionException;
@@ -32,19 +33,17 @@ import org.geotools.measure.Measure;
  * along the axis. Example: usage of the line feature representing a road to describe points
  * on or along that road. A {@code LinearCS} shall have one
  * {@linkplain #getAxis axis}.
- *
+ * <p>
  * <TABLE CELLPADDING='6' BORDER='1'>
  * <TR BGCOLOR="#EEEEFF"><TH NOWRAP>Used with CRS type(s)</TH></TR>
  * <TR><TD>
- *   {@link org.geotools.referencing.crs.DefaultEngineeringCRS Engineering}
+ * {@link org.geotools.referencing.crs.DefaultEngineeringCRS Engineering}
  * </TD></TR></TABLE>
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class DefaultLinearCS extends AbstractCS implements LinearCS {
     /**
@@ -68,37 +67,36 @@ public class DefaultLinearCS extends AbstractCS implements LinearCS {
     /**
      * Constructs a coordinate system from a name.
      *
-     * @param name  The coordinate system name.
-     * @param axis  The axis.
+     * @param name The coordinate system name.
+     * @param axis The axis.
      */
     public DefaultLinearCS(final String name, final CoordinateSystemAxis axis) {
-        super(name, new CoordinateSystemAxis[] {axis});
+        super(name, new CoordinateSystemAxis[]{axis});
     }
 
     /**
      * Constructs a coordinate system from a set of properties.
      * The properties map is given unchanged to the
-     * {@linkplain AbstractCS#AbstractCS(Map,CoordinateSystemAxis[]) super-class constructor}.
+     * {@linkplain AbstractCS#AbstractCS(Map, CoordinateSystemAxis[]) super-class constructor}.
      *
      * @param properties Set of properties. Should contains at least {@code "name"}.
      * @param axis       The axis.
      */
-    public DefaultLinearCS(final Map<String,?> properties, final CoordinateSystemAxis axis) {
-        super(properties, new CoordinateSystemAxis[] {axis});
+    public DefaultLinearCS(final Map<String, ?> properties, final CoordinateSystemAxis axis) {
+        super(properties, new CoordinateSystemAxis[]{axis});
     }
 
     /**
      * Computes the distance between two points.
      *
-     * @param  coord1 Coordinates of the first point.
-     * @param  coord2 Coordinates of the second point.
+     * @param coord1 Coordinates of the first point.
+     * @param coord2 Coordinates of the second point.
      * @return The distance between {@code coord1} and {@code coord2}.
      * @throws MismatchedDimensionException if a coordinate doesn't have the expected dimension.
      */
     @Override
     public Measure distance(final double[] coord1, final double[] coord2)
-            throws MismatchedDimensionException
-    {
+            throws MismatchedDimensionException {
         ensureDimensionMatch("coord1", coord1);
         ensureDimensionMatch("coord2", coord2);
         return new Measure(Math.abs(coord1[0] - coord2[0]), getDistanceUnit());

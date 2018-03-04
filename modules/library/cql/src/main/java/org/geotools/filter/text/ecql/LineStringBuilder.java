@@ -54,7 +54,7 @@ final class LineStringBuilder extends GeometryBuilder {
         // the next code creates the coordinate array used to create
         // the lineString
         Coordinate[] coordinates = asCoordinate(pointStack);
-        LineString line= getGeometryFactory().createLineString(coordinates);
+        LineString line = getGeometryFactory().createLineString(coordinates);
 
         return line;
     }

@@ -61,7 +61,7 @@ public class WFSClientTest {
         WFSClient client = newClient(resource);
         WFSGetCapabilities capabilities = client.getCapabilities();
         // GEOT-5113 (should not throw NPE)
-        if(!client.getRemoteTypeNames().isEmpty()) {
+        if (!client.getRemoteTypeNames().isEmpty()) {
             client.supportsTransaction(client.getRemoteTypeNames().iterator().next());
         }
         Assert.assertEquals(expectedVersion, capabilities.getVersion());
@@ -77,7 +77,8 @@ public class WFSClientTest {
     }
 
     private WFSClient checkStrategy(String resource, String expectedVersion,
-            Class<? extends WFSStrategy> expectedStrategy) throws IOException, ServiceException {
+                                    Class<? extends WFSStrategy> expectedStrategy) throws 
+            IOException, ServiceException {
 
         WFSClient client = testInit(resource, expectedVersion);
 
@@ -158,7 +159,7 @@ public class WFSClientTest {
         testGetRemoteTypeNames("MapServer_5.6.5/1.1.0/GetCapabilities.xml", 2);
         testGetRemoteTypeNames("CubeWerx_nsdi/1.1.0/GetCapabilities.xml", 14);
     }
-      
+
     @Test
     public void testGetInfo() throws Exception {
         WFSClient client = newClient("GeoServer_1.7.x/1.1.0/GetCapabilities.xml");
@@ -169,11 +170,15 @@ public class WFSClientTest {
         assertTrue(info.getKeywords().contains("GEOSERVER"));
         assertTrue(info.getKeywords().contains("WFS"));
         assertTrue(info.getKeywords().contains("WMS"));
-        assertEquals("http://schemas.opengis.net/wfs/1.0.0/WFS-transaction.xsd", info.getSchema().toString());
+        assertEquals("http://schemas.opengis.net/wfs/1.0.0/WFS-transaction.xsd", info.getSchema()
+                .toString());
         assertEquals("http://localhost:8080/geoserver/wfs?", info.getSource().toString());
-        assertTrue(info.getDescription().contains("This is a description of your Web Feature Server.") &&
-          info.getDescription().contains("The GeoServer is a full transactional Web Feature Server, you may wish to limit GeoServer to a Basic service") &&
-          info.getDescription().contains("level to prevent modificaiton of your geographic data."));
+        assertTrue(info.getDescription().contains("This is a description of your Web Feature " +
+                "Server.") &&
+                info.getDescription().contains("The GeoServer is a full transactional Web Feature" +
+                        " Server, you may wish to limit GeoServer to a Basic service") &&
+                info.getDescription().contains("level to prevent modificaiton of your geographic " +
+                        "data."));
     }
 
     @Test

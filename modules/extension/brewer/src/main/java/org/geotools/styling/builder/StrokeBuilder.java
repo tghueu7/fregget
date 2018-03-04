@@ -24,8 +24,6 @@ import org.geotools.util.Converters;
 import org.opengis.filter.expression.Expression;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class StrokeBuilder extends AbstractStyleBuilder<Stroke> {
@@ -40,7 +38,7 @@ public class StrokeBuilder extends AbstractStyleBuilder<Stroke> {
     Expression lineJoin;
 
     float[] dashArray = null;
-    
+
     List<Expression> dashArrayExpressions = null;
 
     Expression dashOffset;
@@ -87,7 +85,7 @@ public class StrokeBuilder extends AbstractStyleBuilder<Stroke> {
 
     /**
      * Reset builder to provided original stroke.
-     * 
+     *
      * @param stroke
      */
     public StrokeBuilder reset(org.opengis.style.Stroke stroke) {
@@ -192,9 +190,9 @@ public class StrokeBuilder extends AbstractStyleBuilder<Stroke> {
         unset = false;
         return this;
     }
-    
+
     public StrokeBuilder dashArray(List<Expression> dashArrayExpressions) {
-        this.dashArrayExpressions = dashArrayExpressions; 
+        this.dashArrayExpressions = dashArrayExpressions;
         return this;
     }
 
@@ -227,7 +225,7 @@ public class StrokeBuilder extends AbstractStyleBuilder<Stroke> {
         }
         Stroke stroke = sf.createStroke(color, width, opacity, lineJoin, lineCap, dashArray,
                 dashOffset, graphicFill.build(), this.graphicStroke.build());
-        if(dashArrayExpressions != null && !dashArrayExpressions.isEmpty()) {
+        if (dashArrayExpressions != null && !dashArrayExpressions.isEmpty()) {
             stroke.setDashArray(dashArrayExpressions);
         }
         if (parent == null) {

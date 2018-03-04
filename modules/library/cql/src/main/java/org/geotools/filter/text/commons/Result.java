@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2006-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -22,15 +22,15 @@ import org.geotools.filter.text.commons.IToken;
 /**
  * Maintains the result of building process.
  * <p>
- * Warning: This component is not published. It is part of module implementation. 
+ * Warning: This component is not published. It is part of module implementation.
  * Client module should not use this feature.
  * </p>
- * @since 2.4
+ *
  * @author Mauricio Pazos - Axios Engineering
  * @author Gabriel Roldan - Axios Engineering
  * @version $Id$
- *
  * @source $URL$
+ * @since 2.4
  */
 public final class Result {
     private int nodeType = 0;
@@ -44,14 +44,14 @@ public final class Result {
     }
 
     public Result(Object built2, org.geotools.filter.text.generated.parsers.Token token2,
-            int type) {
+                  int type) {
     }
 
     public String toString() {
         assert this.token != null;
 
         return "Result [TOKEN(" + this.token.toString() + ");" + "BUILT(" + built + "); NODE_TYPE("
-        + new Integer(nodeType) + ") ]";
+                + new Integer(nodeType) + ") ]";
     }
 
     public final Object getBuilt() {

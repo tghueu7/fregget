@@ -21,8 +21,6 @@ import org.geotools.styling.Displacement;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SLDDisplacementBindingTest extends SLDTestSupport {

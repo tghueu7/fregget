@@ -18,6 +18,7 @@
 package org.geotools.swing;
 
 import org.geotools.swing.locale.LocaleUtils;
+
 import java.awt.BorderLayout;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -61,41 +62,45 @@ import org.geotools.swing.styling.JSimpleStyleDialog;
  * layers.
  *
  * @author Michael Bedward
- * @since 2.6
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.6
  */
 public class MapLayerTable extends JPanel {
     // used to get localized strings from LocaleUtils class
     private static final String CLASS_NAME = "MapLayerTable";
-    
+
     private static final String LIST_TITLE = LocaleUtils.getValue(CLASS_NAME, "ListTitle");
-    
+
     private static final String SHOW_HIDE_LAYER = LocaleUtils.getValue(CLASS_NAME, "ShowHideLayer");
     private static final String SHOW_ALL_LAYERS = LocaleUtils.getValue(CLASS_NAME, "ShowAllLayers");
     private static final String HIDE_ALL_LAYERS = LocaleUtils.getValue(CLASS_NAME, "HideAllLayers");
-    
+
     private static final String SELECT_LAYER = LocaleUtils.getValue(CLASS_NAME, "SelectLayer");
-    private static final String SELECT_ALL_LAYERS = LocaleUtils.getValue(CLASS_NAME, "SelectAllLayers");
-    private static final String DESELECT_ALL_LAYERS = LocaleUtils.getValue(CLASS_NAME, "DeselectAllLayers");
-    
+    private static final String SELECT_ALL_LAYERS = LocaleUtils.getValue(CLASS_NAME, 
+            "SelectAllLayers");
+    private static final String DESELECT_ALL_LAYERS = LocaleUtils.getValue(CLASS_NAME, 
+            "DeselectAllLayers");
+
     private static final String RENAME_LAYER = LocaleUtils.getValue(CLASS_NAME, "RenameLayer");
-    private static final String RENAME_LAYER_MESSAGE = LocaleUtils.getValue(CLASS_NAME, "RenameLayer_Message");
-    
+    private static final String RENAME_LAYER_MESSAGE = LocaleUtils.getValue(CLASS_NAME, 
+            "RenameLayer_Message");
+
     private static final String REMOVE_LAYER = LocaleUtils.getValue(CLASS_NAME, "RemoveLayer");
-    private static final String REMOVE_LAYER_MESSAGE = LocaleUtils.getValue(CLASS_NAME, "RemoveLayer_ConfirmMessage");
-    private static final String REMOVE_LAYER_TITLE = LocaleUtils.getValue(CLASS_NAME, "RemoveLayer_ConfirmTitle");
-    
-    
+    private static final String REMOVE_LAYER_MESSAGE = LocaleUtils.getValue(CLASS_NAME, 
+            "RemoveLayer_ConfirmMessage");
+    private static final String REMOVE_LAYER_TITLE = LocaleUtils.getValue(CLASS_NAME, 
+            "RemoveLayer_ConfirmTitle");
+
+
     private static final String STYLE_LAYER = LocaleUtils.getValue(CLASS_NAME, "StyleLayer");
-    
+
 
     private MapPane mapPane;
     private DnDListModel<Layer> listModel;
     private DnDList<Layer> list;
     private JScrollPane scrollPane;
-    
+
     /* For detecting mouse double-clicks */
     private static final long DOUBLE_CLICK_TIME = 500;
     private long lastClickTime = 0;
@@ -116,6 +121,7 @@ public class MapLayerTable extends JPanel {
 
     /**
      * Constructor.
+     *
      * @param mapPane the map pane this MapLayerTable will service.
      */
     public MapLayerTable(MapPane mapPane) {
@@ -134,13 +140,14 @@ public class MapLayerTable extends JPanel {
     }
 
     /**
-     * Helper for {@link #setMapPane(MapPane). This is just defined so that 
+     * Helper for {@link #setMapPane(MapPane). This is just defined so that
      * it can be called from the constructor without a warning from the compiler
      * about calling a public overridable method.
-     * 
+     *
      * @param mapPane the map pane
      */
     private Listener listener;
+
     private void doSetMapPane(MapPane newMapPane) {
         listener.disconnectFromMapPane();
         mapPane = newMapPane;
@@ -196,6 +203,7 @@ public class MapLayerTable extends JPanel {
         listModel = new DnDListModel<Layer>();
         list = new DnDList<Layer>(listModel) {
             private static final long serialVersionUID = 1289744440656016412L;
+
             /*
              * We override setToolTipText to provide tool tips
              * for the control labels displayed for each list item
@@ -226,7 +234,7 @@ public class MapLayerTable extends JPanel {
                         }
                     }
                 }
-                
+
                 return null;
             }
         };
@@ -236,10 +244,12 @@ public class MapLayerTable extends JPanel {
         listModel.addListDataListener(new ListDataListener() {
 
             @Override
-            public void intervalAdded(ListDataEvent e) {}
-            
+            public void intervalAdded(ListDataEvent e) {
+            }
+
             @Override
-            public void intervalRemoved(ListDataEvent e) {}
+            public void intervalRemoved(ListDataEvent e) {
+            }
 
             @Override
             public void contentsChanged(ListDataEvent e) {
@@ -270,7 +280,7 @@ public class MapLayerTable extends JPanel {
         JPanel btnPanel = new JPanel();
         Icon showIcon = MapLayerTableCellRenderer.LayerControlItem.VISIBLE.getIcon();
         JButton btn = null;
-        
+
         btn = new JButton(showIcon);
         btn.setToolTipText(SHOW_ALL_LAYERS);
         btn.addActionListener(new ActionListener() {
@@ -323,7 +333,7 @@ public class MapLayerTable extends JPanel {
      * Handle a mouse click on a cell in the JList that displays
      * layer names and states.
      *
-     * @param ev the mouse event
+     * @param ev          the mouse event
      * @param doubleClick true if this is the second click of a double-click; false otherwise
      */
     private void onLayerItemClicked(MouseEvent ev, boolean doubleClick) {
@@ -343,7 +353,7 @@ public class MapLayerTable extends JPanel {
 
                 } else if (MapLayerTableCellRenderer.hitStyleLabel(p)) {
                     doSetStyle(layer);
-                
+
                 } else if (MapLayerTableCellRenderer.hitRemoveLabel(p)) {
                     doRemoveLayer(layer);
 
@@ -470,7 +480,7 @@ public class MapLayerTable extends JPanel {
         }
     }
 
-    
+
     private static final class Listener extends MapPaneAdapter implements MapLayerListListener {
         private final MapLayerTable table;
         private WeakReference<MapPane> paneRef;
@@ -479,39 +489,39 @@ public class MapLayerTable extends JPanel {
         Listener(MapLayerTable table) {
             this.table = table;
         }
-        
+
         void connectToMapPane(MapPane newMapPane) {
             if (newMapPane != null) {
                 paneRef = new WeakReference<MapPane>(newMapPane);
                 newMapPane.addMapPaneListener(this);
-                
+
                 disconnectFromMapContent();
                 connectToMapContent(newMapPane.getMapContent());
             }
         }
-        
+
         void disconnectFromMapPane() {
             if (paneRef != null) {
                 MapPane prevMapPane = paneRef.get();
                 paneRef = null;
-                
+
                 if (prevMapPane != null) {
                     prevMapPane.removeMapPaneListener(this);
                 }
             }
         }
-        
+
         void connectToMapContent(MapContent newMapContent) {
             if (newMapContent != null) {
                 contentRef = new WeakReference<MapContent>(newMapContent);
                 newMapContent.addMapLayerListListener(this);
-            
+
                 for (Layer layer : newMapContent.layers()) {
                     table.onAddLayer(layer);
                 }
             }
         }
-        
+
         private void disconnectFromMapContent() {
             if (contentRef != null) {
                 MapContent prevMapContent = contentRef.get();
@@ -519,7 +529,7 @@ public class MapLayerTable extends JPanel {
                 if (prevMapContent != null) {
                     prevMapContent.removeMapLayerListListener(this);
                 }
-                
+
                 table.clear();
             }
         }
@@ -527,11 +537,11 @@ public class MapLayerTable extends JPanel {
         @Override
         public void onNewMapContent(MapPaneEvent ev) {
             table.clear();
-            
+
             disconnectFromMapContent();
             MapContent newMapContent = (MapContent) ev.getData();
             connectToMapContent(newMapContent);
-            
+
             if (newMapContent != null) {
                 for (Layer layer : newMapContent.layers()) {
                     table.onAddLayer(layer);

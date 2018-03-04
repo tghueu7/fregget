@@ -19,7 +19,9 @@ package org.geotools.data.wmts.client;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
+
 import static org.geotools.data.wmts.client.WMTSTileFactory4326Test.createCapabilities;
+
 import org.geotools.data.wmts.model.TileMatrixSet;
 import org.geotools.data.wmts.model.WMTSCapabilities;
 import org.geotools.data.wmts.model.WMTSLayer;
@@ -28,8 +30,10 @@ import org.geotools.tile.TileIdentifier;
 import org.geotools.tile.impl.ZoomLevel;
 import org.junit.After;
 import org.junit.Assert;
+
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -68,7 +72,8 @@ public class WMTSTileIdentifierTest {
             File capaFile = new File(capaKvp.toURI());
             WMTSCapabilities capa = createCapabilities(capaFile);
 
-            String baseURL = "http://demo.geo-solutions.it/geoserver/gwc/service/wmts?REQUEST=getcapabilities";
+            String baseURL = "http://demo.geo-solutions" +
+                    ".it/geoserver/gwc/service/wmts?REQUEST=getcapabilities";
 
             WMTSLayer layer = capa.getLayer("spearfish");
             TileMatrixSet matrixSet = capa.getMatrixSet("EPSG:4326");
@@ -109,7 +114,7 @@ public class WMTSTileIdentifierTest {
     }
 
     protected TileIdentifier createTestTileIdentifier(ZoomLevel zoomLevel, int x, int y,
-            String name) {
+                                                      String name) {
         return new WMTSTileIdentifier(x, y, zoomLevel, name);
     }
 }

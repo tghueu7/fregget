@@ -43,12 +43,13 @@ import org.opengis.util.CodeList;
 
 /**
  * @author Simone Giannecchini, GeoSolutions
- * 
  * @source $URL$
  */
 public class CodeMeasureTest extends Assert {
 
-    /** Bands captured as an codelist used as an example below */
+    /**
+     * Bands captured as an codelist used as an example below
+     */
     private static List<Code> codes = new ArrayList<Code>();
 
     static class Code extends CodeList<Code> {
@@ -97,21 +98,21 @@ public class CodeMeasureTest extends Assert {
 
         assertEquals(lightCRS, axis.getCoordinateReferenceSystem());
         assertEquals(7, axis.getKeys().size());
-        
+
         // Ensure that the equals method is correct
         CodeMeasure<Code> code = (CodeMeasure<Code>) CodeMeasure.valueOf(codes.get(0));
         CodeMeasure<Code> code2 = (CodeMeasure<Code>) CodeMeasure.valueOf(codes.get(1));
         assertFalse(code.equals(code2));
-        
+
         // Check if the ordinal value is correct
         assertNotEquals(code.doubleValue(null), code2.doubleValue(null), 0.01d);
-        
+
         // Ensure the Unit is one
         assertEquals(Unit.ONE, code.getUnit());
-        
+
         // Check if the value is correct
         assertSame(codes.get(0), code.getValue());
-        
+
         // Check if the TO method is correct
         assertSame(code.to(null), code);
     }

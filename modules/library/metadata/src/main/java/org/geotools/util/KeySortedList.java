@@ -37,18 +37,14 @@ import java.io.Serializable;
  *
  * @param <K> The type of keys in the sorted list, to be used for sorting.
  * @param <V> The type of elements in the list.
- *
- * @since 2.2
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Simone Giannecchini
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @since 2.2
  */
-public class KeySortedList<K extends Comparable<K>,V> extends AbstractSequentialList<V>
-        implements Serializable
-{
+public class KeySortedList<K extends Comparable<K>, V> extends AbstractSequentialList<V>
+        implements Serializable {
     /**
      * Serial number for interoperability with different versions.
      */
@@ -111,7 +107,7 @@ public class KeySortedList<K extends Comparable<K>,V> extends AbstractSequential
     }
 
     /**
-     * Removes all values that were {@linkplain #add(Comparable,Object) added} with the specified
+     * Removes all values that were {@linkplain #add(Comparable, Object) added} with the specified
      * key.
      *
      * @param key The key of values to remove.
@@ -119,11 +115,11 @@ public class KeySortedList<K extends Comparable<K>,V> extends AbstractSequential
      */
     public int removeAll(final K key) {
         final List<V> values = map.remove(key);
-        return (values!=null) ? values.size() : 0;
+        return (values != null) ? values.size() : 0;
     }
 
     /**
-     * Returns the number of elements {@linkplain #add(Comparable,Object) added} with the specified
+     * Returns the number of elements {@linkplain #add(Comparable, Object) added} with the specified
      * key.
      *
      * @param key The key of elements to count.
@@ -131,11 +127,11 @@ public class KeySortedList<K extends Comparable<K>,V> extends AbstractSequential
      */
     public int count(final K key) {
         final List<V> values = map.get(key);
-        return (values!=null) ? values.size() : 0;
+        return (values != null) ? values.size() : 0;
     }
 
     /**
-     * Returns {@code true} if the list contains an element {@linkplain #add(Comparable,Object)
+     * Returns {@code true} if the list contains an element {@linkplain #add(Comparable, Object)
      * added} with the specified key. This is equivalent to testing
      * <code>{@linkplain #count count}(key) != 0</code>.
      */
@@ -145,15 +141,15 @@ public class KeySortedList<K extends Comparable<K>,V> extends AbstractSequential
 
     /**
      * Returns the first element
-     * {@linkplain #add(Comparable,Object) added} with the specified key.
+     * {@linkplain #add(Comparable, Object) added} with the specified key.
      *
-     * @param  key The key for the element to search for.
+     * @param key The key for the element to search for.
      * @return The first element added with the specified key.
      * @throws NoSuchElementException if there is no element for the specified key.
      */
     public V first(final K key) throws NoSuchElementException {
         final List<V> values = map.get(key);
-        if (values==null || values.isEmpty()) {
+        if (values == null || values.isEmpty()) {
             throw new NoSuchElementException();
         }
         return values.get(0);
@@ -161,25 +157,25 @@ public class KeySortedList<K extends Comparable<K>,V> extends AbstractSequential
 
     /**
      * Returns the last element
-     * {@linkplain #add(Comparable,Object) added} with the specified key.
+     * {@linkplain #add(Comparable, Object) added} with the specified key.
      *
-     * @param  key The key for the element to search for.
+     * @param key The key for the element to search for.
      * @return The last element added with the specified key.
      * @throws NoSuchElementException if there is no element for the specified key.
      */
     public V last(final K key) throws NoSuchElementException {
         final List<V> values = map.get(key);
-        if (values==null || values.isEmpty()) {
+        if (values == null || values.isEmpty()) {
             throw new NoSuchElementException();
         }
-        return values.get(values.size()-1);
+        return values.get(values.size() - 1);
     }
 
     /**
      * Returns a list iterator of the elements in this list (in proper sequence), starting
-     * at the elements {@linkplain #add(Comparable,Object) added} with the specified key.
+     * at the elements {@linkplain #add(Comparable, Object) added} with the specified key.
      *
-     * @param  fromKey The key of the first element to returns.
+     * @param fromKey The key of the first element to returns.
      * @return A list iterator of the elements in this list (in proper sequence).
      * @throws IndexOutOfBoundsException if the index is out of range.
      */
@@ -192,7 +188,7 @@ public class KeySortedList<K extends Comparable<K>,V> extends AbstractSequential
      * specified position. The specified index indicates the first element that would be returned
      * by an initial call to the {@link ListIterator#next next()} method.
      *
-     * @param  index Index of first element to be returned from the list iterator.
+     * @param index Index of first element to be returned from the list iterator.
      * @return A list iterator of the elements in this list (in proper sequence).
      * @throws IndexOutOfBoundsException if the index is out of range.
      */
@@ -236,7 +232,7 @@ public class KeySortedList<K extends Comparable<K>,V> extends AbstractSequential
             entriesIter = map.entrySet().iterator();
             while (entriesIter.hasNext()) {
                 final Map.Entry<K, List<V>> entry = entriesIter.next();
-                key    = entry.getKey();
+                key = entry.getKey();
                 values = entry.getValue();
                 if (fromKey.compareTo(key) <= 0) {
                     valuesIter = values.listIterator();
@@ -245,8 +241,8 @@ public class KeySortedList<K extends Comparable<K>,V> extends AbstractSequential
                 }
                 base += values.size();
             }
-            key        = null;
-            values     = Collections.emptyList();
+            key = null;
+            values = Collections.emptyList();
             valuesIter = values.listIterator();
         }
 
@@ -257,7 +253,7 @@ public class KeySortedList<K extends Comparable<K>,V> extends AbstractSequential
             entriesIter = map.entrySet().iterator();
             while (entriesIter.hasNext()) {
                 final Map.Entry<K, List<V>> entry = entriesIter.next();
-                key    = entry.getKey();
+                key = entry.getKey();
                 values = entry.getValue();
                 final int size = values.size();
                 if (index < size) {
@@ -265,13 +261,13 @@ public class KeySortedList<K extends Comparable<K>,V> extends AbstractSequential
                     return;
                 }
                 index -= size;
-                base  += size;
+                base += size;
             }
             if (index != 0) {
                 throw new IndexOutOfBoundsException();
             }
-            key        = null;
-            values     = Collections.emptyList();
+            key = null;
+            values = Collections.emptyList();
             valuesIter = values.listIterator();
         }
 
@@ -290,13 +286,13 @@ public class KeySortedList<K extends Comparable<K>,V> extends AbstractSequential
             while (!valuesIter.hasNext()) {
                 if (entriesIter.hasNext()) {
                     final Map.Entry<K, List<V>> entry = entriesIter.next();
-                    base      += values.size(); // Must be before 'values' new assignement.
-                    key        = entry.getKey();
-                    values     = entry.getValue();
+                    base += values.size(); // Must be before 'values' new assignement.
+                    key = entry.getKey();
+                    values = entry.getValue();
                     valuesIter = values.listIterator();
                 } else {
-                    key        = null;
-                    values     = Collections.emptyList();
+                    key = null;
+                    values = Collections.emptyList();
                     valuesIter = values.listIterator();
                     break;
                 }
@@ -309,14 +305,14 @@ public class KeySortedList<K extends Comparable<K>,V> extends AbstractSequential
          * in the reverse direction.
          */
         public boolean hasPrevious() {
-            return valuesIter.hasPrevious() || base!=0;
+            return valuesIter.hasPrevious() || base != 0;
         }
 
         /**
          * Returns the previous element in the list.
          */
         public V previous() {
-            while (!valuesIter.hasPrevious() && base!=0) {
+            while (!valuesIter.hasPrevious() && base != 0) {
                 /*
                  * Gets the key from the previous entry, and recreates a new entries iterator
                  * starting from this key (the assert statement ensure that). It should be the
@@ -333,7 +329,7 @@ public class KeySortedList<K extends Comparable<K>,V> extends AbstractSequential
                  */
                 values = entry.getValue();
                 final int size = values.size();
-                valuesIter = values.listIterator(Math.max(size-1, 0));
+                valuesIter = values.listIterator(Math.max(size - 1, 0));
                 base -= size; // Must be after 'values' new assignement.
                 assert base >= 0 : base;
             }
@@ -386,10 +382,10 @@ public class KeySortedList<K extends Comparable<K>,V> extends AbstractSequential
          * {@link KeySortedList} (this is not verified). This method is used for assertions only.
          */
         private boolean equals(final Iter that) {
-            return this.key                    == that.key    &&
-                   this.values                 == that.values &&
-                   this.base                   == that.base   &&
-                   this.valuesIter.nextIndex() == that.valuesIter.nextIndex();
+            return this.key == that.key &&
+                    this.values == that.values &&
+                    this.base == that.base &&
+                    this.valuesIter.nextIndex() == that.valuesIter.nextIndex();
         }
     }
 
@@ -398,11 +394,11 @@ public class KeySortedList<K extends Comparable<K>,V> extends AbstractSequential
      * The returned list is backed by this list, so changes in the returned list are reflected in
      * this list, and vice-versa.
      *
-     * @param  toKey high endpoint (exclusive) of the sub list.
+     * @param toKey high endpoint (exclusive) of the sub list.
      * @return A view of the specified initial range of this list.
      */
-    public KeySortedList<K,V> headList(final K toKey) {
-        return new KeySortedList<K,V>(map.headMap(toKey));
+    public KeySortedList<K, V> headList(final K toKey) {
+        return new KeySortedList<K, V>(map.headMap(toKey));
     }
 
     /**
@@ -410,10 +406,10 @@ public class KeySortedList<K extends Comparable<K>,V> extends AbstractSequential
      * {@code fromKey}. The returned list is backed by this list, so changes in the returned
      * list are reflected in this list, and vice-versa.
      *
-     * @param  fromKey low endpoint (inclusive) of the sub list.
+     * @param fromKey low endpoint (inclusive) of the sub list.
      * @return A view of the specified final range of this list.
      */
-    public KeySortedList<K,V> tailList(final K fromKey) {
-        return new KeySortedList<K,V>(map.tailMap(fromKey));
+    public KeySortedList<K, V> tailList(final K fromKey) {
+        return new KeySortedList<K, V>(map.tailMap(fromKey));
     }
 }

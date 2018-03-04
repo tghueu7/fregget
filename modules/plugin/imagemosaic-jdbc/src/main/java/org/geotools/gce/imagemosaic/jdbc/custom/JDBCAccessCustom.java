@@ -47,11 +47,8 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 /**
  * This class is a base class for customzied JDBCAccess
  * Special implentations should subclass
- * 
+ *
  * @author mcr
- * 
- *
- *
  * @source $URL$
  */
 
@@ -65,9 +62,8 @@ public abstract class JDBCAccessCustom implements JDBCAccess {
 
     private List<ImageLevelInfo> levelInfos = new ArrayList<ImageLevelInfo>();
 
-    
 
-    public JDBCAccessCustom(Config config) throws IOException{
+    public JDBCAccessCustom(Config config) throws IOException {
         super();
         this.config = config;
         this.dataSource = DataSourceFinder.getDataSource(config.getDataSourceParams());
@@ -93,18 +89,22 @@ public abstract class JDBCAccessCustom implements JDBCAccess {
      * @see org.geotools.gce.imagemosaic.jdbc.JDBCAccess#initialize()
      */
     abstract public void initialize() throws SQLException, IOException;
-    
+
 
     /* (non-Javadoc)
-     * @see org.geotools.gce.imagemosaic.jdbc.JDBCAccess#startTileDecoders(java.awt.Rectangle, org.geotools.geometry.GeneralEnvelope, org.geotools.gce.imagemosaic.jdbc.ImageLevelInfo, java.util.concurrent.LinkedBlockingQueue, org.geotools.coverage.grid.GridCoverageFactory)
+     * @see org.geotools.gce.imagemosaic.jdbc.JDBCAccess#startTileDecoders(java.awt.Rectangle, 
+     * org.geotools.geometry.GeneralEnvelope, org.geotools.gce.imagemosaic.jdbc.ImageLevelInfo, 
+     * java.util.concurrent.LinkedBlockingQueue, org.geotools.coverage.grid.GridCoverageFactory)
      */
-    abstract public void startTileDecoders(Rectangle pixelDimension, GeneralEnvelope requestEnvelope,
-            ImageLevelInfo info, LinkedBlockingQueue<TileQueueElement> tileQueue,
-            GridCoverageFactory coverageFactory) throws IOException;
+    abstract public void startTileDecoders(Rectangle pixelDimension, GeneralEnvelope 
+            requestEnvelope,
+                                           ImageLevelInfo info, 
+                                           LinkedBlockingQueue<TileQueueElement> tileQueue,
+                                           GridCoverageFactory coverageFactory) throws IOException;
 
     /**
      * getConnection
-     * 
+     *
      * @return Connection
      **/
 
@@ -124,9 +124,8 @@ public abstract class JDBCAccessCustom implements JDBCAccess {
 
     /**
      * closeConnection
-     * 
-     * @param conn
-     *            Connection Object passed to be closed
+     *
+     * @param conn Connection Object passed to be closed
      **/
 
     protected void closeConnection(Connection con) {
@@ -142,9 +141,8 @@ public abstract class JDBCAccessCustom implements JDBCAccess {
 
     /**
      * closePreparedStatement
-     * 
-     * @param stmt
-     *            PreparedStatement Object passed to be closed
+     *
+     * @param stmt PreparedStatement Object passed to be closed
      **/
 
     protected void closePreparedStmt(PreparedStatement stmt) {
@@ -157,12 +155,11 @@ public abstract class JDBCAccessCustom implements JDBCAccess {
             throw new RuntimeException(e);
         }
     }
-    
+
     /**
      * closeCallableStatement
-     * 
-     * @param stmt
-     *            CallableStatement Object passed to be closed
+     *
+     * @param stmt CallableStatement Object passed to be closed
      **/
 
     protected void closeCallableStmt(CallableStatement stmt) {
@@ -179,9 +176,8 @@ public abstract class JDBCAccessCustom implements JDBCAccess {
 
     /**
      * closeStmt
-     * 
-     * @param stmt
-     *            Statement Object passed to be closed
+     *
+     * @param stmt Statement Object passed to be closed
      **/
 
     protected void closeStmt(Statement stmt) {
@@ -198,9 +194,8 @@ public abstract class JDBCAccessCustom implements JDBCAccess {
 
     /**
      * closeResultSet
-     * 
-     * @param rs
-     *            ResultSet Object passed to be closed
+     *
+     * @param rs ResultSet Object passed to be closed
      **/
 
     protected void closeResultSet(ResultSet rs) {
@@ -215,8 +210,8 @@ public abstract class JDBCAccessCustom implements JDBCAccess {
     }
 
     /**
-     *getCRS
-     * 
+     * getCRS
+     *
      * @return CoordinateReferenceSystem
      **/
 
@@ -257,5 +252,5 @@ public abstract class JDBCAccessCustom implements JDBCAccess {
     public List<ImageLevelInfo> getLevelInfos() {
         return levelInfos;
     }
-    
+
 }

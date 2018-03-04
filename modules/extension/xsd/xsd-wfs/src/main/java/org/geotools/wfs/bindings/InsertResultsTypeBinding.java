@@ -33,9 +33,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://www.opengis.net/wfs:InsertResultsType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="InsertResultsType"&gt;
  *      &lt;xsd:annotation&gt;
@@ -60,9 +60,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class InsertResultsTypeBinding extends AbstractComplexEMFBinding {
@@ -86,20 +83,20 @@ public class InsertResultsTypeBinding extends AbstractComplexEMFBinding {
     public Class getType() {
         return InsertResultsType.class;
     }
-    
-    public Object parse(ElementInstance instance, Node node, Object value) throws Exception{
-        
+
+    public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+
         InsertResultsType resultType = (InsertResultsType) super.parse(instance, node, value);
-        
+
         //remove 'none'
         Iterator it = resultType.getFeature().iterator();
         while (it.hasNext()) {
-              EList fids = ((InsertedFeatureType)it.next()).getFeatureId();
-              if (fids.size() == 1 && "none".equals(fids.get(0).toString())){
-                  it.remove();
-              }
+            EList fids = ((InsertedFeatureType) it.next()).getFeatureId();
+            if (fids.size() == 1 && "none".equals(fids.get(0).toString())) {
+                it.remove();
+            }
         }
-        
+
         return resultType;
     }
 

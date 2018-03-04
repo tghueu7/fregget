@@ -51,7 +51,8 @@ class MosaicQueryBuilder {
     }
 
     /**
-     * This method is responsible for initializing the {@link Query} object with the BBOX filter as per the incoming {@link RasterLayerRequest}.
+     * This method is responsible for initializing the {@link Query} object with the BBOX filter 
+     * as per the incoming {@link RasterLayerRequest}.
      *
      * @return a {@link Query} object with the BBOX {@link Filter} in it.
      * @throws IOException in case something bad happens
@@ -69,13 +70,15 @@ class MosaicQueryBuilder {
                     .property(rasterManager.getGranuleCatalog().getType(typeName)
                             .getGeometryDescriptor().getName());
             if (request.isHeterogeneousGranules() && queryBBox != null) {
-                ProjectionHandler handler = ProjectionHandlerFinder.getHandler(queryBBox, queryBBox.getCoordinateReferenceSystem(), true);
+                ProjectionHandler handler = ProjectionHandlerFinder.getHandler(queryBBox, 
+                        queryBBox.getCoordinateReferenceSystem(), true);
                 if (handler != null) {
                     List<ReferencedEnvelope> envelopes = handler.getQueryEnvelopes();
                     if (envelopes != null && envelopes.size() > 0) {
                         List<Filter> filters = new ArrayList<>();
                         for (ReferencedEnvelope envelope : envelopes) {
-                            Filter f = FeatureUtilities.DEFAULT_FILTER_FACTORY.bbox(geometryProperty, envelope);
+                            Filter f = FeatureUtilities.DEFAULT_FILTER_FACTORY.bbox
+                                    (geometryProperty, envelope);
                             filters.add(f);
                         }
                         if (envelopes.size() == 1) {
@@ -100,7 +103,8 @@ class MosaicQueryBuilder {
     }
 
     /**
-     * This method is responsible for creating the filters needed for addtional dimensions like TIME, ELEVATION additional Domains
+     * This method is responsible for creating the filters needed for addtional dimensions like 
+     * TIME, ELEVATION additional Domains
      *
      * @param query the {@link Query} to set filters for.
      */
@@ -114,7 +118,8 @@ class MosaicQueryBuilder {
         final boolean hasAdditionalDomains = additionalDomains.size() > 0;
         final boolean hasFilter = filter != null && !Filter.INCLUDE.equals(filter);
         // prepare eventual filter for filtering granules
-        // handle elevation indexing first since we then combine this with the max in case we are asking for current in time
+        // handle elevation indexing first since we then combine this with the max in case we are
+        // asking for current in time
         if (hasElevation) {
             final Filter elevationF = rasterManager.elevationDomainManager
                     .createFilter(GridCoverage2DReader.ELEVATION_DOMAIN, elevations);
@@ -122,7 +127,8 @@ class MosaicQueryBuilder {
                     FeatureUtilities.DEFAULT_FILTER_FACTORY.and(query.getFilter(), elevationF));
         }
 
-        // handle generic filter since we then combine this with the max in case we are asking for current in time
+        // handle generic filter since we then combine this with the max in case we are asking 
+        // for current in time
         if (hasFilter) {
             query.setFilter(FeatureUtilities.DEFAULT_FILTER_FACTORY.and(query.getFilter(), filter));
         }
@@ -141,7 +147,8 @@ class MosaicQueryBuilder {
             for (Map.Entry<String, List> entry : additionalDomains.entrySet()) {
 
                 // build a filter for each dimension
-                final String domainName = entry.getKey() + RasterManager.DomainDescriptor.DOMAIN_SUFFIX;
+                final String domainName = entry.getKey() + RasterManager.DomainDescriptor
+                        .DOMAIN_SUFFIX;
                 additionalFilter.add(
                         rasterManager.domainsManager.createFilter(domainName, entry.getValue()));
 
@@ -203,7 +210,8 @@ class MosaicQueryBuilder {
                 // assign to query if sorting is supported!
                 SortBy[] sortBy = clauses.toArray(new SortBy[]{});
                 if (catalog
-                        .getQueryCapabilities(rasterManager.getTypeName()).supportsSorting(sortBy)) {
+                        .getQueryCapabilities(rasterManager.getTypeName()).supportsSorting
+                                (sortBy)) {
                     query.setSortBy(sortBy);
                 }
             } else {
@@ -213,9 +221,11 @@ class MosaicQueryBuilder {
             // no specified sorting, is this a heterogeneous CRS mosaic?
             String crsAttribute = rasterManager.getCrsAttribute();
             if (crsAttribute != null) {
-                SortBy sort = new SortByImpl(FeatureUtilities.DEFAULT_FILTER_FACTORY.property(crsAttribute), SortOrder.ASCENDING);
+                SortBy sort = new SortByImpl(FeatureUtilities.DEFAULT_FILTER_FACTORY.property
+                        (crsAttribute), SortOrder.ASCENDING);
                 SortBy[] sortBy = new SortBy[]{sort};
-                if (catalog.getQueryCapabilities(rasterManager.getTypeName()).supportsSorting(sortBy)) {
+                if (catalog.getQueryCapabilities(rasterManager.getTypeName()).supportsSorting
+                        (sortBy)) {
                     query.setSortBy(sortBy);
                 } else {
                     LOGGER.severe("Sorting parameter ignored, underlying datastore cannot sort on "

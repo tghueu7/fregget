@@ -3,6 +3,7 @@ package org.geotools.data.dxf.entities;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import org.geotools.data.dxf.parser.DXFLineNumberReader;
+
 import java.awt.geom.Rectangle2D;
 import java.io.EOFException;
 import java.io.IOException;
@@ -19,8 +20,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DXFText extends DXFEntity {
@@ -37,8 +36,10 @@ public class DXFText extends DXFEntity {
     public Rectangle2D.Double _r = new Rectangle2D.Double();
 
     public DXFText(DXFText newText) {
-        this(newText._point._point.x, newText._point._point.y, newText._value, newText._rotation, newText.getThickness(), newText._height,
-                newText._align, newText._style, newText.getColor(), newText.getRefLayer(), newText._angle, newText._zoomfactor, 0, newText.getLineType());
+        this(newText._point._point.x, newText._point._point.y, newText._value, newText._rotation,
+                newText.getThickness(), newText._height,
+                newText._align, newText._style, newText.getColor(), newText.getRefLayer(), 
+                newText._angle, newText._zoomfactor, 0, newText.getLineType());
 
         setType(newText.getType());
         setStartingLineNumber(newText.getStartingLineNumber());
@@ -48,7 +49,9 @@ public class DXFText extends DXFEntity {
         setKey(newText._value);
     }
 
-    public DXFText(double x, double y, String value, double rotation, double thickness, double height, int align, String style, int c, DXFLayer l, double angle, double zoomFactor, int visibility, DXFLineType lineType) {
+    public DXFText(double x, double y, String value, double rotation, double thickness, double 
+            height, int align, String style, int c, DXFLayer l, double angle, double zoomFactor, 
+                   int visibility, DXFLineType lineType) {
         super(c, l, visibility, lineType, thickness);
         _point = new DXFPoint(x, y, c, l, visibility, thickness);
         _value = value;
@@ -60,18 +63,21 @@ public class DXFText extends DXFEntity {
         _zoomfactor = zoomFactor;
         setName("DXFText");
     }
-    public DXFText(double x, double y, String value, double rotation, double thickness, double height, int align, String style, int c, DXFLayer l, double angle, double zoomFactor, int visibility, DXFLineType lineType, DXFExtendedData extData) {
-    	super(c, l, visibility, lineType, thickness);
-    	_point = new DXFPoint(x, y, c, l, visibility, thickness);
-    	_value = value;
-    	_rotation = rotation;
-    	_height = height;
-    	_align = align;
-    	_style = style;
-    	_angle = angle;
-    	_zoomfactor = zoomFactor;
-    	_extendedData = extData;
-    	setName("DXFText");
+
+    public DXFText(double x, double y, String value, double rotation, double thickness, double 
+            height, int align, String style, int c, DXFLayer l, double angle, double zoomFactor, 
+                   int visibility, DXFLineType lineType, DXFExtendedData extData) {
+        super(c, l, visibility, lineType, thickness);
+        _point = new DXFPoint(x, y, c, l, visibility, thickness);
+        _value = value;
+        _rotation = rotation;
+        _height = height;
+        _align = align;
+        _style = style;
+        _angle = angle;
+        _zoomfactor = zoomFactor;
+        _extendedData = extData;
+        setName("DXFText");
     }
 
     public static DXFText read(DXFLineNumberReader br, DXFUnivers univers) throws IOException {
@@ -156,9 +162,9 @@ public class DXFText extends DXFEntity {
                     lineType = univers.findLType(cvp.getStringValue());
                     break;
                 case XDATA_APPLICATION_NAME:
-                	String appName = cvp.getStringValue();
-            		_extData = DXFExtendedData.getExtendedData(br);
-            		_extData.setAppName(appName);
+                    String appName = cvp.getStringValue();
+                    _extData = DXFExtendedData.getExtendedData(br);
+                    _extData.setAppName(appName);
                     break;
                 default:
                     break;
@@ -166,13 +172,15 @@ public class DXFText extends DXFEntity {
 
         }
 
-        DXFText e = new DXFText(x, y, value, rotation, thickness, height, align, style, c, l, angle, zoomfactor, visibility, lineType, _extData);
+        DXFText e = new DXFText(x, y, value, rotation, thickness, height, align, style, c, l, 
+                angle, zoomfactor, visibility, lineType, _extData);
         e.setType(GeometryType.POINT);
         e.setStartingLineNumber(sln);
         e.setUnivers(univers);
         // Hack voor label
         e.setKey(value);
-        log.debug(e.toString(x, y, value, rotation, thickness, height, align, style, c, angle, zoomfactor, visibility));
+        log.debug(e.toString(x, y, value, rotation, thickness, height, align, style, c, angle, 
+                zoomfactor, visibility));
         log.debug(">Exit at line: " + br.getLineNumber());
         return e;
     }
@@ -196,7 +204,9 @@ public class DXFText extends DXFEntity {
         return rotateAndPlace(new Coordinate(_point._point.getX(), _point._point.getY()));
     }
 
-    public String toString(double x, double y, String value, double rotation, double thickness, double height, double align, String style, int c, double angle, double zoomfactor, int visibility) {
+    public String toString(double x, double y, String value, double rotation, double thickness, 
+                           double height, double align, String style, int c, double angle, double
+                                   zoomfactor, int visibility) {
         StringBuffer s = new StringBuffer();
         s.append("DXFText [");
         s.append("x: ");

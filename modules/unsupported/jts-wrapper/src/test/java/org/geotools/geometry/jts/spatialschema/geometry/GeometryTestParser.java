@@ -3,7 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -13,9 +13,8 @@
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
- */ 
+ */
 package org.geotools.geometry.jts.spatialschema.geometry;
-
 
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -45,10 +44,6 @@ import org.geotools.referencing.crs.DefaultGeographicCRS;
 /**
  * @author Jody Garnett
  * @author Joel Skelton
- *
- *
- *
- *
  * @source $URL$
  */
 public class GeometryTestParser {
@@ -73,11 +68,10 @@ public class GeometryTestParser {
         GeometryFactory geomFact = new GeometryFactoryImpl(DefaultGeographicCRS.WGS84);
         PrimitiveFactory primFact = new PrimitiveFactoryImpl(DefaultGeographicCRS.WGS84);
         PositionFactory posFact = null;
-        wktFactory = new WKTParser(geomFact, primFact, posFact, null );
+        wktFactory = new WKTParser(geomFact, primFact, posFact, null);
     }
 
     /**
-     * 
      * @param inputSource
      * @return
      */
@@ -110,6 +104,7 @@ public class GeometryTestParser {
 
     /**
      * Processes the root "run" node
+     *
      * @param node
      * @return
      * @throws ParseException
@@ -141,7 +136,7 @@ public class GeometryTestParser {
 
     /**
      * parse a single test case
-     *
+     * <p>
      * From looking at various JTS test cases and seeing how their
      * testbuilder program works, I think its safe to assume that
      * there will always be just one or two objects, named a and
@@ -182,6 +177,7 @@ public class GeometryTestParser {
      * Loads a test operation. Assumes that there _must_ be a name attribute,
      * and looks for arg1, arg2, and arg3. The value of the text subnode is
      * the value of the expected result
+     *
      * @param testNode a test node from the xml file
      * @return
      */

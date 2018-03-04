@@ -17,17 +17,22 @@
 package org.geotools.styling.css.selector;
 
 /**
- * The Specificity class represents a CSS specificity following an approach similar to CSS specification:
- * <a href="http://www.w3.org/TR/CSS21/cascade.html#specificity"> "Calculating a selector's specificity", CSS 2.1 Specification </a>
- * 
- * Given in geocss there is no way to inline a style in a dataset, the "a" specifity rank is omitted, leaving us with 3 elements:
- * 
+ * The Specificity class represents a CSS specificity following an approach similar to CSS 
+ * specification:
+ * <a href="http://www.w3.org/TR/CSS21/cascade.html#specificity"> "Calculating a selector's 
+ * specificity", CSS 2.1 Specification </a>
+ * <p>
+ * Given in geocss there is no way to inline a style in a dataset, the "a" specifity rank is 
+ * omitted, leaving us with 3 elements:
+ * <p>
  * <ul>
  * <li>b: the * number of ID attributes in the selector (see {@link Id})</li>
- * <li>c: the number of other attributes and pseudo-classes (see the scale and data filtering selectors)</li>
- * <li>d: the number of element names and pseudo-elements in the selector (see {@link TypeName})</li>
+ * <li>c: the number of other attributes and pseudo-classes (see the scale and data filtering 
+ * selectors)</li>
+ * <li>d: the number of element names and pseudo-elements in the selector (see {@link TypeName})
+ * </li>
  * </ul>
- * 
+ *
  * @see
  */
 public class Specificity implements Comparable<Specificity> {
@@ -70,8 +75,9 @@ public class Specificity implements Comparable<Specificity> {
     }
 
     /**
-     * Returns a new Specificity object representing by performing a element by element sum of the components
-     * 
+     * Returns a new Specificity object representing by performing a element by element sum of 
+     * the components
+     *
      * @param other
      * @return
      */

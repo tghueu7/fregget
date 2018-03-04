@@ -23,6 +23,7 @@ package org.geotools.referencing.operation.projection;
 import java.awt.geom.Point2D;
 import java.util.Collection;
 import javax.measure.unit.NonSI;
+
 import org.opengis.parameter.GeneralParameterDescriptor;
 import org.opengis.parameter.ParameterDescriptor;
 import org.opengis.parameter.ParameterDescriptorGroup;
@@ -41,77 +42,94 @@ import static java.lang.Math.*;
  * <p>
  * <b>References:</b>
  * <ul>
- *   <li> A. Annoni, C. Luzet, E.Gubler and J. Ihde - Map Projections for Europe</li>
- *   <li> John P. Snyder (Map Projections - A Working Manual,
- *        U.S. Geological Survey Professional Paper 1395)</li>
+ * <li> A. Annoni, C. Luzet, E.Gubler and J. Ihde - Map Projections for Europe</li>
+ * <li> John P. Snyder (Map Projections - A Working Manual,
+ * U.S. Geological Survey Professional Paper 1395)</li>
  * </ul>
  *
- * @see <A HREF="http://mathworld.wolfram.com/LambertAzimuthalEqual-AreaProjection.html">Lambert Azimuthal Equal-Area Projection on MathWorld</A>
- * @see <A HREF="http://www.remotesensing.org/geotiff/proj_list/lambert_azimuthal_equal_area.html">"Lambert_Azimuthal_Equal_Area" on RemoteSensing.org</A>
- *
- * @since 2.4
- * @version $Id$
- *
- *
- * @source $URL$
  * @author Gerald Evenden  (for original code in Proj4)
  * @author Beate Stollberg
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @see <A HREF="http://mathworld.wolfram.com/LambertAzimuthalEqual-AreaProjection.html">Lambert 
+ * Azimuthal Equal-Area Projection on MathWorld</A>
+ * @see <A HREF="http://www.remotesensing.org/geotiff/proj_list/lambert_azimuthal_equal_area
+ * .html">"Lambert_Azimuthal_Equal_Area" on RemoteSensing.org</A>
+ * @since 2.4
  */
 public class LambertAzimuthalEqualArea extends MapProjection {
-    /** For cross-version compatibility. */
+    /**
+     * For cross-version compatibility.
+     */
     private static final long serialVersionUID = 1639914708790574760L;
 
-    /** Maximum difference allowed when comparing real numbers. */
+    /**
+     * Maximum difference allowed when comparing real numbers.
+     */
     private static final double EPSILON = 1E-7;
 
-    /** Epsilon for the comparaison of small quantities. */
+    /**
+     * Epsilon for the comparaison of small quantities.
+     */
     private static final double FINE_EPSILON = 1E-10;
 
-    /** Epsilon for the comparaison of latitudes. */
+    /**
+     * Epsilon for the comparaison of latitudes.
+     */
     private static final double EPSILON_LATITUDE = 1E-10;
 
-    /** Constants for authalic latitude. */
+    /**
+     * Constants for authalic latitude.
+     */
     private static final double P00 = 0.33333333333333333333,
-                                P01 = 0.17222222222222222222,
-                                P02 = 0.10257936507936507936,
-                                P10 = 0.06388888888888888888,
-                                P11 = 0.06640211640211640211,
-                                P20 = 0.01641501294219154443;
+            P01 = 0.17222222222222222222,
+            P02 = 0.10257936507936507936,
+            P10 = 0.06388888888888888888,
+            P11 = 0.06640211640211640211,
+            P20 = 0.01641501294219154443;
 
-    /** The projection mode. */
-    static final int OBLIQUE=0, EQUATORIAL=1, NORTH_POLE=2, SOUTH_POLE=3;
+    /**
+     * The projection mode.
+     */
+    static final int OBLIQUE = 0, EQUATORIAL = 1, NORTH_POLE = 2, SOUTH_POLE = 3;
 
-    /** The projection mode for this particular instance. */
+    /**
+     * The projection mode for this particular instance.
+     */
     final int mode;
 
-    /** Constant parameters. */
+    /**
+     * Constant parameters.
+     */
     final double sinb1, cosb1, xmf, ymf, mmf, qp, dd, rq;
 
-    /** Coefficients for authalic latitude. */
+    /**
+     * Coefficients for authalic latitude.
+     */
     private final double APA0, APA1, APA2;
 
     /**
      * Constructs a new map projection from the supplied parameters.
      *
-     * @param  parameters The parameter values in standard units.
+     * @param parameters The parameter values in standard units.
      * @throws ParameterNotFoundException if a mandatory parameter is missing.
      */
     protected LambertAzimuthalEqualArea(final ParameterValueGroup parameters)
-            throws ParameterNotFoundException
-    {
+            throws ParameterNotFoundException {
         // Fetch parameters
         super(parameters);
-        final Collection<GeneralParameterDescriptor> expected = getParameterDescriptors().descriptors();
-        latitudeOfOrigin = doubleValue(expected, Provider.LATITUDE_OF_CENTRE,  parameters);
-        centralMeridian  = doubleValue(expected, Provider.LONGITUDE_OF_CENTRE, parameters);
-        ensureLatitudeInRange (Provider.LATITUDE_OF_CENTRE,  latitudeOfOrigin, true);
-        ensureLongitudeInRange(Provider.LONGITUDE_OF_CENTRE, centralMeridian,  true);
+        final Collection<GeneralParameterDescriptor> expected = getParameterDescriptors()
+                .descriptors();
+        latitudeOfOrigin = doubleValue(expected, Provider.LATITUDE_OF_CENTRE, parameters);
+        centralMeridian = doubleValue(expected, Provider.LONGITUDE_OF_CENTRE, parameters);
+        ensureLatitudeInRange(Provider.LATITUDE_OF_CENTRE, latitudeOfOrigin, true);
+        ensureLongitudeInRange(Provider.LONGITUDE_OF_CENTRE, centralMeridian, true);
         /*
          * Detects the mode (oblique, etc.).
          */
         final double t = abs(latitudeOfOrigin);
-        if (abs(t - PI/2) < EPSILON_LATITUDE) {
+        if (abs(t - PI / 2) < EPSILON_LATITUDE) {
             mode = latitudeOfOrigin < 0.0 ? SOUTH_POLE : NORTH_POLE;
         } else if (abs(t) < EPSILON_LATITUDE) {
             mode = EQUATORIAL;
@@ -128,9 +146,9 @@ public class LambertAzimuthalEqualArea extends MapProjection {
         APA2 = P20 * es3;
 
         final double sinphi;
-        qp     = qsfn(1);
-        rq     = sqrt(0.5 * qp);
-        mmf    = 0.5 / (1 - excentricitySquared);
+        qp = qsfn(1);
+        rq = sqrt(0.5 * qp);
+        mmf = 0.5 / (1 - excentricitySquared);
         sinphi = sin(latitudeOfOrigin);
         if (isSpherical) {
             sinb1 = sin(latitudeOfOrigin);
@@ -142,18 +160,18 @@ public class LambertAzimuthalEqualArea extends MapProjection {
         switch (mode) {
             case NORTH_POLE:  // Fall through
             case SOUTH_POLE: {
-                dd  = 1.0;
+                dd = 1.0;
                 xmf = ymf = rq;
                 break;
             }
             case EQUATORIAL: {
-                dd  = 1.0 / rq;
+                dd = 1.0 / rq;
                 xmf = 1.0;
                 ymf = 0.5 * qp;
                 break;
             }
             case OBLIQUE: {
-                dd  = cos(latitudeOfOrigin) /
+                dd = cos(latitudeOfOrigin) /
                         (sqrt(1.0 - excentricitySquared * sinphi * sinphi) * rq * cosb1);
                 xmf = rq * dd;
                 ymf = rq / dd;
@@ -178,8 +196,9 @@ public class LambertAzimuthalEqualArea extends MapProjection {
     @Override
     public ParameterValueGroup getParameterValues() {
         final ParameterValueGroup values = super.getParameterValues();
-        final Collection<GeneralParameterDescriptor> expected = getParameterDescriptors().descriptors();
-        set(expected, Provider.LATITUDE_OF_CENTRE,  values, latitudeOfOrigin);
+        final Collection<GeneralParameterDescriptor> expected = getParameterDescriptors()
+                .descriptors();
+        set(expected, Provider.LATITUDE_OF_CENTRE, values, latitudeOfOrigin);
         set(expected, Provider.LONGITUDE_OF_CENTRE, values, centralMeridian);
         return values;
     }
@@ -190,8 +209,7 @@ public class LambertAzimuthalEqualArea extends MapProjection {
      * on a unit sphere).
      */
     protected Point2D transformNormalized(final double lambda, final double phi, Point2D ptDst)
-            throws ProjectionException
-    {
+            throws ProjectionException {
         final double coslam = cos(lambda);
         final double sinlam = sin(lambda);
         final double sinphi = sin(phi);
@@ -201,19 +219,19 @@ public class LambertAzimuthalEqualArea extends MapProjection {
             case OBLIQUE: {
                 sinb = q / qp;
                 cosb = sqrt(1.0 - sinb * sinb);
-                c    = 1.0 + sinb1 * sinb + cosb1 * cosb * coslam;
-                b    = sqrt(2.0 / c);
-                y    = ymf * b * (cosb1 * sinb - sinb1 * cosb * coslam);
-                x    = xmf * b * cosb * sinlam;
+                c = 1.0 + sinb1 * sinb + cosb1 * cosb * coslam;
+                b = sqrt(2.0 / c);
+                y = ymf * b * (cosb1 * sinb - sinb1 * cosb * coslam);
+                x = xmf * b * cosb * sinlam;
                 break;
             }
             case EQUATORIAL: {
                 sinb = q / qp;
                 cosb = sqrt(1.0 - sinb * sinb);
-                c    = 1.0 + cosb * coslam;
-                b    = sqrt(2.0 / c);
-                y    = ymf * b * sinb;
-                x    = xmf * b * cosb * sinlam;
+                c = 1.0 + cosb * coslam;
+                b = sqrt(2.0 / c);
+                y = ymf * b * sinb;
+                x = xmf * b * cosb * sinlam;
                 break;
             }
             case NORTH_POLE: {
@@ -248,10 +266,10 @@ public class LambertAzimuthalEqualArea extends MapProjection {
             throw new ProjectionException(ErrorKeys.TOLERANCE_ERROR);
         }
         if (ptDst != null) {
-            ptDst.setLocation(x,y);
+            ptDst.setLocation(x, y);
             return ptDst;
         }
-        return new Point2D.Double(x,y);
+        return new Point2D.Double(x, y);
     }
 
     /**
@@ -261,8 +279,7 @@ public class LambertAzimuthalEqualArea extends MapProjection {
     @Override
     @SuppressWarnings("fallthrough")
     protected Point2D inverseTransformNormalized(double x, double y, Point2D ptDst)
-            throws ProjectionException
-    {
+            throws ProjectionException {
         final double lambda, phi;
         switch (mode) {
             case EQUATORIAL: // Fall through
@@ -281,12 +298,12 @@ public class LambertAzimuthalEqualArea extends MapProjection {
                     x *= sCe;
                     if (mode == OBLIQUE) {
                         ab = cCe * sinb1 + y * sCe * cosb1 / rho;
-                        q  = qp * ab;
-                        y  = rho * cosb1 * cCe - y * sinb1 * sCe;
+                        q = qp * ab;
+                        y = rho * cosb1 * cCe - y * sinb1 * sCe;
                     } else {
                         ab = y * sCe / rho;
-                        q  = qp * ab;
-                        y  = rho * cCe;
+                        q = qp * ab;
+                        y = rho * cCe;
                     }
                     lambda = atan2(x, y);
                     phi = authlat(asin(ab));
@@ -298,7 +315,7 @@ public class LambertAzimuthalEqualArea extends MapProjection {
                 // Fall through
             }
             case SOUTH_POLE: {
-                final double q = x*x + y*y;
+                final double q = x * x + y * y;
                 if (q == 0) {
                     lambda = 0.;
                     phi = latitudeOfOrigin;
@@ -327,8 +344,8 @@ public class LambertAzimuthalEqualArea extends MapProjection {
     /**
      * Provides the transform equations for the spherical case.
      *
-     * @version $Id$
      * @author Martin Desruisseaux
+     * @version $Id$
      */
     private static final class Spherical extends LambertAzimuthalEqualArea {
         /**
@@ -339,12 +356,11 @@ public class LambertAzimuthalEqualArea extends MapProjection {
         /**
          * Constructs a new map projection from the suplied parameters.
          *
-         * @param  parameters The parameter values in standard units.
+         * @param parameters The parameter values in standard units.
          * @throws ParameterNotFoundException if a mandatory parameter is missing.
          */
         protected Spherical(final ParameterValueGroup parameters)
-                throws ParameterNotFoundException
-        {
+                throws ParameterNotFoundException {
             super(parameters);
             ensureSpherical();
         }
@@ -356,23 +372,22 @@ public class LambertAzimuthalEqualArea extends MapProjection {
          */
         @Override
         protected Point2D transformNormalized(final double lambda, final double phi, Point2D ptDst)
-                throws ProjectionException
-        {
+                throws ProjectionException {
             // Compute using ellipsoidal formulas, for comparaison later.
             assert (ptDst = super.transformNormalized(lambda, phi, ptDst)) != null;
 
             final double sinphi = sin(phi);
             final double cosphi = cos(phi);
             final double coslam = cos(lambda);
-            double x,y;
+            double x, y;
             switch (mode) {
                 case EQUATORIAL: {
                     y = 1.0 + cosphi * coslam;
                     if (y <= FINE_EPSILON) {
                         throw new ProjectionException(ErrorKeys.TOLERANCE_ERROR);
                     }
-                    y  = sqrt(2.0 / y);
-                    x  = y * cosphi * sin(lambda);
+                    y = sqrt(2.0 / y);
+                    x = y * cosphi * sin(lambda);
                     y *= sinphi;
                     break;
                 }
@@ -381,8 +396,8 @@ public class LambertAzimuthalEqualArea extends MapProjection {
                     if (y <= FINE_EPSILON) {
                         throw new ProjectionException(ErrorKeys.TOLERANCE_ERROR);
                     }
-                    y  = sqrt(2.0 / y);
-                    x  = y * cosphi * sin(lambda);
+                    y = sqrt(2.0 / y);
+                    x = y * cosphi * sin(lambda);
                     y *= cosb1 * sinphi - sinb1 * cosphi * coslam;
                     break;
                 }
@@ -390,7 +405,7 @@ public class LambertAzimuthalEqualArea extends MapProjection {
                     if (abs(phi + latitudeOfOrigin) < EPSILON_LATITUDE) {
                         throw new ProjectionException(ErrorKeys.TOLERANCE_ERROR);
                     }
-                    y = (PI/4) - phi * 0.5;
+                    y = (PI / 4) - phi * 0.5;
                     y = 2.0 * sin(y);
                     x = y * sin(lambda);
                     y *= -coslam;
@@ -400,7 +415,7 @@ public class LambertAzimuthalEqualArea extends MapProjection {
                     if (abs(phi + latitudeOfOrigin) < EPSILON_LATITUDE) {
                         throw new ProjectionException(ErrorKeys.TOLERANCE_ERROR);
                     }
-                    y = (PI/4) - phi * 0.5;
+                    y = (PI / 4) - phi * 0.5;
                     y = 2.0 * cos(y);
                     x = y * sin(lambda);
                     y *= +coslam;
@@ -412,10 +427,10 @@ public class LambertAzimuthalEqualArea extends MapProjection {
             }
             assert checkTransform(x, y, ptDst);
             if (ptDst != null) {
-                ptDst.setLocation(x,y);
+                ptDst.setLocation(x, y);
                 return ptDst;
             }
-            return new Point2D.Double(x,y);
+            return new Point2D.Double(x, y);
         }
 
         /**
@@ -424,8 +439,7 @@ public class LambertAzimuthalEqualArea extends MapProjection {
          */
         @Override
         protected Point2D inverseTransformNormalized(double x, double y, Point2D ptDst)
-                throws ProjectionException
-        {
+                throws ProjectionException {
             // Compute using ellipsoidal formulas, for comparaison later.
             assert (ptDst = super.inverseTransformNormalized(x, y, ptDst)) != null;
 
@@ -488,7 +502,7 @@ public class LambertAzimuthalEqualArea extends MapProjection {
     private double qsfn(final double sinphi) {
         if (excentricity >= EPSILON) {
             final double con = excentricity * sinphi;
-            return ((1.0 - excentricitySquared) * (sinphi / (1.0 - con*con) -
+            return ((1.0 - excentricitySquared) * (sinphi / (1.0 - con * con) -
                     (0.5 / excentricity) * log((1.0 - con) / (1.0 + con))));
         } else {
             return sinphi + sinphi;
@@ -500,10 +514,8 @@ public class LambertAzimuthalEqualArea extends MapProjection {
      */
     private double authlat(final double beta) {
         final double t = beta + beta;
-        return beta + APA0 * sin(t) + APA1 * sin(t+t) + APA2 * sin(t+t+t);
+        return beta + APA0 * sin(t) + APA1 * sin(t + t) + APA2 * sin(t + t + t);
     }
-
-
 
 
     //////////////////////////////////////////////////////////////////////////////////////////
@@ -519,11 +531,10 @@ public class LambertAzimuthalEqualArea extends MapProjection {
      * provider} for an {@linkplain LambertAzimuthalEqualArea Lambert Equal Area} projection
      * (EPSG code 9820).
      *
-     * @since 2.4
-     * @version $Id$
      * @author Beate Stollberg
-     *
+     * @version $Id$
      * @see org.geotools.referencing.operation.DefaultMathTransformFactory
+     * @since 2.4
      */
     public static class Provider extends AbstractProvider {
         /**
@@ -534,16 +545,17 @@ public class LambertAzimuthalEqualArea extends MapProjection {
         /**
          * The parameters group.
          */
-        static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(new NamedIdentifier[] {
-            new NamedIdentifier(Citations.OGC,     "Lambert_Azimuthal_Equal_Area"),
-            new NamedIdentifier(Citations.EPSG,    "Lambert Azimuthal Equal Area"),
-            new NamedIdentifier(Citations.EPSG,    "Lambert Azimuthal Equal Area (Spherical)"),
-            new NamedIdentifier(Citations.GEOTIFF, "CT_LambertAzimEqualArea"),
-            new NamedIdentifier(Citations.EPSG,    "9820"),
-        },  new ParameterDescriptor[] {
-                SEMI_MAJOR,         SEMI_MINOR,
+        static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(new 
+                NamedIdentifier[]{
+                new NamedIdentifier(Citations.OGC, "Lambert_Azimuthal_Equal_Area"),
+                new NamedIdentifier(Citations.EPSG, "Lambert Azimuthal Equal Area"),
+                new NamedIdentifier(Citations.EPSG, "Lambert Azimuthal Equal Area (Spherical)"),
+                new NamedIdentifier(Citations.GEOTIFF, "CT_LambertAzimEqualArea"),
+                new NamedIdentifier(Citations.EPSG, "9820"),
+        }, new ParameterDescriptor[]{
+                SEMI_MAJOR, SEMI_MINOR,
                 LATITUDE_OF_CENTRE, LONGITUDE_OF_CENTRE,
-                FALSE_EASTING,      FALSE_NORTHING
+                FALSE_EASTING, FALSE_NORTHING
         });
 
         /**
@@ -556,13 +568,12 @@ public class LambertAzimuthalEqualArea extends MapProjection {
         /**
          * Creates a transform from the specified group of parameter values.
          *
-         * @param  parameters The group of parameter values.
+         * @param parameters The group of parameter values.
          * @return The created math transform.
          * @throws ParameterNotFoundException if a required parameter was not found.
          */
         public MathTransform createMathTransform(final ParameterValueGroup parameters)
-                throws ParameterNotFoundException
-        {
+                throws ParameterNotFoundException {
             return isSpherical(parameters) ? new Spherical(parameters) :
                     new LambertAzimuthalEqualArea(parameters);
         }

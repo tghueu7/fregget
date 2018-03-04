@@ -26,8 +26,6 @@ import com.vividsolutions.jts.geom.Polygon;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GMLPolygonPropertyTypeBindingTest extends AbstractGMLBindingTest {
@@ -43,16 +41,19 @@ public class GMLPolygonPropertyTypeBindingTest extends AbstractGMLBindingTest {
     }
 
     public void testWithGeometry() throws Exception {
-        Node node = createNode(association, new ElementInstance[] { geometry },
-                new Object[] {
-                    new GeometryFactory().createPolygon(new GeometryFactory().createLinearRing(
-                            new Coordinate[] {
-                                new Coordinate(0, 0), new Coordinate(1, 1), new Coordinate(2, 2),
-                                new Coordinate(0, 0),
-                            }), null)
+        Node node = createNode(association, new ElementInstance[]{geometry},
+                new Object[]{
+                        new GeometryFactory().createPolygon(new GeometryFactory().createLinearRing(
+                                new Coordinate[]{
+                                        new Coordinate(0, 0), new Coordinate(1, 1), new 
+                                        Coordinate(2, 2),
+                                        new Coordinate(0, 0),
+                                }), null)
                 }, null, null);
-        GMLGeometryAssociationTypeBinding s = (GMLGeometryAssociationTypeBinding) getBinding(GML.GEOMETRYASSOCIATIONTYPE);
-        GMLPolygonPropertyTypeBinding s1 = (GMLPolygonPropertyTypeBinding) getBinding(GML.POLYGONPROPERTYTYPE);
+        GMLGeometryAssociationTypeBinding s = (GMLGeometryAssociationTypeBinding) getBinding(GML
+                .GEOMETRYASSOCIATIONTYPE);
+        GMLPolygonPropertyTypeBinding s1 = (GMLPolygonPropertyTypeBinding) getBinding(GML
+                .POLYGONPROPERTYTYPE);
         Polygon p = (Polygon) s1.parse(association, node, s.parse(association, node, null));
         assertNotNull(p);
     }

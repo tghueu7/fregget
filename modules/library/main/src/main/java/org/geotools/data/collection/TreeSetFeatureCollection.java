@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -17,6 +17,7 @@
 package org.geotools.data.collection;
 
 // J2SE interfaces
+
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -71,14 +72,12 @@ import org.opengis.geometry.BoundingBox;
  * </ul>
  * With this in mind this implementation is recommended for being careful or you are encountering
  * problems between threads when debugging. It is excellent for its intended purpose of test cases.
- * 
+ *
  * @author Ian Schneider
- *
- *
- * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/library/main/src/main/java/org/geotools/
- *         data/collection/TreeSetFeatureCollection.java $
  * @version $Id$
+ * @source $URL$
+ * http://svn.osgeo.org/geotools/trunk/modules/library/main/src/main/java/org/geotools/
+ * data/collection/TreeSetFeatureCollection.java $
  */
 public class TreeSetFeatureCollection implements SimpleFeatureCollection {
     protected static Logger LOGGER = org.geotools.util.logging.Logging
@@ -92,7 +91,9 @@ public class TreeSetFeatureCollection implements SimpleFeatureCollection {
      */
     private SortedMap<String, SimpleFeature> contents = new TreeMap<String, SimpleFeature>();
 
-    /** Internal envelope of bounds. */
+    /**
+     * Internal envelope of bounds.
+     */
     private ReferencedEnvelope bounds = null;
 
     /**
@@ -113,17 +114,17 @@ public class TreeSetFeatureCollection implements SimpleFeatureCollection {
     /**
      * FeatureCollection schema will be defined by the first added feature.
      */
-    public TreeSetFeatureCollection(){
-        this( (String) null, (SimpleFeatureType) null);
+    public TreeSetFeatureCollection() {
+        this((String) null, (SimpleFeatureType) null);
     }
-    
+
     /**
      * This constructor should not be used by client code.
-     * 
-     * @param collection
-     *            SimpleFeatureCollection to copy into memory
+     *
+     * @param collection SimpleFeatureCollection to copy into memory
      */
-    public TreeSetFeatureCollection(FeatureCollection<SimpleFeatureType, SimpleFeature> collection) {
+    public TreeSetFeatureCollection(FeatureCollection<SimpleFeatureType, SimpleFeature> 
+                                            collection) {
         this(collection.getID(), collection.getSchema());
         addAll(collection);
     }
@@ -136,11 +137,9 @@ public class TreeSetFeatureCollection implements SimpleFeatureCollection {
      * <code>org.geotools.core.FeatureCollections.newCollection()</code> allowing applications to
      * customize any generated collections.
      * </p>
-     * 
-     * @param id
-     *            may be null ... feature id
-     * @param featureType
-     *            optional, may be null
+     *
+     * @param id          may be null ... feature id
+     * @param featureType optional, may be null
      */
     public TreeSetFeatureCollection(String id, SimpleFeatureType memberType) {
         this.id = id == null ? "featureCollection" : id;
@@ -149,14 +148,14 @@ public class TreeSetFeatureCollection implements SimpleFeatureCollection {
 
     /**
      * Gets the bounding box for the features in this feature collection.
-     * 
+     *
      * @return the envelope of the geometries contained by this feature collection.
      */
     public ReferencedEnvelope getBounds() {
         if (bounds == null) {
             bounds = new ReferencedEnvelope();
 
-            for (Iterator i = contents.values().iterator(); i.hasNext();) {
+            for (Iterator i = contents.values().iterator(); i.hasNext(); ) {
                 BoundingBox geomBounds = ((SimpleFeature) i.next()).getBounds();
                 // IanS - as of 1.3, JTS expandToInclude ignores "null" Envelope
                 // and simply adds the new bounds...
@@ -174,7 +173,7 @@ public class TreeSetFeatureCollection implements SimpleFeatureCollection {
      * Ensures that this collection contains the specified element (optional operation). Returns
      * <tt>true</tt> if this collection changed as a result of the call. (Returns <tt>false</tt> if
      * this collection does not permit duplicates and already contains the specified element.)
-     * 
+     * <p>
      * <p>
      * Collections that support this operation may place limitations on what elements may be added
      * to this collection. In particular, some collections will refuse to add <tt>null</tt>
@@ -182,17 +181,15 @@ public class TreeSetFeatureCollection implements SimpleFeatureCollection {
      * Collection classes should clearly specify in their documentation any restrictions on what
      * elements may be added.
      * </p>
-     * 
+     * <p>
      * <p>
      * If a collection refuses to add a particular element for any reason other than that it already
      * contains the element, it <i>must</i> throw an exception (rather than returning <tt>false</tt>
      * ). This preserves the invariant that a collection always contains the specified element after
      * this call returns.
      * </p>
-     * 
-     * @param o
-     *            element whose presence in this collection is to be ensured.
-     * 
+     *
+     * @param o element whose presence in this collection is to be ensured.
      * @return <tt>true</tt> if this collection changed as a result of the call
      */
     public boolean add(SimpleFeature feature) {
@@ -222,21 +219,18 @@ public class TreeSetFeatureCollection implements SimpleFeatureCollection {
     }
 
     @Deprecated
-    protected boolean add(SimpleFeature feature, boolean fire ) {
-        return add( feature );
+    protected boolean add(SimpleFeature feature, boolean fire) {
+        return add(feature);
     }
-    
+
     /**
      * Adds all of the elements in the specified collection to this collection (optional operation).
      * The behavior of this operation is undefined if the specified collection is modified while the
      * operation is in progress. (This implies that the behavior of this call is undefined if the
      * specified collection is this collection, and this collection is nonempty.)
-     * 
-     * @param collection
-     *            elements to be inserted into this collection.
-     * 
+     *
+     * @param collection elements to be inserted into this collection.
      * @return <tt>true</tt> if this collection changed as a result of the call
-     * 
      * @see #add(Object)
      */
     @SuppressWarnings("unchecked")
@@ -257,12 +251,12 @@ public class TreeSetFeatureCollection implements SimpleFeatureCollection {
             }
             return changed;
         } finally {
-            DataUtilities.close( iterator );
+            DataUtilities.close(iterator);
         }
     }
 
     @SuppressWarnings("unchecked")
-    public boolean addAll(FeatureCollection<?,?> collection) {
+    public boolean addAll(FeatureCollection<?, ?> collection) {
         // TODO check inheritance with FeatureType here!!!
         boolean changed = false;
 
@@ -303,10 +297,8 @@ public class TreeSetFeatureCollection implements SimpleFeatureCollection {
      * returns <tt>true</tt> if and only if this collection contains at least one element <tt>e</tt>
      * such that <tt>(o==null ?
      * e==null : o.equals(e))</tt>.
-     * 
-     * @param o
-     *            element whose presence in this collection is to be tested.
-     * 
+     *
+     * @param o element whose presence in this collection is to be tested.
      * @return <tt>true</tt> if this collection contains the specified element
      */
     public boolean contains(Object o) {
@@ -324,7 +316,7 @@ public class TreeSetFeatureCollection implements SimpleFeatureCollection {
 
     /**
      * Test for collection membership.
-     * 
+     *
      * @param collection
      * @return true if collection is completly covered
      */
@@ -339,13 +331,13 @@ public class TreeSetFeatureCollection implements SimpleFeatureCollection {
             }
             return true;
         } finally {
-            DataUtilities.close( iterator );
+            DataUtilities.close(iterator);
         }
     }
 
     /**
      * Returns <tt>true</tt> if this collection contains no elements.
-     * 
+     *
      * @return <tt>true</tt> if this collection contains no elements
      */
     public boolean isEmpty() {
@@ -356,7 +348,7 @@ public class TreeSetFeatureCollection implements SimpleFeatureCollection {
      * Returns an iterator over the elements in this collection. There are no guarantees concerning
      * the order in which the elements are returned (unless this collection is an instance of some
      * class that provides a guarantee).
-     * 
+     *
      * @return an <tt>Iterator</tt> over the elements in this collection
      */
     public Iterator<SimpleFeature> iterator() {
@@ -384,11 +376,11 @@ public class TreeSetFeatureCollection implements SimpleFeatureCollection {
     /**
      * Gets a SimpleFeatureIterator of this feature collection. This allows iteration without having
      * to cast.
-     * 
+     *
      * @return the SimpleFeatureIterator for this collection.
      */
     public SimpleFeatureIterator features() {
-        return new SimpleFeatureIteratorImpl( contents.values() );
+        return new SimpleFeatureIteratorImpl(contents.values());
     }
 
     /**
@@ -398,10 +390,8 @@ public class TreeSetFeatureCollection implements SimpleFeatureCollection {
      * o.equals(e))</tt>, if this collection contains one or more such elements. Returns true if
      * this collection contained the specified element (or equivalently, if this collection changed
      * as a result of the call).
-     * 
-     * @param o
-     *            element to be removed from this collection, if present.
-     * 
+     *
+     * @param o element to be removed from this collection, if present.
      * @return <tt>true</tt> if this collection changed as a result of the call
      */
     public boolean remove(Object o) {
@@ -421,12 +411,9 @@ public class TreeSetFeatureCollection implements SimpleFeatureCollection {
      * Removes all this collection's elements that are also contained in the specified collection
      * (optional operation). After this call returns, this collection will contain no elements in
      * common with the specified collection.
-     * 
-     * @param collection
-     *            elements to be removed from this collection.
-     * 
+     *
+     * @param collection elements to be removed from this collection.
      * @return <tt>true</tt> if this collection changed as a result of the call
-     * 
      * @see #remove(Object)
      * @see #contains(Object)
      */
@@ -447,7 +434,7 @@ public class TreeSetFeatureCollection implements SimpleFeatureCollection {
             }
             return changed;
         } finally {
-            DataUtilities.close( iterator );
+            DataUtilities.close(iterator);
         }
     }
 
@@ -455,12 +442,9 @@ public class TreeSetFeatureCollection implements SimpleFeatureCollection {
      * Retains only the elements in this collection that are contained in the specified collection
      * (optional operation). In other words, removes from this collection all of its elements that
      * are not contained in the specified collection.
-     * 
-     * @param collection
-     *            elements to be retained in this collection.
-     * 
+     *
+     * @param collection elements to be retained in this collection.
      * @return <tt>true</tt> if this collection changed as a result of the call
-     * 
      * @see #remove(Object)
      * @see #contains(Object)
      */
@@ -469,7 +453,7 @@ public class TreeSetFeatureCollection implements SimpleFeatureCollection {
         List removedFeatures = new ArrayList(contents.size() - collection.size());
         boolean modified = false;
 
-        for (Iterator it = contents.values().iterator(); it.hasNext();) {
+        for (Iterator it = contents.values().iterator(); it.hasNext(); ) {
             SimpleFeature f = (SimpleFeature) it.next();
             if (!collection.contains(f)) {
                 it.remove();
@@ -483,7 +467,7 @@ public class TreeSetFeatureCollection implements SimpleFeatureCollection {
     /**
      * Returns the number of elements in this collection. If this collection contains more than
      * <tt>Integer.MAX_VALUE</tt> elements, returns <tt>Integer.MAX_VALUE</tt>.
-     * 
+     *
      * @return the number of elements in this collection
      */
     public int size() {
@@ -494,17 +478,17 @@ public class TreeSetFeatureCollection implements SimpleFeatureCollection {
      * Returns an array containing all of the elements in this collection. If the collection makes
      * any guarantees as to what order its elements are returned by its iterator, this method must
      * return the elements in the same order.
-     * 
+     * <p>
      * <p>
      * The returned array will be "safe" in that no references to it are maintained by this
      * collection. (In other words, this method must allocate a new array even if this collection is
      * backed by an array). The caller is thus free to modify the returned array.
      * </p>
-     * 
+     * <p>
      * <p>
      * This method acts as bridge between array-based and collection-based APIs.
      * </p>
-     * 
+     *
      * @return an array containing all of the elements in this collection
      */
     public Object[] toArray() {
@@ -516,7 +500,7 @@ public class TreeSetFeatureCollection implements SimpleFeatureCollection {
      * returned array is that of the specified array. If the collection fits in the specified array,
      * it is returned therein. Otherwise, a new array is allocated with the runtime type of the
      * specified array and the size of this collection.
-     * 
+     * <p>
      * <p>
      * If this collection fits in the specified array with room to spare (i.e., the array has more
      * elements than this collection), the element in the array immediately following the end of the
@@ -524,37 +508,35 @@ public class TreeSetFeatureCollection implements SimpleFeatureCollection {
      * collection <i>only</i> if the caller knows that this collection does not contain any
      * <tt>null</tt> elements.)
      * </p>
-     * 
+     * <p>
      * <p>
      * If this collection makes any guarantees as to what order its elements are returned by its
      * iterator, this method must return the elements in the same order.
      * </p>
-     * 
+     * <p>
      * <p>
      * Like the <tt>toArray</tt> method, this method acts as bridge between array-based and
      * collection-based APIs. Further, this method allows precise control over the runtime type of
      * the output array, and may, under certain circumstances, be used to save allocation costs
      * </p>
-     * 
+     * <p>
      * <p>
      * Suppose <tt>l</tt> is a <tt>List</tt> known to contain only strings. The following code can
      * be used to dump the list into a newly allocated array of <tt>String</tt>:
-     * 
+     * <p>
      * <pre>
      * String[] x = (String[]) v.toArray(new String[0]);
      * </pre>
-     * 
+     * <p>
      * </p>
-     * 
+     * <p>
      * <p>
      * Note that <tt>toArray(new Object[0])</tt> is identical in function to <tt>toArray()</tt>.
      * </p>
-     * 
-     * @param a
-     *            the array into which the elements of this collection are to be stored, if it is
-     *            big enough; otherwise, a new array of the same runtime type is allocated for this
-     *            purpose.
-     * 
+     *
+     * @param a the array into which the elements of this collection are to be stored, if it is
+     *          big enough; otherwise, a new array of the same runtime type is allocated for this
+     *          purpose.
      * @return an array containing the elements of this collection
      */
     @SuppressWarnings("unchecked")
@@ -624,7 +606,7 @@ public class TreeSetFeatureCollection implements SimpleFeatureCollection {
     /**
      * Optimization time ... grab the fid set so other can quickly test membership during
      * removeAll/retainAll implementations.
-     * 
+     *
      * @return Set of fids.
      */
     public Set<String> fids() {
@@ -632,8 +614,8 @@ public class TreeSetFeatureCollection implements SimpleFeatureCollection {
     }
 
     public void accepts(org.opengis.feature.FeatureVisitor visitor,
-            org.opengis.util.ProgressListener progress) throws IOException {
-        DataUtilities.visit( this, visitor, progress );
+                        org.opengis.util.ProgressListener progress) throws IOException {
+        DataUtilities.visit(this, visitor, progress);
     }
 
     /**
@@ -644,24 +626,23 @@ public class TreeSetFeatureCollection implements SimpleFeatureCollection {
      * collection.subCollection( myFilter ).clear()
      * </code>
      * </p>
-     * 
-     * @param filter
-     *            Filter used to determine sub collection.
+     *
+     * @param filter Filter used to determine sub collection.
      * @since GeoTools 2.2, Filter 1.1
      */
     public SimpleFeatureCollection subCollection(Filter filter) {
         if (filter == Filter.INCLUDE) {
             return this;
         }
-        CollectionFeatureSource temp = new CollectionFeatureSource( this );
+        CollectionFeatureSource temp = new CollectionFeatureSource(this);
         return temp.getFeatures(filter);
     }
-        
+
     public SimpleFeatureCollection sort(SortBy order) {
-        Query subQuery = new Query( getSchema().getTypeName() );
-        subQuery.setSortBy( new SortBy[]{ order } );
-       
-        CollectionFeatureSource temp = new CollectionFeatureSource( this );
+        Query subQuery = new Query(getSchema().getTypeName());
+        subQuery.setSortBy(new SortBy[]{order});
+
+        CollectionFeatureSource temp = new CollectionFeatureSource(this);
         return temp.getFeatures(subQuery);
     }
 

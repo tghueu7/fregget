@@ -2,7 +2,8 @@
  **
  ** $Id$
  **
- ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/geometry/LineStringImpl.java,v $
+ ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/geometry
+ * /LineStringImpl.java,v $
  **
  ** Copyright (C) 2003 Open GIS Consortium, Inc. All Rights Reserved. http://www.opengis.org/Legal/
  **
@@ -10,6 +11,7 @@
 package org.geotools.geometry.jts.spatialschema.geometry.geometry;
 
 // J2SE direct dependencies
+
 import org.geotools.geometry.jts.spatialschema.geometry.primitive.CurveBoundaryImpl;
 import org.geotools.geometry.jts.spatialschema.geometry.primitive.PointImpl;
 import org.geotools.geometry.jts.JTSGeometry;
@@ -32,18 +34,14 @@ import org.geotools.geometry.jts.spatialschema.geometry.DirectPositionImpl;
 /**
  * The {@code LineStringImpl} class implements the {@link LineString}
  * interface.
- * 
+ *
  * @author SYS Technologies
  * @author crossley
- *
- *
- *
- *
- * @source $URL$
  * @version $Revision $
+ * @source $URL$
  */
-public class LineStringImpl extends GenericCurveImpl 
-	implements LineString, JTSGeometry {
+public class LineStringImpl extends GenericCurveImpl
+        implements LineString, JTSGeometry {
 
     /**
      * Points comprising this geometry.
@@ -53,19 +51,19 @@ public class LineStringImpl extends GenericCurveImpl
     //*************************************************************************
     //  Constructors
     //*************************************************************************
-    
+
     /**
      * Creates a new {@code LineStringImpl}.
      */
     public LineStringImpl() {
         controlPoints = new PointArrayImpl();
-        ((PointArrayImpl)controlPoints).setJTSParent(this);
+        ((PointArrayImpl) controlPoints).setJTSParent(this);
     }
 
     //*************************************************************************
     //  implement the *** interface
     //*************************************************************************
-    
+
     /**
      * @inheritDoc
      * @see org.opengis.geometry.coordinate.LineString#getControlPoints()
@@ -87,7 +85,8 @@ public class LineStringImpl extends GenericCurveImpl
      * @see org.opengis.geometry.primitive.CurveSegment#getBoundary()
      */
     public CurveBoundary getBoundary() {
-        return new CurveBoundaryImpl(null, new PointImpl(getStartPoint()), new PointImpl(getEndPoint()));
+        return new CurveBoundaryImpl(null, new PointImpl(getStartPoint()), new PointImpl
+                (getEndPoint()));
     }
 
     /**
@@ -149,7 +148,7 @@ public class LineStringImpl extends GenericCurveImpl
         LineStringImpl result = new LineStringImpl();
         PointArray pa = result.getSamplePoints();
         int n = controlPoints.size();
-        for (int i=n-1; i>=0; i--) {
+        for (int i = n - 1; i >= 0; i--) {
             pa.add(new DirectPositionImpl(controlPoints.get(i).getDirectPosition()));
         }
         return result;
@@ -175,7 +174,7 @@ public class LineStringImpl extends GenericCurveImpl
      * @inheritDoc
      * @see org.opengis.geometry.coordinate.GenericCurve#getTangent(double)
      */
-    public double [] getTangent(final double s) {
+    public double[] getTangent(final double s) {
         return null;
     }
 
@@ -227,7 +226,8 @@ public class LineStringImpl extends GenericCurveImpl
 
     /**
      * @inheritDoc
-     * @see org.opengis.geometry.coordinate.GenericCurve#getParamForPoint(org.opengis.geometry.coordinate.DirectPosition)
+     * @see org.opengis.geometry.coordinate.GenericCurve#getParamForPoint(org.opengis.geometry
+     * .coordinate.DirectPosition)
      */
     public ParamForPoint getParamForPoint(final DirectPosition p) {
         return null;
@@ -235,7 +235,8 @@ public class LineStringImpl extends GenericCurveImpl
 
     /**
      * @inheritDoc
-     * @see org.opengis.geometry.coordinate.GenericCurve#length(org.opengis.geometry.coordinate.Position, org.opengis.geometry.coordinate.Position)
+     * @see org.opengis.geometry.coordinate.GenericCurve#length(org.opengis.geometry.coordinate
+     * .Position, org.opengis.geometry.coordinate.Position)
      */
     public double length(final Position point1, final Position point2) {
         return 0;
@@ -263,11 +264,11 @@ public class LineStringImpl extends GenericCurveImpl
      */
     protected Geometry computeJTSPeer() {
         int n = controlPoints.size();
-        com.vividsolutions.jts.geom.Coordinate [] coords =
-            new com.vividsolutions.jts.geom.Coordinate[n];
-        for (int i=0; i<n; i++) {
+        com.vividsolutions.jts.geom.Coordinate[] coords =
+                new com.vividsolutions.jts.geom.Coordinate[n];
+        for (int i = 0; i < n; i++) {
             coords[i] = JTSUtils.directPositionToCoordinate(
-                (DirectPosition) controlPoints.get(i));
+                    (DirectPosition) controlPoints.get(i));
         }
         return JTSUtils.GEOMETRY_FACTORY.createLineString(coords);
     }

@@ -4,13 +4,14 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.referencing.datum;
 
 import java.util.List;
 import java.util.ArrayList;
+
 import org.opengis.util.CodeList;
 import org.opengis.annotation.UML;
 
@@ -21,14 +22,13 @@ import static org.opengis.annotation.Specification.*;
 /**
  * Type of a vertical datum.
  *
- *
- *
+ * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract 
+ * specification 2.0</A>
  * @source $URL$
- * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract specification 2.0</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
+ * @since GeoAPI 1.0
  */
-@UML(identifier="CD_VerticalDatumType", specification=ISO_19111)
+@UML(identifier = "CD_VerticalDatumType", specification = ISO_19111)
 public final class VerticalDatumType extends CodeList<VerticalDatumType> {
     /**
      * Serial number for compatibility with different versions.
@@ -47,7 +47,7 @@ public final class VerticalDatumType extends CodeList<VerticalDatumType> {
      * vertical datum. Other variations to the above three vertical datum types may exist
      * and are all included in this type.
      */
-    @UML(identifier="other surface", obligation=CONDITIONAL, specification=ISO_19111)
+    @UML(identifier = "other surface", obligation = CONDITIONAL, specification = ISO_19111)
     public static final VerticalDatumType OTHER_SURFACE = new VerticalDatumType("OTHER_SURFACE");
 
     /**
@@ -55,34 +55,34 @@ public final class VerticalDatumType extends CodeList<VerticalDatumType> {
      * a constant potential surface, usually the geoid. Such a reference surface is usually
      * determined by a national or scientific authority, and is then a well-known, named datum.
      */
-    @UML(identifier="geoidal", obligation=CONDITIONAL, specification=ISO_19111)
+    @UML(identifier = "geoidal", obligation = CONDITIONAL, specification = ISO_19111)
     public static final VerticalDatumType GEOIDAL = new VerticalDatumType("GEOIDAL");
 
     /**
      * A vertical datum for ellipsoidal heights that are measured along the
      * normal to the ellipsoid used in the definition of horizontal datum.
      *
-     * @departure
-     *   This code is a violation of ISO 19111 specification, which does not allow instantation of
-     *   {@linkplain org.opengis.referencing.crs.VerticalCRS Vertical CRS} for ellipsoidal height.
-     *   More specifically {@linkplain org.opengis.referencing.crs.GeographicCRS Geographic CRS}
-     *   with ellipsoidal height shall be backed by a three-dimensional
-     *   {@linkplain org.opengis.referencing.cs.EllipsoidalCS Ellipsoidal CS}; they should never
-     *   be built as {@linkplain org.opengis.referencing.crs.CompoundCRS Compound CRS}.
-     *   <p>
-     *   However some API need to express the ellipsoidal height alone, e.g. for type safety
-     *   in methods like {@link org.opengis.metadata.extent.VerticalExtent#getVerticalCRS}.
-     *   The alternative would be to pass an arbitrary
-     *   {@linkplain org.opengis.referencing.crs.CoordinateReferenceSystem Coordinate Reference System}
-     *   and let the user extracts the vertical component himself.
-     *   <p>
-     *   Furthermore the <A HREF="../doc-files/WKT.html">WKT format</A> still in wide use, and this
-     *   format (defined before ISO 19111) does not treat ellipsoidal height in a special way. A WKT
-     *   parser needs to get the vertical CRS separatly before to merge it with the geographic CRS.
-     *
+     * @departure This code is a violation of ISO 19111 specification, which does not allow 
+     * instantation of
+     * {@linkplain org.opengis.referencing.crs.VerticalCRS Vertical CRS} for ellipsoidal height.
+     * More specifically {@linkplain org.opengis.referencing.crs.GeographicCRS Geographic CRS}
+     * with ellipsoidal height shall be backed by a three-dimensional
+     * {@linkplain org.opengis.referencing.cs.EllipsoidalCS Ellipsoidal CS}; they should never
+     * be built as {@linkplain org.opengis.referencing.crs.CompoundCRS Compound CRS}.
+     * <p>
+     * However some API need to express the ellipsoidal height alone, e.g. for type safety
+     * in methods like {@link org.opengis.metadata.extent.VerticalExtent#getVerticalCRS}.
+     * The alternative would be to pass an arbitrary
+     * {@linkplain org.opengis.referencing.crs.CoordinateReferenceSystem Coordinate Reference System}
+     * and let the user extracts the vertical component himself.
+     * <p>
+     * Furthermore the <A HREF="../doc-files/WKT.html">WKT format</A> still in wide use, and this
+     * format (defined before ISO 19111) does not treat ellipsoidal height in a special way. A WKT
+     * parser needs to get the vertical CRS separatly before to merge it with the geographic CRS.
      * @issue http://jira.codehaus.org/browse/GEO-133
      */
-    @UML(identifier="CS_DatumType.CS_VD_Ellipsoidal", obligation=CONDITIONAL, specification=OGC_01009)
+    @UML(identifier = "CS_DatumType.CS_VD_Ellipsoidal", obligation = CONDITIONAL, specification =
+            OGC_01009)
     public static final VerticalDatumType ELLIPSOIDAL = new VerticalDatumType("ELLIPSOIDAL");
 
     /**
@@ -93,7 +93,7 @@ public final class VerticalDatumType extends CodeList<VerticalDatumType> {
      * (approximately) to the actual equipotential surfaces of the earth's gravity field,
      * using such procedures as echo-sounding.
      */
-    @UML(identifier="depth", obligation=CONDITIONAL, specification=ISO_19111)
+    @UML(identifier = "depth", obligation = CONDITIONAL, specification = ISO_19111)
     public static final VerticalDatumType DEPTH = new VerticalDatumType("DEPTH");
 
     /**
@@ -104,13 +104,14 @@ public final class VerticalDatumType extends CodeList<VerticalDatumType> {
      * meters, feet, millibars (used to measure pressure levels), or theta value
      * (units used to measure geopotential height).
      */
-    @UML(identifier="barometric", obligation=CONDITIONAL, specification=ISO_19111)
+    @UML(identifier = "barometric", obligation = CONDITIONAL, specification = ISO_19111)
     public static final VerticalDatumType BAROMETRIC = new VerticalDatumType("BAROMETRIC");
 
     /**
      * A vertical datum for orthometric heights that are measured along the plumb line.
      */
-    @UML(identifier="CS_DatumType.CS_VD_Orthometric", obligation=CONDITIONAL, specification=OGC_01009)
+    @UML(identifier = "CS_DatumType.CS_VD_Orthometric", obligation = CONDITIONAL, specification =
+            OGC_01009)
     public static final VerticalDatumType ORTHOMETRIC = new VerticalDatumType("ORTHOMETRIC");
 
     /**

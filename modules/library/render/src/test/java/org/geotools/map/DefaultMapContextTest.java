@@ -5,11 +5,10 @@ import java.io.IOException;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DefaultMapContextTest {
@@ -38,11 +37,11 @@ public class DefaultMapContextTest {
         mapContext.addLayer(mapLayerBoundsNull);
         ReferencedEnvelope layerBounds = mapContext.getLayerBounds();
         assertNull(layerBounds);
-        
+
         ReferencedEnvelope maxBounds = mapContext.getMaxBounds();
         assertNotNull(maxBounds);
-        assertEquals( DefaultGeographicCRS.WGS84, maxBounds.getCoordinateReferenceSystem() );
-        assertTrue( maxBounds.isEmpty() );
-        
+        assertEquals(DefaultGeographicCRS.WGS84, maxBounds.getCoordinateReferenceSystem());
+        assertTrue(maxBounds.isEmpty());
+
     }
 }

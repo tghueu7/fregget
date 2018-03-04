@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.primitive;
@@ -30,23 +30,20 @@ import static org.opengis.annotation.Specification.*;
  * case of this is where one of the interior rings of a surface is tangent to its exterior ring.
  * Implementations may enforce stronger restrictions on the interaction of boundary elements.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
- * @since GeoAPI 1.0
- *
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @see SurfaceBoundary
  * @see Shell
+ * @since GeoAPI 1.0
  */
-@UML(identifier="GM_Ring", specification=ISO_19107)
+@UML(identifier = "GM_Ring", specification = ISO_19107)
 public interface Ring extends CompositeCurve {
     /**
      * Always returns {@code true} since ring objects are simples.
      *
      * @return Always {@code true}.
      */
-    @UML(identifier="isSimple", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "isSimple", obligation = MANDATORY, specification = ISO_19107)
     boolean isSimple();
 }

@@ -26,7 +26,6 @@ import org.geotools.data.wmts.model.WMTSServiceType;
 
 /**
  * @author ian
- *
  */
 public class GetTileResponse extends Response {
     private WMTSServiceType type;
@@ -47,8 +46,7 @@ public class GetTileResponse extends Response {
     }
 
     /**
-     * @param type
-     *            the type to set
+     * @param type the type to set
      */
     public void setType(WMTSServiceType type) {
         this.type = type;
@@ -62,8 +60,7 @@ public class GetTileResponse extends Response {
     }
 
     /**
-     * @param requestURL
-     *            the requestURL to set
+     * @param requestURL the requestURL to set
      */
     public void setRequestURL(URL requestURL) {
         this.requestURL = requestURL;

@@ -39,36 +39,33 @@ import org.opengis.referencing.operation.MathTransform;
 /**
  * Sinusoidal (Sanson–Flamsteed) projection
  *
- * @see <A HREF="http://en.wikipedia.org/wiki/Sinusoidal_projection">Sinusoidal projection on
- *      Wikipedia</A>
- * @see <A HREF="http://www.remotesensing.org/geotiff/proj_list/sinusoidal.html">"Sinusoidal" on
- *      RemoteSensing.org</A>
- *
- * @since 14.0
- *
- *
- * @source $URL$
  * @author Mihail Andreev
+ * @source $URL$
+ * @see <A HREF="http://en.wikipedia.org/wiki/Sinusoidal_projection">Sinusoidal projection on
+ * Wikipedia</A>
+ * @see <A HREF="http://www.remotesensing.org/geotiff/proj_list/sinusoidal.html">"Sinusoidal" on
+ * RemoteSensing.org</A>
+ * @since 14.0
  */
 public class Sinusoidal extends MapProjection {
     /**
      * For cross-version compatibility.
      */
     private static final long serialVersionUID = 7528023862968814860L;
-    
+
     private final static double EPS10 = 1e-10;
-    private final static double HALFPI = Math.PI /2.;
+    private final static double HALFPI = Math.PI / 2.;
 
     /**
      * Constructs a new map projection from the supplied parameters.
      *
-     * @param  parameters The parameter values in standard units.
+     * @param parameters The parameter values in standard units.
      * @throws ParameterNotFoundException if a mandatory parameter is missing.
      */
     protected Sinusoidal(final ParameterValueGroup parameters) throws ParameterNotFoundException {
         super(parameters);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -83,20 +80,20 @@ public class Sinusoidal extends MapProjection {
      */
     protected Point2D transformNormalized(double lam, double phi, final Point2D ptDst)
             throws ProjectionException {
-        double x,y;
-      
-        if (isSpherical) {
-          x = lam * cos(phi);
-          y = phi;
-        } else {
-          double s = sin(phi);
-          double c = cos(phi);
+        double x, y;
 
-          y = mlfn(phi, sin(phi), cos(phi));
-          x = lam * c / sqrt(1. - excentricitySquared * s * s);
+        if (isSpherical) {
+            x = lam * cos(phi);
+            y = phi;
+        } else {
+            double s = sin(phi);
+            double c = cos(phi);
+
+            y = mlfn(phi, sin(phi), cos(phi));
+            x = lam * c / sqrt(1. - excentricitySquared * s * s);
         }
-        
-        if(ptDst != null) {
+
+        if (ptDst != null) {
             ptDst.setLocation(x, y);
             return ptDst;
         } else {
@@ -113,23 +110,24 @@ public class Sinusoidal extends MapProjection {
         double phi;
         double lam;
 
-        if( isSpherical ) {
-          phi = y;
-          lam = x / cos( y);
+        if (isSpherical) {
+            phi = y;
+            lam = x / cos(y);
         } else {
-          phi = inv_mlfn(y);
-          double s = Math.abs( phi );
-          double diff = Math.abs(s - HALFPI);
+            phi = inv_mlfn(y);
+            double s = Math.abs(phi);
+            double diff = Math.abs(s - HALFPI);
 
-          if (diff < EPS10) {
-              lam = 0.;
-          } else if (s < HALFPI) {
-            s = sin(phi);
-            lam = (x * sqrt(1. - excentricitySquared * s * s) / cos(phi)) % Math.PI;
-          } else {
-            throw new ProjectionException(ErrorKeys.TOLERANCE_ERROR);
-            // throw new ProjectionException("Tolerance error occurred appling inverse Sinusoidal projection");
-          }
+            if (diff < EPS10) {
+                lam = 0.;
+            } else if (s < HALFPI) {
+                s = sin(phi);
+                lam = (x * sqrt(1. - excentricitySquared * s * s) / cos(phi)) % Math.PI;
+            } else {
+                throw new ProjectionException(ErrorKeys.TOLERANCE_ERROR);
+                // throw new ProjectionException("Tolerance error occurred appling inverse 
+                // Sinusoidal projection");
+            }
         }
 
         if (ptDst != null) {
@@ -139,7 +137,7 @@ public class Sinusoidal extends MapProjection {
             return new Point2D.Double(lam, phi);
         }
     }
-    
+
     /**
      * Compares the specified object with this map projection for equality.
      */
@@ -151,8 +149,8 @@ public class Sinusoidal extends MapProjection {
         }
         return super.equals(object);
     }
-    
-    
+
+
     //////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////
     ////////                                                                          ////////
@@ -165,27 +163,27 @@ public class Sinusoidal extends MapProjection {
      * The {@linkplain org.geotools.referencing.operation.MathTransformProvider math transform
      * provider} for the Sinusoidal projection (not part of the EPSG database).
      *
-     * @since 14.0
      * @author Mihail Andreev
-     *
      * @see org.geotools.referencing.operation.DefaultMathTransformFactory
+     * @since 14.0
      */
     public static class Provider extends AbstractProvider {
         /**
          * For cross-version compatibility.
          */
         private static final long serialVersionUID = 8374488793001927036L;
-        
+
         /**
          * The parameters group.
          */
-        static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(new NamedIdentifier[] {
+        static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(new 
+                NamedIdentifier[]{
                 new NamedIdentifier(Citations.GEOTOOLS, "Sinusoidal"),
                 new NamedIdentifier(Citations.ESRI, "Sinusoidal")
-            }, new ParameterDescriptor[] {
-                SEMI_MAJOR, SEMI_MINOR, 
+        }, new ParameterDescriptor[]{
+                SEMI_MAJOR, SEMI_MINOR,
                 CENTRAL_MERIDIAN, FALSE_EASTING, FALSE_NORTHING
-            });
+        });
 
         /**
          * Constructs a new provider.
@@ -197,13 +195,12 @@ public class Sinusoidal extends MapProjection {
         /**
          * Creates a transform from the specified group of parameter values.
          *
-         * @param  parameters The group of parameter values.
+         * @param parameters The group of parameter values.
          * @return The created math transform.
          * @throws ParameterNotFoundException if a required parameter was not found.
          */
         protected MathTransform createMathTransform(final ParameterValueGroup parameters)
-                throws ParameterNotFoundException
-        {
+                throws ParameterNotFoundException {
             return new Sinusoidal(parameters);
         }
     }

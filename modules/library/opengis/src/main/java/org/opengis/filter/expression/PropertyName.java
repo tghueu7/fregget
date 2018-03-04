@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.filter.expression;
 
 // Annotations
+
 import org.opengis.annotation.XmlElement;
 import org.xml.sax.helpers.NamespaceSupport;
 
@@ -28,10 +29,9 @@ import org.xml.sax.helpers.NamespaceSupport;
  * match this functionality.
  * </p>
  *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengis.org/docs/02-059.pdf">Implementation specification 1.0</A>
  * @author Chris Dillard (SYS Technologies)
+ * @version <A HREF="http://www.opengis.org/docs/02-059.pdf">Implementation specification 1.0</A>
+ * @source $URL$
  * @since GeoAPI 2.0
  */
 @XmlElement("PropertyName")
@@ -41,10 +41,10 @@ public interface PropertyName extends Expression {
      * {@link #evaluate evaluate} method.
      */
     String getPropertyName();
-    
+
     /**
      * Returns namespace context information, or null if unavailable/inapplicable
-     * 
+     *
      * @return namespace context information, or null if unavailable/inapplicable
      */
     NamespaceSupport getNamespaceContext();

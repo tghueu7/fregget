@@ -53,7 +53,6 @@ import ucar.nc2.dataset.NetcdfDataset;
 
 /**
  * @author Simone Giannecchini, GeoSolutions SAS
- *
  */
 public class CoordinateVariableTest extends Assert {
 
@@ -68,10 +67,13 @@ public class CoordinateVariableTest extends Assert {
         System.clearProperty("user.timezone");
     }
 
-    /** Simple CoordinateAxis1D wrapper to override Units */
+    /**
+     * Simple CoordinateAxis1D wrapper to override Units
+     */
     class CoordinateAxis1DUnitWrapper extends CoordinateAxis1D {
 
-        String units; 
+        String units;
+
         @Override
         public String getUnitsString() {
             return units;
@@ -118,13 +120,15 @@ public class CoordinateVariableTest extends Assert {
     }
 
     private void checkTimes(NetcdfDataset dataset, CoordinateAxis coordinateAxis, String refTime,
-            int year, int month, int day, int hour, int minute, int second, boolean singularForm) throws IOException {
+                            int year, int month, int day, int hour, int minute, int second, 
+                            boolean singularForm) throws IOException {
 
         String units = "";
         CoordinateVariable<?> cv = null;
         GregorianCalendar cal = null;
 
-        String unitsOriginSuffix = (singularForm ? "" : "s")  // day vs days, hour vs hours, and so on
+        String unitsOriginSuffix = (singularForm ? "" : "s")  // day vs days, hour vs hours, and 
+                // so on
                 + " since " + refTime;
 
         // MONTHS
@@ -160,7 +164,7 @@ public class CoordinateVariableTest extends Assert {
     }
 
     private GregorianCalendar getCalendar(int year, int month, int day, int hour, int minute,
-            int second, int unit) {
+                                          int second, int unit) {
         GregorianCalendar cal = new GregorianCalendar(NetCDFTimeUtilities.UTC_TIMEZONE);
 
         // Months are zero based
@@ -178,15 +182,17 @@ public class CoordinateVariableTest extends Assert {
             second++;
         }
         month--;
-        
+
         cal.set(year, month, day, hour, minute, second);
         cal.set(GregorianCalendar.MILLISECOND, 0);
         return cal;
     }
 
     private CoordinateVariable<?> getCoordinateVariable(NetcdfDataset dataset,
-            CoordinateAxis coordinateAxis, String units) {
-        CoordinateAxis1DUnitWrapper wrapper = new CoordinateAxis1DUnitWrapper(dataset, (CoordinateAxis1D) coordinateAxis, units);
+                                                        CoordinateAxis coordinateAxis, String 
+                                                                units) {
+        CoordinateAxis1DUnitWrapper wrapper = new CoordinateAxis1DUnitWrapper(dataset, 
+                (CoordinateAxis1D) coordinateAxis, units);
         return CoordinateVariable.create((CoordinateAxis1D) wrapper);
     }
 
@@ -390,7 +396,7 @@ public class CoordinateVariableTest extends Assert {
         dataset.close();
 
     }
-    
+
     @Test
     public void testClimatologicalTimeVariable() throws MalformedURLException, IOException {
         // Selection of the input file
@@ -400,14 +406,17 @@ public class CoordinateVariableTest extends Assert {
             assertTrue("Unable to create workdir:" + workDir, workDir.mkdir());
         }
 
-        FileUtils.copyFile(TestData.file(this, "climatological.zip"), new File(workDir, "climatological.zip"));
+        FileUtils.copyFile(TestData.file(this, "climatological.zip"), new File(workDir, 
+                "climatological.zip"));
         TestData.unzipFile(this, "climatologicalaxis/climatological.zip");
 
-        final NetcdfDataset dataset = NetcdfDataset.openDataset(TestData.url(this, "climatologicalaxis/climatological.nc")
+        final NetcdfDataset dataset = NetcdfDataset.openDataset(TestData.url(this, 
+                "climatologicalaxis/climatological.nc")
                 .toExternalForm());
         Dimension dim = dataset.findDimension("time");
 
-        CoordinateAxis1D coordinateAxis = (CoordinateAxis1D) dataset.findCoordinateAxis(dim.getShortName());
+        CoordinateAxis1D coordinateAxis = (CoordinateAxis1D) dataset.findCoordinateAxis(dim
+                .getShortName());
         try {
 
             CoordinateHandler handler = CoordinateHandlerFinder.findHandler(coordinateAxis);
@@ -415,11 +424,13 @@ public class CoordinateVariableTest extends Assert {
             assertTrue(handler instanceof ClimatologicalTimeHandler);
             ClimatologicalTimeHandler timeHandler = (ClimatologicalTimeHandler) handler;
 
-            CoordinateVariable<Date> coordinateVariable = timeHandler.createCoordinateVariable(coordinateAxis);
+            CoordinateVariable<Date> coordinateVariable = timeHandler.createCoordinateVariable
+                    (coordinateAxis);
             assertNotNull(coordinateVariable);
             assertTrue(coordinateVariable instanceof ClimatologicalTimeCoordinateVariable);
 
-            ClimatologicalTimeCoordinateVariable timeVariable = (ClimatologicalTimeCoordinateVariable) coordinateVariable;
+            ClimatologicalTimeCoordinateVariable timeVariable = 
+                    (ClimatologicalTimeCoordinateVariable) coordinateVariable;
             CoordinateReferenceSystem crs = timeVariable.getCoordinateReferenceSystem();
             assertTrue(crs instanceof TemporalCRS);
 

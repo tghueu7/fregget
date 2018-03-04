@@ -30,8 +30,6 @@ import org.opengis.style.Mark;
 import org.opengis.style.Stroke;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class CookbookPointTest extends AbstractStyleTest {
@@ -259,8 +257,10 @@ public class CookbookPointTest extends AbstractStyleTest {
         PointPlacement pp = (PointPlacement) ps.getLabelPlacement();
         assertEquals(0.5, pp.getAnchorPoint().getAnchorPointX().evaluate(null, Double.class), 0);
         assertEquals(0, pp.getAnchorPoint().getAnchorPointY().evaluate(null, Double.class), 0);
-        assertEquals(0, (int) pp.getDisplacement().getDisplacementX().evaluate(null, Integer.class));
-        assertEquals(5, (int) pp.getDisplacement().getDisplacementY().evaluate(null, Integer.class));
+        assertEquals(0, (int) pp.getDisplacement().getDisplacementX().evaluate(null, Integer
+                .class));
+        assertEquals(5, (int) pp.getDisplacement().getDisplacementY().evaluate(null, Integer
+                .class));
     }
 
     @Test
@@ -297,8 +297,10 @@ public class CookbookPointTest extends AbstractStyleTest {
         assertEquals(-45, pp.getRotation().evaluate(null, Double.class), 0.0);
         assertEquals(0.5, pp.getAnchorPoint().getAnchorPointX().evaluate(null, Double.class), 0);
         assertEquals(0, pp.getAnchorPoint().getAnchorPointY().evaluate(null, Double.class), 0);
-        assertEquals(0, (int) pp.getDisplacement().getDisplacementX().evaluate(null, Integer.class));
-        assertEquals(5, (int) pp.getDisplacement().getDisplacementY().evaluate(null, Integer.class));
+        assertEquals(0, (int) pp.getDisplacement().getDisplacementX().evaluate(null, Integer
+                .class));
+        assertEquals(5, (int) pp.getDisplacement().getDisplacementY().evaluate(null, Integer
+                .class));
     }
 
     private void basicPointWithLabelAssertions(StyleCollector collector) {
@@ -395,11 +397,12 @@ public class CookbookPointTest extends AbstractStyleTest {
         // check rules and styles
         checkScaleBasedRule(collector.rules.get(0), "Large", 0, 160000000, 12);
         checkScaleBasedRule(collector.rules.get(1), "Medium", 160000000, 320000000, 8);
-        checkScaleBasedRule(collector.rules.get(2), "Small", 320000000, Double.POSITIVE_INFINITY, 4);
+        checkScaleBasedRule(collector.rules.get(2), "Small", 320000000, Double.POSITIVE_INFINITY,
+                4);
     }
 
     private void checkScaleBasedRule(Rule rule, String name, double minDenominator,
-            double maxDenominator, int size) {
+                                     double maxDenominator, int size) {
         assertEquals(name, rule.getName());
         assertEquals(minDenominator, rule.getMinScaleDenominator(), 0.0);
         assertEquals(maxDenominator, rule.getMaxScaleDenominator(), 0.0);

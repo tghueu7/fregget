@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2006-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -40,25 +40,25 @@ import org.opengis.filter.identity.FeatureId;
 /**
  * The state of an entry in a DataStore, maintained on a per-transaction basis. For information
  * maintained on a typeName basis see {@link ContentEntry}.
- *
+ * <p>
  * <h3>Data Cache Synchronization Required</h2>
  * <p>
  * The default ContentState implementation maintains cached values on a per transaction
  * basis:
  * <ul>
- *   <li>feature type ({@link #getFeatureType()}
- *   <li>number of features ({@link #getCount()}
- *   <li>spatial extent ({@link #getBounds()}
+ * <li>feature type ({@link #getFeatureType()}
+ * <li>number of features ({@link #getCount()}
+ * <li>spatial extent ({@link #getBounds()}
  * </ul>
  * Other types of state depend on the data format and must be handled by a subclass.
  * <p>
  * This class is a "data object" used to store values and is not thread safe. It is up to
- * clients of this class to ensure that values are set in a thread-safe / synchronized 
+ * clients of this class to ensure that values are set in a thread-safe / synchronized
  * manner. For example:
  * <pre>
  *   <code>
  *   ContentState state = ...;
- *   
+ *
  *   //get the count
  *   int count = state.getCount();
  *   if ( count == -1 ) {
@@ -78,7 +78,7 @@ import org.opengis.filter.identity.FeatureId;
  * <p>
  * You may also make use of {@link ContentFeatureSource#canEvent} value of {@code false} allowing
  * the base ContentFeatureStore class to take responsibility for sending event notifications.
- * 
+ * <p>
  * <h3>Transaction Independence</h3>
  * <p>
  * The default ContentState implementation also supports the handling of
@@ -88,7 +88,7 @@ import org.opengis.filter.identity.FeatureId;
  * <p>
  * Internally a {@link Transaction.State} is used to notify the implementation of
  * {{@link Transaction#commit} and {@link Transaction#rollback()}.
- * 
+ * <p>
  * <h3>Extension</h3>
  * This class may be extended if your implementaiton wishes to capture additional information
  * per transaction. A database implementation using a JDBCContentState to store a JDBC Connection
@@ -102,13 +102,12 @@ import org.opengis.filter.identity.FeatureId;
  * Subclasses should also override {@link #copy()} to ensure any additional state they are keeping
  * is correctly accounted for.
  * </p>
- * 
+ *
  * @author Jody Garnett (LISASoft)
  * @author Justin Deoliveira, The Open Planning Project
- *
  * @version 8.0
- * @since 2.6
  * @source $URL$
+ * @since 2.6
  */
 public class ContentState {
 
@@ -116,7 +115,7 @@ public class ContentState {
      * Transaction the state works from.
      */
     protected Transaction tx;
-    
+
     /**
      * entry maintaining the state
      */
@@ -148,7 +147,8 @@ public class ContentState {
     /**
      * observers
      */
-    protected List<FeatureListener> listeners = Collections.synchronizedList(new ArrayList<FeatureListener>());
+    protected List<FeatureListener> listeners = Collections.synchronizedList(new 
+            ArrayList<FeatureListener>());
 
     // TRANSACTION SUPPORT
     /**
@@ -156,7 +156,7 @@ public class ContentState {
      * on the transaction.
      */
     protected DiffTransactionState transactionState = new DiffTransactionState(this);
-        
+
     /**
      * Creates a new state.
      *
@@ -165,7 +165,7 @@ public class ContentState {
     public ContentState(ContentEntry entry) {
         this.entry = entry;
     }
-    
+
     /**
      * Creates a new state from a previous one.
      * <p>
@@ -182,7 +182,7 @@ public class ContentState {
         count = state.count;
         bounds = state.bounds == null ? null : ReferencedEnvelope.reference(state.bounds);
         batchFeatureEvent = null;
-   }
+    }
 
     /**
      * The entry which maintains the state.
@@ -224,7 +224,6 @@ public class ContentState {
 
     /**
      * The cached number of features.
-     * 
      */
     public final int getCount() {
         return count;
@@ -253,7 +252,7 @@ public class ContentState {
 
     /**
      * Adds a listener for collection events.
-     * 
+     *
      * @param listener The listener to add
      */
     public final void addListener(FeatureListener listener) {
@@ -262,7 +261,7 @@ public class ContentState {
 
     /**
      * Removes a listener for collection events.
-     * 
+     *
      * @param listener The listener to remove
      */
     public final void removeListener(FeatureListener listener) {
@@ -275,7 +274,7 @@ public class ContentState {
 
     /**
      * Used to quickly test if any listeners are available.
-     * 
+     *
      * @return
      */
     public final boolean hasListener() {
@@ -288,6 +287,7 @@ public class ContentState {
         }
         return false;
     }
+
     /**
      * Creates a FeatureEvent indicating that the provided feature has been changed.
      * <p>
@@ -295,14 +295,14 @@ public class ContentState {
      * a FeatureEvent internally (and then only if listeners are interested). You may find it
      * easier to construct your own FeatureEvent using {{@link #hasListener()} to check if
      * you need to fire events at all.
-     * 
-     * @param source FeatureSource responsible for the change
+     *
+     * @param source  FeatureSource responsible for the change
      * @param feature The updated feature
-     * @param before the bounds of the feature before the change
+     * @param before  the bounds of the feature before the change
      */
     public void fireFeatureUpdated(FeatureSource<?, ?> source, Feature feature,
-            ReferencedEnvelope before) {
-        if( feature == null){
+                                   ReferencedEnvelope before) {
+        if (feature == null) {
             return; // nothing changed
         }
         if (listeners.isEmpty() && tx != Transaction.AUTO_COMMIT)
@@ -310,17 +310,17 @@ public class ContentState {
 
         Filter filter = idFilter(feature);
         ReferencedEnvelope bounds = ReferencedEnvelope.reference(feature.getBounds());
-        if( bounds != null ){
+        if (bounds != null) {
             bounds.expandToInclude(before);
         }
-        
+
         FeatureEvent event = new FeatureEvent(source, Type.CHANGED, bounds, filter);
         fireFeatureEvent(event);
     }
 
     /**
      * Used to issue a Type.ADDED FeatureEvent indicating a new feature being created
-     * 
+     *
      * @param source
      * @param feature
      */
@@ -366,7 +366,7 @@ public class ContentState {
      * <p>
      * If not this event will be recored as part of a BatchFeatureEvent that will to be issued using
      * issueBatchFeatureEvent()
-     * 
+     *
      * @param event
      */
     public final void fireFeatureEvent(FeatureEvent event) {
@@ -403,12 +403,12 @@ public class ContentState {
         }
         if (isCommit) {
             batchFeatureEvent.setType(Type.COMMIT);
-            
+
             // This state already knows about the changes, let others know a modifications was made
             this.entry.notifiyFeatureEvent(this, batchFeatureEvent);
         } else {
             batchFeatureEvent.setType(Type.ROLLBACK);
-            
+
             // Notify this state about the rollback, other transactions see no change
             for (FeatureListener listener : listeners) {
                 try {
@@ -419,7 +419,7 @@ public class ContentState {
                 }
             }
         }
-        
+
         batchFeatureEvent = null;
     }
 
@@ -457,7 +457,7 @@ public class ContentState {
      * <p>
      * Subclasses should override this method. Any mutable state objects should be cloned.
      * </p>
-     * 
+     *
      * @return A copy of the state.
      */
     public ContentState copy() {

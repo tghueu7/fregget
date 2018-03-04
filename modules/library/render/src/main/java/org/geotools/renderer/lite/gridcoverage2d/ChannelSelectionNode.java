@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -38,75 +38,78 @@ import org.opengis.util.InternationalString;
  * <p>
  * This node internally creates a small chain that does all that�'s needed to
  * satisfy a {@link ChannelSelection} element.
- * 
+ *
  * @author Simone Giannecchini, GeoSolutions
  */
 class ChannelSelectionNode extends SubchainStyleVisitorCoverageProcessingAdapter
-		implements StyleVisitor, CoverageProcessingNode {
-	/** Logger for this class. */
-	private final static Logger LOGGER = Logger.getLogger(ChannelSelectionNode.class.getName());
+        implements StyleVisitor, CoverageProcessingNode {
+    /**
+     * Logger for this class.
+     */
+    private final static Logger LOGGER = Logger.getLogger(ChannelSelectionNode.class.getName());
 
-	/*
-	 * (non-Javadoc)
-	 * @see CoverageProcessingNode#getName() 
-	 */
-	public InternationalString getName() {
-		return Vocabulary.formatInternational(VocabularyKeys.CHANNEL_SELECTION);
-	}
+    /*
+     * (non-Javadoc)
+     * @see CoverageProcessingNode#getName()
+     */
+    public InternationalString getName() {
+        return Vocabulary.formatInternational(VocabularyKeys.CHANNEL_SELECTION);
+    }
 
-	/**
-	 * Default Constructor
-	 */
-	public ChannelSelectionNode() {
-		this(null);
-	}
+    /**
+     * Default Constructor
+     */
+    public ChannelSelectionNode() {
+        this(null);
+    }
 
-	/**
-	 * Constructor with support for {@link Hints}
-	 * 
-	 * @param hints
-	 *            control the internal machinery for factories.
-	 */
-	public ChannelSelectionNode(Hints hints) {
-		super(
-				3,
-				hints,
-				SimpleInternationalString.wrap("ChannelSelectionNode"),
-				SimpleInternationalString.wrap("Node which applies a ChannelSelection following SLD 1.0 spec."));
-	}
+    /**
+     * Constructor with support for {@link Hints}
+     *
+     * @param hints control the internal machinery for factories.
+     */
+    public ChannelSelectionNode(Hints hints) {
+        super(
+                3,
+                hints,
+                SimpleInternationalString.wrap("ChannelSelectionNode"),
+                SimpleInternationalString.wrap("Node which applies a ChannelSelection following " +
+                        "SLD 1.0 spec."));
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.geotools.renderer.lite.gridcoverage2d.StyleVisitorAdapter#visit(org.geotools.styling.ChannelSelection)
-	 */
-	public void visit(final ChannelSelection cs) {
-		// /////////////////////////////////////////////////////////////////////
-		//
-		// Ensure that the ChannelSelection is not null and that the source is
-		// not null
-		//
-		// /////////////////////////////////////////////////////////////////////
-		final List <CoverageProcessingNode>localSources = getSources();
-		final int length = localSources.size();
-		if (length == 0)
-			throw new IllegalArgumentException(Errors.format(
-					ErrorKeys.SOURCE_CANT_BE_NULL_$1, "ChannelSelectionNode"));
-		final GridCoverage2D source = (GridCoverage2D) getSource(0).getOutput();
-		GridCoverageRendererUtilities.ensureSourceNotNull(source, this.getName().toString());
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.geotools.renderer.lite.gridcoverage2d.StyleVisitorAdapter#visit(org.geotools
+     * .styling.ChannelSelection)
+     */
+    public void visit(final ChannelSelection cs) {
+        // /////////////////////////////////////////////////////////////////////
+        //
+        // Ensure that the ChannelSelection is not null and that the source is
+        // not null
+        //
+        // /////////////////////////////////////////////////////////////////////
+        final List<CoverageProcessingNode> localSources = getSources();
+        final int length = localSources.size();
+        if (length == 0)
+            throw new IllegalArgumentException(Errors.format(
+                    ErrorKeys.SOURCE_CANT_BE_NULL_$1, "ChannelSelectionNode"));
+        final GridCoverage2D source = (GridCoverage2D) getSource(0).getOutput();
+        GridCoverageRendererUtilities.ensureSourceNotNull(source, this.getName().toString());
 
-		// /////////////////////////////////////////////////////////////////////
-		//
-		// Get the channel selection and parse it in order to create the
-		// subchain
-		//
-		// /////////////////////////////////////////////////////////////////////
-		//creating a new separate chain
-		final RootNode chainSource = new RootNode(source, getHints());
-		final BandMergeNode subChainSink = new BandMergeNode(getHints());
-		//anchoring the chain for later disposal
-		setSink(subChainSink);
-		
+        // /////////////////////////////////////////////////////////////////////
+        //
+        // Get the channel selection and parse it in order to create the
+        // subchain
+        //
+        // /////////////////////////////////////////////////////////////////////
+        //creating a new separate chain
+        final RootNode chainSource = new RootNode(source, getHints());
+        final BandMergeNode subChainSink = new BandMergeNode(getHints());
+        //anchoring the chain for later disposal
+        setSink(subChainSink);
+
         if (cs != null) {
             final SelectedChannelType[] rgb = cs.getRGBChannels();
             final SelectedChannelType gray = cs.getGrayChannel();
@@ -116,7 +119,7 @@ class ChannelSelectionNode extends SubchainStyleVisitorCoverageProcessingAdapter
                 throw new IllegalArgumentException(Errors.format(ErrorKeys.ILLEGAL_ARGUMENT_$1,
                         "Both gray and rgb channel selection are valid!"));
             final SelectedChannelType[] sc = gray == null ? rgb
-                    : new SelectedChannelType[] { gray };
+                    : new SelectedChannelType[]{gray};
 
             // If we do not really select any bands from the original coverage, we try to entirely
             // skip this operation
@@ -125,7 +128,7 @@ class ChannelSelectionNode extends SubchainStyleVisitorCoverageProcessingAdapter
             // Notice that we also try to be as resilient as possible since
             if (sc != null
                     && ((sc.length == 1 && sc[0] != null) || (sc.length == 3 && sc[0] != null
-                            && sc[1] != null && sc[2] != null))) {
+                    && sc[1] != null && sc[2] != null))) {
                 // //
                 //
                 // Note that we can either select 1 (GRAY) or 3 (RGB) bands.
@@ -156,7 +159,8 @@ class ChannelSelectionNode extends SubchainStyleVisitorCoverageProcessingAdapter
                     // CONTRAST ENHANCEMENT
                     //
                     // //
-                    final ContrastEnhancementNode contrastenhancementNode = new ContrastEnhancementNode();
+                    final ContrastEnhancementNode contrastenhancementNode = new 
+                            ContrastEnhancementNode();
                     contrastenhancementNode.addSource(bandSelectionNode);
                     bandSelectionNode.addSink(contrastenhancementNode);
                     contrastenhancementNode.visit(channel != null ? channel
@@ -174,13 +178,10 @@ class ChannelSelectionNode extends SubchainStyleVisitorCoverageProcessingAdapter
                 return;
             }
         }
-		// no band selection, just forward this node
-		subChainSink.addSource(chainSource);
+        // no band selection, just forward this node
+        subChainSink.addSource(chainSource);
 
-	}
-
-
-
+    }
 
 
 }

@@ -32,13 +32,14 @@ import org.opengis.coverage.grid.Format;
  *
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini (simboss), GeoSolutions
- * @since 2.5.x
- *
- *
  * @source $URL$
+ * @since 2.5.x
  */
-public final class DTEDFormatFactory extends BaseGridFormatFactorySPI implements GridFormatFactorySpi {
-    /** Logger. */
+public final class DTEDFormatFactory extends BaseGridFormatFactorySPI implements 
+        GridFormatFactorySpi {
+    /**
+     * Logger.
+     */
     private final static Logger LOGGER = org.geotools.util.logging.Logging.getLogger(
             "org.geotools.coverageio.gdal.dted");
 

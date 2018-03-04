@@ -28,8 +28,8 @@ import org.opengis.referencing.operation.MathTransform;
 
 /**
  * Abstract base class for helper classes used by {@code InfoTool} to query
- * {@code MapLayers}. 
- * 
+ * {@code MapLayers}.
+ * <p>
  * <p>The primary reason for having this class is to avoid
  * loading grid coverage classes unless they are really needed, and thus
  * avoid the need for users to have JAI in the classpath when working with
@@ -38,14 +38,10 @@ import org.opengis.referencing.operation.MathTransform;
  * The type parameter <code>&lt;T&gt;</code> defines the return type of the
  * {@linkplain #getInfo} method.
  *
- * @see InfoTool
- *
  * @author Michael Bedward
- * @since 2.6
- *
- *
- *
  * @source $URL$
+ * @see InfoTool
+ * @since 2.6
  */
 public abstract class InfoToolHelper<T> {
     private static final Logger LOGGER = Logger.getLogger(VectorLayerHelper.class.getName());
@@ -61,9 +57,9 @@ public abstract class InfoToolHelper<T> {
      *
      * @param content the map context
      * @param dataCRS the coordinate reference system of the feature data that will be queried
-     *        by this helper
+     *                by this helper
      */
-    protected InfoToolHelper( MapContent content, CoordinateReferenceSystem dataCRS ) {
+    protected InfoToolHelper(MapContent content, CoordinateReferenceSystem dataCRS) {
         this.contentRef = new WeakReference<MapContent>(content);
         setCRS(dataCRS);
     }
@@ -71,15 +67,12 @@ public abstract class InfoToolHelper<T> {
     /**
      * Get feature data at the given position.
      *
-     * @param pos the location to query
-     *
+     * @param pos    the location to query
      * @param params additional parameters as optionally defined by the sub-class
-     *
      * @return data of type {@code T} as defined by the sub-class
-     *
      * @see #isValid()
      */
-    public abstract T getInfo( DirectPosition2D pos, Object... params ) throws Exception;
+    public abstract T getInfo(DirectPosition2D pos, Object... params) throws Exception;
 
     /**
      * Query if this helper has a reference to a {@code MapContext} and {@code MapLayer}.
@@ -133,7 +126,7 @@ public abstract class InfoToolHelper<T> {
      * the {@code MapContext's} to that of the {@code MapLayer}.
      *
      * @return the transform or {@code null} if either the layer's coordinate system is the same
-     *         as that of the map context, or either has a {@code null} CRS.
+     * as that of the map context, or either has a {@code null} CRS.
      */
     public MathTransform getTransform() {
         if (transform == null && !transformFailed && dataCRS != null) {
@@ -160,7 +153,7 @@ public abstract class InfoToolHelper<T> {
      *
      * @param crs data coordinate reference system
      */
-    protected void setCRS( CoordinateReferenceSystem crs ) {
+    protected void setCRS(CoordinateReferenceSystem crs) {
         this.dataCRS = crs;
 
         MapContent content = getMapContent();

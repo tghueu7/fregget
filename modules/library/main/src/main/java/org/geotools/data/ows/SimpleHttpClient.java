@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2011, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -29,9 +29,8 @@ import org.geotools.data.Base64;
 /**
  * A simple {@link HTTPClient} that creates a new {@link HttpURLConnection HTTP connection} for each
  * request.
- * 
+ *
  * @author groldan
- * 
  */
 public class SimpleHttpClient implements HTTPClient {
 
@@ -93,7 +92,7 @@ public class SimpleHttpClient implements HTTPClient {
     public HTTPResponse get(final URL url) throws IOException {
 
         URLConnection connection = openConnection(url);
-        if(connection instanceof HttpURLConnection){
+        if (connection instanceof HttpURLConnection) {
             ((HttpURLConnection) connection).setRequestMethod("GET");
         }
 
@@ -104,10 +103,10 @@ public class SimpleHttpClient implements HTTPClient {
 
     /**
      * @see org.geotools.data.ows.HTTPClient#post(java.net.URL, java.io.InputStream,
-     *      java.lang.String)
+     * java.lang.String)
      */
     public HTTPResponse post(final URL url, final InputStream postContent,
-            final String postContentType) throws IOException {
+                             final String postContentType) throws IOException {
 
         URLConnection connection = openConnection(url);
         if (connection instanceof HttpURLConnection) {
@@ -138,7 +137,7 @@ public class SimpleHttpClient implements HTTPClient {
     private URLConnection openConnection(URL finalURL) throws IOException {
         URLConnection connection = finalURL.openConnection();
         final boolean http = connection instanceof HttpURLConnection;
-        if(http && tryGzip){
+        if (http && tryGzip) {
             connection.addRequestProperty("Accept-Encoding", "gzip");
         }
         // mind, connect timeout is in seconds
@@ -154,7 +153,8 @@ public class SimpleHttpClient implements HTTPClient {
 
         if (http && username != null && password != null) {
             String userpassword = username + ":" + password;
-            String encodedAuthorization = Base64.encodeBytes(userpassword.getBytes("UTF-8"), Base64.DONT_BREAK_LINES);
+            String encodedAuthorization = Base64.encodeBytes(userpassword.getBytes("UTF-8"), 
+                    Base64.DONT_BREAK_LINES);
             connection.setRequestProperty("Authorization", "Basic " + encodedAuthorization);
         }
         return connection;

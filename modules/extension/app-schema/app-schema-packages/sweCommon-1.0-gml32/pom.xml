@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -51,9 +51,9 @@
                         <configuration>
                             <tasks>
                                 <property name="srcdir"
-                                    value="http://dp.schemas.opengis.net/08-127/sweCommon/1.0.1_gml32"/>
+                                          value="http://dp.schemas.opengis.net/08-127/sweCommon/1.0.1_gml32"/>
                                 <property name="destdir"
-                                    value="${project.build.outputDirectory}/net/opengis/schemas/dp/08-127/sweCommon/1.0.1_gml32"/>
+                                          value="${project.build.outputDirectory}/net/opengis/schemas/dp/08-127/sweCommon/1.0.1_gml32"/>
                                 <mkdir dir="${destdir}"/>
                                 <get src="${srcdir}/aggregateTypes.xsd" dest="${destdir}/aggregateTypes.xsd"/>
                                 <get src="${srcdir}/basicTypes.xsd" dest="${destdir}/basicTypes.xsd"/>

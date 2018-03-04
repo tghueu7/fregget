@@ -35,9 +35,8 @@ import com.vividsolutions.jts.geom.CoordinateSequence;
 /**
  * Helper class writing out GML elements and coordinates. Geared towards efficiency, write out
  * elements and ordinate lists with the minimim amount of garbage generation
- * 
- * @author Andrea Aime - GeoSolutions
  *
+ * @author Andrea Aime - GeoSolutions
  */
 public class GMLWriter {
 
@@ -98,7 +97,9 @@ public class GMLWriter {
      */
     private double scale;
 
-    /** To be used for formatting numbers, uses US locale. */
+    /**
+     * To be used for formatting numbers, uses US locale.
+     */
     private final NumberFormat coordFormatter = NumberFormat.getInstance(Locale.US);
 
     /**
@@ -108,15 +109,15 @@ public class GMLWriter {
 
     /**
      * Create a new content handler
-     * 
-     * @param delegate The actual XML writer
-     * @param namespaces The namespaces known to the Encoder
-     * @param numDecimals How many decimals to preserve when writing ordinates
+     *
+     * @param delegate     The actual XML writer
+     * @param namespaces   The namespaces known to the Encoder
+     * @param numDecimals  How many decimals to preserve when writing ordinates
      * @param forceDecimal If xs:decimal compliant encoding should be used, or not
-     * @param gmlPrefix The GML namespace prefix
+     * @param gmlPrefix    The GML namespace prefix
      */
     public GMLWriter(ContentHandler delegate, NamespaceSupport namespaces, int numDecimals,
-            boolean forceDecimal, String gmlPrefix) {
+                     boolean forceDecimal, String gmlPrefix) {
         this.handler = delegate;
         this.namespaces = namespaces;
 
@@ -185,7 +186,7 @@ public class GMLWriter {
      * @param atts
      * @throws SAXException
      * @see org.xml.sax.ContentHandler#startElement(java.lang.String, java.lang.String,
-     *      java.lang.String, org.xml.sax.Attributes)
+     * java.lang.String, org.xml.sax.Attributes)
      */
     public void startElement(QualifiedName qn, Attributes atts) throws SAXException {
         String qualifiedName = qn.getQualifiedName();
@@ -224,7 +225,7 @@ public class GMLWriter {
      * @param qName
      * @throws SAXException
      * @see org.xml.sax.ContentHandler#endElement(java.lang.String, java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
     public void endElement(QualifiedName qn) throws SAXException {
         String qualifiedName = qn.getQualifiedName();
@@ -270,7 +271,7 @@ public class GMLWriter {
 
     /**
      * Writes a GML2 coordinates element
-     * 
+     *
      * @param cs
      * @throws SAXException
      */
@@ -283,7 +284,7 @@ public class GMLWriter {
 
     /**
      * Writes a single x/y position, without wrapping it in any element
-     * 
+     *
      * @param x
      * @param y
      * @throws SAXException
@@ -317,7 +318,7 @@ public class GMLWriter {
         for (int i = 0; i < n; i++) {
             appendDecimal(coordinates.getX(i)).append(cs);
             appendDecimal(coordinates.getY(i));
-            if(dim == 3) {
+            if (dim == 3) {
                 sb.append(cs);
                 appendDecimal(coordinates.getOrdinate(i, 2));
             }
@@ -328,7 +329,7 @@ public class GMLWriter {
 
     /**
      * Writes a single ordinate, without wrapping it inside any element
-     * 
+     *
      * @param x
      * @throws SAXException
      */
@@ -363,7 +364,7 @@ public class GMLWriter {
 
     /**
      * Write a GML3 posList
-     * 
+     *
      * @param coordinateSequence
      * @throws SAXException
      */

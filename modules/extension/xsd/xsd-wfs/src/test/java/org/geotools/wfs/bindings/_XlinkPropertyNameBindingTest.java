@@ -28,13 +28,11 @@ import org.w3c.dom.Element;
 
 /**
  * Unit test suite for {@link _XlinkPropertyNameBinding}
- * 
+ *
  * @author Gabriel Roldan (TOPP)
  * @version $Id$
- * @since 2.5.x
- *
- *
  * @source $URL$
+ * @since 2.5.x
  */
 public class _XlinkPropertyNameBindingTest extends WFSTestSupport {
     public _XlinkPropertyNameBindingTest() {

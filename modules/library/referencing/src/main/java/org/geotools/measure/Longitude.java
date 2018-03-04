@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 1999-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -20,15 +20,12 @@ package org.geotools.measure;
 /**
  * A longitude angle. Positive longitudes are East, while negative longitudes are West.
  *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (PMO, IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see Latitude
  * @see AngleFormat
+ * @since 2.0
  */
 public final class Longitude extends Angle {
     /**
@@ -62,7 +59,7 @@ public final class Longitude extends Angle {
      * (e.g. 45.5°) or degrees with minutes and seconds (e.g. 45°30').
      * The hemisphere (E or W) is optional (default to East).
      *
-     * @param  theta A string to be converted to a {@code Longitude}.
+     * @param theta A string to be converted to a {@code Longitude}.
      * @throws NumberFormatException if the string does not contain a parsable longitude.
      */
     public Longitude(final String theta) throws NumberFormatException {

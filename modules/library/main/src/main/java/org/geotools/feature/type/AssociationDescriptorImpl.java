@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -21,18 +21,17 @@ import org.opengis.feature.type.AssociationType;
 import org.opengis.feature.type.Name;
 
 /**
- * 
- *
  * @source $URL$
  */
-public class AssociationDescriptorImpl extends PropertyDescriptorImpl 
-		implements AssociationDescriptor {
+public class AssociationDescriptorImpl extends PropertyDescriptorImpl
+        implements AssociationDescriptor {
 
-	public AssociationDescriptorImpl(AssociationType type, Name name, int min, int max, boolean isNillable) {
-		super(type,name,min,max,isNillable);
-	}
-	
-	public AssociationType getType() {
-		return (AssociationType) super.getType();
-	}
+    public AssociationDescriptorImpl(AssociationType type, Name name, int min, int max, boolean 
+            isNillable) {
+        super(type, name, min, max, isNillable);
+    }
+
+    public AssociationType getType() {
+        return (AssociationType) super.getType();
+    }
 }

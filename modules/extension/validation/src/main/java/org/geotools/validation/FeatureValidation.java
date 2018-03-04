@@ -22,24 +22,24 @@ import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
  * Defined a per Feature validation test.
- * 
+ * <p>
  * <p>
  * Each ValidationPlugIn is very specific in nature: it performs one test
  * extermly well.  This simplifies design decisions, documenation
  * configuration and use.
  * </p>
- * 
+ * <p>
  * <p>
  * Following the lead the excelent design work in the JUnit testing framework
  * validation results are collected by a ValidationResults object. This
  * interface for the ValidationResults object also allows it to collect
  * warning information.
  * </p>
- * 
+ * <p>
  * <p>
  * The PlugIn is also required to supply some metadata to aid in its
  * deployment, scripting, logging and execution and error recovery:
- * 
+ * <p>
  * <ul>
  * <li>
  * name: user's name of validation test
@@ -55,10 +55,10 @@ import org.opengis.feature.simple.SimpleFeatureType;
  * </li>
  * </ul>
  * </p>
- * 
+ * <p>
  * <p>
  * Capabilities:
- * 
+ * <p>
  * <ul>
  * <li>
  * Uses FeatureResults to allow environment to gather error/warning information
@@ -71,12 +71,12 @@ import org.opengis.feature.simple.SimpleFeatureType;
  * </li>
  * </ul>
  * </p>
- * 
+ * <p>
  * <p>
  * Example Use (feature: id=1, name="foo", geom=linestring):
  * <pre><code>
  * RangeFeatureValidation test = new RangeFeatureValidation();
- * 
+ *
  * results.setValidation( test );
  * test.setMin(0);
  * test.validate( feature, featureType, results ); // true
@@ -86,21 +86,18 @@ import org.opengis.feature.simple.SimpleFeatureType;
  * </p>
  *
  * @author Jody Garnett, Refractions Research, Inc.
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public interface FeatureValidation extends Validation {
     /**
      * Used to check features against this validation rule.
      *
      * @param feature Feature to be Validated
-     * @param type FeatureTypeInfo schema of feature
+     * @param type    FeatureTypeInfo schema of feature
      * @param results coallate results information
-     *
      * @return True if feature passes this test.
      */
     public boolean validate(SimpleFeature feature, SimpleFeatureType type,
-        ValidationResults results) throws Exception;
+                            ValidationResults results) throws Exception;
 }

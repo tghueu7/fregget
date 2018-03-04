@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -31,9 +31,12 @@ import org.xml.sax.ext.EntityResolver2;
  * Placeholder EntityResolver used to test {@link SVGGraphicFactory#defaultResolver()}.
  */
 public class PlaceholderEntityResolver implements EntityResolver {
-    /** No argumentgs constructor */
-    public PlaceholderEntityResolver(){
+    /**
+     * No argumentgs constructor
+     */
+    public PlaceholderEntityResolver() {
     }
+
     @Override
     public InputSource resolveEntity(String publicId, String systemId)
             throws SAXException, IOException {

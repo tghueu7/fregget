@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 
 import org.junit.*;
+
 import static org.junit.Assert.*;
 
 
@@ -27,7 +28,6 @@ import static org.junit.Assert.*;
  * Minimal testing for TableWriter class.
  *
  * @author Frank Warmerdam
- *
  * @source $URL$
  */
 public final class TableWriterTest {
@@ -36,46 +36,48 @@ public final class TableWriterTest {
     /**
      * Format a very simple table as shown in the example.
      */
-	@Test
-	public void testExample() throws IOException {
-		String expectedTable = 
-				"Prénom      Nom    " + LINE_SEPARATOR +
-				"-------------------" + LINE_SEPARATOR +
-				"Idéphonse   Laporte" + LINE_SEPARATOR +
-				"Sarah       Coursi " + LINE_SEPARATOR +
-				"Yvan        Dubois " + LINE_SEPARATOR;
+    @Test
+    public void testExample() throws IOException {
+        String expectedTable =
+                "Prénom      Nom    " + LINE_SEPARATOR +
+                        "-------------------" + LINE_SEPARATOR +
+                        "Idéphonse   Laporte" + LINE_SEPARATOR +
+                        "Sarah       Coursi " + LINE_SEPARATOR +
+                        "Yvan        Dubois " + LINE_SEPARATOR;
 
-		StringWriter writer = new StringWriter();
-		TableWriter out = new TableWriter(writer, 3);
-		out.write("Prénom\tNom" + LINE_SEPARATOR);
-		out.nextLine('-');
-		out.write("Idéphonse\tLaporte" + LINE_SEPARATOR + "Sarah\tCoursi" + LINE_SEPARATOR + "Yvan\tDubois");
-		out.flush();
-		out.close();
-		
-		assertEquals(expectedTable, writer.toString());
-	}
+        StringWriter writer = new StringWriter();
+        TableWriter out = new TableWriter(writer, 3);
+        out.write("Prénom\tNom" + LINE_SEPARATOR);
+        out.nextLine('-');
+        out.write("Idéphonse\tLaporte" + LINE_SEPARATOR + "Sarah\tCoursi" + LINE_SEPARATOR + 
+                "Yvan\tDubois");
+        out.flush();
+        out.close();
 
-	/**
-	 * Ensure that toString() gets the whole table even if the caller didn't
-	 * explicitly mark the end of the last column value.
-	 */
-	@Test
-	public void testToStringWithoutFlush() throws IOException {
-		final TableWriter table = new TableWriter(null, " ");
-		table.write("Source Point");
-		table.write(':');
+        assertEquals(expectedTable, writer.toString());
+    }
 
-		table.nextColumn();
-		table.write("1.234");
+    /**
+     * Ensure that toString() gets the whole table even if the caller didn't
+     * explicitly mark the end of the last column value.
+     */
+    @Test
+    public void testToStringWithoutFlush() throws IOException {
+        final TableWriter table = new TableWriter(null, " ");
+        table.write("Source Point");
+        table.write(':');
 
-		table.nextLine();
-		table.write("Target Point");
-		table.write(':');
-		table.nextColumn();
-		table.write("2.345");
+        table.nextColumn();
+        table.write("1.234");
 
-		assertEquals("Source Point: 1.234" + LINE_SEPARATOR + "Target Point: 2.345" + LINE_SEPARATOR, table.toString());
-		table.close();
-	}
+        table.nextLine();
+        table.write("Target Point");
+        table.write(':');
+        table.nextColumn();
+        table.write("2.345");
+
+        assertEquals("Source Point: 1.234" + LINE_SEPARATOR + "Target Point: 2.345" + 
+                LINE_SEPARATOR, table.toString());
+        table.close();
+    }
 }

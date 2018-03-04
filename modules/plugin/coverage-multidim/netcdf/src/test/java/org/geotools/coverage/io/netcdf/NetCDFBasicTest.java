@@ -65,7 +65,7 @@ import java.util.logging.Logger;
 
 /**
  * Testing Low level reader infrastructure.
- * 
+ *
  * @author Simone Giannecchini, GeoSolutions SAS
  * @source $URL$
  */
@@ -152,16 +152,17 @@ public final class NetCDFBasicTest extends Assert {
     @Test
     public void testImageReaderPolyphemusSimple2() throws Exception {
         // setup repository
-        ShpFileStoreFactory dialect = new ShpFileStoreFactory(new ShapefileDataStoreFactory(), new HashMap());
+        ShpFileStoreFactory dialect = new ShpFileStoreFactory(new ShapefileDataStoreFactory(), 
+                new HashMap());
         File indexDirectory = new File("./target/polyphemus_simple_idx");
         FileUtils.deleteQuietly(indexDirectory);
         indexDirectory.mkdir();
         File properties = new File(indexDirectory, "test.properties");
         String theStoreName = "testStore";
         FileUtils.writeStringToFile(properties, NetCDFUtilities.STORE_NAME + "=" + theStoreName);
-        
+
         DirectoryDataStore dataStore = new DirectoryDataStore(indexDirectory, dialect);
-        
+
         DefaultRepository repository = new DefaultRepository();
         repository.register(new NameImpl(theStoreName), dataStore);
 
@@ -169,7 +170,7 @@ public final class NetCDFBasicTest extends Assert {
             reader.setRepository(repository);
             reader.setAuxiliaryDatastorePath(properties.getAbsolutePath());
         });
-        
+
         // the index files have actually been created
         List<String> typeNames = Arrays.asList(dataStore.getTypeNames());
         assertEquals(2, typeNames.size());
@@ -177,8 +178,9 @@ public final class NetCDFBasicTest extends Assert {
         assertTrue(typeNames.contains("NO2"));
         dataStore.dispose();
     }
-    
-    public void testImageReaderPolyphemusSimple(Consumer<NetCDFImageReader> readerCustomizer) throws Exception {
+
+    public void testImageReaderPolyphemusSimple(Consumer<NetCDFImageReader> readerCustomizer) 
+            throws Exception {
         final File file = TestData.file(this, "O3-NO2.nc");
         final NetCDFImageReaderSpi unidataImageReaderSpi = new NetCDFImageReaderSpi();
         assertTrue(unidataImageReaderSpi.canDecodeInput(file));
@@ -232,7 +234,8 @@ public final class NetCDFBasicTest extends Assert {
             assertEquals(1, metadata.getTileHeight());
             assertEquals(48, metadata.getSampleModel().getNumBands());
             assertEquals(48, metadata.getNumBands());
-            assertEquals("FloatDoubleColorModel", metadata.getColorModel().getClass().getSimpleName());
+            assertEquals("FloatDoubleColorModel", metadata.getColorModel().getClass()
+                    .getSimpleName());
             assertEquals("EPSG:4326", metadata.getProjection());
         } finally {
             if (reader != null) {
@@ -301,7 +304,7 @@ public final class NetCDFBasicTest extends Assert {
 
     /**
      * recursively delete indexes
-     * 
+     *
      * @param file
      */
     private void removeIndexes(final File file) {
@@ -428,7 +431,8 @@ public final class NetCDFBasicTest extends Assert {
                     // checks
                     for (Property p : sf.getProperties()) {
                         final String pName = p.getName().toString();
-                        if (!pName.equalsIgnoreCase("time") && !pName.equalsIgnoreCase("elevation")) {
+                        if (!pName.equalsIgnoreCase("time") && !pName.equalsIgnoreCase
+                                ("elevation")) {
                             assertNotNull("Property " + p.getName() + " had a null value!",
                                     p.getValue());
                         } else {
@@ -565,7 +569,8 @@ public final class NetCDFBasicTest extends Assert {
                     // checks
                     for (Property p : sf.getProperties()) {
                         final String pName = p.getName().toString();
-                        if (!pName.equalsIgnoreCase("time") && !pName.equalsIgnoreCase("elevation")) {
+                        if (!pName.equalsIgnoreCase("time") && !pName.equalsIgnoreCase
+                                ("elevation")) {
                             assertNotNull("Property " + p.getName() + " had a null value!",
                                     p.getValue());
                         } else {
@@ -734,8 +739,9 @@ public final class NetCDFBasicTest extends Assert {
         boolean isNC4available = NetCDFUtilities.isNC4CAvailable();
         if (!isNC4available) {
             LOGGER.warning("NetCDF4 reading test will be skipped due to " +
-                    "missing NetCDF C library.\nIf you want test to be executed, make sure you have "
-                    + "added the NetCDF C libraries location to the PATH environment variable" );
+                    "missing NetCDF C library.\nIf you want test to be executed, make sure you " +
+                    "have "
+                    + "added the NetCDF C libraries location to the PATH environment variable");
             return;
         }
         String name = "temperatureisobaricNC4.nc";
@@ -751,7 +757,7 @@ public final class NetCDFBasicTest extends Assert {
 
     /**
      * We can NOT read a CDL file
-     * 
+     *
      * @throws IOException
      */
     @Test
@@ -848,7 +854,8 @@ public final class NetCDFBasicTest extends Assert {
             DimensionDescriptor descriptor = descriptors.get(0);
             assertEquals("time", descriptor.getStartAttribute());
             assertEquals("TIME", descriptor.getName());
-            assertEquals("1983-09-28T00:00:00.000Z/1983-09-28T00:00:00.000Z", reader.getMetadataValue(names[0], "TIME_DOMAIN"));
+            assertEquals("1983-09-28T00:00:00.000Z/1983-09-28T00:00:00.000Z", reader
+                    .getMetadataValue(names[0], "TIME_DOMAIN"));
 
         } finally {
             if (reader != null) {
@@ -861,6 +868,5 @@ public final class NetCDFBasicTest extends Assert {
         }
     }
 
-    
 
 }

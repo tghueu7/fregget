@@ -5,8 +5,6 @@ import org.geotools.jdbc.JDBCViewTestSetup;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class IngresViewTest extends JDBCViewTest {
@@ -15,7 +13,7 @@ public class IngresViewTest extends JDBCViewTest {
     protected JDBCViewTestSetup createTestSetup() {
         return new IngresViewTestSetup();
     }
-    
+
     //@Override
     //protected boolean supportsPkOnViews() {
     //    return true;

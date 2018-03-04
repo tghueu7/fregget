@@ -65,16 +65,18 @@ public class MultiResolutionTest {
         // we have to be sure that we are working against a valid grid range.
         final GridEnvelope2D testRange = new GridEnvelope2D(minX, minY, maxX, maxY);
         // build the corresponding envelope
-        final MathTransform gridToWorldCorner = reader.getOriginalGridToWorld(PixelInCell.CELL_CORNER);
-        final GeneralEnvelope testEnvelope = CRS.transform(gridToWorldCorner, new GeneralEnvelope(testRange.getBounds()));
-        testEnvelope.setCoordinateReferenceSystem(nativeCRS);      
+        final MathTransform gridToWorldCorner = reader.getOriginalGridToWorld(PixelInCell
+                .CELL_CORNER);
+        final GeneralEnvelope testEnvelope = CRS.transform(gridToWorldCorner, new GeneralEnvelope
+                (testRange.getBounds()));
+        testEnvelope.setCoordinateReferenceSystem(nativeCRS);
         ParameterValue<GridGeometry2D> pam = AbstractGridFormat.READ_GRIDGEOMETRY2D.createValue();
-        pam.setValue(new GridGeometry2D(testRange, testEnvelope));        
-        gc = reader.read(new ParameterValue<?>[] {pam});
+        pam.setValue(new GridGeometry2D(testRange, testEnvelope));
+        gc = reader.read(new ParameterValue<?>[]{pam});
         //gc would be null before bug fix
         Assert.assertNotNull(gc);
     }
-    
+
     @Test
     public void testPickHighestResolution() throws IOException, TransformException {
         TemporaryFolder folder = new TemporaryFolder();
@@ -83,21 +85,21 @@ public class MultiResolutionTest {
         File sfdem = folder.newFile("sfdem.tiff");
         Files.copy(TestData.file(this, "multiresolution/srtm.tiff"), srtm);
         Files.copy(TestData.file(this, "multiresolution/sfdem.tiff"), sfdem);
-       
+
         ImageMosaicFormat format = new ImageMosaicFormat();
         ImageMosaicReader reader = format.getReader(folder.getRoot());
-        
+
         GeoTiffFormat tiffFormat = new GeoTiffFormat();
         GeoTiffReader sfdemReader = tiffFormat.getReader(sfdem);
-                
+
         assertEquals(sfdemReader.getResolutionLevels()[0], reader.getResolutionLevels()[0], 0.001);
     }
-    
+
     private void assertEquals(double[] expected, double[] actuals, double epsilon) {
         Assert.assertEquals(expected.length, actuals.length);
         for (int i = 0; i < expected.length; i++) {
             Assert.assertEquals(expected[i], actuals[i], epsilon);
-        }        
+        }
     }
 
 }

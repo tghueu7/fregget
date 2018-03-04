@@ -76,11 +76,12 @@ public class LabelCacheImplTest {
         cache.startLayer(LAYER_ID);
         sb = new StyleBuilder();
     }
-    
+
     @Before
     public void setVeraFont() throws IOException, FontFormatException {
         FontCache.getDefaultInstance().registerFont(
-                java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, TestData.getResource(LineTest.class, "Vera.ttf")
+                java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, TestData.getResource
+                        (LineTest.class, "Vera.ttf")
                         .openStream()));
 
     }
@@ -122,7 +123,7 @@ public class LabelCacheImplTest {
         List<LabelCacheItem> labels = cache.getActiveLabels();
         assertEquals(2, labels.size());
     }
-    
+
     @Test
     public void testMinNonGrouped() throws Exception {
         TextSymbolizer ts = sb.createTextSymbolizer(Color.BLACK, (Font) null, "name");
@@ -132,11 +133,13 @@ public class LabelCacheImplTest {
         SimpleFeature f1 = createFeature("label1", L1);
         SimpleFeature f2 = createFeature("label1", L2);
         SimpleFeature f3 = createFeature("label1", L3);
-        cache.put(LAYER_ID, tsGroup, f1, new LiteShape2((Geometry) f1.getDefaultGeometry(), null, null,
+        cache.put(LAYER_ID, tsGroup, f1, new LiteShape2((Geometry) f1.getDefaultGeometry(), null,
+                null,
                 false), ALL_SCALES);
         cache.put(LAYER_ID, ts, f2, new LiteShape2((Geometry) f2.getDefaultGeometry(), null, null,
                 false), ALL_SCALES);
-        cache.put(LAYER_ID, tsGroup, f3, new LiteShape2((Geometry) f3.getDefaultGeometry(), null, null,
+        cache.put(LAYER_ID, tsGroup, f3, new LiteShape2((Geometry) f3.getDefaultGeometry(), null,
+                null,
                 false), ALL_SCALES);
 
         // two different symbolizers, we should have two (the first grouped with the third)
@@ -149,7 +152,7 @@ public class LabelCacheImplTest {
         assertEquals("label1", item2.getLabel());
         assertEquals(Arrays.asList(L2), item2.getGeoms());
     }
-    
+
     @Test
     public void testCustomBehaviour() throws TransformException, FactoryException {
         final List<String> labels = new ArrayList<String>();
@@ -157,7 +160,7 @@ public class LabelCacheImplTest {
         LabelCacheImpl myCache = new LabelCacheImpl() {
             @Override
             int paintLabel(Graphics2D graphics, Rectangle displayArea, LabelIndex glyphs,
-                    int paintedLineLabels, LabelPainter painter, LabelCacheItem labelItem) {
+                           int paintedLineLabels, LabelPainter painter, LabelCacheItem labelItem) {
                 labels.add(labelItem.getLabel());
                 return super.paintLabel(graphics, displayArea, glyphs, paintedLineLabels, painter,
                         labelItem);
@@ -168,25 +171,25 @@ public class LabelCacheImplTest {
         myCache.enableLayer(LAYER_ID);
         myCache.put(LAYER_ID, ts, f1, new LiteShape2((Geometry) f1.getDefaultGeometry(), null, null,
                 false), ALL_SCALES);
-        
+
         myCache.endLayer(LAYER_ID, graphics, new Rectangle(0, 0, 256, 256));
         myCache.end(graphics, new Rectangle(0, 0, 256, 256));
         assertEquals(1, labels.size());
     }
-    
+
     @Test
     public void testRendererListener() throws Exception {
         TextSymbolizer ts = sb.createTextSymbolizer(Color.BLACK, (Font) null, "name");
 
         AtomicReference<Exception> exception = new AtomicReference<Exception>(null);
         RenderListener listener = new RenderListener() {
-            
+
             @Override
             public void featureRenderer(SimpleFeature feature) {
                 // TODO Auto-generated method stub
-                
+
             }
-            
+
             @Override
             public void errorOccurred(Exception e) {
                 exception.set(e);
@@ -203,21 +206,21 @@ public class LabelCacheImplTest {
         // got here, did we get the exception
         assertNotNull(exception.get());
     }
-    
+
     @Test
     public void testUsesCustomLabelPainter() throws Exception {
         LabelPainter painter = Mockito.mock(LabelPainter.class);
         Graphics2D graphics = Mockito.mock(Graphics2D.class);
-        
-        cache.setConstructPainter((x,y)->painter);
+
+        cache.setConstructPainter((x, y) -> painter);
         TextSymbolizer ts = sb.createTextSymbolizer(Color.BLACK, (Font) null, "name");
         SimpleFeature f1 = createFeature("label1", L1);
         cache.put(LAYER_ID, ts, f1, new LiteShape2((Geometry) f1.getDefaultGeometry(), null, null,
                 false), ALL_SCALES);
-        
+
         cache.endLayer(LAYER_ID, graphics, new Rectangle(0, 0, 256, 256));
         cache.end(graphics, new Rectangle(0, 0, 256, 256));
-        
+
         Mockito.verify(painter).setLabel(Mockito.any(LabelCacheItem.class));
         Mockito.verify(painter, Mockito.atLeastOnce()).getLabel();
     }

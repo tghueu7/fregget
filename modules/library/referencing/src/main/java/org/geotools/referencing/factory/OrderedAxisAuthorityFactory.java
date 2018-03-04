@@ -66,13 +66,13 @@ import org.geotools.resources.i18n.ErrorKeys;
  * <p>
  * <strong>Notes:</strong>
  * <ul>
- *   <li>This class compares only the "{@linkplain AxisDirection#absolute absolute}" axis
- *       directions, so North and South are considered equivalent.</li>
- *   <li>The default direction order may changes in future Geotools version in order
- *       to fit what appears to be the most common usage on the market.</li>
- *   <li>The actual axis ordering is determined by the {@link #compare compare} method
- *       implementation. Subclasses may override this method if the want to provide a more
- *       sophesticated axis ordering.</li>
+ * <li>This class compares only the "{@linkplain AxisDirection#absolute absolute}" axis
+ * directions, so North and South are considered equivalent.</li>
+ * <li>The default direction order may changes in future Geotools version in order
+ * to fit what appears to be the most common usage on the market.</li>
+ * <li>The actual axis ordering is determined by the {@link #compare compare} method
+ * implementation. Subclasses may override this method if the want to provide a more
+ * sophesticated axis ordering.</li>
  * </ul>
  * <p>
  * For some authority factories, an instance of this class can be obtained by passing a
@@ -80,52 +80,48 @@ import org.geotools.resources.i18n.ErrorKeys;
  * to the <code>{@linkplain ReferencingFactoryFinder#getCRSAuthorityFactory
  * FactoryFinder.getCRSAuthorityFactory}(...)</code> method. Whatever this hint is supported
  * or not is authority dependent. Example:
- *
+ * <p>
  * <blockquote><pre>
  * Hints                   hints = new Hints(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER, Boolean.TRUE);
  * CRSAuthorityFactory   factory = FactoryFinder.getCRSAuthorityFactory("EPSG", hints);
  * CoordinateReferenceSystem crs = factory.createCoordinateReferenceSystem("EPSG:4326");
  * </pre></blockquote>
- *
+ * <p>
  * This class is named <cite>ordered axis authority factory</cite> instead of something like
  * <cite>longitude first axis order</cite> because the axis order can be user-supplied. The
  * (<var>longitude</var>, <var>latitude</var>) order just appears to be the default one.
  *
- * @since 2.2
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
+ * @tutorial http://docs.codehaus.org/display/GEOTOOLS/The+axis+order+issue
  * @see Hints#FORCE_LONGITUDE_FIRST_AXIS_ORDER
  * @see Hints#FORCE_STANDARD_AXIS_UNITS
- * @tutorial http://docs.codehaus.org/display/GEOTOOLS/The+axis+order+issue
+ * @since 2.2
  */
 public class OrderedAxisAuthorityFactory extends TransformedAuthorityFactory
-        implements CSAuthorityFactory, CRSAuthorityFactory, Comparator/*<CoordinateSystemAxis>*/
-{
+        implements CSAuthorityFactory, CRSAuthorityFactory, Comparator/*<CoordinateSystemAxis>*/ {
     /**
      * The default order for axis directions. Note that this array needs to contain only the
      * "{@linkplain AxisDirection#absolute absolute}" directions.
-     *
+     * <p>
      * REMINDER: If this array is modified, don't forget to update the class javadoc above.
      */
     private static final AxisDirection[] DEFAULT_ORDER = {
-        AxisDirection.EAST,
-        AxisDirection.EAST_NORTH_EAST,
-        AxisDirection.NORTH_EAST,
-        AxisDirection.NORTH_NORTH_EAST,
-        AxisDirection.NORTH,
-        AxisDirection.UP,
-        AxisDirection.GEOCENTRIC_X,
-        AxisDirection.GEOCENTRIC_Y,
-        AxisDirection.GEOCENTRIC_Z,
-        AxisDirection.COLUMN_POSITIVE,
-        AxisDirection.ROW_POSITIVE,
-        AxisDirection.DISPLAY_RIGHT,
-        AxisDirection.DISPLAY_UP,
-        AxisDirection.FUTURE
+            AxisDirection.EAST,
+            AxisDirection.EAST_NORTH_EAST,
+            AxisDirection.NORTH_EAST,
+            AxisDirection.NORTH_NORTH_EAST,
+            AxisDirection.NORTH,
+            AxisDirection.UP,
+            AxisDirection.GEOCENTRIC_X,
+            AxisDirection.GEOCENTRIC_Y,
+            AxisDirection.GEOCENTRIC_Z,
+            AxisDirection.COLUMN_POSITIVE,
+            AxisDirection.ROW_POSITIVE,
+            AxisDirection.DISPLAY_RIGHT,
+            AxisDirection.DISPLAY_UP,
+            AxisDirection.FUTURE
     };
 
     /**
@@ -160,30 +156,29 @@ public class OrderedAxisAuthorityFactory extends TransformedAuthorityFactory
      * constructor accepts the following hints:
      * <p>
      * <ul>
-     *   <li>{@link Hints#FORCE_STANDARD_AXIS_UNITS}</li>
-     *   <li>{@link Hints#FORCE_STANDARD_AXIS_DIRECTIONS}</li>
-     *   <li>All hints understood by {@link ReferencingFactoryFinder}</li>
+     * <li>{@link Hints#FORCE_STANDARD_AXIS_UNITS}</li>
+     * <li>{@link Hints#FORCE_STANDARD_AXIS_DIRECTIONS}</li>
+     * <li>All hints understood by {@link ReferencingFactoryFinder}</li>
      * </ul>
      *
-     * @param  authority The authority to wraps (example: {@code "EPSG"}). If {@code null},
-     *         then all authority factories must be explicitly specified in the set of hints.
-     * @param  userHints An optional set of hints, or {@code null} if none.
-     * @param  axisOrder An array of axis directions that determine the axis order wanted,
-     *         or {@code null} for the default axis order.
+     * @param authority The authority to wraps (example: {@code "EPSG"}). If {@code null},
+     *                  then all authority factories must be explicitly specified in the set of 
+     *                  hints.
+     * @param userHints An optional set of hints, or {@code null} if none.
+     * @param axisOrder An array of axis directions that determine the axis order wanted,
+     *                  or {@code null} for the default axis order.
      * @throws FactoryRegistryException if at least one factory can not be obtained.
      * @throws IllegalArgumentException If at least two axis directions are colinear.
-     *
      * @since 2.3
      */
-    public OrderedAxisAuthorityFactory(final String          authority,
-                                       final Hints           userHints,
+    public OrderedAxisAuthorityFactory(final String authority,
+                                       final Hints userHints,
                                        final AxisDirection[] axisOrder)
-            throws FactoryRegistryException, IllegalArgumentException
-    {
+            throws FactoryRegistryException, IllegalArgumentException {
         super(authority, userHints);
-        forceStandardUnits      = booleanValue(userHints, Hints.FORCE_STANDARD_AXIS_UNITS);
+        forceStandardUnits = booleanValue(userHints, Hints.FORCE_STANDARD_AXIS_UNITS);
         forceStandardDirections = booleanValue(userHints, Hints.FORCE_STANDARD_AXIS_DIRECTIONS);
-        directionRanks          = computeDirectionRanks(axisOrder);
+        directionRanks = computeDirectionRanks(axisOrder);
         completeHints();
     }
 
@@ -192,27 +187,25 @@ public class OrderedAxisAuthorityFactory extends TransformedAuthorityFactory
      * factory. This constructor accepts the following optional hints:
      * <p>
      * <ul>
-     *   <li>{@link Hints#FORCE_STANDARD_AXIS_UNITS}</li>
-     *   <li>{@link Hints#FORCE_STANDARD_AXIS_DIRECTIONS}</li>
+     * <li>{@link Hints#FORCE_STANDARD_AXIS_UNITS}</li>
+     * <li>{@link Hints#FORCE_STANDARD_AXIS_DIRECTIONS}</li>
      * </ul>
      *
-     * @param  factory   The factory that produces objects using arbitrary axis order.
-     * @param  userHints An optional set of hints, or {@code null} if none.
-     * @param  axisOrder An array of axis directions that determine the axis order wanted,
-     *                   or {@code null} for the default axis order.
+     * @param factory   The factory that produces objects using arbitrary axis order.
+     * @param userHints An optional set of hints, or {@code null} if none.
+     * @param axisOrder An array of axis directions that determine the axis order wanted,
+     *                  or {@code null} for the default axis order.
      * @throws IllegalArgumentException If at least two axis directions are colinear.
-     *
      * @since 2.3
      */
     public OrderedAxisAuthorityFactory(final AbstractAuthorityFactory factory,
-                                       final Hints                    userHints,
-                                       final AxisDirection[]          axisOrder)
-            throws IllegalArgumentException
-    {
+                                       final Hints userHints,
+                                       final AxisDirection[] axisOrder)
+            throws IllegalArgumentException {
         super(factory);
-        forceStandardUnits      = booleanValue(userHints, Hints.FORCE_STANDARD_AXIS_UNITS);
+        forceStandardUnits = booleanValue(userHints, Hints.FORCE_STANDARD_AXIS_UNITS);
         forceStandardDirections = booleanValue(userHints, Hints.FORCE_STANDARD_AXIS_DIRECTIONS);
-        directionRanks          = computeDirectionRanks(axisOrder);
+        directionRanks = computeDirectionRanks(axisOrder);
         completeHints();
     }
 
@@ -234,11 +227,12 @@ public class OrderedAxisAuthorityFactory extends TransformedAuthorityFactory
      * This method is invoked by constructors only.
      */
     private void completeHints() {
-        hints.put(Hints.FORCE_STANDARD_AXIS_UNITS,      Boolean.valueOf(forceStandardUnits));
+        hints.put(Hints.FORCE_STANDARD_AXIS_UNITS, Boolean.valueOf(forceStandardUnits));
         hints.put(Hints.FORCE_STANDARD_AXIS_DIRECTIONS, Boolean.valueOf(forceStandardDirections));
         // The following hint has no effect on this class behaviour,
         // but tells to the user what this factory do about axis order.
-        if (compare(DefaultCoordinateSystemAxis.EASTING, DefaultCoordinateSystemAxis.NORTHING) < 0) {
+        if (compare(DefaultCoordinateSystemAxis.EASTING, DefaultCoordinateSystemAxis.NORTHING) < 
+                0) {
             hints.put(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER, Boolean.TRUE);
         }
     }
@@ -251,13 +245,12 @@ public class OrderedAxisAuthorityFactory extends TransformedAuthorityFactory
      * @throws IllegalArgumentException If at least two axis directions are colinear.
      */
     private static int[] computeDirectionRanks(AxisDirection[] axisOrder)
-            throws IllegalArgumentException
-    {
+            throws IllegalArgumentException {
         if (axisOrder == null) {
             axisOrder = DEFAULT_ORDER;
         }
         int length = 0;
-        for (int i=0; i<axisOrder.length; i++) {
+        for (int i = 0; i < axisOrder.length; i++) {
             final int ordinal = axisOrder[i].absolute().ordinal() + 1;
             if (ordinal > length) {
                 length = ordinal;
@@ -265,13 +258,13 @@ public class OrderedAxisAuthorityFactory extends TransformedAuthorityFactory
         }
         final int[] directionRanks = new int[length];
         Arrays.fill(directionRanks, length);
-        for (int i=0; i<axisOrder.length; i++) {
-            final int ordinal  = axisOrder[i].absolute().ordinal();
+        for (int i = 0; i < axisOrder.length; i++) {
+            final int ordinal = axisOrder[i].absolute().ordinal();
             final int previous = directionRanks[ordinal];
             if (previous != length) {
                 // TODO: Use the localized version of 'getName' in GeoAPI 2.1
                 throw new IllegalArgumentException(Errors.format(ErrorKeys.COLINEAR_AXIS_$2,
-                                          axisOrder[previous].name(), axisOrder[i].name()));
+                        axisOrder[previous].name(), axisOrder[i].name()));
             }
             directionRanks[ordinal] = i;
         }
@@ -284,7 +277,7 @@ public class OrderedAxisAuthorityFactory extends TransformedAuthorityFactory
      */
     private final int rank(final CoordinateSystemAxis axis) {
         int c = axis.getDirection().absolute().ordinal();
-        c = (c>=0 && c<directionRanks.length) ? directionRanks[c] : directionRanks.length;
+        c = (c >= 0 && c < directionRanks.length) ? directionRanks[c] : directionRanks.length;
         return c;
     }
 
@@ -298,15 +291,13 @@ public class OrderedAxisAuthorityFactory extends TransformedAuthorityFactory
      * Subclasses may override this method if they want to define a more sophesticated
      * axis ordering.
      *
-     * @param  axis1 The first axis to compare.
-     * @param  axis2 The second axis to compare.
+     * @param axis1 The first axis to compare.
+     * @param axis2 The second axis to compare.
      * @return A negative integer if {@code axis1} should appears before {@code axis2}, or a
-     *         positive number if {@code axis2} should appears before {@code axis1}, or 0 if
-     *         the two axis are unordered one relative to the other.
-     *
+     * positive number if {@code axis2} should appears before {@code axis1}, or 0 if
+     * the two axis are unordered one relative to the other.
      * @todo The argument type will be changed to {@link CoordinateSystemAxis} when we will
-     *       be allowed to compile for J2SE 1.5.
-     *
+     * be allowed to compile for J2SE 1.5.
      * @since 2.3
      */
     public int compare(final Object axis1, final Object axis2) {
@@ -321,9 +312,9 @@ public class OrderedAxisAuthorityFactory extends TransformedAuthorityFactory
      * substitution table is:
      * <p>
      * <ul>
-     *   <li>Any linear units converted to {@linkplain SI#METER meters}</li>
-     *   <li>{@linkplain SI#RADIAN Radians} and {@linkplain NonSI#GRADE grades} converted to
-     *       {@linkplain NonSI#DEGREE_ANGLE decimal degrees}</li>
+     * <li>Any linear units converted to {@linkplain SI#METER meters}</li>
+     * <li>{@linkplain SI#RADIAN Radians} and {@linkplain NonSI#GRADE grades} converted to
+     * {@linkplain NonSI#DEGREE_ANGLE decimal degrees}</li>
      * </ul>
      * <p>
      * This default substitution table may be expanded in future Geotools versions.

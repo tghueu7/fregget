@@ -31,20 +31,19 @@ import org.w3c.dom.Element;
 
 public class WfsQueryTypeTest extends WFSTestSupport {
 
-    public WfsQueryTypeTest()
-    {
+    public WfsQueryTypeTest() {
         super(WFS.QueryType, QueryType.class, Binding.OVERRIDE);
     }
 
     @Override
     public void testParse() throws Exception {
-        
+
     }
-    
+
     @Override
     public void testEncode() throws Exception {
         QName typeName = new QName("http://www.test.com/query", "theType");
-        
+
         QueryType wfsQuery = factory.createQueryType();
         wfsQuery.setTypeName(Collections.singletonList(typeName));
 
@@ -52,12 +51,12 @@ public class WfsQueryTypeTest extends WFSTestSupport {
         Element root = doc.getDocumentElement();
         String attr = root.getAttribute("typeName");
         assertNotNull(attr);
-        
-        String tmp = ":"+typeName.getLocalPart();
-        
+
+        String tmp = ":" + typeName.getLocalPart();
+
         assertFalse(attr.startsWith("[{"));
         assertTrue(attr.indexOf(tmp) != -1);
         assertEquals(attr.length(), attr.indexOf(tmp) + tmp.length()); // 8 == ":theType".length
-        
+
     }
 }

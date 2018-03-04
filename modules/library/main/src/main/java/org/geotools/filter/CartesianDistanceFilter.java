@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -24,55 +24,56 @@ import org.opengis.filter.spatial.DistanceBufferOperator;
 
 /**
  * Defines geometry filters with a distance element.
- * 
+ * <p>
  * <p>
  * These filters are defined in the filter spec by the DistanceBufferType,
  * which contains an additioinal field for a distance.  The two filters that
  * use the distance buffer type are Beyond and DWithin.
  * </p>
- * 
+ * <p>
  * <p>
  * From the spec: The spatial operators DWithin and Beyond test whether the
  * value of a geometric property is within or beyond a specified distance of
  * the specified literal geometric value.  Distance values are expressed using
  * the Distance element.
  * </p>
- * 
+ * <p>
  * <p>
  * For now this code does not take into account the units of distance,  we will
  * assume that the filter units are the same as the geometry being filtered,
  * and that they are cartesian.
  * </p>
- * 
+ * <p>
  * <p></p>
  *
  * @author Chris Holmes, TOPP
- *
- *
- * @source $URL$
  * @version $Id$
- *
+ * @source $URL$
  * @task REVISIT: add units for distance.
  */
 public abstract class CartesianDistanceFilter extends GeometryFilterImpl
-    implements DistanceBufferOperator {
-    /** The distance value */
+        implements DistanceBufferOperator {
+    /**
+     * The distance value
+     */
     private double distance;
-    /** the distnace units */
+    /**
+     * the distnace units
+     */
     private String units;
-    
+
     @Deprecated
     protected CartesianDistanceFilter() {
     }
-    
-    protected CartesianDistanceFilter( Expression e1,Expression e2) {
-    	super(e1,e2);
+
+    protected CartesianDistanceFilter(Expression e1, Expression e2) {
+        super(e1, e2);
     }
-    
-    protected CartesianDistanceFilter( Expression e1,Expression e2, MatchAction matchAction) {
-        super(e1,e2, matchAction);
+
+    protected CartesianDistanceFilter(Expression e1, Expression e2, MatchAction matchAction) {
+        super(e1, e2, matchAction);
     }
-    
+
     /**
      * Sets the distance allowed by this filter.
      *
@@ -90,15 +91,15 @@ public abstract class CartesianDistanceFilter extends GeometryFilterImpl
     public double getDistance() {
         return distance;
     }
-    
+
     public String getDistanceUnits() {
-    	return units;
+        return units;
     }
-    
+
     public void setUnits(String units) {
-		this.units = units;
-	}
- 
+        this.units = units;
+    }
+
     /**
      * Returns a string representation of this filter.
      *
@@ -118,19 +119,19 @@ public abstract class CartesianDistanceFilter extends GeometryFilterImpl
 
         org.opengis.filter.expression.Expression leftGeometry = getExpression1();
         org.opengis.filter.expression.Expression rightGeometry = getExpression2();
-        
+
         if ((leftGeometry == null) && (rightGeometry == null)) {
             return "[ " + "null" + operator + "null" + distStr + " ]";
         } else if (leftGeometry == null) {
             return "[ " + "null" + operator + rightGeometry.toString()
-            + distStr + " ]";
+                    + distStr + " ]";
         } else if (rightGeometry == null) {
             return "[ " + leftGeometry.toString() + operator + "null" + distStr
-            + " ]";
+                    + " ]";
         }
 
         return "[ " + leftGeometry.toString() + operator
-        + rightGeometry.toString() + distStr + " ]";
+                + rightGeometry.toString() + distStr + " ]";
     }
 
     /**
@@ -139,7 +140,6 @@ public abstract class CartesianDistanceFilter extends GeometryFilterImpl
      * values.
      *
      * @param oFilter The filter to test equality against.
-     *
      * @return True if the objects are equal.
      */
     public boolean equals(Object oFilter) {

@@ -17,7 +17,9 @@
 package org.geotools.filter.v1_1.capabilities;
 
 import org.w3c.dom.Document;
+
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.capability.GeometryOperand;
 import org.geotools.filter.v1_1.OGC;
 import org.geotools.xml.Binding;
@@ -25,13 +27,14 @@ import org.geotools.xml.Binding;
 
 /**
  * Binding test case for http://www.opengis.net/ogc:GeometryOperandsType.
- *
  * <p>
- *  <pre>
+ * <p>
+ * <pre>
  *   <code>
  *  &lt;xsd:complexType name="GeometryOperandsType"&gt;
  *      &lt;xsd:sequence&gt;
- *          &lt;xsd:element maxOccurs="unbounded" name="GeometryOperand" type="ogc:GeometryOperandType"/&gt;
+ *          &lt;xsd:element maxOccurs="unbounded" name="GeometryOperand" 
+ *          type="ogc:GeometryOperandType"/&gt;
  *      &lt;/xsd:sequence&gt;
  *  &lt;/xsd:complexType&gt;
  *
@@ -40,9 +43,6 @@ import org.geotools.xml.Binding;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GeometryOperandsTypeBindingTest extends OGCTestSupport {
@@ -65,6 +65,6 @@ public class GeometryOperandsTypeBindingTest extends OGCTestSupport {
         Document dom = encode(FilterMockData.geometryOperands(),
                 new QName(OGC.NAMESPACE, "GeometryOperands"), OGC.GeometryOperandsType);
         assertEquals(2,
-            getElementsByQName(dom, new QName(OGC.NAMESPACE, "GeometryOperand")).getLength());
+                getElementsByQName(dom, new QName(OGC.NAMESPACE, "GeometryOperand")).getLength());
     }
 }

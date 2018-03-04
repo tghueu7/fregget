@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.complex;
 
 import java.util.Collection;
+
 import org.opengis.geometry.primitive.Primitive;
 import org.opengis.annotation.Association;
 import org.opengis.annotation.UML;
@@ -25,14 +26,12 @@ import static org.opengis.annotation.Specification.*;
  * values in datasets in which the underlying geometry has been decomposed, usually to expose its
  * topological nature.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @since GeoAPI 1.0
  */
-@UML(identifier="GM_Composite", specification=ISO_19107)
+@UML(identifier = "GM_Composite", specification = ISO_19107)
 public interface Composite extends Complex {
     /**
      * Returns a homogeneous collection of {@linkplain Primitive primitives} whose union would be
@@ -43,13 +42,12 @@ public interface Composite extends Complex {
      * {@linkplain Complex#getElements elements} on {@linkplain Complex complex}.
      *
      * @return The list of primitives in this composite.
-     *
      * @see CompositePoint#getGenerators
      * @see CompositeCurve#getGenerators
      * @see CompositeSurface#getGenerators
      * @see CompositeSolid#getGenerators
      */
     @Association("Composition")
-    @UML(identifier="generator", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "generator", obligation = MANDATORY, specification = ISO_19107)
     Collection<? extends Primitive> getGenerators();
 }

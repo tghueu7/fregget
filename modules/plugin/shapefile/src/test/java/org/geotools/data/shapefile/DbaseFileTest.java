@@ -38,13 +38,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * 
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Ian Schneider
  * @author James Macgill
+ * @version $Id$
+ * @source $URL$
  */
 public class DbaseFileTest extends TestCaseSupport {
 
@@ -167,7 +164,8 @@ public class DbaseFileTest extends TestCaseSupport {
                 "scratchDBF.dbf");
         f.deleteOnExit();
         FileOutputStream fout = new FileOutputStream(f);
-        DbaseFileWriter dbf = new DbaseFileWriter(header, fout.getChannel(), Charset.defaultCharset());
+        DbaseFileWriter dbf = new DbaseFileWriter(header, fout.getChannel(), Charset
+                .defaultCharset());
         for (int i = 0; i < header.getNumRecords(); i++) {
             dbf.write(new Object[6]);
         }
@@ -188,7 +186,8 @@ public class DbaseFileTest extends TestCaseSupport {
 
     @Test
     public void testFieldFormatter() throws Exception {
-        DbaseFileWriter.FieldFormatter formatter = new DbaseFileWriter.FieldFormatter(Charset.defaultCharset(), TimeZone.getDefault(), false);
+        DbaseFileWriter.FieldFormatter formatter = new DbaseFileWriter.FieldFormatter(Charset
+                .defaultCharset(), TimeZone.getDefault(), false);
 
         String stringWithInternationChars = "hello " + '\u20ac';
         // if (verbose) {

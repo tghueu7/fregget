@@ -42,10 +42,9 @@ import org.opengis.referencing.operation.MathTransform;
  * {@linkplain org.geotools.map.GridReaderLayer}.
  *
  * @author Michael Bedward
- * @since 8.0
- *
- * @source $URL$
  * @version $URL$
+ * @source $URL$
+ * @since 8.0
  */
 public class GridReaderLayerHelper extends InfoToolHelper {
 
@@ -71,7 +70,7 @@ public class GridReaderLayerHelper extends InfoToolHelper {
         sourceRef = new WeakReference<GridCoverage2DReader>(
                 ((GridReaderLayer) layer).getReader());
     }
-    
+
     @Override
     public boolean isValid() {
         return super.isValid() && sourceRef != null && sourceRef.get() != null;
@@ -120,13 +119,13 @@ public class GridReaderLayerHelper extends InfoToolHelper {
         GeneralParameterValue parameter = new Parameter(
                 AbstractGridFormat.READ_GRIDGEOMETRY2D,
                 new GridGeometry2D(new GridEnvelope2D(queryRect),
-                reader.getOriginalGridToWorld(PixelInCell.CELL_CENTER),
-                reader.getCoordinateReferenceSystem()));
-        
+                        reader.getOriginalGridToWorld(PixelInCell.CELL_CENTER),
+                        reader.getCoordinateReferenceSystem()));
+
         try {
             cachedCoverage = (GridCoverage2D) reader.read(new GeneralParameterValue[]{parameter});
             return cachedCoverage != null;
-            
+
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
@@ -148,9 +147,9 @@ public class GridReaderLayerHelper extends InfoToolHelper {
                     CACHED_RASTER_WIDTH, CACHED_RASTER_WIDTH);
 
             GridEnvelope gridEnv = reader.getOriginalGridRange();
-                Rectangle rect = new Rectangle(
-                        gridEnv.getLow(0), gridEnv.getLow(1),
-                        gridEnv.getSpan(0), gridEnv.getSpan(1));
+            Rectangle rect = new Rectangle(
+                    gridEnv.getLow(0), gridEnv.getLow(1),
+                    gridEnv.getSpan(0), gridEnv.getSpan(1));
 
             XRectangle2D.intersect(queryRect, rect, queryRect);
             return queryRect;

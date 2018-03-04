@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -39,15 +39,14 @@ import org.opengis.filter.expression.Expression;
  * any regressions as we move forward to SE 1.1 interfaces.
  *
  * @author iant
- *
- *
  * @source $URL$
  */
 public class StyleFactoryImplTest extends TestCase {
     static StyleFactory styleFactory = CommonFactoryFinder.getStyleFactory(null);
-    static FilterFactory filterFactory = CommonFactoryFinder.getFilterFactory(null);        
+    static FilterFactory filterFactory = CommonFactoryFinder.getFilterFactory(null);
     static SimpleFeature feature;
-    protected static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org.geotools.styling");
+    protected static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org" +
+            ".geotools.styling");
 
     public void testCommonFactoryFinder() {
         LOGGER.finer("testCreateStyle");
@@ -135,40 +134,40 @@ public class StyleFactoryImplTest extends TestCase {
         LOGGER.finer("testCreateStroke");
 
         Stroke s = styleFactory.createStroke(filterFactory
-                .literal("#000000"),
+                        .literal("#000000"),
                 filterFactory.literal(2.0));
 
         assertNotNull("Failed to build stroke ", s);
 
         s = styleFactory.createStroke(filterFactory.literal(
-                    "#000000"), filterFactory.literal(2.0),
+                "#000000"), filterFactory.literal(2.0),
                 filterFactory.literal(0.5));
 
         assertNotNull("Failed to build stroke ", s);
 
         s = styleFactory.createStroke(filterFactory.literal(
-                    "#000000"), filterFactory.literal(2.0),
+                "#000000"), filterFactory.literal(2.0),
                 filterFactory.literal(0.5),
                 filterFactory.literal("bevel"),
                 filterFactory.literal("square"),
-                new float[] { 1.1f, 2.1f, 6f, 2.1f, 1.1f, 5f },
+                new float[]{1.1f, 2.1f, 6f, 2.1f, 1.1f, 5f},
                 filterFactory.literal(3), null, null);
 
         assertNotNull("Failed to build stroke ", s);
 
         assertEquals("Wrong color ", "#000000",
-            s.getColor().evaluate(feature).toString());
+                s.getColor().evaluate(feature).toString());
         assertEquals("Wrong width ", "2.0",
-            s.getWidth().evaluate(feature).toString());
+                s.getWidth().evaluate(feature).toString());
         assertEquals("Wrong opacity ", "0.5",
-            s.getOpacity().evaluate(feature).toString());
+                s.getOpacity().evaluate(feature).toString());
         assertEquals("Wrong linejoin ", "bevel",
-            s.getLineJoin().evaluate(feature).toString());
+                s.getLineJoin().evaluate(feature).toString());
         assertEquals("Wrong linejoin ", "square",
-            s.getLineCap().evaluate(feature).toString());
+                s.getLineCap().evaluate(feature).toString());
         assertEquals("Broken dash array", 2.1f, s.getDashArray()[1], 0.001f);
         assertEquals("Wrong dash offset ", "3",
-            s.getDashOffset().evaluate(feature).toString());
+                s.getDashOffset().evaluate(feature).toString());
     }
 
     /**
@@ -179,20 +178,20 @@ public class StyleFactoryImplTest extends TestCase {
         LOGGER.finer("testCreateFill");
 
         Fill f = styleFactory.createFill(filterFactory.literal(
-                    "#808080"));
+                "#808080"));
 
         assertNotNull("Failed to build fill", f);
 
         f = styleFactory.createFill(filterFactory.literal(
-                    "#808080"), filterFactory.literal(1.0));
+                "#808080"), filterFactory.literal(1.0));
         assertNotNull("Failed to build fill", f);
 
         f = styleFactory.createFill(null);
-        assertEquals( f.getColor(), Fill.DEFAULT.getColor() );
-        assertSame( f.getColor(), Fill.DEFAULT.getColor() );
-        
-        assertEquals( f.getBackgroundColor(), Fill.DEFAULT.getBackgroundColor() );
-        assertSame( f.getBackgroundColor(), Fill.DEFAULT.getBackgroundColor() );        
+        assertEquals(f.getColor(), Fill.DEFAULT.getColor());
+        assertSame(f.getColor(), Fill.DEFAULT.getColor());
+
+        assertEquals(f.getBackgroundColor(), Fill.DEFAULT.getBackgroundColor());
+        assertSame(f.getBackgroundColor(), Fill.DEFAULT.getBackgroundColor());
     }
 
     /**
@@ -215,7 +214,7 @@ public class StyleFactoryImplTest extends TestCase {
         LOGGER.finer("testGetNamedMarks");
 
         Mark m;
-        String[] names = { "Square", "Circle", "Triangle", "Star", "X", "Cross" };
+        String[] names = {"Square", "Circle", "Triangle", "Star", "X", "Cross"};
 
         for (int i = 0; i < names.length; i++) {
             try {
@@ -231,7 +230,7 @@ public class StyleFactoryImplTest extends TestCase {
 
                 Expression exp = filterFactory.literal(names[i]);
                 assertEquals("Wrong sort of mark returned ", exp,
-                    m.getWellKnownName());
+                        m.getWellKnownName());
             } catch (InvocationTargetException ite) {
                 ite.getTargetException().printStackTrace();
                 fail("InvocationTargetException " + ite.getTargetException());
@@ -249,11 +248,12 @@ public class StyleFactoryImplTest extends TestCase {
     public void testCreateGraphic() {
         LOGGER.finer("testCreateGraphic");
 
-        ExternalGraphic[] externalGraphics = new ExternalGraphic[] {
-                styleFactory.createExternalGraphic("http://www.ccg.leeds.ac.uk/ian/geotools/icons/rail.gif",
-                    "image/gif")
-            };
-        Mark[] marks = new Mark[] { styleFactory.getCircleMark() };
+        ExternalGraphic[] externalGraphics = new ExternalGraphic[]{
+                styleFactory.createExternalGraphic("http://www.ccg.leeds.ac" +
+                                ".uk/ian/geotools/icons/rail.gif",
+                        "image/gif")
+        };
+        Mark[] marks = new Mark[]{styleFactory.getCircleMark()};
         Mark[] symbols = new Mark[0];
         Expression opacity = filterFactory.literal(0.5);
         Expression size = filterFactory.literal(10);
@@ -281,13 +281,13 @@ public class StyleFactoryImplTest extends TestCase {
         assertNotNull("Failed to build font", f);
 
         assertEquals("Wrong font type ", "Times",
-            f.getFontFamily().evaluate(feature).toString());
+                f.getFontFamily().evaluate(feature).toString());
         assertEquals("Wrong font Style ", "Italic",
-            f.getFontStyle().evaluate(feature).toString());
+                f.getFontStyle().evaluate(feature).toString());
         assertEquals("Wrong font weight ", "Bold",
-            f.getFontWeight().evaluate(feature).toString());
+                f.getFontWeight().evaluate(feature).toString());
         assertEquals("Wrong font size ", "12",
-            f.getFontSize().evaluate(feature).toString());
+                f.getFontSize().evaluate(feature).toString());
     }
 
     /**
@@ -311,10 +311,10 @@ public class StyleFactoryImplTest extends TestCase {
         LOGGER.finer("testCreatePointPlacement");
 
         AnchorPoint anchorPoint = styleFactory.createAnchorPoint(filterFactory
-                .literal(1.0),
+                        .literal(1.0),
                 filterFactory.literal(0.5));
         Displacement displacement = styleFactory.createDisplacement(filterFactory
-                .literal(10.0),
+                        .literal(10.0),
                 filterFactory.literal(5.0));
         Expression rotation = filterFactory.literal(90.0);
         PointPlacement pp = styleFactory.createPointPlacement(anchorPoint,
@@ -323,15 +323,15 @@ public class StyleFactoryImplTest extends TestCase {
         assertNotNull("failed to create PointPlacement", pp);
 
         assertEquals("Wrong X anchorPoint ", "1.0",
-            pp.getAnchorPoint().getAnchorPointX().evaluate(feature).toString());
+                pp.getAnchorPoint().getAnchorPointX().evaluate(feature).toString());
         assertEquals("Wrong Y anchorPoint ", "0.5",
-            pp.getAnchorPoint().getAnchorPointY().evaluate(feature).toString());
+                pp.getAnchorPoint().getAnchorPointY().evaluate(feature).toString());
         assertEquals("Wrong X displacement ", "10.0",
-            pp.getDisplacement().getDisplacementX().evaluate(feature).toString());
+                pp.getDisplacement().getDisplacementX().evaluate(feature).toString());
         assertEquals("Wrong Y displacement ", "5.0",
-            pp.getDisplacement().getDisplacementY().evaluate(feature).toString());
+                pp.getDisplacement().getDisplacementY().evaluate(feature).toString());
         assertEquals("Wrong Rotation ", "90.0",
-            pp.getRotation().evaluate(feature).toString());
+                pp.getRotation().evaluate(feature).toString());
     }
 
     /**
@@ -347,52 +347,52 @@ public class StyleFactoryImplTest extends TestCase {
         assertNotNull("Failed to build halo", h);
 
         assertEquals("Wrong radius", 4,
-            ((Number) h.getRadius().evaluate(feature)).intValue());
+                ((Number) h.getRadius().evaluate(feature)).intValue());
     }
-    
+
     public void testBuggyStyleCopy() throws Exception {
-        StyleFactory sf = CommonFactoryFinder.getStyleFactory( null );
-        FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2( null );
+        StyleFactory sf = CommonFactoryFinder.getStyleFactory(null);
+        FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
         Random rand = new Random();
 
-        Stroke stroke = sf.createStroke( ff.literal( "#8024d0" ), ff.literal( rand.nextInt( 10 ) + 1 ) );
-        stroke.setOpacity( ff.literal( rand.nextFloat() ) );
+        Stroke stroke = sf.createStroke(ff.literal("#8024d0"), ff.literal(rand.nextInt(10) + 1));
+        stroke.setOpacity(ff.literal(rand.nextFloat()));
 
-        LineSymbolizer lineSymb = sf.createLineSymbolizer( stroke, "." );
+        LineSymbolizer lineSymb = sf.createLineSymbolizer(stroke, ".");
 
         Rule rule = sf.createRule();
-        rule.symbolizers().add( lineSymb );
-        rule.setFilter( Filter.INCLUDE );
-        rule.setMaxScaleDenominator( 20000 );
+        rule.symbolizers().add(lineSymb);
+        rule.setFilter(Filter.INCLUDE);
+        rule.setMaxScaleDenominator(20000);
 
         FeatureTypeStyle style = sf.createFeatureTypeStyle();
-        style.addRule( rule );
-        style.setFeatureTypeName( "Feature" );
+        style.addRule(rule);
+        style.setFeatureTypeName("Feature");
 
         Style namedStyle = sf.createStyle();
-        namedStyle.addFeatureTypeStyle( style );
-        namedStyle.setName( "Feature" );
+        namedStyle.addFeatureTypeStyle(style);
+        namedStyle.setName("Feature");
 
         DuplicatingStyleVisitor duplicator = new DuplicatingStyleVisitor();
-        namedStyle.accept( duplicator );
-        Style namedStyle2 = (Style ) duplicator.getCopy();
+        namedStyle.accept(duplicator);
+        Style namedStyle2 = (Style) duplicator.getCopy();
 
         SLDTransformer writer = new SLDTransformer();
-        String out = writer.transform( style );
-        
-        assertNotNull( out );
+        String out = writer.transform(style);
+
+        assertNotNull(out);
     }
-    
+
     /**
      * Test comparing the behaviors of styleFactory.createFill() with a null color and
      * the DEFAULT fill.
      */
     public void testCreateFillVsDefaultFill() {
-       Fill f1 = styleFactory.createFill(null);
-       Fill f2 = styleFactory.getDefaultFill();
-       assertEquals(f1, f2);
+        Fill f1 = styleFactory.createFill(null);
+        Fill f2 = styleFactory.getDefaultFill();
+        assertEquals(f1, f2);
     }
-    
+
     public void testRasterSymbolizerNoGeometry() {
         RasterSymbolizer rs = styleFactory.getDefaultRasterSymbolizer();
         assertNull(rs.getGeometryPropertyName());

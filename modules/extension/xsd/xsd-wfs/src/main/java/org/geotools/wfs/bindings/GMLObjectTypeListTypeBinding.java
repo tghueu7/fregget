@@ -27,13 +27,14 @@ import org.geotools.xml.AbstractComplexEMFBinding;
 
 /**
  * Binding object for the type http://www.opengis.net/wfs:GMLObjectTypeListType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="GMLObjectTypeListType"&gt;
  *      &lt;xsd:sequence&gt;
- *          &lt;xsd:element maxOccurs="unbounded" name="GMLObjectType" type="wfs:GMLObjectTypeType"&gt;
+ *          &lt;xsd:element maxOccurs="unbounded" name="GMLObjectType" 
+ *          type="wfs:GMLObjectTypeType"&gt;
  *              &lt;xsd:annotation&gt;
  *                  &lt;xsd:documentation&gt;
  *                    Name of this GML object type, including any namespace prefix
@@ -48,9 +49,6 @@ import org.geotools.xml.AbstractComplexEMFBinding;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLObjectTypeListTypeBinding extends AbstractComplexEMFBinding {

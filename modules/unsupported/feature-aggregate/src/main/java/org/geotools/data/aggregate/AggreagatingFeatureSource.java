@@ -45,7 +45,7 @@ class AggregatingFeatureSource extends ContentFeatureSource {
     AggregateTypeConfiguration config;
 
     public AggregatingFeatureSource(ContentEntry entry, AggregatingDataStore store,
-            AggregateTypeConfiguration config) {
+                                    AggregateTypeConfiguration config) {
         super(entry, null);
         this.config = config;
     }
@@ -93,11 +93,13 @@ class AggregatingFeatureSource extends ContentFeatureSource {
         AggregatingDataStore store = getStore();
         List<Future<Long>> counts = new ArrayList<Future<Long>>();
         for (SourceType st : config.getSourceTypes()) {
-            //Remove maxFeatures and startIndex from the query, these should be handled after aggregating
+            //Remove maxFeatures and startIndex from the query, these should be handled after 
+            // aggregating
             Query q = new Query(query);
             q.setMaxFeatures(Query.DEFAULT_MAX);
             q.setStartIndex(0);
-            Future<Long> f = store.submit(new CountCallable(store, q, st.getStoreName(), st.getTypeName()));
+            Future<Long> f = store.submit(new CountCallable(store, q, st.getStoreName(), st
+                    .getTypeName()));
             counts.add(f);
         }
 
@@ -155,7 +157,8 @@ class AggregatingFeatureSource extends ContentFeatureSource {
         DataStore store = getStore().getStore(ps, false);
         SimpleFeatureType schema = store.getSchema(config.getPrimarySourceType().getTypeName());
         if (schema == null) {
-            throw new IOException("Could not find feature type " + schema + " in the primary store");
+            throw new IOException("Could not find feature type " + schema + " in the primary " +
+                    "store");
         }
 
         schema = retypeNameSchema(schema);
@@ -165,7 +168,7 @@ class AggregatingFeatureSource extends ContentFeatureSource {
 
     /**
      * Given a source store schema it renames it and forces in the right namespace
-     * 
+     *
      * @param schema
      * @return
      */

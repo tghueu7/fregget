@@ -10,26 +10,25 @@ import org.geotools.xml.InstanceComponent;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:doubleList.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
- *	 <code>
+ * 	 <code>
  *  &lt;simpleType name=&quot;doubleList&quot;&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;XML List based on XML Schema double type.  An element of this type contains a space-separated list of double values&lt;/documentation&gt;
+ *          &lt;documentation&gt;XML List based on XML Schema double type.  An element of this 
+ *          type contains a space-separated list of double values&lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;list itemType=&quot;double&quot;/&gt;
- *  &lt;/simpleType&gt; 
- * 	
+ *  &lt;/simpleType&gt;
+ *
  * </code>
- *	 </pre>
- * 
+ * 	 </pre>
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class DoubleListBinding extends AbstractSimpleBinding {
@@ -43,7 +42,7 @@ public class DoubleListBinding extends AbstractSimpleBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -53,7 +52,7 @@ public class DoubleListBinding extends AbstractSimpleBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value)

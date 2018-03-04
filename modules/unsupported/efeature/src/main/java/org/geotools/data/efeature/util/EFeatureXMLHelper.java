@@ -32,12 +32,10 @@ import com.vividsolutions.jts.io.ParseException;
 
 /**
  * @author kengu
- *
- *
  * @source $URL$
  */
 public class EFeatureXMLHelper extends XMLHelperImpl {
-    
+
     /**
      * Cached {@link Logger} for this class
      */
@@ -48,11 +46,11 @@ public class EFeatureXMLHelper extends XMLHelperImpl {
         //
         // Only serialize Geometry instances
         //
-        if(value instanceof Geometry) {
+        if (value instanceof Geometry) {
             //
             // Convert geometry to byte array
             //
-            byte[] b = DataBuilder.toWKB((Geometry)value);
+            byte[] b = DataBuilder.toWKB((Geometry) value);
             //
             // Convert to compressed string
             //
@@ -74,18 +72,18 @@ public class EFeatureXMLHelper extends XMLHelperImpl {
         //
         // Only serialize Geometry instances
         //
-        if(DataTypes.isGeometry(type)) {
+        if (DataTypes.isGeometry(type)) {
             //
             // Convert hex string to WKB formated byte array
             //
             byte[] b = toByte(value);
             try {
-                
+
                 //
                 // Convert to Geometry
                 //
                 return DataBuilder.toGeometry(b);
-                
+
             } catch (ParseException e) {
                 //
                 // Notify
@@ -113,7 +111,7 @@ public class EFeatureXMLHelper extends XMLHelperImpl {
         //
         return super.createFromString(eFactory, eDataType, value);
     }
-    
+
     private static final String toString(byte[] b) {
         //
         // Create a BigInteger using the byte array
@@ -124,17 +122,17 @@ public class EFeatureXMLHelper extends XMLHelperImpl {
         //
         return bi.toString(32);
     }
-    
+
     private static final byte[] toByte(String s) {
         //
         // Create a BigInteger using the byte array
         //
-        BigInteger bi = new BigInteger(s,32);
+        BigInteger bi = new BigInteger(s, 32);
         //
         // Return as byte array
         //
         return bi.toByteArray();
     }
-    
+
 
 }

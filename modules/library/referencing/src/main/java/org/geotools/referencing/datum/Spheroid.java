@@ -28,10 +28,9 @@ import javax.measure.quantity.Length;
  * A ellipsoid which is spherical. This ellipsoid implements a faster
  * {@link #orthodromicDistance} method.
  *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.0
  */
 final class Spheroid extends DefaultEllipsoid {
@@ -48,8 +47,10 @@ final class Spheroid extends DefaultEllipsoid {
      * @param ivfDefinitive {@code true} if the inverse flattening is definitive.
      * @param unit          The units of the radius value.
      */
-    protected Spheroid(Map<String,?> properties, double radius, boolean ivfDefinitive, Unit<Length> unit) {
-        super(properties, check("radius", radius), radius, Double.POSITIVE_INFINITY, ivfDefinitive, unit);
+    protected Spheroid(Map<String, ?> properties, double radius, boolean ivfDefinitive, 
+                       Unit<Length> unit) {
+        super(properties, check("radius", radius), radius, Double.POSITIVE_INFINITY, 
+                ivfDefinitive, unit);
     }
 
     /**
@@ -57,10 +58,10 @@ final class Spheroid extends DefaultEllipsoid {
      * The orthodromic distance is the shortest distance between two points
      * on a sphere's surface. The orthodromic path is always on a great circle.
      *
-     * @param  x1 Longitude of first point (in decimal degrees).
-     * @param  y1 Latitude of first point (in decimal degrees).
-     * @param  x2 Longitude of second point (in decimal degrees).
-     * @param  y2 Latitude of second point (in decimal degrees).
+     * @param x1 Longitude of first point (in decimal degrees).
+     * @param y1 Latitude of first point (in decimal degrees).
+     * @param x2 Longitude of second point (in decimal degrees).
+     * @param y2 Latitude of second point (in decimal degrees).
      * @return The orthodromic distance (in the units of this ellipsoid's axis).
      */
     @Override
@@ -76,12 +77,12 @@ final class Spheroid extends DefaultEllipsoid {
          */
         y1 = Math.toRadians(y1);
         y2 = Math.toRadians(y2);
-        final double dx = Math.toRadians(Math.abs(x2-x1) % 360);
-        double rho = Math.sin(y1)*Math.sin(y2) + Math.cos(y1)*Math.cos(y2)*Math.cos(dx);
+        final double dx = Math.toRadians(Math.abs(x2 - x1) % 360);
+        double rho = Math.sin(y1) * Math.sin(y2) + Math.cos(y1) * Math.cos(y2) * Math.cos(dx);
         assert Math.abs(rho) < 1.0000001 : rho;
-        if (rho>+1) rho=+1; // Catch rounding error.
-        if (rho<-1) rho=-1; // Catch rounding error.
-        final double distance = Math.acos(rho)*getSemiMajorAxis();
+        if (rho > +1) rho = +1; // Catch rounding error.
+        if (rho < -1) rho = -1; // Catch rounding error.
+        final double distance = Math.acos(rho) * getSemiMajorAxis();
         /*
          * Compare the distance with the orthodromic distance using ellipsoidal
          * computation. This should be close to the same.
@@ -89,8 +90,8 @@ final class Spheroid extends DefaultEllipsoid {
         try {
             double delta;
             assert (delta = Math.abs(super.orthodromicDistance(x1, Math.toDegrees(y1),
-                                                               x2, Math.toDegrees(y2))-distance))
-                                                               < getSemiMajorAxis()/1E+9 : delta;
+                    x2, Math.toDegrees(y2)) - distance))
+                    < getSemiMajorAxis() / 1E+9 : delta;
         } catch (ArithmeticException exception) {
             // The ellipsoidal model do not converge. Give up the assertion test.
             // Note: the assertion fails for illegal latitudes (i.e. abs(y1)>90°

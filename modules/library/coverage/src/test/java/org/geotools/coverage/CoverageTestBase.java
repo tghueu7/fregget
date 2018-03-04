@@ -43,11 +43,9 @@ import org.opengis.referencing.operation.MathTransform;
 /**
  * Base class for tests on {@link AbstractCoverage} subclasses.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
  */
 public class CoverageTestBase {
     /**
@@ -68,9 +66,9 @@ public class CoverageTestBase {
      * if none. Note that the returned instance may be an immutable one, not necessarly the
      * default Java2D implementation.
      *
-     * @param  coverage The coverage for which to get the "grid to CRS" affine transform.
+     * @param coverage The coverage for which to get the "grid to CRS" affine transform.
      * @return The "grid to CRS" affine transform of the given coverage, or {@code null}
-     *         if none or if the transform is not affine.
+     * if none or if the transform is not affine.
      */
     protected static AffineTransform getAffineTransform(final Coverage coverage) {
         if (coverage instanceof GridCoverage) {
@@ -93,7 +91,7 @@ public class CoverageTestBase {
     /**
      * Returns the scale of the "grid to CRS" transform, or {@link Double#NaN} if unknown.
      *
-     * @param  coverage The coverage for which to get the "grid to CRS" scale, or {@code null}.
+     * @param coverage The coverage for which to get the "grid to CRS" scale, or {@code null}.
      * @return The "grid to CRS" scale, or {@code NaN} if none or if the transform is not affine.
      */
     protected static double getScale(final Coverage coverage) {
@@ -104,14 +102,14 @@ public class CoverageTestBase {
     /**
      * Returns the envelope of the given coverage as a {@link GeneralEnvelope} implementation.
      *
-     * @param  coverage The coverage for which to get the envelope.
+     * @param coverage The coverage for which to get the envelope.
      * @return The envelope of the given coverage (never {@code null}).
      */
     protected static GeneralEnvelope getGeneralEnvelope(final Coverage coverage) {
         final Envelope envelope = coverage.getEnvelope();
         assertNotNull(envelope);
         assertEquals(coverage.getCoordinateReferenceSystem(),
-                     envelope.getCoordinateReferenceSystem());
+                envelope.getCoordinateReferenceSystem());
         if (coverage instanceof GeneralEnvelope) {
             return (GeneralEnvelope) envelope;
         } else {
@@ -131,9 +129,9 @@ public class CoverageTestBase {
         final double scaleB = getScale(actual);
         final double tolerance;
         if (scaleA <= scaleB) {
-            tolerance = scaleA*1E-1;
+            tolerance = scaleA * 1E-1;
         } else if (!Double.isNaN(scaleB)) {
-            tolerance = scaleB*1E-1;
+            tolerance = scaleB * 1E-1;
         } else {
             tolerance = EPS;
         }
@@ -148,10 +146,10 @@ public class CoverageTestBase {
      * @param actual   The actual affine transform.
      */
     protected static void assertTransformEquals(AffineTransform expected, AffineTransform actual) {
-        assertEquals("scaleX",     expected.getScaleX(),     actual.getScaleX(),     EPS);
-        assertEquals("scaleY",     expected.getScaleY(),     actual.getScaleY(),     EPS);
-        assertEquals("shearX",     expected.getShearX(),     actual.getShearX(),     EPS);
-        assertEquals("shearY",     expected.getShearY(),     actual.getShearY(),     EPS);
+        assertEquals("scaleX", expected.getScaleX(), actual.getScaleX(), EPS);
+        assertEquals("scaleY", expected.getScaleY(), actual.getScaleY(), EPS);
+        assertEquals("shearX", expected.getShearX(), actual.getShearX(), EPS);
+        assertEquals("shearY", expected.getShearY(), actual.getShearY(), EPS);
         assertEquals("translateX", expected.getTranslateX(), actual.getTranslateX(), EPS);
         assertEquals("translateY", expected.getTranslateY(), actual.getTranslateY(), EPS);
     }
@@ -163,8 +161,8 @@ public class CoverageTestBase {
      * @param actual   The coverage containing the actual pixel values.
      */
     protected static void assertRasterEquals(final Coverage expected, final Coverage actual) {
-        assertRasterEquals(expected.getRenderableImage(0,1).createDefaultRendering(),
-                             actual.getRenderableImage(0,1).createDefaultRendering());
+        assertRasterEquals(expected.getRenderableImage(0, 1).createDefaultRendering(),
+                actual.getRenderableImage(0, 1).createDefaultRendering());
     }
 
     /**
@@ -173,9 +171,10 @@ public class CoverageTestBase {
      * @param expected The image containing the expected pixel values.
      * @param actual   The image containing the actual pixel values.
      */
-    protected static void assertRasterEquals(final RenderedImage expected, final RenderedImage actual) {
+    protected static void assertRasterEquals(final RenderedImage expected, final RenderedImage 
+            actual) {
         final RectIter e = RectIterFactory.create(expected, null);
-        final RectIter a = RectIterFactory.create(actual,   null);
+        final RectIter a = RectIterFactory.create(actual, null);
         if (!e.finishedLines()) do {
             assertFalse(a.finishedLines());
             if (!e.finishedPixels()) do {
@@ -207,11 +206,11 @@ public class CoverageTestBase {
      * @param coverage The coverage to display.
      */
     protected static void show(Coverage coverage) {
-        final RenderedImage image = coverage.getRenderableImage(0,1).createDefaultRendering();
+        final RenderedImage image = coverage.getRenderableImage(0, 1).createDefaultRendering();
         try {
             Class.forName("org.geotools.gui.swing.OperationTreeBrowser")
-                 .getMethod("show", new Class[]{RenderedImage.class})
-                 .invoke(null, new Object[]{image});
+                    .getMethod("show", new Class[]{RenderedImage.class})
+                    .invoke(null, new Object[]{image});
         } catch (RuntimeException e) {
             throw e;
         } catch (Exception e) {

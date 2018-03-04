@@ -7,7 +7,6 @@ import org.opengis.feature.simple.SimpleFeatureType;
 /**
  * FeatureReader for SimpleFeature content.
  *
- *
  * @source $URL$
  */
 public interface SimpleFeatureReader extends FeatureReader<SimpleFeatureType, SimpleFeature> {

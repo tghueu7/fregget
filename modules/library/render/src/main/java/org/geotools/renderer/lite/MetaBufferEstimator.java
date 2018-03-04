@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2015, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -72,31 +72,35 @@ import org.opengis.filter.expression.PropertyName;
 import org.opengis.style.GraphicalSymbol;
 
 /**
- * Parses a style or part of it and returns the size of the largest stroke and the biggest point symbolizer whose width is specified with a literal expression.<br> Also provides an indication whether the stroke width is accurate, or if a non literal width has been found.
- *
- *
+ * Parses a style or part of it and returns the size of the largest stroke and the biggest point 
+ * symbolizer whose width is specified with a literal expression.<br> Also provides an indication
+ * whether the stroke width is accurate, or if a non literal width has been found.
  *
  * @source $URL$
  */
 
 public class MetaBufferEstimator extends FilterAttributeExtractor implements StyleVisitor {
-    /** The logger for the rendering module. */
-    protected static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org.geotools.rendering");
-    
+    /**
+     * The logger for the rendering module.
+     */
+    protected static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org" +
+            ".geotools.rendering");
+
     protected FilterAttributeExtractor attributeExtractor = new FilterAttributeExtractor();
 
     /**
-     * @uml.property  name="estimateAccurate"
+     * @uml.property name="estimateAccurate"
      */
     protected boolean estimateAccurate = true;
 
     /**
-     * @uml.property  name="buffer"
+     * @uml.property name="buffer"
      */
     protected int buffer = 0;
 
     /**
-     * Feature used to evaluate sizes (optional, without it expressions based on attributes won't work)
+     * Feature used to evaluate sizes (optional, without it expressions based on attributes won't
+     * work)
      */
     Feature sample;
 
@@ -108,7 +112,8 @@ public class MetaBufferEstimator extends FilterAttributeExtractor implements Sty
     }
 
     /**
-     * Builds an estimator suitable for styles with expression, will evaluate against the provided feature
+     * Builds an estimator suitable for styles with expression, will evaluate against the 
+     * provided feature
      */
     public MetaBufferEstimator(Feature sample) {
         this.sample = sample;
@@ -117,7 +122,6 @@ public class MetaBufferEstimator extends FilterAttributeExtractor implements Sty
     /**
      * Should you reuse this extractor multiple time, calling this method will reset the buffer and
      * flags
-     * 
      */
     public void reset() {
         estimateAccurate = true;
@@ -126,7 +130,7 @@ public class MetaBufferEstimator extends FilterAttributeExtractor implements Sty
 
     /**
      * @return
-     * @uml.property  name="buffer"
+     * @uml.property name="buffer"
      */
     public int getBuffer() {
         return buffer;
@@ -134,7 +138,7 @@ public class MetaBufferEstimator extends FilterAttributeExtractor implements Sty
 
     /**
      * @return
-     * @uml.property  name="estimateAccurate"
+     * @uml.property name="estimateAccurate"
      */
     public boolean isEstimateAccurate() {
         return estimateAccurate;
@@ -192,7 +196,7 @@ public class MetaBufferEstimator extends FilterAttributeExtractor implements Sty
             if (!isNull(width)) {
                 evaluateWidth(width);
             }
-            if(stroke.getGraphicStroke() != null) {
+            if (stroke.getGraphicStroke() != null) {
                 stroke.getGraphicStroke().accept(this);
             }
         } catch (ClassCastException e) {
@@ -201,10 +205,11 @@ public class MetaBufferEstimator extends FilterAttributeExtractor implements Sty
                     + "it's a literal but not a Number...");
         }
     }
-    
+
     protected boolean isNull(Expression exp) {
-        return exp == null || exp instanceof NilExpression 
-                || (exp instanceof ConstantExpression && ((ConstantExpression) exp).getValue() == null); 
+        return exp == null || exp instanceof NilExpression
+                || (exp instanceof ConstantExpression && ((ConstantExpression) exp).getValue() ==
+                null);
     }
 
     /**
@@ -248,7 +253,7 @@ public class MetaBufferEstimator extends FilterAttributeExtractor implements Sty
         }
 
         if (rs.getOpacity() != null) {
-            rs.getOpacity().accept(this,null);
+            rs.getOpacity().accept(this, null);
         }
     }
 
@@ -323,11 +328,11 @@ public class MetaBufferEstimator extends FilterAttributeExtractor implements Sty
                 buffer = Math.max(buffer, total);
             }
         }
-        
+
         // take into account label shields if any
-        if(text instanceof TextSymbolizer2) {
+        if (text instanceof TextSymbolizer2) {
             Graphic graphic = ((TextSymbolizer2) text).getGraphic();
-            if(graphic != null) {
+            if (graphic != null) {
                 graphic.accept(this);
             }
         }
@@ -343,71 +348,73 @@ public class MetaBufferEstimator extends FilterAttributeExtractor implements Sty
             boolean isSizeNull = isNull(grSize);
             boolean isSizeConstant = false;
 
-            if(!isSizeNull) {
+            if (!isSizeNull) {
                 isSizeConstant = isConstant(grSize);
                 if (isSizeConstant) {
                     imageSize = (int) Math.ceil(grSize.evaluate(null, Double.class));
                 } else {
                     estimateAccurate = false;
                     return;
-                }    
+                }
             }
-            
+
 
             for (GraphicalSymbol gs : gr.graphicalSymbols()) {
-                if(gs instanceof ExternalGraphic) {
+                if (gs instanceof ExternalGraphic) {
                     ExternalGraphic eg = (ExternalGraphic) gs;
                     Icon icon = null;
-                    if(eg.getInlineContent() != null) {
+                    if (eg.getInlineContent() != null) {
                         icon = eg.getInlineContent();
                     } else {
                         String location = eg.getLocation().toExternalForm();
                         // expand embedded cql expression
                         Expression expanded = ExpressionExtractor.extractCqlExpressions(location);
                         // if not a literal there is an attribute dependency
-                        if(!(expanded instanceof Literal)) {
+                        if (!(expanded instanceof Literal)) {
                             estimateAccurate = false;
                             return;
                         }
-                        
-                        Iterator<ExternalGraphicFactory> it  = DynamicSymbolFactoryFinder.getExternalGraphicFactories();
-                        while(it.hasNext() && icon == null) {
+
+                        Iterator<ExternalGraphicFactory> it = DynamicSymbolFactoryFinder
+                                .getExternalGraphicFactories();
+                        while (it.hasNext() && icon == null) {
                             try {
                                 ExternalGraphicFactory factory = it.next();
                                 icon = factory.getIcon(null, expanded, eg.getFormat(), imageSize);
-                            } catch(Exception e) {
-                                LOGGER.log(Level.FINE, "Error occurred evaluating external graphic", e);
+                            } catch (Exception e) {
+                                LOGGER.log(Level.FINE, "Error occurred evaluating external " +
+                                        "graphic", e);
                             }
                         }
                     }
                     // evaluate the icon if found, if not SLD asks us to go to the next one
-                    if(icon != null) {
-                        if(icon != null) {
+                    if (icon != null) {
+                        if (icon != null) {
                             int size = Math.max(icon.getIconHeight(), icon.getIconWidth());
-                            if(size > buffer) {
+                            if (size > buffer) {
                                 buffer = size;
                             }
                             return;
                         }
                     }
-                } else if(gs instanceof Mark) {
+                } else if (gs instanceof Mark) {
                     Mark mark = (Mark) gs;
                     int markSize;
-                    if(isSizeConstant) {
+                    if (isSizeConstant) {
                         markSize = imageSize;
                     } else {
                         markSize = SLDStyleFactory.DEFAULT_MARK_SIZE;
                     }
-                    if(mark.getStroke() != null) {
+                    if (mark.getStroke() != null) {
                         int strokeWidth = getPositiveValue(mark.getStroke().getWidth());
-                        if(strokeWidth < 0) {
+                        if (strokeWidth < 0) {
                             estimateAccurate = false;
                         } else {
                             markSize += strokeWidth;
                         }
                     }
-                    
-                    if(markSize > buffer) {
+
+                    if (markSize > buffer) {
                         this.buffer = markSize;
                     }
 
@@ -429,13 +436,13 @@ public class MetaBufferEstimator extends FilterAttributeExtractor implements Sty
 
     protected void evaluateWidth(Expression width) {
         int value = getPositiveValue(width);
-        if(value < 0) {
+        if (value < 0) {
             estimateAccurate = false;
-        } else if(value > buffer) {
+        } else if (value > buffer) {
             buffer = value;
         }
     }
-    
+
     protected int getPositiveValue(Expression ex) {
         double value = getDouble(ex);
         if (value == -1) {
@@ -460,11 +467,11 @@ public class MetaBufferEstimator extends FilterAttributeExtractor implements Sty
 
     protected boolean isConstant(Expression ex) {
         // quick common cases first
-        if(ex instanceof Literal) {
+        if (ex instanceof Literal) {
             return true;
-        } else if(ex instanceof PropertyName) {
+        } else if (ex instanceof PropertyName) {
             return false;
-        } 
+        }
         // ok, check for attribute dependencies and volatile functions then
         attributeExtractor.clear();
         ex.accept(attributeExtractor, null);
@@ -549,7 +556,7 @@ public class MetaBufferEstimator extends FilterAttributeExtractor implements Sty
     }
 
     public void visit(FeatureTypeConstraint ftc) {
-       ftc.accept(this);
+        ftc.accept(this);
     }
 
     public void visit(ColorMap map) {

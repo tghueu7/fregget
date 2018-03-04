@@ -19,7 +19,7 @@ import com.vividsolutions.jts.geom.Point;
 
 /**
  * A test rendering transformation that returns the center of the provided coverage
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 public class CoverageCenterFunction extends FunctionExpressionImpl {
@@ -46,7 +46,7 @@ public class CoverageCenterFunction extends FunctionExpressionImpl {
         SimpleFeatureBuilder fb = new SimpleFeatureBuilder(ft);
         fb.add(center);
         SimpleFeature f = fb.buildFeature(null);
-        
+
         return DataUtilities.collection(f);
     }
 }

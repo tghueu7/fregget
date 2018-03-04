@@ -25,18 +25,16 @@ import com.esri.sde.sdk.client.SeStreamOp;
 /**
  * @author Gabriel Roldan (TOPP)
  * @version $Id$
- * @since 2.5.x
- *
- *
  * @source $URL$
- *         http://svn.geotools.org/trunk/modules/plugin/arcsde/datastore/src/main/java/org/geotools
- *         /arcsde/data/versioning/ArcSdeVersionHandler.java $
+ * http://svn.geotools.org/trunk/modules/plugin/arcsde/datastore/src/main/java/org/geotools
+ * /arcsde/data/versioning/ArcSdeVersionHandler.java $
+ * @since 2.5.x
  */
 public interface ArcSdeVersionHandler {
 
     /**
      * Sets up the stream to work over the version/state needed
-     * 
+     *
      * @param streamOperation
      * @throws IOException
      */
@@ -45,7 +43,7 @@ public interface ArcSdeVersionHandler {
     /**
      * Called when a single edit operation that was settled up with {@link #setUpStream(SeStreamOp)}
      * fails
-     * 
+     *
      * @throws IOException
      */
     void editOperationFailed(SeStreamOp editOperation) throws IOException;
@@ -53,7 +51,7 @@ public interface ArcSdeVersionHandler {
     /**
      * Called after successful execution of any single edit (SeInsert, SeUpdate, SeDelete)
      * operation.
-     * 
+     *
      * @param editOperation
      * @throws IOException
      */
@@ -61,14 +59,14 @@ public interface ArcSdeVersionHandler {
 
     /**
      * Causes the current version to synchronize with the current edit state.
-     * 
+     *
      * @throws IOException
      */
     void commitEditState() throws IOException;
 
     /**
      * Called when a transaction is being rolled back
-     * 
+     *
      * @throws IOException
      */
     void rollbackEditState() throws IOException;

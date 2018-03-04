@@ -30,8 +30,6 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  * @author kengu - 7. juli 2011
- *
- *
  * @source $URL$
  */
 @SuppressWarnings("unchecked")
@@ -41,7 +39,7 @@ public class EFeatureSource extends ContentFeatureSource {
      * Cached {@link EFeatureInfo} instance
      */
     protected final EFeatureInfo eStructure;
-    
+
     // ----------------------------------------------------- 
     //  Constructors
     // -----------------------------------------------------
@@ -74,7 +72,7 @@ public class EFeatureSource extends ContentFeatureSource {
      */
     @Override
     public EFeatureDataStore getDataStore() {
-        return (EFeatureDataStore)entry.getDataStore();
+        return (EFeatureDataStore) entry.getDataStore();
     }
 
     // ----------------------------------------------------- 
@@ -87,7 +85,7 @@ public class EFeatureSource extends ContentFeatureSource {
     }
 
     @Override
-    protected ReferencedEnvelope getBoundsInternal(Query query) throws IOException {        
+    protected ReferencedEnvelope getBoundsInternal(Query query) throws IOException {
         return getBounds(getDataStore(), getSchema(), getReader(query));
     }
 
@@ -106,9 +104,9 @@ public class EFeatureSource extends ContentFeatureSource {
     // -----------------------------------------------------
 
     protected static ReferencedEnvelope getBounds(
-            EFeatureDataStore eDataStore, SimpleFeatureType eType, 
+            EFeatureDataStore eDataStore, SimpleFeatureType eType,
             FeatureReader<SimpleFeatureType, SimpleFeature> eReader)
-    throws IOException {
+            throws IOException {
         //
         // Calculate manually TODO: Optimize 
         //
@@ -116,7 +114,8 @@ public class EFeatureSource extends ContentFeatureSource {
         //
         // Grab the 2D-part of the CRS
         //
-        CoordinateReferenceSystem flatCRS = CRS.getHorizontalCRS(eType.getCoordinateReferenceSystem());
+        CoordinateReferenceSystem flatCRS = CRS.getHorizontalCRS(eType
+                .getCoordinateReferenceSystem());
         //
         // Initialize bounds
         //
@@ -152,9 +151,9 @@ public class EFeatureSource extends ContentFeatureSource {
     }
 
     protected static int getCount(
-            EFeatureDataStore eDataStore, 
-            FeatureReader<SimpleFeatureType, SimpleFeature> eReader) 
-    throws IOException {       
+            EFeatureDataStore eDataStore,
+            FeatureReader<SimpleFeatureType, SimpleFeature> eReader)
+            throws IOException {
         //
         // Initialize
         //
@@ -184,7 +183,7 @@ public class EFeatureSource extends ContentFeatureSource {
         // Calculation finished
         //
         return count;
-    }    
-    
-    
+    }
+
+
 }

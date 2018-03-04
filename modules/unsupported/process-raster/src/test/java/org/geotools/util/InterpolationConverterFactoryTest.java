@@ -29,13 +29,14 @@ import org.junit.Test;
 
 /**
  * Tests for the {@link InterpolationConverterFactory} machinery.
- * 
+ *
  * @author Simone Giannecchini, GeoSolutions
- * 
  */
 public class InterpolationConverterFactoryTest extends Assert {
 
-    /** INTERPOLATION_CLASS */
+    /**
+     * INTERPOLATION_CLASS
+     */
     private static final Class<Interpolation> INTERPOLATION_CLASS = Interpolation.class;
 
     @Test

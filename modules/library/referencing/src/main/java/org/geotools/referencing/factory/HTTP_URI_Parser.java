@@ -23,12 +23,12 @@ import org.geotools.util.Version;
 import org.opengis.referencing.NoSuchAuthorityCodeException;
 
 /**
- * Split an HTTP URI into its parts for {@link HTTP_URI_AuthorityFactory}. Must be immutable so synchronisation is not needed in the authority
+ * Split an HTTP URI into its parts for {@link HTTP_URI_AuthorityFactory}. Must be immutable so 
+ * synchronisation is not needed in the authority
  * factory.
- * 
+ *
  * @author Martin Desruisseaux
  * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
- * 
  * @source $URL$
  */
 final class HTTP_URI_Parser extends URI_Parser {
@@ -55,28 +55,29 @@ final class HTTP_URI_Parser extends URI_Parser {
 
     /**
      * Constructor.
-     * 
-     * @param uri the full URI string
-     * @param type the resource type, for example "crs"
+     *
+     * @param uri       the full URI string
+     * @param type      the resource type, for example "crs"
      * @param authority the resource authority, for example "EPSG"
-     * @param version the version of the resource or null if none
-     * @param code the resource code
+     * @param version   the version of the resource or null if none
+     * @param code      the resource code
      */
     protected HTTP_URI_Parser(String uri, URI_Type type, String authority, Version version,
-            String code) {
+                              String code) {
         super(uri, type, authority, version, code);
     }
 
     /**
      * Parses an OGC HTTP URI.
-     * 
+     *
      * @param uri The HTTP URI to parse.
      * @throws NoSuchAuthorityCodeException if the URI syntax is invalid.
-     * 
-     * @todo Implementation should be replaced by some mechanism using {@code GenericName} (at least the call to {@code String.regionMatches})
-     *       otherwise this method will fails if there is spaces around the separator.
+     * @todo Implementation should be replaced by some mechanism using {@code GenericName} (at 
+     * least the call to {@code String.regionMatches})
+     * otherwise this method will fails if there is spaces around the separator.
      */
-    public static HTTP_URI_Parser buildParser(final String uri) throws NoSuchAuthorityCodeException {
+    public static HTTP_URI_Parser buildParser(final String uri) throws 
+            NoSuchAuthorityCodeException {
         String uriText = uri.trim();
         int length = BASE_URI.length();
         if (uriText.regionMatches(true, 0, BASE_URI, 0, length)) {

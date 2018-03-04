@@ -73,10 +73,6 @@ import com.vividsolutions.jts.geom.GeometryFactory;
  * Mock data class used for filter binding tests.
  *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
- *
  * @source $URL$
  */
 public class FilterMockData {
@@ -84,18 +80,19 @@ public class FilterMockData {
 
     public static Id id() {
         return f.id(new LinkedHashSet<Identifier>(Arrays.asList(
-            f.featureId("foo.1"), f.featureId("foo.2"), f.featureId("foo.3"))));
+                f.featureId("foo.1"), f.featureId("foo.2"), f.featureId("foo.3"))));
     }
-    
+
     public static Id resourceId() {
-        ResourceIdImpl resourceId = new ResourceIdImpl("foo.4","", new Version(Version.Action.NEXT));
-        
+        ResourceIdImpl resourceId = new ResourceIdImpl("foo.4", "", new Version(Version.Action
+                .NEXT));
+
         resourceId.setPreviousRid("previousRid");
-        resourceId.setStartTime( new Date(1000) );
+        resourceId.setStartTime(new Date(1000));
         resourceId.setEndTime(new Date(2000));
 
         Integer testInt = new Integer(1234567890);
-        
+
         return f.id(new LinkedHashSet<Identifier>(Arrays.asList(
                 f.featureId("foo.1", "v1"),
                 f.resourceId("foo.2", "", new Version(new Date(1000))),//
@@ -140,15 +137,15 @@ public class FilterMockData {
     public static Literal literal(Object value) {
         return f.literal(value);
     }
-    
+
     public static Function function() {
         return f.function("abs", f.property("foo"));
     }
-    
+
     static PropertyIsLike propertyIsLike() {
         return f.like(propertyName(), "foo", "x", "y", "z", false);
     }
-    
+
     static Element propertyIsLike(Document document, Node parent) {
         Element isLike = element(document, parent, OGC.PropertyIsLike);
 
@@ -258,7 +255,7 @@ public class FilterMockData {
     }
 
     public static BBOX bbox() {
-        return f.bbox(f.property("the_geom"), 5,5,100,100, "epsg:4326");
+        return f.bbox(f.property("the_geom"), 5, 5, 100, 100, "epsg:4326");
     }
 
     public static Beyond beyond() {
@@ -446,7 +443,7 @@ public class FilterMockData {
     }
 
     public static SortBy[] sortBy() {
-        return new SortBy[] { sortProperty(), sortProperty() };
+        return new SortBy[]{sortProperty(), sortProperty()};
     }
 
     public static Element sortProperty(Document document, Node parent) {

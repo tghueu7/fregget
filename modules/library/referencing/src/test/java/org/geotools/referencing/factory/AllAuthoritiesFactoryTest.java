@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -29,6 +29,7 @@ import org.geotools.referencing.ReferencingFactoryFinder;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
 
 import org.junit.*;
+
 import static org.junit.Assert.*;
 
 
@@ -36,10 +37,8 @@ import static org.junit.Assert.*;
  * Tests the {@link AllAuthoritiesFactory} implementation.
  *
  * @author Martin Desruisseaux (IRD)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public final class AllAuthoritiesFactoryTest {
     /**
@@ -59,23 +58,25 @@ public final class AllAuthoritiesFactoryTest {
      */
     @Test
     public void testCreateCRS() throws FactoryException {
-        final CRSAuthorityFactory auto = ReferencingFactoryFinder.getCRSAuthorityFactory("AUTO", null);
-        final CRSAuthorityFactory crs  = ReferencingFactoryFinder.getCRSAuthorityFactory("CRS",  null);
-        final CRSAuthorityFactory all  = AllAuthoritiesFactory.DEFAULT;
+        final CRSAuthorityFactory auto = ReferencingFactoryFinder.getCRSAuthorityFactory("AUTO", 
+                null);
+        final CRSAuthorityFactory crs = ReferencingFactoryFinder.getCRSAuthorityFactory("CRS", 
+                null);
+        final CRSAuthorityFactory all = AllAuthoritiesFactory.DEFAULT;
         CoordinateReferenceSystem actual, expected;
 
-        actual   = all.createCoordinateReferenceSystem("CRS:84");
-        expected = crs.createCoordinateReferenceSystem(    "84");
+        actual = all.createCoordinateReferenceSystem("CRS:84");
+        expected = crs.createCoordinateReferenceSystem("84");
         assertSame(expected, actual);
         assertSame(expected, all.createObject("CRS:84"));
 
-        actual   = all .createCoordinateReferenceSystem("AUTO:42001,0,0");
-        expected = auto.createCoordinateReferenceSystem(     "42001,0,0");
+        actual = all.createCoordinateReferenceSystem("AUTO:42001,0,0");
+        expected = auto.createCoordinateReferenceSystem("42001,0,0");
         assertSame(expected, actual);
         assertSame(expected, all.createObject("AUTO:42001,0,0"));
 
-        actual   = all.createCoordinateReferenceSystem("CRS:27");
-        expected = crs.createCoordinateReferenceSystem(    "27");
+        actual = all.createCoordinateReferenceSystem("CRS:27");
+        expected = crs.createCoordinateReferenceSystem("27");
         assertSame(expected, actual);
         assertSame(expected, all.createObject("CRS:27"));
 
@@ -103,18 +104,19 @@ public final class AllAuthoritiesFactoryTest {
      */
     @Test
     public void testHttp() throws FactoryException {
-        final CRSAuthorityFactory crs = ReferencingFactoryFinder.getCRSAuthorityFactory("CRS", null);
+        final CRSAuthorityFactory crs = ReferencingFactoryFinder.getCRSAuthorityFactory("CRS", 
+                null);
         final CRSAuthorityFactory all = AllAuthoritiesFactory.DEFAULT;
         CoordinateReferenceSystem actual, expected;
 
-        actual   = all.createCoordinateReferenceSystem("http://www.opengis.net/gml/srs/CRS#84");
+        actual = all.createCoordinateReferenceSystem("http://www.opengis.net/gml/srs/CRS#84");
         expected = crs.createCoordinateReferenceSystem("84");
         assertSame(expected, actual);
 
-        actual   = all.createCoordinateReferenceSystem("HTTP://WWW.OPENGIS.NET/GML/SRS/crs#84");
+        actual = all.createCoordinateReferenceSystem("HTTP://WWW.OPENGIS.NET/GML/SRS/crs#84");
         assertSame(expected, actual);
 
-        actual   = all.createCoordinateReferenceSystem("http://www.opengis.net/gml/srs/CRS.xml#84");
+        actual = all.createCoordinateReferenceSystem("http://www.opengis.net/gml/srs/CRS.xml#84");
         assertSame(expected, actual);
 
         try {
@@ -138,9 +140,11 @@ public final class AllAuthoritiesFactoryTest {
     @Test
     public void testFind() throws FactoryException {
         final AbstractAuthorityFactory all = AllAuthoritiesFactory.DEFAULT;
-        final IdentifiedObjectFinder finder = all.getIdentifiedObjectFinder(CoordinateReferenceSystem.class);
+        final IdentifiedObjectFinder finder = all.getIdentifiedObjectFinder
+                (CoordinateReferenceSystem.class);
         finder.setFullScanAllowed(false);
-        assertNull("Should not find the CRS without a scan.", finder.find(DefaultGeographicCRS.WGS84));
+        assertNull("Should not find the CRS without a scan.", finder.find(DefaultGeographicCRS
+                .WGS84));
 
         finder.setFullScanAllowed(true);
         final IdentifiedObject find = finder.find(DefaultGeographicCRS.WGS84);

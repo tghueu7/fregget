@@ -23,7 +23,6 @@ import org.junit.Test;
 
 /**
  * @author Simone Giannecchini, GeoSolutions
- * 
  */
 public class SpeedConverterTest extends Assert {
 

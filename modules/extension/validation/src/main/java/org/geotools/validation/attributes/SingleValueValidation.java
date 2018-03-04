@@ -24,22 +24,20 @@ import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
  * SingleValueValidation purpose.
- * 
+ * <p>
  * <p>
  * Checks to ensure there is a single value for the feature.
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class SingleValueValidation extends DefaultFeatureValidation {
     /**
      * SingleValueValidation constructor.
-     * 
+     * <p>
      * <p>
      * Super
      * </p>
@@ -50,21 +48,19 @@ public class SingleValueValidation extends DefaultFeatureValidation {
 
     /**
      * SingleValueValidation test for feature.
-     * 
+     * <p>
      * <p>
      * Checks to ensure there is a single value for the feature.
      * </p>
      *
      * @param feature The Feature to be validated
-     * @param type The FeatureType of the feature
+     * @param type    The FeatureType of the feature
      * @param results The storage for error messages.
-     *
      * @return <code>true</code> if the feature is a valid geometry.
-     *
      * @see org.geotools.validation.FeatureValidation#validate
      */
     public boolean validate(SimpleFeature feature, SimpleFeatureType type,
-        ValidationResults results) {
+                            ValidationResults results) {
         return false;
     }
 }

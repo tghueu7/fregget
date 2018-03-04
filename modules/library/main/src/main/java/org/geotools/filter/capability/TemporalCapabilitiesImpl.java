@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -23,8 +23,6 @@ import org.opengis.filter.capability.TemporalOperator;
 import org.opengis.filter.capability.TemporalOperators;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class TemporalCapabilitiesImpl implements TemporalCapabilities {
@@ -32,21 +30,21 @@ public class TemporalCapabilitiesImpl implements TemporalCapabilities {
     TemporalOperators temporalOperators;
 
     public TemporalCapabilitiesImpl() {
-        this((TemporalOperators)null);
+        this((TemporalOperators) null);
     }
-    
+
     public TemporalCapabilitiesImpl(Collection<TemporalOperator> operators) {
         this(new TemporalOperatorsImpl(operators));
     }
-    
+
     public TemporalCapabilitiesImpl(TemporalOperators operators) {
         temporalOperators = toTemporalOperatorsImpl(operators);
     }
-    
+
     public TemporalCapabilitiesImpl(TemporalCapabilities capabilities) {
         temporalOperators = toTemporalOperatorsImpl(capabilities.getTemporalOperators());
     }
-    
+
     TemporalOperators toTemporalOperatorsImpl(TemporalOperators operators) {
         if (operators == null) {
             return new TemporalOperatorsImpl();
@@ -56,7 +54,7 @@ public class TemporalCapabilitiesImpl implements TemporalCapabilities {
         }
         return new TemporalOperatorsImpl(operators.getOperators());
     }
-    
+
     public TemporalOperators getTemporalOperators() {
         return temporalOperators;
     }

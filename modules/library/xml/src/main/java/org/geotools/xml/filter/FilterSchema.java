@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -76,8 +76,6 @@ import org.opengis.filter.FilterFactory2;
  * Schema for parsing filter content.
  *
  * @author dzwiers
- *
- *
  * @source $URL$
  */
 public class FilterSchema implements Schema {
@@ -86,31 +84,31 @@ public class FilterSchema implements Schema {
     public static final URI NAMESPACE = makeURI("http://www.opengis.net/ogc");
     private static final FilterSchema instance = new FilterSchema();
     private static Element[] elements = loadElements();
-    
+
     /**
      * Grab provided FilterFactory from hints, or
      * use default provided by FilterFactoryFinder.createFilterFactory();
-     * 
+     *
      * @param hints
      * @return FilterFactory
      */
-    static FilterFactory2 filterFactory(Map map){
+    static FilterFactory2 filterFactory(Map map) {
         Hints hints = null;
-        if( map instanceof Hints){
+        if (map instanceof Hints) {
             hints = (Hints) map;
-        }        
-    	return CommonFactoryFinder.getFilterFactory2( hints );
+        }
+        return CommonFactoryFinder.getFilterFactory2(hints);
     }
-    
-    private static final ComplexType[] complexTypes = new ComplexType[] {
-            
+
+    private static final ComplexType[] complexTypes = new ComplexType[]{
+
             // filterCapabilities
             Comparison_OperatorsType.getInstance(),
             Function_NameType.getInstance(), Function_NamesType.getInstance(),
             FunctionsType.getInstance(), Scalar_CapabilitiesType.getInstance(),
             Spatial_CapabilitiesType.getInstance(),
             Spatial_OperatorsType.getInstance(),
-            
+
 
             // filter
             ComparisonOpsType.getInstance(), SpatialOpsType.getInstance(),
@@ -122,17 +120,17 @@ public class FilterSchema implements Schema {
             BBOXType.getInstance(), DistanceBufferType.getInstance(),
             DistanceType.getInstance(), BinaryLogicOpType.getInstance(),
             UnaryLogicOpType.getInstance(),
-            
+
 
             // expr 
             ExpressionType.getInstance(), BinaryOperatorType.getInstance(),
             FunctionType.getInstance(), LiteralType.getInstance(),
             PropertyNameType.getInstance(),
-            
+
 
             // exception
             ServiceExceptionType.getInstance()
-        };
+    };
 
     // convinience method to deal with the URISyntaxException
     private static URI makeURI(String s) {
@@ -151,119 +149,119 @@ public class FilterSchema implements Schema {
     private static Element[] loadElements() {
         Element comparisonOps = new FilterElement("comparisonOps",
                 ComparisonOpsType.getInstance()) {
-                public boolean isAbstract() {
-                    return true;
-                }
-            };
+            public boolean isAbstract() {
+                return true;
+            }
+        };
 
         Element spatialOps = new FilterElement("spatialOps",
                 SpatialOpsType.getInstance()) {
-                public boolean isAbstract() {
-                    return true;
-                }
-            };
+            public boolean isAbstract() {
+                return true;
+            }
+        };
 
         Element logicOps = new FilterElement("logicOps",
                 LogicOpsType.getInstance()) {
-                public boolean isAbstract() {
-                    return true;
-                }
-            };
+            public boolean isAbstract() {
+                return true;
+            }
+        };
 
         Element expression = new FilterElement("expression",
                 ExpressionType.getInstance()) {
-                public boolean isAbstract() {
-                    return true;
-                }
-            };
+            public boolean isAbstract() {
+                return true;
+            }
+        };
 
-        elements = new Element[] {
-                
+        elements = new Element[]{
+
                 // filterCapabilities -- many labels have been excluded here
                 new FilterElement("Filter_Capabilities",
-                    Filter_CapabilitiesType.getInstance()), // 0
+                        Filter_CapabilitiesType.getInstance()), // 0
 
                 // filter
                 new FilterElement("FeatureId", FeatureIdType.getInstance(),
-                    comparisonOps),
+                        comparisonOps),
                 new FilterElement("Filter", FilterType.getInstance(),
-                    comparisonOps), //2
+                        comparisonOps), //2
 
                 // COMPARISON OPERATORS
                 comparisonOps,
                 new FilterElement("PropertyIsEqualTo",
-                    BinaryComparisonOpType.getInstance(), comparisonOps),
+                        BinaryComparisonOpType.getInstance(), comparisonOps),
                 new FilterElement("PropertyIsNotEqualTo",
-                    BinaryComparisonOpType.getInstance(), comparisonOps),
+                        BinaryComparisonOpType.getInstance(), comparisonOps),
                 new FilterElement("PropertyIsLessThan",
-                    BinaryComparisonOpType.getInstance(), comparisonOps),
+                        BinaryComparisonOpType.getInstance(), comparisonOps),
                 new FilterElement("PropertyIsGreaterThan",
-                    BinaryComparisonOpType.getInstance(), comparisonOps),
+                        BinaryComparisonOpType.getInstance(), comparisonOps),
                 new FilterElement("PropertyIsLessThanOrEqualTo",
-                    BinaryComparisonOpType.getInstance(), comparisonOps),
+                        BinaryComparisonOpType.getInstance(), comparisonOps),
                 new FilterElement("PropertyIsGreaterThanOrEqualTo",
-                    BinaryComparisonOpType.getInstance(), comparisonOps),
+                        BinaryComparisonOpType.getInstance(), comparisonOps),
                 new FilterElement("PropertyIsLike",
-                    PropertyIsLikeType.getInstance(), comparisonOps),
+                        PropertyIsLikeType.getInstance(), comparisonOps),
                 new FilterElement("PropertyIsNull",
-                    PropertyIsNullType.getInstance(), comparisonOps),
+                        PropertyIsNullType.getInstance(), comparisonOps),
                 new FilterElement("PropertyIsBetween",
-                    PropertyIsBetweenType.getInstance(), comparisonOps), //12
+                        PropertyIsBetweenType.getInstance(), comparisonOps), //12
 
                 // SPATIAL OPERATORS
                 spatialOps,
                 new FilterElement("Equals", BinarySpatialOpType.getInstance(),
-                    spatialOps),
+                        spatialOps),
                 new FilterElement("Disjoint",
-                    BinarySpatialOpType.getInstance(), spatialOps),
+                        BinarySpatialOpType.getInstance(), spatialOps),
                 new FilterElement("Touches", BinarySpatialOpType.getInstance(),
-                    spatialOps),
+                        spatialOps),
                 new FilterElement("Within", BinarySpatialOpType.getInstance(),
-                    spatialOps),
+                        spatialOps),
                 new FilterElement("Overlaps",
-                    BinarySpatialOpType.getInstance(), spatialOps),
+                        BinarySpatialOpType.getInstance(), spatialOps),
                 new FilterElement("Crosses", BinarySpatialOpType.getInstance(),
-                    spatialOps),
+                        spatialOps),
                 new FilterElement("Intersects",
-                    BinarySpatialOpType.getInstance(), spatialOps),
+                        BinarySpatialOpType.getInstance(), spatialOps),
                 new FilterElement("Contains",
-                    BinarySpatialOpType.getInstance(), spatialOps),
+                        BinarySpatialOpType.getInstance(), spatialOps),
                 new FilterElement("DWithin", DistanceBufferType.getInstance(),
-                    spatialOps),
+                        spatialOps),
                 new FilterElement("Beyond", DistanceBufferType.getInstance(),
-                    spatialOps),
+                        spatialOps),
                 new FilterElement("BBOX", BBOXType.getInstance(), spatialOps), // 24
 
                 // LOGICAL OPERATORS
                 logicOps,
                 new FilterElement("And", BinaryLogicOpType.getInstance(),
-                    logicOps),
+                        logicOps),
                 new FilterElement("Or", BinaryLogicOpType.getInstance(),
-                    logicOps),
+                        logicOps),
                 new FilterElement("Not", UnaryLogicOpType.getInstance(),
-                    logicOps), // 28
+                        logicOps), // 28
 
                 // expr
                 expression,
                 new FilterElement("Add", BinaryOperatorType.getInstance(),
-                    expression),
+                        expression),
                 new FilterElement("Sub", BinaryOperatorType.getInstance(),
-                    expression),
+                        expression),
                 new FilterElement("Mul", BinaryOperatorType.getInstance(),
-                    expression),
+                        expression),
                 new FilterElement("Div", BinaryOperatorType.getInstance(),
-                    expression),
+                        expression),
                 new FilterElement("PropertyName",
-                    PropertyNameType.getInstance(), expression),
+                        PropertyNameType.getInstance(), expression),
                 new FilterElement("Function", FunctionType.getInstance(),
-                    expression),
+                        expression),
                 new FilterElement("Literal", LiteralType.getInstance(),
-                    expression), // 36
+                        expression), // 36
 
                 // exception
                 new FilterElement("ServiceExceptionReport",
-                    ServiceExceptionReportType.getInstance())
-            };
+                        ServiceExceptionReportType.getInstance())
+        };
 
         return elements;
     }
@@ -328,7 +326,7 @@ public class FilterSchema implements Schema {
      * @see org.geotools.xml.schema.Schema#getImports()
      */
     public Schema[] getImports() {
-        return new Schema[] { GMLSchema.getInstance(), };
+        return new Schema[]{GMLSchema.getInstance(),};
     }
 
     /**
@@ -396,7 +394,7 @@ public class FilterSchema implements Schema {
     public boolean isElementFormDefault() {
         return true;
     }
-        
+
     static class FilterAttribute extends AttributeGT {
         /**
          * DOCUMENT ME!
@@ -430,9 +428,9 @@ public class FilterSchema implements Schema {
          * @param form
          */
         public FilterAttribute(String name, SimpleType type, int use,
-            String defaulT, String fixed, boolean form) {
+                               String defaulT, String fixed, boolean form) {
             super(null, name, NAMESPACE, type, use, defaulT, fixed, form);
-        }        
+        }
     }
 
     public static class FilterElement implements Element {
@@ -563,11 +561,11 @@ public class FilterSchema implements Schema {
             return (((getName() != null) && getName().equals(name1)) ? this : null);
         }
 
-		public Element findChildElement(String localName, URI namespaceURI) {
-            return (((getName() != null) 
-            		&& getName().equals(localName)
-            		&& getNamespace().equals(namespaceURI)) ? this : null);
-		}        
+        public Element findChildElement(String localName, URI namespaceURI) {
+            return (((getName() != null)
+                    && getName().equals(localName)
+                    && getNamespace().equals(namespaceURI)) ? this : null);
+        }
     }
 
     static abstract class FilterComplexType implements ComplexType {
@@ -636,7 +634,7 @@ public class FilterSchema implements Schema {
 
         /**
          * @see org.geotools.xml.schema.ComplexType#cache(org.geotools.xml.schema.Element,
-         *      java.util.Map)
+         * java.util.Map)
          */
         public boolean cache(Element element, Map hints) {
             return true;
@@ -655,25 +653,28 @@ public class FilterSchema implements Schema {
         public Element findChildElement(String name) {
             return (getChild() == null) ? null : getChild().findChildElement(name);
         }
-        
+
         /**
          * Subclass must override this method to allow encoding.
+         *
          * @return <code>false</code>, subclass override to allow encoding
          */
         public boolean canEncode(Element element, Object value, Map hints) {
             return false;
         }
-        
+
         /**
-         * Subclass should implement this, this implementation provides a good OperationsNotSupportedException.
-         * 
-         * @see org.geotools.xml.schema.Type#encode(org.geotools.xml.schema.Element, java.lang.Object, org.geotools.xml.PrintHandler, java.util.Map)
+         * Subclass should implement this, this implementation provides a good 
+         * OperationsNotSupportedException.
+         *
+         * @see org.geotools.xml.schema.Type#encode(org.geotools.xml.schema.Element, java.lang
+         * .Object, org.geotools.xml.PrintHandler, java.util.Map)
          */
         public void encode(Element element, Object value, PrintHandler output,
-                Map hints) throws IOException, OperationNotSupportedException {
-            throw new OperationNotSupportedException(element.toString()+" encode value "+value );
+                           Map hints) throws IOException, OperationNotSupportedException {
+            throw new OperationNotSupportedException(element.toString() + " encode value " + value);
         }
-        
+
         /* (non-Javadoc)
          * @see java.lang.Object#toString()
          */

@@ -20,8 +20,6 @@ import org.geotools.jdbc.JDBCFeatureCollectionOnlineTest;
 import org.geotools.jdbc.JDBCTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SpatiaLiteFeatureCollectionOnlineTest extends JDBCFeatureCollectionOnlineTest {

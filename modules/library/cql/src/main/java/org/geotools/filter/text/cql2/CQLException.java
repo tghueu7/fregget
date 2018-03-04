@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -24,16 +24,14 @@ import org.geotools.filter.text.generated.parsers.ParseException;
  * This exception is produced when the cql input string has syntax errors.
  *
  * @author Mauricio Pazos (Axios Engineering)
- * 
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  * @since 2.4
  */
 public class CQLException extends ParseException {
-    /** for interoperability */
+    /**
+     * for interoperability
+     */
     private static final long serialVersionUID = 8873756073711225699L;
 
     protected Throwable cause = null;
@@ -48,9 +46,10 @@ public class CQLException extends ParseException {
      * @param cause     the cause
      * @param cqlSource string analyzed
      */
-    public CQLException(final String message, final IToken token, final Throwable cause, final String cqlSource) {
+    public CQLException(final String message, final IToken token, final Throwable cause, final 
+    String cqlSource) {
         super(message);
-        
+
         assert message != null : "message can not be null";
         assert cqlSource != null : "cqlSource can not be null";
 
@@ -61,7 +60,7 @@ public class CQLException extends ParseException {
 
     /**
      * New instance of CQLException
-     * 
+     *
      * @param message   exception description
      * @param token     current token
      * @param cqlSource analyzed string
@@ -72,6 +71,7 @@ public class CQLException extends ParseException {
 
     /**
      * New instance of CQLException
+     *
      * @param message
      * @param cqlSource
      */
@@ -81,7 +81,7 @@ public class CQLException extends ParseException {
 
     /**
      * New instance of CQLException
-     * 
+     *
      * @param message
      */
     public CQLException(final String message) {
@@ -109,12 +109,12 @@ public class CQLException extends ParseException {
 
     /**
      * Returns the syntax error presents in the last sequence of characters analyzed.
-     * 
+     *
      * @return the syntax error
      */
     public String getSyntaxError() {
 
-        if(currentToken == null){
+        if (currentToken == null) {
             return getMessage();
         }
 
@@ -129,7 +129,7 @@ public class CQLException extends ParseException {
         // searches the last token recognized 
         IToken curToken = this.currentToken;
 
-        while (curToken.hasNext() )
+        while (curToken.hasNext())
             curToken = curToken.next();
 
         // add the pointer to error

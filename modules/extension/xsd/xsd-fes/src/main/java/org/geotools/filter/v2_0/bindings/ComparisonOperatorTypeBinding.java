@@ -30,7 +30,7 @@ public class ComparisonOperatorTypeBinding extends AbstractComplexEMFBinding {
     public ComparisonOperatorTypeBinding(Fes20Factory factory) {
         super(factory);
     }
-    
+
     @Override
     public QName getTarget() {
         return FES.ComparisonOperatorType;
@@ -40,5 +40,5 @@ public class ComparisonOperatorTypeBinding extends AbstractComplexEMFBinding {
     public Class getType() {
         return ComparisonOperatorType.class;
     }
-    
+
 }

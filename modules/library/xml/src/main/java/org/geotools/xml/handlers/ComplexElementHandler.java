@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -49,17 +49,16 @@ import org.xml.sax.helpers.AttributesImpl;
  * </p>
  *
  * @author dzwiers www.refractions.net
- *
- * @see ComplexType
- *
- *
  * @source $URL$
+ * @see ComplexType
  */
 public class ComplexElementHandler extends XMLElementHandler {
-    
-    /** <code>serialVersionUID</code> field */
+
+    /**
+     * <code>serialVersionUID</code> field
+     */
     private static final long serialVersionUID = ComplexElementHandler.class.hashCode();
-    
+
     private ComplexType type; // saves casting all over
     private Element elem;
     private String text;
@@ -72,13 +71,12 @@ public class ComplexElementHandler extends XMLElementHandler {
      * Creates a new ComplexElementHandler object for Element  elem using
      * ElementHandlerFactory ehf.
      *
-     * @param ehf ElementHandlerFactory
+     * @param ehf  ElementHandlerFactory
      * @param elem Element
-     *
      * @throws SAXException
      */
     public ComplexElementHandler(ElementHandlerFactory ehf, Element elem)
-        throws SAXException {
+            throws SAXException {
         this.ehf = ehf;
 
         if (elem == null) {
@@ -118,11 +116,11 @@ public class ComplexElementHandler extends XMLElementHandler {
             if (!"".equals(text1.trim())) {
                 if (type.getName() == null) {
                     throw new SAXException(
-                        "This type may not have mixed content");
+                            "This type may not have mixed content");
                 }
 
                 throw new SAXException("The " + type.getName()
-                    + " type may not have mixed content");
+                        + " type may not have mixed content");
             }
         }
     }
@@ -135,27 +133,27 @@ public class ComplexElementHandler extends XMLElementHandler {
      * @throws OperationNotSupportedException
      */
     public void endElement(URI namespaceURI, String localName, Map hints)
-        throws OperationNotSupportedException, SAXException {
+            throws OperationNotSupportedException, SAXException {
         text = (text == null) ? null : text.trim();
-        
-        if(hints == null){
-            hints = new HashMap<String,Object>();
-            hints.put(ElementHandlerFactory.KEY,ehf);
-        }else{
-            if(!hints.containsKey(ElementHandlerFactory.KEY))
-                hints.put(ElementHandlerFactory.KEY,ehf);
+
+        if (hints == null) {
+            hints = new HashMap<String, Object>();
+            hints.put(ElementHandlerFactory.KEY, ehf);
+        } else {
+            if (!hints.containsKey(ElementHandlerFactory.KEY))
+                hints.put(ElementHandlerFactory.KEY, ehf);
         }
 
         if (elements == null) {
             if (type != null) {
                 ElementValue[] vals;
-				if(type.isMixed()){
-					vals = new ElementValue[1];
-                	vals[0] = new DefaultElementValue(null, text); // null is ok as
-                			// this represents the mixed content
-				}else{
-					vals = new ElementValue[0];
-				}
+                if (type.isMixed()) {
+                    vals = new ElementValue[1];
+                    vals[0] = new DefaultElementValue(null, text); // null is ok as
+                    // this represents the mixed content
+                } else {
+                    vals = new ElementValue[0];
+                }
                 value = type.getValue(elem, vals, attr, hints);
             } else {
                 value = text;
@@ -166,13 +164,14 @@ public class ComplexElementHandler extends XMLElementHandler {
 
         // validate the complex element ... throws an exception when it's been bad
         boolean validate = hints == null || !hints.containsKey(DocumentFactory.VALIDATION_HINT) ||
-			hints.get(DocumentFactory.VALIDATION_HINT)==null || !(hints.get(DocumentFactory.VALIDATION_HINT) instanceof Boolean) ||
-			((Boolean)hints.get(DocumentFactory.VALIDATION_HINT)).booleanValue();
-        if(validate)
-        	validateElementOrder();
-        
+                hints.get(DocumentFactory.VALIDATION_HINT) == null || !(hints.get(DocumentFactory
+                .VALIDATION_HINT) instanceof Boolean) ||
+                ((Boolean) hints.get(DocumentFactory.VALIDATION_HINT)).booleanValue();
+        if (validate)
+            validateElementOrder();
+
         ElementValue[] vals = new ElementValue[elements.size()
-            + (type.isMixed() ? 1 : 0)];
+                + (type.isMixed() ? 1 : 0)];
 
         for (int i = 0; i < elements.size(); i++) {
             XMLElementHandler xeh = (XMLElementHandler) elements.get(i);
@@ -205,59 +204,60 @@ public class ComplexElementHandler extends XMLElementHandler {
         }
 
         int i = 0;
-        int count =0;
+        int count = 0;
         int[] i2 = new int[2];
         int cache = 0; // old pos.
-        i2[1]=1;
-        while(i<elements.size() && i2[1] == 1){
-        	i2[0] = i;
-        	i2[1] = 0;
+        i2[1] = 1;
+        while (i < elements.size() && i2[1] == 1) {
+            i2[0] = i;
+            i2[1] = 0;
             cache = i2[0];
             i2 = valid(type.getChild(), i);
-            if( i2[1] == 0 && i == i2[0] ){
-            	// done running
-            	if (count < type.getChild().getMinOccurs()) {
-                	StringBuffer buf = new StringBuffer();
-                	buf.append("Too few elements for " );
-                	buf.append( elem.getNamespace()+":"+elem.getName() );
-                	buf.append( " (type = "+type.getName()+") " );
-                	buf.append( ": " );
-                	buf.append( count );
-                	buf.append( " children, " );
-                	buf.append( type.getChild().getMinOccurs() );
-                	buf.append( " minOccurs" );        	  		
-            		throw new SAXException( buf.toString() );
+            if (i2[1] == 0 && i == i2[0]) {
+                // done running
+                if (count < type.getChild().getMinOccurs()) {
+                    StringBuffer buf = new StringBuffer();
+                    buf.append("Too few elements for ");
+                    buf.append(elem.getNamespace() + ":" + elem.getName());
+                    buf.append(" (type = " + type.getName() + ") ");
+                    buf.append(": ");
+                    buf.append(count);
+                    buf.append(" children, ");
+                    buf.append(type.getChild().getMinOccurs());
+                    buf.append(" minOccurs");
+                    throw new SAXException(buf.toString());
                 }
-            }else{
-                if(cache == i2[0]){
+            } else {
+                if (cache == i2[0]) {
                     // we have not progressed .. progress us
-                    i = i2[0]+1;
-                }else{
+                    i = i2[0] + 1;
+                } else {
                     i = i2[0];
                 }
-            	count++;
+                count++;
             }
         }
-        if(count > type.getChild().getMaxOccurs()){
-        	StringBuffer buf = new StringBuffer();
-        	buf.append("Too many elements for " );
-        	buf.append( elem.getNamespace()+":"+elem.getName() );
-        	buf.append( " (type = "+type.getName()+") " );
-        	buf.append( ": " );
-        	buf.append( count );
-        	buf.append( " children, " );
-        	buf.append( type.getChild().getMaxOccurs() );
-        	buf.append( " maxOccurs" );        	        		
-    		throw new SAXException( buf.toString() );
+        if (count > type.getChild().getMaxOccurs()) {
+            StringBuffer buf = new StringBuffer();
+            buf.append("Too many elements for ");
+            buf.append(elem.getNamespace() + ":" + elem.getName());
+            buf.append(" (type = " + type.getName() + ") ");
+            buf.append(": ");
+            buf.append(count);
+            buf.append(" children, ");
+            buf.append(type.getChild().getMaxOccurs());
+            buf.append(" maxOccurs");
+            throw new SAXException(buf.toString());
         }
 
         if (i != elements.size()) {
-        	StringBuffer buf = new StringBuffer();
-        	buf.append("Invalid Element ordering for " );
-        	buf.append( elem.getNamespace()+":"+elem.getName() );
-        	buf.append( " (type = "+type.getName()+") " );
-        	buf.append( ". There were "+(elements.size()-i)+"elements which were unaccounted for" );      	  		
-    		throw new SAXException( buf.toString() );
+            StringBuffer buf = new StringBuffer();
+            buf.append("Invalid Element ordering for ");
+            buf.append(elem.getNamespace() + ":" + elem.getName());
+            buf.append(" (type = " + type.getName() + ") ");
+            buf.append(". There were " + (elements.size() - i) + "elements which were unaccounted" +
+                    " for");
+            throw new SAXException(buf.toString());
         }
     }
 
@@ -268,32 +268,32 @@ public class ComplexElementHandler extends XMLElementHandler {
      */
     private int[] valid(ElementGrouping eg, int index) throws SAXException {
         if (eg == null) {
-            return new int[]{index,1};
+            return new int[]{index, 1};
         }
 
         switch (eg.getGrouping()) {
-        case ElementGrouping.SEQUENCE:
-            int[] tmp = valid((Sequence) eg, index);
-                        return tmp;
+            case ElementGrouping.SEQUENCE:
+                int[] tmp = valid((Sequence) eg, index);
+                return tmp;
 
-        case ElementGrouping.ALL:
-            return valid((All) eg, index);
+            case ElementGrouping.ALL:
+                return valid((All) eg, index);
 
-        case ElementGrouping.ANY:
-            return valid((Any) eg, index);
+            case ElementGrouping.ANY:
+                return valid((Any) eg, index);
 
-        case ElementGrouping.CHOICE:
-            return valid((Choice) eg, index);
+            case ElementGrouping.CHOICE:
+                return valid((Choice) eg, index);
 
-        case ElementGrouping.GROUP:
-            return valid((Group) eg, index);
+            case ElementGrouping.GROUP:
+                return valid((Group) eg, index);
 
-        case ElementGrouping.ELEMENT:
-            tmp = valid((Element) eg, index);
-            return tmp;
+            case ElementGrouping.ELEMENT:
+                tmp = valid((Element) eg, index);
+                return tmp;
         }
 
-        return new int[]{index,1};
+        return new int[]{index, 1};
     }
 
     /*
@@ -314,7 +314,7 @@ public class ComplexElementHandler extends XMLElementHandler {
 
             for (int i = 0; i < elems.length; i++) {
                 if (elems[i].getType().getName().equalsIgnoreCase(((XMLElementHandler) elements
-                            .get(head)).getName())) {
+                        .get(head)).getName())) {
                     r[i]++;
                     head++;
                     i = elems.length;
@@ -326,11 +326,11 @@ public class ComplexElementHandler extends XMLElementHandler {
         for (int i = 0; i < r.length; i++) {
             if ((r[i] < elems[i].getMinOccurs())
                     || (r[i] > elems[i].getMaxOccurs())) {
-                return new int[]{index,0};
+                return new int[]{index, 0};
             }
         }
 
-        return new int[]{head,1};
+        return new int[]{head, 1};
     }
 
     /*
@@ -339,11 +339,11 @@ public class ComplexElementHandler extends XMLElementHandler {
      */
     private int[] valid(Any any, int index) {
         if (any.getNamespace().equals(((XMLElementHandler) elements.get(index)).getElement()
-                                           .getType().getNamespace())) {
-            return new int[]{index+1,1};
+                .getType().getNamespace())) {
+            return new int[]{index + 1, 1};
         }
 
-        return new int[]{index,1};
+        return new int[]{index, 1};
     }
 
     /*
@@ -354,43 +354,43 @@ public class ComplexElementHandler extends XMLElementHandler {
         ElementGrouping[] eg = choice.getChildren();
 
         if (eg == null) {
-            return new int[]{index,1};
+            return new int[]{index, 1};
         }
-        
+
         int i = 0; // choice child index;
 
         int end = index;
         int t = index;
         int count = 0;
         int t2[] = null;
-        while(i<eg.length && end<elements.size()){
-        	t2 = valid(eg[i], t);
-        	if(t2[1] == 0 && t2[0] == t){// nothing, next
-    			// move along
-    			if(t2[0]>end && count>=eg[i].getMinOccurs() && count<=eg[i].getMaxOccurs())
-    				end = t2[0];
-    			count = 0;
-    			i++;
-    			t = index;
-        	}else{
-        		if(count==eg[i].getMaxOccurs()){
-        			// move along
-        			if(t2[0]>end && count>=eg[i].getMinOccurs())
-        				end = t2[0];
-        			count = 0;
-        			i++;
-        			t = index;
-        		}else{
-        			t = t2[0];
-        			if(t == elements.size()){
-        				end = t;
-        			}
-        			count++;
-        		}
-    		}
+        while (i < eg.length && end < elements.size()) {
+            t2 = valid(eg[i], t);
+            if (t2[1] == 0 && t2[0] == t) {// nothing, next
+                // move along
+                if (t2[0] > end && count >= eg[i].getMinOccurs() && count <= eg[i].getMaxOccurs())
+                    end = t2[0];
+                count = 0;
+                i++;
+                t = index;
+            } else {
+                if (count == eg[i].getMaxOccurs()) {
+                    // move along
+                    if (t2[0] > end && count >= eg[i].getMinOccurs())
+                        end = t2[0];
+                    count = 0;
+                    i++;
+                    t = index;
+                } else {
+                    t = t2[0];
+                    if (t == elements.size()) {
+                        end = t;
+                    }
+                    count++;
+                }
+            }
         }
 
-        return new int[]{end,end==index?0:1};
+        return new int[]{end, end == index ? 0 : 1};
     }
 
     /*
@@ -399,7 +399,7 @@ public class ComplexElementHandler extends XMLElementHandler {
      */
     private int[] valid(Group group, int index) throws SAXException {
         if (group.getChild() == null) {
-            return new int[]{index,1};
+            return new int[]{index, 1};
         }
 
         return valid(group.getChild(), index);
@@ -411,41 +411,42 @@ public class ComplexElementHandler extends XMLElementHandler {
      */
     private int[] valid(Element element, int index) {
 
-    	// does this element equate to the index in the doc?
+        // does this element equate to the index in the doc?
 
         int[] r = null;
-        
+
         XMLElementHandler indexHandler = null;
-        if(index<elements.size()){
+        if (index < elements.size()) {
             indexHandler = ((XMLElementHandler) elements.get(index));
-        }else{
+        } else {
             // not found :)
-            return new int[]{index,0};
+            return new int[]{index, 0};
         }
-        
-        if(r ==null && (indexHandler == null || indexHandler.getElement() == null))
-        	return new int[]{index,0};
-        
-        if(r == null && indexHandler.getElement() == element)
-        	r =  new int[]{index+1,1};
-        
-        if(r == null && element.getName()==null)
-        	return new int[]{index,0};
-        
-        if(r == null && (element.getName()!=null && element.getName().equalsIgnoreCase(indexHandler.getName())))
-        	r =  new int[]{index+1,1};
-        if(r == null && element.getName()!=null){
-        Element e = indexHandler.getElement();
-        while(r == null && e != null){
-        	if(element.getName().equalsIgnoreCase(e.getName())){
-        		r =  new int[]{index+1,1};
-        	}
-        	e = e.getSubstitutionGroup();
+
+        if (r == null && (indexHandler == null || indexHandler.getElement() == null))
+            return new int[]{index, 0};
+
+        if (r == null && indexHandler.getElement() == element)
+            r = new int[]{index + 1, 1};
+
+        if (r == null && element.getName() == null)
+            return new int[]{index, 0};
+
+        if (r == null && (element.getName() != null && element.getName().equalsIgnoreCase
+                (indexHandler.getName())))
+            r = new int[]{index + 1, 1};
+        if (r == null && element.getName() != null) {
+            Element e = indexHandler.getElement();
+            while (r == null && e != null) {
+                if (element.getName().equalsIgnoreCase(e.getName())) {
+                    r = new int[]{index + 1, 1};
+                }
+                e = e.getSubstitutionGroup();
+            }
         }
-        }
-        
-        if(r == null){
-            r = new int[]{index,0};
+
+        if (r == null) {
+            r = new int[]{index, 0};
         }
         return r;
     }
@@ -458,88 +459,88 @@ public class ComplexElementHandler extends XMLElementHandler {
         ElementGrouping[] eg = seq.getChildren();
 
         if (eg == null) {
-            return new int[]{index,1};
+            return new int[]{index, 1};
         }
 
         int tIndex = index; // top of element matching list
         int t = 0; // top of child list
-        
+
         int count = 0; // used for n-ary at a single spot
         int i2[] = new int[2];
-        while(t<eg.length && tIndex<elements.size()){
-        	i2 = valid(eg[t],tIndex); // new top element
-        	if(i2[1]==1){ // they matched
-        	    if(tIndex==i2[0]){
-        	        // didn't more ahead ...
-        	        t++; // force next spot
-        	        count = 0; // reset
-        	    }else{
-        	        count ++;
-        	        if(count<=eg[t].getMaxOccurs()){
-        	            tIndex = i2[0]; // store index
-        	        }else{
-        	            // error, so redo
-        	            if(eg[t].getMinOccurs()>count){
-        	                // not good
+        while (t < eg.length && tIndex < elements.size()) {
+            i2 = valid(eg[t], tIndex); // new top element
+            if (i2[1] == 1) { // they matched
+                if (tIndex == i2[0]) {
+                    // didn't more ahead ...
+                    t++; // force next spot
+                    count = 0; // reset
+                } else {
+                    count++;
+                    if (count <= eg[t].getMaxOccurs()) {
+                        tIndex = i2[0]; // store index
+                    } else {
+                        // error, so redo
+                        if (eg[t].getMinOccurs() > count) {
+                            // not good
 //System.out.println("Seq Failed");
-        	                return new int[]{index,0}; // not whole sequence
-        	            }
-        	            t++;
-        	            count=0; // next defined type
-        	        }
-        	    }
-        	}else{
+                            return new int[]{index, 0}; // not whole sequence
+                        }
+                        t++;
+                        count = 0; // next defined type
+                    }
+                }
+            } else {
                 // didn't match
-                
-    			// move along and retest that spot
-    			if(eg[t].getMinOccurs()>count){
-    				// not good
+
+                // move along and retest that spot
+                if (eg[t].getMinOccurs() > count) {
+                    // not good
 //System.out.println("Seq Failed");
-					return new int[]{index,0}; // not whole sequence
-    			}
-    			t++;
-    			count=0; // next defined type
-        	}
+                    return new int[]{index, 0}; // not whole sequence
+                }
+                t++;
+                count = 0; // next defined type
+            }
         }
 //System.out.println("Seq index = "+tIndex+" Matched");
-        return new int[]{tIndex,1};
+        return new int[]{tIndex, 1};
     }
 
     /**
-     * 
      * TODO summary sentence for startElement ...
-     * 
-     * @see org.geotools.xml.XMLElementHandler#startElement(java.net.URI, java.lang.String, org.xml.sax.Attributes)
+     *
      * @param namespaceURI
      * @param localName
      * @param attr1
+     * @see org.geotools.xml.XMLElementHandler#startElement(java.net.URI, java.lang.String, org
+     * .xml.sax.Attributes)
      */
     public void startElement(URI namespaceURI, String localName, Attributes attr1) {
         this.attr = new AttributesImpl(attr1);
     }
 
     /**
-     * 
      * TODO summary sentence for getHandler ...
-     * 
-     * @see org.geotools.xml.XMLElementHandler#getHandler(java.net.URI, java.lang.String, java.util.Map)
+     *
      * @param namespaceURI
      * @param localName
      * @param hints
      * @return XMLElementHandler
      * @throws SAXException
+     * @see org.geotools.xml.XMLElementHandler#getHandler(java.net.URI, java.lang.String, java
+     * .util.Map)
      */
     public XMLElementHandler getHandler(URI namespaceURI, String localName,
-        Map hints) throws SAXException {
+                                        Map hints) throws SAXException {
         if (elements == null) {
             elements = new LinkedList();
         }
 
         logger.finest("Starting search for element handler " + localName
-            + " :: " + namespaceURI);
+                + " :: " + namespaceURI);
 
         Element e = XMLTypeHelper.findChildElement(type, localName, namespaceURI);
-        if (e != null && namespaceURI.equals(e.getNamespace())){
+        if (e != null && namespaceURI.equals(e.getNamespace())) {
             XMLElementHandler r = ehf.createElementHandler(e);
 
             if (type.cache(r.getElement(), hints)) {
@@ -562,24 +563,23 @@ public class ComplexElementHandler extends XMLElementHandler {
         }
 
         // validation?
-        if(hints != null && hints.containsKey(DocumentFactory.VALIDATION_HINT)){
-            Boolean valid = (Boolean)hints.get(DocumentFactory.VALIDATION_HINT);
-            if(valid != null && !valid.booleanValue()){
+        if (hints != null && hints.containsKey(DocumentFactory.VALIDATION_HINT)) {
+            Boolean valid = (Boolean) hints.get(DocumentFactory.VALIDATION_HINT);
+            if (valid != null && !valid.booleanValue()) {
                 return new IgnoreHandler();
             }
         }
-        
+
         throw new SAXException("Could not find element handler for "
-            + namespaceURI + " : " + localName + " as a child of "
-            + type.getName() + ".");
+                + namespaceURI + " : " + localName + " as a child of "
+                + type.getName() + ".");
     }
 
     /**
-     * 
      * TODO summary sentence for getValue ...
-     * 
-     * @see org.geotools.xml.XMLElementHandler#getValue()
+     *
      * @return Object
+     * @see org.geotools.xml.XMLElementHandler#getValue()
      */
     public Object getValue() {
         // endElement sets the value
@@ -592,24 +592,26 @@ public class ComplexElementHandler extends XMLElementHandler {
     public String getName() {
         return elem.getName();
     }
-    
+
     /**
      * Remove the given XMLElementHandler from the Child-List
+     *
      * @param handler
      */
-    public void removeElement(XMLElementHandler handler){
-		if (elements != null){
-			elements.remove(handler);
-		}
-	}
-    
+    public void removeElement(XMLElementHandler handler) {
+        if (elements != null) {
+            elements.remove(handler);
+        }
+    }
+
     /**
      * returns the Type of the Elementhandler
-	 * @return type
-	 */
-	public ComplexType getType() {
-		return type;
-	}
+     *
+     * @return type
+     */
+    public ComplexType getType() {
+        return type;
+    }
 
     /**
      * <p>
@@ -617,7 +619,6 @@ public class ComplexElementHandler extends XMLElementHandler {
      * </p>
      *
      * @author dzwiers
-     *
      * @see ElementValue
      */
     private static class DefaultElementValue implements ElementValue {
@@ -636,41 +637,39 @@ public class ComplexElementHandler extends XMLElementHandler {
         }
 
         /**
-         * 
          * TODO summary sentence for getElement ...
-         * 
-         * @see org.geotools.xml.schema.ElementValue#getElement()
+         *
          * @return Element
+         * @see org.geotools.xml.schema.ElementValue#getElement()
          */
         public Element getElement() {
             return t;
         }
 
         /**
-         * 
          * TODO summary sentence for getValue ...
-         * 
-         * @see org.geotools.xml.schema.ElementValue#getValue()
+         *
          * @return Object
+         * @see org.geotools.xml.schema.ElementValue#getValue()
          */
         public Object getValue() {
             return value;
         }
+
         /* (non-Javadoc)
-		 * @see java.lang.Object#toString()
-		 */
-		public String toString() {
-			StringBuffer buf = new StringBuffer();
-			if( t != null && t.toString() != null ){
-				buf.append( t.toString() );				
-			}
-			else {
-				buf.append( getClass().getName() );
-			}
-			buf.append("[");
-			buf.append( value );
-			buf.append("]");
-			return buf.toString();
-		}
+         * @see java.lang.Object#toString()
+         */
+        public String toString() {
+            StringBuffer buf = new StringBuffer();
+            if (t != null && t.toString() != null) {
+                buf.append(t.toString());
+            } else {
+                buf.append(getClass().getName());
+            }
+            buf.append("[");
+            buf.append(value);
+            buf.append("]");
+            return buf.toString();
+        }
     }
 }

@@ -40,15 +40,14 @@ import org.opengis.filter.expression.Literal;
 /**
  * A bridge between the process world and the filter function world: any process returning a single
  * value can be seen as a filter function
- * 
- * @author Andrea Aime - GeoSolutions
  *
+ * @author Andrea Aime - GeoSolutions
  * @source $URL$
  */
 public class ProcessFunctionFactory implements FunctionFactory {
-    
+
     /**
-     * Parameter used to indicate a certain output is the primary one for the process 
+     * Parameter used to indicate a certain output is the primary one for the process
      */
     public static final String PRIMARY_OUTPUT = "PRIMARY";
 
@@ -73,11 +72,11 @@ public class ProcessFunctionFactory implements FunctionFactory {
             }
         }
     };
-    
+
     /**
      * Maps from function to process name
      */
-    HashMap<Name,FunctionName> processToFunction;
+    HashMap<Name, FunctionName> processToFunction;
 
     /**
      * The cache list of functions wrapping processes
@@ -90,49 +89,49 @@ public class ProcessFunctionFactory implements FunctionFactory {
 
     public Function function(Name processName, List<Expression> args, Literal fallback) {
         // if the param function just return it
-        if(processName.equals(new NameImpl(ParameterFunction.NAME.getName()))) {
+        if (processName.equals(new NameImpl(ParameterFunction.NAME.getName()))) {
             return new ParameterFunction(fallback, args);
         }
-        
+
         // lookup the process
-        if(functionNames == null) {
+        if (functionNames == null) {
             init();
         }
 
         if (!processToFunction.containsKey(processName)) {
             // no such function
-            return null; 
+            return null;
         } else {
             // wrap the process            
             org.geotools.process.Process process = Processors.createProcess(processName);
             Map<String, Parameter<?>> parameters = Processors.getParameterInfo(processName);
-            if (process instanceof RenderingProcess){
-                return new RenderingProcessFunction(processName, args, 
-                    parameters, (RenderingProcess) process, fallback);
+            if (process instanceof RenderingProcess) {
+                return new RenderingProcessFunction(processName, args,
+                        parameters, (RenderingProcess) process, fallback);
             } else {
-                return new ProcessFunction(processName, args, parameters, 
-                    process, fallback);
+                return new ProcessFunction(processName, args, parameters,
+                        process, fallback);
             }
         }
     }
 
     public List<FunctionName> getFunctionNames() {
-        if(functionNames == null) {
+        if (functionNames == null) {
             init();
         }
-        
+
         return functionNames;
     }
-    
+
     private synchronized void init() {
-        if(functionNames == null) {
+        if (functionNames == null) {
             // collect and sort the factories to have a reproducable list of function names
             List<ProcessFactory> factories = new ArrayList<ProcessFactory>(Processors
                     .getProcessFactories());
             Collections.sort(factories, FACTORY_COMPARATOR);
-            
+
             // collect name and params of all processes resulting in a single output
-            processToFunction = new HashMap<Name,FunctionName>();
+            processToFunction = new HashMap<Name, FunctionName>();
             functionNames = new ArrayList<FunctionName>();
             for (ProcessFactory factory : factories) {
                 if (!factory.isAvailable()) {
@@ -140,17 +139,22 @@ public class ProcessFunctionFactory implements FunctionFactory {
                 }
                 for (Name processName : factory.getNames()) {
                     try {
-                        Map<String, Parameter<?>> resultInfo = factory.getResultInfo(processName, null);
+                        Map<String, Parameter<?>> resultInfo = factory.getResultInfo(processName,
+                                null);
                         Parameter<?> result = getPrimary(resultInfo);
                         // check there is a single output
                         if (result != null) {
-                            Map<String, Parameter<?>> parameterInfo = factory.getParameterInfo(processName);
-                            List<String> argumentNames = new ArrayList<String>(parameterInfo.keySet());
-                            List<org.opengis.parameter.Parameter<?>> args = new ArrayList<org.opengis.parameter.Parameter<?>>( argumentNames.size() );
-                            for(String argumentName : argumentNames ){
-                                args.add( parameterInfo.get(argumentName));
+                            Map<String, Parameter<?>> parameterInfo = factory.getParameterInfo
+                                    (processName);
+                            List<String> argumentNames = new ArrayList<String>(parameterInfo
+                                    .keySet());
+                            List<org.opengis.parameter.Parameter<?>> args = new ArrayList<org
+                                    .opengis.parameter.Parameter<?>>(argumentNames.size());
+                            for (String argumentName : argumentNames) {
+                                args.add(parameterInfo.get(argumentName));
                             }
-                            FunctionName functionName = new FunctionNameImpl(processName, result, args);
+                            FunctionName functionName = new FunctionNameImpl(processName, result,
+                                    args);
                             functionNames.add(functionName);
                             processToFunction.put(processName, functionName);
                         }
@@ -165,16 +169,16 @@ public class ProcessFunctionFactory implements FunctionFactory {
             functionNames.add(ParameterFunction.NAME);
         }
     }
-    
+
     private Parameter<?> getPrimary(Map<String, Parameter<?>> resultInfo) {
-        if(resultInfo == null ){
+        if (resultInfo == null) {
             return null;
         }
-        if(resultInfo.size() == 1) {
+        if (resultInfo.size() == 1) {
             return resultInfo.values().iterator().next();
         } else {
             for (Parameter<?> param : resultInfo.values()) {
-                if(param.isRequired()) {
+                if (param.isRequired()) {
                     return param;
                 }
             }

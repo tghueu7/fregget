@@ -31,7 +31,6 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 /**
- *
  * Created by vickdw on 4/17/17.
  */
 public class MBStopsTest {
@@ -50,10 +49,13 @@ public class MBStopsTest {
             MBObjectStops mbObjectStops = new MBObjectStops(layer);
             if (mbObjectStops.ls.hasStops) {
                 //System.out.println(layer.getId() + " Contains property and zoom functions");
-                assertTrue(layer.getId() + " Contains property and zoom functions", mbObjectStops.ls.hasStops);
+                assertTrue(layer.getId() + " Contains property and zoom functions", mbObjectStops
+                        .ls.hasStops);
             } else {
-                //System.out.println(layer.getId() + " does not contain property and zoom functions");
-                assertFalse(layer.getId() + " does not contain property and zoom functions", mbObjectStops.ls.hasStops);
+                //System.out.println(layer.getId() + " does not contain property and zoom 
+                // functions");
+                assertFalse(layer.getId() + " does not contain property and zoom functions", 
+                        mbObjectStops.ls.hasStops);
             }
         }
     }
@@ -106,7 +108,7 @@ public class MBStopsTest {
                         assertEquals(2, stopsArray.size());
                         Object stop0Obj = stopsArray.get(0);
                         assertTrue(stop0Obj instanceof JSONArray);
-                        JSONArray stop0 =(JSONArray) stop0Obj;
+                        JSONArray stop0 = (JSONArray) stop0Obj;
                         // For zoom level 0, Expect: [0, 0]
                         assertEquals(0L, stop0.get(0));
                         assertEquals(0L, stop0.get(1));
@@ -114,7 +116,7 @@ public class MBStopsTest {
                         Object stop1Obj = stopsArray.get(1);
                         assertTrue(stop1Obj instanceof JSONArray);
                         // For zoom level 0,  Expect: [5, 5]
-                        JSONArray stop1 =(JSONArray) stop1Obj;
+                        JSONArray stop1 = (JSONArray) stop1Obj;
                         assertEquals(5L, stop1.get(0));
                         assertEquals(5L, stop1.get(1));
                     } else if (i == 1) {
@@ -124,7 +126,7 @@ public class MBStopsTest {
                         assertEquals(2, stopsArray.size());
                         Object stop0Obj = stopsArray.get(0);
                         assertTrue(stop0Obj instanceof JSONArray);
-                        JSONArray stop0 =(JSONArray) stop0Obj;
+                        JSONArray stop0 = (JSONArray) stop0Obj;
                         // For zoom level 0, Expect: [0, 0]
                         assertEquals(0L, stop0.get(0));
                         assertEquals(0L, stop0.get(1));
@@ -132,7 +134,7 @@ public class MBStopsTest {
                         Object stop1Obj = stopsArray.get(1);
                         assertTrue(stop1Obj instanceof JSONArray);
                         // For zoom level 20,  Expect: [5, 20]
-                        JSONArray stop1 =(JSONArray) stop1Obj;
+                        JSONArray stop1 = (JSONArray) stop1Obj;
                         assertEquals(5L, stop1.get(0));
                         assertEquals(20L, stop1.get(1));
                     }
@@ -148,11 +150,13 @@ public class MBStopsTest {
         MBStyle mbStyle = new MBStyle(jsonObject);
         StyledLayerDescriptor transformed = mbStyle.transform();
         List<StyledLayer> styledLayers = transformed.layers();
-        List<FeatureTypeStyle> fts = ((UserLayer)styledLayers.get(0)).getUserStyles()[0].featureTypeStyles();
+        List<FeatureTypeStyle> fts = ((UserLayer) styledLayers.get(0)).getUserStyles()[0]
+                .featureTypeStyles();
 
         int i = 0;
         for (FeatureTypeStyle layer : fts) {
-            // layer named function4 has the property zoom functions and there should be 2 feature type styles
+            // layer named function4 has the property zoom functions and there should be 2 
+            // feature type styles
             // for this layer.
             if (layer.getName().equalsIgnoreCase("function4")) {
                 if (i == 0) {
@@ -160,12 +164,15 @@ public class MBStopsTest {
                     Double minScaleDenom = MBObjectStops.zoomLevelToScaleDenominator(20L);
                     Double maxScaleDenom = MBObjectStops.zoomLevelToScaleDenominator(0L);
                     assertEquals(0, i);
-                    assertEquals(minScaleDenom, (Double)layer.rules().get(0).getMinScaleDenominator());
-                    assertEquals(maxScaleDenom, (Double)layer.rules().get(0).getMaxScaleDenominator());
+                    assertEquals(minScaleDenom, (Double) layer.rules().get(0)
+                            .getMinScaleDenominator());
+                    assertEquals(maxScaleDenom, (Double) layer.rules().get(0)
+                            .getMaxScaleDenominator());
                 } else if (i == 1) {
                     assertEquals(1, i);
                     Double maxScaleDenom = MBObjectStops.zoomLevelToScaleDenominator(20L);
-                    assertEquals(maxScaleDenom, (Double)layer.rules().get(0).getMaxScaleDenominator());
+                    assertEquals(maxScaleDenom, (Double) layer.rules().get(0)
+                            .getMaxScaleDenominator());
                 }
                 i++;
             }

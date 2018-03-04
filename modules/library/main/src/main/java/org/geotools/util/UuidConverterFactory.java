@@ -17,6 +17,7 @@
 package org.geotools.util;
 
 import java.util.UUID;
+
 import org.geotools.factory.Hints;
 
 /**
@@ -28,9 +29,8 @@ import org.geotools.factory.Hints;
  * <li>byte[] -> UUID
  * </ul>
  * </p>
- * 
+ *
  * @author Andrea Briganti <kbyte@ciotoni.net>
- * 
  */
 public class UuidConverterFactory implements ConverterFactory {
 

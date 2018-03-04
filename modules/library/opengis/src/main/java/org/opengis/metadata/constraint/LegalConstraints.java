@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.metadata.constraint;
 
 import java.util.Collection;
+
 import org.opengis.util.InternationalString;
 import org.opengis.annotation.UML;
 
@@ -20,23 +21,22 @@ import static org.opengis.annotation.Specification.*;
 /**
  * Restrictions and legal prerequisites for accessing and using the resource.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
+ * @author Cory Horner (Refractions Research)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Martin Desruisseaux (IRD)
- * @author  Cory Horner (Refractions Research)
- * @since   GeoAPI 2.0
+ * @source $URL$
+ * @since GeoAPI 2.0
  */
-@UML(identifier="MD_LegalConstraints", specification=ISO_19115)
+@UML(identifier = "MD_LegalConstraints", specification = ISO_19115)
 public interface LegalConstraints extends Constraints {
     /**
      * Access constraints applied to assure the protection of privacy or intellectual property,
      * and any special restrictions or limitations on obtaining the resource.
      *
-     * @return Access constraints applied to assure the protection of privacy or intellectual property.
+     * @return Access constraints applied to assure the protection of privacy or intellectual 
+     * property.
      */
-    @UML(identifier="accessConstraints", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "accessConstraints", obligation = OPTIONAL, specification = ISO_19115)
     Collection<Restriction> getAccessConstraints();
 
     /**
@@ -45,7 +45,7 @@ public interface LegalConstraints extends Constraints {
      *
      * @return Constraints applied to assure the protection of privacy or intellectual property.
      */
-    @UML(identifier="useConstraints", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "useConstraints", obligation = OPTIONAL, specification = ISO_19115)
     Collection<Restriction> getUseConstraints();
 
     /**
@@ -56,6 +56,6 @@ public interface LegalConstraints extends Constraints {
      *
      * @return Other restrictions and legal prerequisites for accessing and using the resource.
      */
-    @UML(identifier="otherConstraints", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "otherConstraints", obligation = CONDITIONAL, specification = ISO_19115)
     Collection<? extends InternationalString> getOtherConstraints();
 }

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -25,13 +25,13 @@ import org.opengis.filter.sort.SortOrder;
 
 /**
  * Sort key used to find the next feature to draw in a cross-layer z-ordering setup
- * 
- * @author Andrea Aime - GeoSolutions
  *
+ * @author Andrea Aime - GeoSolutions
  */
 class SortKey {
 
-    private static java.util.Comparator<Comparable> FORWARD_COMPARATOR = new java.util.Comparator<Comparable>() {
+    private static java.util.Comparator<Comparable> FORWARD_COMPARATOR = new java.util
+            .Comparator<Comparable>() {
 
         @Override
         public int compare(Comparable o1, Comparable o2) {
@@ -39,13 +39,14 @@ class SortKey {
         }
     };
 
-    private static java.util.Comparator<Comparable> REVERSE_COMPARATOR = new java.util.Comparator<Comparable>() {
+    private static java.util.Comparator<Comparable> REVERSE_COMPARATOR = new java.util
+            .Comparator<Comparable>() {
 
         @Override
         public int compare(Comparable o1, Comparable o2) {
             return -FORWARD_COMPARATOR.compare(o1, o2);
         }
-        
+
     };
 
     Object[] components;
@@ -61,7 +62,7 @@ class SortKey {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -74,7 +75,7 @@ class SortKey {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -115,7 +116,7 @@ class SortKey {
 
     /**
      * Copies from another SortKey
-     * 
+     *
      * @param reference
      */
     public void copy(SortKey reference) {
@@ -126,7 +127,7 @@ class SortKey {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
@@ -136,7 +137,7 @@ class SortKey {
 
     /**
      * Builds a SortKey Comparator from a SortBy array
-     * 
+     *
      * @param sortBy
      * @return
      */
@@ -145,7 +146,7 @@ class SortKey {
         if (sortBy == SortBy.UNSORTED || sortBy == null) {
             throw new IllegalArgumentException("Expected to get a sort, but found none");
         }
-    
+
         // build a list of comparators
         List<java.util.Comparator<?>> comparators = new ArrayList<java.util.Comparator<?>>();
         for (SortBy sb : sortBy) {
@@ -154,9 +155,9 @@ class SortKey {
             } else {
                 comparators.add(REVERSE_COMPARATOR);
             }
-    
+
         }
-    
+
         return new Comparator(comparators.toArray(new java.util.Comparator[comparators.size()]));
     }
 

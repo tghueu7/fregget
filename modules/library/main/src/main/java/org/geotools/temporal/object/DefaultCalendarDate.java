@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -25,11 +25,8 @@ import org.opengis.util.InternationalString;
 
 /**
  * A data type that shall be used to identify temporal position within a calendar.
- * 
+ *
  * @author Mehdi Sidhoum (Geomatys)
- *
- *
- *
  * @source $URL$
  */
 public class DefaultCalendarDate extends DefaultTemporalPosition implements CalendarDate {
@@ -39,13 +36,17 @@ public class DefaultCalendarDate extends DefaultTemporalPosition implements Cale
      */
     private InternationalString calendarEraName;
     /**
-     * This is a sequence of positive integers in which the first integeridentifies a specific instance of the unit used at the highest level of the calendar hierarchy,
-     * the second integer identifies a specific instance of the unit used at the next lower level in the hierarchy, and so on.
-     * The format defined in ISO 8601 for dates in the Gregorian calendar may be used for any date that is composed of values for year, month and day.
+     * This is a sequence of positive integers in which the first integeridentifies a specific 
+     * instance of the unit used at the highest level of the calendar hierarchy,
+     * the second integer identifies a specific instance of the unit used at the next lower level
+     * in the hierarchy, and so on.
+     * The format defined in ISO 8601 for dates in the Gregorian calendar may be used for any 
+     * date that is composed of values for year, month and day.
      */
     private int[] calendarDate;
 
-    public DefaultCalendarDate(TemporalReferenceSystem frame, IndeterminateValue indeterminatePosition, InternationalString calendarEraName, int[] calendarDate) {
+    public DefaultCalendarDate(TemporalReferenceSystem frame, IndeterminateValue 
+            indeterminatePosition, InternationalString calendarEraName, int[] calendarDate) {
         super(frame, indeterminatePosition);
         this.calendarDate = calendarDate;
         this.calendarEraName = calendarEraName;
@@ -65,7 +66,6 @@ public class DefaultCalendarDate extends DefaultTemporalPosition implements Cale
      * identifies a specific instance of the unit used at the next lower level in the hierarchy,
      * and so on. The format defined in ISO 8601 for dates in the Gregorian calendar may be
      * used for any date that is composed of values for year, month and day.
-     *
      */
     public int[] getCalendarDate() {
         return calendarDate;

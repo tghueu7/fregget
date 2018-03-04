@@ -30,14 +30,15 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileFilter;
+
 import org.geotools.util.logging.Logging;
 
 /**
- * A file chooser dialog for common raster image format files. It provides 
+ * A file chooser dialog for common raster image format files. It provides
  * static methods to display the dialog for opening or saving an image file.
  * The file formats offered by the dialog are a subset of those supported by
  * {@code ImageIO} on the host system.
- *
+ * <p>
  * <pre><code>
  * // Prompting for an input image file
  * File file = JFileImageChooser.showOpenFile();
@@ -51,14 +52,14 @@ import org.geotools.util.logging.Logging;
  *     ...
  * }
  * </code></pre>
- * 
+ *
  * @author Michael Bedward
- * @since 2.6.1
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.6.1
  */
 public class JFileImageChooser extends JFileChooser {
-    
+
     private static final Logger LOGGER = Logging.getLogger("org.geotools.swing");
 
     /**
@@ -75,20 +76,22 @@ public class JFileImageChooser extends JFileChooser {
         private String desc;
         private String[] suffixes;
 
-        private FormatSpecifier(String id, String desc, String ...suffixes) {
+        private FormatSpecifier(String id, String desc, String... suffixes) {
             this.id = id;
             this.desc = desc;
             this.suffixes = new String[suffixes.length];
             System.arraycopy(suffixes, 0, this.suffixes, 0, suffixes.length);
         }
-    };
+    }
 
-    private static final EnumSet<FormatSpecifier> supportedReaders = 
+    ;
+
+    private static final EnumSet<FormatSpecifier> supportedReaders =
             EnumSet.noneOf(FormatSpecifier.class);
-    
-    private static final EnumSet<FormatSpecifier> supportedWriters = 
+
+    private static final EnumSet<FormatSpecifier> supportedWriters =
             EnumSet.noneOf(FormatSpecifier.class);
-    
+
     static {
         for (FormatSpecifier format : FormatSpecifier.values()) {
             if (ImageIO.getImageReadersBySuffix(format.id).hasNext()) {
@@ -120,7 +123,7 @@ public class JFileImageChooser extends JFileChooser {
 
             for (String suffix : format.suffixes) {
                 if (f.getPath().endsWith(suffix) ||
-                    f.getPath().endsWith(suffix.toUpperCase())) {
+                        f.getPath().endsWith(suffix.toUpperCase())) {
                     return true;
                 }
             }
@@ -147,12 +150,11 @@ public class JFileImageChooser extends JFileChooser {
     public static File showSaveFile() {
         return showSaveFile(null);
     }
-    
+
     /**
      * Prompts for file name to save an image.
      *
      * @param parent parent component (may be {@code null})
-     *
      * @return the selected file or {@code null} if the dialog was cancelled
      */
     public static File showSaveFile(Component parent) {
@@ -162,17 +164,16 @@ public class JFileImageChooser extends JFileChooser {
     /**
      * Prompts for file name to save an image.
      *
-     * @param parent parent component (may be {@code null})
+     * @param parent     parent component (may be {@code null})
      * @param workingDir the initial directory
-     *
      * @return the selected file or {@code null} if the dialog was cancelled
      */
     public static File showSaveFile(final Component parent, final File workingDir) {
         final File[] file = new File[1];
-        
+
         if (SwingUtilities.isEventDispatchThread()) {
             file[0] = doShow(parent, workingDir, SAVE_DIALOG);
-            
+
         } else {
             try {
                 SwingUtilities.invokeAndWait(new Runnable() {
@@ -184,15 +185,15 @@ public class JFileImageChooser extends JFileChooser {
                 });
             } catch (InterruptedException ex) {
                 LOGGER.log(Level.SEVERE, "Thread interrupted while prompting for file", ex);
-                
+
             } catch (InvocationTargetException ex) {
                 LOGGER.log(Level.SEVERE, "Unexpected problem while prompting for file", ex);
             }
         }
-        
+
         return file[0];
     }
-    
+
     /**
      * Prompts for file name to read an image.
      *
@@ -206,7 +207,6 @@ public class JFileImageChooser extends JFileChooser {
      * Prompts for file name to read an image.
      *
      * @param parent parent component (may be {@code null})
-     *
      * @return the selected file or {@code null} if the dialog was cancelled
      */
     public static File showOpenFile(Component parent) {
@@ -216,17 +216,16 @@ public class JFileImageChooser extends JFileChooser {
     /**
      * Prompts for file name to read an image.
      *
-     * @param parent parent component (may be {@code null})
+     * @param parent     parent component (may be {@code null})
      * @param workingDir the initial directory
-     *
      * @return the selected file or {@code null} if the dialog was cancelled
      */
     public static File showOpenFile(final Component parent, final File workingDir) {
         final File[] file = new File[1];
-        
+
         if (SwingUtilities.isEventDispatchThread()) {
             file[0] = doShow(parent, workingDir, OPEN_DIALOG);
-            
+
         } else {
             try {
                 SwingUtilities.invokeAndWait(new Runnable() {
@@ -238,22 +237,21 @@ public class JFileImageChooser extends JFileChooser {
                 });
             } catch (InterruptedException ex) {
                 LOGGER.log(Level.SEVERE, "Thread interrupted while prompting for file", ex);
-                
+
             } catch (InvocationTargetException ex) {
                 LOGGER.log(Level.SEVERE, "Unexpected problem while prompting for file", ex);
             }
         }
-        
+
         return file[0];
     }
-    
+
     /**
      * Helper method which creates and displays the chooser dialog on the event dispatch thread.
-     * 
-     * @param parent optional parent component
+     *
+     * @param parent     optional parent component
      * @param workingDir optional initial working directory
      * @param openOrSave either {@linkplain #OPEN_DIALOG} or {@linkplain #SAVE_DIALOG}
-     * 
      * @return selected file or {@code null} if the dialog was cancelled
      */
     private static File doShow(Component parent, File workingDir, int openOrSave) {
@@ -267,13 +265,13 @@ public class JFileImageChooser extends JFileChooser {
                 chooser.setDialogTitle("Open image");
                 dialogRtnValue = chooser.showOpenDialog(parent);
                 break;
-                
+
             case SAVE_DIALOG:
                 chooser.setFilter(supportedWriters);
                 chooser.setDialogTitle("Save image");
                 dialogRtnValue = chooser.showSaveDialog(parent);
                 break;
-                
+
             default:
                 // just in case
                 throw new IllegalArgumentException(
@@ -358,7 +356,8 @@ public class JFileImageChooser extends JFileChooser {
         } else {
             if (!file.exists()) {
                 JOptionPane.showMessageDialog(
-                        this, "Can't file this file", "File not found", JOptionPane.WARNING_MESSAGE);
+                        this, "Can't file this file", "File not found", JOptionPane
+                                .WARNING_MESSAGE);
                 ok = false;
             }
         }

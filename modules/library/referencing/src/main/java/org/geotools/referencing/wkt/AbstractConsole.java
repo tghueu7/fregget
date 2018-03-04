@@ -38,12 +38,10 @@ import org.geotools.resources.Classes;
  * results sent to the {@linkplain System#out standard output stream}, but those streams can
  * be redirected. The set of allowed instructions depends on the subclass used.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public abstract class AbstractConsole implements Runnable {
     /**
@@ -101,35 +99,33 @@ public abstract class AbstractConsole implements Runnable {
      * Creates a new console instance using the specified input stream.
      *
      * @param parser The WKT parser, usually a {@link Preprocessor} object.
-     * @param in  The input stream.
+     * @param in     The input stream.
      */
-    public AbstractConsole(final Format        parser,
-                           final LineNumberReader  in)
-    {
+    public AbstractConsole(final Format parser,
+                           final LineNumberReader in) {
         this(parser, in, Arguments.getWriter(System.out),
-         new PrintWriter(Arguments.getWriter(System.err), true),
-                    System.getProperty("line.separator", "\n"));
+                new PrintWriter(Arguments.getWriter(System.err), true),
+                System.getProperty("line.separator", "\n"));
     }
 
     /**
      * Creates a new console instance using the specified streams and line separator.
      *
-     * @param parser The WKT parser, usually a {@link Preprocessor} object.
-     * @param in  The input stream.
-     * @param out The output stream.
-     * @param err The error stream.
+     * @param parser        The WKT parser, usually a {@link Preprocessor} object.
+     * @param in            The input stream.
+     * @param out           The output stream.
+     * @param err           The error stream.
      * @param lineSeparator The line separator.
      */
-    public AbstractConsole(final Format        parser,
-                           final LineNumberReader  in,
-                           final Writer           out,
-                           final PrintWriter      err,
-                           final String lineSeparator)
-    {
-        this.parser        = parser;
-        this.in            = in;
-        this.out           = out;
-        this.err           = err;
+    public AbstractConsole(final Format parser,
+                           final LineNumberReader in,
+                           final Writer out,
+                           final PrintWriter err,
+                           final String lineSeparator) {
+        this.parser = parser;
+        this.in = in;
+        this.out = out;
+        this.err = err;
         this.lineSeparator = lineSeparator;
     }
 
@@ -137,20 +133,19 @@ public abstract class AbstractConsole implements Runnable {
      * Parses the specified text. The default implementation delegates the work to the
      * {@linkplain #parser}.
      *
-     * @param  text The text, as a name, a WKT to parse, or an authority code.
-     * @param  type The expected type for the object to be parsed (usually a
-     *         <code>{@linkplain CoordinateReferenceSystem}.class</code> or
-     *         <code>{@linkplain MathTransform}.class</code>).
+     * @param text The text, as a name, a WKT to parse, or an authority code.
+     * @param type The expected type for the object to be parsed (usually a
+     *             <code>{@linkplain CoordinateReferenceSystem}.class</code> or
+     *             <code>{@linkplain MathTransform}.class</code>).
      * @return The object.
-     * @throws ParseException if parsing the specified WKT failed.
+     * @throws ParseException   if parsing the specified WKT failed.
      * @throws FactoryException if the object is not of the expected type.
      */
     public Object parseObject(final String text, final Class type)
-            throws ParseException, FactoryException
-    {
+            throws ParseException, FactoryException {
         if (parser instanceof Preprocessor) {
             final Preprocessor parser = (Preprocessor) this.parser;
-            parser.offset = (line!=null) ? Math.max(0, line.indexOf(text)) : 0;
+            parser.offset = (line != null) ? Math.max(0, line.indexOf(text)) : 0;
             return parser.parseObject(text, type);
         } else {
             return parser.parseObject(text);
@@ -162,10 +157,10 @@ public abstract class AbstractConsole implements Runnable {
      * can contains itself other definitions specified in some previous calls to this method. This
      * method do nothing if the {@linkplain #parser} is not an instance of {@link Preprocessor}.
      *
-     * @param  name The name for the definition to be added.
-     * @param  value The Well Know Text (WKT) represented by the name.
+     * @param name  The name for the definition to be added.
+     * @param value The Well Know Text (WKT) represented by the name.
      * @throws IllegalArgumentException if the name is invalid.
-     * @throws ParseException if the WKT can't be parsed.
+     * @throws ParseException           if the WKT can't be parsed.
      */
     public void addDefinition(final String name, final String value) throws ParseException {
         if (parser instanceof Preprocessor) {
@@ -180,17 +175,17 @@ public abstract class AbstractConsole implements Runnable {
      * in the specified stream. This method is used for loading predefined objects like
      * the database used by {@link org.geotools.referencing.factory.PropertyAuthorityFactory}.
      *
-     * @param  in The input stream.
-     * @throws IOException if an input operation failed.
+     * @param in The input stream.
+     * @throws IOException    if an input operation failed.
      * @throws ParseException if a well know text (WKT) can't be parsed.
      */
     public void loadDefinitions(final LineNumberReader in) throws IOException, ParseException {
-        while ((line=readLine(in)) != null) {
-            String name=line, value=null;
+        while ((line = readLine(in)) != null) {
+            String name = line, value = null;
             final int i = line.indexOf('=');
             if (i >= 0) {
-                name  = line.substring(0,i).trim();
-                value = line.substring(i+1).trim();
+                name = line.substring(0, i).trim();
+                value = line.substring(i + 1).trim();
             }
             addDefinition(name, value);
         }
@@ -228,13 +223,13 @@ public abstract class AbstractConsole implements Runnable {
      * and comment lines are skipped. If there is no more line to read,
      * then this method returns {@code null}.
      *
-     * @param  in The input stream to read from.
+     * @param in The input stream to read from.
      * @return The next non-empty and non-commented line, or {@code null} if none.
      * @throws IOException if the reading failed.
      */
     private static String readLine(final LineNumberReader in) throws IOException {
         String line;
-        while ((line=in.readLine()) != null) {
+        while ((line = in.readLine()) != null) {
             line = line.trim();
             if (line.length() == 0) {
                 // Ignore empty lines.
@@ -286,11 +281,11 @@ public abstract class AbstractConsole implements Runnable {
      * @throws Exception if an instruction failed.
      */
     public void executeAll() throws Exception {
-        while ((line=readLine(in)) != null) {
+        while ((line = readLine(in)) != null) {
             try {
                 execute(line);
                 out.flush();
-            } catch(Exception e) {
+            } catch (Exception e) {
                 reportError(e);
                 throw e;
             }
@@ -300,7 +295,7 @@ public abstract class AbstractConsole implements Runnable {
     /**
      * Execute the specified instruction.
      *
-     * @param  instruction The instruction to execute.
+     * @param instruction The instruction to execute.
      * @throws Exception if the instruction failed.
      */
     protected abstract void execute(String instruction) throws Exception;
@@ -347,8 +342,8 @@ public abstract class AbstractConsole implements Runnable {
             err.print(Classes.getShortClassName(cause));
         }
         err.println("Type 'stacktrace' for stack trace information.");
-        if (line!=null && exception instanceof ParseException) {
-            AbstractParser.reportError(err, line, ((ParseException)exception).getErrorOffset());
+        if (line != null && exception instanceof ParseException) {
+            AbstractParser.reportError(err, line, ((ParseException) exception).getErrorOffset());
         }
         err.println();
     }

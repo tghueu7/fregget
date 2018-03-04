@@ -33,7 +33,7 @@ import org.opengis.feature.simple.SimpleFeatureType;
  * @author lmorandini
  */
 public class ArcGISRestFeatureReader
-    implements FeatureReader<SimpleFeatureType, SimpleFeature> {
+        implements FeatureReader<SimpleFeatureType, SimpleFeature> {
 
     protected SimpleFeatureType featureType;
     protected GeoJSONParser parser;
@@ -58,7 +58,7 @@ public class ArcGISRestFeatureReader
     public SimpleFeatureType getFeatureType() {
         if (this.featureType == null) {
             throw new IllegalStateException(
-                "No features were retrieved, shouldn't be calling getFeatureType()");
+                    "No features were retrieved, shouldn't be calling getFeatureType()");
         }
         return this.featureType;
     }

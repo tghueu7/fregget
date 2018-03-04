@@ -17,6 +17,7 @@
 package org.geotools.kml.bindings;
 
 import java.awt.Color;
+
 import org.geotools.kml.KML;
 import org.geotools.kml.KMLTestSupport;
 import org.geotools.styling.LineSymbolizer;
@@ -25,8 +26,6 @@ import org.geotools.xml.Binding;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class LineStyleTypeBindingTest extends KMLTestSupport {
@@ -40,7 +39,7 @@ public class LineStyleTypeBindingTest extends KMLTestSupport {
 
     public void testParse() throws Exception {
         String xml = "<LineStyle>" + "<color>ffff0000</color>" + "<width>2</width>"
-            + "</LineStyle>";
+                + "</LineStyle>";
 
         buildDocument(xml);
 

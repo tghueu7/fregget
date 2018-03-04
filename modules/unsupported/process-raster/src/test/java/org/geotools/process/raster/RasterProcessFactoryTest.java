@@ -25,14 +25,15 @@ public class RasterProcessFactoryTest {
 
     @Test
     public void testLookup() {
-        Set<Name> names = factory.getNames(); 
+        Set<Name> names = factory.getNames();
         assertFalse(names.isEmpty());
         assertTrue(names.contains(new NameImpl("ras", "AddCoverages")));
     }
-    
+
     @Test
     public void testRangeLookup() {
-        Map<String, Parameter<?>> params = factory.getParameterInfo(new NameImpl("ras", "RangeLookup"));
+        Map<String, Parameter<?>> params = factory.getParameterInfo(new NameImpl("ras", 
+                "RangeLookup"));
         Parameter<?> ranges = params.get("ranges");
         assertEquals("ranges", ranges.getName());
         assertEquals(0, ranges.getMinOccurs());
@@ -43,7 +44,7 @@ public class RasterProcessFactoryTest {
     @Test
     public void testAddCustomProcess() {
         assertNull(Processors.createProcess(new NameImpl("ras", "Custom")));
-        
+
         FactoryIteratorProvider p = new FactoryIteratorProvider() {
             @Override
             public <T> Iterator<T> iterator(Class<T> category) {
@@ -57,8 +58,7 @@ public class RasterProcessFactoryTest {
         try {
             Processors.reset();
             assertNotNull(Processors.createProcess(new NameImpl("ras", "Custom")));
-        }
-        finally {
+        } finally {
             GeoTools.removeFactoryIteratorProvider(p);
         }
     }

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -29,18 +29,15 @@ import java.util.logging.Logger;
 
 /**
  * @author <a href="mailto:joel@lggi.com">Joel Skelton</a>
- *
- *
- *
- *
  * @source $URL$
  */
 public class RunStoredTest extends TestCase {
-    private static final Logger LOG = org.geotools.util.logging.Logging.getLogger("org.geotools.geometry");
+    private static final Logger LOG = org.geotools.util.logging.Logging.getLogger("org.geotools" +
+            ".geometry");
 
     private static String TEST_DIRECTORY = "src/main/resources/org/geotools/test-data/xml/geometry";
     //TODO: use TestData.copy and acquire files from sample-data module
-    
+
     private FilenameFilter xmlFilter = new FilenameFilter() {
         public boolean accept(File dir, String name) {
             return name.endsWith(".xml");
@@ -49,18 +46,20 @@ public class RunStoredTest extends TestCase {
 
     /**
      * Load and run all test files.
-     * @throws IOException 
+     *
+     * @throws IOException
      */
     public void testGeometriesFromXML() throws IOException {
         GeometryTestParser parser = new GeometryTestParser();
         File dir = new File(TEST_DIRECTORY);
         if (dir.isDirectory()) {
             for (File testFile : dir.listFiles(xmlFilter)) {
-            	LOG.info("Loading test description file:" + testFile);
+                LOG.info("Loading test description file:" + testFile);
                 FileInputStream inputStream = new FileInputStream(testFile);
                 InputSource inputSource = new InputSource(inputStream);
                 GeometryTestContainer tests = parser.parseTestDefinition(inputSource);
-                assertTrue("Failed test(s) in: " + testFile.getName(), tests.runAllTestCases( new TestResult()));
+                assertTrue("Failed test(s) in: " + testFile.getName(), tests.runAllTestCases(new 
+                        TestResult()));
             }
         }
     }

@@ -33,18 +33,18 @@ import java.util.Map;
  * requires the 'alias', which refers to values defined by the Oracle Net Configuration assistant
  * and stored in $ORACLE_HOME/NETWORK/ADMIN/tnsnames.ora. We have also had luck on the same computer
  * with just leaving 'alias' as an empty string, and it seems to have a reasonable default behavior.
- * 
+ *
  * @author Chris Holmes, TOPP
  * @author Bernard de Terwangne, star.be
  * @author Andrea Aime - OpenGeo
- *
- *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/branches/2.6.x/modules/unsupported/oracle-spatial/src/
- *         main/java/org/geotools/data/oracle/OracleOCIDataStoreFactory.java $
+ * http://svn.osgeo.org/geotools/branches/2.6.x/modules/unsupported/oracle-spatial/src/
+ * main/java/org/geotools/data/oracle/OracleOCIDataStoreFactory.java $
  */
 public class OracleNGOCIDataStoreFactory extends OracleNGDataStoreFactory {
-    /** The alias parameter used to specify the database to connect to */
+    /**
+     * The alias parameter used to specify the database to connect to
+     */
     public static final Param ALIAS = new Param("alias", String.class,
             "The alias to the oracle server, as defined in the tnsnames.ora file", true);
 
@@ -66,13 +66,13 @@ public class OracleNGOCIDataStoreFactory extends OracleNGDataStoreFactory {
     @Override
     protected void setupParameters(Map parameters) {
         // a full override is needed to make sure we get a good looking param order
-        
+
         parameters.put(DBTYPE.key, new Param(DBTYPE.key, DBTYPE.type, DBTYPE.description,
                 DBTYPE.required, getDatabaseID()));
         parameters.put(SCHEMA.key, SCHEMA);
-        
+
         parameters.put(ALIAS.key, ALIAS);
-        
+
         parameters.put(USER.key, USER);
         parameters.put(PASSWD.key, PASSWD);
         parameters.put(NAMESPACE.key, NAMESPACE);
@@ -87,9 +87,11 @@ public class OracleNGOCIDataStoreFactory extends OracleNGDataStoreFactory {
 
         parameters.put(OracleNGDataStoreFactory.LOOSEBBOX.key, OracleNGDataStoreFactory.LOOSEBBOX);
         parameters.put(MAX_OPEN_PREPARED_STATEMENTS.key, MAX_OPEN_PREPARED_STATEMENTS);
-        
-        parameters.put(OracleNGDataStoreFactory.ESTIMATED_EXTENTS.key, OracleNGDataStoreFactory.ESTIMATED_EXTENTS);
-        parameters.put(OracleNGDataStoreFactory.GEOMETRY_METADATA_TABLE.key, OracleNGDataStoreFactory.GEOMETRY_METADATA_TABLE);
+
+        parameters.put(OracleNGDataStoreFactory.ESTIMATED_EXTENTS.key, OracleNGDataStoreFactory
+                .ESTIMATED_EXTENTS);
+        parameters.put(OracleNGDataStoreFactory.GEOMETRY_METADATA_TABLE.key, 
+                OracleNGDataStoreFactory.GEOMETRY_METADATA_TABLE);
         parameters.put(METADATA_BBOX.key, METADATA_BBOX);
 
     }

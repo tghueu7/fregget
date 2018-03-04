@@ -4,8 +4,6 @@ import org.geotools.jdbc.JDBCDateTest;
 import org.geotools.jdbc.JDBCDateTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class IngresDateTest extends JDBCDateTest {
@@ -14,5 +12,5 @@ public class IngresDateTest extends JDBCDateTest {
     protected JDBCDateTestSetup createTestSetup() {
         return new IngresDateTestSetup(new IngresTestSetup());
     }
-    
+
 }

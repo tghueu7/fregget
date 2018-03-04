@@ -49,15 +49,13 @@ import org.opengis.feature.type.Name;
 import org.opengis.filter.Filter;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DirectoryDataStore implements DataStore {
-    
+
     DirectoryTypeCache cache;
     DirectoryLockingManager lm;
-    
+
     public DirectoryDataStore(File directory, FileStoreFactory dialect) throws IOException {
         cache = new DirectoryTypeCache(directory, dialect);
     }
@@ -71,9 +69,9 @@ public class DirectoryDataStore implements DataStore {
     public SimpleFeatureSource getFeatureSource(
             String typeName) throws IOException {
         SimpleFeatureSource fs = getDataStore(typeName).getFeatureSource(typeName);
-        if(fs instanceof SimpleFeatureLocking) {
+        if (fs instanceof SimpleFeatureLocking) {
             return new DirectoryFeatureLocking((SimpleFeatureLocking) fs);
-        } else if(fs instanceof FeatureStore) {
+        } else if (fs instanceof FeatureStore) {
             return new DirectoryFeatureStore((SimpleFeatureStore) fs);
         } else {
             return new DirectoryFeatureSource((SimpleFeatureSource) fs);
@@ -97,7 +95,7 @@ public class DirectoryDataStore implements DataStore {
     }
 
     public LockingManager getLockingManager() {
-        if(lm == null) {
+        if (lm == null) {
             lm = new DirectoryLockingManager(cache);
         }
         return lm;
@@ -118,23 +116,23 @@ public class DirectoryDataStore implements DataStore {
     }
 
     public void createSchema(SimpleFeatureType featureType) throws IOException {
-        File f = new File(cache.directory, featureType.getTypeName()+".shp");
-        
+        File f = new File(cache.directory, featureType.getTypeName() + ".shp");
+
         Map<String, Serializable> params = new HashMap<String, Serializable>();
         params.put("url", URLs.fileToUrl(f));
         params.put("filetype", "shapefile");
         DataStore ds = null;
         try {
             ds = DataStoreFinder.getDataStore(params);
-            if(ds != null) {
+            if (ds != null) {
                 ds.createSchema(featureType);
                 ds.dispose();
                 cache.refreshCacheContents();
-            } 
-        } catch(Exception e) {
+            }
+        } catch (Exception e) {
             throw (IOException) new IOException("Error creating new data store").initCause(e);
         }
-        if(ds == null) {
+        if (ds == null) {
             throw new IOException("Could not find the shapefile data store in the classpath");
         }
     }
@@ -150,11 +148,11 @@ public class DirectoryDataStore implements DataStore {
 
     public ServiceInfo getInfo() {
         DefaultServiceInfo info = new DefaultServiceInfo();
-        info.setDescription("Features from Directory " + cache.directory );
-        info.setSchema( FeatureTypes.DEFAULT_NAMESPACE );
-        info.setSource( cache.directory.toURI() );
+        info.setDescription("Features from Directory " + cache.directory);
+        info.setSchema(FeatureTypes.DEFAULT_NAMESPACE);
+        info.setSource(cache.directory.toURI());
         try {
-            info.setPublisher( new URI(System.getProperty("user.name")) );
+            info.setPublisher(new URI(System.getProperty("user.name")));
         } catch (URISyntaxException e) {
         }
         return info;
@@ -177,9 +175,10 @@ public class DirectoryDataStore implements DataStore {
             throws IOException {
         updateSchema(typeName.getLocalPart(), featureType);
     }
-    
+
     /**
      * Returns the native store for a specified type name
+     *
      * @param typeName
      * @return
      * @throws IOException
@@ -187,7 +186,7 @@ public class DirectoryDataStore implements DataStore {
     public DataStore getDataStore(String typeName) throws IOException {
         // grab the store for a specific feature type, making sure it's actually there
         DataStore store = cache.getDataStore(typeName, true);
-        if(store == null)
+        if (store == null)
             throw new IOException("Feature type " + typeName + " is unknown");
         return store;
     }
@@ -195,7 +194,7 @@ public class DirectoryDataStore implements DataStore {
     @Override
     public void removeSchema(Name name) throws IOException {
         removeSchema(name.getLocalPart());
-        
+
     }
 
     @Override

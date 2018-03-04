@@ -4,7 +4,7 @@
  *
  *    (C) 2016 Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2016 Boundless Spatial
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -32,12 +32,12 @@ public class YsldParsePartialsTest {
     @Test
     public void testParseRules() throws Exception {
         String ysld =
-            "rules:\n" +
-            "- symbolizers:\n" +
-            "  - point:\n" +
-            "      symbols:\n" +
-            "      - mark:\n" +
-            "         shape: triangle";
+                "rules:\n" +
+                        "- symbolizers:\n" +
+                        "  - point:\n" +
+                        "      symbols:\n" +
+                        "      - mark:\n" +
+                        "         shape: triangle";
 
         assertSLD(Ysld.parse(ysld));
     }
@@ -45,11 +45,11 @@ public class YsldParsePartialsTest {
     @Test
     public void testParseSymbolizers() throws Exception {
         String ysld =
-            "symbolizers:\n" +
-            "- point:\n" +
-            "    symbols:\n" +
-            "    - mark:\n" +
-            "       shape: triangle";
+                "symbolizers:\n" +
+                        "- point:\n" +
+                        "    symbols:\n" +
+                        "    - mark:\n" +
+                        "       shape: triangle";
 
         assertSLD(Ysld.parse(ysld));
     }
@@ -57,10 +57,10 @@ public class YsldParsePartialsTest {
     @Test
     public void testParseSymbolizer() throws Exception {
         String ysld =
-            "point:\n" +
-            "  symbols:\n" +
-            "  - mark:\n" +
-            "     shape: triangle";
+                "point:\n" +
+                        "  symbols:\n" +
+                        "  - mark:\n" +
+                        "     shape: triangle";
 
         assertSLD(Ysld.parse(ysld));
     }

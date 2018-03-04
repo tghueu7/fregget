@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -18,6 +18,7 @@ package org.geotools.temporal.reference;
 
 import java.util.Calendar;
 import java.util.Date;
+
 import org.geotools.metadata.iso.citation.Citations;
 import org.geotools.referencing.NamedIdentifier;
 import org.geotools.temporal.object.DefaultTemporalCoordinate;
@@ -25,18 +26,16 @@ import org.geotools.util.SimpleInternationalString;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
+
 import org.opengis.temporal.TemporalCoordinate;
 import org.opengis.temporal.TemporalCoordinateSystem;
 import org.opengis.util.InternationalString;
 
 
 /**
- *
  * @author Mehdi Sidhoum (Geomatys)
- *
- *
- *
  * @source $URL$
  */
 public class DefaultTemporalCoordinateSystemTest {
@@ -52,10 +51,13 @@ public class DefaultTemporalCoordinateSystemTest {
         NamedIdentifier name2 = new NamedIdentifier(Citations.CRS, "Coordinate2");
         Calendar cal = Calendar.getInstance();
         cal.set(2000, 1, 1);
-        temporalCoordinateSystem1 = new DefaultTemporalCoordinateSystem(name1, null, cal.getTime(), new SimpleInternationalString("day"));
-        temporalCoordinate1 = new DefaultTemporalCoordinate(temporalCoordinateSystem1, null, 50785.48);
+        temporalCoordinateSystem1 = new DefaultTemporalCoordinateSystem(name1, null, cal.getTime
+                (), new SimpleInternationalString("day"));
+        temporalCoordinate1 = new DefaultTemporalCoordinate(temporalCoordinateSystem1, null, 
+                50785.48);
         cal.set(1981, 6, 25);
-        temporalCoordinateSystem2 = new DefaultTemporalCoordinateSystem(name2, null, cal.getTime(), new SimpleInternationalString("month"));
+        temporalCoordinateSystem2 = new DefaultTemporalCoordinateSystem(name2, null, cal.getTime
+                (), new SimpleInternationalString("month"));
         temporalCoordinate2 = new DefaultTemporalCoordinate(temporalCoordinateSystem2, null, 285);
     }
 
@@ -83,7 +85,8 @@ public class DefaultTemporalCoordinateSystemTest {
     @Test
     public void testSetInterval() {
         InternationalString result = temporalCoordinateSystem1.getInterval();
-        ((DefaultTemporalCoordinateSystem) temporalCoordinateSystem1).setInterval(new SimpleInternationalString("hour"));
+        ((DefaultTemporalCoordinateSystem) temporalCoordinateSystem1).setInterval(new 
+                SimpleInternationalString("hour"));
         assertFalse(temporalCoordinateSystem1.getInterval().equals(result));
     }
 

@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.metadata;
 
 import java.util.Collection;
+
 import org.opengis.metadata.citation.OnLineResource;
 import org.opengis.annotation.UML;
 
@@ -20,14 +21,12 @@ import static org.opengis.annotation.Specification.*;
 /**
  * Information describing metadata extensions.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 2.0
+ * @source $URL$
+ * @since GeoAPI 2.0
  */
-@UML(identifier="MD_MetadataExtensionInformation", specification=ISO_19115)
+@UML(identifier = "MD_MetadataExtensionInformation", specification = ISO_19115)
 public interface MetadataExtensionInformation {
     /**
      * Information about on-line sources containing the community profile name and
@@ -35,7 +34,7 @@ public interface MetadataExtensionInformation {
      *
      * @return On-line sources to community profile name and extended metadata elements.
      */
-    @UML(identifier="extensionOnLineResource", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "extensionOnLineResource", obligation = OPTIONAL, specification = ISO_19115)
     OnLineResource getExtensionOnLineResource();
 
     /**
@@ -44,6 +43,7 @@ public interface MetadataExtensionInformation {
      *
      * @return New metadata element not found in ISO 19115.
      */
-    @UML(identifier="extendedElementInformation", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "extendedElementInformation", obligation = OPTIONAL, specification = 
+            ISO_19115)
     Collection<? extends ExtendedElementInformation> getExtendedElementInformation();
 }

@@ -18,14 +18,14 @@ package org.geotools.xml;
 
 
 /**
- *        A strategy for parsing components in an instance document which are of
- *        simple type.
- *
+ * A strategy for parsing components in an instance document which are of
+ * simple type.
+ * <p>
  * <p>
  * Simple types can be manifested in elements and in attributes. Simple type
  * strategies must be capable of parsing simple values regardless of the form.
  * </p>
- *
+ * <p>
  * <p>
  * Strategy objects must declare how they relate to other strategy objects in
  * the type hierarchy of the type they parse. To allow strategy objects which
@@ -33,7 +33,7 @@ package org.geotools.xml;
  * strategies as they are executed. As an example, consider the strategies for
  * <b>integer</b> and <b>decimal</b>.
  * </p>
- *
+ * <p>
  * <pre>
  * <code>
  * class DecimalStrategy implements Strategy {
@@ -68,7 +68,7 @@ package org.geotools.xml;
  * }
  * </code>
  * </pre>
- *
+ * <p>
  * <p>
  * In the above example, the decimal strategy is at the top of the hierarchy as
  * it declares its execution mode as {@link org.geotools.xml.Binding#OVERRIDE}.
@@ -84,10 +84,6 @@ package org.geotools.xml;
  * </p>
  *
  * @author Justin Deoliveira,Refractions Research Inc.,jdeolive@refractions.net
- *
- *
- *
- *
  * @source $URL$
  */
 public interface SimpleBinding extends Binding {
@@ -96,23 +92,20 @@ public interface SimpleBinding extends Binding {
      * representation.
      *
      * @param instance The component being parsed.
-     * @param value The result of the parse from another strategy in the type
-     * hierarchy. Could be null if this is the first strategy being executed.
-     *
+     * @param value    The result of the parse from another strategy in the type
+     *                 hierarchy. Could be null if this is the first strategy being executed.
      * @return The parsed object, or null if the component could not be parsed.
-     *
      * @throws Delegate objects should not attempt to handle any exceptions.
      */
     Object parse(InstanceComponent instance, Object value)
-        throws Exception;
+            throws Exception;
 
     /**
      * Performs the encoding of the object as a String.
      *
      * @param object The object being encoded, never null.
-     * @param value The string returned from another binding in the type
-     * hierachy, which could be null.
-     *
+     * @param value  The string returned from another binding in the type
+     *               hierachy, which could be null.
      * @return A String representing the object.
      */
     String encode(Object object, String value) throws Exception;

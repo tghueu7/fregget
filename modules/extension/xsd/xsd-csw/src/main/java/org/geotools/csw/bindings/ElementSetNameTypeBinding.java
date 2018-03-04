@@ -30,22 +30,22 @@ import org.geotools.xml.Node;
 import org.geotools.xml.SimpleContentComplexEMFBinding;
 
 public class ElementSetNameTypeBinding extends SimpleContentComplexEMFBinding {
-    
+
 
     public ElementSetNameTypeBinding() {
         super(Csw20Factory.eINSTANCE, CSW.ElementSetNameType);
     }
 
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
-        
+
         ElementSetNameType result = (ElementSetNameType) createEObject(value);
         result.setValue(ElementSetType.get((String) value));
         Node typeNames = node.getAttribute("typeNames");
-        if(typeNames != null) {
+        if (typeNames != null) {
             result.setTypeNames((List<QName>) typeNames.getValue());
         }
-        
-        
+
+
         return result;
     }
 

@@ -25,9 +25,9 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the type http://www.opengis.net/fes/2.0:FunctionType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:complexType name="FunctionType"&gt;
@@ -35,13 +35,13 @@ import javax.xml.namespace.QName;
  *          &lt;xsd:element maxOccurs="unbounded" minOccurs="0" ref="fes:expression"/&gt;
  *      &lt;/xsd:sequence&gt;
  *      &lt;xsd:attribute name="name" type="xsd:string" use="required"/&gt;
- *  &lt;/xsd:complexType&gt; 
- * 	
+ *  &lt;/xsd:complexType&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
  */
 public class FunctionTypeBinding extends OGCFunctionTypeBinding {

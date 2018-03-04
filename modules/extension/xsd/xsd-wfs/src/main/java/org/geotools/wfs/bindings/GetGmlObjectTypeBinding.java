@@ -27,9 +27,9 @@ import org.geotools.xml.AbstractComplexEMFBinding;
 
 /**
  * Binding object for the type http://www.opengis.net/wfs:GetGmlObjectType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="GetGmlObjectType"&gt;
  *      &lt;xsd:annotation&gt;
@@ -86,9 +86,6 @@ import org.geotools.xml.AbstractComplexEMFBinding;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GetGmlObjectTypeBinding extends AbstractComplexEMFBinding {

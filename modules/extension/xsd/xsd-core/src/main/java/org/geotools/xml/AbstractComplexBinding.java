@@ -20,6 +20,7 @@ import org.eclipse.xsd.XSDElementDeclaration;
 import org.picocontainer.MutablePicoContainer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 import java.util.List;
 import javax.xml.namespace.QName;
 
@@ -28,10 +29,6 @@ import javax.xml.namespace.QName;
  * Base class for complex bindings.
  *
  * @author Justin Deoliveira, The Open Planning Project, jdeolive@openplans.org
- *
- *
- *
- *
  * @source $URL$
  */
 public abstract class AbstractComplexBinding implements ComplexBinding {
@@ -39,7 +36,7 @@ public abstract class AbstractComplexBinding implements ComplexBinding {
      * Does nothing, subclasses should override this method.
      */
     public void initializeChildContext(ElementInstance childInstance, Node node,
-        MutablePicoContainer context) {
+                                       MutablePicoContainer context) {
         //does nothing, subclasses should override
     }
 
@@ -65,7 +62,7 @@ public abstract class AbstractComplexBinding implements ComplexBinding {
      * return <code>null</code>.
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return null;
     }
 
@@ -76,7 +73,7 @@ public abstract class AbstractComplexBinding implements ComplexBinding {
      * @see ComplexBinding#encode(Object, Document, Element).
      */
     public Element encode(Object object, Document document, Element value)
-        throws Exception {
+            throws Exception {
         return value;
     }
 
@@ -87,7 +84,7 @@ public abstract class AbstractComplexBinding implements ComplexBinding {
      * @see ComplexBinding#getProperty(Object, QName)
      */
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         //do nothing, subclasses should override
         return null;
     }
@@ -108,7 +105,7 @@ public abstract class AbstractComplexBinding implements ComplexBinding {
         // do nothing, subclasses should override.
         return null;
     }
-    
+
     /**
      * Subclasses should override this method if need be, the default implementation
      * returns <code>null</code>.

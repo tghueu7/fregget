@@ -36,15 +36,16 @@ import org.picocontainer.MutablePicoContainer;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:RasterSymbolizer.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="RasterSymbolizer" substitutionGroup="sld:Symbolizer"&gt;
  *      &lt;xsd:annotation&gt;
  *          &lt;xsd:documentation&gt;         A &quot;RasterSymbolizer&quot; is
  *              used to specify the rendering of raster/
- *              matrix-coverage data (e.g., satellite images, DEMs).       &lt;/xsd:documentation&gt;
+ *              matrix-coverage data (e.g., satellite images, DEMs).       &lt;
+ *              /xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
  *      &lt;xsd:complexType&gt;
  *          &lt;xsd:complexContent&gt;
@@ -69,9 +70,6 @@ import org.picocontainer.MutablePicoContainer;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDRasterSymbolizerBinding extends AbstractComplexBinding {
@@ -124,13 +122,13 @@ public class SLDRasterSymbolizerBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         RasterSymbolizer rs = styleFactory.createRasterSymbolizer();
 
         //&lt;xsd:element ref="sld:Geometry" minOccurs="0"/&gt;
-        if(node.hasChild("Geometry")) {
+        if (node.hasChild("Geometry")) {
             Expression geometry = (Expression) node.getChildValue("Geometry");
-            if(geometry instanceof PropertyName) {
+            if (geometry instanceof PropertyName) {
                 PropertyName propertyName = (PropertyName) geometry;
                 rs.setGeometryPropertyName(propertyName.getPropertyName());
             } else {

@@ -38,9 +38,9 @@ import org.w3c.dom.Element;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:AbstractFeatureType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="AbstractFeatureType" abstract="true"&gt;
  *      &lt;annotation&gt;
@@ -65,25 +65,31 @@ import org.w3c.dom.Element;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLAbstractFeatureTypeBinding extends AbstractComplexBinding {
-    /** Cache of feature types */
+    /**
+     * Cache of feature types
+     */
     FeatureTypeCache ftCache;
 
-    /** factory for loading bindings */
+    /**
+     * factory for loading bindings
+     */
     BindingWalkerFactory bwFactory;
-    
-    /** schema index for looking up types */
+
+    /**
+     * schema index for looking up types
+     */
     SchemaIndex schemaIndex;
 
-    /** configuration */
+    /**
+     * configuration
+     */
     Configuration configuration;
 
-    public GMLAbstractFeatureTypeBinding(FeatureTypeCache ftCache, BindingWalkerFactory bwFactory, SchemaIndex schemaIndex, Configuration configuration) {
+    public GMLAbstractFeatureTypeBinding(FeatureTypeCache ftCache, BindingWalkerFactory 
+            bwFactory, SchemaIndex schemaIndex, Configuration configuration) {
         this.ftCache = ftCache;
         this.bwFactory = bwFactory;
         this.schemaIndex = schemaIndex;
@@ -114,16 +120,16 @@ public class GMLAbstractFeatureTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return GML2ParsingUtils.parseFeature(instance, node, value, ftCache, bwFactory);
     }
-    
+
     @Override
     public Element encode(Object object, Document document, Element value)
             throws Exception {
         return GML2EncodingUtils.AbstractFeatureType_encode(object, document, value);
     }
-    
+
     @Override
     public List getProperties(Object object, XSDElementDeclaration element) throws Exception {
         return GML2EncodingUtils.AbstractFeatureType_getProperties(object, element, schemaIndex,

@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.metadata.quality;
@@ -22,14 +22,12 @@ import static org.opengis.annotation.Specification.*;
 /**
  * Type of method for evaluating an identified data quality measure.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 2.0
+ * @source $URL$
+ * @since GeoAPI 2.0
  */
-@UML(identifier="DQ_EvaluationMethodTypeCode", specification=ISO_19115)
+@UML(identifier = "DQ_EvaluationMethodTypeCode", specification = ISO_19115)
 public final class EvaluationMethodType extends CodeList<EvaluationMethodType> {
     /**
      * Serial number for compatibility with different versions.
@@ -46,20 +44,22 @@ public final class EvaluationMethodType extends CodeList<EvaluationMethodType> {
      * Method of evaluating the quality of a dataset based on inspection of items within
      * the dataset, where all data required is internal to the dataset being evaluated.
      */
-    @UML(identifier="directInternal", obligation=CONDITIONAL, specification=ISO_19115)
-    public static final EvaluationMethodType DIRECT_INTERNAL = new EvaluationMethodType("DIRECT_INTERNAL");
+    @UML(identifier = "directInternal", obligation = CONDITIONAL, specification = ISO_19115)
+    public static final EvaluationMethodType DIRECT_INTERNAL = new EvaluationMethodType
+            ("DIRECT_INTERNAL");
 
     /**
      * Method of evaluating the quality of a dataset based on inspection of items within
      * the dataset, where reference data external to the dataset being evaluated is required.
      */
-    @UML(identifier="directExternal", obligation=CONDITIONAL, specification=ISO_19115)
-    public static final EvaluationMethodType DIRECT_EXTERNAL = new EvaluationMethodType("DIRECT_EXTERNAL");
+    @UML(identifier = "directExternal", obligation = CONDITIONAL, specification = ISO_19115)
+    public static final EvaluationMethodType DIRECT_EXTERNAL = new EvaluationMethodType
+            ("DIRECT_EXTERNAL");
 
     /**
      * Method of evaluating the quality of a dataset based on external knowledge.
      */
-    @UML(identifier="indirect", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "indirect", obligation = CONDITIONAL, specification = ISO_19115)
     public static final EvaluationMethodType INDIRECT = new EvaluationMethodType("INDIRECT");
 
     /**

@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.primitive;
@@ -23,23 +23,20 @@ import static org.opengis.annotation.Specification.*;
  * {@linkplain Ring ring}, a {@code Shell}'s elements have no natural sort order. Like
  * {@linkplain Ring rings}, {@code Shell}s are simple.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
- * @since GeoAPI 1.0
- *
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @see SolidBoundary
  * @see Ring
+ * @since GeoAPI 1.0
  */
-@UML(identifier="GM_Shell", specification=ISO_19107)
+@UML(identifier = "GM_Shell", specification = ISO_19107)
 public interface Shell extends CompositeSurface {
     /**
      * Always returns {@code true} since shell objects are simples.
      *
      * @return Always {@code true}.
      */
-    @UML(identifier="isSimple", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "isSimple", obligation = MANDATORY, specification = ISO_19107)
     boolean isSimple();
 }

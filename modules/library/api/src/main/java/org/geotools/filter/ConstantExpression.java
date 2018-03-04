@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -38,8 +38,6 @@ import com.vividsolutions.jts.geom.Geometry;
  * </p>
  *
  * @author Jody Garnett, Refractions Research
- *
- *
  * @source $URL$
  */
 @SuppressWarnings("deprecation")
@@ -179,7 +177,9 @@ public class ConstantExpression implements Literal, Cloneable {
         return (value == null) ? "NULL" : value.toString();
     }
 
-    /** Encode provided color as a String */
+    /**
+     * Encode provided color as a String
+     */
     public static ConstantExpression color(Color color) {
         if (color == null) {
             return NULL;

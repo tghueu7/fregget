@@ -41,41 +41,40 @@ import com.vividsolutions.jts.geom.Envelope;
 
 /**
  * A simple mock GTRenderer.
- * 
- * @author Michael Bedward
- * @since 8.0
  *
- * @source $URL$
+ * @author Michael Bedward
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 public class MockRenderer implements GTRenderer {
     protected List<RenderListener> listeners = new ArrayList<RenderListener>();
-    
+
     private MapContent mapContent;
     private long paintTime;
     private boolean verbose;
-    
+
     private CountDownLatch paintLatch = new CountDownLatch(0);
     private Lock lock = new ReentrantLock();
-    
+
     public MockRenderer() {
         this(null);
     }
-    
+
     public MockRenderer(MapContent mapContent) {
         this.mapContent = mapContent;
         this.paintTime = 0;
     }
-    
+
     /**
      * Sets the time that the mock renderer will pretend to paint.
-     * 
+     *
      * @param millis time in milliseconds
      */
     public void setPaintTime(long millis) {
         paintTime = millis < 0 ? 0 : millis;
     }
-    
+
     public void setVerbose(boolean b) {
         verbose = b;
     }
@@ -154,12 +153,14 @@ public class MockRenderer implements GTRenderer {
     }
 
     @Override
-    public void paint(Graphics2D graphics, Rectangle paintArea, Envelope mapArea, AffineTransform worldToScreen) {
+    public void paint(Graphics2D graphics, Rectangle paintArea, Envelope mapArea, AffineTransform
+            worldToScreen) {
         pretendToPaint();
     }
 
     @Override
-    public void paint(Graphics2D graphics, Rectangle paintArea, ReferencedEnvelope mapArea, AffineTransform worldToScreen) {
+    public void paint(Graphics2D graphics, Rectangle paintArea, ReferencedEnvelope mapArea, 
+                      AffineTransform worldToScreen) {
         pretendToPaint();
     }
 
@@ -177,7 +178,7 @@ public class MockRenderer implements GTRenderer {
         } finally {
             lock.unlock();
         }
-        
+
         boolean wasCancelled = false;
         try {
             wasCancelled = paintLatch.await(paintTime, TimeUnit.MILLISECONDS);
@@ -194,5 +195,5 @@ public class MockRenderer implements GTRenderer {
             System.out.flush();
         }
     }
-    
+
 }

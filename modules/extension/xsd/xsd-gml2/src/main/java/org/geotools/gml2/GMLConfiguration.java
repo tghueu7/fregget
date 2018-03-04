@@ -65,23 +65,21 @@ import com.vividsolutions.jts.geom.impl.CoordinateArraySequenceFactory;
  * Configuration used by gml2 parsers.
  *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
- *
  * @source $URL$
  */
 public class GMLConfiguration extends Configuration {
     /**
      * Property which controls whether encoded features should include bounds.
      */
-    public static final QName NO_FEATURE_BOUNDS = new QName( "org.geotools.gml", "noFeatureBounds" );
-   
+    public static final QName NO_FEATURE_BOUNDS = new QName("org.geotools.gml", "noFeatureBounds");
+
     /**
-     * Boolean property which controls whether the FeatureCollection should be encoded with multiple featureMember
+     * Boolean property which controls whether the FeatureCollection should be encoded with 
+     * multiple featureMember
      * as opposed to a single featureMembers
      */
-    public static final QName ENCODE_FEATURE_MEMBER = new QName( "org.geotools.gml", "encodeFeatureMember" );
+    public static final QName ENCODE_FEATURE_MEMBER = new QName("org.geotools.gml", 
+            "encodeFeatureMember");
 
     /**
      * Boolean property which controls whether geometry and envelope objects are encoded with an srs
@@ -141,63 +139,66 @@ public class GMLConfiguration extends Configuration {
     public void registerBindings(MutablePicoContainer container) {
         //geometry 
         container.registerComponentImplementation(GML.AbstractGeometryCollectionBaseType,
-            GMLAbstractGeometryCollectionBaseTypeBinding.class);
+                GMLAbstractGeometryCollectionBaseTypeBinding.class);
         container.registerComponentImplementation(GML.AbstractGeometryType,
-            GMLAbstractGeometryTypeBinding.class);
+                GMLAbstractGeometryTypeBinding.class);
         container.registerComponentImplementation(GML.BoxType, GMLBoxTypeBinding.class);
         container.registerComponentImplementation(GML.CoordinatesType,
-            GMLCoordinatesTypeBinding.class);
+                GMLCoordinatesTypeBinding.class);
         container.registerComponentImplementation(GML.CoordType, GMLCoordTypeBinding.class);
         container.registerComponentImplementation(GML.GeometryAssociationType,
-            GMLGeometryAssociationTypeBinding.class);
+                GMLGeometryAssociationTypeBinding.class);
         container.registerComponentImplementation(GML.GeometryCollectionType,
-            GMLGeometryCollectionTypeBinding.class);
+                GMLGeometryCollectionTypeBinding.class);
         container.registerComponentImplementation(GML.LinearRingMemberType,
-            GMLLinearRingMemberTypeBinding.class);
-        container.registerComponentImplementation(GML.LinearRingType, GMLLinearRingTypeBinding.class);
+                GMLLinearRingMemberTypeBinding.class);
+        container.registerComponentImplementation(GML.LinearRingType, GMLLinearRingTypeBinding
+                .class);
         container.registerComponentImplementation(GML.LineStringMemberType,
-            GMLLineStringMemberTypeBinding.class);
-        container.registerComponentImplementation(GML.LineStringType, GMLLineStringTypeBinding.class);
+                GMLLineStringMemberTypeBinding.class);
+        container.registerComponentImplementation(GML.LineStringType, GMLLineStringTypeBinding
+                .class);
         container.registerComponentImplementation(GML.MultiLineStringType,
-            GMLMultiLineStringTypeBinding.class);
-        container.registerComponentImplementation(GML.MultiPointType, GMLMultiPointTypeBinding.class);
+                GMLMultiLineStringTypeBinding.class);
+        container.registerComponentImplementation(GML.MultiPointType, GMLMultiPointTypeBinding
+                .class);
         container.registerComponentImplementation(GML.MultiPolygonType,
-            GMLMultiPolygonTypeBinding.class);
+                GMLMultiPolygonTypeBinding.class);
         container.registerComponentImplementation(GML.PointMemberType,
-            GMLPointMemberTypeBinding.class);
+                GMLPointMemberTypeBinding.class);
         container.registerComponentImplementation(GML.PointType, GMLPointTypeBinding.class);
         container.registerComponentImplementation(GML.PolygonMemberType,
-            GMLPolygonMemberTypeBinding.class);
+                GMLPolygonMemberTypeBinding.class);
         container.registerComponentImplementation(GML.PolygonType, GMLPolygonTypeBinding.class);
 
         //feature
         container.registerComponentImplementation(GML.AbstractFeatureCollectionBaseType,
-            GMLAbstractFeatureCollectionBaseTypeBinding.class);
+                GMLAbstractFeatureCollectionBaseTypeBinding.class);
         container.registerComponentImplementation(GML.AbstractFeatureCollectionType,
-            GMLAbstractFeatureCollectionTypeBinding.class);
+                GMLAbstractFeatureCollectionTypeBinding.class);
         container.registerComponentImplementation(GML.AbstractFeatureType,
-            GMLAbstractFeatureTypeBinding.class);
+                GMLAbstractFeatureTypeBinding.class);
         container.registerComponentImplementation(GML.BoundingShapeType,
-            GMLBoundingShapeTypeBinding.class);
+                GMLBoundingShapeTypeBinding.class);
         container.registerComponentImplementation(GML.FeatureAssociationType,
-            GMLFeatureAssociationTypeBinding.class);
+                GMLFeatureAssociationTypeBinding.class);
         container.registerComponentImplementation(GML.GeometryPropertyType,
-            GMLGeometryPropertyTypeBinding.class);
+                GMLGeometryPropertyTypeBinding.class);
         container.registerComponentImplementation(GML.LineStringPropertyType,
-            GMLLineStringPropertyTypeBinding.class);
+                GMLLineStringPropertyTypeBinding.class);
         container.registerComponentImplementation(GML.MultiGeometryPropertyType,
-            GMLMultiGeometryPropertyTypeBinding.class);
+                GMLMultiGeometryPropertyTypeBinding.class);
         container.registerComponentImplementation(GML.MultiLineStringPropertyType,
-            GMLMultiLineStringPropertyTypeBinding.class);
+                GMLMultiLineStringPropertyTypeBinding.class);
         container.registerComponentImplementation(GML.MultiPointPropertyType,
-            GMLMultiPointPropertyTypeBinding.class);
+                GMLMultiPointPropertyTypeBinding.class);
         container.registerComponentImplementation(GML.MultiPolygonPropertyType,
-            GMLMultiPolygonPropertyTypeBinding.class);
+                GMLMultiPolygonPropertyTypeBinding.class);
         container.registerComponentImplementation(GML.NullType, GMLNullTypeBinding.class);
         container.registerComponentImplementation(GML.PointPropertyType,
-            GMLPointPropertyTypeBinding.class);
+                GMLPointPropertyTypeBinding.class);
         container.registerComponentImplementation(GML.PolygonPropertyType,
-            GMLPolygonPropertyTypeBinding.class);
+                GMLPolygonPropertyTypeBinding.class);
     }
 
     /**
@@ -216,9 +217,9 @@ public class GMLConfiguration extends Configuration {
         super.configureContext(container);
 
         container.registerComponentInstance(new FeatureTypeCache());
-        
+
         container.registerComponentInstance(CoordinateSequenceFactory.class,
-            CoordinateArraySequenceFactory.instance());
+                CoordinateArraySequenceFactory.instance());
         container.registerComponentImplementation(GeometryFactory.class);
         container.registerComponentImplementation(DefaultFeatureCollections.class);
 
@@ -227,7 +228,7 @@ public class GMLConfiguration extends Configuration {
 
     /**
      * Returns the number of decimals that should be used for encoding coordinates (defaults to 6)
-     * 
+     *
      * @return the numDecimals
      */
     public int getNumDecimals() {
@@ -236,7 +237,7 @@ public class GMLConfiguration extends Configuration {
 
     /**
      * Sets the number of decimals that should be used for encoding coordinates
-     * 
+     *
      * @param numDecimals the numDecimals to set
      */
     public void setNumDecimals(int numDecimals) {

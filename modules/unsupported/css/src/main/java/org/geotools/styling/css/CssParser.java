@@ -56,9 +56,10 @@ import org.parboiled.support.ParsingResult;
 import org.parboiled.support.ValueStack;
 
 /**
- * Parser for the cartographic CSS. In order to parse a CSS either get a parser using the {@link #getInstance()} method, or directly call
+ * Parser for the cartographic CSS. In order to parse a CSS either get a parser using the 
+ * {@link #getInstance()} method, or directly call
  * {@link #parse(String)}
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 @BuildParseTree
@@ -100,15 +101,17 @@ public class CssParser extends BaseParser<Object> {
     }
 
     /**
-     * Allows Parboiled to do its magic, while disallowing normal users from instantiating this class
+     * Allows Parboiled to do its magic, while disallowing normal users from instantiating this 
+     * class
      */
     protected CssParser() {
 
     }
 
     /**
-     * Returns the single instance of the CSS parser. The CSSParser should not be instantiated directly, Parboiled needs to do it instead.
-     * 
+     * Returns the single instance of the CSS parser. The CSSParser should not be instantiated 
+     * directly, Parboiled needs to do it instead.
+     *
      * @return
      */
     public static CssParser getInstance() {
@@ -121,8 +124,9 @@ public class CssParser extends BaseParser<Object> {
     }
 
     /**
-     * Turns the CSS provided into a {@link Stylesheet} object, will throw a {@link CSSParseException} in case of syntax errors
-     * 
+     * Turns the CSS provided into a {@link Stylesheet} object, will throw a 
+     * {@link CSSParseException} in case of syntax errors
+     *
      * @return
      * @throws IOException
      */
@@ -346,8 +350,10 @@ public class CssParser extends BaseParser<Object> {
     }
 
     Rule MixedExpression() {
-        return Sequence(push(MARKER), OneOrMore(FirstOf(ECQLExpression(), String()), Optional(FirstOf(String("px"),
-                String("m"), String("ft"), String("%"), String("deg")), push(new Value.Literal(match())))), new Action() {
+        return Sequence(push(MARKER), OneOrMore(FirstOf(ECQLExpression(), String()), Optional
+                (FirstOf(String("px"),
+                String("m"), String("ft"), String("%"), String("deg")), push(new Value.Literal
+                        (match())))), new Action() {
 
             @Override
             public boolean run(Context ctx) {
@@ -415,7 +421,7 @@ public class CssParser extends BaseParser<Object> {
 
     /**
      * Very relaxed URL matcher, as we need to match also relative urls
-     * 
+     *
      * @return
      */
     Rule URL() {
@@ -728,8 +734,10 @@ public class CssParser extends BaseParser<Object> {
     }
 
     /**
-     * We redefine the rule creation for string literals to automatically match trailing whitespace if the string literal ends with a space character,
-     * this way we don't have to insert extra whitespace() rules after each character or string literal
+     * We redefine the rule creation for string literals to automatically match trailing 
+     * whitespace if the string literal ends with a space character,
+     * this way we don't have to insert extra whitespace() rules after each character or string 
+     * literal
      */
     @Override
     protected Rule fromStringLiteral(String string) {

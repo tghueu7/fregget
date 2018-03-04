@@ -22,8 +22,6 @@ import org.opengis.filter.FilterFactory2;
 import org.opengis.filter.expression.Subtract;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SubtractBuilder implements Builder<Subtract> {

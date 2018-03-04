@@ -58,20 +58,20 @@ import static org.geotools.referencing.AbstractIdentifiedObject.nameMatches;
  * Returns a conversion from a source to target projected CRS, if this conversion
  * is representable as an affine transform. More specifically, if all projection
  * parameters are identical except the following ones:
- * <P>
+ * <p>
  * <UL>
- *   <LI>{@link MapProjection.AbstractProvider#SCALE_FACTOR   scale_factor}</LI>
- *   <LI>{@link MapProjection.AbstractProvider#FALSE_EASTING  false_easting}</LI>
- *   <LI>{@link MapProjection.AbstractProvider#FALSE_NORTHING false_northing}</LI>
+ * <LI>{@link MapProjection.AbstractProvider#SCALE_FACTOR   scale_factor}</LI>
+ * <LI>{@link MapProjection.AbstractProvider#FALSE_EASTING  false_easting}</LI>
+ * <LI>{@link MapProjection.AbstractProvider#FALSE_NORTHING false_northing}</LI>
  * </UL>
- * <P>
+ * <p>
  * Then the conversion between two projected CRS can sometime be represented as a linear
  * conversion. For example if only false easting/northing differ, then the coordinate conversion
  * is simply a translation.
  *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
  */
 final class ProjectionAnalyzer {
     /**
@@ -119,7 +119,7 @@ final class ProjectionAnalyzer {
      */
     private ProjectionAnalyzer(final ProjectedCRS crs) {
         Matrix geographicScale = null;
-        Matrix  projectedScale = null;
+        Matrix projectedScale = null;
         projection = crs.getConversionFromBase();
         MathTransform candidate = projection.getMathTransform();
         while (candidate instanceof ConcatenatedTransform) {
@@ -184,8 +184,8 @@ final class ProjectionAnalyzer {
             parameters = group.values();
         }
         this.geographicScale = geographicScale;
-        this.projectedScale  = projectedScale;
-        this.transform       = candidate;
+        this.projectedScale = projectedScale;
+        this.transform = candidate;
     }
 
     /**
@@ -193,7 +193,7 @@ final class ProjectionAnalyzer {
      */
     private ParameterDescriptorGroup getTransformDescriptor() {
         return (transform instanceof AbstractMathTransform) ?
-            ((AbstractMathTransform) transform).getParameterDescriptors() : null;
+                ((AbstractMathTransform) transform).getParameterDescriptors() : null;
     }
 
     /**
@@ -209,14 +209,15 @@ final class ProjectionAnalyzer {
      * @return The affine transform.
      */
     private XMatrix normalizedToProjection() {
-        parameters = new LinkedList<GeneralParameterValue>(parameters); // Keep the original list unchanged.
+        parameters = new LinkedList<GeneralParameterValue>(parameters); // Keep the original list
+        // unchanged.
         /*
          * Creates a matrix which will conceptually stands between the normalized transform and
          * the 'projectedScale' transform. The matrix dimensions are selected accordingly using
          * a robust code when possible, but the result should be a 3x3 matrix most of the time.
          */
-        final int  sourceDim = (transform != null) ? transform.getTargetDimensions() : 2;
-        final int  targetDim = (projectedScale != null) ? projectedScale.getNumCol()-1 : sourceDim;
+        final int sourceDim = (transform != null) ? transform.getTargetDimensions() : 2;
+        final int targetDim = (projectedScale != null) ? projectedScale.getNumCol() - 1 : sourceDim;
         final XMatrix matrix = MatrixFactory.create(targetDim + 1, sourceDim + 1);
         /*
          * Search for "scale factor", "false easting" and "false northing" parameters.
@@ -237,7 +238,7 @@ final class ProjectionAnalyzer {
          */
         Unit<?> unit = null;
         String warning = null;
-        for (final Iterator<GeneralParameterValue> it=parameters.iterator(); it.hasNext();) {
+        for (final Iterator<GeneralParameterValue> it = parameters.iterator(); it.hasNext(); ) {
             final GeneralParameterValue parameter = it.next();
             if (parameter instanceof ParameterValue) {
                 final ParameterValue<?> value = (ParameterValue) parameter;
@@ -245,8 +246,8 @@ final class ProjectionAnalyzer {
                 if (Number.class.isAssignableFrom(descriptor.getValueClass())) {
                     if (nameMatches(descriptor, "scale_factor")) {
                         final double scale = value.doubleValue();
-                        for (int i=Math.min(sourceDim, targetDim); --i>=0;) {
-                            matrix.setElement(i,i, matrix.getElement(i,i) * scale);
+                        for (int i = Math.min(sourceDim, targetDim); --i >= 0; ) {
+                            matrix.setElement(i, i, matrix.getElement(i, i) * scale);
                         }
                     } else {
                         final int d;
@@ -290,11 +291,13 @@ final class ProjectionAnalyzer {
      */
     private static boolean parameterValuesEqual(final List<GeneralParameterValue> source,
                                                 final List<GeneralParameterValue> target,
-                                                final double errorTolerance)
-    {
-search: for (final Iterator<GeneralParameterValue> targetIter=target.iterator(); targetIter.hasNext();) {
+                                                final double errorTolerance) {
+        search:
+        for (final Iterator<GeneralParameterValue> targetIter = target.iterator(); targetIter
+                .hasNext(); ) {
             final GeneralParameterValue targetPrm = targetIter.next();
-            for (final Iterator<GeneralParameterValue> sourceIter=source.iterator(); sourceIter.hasNext();) {
+            for (final Iterator<GeneralParameterValue> sourceIter = source.iterator(); sourceIter
+                    .hasNext(); ) {
                 final GeneralParameterValue sourcePrm = sourceIter.next();
                 if (!nameMatches(sourcePrm.getDescriptor(), targetPrm.getDescriptor())) {
                     continue;
@@ -302,7 +305,8 @@ search: for (final Iterator<GeneralParameterValue> targetIter=target.iterator();
                 if (sourcePrm instanceof ParameterValue && targetPrm instanceof ParameterValue) {
                     final ParameterValue<?> sourceValue = (ParameterValue) sourcePrm;
                     final ParameterValue<?> targetValue = (ParameterValue) targetPrm;
-                    if (Number.class.isAssignableFrom(targetValue.getDescriptor().getValueClass())) {
+                    if (Number.class.isAssignableFrom(targetValue.getDescriptor().getValueClass()
+                    )) {
                         final double sourceNum, targetNum;
                         final Unit<?> unit = targetValue.getUnit();
                         if (unit != null) {
@@ -365,17 +369,16 @@ search: for (final Iterator<GeneralParameterValue> targetIter=target.iterator();
      * is representable as an affine transform. If no linear conversion has been found
      * between the two CRS, then this method returns {@code null}.
      *
-     * @param  sourceCRS The source coordinate reference system.
-     * @param  targetCRS The target coordinate reference system.
-     * @param  errorTolerance Relative error tolerance for considering two parameter values as
-     *         equal. This is usually a small number like {@code 1E-10}.
+     * @param sourceCRS      The source coordinate reference system.
+     * @param targetCRS      The target coordinate reference system.
+     * @param errorTolerance Relative error tolerance for considering two parameter values as
+     *                       equal. This is usually a small number like {@code 1E-10}.
      * @return The conversion from {@code sourceCRS} to {@code targetCRS} as an
-     *         affine transform, or {@code null} if no linear transform has been found.
+     * affine transform, or {@code null} if no linear transform has been found.
      */
     public static Matrix createLinearConversion(final ProjectedCRS sourceCRS,
                                                 final ProjectedCRS targetCRS,
-                                                final double errorTolerance)
-    {
+                                                final double errorTolerance) {
         /*
          * Checks if the datum are the same. To be stricter, we could compare the 'baseCRS'
          * instead. But this is not always needed. For example we don't really care if the
@@ -413,7 +416,7 @@ search: for (final Iterator<GeneralParameterValue> targetIter=target.iterator();
              */
             final ParameterDescriptorGroup sourceDsc = source.getTransformDescriptor();
             final ParameterDescriptorGroup targetDsc = source.getTransformDescriptor();
-            if (sourceDsc==null || targetDsc==null || !nameMatches(sourceDsc, targetDsc)) {
+            if (sourceDsc == null || targetDsc == null || !nameMatches(sourceDsc, targetDsc)) {
                 return null;
             }
         }

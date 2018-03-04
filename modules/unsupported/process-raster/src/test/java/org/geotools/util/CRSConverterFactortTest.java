@@ -3,7 +3,7 @@ package org.geotools.util;
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2014, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -16,6 +16,7 @@ package org.geotools.util;
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -33,16 +34,20 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  * Test class for the {@link CRSConverterFactory} class.
- * 
+ *
  * @author Nicola Lagomarsini GeoSolutions S.A.S.
- * 
  */
 public class CRSConverterFactortTest {
 
-    /** CRS class */
-    private static final Class<CoordinateReferenceSystem> CRS_CLASS = CoordinateReferenceSystem.class;
+    /**
+     * CRS class
+     */
+    private static final Class<CoordinateReferenceSystem> CRS_CLASS = CoordinateReferenceSystem
+            .class;
 
-    /** String class */
+    /**
+     * String class
+     */
     private static final Class<String> STRING_CLASS = String.class;
 
     @Test

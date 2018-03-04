@@ -8,9 +8,7 @@ import org.geotools.coverage.grid.io.AbstractGridFormat;
 import org.geotools.coverage.grid.io.GridFormatFactorySpi;
 
 /**
- * 
  * @author Niels Charlier
- *
  */
 public class MBTilesFormatFactorySpi implements GridFormatFactorySpi {
 

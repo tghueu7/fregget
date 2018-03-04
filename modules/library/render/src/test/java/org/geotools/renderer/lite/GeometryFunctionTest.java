@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2009 - 2016, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -43,8 +43,6 @@ import static java.awt.RenderingHints.KEY_ANTIALIASING;
 import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
 
 /**
- * 
- * 
  * @source $URL$
  */
 public class GeometryFunctionTest {
@@ -62,7 +60,8 @@ public class GeometryFunctionTest {
         bounds = fs.getBounds();
         bounds.expandBy(0.5);
 
-        Font font = Font.createFont(Font.TRUETYPE_FONT, TestData.getResource(this, "Vera.ttf").openStream());
+        Font font = Font.createFont(Font.TRUETYPE_FONT, TestData.getResource(this, "Vera.ttf")
+                .openStream());
         FontCache.getDefaultInstance().registerFont(font);
     }
 
@@ -92,7 +91,6 @@ public class GeometryFunctionTest {
                 + styleName + ".png");
         ImageAssert.assertEquals(reference, image, threshold);
     }
-
 
 
 }

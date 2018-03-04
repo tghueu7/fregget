@@ -18,6 +18,7 @@ package org.geotools.filter.v1_1.capabilities;
 
 import java.util.List;
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.capability.SpatialOperator;
 import org.opengis.filter.capability.SpatialOperators;
@@ -29,13 +30,14 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:SpatialOperatorsType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="SpatialOperatorsType"&gt;
  *      &lt;xsd:sequence&gt;
- *          &lt;xsd:element maxOccurs="unbounded" name="SpatialOperator" type="ogc:SpatialOperatorType"/&gt;
+ *          &lt;xsd:element maxOccurs="unbounded" name="SpatialOperator" 
+ *          type="ogc:SpatialOperatorType"/&gt;
  *      &lt;/xsd:sequence&gt;
  *  &lt;/xsd:complexType&gt;
  *
@@ -44,9 +46,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SpatialOperatorsTypeBinding extends AbstractComplexBinding {
@@ -80,7 +79,7 @@ public class SpatialOperatorsTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         List sops = node.getChildValues(SpatialOperator.class);
 
         return factory.spatialOperators((SpatialOperator[]) sops.toArray(
@@ -88,7 +87,7 @@ public class SpatialOperatorsTypeBinding extends AbstractComplexBinding {
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         SpatialOperators sops = (SpatialOperators) object;
 
         if ("SpatialOperator".equals(name.getLocalPart())) {

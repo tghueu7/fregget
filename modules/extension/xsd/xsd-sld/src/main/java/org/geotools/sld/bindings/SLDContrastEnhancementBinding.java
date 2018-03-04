@@ -30,9 +30,9 @@ import org.picocontainer.MutablePicoContainer;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:ContrastEnhancement.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="ContrastEnhancement"&gt;
  *      &lt;xsd:annotation&gt;
@@ -58,9 +58,6 @@ import org.picocontainer.MutablePicoContainer;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDContrastEnhancementBinding extends AbstractComplexBinding {
@@ -115,7 +112,7 @@ public class SLDContrastEnhancementBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         ContrastEnhancement ce = styleFactory.createContrastEnhancement();
 
         if (node.getChildValue("GammaValue") != null) {
@@ -124,13 +121,15 @@ public class SLDContrastEnhancementBinding extends AbstractComplexBinding {
         }
 
         if (node.getChild("Normalize") != null) {
-            SLDNormalizeBinding binding = new SLDNormalizeBinding(styleFactory,filterFactory);
+            SLDNormalizeBinding binding = new SLDNormalizeBinding(styleFactory, filterFactory);
             Node child = node.getChild("Normalize");
-            ce.setMethod((((ContrastMethodStrategy) binding.parse(instance, child, value)).getMethod()));
+            ce.setMethod((((ContrastMethodStrategy) binding.parse(instance, child, value))
+                    .getMethod()));
         } else if (node.getChild("Histogram") != null) {
             SLDHistogramBinding binding = new SLDHistogramBinding();
             Node child = node.getChild("Histogram");
-            ce.setMethod((((ContrastMethodStrategy) binding.parse(instance, child, value)).getMethod()));
+            ce.setMethod((((ContrastMethodStrategy) binding.parse(instance, child, value))
+                    .getMethod()));
         }
 
         return ce;

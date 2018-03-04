@@ -27,9 +27,9 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/se:Description.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:element name="Description" type="se:DescriptionType"&gt;
@@ -39,26 +39,24 @@ import javax.xml.namespace.QName;
  *          the object it is included within.
  *        &lt;/xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
- *  &lt;/xsd:element&gt; 
- * 	
+ *  &lt;/xsd:element&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class DescriptionBinding extends AbstractComplexBinding {
 
     StyleFactory styleFactory;
-    
+
     public DescriptionBinding(StyleFactory styleFactory) {
         this.styleFactory = styleFactory;
     }
-    
+
     /**
      * @generated
      */
@@ -68,7 +66,7 @@ public class DescriptionBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -77,13 +75,13 @@ public class DescriptionBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
-        
+
         InternationalString title = null, abstrct = null;
-        
+
         //&lt;xsd:element minOccurs="0" name="Title" type="xsd:string"/&gt;
         if (node.hasChild("Title")) {
             title = new SimpleInternationalString((String) node.getChildValue("Title"));
@@ -92,7 +90,7 @@ public class DescriptionBinding extends AbstractComplexBinding {
         if (node.hasChild("Abstract")) {
             abstrct = new SimpleInternationalString((String) node.getChildValue("Abstract"));
         }
-        
+
         return styleFactory.description(title, abstrct);
     }
 

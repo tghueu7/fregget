@@ -53,11 +53,10 @@ import org.opengis.util.ProgressListener;
 /**
  * Process that classifies vector data into "classes" using one of the following methods:
  * <ul>
- *  <li>Equal Interval ({@link EqualIntervalFunction})</li>
- *  <li>Quantile ({@link QuantileFunction})</li>
- *  <li>Natural Breaks ({@link JenksNaturalBreaksFunction})</li>
+ * <li>Equal Interval ({@link EqualIntervalFunction})</li>
+ * <li>Quantile ({@link QuantileFunction})</li>
+ * <li>Natural Breaks ({@link JenksNaturalBreaksFunction})</li>
  * </ul>
- * 
  */
 @DescribeProcess(title = "featureClassStats", description = "Calculates statistics from feature" +
         " values classified into bins/classes.")
@@ -69,28 +68,30 @@ public class FeatureClassStats implements VectorProcess {
 
     @DescribeResult(name = "results", description = "The classified results")
     public Results execute(
-        @DescribeParameter(name = "features", 
-          description = "The feature collection to analyze") FeatureCollection features,
-        @DescribeParameter(name = "attribute", 
-          description = "The feature attribute to analyze") String attribute,
-        @DescribeParameter(name = "stats",
-                description = "The statistics to calculate for each class", collectionType = Statistic.class) Set<Statistic> stats,
-        @DescribeParameter(name = "classes", 
-          description = "The number of breaks/classes", min = 0) Integer classes,
-        @DescribeParameter(name = "method", 
-          description = "The classification method", min = 0) ClassificationMethod method,
-        @DescribeParameter(name = "noData",
-          description = "The attribute value to be omitted from any calculation", min = 0 ) Double noData,
-        ProgressListener progressListener) throws ProcessException, IOException {
+            @DescribeParameter(name = "features",
+                    description = "The feature collection to analyze") FeatureCollection features,
+            @DescribeParameter(name = "attribute",
+                    description = "The feature attribute to analyze") String attribute,
+            @DescribeParameter(name = "stats",
+                    description = "The statistics to calculate for each class", collectionType = 
+                    Statistic.class) Set<Statistic> stats,
+            @DescribeParameter(name = "classes",
+                    description = "The number of breaks/classes", min = 0) Integer classes,
+            @DescribeParameter(name = "method",
+                    description = "The classification method", min = 0) ClassificationMethod method,
+            @DescribeParameter(name = "noData",
+                    description = "The attribute value to be omitted from any calculation", min =
+                    0) Double noData,
+            ProgressListener progressListener) throws ProcessException, IOException {
 
         //
         // initial checks/defaults
         //
-        if(features==null){
-            throw new ProcessException(Errors.format(ErrorKeys.NULL_ARGUMENT_$1,"features"));
+        if (features == null) {
+            throw new ProcessException(Errors.format(ErrorKeys.NULL_ARGUMENT_$1, "features"));
         }
-        if(attribute==null){
-            throw new ProcessException(Errors.format(ErrorKeys.NULL_ARGUMENT_$1,"attribute"));
+        if (attribute == null) {
+            throw new ProcessException(Errors.format(ErrorKeys.NULL_ARGUMENT_$1, "attribute"));
         }
         PropertyDescriptor property = features.getSchema().getDescriptor(attribute);
         if (property == null) {
@@ -105,10 +106,11 @@ public class FeatureClassStats implements VectorProcess {
         }
 
         if (classes < 1) {
-            throw new ProcessException(Errors.format(ErrorKeys.ILLEGAL_ARGUMENT_$2, "classes", classes));
+            throw new ProcessException(Errors.format(ErrorKeys.ILLEGAL_ARGUMENT_$2, "classes", 
+                    classes));
         }
 
-        
+
         //other defaults
         if (method == null) {
             method = ClassificationMethod.EQUAL_INTERVAL;
@@ -118,8 +120,8 @@ public class FeatureClassStats implements VectorProcess {
         }
 
         //choose the classification function
-        ClassificationFunction cf= null;
-        switch(method) {
+        ClassificationFunction cf = null;
+        switch (method) {
             case EQUAL_INTERVAL:
                 cf = new EqualIntervalFunction();
                 break;
@@ -132,7 +134,8 @@ public class FeatureClassStats implements VectorProcess {
             default:
                 throw new ProcessException("Unknown method: " + method);
         }
-        cf.setParameters(Arrays.asList(filterFactory.property(attribute), filterFactory.literal(classes)));
+        cf.setParameters(Arrays.asList(filterFactory.property(attribute), filterFactory.literal
+                (classes)));
 
         //compute the breaks
         RangedClassifier rc = (RangedClassifier) cf.evaluate(features);
@@ -141,23 +144,24 @@ public class FeatureClassStats implements VectorProcess {
         List<Range<Double>> ranges = new ArrayList<>();
         StreamingSampleStats[] sampleStats = new StreamingSampleStats[rc.getSize()];
         for (int i = 0; i < rc.getSize(); i++) {
-            ranges.add(Range.create((Double)rc.getMin(i), true, (Double)rc.getMax(i), i == rc.getSize()-1));
-            
+            ranges.add(Range.create((Double) rc.getMin(i), true, (Double) rc.getMax(i), i == rc
+                    .getSize() - 1));
+
             StreamingSampleStats s = new StreamingSampleStats(Range.Type.INCLUDE);
             s.setStatistics(stats.toArray(new Statistic[stats.size()]));
-            
+
             if (noData != null) {
                 s.addNoDataValue(noData);
             }
-            
+
             sampleStats[i] = s;
         }
 
         //calculate all the stats
         FeatureIterator it = features.features();
         try {
-            while(it.hasNext()) {
-                Feature f  = it.next();
+            while (it.hasNext()) {
+                Feature f = it.next();
                 Object val = f.getProperty(attribute).getValue();
                 if (val == null) {
                     continue;
@@ -167,15 +171,15 @@ public class FeatureClassStats implements VectorProcess {
                 Double dubVal = Converters.convert(val, Double.class);
                 if (dubVal == null) {
                     LOG.warning(String.format(
-                        "Unable to convert value %s (attribute '%s') to Double, skipping", val, attribute));
+                            "Unable to convert value %s (attribute '%s') to Double, skipping", 
+                            val, attribute));
                     continue;
                 }
 
                 int slot = rc.classify(dubVal);
                 sampleStats[slot].offer(dubVal);
             }
-        }
-        finally {
+        } finally {
             it.close();
         }
 

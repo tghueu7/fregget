@@ -30,8 +30,6 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DelegatingHandler implements DocumentHandler, ElementHandler {
@@ -40,47 +38,47 @@ public class DelegatingHandler implements DocumentHandler, ElementHandler {
     Handler parent;
     QName elementName;
     NodeImpl parseTree;
-    
-    DelegatingHandler( ParserDelegate delegate, QName elementName, Handler parent) {
+
+    DelegatingHandler(ParserDelegate delegate, QName elementName, Handler parent) {
         this.delegate = delegate;
         this.parent = parent;
         this.elementName = elementName;
-        
+
         //create a parse tree
         XSDElementDeclaration e = XSDFactory.eINSTANCE.createXSDElementDeclaration();
-        e.setTargetNamespace( elementName.getNamespaceURI() );
-        e.setName( elementName.getLocalPart() );
-        
-        ElementImpl instance = new ElementImpl( e );
-        instance.setName( elementName.getLocalPart() );
-        instance.setNamespace( elementName.getNamespaceURI() );
-        
-        parseTree = new NodeImpl( instance );
+        e.setTargetNamespace(elementName.getNamespaceURI());
+        e.setName(elementName.getLocalPart());
+
+        ElementImpl instance = new ElementImpl(e);
+        instance.setName(elementName.getLocalPart());
+        instance.setNamespace(elementName.getNamespaceURI());
+
+        parseTree = new NodeImpl(instance);
     }
-    
+
     public void setContext(MutablePicoContainer context) {
     }
-    
+
     public MutablePicoContainer getContext() {
         return null;
     }
-    
-    
+
+
     public XSDElementDeclaration getElementDeclaration() {
-        return ((ElementInstance)parseTree.getComponent()).getElementDeclaration();
+        return ((ElementInstance) parseTree.getComponent()).getElementDeclaration();
     }
-    
+
     public Handler getParentHandler() {
         return parent;
     }
-    
+
     public Handler createChildHandler(QName name) {
-        return new DelegatingHandler( delegate, name, this );
+        return new DelegatingHandler(delegate, name, this);
     }
 
     public void startChildHandler(Handler child) {
     }
-    
+
     public void endChildHandler(Handler child) {
     }
 
@@ -95,11 +93,11 @@ public class DelegatingHandler implements DocumentHandler, ElementHandler {
     public XSDSchemaContent getSchemaContent() {
         return null;
     }
-    
+
     public void startDocument() throws SAXException {
         delegate.startDocument();
     }
-    
+
     public void endDocument() throws SAXException {
         delegate.endDocument();
     }
@@ -110,30 +108,31 @@ public class DelegatingHandler implements DocumentHandler, ElementHandler {
     }
 
     public void startElement(QName name, Attributes attributes)
-        throws SAXException {
-        
-        if ( !( parent instanceof DelegatingHandler ) ) {
-            parent.startChildHandler( this );
+            throws SAXException {
+
+        if (!(parent instanceof DelegatingHandler)) {
+            parent.startChildHandler(this);
         }
-        
-        delegate.startElement(name.getNamespaceURI(), name.getLocalPart(), 
-            qname(name) , attributes);
+
+        delegate.startElement(name.getNamespaceURI(), name.getLocalPart(),
+                qname(name), attributes);
     }
 
     public void characters(char[] ch, int start, int length)
             throws SAXException {
-        delegate.characters( ch, start, length );
+        delegate.characters(ch, start, length);
     }
 
     public void endElement(QName name) throws SAXException {
-        delegate.endElement( name.getNamespaceURI(), name.getLocalPart(), qname( name ) );
+        delegate.endElement(name.getNamespaceURI(), name.getLocalPart(), qname(name));
     }
 
     public void endPrefixMapping(String prefix) throws SAXException {
         delegate.endPrefixMapping(prefix);
     }
 
-    String qname( QName name ) {
-        return name.getNamespaceURI() != null ? name.getPrefix() + ":" + name.getLocalPart() : name.getLocalPart();
+    String qname(QName name) {
+        return name.getNamespaceURI() != null ? name.getPrefix() + ":" + name.getLocalPart() : 
+                name.getLocalPart();
     }
 }

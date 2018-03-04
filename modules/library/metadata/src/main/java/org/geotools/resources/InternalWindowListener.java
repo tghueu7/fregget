@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -26,10 +26,10 @@ import javax.swing.event.InternalFrameListener;
  * by {@link SwingUtilities} in order to have the same methods working seemless on both
  * {@link java.awt.Frame} and {@link javax.swing.JInternalFrame}.
  *
- * @since 2.0
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.0
  */
 final class InternalWindowListener implements InternalFrameListener {
     /**

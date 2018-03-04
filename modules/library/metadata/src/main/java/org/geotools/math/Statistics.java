@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2001-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -38,11 +38,11 @@ import org.opengis.util.Cloneable;
  * to {@link Double#NaN NaN}). The statistics are updated every time an {@link #add(double)}
  * method is invoked with a non-{@linkplain Double#NaN NaN} value. A typical usage of this
  * class is:
- *
+ * <p>
  * <blockquote><pre>
  * double[] data = new double[1000];
  * // (Compute some data values here...)
- *
+ * <p>
  * Statistics stats = new Statistics();
  * for (int i=0; i&lt;data.length; i++) {
  *     stats.add(data[i]);
@@ -50,12 +50,10 @@ import org.opengis.util.Cloneable;
  * System.out.println(stats);
  * </pre></blockquote>
  *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.0
  */
 public class Statistics implements Cloneable, Serializable {
     /**
@@ -118,11 +116,11 @@ public class Statistics implements Cloneable, Serializable {
      * This method reset this object state as if it was just created.
      */
     public void reset() {
-        min  = Double.NaN;
-        max  = Double.NaN;
-        sum  = 0;
+        min = Double.NaN;
+        max = Double.NaN;
+        sum = 0;
         sum2 = 0;
-        n    = 0;
+        n = 0;
         nNaN = 0;
     }
 
@@ -131,7 +129,6 @@ public class Statistics implements Cloneable, Serializable {
      * method is usually invoked inside a {@code for} loop.
      *
      * @param sample The sample value. {@link Double#NaN NaN} values are ignored.
-     *
      * @see #add(long)
      * @see #add(Statistics)
      */
@@ -141,10 +138,10 @@ public class Statistics implements Cloneable, Serializable {
              *  Les deux prochaines lignes utilisent !(a>=b) au
              *  lieu de (a<b) afin de prendre en compte les NaN.
              */
-            if (!(min<=sample)) min=sample;
-            if (!(max>=sample)) max=sample;
-            sum2 += (sample*sample);
-            sum  += sample;
+            if (!(min <= sample)) min = sample;
+            if (!(max >= sample)) max = sample;
+            sum2 += (sample * sample);
+            sum += sample;
             n++;
         } else {
             nNaN++;
@@ -156,16 +153,15 @@ public class Statistics implements Cloneable, Serializable {
      * method is usually invoked inside a {@code for} loop.
      *
      * @param sample The sample value.
-     *
      * @see #add(double)
      * @see #add(Statistics)
      */
     public void add(final long sample) {
         final double fdatum = sample;
-        if (!(min<=fdatum)) min=fdatum;
-        if (!(max>=fdatum)) max=fdatum;
-        sum2 += (fdatum*fdatum);
-        sum  += fdatum;
+        if (!(min <= fdatum)) min = fdatum;
+        if (!(max >= fdatum)) max = fdatum;
+        sum2 += (fdatum * fdatum);
+        sum += fdatum;
         n++;
     }
 
@@ -179,11 +175,11 @@ public class Statistics implements Cloneable, Serializable {
     public void add(final Statistics stats) {
         if (stats != null) {
             // "if (a<b)" équivaut à "if (!isNaN(a) && a<b)".
-            if (Double.isNaN(min) || stats.min<min) min=stats.min;
-            if (Double.isNaN(max) || stats.max>max) max=stats.max;
+            if (Double.isNaN(min) || stats.min < min) min = stats.min;
+            if (Double.isNaN(max) || stats.max > max) max = stats.max;
             sum2 += stats.sum2;
-            sum  += stats.sum;
-            n    += stats.n;
+            sum += stats.sum;
+            n += stats.n;
             nNaN += stats.nNaN;
         }
     }
@@ -231,21 +227,21 @@ public class Statistics implements Cloneable, Serializable {
      * @see #maximum
      */
     public double range() {
-        return max-min;
+        return max - min;
     }
 
     /**
      * Returns the mean value, or {@link Double#NaN NaN} if none.
      */
     public double mean() {
-        return sum/n;
+        return sum / n;
     }
 
     /**
      * Returns the root mean square, or {@link Double#NaN NaN} if none.
      */
     public double rms() {
-        return Math.sqrt(sum2/n);
+        return Math.sqrt(sum2 / n);
     }
 
     /**
@@ -255,24 +251,25 @@ public class Statistics implements Cloneable, Serializable {
      * dans lequel se trouveraient environ 84% des données. Le tableau ci-dessous donne
      * le pourcentage approximatif des données que l'on trouve de part et d'autre de la
      * moyenne à des distances telles que 2 ou 3 fois l'écart-type.
-     *
+     * <p>
      * <table align=center>
-     *   <tr><td>&nbsp;0.5&nbsp;</td><td>&nbsp;69.1%&nbsp;</td></tr>
-     *   <tr><td>&nbsp;1.0&nbsp;</td><td>&nbsp;84.2%&nbsp;</td></tr>
-     *   <tr><td>&nbsp;1.5&nbsp;</td><td>&nbsp;93.3%&nbsp;</td></tr>
-     *   <tr><td>&nbsp;2.0&nbsp;</td><td>&nbsp;97.7%&nbsp;</td></tr>
-     *   <tr><td>&nbsp;3.0&nbsp;</td><td>&nbsp;99.9%&nbsp;</td></tr>
+     * <tr><td>&nbsp;0.5&nbsp;</td><td>&nbsp;69.1%&nbsp;</td></tr>
+     * <tr><td>&nbsp;1.0&nbsp;</td><td>&nbsp;84.2%&nbsp;</td></tr>
+     * <tr><td>&nbsp;1.5&nbsp;</td><td>&nbsp;93.3%&nbsp;</td></tr>
+     * <tr><td>&nbsp;2.0&nbsp;</td><td>&nbsp;97.7%&nbsp;</td></tr>
+     * <tr><td>&nbsp;3.0&nbsp;</td><td>&nbsp;99.9%&nbsp;</td></tr>
      * </table>
      *
      * @param allPopulation La valeur {@code true} indique que les données fournies
-     *        aux différentes méthodes {@code add(...)} représentent l'ensemble de
-     *        la polulation. La valeur {@code false} indique que ces données ne
-     *        représentent qu'un échantillon de la population, ce qui est généralement le
-     *        cas. Si le nombre de données est élevé, alors les valeurs {@code true}
-     *        et {@code false} donneront sensiblement les mêmes résultats.
+     *                      aux différentes méthodes {@code add(...)} représentent l'ensemble de
+     *                      la polulation. La valeur {@code false} indique que ces données ne
+     *                      représentent qu'un échantillon de la population, ce qui est 
+     *                      généralement le
+     *                      cas. Si le nombre de données est élevé, alors les valeurs {@code true}
+     *                      et {@code false} donneront sensiblement les mêmes résultats.
      */
     public double standardDeviation(final boolean allPopulation) {
-        return Math.sqrt((sum2 - sum*sum/n) / (allPopulation ? n : n-1));
+        return Math.sqrt((sum2 - sum * sum / n) / (allPopulation ? n : n - 1));
     }
 
     /**
@@ -293,13 +290,13 @@ public class Statistics implements Cloneable, Serializable {
      */
     @Override
     public boolean equals(final Object obj) {
-        if (obj!=null && getClass().equals(obj.getClass())) {
+        if (obj != null && getClass().equals(obj.getClass())) {
             final Statistics cast = (Statistics) obj;
-            return n==cast.n &&
-                   Double.doubleToLongBits(min ) == Double.doubleToLongBits(cast.min) &&
-                   Double.doubleToLongBits(max ) == Double.doubleToLongBits(cast.max) &&
-                   Double.doubleToLongBits(sum ) == Double.doubleToLongBits(cast.sum) &&
-                   Double.doubleToLongBits(sum2) == Double.doubleToLongBits(cast.sum2);
+            return n == cast.n &&
+                    Double.doubleToLongBits(min) == Double.doubleToLongBits(cast.min) &&
+                    Double.doubleToLongBits(max) == Double.doubleToLongBits(cast.max) &&
+                    Double.doubleToLongBits(sum) == Double.doubleToLongBits(cast.sum) &&
+                    Double.doubleToLongBits(sum2) == Double.doubleToLongBits(cast.sum2);
         }
         return false;
     }
@@ -310,9 +307,9 @@ public class Statistics implements Cloneable, Serializable {
     @Override
     public int hashCode() {
         final long code = (Double.doubleToLongBits(min) +
-                       37*(Double.doubleToLongBits(max) +
-                       37*(Double.doubleToLongBits(sum) +
-                       37*(Double.doubleToLongBits(sum2)))));
+                37 * (Double.doubleToLongBits(max) +
+                        37 * (Double.doubleToLongBits(sum) +
+                                37 * (Double.doubleToLongBits(sum2)))));
         return (int) code ^ (int) (code >>> 32) ^ n;
     }
 
@@ -329,7 +326,7 @@ public class Statistics implements Cloneable, Serializable {
     /**
      * Returns a localized string representation of this statistics. This string
      * will span multiple lines, one for each statistical value. For example:
-     *
+     * <p>
      * <blockquote><pre>
      *     Compte:      8726
      *     Minimum:    6.853
@@ -338,23 +335,22 @@ public class Statistics implements Cloneable, Serializable {
      *     RMS:        7.846
      *     Écart-type: 6.489
      * </pre></blockquote>
-     *
+     * <p>
      * If {@code tabulations} is true, then labels (e.g. "Minimum") and values
      * (e.g. "6.853") are separated by tabulations. Otherwise, they are separated
      * by spaces.
      */
     public String toString(final Locale locale, final boolean tabulations) {
         String text = Descriptions.getResources(locale).getString(
-                DescriptionKeys.STATISTICS_TO_STRING_$6, new Number[] {
-                count(), minimum(), maximum(), mean(), rms(), standardDeviation(false)
-        });
+                DescriptionKeys.STATISTICS_TO_STRING_$6, new Number[]{
+                        count(), minimum(), maximum(), mean(), rms(), standardDeviation(false)
+                });
         if (!tabulations) {
-            try (final TableWriter tmp = new TableWriter(null, 1)){
+            try (final TableWriter tmp = new TableWriter(null, 1)) {
                 tmp.write(text);
                 tmp.setColumnAlignment(1, TableWriter.ALIGN_RIGHT);
                 text = tmp.toString();
-            }
-            catch( IOException ignore){
+            } catch (IOException ignore) {
                 // from implicit close
             }
         }
@@ -371,8 +367,8 @@ public class Statistics implements Cloneable, Serializable {
      * <var>s<sub>3</sub></var>-<var>s<sub>2</sub></var>...,
      * which are stored in a {@link #getDeltaStatistics delta} statistics object.
      *
-     * @version $Id$
      * @author Martin Desruisseaux (IRD)
+     * @version $Id$
      */
     public static class Delta extends Statistics {
         /**
@@ -411,11 +407,11 @@ public class Statistics implements Cloneable, Serializable {
          * object for {@link #getDeltaStatistics delta} statistics. This method
          * allows chaining different kind of statistics objects. For example, one
          * could write:
-         *
+         * <p>
          * <blockquote><pre>
          * new Statistics.Delta(new Statistics.Delta());
          * </pre></blockquote>
-         *
+         * <p>
          * Which would compute statistics of sample values, statistics of difference between
          * consecutive sample values, and statistics of difference of difference between
          * consecutive sample values. Other kinds of {@link Statistics} object could be
@@ -448,7 +444,7 @@ public class Statistics implements Cloneable, Serializable {
             super.reset();
             delta.reset();
             delta.nNaN = -1; // Do not count the first NaN, which will always be the first value.
-            last       = Double.NaN;
+            last = Double.NaN;
             lastAsLong = 0;
         }
 
@@ -462,8 +458,8 @@ public class Statistics implements Cloneable, Serializable {
         public void add(final double sample) {
             super.add(sample);
             delta.add(sample - last);
-            last       = sample;
-            lastAsLong = (long)sample;
+            last = sample;
+            lastAsLong = (long) sample;
         }
 
         /**
@@ -484,7 +480,7 @@ public class Statistics implements Cloneable, Serializable {
                 // infinity or NaN. Invoke the 'delta.add(double)' version.
                 delta.add(sample - last);
             }
-            last       = sample;
+            last = sample;
             lastAsLong = sample;
         }
 
@@ -494,10 +490,10 @@ public class Statistics implements Cloneable, Serializable {
          * for all samples that were added to {@code stats}.  The {@code stats} argument
          * must be an instance of {@code Statistics.Delta}.
          *
-         * @param  stats The statistics to be added to {@code this},
-         *         or {@code null} if none.
+         * @param stats The statistics to be added to {@code this},
+         *              or {@code null} if none.
          * @throws ClassCastException If {@code stats} is not an instance of
-         *         {@code Statistics.Delta}.
+         *                            {@code Statistics.Delta}.
          */
         @Override
         public void add(final Statistics stats) throws ClassCastException {
@@ -505,7 +501,7 @@ public class Statistics implements Cloneable, Serializable {
                 final Delta toAdd = (Delta) stats;
                 if (toAdd.delta.nNaN >= 0) {
                     delta.add(toAdd.delta);
-                    last       = toAdd.last;
+                    last = toAdd.last;
                     lastAsLong = toAdd.lastAsLong;
                     super.add(stats);
                 }
@@ -535,7 +531,7 @@ public class Statistics implements Cloneable, Serializable {
          */
         @Override
         public int hashCode() {
-            return super.hashCode() + 37*delta.hashCode();
+            return super.hashCode() + 37 * delta.hashCode();
         }
     }
 }

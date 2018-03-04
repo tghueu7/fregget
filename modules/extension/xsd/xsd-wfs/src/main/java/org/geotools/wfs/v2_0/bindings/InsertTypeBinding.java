@@ -14,7 +14,7 @@ import org.geotools.wfs.v2_0.WFS;
 import org.geotools.xml.AbstractComplexEMFBinding;
 
 public class InsertTypeBinding extends AbstractComplexEMFBinding {
-           
+
     public InsertTypeBinding(Wfs20Factory factory) {
         super(factory);
     }
@@ -22,18 +22,18 @@ public class InsertTypeBinding extends AbstractComplexEMFBinding {
     public QName getTarget() {
         return WFS.InsertType;
     }
-    
+
     public Class<?> getType() {
         return InsertType.class;
     }
-          
+
     @Override
     public List getProperties(Object object, XSDElementDeclaration element) throws Exception {
-        InsertType insert = (InsertType) object;        
-        List properties = new ArrayList();        
-        for (final Object feature : insert.getAny()) {     
-            properties.add(new Object[] { GML.AbstractFeature, feature });
-        }            
+        InsertType insert = (InsertType) object;
+        List properties = new ArrayList();
+        for (final Object feature : insert.getAny()) {
+            properties.add(new Object[]{GML.AbstractFeature, feature});
+        }
         return properties;
     }
 

@@ -25,8 +25,6 @@ import org.geotools.xml.Parser;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class _Filter_CapabilitiesTypeBindingTest extends FilterCapabilitiesTestSupport {
@@ -42,7 +40,7 @@ public class _Filter_CapabilitiesTypeBindingTest extends FilterCapabilitiesTestS
         FilterMockData.capabilities(document, document);
 
         // print(document);
-        
+
         FilterCapabilities caps = (FilterCapabilities) parse();
 
         assertEquals(FilterCapabilities.VERSION_100, caps.getVersion());
@@ -51,45 +49,46 @@ public class _Filter_CapabilitiesTypeBindingTest extends FilterCapabilitiesTestS
     }
 
     public void testParseWithParser() throws Exception {
-        String xml= "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>" +
-        "<Filter_Capabilities version=\"1.0.0\" xmlns=\"http://www.opengis.net/ogc\">" +
-        "<Scalar_Capabilities>" +
-        "<Logical_Operators/>" +
-        "<Comparison_Operators>" +
-        "<Simple_Comparisons/>" +
-        "<Like/>" +
-        "<Between/>" +
-        "<NullCheck/>" +
-        "</Comparison_Operators>" +
-        "<Arithmetic_Operators>" +
-        "<Simple_Arithmetic/>" +
-        "<Functions>" +
-        "<Function_Names>" +
-        "<Function_Name nArgs=\"2\">foo</Function_Name>" +
-        "<Function_Name nArgs=\"3\">bar</Function_Name>" +
-        "</Function_Names>" +
-        "</Functions>" +
-        "</Arithmetic_Operators>" +
-        "</Scalar_Capabilities>" +
-        "<Spatial_Capabilities>" +
-        "<Spatial_Operators>" +
-        "<BBOX/>" +
-        "<Equals/>" +
-        "<Disjoint/>" +
-        "<Intersect/>" +
-        "<Touches/>" +
-        "<Contains/>" +
-        "<Crosses/>" +
-        "<Within/>" +
-        "<Overlaps/>" +
-        "<Beyond/>" +
-        "<DWithin/>" +
-        "</Spatial_Operators>" +
-        "</Spatial_Capabilities>" +
-        "</Filter_Capabilities>";
-        
+        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>" +
+                "<Filter_Capabilities version=\"1.0.0\" xmlns=\"http://www.opengis.net/ogc\">" +
+                "<Scalar_Capabilities>" +
+                "<Logical_Operators/>" +
+                "<Comparison_Operators>" +
+                "<Simple_Comparisons/>" +
+                "<Like/>" +
+                "<Between/>" +
+                "<NullCheck/>" +
+                "</Comparison_Operators>" +
+                "<Arithmetic_Operators>" +
+                "<Simple_Arithmetic/>" +
+                "<Functions>" +
+                "<Function_Names>" +
+                "<Function_Name nArgs=\"2\">foo</Function_Name>" +
+                "<Function_Name nArgs=\"3\">bar</Function_Name>" +
+                "</Function_Names>" +
+                "</Functions>" +
+                "</Arithmetic_Operators>" +
+                "</Scalar_Capabilities>" +
+                "<Spatial_Capabilities>" +
+                "<Spatial_Operators>" +
+                "<BBOX/>" +
+                "<Equals/>" +
+                "<Disjoint/>" +
+                "<Intersect/>" +
+                "<Touches/>" +
+                "<Contains/>" +
+                "<Crosses/>" +
+                "<Within/>" +
+                "<Overlaps/>" +
+                "<Beyond/>" +
+                "<DWithin/>" +
+                "</Spatial_Operators>" +
+                "</Spatial_Capabilities>" +
+                "</Filter_Capabilities>";
+
         Parser parser = new Parser(createConfiguration());
-        FilterCapabilities caps = (FilterCapabilities) parser.parse(new ByteArrayInputStream(xml.getBytes()));
+        FilterCapabilities caps = (FilterCapabilities) parser.parse(new ByteArrayInputStream(xml
+                .getBytes()));
         assertEquals(FilterCapabilities.VERSION_100, caps.getVersion());
         assertNotNull(caps.getScalarCapabilities());
         assertNotNull(caps.getSpatialCapabilities());

@@ -41,18 +41,16 @@ import net.sf.geographiclib.*;
  * In mathematical terms, it is a surface formed by the rotation of an ellipse about
  * its minor axis. An ellipsoid requires two defining parameters:
  * <ul>
- *   <li>{@linkplain #getSemiMajorAxis semi-major axis} and
- *       {@linkplain #getInverseFlattening inverse flattening}, or</li>
- *   <li>{@linkplain #getSemiMajorAxis semi-major axis} and
- *       {@linkplain #getSemiMinorAxis semi-minor axis}.</li>
+ * <li>{@linkplain #getSemiMajorAxis semi-major axis} and
+ * {@linkplain #getInverseFlattening inverse flattening}, or</li>
+ * <li>{@linkplain #getSemiMajorAxis semi-major axis} and
+ * {@linkplain #getSemiMinorAxis semi-minor axis}.</li>
  * </ul>
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class DefaultEllipsoid extends AbstractIdentifiedObject implements Ellipsoid {
     /**
@@ -99,12 +97,14 @@ public class DefaultEllipsoid extends AbstractIdentifiedObject implements Ellips
 
     /**
      * The equatorial radius.
+     *
      * @see #getSemiMajorAxis
      */
     private final double semiMajorAxis;
 
     /**
      * The polar radius.
+     *
      * @see #getSemiMinorAxis
      */
     private final double semiMinorAxis;
@@ -137,18 +137,16 @@ public class DefaultEllipsoid extends AbstractIdentifiedObject implements Ellips
      * i.e. the properties are not cloned.
      *
      * @param ellipsoid The ellipsoid to copy.
-     *
-     * @since 2.2
-     *
      * @see #wrap
+     * @since 2.2
      */
     protected DefaultEllipsoid(final Ellipsoid ellipsoid) {
         super(ellipsoid);
-        semiMajorAxis     = ellipsoid.getSemiMajorAxis();
-        semiMinorAxis     = ellipsoid.getSemiMinorAxis();
+        semiMajorAxis = ellipsoid.getSemiMajorAxis();
+        semiMinorAxis = ellipsoid.getSemiMinorAxis();
         inverseFlattening = ellipsoid.getInverseFlattening();
-        ivfDefinitive     = ellipsoid.isIvfDefinitive();
-        unit              = ellipsoid.getAxisUnit();
+        ivfDefinitive = ellipsoid.isIvfDefinitive();
+        unit = ellipsoid.getAxisUnit();
     }
 
     /**
@@ -162,23 +160,21 @@ public class DefaultEllipsoid extends AbstractIdentifiedObject implements Ellips
      * @param inverseFlattening The inverse of the flattening value.
      * @param ivfDefinitive     {@code true} if the inverse flattening is definitive.
      * @param unit              The units of the semi-major and semi-minor axis values.
-     *
      * @see #createEllipsoid
      * @see #createFlattenedSphere
      */
-    protected DefaultEllipsoid(final Map<String,?> properties,
-                               final double  semiMajorAxis,
-                               final double  semiMinorAxis,
-                               final double  inverseFlattening,
+    protected DefaultEllipsoid(final Map<String, ?> properties,
+                               final double semiMajorAxis,
+                               final double semiMinorAxis,
+                               final double inverseFlattening,
                                final boolean ivfDefinitive,
-                               final Unit<Length> unit)
-    {
+                               final Unit<Length> unit) {
         super(properties);
         this.unit = unit;
-        this.semiMajorAxis     = check("semiMajorAxis",     semiMajorAxis);
-        this.semiMinorAxis     = check("semiMinorAxis",     semiMinorAxis);
+        this.semiMajorAxis = check("semiMajorAxis", semiMajorAxis);
+        this.semiMinorAxis = check("semiMinorAxis", semiMinorAxis);
         this.inverseFlattening = check("inverseFlattening", inverseFlattening);
-        this.ivfDefinitive     = ivfDefinitive;
+        this.ivfDefinitive = ivfDefinitive;
         ensureNonNull("unit", unit);
         ensureLinearUnit(unit);
     }
@@ -195,10 +191,9 @@ public class DefaultEllipsoid extends AbstractIdentifiedObject implements Ellips
     public static DefaultEllipsoid createEllipsoid(final String name,
                                                    final double semiMajorAxis,
                                                    final double semiMinorAxis,
-                                                   final Unit<Length> unit)
-    {
+                                                   final Unit<Length> unit) {
         return createEllipsoid(Collections.singletonMap(NAME_KEY, name),
-                               semiMajorAxis, semiMinorAxis, unit);
+                semiMajorAxis, semiMinorAxis, unit);
     }
 
     /**
@@ -212,16 +207,15 @@ public class DefaultEllipsoid extends AbstractIdentifiedObject implements Ellips
      * @param unit          The units of the semi-major and semi-minor axis values.
      * @return An ellipsoid with the given axis length.
      */
-    public static DefaultEllipsoid createEllipsoid(final Map<String,?> properties,
+    public static DefaultEllipsoid createEllipsoid(final Map<String, ?> properties,
                                                    final double semiMajorAxis,
                                                    final double semiMinorAxis,
-                                                   final Unit<Length> unit)
-    {
+                                                   final Unit<Length> unit) {
         if (semiMajorAxis == semiMinorAxis) {
             return new Spheroid(properties, semiMajorAxis, false, unit);
         } else {
             return new DefaultEllipsoid(properties, semiMajorAxis, semiMinorAxis,
-                       semiMajorAxis/(semiMajorAxis-semiMinorAxis), false, unit);
+                    semiMajorAxis / (semiMajorAxis - semiMinorAxis), false, unit);
         }
     }
 
@@ -238,10 +232,9 @@ public class DefaultEllipsoid extends AbstractIdentifiedObject implements Ellips
     public static DefaultEllipsoid createFlattenedSphere(final String name,
                                                          final double semiMajorAxis,
                                                          final double inverseFlattening,
-                                                         final Unit<Length> unit)
-    {
+                                                         final Unit<Length> unit) {
         return createFlattenedSphere(Collections.singletonMap(NAME_KEY, name),
-                                     semiMajorAxis, inverseFlattening, unit);
+                semiMajorAxis, inverseFlattening, unit);
     }
 
     /**
@@ -256,17 +249,16 @@ public class DefaultEllipsoid extends AbstractIdentifiedObject implements Ellips
      *                          values.
      * @return An ellipsoid with the given axis length.
      */
-    public static DefaultEllipsoid createFlattenedSphere(final Map<String,?> properties,
+    public static DefaultEllipsoid createFlattenedSphere(final Map<String, ?> properties,
                                                          final double semiMajorAxis,
                                                          final double inverseFlattening,
-                                                         final Unit<Length> unit)
-    {
+                                                         final Unit<Length> unit) {
         if (Double.isInfinite(inverseFlattening)) {
             return new Spheroid(properties, semiMajorAxis, true, unit);
         } else {
             return new DefaultEllipsoid(properties, semiMajorAxis,
-                                        semiMajorAxis*(1-1/inverseFlattening),
-                                        inverseFlattening, true, unit);
+                    semiMajorAxis * (1 - 1 / inverseFlattening),
+                    inverseFlattening, true, unit);
         }
     }
 
@@ -280,27 +272,27 @@ public class DefaultEllipsoid extends AbstractIdentifiedObject implements Ellips
      * @return The given ellipsoid as a {@code DefaultEllipsoid} instance.
      */
     public static DefaultEllipsoid wrap(final Ellipsoid ellipsoid) {
-        if (ellipsoid==null || ellipsoid instanceof DefaultEllipsoid) {
+        if (ellipsoid == null || ellipsoid instanceof DefaultEllipsoid) {
             return (DefaultEllipsoid) ellipsoid;
         }
         if (ellipsoid.isIvfDefinitive()) {
             return createFlattenedSphere(getProperties(ellipsoid),
-                                         ellipsoid.getSemiMajorAxis(),
-                                         ellipsoid.getInverseFlattening(),
-                                         ellipsoid.getAxisUnit());
+                    ellipsoid.getSemiMajorAxis(),
+                    ellipsoid.getInverseFlattening(),
+                    ellipsoid.getAxisUnit());
         } else {
             return createEllipsoid(getProperties(ellipsoid),
-                                   ellipsoid.getSemiMajorAxis(),
-                                   ellipsoid.getSemiMinorAxis(),
-                                   ellipsoid.getAxisUnit());
+                    ellipsoid.getSemiMajorAxis(),
+                    ellipsoid.getSemiMinorAxis(),
+                    ellipsoid.getAxisUnit());
         }
     }
 
     /**
      * Checks the argument validity. Argument {@code value} should be greater than zero.
      *
-     * @param  name  Argument name.
-     * @param  value Argument value.
+     * @param name  Argument name.
+     * @param value Argument value.
      * @return {@code value}.
      * @throws IllegalArgumentException if {@code value} is not greater than  0.
      */
@@ -308,7 +300,8 @@ public class DefaultEllipsoid extends AbstractIdentifiedObject implements Ellips
         if (value > 0) {
             return value;
         }
-        throw new IllegalArgumentException(Errors.format(ErrorKeys.ILLEGAL_ARGUMENT_$2, name, value));
+        throw new IllegalArgumentException(Errors.format(ErrorKeys.ILLEGAL_ARGUMENT_$2, name, 
+                value));
     }
 
     /**
@@ -349,17 +342,18 @@ public class DefaultEllipsoid extends AbstractIdentifiedObject implements Ellips
      * @return The eccentricity of this ellipsoid.
      */
     public double getEccentricity() {
-        final double f = 1-getSemiMinorAxis()/getSemiMajorAxis();
-        return Math.sqrt(2*f - f*f);
+        final double f = 1 - getSemiMinorAxis() / getSemiMajorAxis();
+        return Math.sqrt(2 * f - f * f);
     }
 
     /**
      * Returns the value of the inverse of the flattening constant. Flattening is a value
      * used to indicate how closely an ellipsoid approaches a spherical shape. The inverse
      * flattening is related to the equatorial/polar radius by the formula
-     *
-     * <var>ivf</var>&nbsp;=&nbsp;<var>r</var><sub>e</sub>/(<var>r</var><sub>e</sub>-<var>r</var><sub>p</sub>).
-     *
+     * <p>
+     * <var>ivf</var>&nbsp;=&nbsp;<var>r</var><sub>e</sub>/
+     * (<var>r</var><sub>e</sub>-<var>r</var><sub>p</sub>).
+     * <p>
      * For perfect spheres (i.e. if {@link #isSphere} returns {@code true}),
      * the {@link Double#POSITIVE_INFINITY} value is used.
      *
@@ -376,8 +370,8 @@ public class DefaultEllipsoid extends AbstractIdentifiedObject implements Ellips
      * asked. This distinction can be important to avoid floating-point rounding errors.
      *
      * @return {@code true} if the {@linkplain #getInverseFlattening inverse flattening} is
-     *         definitive, or {@code false} if the {@linkplain #getSemiMinorAxis polar radius}
-     *         is definitive.
+     * definitive, or {@code false} if the {@linkplain #getSemiMinorAxis polar radius}
+     * is definitive.
      */
     public boolean isIvfDefinitive() {
         return ivfDefinitive;
@@ -398,10 +392,10 @@ public class DefaultEllipsoid extends AbstractIdentifiedObject implements Ellips
      * Returns the orthodromic distance between two geographic coordinates.
      * The orthodromic distance is the shortest distance between two points
      * on a sphere's surface. The default implementation delegates the work
-     * to {@link #orthodromicDistance(double,double,double,double)}.
+     * to {@link #orthodromicDistance(double, double, double, double)}.
      *
-     * @param  P1 Longitude and latitude of first point (in decimal degrees).
-     * @param  P2 Longitude and latitude of second point (in decimal degrees).
+     * @param P1 Longitude and latitude of first point (in decimal degrees).
+     * @param P2 Longitude and latitude of second point (in decimal degrees).
      * @return The orthodromic distance (in the units of this ellipsoid).
      */
     public double orthodromicDistance(final Point2D P1, final Point2D P2) {
@@ -415,25 +409,26 @@ public class DefaultEllipsoid extends AbstractIdentifiedObject implements Ellips
      * This is different from the <cite>loxodromic distance</cite>, which is a
      * longer distance on a path with a constant direction on the compass.
      *
-     * @param  x1 Longitude of first  point (in decimal degrees).
-     * @param  y1 Latitude  of first  point (in decimal degrees).
-     * @param  x2 Longitude of second point (in decimal degrees).
-     * @param  y2 Latitude  of second point (in decimal degrees).
+     * @param x1 Longitude of first  point (in decimal degrees).
+     * @param y1 Latitude  of first  point (in decimal degrees).
+     * @param x2 Longitude of second point (in decimal degrees).
+     * @param y2 Latitude  of second point (in decimal degrees).
      * @return The orthodromic distance (in the units of this ellipsoid's axis).
      */
     public double orthodromicDistance(double x1, double y1, double x2, double y2) {
-      Geodesic geod = new Geodesic(getSemiMajorAxis(),
-                                   1/getInverseFlattening());
-      GeodesicData g = geod.Inverse(y1, x1, y2, x2, GeodesicMask.DISTANCE);
-      return g.s12;
+        Geodesic geod = new Geodesic(getSemiMajorAxis(),
+                1 / getInverseFlattening());
+        GeodesicData g = geod.Inverse(y1, x1, y2, x2, GeodesicMask.DISTANCE);
+        return g.s12;
     }
 
     /**
      * Compare this ellipsoid with the specified object for equality.
      *
-     * @param  object The object to compare to {@code this}.
-     * @param  compareMetadata {@code true} for performing a strict comparaison, or
-     *         {@code false} for comparing only properties relevant to transformations.
+     * @param object          The object to compare to {@code this}.
+     * @param compareMetadata {@code true} for performing a strict comparaison, or
+     *                        {@code false} for comparing only properties relevant to 
+     *                                    transformations.
      * @return {@code true} if both objects are equal.
      */
     @Override
@@ -443,22 +438,21 @@ public class DefaultEllipsoid extends AbstractIdentifiedObject implements Ellips
         }
         if (super.equals(object, compareMetadata)) {
             final DefaultEllipsoid that = (DefaultEllipsoid) object;
-            
-            if(!compareMetadata) {
+
+            if (!compareMetadata) {
                 UnitConverter converter = that.unit.getConverterTo(this.unit);
                 return Utilities.equals(this.semiMajorAxis, converter.convert(that.semiMajorAxis))
-                        && Utilities.equals(this.semiMinorAxis, converter.convert(that.semiMinorAxis));
+                        && Utilities.equals(this.semiMinorAxis, converter.convert(that
+                        .semiMinorAxis));
             } else {
-                return (this.ivfDefinitive == that.ivfDefinitive)   &&
-                        Utilities.equals(this.semiMajorAxis,     that.semiMajorAxis)     &&
-                        Utilities.equals(this.semiMinorAxis,     that.semiMinorAxis)     &&
+                return (this.ivfDefinitive == that.ivfDefinitive) &&
+                        Utilities.equals(this.semiMajorAxis, that.semiMajorAxis) &&
+                        Utilities.equals(this.semiMinorAxis, that.semiMinorAxis) &&
                         Utilities.equals(this.inverseFlattening, that.inverseFlattening) &&
-                        Utilities.equals(this.unit,              that.unit);
+                        Utilities.equals(this.unit, that.unit);
             }
-            
-            
-            
-            
+
+
         }
         return false;
     }
@@ -471,25 +465,26 @@ public class DefaultEllipsoid extends AbstractIdentifiedObject implements Ellips
      * <code>{@link #equals equals}(AbstractIdentifiedObject, <strong>false</strong>)</code>.
      *
      * @return The hash code value. This value doesn't need to be the same
-     *         in past or future versions of this class.
+     * in past or future versions of this class.
      */
     @Override
     public int hashCode() {
-        long longCode = 37*Double.doubleToLongBits(semiMajorAxis);
+        long longCode = 37 * Double.doubleToLongBits(semiMajorAxis);
         if (ivfDefinitive) {
             longCode += inverseFlattening;
         } else {
             longCode += semiMinorAxis;
         }
-        return (((int)(longCode >>> 32)) ^ (int)longCode);
+        return (((int) (longCode >>> 32)) ^ (int) longCode);
     }
 
     /**
      * Format the inner part of a
-     * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
+     * <A HREF="http://geoapi.sourceforge
+     * .net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
      * Known Text</cite> (WKT)</A> element.
      *
-     * @param  formatter The formatter to use.
+     * @param formatter The formatter to use.
      * @return The WKT element name, which is "SPHEROID"
      */
     @Override

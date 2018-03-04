@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2011, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -22,7 +22,7 @@ import java.net.URL;
 
 /**
  * Defines the inteface by which an {@link AbstractOpenWebService} executes HTTP requests.
- * 
+ *
  * @author groldan
  * @see HTTPResponse
  * @see SimpleHttpClient
@@ -44,13 +44,11 @@ public interface HTTPClient {
      * <p>
      * If a {@link #getReadTimeout() read timeout} is set, the http connection will be set to
      * respect it.
-     * 
-     * @param url
-     *            the URL against which to execute the POST request
-     * @param postContent
-     *            an input stream with the contents of the POST body
-     * @param postContentType
-     *            the MIME type of the contents sent as the request POST body, can be {@code null}
+     *
+     * @param url             the URL against which to execute the POST request
+     * @param postContent     an input stream with the contents of the POST body
+     * @param postContentType the MIME type of the contents sent as the request POST body, can be
+     * {@code null}
      * @return the {@link HTTPResponse} encapsulating the response to the HTTP POST request
      * @throws IOException
      */
@@ -68,9 +66,8 @@ public interface HTTPClient {
      * <p>
      * If a {@link #getReadTimeout() read timeout} is set, the http connection will be set to
      * respect it.
-     * 
-     * @param url
-     *            the URL to retrieve
+     *
+     * @param url the URL to retrieve
      * @return an {@link HTTPResponse} encapsulating the response to the HTTP GET request
      * @throws IOException
      */
@@ -82,8 +79,7 @@ public interface HTTPClient {
     public String getUser();
 
     /**
-     * @param user
-     *            the HTTP BASIC Authentication user name
+     * @param user the HTTP BASIC Authentication user name
      */
     public void setUser(String user);
 
@@ -93,8 +89,7 @@ public interface HTTPClient {
     public String getPassword();
 
     /**
-     * @param password
-     *            the HTTP BASIC Authentication password
+     * @param password the HTTP BASIC Authentication password
      */
     public void setPassword(String password);
 
@@ -104,8 +99,7 @@ public interface HTTPClient {
     public int getConnectTimeout();
 
     /**
-     * @param connectTimeout
-     *            tcp/ip connect timeout in seconds
+     * @param connectTimeout tcp/ip connect timeout in seconds
      */
     public void setConnectTimeout(int connectTimeout);
 
@@ -115,8 +109,7 @@ public interface HTTPClient {
     public int getReadTimeout();
 
     /**
-     * @param readTimeout
-     *            socket read timeout in seconds
+     * @param readTimeout socket read timeout in seconds
      */
     public void setReadTimeout(int readTimeout);
 
@@ -124,7 +117,7 @@ public interface HTTPClient {
      * @param tryGZIP
      */
     void setTryGzip(boolean tryGZIP);
-    
+
     /**
      * @return whether gzip content encoding will be attempted; defaults to {@code false}
      */

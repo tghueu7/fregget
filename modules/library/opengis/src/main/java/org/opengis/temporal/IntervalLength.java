@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.temporal;
 
 import javax.measure.unit.Unit;
+
 import org.opengis.util.InternationalString;
 import org.opengis.annotation.UML;
 
@@ -24,28 +25,26 @@ import static org.opengis.annotation.Specification.*;
  * @author Stephane Fellah (Image Matters)
  * @author Alexander Petkov
  * @author Martin Desruisseaux (IRD)
- *
- *
  * @source $URL$
  */
-@UML(identifier="TM_IntervalLength", specification=ISO_19108)
+@UML(identifier = "TM_IntervalLength", specification = ISO_19108)
 public interface IntervalLength extends Duration {
     /**
      * The unit of measure used to express the length of the interval.
      */
-    @UML(identifier="unit", specification=ISO_19108)
+    @UML(identifier = "unit", specification = ISO_19108)
     Unit getUnit();
 
     /**
      * A positive integer that is the base of the mulitplier of the unit.
      */
-    @UML(identifier="radix", specification=ISO_19108)
+    @UML(identifier = "radix", specification = ISO_19108)
     int getRadix();
 
     /**
      * The exponent of the base.
      */
-    @UML(identifier="factor", specification=ISO_19108)
+    @UML(identifier = "factor", specification = ISO_19108)
     int getFactor();
 
     /**
@@ -53,6 +52,6 @@ public interface IntervalLength extends Duration {
      * {@linkplain #getRadix radix}<sup>(-{@linkplain #getFactor factor})</sup>
      * of the {@linkplain #getUnit specified unit}.
      */
-    @UML(identifier="value", specification=ISO_19108)
+    @UML(identifier = "value", specification = ISO_19108)
     int getValue();
 }

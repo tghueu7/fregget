@@ -41,31 +41,32 @@ import org.fest.swing.fixture.JTextComponentFixture;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import static org.junit.Assert.*;
 
 /**
  * Tests for the {@linkplain JAboutDialog} class.
- * 
+ *
  * @author Michael Bedward
- * @since 8.0
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 @RunWith(GraphicsTestRunner.class)
 public class JAboutDialogTest extends GraphicsTestBase<Dialog> {
-    
+
     private static final String DIALOG_TITLE = "About dialog test";
     private static final String APP_INFO = "GeoFoo: mapping Foos in real time";
-    
+
     private boolean showAppInfo;
-    
+
     @Test
     public void dialogWithoutApplicationInfo() throws Exception {
         createAndShow(false);
-        
+
         assertEquals(DIALOG_TITLE, windowFixture.component().getTitle());
         assertCategories();
-        
+
         // should be showing 'Environment' category
         String[] selection = windowFixture.list().selection();
         assertEquals(1, selection.length);
@@ -75,16 +76,16 @@ public class JAboutDialogTest extends GraphicsTestBase<Dialog> {
     @Test
     public void dialogWithApplicationInfo() throws Exception {
         createAndShow(true);
-        
+
         assertEquals(DIALOG_TITLE, windowFixture.component().getTitle());
         assertCategories();
-        
+
         // should be showing 'Application' category
         String[] selection = windowFixture.list().selection();
         assertEquals(1, selection.length);
         assertEquals(JAboutDialog.Category.APPLICATION.toString(), selection[0]);
     }
-    
+
     @Test
     public void ensureTextAreaIsDisplayed() {
         createAndShow(false);
@@ -92,64 +93,65 @@ public class JAboutDialogTest extends GraphicsTestBase<Dialog> {
         assertNotNull(textArea);
         textArea.requireVisible();
     }
-    
+
     @Test
     public void applicationInfo() {
         createAndShow(true);
         assertTextDisplayExact(JAboutDialog.Category.APPLICATION, APP_INFO);
     }
-    
+
     @Test
     public void environmentInfo() {
         createAndShow(false);
         assertTextDisplayExact(JAboutDialog.Category.ENVIRONMENT, GeoTools.getEnvironmentInfo());
     }
-    
+
     @Ignore("Licence info not implemented by dialog yet")
     @Test
     public void licenceInfo() {
         createAndShow(false);
-        
+
     }
-    
+
     @Test
     public void jarInfo() {
         createAndShow(false);
         assertTextDisplayExact(JAboutDialog.Category.JARS, GeoTools.getGeoToolsJarInfo());
     }
-    
+
     @Test
     public void allInfo() {
         createAndShow(true);
-        assertTextDisplayContains(JAboutDialog.Category.ALL, new String[] {
-            APP_INFO,
-            GeoTools.getEnvironmentInfo(),
-            GeoTools.getGeoToolsJarInfo()
+        assertTextDisplayContains(JAboutDialog.Category.ALL, new String[]{
+                APP_INFO,
+                GeoTools.getEnvironmentInfo(),
+                GeoTools.getGeoToolsJarInfo()
         });
     }
-                
+
     @Test
     public void copyToClipboard() throws Exception {
         createAndShow(true);
-        
-        
-        JButtonFixture button = windowFixture.button(new GenericTypeMatcher<JButton>(JButton.class) {
+
+
+        JButtonFixture button = windowFixture.button(new GenericTypeMatcher<JButton>(JButton
+                .class) {
             @Override
             protected boolean isMatching(JButton component) {
                 return "Copy to clipboard".equals(component.getText());
             }
         });
-        
+
         assertNotNull(button);
-        
+
         windowFixture.list().clickItem(JAboutDialog.Category.ALL.toString());
         windowFixture.robot.waitForIdle();
         button.click();
         windowFixture.robot.waitForIdle();
-        
+
         Clipboard clip = Toolkit.getDefaultToolkit().getSystemClipboard();
         String clipText = (String) clip.getData(DataFlavor.stringFlavor);
-        
+
         String expected = getDialogTextArea().text();
         assertEquals(expected, clipText);
     }
@@ -172,7 +174,7 @@ public class JAboutDialogTest extends GraphicsTestBase<Dialog> {
         windowFixture = new DialogFixture(dialog);
         ((DialogFixture) windowFixture).show();
     }
-    
+
     private JTextComponentFixture getDialogTextArea() {
         return windowFixture.textBox(new GenericTypeMatcher<JTextArea>(JTextArea.class, true) {
 
@@ -182,14 +184,15 @@ public class JAboutDialogTest extends GraphicsTestBase<Dialog> {
             }
         });
     }
+
     private void assertCategories() {
-        List<String> listItems = Arrays.asList( windowFixture.list().contents() );
-        
+        List<String> listItems = Arrays.asList(windowFixture.list().contents());
+
         int expectedN = JAboutDialog.Category.values().length - (showAppInfo ? 0 : 1);
         assertEquals(expectedN, listItems.size());
-        
+
         for (JAboutDialog.Category cat : JAboutDialog.Category.values()) {
-            boolean b = listItems.contains(cat.toString()) || 
+            boolean b = listItems.contains(cat.toString()) ||
                     (cat == JAboutDialog.Category.APPLICATION && !showAppInfo);
             assertTrue("List is missing " + cat.toString(), b);
         }
@@ -198,20 +201,20 @@ public class JAboutDialogTest extends GraphicsTestBase<Dialog> {
     private void assertTextDisplayExact(JAboutDialog.Category cat, String expected) {
         windowFixture.list().clickItem(cat.toString());
         windowFixture.robot.waitForIdle();
-        
+
         JTextComponentFixture textArea = getDialogTextArea();
         textArea.requireText(expected);
     }
-    
+
     private void assertTextDisplayContains(JAboutDialog.Category cat, String[] expected) {
         windowFixture.list().clickItem(cat.toString());
         windowFixture.robot.waitForIdle();
-        
+
         JTextComponentFixture textArea = getDialogTextArea();
         final String TEXT = textArea.text();
         for (String s : expected) {
             assertTrue("Did not match " + s, TEXT.contains(s));
         }
     }
-    
+
 }

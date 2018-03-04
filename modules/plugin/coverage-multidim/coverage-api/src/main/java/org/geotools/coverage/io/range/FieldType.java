@@ -29,7 +29,7 @@ import org.opengis.util.InternationalString;
  * measure/observation/forecast of a certain quantity. A {@link FieldType} may
  * be a scalar (numeric or text) value, such as population density, or a vector
  * of many similar values, such as incomes by race, or radiance by wavelength.
- * 
+ * <p>
  * <p>
  * A {@link FieldType} has an associated quantity from the JScience project
  * since the goal of a {@link FieldType} is to describe a {@link Quantity}.
@@ -39,37 +39,33 @@ import org.opengis.util.InternationalString;
  * associated to such a quantity, but still we want to be able to capture
  * somehow the concept of digital number as the represented quantity as well as
  * the concept of the bands index or textual representation for the bands.
- * 
+ * <p>
  * <p>
  * Note that in our proposal a {@link FieldType} shall always contain at least
  * one {@link Axis}.
- * 
+ *
  * @author Simone Giannecchini, GeoSolutions
- * 
- *
- *
- *
  * @source $URL$
  */
 public interface FieldType {
 
     /**
      * Get the {@link FieldType} {@link org.opengis.feature.type.Name}
-     * 
+     *
      * @return {@link org.opengis.feature.type.Name} of the {@link FieldType}
      */
     public Name getName();
 
     /**
      * Get the description of the {@link FieldType}
-     * 
+     *
      * @return description of the {@link FieldType}
      */
     public InternationalString getDescription();
 
     /**
      * List the SampleDimensions of the measure.
-     * 
+     *
      * @return Set of {@link SampleDimension} instances
      */
     public Set<SampleDimension> getSampleDimensions();

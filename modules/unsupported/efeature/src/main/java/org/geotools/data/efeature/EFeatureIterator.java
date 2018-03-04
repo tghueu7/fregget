@@ -13,10 +13,8 @@ import org.geotools.data.efeature.query.EFeatureFilter;
  * <li>support spatial filtering</li>
  * </ol>
  * </p>
- * 
- * @author kengu
- * 
  *
+ * @author kengu
  * @source $URL$
  */
 public class EFeatureIterator implements TreeIterator<EObject> {
@@ -78,7 +76,7 @@ public class EFeatureIterator implements TreeIterator<EObject> {
                 eObject = null;
             }
         } // while
-        
+
         //
         // Set as next
         //

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -39,12 +39,8 @@ import net.miginfocom.swing.MigLayout;
 
 /**
  * Widget for File; provides a "Browse" button to open a file dialog.
- * 
+ *
  * @author Jody Garnett
- *
- *
- *
- *
  * @source $URL$
  */
 public class JFileField extends ParamField {
@@ -74,29 +70,28 @@ public class JFileField extends ParamField {
     @SuppressWarnings("unchecked")
     protected void browse() {
         JFileChooser dialog;
-        Object format = this.parameter.metadata == null ? null : this.parameter.metadata.get( Parameter.EXT );
+        Object format = this.parameter.metadata == null ? null : this.parameter.metadata.get
+                (Parameter.EXT);
         if (format instanceof FileDataStoreFactorySpi) {
             dialog = new JFileDataStoreChooser((FileDataStoreFactorySpi) format);
         } else if (format instanceof String) {
             dialog = new JFileDataStoreChooser((String) format);
         } else if (format instanceof String[]) {
             dialog = new JFileDataStoreChooser((String[]) format);
-        }
-        else if (format instanceof List) {
+        } else if (format instanceof List) {
             dialog = new JFileDataStoreChooser((List<String>) format);
-        }
-        else {
+        } else {
             dialog = new JFileChooser();
         }
-        dialog.setSelectedFile( getValue() );
-        
-        int returnVal = dialog.showOpenDialog( browse );
+        dialog.setSelectedFile(getValue());
+
+        int returnVal = dialog.showOpenDialog(browse);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = dialog.getSelectedFile();
-            setValue( file );
+            setValue(file);
         }
     }
-    
+
     public void addListener(Controller controller) {
         //field.addKeyListener(controller);
         field.addActionListener(controller);
@@ -108,8 +103,8 @@ public class JFileField extends ParamField {
         field.removeActionListener(controller);
         field.getDocument().removeDocumentListener(controller);
     }
-    
-    public File getValue(){
+
+    public File getValue() {
         String txt = field.getText();
         if (txt == null || txt.equals("")) {
             return null;
@@ -121,23 +116,21 @@ public class JFileField extends ParamField {
         }
         try {
             URL url = new URL(txt);
-            return URLs.urlToFile( url );            
+            return URLs.urlToFile(url);
         } catch (MalformedURLException e) {
         }
         return null; // not a file
     }
 
     public void setValue(Object value) {
-        if( value instanceof File ){
+        if (value instanceof File) {
             File file = (File) value;
-            field.setText( file.toString() );            
-        }
-        else if ( value instanceof URL ){
+            field.setText(file.toString());
+        } else if (value instanceof URL) {
             URL url = (URL) value;
-            field.setText( url.toExternalForm() );
-        }
-        else if ( value instanceof String){
-            field.setText( (String) value );
+            field.setText(url.toExternalForm());
+        } else if (value instanceof String) {
+            field.setText((String) value);
         }
     }
 
@@ -147,7 +140,7 @@ public class JFileField extends ParamField {
             return !parameter.required;
         }
         File file = getValue();
-        if( file != null ){
+        if (file != null) {
             return file.exists();
         }
         return false;

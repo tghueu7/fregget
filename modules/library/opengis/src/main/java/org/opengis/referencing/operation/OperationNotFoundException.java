@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.referencing.operation;
@@ -19,11 +19,9 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
  * {@linkplain CoordinateReferenceSystem coordinate reference systems},
  * or because the requested operation is not available in the environment.
  *
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
- *
- *
+ * @author Martin Desruisseaux (IRD)
  * @source $URL$
+ * @since GeoAPI 1.0
  */
 public class OperationNotFoundException extends FactoryException {
     /**
@@ -50,7 +48,7 @@ public class OperationNotFoundException extends FactoryException {
      * Construct an exception with the specified detail message and cause.
      *
      * @param message The details message.
-     * @param cause The cause for this exception.
+     * @param cause   The cause for this exception.
      */
     public OperationNotFoundException(final String message, final Throwable cause) {
         super(message, cause);

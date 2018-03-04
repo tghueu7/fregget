@@ -33,7 +33,7 @@ public class TransparencyFill extends OperationJAI {
         Registry.registerRIF(JAI.getDefaultInstance(), new TransparencyFillDescriptor(),
                 new TransparencyFillRIF(), "it.geosolutions.jaiext");
     }
-    
+
     public TransparencyFill() {
         super("TransparencyFill");
     }

@@ -7,25 +7,26 @@ import org.opengis.filter.expression.Literal;
 import com.vividsolutions.jts.geom.Geometry;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class EGeometryValueIntersects extends EObjectAttributeValueCondition {
 
     public EGeometryValueIntersects(EAttribute eAttribute, Literal geometry, boolean swapped)
             throws EFeatureEncoderException {
-        super(eAttribute, SpatialConditionEncoder.intersects(eAttribute.getEAttributeType(), geometry, swapped));
+        super(eAttribute, SpatialConditionEncoder.intersects(eAttribute.getEAttributeType(), 
+                geometry, swapped));
     }
 
     public EGeometryValueIntersects(EAttribute eAttribute, Object geometry, boolean swapped)
             throws EFeatureEncoderException {
-        super(eAttribute, SpatialConditionEncoder.intersects(eAttribute.getEAttributeType(), geometry, swapped));
+        super(eAttribute, SpatialConditionEncoder.intersects(eAttribute.getEAttributeType(), 
+                geometry, swapped));
     }
 
     public EGeometryValueIntersects(EAttribute eAttribute, Geometry geometry, boolean swapped)
             throws EFeatureEncoderException {
-        super(eAttribute, SpatialConditionEncoder.intersects(eAttribute.getEAttributeType(), geometry, swapped));
+        super(eAttribute, SpatialConditionEncoder.intersects(eAttribute.getEAttributeType(), 
+                geometry, swapped));
     }
 
 }

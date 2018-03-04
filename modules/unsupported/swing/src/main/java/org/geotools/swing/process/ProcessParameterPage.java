@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -43,19 +43,18 @@ import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * This page is responsible making a user interface based on the provided ProcessFactory.
- * 
- * @author Jody, gdavis
- * @since 8.0
  *
- * @source $URL$
+ * @author Jody, gdavis
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 public class ProcessParameterPage extends JPage {
     /**
      * The selected factory we are working on.
      */
     ProcessFactory factory;
-    
+
     /**
      * Name of the process we are working with.
      */
@@ -189,13 +188,13 @@ public class ProcessParameterPage extends JPage {
 
     /**
      * Create a new widget and label for the given parameter
-     * 
+     *
      * @param parameter
-     * @param resize whether to resize the wizard after adding or not
+     * @param resize    whether to resize the wizard after adding or not
      */
     private ParamField createNewField(Parameter<?> parameter, boolean resize) {
         JPanel page = getPanel();
-        
+
         JLabel label;
         label = new JLabel(parameter.title.toString());
         page.add(label);

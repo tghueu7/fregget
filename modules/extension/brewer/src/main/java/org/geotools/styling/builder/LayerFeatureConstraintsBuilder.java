@@ -24,8 +24,6 @@ import org.geotools.styling.LayerFeatureConstraints;
 import org.geotools.styling.StyleFactory;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class LayerFeatureConstraintsBuilder<P> implements Builder<LayerFeatureConstraints> {
@@ -33,10 +31,12 @@ public class LayerFeatureConstraintsBuilder<P> implements Builder<LayerFeatureCo
 
     private P parent;
 
-    private ChildExpressionBuilder<LayerFeatureConstraintsBuilder<P>> x = new ChildExpressionBuilder<LayerFeatureConstraintsBuilder<P>>(
+    private ChildExpressionBuilder<LayerFeatureConstraintsBuilder<P>> x = new 
+            ChildExpressionBuilder<LayerFeatureConstraintsBuilder<P>>(
             this);
 
-    private ChildExpressionBuilder<LayerFeatureConstraintsBuilder<P>> y = new ChildExpressionBuilder<LayerFeatureConstraintsBuilder<P>>(
+    private ChildExpressionBuilder<LayerFeatureConstraintsBuilder<P>> y = new 
+            ChildExpressionBuilder<LayerFeatureConstraintsBuilder<P>>(
             this);
 
     boolean unset = true; // current value is null

@@ -27,13 +27,13 @@ import org.geotools.coverageio.BaseGridFormatFactorySPI;
 /**
  * @author Mathew Wyatt, CSIRO Australia
  * @author Daniele Romagnoli, GeoSolutions SAS
- *
- *
  * @source $URL$
  */
-public class EnviHdrFormatFactory extends BaseGridFormatFactorySPI implements GridFormatFactorySpi  {
+public class EnviHdrFormatFactory extends BaseGridFormatFactorySPI implements GridFormatFactorySpi {
 
-    /** Logger. */
+    /**
+     * Logger.
+     */
     private final static Logger LOGGER = org.geotools.util.logging.Logging.getLogger(
             "org.geotools.coverageio.gdal.envihdr");
 

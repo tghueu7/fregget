@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -84,9 +84,11 @@ import org.opengis.filter.temporal.TOverlaps;
 
 
 /**
- * Prepares a filter for XML encoded for interoperability with another system.  It will behave differently depending on
+ * Prepares a filter for XML encoded for interoperability with another system.  It will behave 
+ * differently depending on
  * the compliance level chosen.  A new request will have to be made and the features will have
- * to be tested again on the client side if there are any FidFilters in the filter.  Consider the following to understand why:
+ * to be tested again on the client side if there are any FidFilters in the filter.  Consider the
+ * following to understand why:
  * <pre>
  * and {
  *   nullFilter
@@ -96,8 +98,9 @@ import org.opengis.filter.temporal.TOverlaps;
  *   }
  * }
  * </pre>
- *
- * for strict it would throw an exception, for low it would be left alone, but for Medium it would end up as:
+ * <p>
+ * for strict it would throw an exception, for low it would be left alone, but for Medium it 
+ * would end up as:
  * <pre>
  * and{
  *         nullFilter
@@ -105,18 +108,20 @@ import org.opengis.filter.temporal.TOverlaps;
  * }
  * </pre>
  * and getFids() would return the fids in the fidFilter.
- *
- * So the final filter would (this is not standard but a common implementation) return the results of the and filter as well as
+ * <p>
+ * So the final filter would (this is not standard but a common implementation) return the 
+ * results of the and filter as well as
  * all the features that match the fids.  Which is more than the original filter would accept.
- *
+ * <p>
  * The XML Document writer can operate at different levels of compliance. The
  * geotools level is extremely flexible and forgiving.
- *
  * <p>
- * All NOT(FidFilter) are changed to Filter.INCLUDE.  So make sure that the filter is processed again on the client with the original
+ * <p>
+ * All NOT(FidFilter) are changed to Filter.INCLUDE.  So make sure that the filter is processed 
+ * again on the client with the original
  * filter
  * </p>
- *
+ * <p>
  * For a description of the difference Compliance levels that can be used see
  * <ul>
  * <li>{@link XMLHandlerHints#VALUE_FILTER_COMPLIANCE_LOW}</li>
@@ -125,7 +130,6 @@ import org.opengis.filter.temporal.TOverlaps;
  * </ul>
  *
  * @author Jesse Eichar
- *
  * @source $URL$
  */
 public class FilterEncodingPreProcessor implements FilterVisitor {
@@ -135,13 +139,14 @@ public class FilterEncodingPreProcessor implements FilterVisitor {
     private int complianceInt;
     private Stack<Data> current = new Stack<Data>();
     FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
-    
-    private boolean requiresPostProcessing=false;
+
+    private boolean requiresPostProcessing = false;
 
     public FilterEncodingPreProcessor(Integer complianceLevel) {
         if ((complianceLevel != LOW) && (complianceLevel != MEDIUM) && (complianceLevel != HIGH)) {
             throw new IllegalArgumentException(
-                    "compliance level must be one of: XMLHandlerHints.VALUE_FILTER_COMPLIANCE_LOOSE "
+                    "compliance level must be one of: XMLHandlerHints" +
+                            ".VALUE_FILTER_COMPLIANCE_LOOSE "
                             + "XMLHandlerHints.VALUE_FILTER_COMPLIANCE_MEDIUM or "
                             + "XMLHandlerHints.VALUE_FILTER_COMPLIANCE_MAXIMUM");
         }
@@ -162,15 +167,14 @@ public class FilterEncodingPreProcessor implements FilterVisitor {
 
         Data data = (Data) current.peek();
 
-        if (data.fids.size() > 0) {            
+        if (data.fids.size() > 0) {
             Set<FeatureId> set = new HashSet<FeatureId>();
             Set<String> fids = data.fids;
-            for( String fid : fids ){
-                set.add( ff.featureId(fid));
+            for (String fid : fids) {
+                set.add(ff.featureId(fid));
             }
             return (Id) ff.id(set);
-        }
-        else {
+        } else {
             Set<FeatureId> empty = Collections.emptySet();
             return (Id) ff.id(empty);
         }
@@ -182,7 +186,7 @@ public class FilterEncodingPreProcessor implements FilterVisitor {
      * @return the filter that can be encoded.
      */
     public org.opengis.filter.Filter getFilter() {
-        if( current.isEmpty() )
+        if (current.isEmpty())
             return Filter.EXCLUDE;
         return ((Data) this.current.peek()).filter;
     }
@@ -195,7 +199,7 @@ public class FilterEncodingPreProcessor implements FilterVisitor {
                 || filter instanceof BinaryLogicOperator
                 || filter instanceof Not
                 || filter instanceof PropertyIsNull || filter instanceof Id) {
-            filter.accept(this,null);
+            filter.accept(this, null);
         } else {
             current.push(new Data(filter));
         }
@@ -208,9 +212,11 @@ public class FilterEncodingPreProcessor implements FilterVisitor {
     public void visit(BinaryComparisonOperator filter) {
         current.push(new Data(filter));
     }
+
     public void visit(Not filter) {
         current.push(new Data(filter));
     }
+
     public void visit(BinarySpatialOperator filter) {
         current.push(new Data(filter));
     }
@@ -224,27 +230,27 @@ public class FilterEncodingPreProcessor implements FilterVisitor {
 
         try {
             switch (this.complianceInt) {
-            case LOW:
-                current.push(new Data(filter));
+                case LOW:
+                    current.push(new Data(filter));
 
-                break;
+                    break;
 
-            case MEDIUM:
-                filter.getFilter().accept(this, null );
-                current.push(createMediumLevelLogicFilter(
-                        Filters.getFilterType(filter), startSize));
+                case MEDIUM:
+                    filter.getFilter().accept(this, null);
+                    current.push(createMediumLevelLogicFilter(
+                            Filters.getFilterType(filter), startSize));
 
-                break;
+                    break;
 
-            case HIGH:
-                filter.getFilter().accept(this,null);
-                current.push(createHighLevelLogicFilter(
-                        Filters.getFilterType(filter), startSize));
+                case HIGH:
+                    filter.getFilter().accept(this, null);
+                    current.push(createHighLevelLogicFilter(
+                            Filters.getFilterType(filter), startSize));
 
-                break;
+                    break;
 
-            default:
-                break;
+                default:
+                    break;
             }
         } catch (Exception e) {
             if (e instanceof UnsupportedFilterException) {
@@ -254,40 +260,40 @@ public class FilterEncodingPreProcessor implements FilterVisitor {
             throw new UnsupportedFilterException("Exception creating filter", e);
         }
     }
-    
-    
+
+
     public void visit(BinaryLogicOperator filter) {
         int startSize = current.size();
 
         try {
             switch (this.complianceInt) {
-            case LOW:
-                current.push(new Data(filter));
+                case LOW:
+                    current.push(new Data(filter));
 
-                break;
+                    break;
 
-            case MEDIUM:
+                case MEDIUM:
 
-                for (org.opengis.filter.Filter component : filter.getChildren()) {
-                    component.accept(this, null );
-                }
-                current.push(createMediumLevelLogicFilter(
-                        Filters.getFilterType(filter), startSize));
+                    for (org.opengis.filter.Filter component : filter.getChildren()) {
+                        component.accept(this, null);
+                    }
+                    current.push(createMediumLevelLogicFilter(
+                            Filters.getFilterType(filter), startSize));
 
-                break;
+                    break;
 
-            case HIGH:
+                case HIGH:
 
-                for (org.opengis.filter.Filter component : filter.getChildren()) {
-                    component.accept(this,null);
-                }
-                current.push(createHighLevelLogicFilter(
-                        Filters.getFilterType(filter), startSize));
+                    for (org.opengis.filter.Filter component : filter.getChildren()) {
+                        component.accept(this, null);
+                    }
+                    current.push(createHighLevelLogicFilter(
+                            Filters.getFilterType(filter), startSize));
 
-                break;
+                    break;
 
-            default:
-                break;
+                default:
+                    break;
             }
         } catch (Exception e) {
             if (e instanceof UnsupportedFilterException) {
@@ -299,35 +305,36 @@ public class FilterEncodingPreProcessor implements FilterVisitor {
     }
 
     private Data createMediumLevelLogicFilter(short filterType,
-        int startOfFilterStack) throws IllegalFilterException {
+                                              int startOfFilterStack) throws 
+            IllegalFilterException {
         Data resultingFilter;
 
         switch (filterType) {
-        case FilterType.LOGIC_AND: {
-            Set fids = andFids(startOfFilterStack);
-            resultingFilter = buildFilter(filterType, startOfFilterStack);
-            resultingFilter.fids.addAll(fids);
-            
-            if( resultingFilter.filter!=Filter.EXCLUDE && !fids.isEmpty() )
-                requiresPostProcessing=true;
-            break;
-        }
+            case FilterType.LOGIC_AND: {
+                Set fids = andFids(startOfFilterStack);
+                resultingFilter = buildFilter(filterType, startOfFilterStack);
+                resultingFilter.fids.addAll(fids);
 
-        case FilterType.LOGIC_OR: {
-            Set fids = orFids(startOfFilterStack);
-            resultingFilter = buildFilter(filterType, startOfFilterStack);
-            resultingFilter.fids.addAll(fids);
-            break;
-        }
+                if (resultingFilter.filter != Filter.EXCLUDE && !fids.isEmpty())
+                    requiresPostProcessing = true;
+                break;
+            }
 
-        case FilterType.LOGIC_NOT:
-            resultingFilter = buildFilter(filterType, startOfFilterStack);
-            break;
+            case FilterType.LOGIC_OR: {
+                Set fids = orFids(startOfFilterStack);
+                resultingFilter = buildFilter(filterType, startOfFilterStack);
+                resultingFilter.fids.addAll(fids);
+                break;
+            }
 
-        default:
-            resultingFilter = buildFilter(filterType, startOfFilterStack);
+            case FilterType.LOGIC_NOT:
+                resultingFilter = buildFilter(filterType, startOfFilterStack);
+                break;
 
-            break;
+            default:
+                resultingFilter = buildFilter(filterType, startOfFilterStack);
+
+                break;
         }
 
         return resultingFilter;
@@ -387,7 +394,7 @@ public class FilterEncodingPreProcessor implements FilterVisitor {
         for (int i = 0; i < fidSet.size(); i++) {
             Set tmp = (Set) fidSet.get(i);
 
-            for (Iterator iter = tmp.iterator(); iter.hasNext();) {
+            for (Iterator iter = tmp.iterator(); iter.hasNext(); ) {
                 String fid = (String) iter.next();
 
                 if (allContain(fid, fidSet)) {
@@ -412,7 +419,7 @@ public class FilterEncodingPreProcessor implements FilterVisitor {
     }
 
     private Data buildFilter(short filterType, int startOfFilterStack)
-        throws IllegalFilterException {
+            throws IllegalFilterException {
         if (current.isEmpty()) {
             return Data.ALL;
         }
@@ -424,101 +431,99 @@ public class FilterEncodingPreProcessor implements FilterVisitor {
         if (current.size() == (startOfFilterStack + 1)) {
             return (Data) current.pop();
         }
-        
+
         List<org.opengis.filter.Filter> filterList = new ArrayList<org.opengis.filter.Filter>();
-        
+
         while (current.size() > startOfFilterStack) {
             Data data = (Data) current.pop();
 
             if (data.filter != Filter.EXCLUDE) {
-                filterList.add( data.filter);
+                filterList.add(data.filter);
             }
         }
-        
+
         org.opengis.filter.Filter f;
-        if( filterType == FilterType.LOGIC_AND ){
-            f = ff.and( filterList );
-        }
-        else if (filterType == FilterType.LOGIC_OR ){
-            f = ff.or(filterList );
-        }
-        else {
+        if (filterType == FilterType.LOGIC_AND) {
+            f = ff.and(filterList);
+        } else if (filterType == FilterType.LOGIC_OR) {
+            f = ff.or(filterList);
+        } else {
             // not expected
             f = null;
-        }        
+        }
         return new Data(compressFilter(filterType, (BinaryLogicOperator) f));
     }
-    
+
     private org.opengis.filter.Filter compressFilter(short filterType, BinaryLogicOperator f)
-        throws IllegalFilterException {
+            throws IllegalFilterException {
         BinaryLogicOperator result;
         int added = 0;
         List<org.opengis.filter.Filter> resultList = new ArrayList<org.opengis.filter.Filter>();
-        
+
         switch (filterType) {
-        case FilterType.LOGIC_AND:
-            
-            if (contains(f, Filter.EXCLUDE)) {
-                return Filter.EXCLUDE;
-            }
+            case FilterType.LOGIC_AND:
 
-            for (org.opengis.filter.Filter filter : f.getChildren() ) {
-                if (filter == org.opengis.filter.Filter.INCLUDE) {
-                    continue;
+                if (contains(f, Filter.EXCLUDE)) {
+                    return Filter.EXCLUDE;
                 }
-                added++;
-                resultList.add( filter );
-            }
 
-            if (resultList.isEmpty()) {
-                return Filter.EXCLUDE;
-            }
-
-            result = ff.and(resultList);
-            break;
-
-        case FilterType.LOGIC_OR:
-
-            if (contains(f, Filter.INCLUDE)) {
-                return Filter.INCLUDE;
-            }
-
-            for (Object item : f.getChildren() ) {
-                org.opengis.filter.Filter filter = (org.opengis.filter.Filter) item;
-                if (filter == Filter.EXCLUDE) {
-                    continue;
+                for (org.opengis.filter.Filter filter : f.getChildren()) {
+                    if (filter == org.opengis.filter.Filter.INCLUDE) {
+                        continue;
+                    }
+                    added++;
+                    resultList.add(filter);
                 }
-                added++;
-                resultList.add( filter );
-            }
 
-            if (resultList.isEmpty()) {
+                if (resultList.isEmpty()) {
+                    return Filter.EXCLUDE;
+                }
+
+                result = ff.and(resultList);
+                break;
+
+            case FilterType.LOGIC_OR:
+
+                if (contains(f, Filter.INCLUDE)) {
+                    return Filter.INCLUDE;
+                }
+
+                for (Object item : f.getChildren()) {
+                    org.opengis.filter.Filter filter = (org.opengis.filter.Filter) item;
+                    if (filter == Filter.EXCLUDE) {
+                        continue;
+                    }
+                    added++;
+                    resultList.add(filter);
+                }
+
+                if (resultList.isEmpty()) {
+                    return Filter.EXCLUDE;
+                }
+
+                result = ff.or(resultList);
+
+                break;
+
+            default:
                 return Filter.EXCLUDE;
-            }
-
-            result = ff.or(resultList);
-            
-            break;
-
-        default:
-            return Filter.EXCLUDE;
         }
 
         switch (added) {
-        case 0:
-            return Filter.EXCLUDE;
+            case 0:
+                return Filter.EXCLUDE;
 
-        case 1:
-            return (Filter) result.getChildren().iterator().next();
+            case 1:
+                return (Filter) result.getChildren().iterator().next();
 
-        default:
-            return result;
+            default:
+                return result;
         }
     }
 
-    private boolean contains( BinaryLogicOperator f, org.opengis.filter.Filter toFind) {
+    private boolean contains(BinaryLogicOperator f, org.opengis.filter.Filter toFind) {
         for (org.opengis.filter.Filter filter : f.getChildren()) {
-            if( toFind.equals( filter ) ){
+            if (toFind.equals(filter)) {
                 return true;
             }
         }
@@ -528,17 +533,17 @@ public class FilterEncodingPreProcessor implements FilterVisitor {
     private Data buildNotFilter(int startOfFilterStack) {
         if (current.size() > (startOfFilterStack + 1)) {
             throw new UnsupportedFilterException(
-                "A not filter cannot have more than one filter");
+                    "A not filter cannot have more than one filter");
         } else {
             Data tmp = (Data) current.pop();
 
-            
-            Data data = new Data(  ff.not( tmp.filter) );
+
+            Data data = new Data(ff.not(tmp.filter));
 
             if (!tmp.fids.isEmpty()) {
                 data.filter = Filter.INCLUDE;
                 data.fids.clear();
-                requiresPostProcessing=true;
+                requiresPostProcessing = true;
             }
 
             return data;
@@ -546,40 +551,41 @@ public class FilterEncodingPreProcessor implements FilterVisitor {
     }
 
     private Data createHighLevelLogicFilter(short filterType,
-        int startOfFilterStack) throws IllegalFilterException {
+                                            int startOfFilterStack) throws IllegalFilterException {
         if (hasFidFilter(startOfFilterStack)) {
             Set fids;
 
             switch (filterType) {
-            case FilterType.LOGIC_AND:
-                fids = andFids(startOfFilterStack);
+                case FilterType.LOGIC_AND:
+                    fids = andFids(startOfFilterStack);
 
-                Data filter = buildFilter(filterType, startOfFilterStack);
-                filter.fids.addAll(fids);
+                    Data filter = buildFilter(filterType, startOfFilterStack);
+                    filter.fids.addAll(fids);
 
-                return filter;
+                    return filter;
 
-            case FilterType.LOGIC_OR: {
-                if (hasNonFidFilter(startOfFilterStack)) {
-                    throw new UnsupportedFilterException(
-                        "Maximum compliance does not allow Logic filters to contain FidFilters");
+                case FilterType.LOGIC_OR: {
+                    if (hasNonFidFilter(startOfFilterStack)) {
+                        throw new UnsupportedFilterException(
+                                "Maximum compliance does not allow Logic filters to contain " +
+                                        "FidFilters");
+                    }
+
+                    fids = orFids(startOfFilterStack);
+
+                    pop(startOfFilterStack);
+
+                    Data data = new Data();
+                    data.fids.addAll(fids);
+
+                    return data;
                 }
 
-                fids = orFids(startOfFilterStack);
-                
-                pop(startOfFilterStack);
+                case FilterType.LOGIC_NOT:
+                    return buildFilter(filterType, startOfFilterStack);
 
-                Data data = new Data();
-                data.fids.addAll(fids);
-
-                return data;
-            }
-
-            case FilterType.LOGIC_NOT:
-                return buildFilter(filterType, startOfFilterStack);
-
-            default:
-                return Data.ALL;
+                default:
+                    return Data.ALL;
             }
         } else {
             return buildFilter(filterType, startOfFilterStack);
@@ -640,10 +646,10 @@ public class FilterEncodingPreProcessor implements FilterVisitor {
         org.opengis.filter.Filter filter;
 
         public Data() {
-            this( Filter.EXCLUDE);
+            this(Filter.EXCLUDE);
         }
 
-        public Data(Filter f ){
+        public Data(Filter f) {
             filter = f;
         }
 
@@ -653,186 +659,192 @@ public class FilterEncodingPreProcessor implements FilterVisitor {
     }
 
     /**
-     * Returns true if the filter was one where the request to the server is more general than the actual filter.  
-     * See {@link XMLHandlerHints#VALUE_FILTER_COMPLIANCE_MEDIUM} and example of when this can happen.
-     * 
-     * @return true if the filter was one where the request to the server is more general than the actual filter.
+     * Returns true if the filter was one where the request to the server is more general than 
+     * the actual filter.
+     * See {@link XMLHandlerHints#VALUE_FILTER_COMPLIANCE_MEDIUM} and example of when this can 
+     * happen.
+     *
+     * @return true if the filter was one where the request to the server is more general than 
+     * the actual filter.
      */
     public boolean requiresPostProcessing() {
         return requiresPostProcessing;
     }
-    
+
     // FilterVisitor2 methods formally from FilterVisitorFilterWrapper
     protected void visitLogicFilter(org.opengis.filter.Filter filter) {
         visit((BinaryLogicOperator) filter);
     }
 
-protected void visitCompareFilter(org.opengis.filter.Filter filter) {
+    protected void visitCompareFilter(org.opengis.filter.Filter filter) {
         if (filter instanceof PropertyIsNull) {
-                visit((PropertyIsNull)filter);
-                return;
+            visit((PropertyIsNull) filter);
+            return;
         }
-        
+
         if (filter instanceof PropertyIsLike) {
-                visit((PropertyIsLike)filter);
+            visit((PropertyIsLike) filter);
         }
-        
+
         if (filter instanceof BinaryComparisonOperator) {
-                visit((BinaryComparisonOperator)filter);
+            visit((BinaryComparisonOperator) filter);
         }
-        
+
         if (filter instanceof Not) {
-            visit((Not)filter);
+            visit((Not) filter);
         }
-}
+    }
 
-protected void visitGeometryFilter(SpatialOperator filter) {
+    protected void visitGeometryFilter(SpatialOperator filter) {
         if (filter instanceof BinarySpatialOperator) {
-                visit((BinarySpatialOperator)filter);
+            visit((BinarySpatialOperator) filter);
         }
-}
+    }
 
-public Object visit(And filter, Object extraData) {
+    public Object visit(And filter, Object extraData) {
         visitLogicFilter(filter);
         return extraData;
-}
+    }
 
-public Object visit( Id filter, Object extraData) {
-    Data data = new Data();
-    data.fids.addAll( filter.getIDs() );
-    current.push(data);
-        
-    return extraData;
-}
+    public Object visit(Id filter, Object extraData) {
+        Data data = new Data();
+        data.fids.addAll(filter.getIDs());
+        current.push(data);
 
-    public Object visitNullFilter( Object extraData) {        
         return extraData;
     }
-    public Object visit( IncludeFilter filter, Object extraData) {
+
+    public Object visitNullFilter(Object extraData) {
+        return extraData;
+    }
+
+    public Object visit(IncludeFilter filter, Object extraData) {
         visit(filter);
         return extraData;
     }
-    public Object visit( ExcludeFilter filter, Object extraData) {   
+
+    public Object visit(ExcludeFilter filter, Object extraData) {
         visit(filter);
         return extraData;
     }
+
     //
     // Filter Visitor Methods
     //
     public Object visit(Not filter, Object extraData) {
-            visitLogicFilter(filter);
-            return extraData;
+        visitLogicFilter(filter);
+        return extraData;
     }
-    
+
     public Object visit(Or filter, Object extraData) {
-            visitLogicFilter(filter);
-            return extraData;
+        visitLogicFilter(filter);
+        return extraData;
     }
-    
+
     public Object visit(PropertyIsBetween filter, Object extraData) {
-        current.push(new Data(filter));    
+        current.push(new Data(filter));
         visitCompareFilter(filter);
-            return extraData;
+        return extraData;
     }
-    
+
     public Object visit(PropertyIsEqualTo filter, Object extraData) {
-            visitCompareFilter(filter);
-            return extraData;
+        visitCompareFilter(filter);
+        return extraData;
     }
-    
+
     public Object visit(PropertyIsNotEqualTo filter, Object extraData) {
-            visitCompareFilter(filter);
-            return extraData;
+        visitCompareFilter(filter);
+        return extraData;
     }
-    
+
     public Object visit(PropertyIsGreaterThan filter, Object extraData) {
-            visitCompareFilter(filter);
-            return extraData;
+        visitCompareFilter(filter);
+        return extraData;
     }
-    
+
     public Object visit(PropertyIsGreaterThanOrEqualTo filter, Object extraData) {
-            visitCompareFilter(filter);
-            return extraData;
+        visitCompareFilter(filter);
+        return extraData;
     }
-    
+
     public Object visit(PropertyIsLessThan filter, Object extraData) {
-            visitCompareFilter(filter);
-            return extraData;
+        visitCompareFilter(filter);
+        return extraData;
     }
-    
+
     public Object visit(PropertyIsLessThanOrEqualTo filter, Object extraData) {
-            visitCompareFilter(filter);
-            return extraData;
+        visitCompareFilter(filter);
+        return extraData;
     }
-    
+
     public Object visit(PropertyIsLike filter, Object extraData) {
-            visitCompareFilter(filter);
-            return extraData;
+        visitCompareFilter(filter);
+        return extraData;
     }
-    
+
     public Object visit(PropertyIsNull filter, Object extraData) {
-            visitCompareFilter(filter);
-            return extraData;
+        visitCompareFilter(filter);
+        return extraData;
     }
-    
+
     public Object visit(PropertyIsNil filter, Object extraData) {
-    visitCompareFilter(filter);
-    return extraData;
+        visitCompareFilter(filter);
+        return extraData;
     }
-    
+
     public Object visit(BBOX filter, Object extraData) {
-            visitGeometryFilter(filter);
-            return extraData;
+        visitGeometryFilter(filter);
+        return extraData;
     }
-    
+
     public Object visit(Beyond filter, Object extraData) {
-            visitGeometryFilter(filter);
-            return extraData;
+        visitGeometryFilter(filter);
+        return extraData;
     }
-    
+
     public Object visit(Contains filter, Object extraData) {
-            visitGeometryFilter(filter);
-            return extraData;
+        visitGeometryFilter(filter);
+        return extraData;
     }
-    
+
     public Object visit(Crosses filter, Object extraData) {
-            visitGeometryFilter(filter);
-            return extraData;
+        visitGeometryFilter(filter);
+        return extraData;
     }
-    
+
     public Object visit(Disjoint filter, Object extraData) {
-            visitGeometryFilter(filter);
-            return extraData;
+        visitGeometryFilter(filter);
+        return extraData;
     }
-    
+
     public Object visit(DWithin filter, Object extraData) {
-            visitGeometryFilter(filter);
-            return extraData;
+        visitGeometryFilter(filter);
+        return extraData;
     }
-    
+
     public Object visit(Equals filter, Object extraData) {
-            visitGeometryFilter(filter);
-            return extraData;
+        visitGeometryFilter(filter);
+        return extraData;
     }
-    
+
     public Object visit(Intersects filter, Object extraData) {
-            visitGeometryFilter(filter);
-            return extraData;
+        visitGeometryFilter(filter);
+        return extraData;
     }
-    
+
     public Object visit(Overlaps filter, Object extraData) {
-            visitGeometryFilter(filter);
-            return extraData;
+        visitGeometryFilter(filter);
+        return extraData;
     }
 
     public Object visit(Touches filter, Object extraData) {
-            visitGeometryFilter(filter);
-            return extraData;
+        visitGeometryFilter(filter);
+        return extraData;
     }
 
     public Object visit(Within filter, Object extraData) {
-            visitGeometryFilter(filter);
-            return extraData;
+        visitGeometryFilter(filter);
+        return extraData;
     }
     //
     // Temporal Filters (UNSUPPORTED)

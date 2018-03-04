@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -22,28 +22,26 @@ import org.opengis.feature.type.Name;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
- * 
- *
  * @source $URL$
  */
-public class GeometryDescriptorImpl extends AttributeDescriptorImpl 
-    implements GeometryDescriptor {
+public class GeometryDescriptorImpl extends AttributeDescriptorImpl
+        implements GeometryDescriptor {
 
     public GeometryDescriptorImpl(GeometryType type, Name name, int min,
-            int max, boolean isNillable, Object defaultValue) {
+                                  int max, boolean isNillable, Object defaultValue) {
         super(type, name, min, max, isNillable, defaultValue);
-        
+
     }
 
     public GeometryType getType() {
         return (GeometryType) super.getType();
     }
 
-	public CoordinateReferenceSystem getCoordinateReferenceSystem() {
-		return getType().getCoordinateReferenceSystem();
-	}
+    public CoordinateReferenceSystem getCoordinateReferenceSystem() {
+        return getType().getCoordinateReferenceSystem();
+    }
 
-	public String getLocalName() {
-		return getName().getLocalPart();
-	}
+    public String getLocalName() {
+        return getName().getLocalPart();
+    }
 }

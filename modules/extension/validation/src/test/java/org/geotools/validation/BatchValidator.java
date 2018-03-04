@@ -46,20 +46,18 @@ import com.vividsolutions.jts.geom.Envelope;
 
 /**
  * Validator purpose.
- * 
+ * <p>
  * <p>
  * Description of Validator ...
  * </p>
- * 
+ *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
  * @author bowens
- *
- *
- * @source $URL$
- *         http://svn.geotools.org/trunk/modules/extension/validation/src/test/java/org/geotools
- *         /validation/BatchValidator.java $
  * @version $Id$
+ * @source $URL$
+ * http://svn.geotools.org/trunk/modules/extension/validation/src/test/java/org/geotools
+ * /validation/BatchValidator.java $
  */
 public class BatchValidator {
     private static Properties dataStoreProp;
@@ -106,11 +104,11 @@ public class BatchValidator {
             }
         }
         validator = new Validator(dataRepository, v);
-        
+
         /** validator is now ready to go */
 
         /** do the feature type validation dance */
-        for( DataStore store : dataRepository.getDataStores()){
+        for (DataStore store : dataRepository.getDataStores()) {
             String typeNames[] = null;
             try {
                 typeNames = store.getTypeNames();
@@ -234,8 +232,10 @@ public class BatchValidator {
         File dsProp = null;
         File trProp = null;
 
-        dsProp = URLs.urlToFile(ClassLoader.getSystemResource("org/geotools/demos/DataStore.properties"));
-        trProp = URLs.urlToFile(ClassLoader.getSystemResource("org/geotools/demos/Transaction.properties"));
+        dsProp = URLs.urlToFile(ClassLoader.getSystemResource("org/geotools/demos/DataStore" +
+                ".properties"));
+        trProp = URLs.urlToFile(ClassLoader.getSystemResource("org/geotools/demos/Transaction" +
+                ".properties"));
 
         if (args.length > 0) {
             int i = 0;
@@ -258,13 +258,14 @@ public class BatchValidator {
                 } else {
                     if ("-trans".equals(param)) {
                         File tmp = null;
-                        tmp =  URLs.urlToFile(ClassLoader.getSystemResource(value));
+                        tmp = URLs.urlToFile(ClassLoader.getSystemResource(value));
 
                         if (tmp != null) {
                             trProp = tmp;
                         } else {
                             System.err
-                                    .println("Error: The transaction property file could not be found.");
+                                    .println("Error: The transaction property file could not be " +
+                                            "found.");
                             System.err.println("Data file:" + value);
                             System.exit(1);
                         }
@@ -409,7 +410,8 @@ public class BatchValidator {
                             + " incured an error loading a parameter.");
                     System.err.println("This DataStore may not be loaded correctly.");
                     System.err
-                            .println("Parameters should be specified in a comma delimited list key=value");
+                            .println("Parameters should be specified in a comma delimited list " +
+                                    "key=value");
                     System.err.println("You specified:" + tmp);
                 }
             }
@@ -601,14 +603,14 @@ public class BatchValidator {
 
 /*
  * Created on Feb 9, 2004
- * 
+ *
  * To change the template for this generated file go to Window - Preferences - Java - Code
  * Generation - Code and Comments
  */
 class BatchValidatorProcessor extends ValidationProcessor {
     /**
      * BatchValidator constructor.
-     * 
+     * <p>
      * <p>
      * super();
      * </p>
@@ -619,16 +621,13 @@ class BatchValidatorProcessor extends ValidationProcessor {
 
     /**
      * ValidationProcessor constructor.
-     * 
+     * <p>
      * <p>
      * Builds a ValidationProcessor with the DTO provided.
      * </p>
-     * 
-     * @param testSuites
-     *            Map a map of names -> TestSuiteDTO objects
-     * @param plugIns
-     *            Map a map of names -> PlugInDTO objects
-     * 
+     *
+     * @param testSuites Map a map of names -> TestSuiteDTO objects
+     * @param plugIns    Map a map of names -> PlugInDTO objects
      * @see load(Map,Map)
      */
     public BatchValidatorProcessor(Map testSuites, Map plugIns) {
@@ -638,11 +637,11 @@ class BatchValidatorProcessor extends ValidationProcessor {
 
     /**
      * load purpose.
-     * 
+     * <p>
      * <p>
      * loads this instance data into this instance.
      * </p>
-     * 
+     *
      * @param testSuites
      * @param plugIns
      */

@@ -35,19 +35,15 @@ import org.geotools.util.URLs;
 import org.geotools.util.logging.Logging;
 
 /**
- * 
  * @author rpetty
- *
- *
- *
  * @source $URL$
- *         http://svn.geotools.org/geotools/trunk/gt/modules/unsupported/app-schema/webservice/
- *         src/main/java/org/geotools /data/wfs/WSDataStoreFactory.java $
+ * http://svn.geotools.org/geotools/trunk/gt/modules/unsupported/app-schema/webservice/
+ * src/main/java/org/geotools /data/wfs/WSDataStoreFactory.java $
  * @see XmlDataStore
  * @see WSProtocol
  * @see WSStrategy
  */
-@SuppressWarnings( { "unchecked", "nls" })
+@SuppressWarnings({"unchecked", "nls"})
 public class WSDataStoreFactory extends AbstractDataStoreFactory {
     private static final Logger logger = Logging.getLogger("org.geotools.data.ws");
 
@@ -56,7 +52,7 @@ public class WSDataStoreFactory extends AbstractDataStoreFactory {
 
         /**
          * Creates a required parameter
-         * 
+         *
          * @param key
          * @param type
          * @param description
@@ -67,7 +63,7 @@ public class WSDataStoreFactory extends AbstractDataStoreFactory {
 
         /**
          * Creates an optional parameter with the supplied default value
-         * 
+         *
          * @param key
          * @param type
          * @param description
@@ -85,6 +81,7 @@ public class WSDataStoreFactory extends AbstractDataStoreFactory {
     }
 
     private static final WSFactoryParam[] parametersInfo = new WSFactoryParam[7];
+
     static {
         String name;
         Class clazz;
@@ -110,7 +107,8 @@ public class WSDataStoreFactory extends AbstractDataStoreFactory {
         name = "WSDataStoreFactory:MAXFEATURES";
         clazz = Integer.class;
         description = "Positive integer used as a hard limit for the amount of Features to retrieve"
-                + " for each FeatureType. A value of zero or not providing this parameter means no limit.";
+                + " for each FeatureType. A value of zero or not providing this parameter means " +
+                "no limit.";
         parametersInfo[3] = new WSFactoryParam(name, clazz, description, Integer.valueOf(0));
 
         name = "WSDataStoreFactory:TEMPLATE_NAME";
@@ -137,7 +135,7 @@ public class WSDataStoreFactory extends AbstractDataStoreFactory {
     /**
      * Optional {@code Integer} DataStore parameter indicating a timeout in milliseconds for the
      * HTTP connections.
-     * 
+     *
      * @TODO: specify if its just a connection timeout or also a read timeout
      */
     public static final WSFactoryParam<Integer> TIMEOUT = parametersInfo[1];
@@ -151,7 +149,7 @@ public class WSDataStoreFactory extends AbstractDataStoreFactory {
     public static final WSFactoryParam<String> TEMPLATE_NAME = parametersInfo[4];
 
     public static final WSFactoryParam<URL> TEMPLATE_DIRECTORY = parametersInfo[5];
-    
+
     public static final WSFactoryParam<URL> CAPABILITIES_FILE_LOCATION = parametersInfo[6];
 
     protected Map<Map, XmlDataStore> perParameterSetDataStoreCache = new HashMap();
@@ -166,7 +164,7 @@ public class WSDataStoreFactory extends AbstractDataStoreFactory {
      * generated from a base URL build the URL with the
      * {@link #createGetCapabilitiesRequest(URL, Version)} first.
      * </p>
-     * 
+     *
      * @see org.geotools.data.DataStoreFactorySpi#createDataStore(java.util.Map)
      */
     public XmlDataStore createDataStore(final Map params) throws IOException {
@@ -185,7 +183,8 @@ public class WSDataStoreFactory extends AbstractDataStoreFactory {
         http.setTryGzip(tryGZIP);
         http.setTimeoutMillis(timeoutMillis);
 
-        InputStream capsIn = new BufferedInputStream(new FileInputStream(URLs.urlToFile(capabilitiesDirectory)));
+        InputStream capsIn = new BufferedInputStream(new FileInputStream(URLs.urlToFile
+                (capabilitiesDirectory)));
 
         WSStrategy strategy = determineCorrectStrategy(templateDirectory, templateName);
         WS_Protocol ws = new WS_Protocol(capsIn, strategy, getQueryRequest, http);
@@ -204,9 +203,8 @@ public class WSDataStoreFactory extends AbstractDataStoreFactory {
 
     /**
      * Unsupported operation, can't create a WS service.
-     * 
-     * @throws UnsupportedOperationException
-     *             always, as this operation is not applicable to WS.
+     *
+     * @throws UnsupportedOperationException always, as this operation is not applicable to WS.
      * @see org.geotools.data.DataStoreFactorySpi#createNewDataStore(java.util.Map)
      */
     public DataStore createNewDataStore(final Map params) throws IOException {
@@ -217,12 +215,14 @@ public class WSDataStoreFactory extends AbstractDataStoreFactory {
      * @see org.geotools.data.DataStoreFactorySpi#getDescription()
      */
     public String getDescription() {
-        return "The XmlDataStore represents a connection to a Web Feature Server. This connection provides access to the Features published by the server, and the ability to perform transactions on the server (when supported / allowed).";
+        return "The XmlDataStore represents a connection to a Web Feature Server. This connection" +
+                " provides access to the Features published by the server, and the ability to " +
+                "perform transactions on the server (when supported / allowed).";
     }
 
     /**
      * Returns the set of parameter descriptors needed to connect to a WS.
-     * 
+     *
      * @see org.geotools.data.DataStoreFactorySpi#getParametersInfo()
      * @see #URL
      * @see #PROTOCOL
@@ -251,9 +251,8 @@ public class WSDataStoreFactory extends AbstractDataStoreFactory {
      * </ul>
      * Availability of the other optional parameters is not checked for existence.
      * </p>
-     * 
-     * @param params
-     *            non null map of datastore parameters.
+     *
+     * @param params non null map of datastore parameters.
      * @see org.geotools.data.DataStoreFactorySpi#canProcess(java.util.Map)
      */
     public boolean canProcess(final Map params) {
@@ -269,7 +268,7 @@ public class WSDataStoreFactory extends AbstractDataStoreFactory {
         } catch (Exception e) {
             return false;
         }
- 
+
         return true;
     }
 

@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -29,7 +29,7 @@ import org.opengis.filter.Filter;
 /**
  * Available via {@link DataUtilities#dataStore(SimpleFeatureSource)} methods.
  * <p> This implementation is a wrapper around a provided {@link SimpleFeatureSource}.
- * 
+ *
  * @author Jody Garnett (Boundless)
  */
 final class DataStoreAdaptor implements DataStore {
@@ -81,7 +81,7 @@ final class DataStoreAdaptor implements DataStore {
     }
 
     private void ensureNotDisposed() throws IOException {
-        if( this.source == null ){
+        if (this.source == null) {
             throw new IOException("DataStoreAdaptor is not available as it has been disposed");
         }
     }
@@ -111,7 +111,7 @@ final class DataStoreAdaptor implements DataStore {
     @Override
     public String[] getTypeNames() throws IOException {
         ensureNotDisposed();
-        return new String[] { typeName };
+        return new String[]{typeName};
     }
 
     @Override
@@ -130,7 +130,7 @@ final class DataStoreAdaptor implements DataStore {
 
             @Override
             public void unLockFeatureID(String typeName, String authID, Transaction transaction,
-                    FeatureLock featureLock) throws IOException {
+                                        FeatureLock featureLock) throws IOException {
             }
 
             @Override
@@ -145,7 +145,7 @@ final class DataStoreAdaptor implements DataStore {
 
             @Override
             public void lockFeatureID(String typeName, String authID, Transaction transaction,
-                    FeatureLock featureLock) throws IOException {
+                                      FeatureLock featureLock) throws IOException {
             }
 
             @Override
@@ -157,19 +157,23 @@ final class DataStoreAdaptor implements DataStore {
 
     @Override
     public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriterAppend(String typeName,
-            Transaction transaction) throws IOException {
+                                                                                  Transaction 
+                                                                                          transaction) throws IOException {
         throw new UnsupportedOperationException("DataStoreAdaptor does not support modification");
     }
 
     @Override
     public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriter(String typeName,
-            Transaction transaction) throws IOException {
+                                                                            Transaction 
+                                                                                    transaction) 
+            throws IOException {
         throw new UnsupportedOperationException("DataStoreAdaptor does not support modification");
     }
 
     @Override
     public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriter(String typeName,
-            Filter filter, Transaction transaction) throws IOException {
+                                                                            Filter filter, 
+                                                                            Transaction transaction) throws IOException {
         throw new UnsupportedOperationException("DataStoreAdaptor does not support modification");
     }
 
@@ -194,7 +198,9 @@ final class DataStoreAdaptor implements DataStore {
 
     @Override
     public FeatureReader<SimpleFeatureType, SimpleFeature> getFeatureReader(Query query,
-            Transaction transaction) throws IOException {
+                                                                            Transaction 
+                                                                                    transaction) 
+            throws IOException {
         ensureNotDisposed();
         if (this.typeName.equals(query.getTypeName())) {
             return DataUtilities.reader(source.getFeatures());

@@ -18,20 +18,24 @@ package org.geotools.ows.bindings;
 
 import net.opengis.ows10.AcceptVersionsType;
 import net.opengis.ows10.Ows10Factory;
+
 import javax.xml.namespace.QName;
+
 import org.geotools.ows.OWS;
 import org.geotools.xml.*;
 
 
 /**
  * Binding object for the type http://www.opengis.net/ows:AcceptVersionsType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="AcceptVersionsType"&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;Prioritized sequence of one or more specification versions accepted by client, with preferred versions listed first. See Version negotiation subclause for more information. &lt;/documentation&gt;
+ *          &lt;documentation&gt;Prioritized sequence of one or more specification versions 
+ *          accepted by client, with preferred versions listed first. See Version negotiation 
+ *          subclause for more information. &lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;sequence&gt;
  *          &lt;element maxOccurs="unbounded" name="Version" type="ows:VersionType"/&gt;
@@ -43,9 +47,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class AcceptVersionsTypeBinding extends AbstractComplexEMFBinding {
@@ -77,7 +78,7 @@ public class AcceptVersionsTypeBinding extends AbstractComplexEMFBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //TODO: implement and remove call to super
         return super.parse(instance, node, value);
     }

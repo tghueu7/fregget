@@ -31,36 +31,34 @@ import org.geotools.xml.AbstractSimpleBinding;
 import org.geotools.xml.InstanceComponent;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class UnitBinding extends AbstractSimpleBinding {
 
-	public QName getTarget() {
-		return OWS.UOM;
-	}
+    public QName getTarget() {
+        return OWS.UOM;
+    }
 
-	public Class getType() {
-		return Unit.class;
-	}
-	
-    
+    public Class getType() {
+        return Unit.class;
+    }
+
+
     public int getExecutionMode() {
         return OVERRIDE;
     }
-    
+
     /**
      * @override
      */
     public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
-    	//Object parseObject = UnitFormat.getInstance().parseObject((String) value);
+            throws Exception {
+        //Object parseObject = UnitFormat.getInstance().parseObject((String) value);
         //Object parseObject = UnitFormat.getAsciiInstance().parseObject((String) value);
-    	Unit valueOf = lookup( (String) value );
+        Unit valueOf = lookup((String) value);
         return valueOf;
     }
-    
+
     private Unit lookup(String name) {
         Unit unit = lookup(SI.class, name);
         if (unit != null)
@@ -87,36 +85,35 @@ public class UnitBinding extends AbstractSimpleBinding {
         return null;
     }
 
-	private Unit lookup(Class class1, String name) {
-		Unit unit = null;
-		Field[] fields = class1.getDeclaredFields();
-		for (int i=0; i<fields.length; i++) {
-			Field field = fields[i];
-			String name2 = field.getName();
-			if ( (field.getType().isAssignableFrom(BaseUnit.class) ||
-					field.getType().isAssignableFrom(DerivedUnit.class)) &&
-					name2.equalsIgnoreCase(name) ) {
+    private Unit lookup(Class class1, String name) {
+        Unit unit = null;
+        Field[] fields = class1.getDeclaredFields();
+        for (int i = 0; i < fields.length; i++) {
+            Field field = fields[i];
+            String name2 = field.getName();
+            if ((field.getType().isAssignableFrom(BaseUnit.class) ||
+                    field.getType().isAssignableFrom(DerivedUnit.class)) &&
+                    name2.equalsIgnoreCase(name)) {
 
-				try {
-					unit = (Unit) field.get(unit);
-					return unit;
-				} catch (Exception e) {
-					// continue searching
-				}
-				
-			}
-		}
-		return unit;
-	}
+                try {
+                    unit = (Unit) field.get(unit);
+                    return unit;
+                } catch (Exception e) {
+                    // continue searching
+                }
+
+            }
+        }
+        return unit;
+    }
 
 
-	/**
+    /**
      * Performs the encoding of the object as a String.
      *
      * @param object The object being encoded, never null.
-     * @param value The string returned from another binding in the type
-     * hierachy, which could be null.
-     *
+     * @param value  The string returned from another binding in the type
+     *               hierachy, which could be null.
      * @return A String representing the object.
      * @override
      */

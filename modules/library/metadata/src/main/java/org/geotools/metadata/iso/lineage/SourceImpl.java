@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -20,6 +20,7 @@
 package org.geotools.metadata.iso.lineage;
 
 import java.util.Collection;
+
 import org.opengis.metadata.citation.Citation;
 import org.opengis.metadata.extent.Extent;
 import org.opengis.metadata.identification.RepresentativeFraction;
@@ -33,13 +34,10 @@ import org.geotools.metadata.iso.MetadataEntity;
 /**
  * Information about the source data used in creating the data specified by the scope.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class SourceImpl extends MetadataEntity implements Source {
@@ -118,7 +116,7 @@ public class SourceImpl extends MetadataEntity implements Source {
     /**
      * Returns the denominator of the representative fraction on a source map.
      */
-    public synchronized RepresentativeFraction getScaleDenominator()  {
+    public synchronized RepresentativeFraction getScaleDenominator() {
         return scaleDenominator;
     }
 
@@ -127,17 +125,17 @@ public class SourceImpl extends MetadataEntity implements Source {
      *
      * @since 2.4
      */
-    public synchronized void setScaleDenominator(final RepresentativeFraction newValue)  {
+    public synchronized void setScaleDenominator(final RepresentativeFraction newValue) {
         checkWritePermission();
         scaleDenominator = newValue;
     }
 
     /**
      * Returns the spatial reference system used by the source data.
-     * 
+     *
      * @TODO: needs to annotate the referencing module before.
      */
-    public ReferenceSystem getSourceReferenceSystem()  {
+    public ReferenceSystem getSourceReferenceSystem() {
         return sourceReferenceSystem;
     }
 
@@ -168,7 +166,7 @@ public class SourceImpl extends MetadataEntity implements Source {
      * Returns tiInformation about the spatial, vertical and temporal extent
      * of the source data.
      */
-    public synchronized Collection<Extent> getSourceExtents()  {
+    public synchronized Collection<Extent> getSourceExtents() {
         return (sourceExtents = nonNullCollection(sourceExtents, Extent.class));
     }
 

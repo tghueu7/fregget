@@ -27,9 +27,8 @@ import org.opengis.filter.Filter;
  * An extension to {@linkplain org.geotools.data.complex.DataAccessMappingFeatureIterator} where
  * filter is present. Unlike with FilteringMappingFeatureIterator The filter is applied on
  * the complex feature
- * 
- * @author Niels Charlier (Curtin University of Technology)
  *
+ * @author Niels Charlier (Curtin University of Technology)
  * @source $URL$
  */
 public class PostFilteringMappingFeatureIterator implements IMappingFeatureIterator {
@@ -39,8 +38,9 @@ public class PostFilteringMappingFeatureIterator implements IMappingFeatureItera
     protected Filter filter;
     protected int maxFeatures;
     protected int count = 0;
-    
-    public PostFilteringMappingFeatureIterator(FeatureIterator<Feature> iterator, Filter filter, int maxFeatures, int offset) {
+
+    public PostFilteringMappingFeatureIterator(FeatureIterator<Feature> iterator, Filter filter, 
+                                               int maxFeatures, int offset) {
         this.delegate = iterator;
         this.filter = filter;
         this.maxFeatures = maxFeatures;
@@ -52,9 +52,9 @@ public class PostFilteringMappingFeatureIterator implements IMappingFeatureItera
     }
 
     public void close() {
-        delegate.close();        
-    } 
-  
+        delegate.close();
+    }
+
     protected Feature getFilteredNext() {
         while (delegate.hasNext() && count < maxFeatures) {
             Feature feature = delegate.next();
@@ -71,15 +71,15 @@ public class PostFilteringMappingFeatureIterator implements IMappingFeatureItera
         return null;
     }
 
-    public boolean hasNext() {    
+    public boolean hasNext() {
         return next != null;
     }
-        
+
     public Feature next() {
-        if(next == null){
+        if (next == null) {
             throw new NoSuchElementException();
         }
-        
+
         count++;
         Feature current = next;
         next = getFilteredNext();
@@ -88,7 +88,7 @@ public class PostFilteringMappingFeatureIterator implements IMappingFeatureItera
 
     public void remove() {
         throw new UnsupportedOperationException();
-        
+
     }
 
 }

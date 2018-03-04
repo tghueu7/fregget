@@ -26,8 +26,6 @@ import org.w3c.dom.Document;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class LinearRingTypeBindingTest extends KMLTestSupport {
@@ -49,13 +47,13 @@ public class LinearRingTypeBindingTest extends KMLTestSupport {
         assertEquals(new Coordinate(3, 3), l.getCoordinateN(2));
         assertEquals(new Coordinate(1, 1), l.getCoordinateN(3));
     }
-    
+
     public void testEncode() throws Exception {
         LinearRing l = new GeometryFactory().createLinearRing(
-            new Coordinate[]{ new Coordinate(1,1), new Coordinate(2,2), 
-                    new Coordinate(3,3), new Coordinate(1,1) }     
+                new Coordinate[]{new Coordinate(1, 1), new Coordinate(2, 2),
+                        new Coordinate(3, 3), new Coordinate(1, 1)}
         );
-        Document dom = encode( l, KML.LinearRing );
+        Document dom = encode(l, KML.LinearRing);
         assertNotNull(getElementByQName(dom, KML.coordinates));
     }
 }

@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.filter.spatial;
 
 // Annotations
+
 import org.opengis.annotation.XmlElement;
 
 
@@ -18,11 +19,9 @@ import org.opengis.annotation.XmlElement;
  * some relation to a buffer around another shape.  This could be used to find,
  * for example, all the geometries that come within 10 meters of a river.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengis.org/docs/02-059.pdf">Implementation specification 1.0</A>
  * @author Chris Dillard (SYS Technologies)
+ * @version <A HREF="http://www.opengis.org/docs/02-059.pdf">Implementation specification 1.0</A>
+ * @source $URL$
  * @since GeoAPI 2.0
  */
 @XmlElement("DistanceBufferType")

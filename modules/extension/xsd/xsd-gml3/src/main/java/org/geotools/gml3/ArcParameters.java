@@ -17,10 +17,7 @@
 package org.geotools.gml3;
 
 /**
- *
  * @author Erik van de Pol
- *
- *
  * @source $URL$
  */
 public class ArcParameters {

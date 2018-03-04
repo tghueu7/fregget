@@ -52,19 +52,22 @@ public class FastBBOXTest {
 
     @Test
     public void evaluate_envelopeOverlapsBBOX() throws Exception {
-        FastBBOX fastBBOX = new FastBBOX(filterFactory.property("geometry"),new Envelope(0.8, 2, 0.8, 2), filterFactory);
+        FastBBOX fastBBOX = new FastBBOX(filterFactory.property("geometry"), new Envelope(0.8, 2,
+                0.8, 2), filterFactory);
         assertTrue(fastBBOX.evaluate(circle));
     }
 
     @Test
     public void evaluate_envelopeIntersectsGeometry() throws Exception {
-        FastBBOX fastBBOX = new FastBBOX(filterFactory.property("geometry"), new Envelope(0.5, 2, 0.5, 2), filterFactory);
+        FastBBOX fastBBOX = new FastBBOX(filterFactory.property("geometry"), new Envelope(0.5, 2,
+                0.5, 2), filterFactory);
         assertTrue(fastBBOX.evaluate(circle));
     }
 
     @Test
     public void evaluate_envelopeDisjoint() throws Exception {
-        FastBBOX fastBBOX = new FastBBOX(filterFactory.property("geometry"), new Envelope(1.1, 2, 1.1, 2), filterFactory);
+        FastBBOX fastBBOX = new FastBBOX(filterFactory.property("geometry"), new Envelope(1.1, 2,
+                1.1, 2), filterFactory);
         assertFalse(fastBBOX.evaluate(circle));
     }
 
@@ -88,7 +91,8 @@ public class FastBBOXTest {
      */
     public static class MockPropertyAccessorFactory implements PropertyAccessorFactory {
         @Override
-        public PropertyAccessor createPropertyAccessor(Class<?> type, String xpath, Class<?> target, Hints hints) {
+        public PropertyAccessor createPropertyAccessor(Class<?> type, String xpath, Class<?> 
+                target, Hints hints) {
             if (!MockDataObject.class.equals(type)) {
                 return null;
             }
@@ -99,7 +103,8 @@ public class FastBBOXTest {
                 }
 
                 @Override
-                public <T> T get(Object object, String xpath, Class<T> target) throws IllegalArgumentException {
+                public <T> T get(Object object, String xpath, Class<T> target) throws 
+                        IllegalArgumentException {
                     if ("geometry".equals(xpath)) {
                         return (T) ((MockDataObject) object).geometry;
                     } else {
@@ -108,7 +113,8 @@ public class FastBBOXTest {
                 }
 
                 @Override
-                public <T> void set(Object object, String xpath, T value, Class<T> target) throws IllegalArgumentException {
+                public <T> void set(Object object, String xpath, T value, Class<T> target) throws
+                        IllegalArgumentException {
                     throw new UnsupportedOperationException();
                 }
             };

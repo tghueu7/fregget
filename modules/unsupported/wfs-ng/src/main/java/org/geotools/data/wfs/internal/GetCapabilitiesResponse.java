@@ -50,12 +50,13 @@ import org.xml.sax.EntityResolver;
 public class GetCapabilitiesResponse extends org.geotools.data.ows.GetCapabilitiesResponse {
 
     private WFSGetCapabilities capabilities;
-    
+
 //    public GetCapabilitiesResponse(HTTPResponse response) throws IOException, ServiceException {
 //        this(response, null);
 //    }
-    
-    public GetCapabilitiesResponse(HTTPResponse response, EntityResolver entityResolver) throws IOException, ServiceException {
+
+    public GetCapabilitiesResponse(HTTPResponse response, EntityResolver entityResolver) throws 
+            IOException, ServiceException {
         super(response);
         MODULE.finer("Parsing GetCapabilities response");
         try {
@@ -79,7 +80,7 @@ public class GetCapabilitiesResponse extends org.geotools.data.ows.GetCapabiliti
                 builderFactory.setNamespaceAware(true);
                 builderFactory.setValidating(false);
                 DocumentBuilder documentBuilder = builderFactory.newDocumentBuilder();
-                if(entityResolver != null) {
+                if (entityResolver != null) {
                     documentBuilder.setEntityResolver(entityResolver);
                 }
                 rawDocument = documentBuilder.parse(new ByteArrayInputStream(rawResponse));
@@ -142,7 +143,8 @@ public class GetCapabilitiesResponse extends org.geotools.data.ows.GetCapabiliti
         if (parsed == null) {
             throw new DataSourceException("WFS capabilities was not parsed");
         }
-        if (!(parsed instanceof WFSCapabilitiesType) && !(parsed instanceof net.opengis.wfs20.WFSCapabilitiesType)) {
+        if (!(parsed instanceof WFSCapabilitiesType) && !(parsed instanceof net.opengis
+                .wfs20.WFSCapabilitiesType)) {
             throw new DataSourceException("Expected WFS Capabilities, got " + parsed);
         }
         EObject object = (EObject) parsed;

@@ -24,18 +24,15 @@ import static org.geotools.data.sqlserver.SQLServerDataStoreFactory.NATIVE_SERIA
 import static org.geotools.data.sqlserver.SQLServerDataStoreFactory.TABLE_HINTS;
 
 import java.util.Map;
+
 import org.geotools.jdbc.JDBCDataStoreFactory;
 
 import org.geotools.jdbc.JDBCJNDIDataStoreFactory;
 
 /**
  * JNDI DataStoreFactory for sql server database.
- * 
+ *
  * @author Christian Mueller
- * 
- *
- *
- *
  * @source $URL$
  */
 public class SQLServerJNDIDataStoreFactory extends JDBCJNDIDataStoreFactory {

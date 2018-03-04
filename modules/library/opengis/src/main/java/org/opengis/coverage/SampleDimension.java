@@ -4,7 +4,7 @@
  *
  *    (C) 2011-2015, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.coverage;
@@ -24,14 +24,12 @@ import org.opengis.util.InternationalString;
  * For {@linkplain org.opengis.coverage.grid.GridCoverage grid coverages},
  * the sample dimension refers to an individual band.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengis.org/docs/01-004.pdf">Grid Coverage specification 1.0</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
+ * @source $URL$
+ * @since GeoAPI 1.0
  */
-@UML(identifier="CV_SampleDimension", specification=OGC_01004)
+@UML(identifier = "CV_SampleDimension", specification = OGC_01004)
 public interface SampleDimension {
     /**
      * Sample dimension title or description.
@@ -39,7 +37,7 @@ public interface SampleDimension {
      *
      * @return A description for this sample dimension.
      */
-    @UML(identifier="description", obligation=MANDATORY, specification=OGC_01004)
+    @UML(identifier = "description", obligation = MANDATORY, specification = OGC_01004)
     InternationalString getDescription();
 
     /**
@@ -48,7 +46,7 @@ public interface SampleDimension {
      *
      * @return A code value indicating grid value data type.
      */
-    @UML(identifier="sampleDimensionType", obligation=MANDATORY, specification=OGC_01004)
+    @UML(identifier = "sampleDimensionType", obligation = MANDATORY, specification = OGC_01004)
     SampleDimensionType getSampleDimensionType();
 
     /**
@@ -56,19 +54,19 @@ public interface SampleDimension {
      * This allows for names to be assigned to numerical values.
      * The first entry in the sequence relates to a cell value of zero.
      * For grid coverages, category names are only valid for a classified grid data.
-     *
+     * <p>
      * For example:<br>
-     *  <UL>
-     *    <li>0 Background</li>
-     *    <li>1 Water</li>
-     *    <li>2 Forest</li>
-     *    <li>3 Urban</li>
-     *  </UL>
+     * <UL>
+     * <li>0 Background</li>
+     * <li>1 Water</li>
+     * <li>2 Forest</li>
+     * <li>3 Urban</li>
+     * </UL>
      * Note: If no category names exist, an empty sequence is returned.
      *
      * @return The category names.
      */
-    @UML(identifier="categoryNames", obligation=MANDATORY, specification=OGC_01004)
+    @UML(identifier = "categoryNames", obligation = MANDATORY, specification = OGC_01004)
     InternationalString[] getCategoryNames();
 
     /**
@@ -78,10 +76,9 @@ public interface SampleDimension {
      * value is {@link ColorInterpretation#UNDEFINED UNDEFINED}.
      *
      * @return The color interpretation of the sample dimension.
-     *
      * @deprecated No replacement.
      */
-    @UML(identifier="colorInterpretation", obligation=MANDATORY, specification=OGC_01004)
+    @UML(identifier = "colorInterpretation", obligation = MANDATORY, specification = OGC_01004)
     ColorInterpretation getColorInterpretation();
 
     /**
@@ -92,10 +89,9 @@ public interface SampleDimension {
      * A palette entry type can be Gray, RGB, CMYK or HLS.
      *
      * @return The type of color palette entry for sample dimensions which have a palette.
-     *
      * @deprecated No replacement.
      */
-    @UML(identifier="paletteInterpretation", obligation=MANDATORY, specification=OGC_01004)
+    @UML(identifier = "paletteInterpretation", obligation = MANDATORY, specification = OGC_01004)
     PaletteInterpretation getPaletteInterpretation();
 
     /**
@@ -105,14 +101,12 @@ public interface SampleDimension {
      * If the grid coverage has no color palette, {@code null} will be returned.
      *
      * @return The color palette associated with the sample dimension.
-     *
      * @see #getPaletteInterpretation
      * @see #getColorInterpretation
      * @see java.awt.image.IndexColorModel
-     *
      * @deprecated No replacement.
      */
-    @UML(identifier="palette", obligation=MANDATORY, specification=OGC_01004)
+    @UML(identifier = "palette", obligation = MANDATORY, specification = OGC_01004)
     int[][] getPalette();
 
     /**
@@ -120,11 +114,10 @@ public interface SampleDimension {
      * For low precision sample dimensions, this will often be no data values.
      *
      * @return The values to indicate no data values for the sample dimension.
-     *
      * @see #getMinimumValue
      * @see #getMaximumValue
      */
-    @UML(identifier="noDataValue", obligation=MANDATORY, specification=OGC_01004)
+    @UML(identifier = "noDataValue", obligation = MANDATORY, specification = OGC_01004)
     double[] getNoDataValues();
 
     /**
@@ -134,11 +127,10 @@ public interface SampleDimension {
      * This value can be empty if this value is not provided by the implementation.
      *
      * @return The minimum value occurring in the sample dimension.
-     *
      * @see #getMaximumValue
      * @see #getNoDataValues
      */
-    @UML(identifier="minimumValue", obligation=MANDATORY, specification=OGC_01004)
+    @UML(identifier = "minimumValue", obligation = MANDATORY, specification = OGC_01004)
     double getMinimumValue();
 
     /**
@@ -148,11 +140,10 @@ public interface SampleDimension {
      * This value can be empty if this value is not provided by the implementation.
      *
      * @return The maximum value occurring in the sample dimension.
-     *
      * @see #getMinimumValue
      * @see #getNoDataValues
      */
-    @UML(identifier="maximumValue", obligation=MANDATORY, specification=OGC_01004)
+    @UML(identifier = "maximumValue", obligation = MANDATORY, specification = OGC_01004)
     double getMaximumValue();
 
     /**
@@ -163,7 +154,7 @@ public interface SampleDimension {
      *
      * @return The unit information for this sample dimension.
      */
-    @UML(identifier="units", obligation=MANDATORY, specification=OGC_01004)
+    @UML(identifier = "units", obligation = MANDATORY, specification = OGC_01004)
     Unit<?> getUnits();
 
     /**
@@ -172,10 +163,9 @@ public interface SampleDimension {
      * elevation data. The default for this value is 0.
      *
      * @return The offset.
-     *
      * @see #getScale
      */
-    @UML(identifier="offset", obligation=MANDATORY, specification=OGC_01004)
+    @UML(identifier = "offset", obligation = MANDATORY, specification = OGC_01004)
     double getOffset();
 
     /**
@@ -184,10 +174,9 @@ public interface SampleDimension {
      * data. The default for this value is 1.
      *
      * @return The scale factor.
-     *
      * @see #getOffset
      */
-    @UML(identifier="scale", obligation=MANDATORY, specification=OGC_01004)
+    @UML(identifier = "scale", obligation = MANDATORY, specification = OGC_01004)
     double getScale();
 
 }

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2006-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -32,12 +32,10 @@ import org.geotools.resources.i18n.ErrorKeys;
  * A workaround for this exception is to invoke {@code getServiceProvider} outside the constuctor,
  * when a method first need it.
  *
- * @since 2.3
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @since 2.3
  */
 public class RecursiveSearchException extends FactoryRegistryException {
     /**

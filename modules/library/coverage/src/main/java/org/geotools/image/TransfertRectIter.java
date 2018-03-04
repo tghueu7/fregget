@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2001-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,6 +17,7 @@
 package org.geotools.image;
 
 // J2SE dependencies
+
 import java.awt.image.RasterFormatException;
 
 // JAI dependencies
@@ -34,12 +35,10 @@ import javax.media.jai.iterator.WritableRectIter;
  * same image. This {@code TransfertRectIter} is convenient for the implementation of some image
  * operations.
  *
- * @since 2.3
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.3
  */
 public final class TransfertRectIter implements WritableRectIter {
     /**
@@ -72,11 +71,11 @@ public final class TransfertRectIter implements WritableRectIter {
      * The two iterators must iterate over a rectangle of the same size, otherwise a
      * {@link RasterFormatException} may be thrown during the iteration.
      *
-     * @param  src The source iterator.
-     * @param  dst The destination iterator.
+     * @param src The source iterator.
+     * @param dst The destination iterator.
      * @return An iterator that read sample from {@code src} and write sample
-     *         to {@code dst}. If {@code src == dst}, then the destination
-     *         iterator itself is returned.
+     * to {@code dst}. If {@code src == dst}, then the destination
+     * iterator itself is returned.
      */
     public static WritableRectIter create(final RectIter src, final WritableRectIter dst) {
         if (src == dst) {
@@ -232,9 +231,9 @@ public final class TransfertRectIter implements WritableRectIter {
         return src.getPixel(array);
     }
 
-   /**
-    * Returns the samples of the current pixel from the image in an array of double.
-    */
+    /**
+     * Returns the samples of the current pixel from the image in an array of double.
+     */
     public double[] getPixel(double[] array) {
         return src.getPixel(array);
     }

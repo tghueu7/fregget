@@ -20,8 +20,6 @@ import com.vividsolutions.jts.geom.CoordinateSequenceFactory;
 import com.vividsolutions.jts.geom.GeometryFactory;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class LinearRingTypeBinding extends org.geotools.gml3.bindings.LinearRingTypeBinding {

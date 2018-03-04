@@ -21,15 +21,16 @@ import net.opengis.wmts.v_1.wmtsv_1Factory;
 
 /**
  * Binding object for the element http://www.opengis.net/wmts/1.0:Layer.
- *
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
- *	 <code>
+ * 	 <code>
  *  &lt;?xml version="1.0" encoding="UTF-8"?&gt;
- *     &lt;element name="Layer" substitutionGroup="ows:DatasetDescriptionSummary" type="wmts:LayerType" xmlns="http://www.w3.org/2001/XMLSchema"/&gt;
- *		
- *	  </code>
+ *     &lt;element name="Layer" substitutionGroup="ows:DatasetDescriptionSummary" 
+ *     type="wmts:LayerType" xmlns="http://www.w3.org/2001/XMLSchema"/&gt;
+ *
+ * 	  </code>
  * </pre>
  * </p>
  *
@@ -53,7 +54,7 @@ public class LayerBinding extends AbstractSimpleBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc --> <b>
-     * 
+     *
      * @generated modifiable
      */
     public Class<LayerType> getType() {
@@ -62,7 +63,7 @@ public class LayerBinding extends AbstractSimpleBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     @SuppressWarnings("unchecked")
@@ -74,7 +75,7 @@ public class LayerBinding extends AbstractSimpleBinding {
             layer.getAbstract().add(c.getValue());
         }
         children = node.getChildren("BoundingBox");
-        for(Node c:children) {
+        for (Node c : children) {
             layer.getBoundingBox().add(c.getValue());
         }
         layer.getWGS84BoundingBox().add(node.getChildValue("WGS84BoundingBox"));
@@ -100,7 +101,7 @@ public class LayerBinding extends AbstractSimpleBinding {
         }
 
         List<Node> children2 = node.getChildren(TileMatrixSetLinkType.class);
-        for(Node c:children2) {
+        for (Node c : children2) {
             layer.getTileMatrixSetLink().add((TileMatrixSetLinkType) c);
         }
         children = node.getChildren("Title");

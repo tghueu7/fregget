@@ -18,7 +18,7 @@ package org.geotools.geopkg.geom;
 
 /**
  * EnvelopeType specified in the header of a Geometry (see Geopackage specs)
- * 
+ *
  * @author Justin Deoliveira
  * @author Niels Charlier
  */

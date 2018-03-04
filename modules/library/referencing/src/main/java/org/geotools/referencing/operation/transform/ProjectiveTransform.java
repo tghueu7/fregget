@@ -65,33 +65,32 @@ import org.geotools.resources.i18n.Errors;
  * coordinate points are three-dimensional. The transformed points <code>(x',y',z')</code> are
  * computed as below (note that this computation is similar to
  * {@link javax.media.jai.PerspectiveTransform} in <cite>Java Advanced Imaging</cite>):
- *
+ * <p>
  * <blockquote><pre>
  * [ u ]     [ m<sub>00</sub>  m<sub>01</sub>  m<sub>02</sub>  m<sub>03</sub> ] [ x ]
  * [ v ]  =  [ m<sub>10</sub>  m<sub>11</sub>  m<sub>12</sub>  m<sub>13</sub> ] [ y ]
  * [ w ]     [ m<sub>20</sub>  m<sub>21</sub>  m<sub>22</sub>  m<sub>23</sub> ] [ z ]
  * [ t ]     [ m<sub>30</sub>  m<sub>31</sub>  m<sub>32</sub>  m<sub>33</sub> ] [ 1 ]
- *
+ * <p>
  *   x' = u/t
  *   y' = v/t
  *   y' = w/t
  * </pre></blockquote>
- *
+ * <p>
  * In the special case of an affine transform, the last row contains only zero
  * values except in the last column, which contains 1.
  *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see javax.media.jai.PerspectiveTransform
  * @see java.awt.geom.AffineTransform
- * @see <A HREF="http://mathworld.wolfram.com/AffineTransformation.html">Affine transformation on MathWorld</A>
+ * @see <A HREF="http://mathworld.wolfram.com/AffineTransformation.html">Affine transformation on
+ * MathWorld</A>
+ * @since 2.0
  */
-public class ProjectiveTransform extends AbstractMathTransform implements LinearTransform, Serializable {
+public class ProjectiveTransform extends AbstractMathTransform implements LinearTransform, 
+        Serializable {
     /**
      * Serial number for interoperability with different versions.
      */
@@ -126,11 +125,11 @@ public class ProjectiveTransform extends AbstractMathTransform implements Linear
     protected ProjectiveTransform(final Matrix matrix) {
         numRow = matrix.getNumRow();
         numCol = matrix.getNumCol();
-        elt = new double[numRow*numCol];
+        elt = new double[numRow * numCol];
         int index = 0;
-        for (int j=0; j<numRow; j++) {
-            for (int i=0; i<numCol; i++) {
-                elt[index++] = matrix.getElement(j,i);
+        for (int j = 0; j < numRow; j++) {
+            for (int i = 0; i < numCol; i++) {
+                elt[index++] = matrix.getElement(j, i);
             }
         }
     }
@@ -143,22 +142,26 @@ public class ProjectiveTransform extends AbstractMathTransform implements Linear
      * @return The transform for the given matrix.
      */
     public static LinearTransform create(final Matrix matrix) {
-        final int dimension = matrix.getNumRow()-1;
-        if (dimension == matrix.getNumCol()-1) {
+        final int dimension = matrix.getNumRow() - 1;
+        if (dimension == matrix.getNumCol() - 1) {
             if (matrix.isIdentity()) {
                 return IdentityTransform.create(dimension);
             }
             final GeneralMatrix m = toGMatrix(matrix);
             if (m.isAffine()) {
                 switch (dimension) {
-                    case 1: return LinearTransform1D.create(m.getElement(0,0), m.getElement(0,1));
-                    case 2: return create(m.toAffineTransform2D());
+                    case 1:
+                        return LinearTransform1D.create(m.getElement(0, 0), m.getElement(0, 1));
+                    case 2:
+                        return create(m.toAffineTransform2D());
                 }
             }
         }
         switch (dimension) {
-            case 2:  return new ProjectiveTransform2D(matrix);
-            default: return new ProjectiveTransform  (matrix);
+            case 2:
+                return new ProjectiveTransform2D(matrix);
+            default:
+                return new ProjectiveTransform(matrix);
         }
     }
 
@@ -181,9 +184,8 @@ public class ProjectiveTransform extends AbstractMathTransform implements Linear
      * Creates a transform that apply a uniform scale along all axis.
      *
      * @param dimension The input and output dimensions.
-     * @param scale The scale factor.
+     * @param scale     The scale factor.
      * @return The scale transform.
-     *
      * @since 2.3
      */
     public static LinearTransform createScale(final int dimension, final double scale) {
@@ -191,7 +193,7 @@ public class ProjectiveTransform extends AbstractMathTransform implements Linear
             return IdentityTransform.create(dimension);
         }
         final Matrix matrix = new GeneralMatrix(dimension + 1);
-        for (int i=0; i<dimension; i++) {
+        for (int i = 0; i < dimension; i++) {
             matrix.setElement(i, i, scale);
         }
         return create(matrix);
@@ -201,9 +203,8 @@ public class ProjectiveTransform extends AbstractMathTransform implements Linear
      * Creates a transform that apply the same translation along all axis.
      *
      * @param dimension The input and output dimensions.
-     * @param offset The translation.
+     * @param offset    The translation.
      * @return The offset transform.
-     *
      * @since 2.3
      */
     public static LinearTransform createTranslation(final int dimension, final double offset) {
@@ -211,7 +212,7 @@ public class ProjectiveTransform extends AbstractMathTransform implements Linear
             return IdentityTransform.create(dimension);
         }
         final Matrix matrix = new GeneralMatrix(dimension + 1);
-        for (int i=0; i<dimension; i++) {
+        for (int i = 0; i < dimension; i++) {
             matrix.setElement(i, dimension, offset);
         }
         return create(matrix);
@@ -222,20 +223,19 @@ public class ProjectiveTransform extends AbstractMathTransform implements Linear
      * The dimension of source coordinates is {@code sourceDim} and
      * the dimension of target coordinates is {@code toKeep.length}.
      *
-     * @param  sourceDim the dimension of source coordinates.
-     * @param  toKeep the indices of ordinate values to keep.
+     * @param sourceDim the dimension of source coordinates.
+     * @param toKeep    the indices of ordinate values to keep.
      * @return The matrix to give to the {@link #create(Matrix)}
-     *         method in order to create the transform.
+     * method in order to create the transform.
      * @throws IndexOutOfBoundsException if a value of {@code toKeep}
-     *         is lower than 0 or not smaller than {@code sourceDim}.
+     *                                   is lower than 0 or not smaller than {@code sourceDim}.
      */
     public static Matrix createSelectMatrix(final int sourceDim, final int[] toKeep)
-            throws IndexOutOfBoundsException
-    {
+            throws IndexOutOfBoundsException {
         final int targetDim = toKeep.length;
-        final XMatrix matrix = MatrixFactory.create(targetDim+1, sourceDim+1);
+        final XMatrix matrix = MatrixFactory.create(targetDim + 1, sourceDim + 1);
         matrix.setZero();
-        for (int j=0; j<targetDim; j++) {
+        for (int j = 0; j < targetDim; j++) {
             matrix.setElement(j, toKeep[j], 1);
         }
         matrix.setElement(targetDim, sourceDim, 1);
@@ -255,7 +255,7 @@ public class ProjectiveTransform extends AbstractMathTransform implements Linear
      * depends on the matrix size. Only matrix elements different from their default value
      * will be included in this group.
      *
-     * @param  matrix The matrix to returns as a group of parameters.
+     * @param matrix The matrix to returns as a group of parameters.
      * @return A copy of the parameter values for this math transform.
      */
     static ParameterValueGroup getParameterValues(final Matrix matrix) {
@@ -283,8 +283,8 @@ public class ProjectiveTransform extends AbstractMathTransform implements Linear
      * for square matrix of size 4&times;4, coordinate points are three-dimensional and
      * stored in the arrays starting at the specified offset ({@code srcOff}) in the order
      * <code>[x<sub>0</sub>, y<sub>0</sub>, z<sub>0</sub>,
-     *        x<sub>1</sub>, y<sub>1</sub>, z<sub>1</sub>...,
-     *        x<sub>n</sub>, y<sub>n</sub>, z<sub>n</sub>]</code>.
+     * x<sub>1</sub>, y<sub>1</sub>, z<sub>1</sub>...,
+     * x<sub>n</sub>, y<sub>n</sub>, z<sub>n</sub>]</code>.
      *
      * @param srcPts The array containing the source point coordinates.
      * @param srcOff The offset to the first point to be transformed in the source array.
@@ -296,21 +296,20 @@ public class ProjectiveTransform extends AbstractMathTransform implements Linear
      */
     @Override
     public void transform(float[] srcPts, int srcOff,
-                          final float[] dstPts, int dstOff, int numPts)
-    {
-        final int  inputDimension = numCol-1; // The last ordinate will be assumed equals to 1.
-        final int outputDimension = numRow-1;
-        final double[]     buffer = new double[numRow];
+                          final float[] dstPts, int dstOff, int numPts) {
+        final int inputDimension = numCol - 1; // The last ordinate will be assumed equals to 1.
+        final int outputDimension = numRow - 1;
+        final double[] buffer = new double[numRow];
         if (srcPts == dstPts) {
             // We are going to write in the source array. Checks if
             // source and destination sections are going to clash.
-            final int upperSrc = srcOff + numPts*inputDimension;
+            final int upperSrc = srcOff + numPts * inputDimension;
             if (upperSrc > dstOff) {
                 if (inputDimension >= outputDimension ? dstOff > srcOff :
-                            dstOff + numPts*outputDimension > upperSrc) {
+                        dstOff + numPts * outputDimension > upperSrc) {
                     // If source overlaps destination, then the easiest workaround is
                     // to copy source data. This is not the most efficient however...
-                    srcPts = new float[numPts*inputDimension];
+                    srcPts = new float[numPts * inputDimension];
                     System.arraycopy(dstPts, srcOff, srcPts, 0, srcPts.length);
                     srcOff = 0;
                 }
@@ -318,18 +317,18 @@ public class ProjectiveTransform extends AbstractMathTransform implements Linear
         }
         while (--numPts >= 0) {
             int mix = 0;
-            for (int j=0; j<numRow; j++) {
-                double sum=elt[mix + inputDimension];
-                for (int i=0; i<inputDimension; i++) {
-                    sum += srcPts[srcOff+i]*elt[mix++];
+            for (int j = 0; j < numRow; j++) {
+                double sum = elt[mix + inputDimension];
+                for (int i = 0; i < inputDimension; i++) {
+                    sum += srcPts[srcOff + i] * elt[mix++];
                 }
                 buffer[j] = sum;
                 mix++;
             }
             final double w = buffer[outputDimension];
-            for (int j=0; j<outputDimension; j++) {
+            for (int j = 0; j < outputDimension; j++) {
                 // 'w' is equals to 1 if the transform is affine.
-                dstPts[dstOff++] = (float) (buffer[j]/w);
+                dstPts[dstOff++] = (float) (buffer[j] / w);
             }
             srcOff += inputDimension;
         }
@@ -341,8 +340,8 @@ public class ProjectiveTransform extends AbstractMathTransform implements Linear
      * for square matrix of size 4&times;4, coordinate points are three-dimensional and
      * stored in the arrays starting at the specified offset ({@code srcOff}) in the order
      * <code>[x<sub>0</sub>, y<sub>0</sub>, z<sub>0</sub>,
-     *        x<sub>1</sub>, y<sub>1</sub>, z<sub>1</sub>...,
-     *        x<sub>n</sub>, y<sub>n</sub>, z<sub>n</sub>]</code>.
+     * x<sub>1</sub>, y<sub>1</sub>, z<sub>1</sub>...,
+     * x<sub>n</sub>, y<sub>n</sub>, z<sub>n</sub>]</code>.
      *
      * @param srcPts The array containing the source point coordinates.
      * @param srcOff The offset to the first point to be transformed in the source array.
@@ -353,21 +352,20 @@ public class ProjectiveTransform extends AbstractMathTransform implements Linear
      * @param numPts The number of points to be transformed
      */
     public void transform(double[] srcPts, int srcOff,
-                          final double[] dstPts, int dstOff, int numPts)
-    {
-        final int  inputDimension = numCol-1; // The last ordinate will be assumed equals to 1.
-        final int outputDimension = numRow-1;
-        final double[]     buffer = new double[numRow];
+                          final double[] dstPts, int dstOff, int numPts) {
+        final int inputDimension = numCol - 1; // The last ordinate will be assumed equals to 1.
+        final int outputDimension = numRow - 1;
+        final double[] buffer = new double[numRow];
         if (srcPts == dstPts) {
             // We are going to write in the source array. Checks if
             // source and destination sections are going to clash.
-            final int upperSrc = srcOff + numPts*inputDimension;
+            final int upperSrc = srcOff + numPts * inputDimension;
             if (upperSrc > dstOff) {
                 if (inputDimension >= outputDimension ? dstOff > srcOff :
-                            dstOff + numPts*outputDimension > upperSrc) {
+                        dstOff + numPts * outputDimension > upperSrc) {
                     // If source overlaps destination, then the easiest workaround is
                     // to copy source data. This is not the most efficient however...
-                    srcPts = new double[numPts*inputDimension];
+                    srcPts = new double[numPts * inputDimension];
                     System.arraycopy(dstPts, srcOff, srcPts, 0, srcPts.length);
                     srcOff = 0;
                 }
@@ -375,18 +373,18 @@ public class ProjectiveTransform extends AbstractMathTransform implements Linear
         }
         while (--numPts >= 0) {
             int mix = 0;
-            for (int j=0; j<numRow; j++) {
-                double sum=elt[mix + inputDimension];
-                for (int i=0; i<inputDimension; i++) {
-                    sum += srcPts[srcOff+i]*elt[mix++];
+            for (int j = 0; j < numRow; j++) {
+                double sum = elt[mix + inputDimension];
+                for (int i = 0; i < inputDimension; i++) {
+                    sum += srcPts[srcOff + i] * elt[mix++];
                 }
                 buffer[j] = sum;
                 mix++;
             }
             final double w = buffer[outputDimension];
-            for (int j=0; j<outputDimension; j++) {
+            for (int j = 0; j < outputDimension; j++) {
                 // 'w' is equals to 1 if the transform is affine.
-                dstPts[dstOff++] = buffer[j]/w;
+                dstPts[dstOff++] = buffer[j] / w;
             }
             srcOff += inputDimension;
         }
@@ -399,7 +397,7 @@ public class ProjectiveTransform extends AbstractMathTransform implements Linear
      */
     @Override
     public Matrix derivative(final Point2D point) {
-        return derivative((DirectPosition)null);
+        return derivative((DirectPosition) null);
     }
 
     /**
@@ -410,7 +408,7 @@ public class ProjectiveTransform extends AbstractMathTransform implements Linear
     @Override
     public Matrix derivative(final DirectPosition point) {
         final GeneralMatrix matrix = getGeneralMatrix();
-        matrix.setSize(numRow-1, numCol-1);
+        matrix.setSize(numRow - 1, numCol - 1);
         return matrix;
     }
 
@@ -450,10 +448,10 @@ public class ProjectiveTransform extends AbstractMathTransform implements Linear
         if (numRow != numCol) {
             return false;
         }
-        int index=0;
-        for (int j=0; j<numRow; j++) {
-            for (int i=0; i<numCol; i++) {
-                if (elt[index++] != (i==j ? 1 : 0)) {
+        int index = 0;
+        for (int j = 0; j < numRow; j++) {
+            for (int i = 0; i < numCol; i++) {
+                if (elt[index++] != (i == j ? 1 : 0)) {
                     return false;
                 }
             }
@@ -474,9 +472,9 @@ public class ProjectiveTransform extends AbstractMathTransform implements Linear
         if (numRow != numCol) {
             return false;
         }
-        int index=0;
-        for (int j=0; j<numRow; j++) {
-            for (int i=0; i<numCol; i++) {
+        int index = 0;
+        for (int j = 0; j < numRow; j++) {
+            for (int i = 0; i < numCol; i++) {
                 double e = elt[index++];
                 if (i == j) {
                     e--;
@@ -502,9 +500,9 @@ public class ProjectiveTransform extends AbstractMathTransform implements Linear
                 final XMatrix matrix = getGeneralMatrix();
                 try {
                     matrix.invert();
-                } catch (SingularMatrixException|IllegalArgumentException exception) {
+                } catch (SingularMatrixException | IllegalArgumentException exception) {
                     throw new NoninvertibleTransformException(Errors.format(
-                              ErrorKeys.NONINVERTIBLE_TRANSFORM), exception);
+                            ErrorKeys.NONINVERTIBLE_TRANSFORM), exception);
                 }
                 inverse = createInverse(matrix);
                 inverse.inverse = this;
@@ -529,10 +527,10 @@ public class ProjectiveTransform extends AbstractMathTransform implements Linear
     @Override
     public int hashCode() {
         long code = serialVersionUID;
-        for (int i=elt.length; --i>=0;) {
-            code = code*37 + Double.doubleToLongBits(elt[i]);
+        for (int i = elt.length; --i >= 0; ) {
+            code = code * 37 + Double.doubleToLongBits(elt[i]);
         }
-        return (int)(code >>> 32) ^ (int)code;
+        return (int) (code >>> 32) ^ (int) code;
     }
 
     /**
@@ -548,8 +546,8 @@ public class ProjectiveTransform extends AbstractMathTransform implements Linear
         if (super.equals(object)) {
             final ProjectiveTransform that = (ProjectiveTransform) object;
             return this.numRow == that.numRow &&
-                   this.numCol == that.numCol &&
-                   Arrays.equals(this.elt, that.elt);
+                    this.numCol == that.numCol &&
+                    Arrays.equals(this.elt, that.elt);
         }
         return false;
     }
@@ -562,8 +560,8 @@ public class ProjectiveTransform extends AbstractMathTransform implements Linear
      * <p>
      * Note that affine transform is a special case of projective transform.
      *
-     * @version $Id$
      * @author Martin Desruisseaux (IRD)
+     * @version $Id$
      */
     public static final class ProviderAffine extends MathTransformProvider {
         /**
@@ -582,16 +580,17 @@ public class ProjectiveTransform extends AbstractMathTransform implements Linear
          * @todo We should register EPSG parameter identifiers (A0, A1, A2, B0, B1, B2) as well.
          */
         static final ParameterDescriptorGroup PARAMETERS;
+
         static {
             final NamedIdentifier name = new NamedIdentifier(Citations.OGC, "Affine");
-            final Map<String,Object> properties = new HashMap<String,Object>(4, 0.8f);
-            properties.put(NAME_KEY,        name);
+            final Map<String, Object> properties = new HashMap<String, Object>(4, 0.8f);
+            properties.put(NAME_KEY, name);
             properties.put(IDENTIFIERS_KEY, name);
-            properties.put(ALIAS_KEY, new NamedIdentifier[] {name,
-                new NamedIdentifier(Citations.EPSG, "Affine general parametric transformation"),
-                new NamedIdentifier(Citations.EPSG, "9624"),
-                new NamedIdentifier(Citations.GEOTOOLS,
-                    Vocabulary.formatInternational(VocabularyKeys.AFFINE_TRANSFORM))
+            properties.put(ALIAS_KEY, new NamedIdentifier[]{name,
+                    new NamedIdentifier(Citations.EPSG, "Affine general parametric transformation"),
+                    new NamedIdentifier(Citations.EPSG, "9624"),
+                    new NamedIdentifier(Citations.GEOTOOLS,
+                            Vocabulary.formatInternational(VocabularyKeys.AFFINE_TRANSFORM))
             });
             PARAMETERS = new MatrixParameterDescriptors(properties);
         }
@@ -600,9 +599,9 @@ public class ProjectiveTransform extends AbstractMathTransform implements Linear
          * Creates a provider for affine transform with a default matrix size.
          */
         public ProviderAffine() {
-            this(MatrixParameterDescriptors.DEFAULT_MATRIX_SIZE-1,
-                 MatrixParameterDescriptors.DEFAULT_MATRIX_SIZE-1);
-            methods[MatrixParameterDescriptors.DEFAULT_MATRIX_SIZE-2] = this;
+            this(MatrixParameterDescriptors.DEFAULT_MATRIX_SIZE - 1,
+                    MatrixParameterDescriptors.DEFAULT_MATRIX_SIZE - 1);
+            methods[MatrixParameterDescriptors.DEFAULT_MATRIX_SIZE - 2] = this;
         }
 
         /**
@@ -623,17 +622,16 @@ public class ProjectiveTransform extends AbstractMathTransform implements Linear
         /**
          * Creates a projective transform from the specified group of parameter values.
          *
-         * @param  values The group of parameter values.
+         * @param values The group of parameter values.
          * @return The created math transform.
          * @throws ParameterNotFoundException if a required parameter was not found.
          */
         protected MathTransform createMathTransform(final ParameterValueGroup values)
-                throws ParameterNotFoundException
-        {
+                throws ParameterNotFoundException {
             final MathTransform transform;
             transform = create(((MatrixParameterDescriptors) getParameters()).getMatrix(values));
             return new Delegate(transform, getProvider(transform.getSourceDimensions(),
-                                                       transform.getTargetDimensions()));
+                    transform.getTargetDimensions()));
         }
 
         /**
@@ -645,14 +643,14 @@ public class ProjectiveTransform extends AbstractMathTransform implements Linear
          * @return The provider for transforms of the given source and target dimensions.
          */
         public static ProviderAffine getProvider(final int sourceDimensions,
-                                                 final int targetDimensions)
-        {
+                                                 final int targetDimensions) {
             if (sourceDimensions == targetDimensions) {
                 final int i = sourceDimensions - 1;
-                if (i>=0 && i<methods.length) {
+                if (i >= 0 && i < methods.length) {
                     ProviderAffine method = methods[i];
                     if (method == null) {
-                        methods[i] = method = new ProviderAffine(sourceDimensions, targetDimensions);
+                        methods[i] = method = new ProviderAffine(sourceDimensions, 
+                                targetDimensions);
                     }
                     return method;
                 }
@@ -664,8 +662,8 @@ public class ProjectiveTransform extends AbstractMathTransform implements Linear
     /**
      * The provider for the "<cite>Longitude rotation</cite>" (EPSG 9601).
      *
-     * @version $Id$
      * @author Martin Desruisseaux (IRD)
+     * @version $Id$
      */
     public static final class ProviderLongitudeRotation extends MathTransformProvider {
         /**
@@ -677,20 +675,21 @@ public class ProjectiveTransform extends AbstractMathTransform implements Linear
          * The longitude offset.
          */
         public static final ParameterDescriptor OFFSET = createDescriptor(
-                new NamedIdentifier[] {
-                    new NamedIdentifier(Citations.EPSG, "Longitude offset")
+                new NamedIdentifier[]{
+                        new NamedIdentifier(Citations.EPSG, "Longitude offset")
                 },
                 Double.NaN, -180, +180, NonSI.DEGREE_ANGLE);
 
         /**
          * The parameters group.
          */
-        static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(new NamedIdentifier[] {
-                    new NamedIdentifier(Citations.EPSG, "Longitude rotation"),
-                    new NamedIdentifier(Citations.EPSG, "9601")
-                }, new ParameterDescriptor[] {
-                    OFFSET
-                });
+        static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(new 
+                NamedIdentifier[]{
+                new NamedIdentifier(Citations.EPSG, "Longitude rotation"),
+                new NamedIdentifier(Citations.EPSG, "9601")
+        }, new ParameterDescriptor[]{
+                OFFSET
+        });
 
         /**
          * Constructs a provider with default parameters.
@@ -710,13 +709,12 @@ public class ProjectiveTransform extends AbstractMathTransform implements Linear
         /**
          * Creates a transform from the specified group of parameter values.
          *
-         * @param  values The group of parameter values.
+         * @param values The group of parameter values.
          * @return The created math transform.
          * @throws ParameterNotFoundException if a required parameter was not found.
          */
         protected MathTransform createMathTransform(final ParameterValueGroup values)
-                throws ParameterNotFoundException
-        {
+                throws ParameterNotFoundException {
             final double offset = doubleValue(OFFSET, values);
             return create(AffineTransform.getTranslateInstance(offset, 0));
         }

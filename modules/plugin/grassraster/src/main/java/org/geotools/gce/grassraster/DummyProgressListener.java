@@ -21,10 +21,8 @@ import org.opengis.util.ProgressListener;
 
 /**
  * A dummy progress listener.
- * 
+ *
  * @author Andrea Antonello (www.hydrologis.com)
- *
- *
  * @source $URL$
  */
 public class DummyProgressListener implements ProgressListener {
@@ -35,7 +33,7 @@ public class DummyProgressListener implements ProgressListener {
     public void dispose() {
     }
 
-    public void exceptionOccurred( Throwable exception ) {
+    public void exceptionOccurred(Throwable exception) {
     }
 
     public String getDescription() {
@@ -54,24 +52,23 @@ public class DummyProgressListener implements ProgressListener {
         return false;
     }
 
-    public void progress( float percent ) {
+    public void progress(float percent) {
     }
 
-    public void setCanceled( boolean cancel ) {
+    public void setCanceled(boolean cancel) {
     }
 
-    public void setDescription( String description ) {
+    public void setDescription(String description) {
     }
 
-    public void setTask( InternationalString task ) {
+    public void setTask(InternationalString task) {
     }
 
     public void started() {
     }
 
-    public void warningOccurred( String source, String location, String warning ) {
+    public void warningOccurred(String source, String location, String warning) {
     }
-
 
 
 }

@@ -48,12 +48,12 @@ public class JLayeredMapPane extends AbstractMapPane {
 
     private final Map<Layer, LayerOperands> operandLookup;
     private final Map<Object, Object> renderingHints;
-    
-    
+
+
     public JLayeredMapPane() {
         this(null);
     }
-    
+
     public JLayeredMapPane(MapContent content) {
         this(content, null);
     }
@@ -62,7 +62,7 @@ public class JLayeredMapPane extends AbstractMapPane {
         super(content, executor);
         operandLookup = new HashMap<Layer, LayerOperands>();
         labelCache = new SynchronizedLabelCache();
-        
+
         renderingHints = new HashMap<Object, Object>();
         renderingHints.put(StreamingRenderer.LABEL_CACHE_KEY, labelCache);
     }
@@ -82,7 +82,7 @@ public class JLayeredMapPane extends AbstractMapPane {
             drawingLock.unlock();
         }
     }
-    
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -104,15 +104,15 @@ public class JLayeredMapPane extends AbstractMapPane {
         }
 
     }
-    
+
     private List<RenderingOperands> getOperands(boolean recreate) {
         List<RenderingOperands> ops = new ArrayList<RenderingOperands>();
         Rectangle r = getVisibleRect();
-        
+
         for (Layer layer : mapContent.layers()) {
             ops.add(getRenderingOperands(layer, r, recreate));
         }
-        
+
         return ops;
     }
 
@@ -122,7 +122,7 @@ public class JLayeredMapPane extends AbstractMapPane {
             op = new LayerOperands();
             operandLookup.put(layer, op);
         }
-        
+
         if (op.image == null || recreate) {
             op.image = GraphicsEnvironment.getLocalGraphicsEnvironment().
                     getDefaultScreenDevice().getDefaultConfiguration().
@@ -139,13 +139,13 @@ public class JLayeredMapPane extends AbstractMapPane {
             // op.graphics.setBackground(getBackground());
             // op.graphics.clearRect(0, 0, r.width, r.height);
         }
-        
+
         if (op.renderer == null) {
             op.renderer = new StreamingRenderer();
             op.renderer.setRendererHints(renderingHints);
         }
-        
+
         return new RenderingOperands(layer, op.graphics, op.renderer);
     }
-    
+
 }

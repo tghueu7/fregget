@@ -3,7 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -33,14 +33,13 @@ import org.geotools.xml.styling.sldSchema;
 import org.xml.sax.helpers.AttributesImpl;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ogcComplexTypes {
 
     protected static class VendorType extends ogcComplexType {
         private static ComplexType instance = new VendorType();
+
         public static ComplexType getInstance() {
             return instance;
         }
@@ -53,8 +52,10 @@ public class ogcComplexTypes {
             super("VendorType", child, attrs, elems, null, false, false);
         }
     }
+
     protected static class _Size extends ogcComplexType {
         private static ComplexType instance = new _Size();
+
         public static ComplexType getInstance() {
             return instance;
         }
@@ -76,8 +77,10 @@ public class ogcComplexTypes {
             super(null, child, attrs, elems, null, false, false);
         }
     }
+
     protected static class _Output extends ogcComplexType {
         private static ComplexType instance = new _Output();
+
         public static ComplexType getInstance() {
             return instance;
         }
@@ -97,8 +100,10 @@ public class ogcComplexTypes {
             super(null, child, attrs, elems, null, false, false);
         }
     }
+
     protected static class _GetMap extends ogcComplexType {
         private static ComplexType instance = new _GetMap();
+
         public static ComplexType getInstance() {
             return instance;
         }
@@ -127,8 +132,10 @@ public class ogcComplexTypes {
             super(null, child, attrs, elems, null, false, false);
         }
     }
+
     protected static class _FeatureInfoSize extends ogcComplexType {
         private static ComplexType instance = new _FeatureInfoSize();
+
         public static ComplexType getInstance() {
             return instance;
         }
@@ -144,8 +151,10 @@ public class ogcComplexTypes {
             super(null, child, attrs, elems, null, false, false);
         }
     }
+
     protected static class _FeatureInfoOutput extends ogcComplexType {
         private static ComplexType instance = new _FeatureInfoOutput();
+
         public static ComplexType getInstance() {
             return instance;
         }
@@ -167,8 +176,10 @@ public class ogcComplexTypes {
             super(null, child, attrs, elems, null, false, false);
         }
     }
+
     protected static class _GetFeatureInfo extends ogcComplexType {
         private static ComplexType instance = new _GetFeatureInfo();
+
         public static ComplexType getInstance() {
             return instance;
         }
@@ -202,68 +213,78 @@ public class ogcComplexTypes {
             super(null, child, attrs, elems, null, false, false);
         }
     }
+
     protected static class _GetCapabilities extends ogcComplexType {
         private static ComplexType instance = new _GetCapabilities();
+
         public static ComplexType getInstance() {
             return instance;
         }
 
         private static Attribute[] attrs = new Attribute[]{
-                new AttributeGT(null, "service", OGCSchema.NAMESPACE, ogcSimpleTypes.OWSType.getInstance(), Attribute.REQUIRED, 
+                new AttributeGT(null, "service", OGCSchema.NAMESPACE, ogcSimpleTypes.OWSType
+                        .getInstance(), Attribute.REQUIRED,
                         null, null, false),
-                new AttributeGT(null, "version", OGCSchema.NAMESPACE, org.geotools.xml.xsi.XSISimpleTypes.String.getInstance(),
+                new AttributeGT(null, "version", OGCSchema.NAMESPACE, org.geotools.xml.xsi
+                        .XSISimpleTypes.String.getInstance(),
                         Attribute.REQUIRED, null, null, false),
-                new AttributeGT(null, "updateSequence", OGCSchema.NAMESPACE, 
+                new AttributeGT(null, "updateSequence", OGCSchema.NAMESPACE,
                         org.geotools.xml.xsi.XSISimpleTypes.String.getInstance(),
                         Attribute.OPTIONAL, null, null, false)};
 
-        private static Element[] elems = new Element[]{new ogcElement("Section", ogcSimpleTypes.CapabilitiesSectionType.getInstance(), null, 0, 1)};
+        private static Element[] elems = new Element[]{new ogcElement("Section", ogcSimpleTypes
+                .CapabilitiesSectionType.getInstance(), null, 0, 1)};
 
         private static ElementGrouping child = new SequenceGT(null,
-                new ElementGrouping[]{new ogcElement("Section", ogcSimpleTypes.CapabilitiesSectionType.getInstance(), null, 0, 1)}, 1, 1);
+                new ElementGrouping[]{new ogcElement("Section", ogcSimpleTypes
+                        .CapabilitiesSectionType.getInstance(), null, 0, 1)}, 1, 1);
 
         private _GetCapabilities() {
             super(null, child, attrs, elems, null, false, false);
         }
-        
-        public boolean canEncode( Element element, Object value, Map hints ) {
+
+        public boolean canEncode(Element element, Object value, Map hints) {
             if (element.getType() != null && getName().equals(element.getType().getName())) {
-                for (int i = 0; i < ogcSimpleTypes.CapabilitiesSectionType.getInstance().getFacets().length; i++) {
-                    Facet facet = ogcSimpleTypes.CapabilitiesSectionType.getInstance().getFacets()[i];
+                for (int i = 0; i < ogcSimpleTypes.CapabilitiesSectionType.getInstance()
+                        .getFacets().length; i++) {
+                    Facet facet = ogcSimpleTypes.CapabilitiesSectionType.getInstance().getFacets
+                            ()[i];
                     if (facet.getValue().equals(value)) {
                         return true;
                     }
                 }
-                
+
                 if (value == null || value == "") { //$NON-NLS-1$
                     return true;
                 }
             }
             return super.canEncode(element, value, hints);
         }
-        public void encode( Element element, Object value, PrintHandler output, Map hints )
+
+        public void encode(Element element, Object value, PrintHandler output, Map hints)
                 throws OperationNotSupportedException {
-            
+
             if (canEncode(element, value, hints)) {
                 AttributesImpl attributes = new AttributesImpl();
-                
+
                 try {
                     output.startElement(element.getNamespace(), element.getName(), attributes);
-                    
+
                     output.endElement(element.getNamespace(), element.getName());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                
+
             } else {
                 throw new UnsupportedOperationException();
             }
-            
+
         }
+
         public Class getInstanceType() {
             return String.class;
         }
-        
+
         public String getName() {
             return "GetCapabilities";
         }

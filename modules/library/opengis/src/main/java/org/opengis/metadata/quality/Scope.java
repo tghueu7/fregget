@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.metadata.quality;
@@ -23,21 +23,19 @@ import static org.opengis.annotation.Specification.*;
 /**
  * Description of the data specified by the scope.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 2.0
+ * @source $URL$
+ * @since GeoAPI 2.0
  */
-@UML(identifier="DQ_Scope", specification=ISO_19115)
+@UML(identifier = "DQ_Scope", specification = ISO_19115)
 public interface Scope {
     /**
      * Hierarchical level of the data specified by the scope.
      *
      * @return Hierarchical level of the data.
      */
-    @UML(identifier="level", obligation=MANDATORY, specification=ISO_19115)
+    @UML(identifier = "level", obligation = MANDATORY, specification = ISO_19115)
     ScopeCode getLevel();
 
     /**
@@ -46,10 +44,9 @@ public interface Scope {
      * to {@link ScopeCode#DATASET DATASET} or {@link ScopeCode#SERIES SERIES}.
      *
      * @return Detailed description about the level of the data.
-     *
      * @since GeoAPI 2.1
      */
-    @UML(identifier="levelDescription", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "levelDescription", obligation = CONDITIONAL, specification = ISO_19115)
     Collection<? extends ScopeDescription> getLevelDescription();
 
     /**
@@ -58,6 +55,6 @@ public interface Scope {
      *
      * @return Information about the extent of the data, or {@code null}.
      */
-    @UML(identifier="extent", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "extent", obligation = OPTIONAL, specification = ISO_19115)
     Extent getExtent();
 }

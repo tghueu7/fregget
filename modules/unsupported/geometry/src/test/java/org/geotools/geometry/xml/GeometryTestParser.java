@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -42,14 +42,11 @@ import org.geotools.referencing.crs.DefaultGeographicCRS;
 
 /**
  * @author <a href="mailto:joel@lggi.com">Joel Skelton</a>
- *
- *
- *
- *
  * @source $URL$
  */
 public class GeometryTestParser {
-    private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org.geotools.geometry");
+    private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org" +
+            ".geotools.geometry");
 
     private DocumentBuilderFactory documentBuilderFactory;
     private DocumentBuilder documentBuilder;
@@ -69,7 +66,7 @@ public class GeometryTestParser {
         GeometryBuilder builder = new GeometryBuilder(DefaultGeographicCRS.WGS84);
         GeometryFactory geomFact = builder.getGeometryFactory();
         PrimitiveFactory primFact = builder.getPrimitiveFactory();
-        wktFactory = new WKTParser( geomFact, primFact, null, builder.getAggregateFactory() );
+        wktFactory = new WKTParser(geomFact, primFact, null, builder.getAggregateFactory());
     }
 
     /**
@@ -81,11 +78,11 @@ public class GeometryTestParser {
         try {
             doc = documentBuilder.parse(inputSource);
         } catch (SAXException e) {
-            LOGGER.log( Level.FINE, e.getMessage(), e);
+            LOGGER.log(Level.FINE, e.getMessage(), e);
             throw new RuntimeException("", e);
 
         } catch (IOException e) {
-            LOGGER.log( Level.FINE, e.getMessage(), e);
+            LOGGER.log(Level.FINE, e.getMessage(), e);
             throw new RuntimeException("", e);
 
         }
@@ -95,7 +92,7 @@ public class GeometryTestParser {
         try {
             test = processRootNode(element);
         } catch (ParseException e) {
-            LOGGER.log( Level.FINE, e.getMessage(), e);
+            LOGGER.log(Level.FINE, e.getMessage(), e);
             throw new RuntimeException("", e);
 
         }
@@ -105,6 +102,7 @@ public class GeometryTestParser {
 
     /**
      * Processes the root "run" node
+     *
      * @param node
      * @return GeometryTestContainer
      * @throws ParseException
@@ -138,7 +136,7 @@ public class GeometryTestParser {
 
     /**
      * parse a single test case
-     *
+     * <p>
      * From looking at various JTS test cases and seeing how their
      * testbuilder program works, I think its safe to assume that
      * there will always be just one or two objects, named a and
@@ -177,6 +175,7 @@ public class GeometryTestParser {
      * Loads a test operation. Assumes that there _must_ be a name attribute,
      * and looks for arg1, arg2, and arg3. The value of the text subnode is
      * the value of the expected result
+     *
      * @param testNode a test node from the xml file
      * @return GeometryTestOperation
      */
@@ -202,7 +201,7 @@ public class GeometryTestParser {
             try {
                 expectedResult = wktFactory.parse(expectedString);
             } catch (ParseException e) {
-                LOGGER.log( Level.FINE, "Couldn't parse [" + expectedString + "]", e);
+                LOGGER.log(Level.FINE, "Couldn't parse [" + expectedString + "]", e);
                 throw new RuntimeException("Couldn't parse [" + expectedString + "]", e);
             }
         }
@@ -217,7 +216,7 @@ public class GeometryTestParser {
         try {
             geom = wktFactory.parse(wktString);
         } catch (ParseException e) {
-            LOGGER.log( Level.FINE, "Can't parse [" + wktString + "]", e);            
+            LOGGER.log(Level.FINE, "Can't parse [" + wktString + "]", e);
             throw new RuntimeException("Can't parse [" + wktString + "]", e);
         }
         return geom;
@@ -227,12 +226,11 @@ public class GeometryTestParser {
     private PrecisionType getPrecisionModel(Node child) {
         String val = getNodeAttribute(child, "type");
         if (val == "") {
-        	// if scale is 1.0 then set the precision to type FIXED
-        	String scale = getNodeAttribute(child, "scale");
-        	if (scale.equalsIgnoreCase("1.0")) return PrecisionType.FIXED;
-        }
-        else if (val.equalsIgnoreCase("DOUBLE")) {
-        	return PrecisionType.DOUBLE;
+            // if scale is 1.0 then set the precision to type FIXED
+            String scale = getNodeAttribute(child, "scale");
+            if (scale.equalsIgnoreCase("1.0")) return PrecisionType.FIXED;
+        } else if (val.equalsIgnoreCase("DOUBLE")) {
+            return PrecisionType.DOUBLE;
         }
         // default
         return PrecisionType.FLOAT;

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -36,19 +36,23 @@ import com.vividsolutions.jts.geom.LineString;
  * Common filter testing code factored up here.
  *
  * @author Chris Holmes
- *
- *
  * @source $URL$
  */
 public abstract class SQLFilterTestSupport extends TestCase {
-    /** Standard logging instance */
+    /**
+     * Standard logging instance
+     */
     protected static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger(
             "org.geotools.filter");
 
-    /** Schema on which to preform tests */
+    /**
+     * Schema on which to preform tests
+     */
     protected static SimpleFeatureType testSchema = null;
 
-    /** Schema on which to preform tests */
+    /**
+     * Schema on which to preform tests
+     */
     protected static SimpleFeature testFeature = null;
     protected boolean setup = false;
 
@@ -72,24 +76,24 @@ public abstract class SQLFilterTestSupport extends TestCase {
     }
 
     protected void prepareFeatures()
-        throws SchemaException, IllegalAttributeException {
+            throws SchemaException, IllegalAttributeException {
         //_log.getLoggerRepository().setThreshold(Level.INFO);
         // Create the schema attributes
         LOGGER.finer("creating flat feature...");
 
         SimpleFeatureTypeBuilder ftb = new SimpleFeatureTypeBuilder();
-    	ftb.add("testGeometry", LineString.class);
-    	ftb.add("testBoolean", Boolean.class);
-    	ftb.add("testCharacter", Character.class);
-    	ftb.add("testByte", Byte.class);
-    	ftb.add("testShort", Short.class);
-    	ftb.add("testInteger", Integer.class);
-    	ftb.add("testLong", Long.class);
-    	ftb.add("testFloat", Float.class);
-    	ftb.add("testDouble", Double.class);
-    	ftb.add("testString", String.class);
-    	ftb.add("testZeroDouble", Double.class);
-    	ftb.setName("testSchema");
+        ftb.add("testGeometry", LineString.class);
+        ftb.add("testBoolean", Boolean.class);
+        ftb.add("testCharacter", Character.class);
+        ftb.add("testByte", Byte.class);
+        ftb.add("testShort", Short.class);
+        ftb.add("testInteger", Integer.class);
+        ftb.add("testLong", Long.class);
+        ftb.add("testFloat", Float.class);
+        ftb.add("testDouble", Double.class);
+        ftb.add("testString", String.class);
+        ftb.add("testZeroDouble", Double.class);
+        ftb.setName("testSchema");
         testSchema = ftb.buildFeatureType();
 
         GeometryFactory geomFac = new GeometryFactory();

@@ -25,16 +25,20 @@ import ucar.nc2.util.DiskCache2;
 
 /**
  * Helper class used for setting a GRIB cache if defined with the JAVA argument -DGRIB_CACHE_DIR
- * 
- * @author Nicola Lagomarsini GeoSolutions S.A.S.
  *
+ * @author Nicola Lagomarsini GeoSolutions S.A.S.
  */
 public class GribUtilities {
 
-    /** The LOGGER for this class. */
-    private static final Logger LOGGER = Logger.getLogger("org.geotools.coverage.io.grib.GribUtilities");
+    /**
+     * The LOGGER for this class.
+     */
+    private static final Logger LOGGER = Logger.getLogger("org.geotools.coverage.io.grib" +
+            ".GribUtilities");
 
-    /** String associated to the grib cache directory property */
+    /**
+     * String associated to the grib cache directory property
+     */
     public static final String GRIB_CACHE_DIR = "GRIB_CACHE_DIR";
 
     /**

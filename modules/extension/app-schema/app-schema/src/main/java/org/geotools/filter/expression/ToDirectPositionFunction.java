@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2009-2011, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -45,12 +45,8 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
  * <li>Expression: name of column pointing to first double value
  * <li>Expression: name of column pointing to second double value (optional, only for 2D)
  * </ol>
- * 
+ *
  * @author Rini Angreani (CSIRO Earth Science and Resource Engineering)
- *
- *
- *
- *
  * @source $URL$
  */
 public class ToDirectPositionFunction implements Function {
@@ -58,12 +54,13 @@ public class ToDirectPositionFunction implements Function {
     private final List<Expression> parameters;
 
     private final Literal fallback;
-    
-    private static final String USAGE = "Usage: toDirectPosition('SRS_NAME'(optional), srsName(optional), point 1, point 2(optional))";
+
+    private static final String USAGE = "Usage: toDirectPosition('SRS_NAME'(optional), srsName" +
+            "(optional), point 1, point 2(optional))";
 
     public static final FunctionName NAME = new FunctionNameImpl("toDirectPosition",
             FunctionNameImpl.parameter("return", DirectPosition.class), FunctionNameImpl.parameter(
-                    "parameter", Object.class, 1, 4));
+            "parameter", Object.class, 1, 4));
 
     private static FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
 
@@ -81,6 +78,7 @@ public class ToDirectPositionFunction implements Function {
     public String getName() {
         return NAME.getName();
     }
+
     public FunctionName getFunctionName() {
         return NAME;
     }

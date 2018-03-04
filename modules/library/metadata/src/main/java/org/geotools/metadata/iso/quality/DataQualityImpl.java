@@ -20,6 +20,7 @@
 package org.geotools.metadata.iso.quality;
 
 import java.util.Collection;
+
 import org.opengis.metadata.lineage.Lineage;
 import org.opengis.metadata.quality.DataQuality;
 import org.opengis.metadata.quality.Element;
@@ -30,13 +31,11 @@ import org.geotools.metadata.iso.MetadataEntity;
 /**
  * Quality information for the data specified by a data quality scope.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class DataQualityImpl extends MetadataEntity implements DataQuality {
     /**

@@ -67,73 +67,73 @@ import org.opengis.referencing.operation.Transformation;
  * files may be downloaded from
  * <a href="http://www.ngs.noaa.gov/PC_PROD/NADCON/">www.ngs.noaa.gov/PC_PROD/NADCON/</a>.
  * <p>
- *
+ * <p>
  * Some of the NADCON grids, their areas of use, and source datums are shown
  * in the following table.
  * <p>
- *
+ * <p>
  * <table>
- *   <tr><th>Shift File Name</td><th>Area</td><th>Source Datum</td><th>Accuracy at 67% confidence (m)</td></tr>
- *   <tr><td>CONUS</td><td>Conterminous U S (lower 48 states)</td><td>NAD27</td><td>0.15</td></tr>
- *   <tr><td>ALASKA</td><td>Alaska, incl. Aleutian Islands</td><td>NAD27</td><td>0.5</td></tr>
- *   <tr><td>HAWAII</td><td>Hawaiian Islands</td><td>Old Hawaiian (4135)</td><td>0.2</td></tr>
- *   <tr><td>STLRNC</td><td>St. Lawrence Is., AK</td><td>St. Lawrence Island (4136)</td><td>--</td></tr>
- *   <tr><td>STPAUL </td><td>St. Paul Is., AK</td><td>St. Paul Island (4137)</td><td>--</td></tr>
- *   <tr><td>STGEORGE</td><td>St. George Is., AK</td><td>St. George Island (4138)</td><td>--</td></tr>
- *   <tr><td>PRVI</td><td>Puerto Rico and the Virgin Islands</td><td>Puerto Rico (4139)</td><td>0.05</td></tr>
+ * <tr><th>Shift File Name</td><th>Area</td><th>Source Datum</td><th>Accuracy at 67% confidence 
+ * (m)</td></tr>
+ * <tr><td>CONUS</td><td>Conterminous U S (lower 48 states)</td><td>NAD27</td><td>0.15</td></tr>
+ * <tr><td>ALASKA</td><td>Alaska, incl. Aleutian Islands</td><td>NAD27</td><td>0.5</td></tr>
+ * <tr><td>HAWAII</td><td>Hawaiian Islands</td><td>Old Hawaiian (4135)</td><td>0.2</td></tr>
+ * <tr><td>STLRNC</td><td>St. Lawrence Is., AK</td><td>St. Lawrence Island (4136)
+ * </td><td>--</td></tr>
+ * <tr><td>STPAUL </td><td>St. Paul Is., AK</td><td>St. Paul Island (4137)</td><td>--</td></tr>
+ * <tr><td>STGEORGE</td><td>St. George Is., AK</td><td>St. George Island (4138)</td><td>--</td></tr>
+ * <tr><td>PRVI</td><td>Puerto Rico and the Virgin Islands</td><td>Puerto Rico (4139)
+ * </td><td>0.05</td></tr>
  * </table>
  * <p>
- *
+ * <p>
  * Grid shift files come in two formats: binary and text. The files from the NGS are
  * binary and have {@code .las} (latitude shift) and {@code .los} (longitude shift)
  * extentions. Text grids may be created with the <cite>NGS nadgrd</cite> program and have
  * {@code .laa} (latitude shift) and {@code .loa} (longitude shift) file extentions.
  * Both types of  files may be used here.
  * <p>
- *
+ * <p>
  * The grid names to use for transforming are parameters of this
  * {@link MathTransform}.  This parameter may be the full name and path to the grids
  * or just the name of the grids if the default location of the grids was set
  * as a preference.  This preference may be set with the main method of this
  * class.
  * <p>
- *
+ * <p>
  * Transformations here have been tested to be within 0.00001 seconds of
  * values given by the <cite>NGS ndcon210</cite> program for NADCON grids. American Samoa
  * and HARN shifts have not yet been tested.  <strong>References:</strong>
- *
+ * <p>
  * <ul>
- *   <li><a href="http://www.ngs.noaa.gov/PC_PROD/NADCON/Readme.htm">NADCONreadme</a></li>
- *   <li>American Samoa Grids for NADCON - Samoa_Readme.txt</li>
- *   <li><a href="http://www.ngs.noaa.gov/PUBS_LIB/NGS50.pdf">NADCON - The
- *       Application of Minimum-Curvature-Derived  Surfaces in the Transformation of
- *       Positional Data From the North American  Datum of 1927 to the North
- *       American Datum of 1983</a> - NOAA TM.</li>
- *   <li>{@code ndcon210.for} - NGS fortran source code for NADCON conversions. See the
- *       following subroutines: TRANSF, TO83, FGRID, INTRP, COEFF and SURF</li>
- *   <li>{@code nadgrd.for} - NGS fortran source code to export/import binary and text grid
- *       formats</li>
- *   <li>EPSG Geodesy Parameters database version 6.5</li>
+ * <li><a href="http://www.ngs.noaa.gov/PC_PROD/NADCON/Readme.htm">NADCONreadme</a></li>
+ * <li>American Samoa Grids for NADCON - Samoa_Readme.txt</li>
+ * <li><a href="http://www.ngs.noaa.gov/PUBS_LIB/NGS50.pdf">NADCON - The
+ * Application of Minimum-Curvature-Derived  Surfaces in the Transformation of
+ * Positional Data From the North American  Datum of 1927 to the North
+ * American Datum of 1983</a> - NOAA TM.</li>
+ * <li>{@code ndcon210.for} - NGS fortran source code for NADCON conversions. See the
+ * following subroutines: TRANSF, TO83, FGRID, INTRP, COEFF and SURF</li>
+ * <li>{@code nadgrd.for} - NGS fortran source code to export/import binary and text grid
+ * formats</li>
+ * <li>EPSG Geodesy Parameters database version 6.5</li>
  * </ul>
  *
- * @see <a href="http://www.ngs.noaa.gov/TOOLS/Nadcon/Nadcon.html"> NADCON -
- *      North American Datum Conversion Utility</a>
- *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Rueben Schulz
- *
+ * @version $Id$
+ * @source $URL$
  * @todo the transform code does not deal with the case where grids cross +- 180 degrees.
+ * @see <a href="http://www.ngs.noaa.gov/TOOLS/Nadcon/Nadcon.html"> NADCON -
+ * North American Datum Conversion Utility</a>
+ * @since 2.1
  */
-public class NADCONTransform extends AbstractMathTransform implements MathTransform2D, Serializable {
+public class NADCONTransform extends AbstractMathTransform implements MathTransform2D, 
+        Serializable {
     /**
      * Serial number for interoperability with different versions.
      */
     private static final long serialVersionUID = -4707304160205218546L;
-    
+
     /**
      * The factory that loads the NADCON grids
      */
@@ -175,7 +175,7 @@ public class NADCONTransform extends AbstractMathTransform implements MathTransf
      */
     private final URI longGridName;
 
-   
+
     /**
      * Longitude and latitude grid shift values. Values are organized from low
      * to high longitude (low x index to high) and low to high latitude (low y
@@ -203,48 +203,48 @@ public class NADCONTransform extends AbstractMathTransform implements MathTransf
     /**
      * Constructs a {@code NADCONTransform} from the specified grid shift files.
      *
-     * @param latGridName path and name (or just name if {@link #GRID_LOCATION}
-     *        is set) to the latitude difference file. This will have a {@code .las} or
-     *        {@code .laa} file extention.
+     * @param latGridName  path and name (or just name if {@link #GRID_LOCATION}
+     *                     is set) to the latitude difference file. This will have a {@code .las} or
+     *                     {@code .laa} file extention.
      * @param longGridName path and name (or just name if {@link #GRID_LOCATION}
-     *        is set) to the longitude difference file. This will have a {@code .los}
-     *        or {@code .loa} file extention.
-     *
+     *                     is set) to the longitude difference file. This will have a {@code .los}
+     *                     or {@code .loa} file extention.
      * @throws ParameterNotFoundException if a math transform parameter cannot be found.
-     * @throws FactoryException if there is a problem creating this math transform
-     *         (ie file extentions are unknown or there is an error reading the
-     *          grid files)
+     * @throws FactoryException           if there is a problem creating this math transform
+     *                                    (ie file extentions are unknown or there is an error 
+     *                                    reading the
+     *                                    grid files)
      */
     public NADCONTransform(final URI latGridName, final URI longGridName)
-            throws ParameterNotFoundException, FactoryException
-    {
-        if(latGridName == null) {
+            throws ParameterNotFoundException, FactoryException {
+        if (latGridName == null) {
             throw new NoSuchIdentifierException("Latitud grid shift file name is null", null);
         }
-        
-        if(longGridName == null) {
+
+        if (longGridName == null) {
             throw new NoSuchIdentifierException("Latitud grid shift file name is null", null);
         }
-        
-        this.latGridName  = latGridName;
+
+        this.latGridName = latGridName;
         this.longGridName = longGridName;
-        
+
         URL latGridURL = locateGrid(latGridName);
         URL longGridURL = locateGrid(longGridName);
-        
+
         this.grid = FACTORY.loadGridShift(latGridURL, longGridURL);
         this.gridShiftTransform = grid.getMathTransform();
     }
-    
-    protected URL locateGrid(URI uri ) throws FactoryException {
+
+    protected URL locateGrid(URI uri) throws FactoryException {
         String grid = uri.toString();
         for (GridShiftLocator locator : ReferencingFactoryFinder.getGridShiftLocators(null)) {
             URL result = locator.locateGrid(grid);
-            if(result != null) {
+            if (result != null) {
                 return result;
             }
-        };
-        
+        }
+        ;
+
         throw new FactoryException("Could not locate grid file " + grid);
     }
 
@@ -270,7 +270,7 @@ public class NADCONTransform extends AbstractMathTransform implements MathTransf
         long_diff_file.setValue(longGridName);
 
         return new ParameterGroup(getParameterDescriptors(),
-            new GeneralParameterValue[] { lat_diff_file, long_diff_file }
+                new GeneralParameterValue[]{lat_diff_file, long_diff_file}
         );
     }
 
@@ -299,25 +299,24 @@ public class NADCONTransform extends AbstractMathTransform implements MathTransf
      * the source dimension is 3, then the ordinals will be packed in this
      * order:
      * (<var>x<sub>0</sub></var>,<var>y<sub>0</sub></var>,<var>z<sub>0</sub></var>,
-     *
+     * <p>
      * <var>x<sub>1</sub></var>,<var>y<sub>1</sub></var>,<var>z<sub>1</sub></var>
      * ...).  All input and output values are in decimal degrees.
      *
      * @param srcPts the array containing the source point coordinates.
      * @param srcOff the offset to the first point to be transformed in the
-     *        source array.
+     *               source array.
      * @param dstPts the array into which the transformed point coordinates are
-     *        returned. May be the same than {@code srcPts}.
+     *               returned. May be the same than {@code srcPts}.
      * @param dstOff the offset to the location of the first transformed point
-     *        that is stored in the destination array.
+     *               that is stored in the destination array.
      * @param numPts the number of point objects to be transformed.
-     *
      * @throws TransformException if the input point is outside the area
-     *         covered by this grid.
+     *                            covered by this grid.
      */
     public void transform(final double[] srcPts, int srcOff,
-        final double[] dstPts, int dstOff, int numPts)
-        throws TransformException {
+                          final double[] dstPts, int dstOff, int numPts)
+            throws TransformException {
         int step = 0;
 
         if ((srcPts == dstPts) && (srcOff < dstOff)
@@ -332,15 +331,18 @@ public class NADCONTransform extends AbstractMathTransform implements MathTransf
             double y = srcPts[srcOff++];
 
             //check bounding box
-            if (((x < grid.getMinX()) || (x > grid.getMaxX())) || ((y < grid.getMinY()) || (y > grid.getMaxY()))) {
-                throw new TransformException("Point (" + x + " " + y + ") is not outside of ((" + grid.getMinX() 
-                        + " " + grid.getMinY() + ")(" + grid.getMaxX() + " " + grid.getMaxY() + "))"); 
+            if (((x < grid.getMinX()) || (x > grid.getMaxX())) || ((y < grid.getMinY()) || (y > 
+                    grid.getMaxY()))) {
+                throw new TransformException("Point (" + x + " " + y + ") is not outside of ((" +
+                        grid.getMinX()
+                        + " " + grid.getMinY() + ")(" + grid.getMaxX() + " " + grid.getMaxY() + 
+                        "))");
             }
 
             //find the grid the point is in (index is 0 based)
             final double xgrid = (x - grid.getMinX()) / grid.getDx();
             final double ygrid = (y - grid.getMinY()) / grid.getDy();
-            double[] array = new double[] { xgrid, ygrid };
+            double[] array = new double[]{xgrid, ygrid};
 
             //use the LocalizationGridTransform2D transform method (bilineal interpolation)
             //returned shift values are in seconds, longitude shift values are + west
@@ -361,19 +363,18 @@ public class NADCONTransform extends AbstractMathTransform implements MathTransf
      *
      * @param srcPts the array containing the source point coordinates.
      * @param srcOff the offset to the first point to be transformed in the
-     *        source array.
+     *               source array.
      * @param dstPts the array into which the transformed point coordinates are
-     *        returned. May be the same than {@code srcPts}.
+     *               returned. May be the same than {@code srcPts}.
      * @param dstOff the offset to the location of the first transformed point
-     *        that is stored in the destination array.
+     *               that is stored in the destination array.
      * @param numPts the number of point objects to be transformed.
-     *
      * @throws TransformException if the input point is outside the area
-     *         covered by this grid.
+     *                            covered by this grid.
      */
     public void inverseTransform(final double[] srcPts, int srcOff,
-        final double[] dstPts, int dstOff, int numPts)
-        throws TransformException {
+                                 final double[] dstPts, int dstOff, int numPts)
+            throws TransformException {
         int step = 0;
 
         if ((srcPts == dstPts) && (srcOff < dstOff)
@@ -389,8 +390,8 @@ public class NADCONTransform extends AbstractMathTransform implements MathTransf
             double xtemp = x;
             double ytemp = y;
 
-            for (int i = MAX_ITER;;) {
-                double[] array = { xtemp, ytemp };
+            for (int i = MAX_ITER; ; ) {
+                double[] array = {xtemp, ytemp};
                 transform(array, 0, array, 0, 1);
                 double xdif = array[0] - x;
                 double ydif = array[1] - y;
@@ -434,7 +435,7 @@ public class NADCONTransform extends AbstractMathTransform implements MathTransf
     public int hashCode() {
         return grid.hashCode();
     }
-    
+
     @Override
     public boolean equals(Object object) {
         if (object == this) {
@@ -444,7 +445,7 @@ public class NADCONTransform extends AbstractMathTransform implements MathTransf
 
         if (super.equals(object)) {
             final NADCONTransform that = (NADCONTransform) object;
-            
+
             return this.grid.equals(that.grid);
         } else {
             return false;
@@ -459,16 +460,17 @@ public class NADCONTransform extends AbstractMathTransform implements MathTransf
      * text representations of a url. A value of "default" resets this
      * preference to its default value.
      * <p>
-     *
+     * <p>
      * Example:
      * <blockquote>
      * <pre>
-     * java org.geotools.referencing.operation.transform.NADCONTransform file:///home/rschulz/GIS/NADCON/data
+     * java org.geotools.referencing.operation.transform.NADCONTransform 
+     * file:///home/rschulz/GIS/NADCON/data
      * </pre>
      * </blockquote>
      *
      * @param args a single argument for the defualt location of grid shift
-     *        files
+     *             files
      */
     public static void main(String[] args) {
         final Arguments arguments = new Arguments(args);
@@ -487,8 +489,8 @@ public class NADCONTransform extends AbstractMathTransform implements MathTransf
             final String location = prefs.get(GRID_LOCATION,
                     DEFAULT_GRID_LOCATION);
             out.println(
-                "Usage: java org.geotools.referencing.operation.transform.NADCONTransform "
-                + "<defalult grid file location (path)>");
+                    "Usage: java org.geotools.referencing.operation.transform.NADCONTransform "
+                            + "<defalult grid file location (path)>");
             out.print("Grid location: \"");
             out.print(location);
             out.println('"');
@@ -500,13 +502,14 @@ public class NADCONTransform extends AbstractMathTransform implements MathTransf
     /**
      * Inverse of a {@link NADCONTransform}.
      *
-     * @version $Id$
      * @author Rueben Schulz
+     * @version $Id$
      */
     private final class Inverse extends AbstractMathTransform.Inverse
-            implements MathTransform2D, Serializable
-    {
-        /** Serial number for interoperability with different versions. */
+            implements MathTransform2D, Serializable {
+        /**
+         * Serial number for interoperability with different versions.
+         */
         private static final long serialVersionUID = -4707304160205218546L;
 
         /**
@@ -534,15 +537,14 @@ public class NADCONTransform extends AbstractMathTransform implements MathTransf
          * @param dest
          * @param dstOffset
          * @param length
-         *
          * @throws TransformException if the input point is outside the area
-         *         covered by this grid.
+         *                            covered by this grid.
          */
         public void transform(final double[] source, final int srcOffset,
-            final double[] dest, final int dstOffset, final int length)
-            throws TransformException {
+                              final double[] dest, final int dstOffset, final int length)
+                throws TransformException {
             NADCONTransform.this.inverseTransform(source, srcOffset, dest,
-                dstOffset, length);
+                    dstOffset, length);
         }
 
         /**
@@ -557,11 +559,11 @@ public class NADCONTransform extends AbstractMathTransform implements MathTransf
          * Restore reference to this object after deserialization.
          *
          * @param in DOCUMENT ME!
-         * @throws IOException DOCUMENT ME!
+         * @throws IOException            DOCUMENT ME!
          * @throws ClassNotFoundException DOCUMENT ME!
          */
         private void readObject(ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
+                throws IOException, ClassNotFoundException {
             in.defaultReadObject();
             NADCONTransform.this.inverse = this;
         }
@@ -573,11 +575,13 @@ public class NADCONTransform extends AbstractMathTransform implements MathTransf
      * geographic} to {@linkplain org.geotools.referencing.crs.DefaultGeographicCRS
      * geographic} coordinate reference systems.
      *
-     * @version $Id$
      * @author Rueben Schulz
+     * @version $Id$
      */
     public static class Provider extends MathTransformProvider {
-        /** Serial number for interoperability with different versions. */
+        /**
+         * Serial number for interoperability with different versions.
+         */
         private static final long serialVersionUID = -4707304160205218546L;
 
         /**
@@ -597,16 +601,17 @@ public class NADCONTransform extends AbstractMathTransform implements MathTransf
         /**
          * The parameters group.
          */
-        static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(new NamedIdentifier[] {
-                new NamedIdentifier(Citations.OGC,      "NADCON"),
-                new NamedIdentifier(Citations.EPSG,     "NADCON"),
-                new NamedIdentifier(Citations.EPSG,     "9613"),
+        static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(new 
+                NamedIdentifier[]{
+                new NamedIdentifier(Citations.OGC, "NADCON"),
+                new NamedIdentifier(Citations.EPSG, "NADCON"),
+                new NamedIdentifier(Citations.EPSG, "9613"),
                 new NamedIdentifier(Citations.GEOTOOLS, Vocabulary.formatInternational(
-                                                        VocabularyKeys.NADCON_TRANSFORM))
-            }, new ParameterDescriptor[] {
+                        VocabularyKeys.NADCON_TRANSFORM))
+        }, new ParameterDescriptor[]{
                 LAT_DIFF_FILE,
                 LONG_DIFF_FILE
-            });
+        });
 
         /**
          * Constructs a provider.
@@ -630,13 +635,12 @@ public class NADCONTransform extends AbstractMathTransform implements MathTransf
          * @param values The group of parameter values.
          * @return The created math transform.
          * @throws ParameterNotFoundException if a required parameter was not
-         *         found.
-         * @throws FactoryException if there is a problem creating this
-         *         math transform.
+         *                                    found.
+         * @throws FactoryException           if there is a problem creating this
+         *                                    math transform.
          */
         protected MathTransform createMathTransform(final ParameterValueGroup values)
-                throws ParameterNotFoundException, FactoryException
-        {
+                throws ParameterNotFoundException, FactoryException {
             return new NADCONTransform(
                     (URI) getParameter(LAT_DIFF_FILE, values).getValue(),
                     (URI) getParameter(LONG_DIFF_FILE, values).getValue());

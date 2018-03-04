@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -13,7 +13,7 @@
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
- *    
+ *
  *    Created on 20 June 2002, 18:53
  */
 package org.geotools.filter;
@@ -36,8 +36,6 @@ import com.vividsolutions.jts.geom.PrecisionModel;
  * Tests for Attribute Expressions
  *
  * @author James Macgill
- *
- *
  * @source $URL$
  */
 public class AttributeTest extends TestCase {
@@ -58,27 +56,27 @@ public class AttributeTest extends TestCase {
     }
 
     public SimpleFeature[] sampleFeatures() throws Exception {
-    	SimpleFeatureTypeBuilder ftb = new SimpleFeatureTypeBuilder();
-    	ftb.add("value", Integer.class);
-    	ftb.add("geometry", Geometry.class);
-    	ftb.add("name", String.class);
-    	ftb.setName("test");
+        SimpleFeatureTypeBuilder ftb = new SimpleFeatureTypeBuilder();
+        ftb.add("value", Integer.class);
+        ftb.add("geometry", Geometry.class);
+        ftb.add("name", String.class);
+        ftb.setName("test");
         schema = ftb.buildFeatureType();
 
         GeometryFactory gf = new GeometryFactory(new PrecisionModel());
         SimpleFeature[] f = new SimpleFeature[3];
-        f[0] = SimpleFeatureBuilder.build(schema, new Object[] {
-                    new Integer(12), gf.createGeometryCollection(null),
-                    "first"
-                }, null);
-        f[1] = SimpleFeatureBuilder.build(schema, new Object[] {
-                    new Integer(3), gf.createGeometryCollection(null),
-                    "second"
-                }, null);
-        f[2] = SimpleFeatureBuilder.build(schema, new Object[] {
-                    new Integer(15), gf.createGeometryCollection(null),
-                    "third"
-                }, null);
+        f[0] = SimpleFeatureBuilder.build(schema, new Object[]{
+                new Integer(12), gf.createGeometryCollection(null),
+                "first"
+        }, null);
+        f[1] = SimpleFeatureBuilder.build(schema, new Object[]{
+                new Integer(3), gf.createGeometryCollection(null),
+                "second"
+        }, null);
+        f[2] = SimpleFeatureBuilder.build(schema, new Object[]{
+                new Integer(15), gf.createGeometryCollection(null),
+                "third"
+        }, null);
 
         return f;
     }

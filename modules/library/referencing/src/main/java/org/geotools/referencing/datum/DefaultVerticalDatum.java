@@ -39,12 +39,9 @@ import org.geotools.util.Utilities;
  * {@linkplain org.opengis.referencing.cs.CoordinateSystemAxis coordinate system axis} with which
  * it is combined to create a {@linkplain org.opengis.referencing.crs.VerticalCRS vertical CRS}.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class DefaultVerticalDatum extends AbstractDatum implements VerticalDatum {
@@ -63,12 +60,13 @@ public class DefaultVerticalDatum extends AbstractDatum implements VerticalDatum
      * values used in legacy specification (OGC 01-009).
      */
     private static final short[] LEGACY_CODES = new short[TYPES.length];
+
     static {
-        LEGACY_CODES[VerticalDatumType.GEOIDAL      .ordinal()] = 2005; // CS_VD_GeoidModelDerived
-        LEGACY_CODES[VerticalDatumType.ELLIPSOIDAL  .ordinal()] = 2002; // CS_VD_Ellipsoidal
-        LEGACY_CODES[VerticalDatumType.DEPTH        .ordinal()] = 2006; // CS_VD_Depth
-        LEGACY_CODES[VerticalDatumType.BAROMETRIC   .ordinal()] = 2003; // CS_VD_AltitudeBarometric
-        LEGACY_CODES[VerticalDatumType.ORTHOMETRIC  .ordinal()] = 2001; // CS_VD_Orthometric
+        LEGACY_CODES[VerticalDatumType.GEOIDAL.ordinal()] = 2005; // CS_VD_GeoidModelDerived
+        LEGACY_CODES[VerticalDatumType.ELLIPSOIDAL.ordinal()] = 2002; // CS_VD_Ellipsoidal
+        LEGACY_CODES[VerticalDatumType.DEPTH.ordinal()] = 2006; // CS_VD_Depth
+        LEGACY_CODES[VerticalDatumType.BAROMETRIC.ordinal()] = 2003; // CS_VD_AltitudeBarometric
+        LEGACY_CODES[VerticalDatumType.ORTHOMETRIC.ordinal()] = 2001; // CS_VD_Orthometric
         LEGACY_CODES[VerticalDatumType.OTHER_SURFACE.ordinal()] = 2000; // CS_VD_Other
     }
 
@@ -89,13 +87,14 @@ public class DefaultVerticalDatum extends AbstractDatum implements VerticalDatum
      * of horizontal datum.
      */
     public static final DefaultVerticalDatum ELLIPSOIDAL =
-            new DefaultVerticalDatum(name(VocabularyKeys.ELLIPSOIDAL), VerticalDatumType.ELLIPSOIDAL);
+            new DefaultVerticalDatum(name(VocabularyKeys.ELLIPSOIDAL), VerticalDatumType
+                    .ELLIPSOIDAL);
 
     /**
      * Constructs a vertical datum from a name.
      *
-     * @param name   The datum name.
-     * @param type   The type of this vertical datum.
+     * @param name The datum name.
+     * @param type The type of this vertical datum.
      */
     public DefaultVerticalDatum(final String name, final VerticalDatumType type) {
         this(Collections.singletonMap(NAME_KEY, name), type);
@@ -109,7 +108,6 @@ public class DefaultVerticalDatum extends AbstractDatum implements VerticalDatum
      * i.e. the properties are not cloned.
      *
      * @param datum The datum to copy.
-     *
      * @since 2.2
      */
     public DefaultVerticalDatum(final VerticalDatum datum) {
@@ -124,7 +122,7 @@ public class DefaultVerticalDatum extends AbstractDatum implements VerticalDatum
      * @param properties Set of properties. Should contains at least {@code "name"}.
      * @param type       The type of this vertical datum.
      */
-    public DefaultVerticalDatum(final Map<String,?> properties, final VerticalDatumType type) {
+    public DefaultVerticalDatum(final Map<String, ?> properties, final VerticalDatumType type) {
         super(properties);
         this.type = type;
         ensureNonNull("type", type);
@@ -145,7 +143,7 @@ public class DefaultVerticalDatum extends AbstractDatum implements VerticalDatum
     @Override
     final int getLegacyDatumType() {
         final int ordinal = type.ordinal();
-        if (ordinal>=0 && ordinal<LEGACY_CODES.length) {
+        if (ordinal >= 0 && ordinal < LEGACY_CODES.length) {
             assert type.equals(TYPES[ordinal]) : type;
             return LEGACY_CODES[ordinal];
         }
@@ -156,14 +154,15 @@ public class DefaultVerticalDatum extends AbstractDatum implements VerticalDatum
      * Returns the vertical datum type from a legacy code. The legacy codes were defined in
      * <A HREF="http://www.opengis.org/docs/01-009.pdf">Coordinate Transformation Services</A>
      * (OGC 01-009), which also defined the
-     * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
+     * <A HREF="http://geoapi.sourceforge
+     * .net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
      * Known Text</cite> (WKT)</A> format. This method is used for WKT parsing.
      *
-     * @param  code The legacy vertical datum code.
+     * @param code The legacy vertical datum code.
      * @return The vertical datum type, or {@code null} if the code is unrecognized.
      */
     public static VerticalDatumType getVerticalDatumTypeFromLegacyCode(final int code) {
-        for (int i=0; i<LEGACY_CODES.length; i++) {
+        for (int i = 0; i < LEGACY_CODES.length; i++) {
             if (LEGACY_CODES[i] == code) {
                 return TYPES[i];
             }
@@ -174,9 +173,10 @@ public class DefaultVerticalDatum extends AbstractDatum implements VerticalDatum
     /**
      * Compare this vertical datum with the specified object for equality.
      *
-     * @param  object The object to compare to {@code this}.
-     * @param  compareMetadata {@code true} for performing a strict comparaison, or
-     *         {@code false} for comparing only properties relevant to transformations.
+     * @param object          The object to compare to {@code this}.
+     * @param compareMetadata {@code true} for performing a strict comparaison, or
+     *                        {@code false} for comparing only properties relevant to 
+     *                                    transformations.
      * @return {@code true} if both objects are equal.
      */
     @Override
@@ -199,7 +199,7 @@ public class DefaultVerticalDatum extends AbstractDatum implements VerticalDatum
      * <code>{@link #equals equals}(AbstractIdentifiedObject, <strong>false</strong>)</code>.
      *
      * @return The hash code value. This value doesn't need to be the same
-     *         in past or future versions of this class.
+     * in past or future versions of this class.
      */
     @Override
     public int hashCode() {
@@ -208,10 +208,11 @@ public class DefaultVerticalDatum extends AbstractDatum implements VerticalDatum
 
     /**
      * Format the inner part of a
-     * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
+     * <A HREF="http://geoapi.sourceforge
+     * .net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
      * Known Text</cite> (WKT)</A> element.
      *
-     * @param  formatter The formatter to use.
+     * @param formatter The formatter to use.
      * @return The WKT element name, which is "VERT_DATUM"
      */
     @Override

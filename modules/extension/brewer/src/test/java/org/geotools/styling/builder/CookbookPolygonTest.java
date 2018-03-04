@@ -17,8 +17,6 @@ import org.geotools.styling.TextSymbolizer2;
 import org.junit.Test;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class CookbookPolygonTest extends AbstractStyleTest {
@@ -205,7 +203,7 @@ public class CookbookPolygonTest extends AbstractStyleTest {
         ps = (PolygonSymbolizer) collector.symbolizers.get(2);
         assertEquals("#009900", ps.getFill().getColor().evaluate(null, String.class));
     }
-    
+
     @Test
     public void testZoomBased() {
         FeatureTypeStyleBuilder fts = new FeatureTypeStyleBuilder();
@@ -218,27 +216,27 @@ public class CookbookPolygonTest extends AbstractStyleTest {
         tb.newFont().familyName("Arial").size(14).weightName("bold");
         tb.pointPlacement().anchor().x(0.5).y(0.5);
         tb.fill().color(Color.WHITE);
-        
+
         pb = fts.rule().name("Medium").min(100000000).max(200000000).polygon();
         pb.stroke().color(Color.BLACK).width(4);
         pb.fill().colorHex("#0000CC");
-        
+
         pb = fts.rule().name("Small").min(200000000).polygon();
         pb.stroke().color(Color.BLACK).width(1);
         pb.fill().colorHex("#0000CC");
-        
+
         Style style = fts.buildStyle();
         // print(style);
-        
+
         StyleCollector collector = new StyleCollector();
         style.accept(collector);
         assertEquals(1, collector.featureTypeStyles.size());
         assertEquals(3, collector.rules.size());
         assertEquals(4, collector.symbolizers.size());
-        
+
         // happy that it built, does not really add anything that we don't have already tested
     }
-    
+
     @Test
     public void testUomBased() {
         FeatureTypeStyleBuilder fts = new FeatureTypeStyleBuilder();
@@ -253,13 +251,13 @@ public class CookbookPolygonTest extends AbstractStyleTest {
         tb.fill().color(Color.WHITE);
         Style style = fts.buildStyle();
         // print(style);
-        
+
         StyleCollector collector = new StyleCollector();
         style.accept(collector);
         assertEquals(1, collector.featureTypeStyles.size());
         assertEquals(2, collector.rules.size());
         assertEquals(2, collector.symbolizers.size());
-        
+
         assertEquals(SI.METER, collector.symbolizers.get(0).getUnitOfMeasure());
         // happy that it built, does not really add anything that we don't have already tested
     }

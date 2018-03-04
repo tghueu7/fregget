@@ -22,23 +22,21 @@ import java.util.EventObject;
 /**
  * An event type used by {@code RenderingExecutor} to communicate task
  * status to client objects.
- * 
- * @author Michael Bedward
- * @since 8.0
  *
- * @source $URL$
+ * @author Michael Bedward
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 public class RenderingExecutorEvent extends EventObject {
-    
+
     private final long taskId;
 
     /**
      * Creates a new event.
-     * 
+     *
      * @param executor the executor publishing this event
-     * 
-     * @param taskId the rendering executor task ID
+     * @param taskId   the rendering executor task ID
      */
     public RenderingExecutorEvent(RenderingExecutor executor, long taskId) {
         super(executor);
@@ -47,7 +45,7 @@ public class RenderingExecutorEvent extends EventObject {
 
     /**
      * Gets the rendering executor which published this event.
-     * 
+     *
      * @return the source executor
      */
     @Override
@@ -57,11 +55,11 @@ public class RenderingExecutorEvent extends EventObject {
 
     /**
      * Gets the integer ID of the rendering task associated with this event.
-     * 
+     *
      * @return task ID
      */
     public long getTaskId() {
         return taskId;
     }
-    
+
 }

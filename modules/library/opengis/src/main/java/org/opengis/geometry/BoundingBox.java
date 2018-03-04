@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry;
 
 import java.awt.geom.Rectangle2D;                           // For javadoc
+
 import org.opengis.referencing.cs.AxisDirection;            // For javadoc
 import org.opengis.metadata.extent.GeographicBoundingBox;   // For javadoc
 import org.opengis.referencing.crs.GeographicCRS;           // For javadoc
@@ -32,10 +33,8 @@ import org.opengis.annotation.Extension;
  *
  * @author Jody Garnett (Refractions Research)
  * @author Martin Desruisseaux (Geomatys)
- * @since GeoAPI 2.1
- *
- *
  * @source $URL$
+ * @since GeoAPI 2.1
  */
 @Extension
 public interface BoundingBox extends Envelope {
@@ -138,7 +137,7 @@ public interface BoundingBox extends Envelope {
      * Returns {@code true} if the interior of this bounds intersects the interior
      * of the provided bounds.
      *
-     * @param  bounds The bounds to test for intersection.
+     * @param bounds The bounds to test for intersection.
      * @return {@code true} if the two bounds intersect.
      */
     boolean intersects(BoundingBox bounds);
@@ -146,7 +145,7 @@ public interface BoundingBox extends Envelope {
     /**
      * Returns {@code true} if the provided bounds are contained by this bounding box.
      *
-     * @param  bounds The bounds to test for inclusion.
+     * @param bounds The bounds to test for inclusion.
      * @return {@code true} if the given bounds is inside this bounds.
      */
     boolean contains(BoundingBox bounds);
@@ -154,7 +153,7 @@ public interface BoundingBox extends Envelope {
     /**
      * Returns {@code true} if the provided location is contained by this bounding box.
      *
-     * @param  location The direct position to test for inclusion.
+     * @param location The direct position to test for inclusion.
      * @return {@code true} if the given position is inside this bounds.
      */
     boolean contains(DirectPosition location);
@@ -162,7 +161,8 @@ public interface BoundingBox extends Envelope {
     /**
      * Returns {@code true} if the provided location is contained by this bounding box.
      * Note that there is no guarantee that the (<var>x</var>, <var>x</var>) values are
-     * oriented toward ({@linkplain AxisDirection#EAST East}, {@linkplain AxisDirection#NORTH North}),
+     * oriented toward ({@linkplain AxisDirection#EAST East}, 
+     * {@linkplain AxisDirection#NORTH North}),
      * since it depends on the {@linkplain #getCoordinateReferenceSystem envelope CRS}.
      *
      * @param x The first ordinate value.
@@ -180,14 +180,15 @@ public interface BoundingBox extends Envelope {
      * <p>
      * <b>Example:</b> if {@code box} is a bounding box using a {@linkplain GeographicCRS
      * geographic CRS} with WGS84 datum, then one can write:
-     *
+     * <p>
      * <blockquote><pre>
-     * GeographicCRS targetCRS   = crsAuthorityFactory.{@linkplain CRSAuthorityFactory#createGeographicCRS createGeographicCRS}("EPSG:4326");
+     * GeographicCRS targetCRS   = crsAuthorityFactory
+     * .{@linkplain CRSAuthorityFactory#createGeographicCRS createGeographicCRS}("EPSG:4326");
      * BoundingBox   targetBox   = box.toBounds(targetCRS);
      * double        minEasting  = targetBox.getMinY();
      * double        minNorthing = targetBox.getMinX();
      * </pre></blockquote>
-     *
+     * <p>
      * Be aware that {@code "EPSG:4326"} has (<var>latitude</var>, <var>longitude</var>)
      * axis order, thus the inversion of <var>X</var> and <var>Y</var> in the above code.
      * <p>
@@ -196,12 +197,13 @@ public interface BoundingBox extends Envelope {
      * precomputed {@linkplain Canvas#getObjectiveToDisplayTransform objective to display
      * transforms}.
      *
-     * @param  targetCRS The target CRS for the bounding box to be returned.
+     * @param targetCRS The target CRS for the bounding box to be returned.
      * @return A new bounding box wich includes the shape of this box transformed
-     *         to the specified target CRS.
+     * to the specified target CRS.
      * @throws TransformException if no transformation path has been found from
-     *         {@linkplain #getCoordinateReferenceSystem this box CRS} to the specified
-     *         target CRS, or if the transformation failed for an other reason.
+     *                            {@linkplain #getCoordinateReferenceSystem this box CRS} to the 
+     *                            specified
+     *                            target CRS, or if the transformation failed for an other reason.
      */
     BoundingBox toBounds(CoordinateReferenceSystem targetCRS) throws TransformException;
 }

@@ -37,7 +37,7 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 
 /**
  * FeatureStore for the OGR store, based on the {@link ContentFeatureStore} framework
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 @SuppressWarnings("rawtypes")
@@ -54,7 +54,8 @@ class OGRFeatureStore extends ContentFeatureStore {
 
     @Override
     protected FeatureWriter<SimpleFeatureType, SimpleFeature> getWriterInternal(Query query,
-            int flags) throws IOException {
+                                                                                int flags) throws
+            IOException {
         Object dataSource = null;
         Object layer = null;
         boolean cleanup = true;

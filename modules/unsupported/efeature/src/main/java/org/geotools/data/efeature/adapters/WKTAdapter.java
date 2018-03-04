@@ -10,12 +10,11 @@ import com.vividsolutions.jts.io.WKTWriter;
 /**
  * An Adapter class to be used to extract from -adapt- the argument object to some {@link String}
  * value that would later be used in <code>Condition</code> evaluation.
- * 
+ * <p>
  * Clients can subclass it and provide their own implementation
- * 
- * @see {@link Condition}
  *
  * @source $URL$
+ * @see {@link Condition}
  */
 public abstract class WKTAdapter implements IDataTypeAdapter<String> {
 
@@ -30,7 +29,7 @@ public abstract class WKTAdapter implements IDataTypeAdapter<String> {
     public final static WKTReader READER = new WKTReader();
 
     /**
-     * The simplest {@link WKTAdapter} implementation that represents 
+     * The simplest {@link WKTAdapter} implementation that represents
      * the case when the object to adapt is a {@link String} object or
      * a {@link Geometry} instance.
      */
@@ -63,16 +62,16 @@ public abstract class WKTAdapter implements IDataTypeAdapter<String> {
 
     /**
      * Adapts given object to a WKT {@link String}
-     * 
-     * @param object - the object to adapt to a WKT {@link String} 
+     *
+     * @param object - the object to adapt to a WKT {@link String}
      * @return a WKT {@link String}
      */
     public abstract String toWKT(Object object);
 
     /**
      * Adapts given object to a WKT {@link String}
-     * 
-     * @param object - the object to adapt to a WKT {@link String} 
+     *
+     * @param object - the object to adapt to a WKT {@link String}
      * @return a WKT {@link String}
      */
     @Override

@@ -41,14 +41,13 @@ import com.vividsolutions.jts.simplify.TopologyPreservingSimplifier;
  * <li>Caching of reduced resolution of the same ROI</li>
  * <li>Management of the footprint inset</li>
  * </ul>
- * 
+ *
  * @author Andrea Aime - GeoSolutions
- * 
  */
 public class MultiLevelROIGeometry implements MultiLevelROI {
 
     private Geometry originalFootprint;
-    
+
     private Geometry insetFootprint;
 
     private Geometry granuleBounds;
@@ -57,18 +56,19 @@ public class MultiLevelROIGeometry implements MultiLevelROI {
 
     private FootprintInsetPolicy insetPolicy;
 
-    private SoftValueHashMap<AffineTransform, ROIGeometry> roiCache = new SoftValueHashMap<AffineTransform, ROIGeometry>(
+    private SoftValueHashMap<AffineTransform, ROIGeometry> roiCache = new 
+            SoftValueHashMap<AffineTransform, ROIGeometry>(
             10);
 
     private boolean empty;
 
     public MultiLevelROIGeometry(Geometry footprint, Geometry granuleBounds, double inset,
-            FootprintInsetPolicy insetPolicy) {
+                                 FootprintInsetPolicy insetPolicy) {
         this.originalFootprint = footprint;
         this.granuleBounds = granuleBounds;
         this.inset = inset;
         this.insetPolicy = insetPolicy;
-        if(inset > 0) {
+        if (inset > 0) {
             insetFootprint = insetPolicy.applyInset(originalFootprint, granuleBounds, inset);
             this.empty = insetFootprint.isEmpty();
         } else {
@@ -77,8 +77,8 @@ public class MultiLevelROIGeometry implements MultiLevelROI {
     }
 
     public ROIGeometry getTransformedROI(AffineTransform at, int imageIndex, Rectangle imgBounds,
-            ImageReadParam params, ReadType readType) {
-        if(empty) {
+                                         ImageReadParam params, ReadType readType) {
+        if (empty) {
             return null;
         }
         if (at == null) {
@@ -87,7 +87,8 @@ public class MultiLevelROIGeometry implements MultiLevelROI {
         ROIGeometry roiGeometry = roiCache.get(at);
         if (roiGeometry == null) {
             Geometry rescaled;
-            AffineTransformation geometryAT = new AffineTransformation(at.getScaleX(), at.getShearX(), at
+            AffineTransformation geometryAT = new AffineTransformation(at.getScaleX(), at
+                    .getShearX(), at
                     .getTranslateX(), at.getShearY(), at.getScaleY(), at.getTranslateY());
             if (inset > 0) {
                 double scale = Math.min(Math.abs(at.getScaleX()), Math.abs(at.getScaleY()));
@@ -109,8 +110,8 @@ public class MultiLevelROIGeometry implements MultiLevelROI {
                 rescaled.apply(geometryAT);
             }
 
-            if(!rescaled.isEmpty()) {
-                
+            if (!rescaled.isEmpty()) {
+
                 // the geometry is likely to have way more precision than needed, simplify it 
                 // so that the error is significantly less than one pixel
                 Geometry simplified = TopologyPreservingSimplifier.simplify(rescaled, 0.333);
@@ -130,7 +131,7 @@ public class MultiLevelROIGeometry implements MultiLevelROI {
     }
 
     public Geometry getFootprint() {
-        if(inset == 0) {
+        if (inset == 0) {
             return originalFootprint;
         } else {
             return insetFootprint;
@@ -139,18 +140,19 @@ public class MultiLevelROIGeometry implements MultiLevelROI {
 
     /**
      * A ROIGeometry leveraging {@link GeometryClipper} for fast clipping against rectangles
-     * 
+     *
      * @author Andrea Aime - GeoSolutions
      */
     static class FastClipROIGeometry extends ROIGeometry {
-    
+
         private static final long serialVersionUID = -4283288388988174306L;
-        private static final AffineTransformation Y_INVERSION = new AffineTransformation(1, 0, 0, 0, -1, 0);
-    
+        private static final AffineTransformation Y_INVERSION = new AffineTransformation(1, 0, 0,
+                0, -1, 0);
+
         public FastClipROIGeometry(Geometry geom) {
             super(geom);
         }
-        
+
         @Override
         public ROI intersect(ROI roi) {
             final Geometry geom = getGeometry(roi);
@@ -159,23 +161,23 @@ public class MultiLevelROIGeometry implements MultiLevelROI {
                 GeometryClipper clipper = new GeometryClipper(geom.getEnvelopeInternal());
                 Geometry intersect = clipper.clip(getAsGeometry(), true);
                 return new ROIGeometry(intersect);
-    
+
             } else {
                 return super.intersect(roi);
             }
         }
-        
+
         /**
          * Gets a {@link Geometry} from an input {@link ROI}.
-         * 
+         *
          * @param roi the ROI
          * @return a {@link Geometry} instance from the provided input;
-         * null in case the input roi is neither a geometry, nor a shape. 
+         * null in case the input roi is neither a geometry, nor a shape.
          */
-        private Geometry getGeometry(ROI roi){
-            if (roi instanceof ROIGeometry){
+        private Geometry getGeometry(ROI roi) {
+            if (roi instanceof ROIGeometry) {
                 return ((ROIGeometry) roi).getAsGeometry();
-            } else if (roi instanceof ROIShape){
+            } else if (roi instanceof ROIShape) {
                 final Shape shape = ((ROIShape) roi).getAsShape();
                 final Geometry geom = ShapeReader.read(shape, 0, new GeometryFactory());
                 geom.apply(Y_INVERSION);

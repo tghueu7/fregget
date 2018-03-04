@@ -60,31 +60,33 @@ import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.geom.Polygon;
 
 /**
- * 
- * 
  * @source $URL$
  */
 public class GeoServerOnlineTest extends AbstractWfsDataStoreOnlineTest {
 
-    public static final String SERVER_URL = "http://localhost:8080/geoserver/wfs?service=WFS&request=GetCapabilities&version=1.1.0"; //$NON-NLS-1$
+    public static final String SERVER_URL = 
+            "http://localhost:8080/geoserver/wfs?service=WFS&request=GetCapabilities&version" +
+                    "=1.1.0"; //$NON-NLS-1$
 
     public GeoServerOnlineTest() {
         super(SERVER_URL, GEOS_STATES_11, "the_geom", MultiPolygon.class, 49, ff.id(Collections
-                .singleton(ff.featureId("states.1"))), createSpatialFilter(), WFSDataStoreFactory.AXIS_ORDER_NORTH_EAST);
+                .singleton(ff.featureId("states.1"))), createSpatialFilter(), WFSDataStoreFactory
+                .AXIS_ORDER_NORTH_EAST);
     }
-    
+
     public static Filter createSpatialFilter() {
-        GeometryFactory gf = new GeometryFactory(); 
-        Coordinate[] coordinates = { new Coordinate(39, -107), new Coordinate(38, -107),
-                new Coordinate(38, -104), new Coordinate(39, -104), new Coordinate(39, -107) };
+        GeometryFactory gf = new GeometryFactory();
+        Coordinate[] coordinates = {new Coordinate(39, -107), new Coordinate(38, -107),
+                new Coordinate(38, -104), new Coordinate(39, -104), new Coordinate(39, -107)};
         LinearRing shell = gf.createLinearRing(coordinates);
         Polygon polygon = gf.createPolygon(shell, null);
         FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
         return ff.intersects(ff.property("the_geom"), ff.literal(polygon));
-    }    
+    }
 
     /**
-     * Tests case where filter is makes use of 2 different attributes but Query object only requests 1 of the two attributes. This is a fix for a bug
+     * Tests case where filter is makes use of 2 different attributes but Query object only 
+     * requests 1 of the two attributes. This is a fix for a bug
      * that has occurred.
      */
     @Test
@@ -103,7 +105,7 @@ public class GeoServerOnlineTest extends AbstractWfsDataStoreOnlineTest {
             expected++;
             reader.next();
         }
-        query = new Query("tiger_tiger_roads", filter, 100, new String[] { "CFCC" }, "");
+        query = new Query("tiger_tiger_roads", filter, 100, new String[]{"CFCC"}, "");
         reader = wfs.getFeatureReader(query, new DefaultTransaction());
         int count = 0;
         while (reader.hasNext()) {
@@ -113,7 +115,7 @@ public class GeoServerOnlineTest extends AbstractWfsDataStoreOnlineTest {
 
         assertEquals(expected, count);
     }
-    
+
 
     public static final String ATTRIBUTE_TO_EDIT = "STATE_FIPS";
 
@@ -126,7 +128,8 @@ public class GeoServerOnlineTest extends AbstractWfsDataStoreOnlineTest {
      * <p>
      * Makes reference to the standard featureTypes that geoserver ships with.
      * </p>
-     * NOTE: Ignoring this test for now because it edits topp:states and GeoServer doesn't return the correct Feature IDs on transactions against
+     * NOTE: Ignoring this test for now because it edits topp:states and GeoServer doesn't return
+     * the correct Feature IDs on transactions against
      * shapefiles
      */
     @Test
@@ -141,12 +144,12 @@ public class GeoServerOnlineTest extends AbstractWfsDataStoreOnlineTest {
                 .getFilterFactory2(GeoTools.getDefaultHints());
         try {
             GeometryFactory gf = new GeometryFactory();
-            MultiPolygon mp = gf.createMultiPolygon(new Polygon[] { gf.createPolygon(
-                    gf.createLinearRing(new Coordinate[] { new Coordinate(-88.071564, 37.51099),
+            MultiPolygon mp = gf.createMultiPolygon(new Polygon[]{gf.createPolygon(
+                    gf.createLinearRing(new Coordinate[]{new Coordinate(-88.071564, 37.51099),
                             new Coordinate(-88.467644, 37.400757),
                             new Coordinate(-90.638329, 42.509361),
                             new Coordinate(-89.834618, 42.50346),
-                            new Coordinate(-88.071564, 37.51099) }), new LinearRing[] {}) });
+                            new Coordinate(-88.071564, 37.51099)}), new LinearRing[]{})});
             mp.setUserData("http://www.opengis.net/gml/srs/epsg.xml#" + EPSG_CODE);
 
             PropertyName geometryAttributeExpression = filterFac.property(ft
@@ -173,7 +176,7 @@ public class GeoServerOnlineTest extends AbstractWfsDataStoreOnlineTest {
             org.geotools.util.logging.Logging.getLogger("org.geotools.data.wfs").setLevel(
                     Level.FINE);
             SimpleFeatureCollection inserts = DataUtilities
-                    .collection(new SimpleFeature[] { f, f2 });
+                    .collection(new SimpleFeature[]{f, f2});
             Id fp = WFSOnlineTestSupport.doInsert(wfs, ft, inserts);
 
             // / okay now count ...

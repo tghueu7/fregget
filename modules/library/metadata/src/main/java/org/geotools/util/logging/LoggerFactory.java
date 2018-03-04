@@ -17,6 +17,7 @@
 package org.geotools.util.logging;
 
 import java.util.logging.Logger;
+
 import org.geotools.util.WeakValueHashMap;
 
 
@@ -26,15 +27,12 @@ import org.geotools.util.WeakValueHashMap;
  * method returns some subclass of {@link Logger} (typicallly {@link LoggerAdapter}) that
  * forward directly all log methods to an other framework.
  *
- * @since 2.4
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
- *
+ * @version $Id$
+ * @source $URL$
  * @see Logging
  * @see LoggerAdapter
+ * @since 2.4
  */
 public abstract class LoggerFactory<L> {
     /**
@@ -47,7 +45,7 @@ public abstract class LoggerFactory<L> {
     /**
      * The loggers created up to date.
      */
-    private final WeakValueHashMap<String,Logger> loggers;
+    private final WeakValueHashMap<String, Logger> loggers;
 
     /**
      * Creates a new factory.
@@ -56,7 +54,7 @@ public abstract class LoggerFactory<L> {
      */
     protected LoggerFactory(final Class<L> loggerClass) {
         this.loggerClass = loggerClass;
-        loggers = new WeakValueHashMap<String,Logger>();
+        loggers = new WeakValueHashMap<String, Logger>();
     }
 
     /**
@@ -64,15 +62,15 @@ public abstract class LoggerFactory<L> {
      * invoked previously with the same {@code name} argument, then it may returns the same logger
      * provided that:
      * <ul>
-     *   <li>the logger has not yet been garbage collected;</li>
-     *   <li>the implementation instance (Log4J, SLF4J, <cite>etc.</cite>) returned by
-     *       <code>{@linkplain #getImplementation getImplementation}(name)</code> has
-     *       not changed.</li>
+     * <li>the logger has not yet been garbage collected;</li>
+     * <li>the implementation instance (Log4J, SLF4J, <cite>etc.</cite>) returned by
+     * <code>{@linkplain #getImplementation getImplementation}(name)</code> has
+     * not changed.</li>
      * </ul>
      * Otherwise this method returns a new {@code Logger} instance, or {@code null} if the
      * standard Java logging framework should be used.
      *
-     * @param  name The name of the logger.
+     * @param name The name of the logger.
      * @return The logger, or {@code null}.
      */
     public Logger getLogger(final String name) {
@@ -104,18 +102,18 @@ public abstract class LoggerFactory<L> {
      * framework redirects logging events to Java logging, then this method should returns
      * {@code null} since we should not use wrapper at all.
      *
-     * @param  name The name of the logger.
+     * @param name The name of the logger.
      * @return The logger as an object of the target logging framework (Log4J, SLF4J,
-     *         <cite>etc.</cite>), or {@code null} if the target framework would redirect
-     *         to the Java logging framework.
+     * <cite>etc.</cite>), or {@code null} if the target framework would redirect
+     * to the Java logging framework.
      */
     protected abstract L getImplementation(String name);
 
     /**
      * Wraps the specified {@linkplain #getImplementation implementation} in a Java logger.
      *
-     * @param  name The name of the logger.
-     * @param  implementation An implementation returned by {@link #getImplementation}.
+     * @param name           The name of the logger.
+     * @param implementation An implementation returned by {@link #getImplementation}.
      * @return A new logger wrapping the specified implementation.
      */
     protected abstract Logger wrap(String name, L implementation);
@@ -125,7 +123,7 @@ public abstract class LoggerFactory<L> {
      * or {@code null} if none. If the specified logger is not an instance of the expected class,
      * then this method should returns {@code null}.
      *
-     * @param  logger The logger to test.
+     * @param logger The logger to test.
      * @return The implementation wrapped by the specified logger, or {@code null} if none.
      */
     protected abstract L unwrap(Logger logger);

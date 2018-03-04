@@ -28,8 +28,6 @@ import org.geotools.coverage.grid.io.GridCoverage2DReader;
 import org.opengis.feature.simple.SimpleFeature;
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class PropertiesCollector {

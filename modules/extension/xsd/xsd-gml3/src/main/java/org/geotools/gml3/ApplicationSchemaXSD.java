@@ -31,17 +31,17 @@ import org.geotools.xml.XSD;
  * XSD instance for an application schema.
  *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
- *
  * @source $URL$
  */
 public class ApplicationSchemaXSD extends XSD {
-    /** application schema namespace */
+    /**
+     * application schema namespace
+     */
     private String namespaceURI;
 
-    /** location of the application schema itself */
+    /**
+     * location of the application schema itself
+     */
     private String schemaLocation;
 
     public ApplicationSchemaXSD(String namespaceURI, String schemaLocation) {
@@ -71,64 +71,61 @@ public class ApplicationSchemaXSD extends XSD {
      * include.
      * </p>
      *
-     * @param schema
-     *            the schema being resolved
-     * @param uri
-     *            not used as it might be an empty string when location
-     *            refers to an include
-     * @param location
-     *            the xsd location, either of <code>schema</code>, an
-     *            import or an include, for which to try resolving it as
-     *            a relative path of the <code>schema</code> location.
+     * @param schema   the schema being resolved
+     * @param uri      not used as it might be an empty string when location
+     *                 refers to an include
+     * @param location the xsd location, either of <code>schema</code>, an
+     *                 import or an include, for which to try resolving it as
+     *                 a relative path of the <code>schema</code> location.
      * @return a file: style uri with the resolved schema location for
-     *         the given one, or <code>null</code> if
-     *         <code>location</code> can't be resolved as a relative
-     *         path of the <code>schema</code> location.
+     * the given one, or <code>null</code> if
+     * <code>location</code> can't be resolved as a relative
+     * path of the <code>schema</code> location.
      */
     public SchemaLocationResolver createSchemaLocationResolver() {
         return new SchemaLocationResolver(this) {
-                public String resolveSchemaLocation(XSDSchema schema, String uri, String location) {
-                    String schemaLocation;
+            public String resolveSchemaLocation(XSDSchema schema, String uri, String location) {
+                String schemaLocation;
 
-                    if (schema == null) {
-                        schemaLocation = getSchemaLocation();
-                    } else {
-                        schemaLocation = schema.getSchemaLocation();
-                    }
-
-                    String locationUri = null;
-
-                    if ((null != schemaLocation) && !("".equals(schemaLocation))) {
-                        String schemaLocationFolder = schemaLocation;
-                        int lastSlash = schemaLocation.lastIndexOf('/');
-
-                        if (lastSlash > 0) {
-                            schemaLocationFolder = schemaLocation.substring(0, lastSlash);
-                        }
-
-                        if (schemaLocationFolder.startsWith("file:")) {
-                            try {
-                                schemaLocationFolder = URLs.urlToFile(
-                                        new URL(schemaLocationFolder)).getPath();
-                            } catch (MalformedURLException e) {
-                                // this can't be a good outcome, but try anyway
-                                schemaLocationFolder = schemaLocationFolder.substring("file:".length());
-                            }
-                        }
-
-                        File locationFile = new File(schemaLocationFolder, location);
-
-                        if (locationFile.exists()) {
-                            locationUri = locationFile.toURI().toString();
-                        }
-                    }
-
-                    if ((locationUri == null) && (location != null) && location.startsWith("http:")) {
-                        locationUri = location;
-                    }
-
-                    return locationUri;
+                if (schema == null) {
+                    schemaLocation = getSchemaLocation();
+                } else {
+                    schemaLocation = schema.getSchemaLocation();
                 }
-            };
+
+                String locationUri = null;
+
+                if ((null != schemaLocation) && !("".equals(schemaLocation))) {
+                    String schemaLocationFolder = schemaLocation;
+                    int lastSlash = schemaLocation.lastIndexOf('/');
+
+                    if (lastSlash > 0) {
+                        schemaLocationFolder = schemaLocation.substring(0, lastSlash);
+                    }
+
+                    if (schemaLocationFolder.startsWith("file:")) {
+                        try {
+                            schemaLocationFolder = URLs.urlToFile(
+                                    new URL(schemaLocationFolder)).getPath();
+                        } catch (MalformedURLException e) {
+                            // this can't be a good outcome, but try anyway
+                            schemaLocationFolder = schemaLocationFolder.substring("file:".length());
+                        }
+                    }
+
+                    File locationFile = new File(schemaLocationFolder, location);
+
+                    if (locationFile.exists()) {
+                        locationUri = locationFile.toURI().toString();
+                    }
+                }
+
+                if ((locationUri == null) && (location != null) && location.startsWith("http:")) {
+                    locationUri = location;
+                }
+
+                return locationUri;
+            }
+        };
     }
 }

@@ -111,11 +111,11 @@ import it.geosolutions.imageio.utilities.ImageIOUtilities;
 
 /**
  * A NetCDF Reader implementation
- * 
- * @author Daniele Romagnoli, GeoSolutions SAS
  *
+ * @author Daniele Romagnoli, GeoSolutions SAS
  */
-public class NetCDFReader extends AbstractGridCoverage2DReader implements StructuredGridCoverage2DReader {
+public class NetCDFReader extends AbstractGridCoverage2DReader implements 
+        StructuredGridCoverage2DReader {
 
     static final String UNSPECIFIED = "_UN$PECIFIED_";
 
@@ -144,9 +144,10 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
 
     String defaultName = null;
 
-    private SoftValueHashMap<String, CoverageSource> coverages = new SoftValueHashMap<String, CoverageSource>();
+    private SoftValueHashMap<String, CoverageSource> coverages = new SoftValueHashMap<String, 
+            CoverageSource>();
 
-    public NetCDFReader(Object input, Hints uHints) throws DataSourceException{
+    public NetCDFReader(Object input, Hints uHints) throws DataSourceException {
         super(input, uHints);
         sourceURL = checkSource(input);
 
@@ -156,7 +157,8 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
 
         // getting access to the source
         try {
-            access = (NetCDFAccess) DRIVER.process(DriverCapabilities.CONNECT, sourceURL, null, uHints, null);
+            access = (NetCDFAccess) DRIVER.process(DriverCapabilities.CONNECT, sourceURL, null, 
+                    uHints, null);
         } catch (IOException e) {
             throw new DataSourceException("Unable to connect", e);
         }
@@ -169,7 +171,7 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
         // get the names
         names = access.getNames(null);
         setNames = new TreeSet<String>();
-        for (Name name: names) {
+        for (Name name : names) {
             String nameString = name.toString();
             if (defaultName == null) {
                 defaultName = nameString;
@@ -197,7 +199,7 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
     public String[] getMetadataNames(String coverageName) {
         checkIsSupported(coverageName);
         final List<String> metadataNames = new ArrayList<String>();
-        
+
         // standard metadata
         metadataNames.add(GridCoverage2DReader.HAS_TIME_DOMAIN);
         metadataNames.add(GridCoverage2DReader.TIME_DOMAIN);
@@ -224,9 +226,9 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
             source = (NetCDFSource) getGridCoverageSource(coverageName);
             List<AdditionalDomain> domains = source.getAdditionalDomains();
             if (domains != null && !domains.isEmpty()) {
-                for (AdditionalDomain domain: domains) {
+                for (AdditionalDomain domain : domains) {
                     String domainName = domain.getName().toUpperCase();
-                    metadataNames.add(HAS_PREFIX + domainName+ DOMAIN_SUFFIX);
+                    metadataNames.add(HAS_PREFIX + domainName + DOMAIN_SUFFIX);
                     metadataNames.add(domainName + DOMAIN_SUFFIX);
                     metadataNames.add(domainName + DOMAIN_SUFFIX + MINIMUM_SUFFIX);
                     metadataNames.add(domainName + DOMAIN_SUFFIX + MAXIMUM_SUFFIX);
@@ -246,9 +248,10 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
             source = (NetCDFSource) getGridCoverageSource(coverageName);
             final TemporalDomain timeDomain = source.getTemporalDomain();
             final VerticalDomain verticalDomain = source.getVerticalDomain();
-            
+
             final List<AdditionalDomain> additionalDomains = source.getAdditionalDomains();
-            final boolean hasAdditionalDomains = additionalDomains != null && !additionalDomains.isEmpty();
+            final boolean hasAdditionalDomains = additionalDomains != null && !additionalDomains
+                    .isEmpty();
             final boolean hasTimeDomain = timeDomain != null;
             final boolean hasElevationDomain = verticalDomain != null;
 
@@ -294,25 +297,28 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
                     return parseDomain(name, verticalDomain);
                 }
             }
-            
+
             if (hasAdditionalDomains) {
                 if (name.startsWith(HAS_PREFIX)) {
-                    final String substring = name.substring(HAS_PREFIX.length(), name.length() - DOMAIN_SUFFIX.length());
-                    for (AdditionalDomain additionalDomain: additionalDomains) {
+                    final String substring = name.substring(HAS_PREFIX.length(), name.length() - 
+                            DOMAIN_SUFFIX.length());
+                    for (AdditionalDomain additionalDomain : additionalDomains) {
                         if (additionalDomain.getName().toUpperCase().contains(substring)) {
                             return "true";
                         }
                     }
                     return "false";
                 } else if (name.contains(DATATYPE_SUFFIX)) {
-                    for (AdditionalDomain additionalDomain: additionalDomains) {
-                        if (name.toUpperCase().startsWith(additionalDomain.getName().toUpperCase() + DOMAIN_SUFFIX + DATATYPE_SUFFIX)) {
+                    for (AdditionalDomain additionalDomain : additionalDomains) {
+                        if (name.toUpperCase().startsWith(additionalDomain.getName().toUpperCase
+                                () + DOMAIN_SUFFIX + DATATYPE_SUFFIX)) {
                             return parseDomain(name, additionalDomain);
                         }
                     }
                 } else if (name.contains(DOMAIN_SUFFIX)) {
-                    for (AdditionalDomain additionalDomain: additionalDomains) {
-                        if (name.toUpperCase().startsWith(additionalDomain.getName().toUpperCase() + DOMAIN_SUFFIX)) {
+                    for (AdditionalDomain additionalDomain : additionalDomains) {
+                        if (name.toUpperCase().startsWith(additionalDomain.getName().toUpperCase
+                                () + DOMAIN_SUFFIX)) {
                             return parseDomain(name, additionalDomain);
                         }
                     }
@@ -336,7 +342,7 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
         NetCDFSource source = (NetCDFSource) getGridCoverageSource(coverageName);
         if (source != null) {
             return source.getDynamicParameters();
-        } 
+        }
         return null;
     }
 
@@ -346,7 +352,8 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
     }
 
     /**
-     * Parse a domain 
+     * Parse a domain
+     *
      * @param name
      * @param domain
      * @return
@@ -355,19 +362,21 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
     private String parseDomain(String name, Object domain) throws IOException {
         name = name.toLowerCase();
         if (domain instanceof VerticalDomain) {
-            
+
             // Vertical domain management
             VerticalDomain verticalDomain = (VerticalDomain) domain;
             if (name.endsWith("domain")) {
-                
+
                 // global domain
-                SortedSet<? extends NumberRange<Double>> verticalElements = verticalDomain.getVerticalElements(true, null);
+                SortedSet<? extends NumberRange<Double>> verticalElements = verticalDomain
+                        .getVerticalElements(true, null);
                 return buildVerticalList(verticalElements);
             } else if (name.endsWith("datatype")) {
                 return Double.class.getName();
             } else {
                 // min or max requests
-                SortedSet<? extends NumberRange<Double>> verticalElements = verticalDomain.getVerticalElements(false, null);
+                SortedSet<? extends NumberRange<Double>> verticalElements = verticalDomain
+                        .getVerticalElements(false, null);
                 NumberRange<Double> overall = verticalElements.iterator().next();
                 if (name.endsWith("maximum")) {
                     return Double.toString(overall.getMaximum());
@@ -378,17 +387,19 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
                 }
             }
         } else if (domain instanceof TemporalDomain) {
-            
+
             // Temporal domain management
             TemporalDomain temporalDomain = (TemporalDomain) domain;
             if (name.endsWith("domain")) {
                 // global domain
-                SortedSet<? extends DateRange> temporalElements = temporalDomain.getTemporalElements(true, null);
+                SortedSet<? extends DateRange> temporalElements = temporalDomain
+                        .getTemporalElements(true, null);
                 return buildTemporalList(temporalElements);
             } else if (name.endsWith("datatype")) {
                 return Date.class.getName();
             } else {
-                SortedSet<? extends DateRange> temporalElements = temporalDomain.getTemporalElements(false, null);
+                SortedSet<? extends DateRange> temporalElements = temporalDomain
+                        .getTemporalElements(false, null);
                 DateRange overall = temporalElements.iterator().next();
                 // min or max requests
                 if (name.endsWith("maximum")) {
@@ -400,7 +411,7 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
                 }
             }
         } else if (domain instanceof AdditionalDomain) {
-            
+
             // Vertical domain management
             AdditionalDomain additionalDomain = (AdditionalDomain) domain;
             if (name.endsWith("domain")) {
@@ -439,7 +450,8 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
         final StringBuilder buff = new StringBuilder("");
         while (iterator.hasNext()) {
             DateRange range = iterator.next();
-            buff.append(ConvertersHack.convert(range.getMinValue(), String.class) + "/" + ConvertersHack.convert(range.getMaxValue(), String.class));
+            buff.append(ConvertersHack.convert(range.getMinValue(), String.class) + "/" + 
+                    ConvertersHack.convert(range.getMaxValue(), String.class));
             if (iterator.hasNext()) {
                 buff.append(",");
             }
@@ -449,11 +461,13 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
 
     /**
      * Setup a String containing vertical domain by doing a scan of a set of vertical Elements
+     *
      * @param verticalElements
      * @return
      */
     private String buildVerticalList(SortedSet<? extends NumberRange<Double>> verticalElements) {
-        Iterator<NumberRange<Double>> iterator = (Iterator<NumberRange<Double>>) verticalElements.iterator();
+        Iterator<NumberRange<Double>> iterator = (Iterator<NumberRange<Double>>) verticalElements
+                .iterator();
         LinkedHashSet<String> ranges = new LinkedHashSet<String>();
 
         while (iterator.hasNext()) {
@@ -465,9 +479,9 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
 
     /**
      * Setup a String containing additional domain by doing a scan of a set of Elements
+     *
      * @param elements
-     * @return
-     * TODO: improve that to deal with multiple types
+     * @return TODO: improve that to deal with multiple types
      */
     private String buildElementsList(Set<Object> elements) {
         Iterator<Object> iterator = (Iterator<Object>) elements.iterator();
@@ -480,7 +494,7 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
         return buildResultsString(ranges);
     }
 
-    
+
     @Override
     public GridCoverage2D read(String coverageName, GeneralParameterValue[] parameters)
             throws IllegalArgumentException, IOException {
@@ -499,12 +513,14 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
     }
 
     /**
-     * Create the coverageReadRequest on top of the specified read params 
+     * Create the coverageReadRequest on top of the specified read params
+     *
      * @param params
      * @return
      * @throws IOException
      */
-    private CoverageReadRequest setupCoverageRequest(GeneralParameterValue[] params, final CoverageSource gridSource) throws IOException {
+    private CoverageReadRequest setupCoverageRequest(GeneralParameterValue[] params, final 
+    CoverageSource gridSource) throws IOException {
         CoverageReadRequest request = new CoverageReadRequest();
         if (params != null) {
             for (GeneralParameterValue gParam : params) {
@@ -523,7 +539,8 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
     }
 
     private void extractParameter(ParameterValue<?> param, ReferenceIdentifier name,
-            CoverageReadRequest request, CoverageSource gridSource) throws MismatchedDimensionException,
+                                  CoverageReadRequest request, CoverageSource gridSource) throws 
+            MismatchedDimensionException,
             InvalidGridGeometryException, TransformException, IOException {
 
         // //
@@ -558,10 +575,10 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
                     if (val instanceof Date) {
                         requestedTemporalSubset.add(new DateRange((Date) val, (Date) val));
                     } else if (val instanceof DateRange) {
-                        requestedTemporalSubset.add((DateRange)val);
+                        requestedTemporalSubset.add((DateRange) val);
                     }
                 }
-                
+
                 // TODO IMPROVE THAT TO DEAL ON RANGES
                 request.setTemporalSubset(requestedTemporalSubset);
             }
@@ -583,9 +600,10 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
                 Set<NumberRange<Double>> verticalSubset = new DoubleRangeTreeSet();
                 for (Object val : values) {
                     if (val instanceof Number) {
-                        verticalSubset.add(new NumberRange<Double>(Double.class, ((Number) val).doubleValue(), ((Number) val).doubleValue()));
+                        verticalSubset.add(new NumberRange<Double>(Double.class, ((Number) val)
+                                .doubleValue(), ((Number) val).doubleValue()));
                     } else if (val instanceof NumberRange) {
-                        verticalSubset.add((NumberRange<Double>)val);
+                        verticalSubset.add((NumberRange<Double>) val);
                     }
                 }
                 // TODO IMPROVE THAT TO DEAL ON RANGES
@@ -602,7 +620,8 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
             return;
         }
 
-        // setup the the bands parameter which defines the order and the bands that should bereturned
+        // setup the the bands parameter which defines the order and the bands that should 
+        // bereturned
         if (name.equals(ImageMosaicFormat.BANDS.getName())) {
             // if the parameter is NULL no problem
             request.setBands((int[]) param.getValue());
@@ -612,12 +631,12 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
         String paramName = name.getCode();
         if (((NetCDFSource) gridSource).isParameterSupported(name)) {
             final Object value = param.getValue();
-            if (value == null){
+            if (value == null) {
                 return;
             }
-            final Set values= new HashSet();
+            final Set values = new HashSet();
             if (value instanceof Collection) {
-                values.addAll((Collection)value); // we are assuming it is a list !!!
+                values.addAll((Collection) value); // we are assuming it is a list !!!
 
             } else {
                 values.add(value);
@@ -634,6 +653,7 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
 
     /**
      * Return a {@link CoverageSource} related to the specified coverageName
+     *
      * @param coverageName
      * @return
      * @throws IOException
@@ -656,6 +676,7 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
 
     /**
      * Check whether the specified coverageName is one of the coverage available for the reader
+     *
      * @param coverageName
      */
     private void checkIsSupported(final String coverageName) {
@@ -709,6 +730,7 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
 
     /**
      * Build a String containing comma separated values from the result set
+     *
      * @param result
      * @return
      */
@@ -718,7 +740,7 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
         }
 
         final StringBuilder buff = new StringBuilder();
-        for (Iterator<String> it = result.iterator(); it.hasNext();) {
+        for (Iterator<String> it = result.iterator(); it.hasNext(); ) {
             buff.append(ConvertersHack.convert(it.next(), String.class));
             if (it.hasNext()) {
                 buff.append(",");
@@ -753,9 +775,12 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
         coverageName = checkUnspecifiedCoverage(coverageName);
         try {
             CoverageSource source = getGridCoverageSource(coverageName);
-            VariableAdapter.UnidataSpatialDomain spatialDomain = (UnidataSpatialDomain) source.getSpatialDomain();
-            GeneralEnvelope generalEnvelope = new GeneralEnvelope(spatialDomain.getReferencedEnvelope());
-            generalEnvelope.setCoordinateReferenceSystem(spatialDomain.getCoordinateReferenceSystem2D());
+            VariableAdapter.UnidataSpatialDomain spatialDomain = (UnidataSpatialDomain) source
+                    .getSpatialDomain();
+            GeneralEnvelope generalEnvelope = new GeneralEnvelope(spatialDomain
+                    .getReferencedEnvelope());
+            generalEnvelope.setCoordinateReferenceSystem(spatialDomain
+                    .getCoordinateReferenceSystem2D());
             return generalEnvelope;
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -772,7 +797,8 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
         coverageName = checkUnspecifiedCoverage(coverageName);
         try {
             final CoverageSource source = getGridCoverageSource(coverageName);
-            VariableAdapter.UnidataSpatialDomain spatialDomain = (UnidataSpatialDomain) source.getSpatialDomain();
+            VariableAdapter.UnidataSpatialDomain spatialDomain = (UnidataSpatialDomain) source
+                    .getSpatialDomain();
             return spatialDomain.getGridGeometry().getGridRange2D();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -781,21 +807,22 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
 
     @Override
     public double[] getReadingResolutions(OverviewPolicy policy,
-            double[] requestedResolution) {
+                                          double[] requestedResolution) {
         try {
             return getReadingResolutions(UNSPECIFIED, policy, requestedResolution);
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
         }
     }
-    
+
     @Override
     public double[] getReadingResolutions(String coverageName, OverviewPolicy policy,
-            double[] requestedResolution) throws IOException {
-            // Currently we have no overviews support so we will return the highest resolution
+                                          double[] requestedResolution) throws IOException {
+        // Currently we have no overviews support so we will return the highest resolution
         coverageName = checkUnspecifiedCoverage(coverageName);
         final CoverageSource source = getGridCoverageSource(coverageName);
-        VariableAdapter.UnidataSpatialDomain spatialDomain = (UnidataSpatialDomain) source.getSpatialDomain();
+        VariableAdapter.UnidataSpatialDomain spatialDomain = (UnidataSpatialDomain) source
+                .getSpatialDomain();
         GeneralGridGeometry gridGeometry2D = spatialDomain.getGridGeometry();
         AffineTransform gridToCRS = (AffineTransform) gridGeometry2D.getGridToCRS();
         return CoverageUtilities.getResolution(gridToCRS);
@@ -804,9 +831,9 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
     @Override
     public int getNumOverviews() {
         return getNumOverviews(UNSPECIFIED);
-        
+
     }
-    
+
     @Override
     public int getNumOverviews(String coverageName) {
         coverageName = checkUnspecifiedCoverage(coverageName);
@@ -844,29 +871,33 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
         coverageName = checkUnspecifiedCoverage(coverageName);
         try {
             final CoverageSource source = getGridCoverageSource(coverageName);
-            VariableAdapter.UnidataSpatialDomain spatialDomain = (UnidataSpatialDomain) source.getSpatialDomain();
+            VariableAdapter.UnidataSpatialDomain spatialDomain = (UnidataSpatialDomain) source
+                    .getSpatialDomain();
             GridEnvelope2D gridRange = spatialDomain.getGridGeometry().getGridRange2D();
-            RasterLayout rasterElement = spatialDomain.getRasterElements(false, null).iterator().next();
-            NetCDFImageReader reader = (NetCDFImageReader) ((NetCDFAccess)access).reader;
+            RasterLayout rasterElement = spatialDomain.getRasterElements(false, null).iterator()
+                    .next();
+            NetCDFImageReader reader = (NetCDFImageReader) ((NetCDFAccess) access).reader;
             int dataType = DataBuffer.TYPE_DOUBLE;
             VariableAdapter descriptor = reader.getCoverageDescriptor(new NameImpl(coverageName));
             if (descriptor != null) {
                 dataType = descriptor.getSampleModel().getDataType();
             }
-            SampleModel sampleModel = new BandedSampleModel(dataType, (int)gridRange.getWidth(), (int)gridRange.getHeight(), 1);
+            SampleModel sampleModel = new BandedSampleModel(dataType, (int) gridRange.getWidth(),
+                    (int) gridRange.getHeight(), 1);
             ColorModel colorModel = ImageIOUtilities.createColorModel(sampleModel);
             Rectangle rect = rasterElement.toRectangle();
             ImageLayout layout = new ImageLayout(rect.x, rect.y, rect.width, rect.height);
             layout.setSampleModel(sampleModel);
             layout.setColorModel(colorModel);
             return layout;
-            
-            //TODO: DR: need to define a real ImageLayout. We may consider adding ImageLayout to RasterLayout
-            
+
+            //TODO: DR: need to define a real ImageLayout. We may consider adding ImageLayout to 
+            // RasterLayout
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        
+
     }
 
     @Override
@@ -879,7 +910,8 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
         coverageName = checkUnspecifiedCoverage(coverageName);
         try {
             final CoverageSource source = getGridCoverageSource(coverageName);
-            VariableAdapter.UnidataSpatialDomain spatialDomain = (UnidataSpatialDomain) source.getSpatialDomain();
+            VariableAdapter.UnidataSpatialDomain spatialDomain = (UnidataSpatialDomain) source
+                    .getSpatialDomain();
             return spatialDomain.getCoordinateReferenceSystem2D();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -890,13 +922,14 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
     public MathTransform getOriginalGridToWorld(PixelInCell pixInCell) {
         return getOriginalGridToWorld(UNSPECIFIED, pixInCell);
     }
-    
+
     @Override
     public MathTransform getOriginalGridToWorld(String coverageName, PixelInCell pixInCell) {
         coverageName = checkUnspecifiedCoverage(coverageName);
         try {
             final CoverageSource source = getGridCoverageSource(coverageName);
-            VariableAdapter.UnidataSpatialDomain spatialDomain = (UnidataSpatialDomain) source.getSpatialDomain();
+            VariableAdapter.UnidataSpatialDomain spatialDomain = (UnidataSpatialDomain) source
+                    .getSpatialDomain();
             MathTransform2D gridToWorld = spatialDomain.getGridToWorldTransform(null);
             if (pixInCell == PixelInCell.CELL_CENTER) {
                 return gridToWorld;
@@ -909,9 +942,9 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
                 return ProjectiveTransform.create(tr);
             }
 
-            if(gridToWorld instanceof IdentityTransform){
-                final AffineTransform tr= new AffineTransform(1,0,0,1,0,0);
-                tr.concatenate(AffineTransform.getTranslateInstance(-0.5,-0.5));
+            if (gridToWorld instanceof IdentityTransform) {
+                final AffineTransform tr = new AffineTransform(1, 0, 0, 1, 0, 0);
+                tr.concatenate(AffineTransform.getTranslateInstance(-0.5, -0.5));
                 return ProjectiveTransform.create(tr);
             }
 
@@ -924,11 +957,11 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
     @Override
     public GranuleSource getGranules(String coverageName, boolean readOnly) throws IOException,
             UnsupportedOperationException {
-        NetCDFImageReader reader = (NetCDFImageReader) ((NetCDFAccess)access).reader;
+        NetCDFImageReader reader = (NetCDFImageReader) ((NetCDFAccess) access).reader;
         final CoverageSlicesCatalog catalog = reader.getCatalog();
         return new CoverageSlicesCatalogSource(catalog, coverageName);
     }
-    
+
     @Override
     public boolean isReadOnly() {
         return true;
@@ -936,17 +969,20 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
 
     @Override
     public void createCoverage(String coverageName, SimpleFeatureType schema/*,
-            Set<DimensionDescriptor> dimensions*/) throws IOException, UnsupportedOperationException {
+            Set<DimensionDescriptor> dimensions*/) throws IOException, 
+            UnsupportedOperationException {
         throw new UnsupportedOperationException("This operation is not supported on this reader");
     }
 
     @Override
-    public List<HarvestedSource> harvest(String defaultCoverage, Object source, Hints hints) throws IOException, UnsupportedOperationException {
+    public List<HarvestedSource> harvest(String defaultCoverage, Object source, Hints hints) 
+            throws IOException, UnsupportedOperationException {
         throw new UnsupportedOperationException("This operation is not supported on this reader");
     }
 
     @Override
-    public List<DimensionDescriptor> getDimensionDescriptors(String coverageName) throws IOException {
+    public List<DimensionDescriptor> getDimensionDescriptors(String coverageName) throws 
+            IOException {
         final CoverageSource source = (CoverageSource) getGridCoverageSource(coverageName);
         return source.getDimensionDescriptors();
     }
@@ -983,13 +1019,15 @@ public class NetCDFReader extends AbstractGridCoverage2DReader implements Struct
     }
 
     @Override
-    public boolean removeCoverage(String coverageName) throws IOException, UnsupportedOperationException {
+    public boolean removeCoverage(String coverageName) throws IOException, 
+            UnsupportedOperationException {
         return removeCoverage(coverageName, false);
     }
 
     @Override
     public ResourceInfo getInfo(String coverageName) {
         String name = checkUnspecifiedCoverage(coverageName);
-        return new NetCDFFileResourceInfo(this, name, ((NetCDFAccess) access).reader.getCatalog(), sourceURL);
+        return new NetCDFFileResourceInfo(this, name, ((NetCDFAccess) access).reader.getCatalog()
+                , sourceURL);
     }
 }

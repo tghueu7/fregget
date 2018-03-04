@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2007-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,23 +17,23 @@
 package org.geotools.metadata;
 
 import java.util.Collection;
+
 import org.geotools.metadata.iso.citation.CitationImpl;
 import org.geotools.metadata.iso.citation.Citations;
 import org.geotools.metadata.iso.quality.PositionalAccuracyImpl;
 import org.opengis.metadata.quality.ConformanceResult;
 
 import org.junit.*;
+
 import static org.junit.Assert.*;
 
 
 /**
  * Tests {@link Citations} and related constants.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
  */
 public final class CitationsTest {
     /**
@@ -57,7 +57,7 @@ public final class CitationsTest {
      */
     @Test
     public void testCitation() {
-        assertEquals ("Identity comparaison", Citations.EPSG, Citations.EPSG);
+        assertEquals("Identity comparaison", Citations.EPSG, Citations.EPSG);
         assertNotSame(Citations.EPSG, Citations.OGC);
         assertTrue(Citations.EPSG instanceof CitationImpl);
         try {
@@ -80,26 +80,26 @@ public final class CitationsTest {
     @Test
     public void testPositionalAccuracy() {
         assertEquals("Identity comparaison",
-                     PositionalAccuracyImpl.DATUM_SHIFT_APPLIED,
-                     PositionalAccuracyImpl.DATUM_SHIFT_APPLIED);
+                PositionalAccuracyImpl.DATUM_SHIFT_APPLIED,
+                PositionalAccuracyImpl.DATUM_SHIFT_APPLIED);
 
         assertEquals("Identity comparaison",
-                     PositionalAccuracyImpl.DATUM_SHIFT_OMITTED,
-                     PositionalAccuracyImpl.DATUM_SHIFT_OMITTED);
+                PositionalAccuracyImpl.DATUM_SHIFT_OMITTED,
+                PositionalAccuracyImpl.DATUM_SHIFT_OMITTED);
 
         assertNotSame(PositionalAccuracyImpl.DATUM_SHIFT_APPLIED,
-                      PositionalAccuracyImpl.DATUM_SHIFT_OMITTED);
+                PositionalAccuracyImpl.DATUM_SHIFT_OMITTED);
 
         final Collection appliedResults = PositionalAccuracyImpl.DATUM_SHIFT_APPLIED.getResults();
         final Collection omittedResults = PositionalAccuracyImpl.DATUM_SHIFT_OMITTED.getResults();
         final ConformanceResult applied = (ConformanceResult) appliedResults.iterator().next();
         final ConformanceResult omitted = (ConformanceResult) omittedResults.iterator().next();
         assertNotSame(applied, omitted);
-        assertTrue (applied.pass());
+        assertTrue(applied.pass());
         assertFalse(omitted.pass());
         assertFalse(applied.equals(omitted));
         assertFalse(appliedResults.equals(omittedResults));
         assertFalse(PositionalAccuracyImpl.DATUM_SHIFT_APPLIED.equals(
-                    PositionalAccuracyImpl.DATUM_SHIFT_OMITTED));
+                PositionalAccuracyImpl.DATUM_SHIFT_OMITTED));
     }
 }

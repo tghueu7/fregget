@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -27,9 +27,8 @@ import org.opengis.filter.FilterFactory;
 import org.opengis.filter.FilterFactory2;
 
 import static org.easymock.EasyMock.*;
+
 /**
- * 
- *
  * @source $URL$
  */
 public class ReTypingFeatureCollectionTest extends FeatureCollectionWrapperTestSupport {
@@ -61,7 +60,7 @@ public class ReTypingFeatureCollectionTest extends FeatureCollectionWrapperTestS
         replay(delegate);
 
         ReTypingFeatureCollection rtc =
-            new ReTypingFeatureCollection(delegate, stb.buildFeatureType());
+                new ReTypingFeatureCollection(delegate, stb.buildFeatureType());
         rtc.accepts(vis, null);
         verify(delegate);
 

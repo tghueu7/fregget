@@ -16,17 +16,19 @@ import org.opengis.feature.type.FeatureType;
  * Utility class to help keep track of the DataAccess instances created while parsing App-Schema
  * configuration and thus avoid creating the same (i.e. with identical configuration parameters)
  * DataAccess twice.
- * 
+ * <p>
  * <p>
  * DataAccess instances are indexed by the parameters map used to create them.
  * </p>
- * 
- * @author Stefano Costa, GeoSolutions
  *
+ * @author Stefano Costa, GeoSolutions
  */
-public class DataAccessMap extends HashMap<Map<String, Serializable>, DataAccess<FeatureType, Feature>> {
+public class DataAccessMap extends HashMap<Map<String, Serializable>, DataAccess<FeatureType, 
+        Feature>> {
 
-    /** serialVersionUID */
+    /**
+     * serialVersionUID
+     */
     private static final long serialVersionUID = 133019722648852790L;
 
 }

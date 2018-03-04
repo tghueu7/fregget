@@ -16,6 +16,7 @@ package org.geotools.data.geojson;
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 import java.io.IOException;
 import java.util.logging.Logger;
 
@@ -123,7 +124,8 @@ public class GeoJSONFeatureSource extends ContentFeatureSource {
     }
 
     /**
-     * Make handleVisitor package visible allowing CSVFeatureStore to delegate to this implementation.
+     * Make handleVisitor package visible allowing CSVFeatureStore to delegate to this 
+     * implementation.
      */
     @Override
     protected boolean handleVisitor(Query query, FeatureVisitor visitor) throws IOException {

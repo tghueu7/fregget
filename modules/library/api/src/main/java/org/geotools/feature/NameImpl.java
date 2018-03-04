@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -42,19 +42,21 @@ import org.opengis.feature.type.Name;
  * It case it is not obvious this is a value object and equality is based on
  * namespace and name.
  * </p>
+ *
  * @author Justin Deoliveira, The Open Planning Project, jdeolive@openplans.org
- *
- *
- *
  * @source $URL$
  */
 public class NameImpl implements org.opengis.feature.type.Name, Serializable, Comparable<NameImpl> {
     private static final long serialVersionUID = 4564070184645559899L;
 
-    /** namespace / scope */
+    /**
+     * namespace / scope
+     */
     protected String namespace;
 
-    /** local part */
+    /**
+     * local part
+     */
     protected String local;
 
     private String separator;
@@ -73,18 +75,17 @@ public class NameImpl implements org.opengis.feature.type.Name, Serializable, Co
      * Constructs an instance with the local part and namespace set.
      *
      * @param namespace The namespace or scope of the name.
-     * @param local The local part of the name.
-     *
+     * @param local     The local part of the name.
      */
     public NameImpl(String namespace, String local) {
-        this( namespace, ":", local );
+        this(namespace, ":", local);
     }
+
     /**
      * Constructs an instance with the local part and namespace set.
      *
      * @param namespace The namespace or scope of the name.
-     * @param local The local part of the name.
-     *
+     * @param local     The local part of the name.
      */
     public NameImpl(String namespace, String separator, String local) {
         this.namespace = namespace;
@@ -93,18 +94,20 @@ public class NameImpl implements org.opengis.feature.type.Name, Serializable, Co
     }
 
     /**
-     * Constract an instance from the provided QName. 
+     * Constract an instance from the provided QName.
      */
-    public NameImpl( javax.xml.namespace.QName qName ){
-        this( qName.getNamespaceURI(), qName.getLocalPart() );
+    public NameImpl(javax.xml.namespace.QName qName) {
+        this(qName.getNamespaceURI(), qName.getLocalPart());
     }
-    
+
     public boolean isGlobal() {
         return getNamespaceURI() == null;
     }
-	public String getSeparator() {
-		return separator;
-	}
+
+    public String getSeparator() {
+        return separator;
+    }
+
     public String getNamespaceURI() {
         return namespace;
     }
@@ -131,37 +134,39 @@ public class NameImpl implements org.opengis.feature.type.Name, Serializable, Co
      */
     @Override
     public int hashCode() {
-    	return (namespace== null ? 0 : namespace.hashCode()) +
-    	        37*(local== null ? 0 : local.hashCode());
+        return (namespace == null ? 0 : namespace.hashCode()) +
+                37 * (local == null ? 0 : local.hashCode());
     }
 
     /**
      * value object with equality based on name and namespace.
      */
     public boolean equals(Object obj) {
-        if(obj == this)
+        if (obj == this)
             return true;
-        
+
         if (obj instanceof Name) {
-            NameImpl other = (NameImpl) obj;            
-            if(!Utilities.equals(this.namespace, other.getNamespaceURI())){
-            	return false;
+            NameImpl other = (NameImpl) obj;
+            if (!Utilities.equals(this.namespace, other.getNamespaceURI())) {
+                return false;
             }
-            if(!Utilities.equals(this.local, other.getLocalPart())){
-                return false;                
+            if (!Utilities.equals(this.local, other.getLocalPart())) {
+                return false;
             }
             return true;
         }
         return false;
     }
 
-    /** name or namespace:name */
+    /**
+     * name or namespace:name
+     */
     public String toString() {
         return getURI();
     }
 
     public int compareTo(NameImpl other) {
-        if( other == null ){
+        if (other == null) {
             return 1; // we are greater than null!
         }
         return getURI().compareTo(other.getURI());

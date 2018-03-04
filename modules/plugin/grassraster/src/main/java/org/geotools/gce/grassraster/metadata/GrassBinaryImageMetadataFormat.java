@@ -25,15 +25,13 @@ import org.geotools.gce.grassraster.core.GrassBinaryRasterReadHandler;
 
 /**
  * Defines the structure of metadata documents describing Grass raster image metadata.
- * 
+ *
  * @author Andrea Antonello (www.hydrologis.com)
- * @since 3.0
+ * @source $URL$
  * @see GrassBinaryImageMetadata
  * @see GrassBinaryRasterReadHandler
  * @see JGrassRegion
- *
- *
- * @source $URL$
+ * @since 3.0
  */
 public final class GrassBinaryImageMetadataFormat extends IIOMetadataFormatImpl {
 
@@ -90,7 +88,7 @@ public final class GrassBinaryImageMetadataFormat extends IIOMetadataFormatImpl 
      * <p>
      * One instance is enough, therefore it is built as a singleton.
      * </p>
-     * 
+     *
      * @return an instance of the {@link GrassBinaryImageMetadataFormat} class.
      */
     public static synchronized IIOMetadataFormat getInstance() {
@@ -99,7 +97,7 @@ public final class GrassBinaryImageMetadataFormat extends IIOMetadataFormatImpl 
         return instance;
     }
 
-    public boolean canNodeAppear( String elementName, ImageTypeSpecifier imageType ) {
+    public boolean canNodeAppear(String elementName, ImageTypeSpecifier imageType) {
         return true;
     }
 }

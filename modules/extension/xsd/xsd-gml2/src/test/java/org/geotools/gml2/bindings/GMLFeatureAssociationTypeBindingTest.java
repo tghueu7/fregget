@@ -22,8 +22,6 @@ import org.geotools.xml.Node;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GMLFeatureAssociationTypeBindingTest extends AbstractGMLBindingTest {
@@ -41,7 +39,8 @@ public class GMLFeatureAssociationTypeBindingTest extends AbstractGMLBindingTest
     //	public void testWithFeature() throws Exception {
     //		Feature f = createFeature(
     //			new String[]{"geom","count"},new Class[]{Point.class,Integer.class},
-    //			new Object[]{new GeometryFactory().createPoint(new Coordinate(1,1)), new Integer(2)}
+    //			new Object[]{new GeometryFactory().createPoint(new Coordinate(1,1)), new Integer
+    // (2)}
     //		);
     //		
     //		Node node = createNode(
@@ -58,7 +57,8 @@ public class GMLFeatureAssociationTypeBindingTest extends AbstractGMLBindingTest
     public void testWithoutFeature() throws Exception {
         Node node = createNode(featureAssociation, null, null, null, null);
 
-        GMLFeatureAssociationTypeBinding s = (GMLFeatureAssociationTypeBinding) getBinding(GML.FEATUREASSOCIATIONTYPE);
+        GMLFeatureAssociationTypeBinding s = (GMLFeatureAssociationTypeBinding) getBinding(GML
+                .FEATUREASSOCIATIONTYPE);
 
         try {
             assertNull(s.parse(featureAssociation, node, null));

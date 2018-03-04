@@ -29,8 +29,9 @@ import org.geotools.process.raster.classify.Classification;
 public class EqualIntervalBreaksOpImage extends ClassBreaksOpImage {
 
     public EqualIntervalBreaksOpImage(RenderedImage image, Integer numClasses, Double[][] extrema,
-            ROI roi, Integer[] bands, Integer xStart, Integer yStart, Integer xPeriod,
-            Integer yPeriod, Double noData) {
+                                      ROI roi, Integer[] bands, Integer xStart, Integer yStart, 
+                                      Integer xPeriod,
+                                      Integer yPeriod, Double noData) {
 
         super(image, numClasses, extrema, roi, bands, xStart, yStart, xPeriod, yPeriod, noData);
     }

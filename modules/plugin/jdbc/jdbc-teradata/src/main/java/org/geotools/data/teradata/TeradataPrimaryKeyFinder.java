@@ -35,7 +35,7 @@ import org.geotools.util.logging.Logging;
 
 /**
  * The Terradata Key Finder
- * 
+ *
  * @author Stéphane Brunner @ camptocamp
  */
 class TeradataPrimaryKeyFinder extends PrimaryKeyFinder {
@@ -76,8 +76,8 @@ class TeradataPrimaryKeyFinder extends PrimaryKeyFinder {
         if (result.next()) {
             String createViewSql = result.getString("RequestText");
             int as = createViewSql.toLowerCase().indexOf("as");
-            String[] parts = new String[]{ 
-                createViewSql.substring(0, as), createViewSql.substring(as+2)};
+            String[] parts = new String[]{
+                    createViewSql.substring(0, as), createViewSql.substring(as + 2)};
 /*
             String viewID = parts[0];
             String[] viewColumnNames = null;
@@ -95,9 +95,9 @@ class TeradataPrimaryKeyFinder extends PrimaryKeyFinder {
 				viewColumnNames = columnString.split("\"?\\s*,\\s*\"?");
 			}
 			*/
-			String select = parts[1].substring(parts[1].toLowerCase().indexOf("sel"));
+            String select = parts[1].substring(parts[1].toLowerCase().indexOf("sel"));
 
-			try {
+            try {
                 ResultSet viewResults = st.executeQuery(select);
                 ResultSetMetaData md = viewResults.getMetaData();
                 for (int i = 1; i <= md.getColumnCount(); i++) {

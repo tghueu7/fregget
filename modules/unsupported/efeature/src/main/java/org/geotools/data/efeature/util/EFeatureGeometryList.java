@@ -4,16 +4,15 @@ import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import org.geotools.data.efeature.EFeatureGeometry;
 import org.geotools.data.efeature.EFeatureProperty;
 import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * Unmodifiable list of {@link EFeatureGeometry} instances.
- * 
- * @author kengu
- * 
  *
+ * @author kengu
  * @source $URL$
  */
 public class EFeatureGeometryList<V extends Geometry> extends AbstractList<EFeatureGeometry<V>> {

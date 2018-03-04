@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -34,10 +34,10 @@ import org.geotools.resources.image.ImageUtilities;
 /**
  * Format grid coverage operation parameters in a tabular format.
  *
- * @since 2.1
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 final class CoverageParameterWriter extends ParameterWriter {
     /**
@@ -62,7 +62,7 @@ final class CoverageParameterWriter extends ParameterWriter {
             final InternationalString name = ((AbstractCoverage) value).getName();
             final Locale locale = getLocale();
             return (name != null) ? name.toString(locale) :
-                Vocabulary.getResources(locale).getString(VocabularyKeys.UNTITLED);
+                    Vocabulary.getResources(locale).getString(VocabularyKeys.UNTITLED);
         }
         if (value instanceof Interpolation) {
             return ImageUtilities.getInterpolationName((Interpolation) value);
@@ -72,7 +72,7 @@ final class CoverageParameterWriter extends ParameterWriter {
         }
         if (value instanceof Color) {
             final Color c = (Color) value;
-            return "RGB["+c.getRed()+','+c.getGreen()+','+c.getBlue()+']';
+            return "RGB[" + c.getRed() + ',' + c.getGreen() + ',' + c.getBlue() + ']';
         }
         return super.formatValue(value);
     }

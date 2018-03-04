@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -42,15 +42,10 @@ import org.opengis.feature.type.Name;
 /**
  * Implementation of {@link Repository} This class interprets the data source name as a file name or
  * an URL for a property file containing the ds creation parameters
- * 
+ * <p>
  * For shape files ending with .shp or SHP, the shape file could be passed as name
- * 
- * 
+ *
  * @author Christian Mueller
- * 
- *
- *
- *
  * @source $URL$
  */
 public class DSFinderRepository implements Repository {
@@ -128,13 +123,13 @@ public class DSFinderRepository implements Repository {
         return ds;
     }
 
-    
+
     /* (non-Javadoc)
      * @see org.geotools.data.Repository#getDataStores()
-     * 
-     * These datastores are for internal use only 
+     *
+     * These datastores are for internal use only
      */
-    public List<DataStore> getDataStores(){
+    public List<DataStore> getDataStores() {
         return Collections.emptyList();
 //        List<DataStore> available = new ArrayList<DataStore>( this.map.values() );
 //        return available;

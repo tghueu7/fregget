@@ -41,16 +41,14 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
  * <p>
  * Note this class and the iterators it returns are thread safe.
  * </p>
- * 
+ *
  * @author Gabriel Roldan (TOPP)
  * @version $Id$
- * @since 2.5
- *
- *
  * @source $URL$
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
- *         /org/geotools/arcsde/data/ArcSdeFeatureCollection.java $
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
+ * /org/geotools/arcsde/data/ArcSdeFeatureCollection.java $
  * @see FeatureCollection
+ * @since 2.5
  */
 public class ArcSdeFeatureCollection extends DataFeatureCollection {
 
@@ -65,7 +63,8 @@ public class ArcSdeFeatureCollection extends DataFeatureCollection {
     // private Session session;
 
     public ArcSdeFeatureCollection(final ArcSdeFeatureSource featureSource,
-            SimpleFeatureType queryType, final Query namedQuery) throws IOException {
+                                   SimpleFeatureType queryType, final Query namedQuery) throws 
+            IOException {
         this.featureSource = featureSource;
         this.query = namedQuery;
         this.childrenSchema = queryType;
@@ -122,7 +121,7 @@ public class ArcSdeFeatureCollection extends DataFeatureCollection {
     /**
      * Overrides to avoid the superclass' call to {@link #writer()} and it's
      * {@code UnsupportedOperationException}
-     * 
+     *
      * @return Iterator, should be closed closeIterator
      */
     @Override
@@ -144,7 +143,8 @@ public class ArcSdeFeatureCollection extends DataFeatureCollection {
         if (close == null) {
             // iterator probably failed during consturction !
         } else if (close instanceof FeatureReaderIterator) {
-            FeatureReaderIterator<SimpleFeature> iterator = (FeatureReaderIterator<SimpleFeature>) close;
+            FeatureReaderIterator<SimpleFeature> iterator = 
+                    (FeatureReaderIterator<SimpleFeature>) close;
             iterator.close(); // only needs package visability
         }
     }

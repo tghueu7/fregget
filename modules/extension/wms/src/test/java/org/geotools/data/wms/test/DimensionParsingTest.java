@@ -35,18 +35,16 @@ import org.geotools.util.URLs;
 import org.junit.Test;
 
 public class DimensionParsingTest {
-    
+
     static final class CapabilitiesClient extends MockHttpClient {
 
         private String capabilitiesFileName;
-        
-        
+
 
         public CapabilitiesClient(String capabilitiesFileName) {
             super();
             this.capabilitiesFileName = capabilitiesFileName;
         }
-
 
 
         public HTTPResponse get(URL url) throws IOException {
@@ -60,8 +58,10 @@ public class DimensionParsingTest {
             }
         }
 
-    };
-    
+    }
+
+    ;
+
 
     @Test
     public void testDimensionExtent130() throws Exception {
@@ -76,7 +76,7 @@ public class DimensionParsingTest {
         assertNotNull(time.getExtent());
         assertEquals("2016-01-08T12:45:00.000Z", time.getExtent().getValue());
     }
-    
+
     @Test
     public void testDimensionExtent111() throws Exception {
         MockHttpClient client = new CapabilitiesClient("dimensions1_1_1_Capabilities.xml");

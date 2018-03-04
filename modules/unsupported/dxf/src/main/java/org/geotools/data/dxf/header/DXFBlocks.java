@@ -14,8 +14,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DXFBlocks implements DXFConstants {
@@ -34,7 +32,8 @@ public class DXFBlocks implements DXFConstants {
         theBlocks = blocks;
     }
 
-    public static DXFBlocks readBlocks(DXFLineNumberReader br, DXFUnivers univers) throws IOException {
+    public static DXFBlocks readBlocks(DXFLineNumberReader br, DXFUnivers univers) throws 
+            IOException {
 
         Vector<DXFBlock> sBlocks = new Vector<DXFBlock>();
 

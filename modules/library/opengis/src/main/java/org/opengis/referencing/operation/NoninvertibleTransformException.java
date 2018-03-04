@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.referencing.operation;
@@ -14,13 +14,10 @@ package org.opengis.referencing.operation;
  * Thrown when {@link MathTransform#inverse} is
  * invoked but the transform can't be inverted.
  *
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
- *
- * @see org.opengis.referencing.operation.CoordinateOperationFactory
- *
- *
+ * @author Martin Desruisseaux (IRD)
  * @source $URL$
+ * @see org.opengis.referencing.operation.CoordinateOperationFactory
+ * @since GeoAPI 1.0
  */
 public class NoninvertibleTransformException extends TransformException {
     /**
@@ -37,8 +34,8 @@ public class NoninvertibleTransformException extends TransformException {
     /**
      * Construct an exception with the specified detail message.
      *
-     * @param  message The detail message. The detail message is saved
-     *         for later retrieval by the {@link #getMessage()} method.
+     * @param message The detail message. The detail message is saved
+     *                for later retrieval by the {@link #getMessage()} method.
      */
     public NoninvertibleTransformException(String message) {
         super(message);
@@ -49,10 +46,10 @@ public class NoninvertibleTransformException extends TransformException {
      * is typically an other {@link java.lang.geom.NoninvertibleTransformException}
      * emitted by Java2D.
      *
-     * @param  message The detail message. The detail message is saved
-     *         for later retrieval by the {@link #getMessage()} method.
-     * @param  cause The cause for this exception. The cause is saved
-     *         for later retrieval by the {@link #getCause()} method.
+     * @param message The detail message. The detail message is saved
+     *                for later retrieval by the {@link #getMessage()} method.
+     * @param cause   The cause for this exception. The cause is saved
+     *                for later retrieval by the {@link #getCause()} method.
      */
     public NoninvertibleTransformException(String message, Throwable cause) {
         super(message, cause);

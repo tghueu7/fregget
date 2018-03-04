@@ -27,7 +27,7 @@ import org.junit.Test;
 
 /**
  * Test UnidataTimeUtilities
- * 
+ *
  * @source $URL$
  */
 public final class NetCDFTimeUtilitiesTest {

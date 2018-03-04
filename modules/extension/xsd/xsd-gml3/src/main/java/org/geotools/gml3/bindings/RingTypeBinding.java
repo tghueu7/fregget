@@ -36,10 +36,8 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineString;
 
 /**
- * 
  * @author Erik van de Pol. B3Partners BV.
  * @author Andrea Aime
- * 
  * @source $URL$
  */
 public class RingTypeBinding extends AbstractComplexBinding implements Comparable {
@@ -80,7 +78,7 @@ public class RingTypeBinding extends AbstractComplexBinding implements Comparabl
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         List members = node.getChildValues("curveMember");
 
         if (members.isEmpty()) {
@@ -88,15 +86,15 @@ public class RingTypeBinding extends AbstractComplexBinding implements Comparabl
         } else if (members.size() == 1) {
             Object o = members.get(0);
             if (o.getClass() == LineString.class) {
-                LineString ls = (LineString)o;
+                LineString ls = (LineString) o;
                 return this.gf.createLinearRing(ls.getCoordinates());
-            }else{
+            } else {
                 return members.get(0);
             }
         } else {
             LineString curved = null;
             List<LineString> components = new ArrayList<>();
-            for (Iterator it = members.iterator(); it.hasNext();) {
+            for (Iterator it = members.iterator(); it.hasNext(); ) {
                 LineString ls = (LineString) it.next();
                 if (ls instanceof CurvedGeometry<?>) {
                     curved = ls;
@@ -110,7 +108,7 @@ public class RingTypeBinding extends AbstractComplexBinding implements Comparabl
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         // System.out.println(name.getLocalPart());
         if ("curveMember".equals(name.getLocalPart())) {
             if (object instanceof CompoundCurvedGeometry<?>) {
@@ -128,7 +126,7 @@ public class RingTypeBinding extends AbstractComplexBinding implements Comparabl
     public void setArcParameters(ArcParameters arcParameters) {
         this.arcParameters = arcParameters;
     }
-    
+
     public int compareTo(Object o) {
         if (o instanceof LinearRingTypeBinding) {
             return -1;

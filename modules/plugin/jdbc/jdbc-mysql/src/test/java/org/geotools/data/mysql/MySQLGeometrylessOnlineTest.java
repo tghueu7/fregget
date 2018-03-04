@@ -20,8 +20,6 @@ import org.geotools.jdbc.JDBCGeometrylessOnlineTest;
 import org.geotools.jdbc.JDBCGeometrylessTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class MySQLGeometrylessOnlineTest extends JDBCGeometrylessOnlineTest {

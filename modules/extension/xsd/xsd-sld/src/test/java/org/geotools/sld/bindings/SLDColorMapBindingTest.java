@@ -17,13 +17,12 @@
 package org.geotools.sld.bindings;
 
 import java.awt.Color;
+
 import org.geotools.styling.ColorMap;
 import org.geotools.styling.ColorMapEntry;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SLDColorMapBindingTest extends SLDTestSupport {

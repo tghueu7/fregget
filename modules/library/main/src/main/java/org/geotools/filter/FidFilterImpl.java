@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -17,6 +17,7 @@
 package org.geotools.filter;
 
 // Geotools dependencies
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -44,28 +45,30 @@ import org.opengis.filter.identity.Identifier;
  * makes use of its own implementation of FidFilter in order to reuse the
  * internal set of fids between uses.
  * </p>
- * 
+ *
  * @author Rob Hranac, TOPP
  * @author Justin Deoliveira, TOPP
- * 
+ * <p>
  * TODO: this class shoul be renamed to IdFilterImpl
- * 
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class FidFilterImpl extends AbstractFilter implements Id {
-    /** Logger for the default core module. */
-    private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org.geotools.core");
+    /**
+     * Logger for the default core module.
+     */
+    private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org" +
+            ".geotools.core");
 
-    /** List of the Identifer. */
+    /**
+     * List of the Identifer.
+     */
     private Set<Identifier> fids = new HashSet<Identifier>();
     private Set<String> ids = new HashSet<String>();
 
     /**
      * Empty constructor.
-     * 
+     *
      * @deprecated use {@link #FidFilterImpl(Set)}
      */
     protected FidFilterImpl() {
@@ -73,9 +76,8 @@ public class FidFilterImpl extends AbstractFilter implements Id {
 
     /**
      * Constructor with first fid set
-     * 
-     * @param initialFid
-     *            The type of comparison.
+     *
+     * @param initialFid The type of comparison.
      * @deprecated use {@link #FidFilterImpl(Set)}
      */
     protected FidFilterImpl(String initialFid) {
@@ -85,11 +87,10 @@ public class FidFilterImpl extends AbstractFilter implements Id {
     /**
      * Constructor which takes {@link org.opengis.filter.identity.Identifier},
      * not String.
-     * 
      */
     protected FidFilterImpl(Set/* <Identifier> */fids) {
         // check these are really identifiers
-        for (Iterator it = fids.iterator(); it.hasNext();) {
+        for (Iterator it = fids.iterator(); it.hasNext(); ) {
             Object next = it.next();
             if (!(next instanceof Identifier))
                 throw new ClassCastException("Fids must implement Identifier, "
@@ -103,9 +104,8 @@ public class FidFilterImpl extends AbstractFilter implements Id {
 
     /**
      * Returns all the fids in this filter.
-     * 
+     *
      * @return An array of all the fids in this filter.
-     * 
      * @deprecated use {@link #getIDs()}
      */
     public final String[] getFids() {
@@ -137,7 +137,7 @@ public class FidFilterImpl extends AbstractFilter implements Id {
 
     /**
      * Accessor method for fid set as Strings.
-     * 
+     *
      * @return the internally stored fids.
      */
     public Set<String> getFidsSet() {
@@ -146,7 +146,7 @@ public class FidFilterImpl extends AbstractFilter implements Id {
 
     /**
      * Helper method to pull out strings from featureId set.
-     * 
+     *
      * @return
      */
     private Set<String> fids() {
@@ -155,28 +155,26 @@ public class FidFilterImpl extends AbstractFilter implements Id {
 
     /**
      * Adds a feature ID to the filter.
-     * 
-     * @param fid
-     *            A single feature ID.
+     *
+     * @param fid A single feature ID.
      * @deprecated
      */
     public final void addFid(String fid) {
         LOGGER.finest("got fid: " + fid);
-        fids.add( new FeatureIdImpl(fid));
+        fids.add(new FeatureIdImpl(fid));
         ids.add(fid);
     }
 
     /**
      * Adds a collection of feature IDs to the filter.
-     * 
-     * @param fidsToAdd
-     *            A collection of feature IDs as strings.
+     *
+     * @param fidsToAdd A collection of feature IDs as strings.
      */
     public void addAllFids(Collection fidsToAdd) {
         if (fidsToAdd == null)
             return;
 
-        for (Iterator i = fidsToAdd.iterator(); i.hasNext();) {
+        for (Iterator i = fidsToAdd.iterator(); i.hasNext(); ) {
             String fid = (String) i.next();
             addFid(fid);
         }
@@ -184,16 +182,15 @@ public class FidFilterImpl extends AbstractFilter implements Id {
 
     /**
      * Removes a feature ID from the filter.
-     * 
-     * @param fid
-     *            A single feature ID.
+     *
+     * @param fid A single feature ID.
      */
     public final void removeFid(String fid) {
         if (fid == null) {
             return;
         }
 
-        for (Iterator f = fids.iterator(); f.hasNext();) {
+        for (Iterator f = fids.iterator(); f.hasNext(); ) {
             Identifier featureId = (Identifier) f.next();
             if (fid.equals(featureId.getID().toString())) {
                 f.remove();
@@ -205,15 +202,14 @@ public class FidFilterImpl extends AbstractFilter implements Id {
 
     /**
      * Removes a collection of feature IDs from the filter.
-     * 
-     * @param fidsToRemove
-     *            A collection of feature IDs.
+     *
+     * @param fidsToRemove A collection of feature IDs.
      */
     public void removeAllFids(Collection fidsToRemove) {
         if (fidsToRemove == null)
             return;
 
-        for (Iterator f = fidsToRemove.iterator(); f.hasNext();) {
+        for (Iterator f = fidsToRemove.iterator(); f.hasNext(); ) {
             String fid = (String) f.next();
             removeFid(fid);
         }
@@ -226,12 +222,10 @@ public class FidFilterImpl extends AbstractFilter implements Id {
      * dealing with <code>feature</code> has to support the request of the
      * expression <code>"@id"</code>
      * </p>
-     * 
-     * @param feature
-     *            Specified feature to examine.
-     * 
+     *
+     * @param feature Specified feature to examine.
      * @return <tt>true</tt> if the feature's ID matches an fid held by this
-     *         filter, <tt>false</tt> otherwise.
+     * filter, <tt>false</tt> otherwise.
      * @see SimpleFeaturePropertyAccessorFactory
      */
     public boolean evaluate(Object feature) {
@@ -239,19 +233,20 @@ public class FidFilterImpl extends AbstractFilter implements Id {
             return false;
         }
 
-        //NC - updated, using attributeexpressionimpl will be easiest, don't have to copy and paste lots of code				
+        //NC - updated, using attributeexpressionimpl will be easiest, don't have to copy and 
+        // paste lots of code				
         FilterFactory ff = CommonFactoryFinder.getFilterFactory(null);
         String evaluate = ff.property("@id").evaluate(feature, String.class);
-        if(evaluate == null) {
-            return false;		
+        if (evaluate == null) {
+            return false;
         } else {
             return ids.contains(evaluate);
         }
-	}
-	
+    }
+
     /**
      * Returns a string representation of this filter.
-     * 
+     *
      * @return String representation of the compare filter.
      */
     public String toString() {
@@ -276,10 +271,9 @@ public class FidFilterImpl extends AbstractFilter implements Id {
      * needs infomration from filter structure. Implementations should always
      * call: visitor.visit(this); It is importatant that this is not left to a
      * parent class unless the parents API is identical.
-     * 
-     * @param visitor
-     *            The visitor which requires access to this filter, the method
-     *            must call visitor.visit(this);
+     *
+     * @param visitor The visitor which requires access to this filter, the method
+     *                must call visitor.visit(this);
      */
     public Object accept(FilterVisitor visitor, Object extraData) {
         return visitor.visit(this, extraData);
@@ -287,10 +281,8 @@ public class FidFilterImpl extends AbstractFilter implements Id {
 
     /**
      * Returns a flag indicating object equality.
-     * 
-     * @param filter
-     *            the filter to test equality on.
-     * 
+     *
+     * @param filter the filter to test equality on.
      * @return String representation of the compare filter.
      */
     public boolean equals(Object filter) {
@@ -298,8 +290,8 @@ public class FidFilterImpl extends AbstractFilter implements Id {
 
         if ((filter != null) && (filter.getClass() == this.getClass())) {
             FidFilterImpl other = (FidFilterImpl) filter;
-            int filterType = Filters.getFilterType( other );
-            if(LOGGER.isLoggable(Level.FINEST)) {
+            int filterType = Filters.getFilterType(other);
+            if (LOGGER.isLoggable(Level.FINEST)) {
                 LOGGER.finest("condition: " + filterType);
             }
 
@@ -315,7 +307,7 @@ public class FidFilterImpl extends AbstractFilter implements Id {
 
     /**
      * Override of hashCode method.
-     * 
+     *
      * @return a hash code value for this fid filter object.
      */
     public int hashCode() {

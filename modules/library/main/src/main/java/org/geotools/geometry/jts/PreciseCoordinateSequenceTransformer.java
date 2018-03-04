@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -32,21 +32,19 @@ import com.vividsolutions.jts.geom.DefaultCoordinateSequenceFactory;
  * to represent the resulting coordinate sequence.
  *
  * @todo Not yet implemented.
- *
- *
- *
  * @source $URL$
  */
 public class PreciseCoordinateSequenceTransformer implements CoordinateSequenceTransformer {
     CoordinateSequenceFactory csFactory;
     double flatness;
-    
+
     public PreciseCoordinateSequenceTransformer() {
         csFactory = DefaultCoordinateSequenceFactory.instance();
     }
-    
+
     /**
-     * @see org.geotools.geometry.jts.CoordinateSequenceTransformer#transform(com.vividsolutions.jts.geom.CoordinateSequence, org.geotools.ct.MathTransform2D)
+     * @see org.geotools.geometry.jts.CoordinateSequenceTransformer#transform(com.vividsolutions
+     * .jts.geom.CoordinateSequence, org.geotools.ct.MathTransform2D)
      */
     public CoordinateSequence transform(CoordinateSequence cs, MathTransform transform)
             throws TransformException {
@@ -66,12 +64,13 @@ public class PreciseCoordinateSequenceTransformer implements CoordinateSequenceT
 //            coords.add(new Coordinate(point[0], point[1]));
 //        }
 //        return csFactory.create(coords);
-    	return null;
+        return null;
     }
 
     public double getFlatness() {
         return flatness;
     }
+
     public void setFlatness(double flatness) {
         this.flatness = flatness;
     }

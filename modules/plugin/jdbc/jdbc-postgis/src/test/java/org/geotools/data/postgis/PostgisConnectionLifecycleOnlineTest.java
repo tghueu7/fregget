@@ -21,7 +21,7 @@ import org.geotools.jdbc.JDBCTestSetup;
 
 
 public class PostgisConnectionLifecycleOnlineTest extends JDBCConnectionLifecycleOnlineTest {
-    
+
     protected JDBCTestSetup createTestSetup() {
         return new PostGISTestSetup();
     }

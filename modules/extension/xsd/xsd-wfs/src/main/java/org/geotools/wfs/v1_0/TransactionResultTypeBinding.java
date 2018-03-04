@@ -33,9 +33,9 @@ import org.w3c.dom.Element;
 
 /**
  * Binding object for the type http://www.opengis.net/wfs:TransactionResultsType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="TransactionResultsType"&gt;
  *      &lt;xsd:annotation&gt;
@@ -46,7 +46,8 @@ import org.w3c.dom.Element;
  *           &lt;/xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
  *      &lt;xsd:sequence&gt;
- *          &lt;xsd:element maxOccurs="unbounded" minOccurs="0" name="Action" type="wfs:ActionType"&gt;
+ *          &lt;xsd:element maxOccurs="unbounded" minOccurs="0" name="Action" 
+ *          type="wfs:ActionType"&gt;
  *              &lt;xsd:annotation&gt;
  *                  &lt;xsd:documentation&gt;
  *                    The Action element reports an exception code
@@ -64,9 +65,6 @@ import org.w3c.dom.Element;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class TransactionResultTypeBinding extends AbstractComplexEMFBinding {
@@ -90,22 +88,22 @@ public class TransactionResultTypeBinding extends AbstractComplexEMFBinding {
     public Class getType() {
         return TransactionResultsType.class;
     }
-    
+
     @Override
     public Element encode(Object object, Document document, Element value) throws Exception {
         Element e = super.encode(object, document, value);
-        
+
         TransactionResultsType resultType = (TransactionResultsType) object;
-        
+
         Element node = document.createElementNS(WFS.NAMESPACE, "Status");
         e.appendChild(node);
-        
+
         if (resultType.getAction().isEmpty()) {
             node.appendChild(document.createElementNS(WFS.NAMESPACE, "SUCCESS"));
         } else {
             node.appendChild(document.createElementNS(WFS.NAMESPACE, "FAILED"));
         }
-        
+
         return e;
     }
 }

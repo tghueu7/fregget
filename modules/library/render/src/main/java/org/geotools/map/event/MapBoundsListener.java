@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -18,6 +18,7 @@ package org.geotools.map.event;
 
 
 // J2SE dependencies
+
 import java.util.EventListener;
 
 
@@ -25,11 +26,8 @@ import java.util.EventListener;
  * The listener that's notified when a bounding box changes its area of interest.
  *
  * @author Andrea Aime
- *
- *
- * @source $URL$
  * @version $Id$
- *
+ * @source $URL$
  * @see AreaOfInterestEvent
  */
 public interface MapBoundsListener extends EventListener {

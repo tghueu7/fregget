@@ -35,7 +35,6 @@ import org.geotools.ows.ServiceException;
 /**
  * @author ian
  * @author Emanuele Tajariol (etj at geo-solutions dot it)
- * 
  */
 public class WMTSSpecification extends Specification {
 
@@ -63,7 +62,7 @@ public class WMTSSpecification extends Specification {
     }
 
     public GetTileRequest createGetTileRequest(URL server, Properties props,
-            WMTSCapabilities caps) {
+                                               WMTSCapabilities caps) {
         return new GetTileRequest(server, props, caps);
 
     }
@@ -76,7 +75,7 @@ public class WMTSSpecification extends Specification {
          * @param type
          */
         public GetTileRequest(URL onlineResource, Properties properties,
-                WMTSCapabilities capabilities) {
+                              WMTSCapabilities capabilities) {
             super(onlineResource, properties);
             this.type = capabilities.getType();
             this.capabilities = capabilities;
@@ -101,8 +100,7 @@ public class WMTSSpecification extends Specification {
         }
 
         /**
-         * @param type
-         *            the type to set
+         * @param type the type to set
          */
         public void setType(WMTSServiceType type) {
             this.type = type;
@@ -114,8 +112,7 @@ public class WMTSSpecification extends Specification {
         /**
          * Construct a Request compatible with a 1.0.1 WMTS.
          *
-         * @param urlGetCapabilities
-         *            URL of GetCapabilities document.
+         * @param urlGetCapabilities URL of GetCapabilities document.
          */
         public GetCapsRequest(URL urlGetCapabilities) {
             super(urlGetCapabilities);

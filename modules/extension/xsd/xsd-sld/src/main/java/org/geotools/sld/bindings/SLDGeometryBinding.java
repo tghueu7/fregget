@@ -19,16 +19,18 @@ package org.geotools.sld.bindings;
 import org.picocontainer.MutablePicoContainer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.expression.PropertyName;
 import org.geotools.xml.*;
 
 
 /**
  * Binding object for the element http://www.opengis.net/sld:Geometry.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="Geometry"&gt;
  *      &lt;xsd:annotation&gt;
@@ -48,9 +50,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDGeometryBinding extends AbstractComplexBinding {
@@ -97,7 +96,7 @@ public class SLDGeometryBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return node.getChildValue(PropertyName.class);
     }
 }

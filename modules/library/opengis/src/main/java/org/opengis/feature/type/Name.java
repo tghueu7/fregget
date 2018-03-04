@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2007 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.feature.type;
@@ -48,8 +48,6 @@ import org.opengis.annotation.UML;
  * </p>
  *
  * @author Jody Garnett (Refractions Research, Inc.)
- *
- *
  * @source $URL$
  */
 public interface Name {
@@ -84,14 +82,15 @@ public interface Name {
      * <p>
      * This separator is only used to construct a visually pleasing getURI()
      * result. The value to use as a separator depends on the registry
-     * or namespace you are working with. JNDI naming services have 
+     * or namespace you are working with. JNDI naming services have
      * been known to use "/" and ":". Referring to an element in an XMLSchema
      * document has been represented with a "#" symbol.
      * <p>
+     *
      * @return A separator (such as "/" or ":").
      */
     String getSeparator();
-    
+
     /**
      * Retrieve the "local" name.
      * <p>
@@ -103,6 +102,7 @@ public interface Name {
      * <li>GenericName.asLocalName()
      * <li>GenericName.name()
      * </ul>
+     *
      * @return local name (can be used in namespace lookup)
      */
     String getLocalPart();
@@ -127,6 +127,7 @@ public interface Name {
      * Both return: "gopher://localhost/example/name" as they indicate the same entry
      * in the namespace system (such as a Registry or JNDI naming service).
      * </p>
+     *
      * @return a complete URI constructed of namespace URI and the local part.
      */
     @UML(identifier = "parsedName", obligation = MANDATORY, specification = ISO_19103)

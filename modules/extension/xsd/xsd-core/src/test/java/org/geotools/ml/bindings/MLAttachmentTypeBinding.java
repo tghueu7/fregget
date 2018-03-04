@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.xml.namespace.QName;
+
 import org.geotools.ml.Attachment;
 import org.geotools.ml.MimeType;
 import org.geotools.xml.AbstractComplexBinding;
@@ -29,9 +30,9 @@ import org.geotools.xml.Node;
 
 /**
  * Strategy object for the type http://mails/refractions/net:attachmentType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="attachmentType"&gt;
  *      &lt;xsd:group ref="ml:attachmentContent"/&gt;
@@ -43,9 +44,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class MLAttachmentTypeBinding extends AbstractComplexBinding {
@@ -77,7 +75,7 @@ public class MLAttachmentTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         Map mime = (Map) node.getChildValue("mimetype");
         MimeType mimeType = new MimeType((String) mime.get("type"), (String) mime.get("subtype"));
 
@@ -87,7 +85,7 @@ public class MLAttachmentTypeBinding extends AbstractComplexBinding {
         List contentList = node.getChildValues("content");
         StringBuffer content = new StringBuffer();
 
-        for (Iterator itr = contentList.iterator(); itr.hasNext();) {
+        for (Iterator itr = contentList.iterator(); itr.hasNext(); ) {
             content.append((String) itr.next());
         }
 

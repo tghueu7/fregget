@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -54,8 +54,6 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.simplify.TopologyPreservingSimplifier;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class TestSetup {
@@ -138,7 +136,7 @@ public class TestSetup {
     }
 
     private static MemoryDataStore createMemStoreVertical(SimpleFeatureType typ, String name,
-            String fname) throws IOException {
+                                                          String fname) throws IOException {
         MemoryDataStore memDS = new MemoryDataStore();
 
         List<AttributeDescriptor> attrs = new ArrayList<AttributeDescriptor>();
@@ -154,14 +152,14 @@ public class TestSetup {
     }
 
     private static MemoryDataStore createMemStoreMixed(SimpleFeatureType typ, String name,
-            String fname) throws IOException {
+                                                       String fname) throws IOException {
         MemoryDataStore memDS = new MemoryDataStore();
         List<AttributeDescriptor> attrs = new ArrayList<AttributeDescriptor>();
         attrs.addAll(typ.getAttributeDescriptors());
         GeometryDescriptorImpl geom2Descr = new GeometryDescriptorImpl(typ.getGeometryDescriptor()
                 .getType(), new NameImpl("the_geom2"), typ.getGeometryDescriptor().getMinOccurs(),
                 typ.getGeometryDescriptor().getMaxOccurs(), typ.getGeometryDescriptor()
-                        .isNillable(), typ.getGeometryDescriptor().getDefaultValue());
+                .isNillable(), typ.getGeometryDescriptor().getDefaultValue());
         attrs.add(geom2Descr);
         SimpleFeatureTypeImpl sft = new SimpleFeatureTypeImpl(new NameImpl(fname), attrs, typ
                 .getGeometryDescriptor(), typ.isAbstract(), typ.getRestrictions(), typ.getSuper(),
@@ -173,7 +171,7 @@ public class TestSetup {
     }
 
     private static MemoryDataStore createMemStoreHorizontal(SimpleFeatureType typ, String name,
-            String fname) throws IOException {
+                                                            String fname) throws IOException {
         MemoryDataStore memDS = new MemoryDataStore();
 
         List<AttributeDescriptor> attrs = new ArrayList<AttributeDescriptor>();
@@ -182,23 +180,23 @@ public class TestSetup {
         GeometryDescriptorImpl geom2Descr = new GeometryDescriptorImpl(typ.getGeometryDescriptor()
                 .getType(), new NameImpl("the_geom5"), typ.getGeometryDescriptor().getMinOccurs(),
                 typ.getGeometryDescriptor().getMaxOccurs(), typ.getGeometryDescriptor()
-                        .isNillable(), typ.getGeometryDescriptor().getDefaultValue());
+                .isNillable(), typ.getGeometryDescriptor().getDefaultValue());
         attrs.add(geom2Descr);
         geom2Descr = new GeometryDescriptorImpl(typ.getGeometryDescriptor().getType(),
                 new NameImpl("the_geom10"), typ.getGeometryDescriptor().getMinOccurs(), typ
-                        .getGeometryDescriptor().getMaxOccurs(), typ.getGeometryDescriptor()
-                        .isNillable(), typ.getGeometryDescriptor().getDefaultValue());
+                .getGeometryDescriptor().getMaxOccurs(), typ.getGeometryDescriptor()
+                .isNillable(), typ.getGeometryDescriptor().getDefaultValue());
         attrs.add(geom2Descr);
         geom2Descr = new GeometryDescriptorImpl(typ.getGeometryDescriptor().getType(),
                 new NameImpl("the_geom20"), typ.getGeometryDescriptor().getMinOccurs(), typ
-                        .getGeometryDescriptor().getMaxOccurs(), typ.getGeometryDescriptor()
-                        .isNillable(), typ.getGeometryDescriptor().getDefaultValue());
+                .getGeometryDescriptor().getMaxOccurs(), typ.getGeometryDescriptor()
+                .isNillable(), typ.getGeometryDescriptor().getDefaultValue());
         attrs.add(geom2Descr);
 
         geom2Descr = new GeometryDescriptorImpl(typ.getGeometryDescriptor().getType(),
                 new NameImpl("the_geom50"), typ.getGeometryDescriptor().getMinOccurs(), typ
-                        .getGeometryDescriptor().getMaxOccurs(), typ.getGeometryDescriptor()
-                        .isNillable(), typ.getGeometryDescriptor().getDefaultValue());
+                .getGeometryDescriptor().getMaxOccurs(), typ.getGeometryDescriptor()
+                .isNillable(), typ.getGeometryDescriptor().getDefaultValue());
         attrs.add(geom2Descr);
 
         SimpleFeatureTypeImpl sft = new SimpleFeatureTypeImpl(new NameImpl(fname), attrs, typ
@@ -211,7 +209,7 @@ public class TestSetup {
     }
 
     private static void addGeneralizedFeatureVertical(SimpleFeature feature, MemoryDataStore memDS,
-            double distance) throws IOException {
+                                                      double distance) throws IOException {
         Geometry geomNew = TopologyPreservingSimplifier.simplify((Geometry) feature
                 .getDefaultGeometry(), distance);
         SimpleFeature feature_gen = SimpleFeatureBuilder.deep(feature);
@@ -222,7 +220,8 @@ public class TestSetup {
     }
 
     private static void addGeneralizedFeatureMixed(SimpleFeature feature, MemoryDataStore memDS,
-            double distance1, double distance2) throws IOException {
+                                                   double distance1, double distance2) throws 
+            IOException {
         SimpleFeature feature_gen2 = SimpleFeatureBuilder.template(memDS.getSchema(memDS
                 .getTypeNames()[0]), feature.getID());
         feature_gen2.setAttribute("CAT_ID", feature.getAttribute("CAT_ID"));
@@ -235,7 +234,8 @@ public class TestSetup {
         memDS.addFeature(feature_gen2);
     }
 
-    private static void addGeneralizedFeatureHorizontal(SimpleFeature feature, MemoryDataStore memDS)
+    private static void addGeneralizedFeatureHorizontal(SimpleFeature feature, MemoryDataStore 
+            memDS)
             throws IOException {
         SimpleFeature feature_gen2 = SimpleFeatureBuilder.template(memDS.getSchema(memDS
                 .getTypeNames()[0]), feature.getID());
@@ -306,8 +306,7 @@ public class TestSetup {
                 fNew.setAttributes(f.getAttributes());
                 writer.write();
             }
-        }
-        finally {
+        } finally {
             it.close();
         }
         writer.close();
@@ -315,9 +314,9 @@ public class TestSetup {
         shapeDS.dispose();
 
         Toolbox tb = new Toolbox();
-        tb.parse(new String[] { "generalize",
+        tb.parse(new String[]{"generalize",
                 "target" + File.separator + "0" + File.separator + "streams.shp", "target",
-                "5.0,10.0,20.0,50.0" });
+                "5.0,10.0,20.0,50.0"});
 
     }
 

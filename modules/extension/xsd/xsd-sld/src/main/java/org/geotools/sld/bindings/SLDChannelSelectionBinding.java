@@ -19,7 +19,9 @@ package org.geotools.sld.bindings;
 import org.picocontainer.MutablePicoContainer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 import javax.xml.namespace.QName;
+
 import org.geotools.styling.ChannelSelection;
 import org.geotools.styling.SelectedChannelType;
 import org.geotools.styling.StyleFactory;
@@ -28,9 +30,9 @@ import org.geotools.xml.*;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:ChannelSelection.
- *
  * <p>
- *
+ * <p>
+ * <p>
  * <pre>
  *         <code>
  *   &lt;xsd:element name=&quot;ChannelSelection&quot;&gt;
@@ -54,13 +56,10 @@ import org.geotools.xml.*;
  *
  * </code>
  *         </pre>
- *
+ * <p>
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDChannelSelectionBinding extends AbstractComplexBinding {
@@ -109,22 +108,21 @@ public class SLDChannelSelectionBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        
+            throws Exception {
+
         ChannelSelection cs = styleFactory.createChannelSelection(null);
-        
+
         if (node.hasChild("GrayChannel")) {
             cs.setGrayChannel((SelectedChannelType) node.getChildValue("GrayChannel"));
-        }
-        else {
-            SelectedChannelType[] rgb = new SelectedChannelType[] {
-                (SelectedChannelType) node.getChildValue("RedChannel"),
-                (SelectedChannelType) node.getChildValue("GreenChannel"),
-                (SelectedChannelType) node.getChildValue("BlueChannel")
+        } else {
+            SelectedChannelType[] rgb = new SelectedChannelType[]{
+                    (SelectedChannelType) node.getChildValue("RedChannel"),
+                    (SelectedChannelType) node.getChildValue("GreenChannel"),
+                    (SelectedChannelType) node.getChildValue("BlueChannel")
             };
             cs.setRGBChannels(rgb);
         }
-        
+
         return cs;
     }
 }

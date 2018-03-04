@@ -2,9 +2,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2017, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -14,7 +14,7 @@
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
- *    
+ *
  */
 
 package org.geotools.process.geometry;
@@ -63,7 +63,7 @@ public class PolygonLabelFunction implements Function {
 
         Expression toleranceExpression = parameters.get(1);
         double tolerance = toleranceExpression.evaluate(object, double.class);
-        
+
         Geometry point = PolyLabeller.getPolylabel(polygon, tolerance);
 
         return Converters.convert(point, context); // convert to requested format

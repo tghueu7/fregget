@@ -49,7 +49,7 @@ import org.opengis.filter.sort.SortBy;
 /**
  * The central class that perform transformations on filters, queries and feature types. Can invert
  * itself and return a {@link Transformer} that goes the other direction.
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 class Transformer {
@@ -69,7 +69,7 @@ class Transformer {
     SimpleFeatureType schema;
 
     public Transformer(SimpleFeatureSource source, Name name, List<Definition> definitions,
-            SimpleFeatureType targetSchema) throws IOException {
+                       SimpleFeatureType targetSchema) throws IOException {
         this.source = source;
         this.name = name;
         this.definitions = definitions;
@@ -88,7 +88,7 @@ class Transformer {
 
     /**
      * Locates all geometry properties in the transformed type
-     * 
+     *
      * @return
      */
     List<String> getGeometryPropertyNames() {
@@ -106,7 +106,7 @@ class Transformer {
     /**
      * Computes the target schema, first trying a static analysis, and if that one does not work,
      * evaluating the expressions against a sample feature
-     * 
+     *
      * @param typeName
      * @param definitions
      * @return
@@ -114,11 +114,12 @@ class Transformer {
      */
     private SimpleFeatureType computeTargetSchema(Name typeName, List<Definition> definitions)
             throws IOException {
-        SimpleFeatureType target = computeTargetSchemaStatically(source.getSchema(), typeName, definitions);
-        if(target != null) {
+        SimpleFeatureType target = computeTargetSchemaStatically(source.getSchema(), typeName, 
+                definitions);
+        if (target != null) {
             return target;
         }
-        
+
         // get a sample feature, used as a last resort in case we cannot get a fix on the type
         // by static analysis (we don't use it first since the feature coudl contain null
         // values that result the expression into returning us a null
@@ -134,11 +135,11 @@ class Transformer {
                 iterator.close();
             }
         }
-        
-        if(sample == null) {
+
+        if (sample == null) {
             throw new IllegalStateException("Cannot compute the target feature type from the " +
-            		"definitions by static analysis, and the source does not have any feature " +
-            		"that we can use as a sample to compute the target type dynamically");
+                    "definitions by static analysis, and the source does not have any feature " +
+                    "that we can use as a sample to compute the target type dynamically");
         }
 
         // build the output feature type
@@ -152,25 +153,26 @@ class Transformer {
         return tb.buildFeatureType();
     }
 
-    private SimpleFeatureType computeTargetSchemaStatically(SimpleFeatureType originalSchema, Name typeName,
-            List<Definition> definitions) {
+    private SimpleFeatureType computeTargetSchemaStatically(SimpleFeatureType originalSchema, 
+                                                            Name typeName,
+                                                            List<Definition> definitions) {
         // build the output feature type
         SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
         tb.setName(typeName);
         for (Definition definition : definitions) {
             AttributeDescriptor ad = definition.getAttributeDescriptor(originalSchema);
-            if(ad == null) {
+            if (ad == null) {
                 return null;
             }
             tb.add(ad);
         }
-        
+
         return tb.buildFeatureType();
     }
 
     /**
      * Utility method to transform feature ids based on the convention &lt;type name&gt;.&lt;id&gt;.
-     *
+     * <p>
      * <p>
      * Should be invoked by classes using this Transformer instance to build transformed features.
      * </p>
@@ -208,7 +210,7 @@ class Transformer {
     /**
      * Returns the list of original names for the specified properties. If a property does not have
      * an equivalent original name (it is not a simple rename) it won't be returned
-     * 
+     *
      * @param names
      * @return
      */
@@ -224,8 +226,8 @@ class Transformer {
             } else {
                 if (LOGGER.isLoggable(Level.FINE)) {
                     LOGGER.log(Level.FINE, "The attribute {0} has a general transformation "
-                            + "{1}, can't associate it with an original attribute name ",
-                            new Object[] { name, ex });
+                                    + "{1}, can't associate it with an original attribute name ",
+                            new Object[]{name, ex});
                 }
 
             }
@@ -237,7 +239,7 @@ class Transformer {
     /**
      * Injects the transformed attribute expressions into the filter to make it runnable against the
      * original data
-     * 
+     *
      * @param filter
      * @return
      */
@@ -249,7 +251,7 @@ class Transformer {
     /**
      * Transforms a query so that it can be run against the original feature source and provides all
      * the necessary attributes to evaluate the requested expressions
-     * 
+     *
      * @param query
      * @return
      */
@@ -287,7 +289,7 @@ class Transformer {
 
     /**
      * Transforms a SortBy[] so that it can be sent down to the original store
-     * 
+     *
      * @param query
      * @return
      */
@@ -323,7 +325,7 @@ class Transformer {
 
     /**
      * Builds the list of original attributes required to run the specified query
-     * 
+     *
      * @param source
      * @param query
      * @return

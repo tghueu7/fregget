@@ -24,8 +24,6 @@ import org.geotools.xml.Binding;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class BinaryLogicOpTypeBindingTest extends FilterTestSupport {
@@ -52,11 +50,11 @@ public class BinaryLogicOpTypeBindingTest extends FilterTestSupport {
     public void testAndEncode() throws Exception {
         Document dom = encode(FilterMockData.and(), OGC.And);
         assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyIsEqualTo.getLocalPart())
-               .getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyIsEqualTo.getLocalPart())
+                        .getLength());
         assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyIsNotEqualTo.getLocalPart())
-               .getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyIsNotEqualTo.getLocalPart())
+                        .getLength());
     }
 
     public void testOrType() {
@@ -78,10 +76,10 @@ public class BinaryLogicOpTypeBindingTest extends FilterTestSupport {
     public void testOrEncode() throws Exception {
         Document dom = encode(FilterMockData.or(), OGC.Or);
         assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyIsEqualTo.getLocalPart())
-               .getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyIsEqualTo.getLocalPart())
+                        .getLength());
         assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyIsNotEqualTo.getLocalPart())
-               .getLength());
+                dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyIsNotEqualTo.getLocalPart())
+                        .getLength());
     }
 }

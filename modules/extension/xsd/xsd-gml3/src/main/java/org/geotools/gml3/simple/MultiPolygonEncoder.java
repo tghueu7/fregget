@@ -28,7 +28,7 @@ import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * Encodes a GML3 multi polygon
- * 
+ *
  * @author Justin Deoliveira, OpenGeo
  * @author Andrea Aime - GeoSolutions
  */
@@ -67,6 +67,6 @@ class MultiPolygonEncoder extends GeometryEncoder<MultiPolygon> {
 
         handler.endElement(multiSurface);
     }
-    
+
 
 }

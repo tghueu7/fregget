@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,6 +17,7 @@
 package org.geotools.maven.taglet;
 
 import java.util.Map;
+
 import com.sun.javadoc.Tag;
 import com.sun.tools.doclets.Taglet;
 
@@ -25,9 +26,9 @@ import com.sun.tools.doclets.Taglet;
  * The <code>@tutorial</code> tag. This tag expects a link toward a tutorial page on the
  * Geotools wiki pages (Confluence).
  *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
  */
 public final class Tutorial implements Taglet {
     /**
@@ -35,9 +36,9 @@ public final class Tutorial implements Taglet {
      *
      * @param tagletMap the map to register this tag to.
      */
-    public static void register(final Map<String,Taglet> tagletMap) {
-       final Tutorial tag = new Tutorial();
-       tagletMap.put(tag.getName(), tag);
+    public static void register(final Map<String, Taglet> tagletMap) {
+        final Tutorial tag = new Tutorial();
+        tagletMap.put(tag.getName(), tag);
     }
 
     /**
@@ -128,7 +129,7 @@ public final class Tutorial implements Taglet {
      * @return A string representation of the given tag.
      */
     public String toString(final Tag tag) {
-        return toString(new Tag[] {tag});
+        return toString(new Tag[]{tag});
     }
 
     /**
@@ -139,15 +140,15 @@ public final class Tutorial implements Taglet {
      * @return A string representation of the given tags.
      */
     public String toString(final Tag[] tags) {
-        if (tags==null || tags.length==0) {
+        if (tags == null || tags.length == 0) {
             return "";
         }
         final StringBuilder buffer = new StringBuilder("\n<DT><B>Tutorial:</B></DT>");
-        for (int i=0; i<tags.length; i++) {
-            final String url   = tags[i].text().trim();
-            final String title = url.substring(url.lastIndexOf('/')+1).replace('+',' ');
-            buffer.append('\n').append(i==0 ? "<DD>" : "    ")
-                .append("<A HREF=\"").append(url).append("\">").append(title).append("</A>");
+        for (int i = 0; i < tags.length; i++) {
+            final String url = tags[i].text().trim();
+            final String title = url.substring(url.lastIndexOf('/') + 1).replace('+', ' ');
+            buffer.append('\n').append(i == 0 ? "<DD>" : "    ")
+                    .append("<A HREF=\"").append(url).append("\">").append(title).append("</A>");
         }
         return buffer.append("</DD>\n").toString();
     }

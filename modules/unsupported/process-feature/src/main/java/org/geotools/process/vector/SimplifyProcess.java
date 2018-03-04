@@ -39,20 +39,23 @@ import com.vividsolutions.jts.simplify.TopologyPreservingSimplifier;
 /**
  * A process simplifying the geometries in the input feature collection according to a specified
  * distance, and using either a topology preserving or a Douglas-Peuker algorithm
- * 
- * @author Andrea Aime - OpenGeo
- * 
  *
+ * @author Andrea Aime - OpenGeo
  * @source $URL$
  */
-@DescribeProcess(title = "Simplify", description = "Simplifies feature geometry by reducing vertices using Douglas-Peucker simplification.")
+@DescribeProcess(title = "Simplify", description = "Simplifies feature geometry by reducing " +
+        "vertices using Douglas-Peucker simplification.")
 public class SimplifyProcess implements VectorProcess {
 
     @DescribeResult(name = "result", description = "The simplified feature collection")
     public SimpleFeatureCollection execute(
-            @DescribeParameter(name = "features", description = "Input feature collection") SimpleFeatureCollection features,
-            @DescribeParameter(name = "distance", description = "Simplification distance tolerance") double distance,
-            @DescribeParameter(name = "preserveTopology", description = "If True, ensures that simplified features are topologically valid",  defaultValue = "false") boolean preserveTopology)
+            @DescribeParameter(name = "features", description = "Input feature collection") 
+                    SimpleFeatureCollection features,
+            @DescribeParameter(name = "distance", description = "Simplification distance " +
+                    "tolerance") double distance,
+            @DescribeParameter(name = "preserveTopology", description = "If True, ensures that " +
+                    "simplified features are topologically valid", defaultValue = "false") 
+                    boolean preserveTopology)
             throws ProcessException {
         if (distance < 0) {
             throw new ProcessException("Invalid distance, it should be a positive number");
@@ -67,7 +70,7 @@ public class SimplifyProcess implements VectorProcess {
         boolean preserveTopology;
 
         public SimplifyingFeatureCollection(SimpleFeatureCollection delegate, double distance,
-                boolean preserveTopology) {
+                                            boolean preserveTopology) {
             super(delegate);
             this.distance = distance;
             this.preserveTopology = preserveTopology;
@@ -90,7 +93,7 @@ public class SimplifyProcess implements VectorProcess {
         SimpleFeatureBuilder fb;
 
         public SimplifyingFeatureIterator(SimpleFeatureIterator delegate, double distance,
-                boolean preserveTopology, SimpleFeatureType schema) {
+                                          boolean preserveTopology, SimpleFeatureType schema) {
             this.delegate = delegate;
             this.distance = distance;
             this.preserveTopology = preserveTopology;

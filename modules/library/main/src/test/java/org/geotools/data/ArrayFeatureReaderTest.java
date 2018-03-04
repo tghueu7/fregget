@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -34,8 +34,6 @@ import org.opengis.feature.simple.SimpleFeatureType;
  * Tests the ArrayFeatureReader class
  *
  * @author jones
- *
- *
  * @source $URL$
  */
 public class ArrayFeatureReaderTest extends TestCase {
@@ -47,13 +45,13 @@ public class ArrayFeatureReaderTest extends TestCase {
 
     protected void setUp() throws Exception {
         type = DataUtilities.createType("TestType", "geom:Geometry");
-        features = new SimpleFeature[] {
-            SimpleFeatureBuilder.build( type, new Object[] { null }, "f1" ), 
-            SimpleFeatureBuilder.build( type, new Object[] { null }, "f2" ),
-            SimpleFeatureBuilder.build( type, new Object[] { null }, "f3" ),
-            SimpleFeatureBuilder.build( type, new Object[] { null }, "f4" ),
-            SimpleFeatureBuilder.build( type, new Object[] { null }, "f5" ),
-            SimpleFeatureBuilder.build( type, new Object[] { null }, "f6" )
+        features = new SimpleFeature[]{
+                SimpleFeatureBuilder.build(type, new Object[]{null}, "f1"),
+                SimpleFeatureBuilder.build(type, new Object[]{null}, "f2"),
+                SimpleFeatureBuilder.build(type, new Object[]{null}, "f3"),
+                SimpleFeatureBuilder.build(type, new Object[]{null}, "f4"),
+                SimpleFeatureBuilder.build(type, new Object[]{null}, "f5"),
+                SimpleFeatureBuilder.build(type, new Object[]{null}, "f6")
         };
 
         DefaultFeatureCollection collection = new DefaultFeatureCollection();
@@ -61,7 +59,8 @@ public class ArrayFeatureReaderTest extends TestCase {
         collection.addAll(list);
         arrayReader = new CollectionFeatureReader(features);
         collectionReader = new CollectionFeatureReader(list, type);
-        featureCollectionReader = new CollectionFeatureReader((SimpleFeatureCollection)collection, type);
+        featureCollectionReader = new CollectionFeatureReader((SimpleFeatureCollection) 
+                collection, type);
     }
 
     /**
@@ -112,8 +111,8 @@ public class ArrayFeatureReaderTest extends TestCase {
         testHasNext(featureCollectionReader);
     }
 
-    private void testHasNext(FeatureReader <SimpleFeatureType, SimpleFeature> arrayReader)
-        throws IOException, IllegalAttributeException {
+    private void testHasNext(FeatureReader<SimpleFeatureType, SimpleFeature> arrayReader)
+            throws IOException, IllegalAttributeException {
         assertTrue(arrayReader.hasNext());
         arrayReader.next();
         assertTrue(arrayReader.hasNext());

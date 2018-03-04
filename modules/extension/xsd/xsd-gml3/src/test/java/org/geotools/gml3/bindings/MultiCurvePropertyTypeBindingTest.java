@@ -22,8 +22,6 @@ import org.w3c.dom.Document;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class MultiCurvePropertyTypeBindingTest extends GML3TestSupport {
@@ -31,6 +29,7 @@ public class MultiCurvePropertyTypeBindingTest extends GML3TestSupport {
         Document dom = encode(GML3MockData.multiLineString(), GML.multiCurveProperty);
 
         assertEquals(2,
-            dom.getElementsByTagNameNS(GML.NAMESPACE, GML.LineString.getLocalPart()).getLength());
+                dom.getElementsByTagNameNS(GML.NAMESPACE, GML.LineString.getLocalPart())
+                        .getLength());
     }
 }

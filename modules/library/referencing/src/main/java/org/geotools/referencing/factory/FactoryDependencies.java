@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2007-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -52,12 +52,10 @@ import org.geotools.resources.X364;
 /**
  * Build a tree of factory dependencies.
  *
- * @since 2.4
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @since 2.4
  */
 public class FactoryDependencies {
     /**
@@ -65,25 +63,25 @@ public class FactoryDependencies {
      * the properties printed between parenthesis by {@link #createTree()}.
      */
     private static final Class[] TYPES = {
-        CRSFactory                          .class,
-        CRSAuthorityFactory                 .class,
-        CSFactory                           .class,
-        CSAuthorityFactory                  .class,
-        DatumFactory                        .class,
-        DatumAuthorityFactory               .class,
-        CoordinateOperationFactory          .class,
-        CoordinateOperationAuthorityFactory .class,
-        BufferedFactory                     .class,
-        OptionalFactory                     .class,
-        Factory                             .class  // Processed in a special way.
+            CRSFactory.class,
+            CRSAuthorityFactory.class,
+            CSFactory.class,
+            CSAuthorityFactory.class,
+            DatumFactory.class,
+            DatumAuthorityFactory.class,
+            CoordinateOperationFactory.class,
+            CoordinateOperationAuthorityFactory.class,
+            BufferedFactory.class,
+            OptionalFactory.class,
+            Factory.class  // Processed in a special way.
     };
 
     /**
      * Labels for {@link #TYPES}.
      */
     private static final String[] TYPE_LABELS = {
-        "crs", "crs", "cs", "cs", "datum", "datum", "operation", "operation",
-        "buffered", "optional", "registered"
+            "crs", "crs", "cs", "cs", "datum", "datum", "operation", "operation",
+            "buffered", "optional", "registered"
     };
 
     /**
@@ -160,7 +158,7 @@ public class FactoryDependencies {
     /**
      * Prints the dependencies as a tree to the specified writer.
      *
-     * @param  out The writer where to print the tree.
+     * @param out The writer where to print the tree.
      * @throws IOException if an error occured while writting to the stream.
      */
     public void print(final Writer out) throws IOException {
@@ -194,7 +192,8 @@ public class FactoryDependencies {
                             throw new AssertionError(); // Should never happen.
                         }
                     } else {
-                        child = OptionalDependencies.createTreeNode(String.valueOf(element), element, false);
+                        child = OptionalDependencies.createTreeNode(String.valueOf(element), 
+                                element, false);
                     }
                     root.add(child);
                 }
@@ -234,7 +233,7 @@ public class FactoryDependencies {
         buffer.append(']');
         if (attributes) {
             boolean hasFound = false;
-            for (int i=0; i<TYPES.length; i++) {
+            for (int i = 0; i < TYPES.length; i++) {
                 final Class type = TYPES[i];
                 if (!type.isInstance(factory)) {
                     continue;

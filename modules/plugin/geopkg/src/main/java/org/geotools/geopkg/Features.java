@@ -28,7 +28,7 @@ import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
  * Feature utility class.
- * 
+ *
  * @author Justin Deoliveira, OpenGeo
  */
 public class Features {
@@ -77,7 +77,7 @@ public class Features {
             public SimpleFeature next() throws IOException {
                 return (SimpleFeature) w.next();
             }
-            
+
             @Override
             public boolean hasNext() throws IOException {
                 return w.hasNext();
@@ -92,7 +92,7 @@ public class Features {
             public void remove() throws IOException {
                 w.remove();
             }
-            
+
             @Override
             public void close() throws IOException {
                 w.close();

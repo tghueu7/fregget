@@ -39,20 +39,25 @@ import org.opengis.feature.type.PropertyDescriptor;
 
 /**
  * A process providing the union between two feature collections
- * 
+ *
  * @author Gianni Barrotta - Sinergis
  * @author Andrea Di Nora - Sinergis
  * @author Pietro Arena - Sinergis
  */
-@DescribeProcess(title = "Union Feature Collections", description = "Returns single feature collection containing all features from two input feature collections.  The output attribute schema is a combination of the attributes from the inputs.  Attributes with same name but different types will be converted to strings.")
+@DescribeProcess(title = "Union Feature Collections", description = "Returns single feature " +
+        "collection containing all features from two input feature collections.  The output " +
+        "attribute schema is a combination of the attributes from the inputs.  Attributes with " +
+        "same name but different types will be converted to strings.")
 public class UnionFeatureCollection implements VectorProcess {
 
     static final String SCHEMA_NAME = "Union_Layer";
 
     @DescribeResult(name = "result", description = "Output feature collection")
     public SimpleFeatureCollection execute(
-            @DescribeParameter(name = "first", description = "First input feature collection") SimpleFeatureCollection firstFeatures,
-            @DescribeParameter(name = "second", description = "Second feature collection") SimpleFeatureCollection secondFeatures)
+            @DescribeParameter(name = "first", description = "First input feature collection") 
+                    SimpleFeatureCollection firstFeatures,
+            @DescribeParameter(name = "second", description = "Second feature collection") 
+                    SimpleFeatureCollection secondFeatures)
             throws ClassNotFoundException {
         if (!(firstFeatures.features().next().getDefaultGeometry().getClass().equals(secondFeatures
                 .features().next().getDefaultGeometry().getClass()))) {
@@ -69,7 +74,8 @@ public class UnionFeatureCollection implements VectorProcess {
         SimpleFeatureType schema;
 
         public UnitedFeatureCollection(SimpleFeatureCollection delegate,
-                SimpleFeatureCollection features) throws ClassNotFoundException {
+                                       SimpleFeatureCollection features) throws 
+                ClassNotFoundException {
             super(delegate);
             this.features = features;
 
@@ -112,6 +118,7 @@ public class UnionFeatureCollection implements VectorProcess {
             return new UnitedFeatureIterator(delegate.features(), delegate, features.features(),
                     features, getSchema());
         }
+
         @Override
         public SimpleFeatureType getSchema() {
             return this.schema;
@@ -153,8 +160,10 @@ public class UnionFeatureCollection implements VectorProcess {
         int iterationIndex = 0;
 
         public UnitedFeatureIterator(SimpleFeatureIterator firstDelegate,
-                SimpleFeatureCollection firstCollection, SimpleFeatureIterator secondDelegate,
-                SimpleFeatureCollection secondCollection, SimpleFeatureType schema) {
+                                     SimpleFeatureCollection firstCollection, 
+                                     SimpleFeatureIterator secondDelegate,
+                                     SimpleFeatureCollection secondCollection, SimpleFeatureType 
+                                             schema) {
             this.firstDelegate = firstDelegate;
             this.secondDelegate = secondDelegate;
             this.firstCollection = firstCollection;

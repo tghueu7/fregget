@@ -38,14 +38,15 @@ import javax.xml.parsers.SAXParserFactory;
 
 /**
  * Binding object for the type http://www.opengis.net/wfs/2.0:QueryExpressionTextType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:complexType mixed="true" name="QueryExpressionTextType"&gt;
  *      &lt;xsd:choice&gt;
- *          &lt;xsd:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/&gt;
+ *          &lt;xsd:any maxOccurs="unbounded" minOccurs="0" namespace="##other" 
+ *          processContents="skip"/&gt;
  *          &lt;xsd:any maxOccurs="unbounded" minOccurs="0"
  *              namespace="##targetNamespace" processContents="skip"/&gt;
  *      &lt;/xsd:choice&gt;
@@ -53,23 +54,24 @@ import javax.xml.parsers.SAXParserFactory;
  *          type="wfs:ReturnFeatureTypesListType" use="required"/&gt;
  *      &lt;xsd:attribute name="language" type="xsd:anyURI" use="required"/&gt;
  *      &lt;xsd:attribute default="false" name="isPrivate" type="xsd:boolean"/&gt;
- *  &lt;/xsd:complexType&gt; 
- * 	
+ *  &lt;/xsd:complexType&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
  */
 public class QueryExpressionTextTypeBinding extends AbstractComplexEMFBinding {
 
     NamespaceSupport namespaceContext;
-    
+
     public QueryExpressionTextTypeBinding(Wfs20Factory factory, NamespaceSupport namespaceContext) {
         super(factory, QueryExpressionTextType.class);
         this.namespaceContext = namespaceContext;
     }
+
     /**
      * @generated
      */
@@ -79,18 +81,18 @@ public class QueryExpressionTextTypeBinding extends AbstractComplexEMFBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
         //parsing handled by QueryExpressionTextDelegate
         return null;
     }
-    
+
     @Override
     public Element encode(Object object, Document document, Element value) throws Exception {
         Element e = super.encode(object, document, value);
-        
+
         QueryExpressionTextType qe = (QueryExpressionTextType) object;
         if (!qe.isIsPrivate()) {
             //include the query text
@@ -103,16 +105,16 @@ public class QueryExpressionTextTypeBinding extends AbstractComplexEMFBinding {
             dbf.setNamespaceAware(true);
 
             ConvertToDomHandler h = new ConvertToDomHandler(
-                dbf.newDocumentBuilder().newDocument(), namespaceContext);
-            
+                    dbf.newDocumentBuilder().newDocument(), namespaceContext);
+
             SAXParser saxp = SAXParserFactory.newInstance().newSAXParser();
             saxp.parse(new ByteArrayInputStream(qe.getValue().getBytes()), h);
-            
+
             Document d = h.getDocument();
             e.appendChild(document.importNode(d.getDocumentElement(), true));
         }
-        
+
         return e;
-        
+
     }
 }

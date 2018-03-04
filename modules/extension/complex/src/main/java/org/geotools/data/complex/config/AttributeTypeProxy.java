@@ -27,7 +27,6 @@ import org.opengis.filter.Filter;
 import org.opengis.util.InternationalString;
 
 /**
- * 
  * @author Gabriel Roldan (Axios Engineering)
  * @version $Id$
  * @source $URL$

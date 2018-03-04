@@ -29,9 +29,9 @@ import com.vividsolutions.jts.geom.MultiLineString;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:MultiLineStringType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="MultiLineStringType"&gt;
  *      &lt;annotation&gt;
@@ -55,9 +55,6 @@ import com.vividsolutions.jts.geom.MultiLineString;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLMultiLineStringTypeBinding extends AbstractComplexBinding {
@@ -101,12 +98,12 @@ public class GMLMultiLineStringTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return GML2ParsingUtils.GeometryCollectionType_parse(node, MultiLineString.class, gFactory);
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         if (GML.lineStringMember.equals(name)) {
             return GML2ParsingUtils.asCollection((MultiLineString) object);
         }

@@ -24,8 +24,6 @@ import com.vividsolutions.jts.geom.Envelope;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GMLBoundingShapeTypeBindingTest extends GMLTestSupport {
@@ -58,7 +56,7 @@ public class GMLBoundingShapeTypeBindingTest extends GMLTestSupport {
         Document doc = encode(envelope, GML.boundedBy);
 
         assertEquals(1,
-            doc.getElementsByTagNameNS(GML.NAMESPACE, GML.Box.getLocalPart()).getLength());
+                doc.getElementsByTagNameNS(GML.NAMESPACE, GML.Box.getLocalPart()).getLength());
     }
 
     public void testEncodeWithNull() throws Exception {
@@ -68,6 +66,7 @@ public class GMLBoundingShapeTypeBindingTest extends GMLTestSupport {
         Document doc = encode(envelope, GML.boundedBy);
 
         assertEquals(1, doc.getElementsByTagNameNS(GML.NAMESPACE, "null").getLength());
-        assertEquals("unknown", doc.getElementsByTagNameNS(GML.NAMESPACE, "null").item(0).getFirstChild().getTextContent() );
+        assertEquals("unknown", doc.getElementsByTagNameNS(GML.NAMESPACE, "null").item(0)
+                .getFirstChild().getTextContent());
     }
 }

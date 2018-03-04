@@ -44,15 +44,15 @@ import com.esri.sde.sdk.client.SeSqlConstruct;
 
 /**
  * Offers an iterator like interface to fetch ArcSDE raster tiles.
- * 
+ *
  * @author Gabriel Roldan (OpenGeo)
- * @since 2.5.4
  * @version $Id$
  * @source $URL:
- *         http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/main/java/org
- *         /geotools/arcsde/gce/NativeTileReader.java $
+ * http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/main/java/org
+ * /geotools/arcsde/gce/NativeTileReader.java $
+ * @since 2.5.4
  */
-@SuppressWarnings({ "nls" })
+@SuppressWarnings({"nls"})
 final class NativeTileReader implements TileReader {
 
     private static final Logger LOGGER = Logging.getLogger("org.geotools.arcsde.gce");
@@ -101,18 +101,13 @@ final class NativeTileReader implements TileReader {
         private final long rasterId;
 
         /**
-         * 
-         * @param rConstraint
-         *            indicates which bands, pyramid level and grid envelope to query
-         * @param rasterTable
-         *            indicates which raster table to query
-         * @param rasterColumn
-         *            indicates what raster column in the raster table to query
-         * @param rasterId
-         *            indicates which raster in the raster catalog to query
+         * @param rConstraint  indicates which bands, pyramid level and grid envelope to query
+         * @param rasterTable  indicates which raster table to query
+         * @param rasterColumn indicates what raster column in the raster table to query
+         * @param rasterId     indicates which raster in the raster catalog to query
          */
         public QueryRasterCommand(final SeRasterConstraint rConstraint, final String rasterTable,
-                final String rasterColumn, final long rasterId) {
+                                  final String rasterColumn, final long rasterId) {
             this.rasterConstraint = rConstraint;
             this.rasterTable = rasterTable;
             this.rasterColumn = rasterColumn;
@@ -130,7 +125,7 @@ final class NativeTileReader implements TileReader {
             final String rasterIdFilter = rasterColumn + " = " + rasterId;
             sqlConstruct.setWhere(rasterIdFilter);
 
-            final String[] rasterColumns = { rasterColumn };
+            final String[] rasterColumns = {rasterColumn};
             preparedQuery = new SeQuery(connection, rasterColumns, sqlConstruct);
             preparedQuery.prepareQuery();
             preparedQuery.execute();
@@ -163,20 +158,20 @@ final class NativeTileReader implements TileReader {
      * is not responsible of {@link ISession#dispose() disposing} the session, but the calling code
      * is.
      * </p>
-     * 
-     * @param preparedQuery
-     *            the query stream to close when done
+     *
+     * @param preparedQuery   the query stream to close when done
      * @param row
-     * @param imageDimensions
-     *            the image size, x and y are the offsets, width and height the actual width and
-     *            height, used to ignore incomming pixel data as appropriate to fit the image
-     *            dimensions
+     * @param imageDimensions the image size, x and y are the offsets, width and height the 
+     *                        actual width and
+     *                        height, used to ignore incomming pixel data as appropriate to fit 
+     *                        the image
+     *                        dimensions
      * @param bitsPerSample
      * @param numberOfBands2
      * @param tileRange
      */
     NativeTileReader(final ISessionPool sessionPool, final RasterDatasetInfo rasterInfo,
-            final long rasterId, final int pyramidLevel, final GridEnvelope tileRange) {
+                     final long rasterId, final int pyramidLevel, final GridEnvelope tileRange) {
         this.sessionPool = sessionPool;
         this.rasterInfo = rasterInfo;
         this.rasterId = rasterId;
@@ -267,7 +262,7 @@ final class NativeTileReader implements TileReader {
      * Creates and executes the {@link SeQuery} that's used to fetch the required tiles from the
      * specified raster, and stores (as member variables) the {@link SeRow} to fetch the tiles from
      * and the {@link SeQuery} to be closed at the TileReader's disposal
-     * 
+     *
      * @throws IOException
      */
     private void execute() throws IOException {
@@ -548,7 +543,7 @@ final class NativeTileReader implements TileReader {
 
     /**
      * Executes a separate request to fetch this single tile
-     * 
+     *
      * @throws IOException
      */
     private SeRasterTile[] fetchSingleTile(final int tileX, final int tileY) throws IOException {
@@ -669,7 +664,7 @@ final class NativeTileReader implements TileReader {
     /**
      * Disposes as to make sure the {@link ISession session} is returned to the pool even if a
      * failing or non careful client left this object hanging around
-     * 
+     *
      * @see #dispose()
      * @see java.lang.Object#finalize()
      */

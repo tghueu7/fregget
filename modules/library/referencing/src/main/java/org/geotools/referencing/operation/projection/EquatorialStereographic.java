@@ -21,6 +21,7 @@
 package org.geotools.referencing.operation.projection;
 
 import java.awt.geom.Point2D;
+
 import org.opengis.parameter.ParameterValueGroup;
 import org.opengis.parameter.ParameterDescriptorGroup;
 import org.opengis.parameter.ParameterNotFoundException;
@@ -34,14 +35,12 @@ import static java.lang.Math.*;
  * This is a special case of oblique stereographic projection for
  * {@linkplain #latitudeOfOrigin latitude of origin} == 0.0.
  *
- * @since 2.4
- *
- *
- * @source $URL$
- * @version $Id$
  * @author André Gosselin
  * @author Martin Desruisseaux (PMO, IRD)
  * @author Rueben Schulz
+ * @version $Id$
+ * @source $URL$
+ * @since 2.4
  */
 public class EquatorialStereographic extends StereographicUSGS {
     /**
@@ -63,26 +62,24 @@ public class EquatorialStereographic extends StereographicUSGS {
     /**
      * Constructs an equatorial stereographic projection (EPSG equations).
      *
-     * @param  parameters The group of parameter values.
+     * @param parameters The group of parameter values.
      * @throws ParameterNotFoundException if a required parameter was not found.
      */
     protected EquatorialStereographic(final ParameterValueGroup parameters)
-            throws ParameterNotFoundException
-    {
+            throws ParameterNotFoundException {
         this(parameters, Stereographic.Provider.PARAMETERS);
     }
 
     /**
      * Constructs an equatorial stereographic projection (USGS equations).
      *
-     * @param  parameters The group of parameter values.
-     * @param  descriptor The expected parameter descriptor.
+     * @param parameters The group of parameter values.
+     * @param descriptor The expected parameter descriptor.
      * @throws ParameterNotFoundException if a required parameter was not found.
      */
     EquatorialStereographic(final ParameterValueGroup parameters,
                             final ParameterDescriptorGroup descriptor)
-            throws ParameterNotFoundException
-    {
+            throws ParameterNotFoundException {
         super(parameters, descriptor);
         assert super.k0 == k0 : super.k0;
         latitudeOfOrigin = 0.0;
@@ -95,12 +92,11 @@ public class EquatorialStereographic extends StereographicUSGS {
      */
     @Override
     protected Point2D transformNormalized(double x, double y, Point2D ptDst)
-            throws ProjectionException
-    {
+            throws ProjectionException {
         // Compute using oblique formulas, for comparaison later.
         assert (ptDst = super.transformNormalized(x, y, ptDst)) != null;
 
-        final double chi = 2.0 * atan(ssfn(y, sin(y))) - PI/2;
+        final double chi = 2.0 * atan(ssfn(y, sin(y))) - PI / 2;
         final double cosChi = cos(chi);
         final double A = k0 / (1.0 + cosChi * cos(x));    // typo in (12-29)
         x = A * cosChi * sin(x);
@@ -108,10 +104,10 @@ public class EquatorialStereographic extends StereographicUSGS {
 
         assert checkTransform(x, y, ptDst);
         if (ptDst != null) {
-            ptDst.setLocation(x,y);
+            ptDst.setLocation(x, y);
             return ptDst;
         }
-        return new Point2D.Double(x,y);
+        return new Point2D.Double(x, y);
     }
 
 
@@ -119,9 +115,9 @@ public class EquatorialStereographic extends StereographicUSGS {
      * Provides the transform equations for the spherical case of the
      * equatorial stereographic projection.
      *
-     * @version $Id$
      * @author Martin Desruisseaux (PMO, IRD)
      * @author Rueben Schulz
+     * @version $Id$
      */
     static final class Spherical extends EquatorialStereographic {
         /**
@@ -132,13 +128,12 @@ public class EquatorialStereographic extends StereographicUSGS {
         /**
          * Constructs a spherical equatorial stereographic projection (USGS equations).
          *
-         * @param  parameters The group of parameter values.
-         * @param  descriptor The expected parameter descriptor.
+         * @param parameters The group of parameter values.
+         * @param descriptor The expected parameter descriptor.
          * @throws ParameterNotFoundException if a required parameter was not found.
          */
         Spherical(final ParameterValueGroup parameters, final ParameterDescriptorGroup descriptor)
-                throws ParameterNotFoundException
-        {
+                throws ParameterNotFoundException {
             super(parameters, descriptor);
             ensureSpherical();
         }
@@ -150,8 +145,7 @@ public class EquatorialStereographic extends StereographicUSGS {
          */
         @Override
         protected Point2D transformNormalized(double x, double y, Point2D ptDst)
-                throws ProjectionException
-        {
+                throws ProjectionException {
             // Compute using ellipsoidal formulas, for comparaison later.
             assert (ptDst = super.transformNormalized(x, y, ptDst)) != null;
 
@@ -166,10 +160,10 @@ public class EquatorialStereographic extends StereographicUSGS {
 
             assert checkTransform(x, y, ptDst);
             if (ptDst != null) {
-                ptDst.setLocation(x,y);
+                ptDst.setLocation(x, y);
                 return ptDst;
             }
-            return new Point2D.Double(x,y);
+            return new Point2D.Double(x, y);
         }
 
         /**
@@ -177,9 +171,8 @@ public class EquatorialStereographic extends StereographicUSGS {
          * and stores the result in {@code ptDst}.
          */
         @Override
-        protected Point2D inverseTransformNormalized(double x, double y,Point2D ptDst)
-                throws ProjectionException
-        {
+        protected Point2D inverseTransformNormalized(double x, double y, Point2D ptDst)
+                throws ProjectionException {
             // Compute using ellipsoidal formulas, for comparaison later.
             assert (ptDst = super.inverseTransformNormalized(x, y, ptDst)) != null;
 
@@ -191,17 +184,17 @@ public class EquatorialStereographic extends StereographicUSGS {
                 final double c = 2.0 * atan(rho / k0);
                 final double cosc = cos(c);
                 final double sinc = sin(c);
-                y = asin(y * sinc/rho); // (20-14)  with phi1=0
-                final double t  = x*sinc;
-                final double ct = rho*cosc;
+                y = asin(y * sinc / rho); // (20-14)  with phi1=0
+                final double t = x * sinc;
+                final double ct = rho * cosc;
                 x = (abs(t) < EPSILON && abs(ct) < EPSILON) ? 0.0 : atan2(t, ct);
             }
             assert checkInverseTransform(x, y, ptDst);
             if (ptDst != null) {
-                ptDst.setLocation(x,y);
+                ptDst.setLocation(x, y);
                 return ptDst;
             }
-            return new Point2D.Double(x,y);
+            return new Point2D.Double(x, y);
         }
     }
 }

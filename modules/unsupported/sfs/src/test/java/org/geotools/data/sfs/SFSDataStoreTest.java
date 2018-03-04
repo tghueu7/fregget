@@ -33,8 +33,6 @@ import org.opengis.feature.type.Name;
 import com.vividsolutions.jts.geom.Envelope;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SFSDataStoreTest extends OnlineTest {
@@ -57,8 +55,8 @@ public class SFSDataStoreTest extends OnlineTest {
         DataStoreFactorySpi spi = null;
 
         while (it.hasNext()) {
-        	spi=it.next();
-            if ( spi instanceof SFSDataStoreFactory) {
+            spi = it.next();
+            if (spi instanceof SFSDataStoreFactory) {
                 break;
             }
         }
@@ -67,7 +65,7 @@ public class SFSDataStoreTest extends OnlineTest {
 
         /* try with params */
         assertTrue(spi.canProcess(createParams()));
-    
+
     }
 
     /*
@@ -136,13 +134,13 @@ public class SFSDataStoreTest extends OnlineTest {
         assertEquals(false, layerAsia.isXYOrder());
         assertEquals(CRS.decode("EPSG:4326", true), layerAsia.getCoordinateReferenceSystem());
         assertEquals(new Envelope(-40, 80, -10, 30), layerAsia.getBounds());
-        
+
         SFSLayer layerAmerica = ods.getLayer(new NameImpl(NAMESPACE, "layerAmerica"));
         assertEquals("urn:ogc:def:crs:EPSG:32632", layerAmerica.getLayerSRS());
         assertEquals(true, layerAmerica.isXYOrder());
         assertEquals(CRS.decode("EPSG:32632", true), layerAmerica.getCoordinateReferenceSystem());
         assertNull(layerAmerica.getBounds());
-        
+
         SFSLayer layerEurope = ods.getLayer(new NameImpl(NAMESPACE, "layerEurope"));
         assertEquals("urn:ogc:def:crs:EPSG:32632", layerEurope.getLayerSRS());
         assertEquals(true, layerEurope.isXYOrder());

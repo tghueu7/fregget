@@ -23,7 +23,7 @@ public class ExceptionReportTest {
         Encoder encoder = new Encoder(new OWSConfiguration());
         encoder.setIndenting(true);
         encoder.setIndentSize(2);
-        
+
         // used to throw an exception here
         encoder.encodeAsString(report, OWS.ExceptionReport);
     }

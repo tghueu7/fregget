@@ -29,9 +29,9 @@ public interface WFSResponseFactory {
 
     /**
      * Indicates whether the factory instance is able to create parser instances.
-     * 
+     *
      * @return {@code true} if there's nothing preventing the creation of the parsers this factory
-     *         should produce
+     * should produce
      */
     public boolean isAvailable();
 
@@ -41,21 +41,20 @@ public interface WFSResponseFactory {
      * <p>
      * The decision may usually be made depending on the request type, ouput format, etc
      * </p>
-     * 
+     *
      * @param originatingRequest
-     * @param contentType 
+     * @param contentType
      * @return {@code true} if this factory can create a parser for the responses of the given
-     *         request
+     * request
      */
     public boolean canProcess(WFSRequest originatingRequest, String contentType);
 
     /**
      * Creates a response parser for the given WFS response.
-     * 
-     * @param wfs
-     *            the data store that issued the request that produced the given {@code response}
-     * @param response
-     *            the handle to the response contents the WFS sent
+     *
+     * @param wfs      the data store that issued the request that produced the given {@code 
+     * response}
+     * @param response the handle to the response contents the WFS sent
      * @return a {@link WFSResponseParser} that can deal with the given WFS response
      * @throws IOException
      */

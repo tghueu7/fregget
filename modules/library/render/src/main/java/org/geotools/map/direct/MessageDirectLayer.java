@@ -14,10 +14,8 @@ import org.geotools.util.Converters;
 
 /**
  * This is a simple watermark used to place a message (such as copyright information) onto a map.
- * 
+ *
  * @author Jody
- *
- *
  * @source $URL$
  */
 public class MessageDirectLayer extends DirectLayer {
@@ -72,20 +70,19 @@ public class MessageDirectLayer extends DirectLayer {
         }
         FontMetrics fm = graphics.getFontMetrics();
         Rectangle2D text = fm.getStringBounds(message, graphics);
-        double x = position( screen.getX(), screen.getWidth(), dx, text.getWidth() );
-        double y = position( screen.getY(),screen.getHeight(), dy, text.getHeight() );
-     
-        Color color = Converters.convert( getUserData().get(COLOR), Color.class );
+        double x = position(screen.getX(), screen.getWidth(), dx, text.getWidth());
+        double y = position(screen.getY(), screen.getHeight(), dy, text.getHeight());
+
+        Color color = Converters.convert(getUserData().get(COLOR), Color.class);
         Color previousColor = graphics.getColor();
         try {
-            if( color != null ){
+            if (color != null) {
                 graphics.setColor(color);
             }
-            graphics.drawString( message, (float) x, (float) y );
-        }
-        finally {
-            if( color != null ){
-                graphics.setColor( previousColor );
+            graphics.drawString(message, (float) x, (float) y);
+        } finally {
+            if (color != null) {
+                graphics.setColor(previousColor);
             }
         }
 
@@ -99,11 +96,10 @@ public class MessageDirectLayer extends DirectLayer {
             return x + dx;
         } else if (ratio > 0.7) {
             // right alignment
-            return x+dx-span;
-        }
-        else {
+            return x + dx - span;
+        } else {
             // center alignment
-            return x + dx - span/2.0;
+            return x + dx - span / 2.0;
         }
     }
 
@@ -116,7 +112,7 @@ public class MessageDirectLayer extends DirectLayer {
 
     /**
      * Does not contribute a bounding box to the map.
-     * 
+     *
      * @return null
      */
     @Override

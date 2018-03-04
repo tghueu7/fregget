@@ -24,8 +24,6 @@ import com.vividsolutions.jts.geom.Polygon;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GMLPolygonPropertyTypeBinding2Test extends GMLTestSupport {
@@ -48,6 +46,6 @@ public class GMLPolygonPropertyTypeBinding2Test extends GMLTestSupport {
         Document doc = encode(GML2MockData.polygon(), GML.polygonProperty);
 
         assertEquals(1,
-            doc.getElementsByTagNameNS(GML.NAMESPACE, GML.Polygon.getLocalPart()).getLength());
+                doc.getElementsByTagNameNS(GML.NAMESPACE, GML.Polygon.getLocalPart()).getLength());
     }
 }

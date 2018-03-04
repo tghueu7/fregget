@@ -28,8 +28,6 @@ import org.apache.commons.io.FilenameUtils;
 import org.geotools.util.logging.Logging;
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class RegExPropertiesCollector extends PropertiesCollector {
@@ -47,16 +45,17 @@ public abstract class RegExPropertiesCollector extends PropertiesCollector {
     }
 
     /**
-     * @deprecated use {@link RegExPropertiesCollector#RegExPropertiesCollector(PropertiesCollectorSPI, List, String, boolean) instead
+     * @deprecated use {@link RegExPropertiesCollector#RegExPropertiesCollector
+     * (PropertiesCollectorSPI, List, String, boolean) instead
      */
     @Deprecated
     public RegExPropertiesCollector(PropertiesCollectorSPI spi, List<String> propertyNames,
-            String regex) {
+                                    String regex) {
         this(spi, propertyNames, regex, false);
     }
 
     public RegExPropertiesCollector(PropertiesCollectorSPI spi, List<String> propertyNames,
-            String regex, boolean fullPath) {
+                                    String regex, boolean fullPath) {
         super(spi, propertyNames);
         this.fullPath = fullPath;
         pattern = Pattern.compile(regex);
@@ -79,7 +78,7 @@ public abstract class RegExPropertiesCollector extends PropertiesCollector {
             // Chaining group Strings together
             int count = matcher.groupCount();
             String match = "";
-            if(count == 0) {
+            if (count == 0) {
                 match = matcher.group();
             }
             for (int i = 1; i <= count; i++) {

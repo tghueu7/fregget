@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -19,29 +19,28 @@ package org.geotools.styling;
 import java.util.List;
 
 
-
 /**
  * Holds styling information (from a StyleLayerDescriptor document).
- *
+ * <p>
  * <p>
  * This interface is bound to version 1.0 of the SLD specification.
  * </p>
- *
+ * <p>
  * <p>
  * For many of us in geotools this is the reason we came along for the ride - a
  * pretty picture. For documentation on the use of this class please consult
  * the SLD 1.0 specification.
  * </p>
- *
+ * <p>
  * <p>
  * We may experiment with our own (or SLD 1.1) ideas but will mark such
  * experiments for you. This is only an issue of you are considering writing
  * out these objects for interoptability with other systems.
  * </p>
- *
+ * <p>
  * <p>
  * General stratagy for supporting multiple SLD versions (and experiments):
- *
+ * <p>
  * <ul>
  * <li>
  * These interfaces will reflect the current published specification
@@ -74,11 +73,8 @@ import java.util.List;
  * @author Ian Turton, CCG
  * @author James Macgill, CCG
  * @author Jody Garnett, Refractions Research
- *
- *
- * @source $URL$
  * @version SLD 1.0
- *
+ * @source $URL$
  * @since GeoTools 2.0
  */
 public interface StyledLayerDescriptor {
@@ -87,12 +83,13 @@ public interface StyledLayerDescriptor {
     public void setStyledLayers(StyledLayer[] layers);
 
     public void addStyledLayer(StyledLayer layer);
-    
+
     /**
      * Direct access to layers list.
+     *
      * @return Direct access to layers list.
      */
-	public List<StyledLayer> layers();
+    public List<StyledLayer> layers();
 
     /**
      * Getter for property name.

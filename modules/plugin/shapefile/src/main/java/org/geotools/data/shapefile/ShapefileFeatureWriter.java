@@ -52,15 +52,12 @@ import com.vividsolutions.jts.geom.GeometryFactory;
  * attributes and geometries. Because the shapefile and dbf require header information which can
  * only be obtained by reading the entire series of Features, the headers are updated after the
  * initial write completes.
- * 
+ *
  * @author Jesse Eichar
- * 
- * 
- * 
  * @source $URL$
  */
 class ShapefileFeatureWriter implements FeatureWriter<SimpleFeatureType, SimpleFeature> {
-    
+
     /**
      * Shapefile uses signed integer offsets, so it cannot grow past this size
      */
@@ -123,13 +120,13 @@ class ShapefileFeatureWriter implements FeatureWriter<SimpleFeatureType, SimpleF
     private GeometryFactory gf = new GeometryFactory();
 
     private boolean guessShapeType;
-    
+
     private long maxShpSize = DEFAULT_MAX_SHAPE_SIZE;
-    
+
     private long maxDbfSize = DEFAULT_MAX_DBF_SIZE;
 
     public ShapefileFeatureWriter(ShpFiles shpFiles, ShapefileFeatureReader featureReader,
-            Charset charset, TimeZone timezone) throws IOException {
+                                  Charset charset, TimeZone timezone) throws IOException {
         this.shpFiles = shpFiles;
         this.dbfCharset = charset;
         this.dbfTimeZone = timezone;
@@ -175,7 +172,7 @@ class ShapefileFeatureWriter implements FeatureWriter<SimpleFeatureType, SimpleF
         handler = shapeType.getShapeHandler(new GeometryFactory());
         shpWriter.writeHeaders(bounds, shapeType, records, shapefileLength);
     }
-    
+
     void setMaxShpSize(long maxShapeSize) {
         this.maxShpSize = maxShapeSize;
     }
@@ -186,7 +183,7 @@ class ShapefileFeatureWriter implements FeatureWriter<SimpleFeatureType, SimpleF
 
     /**
      * Go back and update the headers with the required info.
-     * 
+     *
      * @throws IOException DOCUMENT ME!
      */
     protected void flush() throws IOException {
@@ -208,7 +205,7 @@ class ShapefileFeatureWriter implements FeatureWriter<SimpleFeatureType, SimpleF
 
     /**
      * In case someone doesn't close me.
-     * 
+     *
      * @throws Throwable DOCUMENT ME!
      */
     protected void finalize() throws Throwable {
@@ -223,7 +220,7 @@ class ShapefileFeatureWriter implements FeatureWriter<SimpleFeatureType, SimpleF
 
     /**
      * Clean up our temporary write if there was one
-     * 
+     *
      * @throws IOException DOCUMENT ME!
      */
     protected void clean() throws IOException {
@@ -232,7 +229,7 @@ class ShapefileFeatureWriter implements FeatureWriter<SimpleFeatureType, SimpleF
 
     /**
      * Release resources and flush the header information.
-     * 
+     *
      * @throws IOException DOCUMENT ME!
      */
     public void close() throws IOException {
@@ -339,7 +336,7 @@ class ShapefileFeatureWriter implements FeatureWriter<SimpleFeatureType, SimpleF
 
     /**
      * Called when a new feature is being created and a new fid is required
-     * 
+     *
      * @return a fid for the new feature
      */
     protected String nextFeatureId() {
@@ -410,7 +407,7 @@ class ShapefileFeatureWriter implements FeatureWriter<SimpleFeatureType, SimpleF
         } else {
             shapefileLength += (4 + 8);
         }
-        
+
         if (shapefileLength > maxShpSize) {
             currentFeature = null;
             throw new ShapefileSizeException(

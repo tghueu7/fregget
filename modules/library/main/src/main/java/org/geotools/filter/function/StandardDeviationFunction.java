@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -30,10 +30,8 @@ import org.opengis.filter.capability.FunctionName;
 
 /**
  * Breaks a SimpleFeatureCollection into classes using the standard deviation classification method.
- * 
+ *
  * @author Cory Horner, Refractions Research Inc.
- *
- *
  * @source $URL$
  */
 public class StandardDeviationFunction extends ClassificationFunction {
@@ -42,12 +40,12 @@ public class StandardDeviationFunction extends ClassificationFunction {
             RangedClassifier.class,
             parameter("value", Double.class),
             parameter("classes", Integer.class));
-    
+
     public StandardDeviationFunction() {
         super(NAME);
     }
-    
-	private Object calculate(SimpleFeatureCollection featureCollection) {
+
+    private Object calculate(SimpleFeatureCollection featureCollection) {
         try {
             int classNum = getClasses();
 
@@ -63,7 +61,7 @@ public class StandardDeviationFunction extends ClassificationFunction {
                 return null;
             }
             double standardDeviation = calcResult.toDouble();
-            
+
             //figure out the min and max values
             Double min[] = new Double[classNum];
             Double max[] = new Double[classNum];
@@ -76,24 +74,24 @@ public class StandardDeviationFunction extends ClassificationFunction {
             LOGGER.log(Level.SEVERE, "StandardDeviationFunction calculate failed", e);
             return null;
         }
-	}
+    }
 
-	public Object evaluate(Object feature) {
-		if (!(feature instanceof FeatureCollection)) {
-			return null;
-		}
+    public Object evaluate(Object feature) {
+        if (!(feature instanceof FeatureCollection)) {
+            return null;
+        }
         return calculate((SimpleFeatureCollection) feature);
-	}
+    }
 
-	private Double getMin(int index, int numClasses, double average, double standardDeviation) {
-		if (index <= 0 || index >= numClasses)
-			return null;
-		return new Double(average - (((numClasses / 2.0) - index) * standardDeviation));
-	}
-	
-	private Double getMax(int index, int numClasses, double average, double standardDeviation) {
-		if (index < 0 || index >= numClasses - 1)
-			return null;
-		return new Double(average - (((numClasses / 2.0) - 1 - index) * standardDeviation));
-	}
+    private Double getMin(int index, int numClasses, double average, double standardDeviation) {
+        if (index <= 0 || index >= numClasses)
+            return null;
+        return new Double(average - (((numClasses / 2.0) - index) * standardDeviation));
+    }
+
+    private Double getMax(int index, int numClasses, double average, double standardDeviation) {
+        if (index < 0 || index >= numClasses - 1)
+            return null;
+        return new Double(average - (((numClasses / 2.0) - 1 - index) * standardDeviation));
+    }
 }

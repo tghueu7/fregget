@@ -3,7 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
- * 
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -26,54 +26,51 @@ import org.opengis.referencing.FactoryException;
 /**
  * Mediator which delegates the creation of referencing objects to the
  * OracleDialectEpsgFactory.
- * 
+ *
  * @author Cory Horner (Refractions Research)
- *
- *
- *
- *
  * @source $URL$
  */
 public class OracleDialectEpsgMediator extends AbstractEpsgMediator {
 
     Hints config;
-    
+
     /**
      * No argument constructor - must not fail for factory finder registration.
      */
     public OracleDialectEpsgMediator() {
     }
 
-    
-    public OracleDialectEpsgMediator(Hints hints ) throws FactoryException {
+
+    public OracleDialectEpsgMediator(Hints hints) throws FactoryException {
         super(hints);
         config = hints;
     }
+
     public OracleDialectEpsgMediator(int priority, Hints hints, DataSource datasource) {
         super(hints, datasource);
         config = hints;
     }
-    
+
     /**
      * Creates an OracleDialectEpsgMediator with a 60 second timeout, two workers,
      * and no cache.
-     * 
+     *
      * @param priority
      * @param datasource
      */
     public OracleDialectEpsgMediator(int priority, DataSource datasource) {
-        this(priority, 
-             new Hints(Hints.AUTHORITY_MAX_ACTIVE, 
-                 new Integer(2),
-                 new Object[] {
-                     Hints.AUTHORITY_MIN_EVICT_IDLETIME, new Integer(1 * 60 * 1000),
-                     Hints.CACHE_POLICY, "none",
-                     Hints.EPSG_DATA_SOURCE, datasource
-                 }
-             ),
-             datasource
-         );
-        config = new Hints( Hints.EPSG_DATA_SOURCE, datasource );
+        this(priority,
+                new Hints(Hints.AUTHORITY_MAX_ACTIVE,
+                        new Integer(2),
+                        new Object[]{
+                                Hints.AUTHORITY_MIN_EVICT_IDLETIME, new Integer(1 * 60 * 1000),
+                                Hints.CACHE_POLICY, "none",
+                                Hints.EPSG_DATA_SOURCE, datasource
+                        }
+                ),
+                datasource
+        );
+        config = new Hints(Hints.EPSG_DATA_SOURCE, datasource);
     }
 
 
@@ -98,7 +95,7 @@ public class OracleDialectEpsgMediator extends AbstractEpsgMediator {
      * Creates an instance that can be returned by the pool.
      */
     protected AbstractCachedAuthorityFactory makeWorker() throws Exception {
-        OracleDialectEpsgFactory factory = new OracleDialectEpsgFactory( config, datasource);
+        OracleDialectEpsgFactory factory = new OracleDialectEpsgFactory(config, datasource);
         return factory;
     }
 

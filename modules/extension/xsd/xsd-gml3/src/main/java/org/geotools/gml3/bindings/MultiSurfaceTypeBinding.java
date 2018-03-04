@@ -33,19 +33,23 @@ import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:MultiSurfaceType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="MultiSurfaceType"&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;A MultiSurface is defined by one or more Surfaces, referenced through surfaceMember elements.&lt;/documentation&gt;
+ *          &lt;documentation&gt;A MultiSurface is defined by one or more Surfaces, referenced 
+ *          through surfaceMember elements.&lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;complexContent&gt;
  *          &lt;extension base="gml:AbstractGeometricAggregateType"&gt;
  *              &lt;sequence&gt;
  *                  &lt;annotation&gt;
- *                      &lt;documentation&gt;The members of the geometric aggregate can be specified either using the "standard" property or the array property style. It is also valid to use both the "standard" and the array property style in the same collection.
+ *                      &lt;documentation&gt;The members of the geometric aggregate can be 
+ *                      specified either using the "standard" property or the array property 
+ *                      style. It is also valid to use both the "standard" and the array property
+ *                      style in the same collection.
  *  NOTE: Array properties cannot reference remote geometry elements.&lt;/documentation&gt;
  *                  &lt;/annotation&gt;
  *                  &lt;element maxOccurs="unbounded" minOccurs="0" ref="gml:surfaceMember"/&gt;
@@ -60,9 +64,6 @@ import com.vividsolutions.jts.geom.Polygon;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class MultiSurfaceTypeBinding extends AbstractComplexBinding {
@@ -100,21 +101,21 @@ public class MultiSurfaceTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        
+            throws Exception {
+
         //&lt;element maxOccurs="unbounded" minOccurs="0" ref="gml:surfaceMember"/&gt;
         List surfaces = node.getChildValues(Polygon.class);
-        
+
         //&lt;element minOccurs="0" ref="gml:surfaceMembers"/&gt;
         if (node.hasChild(Polygon[].class)) {
-            surfaces.addAll(Arrays.asList((Polygon[])node.getChildValue(Polygon[].class)));
+            surfaces.addAll(Arrays.asList((Polygon[]) node.getChildValue(Polygon[].class)));
         }
-        
+
         return gf.createMultiPolygon((Polygon[]) surfaces.toArray(new Polygon[surfaces.size()]));
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         if ("surfaceMember".equals(name.getLocalPart())) {
             MultiPolygon multiSurface = (MultiPolygon) object;
             Polygon[] members = new Polygon[multiSurface.getNumGeometries()];
@@ -127,7 +128,7 @@ public class MultiSurfaceTypeBinding extends AbstractComplexBinding {
 
             return members;
         }
-        
+
         return null;
     }
 }

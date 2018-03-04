@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -30,114 +30,118 @@ import org.opengis.coverage.grid.GridCoverageWriter;
 /**
  * An {@link AbstractGridCoverageWriter} is the base class for all
  * {@link GridCoverageWriter} implementations in GeoTools toolkit.
- *
- *
+ * <p>
+ * <p>
  * <p>
  * We expect it to become the place where to move functionalities common to all
  * {@link GridCoverageWriter}.
  *
  * @author Simone Giannecchini
- * @since 2.3.x
- *
- *
- *
  * @source $URL$
+ * @since 2.3.x
  */
 public abstract class AbstractGridCoverageWriter implements GridCoverageWriter {
 
-	/** The {@link Logger} for this {@link AbstractGridCoverageWriter}. */
-	private final static Logger LOGGER = Logging.getLogger(AbstractGridCoverageWriter.class.toString());
+    /**
+     * The {@link Logger} for this {@link AbstractGridCoverageWriter}.
+     */
+    private final static Logger LOGGER = Logging.getLogger(AbstractGridCoverageWriter.class
+            .toString());
 
-	/** the destination object where we will do the writing */
-	protected Object destination;
+    /**
+     * the destination object where we will do the writing
+     */
+    protected Object destination;
 
-	/** Hints to be used for the writing process. */
-	protected Hints hints = GeoTools.getDefaultHints();
+    /**
+     * Hints to be used for the writing process.
+     */
+    protected Hints hints = GeoTools.getDefaultHints();
 
-	/** The destination {@link ImageOutputStream}. */
-	protected ImageOutputStream outStream = null;
+    /**
+     * The destination {@link ImageOutputStream}.
+     */
+    protected ImageOutputStream outStream = null;
 
-	/**
-	 * Default constructor for an {@link AbstractGridCoverageWriter}.
-	 */
+    /**
+     * Default constructor for an {@link AbstractGridCoverageWriter}.
+     */
 
-	public AbstractGridCoverageWriter() {
+    public AbstractGridCoverageWriter() {
 
-	}
+    }
 
-	/**
-	 * Releases resources held by this {@link AbstractGridCoverageWriter}.
-	 */
-	public void dispose() {
-		if(LOGGER.isLoggable(Level.FINE))
-			LOGGER.fine("Disposing writer:"+destination);
-		
-		if (outStream != null) {
-			try {
-				outStream.flush();			
+    /**
+     * Releases resources held by this {@link AbstractGridCoverageWriter}.
+     */
+    public void dispose() {
+        if (LOGGER.isLoggable(Level.FINE))
+            LOGGER.fine("Disposing writer:" + destination);
 
-			} catch (IOException e) {
+        if (outStream != null) {
+            try {
+                outStream.flush();
 
-			}
-			finally{
-				try {
-					outStream.close();
-				} catch (Throwable e) {
+            } catch (IOException e) {
 
-				}
-			}
-			
-			
-		}
+            } finally {
+                try {
+                    outStream.close();
+                } catch (Throwable e) {
 
-	}
-
-	/**
-	 * (non-Javadoc)
-	 *
-	 * @see org.opengis.coverage.grid.GridCoverageWriter#getDestination()
-	 */
-	public Object getDestination() {
-		return destination;
-	}
-
-	/**
-	 * Implementation of getMetadataNames. Currently unimplemented because it
-	 * has not been specified where to retrieve the metadata
-	 *
-	 * @return null
-	 *
-	 * @see org.opengis.coverage.grid.GridCoverageWriter#getMetadataNames()
-	 */
-	public String[] getMetadataNames() {
-		throw new UnsupportedOperationException("Unsupported method");
-	}
-
-	/**
-	 * @see org.opengis.coverage.grid.GridCoverageWriter#setCurrentSubname(java.lang.String)
-	 */
-	public void setCurrentSubname(String name) throws IOException {
-		throw new UnsupportedOperationException("Unsupported method");
-	}
-
-	/**
-	 * @see org.opengis.coverage.grid.GridCoverageWriter#setMetadataValue(java.lang.String,
-	 *      java.lang.String)
-	 */
-	public void setMetadataValue(String name, String value) throws IOException {
-		throw new UnsupportedOperationException("Unsupported method");
-	}
+                }
+            }
 
 
-	/**
-	 * Forcing the disposal of this {@link AbstractGridCoverageWriter} which may
-	 * keep a reference to an open {@link ImageOutputStream}
-	 */
-	@Override
-	protected void finalize() throws Throwable {
-		dispose();
-		super.finalize();
-	}
+        }
+
+    }
+
+    /**
+     * (non-Javadoc)
+     *
+     * @see org.opengis.coverage.grid.GridCoverageWriter#getDestination()
+     */
+    public Object getDestination() {
+        return destination;
+    }
+
+    /**
+     * Implementation of getMetadataNames. Currently unimplemented because it
+     * has not been specified where to retrieve the metadata
+     *
+     * @return null
+     * @see org.opengis.coverage.grid.GridCoverageWriter#getMetadataNames()
+     */
+    public String[] getMetadataNames() {
+        throw new UnsupportedOperationException("Unsupported method");
+    }
+
+    /**
+     * @see org.opengis.coverage.grid.GridCoverageWriter#setCurrentSubname(java.lang.String)
+     */
+    public void setCurrentSubname(String name) throws IOException {
+        throw new UnsupportedOperationException("Unsupported method");
+    }
+
+    /**
+     * @see org.opengis.coverage.grid.GridCoverageWriter#setMetadataValue(java.lang.String,
+     * java.lang.String)
+     */
+    public void setMetadataValue(String name, String value) throws IOException {
+        throw new UnsupportedOperationException("Unsupported method");
+    }
+
+
+    /**
+     * Forcing the disposal of this {@link AbstractGridCoverageWriter} which may
+     * keep a reference to an open {@link ImageOutputStream}
+     */
+    @Override
+    protected void finalize() throws Throwable {
+        dispose();
+        super.finalize();
+    }
 
 
 }

@@ -23,12 +23,10 @@ import java.util.Map;
  * <p>
  * Constants used by the JGrass engine
  * </p>
- * 
+ *
  * @author Andrea Antonello - www.hydrologis.com
- * @since 1.1.0
- *
- *
  * @source $URL$
+ * @since 1.1.0
  */
 @SuppressWarnings("nls")
 public class JGrassConstants {
@@ -36,104 +34,166 @@ public class JGrassConstants {
     /*
      * jgrass database files and folders
      */
-    /** folder of the JGrass database structure */
+    /**
+     * folder of the JGrass database structure
+     */
     public static final String PERMANENT_MAPSET = "PERMANENT";
 
-    /** folder of the JGrass database structure */
+    /**
+     * folder of the JGrass database structure
+     */
     public static final String DEFAULT_WIND = "DEFAULT_WIND";
 
-    /** folder of the JGrass database structure */
+    /**
+     * folder of the JGrass database structure
+     */
     public static final String PROJ_INFO = "PROJ_INFO";
 
-    /** folder of the JGrass database structure */
+    /**
+     * folder of the JGrass database structure
+     */
     public static final String PROJ_WKT = "PROJ_INFO.WKT";
 
-    /** folder of the JGrass database structure */
+    /**
+     * folder of the JGrass database structure
+     */
     public static final String PROJ_UNITS = "PROJ_UNITS";
 
-    /** folder of the JGrass database structure */
+    /**
+     * folder of the JGrass database structure
+     */
     public static final String WIND = "WIND";
 
-    /** folder of the JGrass database structure */
+    /**
+     * folder of the JGrass database structure
+     */
     public static final String MYNAME = "MYNAME";
 
-    /** folder of the JGrass database structure */
+    /**
+     * folder of the JGrass database structure
+     */
     public static final String FCELL = "fcell";
 
-    /** folder of the JGrass database structure */
+    /**
+     * folder of the JGrass database structure
+     */
     public static final String CELL = "cell";
 
-    /** folder of the JGrass database structure */
+    /**
+     * folder of the JGrass database structure
+     */
     public static final String CATS = "cats";
 
-    /** folder of the JGrass database structure */
+    /**
+     * folder of the JGrass database structure
+     */
     public static final String HIST = "hist";
 
-    /** folder of the JGrass database structure */
+    /**
+     * folder of the JGrass database structure
+     */
     public static final String CELLHD = "cellhd";
 
-    /** folder of the JGrass database structure */
+    /**
+     * folder of the JGrass database structure
+     */
     public static final String COLR = "colr";
 
-    /** folder of the JGrass database structure */
+    /**
+     * folder of the JGrass database structure
+     */
     public static final String CELL_MISC = "cell_misc";
 
-    /** folder of the JGrass database structure */
+    /**
+     * folder of the JGrass database structure
+     */
     public static final String CELLMISC_FORMAT = "f_format";
 
-    /** folder of the JGrass database structure */
+    /**
+     * folder of the JGrass database structure
+     */
     public static final String CELLMISC_QUANT = "f_quant";
 
-    /** folder of the JGrass database structure */
+    /**
+     * folder of the JGrass database structure
+     */
     public static final String CELLMISC_RANGE = "f_range";
 
-    /** folder of the JGrass database structure */
+    /**
+     * folder of the JGrass database structure
+     */
     public static final String CELLMISC_NULL = "null";
 
-    /** folder of the JGrass database structure */
+    /**
+     * folder of the JGrass database structure
+     */
     public static final String DIG = "dig";
 
-    /** folder of the JGrass database structure */
+    /**
+     * folder of the JGrass database structure
+     */
     public static final String DIG_ATTS = "dig_atts";
 
-    /** folder of the JGrass database structure */
+    /**
+     * folder of the JGrass database structure
+     */
     public static final String DIG_CATS = "dig_cats";
 
-    /** folder of the JGrass database structure */
+    /**
+     * folder of the JGrass database structure
+     */
     public static final String SITE_LISTS = "site_lists";
 
-    /** folder of the JGrass database structure */
+    /**
+     * folder of the JGrass database structure
+     */
     public static final String VECTORS = "vector";
 
-    /** grass sites map type */
+    /**
+     * grass sites map type
+     */
     public static final String SITESMAP = "sites";
 
-    /** grass ascii raster format */
+    /**
+     * grass ascii raster format
+     */
     public static final String GRASSASCIIRASTER = "grassascii";
 
-    /** fluidturtle ascii raster format */
+    /**
+     * fluidturtle ascii raster format
+     */
     public static final String FLUIDTURTLEASCIIRASTER = "fluidturtleascii";
 
-    /** esri ascii raster format */
+    /**
+     * esri ascii raster format
+     */
     public static final String ESRIASCIIRASTER = "esriasciigrid";
 
-    /** tmp data for hortons */
+    /**
+     * tmp data for hortons
+     */
     public static String HORTON_MACHINE_PATH = "hortonmachine";
 
     /*
      * map formats
      */
-    /** raster map types */
+    /**
+     * raster map types
+     */
     public static final String GRASSBINARYRASTERMAP = "grassbinaryraster";
     public static final String GRASSASCIIRASTERMAP = "grassasciiraster";
     public static final String FTRASTERMAP = "fluidturtleasciiraster";
     public static final String ESRIRASTERMAP = "esriasciigrid";
 
-    /** grass 6 vector map types */
+    /**
+     * grass 6 vector map types
+     */
     public static final String GRASS6VECTORMAP = "grass6vector";
     public static final String OLDGRASSVECTORMAP = "oldgrassvector";
 
-    /** grass application paths */
+    /**
+     * grass application paths
+     */
     public static final String GRASSBIN = "bin";
     public static final String GRASSLIB = "lib";
 
@@ -174,6 +234,7 @@ public class JGrassConstants {
      * {@link Map} of classes for csv types.
      */
     public static final Map<String, Class<?>> CSVTYPESCLASSESMAP = new HashMap<String, Class<?>>();
+
     static {
         CSVTYPESCLASSESMAP.put(CSVTYPESARRAY[3], String.class);
         CSVTYPESCLASSESMAP.put(CSVTYPESARRAY[4], Double.class);

@@ -4,13 +4,14 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.metadata.spatial;
 
 import java.util.List;
 import java.util.ArrayList;
+
 import org.opengis.util.CodeList;
 import org.opengis.annotation.UML;
 
@@ -21,14 +22,12 @@ import static org.opengis.annotation.Specification.*;
 /**
  * Code indicating whether grid data is point or area.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 2.0
+ * @source $URL$
+ * @since GeoAPI 2.0
  */
-@UML(identifier="MD_CellGeometryCode", specification=ISO_19115)
+@UML(identifier = "MD_CellGeometryCode", specification = ISO_19115)
 public final class CellGeometry extends CodeList<CellGeometry> {
     /**
      * Serial number for compatibility with different versions.
@@ -44,13 +43,13 @@ public final class CellGeometry extends CodeList<CellGeometry> {
     /**
      * Each cell represents a point.
      */
-    @UML(identifier="point", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "point", obligation = CONDITIONAL, specification = ISO_19115)
     public static final CellGeometry POINT = new CellGeometry("POINT");
 
     /**
      * Each cell represents an area.
      */
-    @UML(identifier="area", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "area", obligation = CONDITIONAL, specification = ISO_19115)
     public static final CellGeometry AREA = new CellGeometry("AREA");
 
     /**

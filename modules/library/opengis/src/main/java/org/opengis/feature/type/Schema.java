@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2007 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.feature.type;
@@ -42,8 +42,6 @@ import java.util.Set;
  *
  * @author Jody Garnett, Refractions Research, Inc.
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
  * @source $URL$
  */
 public interface Schema extends Map<Name, AttributeType> {
@@ -63,9 +61,10 @@ public interface Schema extends Map<Name, AttributeType> {
      * <p>
      * This method is a convenience for <code>put(type.getName(),type)</code>.
      * </p>
+     *
      * @param type The type to add.
      */
-    void add( AttributeType type );
+    void add(AttributeType type);
 
     /**
      * Profiles the schema, creating a new schema in the process.
@@ -77,10 +76,10 @@ public interface Schema extends Map<Name, AttributeType> {
      * Used to select a subset of types for a specific application. Profiles
      * often are used to express limitiations of a source of data.
      * </p>
-     * @param profile The set of names which corresond to entries that will make
-     * up the profile.
      *
+     * @param profile The set of names which corresond to entries that will make
+     *                up the profile.
      * @return The profile of the original schema.
      */
-    Schema profile( Set<Name> profile );
+    Schema profile(Set<Name> profile);
 }

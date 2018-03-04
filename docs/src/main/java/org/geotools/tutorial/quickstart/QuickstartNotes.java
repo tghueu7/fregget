@@ -18,15 +18,15 @@ class QuickstartNotes {
     public void snipetDataStoreFinder() throws Exception {
         // start datastore
         File file = JFileDataStoreChooser.showOpenFile("shp", null);
-        
-        Map<String,Object> params = new HashMap<>();
-        params.put( "url", file.toURI().toURL() );
-        params.put( "create spatial index", false );
-        params.put( "memory mapped buffer", false );
-        params.put( "charset", "ISO-8859-1" );
-        
-        DataStore store = DataStoreFinder.getDataStore( params );
-        SimpleFeatureSource featureSource = store.getFeatureSource( store.getTypeNames()[0] );
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("url", file.toURI().toURL());
+        params.put("create spatial index", false);
+        params.put("memory mapped buffer", false);
+        params.put("charset", "ISO-8859-1");
+
+        DataStore store = DataStoreFinder.getDataStore(params);
+        SimpleFeatureSource featureSource = store.getFeatureSource(store.getTypeNames()[0]);
         // end datastore
     }
 }

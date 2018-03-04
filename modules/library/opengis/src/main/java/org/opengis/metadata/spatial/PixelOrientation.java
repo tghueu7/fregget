@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.metadata.spatial;
@@ -26,14 +26,12 @@ import static org.opengis.annotation.Specification.*;
  * list, {@link org.opengis.referencing.datum.PixelInCell}, can be used for
  * <var>n</var>-dimensional grid cell.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 2.0
+ * @source $URL$
+ * @since GeoAPI 2.0
  */
-@UML(identifier="MD_PixelOrientationCode", specification=ISO_19115)
+@UML(identifier = "MD_PixelOrientationCode", specification = ISO_19115)
 public final class PixelOrientation extends CodeList<PixelOrientation> {
     /**
      * Serial number for compatibility with different versions.
@@ -51,7 +49,7 @@ public final class PixelOrientation extends CodeList<PixelOrientation> {
      *
      * @see org.opengis.referencing.datum.PixelInCell#CELL_CENTER
      */
-    @UML(identifier="center", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "center", obligation = CONDITIONAL, specification = ISO_19115)
     public static final PixelOrientation CENTER = new PixelOrientation("CENTER");
 
     /**
@@ -59,31 +57,30 @@ public final class PixelOrientation extends CodeList<PixelOrientation> {
      * distance from the origin, the one with the smallest x-value.
      *
      * @todo The sentence "<cite>closest to the origin of the SRS</cite> probably applies to
-     *       positive coordinates only. For the general case including both positive and negative
-     *       coordinates, we should probably read "in the direction of negative infinity". This
-     *       interpretation should be clarified with ISO.
-     *
+     * positive coordinates only. For the general case including both positive and negative
+     * coordinates, we should probably read "in the direction of negative infinity". This
+     * interpretation should be clarified with ISO.
      * @see org.opengis.referencing.datum.PixelInCell#CELL_CORNER
      */
-    @UML(identifier="lowerLeft", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "lowerLeft", obligation = CONDITIONAL, specification = ISO_19115)
     public static final PixelOrientation LOWER_LEFT = new PixelOrientation("LOWER_LEFT");
 
     /**
      * Next corner counterclockwise from the {@linkplain #LOWER_LEFT lower left}.
      */
-    @UML(identifier="lowerRight", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "lowerRight", obligation = CONDITIONAL, specification = ISO_19115)
     public static final PixelOrientation LOWER_RIGHT = new PixelOrientation("LOWER_RIGHT");
 
     /**
      * Next corner counterclockwise from the {@linkplain #LOWER_RIGHT lower right}.
      */
-    @UML(identifier="upperRight", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "upperRight", obligation = CONDITIONAL, specification = ISO_19115)
     public static final PixelOrientation UPPER_RIGHT = new PixelOrientation("UPPER_RIGHT");
 
     /**
      * Next corner counterclockwise from the {@linkplain #UPPER_RIGHT upper right}.
      */
-    @UML(identifier="upperLeft", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "upperLeft", obligation = CONDITIONAL, specification = ISO_19115)
     public static final PixelOrientation UPPER_LEFT = new PixelOrientation("UPPER_LEFT");
 
     /**

@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -28,12 +28,12 @@ import org.xml.sax.SAXNotRecognizedException;
  * </p>
  *
  * @author dzwiers www.refractions.net
- *
- *
  * @source $URL$
  */
 public class SimpleContentHandler extends XSIElementHandler {
-    /** 'simpleContent' */
+    /**
+     * 'simpleContent'
+     */
     public static final String LOCALNAME = "simpleContent";
 
     //    private String id;
@@ -48,19 +48,19 @@ public class SimpleContentHandler extends XSIElementHandler {
 
     /**
      * @see org.geotools.xml.XSIElementHandler#startElement(java.lang.String,
-     *      java.lang.String, org.xml.sax.Attributes)
+     * java.lang.String, org.xml.sax.Attributes)
      */
     public void startElement(String namespaceURI, String localName,
-        Attributes atts){
+                             Attributes atts) {
         // do nothing
     }
 
     /**
      * @see org.geotools.xml.XSIElementHandler#getHandler(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
     public XSIElementHandler getHandler(String namespaceURI, String localName)
-        throws SAXException {
+            throws SAXException {
         if (SchemaHandler.namespaceURI.equalsIgnoreCase(namespaceURI)) {
             // child types
             //
@@ -72,7 +72,7 @@ public class SimpleContentHandler extends XSIElementHandler {
                     child = lh;
                 } else {
                     throw new SAXNotRecognizedException(getLocalName()
-                        + " may only have one child declaration.");
+                            + " may only have one child declaration.");
                 }
 
                 return lh;
@@ -86,7 +86,7 @@ public class SimpleContentHandler extends XSIElementHandler {
                     child = lh;
                 } else {
                     throw new SAXNotRecognizedException(getLocalName()
-                        + " may only have one child declaration.");
+                            + " may only have one child declaration.");
                 }
 
                 return lh;
@@ -121,9 +121,9 @@ public class SimpleContentHandler extends XSIElementHandler {
 
     /**
      * @see org.geotools.xml.XSIElementHandler#endElement(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
-    public void endElement(String namespaceURI, String localName){
+    public void endElement(String namespaceURI, String localName) {
         // do nothing
     }
 }

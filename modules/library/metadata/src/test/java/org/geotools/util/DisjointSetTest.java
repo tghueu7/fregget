@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2001-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -21,22 +21,21 @@ import java.util.Collections;
 import java.util.HashSet;
 
 import org.junit.*;
+
 import static org.junit.Assert.*;
 
 
 /**
  * Tests the {@link DisjointSet} class.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
  */
 public final class DisjointSetTest {
-     /**
-      * Tests the set.
-      */
+    /**
+     * Tests the set.
+     */
     @Test
     public void testDisjointSet() {
         DisjointSet<String> t1 = new DisjointSet<String>(true);
@@ -56,8 +55,8 @@ public final class DisjointSetTest {
         assertTrue(t2.remove("bêta"));
 
         assertEquals(Collections.singleton("epsilon"), t1);
-        assertEquals(new HashSet<String>(Arrays.asList(new String[] {"alpha","delta"})), t2);
+        assertEquals(new HashSet<String>(Arrays.asList(new String[]{"alpha", "delta"})), t2);
         assertEquals(Collections.singleton("gamma"), t3);
-        assertEquals(Collections.singleton("bêta"),  t1.getTrash());
+        assertEquals(Collections.singleton("bêta"), t1.getTrash());
     }
 }

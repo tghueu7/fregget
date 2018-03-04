@@ -30,14 +30,13 @@ import org.geotools.util.Utilities;
  * A view of a metadata object as a map. Keys are property names and values
  * are the value returned by the {@code getFoo()} method using reflection.
  *
- * @since 2.4
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (Geomatys)
- *
+ * @version $Id$
+ * @source $URL$
  * @see MetadataStandard#asMap
+ * @since 2.4
  */
-final class PropertyMap extends AbstractMap<String,Object> {
+final class PropertyMap extends AbstractMap<String, Object> {
     /**
      * The metadata object to wrap.
      */
@@ -51,7 +50,7 @@ final class PropertyMap extends AbstractMap<String,Object> {
     /**
      * A view of the mappings contained in this map.
      */
-    private final Set<Map.Entry<String,Object>> entrySet;
+    private final Set<Map.Entry<String, Object>> entrySet;
 
     /**
      * Creates a property map for the specified metadata and accessor.
@@ -97,12 +96,11 @@ final class PropertyMap extends AbstractMap<String,Object> {
      * Associates the specified value with the specified key in this map.
      *
      * @throws IllegalArgumentException if the specified property can't be set.
-     * @throws ClassCastException if the given value is not of the expected type.
+     * @throws ClassCastException       if the given value is not of the expected type.
      */
     @Override
-   public Object put(final String key, final Object value)
-            throws IllegalArgumentException, ClassCastException
-    {
+    public Object put(final String key, final Object value)
+            throws IllegalArgumentException, ClassCastException {
         return accessor.set(accessor.requiredIndexOf(key), metadata, value);
     }
 
@@ -122,11 +120,9 @@ final class PropertyMap extends AbstractMap<String,Object> {
      * Returns a view of the mappings contained in this map.
      */
     @Override
-    public Set<Map.Entry<String,Object>> entrySet() {
+    public Set<Map.Entry<String, Object>> entrySet() {
         return entrySet;
     }
-
-
 
 
     /**
@@ -134,7 +130,7 @@ final class PropertyMap extends AbstractMap<String,Object> {
      *
      * @author Martin Desruisseaux
      */
-    private final class Property implements Map.Entry<String,Object> {
+    private final class Property implements Map.Entry<String, Object> {
         /**
          * The property index.
          */
@@ -181,9 +177,9 @@ final class PropertyMap extends AbstractMap<String,Object> {
         /**
          * Compares the specified entry with this one for equality.
          */
-        public boolean equals(final Map.Entry<?,?> entry) {
-            return Utilities.equals(getKey(),   entry.getKey()) &&
-                   Utilities.equals(getValue(), entry.getValue());
+        public boolean equals(final Map.Entry<?, ?> entry) {
+            return Utilities.equals(getKey(), entry.getKey()) &&
+                    Utilities.equals(getValue(), entry.getValue());
         }
 
         /**
@@ -212,14 +208,12 @@ final class PropertyMap extends AbstractMap<String,Object> {
     }
 
 
-
-
     /**
      * The iterator over the {@link Property} elements contained in a {@link Entries} set.
      *
      * @author Martin Desruisseaux
      */
-    private final class Iter implements Iterator<Map.Entry<String,Object>> {
+    private final class Iter implements Iterator<Map.Entry<String, Object>> {
         /**
          * The current and the next property, or {@code null} if the iteration is over.
          */
@@ -258,7 +252,7 @@ final class PropertyMap extends AbstractMap<String,Object> {
         /**
          * Returns the next element in the iteration.
          */
-        public Map.Entry<String,Object> next() {
+        public Map.Entry<String, Object> next() {
             if (next != null) {
                 current = next;
                 move(next.index + 1);
@@ -282,14 +276,12 @@ final class PropertyMap extends AbstractMap<String,Object> {
     }
 
 
-
-
     /**
      * View of the mapping contained in the map.
      *
      * @author Martin Desruisseaux
      */
-    private final class Entries extends AbstractSet<Map.Entry<String,Object>> {
+    private final class Entries extends AbstractSet<Map.Entry<String, Object>> {
         /**
          * Creates an entry set.
          */
@@ -300,7 +292,7 @@ final class PropertyMap extends AbstractMap<String,Object> {
          * Returns an iterator over the elements contained in this collection.
          */
         @Override
-        public Iterator<Map.Entry<String,Object>> iterator() {
+        public Iterator<Map.Entry<String, Object>> iterator() {
             return new Iter();
         }
 

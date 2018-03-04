@@ -34,7 +34,8 @@ public class MergeBehaviorTest {
         String[] values = MergeBehavior.valuesAsStrings();
         assertNotNull(values);
         Set<String> testSet = new HashSet<>(Arrays.asList(values));
-        Set<String> expectedSet = Arrays.stream(MergeBehavior.values()).map(v -> v.name()).collect(Collectors
+        Set<String> expectedSet = Arrays.stream(MergeBehavior.values()).map(v -> v.name())
+                .collect(Collectors
                 .toSet());
         assertEquals(expectedSet, testSet);
     }

@@ -69,12 +69,11 @@ import com.vividsolutions.jts.geom.Polygon;
  * WARNING: this is unstable and subject to radical change.
  *
  * @author Cory Horner, Refractions Research Inc.
- *
- *
  * @source $URL$
  */
 public class StyleGenerator {
-    private static final java.util.logging.Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org.geotools.brewer.color");
+    private static final java.util.logging.Logger LOGGER = org.geotools.util.logging.Logging
+            .getLogger("org.geotools.brewer.color");
     public final static int ELSEMODE_IGNORE = 0;
     public final static int ELSEMODE_INCLUDEASMIN = 1;
     public final static int ELSEMODE_INCLUDEASMAX = 2;
@@ -120,9 +119,8 @@ public class StyleGenerator {
      *
      * @param classifier
      * @param colors
-     * @param typeId
-     *            semantic type identifier, which will be prefixed with
-     *            "colorbrewer:"
+     * @param typeId           semantic type identifier, which will be prefixed with
+     *                         "colorbrewer:"
      * @param geometryAttrType
      * @param elseMode
      * @param opacity
@@ -131,9 +129,12 @@ public class StyleGenerator {
      * @throws IllegalFilterException
      */
     public static FeatureTypeStyle createFeatureTypeStyle(Classifier classifier,
-        Expression expression, Color[] colors, String typeId,
-        GeometryDescriptor geometryAttrType, int elseMode, double opacity, Stroke defaultStroke)
-        throws IllegalFilterException {
+                                                          Expression expression, Color[] colors, 
+                                                          String typeId,
+                                                          GeometryDescriptor geometryAttrType, 
+                                                          int elseMode, double opacity, Stroke 
+                                                                  defaultStroke)
+            throws IllegalFilterException {
         //init nulls
         if (defaultStroke == null) {
             defaultStroke = sb.createStroke();
@@ -204,7 +205,7 @@ public class StyleGenerator {
         }
 
         //our syntax will be: ColorBrewer:id
-        fts.setSemanticTypeIdentifiers(new String[] { "generic:geometry", "colorbrewer:" + typeId });
+        fts.setSemanticTypeIdentifiers(new String[]{"generic:geometry", "colorbrewer:" + typeId});
 
         return fts;
     }
@@ -216,11 +217,10 @@ public class StyleGenerator {
      * @param geometryAttrType
      * @param color
      * @param opacity
-     * @param defaultStroke stroke used for borders
-     *
+     * @param defaultStroke    stroke used for borders
      */
     private static Symbolizer createSymbolizer(GeometryDescriptor geometryAttrType, Color color,
-        double opacity, Stroke defaultStroke) {
+                                               double opacity, Stroke defaultStroke) {
         Symbolizer symb;
 
         if (defaultStroke == null) {
@@ -254,7 +254,6 @@ public class StyleGenerator {
      * an Integer object.
      *
      * @param value
-     *
      * @return Integer(value) if applicable
      */
     private static Object chopInteger(Object value) {
@@ -269,7 +268,6 @@ public class StyleGenerator {
      * Generates a quick name for each rule with a leading zero.
      *
      * @param count
-     *
      */
     private static String getRuleName(int count) {
         String strVal = new Integer(count).toString();
@@ -282,9 +280,11 @@ public class StyleGenerator {
     }
 
     private static Rule createRuleRanged(RangedClassifier classifier, Expression expression,
-        Object localMin, Object localMax, GeometryDescriptor geometryAttrType, int i,
-        int elseMode, Color[] colors, double opacity, Stroke defaultStroke)
-        throws IllegalFilterException {
+                                         Object localMin, Object localMax, GeometryDescriptor 
+                                                 geometryAttrType, int i,
+                                         int elseMode, Color[] colors, double opacity, Stroke 
+                                                 defaultStroke)
+            throws IllegalFilterException {
         // 1.0 --> 1
         // (this makes our styleExpressions more readable. Note that the
         // filter always converts to double, so it doesn't care what we
@@ -300,16 +300,16 @@ public class StyleGenerator {
 
         if (localMin == localMax) {
             // build filter: =
-            filter = ff.equals(expression, ff.literal(localMax)); 
+            filter = ff.equals(expression, ff.literal(localMax));
         } else {
             // build filter: [min <= x] AND [x < max]
             Filter lowBoundFilter = null;
             Filter hiBoundFilter = null;
-            
-            if(localMin != null) {
+
+            if (localMin != null) {
                 lowBoundFilter = ff.greaterOrEqual(expression, ff.literal(localMin));
             }
-            if(localMax != null) {
+            if (localMax != null) {
                 // if this is the global maximum, include the max value
                 if (i == (classifier.getSize() - 1)) {
                     hiBoundFilter = ff.lessOrEqual(expression, ff.literal(localMax));
@@ -341,8 +341,9 @@ public class StyleGenerator {
     }
 
     private static Rule createRuleExplicit(ExplicitClassifier explicit, Expression expression,
-        Set value, GeometryDescriptor geometryAttrType, int i, int elseMode, Color[] colors,
-        double opacity, Stroke defaultStroke) {
+                                           Set value, GeometryDescriptor geometryAttrType, int i,
+                                           int elseMode, Color[] colors,
+                                           double opacity, Stroke defaultStroke) {
         // create a sub filter for each unique value, and merge them
         // into the logic filter
         Object[] items = value.toArray();
@@ -380,10 +381,10 @@ public class StyleGenerator {
         // create the rule
         Rule rule = sb.createRule(symb);
 
-        if (filters.size() == 1){
-        	rule.setFilter(filters.get(0));
-        }else if (filters.size() > 1){
-        	rule.setFilter(ff.or(filters));
+        if (filters.size() == 1) {
+            rule.setFilter(filters.get(0));
+        } else if (filters.size() > 1) {
+            rule.setFilter(ff.or(filters));
         }
 
         rule.setTitle(title);
@@ -391,45 +392,48 @@ public class StyleGenerator {
 
         return rule;
     }
+
     /**
      * Used to update an existing style based on the provided input.
-     * 
+     *
      * @param fts
      * @param ruleIndex
      * @param styleExpression
      * @throws IllegalFilterException
      */
     public static void modifyFTS(FeatureTypeStyle fts, int ruleIndex, String styleExpression)
-        throws IllegalFilterException {
+            throws IllegalFilterException {
         Rule[] rule = fts.getRules();
         Rule thisRule = rule[ruleIndex];
         Filter filter = thisRule.getFilter();
 
         if (filter instanceof And) { //ranged expression
-                                                  //figure out the appropriate values
+            //figure out the appropriate values
 
             String[] newValue = styleExpression.split("\\.\\."); //$NON-NLS-1$
 
             if (newValue.length != 2) {
                 throw new IllegalArgumentException(
-                    "StyleExpression has incorrect syntax; min..max expected.");
+                        "StyleExpression has incorrect syntax; min..max expected.");
             }
 
             List<Filter> children = ((BinaryLogicOperator) filter).getChildren();
-            
+
             if (children.size() > 2) {
                 throw new IllegalArgumentException(
-                    "This method currently only supports logical filters with exactly 2 children.");
+                        "This method currently only supports logical filters with exactly 2 " +
+                                "children.");
             }
 
             // we're expecting 2 compare subfilters
-            PropertyIsGreaterThanOrEqualTo filter1 = (PropertyIsGreaterThanOrEqualTo) children.get(0);
+            PropertyIsGreaterThanOrEqualTo filter1 = (PropertyIsGreaterThanOrEqualTo) children
+                    .get(0);
             BinaryComparisonOperator filter2 = (BinaryComparisonOperator) children.get(1);
 
             //filter1 should be 1 <= x and filter2 should be x <(=) 5
             if (!(filter1.getExpression2().equals(filter2.getExpression1()))) {
                 throw new IllegalArgumentException(
-                    "Subfilters or subExpressions in incorrect order");
+                        "Subfilters or subExpressions in incorrect order");
             }
 
             if (filter1.getExpression1().toString() != newValue[0]) {
@@ -439,25 +443,28 @@ public class StyleGenerator {
 
             if (filter2.getExpression2().toString() != newValue[1]) {
                 //upper bound value has changed, update
-                if(filter2 instanceof PropertyIsLessThan) {
+                if (filter2 instanceof PropertyIsLessThan) {
                     filter2 = ff.less(filter1.getExpression1(), ff.literal(newValue[1]));
-                } else if(filter2 instanceof PropertyIsLessThanOrEqualTo) {
+                } else if (filter2 instanceof PropertyIsLessThanOrEqualTo) {
                     filter2 = ff.lessOrEqual(filter1.getExpression1(), ff.literal(newValue[1]));
                 } else {
-                    throw new IllegalArgumentException("Filter 2 in the comparison is not less or less or equal??");
+                    throw new IllegalArgumentException("Filter 2 in the comparison is not less or" +
+                            " less or equal??");
                 }
             }
 
-            thisRule.setFilter(filter); // style events don't handle filters yet, so fire the change event for filter
+            thisRule.setFilter(filter); // style events don't handle filters yet, so fire the 
+            // change event for filter
 
             //TODO: adjust the previous and next filters (uses isFirst, isLast)
-        } else if (filter instanceof Or || filter instanceof PropertyIsEqualTo) { 
+        } else if (filter instanceof Or || filter instanceof PropertyIsEqualTo) {
             // explicit expression obtain the expression containing the attribute
 
             Expression attrExpression;
 
             if (filter instanceof Or) {
-                attrExpression = ((BinaryComparisonOperator) ((Or) filter).getChildren().get(0)).getExpression1();
+                attrExpression = ((BinaryComparisonOperator) ((Or) filter).getChildren().get(0))
+                        .getExpression1();
             } else { //COMPARE_EQUALS (simple explicit expression)
                 attrExpression = ((PropertyIsEqualTo) filter).getExpression1();
             }
@@ -505,16 +512,15 @@ public class StyleGenerator {
      * <code>filter[2] = [[attr = 11] OR [attr = -13]]</code>
      * </p>
      *
-     * @param styleExpression
-     *            strings of ranged expressions "lowValue..highValue" or
-     *            explicit values "value1, value2"
+     * @param styleExpression   strings of ranged expressions "lowValue..highValue" or
+     *                          explicit values "value1, value2"
      * @param featureType
      * @param attributeTypeName
      * @return an array with all the filters
      * @throws IllegalFilterException
      */
     public static Filter[] toFilter(String[] styleExpression, SimpleFeatureType[] featureType,
-        String[] attributeTypeName) throws IllegalFilterException {
+                                    String[] attributeTypeName) throws IllegalFilterException {
         Filter[] filter = new Filter[styleExpression.length];
 
         // prepare the styleExpressions (fix out if they are ranged, and if so
@@ -569,26 +575,22 @@ public class StyleGenerator {
      * "..10, closed=true --> [attr <= 10]
      * </p>
      *
-     * @param styleExpression
-     *            the ranged style expression (minValue..maxValue)
-     * @param featureType
-     *            the featureType
-     * @param attributeTypeName
-     *            the attributeTypeName whose values correspond to
-     * @param upperBoundClosed
-     *            does the upper bound include the max value? (true: <=, false: <)
+     * @param styleExpression   the ranged style expression (minValue..maxValue)
+     * @param featureType       the featureType
+     * @param attributeTypeName the attributeTypeName whose values correspond to
+     * @param upperBoundClosed  does the upper bound include the max value? (true: <=, false: <)
      * @return a filter
      * @throws IllegalFilterException
      */
     public static Filter toRangedFilter(String styleExpression, SimpleFeatureType featureType,
-        String attributeTypeName, boolean upperBoundClosed)
-        throws IllegalFilterException {
+                                        String attributeTypeName, boolean upperBoundClosed)
+            throws IllegalFilterException {
         PropertyName attrib = ff.property(attributeTypeName);
         String[] strs = styleExpression.split("\\.\\."); //$NON-NLS-1$
 
         if (strs.length != 2) {
             throw new IllegalArgumentException(
-                "A ranged filter could not be created from the styleExpression given.");
+                    "A ranged filter could not be created from the styleExpression given.");
         }
 
         Literal localMin = ff.literal(strs[0]);
@@ -618,7 +620,8 @@ public class StyleGenerator {
 
             if (!(filter instanceof And)) {
                 throw new IllegalArgumentException(
-                    "Only logic filters constructed using the LOGIC_AND filterType are currently supported by this method.");
+                        "Only logic filters constructed using the LOGIC_AND filterType are " +
+                                "currently supported by this method.");
             }
 
             List<Filter> children = lFilter.getChildren();
@@ -629,12 +632,15 @@ public class StyleGenerator {
 
             if (children.size() > 2) {
                 throw new IllegalArgumentException(
-                    "This method currently only supports logical filters with exactly 2 children.");
+                        "This method currently only supports logical filters with exactly 2 " +
+                                "children.");
             }
 
-            if (!(filter1 instanceof BinaryComparisonOperator) || !(filter2 instanceof BinaryComparisonOperator)) {
+            if (!(filter1 instanceof BinaryComparisonOperator) || !(filter2 instanceof 
+                    BinaryComparisonOperator)) {
                 throw new IllegalArgumentException(
-                    "Only compare filters as logical filter children are currently supported by this method.");
+                        "Only compare filters as logical filter children are currently supported " +
+                                "by this method.");
             }
 
             // find min and max values
@@ -643,10 +649,11 @@ public class StyleGenerator {
             Expression max1;
             Expression max2;
 
-            if (filter1 instanceof PropertyIsLessThanOrEqualTo || filter1 instanceof PropertyIsLessThan) {
+            if (filter1 instanceof PropertyIsLessThanOrEqualTo || filter1 instanceof 
+                    PropertyIsLessThan) {
                 min1 = ((BinaryComparisonOperator) filter1).getExpression1();
                 max1 = ((BinaryComparisonOperator) filter1).getExpression2();
-            } else if (filter1 instanceof PropertyIsGreaterThanOrEqualTo || 
+            } else if (filter1 instanceof PropertyIsGreaterThanOrEqualTo ||
                     filter1 instanceof PropertyIsGreaterThan) {
                 min1 = ((BinaryComparisonOperator) filter1).getExpression2();
                 max1 = ((BinaryComparisonOperator) filter1).getExpression1();
@@ -654,10 +661,11 @@ public class StyleGenerator {
                 throw new IllegalArgumentException("Unsupported FilterType");
             }
 
-            if (filter2 instanceof PropertyIsLessThanOrEqualTo || filter2 instanceof PropertyIsLessThan) {
+            if (filter2 instanceof PropertyIsLessThanOrEqualTo || filter2 instanceof 
+                    PropertyIsLessThan) {
                 min2 = ((BinaryComparisonOperator) filter2).getExpression1();
                 max2 = ((BinaryComparisonOperator) filter2).getExpression2();
-            } else if (filter2 instanceof PropertyIsGreaterThanOrEqualTo || 
+            } else if (filter2 instanceof PropertyIsGreaterThanOrEqualTo ||
                     filter2 instanceof PropertyIsGreaterThan) {
                 min2 = ((BinaryComparisonOperator) filter2).getExpression2();
                 max2 = ((BinaryComparisonOperator) filter2).getExpression1();
@@ -672,7 +680,7 @@ public class StyleGenerator {
                 return min2.toString() + ".." + max1.toString();
             } else {
                 throw new IllegalArgumentException(
-                    "Couldn't find the expected arrangement of Expressions");
+                        "Couldn't find the expected arrangement of Expressions");
             }
         } else if (filter instanceof BinaryComparisonOperator) {
             // what the heck??
@@ -698,16 +706,14 @@ public class StyleGenerator {
      * "LIB, NDP" --> [[PARTY = LIB] OR [PARTY = NDP]]
      * </p>
      *
-     * @param styleExpression
-     *            the list of attribute values, separated by commas (and
-     *            optional spaces)
-     * @param attributeTypeName
-     *            A Sting with the attributeTypeName whose values correspond to
+     * @param styleExpression   the list of attribute values, separated by commas (and
+     *                          optional spaces)
+     * @param attributeTypeName A Sting with the attributeTypeName whose values correspond to
      * @return a filter
      * @throws IllegalFilterException
      */
     public static Filter toExplicitFilter(String styleExpression, SimpleFeatureType featureType,
-        String attributeTypeName) throws IllegalFilterException {
+                                          String attributeTypeName) throws IllegalFilterException {
         // eliminate spaces after commas
         String expr = styleExpression.replaceAll(",\\s+", ","); //$NON-NLS-1$//$NON-NLS-2$
         String[] attribValue = expr.split(","); //$NON-NLS-1$
@@ -741,16 +747,15 @@ public class StyleGenerator {
      * "LIB, NDP" --> [[PARTY = LIB] OR [PARTY = NDP]]
      * </p>
      *
-     * @param styleExpression
-     *            the list of attribute values, separated by commas (and
-     *            optional spaces)
-     * @param attribExpr
-     *            an Expression to compare each value with (simple case = attributeExpression)
+     * @param styleExpression the list of attribute values, separated by commas (and
+     *                        optional spaces)
+     * @param attribExpr      an Expression to compare each value with (simple case = 
+     *                        attributeExpression)
      * @return a filter
      * @throws IllegalFilterException
      */
     public static Filter toExplicitFilter(String styleExpression, Expression attribExpr)
-        throws IllegalFilterException {
+            throws IllegalFilterException {
         // eliminate spaces after commas
         String expr = styleExpression.replaceAll(",\\s+", ","); //$NON-NLS-1$//$NON-NLS-2$
         String[] attribValue = expr.split(","); //$NON-NLS-1$
@@ -802,7 +807,7 @@ public class StyleGenerator {
                 styleExpression = leftExpression.toString();
             } else {
                 throw new IllegalArgumentException(
-                    "Could not extract an Explicit Style Expression from the CompareFilter");
+                        "Could not extract an Explicit Style Expression from the CompareFilter");
             }
         } else if (filter instanceof Or) {
             // descend into the child elements of this filter

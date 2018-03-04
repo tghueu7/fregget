@@ -22,8 +22,6 @@ import org.geotools.jdbc.JDBCGeographyTestSetup;
 import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class TeradataGeographyTest extends JDBCGeographyTest {
@@ -43,6 +41,7 @@ public class TeradataGeographyTest extends JDBCGeographyTest {
 
         // extra check, pg specific: the native typename is actually geography
         SimpleFeatureType ft = dataStore.getFeatureSource(tname("geopoint")).getSchema();
-        assertEquals("geography", ft.getGeometryDescriptor().getUserData().get(JDBCDataStore.JDBC_NATIVE_TYPENAME));
+        assertEquals("geography", ft.getGeometryDescriptor().getUserData().get(JDBCDataStore
+                .JDBC_NATIVE_TYPENAME));
     }
 }

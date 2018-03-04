@@ -35,7 +35,8 @@ import static org.geotools.map.MapContent.UNDISPOSED_MAPCONTENT_ERROR;
 import static org.junit.Assert.assertThat;
 
 /**
- * This test checks that we are not leaving undisposed map contents created inside the streaming renderer.
+ * This test checks that we are not leaving undisposed map contents created inside the streaming 
+ * renderer.
  * Done my best to isolate from other tests being run, but specific JVMs might ignore that... if we
  * see it is breaking the build on some platform we'll have to remove it
  */
@@ -73,8 +74,10 @@ public class StreamingRendererMapContentReleaseTest extends LoggerTest {
 
         // populate with random features
         int featureNumber = 50;
-        ReferencedEnvelope bounds = new ReferencedEnvelope(-20, 20, -30, 30, DefaultGeographicCRS.WGS84);
-        PrimitiveIterator.OfDouble rand = new Random().doubles(bounds.getMinX(), bounds.getMaxX()).iterator();
+        ReferencedEnvelope bounds = new ReferencedEnvelope(-20, 20, -30, 30, DefaultGeographicCRS
+                .WGS84);
+        PrimitiveIterator.OfDouble rand = new Random().doubles(bounds.getMinX(), bounds.getMaxX()
+        ).iterator();
         SimpleFeatureBuilder fb = new SimpleFeatureBuilder(type);
         for (int i = 0; i < featureNumber; i++) {
 
@@ -94,7 +97,8 @@ public class StreamingRendererMapContentReleaseTest extends LoggerTest {
             renderAndStop(content, bounds);
             Runtime.getRuntime().runFinalization();
             String messages = getLogOutput();
-            assertThat(messages, CoreMatchers.not(CoreMatchers.containsString(UNDISPOSED_MAPCONTENT_ERROR)));
+            assertThat(messages, CoreMatchers.not(CoreMatchers.containsString
+                    (UNDISPOSED_MAPCONTENT_ERROR)));
             releaseLogger();
         }
     }
@@ -131,7 +135,8 @@ public class StreamingRendererMapContentReleaseTest extends LoggerTest {
         int thick = 3;
 
         // create stroke
-        org.geotools.styling.Stroke stroke = sf.stroke(ff.literal(foreground), null, ff.literal(thick), null, null,
+        org.geotools.styling.Stroke stroke = sf.stroke(ff.literal(foreground), null, ff.literal
+                        (thick), null, null,
                 null, null);
 
         // create line symbolizer

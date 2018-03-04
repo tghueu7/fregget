@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.primitive;
@@ -30,7 +30,7 @@ import static org.opengis.annotation.Specification.*;
  * {@code OrientablePrimitive} objects are essentially references to geometric primitives
  * that carry an "orientation" reversal flag (either "+" or "-") that determines whether this
  * primitive agrees or disagrees with the orientation of the referenced object.
- *
+ * <p>
  * <blockquote><font size=2>
  * <strong>NOTE:</strong> There are several reasons for subclassing the "positive" primitives
  * under the orientable primitives. First is a matter of the semantics of subclassing. Subclassing
@@ -45,21 +45,19 @@ import static org.opengis.annotation.Specification.*;
  * corresponding primitive subtype) while negatively oriented primitives are not.
  * </font></blockquote>
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @since GeoAPI 1.0
  */
-@UML(identifier="GM_OrientablePrimitive", specification=ISO_19107)
+@UML(identifier = "GM_OrientablePrimitive", specification = ISO_19107)
 public interface OrientablePrimitive extends Primitive {
     /**
      * Determines which of the two possible orientations this object represents.
      *
      * @return +1 for a positive orientation, or -1 for a negative orientation.
      */
-    @UML(identifier="orientation", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "orientation", obligation = MANDATORY, specification = ISO_19107)
     int getOrientation();
 
     /**
@@ -75,12 +73,11 @@ public interface OrientablePrimitive extends Primitive {
      * only from {@code Primitive} to {@code OrientablePrimitive}, not the other way.
      *
      * @return The primitive, or {@code null} if the association is
-     *         not available or not implemented that way.
-     *
-     * @see Primitive#getProxy
+     * not available or not implemented that way.
      * @issue http://jira.codehaus.org/browse/GEO-63
+     * @see Primitive#getProxy
      */
     @Association("Oriented")
-    @UML(identifier="primitive", obligation=OPTIONAL, specification=ISO_19107)
+    @UML(identifier = "primitive", obligation = OPTIONAL, specification = ISO_19107)
     Primitive getPrimitive();
 }

@@ -3,7 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -40,15 +40,13 @@ import org.xml.sax.SAXException;
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: jive $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class XMLReader {
     /**
      * XMLReader constructor.
-     * 
+     * <p>
      * <p>
      * Should never be used.
      * </p>
@@ -58,21 +56,19 @@ public class XMLReader {
 
     /**
      * readPlugIn purpose.
-     * 
+     * <p>
      * <p>
      * This method is intended to read an XML PlugIn (pluginSchema.xsd) into a
      * PlugInDTO object.
      * </p>
      *
      * @param inputSource A features which contains a copy of a valid PlugIn
-     *        desciption.
-     *
+     *                    desciption.
      * @return the resulting dto based on the input provided.
-     *
      * @throws ValidationException DOCUMENT ME!
      */
     public static PlugInDTO readPlugIn(Reader inputSource)
-        throws ValidationException {
+            throws ValidationException {
         PlugInDTO dto = new PlugInDTO();
 
         try {
@@ -81,11 +77,13 @@ public class XMLReader {
             try {
                 elem = ReaderUtils.loadConfig(inputSource);
             } catch (ParserConfigurationException pce) {
-                throw new ValidationException("Cannot parse the inputSource: Cannot configure the parser.",
-                    pce);
+                throw new ValidationException("Cannot parse the inputSource: Cannot configure the" +
+                        " parser.",
+                        pce);
             } catch (SAXException se) {
-                throw new ValidationException("Cannot parse the inputSource: Cannot configure the parser.",
-                    se);
+                throw new ValidationException("Cannot parse the inputSource: Cannot configure the" +
+                        " parser.",
+                        se);
             }
 
             try {
@@ -93,7 +91,7 @@ public class XMLReader {
                         ReaderUtils.getChildElement(elem, "name", true), true));
             } catch (SAXException e) {
                 throw new ValidationException("Error parsing name for this plugin",
-                    e);
+                        e);
             }
 
             try {
@@ -102,8 +100,8 @@ public class XMLReader {
                         true));
             } catch (SAXException e) {
                 throw new ValidationException(
-                    "Error parsing description for the " + dto.getName()
-                    + " plugin", e);
+                        "Error parsing description for the " + dto.getName()
+                                + " plugin", e);
             }
 
             try {
@@ -111,7 +109,7 @@ public class XMLReader {
                         ReaderUtils.getChildElement(elem, "class", true), true));
             } catch (SAXException e) {
                 throw new ValidationException("Error parsing class for the "
-                    + dto.getName() + " plugin", e);
+                        + dto.getName() + " plugin", e);
             }
 
             NodeList nl = elem.getElementsByTagName("argument");
@@ -137,8 +135,9 @@ public class XMLReader {
                 }
             }
         } catch (IOException ioe) {
-            throw new ValidationException("Cannot parse the inputSource: Cannot configure the parser.",
-                ioe);
+            throw new ValidationException("Cannot parse the inputSource: Cannot configure the " +
+                    "parser.",
+                    ioe);
         }
 
         return dto;
@@ -146,32 +145,31 @@ public class XMLReader {
 
     /**
      * readTestSuiteDTO purpose.
-     * 
+     * <p>
      * <p>
      * This method is intended to read an XML Test (testSuiteSchema.xsd) into a
      * TestSuiteDTO object.
      * </p>
      *
      * @param inputSource A features which contains a copy of a valid TestSuite
-     *        desciption.
-     * @param plugIns A name of plugin names to valid plugin DTOs
-     *
+     *                    desciption.
+     * @param plugIns     A name of plugin names to valid plugin DTOs
      * @return the resulting dto based on the input provided.
-     *
      * @throws ValidationException DOCUMENT ME!
      */
     public static TestSuiteDTO readTestSuite(String name, Reader inputSource, Map plugIns)
-        throws ValidationException {
+            throws ValidationException {
         TestSuiteDTO dto = new TestSuiteDTO();
         try {
             Element elem = null;
             try {
                 elem = ReaderUtils.loadConfig(inputSource);
             } catch (ParserConfigurationException e) {
-                throw new ValidationException( "Problem parsing "+name+":"+e.getMessage(),
-                    e);
+                throw new ValidationException("Problem parsing " + name + ":" + e.getMessage(),
+                        e);
             } catch (SAXException e) {
-                throw new ValidationException( "XML problem with  "+name+":"+e.getMessage(),e);
+                throw new ValidationException("XML problem with  " + name + ":" + e.getMessage(),
+                        e);
             }
 
             try {
@@ -185,7 +183,7 @@ public class XMLReader {
                         "description", true));
             } catch (SAXException e) {
                 throw new ValidationException("Error loading test suite description",
-                    e);
+                        e);
             }
 
             Map l = new HashMap();
@@ -195,7 +193,7 @@ public class XMLReader {
 
             if ((nl == null) || (nl.getLength() == 0)) {
                 throw new ValidationException(
-                    "The test suite loader has detected an error: no tests provided.");
+                        "The test suite loader has detected an error: no tests provided.");
             } else {
                 for (int i = 0; i < nl.getLength(); i++) {
                     try {
@@ -203,19 +201,18 @@ public class XMLReader {
                         l.put(t.getName(), t);
                     } catch (ValidationException e) {
                         throw new ValidationException(
-                            "An error occured loading a test in "
-                            + dto.getName() + " test suite.", e);
-                    }
-                    catch (Throwable t) {
+                                "An error occured loading a test in "
+                                        + dto.getName() + " test suite.", e);
+                    } catch (Throwable t) {
                         throw new ValidationException(
-                            "Could not load test suite "
-                            + dto.getName() + ":"+ t.getMessage(), t);
-                    }                    
+                                "Could not load test suite "
+                                        + dto.getName() + ":" + t.getMessage(), t);
+                    }
                 }
             }
         } catch (IOException e) {
             throw new ValidationException("An error occured loading the "
-                + dto.getName() + "test suite", e);
+                    + dto.getName() + "test suite", e);
         }
 
         return dto;
@@ -223,28 +220,26 @@ public class XMLReader {
 
     /**
      * loadTestDTO purpose.
-     * 
+     * <p>
      * <p>
      * Helper method used by readTestDTO and readTestSuiteDTO
      * </p>
      *
-     * @param elem The head element of a test
+     * @param elem    The head element of a test
      * @param plugIns DOCUMENT ME!
-     *
      * @return a TestDTO representing elem, null if elem is not corretly
-     *         defined.
-     *
+     * defined.
      * @throws ValidationException DOCUMENT ME!
      */
     private static TestDTO loadTestDTO(Element elem, Map plugIns)
-        throws ValidationException {
+            throws ValidationException {
         TestDTO dto = new TestDTO();
 
         try {
             dto.setName(ReaderUtils.getChildText(elem, "name", true));
         } catch (SAXException e) {
             throw new ValidationException("Error reading the name for this test case.",
-                e);
+                    e);
         }
 
         try {
@@ -252,8 +247,8 @@ public class XMLReader {
                     false));
         } catch (SAXException e) {
             throw new ValidationException(
-                "Error reading the description for the " + dto.getName()
-                + " test case.", e);
+                    "Error reading the description for the " + dto.getName()
+                            + " test case.", e);
         }
 
         try {
@@ -262,11 +257,11 @@ public class XMLReader {
 
             if (dto.getPlugIn() == null) {
                 throw new NullPointerException(
-                    "Error - should have a plugin at "+elem);
+                        "Error - should have a plugin at " + elem);
             }
         } catch (SAXException e) {
             throw new ValidationException("Error reading the plugin for the "
-                + dto.getName() + " test case.", e);
+                    + dto.getName() + " test case.", e);
         }
 
         NodeList nl = elem.getElementsByTagName("argument");
@@ -298,7 +293,7 @@ public class XMLReader {
     }
 
     private static ArgumentDTO loadArg(Element elem, PlugInDTO dto)
-        throws ValidationException {
+            throws ValidationException {
         String key = "";
         boolean _fixed = false;
 
@@ -307,7 +302,7 @@ public class XMLReader {
             key = ReaderUtils.getChildText(elem, "name", true);
         } catch (SAXException e) {
             throw new ValidationException("Error reading argument for "
-                + dto.getName() + " :name required");
+                    + dto.getName() + " :name required");
         }
 
         NodeList nl2 = elem.getChildNodes();
@@ -327,7 +322,7 @@ public class XMLReader {
 
         if (value == null) {
             throw new ValidationException("Invalid Argument \"" + dto.getName()
-                + "\" for argument \"" + key + "\"");
+                    + "\" for argument \"" + key + "\"");
         }
 
         ArgumentDTO adto = (ArgumentDTO) dto.getArgs().get(key);
@@ -338,7 +333,7 @@ public class XMLReader {
 
         if (val == null) {
             throw new ValidationException(
-                "Didn't find a real value for argument " + key);
+                    "Didn't find a real value for argument " + key);
         }
 
         if (adto == null) {
@@ -356,14 +351,12 @@ public class XMLReader {
 
     /**
      * loadPlugIns purpose.
-     * 
+     * <p>
      * <p>
      * Loads all the plugins in the directory
      * </p>
      *
      * @param plugInDir
-     *
-     *
      * @throws ValidationException DOCUMENT ME!
      */
     public static Map loadPlugIns(File plugInDir) throws ValidationException {
@@ -385,7 +378,7 @@ public class XMLReader {
             }
         } catch (IOException e) {
             throw new ValidationException("An io error occured while loading the plugin's",
-                e);
+                    e);
         }
 
         return r;
@@ -396,21 +389,18 @@ public class XMLReader {
      * </p>
      *
      * @param validationDir
-     * @param plugInDTOs Already loaded list of plug-ins to link.
-     *
-     *
+     * @param plugInDTOs    Already loaded list of plug-ins to link.
      * @throws ValidationException DOCUMENT ME!
      */
     public static Map loadValidations(File validationDir, Map plugInDTOs)
-        throws ValidationException {
+            throws ValidationException {
         Map r = null;
 
         try {
             validationDir = ReaderUtils.initFile(validationDir, true);
-        }
-        catch( IOException dirException ){
-            throw new ValidationException("Problem opening "+validationDir.getName(),
-                    dirException);            
+        } catch (IOException dirException) {
+            throw new ValidationException("Problem opening " + validationDir.getName(),
+                    dirException);
         }
         File[] fileList = validationDir.listFiles();
         r = new HashMap();
@@ -420,17 +410,16 @@ public class XMLReader {
                 if (fileList[i].canWrite() && fileList[i].isFile()) {
                     FileReader fr = new FileReader(fileList[i]);
                     try {
-                        TestSuiteDTO dto = XMLReader.readTestSuite( fileList[i].getName(), fr, plugInDTOs);
-                        r.put(dto.getName(), dto);                        
-                    }
-                    finally {                    
+                        TestSuiteDTO dto = XMLReader.readTestSuite(fileList[i].getName(), fr, 
+                                plugInDTOs);
+                        r.put(dto.getName(), dto);
+                    } finally {
                         fr.close();
                     }
                 }
-            }
-            catch (IOException open) {
-                throw new ValidationException("Could not open "+fileList[i].getName(),
-                    open);
+            } catch (IOException open) {
+                throw new ValidationException("Could not open " + fileList[i].getName(),
+                        open);
             }
         }
         return r;

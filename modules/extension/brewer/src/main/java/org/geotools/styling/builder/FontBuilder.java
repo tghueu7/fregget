@@ -23,8 +23,6 @@ import org.geotools.styling.Font;
 import org.opengis.filter.expression.Expression;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class FontBuilder extends AbstractStyleBuilder<Font> {

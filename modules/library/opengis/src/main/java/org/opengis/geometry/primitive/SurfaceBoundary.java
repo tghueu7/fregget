@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.primitive;
 
 import java.util.List;
+
 import org.opengis.annotation.UML;
 
 import static org.opengis.annotation.Obligation.*;
@@ -18,11 +19,13 @@ import static org.opengis.annotation.Specification.*;
 
 /**
  * The boundary of {@linkplain Surface surfaces}. A {@code SurfaceBoundary} consists of some number
- * of {@linkplain Ring rings}, corresponding to the various components of its boundary. In the normal 2D
- * case, one of these rings is distinguished as being the exterior boundary. In a general manifold this
+ * of {@linkplain Ring rings}, corresponding to the various components of its boundary. In the 
+ * normal 2D
+ * case, one of these rings is distinguished as being the exterior boundary. In a general 
+ * manifold this
  * is not always possible, in which case all boundaries shall be listed as interior boundaries,
  * and the exterior will be empty.
- *
+ * <p>
  * <blockquote><font size=2>
  * <strong>NOTE:</strong> The use of exterior and interior here is not intended to invoke the
  * definitions of "interior" and "exterior" of geometric objects. The terms are in common usage,
@@ -48,32 +51,28 @@ import static org.opengis.annotation.Specification.*;
  * distinguish one of these as an exterior.
  * </font></blockquote>
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
- * @since GeoAPI 1.0
- *
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @see SolidBoundary
+ * @since GeoAPI 1.0
  */
-@UML(identifier="GM_SurfaceBoundary", specification=ISO_19107)
+@UML(identifier = "GM_SurfaceBoundary", specification = ISO_19107)
 public interface SurfaceBoundary extends PrimitiveBoundary {
     /**
      * Returns the exterior ring, or {@code null} if none.
      *
      * @return The exterior ring, or {@code null}.
      */
-    @UML(identifier="exterior", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "exterior", obligation = MANDATORY, specification = ISO_19107)
     Ring getExterior();
 
     /**
      * Returns the interior rings.
      *
      * @return The interior rings. Never {@code null}, but may be an empty array.
-     *
      * @todo Consider using a Collection return type instead.
      */
-    @UML(identifier="interior", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "interior", obligation = MANDATORY, specification = ISO_19107)
     List<Ring> getInteriors();
 }

@@ -33,13 +33,16 @@ import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:PolygonType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="PolygonType"&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;A Polygon is a special surface that is defined by a single surface patch. The boundary of this patch is coplanar and the polygon uses planar interpolation in its interior. It is backwards compatible with the Polygon of GML 2, GM_Polygon of ISO 19107 is implemented by PolygonPatch.&lt;/documentation&gt;
+ *          &lt;documentation&gt;A Polygon is a special surface that is defined by a single 
+ *          surface patch. The boundary of this patch is coplanar and the polygon uses planar 
+ *          interpolation in its interior. It is backwards compatible with the Polygon of GML 2, 
+ *          GM_Polygon of ISO 19107 is implemented by PolygonPatch.&lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;complexContent&gt;
  *          &lt;extension base="gml:AbstractSurfaceType"&gt;
@@ -56,9 +59,6 @@ import com.vividsolutions.jts.geom.Polygon;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class PolygonTypeBinding extends AbstractComplexBinding {
@@ -96,7 +96,7 @@ public class PolygonTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //TODO: schema allows no exterior ring, but what the heck is that all about ?
         LinearRing exterior = (LinearRing) node.getChildValue("exterior");
         LinearRing[] interior = null;
@@ -110,7 +110,7 @@ public class PolygonTypeBinding extends AbstractComplexBinding {
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         Polygon polygon = (Polygon) object;
 
         if ("exterior".equals(name.getLocalPart())) {

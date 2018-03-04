@@ -35,8 +35,6 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LinearRing;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class PostgisFilterToSQL extends FilterToSQL {
@@ -55,11 +53,11 @@ public class PostgisFilterToSQL extends FilterToSQL {
     public void setLooseBBOXEnabled(boolean looseBBOXEnabled) {
         helper.looseBBOXEnabled = looseBBOXEnabled;
     }
-    
+
     public boolean isEncodeBBOXFilterAsEnvelope(boolean encodeBBOXFilterAsEnvelope) {
         return helper.encodeBBOXFilterAsEnvelope;
     }
-    
+
     public void setEncodeBBOXFilterAsEnvelope(boolean encodeBBOXFilterAsEnvelope) {
         helper.encodeBBOXFilterAsEnvelope = encodeBBOXFilterAsEnvelope;
     }
@@ -67,22 +65,22 @@ public class PostgisFilterToSQL extends FilterToSQL {
     @Override
     protected void visitLiteralGeometry(Literal expression) throws IOException {
         // evaluate the literal and store it for later
-        Geometry geom  = (Geometry) evaluateLiteral(expression, Geometry.class);
-        
-        if ( geom instanceof LinearRing ) {
+        Geometry geom = (Geometry) evaluateLiteral(expression, Geometry.class);
+
+        if (geom instanceof LinearRing) {
             //postgis does not handle linear rings, convert to just a line string
             geom = geom.getFactory().createLineString(((LinearRing) geom).getCoordinateSequence());
         }
-        
+
         Object typename = currentGeometry.getUserData().get(JDBCDataStore.JDBC_NATIVE_TYPENAME);
-        if("geography".equals(typename)) {
+        if ("geography".equals(typename)) {
             out.write("ST_GeogFromText('");
             out.write(geom.toText());
             out.write("')");
         } else {
             out.write("ST_GeomFromText('");
             out.write(geom.toText());
-            if(currentSRID == null && currentGeometry  != null) {
+            if (currentSRID == null && currentGeometry != null) {
                 // if we don't know at all, use the srid of the geometry we're comparing against
                 // (much slower since that has to be extracted record by record as opposed to 
                 // being a constant)
@@ -99,15 +97,16 @@ public class PostgisFilterToSQL extends FilterToSQL {
     }
 
     protected Object visitBinarySpatialOperator(BinarySpatialOperator filter,
-            PropertyName property, Literal geometry, boolean swapped,
-            Object extraData) {
+                                                PropertyName property, Literal geometry, boolean 
+                                                        swapped,
+                                                Object extraData) {
         helper.out = out;
         return helper.visitBinarySpatialOperator(filter, property, geometry,
                 swapped, extraData);
     }
-    
-    protected Object visitBinarySpatialOperator(BinarySpatialOperator filter, Expression e1, 
-            Expression e2, Object extraData) {
+
+    protected Object visitBinarySpatialOperator(BinarySpatialOperator filter, Expression e1,
+                                                Expression e2, Object extraData) {
         helper.out = out;
         return helper.visitBinarySpatialOperator(filter, e1, e2, extraData);
     }
@@ -117,7 +116,6 @@ public class PostgisFilterToSQL extends FilterToSQL {
     }
 
 
-
     @Override
     public Object visit(Function function, Object extraData) throws RuntimeException {
         helper.out = out;
@@ -125,13 +123,13 @@ public class PostgisFilterToSQL extends FilterToSQL {
             encodingFunction = true;
             boolean encoded = helper.visitFunction(function, extraData);
             encodingFunction = false;
-            
-            if(encoded) {
-               return extraData; 
+
+            if (encoded) {
+                return extraData;
             } else {
                 return super.visit(function, extraData);
             }
-        } catch(IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -141,7 +139,8 @@ public class PostgisFilterToSQL extends FilterToSQL {
         // handle BigDate udt, encode it as a long
         if (extraData instanceof Class && BigDate.class.isAssignableFrom((Class<?>) extraData)) {
             if (literal.getValue() instanceof Date) {
-                return super.visit(filterFactory.literal(((Date) literal.getValue()).getTime()), Long.class);
+                return super.visit(filterFactory.literal(((Date) literal.getValue()).getTime()), 
+                        Long.class);
             }
         }
         return super.visit(literal, extraData);
@@ -151,7 +150,7 @@ public class PostgisFilterToSQL extends FilterToSQL {
     protected String getFunctionName(Function function) {
         return helper.getFunctionName(function);
     }
-    
+
     @Override
     protected String cast(String encodedProperty, Class target) throws IOException {
         return helper.cast(encodedProperty, target);
@@ -160,12 +159,12 @@ public class PostgisFilterToSQL extends FilterToSQL {
     public void setFunctionEncodingEnabled(boolean functionEncodingEnabled) {
         this.functionEncodingEnabled = functionEncodingEnabled;
     }
-    
+
     @Override
     public double getDistanceInMeters(DistanceBufferOperator operator) {
         return super.getDistanceInMeters(operator);
     }
-    
+
     @Override
     public double getDistanceInNativeUnits(DistanceBufferOperator operator) {
         return super.getDistanceInNativeUnits(operator);

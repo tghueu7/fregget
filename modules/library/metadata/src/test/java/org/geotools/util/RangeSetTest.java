@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,17 +17,16 @@
 package org.geotools.util;
 
 import org.junit.*;
+
 import static org.junit.Assert.*;
 
 
 /**
  * Tests the {@link RangeSet} implementation.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Andrea Aime
+ * @version $Id$
+ * @source $URL$
  */
 public final class RangeSetTest {
     /**

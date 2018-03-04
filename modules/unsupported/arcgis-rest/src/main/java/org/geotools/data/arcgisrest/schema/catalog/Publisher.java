@@ -1,8 +1,8 @@
-
 package org.geotools.data.arcgisrest.schema.catalog;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -14,7 +14,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * Project Open Data Organization
  * <p>
  * A Dataset Publisher Organization as a foaf:Agent object
- * 
  */
 public class Publisher {
 
@@ -22,7 +21,6 @@ public class Publisher {
      * Metadata Context
      * <p>
      * IRI for the JSON-LD data type. This should be org:Organization for each publisher
-     * 
      */
     @SerializedName("@type")
     @Expose
@@ -32,7 +30,6 @@ public class Publisher {
      * <p>
      * A full formatted name, eg Firstname Lastname
      * (Required)
-     * 
      */
     @SerializedName("name")
     @Expose
@@ -41,7 +38,6 @@ public class Publisher {
      * Project Open Data Organization
      * <p>
      * A Dataset Publisher Organization as a foaf:Agent object
-     * 
      */
     @SerializedName("subOrganizationOf")
     @Expose
@@ -51,9 +47,8 @@ public class Publisher {
      * Metadata Context
      * <p>
      * IRI for the JSON-LD data type. This should be org:Organization for each publisher
-     * 
-     * @return
-     *     The type
+     *
+     * @return The type
      */
     public Publisher.Type getType() {
         return type;
@@ -63,9 +58,8 @@ public class Publisher {
      * Metadata Context
      * <p>
      * IRI for the JSON-LD data type. This should be org:Organization for each publisher
-     * 
-     * @param type
-     *     The @type
+     *
+     * @param type The @type
      */
     public void setType(Publisher.Type type) {
         this.type = type;
@@ -76,9 +70,8 @@ public class Publisher {
      * <p>
      * A full formatted name, eg Firstname Lastname
      * (Required)
-     * 
-     * @return
-     *     The name
+     *
+     * @return The name
      */
     public String getName() {
         return name;
@@ -89,9 +82,8 @@ public class Publisher {
      * <p>
      * A full formatted name, eg Firstname Lastname
      * (Required)
-     * 
-     * @param name
-     *     The name
+     *
+     * @param name The name
      */
     public void setName(String name) {
         this.name = name;
@@ -101,9 +93,8 @@ public class Publisher {
      * Project Open Data Organization
      * <p>
      * A Dataset Publisher Organization as a foaf:Agent object
-     * 
-     * @return
-     *     The subOrganizationOf
+     *
+     * @return The subOrganizationOf
      */
     public Publisher getSubOrganizationOf() {
         return subOrganizationOf;
@@ -113,9 +104,8 @@ public class Publisher {
      * Project Open Data Organization
      * <p>
      * A Dataset Publisher Organization as a foaf:Agent object
-     * 
-     * @param subOrganizationOf
-     *     The subOrganizationOf
+     *
+     * @param subOrganizationOf The subOrganizationOf
      */
     public void setSubOrganizationOf(Publisher subOrganizationOf) {
         this.subOrganizationOf = subOrganizationOf;
@@ -128,7 +118,8 @@ public class Publisher {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(type).append(name).append(subOrganizationOf).toHashCode();
+        return new HashCodeBuilder().append(type).append(name).append(subOrganizationOf)
+                .toHashCode();
     }
 
     @Override
@@ -140,7 +131,8 @@ public class Publisher {
             return false;
         }
         Publisher rhs = ((Publisher) other);
-        return new EqualsBuilder().append(type, rhs.type).append(name, rhs.name).append(subOrganizationOf, rhs.subOrganizationOf).isEquals();
+        return new EqualsBuilder().append(type, rhs.type).append(name, rhs.name).append
+                (subOrganizationOf, rhs.subOrganizationOf).isEquals();
     }
 
     public enum Type {
@@ -148,10 +140,11 @@ public class Publisher {
         @SerializedName("org:Organization")
         ORG_ORGANIZATION("org:Organization");
         private final String value;
-        private final static Map<String, Publisher.Type> CONSTANTS = new HashMap<String, Publisher.Type>();
+        private final static Map<String, Publisher.Type> CONSTANTS = new HashMap<String, 
+                Publisher.Type>();
 
         static {
-            for (Publisher.Type c: values()) {
+            for (Publisher.Type c : values()) {
                 CONSTANTS.put(c.value, c);
             }
         }

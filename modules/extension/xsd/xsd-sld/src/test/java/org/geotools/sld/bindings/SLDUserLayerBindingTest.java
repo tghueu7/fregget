@@ -20,8 +20,6 @@ import org.geotools.styling.UserLayer;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SLDUserLayerBindingTest extends SLDTestSupport {

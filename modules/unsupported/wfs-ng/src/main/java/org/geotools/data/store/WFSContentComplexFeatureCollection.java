@@ -36,13 +36,13 @@ import org.opengis.filter.Filter;
 
 /**
  * Feature collection for parsing complex features.
- * 
+ *
  * @author Adam Brown (Curtin University of Technology)
  * @author Rini Angreani (CSIRO Earth Science and Resource Engineering)
- * 
  */
 
-public class WFSContentComplexFeatureCollection extends BaseFeatureCollection<FeatureType, Feature> {
+public class WFSContentComplexFeatureCollection extends BaseFeatureCollection<FeatureType, 
+        Feature> {
     private static final Logger LOGGER = Logging
             .getLogger(WFSContentComplexFeatureCollection.class);
 
@@ -55,7 +55,7 @@ public class WFSContentComplexFeatureCollection extends BaseFeatureCollection<Fe
     private Filter filter;
 
     public WFSContentComplexFeatureCollection(GetFeatureRequest request, FeatureType schema,
-            QName name) throws IOException {
+                                              QName name) throws IOException {
 
         this.request = request;
         this.name = name;
@@ -63,7 +63,7 @@ public class WFSContentComplexFeatureCollection extends BaseFeatureCollection<Fe
     }
 
     public WFSContentComplexFeatureCollection(GetFeatureRequest request, FeatureType schema,
-            QName name, Filter filter) throws IOException {
+                                              QName name, Filter filter) throws IOException {
 
         this.request = request;
         this.name = name;

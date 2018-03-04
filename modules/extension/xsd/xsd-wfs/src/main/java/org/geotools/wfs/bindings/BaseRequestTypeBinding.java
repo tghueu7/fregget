@@ -27,9 +27,9 @@ import org.geotools.xml.AbstractComplexEMFBinding;
 
 /**
  * Binding object for the type http://www.opengis.net/wfs:BaseRequestType.
- *
  * <p>
- *
+ * <p>
+ * <p>
  * <pre>
  *         <code>
  *  &lt;xsd:complexType abstract=&quot;true&quot; name=&quot;BaseRequestType&quot;&gt;
@@ -39,7 +39,8 @@ import org.geotools.xml.AbstractComplexEMFBinding;
  *              except GetCapabilities.
  *           &lt;/xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
- *      &lt;xsd:attribute default=&quot;WFS&quot; name=&quot;service&quot; type=&quot;ows:ServiceType&quot; use=&quot;optional&quot;&gt;
+ *      &lt;xsd:attribute default=&quot;WFS&quot; name=&quot;service&quot; type=&quot;
+ *      ows:ServiceType&quot; use=&quot;optional&quot;&gt;
  *          &lt;xsd:annotation&gt;
  *              &lt;xsd:documentation&gt;
  *                The service attribute is included to support service
@@ -58,7 +59,8 @@ import org.geotools.xml.AbstractComplexEMFBinding;
  *             &lt;/xsd:documentation&gt;
  *          &lt;/xsd:annotation&gt;
  *      &lt;/xsd:attribute&gt;
- *      &lt;xsd:attribute default=&quot;1.1.0&quot; name=&quot;version&quot; type=&quot;xsd:string&quot; use=&quot;optional&quot;&gt;
+ *      &lt;xsd:attribute default=&quot;1.1.0&quot; name=&quot;version&quot; type=&quot;
+ *      xsd:string&quot; use=&quot;optional&quot;&gt;
  *          &lt;xsd:annotation&gt;
  *              &lt;xsd:documentation&gt;
  *                 The version attribute is used to indicate the version of the
@@ -71,7 +73,8 @@ import org.geotools.xml.AbstractComplexEMFBinding;
  *             &lt;/xsd:documentation&gt;
  *          &lt;/xsd:annotation&gt;
  *      &lt;/xsd:attribute&gt;
- *      &lt;xsd:attribute name=&quot;handle&quot; type=&quot;xsd:string&quot; use=&quot;optional&quot;&gt;
+ *      &lt;xsd:attribute name=&quot;handle&quot; type=&quot;xsd:string&quot; use=&quot;
+ *      optional&quot;&gt;
  *          &lt;xsd:annotation&gt;
  *              &lt;xsd:documentation&gt;
  *                 The handle attribute allows a client application
@@ -88,13 +91,10 @@ import org.geotools.xml.AbstractComplexEMFBinding;
  *  &lt;/xsd:complexType&gt;
  * </code>
  *         </pre>
- *
+ * <p>
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class BaseRequestTypeBinding extends AbstractComplexEMFBinding {

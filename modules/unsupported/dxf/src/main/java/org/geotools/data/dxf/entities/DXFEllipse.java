@@ -4,12 +4,14 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LinearRing;
 import org.geotools.data.dxf.parser.DXFLineNumberReader;
+
 import java.io.EOFException;
 import java.io.IOException;
 
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.geotools.data.GeometryType;
 import org.geotools.data.dxf.parser.DXFUnivers;
 import org.geotools.data.dxf.header.DXFLayer;
@@ -22,8 +24,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DXFEllipse extends DXFEntity {
@@ -36,16 +36,20 @@ public class DXFEllipse extends DXFEntity {
     public double _end = 0;
 
     public DXFEllipse(DXFEllipse newEllipse) {
-        this(new DXFPoint(newEllipse._centre._point.x, newEllipse._centre._point.y, newEllipse.getColor(), null, 0, (double) newEllipse.getThickness()),
-                new DXFPoint(newEllipse._point._point.x, newEllipse._point._point.y, newEllipse.getColor(), null, 0, (double) newEllipse.getThickness()),
-                newEllipse._ratio, newEllipse._start, newEllipse._end, newEllipse.getColor(), newEllipse.getRefLayer(), 0, newEllipse.getLineType());
+        this(new DXFPoint(newEllipse._centre._point.x, newEllipse._centre._point.y, newEllipse
+                        .getColor(), null, 0, (double) newEllipse.getThickness()),
+                new DXFPoint(newEllipse._point._point.x, newEllipse._point._point.y, newEllipse
+                        .getColor(), null, 0, (double) newEllipse.getThickness()),
+                newEllipse._ratio, newEllipse._start, newEllipse._end, newEllipse.getColor(), 
+                newEllipse.getRefLayer(), 0, newEllipse.getLineType());
 
         setType(newEllipse.getType());
         setStartingLineNumber(newEllipse.getStartingLineNumber());
         setUnivers(newEllipse.getUnivers());
     }
 
-    public DXFEllipse(DXFPoint centre, DXFPoint p, double r, double s, double e, int c, DXFLayer l, int visibility, DXFLineType typeLine) {
+    public DXFEllipse(DXFPoint centre, DXFPoint p, double r, double s, double e, int c, DXFLayer 
+            l, int visibility, DXFLineType typeLine) {
         super(c, l, visibility, typeLine, DXFTables.defaultThickness);
         _centre = centre;
         _point = p;
@@ -54,18 +58,21 @@ public class DXFEllipse extends DXFEntity {
         _start = s;
         setName("DXFEllipse");
     }
-    public DXFEllipse(DXFPoint centre, DXFPoint p, double r, double s, double e, int c, DXFLayer l, int visibility, DXFLineType typeLine, DXFExtendedData extData) {
-    	super(c, l, visibility, typeLine, DXFTables.defaultThickness);
-    	_centre = centre;
-    	_point = p;
-    	_ratio = r;
-    	_end = e;
-    	_start = s;
-    	setName("DXFEllipse");
-    	_extendedData = extData;
+
+    public DXFEllipse(DXFPoint centre, DXFPoint p, double r, double s, double e, int c, DXFLayer 
+            l, int visibility, DXFLineType typeLine, DXFExtendedData extData) {
+        super(c, l, visibility, typeLine, DXFTables.defaultThickness);
+        _centre = centre;
+        _point = p;
+        _ratio = r;
+        _end = e;
+        _start = s;
+        setName("DXFEllipse");
+        _extendedData = extData;
     }
 
-    public static DXFEllipse read(DXFLineNumberReader br, DXFUnivers univers) throws NumberFormatException, IOException {
+    public static DXFEllipse read(DXFLineNumberReader br, DXFUnivers univers) throws 
+            NumberFormatException, IOException {
 
         int visibility = 0, c = 0;
         double x = 0, y = 0, x1 = 0, y1 = 0, r = 0, s = 0, e = 0;
@@ -132,9 +139,9 @@ public class DXFEllipse extends DXFEntity {
                     y1 = cvp.getDoubleValue();
                     break;
                 case XDATA_APPLICATION_NAME:
-                	String appName = cvp.getStringValue();
-            		_extData = DXFExtendedData.getExtendedData(br);
-            		_extData.setAppName(appName);
+                    String appName = cvp.getStringValue();
+                    _extData = DXFExtendedData.getExtendedData(br);
+                    _extData.setAppName(appName);
                     break;
                 default:
                     break;
@@ -200,7 +207,7 @@ public class DXFEllipse extends DXFEntity {
         double endAngle = 2 * Math.PI;
         double segAngle = 2 * Math.PI / _ratio;
         double angle = startAngle;
-        for (;;) {
+        for (; ; ) {
             //TODO
             double x = _centre._point.getX() + _ratio * Math.cos(angle);
             double y = _centre._point.getY() + _ratio * Math.sin(angle);
@@ -236,7 +243,8 @@ public class DXFEllipse extends DXFEntity {
         }
     }
 
-    public String toString(int visibility, int c, double r, double t, double e, double x, double y, double x1, double y1) {
+    public String toString(int visibility, int c, double r, double t, double e, double x, double 
+            y, double x1, double y1) {
         StringBuffer s = new StringBuffer();
         s.append("DXFEllipse [");
         s.append("visibility: ");

@@ -28,9 +28,9 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the type http://www.opengis.net/se:SymbolizerType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:complexType abstract="true" name="SymbolizerType"&gt;
@@ -48,16 +48,14 @@ import javax.xml.namespace.QName;
  *      &lt;/xsd:sequence&gt;
  *      &lt;xsd:attribute name="version" type="se:VersionType"/&gt;
  *      &lt;xsd:attribute name="uom" type="xsd:anyURI"/&gt;
- *  &lt;/xsd:complexType&gt; 
- * 	
+ *  &lt;/xsd:complexType&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class SymbolizerTypeBinding extends AbstractComplexBinding {
@@ -71,7 +69,7 @@ public class SymbolizerTypeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -80,7 +78,7 @@ public class SymbolizerTypeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
@@ -94,7 +92,7 @@ public class SymbolizerTypeBinding extends AbstractComplexBinding {
         //      &lt;xsd:attribute name="version" type="se:VersionType"/&gt;
         //      &lt;xsd:attribute name="uom" type="xsd:anyURI"/&gt;
         if (node.hasChild("Name")) {
-            sym.setName((String)node.getChildValue("Name"));
+            sym.setName((String) node.getChildValue("Name"));
         }
         if (node.hasChild("Description")) {
             sym.setDescription((Description) node.getChildValue("Description"));
@@ -110,10 +108,10 @@ public class SymbolizerTypeBinding extends AbstractComplexBinding {
             if (UomOgcMapping.get(uom) == null) {
                 throw new IllegalArgumentException("uom " + uom + " not supported");
             }
-            
+
             sym.setUnitOfMeasure(UomOgcMapping.get(uom).getUnit());
         }
-        
+
         return sym;
     }
 

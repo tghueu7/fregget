@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2008, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.style;
@@ -18,7 +18,7 @@ import org.opengis.filter.expression.Expression;
  * <p>The ContrastEnhancement object defines contrast enhancement for a channel of
  * a false-color image or for a color image.
  * </p>
- *
+ * <p>
  * <p>In the case of a color image, the relative grayscale brightness of a pixel
  * color is used. ?Normalize? means to stretch the contrast so that the
  * dimmest color is stretched to black and the brightest color is stretched to
@@ -33,13 +33,12 @@ import org.opengis.filter.expression.Expression;
  * enhancement is performed.
  * </p>
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding Implementation Specification 1.1.0</A>
  * @author Open Geospatial Consortium
  * @author Ian Turton, CCG
  * @author Johann Sorel (Geomatys)
+ * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding 
+ * Implementation Specification 1.1.0</A>
+ * @source $URL$
  * @since GeoAPI 2.2
  */
 @XmlElement("ContrastEnhancement")
@@ -50,13 +49,14 @@ public interface ContrastEnhancement {
      */
     @XmlElement("Normalize,Histogram,Logarithmic,Exponential")
     public ContrastMethod getMethod();
-    
+
     /**
      * A "GammaValue" tells how much to brighten (values
      * greater than 1.0) or dim (values less than 1.0) an image. The default GammaValue is 1.0
      * (no change).
      *
-     * @return Expression to control gamma adjustment, null or Expression.NIL handled as the value 1.0
+     * @return Expression to control gamma adjustment, null or Expression.NIL handled as the 
+     * value 1.0
      */
     @XmlElement("GammaValue")
     Expression getGammaValue();
@@ -68,5 +68,5 @@ public interface ContrastEnhancement {
      */
     @Extension
     Object accept(StyleVisitor visitor, Object extraData);
-    
+
 }

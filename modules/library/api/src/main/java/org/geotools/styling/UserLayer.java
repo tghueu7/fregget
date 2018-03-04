@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -24,7 +24,7 @@ import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
  * A UserLayer allows a user-defined layer to be built from WFS and WCS data.
- *
+ * <p>
  * <p>
  * The details of this object are taken from the <a
  * href="https://portal.opengeospatial.org/files/?artifact_id=1188"> OGC
@@ -49,7 +49,6 @@ import org.opengis.feature.simple.SimpleFeatureType;
  * </code></pre>
  * </p>
  *
- *
  * @source $URL$
  */
 public interface UserLayer extends StyledLayer {
@@ -58,8 +57,10 @@ public interface UserLayer extends StyledLayer {
     public DataStore getInlineFeatureDatastore();
 
     public SimpleFeatureType getInlineFeatureType();
-    
-    /** DataStore used to hold parsed feature collection content for use during rendering */
+
+    /**
+     * DataStore used to hold parsed feature collection content for use during rendering
+     */
     public void setInlineFeatureDatastore(DataStore store);
 
     public void setInlineFeatureType(SimpleFeatureType ft);
@@ -67,11 +68,15 @@ public interface UserLayer extends StyledLayer {
     public void setRemoteOWS(RemoteOWS service);
 
     public List<FeatureTypeConstraint> layerFeatureConstraints();
+
     public FeatureTypeConstraint[] getLayerFeatureConstraints();
+
     public void setLayerFeatureConstraints(FeatureTypeConstraint[] constraints);
 
-    public List<Style> userStyles();  
+    public List<Style> userStyles();
+
     public Style[] getUserStyles();
+
     public void setUserStyles(Style[] styles);
 
     public void addUserStyle(Style style);

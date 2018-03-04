@@ -38,9 +38,8 @@ import org.opengis.util.ProgressListener;
 
 /**
  * Default implementation of {@link CoverageSource}.
- * 
+ *
  * @author Daniele Romagnoli, GeoSolutions SAS
- * 
  * @source $URL$
  */
 public abstract class DefaultCoverageSource implements CoverageSource {
@@ -52,7 +51,7 @@ public abstract class DefaultCoverageSource implements CoverageSource {
                 CoverageCapabilities.READ_RANGE_SUBSETTING, CoverageCapabilities.READ_REPROJECTION,
                 CoverageCapabilities.READ_SUBSAMPLING);
     }
-    
+
     protected final Name name;
 
     protected final CoverageSourceDescriptor coverageDescriptor;
@@ -70,12 +69,12 @@ public abstract class DefaultCoverageSource implements CoverageSource {
     }
 
     @Override
-    public Map<String, Parameter< ? >> getReadParameterInfo() {
+    public Map<String, Parameter<?>> getReadParameterInfo() {
         return null;
     }
 
     @Override
-    public MetadataNode getMetadata( String metadataDomain, ProgressListener listener ) {
+    public MetadataNode getMetadata(String metadataDomain, ProgressListener listener) {
         return null;
     }
 
@@ -85,23 +84,24 @@ public abstract class DefaultCoverageSource implements CoverageSource {
     }
 
     @Override
-    public List< ? extends RasterLayout> getOverviewsLayouts( ProgressListener listener ) throws IOException {
+    public List<? extends RasterLayout> getOverviewsLayouts(ProgressListener listener) throws 
+            IOException {
         return Collections.emptyList();
     }
 
     @Override
-    public int getOverviewsNumber( ProgressListener listener ) throws IOException {
+    public int getOverviewsNumber(ProgressListener listener) throws IOException {
         return 0;
     }
 
     @Override
-    public Name getName( ProgressListener listener ) {
+    public Name getName(ProgressListener listener) {
         ensureNotDisposed();
         return name;
     }
 
     protected void ensureNotDisposed() {
-        if (disposed){
+        if (disposed) {
             throw new IllegalStateException("Disposed");
         }
     }
@@ -112,7 +112,7 @@ public abstract class DefaultCoverageSource implements CoverageSource {
     }
 
     @Override
-    public RangeType getRangeType( ProgressListener listener ) throws IOException {
+    public RangeType getRangeType(ProgressListener listener) throws IOException {
         ensureNotDisposed();
         return coverageDescriptor.getRangeType();
     }
@@ -126,7 +126,7 @@ public abstract class DefaultCoverageSource implements CoverageSource {
     public SpatialDomain getSpatialDomain() throws IOException {
         return coverageDescriptor.getSpatialDomain();
     }
-    
+
     @Override
     public TemporalDomain getTemporalDomain() throws IOException {
         return coverageDescriptor.getTemporalDomain();
@@ -148,18 +148,18 @@ public abstract class DefaultCoverageSource implements CoverageSource {
     }
 
     @Override
-    public ResourceInfo getInfo( ProgressListener listener ) {
+    public ResourceInfo getInfo(ProgressListener listener) {
         ensureNotDisposed();
         return null;
     }
 
     @Override
     public void dispose() {
-        if(disposed){
+        if (disposed) {
             return;
         }
-        disposed=true;
+        disposed = true;
         coverageDescriptor.dispose();
-        
+
     }
 }

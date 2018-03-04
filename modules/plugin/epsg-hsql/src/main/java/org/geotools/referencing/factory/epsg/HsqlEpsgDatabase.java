@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -52,15 +52,12 @@ import org.opengis.referencing.FactoryException;
  * {@linkplain org.opengis.referencing.AuthorityFactory#getAuthority authority}.
  * The HSQL database is read only.
  * <p>
- * 
- * @since 2.4
  *
- *
- * @source $URL$
- * @version $Id$
  * @author Jody Garnett
- *
+ * @version $Id$
+ * @source $URL$
  * @todo This class is used only by {@link HSQLDataSource}, which is deprecated.
+ * @since 2.4
  */
 public class HsqlEpsgDatabase {
     /**
@@ -80,7 +77,7 @@ public class HsqlEpsgDatabase {
      * This method pays attention to the system property "EPSG-HSQL.directory"
      * and makes use of the default database name "EPSG".
      * </p>
-     * 
+     *
      * @return
      * @throws SQLException
      */
@@ -88,13 +85,14 @@ public class HsqlEpsgDatabase {
         return createDataSource(getDirectory());
     }
 
-    public static javax.sql.DataSource createDataSource(Hints hints ) throws FactoryException {
+    public static javax.sql.DataSource createDataSource(Hints hints) throws FactoryException {
         try {
             return createDataSource(getDirectory());
         } catch (SQLException e) {
-            throw new FactoryException( e );
+            throw new FactoryException(e);
         }
     }
+
     public static javax.sql.DataSource createDataSource(File directory) throws SQLException {
         JDBCDataSource dataSource = new JDBCDataSource();
         /*
@@ -104,11 +102,11 @@ public class HsqlEpsgDatabase {
          */
         final StringBuilder url = new StringBuilder("jdbc:hsqldb:file:");
         final String path = directory.getAbsolutePath().replace(File.separatorChar, '/');
-        if (path.length()==0 || path.charAt(0)!='/') {
+        if (path.length() == 0 || path.charAt(0) != '/') {
             url.append('/');
         }
         url.append(path);
-        if (url.charAt(url.length()-1) != '/') {
+        if (url.charAt(url.length() - 1) != '/') {
             url.append('/');
         }
         url.append(HsqlEpsgDatabase.DATABASE_NAME);
@@ -142,12 +140,12 @@ public class HsqlEpsgDatabase {
     private static void generateData(javax.sql.DataSource dataSource) throws SQLException {
         Connection connection = dataSource.getConnection();
         Logging.getLogger("org.geotools.referencing.factory").config(
-                        "Creating cached EPSG database."); // TODO: localize
+                "Creating cached EPSG database."); // TODO: localize
         final Statement statement = connection.createStatement();
         try {
             final BufferedReader in = new BufferedReader(new InputStreamReader(
-                            HsqlEpsgDatabase.class.getResourceAsStream("EPSG.sql"),
-                            "ISO-8859-1"));
+                    HsqlEpsgDatabase.class.getResourceAsStream("EPSG.sql"),
+                    "ISO-8859-1"));
             StringBuilder insertStatement = null;
             String line;
             while ((line = in.readLine()) != null) {
@@ -215,7 +213,7 @@ public class HsqlEpsgDatabase {
      * {@linkplain File#getParent parent}, then the {@value #DATABASE_NAME}
      * database will be saved in that directory. Otherwise, a temporary
      * directory will be used.
-     * 
+     *
      * @throws SQLException
      */
     static File getDirectory() throws SQLException {

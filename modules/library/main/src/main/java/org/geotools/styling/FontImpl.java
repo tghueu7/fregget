@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -20,6 +20,7 @@ package org.geotools.styling;
 // J2SE dependencies
 //import java.util.logging.Logger;
 // OpenGIS dependencies
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,15 +35,16 @@ import org.opengis.util.Cloneable;
  * Provides a Java representation of the Font element of an SLD.
  *
  * @author Ian Turton, CCG
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class FontImpl implements Font, Cloneable {
-    /** The logger for the default core module. */
+    /**
+     * The logger for the default core module.
+     */
 
-    //private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org.geotools.core");
+    //private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org
+    // .geotools.core");
     private final List<Expression> fontFamily = new ArrayList<Expression>();
     private Expression fontSize = null;
     private Expression fontStyle = null;
@@ -59,7 +61,7 @@ public class FontImpl implements Font, Cloneable {
      *
      * @return Value of property fontFamily.
      */
-    @Deprecated  
+    @Deprecated
     public Expression getFontFamily() {
         if (fontFamily.isEmpty()) {
             return null;
@@ -92,12 +94,15 @@ public class FontImpl implements Font, Cloneable {
     public Expression getFontSize() {
         return fontSize;
     }
-	public Expression getSize() {
-		return fontSize;
-	}
-	public void setSize(Expression size) {
-		this.fontSize = size;
-	}
+
+    public Expression getSize() {
+        return fontSize;
+    }
+
+    public void setSize(Expression size) {
+        this.fontSize = size;
+    }
+
     /**
      * Setter for property fontSize.
      *
@@ -117,13 +122,15 @@ public class FontImpl implements Font, Cloneable {
     public Expression getFontStyle() {
         return fontStyle;
     }
-    
+
     public Expression getStyle() {
-    	return fontStyle;
+        return fontStyle;
     }
+
     public void setStyle(Expression style) {
-    	fontStyle = style;
+        fontStyle = style;
     }
+
     /**
      * Setter for property fontStyle.
      *
@@ -143,13 +150,15 @@ public class FontImpl implements Font, Cloneable {
     public Expression getFontWeight() {
         return fontWeight;
     }
-    
+
     public Expression getWeight() {
-    	return fontWeight;
+        return fontWeight;
     }
-	public void setWeight(Expression weight) {
-		fontWeight = weight;
-	}
+
+    public void setWeight(Expression weight) {
+        fontWeight = weight;
+    }
+
     /**
      * Setter for property fontWeight.
      *
@@ -208,7 +217,6 @@ public class FontImpl implements Font, Cloneable {
      * their family, style, weight  and size are equal.
      *
      * @param oth DOCUMENT ME!
-     *
      * @return True if this and oth are equal.
      */
     public boolean equals(Object oth) {
@@ -224,19 +232,20 @@ public class FontImpl implements Font, Cloneable {
             FontImpl other = (FontImpl) oth;
 
             return Utilities.equals(this.fontFamily, other.fontFamily)
-            && Utilities.equals(this.fontSize, other.fontSize)
-            && Utilities.equals(this.fontStyle, other.fontStyle)
-            && Utilities.equals(this.fontWeight, other.fontWeight);
+                    && Utilities.equals(this.fontSize, other.fontSize)
+                    && Utilities.equals(this.fontStyle, other.fontStyle)
+                    && Utilities.equals(this.fontWeight, other.fontWeight);
         }
 
         return false;
     }
-    
+
     /**
      * Utility method to capture the default font in one place.
+     *
      * @return
      */
-    static Font createDefault( FilterFactory filterFactory ) {
+    static Font createDefault(FilterFactory filterFactory) {
         Font font = new FontImpl();
         try {
             font.setSize(filterFactory.literal(
@@ -250,25 +259,23 @@ public class FontImpl implements Font, Cloneable {
         return font;
     }
 
-    public Object accept(StyleVisitor visitor,Object data) {
-        return visitor.visit(this,data);
+    public Object accept(StyleVisitor visitor, Object data) {
+        return visitor.visit(this, data);
     }
-    
-    static FontImpl cast( org.opengis.style.Font font ){
-        if( font == null ) {
+
+    static FontImpl cast(org.opengis.style.Font font) {
+        if (font == null) {
             return null;
-        }
-        else if (font instanceof FontImpl ){
-            return (FontImpl) font;            
-        }
-        else {
+        } else if (font instanceof FontImpl) {
+            return (FontImpl) font;
+        } else {
             FontImpl copy = new FontImpl();
-            copy.getFamily().addAll( font.getFamily() );
+            copy.getFamily().addAll(font.getFamily());
             copy.setSize(font.getSize());
             copy.setStyle(font.getStyle());
             copy.setWeight(font.getWeight());
             return copy;
         }
     }
-    
+
 }

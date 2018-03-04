@@ -33,9 +33,9 @@ import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:PolygonType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="PolygonType"&gt;
  *      &lt;annotation&gt;
@@ -58,9 +58,6 @@ import com.vividsolutions.jts.geom.Polygon;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLPolygonTypeBinding extends AbstractComplexBinding {
@@ -98,7 +95,7 @@ public class GMLPolygonTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         LinearRing shell = (LinearRing) node.getChild("outerBoundaryIs").getValue();
 
         List innerRings = node.getChildren("innerBoundaryIs");
@@ -113,7 +110,7 @@ public class GMLPolygonTypeBinding extends AbstractComplexBinding {
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         Polygon polygon = (Polygon) object;
 
         if (GML.outerBoundaryIs.equals(name)) {

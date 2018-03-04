@@ -23,8 +23,6 @@ import org.geotools.xml.Binding;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class OGCBBoxTypeBindingTest extends FilterTestSupport {
@@ -53,8 +51,9 @@ public class OGCBBoxTypeBindingTest extends FilterTestSupport {
         Document doc = encode(FilterMockData.bbox(), OGC.BBOX);
 
         assertEquals(1,
-            doc.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart()).getLength());
+                doc.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart())
+                        .getLength());
         assertEquals(1,
-            doc.getElementsByTagNameNS(GML.NAMESPACE, GML.Box.getLocalPart()).getLength());
+                doc.getElementsByTagNameNS(GML.NAMESPACE, GML.Box.getLocalPart()).getLength());
     }
 }

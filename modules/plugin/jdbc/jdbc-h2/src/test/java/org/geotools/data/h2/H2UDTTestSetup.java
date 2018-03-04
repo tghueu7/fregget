@@ -20,8 +20,6 @@ import org.geotools.jdbc.JDBCDataStore;
 import org.geotools.jdbc.JDBCUDTTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class H2UDTTestSetup extends JDBCUDTTestSetup {
@@ -33,9 +31,9 @@ public class H2UDTTestSetup extends JDBCUDTTestSetup {
     @Override
     protected void setUpDataStore(JDBCDataStore dataStore) {
         super.setUpDataStore(dataStore);
-        dataStore.setDatabaseSchema( null );
+        dataStore.setDatabaseSchema(null);
     }
-    
+
     @Override
     protected void createUdtTable() throws Exception {
         run("CREATE DOMAIN \"foo\" AS text CHECK (VALUE REGEXP '\\d{2}\\D{2}');");
@@ -47,6 +45,6 @@ public class H2UDTTestSetup extends JDBCUDTTestSetup {
     protected void dropUdtTable() throws Exception {
         runSafe("DROP TABLE \"udt\"");
         runSafe("DROP DOMAIN \"foo\"");
-}
+    }
 
 }

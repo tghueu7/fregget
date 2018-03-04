@@ -65,15 +65,14 @@ import com.vividsolutions.jts.io.WKTReader;
 /**
  * @author cdillard
  * @author Gabriel Roldan
- * 
- * 
- * @source $URL$
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/test/java
- *         /org/geotools/arcsde/data/FilterTest.java.fixme $
  * @version $Id$
+ * @source $URL$
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/test/java
+ * /org/geotools/arcsde/data/FilterTest.java.fixme $
  */
 public class SpatialFilterTest {
-    private static final Comparator<SimpleFeature> FEATURE_COMPARATOR = new Comparator<SimpleFeature>() {
+    private static final Comparator<SimpleFeature> FEATURE_COMPARATOR = new 
+            Comparator<SimpleFeature>() {
         public int compare(SimpleFeature f1, SimpleFeature f2) {
             return f1.getID().compareTo(f2.getID());
         }
@@ -119,7 +118,8 @@ public class SpatialFilterTest {
     }
 
     private static void collectResults(FeatureReader<SimpleFeatureType, SimpleFeature> fr,
-            Collection<SimpleFeature> c) throws NoSuchElementException, IOException,
+                                       Collection<SimpleFeature> c) throws 
+            NoSuchElementException, IOException,
             IllegalAttributeException {
         while (fr.hasNext()) {
             c.add(fr.next());
@@ -128,13 +128,13 @@ public class SpatialFilterTest {
 
     /**
      * Are the two collections similar?
-     * 
+     *
      * @param c1 Collection first
      * @param c2 Collection second
      * @return true if they have the same content
      */
     private void assertFeatureListsSimilar(Collection<SimpleFeature> c1,
-            Collection<SimpleFeature> c2) {
+                                           Collection<SimpleFeature> c2) {
         assertEquals("Actual feature collection was not the expected size", c1.size(), c2.size());
 
         ArrayList<SimpleFeature> al1 = new ArrayList<SimpleFeature>(c1);
@@ -178,16 +178,16 @@ public class SpatialFilterTest {
     }
 
     private static LineString buildSegment(double x1, double y1, double x2, double y2) {
-        Coordinate[] coordArray = new Coordinate[] { new Coordinate(x1, y1), new Coordinate(x2, y2) };
+        Coordinate[] coordArray = new Coordinate[]{new Coordinate(x1, y1), new Coordinate(x2, y2)};
         LineString result = gf.createLineString(coordArray);
 
         return result;
     }
 
     private static Polygon buildPolygon(double minx, double miny, double maxx, double maxy) {
-        Coordinate[] coordArray = new Coordinate[] { new Coordinate(minx, miny),
+        Coordinate[] coordArray = new Coordinate[]{new Coordinate(minx, miny),
                 new Coordinate(minx, maxy), new Coordinate(maxx, maxy), new Coordinate(maxx, miny),
-                new Coordinate(minx, miny) };
+                new Coordinate(minx, miny)};
         Polygon p = gf.createPolygon(gf.createLinearRing(coordArray), new LinearRing[0]);
 
         return p;
@@ -231,7 +231,8 @@ public class SpatialFilterTest {
 
         // Build a filter so that SDE would actually catch more geometries, it would
         // actually include
-        // "MULTIPOLYGON( ((-1 -1, -1 1, 1 1, 1 -1, -1 -1)), ((-170 -80, -170 -70, -160 -70, -160 -80, -170 -80)) )"
+        // "MULTIPOLYGON( ((-1 -1, -1 1, 1 1, 1 -1, -1 -1)), ((-170 -80, -170 -70, -160 -70, -160
+        // -80, -170 -80)) )"
         // in the results as well. It seems the containment semantics is applied in or to the
         // multigeometry
         // components. We do in memory post filtering to get the right semantics
@@ -477,7 +478,7 @@ public class SpatialFilterTest {
     }
 
     private void runTestWithFilter(FeatureType ft, Filter filter, boolean empty, /* Nullable */
-            Integer expectedCount) throws Exception {
+                                   Integer expectedCount) throws Exception {
         System.err.println("****************");
         System.err.println("**");
         System.err.println("** TESTING FILTER: " + filter);
@@ -493,7 +494,8 @@ public class SpatialFilterTest {
         long startTime = System.currentTimeMillis();
         FeatureReader<SimpleFeatureType, SimpleFeature> fr = this.dataStore.getFeatureReader(
                 allQuery, Transaction.AUTO_COMMIT);
-        FilteringFeatureReader<SimpleFeatureType, SimpleFeature> ffr = new FilteringFeatureReader<SimpleFeatureType, SimpleFeature>(
+        FilteringFeatureReader<SimpleFeatureType, SimpleFeature> ffr = new 
+                FilteringFeatureReader<SimpleFeatureType, SimpleFeature>(
                 fr, filter);
         ArrayList<SimpleFeature> slowResults = new ArrayList<SimpleFeature>();
         collectResults(ffr, slowResults);
@@ -506,7 +508,8 @@ public class SpatialFilterTest {
         System.err.println("Performing fast read...");
         startTime = System.currentTimeMillis();
 
-        Query filteringQuery = new Query(testData.getTempTableName(), filter, safePropertyNames(ft));
+        Query filteringQuery = new Query(testData.getTempTableName(), filter, safePropertyNames
+                (ft));
         fr = this.dataStore.getFeatureReader(filteringQuery, Transaction.AUTO_COMMIT);
 
         ArrayList<SimpleFeature> fastResults = new ArrayList<SimpleFeature>();

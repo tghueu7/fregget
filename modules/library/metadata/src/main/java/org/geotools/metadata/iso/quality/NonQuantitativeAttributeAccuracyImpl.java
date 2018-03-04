@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2007-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -25,17 +25,13 @@ import org.opengis.metadata.quality.NonQuantitativeAttributeAccuracy;
 /**
  * Accuracy of non-quantitative attributes.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Cory Horner (Refractions Research)
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.4
  */
 public class NonQuantitativeAttributeAccuracyImpl extends ThematicAccuracyImpl
-        implements NonQuantitativeAttributeAccuracy
-{
+        implements NonQuantitativeAttributeAccuracy {
     /**
      * Serial number for interoperability with different versions.
      */

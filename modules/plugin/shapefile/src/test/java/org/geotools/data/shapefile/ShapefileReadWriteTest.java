@@ -42,18 +42,15 @@ import org.opengis.feature.simple.SimpleFeatureType;
 import com.vividsolutions.jts.geom.Geometry;
 
 /**
- * 
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Ian Schneider
+ * @version $Id$
+ * @source $URL$
  */
 public class ShapefileReadWriteTest extends TestCaseSupport {
-    final String[] files = { "shapes/statepop.shp", "shapes/polygontest.shp",
+    final String[] files = {"shapes/statepop.shp", "shapes/polygontest.shp",
             "shapes/pointtest.shp", "shapes/holeTouchEdge.shp",
-            "shapes/stream.shp", "shapes/chinese_poly.shp" };
-    
+            "shapes/stream.shp", "shapes/chinese_poly.shp"};
+
     boolean readStarted = false;
 
     Exception exception = null;
@@ -63,27 +60,27 @@ public class ShapefileReadWriteTest extends TestCaseSupport {
     public void testReadWriteStatePop() throws Exception {
         test("shapes/statepop.shp");
     }
-    
+
     @Test
     public void testReadWritePolygonTest() throws Exception {
         test("shapes/polygontest.shp");
     }
-    
+
     @Test
     public void testReadWritePointTest() throws Exception {
         test("shapes/pointtest.shp");
     }
-    
+
     @Test
     public void testReadWriteHoleTouchEdge() throws Exception {
         test("shapes/holeTouchEdge.shp");
     }
-    
+
     @Test
     public void testReadWriteChinese() throws Exception {
         test("shapes/chinese_poly.shp", Charset.forName("GB18030"));
     }
-    
+
     @Test
     public void testReadWriteDanishPoint() throws Exception {
         test("shapes/danish_point.shp");
@@ -157,7 +154,7 @@ public class ShapefileReadWriteTest extends TestCaseSupport {
         fail.initCause(cause);
         throw fail;
     }
-    
+
     private void test(String f) throws Exception {
         test(f, null);
     }
@@ -165,7 +162,7 @@ public class ShapefileReadWriteTest extends TestCaseSupport {
     private void test(String f, Charset charset) throws Exception {
         copyShapefiles(f); // Work on File rather than URL from JAR.
         ShapefileDataStore s = new ShapefileDataStore(TestData.url(TestCaseSupport.class, f));
-        if(charset != null) {
+        if (charset != null) {
             s.setCharset(charset);
         }
         String typeName = s.getTypeNames()[0];
@@ -184,16 +181,17 @@ public class ShapefileReadWriteTest extends TestCaseSupport {
     }
 
     private void test(SimpleFeatureType type, SimpleFeatureCollection original,
-            File tmp, ShapefileDataStoreFactory maker, boolean memorymapped, Charset charset)
+                      File tmp, ShapefileDataStoreFactory maker, boolean memorymapped, Charset 
+                              charset)
             throws IOException, MalformedURLException, Exception {
 
         ShapefileDataStore shapefile;
         String typeName;
-        Map<String,Serializable> params = new HashMap<String,Serializable>();
+        Map<String, Serializable> params = new HashMap<String, Serializable>();
         params.put(ShapefileDataStoreFactory.URLP.key, tmp.toURI().toURL());
         params.put(ShapefileDataStoreFactory.MEMORY_MAPPED.key, memorymapped);
         shapefile = (ShapefileDataStore) maker.createDataStore(params);
-        if(charset != null)
+        if (charset != null)
             shapefile.setCharset(charset);
 
         shapefile.createSchema(type);
@@ -207,7 +205,7 @@ public class ShapefileReadWriteTest extends TestCaseSupport {
 
         ShapefileDataStore review = new ShapefileDataStore(tmp.toURI().toURL());
         review.setMemoryMapped(memorymapped);
-        if(charset != null) {
+        if (charset != null) {
             review.setCharset(charset);
         }
         typeName = review.getTypeNames()[0];
@@ -217,7 +215,7 @@ public class ShapefileReadWriteTest extends TestCaseSupport {
         compare(copy, again);
         compare(original, again);
         review.dispose();
-        
+
         shapefile.dispose();
     }
 

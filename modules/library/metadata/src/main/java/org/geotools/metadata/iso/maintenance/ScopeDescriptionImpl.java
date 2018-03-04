@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -20,6 +20,7 @@
 package org.geotools.metadata.iso.maintenance;
 
 import java.util.Set;
+
 import org.opengis.metadata.maintenance.ScopeDescription;
 import org.geotools.metadata.iso.MetadataEntity;
 import org.opengis.feature.type.AttributeType;
@@ -29,13 +30,10 @@ import org.opengis.feature.type.FeatureType;
 /**
  * Description of the class of information covered by the information.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class ScopeDescriptionImpl extends MetadataEntity implements ScopeDescription {
@@ -103,7 +101,8 @@ public class ScopeDescriptionImpl extends MetadataEntity implements ScopeDescrip
      * @since 2.5
      */
     public synchronized void setAttributes(final Set<? extends AttributeType> newValues) {
-        attributes = (Set<AttributeType>) copyCollection(newValues, attributes, AttributeType.class);
+        attributes = (Set<AttributeType>) copyCollection(newValues, attributes, AttributeType
+                .class);
     }
 
     /**
@@ -135,7 +134,8 @@ public class ScopeDescriptionImpl extends MetadataEntity implements ScopeDescrip
      * @since 2.5
      */
     public synchronized void setFeatureInstances(final Set<? extends FeatureType> newValues) {
-        featureInstances = (Set<FeatureType>) copyCollection(newValues, featureInstances, FeatureType.class);
+        featureInstances = (Set<FeatureType>) copyCollection(newValues, featureInstances, 
+                FeatureType.class);
     }
 
     /**
@@ -153,7 +153,8 @@ public class ScopeDescriptionImpl extends MetadataEntity implements ScopeDescrip
      * @since 2.5
      */
     public synchronized void setAttributeInstances(final Set<? extends AttributeType> newValues) {
-        attributeInstances = (Set<AttributeType>) copyCollection(newValues, attributeInstances, AttributeType.class);
+        attributeInstances = (Set<AttributeType>) copyCollection(newValues, attributeInstances, 
+                AttributeType.class);
     }
 
     /**

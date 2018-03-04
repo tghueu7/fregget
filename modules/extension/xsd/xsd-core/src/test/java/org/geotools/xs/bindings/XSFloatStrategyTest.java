@@ -17,18 +17,17 @@
 package org.geotools.xs.bindings;
 
 import javax.xml.namespace.QName;
+
 import org.geotools.xs.TestSchema;
 import org.geotools.xs.XS;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class XSFloatStrategyTest extends TestSchema {
     public void validateValues(String given, Float expected)
-        throws Exception {
+            throws Exception {
         Float actual = (Float) strategy.parse(element(given, qname), given);
         assertEquals(given, expected, actual);
     }
@@ -36,6 +35,7 @@ public class XSFloatStrategyTest extends TestSchema {
     /**
      * For example, -1E4, 1267.43233E12, 12.78e-2, 12 , -0, 0 and INF are all
      * legal literals for float.
+     *
      * @throws Exception
      */
     public void testWhiteSpace() throws Exception {

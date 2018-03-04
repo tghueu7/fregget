@@ -51,7 +51,8 @@ public class TimestampFileNameExtractorTest {
     @Test
     public void testParseIsoTimestamp() {
         PropertiesCollectorSPI spi = getTimestampSpi();
-        PropertiesCollector collector = spi.create("regex=[0-9]{8}T[0-9]{6}", Arrays.asList("time"));
+        PropertiesCollector collector = spi.create("regex=[0-9]{8}T[0-9]{6}", Arrays.asList
+                ("time"));
         File file = new File("polyphemus_20130301T000000.nc");
         collector.collect(file);
         collector.setProperties(feature);
@@ -64,13 +65,14 @@ public class TimestampFileNameExtractorTest {
     @Test
     public void testUnableToParse() {
         PropertiesCollectorSPI spi = getTimestampSpi();
-        PropertiesCollector collector = spi.create("regex=[0-9]{8}T[0-9]{6}", Arrays.asList("time"));
+        PropertiesCollector collector = spi.create("regex=[0-9]{8}T[0-9]{6}", Arrays.asList
+                ("time"));
 
         // Note that the number of 0 after the T char isn't enough
         // will throw an illegalArgumentException while parsing
-        File file = new File("polyphemus_20130301T00000.nc"); 
+        File file = new File("polyphemus_20130301T00000.nc");
 
-        boolean parsed = true; 
+        boolean parsed = true;
         try {
             collector.collect(file);
             collector.setProperties(feature);
@@ -83,7 +85,8 @@ public class TimestampFileNameExtractorTest {
     @Test
     public void testParseCustomTimestamp() {
         PropertiesCollectorSPI spi = getTimestampSpi();
-        PropertiesCollector collector = spi.create("regex=[0-9]{14},format=yyyyMMddHHmmss", Arrays.asList("time"));
+        PropertiesCollector collector = spi.create("regex=[0-9]{14},format=yyyyMMddHHmmss", 
+                Arrays.asList("time"));
         File file = new File("polyphemus_20130301000000.nc");
         collector.collect(file);
         collector.setProperties(feature);
@@ -97,7 +100,8 @@ public class TimestampFileNameExtractorTest {
     public void testParseFullPathTimestamp() {
         PropertiesCollectorSPI spi = getTimestampSpi();
         String regex = "(?:\\\\)(\\d{8})(?:\\\\)(?:file.)(T\\d{6})(?:.txt)";
-        PropertiesCollector collector = spi.create("regex=" + regex + ",fullPath=true", Arrays.asList("time"));
+        PropertiesCollector collector = spi.create("regex=" + regex + ",fullPath=true", Arrays
+                .asList("time"));
         File file = new File("c:\\data\\20120602\\file.T120000.txt");
         collector.collect(file);
         collector.setProperties(feature);
@@ -110,7 +114,8 @@ public class TimestampFileNameExtractorTest {
     public void testParseFullPathTimestampWithCustomFormat() {
         PropertiesCollectorSPI spi = getTimestampSpi();
         String regex = "(?:\\\\)(\\d{8})(?:\\\\)(?:file.)(t\\d{2}z)(?:.txt)";
-        PropertiesCollector collector = spi.create("regex=" + regex + ",format=yyyyMMdd't'HH'z',fullPath=true", Arrays.asList("time"));
+        PropertiesCollector collector = spi.create("regex=" + regex + ",format=yyyyMMdd't'HH'z'," +
+                "fullPath=true", Arrays.asList("time"));
         File file = new File("c:\\data\\20120602\\file.t12z.txt");
         collector.collect(file);
         collector.setProperties(feature);

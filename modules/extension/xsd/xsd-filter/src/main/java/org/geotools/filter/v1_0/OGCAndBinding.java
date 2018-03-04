@@ -19,6 +19,7 @@ package org.geotools.filter.v1_0;
 import java.util.List;
 
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.And;
 import org.opengis.filter.Filter;
 import org.opengis.filter.FilterFactory;
@@ -30,9 +31,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the element http://www.opengis.net/ogc:And.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="And" substitutionGroup="ogc:logicOps" type="ogc:BinaryLogicOpType"/&gt;
  *
@@ -41,9 +42,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OGCAndBinding extends AbstractComplexBinding {
@@ -81,8 +79,9 @@ public class OGCAndBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        List<Filter> operands = FilterParsingUtils.BinaryLogicOperator_getChildFilters(node, filterfactory);
-        return filterfactory.and( operands );
+            throws Exception {
+        List<Filter> operands = FilterParsingUtils.BinaryLogicOperator_getChildFilters(node, 
+                filterfactory);
+        return filterfactory.and(operands);
     }
 }

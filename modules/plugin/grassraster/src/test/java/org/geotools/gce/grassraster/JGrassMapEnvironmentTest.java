@@ -25,10 +25,8 @@ import junit.framework.TestCase;
 
 /**
  * Test the {@link JGrassMapEnvironment} class and the created paths.
- * 
+ *
  * @author Andrea Antonello (www.hydrologis.com)
- *
- *
  * @source $URL$
  */
 @SuppressWarnings("nls")
@@ -46,7 +44,7 @@ public class JGrassMapEnvironmentTest extends TestCase {
 
     }
 
-    private void checkEnvironment( JGrassMapEnvironment jME ) {
+    private void checkEnvironment(JGrassMapEnvironment jME) {
         File cell = jME.getCELL();
         assertTrue(cell.exists());
         assertTrue(cell.getAbsolutePath().endsWith(

@@ -46,26 +46,27 @@ import org.opengis.filter.Filter;
 import org.geotools.data.store.ContentDataStore;
 
 /**
- * 
  * Creates a vector store that publishes the index information of the NetCDF Store.
  * This way the user can determine which combination of coordinates have data.
- * 
- * @author Niels CHarlier
  *
+ * @author Niels CHarlier
  */
 public class NetCDFAuxiliaryStoreFactory implements DataStoreFactorySpi {
-    
-    public final static String AUXILIARY_STORE_KEY = "org.geotools.coverage.io.netcdf.auxiliary.store";
-    
+
+    public final static String AUXILIARY_STORE_KEY = "org.geotools.coverage.io.netcdf.auxiliary" +
+            ".store";
+
     public static final Param FILE_PARAM = new Param("File", File.class, "NetCDF File Path", true,
             null, Collections.emptyMap());
-    
-    public static final Param INDEX_PARAM = new Param("Index", String.class, "Index File Path", false,
-            null, Collections.emptyMap());    
 
-    public static final Param DS_PARAM = new Param("DataStore", String.class, "DataStore File Path", false,
+    public static final Param INDEX_PARAM = new Param("Index", String.class, "Index File Path", 
+            false,
             null, Collections.emptyMap());
-    
+
+    public static final Param DS_PARAM = new Param("DataStore", String.class, "DataStore File " +
+            "Path", false,
+            null, Collections.emptyMap());
+
     public static final Param NS_PARAM = new Param("namespace", String.class, "Namespace", false,
             null, Collections.emptyMap());
 
@@ -81,7 +82,7 @@ public class NetCDFAuxiliaryStoreFactory implements DataStoreFactorySpi {
 
     @Override
     public Param[] getParametersInfo() {
-        return new Param[] { FILE_PARAM, INDEX_PARAM, DS_PARAM, NS_PARAM };
+        return new Param[]{FILE_PARAM, INDEX_PARAM, DS_PARAM, NS_PARAM};
     }
 
     @Override
@@ -90,9 +91,11 @@ public class NetCDFAuxiliaryStoreFactory implements DataStoreFactorySpi {
             File file = (File) FILE_PARAM.lookUp(params);
             String indexPath = (String) INDEX_PARAM.lookUp(params);
             String dsPath = (String) DS_PARAM.lookUp(params);
-            AncillaryFileManager ancilaryFileManager = new AncillaryFileManager(file, indexPath, dsPath);
-            DataStoreConfiguration datastoreConfig = ancilaryFileManager.getDatastoreConfiguration();
-            return datastoreConfig.getDatastoreSpi().canProcess(datastoreConfig.getParams());            
+            AncillaryFileManager ancilaryFileManager = new AncillaryFileManager(file, indexPath, 
+                    dsPath);
+            DataStoreConfiguration datastoreConfig = ancilaryFileManager
+                    .getDatastoreConfiguration();
+            return datastoreConfig.getDatastoreSpi().canProcess(datastoreConfig.getParams());
         } catch (NoSuchAlgorithmException | JAXBException | IOException e) {
             return false;
         }
@@ -114,15 +117,18 @@ public class NetCDFAuxiliaryStoreFactory implements DataStoreFactorySpi {
         String indexPath = (String) INDEX_PARAM.lookUp(params);
         String dsPath = (String) DS_PARAM.lookUp(params);
         try {
-            AncillaryFileManager ancilaryFileManager = new AncillaryFileManager(file, indexPath, dsPath);
-            DataStoreConfiguration datastoreConfig = ancilaryFileManager.getDatastoreConfiguration();            
-            
-            final DataStore delegate = datastoreConfig.getDatastoreSpi().createDataStore(datastoreConfig.getParams());
-            String namespace = (String) NS_PARAM.lookUp(params);     
+            AncillaryFileManager ancilaryFileManager = new AncillaryFileManager(file, indexPath, 
+                    dsPath);
+            DataStoreConfiguration datastoreConfig = ancilaryFileManager
+                    .getDatastoreConfiguration();
+
+            final DataStore delegate = datastoreConfig.getDatastoreSpi().createDataStore
+                    (datastoreConfig.getParams());
+            String namespace = (String) NS_PARAM.lookUp(params);
             if (namespace != null && delegate instanceof ContentDataStore) {
                 ((ContentDataStore) delegate).setNamespaceURI(namespace);
             }
-            
+
             //make read-only wrapper
             return new DataStore() {
 
@@ -195,7 +201,7 @@ public class NetCDFAuxiliaryStoreFactory implements DataStoreFactorySpi {
 
                 @Override
                 public FeatureReader<SimpleFeatureType, SimpleFeature> getFeatureReader(Query query,
-                        Transaction transaction) throws IOException {
+                                                                                        Transaction transaction) throws IOException {
                     return delegate.getFeatureReader(query, transaction);
                 }
 
@@ -222,8 +228,8 @@ public class NetCDFAuxiliaryStoreFactory implements DataStoreFactorySpi {
                 public LockingManager getLockingManager() {
                     return delegate.getLockingManager();
                 }
-                
-            };            
+
+            };
         } catch (NoSuchAlgorithmException | JAXBException e) {
             throw new IOException(e);
         }

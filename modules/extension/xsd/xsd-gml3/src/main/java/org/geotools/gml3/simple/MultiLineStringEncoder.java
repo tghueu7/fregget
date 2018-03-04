@@ -31,19 +31,22 @@ import com.vividsolutions.jts.geom.LinearRing;
 
 /**
  * Encodes a GML3 multi line string
- * 
+ *
  * @author Justin Deoliveira, OpenGeo
  * @author Andrea Aime - GeoSolutions
  */
 class MultiLineStringEncoder extends GeometryEncoder<Geometry> {
-    
+
     static final QualifiedName MULTI_CURVE = new QualifiedName(GML.NAMESPACE, "MultiCurve", "gml");
 
-    static final QualifiedName CURVE_MEMBER = new QualifiedName(GML.NAMESPACE, "curveMember", "gml");
+    static final QualifiedName CURVE_MEMBER = new QualifiedName(GML.NAMESPACE, "curveMember", 
+            "gml");
 
-    static final QualifiedName MULTI_LINE_STRING = new QualifiedName(GML.NAMESPACE, "MultiLineString", "gml");
+    static final QualifiedName MULTI_LINE_STRING = new QualifiedName(GML.NAMESPACE, 
+            "MultiLineString", "gml");
 
-    static final QualifiedName LINE_STRING_MEMBER = new QualifiedName(GML.NAMESPACE, "lineStringMember", "gml");
+    static final QualifiedName LINE_STRING_MEMBER = new QualifiedName(GML.NAMESPACE, 
+            "lineStringMember", "gml");
 
     LineStringEncoder lse;
 
@@ -57,13 +60,14 @@ class MultiLineStringEncoder extends GeometryEncoder<Geometry> {
 
     boolean curveEncoding;
 
-    protected MultiLineStringEncoder(Encoder encoder, String gmlPrefix, String gmlUri, boolean curveEncoding) {
+    protected MultiLineStringEncoder(Encoder encoder, String gmlPrefix, String gmlUri, boolean 
+            curveEncoding) {
         super(encoder);
         lse = new LineStringEncoder(encoder, gmlPrefix, gmlUri);
         lre = new LinearRingEncoder(encoder, gmlPrefix, gmlUri);
         ce = new CurveEncoder(encoder, gmlPrefix, gmlUri);
         this.curveEncoding = curveEncoding;
-        if(curveEncoding) {
+        if (curveEncoding) {
             multiContainer = MULTI_CURVE.derive(gmlPrefix, gmlUri);
             member = CURVE_MEMBER.derive(gmlPrefix, gmlUri);
         } else {
@@ -83,7 +87,8 @@ class MultiLineStringEncoder extends GeometryEncoder<Geometry> {
         handler.endElement(multiContainer);
     }
 
-    protected void encodeMembers(Geometry geometry, GMLWriter handler, String gmlId) throws SAXException,
+    protected void encodeMembers(Geometry geometry, GMLWriter handler, String gmlId) throws 
+            SAXException,
             Exception {
         for (int i = 0; i < geometry.getNumGeometries(); i++) {
             handler.startElement(member, null);
@@ -99,7 +104,6 @@ class MultiLineStringEncoder extends GeometryEncoder<Geometry> {
             handler.endElement(member);
         }
     }
-
 
 
 }

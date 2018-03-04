@@ -30,12 +30,9 @@ import org.geotools.data.wps.request.ExecuteProcessRequest;
 
 
 /**
- *
- *
  * @source $URL$
  */
-public abstract class WPSSpecification extends Specification
-{
+public abstract class WPSSpecification extends Specification {
 
     /**
      * Creates a DescribeProcess request which can be used to retrieve
@@ -43,10 +40,11 @@ public abstract class WPSSpecification extends Specification
      *
      * @param onlineResource the location where the request can be made
      * @return a DescribeProcessRequest to be configured and then passed to the WPS Server
-     * @throws UnsupportedOperationException if the version of the specification doesn't support this request
+     * @throws UnsupportedOperationException if the version of the specification doesn't support 
+     * this request
      */
     public abstract DescribeProcessRequest createDescribeProcessRequest(URL onlineResource)
-        throws UnsupportedOperationException;
+            throws UnsupportedOperationException;
 
     /**
      * Creates a Execute request which can be used to execute
@@ -54,21 +52,24 @@ public abstract class WPSSpecification extends Specification
      *
      * @param onlineResource the location where the request can be made
      * @return an ExecuteProcessRequest to be configured and then passed to the WPS Server
-     * @throws UnsupportedOperationException if the version of the specification doesn't support this request
+     * @throws UnsupportedOperationException if the version of the specification doesn't support 
+     * this request
      */
     public abstract ExecuteProcessRequest createExecuteProcessRequest(URL onlineResource)
-        throws UnsupportedOperationException;
+            throws UnsupportedOperationException;
 
     public abstract DataType createLiteralInputValue(String literalValue);
 
-    public abstract DataType createBoundingBoxInputValue(String crs, int dimensions, List<Double> lowerCorner,
-        List<Double> upperCorner);
+    public abstract DataType createBoundingBoxInputValue(String crs, int dimensions, List<Double>
+            lowerCorner,
+                                                         List<Double> upperCorner);
 
     public abstract ResponseFormType createResponseForm(ResponseDocumentType responseDoc,
-        OutputDefinitionType rawOutput);
+                                                        OutputDefinitionType rawOutput);
 
     public abstract ResponseDocumentType createResponseDocumentType(boolean lineage, boolean status,
-        boolean storeExecuteResponse, String outputType);
+                                                                    boolean storeExecuteResponse,
+                                                                    String outputType);
 
     public abstract OutputDefinitionType createOutputDefinitionType(String identifier);
 

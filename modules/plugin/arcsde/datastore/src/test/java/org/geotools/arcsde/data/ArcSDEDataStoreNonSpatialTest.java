@@ -65,15 +65,12 @@ import com.esri.sde.sdk.client.SeRegistration;
 /**
  * {@link ArcSDEDataStore} integration test for the case of registered, non spatial tables as
  * required by the new feature <a href="http://jira.codehaus.org/browse/GEOT-2548">GEOT-2548</a>
- * 
+ *
  * @author Gabriel Roldan, OpenGeo
- * 
- *
- *
- * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/test/java/org
- *         /geotools/arcsde/data/ArcSDEDataStoreNonSpatialTest.java $
  * @version $Id$
+ * @source $URL$
+ * http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/test/java/org
+ * /geotools/arcsde/data/ArcSDEDataStoreNonSpatialTest.java $
  * @since 2.5.6
  */
 public class ArcSDEDataStoreNonSpatialTest {
@@ -317,7 +314,8 @@ public class ArcSDEDataStoreNonSpatialTest {
                  * SQL Server always is at READ UNCOMMITTED isolation level iff the table is not
                  * versioned. And this one can't be versioned cause it has no sde maintained row id
                  * <
-                 * http://support.esri.com/index.cfm?fa=knowledgebase.techarticles.articleShow&d=32190
+                 * http://support.esri.com/index.cfm?fa=knowledgebase.techarticles
+                 * .articleShow&d=32190
                  * >
                  */
                 assertEquals(2, ds.getFeatureSource(tableName).getCount(Query.ALL));
@@ -333,7 +331,9 @@ public class ArcSDEDataStoreNonSpatialTest {
     }
 
     private FeatureWriter<SimpleFeatureType, SimpleFeature> addFeatures(final String tableName,
-            final Transaction transaction) throws IOException, UnavailableConnectionException {
+                                                                        final Transaction 
+                                                                                transaction) 
+            throws IOException, UnavailableConnectionException {
 
         testData.truncateTestTable(tableName);
 
@@ -418,7 +418,8 @@ public class ArcSDEDataStoreNonSpatialTest {
                  * SQL Server always is at READ UNCOMMITTED isolation level iff the table is not
                  * versioned. And this one can't be versioned cause it has no sde maintained row id
                  * <
-                 * http://support.esri.com/index.cfm?fa=knowledgebase.techarticles.articleShow&d=32190
+                 * http://support.esri.com/index.cfm?fa=knowledgebase.techarticles
+                 * .articleShow&d=32190
                  * >
                  */
                 assertEquals(1, ds.getFeatureSource(tableName).getCount(Query.ALL));

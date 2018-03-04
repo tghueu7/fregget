@@ -48,7 +48,7 @@ public class CoverageNameCollectorSpiFinder {
     private static FactoryRegistry getServiceRegistry() {
         if (registry == null) {
             registry = new FactoryCreator(
-                    Arrays.asList(new Class<?>[] { CoverageNameCollectorSPI.class }));
+                    Arrays.asList(new Class<?>[]{CoverageNameCollectorSPI.class}));
         }
         return registry;
     }

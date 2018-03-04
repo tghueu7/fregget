@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2011, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -45,19 +45,19 @@ import org.geotools.util.logging.Logging;
  * An Apache commons HTTP client based {@link HTTPClient} backed by a multithreaded connection
  * manager that allows to reuse connections to the backing server and to limit the
  * {@link #setMaxConnections(int) max number of concurrent connections}.
- * 
+ * <p>
  * <p>
  * Java System properties {@code http.proxyHost}, {@code http.proxyPort}, {@code http.proxyUser},
  * and {@code http.proxyPassword} are respected.
  * </p>
- * 
+ *
  * @author groldan
  * @see AbstractOpenWebService#setHttpClient(HTTPClient)
  */
 public class MultithreadedHttpClient implements HTTPClient {
 
     private static final Logger LOGGER = Logging.getLogger(MultithreadedHttpClient.class);
-    
+
     private MultiThreadedHttpConnectionManager connectionManager;
 
     private HttpClient client;
@@ -76,11 +76,11 @@ public class MultithreadedHttpClient implements HTTPClient {
         params.setConnectionTimeout(30000);
         params.setMaxTotalConnections(6);
         params.setDefaultMaxConnectionsPerHost(6);
-        
+
         connectionManager.setParams(params);
 
         client = new HttpClient(connectionManager);
-        
+
         applySystemProxySettings();
     }
 
@@ -90,7 +90,8 @@ public class MultithreadedHttpClient implements HTTPClient {
         // String nonProxyHost = System.getProperty("http.nonProxyHosts");
 
         if (proxyHost != null) {
-            LOGGER.fine("Found 'http.proxyHost' Java System property. Using it as proxy server. Port: "
+            LOGGER.fine("Found 'http.proxyHost' Java System property. Using it as proxy server. " +
+                    "Port: "
                     + proxyPort);
             HostConfiguration hostConfig = client.getHostConfiguration();
             hostConfig.setProxy(proxyHost, proxyPort);
@@ -101,7 +102,8 @@ public class MultithreadedHttpClient implements HTTPClient {
         if (proxyUser != null) {
             if (proxyPassword == null || proxyPassword.length() == 0) {
                 LOGGER.warning("System property http.proxyUser provided but http.proxyPassword "
-                        + "not provided or empty. Proxy auth credentials will be passed as is anyway.");
+                        + "not provided or empty. Proxy auth credentials will be passed as is " +
+                        "anyway.");
             } else {
                 LOGGER.fine("System property http.proxyUser and http.proxyPassword found,"
                         + " setting proxy auth credentials");
@@ -119,7 +121,7 @@ public class MultithreadedHttpClient implements HTTPClient {
 
     @Override
     public HTTPResponse post(final URL url, final InputStream postContent,
-            final String postContentType) throws IOException {
+                             final String postContentType) throws IOException {
 
         PostMethod postMethod = new PostMethod(url.toExternalForm());
         postMethod.setDoAuthentication(user != null && password != null);

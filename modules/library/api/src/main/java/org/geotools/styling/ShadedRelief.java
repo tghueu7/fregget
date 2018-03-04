@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -46,12 +46,10 @@ import org.opengis.filter.expression.Expression;
  * results for Earth-based DEMs. The default value is system-dependent.
  *
  * @author iant
- *
- *
  * @source $URL$
  */
-public interface ShadedRelief extends org.opengis.style.ShadedRelief{
-    
+public interface ShadedRelief extends org.opengis.style.ShadedRelief {
+
     /**
      * turns brightnessOnly on or off depending on value of flag.
      *

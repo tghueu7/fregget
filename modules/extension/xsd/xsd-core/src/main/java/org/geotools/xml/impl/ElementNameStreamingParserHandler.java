@@ -17,12 +17,11 @@
 package org.geotools.xml.impl;
 
 import javax.xml.namespace.QName;
+
 import org.geotools.xml.Configuration;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ElementNameStreamingParserHandler extends StreamingParserHandler {
@@ -39,6 +38,6 @@ public class ElementNameStreamingParserHandler extends StreamingParserHandler {
 
     protected boolean stream(ElementHandler handler) {
         return name.getNamespaceURI().equals(handler.getComponent().getNamespace())
-        && name.getLocalPart().equals(handler.getComponent().getName());
+                && name.getLocalPart().equals(handler.getComponent().getName());
     }
 }

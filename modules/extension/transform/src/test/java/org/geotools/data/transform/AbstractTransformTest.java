@@ -27,7 +27,7 @@ public abstract class AbstractTransformTest {
     static ReferencedEnvelope DELAWARE_BOUNDS;
 
     static CoordinateReferenceSystem WGS84;
-    
+
     static FilterFactory2 FF = CommonFactoryFinder.getFilterFactory2();
 
     @BeforeClass
@@ -45,14 +45,15 @@ public abstract class AbstractTransformTest {
                 "./src/test/resources/org/geotools/data/transform"));
         STATES = pds.getFeatureSource("states");
     }
-    
+
     SimpleFeatureSource transformWithSelection() throws IOException {
         List<Definition> definitions = new ArrayList<Definition>();
         definitions.add(new Definition("the_geom"));
         definitions.add(new Definition("state_name"));
         definitions.add(new Definition("persons"));
 
-        SimpleFeatureSource transformed = TransformFactory.transform(STATES, "states_mini", definitions);
+        SimpleFeatureSource transformed = TransformFactory.transform(STATES, "states_mini", 
+                definitions);
         return transformed;
     }
 
@@ -73,21 +74,23 @@ public abstract class AbstractTransformTest {
         definitions.add(new Definition("total", ECQL.toExpression("male + female")));
         definitions.add(new Definition("logp", ECQL.toExpression("log(persons)")));
 
-        SimpleFeatureSource transformed = TransformFactory.transform(STATES, "bstates", definitions);
+        SimpleFeatureSource transformed = TransformFactory.transform(STATES, "bstates", 
+                definitions);
         return transformed;
     }
-    
+
     SimpleFeatureSource transformWithExpressionsWithEmptySource() throws Exception {
         List<Definition> definitions = new ArrayList<Definition>();
         definitions.add(new Definition("geom", ECQL.toExpression("buffer(the_geom, 1)")));
         definitions.add(new Definition("name", ECQL.toExpression("strToLowercase(state_name)")));
         definitions.add(new Definition("total", ECQL.toExpression("male + female")));
         definitions.add(new Definition("logp", ECQL.toExpression("log(persons)")));
-        
+
         ListFeatureCollection fc = new ListFeatureCollection(STATES.getSchema());
         SimpleFeatureSource emptySource = DataUtilities.source(fc);
 
-        SimpleFeatureSource transformed = TransformFactory.transform(emptySource, "bstates", definitions);
+        SimpleFeatureSource transformed = TransformFactory.transform(emptySource, "bstates", 
+                definitions);
         return transformed;
     }
 

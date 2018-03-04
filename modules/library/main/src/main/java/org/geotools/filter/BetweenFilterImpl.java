@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -33,42 +33,39 @@ import org.opengis.filter.expression.Expression;
  * filter.
  *
  * @author Rob Hranac, TOPP
- *
- *
- * @source $URL$
  * @version $Id$
- *
+ * @source $URL$
  * @task REVISIT: I think AbstractFilter right now does not consider between a
- *       math filter. ch
- *       
+ * math filter. ch
  * @deprecated use {@link org.geotools.filter.IsBetweenImpl}
  */
 public class BetweenFilterImpl extends CompareFilterImpl implements PropertyIsBetween {
-    /** The 'middle' value, which must be an attribute expression. */
+    /**
+     * The 'middle' value, which must be an attribute expression.
+     */
     protected org.opengis.filter.expression.Expression middleValue = null;
 
     @Deprecated
     protected BetweenFilterImpl() {
         super();
     }
-    
+
     /**
      * Sets the values to be compared as between the left and right values.
      *
      * @param middleValue The expression to be compared.
-     * 
      * @deprecated use {@link #setExpression(org.opengis.filter.expression.Expression)}
      */
     public final void addMiddleValue(Expression middleValue) {
         setExpression(middleValue);
     }
-    
+
     /**
      * Sets the expression or middle value.
      */
     public void setExpression(org.opengis.filter.expression.Expression expression) {
-    	this.middleValue = expression;
-    	
+        this.middleValue = expression;
+
     }
 
     /**
@@ -77,45 +74,44 @@ public class BetweenFilterImpl extends CompareFilterImpl implements PropertyIsBe
      * @return The expression in the middle.
      */
     public org.opengis.filter.expression.Expression getExpression() {
-    	return middleValue;
+        return middleValue;
     }
-    
+
     /**
      * Returns the left,lower, or first expression.
      */
     public org.opengis.filter.expression.Expression getLowerBoundary() {
-    	return getExpression1();
+        return getExpression1();
     }
-    
+
     /**
      * Sets the left,lower, or first expression.
      */
     public void setLowerBoundary(org.opengis.filter.expression.Expression lowerBounds) {
-    	setExpression1(lowerBounds);
+        setExpression1(lowerBounds);
     }
-    
+
     /**
      * Returns the right,upper, or second expression.
      */
     public org.opengis.filter.expression.Expression getUpperBoundary() {
-    	return getExpression2();
+        return getExpression2();
     }
-    
+
     /**
      * Sets the right,upper, or second expression.
      */
     public void setUpperBoundary(org.opengis.filter.expression.Expression upperBounds) {
-    	setExpression2(upperBounds);
+        setExpression2(upperBounds);
     }
-    
 
-	/**
+
+    /**
      * Determines whether or not a given feature is 'inside' this filter.
      *
      * @param feature Specified feature to examine.
-     *
      * @return Flag confirming whether or not this feature is inside the
-     *         filter.
+     * filter.
      */
     public boolean evaluate(Object feature) {
         if (middleValue == null) {
@@ -133,40 +129,40 @@ public class BetweenFilterImpl extends CompareFilterImpl implements PropertyIsBe
 		
 		return (left <= mid) && (right >= mid);
 	    */
-        Object middleObj = eval(middleValue, feature);
-        //evaluate the between wrt the class of the middle object
-	    Object leftObj = eval(expression1, feature, middleObj.getClass());
-	    Object rightObj = eval(expression2, feature, middleObj.getClass());
-	    
-	    
-	    if (leftObj instanceof Number &&
-		middleObj instanceof Number &&
-		rightObj instanceof Number) {
-		double left = ((Number) leftObj).doubleValue();
-		double right = ((Number) rightObj).doubleValue();
-		double mid = ((Number) middleObj).doubleValue();
-		
-		return (left <= mid) && (right >= mid);
-		//instanceof Comparator?  And same object type?
-	    
-		//this may miss variations on similar classes that actually
-		//could be compared, but I think AttributeType parsing may
-		//have helped us out before we get here.
-	    } else if (leftObj.getClass() == middleObj.getClass() &&
-		       rightObj.getClass() == middleObj.getClass() &&
-		       //I don't think we need to check all for comparator
-		       //if they are all the same class?
-		       leftObj instanceof Comparable) {
-		return (((Comparable)leftObj).compareTo(middleObj) <= 0 &&
-			((Comparable)middleObj).compareTo(rightObj) <= 0);
-	    } else {
-		String mesg = "Supplied between values are either not " +
-		    "compatible or not supported for comparison: " + leftObj + 
-		    " <= " + middleObj + " <= " + rightObj;
-		throw new IllegalArgumentException(mesg);
-	    }			 
+            Object middleObj = eval(middleValue, feature);
+            //evaluate the between wrt the class of the middle object
+            Object leftObj = eval(expression1, feature, middleObj.getClass());
+            Object rightObj = eval(expression2, feature, middleObj.getClass());
 
-		
+
+            if (leftObj instanceof Number &&
+                    middleObj instanceof Number &&
+                    rightObj instanceof Number) {
+                double left = ((Number) leftObj).doubleValue();
+                double right = ((Number) rightObj).doubleValue();
+                double mid = ((Number) middleObj).doubleValue();
+
+                return (left <= mid) && (right >= mid);
+                //instanceof Comparator?  And same object type?
+
+                //this may miss variations on similar classes that actually
+                //could be compared, but I think AttributeType parsing may
+                //have helped us out before we get here.
+            } else if (leftObj.getClass() == middleObj.getClass() &&
+                    rightObj.getClass() == middleObj.getClass() &&
+                    //I don't think we need to check all for comparator
+                    //if they are all the same class?
+                    leftObj instanceof Comparable) {
+                return (((Comparable) leftObj).compareTo(middleObj) <= 0 &&
+                        ((Comparable) middleObj).compareTo(rightObj) <= 0);
+            } else {
+                String mesg = "Supplied between values are either not " +
+                        "compatible or not supported for comparison: " + leftObj +
+                        " <= " + middleObj + " <= " + rightObj;
+                throw new IllegalArgumentException(mesg);
+            }
+
+
         }
     }
 
@@ -185,7 +181,6 @@ public class BetweenFilterImpl extends CompareFilterImpl implements PropertyIsBe
      * values.
      *
      * @param oFilter the filter to test for eqaulity.
-     *
      * @return True if the objects are equal.
      */
     public boolean equals(Object oFilter) {
@@ -193,11 +188,13 @@ public class BetweenFilterImpl extends CompareFilterImpl implements PropertyIsBe
             BetweenFilterImpl bFilter = (BetweenFilterImpl) oFilter;
 
             return (expression1 == bFilter.getExpression1() || (expression1 != null && expression1
-                            .equals(bFilter.getExpression1())))
-                    && (expression2 == bFilter.getExpression2() || (expression2 != null && expression2
-                            .equals(bFilter.getExpression2())))
-                    && (expression1 == bFilter.getExpression() || (middleValue != null && middleValue
-                            .equals(bFilter.getExpression())));
+                    .equals(bFilter.getExpression1())))
+                    && (expression2 == bFilter.getExpression2() || (expression2 != null && 
+                    expression2
+                    .equals(bFilter.getExpression2())))
+                    && (expression1 == bFilter.getExpression() || (middleValue != null && 
+                    middleValue
+                    .equals(bFilter.getExpression())));
         } else {
             return false;
         }
@@ -212,11 +209,11 @@ public class BetweenFilterImpl extends CompareFilterImpl implements PropertyIsBe
         int result = 17;
 
         result = (37 * result)
-            + ((expression1 == null) ? 0 : expression1.hashCode());
+                + ((expression1 == null) ? 0 : expression1.hashCode());
         result = (37 * result)
-            + ((middleValue == null) ? 0 : middleValue.hashCode());
+                + ((middleValue == null) ? 0 : middleValue.hashCode());
         result = (37 * result)
-            + ((expression2 == null) ? 0 : expression2.hashCode());
+                + ((expression2 == null) ? 0 : expression2.hashCode());
 
         return result;
     }
@@ -229,10 +226,10 @@ public class BetweenFilterImpl extends CompareFilterImpl implements PropertyIsBe
      * left to a parent class unless the parents API is identical.
      *
      * @param visitor The visitor which requires access to this filter, the
-     *        method must call visitor.visit(this);
+     *                method must call visitor.visit(this);
      */
     public Object accept(FilterVisitor visitor, Object extraData) {
-    	return visitor.visit(this,extraData);
+        return visitor.visit(this, extraData);
     }
 
 }

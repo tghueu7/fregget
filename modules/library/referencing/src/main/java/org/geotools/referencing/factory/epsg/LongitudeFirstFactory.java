@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2006-2008, Open Source Geospatial Foundation (OSGeo)
- *   
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -17,6 +17,7 @@
 package org.geotools.referencing.factory.epsg;
 
 // OpenGIS dependencies
+
 import org.opengis.metadata.citation.Citation;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.cs.CSAuthorityFactory;
@@ -43,26 +44,23 @@ import org.geotools.metadata.iso.citation.Citations;
  * <p>
  * Users don't need to create explicitly an instance of this class. Instead, one can get
  * an instance using the following code:
- *
+ * <p>
  * <blockquote><pre>
  * Hints hints = new Hints({@linkplain Hints#FORCE_LONGITUDE_FIRST_AXIS_ORDER}, Boolean.TRUE);
- * CRSAuthorityFactory factory = {@linkplain ReferencingFactoryFinder}.getCRSAuthorityFactory("EPSG", hints);
+ * CRSAuthorityFactory factory = {@linkplain ReferencingFactoryFinder}.getCRSAuthorityFactory
+ * ("EPSG", hints);
  * </pre></blockquote>
  *
- * @since 2.3
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
- *
+ * @version $Id$
+ * @source $URL$
+ * @tutorial http://docs.codehaus.org/display/GEOTOOLS/The+axis+order+issue
  * @see OrderedAxisAuthorityFactory
  * @see Hints#FORCE_LONGITUDE_FIRST_AXIS_ORDER
- * @tutorial http://docs.codehaus.org/display/GEOTOOLS/The+axis+order+issue
+ * @since 2.3
  */
 public class LongitudeFirstFactory extends DeferredAuthorityFactory implements CRSAuthorityFactory,
-        CSAuthorityFactory, CoordinateOperationAuthorityFactory, DatumAuthorityFactory
-{
+        CSAuthorityFactory, CoordinateOperationAuthorityFactory, DatumAuthorityFactory {
     /*
      * Implementation note: in theory the DatumAuthorityFactory interface is useless here, since
      * "axis order" doesn't make any sense for them. However if we do not register this class for
@@ -76,17 +74,16 @@ public class LongitudeFirstFactory extends DeferredAuthorityFactory implements C
      * This setting can provide a transition path for projects expecting a (<var>longitude</var>,
      * <var>latitude</var>) axis order on a system-wide level. Application developpers can set the
      * default value as below:
-     *
+     * <p>
      * <blockquote><pre>
      * System.setProperty(SYSTEM_DEFAULT_KEY, "true");
      * </pre></blockquote>
-     *
+     * <p>
      * Note that this system property applies mostly to the default EPSG factory. Most other
      * factories ({@code "CRS"}, {@code "AUTO"}, <cite>etc.</cite>) don't need this property
      * since they use (<var>longitude</var>, <var>latitude</var>) axis order by design.
      *
      * @see Hints#FORCE_LONGITUDE_FIRST_AXIS_ORDER
-     *
      * @deprecated Moved to {@link GeoTools#FORCE_LONGITUDE_FIRST_AXIS_ORDER}.
      */
     public static final String SYSTEM_DEFAULT_KEY = GeoTools.FORCE_LONGITUDE_FIRST_AXIS_ORDER;
@@ -157,7 +154,7 @@ public class LongitudeFirstFactory extends DeferredAuthorityFactory implements C
      */
     public Citation getAuthority() {
         final Citation authority = super.getAuthority();
-        return (authority!=null) ? authority : Citations.EPSG;
+        return (authority != null) ? authority : Citations.EPSG;
     }
 
     /**
@@ -184,8 +181,8 @@ public class LongitudeFirstFactory extends DeferredAuthorityFactory implements C
         final Hints backingStoreHints;
         backingStoreHints = new Hints(Hints.CRS_AUTHORITY_FACTORY, ThreadedEpsgFactory.class);
         backingStoreHints.put(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER, Boolean.FALSE);
-        backingStoreHints.put(Hints.FORCE_STANDARD_AXIS_DIRECTIONS,   Boolean.FALSE);
-        backingStoreHints.put(Hints.FORCE_STANDARD_AXIS_UNITS,        Boolean.FALSE);
+        backingStoreHints.put(Hints.FORCE_STANDARD_AXIS_DIRECTIONS, Boolean.FALSE);
+        backingStoreHints.put(Hints.FORCE_STANDARD_AXIS_UNITS, Boolean.FALSE);
         final AbstractAuthorityFactory factory;
         try {
             factory = (AbstractAuthorityFactory)

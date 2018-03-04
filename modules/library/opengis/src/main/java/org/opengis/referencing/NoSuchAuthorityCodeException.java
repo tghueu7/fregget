@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.referencing;
@@ -14,14 +14,11 @@ package org.opengis.referencing;
  * Thrown when an {@linkplain AuthorityFactory authority factory} can't find
  * the requested authority code.
  *
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
- *
+ * @author Martin Desruisseaux (IRD)
+ * @source $URL$
  * @see org.opengis.referencing.datum.DatumAuthorityFactory
  * @see org.opengis.referencing.crs.CRSAuthorityFactory
- *
- *
- * @source $URL$
+ * @since GeoAPI 1.0
  */
 public class NoSuchAuthorityCodeException extends FactoryException {
     /**
@@ -42,10 +39,10 @@ public class NoSuchAuthorityCodeException extends FactoryException {
     /**
      * Constructs an exception with the specified detail message and authority code.
      *
-     * @param  message The detail message. The detail message is saved
-     *         for later retrieval by the {@link #getMessage()} method.
-     * @param  authority The authority.
-     * @param  code The invalid authority code.
+     * @param message   The detail message. The detail message is saved
+     *                  for later retrieval by the {@link #getMessage()} method.
+     * @param authority The authority.
+     * @param code      The invalid authority code.
      */
     public NoSuchAuthorityCodeException(String message, String authority, String code) {
         super(message);

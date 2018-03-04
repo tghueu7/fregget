@@ -2,7 +2,6 @@ package org.geotools.kml;
 
 /**
  * Container for folder name hierarchies
- *
  */
 public class Folder {
 

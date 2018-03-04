@@ -29,14 +29,12 @@ import org.opengis.geometry.MismatchedDimensionException;
 
 /**
  * An implementation of {@link Format} for the Arc/Info Binary Grid (AIG) format.
- * 
- * @author Andrea Antonello (www.hydrologis.com) 
+ *
+ * @author Andrea Antonello (www.hydrologis.com)
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini (simboss), GeoSolutions
- * @since 2.5.x
- *
- *
  * @source $URL$
+ * @since 2.5.x
  */
 public final class AIGFormat extends BaseGDALGridFormat implements Format {
     /**
@@ -58,7 +56,8 @@ public final class AIGFormat extends BaseGDALGridFormat implements Format {
         setInfo();
     }
 
-    private final static InfoWrapper INFO = new InfoWrapper("Arc/Info Binary Grid (AIG) Coverage Format", "AIG");
+    private final static InfoWrapper INFO = new InfoWrapper("Arc/Info Binary Grid (AIG) Coverage " +
+            "Format", "AIG");
 
     /**
      * Sets the metadata information.

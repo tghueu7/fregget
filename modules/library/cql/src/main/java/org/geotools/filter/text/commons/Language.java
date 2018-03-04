@@ -19,17 +19,15 @@ package org.geotools.filter.text.commons;
 
 /**
  * Languages supported by this module
- * 
  * <p>
- * Warning: This component is not published. It is part of module implementation. 
+ * <p>
+ * Warning: This component is not published. It is part of module implementation.
  * Client module should not use this feature.
  * </p>
- * 
+ *
  * @author Mauricio Pazos (Axios Engineering)
- * @since 2.6
- *
- *
  * @source $URL$
+ * @since 2.6
  */
 public enum Language {
 

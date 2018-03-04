@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -19,9 +19,9 @@ package org.geotools.feature.type;
 
 class DescriptorValidator {
 
-	private DescriptorValidator() {
-		// no-op
-	}
+    private DescriptorValidator() {
+        // no-op
+    }
 
 //	public static void validate(AttributeDescriptor schema, List/*<Attribute>*/ content) {
 //		if (schema == null) {
@@ -311,7 +311,8 @@ class DescriptorValidator {
 //			throw new NullPointerException(
 //					"Attribute at index "
 //							+ index
-//							+ " is null. Attributes can't be null. Do you mean Attribute.get() == null?");
+//							+ " is null. Attributes can't be null. Do you mean Attribute.get() == 
+// null?");
 //		}
 //	}
 }

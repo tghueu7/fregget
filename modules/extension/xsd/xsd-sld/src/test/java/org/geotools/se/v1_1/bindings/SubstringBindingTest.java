@@ -20,8 +20,6 @@ import org.geotools.se.v1_1.SETestSupport;
 import org.opengis.filter.expression.Function;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SubstringBindingTest extends SETestSupport {
@@ -29,7 +27,7 @@ public class SubstringBindingTest extends SETestSupport {
     public void testParse() throws Exception {
         SEMockData.substring(document, document);
         Function f = (Function) parse();
-        
+
         assertEquals("ell", f.evaluate(null, String.class));
     }
 }

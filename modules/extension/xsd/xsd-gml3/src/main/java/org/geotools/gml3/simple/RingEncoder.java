@@ -26,7 +26,7 @@ import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * Encodes a GML3 curved ring
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 public class RingEncoder extends MultiLineStringEncoder {

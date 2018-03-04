@@ -32,7 +32,7 @@ import org.opengis.geometry.BoundingBox;
 
 /**
  * A reshaping collection based on a user provided feature collection
- * 
+ *
  * @author Andrea Aime - GeoSolution
  */
 class TransformFeatureCollectionWrapper extends AbstractFeatureCollection {

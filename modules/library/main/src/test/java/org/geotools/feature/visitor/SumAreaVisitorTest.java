@@ -43,15 +43,15 @@ public class SumAreaVisitorTest<T> extends VisitorTestCase<T, T> {
     public static Collection<Object[]> parameters() {
 
         return Arrays.asList(
-                new Object[] { Polygon.class,
+                new Object[]{Polygon.class,
                         Arrays.asList(
-                                polygon(new int[] { 12, 6, 14, 8, 16, 6, 16, 4, 12, 4, 12, 6 }),
-                                polygon(new int[] { 10, 3, 12, 5, 16, 6, 15, 4, 13, 4, 10, 3 })),
-                18.5 },
-                new Object[] { Polygon.class,
+                                polygon(new int[]{12, 6, 14, 8, 16, 6, 16, 4, 12, 4, 12, 6}),
+                                polygon(new int[]{10, 3, 12, 5, 16, 6, 15, 4, 13, 4, 10, 3})),
+                        18.5},
+                new Object[]{Polygon.class,
                         Arrays.asList(
-                                polygon(new int[] { 12, 6, 14, 8, 16, 6, 16, 4, 12, 4, 12, 6 })),
-                        12.0 });
+                                polygon(new int[]{12, 6, 14, 8, 16, 6, 16, 4, 12, 4, 12, 6})),
+                        12.0});
     }
 
     public static Polygon polygon(int[] xy) {

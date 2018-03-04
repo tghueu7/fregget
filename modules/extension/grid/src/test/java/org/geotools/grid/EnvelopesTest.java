@@ -26,12 +26,9 @@ import org.junit.Test;
  * Unit tests for the Grids class.
  *
  * @author mbedward
- * @since 2.7
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.7
  */
 public class EnvelopesTest {
 

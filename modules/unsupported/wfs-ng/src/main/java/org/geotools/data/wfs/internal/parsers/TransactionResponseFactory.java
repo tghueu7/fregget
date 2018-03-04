@@ -47,8 +47,8 @@ public class TransactionResponseFactory implements WFSResponseFactory {
                     "GML3L0", //
                     "text/gml; subtype=gml/3.1.1",// the incorrectly advertised GeoServer format
                     "text/xml", // oddly, GeoServer returns plain 'text/xml' instead of the propper
-                                // subtype when resultType=hits. Guess we should make this something
-                                // the specific strategy can hanlde?
+                    // subtype when resultType=hits. Guess we should make this something
+                    // the specific strategy can hanlde?
                     "text/xml; charset=UTF-8",
                     "GML2",//
                     "text/xml; subtype=gml/2.1.2", //
@@ -83,15 +83,18 @@ public class TransactionResponseFactory implements WFSResponseFactory {
     }
 
     @Override
-    public WFSResponse createResponse(WFSRequest request, HTTPResponse response) throws IOException {
+    public WFSResponse createResponse(WFSRequest request, HTTPResponse response) throws 
+            IOException {
         try {
             if (Versions.v2_0_0.toString().equals(request.getStrategy().getVersion())) {
-                return new org.geotools.data.wfs.internal.v2_0.TransactionResponseImpl(request, response);
+                return new org.geotools.data.wfs.internal.v2_0.TransactionResponseImpl(request, 
+                        response);
             } else if (Versions.v1_0_0.toString().equals(request.getStrategy().getVersion())
                     || Versions.v1_1_0.toString().equals(request.getStrategy().getVersion())) {
-                return new org.geotools.data.wfs.internal.v1_x.TransactionResponseImpl(request, response);
+                return new org.geotools.data.wfs.internal.v1_x.TransactionResponseImpl(request, 
+                        response);
             }
-            return null;            
+            return null;
         } catch (ServiceException e) {
             throw new IOException(e);
         }

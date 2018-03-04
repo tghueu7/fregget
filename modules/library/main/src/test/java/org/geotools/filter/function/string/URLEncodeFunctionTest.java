@@ -35,7 +35,7 @@ import org.opengis.filter.expression.Expression;
 public class URLEncodeFunctionTest {
 
     /**
-     *  Filter factory
+     * Filter factory
      */
     FilterFactory filterFactory = CommonFactoryFinder.getFilterFactory(null);
 
@@ -59,6 +59,7 @@ public class URLEncodeFunctionTest {
 
     /**
      * Test of evaluate method, of class URLEncodeFunction.
+     *
      * @throws Exception
      */
     @Test
@@ -73,13 +74,15 @@ public class URLEncodeFunctionTest {
 
     /**
      * Test of evaluate method, of class URLEncodeFunction.
+     *
      * @throws Exception
      */
     @Test
     public void testURLEncode() throws Exception {
         URLEncodeFunction f = new URLEncodeFunction();
 
-        List<Expression> params = Arrays.asList(filterFactory.literal("Value With Spaces"), filterFactory.literal(false));
+        List<Expression> params = Arrays.asList(filterFactory.literal("Value With Spaces"), 
+                filterFactory.literal(false));
         f.setParameters(params);
 
         assertEquals("Value%20With%20Spaces", f.evaluate(null));
@@ -88,13 +91,15 @@ public class URLEncodeFunctionTest {
 
     /**
      * Test of evaluate method, of class URLEncodeFunction.
+     *
      * @throws Exception
      */
     @Test
     public void testFormURLEncode() throws Exception {
         URLEncodeFunction f = new URLEncodeFunction();
 
-        List<Expression> params = Arrays.asList(filterFactory.literal("Value With Spaces"), filterFactory.literal(true));
+        List<Expression> params = Arrays.asList(filterFactory.literal("Value With Spaces"), 
+                filterFactory.literal(true));
         f.setParameters(params);
 
         assertEquals("Value+With+Spaces", f.evaluate(null));

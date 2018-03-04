@@ -33,10 +33,10 @@ import org.geotools.resources.i18n.ErrorKeys;
 /**
  * A particular parameter in a JAI's {@link ParameterList}.
  *
- * @since 2.2
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.2
  */
 final class ImagingParameter<T> extends AbstractParameter implements ParameterValue<T> {
     /**
@@ -111,13 +111,13 @@ final class ImagingParameter<T> extends AbstractParameter implements ParameterVa
      */
     public double doubleValue() throws InvalidParameterTypeException {
         final String name = getName();
-        final Class  type = getType();
+        final Class type = getType();
         try {
-            if (type.equals(Float  .class)) parameters.getFloatParameter(name);
-            if (type.equals(Long   .class)) parameters.getLongParameter (name);
-            if (type.equals(Integer.class)) parameters.getIntParameter  (name);
-            if (type.equals(Short  .class)) parameters.getShortParameter(name);
-            if (type.equals(Byte   .class)) parameters.getByteParameter (name);
+            if (type.equals(Float.class)) parameters.getFloatParameter(name);
+            if (type.equals(Long.class)) parameters.getLongParameter(name);
+            if (type.equals(Integer.class)) parameters.getIntParameter(name);
+            if (type.equals(Short.class)) parameters.getShortParameter(name);
+            if (type.equals(Byte.class)) parameters.getByteParameter(name);
             return parameters.getDoubleParameter(name);
         } catch (ClassCastException exception) {
             throw invalidType(exception);
@@ -129,10 +129,10 @@ final class ImagingParameter<T> extends AbstractParameter implements ParameterVa
      */
     public int intValue() throws InvalidParameterTypeException {
         final String name = getName();
-        final Class  type = getType();
+        final Class type = getType();
         try {
             if (type.equals(Short.class)) parameters.getShortParameter(name);
-            if (type.equals(Byte .class)) parameters.getByteParameter (name);
+            if (type.equals(Byte.class)) parameters.getByteParameter(name);
             return parameters.getIntParameter(name);
         } catch (ClassCastException exception) {
             throw invalidType(exception);
@@ -242,13 +242,28 @@ final class ImagingParameter<T> extends AbstractParameter implements ParameterVa
      */
     public void setValue(final double value) throws InvalidParameterValueException {
         final String name = getName();
-        final Class  type = getType();
+        final Class type = getType();
         try {
-            if (type.equals(Float  .class)) {parameters.setParameter(name, (float) value); return;}
-            if (type.equals(Long   .class)) {parameters.setParameter(name, (long)  value); return;}
-            if (type.equals(Integer.class)) {parameters.setParameter(name, (int)   value); return;}
-            if (type.equals(Short  .class)) {parameters.setParameter(name, (short) value); return;}
-            if (type.equals(Byte   .class)) {parameters.setParameter(name, (byte)  value); return;}
+            if (type.equals(Float.class)) {
+                parameters.setParameter(name, (float) value);
+                return;
+            }
+            if (type.equals(Long.class)) {
+                parameters.setParameter(name, (long) value);
+                return;
+            }
+            if (type.equals(Integer.class)) {
+                parameters.setParameter(name, (int) value);
+                return;
+            }
+            if (type.equals(Short.class)) {
+                parameters.setParameter(name, (short) value);
+                return;
+            }
+            if (type.equals(Byte.class)) {
+                parameters.setParameter(name, (byte) value);
+                return;
+            }
             parameters.setParameter(name, value);
         } catch (ClassCastException exception) {
             throw invalidType(exception);
@@ -260,10 +275,16 @@ final class ImagingParameter<T> extends AbstractParameter implements ParameterVa
      */
     public void setValue(final int value) throws InvalidParameterValueException {
         final String name = getName();
-        final Class  type = getType();
+        final Class type = getType();
         try {
-            if (type.equals(Short.class)) {parameters.setParameter(name, (short) value); return;}
-            if (type.equals(Byte .class)) {parameters.setParameter(name, (byte)  value); return;}
+            if (type.equals(Short.class)) {
+                parameters.setParameter(name, (short) value);
+                return;
+            }
+            if (type.equals(Byte.class)) {
+                parameters.setParameter(name, (byte) value);
+                return;
+            }
             parameters.setParameter(name, value);
         } catch (ClassCastException exception) {
             throw invalidType(exception);
@@ -324,12 +345,12 @@ final class ImagingParameter<T> extends AbstractParameter implements ParameterVa
      */
     @Override
     public int hashCode() {
-        int code = super.hashCode()*37;
+        int code = super.hashCode() * 37;
         final Object value = getValue();
         if (value != null) {
             code += value.hashCode();
         }
-        return code ^ (int)serialVersionUID;
+        return code ^ (int) serialVersionUID;
     }
 
     /**

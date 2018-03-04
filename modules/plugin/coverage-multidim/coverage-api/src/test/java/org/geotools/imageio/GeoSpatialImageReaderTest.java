@@ -69,13 +69,13 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.PrecisionModel;
 
 /**
- * 
  * @author Nicola Lagomarsini Geosolutions
- * 
  */
 public class GeoSpatialImageReaderTest {
-    
-    /** Default Logger * */
+
+    /**
+     * Default Logger *
+     */
     private static final Logger LOGGER = Logging.getLogger(GeoSpatialImageReaderTest.class);
 
     private static File file;
@@ -139,9 +139,9 @@ public class GeoSpatialImageReaderTest {
             feat.setAttribute("the_geom", GEOM_FACTORY.toGeometry(referencedEnvelope));
             sliceCat.addGranule("1", feat, t);
             t.commit();
-            
+
             // Check if present
-            
+
             Query q = new Query("1");
             q.setFilter(Filter.INCLUDE);
             // Get ImageIndexes
@@ -163,15 +163,15 @@ public class GeoSpatialImageReaderTest {
         String auxiliaryFilesPath = "file:/path";
         reader.setAuxiliaryFilesPath(auxiliaryFilesPath);
         assertTrue(reader.getAuxiliaryFilesPath().equalsIgnoreCase(auxiliaryFilesPath));
-        
+
         // Disposal
         reader.dispose();
-        try{
+        try {
             reader.finalize();
         } catch (Throwable e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
         }
-        
+
     }
 
     /**
@@ -179,14 +179,17 @@ public class GeoSpatialImageReaderTest {
      */
     public static class TestGeospatialImageReader extends GeoSpatialImageReader {
 
-        /** Default Logger * */
+        /**
+         * Default Logger *
+         */
         private static final Logger LOGGER = Logging.getLogger(TestGeospatialImageReader.class);
 
         protected TestGeospatialImageReader() {
             super(new TestGeospatialImageReaderSpi());
         }
 
-        private static Map<Name, CoverageSourceDescriptor> descriptors = new HashMap<Name, CoverageSourceDescriptor>();
+        private static Map<Name, CoverageSourceDescriptor> descriptors = new HashMap<Name, 
+                CoverageSourceDescriptor>();
 
         private static List<Name> coverageNames = new ArrayList<Name>();
 
@@ -271,26 +274,28 @@ public class GeoSpatialImageReaderTest {
 
     public static class TestGeospatialImageReaderSpi extends ImageReaderSpi {
 
-        public static final Class<?>[] STANDARD_INPUT_TYPES = new Class[] { ImageInputStream.class,
-                File.class, URL.class, URI.class };
+        public static final Class<?>[] STANDARD_INPUT_TYPES = new Class[]{ImageInputStream.class,
+                File.class, URL.class, URI.class};
 
         public static final String VENDOR_NAME = "GeoTools";
 
-        /** Default Logger * */
+        /**
+         * Default Logger *
+         */
         private static final Logger LOGGER = Logging.getLogger(TestGeospatialImageReaderSpi.class);
 
-        static final String[] suffixes = new String[] { ".tiff", ".tif" };
+        static final String[] suffixes = new String[]{".tiff", ".tif"};
 
-        static final String[] formatNames = new String[] { "TIFF", "TIF" };
+        static final String[] formatNames = new String[]{"TIFF", "TIF"};
 
-        static final String[] MIMETypes = new String[] { "image/tiff", "image/geotiff" };
+        static final String[] MIMETypes = new String[]{"image/tiff", "image/geotiff"};
 
         static final String version = "1.0";
 
         static final String readerCN = "org.geotools.imageio.TestGeospatialImageReader";
 
         // writerSpiNames
-        static final String[] wSN = { null };
+        static final String[] wSN = {null};
 
         // StreamMetadataFormatNames and StreamMetadataFormatClassNames
         static final boolean supportsStandardStreamMetadataFormat = false;
@@ -299,9 +304,9 @@ public class GeoSpatialImageReaderTest {
 
         static final String nativeStreamMetadataFormatClassName = null;
 
-        static final String[] extraStreamMetadataFormatNames = { null };
+        static final String[] extraStreamMetadataFormatNames = {null};
 
-        static final String[] extraStreamMetadataFormatClassNames = { null };
+        static final String[] extraStreamMetadataFormatClassNames = {null};
 
         // ImageMetadataFormatNames and ImageMetadataFormatClassNames
         static final boolean supportsStandardImageMetadataFormat = false;
@@ -310,11 +315,13 @@ public class GeoSpatialImageReaderTest {
 
         static final String nativeImageMetadataFormatClassName = null;
 
-        static final String[] extraImageMetadataFormatNames = { null };
+        static final String[] extraImageMetadataFormatNames = {null};
 
-        static final String[] extraImageMetadataFormatClassNames = { null };
+        static final String[] extraImageMetadataFormatClassNames = {null};
 
-        /** Default Constructor * */
+        /**
+         * Default Constructor *
+         */
         public TestGeospatialImageReaderSpi() {
             super(VENDOR_NAME, version, formatNames, suffixes, MIMETypes, readerCN,
                     STANDARD_INPUT_TYPES, wSN, supportsStandardStreamMetadataFormat,

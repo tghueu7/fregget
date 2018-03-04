@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2007-2008, Open Source Geospatial Foundation (OSGeo)
- *   
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -26,27 +26,27 @@ import java.util.Set;
  * unlocking <strong>must</strong> be protected in a {@code try} ... {@code finally} block.
  * <p>
  * To use as a reader:
- *
+ * <p>
  * <blockquote><pre>
  * key = &quot;EPSG:4326&quot;;
  * CoordinateReferenceSystem crs = cache.get(key);
  * </pre></blockquote>
- *
+ * <p>
  * To overwrite:
- *
+ * <p>
  * <blockquote><pre>
  * cache.put(key, crs);
  * </pre></blockquote>
- *
+ * <p>
  * To reserve the entry while figuring out what to write:
- *
+ * <p>
  * <blockquote><pre>
  * try {
  *     cache.writeLock(key); // may block if another writer is working on this code.
  *     value = cache.peek(key);
  *     if (value == null) {
  *        // another writer got here first
- *     } else { 
+ *     } else {
  *        value = figuringOutWhatToWrite(....);
  *        cache.put(key, value);
  *     }
@@ -54,9 +54,9 @@ import java.util.Set;
  *     cache.writeUnLock(key);
  * }
  * </pre></blockquote>
- *
+ * <p>
  * To use as a proper cache:
- *
+ * <p>
  * <blockquote><pre>
  * CylindricalCS cs = (CylindricalCS) cache.get(key);
  * if (cs == null) {
@@ -74,14 +74,11 @@ import java.util.Set;
  * return cs;
  * </pre></blockquote>
  *
- * @since 2.5
- * @version $Id$
- *
- *
- * @source $URL$
  * @author Cory Horner (Refractions Research)
- *
+ * @version $Id$
+ * @source $URL$
  * @see https://jsr-107-interest.dev.java.net/javadoc/javax/cache/package-summary.html
+ * @since 2.5
  */
 public interface ObjectCache {
     /**
@@ -92,10 +89,10 @@ public interface ObjectCache {
     /**
      * Returns an object from the pool for the specified code. If the object was retained as a
      * {@linkplain Reference weak reference}, the {@link Reference#get referent} is returned.
-     * 
-     * @param   key The key whose associated value is to be returned.
+     *
+     * @param key The key whose associated value is to be returned.
      * @returns The value to which the specified key is mapped, or {@code null} if this cache
-     *          contains no mapping for the key.
+     * contains no mapping for the key.
      */
     Object get(Object key);
 
@@ -104,7 +101,7 @@ public interface ObjectCache {
      * <p>
      * This method is used by a writer to test if someone (ie another writer) has provided the value
      * for us (while we were blocked waiting for them).
-     * 
+     *
      * @param key
      * @return The value, may be <code>null</code>
      */
@@ -114,13 +111,13 @@ public interface ObjectCache {
      * Puts an element into the cache.
      * <p>
      * You may simply use this method - it is threadsafe:
-     * 
+     * <p>
      * <pre></code>
      * cache.put(&quot;4326&quot;, crs);
      * </code></pre>
-     * 
+     * <p>
      * You may also consider reserving the entry while you work on the answer:
-     * 
+     * <p>
      * <pre></code>
      *  try {
      *     cache.writeLock( &quot;fred&quot; );
@@ -131,40 +128,40 @@ public interface ObjectCache {
      *     cache.writeUnLock();
      *  }
      * </code></pre>
-     * 
-     * @param key the authority code.
+     *
+     * @param key    the authority code.
      * @param object The referencing object to add in the pool.
      */
     void put(Object key, Object object);
 
     /**
      * Acquire a write lock on the indicated key.
-     * 
+     *
      * @param key
      */
     void writeLock(Object key); // TODO: how to indicate lock was not acquired?
 
     /**
      * Release write lock on the indicated key.
-     * 
+     *
      * @param key
      */
     void writeUnLock(Object key);
-    
+
     /**
-     * Returns a set of all the keys currently contained within the 
+     * Returns a set of all the keys currently contained within the
      * ObjectCache.
      * <p>
-     * This is a static copy of the keys in the cache at the point 
+     * This is a static copy of the keys in the cache at the point
      * in time when the function is called.
-     * 
-     * 
+     *
      * @return a set of keys currently contained within the cache.
      */
     Set<Object> getKeys();
-    
+
     /**
      * Removes a given key from the cache.
+     *
      * @param key
      */
     void remove(Object key);

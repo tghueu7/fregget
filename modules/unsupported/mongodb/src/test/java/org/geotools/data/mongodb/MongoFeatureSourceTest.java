@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2015, Boundless
  *
@@ -40,44 +40,45 @@ public abstract class MongoFeatureSourceTest extends MongoTestSupport {
     }
 
     public void testBBOXFilter() throws Exception {
-      FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
-      BBOX f = ff.bbox(ff.property("geometry"),  0.5, 0.5, 1.5, 1.5, "epsg:4326");
+        FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
+        BBOX f = ff.bbox(ff.property("geometry"), 0.5, 0.5, 1.5, 1.5, "epsg:4326");
 
-      SimpleFeatureSource source = dataStore.getFeatureSource("ft1");
+        SimpleFeatureSource source = dataStore.getFeatureSource("ft1");
 
-      Query q = new Query("ft1", f);
-      assertEquals(1, source.getCount(q));
-      assertEquals(new ReferencedEnvelope(1d,1d,1d,1d,DefaultGeographicCRS.WGS84), source.getBounds(q));
+        Query q = new Query("ft1", f);
+        assertEquals(1, source.getCount(q));
+        assertEquals(new ReferencedEnvelope(1d, 1d, 1d, 1d, DefaultGeographicCRS.WGS84), source
+                .getBounds(q));
 
-      SimpleFeatureCollection features = source.getFeatures(q);
-      SimpleFeatureIterator it = features.features();
-      try {
-          assertTrue(it.hasNext());
-          assertFeature(it.next(), 1);
-      }
-      finally {
-          it.close();
-      }
+        SimpleFeatureCollection features = source.getFeatures(q);
+        SimpleFeatureIterator it = features.features();
+        try {
+            assertTrue(it.hasNext());
+            assertFeature(it.next(), 1);
+        } finally {
+            it.close();
+        }
     }
 
     public void testEqualToFilter() throws Exception {
         FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
-        PropertyIsEqualTo f = ff.equals(ff.property("properties.stringProperty"), ff.literal("two"));
+        PropertyIsEqualTo f = ff.equals(ff.property("properties.stringProperty"), ff.literal
+                ("two"));
 
         SimpleFeatureSource source = dataStore.getFeatureSource("ft1");
         Query q = new Query("ft1", f);
-        
+
         assertEquals(1, source.getCount(q));
         ReferencedEnvelope e = source.getBounds();
-        assertEquals(new ReferencedEnvelope(2d,0d,2d,0d,DefaultGeographicCRS.WGS84), source.getBounds(q));
+        assertEquals(new ReferencedEnvelope(2d, 0d, 2d, 0d, DefaultGeographicCRS.WGS84), source
+                .getBounds(q));
 
         SimpleFeatureCollection features = source.getFeatures(q);
         SimpleFeatureIterator it = features.features();
         try {
             assertTrue(it.hasNext());
             assertFeature(it.next(), 0);
-        }
-        finally {
+        } finally {
             it.close();
         }
     }
@@ -90,15 +91,15 @@ public abstract class MongoFeatureSourceTest extends MongoTestSupport {
         Query q = new Query("ft1", f);
 
         assertEquals(1, source.getCount(q));
-        assertEquals(new ReferencedEnvelope(1d,1d,1d,1d,DefaultGeographicCRS.WGS84), source.getBounds(q));
+        assertEquals(new ReferencedEnvelope(1d, 1d, 1d, 1d, DefaultGeographicCRS.WGS84), source
+                .getBounds(q));
 
         SimpleFeatureCollection features = source.getFeatures(q);
         SimpleFeatureIterator it = features.features();
         try {
             assertTrue(it.hasNext());
             assertFeature(it.next(), 1);
-        }
-        finally {
+        } finally {
             it.close();
         }
 
@@ -122,23 +123,23 @@ public abstract class MongoFeatureSourceTest extends MongoTestSupport {
                 "on%", "%", "_", "\\");
 
         SimpleFeatureSource source = dataStore.getFeatureSource("ft1");
-        Query q = new Query("ft1", f, new String[] { "geometry" });
+        Query q = new Query("ft1", f, new String[]{"geometry"});
 
         // filter should match just one feature
         assertEquals(1, source.getFeatures(q).size());
-        assertEquals(new ReferencedEnvelope(1d,1d,1d,1d,DefaultGeographicCRS.WGS84), source.getBounds(q));
+        assertEquals(new ReferencedEnvelope(1d, 1d, 1d, 1d, DefaultGeographicCRS.WGS84), source
+                .getBounds(q));
 
         SimpleFeatureCollection features = source.getFeatures(q);
         SimpleFeatureIterator it = features.features();
         try {
             assertTrue(it.hasNext());
-            SimpleFeature feature =  it.next();
+            SimpleFeature feature = it.next();
             assertFeature(feature, 1, false);
             // the stringProperty attribute should not be returned, since it was
             // used in the post-filter, but was not listed among the properties to fetch
             assertNull(feature.getAttribute("properties.stringProperty"));
-        }
-        finally {
+        } finally {
             it.close();
         }
     }
@@ -153,15 +154,15 @@ public abstract class MongoFeatureSourceTest extends MongoTestSupport {
         Query q = new Query("ft1", gt);
 
         assertEquals(2, source.getCount(q));
-        assertEquals(new ReferencedEnvelope(0d,2d,0d,2d,DefaultGeographicCRS.WGS84), source.getBounds(q));
+        assertEquals(new ReferencedEnvelope(0d, 2d, 0d, 2d, DefaultGeographicCRS.WGS84), source
+                .getBounds(q));
 
         SimpleFeatureCollection features = source.getFeatures(q);
         SimpleFeatureIterator it = features.features();
         try {
             assertTrue(it.hasNext());
             assertFeature(it.next(), 0);
-        }
-        finally {
+        } finally {
             it.close();
         }
 
@@ -172,13 +173,13 @@ public abstract class MongoFeatureSourceTest extends MongoTestSupport {
         q = new Query("ft1", gt);
 
         assertEquals(2, source.getCount(q));
-        assertEquals(new ReferencedEnvelope(0d,2d,0d,2d,DefaultGeographicCRS.WGS84), source.getBounds(q));
+        assertEquals(new ReferencedEnvelope(0d, 2d, 0d, 2d, DefaultGeographicCRS.WGS84), source
+                .getBounds(q));
         it = source.getFeatures(q).features();
         try {
             assertTrue(it.hasNext());
             assertFeature(it.next(), 0);
-        }
-        finally {
+        } finally {
             it.close();
         }
 
@@ -202,15 +203,15 @@ public abstract class MongoFeatureSourceTest extends MongoTestSupport {
         Query q = new Query("ft1", lt);
 
         assertEquals(1, source.getCount(q));
-        assertEquals(new ReferencedEnvelope(0d,2d,0d,2d,DefaultGeographicCRS.WGS84), source.getBounds(q));
+        assertEquals(new ReferencedEnvelope(0d, 2d, 0d, 2d, DefaultGeographicCRS.WGS84), source
+                .getBounds(q));
 
         SimpleFeatureCollection features = source.getFeatures(q);
         SimpleFeatureIterator it = features.features();
         try {
             assertTrue(it.hasNext());
             assertFeature(it.next(), 0);
-        }
-        finally {
+        } finally {
             it.close();
         }
 
@@ -235,15 +236,15 @@ public abstract class MongoFeatureSourceTest extends MongoTestSupport {
         Query q = new Query("ft1", lt);
 
         assertEquals(1, source.getCount(q));
-        assertEquals(new ReferencedEnvelope(0d,0d,0d,0d,DefaultGeographicCRS.WGS84), source.getBounds(q));
+        assertEquals(new ReferencedEnvelope(0d, 0d, 0d, 0d, DefaultGeographicCRS.WGS84), source
+                .getBounds(q));
 
         SimpleFeatureCollection features = source.getFeatures(q);
         SimpleFeatureIterator it = features.features();
         try {
             assertTrue(it.hasNext());
             assertFeature(it.next(), 0);
-        }
-        finally {
+        } finally {
             it.close();
         }
 

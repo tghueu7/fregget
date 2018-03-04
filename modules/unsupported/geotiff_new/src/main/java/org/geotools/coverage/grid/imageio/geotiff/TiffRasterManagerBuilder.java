@@ -41,47 +41,51 @@ import org.opengis.referencing.operation.TransformException;
 
 public class TiffRasterManagerBuilder extends RasterManagerBuilder<TIFFImageReader> {
 
-    /** Logger. */
-    private final static Logger LOGGER = org.geotools.util.logging.Logging.getLogger(TiffRasterManagerBuilder.class);
-    
+    /**
+     * Logger.
+     */
+    private final static Logger LOGGER = org.geotools.util.logging.Logging.getLogger
+            (TiffRasterManagerBuilder.class);
+
     private List<RasterDescriptor> descriptors = new ArrayList<RasterDescriptor>();
-    
-    private List<RasterSlice> slices= new ArrayList<RasterSlice>();
-    
+
+    private List<RasterSlice> slices = new ArrayList<RasterSlice>();
+
     public TiffRasterManagerBuilder() {
         super(new Hints());
     }
-    
+
     public TiffRasterManagerBuilder(Hints hints) {
         super(hints);
     }
 
 
     @Override
-    public void addElement(int index, TIFFImageReader reader, ImageReaderSource<?> source) throws IOException {
-    
+    public void addElement(int index, TIFFImageReader reader, ImageReaderSource<?> source) throws
+            IOException {
+
         final RasterSlice slice = new RasterSlice();
-        slice.source=source;
-        
+        slice.source = source;
+
         // get metadata and check if this is an overview or not
         final TIFFImageMetadata metadata = (TIFFImageMetadata) reader.getImageMetadata(index);
         final TIFFIFD IFD = metadata.getRootIFD();
-        
+
         //
         // Overviews or full resolution?
         //
-        boolean fullResolution=true;    
+        boolean fullResolution = true;
 //        boolean multipage=false;
         final int newSubfileType;
-        TIFFField tifField=null;
-        if((tifField=IFD.getTIFFField(254))!=null)
-            newSubfileType=tifField.getAsInt(0);
+        TIFFField tifField = null;
+        if ((tifField = IFD.getTIFFField(254)) != null)
+            newSubfileType = tifField.getAsInt(0);
         else
-            newSubfileType=0;// default is single independent image
-        fullResolution=(newSubfileType&0x1)!=1?true:false;
+            newSubfileType = 0;// default is single independent image
+        fullResolution = (newSubfileType & 0x1) != 1 ? true : false;
 //        multipage=((newSubfileType>>1)&0x2)!=1?true:false;
-        slice.overview=!fullResolution;
-        if(!slice.overview&& !slices.isEmpty())
+        slice.overview = !fullResolution;
+        if (!slice.overview && !slices.isEmpty())
             createRasterDescriptor();
 //        //
 //        // Page number 
@@ -110,8 +114,8 @@ public class TiffRasterManagerBuilder extends RasterManagerBuilder<TIFFImageRead
                 reader.getTileGridXOffset(index),
                 hrTileW,
                 hrTileH);
-        slice.rasterDimensions=rasterLayout;
-        
+        slice.rasterDimensions = rasterLayout;
+
         //
         // get sample image
         //
@@ -119,31 +123,31 @@ public class TiffRasterManagerBuilder extends RasterManagerBuilder<TIFFImageRead
         readParam.setSourceRegion(new Rectangle(0, 0, 2, 2));
         final BufferedImage sampleImage = reader.read(index, readParam);
         final ImageTypeSpecifier imageType = new ImageTypeSpecifier(sampleImage);
-        slice.imageType=imageType;
-        
+        slice.imageType = imageType;
+
         double noDataValue;
-        CoordinateReferenceSystem crs=null;
-        AffineTransform raster2Model=null;
-        ReferencedEnvelope bbox=null;
-        if(fullResolution){
-            
+        CoordinateReferenceSystem crs = null;
+        AffineTransform raster2Model = null;
+        ReferencedEnvelope bbox = null;
+        if (fullResolution) {
+
             ////
             //
             // THIS IS A FULL RESOLUTION PAGE
             //
             ////
-            
+
             // 
             // Now load geotiff metadata
             //
             final GeoTiffIIOMetadataDecoder decoder = new GeoTiffIIOMetadataDecoder(metadata);
-            
+
             //
             // NO DATA
             //  
             if (decoder.hasNoData())
                 noDataValue = decoder.getNoData();
-            
+
             // //
             //
             // CRS INFO
@@ -158,69 +162,71 @@ public class TiffRasterManagerBuilder extends RasterManagerBuilder<TIFFImageRead
             } else {
 
                 // metadata decoder
-                gtcs=new GeoTiffMetadata2CRSAdapter(hints);
+                gtcs = new GeoTiffMetadata2CRSAdapter(hints);
                 // check metadata first
-                if (decoder.hasGeoKey()&& gtcs != null)
+                if (decoder.hasGeoKey() && gtcs != null)
                     try {
                         crs = gtcs.createCoordinateSystem(decoder);
                     } catch (FactoryException e) {
-                       throw new IOException(e);
+                        throw new IOException(e);
                     }
 
                 if (crs == null)
                     crs = GeoTiffUtils.getCRS(source.getSource());
             }
 
-            if (crs == null){
-                if(LOGGER.isLoggable(Level.WARNING)){
+            if (crs == null) {
+                if (LOGGER.isLoggable(Level.WARNING)) {
                     LOGGER.warning("Coordinate Reference System is not available");
                 }
                 crs = AbstractGridFormat.getDefaultCRS();
             }
-            
-            if (gtcs != null&& metadata!=null&& (decoder.hasModelTrasformation()||(decoder.hasPixelScales()&&decoder.hasTiePoints()))) {
+
+            if (gtcs != null && metadata != null && (decoder.hasModelTrasformation() || (decoder
+                    .hasPixelScales() && decoder.hasTiePoints()))) {
                 // TODO I hate all thiese casts
-                raster2Model = (AffineTransform) GeoTiffMetadata2CRSAdapter.getRasterToModel(decoder);
+                raster2Model = (AffineTransform) GeoTiffMetadata2CRSAdapter.getRasterToModel
+                        (decoder);
             } else {
                 // TODO I hate all thiese casts                
                 raster2Model = (AffineTransform) GeoTiffUtils.parseWorldFile(source);
             }
-    
+
             if (raster2Model == null) {
                 // TODO test this
-                raster2Model=AffineTransform.getScaleInstance(0, 0);
+                raster2Model = AffineTransform.getScaleInstance(0, 0);
             }
-            slice.gridToWorld=raster2Model;
-            
+            slice.gridToWorld = raster2Model;
+
             final AffineTransform tempTransform = new AffineTransform(raster2Model);
             tempTransform.translate(-0.5, -0.5);
             try {
                 GeneralEnvelope bbox_ = CRS.transform(ProjectiveTransform
                         .create(tempTransform), new GeneralEnvelope(rasterLayout.getBounds()));
                 bbox_.setCoordinateReferenceSystem(crs);
-                bbox= new ReferencedEnvelope(bbox_);
+                bbox = new ReferencedEnvelope(bbox_);
             } catch (TransformException e) {
                 new IOException(e);
             }
-            slice.envelope=bbox;
-            
-        } 
+            slice.envelope = bbox;
+
+        }
         slices.add(slice);
-        
-        
-//        System.out.println(new IIOMetadataDumper(metadata,metadata.getNativeMetadataFormatName()).getMetadata());
+
+
+//        System.out.println(new IIOMetadataDumper(metadata,metadata.getNativeMetadataFormatName
+// ()).getMetadata());
 
     }
 
     private void createRasterDescriptor() {
         descriptors.add(new RasterDescriptor(slices));
         slices.clear();
-        
+
     }
 
     /**
      * We do not need to parse the stream metadata for the tiff {@link ImageReader}.
-     * 
      */
     @Override
     public boolean needsStreamMetadata() {
@@ -230,7 +236,7 @@ public class TiffRasterManagerBuilder extends RasterManagerBuilder<TIFFImageRead
     @Override
     public List<RasterManager> create() {
         // do one last internal create
-        if(!slices.isEmpty())
+        if (!slices.isEmpty())
             this.descriptors.add(new RasterDescriptor(slices));
         return null;
     }
@@ -238,19 +244,19 @@ public class TiffRasterManagerBuilder extends RasterManagerBuilder<TIFFImageRead
     @Override
     public void parseStreamMetadata(IIOMetadata streamMetadata) throws IOException {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void dispose() {
-        if(descriptors!=null)
+        if (descriptors != null)
             descriptors.clear();
-        descriptors=null;
-        
-        if(slices!=null)
+        descriptors = null;
+
+        if (slices != null)
             slices.clear();
-        slices=null;
-        
+        slices = null;
+
     }
 
 }

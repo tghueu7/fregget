@@ -41,7 +41,7 @@ import com.vividsolutions.jts.geom.Envelope;
 
 /**
  * Manages the index files on behalf of the the {@link ShapefileDataStore}
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 class IndexManager {
@@ -57,7 +57,7 @@ class IndexManager {
     CachedQuadTree cachedTree;
 
     ShapefileDataStore store;
-    
+
     /**
      * Used to lock the files when doing accesses to check indexes and the like
      */
@@ -89,7 +89,7 @@ class IndexManager {
 
     /**
      * Creates the spatial index is appropriate.
-     * 
+     *
      * @param force Forces the index re-creation even if the spatial index seems to be up to date
      * @return true if the spatial index has been created/updated
      */
@@ -114,7 +114,7 @@ class IndexManager {
 
     /**
      * If the fid index can be used and it is missing this method will try to create it
-     * 
+     *
      * @return
      */
     boolean hasFidIndex(boolean createIfMissing) {
@@ -142,7 +142,7 @@ class IndexManager {
 
     /**
      * Returns true if the specified index exists, is up to date, and can be read
-     * 
+     *
      * @param indexType
      * @return
      */
@@ -172,10 +172,10 @@ class IndexManager {
 
         return true;
     }
-    
+
     /**
      * Returns true if the index file is available
-     * 
+     *
      * @param indexType
      * @return
      */
@@ -186,7 +186,7 @@ class IndexManager {
     /**
      * Returns true if the specified index file is outdated compared to the shapefile .shp and .shx
      * files
-     * 
+     *
      * @param indexType
      * @return
      */
@@ -228,7 +228,7 @@ class IndexManager {
     /**
      * Uses the Fid index to quickly lookup the shp offset and the record number for the list of
      * fids
-     * 
+     *
      * @param fids the fid filter identifying the ids
      * @return a list of Data objects
      * @throws IOException
@@ -236,7 +236,8 @@ class IndexManager {
      */
     List<Data> queryFidIndex(Id fidFilter) throws IOException {
         // sort by fid to increase performance and allow skipping on natural order
-        TreeSet<Identifier> idsSet = new TreeSet<Identifier>(new IdentifierComparator(store.getTypeName().getLocalPart()));
+        TreeSet<Identifier> idsSet = new TreeSet<Identifier>(new IdentifierComparator(store
+                .getTypeName().getLocalPart()));
         idsSet.addAll(fidFilter.getIdentifiers());
 
         IndexedFidReader reader = new IndexedFidReader(shpFiles);
@@ -286,13 +287,11 @@ class IndexManager {
 
     /**
      * Queries the spatial index for features available in the specified bbox
-     * 
+     *
      * @param bbox
-     * 
-     * 
      * @throws DataSourceException
      * @throws IOException
-     * @throws TreeException DOCUMENT ME!
+     * @throws TreeException       DOCUMENT ME!
      */
     protected CloseableIterator<Data> querySpatialIndex(Envelope bbox) throws DataSourceException,
             IOException, TreeException {
@@ -307,7 +306,8 @@ class IndexManager {
             try {
                 File treeFile = URLs.urlToFile(treeURL);
 
-                if (treeFile != null && treeFile.exists() && treeFile.length() < 1024 * maxQixCacheSize) {
+                if (treeFile != null && treeFile.exists() && treeFile.length() < 1024 * 
+                        maxQixCacheSize) {
                     canCache = true;
                 }
             } finally {
@@ -349,9 +349,8 @@ class IndexManager {
 
     /**
      * Convenience method for opening a QuadTree index.
-     * 
+     *
      * @return A new QuadTree
-     * 
      * @throws StoreException
      */
     protected QuadTree openQuadTree() throws StoreException {

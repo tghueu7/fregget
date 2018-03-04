@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -19,7 +19,7 @@ package org.geotools.styling;
 
 /**
  * A RemoteOWS gives a reference to a remote WFS/WCS/other-OWS server.
- *
+ * <p>
  * <p>
  * The details of this object are taken from the <a
  * href="https://portal.opengeospatial.org/files/?artifact_id=1188"> OGC
@@ -40,12 +40,10 @@ package org.geotools.styling;
  * &lt;/xsd:element&gt;
  * </code></pre>
  * </p>
- *
+ * <p>
  * <p></p>
  *
  * @author James Macgill
- *
- *
  * @source $URL$
  */
 public interface RemoteOWS {

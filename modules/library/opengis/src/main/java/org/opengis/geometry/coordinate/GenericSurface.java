@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.coordinate;
@@ -22,17 +22,14 @@ import static org.opengis.annotation.Specification.*;
  * and {@code SurfacePatch} represent sections of surface geometry,
  * and therefore share a number of operation signatures.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
- * @since GeoAPI 1.0
- *
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @todo Investigate why this interface doesn't extends {@link Geometry}, since it is a cause
- *       of difficulty with {@link org.opengis.coverage.Coverage}.
+ * of difficulty with {@link org.opengis.coverage.Coverage}.
+ * @since GeoAPI 1.0
  */
-@UML(identifier="GM_GenericSurface", specification=ISO_19107)
+@UML(identifier = "GM_GenericSurface", specification = ISO_19107)
 public interface GenericSurface {
     /**
      * Returns a vector perpendicular to the {@code GenericSurface} at the
@@ -44,7 +41,7 @@ public interface GenericSurface {
      * The side of the surface indicated by the {@code upNormal} is referred
      * to as the "top." The function "upNormal" shall be continuous and the length
      * of the normal shall always be equal to 1.0.
-     *
+     * <p>
      * <blockquote><font size=2>
      * <strong>NOTE:</strong> The upNormal along a boundary of a solid always points away from the
      * solid. This is a slight semantics problem in dealing with voids within solids, where the
@@ -63,7 +60,7 @@ public interface GenericSurface {
      * @param point The point on this {@code GenericSurface} where to compute the upNormal.
      * @return The upNormal unit vector.
      */
-    @UML(identifier="upNormal", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "upNormal", obligation = MANDATORY, specification = ISO_19107)
     double[] getUpNormal(DirectPosition point);
 
     /**
@@ -71,7 +68,7 @@ public interface GenericSurface {
      * {@code GenericSurface}. Since perimeter, like length, is an accumulation
      * (integral) of distance, its return value shall be in a reference system appropriate
      * for measuring distances.
-     *
+     * <p>
      * <blockquote><font size=2>
      * <strong>NOTE:</strong> The perimeter is defined as the sum of the lengths of all boundary
      * components. The length of a curve or of a collection of curves is always positive and
@@ -82,7 +79,7 @@ public interface GenericSurface {
      * @return The perimeter.
      * @unitof Length
      */
-    @UML(identifier="perimeter", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "perimeter", obligation = MANDATORY, specification = ISO_19107)
     double getPerimeter();
 
     /**
@@ -91,7 +88,7 @@ public interface GenericSurface {
      * area is an accumulation (integral) of the product of two distances, its return value shall
      * be in a unit of measure appropriate for measuring distances squared, such as meters squared
      * (m<sup>2</sup>).
-     *
+     * <p>
      * <blockquote><font size=2>
      * <strong>NOTE:</strong> Consistent with the definition of surface as a set of
      * {@linkplain DirectPosition direct positions}, holes in the surfaces will not contribute to
@@ -103,6 +100,6 @@ public interface GenericSurface {
      * @return The area.
      * @unitof Area
      */
-    @UML(identifier="area", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "area", obligation = MANDATORY, specification = ISO_19107)
     double getArea();
 }

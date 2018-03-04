@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -43,21 +43,25 @@ import org.opengis.parameter.ParameterValueGroup;
 
 /**
  * This class is the root class for the Maths operations. It provides
- * basic capabilities for management of geospatial parameters like {@link javax.media.jai.ROI}s and subsampling factors.
- * 
+ * basic capabilities for management of geospatial parameters like {@link javax.media.jai.ROI}s 
+ * and subsampling factors.
+ *
  * @author Nicola Lagomarsini, GeoSolutions SAS
- * @since 14.x
- * 
  * @source $URL$
+ * @since 14.x
  */
 public abstract class BaseMathOperationJAI extends OperationJAI {
 
     private static final long serialVersionUID = 6830028735162290160L;
 
-    /** {@link Logger} for this class. */
+    /**
+     * {@link Logger} for this class.
+     */
     public final static Logger LOGGER = Logging.getLogger("org.geotools.coverage.processing");
 
-    /** Name for the Sources parameter */
+    /**
+     * Name for the Sources parameter
+     */
     public static final String SOURCES_NAME = "Sources";
 
     /**
@@ -82,7 +86,7 @@ public abstract class BaseMathOperationJAI extends OperationJAI {
 
     /**
      * Constructor for {@link BaseMathOperationJAI}.
-     * 
+     *
      * @param operationDescriptor {@link OperationDescriptor} for the underlying JAI operation.
      */
     public BaseMathOperationJAI(OperationDescriptor operationDescriptor) {
@@ -92,13 +96,16 @@ public abstract class BaseMathOperationJAI extends OperationJAI {
 
     /**
      * Constructor for {@link BaseMathOperationJAI}.
-     * 
+     *
      * @param operationDescriptor {@link OperationDescriptor} for the underlying JAI operation.
-     * @param replacements {@link ImagingParameterDescriptors} that should replace the correspondent {@link ImagingParameters} in order to change the
-     *        default behavior they have inside JAI.
+     * @param replacements        {@link ImagingParameterDescriptors} that should replace the 
+     *                                                               correspondent 
+     *                                                               {@link ImagingParameters} in
+     *                                                               order to change the
+     *                            default behavior they have inside JAI.
      */
     public BaseMathOperationJAI(OperationDescriptor operationDescriptor,
-            ImagingParameterDescriptors replacements) {
+                                ImagingParameterDescriptors replacements) {
         super(operationDescriptor, new ImagingParameterDescriptors(
                 ImagingParameterDescriptors.properties(operationDescriptor), operationDescriptor,
                 RenderedRegistryMode.MODE_NAME,
@@ -107,7 +114,7 @@ public abstract class BaseMathOperationJAI extends OperationJAI {
 
     /**
      * Constructor for {@link BaseMathOperationJAI}.
-     * 
+     *
      * @param name of the underlying JAI operation.
      */
     public BaseMathOperationJAI(String name, OperationDescriptor operationDescriptor) {
@@ -118,7 +125,7 @@ public abstract class BaseMathOperationJAI extends OperationJAI {
 
     /**
      * Constructor for {@link BaseMathOperationJAI}.
-     * 
+     *
      * @param name of the underlying JAI operation.
      */
     public BaseMathOperationJAI(String name) {
@@ -128,7 +135,8 @@ public abstract class BaseMathOperationJAI extends OperationJAI {
     }
 
     protected void extractSources(final ParameterValueGroup parameters,
-            final Collection<GridCoverage2D> sources, final String[] sourceNames)
+                                  final Collection<GridCoverage2D> sources, final String[] 
+                                          sourceNames)
             throws ParameterNotFoundException, InvalidParameterValueException {
         if (!JAIExt.isJAIExtOperation(JAIExt.getOperationName(getName()))) {
             super.extractSources(parameters, sources, sourceNames);

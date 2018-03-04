@@ -63,11 +63,9 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
  * Base class for grid coverage tests. This base class provides factory methods for sample
  * {@link GridCoverage2D}, and {@code assertEqual} methods for comparing values.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
  */
 public class GridCoverageTestBase extends CoverageTestBase {
     /**
@@ -96,62 +94,65 @@ public class GridCoverageTestBase extends CoverageTestBase {
          * Some constants used for the construction and tests of the grid coverage.
          */
         final double PIXEL_SIZE = .25; // Pixel size (in degrees). Used in transformations.
-        final int   BEGIN_VALID = 3;   // The minimal valid index for quantitative category.
+        final int BEGIN_VALID = 3;   // The minimal valid index for quantitative category.
         /*
          * Constructs the grid coverage. We will assume that the grid coverage use
          * (longitude,latitude) coordinates, pixels of 0.25 degrees and a lower
          * left corner at 10°W 30°N.
          */
-        final GridCoverage2D  coverage;  // The final grid coverage.
-        final BufferedImage      image;  // The GridCoverage's data.
-        final WritableRaster    raster;  // The image's data as a raster.
-        final Rectangle2D       bounds;  // The GridCoverage's envelope.
+        final GridCoverage2D coverage;  // The final grid coverage.
+        final BufferedImage image;  // The GridCoverage's data.
+        final WritableRaster raster;  // The image's data as a raster.
+        final Rectangle2D bounds;  // The GridCoverage's envelope.
         final GridSampleDimension band;  // The only image's band.
-        band = new GridSampleDimension("Temperature", new Category[] {
-            new Category("No data",     null, 0),
-            new Category("Land",        null, 1),
-            new Category("Cloud",       null, 2),
-            new Category("Temperature", null, BEGIN_VALID, 256)
+        band = new GridSampleDimension("Temperature", new Category[]{
+                new Category("No data", null, 0),
+                new Category("Land", null, 1),
+                new Category("Cloud", null, 2),
+                new Category("Temperature", null, BEGIN_VALID, 256)
         }, CELSIUS);
-        image  = new BufferedImage(120, 80, BufferedImage.TYPE_BYTE_INDEXED);
+        image = new BufferedImage(120, 80, BufferedImage.TYPE_BYTE_INDEXED);
         raster = image.getRaster();
-        for (int i=raster.getWidth(); --i>=0;) {
-            for (int j=raster.getHeight(); --j>=0;) {
-                raster.setSample(i,j,0, random.nextInt(256));
+        for (int i = raster.getWidth(); --i >= 0; ) {
+            for (int j = raster.getHeight(); --j >= 0; ) {
+                raster.setSample(i, j, 0, random.nextInt(256));
             }
         }
-        bounds = new Rectangle2D.Double(-10, 30, PIXEL_SIZE*image.getWidth(),
-                                                 PIXEL_SIZE*image.getHeight());
+        bounds = new Rectangle2D.Double(-10, 30, PIXEL_SIZE * image.getWidth(),
+                PIXEL_SIZE * image.getHeight());
         final GeneralEnvelope envelope = new GeneralEnvelope(crs);
         envelope.setRange(0, bounds.getMinX(), bounds.getMaxX());
         envelope.setRange(1, bounds.getMinY(), bounds.getMaxY());
-        for (int i=envelope.getDimension(); --i>=2;) {
+        for (int i = envelope.getDimension(); --i >= 2; ) {
             final double min = 10 * i;
             envelope.setRange(i, min, min + 5);
         }
         final Hints hints = new Hints(Hints.TILE_ENCODING, "raw");
         final GridCoverageFactory factory = CoverageFactoryFinder.getGridCoverageFactory(hints);
-        coverage = factory.create("Test", image, envelope, new GridSampleDimension[] {band}, null, null);
+        coverage = factory.create("Test", image, envelope, new GridSampleDimension[]{band}, null,
+                null);
         assertEquals("raw", coverage.tileEncoding);
         /*
-         * Grid coverage construction finished.  Now test it.  
+         * Grid coverage construction finished.  Now test it.
          */
-        assertSame(coverage.getRenderedImage(), coverage.getRenderableImage(0,1).createDefaultRendering());
-        assertSame(image.getTile(0,0), coverage.getRenderedImage().getTile(0,0));
+        assertSame(coverage.getRenderedImage(), coverage.getRenderableImage(0, 1)
+                .createDefaultRendering());
+        assertSame(image.getTile(0, 0), coverage.getRenderedImage().getTile(0, 0));
         /*
          * Compares data.
          */
         final int bandN = 0; // Band to test.
         double[] bufferCov = null;
-        final double left  = bounds.getMinX() + (0.5*PIXEL_SIZE); // Includes translation to center
-        final double upper = bounds.getMaxY() - (0.5*PIXEL_SIZE); // Includes translation to center
+        final double left = bounds.getMinX() + (0.5 * PIXEL_SIZE); // Includes translation to center
+        final double upper = bounds.getMaxY() - (0.5 * PIXEL_SIZE); // Includes translation to 
+        // center
         final Point2D.Double point = new Point2D.Double();        // Will maps to pixel center.
-        for (int j=raster.getHeight(); --j>=0;) {
-            for (int i=raster.getWidth(); --i>=0;) {
-                point.x = left  + PIXEL_SIZE*i;
-                point.y = upper - PIXEL_SIZE*j;
-                double r = raster.getSampleDouble(i,j,bandN);
-                bufferCov =   coverage.evaluate(point, bufferCov);
+        for (int j = raster.getHeight(); --j >= 0; ) {
+            for (int i = raster.getWidth(); --i >= 0; ) {
+                point.x = left + PIXEL_SIZE * i;
+                point.y = upper - PIXEL_SIZE * j;
+                double r = raster.getSampleDouble(i, j, bandN);
+                bufferCov = coverage.evaluate(point, bufferCov);
                 assertEquals(r, bufferCov[bandN], EPS);
             }
         }
@@ -195,11 +196,11 @@ public class GridCoverageTestBase extends CoverageTestBase {
          */
         private GridCoverage2D load(final int number) {
             final GridCoverageFactory factory = CoverageFactoryFinder.getGridCoverageFactory(null);
-            final String                   path;
-            final Category[]         categories;
+            final String path;
+            final Category[] categories;
             final CoordinateReferenceSystem crs;
-            final Rectangle2D            bounds;
-            final GridSampleDimension[]   bands;
+            final Rectangle2D bounds;
+            final GridSampleDimension[] bands;
             switch (number) {
                 default: {
                     throw new IndexOutOfBoundsException(String.valueOf(number));
@@ -219,19 +220,19 @@ public class GridCoverageTestBase extends CoverageTestBase {
                  */
                 case 0: {
                     path = "QL95209.png";
-                    crs  = DefaultGeographicCRS.WGS84;
-                    categories = new Category[] {
-                        new Category("Coast line", decode("#000000"), create(  0,   0)),
-                        new Category("Cloud",      decode("#C3C3C3"), create(  1,   9)),
-                        new Category("Unused",     decode("#822382"), create( 10,  29)),
-                        new Category("Sea Surface Temperature", (Color)null, create( 30, 219)),
-                        new Category("Unused",     decode("#A0505C"), create(220, 239)),
-                        new Category("Land",       decode("#D2C8A0"), create(240, 254)),
-                        new Category("No data",    decode("#FFFFFF"), create(255, 255)),
+                    crs = DefaultGeographicCRS.WGS84;
+                    categories = new Category[]{
+                            new Category("Coast line", decode("#000000"), create(0, 0)),
+                            new Category("Cloud", decode("#C3C3C3"), create(1, 9)),
+                            new Category("Unused", decode("#822382"), create(10, 29)),
+                            new Category("Sea Surface Temperature", (Color) null, create(30, 219)),
+                            new Category("Unused", decode("#A0505C"), create(220, 239)),
+                            new Category("Land", decode("#D2C8A0"), create(240, 254)),
+                            new Category("No data", decode("#FFFFFF"), create(255, 255)),
                     };
                     bounds = new Rectangle2D.Double(35, -41, 45, 46);
-                    bands = new GridSampleDimension[] {
-                        new GridSampleDimension("Measure", categories, CELSIUS)
+                    bands = new GridSampleDimension[]{
+                            new GridSampleDimension("Measure", categories, CELSIUS)
                     };
                     break;
                 }
@@ -249,15 +250,16 @@ public class GridCoverageTestBase extends CoverageTestBase {
                  */
                 case 1: {
                     path = "CHL01195.png";
-                    crs  = DefaultGeographicCRS.WGS84;
-                    categories = new Category[] {
-                        new Category("Land",    decode("#000000"), create(255, 255)),
-                        new Category("No data", decode("#FFFFFF"), create(  0,   0)),
-                        new Category("Chl-a",   null,              create(  1, 254), true)
+                    crs = DefaultGeographicCRS.WGS84;
+                    categories = new Category[]{
+                            new Category("Land", decode("#000000"), create(255, 255)),
+                            new Category("No data", decode("#FFFFFF"), create(0, 0)),
+                            new Category("Chl-a", null, create(1, 254), true)
                     };
                     bounds = new Rectangle2D.Double(-7, 34, 19, 11);
-                    bands = new GridSampleDimension[] {
-                        new GridSampleDimension("Measure", categories, MILLI(GRAM).divide(CUBIC_METRE))
+                    bands = new GridSampleDimension[]{
+                            new GridSampleDimension("Measure", categories, MILLI(GRAM).divide
+                                    (CUBIC_METRE))
                     };
                     break;
                 }
@@ -266,21 +268,21 @@ public class GridCoverageTestBase extends CoverageTestBase {
                  * Geographic extent  :  (90°S, 180°W) - (90°N, 180°E)
                  */
                 case 2: {
-                    path   = "world_dem.gif";
+                    path = "world_dem.gif";
                     bounds = new Rectangle2D.Double(-180, -90, 360, 180);
-                    crs    = DefaultGeographicCRS.WGS84;
-                    bands  = null;
+                    crs = DefaultGeographicCRS.WGS84;
+                    bands = null;
                     break;
                 }
                 /* ------------------------------------------------------------
                  * Thematic           :  World Bathymetry (DEM)
                  * Geographic extent  :  (90°S, 180°W) - (90°N, 180°E)
                  */
-                case 3:{
-                    path   = "BATHY.png";
+                case 3: {
+                    path = "BATHY.png";
                     bounds = new Rectangle2D.Double(-180, -90, 360, 180);
-                    crs    = DefaultGeographicCRS.WGS84;
-                    bands  = null;
+                    crs = DefaultGeographicCRS.WGS84;
+                    bands = null;
                     break;
                 }
                 /*
@@ -289,40 +291,42 @@ public class GridCoverageTestBase extends CoverageTestBase {
                  * in a matrix.
                  */
                 case 4: {
-                    final int width  = 500;
+                    final int width = 500;
                     final int height = 500;
                     WritableRaster raster =
-                            RasterFactory.createBandedRaster(DataBuffer.TYPE_FLOAT, width, height, 1, null);
-                    for (int y=0; y<height; y++) {
-                        for (int x=0; x<width; x++) {
-                            raster.setSample(x, y, 0, x+y);
+                            RasterFactory.createBandedRaster(DataBuffer.TYPE_FLOAT, width, 
+                                    height, 1, null);
+                    for (int y = 0; y < height; y++) {
+                        for (int x = 0; x < width; x++) {
+                            raster.setSample(x, y, 0, x + y);
                         }
                     }
-                    final Color[] colors = new Color[] {
-                        Color.BLUE, Color.CYAN, Color.WHITE, Color.YELLOW, Color.RED
+                    final Color[] colors = new Color[]{
+                            Color.BLUE, Color.CYAN, Color.WHITE, Color.YELLOW, Color.RED
                     };
                     return factory.create("Float coverage", raster,
-                            new Envelope2D(DefaultGeographicCRS.WGS84, 35, -41, 35+45, -41+46),
-                                        null, null, null, new Color[][] {colors}, null);
+                            new Envelope2D(DefaultGeographicCRS.WGS84, 35, -41, 35 + 45, -41 + 46),
+                            null, null, null, new Color[][]{colors}, null);
                 }
                 /*
                  * A single band fictitious coverage with type UINT 16.
-                 * 
+                 *
                  */
                 case 5: {
-                    final int width  = 500;
+                    final int width = 500;
                     final int height = 500;
-                    final BufferedImage image= new BufferedImage(width, height, BufferedImage.TYPE_USHORT_GRAY);
-                    final WritableRaster raster =(WritableRaster) image.getData();
-                    for (int y=0; y<height; y++) {
-                        for (int x=0; x<width; x++) {
-                            raster.setSample(x, y, 0,(int)( 1+(x+y)*65534.0/1000.0));
-                           
+                    final BufferedImage image = new BufferedImage(width, height, BufferedImage
+                            .TYPE_USHORT_GRAY);
+                    final WritableRaster raster = (WritableRaster) image.getData();
+                    for (int y = 0; y < height; y++) {
+                        for (int x = 0; x < width; x++) {
+                            raster.setSample(x, y, 0, (int) (1 + (x + y) * 65534.0 / 1000.0));
+
                         }
                     }
                     image.setData(raster);
                     return factory.create("UInt16 coverage", image,
-                            new Envelope2D(DefaultGeographicCRS.WGS84, 35, -41, 35+45, -41+46));
+                            new Envelope2D(DefaultGeographicCRS.WGS84, 35, -41, 35 + 45, -41 + 46));
                 }
             }
             /*
@@ -345,14 +349,13 @@ public class GridCoverageTestBase extends CoverageTestBase {
     /**
      * Tests the serialization of the packed and geophysics views of a grid coverage.
      *
-     * @param  coverage The coverage to serialize.
+     * @param coverage The coverage to serialize.
      * @return The deserialized grid coverage as packed view.
-     * @throws IOException if an I/O operation was needed and failed.
+     * @throws IOException            if an I/O operation was needed and failed.
      * @throws ClassNotFoundException Should never happen.
      */
     protected static GridCoverage2D serialize(GridCoverage2D coverage)
-            throws IOException, ClassNotFoundException
-    {
+            throws IOException, ClassNotFoundException {
         coverage.tileEncoding = null;
         /*
          * The previous line is not something that we should do.
@@ -365,10 +368,11 @@ public class GridCoverageTestBase extends CoverageTestBase {
         } finally {
             out.close();
         }
-        final ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(buffer.toByteArray()));
+        final ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(buffer
+                .toByteArray()));
         GridCoverage2D read;
         try {
-            read = (GridCoverage2D) in.readObject(); 
+            read = (GridCoverage2D) in.readObject();
         } finally {
             in.close();
         }

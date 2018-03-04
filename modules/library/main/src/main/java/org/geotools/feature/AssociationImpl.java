@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -23,8 +23,6 @@ import org.opengis.feature.type.AssociationType;
 import org.opengis.feature.type.AttributeType;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class AssociationImpl extends PropertyImpl implements Association {
@@ -40,11 +38,11 @@ public class AssociationImpl extends PropertyImpl implements Association {
     public AssociationDescriptor getDescriptor() {
         return (AssociationDescriptor) super.getDescriptor();
     }
-    
+
     public AssociationType getType() {
         return (AssociationType) super.getType();
     }
-    
+
     public Attribute getValue() {
         return (Attribute) super.getValue();
     }

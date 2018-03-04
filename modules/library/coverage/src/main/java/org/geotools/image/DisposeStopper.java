@@ -29,8 +29,8 @@ import org.geotools.util.Utilities;
 
 /**
  * Stop the dispose mechanism we have in place for renderedImage.
- * @author Simone Giannecchini, GeoSolutions SAS
  *
+ * @author Simone Giannecchini, GeoSolutions SAS
  */
 public class DisposeStopper implements RenderedImage {
 

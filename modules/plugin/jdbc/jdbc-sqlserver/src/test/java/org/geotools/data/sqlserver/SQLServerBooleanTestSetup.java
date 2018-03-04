@@ -19,8 +19,6 @@ package org.geotools.data.sqlserver;
 import org.geotools.jdbc.JDBCBooleanTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SQLServerBooleanTestSetup extends JDBCBooleanTestSetup {
@@ -38,7 +36,7 @@ public class SQLServerBooleanTestSetup extends JDBCBooleanTestSetup {
 
     @Override
     protected void dropBooleanTable() throws Exception {
-        run( "DROP TABLE b");
+        run("DROP TABLE b");
     }
 
 }

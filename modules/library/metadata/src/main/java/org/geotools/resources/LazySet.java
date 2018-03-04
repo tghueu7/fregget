@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -27,12 +27,10 @@ import java.util.stream.Stream;
  * unique; we assume that it was already verified by {@link javax.imageio.spi.ServiceRegistry}.
  * This set is constructed by {@link org.geotools.referencing.FactoryFinder}.
  *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.0
  */
 public final class LazySet<E> extends AbstractSet<E> {
     /**
@@ -60,6 +58,7 @@ public final class LazySet<E> extends AbstractSet<E> {
         this.iterator = iterator;
         elements = (E[]) new Object[4];
     }
+
     /**
      * Construct a set to be filled using the specified iterator.
      * Iteration in the given iterator will occurs only when needed.
@@ -77,7 +76,7 @@ public final class LazySet<E> extends AbstractSet<E> {
      */
     private void addNext() {
         if (size >= elements.length) {
-            elements = XArray.resize(elements, size*2);
+            elements = XArray.resize(elements, size * 2);
         }
         elements[size++] = iterator.next();
     }
@@ -106,19 +105,19 @@ public final class LazySet<E> extends AbstractSet<E> {
      */
     @Override
     public boolean isEmpty() {
-        return size==0 && !iterator.hasNext();
+        return size == 0 && !iterator.hasNext();
     }
 
     /**
      * Returns {@code true} if an element exists at the given index.
      * The element is not loaded immediately.
-     *
+     * <p>
      * <strong>NOTE: This method is for use by iterators only.</strong>
      * It is not suited for more general usage since it doesn't check
      * for negative index and for skipped elements.
      */
     final boolean exists(final int index) {
-        return index<size || iterator.hasNext();
+        return index < size || iterator.hasNext();
     }
 
     /**
@@ -138,20 +137,28 @@ public final class LazySet<E> extends AbstractSet<E> {
      * The iterator implementation for the {@linkplain LazySet lazy set}.
      */
     private final class Iter implements Iterator<E> {
-        /** Index of the next element to be returned. */
+        /**
+         * Index of the next element to be returned.
+         */
         private int cursor;
 
-        /** Check if there is more elements. */
+        /**
+         * Check if there is more elements.
+         */
         public boolean hasNext() {
             return exists(cursor);
         }
 
-        /** Returns the next element. */
+        /**
+         * Returns the next element.
+         */
         public E next() {
             return get(cursor++);
         }
 
-        /** Always throws an exception, since {@link LazySet} are immutable. */
+        /**
+         * Always throws an exception, since {@link LazySet} are immutable.
+         */
         public void remove() {
             throw new UnsupportedOperationException();
         }

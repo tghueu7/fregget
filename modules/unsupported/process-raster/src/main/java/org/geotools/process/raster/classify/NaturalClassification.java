@@ -32,7 +32,7 @@ public class NaturalClassification extends Classification {
         super(ClassificationMethod.NATURAL_BREAKS, numBands);
         values = new List[numBands];
         for (int i = 0; i < values.length; i++) {
-            values[i] = new ArrayList<Double>(); 
+            values[i] = new ArrayList<Double>();
         }
     }
 

@@ -33,7 +33,7 @@ import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * Ensure a LineString is contained by Polygon.
- * 
+ * <p>
  * <p>
  * This is an integrity test in which we ensure that every LineString in a
  * FeatureType is contained by a Polygon in a second FeatureType. This needs
@@ -45,14 +45,14 @@ import com.vividsolutions.jts.geom.Polygon;
  * could run this Validation Test only on LineString insert/modify or Polygon
  * modify/delete but life is too short, and there is always another release.
  * </p>
- * 
+ * <p>
  * <p>
  * To do this with any sense of efficiency we will need to take an initial run
  * through the Polygon SimpleFeatureSource to build an Index of FeatureID by
  * BoundingBox. We can use this to selectively query the Polygon FeatureSource
  * as we work through the LineString content.
  * </p>
- * 
+ * <p>
  * <p>
  * TODO: David Zweirs Read This! Talk to Justin or any of the JUMP experts who
  * have experence in implementing JTS indexes. You can use the "layers" Map to
@@ -65,13 +65,11 @@ import com.vividsolutions.jts.geom.Polygon;
  *
  * @author Jody Garnett, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class LineCoveredByPolygonValidation
-    extends LinePolygonAbstractValidation {
+        extends LinePolygonAbstractValidation {
 
     /**
      * No argument constructor, required by the Java Bean Specification.
@@ -81,62 +79,64 @@ public class LineCoveredByPolygonValidation
 
     /**
      * Check that lineTypeRef is convered by polygonTypeRef.
-     * 
+     * <p>
      * <p>
      * Detailed description...
      * </p>
      *
-     * @param layers Map of SimpleFeatureSource by "dataStoreID:typeName"
+     * @param layers   Map of SimpleFeatureSource by "dataStoreID:typeName"
      * @param envelope The bounding box that encloses the unvalidated data
-     * @param results Used to coallate results information
-     *
+     * @param results  Used to coallate results information
      * @return <code>true</code> if all the features pass this test.
-     *
      * @throws Exception DOCUMENT ME!
      */
     public boolean validate(Map layers, Envelope envelope,
-        ValidationResults results) throws Exception {
+                            ValidationResults results) throws Exception {
 
-    	boolean r = true;
-    	
+        boolean r = true;
+
         SimpleFeatureSource fsLine = (SimpleFeatureSource) layers.get(getLineTypeRef());
-        
+
         SimpleFeatureCollection fcLine = fsLine.getFeatures();
         SimpleFeatureIterator fLine = fcLine.features();
-        
-        SimpleFeatureSource fsPoly = (SimpleFeatureSource) layers.get(getRestrictedPolygonTypeRef());
-        
-        ListFeatureCollection fcPoly = new ListFeatureCollection( fsPoly.getFeatures() );
-                
-        while(fLine.hasNext()){
-        	SimpleFeature line = fLine.next();
-        	SimpleFeatureIterator fPoly = fcPoly.features();
-        	Geometry lineGeom = (Geometry) line.getDefaultGeometry();
-        	if(envelope.contains(lineGeom.getEnvelopeInternal())){
-        		// 	check for valid comparison
-        		if(LineString.class.isAssignableFrom(lineGeom.getClass())){
-        			while(fPoly.hasNext()){
-        				SimpleFeature poly = fPoly.next();
-        				Geometry polyGeom = (Geometry) poly.getDefaultGeometry(); 
-        				if(envelope.contains(polyGeom.getEnvelopeInternal())){
-        					if(Polygon.class.isAssignableFrom(polyGeom.getClass())){
-        						if(!polyGeom.contains(lineGeom)){
-        							results.error(poly,"Polygon does not contain the specified Line.");
-        							r = false;
-        						}
-                    		// do next.
-        					}else{
-        						fcPoly.remove(poly);
-        						results.warning(poly,"Invalid type: this feature is not a derivative of a Polygon");
-        					}
-        				}else{
-        					fcPoly.remove(poly);
-        				}
-        			}
-        		}else{
-        			results.warning(line,"Invalid type: this feature is not a derivative of a LineString");
-        		}
-        	}
+
+        SimpleFeatureSource fsPoly = (SimpleFeatureSource) layers.get(getRestrictedPolygonTypeRef
+                ());
+
+        ListFeatureCollection fcPoly = new ListFeatureCollection(fsPoly.getFeatures());
+
+        while (fLine.hasNext()) {
+            SimpleFeature line = fLine.next();
+            SimpleFeatureIterator fPoly = fcPoly.features();
+            Geometry lineGeom = (Geometry) line.getDefaultGeometry();
+            if (envelope.contains(lineGeom.getEnvelopeInternal())) {
+                // 	check for valid comparison
+                if (LineString.class.isAssignableFrom(lineGeom.getClass())) {
+                    while (fPoly.hasNext()) {
+                        SimpleFeature poly = fPoly.next();
+                        Geometry polyGeom = (Geometry) poly.getDefaultGeometry();
+                        if (envelope.contains(polyGeom.getEnvelopeInternal())) {
+                            if (Polygon.class.isAssignableFrom(polyGeom.getClass())) {
+                                if (!polyGeom.contains(lineGeom)) {
+                                    results.error(poly, "Polygon does not contain the specified " +
+                                            "Line.");
+                                    r = false;
+                                }
+                                // do next.
+                            } else {
+                                fcPoly.remove(poly);
+                                results.warning(poly, "Invalid type: this feature is not a " +
+                                        "derivative of a Polygon");
+                            }
+                        } else {
+                            fcPoly.remove(poly);
+                        }
+                    }
+                } else {
+                    results.warning(line, "Invalid type: this feature is not a derivative of a " +
+                            "LineString");
+                }
+            }
         }
         return r;
     }
@@ -145,7 +145,6 @@ public class LineCoveredByPolygonValidation
      * The priority level used to schedule this Validation.
      *
      * @return PRORITY_SIMPLE
-     *
      * @see org.geotools.validation.Validation#getPriority()
      */
     public int getPriority() {

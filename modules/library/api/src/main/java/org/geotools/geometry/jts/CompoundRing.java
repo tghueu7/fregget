@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2014, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -37,7 +37,7 @@ import com.vividsolutions.jts.geom.PrecisionModel;
 /**
  * A CompoundRing is a connected sequence of circular arcs and linear segments forming a closed
  * line.
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 public class CompoundRing extends LinearRing implements CompoundCurvedGeometry<LinearRing>,
@@ -71,7 +71,7 @@ public class CompoundRing extends LinearRing implements CompoundCurvedGeometry<L
     /**
      * Returns the components of this compound curve, which will be a list of straight LineString
      * objects and CircularString/CircularRing
-     * 
+     *
      * @return
      */
     public List<LineString> getComponents() {
@@ -226,9 +226,9 @@ public class CompoundRing extends LinearRing implements CompoundCurvedGeometry<L
     public boolean equalsNorm(Geometry g) {
         return super.equalsNorm(g);
     }
-    
+
     public Point getPointN(int n) {
-        if(n == 0) {
+        if (n == 0) {
             return getStartPoint();
         }
         return linearize().getPointN(n);

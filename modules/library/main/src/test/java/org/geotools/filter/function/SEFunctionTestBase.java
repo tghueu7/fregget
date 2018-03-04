@@ -18,7 +18,9 @@ package org.geotools.filter.function;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
+
 import java.util.List;
+
 import org.geotools.data.DataUtilities;
 import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.feature.simple.SimpleFeatureBuilder;
@@ -31,9 +33,8 @@ import org.opengis.filter.expression.Expression;
 
 /**
  * Fields and helper method for unit test classes
+ *
  * @author Michael Bedward
- *
- *
  * @source $URL$
  */
 public class SEFunctionTestBase {

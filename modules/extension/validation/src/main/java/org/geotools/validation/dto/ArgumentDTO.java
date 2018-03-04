@@ -18,17 +18,15 @@ package org.geotools.validation.dto;
 
 /**
  * ArgumentConfig purpose.
- * 
+ * <p>
  * <p>
  * Description of ArgumentConfig ...
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class ArgumentDTO {
     private String name;
@@ -37,7 +35,7 @@ public class ArgumentDTO {
 
     /**
      * ArgumentConfig constructor.
-     * 
+     * <p>
      * <p>
      * Description
      * </p>

@@ -29,9 +29,9 @@ import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:SurfacePatchArrayPropertyType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  &lt;code&gt;
  *  &lt;complexType name=&quot;SurfacePatchArrayPropertyType&quot;&gt;
@@ -41,19 +41,17 @@ import com.vividsolutions.jts.geom.Polygon;
  *           &lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;sequence&gt;
- *          &lt;element maxOccurs=&quot;unbounded&quot; minOccurs=&quot;0&quot; ref=&quot;gml:_SurfacePatch&quot;/&gt;
+ *          &lt;element maxOccurs=&quot;unbounded&quot; minOccurs=&quot;0&quot; ref=&quot;
+ *          gml:_SurfacePatch&quot;/&gt;
  *      &lt;/sequence&gt;
- *  &lt;/complexType&gt; 
- * 	
+ *  &lt;/complexType&gt;
+ *
  *   &lt;/code&gt;
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SurfacePatchArrayPropertyTypeBinding extends AbstractComplexBinding {
@@ -67,7 +65,7 @@ public class SurfacePatchArrayPropertyTypeBinding extends AbstractComplexBinding
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -76,15 +74,15 @@ public class SurfacePatchArrayPropertyTypeBinding extends AbstractComplexBinding
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
 
-        List<Polygon> l = node.getChildValues( Polygon.class );
+        List<Polygon> l = node.getChildValues(Polygon.class);
         Polygon[] polygons = new Polygon[l.size()];
-        for ( int i = 0; i < l.size(); i++ ) {
-            polygons[i] = l.get( i );
+        for (int i = 0; i < l.size(); i++) {
+            polygons[i] = l.get(i);
         }
         return polygons;
     }

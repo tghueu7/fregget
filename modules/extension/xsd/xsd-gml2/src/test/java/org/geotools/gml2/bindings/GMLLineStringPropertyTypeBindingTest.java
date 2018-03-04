@@ -26,8 +26,6 @@ import com.vividsolutions.jts.geom.LineString;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GMLLineStringPropertyTypeBindingTest extends AbstractGMLBindingTest {
@@ -43,16 +41,19 @@ public class GMLLineStringPropertyTypeBindingTest extends AbstractGMLBindingTest
     }
 
     public void testWithGeometry() throws Exception {
-        Node node = createNode(association, new ElementInstance[] { geometry },
-                new Object[] {
-                    new GeometryFactory().createLinearRing(
-                        new Coordinate[] {
-                            new Coordinate(0, 0), new Coordinate(1, 1), new Coordinate(2, 2),
-                            new Coordinate(0, 0),
-                        })
+        Node node = createNode(association, new ElementInstance[]{geometry},
+                new Object[]{
+                        new GeometryFactory().createLinearRing(
+                                new Coordinate[]{
+                                        new Coordinate(0, 0), new Coordinate(1, 1), new 
+                                        Coordinate(2, 2),
+                                        new Coordinate(0, 0),
+                                })
                 }, null, null);
-        GMLGeometryAssociationTypeBinding s = (GMLGeometryAssociationTypeBinding) getBinding(GML.GEOMETRYASSOCIATIONTYPE);
-        GMLLineStringPropertyTypeBinding s1 = (GMLLineStringPropertyTypeBinding) getBinding(GML.LINESTRINGPROPERTYTYPE);
+        GMLGeometryAssociationTypeBinding s = (GMLGeometryAssociationTypeBinding) getBinding(GML
+                .GEOMETRYASSOCIATIONTYPE);
+        GMLLineStringPropertyTypeBinding s1 = (GMLLineStringPropertyTypeBinding) getBinding(GML
+                .LINESTRINGPROPERTYTYPE);
         LineString p = (LineString) s1.parse(association, node, s.parse(association, node, null));
         assertNotNull(p);
     }

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2014-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -83,7 +83,6 @@ public abstract class AbstractContentTest {
 
     /**
      * {@link ContentDataStore} for the test features.
-     * 
      */
     protected class MockContentDataStore extends ContentDataStore {
 
@@ -105,7 +104,8 @@ public abstract class AbstractContentTest {
         }
 
         /**
-         * @see org.geotools.data.store.ContentDataStore#createFeatureSource(org.geotools.data.store.ContentEntry)
+         * @see org.geotools.data.store.ContentDataStore#createFeatureSource(org.geotools.data
+         * .store.ContentEntry)
          */
         @Override
         protected ContentFeatureSource createFeatureSource(ContentEntry entry) throws IOException {
@@ -139,7 +139,8 @@ public abstract class AbstractContentTest {
         protected int getCountInternal(Query query) throws IOException {
             if (query.getFilter() == Filter.INCLUDE) {
                 int count = 0;
-                FeatureReader<SimpleFeatureType, SimpleFeature> featureReader = getReaderInternal(query);
+                FeatureReader<SimpleFeatureType, SimpleFeature> featureReader = getReaderInternal
+                        (query);
                 try {
                     while (featureReader.hasNext()) {
                         featureReader.next();
@@ -154,7 +155,8 @@ public abstract class AbstractContentTest {
         }
 
         /**
-         * @see org.geotools.data.store.ContentFeatureSource#getReaderInternal(org.geotools.data.Query)
+         * @see org.geotools.data.store.ContentFeatureSource#getReaderInternal(org.geotools.data
+         * .Query)
          */
         @Override
         protected FeatureReader<SimpleFeatureType, SimpleFeature> getReaderInternal(Query query)
@@ -172,7 +174,8 @@ public abstract class AbstractContentTest {
 
         @Override
         protected FeatureWriter<SimpleFeatureType, SimpleFeature> getWriterInternal(Query query,
-                int flags) throws IOException {
+                                                                                    int flags) 
+                throws IOException {
             return new MockSimpleFeatureWriter();
         }
 

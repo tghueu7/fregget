@@ -43,9 +43,6 @@ import com.vividsolutions.jts.geom.LineString;
  * Utility class for gml3 encoding.
  *
  * @author Justin Deoliveira, The Open Planning Project, jdeolive@openplans.org
- *
- *
- *
  * @source $URL$
  */
 public class GML3EncodingUtils {
@@ -97,42 +94,42 @@ public class GML3EncodingUtils {
     static String getID(Geometry g) {
         return GML2EncodingUtils.getID(g);
     }
-    
+
     static String getName(Geometry g) {
         return GML2EncodingUtils.getName(g);
     }
-    
+
     static String getDescription(Geometry g) {
         return GML2EncodingUtils.getDescription(g);
     }
-    
+
     /**
      * Helper method used to implement {@link ComplexBinding#getProperty(Object, QName)}
-     * for bindings of geometry reference types: 
+     * for bindings of geometry reference types:
      * <ul>
-     *   <li>GeometryPropertyType
-     *   <li>PointPropertyType
-     *   <li>LineStringPropertyType
-     *   <li>PolygonPropertyType
+     * <li>GeometryPropertyType
+     * <li>PointPropertyType
+     * <li>LineStringPropertyType
+     * <li>PolygonPropertyType
      * </ul>
      */
-    static Object getProperty( Geometry geometry, QName name ) {
+    static Object getProperty(Geometry geometry, QName name) {
 
-        if (GML._Geometry.equals(name) || GML.Point.equals( name ) || 
-            GML.LineString.equals( name ) || GML.Polygon.equals( name ) ) {
+        if (GML._Geometry.equals(name) || GML.Point.equals(name) ||
+                GML.LineString.equals(name) || GML.Polygon.equals(name)) {
             //if the geometry is null, return null
-            if ( isEmpty( geometry ) ) {
+            if (isEmpty(geometry)) {
                 return null;
             }
-            
+
             return geometry;
         }
-        
+
         if (XLINK.HREF.equals(name)) {
             //only process if geometry is empty
-            if ( isEmpty(geometry) ) {
-                String id = GML3EncodingUtils.getID( geometry );
-                if ( id != null ) {
+            if (isEmpty(geometry)) {
+                String id = GML3EncodingUtils.getID(geometry);
+                if (id != null) {
                     return "#" + id;
                 }
             }
@@ -140,41 +137,41 @@ public class GML3EncodingUtils {
 
         return null;
     }
-    
+
     /**
      * Helper method used to implement {@link ComplexBinding#getProperties(Object)}
-     * for bindings of geometry reference types: 
+     * for bindings of geometry reference types:
      * <ul>
-     *   <li>GeometryPropertyType
-     *   <li>PointPropertyType
-     *   <li>LineStringPropertyType
-     *   <li>PolygonPropertyType
+     * <li>GeometryPropertyType
+     * <li>PointPropertyType
+     * <li>LineStringPropertyType
+     * <li>PolygonPropertyType
      * </ul>
      */
     static List getProperties(Geometry geometry) {
 
-        String id = GML3EncodingUtils.getID( geometry );
-        
-        if ( !isEmpty(geometry) && id != null ) {
+        String id = GML3EncodingUtils.getID(geometry);
+
+        if (!isEmpty(geometry) && id != null) {
             // return a comment which is hte xlink href
-            return Collections.singletonList(new Object[] { Encoder.COMMENT, "#" +id });            
+            return Collections.singletonList(new Object[]{Encoder.COMMENT, "#" + id});
         }
-        
+
         return null;
     }
-    
-    static boolean isEmpty( Geometry geometry ) {
-        if ( geometry.isEmpty() ) {
+
+    static boolean isEmpty(Geometry geometry) {
+        if (geometry.isEmpty()) {
             //check for case of multi geometry, if it has > 0 goemetries 
             // we consider this to be not empty
-            if ( geometry instanceof GeometryCollection ) {
-                if ( ((GeometryCollection) geometry).getNumGeometries() != 0 ) {
+            if (geometry instanceof GeometryCollection) {
+                if (((GeometryCollection) geometry).getNumGeometries() != 0) {
                     return false;
                 }
             }
             return true;
         }
-        
+
         return false;
     }
 }

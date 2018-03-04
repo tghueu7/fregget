@@ -35,9 +35,9 @@ import org.picocontainer.MutablePicoContainer;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:Stroke.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="Stroke"&gt;
  *      &lt;xsd:annotation&gt;
@@ -66,9 +66,6 @@ import org.picocontainer.MutablePicoContainer;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDStrokeBinding extends AbstractComplexBinding {
@@ -123,7 +120,7 @@ public class SLDStrokeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //The following CssParameters may be used: 
         //&quot;stroke&quot; (color),
         //&quot;stroke-opacity&quot;
@@ -167,7 +164,7 @@ public class SLDStrokeBinding extends AbstractComplexBinding {
         Expression dashArray = null;
         Expression dashOffset = null;
 
-        for (Iterator i = node.getChildValues(CssParameter.class).iterator(); i.hasNext();) {
+        for (Iterator i = node.getChildValues(CssParameter.class).iterator(); i.hasNext(); ) {
             CssParameter css = (CssParameter) i.next();
             Expression exp = css.getExpression();
             if (exp == null) {
@@ -210,6 +207,6 @@ public class SLDStrokeBinding extends AbstractComplexBinding {
         Graphic graphicStroke = (Graphic) node.getChildValue("GraphicStroke");
 
         return styleFactory.createStroke(color, width, opacity, lineJoin, lineCap, dash,
-            dashOffset, graphicFill, graphicStroke);
+                dashOffset, graphicFill, graphicStroke);
     }
 }

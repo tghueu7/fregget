@@ -21,24 +21,22 @@ import org.geotools.validation.DefaultIntegrityValidation;
 
 /**
  * PointCoveredByLineValidation purpose.
- * 
+ * <p>
  * <p>
  * Basic typeref functionality for a line validation.
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public abstract class LineAbstractValidation extends DefaultIntegrityValidation {
     private String lineTypeRef;
 
     /**
      * PointCoveredByLineValidation constructor.
-     * 
+     * <p>
      * <p>
      * Super
      * </p>
@@ -52,7 +50,6 @@ public abstract class LineAbstractValidation extends DefaultIntegrityValidation 
      * overwritten.
      *
      * @return Array of typeNames, or empty array for all, null for disabled
-     *
      * @see org.geotools.validation.Validation#getTypeNames()
      */
     public String[] getTypeRefs() {
@@ -60,7 +57,7 @@ public abstract class LineAbstractValidation extends DefaultIntegrityValidation 
             return null;
         }
 
-        return new String[] { lineTypeRef };
+        return new String[]{lineTypeRef};
     }
 
     /**

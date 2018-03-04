@@ -41,28 +41,25 @@ import org.xml.sax.InputSource;
 /**
  * This TestSuite picks up each JTS test and applies it to the provided
  * Geometry*Factory.
- * 
+ * <p>
  * If an accompanying .properties file is found, the following entries may
  * apply:
- *  - disabled=true: eliminates all tests in the xml file
- *  - description=skipped: skips the "case" entry with that description
- *  - description=intersection|skipped: skips the intersection operation
- *  for that description.
- *  - description=intersection|WKT TEXT: replaces the expectedResult value
- *  with the WKT text.
- *  - description=intersection|boundary: for the case of multiprimitives, we need 
- *  to convert the resulting geometry to a boundary to compare with
- *  - description=intersection|point: for the case of points, we need to convert
- *  the resulting geometry to a point instead of a position to compare with
- *  - description=intersection|skipped|union|skipped: skips both the 
+ * - disabled=true: eliminates all tests in the xml file
+ * - description=skipped: skips the "case" entry with that description
+ * - description=intersection|skipped: skips the intersection operation
+ * for that description.
+ * - description=intersection|WKT TEXT: replaces the expectedResult value
+ * with the WKT text.
+ * - description=intersection|boundary: for the case of multiprimitives, we need
+ * to convert the resulting geometry to a boundary to compare with
+ * - description=intersection|point: for the case of points, we need to convert
+ * the resulting geometry to a point instead of a position to compare with
+ * - description=intersection|skipped|union|skipped: skips both the
  * intersection and union operations.
- * 
+ * <p>
  * notes:
  * - spaces must be replaced by "_" in description
  * - "No_description" is the default
- *
- *
- *
  *
  * @source $URL$
  */
@@ -86,16 +83,16 @@ public class GeometryConformanceTestSuite extends TestSuite {
             for (int i = 0; i < tests.length; i++) {
                 File testFile = tests[i];
                 Properties excludes = findExclusions(testFile);
-                System.out.println("file: "+testFile.getName());
+                System.out.println("file: " + testFile.getName());
                 if (!isAllExcluded(excludes)) {
                     InputStream inputStream = testFile.toURI().toURL().openStream();
                     try {
                         InputSource inputSource = new InputSource(inputStream);
                         GeometryTestContainer container = parser
                                 .parseTestDefinition(inputSource);
-                        
+
                         container.addToTestSuite(testFile.getName(), suite, excludes);
-                    } catch (Exception eek){
+                    } catch (Exception eek) {
                         //eek.printStackTrace();
                     } finally {
                         inputStream.close();
@@ -107,11 +104,11 @@ public class GeometryConformanceTestSuite extends TestSuite {
         }
         return suite;
     }
-    
+
     private static Properties findExclusions(File xmlFile) {
         try {
             String excludesPath = xmlFile.getPath();
-            excludesPath = excludesPath.substring(0, excludesPath.length()-3);
+            excludesPath = excludesPath.substring(0, excludesPath.length() - 3);
             excludesPath = excludesPath.concat("properties");
             File excludesFile = new File(excludesPath);
             if (excludesFile.exists()) {
@@ -124,23 +121,23 @@ public class GeometryConformanceTestSuite extends TestSuite {
         }
         return null;
     }
-    
+
     private static boolean isAllExcluded(Properties prop) {
         if (prop != null && prop.containsKey("disabled")) {
             if (prop.getProperty("disabled").equalsIgnoreCase("true")) {
-                return true;    
+                return true;
             }
         }
-        return false;    
+        return false;
     }
-    
+
     public static boolean hasExclusion(Properties prop, String testName) {
         if (prop != null && prop.containsKey(testName)) {
             return true;
         }
         return false;
     }
-    
+
     public static boolean isExcluded(Properties prop, String testName) {
         String key = testName.replaceAll(" ", "_");
         if (hasExclusion(prop, key)) {
@@ -150,11 +147,11 @@ public class GeometryConformanceTestSuite extends TestSuite {
         }
         return false;
     }
-    
+
     /**
      * Scans the operations in the testcase and removes or replaces the entries
      * as specified in the excludes property.
-     * 
+     *
      * @param testCase
      * @param excludes
      * @return
@@ -173,25 +170,24 @@ public class GeometryConformanceTestSuite extends TestSuite {
                         testCase.removeTestOperation(op);
                         //check for override, rather than just remove
                         if (operationValue.equalsIgnoreCase("skipped")) {
-                        	continue;
-                        }
-                        else if (operationValue.equalsIgnoreCase("boundary")) {
-                        	// post process into a surface boundary
-                        	GeometryImpl curves = (GeometryImpl) op.getExpectedResult();
-                        	//MultiPrimitive curves = (MultiPrimitive) op.getExpectedResult();
-                        	Boundary boundary = curves.getBoundary();
-                        	op.setExpectedResult( boundary );
-                        }
-                        else if (operationValue.equalsIgnoreCase("point")) {
-                        	// post obj into a point
-                        	PointImpl point = (PointImpl) op.getExpectedResult();
-                        	op.setExpectedResult( point );
-                        }
-                        else { // try parsing this thing as WKT
-                        	GeometryBuilder builder = new GeometryBuilder(DefaultGeographicCRS.WGS84);
+                            continue;
+                        } else if (operationValue.equalsIgnoreCase("boundary")) {
+                            // post process into a surface boundary
+                            GeometryImpl curves = (GeometryImpl) op.getExpectedResult();
+                            //MultiPrimitive curves = (MultiPrimitive) op.getExpectedResult();
+                            Boundary boundary = curves.getBoundary();
+                            op.setExpectedResult(boundary);
+                        } else if (operationValue.equalsIgnoreCase("point")) {
+                            // post obj into a point
+                            PointImpl point = (PointImpl) op.getExpectedResult();
+                            op.setExpectedResult(point);
+                        } else { // try parsing this thing as WKT
+                            GeometryBuilder builder = new GeometryBuilder(DefaultGeographicCRS
+                                    .WGS84);
                             GeometryFactory geomFact = builder.getGeometryFactory();
                             PrimitiveFactory primFact = builder.getPrimitiveFactory();
-                            WKTParser wktFactory = new WKTParser(geomFact, primFact, null, builder.getAggregateFactory());
+                            WKTParser wktFactory = new WKTParser(geomFact, primFact, null, 
+                                    builder.getAggregateFactory());
                             try {
                                 Object expectedResult = wktFactory.parse(operationValue);
                                 op.setExpectedResult(expectedResult);

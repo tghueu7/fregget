@@ -4,8 +4,6 @@ import org.geotools.xml.Binding;
 import org.geotools.xml.ComplexBinding;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class MismatchedBindingFinder implements BindingWalker.Visitor {

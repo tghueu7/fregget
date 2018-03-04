@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2001-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -31,9 +31,9 @@ import java.io.Serializable;
  * This rectangle can be used as argument in the {@link XRectangle2D} constructor for
  * initializing a new {@code XRectangle2D} to infinite bounds.
  *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
  */
 final class InfiniteRectangle2D extends Rectangle2D implements Serializable {
     /**
@@ -265,14 +265,14 @@ final class InfiniteRectangle2D extends Rectangle2D implements Serializable {
      * Returns a clone of the specified rectangle.
      */
     public Rectangle2D createIntersection(Rectangle2D rect) {
-        return (Rectangle2D)rect.clone();
+        return (Rectangle2D) rect.clone();
     }
 
     /**
      * Always throws an exception, since this rectangle is immutable.
      *
      * @todo Throws UnmodifiableGeometryException instead?
-     *       (defined in renderer module for now)
+     * (defined in renderer module for now)
      */
     public void setRect(double x, double y, double w, double h) {
         throw new UnsupportedOperationException();

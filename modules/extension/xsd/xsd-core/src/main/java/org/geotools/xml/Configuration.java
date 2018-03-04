@@ -47,16 +47,16 @@ import org.picocontainer.defaults.DuplicateComponentKeyRegistrationException;
 
 /**
  * Responsible for configuring a parser runtime environment.
- *
+ * <p>
  * <p>
  * Implementations have the following responsibilites:
- *
+ * <p>
  * <ul>
- *  <li>Configuration of bindings.
- *  <li>Configuration of context used by bindings.
- *  <li>Supplying specialized handlers for looking up schemas.
- *  <li>Supplying specialized handlers for parsing schemas.
- *  <li>Declaring dependencies on other configurations
+ * <li>Configuration of bindings.
+ * <li>Configuration of context used by bindings.
+ * <li>Supplying specialized handlers for looking up schemas.
+ * <li>Supplying specialized handlers for parsing schemas.
+ * <li>Declaring dependencies on other configurations
  * </ul>
  * </p>
  * <h3>Dependencies</h3>
@@ -66,7 +66,7 @@ import org.picocontainer.defaults.DuplicateComponentKeyRegistrationException;
  * Each configuration should declare all dependencies in
  * the constructor using the {@link #addDependency(Configuration)} method.
  * <code>
- *         <pre>
+ * <pre>
  *         class MyConfiguration extends Configuration {
  *     public MyConfiguration() {
  *       super();
@@ -81,29 +81,29 @@ import org.picocontainer.defaults.DuplicateComponentKeyRegistrationException;
  * </p>
  * <h3>Binding Configuration</h3>
  * <p>
- *  In able for a particular binding to be found during a parse, the
- *  configuration must first populate a container with said binding. This
- *  can be done by returning the appropriate instance of
- *  {@link  org.geotools.xml.BindingConfiguration} in {@link #getBindingConfiguration()}:
- *  <pre>
+ * In able for a particular binding to be found during a parse, the
+ * configuration must first populate a container with said binding. This
+ * can be done by returning the appropriate instance of
+ * {@link  org.geotools.xml.BindingConfiguration} in {@link #getBindingConfiguration()}:
+ * <pre>
  *          <code>
  *  BindingConfiguration getBindingConfiguration() {
  *      return new MyBindingConfiguration();
  *  }
  *          </code>
  *  </pre>
- *
- *  Instances of type {@link org.geotools.xml.BindingConfiguration} are used to
- *  populate a container with all the bindings from a particular schema.
+ * <p>
+ * Instances of type {@link org.geotools.xml.BindingConfiguration} are used to
+ * populate a container with all the bindings from a particular schema.
  * </p>
- *
+ * <p>
  * <h3>Context Configuration</h3>
  * <p>
  * Many bindings have dependencies on other types of objects. The pattern used
  * to satisfy these dependencies is known as <b>Constructor Injection</b>. Which
  * means that any dependencies a binding has is passed to it in its constructor.
  * For instance, the following binding has a dependency on java.util.List.
- *
+ * <p>
  * <pre>
  *         <code>
  * class MyBinding implements SimpleBinding {
@@ -116,13 +116,13 @@ import org.picocontainer.defaults.DuplicateComponentKeyRegistrationException;
  * }
  *         </code>
  * </pre>
- *
+ * <p>
  * Before a binding can be created, the container in which it is housed in must
  * be able to satisfy all of its dependencies. It is the responsibility of the
  * configuration to statisfy this criteria. This is known as configuring the
  * binding context. The following is a suitable configuration for the above
  * binding.
- *
+ * <p>
  * <pre>
  *         <code>
  * class MyConfiguration extends Configuration {
@@ -133,8 +133,8 @@ import org.picocontainer.defaults.DuplicateComponentKeyRegistrationException;
  * }
  *         </code>
  * </pre>
- *
- *
+ * <p>
+ * <p>
  * <h3>Schema Resolution</h3>
  * <p>
  * XML instance documents often contain schema uri references that are invalid
@@ -148,7 +148,7 @@ import org.picocontainer.defaults.DuplicateComponentKeyRegistrationException;
  * when the entity parsing an instance document stores schemas in a location
  * unknown to the entity providing the instance document.
  * </p>
- *
+ * <p>
  * <p>
  * An instance of {@link org.eclipse.xsd.util.XSDSchemaLocator} can be used
  * to provide an pre-parsed schema and prevent the parser from parsing a
@@ -168,53 +168,50 @@ import org.picocontainer.defaults.DuplicateComponentKeyRegistrationException;
  * }
  *         </code>
  * </pre>
- *
+ * <p>
  * </p>
  * <p>
  * The XSDSchemaLocator and XSDSchemaLocationResolver implementations are used
  * in a couple of scenarios. The first is when the <b>schemaLocation</b>
  * attribute of the root element of the instance document is being parsed.
  * The schemaLocation attribute has the form:
- *
+ * <p>
  * <pre>
  * <code>
  *         schemaLocation="namespace location namespace location ..."
  * </code>
  * </pre>
- *
+ * <p>
  * In which (namespace,location) tuples are listed. For each each namespace
  * encountered when parsing the schemaLocation attribute, an appropriate
  * resolver / locator is looked up. If an override is not available, the framework
  * attempts to resolve the location part of the tuple into a schema.
- *
+ * <p>
  * The second scenario occurs when the parsing of a schema encounters an
  * <b>import</b> or an <b>include</b> element. These elements have the form:
- *
- *  <pre>
+ * <p>
+ * <pre>
  *  <code>
  *      &lt;import namespace="" schemaLocation=""/&gt;
  *        </code>
  *  </pre>
- *
- *  and:
- *
- *  <pre>
+ * <p>
+ * and:
+ * <p>
+ * <pre>
  *  <code>
  *      &lt;include schemaLocation=""&gt;
  *  </code>
  *        </pre>
- *
- *        respectively. Similar to above, the schemaLocation (and namespace in the
- *        case of an import) are used to find an override. If not found they are
- *        resolved directly.
+ * <p>
+ * respectively. Similar to above, the schemaLocation (and namespace in the
+ * case of an import) are used to find an override. If not found they are
+ * resolved directly.
  * </p>
  *
  * @author Justin Deoliveira,Refractions Research Inc.,jdeolive@refractions.net
- * @see org.geotools.xml.BindingConfiguration
- *
- *
- *
  * @source $URL$
+ * @see org.geotools.xml.BindingConfiguration
  */
 public abstract class Configuration {
     /**
@@ -243,7 +240,6 @@ public abstract class Configuration {
      * Any dependent schemas should be added in subclass constructor. The xml schema
      * dependency does not have to be added.
      * </p>
-     *
      */
     public Configuration(XSD xsd) {
         this.xsd = xsd;
@@ -267,8 +263,7 @@ public abstract class Configuration {
     }
 
     /**
-     *         @return a list of direct dependencies of the configuration.
-     *
+     * @return a list of direct dependencies of the configuration.
      */
     public final List /*<Configuration>*/ getDependencies() {
         return dependencies;
@@ -284,27 +279,27 @@ public abstract class Configuration {
      * </pre>
      * </p>
      * <p>
-     * Beware this class is not thread safe so take the needed precautions 
+     * Beware this class is not thread safe so take the needed precautions
      * when using the list returned by this method.
      * </p>
+     *
      * @return A list of hte set parser properties.
      */
     public final Set /*<QName>*/ getProperties() {
         return properties;
     }
-    
+
     /**
      * Searches the configuration and all dependent configuration for the specified property.
-     *
      */
-    public final boolean hasProperty( QName property ) {
-        for ( Iterator c = allDependencies().iterator(); c.hasNext(); ) {
+    public final boolean hasProperty(QName property) {
+        for (Iterator c = allDependencies().iterator(); c.hasNext(); ) {
             Configuration configuration = (Configuration) c.next();
-            if ( configuration.getProperties().contains( property ) ) {
+            if (configuration.getProperties().contains(property)) {
                 return true;
             }
         }
-        
+
         return false;
     }
 
@@ -313,6 +308,7 @@ public abstract class Configuration {
      * <p>
      * The return list contains no duplicates.
      * </p>
+     *
      * @return All dependencies in the configuration dependency tree.
      */
     public final List allDependencies() {
@@ -333,16 +329,17 @@ public abstract class Configuration {
         if (unpacked.size() < 2) {
             return unpacked;
         }
-        
+
         //create a graph of the dependencies
         DepGraph g = new DepGraph();
-        for (Configuration c : (List<Configuration>)unpacked) {
-            for (Configuration d : (List<Configuration>)c.getDependencies()) {
+        for (Configuration c : (List<Configuration>) unpacked) {
+            for (Configuration d : (List<Configuration>) c.getDependencies()) {
                 g.addEdge(c, d);
             }
         }
-        
-        PriorityQueue<DepNode> q = new PriorityQueue<DepNode>(g.nodes.size(), new Comparator<DepNode>() {
+
+        PriorityQueue<DepNode> q = new PriorityQueue<DepNode>(g.nodes.size(), new 
+                Comparator<DepNode>() {
             public int compare(DepNode o1, DepNode o2) {
                 return Integer.valueOf(o1.outgoing().size()).compareTo(o2.outgoing().size());
             }
@@ -350,14 +347,14 @@ public abstract class Configuration {
         for (DepNode n : g.nodes.values()) {
             q.add(n);
         }
-        
+
         unpacked = new LinkedList();
-        while(!q.isEmpty()) {
+        while (!q.isEmpty()) {
             DepNode n = q.remove();
             if (n.outgoing().size() != 0) {
                 throw new IllegalStateException();
             }
-            
+
             unpacked.add(n.config);
             for (DepNode i : n.incoming()) {
                 g.removeEdge(i.config, n.config);
@@ -366,27 +363,29 @@ public abstract class Configuration {
                  * http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6207984
                  * http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6268068
                  */
-                q.removeAll(Collections.singletonList(i));;
+                q.removeAll(Collections.singletonList(i));
+                ;
                 q.add(i);
             }
         }
-        
+
         return unpacked;
     }
 
     /**
      * Returns the first dependency of this configuration of the specified type.
+     *
      * @since 8.0
      */
     public <C extends Configuration> C getDependency(Class<C> clazz) {
         //first try straight dependencies
-        for (Configuration dep : (List<Configuration>)getDependencies()) {
+        for (Configuration dep : (List<Configuration>) getDependencies()) {
             if (clazz.isInstance(dep)) {
                 return (C) dep;
             }
         }
         //fall back to all
-        for (Configuration dep : (List<Configuration>)allDependencies()) {
+        for (Configuration dep : (List<Configuration>) allDependencies()) {
             if (clazz.isInstance(dep)) {
                 return (C) dep;
             }
@@ -399,6 +398,7 @@ public abstract class Configuration {
      * <p>
      * This method should only be called from the constructor.
      * </p>
+     *
      * @param dependency
      */
     protected void addDependency(Configuration dependency) {
@@ -422,6 +422,7 @@ public abstract class Configuration {
      * For schema which are defined by multiple files, this method should return the base schema
      * which includes all other files that define the schema.
      * </p>
+     *
      * @deprecated use {@link XSD#getSchemaLocation()}.
      */
     public final String getSchemaFileURL() {
@@ -435,9 +436,9 @@ public abstract class Configuration {
      * This method should be overridden to return such an instance. The default
      * implementation returns <code>null</code>
      * </p>
+     *
      * @return The schema location resolver, or <code>null</code>
      * @deprecated
-     *
      */
     public final XSDSchemaLocationResolver getSchemaLocationResolver() {
         return new SchemaLocationResolver(xsd);
@@ -451,9 +452,9 @@ public abstract class Configuration {
      * delegates to {@link #createSchemaLocator()} to and caches the result. This method
      * may return <code>null</code> to indicate that no such locator should be used.
      * </p>
+     *
      * @return The schema locator, or <code>null</code>
      * @deprecated
-     *
      */
     public final XSDSchemaLocator getSchemaLocator() {
         return new SchemaLocator(xsd);
@@ -480,6 +481,7 @@ public abstract class Configuration {
      * This context is provided to allow for placing values in the parsing context
      * without having to subclass.
      * </p>
+     *
      * @return The context.
      */
     public final MutablePicoContainer getContext() {
@@ -494,7 +496,7 @@ public abstract class Configuration {
      */
     public final MutablePicoContainer setupBindings(MutablePicoContainer container) {
         //configure bindings of all dependencies
-        for (Iterator d = allDependencies().iterator(); d.hasNext();) {
+        for (Iterator d = allDependencies().iterator(); d.hasNext(); ) {
             Configuration dependency = (Configuration) d.next();
             dependency.registerBindings(container);
         }
@@ -506,64 +508,64 @@ public abstract class Configuration {
         return container;
     }
 
-   /**
-    * Creates the map of QName to Binding which is used during parsing to attach
-    * bindings to an element,attribute, or type.
-    *
-    * @return A map of Qname,[Class|Object] 
-    */
+    /**
+     * Creates the map of QName to Binding which is used during parsing to attach
+     * bindings to an element,attribute, or type.
+     *
+     * @return A map of Qname,[Class|Object]
+     */
     public final Map setupBindings() {
         HashMap bindings = new HashMap();
-        
+
         //wrap the binding map up in a pico container for backwards compatability
         // with old api which registered bindings in a pico container
         PicoMap container = new PicoMap(bindings);
-        
+
         //configure bindings of all dependencies
-        for (Iterator d = allDependencies().iterator(); d.hasNext();) {
+        for (Iterator d = allDependencies().iterator(); d.hasNext(); ) {
             Configuration dependency = (Configuration) d.next();
             dependency.registerBindings(bindings);
-       
+
             //call old api
-            dependency.registerBindings((MutablePicoContainer)container);
+            dependency.registerBindings((MutablePicoContainer) container);
         }
-        for (Iterator d = allDependencies().iterator(); d.hasNext();) {
+        for (Iterator d = allDependencies().iterator(); d.hasNext(); ) {
             Configuration dependency = (Configuration) d.next();
             dependency.configureBindings(bindings);
-       
+
             //call old api
-            dependency.configureBindings((MutablePicoContainer)container);
+            dependency.configureBindings((MutablePicoContainer) container);
         }
-        
+
         return bindings;
     }
-    
+
     /**
      * Prepares a parser instance for use with this Configuration instance and
      * all of its dependencies.
-     * 
+     *
      * @since 2.7
      */
     public final void setupParser(Parser parser) {
-        for (Iterator it = allDependencies().iterator(); it.hasNext();) {
+        for (Iterator it = allDependencies().iterator(); it.hasNext(); ) {
             Configuration dep = (Configuration) it.next();
             dep.configureParser(parser);
         }
     }
-    
+
     /**
      * Prepares a encoder instance for use with this Configuration instance and
      * all of its dependencies.
-     * 
+     *
      * @since 2.7
      */
     public final void setupEncoder(Encoder encoder) {
-        for (Iterator it = allDependencies().iterator(); it.hasNext();) {
+        for (Iterator it = allDependencies().iterator(); it.hasNext(); ) {
             Configuration dep = (Configuration) it.next();
             dep.configureEncoder(encoder);
         }
     }
-    
+
     /**
      * Registers the bindings for the configuration.
      * <p>
@@ -575,7 +577,6 @@ public abstract class Configuration {
      * </p>
      *
      * @param container Container containing all bindings, keyed by {@link QName}.
-     * 
      * @deprecated use {@link #registerBindings(Map)}.
      */
     protected void registerBindings(MutablePicoContainer container) {
@@ -589,20 +590,20 @@ public abstract class Configuration {
      * <p>
      * This method is intended to provide the "default" bindings for a configuration
      * and is not intended to be subclassed by client code. Client code should use
-     * {@link #configureBindings(MutablePicoContainer)} to override/remove/add new 
+     * {@link #configureBindings(MutablePicoContainer)} to override/remove/add new
      * bindings on the fly.
      * </p>
      * <p>
-     * The key of the <tt>bindings</tt> map is of type {@link QName}. The value 
-     * can be class, or an instance. In the case of a class, the binding will be 
-     * instantiated by the parser at runtime. In the instance case the binding 
-     * will be used as is.   
+     * The key of the <tt>bindings</tt> map is of type {@link QName}. The value
+     * can be class, or an instance. In the case of a class, the binding will be
+     * instantiated by the parser at runtime. In the instance case the binding
+     * will be used as is.
      * </p>
      */
     protected void registerBindings(Map/*<QName,Object>*/ bindings) {
-        
+
     }
-    
+
     /**
      * Template method allowing subclass to override any bindings.
      *
@@ -621,7 +622,7 @@ public abstract class Configuration {
     protected void configureBindings(Map bindings) {
         //do nothing
     }
-    
+
     /**
      * Configures the root context to be used when parsing elements.
      *
@@ -631,7 +632,7 @@ public abstract class Configuration {
         //configure bindings of all dependencies
         List dependencies = allDependencies();
 
-        for (Iterator d = dependencies.iterator(); d.hasNext();) {
+        for (Iterator d = dependencies.iterator(); d.hasNext(); ) {
             Configuration dependency = (Configuration) d.next();
 
             //throw locator and location resolver into context
@@ -650,9 +651,9 @@ public abstract class Configuration {
             }
 
             //set any parser properties
-            synchronized(dependency.getProperties()) {
-                
-                for (QName property : (Set<QName>)dependency.getProperties()) {
+            synchronized (dependency.getProperties()) {
+
+                for (QName property : (Set<QName>) dependency.getProperties()) {
                     try {
                         container.registerComponentInstance(property, property);
                     } catch (DuplicateComponentKeyRegistrationException e) {
@@ -672,7 +673,7 @@ public abstract class Configuration {
         if (!context.getComponentAdapters().isEmpty()) {
             container = container.makeChildContainer();
 
-            for (Iterator ca = context.getComponentAdapters().iterator(); ca.hasNext();) {
+            for (Iterator ca = context.getComponentAdapters().iterator(); ca.hasNext(); ) {
                 ComponentAdapter adapter = (ComponentAdapter) ca.next();
                 container.registerComponent(adapter);
             }
@@ -705,7 +706,7 @@ public abstract class Configuration {
      */
     protected void configureParser(Parser parser) {
     }
-    
+
     /**
      * Configures the encoder to be used with this configuration.
      * <p>
@@ -715,7 +716,7 @@ public abstract class Configuration {
      */
     protected void configureEncoder(Encoder encoder) {
     }
-    
+
     /**
      * Equals override, equality is based solely on {@link #getNamespaceURI()}.
      */
@@ -736,42 +737,42 @@ public abstract class Configuration {
 
         return 0;
     }
-    
+
     static class DepGraph {
-        Map<Configuration,DepNode> nodes = new HashMap();
-        
+        Map<Configuration, DepNode> nodes = new HashMap();
+
         public void addEdge(Configuration from, Configuration to) {
             DepNode src = addNode(from);
             DepNode dst = addNode(to);
-            
+
             DepEdge dep = src.getEdge(dst);
             if (dep != null) {
                 return;
             }
-            
+
             //ensure two configurations not dependent on each other
             if (dst.getEdge(src) != null) {
-                throw new IllegalArgumentException("Cycle between " + from + ", " + to );
+                throw new IllegalArgumentException("Cycle between " + from + ", " + to);
             }
-            
+
             dep = new DepEdge(src, dst);
             src.edges.add(dep);
             dst.edges.add(dep);
         }
-        
+
         public void removeEdge(Configuration from, Configuration to) {
             DepNode src = addNode(from);
             DepNode dst = addNode(to);
-            
+
             DepEdge dep = src.getEdge(dst);
             if (dep == null) {
                 throw new IllegalStateException("No such edge: " + from + "," + to);
             }
-            
+
             src.edges.remove(dep);
             dst.edges.remove(dep);
         }
-        
+
         DepNode addNode(Configuration config) {
             DepNode node = nodes.get(config);
             if (node == null) {
@@ -781,25 +782,25 @@ public abstract class Configuration {
             return node;
         }
     }
-    
+
     static class DepNode {
         Configuration config;
         List<DepEdge> edges = new ArrayList();
-        
+
         DepNode(Configuration config) {
             this.config = config;
         }
-        
+
         DepEdge getEdge(DepNode node) {
-            for (DepEdge edge: edges) {
+            for (DepEdge edge : edges) {
                 if (edge.src == this && edge.dst == node) {
                     return edge;
                 }
             }
-            
+
             return null;
         }
-        
+
         public List<DepNode> incoming() {
             List<DepNode> incoming = new ArrayList();
             for (DepEdge edge : edges) {
@@ -809,7 +810,7 @@ public abstract class Configuration {
             }
             return incoming;
         }
-        
+
         public List<DepNode> outgoing() {
             List<DepNode> outgoing = new ArrayList();
             for (DepEdge edge : edges) {
@@ -819,21 +820,21 @@ public abstract class Configuration {
             }
             return outgoing;
         }
-        
+
         @Override
         public String toString() {
             return config.toString();
         }
     }
-    
+
     static class DepEdge {
         DepNode src, dst;
-        
+
         DepEdge(DepNode src, DepNode dst) {
             this.src = src;
             this.dst = dst;
         }
-        
+
         @Override
         public String toString() {
             return "[" + src.toString() + ", " + dst.toString() + "]";

@@ -35,23 +35,29 @@ final class MongoCollectionFeature extends SimpleFeatureImpl {
 
     private final Map<String, Integer> collectionsIndexes = new HashMap<>();
 
-    static MongoCollectionFeature build(Object feature, String collectionPath, int collectionIndex) {
+    static MongoCollectionFeature build(Object feature, String collectionPath, int 
+            collectionIndex) {
         feature = MongoComplexUtilities.extractFeature(feature, collectionPath);
         if (feature instanceof MongoFeature) {
-            return new MongoCollectionFeature((MongoFeature) feature, collectionPath, collectionIndex);
+            return new MongoCollectionFeature((MongoFeature) feature, collectionPath, 
+                    collectionIndex);
         } else if (feature instanceof MongoCollectionFeature) {
-            return new MongoCollectionFeature((MongoCollectionFeature) feature, collectionPath, collectionIndex);
+            return new MongoCollectionFeature((MongoCollectionFeature) feature, collectionPath, 
+                    collectionIndex);
         }
         throw new RuntimeException("The feature must be a mongo feature.");
     }
 
-    private MongoCollectionFeature(MongoCollectionFeature collectionFeature, String collectionPath, int collectionIndex) {
+    private MongoCollectionFeature(MongoCollectionFeature collectionFeature, String 
+            collectionPath, int collectionIndex) {
         this(collectionFeature.getMongoFeature(), collectionPath, collectionIndex);
         this.collectionsIndexes.putAll(collectionFeature.getCollectionsIndexes());
     }
 
-    private MongoCollectionFeature(MongoFeature feature, String collectionPath, int collectionIndex) {
-        super(feature.getValues(), feature.getFeatureType(), new FeatureIdImpl(UUID.randomUUID().toString()), false);
+    private MongoCollectionFeature(MongoFeature feature, String collectionPath, int 
+            collectionIndex) {
+        super(feature.getValues(), feature.getFeatureType(), new FeatureIdImpl(UUID.randomUUID()
+                .toString()), false);
         this.mongoFeature = feature;
         this.collectionsIndexes.put(collectionPath, collectionIndex);
         this.collectionPath = collectionPath;

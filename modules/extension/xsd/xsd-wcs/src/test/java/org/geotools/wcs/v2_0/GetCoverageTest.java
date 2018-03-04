@@ -45,7 +45,7 @@ public class GetCoverageTest {
 
         // coverage id
         assertEquals("C0001", gc.getCoverageId());
-        
+
         // slicing
         EList<DimensionSubsetType> dss = gc.getDimensionSubset();
         assertEquals(2, dss.size());
@@ -55,11 +55,11 @@ public class GetCoverageTest {
         DimensionSliceType ds2 = (DimensionSliceType) dss.get(1);
         assertEquals("Lat", ds2.getDimension());
         assertEquals("1", ds2.getSlicePoint());
-        
+
         // format
         assertEquals("application/gml+xml", gc.getFormat());
     }
-    
+
     @Test
     public void testParseGetCoverageTrimming() throws Exception {
         String capRequestPath = "requestGetCoverageTrimming.xml";
@@ -70,7 +70,7 @@ public class GetCoverageTest {
 
         // coverage id
         assertEquals("C0001", gc.getCoverageId());
-        
+
         // trimming
         EList<DimensionSubsetType> dss = gc.getDimensionSubset();
         assertEquals(2, dss.size());
@@ -87,7 +87,7 @@ public class GetCoverageTest {
         assertEquals("application/gml+xml", gc.getFormat());
         assertEquals("multipart/related", gc.getMediaType());
     }
-    
+
     @Test
     public void testParseGetCoverageTrimmingSlicing() throws Exception {
         String capRequestPath = "requestGetCoverageTrimmingSlicing.xml";
@@ -98,7 +98,7 @@ public class GetCoverageTest {
 
         // coverage id
         assertEquals("C0001", gc.getCoverageId());
-        
+
         // trimming
         EList<DimensionSubsetType> dss = gc.getDimensionSubset();
         assertEquals(2, dss.size());
@@ -114,15 +114,15 @@ public class GetCoverageTest {
         assertEquals("application/gml+xml", gc.getFormat());
         assertEquals("multipart/related", gc.getMediaType());
     }
-    
+
     @Test
     public void testParseGetCoverageGeotiff() throws Exception {
         String capRequestPath = "requestGetCoverageGeotiff.xml";
         GetCoverageType gc = (GetCoverageType) parser.parse(getClass()
                 .getResourceAsStream(capRequestPath));
-        
+
         Map<String, Object> extensions = getExtensionsMap(gc);
-        
+
         // check values
         assertEquals("JPEG", extensions.get("http://www.opengis.net/wcs/geotiff/1.0:compression"));
         assertEquals("75", extensions.get("http://www.opengis.net/wcs/geotiff/1.0:jpeg_quality"));
@@ -137,23 +137,25 @@ public class GetCoverageTest {
         // collect extensions
         Map<String, Object> extensions = new HashMap<String, Object>();
         for (ExtensionItemType item : gc.getExtension().getContents()) {
-            Object value = item.getSimpleContent() != null ? item.getSimpleContent() : item.getObjectContent();
+            Object value = item.getSimpleContent() != null ? item.getSimpleContent() : item
+                    .getObjectContent();
             extensions.put(item.getNamespace() + ":" + item.getName(), value);
         }
         return extensions;
     }
-    
+
     @Test
     public void testParseGetCoverageRangeSubset() throws Exception {
         String capRequestPath = "requestGetCoverageRangeSubsetting.xml";
         GetCoverageType gc = (GetCoverageType) parser.parse(getClass()
                 .getResourceAsStream(capRequestPath));
-        
+
         Map<String, Object> extensions = getExtensionsMap(gc);
         assertEquals(1, extensions.size());
-        
-        RangeSubsetType rangeSubset = (RangeSubsetType) extensions.get(RangeSubset.NAMESPACE + ":RangeSubset");
-        
+
+        RangeSubsetType rangeSubset = (RangeSubsetType) extensions.get(RangeSubset.NAMESPACE + 
+                ":RangeSubset");
+
         // check values
         assertEquals(2, rangeSubset.getRangeItems().size());
         RangeItemType first = rangeSubset.getRangeItems().get(0);
@@ -162,41 +164,43 @@ public class GetCoverageTest {
         assertEquals("band3", second.getRangeInterval().getStartComponent());
         assertEquals("band5", second.getRangeInterval().getEndComponent());
     }
-    
+
     @Test
     public void testParseGetCoverageScaleByFactor() throws Exception {
         String capRequestPath = "requestGetCoverageScaleByFactor.xml";
         GetCoverageType gc = (GetCoverageType) parser.parse(getClass()
                 .getResourceAsStream(capRequestPath));
-        
+
         Map<String, Object> extensions = getExtensionsMap(gc);
         assertEquals(1, extensions.size());
-        
-        ScalingType scaling = (ScalingType) extensions.get("http://www.opengis.net/WCS_service-extension_scaling/1.0:Scaling");
-        
+
+        ScalingType scaling = (ScalingType) extensions.get("http://www.opengis" +
+                ".net/WCS_service-extension_scaling/1.0:Scaling");
+
         assertNull(scaling.getScaleAxesByFactor());
         assertNull(scaling.getScaleToSize());
         assertNull(scaling.getScaleToExtent());
-        
+
         ScaleByFactorType scaleByFactor = scaling.getScaleByFactor();
         assertEquals(2.5, scaleByFactor.getScaleFactor(), 1e-9d);
     }
-    
+
     @Test
     public void testParseGetCoverageScaleAxesByFactor() throws Exception {
         String capRequestPath = "requestGetCoverageScaleAxesByFactor.xml";
         GetCoverageType gc = (GetCoverageType) parser.parse(getClass()
                 .getResourceAsStream(capRequestPath));
-        
+
         Map<String, Object> extensions = getExtensionsMap(gc);
         assertEquals(1, extensions.size());
-        
-        ScalingType scaling = (ScalingType) extensions.get("http://www.opengis.net/WCS_service-extension_scaling/1.0:Scaling");
-        
+
+        ScalingType scaling = (ScalingType) extensions.get("http://www.opengis" +
+                ".net/WCS_service-extension_scaling/1.0:Scaling");
+
         assertNull(scaling.getScaleByFactor());
         assertNull(scaling.getScaleToSize());
         assertNull(scaling.getScaleToExtent());
-        
+
         ScaleAxisByFactorType sa = scaling.getScaleAxesByFactor();
         assertEquals(3, sa.getScaleAxis().size());
         ScaleAxisType sa1 = sa.getScaleAxis().get(0);
@@ -209,22 +213,23 @@ public class GetCoverageTest {
         assertEquals("http://www.opengis.net/def/axis/OGC/1/k", sa3.getAxis());
         assertEquals(2.0, sa3.getScaleFactor(), 1e-9);
     }
-    
+
     @Test
     public void testParseGetCoverageScaleToSize() throws Exception {
         String capRequestPath = "requestGetCoverageScaleToSize.xml";
         GetCoverageType gc = (GetCoverageType) parser.parse(getClass()
                 .getResourceAsStream(capRequestPath));
-        
+
         Map<String, Object> extensions = getExtensionsMap(gc);
         assertEquals(1, extensions.size());
-        
-        ScalingType scaling = (ScalingType) extensions.get("http://www.opengis.net/WCS_service-extension_scaling/1.0:Scaling");
-        
+
+        ScalingType scaling = (ScalingType) extensions.get("http://www.opengis" +
+                ".net/WCS_service-extension_scaling/1.0:Scaling");
+
         assertNull(scaling.getScaleByFactor());
         assertNull(scaling.getScaleAxesByFactor());
         assertNull(scaling.getScaleToExtent());
-        
+
         ScaleToSizeType sa = scaling.getScaleToSize();
         assertEquals(3, sa.getTargetAxisSize().size());
         TargetAxisSizeType sa1 = sa.getTargetAxisSize().get(0);
@@ -237,22 +242,23 @@ public class GetCoverageTest {
         assertEquals("http://www.opengis.net/def/axis/OGC/1/k", sa3.getAxis());
         assertEquals(10.0, sa3.getTargetSize(), 1e-9);
     }
-    
+
     @Test
     public void testParseGetCoverageScaleToExtend() throws Exception {
         String capRequestPath = "requestGetCoverageScaleToExtent.xml";
         GetCoverageType gc = (GetCoverageType) parser.parse(getClass()
                 .getResourceAsStream(capRequestPath));
-        
+
         Map<String, Object> extensions = getExtensionsMap(gc);
         assertEquals(1, extensions.size());
-        
-        ScalingType scaling = (ScalingType) extensions.get("http://www.opengis.net/WCS_service-extension_scaling/1.0:Scaling");
-        
+
+        ScalingType scaling = (ScalingType) extensions.get("http://www.opengis" +
+                ".net/WCS_service-extension_scaling/1.0:Scaling");
+
         assertNull(scaling.getScaleByFactor());
         assertNull(scaling.getScaleAxesByFactor());
         assertNull(scaling.getScaleToSize());
-        
+
         ScaleToExtentType se = scaling.getScaleToExtent();
         assertEquals(2, se.getTargetAxisExtent().size());
         TargetAxisExtentType sa1 = se.getTargetAxisExtent().get(0);
@@ -264,58 +270,67 @@ public class GetCoverageTest {
         assertEquals(20.0, sa2.getLow(), 1e-9);
         assertEquals(30.0, sa2.getHigh(), 1e-9);
     }
-    
+
     @Test
     public void testParseGetCoverageInterpolationLinear() throws Exception {
         String capRequestPath = "requestGetCoverageInterpolationLinear.xml";
         GetCoverageType gc = (GetCoverageType) parser.parse(getClass()
                 .getResourceAsStream(capRequestPath));
-        
+
         Map<String, Object> extensions = getExtensionsMap(gc);
         assertEquals(1, extensions.size());
-        
-        InterpolationType interpolation = (InterpolationType) extensions.get("http://www.opengis.net/WCS_service-extension_interpolation/1.0:Interpolation");
-        
+
+        InterpolationType interpolation = (InterpolationType) extensions.get("http://www.opengis" +
+                ".net/WCS_service-extension_interpolation/1.0:Interpolation");
+
         assertNull(interpolation.getInterpolationAxes());
-        
+
         InterpolationMethodType method = interpolation.getInterpolationMethod();
-        assertEquals("http://www.opengis.net/def/interpolation/OGC/1/linear", method.getInterpolationMethod());
+        assertEquals("http://www.opengis.net/def/interpolation/OGC/1/linear", method
+                .getInterpolationMethod());
     }
-    
+
     @Test
     public void testParseGetCoverageInterpolationMixed() throws Exception {
         String capRequestPath = "requestGetCoverageInterpolationMixed.xml";
         GetCoverageType gc = (GetCoverageType) parser.parse(getClass()
                 .getResourceAsStream(capRequestPath));
-        
+
         Map<String, Object> extensions = getExtensionsMap(gc);
         assertEquals(1, extensions.size());
-        
-        InterpolationType interpolation = (InterpolationType) extensions.get("http://www.opengis.net/WCS_service-extension_interpolation/1.0:Interpolation");
-        
+
+        InterpolationType interpolation = (InterpolationType) extensions.get("http://www.opengis" +
+                ".net/WCS_service-extension_interpolation/1.0:Interpolation");
+
         assertNull(interpolation.getInterpolationMethod());
-        
-        EList<InterpolationAxisType> axes = interpolation.getInterpolationAxes().getInterpolationAxis();
+
+        EList<InterpolationAxisType> axes = interpolation.getInterpolationAxes()
+                .getInterpolationAxis();
         assertEquals(3, axes.size());
         assertEquals("http://www.opengis.net/def/axis/OGC/1/latitude", axes.get(0).getAxis());
-        assertEquals("http://www.opengis.net/def/interpolation/OGC/1/quadratic", axes.get(0).getInterpolationMethod());
+        assertEquals("http://www.opengis.net/def/interpolation/OGC/1/quadratic", axes.get(0)
+                .getInterpolationMethod());
         assertEquals("http://www.opengis.net/def/axis/OGC/1/longitude", axes.get(1).getAxis());
-        assertEquals("http://www.opengis.net/def/interpolation/OGC/1/quadratic", axes.get(1).getInterpolationMethod());
+        assertEquals("http://www.opengis.net/def/interpolation/OGC/1/quadratic", axes.get(1)
+                .getInterpolationMethod());
         assertEquals("http://www.opengis.net/def/axis/OGC/1/time", axes.get(2).getAxis());
-        assertEquals("http://www.opengis.net/def/interpolation/OGC/1/nearest-neighbor", axes.get(2).getInterpolationMethod());
+        assertEquals("http://www.opengis.net/def/interpolation/OGC/1/nearest-neighbor", axes.get
+                (2).getInterpolationMethod());
     }
-    
+
     @Test
     public void testParseGetCoverageCRS() throws Exception {
         String capRequestPath = "requestGetCoverageCRS.xml";
         GetCoverageType gc = (GetCoverageType) parser.parse(getClass()
                 .getResourceAsStream(capRequestPath));
-        
+
         Map<String, Object> extensions = getExtensionsMap(gc);
         assertEquals(2, extensions.size());
-        
-        assertEquals("http://www.opengis.net/def/crs/EPSG/0/4326", extensions.get("http://www.opengis.net/wcs/service-extension/crs/1.0:subsettingCrs"));
-        assertEquals("http://www.opengis.net/def/crs/EPSG/0/32632", extensions.get("http://www.opengis.net/wcs/service-extension/crs/1.0:outputCrs"));
+
+        assertEquals("http://www.opengis.net/def/crs/EPSG/0/4326", extensions.get("http://www" +
+                ".opengis.net/wcs/service-extension/crs/1.0:subsettingCrs"));
+        assertEquals("http://www.opengis.net/def/crs/EPSG/0/32632", extensions.get("http://www" +
+                ".opengis.net/wcs/service-extension/crs/1.0:outputCrs"));
     }
 
 }

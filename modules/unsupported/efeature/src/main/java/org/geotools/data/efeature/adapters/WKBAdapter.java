@@ -9,18 +9,17 @@ import com.vividsolutions.jts.io.WKBReader;
 import com.vividsolutions.jts.io.WKBWriter;
 
 /**
- * An Adapter class to be used to extract from -adapt- the argument object 
- * to some (primitive) byte array that would later be used in 
+ * An Adapter class to be used to extract from -adapt- the argument object
+ * to some (primitive) byte array that would later be used in
  * <code>Condition</code> evaluation.
- * 
+ * <p>
  * Clients can subclass it and provide their own implementation
- * 
- * @see {@link Condition}
  *
  * @source $URL$
+ * @see {@link Condition}
  */
 public abstract class WKBAdapter implements IDataTypeAdapter<byte[]> {
-    
+
     /**
      * Cached {@link WKBWriter} instance for writing
      */
@@ -32,7 +31,7 @@ public abstract class WKBAdapter implements IDataTypeAdapter<byte[]> {
     public final static WKBReader READER = new WKBReader();
 
     /**
-     * The simplest {@link WKBAdapter} implementation that represents 
+     * The simplest {@link WKBAdapter} implementation that represents
      * the case when the argument object to adapt is a byte array or
      * a {@link Geometry} instance.
      */
@@ -66,16 +65,16 @@ public abstract class WKBAdapter implements IDataTypeAdapter<byte[]> {
 
     /**
      * Adapts given object to a WKB byte array
-     * 
-     * @param object - the object to adapt to a WKB byte array 
+     *
+     * @param object - the object to adapt to a WKB byte array
      * @return a WKB byte array
      */
     public abstract byte[] toWKB(Object object);
 
     /**
      * Adapts given object to a WKB byte array
-     * 
-     * @param object - the object to adapt to a WKB byte array 
+     *
+     * @param object - the object to adapt to a WKB byte array
      * @return a WKB byte array
      */
     @Override

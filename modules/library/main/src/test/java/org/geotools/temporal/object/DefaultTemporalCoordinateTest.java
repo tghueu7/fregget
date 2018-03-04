@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,6 +17,7 @@
 package org.geotools.temporal.object;
 
 import java.util.GregorianCalendar;
+
 import org.geotools.metadata.iso.citation.Citations;
 import org.geotools.referencing.NamedIdentifier;
 import org.geotools.temporal.reference.DefaultTemporalCoordinateSystem;
@@ -27,15 +28,12 @@ import org.junit.Test;
 import org.opengis.temporal.IndeterminateValue;
 import org.opengis.temporal.TemporalCoordinate;
 import org.opengis.temporal.TemporalCoordinateSystem;
+
 import static org.junit.Assert.*;
 
 
 /**
- *
  * @author Mehdi Sidhoum (Geomatys)
- *
- *
- *
  * @source $URL$
  */
 public class DefaultTemporalCoordinateTest {
@@ -48,12 +46,16 @@ public class DefaultTemporalCoordinateTest {
         NamedIdentifier name = new NamedIdentifier(Citations.CRS, "Gregorian calendar");
         GregorianCalendar gc = new GregorianCalendar(-4713, 1, 1);
         Number coordinateValue = 100;
-        TemporalCoordinateSystem frame1 = new DefaultTemporalCoordinateSystem(new NamedIdentifier(Citations.CRS, new SimpleInternationalString("Julian calendar")),
+        TemporalCoordinateSystem frame1 = new DefaultTemporalCoordinateSystem(new NamedIdentifier
+                (Citations.CRS, new SimpleInternationalString("Julian calendar")),
                 null, gc.getTime(), new SimpleInternationalString("day"));
-        TemporalCoordinateSystem frame2 = new DefaultTemporalCoordinateSystem(new NamedIdentifier(Citations.CRS, new SimpleInternationalString("Julian calendar")),
+        TemporalCoordinateSystem frame2 = new DefaultTemporalCoordinateSystem(new NamedIdentifier
+                (Citations.CRS, new SimpleInternationalString("Julian calendar")),
                 null, gc.getTime(), new SimpleInternationalString("hour"));
-        temporalCoordinate1 = new DefaultTemporalCoordinate(frame1, IndeterminateValue.NOW, coordinateValue);
-        temporalCoordinate2 = new DefaultTemporalCoordinate(frame2, IndeterminateValue.AFTER, coordinateValue);
+        temporalCoordinate1 = new DefaultTemporalCoordinate(frame1, IndeterminateValue.NOW, 
+                coordinateValue);
+        temporalCoordinate2 = new DefaultTemporalCoordinate(frame2, IndeterminateValue.AFTER, 
+                coordinateValue);
     }
 
     @After

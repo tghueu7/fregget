@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2006-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -54,7 +54,7 @@ import java.util.Set;
 
 /**
  * Builds the filters required by the {@link ECQLCompiler}.
- * 
+ *
  * @author Mauricio Pazos (Axios Engineering)
  * @since 2.6
  */
@@ -66,9 +66,8 @@ final class ECQLFilterBuilder extends AbstractFilterBuilder {
 
     /**
      * builds the filter id
-     * 
-     * @param token
-     *            <character>
+     *
+     * @param token <character>
      * @return String without the quotes
      */
     public FeatureId buildFeatureID(IToken token) {
@@ -82,7 +81,7 @@ final class ECQLFilterBuilder extends AbstractFilterBuilder {
 
     /**
      * builds the filter id
-     * 
+     *
      * @param jjtfeature_id_separator_node
      * @return Id
      * @throws CQLException
@@ -115,7 +114,7 @@ final class ECQLFilterBuilder extends AbstractFilterBuilder {
 
     /**
      * Builds a negative Number
-     * 
+     *
      * @return Negative number
      * @throws CQLException
      */
@@ -148,14 +147,14 @@ final class ECQLFilterBuilder extends AbstractFilterBuilder {
     /**
      * builds the or filter for the in predicate. The method retrieves the list
      * of expressions and the property name from stack to make the Or filter.
-     * 
+     * <p>
      * <pre>
-     * Thus if the stack have the following predicate 
+     * Thus if the stack have the following predicate
      * propName in (expr1, expr2)
      * this method will produce:
      * (propName = expr1) or (propName = expr2)
      * </pre>
-     * 
+     *
      * @param nodeExpression
      * @return
      * @throws CQLException
@@ -240,7 +239,7 @@ final class ECQLFilterBuilder extends AbstractFilterBuilder {
     /**
      * Retrieves all points built in previous parsing process from stack and
      * creates the multipoint geometry.
-     * 
+     *
      * @param pointNode
      * @return a MultiPoint
      * @throws CQLException
@@ -259,12 +258,10 @@ final class ECQLFilterBuilder extends AbstractFilterBuilder {
     /**
      * Retrieves all linestring built from stack and creates the multilinestring
      * geometry
-     * 
+     *
      * @param pointNode
      * @return a MultiLineString
-     * 
-     * @throws CQLException
-     *             ¡
+     * @throws CQLException ¡
      */
     public MultiLineString buildMultiLineString(final int linestringtextNode)
             throws CQLException {
@@ -282,10 +279,8 @@ final class ECQLFilterBuilder extends AbstractFilterBuilder {
     /**
      * Builds a {@link MuliPolygon} using the {@link Polygon} staked in the
      * parsing process
-     * 
-     * @param polygontextNode
-     *            .
-     * 
+     *
+     * @param polygontextNode .
      * @return MultiPolygon
      * @throws CQLException
      */
@@ -303,7 +298,7 @@ final class ECQLFilterBuilder extends AbstractFilterBuilder {
 
     /**
      * Builds a {@link GeometryCollection}
-     * 
+     *
      * @param jjtgeometryliteral
      * @return GeometryCollection
      * @throws CQLException
@@ -323,7 +318,7 @@ final class ECQLFilterBuilder extends AbstractFilterBuilder {
 
     /**
      * Builds literal geometry
-     * 
+     *
      * @param geometry
      * @return a Literal Geometry
      * @throws CQLException
@@ -346,7 +341,8 @@ final class ECQLFilterBuilder extends AbstractFilterBuilder {
             Geometry geometry = (Geometry) literal.getValue();
             geometry.setUserData(crs);
         } catch (FactoryException e) {
-            throw new CQLException("Failed to build CRS for SRID: " + srid, null, e, getStatement());
+            throw new CQLException("Failed to build CRS for SRID: " + srid, null, e, getStatement
+                    ());
         }
 
         return literal;
@@ -417,8 +413,8 @@ final class ECQLFilterBuilder extends AbstractFilterBuilder {
     }
 
     /**
-     * Makes an equals to true filter with the relatePattern function 
-     * 
+     * Makes an equals to true filter with the relatePattern function
+     *
      * @return relatePattern is equal to true
      * @throws CQLException
      */
@@ -429,7 +425,8 @@ final class ECQLFilterBuilder extends AbstractFilterBuilder {
 
         Function relatePattern = builder.build();
 
-        PropertyIsEqualTo eq = getFilterFactory().equals(relatePattern, getFilterFactory().literal(true));
+        PropertyIsEqualTo eq = getFilterFactory().equals(relatePattern, getFilterFactory()
+                .literal(true));
 
         return eq;
     }
@@ -437,59 +434,62 @@ final class ECQLFilterBuilder extends AbstractFilterBuilder {
 
     /**
      * Builds a not equal filter with that evaluate the relate pattern function
+     *
      * @return Not filter
      * @throws CQLException
      */
     public Not buildNotRelatePattern() throws CQLException {
-        
-        PropertyIsEqualTo  eq = buildRelatePattern();
-        
+
+        PropertyIsEqualTo eq = buildRelatePattern();
+
         Not notFilter = getFilterFactory().not(eq);
-        
+
         return notFilter;
     }
 
     /**
      * Checks the correctness of pattern and makes a literal with this pattern;
-     * 
+     *
      * @return a Literal with the pattern
      * @throws CQLException if the pattern has not one of the following characters:T,F,*,0,1,2
      */
     public Literal buildPattern9IM() throws CQLException {
- 
+
         // retrieves the pattern from stack
         Result resut = getResultStack().popResult();
         IToken token = resut.getToken();
 
-        Literal built = (Literal)resut.getBuilt();
-        final String pattern = (String)built.getValue();
+        Literal built = (Literal) resut.getBuilt();
+        final String pattern = (String) built.getValue();
 
         // validates the length
-        if(pattern.length() != 9){
-            throw new CQLException("the pattern DE-9IM must have nine (9) characters", token, getStatement() );
+        if (pattern.length() != 9) {
+            throw new CQLException("the pattern DE-9IM must have nine (9) characters", token, 
+                    getStatement());
         }
-        
+
         // validates that the pattern has only the characters T,F,*,0,1,2
         String patternUC = pattern.toUpperCase();
-        
+
         char[] validFlags = new char[]{'T', 'F', '*', '0', '1', '2'};
         for (int i = 0; i < validFlags.length; i++) {
             char character = patternUC.charAt(i);
-            
+
             boolean found = false;
             for (int j = 0; j < validFlags.length; j++) {
-                if(validFlags[j] == character){
+                if (validFlags[j] == character) {
                     found = true;
                     break;
                 }
             }
-            if(!found){
-                throw new CQLException("the pattern DE-9IM must have only the following characters: T, F, *, 0, 1, 2", token, getStatement() );
+            if (!found) {
+                throw new CQLException("the pattern DE-9IM must have only the following " +
+                        "characters: T, F, *, 0, 1, 2", token, getStatement());
             }
         }
-        
+
         Literal patternExpr = getFilterFactory().literal(pattern);
-        
+
         return patternExpr;
     }
 
@@ -528,7 +528,7 @@ final class ECQLFilterBuilder extends AbstractFilterBuilder {
 
     /**
      * An equals filter with to test the relate function
-     * 
+     *
      * @return Relate equals true
      * @throws CQLException
      */
@@ -540,7 +540,7 @@ final class ECQLFilterBuilder extends AbstractFilterBuilder {
         Function f = builder.build();
 
         PropertyIsEqualTo eq = getFilterFactory().equals(f, getFilterFactory().literal(true));
-        
+
         return eq;
     }
 

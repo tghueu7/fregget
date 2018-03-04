@@ -20,8 +20,6 @@ import org.geotools.jdbc.JDBCPrimaryKeyOnlineTest;
 import org.geotools.jdbc.JDBCPrimaryKeyTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class MySQLPrimaryKeyOnlineTest extends JDBCPrimaryKeyOnlineTest {
@@ -30,7 +28,7 @@ public class MySQLPrimaryKeyOnlineTest extends JDBCPrimaryKeyOnlineTest {
     protected JDBCPrimaryKeyTestSetup createTestSetup() {
         return new MySQLPrimaryKeyTestSetup();
     }
-    
+
     @Override
     public void testSequencedPrimaryKey() throws Exception {
         //seems mysql does not really do explicit sequences...

@@ -25,8 +25,6 @@ import org.geotools.gce.imagemosaic.properties.PropertiesCollector;
 import org.geotools.gce.imagemosaic.properties.PropertiesCollectorSPI;
 
 /**
- * 
- *
  * @author Niels Charlier
  */
 public class DateExtractorSPI implements PropertiesCollectorSPI {

@@ -32,9 +32,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://www.opengis.net/wfs:GetFeatureWithLockType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="GetFeatureWithLockType"&gt;
  *      &lt;xsd:annotation&gt;
@@ -114,9 +114,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GetFeatureWithLockTypeBinding extends AbstractComplexEMFBinding {
@@ -150,36 +147,36 @@ public class GetFeatureWithLockTypeBinding extends AbstractComplexEMFBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         GetFeatureWithLockType getFeatureWithLock = wfsfactory
                 .createGetFeatureWithLockType();
 
-            WFSBindingUtils.service(getFeatureWithLock, node);
-            WFSBindingUtils.version(getFeatureWithLock, node);
-            WFSBindingUtils.outputFormat(getFeatureWithLock, node, "GML2");
+        WFSBindingUtils.service(getFeatureWithLock, node);
+        WFSBindingUtils.version(getFeatureWithLock, node);
+        WFSBindingUtils.outputFormat(getFeatureWithLock, node, "GML2");
 
-            if (node.getAttributeValue("handle") != null) {
-                getFeatureWithLock.setHandle((String) node.getAttributeValue("handle"));
-            }
+        if (node.getAttributeValue("handle") != null) {
+            getFeatureWithLock.setHandle((String) node.getAttributeValue("handle"));
+        }
 
-            //get the max features
-            BigInteger maxFeatures = WFSBindingUtils.asBigInteger((Number) node.getAttributeValue(
-                        "maxFeatures"));
+        //get the max features
+        BigInteger maxFeatures = WFSBindingUtils.asBigInteger((Number) node.getAttributeValue(
+                "maxFeatures"));
 
-            if (maxFeatures != null) {
-                getFeatureWithLock.setMaxFeatures(maxFeatures);
-            }
+        if (maxFeatures != null) {
+            getFeatureWithLock.setMaxFeatures(maxFeatures);
+        }
 
-            //get the lock expiry
-            BigInteger expiry = WFSBindingUtils.asBigInteger((Number) node.getAttributeValue("expiry"));
+        //get the lock expiry
+        BigInteger expiry = WFSBindingUtils.asBigInteger((Number) node.getAttributeValue("expiry"));
 
-            if (expiry != null) {
-                getFeatureWithLock.setExpiry(expiry);
-            }
+        if (expiry != null) {
+            getFeatureWithLock.setExpiry(expiry);
+        }
 
-            //queries
-            getFeatureWithLock.getQuery().addAll(node.getChildValues(QueryType.class));
+        //queries
+        getFeatureWithLock.getQuery().addAll(node.getChildValues(QueryType.class));
 
-            return getFeatureWithLock;
+        return getFeatureWithLock;
     }
 }

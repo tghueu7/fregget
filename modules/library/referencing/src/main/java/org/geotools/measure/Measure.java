@@ -17,18 +17,17 @@
 package org.geotools.measure;
 
 import javax.measure.unit.Unit;
+
 import org.geotools.util.Utilities;
 
 
 /**
  * A scalar with an unit.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (PMO, IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public final class Measure extends Number {
     /**
@@ -50,19 +49,56 @@ public final class Measure extends Number {
      * Creates a new measure with the specified value and unit.
      *
      * @param value The value.
-     * @param unit The unit of measurement for the given value.
+     * @param unit  The unit of measurement for the given value.
      */
     public Measure(final double value, final Unit<?> unit) {
         this.value = value;
-        this.unit  = unit;
+        this.unit = unit;
     }
 
-    /** Returns the scalar value. */           public double doubleValue() {return         value;}
-    /** Returns the scalar value. */           public float   floatValue() {return (float) value;}
-    /** Returns the scalar value. */           public long     longValue() {return (long)  value;}
-    /** Returns the scalar value. */           public int       intValue() {return (int)   value;}
-    /** Returns the scalar value. */ @Override public short   shortValue() {return (short) value;}
-    /** Returns the scalar value. */ @Override public byte     byteValue() {return (byte)  value;}
+    /**
+     * Returns the scalar value.
+     */
+    public double doubleValue() {
+        return value;
+    }
+
+    /**
+     * Returns the scalar value.
+     */
+    public float floatValue() {
+        return (float) value;
+    }
+
+    /**
+     * Returns the scalar value.
+     */
+    public long longValue() {
+        return (long) value;
+    }
+
+    /**
+     * Returns the scalar value.
+     */
+    public int intValue() {
+        return (int) value;
+    }
+
+    /**
+     * Returns the scalar value.
+     */
+    @Override
+    public short shortValue() {
+        return (short) value;
+    }
+
+    /**
+     * Returns the scalar value.
+     */
+    @Override
+    public byte byteValue() {
+        return (byte) value;
+    }
 
     /**
      * Returns the unit.
@@ -79,7 +115,7 @@ public final class Measure extends Number {
     @Override
     public int hashCode() {
         long code = Double.doubleToLongBits(value);
-        return (int) code ^ (int)(code >>> 32) ^ unit.hashCode();
+        return (int) code ^ (int) (code >>> 32) ^ unit.hashCode();
     }
 
     /**
@@ -93,7 +129,7 @@ public final class Measure extends Number {
         if (object instanceof Measure) {
             final Measure that = (Measure) object;
             return Utilities.equals(value, that.value) &&
-                   Utilities.equals(unit,  that.unit);
+                    Utilities.equals(unit, that.unit);
         }
         return false;
     }

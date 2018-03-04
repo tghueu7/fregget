@@ -32,17 +32,15 @@ import org.geotools.validation.xml.ValidationException;
 
 /**
  * Contains the information required for Validation creation.
- * 
+ * <p>
  * <p>
  * Currently just used for configuration, may need to be public for dynamic
  * configuration.
  * </p>
  *
- * @see <a http://vwfs.refractions.net/docs/Validating_Web_Feature_Server.pdf>A 
- *      PDF on Validating Web Feature Servers</a>
- *
- *
  * @source $URL$
+ * @see <a http://vwfs.refractions.net/docs/Validating_Web_Feature_Server.pdf>A
+ * PDF on Validating Web Feature Servers</a>
  */
 public class PlugIn {
     Map defaults;
@@ -53,16 +51,16 @@ public class PlugIn {
 
     PlugIn(Map config) throws ValidationException {
         this(get(config, "name"), get(config, "bean", Validation.class),
-            get(config, "description"), config);
+                get(config, "description"), config);
     }
 
     public PlugIn(String name, Class type, String description, Map config)
-        throws ValidationException {
+            throws ValidationException {
         if ((type == null)
                 || (!Validation.class.isAssignableFrom(type)
                 && type.isInterface())) {
             throw new ValidationException("Not a validation test '" + name
-                + "' plugIn:" + type);
+                    + "' plugIn:" + type);
         }
 
         try {
@@ -70,7 +68,7 @@ public class PlugIn {
         } catch (Exception e) {
             e.printStackTrace();
             throw new ValidationException("Could not use the '" + name
-                + "' plugIn:" + type.getName());
+                    + "' plugIn:" + type.getName());
         }
 
         if (config != null) {
@@ -118,22 +116,20 @@ public class PlugIn {
 
     /**
      * Create a Validation based on provided <code>test</code> definition.
-     * 
+     * <p>
      * <p>
      * Creates the required Java Bean and configures according to the provided
      * test definition, using this plugIn's defaults.
      * </p>
      *
-     * @param name Map defining User's test.
+     * @param name        Map defining User's test.
      * @param description DOCUMENT ME!
-     * @param args DOCUMENT ME!
-     *
+     * @param args        DOCUMENT ME!
      * @return Validation ready for use by the ValidationProcessor
-     *
      * @throws ValidationException when an error occurs
      */
     public Validation createValidation(String name, String description, Map args)
-        throws ValidationException {
+            throws ValidationException {
         BeanDescriptor beanDescriptor = beanInfo.getBeanDescriptor();
         Class type = beanDescriptor.getBeanClass();
 
@@ -143,13 +139,13 @@ public class PlugIn {
             create = type.getConstructor(new Class[0]);
         } catch (SecurityException e) {
             throw new ValidationException("Could not create '" + plugInName
-                + "' as " + type.getName(), e);
+                    + "' as " + type.getName(), e);
         } catch (NoSuchMethodException e) {
             throw new ValidationException("Could not create '" + plugInName
-                + "' as " + type.getName(), e);
+                    + "' as " + type.getName(), e);
         } catch (IllegalArgumentException e) {
             throw new ValidationException("Could not create '" + plugInName
-                + "' as " + type.getName(), e);
+                    + "' as " + type.getName(), e);
         }
 
         Validation validate;
@@ -158,13 +154,13 @@ public class PlugIn {
             validate = (Validation) create.newInstance(new Object[0]);
         } catch (InstantiationException e) {
             throw new ValidationException("Could not create '" + name
-                + "' as plugIn " + plugInName, e);
+                    + "' as plugIn " + plugInName, e);
         } catch (IllegalAccessException e) {
             throw new ValidationException("Could not create '" + name
-                + "' as plugIn " + plugInName, e);
+                    + "' as plugIn " + plugInName, e);
         } catch (InvocationTargetException e) {
             throw new ValidationException("Could not create '" + name
-                + "' as plugIn " + plugInName, e);
+                    + "' as plugIn " + plugInName, e);
         }
 
         validate.setName(name);
@@ -176,14 +172,14 @@ public class PlugIn {
     }
 
     protected void configure(Object bean, Map config)
-        throws ValidationException {
+            throws ValidationException {
         if ((config == null) || (config.size() == 0)) {
             return;
         }
 
         PropertyDescriptor property;
 
-        for (Iterator i = config.entrySet().iterator(); i.hasNext();) {
+        for (Iterator i = config.entrySet().iterator(); i.hasNext(); ) {
             Map.Entry entry = (Map.Entry) i.next();
             property = propertyInfo((String) entry.getKey());
 
@@ -194,35 +190,33 @@ public class PlugIn {
 
             try {
                 property.getWriteMethod().invoke(bean,
-                    new Object[] { entry.getValue() });
+                        new Object[]{entry.getValue()});
             } catch (IllegalArgumentException e) {
-            	String val = entry.getValue() == null? entry.getValue().toString():"null";
+                String val = entry.getValue() == null ? entry.getValue().toString() : "null";
                 throw new ValidationException("test failed to configure "
-                    + plugInName + " " + entry.getKey()+ " "+val, e);
+                        + plugInName + " " + entry.getKey() + " " + val, e);
             } catch (IllegalAccessException e) {
-				String val = entry.getValue() == null? entry.getValue().toString():"null";
-				throw new ValidationException("test failed to configure "
-					+ plugInName + " " + entry.getKey()+ " "+val, e);
+                String val = entry.getValue() == null ? entry.getValue().toString() : "null";
+                throw new ValidationException("test failed to configure "
+                        + plugInName + " " + entry.getKey() + " " + val, e);
             } catch (InvocationTargetException e) {
-				String val = entry.getValue() == null? entry.getValue().toString():"null";
-				throw new ValidationException("test failed to configure "
-					+ plugInName + " " + entry.getKey()+ " "+val, e);
+                String val = entry.getValue() == null ? entry.getValue().toString() : "null";
+                throw new ValidationException("test failed to configure "
+                        + plugInName + " " + entry.getKey() + " " + val, e);
             }
         }
     }
 
     /**
      * get purpose.
-     * 
+     * <p>
      * <p>
      * Gets a String from a map of Strings
      * </p>
      *
      * @param map Map the map to extract the string from
      * @param key String the key for the map.
-     *
      * @return String the value in the map.
-     *
      * @see Map
      */
     private static String get(Map map, String key) {
@@ -235,16 +229,15 @@ public class PlugIn {
 
     /**
      * get purpose.
-     * 
+     * <p>
      * <p>
      * Gets a Class from a map given the specified key. If the Class is not
      * found the default Class is returned.
      * </p>
      *
-     * @param map Map the map to extract the file from
-     * @param key String the key to extract the value for
+     * @param map         Map the map to extract the file from
+     * @param key         String the key to extract the value for
      * @param defaultType The default value should the key not exist.
-     *
      * @return Class an boolean as described above.
      */
     private static Class get(Map map, String key, Class defaultType) {
@@ -269,7 +262,7 @@ public class PlugIn {
         return defaultType;
     }
 
-	public Map getPropertyMap() {
-		return propertyMap;
-	}
+    public Map getPropertyMap() {
+        return propertyMap;
+    }
 }

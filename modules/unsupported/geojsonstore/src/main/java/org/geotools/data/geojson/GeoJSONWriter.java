@@ -15,6 +15,7 @@ package org.geotools.data.geojson;
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -30,40 +31,40 @@ import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
  * Wrapper to handle writing GeoJSON FeatureCollections
- * 
- * @author ian
  *
+ * @author ian
  */
 public class GeoJSONWriter {
-	private FeatureJSON writer = new FeatureJSON();
-	private OutputStream out;
-	private DefaultFeatureCollection collection = null;
-	public GeoJSONWriter(OutputStream outputStream) {
-		if (outputStream instanceof BufferedOutputStream) {
-			this.out = outputStream;
-		} else {
-			this.out = new BufferedOutputStream(outputStream);
-		}
-		collection = new DefaultFeatureCollection();
-	}
+    private FeatureJSON writer = new FeatureJSON();
+    private OutputStream out;
+    private DefaultFeatureCollection collection = null;
 
-	public void setSchema(SimpleFeatureType schema) throws IOException {
-		writer.setEncodeNullValues(true);
-		writer.setFeatureType(schema);
-		if (schema.getCoordinateReferenceSystem() != null) {
-			writer.writeCRS(schema.getCoordinateReferenceSystem(), out);
-		}
-	}
+    public GeoJSONWriter(OutputStream outputStream) {
+        if (outputStream instanceof BufferedOutputStream) {
+            this.out = outputStream;
+        } else {
+            this.out = new BufferedOutputStream(outputStream);
+        }
+        collection = new DefaultFeatureCollection();
+    }
 
-	public void write(SimpleFeature currentFeature) throws IOException {
-			collection.add(currentFeature);
-	}
+    public void setSchema(SimpleFeatureType schema) throws IOException {
+        writer.setEncodeNullValues(true);
+        writer.setFeatureType(schema);
+        if (schema.getCoordinateReferenceSystem() != null) {
+            writer.writeCRS(schema.getCoordinateReferenceSystem(), out);
+        }
+    }
 
-	public void close() throws IOException {
-		writer.writeFeatureCollection(collection, out);
-		out.close();
-		writer = null;
-		
-	}
+    public void write(SimpleFeature currentFeature) throws IOException {
+        collection.add(currentFeature);
+    }
+
+    public void close() throws IOException {
+        writer.writeFeatureCollection(collection, out);
+        out.close();
+        writer = null;
+
+    }
 
 }

@@ -49,19 +49,20 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import static org.junit.Assert.*;
 
 /**
  * Tests for {@linkplain JCRSChooser}.
  * <p>
- * This test class uses an {@linkplain ExecutorService} to launch the dialog which 
+ * This test class uses an {@linkplain ExecutorService} to launch the dialog which
  * avoids a deadlock between the dialog waiting for a user response and this class
  * waiting for the dialog to show up on the event thread.
- * 
+ *
  * @author Michael Bedward
- * @since 8.0
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 @RunWith(GraphicsTestRunner.class)
 public class JCRSChooserTest extends GraphicsTestBase<Dialog> {
@@ -263,7 +264,7 @@ public class JCRSChooserTest extends GraphicsTestBase<Dialog> {
 
     /**
      * Launches the dialog in a new thread.
-     * 
+     *
      * @return the Future for the dialog task
      */
     private Future<CoordinateReferenceSystem> showDialog() throws Exception {
@@ -272,9 +273,8 @@ public class JCRSChooserTest extends GraphicsTestBase<Dialog> {
 
     /**
      * Launches the dialog in a new thread.
-     * 
+     *
      * @param title custom title (may be {@code null}
-     * 
      * @return the Future for the dialog task
      */
     private Future<CoordinateReferenceSystem> showDialog(final String title) throws Exception {
@@ -289,7 +289,7 @@ public class JCRSChooserTest extends GraphicsTestBase<Dialog> {
                         }
                     }
                 });
-        
+
         assertComponentDisplayed(JCRSChooser.CRSDialog.class);
         windowFixture = listener.getFixture(DISPLAY_TIMEOUT);
         return future;
@@ -297,7 +297,7 @@ public class JCRSChooserTest extends GraphicsTestBase<Dialog> {
 
     /**
      * Randomly chooses a code from the CODES list.
-     * 
+     *
      * @return the selected code
      */
     private String getRandomCode() {
@@ -308,7 +308,7 @@ public class JCRSChooserTest extends GraphicsTestBase<Dialog> {
     /**
      * Retrieves a CRS from the given task future. If the value cannot be retrieved
      * within the set time-out, an assertion error is raised.
-     * 
+     *
      * @param future task future
      * @return the CRS
      */

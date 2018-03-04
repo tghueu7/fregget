@@ -25,21 +25,19 @@ import org.geotools.data.efeature.query.EFeatureEncoderException;
 
 /**
  * @author kengu - 14. juni 2011
- *
- *
  * @source $URL$
  */
 public class EAttributeValueIsBetweenTest extends AbstractEAttributeValueTest {
-    
+
     // ----------------------------------------------------- 
     //  Constructors
     // -----------------------------------------------------
-    
+
     /**
      * @param name
      */
     public EAttributeValueIsBetweenTest(String name) {
-        super(name,BETWEEN);
+        super(name, BETWEEN);
     }
 
     // ----------------------------------------------------- 
@@ -51,12 +49,12 @@ public class EAttributeValueIsBetweenTest extends AbstractEAttributeValueTest {
         //
         // Get iterator
         //
-        Iterator<?> it = ((Collection<?>)filter).iterator();
+        Iterator<?> it = ((Collection<?>) filter).iterator();
         //
         // Get lower and upper values
         //
         Object lower = it.next();
-        Object upper = it.next();        
+        Object upper = it.next();
         //
         // Create condition
         //

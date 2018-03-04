@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.referencing.operation;
@@ -14,11 +14,9 @@ package org.opengis.referencing.operation;
  * Thrown when an operation is applied in a manner inconsistent with one or both of
  * two particular CRS objects.
  *
- * @author  Jesse Crossley (SYS Technologies)
- * @since   GeoAPI 1.0
- *
- *
+ * @author Jesse Crossley (SYS Technologies)
  * @source $URL$
+ * @since GeoAPI 1.0
  */
 public class IncompatibleOperationException extends Exception {
     /**
@@ -34,9 +32,9 @@ public class IncompatibleOperationException extends Exception {
     /**
      * Creates an exception with the specified message and operation name.
      *
-     * @param  message The detail message. The detail message is saved for
-     *         later retrieval by the {@link #getMessage()} method.
-     * @param  operationName The invalid operation name.
+     * @param message       The detail message. The detail message is saved for
+     *                      later retrieval by the {@link #getMessage()} method.
+     * @param operationName The invalid operation name.
      */
     public IncompatibleOperationException(String message, String operationName) {
         super(message);

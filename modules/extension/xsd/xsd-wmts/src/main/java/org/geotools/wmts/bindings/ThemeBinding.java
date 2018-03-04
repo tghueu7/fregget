@@ -1,6 +1,7 @@
 package org.geotools.wmts.bindings;
 
 import java.net.URI;
+
 import org.geotools.wmts.WMTS;
 import org.geotools.xml.*;
 import org.geotools.xml.AbstractComplexBinding;
@@ -13,11 +14,12 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/wmts/1.0:Theme.
- *
+ * <p>
  * <p>
  * <pre>
  * <code>
- *  &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;element name="Theme" xmlns="http://www.w3.org/2001/XMLSchema"&gt;
+ *  &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;element name="Theme" xmlns="http://www
+ *  .w3.org/2001/XMLSchema"&gt;
  *  		&lt;complexType&gt;
  *  			&lt;complexContent&gt;
  *  				&lt;extension base="ows:DescriptionType"&gt;
@@ -36,7 +38,8 @@ import javax.xml.namespace.QName;
  *  								&lt;/documentation&gt;
  *  							&lt;/annotation&gt;
  *  						&lt;/element&gt;
- *  						&lt;element maxOccurs="unbounded" minOccurs="0" name="LayerRef" type="anyURI"&gt;
+ *  						&lt;element maxOccurs="unbounded" minOccurs="0" name="LayerRef" 
+ *  						type="anyURI"&gt;
  *  							&lt;annotation&gt;
  *  								&lt;documentation&gt;Reference to layer&lt;/documentation&gt;
  *  							&lt;/annotation&gt;
@@ -53,8 +56,7 @@ import javax.xml.namespace.QName;
  *
  * @generated
  */
-public class ThemeBinding extends AbstractComplexBinding
-{
+public class ThemeBinding extends AbstractComplexBinding {
 
     wmtsv_1Factory factory;
 

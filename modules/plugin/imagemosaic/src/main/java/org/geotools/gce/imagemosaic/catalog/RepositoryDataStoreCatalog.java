@@ -47,7 +47,7 @@ public class RepositoryDataStoreCatalog extends AbstractGTDataStoreGranuleCatalo
     private Name storeName;
 
     public RepositoryDataStoreCatalog(Properties params, boolean create, Repository repository,
-            String dataStoreName, DataStoreFactorySpi spi, Hints hints) {
+                                      String dataStoreName, DataStoreFactorySpi spi, Hints hints) {
         super(params, create, spi, hints);
         Utilities.ensureNonNull("repository", repository);
         Utilities.ensureNonNull("dataStoreName", repository);

@@ -36,7 +36,7 @@ public class CookbookPointTranslationTest extends AbstractIntegrationTest {
         File root = new File("./src/test/resources/css/cookbook/point");
         for (File file : root.listFiles()) {
             if (file.getName().endsWith(".css")) {
-                result.add(new Object[] { file.getName(), file });
+                result.add(new Object[]{file.getName(), file});
             }
         }
 

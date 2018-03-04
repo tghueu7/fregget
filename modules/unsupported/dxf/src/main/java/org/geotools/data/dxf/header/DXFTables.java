@@ -16,8 +16,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DXFTables implements DXFConstants {
@@ -35,7 +33,8 @@ public class DXFTables implements DXFConstants {
         this.theLineTypes = sLineTypes;
     }
 
-    public static DXFTables readTables(DXFLineNumberReader br, DXFUnivers univers) throws IOException {
+    public static DXFTables readTables(DXFLineNumberReader br, DXFUnivers univers) throws 
+            IOException {
         Vector<DXFLayer> sLayers = new Vector<DXFLayer>();
         Vector<DXFLineType> sLineTypes = new Vector<DXFLineType>();
 
@@ -76,7 +75,9 @@ public class DXFTables implements DXFConstants {
         return e;
     }
 
-    public static void readTable(DXFLineNumberReader br, Vector<DXFLayer> sLayers, Vector<DXFLineType> sLineTypes, DXFUnivers univers) throws IOException {
+    public static void readTable(DXFLineNumberReader br, Vector<DXFLayer> sLayers, 
+                                 Vector<DXFLineType> sLineTypes, DXFUnivers univers) throws 
+            IOException {
 
         int sln = br.getLineNumber();
         log.debug(">>Enter at line: " + sln);

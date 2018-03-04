@@ -33,19 +33,17 @@ import freemarker.template.Template;
 /**
  * An interface to allow plugging different strategy objects into a {@link XmlDataStore} to take
  * care of specific WS implementations limitations or deviations from the spec.
- * 
+ *
  * @author rpetty
  * @version $Id$
- * @since 2.6
- *
- *
- *
  * @source $URL$
- *         http://gtsvn.refractions.net/trunk/modules/unsupported/app-schema/webservice/src/main/java/org/geotools/data
- *         /wfs/v1_1_0/WSStrategy.java $
+ * http://gtsvn.refractions.net/trunk/modules/unsupported/app-schema/webservice/src/main/java/org
+ * /geotools/data
+ * /wfs/v1_1_0/WSStrategy.java $
  * @see WSDataStoreFactory
  * @see DefaultWSStrategy
  * @see CubeWerxStrategy
+ * @since 2.6
  */
 public interface WSStrategy {
 
@@ -56,7 +54,7 @@ public interface WSStrategy {
      * Note: most of the time it will just be {@link WFSConfiguration}, but it may be possible, for
      * example, an strategy needs to override some bindings.
      * </p>
-     * 
+     *
      * @return a WFS xml {@link Configuration}
      */
     public Configuration getWsConfiguration();
@@ -64,6 +62,6 @@ public interface WSStrategy {
     public Filter[] splitFilters(Capabilities filterCaps, Filter filter);
 
     public Template getTemplate();
-    
+
     public Map getRequestData(Query query) throws IOException;
 }

@@ -36,17 +36,13 @@ import java.util.Set;
  *
  * @param <B> The type of elements in the backing set.
  * @param <E> The type of elements in this set.
- *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.0
  */
-public abstract class DerivedSet<B,E> extends AbstractSet<E>
-        implements CheckedCollection<E>, Serializable
-{
+public abstract class DerivedSet<B, E> extends AbstractSet<E>
+        implements CheckedCollection<E>, Serializable {
     /**
      * Serial number for interoperability with different versions.
      */
@@ -69,8 +65,7 @@ public abstract class DerivedSet<B,E> extends AbstractSet<E>
      * Creates a new derived set from the specified base set.
      *
      * @param base The base set.
-     *
-     * @deprecated Use {@link #DerivedSet(Set,Class)} instead.
+     * @deprecated Use {@link #DerivedSet(Set, Class)} instead.
      */
     @SuppressWarnings("unchecked")
     public DerivedSet(final Set<B> base) {
@@ -80,13 +75,12 @@ public abstract class DerivedSet<B,E> extends AbstractSet<E>
     /**
      * Creates a new derived set from the specified base set.
      *
-     * @param base The base set.
+     * @param base        The base set.
      * @param derivedType The type of elements in this derived set.
-     *
      * @since 2.5
      */
     public DerivedSet(final Set<B> base, final Class<E> derivedType) {
-        this.base        = base;
+        this.base = base;
         this.derivedType = derivedType;
     }
 
@@ -104,16 +98,16 @@ public abstract class DerivedSet<B,E> extends AbstractSet<E>
      * If there is no mapping in the derived set for the specified element,
      * then this method returns {@code null}.
      *
-     * @param  element A value in the {@linkplain #base} set.
+     * @param element A value in the {@linkplain #base} set.
      * @return The value that this view should contains instead of {@code element},
-     *         or {@code null}.
+     * or {@code null}.
      */
     protected abstract E baseToDerived(final B element);
 
     /**
      * Transforms a value in this set to a value in the {@linkplain #base} set.
      *
-     * @param  element A value in this set.
+     * @param element A value in this set.
      * @return The value stored in the {@linkplain #base} set.
      */
     protected abstract B derivedToBase(final E element);
@@ -136,7 +130,7 @@ public abstract class DerivedSet<B,E> extends AbstractSet<E>
      */
     public int size() {
         int count = 0;
-        for (final Iterator it=iterator(); it.hasNext();) {
+        for (final Iterator it = iterator(); it.hasNext(); ) {
             it.next();
             count++;
         }
@@ -158,7 +152,7 @@ public abstract class DerivedSet<B,E> extends AbstractSet<E>
      * The default implementation invokes
      * <code>{@linkplain #base}.contains({@linkplain #derivedToBase derivedToBase}(element))</code>.
      *
-     * @param  element object to be checked for containment in this set.
+     * @param element object to be checked for containment in this set.
      * @return {@code true} if this set contains the specified element.
      */
     @Override
@@ -175,10 +169,10 @@ public abstract class DerivedSet<B,E> extends AbstractSet<E>
      * The default implementation invokes
      * <code>{@linkplain #base}.add({@linkplain #derivedToBase derivedToBase}(element))</code>.
      *
-     * @param  element element whose presence in this set is to be ensured.
+     * @param element element whose presence in this set is to be ensured.
      * @return {@code true} if the set changed as a result of the call.
      * @throws UnsupportedOperationException if the {@linkplain #base} set doesn't
-     *         supports the {@code add} operation.
+     *                                       supports the {@code add} operation.
      */
     @Override
     public boolean add(final E element) throws UnsupportedOperationException {
@@ -190,10 +184,10 @@ public abstract class DerivedSet<B,E> extends AbstractSet<E>
      * The default implementation invokes
      * <code>{@linkplain #base}.remove({@linkplain #derivedToBase derivedToBase}(element))</code>.
      *
-     * @param  element element to be removed from this set, if present.
+     * @param element element to be removed from this set, if present.
      * @return {@code true} if the set contained the specified element.
      * @throws UnsupportedOperationException if the {@linkplain #base} set doesn't
-     *         supports the {@code remove} operation.
+     *                                       supports the {@code remove} operation.
      */
     @Override
     public boolean remove(final Object element) throws UnsupportedOperationException {
@@ -254,7 +248,7 @@ public abstract class DerivedSet<B,E> extends AbstractSet<E>
          * Removes from the underlying set the last element returned by the iterator.
          *
          * @throws UnsupportedOperationException if the {@linkplain #base} set doesn't
-         *         supports the {@code remove} operation.
+         *                                       supports the {@code remove} operation.
          */
         public void remove() {
             iterator.remove();

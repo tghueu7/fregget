@@ -13,7 +13,7 @@
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
- *    
+ *
  */
 package org.geotools.mbstyle.layer;
 
@@ -40,7 +40,7 @@ import java.util.*;
  * MBLayer wrapper for "Fill" layers.
  * <p>
  * Example of line JSON:
- *
+ * <p>
  * <pre>
  *      {   "type": "line",
  *          "source": "http://localhost:8080/geoserver/ne/roads",
@@ -53,13 +53,14 @@ import java.util.*;
  *              "fill-outline-color": "#000000",
  *              "fill-translate": [0,0],
  *              "fill-translate-anchor": "map",
- *              "fill-pattern": "triangle" // Name of image in sprite to use for drawing image fills. For seamless patterns, image width and height must be a factor of two (2, 4, 8, ..., 512).
+ *              "fill-pattern": "triangle" // Name of image in sprite to use for drawing image 
+ *              fills. For seamless patterns, image width and height must be a factor of two (2, 
+ *              4, 8, ..., 512).
  *          },
  *      },
  * </pre>
  *
  * @author Reggie Beckwith (Boundless)
- *
  */
 public class FillMBLayer extends MBLayer {
 
@@ -73,18 +74,23 @@ public class FillMBLayer extends MBLayer {
      * Controls the translation reference point.
      */
     public static enum FillTranslateAnchor {
-        /** The fill is translated relative to the map. */
+        /**
+         * The fill is translated relative to the map.
+         */
         MAP,
-        /** The fill is translated relative to the viewport. */
+        /**
+         * The fill is translated relative to the viewport.
+         */
         VIEWPORT
     }
 
     public FillMBLayer(JSONObject json) {
-        super(json,new MBObjectParser(FillMBLayer.class));
+        super(json, new MBObjectParser(FillMBLayer.class));
 
         paint = paint();
         layout = layout();
     }
+
     @Override
     protected SemanticType defaultSemanticType() {
         return SemanticType.POLYGON;
@@ -92,7 +98,7 @@ public class FillMBLayer extends MBLayer {
 
     /**
      * (Optional) Whether or not the fill should be antialiased.
-     * 
+     * <p>
      * Defaults to true.
      *
      * @return Whether the fill should be antialiased.
@@ -102,61 +108,65 @@ public class FillMBLayer extends MBLayer {
     }
 
     /**
-     * (Optional) The opacity of the entire fill layer. In contrast to the fill-color, this value will also affect the
+     * (Optional) The opacity of the entire fill layer. In contrast to the fill-color, this value
+     * will also affect the
      * 1px stroke around the fill, if the stroke is used.
-     * 
+     * <p>
      * Defaults to 1.
      *
      * @return The opacity of the layer.
      * @throws MBFormatException
      */
     public Number getFillOpacity() throws MBFormatException {
-        return parse.optional(Double.class, paint, "fill-opacity", 1.0 );
+        return parse.optional(Double.class, paint, "fill-opacity", 1.0);
     }
-    
+
     /**
      * Access fill-opacity, defaults to 1.
-     * 
+     *
      * @return The opacity of the layer.
      * @throws MBFormatException
      */
     public Expression fillOpacity() throws MBFormatException {
-        return parse.percentage( paint, "fill-opacity", 1 );
+        return parse.percentage(paint, "fill-opacity", 1);
     }
 
     /**
-     * (Optional). The color of the filled part of this layer. This color can be specified as rgba with an alpha
-     * component and the color's opacity will not affect the opacity of the 1px stroke, if it is used.
-     * 
+     * (Optional). The color of the filled part of this layer. This color can be specified as 
+     * rgba with an alpha
+     * component and the color's opacity will not affect the opacity of the 1px stroke, if it is 
+     * used.
+     * <p>
      * Colors are written as JSON strings in a variety of permitted formats.
-     * 
+     * <p>
      * Defaults to #000000. Disabled by fill-pattern.
      *
      * @return The fill color.
      */
-    public Color getFillColor(){        
+    public Color getFillColor() {
         return parse.convertToColor(parse.optional(String.class, paint, "fill-color", "#000000"));
     }
-    
+
     /**
      * Access fill-color as literal or function expression, defaults to black.
      *
      * @return The fill color.
      */
-    public Expression fillColor() {      
+    public Expression fillColor() {
         return parse.color(paint, "fill-color", Color.BLACK);
     }
 
     /**
      * (Optional). Requires fill-antialias = true. The outline color of the fill.
-     * 
+     * <p>
      * Matches the value of fill-color if unspecified. Disabled by fill-pattern.
      *
      * @return The outline color of the fill.
      */
-    public Color getFillOutlineColor(){
+    public Color getFillOutlineColor() {
         if (paint.get("fill-outline-color") != null) {
-            return parse.convertToColor(parse.optional(String.class, paint, "fill-outline-color", "#000000"));
+            return parse.convertToColor(parse.optional(String.class, paint, "fill-outline-color",
+                    "#000000"));
         } else {
             return getFillColor();
         }
@@ -181,8 +191,8 @@ public class FillMBLayer extends MBLayer {
      *
      * @return The geometry's offset
      */
-    public int[] getFillTranslate(){
-        return parse.array( paint, "fill-translate", new int[]{ 0, 0 } );
+    public int[] getFillTranslate() {
+        return parse.array(paint, "fill-translate", new int[]{0, 0});
     }
 
     /**
@@ -202,24 +212,28 @@ public class FillMBLayer extends MBLayer {
      * <pre>
      * filter-translate: [0,0]
      * filter-translate: { property: "building-height", "stops": [[0,[0,0]],[5,[1,2]]] }
-     * filter-translate: [ 0, { property: "building-height", "TYPE":"exponential","stops": [[0,0],[30, 5]] }
+     * filter-translate: [ 0, { property: "building-height", "TYPE":"exponential","stops": [[0,
+     * 0],[30, 5]] }
      * </pre>
+     *
      * @return The geometry displacement
      */
     public Displacement fillTranslateDisplacement() {
-        return parse.displacement(paint, "fill-translate", sf.displacement(ff.literal(0), ff.literal(0)));
+        return parse.displacement(paint, "fill-translate", sf.displacement(ff.literal(0), ff
+                .literal(0)));
     }
-    
+
     /**
      * (Optional) Controls the translation reference point.
-     * 
+     * <p>
      * <ul>
      * <li>{@link FillTranslateAnchor#MAP}: The fill is translated relative to the map.</li>
-     * <li>{@link FillTranslateAnchor#VIEWPORT}: The fill is translated relative to the viewport.</li>
+     * <li>{@link FillTranslateAnchor#VIEWPORT}: The fill is translated relative to the viewport
+     * .</li>
      * </ul>
-     * 
+     * <p>
      * Requires fill-translate.
-     * 
+     *
      * @return One of 'map','viewport', defaults to 'map'.
      */
     public FillTranslateAnchor getFillTranslateAnchor() {
@@ -232,7 +246,8 @@ public class FillMBLayer extends MBLayer {
     }
 
     /**
-     * (Optional) Name of image in a sprite to use for drawing image fills. For seamless patterns, image width and
+     * (Optional) Name of image in a sprite to use for drawing image fills. For seamless 
+     * patterns, image width and
      * height must be a factor of two (2, 4, 8, ..., 512).
      *
      * @return name of the sprite for the fill pattern, or null if not defined.
@@ -240,9 +255,8 @@ public class FillMBLayer extends MBLayer {
     public Expression fillPattern() {
         return parse.string(paint, "fill-pattern", null);
     }
-    
+
     /**
-     * 
      * @return True if the layer has a fill-pattern explicitly provided.
      */
     public boolean hasFillPattern() {
@@ -256,7 +270,9 @@ public class FillMBLayer extends MBLayer {
      * <ul>
      * <li>stroke-width is assumed to be 1 (not specified by MapBox style)
      * </ul>
-     * @param styleContext The MBStyle to which this layer belongs, used as a context for things like resolving sprite and glyph names to full urls.
+     *
+     * @param styleContext The MBStyle to which this layer belongs, used as a context for things 
+     *                     like resolving sprite and glyph names to full urls.
      * @return FeatureTypeStyle
      */
     public List<FeatureTypeStyle> transformInternal(MBStyle styleContext) {
@@ -288,8 +304,10 @@ public class FillMBLayer extends MBLayer {
                 }
             }
 
-            ExternalGraphic eg = transformer.createExternalGraphicForSprite(fillPatternExpr, styleContext);
-            GraphicFill gf = sf.graphicFill(Arrays.asList(eg), fillOpacity(), null, null, null, fillTranslateDisplacement());
+            ExternalGraphic eg = transformer.createExternalGraphicForSprite(fillPatternExpr, 
+                    styleContext);
+            GraphicFill gf = sf.graphicFill(Arrays.asList(eg), fillOpacity(), null, null, null, 
+                    fillTranslateDisplacement());
             stroke.setOpacity(ff.literal(0));
             fill = sf.fill(gf, null, null);
         } else {
@@ -298,8 +316,8 @@ public class FillMBLayer extends MBLayer {
 
         symbolizer = sf.polygonSymbolizer(
                 getId(),
-                ff.property((String)null),
-                sf.description(Text.text("fill"),null),
+                ff.property((String) null),
+                sf.description(Text.text("fill"), null),
                 NonSI.PIXEL,
                 stroke,
                 fill,
@@ -307,7 +325,7 @@ public class FillMBLayer extends MBLayer {
                 ff.literal(0));
 
         MBFilter filter = getFilter();
-        
+
         Rule rule = sf.rule(
                 getId(),
                 null,
@@ -318,14 +336,15 @@ public class FillMBLayer extends MBLayer {
                 filter.filter());
 
         // Set legend graphic to null.
-        //How do other style transformers set a null legend? SLD/SE difference - fix setLegend(null) to empty list.
+        //How do other style transformers set a null legend? SLD/SE difference - fix setLegend
+        // (null) to empty list.
         rule.setLegendGraphic(new Graphic[0]);
 
         return Collections.singletonList(sf.featureTypeStyle(
                 getId(),
                 sf.description(
-                        Text.text("MBStyle "+getId()),
-                        Text.text("Generated for "+getSourceLayer())),
+                        Text.text("MBStyle " + getId()),
+                        Text.text("Generated for " + getSourceLayer())),
                 null, // (unused)
                 Collections.emptySet(),
                 filter.semanticTypeIdentifiers(),

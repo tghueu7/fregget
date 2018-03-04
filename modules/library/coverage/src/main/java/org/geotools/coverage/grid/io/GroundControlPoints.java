@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -24,9 +24,8 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  * Image ground control points, as a list of {@link TiePoint} and their CRS
- * 
- * @author Andrea Aime - GeoSolutions
  *
+ * @author Andrea Aime - GeoSolutions
  */
 public class GroundControlPoints {
     List<TiePoint> tiePoints;
@@ -41,7 +40,7 @@ public class GroundControlPoints {
 
     /**
      * The tie points
-     * 
+     *
      * @return the tiePoints
      */
     public List<TiePoint> getTiePoints() {
@@ -50,7 +49,7 @@ public class GroundControlPoints {
 
     /**
      * The tie points coordinate reference system
-     * 
+     *
      * @return the crs
      */
     public CoordinateReferenceSystem getCoordinateReferenceSystem() {
@@ -59,7 +58,7 @@ public class GroundControlPoints {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override

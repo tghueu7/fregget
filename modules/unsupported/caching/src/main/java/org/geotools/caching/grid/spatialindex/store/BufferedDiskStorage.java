@@ -34,42 +34,40 @@ import org.opengis.feature.type.FeatureType;
 
 /**
  * Disk storage that buffers read/writes of nodes.
- * 
+ * <p>
  * <p>To ensure all data has been written flush() should be called.</p>
- * 
- *
- *
- *
- *
  *
  * @source $URL$
  */
 public class BufferedDiskStorage implements Storage {
     public final static String BUFFER_SIZE_PROPERTY = "BufferedDiskStorage.BufferSize";
-    protected static Logger logger = org.geotools.util.logging.Logging.getLogger("org.geotools.caching.spatialindex.store");
-    
-    private DiskStorage storage;			//underlying disk storage
-    private Map<NodeIdentifier, Node> buffer;	//buffer
-    private Set<Node> dirtyNodes;			//dirty nodes that need to be flushed to disk
+    protected static Logger logger = org.geotools.util.logging.Logging.getLogger("org.geotools" +
+            ".caching.spatialindex.store");
+
+    private DiskStorage storage;            //underlying disk storage
+    private Map<NodeIdentifier, Node> buffer;    //buffer
+    private Set<Node> dirtyNodes;            //dirty nodes that need to be flushed to disk
 
     private int buffer_size;
 
     /**
      * Creates a new buffer with the given size.
+     *
      * @param buffersize
      */
-    private BufferedDiskStorage( int buffersize ) {
+    private BufferedDiskStorage(int buffersize) {
         this.buffer_size = buffersize;
-        buffer = Collections.synchronizedMap(new LinkedHashMap<NodeIdentifier, Node>(buffer_size, .75f, true));
+        buffer = Collections.synchronizedMap(new LinkedHashMap<NodeIdentifier, Node>(buffer_size,
+                .75f, true));
         dirtyNodes = Collections.synchronizedSet(new HashSet<Node>());
     }
 
-    public static Storage createInstance( Properties pset ) {
+    public static Storage createInstance(Properties pset) {
         try {
             int buffer_size = Integer.parseInt(pset.getProperty(BUFFER_SIZE_PROPERTY));
             BufferedDiskStorage instance = new BufferedDiskStorage(buffer_size);
             instance.storage = (DiskStorage) DiskStorage.createInstance(pset);
-            
+
             return instance;
         } catch (NullPointerException e) {
             throw new IllegalArgumentException("BufferedDiskStorage : invalid property set.", e);
@@ -87,10 +85,10 @@ public class BufferedDiskStorage implements Storage {
      * Clears the buffer
      */
     public void clear() {
-    	dirtyNodes.clear();
-        buffer.clear();    
+        dirtyNodes.clear();
+        buffer.clear();
         storage.clear();
-        
+
     }
 
     /**
@@ -105,7 +103,7 @@ public class BufferedDiskStorage implements Storage {
      * <p>First looks in buffer; if not found will
      * look in the underlying storage</p>
      */
-    public Node get( NodeIdentifier id ) {
+    public Node get(NodeIdentifier id) {
         Node ret = buffer.get(id);
         if (ret == null) {
             ret = storage.get(id);
@@ -118,9 +116,10 @@ public class BufferedDiskStorage implements Storage {
 
     /**
      * Adds a node to the storage.
+     *
      * @param entry
      */
-    private void putNode( Node entry ) {
+    private void putNode(Node entry) {
         if (entry != null) {
             if (buffer.size() == buffer_size) {
                 synchronized (buffer) {
@@ -138,7 +137,7 @@ public class BufferedDiskStorage implements Storage {
     /**
      * Adds a node to the storage.
      */
-    public void put( Node n ) {
+    public void put(Node n) {
         if (buffer.containsKey(n.getIdentifier())) {
             dirtyNodes.add(n);
         } else {
@@ -150,9 +149,9 @@ public class BufferedDiskStorage implements Storage {
     /**
      * Removes a node from the storage.
      */
-    public void remove( NodeIdentifier id ) {
+    public void remove(NodeIdentifier id) {
         if (buffer.containsKey(id)) {
-            buffer.remove(id);    
+            buffer.remove(id);
         } else {
             storage.remove(id);
         }
@@ -167,13 +166,13 @@ public class BufferedDiskStorage implements Storage {
         pset.setProperty(BUFFER_SIZE_PROPERTY, new Integer(buffer_size).toString());
         return pset;
     }
-    
+
     /**
      * Writes all dirty nodes to underlying disk storage.
      */
     public void flush() {
         synchronized (dirtyNodes) {
-            for( Iterator<Node> it = dirtyNodes.iterator(); it.hasNext(); ) {
+            for (Iterator<Node> it = dirtyNodes.iterator(); it.hasNext(); ) {
                 Node entry = it.next();
                 storage.put(entry);
             }
@@ -185,17 +184,18 @@ public class BufferedDiskStorage implements Storage {
     /**
      * Finds the unique node identifier
      */
-    public NodeIdentifier findUniqueInstance( NodeIdentifier id ) {
+    public NodeIdentifier findUniqueInstance(NodeIdentifier id) {
         if (buffer.containsKey(id)) {
             return buffer.get(id).getIdentifier();
         } else {
             return storage.findUniqueInstance(id);
         }
     }
+
     /**
      * Adds a feature type to the storage
      */
-    public void addFeatureType( FeatureType ft ) {
+    public void addFeatureType(FeatureType ft) {
         this.storage.addFeatureType(ft);
     }
 
@@ -223,7 +223,7 @@ public class BufferedDiskStorage implements Storage {
     /**
      * Sets the bounds of the data store.
      */
-    public void setBounds( ReferencedEnvelope bounds ) {
+    public void setBounds(ReferencedEnvelope bounds) {
         this.storage.setBounds(bounds);
     }
 }

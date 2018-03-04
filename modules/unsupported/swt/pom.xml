@@ -8,8 +8,8 @@
         Version: $Id: pom.xml 33582 2009-07-17 04:40:35Z mbedward $
      ======================================================================= -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                                http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -19,16 +19,16 @@
         <version>20-SNAPSHOT</version>
     </parent>
 
-  <!-- =========================================================== -->
-  <!--     Module Description                                      -->
-  <!-- =========================================================== -->
+    <!-- =========================================================== -->
+    <!--     Module Description                                      -->
+    <!-- =========================================================== -->
     <groupId>org.geotools</groupId>
     <artifactId>gt-swt</artifactId>
     <packaging>jar</packaging>
     <name>SWT widgets</name>
 
     <description>
-    Provides widgets for map display and other GUI elements
+        Provides widgets for map display and other GUI elements
     </description>
 
     <licenses>
@@ -40,9 +40,9 @@
     </licenses>
 
 
-  <!-- =========================================================== -->
-  <!--     Developers and Contributors                             -->
-  <!-- =========================================================== -->
+    <!-- =========================================================== -->
+    <!--     Developers and Contributors                             -->
+    <!-- =========================================================== -->
     <developers>
         <developer>
             <name>Andrea Antonello</name>
@@ -76,53 +76,53 @@
             <artifactId>gt-render</artifactId>
             <version>${project.version}</version>
         </dependency>
-            <dependency>
-        <groupId>org.geotools</groupId>
-        <artifactId>gt-epsg-hsql</artifactId>
-        <version>${project.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.geotools</groupId>
-        <artifactId>gt-coverage</artifactId>
-        <version>${project.version}</version>
-    </dependency>
-            
-	<!-- ECLIPSE JARS -->
-    <dependency>
-                <groupId>org.eclipse</groupId>
-                <artifactId>core.commands</artifactId>
-                <version>3.6.0.I20100512-1500</version>
-    </dependency>
-    <dependency>
-                <groupId>org.eclipse</groupId>
-                <artifactId>jface</artifactId>
-                <version>3.6.1.M20100825-0800</version>
-    </dependency>
-    <dependency>
-                <groupId>org.eclipse</groupId>
-                <artifactId>ui.workbench</artifactId>
-                <version>3.6.1.M20100826-1330</version>
-    </dependency>
-    <dependency>
-                <groupId>org.eclipse</groupId>
-                <artifactId>core.runtime</artifactId>
-                <version>3.6.0.v20100505</version>
-    </dependency>
-    <dependency>
-                <groupId>org.eclipse</groupId>
-                <artifactId>swt.gtk.linux.x86</artifactId>
-                <version>3.6.1.v3655c</version>
-    </dependency>
-    <dependency>
-                <groupId>org.eclipse</groupId>
-                <artifactId>equinox.common</artifactId>
-                <version>3.6.0.v20100503</version>
-    </dependency>
-    <dependency>
-                <groupId>org.eclipse</groupId>
-                <artifactId>swt.win32.win32.x86_64</artifactId>
-                <version>3.6.1.v3655c</version>
-    </dependency>
+        <dependency>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-epsg-hsql</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-coverage</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- ECLIPSE JARS -->
+        <dependency>
+            <groupId>org.eclipse</groupId>
+            <artifactId>core.commands</artifactId>
+            <version>3.6.0.I20100512-1500</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse</groupId>
+            <artifactId>jface</artifactId>
+            <version>3.6.1.M20100825-0800</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse</groupId>
+            <artifactId>ui.workbench</artifactId>
+            <version>3.6.1.M20100826-1330</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse</groupId>
+            <artifactId>core.runtime</artifactId>
+            <version>3.6.0.v20100505</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse</groupId>
+            <artifactId>swt.gtk.linux.x86</artifactId>
+            <version>3.6.1.v3655c</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse</groupId>
+            <artifactId>equinox.common</artifactId>
+            <version>3.6.0.v20100503</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse</groupId>
+            <artifactId>swt.win32.win32.x86_64</artifactId>
+            <version>3.6.1.v3655c</version>
+        </dependency>
 
     </dependencies>
 </project>

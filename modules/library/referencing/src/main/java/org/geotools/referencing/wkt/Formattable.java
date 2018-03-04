@@ -31,25 +31,26 @@ import org.geotools.resources.i18n.ErrorKeys;
 
 /**
  * Base class for all object formattable as
- * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
+ * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT
+ * .html"><cite>Well
  * Known Text</cite> (WKT)</A>.
  *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
- * @see <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html">Well Know Text specification</A>
- * @see <A HREF="http://gdal.velocet.ca/~warmerda/wktproblems.html">OGC WKT Coordinate System Issues</A>
+ * @version $Id$
+ * @source $URL$
+ * @see <A HREF="http://geoapi.sourceforge
+ * .net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html">Well Know Text 
+ * specification</A>
+ * @see <A HREF="http://gdal.velocet.ca/~warmerda/wktproblems.html">OGC WKT Coordinate System 
+ * Issues</A>
+ * @since 2.0
  */
 public class Formattable {
     /**
      * The "Indentation" preference name.
      *
      * @todo this string is also hard-coded in AffineTransform2D, because we
-     *       don't want to make it public (neither {@link #getIndentation}).
+     * don't want to make it public (neither {@link #getIndentation}).
      */
     static final String INDENTATION = "Indentation";
 
@@ -76,11 +77,13 @@ public class Formattable {
      * Returns a string representation for this object. The default implementation returns
      * the same string similar than {@link #toWKT()}, except that no exception is thrown if
      * the string contains non-standard keywords. For example the
-     * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html">WKT
+     * <A HREF="http://geoapi.sourceforge
+     * .net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html">WKT
      * specification</A> do not defines any keyword for
      * {@linkplain org.opengis.referencing.cs.CoordinateSystem coordinate system} objects. If this
      * object is an instance of {@link org.geotools.referencing.cs.DefaultCartesianCS}, then the
-     * WKT will be formatted as <code>"CartesianCS[AXIS["</code>...<code>"], AXIS["</code>...<code>"],
+     * WKT will be formatted as <code>"CartesianCS[AXIS["</code>...<code>"], 
+     * AXIS["</code>...<code>"],
      * </code><i>etc.</i><code>]"</code>.
      */
     @Override
@@ -90,16 +93,20 @@ public class Formattable {
 
     /**
      * Returns a
-     * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
+     * <A HREF="http://geoapi.sourceforge
+     * .net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
      * Known Text</cite> (WKT)</A> using a default indentation. The default indentation is read from
      * {@linkplain Preferences user preferences}.
      *
      * @return The Well Know Text for this object.
      * @throws UnformattableObjectException If this object can't be formatted as WKT.
-     *         A formatting may fails because an object is too complex for the WKT format capability
-     *         (for example an {@linkplain org.geotools.referencing.crs.DefaultEngineeringCRS
-     *         engineering CRS} with different unit for each axis), or because only some specific
-     *         implementations can be formatted as WKT.
+     *                                      A formatting may fails because an object is too 
+     *                                      complex for the WKT format capability
+     *                                      (for example an {@linkplain org.geotools.referencing
+     *                                      .crs.DefaultEngineeringCRS
+     *                                      engineering CRS} with different unit for each axis), 
+     *                                      or because only some specific
+     *                                      implementations can be formatted as WKT.
      */
     public String toWKT() throws UnformattableObjectException {
         return toWKT(getIndentation());
@@ -107,17 +114,21 @@ public class Formattable {
 
     /**
      * Returns a
-     * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
+     * <A HREF="http://geoapi.sourceforge
+     * .net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
      * Known Text</cite> (WKT)</A> for this object using the specified indentation.
      *
-     * @param  indentation The amount of spaces to use in indentation for WKT formatting,
-     *         or {@link #SINGLE_LINE} for formatting the whole WKT on a single line.
+     * @param indentation The amount of spaces to use in indentation for WKT formatting,
+     *                    or {@link #SINGLE_LINE} for formatting the whole WKT on a single line.
      * @return The Well Know Text for this object.
      * @throws UnformattableObjectException If this object can't be formatted as WKT.
-     *         A formatting may fails because an object is too complex for the WKT format capability
-     *         (for example an {@linkplain org.geotools.referencing.crs.DefaultEngineeringCRS
-     *         engineering CRS} with different unit for each axis), or because only some specific
-     *         implementations can be formatted as WKT.
+     *                                      A formatting may fails because an object is too 
+     *                                      complex for the WKT format capability
+     *                                      (for example an {@linkplain org.geotools.referencing
+     *                                      .crs.DefaultEngineeringCRS
+     *                                      engineering CRS} with different unit for each axis), 
+     *                                      or because only some specific
+     *                                      implementations can be formatted as WKT.
      */
     public String toWKT(final int indentation) throws UnformattableObjectException {
         return toWKT(Citations.OGC, indentation);
@@ -125,23 +136,27 @@ public class Formattable {
 
     /**
      * Returns a
-     * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
+     * <A HREF="http://geoapi.sourceforge
+     * .net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
      * Known Text</cite> (WKT)</A> for this object using the specified indentation.
      * </p>
-     * The <tt>strict</tt> parameter is used to control whether the resulting WKT is tested for 
+     * The <tt>strict</tt> parameter is used to control whether the resulting WKT is tested for
      * validity. When set to <code>false</code> the check is not performed. When <code>true</code>
      * and the WKT is found to be invalid a {@link UnformattableObjectException} is thrown.
      * <p>
      *
-     * @param  indentation The amount of spaces to use in indentation for WKT formatting,
-     *         or {@link #SINGLE_LINE} for formatting the whole WKT on a single line.
-     * @param  strict Controls the check for validity.
+     * @param indentation The amount of spaces to use in indentation for WKT formatting,
+     *                    or {@link #SINGLE_LINE} for formatting the whole WKT on a single line.
+     * @param strict      Controls the check for validity.
      * @return The Well Know Text for this object.
      * @throws UnformattableObjectException If this object can't be formatted as WKT.
-     *         A formatting may fails because an object is too complex for the WKT format capability
-     *         (for example an {@linkplain org.geotools.referencing.crs.DefaultEngineeringCRS
-     *         engineering CRS} with different unit for each axis), or because only some specific
-     *         implementations can be formatted as WKT.
+     *                                      A formatting may fails because an object is too 
+     *                                      complex for the WKT format capability
+     *                                      (for example an {@linkplain org.geotools.referencing
+     *                                      .crs.DefaultEngineeringCRS
+     *                                      engineering CRS} with different unit for each axis), 
+     *                                      or because only some specific
+     *                                      implementations can be formatted as WKT.
      */
     public String toWKT(final int indentation, boolean strict) throws UnformattableObjectException {
         return toWKT(Citations.OGC, indentation, strict);
@@ -149,22 +164,25 @@ public class Formattable {
 
     /**
      * Returns a
-     * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
+     * <A HREF="http://geoapi.sourceforge
+     * .net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
      * Known Text</cite> (WKT)</A> for this object using the specified indentation and authority.
      *
-     * @param  authority The authority to prefer when choosing WKT entities names.
-     * @param  indentation The amount of spaces to use in indentation for WKT formatting,
-     *         or {@link #SINGLE_LINE} for formatting the whole WKT on a single line.
+     * @param authority   The authority to prefer when choosing WKT entities names.
+     * @param indentation The amount of spaces to use in indentation for WKT formatting,
+     *                    or {@link #SINGLE_LINE} for formatting the whole WKT on a single line.
      * @return The Well Know Text for this object.
      * @throws UnformattableObjectException If this object can't be formatted as WKT.
-     *         A formatting may fails because an object is too complex for the WKT format capability
-     *         (for example an {@linkplain org.geotools.referencing.crs.DefaultEngineeringCRS
-     *         engineering CRS} with different unit for each axis), or because only some specific
-     *         implementations can be formatted as WKT.
+     *                                      A formatting may fails because an object is too 
+     *                                      complex for the WKT format capability
+     *                                      (for example an {@linkplain org.geotools.referencing
+     *                                      .crs.DefaultEngineeringCRS
+     *                                      engineering CRS} with different unit for each axis), 
+     *                                      or because only some specific
+     *                                      implementations can be formatted as WKT.
      */
     public String toWKT(final Citation authority, final int indentation)
-            throws UnformattableObjectException
-    {
+            throws UnformattableObjectException {
         return toWKT(authority, indentation, true);
     }
 
@@ -174,17 +192,15 @@ public class Formattable {
      * invalid keywords.
      */
     private String toWKT(final Citation authority, final int indentation, final boolean strict)
-             throws UnformattableObjectException
-    {
+            throws UnformattableObjectException {
         if (authority == null) {
             throw new IllegalArgumentException(Errors.format(
-                      ErrorKeys.NULL_ARGUMENT_$1, "authority"));
+                    ErrorKeys.NULL_ARGUMENT_$1, "authority"));
         }
         Formatter formatter = FORMATTER.get();
-        if (formatter             == null        ||
-            formatter.indentation != indentation ||
-            formatter.getAuthority()   != authority)
-        {
+        if (formatter == null ||
+                formatter.indentation != indentation ||
+                formatter.getAuthority() != authority) {
             formatter = new Formatter(Symbols.DEFAULT, indentation);
             formatter.setAuthority(authority);
             FORMATTER.set(formatter);
@@ -210,27 +226,27 @@ public class Formattable {
 
     /**
      * Format the inner part of a
-     * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
+     * <A HREF="http://geoapi.sourceforge
+     * .net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
      * Known Text</cite> (WKT)</A> element. This method is automatically invoked by
      * {@link Formatter#append(Formattable)}. Element name and authority code must not be
      * formatted here. For example for a {@code GEOGCS} element
      * ({@link org.geotools.referencing.crs.DefaultGeographicCRS}), the formatter will invokes
      * this method for completing the WKT at the insertion point show below:
-     *
+     * <p>
      * <pre>
      * &nbsp;    GEOGCS["WGS 84", AUTHORITY["EPSG","4326"]]
      * &nbsp;                   |
      * &nbsp;           (insertion point)
      * </pre>
-     *
+     * <p>
      * The default implementation declares that this object produces an invalid WKT.
      * Subclasses must override this method for proper WKT formatting and should
      * <strong>not</strong> invoke {@code super.formatWKT(formatter)} if they can
      * use a valid WKT syntax.
      *
-     * @param  formatter The formatter to use.
+     * @param formatter The formatter to use.
      * @return The name of the WKT element type (e.g. {@code "GEOGCS"}).
-     *
      * @see #toWKT
      * @see #toString
      */
@@ -238,7 +254,7 @@ public class Formattable {
         Class type = getClass();
         formatter.setInvalidWKT(type);
         Class[] interfaces = type.getInterfaces();
-        for (int i=0; i<interfaces.length; i++) {
+        for (int i = 0; i < interfaces.length; i++) {
             final Class candidate = interfaces[i];
             if (candidate.getName().startsWith("org.opengis.referencing.")) {
                 type = candidate;
@@ -264,12 +280,12 @@ public class Formattable {
      * Set the default value for indentation.
      *
      * @throws SecurityException if a security manager is present and
-     *         it denies <code>RuntimePermission("preferences")</code>.
+     *                           it denies <code>RuntimePermission("preferences")</code>.
      */
     static void setIndentation(final int indentation) throws SecurityException {
         Preferences.userNodeForPackage(Formattable.class).putInt(INDENTATION, indentation);
     }
-    
+
     /**
      * Cleans up the thread local set in this thread. They can prevent web applications from
      * proper shutdown

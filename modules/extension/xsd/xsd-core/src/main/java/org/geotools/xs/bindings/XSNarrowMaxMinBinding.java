@@ -17,7 +17,9 @@
 package org.geotools.xs.bindings;
 
 import org.picocontainer.MutablePicoContainer;
+
 import javax.xml.namespace.QName;
+
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
@@ -26,9 +28,9 @@ import org.geotools.xs.XS;
 
 /**
  * Binding object for the type http://www.w3.org/2001/XMLSchema:narrowMaxMin.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xs:complexType name="narrowMaxMin"&gt;
  *      &lt;xs:annotation&gt;
@@ -42,7 +44,8 @@ import org.geotools.xs.XS;
  *                      &lt;xs:element name="simpleType" type="xs:localSimpleType"/&gt;
  *                      &lt;xs:element name="complexType" type="xs:localComplexType"/&gt;
  *                  &lt;/xs:choice&gt;
- *                  &lt;xs:group ref="xs:identityConstraint" minOccurs="0" maxOccurs="unbounded"/&gt;
+ *                  &lt;xs:group ref="xs:identityConstraint" minOccurs="0" 
+ *                  maxOccurs="unbounded"/&gt;
  *              &lt;/xs:sequence&gt;
  *              &lt;xs:attribute name="minOccurs" use="optional" default="1"&gt;
  *                  &lt;xs:simpleType&gt;
@@ -70,9 +73,6 @@ import org.geotools.xs.XS;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class XSNarrowMaxMinBinding extends AbstractComplexBinding {
@@ -119,7 +119,7 @@ public class XSNarrowMaxMinBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //TODO: implement
         return null;
     }

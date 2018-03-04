@@ -34,54 +34,52 @@ import org.opengis.referencing.operation.MathTransform;
 
 /**
  * Mollweide projection
- * 
+ *
+ * @author Andrea Aime
+ * @source $URL$
+ * http://svn.osgeo.org/geotools/branches/2.6.x/modules/library/referencing/src/main/java
+ * /org/geotools/referencing/operation/projection/Mercator.java $
  * @see <A HREF="http://mathworld.wolfram.com/MollweideProjection.html">Mollweide</A>
  * @see <A HREF="http://en.wikipedia.org/wiki/Mollweide_projection">"Mollweide" on Wikipedia</A>
  * @see <A HREF="http://www.remotesensing.org/geotiff/proj_list/mollweide.html">"Mollweide" on
- *      RemoteSensing.org</A>
- * 
+ * RemoteSensing.org</A>
  * @since 2.7.0
- *
- *
- * @source $URL$
- *         http://svn.osgeo.org/geotools/branches/2.6.x/modules/library/referencing/src/main/java
- *         /org/geotools/referencing/operation/projection/Mercator.java $
- * @author Andrea Aime
  */
 public class Mollweide extends MapProjection {
     /**
      * For cross-version compatibility.
      */
     private static final long serialVersionUID = -737778661392950540L;
-    
+
     private static final int MAX_ITER = 10;
     private static final double LOOP_TOL = 1e-7;
-    
+
     double C_x, C_y, C_p;
-    
-    static enum ProjectionMode {Mollweide, WagnerIV, WagnerV};
-    
+
+    static enum ProjectionMode {Mollweide, WagnerIV, WagnerV}
+
+    ;
+
     ParameterDescriptorGroup descriptors;
 
     /**
      * Constructs a new map projection from the supplied parameters.
-     * 
-     * @param parameters
-     *            The parameter values in standard units.
-     * @throws ParameterNotFoundException
-     *             if a mandatory parameter is missing.
+     *
+     * @param parameters The parameter values in standard units.
+     * @throws ParameterNotFoundException if a mandatory parameter is missing.
      */
-    protected Mollweide(ProjectionMode mode, final ParameterDescriptorGroup descriptors, final ParameterValueGroup parameters) throws ParameterNotFoundException {
+    protected Mollweide(ProjectionMode mode, final ParameterDescriptorGroup descriptors, final 
+    ParameterValueGroup parameters) throws ParameterNotFoundException {
         super(parameters, descriptors.descriptors());
         this.descriptors = descriptors;
-        
-        if(mode == ProjectionMode.WagnerV) {
+
+        if (mode == ProjectionMode.WagnerV) {
             C_x = 0.90977;
             C_y = 1.65014;
             C_p = 3.00896;
         } else {
             double p;
-            if(mode == ProjectionMode.Mollweide) {
+            if (mode == ProjectionMode.Mollweide) {
                 p = PI / 2;
             } else {
                 p = PI / 3;
@@ -93,7 +91,7 @@ public class Mollweide extends MapProjection {
             C_y = r / sp;
             C_p = p2 + sin(p2);
         }
-        
+
     }
 
     /**
@@ -112,18 +110,18 @@ public class Mollweide extends MapProjection {
 
         double k = C_p * sin(phi);
         int i = MAX_ITER;
-        for (; i > 0 ; --i) {
+        for (; i > 0; --i) {
             double V = (phi + sin(phi) - k) / (1. + cos(phi));
             phi -= V;
             if (abs(V) < LOOP_TOL)
                 break;
         }
         if (i == 0) {
-            phi = (phi < 0) ? -PI / 2: PI / 2;
+            phi = (phi < 0) ? -PI / 2 : PI / 2;
         } else {
             phi *= 0.5;
         }
-        
+
         if (ptDst == null) {
             ptDst = new Point2D.Double();
         }
@@ -142,7 +140,7 @@ public class Mollweide extends MapProjection {
         double lam = x / (C_x * cos(phi));
         phi += phi;
         phi = aasin((phi + sin(phi)) / C_p);
-        
+
         // the above can occasionaly result in lon out of range, normalize it
         lam = rollLongitude(lam);
 
@@ -153,8 +151,7 @@ public class Mollweide extends MapProjection {
 
         return ptDst;
     }
-    
-    
+
 
     /**
      * Compares the specified object with this map projection for equality.
@@ -185,26 +182,26 @@ public class Mollweide extends MapProjection {
     /**
      * The {@linkplain org.geotools.referencing.operation.MathTransformProvider math transform
      * provider} for the Mollweide projection (not part of the EPSG database).
-     * 
-     * @since 2.7.0
+     *
      * @author Andrea Aime
-     * 
      * @see org.geotools.referencing.operation.DefaultMathTransformFactory
+     * @since 2.7.0
      */
     public static class MollweideProvider extends AbstractProvider {
         /**
          * For cross-version compatibility.
          */
         private static final long serialVersionUID = -2616680275771881688L;
-        
+
 
         /**
          * The parameters group.
          */
         static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(
-                new NamedIdentifier[] { new NamedIdentifier(Citations.GEOTOOLS, "Mollweide"),
-                        new NamedIdentifier(Citations.ESRI, "Mollweide") },
-                new ParameterDescriptor[] { SEMI_MAJOR, SEMI_MINOR, FALSE_EASTING, FALSE_NORTHING, CENTRAL_MERIDIAN });
+                new NamedIdentifier[]{new NamedIdentifier(Citations.GEOTOOLS, "Mollweide"),
+                        new NamedIdentifier(Citations.ESRI, "Mollweide")},
+                new ParameterDescriptor[]{SEMI_MAJOR, SEMI_MINOR, FALSE_EASTING, FALSE_NORTHING, 
+                        CENTRAL_MERIDIAN});
 
         /**
          * Constructs a new provider.
@@ -215,41 +212,39 @@ public class Mollweide extends MapProjection {
 
         /**
          * Creates a transform from the specified group of parameter values.
-         * 
-         * @param parameters
-         *            The group of parameter values.
+         *
+         * @param parameters The group of parameter values.
          * @return The created math transform.
-         * @throws ParameterNotFoundException
-         *             if a required parameter was not found.
+         * @throws ParameterNotFoundException if a required parameter was not found.
          */
         protected MathTransform createMathTransform(final ParameterValueGroup parameters)
                 throws ParameterNotFoundException {
-            parameters.parameter("semi_minor").setValue(parameters.parameter("semi_major").getValue());
+            parameters.parameter("semi_minor").setValue(parameters.parameter("semi_major")
+                    .getValue());
             return new Mollweide(ProjectionMode.Mollweide, PARAMETERS, parameters);
         }
     }
-    
+
     /**
      * The {@linkplain org.geotools.referencing.operation.MathTransformProvider math transform
      * provider} for the Wagner IV projection (not part of the EPSG database).
-     * 
-     * @since 2.7.0
+     *
      * @author Andrea Aime
-     * 
      * @see org.geotools.referencing.operation.DefaultMathTransformFactory
+     * @since 2.7.0
      */
     public static class WagnerIVProvider extends AbstractProvider {
         /**
          * For cross-version compatibility.
          */
         private static final long serialVersionUID = 1079407274370647753L;
-        
+
         /**
          * The parameters group.
          */
         static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(
-                new NamedIdentifier[] { new NamedIdentifier(Citations.GEOTOOLS, "Wagner_IV") },
-                new ParameterDescriptor[] { SEMI_MAJOR, SEMI_MINOR, CENTRAL_MERIDIAN });
+                new NamedIdentifier[]{new NamedIdentifier(Citations.GEOTOOLS, "Wagner_IV")},
+                new ParameterDescriptor[]{SEMI_MAJOR, SEMI_MINOR, CENTRAL_MERIDIAN});
 
         /**
          * Constructs a new provider.
@@ -260,64 +255,61 @@ public class Mollweide extends MapProjection {
 
         /**
          * Creates a transform from the specified group of parameter values.
-         * 
-         * @param parameters
-         *            The group of parameter values.
+         *
+         * @param parameters The group of parameter values.
          * @return The created math transform.
-         * @throws ParameterNotFoundException
-         *             if a required parameter was not found.
+         * @throws ParameterNotFoundException if a required parameter was not found.
          */
         protected MathTransform createMathTransform(final ParameterValueGroup parameters)
                 throws ParameterNotFoundException {
             // make sure we assume a spherical reference
-            parameters.parameter("semi_minor").setValue(parameters.parameter("semi_major").getValue());
+            parameters.parameter("semi_minor").setValue(parameters.parameter("semi_major")
+                    .getValue());
             return new Mollweide(ProjectionMode.WagnerIV, PARAMETERS, parameters);
         }
     }
-    
+
     /**
      * The {@linkplain org.geotools.referencing.operation.MathTransformProvider math transform
      * provider} for the Wagner V projection (not part of the EPSG database).
-     * 
-     * @since 2.7.0
+     *
      * @author Andrea Aime
-     * 
      * @see org.geotools.referencing.operation.DefaultMathTransformFactory
+     * @since 2.7.0
      */
     public static class WagnerVProvider extends AbstractProvider {
         /**
          * For cross-version compatibility.
          */
         private static final long serialVersionUID = -3583284443974045930L;
-        
+
         /**
          * The parameters group.
          */
         static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(
-                new NamedIdentifier[] { new NamedIdentifier(Citations.GEOTOOLS, "Wagner_V") },
-                new ParameterDescriptor[] { SEMI_MAJOR, SEMI_MINOR, CENTRAL_MERIDIAN });
+                new NamedIdentifier[]{new NamedIdentifier(Citations.GEOTOOLS, "Wagner_V")},
+                new ParameterDescriptor[]{SEMI_MAJOR, SEMI_MINOR, CENTRAL_MERIDIAN});
 
         /**
          * Constructs a new provider.
          */
         public WagnerVProvider() {
-            
+
             super(PARAMETERS);
         }
 
         /**
          * Creates a transform from the specified group of parameter values.
-         * 
-         * @param parameters
-         *            The group of parameter values.
+         *
+         * @param parameters The group of parameter values.
          * @return The created math transform.
-         * @throws ParameterNotFoundException
-         *             if a required parameter was not found.
+         * @throws ParameterNotFoundException if a required parameter was not found.
          */
         protected MathTransform createMathTransform(final ParameterValueGroup parameters)
                 throws ParameterNotFoundException {
             // make sure we assume a spherical reference
-            parameters.parameter("semi_minor").setValue(parameters.parameter("semi_major").getValue());
+            parameters.parameter("semi_minor").setValue(parameters.parameter("semi_major")
+                    .getValue());
             return new Mollweide(ProjectionMode.WagnerV, PARAMETERS, parameters);
         }
     }

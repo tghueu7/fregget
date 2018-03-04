@@ -54,11 +54,14 @@ import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.linearref.LengthIndexedLine;
 import com.vividsolutions.jts.operation.distance.DistanceOp;
 
-@DescribeProcess(title = "Measure point in LRS", description = "Computes the measure of a point along a feature (as feature with attribute lrs_measure). The point is measured along the nearest feature.")
+@DescribeProcess(title = "Measure point in LRS", description = "Computes the measure of a point " +
+        "along a feature (as feature with attribute lrs_measure). The point is measured along the" +
+        " nearest feature.")
 /**
- * 
  *
- * @source $URL: http://svn.osgeo.org/geotools/trunk/modules/unsupported/process-feature/src/main/java/org/geotools/process/feature/gs/NearestProcess.java $
+ *
+ * @source $URL: http://svn.osgeo.org/geotools/trunk/modules/unsupported/process-feature/src/main
+ * /java/org/geotools/process/feature/gs/NearestProcess.java $
  */
 public class LRSMeasureProcess implements VectorProcess {
     private static final Logger LOGGER = Logging.getLogger(LRSMeasureProcess.class);
@@ -67,20 +70,26 @@ public class LRSMeasureProcess implements VectorProcess {
 
     /**
      * Process the input data set.
-     * 
+     *
      * @param featureCollection the data set
-     * @param crs the CRS
-     * @param point the given point
+     * @param crs               the CRS
+     * @param point             the given point
      * @return the snapped to feature
      * @throws ProcessException error
      */
     @DescribeResult(name = "result", description = "Output feature collection")
     public FeatureCollection execute(
-            @DescribeParameter(name = "features", description = "Input feature collection") FeatureCollection featureCollection,
-            @DescribeParameter(name = "from_measure_attb", description = "Attribute providing start measure of feature") String fromMeasureAttb,
-            @DescribeParameter(name = "to_measure_attb", description = "Attribute providing end measure of feature") String toMeasureAttb,
-            @DescribeParameter(name = "point", description = "Point whose location to measure") Point point,
-            @DescribeParameter(name = "crs", min = 0, description = "Coordinate reference system to use for input (default is the input collection CRS)") CoordinateReferenceSystem crs)
+            @DescribeParameter(name = "features", description = "Input feature collection") 
+                    FeatureCollection featureCollection,
+            @DescribeParameter(name = "from_measure_attb", description = "Attribute providing " +
+                    "start measure of feature") String fromMeasureAttb,
+            @DescribeParameter(name = "to_measure_attb", description = "Attribute providing end " +
+                    "measure of feature") String toMeasureAttb,
+            @DescribeParameter(name = "point", description = "Point whose location to measure") 
+                    Point point,
+            @DescribeParameter(name = "crs", min = 0, description = "Coordinate reference system " +
+                    "to use for input (default is the input collection CRS)") 
+                    CoordinateReferenceSystem crs)
             throws ProcessException {
         DefaultFeatureCollection results = new DefaultFeatureCollection();
         try {
@@ -96,12 +105,14 @@ public class LRSMeasureProcess implements VectorProcess {
             }
             if (crs == null) {
                 throw new ProcessException(
-                        "The CRS parameter was not provided and the feature collection does not have a default one either");
+                        "The CRS parameter was not provided and the feature collection does not " +
+                                "have a default one either");
             }
             if (fromMeasureAttb == null
                     || featureCollection.getSchema().getDescriptor(fromMeasureAttb) == null) {
                 throw new ProcessException(
-                        "The from_measure_attb parameter was not provided or not defined in schema");
+                        "The from_measure_attb parameter was not provided or not defined in " +
+                                "schema");
             }
             if (toMeasureAttb == null
                     || featureCollection.getSchema().getDescriptor(toMeasureAttb) == null) {
@@ -136,8 +147,8 @@ public class LRSMeasureProcess implements VectorProcess {
                     DistanceOp op = new DistanceOp(point, (Geometry) f.getDefaultGeometryProperty()
                             .getValue());
                     Coordinate[] co = op.closestPoints();
-                    double[] co0 = new double[] { co[0].x, co[0].y, };
-                    double[] co1 = new double[] { co[1].x, co[1].y, };
+                    double[] co0 = new double[]{co[0].x, co[0].y,};
+                    double[] co1 = new double[]{co[1].x, co[1].y,};
                     double[] geo0 = new double[2];
                     double[] geo1 = new double[2];
                     crsTransform.transform(co0, 0, geo0, 0, 1);
@@ -185,7 +196,7 @@ public class LRSMeasureProcess implements VectorProcess {
 
     /**
      * Create the modified feature type.
-     * 
+     *
      * @param sourceFeatureType the source feature type
      * @return the modified feature type
      * @throws ProcessException errror
@@ -211,16 +222,16 @@ public class LRSMeasureProcess implements VectorProcess {
 
     /**
      * Create the modified feature.
-     * 
-     * @param feature the source feature
+     *
+     * @param feature           the source feature
      * @param targetFeatureType the modified feature type
-     * @param nearestDistance the snap distance
-     * @param nearestBearing the snap bearing
+     * @param nearestDistance   the snap distance
+     * @param nearestBearing    the snap bearing
      * @return the modified feature
      * @throws ProcessException error
      */
     private SimpleFeature createTargetFeature(Feature feature, SimpleFeatureType targetFeatureType,
-            Double lrsMeasure) throws ProcessException {
+                                              Double lrsMeasure) throws ProcessException {
         try {
             AttributeDescriptor lrsMeasureAttbType = targetFeatureType.getDescriptor("lrs_measure");
             Object[] attributes = new Object[targetFeatureType.getAttributeCount()];
@@ -242,7 +253,7 @@ public class LRSMeasureProcess implements VectorProcess {
 
     /**
      * Calculate the bearing between two points.
-     * 
+     *
      * @param coords the points
      * @return the bearing
      */

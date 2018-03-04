@@ -68,14 +68,12 @@ import com.vividsolutions.jts.geom.Envelope;
 
 /**
  * Test suite for the {@link ArcSDEQuery} query wrapper
- * 
+ *
  * @author Gabriel Roldan
- * 
- * 
- * @source $URL$
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/test/java
- *         /org/geotools/arcsde/data/ArcSDEQueryTest.java $
  * @version $Revision: 1.9 $
+ * @source $URL$
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/test/java
+ * /org/geotools/arcsde/data/ArcSDEQueryTest.java $
  */
 public class ArcSDEQueryTest {
 
@@ -164,7 +162,7 @@ public class ArcSDEQueryTest {
     /**
      * Filters are separated into backend supported and unsupported filters. Once split they should
      * be simplified to avoid silly filters like {@code 1 = 1 AND 1 = 1}
-     * 
+     *
      * @throws IOException
      * @throws CQLException
      */
@@ -172,7 +170,8 @@ public class ArcSDEQueryTest {
     public void testSimplifiesFilters() throws IOException, CQLException {
 
         Filter filter = ECQL
-                .toFilter("STRING_COL = strConcat('string', STRING_COL) AND STRING_COL > 'String2' AND BBOX(SHAPE, 10.0,20.0,30.0,40.0)");
+                .toFilter("STRING_COL = strConcat('string', STRING_COL) AND STRING_COL > " +
+                        "'String2' AND BBOX(SHAPE, 10.0,20.0,30.0,40.0)");
         filteringQuery = new Query(typeName, filter);
         // filteringQuery based on the above filter...
         ArcSDEQuery sdeQuery = createFilteringQuery();
@@ -286,7 +285,7 @@ public class ArcSDEQueryTest {
 
     /**
      * Query specifies no request properties, then all properties should be fetch
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -305,12 +304,12 @@ public class ArcSDEQueryTest {
      * The query is fully supported, the requested properties does not contain a property that is
      * needed for the filter evaluation, then the resulting schema should not contain the non
      * requested property neither
-     * 
+     *
      * @throws Exception
      */
     @Test
     public void testGetSchemaSupportedFilterPropertySingleRequestProperty() throws Exception {
-        String[] requestProperties = { "INT32_COL" };
+        String[] requestProperties = {"INT32_COL"};
 
         Filter filter = ECQL
                 .toFilter("INTERSECTS(SHAPE, POLYGON((-1 -1, -1 0, 0 0, 0 -1, -1 -1)) )");
@@ -326,12 +325,12 @@ public class ArcSDEQueryTest {
      * Query filter references a property name inside an unsupported filter/expression, then the
      * referenced property should be part of the resulting schema even if the query didn't requested
      * it, so that the filter/expression can be evaluated at runtime.
-     * 
+     *
      * @throws Exception
      */
     @Test
     public void testGetSchemaUnsupportedFilterProperty() throws Exception {
-        String[] requestProperties = { "SHAPE" };
+        String[] requestProperties = {"SHAPE"};
 
         Filter filter = toFilter("Min(INT32_COL, 5) = 5");// we don't support the Min function
         // natively

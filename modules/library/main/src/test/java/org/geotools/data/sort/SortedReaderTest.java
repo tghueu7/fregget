@@ -30,8 +30,6 @@ import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Point;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SortedReaderTest {
@@ -101,8 +99,8 @@ public class SortedReaderTest {
             builder.add(new java.sql.Time(System.currentTimeMillis()));
             builder.add(new java.sql.Timestamp(System.currentTimeMillis()));
 
-            LineString line = gf.createLineString(new Coordinate[] { new Coordinate(x + i, y + i),
-                    new Coordinate(x + i + 1, y + i + 1) });
+            LineString line = gf.createLineString(new Coordinate[]{new Coordinate(x + i, y + i),
+                    new Coordinate(x + i + 1, y + i + 1)});
             line.setUserData(DefaultGeographicCRS.WGS84);
             builder.add(line);
 
@@ -118,11 +116,11 @@ public class SortedReaderTest {
         fr = new DelegateSimpleFeatureReader(schema, fc.features());
 
         ff = CommonFactoryFinder.getFilterFactory(null);
-        peopleAsc = new SortBy[] { ff.sort("PERSONS", SortOrder.ASCENDING) };
-        peopleDesc = new SortBy[] { ff.sort("PERSONS", SortOrder.DESCENDING) };
-        dateAsc = new SortBy[] { ff.sort("date", SortOrder.ASCENDING) };
-        fidAsc = new SortBy[] { SortBy.NATURAL_ORDER };
-        nullAsc = new SortBy[] { ff.sort("null", SortOrder.ASCENDING) };
+        peopleAsc = new SortBy[]{ff.sort("PERSONS", SortOrder.ASCENDING)};
+        peopleDesc = new SortBy[]{ff.sort("PERSONS", SortOrder.DESCENDING)};
+        dateAsc = new SortBy[]{ff.sort("date", SortOrder.ASCENDING)};
+        fidAsc = new SortBy[]{SortBy.NATURAL_ORDER};
+        nullAsc = new SortBy[]{ff.sort("null", SortOrder.ASCENDING)};
     }
 
     @After
@@ -151,7 +149,7 @@ public class SortedReaderTest {
             }
         }
     }
-    
+
     @Test
     public void testFileSortDate() throws IOException {
         // make it so that we are not going to hit the disk

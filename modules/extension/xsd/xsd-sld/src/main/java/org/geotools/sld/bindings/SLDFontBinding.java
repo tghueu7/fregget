@@ -37,16 +37,17 @@ import org.picocontainer.MutablePicoContainer;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:Font.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="Font"&gt;
  *      &lt;xsd:annotation&gt;
  *          &lt;xsd:documentation&gt;         A &quot;Font&quot; element specifies
  *              the text font to use.  The allowed         CssParameters
  *              are: &quot;font-family&quot;, &quot;font-style&quot;,
- *              &quot;font-weight&quot;,         and &quot;font-size&quot;.       &lt;/xsd:documentation&gt;
+ *              &quot;font-weight&quot;,         and &quot;font-size&quot;.       &lt;
+ *              /xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
  *      &lt;xsd:complexType&gt;
  *          &lt;xsd:sequence&gt;
@@ -60,9 +61,6 @@ import org.picocontainer.MutablePicoContainer;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDFontBinding extends AbstractComplexBinding {
@@ -117,11 +115,11 @@ public class SLDFontBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         Font font = styleFactory.getDefaultFont();
-        
+
         boolean familyFound = false;
-        for (Iterator i = node.getChildValues(CssParameter.class).iterator(); i.hasNext();) {
+        for (Iterator i = node.getChildValues(CssParameter.class).iterator(); i.hasNext(); ) {
             CssParameter css = (CssParameter) i.next();
 
             Expression exp = css.getExpression();
@@ -130,10 +128,10 @@ public class SLDFontBinding extends AbstractComplexBinding {
             }
 
             if ("font-family".equals(css.getName())) {
-                if(!familyFound) {
+                if (!familyFound) {
                     font.getFamily().set(0, exp);
                     familyFound = true;
-                } else { 
+                } else {
                     font.getFamily().add(exp);
                 }
             }

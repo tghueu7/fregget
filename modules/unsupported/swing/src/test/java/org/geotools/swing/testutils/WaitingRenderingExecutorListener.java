@@ -24,15 +24,14 @@ import org.geotools.swing.RenderingExecutorListener;
 /**
  * A RenderingExecutorListener that can be set to expect specified events
  * and test if they are received.
- * 
- * @author Michael Bedward
- * @since 8.0
  *
- * @source $URL$
+ * @author Michael Bedward
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
-public class WaitingRenderingExecutorListener 
-        extends WaitingListener<RenderingExecutorEvent, WaitingRenderingExecutorListener.Type> 
+public class WaitingRenderingExecutorListener
+        extends WaitingListener<RenderingExecutorEvent, WaitingRenderingExecutorListener.Type>
         implements RenderingExecutorListener {
 
     public static enum Type {
@@ -40,11 +39,11 @@ public class WaitingRenderingExecutorListener
         COMPLETED,
         FAILED;
     }
-    
+
     public WaitingRenderingExecutorListener() {
         super(Type.values().length);
     }
-    
+
     @Override
     public void onRenderingStarted(RenderingExecutorEvent ev) {
         catchEvent(Type.STARTED.ordinal(), ev);
@@ -59,5 +58,5 @@ public class WaitingRenderingExecutorListener
     public void onRenderingFailed(RenderingExecutorEvent ev) {
         catchEvent(Type.FAILED.ordinal(), ev);
     }
-    
+
 }

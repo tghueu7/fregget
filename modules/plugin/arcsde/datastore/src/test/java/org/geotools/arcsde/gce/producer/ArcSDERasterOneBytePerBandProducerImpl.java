@@ -27,8 +27,6 @@ import com.esri.sde.sdk.client.SeRasterScanLineGenerator;
 import com.esri.sde.sdk.client.SeRasterScanLineProducer;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ArcSDERasterOneBytePerBandProducerImpl extends ArcSDERasterProducer {
@@ -38,7 +36,7 @@ public class ArcSDERasterOneBytePerBandProducerImpl extends ArcSDERasterProducer
     }
 
     public ArcSDERasterOneBytePerBandProducerImpl(SeRasterAttr attr, BufferedImage sourceImage,
-            int maskType) {
+                                                  int maskType) {
         super(attr, sourceImage, maskType);
     }
 
@@ -56,8 +54,9 @@ public class ArcSDERasterOneBytePerBandProducerImpl extends ArcSDERasterProducer
     }
 
     /**
-     * @see com.esri.sde.sdk.client.SeRasterProducer#startProduction(com.esri.sde.sdk.client.SeRasterConsumer)
-     *      this implementation defers completely to {@link SeRasterScanLineProducer}
+     * @see com.esri.sde.sdk.client.SeRasterProducer#startProduction(com.esri.sde.sdk.client
+     * .SeRasterConsumer)
+     * this implementation defers completely to {@link SeRasterScanLineProducer}
      */
     public void startProduction(final SeRasterConsumer consumer) {
         if (!sourceImage.getColorModel().getColorSpace().isCS_sRGB()) {

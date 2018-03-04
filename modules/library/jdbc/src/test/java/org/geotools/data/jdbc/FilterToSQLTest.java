@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -59,15 +59,13 @@ import static org.geotools.util.Converters.*;
  *
  * @author Chris Holmes, TOPP
  * @author Saul Farber, MassGIS
- *
- *
- *
  * @source $URL$
  */
 public class FilterToSQLTest extends TestCase {
     private FilterFactory filterFac = CommonFactoryFinder.getFilterFactory(null);
-    private static Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org.geotools.data.jdbc");
-    
+    private static Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org.geotools.data" +
+            ".jdbc");
+
     private SimpleFeatureType integerFType;
     private SimpleFeatureType stringFType;
     private SimpleFeatureType sqlDateFType;
@@ -86,13 +84,13 @@ public class FilterToSQLTest extends TestCase {
                 h.setLevel(debugLevel);
             }
             log = log.getParent();
-        }        
-        
+        }
+
         SimpleFeatureTypeBuilder ftb = new SimpleFeatureTypeBuilder();
-		ftb.setName("testFeatureType");
-		ftb.add("testAttr", Integer.class);
+        ftb.setName("testFeatureType");
+        ftb.add("testAttr", Integer.class);
         integerFType = ftb.buildFeatureType();
-        
+
         ftb = new SimpleFeatureTypeBuilder();
         ftb.setName("testFeatureType");
         ftb.add("testAttr", java.sql.Date.class);
@@ -108,14 +106,14 @@ public class FilterToSQLTest extends TestCase {
         ftb.add("testAttr", Date.class);
         dateFType = ftb.buildFeatureType();
 
-        
+
         ftb.setName("testFeatureType");
         ftb.add("testAttr", String.class);
         stringFType = ftb.buildFeatureType();
-        
+
         output = new StringWriter();
         encoder = new FilterToSQL(output);
-        
+
         FIDMapper mapper = new FIDMapper() {
 
             @Override
@@ -156,7 +154,7 @@ public class FilterToSQLTest extends TestCase {
 
             @Override
             public Object[] getPKAttributes(String FID) throws IOException {
-                return new Object[] { FID };
+                return new Object[]{FID};
             }
 
             @Override
@@ -216,7 +214,7 @@ public class FilterToSQLTest extends TestCase {
         LOGGER.fine("testAttr is an Integer " + filter + " -> " + output.getBuffer().toString());
         assertEquals(output.getBuffer().toString(), "WHERE testAttr = 5");
     }
-    
+
     public void testSqlDateContext() throws Exception {
         Expression literal = filterFac.literal("2002-12-03");
         Expression prop = filterFac.property(sqlDateFType.getAttributeDescriptors().get(0)
@@ -226,10 +224,11 @@ public class FilterToSQLTest extends TestCase {
         encoder.setFeatureType(sqlDateFType);
         encoder.encode(filter);
 
-        LOGGER.fine("testAttr is a java.sql.Date " + filter + " -> " + output.getBuffer().toString());
+        LOGGER.fine("testAttr is a java.sql.Date " + filter + " -> " + output.getBuffer()
+                .toString());
         assertEquals(output.getBuffer().toString(), "WHERE testAttr = '2002-12-03'");
     }
-    
+
     public void testTimestampContext() throws Exception {
         Expression literal = filterFac.literal("2002-12-03 10:00");
         Expression prop = filterFac.property(timestampFType.getAttributeDescriptors().get(0)
@@ -252,10 +251,10 @@ public class FilterToSQLTest extends TestCase {
         encoder.setFeatureType(dateFType);
         encoder.encode(filter);
 
-        LOGGER.fine("testAttr is a java.util.Date " + filter + " -> " + output.getBuffer().toString());
+        LOGGER.fine("testAttr is a java.util.Date " + filter + " -> " + output.getBuffer()
+                .toString());
         assertEquals(output.getBuffer().toString(), "WHERE testAttr = '2002-12-03 10:00'");
     }
-
 
 
     public void testStringContext() throws Exception {
@@ -313,27 +312,28 @@ public class FilterToSQLTest extends TestCase {
         encoder.encode(id);
         assertEquals("WHERE (id = 'fid1')", output.toString());
     }
-    
+
     public void testEscapeQuote() throws FilterToSQLException {
-        PropertyIsEqualTo equals = filterFac.equals(filterFac.property("attribute"), filterFac.literal("A'A"));
+        PropertyIsEqualTo equals = filterFac.equals(filterFac.property("attribute"), filterFac
+                .literal("A'A"));
         encoder.encode(equals);
         assertEquals("WHERE attribute = 'A''A'", output.toString());
     }
-    
+
     public void testExpression() throws Exception {
         Add a = filterFac.add(filterFac.property("testAttr"), filterFac.literal(5));
         encoder.encode(a);
         assertEquals("testAttr + 5", output.toString());
     }
-    
-    public void testEscapeQuoteFancy() throws FilterToSQLException  {
+
+    public void testEscapeQuoteFancy() throws FilterToSQLException {
         org.opengis.filter.FilterFactory ff = CommonFactoryFinder.getFilterFactory(null);
         Object fancyLiteral = new Object() {
-        
+
             public String toString() {
                 return "A'A";
             }
-        
+
         };
         PropertyIsEqualTo equals = ff.equals(ff.property("attribute"), ff.literal(fancyLiteral));
         StringWriter output = new StringWriter();
@@ -341,7 +341,7 @@ public class FilterToSQLTest extends TestCase {
         encoder.encode(equals);
         assertEquals("WHERE attribute = 'A''A'", output.toString());
     }
-    
+
     public void testNumberEscapes() throws Exception {
         Add a = filterFac.add(filterFac.property("testAttr"), filterFac.literal(5));
         PropertyIsEqualTo equal = filterFac.equal(filterFac.property("testAttr"), a, false);
@@ -354,15 +354,16 @@ public class FilterToSQLTest extends TestCase {
     }
 
     public void testInline() throws Exception {
-        PropertyIsEqualTo equal = filterFac.equal(filterFac.property("testAttr"), filterFac.literal(5), false);
+        PropertyIsEqualTo equal = filterFac.equal(filterFac.property("testAttr"), filterFac
+                .literal(5), false);
         StringWriter output = new StringWriter();
         FilterToSQL encoder = new FilterToSQL(output);
         encoder.setInline(true);
-        
+
         encoder.encode(equal);
         assertEquals("testAttr = 5", output.toString());
     }
-    
+
     public void testAfterInstant() throws Exception {
         Date date = convert("2002-12-03 10:00:00AM", Date.class);
         DefaultInstant instant = new DefaultInstant(new DefaultPosition(date));
@@ -397,16 +398,17 @@ public class FilterToSQLTest extends TestCase {
                 values[j] = j;
             }
             String commaSeparatedValues = Arrays.stream(values)
-                                                .map(v -> String.valueOf(v))
-                                                .collect(Collectors.joining(", "));
-            assertEquals(encodeInComparison("in" + i, true, "true", values), "WHERE testAttr IN (" + commaSeparatedValues + ")");
+                    .map(v -> String.valueOf(v))
+                    .collect(Collectors.joining(", "));
+            assertEquals(encodeInComparison("in" + i, true, "true", values), "WHERE testAttr IN " +
+                    "(" + commaSeparatedValues + ")");
         }
     }
-    
+
     public void testInWithLessThan() throws FilterToSQLException {
         FilterToSQL encoder = new FilterToSQL(output);
 
-        Function function = buildInFunction("in", new Object[] {1, 2});
+        Function function = buildInFunction("in", new Object[]{1, 2});
         Filter filter = filterFac.less(function, filterFac.literal(true));
         encoder.encode(filter);
 
@@ -414,14 +416,15 @@ public class FilterToSQLTest extends TestCase {
         assertEquals("WHERE (testAttr IN (1, 2)) < true", output.getBuffer().toString());
     }
 
-    public String encodeInComparison(String functionName, boolean equality, String literal, Object... valueList) throws FilterToSQLException {
+    public String encodeInComparison(String functionName, boolean equality, String literal, 
+                                     Object... valueList) throws FilterToSQLException {
         FilterToSQL encoder = new FilterToSQL(output);
 
         Function function = buildInFunction(functionName, valueList);
         Filter filter;
-        if(equality) {
-            filter = filterFac.equal(function, filterFac.literal(literal), true); 
-        }  else {
+        if (equality) {
+            filter = filterFac.equal(function, filterFac.literal(literal), true);
+        } else {
             filter = filterFac.notEqual(function, filterFac.literal(literal), true);
         }
         encoder.encode(filter);

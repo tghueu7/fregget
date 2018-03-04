@@ -16,7 +16,8 @@ public class SQLServerSkipColumnTestSetup extends JDBCSkipColumnTestSetup {
                 + "\"geom\" geometry, " //
                 + "\"weirdproperty\" xml," //
                 + "\"name\" varchar(255))");
-        run("INSERT INTO \"skipcolumn\" VALUES( 0, geometry::STGeomFromText('POINT(0 0)', 4326), null, 'GeoTools')"); 
+        run("INSERT INTO \"skipcolumn\" VALUES( 0, geometry::STGeomFromText('POINT(0 0)', 4326), " +
+                "null, 'GeoTools')");
     }
 
     @Override
@@ -24,5 +25,5 @@ public class SQLServerSkipColumnTestSetup extends JDBCSkipColumnTestSetup {
         runSafe("DELETE FROM GEOMETRY_COLUMNS WHERE F_TABLE_NAME = 'skipcolumn'");
         runSafe("DROP TABLE \"skipcolumn\"");
     }
-    
+
 }

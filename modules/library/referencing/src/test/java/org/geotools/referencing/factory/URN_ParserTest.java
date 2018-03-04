@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2006-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -19,17 +19,16 @@ package org.geotools.referencing.factory;
 import org.opengis.referencing.NoSuchAuthorityCodeException;
 
 import org.junit.*;
+
 import static org.junit.Assert.*;
 
 
 /**
  * Tests the {@link URN_Parser} class.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
  */
 public final class URN_ParserTest {
 
@@ -39,10 +38,10 @@ public final class URN_ParserTest {
     @Test
     public void testParse() throws NoSuchAuthorityCodeException {
         final URN_Parser parser = URN_Parser.buildParser("urn:ogc:def:CRS:EPSG:6.11.2:4326");
-        assertEquals("crs",       parser.type.name);
-        assertEquals("EPSG",      parser.authority);
-        assertEquals("6.11.2",    parser.version.toString());
-        assertEquals("4326",      parser.code);
+        assertEquals("crs", parser.type.name);
+        assertEquals("EPSG", parser.authority);
+        assertEquals("6.11.2", parser.version.toString());
+        assertEquals("4326", parser.code);
         assertEquals("EPSG:4326", parser.getAuthorityCode());
     }
 
@@ -52,10 +51,10 @@ public final class URN_ParserTest {
     @Test
     public void testParseWithoutVersion() throws NoSuchAuthorityCodeException {
         final URN_Parser parser = URN_Parser.buildParser("urn:ogc:def:CRS:EPSG:4326");
-        assertEquals("crs",       parser.type.name);
-        assertEquals("EPSG",      parser.authority);
-        assertNull  (             parser.version);
-        assertEquals("4326",      parser.code);
+        assertEquals("crs", parser.type.name);
+        assertEquals("EPSG", parser.authority);
+        assertNull(parser.version);
+        assertEquals("4326", parser.code);
         assertEquals("EPSG:4326", parser.getAuthorityCode());
     }
 

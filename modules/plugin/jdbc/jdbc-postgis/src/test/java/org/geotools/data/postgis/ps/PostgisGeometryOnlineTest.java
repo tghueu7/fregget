@@ -21,8 +21,6 @@ import org.geotools.jdbc.JDBCGeometryOnlineTest;
 import org.geotools.jdbc.JDBCGeometryTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class PostgisGeometryOnlineTest extends JDBCGeometryOnlineTest {
@@ -31,7 +29,7 @@ public class PostgisGeometryOnlineTest extends JDBCGeometryOnlineTest {
     protected JDBCGeometryTestSetup createTestSetup() {
         return new PostgisGeometryTestSetup(new PostGISPSTestSetup());
     }
-    
+
     @Override
     public void testLinearRing() throws Exception {
         // linear ring type is not a supported type in postgis

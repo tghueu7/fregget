@@ -24,9 +24,9 @@ import org.opengis.filter.FilterFactory;
 
 /**
  * Binding object for the type http://www.opengis.net/fes/2.0:PropertyIsBetweenType.
- *
  * <p>
- *      <pre>
+ * <p>
+ * <pre>
  *       <code>
  *  &lt;xsd:complexType name="PropertyIsBetweenType"&gt;
  *      &lt;xsd:complexContent&gt;
@@ -38,8 +38,8 @@ import org.opengis.filter.FilterFactory;
  *              &lt;/xsd:sequence&gt;
  *          &lt;/xsd:extension&gt;
  *      &lt;/xsd:complexContent&gt;
- *  &lt;/xsd:complexType&gt; 
- *              
+ *  &lt;/xsd:complexType&gt;
+ *
  *        </code>
  *       </pre>
  * </p>
@@ -47,7 +47,7 @@ import org.opengis.filter.FilterFactory;
  * @generated
  */
 public class PropertyIsBetweenTypeBinding extends OGCPropertyIsBetweenTypeBinding {
-    
+
     public PropertyIsBetweenTypeBinding(FilterFactory factory) {
         super(factory);
     }

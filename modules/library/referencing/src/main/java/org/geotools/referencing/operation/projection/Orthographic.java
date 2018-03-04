@@ -53,21 +53,21 @@ import static java.lang.Math.*;
  * <p>
  * <b>References:</b>
  * <ul>
- *   <li>Proj-4.4.7 available at <A HREF="http://www.remotesensing.org/proj">www.remotesensing.org/proj</A><br>
- *       Relevant files are: {@code PJ_ortho.c}, {@code pj_fwd.c} and {@code pj_inv.c}.</li>
- *   <li>John P. Snyder (Map Projections - A Working Manual,
- *       U.S. Geological Survey Professional Paper 1395, 1987)</li>
+ * <li>Proj-4.4.7 available at <A HREF="http://www.remotesensing.org/proj">www.remotesensing
+ * .org/proj</A><br>
+ * Relevant files are: {@code PJ_ortho.c}, {@code pj_fwd.c} and {@code pj_inv.c}.</li>
+ * <li>John P. Snyder (Map Projections - A Working Manual,
+ * U.S. Geological Survey Professional Paper 1395, 1987)</li>
  * </ul>
  *
- * @see <A HREF="http://mathworld.wolfram.com/OrthographicProjection.html">Orthographic projection on mathworld.wolfram.com</A>
- * @see <A HREF="http://www.remotesensing.org/geotiff/proj_list/orthographic.html">"Orthographic" on www.remotesensing.org</A>
- *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Rueben Schulz
+ * @version $Id$
+ * @source $URL$
+ * @see <A HREF="http://mathworld.wolfram.com/OrthographicProjection.html">Orthographic 
+ * projection on mathworld.wolfram.com</A>
+ * @see <A HREF="http://www.remotesensing.org/geotiff/proj_list/orthographic.html">"Orthographic"
+ * on www.remotesensing.org</A>
+ * @since 2.1
  */
 public abstract class Orthographic extends MapProjection {
     /**
@@ -83,14 +83,12 @@ public abstract class Orthographic extends MapProjection {
     /**
      * Creates a transform from the specified group of parameter values.
      *
-     * @param  parameters The group of parameter values.
+     * @param parameters The group of parameter values.
      * @throws ParameterNotFoundException if a required parameter was not found.
-     *
      * @since 2.4
      */
     protected Orthographic(final ParameterValueGroup parameters)
-            throws ParameterNotFoundException
-    {
+            throws ParameterNotFoundException {
         // Fetch parameters
         super(parameters);
     }
@@ -116,8 +114,6 @@ public abstract class Orthographic extends MapProjection {
     }
 
 
-
-
     //////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////
     ////////                                                                          ////////
@@ -130,11 +126,10 @@ public abstract class Orthographic extends MapProjection {
      * The {@linkplain org.geotools.referencing.operation.MathTransformProvider math transform
      * provider} for a {@linkplain Orthographic Orthographic} projection.
      *
-     * @since 2.1
-     * @version $Id$
      * @author Rueben Schulz
-     *
+     * @version $Id$
      * @see org.geotools.referencing.operation.DefaultMathTransformFactory
+     * @since 2.1
      */
     public static final class Provider extends AbstractProvider {
         /**
@@ -145,18 +140,19 @@ public abstract class Orthographic extends MapProjection {
         /**
          * The parameters group.
          */
-        static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(new NamedIdentifier[] {
-                new NamedIdentifier(Citations.OGC,      "Orthographic"),
-                new NamedIdentifier(Citations.GEOTIFF,  "CT_Orthographic"),
-                new NamedIdentifier(Citations.ESRI,     "Orthographic"),
+        static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(new 
+                NamedIdentifier[]{
+                new NamedIdentifier(Citations.OGC, "Orthographic"),
+                new NamedIdentifier(Citations.GEOTIFF, "CT_Orthographic"),
+                new NamedIdentifier(Citations.ESRI, "Orthographic"),
                 new NamedIdentifier(Citations.GEOTOOLS, Vocabulary.formatInternational(
-                                                        VocabularyKeys.ORTHOGRAPHIC_PROJECTION))
-            }, new ParameterDescriptor[] {
-                SEMI_MAJOR,       SEMI_MINOR,
+                        VocabularyKeys.ORTHOGRAPHIC_PROJECTION))
+        }, new ParameterDescriptor[]{
+                SEMI_MAJOR, SEMI_MINOR,
                 CENTRAL_MERIDIAN, LATITUDE_OF_ORIGIN,
                 SCALE_FACTOR,
-                FALSE_EASTING,    FALSE_NORTHING
-            });
+                FALSE_EASTING, FALSE_NORTHING
+        });
 
         /**
          * Constructs a new provider.
@@ -176,21 +172,22 @@ public abstract class Orthographic extends MapProjection {
         /**
          * Creates a transform from the specified group of parameter values.
          *
-         * @param  parameters The group of parameter values.
+         * @param parameters The group of parameter values.
          * @return The created math transform.
          * @throws ParameterNotFoundException if a required parameter was not found.
          */
         protected MathTransform createMathTransform(final ParameterValueGroup parameters)
-                throws ParameterNotFoundException, FactoryException
-        {
+                throws ParameterNotFoundException, FactoryException {
             // Values here are in radians (the standard units for the map projection package)
-            final double latitudeOfOrigin = abs(AbstractProvider.doubleValue(LATITUDE_OF_ORIGIN, parameters));
+            final double latitudeOfOrigin = abs(AbstractProvider.doubleValue(LATITUDE_OF_ORIGIN, 
+                    parameters));
             if (!isSpherical(parameters)) {
                 LOGGER.log(Level.FINE, "GeoTools Orthographic is defined only on the sphere, " +
-                        "we're going to use spherical equations even if the projection is using an ellipsoid");
+                        "we're going to use spherical equations even if the projection is using " +
+                        "an ellipsoid");
             }
             // Polar case.
-            if (abs(latitudeOfOrigin - PI/2) < EPSILON) {
+            if (abs(latitudeOfOrigin - PI / 2) < EPSILON) {
                 return new PolarOrthographic(parameters);
             }
             // Equatorial case.

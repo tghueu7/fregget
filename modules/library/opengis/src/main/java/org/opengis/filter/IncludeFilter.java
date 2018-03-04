@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.filter;
@@ -18,17 +18,15 @@ import java.io.Serializable;
  * This is a placeholder filter intended to be used in data structuring definition.
  * <p>
  * <ul>
- *   <li>INCLUDE or  Filter ==> INCLUDE</li>
- *   <li>INCLUDE and Filter ==> Filter</li>
- *   <li>not INCLUDE ==> EXCLUDE</li>
+ * <li>INCLUDE or  Filter ==> INCLUDE</li>
+ * <li>INCLUDE and Filter ==> Filter</li>
+ * <li>not INCLUDE ==> EXCLUDE</li>
  * </ul>
  * <p>
  * The above does imply that the OR opperator can short circuit on encountering NONE.
  *
  * @author Jody Garnett (Refractions Research, Inc.)
  * @author Martin Desruisseaux (Geomatys)
- *
- *
  * @source $URL$
  */
 public final class IncludeFilter implements Filter, Serializable {
@@ -47,7 +45,7 @@ public final class IncludeFilter implements Filter, Serializable {
      * Accepts a visitor.
      */
     public Object accept(FilterVisitor visitor, Object extraData) {
-        return visitor.visit( this, extraData );
+        return visitor.visit(this, extraData);
     }
 
     /**

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -27,10 +27,8 @@ import java.awt.geom.Rectangle2D;
  * Decorator on top of the {@link Shape}. It extends the Shape interface to include a method
  * 'setBounds' for explicitly defining a bounding box (which is not necessarily associated with the
  * actual shape's bounds).
- * 
+ *
  * @author fmoura
- *
- *
  * @source $URL$
  */
 public class ExplicitBoundsShape implements Shape {
@@ -41,9 +39,8 @@ public class ExplicitBoundsShape implements Shape {
 
     /**
      * The Constructor
-     * 
-     * @param shape
-     *            The actual shape on top of which this decorator will stand.
+     *
+     * @param shape The actual shape on top of which this decorator will stand.
      */
     public ExplicitBoundsShape(Shape shape) {
         if (shape == null)
@@ -53,7 +50,7 @@ public class ExplicitBoundsShape implements Shape {
 
     /**
      * Sets the explicitly defined bounds for this shape.
-     * 
+     *
      * @param bounds
      */
     public void setBounds(Rectangle2D bounds) {
@@ -79,7 +76,7 @@ public class ExplicitBoundsShape implements Shape {
     /**
      * Returns the explicitly defined bounds for this shape. If no bounds were explicitly set, it
      * delegates the call to the actual shape.
-     * 
+     *
      * @return the Rectangle representing the Shape's bounding box.
      * @see Shape
      */
@@ -93,7 +90,7 @@ public class ExplicitBoundsShape implements Shape {
     /**
      * Returns the explicitly defined bounds for this shape. If no bounds were explicitly set, it
      * delegates the call to the actual shape.
-     * 
+     *
      * @return the Rectangle2D representing the Shape's bounding box.
      * @see Shape
      */

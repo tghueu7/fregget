@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -31,12 +31,10 @@ import org.opengis.feature.simple.SimpleFeature;
  * of caching them
  *
  * @author jamesm
- *
- *
  * @source $URL$
  */
 public class DynamicPolygonStyle2D extends org.geotools.renderer.style.PolygonStyle2D {
-	SimpleFeature feature;
+    SimpleFeature feature;
     PolygonSymbolizer ps;
 
     /**
@@ -81,7 +79,7 @@ public class DynamicPolygonStyle2D extends org.geotools.renderer.style.PolygonSt
         }
 
         // get the opacity and prepare the composite
-        float opacity = ((Float) fill.getOpacity().evaluate(feature,Float.class)).floatValue();
+        float opacity = ((Float) fill.getOpacity().evaluate(feature, Float.class)).floatValue();
 
         if (opacity == 1) {
             return null;

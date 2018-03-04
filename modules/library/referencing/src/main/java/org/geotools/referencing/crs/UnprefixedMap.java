@@ -17,6 +17,7 @@
 package org.geotools.referencing.crs;
 
 import java.util.Map;
+
 import org.opengis.referencing.IdentifiedObject;
 import org.geotools.util.DerivedMap;
 
@@ -27,13 +28,12 @@ import org.geotools.util.DerivedMap;
  * key: if it doesn't exists, then the plain {@code name} key is used. In other words,
  * this map inherits the {@code "name"} property from the {@linkplain #base} map.
  *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.0
  */
-final class UnprefixedMap extends DerivedMap<String,String,Object> {
+final class UnprefixedMap extends DerivedMap<String, String, Object> {
     /**
      * The prefix to remove for this map.
      */
@@ -52,25 +52,24 @@ final class UnprefixedMap extends DerivedMap<String,String,Object> {
      * @param base   The base map.
      * @param prefix The prefix to remove from the keys in the base map.
      */
-    public UnprefixedMap(final Map<String,?> base, final String prefix) {
+    public UnprefixedMap(final Map<String, ?> base, final String prefix) {
         super((Map) base, String.class);
         this.prefix = prefix.trim();
-        final String  nameKey = this.prefix + IdentifiedObject. NAME_KEY;
+        final String nameKey = this.prefix + IdentifiedObject.NAME_KEY;
         final String aliasKey = this.prefix + IdentifiedObject.ALIAS_KEY;
-        boolean hasName  = false;
+        boolean hasName = false;
         boolean hasAlias = false;
         for (final Object value : base.keySet()) {
             final String candidate = value.toString().trim();
             if (keyMatches(nameKey, candidate)) {
                 hasName = true;
                 if (hasAlias) break;
-            } else
-            if (keyMatches(aliasKey, candidate)) {
+            } else if (keyMatches(aliasKey, candidate)) {
                 hasAlias = true;
                 if (hasName) break;
             }
         }
-        this.hasName  = hasName;
+        this.hasName = hasName;
         this.hasAlias = hasAlias;
     }
 
@@ -78,9 +77,9 @@ final class UnprefixedMap extends DerivedMap<String,String,Object> {
      * Remove the prefix from the specified key. If the key doesn't begins with
      * the prefix, then this method returns {@code null}.
      *
-     * @param  key A key from the {@linkplain #base} map.
+     * @param key A key from the {@linkplain #base} map.
      * @return The key that this view should contains instead of {@code key},
-     *         or {@code null}.
+     * or {@code null}.
      */
     protected String baseToDerived(final String key) {
         final int length = prefix.length();
@@ -97,7 +96,7 @@ final class UnprefixedMap extends DerivedMap<String,String,Object> {
     /**
      * Add the prefix to the specified key.
      *
-     * @param  key A key in this map.
+     * @param key A key in this map.
      * @return The key stored in the {@linkplain #base} map.
      */
     protected String derivedToBase(final String key) {
@@ -114,8 +113,8 @@ final class UnprefixedMap extends DerivedMap<String,String,Object> {
      * or {@code "alias_"} are accepted as well.
      */
     private boolean isPlainKey(final String key) {
-        return (!hasName  && keyMatches(IdentifiedObject.NAME_KEY,  key)) ||
-               (!hasAlias && keyMatches(IdentifiedObject.ALIAS_KEY, key));
+        return (!hasName && keyMatches(IdentifiedObject.NAME_KEY, key)) ||
+                (!hasAlias && keyMatches(IdentifiedObject.ALIAS_KEY, key));
     }
 
     /**
@@ -125,6 +124,6 @@ final class UnprefixedMap extends DerivedMap<String,String,Object> {
     private static boolean keyMatches(final String key, final String candidate) {
         final int length = key.length();
         return candidate.regionMatches(true, 0, key, 0, length) &&
-               (candidate.length()==length || candidate.charAt(length)=='_');
+                (candidate.length() == length || candidate.charAt(length) == '_');
     }
 }

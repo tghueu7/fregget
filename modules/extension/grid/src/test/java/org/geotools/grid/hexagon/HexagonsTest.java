@@ -34,12 +34,9 @@ import org.opengis.feature.simple.SimpleFeatureType;
  * Unit tests for the Hexagons class.
  *
  * @author mbedward
- * @since 2.7
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.7
  */
 public class HexagonsTest extends HexagonTestBase {
 
@@ -48,7 +45,7 @@ public class HexagonsTest extends HexagonTestBase {
         assertEquals(AREA, Hexagons.sideLengthToArea(SIDE_LEN), TOL);
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void calculateAreaInvalidArg() {
         Hexagons.sideLengthToArea(0.0);
     }
@@ -58,7 +55,7 @@ public class HexagonsTest extends HexagonTestBase {
         assertEquals(SIDE_LEN, Hexagons.areaToSideLength(AREA), TOL);
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void calculateSideLenInvalidArg() {
         Hexagons.areaToSideLength(0.0);
     }
@@ -74,7 +71,7 @@ public class HexagonsTest extends HexagonTestBase {
         Hexagon hexagon = Hexagons.create(0.0, 0.0, SIDE_LEN, HexagonOrientation.FLAT, null);
         assertVertices(hexagon, 0.0, 0.0, SIDE_LEN, HexagonOrientation.FLAT);
     }
-    
+
     @Test
     public void getVerticesAngled() {
         Hexagon hexagon = Hexagons.create(0.0, 0.0, SIDE_LEN, HexagonOrientation.ANGLED, null);
@@ -83,7 +80,8 @@ public class HexagonsTest extends HexagonTestBase {
 
     @Test
     public void createGrid() throws Exception {
-        final SimpleFeatureType TYPE = DataUtilities.createType("hextype", "hexagon:Polygon,id:Integer");
+        final SimpleFeatureType TYPE = DataUtilities.createType("hextype", "hexagon:Polygon," +
+                "id:Integer");
 
         final double SPAN = 100;
         final ReferencedEnvelope bounds = new ReferencedEnvelope(0, SPAN, 0, SPAN, null);
@@ -103,12 +101,13 @@ public class HexagonsTest extends HexagonTestBase {
 
         Setter setter = new Setter(TYPE);
 
-        SimpleFeatureSource gridSource = Hexagons.createGrid(bounds, SIDE_LEN, HexagonOrientation.FLAT, setter);
+        SimpleFeatureSource gridSource = Hexagons.createGrid(bounds, SIDE_LEN, HexagonOrientation
+                .FLAT, setter);
         assertNotNull(gridSource);
 
         int expectedCols = (int) ((SPAN - 2 * SIDE_LEN) / (1.5 * SIDE_LEN)) + 1;
         int expectedRows = (int) (SPAN / (Math.sqrt(3.0) * SIDE_LEN));
-        
+
         assertEquals(expectedCols * expectedRows, setter.id);
         assertEquals(setter.id, gridSource.getFeatures().size());
     }

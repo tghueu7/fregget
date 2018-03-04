@@ -13,9 +13,6 @@ import org.apache.commons.logging.LogFactory;
  * specified message.
  *
  * @author Matthijs Laan, B3Partners
- *
- *
- *
  * @source $URL$
  */
 public class DXFParseException extends Exception {

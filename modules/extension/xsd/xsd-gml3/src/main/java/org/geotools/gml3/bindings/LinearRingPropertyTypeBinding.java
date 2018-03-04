@@ -28,13 +28,14 @@ import com.vividsolutions.jts.geom.LinearRing;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:LinearRingPropertyType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="LinearRingPropertyType"&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;Encapsulates a ring to represent properties in features or geometry collections.&lt;/documentation&gt;
+ *          &lt;documentation&gt;Encapsulates a ring to represent properties in features or 
+ *          geometry collections.&lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;choice&gt;
  *          &lt;element ref="gml:LinearRing"/&gt;
@@ -46,9 +47,6 @@ import com.vividsolutions.jts.geom.LinearRing;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class LinearRingPropertyTypeBinding extends AbstractComplexBinding {
@@ -76,7 +74,7 @@ public class LinearRingPropertyTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return node.getChildValue(LinearRing.class);
     }
 

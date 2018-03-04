@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -25,7 +25,7 @@ import org.xml.sax.SAXException;
 /**
  * LEVEL1 saxGML4j GML filter: Sends basic alerts for GML types to
  * GMLFilterGeometry.
- * 
+ * <p>
  * <p>
  * This filter separates and passes GML events to a GMLHandlerGeometry. The
  * main simplification that it performs is to pass along coordinates as an
@@ -33,67 +33,94 @@ import org.xml.sax.SAXException;
  * Coordinates).  This call turns the coordinates into doubles and makes sure
  * that it distinguishes between 2 and 3 value coordinates.
  * </p>
- * 
+ * <p>
  * <p>
  * The filter also handles some more subtle processing, including handling
  * different delimiters (decimal, coordinate, tuple) that may be used by more
  * outlandish GML generators.
  * </p>
- * 
+ * <p>
  * <p></p>
  *
  * @author Rob Hranac, Vision for New York
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class GMLFilterDocument extends org.xml.sax.helpers.XMLFilterImpl {
-    /** The logger for the GML module */
-    private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org.geotools.gml");
+    /**
+     * The logger for the GML module
+     */
+    private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org" +
+            ".geotools.gml");
 
     // Static Globals to handle some expected elements
 
-    /** GML namespace string */
+    /**
+     * GML namespace string
+     */
     private static final String GML_NAMESPACE = "http://www.opengis.net/gml";
 
-    /** Coord name */
+    /**
+     * Coord name
+     */
     private static final String COORD_NAME = "coord";
 
-    /** Coordinates name */
+    /**
+     * Coordinates name
+     */
     private static final String COORDINATES_NAME = "coordinates";
 
-    /** X Coordinate name */
+    /**
+     * X Coordinate name
+     */
     private static final String X_NAME = "X";
 
-    /** Y Coordinate name */
+    /**
+     * Y Coordinate name
+     */
     private static final String Y_NAME = "Y";
 
-    /** Z Coordinate name */
+    /**
+     * Z Coordinate name
+     */
     private static final String Z_NAME = "Z";
 
-    /** Sub geometry elements that may be passed in GML */
-    private static final java.util.Collection SUB_GEOMETRY_TYPES = new java.util.Vector(java.util.Arrays
-            .asList(new String[] { "outerBoundaryIs", "innerBoundaryIs" }));
+    /**
+     * Sub geometry elements that may be passed in GML
+     */
+    private static final java.util.Collection SUB_GEOMETRY_TYPES = new java.util.Vector(java.util
+            .Arrays
+            .asList(new String[]{"outerBoundaryIs", "innerBoundaryIs"}));
 
-    /** Base geometry elements that may be passed in GML */
-    private static final java.util.Collection BASE_GEOMETRY_TYPES = new java.util.Vector(java.util.Arrays
-            .asList(new String[] {
+    /**
+     * Base geometry elements that may be passed in GML
+     */
+    private static final java.util.Collection BASE_GEOMETRY_TYPES = new java.util.Vector(java
+            .util.Arrays
+            .asList(new String[]{
                     "Point", "LineString", "Polygon", "LinearRing", "Box",
                     "MultiPoint", "MultiLineString", "MultiPolygon",
                     "GeometryCollection"
-                }));
+            }));
 
-    /** Added by Sean Geoghegan to store character data chunks */
+    /**
+     * Added by Sean Geoghegan to store character data chunks
+     */
     private StringBuffer buffer = new StringBuffer();
 
-    /** Parent of the filter: must implement GMLHandlerGeometry. */
+    /**
+     * Parent of the filter: must implement GMLHandlerGeometry.
+     */
     private GMLHandlerGeometry parent;
 
-    /** Handles all coordinate parsing. */
+    /**
+     * Handles all coordinate parsing.
+     */
     private CoordinateReader coordinateReader = new CoordinateReader();
 
-    /** Whether or not this parser should consider namespaces. */
+    /**
+     * Whether or not this parser should consider namespaces.
+     */
     private boolean namespaceAware = true;
 
     /**
@@ -113,24 +140,23 @@ public class GMLFilterDocument extends org.xml.sax.helpers.XMLFilterImpl {
      * it directly on down the chain to the appropriate parent handler.  If it
      * is a coordinates (or coord) element, it uses internal methods to set
      * the current state of the coordinates reader appropriately.
-     * 
+     * <p>
      * <p>
      * Modified by Sean Geoghegan to create new StringBuffers when  entering a
      * coord or coordinate element.
      * </p>
      *
      * @param namespaceURI The namespace of the element.
-     * @param localName The local name of the element.
-     * @param qName The full name of the element, including namespace prefix.
-     * @param atts The element attributes.
-     *
+     * @param localName    The local name of the element.
+     * @param qName        The full name of the element, including namespace prefix.
+     * @param atts         The element attributes.
      * @throws SAXException Some parsing error occurred while reading
-     *         coordinates.
+     *                      coordinates.
      */
     public void startElement(String namespaceURI, String localName,
-        String qName, org.xml.sax.Attributes atts) throws SAXException {
+                             String qName, org.xml.sax.Attributes atts) throws SAXException {
         LOGGER.entering("GMLFilterDocument", "startElement",
-            new Object[] { namespaceURI, localName, qName, atts });
+                new Object[]{namespaceURI, localName, qName, atts});
 
         /* if at a GML element, do some checks to determine
          * how to handle the element
@@ -175,7 +201,7 @@ public class GMLFilterDocument extends org.xml.sax.helpers.XMLFilterImpl {
      * coordinates.  These coordinates are sent to the coordinates reader
      * class, which interprets them appropriately, depending on its current
      * state.
-     * 
+     * <p>
      * <p>
      * Modified by Sean Geoghegan to append character data to buffer when
      * inside a coordinate or coord element.  SAX doesn't guarentee that all
@@ -183,17 +209,16 @@ public class GMLFilterDocument extends org.xml.sax.helpers.XMLFilterImpl {
      * in one call, it may be split up into chunks.
      * </p>
      *
-     * @param ch Raw coordinate string from the GML document.
-     * @param start Beginning character position of raw coordinate string.
+     * @param ch     Raw coordinate string from the GML document.
+     * @param start  Beginning character position of raw coordinate string.
      * @param length Length of the character string.
-     *
      * @throws SAXException Some parsing error occurred while reading
-     *         coordinates.
+     *                      coordinates.
      */
     public void characters(char[] ch, int start, int length)
-        throws SAXException {
+            throws SAXException {
         LOGGER.entering("GMLFilterDocument", "characters",
-            new Object[] { ch, new Integer(start), new Integer(length) });
+                new Object[]{ch, new Integer(start), new Integer(length)});
 
         /* the methods here read in both coordinates and coords and
          * take the grunt-work out of this task for geometry handlers
@@ -227,7 +252,7 @@ public class GMLFilterDocument extends org.xml.sax.helpers.XMLFilterImpl {
      * it directly on down the chain to the appropriate parent handler.  If it
      * is a coordinates (or coord) element,  it uses internal methods to set
      * the current state of the coordinates reader appropriately.
-     * 
+     * <p>
      * <p>
      * Modified by Sean Geoghegan. When we reach the end of a coord or
      * coordinate element, then the buffer is passed to the handler for
@@ -235,16 +260,15 @@ public class GMLFilterDocument extends org.xml.sax.helpers.XMLFilterImpl {
      * </p>
      *
      * @param namespaceURI The namespace of the element.
-     * @param localName The local name of the element.
-     * @param qName The full name of the element, including namespace prefix.
-     *
+     * @param localName    The local name of the element.
+     * @param qName        The full name of the element, including namespace prefix.
      * @throws SAXException Some parsing error occurred while  reading
-     *         coordinates.
+     *                      coordinates.
      */
     public void endElement(String namespaceURI, String localName, String qName)
-        throws SAXException {
+            throws SAXException {
         LOGGER.entering("GMLFilterDocument", "endElement",
-            new Object[] { namespaceURI, localName, qName });
+                new Object[]{namespaceURI, localName, qName});
 
         /* if leaving a GML element, handle and pass to appropriate
          * internal or external method
@@ -294,7 +318,7 @@ public class GMLFilterDocument extends org.xml.sax.helpers.XMLFilterImpl {
 
     /**
      * Simplifies the parsing process for GML coordinate elements.
-     * 
+     * <p>
      * <p>
      * One of the more annoying features of GML (from a SAX parsing
      * perspective) is the dual coord and coordinate representation of
@@ -305,37 +329,59 @@ public class GMLFilterDocument extends org.xml.sax.helpers.XMLFilterImpl {
      * </p>
      */
     private class CoordinateReader {
-        /** Flag for indicating not inside any tag. */
+        /**
+         * Flag for indicating not inside any tag.
+         */
         private static final int NOT_INSIDE = 0;
 
-        /** Flag for indicating inside coord tag. */
+        /**
+         * Flag for indicating inside coord tag.
+         */
         private static final int INSIDE_COORD = 1;
 
-        /** Flag for indicating inside coordinates tag. */
+        /**
+         * Flag for indicating inside coordinates tag.
+         */
         private static final int INSIDE_COORDINATES = 2;
 
-        /** Flag for indicating inside X tag. */
+        /**
+         * Flag for indicating inside X tag.
+         */
         private static final int INSIDE_X = 1;
 
-        /** Flag for indicating inside Y tag. */
+        /**
+         * Flag for indicating inside Y tag.
+         */
         private static final int INSIDE_Y = 2;
 
-        /** Flag for indicating inside Z tag. */
+        /**
+         * Flag for indicating inside Z tag.
+         */
         private static final int INSIDE_Z = 3;
 
-        /** Remembers where we are inside the GML coordinate stream. */
+        /**
+         * Remembers where we are inside the GML coordinate stream.
+         */
         private int insideOuterFlag = NOT_INSIDE;
 
-        /** Remembers where we are inside the GML coordinate stream. */
+        /**
+         * Remembers where we are inside the GML coordinate stream.
+         */
         private int insideInnerFlag = NOT_INSIDE;
 
-        /** Remembers last X coordinate read. */
+        /**
+         * Remembers last X coordinate read.
+         */
         private Double x = new Double(Double.NaN);
 
-        /** Remembers last Y coordinate read. */
+        /**
+         * Remembers last Y coordinate read.
+         */
         private Double y = new Double(Double.NaN);
 
-        /** Remembers last Z coordinate read. */
+        /**
+         * Remembers last Z coordinate read.
+         */
         private Double z = new Double(Double.NaN);
 
         /**
@@ -343,10 +389,14 @@ public class GMLFilterDocument extends org.xml.sax.helpers.XMLFilterImpl {
          */
         private String coordinateDelimeter = ",";
 
-        /** Stores requested delimiter for tuple separation; default = ' ' */
+        /**
+         * Stores requested delimiter for tuple separation; default = ' '
+         */
         private String tupleDelimeter = " ";
 
-        /** Stores requested delimiter for decimal separation; default = '.' */
+        /**
+         * Stores requested delimiter for decimal separation; default = '.'
+         */
         private StringBuffer decimalDelimeter = new StringBuffer(".");
 
         /**
@@ -366,12 +416,11 @@ public class GMLFilterDocument extends org.xml.sax.helpers.XMLFilterImpl {
          * neat functions.
          *
          * @param coordinateString Raw coordinate string from the GML document.
-         *
          * @throws SAXException Some parsing error occurred while reading
-         *         coordinates.
+         *                      coordinates.
          */
         public void readCoordinates(String coordinateString)
-            throws SAXException {
+                throws SAXException {
             /* if non-standard delimiter, replace it with
              * standard ',' through the entire string
              */
@@ -397,7 +446,7 @@ public class GMLFilterDocument extends org.xml.sax.helpers.XMLFilterImpl {
                 if (coordinates.hasMoreElements()) {
                     z = new Double(coordinates.nextToken().trim());
                     parent.gmlCoordinates(x.doubleValue(), y.doubleValue(),
-                        z.doubleValue());
+                            z.doubleValue());
                 } else {
                     parent.gmlCoordinates(x.doubleValue(), y.doubleValue());
                 }
@@ -422,23 +471,23 @@ public class GMLFilterDocument extends org.xml.sax.helpers.XMLFilterImpl {
             // determine which coord string we are inside
             // set internal x,y,z values depending on the return
             switch (insideInnerFlag) {
-            case INSIDE_X:
-                x = new Double(coordString.trim());
+                case INSIDE_X:
+                    x = new Double(coordString.trim());
 
-                break;
+                    break;
 
-            case INSIDE_Y:
-                y = new Double(coordString.trim());
+                case INSIDE_Y:
+                    y = new Double(coordString.trim());
 
-                break;
+                    break;
 
-            case INSIDE_Z:
-                z = new Double(coordString.trim());
+                case INSIDE_Z:
+                    z = new Double(coordString.trim());
 
-                break;
+                    break;
 
-            default:
-                break;
+                default:
+                    break;
             }
         }
 
@@ -446,11 +495,11 @@ public class GMLFilterDocument extends org.xml.sax.helpers.XMLFilterImpl {
          * Sets an entrance into a coordinates element.
          *
          * @param isInside Sets whether or not we are  inside a coordinates
-         *        tag.
-         * @param atts Passes the coordinates tag attributes.
+         *                 tag.
+         * @param atts     Passes the coordinates tag attributes.
          */
         public void insideCoordinates(boolean isInside,
-            org.xml.sax.Attributes atts) {
+                                      org.xml.sax.Attributes atts) {
             this.insideCoordinates(isInside);
         }
 
@@ -471,7 +520,6 @@ public class GMLFilterDocument extends org.xml.sax.helpers.XMLFilterImpl {
          * Sets an entrance into a coord element.
          *
          * @param isInside Sets whether or not we are inside a coord tag.
-         *
          * @throws SAXException if error occurs in reading
          */
         public void insideCoord(boolean isInside) throws SAXException {
@@ -487,7 +535,7 @@ public class GMLFilterDocument extends org.xml.sax.helpers.XMLFilterImpl {
                     parent.gmlCoordinates(x.doubleValue(), y.doubleValue());
                 } else if ((!x.isNaN()) && (!y.isNaN()) && (!z.isNaN())) {
                     parent.gmlCoordinates(x.doubleValue(), y.doubleValue(),
-                        z.doubleValue());
+                            z.doubleValue());
                 }
 
                 //else {

@@ -39,9 +39,8 @@ import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * Utility class for FES bindings.
- * 
- * @author Justin Deoliveira, OpenGeo
  *
+ * @author Justin Deoliveira, OpenGeo
  */
 public class FESParseEncodeUtil {
 
@@ -55,29 +54,29 @@ public class FESParseEncodeUtil {
             if (o == name) {
                 continue;
             }
-            
+
             other = o;
             break;
         }
-        
+
         if (other == null) {
-           throw new IllegalArgumentException("Temporal filter did not specify two operands");
+            throw new IllegalArgumentException("Temporal filter did not specify two operands");
         }
-        
+
         Expression expr = null;
         if (other instanceof Expression) {
             expr = (Expression) other;
-        }
-        else {
+        } else {
             expr = factory.literal(other);
         }
-        
+
         return new Expression[]{name, expr};
     }
-    
+
     static Expression getProperty(BinaryTemporalOperator op, QName name) {
         return getProperty(op.getExpression1(), op.getExpression2(), name);
     }
+
     static Expression getProperty(BinarySpatialOperator op, QName name) {
         return getProperty(op.getExpression1(), op.getExpression2(), name);
     }
@@ -86,7 +85,7 @@ public class FESParseEncodeUtil {
         List l = new ArrayList();
         l.add(distanceBufferOpProperty(op.getExpression1()));
         l.add(distanceBufferOpProperty(op.getExpression2()));
-        
+
         l.add(new Object[]{new QName(FES.NAMESPACE, "Distance"), op.getDistance()});
         return l;
     }
@@ -94,40 +93,36 @@ public class FESParseEncodeUtil {
     static Object[] distanceBufferOpProperty(Expression e) {
         if (e instanceof PropertyName) {
             return new Object[]{FES.ValueReference, e};
-        }
-        else if (e instanceof Literal) {
+        } else if (e instanceof Literal) {
             Literal l = (Literal) e;
             if (l.getValue() instanceof Geometry) {
                 Geometry g = (Geometry) l.getValue();
-                return new Object[]{new QName(GML.NAMESPACE, g.getGeometryType()), g}; 
+                return new Object[]{new QName(GML.NAMESPACE, g.getGeometryType()), g};
             }
             return new Object[]{FES.Literal, e};
-        }
-        else if (e instanceof Function) {
+        } else if (e instanceof Function) {
             return new Object[]{FES.Function, e};
-        }
-        else {
+        } else {
             return new Object[]{FES.expression, e};
         }
     }
+
     static Expression getProperty(Expression e1, Expression e2, QName name) {
         if (FES.ValueReference.equals(name)) {
             if (e1 instanceof PropertyName) {
                 return e1;
-            }
-            else if (e2 instanceof PropertyName) {
+            } else if (e2 instanceof PropertyName) {
                 return e2;
             }
         }
         if (FES.expression.equals(name)) {
             if (e1 instanceof PropertyName) {
                 return e2;
-            }
-            else if (e2 instanceof PropertyName) {
+            } else if (e2 instanceof PropertyName) {
                 return e1;
             }
         }
-        
+
         return null;
     }
 }

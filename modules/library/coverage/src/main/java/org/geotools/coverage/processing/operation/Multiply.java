@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,6 +17,7 @@
 package org.geotools.coverage.processing.operation;
 
 // JAI dependencies (for javadoc)
+
 import it.geosolutions.jaiext.JAIExt;
 import it.geosolutions.jaiext.algebra.AlgebraDescriptor.Operator;
 
@@ -39,7 +40,7 @@ import org.opengis.referencing.operation.MathTransform;
 import org.opengis.util.InternationalString;
 
 /**
- * Create a new coverage as the multiplication of two source coverages by doing pixel by pixel 
+ * Create a new coverage as the multiplication of two source coverages by doing pixel by pixel
  * multiplication:
  * result[0][0] = source0[0][0] * source1[0][0]
  * ...
@@ -48,49 +49,46 @@ import org.opengis.util.InternationalString;
  * ...
  * ...
  * result[n-1][m-1] = source0[n-1][m-1] * source1[n-1][m-1]
- * 
+ * <p>
  * Make sure coverages have same envelope and same resolution before using this operation.
- *
+ * <p>
  * <P><STRONG>Name:</STRONG>&nbsp;<CODE>"Multiply"</CODE><BR>
- *    <STRONG>JAI operator:</STRONG>&nbsp;<CODE>"{@linkplain MultiplyDescriptor Multiply}"</CODE><BR>
- *    <STRONG>Parameters:</STRONG></P>
+ * <STRONG>JAI operator:</STRONG>&nbsp;<CODE>"{@linkplain MultiplyDescriptor Multiply}"</CODE><BR>
+ * <STRONG>Parameters:</STRONG></P>
  * <table border='3' cellpadding='6' bgcolor='F4F8FF'>
- *   <tr bgcolor='#B9DCFF'>
- *     <th>Name</th>
- *     <th>Class</th>
- *     <th>Default value</th>
- *     <th>Minimum value</th>
- *     <th>Maximum value</th>
- *   </tr>
- *   <tr>
- *     <td>{@code "Source0"}</td>
- *     <td>{@link org.geotools.coverage.grid.GridCoverage2D}</td>
- *     <td align="center">N/A</td>
- *     <td align="center">N/A</td>
- *     <td align="center">N/A</td>
- *   </tr>
- *   <tr>
- *     <td>{@code "Source1"}</td>
- *     <td>{@link org.geotools.coverage.grid.GridCoverage2D}</td>
- *     <td align="center">N/A</td>
- *     <td align="center">N/A</td>
- *     <td align="center">N/A</td> 
- *   </tr>
+ * <tr bgcolor='#B9DCFF'>
+ * <th>Name</th>
+ * <th>Class</th>
+ * <th>Default value</th>
+ * <th>Minimum value</th>
+ * <th>Maximum value</th>
+ * </tr>
+ * <tr>
+ * <td>{@code "Source0"}</td>
+ * <td>{@link org.geotools.coverage.grid.GridCoverage2D}</td>
+ * <td align="center">N/A</td>
+ * <td align="center">N/A</td>
+ * <td align="center">N/A</td>
+ * </tr>
+ * <tr>
+ * <td>{@code "Source1"}</td>
+ * <td>{@link org.geotools.coverage.grid.GridCoverage2D}</td>
+ * <td align="center">N/A</td>
+ * <td align="center">N/A</td>
+ * <td align="center">N/A</td>
+ * </tr>
  * </table>
  *
- * @since 8.x
- *
- *
  * @source $URL$
- *
- * @see org.geotools.coverage.processing.Operations#multiply(org.opengis.coverage.Coverage, org.opengis.coverage.Coverage)
+ * @see org.geotools.coverage.processing.Operations#multiply(org.opengis.coverage.Coverage, org
+ * .opengis.coverage.Coverage)
  * @see Multiply
- *
+ * @since 8.x
  */
 public class Multiply extends BaseMathOperationJAI {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 3559075474256896861L;
 
@@ -98,21 +96,21 @@ public class Multiply extends BaseMathOperationJAI {
      * Constructs a default {@code "MultiplyConst"} operation.
      */
     public Multiply() {
-    	super("Multiply", getOperationDescriptor(JAIExt.getOperationName("Multiply")));
+        super("Multiply", getOperationDescriptor(JAIExt.getOperationName("Multiply")));
     }
-    
+
     public String getName() {
         return "Multiply";
     }
-    
+
     /**
      * Returns the expected range of values for the resulting image.
      */
     protected NumberRange deriveRange(final NumberRange[] ranges, final Parameters parameters) {
-        
+
         // Note that they will not be exact ranges since this will require really computing
         // the pixel by pixel operation
-        if (ranges != null && ranges.length == 2){
+        if (ranges != null && ranges.length == 2) {
             final NumberRange range0 = ranges[0];
             final NumberRange range1 = ranges[1];
             final double min0 = range0.getMinimum();
@@ -126,20 +124,25 @@ public class Multiply extends BaseMathOperationJAI {
         return null;
     }
 
-    protected void handleJAIEXTParams(ParameterBlockJAI parameters, ParameterValueGroup parameters2) {
-        if(JAIExt.isJAIExtOperation("algebric")){
+    protected void handleJAIEXTParams(ParameterBlockJAI parameters, ParameterValueGroup 
+            parameters2) {
+        if (JAIExt.isJAIExtOperation("algebric")) {
             parameters.set(Operator.MULTIPLY, 0);
-            Collection<GridCoverage2D> sources = (Collection<GridCoverage2D>) parameters2.parameter("sources").getValue();
-            for(GridCoverage2D source : sources){
+            Collection<GridCoverage2D> sources = (Collection<GridCoverage2D>) 
+                    parameters2.parameter("sources").getValue();
+            for (GridCoverage2D source : sources) {
                 handleROINoDataInternal(parameters, source, "algebric", 1, 2);
             }
         }
     }
 
     @Override
-    protected void extractSources(ParameterValueGroup parameters, Collection<GridCoverage2D> sources, String[] sourceNames) throws ParameterNotFoundException, InvalidParameterValueException {
+    protected void extractSources(ParameterValueGroup parameters, Collection<GridCoverage2D> 
+            sources, String[] sourceNames) throws ParameterNotFoundException, 
+            InvalidParameterValueException {
         try {
-            Collection<GridCoverage2D> paramSources = (Collection<GridCoverage2D>) parameters.parameter("Sources").getValue();
+            Collection<GridCoverage2D> paramSources = (Collection<GridCoverage2D>) parameters
+                    .parameter("Sources").getValue();
             if (paramSources.size() >= 2) {
                 sources.addAll(paramSources);
                 return;
@@ -151,8 +154,10 @@ public class Multiply extends BaseMathOperationJAI {
     }
 
     protected Map<String, ?> getProperties(RenderedImage data, CoordinateReferenceSystem crs,
-                                           InternationalString name, MathTransform gridToCRS, GridCoverage2D[] sources,
+                                           InternationalString name, MathTransform gridToCRS, 
+                                           GridCoverage2D[] sources,
                                            Parameters parameters) {
-        return handleROINoDataProperties(null, parameters.parameters, sources[0], "algebric", 1, 2, 3);
+        return handleROINoDataProperties(null, parameters.parameters, sources[0], "algebric", 1, 
+                2, 3);
     }
 }

@@ -2,7 +2,8 @@
  **
  ** $Id$
  **
- ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/primitive/RingImpl.java,v $
+ ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/primitive
+ * /RingImpl.java,v $
  **
  ** Copyright (C) 2003 Open GIS Consortium, Inc. All Rights Reserved. http://www.opengis.org/Legal/
  **
@@ -44,16 +45,11 @@ import com.vividsolutions.jts.geom.LineString;
  * This implementation does not automatically close itself.  The isValid method
  * returns false if the curve is either not closed or crosses itself.
  *
- * @UML type GM_Ring
  * @author ISO/DIS 19107
  * @author <A HREF="http://www.opengis.org">OpenGIS&reg; consortium</A>
- *
- *
- *
- *
- * @source $URL$
  * @version 2.0
- *
+ * @UML type GM_Ring
+ * @source $URL$
  * @see SurfaceBoundary
  * @see Shell
  */
@@ -83,38 +79,39 @@ public class RingImpl extends CompositeCurveImpl implements Ring {
     public RingImpl(CompositeCurve parentCurve, CoordinateReferenceSystem crs) {
         super(parentCurve, crs);
     }
-    
+
     /**
      * This implementation returns true if the curve
      * does not cross itself, false otherwise.
      * It does not test for closure or disconnects.
      * To check for disconnects, call the superclass method.
+     *
      * @return True if this object's coordinates are a valid Ring.
      */
     public boolean isValid() {
-    	// Verify that the line doesn't cross itself
+        // Verify that the line doesn't cross itself
         com.vividsolutions.jts.geom.Coordinate[] coords =
-        	computeJTSPeer().getCoordinates();
+                computeJTSPeer().getCoordinates();
         int count = coords.length;
 //System.err.println("RingImpl.isValid -- coord count " + count);
         if (count > 2) {
-        	if (!coords[0].equals(coords)) {
+            if (!coords[0].equals(coords)) {
 //System.err.println("  Adding closure coord");
-        		// Close the set of coordinates for the validation test
-        		// if it isn't already closed
-        		com.vividsolutions.jts.geom.Coordinate[] tmp =
-        			new com.vividsolutions.jts.geom.Coordinate[count + 1];
-        		System.arraycopy(coords, 0, tmp, 0, count);
-        		tmp[count] = coords[0];
-        		coords = tmp;
-        	}
-        	LineString jtsLineString = JTSUtils.GEOMETRY_FACTORY.createLineString(coords);
+                // Close the set of coordinates for the validation test
+                // if it isn't already closed
+                com.vividsolutions.jts.geom.Coordinate[] tmp =
+                        new com.vividsolutions.jts.geom.Coordinate[count + 1];
+                System.arraycopy(coords, 0, tmp, 0, count);
+                tmp[count] = coords[0];
+                coords = tmp;
+            }
+            LineString jtsLineString = JTSUtils.GEOMETRY_FACTORY.createLineString(coords);
         	/*
 System.err.println("  Created JTS LineString, point count " + jtsLineString.getNumPoints()
 	+ ", length " + jtsLineString.getLength() + "\n  simple? " + jtsLineString.isSimple()
 	+ "; valid? " + jtsLineString.isValid() + "; closed? " + jtsLineString.isClosed());
-	*/        	
-        	return jtsLineString.isRing();
+	*/
+            return jtsLineString.isRing();
         }
         return false;
     }

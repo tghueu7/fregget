@@ -40,8 +40,6 @@ import org.opengis.filter.spatial.Within;
 import java.io.IOException;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class MySQLFilterToSQL extends FilterToSQL {
@@ -72,10 +70,10 @@ public class MySQLFilterToSQL extends FilterToSQL {
         caps.addType(Within.class);
         caps.addType(Beyond.class);
 
-        
+
         return caps;
     }
-    
+
     @Override
     protected void visitLiteralGeometry(Literal expression) throws IOException {
         Geometry g = (Geometry) evaluateLiteral(expression, Geometry.class);
@@ -83,15 +81,17 @@ public class MySQLFilterToSQL extends FilterToSQL {
             //WKT does not support linear rings
             g = g.getFactory().createLineString(((LinearRing) g).getCoordinateSequence());
         }
-        out.write( "GeomFromText('"+g.toText()+"', "+currentSRID+")");
+        out.write("GeomFromText('" + g.toText() + "', " + currentSRID + ")");
     }
 
     @Override
     protected Object visitBinarySpatialOperator(BinarySpatialOperator filter,
-            PropertyName property, Literal geometry, boolean swapped, Object extraData) {
+                                                PropertyName property, Literal geometry, boolean 
+                                                            swapped, Object extraData) {
 
         if (usePreciseSpatialOps) {
-            return visitBinarySpatialOperatorEnhanced(filter, (Expression) property, (Expression) geometry,
+            return visitBinarySpatialOperatorEnhanced(filter, (Expression) property, (Expression)
+                            geometry,
                     swapped, extraData);
         } else {
             return visitBinarySpatialOperator(filter, (Expression) property, (Expression) geometry,
@@ -109,105 +109,91 @@ public class MySQLFilterToSQL extends FilterToSQL {
         }
     }
 
-    
+
     protected Object visitBinarySpatialOperator(BinarySpatialOperator filter, Expression e1,
-        Expression e2, boolean swapped, Object extraData) {
-    
+                                                Expression e2, boolean swapped, Object extraData) {
+
         try {
-            
-            if (!(filter instanceof Disjoint)) { 
+
+            if (!(filter instanceof Disjoint)) {
                 out.write("MbrIntersects(");
                 e1.accept(this, extraData);
                 out.write(",");
                 e2.accept(this, extraData);
                 out.write(")");
-                
+
                 if (!(filter instanceof BBOX)) {
                     out.write(" AND ");
                 }
             }
-     
+
             if (filter instanceof BBOX) {
                 //nothing to do. already encoded above
                 return extraData;
             }
-            
+
             if (filter instanceof DistanceBufferOperator) {
                 out.write("Distance(");
                 e1.accept(this, extraData);
                 out.write(", ");
                 e2.accept(this, extraData);
                 out.write(")");
-                
+
                 if (filter instanceof DWithin) {
                     out.write("<");
-                }
-                else if (filter instanceof Beyond) {
+                } else if (filter instanceof Beyond) {
                     out.write(">");
-                }
-                else {
+                } else {
                     throw new RuntimeException("Unknown distance operator");
                 }
-                out.write(Double.toString(((DistanceBufferOperator)filter).getDistance()));
-            }
-            else if (filter instanceof BBOX) {
-              
-            }
-            else {
-             
+                out.write(Double.toString(((DistanceBufferOperator) filter).getDistance()));
+            } else if (filter instanceof BBOX) {
+
+            } else {
+
                 if (filter instanceof Contains) {
                     out.write("Contains(");
-                }
-                else if (filter instanceof Crosses) {
+                } else if (filter instanceof Crosses) {
                     out.write("Crosses(");
-                }
-                else if (filter instanceof Disjoint) {
+                } else if (filter instanceof Disjoint) {
                     out.write("Disjoint(");
-                }
-                else if (filter instanceof Equals) {
+                } else if (filter instanceof Equals) {
                     out.write("Equals(");
-                }
-                else if (filter instanceof Intersects) {
+                } else if (filter instanceof Intersects) {
                     out.write("Intersects(");
-                }
-                else if (filter instanceof Overlaps) {
+                } else if (filter instanceof Overlaps) {
                     out.write("Overlaps(");
-                }
-                else if (filter instanceof Touches) {
+                } else if (filter instanceof Touches) {
                     out.write("Touches(");
-                }
-                else if (filter instanceof Within) {
+                } else if (filter instanceof Within) {
                     out.write("Within(");
-                }
-                else {
+                } else {
                     throw new RuntimeException("Unknown operator: " + filter);
                 }
-                
+
                 if (swapped) {
                     e2.accept(this, extraData);
                     out.write(", ");
                     e1.accept(this, extraData);
-                }
-                else {
+                } else {
                     e1.accept(this, extraData);
                     out.write(", ");
                     e2.accept(this, extraData);
                 }
-                
+
                 out.write(")");
             }
-        } 
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        
+
         return extraData;
     }
 
-    
+
     /**
      * supported if version of MySQL is at least 5.6.
-     * 
+     *
      * @param filter
      * @param e1
      * @param e2
@@ -216,7 +202,8 @@ public class MySQLFilterToSQL extends FilterToSQL {
      * @return
      */
     protected Object visitBinarySpatialOperatorEnhanced(BinarySpatialOperator filter, Expression e1,
-                                                        Expression e2, boolean swapped, Object extraData) {
+                                                        Expression e2, boolean swapped, Object 
+                                                                extraData) {
 
         try {
 

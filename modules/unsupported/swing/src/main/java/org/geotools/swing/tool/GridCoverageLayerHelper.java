@@ -29,10 +29,9 @@ import org.geotools.map.Layer;
  * Used by {@linkplain InfoTool} to query {@linkplain GridCoverageLayer} objects.
  *
  * @author Michael Bedward
- * @since 8.0
- *
- * @source $URL$
  * @version $URL$
+ * @source $URL$
+ * @since 8.0
  */
 public class GridCoverageLayerHelper extends InfoToolHelper {
 

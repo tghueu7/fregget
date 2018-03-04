@@ -29,8 +29,6 @@ import com.vividsolutions.jts.geom.Polygon;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GMLGeometryStreamingTest extends TestCase {

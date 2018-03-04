@@ -53,9 +53,9 @@ public class LineStringGraphGeneratorTest extends TestCase {
     }
 
     public void testThatCoordinatesNearbySnapToSameNode() {
-        LineString lineString = gf.createLineString(new Coordinate[] { c1, c2 });
-        LineString lineString2 = gf.createLineString(new Coordinate[] { c6, c3 });
-        LineString lineString3 = gf.createLineString(new Coordinate[] { c7, c4 });
+        LineString lineString = gf.createLineString(new Coordinate[]{c1, c2});
+        LineString lineString2 = gf.createLineString(new Coordinate[]{c6, c3});
+        LineString lineString3 = gf.createLineString(new Coordinate[]{c7, c4});
         gen.add(lineString);
         gen.add(lineString2);
         gen.add(lineString3);
@@ -66,7 +66,8 @@ public class LineStringGraphGeneratorTest extends TestCase {
         Collection<Coordinate> graphNodeCoordinates = getCoordinates(graphNodes);
         assertTrue(graphNodeCoordinates.contains(c2));
         assertFalse("c6 should be snapped to c2", graphNodeCoordinates.contains(c6));
-        assertTrue("c7 should not have been snapped to c2 - distance bigger than tolerance", graphNodeCoordinates.contains(c7)); //
+        assertTrue("c7 should not have been snapped to c2 - distance bigger than tolerance", 
+                graphNodeCoordinates.contains(c7)); //
         assertEquals(3, graph.getEdges().size());
     }
 

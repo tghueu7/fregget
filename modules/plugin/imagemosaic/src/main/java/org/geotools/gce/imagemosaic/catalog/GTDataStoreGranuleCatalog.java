@@ -37,16 +37,17 @@ import org.geotools.util.Utilities;
 public class GTDataStoreGranuleCatalog extends AbstractGTDataStoreGranuleCatalog {
 
     private DataStore tileIndexStore;
-    
+
     private Set<String> validTypeNames;
 
     public GTDataStoreGranuleCatalog(Properties params, boolean create, DataStoreFactorySpi spi,
-            Hints hints) {
+                                     Hints hints) {
         super(params, create, spi, hints);
     }
 
     protected void initTileIndexStore(final Properties params, final boolean create,
-            final DataStoreFactorySpi spi) throws IOException, MalformedURLException {
+                                      final DataStoreFactorySpi spi) throws IOException, 
+            MalformedURLException {
         Utilities.ensureNonNull("spi", spi);
 
         // creating a store, this might imply creating it for an existing underlying store or
@@ -82,10 +83,10 @@ public class GTDataStoreGranuleCatalog extends AbstractGTDataStoreGranuleCatalog
             this.tileIndexStore = new OracleDatastoreWrapper(getTileIndexStore(),
                     FilenameUtils.getFullPath(parentLocation));
         }
-        
+
         // this init must be here as it's getting called by the parent class constructor
         this.validTypeNames = new HashSet<String>();
-        
+
         // is this a new store? If so we do not set any properties
         if (create) {
             return;

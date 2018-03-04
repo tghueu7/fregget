@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2012, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -24,9 +24,8 @@ import org.opengis.metadata.citation.Citation;
 
 /**
  * Default grid shift file locator, looks up grids in the classpath
- * 
+ *
  * @author Andrea Aime - GeoSolutions
- * 
  */
 public class ClasspathGridShiftLocator extends AbstractFactory implements GridShiftLocator {
 

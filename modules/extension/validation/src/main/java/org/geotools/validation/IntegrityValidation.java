@@ -23,24 +23,24 @@ import org.geotools.geometry.jts.ReferencedEnvelope;
 
 /**
  * Used to check geospatial information for integrity.
- * 
+ * <p>
  * <p>
  * Each ValidationPlugIn is very specific in nature: it performs one test
  * extermly well.  This simplifies design decisions, documenation
  * configuration and use.
  * </p>
- * 
+ * <p>
  * <p>
  * Following the lead the excelent design work in the JUnit testing framework
  * validation results are collected by a ValidationResults object. This
  * interface for the ValidationResults object also allows it to collect
  * warning information.
  * </p>
- * 
+ * <p>
  * <p>
  * The PlugIn is also required to supply some metadata to aid in its
  * deployment, scripting, logging and execution and error recovery:
- * 
+ * <p>
  * <ul>
  * <li>
  * name: user's name of validation test
@@ -56,10 +56,10 @@ import org.geotools.geometry.jts.ReferencedEnvelope;
  * </li>
  * </ul>
  * </p>
- * 
+ * <p>
  * <p>
  * Capabilities:
- * 
+ * <p>
  * <ul>
  * <li>
  * Uses FeatureResults to allow environment to gather error/warning information
@@ -74,24 +74,22 @@ import org.geotools.geometry.jts.ReferencedEnvelope;
  * </p>
  *
  * @author Jody Garnett, Refractions Research
- *
- *
  * @source $URL$
  */
 public interface IntegrityValidation extends Validation {
     /**
      * Used to check features against this validation rule.
-     * 
+     * <p>
      * <p>
      * The layers Map is still under developement, current thinking involves
      * storing a SimpleFeatureSource of the correct typeName requested by
      * getTypeNames(), using the current geotools2 Transaction as the
      * opperation being validated.
      * </p>
-     * 
+     * <p>
      * <p>
      * We may need to extend this information to provide:
-     * 
+     * <p>
      * <ul>
      * <li>
      * FeatureTypeMetaData: we may with to configure against metadata
@@ -103,12 +101,11 @@ public interface IntegrityValidation extends Validation {
      * </ul>
      * </p>
      *
-     * @param layers Map of SimpleFeatureSource by "dataStoreID:typeName"
+     * @param layers   Map of SimpleFeatureSource by "dataStoreID:typeName"
      * @param envelope The bounding box that encloses the unvalidated data
-     * @param results Used to coallate results information
-     *
+     * @param results  Used to coallate results information
      * @return <code>true</code> if all the features pass this test.
      */
     public boolean validate(Map layers, ReferencedEnvelope envelope,
-        ValidationResults results) throws Exception;
+                            ValidationResults results) throws Exception;
 }

@@ -27,13 +27,13 @@ import org.opengis.filter.expression.VolatileFunction;
 
 /**
  * Function to identify if a feature is a wrapped coverage or not
- * 
+ *
  * @author Davide Savazzi - GeoSolutions
  */
-public class FilterFunction_isCoverage  extends FunctionExpressionImpl implements VolatileFunction {
+public class FilterFunction_isCoverage extends FunctionExpressionImpl implements VolatileFunction {
 
-    public static FunctionName NAME = new FunctionNameImpl("isCoverage",Boolean.class);
-    
+    public static FunctionName NAME = new FunctionNameImpl("isCoverage", Boolean.class);
+
     public FilterFunction_isCoverage() {
         super(NAME);
     }
@@ -42,7 +42,7 @@ public class FilterFunction_isCoverage  extends FunctionExpressionImpl implement
         return FeatureUtilities.isWrappedCoverageReader(feature.getFeatureType()) ||
                 FeatureUtilities.isWrappedCoverage(feature.getFeatureType());
     }
-    
+
     public Object evaluate(Object object) {
         if (object instanceof SimpleFeature) {
             return evaluate((SimpleFeature) object);

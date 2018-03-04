@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -26,8 +26,6 @@ import org.opengis.feature.simple.SimpleFeatureType;
  * DefaultFeatureCollections.
  *
  * @author Ian Schneider
- *
- *
  * @source $URL$
  */
 public class DefaultFeatureCollections extends FeatureCollections {
@@ -43,12 +41,14 @@ public class DefaultFeatureCollections extends FeatureCollections {
      * @return A new, empty DefaultFeatureCollection.
      */
     protected SimpleFeatureCollection createCollection() {
-        return new DefaultFeatureCollection(null,null);
+        return new DefaultFeatureCollection(null, null);
     }
+
     protected SimpleFeatureCollection createCollection(String id) {
-        return new DefaultFeatureCollection(id,null);
+        return new DefaultFeatureCollection(id, null);
     }
+
     protected SimpleFeatureCollection createCollection(String id, SimpleFeatureType ft) {
-        return new DefaultFeatureCollection(id,ft);
+        return new DefaultFeatureCollection(id, ft);
     }
 }

@@ -7,22 +7,19 @@ import org.opengis.style.GraphicalSymbol;
 
 /**
  * Used to represent a Rule (or other construct) in a user interface or legend.
- * 
+ *
  * @author Jody
- *
- *
- *
  * @source $URL$
  */
 public interface GraphicLegend extends org.opengis.style.GraphicLegend {
 
     public AnchorPoint getAnchorPoint();
-    
-    public void setAnchorPoint( org.opengis.style.AnchorPoint anchor );
+
+    public void setAnchorPoint(org.opengis.style.AnchorPoint anchor);
 
     public Displacement getDisplacement();
-    
-    public void setDisplacement( org.opengis.style.Displacement displacement );
+
+    public void setDisplacement(org.opengis.style.Displacement displacement);
 
     /**
      * This specifies the level of translucency to use when rendering the graphic.<br>
@@ -33,25 +30,25 @@ public interface GraphicLegend extends org.opengis.style.GraphicLegend {
      * 1.0 (opaque).
      *
      * @return The opacity of the Graphic, where 0.0 is completely transparent
-     *         and 1.0 is completely opaque.
+     * and 1.0 is completely opaque.
      */
     public Expression getOpacity();
 
     /**
      * Graphic opacity.
-     * 
+     *
      * @param opacity New value of property opacity.
      */
-    public void setOpacity( Expression opacity);
-    
+    public void setOpacity(Expression opacity);
+
     /**
      * This parameter defines the rotation of a graphic in the clockwise
      * direction about its centre point in decimal degrees. The value encoded
      * as a floating point number.
      *
      * @return The angle of rotation in decimal degrees. Negative values
-     *         represent counter-clockwise rotation.  The default is 0.0 (no
-     *         rotation).
+     * represent counter-clockwise rotation.  The default is 0.0 (no
+     * rotation).
      */
     public Expression getRotation();
 
@@ -59,11 +56,11 @@ public interface GraphicLegend extends org.opengis.style.GraphicLegend {
      * This parameter defines the rotation of a graphic in the clockwise
      * direction about its centre point in decimal degrees.   The value
      * encoded as a floating point number.
-     * 
+     *
      * @param rotation in decimal degrees
      */
     void setRotation(Expression rotation);
-    
+
     /**
      * The size of the mark if specified.
      * <p>
@@ -81,10 +78,11 @@ public interface GraphicLegend extends org.opengis.style.GraphicLegend {
      * If this value is null the natural size of the graphic will be used;
      * or for graphics without a natural size like SVG files 16x16 will be
      * used.
-     * 
+     *
      * @param size
      */
-    public void setSize( Expression size );
+    public void setSize(Expression size);
+
     /**
      * The items in this list are either a Mark or a ExternalGraphic.
      * <p>

@@ -28,9 +28,9 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the type http://www.opengis.net/wfs/2.0:ValueCollectionType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:complexType name="ValueCollectionType"&gt;
@@ -40,13 +40,13 @@ import javax.xml.namespace.QName;
  *          &lt;xsd:element minOccurs="0" ref="wfs:truncatedResponse"/&gt;
  *      &lt;/xsd:sequence&gt;
  *      &lt;xsd:attributeGroup ref="wfs:StandardResponseParameters"/&gt;
- *  &lt;/xsd:complexType&gt; 
- * 	
+ *  &lt;/xsd:complexType&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
  */
 public class ValueCollectionTypeBinding extends AbstractComplexEMFBinding {
@@ -54,7 +54,7 @@ public class ValueCollectionTypeBinding extends AbstractComplexEMFBinding {
     public ValueCollectionTypeBinding(Wfs20Factory factory) {
         super(factory);
     }
-    
+
     /**
      * @generated
      */
@@ -64,7 +64,7 @@ public class ValueCollectionTypeBinding extends AbstractComplexEMFBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -73,7 +73,7 @@ public class ValueCollectionTypeBinding extends AbstractComplexEMFBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
@@ -81,11 +81,11 @@ public class ValueCollectionTypeBinding extends AbstractComplexEMFBinding {
         // TODO: implement and remove call to super
         return super.parse(instance, node, value);
     }
-    
+
     @Override
     public Object getProperty(Object object, QName name) throws Exception {
         if (WFS.member.equals(name)) {
-            return ((ValueCollectionType)object).getMember().iterator().next();
+            return ((ValueCollectionType) object).getMember().iterator().next();
         }
         return null;
         //else {

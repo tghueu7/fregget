@@ -26,8 +26,6 @@ import org.geotools.util.Converter;
 import org.geotools.util.ConverterFactory;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class LobConverterFactory implements ConverterFactory {

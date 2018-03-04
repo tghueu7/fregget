@@ -21,12 +21,10 @@ package org.geotools.metadata;
  * Thrown when a {@linkplain org.geotools.metadata.iso.MetadataEntity metadata entity}
  * is in a invalid state, usually because a mandatory attribute is missing.
  *
- * @since 2.4
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (Geomatys)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.4
  */
 public class InvalidMetadataException extends IllegalStateException {
     /**

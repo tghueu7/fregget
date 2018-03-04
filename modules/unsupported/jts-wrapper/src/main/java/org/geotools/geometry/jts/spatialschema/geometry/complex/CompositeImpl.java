@@ -2,7 +2,8 @@
  **
  ** $Id$
  **
- ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/complex/CompositeImpl.java,v $
+ ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/complex
+ * /CompositeImpl.java,v $
  **
  ** Copyright (C) 2003 Open GIS Consortium, Inc. All Rights Reserved. http://www.opengis.org/Legal/
  **
@@ -22,18 +23,14 @@ import org.opengis.geometry.primitive.Primitive;
  * values in datasets in which the underlying geometry has been decomposed, usually to expose its
  * topological nature.
  *
- * @UML type GM_Composite
  * @author ISO/DIS 19107
  * @author <A HREF="http://www.opengis.org">OpenGIS&reg; consortium</A>
- *
- *
- *
- *
- * @source $URL$
  * @version 2.0
+ * @UML type GM_Composite
+ * @source $URL$
  */
-public abstract class CompositeImpl 
-	extends ComplexImpl implements Composite {
+public abstract class CompositeImpl
+        extends ComplexImpl implements Composite {
 
     public CompositeImpl() {
         this(null);

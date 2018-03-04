@@ -56,14 +56,12 @@ import com.vividsolutions.jts.io.WKTReader;
 
 /**
  * Unit test suite for {@link ArcSDEGeometryBuilder}
- * 
+ *
  * @author Gabriel Roldan
- *
- *
- * @source $URL$
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/test/java
- *         /org/geotools/arcsde/data/GeometryBuilderTest.java $
  * @version $Id$
+ * @source $URL$
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/test/java
+ * /org/geotools/arcsde/data/GeometryBuilderTest.java $
  */
 public class GeometryBuilderTest {
 
@@ -87,46 +85,63 @@ public class GeometryBuilderTest {
     @Before
     public void setUp() throws Exception {
         wktReader = new WKTReader();
-        testPoints = new Geometry[] { wktReader.read("POINT (-0.055 99.999)"),
+        testPoints = new Geometry[]{wktReader.read("POINT (-0.055 99.999)"),
                 wktReader.read("POINT (120.324 89.999)"), wktReader.read("POINT (-79.9 75.55)"),
-                wktReader.read("POINT (500000.0005 500000.005)") };
+                wktReader.read("POINT (500000.0005 500000.005)")};
 
-        testLineStrings = new Geometry[] {
+        testLineStrings = new Geometry[]{
                 wktReader
-                        .read("LINESTRING (80 360, 520 360, 520 40, 120 40, 120 300, 460 300, 460 100, 200 100, 200 240, 400 240, 400 140, 560 0)"),
+                        .read("LINESTRING (80 360, 520 360, 520 40, 120 40, 120 300, 460 300, 460" +
+                        " 100, 200 100, 200 240, 400 240, 400 140, 560 0)"),
                 wktReader
-                        .read("LINESTRING (60 380, 60 20, 200 400, 280 20, 360 400, 420 20, 500 400, 580 20, 620 400)") };
+                        .read("LINESTRING (60 380, 60 20, 200 400, 280 20, 360 400, 420 20, 500 " +
+                        "400, 580 20, 620 400)")};
 
-        testPolygons = new Geometry[] {
+        testPolygons = new Geometry[]{
                 wktReader
-                        .read("POLYGON ((0 0, 0 10, 10 10, 10 0, 0 0), (3 3, 3 6, 6 6, 6 3, 3 3), (7 7, 7 8, 8 8, 8 7, 7 7))"),
+                        .read("POLYGON ((0 0, 0 10, 10 10, 10 0, 0 0), (3 3, 3 6, 6 6, 6 3, 3 3)," +
+                        " (7 7, 7 8, 8 8, 8 7, 7 7))"),
                 wktReader
-                        .read("POLYGON ((140 380, 140 390, 1290 380, 140 300, 40 300, 60 400, 140 380))"),
-                wktReader.read("POLYGON ((280 380, 280 200, 60 200, 60 380, 180 220, 280 380))") };
+                        .read("POLYGON ((140 380, 140 390, 1290 380, 140 300, 40 300, 60 400, 140" +
+                        " 380))"),
+                wktReader.read("POLYGON ((280 380, 280 200, 60 200, 60 380, 180 220, 280 380))")};
 
-        testMultiPoints = new Geometry[] {
+        testMultiPoints = new Geometry[]{
                 wktReader.read("MULTIPOINT (180 90, -180 -90, 0 0, 180 -90)"),
-                wktReader.read("MULTIPOINT (85.4545 89.2343, 15.234 -76.23423)") };
+                wktReader.read("MULTIPOINT (85.4545 89.2343, 15.234 -76.23423)")};
 
-        testMultiLineStrings = new Geometry[] {
+        testMultiLineStrings = new Geometry[]{
                 wktReader
-                        .read("MULTILINESTRING ((80 360, 80 80, 100 80, 100 360, 120 360, 120 80, 140 80, 140 360, 160 360, 160 80), (180 100, 60 100, 60 140, 180 140, 180 180, 60 180, 60 220, 180 220, 180 260, 60 260, 60 300, 180 300, 180 340, 60 340), (40 380, 240 380, 240 40, 40 40))"),
+                        .read("MULTILINESTRING ((80 360, 80 80, 100 80, 100 360, 120 360, 120 80," +
+                        " 140 80, 140 360, 160 360, 160 80), (180 100, 60 100, 60 140, 180 140, " +
+                        "180 180, 60 180, 60 220, 180 220, 180 260, 60 260, 60 300, 180 300, 180 " +
+                        "340, 60 340), (40 380, 240 380, 240 40, 40 40))"),
                 wktReader
-                        .read("MULTILINESTRING ((300 380, 60 200, 340 20, 580 220, 340 360, 140 200, 340 80), (340 300, 480 220, 360 120, 220 200, 320 280, 420 220, 360 160, 280 200), (380 380, 580 260, 580 400, 420 400, 560 320, 560 380, 520 380), (40 180, 260 20, 40 20, 40 140, 180 40))") };
+                        .read("MULTILINESTRING ((300 380, 60 200, 340 20, 580 220, 340 360, 140 " +
+                        "200, 340 80), (340 300, 480 220, 360 120, 220 200, 320 280, 420 220, 360" +
+                        " 160, 280 200), (380 380, 580 260, 580 400, 420 400, 560 320, 560 380, " +
+                        "520 380), (40 180, 260 20, 40 20, 40 140, 180 40))")};
 
-        testMultiPolygons = new Geometry[] {
+        testMultiPolygons = new Geometry[]{
                 wktReader
-                        .read("MULTIPOLYGON (((0 0, 0 1, 1 1, 1 0, 0 0)), ((1 1, 1 3, 3 3, 3 1, 1 1)))"),
+                        .read("MULTIPOLYGON (((0 0, 0 1, 1 1, 1 0, 0 0)), ((1 1, 1 3, 3 3, 3 1, 1" +
+                        " 1)))"),
                 wktReader
-                        .read("MULTIPOLYGON (((0.0008 0.0005, 0.0008 0.0007, 0.0012 0.0007, 0.0012 0.0005, 0.0008 0.0005)))"),
+                        .read("MULTIPOLYGON (((0.0008 0.0005, 0.0008 0.0007, 0.0012 0.0007, " +
+                        "0.0012 0.0005, 0.0008 0.0005)))"),
                 wktReader
-                        .read("MULTIPOLYGON (((0.0008 0.0005, 0.0008 1.0007, 1.0012 1.0007, 1.0012 0.0005, 0.0008 0.0005)))"),
+                        .read("MULTIPOLYGON (((0.0008 0.0005, 0.0008 1.0007, 1.0012 1.0007, " +
+                        "1.0012 0.0005, 0.0008 0.0005)))"),
                 wktReader
-                        .read("MULTIPOLYGON (((0.008 0.005, 0.008 0.007, 0.012 0.007, 0.012 0.005, 0.008 0.005)))"),
+                        .read("MULTIPOLYGON (((0.008 0.005, 0.008 0.007, 0.012 0.007, 0.012 " +
+                        "0.005, 0.008 0.005)))"),
                 wktReader
-                        .read("MULTIPOLYGON ( ((0 0, 0 10, 10 10, 10 0, 0 0), (3 3, 3 6, 6 6, 6 3, 3 3)))"),
+                        .read("MULTIPOLYGON ( ((0 0, 0 10, 10 10, 10 0, 0 0), (3 3, 3 6, 6 6, 6 " +
+                        "3, 3 3)))"),
                 wktReader
-                        .read("MULTIPOLYGON ( ((0 0, 0 10, 10 10, 10 0, 0 0), (3 3, 3 6, 6 6, 6 3, 3 3), (7 7, 7 8, 8 8, 8 7, 7 7)), ((-1 -1, -1 -3, -3 -3, -3 -1, -1 -1)), ((280 380, 280 200, 60 200, 60 380, 180 220, 280 380)) )")
+                        .read("MULTIPOLYGON ( ((0 0, 0 10, 10 10, 10 0, 0 0), (3 3, 3 6, 6 6, 6 " +
+                        "3, 3 3), (7 7, 7 8, 8 8, 8 7, 7 7)), ((-1 -1, -1 -3, -3 -3, -3 -1, -1 " +
+                        "-1)), ((280 380, 280 200, 60 200, 60 380, 180 220, 280 380)) )")
 
         };
     }
@@ -143,7 +158,8 @@ public class GeometryBuilderTest {
         try {
             testData.createTempTable(false);
         } catch (Exception e) {
-            LOGGER.warning("can't create temp table, connection params may be not set. Skipping testInsertGeometries");
+            LOGGER.warning("can't create temp table, connection params may be not set. Skipping " +
+                    "testInsertGeometries");
             return;
         }
         testInsertGeometries(testPoints, testData);
@@ -164,7 +180,7 @@ public class GeometryBuilderTest {
             testData.insertData(original, layer, session);
             final SeSqlConstruct sqlCons = new SeSqlConstruct(layer.getName());
 
-            SeQuery query = session.createAndExecuteQuery(new String[] { "SHAPE" }, sqlCons);
+            SeQuery query = session.createAndExecuteQuery(new String[]{"SHAPE"}, sqlCons);
 
             SdeRow row;
             SeShape shape;
@@ -385,12 +401,11 @@ public class GeometryBuilderTest {
      * <code>SeShape</code> objects and finally used ArcSDEGeometryBuilder to build the JTS
      * geometries back, which are tested for equality against the original ones.
      * </p>
-     * 
-     * @param expectedGeometries
-     *            the list of geometries (of the same type) to assert the building from their
-     *            corresponding arcsde representation.
-     * @throws Exception
-     *             for any problem that could arise
+     *
+     * @param expectedGeometries the list of geometries (of the same type) to assert the building
+     *                          from their
+     *                           corresponding arcsde representation.
+     * @throws Exception for any problem that could arise
      */
     private void testBuildJTSGeometries(final Geometry[] expectedGeometries) throws Exception {
 
@@ -407,7 +422,8 @@ public class GeometryBuilderTest {
     }
 
     private Geometry[] buildJTSgeometriesFromShapes(final Geometry[] expectedGeometries,
-            final GeometryFactory geometryFactory) throws SeException, IOException,
+                                                    final GeometryFactory geometryFactory) throws
+            SeException, IOException,
             DataSourceException {
 
         Class<? extends Geometry> geometryClass = expectedGeometries[0].getClass();
@@ -439,7 +455,8 @@ public class GeometryBuilderTest {
     }
 
     private double[][][] geometryToSdeCoords(final Geometry jtsGeom,
-            final SeCoordinateReference seCRS) throws SeException, IOException {
+                                             final SeCoordinateReference seCRS) throws 
+            SeException, IOException {
         int numParts;
         double[][][] sdeCoords;
         GeometryCollection gcol = null;
@@ -447,7 +464,7 @@ public class GeometryBuilderTest {
         if (jtsGeom instanceof GeometryCollection) {
             gcol = (GeometryCollection) jtsGeom;
         } else {
-            Geometry[] geoms = { jtsGeom };
+            Geometry[] geoms = {jtsGeom};
             gcol = new GeometryFactory().createGeometryCollection(geoms);
         }
 

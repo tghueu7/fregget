@@ -4,30 +4,28 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.parameter;
 
 import org.opengis.annotation.UML;
+
 import static org.opengis.annotation.Specification.*;
 
 
 /**
  * Thrown when an invalid value was given to a {@linkplain ParameterValue parameter}.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengis.org/docs/01-004.pdf">Grid Coverage specification 1.0</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
- *
+ * @source $URL$
  * @see ParameterValue#setValue(int)
  * @see ParameterValue#setValue(double)
  * @see ParameterValue#setValue(Object)
+ * @since GeoAPI 1.0
  */
-@UML(identifier="GC_InvalidParameterValue", specification=ISO_19111)
+@UML(identifier = "GC_InvalidParameterValue", specification = ISO_19111)
 public class InvalidParameterValueException extends IllegalArgumentException {
     /**
      * Serial number for interoperability with different versions.
@@ -47,10 +45,10 @@ public class InvalidParameterValueException extends IllegalArgumentException {
     /**
      * Creates an exception with the specified invalid value.
      *
-     * @param message The detail message. The detail message is saved for
-     *                later retrieval by the {@link #getMessage()} method.
+     * @param message       The detail message. The detail message is saved for
+     *                      later retrieval by the {@link #getMessage()} method.
      * @param parameterName The parameter name.
-     * @param value The invalid parameter value.
+     * @param value         The invalid parameter value.
      */
     public InvalidParameterValueException(String message, String parameterName, Object value) {
         super(message);
@@ -61,10 +59,10 @@ public class InvalidParameterValueException extends IllegalArgumentException {
     /**
      * Creates an exception with the specified invalid value as a floating point.
      *
-     * @param  message The detail message. The detail message is saved for
-     *         later retrieval by the {@link #getMessage()} method.
-     * @param  parameterName The parameter name.
-     * @param  value The invalid parameter value.
+     * @param message       The detail message. The detail message is saved for
+     *                      later retrieval by the {@link #getMessage()} method.
+     * @param parameterName The parameter name.
+     * @param value         The invalid parameter value.
      */
     public InvalidParameterValueException(String message, String parameterName, double value) {
         this(message, parameterName, Double.valueOf(value));
@@ -73,10 +71,10 @@ public class InvalidParameterValueException extends IllegalArgumentException {
     /**
      * Creates an exception with the specified invalid value as an integer.
      *
-     * @param  message The detail message. The detail message is saved for
-     *         later retrieval by the {@link #getMessage()} method.
-     * @param  parameterName The parameter name.
-     * @param  value The invalid parameter value.
+     * @param message       The detail message. The detail message is saved for
+     *                      later retrieval by the {@link #getMessage()} method.
+     * @param parameterName The parameter name.
+     * @param value         The invalid parameter value.
      */
     public InvalidParameterValueException(String message, String parameterName, int value) {
         this(message, parameterName, Integer.valueOf(value));

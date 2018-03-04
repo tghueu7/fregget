@@ -17,7 +17,9 @@
 package org.geotools.filter.v1_1.capabilities;
 
 import org.w3c.dom.Document;
+
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.capability.SpatialOperators;
 import org.geotools.filter.v1_1.OGC;
 import org.geotools.xml.Binding;
@@ -25,13 +27,14 @@ import org.geotools.xml.Binding;
 
 /**
  * Binding test case for http://www.opengis.net/ogc:SpatialOperatorsType.
- *
  * <p>
- *  <pre>
+ * <p>
+ * <pre>
  *   <code>
  *  &lt;xsd:complexType name="SpatialOperatorsType"&gt;
  *      &lt;xsd:sequence&gt;
- *          &lt;xsd:element maxOccurs="unbounded" name="SpatialOperator" type="ogc:SpatialOperatorType"/&gt;
+ *          &lt;xsd:element maxOccurs="unbounded" name="SpatialOperator" 
+ *          type="ogc:SpatialOperatorType"/&gt;
  *      &lt;/xsd:sequence&gt;
  *  &lt;/xsd:complexType&gt;
  *
@@ -40,9 +43,6 @@ import org.geotools.xml.Binding;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SpatialOperatorsTypeBindingTest extends OGCTestSupport {
@@ -77,6 +77,6 @@ public class SpatialOperatorsTypeBindingTest extends OGCTestSupport {
                 new QName(OGC.NAMESPACE, "SpatialOperators"), OGC.SpatialOperatorsType);
 
         assertEquals(11,
-            getElementsByQName(dom, new QName(OGC.NAMESPACE, "SpatialOperator")).getLength());
+                getElementsByQName(dom, new QName(OGC.NAMESPACE, "SpatialOperator")).getLength());
     }
 }

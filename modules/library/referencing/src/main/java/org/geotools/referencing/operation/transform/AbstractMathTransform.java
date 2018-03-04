@@ -69,14 +69,11 @@ import org.geotools.resources.i18n.VocabularyKeys;
  * implements {@code MathTransform2D}. Subclasses must declare {@code implements MathTransform2D}
  * themself if they know to maps two-dimensional coordinate systems.
  *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @tutorial http://docs.codehaus.org/display/GEOTOOLS/Coordinate+Transformation+Parameters
+ * @since 2.0
  */
 public abstract class AbstractMathTransform extends Formattable implements MathTransform {
     /**
@@ -91,7 +88,6 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
      * any, or the short class name otherwise.
      *
      * @return A name for this math transform (never {@code null}).
-     *
      * @since 2.5
      */
     public String getName() {
@@ -125,7 +121,6 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
      * {@linkplain NonSI#DEGREE_ANGLE decimal degrees}).
      *
      * @return The parameter descriptors for this math transform, or {@code null}.
-     *
      * @see OperationMethod#getParameters
      */
     public ParameterDescriptorGroup getParameterDescriptors() {
@@ -140,7 +135,6 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
      * parameter values, any change to a value will have no effect on this math transform.
      *
      * @return A copy of the parameter values for this math transform, or {@code null}.
-     *
      * @see Operation#getParameterValues
      */
     public ParameterValueGroup getParameterValues() {
@@ -163,27 +157,25 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
      * @param expected  The expected dimension.
      */
     private static String constructMessage(final String argument,
-                                           final int   dimension,
-                                           final int    expected)
-    {
+                                           final int dimension,
+                                           final int expected) {
         return Errors.format(ErrorKeys.MISMATCHED_DIMENSION_$3, argument, dimension, expected);
     }
 
     /**
      * Transforms the specified {@code ptSrc} and stores the result in {@code ptDst}.
-     * The default implementation invokes {@link #transform(double[],int,double[],int,int)}
+     * The default implementation invokes {@link #transform(double[], int, double[], int, int)}
      * using a temporary array of doubles.
      *
-     * @param  ptSrc The specified coordinate point to be transformed.
-     * @param  ptDst The specified coordinate point that stores the result of transforming
-     *         {@code ptSrc}, or {@code null}.
+     * @param ptSrc The specified coordinate point to be transformed.
+     * @param ptDst The specified coordinate point that stores the result of transforming
+     *              {@code ptSrc}, or {@code null}.
      * @return The coordinate point after transforming {@code ptSrc} and storing the result in
-     *         {@code ptDst}.
+     * {@code ptDst}.
      * @throws MismatchedDimensionException If this transform doesn't map two-dimensional
-     *         coordinate systems.
-     * @throws TransformException If the point can't be transformed.
-     *
-     * @see MathTransform2D#transform(Point2D,Point2D)
+     *                                      coordinate systems.
+     * @throws TransformException           If the point can't be transformed.
+     * @see MathTransform2D#transform(Point2D, Point2D)
      */
     public Point2D transform(final Point2D ptSrc, final Point2D ptDst) throws TransformException {
         int dim;
@@ -193,7 +185,7 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
         if ((dim = getTargetDimensions()) != 2) {
             throw new MismatchedDimensionException(constructMessage("ptDst", 2, dim));
         }
-        final double[] ord = new double[] {ptSrc.getX(), ptSrc.getY()};
+        final double[] ord = new double[]{ptSrc.getX(), ptSrc.getY()};
         this.transform(ord, 0, ord, 0, 1);
         if (ptDst != null) {
             ptDst.setLocation(ord[0], ord[1]);
@@ -205,12 +197,11 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
 
     /**
      * Transforms the specified {@code ptSrc} and stores the result in {@code ptDst}. The default
-     * implementation delegates to {@link #transform(double[],int,double[],int,int)}.
+     * implementation delegates to {@link #transform(double[], int, double[], int, int)}.
      */
     public DirectPosition transform(final DirectPosition ptSrc, DirectPosition ptDst)
-            throws TransformException
-    {
-              int  dimPoint = ptSrc.getDimension();
+            throws TransformException {
+        int dimPoint = ptSrc.getDimension();
         final int dimSource = getSourceDimensions();
         final int dimTarget = getTargetDimensions();
         if (dimPoint != dimSource) {
@@ -219,7 +210,8 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
         if (ptDst != null) {
             dimPoint = ptDst.getDimension();
             if (dimPoint != dimTarget) {
-                throw new MismatchedDimensionException(constructMessage("ptDst", dimPoint, dimTarget));
+                throw new MismatchedDimensionException(constructMessage("ptDst", dimPoint, 
+                        dimTarget));
             }
             /*
              * Transforms the coordinates using a temporary 'double[]' buffer,
@@ -230,12 +222,12 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
                 array = ptSrc.getCoordinate();
             } else {
                 array = new double[dimTarget];
-                for (int i=dimSource; --i>=0;) {
+                for (int i = dimSource; --i >= 0; ) {
                     array[i] = ptSrc.getOrdinate(i);
                 }
             }
             transform(array, 0, array, 0, 1);
-            for (int i=dimTarget; --i>=0;) {
+            for (int i = dimTarget; --i >= 0; ) {
                 ptDst.setOrdinate(i, array[i]);
             }
         } else {
@@ -249,7 +241,7 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
             final double[] source;
             if (dimSource <= dimTarget) {
                 source = destination.ordinates;
-                for (int i=dimSource; --i>=0;) {
+                for (int i = dimSource; --i >= 0; ) {
                     source[i] = ptSrc.getOrdinate(i);
                 }
             } else {
@@ -262,68 +254,65 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
 
     /**
      * Transforms a list of coordinate point ordinal values. The default implementation
-     * invokes {@link #transform(double[],int,double[],int,int)} using a temporary array
+     * invokes {@link #transform(double[], int, double[], int, int)} using a temporary array
      * of doubles.
      */
     public void transform(final float[] srcPts, final int srcOff,
                           final float[] dstPts, final int dstOff, final int numPts)
-            throws TransformException
-    {
+            throws TransformException {
         final int dimSource = getSourceDimensions();
         final int dimTarget = getTargetDimensions();
         final double[] tmpPts = new double[numPts * Math.max(dimSource, dimTarget)];
-        for (int i=numPts*dimSource; --i>=0;) {
-            tmpPts[i] = srcPts[srcOff+i];
+        for (int i = numPts * dimSource; --i >= 0; ) {
+            tmpPts[i] = srcPts[srcOff + i];
         }
         transform(tmpPts, 0, tmpPts, 0, numPts);
-        for (int i=numPts*dimTarget; --i>=0;) {
-            dstPts[dstOff+i] = (float) tmpPts[i];
+        for (int i = numPts * dimTarget; --i >= 0; ) {
+            dstPts[dstOff + i] = (float) tmpPts[i];
         }
     }
 
     /**
      * Transforms a list of coordinate point ordinal values. The default implementation
-     * invokes {@link #transform(double[],int,double[],int,int)} using a temporary array
+     * invokes {@link #transform(double[], int, double[], int, int)} using a temporary array
      * of doubles.
      *
      * @since 2.5
      */
     public void transform(final double[] srcPts, final int srcOff,
-                          final float [] dstPts, final int dstOff, final int numPts)
-            throws TransformException
-    {
+                          final float[] dstPts, final int dstOff, final int numPts)
+            throws TransformException {
         final int dimSource = getSourceDimensions();
         final int dimTarget = getTargetDimensions();
         final double[] tmpPts = new double[numPts * Math.max(dimSource, dimTarget)];
         System.arraycopy(srcPts, srcOff, tmpPts, 0, numPts * dimSource);
         transform(tmpPts, 0, tmpPts, 0, numPts);
-        for (int i=numPts*dimTarget; --i>=0;) {
-            dstPts[dstOff+i] = (float) tmpPts[i];
+        for (int i = numPts * dimTarget; --i >= 0; ) {
+            dstPts[dstOff + i] = (float) tmpPts[i];
         }
     }
 
     /**
      * Transforms a list of coordinate point ordinal values. The default implementation
-     * delegates to {@link #transform(double[],int,double[],int,int)}.
+     * delegates to {@link #transform(double[], int, double[], int, int)}.
      *
      * @since 2.5
      */
-    public void transform(final float [] srcPts, final int srcOff,
+    public void transform(final float[] srcPts, final int srcOff,
                           final double[] dstPts, final int dstOff, final int numPts)
-            throws TransformException
-    {
+            throws TransformException {
         final int dimSource = getSourceDimensions();
         final int dimTarget = getTargetDimensions();
         if (dimSource == dimTarget) {
             final int n = numPts * dimSource;
-            for (int i=0; i<n; i++) {
+            for (int i = 0; i < n; i++) {
                 dstPts[dstOff + i] = srcPts[srcOff + i];
             }
             transform(dstPts, dstOff, dstPts, dstOff, numPts);
         } else {
-            final double[] tmpPts = new double[numPts*dimSource];
-            for (int i=tmpPts.length; --i>=0;) {
-                tmpPts[i] = srcPts[srcOff+i];
+            final double[] tmpPts = new double[numPts * dimSource];
+            for (int i = tmpPts.length; --i >= 0; ) {
+                tmpPts[i] = srcPts[srcOff + i];
             }
             transform(tmpPts, 0, dstPts, 0, numPts);
         }
@@ -333,15 +322,15 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
      * Transform the specified shape. The default implementation computes
      * quadratic curves using three points for each shape segments.
      *
-     * @param  shape Shape to transform.
+     * @param shape Shape to transform.
      * @return Transformed shape, or {@code shape} if this transform is the identity transform.
      * @throws IllegalStateException if this transform doesn't map 2D coordinate systems.
-     * @throws TransformException if a transform failed.
-     *
+     * @throws TransformException    if a transform failed.
      * @see MathTransform2D#createTransformedShape(Shape)
      */
     public Shape createTransformedShape(final Shape shape) throws TransformException {
-        return isIdentity() ? shape : createTransformedShape(shape, null, null, ShapeUtilities.PARALLEL);
+        return isIdentity() ? shape : createTransformedShape(shape, null, null, ShapeUtilities
+                .PARALLEL);
     }
 
     /**
@@ -349,37 +338,34 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
      * object. The new object is usually a {@link GeneralPath}, but may also be a {@link Line2D}
      * or a {@link QuadCurve2D} if such simplification is possible.
      *
-     * @param  shape         The geometric shape to transform.
-     * @param  preTransform  An optional affine transform to apply <em>before</em> the
-     *                       transformation using {@code this}, or {@code null} if none.
-     * @param  postTransform An optional affine transform to apply <em>after</em> the transformation
-     *                       using {@code this}, or {@code null} if none.
-     * @param  orientation   Base line of quadratic curves. Must be
-     *                       {@link ShapeUtilities#HORIZONTAL} or {@link ShapeUtilities#PARALLEL}).
-     *
+     * @param shape         The geometric shape to transform.
+     * @param preTransform  An optional affine transform to apply <em>before</em> the
+     *                      transformation using {@code this}, or {@code null} if none.
+     * @param postTransform An optional affine transform to apply <em>after</em> the transformation
+     *                      using {@code this}, or {@code null} if none.
+     * @param orientation   Base line of quadratic curves. Must be
+     *                      {@link ShapeUtilities#HORIZONTAL} or {@link ShapeUtilities#PARALLEL}).
      * @return The transformed geometric shape.
      * @throws MismatchedDimensionException if this transform doesn't is not two-dimensional.
-     * @throws TransformException If a transformation failed.
-     *
+     * @throws TransformException           If a transformation failed.
      * @todo Use double precision when we will be allowed to target Java 6.
      */
-    final Shape createTransformedShape(final Shape           shape,
+    final Shape createTransformedShape(final Shape shape,
                                        final AffineTransform preTransform,
                                        final AffineTransform postTransform,
-                                       final int             orientation)
-            throws TransformException
-    {
+                                       final int orientation)
+            throws TransformException {
         int dim;
-        if ((dim=getSourceDimensions())!=2 || (dim=getTargetDimensions())!=2) {
+        if ((dim = getSourceDimensions()) != 2 || (dim = getTargetDimensions()) != 2) {
             throw new MismatchedDimensionException(constructMessage("shape", 2, dim));
         }
-        final PathIterator    it = shape.getPathIterator(preTransform);
-        final GeneralPath   path = new GeneralPath(it.getWindingRule());
+        final PathIterator it = shape.getPathIterator(preTransform);
+        final GeneralPath path = new GeneralPath(it.getWindingRule());
         final Point2D.Float ctrl = new Point2D.Float();
-        final double[]    buffer = new double[6];
+        final double[] buffer = new double[6];
 
-        double ax=0, ay=0;  // Coordinate of the last point before transform.
-        double px=0, py=0;  // Coordinate of the last point after  transform.
+        double ax = 0, ay = 0;  // Coordinate of the last point before transform.
+        double px = 0, py = 0;  // Coordinate of the last point after  transform.
         for (; !it.isDone(); it.next()) {
             switch (it.currentSegment(buffer)) {
                 default: {
@@ -421,8 +407,8 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
                      * This point will be transformed after the 'switch', which is why we use
                      * the 'break' statement here instead of 'continue' as in previous case.
                      */
-                    buffer[0] = 0.5*(ax + (ax=buffer[0]));
-                    buffer[1] = 0.5*(ay + (ay=buffer[1]));
+                    buffer[0] = 0.5 * (ax + (ax = buffer[0]));
+                    buffer[1] = 0.5 * (ay + (ay = buffer[1]));
                     buffer[2] = ax;
                     buffer[3] = ay;
                     break;
@@ -439,8 +425,8 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
                      * There is no need to keep the old control point because it was not lying
                      * on the curve.
                      */
-                    buffer[0] = 0.5*(buffer[0] + 0.5*(ax + (ax=buffer[2])));
-                    buffer[1] = 0.5*(buffer[1] + 0.5*(ay + (ay=buffer[3])));
+                    buffer[0] = 0.5 * (buffer[0] + 0.5 * (ax + (ax = buffer[2])));
+                    buffer[1] = 0.5 * (buffer[1] + 0.5 * (ay + (ay = buffer[3])));
                     break;
                 }
                 case PathIterator.SEG_CUBICTO: {
@@ -466,8 +452,10 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
                      *       cas l'algorithme actuel donnera quand même des résultats
                      *       tolérables.
                      */
-                    buffer[0] = 0.25*(1.5*(buffer[0]+buffer[2]) + 0.5*(ax + (ax=buffer[4])));
-                    buffer[1] = 0.25*(1.5*(buffer[1]+buffer[3]) + 0.5*(ay + (ay=buffer[5])));
+                    buffer[0] = 0.25 * (1.5 * (buffer[0] + buffer[2]) + 0.5 * (ax + (ax = 
+                            buffer[4])));
+                    buffer[1] = 0.25 * (1.5 * (buffer[1] + buffer[3]) + 0.5 * (ay + (ay = 
+                            buffer[5])));
                     buffer[2] = ax;
                     buffer[3] = ay;
                     break;
@@ -480,9 +468,9 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
              */
             transform(buffer, 0, buffer, 0, 2);
             final Point2D ctrlPoint = ShapeUtilities.parabolicControlPoint(px, py,
-                                                     buffer[0], buffer[1],
-                                                     buffer[2], buffer[3],
-                                                     orientation, ctrl);
+                    buffer[0], buffer[1],
+                    buffer[2], buffer[3],
+                    orientation, ctrl);
             px = buffer[2];
             py = buffer[3];
             if (ctrlPoint != null) {
@@ -509,11 +497,11 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
      * should override this method. Other subclasses should override
      * {@link #derivative(DirectPosition)} instead.
      *
-     * @param  point The coordinate point where to evaluate the derivative.
+     * @param point The coordinate point where to evaluate the derivative.
      * @return The derivative at the specified point as a 2&times;2 matrix.
      * @throws MismatchedDimensionException if the input dimension is not 2.
-     * @throws TransformException if the derivative can't be evaluated at the specified point.
-     *
+     * @throws TransformException           if the derivative can't be evaluated at the specified
+     * point.
      * @see MathTransform2D#derivative(Point2D)
      */
     public Matrix derivative(final Point2D point) throws TransformException {
@@ -528,25 +516,25 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
      * Gets the derivative of this transform at a point. The default implementation
      * ensure that {@code point} has a valid dimension. Next, it try to delegate
      * the work to an other method:
-     *
+     * <p>
      * <ul>
-     *   <li>If the input dimension is 2, then this method delegates the work to
-     *       {@link #derivative(Point2D)}.</li>
-     *   <li>If this object is an instance of {@link MathTransform1D}, then this
-     *       method delegates the work to {@link MathTransform1D#derivative(double)
-     *       derivative(double)}.</li>
+     * <li>If the input dimension is 2, then this method delegates the work to
+     * {@link #derivative(Point2D)}.</li>
+     * <li>If this object is an instance of {@link MathTransform1D}, then this
+     * method delegates the work to {@link MathTransform1D#derivative(double)
+     * derivative(double)}.</li>
      * </ul>
-     *
+     * <p>
      * Otherwise, a {@link TransformException} is thrown.
      *
-     * @param  point The coordinate point where to evaluate the derivative.
+     * @param point The coordinate point where to evaluate the derivative.
      * @return The derivative at the specified point (never {@code null}).
-     * @throws NullPointerException if the derivative dependents on coordinate
-     *         and {@code point} is {@code null}.
+     * @throws NullPointerException         if the derivative dependents on coordinate
+     *                                      and {@code point} is {@code null}.
      * @throws MismatchedDimensionException if {@code point} doesn't have
-     *         the expected dimension.
-     * @throws TransformException if the derivative can't be evaluated at the
-     *         specified point.
+     *                                      the expected dimension.
+     * @throws TransformException           if the derivative can't be evaluated at the
+     *                                      specified point.
      */
     public Matrix derivative(final DirectPosition point) throws TransformException {
         final int dimSource = getSourceDimensions();
@@ -557,7 +545,8 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
         } else {
             final int dimPoint = point.getDimension();
             if (dimPoint != dimSource) {
-                throw new MismatchedDimensionException(constructMessage("point", dimPoint, dimSource));
+                throw new MismatchedDimensionException(constructMessage("point", dimPoint, 
+                        dimSource));
             }
             if (dimSource == 2) {
                 if (point instanceof Point2D) {
@@ -590,32 +579,33 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
      * {@code MathTransform}. A new math transform is created to perform the combined
      * transformation. The {@code applyOtherFirst} value determine the transformation
      * order as bellow:
-     *
+     * <p>
      * <ul>
-     *   <li>If {@code applyOtherFirst} is {@code true}, then transforming a point
-     *       <var>p</var> by the combined transform is equivalent to first transforming
-     *       <var>p</var> by {@code other} and then transforming the result by the
-     *       original transform {@code this}.</li>
-     *   <li>If {@code applyOtherFirst} is {@code false}, then transforming a point
-     *       <var>p</var> by the combined transform is equivalent to first transforming
-     *       <var>p</var> by the original transform {@code this} and then transforming
-     *       the result by {@code other}.</li>
+     * <li>If {@code applyOtherFirst} is {@code true}, then transforming a point
+     * <var>p</var> by the combined transform is equivalent to first transforming
+     * <var>p</var> by {@code other} and then transforming the result by the
+     * original transform {@code this}.</li>
+     * <li>If {@code applyOtherFirst} is {@code false}, then transforming a point
+     * <var>p</var> by the combined transform is equivalent to first transforming
+     * <var>p</var> by the original transform {@code this} and then transforming
+     * the result by {@code other}.</li>
      * </ul>
-     *
+     * <p>
      * If no special optimization is available for the combined transform, then this method
      * returns {@code null}.  In the later case, the concatenation will be prepared by
      * {@link DefaultMathTransformFactory} using a generic {@link ConcatenatedTransform}.
-     *
+     * <p>
      * The default implementation always returns {@code null}. This method is ought to be
      * overridden by subclasses capable of concatenating some combinaison of transforms in a
      * special way. Examples are {@link ExponentialTransform1D} and {@link LogarithmicTransform1D}.
      *
-     * @param  other The math transform to apply.
-     * @param  applyOtherFirst {@code true} if the transformation order is {@code other}
-     *         followed by {@code this}, or {@code false} if the transformation order is
-     *         {@code this} followed by {@code other}.
+     * @param other           The math transform to apply.
+     * @param applyOtherFirst {@code true} if the transformation order is {@code other}
+     *                        followed by {@code this}, or {@code false} if the transformation 
+     *                                    order is
+     *                        {@code this} followed by {@code other}.
      * @return The combined math transform, or {@code null} if no optimized combined
-     *         transform is available.
+     * transform is available.
      */
     MathTransform concatenate(final MathTransform other, final boolean applyOtherFirst) {
         return null;
@@ -626,7 +616,7 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
      */
     @Override
     public int hashCode() {
-        return getSourceDimensions() + 37*getTargetDimensions();
+        return getSourceDimensions() + 37 * getTargetDimensions();
     }
 
     /**
@@ -637,30 +627,31 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
      *
      * @param object The object to compare with this transform.
      * @return {@code true} if the given object is a transform of the same class
-     *         and if, given identical source position, the
-     *         {@linkplain #transform(DirectPosition,DirectPosition) transformed}
-     *         position would be the equals.
+     * and if, given identical source position, the
+     * {@linkplain #transform(DirectPosition, DirectPosition) transformed}
+     * position would be the equals.
      */
     @Override
     public boolean equals(final Object object) {
         // Do not check 'object==this' here, since this
         // optimization is usually done in subclasses.
-        if (object!=null && getClass().equals(object.getClass())) {
+        if (object != null && getClass().equals(object.getClass())) {
             final AbstractMathTransform that = (AbstractMathTransform) object;
             return Utilities.equals(this.getParameterDescriptors(),
-                                    that.getParameterDescriptors());
+                    that.getParameterDescriptors());
         }
         return false;
     }
 
     /**
      * Format the inner part of a
-     * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
+     * <A HREF="http://geoapi.sourceforge
+     * .net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
      * Known Text</cite> (WKT)</A> element. The default implementation formats all parameter values
      * returned by {@link #getParameterValues}. The parameter group name is used as the math
      * transform name.
      *
-     * @param  formatter The formatter to use.
+     * @param formatter The formatter to use.
      * @return The WKT element name, which is {@code "PARAM_MT"} in the default implementation.
      */
     @Override
@@ -677,16 +668,15 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
      * Makes sure that an argument is non-null. This is a
      * convenience method for subclass constructors.
      *
-     * @param  name   Argument name.
-     * @param  object User argument.
+     * @param name   Argument name.
+     * @param object User argument.
      * @throws InvalidParameterValueException if {@code object} is null.
      */
     protected static void ensureNonNull(final String name, final Object object)
-            throws InvalidParameterValueException
-    {
+            throws InvalidParameterValueException {
         if (object == null) {
             throw new InvalidParameterValueException(Errors.format(
-                        ErrorKeys.NULL_ARGUMENT_$1, name), name, object);
+                    ErrorKeys.NULL_ARGUMENT_$1, name), name, object);
         }
     }
 
@@ -694,19 +684,19 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
      * Checks if source coordinates need to be copied before to apply the transformation.
      * This convenience method is provided for {@code transform(...)} method implementation.
      * This method make the following assumptions:
-     * <P>
+     * <p>
      * <UL>
-     *   <LI>Coordinates will be iterated from lower index to upper index.</LI>
-     *   <LI>Coordinates are read and writen in shrunk. For example (longitude,latitude,height)
-     *       values for one coordinate are read together, and the transformed (x,y,z) values are
-     *       written together only after.</LI>
+     * <LI>Coordinates will be iterated from lower index to upper index.</LI>
+     * <LI>Coordinates are read and writen in shrunk. For example (longitude,latitude,height)
+     * values for one coordinate are read together, and the transformed (x,y,z) values are
+     * written together only after.</LI>
      * </UL>
-     * <P>
+     * <p>
      * However, this method does not assumes that source and target dimension are the same (in the
      * special case where source and target dimension are always the same, a simplier and more
      * efficient check is possible). The following example prepares a transformation from 2
      * dimensional points to three dimensional points:
-     * <P>
+     * <p>
      * <blockquote><pre>
      * public void transform(double[] srcPts, int srcOff,
      *                       double[] dstPts, int dstOff, int numPts)
@@ -718,22 +708,21 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
      *         srcOff = 0;
      *     }
      * }</pre><blockquote>
-     *
+     * <p>
      * <strong>This method is for internal usage by the referencing module only. Do not use!
      * It will be replaced by a different mechanism in a future GeoTools version.</strong>
      *
-     * @param srcOff The offset in the source coordinate array.
+     * @param srcOff    The offset in the source coordinate array.
      * @param dimSource The dimension of input points.
-     * @param dstOff The offset in the destination coordinate array.
+     * @param dstOff    The offset in the destination coordinate array.
      * @param dimTarget The dimension of output points.
-     * @param numPts The number of points to transform.
+     * @param numPts    The number of points to transform.
      * @return {@code true} if the source coordinates should be copied before to apply the
-     *         transformation in order to avoid an overlap with the destination array.
+     * transformation in order to avoid an overlap with the destination array.
      */
     protected static boolean needCopy(final int srcOff, final int dimSource,
-                                      final int dstOff, final int dimTarget, final int numPts)
-    {
-        if (numPts <= 1  ||  (srcOff >= dstOff  &&  dimSource >= dimTarget)) {
+                                      final int dstOff, final int dimTarget, final int numPts) {
+        if (numPts <= 1 || (srcOff >= dstOff && dimSource >= dimTarget)) {
             /*
              * Source coordinates are stored after target coordinates. If implementation
              * read coordinates from lower index to upper index, then the destination will
@@ -741,8 +730,8 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
              */
             return false;
         }
-        return srcOff  <  dstOff + numPts*dimTarget &&
-               dstOff  <  srcOff + numPts*dimSource;
+        return srcOff < dstOff + numPts * dimTarget &&
+                dstOff < srcOff + numPts * dimSource;
     }
 
     /**
@@ -750,21 +739,21 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
      * is typically invoked after geographic coordinates are transformed. This method may add
      * or substract some amount of 2&pi; radians to <var>x</var>.
      *
-     * @param  x The longitude in radians.
+     * @param x The longitude in radians.
      * @return The longitude in the range &plusmn;&pi; radians.
      */
     protected static double rollLongitude(final double x) {
-        return x - (2*Math.PI) * Math.floor(x / (2*Math.PI) + 0.5);
+        return x - (2 * Math.PI) * Math.floor(x / (2 * Math.PI) + 0.5);
     }
-    
+
     /**
      * Ensures that the specified longitude stay within 0 and {code}PI{code}.
      *
-     * @param  x An angle
+     * @param x An angle
      * @return The normalized angle
      */
     protected static double normalizeAngle(final double x) {
-        return x - (2 * Math.PI) * Math.floor(x / (2*Math.PI) + 0.5);
+        return x - (2 * Math.PI) * Math.floor(x / (2 * Math.PI) + 0.5);
     }
 
     /**
@@ -784,7 +773,8 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
      * is already an instance of {@code GeneralMatrix}, then it is returned unchanged. Otherwise,
      * all elements are copied in a new {@code GeneralMatrix} object.
      * <p>
-     * Before to use this method, check if a {@link XMatrix} (to be obtained with {@link #toXMatrix})
+     * Before to use this method, check if a {@link XMatrix} (to be obtained with 
+     * {@link #toXMatrix})
      * would be suffisient. Use this method only if a {@code GeneralMatrix} is really necessary.
      */
     static GeneralMatrix toGMatrix(final Matrix matrix) {
@@ -807,7 +797,7 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
             return m;
         } catch (SingularMatrixException exception) {
             NoninvertibleTransformException e = new NoninvertibleTransformException(
-                        Errors.format(ErrorKeys.NONINVERTIBLE_TRANSFORM));
+                    Errors.format(ErrorKeys.NONINVERTIBLE_TRANSFORM));
             e.initCause(exception);
             throw e;
         }
@@ -818,9 +808,9 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
      * of the enclosing {@link MathTransform}. It is serializable only if the enclosing
      * math transform is also serializable.
      *
-     * @since 2.0
-     * @version $Id$
      * @author Martin Desruisseaux (IRD)
+     * @version $Id$
+     * @since 2.0
      */
     protected abstract class Inverse extends AbstractMathTransform implements Serializable {
         /**
@@ -829,7 +819,7 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
          * computation will not produce consistent results across implementations of different
          * Java compiler. This is because different compilers may generate different names for
          * synthetic members used in the implementation of inner classes. See:
-         *
+         * <p>
          * http://developer.java.sun.com/developer/bugParade/bugs/4211550.html
          */
         private static final long serialVersionUID = 3528274816628012283L;
@@ -846,7 +836,6 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
          * of "(Inverse transform)".
          *
          * @return A name for this math transform (never {@code null}).
-         *
          * @since 2.5
          */
         @Override
@@ -942,15 +931,16 @@ public abstract class AbstractMathTransform extends Formattable implements MathT
 
         /**
          * Format the inner part of a
-         * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
+         * <A HREF="http://geoapi.sourceforge
+         * .net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
          * Known Text</cite> (WKT)</A> element. If this inverse math transform
          * has any parameter values, then this method format the WKT as in the
          * {@linkplain AbstractMathTransform#formatWKT super-class method}. Otherwise
          * this method format the math transform as an <code>"INVERSE_MT"</code> entity.
          *
-         * @param  formatter The formatter to use.
+         * @param formatter The formatter to use.
          * @return The WKT element name, which is <code>"PARAM_MT"</code> or
-         *         <code>"INVERSE_MT"</code> in the default implementation.
+         * <code>"INVERSE_MT"</code> in the default implementation.
          */
         @Override
         protected String formatWKT(final Formatter formatter) {

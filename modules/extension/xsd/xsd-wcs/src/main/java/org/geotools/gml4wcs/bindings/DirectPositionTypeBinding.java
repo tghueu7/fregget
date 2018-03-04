@@ -13,34 +13,41 @@ import org.w3c.dom.Element;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:DirectPositionType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
- *	 <code>
+ * 	 <code>
  *  &lt;complexType name=&quot;DirectPositionType&quot;&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;DirectPosition instances hold the coordinates for a position within some coordinate reference system (CRS). Since DirectPositions, as data types, will often be included in larger objects (such as geometry elements) that have references to CRS, the &quot;srsName&quot; attribute will in general be missing, if this particular DirectPosition is included in a larger element with such a reference to a CRS. In this case, the CRS is implicitly assumed to take on the value of the containing object's CRS.&lt;/documentation&gt;
+ *          &lt;documentation&gt;DirectPosition instances hold the coordinates for a position 
+ *          within some coordinate reference system (CRS). Since DirectPositions, as data types, 
+ *          will often be included in larger objects (such as geometry elements) that have 
+ *          references to CRS, the &quot;srsName&quot; attribute will in general be missing, if 
+ *          this particular DirectPosition is included in a larger element with such a reference 
+ *          to a CRS. In this case, the CRS is implicitly assumed to take on the value of the 
+ *          containing object's CRS.&lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;simpleContent&gt;
  *          &lt;extension base=&quot;gml:doubleList&quot;&gt;
- *              &lt;attribute name=&quot;dimension&quot; type=&quot;positiveInteger&quot; use=&quot;optional&quot;&gt;
+ *              &lt;attribute name=&quot;dimension&quot; type=&quot;positiveInteger&quot; 
+ *              use=&quot;optional&quot;&gt;
  *                  &lt;annotation&gt;
- *                      &lt;documentation&gt;The attribute &quot;dimension&quot; is the length of coordinate sequence (the number of entries in the list). This is determined by the coordinate reference system.&lt;/documentation&gt;
+ *                      &lt;documentation&gt;The attribute &quot;dimension&quot; is the length of
+ *                      coordinate sequence (the number of entries in the list). This is 
+ *                      determined by the coordinate reference system.&lt;/documentation&gt;
  *                  &lt;/annotation&gt;
  *              &lt;/attribute&gt;
  *          &lt;/extension&gt;
  *      &lt;/simpleContent&gt;
- *  &lt;/complexType&gt; 
- * 	
+ *  &lt;/complexType&gt;
+ *
  * </code>
- *	 </pre>
- * 
+ * 	 </pre>
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class DirectPositionTypeBinding extends AbstractComplexBinding {
@@ -54,7 +61,7 @@ public class DirectPositionTypeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -63,7 +70,7 @@ public class DirectPositionTypeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
@@ -88,9 +95,10 @@ public class DirectPositionTypeBinding extends AbstractComplexBinding {
         DirectPosition dp = (DirectPosition) object;
 
         if (dp == null) {
-            value.appendChild(document.createElementNS(GML.NAMESPACE, org.geotools.gml3.GML.Null.getLocalPart()));
+            value.appendChild(document.createElementNS(GML.NAMESPACE, org.geotools.gml3.GML.Null
+                    .getLocalPart()));
         }
-        
+
         double[] coordinates = dp.getCoordinate();
         StringBuilder sb = new StringBuilder();
 
@@ -105,14 +113,14 @@ public class DirectPositionTypeBinding extends AbstractComplexBinding {
         value.appendChild(document.createTextNode(sb.toString()));
         return null;
     }
-    
+
     public Object getProperty(Object object, QName name) {
         DirectPosition dp = (DirectPosition) object;
-        
+
         if (name.getLocalPart().equals("dimension")) {
             return dp.getDimension();
         }
-        
+
         return null;
     }
 }

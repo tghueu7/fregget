@@ -33,9 +33,8 @@ import com.vividsolutions.jts.geom.LineString;
 
 /**
  * Unit tests for shape mark factory
- * 
- * @author Luca Morandini lmorandini@ieee.org
  *
+ * @author Luca Morandini lmorandini@ieee.org
  * @source $URL$
  */
 public class ShapeMarkFactoryTest extends TestCase {
@@ -45,50 +44,50 @@ public class ShapeMarkFactoryTest extends TestCase {
     private FilterFactory ff;
 
     {
-	try {
-	    ff = CommonFactoryFinder.getFilterFactory(null);
-	    SimpleFeatureTypeBuilder featureTypeBuilder = new SimpleFeatureTypeBuilder();
-	    featureTypeBuilder.setName("TestType");
-	    featureTypeBuilder.add("geom", LineString.class,
-		    DefaultGeographicCRS.WGS84);
-	    SimpleFeatureType featureType = featureTypeBuilder
-		    .buildFeatureType();
-	    SimpleFeatureBuilder featureBuilder = new SimpleFeatureBuilder(
-		    featureType);
-	    this.feature = featureBuilder.buildFeature(null);
-	} catch (Exception e) {
-	    e.printStackTrace();
-	}
+        try {
+            ff = CommonFactoryFinder.getFilterFactory(null);
+            SimpleFeatureTypeBuilder featureTypeBuilder = new SimpleFeatureTypeBuilder();
+            featureTypeBuilder.setName("TestType");
+            featureTypeBuilder.add("geom", LineString.class,
+                    DefaultGeographicCRS.WGS84);
+            SimpleFeatureType featureType = featureTypeBuilder
+                    .buildFeatureType();
+            SimpleFeatureBuilder featureBuilder = new SimpleFeatureBuilder(
+                    featureType);
+            this.feature = featureBuilder.buildFeature(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void testWellKnownName() {
         MeteoMarkFactory smf = new MeteoMarkFactory();
-	try {
-	    this.exp = ff.literal("shape://triangle");
-	    smf.getShape(null, this.exp, this.feature);
-	} catch (Exception e) {
-	    assertTrue(false);
-	    return;
-	}
+        try {
+            this.exp = ff.literal("shape://triangle");
+            smf.getShape(null, this.exp, this.feature);
+        } catch (Exception e) {
+            assertTrue(false);
+            return;
+        }
 
-	assertTrue(true);
+        assertTrue(true);
     }
 
     public void testUnknownProtocol() {
         MeteoMarkFactory smf = new MeteoMarkFactory();
-	try {
-	    this.exp = ff
-		    .literal("xxx://triangle");
-	    if (smf.getShape(null, this.exp, this.feature) == null) {
-		assertTrue(true);
-		return;
-	    }
-	} catch (Exception e) {
-	    assertTrue(false);
-	    return;
-	}
+        try {
+            this.exp = ff
+                    .literal("xxx://triangle");
+            if (smf.getShape(null, this.exp, this.feature) == null) {
+                assertTrue(true);
+                return;
+            }
+        } catch (Exception e) {
+            assertTrue(false);
+            return;
+        }
 
-	assertTrue(false);
+        assertTrue(false);
     }
 
     public void testSouthArrow() {

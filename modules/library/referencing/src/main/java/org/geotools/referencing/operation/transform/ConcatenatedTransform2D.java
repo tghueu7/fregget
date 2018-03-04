@@ -24,10 +24,10 @@ import org.opengis.referencing.operation.NoninvertibleTransformException;
 /**
  * Concatenated transform in which the resulting transform is two-dimensional.
  *
- * @since 2.0
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.0
  */
 final class ConcatenatedTransform2D extends ConcatenatedTransform implements MathTransform2D {
     /**
@@ -39,8 +39,7 @@ final class ConcatenatedTransform2D extends ConcatenatedTransform implements Mat
      * Constructs a concatenated transform.
      */
     public ConcatenatedTransform2D(final MathTransform transform1,
-                                   final MathTransform transform2)
-    {
+                                   final MathTransform transform2) {
         super(transform1, transform2);
     }
 
@@ -49,7 +48,7 @@ final class ConcatenatedTransform2D extends ConcatenatedTransform implements Mat
      */
     @Override
     boolean isValid() {
-        return super.isValid() && getSourceDimensions()==2 && getTargetDimensions()==2;
+        return super.isValid() && getSourceDimensions() == 2 && getTargetDimensions() == 2;
     }
 
     /**

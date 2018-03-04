@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.primitive;
@@ -22,14 +22,12 @@ import static org.opengis.annotation.Specification.*;
  * is possible. If both a set of angles and a vector are given, then they shall be consistent
  * with one another.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @since GeoAPI 1.0
  */
-@UML(identifier="Bearing", specification=ISO_19107)
+@UML(identifier = "Bearing", specification = ISO_19107)
 public interface Bearing {
     /**
      * Returns the azimuth and (optionnaly) the altitude.
@@ -40,12 +38,11 @@ public interface Bearing {
      * angles) a local plane parallel to the tangent plane of the reference surface.
      *
      * @return An array of length 0, 1 or 2 containing the azimuth and altitude angles.
-     *
      * @todo Should we split this method in {@code getAzimuth()} and
-     *       {@code getAltitude()} methods instead? Should we provides
-     *       a {@code getDimension()} method too?
+     * {@code getAltitude()} methods instead? Should we provides
+     * a {@code getDimension()} method too?
      */
-    @UML(identifier="angle", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "angle", obligation = MANDATORY, specification = ISO_19107)
     double[] getAngles();
 
     /**
@@ -55,6 +52,6 @@ public interface Bearing {
      *
      * @return The direction.
      */
-    @UML(identifier="direction", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "direction", obligation = MANDATORY, specification = ISO_19107)
     double[] getDirection();
 }

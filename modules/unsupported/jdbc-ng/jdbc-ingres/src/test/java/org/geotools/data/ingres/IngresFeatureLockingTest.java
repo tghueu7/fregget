@@ -20,8 +20,6 @@ import org.geotools.jdbc.JDBCFeatureLockingTest;
 import org.geotools.jdbc.JDBCTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class IngresFeatureLockingTest extends JDBCFeatureLockingTest {

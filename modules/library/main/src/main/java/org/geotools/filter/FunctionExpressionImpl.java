@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *        
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -36,59 +36,68 @@ import org.opengis.filter.expression.Literal;
  * <p>
  * By default this implementation returns the provided {@link #fallback} value. To implement
  * a function please override the {@link #evaluate(Object)} method.
- * 
- * @author James Macgill, PSU
  *
+ * @author James Macgill, PSU
  * @source $URL$
  */
 public abstract class FunctionExpressionImpl
-    extends org.geotools.filter.DefaultExpression implements FunctionExpression {
-	
-	/** function name **/
-	protected String name;
+        extends org.geotools.filter.DefaultExpression implements FunctionExpression {
 
-	/** function params **/
-	protected List<org.opengis.filter.expression.Expression> params;
-	
+    /**
+     * function name
+     **/
+    protected String name;
+
+    /**
+     * function params
+     **/
+    protected List<org.opengis.filter.expression.Expression> params;
+
     protected Literal fallback;
 
-    /** FunctionName provided by subclass; or lazely created */
+    /**
+     * FunctionName provided by subclass; or lazely created
+     */
     protected FunctionName functionName;
-    
+
     /**
      * Preferred constructor to ensure name and functionName match.
      * <p>
      * Recommended use:<pre>
      * import static org.geotools.filter.capability.FunctionNameImpl.*;
-     * public class AreaFunction extends FunctionExpressionImpl { 
-     *     
+     * public class AreaFunction extends FunctionExpressionImpl {
+     * <p>
      *   public static FunctionName NAME = new FunctionNameImpl("Area",
      *        parameter("area",Double.class),
      *        parameter("geometry",Geometry.class));
-     * 
+     * <p>
      * public AreaFunction() {
      *     super(NAME);
      * }
      * </pre>
-     * 
+     *
      * @param functionName FunctionName describing subclass
      */
-    protected FunctionExpressionImpl(FunctionName functionName){
-        this( functionName.getName(), null );
+    protected FunctionExpressionImpl(FunctionName functionName) {
+        this(functionName.getName(), null);
         this.functionName = functionName;
     }
-    protected FunctionExpressionImpl(String name ){
+
+    protected FunctionExpressionImpl(String name) {
         this(new NameImpl(name));
     }
-    protected FunctionExpressionImpl(Name name){
-        this( name, null );
+
+    protected FunctionExpressionImpl(Name name) {
+        this(name, null);
     }
+
     /**
      * Creates a new instance of FunctionExpression
      */
     protected FunctionExpressionImpl(String name, Literal fallback) {
         this(new NameImpl(name), fallback);
     }
+
     /**
      * Creates a new instance of FunctionExpression
      */
@@ -103,65 +112,67 @@ public abstract class FunctionExpressionImpl
      * Gets the name of this function.
      *
      * @return the name of the function.
-     * 
      */
     public String getName() {
-    	return name;
+        return name;
     }
-    
+
     public synchronized FunctionName getFunctionName() {
-        if( functionName == null ){
-            functionName = new FunctionNameImpl( getName(), functionName.getArgumentCount() );
+        if (functionName == null) {
+            functionName = new FunctionNameImpl(getName(), functionName.getArgumentCount());
         }
         return functionName;
     }
 
-    
+
     public Literal getFallbackValue() {
         return fallback;
-    }    
+    }
+
     public void setFallbackValue(Literal fallback) {
         this.fallback = fallback;
     }
+
     /**
      * Returns the function parameters.
      */
     public List<org.opengis.filter.expression.Expression> getParameters() {
-    	return params;
+        return params;
     }
-    
+
     /**
      * Sets the function parameters.
      */
     public void setParameters(List<Expression> params) {
-        if(params == null){
+        if (params == null) {
             throw new NullPointerException("Function parameters required");
         }
         final int argCount = functionName.getArgumentCount();
         final int paramsSize = params.size();
-        if(argCount > 0 && argCount != paramsSize){
-            throw new IllegalArgumentException("Function "+name+" expected " + argCount + 
+        if (argCount > 0 && argCount != paramsSize) {
+            throw new IllegalArgumentException("Function " + name + " expected " + argCount +
                     " arguments, got " + paramsSize);
         }
-    	this.params = new ArrayList<Expression>(params);
+        this.params = new ArrayList<Expression>(params);
     }
 
     /**
      * @see org.opengis.filter.expression.Expression#accept(ExpressionVisitor, Object)
      */
     public Object accept(ExpressionVisitor visitor, Object extraData) {
-    	return visitor.visit(this, extraData);
+        return visitor.visit(this, extraData);
     }
-    
+
     /**
      * Returns the implementation hints. The default implementation returns an empty map.
      */
     public Map<Key, ?> getImplementationHints() {
         return Collections.emptyMap();
     }
-    
+
     /**
      * Convenience method for creating a function name.
+     *
      * @see FunctionImpl#functionName(String, String, String...)
      */
     protected static FunctionName functionName(String name, String ret, String... args) {
@@ -173,19 +184,20 @@ public abstract class FunctionExpressionImpl
      * the function name and the arguments. The String created
      * should be good for most subclasses
      */
-    public String toString(){
+    public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append(getName());
         sb.append("(");
         List<org.opengis.filter.expression.Expression> params = getParameters();
-        if(params != null){
+        if (params != null) {
             org.opengis.filter.expression.Expression exp;
-            for(Iterator<org.opengis.filter.expression.Expression> it = params.iterator(); it.hasNext();){
+            for (Iterator<org.opengis.filter.expression.Expression> it = params.iterator(); it
+                    .hasNext(); ) {
                 exp = it.next();
                 sb.append("[");
                 sb.append(exp);
                 sb.append("]");
-                if(it.hasNext()){
+                if (it.hasNext()) {
                     sb.append(", ");
                 }
             }
@@ -193,25 +205,25 @@ public abstract class FunctionExpressionImpl
         sb.append(")");
         return sb.toString();
     }
-    
+
     /**
      * Utility method for subclasses to ask for an argument at a given index
-     * 
+     *
      * @param index
      * @return
      */
-    protected org.opengis.filter.expression.Expression getExpression(int index){
+    protected org.opengis.filter.expression.Expression getExpression(int index) {
         org.opengis.filter.expression.Expression exp;
-        exp =  getParameters().get(index);
+        exp = getParameters().get(index);
         return exp;
     }
-    
+
     @Override
     public Object evaluate(Object object) {
-        if( fallback != null ){
-            return fallback.evaluate( object );
+        if (fallback != null) {
+            return fallback.evaluate(object);
         }
-        throw new UnsupportedOperationException( "Function "+name+" not implemented");
+        throw new UnsupportedOperationException("Function " + name + " not implemented");
     }
 
     @Override

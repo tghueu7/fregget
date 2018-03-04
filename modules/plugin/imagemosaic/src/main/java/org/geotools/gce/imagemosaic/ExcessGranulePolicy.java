@@ -2,7 +2,7 @@ package org.geotools.gce.imagemosaic;
 
 /**
  * Policy for excess granule removal
- * 
+ *
  * @author Andrea Aime
  */
 public enum ExcessGranulePolicy {

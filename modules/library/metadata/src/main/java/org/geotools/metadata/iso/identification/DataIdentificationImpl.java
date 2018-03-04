@@ -38,13 +38,10 @@ import org.opengis.util.InternationalString;
 /**
  * Information required to identify a dataset.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class DataIdentificationImpl extends IdentificationImpl implements DataIdentification {
@@ -117,10 +114,9 @@ public class DataIdentificationImpl extends IdentificationImpl implements DataId
     public DataIdentificationImpl(final Citation citation,
                                   final InternationalString abstracts,
                                   final Collection<? extends Locale> language,
-                                  final Collection<? extends TopicCategory> topicCategories)
-    {
+                                  final Collection<? extends TopicCategory> topicCategories) {
         super(citation, abstracts);
-        setLanguage       (language       );
+        setLanguage(language);
         setTopicCategories(topicCategories);
     }
 
@@ -136,10 +132,9 @@ public class DataIdentificationImpl extends IdentificationImpl implements DataId
      * Set the method used to spatially represent geographic information.
      */
     public synchronized void setSpatialRepresentationTypes(
-            final Collection<? extends SpatialRepresentationType> newValues)
-    {
+            final Collection<? extends SpatialRepresentationType> newValues) {
         spatialRepresentationTypes = copyCollection(newValues, spatialRepresentationTypes,
-                                                    SpatialRepresentationType.class);
+                SpatialRepresentationType.class);
     }
 
     /**
@@ -155,8 +150,7 @@ public class DataIdentificationImpl extends IdentificationImpl implements DataId
      * in the dataset.
      */
     public synchronized void setSpatialResolutions(
-            final Collection<? extends Resolution> newValues)
-    {
+            final Collection<? extends Resolution> newValues) {
         spatialResolutions = copyCollection(newValues, spatialResolutions, Resolution.class);
     }
 
@@ -170,7 +164,7 @@ public class DataIdentificationImpl extends IdentificationImpl implements DataId
     /**
      * Set the language(s) used within the dataset.
      */
-    public synchronized void setLanguage(final Collection<? extends Locale> newValues)  {
+    public synchronized void setLanguage(final Collection<? extends Locale> newValues) {
         language = copyCollection(newValues, language, Locale.class);
     }
 
@@ -191,7 +185,7 @@ public class DataIdentificationImpl extends IdentificationImpl implements DataId
     /**
      * Main theme(s) of the datset.
      */
-    public synchronized Collection<TopicCategory> getTopicCategories()  {
+    public synchronized Collection<TopicCategory> getTopicCategories() {
         return (topicCategories = nonNullCollection(topicCategories, TopicCategory.class));
     }
 
@@ -199,8 +193,7 @@ public class DataIdentificationImpl extends IdentificationImpl implements DataId
      * Set the main theme(s) of the datset.
      */
     public synchronized void setTopicCategories(
-            final Collection<? extends TopicCategory> newValues)
-    {
+            final Collection<? extends TopicCategory> newValues) {
         topicCategories = copyCollection(newValues, topicCategories, TopicCategory.class);
     }
 
@@ -215,7 +208,7 @@ public class DataIdentificationImpl extends IdentificationImpl implements DataId
     /**
      * Set the description of the dataset in the producers processing environment.
      */
-    public synchronized void setEnvironmentDescription(final InternationalString newValue)  {
+    public synchronized void setEnvironmentDescription(final InternationalString newValue) {
         checkWritePermission();
         environmentDescription = newValue;
     }

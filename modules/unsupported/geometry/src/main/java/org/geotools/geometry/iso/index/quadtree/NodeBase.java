@@ -1,10 +1,10 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- *    
+ *
  *    (C) 2001-2006  Vivid Solutions
  *    (C) 2001-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -27,216 +27,211 @@ import org.geotools.geometry.iso.topograph2D.Envelope;
 
 /**
  * The base class for nodes in a {@link Quadtree}.
- * 
  *
- *
- *
- *
- * @source $URL$
  * @version 1.7.2
+ * @source $URL$
  */
 public abstract class NodeBase {
 
-	// DEBUG private static int itemCount = 0; // debugging
-	/**
-	 * Returns the index of the subquad that wholly contains the given envelope.
-	 * If none does, returns -1.
-	 */
-	public static int getSubnodeIndex(Envelope env, Coordinate centre) {
-		int subnodeIndex = -1;
-		if (env.getMinX() >= centre.x) {
-			if (env.getMinY() >= centre.y)
-				subnodeIndex = 3;
-			if (env.getMaxY() <= centre.y)
-				subnodeIndex = 1;
-		}
-		if (env.getMaxX() <= centre.x) {
-			if (env.getMinY() >= centre.y)
-				subnodeIndex = 2;
-			if (env.getMaxY() <= centre.y)
-				subnodeIndex = 0;
-		}
-		return subnodeIndex;
-	}
+    // DEBUG private static int itemCount = 0; // debugging
 
-	protected List items = new ArrayList();
+    /**
+     * Returns the index of the subquad that wholly contains the given envelope.
+     * If none does, returns -1.
+     */
+    public static int getSubnodeIndex(Envelope env, Coordinate centre) {
+        int subnodeIndex = -1;
+        if (env.getMinX() >= centre.x) {
+            if (env.getMinY() >= centre.y)
+                subnodeIndex = 3;
+            if (env.getMaxY() <= centre.y)
+                subnodeIndex = 1;
+        }
+        if (env.getMaxX() <= centre.x) {
+            if (env.getMinY() >= centre.y)
+                subnodeIndex = 2;
+            if (env.getMaxY() <= centre.y)
+                subnodeIndex = 0;
+        }
+        return subnodeIndex;
+    }
 
-	/**
-	 * subquads are numbered as follows:
-	 * 
-	 * <pre>
-	 *   2 | 3
-	 *   --+--
-	 *   0 | 1
-	 * </pre>
-	 */
-	protected Node[] subnode = new Node[4];
+    protected List items = new ArrayList();
 
-	public NodeBase() {
-	}
+    /**
+     * subquads are numbered as follows:
+     * <p>
+     * <pre>
+     *   2 | 3
+     *   --+--
+     *   0 | 1
+     * </pre>
+     */
+    protected Node[] subnode = new Node[4];
 
-	public List getItems() {
-		return items;
-	}
+    public NodeBase() {
+    }
 
-	public boolean hasItems() {
-		return !items.isEmpty();
-	}
+    public List getItems() {
+        return items;
+    }
 
-	public void add(Object item) {
-		items.add(item);
-		// DEBUG itemCount++;
-		// DEBUG System.out.print(itemCount);
-	}
+    public boolean hasItems() {
+        return !items.isEmpty();
+    }
 
-	/**
-	 * Removes a single item from this subtree.
-	 * 
-	 * @param searchEnv
-	 *            the envelope containing the item
-	 * @param item
-	 *            the item to remove
-	 * @return <code>true</code> if the item was found and removed
-	 */
-	public boolean remove(Envelope itemEnv, Object item) {
-		// use envelope to restrict nodes scanned
-		if (!isSearchMatch(itemEnv))
-			return false;
+    public void add(Object item) {
+        items.add(item);
+        // DEBUG itemCount++;
+        // DEBUG System.out.print(itemCount);
+    }
 
-		boolean found = false;
-		for (int i = 0; i < 4; i++) {
-			if (subnode[i] != null) {
-				found = subnode[i].remove(itemEnv, item);
-				if (found) {
-					// trim subtree if empty
-					if (subnode[i].isPrunable())
-						subnode[i] = null;
-					break;
-				}
-			}
-		}
-		// if item was found lower down, don't need to search for it here
-		if (found)
-			return found;
-		// otherwise, try and remove the item from the list of items in this
-		// node
-		found = items.remove(item);
-		return found;
-	}
+    /**
+     * Removes a single item from this subtree.
+     *
+     * @param searchEnv the envelope containing the item
+     * @param item      the item to remove
+     * @return <code>true</code> if the item was found and removed
+     */
+    public boolean remove(Envelope itemEnv, Object item) {
+        // use envelope to restrict nodes scanned
+        if (!isSearchMatch(itemEnv))
+            return false;
 
-	public boolean isPrunable() {
-		return !(hasChildren() || hasItems());
-	}
+        boolean found = false;
+        for (int i = 0; i < 4; i++) {
+            if (subnode[i] != null) {
+                found = subnode[i].remove(itemEnv, item);
+                if (found) {
+                    // trim subtree if empty
+                    if (subnode[i].isPrunable())
+                        subnode[i] = null;
+                    break;
+                }
+            }
+        }
+        // if item was found lower down, don't need to search for it here
+        if (found)
+            return found;
+        // otherwise, try and remove the item from the list of items in this
+        // node
+        found = items.remove(item);
+        return found;
+    }
 
-	public boolean hasChildren() {
-		for (int i = 0; i < 4; i++) {
-			if (subnode[i] != null)
-				return true;
-		}
-		return false;
-	}
+    public boolean isPrunable() {
+        return !(hasChildren() || hasItems());
+    }
 
-	public boolean isEmpty() {
-		boolean isEmpty = true;
-		if (!items.isEmpty())
-			isEmpty = false;
-		for (int i = 0; i < 4; i++) {
-			if (subnode[i] != null) {
-				if (!subnode[i].isEmpty())
-					isEmpty = false;
-			}
-		}
-		return isEmpty;
-	}
+    public boolean hasChildren() {
+        for (int i = 0; i < 4; i++) {
+            if (subnode[i] != null)
+                return true;
+        }
+        return false;
+    }
 
-	// <<TODO:RENAME?>> Sounds like this method adds resultItems to items
-	// (like List#addAll). Perhaps it should be renamed to "addAllItemsTo" [Jon
-	// Aquino]
-	public List addAllItems(List resultItems) {
-		// this node may have items as well as subnodes (since items may not
-		// be wholely contained in any single subnode
-		resultItems.addAll(this.items);
-		for (int i = 0; i < 4; i++) {
-			if (subnode[i] != null) {
-				subnode[i].addAllItems(resultItems);
-			}
-		}
-		return resultItems;
-	}
+    public boolean isEmpty() {
+        boolean isEmpty = true;
+        if (!items.isEmpty())
+            isEmpty = false;
+        for (int i = 0; i < 4; i++) {
+            if (subnode[i] != null) {
+                if (!subnode[i].isEmpty())
+                    isEmpty = false;
+            }
+        }
+        return isEmpty;
+    }
 
-	protected abstract boolean isSearchMatch(Envelope searchEnv);
+    // <<TODO:RENAME?>> Sounds like this method adds resultItems to items
+    // (like List#addAll). Perhaps it should be renamed to "addAllItemsTo" [Jon
+    // Aquino]
+    public List addAllItems(List resultItems) {
+        // this node may have items as well as subnodes (since items may not
+        // be wholely contained in any single subnode
+        resultItems.addAll(this.items);
+        for (int i = 0; i < 4; i++) {
+            if (subnode[i] != null) {
+                subnode[i].addAllItems(resultItems);
+            }
+        }
+        return resultItems;
+    }
 
-	public void addAllItemsFromOverlapping(Envelope searchEnv, List resultItems) {
-		if (!isSearchMatch(searchEnv))
-			return;
+    protected abstract boolean isSearchMatch(Envelope searchEnv);
 
-		// this node may have items as well as subnodes (since items may not
-		// be wholely contained in any single subnode
-		resultItems.addAll(items);
+    public void addAllItemsFromOverlapping(Envelope searchEnv, List resultItems) {
+        if (!isSearchMatch(searchEnv))
+            return;
 
-		for (int i = 0; i < 4; i++) {
-			if (subnode[i] != null) {
-				subnode[i].addAllItemsFromOverlapping(searchEnv, resultItems);
-			}
-		}
-	}
+        // this node may have items as well as subnodes (since items may not
+        // be wholely contained in any single subnode
+        resultItems.addAll(items);
 
-	public void visit(Envelope searchEnv, ItemVisitor visitor) {
-		if (!isSearchMatch(searchEnv))
-			return;
+        for (int i = 0; i < 4; i++) {
+            if (subnode[i] != null) {
+                subnode[i].addAllItemsFromOverlapping(searchEnv, resultItems);
+            }
+        }
+    }
 
-		// this node may have items as well as subnodes (since items may not
-		// be wholely contained in any single subnode
-		visitItems(searchEnv, visitor);
+    public void visit(Envelope searchEnv, ItemVisitor visitor) {
+        if (!isSearchMatch(searchEnv))
+            return;
 
-		for (int i = 0; i < 4; i++) {
-			if (subnode[i] != null) {
-				subnode[i].visit(searchEnv, visitor);
-			}
-		}
-	}
+        // this node may have items as well as subnodes (since items may not
+        // be wholely contained in any single subnode
+        visitItems(searchEnv, visitor);
 
-	private void visitItems(Envelope searchEnv, ItemVisitor visitor) {
-		// would be nice to filter items based on search envelope, but can't
-		// until they contain an envelope
-		for (Iterator i = items.iterator(); i.hasNext();) {
-			visitor.visitItem(i.next());
-		}
-	}
+        for (int i = 0; i < 4; i++) {
+            if (subnode[i] != null) {
+                subnode[i].visit(searchEnv, visitor);
+            }
+        }
+    }
 
-	// <<TODO:RENAME?>> In Samet's terminology, I think what we're returning
-	// here is
-	// actually level+1 rather than depth. (See p. 4 of his book) [Jon Aquino]
-	int depth() {
-		int maxSubDepth = 0;
-		for (int i = 0; i < 4; i++) {
-			if (subnode[i] != null) {
-				int sqd = subnode[i].depth();
-				if (sqd > maxSubDepth)
-					maxSubDepth = sqd;
-			}
-		}
-		return maxSubDepth + 1;
-	}
+    private void visitItems(Envelope searchEnv, ItemVisitor visitor) {
+        // would be nice to filter items based on search envelope, but can't
+        // until they contain an envelope
+        for (Iterator i = items.iterator(); i.hasNext(); ) {
+            visitor.visitItem(i.next());
+        }
+    }
 
-	int size() {
-		int subSize = 0;
-		for (int i = 0; i < 4; i++) {
-			if (subnode[i] != null) {
-				subSize += subnode[i].size();
-			}
-		}
-		return subSize + items.size();
-	}
+    // <<TODO:RENAME?>> In Samet's terminology, I think what we're returning
+    // here is
+    // actually level+1 rather than depth. (See p. 4 of his book) [Jon Aquino]
+    int depth() {
+        int maxSubDepth = 0;
+        for (int i = 0; i < 4; i++) {
+            if (subnode[i] != null) {
+                int sqd = subnode[i].depth();
+                if (sqd > maxSubDepth)
+                    maxSubDepth = sqd;
+            }
+        }
+        return maxSubDepth + 1;
+    }
 
-	int getNodeCount() {
-		int subSize = 0;
-		for (int i = 0; i < 4; i++) {
-			if (subnode[i] != null) {
-				subSize += subnode[i].size();
-			}
-		}
-		return subSize + 1;
-	}
+    int size() {
+        int subSize = 0;
+        for (int i = 0; i < 4; i++) {
+            if (subnode[i] != null) {
+                subSize += subnode[i].size();
+            }
+        }
+        return subSize + items.size();
+    }
+
+    int getNodeCount() {
+        int subSize = 0;
+        for (int i = 0; i < 4; i++) {
+            if (subnode[i] != null) {
+                subSize += subnode[i].size();
+            }
+        }
+        return subSize + 1;
+    }
 
 }

@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2016, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -28,15 +28,19 @@ import org.xml.sax.ext.EntityResolver2;
  * <p>
  * This implementation returns {@code null} to request that the parser open a regular URI connection
  * to the system identifier.
- * 
+ *
  * @author Jody Garnett (Boundless)
  */
 public class NullEntityResolver implements EntityResolver2, Serializable {
 
-    /** serialVersionUID */
+    /**
+     * serialVersionUID
+     */
     private static final long serialVersionUID = 1440071882791317708L;
 
-    /** Singleton instance of PreventLocalEntityResolver */
+    /**
+     * Singleton instance of PreventLocalEntityResolver
+     */
     public static final NullEntityResolver INSTANCE = new NullEntityResolver();
 
     protected NullEntityResolver() {
@@ -45,7 +49,7 @@ public class NullEntityResolver implements EntityResolver2, Serializable {
 
     /**
      * @return {@code null} to request that the parser open a regular URI connection to the system
-     *         identifier.
+     * identifier.
      */
     @Override
     public InputSource resolveEntity(String publicId, String systemId)

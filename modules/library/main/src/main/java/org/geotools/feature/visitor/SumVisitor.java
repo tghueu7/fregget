@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -35,11 +35,8 @@ import org.opengis.filter.expression.Expression;
  * Calculates the Sum of an attribute (of a FeatureVisitor)
  *
  * @author Cory Horner, Refractions
- *
- * @since 2.2.M2
- *
- *
  * @source $URL$
+ * @since 2.2.M2
  */
 public class SumVisitor implements FeatureCalc, FeatureAttributeVisitor {
     private Expression expr;
@@ -84,7 +81,6 @@ public class SumVisitor implements FeatureCalc, FeatureAttributeVisitor {
      * Factory method
      *
      * @param type The Class of the attributeType
-     *
      * @return The correct strategy class (which returns the correct data type)
      */
     private static SumStrategy createStrategy(Class type) {
@@ -248,7 +244,8 @@ public class SumVisitor implements FeatureCalc, FeatureAttributeVisitor {
                 return newResult;
             } else {
                 throw new IllegalArgumentException(
-                        "The CalcResults claim to be compatible, but the appropriate merge method has not been implemented.");
+                        "The CalcResults claim to be compatible, but the appropriate merge method" +
+                                " has not been implemented.");
             }
         }
     }

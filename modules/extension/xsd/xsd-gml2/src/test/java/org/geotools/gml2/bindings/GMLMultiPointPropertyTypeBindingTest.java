@@ -28,8 +28,6 @@ import com.vividsolutions.jts.geom.Point;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GMLMultiPointPropertyTypeBindingTest extends AbstractGMLBindingTest {
@@ -53,15 +51,15 @@ public class GMLMultiPointPropertyTypeBindingTest extends AbstractGMLBindingTest
         Point p1 = new GeometryFactory().createPoint(new Coordinate(0, 0));
         Point p2 = new GeometryFactory().createPoint(new Coordinate(1, 1));
 
-        Node node = createNode(association, new ElementInstance[] { geometry },
-                new Object[] { new GeometryFactory().createMultiPoint(new Point[] { p1, p2 }) },
+        Node node = createNode(association, new ElementInstance[]{geometry},
+                new Object[]{new GeometryFactory().createMultiPoint(new Point[]{p1, p2})},
                 null, null);
 
         GMLGeometryAssociationTypeBinding s = (GMLGeometryAssociationTypeBinding) container
-            .getComponentInstanceOfType(GMLGeometryAssociationTypeBinding.class);
+                .getComponentInstanceOfType(GMLGeometryAssociationTypeBinding.class);
 
         GMLMultiPointPropertyTypeBinding s1 = (GMLMultiPointPropertyTypeBinding) container
-            .getComponentInstanceOfType(GMLMultiPointPropertyTypeBinding.class);
+                .getComponentInstanceOfType(GMLMultiPointPropertyTypeBinding.class);
 
         MultiPoint p = (MultiPoint) s1.parse(association, node, s.parse(association, node, null));
         assertNotNull(p);

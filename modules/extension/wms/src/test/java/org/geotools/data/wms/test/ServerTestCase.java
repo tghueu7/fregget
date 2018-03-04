@@ -23,35 +23,33 @@ import java.net.NoRouteToHostException;
 import java.net.UnknownHostException;
 
 import junit.framework.TestCase;
+
 /**
  * A JUnit TestCase subclass that allows other test cases to talk to remote
- * servers, but does not fail if those servers are down or otherwise 
+ * servers, but does not fail if those servers are down or otherwise
  * unavailable.
- * 
+ * <p>
  * Note that it is still the responsibility of the individual test case to
  * decrease time-out time, if that is desired.
- * 
+ * <p>
  * It is recommended that developers using this class do not output any other
- * text from within their test cases. This means that output will only be 
+ * text from within their test cases. This means that output will only be
  * generated if there is an issue, and can make scanning for problems easier.
- * 
+ * <p>
  * It will currently catch and print out network-related IOExceptions thrown
  * by setup() and test*() methods.
- * 
+ *
  * @author rgould
- *
- *
  * @source $URL$
  */
 public class ServerTestCase extends TestCase {
 
-    
-    
+
     public ServerTestCase() {
         super();
     }
 
-    public ServerTestCase( String arg0 ) {
+    public ServerTestCase(String arg0) {
         super(arg0);
     }
 

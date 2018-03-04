@@ -24,16 +24,13 @@ import org.geotools.filter.text.cql2.CQLExpressionTest;
  * Expression Test
  *
  * @author Mauricio Pazos (Axios Engineering)
- * @since 2.6
- *
- *
- *
  * @source $URL$
+ * @since 2.6
  */
 public class ECQLExpressionTest extends CQLExpressionTest {
 
-    public ECQLExpressionTest(){
-        
+    public ECQLExpressionTest() {
+
         super(Language.ECQL);
     }
 }

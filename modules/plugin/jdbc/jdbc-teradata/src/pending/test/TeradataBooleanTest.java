@@ -20,8 +20,6 @@ import org.geotools.jdbc.JDBCBooleanTest;
 import org.geotools.jdbc.JDBCBooleanTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class TeradataBooleanTest extends JDBCBooleanTest {

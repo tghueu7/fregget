@@ -22,8 +22,6 @@ import org.geotools.xlink.XLINK;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SLDExternalGraphicBindingTest extends SLDTestSupport {

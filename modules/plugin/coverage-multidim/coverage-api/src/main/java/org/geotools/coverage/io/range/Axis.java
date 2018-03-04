@@ -33,75 +33,72 @@ import org.opengis.util.InternationalString;
  * describes the nature of each control variable for a certain {@link FieldType},
  * moreover it indicates as {@link Measurable}s the keys used to control each
  * Field subset.
- * 
+ * <p>
  * <p>
  * Note that in order to comply with the WCS spec we need to have the
  * possibility to encode {@link Measurable}s as {@link String}s.
- * 
- * @author Simone Giannecchini, GeoSolutions
- * @param V Value being used to define this Axis
+ *
+ * @param V  Value being used to define this Axis
  * @param QA Quantity being represented by this Axis
- *
- *
- *
+ * @author Simone Giannecchini, GeoSolutions
  * @source $URL$
  */
-public interface Axis<V,QA extends Quantity> {
+public interface Axis<V, QA extends Quantity> {
     /**
      * Retrieves the {@link Axis} name
-     * 
+     *
      * @return {@link org.opengis.feature.type.Name} of the {@link Axis}s
      */
     public Name getName();
 
     /**
      * Retrieves the description of the {@link Axis}
-     * 
+     *
      * @return description of the {@link Axis}
      */
     public InternationalString getDescription();
 
     /**
      * Retrieves the list of keys for this {@link Axis}.
-     * 
+     *
      * @return Retrieves the list of keys for this {@link Axis}.
      */
     public List<? extends Measure<V, QA>> getKeys();
 
     /**
      * Retrieves the number of keys for this {@link Axis}.
-     * 
+     *
      * @return Retrieves the number of keys for this {@link Axis}.
      */
     public int getNumKeys();
 
     /**
      * Retrieves a specific key for this {@link Axis}.
-     * 
+     *
      * @return Retrieves a specific key for this {@link Axis}.
      */
     public Measure<V, QA> getKey(final int keyIndex);
 
     /**
      * Retrieves the Unit of measure for the various keys of this axis.
-     * 
+     * <p>
      * In case this {@link Axis} is not made of measurable quantities
-     * 
+     *
      * @return the Unit of measure for the various keys of this axis.
      */
     public Unit<QA> getUnitOfMeasure();
 
     /**
      * Retrieves the coordinate reference system for this {@link Axis}.
-     * 
+     * <p>
      * <p>
      * In case the coordinate reference system is present the Unit of measure
      * for its single coordinate axis should conform to the global {@link Unit}
      * for this {@link Axis}.
-     * 
+     *
      * @return the coordinate reference system for this {@link Axis} or
-     *         <code>null</code>, if no coordinate reference system is know
-     *         or applicable.
+     * <code>null</code>, if no coordinate reference system is know
+     * or applicable.
      */
     public SingleCRS getCoordinateReferenceSystem();
 

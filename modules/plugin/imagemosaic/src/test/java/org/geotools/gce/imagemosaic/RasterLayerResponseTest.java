@@ -67,7 +67,7 @@ public class RasterLayerResponseTest {
 
             final RasterManager manager = reader.getRasterManager(reader.getGridCoverageNames()[0]);
             final RasterLayerRequest request = new RasterLayerRequest(
-                    new GeneralParameterValue[] { gg }, manager);
+                    new GeneralParameterValue[]{gg}, manager);
             final RasterLayerResponse response = new RasterLayerResponse(request, manager,
                     new DefaultSubmosaicProducerFactory());
             final Class<?> c = response.getClass();
@@ -82,12 +82,14 @@ public class RasterLayerResponseTest {
             MathTransform2D transform = (MathTransform2D) finalGridToWorldCorner.get(response);
             AffineTransform2D affineTransform = (AffineTransform2D) transform;
             AffineTransform2D gridToCRS = (AffineTransform2D) gridGeometryValue.getGridToCRS2D();
-            
+
             // heteroegenous mode, the response code should not be picking a target resolution, just
             // reflect the requested one and let the GranuleDescriptor own overview controller pick
             // the best one for that granule
-            assertEquals(gridToCRS.getScaleX(), XAffineTransform.getScaleX0(affineTransform), DELTA);
-            assertEquals(Math.abs(gridToCRS.getScaleY()), XAffineTransform.getScaleY0(affineTransform), DELTA);
+            assertEquals(gridToCRS.getScaleX(), XAffineTransform.getScaleX0(affineTransform), 
+                    DELTA);
+            assertEquals(Math.abs(gridToCRS.getScaleY()), XAffineTransform.getScaleY0
+                    (affineTransform), DELTA);
         } finally {
             if (reader != null) {
                 try {
@@ -100,7 +102,8 @@ public class RasterLayerResponseTest {
     }
 
     /**
-     * Test that {@link GridCoverage2DReader#SOURCE_URL_PROPERTY} is correctly set on a coverage created by {@link RasterLayerResponse}.
+     * Test that {@link GridCoverage2DReader#SOURCE_URL_PROPERTY} is correctly set on a coverage 
+     * created by {@link RasterLayerResponse}.
      */
     @Test
     public void testSourceUrl() throws Exception {
@@ -118,7 +121,7 @@ public class RasterLayerResponseTest {
             GridEnvelope2D range = new GridEnvelope2D(rasterArea);
             gg.setValue(new GridGeometry2D(range, envelope));
             RasterManager manager = reader.getRasterManager(reader.getGridCoverageNames()[0]);
-            RasterLayerRequest request = new RasterLayerRequest(new GeneralParameterValue[] { gg },
+            RasterLayerRequest request = new RasterLayerRequest(new GeneralParameterValue[]{gg},
                     manager);
             RasterLayerResponse response = new RasterLayerResponse(request, manager,
                     new DefaultSubmosaicProducerFactory());

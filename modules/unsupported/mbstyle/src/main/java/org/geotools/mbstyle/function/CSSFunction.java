@@ -35,13 +35,13 @@ import org.opengis.filter.expression.Expression;
 /**
  * Generate a Color using {@link ColorConverterFactory}, the input is expected to be a
  * String.
- * 
+ * <p>
  * <h2>Parameters:</h2>
- * 
+ * <p>
  * <ol start="0">
  * <li>string: string defining color</li>
  * </ol>
- * 
+ * <p>
  * We are using this function, rather than the default converter in order to force the use
  * of CONVERT_CSS_TO_COLOR.
  *
@@ -50,6 +50,7 @@ import org.opengis.filter.expression.Expression;
 public class CSSFunction extends FunctionImpl {
 
     public static final FunctionName NAME;
+
     static {
         Parameter<Color> color = new Parameter<Color>("color", Color.class, 1, 1);
         Parameter<Double> string = new Parameter<Double>("string", Double.class,
@@ -75,7 +76,7 @@ public class CSSFunction extends FunctionImpl {
         } catch (Exception e) {
             return null;
         }
-        
+
         return Converters.convert(color, context);
     }
 }

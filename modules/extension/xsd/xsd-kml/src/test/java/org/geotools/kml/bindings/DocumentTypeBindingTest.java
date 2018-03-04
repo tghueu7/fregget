@@ -17,6 +17,7 @@
 package org.geotools.kml.bindings;
 
 import java.util.Collection;
+
 import org.opengis.feature.simple.SimpleFeature;
 import org.geotools.feature.FeatureCollection;
 import org.geotools.kml.KML;
@@ -25,8 +26,6 @@ import org.geotools.xml.Binding;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DocumentTypeBindingTest extends KMLTestSupport {
@@ -40,7 +39,7 @@ public class DocumentTypeBindingTest extends KMLTestSupport {
 
     public void testParse() throws Exception {
         String xml = "<Document>" + "<name>document</name>" + "<Placemark>" + "<Point>"
-            + "<coordinates>0,0</coordinates>" + "</Point>" + "</Placemark>" + "</Document>";
+                + "<coordinates>0,0</coordinates>" + "</Point>" + "</Placemark>" + "</Document>";
         buildDocument(xml);
 
         SimpleFeature document = (SimpleFeature) parse();

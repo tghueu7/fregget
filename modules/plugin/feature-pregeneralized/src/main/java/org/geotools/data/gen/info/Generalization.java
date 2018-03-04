@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -21,16 +21,12 @@ import java.io.IOException;
 
 /**
  * @author Christian Mueller
- * 
+ * <p>
  * This class holds info for one generalization
- * 
+ * <p>
  * distance the distance used in generalization featureName the name of the feature geomPropertyName
  * the name of the geometry property in the feature dataSourceName the name of the datasource
  * dataSourceNameSpace the namespace of the datasource, may be null
- * 
- *
- *
- *
  * @source $URL$
  */
 public class Generalization implements Comparable<Generalization> {
@@ -43,7 +39,7 @@ public class Generalization implements Comparable<Generalization> {
     private GeneralizationInfo parent;
 
     public Generalization(Double distance, String featureName, String geomPropertyName,
-            GeneralizationInfo parent) {
+                          GeneralizationInfo parent) {
         super();
         this.distance = distance;
         this.featureName = featureName;
@@ -90,9 +86,8 @@ public class Generalization implements Comparable<Generalization> {
 
     /**
      * Validates not null instance variables
-     * 
-     * @throws IOException
-     *             if data source, feature name or geometry property name is null
+     *
+     * @throws IOException if data source, feature name or geometry property name is null
      */
     public void validate() throws IOException {
         if (getDataSourceName() == null)

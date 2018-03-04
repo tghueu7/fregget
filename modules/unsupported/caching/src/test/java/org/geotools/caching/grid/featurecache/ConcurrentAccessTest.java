@@ -45,17 +45,13 @@ import org.opengis.filter.Filter;
 import com.vividsolutions.jts.geom.Envelope;
 
 
-/** Multithreaded test for concurrent access to GridFeatureCache.
+/**
+ * Multithreaded test for concurrent access to GridFeatureCache.
  * If variable <code>hardest</code> is set to true, test will use different settings
  * and run more threads at the same time, to increase concurrency, so the test
  * is harder to pass.
- * 
- * @author Christophe Rousson <christophe.rousson@gmail.com>, Google SoC 2007 
  *
- *
- *
- *
- *
+ * @author Christophe Rousson <christophe.rousson@gmail.com>, Google SoC 2007
  * @source $URL$
  */
 public class ConcurrentAccessTest extends TestCase {
@@ -64,7 +60,7 @@ public class ConcurrentAccessTest extends TestCase {
     FeatureCollection dataset;
     List<Filter> filterset1;
     List<Filter> filterset2;
-    double[] windows = new double[] { 0.2, 0.1, 0.05 };
+    double[] windows = new double[]{0.2, 0.1, 0.05};
 
     @Override
     protected void setUp() {
@@ -79,11 +75,11 @@ public class ConcurrentAccessTest extends TestCase {
             }
 
             dataset = DataUtilities.createUnitsquareDataSet(numdata, 1025);
-            ds.createSchema((SimpleFeatureType)dataset.getSchema());
+            ds.createSchema((SimpleFeatureType) dataset.getSchema());
             ds.addFeatures(dataset);
 
             if (hardest) {
-            	Properties pset = new Properties();
+                Properties pset = new Properties();
                 pset.setProperty(BufferedDiskStorage.BUFFER_SIZE_PROPERTY, "10");
                 pset.setProperty(DiskStorage.DATA_FILE_PROPERTY, "cache.tmp");
                 pset.setProperty(DiskStorage.INDEX_FILE_PROPERTY, "cache.idx");
@@ -145,10 +141,10 @@ public class ConcurrentAccessTest extends TestCase {
     }
 
     void dumpFilterSet(ObjectOutputStream oos, List<Filter> filterset)
-        throws Exception {
+            throws Exception {
         oos.writeInt(filterset.size());
 
-        for (Iterator<Filter> it = filterset.iterator(); it.hasNext();) {
+        for (Iterator<Filter> it = filterset.iterator(); it.hasNext(); ) {
             Envelope e = CacheUtil.extractEnvelope((BBOXImpl) it.next());
             oos.writeObject(e);
         }
@@ -162,7 +158,7 @@ public class ConcurrentAccessTest extends TestCase {
         TestRunnable client1 = new CacheClient(filterset1);
         TestRunnable client2 = new CacheClient(filterset2);
         TestRunnable client3 = new CacheClient(filterset1);
-        TestRunnable[] trs = new TestRunnable[] { client1, client2, client3 };
+        TestRunnable[] trs = new TestRunnable[]{client1, client2, client3};
         MultiThreadedTestRunner mttr = new MultiThreadedTestRunner(trs);
         mttr.runTestRunnables();
     }
@@ -184,9 +180,9 @@ public class ConcurrentAccessTest extends TestCase {
         trs[3] = new LazyCacheCleaner(50, 5);
         trs[4] = new LazyCacheCleaner(100, 2);
         if (hardest) {
-        	trs[5] = new CacheClient(filterset2);
-        	trs[6] = new CacheClient(filterset1);
-        	trs[7] = new CacheClient(filterset2);
+            trs[5] = new CacheClient(filterset2);
+            trs[6] = new CacheClient(filterset1);
+            trs[7] = new CacheClient(filterset2);
         }
         MultiThreadedTestRunner mttr = new MultiThreadedTestRunner(trs);
         mttr.runTestRunnables();
@@ -203,11 +199,12 @@ public class ConcurrentAccessTest extends TestCase {
         public void runTest() throws Throwable {
             int count = 0;
 
-            for (Iterator<Filter> it = filterset.iterator(); it.hasNext();) {
+            for (Iterator<Filter> it = filterset.iterator(); it.hasNext(); ) {
                 Filter next = it.next();
                 count++;
 
-                //				System.out.println(Thread.currentThread().getName() + " : filter " + count);
+                //				System.out.println(Thread.currentThread().getName() + " : filter "
+                // + count);
                 int control = dataset.subCollection(next).size();
                 FeatureCollection fc = grid.getFeatures(next);
 
@@ -245,7 +242,8 @@ public class ConcurrentAccessTest extends TestCase {
                     throw new InterruptedException();
                 }
 
-                //                System.out.println(Thread.currentThread().getName() + " : cleared cache");
+                //                System.out.println(Thread.currentThread().getName() + " : 
+                // cleared cache");
                 grid.clear();
                 count++;
             }

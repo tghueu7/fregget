@@ -41,9 +41,9 @@ public class MapboxTestUtils {
     public static Reader readerTestStyle(String filename) throws IOException, ParseException {
         InputStream is = MapboxTestUtils.class.getResourceAsStream(filename);
         String fileContents = IOUtils.toString(is, "utf-8");
-        return new StringReader( fileContents );
+        return new StringReader(fileContents);
     }
-    
+
     /**
      * Read a test Mapbox Style file (json) and parse it into a {@link JSONObject}.
      */
@@ -52,14 +52,16 @@ public class MapboxTestUtils {
         String fileContents = IOUtils.toString(is, "utf-8");
         return (JSONObject) jsonParser.parse(fileContents);
     }
-    
+
     public static BufferedImage showRender(String testName, GTRenderer renderer, long timeOut,
-            ReferencedEnvelope[] bounds, RenderListener listener) throws Exception {
+                                           ReferencedEnvelope[] bounds, RenderListener listener) 
+            throws Exception {
         return showRender(testName, renderer, timeOut, bounds, listener, 300, 300);
     }
-    
+
     public static BufferedImage showRender(String testName, GTRenderer renderer, long timeOut,
-            ReferencedEnvelope[] bounds, RenderListener listener, int width, int height) throws Exception {
+                                           ReferencedEnvelope[] bounds, RenderListener listener, 
+                                           int width, int height) throws Exception {
         BufferedImage[] images = new BufferedImage[bounds.length];
         for (int i = 0; i < images.length; i++) {
             images[i] = RendererBaseTest.renderImage(renderer, bounds[i], listener, width, height);
@@ -83,11 +85,12 @@ public class MapboxTestUtils {
 
     /**
      * Parse JSONObject using ' rather than " for faster test case writing.
+     *
      * @param json
      * @return parsed JSONArray
      * @throws ParseException
      */
-    public static JSONObject object(String json) throws ParseException{
+    public static JSONObject object(String json) throws ParseException {
         JSONParser parser = new JSONParser();
         String text = json.replace('\'', '\"');
         Object object = parser.parse(text);

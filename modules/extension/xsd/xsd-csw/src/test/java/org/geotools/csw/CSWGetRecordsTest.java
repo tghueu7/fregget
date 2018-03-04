@@ -57,7 +57,7 @@ public class CSWGetRecordsTest {
         expected.add(new QName(rimNamespace, "Service"));
         assertEquals(expected, esn.getTypeNames());
         assertEquals(ElementSetType.BRIEF, esn.getValue());
-        
+
         // the sort by properties
         SortBy[] sorts = query.getSortBy();
         assertEquals(2, sorts.length);
@@ -109,21 +109,22 @@ public class CSWGetRecordsTest {
         assertEquals("2.0.2", gr.getVersion());
         assertEquals("application/xml", gr.getOutputFormat());
         assertEquals("http://www.opengis.net/cat/csw/2.0.2", gr.getOutputSchema());
-        
+
         // the element set name
         ElementSetNameType esn = gr.getElementSetName();
         assertEquals(ElementSetType.SUMMARY, esn.getValue());
-        
+
         // the ids
         List<URI> ids = gr.getId();
         assertEquals(new URI("REC-10"), ids.get(0));
         assertEquals(new URI("REC-11"), ids.get(1));
         assertEquals(new URI("REC-12"), ids.get(2));
     }
-    
-    @Test 
+
+    @Test
     public void testParseGetRecordsByIdResponse() throws Exception {
-        GetRecordByIdResponseType response = (GetRecordByIdResponseType) parser.parse(getClass().getResourceAsStream(
+        GetRecordByIdResponseType response = (GetRecordByIdResponseType) parser.parse(getClass()
+                .getResourceAsStream(
                 "GetRecordByIdResponse.xml"));
         assertNotNull(response);
         EList<AbstractRecordType> records = response.getAbstractRecord();

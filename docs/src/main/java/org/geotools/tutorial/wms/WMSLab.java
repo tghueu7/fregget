@@ -26,21 +26,21 @@ public class WMSLab extends JFrame {
     public static void main(String[] args) throws Exception {
         // display a data store file chooser dialog for shapefiles
         URL capabilitiesURL = WMSChooser.showChooseWMS();
-        if( capabilitiesURL == null ){
+        if (capabilitiesURL == null) {
             System.exit(0); // canceled
         }
-        WebMapServer wms = new WebMapServer( capabilitiesURL );        
-        
-        List<Layer> wmsLayers = WMSLayerChooser.showSelectLayer( wms );
-        if( wmsLayers == null ){
+        WebMapServer wms = new WebMapServer(capabilitiesURL);
+
+        List<Layer> wmsLayers = WMSLayerChooser.showSelectLayer(wms);
+        if (wmsLayers == null) {
             JOptionPane.showMessageDialog(null, "Could not connect - check url");
             System.exit(0);
         }
         MapContent mapcontent = new MapContent();
-        mapcontent.setTitle( wms.getCapabilities().getService().getTitle() );
-        
-        for( Layer wmsLayer : wmsLayers ){
-            WMSLayer displayLayer = new WMSLayer(wms, wmsLayer );
+        mapcontent.setTitle(wms.getCapabilities().getService().getTitle());
+
+        for (Layer wmsLayer : wmsLayers) {
+            WMSLayer displayLayer = new WMSLayer(wms, wmsLayer);
             mapcontent.addLayer(displayLayer);
         }
         // Now display the map

@@ -20,11 +20,9 @@ package org.geotools.resources.i18n;
 /**
  * Brazil Portuguese language resource.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
  */
 public class Vocabulary_pt_BR extends Vocabulary_pt {
 }

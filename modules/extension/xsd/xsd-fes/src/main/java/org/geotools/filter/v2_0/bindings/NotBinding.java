@@ -9,18 +9,18 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/fes/2.0:Not.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
- *  &lt;xsd:element name="Not" substitutionGroup="fes:logicOps" type="fes:UnaryLogicOpType"/&gt; 
- * 	
+ *  &lt;xsd:element name="Not" substitutionGroup="fes:logicOps" type="fes:UnaryLogicOpType"/&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
  */
 public class NotBinding extends OGCNotBinding {

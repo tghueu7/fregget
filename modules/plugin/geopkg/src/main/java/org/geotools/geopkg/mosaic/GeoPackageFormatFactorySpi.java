@@ -25,9 +25,8 @@ import org.geotools.coverage.grid.io.GridFormatFactorySpi;
 
 /**
  * Constructs a GeoPackage Grid Format (supports the GP mosaic datastore).
- * 
- * @author Niels Charlier
  *
+ * @author Niels Charlier
  */
 public class GeoPackageFormatFactorySpi implements GridFormatFactorySpi {
 

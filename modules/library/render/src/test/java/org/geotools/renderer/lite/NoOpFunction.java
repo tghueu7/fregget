@@ -26,14 +26,14 @@ import org.opengis.filter.capability.FunctionName;
  */
 public class NoOpFunction extends FunctionExpressionImpl {
 
-        public static FunctionName NAME = new FunctionNameImpl("NoOp",
+    public static FunctionName NAME = new FunctionNameImpl("NoOp",
             FunctionNameImpl.parameter("coverage", GridCoverage2D.class));
 
-        public NoOpFunction() {
-            super(NAME);
-        }
+    public NoOpFunction() {
+        super(NAME);
+    }
 
-        public Object evaluate(Object gc) {
-            return gc;
-        }
+    public Object evaluate(Object gc) {
+        return gc;
+    }
 }

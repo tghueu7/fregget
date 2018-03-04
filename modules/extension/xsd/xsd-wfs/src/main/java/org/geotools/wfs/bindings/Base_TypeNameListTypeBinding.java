@@ -27,9 +27,9 @@ import org.geotools.xml.InstanceComponent;
 
 /**
  * Binding object for the type http://www.opengis.net/wfs:Base_TypeNameListType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:simpleType name="Base_TypeNameListType"&gt;
  *      &lt;xsd:list itemType="xsd:QName"/&gt;
@@ -40,9 +40,6 @@ import org.geotools.xml.InstanceComponent;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class Base_TypeNameListTypeBinding extends AbstractSimpleBinding {
@@ -73,7 +70,7 @@ public class Base_TypeNameListTypeBinding extends AbstractSimpleBinding {
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
+            throws Exception {
         //TODO: implement and remove call to super
         return super.parse(instance, value);
     }

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2016, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -37,17 +37,20 @@ import org.geotools.factory.Hints;
 import com.sun.media.jai.util.PropertyGeneratorImpl;
 
 /**
- * A property generator for the Affine operation that builds a ROI with a sane image layout even with large upscale factors
- * 
+ * A property generator for the Affine operation that builds a ROI with a sane image layout even 
+ * with large upscale factors
+ *
  * @author Andrea Aime - GeoSolutions
  * @author Daniele Romagnoli - GeoSolutions
  */
 public class GTAffinePropertyGenerator extends PropertyGeneratorImpl {
     private static final long serialVersionUID = 6622489670499745306L;
 
-    /** Constructor. */
+    /**
+     * Constructor.
+     */
     public GTAffinePropertyGenerator() {
-        super(new String[] { "ROI" }, new Class[] { ROI.class }, new Class[] { RenderedOp.class });
+        super(new String[]{"ROI"}, new Class[]{ROI.class}, new Class[]{RenderedOp.class});
     }
 
     static boolean registered = false;
@@ -63,7 +66,7 @@ public class GTAffinePropertyGenerator extends PropertyGeneratorImpl {
     /**
      * Returns the specified property in the rendered layer.
      *
-     * @param name Property name.
+     * @param name   Property name.
      * @param opNode Operation node.
      */
     public Object getProperty(String name, Object opNode) {
@@ -115,7 +118,7 @@ public class GTAffinePropertyGenerator extends PropertyGeneratorImpl {
 
             // Create the transformed ROI.
             ROI dstROI;
-            if(srcROI.getClass().equals(ROI.class)) {
+            if (srcROI.getClass().equals(ROI.class)) {
                 // we need to build an image with the same layout of the op, or we
                 // risk of building a very large ROI with super-tiny tiles when
                 // doing up-sampling of a single pixel image (high oversample case)

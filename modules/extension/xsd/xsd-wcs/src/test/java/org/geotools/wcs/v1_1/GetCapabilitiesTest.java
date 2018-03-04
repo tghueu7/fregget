@@ -21,12 +21,12 @@ public class GetCapabilitiesTest {
         HashMap<String, Object> caps = (HashMap<String, Object>) parser.parse(getClass()
                 .getResourceAsStream(capRequestPath));
         assertEquals("WCS", caps.get("service"));
-        
-        List versions = (List)((HashMap)caps.get("AcceptVersions")).get("Version");
+
+        List versions = (List) ((HashMap) caps.get("AcceptVersions")).get("Version");
         assertEquals("1.1.1", versions.get(0));
         assertEquals("1.1.0", versions.get(1));
         assertEquals("1.0.0", versions.get(2));
-        
+
         assertEquals("OperationsMetadata", caps.get("Sections"));
         assertEquals("application/xml", caps.get("AcceptFormats"));
     }

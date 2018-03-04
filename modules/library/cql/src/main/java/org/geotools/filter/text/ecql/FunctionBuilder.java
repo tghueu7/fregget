@@ -34,11 +34,11 @@ abstract class FunctionBuilder {
     private BuildResultStack resultStack;
 
     public FunctionBuilder(final BuildResultStack resultStack,
-            final FilterFactory filterFactory) {
-        
+                           final FilterFactory filterFactory) {
+
         assert resultStack != null;
         assert filterFactory != null;
-        
+
         this.resultStack = resultStack;
         this.filterFactory = filterFactory;
     }
@@ -51,5 +51,5 @@ abstract class FunctionBuilder {
         return resultStack;
     }
 
-    public abstract Function build() throws CQLException ;
+    public abstract Function build() throws CQLException;
 }

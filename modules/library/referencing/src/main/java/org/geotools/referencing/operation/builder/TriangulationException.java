@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -20,12 +20,10 @@ package org.geotools.referencing.operation.builder;
 /**
  * Thrown when it is unable to generate TIN.
  *
- * @since 2.4
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Jan Jezek
+ * @version $Id$
+ * @source $URL$
+ * @since 2.4
  */
 public class TriangulationException extends RuntimeException {
     private static final long serialVersionUID = -3134565178815225915L;
@@ -33,8 +31,8 @@ public class TriangulationException extends RuntimeException {
     /**
      * Constructs an exception with the specified detail message.
      *
-     * @param  message The cause for this exception. The cause is saved
-     *         for later retrieval by the {@link #getCause()} method.
+     * @param message The cause for this exception. The cause is saved
+     *                for later retrieval by the {@link #getCause()} method.
      */
     public TriangulationException(String message) {
         super(message);

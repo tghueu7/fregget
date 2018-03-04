@@ -38,8 +38,6 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class JDBCFeatureCollectionOnlineTest extends JDBCTestSupport {
@@ -50,7 +48,7 @@ public abstract class JDBCFeatureCollectionOnlineTest extends JDBCTestSupport {
         super.connect();
 
         source = (JDBCFeatureStore) dataStore.getFeatureSource(tname("ft1"));
-        collection = source.getFeatures(); 
+        collection = source.getFeatures();
     }
 
     public void testIterator() throws Exception {
@@ -97,10 +95,10 @@ public abstract class JDBCFeatureCollectionOnlineTest extends JDBCTestSupport {
         SimpleFeatureCollection sub = collection.subCollection(f);
         assertNotNull(sub);
         assertEquals(1, sub.size());
-        
-        ReferencedEnvelope exp = new ReferencedEnvelope(1, 1, 1, 1, CRS.decode("EPSG:4326")); 
+
+        ReferencedEnvelope exp = new ReferencedEnvelope(1, 1, 1, 1, CRS.decode("EPSG:4326"));
         ReferencedEnvelope act = sub.getBounds();
-        
+
         assertEquals(exp.getMinX(), act.getMinX(), 0.1);
         assertEquals(exp.getMinY(), act.getMinY(), 0.1);
         assertEquals(exp.getMaxX(), act.getMaxX(), 0.1);
@@ -117,23 +115,24 @@ public abstract class JDBCFeatureCollectionOnlineTest extends JDBCTestSupport {
         SimpleFeature feature = b.buildFeature(null);
         assertEquals(3, collection.size());
 
-        source.addFeatures( DataUtilities.collection( feature ));
+        source.addFeatures(DataUtilities.collection(feature));
 
         assertEquals(4, collection.size());
 
-        try(SimpleFeatureIterator i = collection.features()) {
+        try (SimpleFeatureIterator i = collection.features()) {
             boolean found = false;
-    
+
             while (i.hasNext()) {
                 SimpleFeature f = (SimpleFeature) i.next();
-    
+
                 if ("three".equals(f.getAttribute(aname("stringProperty")))) {
-                    assertEquals(((Double)feature.getAttribute(aname("doubleProperty"))).doubleValue(),
-                        ((Double)f.getAttribute(aname("doubleProperty"))).doubleValue(),1e-5);
+                    assertEquals(((Double) feature.getAttribute(aname("doubleProperty")))
+                                    .doubleValue(),
+                            ((Double) f.getAttribute(aname("doubleProperty"))).doubleValue(), 1e-5);
                     assertEquals(feature.getAttribute(aname("stringProperty")),
-                        f.getAttribute(aname("stringProperty")));
+                            f.getAttribute(aname("stringProperty")));
                     assertEquals(feature.getAttribute(aname("geometry")),
-                        f.getAttribute(aname("geometry")));
+                            f.getAttribute(aname("geometry")));
                     found = true;
                 }
             }

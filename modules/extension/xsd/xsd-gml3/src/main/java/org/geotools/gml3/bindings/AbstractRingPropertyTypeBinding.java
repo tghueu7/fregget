@@ -28,13 +28,14 @@ import com.vividsolutions.jts.geom.LinearRing;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:AbstractRingPropertyType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="AbstractRingPropertyType"&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;Encapsulates a ring to represent the surface boundary property of a surface.&lt;/documentation&gt;
+ *          &lt;documentation&gt;Encapsulates a ring to represent the surface boundary property 
+ *          of a surface.&lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;sequence&gt;
  *          &lt;element ref="gml:_Ring"/&gt;
@@ -46,9 +47,6 @@ import com.vividsolutions.jts.geom.LinearRing;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class AbstractRingPropertyTypeBinding extends AbstractComplexBinding {
@@ -76,16 +74,16 @@ public class AbstractRingPropertyTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return node.getChildValue(LinearRing.class);
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         //GML3  -> _Ring
         //GML32 -> AbstractRing
-        if ("_Ring".equals(name.getLocalPart()) || "AbstractRing".equals(name.getLocalPart()) ){
-        //if (GML._Ring.equals(name)) {
+        if ("_Ring".equals(name.getLocalPart()) || "AbstractRing".equals(name.getLocalPart())) {
+            //if (GML._Ring.equals(name)) {
             return object;
         }
 

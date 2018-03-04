@@ -36,13 +36,13 @@ import org.opengis.coverage.grid.Format;
  * @author Andrea Antonello (www.hydrologis.com)
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini (simboss), GeoSolutions
- * @since 2.5.x
- *
- *
  * @source $URL$
+ * @since 2.5.x
  */
 public final class AIGFormatFactory implements GridFormatFactorySpi {
-    /** Logger. */
+    /**
+     * Logger.
+     */
     private final static Logger LOGGER = org.geotools.util.logging.Logging.getLogger(
             AIGFormatFactory.class.toString());
 
@@ -57,17 +57,18 @@ public final class AIGFormatFactory implements GridFormatFactorySpi {
         // if these classes are here, then the runtime environment has
         // access to JAI and the JAI ImageI/O toolbox.
         try {
-            Class.forName("it.geosolutions.imageio.plugins.arcbinarygrid.ArcBinaryGridImageReaderSpi");
+            Class.forName("it.geosolutions.imageio.plugins.arcbinarygrid" +
+                    ".ArcBinaryGridImageReaderSpi");
             available = new ArcBinaryGridImageReaderSpi().isAvailable();
 
             if (LOGGER.isLoggable(Level.FINE)) {
-                if (available) 
+                if (available)
                     LOGGER.fine("AIGFormatFactory is availaible.");
-                else 
+                else
                     LOGGER.fine("AIGFormatFactory is not availaible.");
             }
         } catch (ClassNotFoundException cnf) {
-            if (LOGGER.isLoggable(Level.FINE)) 
+            if (LOGGER.isLoggable(Level.FINE))
                 LOGGER.fine("AIGFormatFactory is not availaible.");
 
             available = false;

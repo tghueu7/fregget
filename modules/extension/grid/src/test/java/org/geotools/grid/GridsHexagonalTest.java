@@ -34,19 +34,17 @@ import com.vividsolutions.jts.geom.Polygon;
  * Unit tests for the Grids class.
  *
  * @author mbedward
- * @since 2.7
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.7
  */
 public class GridsHexagonalTest {
 
     private final ReferencedEnvelope BOUNDS = new ReferencedEnvelope(0, 90, 0, 100, null);
     private final double SIDE_LEN = 5.0;
-    
-    private final int expectedCols = (int) ((BOUNDS.getWidth() - 2 * SIDE_LEN) / (1.5 * SIDE_LEN)) + 1;
+
+    private final int expectedCols = (int) ((BOUNDS.getWidth() - 2 * SIDE_LEN) / (1.5 * SIDE_LEN)
+    ) + 1;
     private final int expectedRows = (int) (BOUNDS.getHeight() / (Math.sqrt(3.0) * SIDE_LEN));
     private final int expectedNumElements = expectedRows * expectedCols;
 
@@ -68,7 +66,8 @@ public class GridsHexagonalTest {
     @Test
     public void createDensifiedGrid() throws Exception {
         final int vertexDensity = 10;
-        SimpleFeatureSource gridSource = Grids.createHexagonalGrid(BOUNDS, SIDE_LEN, SIDE_LEN / vertexDensity);
+        SimpleFeatureSource gridSource = Grids.createHexagonalGrid(BOUNDS, SIDE_LEN, SIDE_LEN / 
+                vertexDensity);
         assertGridSizeAndIds(gridSource);
 
         SimpleFeatureIterator iter = gridSource.getFeatures().features();
@@ -81,17 +80,17 @@ public class GridsHexagonalTest {
         }
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void createGrid_InvalidBounds() {
         Grids.createHexagonalGrid(ReferencedEnvelope.EVERYTHING, SIDE_LEN);
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void createGrid_NullBounds() {
         Grids.createHexagonalGrid(null, SIDE_LEN);
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void createGrid_InvalidSideLength() {
         Grids.createHexagonalGrid(BOUNDS, 0);
     }
@@ -111,7 +110,7 @@ public class GridsHexagonalTest {
                 assertFalse(id == 0);
                 assertFalse(flag[id]);
                 flag[id] = true;
-                count++ ;
+                count++;
             }
 
         } finally {

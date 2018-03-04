@@ -34,41 +34,39 @@ import org.opengis.referencing.NoSuchAuthorityCodeException;
 
 /**
  * Class for testing availaibility of arcgrid format factory
- * 
+ *
  * @author Simone Giannecchini
  * @author ian
- *
- *
  * @source $URL$
  */
 public class ServiceTest extends TestCase {
 
-	public ServiceTest(java.lang.String testName) {
-		super(testName);
-	}
+    public ServiceTest(java.lang.String testName) {
+        super(testName);
+    }
 
-	public static void main(java.lang.String[] args) {
-		junit.textui.TestRunner.run(ServiceTest.class);
-	}
+    public static void main(java.lang.String[] args) {
+        junit.textui.TestRunner.run(ServiceTest.class);
+    }
 
-	public void testIsAvailable() throws NoSuchAuthorityCodeException,
-			FactoryException {
-		GridFormatFinder.scanForPlugins();
-		Iterator<GridFormatFactorySpi> list = GridFormatFinder.getAvailableFormats().iterator();
-		boolean found = false;
-		GridFormatFactorySpi fac = null;
-		while (list.hasNext()) {
-			fac = (GridFormatFactorySpi) list.next();
+    public void testIsAvailable() throws NoSuchAuthorityCodeException,
+            FactoryException {
+        GridFormatFinder.scanForPlugins();
+        Iterator<GridFormatFactorySpi> list = GridFormatFinder.getAvailableFormats().iterator();
+        boolean found = false;
+        GridFormatFactorySpi fac = null;
+        while (list.hasNext()) {
+            fac = (GridFormatFactorySpi) list.next();
 
-			if (fac instanceof ArcGridFormatFactory) {
-				found = true;
+            if (fac instanceof ArcGridFormatFactory) {
+                found = true;
 
-				break;
-			}
-		}
+                break;
+            }
+        }
 
-		assertTrue("ArcGridFormatFactory not registered", found);
-		assertTrue("ArcGridFormatFactory not available", fac.isAvailable());
-		assertNotNull(new ArcGridFormatFactory().createFormat());
-	}
+        assertTrue("ArcGridFormatFactory not registered", found);
+        assertTrue("ArcGridFormatFactory not available", fac.isAvailable());
+        assertNotNull(new ArcGridFormatFactory().createFormat());
+    }
 }

@@ -36,43 +36,44 @@ import org.opengis.feature.type.AttributeDescriptor;
 
 /**
  * Feature reader that wraps multiple feature readers in a join query.
- * 
- * @author Justin Deoliveira, OpenGeo
  *
+ * @author Justin Deoliveira, OpenGeo
  */
 public class JDBCJoiningFeatureReader extends JDBCFeatureReader {
 
     List<JDBCFeatureReader> joinReaders;
     SimpleFeatureBuilder joinFeatureBuilder;
-    
+
     public JDBCJoiningFeatureReader(String sql, Connection cx, JDBCFeatureSource featureSource,
-        SimpleFeatureType featureType, JoinInfo join, Query query) 
-        throws SQLException, IOException {
+                                    SimpleFeatureType featureType, JoinInfo join, Query query)
+            throws SQLException, IOException {
 
         //super(sql, cx, featureSource, retype(featureType, join), hints);
         super(sql, cx, featureSource, featureType, query);
 
         init(cx, featureSource, featureType, join, query);
     }
-    
-    public JDBCJoiningFeatureReader(PreparedStatement st, Connection cx, JDBCFeatureSource featureSource,
-        SimpleFeatureType featureType, JoinInfo join, Query query) 
-        throws SQLException, IOException {
+
+    public JDBCJoiningFeatureReader(PreparedStatement st, Connection cx, JDBCFeatureSource 
+            featureSource,
+                                    SimpleFeatureType featureType, JoinInfo join, Query query)
+            throws SQLException, IOException {
 
         super(st, cx, featureSource, featureType, query);
 
         init(cx, featureSource, featureType, join, query);
     }
 
-    void init(Connection cx, JDBCFeatureSource featureSource, SimpleFeatureType featureType, 
-        JoinInfo join, Query query) throws SQLException, IOException {
+    void init(Connection cx, JDBCFeatureSource featureSource, SimpleFeatureType featureType,
+              JoinInfo join, Query query) throws SQLException, IOException {
         joinReaders = new ArrayList<JDBCFeatureReader>();
         int offset = featureType.getAttributeCount()
                 + getPrimaryKeyOffset(featureSource, getPrimaryKey(), featureType);
 
         for (JoinPart part : join.getParts()) {
             SimpleFeatureType ft = part.getQueryFeatureType();
-            JDBCFeatureReader joinReader = new JDBCFeatureReader(rs, cx, offset, featureSource.getDataStore()
+            JDBCFeatureReader joinReader = new JDBCFeatureReader(rs, cx, offset, featureSource
+                    .getDataStore()
                     .getAbsoluteFeatureSource(ft.getTypeName()), ft, query) {
                 @Override
                 protected void finalize() throws Throwable {
@@ -94,7 +95,7 @@ public class JDBCJoiningFeatureReader extends JDBCFeatureReader {
     }
 
     private int getPrimaryKeyOffset(JDBCFeatureSource featureSource, PrimaryKey pk,
-            SimpleFeatureType featureType) {
+                                    SimpleFeatureType featureType) {
         // if we are not exposing them, they are all extras
         int pkSize = pk.getColumns().size();
         if (!featureSource.isExposePrimaryKeyColumns()) {
@@ -152,7 +153,7 @@ public class JDBCJoiningFeatureReader extends JDBCFeatureReader {
     static SimpleFeatureType retype(SimpleFeatureType featureType, JoinInfo join) {
         SimpleFeatureTypeBuilder b = new SimpleFeatureTypeBuilder();
         b.init(featureType);
-        
+
         for (JoinPart part : join.getParts()) {
             b.add(part.getAttributeName(), SimpleFeature.class);
         }

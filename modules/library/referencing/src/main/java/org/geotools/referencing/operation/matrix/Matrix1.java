@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -27,21 +27,25 @@ import org.geotools.resources.i18n.ErrorKeys;
  * A matrix of fixed {@value #SIZE}&times;{@value #SIZE} size. This trivial matrix is returned as a
  * result of {@linkplain org.opengis.referencing.operation.MathTransform1D} derivative computation.
  *
- * @since 2.2
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.2
  */
 public class Matrix1 implements XMatrix, Serializable {
-    /** Serial number for interoperability with different versions. */
+    /**
+     * Serial number for interoperability with different versions.
+     */
     private static final long serialVersionUID = -4829171016106097031L;
 
-    /** The only element in this matrix. */
+    /**
+     * The only element in this matrix.
+     */
     public double m00;
 
-    /** The matrix size, which is {@value}. */
+    /**
+     * The matrix size, which is {@value}.
+     */
     public static final int SIZE = 1;
 
     /**
@@ -63,10 +67,10 @@ public class Matrix1 implements XMatrix, Serializable {
      * The specified matrix size must be {@value #SIZE}&times;{@value #SIZE}.
      */
     public Matrix1(final Matrix matrix) {
-        if (matrix.getNumRow()!=SIZE || matrix.getNumCol()!=SIZE) {
+        if (matrix.getNumRow() != SIZE || matrix.getNumCol() != SIZE) {
             throw new IllegalArgumentException(Errors.format(ErrorKeys.ILLEGAL_MATRIX_SIZE));
         }
-        m00 = matrix.getElement(0,0);
+        m00 = matrix.getElement(0, 0);
     }
 
     /**
@@ -89,7 +93,7 @@ public class Matrix1 implements XMatrix, Serializable {
      * {@inheritDoc}
      */
     public final double getElement(final int row, final int col) {
-        if (row==0 && col==0) {
+        if (row == 0 && col == 0) {
             return m00;
         } else {
             throw new IndexOutOfBoundsException();
@@ -100,7 +104,7 @@ public class Matrix1 implements XMatrix, Serializable {
      * {@inheritDoc}
      */
     public final void setElement(final int row, final int col, final double value) {
-        if (row==0 && col==0) {
+        if (row == 0 && col == 0) {
             m00 = value;
         } else {
             throw new IndexOutOfBoundsException();
@@ -132,14 +136,14 @@ public class Matrix1 implements XMatrix, Serializable {
      * {@inheritDoc}
      */
     public final boolean isIdentity(double tolerance) {
-    	return Math.abs(m00 - 1) <= Math.abs(tolerance);
+        return Math.abs(m00 - 1) <= Math.abs(tolerance);
     }
 
     /**
      * {@inheritDoc}
      */
     public final boolean isAffine() {
-        return m00==1;
+        return m00 == 1;
     }
 
     /**
@@ -151,10 +155,10 @@ public class Matrix1 implements XMatrix, Serializable {
 
     @Override
     public void negate(Matrix matrix) {
-        if (matrix.getNumRow()!=SIZE || matrix.getNumCol()!=SIZE) {
+        if (matrix.getNumRow() != SIZE || matrix.getNumCol() != SIZE) {
             throw new IllegalArgumentException(Errors.format(ErrorKeys.ILLEGAL_MATRIX_SIZE));
         }
-        m00 = -matrix.getElement(0,0);
+        m00 = -matrix.getElement(0, 0);
     }
 
     /**
@@ -166,7 +170,7 @@ public class Matrix1 implements XMatrix, Serializable {
 
     @Override
     public void transpose(Matrix matrix) {
-        if (matrix.getNumRow()!=SIZE || matrix.getNumCol()!=SIZE) {
+        if (matrix.getNumRow() != SIZE || matrix.getNumCol() != SIZE) {
             throw new IllegalArgumentException(Errors.format(ErrorKeys.ILLEGAL_MATRIX_SIZE));
         }
         m00 = matrix.getElement(0, 0);
@@ -179,28 +183,28 @@ public class Matrix1 implements XMatrix, Serializable {
         if (m00 == 0) {
             throw new SingularMatrixException("1 dimensional m is singular");
         }
-        m00 = 1.0/m00;
+        m00 = 1.0 / m00;
     }
 
     @Override
     public void invert(Matrix matrix) throws SingularMatrixException {
-        if (matrix.getNumRow()!=SIZE || matrix.getNumCol()!=SIZE) {
+        if (matrix.getNumRow() != SIZE || matrix.getNumCol() != SIZE) {
             throw new IllegalArgumentException(Errors.format(ErrorKeys.ILLEGAL_MATRIX_SIZE));
         }
         if (matrix.getElement(0, 0) == 0) {
             throw new SingularMatrixException("1 dimensional matrix is singular");
         }
-        m00 = 1.0/matrix.getElement(0, 0);
+        m00 = 1.0 / matrix.getElement(0, 0);
     }
 
     /**
      * {@inheritDoc}
      */
     public final void multiply(final Matrix matrix) {
-        if (matrix.getNumRow()!=SIZE || matrix.getNumCol()!=SIZE) {
+        if (matrix.getNumRow() != SIZE || matrix.getNumCol() != SIZE) {
             throw new IllegalArgumentException(Errors.format(ErrorKeys.ILLEGAL_MATRIX_SIZE));
         }
-        m00 *= matrix.getElement(0,0);
+        m00 *= matrix.getElement(0, 0);
     }
 
     /**
@@ -216,7 +220,7 @@ public class Matrix1 implements XMatrix, Serializable {
      */
     @Override
     public boolean equals(final Object object) {
-        if (object!=null && object.getClass().equals(getClass())) {
+        if (object != null && object.getClass().equals(getClass())) {
             final Matrix1 that = (Matrix1) object;
             return Double.doubleToLongBits(this.m00) == Double.doubleToLongBits(that.m00);
         }
@@ -228,7 +232,7 @@ public class Matrix1 implements XMatrix, Serializable {
      */
     @Override
     public int hashCode() {
-        return (int)(Double.doubleToLongBits(m00) ^ serialVersionUID);
+        return (int) (Double.doubleToLongBits(m00) ^ serialVersionUID);
     }
 
     /**
@@ -254,12 +258,12 @@ public class Matrix1 implements XMatrix, Serializable {
     }
 
     @Override
-    public void getRow(int row, double[] array){
+    public void getRow(int row, double[] array) {
         if (array.length != 1) {
             throw new IllegalArgumentException("Call getRow received an array of length "
                     + array.length + ".  " + "The dimensions of the matrix is 1 by 1.");
         }
-        if( row != 0 ){
+        if (row != 0) {
             throw new IllegalArgumentException("Specified element is out of bounds: (" + row
                     + " , 0)");
         }
@@ -276,12 +280,12 @@ public class Matrix1 implements XMatrix, Serializable {
     }
 
     @Override
-    public void getColumn(int column, double[] array){
+    public void getColumn(int column, double[] array) {
         if (array.length != 1) {
             throw new IllegalArgumentException("Call getColumn received an array of length "
                     + array.length + ".  " + "The dimensions of the matrix is 1 by 1.");
         }
-        if( column != 0 ){
+        if (column != 0) {
             throw new IllegalArgumentException("Specified element is out of bounds: (0 , " + column
                     + ")");
         }
@@ -317,9 +321,9 @@ public class Matrix1 implements XMatrix, Serializable {
         }
         m00 += matrix.getElement(0, 0);
     }
-    
+
     @Override
-    public void add(XMatrix matrix1,XMatrix matrix2) {
+    public void add(XMatrix matrix1, XMatrix matrix2) {
         if (matrix1.getNumRow() != SIZE || matrix1.getNumCol() != SIZE) {
             throw new IllegalArgumentException(Errors.format(ErrorKeys.ILLEGAL_MATRIX_SIZE));
         }
@@ -328,7 +332,7 @@ public class Matrix1 implements XMatrix, Serializable {
         }
         m00 = matrix1.getElement(0, 0) + matrix2.getElement(0, 0);
     }
-    
+
 
     @Override
     public double determinate() {
@@ -371,7 +375,7 @@ public class Matrix1 implements XMatrix, Serializable {
     public void sub(double scalar) {
         m00 -= scalar;
     }
-    
+
     @Override
     public void sub(Matrix matrix) {
         if (matrix.getNumRow() != SIZE || matrix.getNumCol() != SIZE) {

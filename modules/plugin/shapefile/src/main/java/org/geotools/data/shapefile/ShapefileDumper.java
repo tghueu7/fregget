@@ -52,23 +52,27 @@ import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 
 /**
- * Class specializing in dumping a feature collection onto one or more shapefiles into a target directory.
+ * Class specializing in dumping a feature collection onto one or more shapefiles into a target 
+ * directory.
  * <p>
- * The collection will be distributed among different shapefiles if needed do respect certain limitations:
+ * The collection will be distributed among different shapefiles if needed do respect certain 
+ * limitations:
  * <ul>
- * <li>Only a single geometry type per shapefile, in case the source feature collection contains more than one parallel shapefiles will be generated,
+ * <li>Only a single geometry type per shapefile, in case the source feature collection contains 
+ * more than one parallel shapefiles will be generated,
  * by default appending the type of geometry at the end of the file name</li>
- * <li>Maximum file size, by default, 2GB for the shp file, 4GB for the dbf file. In case the maximum size is exceeded the code will create a new
+ * <li>Maximum file size, by default, 2GB for the shp file, 4GB for the dbf file. In case the 
+ * maximum size is exceeded the code will create a new
  * shapefile appending a counter at the end of the file name</li>
  * </ul>
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 public class ShapefileDumper {
 
     private class StoreWriter {
         int currentFileId = 0;
-        
+
         ShapefileDataStore dstore;
 
         FeatureWriter<SimpleFeatureType, SimpleFeature> writer;
@@ -81,7 +85,8 @@ public class ShapefileDumper {
          * @throws FileNotFoundException
          * @throws IOException
          */
-        public StoreWriter(SimpleFeatureType schema) throws MalformedURLException, FileNotFoundException, IOException {
+        public StoreWriter(SimpleFeatureType schema) throws MalformedURLException, 
+                FileNotFoundException, IOException {
             // create the datastore for the current geom type
             this.schema = schema;
             createStoreAndWriter(schema);
@@ -106,7 +111,7 @@ public class ShapefileDumper {
             tb.init(schema);
             tb.setName(schema.getTypeName() + String.valueOf(currentFileId));
             SimpleFeatureType ft = tb.buildFeatureType();
-            
+
             // set it up at the current store and writer
             createStoreAndWriter(ft);
         }
@@ -119,7 +124,7 @@ public class ShapefileDumper {
     long maxShpSize = ShapefileFeatureWriter.DEFAULT_MAX_SHAPE_SIZE;
 
     long maxDbfSize = ShapefileFeatureWriter.DEFAULT_MAX_DBF_SIZE;
-    
+
     boolean emptyShapefileAllowed = true;
 
     Charset charset = (Charset) ShapefileDataStoreFactory.DBFCHARSET.getDefaultValue();
@@ -130,7 +135,7 @@ public class ShapefileDumper {
 
     /**
      * Maximum size of the shapefiles being generated
-     * 
+     *
      * @return
      */
     public long getMaxShpSize() {
@@ -138,7 +143,8 @@ public class ShapefileDumper {
     }
 
     /**
-     * Sets the maximum size of the shp files the dumper will generate. The default is 2GB. When the threshold is reached a new shapefile with a
+     * Sets the maximum size of the shp files the dumper will generate. The default is 2GB. When 
+     * the threshold is reached a new shapefile with a
      * progressive number at the end will be written to continue dumping features.
      */
     public void setMaxShpSize(long maxShapeSize) {
@@ -147,7 +153,7 @@ public class ShapefileDumper {
 
     /**
      * Maximums size of the DBF files being generated
-     * 
+     *
      * @return
      */
     public long getMaxDbfSize() {
@@ -155,8 +161,10 @@ public class ShapefileDumper {
     }
 
     /**
-     * Sets the maximum size of the DBF files the dumper will generate. The default is 4GB, but some systems might be able to only read DBF files up
-     * to 2GB. When the threshold is reached a new shapefile with a progressive number at the end will be written to continue dumping features.
+     * Sets the maximum size of the DBF files the dumper will generate. The default is 4GB, but 
+     * some systems might be able to only read DBF files up
+     * to 2GB. When the threshold is reached a new shapefile with a progressive number at the end
+     * will be written to continue dumping features.
      */
     public void setMaxDbfSize(long maxDbfSize) {
         this.maxDbfSize = maxDbfSize;
@@ -164,6 +172,7 @@ public class ShapefileDumper {
 
     /**
      * The charset used in the DBF files. It's ISO-8859-1 by default (per DBF spec)
+     *
      * @return
      */
     public Charset getCharset() {
@@ -172,14 +181,16 @@ public class ShapefileDumper {
 
     /**
      * Sets the charset used to dump the DBF files.
+     *
      * @param charset
      */
     public void setCharset(Charset charset) {
         this.charset = charset;
     }
-    
+
     /**
      * Returns true if empty shpaefile dumping is allowed (true by default)
+     *
      * @return
      */
     public boolean isEmptyShapefileAllowed() {
@@ -188,6 +199,7 @@ public class ShapefileDumper {
 
     /**
      * Settings this flag to false will avoid empty shapefiles to be created
+     *
      * @param emptyShapefileAllowed
      */
     public void setEmptyShapefileAllowed(boolean emptyShapefileAllowed) {
@@ -198,7 +210,7 @@ public class ShapefileDumper {
      * Dumps the collection into one or more shapefiles. Multiple files will be geneated when
      * the input collection contains multiple geometry types, or as the size limit for output files
      * get reached
-     * 
+     *
      * @param fc The input feature collection
      * @return True if at least one feature got written, false otherwise
      * @throws IOException
@@ -209,8 +221,9 @@ public class ShapefileDumper {
             throw new DataSourceException("Cannot write geometryless shapefiles, yet "
                     + fc.getSchema() + " has no geometry field");
         }
-        
-        // Takes a feature collection with a generic schema and remaps it to one whose schema respects the limitations of the shapefile format
+
+        // Takes a feature collection with a generic schema and remaps it to one whose schema 
+        // respects the limitations of the shapefile format
         fc = RemappingFeatureCollection.getShapefileCompatibleCollection(fc);
         SimpleFeatureType schema = fc.getSchema();
 
@@ -220,18 +233,21 @@ public class ShapefileDumper {
         // let's see if we will need to write multiple geometry types
         boolean multiWriter = GeometryCollection.class.equals(geomType)
                 || Geometry.class.equals(geomType);
-        // we write all the features with no geometry type defined and NULL geometries to the same file
+        // we write all the features with no geometry type defined and NULL geometries to the 
+        // same file
         StoreWriter nullStoreWriter = null;
         try (SimpleFeatureIterator it = fc.features()) {
             while (it.hasNext()) {
                 SimpleFeature f = it.next();
                 // if the geometry type is not defined and the geometry value is NULL we write it
-                // to the NULL geometries file otherwise we write it to the correspondent geometry file
+                // to the NULL geometries file otherwise we write it to the correspondent 
+                // geometry file
                 StoreWriter storeWriter;
                 if (multiWriter && f.getDefaultGeometry() == null) {
                     // lazy instantiation of NULL geometries writer
                     nullStoreWriter = nullStoreWriter == null ?
-                            getStoreWriter(schema, null, multiWriter, Point.class, "_NULL") : nullStoreWriter;
+                            getStoreWriter(schema, null, multiWriter, Point.class, "_NULL") : 
+                            nullStoreWriter;
                     storeWriter = nullStoreWriter;
                 } else {
                     storeWriter = getStoreWriter(f, writers, multiWriter);
@@ -239,7 +255,7 @@ public class ShapefileDumper {
                 // try to write, the shapefile size limits could be reached
                 try {
                     writeToShapefile(f, storeWriter.writer);
-                } catch(ShapefileSizeException e) {
+                } catch (ShapefileSizeException e) {
                     // make one attempt to move to the next file (just one, since
                     // we could be trying to write a feature that won't fit the size limits)
                     storeWriter.nextWriter();
@@ -247,17 +263,17 @@ public class ShapefileDumper {
                 }
                 featuresWritten = true;
             }
-            
+
             // force writing out a empty shapefile if required
-            if(!featuresWritten && emptyShapefileAllowed) {
-                if(multiWriter) {
+            if (!featuresWritten && emptyShapefileAllowed) {
+                if (multiWriter) {
                     // force the dump of a point file
                     getStoreWriter(fc.getSchema(), writers, true, Point.class, null);
                 } else {
                     getStoreWriter(fc.getSchema(), writers, false, geomType, null);
                 }
             }
-            
+
         } catch (ShapefileSizeException e) {
             throw e;
         } catch (IOException ioe) {
@@ -291,14 +307,14 @@ public class ShapefileDumper {
                 throw new IOException(stored);
             }
         }
-        
-        
+
 
         return featuresWritten;
     }
 
     private void writeToShapefile(SimpleFeature f,
-            FeatureWriter<SimpleFeatureType, SimpleFeature> writer) throws IOException {
+                                  FeatureWriter<SimpleFeatureType, SimpleFeature> writer) throws 
+            IOException {
         SimpleFeature fw = writer.next();
 
         // we cannot trust attribute order, shapefile changes the location and name of the geometry
@@ -311,17 +327,18 @@ public class ShapefileDumper {
 
     /**
      * Allows subsclasses to perform extra actions against a shapefile that was completely written
-     * 
+     *
      * @param fileName
      * @param remappedSchema
      */
-    protected void shapefileDumped(String fileName, SimpleFeatureType remappedSchema) throws IOException {
+    protected void shapefileDumped(String fileName, SimpleFeatureType remappedSchema) throws 
+            IOException {
         // By default nothing extra is done
     }
 
     /**
      * Creates a shapefile data store for the specified schema
-     * 
+     *
      * @param tempDir
      * @param charset
      * @param schema
@@ -354,10 +371,13 @@ public class ShapefileDumper {
             sfds.createSchema(schema);
         } catch (NullPointerException e) {
             LOGGER.warning(
-                    "Error in shapefile schema. It is possible you don't have a geometry set in the output. \n"
-                            + "Please specify a <wfs:PropertyName>geom_column_name</wfs:PropertyName> in the request");
+                    "Error in shapefile schema. It is possible you don't have a geometry set in " +
+                            "the output. \n"
+                            + "Please specify a " +
+                            "<wfs:PropertyName>geom_column_name</wfs:PropertyName> in the request");
             throw new IOException(
-                    "Error in shapefile schema. It is possible you don't have a geometry set in the output.");
+                    "Error in shapefile schema. It is possible you don't have a geometry set in " +
+                            "the output.");
         }
 
         // create the prj file
@@ -368,7 +388,7 @@ public class ShapefileDumper {
         } catch (Exception e) {
             LOGGER.log(Level.WARNING, "Could not properly create the .prj file", e);
         }
-        
+
         // enforce the limits
         sfds.setMaxShpSize(this.maxShpSize);
         sfds.setMaxDbfSize(this.maxDbfSize);
@@ -406,10 +426,12 @@ public class ShapefileDumper {
     }
 
     /**
-     * Returns the feature writer for a specific geometry type, creates a new datastore and a new writer if there are none so far
+     * Returns the feature writer for a specific geometry type, creates a new datastore and a new
+     * writer if there are none so far
      */
     private StoreWriter getStoreWriter(SimpleFeature f,
-            Map<Class, StoreWriter> writers, boolean multiWriter) throws IOException {
+                                       Map<Class, StoreWriter> writers, boolean multiWriter) 
+            throws IOException {
 
         // get the target class
         Class<?> target = null;
@@ -430,7 +452,8 @@ public class ShapefileDumper {
     }
 
     private StoreWriter getStoreWriter(SimpleFeatureType original, Map<Class, StoreWriter> writers,
-            boolean multiWriter, Class<?> target, String geometryType) throws IOException {
+                                       boolean multiWriter, Class<?> target, String geometryType)
+            throws IOException {
         // see if we already have a cached writer
         StoreWriter storeWriter = writers != null ? writers.get(target) : null;
         if (storeWriter == null) {
@@ -447,7 +470,8 @@ public class ShapefileDumper {
             }
             builder.setNamespaceURI(original.getName().getURI());
 
-            // we need to associate the geometry type to the file name only if we can have be multiple types
+            // we need to associate the geometry type to the file name only if we can have be 
+            // multiple types
             String fileName;
             if (multiWriter) {
                 fileName = getShapeName(original, geometryType);
@@ -468,11 +492,13 @@ public class ShapefileDumper {
     }
 
     /**
-     * Returns the shapefile name from the given schema and geometry type. By default it's simple typeName and geometryType concatenated, subclasses
+     * Returns the shapefile name from the given schema and geometry type. By default it's simple
+     * typeName and geometryType concatenated, subclasses
      * can override this behavior
-     * 
+     *
      * @param schema
-     * @param geometryType The name of the geometry type, will be null if there is no need for a geometry type suffix
+     * @param geometryType The name of the geometry type, will be null if there is no need for a 
+     *                     geometry type suffix
      * @return
      */
     protected String getShapeName(SimpleFeatureType schema, String geometryType) {

@@ -22,8 +22,6 @@ import org.geotools.styling.Style;
 import org.geotools.test.TestData;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class PointPlacementTest extends TestCase {

@@ -26,8 +26,6 @@ import org.geotools.util.ConverterFactory;
 import org.geotools.util.logging.Logging;
 
 /**
- *
- *
  * @source $URL$
  */
 public class JTDSClobConverterFactory implements ConverterFactory {
@@ -53,7 +51,7 @@ public class JTDSClobConverterFactory implements ConverterFactory {
                 JTDS_CLOB = jTDSClobClass;
                 JTDS_LENGTH = JTDS_CLOB.getMethod("length");
                 JTDS_GET_CHARS = JTDS_CLOB.getMethod("getSubString", long.class, int.class);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 throw new RuntimeException("Could not initialize the jtds clob converter", e);
             }
         }
@@ -61,9 +59,9 @@ public class JTDSClobConverterFactory implements ConverterFactory {
 
     @Override
     public Converter createConverter(Class<?> source, Class<?> target,
-            Hints hints) {
+                                     Hints hints) {
         // if the jdbc driver is not in the classpath don't bother trying to convert
-        if(JTDS_CLOB == null) {
+        if (JTDS_CLOB == null) {
             LOGGER.fine("Failed to find JTDS jar");
             return null;
         }

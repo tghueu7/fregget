@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -30,18 +30,17 @@ import org.opengis.filter.expression.Literal;
  * for example needed to generate choropleth maps from continuous attributes.
  * Another example would be the stepwise selection of different text heights or line
  * widths in dependence from such an attribute.
- *
+ * <p>
  * In case the Categorize (or Interpolate) function is used inside a RasterSymbolizer as a
  * ColorMap, the LookupValue is set to the fixed value “Rasterdata”.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding Implementation Specification 1.1.0</A>
  * @author Johann Sorel (Geomatys)
+ * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding 
+ * Implementation Specification 1.1.0</A>
+ * @source $URL$
  */
 @XmlElement("Categorize")
-public interface Categorize extends Function{
+public interface Categorize extends Function {
 
     /**
      * Get lookup value.
@@ -57,9 +56,8 @@ public interface Categorize extends Function{
      * looking up into which interval between two thresholds the LookupValue falls. The first
      * interval ranges from -Infinity to the first given threshold and the last one accordingly
      * from the last threshold to +Infinity.
-     *
      */
-    SortedMap<Literal,Literal> getThresholds();
+    SortedMap<Literal, Literal> getThresholds();
 
     /**
      * Get the function direction.

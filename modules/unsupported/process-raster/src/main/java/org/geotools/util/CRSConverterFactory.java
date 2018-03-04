@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2014, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -25,12 +25,11 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  * Convert String to CRS classes.
- * 
+ *
  * @author Simone Giannecchini, GeoSolutions
- * @since 12.0
  * @version 11.0
- * 
  * @source $URL$
+ * @since 12.0
  */
 public class CRSConverterFactory implements ConverterFactory {
 
@@ -41,7 +40,7 @@ public class CRSConverterFactory implements ConverterFactory {
 
     /**
      * Delegates to {@link ConvertUtils#lookup(java.lang.Class)} to create a converter instance.
-     * 
+     *
      * @see ConverterFactory#createConverter(Class, Class, Hints).
      */
     public Converter createConverter(Class<?> source, Class<?> target, Hints hints) {
@@ -69,6 +68,7 @@ public class CRSConverterFactory implements ConverterFactory {
     }
 
     // some additional converters
+
     /**
      * converts a string to an {@link CoordinateReferenceSystem} Object.
      */
@@ -131,7 +131,8 @@ public class CRSConverterFactory implements ConverterFactory {
             // failed
             if (LOGGER.isLoggable(Level.FINE)) {
                 LOGGER.fine("CRSConverter: Unable to convert object of class "
-                        + source.getClass().getCanonicalName() + " to " + target.getCanonicalName());
+                        + source.getClass().getCanonicalName() + " to " + target.getCanonicalName
+                        ());
             }
             return null;
         }

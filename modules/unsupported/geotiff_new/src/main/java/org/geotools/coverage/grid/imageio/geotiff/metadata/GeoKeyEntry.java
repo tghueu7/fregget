@@ -25,22 +25,19 @@ import org.geotools.util.Utilities;
  * specified in the GeoTiff spec. The values are a GeoKey ID, the TIFFTag number
  * of the location of this data, the count of values for this GeoKey, and the
  * offset (or value if the location is 0).
- * 
+ * <p>
  * <p>
  * If the Tiff Tag location is 0, then the value is a Short and is contained in
  * the offset. Otherwise, there is one or more value in the specified external
  * Tiff tag. The number is specified by the count field, and the offset into the
  * record is the offset field.
  * </p>
- * 
+ *
  * @author Simone Giannecchini, GeoSolutions
  * @author Mike Nidel
- *
- *
- *
  * @source $URL$
  */
-public final class GeoKeyEntry implements Comparable<GeoKeyEntry>{
+public final class GeoKeyEntry implements Comparable<GeoKeyEntry> {
 
     /**
      * "KeyID" gives the key-ID value of the Key (identical in function to TIFF tag ID, but
@@ -71,11 +68,9 @@ public final class GeoKeyEntry implements Comparable<GeoKeyEntry>{
 
     /**
      * Constructor of a {@link GeoKeyEntry}.
-     * 
-     * @param keyID
-     *            the id of this {@link GeoKeyEntry}.
-     * @param tagLoc
-     *            the location of this tag.
+     *
+     * @param keyID  the id of this {@link GeoKeyEntry}.
+     * @param tagLoc the location of this tag.
      * @param count
      * @param offset
      */
@@ -130,12 +125,12 @@ public final class GeoKeyEntry implements Comparable<GeoKeyEntry>{
     }
 
     public int[] getValues() {
-        return new int[] { keyID, tiffTagLocation, count, valueOffset };
+        return new int[]{keyID, tiffTagLocation, count, valueOffset};
     }
 
     /**
      * According to GeoTIff spec:
-     * 
+     * <p>
      * <p>
      * In the TIFF spec it is required that TIFF tags be written out to the file in tag-ID sorted
      * order. This is done to avoid forcing software to perform N-squared sort operations when
@@ -144,7 +139,7 @@ public final class GeoKeyEntry implements Comparable<GeoKeyEntry>{
     public int compareTo(GeoKeyEntry o) {
         return this.keyID > o.keyID ? 1 : (this.keyID == o.keyID ? 0 : 1);
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -179,5 +174,5 @@ public final class GeoKeyEntry implements Comparable<GeoKeyEntry>{
         builder.append("VALUE_OFFSET: ").append(valueOffset).append("\n");
         return builder.toString();
     }
-    
+
 } 

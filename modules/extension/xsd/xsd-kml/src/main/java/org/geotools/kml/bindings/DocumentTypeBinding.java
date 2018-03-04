@@ -44,9 +44,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://earth.google.com/kml/2.1:DocumentType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType final="#all" name="DocumentType"&gt;
  *      &lt;complexContent&gt;
@@ -63,13 +63,11 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class DocumentTypeBinding extends AbstractComplexBinding {
     public static final SimpleFeatureType FeatureType;
+
     static {
         SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
         tb.init(FeatureTypeBinding.FeatureType);
@@ -112,7 +110,7 @@ public class DocumentTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         SimpleFeatureBuilder b = new SimpleFeatureBuilder(FeatureType);
 
         SimpleFeature feature = (SimpleFeature) value;
@@ -126,32 +124,30 @@ public class DocumentTypeBinding extends AbstractComplexBinding {
 
         return b.buildFeature(feature.getID());
     }
-    
+
     public List getProperties(Object object) throws Exception {
         Object[] prop = new Object[2];
         prop[0] = getPlacemarkName();
-        if ( object instanceof FeatureCollection ) {
+        if (object instanceof FeatureCollection) {
             FeatureCollection fc = (FeatureCollection) object;
             //TODO: this does not close the iterator!!
-            Iterator iterator = DataUtilities.iterator( fc.features() );
-            
+            Iterator iterator = DataUtilities.iterator(fc.features());
+
             prop[1] = iterator;
-        }
-        else if ( object instanceof Collection ) {
-            prop[1] = ((Collection)object).iterator();
-        }
-        else if ( object instanceof SimpleFeature ) {
+        } else if (object instanceof Collection) {
+            prop[1] = ((Collection) object).iterator();
+        } else if (object instanceof SimpleFeature) {
             SimpleFeature feature = (SimpleFeature) object;
-            prop[1] = feature.getAttribute( "Feature" );
-        }        
+            prop[1] = feature.getAttribute("Feature");
+        }
         ArrayList l = new ArrayList();
-        l.add( prop );
+        l.add(prop);
         return l;
     }
 
     protected Object getPlacemarkName() {
         return KML.Placemark;
     }
-    
+
 }
 

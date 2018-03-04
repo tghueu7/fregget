@@ -20,12 +20,10 @@ import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.io.ParseException;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DataBuilder implements ConverterFactory, Converter {
-        
+
     public static Object parse(Class<?> cls, Object value) throws IllegalArgumentException {
         return parse(cls.getName(), value);
     }
@@ -55,13 +53,13 @@ public class DataBuilder implements ConverterFactory, Converter {
     }
 
     public static boolean isBoolean(Literal value, boolean parse) {
-        return DataTypes.isBoolean(value,parse);
+        return DataTypes.isBoolean(value, parse);
     }
 
     public static boolean isBoolean(Object value, boolean parse) {
-        return DataTypes.isBoolean(value,parse);
+        return DataTypes.isBoolean(value, parse);
     }
-    
+
     public static boolean isString(Literal value) {
         return DataTypes.isString(value);
     }
@@ -81,10 +79,10 @@ public class DataBuilder implements ConverterFactory, Converter {
     public static String getName(Class<?> type) {
         return DataTypes.getName(type);
     }
-    
+
     public static Class<?> getType(String name) {
         return DataTypes.getType(name);
-    }    
+    }
 
     public static boolean supports(String name) {
         return DataTypes.supports(name);
@@ -101,11 +99,11 @@ public class DataBuilder implements ConverterFactory, Converter {
     public static <T> IDataTypeAdapter<T> getAdapter(Class<T> type) {
         return DataTypes.getAdapter(type);
     }
-    
-    public static Object toValue(EDataType type, Literal value) {        
-        return toValue(type,value.getValue());
+
+    public static Object toValue(EDataType type, Literal value) {
+        return toValue(type, value.getValue());
     }
-    
+
     public static Object toValue(EDataType type, Object value) {
         //
         // Get data adapter
@@ -116,7 +114,7 @@ public class DataBuilder implements ConverterFactory, Converter {
         //
         return adapter.adapt(value);
     }
-    
+
     public static <T> T toValue(Class<T> type, Object value) {
         //
         // Get data adapter
@@ -125,23 +123,23 @@ public class DataBuilder implements ConverterFactory, Converter {
         //
         // Do sanity check
         //
-        if(adapter==null) {
+        if (adapter == null) {
             throw new IllegalArgumentException(type + " is not supported");
         }
         //
         // Try to adapt value into data type (will throw exception if it fails) 
         //
-        return adapter.adapt(value);        
+        return adapter.adapt(value);
     }
-    
+
     public static Number toNumber(Literal value) {
         return toNumber(value.getValue());
     }
-    
+
     public static Number toNumber(Object value) {
         return DataTypes.getAdapter(Number.class).adapt(value);
     }
-    
+
 
     public static Integer toInteger(Literal value) {
         return toInteger(value.getValue());
@@ -182,7 +180,7 @@ public class DataBuilder implements ConverterFactory, Converter {
     public static Byte toByte(Object value) {
         return DataTypes.getAdapter(Byte.class).adapt(value);
     }
-    
+
     public static Float toFloat(Literal value) {
         return toFloat(value.getValue());
     }
@@ -238,18 +236,20 @@ public class DataBuilder implements ConverterFactory, Converter {
     public static String toWKT(Geometry geom) {
         return (String) DataTypes.getAdapter(DataTypes.WKT).adapt(geom);
     }
-    
+
     public static String toEmptyWKT(Class<?> type) throws IllegalArgumentException {
-        if(Point.class.isAssignableFrom(type)) return DataTypes.WKT_POINT_EMPTY;
-        if(LineString.class.isAssignableFrom(type)) return DataTypes.WKT_LINESTRING_EMPTY;
-        if(Polygon.class.isAssignableFrom(type)) return DataTypes.WKT_POLYGON_EMPTY;
-        if(MultiPoint.class.isAssignableFrom(type)) return DataTypes.WKT_MULTIPOINT_EMPTY;
-        if(MultiLineString.class.isAssignableFrom(type)) return DataTypes.WKT_MULTILINESTRING_EMPTY;
-        if(MultiPolygon.class.isAssignableFrom(type)) return DataTypes.WKT_MULTIPOLYGON_EMPTY;
-        if(GeometryCollection.class.isAssignableFrom(type)) return DataTypes.WKT_GEOMETRYCOLLECTION_EMPTY;
+        if (Point.class.isAssignableFrom(type)) return DataTypes.WKT_POINT_EMPTY;
+        if (LineString.class.isAssignableFrom(type)) return DataTypes.WKT_LINESTRING_EMPTY;
+        if (Polygon.class.isAssignableFrom(type)) return DataTypes.WKT_POLYGON_EMPTY;
+        if (MultiPoint.class.isAssignableFrom(type)) return DataTypes.WKT_MULTIPOINT_EMPTY;
+        if (MultiLineString.class.isAssignableFrom(type))
+            return DataTypes.WKT_MULTILINESTRING_EMPTY;
+        if (MultiPolygon.class.isAssignableFrom(type)) return DataTypes.WKT_MULTIPOLYGON_EMPTY;
+        if (GeometryCollection.class.isAssignableFrom(type))
+            return DataTypes.WKT_GEOMETRYCOLLECTION_EMPTY;
         throw new IllegalArgumentException(type + " is not supported");
     }
-    
+
     public static String toWKB(Literal value) {
         return toWKB(value.getValue());
     }
@@ -261,18 +261,20 @@ public class DataBuilder implements ConverterFactory, Converter {
     public static byte[] toWKB(Geometry geom) {
         return (byte[]) DataTypes.getAdapter(DataTypes.WKB).adapt(geom);
     }
-    
+
     public static byte[] toEmptyWKB(Class<?> type) throws IllegalArgumentException {
-        if(Point.class.isAssignableFrom(type)) return DataTypes.WKB_POINT_EMPTY;
-        if(LineString.class.isAssignableFrom(type)) return DataTypes.WKB_LINESTRING_EMPTY;
-        if(Polygon.class.isAssignableFrom(type)) return DataTypes.WKB_POLYGON_EMPTY;
-        if(MultiPoint.class.isAssignableFrom(type)) return DataTypes.WKB_MULTIPOINT_EMPTY;
-        if(MultiLineString.class.isAssignableFrom(type)) return DataTypes.WKB_MULTILINESTRING_EMPTY;
-        if(MultiPolygon.class.isAssignableFrom(type)) return DataTypes.WKB_MULTIPOLYGON_EMPTY;
-        if(GeometryCollection.class.isAssignableFrom(type)) return DataTypes.WKB_GEOMETRYCOLLECTION_EMPTY;
+        if (Point.class.isAssignableFrom(type)) return DataTypes.WKB_POINT_EMPTY;
+        if (LineString.class.isAssignableFrom(type)) return DataTypes.WKB_LINESTRING_EMPTY;
+        if (Polygon.class.isAssignableFrom(type)) return DataTypes.WKB_POLYGON_EMPTY;
+        if (MultiPoint.class.isAssignableFrom(type)) return DataTypes.WKB_MULTIPOINT_EMPTY;
+        if (MultiLineString.class.isAssignableFrom(type))
+            return DataTypes.WKB_MULTILINESTRING_EMPTY;
+        if (MultiPolygon.class.isAssignableFrom(type)) return DataTypes.WKB_MULTIPOLYGON_EMPTY;
+        if (GeometryCollection.class.isAssignableFrom(type))
+            return DataTypes.WKB_GEOMETRYCOLLECTION_EMPTY;
         throw new IllegalArgumentException(type + " is not supported");
     }
-    
+
     public static Geometry toGeometry(Literal value) throws ParseException {
         return toGeometry(value.getValue());
     }
@@ -284,11 +286,11 @@ public class DataBuilder implements ConverterFactory, Converter {
     public static Geometry toGeometry(String wkt) throws ParseException {
         return DataTypes.getAdapter(Geometry.class).adapt(wkt);
     }
-    
+
     public static Geometry toGeometry(byte[] wkb) throws ParseException {
         return DataTypes.getAdapter(Geometry.class).adapt(wkb);
     }
-    
+
     public static Geometry toEmptyGeometry(Class<?> type) throws ParseException {
         //
         // Get adapter
@@ -297,7 +299,7 @@ public class DataBuilder implements ConverterFactory, Converter {
         //
         // Workaround for undefined WKB 
         //
-        if(Point.class.isAssignableFrom(type)) return adapter.adapt(DataTypes.WKB_POINT_EMPTY);
+        if (Point.class.isAssignableFrom(type)) return adapter.adapt(DataTypes.WKB_POINT_EMPTY);
         //
         // Use WKB because it's faster
         //
@@ -307,12 +309,12 @@ public class DataBuilder implements ConverterFactory, Converter {
     // -------------------------------------------------- 
     //  ConverterFactory implementation
     // --------------------------------------------------
-    
+
     private static DataBuilder builder;
 
     @Override
     public Converter createConverter(Class<?> source, Class<?> target, Hints hints) {
-        if(builder==null) {
+        if (builder == null) {
             builder = new DataBuilder(hints);
         }
         return builder;
@@ -323,7 +325,7 @@ public class DataBuilder implements ConverterFactory, Converter {
     // --------------------------------------------------
 
     private final Hints hints;
-    
+
     public DataBuilder() {
         this(new Hints());
     }

@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.metadata.distribution;
 
 import java.util.Collection;
+
 import org.opengis.util.InternationalString;
 import org.opengis.annotation.UML;
 import org.opengis.annotation.Profile;
@@ -23,23 +24,21 @@ import static org.opengis.annotation.ComplianceLevel.*;
  * Description of the computer language construct that specifies the representation
  * of data objects in a record, file, message, storage device or transmission channel.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 2.0
+ * @source $URL$
+ * @since GeoAPI 2.0
  */
-@Profile (level=CORE)
-@UML(identifier="MD_Format", specification=ISO_19115)
+@Profile(level = CORE)
+@UML(identifier = "MD_Format", specification = ISO_19115)
 public interface Format {
     /**
      * Name of the data transfer format(s).
      *
      * @return Name of the data transfer format(s).
      */
-    @Profile (level=CORE)
-    @UML(identifier="name", obligation=MANDATORY, specification=ISO_19115)
+    @Profile(level = CORE)
+    @UML(identifier = "name", obligation = MANDATORY, specification = ISO_19115)
     InternationalString getName();
 
     /**
@@ -47,8 +46,8 @@ public interface Format {
      *
      * @return Version of the format.
      */
-    @Profile (level=CORE)
-    @UML(identifier="version", obligation=MANDATORY, specification=ISO_19115)
+    @Profile(level = CORE)
+    @UML(identifier = "version", obligation = MANDATORY, specification = ISO_19115)
     InternationalString getVersion();
 
     /**
@@ -56,7 +55,7 @@ public interface Format {
      *
      * @return Amendment number of the format version, or {@code null}.
      */
-    @UML(identifier="amendmentNumber", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "amendmentNumber", obligation = OPTIONAL, specification = ISO_19115)
     InternationalString getAmendmentNumber();
 
     /**
@@ -64,7 +63,7 @@ public interface Format {
      *
      * @return Name of a subset, profile, or product specification of the format, or {@code null}.
      */
-    @UML(identifier="specification", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "specification", obligation = OPTIONAL, specification = ISO_19115)
     InternationalString getSpecification();
 
     /**
@@ -72,9 +71,10 @@ public interface Format {
      * expand resources to which compression techniques have been applied.
      *
      * @return Processes that can be applied to read resources to which compression techniques have
-     *         been applied, or {@code null}.
+     * been applied, or {@code null}.
      */
-    @UML(identifier="fileDecompressionTechnique", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "fileDecompressionTechnique", obligation = OPTIONAL, specification = 
+            ISO_19115)
     InternationalString getFileDecompressionTechnique();
 
     /**
@@ -82,6 +82,6 @@ public interface Format {
      *
      * @return Information about the distributor's format.
      */
-    @UML(identifier="formatDistributor", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "formatDistributor", obligation = OPTIONAL, specification = ISO_19115)
     Collection<? extends Distributor> getFormatDistributors();
 }

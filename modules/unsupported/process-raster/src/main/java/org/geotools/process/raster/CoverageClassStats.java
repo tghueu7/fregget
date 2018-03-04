@@ -50,37 +50,39 @@ import org.opengis.util.ProgressListener;
 /**
  * Process that classifies vector data into "classes" using one of the following methods:
  * <ul>
- *  <li>Equal Interval ({@link ClassificationMethod#EQUAL_INTERVAL})</li>
- *  <li>Quantile ({@link ClassificationMethod#QUANTILE})</li>
- *  <li>Natural Breaks ({@link ClassificationMethod#NATURAL_BREAKS})</li>
+ * <li>Equal Interval ({@link ClassificationMethod#EQUAL_INTERVAL})</li>
+ * <li>Quantile ({@link ClassificationMethod#QUANTILE})</li>
+ * <li>Natural Breaks ({@link ClassificationMethod#NATURAL_BREAKS})</li>
  * </ul>
- *
  */
 @DescribeProcess(title = "coverageClassStats", description = "Calculates statistics from coverage" +
-                 " values classified into bins/classes.")
+        " values classified into bins/classes.")
 public class CoverageClassStats implements RasterProcess {
 
     @DescribeResult(name = "results", description = "The classified results")
     public Results execute(
-        @DescribeParameter(name = "coverage", 
-          description = "The coverage to analyze") GridCoverage2D coverage,
-        @DescribeParameter(name = "stats",
-                description = "The statistics to calculate for each class", collectionType = Statistic.class, min = 0) Set<Statistic> stats,
-        @DescribeParameter(name = "band", 
-          description = "The band to calculate breaks/statistics for", min = 0) Integer band,
-        @DescribeParameter(name = "classes", 
-          description = "The number of breaks/classes", min = 0) Integer classes,
-        @DescribeParameter(name = "method", 
-          description = "The classification method", min = 0) ClassificationMethod method,
-        @DescribeParameter(name = "noData",
-          description = "The pixel value to be ommitted from any calculation", min = 0 ) Double noData,
-        ProgressListener progressListener) throws ProcessException, IOException {
+            @DescribeParameter(name = "coverage",
+                    description = "The coverage to analyze") GridCoverage2D coverage,
+            @DescribeParameter(name = "stats",
+                    description = "The statistics to calculate for each class", collectionType = 
+                    Statistic.class, min = 0) Set<Statistic> stats,
+            @DescribeParameter(name = "band",
+                    description = "The band to calculate breaks/statistics for", min = 0) Integer
+                    band,
+            @DescribeParameter(name = "classes",
+                    description = "The number of breaks/classes", min = 0) Integer classes,
+            @DescribeParameter(name = "method",
+                    description = "The classification method", min = 0) ClassificationMethod method,
+            @DescribeParameter(name = "noData",
+                    description = "The pixel value to be ommitted from any calculation", min = 0)
+                    Double noData,
+            ProgressListener progressListener) throws ProcessException, IOException {
 
         //
         // initial checks/defaults
         //
-        if(coverage==null){
-            throw new ProcessException(Errors.format(ErrorKeys.NULL_ARGUMENT_$1,"coverage"));
+        if (coverage == null) {
+            throw new ProcessException(Errors.format(ErrorKeys.NULL_ARGUMENT_$1, "coverage"));
         }
 
         if (classes == null) {
@@ -88,23 +90,24 @@ public class CoverageClassStats implements RasterProcess {
         }
 
         if (classes < 1) {
-            throw new ProcessException(Errors.format(ErrorKeys.ILLEGAL_ARGUMENT_$2, "classes", classes));
+            throw new ProcessException(Errors.format(ErrorKeys.ILLEGAL_ARGUMENT_$2, "classes", 
+                    classes));
         }
 
         RenderedImage sourceImage = coverage.getRenderedImage();
-        
+
         // parse the band
         if (band == null) {
             band = 0;
         }
 
         final int numBands = sourceImage.getSampleModel().getNumBands();
-        if(band < 0 || band >= numBands){
-            throw new ProcessException(Errors.format(ErrorKeys.ILLEGAL_ARGUMENT_$2,"band",band));
+        if (band < 0 || band >= numBands) {
+            throw new ProcessException(Errors.format(ErrorKeys.ILLEGAL_ARGUMENT_$2, "band", band));
         }
 
         if (numBands > 1) {
-            sourceImage=BandSelectDescriptor.create(sourceImage, new int []{band}, null);
+            sourceImage = BandSelectDescriptor.create(sourceImage, new int[]{band}, null);
         }
 
         //other defaults
@@ -140,15 +143,15 @@ public class CoverageClassStats implements RasterProcess {
         }
 
         RenderedOp op = JAI.create(ClassBreaksDescriptor.NAME, pb);*/
-        Classification c = 
-            (Classification) op.getProperty(ClassBreaksDescriptor.CLASSIFICATION_PROPERTY);
+        Classification c =
+                (Classification) op.getProperty(ClassBreaksDescriptor.CLASSIFICATION_PROPERTY);
 
         Double[] breaks = (Double[]) c.getBreaks()[0];
 
         //build up the classes/ranges
         List<Range<Double>> ranges = new ArrayList<Range<Double>>();
-        for (int i = 0; i < breaks.length-1; i++) {
-            ranges.add(Range.create(breaks[i], true, breaks[i+1], i == breaks.length-2));
+        for (int i = 0; i < breaks.length - 1; i++) {
+            ranges.add(Range.create(breaks[i], true, breaks[i + 1], i == breaks.length - 2));
         }
 
         //calculate stats for each class
@@ -168,11 +171,12 @@ public class CoverageClassStats implements RasterProcess {
         // "noDataRanges"
         op = JAI.create("ZonalStats", pbj);
 
-        ZonalStats zonalStats = (ZonalStats) op.getProperty(ZonalStatsDescriptor.ZONAL_STATS_PROPERTY);
+        ZonalStats zonalStats = (ZonalStats) op.getProperty(ZonalStatsDescriptor
+                .ZONAL_STATS_PROPERTY);
         return new Results(stats, zonalStats);
     }
 
-    public static class Results implements ClassificationStats  {
+    public static class Results implements ClassificationStats {
 
         Statistic firstStat;
         Set<Statistic> stats;

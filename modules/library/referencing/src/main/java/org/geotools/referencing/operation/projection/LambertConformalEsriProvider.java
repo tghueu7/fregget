@@ -41,15 +41,16 @@ import javax.measure.unit.NonSI;
 public class LambertConformalEsriProvider extends MapProjection.AbstractProvider {
 
     /**
-     * Override of the std parallel 1 as we downgrade from 2sp to 1sp when the two std parallels are equal
+     * Override of the std parallel 1 as we downgrade from 2sp to 1sp when the two std parallels 
+     * are equal
      */
     public static final ParameterDescriptor STANDARD_PARALLEL_1 = createOptionalDescriptor(
-            new NamedIdentifier[] {
-                    new NamedIdentifier(Citations.OGC,      "standard_parallel_1"),
-                    new NamedIdentifier(Citations.EPSG,     "Latitude of 1st standard parallel"),
-                    new NamedIdentifier(Citations.ESRI,     "Standard_Parallel_1"),
-                    new NamedIdentifier(Citations.ESRI,     "standard_parallel_1"),
-                    new NamedIdentifier(Citations.GEOTIFF,  "StdParallel1")
+            new NamedIdentifier[]{
+                    new NamedIdentifier(Citations.OGC, "standard_parallel_1"),
+                    new NamedIdentifier(Citations.EPSG, "Latitude of 1st standard parallel"),
+                    new NamedIdentifier(Citations.ESRI, "Standard_Parallel_1"),
+                    new NamedIdentifier(Citations.ESRI, "standard_parallel_1"),
+                    new NamedIdentifier(Citations.GEOTIFF, "StdParallel1")
             },
             -90, 90, NonSI.DEGREE_ANGLE);
 
@@ -98,14 +99,16 @@ public class LambertConformalEsriProvider extends MapProjection.AbstractProvider
         boolean hasLatitudeOfOrigin = getParameter(LATITUDE_OF_ORIGIN, parameters) != null;
         double latitudeOfOrigin = doubleValue(LATITUDE_OF_ORIGIN, parameters);
 
-        if(!hasStdParallel1 && !hasStdParallel2 && hasLatitudeOfOrigin) {
+        if (!hasStdParallel1 && !hasStdParallel2 && hasLatitudeOfOrigin) {
             // handle the ESRI 1SP case
             return new LambertConformal1SP(parameters);
-        } else if(hasStdParallel1 && hasStdParallel2 && hasLatitudeOfOrigin && Utilities.equals(stdParallel1, stdParallel2)
+        } else if (hasStdParallel1 && hasStdParallel2 && hasLatitudeOfOrigin && Utilities.equals
+                (stdParallel1, stdParallel2)
                 && Utilities.equals(stdParallel1, latitudeOfOrigin)) {
             // handle the ESRI 1SP case
             return new LambertConformal1SP(parameters);
-        } else if(!hasStdParallel2 && hasStdParallel1 && Utilities.equals(stdParallel1, latitudeOfOrigin)) {
+        } else if (!hasStdParallel2 && hasStdParallel1 && Utilities.equals(stdParallel1, 
+                latitudeOfOrigin)) {
             // handle the ESRI 1SP case
             return new LambertConformal1SP(parameters);
         } else {

@@ -22,8 +22,6 @@ import org.geotools.styling.Extent;
 import org.geotools.styling.StyleFactory;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ExtentBuilder<P> implements Builder<Extent> {

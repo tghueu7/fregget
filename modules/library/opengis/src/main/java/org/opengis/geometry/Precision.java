@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry;
@@ -22,10 +22,8 @@ package org.opengis.geometry;
  * </p>
  *
  * @author Jody Garnett
- * @since GeoAPI 2.1
- *
- *
  * @source $URL$
+ * @since GeoAPI 2.1
  */
 public interface Precision extends Comparable<Precision> {
     /**
@@ -35,7 +33,7 @@ public interface Precision extends Comparable<Precision> {
      *
      * @param other Other precision model to compare against.
      * @return a negative integer, zero, or a positive integer as this object
-     *      is less than, equal to, or greater than the other.
+     * is less than, equal to, or greater than the other.
      */
     int compareTo(Precision other);
 
@@ -43,15 +41,15 @@ public interface Precision extends Comparable<Precision> {
      * Multiplying factor used to obtain a precise ordinate.
      * <p>
      * Multiply by this value and then divide by this value to round correctly:
-     *
+     * <p>
      * <blockquote><pre>
      * double scale = pm.getScale();
      * return Math.round(value * scale) / scale;
      * </pre></blockquote>
-     *
+     * <p>
      * So to round to {@code 3} significant digits we would have a scale of {@code 1000}.
      * Tip: the number of significant digits can be computed as below:
-     *
+     * <p>
      * <blockquote><pre>
      * int significantDigits = (int) Math.ceil(Math.log10(pm.getScale()));
      * </pre></blockquote>
@@ -68,7 +66,8 @@ public interface Precision extends Comparable<Precision> {
     /**
      * Rounds a direct position to this precision model in place.
      * <p>
-     * It is likely that a {@code Precision} instance will keep different rounding rules for different
+     * It is likely that a {@code Precision} instance will keep different rounding rules for 
+     * different
      * axis (example <var>x</var> & <var>y</var> ordinates may be handled differently then height),
      * by always rounding a direct position as a whole we will enable this functionality.
      */

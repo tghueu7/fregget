@@ -30,15 +30,14 @@ import org.opengis.filter.expression.Expression;
  * @author Gabriel Roldan (Axios Engineering)
  * @author Rini Angreani (CSIRO Earth Science and Resource Engineering)
  * @version $Id$
- *
- *
- *
  * @source $URL$
  * @since 2.4
  */
 public class AttributeMapping {
 
-    /** Expression to set the Attribute's ID from, or {@linkplain Expression#NIL} */
+    /**
+     * Expression to set the Attribute's ID from, or {@linkplain Expression#NIL}
+     */
     private Expression identifierExpression;
 
     protected Expression sourceExpression;
@@ -46,9 +45,9 @@ public class AttributeMapping {
     protected StepList targetXPath;
 
     private boolean isMultiValued;
-    
+
     private boolean encodeIfEmpty;
-    
+
     private boolean isList;
 
     /**
@@ -69,20 +68,20 @@ public class AttributeMapping {
 
     /**
      * Creates a new AttributeMapping object.
-     * 
-     * @param sourceExpression
-     *                DOCUMENT ME!
-     * @param targetXPath
-     *                DOCUMENT ME!
+     *
+     * @param sourceExpression DOCUMENT ME!
+     * @param targetXPath      DOCUMENT ME!
      */
     public AttributeMapping(Expression idExpression, Expression sourceExpression,
-            StepList targetXPath) {
+                            StepList targetXPath) {
         this(idExpression, sourceExpression, null, targetXPath, null, false, null);
     }
 
-    public AttributeMapping(Expression idExpression, Expression sourceExpression, String sourceIndex,
-            StepList targetXPath, AttributeType targetNodeInstance, boolean isMultiValued,
-            Map<Name, Expression> clientProperties) {
+    public AttributeMapping(Expression idExpression, Expression sourceExpression, String 
+            sourceIndex,
+                            StepList targetXPath, AttributeType targetNodeInstance, boolean 
+                                    isMultiValued,
+                            Map<Name, Expression> clientProperties) {
 
         this.identifierExpression = idExpression == null ? Expression.NIL : idExpression;
         this.sourceExpression = sourceExpression == null ? Expression.NIL : sourceExpression;
@@ -94,17 +93,17 @@ public class AttributeMapping {
         this.targetXPath = targetXPath;
         this.targetNodeInstance = targetNodeInstance;
         this.clientProperties = clientProperties == null ? Collections
-                .<Name, Expression> emptyMap() : clientProperties;
+                .<Name, Expression>emptyMap() : clientProperties;
     }
 
     public boolean isMultiValued() {
         return isMultiValued;
     }
-    
+
     public boolean encodeIfEmpty() {
         return encodeIfEmpty;
     }
-    
+
     public boolean isList() {
         return isList;
     }
@@ -112,7 +111,7 @@ public class AttributeMapping {
     public Expression getSourceExpression() {
         return sourceExpression;
     }
-    
+
     public String getSourceIndex() {
         return sourceIndex;
     }
@@ -127,13 +126,13 @@ public class AttributeMapping {
 
     /**
      * This is overridden by NestedAttributeMapping
-     * 
+     *
      * @return always return false
      */
     public boolean isNestedAttribute() {
         return false;
-    }   
-    
+    }
+
     /**********************************************************************
      * Label, parentLabel and instancePath are for web service backend only
      **********************************************************************/
@@ -143,34 +142,34 @@ public class AttributeMapping {
 
     public String getParentLabel() {
         return parentLabel;
-    }  
-    
+    }
+
     public String getInstanceXpath() {
         return instancePath;
     }
-    
+
     public void setLabel(String label) {
         this.label = label;
     }
 
     public void setParentLabel(String label) {
         parentLabel = label;
-    }  
-    
+    }
+
     public void setInstanceXpath(String instancePath) {
         this.instancePath = instancePath;
     }
-    
+
     public void setEncodeIfEmpty(boolean encodeIfEmpty) {
         this.encodeIfEmpty = encodeIfEmpty;
     }
-    
+
     public void setList(boolean isList) {
         this.isList = isList;
     }
-    
+
     /********END specific web service methods*******************/
-    
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -212,7 +211,7 @@ public class AttributeMapping {
     }
 
     public Map<Name, Expression> getClientProperties() {
-        return clientProperties == null ? Collections.<Name, Expression> emptyMap()
+        return clientProperties == null ? Collections.<Name, Expression>emptyMap()
                 : clientProperties;
     }
 

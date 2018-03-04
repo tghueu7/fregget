@@ -29,9 +29,9 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:GeometryCollectionType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="GeometryCollectionType"&gt;
  *      &lt;annotation&gt;
@@ -55,9 +55,6 @@ import com.vividsolutions.jts.geom.GeometryFactory;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLGeometryCollectionTypeBinding extends AbstractComplexBinding {
@@ -96,16 +93,17 @@ public class GMLGeometryCollectionTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        return GML2ParsingUtils.GeometryCollectionType_parse(node, GeometryCollection.class, gFactory);
+            throws Exception {
+        return GML2ParsingUtils.GeometryCollectionType_parse(node, GeometryCollection.class, 
+                gFactory);
     }
-    
+
     @Override
     public Object getProperty(Object object, QName name) throws Exception {
         if (GML.geometryMember.equals(name)) {
             return GML2ParsingUtils.asCollection((GeometryCollection) object);
         }
-        
+
         return GML2ParsingUtils.GeometryCollectionType_getProperty(object, name);
     }
 }

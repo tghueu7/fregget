@@ -36,30 +36,47 @@ import com.vividsolutions.jts.geom.Point;
  * @author Lee Breisacher
  */
 public class CSVFeatureWriter implements FeatureWriter<SimpleFeatureType, SimpleFeature> {
-    /** State of current transaction */
+    /**
+     * State of current transaction
+     */
     private ContentState state;
 
-    /** Delegate handing reading of original file */
+    /**
+     * Delegate handing reading of original file
+     */
     private CSVFeatureReader delegate;
-    
-    /** Temporary file used to stage output */
+
+    /**
+     * Temporary file used to stage output
+     */
     private File temp;
 
-    /** CsvWriter used for temp file output */
+    /**
+     * CsvWriter used for temp file output
+     */
     private CsvWriter csvWriter;
 
-    /** Current feature available for modification, may be null if feature removed */
+    /**
+     * Current feature available for modification, may be null if feature removed
+     */
     private SimpleFeature currentFeature;
-    
-    /** Flag indicating we have reached the end of the file */
+
+    /**
+     * Flag indicating we have reached the end of the file
+     */
     private boolean appending = false;
-    
-    /** flag to keep track of lat/lon order */
+
+    /**
+     * flag to keep track of lat/lon order
+     */
     private boolean latlon = DefaultGeographicCRS.WGS84.getCoordinateSystem().getAxis(0).getDirection().equals(AxisDirection.NORTH);
     int latIndex = 0;
-	int lngIndex = 0;
-    /** Row count used to generate FeatureId when appending */
+    int lngIndex = 0;
+    /**
+     * Row count used to generate FeatureId when appending
+     */
     int nextRow = 0;
+
     // header end
     // constructor start
     public CSVFeatureWriter(ContentState state, Query query) throws IOException {
@@ -84,7 +101,7 @@ public class CSVFeatureWriter implements FeatureWriter<SimpleFeatureType, Simple
         }
     }
     // constructor end
-    
+
     // featureType start
     @Override
     public SimpleFeatureType getFeatureType() {
@@ -95,7 +112,7 @@ public class CSVFeatureWriter implements FeatureWriter<SimpleFeatureType, Simple
     // hasNext start
     @Override
     public boolean hasNext() throws IOException {
-        if( csvWriter == null ){
+        if (csvWriter == null) {
             return false;
         }
         if (this.appending) {
@@ -104,41 +121,40 @@ public class CSVFeatureWriter implements FeatureWriter<SimpleFeatureType, Simple
         return delegate.hasNext();
     }
     // hasNext end
-    
+
     // next start
     @Override
     public SimpleFeature next() throws IOException, IllegalArgumentException,
             NoSuchElementException {
-        if( csvWriter == null ){
+        if (csvWriter == null) {
             throw new IOException("FeatureWriter has been closed");
         }
         if (this.currentFeature != null) {
             this.write(); // the previous one was not written, so do it now.
         }
         try {
-            if( !appending ){
-                if( delegate.reader != null && delegate.hasNext() ){
+            if (!appending) {
+                if (delegate.reader != null && delegate.hasNext()) {
                     this.currentFeature = delegate.next();
                     return this.currentFeature;
-                }
-                else {
+                } else {
                     this.appending = true;
                 }
             }
             SimpleFeatureType featureType = state.getFeatureType();
-            String fid = featureType.getTypeName()+"."+nextRow;
-            Object values[] = DataUtilities.defaultValues( featureType );
-            
-            this.currentFeature = SimpleFeatureBuilder.build( featureType, values, fid );
+            String fid = featureType.getTypeName() + "." + nextRow;
+            Object values[] = DataUtilities.defaultValues(featureType);
+
+            this.currentFeature = SimpleFeatureBuilder.build(featureType, values, fid);
             return this.currentFeature;
-        }
-        catch (IllegalArgumentException invalid ){
-            throw new IOException("Unable to create feature:"+invalid.getMessage(),invalid);
+        } catch (IllegalArgumentException invalid) {
+            throw new IOException("Unable to create feature:" + invalid.getMessage(), invalid);
         }
     }
     // next end
-    
+
     // remove start
+
     /**
      * Mark our {@link #currentFeature} feature as null, it will be skipped when written effectively removing it.
      */
@@ -146,7 +162,7 @@ public class CSVFeatureWriter implements FeatureWriter<SimpleFeatureType, Simple
         this.currentFeature = null; // just mark it done which means it will not get written out.
     }
     // remove end
-    
+
     // write start
     public void write() throws IOException {
         if (this.currentFeature == null) {
@@ -158,12 +174,12 @@ public class CSVFeatureWriter implements FeatureWriter<SimpleFeatureType, Simple
                 this.csvWriter.write("");
             } else if (value instanceof Point) {
                 Point point = (Point) value;
-                if(latlon && latIndex <= lngIndex) {
-	                this.csvWriter.write(Double.toString(point.getX()));
-	                this.csvWriter.write(Double.toString(point.getY()));
+                if (latlon && latIndex <= lngIndex) {
+                    this.csvWriter.write(Double.toString(point.getX()));
+                    this.csvWriter.write(Double.toString(point.getY()));
                 } else {
-                	this.csvWriter.write(Double.toString(point.getY()));
-	                this.csvWriter.write(Double.toString(point.getX()));
+                    this.csvWriter.write(Double.toString(point.getY()));
+                    this.csvWriter.write(Double.toString(point.getX()));
                 }
             } else {
                 String txt = value.toString();
@@ -175,11 +191,11 @@ public class CSVFeatureWriter implements FeatureWriter<SimpleFeatureType, Simple
         this.currentFeature = null; // indicate that it has been written
     }
     // write end
-    
+
     // close start
     @Override
     public void close() throws IOException {
-        if( csvWriter == null ){
+        if (csvWriter == null) {
             throw new IOException("Writer alread closed");
         }
         if (this.currentFeature != null) {
@@ -192,14 +208,14 @@ public class CSVFeatureWriter implements FeatureWriter<SimpleFeatureType, Simple
         }
         csvWriter.close();
         csvWriter = null;
-        if( delegate != null ){
+        if (delegate != null) {
             this.delegate.close();
             this.delegate = null;
         }
         // Step 2: Replace file contents
         File file = ((CSVDataStore) state.getEntry().getDataStore()).file;
-        
-        Files.copy(temp.toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING );
+
+        Files.copy(temp.toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
     }
     // close end
 

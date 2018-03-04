@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -33,15 +33,17 @@ import org.opengis.filter.expression.Expression;
  * caching them
  *
  * @author jamesm
- *
- *
  * @source $URL$
  */
 public class DynamicLineStyle2D extends org.geotools.renderer.style.LineStyle2D {
-    /** The feature that will be styled as a polygon */
+    /**
+     * The feature that will be styled as a polygon
+     */
     protected SimpleFeature feature;
 
-    /** The line symbolizer used to get stroke/composite/... */
+    /**
+     * The line symbolizer used to get stroke/composite/...
+     */
     protected LineSymbolizer ls;
 
     /**
@@ -80,7 +82,8 @@ public class DynamicLineStyle2D extends org.geotools.renderer.style.LineStyle2D 
         // get the other properties needed for the stroke
         float[] dashes = SLDStyleFactory.evaluateDashArray(stroke, feature);
         float width = ((Float) stroke.getWidth().evaluate(feature, Float.class)).floatValue();
-        float dashOffset = ((Float) stroke.getDashOffset().evaluate(feature, Float.class)).floatValue();
+        float dashOffset = ((Float) stroke.getDashOffset().evaluate(feature, Float.class))
+                .floatValue();
 
         // Simple optimization: let java2d use the fast drawing path if the line width
         // is small enough...
@@ -99,14 +102,14 @@ public class DynamicLineStyle2D extends org.geotools.renderer.style.LineStyle2D 
 
         return stroke2d;
     }
-    
+
     @Override
     public double getPerpendicularOffset() {
-        if(ls.getPerpendicularOffset() == null) {
+        if (ls.getPerpendicularOffset() == null) {
             return 0d;
-        } 
+        }
         Double offset = ls.getPerpendicularOffset().evaluate(feature, Double.class);
-        if(offset == null) {
+        if (offset == null) {
             return 0d;
         } else {
             return offset;
@@ -123,7 +126,7 @@ public class DynamicLineStyle2D extends org.geotools.renderer.style.LineStyle2D 
             return null;
         }
 
-        float opacity = ((Float) stroke.getOpacity().evaluate(feature,Float.class)).floatValue();
+        float opacity = ((Float) stroke.getOpacity().evaluate(feature, Float.class)).floatValue();
         Composite composite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity);
 
         return composite;
@@ -142,11 +145,11 @@ public class DynamicLineStyle2D extends org.geotools.renderer.style.LineStyle2D 
         }
 
         // the foreground color
-        Paint contourPaint = (Color) stroke.getColor().evaluate(feature,Color.class);
-        if( contourPaint == null ){            
-            String text = (String) stroke.getColor().evaluate(feature,String.class);
-            if( text != null ){
-                contourPaint = Color.decode( text );
+        Paint contourPaint = (Color) stroke.getColor().evaluate(feature, Color.class);
+        if (contourPaint == null) {
+            String text = (String) stroke.getColor().evaluate(feature, String.class);
+            if (text != null) {
+                contourPaint = Color.decode(text);
             }
         }
 
@@ -169,7 +172,7 @@ public class DynamicLineStyle2D extends org.geotools.renderer.style.LineStyle2D 
         String result = defaultValue;
 
         if (e != null) {
-            result = (String) e.evaluate( feature, defaultValue.getClass() );
+            result = (String) e.evaluate(feature, defaultValue.getClass());
 
             if (result == null) {
                 result = defaultValue;

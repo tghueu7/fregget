@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.util;
@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 import org.opengis.metadata.identification.CharacterSet;
 
 import org.junit.*;
+
 import static org.junit.Assert.*;
 
 
@@ -29,8 +30,6 @@ import static org.junit.Assert.*;
  * Tests every {@link CodeList}.
  *
  * @author Martin desruisseaux (IRD)
- *
- *
  * @source $URL$
  */
 public final class CodeListTest {
@@ -52,16 +51,16 @@ public final class CodeListTest {
     @Test
     public void testCharacterSet() {
         final CodeList code = CharacterSet.UTF_8;
-        assertEquals ("UTF_8", code.name());
-        assertEquals ("utf8",  code.identifier());
-        assertTrue   (code.matches("UTF8"));
-        assertTrue   (code.matches("UTF_8"));
-        assertTrue   (code.matches("UTF-8"));
-        assertFalse  (code.matches("UTF 8"));
-        assertSame   (code, CharacterSet.valueOf("UTF_8"));
-        assertSame   (code, CharacterSet.valueOf("UTF-8"));
-        assertSame   (code, CharacterSet.valueOf("UTF8"));
-        assertSame   (code, CharacterSet.valueOf("utf8"));
+        assertEquals("UTF_8", code.name());
+        assertEquals("utf8", code.identifier());
+        assertTrue(code.matches("UTF8"));
+        assertTrue(code.matches("UTF_8"));
+        assertTrue(code.matches("UTF-8"));
+        assertFalse(code.matches("UTF 8"));
+        assertSame(code, CharacterSet.valueOf("UTF_8"));
+        assertSame(code, CharacterSet.valueOf("UTF-8"));
+        assertSame(code, CharacterSet.valueOf("UTF8"));
+        assertSame(code, CharacterSet.valueOf("utf8"));
         assertNotSame(code, CharacterSet.valueOf("UTF_7"));
     }
 
@@ -141,8 +140,8 @@ public final class CodeListTest {
         }
         assertNotNull(method);
         modifiers = method.getModifiers();
-        assertTrue (fullName + " is not public.", Modifier.isPublic(modifiers));
-        assertFalse(fullName + " is static.",     Modifier.isStatic(modifiers));
+        assertTrue(fullName + " is not public.", Modifier.isPublic(modifiers));
+        assertFalse(fullName + " is static.", Modifier.isStatic(modifiers));
         /*
          * Tests every CodeList instances returned by values().
          * Every field should be public, static and final.
@@ -166,9 +165,9 @@ public final class CodeListTest {
             assertNotNull(field);
             modifiers = field.getModifiers();
             assertEquals(fullName + ": unexpected name mismatch.", name, field.getName());
-            assertTrue  (fullName + " is not public.", Modifier.isPublic(modifiers));
-            assertTrue  (fullName + " is not static.", Modifier.isStatic(modifiers));
-            assertTrue  (fullName + " is not final.",  Modifier.isFinal (modifiers));
+            assertTrue(fullName + " is not public.", Modifier.isPublic(modifiers));
+            assertTrue(fullName + " is not static.", Modifier.isStatic(modifiers));
+            assertTrue(fullName + " is not final.", Modifier.isFinal(modifiers));
             Object constant;
             try {
                 constant = field.get(null);
@@ -202,15 +201,16 @@ public final class CodeListTest {
                 return;
             }
             modifiers = field.getModifiers();
-            assertTrue (Modifier.isStatic   (modifiers));
-            assertTrue (Modifier.isFinal    (modifiers));
-            assertFalse(Modifier.isPublic   (modifiers));
+            assertTrue(Modifier.isStatic(modifiers));
+            assertTrue(Modifier.isFinal(modifiers));
+            assertFalse(Modifier.isPublic(modifiers));
             assertFalse(Modifier.isProtected(modifiers));
             field.setAccessible(true);
             final ArrayList<?> asList;
             try {
                 final Object candidate = field.get(null);
-                assertEquals(fullName + " is not an ArrayList.", ArrayList.class, candidate.getClass());
+                assertEquals(fullName + " is not an ArrayList.", ArrayList.class, candidate
+                        .getClass());
                 asList = (ArrayList<?>) candidate;
             } catch (IllegalAccessException e) {
                 fail(className + ".VALUES is not accessible.");

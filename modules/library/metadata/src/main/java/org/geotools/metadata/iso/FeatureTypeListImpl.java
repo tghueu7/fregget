@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -25,13 +25,10 @@ import org.opengis.metadata.FeatureTypeList;
 /**
  * List of names of feature types with the same spatial representation (same as spatial attributes).
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class FeatureTypeListImpl extends MetadataEntity implements FeatureTypeList {
@@ -69,9 +66,8 @@ public class FeatureTypeListImpl extends MetadataEntity implements FeatureTypeLi
      * Creates a feature type list initialized to the given values.
      */
     public FeatureTypeListImpl(final String spatialObject,
-                               final String spatialSchemaName)
-    {
-        setSpatialObject    (spatialObject    );
+                               final String spatialSchemaName) {
+        setSpatialObject(spatialObject);
         setSpatialSchemaName(spatialSchemaName);
     }
 

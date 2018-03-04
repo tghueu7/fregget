@@ -45,8 +45,6 @@ import org.opengis.filter.Filter;
 import com.esri.sde.sdk.client.SeVersion;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ArcSDEDataStoreVersioningTest {
@@ -112,7 +110,8 @@ public class ArcSDEDataStoreVersioningTest {
             session.dispose();
         }
 
-        Map<String, Serializable> params = new HashMap<String, Serializable>(testData.getConProps());
+        Map<String, Serializable> params = new HashMap<String, Serializable>(testData.getConProps
+                ());
         ArcSDEDataStoreFactory factory = new ArcSDEDataStoreFactory();
         defaultVersionDataStore = factory.createDataStore(params);
 
@@ -143,7 +142,7 @@ public class ArcSDEDataStoreVersioningTest {
     /**
      * Why... oh why this test fails if executed twice, but succeeds if the transactional version
      * ran before? no time to look further into it right now, but beware
-     * 
+     *
      * @throws IOException
      */
     @Test
@@ -208,7 +207,7 @@ public class ArcSDEDataStoreVersioningTest {
     }
 
     private SimpleFeatureStore store(final DataStore ds, final String typeName,
-            final Transaction transaction) throws IOException {
+                                     final Transaction transaction) throws IOException {
         SimpleFeatureStore store;
         store = (SimpleFeatureStore) ds.getFeatureSource(typeName);
         store.setTransaction(transaction);

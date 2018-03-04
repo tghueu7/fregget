@@ -41,15 +41,12 @@ import org.geotools.resources.Classes;
  * {@linkplain OperationJAI operation} to replace {@code null} values by a default
  * one.
  *
- * @since 2.2
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @todo Move into the {@code org.geotools.coverage.grid} package as a {@code ImageLayout}
- *       subclass. Rename as {@code GridCoverageLayout}.
+ * subclass. Rename as {@code GridCoverageLayout}.
+ * @since 2.2
  */
 public class RangeSpecifier implements Serializable, Cloneable {
     /**
@@ -120,7 +117,7 @@ public class RangeSpecifier implements Serializable, Cloneable {
      */
     public void setRange(final NumberRange<?> range) {
         this.range = range;
-        transform  = null;
+        transform = null;
     }
 
     /**
@@ -188,7 +185,7 @@ public class RangeSpecifier implements Serializable, Cloneable {
     @Override
     public RangeSpecifier clone() {
         try {
-             return (RangeSpecifier) super.clone();
+            return (RangeSpecifier) super.clone();
         } catch (CloneNotSupportedException exception) {
             // Should not happen, since we are cloneable.
             throw new AssertionError(exception);
@@ -200,7 +197,7 @@ public class RangeSpecifier implements Serializable, Cloneable {
      */
     @Override
     public int hashCode() {
-        int code = (int)serialVersionUID;
+        int code = (int) serialVersionUID;
         if (range != null) {
             code += range.hashCode();
         }
@@ -218,12 +215,12 @@ public class RangeSpecifier implements Serializable, Cloneable {
      */
     @Override
     public boolean equals(final Object object) {
-        if (object!=null && object.getClass().equals(getClass())) {
+        if (object != null && object.getClass().equals(getClass())) {
             final RangeSpecifier that = (RangeSpecifier) object;
-            return Utilities.equals(this.range,     that.range    ) &&
-                   Utilities.equals(this.transform, that.transform) &&
-                   Utilities.equals(this.unit,      that.unit     ) &&
-                      Arrays.equals(this.colors,    that.colors   );
+            return Utilities.equals(this.range, that.range) &&
+                    Utilities.equals(this.transform, that.transform) &&
+                    Utilities.equals(this.unit, that.unit) &&
+                    Arrays.equals(this.colors, that.colors);
         }
         return false;
     }

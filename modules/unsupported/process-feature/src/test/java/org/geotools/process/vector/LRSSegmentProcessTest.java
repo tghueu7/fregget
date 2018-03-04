@@ -37,8 +37,6 @@ import org.opengis.feature.Feature;
 import com.vividsolutions.jts.geom.MultiLineString;
 
 /**
- * 
- * 
  * @source $URL$
  */
 public class LRSSegmentProcessTest {

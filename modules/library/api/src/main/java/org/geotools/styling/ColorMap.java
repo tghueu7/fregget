@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -15,7 +15,6 @@
  *    Lesser General Public License for more details.
  */
 package org.geotools.styling;
-
 
 
 /**
@@ -40,15 +39,14 @@ package org.geotools.styling;
  * support opacity in colormaps.  The default opacity is 1.0 (fully opaque).
  * Defaults for quantity and label are system-dependent.
  *
- *
  * @source $URL$
  */
-public interface ColorMap extends org.opengis.style.ColorMap{
-    
+public interface ColorMap extends org.opengis.style.ColorMap {
+
     public static final int TYPE_RAMP = 1;
-    
+
     public static final int TYPE_INTERVALS = 2;
-    
+
     public static final int TYPE_VALUES = 3;
 
     public void addColorMapEntry(ColorMapEntry entry);
@@ -59,7 +57,7 @@ public interface ColorMap extends org.opengis.style.ColorMap{
 
     /**
      * Type of color map; matchinges the function returned by getFunction().getName()
-     * 
+     *
      * @return One of TYPE_RAMP, TYPE_INTERVALS, or TYPE_VALUE
      */
     public int getType();
@@ -74,9 +72,8 @@ public interface ColorMap extends org.opengis.style.ColorMap{
     /**
      * Tells me to use 65536 colors even if 256 could suffice.
      *
-     * @param extended
-     *            <code>true</code> for using 65536 colors, <code>false</code>
-     *            for using 256.
+     * @param extended <code>true</code> for using 65536 colors, <code>false</code>
+     *                 for using 256.
      */
     public void setExtendedColors(boolean extended);
 

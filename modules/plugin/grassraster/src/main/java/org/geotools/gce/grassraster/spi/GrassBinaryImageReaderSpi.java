@@ -28,15 +28,13 @@ import org.geotools.gce.grassraster.GrassBinaryImageWriter;
 
 /**
  * The Service Provider Interface for GRASS binary rasters.
- * 
+ *
  * @author Andrea Antonello (www.hydrologis.com)
- * @since 3.0
+ * @source $URL$
  * @see GrassBinaryImageReader
  * @see GrassBinaryImageWriter
  * @see GrassBinaryImageReaderSpi
- *
- *
- * @source $URL$
+ * @since 3.0
  */
 @SuppressWarnings("nls")
 public class GrassBinaryImageReaderSpi extends ImageReaderSpi {
@@ -51,17 +49,19 @@ public class GrassBinaryImageReaderSpi extends ImageReaderSpi {
     /**
      * the class name of the image reader.
      */
-    private static final String readerCN = "eu.hydrologis.jgrass.grassbinary.imageio.io.GrassBinaryImageReader";
+    private static final String readerCN = "eu.hydrologis.jgrass.grassbinary.imageio.io" +
+            ".GrassBinaryImageReader";
 
     /**
      * the inputTypes that are accepted by the {@link GrassBinaryImageReader}.
      */
-    private static final Class< ? >[] inputTypes = new Class[]{File.class, ImageInputStream.class};
+    private static final Class<?>[] inputTypes = new Class[]{File.class, ImageInputStream.class};
 
     /**
      * the writerSpiName
      */
-    private static final String[] wSN = {"eu.hydrologis.jgrass.grassbinary.imageio.io.GrassBinaryImageWriterSpi"};
+    private static final String[] wSN = {"eu.hydrologis.jgrass.grassbinary.imageio.io" +
+            ".GrassBinaryImageWriterSpi"};
 
     /**
      * the flag for stream metadata support.
@@ -78,8 +78,10 @@ public class GrassBinaryImageReaderSpi extends ImageReaderSpi {
      */
     private static final boolean supportsStandardImageMetadataFormat = true;
 
-    private static final String nativeImageMetadataFormatName = "eu.hydrologis.jgrass.grassbinary.imageio.metadata.GrassBinaryImageMetadata";
-    private static final String nativeImageMetadataFormatClassName = "eu.hydrologis.jgrass.grassbinary.imageio.metadata.GrassBinaryImageMetadataFormat";
+    private static final String nativeImageMetadataFormatName = "eu.hydrologis.jgrass.grassbinary" +
+            ".imageio.metadata.GrassBinaryImageMetadata";
+    private static final String nativeImageMetadataFormatClassName = "eu.hydrologis.jgrass" +
+            ".grassbinary.imageio.metadata.GrassBinaryImageMetadataFormat";
     private static final String[] extraImageMetadataFormatNames = {null};
     private static final String[] extraImageMetadataFormatClassNames = {null};
 
@@ -95,18 +97,18 @@ public class GrassBinaryImageReaderSpi extends ImageReaderSpi {
                 extraImageMetadataFormatNames, extraImageMetadataFormatClassNames);
     }
 
-    public String getDescription( Locale locale ) {
+    public String getDescription(Locale locale) {
         return "GRASS binary raster image reader service provider interface, version " + version;
     }
 
-    public boolean canDecodeInput( Object source ) throws IOException {
+    public boolean canDecodeInput(Object source) throws IOException {
         if (source instanceof File) {
             return true;
         }
         return false;
     }
 
-    public GrassBinaryImageReader createReaderInstance( Object extension ) throws IOException {
+    public GrassBinaryImageReader createReaderInstance(Object extension) throws IOException {
         return new GrassBinaryImageReader(this);
     }
 

@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.primitive;
@@ -21,20 +21,18 @@ import static org.opengis.annotation.Specification.*;
  * Defines a homogeneous portion of a {@linkplain Surface surface}.
  * Each {@code SurfacePatch} shall be in at most one {@linkplain Surface surface}.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @since GeoAPI 1.0
  */
-@UML(identifier="GM_SurfacePatch", specification=ISO_19107)
+@UML(identifier = "GM_SurfacePatch", specification = ISO_19107)
 public interface SurfacePatch extends GenericSurface {
     /**
      * Returns the patch which own this surface patch. This method is <em>optional</em> since the
      * association in ISO 19107 is navigable only from {@code Surface} to {@code SurfacePatch},
      * not the other way.
-     *
+     * <p>
      * <blockquote><font size=2>
      * <strong>NOTE:</strong> In the specification, surface patches do not appear except in the
      * context of a surface, and therefore this method should never returns {@code null} which
@@ -44,14 +42,13 @@ public interface SurfacePatch extends GenericSurface {
      * </font></blockquote>
      *
      * @return The owner of this surface patch, or {@code null} if the association is
-     *         not available or not implemented that way.
-     *
+     * not available or not implemented that way.
+     * @issue http://jira.codehaus.org/browse/GEO-63
      * @see Surface#getPatches
      * @see CurveSegment#getCurve
-     * @issue http://jira.codehaus.org/browse/GEO-63
      */
     @Association("Segmentation")
-    @UML(identifier="surface", obligation=OPTIONAL, specification=ISO_19107)
+    @UML(identifier = "surface", obligation = OPTIONAL, specification = ISO_19107)
     Surface getSurface();
 
     /**
@@ -61,7 +58,7 @@ public interface SurfacePatch extends GenericSurface {
      *
      * @return The interpolation mechanism.
      */
-    @UML(identifier="interpolation", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "interpolation", obligation = MANDATORY, specification = ISO_19107)
     SurfaceInterpolation getInterpolation();
 
     /**
@@ -71,12 +68,13 @@ public interface SurfacePatch extends GenericSurface {
      * {@link #getBoundary} for this patch. The default value of "0" means simple continuity, which
      * is a mandatory minimum level of continuity. This level is referred to as "C<sup>0</sup>" in
      * mathematical texts. A value of 1 means that the functions are continuous and differentiable
-     * at the appropriate end point: "C<sup>1</sup>" continuity. A value of "n" for any integer means
+     * at the appropriate end point: "C<sup>1</sup>" continuity. A value of "n" for any integer 
+     * means
      * <var>n</var>-times differentiable: "C<sup>n</sup>" continuity.
      *
      * @return The type of continuity between this surface patch and its immediate neighbors.
      */
-    @UML(identifier="numDerivativesOnBoundary", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "numDerivativesOnBoundary", obligation = MANDATORY, specification = ISO_19107)
     int getNumDerivativesOnBoundary();
 
     /**
@@ -92,6 +90,6 @@ public interface SurfacePatch extends GenericSurface {
      *
      * @return The boundary of this {@code SurfacePatch}
      */
-    @UML(identifier="boundary", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "boundary", obligation = MANDATORY, specification = ISO_19107)
     SurfaceBoundary getBoundary();
 }

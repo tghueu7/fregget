@@ -29,18 +29,14 @@ import org.opengis.metadata.citation.Citation;
 /**
  * Information about the application schema used to build the dataset.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class ApplicationSchemaInformationImpl extends MetadataEntity
-        implements ApplicationSchemaInformation
-{
+        implements ApplicationSchemaInformation {
     /**
      * Serial number for interoperability with different versions.
      */
@@ -106,10 +102,9 @@ public class ApplicationSchemaInformationImpl extends MetadataEntity
      */
     public ApplicationSchemaInformationImpl(final Citation name,
                                             final String schemaLanguage,
-                                            final String constraintLanguage)
-    {
-        setName              (name              );
-        setSchemaLanguage    (schemaLanguage    );
+                                            final String constraintLanguage) {
+        setName(name);
+        setSchemaLanguage(schemaLanguage);
         setConstraintLanguage(constraintLanguage);
     }
 
@@ -146,7 +141,7 @@ public class ApplicationSchemaInformationImpl extends MetadataEntity
     /**
      * Formal language used in Application Schema.
      */
-    public String getConstraintLanguage()  {
+    public String getConstraintLanguage() {
         return constraintLanguage;
     }
 
@@ -161,7 +156,7 @@ public class ApplicationSchemaInformationImpl extends MetadataEntity
     /**
      * Full application schema given as an ASCII file.
      */
-    public URI getSchemaAscii()  {
+    public URI getSchemaAscii() {
         return schemaAscii;
     }
 
@@ -176,7 +171,7 @@ public class ApplicationSchemaInformationImpl extends MetadataEntity
     /**
      * Full application schema given as a graphics file.
      */
-    public URI getGraphicsFile()  {
+    public URI getGraphicsFile() {
         return graphicsFile;
     }
 
@@ -191,7 +186,7 @@ public class ApplicationSchemaInformationImpl extends MetadataEntity
     /**
      * Full application schema given as a software development file.
      */
-    public URI getSoftwareDevelopmentFile()  {
+    public URI getSoftwareDevelopmentFile() {
         return softwareDevelopmentFile;
     }
 
@@ -206,7 +201,7 @@ public class ApplicationSchemaInformationImpl extends MetadataEntity
     /**
      * Software dependent format used for the application schema software dependent file.
      */
-    public String getSoftwareDevelopmentFileFormat()  {
+    public String getSoftwareDevelopmentFileFormat() {
         return softwareDevelopmentFileFormat;
     }
 
@@ -234,7 +229,8 @@ public class ApplicationSchemaInformationImpl extends MetadataEntity
      * @deprecated removed from ISO 19115
      */
     @Deprecated
-    public synchronized void setFeatureCatalogueSupplement(final SpatialAttributeSupplement newValue) {
+    public synchronized void setFeatureCatalogueSupplement(final SpatialAttributeSupplement 
+                                                                       newValue) {
         checkWritePermission();
         featureCatalogueSupplement = newValue;
     }

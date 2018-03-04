@@ -1,13 +1,15 @@
 /*******************************************************************************
  * $ * * $Id$ * *
  * $Source:
- * /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/primitive/PrimitiveFactoryImpl.java,v $ * *
+ * /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/primitive
+ * /PrimitiveFactoryImpl.java,v $ * *
  * Copyright (C) 2003 Open GIS Consortium, Inc. All Rights Reserved.
  * http://www.opengis.org/Legal/ *
  ******************************************************************************/
 package org.geotools.geometry.jts.spatialschema.geometry.primitive;
 
 // J2SE direct dependencies
+
 import org.geotools.geometry.jts.spatialschema.geometry.DirectPositionImpl;
 import org.geotools.geometry.jts.spatialschema.geometry.geometry.GeometryFactoryImpl;
 import org.geotools.geometry.jts.spatialschema.geometry.geometry.PolygonImpl;
@@ -40,9 +42,6 @@ import org.opengis.geometry.primitive.SurfacePatch;
  * Factory that knows how to create instances of the 19107 primitives as
  * implemented in LiteGO1.
  *
- *
- *
- *
  * @source $URL$
  */
 public class PrimitiveFactoryImpl implements PrimitiveFactory {
@@ -50,7 +49,7 @@ public class PrimitiveFactoryImpl implements PrimitiveFactory {
     //*************************************************************************
     //  Fields
     //*************************************************************************
-    
+
     /**
      * a default CRS to use when creating primitives
      */
@@ -61,7 +60,7 @@ public class PrimitiveFactoryImpl implements PrimitiveFactory {
     //*************************************************************************
     //  Constructors
     //*************************************************************************
-    
+
     /**
      * DOCUMENT ME
      */
@@ -71,7 +70,7 @@ public class PrimitiveFactoryImpl implements PrimitiveFactory {
 
     /**
      * DOCUMENT ME
-     * 
+     *
      * @param crs
      */
     public PrimitiveFactoryImpl(final CoordinateReferenceSystem crs) {
@@ -82,7 +81,7 @@ public class PrimitiveFactoryImpl implements PrimitiveFactory {
     //*************************************************************************
     //  implement the PrimitiveFactory interface
     //*************************************************************************
-    
+
     /**
      * Returns the coordinate reference system in use for all
      * {@linkPlain Primitive primitive}geometric objects to be created through
@@ -103,6 +102,7 @@ public class PrimitiveFactoryImpl implements PrimitiveFactory {
      * Create a direct position at the specified location specified by
      * coordinates. If the parameter is null, the position is left
      * uninitialized.
+     *
      * @param coordinates
      * @return
      */
@@ -150,14 +150,15 @@ public class PrimitiveFactoryImpl implements PrimitiveFactory {
     @SuppressWarnings("unchecked")
     public Surface createSurface(final List<SurfacePatch> patches) {
         SurfaceImpl result = new SurfaceImpl(crs);
-        List<?> cast = (List<?>) patches;   
-        result.getPatches().addAll( (List<SurfacePatchImpl>) cast );
+        List<?> cast = (List<?>) patches;
+        result.getPatches().addAll((List<SurfacePatchImpl>) cast);
         return result;
     }
 
     /**
      * @inheritDoc
-     * @see org.opengis.geometry.primitive.PrimitiveFactory#createSurface(org.opengis.geometry.primitive.SurfaceBoundary)
+     * @see org.opengis.geometry.primitive.PrimitiveFactory#createSurface(org.opengis.geometry
+     * .primitive.SurfaceBoundary)
      */
     public Surface createSurface(final SurfaceBoundary boundary) {
         // For now, our implementation has to assume that the boundary is a
@@ -169,18 +170,20 @@ public class PrimitiveFactoryImpl implements PrimitiveFactory {
         // we can compile without the generic if we cast down to List, but why do we need the cast?
         // Polygon extends SurfacePatch, so in theory this should work...
         //((List<SurfacePatch>) result.getPatches()).add(poly);
-        ((List)result.getPatches()).add(poly);
+        ((List) result.getPatches()).add(poly);
         return result;
     }
-    
-    
+
+
     /**
      * @inheritDoc
-     * @see org.opengis.geometry.primitive.PrimitiveFactory#createSurfaceBoundary(org.opengis.geometry.primitive.Ring, java.util.List)
+     * @see org.opengis.geometry.primitive.PrimitiveFactory#createSurfaceBoundary(org.opengis
+     * .geometry.primitive.Ring, java.util.List)
      */
     public SurfaceBoundary createSurfaceBoundary(Ring exterior, List interiors)
             throws MismatchedReferenceSystemException, MismatchedDimensionException {
-        return new SurfaceBoundaryImpl(crs, exterior, (Ring []) interiors.toArray(new Ring[interiors.size()]));
+        return new SurfaceBoundaryImpl(crs, exterior, (Ring[]) interiors.toArray(new 
+                Ring[interiors.size()]));
     }
 
     /**
@@ -189,6 +192,7 @@ public class PrimitiveFactoryImpl implements PrimitiveFactory {
      * {@linkPlain SolidBoundary solid boundary}. Since this specification is
      * limited to 3-dimensional coordinate reference systems, any solid is
      * definable by its boundary.
+     *
      * @param boundary
      * @return a {@code Solid} based on the given {@code boundary}
      */
@@ -211,7 +215,7 @@ public class PrimitiveFactoryImpl implements PrimitiveFactory {
             throws MismatchedReferenceSystemException, MismatchedDimensionException {
         PolyhedralSurfaceImpl result = new PolyhedralSurfaceImpl(crs);
         List<?> cast = (List<?>) patches;
-        result.getPatches().addAll((List<PolygonImpl>) cast );
+        result.getPatches().addAll((List<PolygonImpl>) cast);
         return result;
     }
 }

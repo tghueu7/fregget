@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2013, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -39,29 +39,30 @@ import org.geotools.gce.image.WorldImageFormat;
 import org.geotools.gce.imagemosaic.Utils.Prop;
 
 /**
- * This class is in responsible for creating the index for a mosaic of images that we want to tie together as a single coverage.
- * 
+ * This class is in responsible for creating the index for a mosaic of images that we want to tie
+ * together as a single coverage.
+ *
  * @author Simone Giannecchini, GeoSolutions
  * @author Carlo Cancellieri - GeoSolutions SAS
- * 
  * @source $URL$
  */
-@SuppressWarnings({ "rawtypes", "unchecked" })
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class ImageMosaicDirectoryWalker extends ImageMosaicWalker {
 
     /**
-     * This class is responsible for walking through the files inside a directory (and its children directories) which respect a specified wildcard.
-     * 
+     * This class is responsible for walking through the files inside a directory (and its 
+     * children directories) which respect a specified wildcard.
      * <p>
-     * Its role is basically to simplify the construction of the mosaic by implementing a visitor pattern for the files that we have to use for the
+     * <p>
+     * Its role is basically to simplify the construction of the mosaic by implementing a visitor
+     * pattern for the files that we have to use for the
      * index.
-     * 
+     * <p>
      * <p>
      * It is based on the Commons IO {@link DirectoryWalker} class.
-     * 
+     *
      * @author Simone Giannecchini, GeoSolutions SAS
      * @author Daniele Romagnoli, GeoSolutions SAS
-     * 
      */
     final class MosaicDirectoryWalker extends DirectoryWalker {
 
@@ -69,7 +70,7 @@ public class ImageMosaicDirectoryWalker extends ImageMosaicWalker {
 
         @Override
         protected void handleCancelled(File startDirectory, Collection results,
-                CancelException cancel) throws IOException {
+                                       CancelException cancel) throws IOException {
             super.handleCancelled(startDirectory, results, cancel);
             // clean up objects and rollback transaction
             if (LOGGER.isLoggable(Level.INFO)) {
@@ -93,7 +94,7 @@ public class ImageMosaicDirectoryWalker extends ImageMosaicWalker {
 
         @Override
         protected void handleFile(final File fileBeingProcessed, final int depth,
-                final Collection results) throws IOException {
+                                  final Collection results) throws IOException {
 
             walker.handleFile(fileBeingProcessed);
 
@@ -101,7 +102,8 @@ public class ImageMosaicDirectoryWalker extends ImageMosaicWalker {
         }
 
         public MosaicDirectoryWalker(final List<String> indexingDirectories,
-                final FileFilter filter, ImageMosaicWalker walker) throws IOException {
+                                     final FileFilter filter, ImageMosaicWalker walker) throws 
+                IOException {
             super(filter, Integer.MAX_VALUE);// runConfiguration.isRecursive()?Integer.MAX_VALUE:0);
 
             this.walker = walker;
@@ -184,7 +186,7 @@ public class ImageMosaicDirectoryWalker extends ImageMosaicWalker {
                 final Collection files = FileUtils.listFiles(directoryToScan, finalFilter,
                         Boolean.parseBoolean(
                                 configHandler.getRunConfiguration().getParameter(Prop.RECURSIVE))
-                                        ? TrueFileFilter.INSTANCE : FalseFileFilter.INSTANCE);
+                                ? TrueFileFilter.INSTANCE : FalseFileFilter.INSTANCE);
                 numFiles += files.size();
             }
             //
@@ -275,15 +277,15 @@ public class ImageMosaicDirectoryWalker extends ImageMosaicWalker {
 
     /**
      * Default constructor.
-     * 
-     * Sets a filter that can reduce the file the mosaic walker will take into consideration (in a more flexible way than the wildcards)
-     * 
+     * <p>
+     * Sets a filter that can reduce the file the mosaic walker will take into consideration (in 
+     * a more flexible way than the wildcards)
+     *
      * @param filter
-     * 
      * @throws IllegalArgumentException
      */
     public ImageMosaicDirectoryWalker(ImageMosaicConfigHandler configHandler,
-            ImageMosaicEventHandlers eventHandler, IOFileFilter filter) {
+                                      ImageMosaicEventHandlers eventHandler, IOFileFilter filter) {
         super(configHandler, eventHandler);
 
         this.fileFilter = filter;
@@ -294,7 +296,7 @@ public class ImageMosaicDirectoryWalker extends ImageMosaicWalker {
      * @param eventHandler
      */
     public ImageMosaicDirectoryWalker(ImageMosaicConfigHandler catalogHandler,
-            ImageMosaicEventHandlers eventHandler) {
+                                      ImageMosaicEventHandlers eventHandler) {
         this(catalogHandler, eventHandler, null);
     }
 

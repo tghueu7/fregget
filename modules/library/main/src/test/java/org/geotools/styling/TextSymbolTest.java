@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -41,11 +41,8 @@ import com.vividsolutions.jts.geom.Point;
  * Test for text symbols.
  *
  * @author jamesm
- *
  * @task REVISIT: redo the Map stuff - I commented it out since DefaultMap is
- *       deprecated - cholmes.
- *
- *
+ * deprecated - cholmes.
  * @source $URL$
  */
 public class TextSymbolTest extends TestCase {
@@ -81,13 +78,13 @@ public class TextSymbolTest extends TestCase {
         GeometryFactory geomFac = new GeometryFactory();
         SimpleFeatureTypeBuilder ftb = new SimpleFeatureTypeBuilder();
         ftb.setCRS(null);
-		ftb.add("centre", com.vividsolutions.jts.geom.Point.class);
-		ftb.add("size", Double.class);
-		ftb.add("rotation", Double.class);
-		ftb.add("symbol", String.class);
-		ftb.setName("test");
-	SimpleFeatureType pointType = ftb.buildFeatureType();
-	ListFeatureCollection data = new ListFeatureCollection( pointType );
+        ftb.add("centre", com.vividsolutions.jts.geom.Point.class);
+        ftb.add("size", Double.class);
+        ftb.add("rotation", Double.class);
+        ftb.add("symbol", String.class);
+        ftb.setName("test");
+        SimpleFeatureType pointType = ftb.buildFeatureType();
+        ListFeatureCollection data = new ListFeatureCollection(pointType);
 
         //FlatFeatureFactory pointFac = feaTypeFactory.(pointType);
         Point point;
@@ -97,7 +94,7 @@ public class TextSymbolTest extends TestCase {
         String[] symbol = {
                 "\uF04A", "\uF04B", "\uF059", "\uF05A", "\uF06B", "\uF06C",
                 "\uF06E"
-            };
+        };
         double size = 16;
         double rotation = 0.0;
         int rows = 8;
@@ -106,10 +103,10 @@ public class TextSymbolTest extends TestCase {
             for (int i = 0; i < symbol.length; i++) {
                 point = makeSamplePoint(geomFac, ((double) i * 5.0) + 5.0,
                         5.0 + (j * 5));
-                pointFeature = SimpleFeatureBuilder.build(pointType, new Object[] {
-                            point, new Double(size), new Double(rotation),
-                            symbol[i]
-                        }, null);
+                pointFeature = SimpleFeatureBuilder.build(pointType, new Object[]{
+                        point, new Double(size), new Double(rotation),
+                        symbol[i]
+                }, null);
                 data.add(pointFeature);
             }
 
@@ -135,11 +132,11 @@ public class TextSymbolTest extends TestCase {
         pointsym.setGraphic(graphic);
 
         RuleImpl rule = new RuleImpl();
-        rule.symbolizers().add( pointsym );
+        rule.symbolizers().add(pointsym);
 
         FeatureTypeStyleImpl fts = new FeatureTypeStyleImpl();
         fts.rules().add(rule);
-        fts.featureTypeNames().add( new NameImpl("testPoint"));
+        fts.featureTypeNames().add(new NameImpl("testPoint"));
 
         StyleImpl style = new StyleImpl();
         style.addFeatureTypeStyle(fts);
@@ -173,7 +170,7 @@ public class TextSymbolTest extends TestCase {
     }
 
     private Point makeSamplePoint(final GeometryFactory geomFac, double x,
-        double y) {
+                                  double y) {
         Coordinate c = new Coordinate(x, y);
         Point point = geomFac.createPoint(c);
 

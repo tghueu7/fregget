@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.metadata.spatial;
@@ -22,14 +22,12 @@ import static org.opengis.annotation.Specification.*;
 /**
  * Degree of complexity of the spatial relationships.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 2.0
+ * @source $URL$
+ * @since GeoAPI 2.0
  */
-@UML(identifier="MD_TopologyLevelCode", specification=ISO_19115)
+@UML(identifier = "MD_TopologyLevelCode", specification = ISO_19115)
 public final class TopologyLevel extends CodeList<TopologyLevel> {
     /**
      * Serial number for compatibility with different versions.
@@ -45,55 +43,55 @@ public final class TopologyLevel extends CodeList<TopologyLevel> {
     /**
      * Geometry objects without any additional structure which describes topology.
      */
-    @UML(identifier="geometryOnly", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "geometryOnly", obligation = CONDITIONAL, specification = ISO_19115)
     public static final TopologyLevel GEOMETRY_ONLY = new TopologyLevel("GEOMETRY_ONLY");
 
     /**
      * 1-dimensional topological complex.
      */
-    @UML(identifier="topology1D", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "topology1D", obligation = CONDITIONAL, specification = ISO_19115)
     public static final TopologyLevel TOPOLOGY_1D = new TopologyLevel("TOPOLOGY_1D");
 
     /**
      * 1-dimensional topological complex which is planar.
      */
-    @UML(identifier="planarGraph", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "planarGraph", obligation = CONDITIONAL, specification = ISO_19115)
     public static final TopologyLevel PLANAR_GRAPH = new TopologyLevel("PLANAR_GRAPH");
 
     /**
      * 2-dimensional topological complex which is planar.
      */
-    @UML(identifier="fullPlanarGraph", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "fullPlanarGraph", obligation = CONDITIONAL, specification = ISO_19115)
     public static final TopologyLevel FULL_PLANAR_GRAPH = new TopologyLevel("FULL_PLANAR_GRAPH");
 
     /**
      * 1-dimensional topological complex which is isomorphic to a subset of a surface.
      */
-    @UML(identifier="surfaceGraph", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "surfaceGraph", obligation = CONDITIONAL, specification = ISO_19115)
     public static final TopologyLevel SURFACE_GRAPH = new TopologyLevel("SURFACE_GRAPH");
 
     /**
      * 2-dimensional topological complex which is isomorphic to a subset of a surface.
      */
-    @UML(identifier="fullSurfaceGraph", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "fullSurfaceGraph", obligation = CONDITIONAL, specification = ISO_19115)
     public static final TopologyLevel FULL_SURFACE_GRAPH = new TopologyLevel("FULL_SURFACE_GRAPH");
 
     /**
      * 3-dimensional topological complex.
      */
-    @UML(identifier="topology3D", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "topology3D", obligation = CONDITIONAL, specification = ISO_19115)
     public static final TopologyLevel TOPOLOGY_3D = new TopologyLevel("TOPOLOGY_3D");
 
     /**
      * Complete coverage of a 3D coordinate space.
      */
-    @UML(identifier="fullTopology3D", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "fullTopology3D", obligation = CONDITIONAL, specification = ISO_19115)
     public static final TopologyLevel FULL_TOPOLOGY_3D = new TopologyLevel("FULL_TOPOLOGY_3D");
 
     /**
      * Topological complex without any specified geometric realization.
      */
-    @UML(identifier="abstract", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "abstract", obligation = CONDITIONAL, specification = ISO_19115)
     public static final TopologyLevel ABSTRACT = new TopologyLevel("ABSTRACT");
 
     /**

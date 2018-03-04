@@ -4,13 +4,15 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2007 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.feature.type;
 
 import java.util.Set;
+
 import org.opengis.annotation.UML;
+
 import static org.opengis.annotation.Specification.*;
 
 
@@ -53,15 +55,13 @@ import static org.opengis.annotation.Specification.*;
  * to offer application the freedom to back this interface onto a facility such as
  * JNDI used in their own application).
  * </p>
+ *
  * @author Jody Garnett, Refractions Research, Inc.
  * @author Justin Deoliveira, The Open Planning Project
- *
- * @since GeoAPI 2.1
- *
- *
  * @source $URL$
+ * @since GeoAPI 2.1
  */
-@UML(identifier="NameSpace", specification=ISO_19103)
+@UML(identifier = "NameSpace", specification = ISO_19103)
 public interface Namespace extends Set<Name> {
 
     /**
@@ -81,9 +81,9 @@ public interface Namespace extends Set<Name> {
      * <p>
      * This method returns <code>null</code> if no such name exists.
      * </p>
-     * @param name The local part of the name to look up.
      *
+     * @param name The local part of the name to look up.
      * @return The name, or <code>null</code>.
      */
-    Name lookup( String name );
+    Name lookup(String name);
 }

@@ -3,7 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2004-2016, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -41,10 +41,7 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.TransformException;
 
 /**
- * 
  * @author Richard Gould
- *
- *
  * @source $URL$
  */
 public abstract class AbstractGetMapRequest extends AbstractWMSRequest implements GetMapRequest {
@@ -54,11 +51,11 @@ public abstract class AbstractGetMapRequest extends AbstractWMSRequest implement
     static final Logger LOGGER = Logging.getLogger(AbstractGetMapRequest.class);
 
     /**
-     * Constructs a GetMapRequest. The data passed in represents valid values 
+     * Constructs a GetMapRequest. The data passed in represents valid values
      * that can be used.
-     * 
+     *
      * @param onlineResource the location that the request should be applied to
-     * @param properties pre-set properties to be used. Can be null.
+     * @param properties     pre-set properties to be used. Can be null.
      */
     public AbstractGetMapRequest(URL onlineResource, Properties properties) {
         super(onlineResource, properties);
@@ -68,89 +65,90 @@ public abstract class AbstractGetMapRequest extends AbstractWMSRequest implement
         if (!layers.isEmpty()) {
             String layerString = ""; //$NON-NLS-1$
             String styleString = ""; //$NON-NLS-1$
-    
+
             ListIterator layerIter = layers.listIterator(layers.size());
             ListIterator styleIter = styles.listIterator(styles.size());
             while (layerIter.hasPrevious()) {
-    
+
                 String layerName = (String) layerIter.previous();
                 String styleName = (String) styleIter.previous();
-                
+
                 try {
                     // spaces are converted to plus signs, but must be %20 for url calls [GEOT-4317]
-                    layerString = layerString + URLEncoder.encode(layerName, "UTF-8").replaceAll("\\+", "%20");
+                    layerString = layerString + URLEncoder.encode(layerName, "UTF-8").replaceAll
+                            ("\\+", "%20");
                 } catch (UnsupportedEncodingException | NullPointerException e) {
                     layerString = layerString + layerName;
                 }
                 styleName = styleName == null ? "" : styleName;
                 try {
 
-                    styleString = styleString + URLEncoder.encode(styleName, "UTF-8").replaceAll("\\+", "%20");
+                    styleString = styleString + URLEncoder.encode(styleName, "UTF-8").replaceAll
+                            ("\\+", "%20");
                 } catch (UnsupportedEncodingException | NullPointerException e1) {
                     styleString = styleString + styleName;
                 }
-                
+
                 if (layerIter.hasPrevious()) {
                     layerString = layerString + ","; //$NON-NLS-1$
                     styleString = styleString + ","; //$NON-NLS-1$
                 }
             }
-            
+
             setProperty(LAYERS, layerString);
             setProperty(STYLES, styleString);
         }
-        
+
         return super.getFinalURL();
     }
-    
+
     protected abstract void initVersion();
-    
+
     protected void initRequest() {
         setProperty(REQUEST, "GetMap"); //$NON-NLS-1$
     }
 
-	/**
+    /**
      * Sets the version number of the request.
      *
      * @param version A String indicting a WMS Version ("1.0.0", "1.1.0",
-     *        "1.1.1", or "1.3.0")
+     *                "1.1.1", or "1.3.0")
      */
     public void setVersion(String version) {
         properties.setProperty(VERSION, version);
     }
 
-    
-    
-    public void addLayer( Layer layer, String style ) {
+
+    public void addLayer(Layer layer, String style) {
         addLayer(layer.getName(), style);
     }
-    
-    public void addLayer( Layer layer ) {
+
+    public void addLayer(Layer layer) {
         addLayer(layer, "");
     }
 
-    public void addLayer( String layerName, String style ) {
+    public void addLayer(String layerName, String style) {
         layers.push(layerName);
         if (style == null) {
             style = ""; //$NON-NLS-1$
         }
         styles.push(style);
     }
-    
-    public void addLayer( Layer layer, StyleImpl style) {
-    	if (style == null) {
-    		addLayer(layer.getName(), "");
-    		return;
-    	}
-    	addLayer(layer.getName(), style.getName());
+
+    public void addLayer(Layer layer, StyleImpl style) {
+        if (style == null) {
+            addLayer(layer.getName(), "");
+            return;
+        }
+        addLayer(layer.getName(), style.getName());
     }
-    
-    public void addLayer( String layerName, StyleImpl style) {
-    	if (style == null) {
-    		addLayer(layerName, "");
-    		return;
-    	}
-    	addLayer(layerName, style.getName());
+
+    public void addLayer(String layerName, StyleImpl style) {
+        if (style == null) {
+            addLayer(layerName, "");
+            return;
+        }
+        addLayer(layerName, style.getName());
     }
 
 
@@ -167,7 +165,7 @@ public abstract class AbstractGetMapRequest extends AbstractWMSRequest implement
      * may issue a Service Exception otherwise."
      *
      * @param srs A String indicating the Spatial Reference System to render
-     *        the layers in.
+     *            the layers in.
      */
     public void setSRS(String srs) {
         properties.setProperty(SRS, srs);
@@ -184,27 +182,28 @@ public abstract class AbstractGetMapRequest extends AbstractWMSRequest implement
      * <p>
      * Yu must also call setSRS to provide the spatial reference system
      * information (or CRS:84 will be assumed)
-     * 
+     *
      * @param bbox A string representing a bounding box in the format
-     *        "minx,miny,maxx,maxy"
+     *             "minx,miny,maxx,maxy"
      */
     public void setBBox(String bbox) {
         //TODO enforce non-subsettable layers
         //make sure there are no spaces in the bbox
-        bbox=bbox.replace(" ", "");
+        bbox = bbox.replace(" ", "");
         properties.setProperty(BBOX, bbox);
     }
-    
+
     public static CoordinateReferenceSystem toServerCRS(String srsName, boolean forceXY) {
         try {
             if (srsName != null) {
                 if (forceXY) {
                     CoordinateReferenceSystem crs = CRS.decode(srsName, true);
                     // have we been requested a srs that cannot be forced to lon/lat?
-                    if(CRS.getAxisOrder(crs) == AxisOrder.NORTH_EAST) {
+                    if (CRS.getAxisOrder(crs) == AxisOrder.NORTH_EAST) {
                         Integer epsgCode = CRS.lookupEpsgCode(crs, false);
-                        if(epsgCode == null) {
-                            throw new IllegalArgumentException("Could not find EPSG code for " + srsName);
+                        if (epsgCode == null) {
+                            throw new IllegalArgumentException("Could not find EPSG code for " + 
+                                    srsName);
                         }
                         return CRS.decode("EPSG:" + epsgCode, true);
                     } else {
@@ -222,40 +221,45 @@ public abstract class AbstractGetMapRequest extends AbstractWMSRequest implement
                 return CRS.decode("CRS:84");
             }
         } catch (NoSuchAuthorityCodeException e) {
-            LOGGER.log(Level.FINE, "Failed to build a coordiante reference system from " + srsName + " with forceXY " + forceXY, e);
+            LOGGER.log(Level.FINE, "Failed to build a coordiante reference system from " + 
+                    srsName + " with forceXY " + forceXY, e);
         } catch (FactoryException e) {
-            LOGGER.log(Level.FINE, "Failed to build a coordiante reference system from " + srsName + " with forceXY " + forceXY, e);
+            LOGGER.log(Level.FINE, "Failed to build a coordiante reference system from " + 
+                    srsName + " with forceXY " + forceXY, e);
         }
         return DefaultEngineeringCRS.CARTESIAN_2D;
     }
 
     protected static boolean isGeotoolsLongitudeFirstAxisOrderForced() {
         return Boolean.getBoolean(GeoTools.FORCE_LONGITUDE_FIRST_AXIS_ORDER) ||
-                GeoTools.getDefaultHints().get(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER) == Boolean.TRUE;
+                GeoTools.getDefaultHints().get(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER) == Boolean
+                        .TRUE;
     }
+
     /**
      * Sets BBOX and SRS using the provided Envelope.
      */
-    public void setBBox(Envelope envelope){
+    public void setBBox(Envelope envelope) {
         String version = properties.getProperty(VERSION);
         boolean forceXY = version == null || !version.startsWith("1.3");
-        String srsName = CRS.toSRS( envelope.getCoordinateReferenceSystem() );
-        
-        CoordinateReferenceSystem crs = toServerCRS( srsName, forceXY );
+        String srsName = CRS.toSRS(envelope.getCoordinateReferenceSystem());
+
+        CoordinateReferenceSystem crs = toServerCRS(srsName, forceXY);
         Envelope bbox;
         try {
-            bbox = CRS.transform( envelope, crs);
+            bbox = CRS.transform(envelope, crs);
         } catch (TransformException e) {
             bbox = envelope;
         }
         StringBuffer sb = new StringBuffer();
         sb.append(bbox.getMinimum(0));
         sb.append(",");
-        sb.append(bbox.getMinimum(1)+",");
-        sb.append(bbox.getMaximum(0)+",");
+        sb.append(bbox.getMinimum(1) + ",");
+        sb.append(bbox.getMaximum(0) + ",");
         sb.append(bbox.getMaximum(1));
         setBBox(sb.toString());
     }
+
     /**
      * From the Web Map Service Implementation Specification: "The required
      * FORMAT parameter states the desired format of the response to an
@@ -289,8 +293,9 @@ public abstract class AbstractGetMapRequest extends AbstractWMSRequest implement
         properties.setProperty(HEIGHT, height);
         properties.setProperty(WIDTH, width);
     }
-    public void setDimensions(Dimension imageDimension){
-        setDimensions( imageDimension.width, imageDimension.height );
+
+    public void setDimensions(Dimension imageDimension) {
+        setDimensions(imageDimension.width, imageDimension.height);
     }
 
     // End required parameters, being optional ones.
@@ -329,10 +334,10 @@ public abstract class AbstractGetMapRequest extends AbstractWMSRequest implement
     /**
      * The exceptions type specifies what format the server should return
      * exceptions in.
-     * 
+     * <p>
      * <p>
      * Valid values are:
-     * 
+     * <p>
      * <ul>
      * <li>
      * "application/vnd.ogc.se_xml" (the default)
@@ -357,7 +362,7 @@ public abstract class AbstractGetMapRequest extends AbstractWMSRequest implement
      * C
      *
      * @param time See the Web Map Server Implementation Specification 1.1.1,
-     *        Annexes B and C
+     *             Annexes B and C
      */
     public void setTime(String time) {
         properties.setProperty(TIME, time);
@@ -368,7 +373,7 @@ public abstract class AbstractGetMapRequest extends AbstractWMSRequest implement
      * particular section C.4
      *
      * @param elevation See the Web Map Server Implementation Specification
-     *        1.1.1, Annex C
+     *                  1.1.1, Annex C
      */
     public void setElevation(String elevation) {
         properties.setProperty(ELEVATION, elevation);
@@ -377,16 +382,16 @@ public abstract class AbstractGetMapRequest extends AbstractWMSRequest implement
     /**
      * See the Web Map Server Implementation Specification 1.1.1, Annex C, in
      * particular section C.4.2
-     * 
+     * <p>
      * <p>
      * Example use: <code>request.setSampleDimensionValue("DIM_WAVELENGTH",
      * "4000");</code>
      * </p>
      *
-     * @param name the request parameter name to set (usually with 'dim_' as
-     *        prefix)
+     * @param name  the request parameter name to set (usually with 'dim_' as
+     *              prefix)
      * @param value the value of the request parameter (value, interval or
-     *        comma-separated list)
+     *              comma-separated list)
      */
     public void setSampleDimensionValue(String name, String value) {
         properties.setProperty(name, value);
@@ -395,7 +400,7 @@ public abstract class AbstractGetMapRequest extends AbstractWMSRequest implement
     /**
      * Used to implement vendor specific parameters. Entirely optional.
      *
-     * @param name a request parameter name
+     * @param name  a request parameter name
      * @param value a value to accompany the name
      */
     public void setVendorSpecificParameter(String name, String value) {
@@ -403,11 +408,11 @@ public abstract class AbstractGetMapRequest extends AbstractWMSRequest implement
     }
 
     public void setDimensions(int width, int height) {
-        setDimensions(""+width,""+height);
+        setDimensions("" + width, "" + height);
     }
 
     public void setProperties(Properties p) {
         properties = p;
     }
-    
+
 }

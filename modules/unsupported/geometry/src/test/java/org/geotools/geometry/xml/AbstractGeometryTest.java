@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -39,8 +39,6 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import junit.framework.TestCase;
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class AbstractGeometryTest extends TestCase {
@@ -64,7 +62,7 @@ public abstract class AbstractGeometryTest extends TestCase {
      * @throws FactoryException
      */
     public void setUp() throws FactoryException {
-    	GeometryBuilder builder = new GeometryBuilder(DefaultGeographicCRS.WGS84);       
+        GeometryBuilder builder = new GeometryBuilder(DefaultGeographicCRS.WGS84);
         gFact = builder.getGeometryFactory();
         pFact = builder.getPrimitiveFactory();
     }
@@ -136,6 +134,7 @@ public abstract class AbstractGeometryTest extends TestCase {
 
     /**
      * Creates a simple polygon with no holes
+     *
      * @param points points defining the polygon (surface)
      * @return the surface created out of the points
      */

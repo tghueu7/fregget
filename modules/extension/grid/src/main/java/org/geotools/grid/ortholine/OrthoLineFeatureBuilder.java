@@ -42,20 +42,21 @@ import com.vividsolutions.jts.geom.LineString;
  * Line elements will be assigned sequential id values starting with 1.
  *
  * @author mbedward
- * @since 2.7
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.7
  */
 public class OrthoLineFeatureBuilder extends GridFeatureBuilder {
-    /** Default feature TYPE name: "linegrid" */
+    /**
+     * Default feature TYPE name: "linegrid"
+     */
     public static final String DEFAULT_TYPE_NAME = "linegrid";
 
-    /** Name used for the integer id attribute: "id" */
+    /**
+     * Name used for the integer id attribute: "id"
+     */
     public static final String ID_ATTRIBUTE_NAME = "id";
-    
+
     /**
      * Name of the Integer level attribute ("level")
      */
@@ -72,10 +73,8 @@ public class OrthoLineFeatureBuilder extends GridFeatureBuilder {
      * Creates the feature TYPE
      *
      * @param typeName name for the feature TYPE; if {@code null} or empty,
-     *        {@linkplain #DEFAULT_TYPE_NAME} will be used
-     *
-     * @param crs coordinate reference system (may be {@code null})
-     *
+     *                 {@linkplain #DEFAULT_TYPE_NAME} will be used
+     * @param crs      coordinate reference system (may be {@code null})
      * @return the feature TYPE
      */
     protected static SimpleFeatureType createType(String typeName, CoordinateReferenceSystem crs) {
@@ -92,7 +91,7 @@ public class OrthoLineFeatureBuilder extends GridFeatureBuilder {
         tb.add(ID_ATTRIBUTE_NAME, Integer.class);
         tb.add(VALUE_ATTRIBUTE_NAME, Object.class);
         tb.add(LEVEL_ATTRIBUTE_NAME, Integer.class);
-        
+
         return tb.buildFeatureType();
     }
 
@@ -110,7 +109,7 @@ public class OrthoLineFeatureBuilder extends GridFeatureBuilder {
      * Creates a new instance with a null coordinate reference system.
      *
      * @param typeName name for the feature TYPE; if {@code null} or empty,
-     *        {@linkplain #DEFAULT_TYPE_NAME} will be used
+     *                 {@linkplain #DEFAULT_TYPE_NAME} will be used
      */
     OrthoLineFeatureBuilder(String typeName) {
         this(typeName, null);
@@ -121,7 +120,6 @@ public class OrthoLineFeatureBuilder extends GridFeatureBuilder {
      * and the supplied coordinate reference system.
      *
      * @param crs coordinate reference system (may be {@code null})
-     *
      * @see #DEFAULT_TYPE_NAME
      */
     public OrthoLineFeatureBuilder(CoordinateReferenceSystem crs) {
@@ -132,9 +130,8 @@ public class OrthoLineFeatureBuilder extends GridFeatureBuilder {
      * Creates a new instance.
      *
      * @param typeName name for the feature TYPE; if {@code null} or empty,
-     *        {@linkplain #DEFAULT_TYPE_NAME} will be used
-     *
-     * @param crs coordinate reference system (may be {@code null})
+     *                 {@linkplain #DEFAULT_TYPE_NAME} will be used
+     * @param crs      coordinate reference system (may be {@code null})
      */
     public OrthoLineFeatureBuilder(String typeName, CoordinateReferenceSystem crs) {
         super(createType(typeName, crs));
@@ -148,8 +145,8 @@ public class OrthoLineFeatureBuilder extends GridFeatureBuilder {
      * <li>level: integer level of associated with the element</li>
      * <li>value: X-ordinate for a vertical line; Y-ordinate for a horizontal line</li>
      * </ul>
-     * 
-     * @param el the element from which the new feature is being constructed
+     *
+     * @param el         the element from which the new feature is being constructed
      * @param attributes a {@code Map} into which the attributes will be put
      */
     @Override
@@ -158,7 +155,7 @@ public class OrthoLineFeatureBuilder extends GridFeatureBuilder {
             OrthoLine orthoLine = (OrthoLine) el;
             attributes.put(ID_ATTRIBUTE_NAME, ++id);
             attributes.put(LEVEL_ATTRIBUTE_NAME, orthoLine.getLevel());
-            
+
             Coordinate v0 = orthoLine.getVertices()[0];
             Double value = null;
             if (orthoLine.getOrientation() == LineOrientation.HORIZONTAL) {
@@ -167,7 +164,7 @@ public class OrthoLineFeatureBuilder extends GridFeatureBuilder {
                 value = v0.x;
             }
             attributes.put(VALUE_ATTRIBUTE_NAME, value);
-            
+
         } else {
             throw new IllegalArgumentException("Expected an instance of OrthoLine");
         }

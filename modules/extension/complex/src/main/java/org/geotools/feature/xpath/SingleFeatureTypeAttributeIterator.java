@@ -23,16 +23,11 @@ import org.opengis.feature.type.Name;
 
 /**
  * Iterates over a single attribute of a feature type.
- * 
+ *
  * @author Niels Charlier (Curtin University of Technology)
- * 
- *
- *
- *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/app-schema/app-schema/src/main
- *         /java/org/geotools/feature/xpath/SingleFeatureTypeAttributeIterator.java $
- * 
+ * http://svn.osgeo.org/geotools/trunk/modules/unsupported/app-schema/app-schema/src/main
+ * /java/org/geotools/feature/xpath/SingleFeatureTypeAttributeIterator.java $
  */
 
 public class SingleFeatureTypeAttributeIterator implements NodeIterator {
@@ -48,14 +43,12 @@ public class SingleFeatureTypeAttributeIterator implements NodeIterator {
 
     /**
      * Creates the iteartor.
-     * 
-     * @param pointer
-     *            The pointer to the feature.
-     * @param index
-     *            The index of the property to iterate over
+     *
+     * @param pointer The pointer to the feature.
+     * @param index   The index of the property to iterate over
      */
     public SingleFeatureTypeAttributeIterator(NodePointer pointer, ComplexType featureType,
-            Name name) {
+                                              Name name) {
         this.pointer = pointer;
         this.name = name;
         this.featureType = featureType;

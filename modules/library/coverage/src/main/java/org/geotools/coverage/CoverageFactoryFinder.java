@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -32,12 +32,10 @@ import org.geotools.resources.LazySet;
  * Defines static methods used to access the application's default
  * {@linkplain GridCoverageFactory factory} implementation.
  *
- * @since 2.4
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @since 2.4
  */
 public final class CoverageFactoryFinder extends FactoryFinder {
     /**
@@ -60,7 +58,7 @@ public final class CoverageFactoryFinder extends FactoryFinder {
     private static FactoryRegistry getServiceRegistry() {
         assert Thread.holdsLock(CoverageFactoryFinder.class);
         if (registry == null) {
-            registry = new FactoryCreator(Arrays.asList(new Class<?>[] {
+            registry = new FactoryCreator(Arrays.asList(new Class<?>[]{
                     GridCoverageFactory.class}));
         }
         return registry;
@@ -71,19 +69,18 @@ public final class CoverageFactoryFinder extends FactoryFinder {
      * If no implementation matches, a new one is created if possible or an exception is thrown
      * otherwise.
      *
-     * @param  hints An optional map of hints, or {@code null} if none.
+     * @param hints An optional map of hints, or {@code null} if none.
      * @return The first grid coverage factory that matches the supplied hints.
      * @throws FactoryRegistryException if no implementation was found or can be created for the
-     *         {@link GridCoverageFactory} interface.
-     *
+     *                                  {@link GridCoverageFactory} interface.
      * @see Hints#DEFAULT_COORDINATE_REFERENCE_SYSTEM
      * @see Hints#TILE_ENCODING
      */
     public static GridCoverageFactory getGridCoverageFactory(Hints hints)
-            throws FactoryRegistryException
-    {
+            throws FactoryRegistryException {
         if (hints != null && hints.containsKey(Hints.GRID_COVERAGE_FACTORY)) {
-            GridCoverageFactory coverageFactory = (GridCoverageFactory) hints.get(Hints.GRID_COVERAGE_FACTORY);
+            GridCoverageFactory coverageFactory = (GridCoverageFactory) hints.get(Hints
+                    .GRID_COVERAGE_FACTORY);
             if (coverageFactory != null) {
                 return coverageFactory;
             }
@@ -97,9 +94,8 @@ public final class CoverageFactoryFinder extends FactoryFinder {
     /**
      * Returns a set of all available implementations for the {@link GridCoverageFactory} interface.
      *
-     * @param  hints An optional map of hints, or {@code null} if none.
+     * @param hints An optional map of hints, or {@code null} if none.
      * @return Set of available grid coverage factory implementations.
-     *
      * @since 2.4
      */
     public static synchronized Set<GridCoverageFactory> getGridCoverageFactories(Hints hints) {

@@ -29,7 +29,7 @@ import org.opengis.filter.Filter;
 
 /**
  * A {@link GranuleSource} implementation wrapping a {@link CoverageSlicesCatalog}.
- * 
+ *
  * @author Daniele Romagnoli, GeoSolutions SAS
  */
 public class CoverageSlicesCatalogSource implements GranuleSource {
@@ -46,20 +46,21 @@ public class CoverageSlicesCatalogSource implements GranuleSource {
     @Override
     public SimpleFeatureCollection getGranules(Query q) throws IOException {
         //TODO: optimize this. It's currently "putting" all the features. No iterator is used. 
-        
+
         // Filtering by typeName
         if (q == null) {
             q = new Query(typeName);
         } else {
             q.setTypeName(typeName);
         }
-        
+
         Filter filter = q.getFilter();
         q.setFilter(filter);
         List<CoverageSlice> granules = innerCatalog.getGranules(q);
-        SimpleFeatureCollection collection = new ListFeatureCollection(innerCatalog.getSchema(typeName));
-        for (CoverageSlice granule: granules) {
-            ((ListFeatureCollection)collection).add(granule.getOriginator());
+        SimpleFeatureCollection collection = new ListFeatureCollection(innerCatalog.getSchema
+                (typeName));
+        for (CoverageSlice granule : granules) {
+            ((ListFeatureCollection) collection).add(granule.getOriginator());
         }
         return collection;
     }

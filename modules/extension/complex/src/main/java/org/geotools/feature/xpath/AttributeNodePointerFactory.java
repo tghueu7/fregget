@@ -37,14 +37,9 @@ import org.opengis.feature.type.ComplexType;
  * <li>{@link AttributeType}
  * </ul>
  * </p>
- * 
+ *
  * @author Justin Deoliveira (The Open Planning Project)
  * @author Gabriel Roldan (Axios Engineering)
- * 
- *
- *
- *
- *
  * @source $URL$
  */
 public class AttributeNodePointerFactory implements NodePointerFactory {
@@ -54,7 +49,7 @@ public class AttributeNodePointerFactory implements NodePointerFactory {
     }
 
     public NodePointer createNodePointer(QName name, Object object, Locale locale) {
-        
+
         /*
          * Do not handle SimpleFeature, which should be handled by FeatureNodeFactory, registered by
          * XPathPropertyAccessorFactory in gt-xsd-core. See GEOS-3525.
@@ -62,11 +57,11 @@ public class AttributeNodePointerFactory implements NodePointerFactory {
         if (object instanceof Attribute && !(object instanceof SimpleFeature)) {
             return new AttributeNodePointer(null, (Attribute) object, name);
         }
-        
-        if (object instanceof ComplexType && !(object instanceof SimpleFeatureType)) { 
-            return new FeatureTypePointer(null, (ComplexType) object, name); 
+
+        if (object instanceof ComplexType && !(object instanceof SimpleFeatureType)) {
+            return new FeatureTypePointer(null, (ComplexType) object, name);
         }
-        
+
         return null;
     }
 
@@ -80,8 +75,8 @@ public class AttributeNodePointerFactory implements NodePointerFactory {
             return new AttributeNodePointer(parent, (Attribute) object, name);
         }
 
-        if (object instanceof ComplexType && !(object instanceof SimpleFeatureType)) { 
-            return new FeatureTypePointer(null, (ComplexType) object, name); 
+        if (object instanceof ComplexType && !(object instanceof SimpleFeatureType)) {
+            return new FeatureTypePointer(null, (ComplexType) object, name);
         }
 
         return null;

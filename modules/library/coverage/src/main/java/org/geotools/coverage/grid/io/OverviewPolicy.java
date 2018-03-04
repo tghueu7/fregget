@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -20,13 +20,11 @@ package org.geotools.coverage.grid.io;
 /**
  * Overview policies.
  *
- * @since 2.5
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Andrea Aime
  * @author Simone Giannecchini
+ * @version $Id$
+ * @source $URL$
+ * @since 2.5
  */
 public enum OverviewPolicy {
     /**
@@ -50,8 +48,8 @@ public enum OverviewPolicy {
      * with lower resolution than one used for rendering.
      */
     SPEED;
-    
-    public static OverviewPolicy getDefaultPolicy(){
-    	return NEAREST;
+
+    public static OverviewPolicy getDefaultPolicy() {
+        return NEAREST;
     }
 }

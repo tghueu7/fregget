@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2006-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -36,16 +36,14 @@ import com.vividsolutions.jts.geom.Geometry;
 /**
  * Holds the results of the building process in a stack
  * <p>
- * Warning: This component is not published. It is part of module implementation. 
+ * Warning: This component is not published. It is part of module implementation.
  * Client module should not use this feature.
  * </p>
+ *
  * @author Mauricio Pazos - Axios Engineering
  * @author Gabriel Roldan - Axios Engineering
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  * @since 2.4
  */
 public final class BuildResultStack {
@@ -56,8 +54,8 @@ public final class BuildResultStack {
 
     public BuildResultStack(final String cqlSource) {
         assert cqlSource != null;
-        
-        this.cqlSource  = cqlSource;
+
+        this.cqlSource = cqlSource;
     }
 
 
@@ -74,7 +72,7 @@ public final class BuildResultStack {
     }
 
     public org.opengis.filter.expression.Expression popExpression()
-        throws CQLException {
+            throws CQLException {
         Result item = null;
 
         try {
@@ -83,21 +81,22 @@ public final class BuildResultStack {
             return (org.opengis.filter.expression.Expression) item.getBuilt();
         } catch (ClassCastException cce) {
             throw new CQLException("Expecting Expression",
-                item.getToken(), cce, this.cqlSource);
+                    item.getToken(), cce, this.cqlSource);
         } catch (EmptyStackException ese) {
             throw new CQLException("No items on stack");
         }
     }
+
     public Literal popLiteral() throws CQLException {
         Result item = null;
 
         try {
-            item =  stack.pop();
+            item = stack.pop();
 
             return (Literal) item.getBuilt();
         } catch (ClassCastException cce) {
             throw new CQLException("Expecting Literal",
-                item.getToken(), cce, this.cqlSource);
+                    item.getToken(), cce, this.cqlSource);
         } catch (EmptyStackException ese) {
             throw new CQLException("No items on stack");
         }
@@ -112,7 +111,7 @@ public final class BuildResultStack {
             return (PropertyName) item.getBuilt();
         } catch (ClassCastException cce) {
             throw new CQLException("Expecting Property",
-                item.getToken(), cce, this.cqlSource);
+                    item.getToken(), cce, this.cqlSource);
         } catch (EmptyStackException ese) {
             throw new CQLException("No items on stack");
         }
@@ -127,7 +126,7 @@ public final class BuildResultStack {
             return (Filter) item.getBuilt();
         } catch (ClassCastException cce) {
             throw new CQLException("Expecting Filter",
-                item.getToken(), cce, this.cqlSource);
+                    item.getToken(), cce, this.cqlSource);
         } catch (EmptyStackException ese) {
             throw new CQLException("No items on stack");
         }
@@ -142,11 +141,12 @@ public final class BuildResultStack {
             return (PeriodNode) item.getBuilt();
         } catch (ClassCastException cce) {
             throw new CQLException("Expecting Period",
-                item.getToken(), cce, this.cqlSource);
+                    item.getToken(), cce, this.cqlSource);
         } catch (EmptyStackException ese) {
             throw new CQLException("No items on stack");
         }
     }
+
     public Period popPeriod() throws CQLException {
         Result item = null;
 
@@ -156,16 +156,16 @@ public final class BuildResultStack {
             PeriodNode periodNode = (PeriodNode) item.getBuilt();
             Literal begin = periodNode.getBeginning();
             Literal end = periodNode.getEnding();
-            
-    		Position ip1 = new DefaultPosition((Date) begin.getValue());
-    		Position ip2 = new DefaultPosition((Date) end.getValue());
-    		Period period = new DefaultPeriod(new DefaultInstant(ip1),new DefaultInstant(ip2 ));
-            
+
+            Position ip1 = new DefaultPosition((Date) begin.getValue());
+            Position ip2 = new DefaultPosition((Date) end.getValue());
+            Period period = new DefaultPeriod(new DefaultInstant(ip1), new DefaultInstant(ip2));
+
             return period;
-            
+
         } catch (ClassCastException cce) {
             throw new CQLException("Expecting Period",
-                item.getToken(), cce, this.cqlSource);
+                    item.getToken(), cce, this.cqlSource);
         } catch (EmptyStackException ese) {
             throw new CQLException("No items on stack");
         }
@@ -227,12 +227,12 @@ public final class BuildResultStack {
             Geometry g = (Geometry) result.getBuilt();
 
             return g;
-            
+
         } catch (ClassCastException e) {
             throw new CQLException("fail in geometry parsing");
         }
     }
-    
+
     public void push(Result item) {
         stack.push(item);
     }

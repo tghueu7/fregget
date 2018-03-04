@@ -33,8 +33,10 @@ import org.geotools.util.logging.Logging;
 
 /**
  * <p>
- * At tile represents a single space on the map within a specific ReferencedEnvelope. It holds a RenderExecutorComposite for fetching its image, and
- * an SWTImage (which is disposed at various times). It listens to events for when to fetch, dispose, and construct new images. From
+ * At tile represents a single space on the map within a specific ReferencedEnvelope. It holds a 
+ * RenderExecutorComposite for fetching its image, and
+ * an SWTImage (which is disposed at various times). It listens to events for when to fetch, 
+ * dispose, and construct new images. From
  * </p>
  *
  * @author GDavis
@@ -46,27 +48,36 @@ public abstract class Tile implements ImageLoader {
     protected static final Logger LOGGER = Logging.getLogger(Tile.class.getPackage().getName());
 
     /**
-     * These are the states of the tile. This state represents if the tile needs to be re-rendered or not. A state of new or invalid means the tile
+     * These are the states of the tile. This state represents if the tile needs to be 
+     * re-rendered or not. A state of new or invalid means the tile
      * should be re-rendered
      */
     public enum RenderState {
         NEW, RENDERED, INVALID
-    };
+    }
+
+    ;
 
     /**
-     * These states represent the state of the context. If the context is invalid than the rendering stack no longer matches the rendering stack the
+     * These states represent the state of the context. If the context is invalid than the 
+     * rendering stack no longer matches the rendering stack the
      * user has defined and the rendering stack needs to be updated.
      */
     public enum ContextState {
         OKAY, INVALID
-    };
+    }
+
+    ;
 
     /**
-     * These states represent if the tile is on or off screen. This information is used to determine what tiles can be disposed.
+     * These states represent if the tile is on or off screen. This information is used to 
+     * determine what tiles can be disposed.
      */
     public enum ScreenState {
         ONSCREEN, OFFSCREEN
-    };
+    }
+
+    ;
 
     /**
      * These states represent if the tile has been validated in response to a user event.
@@ -75,7 +86,9 @@ public abstract class Tile implements ImageLoader {
      */
     public enum ValidatedState {
         VALIDATED, OLD
-    };
+    }
+
+    ;
 
     /**
      * The bounds of the tile
@@ -138,7 +151,6 @@ public abstract class Tile implements ImageLoader {
      * for locking on the SWT image to prevent creating it multiple times
      */
     // private Object SWTLock = new Object();
-
     public Tile(TileIdentifier tileId, ReferencedEnvelope env, int tileSize) {
 
         if (env == null) {
@@ -195,8 +207,9 @@ public abstract class Tile implements ImageLoader {
     }
 
     /**
-     * Returns true if the image has been correctly loaded and the render state is {@link RenderState.RENDERED}.
-     * 
+     * Returns true if the image has been correctly loaded and the render state is 
+     * {@link RenderState.RENDERED}.
+     *
      * @return the tile image
      */
     private boolean isImageLoadedOK() {
@@ -230,10 +243,14 @@ public abstract class Tile implements ImageLoader {
     }
 
     /**
-     * Creates an swt image from the tiles buffered image. private void createSWTImage() { // synchronize this code to prevent multiple threads from
-     * creating the SWT image more times than needed synchronized (SWTLock) { // if the SWTImage is created once the lock is gained, exit if (swtImage
-     * != null && !swtImage.isDisposed()) { return; } // otherwise try creating the SWTImage now try { BufferedImage buffImage = getBufferedImage();
-     * swtImage = AWTSWTImageUtils.createSWTImage(buffImage, false); } catch (Exception ex) { ex.printStackTrace(); } } }
+     * Creates an swt image from the tiles buffered image. private void createSWTImage() { // 
+     * synchronize this code to prevent multiple threads from
+     * creating the SWT image more times than needed synchronized (SWTLock) { // if the SWTImage 
+     * is created once the lock is gained, exit if (swtImage
+     * != null && !swtImage.isDisposed()) { return; } // otherwise try creating the SWTImage now 
+     * try { BufferedImage buffImage = getBufferedImage();
+     * swtImage = AWTSWTImageUtils.createSWTImage(buffImage, false); } catch (Exception ex) { ex
+     * .printStackTrace(); } } }
      */
 
     /**
@@ -251,7 +268,8 @@ public abstract class Tile implements ImageLoader {
     }
 
     /**
-     * @return the parent render executor public RenderExecutorComposite getRenderExecutor() { return renderExecutorComp; }
+     * @return the parent render executor public RenderExecutorComposite getRenderExecutor() { 
+     * return renderExecutorComp; }
      */
     /**
      * Sets the state of the tiles image.
@@ -274,7 +292,8 @@ public abstract class Tile implements ImageLoader {
      * <ul>
      * <li>RenderState.NEW - a new tile that needs to be rendered
      * <li>RenderState.Renderer - the tile has been rendered or is in the state of being rendered
-     * <li>RenderState.Invalid - something has changed and the tile's rendered image is not longer valid and needs to be re-rendered
+     * <li>RenderState.Invalid - something has changed and the tile's rendered image is not 
+     * longer valid and needs to be re-rendered
      * </ul>
      *
      * @return
@@ -284,7 +303,8 @@ public abstract class Tile implements ImageLoader {
     }
 
     /**
-     * This function returns the state of the tile render stack. If the context is invalid then the context needs to be updated before the tile is
+     * This function returns the state of the tile render stack. If the context is invalid then 
+     * the context needs to be updated before the tile is
      * rendered.
      * <p>
      * Should be one of:
@@ -316,9 +336,11 @@ public abstract class Tile implements ImageLoader {
     /**
      * Sets if the tile is on screen or not.
      * <p>
-     * This is used with other information to determine if a tile can be disposed of. Valid values include:
+     * This is used with other information to determine if a tile can be disposed of. Valid 
+     * values include:
      * <ul>
-     * <li>ONSCREEN - the tile has been requested by the viewport therefore we assume it is on screen
+     * <li>ONSCREEN - the tile has been requested by the viewport therefore we assume it is on 
+     * screen
      * <li>OFFSCREEN - this tile was not requested by the viewport
      * </ul>
      *
@@ -345,10 +367,12 @@ public abstract class Tile implements ImageLoader {
     /**
      * Gets the validation state.
      * <p>
-     * This is used in conjunction with the screen state to determine it a tile can be disposed of. This state is set during a refresh event that is
+     * This is used in conjunction with the screen state to determine it a tile can be disposed 
+     * of. This state is set during a refresh event that is
      * triggered from some gui event. Valid values include:
      * <ul>
-     * <li>VALIDATED - The tile is validated and ready to be used for painting on the screen. Don't remove this tile.
+     * <li>VALIDATED - The tile is validated and ready to be used for painting on the screen. 
+     * Don't remove this tile.
      * <li>OLD - This tile is an old tile that if off screen can be removed.
      * </ul>
      *

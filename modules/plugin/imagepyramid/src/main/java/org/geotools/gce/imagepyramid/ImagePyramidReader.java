@@ -70,42 +70,45 @@ import org.opengis.referencing.operation.TransformException;
 /**
  * This reader is responsible for providing access to a pyramid of mosaics of georeferenced
  * coverages that are read directly through imageio readers, like tiff, pngs, etc...
- * 
+ * <p>
  * <p>
  * Specifically this plugin relies on the image mosaic plugin to handle each single level of
  * resolutions available, hence all the magic is done inside the mosaic plugin.
- * 
- * 
+ * <p>
+ * <p>
  * <p>
  * For information on how to build a mosaic, please refer to the {@link ImageMosaicReader}
  * documentation.
- * 
+ * <p>
  * <p>
  * If you are looking for information on how to create a pyramid, here you go.
- * 
+ * <p>
  * The pyramid itself does no magic. All the magic is performed by the single mosaic readers that
  * are polled depending on the requeste resolution levels. Therefore the <b>first step</b> is having
  * a mosaic of images like geotiff, tiff, jpeg, or png which is going to be the base for the
  * pyramid.
- * 
+ * <p>
  * <p>
  * The <b>second step</b> is to build the next (lower resolution) levels for the pyramid. <br>
  * If you look inside the spike dire of the geotools project you will find a (growing) set of tools
  * that can be used for doing processing on coverages. <br>
  * Specifically there is one tool called PyramidBuilder that can be used to build the pyramid level
  * by level.
- * 
+ * <p>
  * <p>
  * <b>Last step</b> is providing a prj file with the projection of the pyramid (btw all the levels
  * has to be in the same projection) as well as a properties file with this structure:
- * 
+ * <p>
  * <pre>
  *           #
  *           #Mon Aug 21 22:23:27 CEST 2006
  *           #name of the coverage
  *           Name=ikonos
  *           #different resolution levels available
- *           Levels=1.2218682749859724E-5,9.220132503102996E-6 2.4428817977683634E-5,1.844026500620314E-5 4.8840552865873626E-5,3.686350299024973E-5 9.781791400307775E-5,7.372700598049946E-5 1.956358280061555E-4,1.4786360643866836E-4 3.901787184256844E-4,2.9572721287731037E-4
+ *           Levels=1.2218682749859724E-5,9.220132503102996E-6 2.4428817977683634E-5,
+ *           1.844026500620314E-5 4.8840552865873626E-5,3.686350299024973E-5 
+ *           9.781791400307775E-5,7.372700598049946E-5 1.956358280061555E-4,1.4786360643866836E-4
+ *           3.901787184256844E-4,2.9572721287731037E-4
  *           #where all the levels reside
  *           LevelsDirs=0 2 4 8 16 32
  *           #number of levels availaible
@@ -113,25 +116,24 @@ import org.opengis.referencing.operation.TransformException;
  *           #envelope for this pyramid
  *           Envelope2D=13.398228477973406,43.591366397808976 13.537912459169803,43.67121274528585
  * </pre>
- * 
+ * <p>
  * <p>
  * Starting with 16.x ImagePyramid can now support ImageMosaics with inner overviews.
- * See {@link ImageLevelsMapper} for additional details of the Levels entry of 
+ * See {@link ImageLevelsMapper} for additional details of the Levels entry of
  * a pyramid of mosaics with inner overviews.
- * 
+ *
  * @author Simone Giannecchini
  * @author Stefan Alfons Krueger (alfonx), Wikisquare.de : Support for
- *         jar:file:foo.jar/bar.properties like URLs
- * @since 2.3
- * 
- *
- *
+ * jar:file:foo.jar/bar.properties like URLs
  * @source $URL$
+ * @since 2.3
  */
 public final class ImagePyramidReader extends AbstractGridCoverage2DReader implements
         GridCoverageReader {
 
-    /** Logger. */
+    /**
+     * Logger.
+     */
     private final static Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger(ImagePyramidReader.class.toString());
 
@@ -148,12 +150,11 @@ public final class ImagePyramidReader extends AbstractGridCoverage2DReader imple
 
     /**
      * Constructor for an {@link ImagePyramidReader}.
-     * 
+     *
      * @param source The source object.
      * @param uHints {@link Hints} to control the behaviour of this reader.
      * @throws IOException
      * @throws UnsupportedEncodingException
-     * 
      */
     public ImagePyramidReader(Object source, Hints uHints) throws IOException {
         // //
@@ -162,7 +163,7 @@ public final class ImagePyramidReader extends AbstractGridCoverage2DReader imple
         //
         // //
         if (uHints == null) {
-            this.hints = new Hints(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER,Boolean.TRUE);
+            this.hints = new Hints(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER, Boolean.TRUE);
         } else {
             this.hints = uHints;
         }
@@ -177,7 +178,8 @@ public final class ImagePyramidReader extends AbstractGridCoverage2DReader imple
         this.sourceURL = Utils.checkSource(source, uHints);
         if (sourceURL == null) {
             throw new DataSourceException(
-                    "This plugin accepts only a URL, a File or a String pointing to a directory with a structure similar to the one of gdal_retile!");
+                    "This plugin accepts only a URL, a File or a String pointing to a directory " +
+                            "with a structure similar to the one of gdal_retile!");
         }
 
         // get the crs if able to
@@ -219,7 +221,7 @@ public final class ImagePyramidReader extends AbstractGridCoverage2DReader imple
     /**
      * Parses the main properties file loading the information regarding geographic extent and
      * overviews.
-     * 
+     *
      * @param sourceFile
      * @throws IOException
      * @throws FileNotFoundException
@@ -263,7 +265,7 @@ public final class ImagePyramidReader extends AbstractGridCoverage2DReader imple
                     coverageNames = coverageName.split(",");
                     coverageName = coverageNames[0];
                 } else {
-                    coverageNames = new String[] { coverageName };
+                    coverageNames = new String[]{coverageName};
                 }
                 count = coverageNames.length;
             }
@@ -293,11 +295,10 @@ public final class ImagePyramidReader extends AbstractGridCoverage2DReader imple
 
     /**
      * Constructor for an {@link ImagePyramidReader}.
-     * 
+     *
      * @param source The source object.
      * @throws IOException
      * @throws UnsupportedEncodingException
-     * 
      */
     public ImagePyramidReader(Object source) throws IOException {
         this(source, null);
@@ -384,8 +385,8 @@ public final class ImagePyramidReader extends AbstractGridCoverage2DReader imple
             // /////////////////////////////////////////////////////////////////////
             if (params != null) {
                 for (int i = 0; i < params.length; i++) {
-                    @SuppressWarnings("rawtypes")
-                    final ParameterValue param = (ParameterValue) params[i];
+                    @SuppressWarnings("rawtypes") final ParameterValue param = (ParameterValue) 
+                            params[i];
                     if (param == null) {
                         continue;
                     }
@@ -413,7 +414,7 @@ public final class ImagePyramidReader extends AbstractGridCoverage2DReader imple
     /**
      * This method loads the tiles which overlap the requested envelope using the provided values
      * for alpha and input ROI.
-     * 
+     *
      * @param coverageName
      * @param requestedEnvelope
      * @param dim
@@ -424,8 +425,9 @@ public final class ImagePyramidReader extends AbstractGridCoverage2DReader imple
      * @throws IOException
      */
     private GridCoverage2D loadRequestedTiles(final String coverageName,
-            GeneralEnvelope requestedEnvelope, Rectangle dim, GeneralParameterValue[] params,
-            OverviewPolicy overviewPolicy) throws IOException {
+                                              GeneralEnvelope requestedEnvelope, Rectangle dim, 
+                                              GeneralParameterValue[] params,
+                                              OverviewPolicy overviewPolicy) throws IOException {
 
         // if we get here we have something to load
 
@@ -439,7 +441,7 @@ public final class ImagePyramidReader extends AbstractGridCoverage2DReader imple
                 throw new DataSourceException(e);
             }
         }
-            
+
         // Check to have the needed reader in memory
         // light check to see if this reader had been disposed, not synch-ing for performance.
         if (!imageLevelsMapper.hasReaders()) {
@@ -485,7 +487,7 @@ public final class ImagePyramidReader extends AbstractGridCoverage2DReader imple
 
     /**
      * Retrieve meta data value from requested coverage and for requested metadata
-     * 
+     *
      * @param coverageName
      * @param name
      * @return
@@ -508,16 +510,16 @@ public final class ImagePyramidReader extends AbstractGridCoverage2DReader imple
     }
 
     private ImageMosaicReader getFirstLevelReader(String coverageName, boolean canBeNull) {
-        ImageMosaicReader reader = null; 
+        ImageMosaicReader reader = null;
         try {
             reader = getImageMosaicReaderForLevel(coverageName, 0);
         } catch (IOException e) {
             if (LOGGER.isLoggable(Level.WARNING)) {
                 LOGGER.log(Level.WARNING, "Could not get reader for datasource.", e);
             }
-            if (reader == null && !canBeNull){
+            if (reader == null && !canBeNull) {
                 throw new IllegalArgumentException(
-                    "Could not get reader for the specified coverageName: " + coverageName, e);
+                        "Could not get reader for the specified coverageName: " + coverageName, e);
             }
         }
         return reader;
@@ -565,13 +567,13 @@ public final class ImagePyramidReader extends AbstractGridCoverage2DReader imple
 
     /**
      * Retrieve time domains metadata values for the requested ImageMosaicReader
-     * 
+     *
      * @param reader
      * @param name
      * @return
      */
     private String getTimeDomain(final String coverageName, ImageMosaicReader reader,
-            final String name) {
+                                 final String name) {
         if (hasTimeDomain(coverageName, reader) && reader != null) {
             return reader.getMetadataValue(getReaderCoverageName(coverageName), name);
         }
@@ -580,7 +582,7 @@ public final class ImagePyramidReader extends AbstractGridCoverage2DReader imple
 
     /**
      * Verify if the requested Mosaic has a time domain configuration
-     * 
+     *
      * @param reader
      * @return True if has time domain configuration
      */
@@ -595,19 +597,19 @@ public final class ImagePyramidReader extends AbstractGridCoverage2DReader imple
 
     /**
      * Retrieve the ImageMosaicReader for the requested Level and load if necessary
-     * 
+     *
      * @return ImageMosaicReader for level
-     * */
+     */
     public ImageMosaicReader getImageMosaicReaderForLevel(Integer imageChoice)
             throws IOException {
         return getImageMosaicReaderForLevel(coverageName, imageChoice);
     }
-    
+
     /**
      * Retrieve the ImageMosaicReader for the requested Level and load if necessary
-     * 
+     *
      * @return ImageMosaicReader for level
-     * */
+     */
     public ImageMosaicReader getImageMosaicReaderForLevel(String coverageName, Integer imageChoice)
             throws IOException {
         return imageLevelsMapper.getReader(imageChoice, coverageName, sourceURL, hints);

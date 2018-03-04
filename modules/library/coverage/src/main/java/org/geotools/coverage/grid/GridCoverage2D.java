@@ -78,7 +78,8 @@ import org.opengis.referencing.datum.PixelInCell;
  * some time range (the time of satellite pass over the observed area). Envelopes for such grid
  * coverage can have three dimensions: the two usual ones (horizontal extent along <var>x</var>
  * and <var>y</var>), and a third one for start time and end time (time extent along <var>t</var>).
- * However, the {@linkplain GeneralGridRange grid range} for all extra-dimension <strong>must</strong>
+ * However, the {@linkplain GeneralGridRange grid range} for all extra-dimension 
+ * <strong>must</strong>
  * have a {@linkplain GeneralGridRange#getLength size} not greater than 1. In other words, a
  * {@code GridCoverage2D} can be a slice in a 3 dimensional grid coverage. Each slice can have an
  * arbitrary width and height (like any two-dimensional images), but only 1 voxel depth (a "voxel"
@@ -92,12 +93,10 @@ import org.opengis.referencing.datum.PixelInCell;
  * class. While serialization (usually on server side) should work on J2SE 1.4 and above,
  * deserialization (usually on client side) of {@code GridCoverage2D} instances requires J2SE 1.5.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class GridCoverage2D extends AbstractGridCoverage {
     /**
@@ -152,18 +151,17 @@ public class GridCoverage2D extends AbstractGridCoverage {
      * identical data, but in which some method has been overridden in order to
      * process data differently (e.g. interpolating them).
      *
-     * @param name The name for this coverage, or {@code null} for the same than {@code coverage}.
+     * @param name     The name for this coverage, or {@code null} for the same than {@code 
+     * coverage}.
      * @param coverage The source grid coverage.
-     *
      */
-    public GridCoverage2D(final CharSequence   name,
-                             final GridCoverage2D coverage)
-    {
+    public GridCoverage2D(final CharSequence name,
+                          final GridCoverage2D coverage) {
         super(name, coverage);
-        image            = coverage.image;
-        gridGeometry     = coverage.gridGeometry;
+        image = coverage.image;
+        gridGeometry = coverage.gridGeometry;
         sampleDimensions = coverage.sampleDimensions;
-        tileEncoding     = coverage.tileEncoding;
+        tileEncoding = coverage.tileEncoding;
         // Do not share the views, since subclasses will create different instances.
     }
 
@@ -178,38 +176,34 @@ public class GridCoverage2D extends AbstractGridCoverage {
      * ({@link javax.media.jai.util.CaselessStringKey} are accepted as well), while values may
      * be any {@link Object}.
      *
-     * @param name
-     *          The grid coverage name.
-     * @param image
-     *          The image.
-     * @param gridGeometry
-     *          The grid geometry (must contains an {@linkplain GridGeometry2D#getEnvelope envelope}
-     *          with its {@linkplain GridGeometry2D#getCoordinateReferenceSystem coordinate reference
-     *          system} and a "{@linkplain GridGeometry2D#getGridToCoordinateSystem grid to CRS}"
-     *          transform).
-     * @param bands
-     *          Sample dimensions for each image band, or {@code null} for default sample dimensions.
-     *          If non-null, then this array's length must matches the number of bands in {@code image}.
-     * @param sources
-     *          The sources for this grid coverage, or {@code null} if none.
-     * @param properties
-     *          The set of properties for this coverage, or {@code null} none.
-     * @param hints
-     *          An optional set of hints, or {@code null} if none.
-     * @throws IllegalArgumentException
-     *          If the number of bands differs from the number of sample dimensions.
-     *
+     * @param name         The grid coverage name.
+     * @param image        The image.
+     * @param gridGeometry The grid geometry (must contains an 
+     * {@linkplain GridGeometry2D#getEnvelope envelope}
+     *                     with its {@linkplain GridGeometry2D#getCoordinateReferenceSystem 
+     *                     coordinate reference
+     *                     system} and a 
+     *                     "{@linkplain GridGeometry2D#getGridToCoordinateSystem grid to CRS}"
+     *                     transform).
+     * @param bands        Sample dimensions for each image band, or {@code null} for default 
+     *                     sample dimensions.
+     *                     If non-null, then this array's length must matches the number of bands
+     *                     in {@code image}.
+     * @param sources      The sources for this grid coverage, or {@code null} if none.
+     * @param properties   The set of properties for this coverage, or {@code null} none.
+     * @param hints        An optional set of hints, or {@code null} if none.
+     * @throws IllegalArgumentException If the number of bands differs from the number of sample 
+     * dimensions.
      * @since 2.5
      */
-    protected GridCoverage2D(final CharSequence             name,
-                             final PlanarImage             image,
-                                   GridGeometry2D   gridGeometry,
-                             final GridSampleDimension[]   bands,
-                             final GridCoverage[]        sources,
-                             final Map<?,?>           properties,
-                             final Hints                   hints)
-            throws IllegalArgumentException
-    {
+    protected GridCoverage2D(final CharSequence name,
+                             final PlanarImage image,
+                             GridGeometry2D gridGeometry,
+                             final GridSampleDimension[] bands,
+                             final GridCoverage[] sources,
+                             final Map<?, ?> properties,
+                             final Hints hints)
+            throws IllegalArgumentException {
         super(name, gridGeometry.getCoordinateReferenceSystem(), sources, image, properties);
         this.image = image;
         /*
@@ -249,10 +243,10 @@ public class GridCoverage2D extends AbstractGridCoverage {
             gridGeometry.getGridToCRS();
         }
         this.gridGeometry = gridGeometry;
-        assert gridGeometry.isDefined(GridGeometry2D.CRS_BITMASK        |
-                                      GridGeometry2D.ENVELOPE_BITMASK   |
-                                      GridGeometry2D.GRID_RANGE_BITMASK |
-                                      GridGeometry2D.GRID_TO_CRS_BITMASK);
+        assert gridGeometry.isDefined(GridGeometry2D.CRS_BITMASK |
+                GridGeometry2D.ENVELOPE_BITMASK |
+                GridGeometry2D.GRID_RANGE_BITMASK |
+                GridGeometry2D.GRID_TO_CRS_BITMASK);
         /*
          * Last argument checks. The image size must be consistent with the grid range
          * and the envelope must be non-empty.
@@ -261,10 +255,9 @@ public class GridCoverage2D extends AbstractGridCoverage {
         if (error != null) {
             throw new IllegalArgumentException(error);
         }
-        if (dimension <= Math.max(gridGeometry.axisDimensionX,    gridGeometry.axisDimensionY)
-                             || !(gridGeometry.envelope.getSpan(gridGeometry.axisDimensionX) > 0)
-                             || !(gridGeometry.envelope.getSpan(gridGeometry.axisDimensionY) > 0))
-        {
+        if (dimension <= Math.max(gridGeometry.axisDimensionX, gridGeometry.axisDimensionY)
+                || !(gridGeometry.envelope.getSpan(gridGeometry.axisDimensionX) > 0)
+                || !(gridGeometry.envelope.getSpan(gridGeometry.axisDimensionY) > 0)) {
             throw new IllegalArgumentException(Errors.format(ErrorKeys.EMPTY_ENVELOPE));
         }
     }
@@ -320,7 +313,6 @@ public class GridCoverage2D extends AbstractGridCoverage {
      * axis are garanteed to appears in the same order than in the complete CRS.
      *
      * @return The two-dimensional part of the grid coverage CRS.
-     *
      * @see #getCoordinateReferenceSystem
      */
     public CoordinateReferenceSystem getCoordinateReferenceSystem2D() {
@@ -371,35 +363,40 @@ public class GridCoverage2D extends AbstractGridCoverage {
     public Object evaluate(final DirectPosition point) throws CannotEvaluateException {
         final int dataType = image.getSampleModel().getDataType();
         switch (dataType) {
-            case DataBuffer.TYPE_BYTE:   return evaluate(point, (byte  []) null);
+            case DataBuffer.TYPE_BYTE:
+                return evaluate(point, (byte[]) null);
             case DataBuffer.TYPE_SHORT:  // Fall through
             case DataBuffer.TYPE_USHORT: // Fall through
-            case DataBuffer.TYPE_INT:    return evaluate(point, (int   []) null);
-            case DataBuffer.TYPE_FLOAT:  return evaluate(point, (float []) null);
-            case DataBuffer.TYPE_DOUBLE: return evaluate(point, (double[]) null);
-            default: throw new CannotEvaluateException();
+            case DataBuffer.TYPE_INT:
+                return evaluate(point, (int[]) null);
+            case DataBuffer.TYPE_FLOAT:
+                return evaluate(point, (float[]) null);
+            case DataBuffer.TYPE_DOUBLE:
+                return evaluate(point, (double[]) null);
+            default:
+                throw new CannotEvaluateException();
         }
     }
 
     /**
      * Returns a sequence of byte values for a given location (world coordinates).
      *
-     * @param  coord World coordinates of the location to evaluate.
-     * @param  dest  An array in which to store values, or {@code null}.
+     * @param coord World coordinates of the location to evaluate.
+     * @param dest  An array in which to store values, or {@code null}.
      * @return An array containing values.
      * @throws CannotEvaluateException if the values can't be computed at the specified coordinate.
-     *         More specifically, {@link PointOutsideCoverageException} is thrown if the evaluation
-     *         failed because the input point has invalid coordinates.
+     *                                 More specifically, {@link PointOutsideCoverageException} 
+     *                                 is thrown if the evaluation
+     *                                 failed because the input point has invalid coordinates.
      */
     @Override
     public byte[] evaluate(final DirectPosition coord, byte[] dest)
-            throws CannotEvaluateException
-    {
+            throws CannotEvaluateException {
         final int[] array = evaluate(coord, (int[]) null);
         if (dest == null) {
             dest = new byte[array.length];
         }
-        for (int i=0; i<array.length; i++) {
+        for (int i = 0; i < array.length; i++) {
             dest[i] = (byte) array[i];
         }
         return dest;
@@ -408,74 +405,74 @@ public class GridCoverage2D extends AbstractGridCoverage {
     /**
      * Returns a sequence of inteeger values for a given location (world coordinates).
      *
-     * @param  coord World coordinates of the location to evaluate.
-     * @param  dest  An array in which to store values, or {@code null}.
+     * @param coord World coordinates of the location to evaluate.
+     * @param dest  An array in which to store values, or {@code null}.
      * @return An array containing values.
      * @throws CannotEvaluateException if the values can't be computed at the specified coordinate.
-     *         More specifically, {@link PointOutsideCoverageException} is thrown if the evaluation
-     *         failed because the input point has invalid coordinates.
+     *                                 More specifically, {@link PointOutsideCoverageException} 
+     *                                 is thrown if the evaluation
+     *                                 failed because the input point has invalid coordinates.
      */
     @Override
     public int[] evaluate(final DirectPosition coord, final int[] dest)
-            throws CannotEvaluateException
-    {
+            throws CannotEvaluateException {
         return evaluate(gridGeometry.toPoint2D(coord), dest);
     }
 
     /**
      * Returns a sequence of float values for a given location (world coordinates).
      *
-     * @param  coord World coordinates of the location to evaluate.
-     * @param  dest  An array in which to store values, or {@code null}.
+     * @param coord World coordinates of the location to evaluate.
+     * @param dest  An array in which to store values, or {@code null}.
      * @return An array containing values.
      * @throws CannotEvaluateException if the values can't be computed at the specified coordinate.
-     *         More specifically, {@link PointOutsideCoverageException} is thrown if the evaluation
-     *         failed because the input point has invalid coordinates.
+     *                                 More specifically, {@link PointOutsideCoverageException} 
+     *                                 is thrown if the evaluation
+     *                                 failed because the input point has invalid coordinates.
      */
     @Override
     public float[] evaluate(final DirectPosition coord, final float[] dest)
-            throws CannotEvaluateException
-    {
+            throws CannotEvaluateException {
         return evaluate(gridGeometry.toPoint2D(coord), dest);
     }
 
     /**
      * Returns a sequence of double values for a given location (world coordinates).
      *
-     * @param  coord World coordinates of the location to evaluate.
-     * @param  dest  An array in which to store values, or {@code null}.
+     * @param coord World coordinates of the location to evaluate.
+     * @param dest  An array in which to store values, or {@code null}.
      * @return An array containing values.
      * @throws CannotEvaluateException if the values can't be computed at the specified coordinate.
-     *         More specifically, {@link PointOutsideCoverageException} is thrown if the evaluation
-     *         failed because the input point has invalid coordinates.
+     *                                 More specifically, {@link PointOutsideCoverageException} 
+     *                                 is thrown if the evaluation
+     *                                 failed because the input point has invalid coordinates.
      */
     @Override
     public double[] evaluate(final DirectPosition coord, final double[] dest)
-            throws CannotEvaluateException
-    {
+            throws CannotEvaluateException {
         return evaluate(gridGeometry.toPoint2D(coord), dest);
     }
 
     /**
      * Returns a sequence of integer values for a given location (world coordinates).
      *
-     * @param  coord World coordinates of the location to evaluate.
-     * @param  dest  An array in which to store values, or {@code null}.
+     * @param coord World coordinates of the location to evaluate.
+     * @param dest  An array in which to store values, or {@code null}.
      * @return An array containing values.
      * @throws CannotEvaluateException if the values can't be computed at the specified coordinate.
-     *         More specifically, {@link PointOutsideCoverageException} is thrown if the evaluation
-     *         failed because the input point has invalid coordinates.
+     *                                 More specifically, {@link PointOutsideCoverageException} 
+     *                                 is thrown if the evaluation
+     *                                 failed because the input point has invalid coordinates.
      */
     public int[] evaluate(final Point2D coord, final int[] dest)
-            throws CannotEvaluateException
-    {
+            throws CannotEvaluateException {
         final Point2D pixel = gridGeometry.inverseTransform(coord);
         final double fx = pixel.getX();
         final double fy = pixel.getY();
         if (!Double.isNaN(fx) && !Double.isNaN(fy)) {
-            final int x = (int)Math.round(fx);
-            final int y = (int)Math.round(fy);
-            if (image.getBounds().contains(x,y)) { // getBounds() returns a cached instance.
+            final int x = (int) Math.round(fx);
+            final int y = (int) Math.round(fy);
+            if (image.getBounds().contains(x, y)) { // getBounds() returns a cached instance.
                 return image.getTile(image.XToTileX(x), image.YToTileY(y)).getPixel(x, y, dest);
             }
         }
@@ -485,23 +482,23 @@ public class GridCoverage2D extends AbstractGridCoverage {
     /**
      * Returns a sequence of float values for a given location (world coordinates).
      *
-     * @param  coord World coordinates of the location to evaluate.
-     * @param  dest  An array in which to store values, or {@code null}.
+     * @param coord World coordinates of the location to evaluate.
+     * @param dest  An array in which to store values, or {@code null}.
      * @return An array containing values.
      * @throws CannotEvaluateException if the values can't be computed at the specified coordinate.
-     *         More specifically, {@link PointOutsideCoverageException} is thrown if the evaluation
-     *         failed because the input point has invalid coordinates.
+     *                                 More specifically, {@link PointOutsideCoverageException} 
+     *                                 is thrown if the evaluation
+     *                                 failed because the input point has invalid coordinates.
      */
     public float[] evaluate(final Point2D coord, final float[] dest)
-            throws CannotEvaluateException
-    {
+            throws CannotEvaluateException {
         final Point2D pixel = gridGeometry.inverseTransform(coord);
         final double fx = pixel.getX();
         final double fy = pixel.getY();
         if (!Double.isNaN(fx) && !Double.isNaN(fy)) {
-            final int x = (int)Math.round(fx);
-            final int y = (int)Math.round(fy);
-            if (image.getBounds().contains(x,y)) { // getBounds() returns a cached instance.
+            final int x = (int) Math.round(fx);
+            final int y = (int) Math.round(fy);
+            if (image.getBounds().contains(x, y)) { // getBounds() returns a cached instance.
                 return image.getTile(image.XToTileX(x), image.YToTileY(y)).getPixel(x, y, dest);
             }
         }
@@ -511,23 +508,23 @@ public class GridCoverage2D extends AbstractGridCoverage {
     /**
      * Returns a sequence of double values for a given location (world coordinates).
      *
-     * @param  coord World coordinates of the location to evaluate.
-     * @param  dest  An array in which to store values, or {@code null}.
+     * @param coord World coordinates of the location to evaluate.
+     * @param dest  An array in which to store values, or {@code null}.
      * @return An array containing values.
      * @throws CannotEvaluateException if the values can't be computed at the specified coordinate.
-     *         More specifically, {@link PointOutsideCoverageException} is thrown if the evaluation
-     *         failed because the input point has invalid coordinates.
+     *                                 More specifically, {@link PointOutsideCoverageException} 
+     *                                 is thrown if the evaluation
+     *                                 failed because the input point has invalid coordinates.
      */
     public double[] evaluate(final Point2D coord, final double[] dest)
-            throws CannotEvaluateException
-    {
+            throws CannotEvaluateException {
         final Point2D pixel = gridGeometry.inverseTransform(coord);
         final double fx = pixel.getX();
         final double fy = pixel.getY();
         if (!Double.isNaN(fx) && !Double.isNaN(fy)) {
-            final int x = (int)Math.round(fx);
-            final int y = (int)Math.round(fy);
-            if (image.getBounds().contains(x,y)) { // getBounds() returns a cached instance.
+            final int x = (int) Math.round(fx);
+            final int y = (int) Math.round(fy);
+            if (image.getBounds().contains(x, y)) { // getBounds() returns a cached instance.
                 return image.getTile(image.XToTileX(x), image.YToTileY(y)).getPixel(x, y, dest);
             }
         }
@@ -541,18 +538,18 @@ public class GridCoverage2D extends AbstractGridCoverage {
      * <pre><code>
      * GridEnvelope2D gridBounds = coverage.getGridGeometry2D().getGridRange();
      * </code></pre>
+     *
      * @param coord grid (ie. pixel) coordinates
-     * @param dest an optionally pre-allocated array; if non-null, its length should be
-     *        equal to the number of bands (sample dimensions)
-     *
+     * @param dest  an optionally pre-allocated array; if non-null, its length should be
+     *              equal to the number of bands (sample dimensions)
      * @return band values for the given grid (pixel) location
-     *
      * @throws PointOutsideCoverageException if the supplied coords are outside the
-     *         grid bounds
+     *                                       grid bounds
      */
     public int[] evaluate(final GridCoordinates2D coord, final int[] dest) {
         if (image.getBounds().contains(coord.x, coord.y)) {
-            return image.getTile(image.XToTileX(coord.x), image.YToTileY(coord.y)).getPixel(coord.x, coord.y, dest);
+            return image.getTile(image.XToTileX(coord.x), image.YToTileY(coord.y)).getPixel(coord
+                    .x, coord.y, dest);
         }
 
         throw new PointOutsideCoverageException(formatEvaluateError(coord, true));
@@ -565,18 +562,18 @@ public class GridCoverage2D extends AbstractGridCoverage {
      * <pre><code>
      * GridEnvelope2D gridBounds = coverage.getGridGeometry2D().getGridRange();
      * </code></pre>
+     *
      * @param coord grid (ie. pixel) coordinates
-     * @param dest an optionally pre-allocated array; if non-null, its length should be
-     *        equal to the number of bands (sample dimensions)
-     *
+     * @param dest  an optionally pre-allocated array; if non-null, its length should be
+     *              equal to the number of bands (sample dimensions)
      * @return band values for the given grid (pixel) location
-     *
      * @throws PointOutsideCoverageException if the supplied coords are outside the
-     *         grid bounds
+     *                                       grid bounds
      */
     public float[] evaluate(final GridCoordinates2D coord, final float[] dest) {
         if (image.getBounds().contains(coord.x, coord.y)) {
-            return image.getTile(image.XToTileX(coord.x), image.YToTileY(coord.y)).getPixel(coord.x, coord.y, dest);
+            return image.getTile(image.XToTileX(coord.x), image.YToTileY(coord.y)).getPixel(coord
+                    .x, coord.y, dest);
         }
 
         throw new PointOutsideCoverageException(formatEvaluateError(coord, true));
@@ -589,18 +586,18 @@ public class GridCoverage2D extends AbstractGridCoverage {
      * <pre><code>
      * GridEnvelope2D gridBounds = coverage.getGridGeometry2D().getGridRange();
      * </code></pre>
+     *
      * @param coord grid (ie. pixel) coordinates
-     * @param dest an optionally pre-allocated array; if non-null, its length should be
-     *        equal to the number of bands (sample dimensions)
-     *
+     * @param dest  an optionally pre-allocated array; if non-null, its length should be
+     *              equal to the number of bands (sample dimensions)
      * @return band values for the given grid (pixel) location
-     *
      * @throws PointOutsideCoverageException if the supplied coords are outside the
-     *         grid bounds
+     *                                       grid bounds
      */
     public double[] evaluate(final GridCoordinates2D coord, final double[] dest) {
         if (image.getBounds().contains(coord.x, coord.y)) {
-            return image.getTile(image.XToTileX(coord.x), image.YToTileY(coord.y)).getPixel(coord.x, coord.y, dest);
+            return image.getTile(image.XToTileX(coord.x), image.YToTileY(coord.y)).getPixel(coord
+                    .x, coord.y, dest);
         }
 
         throw new PointOutsideCoverageException(formatEvaluateError(coord, true));
@@ -610,33 +607,39 @@ public class GridCoverage2D extends AbstractGridCoverage {
      * Returns a debug string for the specified coordinate.   This method produces a
      * string with pixel coordinates and pixel values for all bands (with geophysics
      * values or category name in parenthesis). Example for a 1-banded image:
-     *
+     * <p>
      * <blockquote><pre>(1171,1566)=[196 (29.6 °C)]</pre></blockquote>
      *
-     * @param  coord The coordinate point where to evaluate.
+     * @param coord The coordinate point where to evaluate.
      * @return A string with pixel coordinates and pixel values at the specified location,
-     *         or {@code null} if {@code coord} is outside coverage.
+     * or {@code null} if {@code coord} is outside coverage.
      */
     public synchronized String getDebugString(final DirectPosition coord) {
         Point2D pixel = gridGeometry.toPoint2D(coord);
-        pixel         = gridGeometry.inverseTransform(pixel);
-        final int   x = (int)Math.round(pixel.getX());
-        final int   y = (int)Math.round(pixel.getY());
-        if (image.getBounds().contains(x,y)) { // getBounds() returns a cached instance.
-            final int  numBands = image.getNumBands();
+        pixel = gridGeometry.inverseTransform(pixel);
+        final int x = (int) Math.round(pixel.getX());
+        final int y = (int) Math.round(pixel.getY());
+        if (image.getBounds().contains(x, y)) { // getBounds() returns a cached instance.
+            final int numBands = image.getNumBands();
             final Raster raster = image.getTile(image.XToTileX(x), image.YToTileY(y));
-            final int  datatype = image.getSampleModel().getDataType();
+            final int datatype = image.getSampleModel().getDataType();
             final StringBuilder buffer = new StringBuilder();
             buffer.append('(').append(x).append(',').append(y).append(")=[");
-            for (int band=0; band<numBands; band++) {
+            for (int band = 0; band < numBands; band++) {
                 if (band != 0) {
                     buffer.append(";\u00A0");
                 }
                 final double sample = raster.getSampleDouble(x, y, band);
                 switch (datatype) {
-                    case DataBuffer.TYPE_DOUBLE: buffer.append(        sample); break;
-                    case DataBuffer.TYPE_FLOAT : buffer.append((float) sample); break;
-                    default                    : buffer.append(  (int) sample); break;
+                    case DataBuffer.TYPE_DOUBLE:
+                        buffer.append(sample);
+                        break;
+                    case DataBuffer.TYPE_FLOAT:
+                        buffer.append((float) sample);
+                        break;
+                    default:
+                        buffer.append((int) sample);
+                        break;
                 }
                 final String formatted = sampleDimensions[band].getLabel(sample, null);
                 if (formatted != null) {
@@ -673,13 +676,13 @@ public class GridCoverage2D extends AbstractGridCoverage {
      * Returns 2D view of this grid coverage as a renderable image.
      * This method allows interoperability with Java2D.
      *
-     * @param  xAxis Dimension to use for <var>x</var> axis.
-     * @param  yAxis Dimension to use for <var>y</var> axis.
+     * @param xAxis Dimension to use for <var>x</var> axis.
+     * @param yAxis Dimension to use for <var>y</var> axis.
      * @return A 2D view of this grid coverage as a renderable image.
      */
     @Override
     public RenderableImage getRenderableImage(final int xAxis, final int yAxis) {
-        if (xAxis == gridGeometry.axisDimensionX  &&  yAxis == gridGeometry.axisDimensionY) {
+        if (xAxis == gridGeometry.axisDimensionX && yAxis == gridGeometry.axisDimensionY) {
             return new Renderable();
         } else {
             return super.getRenderableImage(xAxis, yAxis);
@@ -714,17 +717,16 @@ public class GridCoverage2D extends AbstractGridCoverage {
     }
 
     /**
-     * A view of a {@linkplain GridCoverage2D grid coverage} as a renderable image. Renderable images
+     * A view of a {@linkplain GridCoverage2D grid coverage} as a renderable image. Renderable 
+     * images
      * allow interoperability with <A HREF="http://java.sun.com/products/java-media/2D/">Java2D</A>
      * for a two-dimensional slice of a grid coverage.
      *
-     * @version $Id$
      * @author Martin Desruisseaux (IRD)
-     *
-     * @see AbstractCoverage#getRenderableImage
-     *
+     * @version $Id$
      * @todo Override {@link #createRendering} and use the affine transform operation.
-     *       Also uses the JAI's "Transpose" operation is x and y axis are interchanged.
+     * Also uses the JAI's "Transpose" operation is x and y axis are interchanged.
+     * @see AbstractCoverage#getRenderableImage
      */
     protected class Renderable extends AbstractCoverage.Renderable {
         /**
@@ -747,8 +749,7 @@ public class GridCoverage2D extends AbstractGridCoverage {
         @Override
         public RenderedImage createDefaultRendering() {
             if (xAxis == gridGeometry.axisDimensionX &&
-                yAxis == gridGeometry.axisDimensionY)
-            {
+                    yAxis == gridGeometry.axisDimensionY) {
                 return getRenderedImage();
             }
             return super.createDefaultRendering();
@@ -814,7 +815,7 @@ public class GridCoverage2D extends AbstractGridCoverage {
                     tileEncoding = "gzip";
                 }
                 serializedImage = new SerializableRenderedImage(source, false, null,
-                                                                tileEncoding, null, null);
+                        tileEncoding, null, null);
                 final LogRecord record = Loggings.format(Level.FINE,
                         LoggingKeys.CREATED_SERIALIZABLE_IMAGE_$2, getName(), tileEncoding);
                 record.setSourceClassName(GridCoverage2D.class.getName());
@@ -832,8 +833,8 @@ public class GridCoverage2D extends AbstractGridCoverage {
      * least one of the following conditions is true (otherwise this method do nothing):
      * <p>
      * <ul>
-     *   <li>{@code force} is {@code true}, <strong>or</strong></li>
-     *   <li>The underlying {@linkplain #image} has no {@linkplain PlanarImage#getSinks sinks}.</li>
+     * <li>{@code force} is {@code true}, <strong>or</strong></li>
+     * <li>The underlying {@linkplain #image} has no {@linkplain PlanarImage#getSinks sinks}.</li>
      * </ul>
      * <p>
      * This safety check helps to prevent the disposal of an {@linkplain #image} that still
@@ -842,7 +843,6 @@ public class GridCoverage2D extends AbstractGridCoverage {
      * this method and rely on the garbage collector instead.
      *
      * @see PlanarImage#dispose
-     *
      * @since 2.4
      */
     @Override

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -28,16 +28,12 @@ import com.vividsolutions.jts.geom.LineString;
  * of the line) or offsets relative to the current position, to return the
  * absolute position of the cursor as a Point, and to get the orientation of the
  * current segment.
- * 
+ *
  * @author Andrea Aime
- * 
- *
- *
- *
  * @source $URL$
  */
 public class LineStringCursor {
-    
+
     /**
      * Tolerance used for angle comparisons
      */
@@ -81,7 +77,7 @@ public class LineStringCursor {
 
     /**
      * Builds a new cursor
-     * 
+     *
      * @param ls
      */
     public LineStringCursor(LineString ls) {
@@ -122,7 +118,7 @@ public class LineStringCursor {
 
     /**
      * Copy constructor
-     * 
+     *
      * @param cursor
      */
     public LineStringCursor(LineStringCursor cursor) {
@@ -137,7 +133,7 @@ public class LineStringCursor {
 
     /**
      * Returns the line string length
-     * 
+     *
      * @return
      */
     public double getLineStringLength() {
@@ -146,7 +142,7 @@ public class LineStringCursor {
 
     /**
      * Moves the current position to the
-     * 
+     *
      * @param ordinate
      */
     public void moveTo(double ordinate) {
@@ -177,11 +173,11 @@ public class LineStringCursor {
 
     /**
      * Moves of the specified distance from the current position.
-     * 
+     *
      * @param offset
      * @return true if it was possible to move to the desired offset, false if
-     *         the movement stopped because the start or end of the LineString
-     *         was reached
+     * the movement stopped because the start or end of the LineString
+     * was reached
      */
     public boolean moveRelative(double offset) {
         if (offset == 0) {
@@ -257,7 +253,7 @@ public class LineStringCursor {
 
     /**
      * Returns the current segment direction as an angle expressed in radians
-     * 
+     *
      * @return
      */
     public double getCurrentAngle() {
@@ -275,7 +271,7 @@ public class LineStringCursor {
 
     /**
      * Returns the current segment direction as an angle expressed in radians
-     * 
+     *
      * @return
      */
     public double getLabelOrientation() {
@@ -286,7 +282,7 @@ public class LineStringCursor {
         // make sure we turn PI/2 into -PI/2, we don't want some labels looking straight up
         // and some others straight down, when almost vertical they should all be oriented
         // on the same side
-        if(Math.abs(angle - Math.PI / 2) < ONE_DEGREE) {
+        if (Math.abs(angle - Math.PI / 2) < ONE_DEGREE) {
             angle = -Math.PI / 2 + Math.abs(angle - Math.PI / 2);
         }
         return angle;
@@ -295,7 +291,7 @@ public class LineStringCursor {
     /**
      * Returns the maximum angle change (in radians) between two subsequent
      * segments between the specified curvilinear coordinates.
-     * 
+     *
      * @param startOrdinate
      * @param endOrdinate
      * @return
@@ -321,9 +317,9 @@ public class LineStringCursor {
             double currAngle = getSegmentAngle(i);
             double difference = currAngle - prevAngle;
             // normalize angle, the difference can become 2 * PI 
-            if(difference > Math.PI) {
+            if (difference > Math.PI) {
                 difference -= 2 * Math.PI;
-            } else if(difference < -Math.PI) {
+            } else if (difference < -Math.PI) {
                 difference += 2 * Math.PI;
             }
             difference = Math.abs(difference);
@@ -334,11 +330,13 @@ public class LineStringCursor {
 
         return maxDifference;
     }
-    
+
     /**
-     * A variant of {@link #getMaxAngleChange(double, double)} taking a step and evaluating angle differences at such step. This helps when a line has
-     * many little segments and chars would end up showing several segments apart (so the full angle change needs to be considered)
-     * 
+     * A variant of {@link #getMaxAngleChange(double, double)} taking a step and evaluating angle
+     * differences at such step. This helps when a line has
+     * many little segments and chars would end up showing several segments apart (so the full 
+     * angle change needs to be considered)
+     *
      * @param startOrdinate
      * @param endOrdinate
      * @param step
@@ -361,12 +359,13 @@ public class LineStringCursor {
                 // but also to cover at least "step" distance (might require more than one segment)
                 double distance = segmentLenghts[delegate.segment] - delegate.offsetDistance;
                 delegate.offsetDistance = 0;
-                while ((distance < step || delegate.segment == prevSegment) && delegate.segment < (delegate.segmentLenghts.length - 1)) {
+                while ((distance < step || delegate.segment == prevSegment) && delegate.segment <
+                        (delegate.segmentLenghts.length - 1)) {
                     delegate.segment++;
                     distance += segmentLenghts[delegate.segment];
                 }
                 ordinate += distance;
-    
+
                 if (ordinate < endOrdinate) {
                     double angle = getSegmentAngle(delegate.segment);
                     double difference = angle - prevAngle;
@@ -383,7 +382,7 @@ public class LineStringCursor {
                     prevAngle = angle;
                 }
             } while (ordinate < endOrdinate);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -392,9 +391,9 @@ public class LineStringCursor {
 
 
     /**
-     * Returns the maximum distance between the curve and a straight line connecting the 
+     * Returns the maximum distance between the curve and a straight line connecting the
      * start and end ordinates.
-     * 
+     *
      * @param startOrdinate
      * @param endOrdinate
      * @return
@@ -422,7 +421,7 @@ public class LineStringCursor {
         if (startSegment == endSegment)
             return 0;
 
-        double maxDistanceSquared= 0;
+        double maxDistanceSquared = 0;
         double len2 = (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1);
         for (int i = startSegment + 1; i <= endSegment; i++) {
             delegate.segment = i;
@@ -440,7 +439,7 @@ public class LineStringCursor {
 
     /**
      * Returns a line string cursor based on the opposite walking direction.
-     * 
+     *
      * @return
      */
     public LineStringCursor reverse() {
@@ -449,7 +448,7 @@ public class LineStringCursor {
 
     /**
      * The linestrings wrapped by this cursor
-     * 
+     *
      * @return
      */
     public LineString getLineString() {
@@ -459,7 +458,7 @@ public class LineStringCursor {
     /**
      * Returns the linestring that starts and ends at the specified curvilinear
      * coordinates.
-     * 
+     *
      * @param startOrdinate
      * @param endOrdinate
      * @return

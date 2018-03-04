@@ -21,10 +21,12 @@ import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.xsd.XSDTypeDefinition;
+
 import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.List;
 import javax.xml.namespace.QName;
+
 import org.geotools.util.Converters;
 
 
@@ -33,14 +35,11 @@ import org.geotools.util.Converters;
  * <p>
  * Provides implementations for:
  * <ul>
- *         <li>{@link ComplexBinding#getProperty(Object, QName)}.
+ * <li>{@link ComplexBinding#getProperty(Object, QName)}.
  * </ul>
  * </p>
+ *
  * @author Justin Deoliveira, The Open Planning Project, jdeolive@openplans.org
- *
- *
- *
- *
  * @source $URL$
  */
 public abstract class AbstractComplexEMFBinding extends AbstractComplexBinding {
@@ -48,12 +47,12 @@ public abstract class AbstractComplexEMFBinding extends AbstractComplexBinding {
      * Factory used to create model objects
      */
     EFactory factory;
-    
+
     /**
      * type "hint", allows bindings to specify the type that gets parsed manually
      */
     Class type;
-    
+
     /**
      * Default constructor.
      * <p>
@@ -82,7 +81,7 @@ public abstract class AbstractComplexEMFBinding extends AbstractComplexBinding {
         this(factory);
         this.type = type;
     }
-    
+
     /**
      * Dynamically tries to determine the type of the object using emf naming
      * conventions and the name returned by {@link Binding#getTarget()}.
@@ -92,10 +91,10 @@ public abstract class AbstractComplexEMFBinding extends AbstractComplexBinding {
      * </p>
      */
     public Class getType() {
-        if ( type != null ) {
+        if (type != null) {
             return type;
         }
-        
+
         //try to build up a class name 
         String pkg = factory.getClass().getPackage().getName();
 
@@ -112,9 +111,9 @@ public abstract class AbstractComplexEMFBinding extends AbstractComplexBinding {
             //check for anonymous complex type
             //
             int i = localName.indexOf('_');
-            if ( i != -1 ) {
-                String className = localName.substring(i+1) + "Type";
-                
+            if (i != -1) {
+                String className = localName.substring(i + 1) + "Type";
+
                 try {
                     return Class.forName(pkg + "." + className);
                 } catch (ClassNotFoundException e1) {
@@ -122,7 +121,7 @@ public abstract class AbstractComplexEMFBinding extends AbstractComplexBinding {
             }
         }
 
-        throw new RuntimeException( "Could not map an EMF model class to:" + localName);
+        throw new RuntimeException("Could not map an EMF model class to:" + localName);
     }
 
     /**
@@ -136,20 +135,21 @@ public abstract class AbstractComplexEMFBinding extends AbstractComplexBinding {
      * </p>
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //does this binding actually map to an eObject?
         if (EObject.class.isAssignableFrom(getType()) && (factory != null)) {
             EObject eObject = createEObject(value);
-            if ( eObject == null ) {
+            if (eObject == null) {
                 return value;
             }
-            
-            setProperties( eObject, node, false );
-            setProperties( eObject, node, true );
-            
+
+            setProperties(eObject, node, false);
+            setProperties(eObject, node, true);
+
             //check for a complex type with simpleContent, in this case use 
             // the string value (if any) to set the value property
-            if (instance.getElementDeclaration().getTypeDefinition().getBaseType() instanceof XSDTypeDefinition) {
+            if (instance.getElementDeclaration().getTypeDefinition().getBaseType() instanceof 
+                    XSDTypeDefinition) {
                 if ((value != null) && EMFUtils.has(eObject, "value")) {
                     setProperty(eObject, "value", value, false);
                 }
@@ -165,7 +165,7 @@ public abstract class AbstractComplexEMFBinding extends AbstractComplexBinding {
     /**
      * Reflectively creates an instance of the target object.
      */
-    protected EObject createEObject( Object value ) throws Exception {
+    protected EObject createEObject(Object value) throws Exception {
         if ((value == null) || !(getType().isAssignableFrom(value.getClass()))) {
             // yes, try and use the factory to dynamically create a new instance
 
@@ -191,30 +191,30 @@ public abstract class AbstractComplexEMFBinding extends AbstractComplexBinding {
             // value already provided (e.g., by a subtype binding with
             // BEFORE execution mode)
             return (EObject) value;
-        }    
+        }
     }
-    
+
     /**
      * Helper method for settings properties of an eobject.
      */
-    void setProperties(EObject eObject, Node node, boolean lax ) {
+    void setProperties(EObject eObject, Node node, boolean lax) {
         // reflectivley set the properties of it
-        for (Iterator c = node.getChildren().iterator(); c.hasNext();) {
+        for (Iterator c = node.getChildren().iterator(); c.hasNext(); ) {
             Node child = (Node) c.next();
             String property = child.getComponent().getName();
-          
+
             setProperty(eObject, property, child.getValue(), lax);
         }
 
-        for (Iterator a = node.getAttributes().iterator(); a.hasNext();) {
+        for (Iterator a = node.getAttributes().iterator(); a.hasNext(); ) {
             Node att = (Node) a.next();
             String property = att.getComponent().getName();
-            
+
             setProperty(eObject, property, att.getValue(), lax);
         }
-        
+
     }
-    
+
     /**
      * Internal method for reflectively setting the property of an eobject.
      * <p>
@@ -225,13 +225,13 @@ public abstract class AbstractComplexEMFBinding extends AbstractComplexBinding {
         try {
             if (EMFUtils.has(eObject, property)) {
                 //dont do in lax mode since that means its a second pass
-                if ( lax && EMFUtils.isSet(eObject, property) ) {
+                if (lax && EMFUtils.isSet(eObject, property)) {
                     return;
                 }
-        
+
                 try {
                     if (EMFUtils.isCollection(eObject, property)) {
-                            EMFUtils.add(eObject, property, value);
+                        EMFUtils.add(eObject, property, value);
                     } else {
                         EMFUtils.set(eObject, property, value);
                     }
@@ -240,32 +240,30 @@ public abstract class AbstractComplexEMFBinding extends AbstractComplexBinding {
                     EStructuralFeature feature = EMFUtils.feature(eObject, property);
                     Class target = feature.getEType().getInstanceClass();
 
-                    Object converted = convert( value, target, e );
+                    Object converted = convert(value, target, e);
                     try {
                         EMFUtils.set(eObject, property, converted);
-                    }
-                    catch( ClassCastException e1 ) {
+                    } catch (ClassCastException e1) {
                         //try to convert based on method return type
                         //JD: this is a hack
                         try {
-                            Method g = eObject.getClass().getMethod( "get" +  
-                                property.substring(0,1).toUpperCase() + property.substring(1), null);
-                            if ( g == null ) {
+                            Method g = eObject.getClass().getMethod("get" +
+                                    property.substring(0, 1).toUpperCase() + property.substring
+                                    (1), null);
+                            if (g == null) {
                                 throw e;
                             }
-                            
+
                             target = g.getReturnType();
-                            converted = convert( value, target, e );
-                            
-                            EMFUtils.set( eObject, property, converted );   
-                        } 
-                        catch (Exception e2) {
+                            converted = convert(value, target, e);
+
+                            EMFUtils.set(eObject, property, converted);
+                        } catch (Exception e2) {
                             throw e;
                         }
                     }
                 }
-            } 
-            else {
+            } else {
                 //search by type, this is a bit of a hack so we only do it if the 
                 // lax flag is set
                 if (lax && value != null) {
@@ -282,33 +280,31 @@ public abstract class AbstractComplexEMFBinding extends AbstractComplexBinding {
                     }
                     if (features.size() == 1) {
                         EStructuralFeature feature = (EStructuralFeature) features.get(0);
-                        
-                        if(EMFUtils.isCollection(eObject, feature)) {
+
+                        if (EMFUtils.isCollection(eObject, feature)) {
                             EMFUtils.add(eObject, feature, value);
-                        }
-                        else {
+                        } else {
                             //only set if not previous set
-                            if ( !eObject.eIsSet( feature ) ) {
+                            if (!eObject.eIsSet(feature)) {
                                 eObject.eSet(feature, value);
                             }
                         }
                     }
                 }
             }
-        }
-        catch( RuntimeException e ) {
+        } catch (RuntimeException e) {
             String msg = "Unable to set property: " + property + " for eobject: " + getTarget();
-            throw new RuntimeException( msg, e );
+            throw new RuntimeException(msg, e);
         }
-       
+
     }
 
     /**
-     * Helper method to convert a value, throwing an exception when it cant be 
-     * converted. 
-     *
+     * Helper method to convert a value, throwing an exception when it cant be
+     * converted.
      */
-    private Object convert( Object value, Class target, RuntimeException toThrow ) throws RuntimeException {
+    private Object convert(Object value, Class target, RuntimeException toThrow) throws 
+            RuntimeException {
         Object converted = value;
         if ((converted != null) && !converted.getClass().isAssignableFrom(target)) {
             //TODO: log this
@@ -319,10 +315,10 @@ public abstract class AbstractComplexEMFBinding extends AbstractComplexBinding {
             //just throw the oringinal exception
             throw toThrow;
         }
-        
+
         return converted;
     }
-    
+
     /**
      * Uses EMF reflection dynamically return the property with the specified
      * name.
@@ -333,21 +329,20 @@ public abstract class AbstractComplexEMFBinding extends AbstractComplexBinding {
      * </p>
      */
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         if (object instanceof EObject) {
             EObject eObject = (EObject) object;
 
             if (EMFUtils.has(eObject, name.getLocalPart())) {
                 return EMFUtils.get(eObject, name.getLocalPart());
-            }
-            else {
+            } else {
                 //special case check for "_" since emf removes these from bean 
                 // property names
-                if ( name.getLocalPart().contains( "_" ) ) {
-                    String stripped = name.getLocalPart().replaceAll( "_", "" );
+                if (name.getLocalPart().contains("_")) {
+                    String stripped = name.getLocalPart().replaceAll("_", "");
                     if (EMFUtils.has(eObject, stripped)) {
                         return EMFUtils.get(eObject, stripped);
-                    }        
+                    }
                 }
             }
         }

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2014, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -26,7 +26,7 @@ import com.vividsolutions.jts.geom.Envelope;
 /**
  * Represents an arc by three points, and provides methods to linearize it to a given max distance
  * from the actual circle
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 public class CircularArc {
@@ -35,7 +35,8 @@ public class CircularArc {
 
     public static final double COLLINEARS = Double.POSITIVE_INFINITY;
 
-    private static final String BASE_SEGMENTS_QUADRANT_KEY = "org.getools.geometry.arc.baseSegmentsQuadrant";
+    private static final String BASE_SEGMENTS_QUADRANT_KEY = "org.getools.geometry.arc" +
+            ".baseSegmentsQuadrant";
 
     /**
      * Minimum number of segments per quadrant
@@ -43,7 +44,8 @@ public class CircularArc {
     static int BASE_SEGMENTS_QUADRANT = Integer.valueOf(System.getProperty(
             BASE_SEGMENTS_QUADRANT_KEY, "12"));
 
-    private static final String MAX_SEGMENTS_QUADRANT_KEY = "org.getools.geometry.arc.maxSegmentsQuadrant";
+    private static final String MAX_SEGMENTS_QUADRANT_KEY = "org.getools.geometry.arc" +
+            ".maxSegmentsQuadrant";
 
     /**
      * Max number of segments per quadrant the system will use to satisfy the given tolerance
@@ -86,13 +88,16 @@ public class CircularArc {
     public CircularArc(double[] controlPoints) {
         if (controlPoints == null || controlPoints.length != 6) {
             throw new IllegalArgumentException(
-                    "Invalid control point array, it must be made of 6 ordinates for a total of 3 control points, start, mid and end");
+                    "Invalid control point array, it must be made of 6 ordinates for a total of 3" +
+                            " control points, start, mid and end");
         }
         this.controlPoints = controlPoints;
-    };
+    }
+
+    ;
 
     public CircularArc(double sx, double sy, double mx, double my, double ex, double ey) {
-        this(new double[] { sx, sy, mx, my, ex, ey });
+        this(new double[]{sx, sy, mx, my, ex, ey});
     }
 
     public int getDimension() {
@@ -157,7 +162,8 @@ public class CircularArc {
                     segmentsPerQuadrant *= 2;
                 }
             } else {
-                while (currentTolerance > tolerance && segmentsPerQuadrant < MAX_SEGMENTS_QUADRANT) {
+                while (currentTolerance > tolerance && segmentsPerQuadrant < 
+                        MAX_SEGMENTS_QUADRANT) {
                     // going up
                     segmentsPerQuadrant *= 2;
                     currentTolerance = computeChordCircleDistance(segmentsPerQuadrant);
@@ -317,7 +323,7 @@ public class CircularArc {
 
     /**
      * Checks if the two doubles provided are at a distance less than EPS
-     * 
+     *
      * @param a
      * @param b
      */
@@ -333,7 +339,7 @@ public class CircularArc {
 
     /**
      * Expands the given envelope
-     * 
+     *
      * @param envelope
      */
     void expandEnvelope(Envelope envelope) {

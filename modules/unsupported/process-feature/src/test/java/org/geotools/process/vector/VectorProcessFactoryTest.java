@@ -24,15 +24,15 @@ public class VectorProcessFactoryTest {
 
     @Test
     public void testLookup() {
-        Set<Name> names = factory.getNames(); 
+        Set<Name> names = factory.getNames();
         assertFalse(names.isEmpty());
         assertTrue(names.contains(new NameImpl("vec", "Aggregate")));
     }
-    
+
     @Test
     public void testAddCustomProcess() {
         assertNull(Processors.createProcess(new NameImpl("vec", "Custom")));
-        
+
         FactoryIteratorProvider p = new FactoryIteratorProvider() {
             @Override
             public <T> Iterator<T> iterator(Class<T> category) {
@@ -46,12 +46,11 @@ public class VectorProcessFactoryTest {
         try {
             Processors.reset();
             assertNotNull(Processors.createProcess(new NameImpl("vec", "Custom")));
-        }
-        finally {
+        } finally {
             GeoTools.removeFactoryIteratorProvider(p);
         }
     }
-    
+
     @DescribeProcess(title = "Custom", description = "Custom mock process")
     public static class CustomProcess implements VectorProcess {
         @DescribeResult(name = "result", description = "The result")

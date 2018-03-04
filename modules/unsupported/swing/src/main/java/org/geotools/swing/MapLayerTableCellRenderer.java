@@ -28,6 +28,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
+
 import org.geotools.map.Layer;
 
 /**
@@ -35,10 +36,9 @@ import org.geotools.map.Layer;
  * to show map layer names and states.
  *
  * @author Michael Bedward
- * @since 2.6
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.6
  */
 public class MapLayerTableCellRenderer extends JPanel implements ListCellRenderer {
     private static final long serialVersionUID = 7907189175227502588L;
@@ -54,10 +54,10 @@ public class MapLayerTableCellRenderer extends JPanel implements ListCellRendere
          * when the map display is drawn
          */
         VISIBLE(
-            new ImageIcon(MapLayerTableCellRenderer.class.getResource(
-                "/org/geotools/swing/icons/eye_open.png")),
-            new ImageIcon(MapLayerTableCellRenderer.class.getResource(
-                "/org/geotools/swing/icons/eye_closed.png"))
+                new ImageIcon(MapLayerTableCellRenderer.class.getResource(
+                        "/org/geotools/swing/icons/eye_open.png")),
+                new ImageIcon(MapLayerTableCellRenderer.class.getResource(
+                        "/org/geotools/swing/icons/eye_closed.png"))
         ),
 
         /**
@@ -65,25 +65,25 @@ public class MapLayerTableCellRenderer extends JPanel implements ListCellRendere
          * to include or exclude them in map queries etc.
          */
         SELECTED(
-            new ImageIcon(MapLayerTableCellRenderer.class.getResource(
-                "/org/geotools/swing/icons/tick.png")),
-            new ImageIcon(MapLayerTableCellRenderer.class.getResource(
-                "/org/geotools/swing/icons/cross.png"))
+                new ImageIcon(MapLayerTableCellRenderer.class.getResource(
+                        "/org/geotools/swing/icons/tick.png")),
+                new ImageIcon(MapLayerTableCellRenderer.class.getResource(
+                        "/org/geotools/swing/icons/cross.png"))
         ),
 
         /**
          * Layer style - to open a style dialog for the layer
          */
         STYLE(
-            new ImageIcon(MapLayerTableCellRenderer.class.getResource(
-                "/org/geotools/swing/icons/style_layer.png")),
-            null // no off state for this label
+                new ImageIcon(MapLayerTableCellRenderer.class.getResource(
+                        "/org/geotools/swing/icons/style_layer.png")),
+                null // no off state for this label
         ),
 
         REMOVE(
-            new ImageIcon(MapLayerTableCellRenderer.class.getResource(
-                "/org/geotools/swing/icons/remove_layer.png")),
-            null // no off state for this label
+                new ImageIcon(MapLayerTableCellRenderer.class.getResource(
+                        "/org/geotools/swing/icons/remove_layer.png")),
+                null // no off state for this label
         );
 
         private ImageIcon onIcon;
@@ -91,7 +91,8 @@ public class MapLayerTableCellRenderer extends JPanel implements ListCellRendere
 
         /**
          * Private constructor
-         * @param onIcon icon for the 'on' state
+         *
+         * @param onIcon  icon for the 'on' state
          * @param offIcon icon for the 'off' state
          */
         private LayerControlItem(ImageIcon onIcon, ImageIcon offIcon) {
@@ -137,7 +138,7 @@ public class MapLayerTableCellRenderer extends JPanel implements ListCellRendere
         for (LayerControlItem state : LayerControlItem.values()) {
             maxIconHeight = Math.max(maxIconHeight, state.getIcon().getIconHeight());
         }
-        CELL_HEIGHT = maxIconHeight + 2*CELL_PADDING;
+        CELL_HEIGHT = maxIconHeight + 2 * CELL_PADDING;
 
         int x = CELL_PADDING;
         int h = LayerControlItem.VISIBLE.getIcon().getIconHeight();
@@ -160,7 +161,7 @@ public class MapLayerTableCellRenderer extends JPanel implements ListCellRendere
         REMOVE_LABEL_BOUNDS = new Rectangle(x, CELL_PADDING, w, h);
         x += w + CELL_PADDING;
 
-        NAME_LABEL_BOUNDS = new Rectangle(x, CELL_PADDING, 1000, CELL_HEIGHT - 2*CELL_PADDING);
+        NAME_LABEL_BOUNDS = new Rectangle(x, CELL_PADDING, 1000, CELL_HEIGHT - 2 * CELL_PADDING);
     }
 
     private JLabel visibleLabel;
@@ -172,6 +173,7 @@ public class MapLayerTableCellRenderer extends JPanel implements ListCellRendere
 
     /**
      * Get the constant height that will be used for list cells
+     *
      * @return cell height in pixels
      */
     public static int getCellHeight() {
@@ -181,6 +183,7 @@ public class MapLayerTableCellRenderer extends JPanel implements ListCellRendere
     /**
      * Check if a point representing a mouse click location lies within
      * the bounds of the layer visibility label
+     *
      * @param p coords of the mouse click; relative to this cell's origin
      * @return true if the point is within the label bounds; false otherwise
      */
@@ -191,6 +194,7 @@ public class MapLayerTableCellRenderer extends JPanel implements ListCellRendere
     /**
      * Check if a point representing a mouse click location lies within
      * the bounds of the layer selection label
+     *
      * @param p coords of the mouse click; relative to this cell's origin
      * @return true if the point is within the label bounds; false otherwise
      */
@@ -201,6 +205,7 @@ public class MapLayerTableCellRenderer extends JPanel implements ListCellRendere
     /**
      * Check if a point representing a mouse click location lies within
      * the bounds of the layer style label
+     *
      * @param p coords of the mouse click; relative to this cell's origin
      * @return true if the point is within the label bounds; false otherwise
      */
@@ -211,6 +216,7 @@ public class MapLayerTableCellRenderer extends JPanel implements ListCellRendere
     /**
      * Check if a point representing a mouse click location lies within
      * the bounds of the remove layer label
+     *
      * @param p coords of the mouse click; relative to this cell's origin
      * @return true if the point is within the label bounds; false otherwise
      */
@@ -253,7 +259,7 @@ public class MapLayerTableCellRenderer extends JPanel implements ListCellRendere
             boolean isSelected, // is the cell selected
             boolean cellHasFocus) // the list and the cell have the focus
     {
-        Layer layer = (Layer)value;
+        Layer layer = (Layer) value;
         String name = layer.getTitle();
         if (name == null || name.trim().length() == 0) {
             name = layer.getFeatureSource().getName().getLocalPart();
@@ -261,12 +267,13 @@ public class MapLayerTableCellRenderer extends JPanel implements ListCellRendere
         nameLabel.setText(name);
 
         visibleLabel.setIcon(
-                layer.isVisible() ? 
-                    LayerControlItem.VISIBLE.getIcon() : LayerControlItem.VISIBLE.getOffIcon());
+                layer.isVisible() ?
+                        LayerControlItem.VISIBLE.getIcon() : LayerControlItem.VISIBLE.getOffIcon());
 
         selectedLabel.setIcon(
                 layer.isSelected() ?
-                    LayerControlItem.SELECTED.getIcon() : LayerControlItem.SELECTED.getOffIcon());
+                        LayerControlItem.SELECTED.getIcon() : LayerControlItem.SELECTED
+                        .getOffIcon());
 
         if (isSelected) {
             setBackground(list.getSelectionBackground());

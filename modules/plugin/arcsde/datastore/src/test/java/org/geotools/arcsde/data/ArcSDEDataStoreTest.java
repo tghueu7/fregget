@@ -58,26 +58,30 @@ import com.vividsolutions.jts.geom.Point;
 
 /**
  * ArcSDEDAtaStore test cases
- * 
+ *
  * @author Gabriel Roldan, Axios Engineering
- *
- *
- * @source $URL$
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/test/java
- *         /org/geotools/arcsde/data/ArcSDEDataStoreTest.java $
  * @version $Id$
+ * @source $URL$
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/test/java
+ * /org/geotools/arcsde/data/ArcSDEDataStoreTest.java $
  */
 public class ArcSDEDataStoreTest {
-    /** package logger */
+    /**
+     * package logger
+     */
     private static Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger(ArcSDEDataStoreTest.class.getPackage().getName());
 
     private static TestData testData;
 
-    /** an ArcSDEDataStore created on setUp() to run tests against */
+    /**
+     * an ArcSDEDataStore created on setUp() to run tests against
+     */
     private DataStore store;
 
-    /** a filter factory for testing */
+    /**
+     * a filter factory for testing
+     */
     FilterFactory ff = CommonFactoryFinder.getFilterFactory(null);
 
     @BeforeClass
@@ -177,7 +181,7 @@ public class ArcSDEDataStoreTest {
      * defined by the parameters "point_table", "line_table" and "polygon_table", wether ot not
      * they're defined as single table names or as full qualified sde table names (i.e.
      * SDE.SDE.TEST_POINT)
-     * 
+     *
      * @throws IOException
      * @throws SeException
      */
@@ -206,7 +210,8 @@ public class ArcSDEDataStoreTest {
         assertEquals(TEST_TABLE_COLS.length, schema.getAttributeCount());
 
         for (int i = 0; i < TEST_TABLE_COLS.length; i++) {
-            assertEquals("at index" + i, TEST_TABLE_COLS[i], schema.getDescriptor(i).getLocalName());
+            assertEquals("at index" + i, TEST_TABLE_COLS[i], schema.getDescriptor(i).getLocalName
+                    ());
         }
         assertFalse(schema.getDescriptor(0).isNillable());
         assertTrue(schema.getDescriptor(1).isNillable());
@@ -222,7 +227,7 @@ public class ArcSDEDataStoreTest {
      * finally creates the "layer", adding the spatial attribute to the previously created table.
      * So, this test ensures the datastore correctly works arround this limitation.
      * </p>
-     * 
+     *
      * @throws IOException
      * @throws SchemaException
      * @throws SeException

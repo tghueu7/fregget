@@ -42,9 +42,9 @@ import org.geotools.resources.OptionalDependencies;
  * Note: this method is called {@code PropertyTree} because it may implements
  * {@link javax.swing.tree.TreeModel} in some future Geotools implementation.
  *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (Geomatys)
+ * @version $Id$
+ * @source $URL$
  */
 final class PropertyTree {
     /**
@@ -93,7 +93,7 @@ final class PropertyTree {
      */
     public PropertyTree(final MetadataStandard standard, final Locale locale) {
         this.standard = standard;
-        this.locale   = locale;
+        this.locale = locale;
     }
 
     /**
@@ -132,7 +132,7 @@ final class PropertyTree {
             }
         }
         if (value instanceof Collection) {
-            for (final Iterator it=((Collection) value).iterator(); it.hasNext();) {
+            for (final Iterator it = ((Collection) value).iterator(); it.hasNext(); ) {
                 final Object element = it.next();
                 if (!PropertyAccessor.isEmpty(element)) {
                     append(branch, element);
@@ -162,7 +162,7 @@ final class PropertyTree {
      * some are collections, which are formatted as many childs for the same key.
      */
     private void appendMap(final DefaultMutableTreeNode branch, final Map asMap) {
-        for (final Iterator it=asMap.entrySet().iterator(); it.hasNext();) {
+        for (final Iterator it = asMap.entrySet().iterator(); it.hasNext(); ) {
             final Map.Entry entry = (Map.Entry) it.next();
             final Object value = entry.getValue();
             if (!PropertyAccessor.isEmpty(value)) {
@@ -190,7 +190,8 @@ final class PropertyTree {
             if (v > 0) {
                 final int digits = (int) Math.log10(v);
                 if (Math.abs(digits) >= PRECISION) {
-                    // TODO: Switch to exponential notation when a convenient API will be available in J2SE.
+                    // TODO: Switch to exponential notation when a convenient API will be 
+                    // available in J2SE.
                     return value.toString();
                 }
                 if (digits >= 0) {
@@ -225,7 +226,7 @@ final class PropertyTree {
             buffer.append(Character.toUpperCase(name.charAt(0)));
             boolean previousIsUpper = true;
             int base = 1;
-            for (int i=1; i<length; i++) {
+            for (int i = 1; i < length; i++) {
                 final boolean currentIsUpper = Character.isUpperCase(name.charAt(i));
                 if (currentIsUpper != previousIsUpper) {
                     /*
@@ -273,11 +274,10 @@ final class PropertyTree {
     /**
      * Append a string representation of the specified node to the specified buffer.
      */
-    private static void toString(final TreeNode      node,
+    private static void toString(final TreeNode node,
                                  final StringBuilder buffer,
-                                 final int           indent,
-                                 final String        lineSeparator)
-    {
+                                 final int indent,
+                                 final String lineSeparator) {
         final int count = node.getChildCount();
         if (count == 0) {
             if (node.isLeaf()) {
@@ -299,12 +299,12 @@ final class PropertyTree {
                 return;
             }
         }
-        for (int i=0; i<count; i++) {
+        for (int i = 0; i < count; i++) {
             final TreeNode child = node.getChildAt(i);
             if (i == 0) {
                 buffer.append(lineSeparator);
             }
-            toString(child, buffer, indent+2, lineSeparator);
+            toString(child, buffer, indent + 2, lineSeparator);
         }
     }
 }

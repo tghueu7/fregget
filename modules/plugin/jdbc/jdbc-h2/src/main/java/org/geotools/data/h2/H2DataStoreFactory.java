@@ -35,39 +35,51 @@ import org.geotools.jdbc.SQLDialect;
  * DataStoreFacotry for H2 database.
  *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
- *
  * @source $URL$
  */
 public class H2DataStoreFactory extends JDBCDataStoreFactory {
-    /** parameter for database type */
+    /**
+     * parameter for database type
+     */
     public static final Param DBTYPE = new Param("dbtype", String.class, "Type", true, "h2",
             Collections.singletonMap(Parameter.LEVEL, "program"));
-    
-    /** parameter for how to handle associations */
+
+    /**
+     * parameter for how to handle associations
+     */
     public static final Param ASSOCIATIONS = new Param("Associations", Boolean.class,
             "Associations", false, Boolean.FALSE);
 
-    /** optional user parameter */
-    public static final Param USER = new Param(JDBCDataStoreFactory.USER.key, JDBCDataStoreFactory.USER.type, 
+    /**
+     * optional user parameter
+     */
+    public static final Param USER = new Param(JDBCDataStoreFactory.USER.key, 
+            JDBCDataStoreFactory.USER.type,
             JDBCDataStoreFactory.USER.description, false, JDBCDataStoreFactory.USER.sample);
 
-    /** optional host parameter */
-    public static final Param HOST = new Param(JDBCDataStoreFactory.HOST.key, JDBCDataStoreFactory.HOST.type, 
+    /**
+     * optional host parameter
+     */
+    public static final Param HOST = new Param(JDBCDataStoreFactory.HOST.key, 
+            JDBCDataStoreFactory.HOST.type,
             JDBCDataStoreFactory.HOST.description, false, JDBCDataStoreFactory.HOST.sample);
 
-    /** optional port parameter */
-    public static final Param PORT = new Param(JDBCDataStoreFactory.PORT.key, JDBCDataStoreFactory.PORT.type, 
+    /**
+     * optional port parameter
+     */
+    public static final Param PORT = new Param(JDBCDataStoreFactory.PORT.key, 
+            JDBCDataStoreFactory.PORT.type,
             JDBCDataStoreFactory.PORT.description, false, 9902);
 
-    /** optional auto server mode parameter */
+    /**
+     * optional auto server mode parameter
+     */
     public static final Param AUTO_SERVER = new Param("autoServer", Boolean.class,
             "Activate AUTO_SERVER mode for local file database connections", false, false);
 
     /**
      * optional parameter to handle MVCC.
+     *
      * @link http://www.h2database.com/html/advanced.html#mvcc
      */
     public static final Param MVCC = new Param("MVCC", Boolean.class, "MVCC", false, Boolean.FALSE);
@@ -92,24 +104,24 @@ public class H2DataStoreFactory extends JDBCDataStoreFactory {
     public File getBaseDirectory() {
         return baseDirectory;
     }
-    
+
     protected void setupParameters(Map parameters) {
         super.setupParameters(parameters);
 
         //remove host and port temporarily in order to make username optional
         parameters.remove(JDBCDataStoreFactory.HOST.key);
         parameters.remove(JDBCDataStoreFactory.PORT.key);
-        
+
         parameters.put(HOST.key, HOST);
         parameters.put(PORT.key, PORT);
 
         //remove user and password temporarily in order to make username optional
         parameters.remove(JDBCDataStoreFactory.USER.key);
         parameters.remove(PASSWD.key);
-        
+
         parameters.put(USER.key, USER);
         parameters.put(PASSWD.key, PASSWD);
-        
+
         //add user 
         //add additional parameters
         parameters.put(ASSOCIATIONS.key, ASSOCIATIONS);
@@ -141,7 +153,7 @@ public class H2DataStoreFactory extends JDBCDataStoreFactory {
     protected DataSource createDataSource(Map params, SQLDialect dialect) throws IOException {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setUrl(getJDBCUrl(params));
-        
+
         String username = (String) USER.lookUp(params);
         if (username != null) {
             dataSource.setUsername(username);
@@ -150,13 +162,13 @@ public class H2DataStoreFactory extends JDBCDataStoreFactory {
         if (password != null) {
             dataSource.setPassword(password);
         }
-        
+
         dataSource.setDriverClassName("org.h2.Driver");
         dataSource.setPoolPreparedStatements(false);
 
         return new DBCPDataSource(dataSource);
     }
-    
+
     @Override
     protected String getJDBCUrl(Map params) throws IOException {
         String database = (String) DATABASE.lookUp(params);
@@ -164,7 +176,7 @@ public class H2DataStoreFactory extends JDBCDataStoreFactory {
         Boolean mvcc = (Boolean) MVCC.lookUp(params);
         Boolean autoServer = (Boolean) AUTO_SERVER.lookUp(params);
         String autoServerSpec = Boolean.TRUE.equals(autoServer) ? ";AUTO_SERVER=TRUE" : "";
-        
+
         if (host != null && !host.equals("")) {
             Integer port = (Integer) PORT.lookUp(params);
             if (port != null && !port.equals("")) {
@@ -180,7 +192,7 @@ public class H2DataStoreFactory extends JDBCDataStoreFactory {
             // use directory specified if the patch is relative
             String location;
             if (!new File(database).isAbsolute()) {
-                location = new File(baseDirectory, database).getAbsolutePath();    
+                location = new File(baseDirectory, database).getAbsolutePath();
             } else {
                 location = database;
             }
@@ -191,7 +203,7 @@ public class H2DataStoreFactory extends JDBCDataStoreFactory {
     }
 
     protected JDBCDataStore createDataStoreInternal(JDBCDataStore dataStore, Map params)
-        throws IOException {
+            throws IOException {
         //check the foreign keys parameter
         Boolean foreignKeys = (Boolean) ASSOCIATIONS.lookUp(params);
 
@@ -208,5 +220,5 @@ public class H2DataStoreFactory extends JDBCDataStoreFactory {
         // network connection that can fail
         return null;
     }
-   
+
 }

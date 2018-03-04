@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -40,13 +40,10 @@ import org.xml.sax.helpers.XMLReaderFactory;
  * This class is needed because Batik wants the name of a class that implements
  * XMLReader and has a public default constructor, and default jre parsers do
  * not have it.
- * 
+ *
  * @author wolf
- * @since 2.2.1
- *
- *
- *
  * @source $URL$
+ * @since 2.2.1
  */
 public class BatikXMLReader implements XMLReader {
     XMLReader reader;

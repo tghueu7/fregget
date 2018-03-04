@@ -36,10 +36,10 @@ import org.opengis.filter.FilterFactory2;
 import org.opengis.filter.capability.FunctionName;
 
 /**
- * A value for a CSS property. Values can be several things, including from literals, expressions, composition of multiple values.
- * 
- * @author Andrea Aime - GeoSolutions
+ * A value for a CSS property. Values can be several things, including from literals, 
+ * expressions, composition of multiple values.
  *
+ * @author Andrea Aime - GeoSolutions
  */
 abstract class Value {
 
@@ -199,7 +199,8 @@ abstract class Value {
     }
 
     /**
-     * Turns this value into a OGC expression. Only literals and expressions can be converted to a OGC expression
+     * Turns this value into a OGC expression. Only literals and expressions can be converted to 
+     * a OGC expression
      */
     public org.opengis.filter.expression.Expression toExpression() {
         throw new UnsupportedOperationException(
@@ -215,9 +216,8 @@ abstract class Value {
 
     /**
      * A literal, that is, a static value, represented as a string
-     * 
-     * @author Andrea Aime - GeoSolutions
      *
+     * @author Andrea Aime - GeoSolutions
      */
     static class Literal extends Value {
 
@@ -277,9 +277,8 @@ abstract class Value {
 
     /**
      * A function, with a name and parameters
-     * 
-     * @author Andrea Aime - GeoSolutions
      *
+     * @author Andrea Aime - GeoSolutions
      */
     static class Function extends Value {
         static final String URL = "url";
@@ -301,7 +300,7 @@ abstract class Value {
 
         /**
          * Builds a function
-         * 
+         *
          * @param name
          * @param parameters
          */
@@ -317,7 +316,7 @@ abstract class Value {
 
         /**
          * Builds a function
-         * 
+         *
          * @param name
          * @param parameters
          */
@@ -374,9 +373,8 @@ abstract class Value {
 
     /**
      * A function, with a name and named parameters
-     * 
-     * @author Andrea Aime - GeoSolutions
      *
+     * @author Andrea Aime - GeoSolutions
      */
     static class TransformFunction extends Value {
         static final String URL = "url";
@@ -389,7 +387,7 @@ abstract class Value {
 
         /**
          * Builds a function
-         * 
+         *
          * @param name
          * @param parameters
          */
@@ -504,7 +502,8 @@ abstract class Value {
 
         private org.opengis.filter.expression.Expression[] toExpressionArray(
                 List<org.opengis.filter.expression.Expression> arguments) {
-            org.opengis.filter.expression.Expression[] argsArray = (org.opengis.filter.expression.Expression[]) arguments
+            org.opengis.filter.expression.Expression[] argsArray = (org.opengis.filter.expression
+                    .Expression[]) arguments
                     .toArray(new org.opengis.filter.expression.Expression[arguments.size()]);
             return argsArray;
         }
@@ -540,9 +539,8 @@ abstract class Value {
 
     /**
      * An expression, backed by an OGC {@link org.opengis.filter.expression.Expression}
-     * 
-     * @author Andrea Aime - GeoSolutions
      *
+     * @author Andrea Aime - GeoSolutions
      */
     static class Expression extends Value {
         public org.opengis.filter.expression.Expression expression;
@@ -595,9 +593,8 @@ abstract class Value {
 
     /**
      * A list of values
-     * 
-     * @author Andrea Aime - GeoSolutions
      *
+     * @author Andrea Aime - GeoSolutions
      */
     public static class MultiValue extends Value {
         List<Value> values;

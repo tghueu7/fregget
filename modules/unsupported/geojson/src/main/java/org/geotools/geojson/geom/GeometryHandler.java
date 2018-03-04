@@ -26,8 +26,6 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GeometryHandler extends DelegatingHandler<Geometry> {
@@ -38,30 +36,27 @@ public class GeometryHandler extends DelegatingHandler<Geometry> {
     public GeometryHandler(GeometryFactory factory) {
         this.factory = factory;
     }
-    
+
     @Override
     public boolean startObjectEntry(String key) throws ParseException, IOException {
         if ("type".equals(key) && (delegate == NULL || delegate == proxy)) {
             delegate = UNINITIALIZED;
             return true;
-        }
-        else if ("coordinates".equals(key) && delegate == NULL) {
+        } else if ("coordinates".equals(key) && delegate == NULL) {
             //case of specifying coordinates before the actual geometry type, create a proxy 
             // handler that will simply track calls until the type is actually specified
             proxy = new RecordingHandler();
             delegate = proxy;
             return super.startObjectEntry(key);
-        }
-        else if ("geometries".equals(key) && delegate == NULL) {
+        } else if ("geometries".equals(key) && delegate == NULL) {
             // geometry collection without type property first
             delegate = new GeometryCollectionHandler(factory);
             return super.startObjectEntry(key);
-        }
-        else {
+        } else {
             return super.startObjectEntry(key);
         }
     }
-    
+
     @Override
     public boolean primitive(Object value) throws ParseException, IOException {
         if (delegate == UNINITIALIZED) {
@@ -71,8 +66,7 @@ public class GeometryHandler extends DelegatingHandler<Geometry> {
                 proxy = null;
             }
             return true;
-        }
-        else {
+        } else {
             return super.primitive(value);
         }
     }

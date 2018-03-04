@@ -60,7 +60,7 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  * A data store wrapper around a {@link DataStore} object.
- * 
+ *
  * @author Daniele Romagnoli, GeoSolutions SAS
  * @TODO move that class on gt-transform once ready
  */
@@ -79,21 +79,30 @@ public abstract class DataStoreWrapper implements DataStore {
     protected final static Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger(DataStoreWrapper.class);
 
-    /** Auxiliary folder which contains properties file with mapping information */
+    /**
+     * Auxiliary folder which contains properties file with mapping information
+     */
     protected File auxiliaryFolder;
 
-    /** The underlying datastore */
+    /**
+     * The underlying datastore
+     */
     protected final DataStore datastore;
 
-    /** Mapping between typeNames and FeatureTypeMapper */
-    protected final Map<Name, FeatureTypeMapper> mapping = new ConcurrentHashMap<Name, FeatureTypeMapper>();
+    /**
+     * Mapping between typeNames and FeatureTypeMapper
+     */
+    protected final Map<Name, FeatureTypeMapper> mapping = new ConcurrentHashMap<Name, 
+            FeatureTypeMapper>();
 
-    /** Quick access typeNames list */
+    /**
+     * Quick access typeNames list
+     */
     private List<String> typeNames = new ArrayList<String>();
 
     /**
      * Base constructor
-     * 
+     *
      * @param datastore
      * @param auxFolderPath
      */
@@ -103,7 +112,7 @@ public abstract class DataStoreWrapper implements DataStore {
 
     /**
      * Base constructor with custom hidden folder
-     * 
+     *
      * @param datastore
      * @param auxFolderPath
      * @param subFolderName
@@ -114,8 +123,9 @@ public abstract class DataStoreWrapper implements DataStore {
     }
 
     /**
-     * Initialize the mapping by creating proper {@link FeatureTypeMapper}s on top of the available property files which contain mapping information.
-     * 
+     * Initialize the mapping by creating proper {@link FeatureTypeMapper}s on top of the 
+     * available property files which contain mapping information.
+     *
      * @param auxFolderPath the path of the folder containing mapping properties files
      */
     private void initMapping(String auxFolderPath) {
@@ -131,7 +141,8 @@ public abstract class DataStoreWrapper implements DataStore {
             } else {
                 if (LOGGER.isLoggable(Level.WARNING)) {
                     LOGGER.warning(
-                            "The specified config folder for datastore wrapping can't be read or isn't a directory: "
+                            "The specified config folder for datastore wrapping can't be read or " +
+                                    "isn't a directory: "
                                     + auxFolderPath);
                 }
             }
@@ -151,7 +162,7 @@ public abstract class DataStoreWrapper implements DataStore {
 
     /**
      * Load information from property files and initialize the related {@link FeatureTypeMapper}s
-     * 
+     *
      * @param file
      * @throws Exception
      */
@@ -172,7 +183,7 @@ public abstract class DataStoreWrapper implements DataStore {
 
     /**
      * Utility method which load mapping properties from a propertiesFile.
-     * 
+     *
      * @param propertiesFile
      * @return
      */
@@ -246,7 +257,7 @@ public abstract class DataStoreWrapper implements DataStore {
 
     /**
      * Store the properties on disk
-     * 
+     *
      * @param properties
      * @param typeName
      */
@@ -356,31 +367,38 @@ public abstract class DataStoreWrapper implements DataStore {
     }
 
     protected SimpleFeatureSource transformFeatureStore(SimpleFeatureStore source,
-            FeatureTypeMapper mapper) throws IOException {
+                                                        FeatureTypeMapper mapper) throws 
+            IOException {
         return TransformFactory.transform(source, mapper.getName(), mapper.getDefinitions());
     }
 
     @Override
     public FeatureReader<SimpleFeatureType, SimpleFeature> getFeatureReader(Query query,
-            Transaction transaction) throws IOException {
+                                                                            Transaction 
+                                                                                    transaction) 
+            throws IOException {
         throw new UnsupportedOperationException();
     }
 
     @Override
     public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriter(String typeName,
-            Filter filter, Transaction transaction) throws IOException {
+                                                                            Filter filter, 
+                                                                            Transaction transaction) throws IOException {
         throw new UnsupportedOperationException();
     }
 
     @Override
     public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriter(String typeName,
-            Transaction transaction) throws IOException {
+                                                                            Transaction 
+                                                                                    transaction) 
+            throws IOException {
         throw new UnsupportedOperationException();
     }
 
     @Override
     public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriterAppend(String typeName,
-            Transaction transaction) throws IOException {
+                                                                                  Transaction 
+                                                                                          transaction) throws IOException {
         throw new UnsupportedOperationException();
     }
 
@@ -391,7 +409,7 @@ public abstract class DataStoreWrapper implements DataStore {
 
     /**
      * Return the mapper for the specified typeName
-     * 
+     *
      * @param typeName
      * @return
      */
@@ -406,7 +424,7 @@ public abstract class DataStoreWrapper implements DataStore {
 
     /**
      * Store the {@link FeatureTypeMapper} instance
-     * 
+     *
      * @param mapper
      */
     protected void storeMapper(FeatureTypeMapper mapper) {
@@ -433,8 +451,9 @@ public abstract class DataStoreWrapper implements DataStore {
     }
 
     /**
-     * Return a specific {@link FeatureTypeMapper} by parsing mapping properties contained within the specified {@link Properties} object
-     * 
+     * Return a specific {@link FeatureTypeMapper} by parsing mapping properties contained within
+     * the specified {@link Properties} object
+     *
      * @param featureType
      * @return
      * @throws Exception
@@ -452,7 +471,7 @@ public abstract class DataStoreWrapper implements DataStore {
 
     /**
      * Return a specific {@link FeatureTypeMapper} instance on top of an input featureType
-     * 
+     *
      * @param featureType
      * @return
      * @throws Exception

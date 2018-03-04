@@ -47,42 +47,42 @@ public class ColorMapTest {
         assertEquals(11, map.get(255, 255, 255, 255));
         assertEquals(1, map.size());
     }
-    
+
     @Test
     public void testRehash() {
         ColorMap map = new ColorMap(16);
         assertEquals(16, map.table.length);
-        
+
         // this will force the map to rehash
         for (int i = 1; i < 20; i++) {
             map.put(255, 255, 255, i, i);
         }
         assertEquals(64, map.table.length);
         assertEquals((int) (64 * ColorMap.DEFAULT_LOAD_FACTOR), map.threshold);
-        
+
         // check we can still retrieve the data as expected
         for (int i = 1; i < 20; i++) {
             assertEquals(i, map.get(255, 255, 255, i));
         }
     }
-    
+
     @Test
     public void testIterate() {
         ColorMap map = new ColorMap(16);
         assertEquals(16, map.table.length);
-        
+
         // this will force the map to rehash
         for (int i = 1; i < 20; i++) {
             map.put(255, 255, 255, i, i);
         }
         assertEquals(64, map.table.length);
-        
+
         Set<Integer> colors = new HashSet<Integer>();
         for (ColorEntry ce : map) {
             Integer color = ce.color;
             assertFalse(colors.contains(color));
             colors.add(color);
-            assertEquals(ColorUtils.alpha(ce.color),  ce.value);
+            assertEquals(ColorUtils.alpha(ce.color), ce.value);
         }
         assertEquals(map.size, colors.size());
     }

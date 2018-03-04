@@ -6,8 +6,6 @@ import org.geotools.jdbc.JDBCTestSetup;
 import org.geotools.jdbc.JDBCTransactionOnlineTest;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class OracleTransactionOnlineTest extends JDBCTransactionOnlineTest {
@@ -16,7 +14,7 @@ public class OracleTransactionOnlineTest extends JDBCTransactionOnlineTest {
     protected JDBCTestSetup createTestSetup() {
         return new OracleTestSetup();
     }
-    
+
     public void testConcurrentTransactions() throws IOException {
         // Oracle won't pass this one
     }

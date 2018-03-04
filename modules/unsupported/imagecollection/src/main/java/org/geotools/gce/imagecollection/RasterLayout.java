@@ -29,57 +29,67 @@ class RasterLayout extends Object implements Cloneable, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /** The image's minimum X coordinate. */
+    /**
+     * The image's minimum X coordinate.
+     */
     int minX = 0;
 
-    /** The image's minimum Y coordinate. */
+    /**
+     * The image's minimum Y coordinate.
+     */
     int minY = 0;
 
-    /** The image's <code>width</code>. */
+    /**
+     * The image's <code>width</code>.
+     */
     int width = 0;
 
-    /** The image's height. */
+    /**
+     * The image's height.
+     */
     int height = 0;
 
-    /** The X coordinate of tile (0, 0). */
+    /**
+     * The X coordinate of tile (0, 0).
+     */
     int tileGridXOffset = 0;
 
-    /** The Y coordinate of tile (0, 0). */
+    /**
+     * The Y coordinate of tile (0, 0).
+     */
     int tileGridYOffset = 0;
 
-    /** The width of a tile. */
+    /**
+     * The width of a tile.
+     */
     int tileWidth = 0;
 
-    /** The height of a tile. */
+    /**
+     * The height of a tile.
+     */
     int tileHeight = 0;
 
-    /** Constructs a <code>RasterLayout</code> with no parameters set. */
+    /**
+     * Constructs a <code>RasterLayout</code> with no parameters set.
+     */
     public RasterLayout() {
     }
 
     /**
      * Constructs a <code>RasterLayout</code> with all its parameters set.
-     * 
-     * @param minX
-     *            the image's minimum X coordinate.
-     * @param minY
-     *            the image's minimum Y coordinate.
-     * @param width
-     *            the image's width.
-     * @param height
-     *            the image's height.
-     * @param tileGridXOffset
-     *            the X coordinate of tile (0, 0).
-     * @param tileGridYOffset
-     *            the Y coordinate of tile (0, 0).
-     * @param tileWidth
-     *            the width of a tile.
-     * @param tileHeight
-     *            the height of a tile.
+     *
+     * @param minX            the image's minimum X coordinate.
+     * @param minY            the image's minimum Y coordinate.
+     * @param width           the image's width.
+     * @param height          the image's height.
+     * @param tileGridXOffset the X coordinate of tile (0, 0).
+     * @param tileGridYOffset the Y coordinate of tile (0, 0).
+     * @param tileWidth       the width of a tile.
+     * @param tileHeight      the height of a tile.
      */
     public RasterLayout(int minX, int minY, int width, int height,
-            int tileGridXOffset, int tileGridYOffset, int tileWidth,
-            int tileHeight) {
+                        int tileGridXOffset, int tileGridYOffset, int tileWidth,
+                        int tileHeight) {
         setMinX(minX);
         setMinY(minY);
         setWidth(width);
@@ -93,15 +103,11 @@ class RasterLayout extends Object implements Cloneable, Serializable {
     /**
      * Constructs a <code>RasterLayout</code> with only the image dimension
      * parameters set.
-     * 
-     * @param minX
-     *            the image's minimum X coordinate.
-     * @param minY
-     *            the image's minimum Y coordinate.
-     * @param width
-     *            the image's width.
-     * @param height
-     *            the image's height.
+     *
+     * @param minX   the image's minimum X coordinate.
+     * @param minY   the image's minimum Y coordinate.
+     * @param width  the image's width.
+     * @param height the image's height.
      */
     public RasterLayout(int minX, int minY, int width, int height) {
         setMinX(minX);
@@ -113,9 +119,8 @@ class RasterLayout extends Object implements Cloneable, Serializable {
     /**
      * Constructs a <code>RasterLayout</code> with all its parameters set to
      * equal those of a given <code>RenderedImage</code>.
-     * 
-     * @param im
-     *            a <code>RenderedImage</code> whose layout will be copied.
+     *
+     * @param im a <code>RenderedImage</code> whose layout will be copied.
      */
     public RasterLayout(RenderedImage im) {
         this(im.getMinX(), im.getMinY(), im.getWidth(), im.getHeight(), im
@@ -125,7 +130,7 @@ class RasterLayout extends Object implements Cloneable, Serializable {
 
     /**
      * Returns the value of <code>minX</code>.
-     * 
+     *
      * @return the value of minX.
      */
     public int getMinX() {
@@ -134,9 +139,8 @@ class RasterLayout extends Object implements Cloneable, Serializable {
 
     /**
      * Sets <code>minX</code> to the supplied value and marks it as valid.
-     * 
-     * @param minX
-     *            the minimum X coordinate of the image, as an int.
+     *
+     * @param minX the minimum X coordinate of the image, as an int.
      */
     public void setMinX(int minX) {
         this.minX = minX;
@@ -144,7 +148,7 @@ class RasterLayout extends Object implements Cloneable, Serializable {
 
     /**
      * Returns the value of <code>minY</code>.
-     * 
+     *
      * @return the value of minY.
      */
     public int getMinY() {
@@ -153,9 +157,8 @@ class RasterLayout extends Object implements Cloneable, Serializable {
 
     /**
      * Sets <code>minY</code> to the supplied value and marks it as valid.
-     * 
-     * @param minY
-     *            the minimum Y coordinate of the image, as an int.
+     *
+     * @param minY the minimum Y coordinate of the image, as an int.
      */
     public void setMinY(int minY) {
         this.minY = minY;
@@ -163,7 +166,7 @@ class RasterLayout extends Object implements Cloneable, Serializable {
 
     /**
      * Returns the value of <code>width</code>.
-     * 
+     *
      * @return the value of width.
      */
     public int getWidth() {
@@ -172,11 +175,9 @@ class RasterLayout extends Object implements Cloneable, Serializable {
 
     /**
      * Sets <code>width</code> to the supplied value.
-     * 
-     * @param width
-     *            the width of the image, as an int.
-     * @throws IllegalArgumentException
-     *             if <code>width</code> is non-positive.
+     *
+     * @param width the width of the image, as an int.
+     * @throws IllegalArgumentException if <code>width</code> is non-positive.
      */
     public void setWidth(int width) {
         if (width <= 0) {
@@ -187,7 +188,7 @@ class RasterLayout extends Object implements Cloneable, Serializable {
 
     /**
      * Returns the value of height.
-     * 
+     *
      * @return the value of height.
      */
     public int getHeight() {
@@ -196,11 +197,9 @@ class RasterLayout extends Object implements Cloneable, Serializable {
 
     /**
      * Sets height to the supplied value.
-     * 
-     * @param height
-     *            the height of the image, as an int.
-     * @throws IllegalArgumentException
-     *             if <code>height</code> is non-positive.
+     *
+     * @param height the height of the image, as an int.
+     * @throws IllegalArgumentException if <code>height</code> is non-positive.
      */
     public void setHeight(int height) {
         if (height <= 0) {
@@ -211,7 +210,7 @@ class RasterLayout extends Object implements Cloneable, Serializable {
 
     /**
      * Returns the value of <code>tileGridXOffset</code>.
-     * 
+     *
      * @return the value of tileGridXOffset.
      */
     public int getTileGridXOffset() {
@@ -220,9 +219,8 @@ class RasterLayout extends Object implements Cloneable, Serializable {
 
     /**
      * Sets <code>tileGridXOffset</code> to the supplied value.
-     * 
-     * @param tileGridXOffset
-     *            the X coordinate of tile (0, 0), as an int.
+     *
+     * @param tileGridXOffset the X coordinate of tile (0, 0), as an int.
      */
     public void setTileGridXOffset(int tileGridXOffset) {
         this.tileGridXOffset = tileGridXOffset;
@@ -230,7 +228,7 @@ class RasterLayout extends Object implements Cloneable, Serializable {
 
     /**
      * Returns the value of <code>tileGridYOffset</code>.
-     * 
+     *
      * @return the value of tileGridYOffset.
      */
     public int getTileGridYOffset() {
@@ -239,9 +237,8 @@ class RasterLayout extends Object implements Cloneable, Serializable {
 
     /**
      * Sets <code>tileGridYOffset</code> to the supplied value.
-     * 
-     * @param tileGridYOffset
-     *            the Y coordinate of tile (0, 0), as an int.
+     *
+     * @param tileGridYOffset the Y coordinate of tile (0, 0), as an int.
      */
     public void setTileGridYOffset(int tileGridYOffset) {
         this.tileGridYOffset = tileGridYOffset;
@@ -249,7 +246,7 @@ class RasterLayout extends Object implements Cloneable, Serializable {
 
     /**
      * Returns the value of <code>tileWidth</code>.
-     * 
+     *
      * @return the value of tileWidth.
      */
     public int getTileWidth() {
@@ -258,11 +255,9 @@ class RasterLayout extends Object implements Cloneable, Serializable {
 
     /**
      * Sets <code>tileWidth</code> to the supplied value.
-     * 
-     * @param tileWidth
-     *            the width of a tile, as an int.
-     * @throws IllegalArgumentException
-     *             if <code>tileWidth</code> is non-positive.
+     *
+     * @param tileWidth the width of a tile, as an int.
+     * @throws IllegalArgumentException if <code>tileWidth</code> is non-positive.
      */
     public void setTileWidth(int tileWidth) {
         if (tileWidth <= 0) {
@@ -273,7 +268,7 @@ class RasterLayout extends Object implements Cloneable, Serializable {
 
     /**
      * Returns the value of tileHeight.
-     * 
+     *
      * @return the appropriate value of tileHeight.
      */
     public int getTileHeight() {
@@ -282,11 +277,10 @@ class RasterLayout extends Object implements Cloneable, Serializable {
 
     /**
      * Sets tileHeight to the supplied value.
-     * 
+     *
      * @return a reference to this <code>RasterLayout</code> following the
-     *         change.
-     * @throws IllegalArgumentException
-     *             if <code>tileHeight</code> is non-positive.
+     * change.
+     * @throws IllegalArgumentException if <code>tileHeight</code> is non-positive.
      */
     public void setTileHeight(int tileHeight) {
         if (tileHeight <= 0) {
@@ -295,7 +289,9 @@ class RasterLayout extends Object implements Cloneable, Serializable {
         this.tileHeight = tileHeight;
     }
 
-    /** Returns a String containing the values of all valid fields. */
+    /**
+     * Returns a String containing the values of all valid fields.
+     */
     public String toString() {
         StringBuilder sb = new StringBuilder("RasterLayout[").append("MIN_X=")
                 .append(minX).append(", ").append("MIN_Y=").append(minY)
@@ -322,7 +318,7 @@ class RasterLayout extends Object implements Cloneable, Serializable {
 
     /**
      * Serialize the <code>RasterLayout</code>.
-     * 
+     *
      * @throws IOException
      */
     private void writeObject(ObjectOutputStream out) throws IOException {
@@ -333,7 +329,7 @@ class RasterLayout extends Object implements Cloneable, Serializable {
 
     /**
      * Deserialize the <code>RasterLayout</code>.
-     * 
+     *
      * @throws IOException
      */
     private void readObject(ObjectInputStream in) throws IOException,
@@ -346,13 +342,11 @@ class RasterLayout extends Object implements Cloneable, Serializable {
     /**
      * Tests if the specified <code>Object</code> equals this
      * <code>RasterLayout</code>.
-     * 
-     * @param obj
-     *            the <code>Object</code> to test for equality
-     * 
+     *
+     * @param obj the <code>Object</code> to test for equality
      * @return <code>true</code> if the specified <code>Object</code> is an
-     *         instance of <code>RasterLayout</code> and equals this
-     *         <code>RasterLayout</code>; <code>false</code> otherwise.
+     * instance of <code>RasterLayout</code> and equals this
+     * <code>RasterLayout</code>; <code>false</code> otherwise.
      */
     public boolean equals(Object obj) {
 
@@ -373,7 +367,7 @@ class RasterLayout extends Object implements Cloneable, Serializable {
 
     /**
      * Returns the hash code for this <code>RasterLayout</code>.
-     * 
+     *
      * @return a hash code for this <code>RasterLayout</code>.
      */
     public int hashCode() {

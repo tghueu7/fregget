@@ -41,23 +41,20 @@ import org.opengis.referencing.operation.MathTransform;
 
 
 /**
- *
- *
- *
  * @source $URL$
  */
 public class Geot553Test extends TestCase {
-    
-    public void testGeot553 () throws Exception {
-    	//-247941.17083210908,5334613.737657672,-194536.86526633866,5359024.191696413
-    	double minx = -247941.17083210908;
-    	double miny = 5334613.737657672;
-    	double maxx = -194536.86526633866;
-    	double maxy = 5359024.191696413;
-    	
-    	CoordinateReferenceSystem epsg26591 = CRS.decode("EPSG:26591");
-    	CoordinateReferenceSystem epsg4326 = CRS.decode("EPSG:4326");
-    	
+
+    public void testGeot553() throws Exception {
+        //-247941.17083210908,5334613.737657672,-194536.86526633866,5359024.191696413
+        double minx = -247941.17083210908;
+        double miny = 5334613.737657672;
+        double maxx = -194536.86526633866;
+        double maxy = 5359024.191696413;
+
+        CoordinateReferenceSystem epsg26591 = CRS.decode("EPSG:26591");
+        CoordinateReferenceSystem epsg4326 = CRS.decode("EPSG:4326");
+
         // prepare the responses
         MockHttpClient client = new MockHttpClient() {
 
@@ -72,13 +69,13 @@ public class Geot553Test extends TestCase {
             }
 
         };
-        
-        
+
+
         WebMapServer wms = new WebMapServer(new URL("http://test.org"), client);
         Layer layer = wms.getCapabilities().getLayer().getChildren()[2];
-        
+
         Envelope env = wms.getEnvelope(layer, CRS.decode("EPSG:3005"));
-        
+
         assertNotNull(env);
     }
 }

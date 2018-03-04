@@ -20,8 +20,6 @@ import org.geotools.styling.Graphic;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SLDGraphicStrokeBindingTest extends SLDTestSupport {

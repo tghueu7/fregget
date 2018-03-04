@@ -93,7 +93,7 @@ public class WFSOnlineTestSupport {
         assertNotNull("CRS missing ", geometryDescriptor.getCoordinateReferenceSystem());
 
         assertTrue("POST " + typeName
-                + " must have 1 geom and atleast 1 other attribute -- fair assumption",
+                        + " must have 1 geom and atleast 1 other attribute -- fair assumption",
                 geometryDescriptor != null && attributeDescriptors != null && attributeCount > 0);
 
     }
@@ -123,7 +123,7 @@ public class WFSOnlineTestSupport {
         // take atleast attributeType 3 to avoid the undeclared one .. inherited optional attrs
 
         String[] props;
-        props = new String[] { ft.getGeometryDescriptor().getLocalName() };
+        props = new String[]{ft.getGeometryDescriptor().getLocalName()};
 
         Query query = new Query(ft.getTypeName());
         query.setPropertyNames(props);
@@ -178,7 +178,8 @@ public class WFSOnlineTestSupport {
 
     }
 
-    public static void doFeatureReaderWithBBox(DataStore wfs, String typeName, ReferencedEnvelope bbox)
+    public static void doFeatureReaderWithBBox(DataStore wfs, String typeName, ReferencedEnvelope
+            bbox)
             throws Exception {
         SimpleFeatureType featureType = wfs.getSchema(typeName);
 
@@ -187,7 +188,7 @@ public class WFSOnlineTestSupport {
         Query query = new Query(featureType.getTypeName());
         PropertyName theGeom = ff.property(featureType.getGeometryDescriptor().getName());
         Filter filter = ff.bbox(theGeom, bbox);
-        
+
         query.setFilter(filter);
         FeatureReader<SimpleFeatureType, SimpleFeature> fr = wfs.getFeatureReader(query,
                 Transaction.AUTO_COMMIT);
@@ -280,7 +281,7 @@ public class WFSOnlineTestSupport {
         }
         fr.close();
         assertEquals(count2, count3);
-        
+
         return fidfilter;
     }
 
@@ -330,7 +331,7 @@ public class WFSOnlineTestSupport {
     }
 
     public static void doUpdate(DataStore ds, SimpleFeatureType ft, String attributeToChange,
-            Object newValue) throws Exception {
+                                Object newValue) throws Exception {
         Transaction t = new DefaultTransaction();
         SimpleFeatureStore fs = (SimpleFeatureStore) ds.getFeatureSource(ft.getTypeName());
         fs.setTransaction(t);

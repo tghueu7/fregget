@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2011-2014, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -31,9 +31,8 @@ class WFSLocalTransactionState extends DiffTransactionState {
 
     /**
      * Transaction state responsible for holding an in memory {@link Diff}.
-     * 
-     * @param state
-     *            ContentState for the transaction
+     *
+     * @param state ContentState for the transaction
      */
     public WFSLocalTransactionState(WFSContentState state) {
         super(state, new WFSDiff());
@@ -51,7 +50,7 @@ class WFSLocalTransactionState extends DiffTransactionState {
     /**
      * We don't do any actual commit here, but let the {@link WFSRemoteTransactionState} do it all
      * for all the types changed inside the transaction.
-     * 
+     *
      * @see org.geotools.data.store.DiffTransactionState#commit()
      */
     @Override

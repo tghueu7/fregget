@@ -58,13 +58,10 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 
 /**
- * 
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Ian Schneider
  * @author James Macgill
+ * @version $Id$
+ * @source $URL$
  */
 public class ShapefileTest extends TestCaseSupport {
 
@@ -74,7 +71,7 @@ public class ShapefileTest extends TestCaseSupport {
     public final String POLYGONTEST = "shapes/polygontest.shp";
     public final String HOLETOUCHEDGE = "shapes/holeTouchEdge.shp";
     public final String EXTRAATEND = "shapes/extraAtEnd.shp";
-    
+
     private final static String SHP_FILTER_BEFORE_SCREENMAP = "filter-before-screenmap";
     private final static String SHP_SCREENMAP_WITH_DELETED_ROW = "screenmap-deleted";
 
@@ -177,7 +174,7 @@ public class ShapefileTest extends TestCaseSupport {
 
         store.addFeatures(features);
         s.dispose();
-        
+
 
         s = new ShapefileDataStore(tmpFile.toURI().toURL());
         typeName = s.getTypeNames()[0];
@@ -243,43 +240,44 @@ public class ShapefileTest extends TestCaseSupport {
             reader.close();
         }
     }
-    
-	@Test
-    public void testNullGeometries() throws Exception {
-		// Write a point shapefile with one null geometry
-		Map<String, Serializable> params = new HashMap<String, Serializable>();
-		File tmp = File.createTempFile("test", ".dbf");
-        markTempFile(tmp);
-		if (!tmp.delete()) {
-			throw new IllegalStateException("Unable to clear temp file");
-		}
-		URL shpUrl = tmp.toURI().toURL();
-		params.put("url", shpUrl);
-		ShapefileDataStore ds = (ShapefileDataStore) new ShapefileDataStoreFactory()
-				.createNewDataStore(params);
-		SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
-		tb.setName("shapefile");
-		tb.add("the_geom", Point.class);
-		ds.createSchema(tb.buildFeatureType());
-		Transaction transaction = Transaction.AUTO_COMMIT;
-		FeatureWriter<SimpleFeatureType, SimpleFeature> writer = ds.getFeatureWriter(ds.getTypeNames()[0], Transaction.AUTO_COMMIT);
-		SimpleFeature feature = writer.next();
-		feature.setAttribute(0, null);
-		writer.close();
-		transaction.commit();
-		ds.dispose();
 
-		// Read the same file and check the geometry is null
-		ShpFiles shpFiles = new ShpFiles(shpUrl);
-		ShapefileReader reader = new ShapefileReader(shpFiles, false, true,
-				new GeometryFactory(), false);
-		try {
-			assertTrue(reader.hasNext());
-			assertTrue(reader.nextRecord().shape() == null);
-		} finally {
-			reader.close();
-		}
-	}
+    @Test
+    public void testNullGeometries() throws Exception {
+        // Write a point shapefile with one null geometry
+        Map<String, Serializable> params = new HashMap<String, Serializable>();
+        File tmp = File.createTempFile("test", ".dbf");
+        markTempFile(tmp);
+        if (!tmp.delete()) {
+            throw new IllegalStateException("Unable to clear temp file");
+        }
+        URL shpUrl = tmp.toURI().toURL();
+        params.put("url", shpUrl);
+        ShapefileDataStore ds = (ShapefileDataStore) new ShapefileDataStoreFactory()
+                .createNewDataStore(params);
+        SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
+        tb.setName("shapefile");
+        tb.add("the_geom", Point.class);
+        ds.createSchema(tb.buildFeatureType());
+        Transaction transaction = Transaction.AUTO_COMMIT;
+        FeatureWriter<SimpleFeatureType, SimpleFeature> writer = ds.getFeatureWriter(ds
+                .getTypeNames()[0], Transaction.AUTO_COMMIT);
+        SimpleFeature feature = writer.next();
+        feature.setAttribute(0, null);
+        writer.close();
+        transaction.commit();
+        ds.dispose();
+
+        // Read the same file and check the geometry is null
+        ShpFiles shpFiles = new ShpFiles(shpUrl);
+        ShapefileReader reader = new ShapefileReader(shpFiles, false, true,
+                new GeometryFactory(), false);
+        try {
+            assertTrue(reader.hasNext());
+            assertTrue(reader.nextRecord().shape() == null);
+        } finally {
+            reader.close();
+        }
+    }
 
     protected void loadShapes(String resource, int expected) throws Exception {
         final URL url = TestData.url(resource);
@@ -301,7 +299,8 @@ public class ShapefileTest extends TestCaseSupport {
     @Test
     public void testReadingSparse() throws IOException {
         File file = TestData.file(TestCaseSupport.class, "sparse/sparse.shp");
-        ShapefileReader reader = new ShapefileReader(new ShpFiles(file), false, false, new GeometryFactory());
+        ShapefileReader reader = new ShapefileReader(new ShpFiles(file), false, false, new 
+                GeometryFactory());
         int cnt = 0;
         try {
             while (reader.hasNext()) {
@@ -364,8 +363,9 @@ public class ShapefileTest extends TestCaseSupport {
         Integer filterFid = null;
         String expectedName = "b";
         int expectedFid = 2;
-        
-        testScreenMap(SHP_SCREENMAP_WITH_DELETED_ROW, isFilterBeforeScreenMap, filterFid, expectedName, expectedFid);
+
+        testScreenMap(SHP_SCREENMAP_WITH_DELETED_ROW, isFilterBeforeScreenMap, filterFid, 
+                expectedName, expectedFid);
     }
 
     @Test
@@ -376,8 +376,9 @@ public class ShapefileTest extends TestCaseSupport {
         Integer filterFid = null;
         String expectedName = "a";
         int expectedFid = 1;
-        
-        testScreenMap(SHP_FILTER_BEFORE_SCREENMAP, isFilterBeforeScreenMap, filterFid, expectedName, expectedFid);
+
+        testScreenMap(SHP_FILTER_BEFORE_SCREENMAP, isFilterBeforeScreenMap, filterFid, 
+                expectedName, expectedFid);
     }
 
     @Test
@@ -388,29 +389,34 @@ public class ShapefileTest extends TestCaseSupport {
         Integer filterFid = 2;
         String expectedName = "b";
         int expectedFid = filterFid;
-        
-        testScreenMap(SHP_FILTER_BEFORE_SCREENMAP, isFilterBeforeScreenMap, filterFid, expectedName, expectedFid);
+
+        testScreenMap(SHP_FILTER_BEFORE_SCREENMAP, isFilterBeforeScreenMap, filterFid, 
+                expectedName, expectedFid);
     }
-    
+
     @Test
     public void testFilterBeforeScreenMapWithDeletedRow() throws Exception {
-        // test screen map optimization with filterBeforeScreenMap enhancement and deleted row in DBF
+        // test screen map optimization with filterBeforeScreenMap enhancement and deleted row in
+        // DBF
         // first record is filtered out, all subsequent records are ScreenMap coincident
         boolean isFilterBeforeScreenMap = true;
         Integer filterFid = 3;
         String expectedName = "c";
         int expectedFid = filterFid;
 
-        testScreenMap(SHP_SCREENMAP_WITH_DELETED_ROW, isFilterBeforeScreenMap, filterFid, expectedName, expectedFid);
+        testScreenMap(SHP_SCREENMAP_WITH_DELETED_ROW, isFilterBeforeScreenMap, filterFid, 
+                expectedName, expectedFid);
     }
-    
-    private void testScreenMap(String shpName, boolean isFilterBeforeScreenMap, Integer filterFid, String expectedName, int expectedFid) throws Exception {
+
+    private void testScreenMap(String shpName, boolean isFilterBeforeScreenMap, Integer 
+            filterFid, String expectedName, int expectedFid) throws Exception {
         URL shpUrl = TestData.url(this, shpName + "/" + shpName + ".shp");
-        
+
         Map<String, Serializable> params = new HashMap<String, Serializable>();
         params.put(ShapefileDataStoreFactory.URLP.key, shpUrl);
 
-        ShapefileDataStore ds = (ShapefileDataStore) new ShapefileDataStoreFactory().createDataStore(params);
+        ShapefileDataStore ds = (ShapefileDataStore) new ShapefileDataStoreFactory()
+                .createDataStore(params);
 
         FeatureReader<SimpleFeatureType, SimpleFeature> reader;
         if (isFilterBeforeScreenMap && filterFid != null) {
@@ -427,8 +433,8 @@ public class ShapefileTest extends TestCaseSupport {
         screenMap.setSpans(1.0, 1.0);
         screenMap.setTransform(IdentityTransform.create(2));
 
-        ((ShapefileFeatureReader)reader).setScreenMap(screenMap);
-        ((ShapefileFeatureReader)reader).setSimplificationDistance(1.0);
+        ((ShapefileFeatureReader) reader).setScreenMap(screenMap);
+        ((ShapefileFeatureReader) reader).setSimplificationDistance(1.0);
 
         assertTrue(reader.hasNext());
         SimpleFeature feature = reader.next();
@@ -438,10 +444,10 @@ public class ShapefileTest extends TestCaseSupport {
         assertNotEquals(ShapefileFeatureReader.SKIP, feature.getDefaultGeometry());
         assertEquals(expectedName, feature.getAttribute("NAME"));
         assertEquals(expectedFid, feature.getAttribute("feature_id"));
-        
+
         reader.close();
     }
-  
+
     protected void loadMemoryMapped(String resource, int expected)
             throws Exception {
         final URL url = TestData.url(resource);
@@ -459,5 +465,5 @@ public class ShapefileTest extends TestCaseSupport {
         assertEquals("Number of Geometries loaded incorect for : " + resource,
                 expected, cnt);
     }
-    
+
 }

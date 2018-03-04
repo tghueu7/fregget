@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -43,16 +43,13 @@ import org.opengis.filter.expression.PropertyName;
 import org.opengis.filter.expression.Subtract;
 
 /**
- * 
  * @author Gabriel Roldan, Axios Engineering
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class FunctionExpressionImplTest extends TestCase {
-    private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger(FunctionExpressionImplTest.class.getPackage().getName());
+    private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger
+            (FunctionExpressionImplTest.class.getPackage().getName());
 
     FunctionExpressionImpl function;
 
@@ -60,7 +57,8 @@ public class FunctionExpressionImplTest extends TestCase {
 
     public void setUp() throws Exception {
         super.setUp();
-        function = new FunctionExpressionImpl( FunctionExpressionImpl.functionName("testFunction", "test:String",  "argument:String") ){
+        function = new FunctionExpressionImpl(FunctionExpressionImpl.functionName("testFunction",
+                "test:String", "argument:String")) {
         };
         testVisitor = new TestExpressionVisitor();
     }
@@ -76,7 +74,7 @@ public class FunctionExpressionImplTest extends TestCase {
 
         function.accept(testVisitor, extraData);
 
-        final Object[] expected = { Boolean.TRUE, extraData };
+        final Object[] expected = {Boolean.TRUE, extraData};
         final Object[] actual = testVisitor.functionVisited;
 
         assertEquals(expected[0], actual[0]);
@@ -88,7 +86,8 @@ public class FunctionExpressionImplTest extends TestCase {
     }
 
     public void testGetName() {
-        FunctionExpressionImpl anonymous = new FunctionExpressionImpl(FunctionExpressionImpl.functionName("testFunction","text:String")){
+        FunctionExpressionImpl anonymous = new FunctionExpressionImpl(FunctionExpressionImpl
+                .functionName("testFunction", "text:String")) {
         };
         assertEquals("testFunction", anonymous.getName());
     }
@@ -142,7 +141,7 @@ public class FunctionExpressionImplTest extends TestCase {
         List functionClasses = loadFunctionClasses();
 
         List errors = new LinkedList();
-        for (Iterator it = functionClasses.iterator(); it.hasNext();) {
+        for (Iterator it = functionClasses.iterator(); it.hasNext(); ) {
             Class functionClass = (Class) it.next();
             Function function = (Function) functionClass.newInstance();
             testFunction(function, errors);
@@ -155,15 +154,14 @@ public class FunctionExpressionImplTest extends TestCase {
     }
 
     /**
-     * @param errors
-     *            List&lt;Exception&gt
+     * @param errors List&lt;Exception&gt
      * @return a formatted error message
      */
     private String buildErrosMessage(List errors) {
         StringBuffer sb = new StringBuffer(
                 "Some function expression implementations violates contract:\n");
         int errorCount = 1;
-        for (Iterator it = errors.iterator(); it.hasNext();) {
+        for (Iterator it = errors.iterator(); it.hasNext(); ) {
             String error = (String) it.next();
             sb.append(errorCount++ + " - ");
             sb.append(error);
@@ -202,19 +200,19 @@ public class FunctionExpressionImplTest extends TestCase {
         if (function instanceof FunctionExpression) {
             testDeprecatedMethods((FunctionExpression) function, errors);
         }
-        
+
         List<Expression> parameters = function.getParameters();
-        if(parameters == null){
+        if (parameters == null) {
             errors.add(functionClass + ".getParameters() returns null");
         }
     }
 
     private void addExceptionError(List errors, final String functionClass,
-            final String method, Exception e) {
+                                   final String method, Exception e) {
         /*
          * StringWriter stringWriter = new StringWriter(); e.printStackTrace(new
          * PrintWriter(stringWriter));
-         * 
+         *
          * errors.add(functionClass + "." + method + "() throwed an exception: " +
          * stringWriter.getBuffer());
          */
@@ -229,14 +227,14 @@ public class FunctionExpressionImplTest extends TestCase {
         if (argCount < 0) { //unlimited parameters
             argCount = 5; //we'll try 5
         }
-        
+
         final List<Expression> expected = new ArrayList<Expression>();
-        
+
         for (int i = 0; i < argCount; i++) {
             AttributeExpressionImpl ex = new AttributeExpressionImpl("attName");
-            expected.add( ex );
+            expected.add(ex);
         }
-        
+
         try {
             function.setParameters(expected);
         } catch (Exception e) {
@@ -246,10 +244,12 @@ public class FunctionExpressionImplTest extends TestCase {
         List<Expression> returnedParams = function.getParameters();
         if (returnedParams == null) {
             errors.add(functionClass
-                            + ".getParameters() returned null when parameters were set through setArgs(Expression[])");
+                    + ".getParameters() returned null when parameters were set through setArgs" +
+                    "(Expression[])");
         } else if (!expected.equals(returnedParams)) {
             errors.add(functionClass
-                            + ".getParameters() returned a wrong result when parameters were set through setArgs(Expression[])");
+                    + ".getParameters() returned a wrong result when parameters were set through " +
+                    "setArgs(Expression[])");
         }
 
         function = (FunctionExpression) function.getClass().newInstance();
@@ -258,9 +258,9 @@ public class FunctionExpressionImplTest extends TestCase {
         List<Expression> returnedArgs = function.getParameters();
         if (returnedArgs == null) {
             errors.add(functionClass
-                            + ".getParameters() returns null then arguments set through setParameters()");
+                    + ".getParameters() returns null then arguments set through setParameters()");
         } else {
-            returnedParams = new ArrayList<Expression>( expected);
+            returnedParams = new ArrayList<Expression>(expected);
 
             if (!expected.equals(returnedParams)) {
                 errors.add(functionClass
@@ -277,7 +277,8 @@ public class FunctionExpressionImplTest extends TestCase {
 
     private List loadFunctionClasses() throws IOException,
             ClassNotFoundException {
-        final String spiDefinitionResource = "/META-INF/services/org.opengis.filter.expression.Function";
+        final String spiDefinitionResource = "/META-INF/services/org.opengis.filter.expression" +
+                ".Function";
         InputStream in = getClass().getResourceAsStream(spiDefinitionResource);
         if (in == null) {
             throw new FileNotFoundException(spiDefinitionResource);
@@ -296,12 +297,11 @@ public class FunctionExpressionImplTest extends TestCase {
     /**
      * An ExpressionVisitor for function expressions test purposes that stores
      * the visited status in a public field
-     * 
+     *
      * @author Gabriel Roldan, Axios Engineering
-     * 
      */
     private static class TestExpressionVisitor implements ExpressionVisitor {
-        public Object[] functionVisited = { Boolean.FALSE, null };
+        public Object[] functionVisited = {Boolean.FALSE, null};
 
         public Object visit(Function expression, Object extraData) {
             functionVisited[0] = Boolean.TRUE;

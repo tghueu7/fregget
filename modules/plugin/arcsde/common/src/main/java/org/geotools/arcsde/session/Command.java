@@ -30,14 +30,11 @@ import com.esri.sde.sdk.client.SeException;
  * its {@code execute} method. This facility is used to prevent a series of complicated locks and
  * try/catch/finally code.
  * </p>
- * 
+ *
  * @author Jody Garnett
- * 
- *
- *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/common/src/main/java/org/geotools
- *         /arcsde/session/Command.java $
+ * http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/common/src/main/java/org/geotools
+ * /arcsde/session/Command.java $
  */
 public abstract class Command<R> {
     /**
@@ -45,13 +42,11 @@ public abstract class Command<R> {
      * <p>
      * Please keep in mind that a Command should be short in duration; you are sharing this
      * SeConnection with other threads.
-     * 
-     * @param session
-     *            the Session the command is being executed inside
-     * @param connection
-     *            the session's connection, used to interact with ArcSDE
+     *
+     * @param session    the Session the command is being executed inside
+     * @param connection the session's connection, used to interact with ArcSDE
      * @return the result of the command execution, or null if the command is not meant to return
-     *         anything (a command meant to return something should fail if not able to)
+     * anything (a command meant to return something should fail if not able to)
      */
     public abstract R execute(ISession session, SeConnection connection) throws SeException,
             IOException;

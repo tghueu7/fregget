@@ -29,21 +29,21 @@ import org.geotools.validation.dto.TestSuiteDTO;
 
 /**
  * XMLWriter purpose.
- * 
+ * <p>
  * <p>
  * Description of XMLWriter ...
  * </p>
- * 
+ * <p>
  * <p>
  * Capabilities:
  * </p>
- * 
+ * <p>
  * <ul>
  * <li>
  * Feature: description
  * </li>
  * </ul>
- * 
+ * <p>
  * <p>
  * Example Use:
  * </p>
@@ -53,10 +53,8 @@ import org.geotools.validation.dto.TestSuiteDTO;
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class XMLWriter {
     public static void writePlugIn(PlugInDTO dto, Writer w) {
@@ -67,7 +65,7 @@ public class XMLWriter {
         m.put("xmlns:ogc", "http://www.opengis.net/ogc");
         m.put("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
         m.put("xsi:schemaLocation",
-            "pluginSchema /data/capabilities/validate/pluginSchema.xsd");
+                "pluginSchema /data/capabilities/validate/pluginSchema.xsd");
 
         try {
             cw.openTag("plugin", m);
@@ -134,7 +132,7 @@ public class XMLWriter {
         m.put("xmlns:ogc", "http://www.opengis.net/ogc");
         m.put("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
         m.put("xsi:schemaLocation",
-            "testSuiteSchema /data/capabilities/validate/testSuiteSchema.xsd");
+                "testSuiteSchema /data/capabilities/validate/testSuiteSchema.xsd");
 
         try {
             cw.openTag("suite", m);
@@ -177,7 +175,7 @@ public class XMLWriter {
                 cw.textTag("name", dto.getName());
                 cw.writeln(ArgHelper.getArgumentEncoding(dto.getValue()));
             } catch (Exception e) {
-            	// do nothing, just don't write it out
+                // do nothing, just don't write it out
                 e.printStackTrace();
 
                 // error log it;

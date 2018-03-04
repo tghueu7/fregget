@@ -7,9 +7,9 @@
                                                                                 
         Version: $Id$              
      ======================================================================= -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-             xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                                  http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -20,9 +20,9 @@
     </parent>
 
 
-  <!-- =========================================================== -->
-  <!--     Module Description                                      -->
-  <!-- =========================================================== -->
+    <!-- =========================================================== -->
+    <!--     Module Description                                      -->
+    <!-- =========================================================== -->
     <groupId>org.geotools</groupId>
     <artifactId>gt-process-geometry</artifactId>
     <packaging>jar</packaging>
@@ -30,9 +30,9 @@
 
 
     <description>
-      Processes for handling of geometry.
+        Processes for handling of geometry.
     </description>
-  
+
     <licenses>
         <license>
             <name>Lesser General Public License (LGPL)</name>
@@ -42,9 +42,9 @@
     </licenses>
 
 
-  <!-- =========================================================== -->
-  <!--     Developers and Contributors                             -->
-  <!-- =========================================================== -->
+    <!-- =========================================================== -->
+    <!--     Developers and Contributors                             -->
+    <!-- =========================================================== -->
     <developers>
         <developer>
             <id>jive</id>
@@ -71,9 +71,9 @@
     </developers>
 
 
-  <!-- =========================================================== -->
-  <!--     Dependency Mangement                                    -->
-  <!-- =========================================================== -->
+    <!-- =========================================================== -->
+    <!--     Dependency Mangement                                    -->
+    <!-- =========================================================== -->
     <dependencies>
         <dependency>
             <groupId>org.geotools</groupId>
@@ -89,10 +89,10 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-        	<groupId>org.geotools</groupId>
-        	<artifactId>gt-geojson</artifactId>
-        	<version>${project.version}</version>
-        	<scope>test</scope>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-geojson</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

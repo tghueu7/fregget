@@ -44,8 +44,6 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LinearRing;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SQLServerFilterToSQL extends FilterToSQL {
@@ -67,7 +65,7 @@ public class SQLServerFilterToSQL extends FilterToSQL {
         caps.addType(Beyond.class);
         return caps;
     }
-    
+
     @Override
     protected void visitLiteralGeometry(Literal expression) throws IOException {
         Geometry g = (Geometry) evaluateLiteral(expression, Geometry.class);
@@ -75,112 +73,100 @@ public class SQLServerFilterToSQL extends FilterToSQL {
             //WKT does not support linear rings
             g = g.getFactory().createLineString(((LinearRing) g).getCoordinateSequence());
         }
-        out.write( "geometry::STGeomFromText('"+g.toText()+"', "+currentSRID+")");
+        out.write("geometry::STGeomFromText('" + g.toText() + "', " + currentSRID + ")");
     }
-    
+
     @Override
     protected Object visitBinarySpatialOperator(BinarySpatialOperator filter,
-            PropertyName property, Literal geometry, boolean swapped, Object extraData) {
-        return visitBinarySpatialOperator(filter, (Expression)property, (Expression)geometry, 
-            swapped, extraData);
+                                                PropertyName property, Literal geometry, boolean 
+                                                            swapped, Object extraData) {
+        return visitBinarySpatialOperator(filter, (Expression) property, (Expression) geometry,
+                swapped, extraData);
     }
 
     @Override
     protected Object visitBinarySpatialOperator(BinarySpatialOperator filter, Expression e1,
-            Expression e2, Object extraData) {
+                                                Expression e2, Object extraData) {
         return visitBinarySpatialOperator(filter, e1, e2, false, extraData);
     }
 
     protected Object visitBinarySpatialOperator(BinarySpatialOperator filter, Expression e1,
-        Expression e2, boolean swapped, Object extraData) {
-        
+                                                Expression e2, boolean swapped, Object extraData) {
+
         try {
             //if the filter is not disjoint, and it with a BBOX filter
             if (!(filter instanceof Disjoint) && !(filter instanceof DistanceBufferOperator)) {
                 e1.accept(this, extraData);
-                out.write( ".Filter(");
+                out.write(".Filter(");
                 e2.accept(this, extraData);
                 out.write(") = 1");
-                
+
                 if (!(filter instanceof BBOX)) {
-                    out.write( " AND " );
+                    out.write(" AND ");
                 }
             }
-            
+
             if (filter instanceof BBOX) {
                 //nothing to do. already encoded above
                 return extraData;
             }
-            
+
             if (filter instanceof DistanceBufferOperator) {
                 e1.accept(this, extraData);
                 out.write(".STDistance(");
                 e2.accept(this, extraData);
                 out.write(")");
-                
+
                 if (filter instanceof DWithin) {
                     out.write("<");
-                }
-                else if (filter instanceof Beyond ) {
+                } else if (filter instanceof Beyond) {
                     out.write(">");
-                }
-                else {
+                } else {
                     throw new RuntimeException("Unknown distance operator.");
                 }
-                
-                out.write(Double.toString(((DistanceBufferOperator)filter).getDistance()));
+
+                out.write(Double.toString(((DistanceBufferOperator) filter).getDistance()));
+            } else {
+
+                if (swapped) {
+                    e2.accept(this, extraData);
+                } else {
+                    e1.accept(this, extraData);
+                }
+
+                if (filter instanceof Contains) {
+                    out.write(".STContains(");
+                } else if (filter instanceof Crosses) {
+                    out.write(".STCrosses(");
+                } else if (filter instanceof Disjoint) {
+                    out.write(".STDisjoint(");
+                } else if (filter instanceof Equals) {
+                    out.write(".STEquals(");
+                } else if (filter instanceof Intersects) {
+                    out.write(".STIntersects(");
+                } else if (filter instanceof Overlaps) {
+                    out.write(".STOverlaps(");
+                } else if (filter instanceof Touches) {
+                    out.write(".STTouches(");
+                } else if (filter instanceof Within) {
+                    out.write(".STWithin(");
+                } else {
+                    throw new RuntimeException("Unknown operator: " + filter);
+                }
+
+                if (swapped) {
+                    e1.accept(this, extraData);
+                } else {
+                    e2.accept(this, extraData);
+                }
+
+                out.write(") = 1");
             }
-            else {
-                
-                    if (swapped) {
-                        e2.accept(this, extraData);
-                    }
-                    else {
-                        e1.accept(this, extraData);
-                    }
-                    
-                    if (filter instanceof Contains) {
-                        out.write(".STContains(");
-                    }
-                    else if (filter instanceof Crosses) {
-                        out.write(".STCrosses(");
-                    }
-                    else if (filter instanceof Disjoint) {
-                        out.write(".STDisjoint(");
-                    }
-                    else if (filter instanceof Equals) {
-                        out.write(".STEquals(");
-                    }
-                    else if (filter instanceof Intersects) {
-                        out.write(".STIntersects(");
-                    }
-                    else if (filter instanceof Overlaps) {
-                        out.write(".STOverlaps(");
-                    }
-                    else if (filter instanceof Touches) {
-                        out.write(".STTouches(");
-                    }
-                    else if (filter instanceof Within) {
-                        out.write(".STWithin(");
-                    }
-                    else {
-                        throw new RuntimeException("Unknown operator: " + filter);
-                    }
-                    
-                    if (swapped) {
-                        e1.accept(this, extraData);
-                    }
-                    else {
-                        e2.accept(this, extraData);
-                    }
-                    
-                    out.write(") = 1");
-            }
-            
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        
+
         return extraData;
     }
 

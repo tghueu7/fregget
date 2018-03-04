@@ -34,24 +34,21 @@ import com.vividsolutions.jts.geom.GeometryFactory;
  * During writing, an index will also be created. To create a ShapefileWriter,
  * do something like<br>
  * <code>
- *   GeometryCollection geoms;
- *   File shp = new File("myshape.shp");
- *   File shx = new File("myshape.shx");
- *   ShapefileWriter writer = new ShapefileWriter(
- *     shp.getChannel(),shx.getChannel()
- *   );
- *   writer.write(geoms,ShapeType.ARC);
+ * GeometryCollection geoms;
+ * File shp = new File("myshape.shp");
+ * File shx = new File("myshape.shx");
+ * ShapefileWriter writer = new ShapefileWriter(
+ * shp.getChannel(),shx.getChannel()
+ * );
+ * writer.write(geoms,ShapeType.ARC);
  * </code>
  * This example assumes that each shape in the collection is a LineString.
- * 
- * @see org.geotools.data.shapefile.ShapefileDataStore
+ *
  * @author jamesm
  * @author aaime
  * @author Ian Schneider
- * 
- *
- *
  * @source $URL$
+ * @see org.geotools.data.shapefile.ShapefileDataStore
  */
 public class ShapefileWriter {
     FileChannel shpChannel;
@@ -71,7 +68,7 @@ public class ShapefileWriter {
 
     /**
      * Creates a new instance of ShapeFileWriter
-     * 
+     *
      * @throws IOException
      */
     public ShapefileWriter(FileChannel shpChannel, FileChannel shxChannel)
@@ -160,7 +157,7 @@ public class ShapefileWriter {
      * 16 bit words).
      */
     public void writeHeaders(Envelope bounds, ShapeType type,
-            int numberOfGeometries, int fileLength) throws IOException {
+                             int numberOfGeometries, int fileLength) throws IOException {
 
         try {
             handler = type.getShapeHandler(gf);
@@ -207,10 +204,10 @@ public class ShapefileWriter {
             throw new IOException("Must write headers first");
         lp = shapeBuffer.position();
         int length;
-        if(g == null)
-        	length = writeNullGeometry();
-        else 
-        	length = writeNonNullGeometry(g);
+        if (g == null)
+            length = writeNullGeometry();
+        else
+            length = writeNonNullGeometry(g);
 
         assert (length * 2 == (shapeBuffer.position() - lp) - 8);
 
@@ -225,8 +222,8 @@ public class ShapefileWriter {
         assert (shapeBuffer.position() == 0);
     }
 
-	private int writeNonNullGeometry(Geometry g) {
-		int length = handler.getLength(g);
+    private int writeNonNullGeometry(Geometry g) {
+        int length = handler.getLength(g);
 
         // must allocate enough for shape + header (2 ints)
         checkShapeBuffer(length + 8);
@@ -239,17 +236,17 @@ public class ShapefileWriter {
         shapeBuffer.order(ByteOrder.LITTLE_ENDIAN);
         shapeBuffer.putInt(type.id);
         handler.write(shapeBuffer, g);
-		return length;
-	}
-    
+        return length;
+    }
+
     protected int writeNullGeometry() throws IOException {
-    	// two for the headers + the null shape mark
-    	int length = 4;
-    	checkShapeBuffer(8 + length);
-    	
-    	length /= 2;
-    	
-    	shapeBuffer.order(ByteOrder.BIG_ENDIAN);
+        // two for the headers + the null shape mark
+        int length = 4;
+        checkShapeBuffer(8 + length);
+
+        length /= 2;
+
+        shapeBuffer.order(ByteOrder.BIG_ENDIAN);
         shapeBuffer.putInt(++cnt);
         shapeBuffer.putInt(length);
         shapeBuffer.order(ByteOrder.LITTLE_ENDIAN);
@@ -276,9 +273,9 @@ public class ShapefileWriter {
         shpChannel = null;
         shxChannel = null;
         handler = null;
-        if(indexBuffer != null)
+        if (indexBuffer != null)
             NIOUtilities.clean(indexBuffer, false);
-        if(shapeBuffer != null)
+        if (shapeBuffer != null)
             NIOUtilities.clean(shapeBuffer, false);
         indexBuffer = null;
         shapeBuffer = null;

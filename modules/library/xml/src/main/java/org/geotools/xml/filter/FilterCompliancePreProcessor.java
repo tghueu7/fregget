@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -85,7 +85,7 @@ import org.opengis.filter.temporal.TOverlaps;
  * differently depeding on the compliance level chosen. A new request will have to be made and the
  * features will have to be tested again on the client side if there are any FidFilters in the
  * filter. Consider the following to understand why:
- * 
+ * <p>
  * <pre>
  * and {
  *   nullFilter
@@ -95,41 +95,39 @@ import org.opengis.filter.temporal.TOverlaps;
  *   }
  * }
  * </pre>
- * 
+ * <p>
  * for strict it would throw an exception, for low it would be left alone, but for Medium it would
  * end up as:
- * 
+ * <p>
  * <pre>
  * and{
  *         nullFilter
  *         nullFilter
  * }
  * </pre>
- * 
+ * <p>
  * and getFids() would return the fids in the fidFilter.
- * 
+ * <p>
  * So the final filter would (this is not standard but a common implementation) return the results
  * of the and filter as well as all the features that match the fids. Which is more than the
  * original filter would accept.
- * 
+ * <p>
  * The XML Document writer can operate at different levels of compliance. The geotools level is
  * extremely flexible and forgiving.
- * 
+ * <p>
  * <p>
  * All NOT(FidFilter) are changed to Filter.INCLUDE. So make sure that the filter is processed again
  * on the client with the original filter
  * </p>
- * 
+ * <p>
  * For a description of the difference Compliance levels that can be used see
  * <ul>
  * <li>{@link XMLHandlerHints#VALUE_FILTER_COMPLIANCE_LOW}</li>
  * <li>{@link XMLHandlerHints#VALUE_FILTER_COMPLIANCE_MEDIUM}</li>
  * <li>{@link XMLHandlerHints#VALUE_FILTER_COMPLIANCE_HIGH}</li>
  * </ul>
- * 
+ *
  * @author Jody
- *
- *
  * @source $URL$
  */
 public class FilterCompliancePreProcessor implements FilterVisitor {
@@ -142,7 +140,9 @@ public class FilterCompliancePreProcessor implements FilterVisitor {
 
     private int complianceInt;
 
-    /** Data collected during traversal */
+    /**
+     * Data collected during traversal
+     */
     private Stack<Data> current = new Stack<Data>();
 
     FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
@@ -152,7 +152,8 @@ public class FilterCompliancePreProcessor implements FilterVisitor {
     public FilterCompliancePreProcessor(Integer complianceLevel) {
         if ((complianceLevel != LOW) && (complianceLevel != MEDIUM) && (complianceLevel != HIGH)) {
             throw new IllegalArgumentException(
-                    "compliance level must be one of: XMLHandlerHints.VALUE_FILTER_COMPLIANCE_LOOSE "
+                    "compliance level must be one of: XMLHandlerHints" +
+                            ".VALUE_FILTER_COMPLIANCE_LOOSE "
                             + "XMLHandlerHints.VALUE_FILTER_COMPLIANCE_MEDIUM or "
                             + "XMLHandlerHints.VALUE_FILTER_COMPLIANCE_MAXIMUM");
         }
@@ -161,7 +162,7 @@ public class FilterCompliancePreProcessor implements FilterVisitor {
 
     /**
      * Gets the fid filter that contains all the fids.
-     * 
+     *
      * @return the fid filter that contains all the fids.
      */
     public Id getFidFilter() {
@@ -185,7 +186,7 @@ public class FilterCompliancePreProcessor implements FilterVisitor {
 
     /**
      * Returns the filter that can be encoded.
-     * 
+     *
      * @return the filter that can be encoded.
      */
     public org.opengis.filter.Filter getFilter() {
@@ -202,32 +203,32 @@ public class FilterCompliancePreProcessor implements FilterVisitor {
     }
 
     // BinaryComparisonOperator
-    public Object visit(PropertyIsEqualTo filter, Object extraData ) {
+    public Object visit(PropertyIsEqualTo filter, Object extraData) {
         current.push(new Data(filter));
         return extraData;
     }
 
-    public Object visit(PropertyIsGreaterThan filter, Object extraData ) {
+    public Object visit(PropertyIsGreaterThan filter, Object extraData) {
         current.push(new Data(filter));
         return extraData;
     }
 
-    public Object visit(PropertyIsGreaterThanOrEqualTo filter, Object extraData ) {
+    public Object visit(PropertyIsGreaterThanOrEqualTo filter, Object extraData) {
         current.push(new Data(filter));
         return extraData;
     }
 
-    public Object visit(PropertyIsLessThan filter, Object extraData ) {
+    public Object visit(PropertyIsLessThan filter, Object extraData) {
         current.push(new Data(filter));
         return extraData;
     }
 
-    public Object visit(PropertyIsLessThanOrEqualTo filter, Object extraData ) {
+    public Object visit(PropertyIsLessThanOrEqualTo filter, Object extraData) {
         current.push(new Data(filter));
         return extraData;
     }
 
-    public Object visit(PropertyIsNotEqualTo filter, Object extraData ) {
+    public Object visit(PropertyIsNotEqualTo filter, Object extraData) {
         current.push(new Data(filter));
         return extraData;
     }
@@ -304,30 +305,31 @@ public class FilterCompliancePreProcessor implements FilterVisitor {
         int startSize = current.size();
         try {
             switch (this.complianceInt) {
-            case FilterCompliancePreProcessor.LOW:
-                current.push(new Data(filter));
-                break;
+                case FilterCompliancePreProcessor.LOW:
+                    current.push(new Data(filter));
+                    break;
 
-            case MEDIUM:
-                for (Filter child : filter.getChildren()) {
-                    extraData = child.accept(this, extraData);
-                }
-                Data mediumFilter = createMediumLevelLogicFilter(FilterType.LOGIC_AND, startSize);
-                current.push(mediumFilter);
-                break;
+                case MEDIUM:
+                    for (Filter child : filter.getChildren()) {
+                        extraData = child.accept(this, extraData);
+                    }
+                    Data mediumFilter = createMediumLevelLogicFilter(FilterType.LOGIC_AND, 
+                            startSize);
+                    current.push(mediumFilter);
+                    break;
 
-            case HIGH:
+                case HIGH:
 
-                for (Filter child : filter.getChildren()) {
-                    extraData = child.accept(this, extraData);
-                }
-                Data highFilter = createHighLevelLogicFilter(FilterType.LOGIC_AND, startSize);
-                current.push(highFilter);
+                    for (Filter child : filter.getChildren()) {
+                        extraData = child.accept(this, extraData);
+                    }
+                    Data highFilter = createHighLevelLogicFilter(FilterType.LOGIC_AND, startSize);
+                    current.push(highFilter);
 
-                break;
+                    break;
 
-            default:
-                break;
+                default:
+                    break;
             }
         } catch (Exception e) {
             if (e instanceof UnsupportedFilterException) {
@@ -342,30 +344,31 @@ public class FilterCompliancePreProcessor implements FilterVisitor {
         int startSize = current.size();
         try {
             switch (this.complianceInt) {
-            case LOW:
-                current.push(new Data(filter));
-                break;
+                case LOW:
+                    current.push(new Data(filter));
+                    break;
 
-            case MEDIUM:
-                for (Filter child : filter.getChildren()) {
-                    extraData = child.accept(this, extraData);
-                }
-                Data mediumFilter = createMediumLevelLogicFilter(FilterType.LOGIC_OR, startSize);
-                current.push(mediumFilter);
-                break;
+                case MEDIUM:
+                    for (Filter child : filter.getChildren()) {
+                        extraData = child.accept(this, extraData);
+                    }
+                    Data mediumFilter = createMediumLevelLogicFilter(FilterType.LOGIC_OR, 
+                            startSize);
+                    current.push(mediumFilter);
+                    break;
 
-            case HIGH:
+                case HIGH:
 
-                for (Filter child : filter.getChildren()) {
-                    extraData = child.accept(this, extraData);
-                }
-                Data highFilter = createHighLevelLogicFilter(FilterType.LOGIC_OR, startSize);
-                current.push(highFilter);
+                    for (Filter child : filter.getChildren()) {
+                        extraData = child.accept(this, extraData);
+                    }
+                    Data highFilter = createHighLevelLogicFilter(FilterType.LOGIC_OR, startSize);
+                    current.push(highFilter);
 
-                break;
+                    break;
 
-            default:
-                break;
+                default:
+                    break;
             }
         } catch (Exception e) {
             if (e instanceof UnsupportedFilterException) {
@@ -381,30 +384,31 @@ public class FilterCompliancePreProcessor implements FilterVisitor {
         Filter child;
         try {
             switch (this.complianceInt) {
-            case LOW:
-                current.push(new Data(filter));
-                break;
+                case LOW:
+                    current.push(new Data(filter));
+                    break;
 
-            case MEDIUM:
-                child = filter.getFilter();
-                extraData = child.accept(this, extraData);
+                case MEDIUM:
+                    child = filter.getFilter();
+                    extraData = child.accept(this, extraData);
 
-                Data mediumFilter = createMediumLevelLogicFilter(FilterType.LOGIC_NOT, startSize);
-                current.push(mediumFilter);
-                break;
+                    Data mediumFilter = createMediumLevelLogicFilter(FilterType.LOGIC_NOT, 
+                            startSize);
+                    current.push(mediumFilter);
+                    break;
 
-            case HIGH:
+                case HIGH:
 
-                child = filter.getFilter();
-                extraData = child.accept(this, extraData);
+                    child = filter.getFilter();
+                    extraData = child.accept(this, extraData);
 
-                Data highFilter = createHighLevelLogicFilter(FilterType.LOGIC_NOT, startSize);
-                current.push(highFilter);
+                    Data highFilter = createHighLevelLogicFilter(FilterType.LOGIC_NOT, startSize);
+                    current.push(highFilter);
 
-                break;
+                    break;
 
-            default:
-                break;
+                default:
+                    break;
             }
         } catch (Exception e) {
             if (e instanceof UnsupportedFilterException) {
@@ -413,38 +417,40 @@ public class FilterCompliancePreProcessor implements FilterVisitor {
             throw new UnsupportedFilterException("Exception creating filter", e);
         }
         return extraData;
-    };
+    }
+
+    ;
 
     private Data createMediumLevelLogicFilter(short filterType, int startOfFilterStack)
             throws IllegalFilterException {
         Data resultingFilter;
 
         switch (filterType) {
-        case FilterType.LOGIC_AND: {
-            Set<String> fids = andFids(startOfFilterStack);
-            resultingFilter = buildFilter(filterType, startOfFilterStack);
-            resultingFilter.fids.addAll(fids);
+            case FilterType.LOGIC_AND: {
+                Set<String> fids = andFids(startOfFilterStack);
+                resultingFilter = buildFilter(filterType, startOfFilterStack);
+                resultingFilter.fids.addAll(fids);
 
-            if (resultingFilter.filter != Filter.EXCLUDE && !fids.isEmpty())
-                requiresPostProcessing = true;
-            break;
-        }
+                if (resultingFilter.filter != Filter.EXCLUDE && !fids.isEmpty())
+                    requiresPostProcessing = true;
+                break;
+            }
 
-        case FilterType.LOGIC_OR: {
-            Set fids = orFids(startOfFilterStack);
-            resultingFilter = buildFilter(filterType, startOfFilterStack);
-            resultingFilter.fids.addAll(fids);
-            break;
-        }
+            case FilterType.LOGIC_OR: {
+                Set fids = orFids(startOfFilterStack);
+                resultingFilter = buildFilter(filterType, startOfFilterStack);
+                resultingFilter.fids.addAll(fids);
+                break;
+            }
 
-        case FilterType.LOGIC_NOT:
-            resultingFilter = buildFilter(filterType, startOfFilterStack);
-            break;
+            case FilterType.LOGIC_NOT:
+                resultingFilter = buildFilter(filterType, startOfFilterStack);
+                break;
 
-        default:
-            resultingFilter = buildFilter(filterType, startOfFilterStack);
+            default:
+                resultingFilter = buildFilter(filterType, startOfFilterStack);
 
-            break;
+                break;
         }
 
         return resultingFilter;
@@ -521,9 +527,9 @@ public class FilterCompliancePreProcessor implements FilterVisitor {
 
         return true;
     }
+
     /**
-     * 
-     * @param filterType LOGIC_NOT, LOGIC_AND or LOGIC_OR
+     * @param filterType         LOGIC_NOT, LOGIC_AND or LOGIC_OR
      * @param startOfFilterStack
      * @return Data Stack data representing the genrated filter
      * @throws IllegalFilterException
@@ -570,73 +576,72 @@ public class FilterCompliancePreProcessor implements FilterVisitor {
         List<org.opengis.filter.Filter> resultList = new ArrayList<org.opengis.filter.Filter>();
 
         switch (filterType) {
-        case FilterType.LOGIC_AND:
+            case FilterType.LOGIC_AND:
 
-            if (contains((And)f, Filter.EXCLUDE)) {
-                return Filter.EXCLUDE;
-            }
-
-            for (Filter item : ((And)f).getChildren()) {
-                org.opengis.filter.Filter filter = (org.opengis.filter.Filter) item;
-                if (filter == Filter.INCLUDE) {
-                    continue;
+                if (contains((And) f, Filter.EXCLUDE)) {
+                    return Filter.EXCLUDE;
                 }
-                added++;
-                resultList.add(filter);
-            }
 
-            if (resultList.isEmpty()) {
-                return Filter.EXCLUDE;
-            }
-
-            result = ff.and(resultList);
-            break;
-
-        case FilterType.LOGIC_OR:
-
-            if (contains((Or)f, Filter.INCLUDE)) {
-                return Filter.INCLUDE;
-            }
-
-            for (Object item : ((Or)f).getChildren()) {
-                org.opengis.filter.Filter filter = (org.opengis.filter.Filter) item;
-                if (filter == org.opengis.filter.Filter.EXCLUDE) {
-                    continue;
+                for (Filter item : ((And) f).getChildren()) {
+                    org.opengis.filter.Filter filter = (org.opengis.filter.Filter) item;
+                    if (filter == Filter.INCLUDE) {
+                        continue;
+                    }
+                    added++;
+                    resultList.add(filter);
                 }
-                added++;
-                resultList.add(filter);
-            }
 
-            if (resultList.isEmpty()) {
+                if (resultList.isEmpty()) {
+                    return Filter.EXCLUDE;
+                }
+
+                result = ff.and(resultList);
+                break;
+
+            case FilterType.LOGIC_OR:
+
+                if (contains((Or) f, Filter.INCLUDE)) {
+                    return Filter.INCLUDE;
+                }
+
+                for (Object item : ((Or) f).getChildren()) {
+                    org.opengis.filter.Filter filter = (org.opengis.filter.Filter) item;
+                    if (filter == org.opengis.filter.Filter.EXCLUDE) {
+                        continue;
+                    }
+                    added++;
+                    resultList.add(filter);
+                }
+
+                if (resultList.isEmpty()) {
+                    return Filter.EXCLUDE;
+                }
+
+                result = ff.or(resultList);
+
+                break;
+
+            default:
                 return Filter.EXCLUDE;
-            }
-
-            result = ff.or(resultList);
-
-            break;
-
-        default:
-            return Filter.EXCLUDE;
         }
 
         switch (added) {
-        case 0:
-            return Filter.EXCLUDE;
+            case 0:
+                return Filter.EXCLUDE;
 
-        case 1:
-            if( result instanceof Not){
-                return ((Not)result).getFilter();
-            }
-            else {
-                return ((BinaryLogicOperator)result).getChildren().get(0);
-            }
-        default:
-            return result;
+            case 1:
+                if (result instanceof Not) {
+                    return ((Not) result).getFilter();
+                } else {
+                    return ((BinaryLogicOperator) result).getChildren().get(0);
+                }
+            default:
+                return result;
         }
     }
 
     private boolean contains(BinaryLogicOperator f, org.opengis.filter.Filter toFind) {
-        for (Iterator iter = f.getChildren().iterator(); iter.hasNext();) {
+        for (Iterator iter = f.getChildren().iterator(); iter.hasNext(); ) {
             if (toFind.equals(iter.next())) {
                 return true;
             }
@@ -668,35 +673,36 @@ public class FilterCompliancePreProcessor implements FilterVisitor {
             Set fids;
 
             switch (filterType) {
-            case FilterType.LOGIC_AND:
-                fids = andFids(startOfFilterStack);
+                case FilterType.LOGIC_AND:
+                    fids = andFids(startOfFilterStack);
 
-                Data filter = buildFilter(filterType, startOfFilterStack);
-                filter.fids.addAll(fids);
+                    Data filter = buildFilter(filterType, startOfFilterStack);
+                    filter.fids.addAll(fids);
 
-                return filter;
+                    return filter;
 
-            case FilterType.LOGIC_OR: {
-                if (hasNonFidFilter(startOfFilterStack)) {
-                    throw new UnsupportedFilterException(
-                            "Maximum compliance does not allow Logic filters to contain FidFilters");
+                case FilterType.LOGIC_OR: {
+                    if (hasNonFidFilter(startOfFilterStack)) {
+                        throw new UnsupportedFilterException(
+                                "Maximum compliance does not allow Logic filters to contain " +
+                                        "FidFilters");
+                    }
+
+                    fids = orFids(startOfFilterStack);
+
+                    pop(startOfFilterStack);
+
+                    Data data = new Data();
+                    data.fids.addAll(fids);
+
+                    return data;
                 }
 
-                fids = orFids(startOfFilterStack);
+                case FilterType.LOGIC_NOT:
+                    return buildFilter(filterType, startOfFilterStack);
 
-                pop(startOfFilterStack);
-
-                Data data = new Data();
-                data.fids.addAll(fids);
-
-                return data;
-            }
-
-            case FilterType.LOGIC_NOT:
-                return buildFilter(filterType, startOfFilterStack);
-
-            default:
-                return Data.ALL;
+                default:
+                    return Data.ALL;
             }
         } else {
             return buildFilter(filterType, startOfFilterStack);
@@ -736,7 +742,9 @@ public class FilterCompliancePreProcessor implements FilterVisitor {
     public Object visit(PropertyIsNull filter, Object extraData) {
         current.push(new Data(filter));
         return extraData;
-    };
+    }
+
+    ;
 
     // NilFilter
     public Object visit(PropertyIsNil filter, Object extraData) {
@@ -747,91 +755,93 @@ public class FilterCompliancePreProcessor implements FilterVisitor {
     // FidFilter
     public Object visit(Id filter, Object extraData) {
         Data data = new Data();
-        for( Identifier identifier : filter.getIdentifiers() ){
-            FeatureId featureIdentifier = (FeatureId) identifier; 
-            data.fids.add( featureIdentifier.getID() );
+        for (Identifier identifier : filter.getIdentifiers()) {
+            FeatureId featureIdentifier = (FeatureId) identifier;
+            data.fids.add(featureIdentifier.getID());
         }
         current.push(data);
         return extraData;
     }
+
     // Include
     public Object visit(IncludeFilter filter, Object extraData) {
         current.push(new Data(filter));
         return extraData;
     }
+
     // Exclude
     public Object visit(ExcludeFilter filter, Object extraData) {
         current.push(new Data(filter));
         return extraData;
     }
-    
+
     public Object visitNullFilter(Object extraData) {
         // we will ignore null!
         return extraData;
     }
-    
+
     //Temporal
     public Object visit(After after, Object extraData) {
-        return visit((BinaryTemporalOperator)after, extraData);
+        return visit((BinaryTemporalOperator) after, extraData);
     }
 
     public Object visit(AnyInteracts anyInteracts, Object extraData) {
-        return visit((BinaryTemporalOperator)anyInteracts, extraData);
+        return visit((BinaryTemporalOperator) anyInteracts, extraData);
     }
 
     public Object visit(Before before, Object extraData) {
-        return visit((BinaryTemporalOperator)before, extraData);
+        return visit((BinaryTemporalOperator) before, extraData);
     }
 
     public Object visit(Begins begins, Object extraData) {
-        return visit((BinaryTemporalOperator)begins, extraData);
+        return visit((BinaryTemporalOperator) begins, extraData);
     }
 
     public Object visit(BegunBy begunBy, Object extraData) {
-        return visit((BinaryTemporalOperator)begunBy, extraData);
+        return visit((BinaryTemporalOperator) begunBy, extraData);
     }
 
     public Object visit(During during, Object extraData) {
-        return visit((BinaryTemporalOperator)during, extraData);
+        return visit((BinaryTemporalOperator) during, extraData);
     }
 
     public Object visit(EndedBy endedBy, Object extraData) {
-        return visit((BinaryTemporalOperator)endedBy, extraData);
+        return visit((BinaryTemporalOperator) endedBy, extraData);
     }
 
     public Object visit(Ends ends, Object extraData) {
-        return visit((BinaryTemporalOperator)ends, extraData);
+        return visit((BinaryTemporalOperator) ends, extraData);
     }
 
     public Object visit(Meets meets, Object extraData) {
-        return visit((BinaryTemporalOperator)meets, extraData);
+        return visit((BinaryTemporalOperator) meets, extraData);
     }
 
     public Object visit(MetBy metBy, Object extraData) {
-        return visit((BinaryTemporalOperator)metBy, extraData);
+        return visit((BinaryTemporalOperator) metBy, extraData);
     }
 
     public Object visit(OverlappedBy overlappedBy, Object extraData) {
-        return visit((BinaryTemporalOperator)overlappedBy, extraData);
+        return visit((BinaryTemporalOperator) overlappedBy, extraData);
     }
 
     public Object visit(TContains contains, Object extraData) {
-        return visit((BinaryTemporalOperator)contains, extraData);
+        return visit((BinaryTemporalOperator) contains, extraData);
     }
 
     public Object visit(TEquals equals, Object extraData) {
-        return visit((BinaryTemporalOperator)equals, extraData);
+        return visit((BinaryTemporalOperator) equals, extraData);
     }
 
     public Object visit(TOverlaps contains, Object extraData) {
-        return visit((BinaryTemporalOperator)contains, extraData);
+        return visit((BinaryTemporalOperator) contains, extraData);
     }
-    
+
     protected Object visit(BinaryTemporalOperator filter, Object data) {
         current.push(new Data(filter));
         return data;
     }
-    
+
     private static class Data {
         final public static Data NONE = new Data(Filter.EXCLUDE);
 
@@ -858,9 +868,9 @@ public class FilterCompliancePreProcessor implements FilterVisitor {
      * Returns true if the filter was one where the request to the server is more general than the
      * actual filter. See {@link XMLHandlerHints#VALUE_FILTER_COMPLIANCE_MEDIUM} and example of when
      * this can happen.
-     * 
+     *
      * @return true if the filter was one where the request to the server is more general than the
-     *         actual filter.
+     * actual filter.
      */
     public boolean requiresPostProcessing() {
         return requiresPostProcessing;

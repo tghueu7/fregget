@@ -61,7 +61,7 @@ public class RasterLayerRequestTest {
 
         // Creating a request
         final RasterLayerRequest request = new RasterLayerRequest(
-                new GeneralParameterValue[] { ggParam }, manager);
+                new GeneralParameterValue[]{ggParam}, manager);
         double[] rr = request.spatialRequestHelper.getComputedResolution();
         // System.out.println(Arrays.toString(rr));
         double resolution = Math.min(rr[0], rr[1]);

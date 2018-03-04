@@ -38,7 +38,8 @@ public class DefaultSubmosaicProducerFactory implements SubmosaicProducerFactory
 
     @Override
     public List<SubmosaicProducer> createProducers(RasterLayerRequest request,
-            RasterManager rasterManager, RasterLayerResponse response, boolean dryRun) {
+                                                   RasterManager rasterManager, 
+                                                   RasterLayerResponse response, boolean dryRun) {
         // get merge behavior as per request
         List<SubmosaicProducer> defaultSubmosaicProducers = new ArrayList<>();
         MergeBehavior mergeBehavior = request.getMergeBehavior();
@@ -54,7 +55,8 @@ public class DefaultSubmosaicProducerFactory implements SubmosaicProducerFactory
                 Set<Map.Entry<String, List>> entries = requestedAdditionalDomains.entrySet();
 
                 // Preliminary check on additional domains specification
-                // we can't do stack in case there are multiple values selections for more than one domain
+                // we can't do stack in case there are multiple values selections for more than 
+                // one domain
                 checkMultipleSelection(entries);
 
                 // Prepare filtering
@@ -98,7 +100,7 @@ public class DefaultSubmosaicProducerFactory implements SubmosaicProducerFactory
                         // combine that filter with the previously merged ones
                         Filter combinedFilter = andFilter == null ? valueFilter
                                 : FeatureUtilities.DEFAULT_FILTER_FACTORY.and(andFilter,
-                                        valueFilter);
+                                valueFilter);
                         defaultSubmosaicProducers.add(
                                 new DefaultSubmosaicProducer(response, combinedFilter, dryRun));
                     }
@@ -106,7 +108,8 @@ public class DefaultSubmosaicProducerFactory implements SubmosaicProducerFactory
             }
         }
 
-        // we don't stack them, either because we are not asked to or because we don't need to although
+        // we don't stack them, either because we are not asked to or because we don't need to 
+        // although
         // we were asked
         // let's use a default marker
         if (defaultSubmosaicProducers.isEmpty()) {
@@ -118,7 +121,8 @@ public class DefaultSubmosaicProducerFactory implements SubmosaicProducerFactory
     }
 
     /**
-     * Check whether the specified custom domains contain multiple selection. That case isn't supported so we will throw an exception
+     * Check whether the specified custom domains contain multiple selection. That case isn't 
+     * supported so we will throw an exception
      *
      * @param entries
      */

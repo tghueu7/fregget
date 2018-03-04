@@ -32,12 +32,9 @@ import org.geotools.resources.i18n.VocabularyKeys;
 /**
  * A temporal datum defines the origin of a temporal coordinate reference system.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class DefaultTemporalDatum extends AbstractDatum implements TemporalDatum {
@@ -50,11 +47,11 @@ public class DefaultTemporalDatum extends AbstractDatum implements TemporalDatum
      * Datum for time measured since January 1st, 4713 BC at 12:00 UTC.
      *
      * @see org.geotools.referencing.crs.DefaultTemporalCRS#JULIAN
-     *
      * @since 2.5
      */
     public static final DefaultTemporalDatum JULIAN = new DefaultTemporalDatum(
-            name(VocabularyKeys.JULIAN), new Date(-2440588 * (24*60*60*1000L) + (12*60*60*1000L)));
+            name(VocabularyKeys.JULIAN), new Date(-2440588 * (24 * 60 * 60 * 1000L) + (12 * 60 * 
+            60 * 1000L)));
 
     /**
      * Datum for time measured since November 17, 1858 at 00:00 UTC.
@@ -62,11 +59,10 @@ public class DefaultTemporalDatum extends AbstractDatum implements TemporalDatum
      * (JD) as {@code MJD = JD − 2400000.5}.
      *
      * @see org.geotools.referencing.crs.DefaultTemporalCRS#MODIFIED_JULIAN
-     *
      * @since 2.5
      */
     public static final DefaultTemporalDatum MODIFIED_JULIAN = new DefaultTemporalDatum(
-            name(VocabularyKeys.MODIFIED_JULIAN), new Date(-40587 * (24*60*60*1000L)));
+            name(VocabularyKeys.MODIFIED_JULIAN), new Date(-40587 * (24 * 60 * 60 * 1000L)));
 
     /**
      * Datum for time measured since May 24, 1968 at 00:00 UTC. This epoch was introduced by NASA
@@ -74,11 +70,10 @@ public class DefaultTemporalDatum extends AbstractDatum implements TemporalDatum
      * <cite>Julian day</cite> (JD) as {@code TJD = JD − 2440000.5}.
      *
      * @see org.geotools.referencing.crs.DefaultTemporalCRS#TRUNCATED_JULIAN
-     *
      * @since 2.5
      */
     public static final DefaultTemporalDatum TRUNCATED_JULIAN = new DefaultTemporalDatum(
-            name(VocabularyKeys.TRUNCATED_JULIAN), new Date(-587 * (24*60*60*1000L)));
+            name(VocabularyKeys.TRUNCATED_JULIAN), new Date(-587 * (24 * 60 * 60 * 1000L)));
 
     /**
      * Datum for time measured since December 31, 1899 at 12:00 UTC.
@@ -86,11 +81,11 @@ public class DefaultTemporalDatum extends AbstractDatum implements TemporalDatum
      * as {@code DJD = JD − 2415020}.
      *
      * @see org.geotools.referencing.crs.DefaultTemporalCRS#DUBLIN_JULIAN
-     *
      * @since 2.5
      */
     public static final DefaultTemporalDatum DUBLIN_JULIAN = new DefaultTemporalDatum(
-            name(VocabularyKeys.DUBLIN_JULIAN), new Date(-25568 * (24*60*60*1000L) + (12*60*60*1000L)));
+            name(VocabularyKeys.DUBLIN_JULIAN), new Date(-25568 * (24 * 60 * 60 * 1000L) + (12 * 
+            60 * 60 * 1000L)));
 
     /**
      * Default datum for time measured since January 1st, 1970 at 00:00 UTC.
@@ -135,9 +130,9 @@ public class DefaultTemporalDatum extends AbstractDatum implements TemporalDatum
      * unchanged to the {@linkplain AbstractDatum#AbstractDatum(Map) super-class constructor}.
      *
      * @param properties Set of properties. Should contains at least {@code "name"}.
-     * @param origin The date and time origin of this temporal datum.
+     * @param origin     The date and time origin of this temporal datum.
      */
-    public DefaultTemporalDatum(final Map<String,?> properties, final Date origin) {
+    public DefaultTemporalDatum(final Map<String, ?> properties, final Date origin) {
         super(properties);
         ensureNonNull("origin", origin);
         this.origin = origin.getTime();
@@ -171,9 +166,10 @@ public class DefaultTemporalDatum extends AbstractDatum implements TemporalDatum
     /**
      * Compare this temporal datum with the specified object for equality.
      *
-     * @param  object The object to compare to {@code this}.
-     * @param  compareMetadata {@code true} for performing a strict comparaison, or
-     *         {@code false} for comparing only properties relevant to transformations.
+     * @param object          The object to compare to {@code this}.
+     * @param compareMetadata {@code true} for performing a strict comparaison, or
+     *                        {@code false} for comparing only properties relevant to 
+     *                                    transformations.
      * @return {@code true} if both objects are equal.
      */
     @Override
@@ -196,10 +192,10 @@ public class DefaultTemporalDatum extends AbstractDatum implements TemporalDatum
      * <code>{@link #equals equals}(AbstractIdentifiedObject, <strong>false</strong>)</code>.
      *
      * @return The hash code value. This value doesn't need to be the same
-     *         in past or future versions of this class.
+     * in past or future versions of this class.
      */
     @Override
     public int hashCode() {
-        return super.hashCode() ^ (int)origin ^ (int)(origin >>> 32);
+        return super.hashCode() ^ (int) origin ^ (int) (origin >>> 32);
     }
 }

@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -22,7 +22,7 @@ import org.opengis.feature.simple.SimpleFeature;
 
 /**
  * Compares two feature based on an attribute value
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 class PropertyComparator implements Comparator<SimpleFeature> {
@@ -33,9 +33,10 @@ class PropertyComparator implements Comparator<SimpleFeature> {
 
     /**
      * Builds a new comparator
-     * 
+     *
      * @param propertyName The property name to be used
-     * @param inverse If true the comparator will force an ascending order (descending otherwise)
+     * @param inverse      If true the comparator will force an ascending order (descending 
+     *                     otherwise)
      */
     public PropertyComparator(String propertyName, boolean ascending) {
         this.propertyName = propertyName;

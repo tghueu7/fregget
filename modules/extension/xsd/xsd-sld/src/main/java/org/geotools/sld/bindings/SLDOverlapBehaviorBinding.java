@@ -27,9 +27,9 @@ import org.picocontainer.MutablePicoContainer;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:OverlapBehavior.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="OverlapBehavior"&gt;
  *      &lt;xsd:annotation&gt;
@@ -53,9 +53,6 @@ import org.picocontainer.MutablePicoContainer;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDOverlapBehaviorBinding extends AbstractComplexBinding {
@@ -102,7 +99,7 @@ public class SLDOverlapBehaviorBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //&lt;xsd:element ref="sld:LATEST_ON_TOP"/&gt;
         if (node.hasChild("LATEST_ON_TOP")) {
             return OverlapBehavior.LATEST_ON_TOP;

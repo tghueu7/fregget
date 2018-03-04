@@ -17,6 +17,7 @@
 package org.geotools.xs.bindings;
 
 import javax.xml.namespace.QName;
+
 import org.geotools.xml.InstanceComponent;
 import org.geotools.xml.SimpleBinding;
 import org.geotools.xs.XS;
@@ -24,9 +25,9 @@ import org.geotools.xs.XS;
 
 /**
  * Binding object for the type http://www.w3.org/2001/XMLSchema:unsignedInt.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xs:simpleType name="unsignedInt" id="unsignedInt"&gt;
  *      &lt;xs:annotation&gt;
@@ -42,9 +43,6 @@ import org.geotools.xs.XS;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class XSUnsignedIntBinding implements SimpleBinding {
@@ -84,8 +82,8 @@ public class XSUnsignedIntBinding implements SimpleBinding {
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
-        return ((Number)value).longValue();
+            throws Exception {
+        return ((Number) value).longValue();
     }
 
     /**

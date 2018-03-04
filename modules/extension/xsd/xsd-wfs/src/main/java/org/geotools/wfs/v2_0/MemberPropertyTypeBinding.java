@@ -38,9 +38,9 @@ import org.opengis.feature.type.AttributeType;
 
 /**
  * Binding object for the type http://www.opengis.net/wfs/2.0:MemberPropertyType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:complexType mixed="true" name="MemberPropertyType"&gt;
@@ -51,28 +51,26 @@ import org.opengis.feature.type.AttributeType;
  *      &lt;/xsd:choice&gt;
  *      &lt;xsd:attribute name="state" type="wfs:StateValueType"/&gt;
  *      &lt;xsd:attributeGroup ref="xlink:simpleLink"/&gt;
- *  &lt;/xsd:complexType&gt; 
- * 	
+ *  &lt;/xsd:complexType&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class MemberPropertyTypeBinding extends
         org.geotools.gml3.bindings.FeaturePropertyTypeBinding {
 
     SchemaIndex schemaIndex;
-    
+
     public MemberPropertyTypeBinding(XSDIdRegistry idSet, SchemaIndex schemaIndex) {
         super(idSet);
         this.schemaIndex = schemaIndex;
     }
-    
+
     /**
      * @generated
      */
@@ -80,9 +78,9 @@ public class MemberPropertyTypeBinding extends
         return WFS.MemberPropertyType;
     }
 
-   /**
+    /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
@@ -90,7 +88,7 @@ public class MemberPropertyTypeBinding extends
         // TODO: implement and remove call to super
         return super.parse(instance, node, value);
     }
-    
+
     @Override
     public List getProperties(Object object, XSDElementDeclaration element) throws Exception {
         ArrayList list = new ArrayList();
@@ -98,16 +96,13 @@ public class MemberPropertyTypeBinding extends
         if (member != null) {
             //check for joined feature
             if (GMLEncodingUtils.isJoinedFeature(member)) {
-                list.add(new Object[] { WFS.Tuple, GMLEncodingUtils.splitJoinedFeature(member) });
-            }
-            else {
+                list.add(new Object[]{WFS.Tuple, GMLEncodingUtils.splitJoinedFeature(member)});
+            } else {
                 list.add(new Object[]{GML.AbstractFeature, object});
             }
-        }
-        else if (object instanceof FeatureCollectionType) {
+        } else if (object instanceof FeatureCollectionType) {
             list.add(new Object[]{WFS.FeatureCollection, object});
-        }
-        else if (object instanceof Attribute) {
+        } else if (object instanceof Attribute) {
             //encoding a ValueCollection
             Attribute att = (Attribute) object;
             list.add(new Object[]{particle(att), att.getValue()});
@@ -121,13 +116,13 @@ public class MemberPropertyTypeBinding extends
 
         AttributeType attType = att.getType();
         XSDTypeDefinition xsdType = schemaIndex.getTypeDefinition(
-            new QName(attType.getName().getNamespaceURI(), attType.getName().getLocalPart()));
+                new QName(attType.getName().getNamespaceURI(), attType.getName().getLocalPart()));
 
         XSDElementDeclaration element = factory.createXSDElementDeclaration();
         element.setName(att.getName().getLocalPart());
         element.setTargetNamespace(att.getName().getNamespaceURI());
         element.setTypeDefinition(xsdType);
-        
+
         XSDParticle particle = factory.createXSDParticle();
         particle.setContent(element);
         return particle;

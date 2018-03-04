@@ -47,16 +47,13 @@ import org.xml.sax.Attributes;
 
 /**
  * An implementation of AbstractMappingFeatureIterator to handle XML datasources.
- * 
+ *
  * @author Russell Petty (GeoScience Victoria)
- * @author Rini Angreani (CSIRO Earth Science and Resource Engineering) 
+ * @author Rini Angreani (CSIRO Earth Science and Resource Engineering)
  * @version $Id$
- *
- *
- *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/app-schema/app-schema/src/main
- *         /java/org/geotools/data/complex/AppSchemaDataAccess.java $
+ * http://svn.osgeo.org/geotools/trunk/modules/unsupported/app-schema/app-schema/src/main
+ * /java/org/geotools/data/complex/AppSchemaDataAccess.java $
  */
 public class XmlMappingFeatureIterator extends DataAccessMappingFeatureIterator {
 
@@ -72,29 +69,28 @@ public class XmlMappingFeatureIterator extends DataAccessMappingFeatureIterator 
     protected XmlResponse xmlResponse;
 
     private AttributeCreateOrderList attOrderedTypeList = null;
-    
+
     private int count = 0;
 
     private int indexCounter = 1;
 
     private String idXpath;
+
     /**
-     * 
      * @param store
-     * @param mapping
-     *            place holder for the target type, the surrogate FeatureSource and the mappings
-     *            between them.
-     * @param query
-     *            the query over the target feature type, that is to be unpacked to its equivalent
-     *            over the surrogate feature type.
+     * @param mapping place holder for the target type, the surrogate FeatureSource and the mappings
+     *                between them.
+     * @param query   the query over the target feature type, that is to be unpacked to its 
+     *                equivalent
+     *                over the surrogate feature type.
      * @throws IOException
      */
     public XmlMappingFeatureIterator(AppSchemaDataAccess store, FeatureTypeMapping mapping,
-            Query query) throws IOException {
+                                     Query query) throws IOException {
         super(store, mapping, query, null, false);
 
         setIdXPath();
-        
+
         if (xmlResponse == null) {
             this.xmlResponse = ((XmlFeatureCollection) sourceFeatures).xmlResponse();
         }
@@ -104,7 +100,7 @@ public class XmlMappingFeatureIterator extends DataAccessMappingFeatureIterator 
     }
 
     public XmlMappingFeatureIterator(AppSchemaDataAccess store, FeatureTypeMapping mapping,
-            Query query, String xpath, String value) throws IOException {
+                                     Query query, String xpath, String value) throws IOException {
         super(store, mapping, query, null, false);
 
         setIdXPath();
@@ -116,7 +112,7 @@ public class XmlMappingFeatureIterator extends DataAccessMappingFeatureIterator 
         List<Integer> ls = xmlResponse.getValidFeatureIndex();
         count = ls.size();
     }
-    
+
     private void setIdXPath() {
         idXpath = mapping.getFeatureIdExpression().equals(Expression.NIL) ? "@id" : mapping
                 .getFeatureIdExpression().toString();
@@ -129,17 +125,18 @@ public class XmlMappingFeatureIterator extends DataAccessMappingFeatureIterator 
     protected boolean isSourceFeatureIteratorNull() {
         return xmlResponse == null;
     }
-    
+
     @Override
     protected String extractIdForAttribute(final Expression idExpression, Object sourceInstance) {
         try {
             if (idExpression instanceof Function) {
                 // special handling for functions
-                XmlXpathFilterData data = new XmlXpathFilterData(namespaces, xmlResponse.getDoc(), -1, 
+                XmlXpathFilterData data = new XmlXpathFilterData(namespaces, xmlResponse.getDoc()
+                        , -1,
                         XmlMappingFeatureIterator.createIndexedItemXpathString(
-                            (XmlFeatureTypeMapping) mapping, xmlResponse, indexCounter));
+                                (XmlFeatureTypeMapping) mapping, xmlResponse, indexCounter));
                 Object value = idExpression.evaluate(data);
-                return (value == null ? "" : value.toString());                 
+                return (value == null ? "" : value.toString());
             } else {
                 return XmlXpathUtilites.getSingleXPathValue(mapping.getNamespaces(),
                         createIndexedItemXpathString((XmlFeatureTypeMapping) mapping, xmlResponse,
@@ -149,16 +146,17 @@ public class XmlMappingFeatureIterator extends DataAccessMappingFeatureIterator 
         } catch (RuntimeException e) {
             if (e.getCause() instanceof JXPathException) {
                 // only log info since id is not always compulsory
-                LOGGER.info("Feature id is not mapped for: " + mapping.getTargetFeature().getName());                
+                LOGGER.info("Feature id is not mapped for: " + mapping.getTargetFeature().getName
+                        ());
             } else {
                 throw e;
-            }            
+            }
         }
         return null;
     }
 
     public static String createIndexedItemXpathString(XmlFeatureTypeMapping mapping,
-            XmlResponse xmlResponse, int indexCounter) {
+                                                      XmlResponse xmlResponse, int indexCounter) {
         String rootXpath = mapping.itemXpath + XPATH_LEFT_INDEX_BRACKET
                 + xmlResponse.getValidFeatureIndex().get(indexCounter - 1)
                 + XPATH_RIGHT_INDEX_BRACKET;
@@ -191,7 +189,7 @@ public class XmlMappingFeatureIterator extends DataAccessMappingFeatureIterator 
 
     @SuppressWarnings("unchecked")
     private void setAttributeValues(PathAttributeList elements, Feature target) throws IOException {
-        for (AttributeMapping attMapping : ((XmlFeatureTypeMapping)mapping).setterAttributes) {      
+        for (AttributeMapping attMapping : ((XmlFeatureTypeMapping) mapping).setterAttributes) {
             String parentLabel = attMapping.getParentLabel();
             List<Pair> ls = elements.get(parentLabel);
             if (ls != null) {
@@ -205,9 +203,9 @@ public class XmlMappingFeatureIterator extends DataAccessMappingFeatureIterator 
                     // get the full xpath query including 
                     StepList xpath = attMapping.getTargetXPath().clone();
                     Object value = getValue(parentPair.getXpath(), sourceExpression, target);
-                    
-                    xpath.get(0).setIndex(i+1);
-                                                                                                                                         
+
+                    xpath.get(0).setIndex(i + 1);
+
                     if (value != null) {
                         if (value instanceof Collection) {
                             Collection<Object> values = (Collection) value;
@@ -226,28 +224,29 @@ public class XmlMappingFeatureIterator extends DataAccessMappingFeatureIterator 
     }
 
     private void setValues(Object value, Attribute setterTarget, Pair parentPair,
-            AttributeMapping attMapping, Feature target, StepList xpath, Expression idExpression)
+                           AttributeMapping attMapping, Feature target, StepList xpath, 
+                           Expression idExpression)
             throws IOException {
         if (LOGGER.isLoggable(Level.FINER)) {
             LOGGER.finer("setting target=" + setterTarget.getName() + ", targetXpath="
                     + attMapping.getTargetXPath() + ", value=" + value);
         }
 
-        String featureId = getId(idExpression, parentPair, attMapping, "");  
+        String featureId = getId(idExpression, parentPair, attMapping, "");
 //        Attribute att = xpathAttributeBuilder.set(target,
 //                xpath, value, featureId, attMapping.getTargetNodeInstance(), false, attMapping
 //                        .getSourceExpression());
         Attribute att = setAttributeValue(target, featureId, null, attMapping, value, xpath, null);
         setClientProperties(att, parentPair.getXpath(), attMapping.getClientProperties());
     }
-    
+
     private void setMappedIndex(Attribute att, int index) {
         att.getUserData().put(ComplexFeatureConstants.MAPPED_ATTRIBUTE_INDEX,
                 index);
     }
-    
+
     protected void setClientProperties(final Attribute target, final Object xpathPrefix,
-            final Map<Name, Expression> clientProperties) {
+                                       final Map<Name, Expression> clientProperties) {
         if (target == null) {
             return;
         }
@@ -257,7 +256,7 @@ public class XmlMappingFeatureIterator extends DataAccessMappingFeatureIterator 
         if (target.getUserData().containsValue(Attributes.class)) {
             targetAttributes.putAll((Map<? extends Name, ? extends Object>) target.getUserData()
                     .get(Attributes.class));
-        }        
+        }
         for (Map.Entry<Name, Expression> entry : clientProperties.entrySet()) {
             Name propName = entry.getKey();
             Object propExpr = entry.getValue();
@@ -270,14 +269,14 @@ public class XmlMappingFeatureIterator extends DataAccessMappingFeatureIterator 
             }
             if (propValue != null) {
                 if (propValue instanceof Collection) {
-                    if (!((Collection)propValue).isEmpty()) {                
-                        propValue = ((Collection)propValue).iterator().next();
+                    if (!((Collection) propValue).isEmpty()) {
+                        propValue = ((Collection) propValue).iterator().next();
                         targetAttributes.put(propName, propValue);
                     }
                 } else {
                     targetAttributes.put(propName, propValue);
                 }
-            } 
+            }
         }
         // FIXME should set a child Property.. but be careful for things that
         // are smuggled in there internally and don't exist in the schema, like
@@ -297,7 +296,8 @@ public class XmlMappingFeatureIterator extends DataAccessMappingFeatureIterator 
         String rootPrefix = createIndexedItemXpathString((XmlFeatureTypeMapping) mapping,
                 xmlResponse, indexCounter);
         elements
-                .put(((XmlFeatureTypeMapping) mapping).rootAttribute.getLabel(), rootPrefix, target);
+                .put(((XmlFeatureTypeMapping) mapping).rootAttribute.getLabel(), rootPrefix, 
+                        target);
 
         setClientProperties(target, rootPrefix, ((XmlFeatureTypeMapping) mapping).rootAttribute
                 .getClientProperties());
@@ -316,11 +316,11 @@ public class XmlMappingFeatureIterator extends DataAccessMappingFeatureIterator 
                     String countXpath = parentAttribute.getXpath();
                     // if instance path not set, then only count the root node
                     if (attMapping.getInstanceXpath() != null) {
-                        countXpath += XPATH_SEPARATOR + attMapping.getInstanceXpath();                        
+                        countXpath += XPATH_SEPARATOR + attMapping.getInstanceXpath();
                     }
                     int count = XmlXpathUtilites.countXPathNodes(mapping.getNamespaces(),
                             countXpath, xmlResponse.getDoc());
-                    
+
                     createSubFeaturesAndAddToAttributeList(elements, attMapping, idExpression,
                             parentAttribute, count, countXpath, target);
                 }
@@ -330,16 +330,16 @@ public class XmlMappingFeatureIterator extends DataAccessMappingFeatureIterator 
     }
 
     private String getId(Expression idExpression, Pair parentAttribute,
-            AttributeMapping attMapping, String bracketIndex) {
-        String featureId = null;     
+                         AttributeMapping attMapping, String bracketIndex) {
+        String featureId = null;
         String idPath;
-        if (idExpression instanceof Function) {   
+        if (idExpression instanceof Function) {
             // get parent attribute xpath and append this instance xpath + index
             idPath = parentAttribute.getXpath() + XPATH_SEPARATOR;
             if (attMapping.getInstanceXpath() != null) {
                 idPath += attMapping.getInstanceXpath() + bracketIndex;
             }
-            
+
             XmlXpathFilterData data = new XmlXpathFilterData(namespaces, xmlResponse.getDoc(), -1,
                     idPath);
             featureId = idExpression.evaluate(data, String.class);
@@ -354,24 +354,27 @@ public class XmlMappingFeatureIterator extends DataAccessMappingFeatureIterator 
     }
 
     private void createSubFeaturesAndAddToAttributeList(PathAttributeList elements,
-            AttributeMapping attMapping, final Expression idExpression, Pair parentAttribute,
-            int count, String countXpath, Feature target) throws IOException {
+                                                        AttributeMapping attMapping, final 
+                                                        Expression idExpression, Pair 
+                                                                parentAttribute,
+                                                        int count, String countXpath, Feature 
+                                                                target) throws IOException {
 
         StepList sl = attMapping.getTargetXPath().clone();
         setPathIndex(parentAttribute.getAttribute(), sl);
-        
+
         for (int j = 1; j <= count; j++) {
             final String bracketIndex = bracketedIndex(j);
-            String featureId = getId(idExpression, parentAttribute, attMapping, bracketIndex);     
-            
+            String featureId = getId(idExpression, parentAttribute, attMapping, bracketIndex);
+
             setLastElementIndex(parentAttribute.getAttribute(), sl, j);
-            
+
             Attribute subFeature = xpathAttributeBuilder.set(target,
                     sl, null, featureId, attMapping.getTargetNodeInstance(), false, attMapping
                             .getSourceExpression());
 //            Attribute subFeature = setAttributeValue(parentAttribute.getAttribute(), featureId,
 //                    null, attMapping, null, sl, null);
-            
+
             String xpath = countXpath + bracketIndex;
             setClientProperties(subFeature, xpath, attMapping.getClientProperties());
             setMappedIndex(subFeature, j);
@@ -381,13 +384,10 @@ public class XmlMappingFeatureIterator extends DataAccessMappingFeatureIterator 
 
     /**
      * Find the last element in the given path and set the index.
-     * 
-     * @param parent
-     *            Parent attribute where the path is going to be set in.
-     * @param sl
-     *            The path to be set.
-     * @param index
-     *            The index for the last element.
+     *
+     * @param parent Parent attribute where the path is going to be set in.
+     * @param sl     The path to be set.
+     * @param index  The index for the last element.
      */
     private void setLastElementIndex(Attribute parent, StepList sl, int index) {
         if (!(parent.getType() instanceof ComplexTypeImpl)) {
@@ -406,12 +406,12 @@ public class XmlMappingFeatureIterator extends DataAccessMappingFeatureIterator 
                 return;
             }
             lastStep = Types.toTypeName(sl.get(lastIndex).getName());
-        }    
+        }
         sl.get(lastIndex).setIndex(index);
     }
-    
+
     private String setFeatureXpath(AttributeMapping attMapping, final Expression sourceExpression,
-            Pair parentAttribute, final String bracketIndex) {
+                                   Pair parentAttribute, final String bracketIndex) {
         String xpath;
 
         if (attMapping.getInstanceXpath() == null) {
@@ -491,7 +491,7 @@ public class XmlMappingFeatureIterator extends DataAccessMappingFeatureIterator 
     }
 
     private void initialiseAttributeLists(List<AttributeMapping> mappings) {
-        
+
         attOrderedTypeList = new AttributeCreateOrderList(
                 ((XmlFeatureTypeMapping) mapping).rootAttribute.getLabel());
 
@@ -504,11 +504,11 @@ public class XmlMappingFeatureIterator extends DataAccessMappingFeatureIterator 
                 attOrderedTypeList.put(attMapping);
             }
         }
-    }    
+    }
 
     /**
      * Return true if there are more features.
-     * 
+     *
      * @see java.util.Iterator#hasNext()
      */
     @Override
@@ -516,9 +516,9 @@ public class XmlMappingFeatureIterator extends DataAccessMappingFeatureIterator 
         if (isHasNextCalled()) {
             return !isNextSourceFeatureNull();
         }
-                
+
         boolean exists = false;
-        
+
         if (featureCounter >= requestMaxFeatures) {
             return false;
         }
@@ -528,20 +528,20 @@ public class XmlMappingFeatureIterator extends DataAccessMappingFeatureIterator 
         // make sure features are unique by mapped id
         exists = unprocessedFeatureExists();
 
-        if (!exists) {        
+        if (!exists) {
             LOGGER.finest("no more features, produced " + featureCounter);
             close();
         }
-        
+
         setHasNextCalled(true);
-        
+
         return exists;
     }
 
     @Override
-    protected Feature computeNext() throws IOException {     
+    protected Feature computeNext() throws IOException {
         Feature f = populateFeatureData();
-        super.cleanEmptyElements(f);        
+        super.cleanEmptyElements(f);
         return f;
     }
 }

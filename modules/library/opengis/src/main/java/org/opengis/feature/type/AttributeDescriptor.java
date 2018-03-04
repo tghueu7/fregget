@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2007 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.feature.type;
@@ -15,15 +15,13 @@ package org.opengis.feature.type;
  * An AttributeDescriptor is an extension of {@link PropertyDescriptor} which
  * defines some additional information:
  * <ul>
- *   <li>A default value for an attribute
+ * <li>A default value for an attribute
  * </ul>
  * </p>
  * <p>
  *
  * @author Jody Garnett, Refractions Research
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
  * @source $URL$
  */
 public interface AttributeDescriptor extends PropertyDescriptor {
@@ -32,13 +30,14 @@ public interface AttributeDescriptor extends PropertyDescriptor {
      * Override of {@link PropertyDescriptor#getType()} which type narrows to
      * {@link AttributeType}.
      *
-     *  @see PropertyDescriptor#getType()
+     * @see PropertyDescriptor#getType()
      */
     AttributeType getType();
 
     /**
      * The local name for this AttributeDescriptor.
      * Specifically this returns <code>getName().getLocalPart</code>().
+     *
      * @return The local name for this attribute descriptor.
      */
     String getLocalName();

@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.complex;
 
 import java.util.Collection;
+
 import org.opengis.geometry.Geometry;
 import org.opengis.geometry.primitive.Point;     // For javadoc
 import org.opengis.geometry.primitive.Primitive; // For javadoc
@@ -40,16 +41,13 @@ import static org.opengis.annotation.Specification.*;
  * complex, primitives may be aggregated many-to-many into composites for use as attributes
  * of features.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
- * @since GeoAPI 1.0
- *
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @todo Some associations are commented out for now.
+ * @since GeoAPI 1.0
  */
-@UML(identifier="GM_Complex", specification=ISO_19107)
+@UML(identifier = "GM_Complex", specification = ISO_19107)
 public interface Complex extends Geometry {
     /**
      * Returns {@code true} if and only if this {@code Complex} is maximal.
@@ -57,17 +55,16 @@ public interface Complex extends Geometry {
      *
      * @return {@code true} if this complex is maximal.
      */
-    @UML(identifier="isMaximal", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "isMaximal", obligation = MANDATORY, specification = ISO_19107)
     boolean isMaximal();
 
     /**
      * Returns a superset of primitives that is also a complex.
      *
      * @return The supercomplexes, or an empty array if none.
-     *
      * @todo Consider using a Collection return type instead.
      */
-    @UML(identifier="superComplex", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "superComplex", obligation = MANDATORY, specification = ISO_19107)
     Complex[] getSuperComplexes();
 
     /**
@@ -75,10 +72,9 @@ public interface Complex extends Geometry {
      * that is, in its own right, a geometric complex.
      *
      * @return The subcomplexes, or an empty array if none.
-     *
      * @todo Consider using a Collection return type instead.
      */
-    @UML(identifier="subComplex", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "subComplex", obligation = MANDATORY, specification = ISO_19107)
     Complex[] getSubComplexes();
 
     /**
@@ -86,7 +82,7 @@ public interface Complex extends Geometry {
      *
      * @return The collection of primitives for this complex.
      */
-    @UML(identifier="element", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "element", obligation = MANDATORY, specification = ISO_19107)
     Collection<? extends Primitive> getElements();
 
 //    public org.opengis.topology.complex.TP_Complex topology[];

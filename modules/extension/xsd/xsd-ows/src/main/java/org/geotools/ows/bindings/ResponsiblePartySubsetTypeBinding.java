@@ -18,21 +18,28 @@ package org.geotools.ows.bindings;
 
 import net.opengis.ows10.Ows10Factory;
 import net.opengis.ows10.ResponsiblePartySubsetType;
+
 import javax.xml.namespace.QName;
+
 import org.geotools.ows.OWS;
 import org.geotools.xml.*;
 
 
 /**
  * Binding object for the type http://www.opengis.net/ows:ResponsiblePartySubsetType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="ResponsiblePartySubsetType"&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;Identification of, and means of communication with, person responsible for the server. &lt;/documentation&gt;
- *          &lt;documentation&gt;For OWS use in the ServiceProvider section of a service metadata document, the optional organizationName element was removed, since this type is always used with the ProviderName element which provides that information. The mandatory "role" element was changed to optional, since no clear use of this information is known in the ServiceProvider section. &lt;/documentation&gt;
+ *          &lt;documentation&gt;Identification of, and means of communication with, person 
+ *          responsible for the server. &lt;/documentation&gt;
+ *          &lt;documentation&gt;For OWS use in the ServiceProvider section of a service metadata
+ *          document, the optional organizationName element was removed, since this type is 
+ *          always used with the ProviderName element which provides that information. The 
+ *          mandatory "role" element was changed to optional, since no clear use of this 
+ *          information is known in the ServiceProvider section. &lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;sequence&gt;
  *          &lt;element minOccurs="0" ref="ows:IndividualName"/&gt;
@@ -47,9 +54,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class ResponsiblePartySubsetTypeBinding extends AbstractComplexEMFBinding {
@@ -81,7 +85,7 @@ public class ResponsiblePartySubsetTypeBinding extends AbstractComplexEMFBinding
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //TODO: implement and remove call to super
         return super.parse(instance, node, value);
     }

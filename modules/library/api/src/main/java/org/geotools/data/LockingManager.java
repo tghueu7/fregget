@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -21,73 +21,66 @@ import java.io.IOException;
 
 /**
  * This class describes a featureID based locking service.
- *
+ * <p>
  * <p>
  * ContentFeatureSource, and others, may use this API to request locks on the
  * basis of FeatureID.
  * </p>
- *
+ * <p>
  * <p>
  * This class is also used as a public api to manage locks.
  * </p>
  *
  * @author Jody Garnett, Refractions Research
- *
- *
  * @source $URL$
  */
 public interface LockingManager {
     /**
      * Check if any locks exist held by the authorization <code>lockID</code>.
-     *
+     * <p>
      * <p>
      * (remember that the lock may have expired)
      * </p>
      *
      * @param authID Authorization for lock
-     *
      * @return <code>true</code> if lock was found
      */
     boolean exists(String authID);
 
     /**
      * Release locks held by the authorization <code>lockID</code>.
-     *
+     * <p>
      * <p>
      * (remember that the lock may have expired)
      * </p>
      *
-     * @param authID Authorization for lock
+     * @param authID      Authorization for lock
      * @param transaction Transaction with authorization for lockID
-     *
      * @return <code>true</code> if lock was found and released
-     *
      * @throws IOException DOCUMENT ME!
      */
     boolean release(String authID, Transaction transaction)
-        throws IOException;
+            throws IOException;
 
     /**
      * Refresh locks held by the authorization <code>lockID</code>.
-     *
+     * <p>
      * <p>
      * All features locked with the provied <code>lockID</code> will be locked
      * for additional time (the origional duration requested).
      * </p>
-     *
+     * <p>
      * <p>
      * (remember that the lock may have expired)
      * </p>
      *
-     * @param authID Authorization for lock
+     * @param authID      Authorization for lock
      * @param transaction Transaction with authorization for lockID
-     *
      * @return <code>true</code> if lock was found and refreshed
-     *
      * @throws IOException DOCUMENT ME!
      */
     boolean refresh(String authID, Transaction transaction)
-        throws IOException;
+            throws IOException;
 
     /**
      * FeatureID based unlocking.
@@ -96,11 +89,10 @@ public interface LockingManager {
      * @param authID
      * @param transaction
      * @param featureLock
-     *
      * @throws IOException DOCUMENT ME!
      */
     void unLockFeatureID(String typeName, String authID, Transaction transaction,
-        FeatureLock featureLock) throws IOException;
+                         FeatureLock featureLock) throws IOException;
 
     /**
      * FeatureID based locking.
@@ -109,9 +101,8 @@ public interface LockingManager {
      * @param authID
      * @param transaction
      * @param featureLock
-     *
      * @throws IOException DOCUMENT ME!
      */
     void lockFeatureID(String typeName, String authID, Transaction transaction,
-        FeatureLock featureLock) throws IOException;
+                       FeatureLock featureLock) throws IOException;
 }

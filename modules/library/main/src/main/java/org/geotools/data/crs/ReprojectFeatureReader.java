@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -42,25 +42,25 @@ import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * ReprojectFeatureReader provides a reprojection for FeatureTypes.
- * 
+ * <p>
  * <p>
  * ReprojectFeatureReader  is a wrapper used to reproject  GeometryAttributes
  * to a user supplied CoordinateReferenceSystem from the original
  * CoordinateReferenceSystem supplied by the original FeatureReader.
  * </p>
- * 
+ * <p>
  * <p>
  * Example Use:
  * <pre><code>
  * ReprojectFeatureReader reader =
  *     new ReprojectFeatureReader( originalReader, reprojectCS );
- * 
+ *
  * CoordinateReferenceSystem originalCS =
  *     originalReader.getFeatureType().getDefaultGeometry().getCoordinateSystem();
- * 
+ *
  * CoordinateReferenceSystem newCS =
  *     reader.getFeatureType().getDefaultGeometry().getCoordinateSystem();
- * 
+ *
  * assertEquals( reprojectCS, newCS );
  * </code></pre>
  * </p>
@@ -70,54 +70,61 @@ import com.vividsolutions.jts.geom.Geometry;
  * @author jgarnett, Refractions Research, Inc.
  * @author aaime
  * @author $Author: jive $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
-public class ReprojectFeatureReader implements DelegatingFeatureReader<SimpleFeatureType, SimpleFeature>{
-    
+public class ReprojectFeatureReader implements DelegatingFeatureReader<SimpleFeatureType, 
+        SimpleFeature> {
+
     FeatureReader<SimpleFeatureType, SimpleFeature> reader;
     SimpleFeatureType schema;
     GeometryCoordinateSequenceTransformer transformer = new GeometryCoordinateSequenceTransformer();
-    
+
     /**
-     * Direct constructor reprojecting the provided reader into the schema indicated (using the supplied math transformation).
+     * Direct constructor reprojecting the provided reader into the schema indicated (using the 
+     * supplied math transformation).
      * <p>
-     * Please note schema is that of the expected results, You may need to use FeatureTypes.transform( FeatureType, crs ) to create the schema provider.
-     * 
-     * @param reader original reader with results in the original coordinate reference system
-     * @param schema This is the target schema describing the results in the expected coordinate reference system
-     * @param transform the math transform used to go from reader coordinate reference system to the provided schema coordinate reference system
+     * Please note schema is that of the expected results, You may need to use FeatureTypes
+     * .transform( FeatureType, crs ) to create the schema provider.
+     *
+     * @param reader    original reader with results in the original coordinate reference system
+     * @param schema    This is the target schema describing the results in the expected 
+     *                  coordinate reference system
+     * @param transform the math transform used to go from reader coordinate reference system to 
+     *                  the provided schema coordinate reference system
      */
-    public ReprojectFeatureReader(FeatureReader <SimpleFeatureType, SimpleFeature> reader, SimpleFeatureType schema,
-        MathTransform transform) {
+    public ReprojectFeatureReader(FeatureReader<SimpleFeatureType, SimpleFeature> reader, 
+                                  SimpleFeatureType schema,
+                                  MathTransform transform) {
         this.reader = reader;
         this.schema = schema;
         transformer.setMathTransform(transform);
     }
+
     /**
      * Constructor that will generate schema and mathTransform for the results.
-     * 
+     *
      * @param reader original reader
-     * @param cs Target coordinate reference system; will be used to create the target FeatureType and MathTransform used to transform the data
+     * @param cs     Target coordinate reference system; will be used to create the target 
+     *               FeatureType and MathTransform used to transform the data
      */
     public ReprojectFeatureReader(FeatureReader<SimpleFeatureType, SimpleFeature> reader,
-        CoordinateReferenceSystem cs)
-        throws SchemaException, OperationNotFoundException, NoSuchElementException, FactoryException{
+                                  CoordinateReferenceSystem cs)
+            throws SchemaException, OperationNotFoundException, NoSuchElementException, 
+            FactoryException {
         if (cs == null) {
             throw new NullPointerException("CoordinateSystem required");
         }
 
         SimpleFeatureType type = reader.getFeatureType();
         CoordinateReferenceSystem original = type.getGeometryDescriptor()
-                                                 .getCoordinateReferenceSystem();
+                .getCoordinateReferenceSystem();
 
         if (cs.equals(original)) {
             throw new IllegalArgumentException("CoordinateSystem " + cs
-                + " already used (check before using wrapper)");
+                    + " already used (check before using wrapper)");
         }
-        
+
         this.schema = FeatureTypes.transform(type, cs);
         this.reader = reader;
         transformer.setMathTransform(CRS.findMathTransform(original, cs, true));
@@ -126,17 +133,15 @@ public class ReprojectFeatureReader implements DelegatingFeatureReader<SimpleFea
     public FeatureReader<SimpleFeatureType, SimpleFeature> getDelegate() {
         return reader;
     }
-    
+
     /**
      * Implement getFeatureType.
-     * 
+     * <p>
      * <p>
      * Description ...
      * </p>
      *
-     *
      * @throws IllegalStateException DOCUMENT ME!
-     *
      * @see org.geotools.data.FeatureReader#getFeatureType()
      */
     public SimpleFeatureType getFeatureType() {
@@ -149,22 +154,20 @@ public class ReprojectFeatureReader implements DelegatingFeatureReader<SimpleFea
 
     /**
      * Implement next.
-     * 
+     * <p>
      * <p>
      * Description ...
      * </p>
      *
-     *
      * @throws IOException
      * @throws IllegalAttributeException
      * @throws NoSuchElementException
-     * @throws IllegalStateException DOCUMENT ME!
-     * @throws DataSourceException DOCUMENT ME!
-     *
+     * @throws IllegalStateException     DOCUMENT ME!
+     * @throws DataSourceException       DOCUMENT ME!
      * @see org.geotools.data.FeatureReader#next()
      */
     public SimpleFeature next()
-        throws IOException, IllegalAttributeException, NoSuchElementException {
+            throws IOException, IllegalAttributeException, NoSuchElementException {
         if (reader == null) {
             throw new IllegalStateException("Reader has already been closed");
         }
@@ -179,8 +182,9 @@ public class ReprojectFeatureReader implements DelegatingFeatureReader<SimpleFea
                 }
             }
         } catch (TransformException e) {
-            throw new DataSourceException("A transformation exception occurred while reprojecting data on the fly",
-                e);
+            throw new DataSourceException("A transformation exception occurred while reprojecting" +
+                    " data on the fly",
+                    e);
         }
         // building the new reprojected feature
         SimpleFeature reprojected = SimpleFeatureBuilder.build(schema, attributes, next.getID());
@@ -191,15 +195,13 @@ public class ReprojectFeatureReader implements DelegatingFeatureReader<SimpleFea
 
     /**
      * Implement hasNext.
-     * 
+     * <p>
      * <p>
      * Description ...
      * </p>
      *
-     *
      * @throws IOException
      * @throws IllegalStateException DOCUMENT ME!
-     *
      * @see org.geotools.data.FeatureReader#hasNext()
      */
     public boolean hasNext() throws IOException {
@@ -212,14 +214,13 @@ public class ReprojectFeatureReader implements DelegatingFeatureReader<SimpleFea
 
     /**
      * Implement close.
-     * 
+     * <p>
      * <p>
      * Description ...
      * </p>
      *
      * @throws IOException
      * @throws IllegalStateException DOCUMENT ME!
-     *
      * @see org.geotools.data.FeatureReader#close()
      */
     public void close() throws IOException {

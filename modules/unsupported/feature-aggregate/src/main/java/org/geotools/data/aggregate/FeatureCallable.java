@@ -58,7 +58,7 @@ class FeatureCallable implements Callable<Void> {
     private boolean stopped = false;
 
     public FeatureCallable(AggregatingDataStore store, Query query, Name storeName,
-            String typeName, FeatureQueue queue, SimpleFeatureType target) {
+                           String typeName, FeatureQueue queue, SimpleFeatureType target) {
         super();
         this.store = store;
         this.query = query;
@@ -70,7 +70,7 @@ class FeatureCallable implements Callable<Void> {
 
     @Override
     public Void call() throws Exception {
-        SimpleFeatureIterator fi = null;    
+        SimpleFeatureIterator fi = null;
         int storeId = -1;
         try {
             // get the feature list
@@ -118,8 +118,8 @@ class FeatureCallable implements Callable<Void> {
                 id = builder.getFeatureType().getTypeName() + "." + storeId + "." + id;
                 SimpleFeature sf = builder.buildFeature(id);
                 if (LOGGER.isLoggable(Level.FINE)) {
-                    LOGGER.log(Level.FINE, "Adding a new feature {0} from store {1}", new Object[] {
-                            sf, storeId });
+                    LOGGER.log(Level.FINE, "Adding a new feature {0} from store {1}", new Object[]{
+                            sf, storeId});
                 }
                 queue.put(sf);
             }
@@ -143,12 +143,12 @@ class FeatureCallable implements Callable<Void> {
     }
 
     void fixupProperties(Query q, SimpleFeatureType featureType, Set<String> sourceNames) {
-        if(q.getPropertyNames() != null) {
-            if(q.getPropertyNames().length > 0) {
+        if (q.getPropertyNames() != null) {
+            if (q.getPropertyNames().length > 0) {
                 // some specific property was asked for, let's filter them
                 List<String> filtered = new ArrayList<String>();
                 for (String name : q.getPropertyNames()) {
-                    if(sourceNames.contains(name)) {
+                    if (sourceNames.contains(name)) {
                         filtered.add(name);
                     }
                 }
@@ -160,7 +160,7 @@ class FeatureCallable implements Callable<Void> {
             // target and source then
             List<String> filtered = new ArrayList<String>();
             for (String name : sourceNames) {
-                if(featureType.getDescriptor(name) != null) {
+                if (featureType.getDescriptor(name) != null) {
                     filtered.add(name);
                 }
             }
@@ -171,7 +171,7 @@ class FeatureCallable implements Callable<Void> {
 
     /**
      * Collects the attribute names for the specified feature source
-     * 
+     *
      * @param source
      * @return
      */

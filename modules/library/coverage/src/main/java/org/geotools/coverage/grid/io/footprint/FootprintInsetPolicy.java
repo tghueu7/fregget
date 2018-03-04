@@ -31,11 +31,11 @@ import com.vividsolutions.jts.operation.union.CascadedPolygonUnion;
 
 /**
  * Policy specifying how to apply an inset of the footprints
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 public enum FootprintInsetPolicy {
-    
+
     /**
      * Full inset from all direction. Works best with fully overlapping granules
      */
@@ -76,7 +76,7 @@ public enum FootprintInsetPolicy {
         /**
          * Collects all sub-polygons into the specified geometry and returns them either as a single
          * polygon, or as a multipolygon, shaving off any other lower dimension geometry
-         * 
+         *
          * @param geometry
          * @return
          */
@@ -108,7 +108,7 @@ public enum FootprintInsetPolicy {
         }
 
         private List<LineString> filterRings(List<LinearRing> footprintRings,
-                Geometry bufferedOuterRings) {
+                                             Geometry bufferedOuterRings) {
             List<LineString> result = new ArrayList<LineString>();
             for (LinearRing ring : footprintRings) {
                 Geometry difference = ring.difference(bufferedOuterRings);
@@ -164,9 +164,10 @@ public enum FootprintInsetPolicy {
     public static final String INSET_TYPE_PROPERTY = "footprint_inset_type";
 
     public abstract Geometry applyInset(Geometry footprint, Geometry granuleBounds, double inset);
-    
+
     /**
      * Returns the list of names for this enum
+     *
      * @return
      */
     public static List<String> names() {

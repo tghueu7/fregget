@@ -22,9 +22,9 @@ package org.geotools.swing.dialog;
  * by {@code JTextReporter}.
  *
  * @author Michael Bedward
- * @since 2.6
- * @source $URL$
  * @version $URL$
+ * @source $URL$
+ * @since 2.6
  */
 public interface TextReporterListener {
 

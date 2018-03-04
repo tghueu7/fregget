@@ -15,6 +15,7 @@
  *    Lesser General Public License for more details.
  */
 package org.geotools.processing.jai;
+
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
@@ -32,14 +33,17 @@ import com.sun.media.jai.opimage.RIFUtil;
  */
 public class TransparencyFillRIF implements RenderedImageFactory {
 
-    /** Constructor. */
-    public TransparencyFillRIF() {}
+    /**
+     * Constructor.
+     */
+    public TransparencyFillRIF() {
+    }
 
     /**
      * Create a new instance of TransparencyFillOpImage in the rendered layer.
      * This method satisfies the implementation of RIF.
      *
-     * @param paramBlock  The source image and the dilation kernel.
+     * @param paramBlock The source image and the dilation kernel.
      */
     public RenderedImage create(ParameterBlock paramBlock,
                                 RenderingHints renderHints) {

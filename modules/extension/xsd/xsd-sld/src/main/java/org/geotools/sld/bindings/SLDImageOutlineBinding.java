@@ -19,7 +19,9 @@ package org.geotools.sld.bindings;
 import org.picocontainer.MutablePicoContainer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 import javax.xml.namespace.QName;
+
 import org.geotools.styling.ImageOutline;
 import org.geotools.styling.LineSymbolizer;
 import org.geotools.styling.PolygonSymbolizer;
@@ -30,16 +32,17 @@ import org.geotools.xml.*;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:ImageOutline.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="ImageOutline"&gt;
  *      &lt;xsd:annotation&gt;
  *          &lt;xsd:documentation&gt;         &quot;ImageOutline&quot; specifies
  *              how individual source rasters in         a multi-raster set
  *              (such as a set of satellite-image scenes)         should be
- *              outlined to make the individual-image locations visible.       &lt;/xsd:documentation&gt;
+ *              outlined to make the individual-image locations visible.       &lt;
+ *              /xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
  *      &lt;xsd:complexType&gt;
  *          &lt;xsd:choice&gt;
@@ -54,9 +57,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDImageOutlineBinding extends AbstractComplexBinding {
@@ -109,7 +109,7 @@ public class SLDImageOutlineBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //&lt;xsd:choice&gt;
         //  &lt;xsd:element ref="sld:LineSymbolizer"/&gt;
         //  &lt;xsd:element ref="sld:PolygonSymbolizer"/&gt;

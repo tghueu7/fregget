@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -23,23 +23,22 @@ import org.geotools.styling.ExternalGraphic;
 import org.geotools.styling.Graphic;
 
 /**
- *
- * @author  jamesm
- *
- *
+ * @author jamesm
  * @source $URL$
  */
 public interface GlyphRenderer {
- 
+
     public boolean canRender(String format);
+
     public List getFormats();
+
     /**
-     * 
      * @param graphic
      * @param eg
      * @param feature
-     * @param height use <=0 if you dont want any scaling done.  THIS MIGHT BE IGNORED by the renderer!
+     * @param height  use <=0 if you dont want any scaling done.  THIS MIGHT BE IGNORED by the 
+     *                renderer!
      */
     public BufferedImage render(Graphic graphic, ExternalGraphic eg, Object feature, int height);
-    
+
 }

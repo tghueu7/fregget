@@ -17,8 +17,6 @@
 package org.geotools.gml3.bindings.smil;
 
 /**
- * 
- *
  * @source $URL$
  */
 public interface SMIL20Language {

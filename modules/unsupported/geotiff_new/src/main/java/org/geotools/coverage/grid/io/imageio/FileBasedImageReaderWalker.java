@@ -19,46 +19,49 @@ import org.geotools.util.Utilities;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class FileBasedImageReaderWalker extends ImageReaderWalker {
 
-    /** Logger for the {@link FileBasedImageReaderWalker} class. */
-    private final static Logger LOGGER = org.geotools.util.logging.Logging.getLogger(FileBasedImageReaderWalker.class.toString());
+    /**
+     * Logger for the {@link FileBasedImageReaderWalker} class.
+     */
+    private final static Logger LOGGER = org.geotools.util.logging.Logging.getLogger
+            (FileBasedImageReaderWalker.class.toString());
 
     /**
      * url to the  file.
      */
     public static final Parameter<URL> URLP = new Parameter<URL>("url", URL.class);
-    
+
     protected final URL sourceURL;
-    
+
     protected final boolean hasExternalOverviews;
-    
+
     protected final URL externalOverviewsURL;
 
     protected final File sourceFile;
 
     protected final File externalOverviewsFile;
-    
+
     public FileBasedImageReaderWalker(
-            URL sourceURL, 
+            URL sourceURL,
             Hints hints,
             ImageReaderSpi readerSPI) throws IOException {
 //        TODO avoid SPI creation
-        super(URLToParams(sourceURL), hints, ImageIOExt.getImageInputStreamSPI(URLs.urlToFile(sourceURL), true), readerSPI);
-      this.sourceURL = sourceURL;
-      
-      // look for external levels
-      sourceFile= URLs.urlToFile(getSource());
-      externalOverviewsFile= new File(sourceFile.getCanonicalPath()+".ovr");
-      hasExternalOverviews=externalOverviewsFile.exists()&&externalOverviewsFile.isFile()&&externalOverviewsFile.canRead();
-      externalOverviewsURL= externalOverviewsFile.toURI().toURL();
-      
-      // now do the real work
-      initialize();
+        super(URLToParams(sourceURL), hints, ImageIOExt.getImageInputStreamSPI(URLs.urlToFile
+                (sourceURL), true), readerSPI);
+        this.sourceURL = sourceURL;
+
+        // look for external levels
+        sourceFile = URLs.urlToFile(getSource());
+        externalOverviewsFile = new File(sourceFile.getCanonicalPath() + ".ovr");
+        hasExternalOverviews = externalOverviewsFile.exists() && externalOverviewsFile.isFile() 
+                && externalOverviewsFile.canRead();
+        externalOverviewsURL = externalOverviewsFile.toURI().toURL();
+
+        // now do the real work
+        initialize();
     }
 
 
@@ -82,6 +85,6 @@ public abstract class FileBasedImageReaderWalker extends ImageReaderWalker {
 
     @Override
     protected ImageReaderSource<?> getSource(int i) throws IOException {
-        return ImageReaderSource.wrapFile(i,sourceFile, super.inStreamSPI, super.readerSPI);
+        return ImageReaderSource.wrapFile(i, sourceFile, super.inStreamSPI, super.readerSPI);
     }
 }

@@ -14,7 +14,8 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  *
- */package org.geotools.arcsde.data;
+ */
+package org.geotools.arcsde.data;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -45,24 +46,32 @@ import com.vividsolutions.jts.geom.Polygon;
 /**
  * Implements an attribute reader that is aware of the particulars of ArcSDE. This class sends its
  * logging to the log named "org.geotools.data".
- * 
+ *
  * @author Gabriel Roldan, Axios Engineering
- * @source $URL:
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
- *         /org/geotools/arcsde/data/ArcSDEAttributeReader.java $
  * @version $Id$
+ * @source $URL:
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
+ * /org/geotools/arcsde/data/ArcSDEAttributeReader.java $
  */
 final class ArcSDEAttributeReader implements AttributeReader {
-    /** Shared package's logger */
+    /**
+     * Shared package's logger
+     */
     private static final Logger LOGGER = Logging.getLogger(ArcSDEAttributeReader.class.getName());
 
-    /** query passed to the constructor */
+    /**
+     * query passed to the constructor
+     */
     private ArcSDEQuery query;
 
-    /** schema of the features this attribute reader iterates over */
+    /**
+     * schema of the features this attribute reader iterates over
+     */
     private final SimpleFeatureType schema;
 
-    /** current sde java api row being read */
+    /**
+     * current sde java api row being read
+     */
     private SdeRow currentRow;
 
     /**
@@ -104,20 +113,19 @@ final class ArcSDEAttributeReader implements AttributeReader {
 
     /**
      * The query that defines this readers interaction with an ArcSDE instance.
-     * 
-     * @param query
-     *            the {@link SeQuery} wrapper where to fetch rows from. Must NOT be already
-     *            {@link ArcSDEQuery#execute() executed}.
-     * @param geometryFactory
-     *            the JTS GeometryFactory to use when creating Feature geometries
-     * @param session
-     *            the session the <code>query</code> is being ran over. This attribute reader will
-     *            close it only if it does not have a transaction in progress.
+     *
+     * @param query           the {@link SeQuery} wrapper where to fetch rows from. Must NOT be 
+     *                        already
+     *                        {@link ArcSDEQuery#execute() executed}.
+     * @param geometryFactory the JTS GeometryFactory to use when creating Feature geometries
+     * @param session         the session the <code>query</code> is being ran over. This 
+     *                        attribute reader will
+     *                        close it only if it does not have a transaction in progress.
      * @throws IOException
      */
     @SuppressWarnings("unchecked")
     public ArcSDEAttributeReader(final ArcSDEQuery query, final GeometryFactory geometryFactory,
-            final ISession session) throws IOException {
+                                 final ISession session) throws IOException {
         this.query = query;
         this.session = session;
         this.fidReader = query.getFidReader();
@@ -141,14 +149,14 @@ final class ArcSDEAttributeReader implements AttributeReader {
     }
 
     /**
-     * 
+     *
      */
     public int getAttributeCount() {
         return this.schema.getAttributeCount();
     }
 
     /**
-     * 
+     *
      */
     public AttributeDescriptor getAttributeType(int index) throws ArrayIndexOutOfBoundsException {
         return this.schema.getDescriptor(index);
@@ -175,7 +183,7 @@ final class ArcSDEAttributeReader implements AttributeReader {
     }
 
     /**
-     * 
+     *
      */
     public boolean hasNext() throws IOException {
         if (!this.hasNextAlreadyCalled) {
@@ -212,7 +220,7 @@ final class ArcSDEAttributeReader implements AttributeReader {
 
     /**
      * Retrieves the next row, or throws a DataSourceException if not more rows are available.
-     * 
+     *
      * @throws IOException
      */
     public void next() throws IOException {
@@ -224,13 +232,12 @@ final class ArcSDEAttributeReader implements AttributeReader {
     }
 
     /**
-     * 
      * @param index
      * @return
-     * @throws IOException
-     *             never, since the feature retrieve was done in <code>hasNext()</code>
-     * @throws ArrayIndexOutOfBoundsException
-     *             if <code>index</code> is outside the bounds of the schema attribute's count
+     * @throws IOException                    never, since the feature retrieve was done in 
+     * <code>hasNext()</code>
+     * @throws ArrayIndexOutOfBoundsException if <code>index</code> is outside the bounds of the 
+     * schema attribute's count
      */
     public Object read(final int index) throws IOException, ArrayIndexOutOfBoundsException {
         Object value = currentRow.getObject(index);
@@ -270,9 +277,9 @@ final class ArcSDEAttributeReader implements AttributeReader {
         if (MultiPoint.class == targetType && Point.class == currentClass) {
             adapted = factory.createMultiPoint(value.getCoordinates());
         } else if (MultiLineString.class == targetType && LineString.class == currentClass) {
-            adapted = factory.createMultiLineString(new LineString[] { (LineString) value });
+            adapted = factory.createMultiLineString(new LineString[]{(LineString) value});
         } else if (MultiPolygon.class == targetType && Polygon.class == currentClass) {
-            adapted = factory.createMultiPolygon(new Polygon[] { (Polygon) value });
+            adapted = factory.createMultiPolygon(new Polygon[]{(Polygon) value});
         } else {
             throw new IllegalArgumentException("Don't know how to adapt " + currentClass.getName()
                     + " to " + targetType.getName());
@@ -290,7 +297,7 @@ final class ArcSDEAttributeReader implements AttributeReader {
     }
 
     /**
-     * 
+     *
      */
     public String readFID() throws IOException {
         if (this.currentFid == -1) {

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2016, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -19,10 +19,9 @@ package org.geotools.coverage.processing;
 /**
  * Special subclass of {@link CannotCropException} reporting that the
  * raster space intersection between the crop area and the coverage one
- * was found to be empty 
- *  
- * @author Andrea Aime - GeoSolutions
+ * was found to be empty
  *
+ * @author Andrea Aime - GeoSolutions
  */
 public class EmptyIntersectionException extends CannotCropException {
 
@@ -39,7 +38,6 @@ public class EmptyIntersectionException extends CannotCropException {
     public EmptyIntersectionException(String message) {
         super(message);
     }
-    
-    
-    
+
+
 }

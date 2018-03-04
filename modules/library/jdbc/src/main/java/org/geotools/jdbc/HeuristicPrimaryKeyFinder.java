@@ -31,11 +31,8 @@ import org.geotools.util.logging.Logging;
  * Looks up the primary key using the {@link DatabaseMetaData} for the specified table, looking both
  * for primary keys and unique indexes. The sequence lookup is performed in conjuction with the sql
  * dialect
- * 
+ *
  * @author Andrea Aime - OpenGeo
- * 
- *
- *
  * @source $URL$
  */
 public class HeuristicPrimaryKeyFinder extends PrimaryKeyFinder {
@@ -43,7 +40,7 @@ public class HeuristicPrimaryKeyFinder extends PrimaryKeyFinder {
 
     @Override
     public PrimaryKey getPrimaryKey(JDBCDataStore store, String databaseSchema, String tableName,
-            Connection cx) throws SQLException {
+                                    Connection cx) throws SQLException {
         DatabaseMetaData metaData = cx.getMetaData();
         LOGGER.log(Level.FINE, "Getting information about primary keys of {0}", tableName);
         ResultSet primaryKey = metaData.getPrimaryKeys(null, databaseSchema, tableName);
@@ -87,7 +84,8 @@ public class HeuristicPrimaryKeyFinder extends PrimaryKeyFinder {
      * Creates a key from a primary key or unique index.
      */
     PrimaryKey createPrimaryKey(JDBCDataStore store, ResultSet index, DatabaseMetaData metaData,
-            String databaseSchema, String tableName, Connection cx) throws SQLException {
+                                String databaseSchema, String tableName, Connection cx) throws 
+            SQLException {
         ArrayList<PrimaryKeyColumn> cols = new ArrayList();
 
         while (index.next()) {
@@ -106,7 +104,7 @@ public class HeuristicPrimaryKeyFinder extends PrimaryKeyFinder {
             columns.next();
 
             Class columnType = store.getSQLDialect().getMapping(columns, cx);
-            if(columnType == null) {
+            if (columnType == null) {
                 int binding = columns.getInt("DATA_TYPE");
                 columnType = store.getMapping(binding);
                 if (columnType == null) {
@@ -115,7 +113,6 @@ public class HeuristicPrimaryKeyFinder extends PrimaryKeyFinder {
                 }
             }
 
-            
 
             // determine which type of primary key we have
             PrimaryKeyColumn col = null;

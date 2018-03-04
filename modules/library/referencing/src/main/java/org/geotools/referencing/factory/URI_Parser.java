@@ -29,13 +29,13 @@ import org.opengis.referencing.AuthorityFactory;
 
 
 /**
- * Split a URI into its {@link #type} and {@link #version} parts for {@link Abstract_URI_AuthorityFactory}.
+ * Split a URI into its {@link #type} and {@link #version} parts for 
+ * {@link Abstract_URI_AuthorityFactory}.
  * This class must be immutable in order to avoid the need for synchronization in the authority
  * factory.
  *
  * @author Martin Desruisseaux
  * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
- * 
  * @source $URL$
  */
 abstract class URI_Parser {
@@ -72,14 +72,15 @@ abstract class URI_Parser {
 
     /**
      * Constructor.
-     * 
-     * @param uri the full URI string
-     * @param type the resource type, for example "crs"
+     *
+     * @param uri       the full URI string
+     * @param type      the resource type, for example "crs"
      * @param authority the resource authority, for example "EPSG"
-     * @param version the version of the resource or null if none
-     * @param code the resource code
+     * @param version   the version of the resource or null if none
+     * @param code      the resource code
      */
-    protected URI_Parser(String uri, URI_Type type, String authority, Version version, String code) {
+    protected URI_Parser(String uri, URI_Type type, String authority, Version version, String 
+            code) {
         this.uri = uri;
         this.type = type;
         this.authority = authority;
@@ -103,7 +104,7 @@ abstract class URI_Parser {
      * may be wrong.
      */
     final void logWarningIfTypeMismatch(AuthorityFactory authorityFactory,
-            final Class<? extends AuthorityFactory> expected) {
+                                        final Class<? extends AuthorityFactory> expected) {
         if (!expected.isAssignableFrom(type.type)) {
             // Build a simplified URN, omitting "urn:ogc:def" and version number.
             final LogRecord record = Loggings.format(Level.WARNING,

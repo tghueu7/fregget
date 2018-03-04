@@ -14,32 +14,36 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/wmts/1.0:GetFeatureInfo.
- *
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
- *	 <code>
- *  &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;element name="GetFeatureInfo" xmlns="http://www.w3.org/2001/XMLSchema"&gt;
+ * 	 <code>
+ *  &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;element name="GetFeatureInfo" 
+ *  xmlns="http://www.w3.org/2001/XMLSchema"&gt;
  *  		&lt;complexType&gt;
  *  			&lt;sequence&gt;
  *  				&lt;element ref="wmts:GetTile"&gt;
  *  					&lt;annotation&gt;
- *  						&lt;documentation&gt;The corresponding GetTile request parameters&lt;/documentation&gt;
+ *  						&lt;documentation&gt;The corresponding GetTile request parameters&lt;
+ *  						/documentation&gt;
  *  					&lt;/annotation&gt;
  *  				&lt;/element&gt;
  *  				&lt;element name="J" type="nonNegativeInteger"&gt;
  *  					&lt;annotation&gt;
- *  						&lt;documentation&gt;Row index of a pixel in the tile&lt;/documentation&gt;
+ *  						&lt;documentation&gt;Row index of a pixel in the tile&lt;
+ *  						/documentation&gt;
  *  					&lt;/annotation&gt;
  *  				&lt;/element&gt;
  *  				&lt;element name="I" type="nonNegativeInteger"&gt;
  *  					&lt;annotation&gt;
- *  						&lt;documentation&gt;Column index of a pixel in the tile&lt;/documentation&gt;
+ *  						&lt;documentation&gt;Column index of a pixel in the tile&lt;
+ *  						/documentation&gt;
  *  					&lt;/annotation&gt;
  *  				&lt;/element&gt;
  *  				&lt;element name="InfoFormat" type="ows:MimeType"&gt;
  *  					&lt;annotation&gt;
- *  						&lt;documentation&gt;Output MIME type format of the 
+ *  						&lt;documentation&gt;Output MIME type format of the
  *  						retrieved information&lt;/documentation&gt;
  *  					&lt;/annotation&gt;
  *  				&lt;/element&gt;
@@ -47,9 +51,9 @@ import javax.xml.namespace.QName;
  *  			&lt;attribute fixed="WMTS" name="service" type="string" use="required"/&gt;
  *  			&lt;attribute fixed="1.0.0" name="version" type="string" use="required"/&gt;
  *  		&lt;/complexType&gt;
- *  	&lt;/element&gt; 
- *		
- *	  </code>
+ *  	&lt;/element&gt;
+ *
+ * 	  </code>
  * </pre>
  * </p>
  *
@@ -73,7 +77,7 @@ public class GetFeatureInfoBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -82,7 +86,7 @@ public class GetFeatureInfoBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
@@ -93,7 +97,7 @@ public class GetFeatureInfoBinding extends AbstractComplexBinding {
         fti.setJ((BigInteger) node.getChildValue("J"));
         fti.setInfoFormat((String) node.getChildValue("InfoFormat"));
         fti.setGetTile((GetTileType) node.getChildValue("GetTile"));
-        
+
         return fti;
     }
 

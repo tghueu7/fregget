@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -52,9 +52,8 @@ import org.opengis.temporal.Period;
 /**
  * Binds all literals in the filter to the target type they are compared to, in order to avoid the
  * usage of converters on a evaluation by evaluation basis.
- * 
- * @author Andrea Aime - GeoSolutions
  *
+ * @author Andrea Aime - GeoSolutions
  */
 public class BindingFilterVisitor extends DuplicatingFilterVisitor {
 
@@ -64,7 +63,7 @@ public class BindingFilterVisitor extends DuplicatingFilterVisitor {
 
     /**
      * Evaluates the
-     * 
+     *
      * @param schema
      */
     public BindingFilterVisitor(FeatureType schema) {
@@ -167,7 +166,9 @@ public class BindingFilterVisitor extends DuplicatingFilterVisitor {
         Expression expr2 = optimizeTime(anyInteracts.getExpression2(), extraData);
 
         return getFactory(extraData).anyInteracts(expr1, expr2, anyInteracts.getMatchAction());
-    };
+    }
+
+    ;
 
     public Object visit(Before before, Object extraData) {
         Expression expr1 = optimizeTime(before.getExpression1(), extraData);
@@ -182,7 +183,9 @@ public class BindingFilterVisitor extends DuplicatingFilterVisitor {
         Expression expr2 = optimizeTime(begins.getExpression2(), extraData);
 
         return getFactory(extraData).begins(expr1, expr2, begins.getMatchAction());
-    };
+    }
+
+    ;
 
     public Object visit(BegunBy begunBy, Object extraData) {
         Expression expr1 = optimizeTime(begunBy.getExpression1(), extraData);

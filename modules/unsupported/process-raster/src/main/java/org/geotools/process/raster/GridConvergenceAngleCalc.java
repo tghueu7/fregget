@@ -25,24 +25,32 @@ import org.opengis.referencing.cs.AxisDirection;
 import org.opengis.referencing.cs.CoordinateSystemAxis;
 
 /**
- * Used to calculate an estimate for the Grid Convergence Angle at a point within a 2D Coordinate Reference System. The Grid Convergence Angle at any
- * point on a projected 2D map is the difference between "up" or "grid north" on the map at that point and True North. Since the map is projected, the
- * Grid Convergence Angle can change at each point on the map; True North can be in a different Cartesian direction on the flat map for every point.
- * One example impact of this is that vectors cannot be accurately drawn on the screen by simply rotating them a certain amount in "screen degrees."
- * This class, then, is used to estimate the Grid Convergence Angle at those points. Though the underlying meaning is the same, different mapping
- * conventions define the angle's direction (+/-) and beginning point / ending point differently. Therefore, for the purposes of this code, the Grid
- * Convergence Angle is defined as the angle (C) FROM true north TO grid north with 0 deg up and angles increasing positively clockwise. So, for the
- * example below, C would be approximately -33 deg, since the angle FROM true north TO grid north is Counter-Clockwise.
- * 
+ * Used to calculate an estimate for the Grid Convergence Angle at a point within a 2D Coordinate
+ * Reference System. The Grid Convergence Angle at any
+ * point on a projected 2D map is the difference between "up" or "grid north" on the map at that 
+ * point and True North. Since the map is projected, the
+ * Grid Convergence Angle can change at each point on the map; True North can be in a different 
+ * Cartesian direction on the flat map for every point.
+ * One example impact of this is that vectors cannot be accurately drawn on the screen by simply 
+ * rotating them a certain amount in "screen degrees."
+ * This class, then, is used to estimate the Grid Convergence Angle at those points. Though the 
+ * underlying meaning is the same, different mapping
+ * conventions define the angle's direction (+/-) and beginning point / ending point differently.
+ * Therefore, for the purposes of this code, the Grid
+ * Convergence Angle is defined as the angle (C) FROM true north TO grid north with 0 deg up and 
+ * angles increasing positively clockwise. So, for the
+ * example below, C would be approximately -33 deg, since the angle FROM true north TO grid north
+ * is Counter-Clockwise.
+ * <p>
  * <pre>
- * 
+ *
  *                         Up
  *                     Grid North
  *                         0 deg    True North
  *                         |       .
  *                         |  C  .
  *                         |   .
- *                         | . 
+ *                         | .
  *       270 deg-----------O--------------90 deg
  *                         |
  *                         |
@@ -50,36 +58,43 @@ import org.opengis.referencing.cs.CoordinateSystemAxis;
  *                         |
  *                         |
  *                         180 deg
- * 
+ *
  * </pre>
- * 
+ * <p>
  * This class uses the GeoTools GeodeticCalculator for performing underlying calculations. <br>
  * <br>
- * Some literature (don't have a link) says that the Grid Covergence Angle is really the angle between a line extending toward grid north and one
- * extending toward true north THAT HAVE BEEN PROJECTED into the map projection, but suggests the difference between this angle and the way the angle
+ * Some literature (don't have a link) says that the Grid Covergence Angle is really the angle 
+ * between a line extending toward grid north and one
+ * extending toward true north THAT HAVE BEEN PROJECTED into the map projection, but suggests the
+ * difference between this angle and the way the angle
  * is being estimated here is small. May want some verification of that. <br>
  * <br>
- * 
+ *
  * @author Mike Grogan, WeatherFlow, Inc., Synoptic <br>
  * <br>
  * @see http://www.threelittlemaids.co.uk/magdec/explain.html
  * @see http://www.bluemarblegeo.com/knowledgebase/calculator/Scale_Factor_and_Convergence.htm
- * 
  */
 final class GridConvergenceAngleCalc {
 
-    /** Input Coverage CRS */
+    /**
+     * Input Coverage CRS
+     */
     private final CoordinateReferenceSystem crs;
 
-    /** Operator used for calculating the GridConvergence angle */
+    /**
+     * Operator used for calculating the GridConvergence angle
+     */
     private GeodeticCalculator geoCalc;
 
-    /** Index associated to the "up" axis */
+    /**
+     * Index associated to the "up" axis
+     */
     private final int upAxisDimension;
 
     /**
      * Constructs a new GridConvergenceAngleCalc for a given CoordinateReferenceSystem
-     * 
+     *
      * @param crs CoordinateReferenceSystem for which to construct a new GridConvergenceAngleCalc.
      * @throws Exception
      */
@@ -98,12 +113,16 @@ final class GridConvergenceAngleCalc {
     }
 
     /**
-     * Estimates the grid convergence angle at a position within a Coordinate Reference System. The angle returned is as described in the
-     * documentation for the class. The Coordinate Reference System of the supplied position must be the same as was used when constructing the
-     * calculator, because using anything else would not make sense as convergence angle depends on projection.
-     * 
+     * Estimates the grid convergence angle at a position within a Coordinate Reference System. 
+     * The angle returned is as described in the
+     * documentation for the class. The Coordinate Reference System of the supplied position must
+     * be the same as was used when constructing the
+     * calculator, because using anything else would not make sense as convergence angle depends 
+     * on projection.
+     *
      * @param position DirectPosition2D at which we want to estimate the grid convergence angle
-     * @return double containing grid convergence angle, as described in documentation for the class.
+     * @return double containing grid convergence angle, as described in documentation for the 
+     * class.
      * @throws Exception
      */
     public double getConvergenceAngle(DirectPosition2D position) throws Exception {
@@ -185,7 +204,7 @@ final class GridConvergenceAngleCalc {
 
     /**
      * Determines which axis in the calculator's Coordinate Reference System is "up"
-     * 
+     *
      * @return int with up axis dimension, or -1 if up axis cannot be found.
      */
     private int determineUpAxisDimension() {

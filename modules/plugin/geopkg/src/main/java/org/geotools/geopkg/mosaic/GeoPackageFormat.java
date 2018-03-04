@@ -36,13 +36,14 @@ import org.opengis.parameter.GeneralParameterDescriptor;
 
 /**
  * GeoPackage Grid Format (supports the GP mosaic datastore).
- * 
+ *
  * @author Justin Deoliveira
  * @author Niels Charlier
  */
 public class GeoPackageFormat extends AbstractGridFormat {
-       
-    private final static Logger LOGGER = Logging.getLogger(GeoPackageFormat.class.getPackage().getName());
+
+    private final static Logger LOGGER = Logging.getLogger(GeoPackageFormat.class.getPackage()
+            .getName());
 
     public static File getFileFromSource(Object source) {
         if (source == null) {
@@ -55,7 +56,7 @@ public class GeoPackageFormat extends AbstractGridFormat {
             if (source instanceof File) {
                 sourceFile = (File) source;
             } else if (source instanceof URL) {
-                if (((URL) source).getProtocol().equals("file")){
+                if (((URL) source).getProtocol().equals("file")) {
                     sourceFile = URLs.urlToFile((URL) source);
                 }
             } else if (source instanceof String) {
@@ -91,10 +92,11 @@ public class GeoPackageFormat extends AbstractGridFormat {
     public GridCoverageWriter getWriter(Object destination) {
         return getWriter(destination, null);
     }
-    
+
     @Override
     public GridCoverageWriter getWriter(Object destination, Hints hints) {
-        throw new UnsupportedOperationException("Unsupported method: Geopackage format is read-only.");
+        throw new UnsupportedOperationException("Unsupported method: Geopackage format is " +
+                "read-only.");
     }
 
     @Override
@@ -108,7 +110,7 @@ public class GeoPackageFormat extends AbstractGridFormat {
         if (sourceFile == null) {
             return false;
         }
-        
+
         //TODO: check if it is proper sqlite and geopackage file
         return sourceFile.getName().endsWith(".gpkg");
     }
@@ -117,7 +119,7 @@ public class GeoPackageFormat extends AbstractGridFormat {
     public GeoToolsWriteParams getDefaultImageIOWriteParameters() {
         throw new UnsupportedOperationException("Unsupported method.");
     }
-    
+
     /**
      * Creates an instance and sets the metadata.
      */
@@ -129,7 +131,7 @@ public class GeoPackageFormat extends AbstractGridFormat {
      * Sets the metadata information.
      */
     private void setInfo() {
-        final HashMap<String,String> info = new HashMap<String,String> ();
+        final HashMap<String, String> info = new HashMap<String, String>();
         info.put("name", "GeoPackage (mosaic)");
         info.put("description", "GeoPackage mosaic plugin");
         info.put("vendor", "Geotools");
@@ -155,7 +157,7 @@ public class GeoPackageFormat extends AbstractGridFormat {
                 SORT_BY,
                 MERGE_BEHAVIOR,
                 FOOTPRINT_BEHAVIOR*/
-        }));
+                }));
 
         // reading parameters
         writeParameters = null;

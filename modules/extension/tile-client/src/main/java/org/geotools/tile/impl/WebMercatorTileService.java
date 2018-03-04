@@ -29,9 +29,10 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  * <p>
- * The WebMercatorTileService is an abstract class that holds some of the tile service logic for Mercator-based tile services.
+ * The WebMercatorTileService is an abstract class that holds some of the tile service logic for 
+ * Mercator-based tile services.
  * </p>
- * 
+ *
  * @author Ugo Taddei
  * @since 12
  */
@@ -59,7 +60,7 @@ public abstract class WebMercatorTileService extends TileService {
             LOGGER.log(Level.SEVERE, "Failed to create Web Mercator CRS EPSG:3857", e);
             throw new RuntimeException(e);
         }
-        
+
         WEB_MERCATOR_CRS = tmpCrs;
     }
 

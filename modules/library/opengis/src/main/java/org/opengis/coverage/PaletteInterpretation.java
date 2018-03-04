@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.coverage;
@@ -23,17 +23,14 @@ import static org.opengis.annotation.Specification.*;
 /**
  * Describes the color entry in a color table.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengis.org/docs/01-004.pdf">Grid Coverage specification 1.0</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
- *
+ * @source $URL$
  * @see ColorInterpretation
  * @see SampleDimension
+ * @since GeoAPI 1.0
  */
-@UML(identifier="CV_PaletteInterpretation", specification=OGC_01004)
+@UML(identifier = "CV_PaletteInterpretation", specification = OGC_01004)
 public final class PaletteInterpretation extends CodeList<PaletteInterpretation> {
     /**
      * Serial number for compatibility with different versions.
@@ -44,14 +41,15 @@ public final class PaletteInterpretation extends CodeList<PaletteInterpretation>
      * List of all enumerations of this type.
      * Must be declared before any enum declaration.
      */
-    private static final List<PaletteInterpretation> VALUES = new ArrayList<PaletteInterpretation>(4);
+    private static final List<PaletteInterpretation> VALUES = new 
+            ArrayList<PaletteInterpretation>(4);
 
     /**
      * Gray Scale color palette.
      *
      * @see ColorSpace#TYPE_GRAY
      */
-    @UML(identifier="CV_Gray", obligation=CONDITIONAL, specification=OGC_01004)
+    @UML(identifier = "CV_Gray", obligation = CONDITIONAL, specification = OGC_01004)
     public static final PaletteInterpretation GRAY = new PaletteInterpretation("GRAY");
 
     /**
@@ -59,7 +57,7 @@ public final class PaletteInterpretation extends CodeList<PaletteInterpretation>
      *
      * @see ColorSpace#TYPE_RGB
      */
-    @UML(identifier="CV_RGB", obligation=CONDITIONAL, specification=OGC_01004)
+    @UML(identifier = "CV_RGB", obligation = CONDITIONAL, specification = OGC_01004)
     public static final PaletteInterpretation RGB = new PaletteInterpretation("RGB");
 
     /**
@@ -67,7 +65,7 @@ public final class PaletteInterpretation extends CodeList<PaletteInterpretation>
      *
      * @see ColorSpace#TYPE_CMYK
      */
-    @UML(identifier="CV_CMYK", obligation=CONDITIONAL, specification=OGC_01004)
+    @UML(identifier = "CV_CMYK", obligation = CONDITIONAL, specification = OGC_01004)
     public static final PaletteInterpretation CMYK = new PaletteInterpretation("CMYK");
 
     /**
@@ -75,7 +73,7 @@ public final class PaletteInterpretation extends CodeList<PaletteInterpretation>
      *
      * @see ColorSpace#TYPE_HLS
      */
-    @UML(identifier="CV_HLS", obligation=CONDITIONAL, specification=OGC_01004)
+    @UML(identifier = "CV_HLS", obligation = CONDITIONAL, specification = OGC_01004)
     public static final PaletteInterpretation HLS = new PaletteInterpretation("HLS");
 
     /**

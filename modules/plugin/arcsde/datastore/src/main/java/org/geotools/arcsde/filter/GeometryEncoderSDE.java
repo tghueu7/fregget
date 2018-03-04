@@ -72,17 +72,17 @@ import com.vividsolutions.jts.geom.Polygon;
  * <code>FilterToSQLSDE</code> and the spatial filters (or spatial constraints, in SDE vocabulary)
  * provided here; mirroring the java SDE api approach
  * </p>
- * 
+ *
  * @author Gabriel Rold?n
- * 
- * 
  * @source $URL$
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
- *         /org/geotools/arcsde/filter/GeometryEncoderSDE.java $
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
+ * /org/geotools/arcsde/filter/GeometryEncoderSDE.java $
  */
 @SuppressWarnings("deprecation")
 public class GeometryEncoderSDE extends DefaultFilterVisitor implements FilterVisitor {
-    /** Standard java logger */
+    /**
+     * Standard java logger
+     */
     private static Logger log = org.geotools.util.logging.Logging.getLogger("org.geotools.filter");
 
     private static FilterCapabilities capabilities = new FilterCapabilities();
@@ -162,13 +162,14 @@ public class GeometryEncoderSDE extends DefaultFilterVisitor implements FilterVi
     /**
      * @param filter
      * @param sdeMethod
-     * @param truth de default truth value for <code>sdeMethod</code>
+     * @param truth     de default truth value for <code>sdeMethod</code>
      * @param extraData if an instanceof java.lang.Boolean, <code>truth</code> is and'ed with its
-     *        boolean value. May have been set by {@link #visit(Not, Object)} to revert the logical
-     *        evaluation criteria.
+     *                  boolean value. May have been set by {@link #visit(Not, Object)} to revert
+     *                  the logical
+     *                  evaluation criteria.
      */
     private void addSpatialFilter(final BinarySpatialOperator filter, final int sdeMethod,
-            final boolean truth, final Object extraData) {
+                                  final boolean truth, final Object extraData) {
         boolean appliedTruth = truth;
 
         // At the time of writing, extraData can only be null or false.
@@ -259,34 +260,31 @@ public class GeometryEncoderSDE extends DefaultFilterVisitor implements FilterVi
             // Now make an SeShape
             SeShape filterShape;
 
-            if(seExtent.isEmpty() == true)
-            {
+            if (seExtent.isEmpty() == true) {
                 // The extent of the sdeLayer is uninitialised so create an extent.
                 // If seExtent.isEmpty() == true, when passed to SeShape.generateRectangle()
                 // an exception occurs.
                 filterShape = new SeShape(this.sdeLayer.getCoordRef());
-            }
-            else
-            {
+            } else {
                 SeShape extent = new SeShape(this.sdeLayer.getCoordRef());
                 extent.generateRectangle(seExtent);
 
-            // this is a bit hacky, but I don't yet know this code well enough
-            // to do it right. Basically if the geometry collection is
-            // completely
-            // outside of the area of the layer then an intersection will return
-            // a geometryCollection (two seperate geometries not intersecting
-            // will
-            // be a collection of two). Passing this into GeometryBuilder causes
-            // an exception. So what I did was just look to see if it is a gc
-            // and if so then just make a null seshape, as it shouldn't match
-            // any features in arcsde. -ch
-            if (geom.getClass() == GeometryCollection.class) {
-                filterShape = new SeShape(this.sdeLayer.getCoordRef());
-            } else {
-                gb = ArcSDEGeometryBuilder.builderFor(geom.getClass());
-                filterShape = gb.constructShape(geom, this.sdeLayer.getCoordRef());
-            }
+                // this is a bit hacky, but I don't yet know this code well enough
+                // to do it right. Basically if the geometry collection is
+                // completely
+                // outside of the area of the layer then an intersection will return
+                // a geometryCollection (two seperate geometries not intersecting
+                // will
+                // be a collection of two). Passing this into GeometryBuilder causes
+                // an exception. So what I did was just look to see if it is a gc
+                // and if so then just make a null seshape, as it shouldn't match
+                // any features in arcsde. -ch
+                if (geom.getClass() == GeometryCollection.class) {
+                    filterShape = new SeShape(this.sdeLayer.getCoordRef());
+                } else {
+                    gb = ArcSDEGeometryBuilder.builderFor(geom.getClass());
+                    filterShape = gb.constructShape(geom, this.sdeLayer.getCoordRef());
+                }
             }
             // Add the filter to our list
             SeShapeFilter shapeFilter = new SeShapeFilter(getLayerName(),
@@ -357,7 +355,7 @@ public class GeometryEncoderSDE extends DefaultFilterVisitor implements FilterVi
      * Converts a distance buffer op to an intersects againt the buffered input geometry
      */
     private Object visitDistanceBufferOperator(DistanceBufferOperator filter, boolean truth,
-            Object extraData) {
+                                               Object extraData) {
         // SDE can assert only one way, we need to invert from contains to within in case the
         // assertion is the other way around
         PropertyName property;

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -24,12 +24,8 @@ import org.apache.commons.dbcp.DelegatingStatement;
 
 /**
  * Unwraps DBCP managed connections
- * 
+ *
  * @author Andrea Aime - TOPP
- * 
- *
- *
- *
  * @source $URL$
  */
 public class DBCPUnWrapper implements UnWrapper {
@@ -54,7 +50,7 @@ public class DBCPUnWrapper implements UnWrapper {
     }
 
     public Statement unwrap(Statement statement) {
-        if(!canUnwrap(statement))
+        if (!canUnwrap(statement))
             throw new IllegalArgumentException("This unwrapper can only handle instances of "
                     + DelegatingStatement.class);
         Statement unwrapped = ((DelegatingStatement) statement).getInnermostDelegate();

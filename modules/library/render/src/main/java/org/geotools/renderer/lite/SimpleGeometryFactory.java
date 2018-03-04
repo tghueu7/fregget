@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -40,7 +40,7 @@ import com.vividsolutions.jts.geom.PrecisionModel;
 /**
  * A subclass of {@link GeometryFactory} with special optimizations for geometry collections made of
  * a single element (a typical case in shapefiles and data imported from shapefiles)
- * 
+ *
  * @author Andrea Aime
  */
 @SuppressWarnings("serial")

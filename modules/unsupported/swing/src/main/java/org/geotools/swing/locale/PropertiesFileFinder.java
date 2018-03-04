@@ -34,38 +34,37 @@ import org.geotools.util.URLs;
 
 /**
  * Searches for properties files in a resource directory within the gt-swing module
- * and records the {@code Locales} supported by each file. This is a helper for 
+ * and records the {@code Locales} supported by each file. This is a helper for
  * {@linkplain LocaleUtils}.
  * <p>
- * Normally, the {@linkplain #scan(String)} method will be responding to a call from 
+ * Normally, the {@linkplain #scan(String)} method will be responding to a call from
  * outside this class's jar, either directly or indirectly. An example of an indirect
- * outside call is when an application calls a LocaleUtils method which in turn calls 
+ * outside call is when an application calls a LocaleUtils method which in turn calls
  * the {@code scan} method. In this case, the resource directory is searched by scanning
  * the relevant entries in the gt-swing jar.
  * <p>
  * For completeness, and to aid unit testing, calls from within the swing module are
  * also supported. In this case the resource directory is accessed as a local
  * {@linkplain File} object.
- * 
- * @author Michael Bedward
- * @since 8.0
  *
- * @source $URL$
+ * @author Michael Bedward
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 public class PropertiesFileFinder {
-    
+
     /**
      * Searches for properties files in the specified resource directory and returns
      * information about each file and the {@code Locales} that it supports.
-     * 
+     *
      * @param resourceDir
      * @return
-     * @throws IOException 
+     * @throws IOException
      */
     public List<PropertiesFileInfo> scan(String resourceDir) throws IOException {
         List<SingleFileInfo> infoList = new ArrayList<SingleFileInfo>();
-        
+
         String path = getSelfPath();
         if (isJarPath(path)) {
             JarInputStream jarFile = getAsJarInputStream(path);
@@ -91,14 +90,14 @@ public class PropertiesFileFinder {
             }
         }
 
-        return createReturnList( infoList );
+        return createReturnList(infoList);
     }
 
     /**
      * Gets the path to this class file. This will be a jar file path
-     * if called from outside this module, or a local path if called 
+     * if called from outside this module, or a local path if called
      * from within.
-     * 
+     *
      * @return path to this class
      */
     private String getSelfPath() {
@@ -110,40 +109,41 @@ public class PropertiesFileFinder {
             return URLs.urlToFile(url).getPath();
         } else {
             return url.toString();
-        }            
+        }
     }
-    
+
     /**
      * Tests if a path refers to a jar file.
-     * 
+     *
      * @param path the path
      * @return {@code true} if a jar file
      */
     private boolean isJarPath(String path) {
         return path.contains(".jar!");
     }
-    
+
     /**
      * Returns a {@code JarInputStream} for the given jar.
-     * 
+     *
      * @param jarPath the path
      * @return the input stream
      * @throws IllegalArgumentException if the jar cannot be found
-     * @throws IOException on error opening file
+     * @throws IOException              on error opening file
      */
     private JarInputStream getAsJarInputStream(String jarPath) throws IOException {
         JarInputStream jis = null;
 
         URL jarUrl = new URL(jarPath);
-        
+
         InputStream is = jarUrl.openStream();
         jis = new JarInputStream(is);
-                
+
         return jis;
     }
-    
+
     /**
      * Returns a {@code File} object for the given directory path.
+     *
      * @param dirPath the directory path
      * @return a new {@code File} object
      * @throws IllegalArgumentException if the path does not match a valid directory
@@ -160,9 +160,9 @@ public class PropertiesFileFinder {
     /**
      * Parses an entry (either a jar file entry or local file name) and extracts
      * the base name and locale.
-     * 
+     *
      * @param prefixLength length of entry prefix to discard
-     * @param entry the entry
+     * @param entry        the entry
      * @return base name and locale information
      */
     private SingleFileInfo parseEntry(int prefixLength, String entry) {
@@ -182,21 +182,21 @@ public class PropertiesFileFinder {
         if (parts.length > 3) {
             variant = parts[3];
         }
-        
+
         Locale locale;
         if (parts.length == 1) {
             locale = Locale.ROOT;
         } else {
             locale = new Locale(language, country, variant);
         }
-        
+
         return new SingleFileInfo(baseName, locale);
     }
 
     /**
      * Converts a list of single file information (base name plus locale) into
      * a list of {@linkplain PropertiesFileInfo} objects.
-     * 
+     *
      * @param infoList list of single file information
      * @return a new list of {@code PropertiesFileInfo} objects
      */

@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2008, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.style;
@@ -18,13 +18,12 @@ import org.opengis.filter.expression.Expression;
  * The RasterSymbolizer describes how to render raster/matrix-coverage data
  * (e.g., satellite photos, DEMs).
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding Implementation Specification 1.1.0</A>
  * @author Open Geospatial Consortium
  * @author Ian Turton, CCG
  * @author Johann Sorel (Geomatys)
+ * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding 
+ * Implementation Specification 1.1.0</A>
+ * @source $URL$
  * @since GeoAPI 2.2
  */
 @XmlElement("RasterSymbolizer")
@@ -34,6 +33,7 @@ public interface RasterSymbolizer extends Symbolizer {
      * Indicates the level of translucency as a floating point number whose value is between 0.0
      * and 1.0 (inclusive).  A value of zero means completely transparent.  A value of 1.0 means
      * completely opaque.  If null, the default value is 1.0, totally opaque.
+     *
      * @return expression
      */
     @XmlElement("Opacity")
@@ -67,7 +67,7 @@ public interface RasterSymbolizer extends Symbolizer {
      * LATEST_ON_TOP or EARLIEST_ON_TOP.   The default behaviour is
      * system-dependent.
      *
-     * @return LATEST_ON_TOP,EARLIEST_ON_TOP, AVERAGE or RANDOM
+     * @return LATEST_ON_TOP, EARLIEST_ON_TOP, AVERAGE or RANDOM
      */
     @XmlElement("OverlapBehavior")
     OverlapBehavior getOverlapBehavior();
@@ -135,7 +135,7 @@ public interface RasterSymbolizer extends Symbolizer {
      * The ImageOutline element specifies that individual source rasters in a
      * multi-raster set (such as a  set of satellite-image scenes) should be
      * outlined with either a LineStringSymbol or PolygonSymbol.
-     *
+     * <p>
      * An Opacity of 0.0 can be selected for the main raster to avoid rendering
      * the main-raster pixels, or  an opacity can be used for a
      * PolygonSymbolizer Fill to allow the main-raster data be visible through
@@ -153,5 +153,5 @@ public interface RasterSymbolizer extends Symbolizer {
      */
     @Extension
     Object accept(StyleVisitor visitor, Object extraData);
-    
+
 }

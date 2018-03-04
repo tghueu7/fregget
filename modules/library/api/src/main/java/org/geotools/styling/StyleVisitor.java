@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -29,10 +29,8 @@ package org.geotools.styling;
  *
  * @author James Macgill
  * @author Ian Turton
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public interface StyleVisitor {
     /**
@@ -213,24 +211,28 @@ public interface StyleVisitor {
 
     /**
      * Called when accept is called on a raster ContrastEnhancement element
+     *
      * @param contrastEnhancement the {@link ContrastEnhancement} to visit.
      */
     void visit(ContrastEnhancement contrastEnhancement);
 
     /**
      * Called when accept is called on a raster {@link ImageOutline} element
+     *
      * @param outline the {@link ImageOutline} to visit.
      */
     void visit(ImageOutline outline);
 
     /**
      * Called when accept is called on a raster {@link ChannelSelection} element
+     *
      * @param cs the {@link ChannelSelection} to visit.
      */
     void visit(ChannelSelection cs);
 
     /**
      * Called when accept is called on a raster {@link OverlapBehavior} element
+     *
      * @param cs the {@link OverlapBehavior} to visit.
      */
     @SuppressWarnings("deprecation")
@@ -238,12 +240,14 @@ public interface StyleVisitor {
 
     /**
      * Called when accept is called on a raster {@link SelectedChannelType} element
+     *
      * @param cs the {@link SelectedChannelType} to visit.
      */
     void visit(SelectedChannelType sct);
 
     /**
      * Called when accept is called on a raster {@link ShadedRelief} element
+     *
      * @param cs the {@link ShadedRelief} to visit.
      */
     void visit(ShadedRelief sr);

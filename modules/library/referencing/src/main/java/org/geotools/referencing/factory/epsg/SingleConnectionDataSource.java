@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2006-2008, Open Source Geospatial Foundation (OSGeo)
- *   
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -28,17 +28,17 @@ import javax.sql.DataSource;
  * Fake data source working around a single user provided connection.
  * Used to allow backwards compatibility with the athority constructors
  * taking a single connection
- * @author Andrea Aime - OpenGeo
  *
+ * @author Andrea Aime - OpenGeo
  */
 class SingleConnectionDataSource implements DataSource {
 
     Connection connection;
-    
+
     public SingleConnectionDataSource(Connection connection) {
         this.connection = connection;
     }
-    
+
     public Connection getConnection() throws SQLException {
         return connection;
     }
@@ -68,7 +68,7 @@ class SingleConnectionDataSource implements DataSource {
     }
 
     public <T> T unwrap(Class<T> iface) throws SQLException {
-        throw new SQLException("Not wrapping an object implementing "+ iface.getClass().getName() );
+        throw new SQLException("Not wrapping an object implementing " + iface.getClass().getName());
     }
 
     public Logger getParentLogger() throws SQLFeatureNotSupportedException {

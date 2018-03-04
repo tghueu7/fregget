@@ -36,9 +36,9 @@ import java.util.logging.Logger;
 
 /**
  * Binding object for the element http://www.opengis.net/se:InlineContent.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:element name="InlineContent" type="se:InlineContentType"&gt;
@@ -48,11 +48,11 @@ import java.util.logging.Logger;
  *          externally-defined format that is included in an SE in-line.
  *        &lt;/xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
- *  &lt;/xsd:element&gt; 
- * 	
+ *  &lt;/xsd:element&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * <pre>
  *       <code>
  *  &lt;xsd:complexType mixed="true" name="InlineContentType"&gt;
@@ -67,16 +67,14 @@ import java.util.logging.Logger;
  *              &lt;/xsd:restriction&gt;
  *          &lt;/xsd:simpleType&gt;
  *      &lt;/xsd:attribute&gt;
- *  &lt;/xsd:complexType&gt; 
- *              
+ *  &lt;/xsd:complexType&gt;
+ *
  *        </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class InlineContentBinding extends AbstractComplexBinding {
@@ -91,7 +89,7 @@ public class InlineContentBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -100,7 +98,7 @@ public class InlineContentBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
@@ -136,8 +134,19 @@ public class InlineContentBinding extends AbstractComplexBinding {
 
     private static class EmptyIcon implements Icon {
         public static final EmptyIcon INSTANCE = new EmptyIcon();
-        @Override public void paintIcon(Component c, Graphics g, int x, int y) { }
-        @Override public int getIconWidth() { return 1; }
-        @Override public int getIconHeight() { return 1; }
+
+        @Override
+        public void paintIcon(Component c, Graphics g, int x, int y) {
+        }
+
+        @Override
+        public int getIconWidth() {
+            return 1;
+        }
+
+        @Override
+        public int getIconHeight() {
+            return 1;
+        }
     }
 }

@@ -16,14 +16,12 @@ import org.junit.Test;
 import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ArcSDEClobTest {
     private static ClobTestData testData;
-    
-    private String[] columnNames = { "IntegerField", "ClobField" };
+
+    private String[] columnNames = {"IntegerField", "ClobField"};
 
     @BeforeClass
     public static void oneTimeSetUp() throws Exception {

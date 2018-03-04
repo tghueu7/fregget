@@ -29,11 +29,9 @@ import org.opengis.referencing.operation.TransformException;
 /**
  * Tests the {@link Category} implementation.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
  */
 public final class CategoryTest {
     /**
@@ -52,7 +50,8 @@ public final class CategoryTest {
     /**
      * Checks if a {@link Comparable} is a number identical to the supplied float value.
      */
-    private static void assertValueEquals(String message, Comparable<?> number, double expected, double EPS) {
+    private static void assertValueEquals(String message, Comparable<?> number, double expected, 
+                                          double EPS) {
         assertTrue("Double.class", number instanceof Double);
         final double actual = ((Number) number).doubleValue();
         if (Double.isNaN(expected)) {
@@ -67,7 +66,7 @@ public final class CategoryTest {
      * for comparing NaN values.
      */
     private static String toHexString(final double value) {
-        return Integer.toHexString(Float.floatToRawIntBits((float)value));
+        return Integer.toHexString(Float.floatToRawIntBits((float) value));
     }
 
     /**
@@ -79,13 +78,13 @@ public final class CategoryTest {
      */
     @Test
     public void testLinearCategory() throws TransformException {
-        for (int pass=0; pass<100; pass++) {
-            final int     lower = random.nextInt(64);
-            final int     upper = random.nextInt(128) + lower+1;
+        for (int pass = 0; pass < 100; pass++) {
+            final int lower = random.nextInt(64);
+            final int upper = random.nextInt(128) + lower + 1;
             final Category category = new Category("Auto", null, lower, upper);
 
-            assertValueEquals("lower",  category.getRange().getMinValue().intValue(), lower);
-            assertValueEquals("upper",  category.getRange().getMaxValue().intValue(), upper);
+            assertValueEquals("lower", category.getRange().getMinValue().intValue(), lower);
+            assertValueEquals("upper", category.getRange().getMaxValue().intValue(), upper);
 
         }
     }

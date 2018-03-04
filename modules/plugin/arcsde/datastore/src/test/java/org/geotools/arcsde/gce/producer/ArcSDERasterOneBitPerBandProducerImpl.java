@@ -26,8 +26,6 @@ import com.esri.sde.sdk.client.SeRasterScanLineGenerator;
 import com.esri.sde.sdk.client.SeRasterScanLineProducer;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ArcSDERasterOneBitPerBandProducerImpl extends ArcSDERasterProducer {
@@ -41,12 +39,13 @@ public class ArcSDERasterOneBitPerBandProducerImpl extends ArcSDERasterProducer 
     }
 
     public ArcSDERasterOneBitPerBandProducerImpl(SeRasterAttr attr, BufferedImage sourceImage,
-            int maskType) {
+                                                 int maskType) {
         super(attr, sourceImage, maskType);
     }
 
     /**
-     * @see org.geotools.arcsde.gce.producer.ArcSDERasterProducer#setSourceImage(java.awt.image.BufferedImage)
+     * @see org.geotools.arcsde.gce.producer.ArcSDERasterProducer#setSourceImage(java.awt.image
+     * .BufferedImage)
      */
     @Override
     public void setSourceImage(BufferedImage sourceImage) {
@@ -66,12 +65,13 @@ public class ArcSDERasterOneBitPerBandProducerImpl extends ArcSDERasterProducer 
     }
 
     /**
-     * @see com.esri.sde.sdk.client.SeRasterProducer#startProduction(com.esri.sde.sdk.client.SeRasterConsumer)
-     *      Also take a look at {@link SeRasterScanLineProducer} for an (opaque) ESRI supplied
-     *      implementation of this functionality that only works with some sort of 8-bit images.
-     *      Note that due to some synchronization problems inherent in the SDE api code, the
-     *      startProduction() method MUST return before consumer.setScanLines() or
-     *      consumer.setRasterTiles() is called. Hence the thread implementation.
+     * @see com.esri.sde.sdk.client.SeRasterProducer#startProduction(com.esri.sde.sdk.client
+     * .SeRasterConsumer)
+     * Also take a look at {@link SeRasterScanLineProducer} for an (opaque) ESRI supplied
+     * implementation of this functionality that only works with some sort of 8-bit images.
+     * Note that due to some synchronization problems inherent in the SDE api code, the
+     * startProduction() method MUST return before consumer.setScanLines() or
+     * consumer.setRasterTiles() is called. Hence the thread implementation.
      */
     public void startProduction(final SeRasterConsumer consumer) {
 

@@ -28,9 +28,9 @@ import org.geotools.xs.XS;
 
 /**
  * Binding object for the type http://www.w3.org/2001/XMLSchema:decimal.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xs:simpleType name="decimal" id="decimal"&gt;
  *      &lt;xs:annotation&gt;
@@ -61,9 +61,6 @@ import org.geotools.xs.XS;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class XSDecimalBinding implements SimpleBinding {
@@ -96,7 +93,7 @@ public class XSDecimalBinding implements SimpleBinding {
     }
 
     /**
-     *         /**
+     * /**
      * <!-- begin-user-doc -->
      * This is AFTER so value contains element.text after processing by AnySimpleType.
      * This binding returns objects of type {@link Calendar}.
@@ -105,7 +102,7 @@ public class XSDecimalBinding implements SimpleBinding {
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
+            throws Exception {
         //DatatypeConverter.setDatatypeConverter(DatatypeConverterImpl.theInstance);
         //BigDecimal decimal = DatatypeConverter.parseDecimal((String) value);
         String text = (String) value;
@@ -117,26 +114,31 @@ public class XSDecimalBinding implements SimpleBinding {
         BigDecimal decimal = new BigDecimal(text);
 
         //		// TODO: facet checks to be done by framework 
-        //		XSDSimpleTypeDefinition simple = (XSDSimpleTypeDefinition) instance.getTypeDefinition();
+        //		XSDSimpleTypeDefinition simple = (XSDSimpleTypeDefinition) instance
+        // .getTypeDefinition();
         //		
         //		BigDecimal maxInc = (BigDecimal) simple.getMaxInclusiveFacet().getValue();
         //		if (decimal.compareTo(maxInc) > 0) {
-        //			throw new ValidationException("Decimal value is outside the inclusive max bounds of " + maxInc);
+        //			throw new ValidationException("Decimal value is outside the inclusive max 
+        // bounds of " + maxInc);
         //		}
         //		
         //		BigDecimal maxExc = (BigDecimal) simple.getMaxExclusiveFacet().getValue();
         //		if (decimal.compareTo(maxExc) >= 0) {
-        //			throw new ValidationException("Decimal value is outside the exclusive max bounds of " + maxExc);
+        //			throw new ValidationException("Decimal value is outside the exclusive max 
+        // bounds of " + maxExc);
         //		}
         //		
         //		BigDecimal minInc = (BigDecimal) simple.getMinInclusiveFacet().getValue();
         //		if (decimal.compareTo(minInc) < 0) {
-        //			throw new ValidationException("Decimal value is outside the inclusive min bounds of " + minInc);
+        //			throw new ValidationException("Decimal value is outside the inclusive min 
+        // bounds of " + minInc);
         //		}
         //		
         //		BigDecimal minExc = (BigDecimal) simple.getMinExclusiveFacet().getValue();
         //		if (decimal.compareTo(minExc) <= 0) {
-        //			throw new ValidationException("Decimal value is outside the exclusive min bounds of " + minExc);
+        //			throw new ValidationException("Decimal value is outside the exclusive min 
+        // bounds of " + minExc);
         //		}
 
         //		int precision = decimal.precision();

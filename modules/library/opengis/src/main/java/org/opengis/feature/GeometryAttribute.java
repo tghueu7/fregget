@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2007 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.feature;
@@ -31,8 +31,6 @@ import org.opengis.geometry.BoundingBox;
  *
  * @author Jody Garnett, Refractions Research
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
  * @source $URL$
  */
 public interface GeometryAttribute extends Attribute {
@@ -44,6 +42,7 @@ public interface GeometryAttribute extends Attribute {
 
     /**
      * Override and type narrow to GeometryDescriptor.
+     *
      * @return The geometry descriptor, may be null if this is a top-level value
      */
     GeometryDescriptor getDescriptor();
@@ -76,8 +75,7 @@ public interface GeometryAttribute extends Attribute {
      * bounds to be derived manually on the next call to {@link #getBounds()}.
      * </p>
      *
-     * @param bounds
-     *            The bounds of the attribute.
+     * @param bounds The bounds of the attribute.
      */
     void setBounds(BoundingBox bounds);
 

@@ -38,9 +38,8 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  * A Postgis specific {@link FeatureTypeMapper} instance
- * 
- * @author Daniele Romagnoli, GeoSolutions SAS
  *
+ * @author Daniele Romagnoli, GeoSolutions SAS
  */
 public class PostgisFeatureTypeMapper implements FeatureTypeMapper {
 
@@ -48,28 +47,44 @@ public class PostgisFeatureTypeMapper implements FeatureTypeMapper {
 
     private static final int MAX_LENGTH = 63;
 
-    /** The original typeName */
+    /**
+     * The original typeName
+     */
     private Name originalName;
 
-    /** The mapped typeName (less than {@link #MAX_LENGTH} chars) */
+    /**
+     * The mapped typeName (less than {@link #MAX_LENGTH} chars)
+     */
     private String mappedName;
 
-    /** the coordinateReferenceSystem for the geometry */
+    /**
+     * the coordinateReferenceSystem for the geometry
+     */
     private CoordinateReferenceSystem coordinateReferenceSystem;
 
-    /** The list of {@link Definition} object defining the mapping */
+    /**
+     * The list of {@link Definition} object defining the mapping
+     */
     private List<Definition> definitions;
 
-    /** The original feature type */
+    /**
+     * The original feature type
+     */
     private SimpleFeatureType wrappedFeatureType;
 
-    /** The postgis specific featureType */
+    /**
+     * The postgis specific featureType
+     */
     private SimpleFeatureType postgisFeatureType;
 
-    /** The mapping between an attributeName and its definition */
+    /**
+     * The mapping between an attributeName and its definition
+     */
     private Map<Name, Definition> definitionsMapping;
 
-    /** The {@link SimpleFeatureSource} available for that type */
+    /**
+     * The {@link SimpleFeatureSource} available for that type
+     */
     private SimpleFeatureSource simpleFeatureSource;
 
     @Override
@@ -117,7 +132,7 @@ public class PostgisFeatureTypeMapper implements FeatureTypeMapper {
 
     /**
      * Create a new {@link PostgisFeatureTypeMapper} on top of the original featureType provided
-     * 
+     *
      * @param featureType
      * @throws CQLException
      */
@@ -147,7 +162,8 @@ public class PostgisFeatureTypeMapper implements FeatureTypeMapper {
     }
 
     /**
-     * Remap the original featureType on top of the available definitions to create the Postgis specific featureType
+     * Remap the original featureType on top of the available definitions to create the Postgis 
+     * specific featureType
      */
     private void remapFeatureType() {
         final SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();

@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -49,81 +49,86 @@ import org.opengis.util.ProgressListener;
  * <li>{@link #closeIterator(Iterator)}</li>
  * <li>{@link #openIterator()}</li>
  * </ul>
- * @author Jody Garnett (LISAsoft)
  *
+ * @author Jody Garnett (LISAsoft)
  * @source $URL$
  */
 public abstract class AdaptorFeatureCollection implements SimpleFeatureCollection {
- 
-    public AdaptorFeatureCollection( String id, SimpleFeatureType memberType ) {
+
+    public AdaptorFeatureCollection(String id, SimpleFeatureType memberType) {
         this.id = id == null ? "featureCollection" : id;
         this.schema = memberType;
     }
-    
+
     //
     // SimpleFeatureCollection - Feature Access
     // 
     public SimpleFeatureIterator features() {
-        SimpleFeatureIterator iter = new DelegateSimpleFeatureIterator( this, openIterator() );
-        return iter; 
+        SimpleFeatureIterator iter = new DelegateSimpleFeatureIterator(this, openIterator());
+        return iter;
     }
+
     public void close(FeatureIterator<SimpleFeature> close) {
-        if( close != null ){
+        if (close != null) {
             close.close();
         }
     }
-    public void close( SimpleFeatureIterator close ) {     
-        if( close != null ){
-            closeIterator( close );
+
+    public void close(SimpleFeatureIterator close) {
+        if (close != null) {
+            closeIterator(close);
         }
     }
-    public void closeIterator( SimpleFeatureIterator close ) {
+
+    public void closeIterator(SimpleFeatureIterator close) {
         DelegateSimpleFeatureIterator iter = (DelegateSimpleFeatureIterator) close;
-        closeIterator( iter.delegate );
-        iter.close(); 
+        closeIterator(iter.delegate);
+        iter.close();
     }
 
     /**
      * Accepts a visitor, which then visits each feature in the collection.
-     * @throws IOException 
+     *
+     * @throws IOException
      */
-    public void accepts(FeatureVisitor visitor, ProgressListener progress ) throws IOException {
+    public void accepts(FeatureVisitor visitor, ProgressListener progress) throws IOException {
         DataUtilities.visit(this, visitor, progress);
     }
-        
+
     //
     // Feature Collections API
     //
-    public SimpleFeatureCollection subList( Filter filter ) {
-        return new SubFeatureList(this, filter );
-    }
-    
-    public SimpleFeatureCollection subCollection( Filter filter ) {
-        if( filter == Filter.INCLUDE ){
-            return this;
-        }        
-        return new SubFeatureCollection( this, filter );
+    public SimpleFeatureCollection subList(Filter filter) {
+        return new SubFeatureList(this, filter);
     }
 
-    public SimpleFeatureCollection sort( SortBy order ) {
-        return new SubFeatureList(this, order );
+    public SimpleFeatureCollection subCollection(Filter filter) {
+        if (filter == Filter.INCLUDE) {
+            return this;
+        }
+        return new SubFeatureCollection(this, filter);
+    }
+
+    public SimpleFeatureCollection sort(SortBy order) {
+        return new SubFeatureList(this, order);
     }
 
     //
     // Resource Collection management
     //
+
     /**
      * @return <tt>true</tt> if this collection contains no elements.
      */
     public boolean isEmpty() {
         return size() == 0;
     }
-    
+
     /**
      * Returns <tt>true</tt> if this collection contains the specified
      * element.
      * <tt></tt>.<p>
-     *
+     * <p>
      * This implementation iterates over the elements in the collection,
      * checking each element in turn for equality with the specified element.
      *
@@ -134,26 +139,25 @@ public abstract class AdaptorFeatureCollection implements SimpleFeatureCollectio
         Iterator e = null;
         try {
             e = iterator();
-            if (o==null) {
+            if (o == null) {
                 while (e.hasNext())
-                if (e.next()==null)
-                    return true;
+                    if (e.next() == null)
+                        return true;
             } else {
                 while (e.hasNext())
-                if (o.equals(e.next()))
-                    return true;
+                    if (o.equals(e.next()))
+                        return true;
             }
             return false;
-        }
-        finally {
-            close( e );
+        } finally {
+            close(e);
         }
     }
-    
+
 
     /**
      * Array of all the elements.
-     * 
+     *
      * @return an array containing all of the elements in this collection.
      */
     public Object[] toArray() {
@@ -161,32 +165,31 @@ public abstract class AdaptorFeatureCollection implements SimpleFeatureCollectio
         Iterator e = null;
         try {
             e = iterator();
-            for (int i=0; e.hasNext(); i++)
+            for (int i = 0; e.hasNext(); i++)
                 result[i] = e.next();
             return result;
         } finally {
-            close( e );
+            close(e);
         }
     }
 
     public Object[] toArray(Object[] a) {
         int size = size();
         if (a.length < size)
-            a = (Object[])java.lang.reflect.Array
-        .newInstance(a.getClass().getComponentType(), size);
+            a = (Object[]) java.lang.reflect.Array
+                    .newInstance(a.getClass().getComponentType(), size);
 
         Iterator it = iterator();
         try {
-            
+
             Object[] result = a;
-            for (int i=0; i<size; i++)
+            for (int i = 0; i < size; i++)
                 result[i] = it.next();
             if (a.length > size)
-            a[size] = null;
+                a[size] = null;
             return a;
-        }
-        finally {
-            close( it );
+        } finally {
+            close(it);
         }
     }
 
@@ -195,30 +198,29 @@ public abstract class AdaptorFeatureCollection implements SimpleFeatureCollectio
     /**
      * Returns <tt>true</tt> if this collection contains all of the elements
      * in the specified collection. <p>
-     * 
+     *
      * @param c collection to be checked for containment in this collection.
      * @return <tt>true</tt> if this collection contains all of the elements
-     *         in the specified collection.
+     * in the specified collection.
      * @throws NullPointerException if the specified collection is null.
-     * 
      * @see #contains(Object)
      */
     public boolean containsAll(Collection c) {
         Iterator e = c.iterator();
         try {
             while (e.hasNext())
-                if(!contains(e.next()))
-                return false;
+                if (!contains(e.next()))
+                    return false;
             return true;
         } finally {
-            close( e );
+            close(e);
         }
     }
     //  String conversion
 
     /**
-     * Returns a string representation of this collection. 
-     * 
+     * Returns a string representation of this collection.
+     *
      * @return a string representation of this collection.
      */
     public String toString() {
@@ -237,41 +239,41 @@ public abstract class AdaptorFeatureCollection implements SimpleFeatureCollectio
             buf.append("]");
             return buf.toString();
         } finally {
-            close( i );
+            close(i);
         }
     }
-    
+
     //
     // Contents
     //
     //
-    /** 
+    /**
      * id used when serialized to gml
      */
     protected String id;
     protected SimpleFeatureType schema;
-    
+
     /**
      * Please implement!
      * <p>
      * Note: If you return a ResourceIterator, the default implemntation of close( Iterator )
      * will know what to do.
-     * 
      */
-    final public Iterator<SimpleFeature> iterator(){       
+    final public Iterator<SimpleFeature> iterator() {
         Iterator<SimpleFeature> iterator = openIterator();
         return iterator;
     }
 
     /**
      * Returns the number of elements in this collection.
-     * 
+     *
      * @return Number of items, or Interger.MAX_VALUE
      */
     public abstract int size();
-    
+
     /**
-     * Clean up after any resources assocaited with this iteartor in a manner similar to JDO collections.
+     * Clean up after any resources assocaited with this iteartor in a manner similar to JDO 
+     * collections.
      * </p>
      * Example (safe) use:<pre><code>
      * Iterator iterator = collection.iterator();
@@ -286,28 +288,29 @@ public abstract class AdaptorFeatureCollection implements SimpleFeatureCollectio
      * }
      * </code></pre>
      * </p>
+     *
      * @param close
      */
-    final public void close( Iterator close ){
-        if( close == null ) return;
+    final public void close(Iterator close) {
+        if (close == null) return;
         try {
-            closeIterator( close );
-        }
-        catch ( Throwable e ){
+            closeIterator(close);
+        } catch (Throwable e) {
             // TODO Log e = ln
         }
     }
+
     /**
      * Open an Iterator, we will call close( iterator ).
      * <p>
      * Please subclass to provide your own iterator - note <code>iterator()</code> is
      * implemented to call <code>open()</code> and track the results in for
      * later <code>purge()</code>.
-     * 
+     *
      * @return Iterator based on resource use
      */
     abstract protected Iterator<SimpleFeature> openIterator();
-    
+
     /**
      * Please override to cleanup after your own iterators, and
      * any used resources.
@@ -319,23 +322,24 @@ public abstract class AdaptorFeatureCollection implements SimpleFeatureCollectio
      * Subclass must call super.close( close ) to allow the list
      * of open iterators to be adjusted.
      * </p>
-     * 
+     *
      * @param close Iterator, will not be <code>null</code>
      */
-    abstract protected void closeIterator( Iterator<SimpleFeature> close );
-    
+    abstract protected void closeIterator(Iterator<SimpleFeature> close);
+
     public String getID() {
-    	return id;
+        return id;
     }
 
     public SimpleFeatureType getSchema() {
-    	return schema;
+        return schema;
     }
 
     /**
      * Subclasses need to override this.
      */
     public ReferencedEnvelope getBounds() {
-        throw new UnsupportedOperationException("Subclasses "+getClass().getSimpleName()+" should override");
+        throw new UnsupportedOperationException("Subclasses " + getClass().getSimpleName() + " " +
+                "should override");
     }
 }

@@ -33,8 +33,6 @@ import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.io.WKTReader;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class FeatureProcessTest {
@@ -44,7 +42,7 @@ public class FeatureProcessTest {
         Geometry poly = new WKTReader().read("POLYGON((0 0, 0 10, 10 10, 10 0, 0 0))");
         CoordinateReferenceSystem utm32n = CRS.decode("EPSG:32632");
         poly.setUserData(utm32n);
-        
+
         SimpleFeatureCollection fc = new FeatureProcess().execute(poly, null, "testft");
         assertNotNull(fc);
         assertEquals(1, fc.size());

@@ -31,22 +31,19 @@ import org.opengis.referencing.cs.CoordinateSystemAxis;
 /**
  * A two- or three-dimensional coordinate system with straight axes that are not necessarily
  * orthogonal. An {@code AffineCS} shall have two or three {@linkplain #getAxis axis}.
- *
+ * <p>
  * <TABLE CELLPADDING='6' BORDER='1'>
  * <TR BGCOLOR="#EEEEFF"><TH NOWRAP>Used with CRS type(s)</TH></TR>
  * <TR><TD>
- *   {@link org.geotools.referencing.crs.DefaultEngineeringCRS Engineering},
- *   {@link org.geotools.referencing.crs.DefaultImageCRS       Image}
+ * {@link org.geotools.referencing.crs.DefaultEngineeringCRS Engineering},
+ * {@link org.geotools.referencing.crs.DefaultImageCRS       Image}
  * </TD></TR></TABLE>
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see DefaultCartesianCS
+ * @since 2.1
  */
 public class DefaultAffineCS extends AbstractCS implements AffineCS {
     /**
@@ -62,7 +59,6 @@ public class DefaultAffineCS extends AbstractCS implements AffineCS {
      * i.e. the properties are not cloned.
      *
      * @param cs The coordinate system to copy.
-     *
      * @since 2.2
      */
     public DefaultAffineCS(final AffineCS cs) {
@@ -76,11 +72,10 @@ public class DefaultAffineCS extends AbstractCS implements AffineCS {
      * @param axis0 The first axis.
      * @param axis1 The second axis.
      */
-    public DefaultAffineCS(final String               name,
+    public DefaultAffineCS(final String name,
                            final CoordinateSystemAxis axis0,
-                           final CoordinateSystemAxis axis1)
-    {
-        super(name, new CoordinateSystemAxis[] {axis0, axis1});
+                           final CoordinateSystemAxis axis1) {
+        super(name, new CoordinateSystemAxis[]{axis0, axis1});
     }
 
     /**
@@ -91,28 +86,26 @@ public class DefaultAffineCS extends AbstractCS implements AffineCS {
      * @param axis1 The second axis.
      * @param axis2 The third axis.
      */
-    public DefaultAffineCS(final String               name,
+    public DefaultAffineCS(final String name,
                            final CoordinateSystemAxis axis0,
                            final CoordinateSystemAxis axis1,
-                           final CoordinateSystemAxis axis2)
-    {
-        super(name, new CoordinateSystemAxis[] {axis0, axis1, axis2});
+                           final CoordinateSystemAxis axis2) {
+        super(name, new CoordinateSystemAxis[]{axis0, axis1, axis2});
     }
 
     /**
      * Constructs a two-dimensional coordinate system from a set of properties.
      * The properties map is given unchanged to the
-     * {@linkplain AbstractCS#AbstractCS(Map,CoordinateSystemAxis[]) super-class constructor}.
+     * {@linkplain AbstractCS#AbstractCS(Map, CoordinateSystemAxis[]) super-class constructor}.
      *
      * @param properties Set of properties. Should contains at least {@code "name"}.
-     * @param axis0 The first axis.
-     * @param axis1 The second axis.
+     * @param axis0      The first axis.
+     * @param axis1      The second axis.
      */
-    public DefaultAffineCS(final Map<String,?>   properties,
+    public DefaultAffineCS(final Map<String, ?> properties,
                            final CoordinateSystemAxis axis0,
-                           final CoordinateSystemAxis axis1)
-    {
-        super(properties, new CoordinateSystemAxis[] {axis0, axis1});
+                           final CoordinateSystemAxis axis1) {
+        super(properties, new CoordinateSystemAxis[]{axis0, axis1});
     }
 
     /**
@@ -120,22 +113,21 @@ public class DefaultAffineCS extends AbstractCS implements AffineCS {
      * The properties map is given unchanged to the superclass constructor.
      *
      * @param properties Set of properties. Should contains at least {@code "name"}.
-     * @param axis0 The first axis.
-     * @param axis1 The second axis.
-     * @param axis2 The third axis.
+     * @param axis0      The first axis.
+     * @param axis1      The second axis.
+     * @param axis2      The third axis.
      */
-    public DefaultAffineCS(final Map<String,?>   properties,
+    public DefaultAffineCS(final Map<String, ?> properties,
                            final CoordinateSystemAxis axis0,
                            final CoordinateSystemAxis axis1,
-                           final CoordinateSystemAxis axis2)
-    {
-        super(properties, new CoordinateSystemAxis[] {axis0, axis1, axis2});
+                           final CoordinateSystemAxis axis2) {
+        super(properties, new CoordinateSystemAxis[]{axis0, axis1, axis2});
     }
 
     /**
      * For {@link #usingUnit} and {@link PredefinedCS#rightHanded} usage only.
      */
-    DefaultAffineCS(final Map<String,?> properties, final CoordinateSystemAxis[] axis) {
+    DefaultAffineCS(final Map<String, ?> properties, final CoordinateSystemAxis[] axis) {
         super(properties, axis);
     }
 

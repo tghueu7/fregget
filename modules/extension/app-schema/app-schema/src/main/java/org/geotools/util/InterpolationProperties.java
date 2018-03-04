@@ -32,23 +32,19 @@ import java.util.regex.Pattern;
 
 /**
  * Stores properties and provides methods to support interpolation of properties in a file.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * Interpolation means the substitution of a string of the form ${some.property} with the value of
  * the property called "some.property".
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * Interpolation is performed repeatedly, so can values can contain new interpolations. Infinite
  * loops are supported. This is not a feature.
- * 
+ *
  * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
  * @author Niels Charlier (Curtin University of Technology)
- *
- *
- *
- *
  * @source $URL$
  */
 public class InterpolationProperties {
@@ -65,93 +61,90 @@ public class InterpolationProperties {
      * the properties
      */
     protected Properties theProperties;
-        
+
     /**
      * Load with existing Properties
+     *
      * @param theProperties properties
      */
     public InterpolationProperties(Properties theProperties) {
-        this.theProperties = theProperties;        
+        this.theProperties = theProperties;
     }
-    
+
     /**
      * Load properties from a configuration file.
-     * 
      * <p>
-     * 
+     * <p>
+     * <p>
      * The name of the properties file is constructed by appending ".properties" to the identifier.
      * If there is a system property with the name of this property file, it is used as a file to
      * load, otherwise the property file is loaded from the root of the classpath.
-     * 
      * <p>
-     * 
+     * <p>
+     * <p>
      * For example, if the identifier is <tt>app-schema</tt>:
-     * 
+     * <p>
      * <ul>
-     * 
+     * <p>
      * <li>If the system property <tt>app-schema.properties</tt> is set, e.g.
      * <tt>-Dapp-schema.properties=/path/to/some/local.properties</tt>, the indicated file, in this
      * case <tt>/path/to/some/local.properties</tt>, is loaded.
-     * 
+     * <p>
      * <li>Otherwise, the classpath resource <tt>/app-schema.properties</tt> is loaded.
-     * 
+     * <p>
      * </ul>
-     * 
+     * <p>
      * Before the properties are returned, all system properties are copied; this means that system
      * properties override any properties in the configuration file.
-     * 
-     * @param identifier
-     *            string used to construct property file name
+     *
+     * @param identifier string used to construct property file name
      */
     public InterpolationProperties(String identifier) {
-        this(loadProperties(identifier));        
-    }    
+        this(loadProperties(identifier));
+    }
 
     /**
-     * Create Empty 
+     * Create Empty
      */
     public InterpolationProperties() {
-        this (new Properties());        
+        this(new Properties());
     }
 
     /**
      * Set Property
      *
-     * @param propName
-     *            property name
+     * @param propName property name
      * @value property value
      */
     public void setProperty(String propName, String value) {
         theProperties.setProperty(propName, value);
     }
-    
+
     /**
      * Retrieve Property
-     * 
+     *
      * @param propName property name
      * @return property value
      */
     public String getProperty(String propName) {
         return theProperties.getProperty(propName);
     }
-    
+
     /**
      * Interpolate all the properties in the input string.
-     * 
      * <p>
-     * 
+     * <p>
+     * <p>
      * Properties are of the form ${some.property}, for which the value of property "some.property"
      * is used.
-     * 
      * <p>
-     * 
+     * <p>
+     * <p>
      * It is an error for interpolated properties to not exist. A {@link RuntimeException} is thrown
      * if the value of a referenced property is null.
-     * 
-     * @param properties
-     *            properties to be interpolated
-     * @param input
-     *            string on which interpolation is to be performed
+     *
+     * @param properties properties to be interpolated
+     * @param input      string on which interpolation is to be performed
      * @return string with all properties expanded
      */
     public String interpolate(String input) {
@@ -173,32 +166,31 @@ public class InterpolationProperties {
 
     /**
      * Load properties from a configuration file.
-     * 
      * <p>
-     * 
+     * <p>
+     * <p>
      * The name of the properties file is constructed by appending ".properties" to the identifier.
      * If there is a system property with the name of this property file, it is used as a file to
      * load, otherwise the property file is loaded from the root of the classpath.
-     * 
      * <p>
-     * 
+     * <p>
+     * <p>
      * For example, if the identifier is <tt>app-schema</tt>:
-     * 
+     * <p>
      * <ul>
-     * 
+     * <p>
      * <li>If the system property <tt>app-schema.properties</tt> is set, e.g.
      * <tt>-Dapp-schema.properties=/path/to/some/local.properties</tt>, the indicated file, in this
      * case <tt>/path/to/some/local.properties</tt>, is loaded.
-     * 
+     * <p>
      * <li>Otherwise, the classpath resource <tt>/app-schema.properties</tt> is loaded.
-     * 
+     * <p>
      * </ul>
-     * 
+     * <p>
      * Before the properties are returned, all system properties are copied; this means that system
      * properties override any properties in the configuration file.
-     * 
-     * @param identifier
-     *            string used to construct property file name
+     *
+     * @param identifier string used to construct property file name
      * @return loaded properties
      */
     protected static Properties loadProperties(String identifier) {
@@ -255,12 +247,11 @@ public class InterpolationProperties {
         properties.putAll(System.getProperties());
         return properties;
     }
-    
+
     /**
      * Read everything from an input stream into a String, reconstructing line endings.
-     * 
-     * @param input
-     *            the stream to be read
+     *
+     * @param input the stream to be read
      * @return a string that contains the content of input
      */
     public static String readAll(InputStream input) {
@@ -282,11 +273,11 @@ public class InterpolationProperties {
         }
         return buffer.toString();
     }
-  
+
 
     /**
      * Copy all properties from another {@link InterpolationProperties} into this one.
-     * 
+     *
      * @param other the source {@link InterpolationProperties}.
      */
     public void putAll(InterpolationProperties other) {

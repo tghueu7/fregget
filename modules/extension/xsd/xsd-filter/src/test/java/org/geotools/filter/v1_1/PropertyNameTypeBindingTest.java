@@ -21,8 +21,6 @@ import org.opengis.filter.expression.PropertyName;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class PropertyNameTypeBindingTest extends FilterTestSupport {

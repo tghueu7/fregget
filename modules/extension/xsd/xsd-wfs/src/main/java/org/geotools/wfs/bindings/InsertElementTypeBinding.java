@@ -40,9 +40,9 @@ import org.picocontainer.MutablePicoContainer;
 
 /**
  * Binding object for the type http://www.opengis.net/wfs:InsertElementType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="InsertElementType"&gt;
  *      &lt;xsd:annotation&gt;
@@ -116,9 +116,6 @@ import org.picocontainer.MutablePicoContainer;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class InsertElementTypeBinding extends AbstractComplexEMFBinding {
@@ -145,21 +142,22 @@ public class InsertElementTypeBinding extends AbstractComplexEMFBinding {
         return InsertElementType.class;
     }
 
-    public void initializeChildContext(ElementInstance childInstance, Node node, MutablePicoContainer context) {
+    public void initializeChildContext(ElementInstance childInstance, Node node, 
+                                       MutablePicoContainer context) {
         //if an srsName is set for this geometry, put it in the context for 
         // children, so they can use it as well
-        if ( node.hasAttribute("srsName") ) {
+        if (node.hasAttribute("srsName")) {
             try {
                 CoordinateReferenceSystem crs = GML2ParsingUtils.crs(node);
-                if ( crs != null ) {
+                if (crs != null) {
                     context.registerComponentInstance(CoordinateReferenceSystem.class, crs);
                 }
-            } catch(Exception e) {
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
     }
-    
+
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -168,7 +166,7 @@ public class InsertElementTypeBinding extends AbstractComplexEMFBinding {
      */
     @SuppressWarnings("unchecked")
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         InsertElementType insertElement = wfsfactory.createInsertElementType();
 
         //&lt;xsd:choice&gt;
@@ -178,7 +176,8 @@ public class InsertElementTypeBinding extends AbstractComplexEMFBinding {
         //   &lt;/xsd:sequence&gt;
         //&lt;/xsd:choice&gt;
         if (node.hasChild(FeatureCollection.class)) {
-            SimpleFeatureCollection fc = (SimpleFeatureCollection) node.getChildValue(FeatureCollection.class);
+            SimpleFeatureCollection fc = (SimpleFeatureCollection) node.getChildValue
+                    (FeatureCollection.class);
             insertElement.getFeature().addAll(DataUtilities.list(fc));
         } else if (node.hasChild(SimpleFeature.class)) {
             insertElement.getFeature().addAll(node.getChildValues(SimpleFeature.class));
@@ -187,7 +186,8 @@ public class InsertElementTypeBinding extends AbstractComplexEMFBinding {
         //&lt;xsd:attribute default="GenerateNew" name="idgen"
         //              type="wfs:IdentifierGenerationOptionType" use="optional"&gt;
         if (node.hasAttribute("idgen")) {
-            insertElement.setIdgen((IdentifierGenerationOptionType) node.getAttributeValue("idgen"));
+            insertElement.setIdgen((IdentifierGenerationOptionType) node.getAttributeValue
+                    ("idgen"));
         }
 
         //&lt;xsd:attribute name="handle" type="xsd:string" use="optional"&gt;
@@ -210,7 +210,7 @@ public class InsertElementTypeBinding extends AbstractComplexEMFBinding {
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         InsertElementType insert = (InsertElementType) object;
 
         if (GML._Feature.equals(name)) {
@@ -218,4 +218,5 @@ public class InsertElementTypeBinding extends AbstractComplexEMFBinding {
         }
 
         return super.getProperty(object, name);
-    }}
+    }
+}

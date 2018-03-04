@@ -65,16 +65,16 @@ import org.xml.sax.SAXException;
  * Intersects)), no matter what the capabilities doc says
  * </ul>
  * </p>
- * 
+ *
  * @author groldan
  */
 public class CubeWerxStrategy extends StrictWFS_1_x_Strategy {
 
     /**
      * @return {@code true} only if resultType == results, CubeWerx throws a service exception if
-     *         the resultType parameter is set on a POST request, no matter it's value, and on a GET
-     *         request it's just ignored; also the returned feature collection does not contain the
-     *         number of features matched.
+     * the resultType parameter is set on a POST request, no matter it's value, and on a GET
+     * request it's just ignored; also the returned feature collection does not contain the
+     * number of features matched.
      */
     @Override
     public boolean supports(final ResultType resultType) {
@@ -83,8 +83,9 @@ public class CubeWerxStrategy extends StrictWFS_1_x_Strategy {
 
     /**
      * Removes the {@code RESULTTYPE}.
-     * 
-     * @see org.geotools.data.wfs.internal.AbstractWFSStrategy#buildGetFeatureParametersForGET(org.geotools.data.wfs.internal.GetFeatureRequest)
+     *
+     * @see org.geotools.data.wfs.internal.AbstractWFSStrategy#buildGetFeatureParametersForGET
+     * (org.geotools.data.wfs.internal.GetFeatureRequest)
      */
     @Override
     protected Map<String, String> buildGetFeatureParametersForGET(GetFeatureRequest request) {
@@ -115,8 +116,8 @@ public class CubeWerxStrategy extends StrictWFS_1_x_Strategy {
 
         dom.getDocumentElement().removeAttribute("resultType");
         DOMImplementationLS domImpl = (DOMImplementationLS) dom.getImplementation();// safe cast as
-                                                                                    // long as we're
-                                                                                    // on Java6
+        // long as we're
+        // on Java6
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         LSOutput destination = domImpl.createLSOutput();
@@ -156,7 +157,7 @@ public class CubeWerxStrategy extends StrictWFS_1_x_Strategy {
             // if a logical operator, check no more than one geometry filter is enclosed on it
             List<Filter> children = new ArrayList<Filter>(
                     ((BinaryLogicOperator) serverFilter).getChildren());
-            for (Iterator<Filter> it = children.iterator(); it.hasNext();) {
+            for (Iterator<Filter> it = children.iterator(); it.hasNext(); ) {
                 Filter f = it.next();
                 if (f instanceof BinarySpatialOperator) {
                     if (spatialAdded) {
@@ -171,6 +172,6 @@ public class CubeWerxStrategy extends StrictWFS_1_x_Strategy {
             SimplifyingFilterVisitor sfv = new SimplifyingFilterVisitor();
             serverFilter = (Filter) serverFilter.accept(sfv, null);
         }
-        return new Filter[] { serverFilter, postFilter };
+        return new Filter[]{serverFilter, postFilter};
     }
 }

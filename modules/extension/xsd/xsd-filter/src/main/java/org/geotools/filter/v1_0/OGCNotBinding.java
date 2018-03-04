@@ -19,6 +19,7 @@ package org.geotools.filter.v1_0;
 import java.util.Collections;
 
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.BinaryComparisonOperator;
 import org.opengis.filter.BinaryLogicOperator;
 import org.opengis.filter.Filter;
@@ -35,9 +36,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the element http://www.opengis.net/ogc:Not.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="Not" substitutionGroup="ogc:logicOps" type="ogc:UnaryLogicOpType"/&gt;
  *
@@ -46,9 +47,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OGCNotBinding extends AbstractComplexBinding {
@@ -82,13 +80,13 @@ public class OGCNotBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         Filter filter = (Filter) node.getChildValue(Filter.class);
-        if ( filter == null ) {
+        if (filter == null) {
             //look for an Identifier, not in the spec but something we handle
-            Identifier id = (Identifier) node.getChildValue( Identifier.class );
-            if ( id != null ) {
-                filter = filterfactory.id( Collections.singleton( id ) );
+            Identifier id = (Identifier) node.getChildValue(Identifier.class);
+            if (id != null) {
+                filter = filterfactory.id(Collections.singleton(id));
             }
         }
 
@@ -97,7 +95,7 @@ public class OGCNotBinding extends AbstractComplexBinding {
 
     @Override
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         Not not = (Not) object;
 
         if (OGC.spatialOps.equals(name) && not.getFilter() instanceof BinarySpatialOperator) {

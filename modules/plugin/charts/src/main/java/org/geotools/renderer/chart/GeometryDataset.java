@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2010, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -32,27 +32,25 @@ import com.vividsolutions.jts.geom.Point;
  * <pre>
  *   Geometry g1 = ...
  *   Geometry g2 = ...
- *   
+ *
  *   GeometryDataset data = new GeometryDataset(g1,g2);
  *   GeometryRenderer renderer = new GeometryRenderer();
- *   
+ *
  *   XYPlot plot = new XYPlot(dataset, dataset.getDomain(), dataset.getRange(), renderer);
  *   ...
  * </pre>
+ *
  * @author Justin Deoliveira, OpenGeo
- *
- *
- *
  * @source $URL$
  */
 public class GeometryDataset extends AbstractXYDataset {
-    
+
     double buffer;
     double buf;
-    
+
     List<Geometry> geometries;
     Envelope bounds;
-    
+
     public GeometryDataset(Geometry... geometries) {
         this.geometries = Arrays.asList(geometries);
         this.bounds = new Envelope();
@@ -61,16 +59,17 @@ public class GeometryDataset extends AbstractXYDataset {
         }
         setBuffer(0.1d);
     }
-    
+
     public List<Geometry> getGeometries() {
         return geometries;
     }
-    
+
     public void setBuffer(double buffer) {
         this.buffer = buffer;
-        this.buf = Math.max(buffer, Math.max(bounds.getWidth()*buffer, bounds.getHeight()*buffer));
+        this.buf = Math.max(buffer, Math.max(bounds.getWidth() * buffer, bounds.getHeight() * 
+                buffer));
     }
-    
+
     @Override
     public int getSeriesCount() {
         return geometries.size();
@@ -82,12 +81,11 @@ public class GeometryDataset extends AbstractXYDataset {
         String wkt = g.toText();
         if (g instanceof Point) {
             return wkt;
-        }
-        else {
+        } else {
             int i = wkt.indexOf(',');
             int j = wkt.lastIndexOf(',');
-            
-            return wkt.substring(0, i) + " ... " + wkt.substring(j+1);
+
+            return wkt.substring(0, i) + " ... " + wkt.substring(j + 1);
         }
     }
 
@@ -103,16 +101,16 @@ public class GeometryDataset extends AbstractXYDataset {
     public Number getY(int series, int item) {
         return geometries.get(series).getCoordinate().x;
     }
-    
+
     public ValueAxis getDomain() {
         NumberAxis domain = new NumberAxis();
-        domain.setRange(bounds.getMinX()-buf, bounds.getMaxX()+buf);
+        domain.setRange(bounds.getMinX() - buf, bounds.getMaxX() + buf);
         return domain;
     }
-    
+
     public ValueAxis getRange() {
         NumberAxis range = new NumberAxis();
-        range.setRange(bounds.getMinY()-buf, bounds.getMaxY()+buf);
+        range.setRange(bounds.getMinY() - buf, bounds.getMaxY() + buf);
         return range;
     }
 }

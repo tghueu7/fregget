@@ -29,14 +29,15 @@ import com.vividsolutions.jts.geom.MultiPoint;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:MultiPointType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="MultiPointType"&gt;
  *      &lt;annotation&gt;
  *          &lt;documentation&gt;         A MultiPoint is defined by one or more
- *              Points, referenced through          pointMember elements.       &lt;/documentation&gt;
+ *              Points, referenced through          pointMember elements.       &lt;
+ *              /documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;complexContent&gt;
  *          &lt;restriction base="gml:GeometryCollectionType"&gt;
@@ -54,9 +55,6 @@ import com.vividsolutions.jts.geom.MultiPoint;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLMultiPointTypeBinding extends AbstractComplexBinding {
@@ -94,13 +92,13 @@ public class GMLMultiPointTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return GML2ParsingUtils.GeometryCollectionType_parse(node, MultiPoint.class, gFactory);
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
-      
+            throws Exception {
+
         if (GML.pointMember.equals(name)) {
             return GML2ParsingUtils.asCollection((MultiPoint) object);
         }

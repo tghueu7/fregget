@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.annotation;
@@ -17,14 +17,12 @@ import static org.opengis.annotation.Specification.*;
  * the code list elements declared in the {@link org.opengis.metadata.Obligation} code list
  * from the metadata package.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 2.0
+ * @source $URL$
+ * @since GeoAPI 2.0
  */
-@UML(identifier="MD_ObligationCode", specification=ISO_19115)
+@UML(identifier = "MD_ObligationCode", specification = ISO_19115)
 public enum Obligation {
     /**
      * Element is required when a specific condition is met.
@@ -35,13 +33,13 @@ public enum Obligation {
     /**
      * Element is not required.
      */
-    @UML(identifier="optional", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "optional", obligation = CONDITIONAL, specification = ISO_19115)
     OPTIONAL,
 
     /**
      * Element is always required.
      */
-    @UML(identifier="mandatory", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "mandatory", obligation = CONDITIONAL, specification = ISO_19115)
     MANDATORY,
 
     /**

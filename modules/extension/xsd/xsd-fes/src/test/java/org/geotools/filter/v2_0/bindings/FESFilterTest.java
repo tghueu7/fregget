@@ -31,9 +31,8 @@ import org.w3c.dom.Document;
 
 /**
  * Tests for GEOT-4697
- * 
- * @author "Mauro Bartolomeoli - mauro.bartolomeoli@geo-solutions.it"
  *
+ * @author "Mauro Bartolomeoli - mauro.bartolomeoli@geo-solutions.it"
  */
 public class FESFilterTest extends FESTestSupport {
 
@@ -41,33 +40,37 @@ public class FESFilterTest extends FESTestSupport {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
         PropertyIsLike filter = ff.like(ff.property("name"), "%test%");
-        org.geotools.filter.v2_0.FESConfiguration configuration = new org.geotools.filter.v2_0.FESConfiguration();
+        org.geotools.filter.v2_0.FESConfiguration configuration = new org.geotools.filter
+                .v2_0.FESConfiguration();
         org.geotools.xml.Encoder encoder = new org.geotools.xml.Encoder(configuration);
         encoder.encode(filter, org.geotools.filter.v2_0.FES.Filter, os);
-        
+
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         docFactory.setNamespaceAware(true);
-    
-        Document doc = docFactory.newDocumentBuilder().parse(new ByteArrayInputStream(os.toByteArray()));
-        
+
+        Document doc = docFactory.newDocumentBuilder().parse(new ByteArrayInputStream(os
+                .toByteArray()));
+
         assertEquals(1, doc.getElementsByTagName("fes:PropertyIsLike").getLength());
         assertEquals(1, doc.getElementsByTagName("fes:ValueReference").getLength());
         assertEquals(1, doc.getElementsByTagName("fes:Literal").getLength());
     }
-    
+
     public void testEncodeTemporal() throws Exception {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
         Filter filter = ff.after(ff.property("date"), ff.literal(new Date()));
-        org.geotools.filter.v2_0.FESConfiguration configuration = new org.geotools.filter.v2_0.FESConfiguration();
+        org.geotools.filter.v2_0.FESConfiguration configuration = new org.geotools.filter
+                .v2_0.FESConfiguration();
         org.geotools.xml.Encoder encoder = new org.geotools.xml.Encoder(configuration);
         encoder.encode(filter, org.geotools.filter.v2_0.FES.Filter, os);
-        
+
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         docFactory.setNamespaceAware(true);
-    
-        Document doc = docFactory.newDocumentBuilder().parse(new ByteArrayInputStream(os.toByteArray()));
-        
+
+        Document doc = docFactory.newDocumentBuilder().parse(new ByteArrayInputStream(os
+                .toByteArray()));
+
         assertEquals(1, doc.getElementsByTagName("fes:After").getLength());
         assertEquals(1, doc.getElementsByTagName("fes:ValueReference").getLength());
         assertEquals(1, doc.getElementsByTagName("fes:Literal").getLength());

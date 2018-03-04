@@ -32,30 +32,31 @@ import org.fest.swing.core.MouseButton;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import static org.junit.Assert.*;
 
 /**
  * Tests for the pan cursor tool.
- * 
+ *
  * @author Michael Bedward
- * @since 8.0
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 @RunWith(GraphicsTestRunner.class)
 public class PanToolTest extends CursorToolTestBase {
     private PanTool tool;
-    
+
     @Before
     public void setup() {
         tool = new PanTool();
     }
-    
+
     @Test
     public void doesNotDrawDragBox() throws Exception {
         assertFalse(tool.drawDragBox());
     }
-    
+
     @Test
     public void dragPanMap() throws Exception {
         ReferencedEnvelope startEnv = mapPane.getDisplayArea();
@@ -63,33 +64,33 @@ public class PanToolTest extends CursorToolTestBase {
 
         Point startWindowPos = new Point(SCREEN.width / 4, SCREEN.height / 4);
         Point endWindowPos = new Point(SCREEN.width / 2, SCREEN.height / 2);
-        
+
         Point screenPos = mapPaneFixture.component().getLocationOnScreen();
-        
+
         Point mouseStartPos = new Point(
-                screenPos.x + startWindowPos.x, 
+                screenPos.x + startWindowPos.x,
                 screenPos.y + startWindowPos.y);
-        
+
         Point mouseEndPos = new Point(
                 screenPos.x + endWindowPos.x,
                 screenPos.y + endWindowPos.y);
-        
+
         listener.setExpected(MapPaneEvent.Type.DISPLAY_AREA_CHANGED);
-        
+
         mapPane.setCursorTool(tool);
         mapPaneFixture.robot.pressMouse(mouseStartPos, MouseButton.LEFT_BUTTON);
         mapPaneFixture.robot.moveMouse(mouseEndPos);
         mapPaneFixture.robot.releaseMouseButtons();
-        
-        assertTrue( listener.await(MapPaneEvent.Type.DISPLAY_AREA_CHANGED, EVENT_TIMEOUT) );
-        
+
+        assertTrue(listener.await(MapPaneEvent.Type.DISPLAY_AREA_CHANGED, EVENT_TIMEOUT));
+
         ReferencedEnvelope endEnv = mapPane.getDisplayArea();
 
         Point2D expectedDelta = tr.deltaTransform(new Point(
-                startWindowPos.x - endWindowPos.x, 
-                startWindowPos.y - endWindowPos.y), 
+                        startWindowPos.x - endWindowPos.x,
+                        startWindowPos.y - endWindowPos.y),
                 null);
-        
+
         assertEquals(startEnv.getMinX() + expectedDelta.getX(), endEnv.getMinX(), TOL);
         assertEquals(startEnv.getMinY() + expectedDelta.getY(), endEnv.getMinY(), TOL);
     }

@@ -42,11 +42,12 @@ import org.opengis.referencing.operation.TransformException;
  *
  * @author ian
  * @author Emanuele Tajariol (etj at geo-solutions dot it)
- *
  */
 public class WMTSCoverageReader extends AbstractGridCoverage2DReader {
 
-    /** The logger for the map module. */
+    /**
+     * The logger for the map module.
+     */
     static public final Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger("org.geotools.map");
 
@@ -130,7 +131,8 @@ public class WMTSCoverageReader extends AbstractGridCoverage2DReader {
 
         // best guess at the format with a preference for PNG (since it's
         // normally transparent)
-        List<String> formats = ((WMTSLayer) layer).getFormats();// wms2.getCapabilities().getRequest().getGetTile().getFormats();
+        List<String> formats = ((WMTSLayer) layer).getFormats();// wms2.getCapabilities()
+        // .getRequest().getGetTile().getFormats();
         this.format = formats.iterator().next();
         for (String f : formats) {
             if ("image/png".equals(f) || "image/png24".equals(f) || "png".equals(f)
@@ -148,8 +150,8 @@ public class WMTSCoverageReader extends AbstractGridCoverage2DReader {
         if (srsName == null) { // initialize from first (unique) layer
 
             // prefer 4326
-            for (String preferred : new String[] { "EPSG:4326", "WGS84", "CRS:84", "WGS 84",
-                    "WGS84(DD)" }) {
+            for (String preferred : new String[]{"EPSG:4326", "WGS84", "CRS:84", "WGS 84",
+                    "WGS84(DD)"}) {
                 if (owsLayer.getSrs().contains(preferred)) {
                     srsName = preferred;
                     if (LOGGER.isLoggable(Level.INFO))
@@ -322,7 +324,8 @@ public class WMTSCoverageReader extends AbstractGridCoverage2DReader {
     }
 
     protected void renderTiles(Collection<Tile> tiles, Graphics2D g2d,
-            ReferencedEnvelope viewportExtent, AffineTransform worldToImageTransform) {
+                               ReferencedEnvelope viewportExtent, AffineTransform 
+                                       worldToImageTransform) {
 
         g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
                 RenderingHints.VALUE_INTERPOLATION_BILINEAR);
@@ -437,7 +440,7 @@ public class WMTSCoverageReader extends AbstractGridCoverage2DReader {
         tileRequest.setRequestedHeight(height);
         tileRequest.setRequestedWidth(width);
         tileRequest.setRequestedBBox(gridEnvelope); // should be
-                                                    // requestEnvelope?
+        // requestEnvelope?
         tileRequest.setRequestedTime(time);
 
         try {
@@ -497,7 +500,7 @@ public class WMTSCoverageReader extends AbstractGridCoverage2DReader {
 
     @Override
     public String[] getMetadataNames() {
-        return new String[] { REPROJECTING_READER };
+        return new String[]{REPROJECTING_READER};
     }
 
     @Override
@@ -516,8 +519,7 @@ public class WMTSCoverageReader extends AbstractGridCoverage2DReader {
     }
 
     /**
-     * @param mapRequest
-     *            the mapRequest to set
+     * @param mapRequest the mapRequest to set
      */
     public void setTileRequest(GetTileRequest mapRequest) {
         this.tileRequest = mapRequest;

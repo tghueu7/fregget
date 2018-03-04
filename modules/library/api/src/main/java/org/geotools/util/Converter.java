@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -21,12 +21,8 @@ package org.geotools.util;
  * Converts values of one type into another.
  *
  * @author Justin Deoliveira, The Open Planning Project
- *
- * @since 2.4
- *
- *
- *
  * @source $URL$
+ * @since 2.4
  */
 public interface Converter {
     /**
@@ -38,9 +34,7 @@ public interface Converter {
      *
      * @param source The original object, never <code>null</code>
      * @param target The type of the converted object.
-     *
      * @return An instance of target, or <code>null</code> if the conversion could not take place.
-     *
      * @throws Exception If the conversion can not take place.
      */
     <T> T convert(Object source, Class<T> target) throws Exception;

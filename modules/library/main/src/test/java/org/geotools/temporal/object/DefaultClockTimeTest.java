@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -24,15 +24,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.opengis.temporal.ClockTime;
 import org.opengis.temporal.TemporalReferenceSystem;
+
 import static org.junit.Assert.*;
 
 
 /**
- *
  * @author Mehdi Sidhoum (Geomatys)
- *
- *
- *
  * @source $URL$
  */
 public class DefaultClockTimeTest {

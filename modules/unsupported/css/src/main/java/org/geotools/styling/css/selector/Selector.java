@@ -28,12 +28,13 @@ import java.util.logging.Logger;
 import org.geotools.util.logging.Logging;
 
 /**
- * A selector identifies which features are going to be matched by a certain feature, possibly including one or more scale ranges in which the rule is
- * valid. A subclass of selectors, known as pseudo-selectors, are used to specify how to fill/stroke the innards of a mark used to depict points,
+ * A selector identifies which features are going to be matched by a certain feature, possibly 
+ * including one or more scale ranges in which the rule is
+ * valid. A subclass of selectors, known as pseudo-selectors, are used to specify how to 
+ * fill/stroke the innards of a mark used to depict points,
  * lines and fills.
- * 
+ *
  * @author Andrea Aime - GeoSolutions
- * 
  */
 public abstract class Selector implements Comparable<Selector> {
 
@@ -52,8 +53,8 @@ public abstract class Selector implements Comparable<Selector> {
     private static List<AndCombiner> AND_COMBINERS;
 
     static {
-        Class[] baseClasses = new Class[] { TypeName.class, ScaleRange.class, Id.class, Data.class,
-                PseudoClass.class };
+        Class[] baseClasses = new Class[]{TypeName.class, ScaleRange.class, Id.class, Data.class,
+                PseudoClass.class};
         AND_COMBINERS = new ArrayList<>();
         for (Class baseClass : baseClasses) {
             try {
@@ -191,7 +192,7 @@ public abstract class Selector implements Comparable<Selector> {
 
     /**
      * Combines in or and simplifies the two given selectors
-     * 
+     *
      * @param s1
      * @param s2
      * @param context
@@ -244,7 +245,7 @@ public abstract class Selector implements Comparable<Selector> {
     }
 
     private static void flatten(List<Selector> selectors, Selector s,
-            Class<? extends Composite> clazz) {
+                                Class<? extends Composite> clazz) {
         if (!clazz.isInstance(s)) {
             selectors.add(s);
         } else {
@@ -274,7 +275,7 @@ public abstract class Selector implements Comparable<Selector> {
 
     /**
      * Returns the specificity of this selector
-     * 
+     *
      * @return
      */
     public abstract Specificity getSpecificity();

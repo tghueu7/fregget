@@ -30,24 +30,21 @@ import org.opengis.feature.simple.SimpleFeature;
 /**
  * A state-less {@link EFeatureDataStore} {@link DataStoreFactorySpi} class implementation.
  * <p>
- * This class adds {@link EFeatureDataStore} instance creation capabilities to the 
- * GeoTools framework. The factory keeps no reference to created 
+ * This class adds {@link EFeatureDataStore} instance creation capabilities to the
+ * GeoTools framework. The factory keeps no reference to created
  * {@link EFeatureDataStore}s, it each data store is given a reference to this factory instance.
  * </p>
- * 
- * @author kengu
- * 
- * @see {@link EFeatureDataStore#getDataStoreFactory()}
- * 
  *
+ * @author kengu
  * @source $URL$
+ * @see {@link EFeatureDataStore#getDataStoreFactory()}
  */
 public class EFeatureDataStoreFactory implements DataStoreFactorySpi {
-    
+
     // ----------------------------------------------------- 
     //  Public parameters
     // -----------------------------------------------------
-        
+
     /**
      * Statically cached {@link EFeatureDialect} instance.
      */
@@ -58,9 +55,9 @@ public class EFeatureDataStoreFactory implements DataStoreFactorySpi {
      * <p>
      */
     public static final Param EFEATURE_CONTEXT_ID_PARAM = new Param(
-            EFEATURE_CONTEXT_ID, String.class, 
+            EFEATURE_CONTEXT_ID, String.class,
             "EFeatureContext instance ID", true);
-    
+
     /**
      * {@link EditingDomain} instance ID.
      * <p>
@@ -80,7 +77,7 @@ public class EFeatureDataStoreFactory implements DataStoreFactorySpi {
     public static final Param EPACKAGE_NS_URI_PARAM = new Param(
             EPACKAGE_NS_URI, String.class,
             "The namespace URI of the EPackage which "
-            + "defines EObjects containing EFeatures or EFeature compatible data", true);
+                    + "defines EObjects containing EFeatures or EFeature compatible data", true);
 
     /**
      * {@link URI} to the {@link Resource} which the {@link EFeatureDataStore} instance fetches
@@ -96,19 +93,19 @@ public class EFeatureDataStoreFactory implements DataStoreFactorySpi {
     public static final Param ERESOURCE_URI_PARAM = new Param(
             ERESOURCE_URI, String.class,
             "URI to EMF Resource instance containing EFeatures or "
-            + "EFeature compatible data managed by the editing domain", true);
+                    + "EFeature compatible data managed by the editing domain", true);
 
     /**
-     * A (optional) query that defines which {@link EFeature} folders to 
+     * A (optional) query that defines which {@link EFeature} folders to
      * include in a {@link EFeatureDataStore}.
      * <p>
      * This parameter has the following syntax:
-     * 
+     * <p>
      * <pre>
      * eFolders=&lt;eFolder1&gt;+...+&lt;eFolderN&gt;
-     * 
+     *
      * where
-     * 
+     *
      * eFolder = &lt;eName&gt;[:&lt;eQuery&gt;|$&lt;eFragment&gt;]
      * </pre>
      */
@@ -116,32 +113,32 @@ public class EFeatureDataStoreFactory implements DataStoreFactorySpi {
             "A query that defines which EFeature folders to include in a EFeatureStore.", false);
 
     /**
-     * A boolean flag indication if {@link EFeature}s can be 
-     * written ({@link EFeatureWriter#UPDATE} | 
-     * {@link EFeatureWriter#APPEND}).  
+     * A boolean flag indication if {@link EFeature}s can be
+     * written ({@link EFeatureWriter#UPDATE} |
+     * {@link EFeatureWriter#APPEND}).
      */
     public static final Param EFEATURE_WRITABLE_PARAM = new Param(EFEATURE_WRITABLE, Boolean.class,
             "A boolean flag indicating if EFeatures can be written (UPDATE | APPEND)", false);
-    
-    
+
+
     // ----------------------------------------------------- 
     //  Other static members
     // -----------------------------------------------------    
-    
-    /** 
-     * Static logger for all {@link EFeatureDataStoreFactory} instances 
+
+    /**
+     * Static logger for all {@link EFeatureDataStoreFactory} instances
      */
     private static final Logger LOGGER = Logging.getLogger(EFeatureDataStoreFactory.class);
-    
+
     /**
      * Cached {@link EFeatureContextFactory} instance
      */
     protected static EFeatureContextFactory eContextFactory;
-    
+
     // ----------------------------------------------------- 
     //  Constructors
     // -----------------------------------------------------
-    
+
     /**
      * Public "no arguments" constructor called by Factory Service Provider
      * (SPI) based on entry in META-INF/services/org.geotools.data.DataStoreFactorySpi
@@ -151,7 +148,7 @@ public class EFeatureDataStoreFactory implements DataStoreFactorySpi {
     // ----------------------------------------------------- 
     //  EFeatureDataStoreFactory methods
     // -----------------------------------------------------
-    
+
     @Override
     public String getDisplayName() {
         return "EGeometryFeature Data Store";
@@ -161,23 +158,22 @@ public class EFeatureDataStoreFactory implements DataStoreFactorySpi {
     public String getDescription() {
         return "Allows access to EMF EObject instances containing JTS Geometry data";
     }
-    
+
     @Override
     public Param[] getParametersInfo() {
-        return new Param[] { EFEATURE_CONTEXT_ID_PARAM, EDITING_DOMAIN_ID_PARAM,
+        return new Param[]{EFEATURE_CONTEXT_ID_PARAM, EDITING_DOMAIN_ID_PARAM,
                 EPACKAGE_NS_URI_PARAM, ERESOURCE_URI_PARAM, EFOLDERS_QUERY_PARAM};
     }
 
     /**
      * Check to see if {@link EFeatureDataStore}s can be created.
      * <p>
-     * This factory is only available if at least one 
+     * This factory is only available if at least one
      * {@link EFeatureContext} instance is registered.
      * <p>
-     * 
-     * @return <code>true</code> if and only if this factory is 
-     *         able to create {@link EFeatureDataStore}s.
-     * 
+     *
+     * @return <code>true</code> if and only if this factory is
+     * able to create {@link EFeatureDataStore}s.
      */
     @Override
     public boolean isAvailable() {
@@ -193,25 +189,27 @@ public class EFeatureDataStoreFactory implements DataStoreFactorySpi {
 
     @Override
     public boolean canProcess(Map<String, Serializable> params) {
-        return canProcess(DIALECT,params);
+        return canProcess(DIALECT, params);
     }
 
     /**
      * Construct a live {@link EFeatureDataStore} instance from given parameters.
-     * 
-     * @param params - the full set of information needed to construct a live {@link EFeatureDataStore}
-     *        instance
-     * 
-     * @return a new {@link EFeatureDataStore} instance, this may be <code>null</code> if the required
-     *         resource was not found or if insufficient parameters were given. Note that
-     *         canProcess() should have returned false if the problem is to do with insufficient
-     *         parameters.
-     * 
-     * @throws IOException if there were any problems setting up (creating or connecting) the
-     *         {@link EFeatureContext}, {@link EditingDomain} or {@link EObject} container
-     *         instances.
+     *
+     * @param params - the full set of information needed to construct a live 
+     * {@link EFeatureDataStore}
+     *               instance
+     * @return a new {@link EFeatureDataStore} instance, this may be <code>null</code> if the 
+     * required
+     * resource was not found or if insufficient parameters were given. Note that
+     * canProcess() should have returned false if the problem is to do with insufficient
+     * parameters.
+     * @throws IOException              if there were any problems setting up (creating or 
+     * connecting) the
+     *                                  {@link EFeatureContext}, {@link EditingDomain} or 
+     *                                  {@link EObject} container
+     *                                  instances.
      * @throws IllegalArgumentException if resolved {@link EObject} container and
-     *         {@link EFeaturePackageInfo} does not match.
+     *                                  {@link EFeaturePackageInfo} does not match.
      */
     @Override
     public EFeatureDataStore createDataStore(Map<String, Serializable> params) throws IOException,
@@ -225,19 +223,21 @@ public class EFeatureDataStoreFactory implements DataStoreFactorySpi {
         String eNsURI = (String) EPACKAGE_NS_URI_PARAM.lookUp(params);
         String eURI = (String) ERESOURCE_URI_PARAM.lookUp(params);
         String eFolders = (String) EFOLDERS_QUERY_PARAM.lookUp(params);
-        boolean eWritable = toValue((Boolean) EFEATURE_WRITABLE_PARAM.lookUp(params),Boolean.class,true);
+        boolean eWritable = toValue((Boolean) EFEATURE_WRITABLE_PARAM.lookUp(params), Boolean
+                .class, true);
         //
         // Try processing parameters first so we can get real IO
         // error message back to the user
         //
         if (!canProcess(params)) {
             throw new IOException("One or more parameters are " +
-            		"missing or invalid. See log for more information.");
+                    "missing or invalid. See log for more information.");
         }
         //
         // Construct EFeatureStore instance from given parameters
         //
-        EFeatureDataStore eDataStore = new EFeatureDataStore(eContextID, eDomainID, eNsURI, eURI, eFolders, eWritable);
+        EFeatureDataStore eDataStore = new EFeatureDataStore(eContextID, eDomainID, eNsURI, eURI,
+                eFolders, eWritable);
         //
         // Set filter factory (
         //
@@ -251,27 +251,30 @@ public class EFeatureDataStoreFactory implements DataStoreFactorySpi {
         //
         return eDataStore;
     }
-    
+
     /**
-     * TODO: Create a new {@link EObject} container and construct a live data {@link EFeatureDataStore}
+     * TODO: Create a new {@link EObject} container and construct a live data 
+     * {@link EFeatureDataStore}
      * instance on it from given parameters.
      * <p>
      * For now, this method is forwarded to {@link #createDataStore(Map)}.
      * <p>
-     * 
-     * @param params - the full set of information needed to construct a live {@link EFeatureDataStore}
-     *        instance
-     * 
-     * @return a new {@link EFeatureDataStore} instance, this may be <code>null</code> if the required
-     *         resource was not found or if insufficient parameters were given. Note that
-     *         canProcess() should have returned false if the problem is to do with insufficient
-     *         parameters.
-     * 
-     * @throws IOException if there were any problems setting up (creating or connecting) the
-     *         {@link EFeatureContext}, {@link EditingDomain} or {@link EObject} container
-     *         instances.
+     *
+     * @param params - the full set of information needed to construct a live 
+     * {@link EFeatureDataStore}
+     *               instance
+     * @return a new {@link EFeatureDataStore} instance, this may be <code>null</code> if the 
+     * required
+     * resource was not found or if insufficient parameters were given. Note that
+     * canProcess() should have returned false if the problem is to do with insufficient
+     * parameters.
+     * @throws IOException              if there were any problems setting up (creating or 
+     * connecting) the
+     *                                  {@link EFeatureContext}, {@link EditingDomain} or 
+     *                                  {@link EObject} container
+     *                                  instances.
      * @throws IllegalArgumentException if resolved {@link EObject} container and
-     *         {@link EFeaturePackageInfo} does not match.
+     *                                  {@link EFeaturePackageInfo} does not match.
      */
     @Override
     public DataStore createNewDataStore(Map<String, Serializable> params) throws IOException,
@@ -282,13 +285,14 @@ public class EFeatureDataStoreFactory implements DataStoreFactorySpi {
 
     /**
      * Get {@link EFeature} folder names from given {@link EFeatureContext}
-     * 
+     *
      * @param eContextID - {@link EFeatureContext} instance extension point id
-     * @param eNsURI - {@link EPackage} defining {@link EObject}s containing {@link EFeature}s or
-     *        {@link EFeature} compatible data.
-     * @param eQuery - query used to select which {@link EFeature} folders to include
+     * @param eNsURI     - {@link EPackage} defining {@link EObject}s containing 
+     * {@link EFeature}s or
+     *                   {@link EFeature} compatible data.
+     * @param eQuery     - query used to select which {@link EFeature} folders to include
      * @return an array of {@link EFeature} folder names if found, <code>empty</code> array
-     *         otherwise.
+     * otherwise.
      */
     public static String[] getFolderNames(String eContextID, String eNsURI, String eQuery) {
         EFeatureContextInfo eInfo = eGetContextFactory().eStructure(eContextID);
@@ -298,37 +302,40 @@ public class EFeatureDataStoreFactory implements DataStoreFactorySpi {
                 return d.eGetFolderNames(eQuery);
             }
         }
-        return new String[] {};
+        return new String[]{};
     }
-    
+
     /**
-     * Get current {@link EFeature} {@link EFeatureContext context} {@link EFeatureContextFactory factory}
+     * Get current {@link EFeature} {@link EFeatureContext context} 
+     * {@link EFeatureContextFactory factory}
      */
     public static EFeatureContextFactory eGetContextFactory() {
-        if(eContextFactory==null) {
+        if (eContextFactory == null) {
             eContextFactory = EFeatureContextFactory.eDefault();
         }
         return eContextFactory;
     }
-    
+
     /**
-     * Set current {@link EFeature} {@link EFeatureContext context} {@link EFeatureContextFactory factory}
+     * Set current {@link EFeature} {@link EFeatureContext context} 
+     * {@link EFeatureContextFactory factory}
      */
     public static void eSetContextFactory(EFeatureContextFactory eFactory) {
         eContextFactory = eFactory;
     }
-    
+
 
     /**
-     * Get {@link EFeaturePackageInfo} instance with given 
-     * {@link EFeaturePackageInfo#eNsURI() namespace URL} 
-     * from {@link EFeatureContext} with given 
-     * {@link EFeatureContext#eContextID() ID}. 
+     * Get {@link EFeaturePackageInfo} instance with given
+     * {@link EFeaturePackageInfo#eNsURI() namespace URL}
+     * from {@link EFeatureContext} with given
+     * {@link EFeatureContext#eContextID() ID}.
      * </p>
-     * 
+     *
      * @param eContextID - given context {@link EFeatureContext#eContextID() ID}
-     * @param eNsURI - {@link EPackage} defining {@link EObject}s containing {@link EFeature}s or
-     *        {@link EFeature} compatible data.
+     * @param eNsURI     - {@link EPackage} defining {@link EObject}s containing 
+     * {@link EFeature}s or
+     *                   {@link EFeature} compatible data.
      * @return a {@link EFeaturePackageInfo} if found.
      * @throws IllegalArgumentException If no {@link EFeaturePackageInfo} instance was found.
      */
@@ -336,13 +343,14 @@ public class EFeatureDataStoreFactory implements DataStoreFactorySpi {
         EFeatureContextInfo eContextInfo = eGetContextFactory().eStructure(eContextID);
         return eContextInfo.eGetPackageInfo(eNsURI);
     }
-    
+
     /**
-     * Get {@link EditingDomain} instance with given ID 
-     * from {@link EFeatureContext} with given {@link EFeatureContext#eContextID() ID}. 
+     * Get {@link EditingDomain} instance with given ID
+     * from {@link EFeatureContext} with given {@link EFeatureContext#eContextID() ID}.
      * </p>
+     *
      * @param eContextID - given context {@link EFeatureContext#eContextID() ID}
-     * @param eDomainID - given {@link EditingDomain} ID
+     * @param eDomainID  - given {@link EditingDomain} ID
      * @return a {@link EditingDomain} instance if found.
      * @throws IllegalArgumentException If no {@link EditingDomain} instance was found.
      */
@@ -350,38 +358,39 @@ public class EFeatureDataStoreFactory implements DataStoreFactorySpi {
         EFeatureContext eContext = eGetContextFactory().eContext(eContextID);
         return eContext.eGetDomain(eDomainID);
     }
-    
+
     /**
-     * Get {@link EditingDomain} instance with given ID in the {@link EFeatureContext} 
-     * with given {@link EFeatureContext#eContextID() ID}. 
+     * Get {@link EditingDomain} instance with given ID in the {@link EFeatureContext}
+     * with given {@link EFeatureContext#eContextID() ID}.
      * </p>
+     *
      * @param eContextID - given context {@link EFeatureContext#eContextID() ID}
-     * @param eDomainID - given {@link EditingDomain} ID
+     * @param eDomainID  - given {@link EditingDomain} ID
      * @return a {@link EditingDomain} instance if found.
-     * @throws NullPointerException If 'eContext' is <code>null</code>.
+     * @throws NullPointerException     If 'eContext' is <code>null</code>.
      * @throws IllegalArgumentException If no {@link EditingDomain} instance was found.
      */
     public static EditingDomain eDomain(EFeatureContext eContext, String eDomainID) {
-        if(eContext==null) {
+        if (eContext == null) {
             throw new NullPointerException("EFeatureContext can not be 'null'");
-        }            
+        }
         return eContext.eGetDomain(eDomainID);
-    }    
-    
+    }
+
     /**
      * Check if {@link EFeatureDataStoreFactory} can process given parameters
-     * 
+     *
      * @param params - {@link EFeatureDataStore} connection parameters
      */
     private static boolean canProcess(EFeatureDialect dialect, Map<String, Serializable> params) {
         if (params != null) {
-            
+
             // lookup will throw error message for
             // lack of required parameter or wrong data type
             //
             String eContextID;
             String eDomainID;
-            String eNsURI; 
+            String eNsURI;
             URI eURI;
             String eFolders;
             try {
@@ -393,19 +402,19 @@ public class EFeatureDataStoreFactory implements DataStoreFactorySpi {
             } catch (IOException e) {
                 LOGGER.log(Level.WARNING, e.getMessage(), e);
                 return false;
-            }            
+            }
             //
             // Check if required all exist
             //
-            if (params.containsKey(EFEATURE_CONTEXT_ID) 
+            if (params.containsKey(EFEATURE_CONTEXT_ID)
                     && params.containsKey(EDITING_DOMAIN_ID)
                     && params.containsKey(ERESOURCE_URI)) {
                 EditingDomain eDomain = eDomain(eContextID, eDomainID);
                 if (eDomain != null) {
-                    if(params.containsKey(EFOLDERS_QUERY)) {
-                        if( !(eFolders==null || eFolders.length()==0)) {                        
+                    if (params.containsKey(EFOLDERS_QUERY)) {
+                        if (!(eFolders == null || eFolders.length() == 0)) {
                             for (String eFolder : dialect.toFolderQueries(eFolders)) {
-                                EFeaturePackageInfo eInfo = ePackageInfo(eContextID,eNsURI);
+                                EFeaturePackageInfo eInfo = ePackageInfo(eContextID, eNsURI);
                                 if (eInfo == null)
                                     return false;
                                 String eURIFragment = dialect.getFolderFragment(eFolder);
@@ -414,7 +423,7 @@ public class EFeatureDataStoreFactory implements DataStoreFactorySpi {
                                     if (eDomain.getResourceSet().getEObject(uri, true) == null)
                                         return false;
                                 }
-        
+
                             }
                         }
                     }
@@ -426,9 +435,8 @@ public class EFeatureDataStoreFactory implements DataStoreFactorySpi {
     }
 
     private static <T> T toValue(Object v, Class<T> type, T d) {
-        return (v==null ? d : type.cast(v));
+        return (v == null ? d : type.cast(v));
     }
 
-    
 
 }

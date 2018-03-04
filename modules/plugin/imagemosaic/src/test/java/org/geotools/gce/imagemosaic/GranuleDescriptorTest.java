@@ -49,16 +49,19 @@ public class GranuleDescriptorTest {
 
         new GranuleDescriptor(feature, null, PathType.ABSOLUTE, "location", "/tmp") {
             protected void init(org.opengis.geometry.BoundingBox granuleBBOX,
-                    java.net.URL granuleUrl, javax.imageio.spi.ImageReaderSpi suggestedSPI,
-                    org.geotools.coverage.grid.io.footprint.MultiLevelROI roiProvider,
-                    boolean heterogeneousGranules, boolean handleArtifactsFiltering,
-                    org.geotools.factory.Hints hints) {
+                                java.net.URL granuleUrl, javax.imageio.spi.ImageReaderSpi 
+                                        suggestedSPI,
+                                org.geotools.coverage.grid.io.footprint.MultiLevelROI roiProvider,
+                                boolean heterogeneousGranules, boolean handleArtifactsFiltering,
+                                org.geotools.factory.Hints hints) {
                 // check the bbox is the one of the first geometry, not the entire feature
                 assertEquals(0, granuleBBOX.getMinimum(0), 0d);
                 assertEquals(10, granuleBBOX.getMaximum(0), 0d);
                 assertEquals(0, granuleBBOX.getMinimum(1), 0d);
                 assertEquals(10, granuleBBOX.getMaximum(1), 0d);
-            };
+            }
+
+            ;
         };
     }
 

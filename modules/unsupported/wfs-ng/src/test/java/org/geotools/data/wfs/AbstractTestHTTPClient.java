@@ -25,7 +25,7 @@ import org.geotools.data.ows.HTTPResponse;
 
 /**
  * Test HTTP Client
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 public class AbstractTestHTTPClient implements HTTPClient {
@@ -39,7 +39,7 @@ public class AbstractTestHTTPClient implements HTTPClient {
     protected int readTimeout;
 
     protected boolean tryGzip;
-    
+
     public HTTPResponse post(URL url, InputStream postContent, String postContentType)
             throws IOException {
         throw new UnsupportedOperationException(
@@ -68,23 +68,23 @@ public class AbstractTestHTTPClient implements HTTPClient {
 
     }
 
-    
+
     public int getConnectTimeout() {
         return connectTimeout;
     }
 
-    
+
     public void setConnectTimeout(int connectTimeout) {
         this.connectTimeout = connectTimeout;
 
     }
 
-    
+
     public int getReadTimeout() {
         return this.readTimeout;
     }
 
-    
+
     public void setReadTimeout(int readTimeout) {
         this.readTimeout = readTimeout;
     }

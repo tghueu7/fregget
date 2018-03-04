@@ -23,51 +23,69 @@ import java.io.IOException;
  * Contains the suitability information for a single palette with several colour schemes.
  *
  * @author Cory Horner, Refractions Research Inc.
- *
- *
  * @source $URL$
  */
 public class PaletteSuitability {
-    /** Suitability = GOOD */
+    /**
+     * Suitability = GOOD
+     */
     public static final int QUALITY_GOOD = 3;
 
-    /** Suitability = UNKNOWN */
+    /**
+     * Suitability = UNKNOWN
+     */
     public static final int QUALITY_UNKNOWN = 2;
 
-    /** Suitability = DOUBTFUL */
+    /**
+     * Suitability = DOUBTFUL
+     */
     public static final int QUALITY_DOUBTFUL = 1;
 
-    /** Suitability = BAD */
+    /**
+     * Suitability = BAD
+     */
     public static final int QUALITY_BAD = 0;
 
-    /** ViewerType = Suitable for the colorblind? */
+    /**
+     * ViewerType = Suitable for the colorblind?
+     */
     public static final int VIEWER_COLORBLIND = 0;
 
-    /** ViewerType = Suitable for photocopiers? */
+    /**
+     * ViewerType = Suitable for photocopiers?
+     */
     public static final int VIEWER_PHOTOCOPY = 1;
 
-    /** ViewerType = Suitable for overhead projectors (lcd)? */
+    /**
+     * ViewerType = Suitable for overhead projectors (lcd)?
+     */
     public static final int VIEWER_PROJECTOR = 2;
 
-    /** ViewerType = Suitable for LCD monitors? */
+    /**
+     * ViewerType = Suitable for LCD monitors?
+     */
     public static final int VIEWER_LCD = 3;
 
-    /** ViewerType = Suitable for CRT monitors? */
+    /**
+     * ViewerType = Suitable for CRT monitors?
+     */
     public static final int VIEWER_CRT = 4;
 
-    /** ViewerType = Suitable for colour printing? */
+    /**
+     * ViewerType = Suitable for colour printing?
+     */
     public static final int VIEWER_PRINT = 5;
 
     /**
      * Contains the suitability data for this palette.  First index is the
      * number of colors - 2.  Second index is the viewer type. Values are the
      * suitability value.
-     *
+     * <p>
      * <p>
      * Viewer Types: PaletteSuitability.COLORBLIND, PHOTOCOPY, PROJECTOR, LCD,
      * CRT, or PRINT
      * </p>
-     *
+     * <p>
      * <p>
      * Suitability: PaletteSuitability.GOOD, UNKNOWN, DOUBTFUL, or BAD
      * </p>
@@ -87,13 +105,11 @@ public class PaletteSuitability {
      * Indexed getter for property paletteSuitability. For this palette, this
      * returns an array containing the integer values for all 6 suitabilities.
      *
-     * @param numClasses
-     *            The number of colors to determine the suitability for
-     *
+     * @param numClasses The number of colors to determine the suitability for
      * @return int array; index = PaletteSuitability.VIEWER_COLORBLIND,
-     *         VIEWER_PHOTOCOPY, VIEWER_PROJECTOR, VIEWER_LCD, VIEWER_CRT, or
-     *         VIEWER_PRINT; values = PaletteSuitability.QUALITY_GOOD,
-     *         QUALITY_UNKNOWN, QUALITY_DOUBTFUL, or QUALITY_BAD.
+     * VIEWER_PHOTOCOPY, VIEWER_PROJECTOR, VIEWER_LCD, VIEWER_CRT, or
+     * VIEWER_PRINT; values = PaletteSuitability.QUALITY_GOOD,
+     * QUALITY_UNKNOWN, QUALITY_DOUBTFUL, or QUALITY_BAD.
      */
     public int[] getSuitability(int numClasses) {
         return paletteSuitability[numClasses - 2];
@@ -103,29 +119,23 @@ public class PaletteSuitability {
      * Indexed getter for the property paletteSuitability. For the selected
      * palette and viewerType, this returns the integer value of the
      *
-     * @param numClasses
-     *            number of colours in this palette
-     * @param viewerType
-     *            PaletteSuitability.VIEWER_COLORBLIND, VIEWER_PHOTOCOPY,
-     *            VIEWER_PROJECTOR, VIEWER_LCD, VIEWER_CRT, or VIEWER_PRINT.
-     *
+     * @param numClasses number of colours in this palette
+     * @param viewerType PaletteSuitability.VIEWER_COLORBLIND, VIEWER_PHOTOCOPY,
+     *                   VIEWER_PROJECTOR, VIEWER_LCD, VIEWER_CRT, or VIEWER_PRINT.
      * @return PaletteSuitability.QUALITY_GOOD, QUALITY_UNKNOWN,
-     *         QUALITY_DOUBTFUL, or QUALITY_BAD.
+     * QUALITY_DOUBTFUL, or QUALITY_BAD.
      */
     public int getSuitability(int numClasses, int viewerType) {
         return paletteSuitability[numClasses - 2][viewerType];
     }
 
     /**
-     *
-     *
-     * @param numClasses Index of the property.
+     * @param numClasses  Index of the property.
      * @param suitability New value of the property at<CODE>index</CODE>.
-     *
      * @throws IOException
      */
     public void setSuitability(int numClasses, String[] suitability)
-        throws IOException {
+            throws IOException {
         //update max number of classes
         if (numClasses > maxColors) {
             maxColors = numClasses;

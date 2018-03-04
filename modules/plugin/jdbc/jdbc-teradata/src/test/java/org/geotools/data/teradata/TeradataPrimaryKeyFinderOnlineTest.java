@@ -26,8 +26,6 @@ import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class TeradataPrimaryKeyFinderOnlineTest extends JDBCPrimaryKeyFinderOnlineTest {
@@ -39,27 +37,30 @@ public class TeradataPrimaryKeyFinderOnlineTest extends JDBCPrimaryKeyFinderOnli
 
     @Override
     public void testSequencedPrimaryKey() throws Exception {
-      // sequences not a distinct type in teradata (at least as far as I can tell)
+        // sequences not a distinct type in teradata (at least as far as I can tell)
     }
-    
+
     @Override
     public void testAssignedMultiPKeyView() throws Exception {
-        JDBCFeatureStore fs = (JDBCFeatureStore) dataStore.getFeatureSource(tname("assignedmultipk"));
-        
-        assertEquals( 2, fs.getPrimaryKey().getColumns().size() );
-        assertTrue( fs.getPrimaryKey().getColumns().get(0) instanceof NonIncrementingPrimaryKeyColumn );
-        assertTrue( fs.getPrimaryKey().getColumns().get(1) instanceof NonIncrementingPrimaryKeyColumn );
-        
+        JDBCFeatureStore fs = (JDBCFeatureStore) dataStore.getFeatureSource(tname
+                ("assignedmultipk"));
+
+        assertEquals(2, fs.getPrimaryKey().getColumns().size());
+        assertTrue(fs.getPrimaryKey().getColumns().get(0) instanceof 
+                NonIncrementingPrimaryKeyColumn);
+        assertTrue(fs.getPrimaryKey().getColumns().get(1) instanceof 
+                NonIncrementingPrimaryKeyColumn);
+
         FeatureIterator<?> i = fs.getFeatures().features();
 
         // On Teradata it's undered !!
         SimpleFeature f = (SimpleFeature) i.next();
-        assertEquals( tname("assignedmultipk") + ".3.4" , f.getID() );
+        assertEquals(tname("assignedmultipk") + ".3.4", f.getID());
         f = (SimpleFeature) i.next();
-        assertEquals( tname("assignedmultipk") + ".1.2" , f.getID() );
+        assertEquals(tname("assignedmultipk") + ".1.2", f.getID());
         f = (SimpleFeature) i.next();
-        assertEquals( tname("assignedmultipk") + ".2.3" , f.getID() );
-        
+        assertEquals(tname("assignedmultipk") + ".2.3", f.getID());
+
         i.close();
     }
 }

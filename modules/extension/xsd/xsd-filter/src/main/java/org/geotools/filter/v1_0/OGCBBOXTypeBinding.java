@@ -21,6 +21,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import javax.xml.namespace.QName;
+
 import com.vividsolutions.jts.geom.Envelope;
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.FilterFactory2;
@@ -40,9 +41,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:BBOXType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="BBOXType"&gt;
  *      &lt;xsd:complexContent&gt;
@@ -60,9 +61,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OGCBBOXTypeBinding extends AbstractComplexBinding {
@@ -113,41 +111,41 @@ public class OGCBBOXTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //TODO: crs
         PropertyName propertyName = (PropertyName) node.getChildValue(PropertyName.class);
         Envelope box = (Envelope) node.getChildValue(Envelope.class);
-        
+
         if (box instanceof ReferencedEnvelope) {
-        	return factory.bbox(propertyName == null?  factory.property("") : propertyName, (ReferencedEnvelope) box);        	
-        }
-        else {
-        	String name = null;
-            if ( propertyName != null ) {
+            return factory.bbox(propertyName == null ? factory.property("") : propertyName, 
+                    (ReferencedEnvelope) box);
+        } else {
+            String name = null;
+            if (propertyName != null) {
                 name = propertyName.getPropertyName();
             }
             //JD: this is a bit hackish, we know that "" means default geometry
             // in SimpleFeaturePropertyAccessor, so instead of dying here set
             // to empty string to mean defualt geometry
             // TODO: come up with something a bit more concrete
-            if ( name == null ) {
+            if (name == null) {
                 name = "";
             }
-            
-        	Node srsNode = node.getChild(Envelope.class).getAttribute("srsName");
+
+            Node srsNode = node.getChild(Envelope.class).getAttribute("srsName");
             String srs = (srsNode != null) ? srsNode.getValue().toString() : null;
 
             if ((srs == null) && (crs != null)) {
                 srs = GML2EncodingUtils.crs(crs);
-            }          
-            
-        	return factory.bbox(name, box.getMinX(), box.getMinY(),
-        			box.getMaxX(), box.getMaxY(), srs);
+            }
+
+            return factory.bbox(name, box.getMinX(), box.getMinY(),
+                    box.getMaxX(), box.getMaxY(), srs);
         }
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         BBOX box = (BBOX) object;
 
         //&lt;xsd:element ref="ogc:PropertyName"/&gt;
@@ -159,11 +157,12 @@ public class OGCBBOXTypeBinding extends AbstractComplexBinding {
         if (GML.Box.equals(name) || org.geotools.gml3.GML.Envelope.equals(name)) {
             try {
                 String srs = box.getSRS();
-                if(srs != null) {
+                if (srs != null) {
                     CoordinateReferenceSystem crs = CRS.decode(srs);
-                    return new ReferencedEnvelope(box.getMinX(), box.getMaxX(), box.getMinY(), box.getMaxY(), crs);
+                    return new ReferencedEnvelope(box.getMinX(), box.getMaxX(), box.getMinY(), 
+                            box.getMaxY(), crs);
                 }
-            } catch(Throwable t) {
+            } catch (Throwable t) {
                 // never mind
             }
             return new Envelope(box.getMinX(), box.getMaxX(), box.getMinY(), box.getMaxY());

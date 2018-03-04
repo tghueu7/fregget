@@ -26,27 +26,25 @@ import javax.swing.JPopupMenu;
 /**
  * A status bar item with an icon which displays a pop-up menu when clicked.
  *
- * @see JMapStatusBar
- *
  * @author Michael Bedward
- * @since 8.0
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @see JMapStatusBar
+ * @since 8.0
  */
 public class JMenuStatusBarItem extends StatusBarItem {
 
     /**
      * Creates a new item to display the given menu;
      *
-     * @param name the item name
-     * @param icon the icon to display
+     * @param name    the item name
+     * @param icon    the icon to display
      * @param toolTip tool tip text (may be {@code null}
-     * @param menu the pop-up menu to launch when the item is clicked
-     *
+     * @param menu    the pop-up menu to launch when the item is clicked
      * @throws IllegalArgumentException if {@code icon} or {@code menu} are {@code null}
      */
     public JMenuStatusBarItem(String name, final ImageIcon icon, final String toolTip,
-            final JPopupMenu menu) {
+                              final JPopupMenu menu) {
         this(name, icon, toolTip, new PopupMenuProvider() {
             {
                 if (menu == null) {
@@ -65,15 +63,14 @@ public class JMenuStatusBarItem extends StatusBarItem {
      * Creates a new item to display a menu which will be supplired by
      * {@code menuProvider}.
      *
-     * @param name the item name
-     * @param icon the icon to display
+     * @param name         the item name
+     * @param icon         the icon to display
      * @param menuProvider an object to provide a (possibly dynamic) pop-up menu
-     *
      * @throws IllegalArgumentException if {@code icon} or {@code menuPRovider}
-     *     are {@code null}
+     *                                  are {@code null}
      */
     public JMenuStatusBarItem(String name, final ImageIcon icon, String toolTip,
-            final PopupMenuProvider menuProvider) {
+                              final PopupMenuProvider menuProvider) {
 
         super(name, false);
 

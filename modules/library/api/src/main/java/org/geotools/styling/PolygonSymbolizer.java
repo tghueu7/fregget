@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2016, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -20,18 +20,18 @@ import org.opengis.filter.expression.Expression;
 
 /**
  * A symbolizer describes how a polygon feature should appear on a map.
- *
+ * <p>
  * <p>
  * The symbolizer describes not just the shape that should appear but also
  * such graphical properties as color and opacity.
  * </p>
- *
+ * <p>
  * <p>
  * A symbolizer is obtained by specifying one of a small number of different
  * types of symbolizer and then supplying parameters to overide its default
  * behaviour.
  * </p>
- *
+ * <p>
  * <p>
  * The details of this object are taken from the <a
  * href="https://portal.opengeospatial.org/files/?artifact_id=1188"> OGC
@@ -58,17 +58,17 @@ import org.opengis.filter.expression.Expression;
  * &lt;/xsd:element>
  * </code></pre>
  * </p>
- *
+ * <p>
  * <p>
  * Renderers can use this information when displaying styled features, though
  * it must be remembered that not all renderers will be able to fully
  * represent strokes as set out by this interface.  For example, opacity may
  * not be supported.
  * </p>
- *
+ * <p>
  * <p>
  * Notes:
- *
+ * <p>
  * <ul>
  * <li>
  * The graphical parameters and their values are derived from SVG/CSS2
@@ -78,12 +78,10 @@ import org.opengis.filter.expression.Expression;
  * </p>
  *
  * @author James Macgill
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
-public interface PolygonSymbolizer extends org.opengis.style.PolygonSymbolizer,Symbolizer {
+public interface PolygonSymbolizer extends org.opengis.style.PolygonSymbolizer, Symbolizer {
 
     /**
      * Pixels between each graphic of a polygon fill
@@ -123,15 +121,16 @@ public interface PolygonSymbolizer extends org.opengis.style.PolygonSymbolizer,S
      * @param stroke The Stroke style to use when rendering lines.
      */
     void setStroke(org.opengis.style.Stroke stroke);
-    
+
     /**
      * PerpendicularOffset works as defined for LineSymbolizer, allowing to draw polygons
      * smaller or larger than their actual geometry.
-     * 
-     * @param offset Offset from the edge polygon positive outside; negative to the inside with a default of 0.
+     *
+     * @param offset Offset from the edge polygon positive outside; negative to the inside with a
+     *              default of 0.
      */
     public void setPerpendicularOffset(Expression offset);
-    
+
     /**
      * Displacement from the original geometry in pixels.
      *
@@ -141,7 +140,8 @@ public interface PolygonSymbolizer extends org.opengis.style.PolygonSymbolizer,S
 
     /**
      * Provide x / y offset in pixels used to crate shadows.
+     *
      * @param displacement
      */
-    public void setDisplacement(org.opengis.style.Displacement displacement);    
+    public void setDisplacement(org.opengis.style.Displacement displacement);
 }

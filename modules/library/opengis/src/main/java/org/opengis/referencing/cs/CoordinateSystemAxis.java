@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.referencing.cs;
 
 import javax.measure.unit.Unit;
+
 import org.opengis.referencing.IdentifiedObject;
 import org.opengis.annotation.UML;
 
@@ -21,17 +22,15 @@ import static org.opengis.annotation.Specification.*;
  * Definition of a coordinate system axis.
  * See <A HREF="package-summary.html#AxisNames">axis name constraints</A>.
  *
- *
- *
+ * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract 
+ * specification 2.0</A>
  * @source $URL$
- * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract specification 2.0</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
- *
  * @see CoordinateSystem
  * @see Unit
+ * @since GeoAPI 1.0
  */
-@UML(identifier="CS_CoordinateSystemAxis", specification=ISO_19111)
+@UML(identifier = "CS_CoordinateSystemAxis", specification = ISO_19111)
 public interface CoordinateSystemAxis extends IdentifiedObject {
     /**
      * The abbreviation used for this coordinate system axes. This abbreviation is also
@@ -40,7 +39,7 @@ public interface CoordinateSystemAxis extends IdentifiedObject {
      *
      * @return The coordinate system axis abbreviation.
      */
-    @UML(identifier="axisAbbrev", obligation=MANDATORY, specification=ISO_19111)
+    @UML(identifier = "axisAbbrev", obligation = MANDATORY, specification = ISO_19111)
     String getAbbreviation();
 
     /**
@@ -55,13 +54,13 @@ public interface CoordinateSystemAxis extends IdentifiedObject {
      * approximate and intended to provide a human interpretable meaning to the axis. When a
      * geodetic datum is used, the precise directions of the axes may therefore vary slightly
      * from this approximate direction.
-     *
+     * <p>
      * Note that an {@link org.opengis.referencing.crs.EngineeringCRS} often requires
      * specific descriptions of the directions of its coordinate system axes.
      *
      * @return The coordinate system axis direction.
      */
-    @UML(identifier="axisDirection", obligation=MANDATORY, specification=ISO_19111)
+    @UML(identifier = "axisDirection", obligation = MANDATORY, specification = ISO_19111)
     AxisDirection getDirection();
 
     /**
@@ -71,7 +70,7 @@ public interface CoordinateSystemAxis extends IdentifiedObject {
      *
      * @return The minimum value, or {@link Double#NEGATIVE_INFINITY} if none.
      */
-    @UML(identifier="minimumValue", obligation=OPTIONAL, specification=ISO_19111)
+    @UML(identifier = "minimumValue", obligation = OPTIONAL, specification = ISO_19111)
     double getMinimumValue();
 
     /**
@@ -81,7 +80,7 @@ public interface CoordinateSystemAxis extends IdentifiedObject {
      *
      * @return The maximum value, or {@link Double#POSITIVE_INFINITY} if none.
      */
-    @UML(identifier="maximumValue", obligation=OPTIONAL, specification=ISO_19111)
+    @UML(identifier = "maximumValue", obligation = OPTIONAL, specification = ISO_19111)
     double getMaximumValue();
 
     /**
@@ -93,7 +92,7 @@ public interface CoordinateSystemAxis extends IdentifiedObject {
      *
      * @return The range meaning, or {@code null} in none.
      */
-    @UML(identifier="rangeMeaning", obligation=CONDITIONAL, specification=ISO_19111)
+    @UML(identifier = "rangeMeaning", obligation = CONDITIONAL, specification = ISO_19111)
     RangeMeaning getRangeMeaning();
 
     /**
@@ -102,8 +101,8 @@ public interface CoordinateSystemAxis extends IdentifiedObject {
      * whenever those coordinates use a coordinate reference system that uses a
      * coordinate system that uses this axis.
      *
-     * @return  The coordinate system axis unit.
+     * @return The coordinate system axis unit.
      */
-    @UML(identifier="axisUnitID", obligation=MANDATORY, specification=ISO_19111)
+    @UML(identifier = "axisUnitID", obligation = MANDATORY, specification = ISO_19111)
     Unit<?> getUnit();
 }

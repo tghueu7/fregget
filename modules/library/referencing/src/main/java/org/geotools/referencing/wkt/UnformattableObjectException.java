@@ -17,6 +17,7 @@
 package org.geotools.referencing.wkt;
 
 // J2SE dependencies
+
 import java.lang.reflect.Modifier;
 
 // Geotools dependencies
@@ -31,14 +32,11 @@ import org.geotools.resources.i18n.Errors;
  * engineering CRS} with different unit for each axis), or because only some specific
  * implementations can be formatted as WKT.
  *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see Formatter#setInvalidWKT
+ * @since 2.0
  */
 public class UnformattableObjectException extends UnsupportedOperationException {
     /**
@@ -50,7 +48,6 @@ public class UnformattableObjectException extends UnsupportedOperationException 
      * Constructs an exception with the specified detail message.
      *
      * @param message The detail message.
-     *
      * @deprecated Replaced by {@link #UnformattableObjectException(String, Class)}.
      */
     public UnformattableObjectException(final String message) {
@@ -61,9 +58,8 @@ public class UnformattableObjectException extends UnsupportedOperationException 
     /**
      * Constructs an exception with the specified detail message.
      *
-     * @param message The detail message. If {@code null}, a default message will be created.
+     * @param message       The detail message. If {@code null}, a default message will be created.
      * @param unformattable The type of the object that can't be formatted.
-     *
      * @since 2.4
      */
     public UnformattableObjectException(final String message, final Class unformattable) {

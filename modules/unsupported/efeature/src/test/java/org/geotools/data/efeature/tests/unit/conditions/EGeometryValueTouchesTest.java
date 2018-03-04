@@ -22,21 +22,19 @@ import org.geotools.data.efeature.query.EGeometryValueTouches;
 
 /**
  * @author kengu - 14. juni 2011
- *
- *
  * @source $URL$
  */
 public class EGeometryValueTouchesTest extends AbstractEGeometryValueTest {
-    
+
     // ----------------------------------------------------- 
     //  Constructors
     // -----------------------------------------------------
-    
+
     /**
      * @param name
      */
     public EGeometryValueTouchesTest(String name) {
-        super(name,TOUCHES);
+        super(name, TOUCHES);
     }
 
     // ----------------------------------------------------- 

@@ -28,12 +28,9 @@ import org.geotools.resources.i18n.Errors;
  * A scale where {@linkplain #getDenominator denominator} = {@code 1 / scale}.
  * This implementation is set up as a {@linkplain Number number} - because it is.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Jody Garnett
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.4
  */
 public class RepresentativeFractionImpl extends Number implements RepresentativeFraction {
@@ -66,19 +63,19 @@ public class RepresentativeFractionImpl extends Number implements Representative
      * Creates a representative fraction from a scale as a {@code double} value.
      * The {@linkplain #getDenominator denominator} will be set to {@code 1/scale}.
      *
-     * @param  scale The scale as a number between 0 and 1.
+     * @param scale The scale as a number between 0 and 1.
      * @return The representative fraction created from the given scale.
      * @throws IllegalArgumentException if the condition {@code abs(scale) <= 1} is not meet.
      */
     public static RepresentativeFraction fromScale(final double scale)
-            throws IllegalArgumentException
-    {
+            throws IllegalArgumentException {
         if (Math.abs(scale) <= 1 || scale == Double.POSITIVE_INFINITY) {
             // Note: we accept positive infinity, but not negative infinity because
             //       we can't represent a negative zero using 'long' primitive type.
             return new RepresentativeFractionImpl(Math.round(1.0 / scale)); // flip!
         } else {
-            throw new IllegalArgumentException(Errors.format(ErrorKeys.ILLEGAL_ARGUMENT_$2, "scale", scale));
+            throw new IllegalArgumentException(Errors.format(ErrorKeys.ILLEGAL_ARGUMENT_$2, 
+                    "scale", scale));
         }
     }
 
@@ -86,7 +83,7 @@ public class RepresentativeFractionImpl extends Number implements Representative
      * @deprecated This is equivalent to {@link #doubleValue}.
      */
     @Deprecated
-    public double toScale(){
+    public double toScale() {
         return doubleValue();
     }
 

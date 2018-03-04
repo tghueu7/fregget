@@ -32,19 +32,23 @@ import com.vividsolutions.jts.geom.MultiLineString;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:MultiCurveType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="MultiCurveType"&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;A MultiCurve is defined by one or more Curves, referenced through curveMember elements.&lt;/documentation&gt;
+ *          &lt;documentation&gt;A MultiCurve is defined by one or more Curves, referenced 
+ *          through curveMember elements.&lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;complexContent&gt;
  *          &lt;extension base="gml:AbstractGeometricAggregateType"&gt;
  *              &lt;sequence&gt;
  *                  &lt;annotation&gt;
- *                      &lt;documentation&gt;The members of the geometric aggregate can be specified either using the "standard" property or the array property style. It is also valid to use both the "standard" and the array property style in the same collection.
+ *                      &lt;documentation&gt;The members of the geometric aggregate can be 
+ *                      specified either using the "standard" property or the array property 
+ *                      style. It is also valid to use both the "standard" and the array property
+ *                      style in the same collection.
  *  NOTE: Array properties cannot reference remote geometry elements.&lt;/documentation&gt;
  *                  &lt;/annotation&gt;
  *                  &lt;element maxOccurs="unbounded" minOccurs="0" ref="gml:curveMember"/&gt;
@@ -59,9 +63,6 @@ import com.vividsolutions.jts.geom.MultiLineString;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class MultiCurveTypeBinding extends AbstractComplexBinding {
@@ -99,26 +100,28 @@ public class MultiCurveTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //&lt;element maxOccurs="unbounded" minOccurs="0" ref="gml:curveMember"/&gt;
         List curves = node.getChildValues(LineString.class);
 
         //&lt;element minOccurs="0" ref="gml:curveMembers"/&gt;
         if (node.hasChild(MultiLineString[].class)) {
             //this is a hack but we map curve itself to multi line string
-            MultiLineString[] lines = (MultiLineString[]) node.getChildValue(MultiLineString[].class);
+            MultiLineString[] lines = (MultiLineString[]) node.getChildValue(MultiLineString[]
+                    .class);
             for (MultiLineString mline : lines) {
                 if (mline.getNumGeometries() == 1) {
                     curves.add(mline.getGeometryN(0));
-                }
-                else {
+                } else {
                     //TODO: perhaps log this instead?
-                    throw new IllegalArgumentException("Unable to handle curve member with multiple segments");
+                    throw new IllegalArgumentException("Unable to handle curve member with " +
+                            "multiple segments");
                 }
             }
         }
-        
-        return gf.createMultiLineString((LineString[]) curves.toArray(new LineString[curves.size()]));
+
+        return gf.createMultiLineString((LineString[]) curves.toArray(new LineString[curves.size
+                ()]));
     }
 
     public Object getProperty(Object object, QName name) throws Exception {

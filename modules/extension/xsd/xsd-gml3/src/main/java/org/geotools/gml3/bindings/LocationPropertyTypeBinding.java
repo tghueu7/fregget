@@ -28,15 +28,16 @@ import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:LocationPropertyType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="LocationPropertyType"&gt;
  *      &lt;annotation&gt;
  *          &lt;documentation&gt;Convenience property for generalised location.
  *        A representative location for plotting or analysis.
- *        Often augmented by one or more additional geometry properties with more specific semantics.&lt;/documentation&gt;
+ *        Often augmented by one or more additional geometry properties with more specific 
+ *        semantics.&lt;/documentation&gt;
  *          &lt;documentation&gt;Deprecated in GML 3.1.0&lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;sequence minOccurs="0"&gt;
@@ -55,9 +56,6 @@ import com.vividsolutions.jts.geom.Geometry;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class LocationPropertyTypeBinding extends AbstractComplexBinding {
@@ -85,13 +83,14 @@ public class LocationPropertyTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return node.getChildValue(Geometry.class);
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
-        if ("_Geometry".equals(name.getLocalPart()) || "AbstractGeometry".equals(name.getLocalPart()) ) {
+            throws Exception {
+        if ("_Geometry".equals(name.getLocalPart()) || "AbstractGeometry".equals(name
+                .getLocalPart())) {
             return object;
         }
 

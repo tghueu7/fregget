@@ -24,9 +24,8 @@ import org.geotools.data.ows.Response;
 import org.geotools.ows.ServiceException;
 
 /**
- * 
  * (Based on existing work by rgould for WMS service)
- * 
+ *
  * @author ian
  * @author Emanuele Tajariol (etj at geo-solutions dot it)
  */

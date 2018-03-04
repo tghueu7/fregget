@@ -19,6 +19,7 @@ import com.vividsolutions.jts.geom.LineString;
 
 /**
  * The FilterFunction_minimumDiameter UnitTest
+ *
  * @author Jared Erickson
  */
 public class FilterFunction_minimumDiameterTest {
@@ -41,7 +42,7 @@ public class FilterFunction_minimumDiameterTest {
         assertEquals("minimumdiameter", f.getName());
     }
 
-    
+
     /**
      * Test of evaluate method, of class FilterFunction_minimumDiameter.
      */

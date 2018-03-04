@@ -50,20 +50,17 @@ import org.opengis.referencing.NoSuchAuthorityCodeException;
 /**
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini (simboss), GeoSolutions
- * 
+ * <p>
  * Testing {@link MrSIDReader}
- *
- *
- *
  * @source $URL$
  */
 public final class MrSIDTest extends GDALTestCase {
     /**
      * file name of a valid MrSID sample data to be used for tests.
-     * 
+     * <p>
      * We suggest to download a valid MrSID sample file from this site:
      * https://zulu.ssc.nasa.gov/mrsid/
-     * 
+     * <p>
      * For each .SID file, a .MET file exists. Use the last one to build a valid
      * .PRJ for the sample. If you are only interested in reading/rendering
      * capabilities, or displaying coverages as simple rasters, the .PRJ is not
@@ -75,7 +72,7 @@ public final class MrSIDTest extends GDALTestCase {
 
     /**
      * Creates a new instance of {@link MrSIDTest}
-     * 
+     *
      * @param name
      */
     public MrSIDTest() {
@@ -84,7 +81,7 @@ public final class MrSIDTest extends GDALTestCase {
 
     /**
      * Test for reading a grid coverage from a MrSID source
-     * 
+     *
      * @throws Exception
      */
     @org.junit.Test
@@ -97,16 +94,18 @@ public final class MrSIDTest extends GDALTestCase {
             LOGGER
                     .info("==================================================================\n"
                             + " Warning! No valid test File has been specified.\n"
-                            + " Please provide a valid sample in the source code and repeat this test!\n"
-                            + "========================================================================");
+                            + " Please provide a valid sample in the source code and repeat this " +
+                            "test!\n"
+                            + 
+                            "========================================================================");
 
             return;
         }
-        
-        File file =null;
+
+        File file = null;
         try {
             file = TestData.file(this, fileName);
-        }catch (FileNotFoundException fnfe){
+        } catch (FileNotFoundException fnfe) {
             LOGGER.warning("test-data not found: " + fileName + "\nTests are skipped");
             return;
         } catch (IOException ioe) {
@@ -116,7 +115,7 @@ public final class MrSIDTest extends GDALTestCase {
 
         // get a reader
         final MrSIDReader reader = new MrSIDReader(file);
-        
+
         // /////////////////////////////////////////////////////////////////////
         //
         // read once
@@ -133,12 +132,12 @@ public final class MrSIDTest extends GDALTestCase {
         // /////////////////////////////////////////////////////////////////////
         final int originalW = gc.getRenderedImage().getWidth();
         final int originalH = gc.getRenderedImage().getHeight();
-        final Rectangle range = ((GridEnvelope2D)reader.getOriginalGridRange());
+        final Rectangle range = ((GridEnvelope2D) reader.getOriginalGridRange());
         final GeneralEnvelope originalEnvelope = reader.getOriginalEnvelope();
-        final GeneralEnvelope reducedEnvelope = new GeneralEnvelope(new double[] {
+        final GeneralEnvelope reducedEnvelope = new GeneralEnvelope(new double[]{
                 originalEnvelope.getLowerCorner().getOrdinate(0),
                 originalEnvelope.getLowerCorner().getOrdinate(1)},
-                new double[] { originalEnvelope.getMedian().getOrdinate(0),
+                new double[]{originalEnvelope.getMedian().getOrdinate(0),
                         originalEnvelope.getMedian().getOrdinate(1)});
         reducedEnvelope.setCoordinateReferenceSystem(reader.getCrs());
 
@@ -147,16 +146,16 @@ public final class MrSIDTest extends GDALTestCase {
         gg.setValue(new GridGeometry2D(new GridEnvelope2D(new Rectangle(0, 0,
                 (int) (range.width / 2.0),
                 (int) (range.height / 2.0))), reducedEnvelope));
-        gc = (GridCoverage2D) reader.read(new GeneralParameterValue[] { gg });
+        gc = (GridCoverage2D) reader.read(new GeneralParameterValue[]{gg});
         Assert.assertNotNull(gc);
         // NOTE: in some cases might be too restrictive
         Assert.assertTrue(reducedEnvelope.equals(gc.getEnvelope(), XAffineTransform
                 .getScale(((AffineTransform) ((GridGeometry2D) gc
                         .getGridGeometry()).getGridToCRS2D())) / 2, true));
         // this should be fine since we give 1 pixel tolerance
-        Assert.assertEquals(originalW / 2.0 , gc.getRenderedImage()
+        Assert.assertEquals(originalW / 2.0, gc.getRenderedImage()
                 .getWidth(), 1);
-        Assert.assertEquals(originalH / 2.0 , gc.getRenderedImage()
+        Assert.assertEquals(originalH / 2.0, gc.getRenderedImage()
                 .getHeight(), 1);
 
         forceDataLoading(gc);
@@ -170,7 +169,7 @@ public final class MrSIDTest extends GDALTestCase {
         final ParameterValue policy = (ParameterValue) ((AbstractGridFormat) reader
                 .getFormat()).OVERVIEW_POLICY.createValue();
         policy.setValue(OverviewPolicy.IGNORE);
-        
+
         // //
         //
         // Customizing Tile Size
@@ -179,7 +178,7 @@ public final class MrSIDTest extends GDALTestCase {
         final ParameterValue tilesize = (ParameterValue) ((BaseGDALGridFormat) reader
                 .getFormat()).SUGGESTED_TILE_SIZE.createValue();
         tilesize.setValue("512,512");
-        
+
         // //
         //
         // Setting read type: use JAI ImageRead 
@@ -189,9 +188,9 @@ public final class MrSIDTest extends GDALTestCase {
                 .getFormat()).USE_JAI_IMAGEREAD.createValue();
         useJaiRead.setValue(true);
 
-        gc = (GridCoverage2D) reader.read(new GeneralParameterValue[] { gg,
-                policy, tilesize, useJaiRead });
-        
+        gc = (GridCoverage2D) reader.read(new GeneralParameterValue[]{gg,
+                policy, tilesize, useJaiRead});
+
         Assert.assertNotNull(gc);
         // NOTE: in some cases might be too restrictive
         Assert.assertTrue(reducedEnvelope.equals(gc.getEnvelope(), XAffineTransform
@@ -209,10 +208,10 @@ public final class MrSIDTest extends GDALTestCase {
             LOGGER.info(gc.getEnvelope().toString());
         }
     }
-    
+
     /**
      * Test class methods
-     * 
+     *
      * @throws Exception
      */
     @org.junit.Test
@@ -225,51 +224,53 @@ public final class MrSIDTest extends GDALTestCase {
             LOGGER
                     .info("==================================================================\n"
                             + " Warning! No valid test File has been specified.\n"
-                            + " Please provide a valid sample in the source code and repeat this test!\n"
-                            + "========================================================================");
+                            + " Please provide a valid sample in the source code and repeat this " +
+                            "test!\n"
+                            + 
+                            "========================================================================");
             return;
         }
 
         // get a reader
         final File file = TestData.file(this, fileName);
-        
+
         final MrSIDFormatFactory factory = new MrSIDFormatFactory();
         final BaseGDALGridFormat format = (BaseGDALGridFormat) factory.createFormat();
-        
+
         Assert.assertTrue(format.accepts(file));
         MrSIDReader reader = (MrSIDReader) format.getReader(file);
-        
+
         final int numImages = reader.getGridCoverageCount();
         final boolean hasMoreGridCoverages = reader.hasMoreGridCoverages();
         Assert.assertEquals(1, numImages);
         Assert.assertEquals(false, hasMoreGridCoverages);
-        
+
         final ServiceInfo serviceInfo = reader.getInfo();
         reader.getInfo("coverage");
         reader.dispose();
 
         boolean writersAvailable = true;
         boolean hasWriteParams = true;
-        try{
+        try {
             format.getWriter(new File("test"));
-        }catch (UnsupportedOperationException uoe){
+        } catch (UnsupportedOperationException uoe) {
             writersAvailable = false;
         }
         Assert.assertFalse(writersAvailable);
 
-        try{
+        try {
             format.getDefaultImageIOWriteParameters();
-        }catch (UnsupportedOperationException uoe){
+        } catch (UnsupportedOperationException uoe) {
             hasWriteParams = false;
         }
         Assert.assertFalse(hasWriteParams);
 
         // Testing sections of code involving URLs
-        final URL url = new URL("file://"+file.getAbsolutePath());
+        final URL url = new URL("file://" + file.getAbsolutePath());
         reader = (MrSIDReader) format.getReader(url);
         reader.getInfo();
         reader.dispose();
-        
+
         FileImageInputStreamExtImpl fiis = new FileImageInputStreamExtImpl(file);
         reader = new MrSIDReader(fiis);
         reader.dispose();
@@ -277,31 +278,29 @@ public final class MrSIDTest extends GDALTestCase {
 
     @org.junit.Test
     public void testIsAvailable() throws NoSuchAuthorityCodeException, FactoryException {
-	    if (!testingEnabled()) {
-	        return;
-	    }
-	    GridFormatFinder.scanForPlugins();
-	
-	    Iterator list = GridFormatFinder.getAvailableFormats().iterator();
-	    boolean found = false;
-	    GridFormatFactorySpi fac = null;
-	
-	    while (list.hasNext()) {
-	        fac = (GridFormatFactorySpi) list.next();
-	
-	        if (fac instanceof MrSIDFormatFactory) {
-	            found = true;
-	
-	            break;
-	        }
-	    }
-	
-	    Assert.assertTrue("MrSIDFormatFactory not registered", found);
-	    Assert.assertTrue("MrSIDFormatFactory not available", fac.isAvailable());
-	    Assert.assertNotNull(new MrSIDFormatFactory().createFormat());
-	}
+        if (!testingEnabled()) {
+            return;
+        }
+        GridFormatFinder.scanForPlugins();
 
+        Iterator list = GridFormatFinder.getAvailableFormats().iterator();
+        boolean found = false;
+        GridFormatFactorySpi fac = null;
 
+        while (list.hasNext()) {
+            fac = (GridFormatFactorySpi) list.next();
+
+            if (fac instanceof MrSIDFormatFactory) {
+                found = true;
+
+                break;
+            }
+        }
+
+        Assert.assertTrue("MrSIDFormatFactory not registered", found);
+        Assert.assertTrue("MrSIDFormatFactory not available", fac.isAvailable());
+        Assert.assertNotNull(new MrSIDFormatFactory().createFormat());
+    }
 
 
 }

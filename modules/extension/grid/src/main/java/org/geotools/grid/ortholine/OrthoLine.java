@@ -29,14 +29,11 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 
 /**
  * An ortho-line grid element.
- * 
+ *
  * @author mbedward
- * @since 8.0
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 public class OrthoLine implements LineElement {
     private static final double TOL = 1.0e-8;
@@ -52,15 +49,15 @@ public class OrthoLine implements LineElement {
      * Creates a new ortho-line element. The line position is specified by a
      * single ordinate which will be its X-ordinate if vertical, or its Y-ordinate
      * if horizontal.
-     * 
-     * @param gridBounds bounds of the area containing this line
+     *
+     * @param gridBounds  bounds of the area containing this line
      * @param orientation line orientation
-     * @param ordinate position of the line
-     * @param level integer level associated with this line
-     * @param value 
+     * @param ordinate    position of the line
+     * @param level       integer level associated with this line
+     * @param value
      */
-    public OrthoLine(ReferencedEnvelope gridBounds, LineOrientation orientation, 
-            double ordinate, int level) {
+    public OrthoLine(ReferencedEnvelope gridBounds, LineOrientation orientation,
+                     double ordinate, int level) {
 
         this.crs = gridBounds.getCoordinateReferenceSystem();
         this.orientation = orientation;
@@ -74,7 +71,7 @@ public class OrthoLine implements LineElement {
             v1 = new Coordinate(ordinate, gridBounds.getMaxY());
         }
     }
-    
+
     /**
      * {@inheritDoc}
      * Note that this will be a degenerate rectangle with either 0 width, if the
@@ -94,19 +91,19 @@ public class OrthoLine implements LineElement {
         vertices[1] = v1;
         return vertices;
     }
-    
+
     /**
      * Gets the orientation of this line.
-     * 
+     *
      * @return the orientation
      */
     public LineOrientation getOrientation() {
         return orientation;
     }
-    
+
     /**
      * Gets the level (precedence) associated with this line.
-     * 
+     *
      * @return the level
      */
     public int getLevel() {
@@ -121,7 +118,7 @@ public class OrthoLine implements LineElement {
         if (maxSpacing <= 0.0) {
             throw new IllegalArgumentException("maxSpacing must be a positive value");
         }
-        
+
         return Densifier.densify(this.toGeometry(), maxSpacing);
     }
 

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -38,12 +38,10 @@ import junit.framework.TestSuite;
  * Tests {@link FactoryUsingWKT} as a fallback after {@link DefaultFactory}.
  * This method performs the tests through the {@link CRS#decode} method.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Jody Garnett
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
  */
 public class EpsgFallbackTest extends TestCase {
     /**
@@ -226,8 +224,10 @@ public class EpsgFallbackTest extends TestCase {
         assertEquals("World_Mercator", String.valueOf(factory.getDescriptionText(code)));
 
         // Equivalent standard ESPG
-        final CoordinateReferenceSystem standard = factory.createCoordinateReferenceSystem("EPSG:3395");
-        assertEquals("WGS 84 / World Mercator", String.valueOf(factory.getDescriptionText("EPSG:3395")));
+        final CoordinateReferenceSystem standard = factory.createCoordinateReferenceSystem
+                ("EPSG:3395");
+        assertEquals("WGS 84 / World Mercator", String.valueOf(factory.getDescriptionText
+                ("EPSG:3395")));
         // TODO: enable if we implement more intelligent 'equalsIgnoreMetadata'
         //assertTrue(CRS.equalsIgnoreMetadata(crs, standard));
     }
@@ -238,14 +238,14 @@ public class EpsgFallbackTest extends TestCase {
     public void testCodes() throws FactoryException {
         final CRSAuthorityFactory factory = CRS.getAuthorityFactory(false);
         final Collection codes = factory.getAuthorityCodes(ProjectedCRS.class);
-        assertTrue (codes.contains("EPSG:3395"));    // Defined in EPSG database
-        assertTrue (codes.contains("EPSG:54004"));   // Defined in ESRI database
+        assertTrue(codes.contains("EPSG:3395"));    // Defined in EPSG database
+        assertTrue(codes.contains("EPSG:54004"));   // Defined in ESRI database
         assertFalse(codes.contains("ESRI:54004"));
-        assertTrue (codes.contains("EPSG:42304"));   // Defined in unnamed database
-        assertTrue (codes.contains("EPSG:26742"));   // Defined in EPSG database
-        assertTrue (codes.contains("EPSG:42102"));   // Defined in unnamed database
+        assertTrue(codes.contains("EPSG:42304"));   // Defined in unnamed database
+        assertTrue(codes.contains("EPSG:26742"));   // Defined in EPSG database
+        assertTrue(codes.contains("EPSG:42102"));   // Defined in unnamed database
         assertFalse(codes.contains("EPSG:4326"));    // This is a GeographicCRS, not a ProjectedCRS
-        assertTrue (codes.contains("EPSG:100002"));  // Defined in unnamed database
+        assertTrue(codes.contains("EPSG:100002"));  // Defined in unnamed database
         assertFalse(codes.contains("EPSG:100001"));  // This is a GeographicCRS, not a ProjectedCRS
     }
 }

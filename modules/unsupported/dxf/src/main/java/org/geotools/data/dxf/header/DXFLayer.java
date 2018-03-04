@@ -15,14 +15,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DXFLayer extends DXFEntity implements DXFConstants {
 
     private static final Log log = LogFactory.getLog(DXFLayer.class);
-    
+
     public static final String DEFAULT_NAME = "default";
     public int _flag = 0;
     public Vector<DXFEntity> theEnt = new Vector<DXFEntity>();
@@ -107,13 +105,13 @@ public class DXFLayer extends DXFEntity implements DXFConstants {
         s.append("]");
         return s.toString();
     }
-    
+
     @Override
     public DXFEntity translate(double x, double y) {
         return this;
     }
 
-    public DXFEntity clone(){
+    public DXFEntity clone() {
         return this;
     }
 }

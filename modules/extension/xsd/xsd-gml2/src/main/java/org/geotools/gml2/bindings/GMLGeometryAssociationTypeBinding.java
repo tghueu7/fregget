@@ -31,9 +31,9 @@ import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:GeometryAssociationType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="GeometryAssociationType"&gt;
  *      &lt;annotation&gt;
@@ -58,9 +58,6 @@ import com.vividsolutions.jts.geom.Geometry;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLGeometryAssociationTypeBinding extends AbstractComplexBinding {
@@ -89,19 +86,19 @@ public class GMLGeometryAssociationTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //TODO: xlink and remoteSchema attributes, hard to do because of streaming
         return node.getChildValue(Geometry.class);
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
-        return GML2EncodingUtils.GeometryPropertyType_getProperty((Geometry)object, name);
+            throws Exception {
+        return GML2EncodingUtils.GeometryPropertyType_getProperty((Geometry) object, name);
     }
-    
+
     @Override
     public List getProperties(Object object, XSDElementDeclaration element)
             throws Exception {
-        return GML2EncodingUtils.GeometryPropertyType_getProperties((Geometry)object);
+        return GML2EncodingUtils.GeometryPropertyType_getProperties((Geometry) object);
     }
 }

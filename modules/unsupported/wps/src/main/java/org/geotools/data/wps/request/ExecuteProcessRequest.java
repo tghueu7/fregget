@@ -30,16 +30,13 @@ import org.geotools.data.ows.Request;
  * Executes a process.
  *
  * @author gdavis
- *
- *
- *
- *
  * @source $URL$
  */
-public interface ExecuteProcessRequest extends Request
-{
+public interface ExecuteProcessRequest extends Request {
 
-    /** Represents the PROCESS parameter */
+    /**
+     * Represents the PROCESS parameter
+     */
     public static final String IDENTIFIER = "IDENTIFIER"; // $NON-NLS-1$
 
     /**
@@ -52,9 +49,9 @@ public interface ExecuteProcessRequest extends Request
     /**
      * Sets an input for the process to execute
      *
-     * @param name the input name
+     * @param name  the input name
      * @param value the list of input objects. The list must contain either
-     * all {@link DataType} object, or {@link InputReferenceType} objects
+     *              all {@link DataType} object, or {@link InputReferenceType} objects
      */
     public void addInput(String name, List<EObject> value);
 

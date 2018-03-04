@@ -30,12 +30,12 @@ public class GeometryOperandsType_GeometryOperandBinding extends AbstractComplex
     public GeometryOperandsType_GeometryOperandBinding(Fes20Factory factory) {
         super(factory);
     }
-    
+
     @Override
     public QName getTarget() {
         return FES.GeometryOperandsType_GeometryOperand;
     }
-    
+
     @Override
     public Class getType() {
         return GeometryOperandType.class;

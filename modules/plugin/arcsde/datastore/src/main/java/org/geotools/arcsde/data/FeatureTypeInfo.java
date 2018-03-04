@@ -27,13 +27,13 @@ import com.esri.sde.sdk.client.SeQueryInfo;
 
 /**
  * Stores information about known ArcSDE feature types or in-process registered "views".
- * 
+ *
  * @author Gabriel Roldan (TOPP)
  * @version $Id$
- * @since 2.5
  * @source $URL:
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
- *         /org/geotools/arcsde/data/FeatureTypeInfo.java $
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
+ * /org/geotools/arcsde/data/FeatureTypeInfo.java $
+ * @since 2.5
  */
 final class FeatureTypeInfo {
 
@@ -53,7 +53,9 @@ final class FeatureTypeInfo {
      */
     private final boolean versioned;
 
-    /** is it a SDE registered view? */
+    /**
+     * is it a SDE registered view?
+     */
     private final boolean isView;
 
     private final PlainSelect definitionQuery;
@@ -62,20 +64,16 @@ final class FeatureTypeInfo {
 
     /**
      * Creates a FeatureTypeInfo instance of a real ArcSDE table or registered view.
-     * 
-     * @param featureType
-     *            the FeatureType representing the table structure
-     * @param fidStrategy
-     *            the strategy object used to handle feature ids
-     * @param isWritable
-     *            whether the user has write (insert and update) priviledges
-     * @param isMultiVersion
-     *            whether the table is marked as multi versioned
-     * @param isView
-     *            whether the table is an ArcSDE registered view
+     *
+     * @param featureType    the FeatureType representing the table structure
+     * @param fidStrategy    the strategy object used to handle feature ids
+     * @param isWritable     whether the user has write (insert and update) priviledges
+     * @param isMultiVersion whether the table is marked as multi versioned
+     * @param isView         whether the table is an ArcSDE registered view
      */
     public FeatureTypeInfo(final SimpleFeatureType featureType, final FIDReader fidStrategy,
-            final boolean isWritable, final boolean isMultiVersion, final boolean isView) {
+                           final boolean isWritable, final boolean isMultiVersion, final boolean 
+                                   isView) {
         this(featureType, fidStrategy, isWritable, isMultiVersion, isView, null, null);
     }
 
@@ -86,20 +84,19 @@ final class FeatureTypeInfo {
      * Such a FeatureType does not match any registered ArcSDE table or view, but is a read only one
      * made out of a sql query at run time.
      * </p>
-     * 
-     * @param featureType
-     *            the FeatureType representing the query structure
-     * @param fidStrategy
-     *            the strategy object used to handle fids reading
-     * @param definitionQuery
-     *            the object that represents the SQL SELECT statement for the runtime view
-     * @param sdeDefinitionQuery
-     *            the object homologous to the {@code definitionQuery}, that holds the query in
-     *            ArcSDE Java API terms
+     *
+     * @param featureType        the FeatureType representing the query structure
+     * @param fidStrategy        the strategy object used to handle fids reading
+     * @param definitionQuery    the object that represents the SQL SELECT statement for the 
+     *                           runtime view
+     * @param sdeDefinitionQuery the object homologous to the {@code definitionQuery}, that holds
+     *                          the query in
+     *                           ArcSDE Java API terms
      * @see ArcSDEDataStore#registerView(String, PlainSelect)
      */
     public FeatureTypeInfo(final SimpleFeatureType featureType, final FIDReader fidStrategy,
-            final PlainSelect definitionQuery, final SeQueryInfo sdeDefinitionQuery) {
+                           final PlainSelect definitionQuery, final SeQueryInfo 
+                                   sdeDefinitionQuery) {
         this(featureType, fidStrategy, false, false, false, definitionQuery, sdeDefinitionQuery);
     }
 
@@ -107,8 +104,10 @@ final class FeatureTypeInfo {
      * Private full constructor the public ones delegates to
      */
     private FeatureTypeInfo(final SimpleFeatureType featureType, final FIDReader fidStrategy,
-            final boolean isWritable, final boolean isMultiVersion, final boolean isView,
-            final PlainSelect definitionQuery, final SeQueryInfo sdeDefinitionQuery) {
+                            final boolean isWritable, final boolean isMultiVersion, final boolean
+                                    isView,
+                            final PlainSelect definitionQuery, final SeQueryInfo 
+                                    sdeDefinitionQuery) {
         assert featureType != null;
         assert fidStrategy != null;
 

@@ -29,18 +29,14 @@ import org.opengis.feature.Feature;
 import org.opengis.feature.type.FeatureType;
 import org.opengis.feature.type.FeatureTypeFactory;
 import org.opengis.filter.expression.Function;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
- * 
  * @author Gabriel Roldan
- * @deprecated use the following property expression instead: <code>@gml:id</code>
- *
- *
- *
- *
  * @source $URL$
+ * @deprecated use the following property expression instead: <code>@gml:id</code>
  */
 public class IDFunctionExpressionTest extends AppSchemaTestSupport {
 
@@ -55,10 +51,12 @@ public class IDFunctionExpressionTest extends AppSchemaTestSupport {
     public void setUp() throws Exception {
         FeatureTypeFactory typeFactory = new UniqueNameFeatureTypeFactoryImpl();
         FeatureType type = ComplexTestData.createExample02MultipleMultivalued(typeFactory);
-        AppSchemaAttributeBuilder ab = new AppSchemaAttributeBuilder(new ValidatingFeatureFactoryImpl());
+        AppSchemaAttributeBuilder ab = new AppSchemaAttributeBuilder(new 
+                ValidatingFeatureFactoryImpl());
         ab.setType(type);
         feature = (Feature) ab.build("test-id");
-        idExpr = CommonFactoryFinder.getFilterFactory(null).function("getID", new org.opengis.filter.expression.Expression[0]);
+        idExpr = CommonFactoryFinder.getFilterFactory(null).function("getID", new org.opengis
+                .filter.expression.Expression[0]);
     }
 
     @Test

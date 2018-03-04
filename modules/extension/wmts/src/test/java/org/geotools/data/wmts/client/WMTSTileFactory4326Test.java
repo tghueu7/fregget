@@ -21,6 +21,7 @@ import java.io.FileReader;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.logging.Logger;
+
 import net.opengis.wmts.v_1.CapabilitiesType;
 import org.geotools.data.wmts.model.TileMatrixSet;
 import org.geotools.data.wmts.model.WMTSCapabilities;
@@ -38,9 +39,11 @@ import org.geotools.wmts.WMTSConfiguration;
 import org.geotools.xml.Parser;
 
 import org.junit.Assert;
+
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -69,7 +72,7 @@ public class WMTSTileFactory4326Test {
         int expectedLCol;
 
         public TestPoint(double lat, double lon, int zoomlevel, int expectedMatrixCol,
-                int expectedMatrixRow, int expectedLimitedCol, int expectedLimitedRow) {
+                         int expectedMatrixRow, int expectedLimitedCol, int expectedLimitedRow) {
             super();
             this.lat = lat;
             this.lon = lon;
@@ -175,12 +178,12 @@ public class WMTSTileFactory4326Test {
     @Test
     public void testGetExtentFromTileName() throws Exception {
 
-        WMTSTileService services[] = { createRESTService(), createKVPService() };
+        WMTSTileService services[] = {createRESTService(), createKVPService()};
 
         ReferencedEnvelope expectedEnv[] = {
                 new ReferencedEnvelope(1102848.0, 2151424.0, -951424.0, 97152.0,
                         CRS.decode("EPSG:31287")),
-                new ReferencedEnvelope(-90, 0.00, -90.0, 0.0, DefaultGeographicCRS.WGS84) };
+                new ReferencedEnvelope(-90, 0.00, -90.0, 0.0, DefaultGeographicCRS.WGS84)};
 
         for (int i = 0; i < 2; i++) {
             TileService service = services[i];
@@ -223,7 +226,8 @@ public class WMTSTileFactory4326Test {
             assertTrue("Can't find REST getCapa file", capaFile.exists());
             WMTSCapabilities capa = createCapabilities(capaFile);
 
-            String baseURL = "XXXhttp://wmsx.zamg.ac.at/mapcacheStatmap/wmts/1.0.0/WMTSCapabilities.xml";
+            String baseURL = "XXXhttp://wmsx.zamg.ac" +
+                    ".at/mapcacheStatmap/wmts/1.0.0/WMTSCapabilities.xml";
             return new WMTSTileService(baseURL, WMTSServiceType.REST, capa.getLayer("grey"), null,
                     capa.getMatrixSet("statmap"));
 
@@ -241,7 +245,8 @@ public class WMTSTileFactory4326Test {
             File capaFile = new File(capaKvp.toURI());
             WMTSCapabilities capa = createCapabilities(capaFile);
 
-            String baseURL = "http://demo.geo-solutions.it/geoserver/gwc/service/wmts?REQUEST=getcapabilities";
+            String baseURL = "http://demo.geo-solutions" +
+                    ".it/geoserver/gwc/service/wmts?REQUEST=getcapabilities";
 
             WMTSLayer layer = capa.getLayer("unesco:Unesco_point");
             TileMatrixSet matrixSet = capa.getMatrixSet("EPSG:4326");

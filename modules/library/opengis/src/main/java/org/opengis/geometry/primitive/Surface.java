@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.primitive;
 
 import java.util.List;
+
 import org.opengis.geometry.coordinate.GenericSurface;
 import org.opengis.annotation.Association;
 import org.opengis.annotation.UML;
@@ -30,51 +31,47 @@ import static org.opengis.annotation.Specification.*;
  * surfaces, which have no boundary, the up direction is that of the surface patches, which must
  * be consistent with one another. Its included {@linkplain SurfacePatch surface patches} describe
  * the interior structure of a {@code Surface}.
- *
+ * <p>
  * <blockquote><font size=2>
- * <strong>NOTE:</strong> Other than the restriction on orientability, no other "validity" condition is required for GM_Surface.
+ * <strong>NOTE:</strong> Other than the restriction on orientability, no other "validity" 
+ * condition is required for GM_Surface.
  * </font></blockquote>
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
- * @since GeoAPI 1.0
- *
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @see PrimitiveFactory#createSurface(List)
  * @see PrimitiveFactory#createSurface(SurfaceBoundary)
+ * @since GeoAPI 1.0
  */
-@UML(identifier="GM_Surface", specification=ISO_19107)
+@UML(identifier = "GM_Surface", specification = ISO_19107)
 public interface Surface extends OrientableSurface, GenericSurface {
     /**
      * Relates this {@code Surface} to a set of {@linkplain SurfacePatch surface patches} that
      * shall be joined together to form this surface. Depending on the interpolation method, the set
      * of patches may require significant additional structure.
-     *
+     * <p>
      * If the surface {@linkplain #getCoordinateDimension coordinate dimension} is 2, then the
      * entire {@code Surface} is one logical patch defined by linear interpolation from the
      * boundary.
      *
      * @return The list of surface patches. Should never be {@code null} neither empty.
-     *
+     * @issue http://jira.codehaus.org/browse/GEO-63
      * @see SurfacePatch#getSurface
      * @see Curve#getSegments
-     * @issue http://jira.codehaus.org/browse/GEO-63
      */
     @Association("Segmentation")
-    @UML(identifier="patch", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "patch", obligation = MANDATORY, specification = ISO_19107)
     List<? extends SurfacePatch> getPatches();
 
     /**
      * Returns the orientable surfaces associated with this surface.
      *
      * @return The orientable surfaces as an array of length 2.
-     *
-     * @see OrientableSurface#getPrimitive
      * @issue http://jira.codehaus.org/browse/GEO-63
+     * @see OrientableSurface#getPrimitive
      */
     @Association("Oriented")
-    @UML(identifier="proxy", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "proxy", obligation = MANDATORY, specification = ISO_19107)
     OrientableSurface[] getProxy();
 }

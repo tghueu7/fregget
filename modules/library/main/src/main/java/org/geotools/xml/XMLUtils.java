@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015 - 2016, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -22,16 +22,15 @@ import javax.xml.namespace.QName;
 
 /**
  * XML related utilities not otherwise found in base libraries
- * 
- * @author Andrea Aime - GeoSolutions
  *
+ * @author Andrea Aime - GeoSolutions
  */
 public class XMLUtils {
 
     /**
      * Checks the string for XML invalid chars, and in case any is found, create a copy with the
      * invalid ones removed.
-     * 
+     *
      * @param input
      * @return
      */
@@ -66,10 +65,10 @@ public class XMLUtils {
     }
 
     /**
-     * Creates a qualified name from a string by parsing out the colon as the 
-     * prefix / local separator. 
-     * 
-     * @param name The possibly qualified name.
+     * Creates a qualified name from a string by parsing out the colon as the
+     * prefix / local separator.
+     *
+     * @param name       The possibly qualified name.
      * @param namespaces The namespace prefix uri mappings.
      */
     public static QName qName(String name, NamespaceSupport namespaces) {
@@ -78,7 +77,7 @@ public class XMLUtils {
             String[] split = name.split(":");
             String prefix = split[0];
             String local = split[1];
-            
+
             return new QName(namespaces.getURI(prefix), local, prefix);
         }
 
@@ -87,7 +86,7 @@ public class XMLUtils {
 
     /**
      * Returns true if the character provided is valid according to XML 1.0
-     * 
+     *
      * @param c
      * @return
      */

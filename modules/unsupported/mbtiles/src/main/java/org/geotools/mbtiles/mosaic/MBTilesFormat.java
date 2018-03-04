@@ -19,8 +19,9 @@ import org.opengis.coverage.grid.GridCoverageWriter;
 import org.opengis.parameter.GeneralParameterDescriptor;
 
 public class MBTilesFormat extends AbstractGridFormat {
-       
-    private final static Logger LOGGER = Logging.getLogger(MBTilesFormat.class.getPackage().getName());
+
+    private final static Logger LOGGER = Logging.getLogger(MBTilesFormat.class.getPackage()
+            .getName());
 
     public static File getFileFromSource(Object source) {
         if (source == null) {
@@ -33,7 +34,7 @@ public class MBTilesFormat extends AbstractGridFormat {
             if (source instanceof File) {
                 sourceFile = (File) source;
             } else if (source instanceof URL) {
-                if (((URL) source).getProtocol().equals("file")){
+                if (((URL) source).getProtocol().equals("file")) {
                     sourceFile = URLs.urlToFile((URL) source);
                 }
             } else if (source instanceof String) {
@@ -69,7 +70,7 @@ public class MBTilesFormat extends AbstractGridFormat {
     public GridCoverageWriter getWriter(Object destination) {
         return getWriter(destination, null);
     }
-    
+
     @Override
     public GridCoverageWriter getWriter(Object destination, Hints hints) {
         throw new UnsupportedOperationException("Unsupported method: MBTiles format is read-only.");
@@ -81,12 +82,12 @@ public class MBTilesFormat extends AbstractGridFormat {
             return false;
         }
 
-       File sourceFile = getFileFromSource(source);
+        File sourceFile = getFileFromSource(source);
 
         if (sourceFile == null) {
             return false;
         }
-        
+
         //TODO: check if it is proper sqlite and mbtiles file
         return sourceFile.getName().endsWith(".mbtiles");
     }
@@ -95,7 +96,7 @@ public class MBTilesFormat extends AbstractGridFormat {
     public GeoToolsWriteParams getDefaultImageIOWriteParameters() {
         throw new UnsupportedOperationException("Unsupported method.");
     }
-    
+
     /**
      * Creates an instance and sets the metadata.
      */
@@ -107,7 +108,7 @@ public class MBTilesFormat extends AbstractGridFormat {
      * Sets the metadata information.
      */
     private void setInfo() {
-        final HashMap<String,String> info = new HashMap<String,String> ();
+        final HashMap<String, String> info = new HashMap<String, String>();
         info.put("name", "MBTiles");
         info.put("description", "MBTiles plugin");
         info.put("vendor", "Geotools");
@@ -133,7 +134,7 @@ public class MBTilesFormat extends AbstractGridFormat {
                 SORT_BY,
                 MERGE_BEHAVIOR,
                 FOOTPRINT_BEHAVIOR*/
-        }));
+                }));
 
         // reading parameters
         writeParameters = null;

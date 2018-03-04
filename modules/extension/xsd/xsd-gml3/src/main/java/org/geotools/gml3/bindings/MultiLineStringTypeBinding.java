@@ -32,13 +32,15 @@ import com.vividsolutions.jts.geom.MultiLineString;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:MultiLineStringType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="MultiLineStringType"&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;A MultiLineString is defined by one or more LineStrings, referenced through lineStringMember elements. Deprecated with GML version 3.0. Use MultiCurveType instead.&lt;/documentation&gt;
+ *          &lt;documentation&gt;A MultiLineString is defined by one or more LineStrings, 
+ *          referenced through lineStringMember elements. Deprecated with GML version 3.0. Use 
+ *          MultiCurveType instead.&lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;complexContent&gt;
  *          &lt;extension base="gml:AbstractGeometricAggregateType"&gt;
@@ -54,9 +56,6 @@ import com.vividsolutions.jts.geom.MultiLineString;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class MultiLineStringTypeBinding extends AbstractComplexBinding {
@@ -94,7 +93,7 @@ public class MultiLineStringTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         List lines = node.getChildValues(LineString.class);
 
         return gFactory.createMultiLineString((LineString[]) lines.toArray(
@@ -102,7 +101,7 @@ public class MultiLineStringTypeBinding extends AbstractComplexBinding {
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         if (GML.lineStringMember.equals(name)) {
             MultiLineString multiLineString = (MultiLineString) object;
             LineString[] members = new LineString[multiLineString.getNumGeometries()];

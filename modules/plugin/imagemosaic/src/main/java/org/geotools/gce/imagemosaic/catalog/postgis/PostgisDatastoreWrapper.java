@@ -29,9 +29,10 @@ import org.geotools.gce.imagemosaic.catalog.oracle.FeatureTypeMapper;
 import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
- * Specific Postgis implementation for a {@link DataStoreWrapper} By default, Postgresql identifiers can't be longer than 63 chars. See
+ * Specific Postgis implementation for a {@link DataStoreWrapper} By default, Postgresql 
+ * identifiers can't be longer than 63 chars. See
  * <a href="http://www.postgresql.org/docs/9.3/static/sql-syntax-lexical.html#SQL-SYNTAX-IDENTIFIERS">SQL Syntax identifiers</a>
- * 
+ *
  * @author Daniele Romagnoli, GeoSolutions SAS
  */
 public class PostgisDatastoreWrapper extends DataStoreWrapper {
@@ -47,8 +48,9 @@ public class PostgisDatastoreWrapper extends DataStoreWrapper {
     }
 
     /**
-     * Return a specific {@link FeatureTypeMapper} by parsing mapping properties contained within the specified {@link Properties} object
-     * 
+     * Return a specific {@link FeatureTypeMapper} by parsing mapping properties contained within
+     * the specified {@link Properties} object
+     *
      * @param featureType
      * @return
      * @throws Exception
@@ -70,7 +72,8 @@ public class PostgisDatastoreWrapper extends DataStoreWrapper {
 
     @Override
     protected SimpleFeatureSource transformFeatureStore(SimpleFeatureStore store,
-            FeatureTypeMapper mapper) throws IOException {
+                                                        FeatureTypeMapper mapper) throws 
+            IOException {
         SimpleFeatureSource transformedSource = mapper.getSimpleFeatureSource();
         if (transformedSource != null) {
             return transformedSource;

@@ -50,14 +50,11 @@ import org.geotools.resources.i18n.VocabularyKeys;
  * methods use a number of operation parameters, although some coordinate conversions
  * use none. Each coordinate operation using the method assigns values to these parameters.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see DefaultOperation
+ * @since 2.1
  */
 public class DefaultOperationMethod extends AbstractIdentifiedObject implements OperationMethod {
     /**
@@ -101,23 +98,24 @@ public class DefaultOperationMethod extends AbstractIdentifiedObject implements 
      */
     public DefaultOperationMethod(final MathTransform transform) {
         this(getProperties(transform),
-             transform.getSourceDimensions(),
-             transform.getTargetDimensions(),
-             getDescriptor(transform));
+                transform.getSourceDimensions(),
+                transform.getTargetDimensions(),
+                getDescriptor(transform));
     }
 
     /**
      * Work around for RFE #4093999 in Sun's bug database
      * ("Relax constraint on placement of this()/super() call in constructors").
      */
-    private static Map<String,?> getProperties(final MathTransform transform) {
+    private static Map<String, ?> getProperties(final MathTransform transform) {
         ensureNonNull("transform", transform);
-        final Map<String,?> properties;
+        final Map<String, ?> properties;
         if (transform instanceof AbstractMathTransform) {
             final AbstractMathTransform mt = (AbstractMathTransform) transform;
             properties = getProperties(mt.getParameterDescriptors(), null);
         } else {
-            properties = Collections.singletonMap(NAME_KEY, Vocabulary.format(VocabularyKeys.UNKNOWN));
+            properties = Collections.singletonMap(NAME_KEY, Vocabulary.format(VocabularyKeys
+                    .UNKNOWN));
         }
         return properties;
     }
@@ -146,8 +144,8 @@ public class DefaultOperationMethod extends AbstractIdentifiedObject implements 
      */
     public DefaultOperationMethod(final OperationMethod method) {
         super(method);
-        formula          = method.getFormula();
-        parameters       = method.getParameters();
+        formula = method.getFormula();
+        parameters = method.getParameters();
         sourceDimensions = method.getSourceDimensions();
         targetDimensions = method.getTargetDimensions();
     }
@@ -156,16 +154,15 @@ public class DefaultOperationMethod extends AbstractIdentifiedObject implements 
      * Constructs a new operation method with the same values than the specified one
      * except the dimensions.
      *
-     * @param method The operation method to copy.
+     * @param method           The operation method to copy.
      * @param sourceDimensions Number of dimensions in the source CRS of this operation method.
      * @param targetDimensions Number of dimensions in the target CRS of this operation method.
      */
     public DefaultOperationMethod(final OperationMethod method,
                                   final int sourceDimensions,
-                                  final int targetDimensions)
-    {
+                                  final int targetDimensions) {
         super(method);
-        this.formula    = method.getFormula();
+        this.formula = method.getFormula();
         this.parameters = method.getParameters();
         this.sourceDimensions = sourceDimensions;
         this.targetDimensions = targetDimensions;
@@ -180,46 +177,45 @@ public class DefaultOperationMethod extends AbstractIdentifiedObject implements 
      * Additionally, the following properties are understood by this construtor:
      * <br><br>
      * <table border='1'>
-     *   <tr bgcolor="#CCCCFF" class="TableHeadingColor">
-     *     <th nowrap>Property name</th>
-     *     <th nowrap>Value type</th>
-     *     <th nowrap>Value given to</th>
-     *   </tr>
-     *   <tr>
-     *     <td nowrap>&nbsp;{@link #FORMULA_KEY "formula"}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link String} or {@link InternationalString}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link #getFormula}</td>
-     *   </tr>
+     * <tr bgcolor="#CCCCFF" class="TableHeadingColor">
+     * <th nowrap>Property name</th>
+     * <th nowrap>Value type</th>
+     * <th nowrap>Value given to</th>
+     * </tr>
+     * <tr>
+     * <td nowrap>&nbsp;{@link #FORMULA_KEY "formula"}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link String} or {@link InternationalString}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link #getFormula}</td>
+     * </tr>
      * </table>
      *
-     * @param properties Set of properties. Should contains at least {@code "name"}.
+     * @param properties       Set of properties. Should contains at least {@code "name"}.
      * @param sourceDimensions Number of dimensions in the source CRS of this operation method.
      * @param targetDimensions Number of dimensions in the target CRS of this operation method.
-     * @param parameters The set of parameters, or {@code null} if none.
+     * @param parameters       The set of parameters, or {@code null} if none.
      */
-    public DefaultOperationMethod(final Map<String,?> properties,
+    public DefaultOperationMethod(final Map<String, ?> properties,
                                   final int sourceDimensions,
                                   final int targetDimensions,
-                                  final ParameterDescriptorGroup parameters)
-    {
-        this(properties, new HashMap<String,Object>(), sourceDimensions, targetDimensions, parameters);
+                                  final ParameterDescriptorGroup parameters) {
+        this(properties, new HashMap<String, Object>(), sourceDimensions, targetDimensions, 
+                parameters);
     }
 
     /**
      * Work around for RFE #4093999 in Sun's bug database
      * ("Relax constraint on placement of this()/super() call in constructors").
      */
-    private DefaultOperationMethod(final Map<String,?> properties,
-                                   final Map<String,Object> subProperties,
+    private DefaultOperationMethod(final Map<String, ?> properties,
+                                   final Map<String, Object> subProperties,
                                    final int sourceDimensions,
                                    final int targetDimensions,
-                                   ParameterDescriptorGroup parameters)
-    {
+                                   ParameterDescriptorGroup parameters) {
         super(properties, subProperties, LOCALIZABLES);
         formula = (InternationalString) subProperties.get(FORMULA_KEY);
         // 'parameters' may be null, which is okay. A null value will
         // make serialization smaller and faster than an empty object.
-        this.parameters       = parameters;
+        this.parameters = parameters;
         this.sourceDimensions = sourceDimensions;
         this.targetDimensions = targetDimensions;
         ensurePositive("sourceDimensions", sourceDimensions);
@@ -235,11 +231,10 @@ public class DefaultOperationMethod extends AbstractIdentifiedObject implements 
      * @throws IllegalArgumentException if the specified value is not positive.
      */
     private static void ensurePositive(final String name, final int value)
-            throws IllegalArgumentException
-    {
+            throws IllegalArgumentException {
         if (value < 0) {
             throw new IllegalArgumentException(Errors.format(
-                      ErrorKeys.ILLEGAL_ARGUMENT_$2, name, value));
+                    ErrorKeys.ILLEGAL_ARGUMENT_$2, name, value));
         }
     }
 
@@ -272,7 +267,7 @@ public class DefaultOperationMethod extends AbstractIdentifiedObject implements 
      * Returns the set of parameters.
      */
     public ParameterDescriptorGroup getParameters() {
-        return (parameters!=null) ? parameters : Parameters.EMPTY_GROUP;
+        return (parameters != null) ? parameters : Parameters.EMPTY_GROUP;
     }
 
     /**
@@ -292,9 +287,10 @@ public class DefaultOperationMethod extends AbstractIdentifiedObject implements 
      * If {@code compareMetadata} is {@code true}, then all available
      * properties are compared including {@linkplain #getFormula formula}.
      *
-     * @param  object The object to compare to {@code this}.
-     * @param  compareMetadata {@code true} for performing a strict comparaison, or
-     *         {@code false} for comparing only properties relevant to transformations.
+     * @param object          The object to compare to {@code this}.
+     * @param compareMetadata {@code true} for performing a strict comparaison, or
+     *                        {@code false} for comparing only properties relevant to 
+     *                                    transformations.
      * @return {@code true} if both objects are equal.
      */
     @Override
@@ -305,9 +301,8 @@ public class DefaultOperationMethod extends AbstractIdentifiedObject implements 
         if (super.equals(object, compareMetadata)) {
             final DefaultOperationMethod that = (DefaultOperationMethod) object;
             if (this.sourceDimensions == that.sourceDimensions &&
-                this.targetDimensions == that.targetDimensions &&
-                equals(this.parameters,  that.parameters, compareMetadata))
-            {
+                    this.targetDimensions == that.targetDimensions &&
+                    equals(this.parameters, that.parameters, compareMetadata)) {
                 return !compareMetadata || Utilities.equals(this.formula, that.formula);
             }
         }
@@ -319,7 +314,7 @@ public class DefaultOperationMethod extends AbstractIdentifiedObject implements 
      */
     @Override
     public int hashCode() {
-        int code = (int)serialVersionUID + sourceDimensions + 37*targetDimensions;
+        int code = (int) serialVersionUID + sourceDimensions + 37 * targetDimensions;
         if (parameters != null) {
             code = code * 37 + parameters.hashCode();
         }
@@ -328,10 +323,11 @@ public class DefaultOperationMethod extends AbstractIdentifiedObject implements 
 
     /**
      * Format the inner part of a
-     * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
+     * <A HREF="http://geoapi.sourceforge
+     * .net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
      * Known Text</cite> (WKT)</A> element.
      *
-     * @param  formatter The formatter to use.
+     * @param formatter The formatter to use.
      * @return The WKT element name.
      */
     @Override
@@ -353,11 +349,11 @@ public class DefaultOperationMethod extends AbstractIdentifiedObject implements 
             final Matrix matrix = ((LinearTransform) transform).getMatrix();
             final int size = matrix.getNumRow();
             if (matrix.getNumCol() == size) {
-                for (int j=0; j<size; j++) {
-                    int n1=0, n2=0;
-                    for (int i=0; i<size; i++) {
-                        if (matrix.getElement(j,i) != 0) n1++;
-                        if (matrix.getElement(i,j) != 0) n2++;
+                for (int j = 0; j < size; j++) {
+                    int n1 = 0, n2 = 0;
+                    for (int i = 0; i < size; i++) {
+                        if (matrix.getElement(j, i) != 0) n1++;
+                        if (matrix.getElement(i, j) != 0) n2++;
                     }
                     if (n1 != 1 || n2 != 1) {
                         return false;
@@ -377,19 +373,17 @@ public class DefaultOperationMethod extends AbstractIdentifiedObject implements 
      * <p>
      * This convenience method is provided for argument checking.
      *
-     * @param  method    The operation method to compare to the math transform, or {@code null}.
-     * @param  transform The math transform to compare to the operation method, or {@code null}.
+     * @param method    The operation method to compare to the math transform, or {@code null}.
+     * @param transform The math transform to compare to the operation method, or {@code null}.
      * @throws MismatchedDimensionException if the number of dimensions are incompatibles.
-     *
      * @todo The check for {@link ConcatenatedTransform} and {@link PassThroughTransform} works
-     *       only for Geotools implementation.
+     * only for Geotools implementation.
      */
     public static void checkDimensions(final OperationMethod method, MathTransform transform)
-            throws MismatchedDimensionException
-    {
-        if (method!=null && transform!=null) {
-            int actual, expected=method.getSourceDimensions();
-            while ((actual=transform.getSourceDimensions()) > expected) {
+            throws MismatchedDimensionException {
+        if (method != null && transform != null) {
+            int actual, expected = method.getSourceDimensions();
+            while ((actual = transform.getSourceDimensions()) > expected) {
                 if (transform instanceof ConcatenatedTransform) {
                     // Ignore axis switch and unit conversions.
                     final ConcatenatedTransform c = (ConcatenatedTransform) transform;
@@ -413,8 +407,8 @@ public class DefaultOperationMethod extends AbstractIdentifiedObject implements 
             if (actual != expected) {
                 name = "sourceDimensions";
             } else {
-                actual   = transform.getTargetDimensions();
-                expected =    method.getTargetDimensions();
+                actual = transform.getTargetDimensions();
+                expected = method.getTargetDimensions();
                 if (actual != expected) {
                     name = "targetDimensions";
                 } else {

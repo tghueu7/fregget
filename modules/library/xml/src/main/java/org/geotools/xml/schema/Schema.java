@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -27,7 +27,7 @@ import org.geotools.factory.Factory;
  * By public portion, I mean the portion of the Schema which can be included
  * in an instance document, or imported into another Schema.
  * </p>
- * 
+ * <p>
  * <p>
  * The distinction between the public portion of a XML Schema and the entire
  * XML Schema is or particular important when comparing, or printing two XML
@@ -40,7 +40,7 @@ import org.geotools.factory.Factory;
  * orderwithin the sets, except where order is explicitly defined (Sequence,
  * Choice).
  * </p>
- * 
+ * <p>
  * <p>
  * This method must be inplemented within extensions:  public static Schema
  * getInstance();. It will be used by the Schema factory to  load the required
@@ -48,8 +48,6 @@ import org.geotools.factory.Factory;
  * </p>
  *
  * @author dzwiers www.refractions.net
- *
- *
  * @source $URL$
  */
 public interface Schema extends Factory {
@@ -87,7 +85,6 @@ public interface Schema extends Factory {
      * </p>
      *
      * @return AttributeGroup[]
-     *
      * @see AttributeGroup
      */
     public AttributeGroup[] getAttributeGroups();
@@ -99,7 +96,6 @@ public interface Schema extends Factory {
      * interpreted as the set of Attributes available when creating an
      * instance document, extending the schema, or importing the schema.
      * </p>
-     *
      *
      * @see Attribute
      */
@@ -126,7 +122,6 @@ public interface Schema extends Factory {
      * instance document, extending the schema, or importing the schema.
      * </p>
      *
-     *
      * @see ComplexType
      */
     public ComplexType[] getComplexTypes();
@@ -138,7 +133,6 @@ public interface Schema extends Factory {
      * as the set of Elements available when creating an instance document,
      * extending the schema, or importing the schema.
      * </p>
-     *
      *
      * @see Element
      */
@@ -165,7 +159,6 @@ public interface Schema extends Factory {
      * extending the schema, or importing the schema.
      * </p>
      *
-     *
      * @see Group
      */
     public Group[] getGroups();
@@ -174,7 +167,6 @@ public interface Schema extends Factory {
      * <p>
      * This method is intended to provide the ID of this Schema.
      * </p>
-     *
      */
     public String getId();
 
@@ -186,7 +178,6 @@ public interface Schema extends Factory {
      * extending the schema, or importing the schema.
      * </p>
      *
-     *
      * @see Schema
      */
     public Schema[] getImports();
@@ -195,7 +186,6 @@ public interface Schema extends Factory {
      * <p>
      * Gets the recommended prefix for this schema.
      * </p>
-     *
      */
     public String getPrefix();
 
@@ -207,7 +197,6 @@ public interface Schema extends Factory {
      * instance document, extending the schema, or importing the schema.
      * </p>
      *
-     *
      * @see SimpleType
      */
     public SimpleType[] getSimpleTypes();
@@ -217,7 +206,6 @@ public interface Schema extends Factory {
      * This returns the intended use name of the Schema (kinda like an ID, for
      * a better definition see the XML Schema Specification).
      * </p>
-     *
      */
     public URI getTargetNamespace();
 
@@ -228,7 +216,6 @@ public interface Schema extends Factory {
      * <p>
      * This returns the Schema version ...
      * </p>
-     *
      */
 
     //TODO Use the Version in the merge + parsing portion for comparisons
@@ -241,15 +228,13 @@ public interface Schema extends Factory {
      * This allows one Schema to represent one targetNamespace, but be
      * potentially represented in more than one file.
      * </p>
-     * 
+     * <p>
      * <p>
      * Used to determine if the uri should provided should be included in an
      * instance document.
      * </p>
      *
      * @param uri
-     *
-     *
      * @see #getUris()
      */
     public boolean includesURI(URI uri);
@@ -259,7 +244,6 @@ public interface Schema extends Factory {
      * Returns true when the Default Attribute Form is qualified, false
      * otherwise.
      * </p>
-     *
      */
     public boolean isAttributeFormDefault();
 
@@ -268,7 +252,6 @@ public interface Schema extends Factory {
      * Returns true when the Default Element Form is qualified, false
      * otherwise.
      * </p>
-     *
      */
     public boolean isElementFormDefault();
 }

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -27,9 +27,6 @@ import org.opengis.temporal.TemporalReferenceSystem;
  * temporal reference system.
  *
  * @author Mehdi Sidhoum (Geomatys)
- *
- *
- *
  * @source $URL$
  */
 public class DefaultOrdinalPosition extends DefaultTemporalPosition implements OrdinalPosition {
@@ -39,7 +36,8 @@ public class DefaultOrdinalPosition extends DefaultTemporalPosition implements O
      */
     private OrdinalEra ordinalPosition;
 
-    public DefaultOrdinalPosition(TemporalReferenceSystem frame, IndeterminateValue indeterminatePosition, OrdinalEra ordinalPosition) {
+    public DefaultOrdinalPosition(TemporalReferenceSystem frame, IndeterminateValue 
+            indeterminatePosition, OrdinalEra ordinalPosition) {
         super(frame, indeterminatePosition);
         this.ordinalPosition = ordinalPosition;
     }

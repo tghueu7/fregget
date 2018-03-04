@@ -41,17 +41,16 @@ import org.opengis.feature.simple.SimpleFeatureType;
  *
  * @author Jody Garnett
  * @author Torben Barsballe (Boundless)
- *
  * @source $URL$
  */
 public class PropertyFeatureStore extends ContentFeatureStore {
-    
+
     String typeName;
     SimpleFeatureType featureType;
     PropertyDataStore store;
-    
-    PropertyFeatureStore( ContentEntry entry, Query query ) throws IOException{
-        super( entry, query );
+
+    PropertyFeatureStore(ContentEntry entry, Query query) throws IOException {
+        super(entry, query);
         this.store = (PropertyDataStore) entry.getDataStore();
         this.typeName = entry.getTypeName();
     }
@@ -62,38 +61,43 @@ public class PropertyFeatureStore extends ContentFeatureStore {
         // without altering the state of the DataStore
         hints.add(Hints.FEATURE_DETACHED);
     }
-    
-    /** We handle events internally */
+
+    /**
+     * We handle events internally
+     */
     protected boolean canEvent() {
         return false;
     }
-    
+
     protected QueryCapabilities buildQueryCapabilities() {
-        return new QueryCapabilities(){
+        return new QueryCapabilities() {
             public boolean isUseProvidedFIDSupported() {
                 return true;
             }
         };
     }
-    
+
     @Override
     protected FeatureWriter<SimpleFeatureType, SimpleFeature> getWriterInternal(Query query,
-            int flags) throws IOException {
-        return new PropertyFeatureWriter(this,getState(), query, (flags | WRITER_ADD) == WRITER_ADD);
+                                                                                int flags) throws
+            IOException {
+        return new PropertyFeatureWriter(this, getState(), query, (flags | WRITER_ADD) == 
+                WRITER_ADD);
     }
-    
+
     /**
-     * Delegate used for FeatureSource methods (We do this because Java cannot inherit from both 
+     * Delegate used for FeatureSource methods (We do this because Java cannot inherit from both
      * ContentFeatureStore and CSVFeatureSource at the same time
      */
     PropertyFeatureSource delegate = new PropertyFeatureSource(entry, query) {
         @Override
         public void setTransaction(Transaction transaction) {
             super.setTransaction(transaction);
-            PropertyFeatureStore.this.setTransaction(transaction); // Keep these two implementations on the same transaction
+            PropertyFeatureStore.this.setTransaction(transaction); // Keep these two 
+            // implementations on the same transaction
         }
     };
-    
+
     //
     // Internal Delegate Methods
     // Implement FeatureSource methods using CSVFeatureSource implementation
@@ -101,36 +105,37 @@ public class PropertyFeatureStore extends ContentFeatureStore {
     @Override
     public void setTransaction(Transaction transaction) {
         super.setTransaction(transaction);
-        if( delegate.getTransaction() != transaction ){
-            delegate.setTransaction( transaction );
+        if (delegate.getTransaction() != transaction) {
+            delegate.setTransaction(transaction);
         }
     }
-    
+
     @Override
     protected ReferencedEnvelope getBoundsInternal(Query query) throws IOException {
         return delegate.getBoundsInternal(query);
     }
-    
+
     @Override
     protected int getCountInternal(Query query) throws IOException {
         return delegate.getCountInternal(query);
     }
-    
+
     @Override
     protected FeatureReader<SimpleFeatureType, SimpleFeature> getReaderInternal(Query query)
             throws IOException {
         return delegate.getReaderInternal(query);
     }
-    
+
     @Override
     protected SimpleFeatureType buildFeatureType() throws IOException {
         return delegate.buildFeatureType();
     }
-    
+
     @Override
     protected boolean handleVisitor(Query query, FeatureVisitor visitor) throws IOException {
         return delegate.handleVisitor(query, visitor);
     }
+
     //
     // Public Delegate Methods
     // Implement FeatureSource methods using CSVFeatureSource implementation
@@ -139,28 +144,28 @@ public class PropertyFeatureStore extends ContentFeatureStore {
     public PropertyDataStore getDataStore() {
         return delegate.getDataStore();
     }
-    
+
     @Override
     public ContentEntry getEntry() {
         return delegate.getEntry();
     }
-    
+
     public Transaction getTransaction() {
         return delegate.getTransaction();
     }
-    
+
     public ContentState getState() {
         return delegate.getState();
     }
-    
+
     public ResourceInfo getInfo() {
         return delegate.getInfo();
     }
-    
+
     public Name getName() {
         return delegate.getName();
     }
-    
+
     public QueryCapabilities getQueryCapabilities() {
         return delegate.getQueryCapabilities();
     }

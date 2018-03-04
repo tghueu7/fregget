@@ -51,7 +51,7 @@ import org.opengis.referencing.operation.MathTransform;
  * projection is appropriate for region wich have a greater extent north-south
  * than east-west.
  * <p>
- *
+ * <p>
  * The elliptical equations used here are series approximations, and their accuracy
  * decreases as points move farther from the central meridian of the projection.
  * The forward equations here are accurate to a less than a mm &plusmn;10 degrees from
@@ -60,7 +60,7 @@ import org.opengis.referencing.operation.MathTransform;
  * The spherical equations are not approximations and should always give the
  * correct values.
  * <p>
- *
+ * <p>
  * There are a number of versions of the transverse mercator projection
  * including the Universal (UTM) and Modified (MTM) Transverses Mercator
  * projections. In these cases the earth is divided into zones. For the UTM
@@ -71,32 +71,33 @@ import org.opengis.referencing.operation.MathTransform;
  * false easting of 500000m is used for all zones and a false northing of 10000000m
  * is used for zones in the southern hemisphere.
  * <p>
- *
+ * <p>
  * NOTE: formulas used below are not those of Snyder, but rather those
- *       from the {@code proj4} package of the USGS survey, which
- *       have been reproduced verbatim. USGS work is acknowledged here.
+ * from the {@code proj4} package of the USGS survey, which
+ * have been reproduced verbatim. USGS work is acknowledged here.
  * <p>
  * <b>References:</b>
  * <ul>
- *   <li> Proj-4.4.6 available at <A HREF="http://www.remotesensing.org/proj">www.remotesensing.org/proj</A><br>
- *        Relevent files are: {@code PJ_tmerc.c}, {@code pj_mlfn.c}, {@code pj_fwd.c} and {@code pj_inv.c}.</li>
- *   <li> John P. Snyder (Map Projections - A Working Manual,
- *        U.S. Geological Survey Professional Paper 1395, 1987).</li>
- *   <li> "Coordinate Conversions and Transformations including Formulas",
- *        EPSG Guidence Note Number 7, Version 19.</li>
+ * <li> Proj-4.4.6 available at <A HREF="http://www.remotesensing.org/proj">www.remotesensing
+ * .org/proj</A><br>
+ * Relevent files are: {@code PJ_tmerc.c}, {@code pj_mlfn.c}, {@code pj_fwd.c} and {@code pj_inv
+ * .c}.</li>
+ * <li> John P. Snyder (Map Projections - A Working Manual,
+ * U.S. Geological Survey Professional Paper 1395, 1987).</li>
+ * <li> "Coordinate Conversions and Transformations including Formulas",
+ * EPSG Guidence Note Number 7, Version 19.</li>
  * </ul>
  *
- * @see <A HREF="http://mathworld.wolfram.com/MercatorProjection.html">Transverse Mercator projection on MathWorld</A>
- * @see <A HREF="http://www.remotesensing.org/geotiff/proj_list/transverse_mercator.html">"Transverse_Mercator" on RemoteSensing.org</A>
- *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author André Gosselin
  * @author Martin Desruisseaux (PMO, IRD)
  * @author Rueben Schulz
+ * @version $Id$
+ * @source $URL$
+ * @see <A HREF="http://mathworld.wolfram.com/MercatorProjection.html">Transverse Mercator 
+ * projection on MathWorld</A>
+ * @see <A HREF="http://www.remotesensing.org/geotiff/proj_list/transverse_mercator
+ * .html">"Transverse_Mercator" on RemoteSensing.org</A>
+ * @since 2.1
  */
 public class TransverseMercator extends MapProjection {
     /**
@@ -137,24 +138,23 @@ public class TransverseMercator extends MapProjection {
      * Contants used for the forward and inverse transform for the eliptical
      * case of the Transverse Mercator.
      */
-    private static final double FC1= 1.00000000000000000000000,  // 1/1
-                                FC2= 0.50000000000000000000000,  // 1/2
-                                FC3= 0.16666666666666666666666,  // 1/6
-                                FC4= 0.08333333333333333333333,  // 1/12
-                                FC5= 0.05000000000000000000000,  // 1/20
-                                FC6= 0.03333333333333333333333,  // 1/30
-                                FC7= 0.02380952380952380952380,  // 1/42
-                                FC8= 0.01785714285714285714285;  // 1/56
+    private static final double FC1 = 1.00000000000000000000000,  // 1/1
+            FC2 = 0.50000000000000000000000,  // 1/2
+            FC3 = 0.16666666666666666666666,  // 1/6
+            FC4 = 0.08333333333333333333333,  // 1/12
+            FC5 = 0.05000000000000000000000,  // 1/20
+            FC6 = 0.03333333333333333333333,  // 1/30
+            FC7 = 0.02380952380952380952380,  // 1/42
+            FC8 = 0.01785714285714285714285;  // 1/56
 
     /**
      * Constructs a new map projection from the supplied parameters.
      *
-     * @param  parameters The parameter values in standard units.
+     * @param parameters The parameter values in standard units.
      * @throws ParameterNotFoundException if a mandatory parameter is missing.
      */
     protected TransverseMercator(final ParameterValueGroup parameters)
-            throws ParameterNotFoundException
-    {
+            throws ParameterNotFoundException {
         // Fetch parameters
         super(parameters);
 
@@ -176,35 +176,34 @@ public class TransverseMercator extends MapProjection {
      * on a unit sphere).
      */
     protected Point2D transformNormalized(double x, double y, Point2D ptDst)
-            throws ProjectionException
-    {
+            throws ProjectionException {
         double sinphi = sin(y);
         double cosphi = cos(y);
 
-        double t = (abs(cosphi) > EPSILON) ? sinphi/cosphi : 0;
+        double t = (abs(cosphi) > EPSILON) ? sinphi / cosphi : 0;
         t *= t;
-        double al = cosphi*x;
-        double als = al*al;
-        al /= sqrt(1.0 - excentricitySquared * sinphi*sinphi);
-        double n = esp * cosphi*cosphi;
+        double al = cosphi * x;
+        double als = al * al;
+        al /= sqrt(1.0 - excentricitySquared * sinphi * sinphi);
+        double n = esp * cosphi * cosphi;
 
         /* NOTE: meridinal distance at latitudeOfOrigin is always 0 */
         y = (mlfn(y, sinphi, cosphi) - ml0 +
-            sinphi * al * x *
-            FC2 * ( 1.0 +
-            FC4 * als * (5.0 - t + n*(9.0 + 4.0*n) +
-            FC6 * als * (61.0 + t * (t - 58.0) + n*(270.0 - 330.0*t) +
-            FC8 * als * (1385.0 + t * ( t*(543.0 - t) - 3111.0))))));
+                sinphi * al * x *
+                        FC2 * (1.0 +
+                        FC4 * als * (5.0 - t + n * (9.0 + 4.0 * n) +
+                                FC6 * als * (61.0 + t * (t - 58.0) + n * (270.0 - 330.0 * t) +
+                                        FC8 * als * (1385.0 + t * (t * (543.0 - t) - 3111.0))))));
 
-        x = al*(FC1 + FC3 * als*(1.0 - t + n +
-            FC5 * als * (5.0 + t*(t - 18.0) + n*(14.0 - 58.0*t) +
-            FC7 * als * (61.0+ t*(t*(179.0 - t) - 479.0 )))));
+        x = al * (FC1 + FC3 * als * (1.0 - t + n +
+                FC5 * als * (5.0 + t * (t - 18.0) + n * (14.0 - 58.0 * t) +
+                        FC7 * als * (61.0 + t * (t * (179.0 - t) - 479.0)))));
 
         if (ptDst != null) {
-            ptDst.setLocation(x,y);
+            ptDst.setLocation(x, y);
             return ptDst;
         }
-        return new Point2D.Double(x,y);
+        return new Point2D.Double(x, y);
     }
 
     /**
@@ -212,40 +211,39 @@ public class TransverseMercator extends MapProjection {
      * and stores the result in {@code ptDst}.
      */
     protected Point2D inverseTransformNormalized(double x, double y, Point2D ptDst)
-            throws ProjectionException
-    {
+            throws ProjectionException {
         double phi = inv_mlfn(ml0 + y);
 
-        if (abs(phi) >= PI/2) {
-            y = y<0.0 ? -(PI/2) : (PI/2);
+        if (abs(phi) >= PI / 2) {
+            y = y < 0.0 ? -(PI / 2) : (PI / 2);
             x = 0.0;
         } else {
             double sinphi = sin(phi);
             double cosphi = cos(phi);
-            double t = (abs(cosphi) > EPSILON) ? sinphi/cosphi : 0.0;
-            double n = esp * cosphi*cosphi;
-            double con = 1.0 - excentricitySquared * sinphi*sinphi;
+            double t = (abs(cosphi) > EPSILON) ? sinphi / cosphi : 0.0;
+            double n = esp * cosphi * cosphi;
+            double con = 1.0 - excentricitySquared * sinphi * sinphi;
             double d = x * sqrt(con);
             con *= t;
             t *= t;
-            double ds = d*d;
+            double ds = d * d;
 
-            y = phi - (con*ds / (1.0 - excentricitySquared)) *
-                FC2 * (1.0 - ds *
-                FC4 * (5.0 + t*(3.0 - 9.0*n) + n*(1.0 - 4*n) - ds *
-                FC6 * (61.0 + t*(90.0 - 252.0*n + 45.0*t) + 46.0*n - ds *
-                FC8 * (1385.0 + t*(3633.0 + t*(4095.0 + 1574.0*t))))));
+            y = phi - (con * ds / (1.0 - excentricitySquared)) *
+                    FC2 * (1.0 - ds *
+                    FC4 * (5.0 + t * (3.0 - 9.0 * n) + n * (1.0 - 4 * n) - ds *
+                    FC6 * (61.0 + t * (90.0 - 252.0 * n + 45.0 * t) + 46.0 * n - ds *
+                    FC8 * (1385.0 + t * (3633.0 + t * (4095.0 + 1574.0 * t))))));
 
-            x = d*(FC1 - ds * FC3 * (1.0 + 2.0*t + n -
-                ds*FC5*(5.0 + t*(28.0 + 24* t + 8.0*n) + 6.0*n -
-                ds*FC7*(61.0 + t*(662.0 + t*(1320.0 + 720.0*t))))))/cosphi;
+            x = d * (FC1 - ds * FC3 * (1.0 + 2.0 * t + n -
+                    ds * FC5 * (5.0 + t * (28.0 + 24 * t + 8.0 * n) + 6.0 * n -
+                            ds * FC7 * (61.0 + t * (662.0 + t * (1320.0 + 720.0 * t)))))) / cosphi;
         }
 
         if (ptDst != null) {
-            ptDst.setLocation(x,y);
+            ptDst.setLocation(x, y);
             return ptDst;
         }
-        return new Point2D.Double(x,y);
+        return new Point2D.Double(x, y);
     }
 
     /**
@@ -266,7 +264,7 @@ public class TransverseMercator extends MapProjection {
             // and errors are in excess of a millimeter.
             return 0.01;
         }
-        
+
         return super.getToleranceForAssertions(longitude, latitude);
     }
 
@@ -275,21 +273,20 @@ public class TransverseMercator extends MapProjection {
      * Provides the transform equations for the spherical case of the
      * TransverseMercator projection.
      *
-     * @version $Id$
      * @author André Gosselin
      * @author Martin Desruisseaux (PMO, IRD)
      * @author Rueben Schulz
+     * @version $Id$
      */
     private static final class Spherical extends TransverseMercator {
         /**
          * Constructs a new map projection from the suplied parameters.
          *
-         * @param  parameters The parameter values in standard units.
+         * @param parameters The parameter values in standard units.
          * @throws ParameterNotFoundException if a mandatory parameter is missing.
          */
         protected Spherical(final ParameterValueGroup parameters)
-                throws ParameterNotFoundException
-        {
+                throws ParameterNotFoundException {
             super(parameters);
             ensureSpherical();
         }
@@ -299,8 +296,7 @@ public class TransverseMercator extends MapProjection {
          */
         @Override
         protected Point2D transformNormalized(double x, double y, Point2D ptDst)
-                throws ProjectionException
-        {
+                throws ProjectionException {
             // Compute using ellipsoidal formulas, for comparaison later.
             final double normalizedLongitude = x;
             assert (ptDst = super.transformNormalized(x, y, ptDst)) != null;
@@ -314,14 +310,15 @@ public class TransverseMercator extends MapProjection {
             //Using Snyder's equation for calculating y, instead of the one used in Proj4
             //poential problems when y and x = 90 degrees, but behaves ok in tests
             y = atan2(tan(y), cos(x)) - latitudeOfOrigin;   /* Snyder 8-3 */
-            x = 0.5 * log((1.0+b) / (1.0-b));               /* Snyder 8-1 */
+            x = 0.5 * log((1.0 + b) / (1.0 - b));               /* Snyder 8-1 */
 
-            assert checkTransform(x, y, ptDst, getToleranceForSphereAssertions(normalizedLongitude));
+            assert checkTransform(x, y, ptDst, getToleranceForSphereAssertions
+                    (normalizedLongitude));
             if (ptDst != null) {
-                ptDst.setLocation(x,y);
+                ptDst.setLocation(x, y);
                 return ptDst;
             }
-            return new Point2D.Double(x,y);
+            return new Point2D.Double(x, y);
         }
 
         /**
@@ -329,24 +326,23 @@ public class TransverseMercator extends MapProjection {
          */
         @Override
         protected Point2D inverseTransformNormalized(double x, double y, Point2D ptDst)
-                throws ProjectionException
-        {
+                throws ProjectionException {
             // Compute using ellipsoidal formulas, for comparaison later.
             assert (ptDst = super.inverseTransformNormalized(x, y, ptDst)) != null;
 
             double sinhX = sinh(x);
             double cosD = cos(latitudeOfOrigin + y);
-            double phi = asin(sqrt((1.0 - cosD*cosD) / (1.0 + sinhX*sinhX)));
+            double phi = asin(sqrt((1.0 - cosD * cosD) / (1.0 + sinhX * sinhX)));
             // correct for the fact that we made everything positive using sqrt(x*x)
-            y = ((y + latitudeOfOrigin)<0.0) ? -phi : phi;
-            x = (abs(sinhX) <= EPSILON  &&  abs(cosD) <= EPSILON) ? 0.0 : atan2(sinhX,cosD);
+            y = ((y + latitudeOfOrigin) < 0.0) ? -phi : phi;
+            x = (abs(sinhX) <= EPSILON && abs(cosD) <= EPSILON) ? 0.0 : atan2(sinhX, cosD);
 
             assert checkInverseTransform(x, y, ptDst, getToleranceForSphereAssertions(x));
             if (ptDst != null) {
-                ptDst.setLocation(x,y);
+                ptDst.setLocation(x, y);
                 return ptDst;
             }
-            return new Point2D.Double(x,y);
+            return new Point2D.Double(x, y);
         }
 
         /**
@@ -360,12 +356,12 @@ public class TransverseMercator extends MapProjection {
          * elliptical calculations when we are far from the central meridian (elliptical
          * calculations are not valid here).
          *
-         * @param  longitude The longitude standardized (in radians) with
-         *         {@linkplain #centralMeridian} already removed from it.
+         * @param longitude The longitude standardized (in radians) with
+         *                  {@linkplain #centralMeridian} already removed from it.
          * @return The tolerance level for assertions, in meters.
          */
         protected double getToleranceForSphereAssertions(final double longitude) {
-            if (abs(abs(longitude)- PI/2) < EPSILON_LATITUDE) {  // 90 degrees
+            if (abs(abs(longitude) - PI / 2) < EPSILON_LATITUDE) {  // 90 degrees
                 // elliptical equations are at their worst here
                 return 1E+18;
             }
@@ -378,38 +374,45 @@ public class TransverseMercator extends MapProjection {
         }
     }
 
-     /**
+    /**
      * Convenience method computing the zone code from the central meridian.
      * Information about zones convention must be specified in argument. Two
      * widely set of arguments are of Universal Transverse Mercator (UTM) and
      * Modified Transverse Mercator (MTM) projections:<br>
      * <p>
-     *
+     * <p>
      * UTM projection (zones numbered from 1 to 60):<br>
      * <p>
-     *        {@code getZone(-177, 6);}<br>
+     * {@code getZone(-177, 6);}<br>
      * <p>
      * MTM projection (zones numbered from 1 to 120):<br>
      * <p>
-     *        {@code getZone(-52.5, -3);}<br>
+     * {@code getZone(-52.5, -3);}<br>
      *
-     * @param  centralLongitudeZone1 Longitude in the middle of zone 1, in decimal degrees
-     *         relative to Greenwich. Positive longitudes are toward east, and negative
-     *         longitudes toward west.
-     * @param  zoneWidth Number of degrees of longitudes in one zone. A positive value
-     *         means that zones are numbered from west to east (i.e. in the direction of
-     *         positive longitudes). A negative value means that zones are numbered from
-     *         east to west.
+     * @param centralLongitudeZone1 Longitude in the middle of zone 1, in decimal degrees
+     *                              relative to Greenwich. Positive longitudes are toward east, 
+     *                              and negative
+     *                              longitudes toward west.
+     * @param zoneWidth             Number of degrees of longitudes in one zone. A positive value
+     *                              means that zones are numbered from west to east (i.e. in the 
+     *                              direction of
+     *                              positive longitudes). A negative value means that zones are 
+     *                              numbered from
+     *                              east to west.
      * @return The zone number. First zone is numbered 1.
      */
     private int getZone(final double centralLongitudeZone1, final double zoneWidth) {
         final double zoneCount = abs(360 / zoneWidth);
         double t;
-        t  = centralLongitudeZone1 - 0.5*zoneWidth; // Longitude at the beginning of the first zone.
-        t  = toDegrees(centralMeridian) - t;        // Degrees of longitude between the central longitude and longitude 1.
-        t  = floor(t/zoneWidth + EPSILON);          // Number of zones between the central longitude and longitude 1.
-        t -= zoneCount*floor(t/zoneCount);          // If negative, bring back to the interval 0 to (zoneCount-1).
-        return ((int) t)+1;
+        t = centralLongitudeZone1 - 0.5 * zoneWidth; // Longitude at the beginning of the first 
+        // zone.
+        t = toDegrees(centralMeridian) - t;        // Degrees of longitude between the central 
+        // longitude and longitude 1.
+        t = floor(t / zoneWidth + EPSILON);          // Number of zones between the central 
+        // longitude and longitude 1.
+        t -= zoneCount * floor(t / zoneCount);          // If negative, bring back to the 
+        // interval 0 to (zoneCount-1).
+        return ((int) t) + 1;
     }
 
     /**
@@ -417,19 +420,22 @@ public class TransverseMercator extends MapProjection {
      * typically the central meridian. This method may be invoked to make sure that the central
      * meridian is correctly set.
      *
-     * @param  centralLongitudeZone1 Longitude in the middle of zone 1, in decimal degrees
-     *         relative to Greenwich. Positive longitudes are toward east, and negative
-     *         longitudes toward west.
-     * @param  zoneWidth Number of degrees of longitudes in one zone. A positive value
-     *         means that zones are numbered from west to east (i.e. in the direction of
-     *         positive longitudes). A negative value means that zones are numbered from
-     *         east to west.
+     * @param centralLongitudeZone1 Longitude in the middle of zone 1, in decimal degrees
+     *                              relative to Greenwich. Positive longitudes are toward east, 
+     *                              and negative
+     *                              longitudes toward west.
+     * @param zoneWidth             Number of degrees of longitudes in one zone. A positive value
+     *                              means that zones are numbered from west to east (i.e. in the 
+     *                              direction of
+     *                              positive longitudes). A negative value means that zones are 
+     *                              numbered from
+     *                              east to west.
      * @return The central meridian.
      */
     private double getCentralMedirian(final double centralLongitudeZone1, final double zoneWidth) {
         double t;
-        t  = centralLongitudeZone1 + (getZone(centralLongitudeZone1, zoneWidth)-1)*zoneWidth;
-        t -= 360 * floor((t+180) / 360); // Bring back into [-180..+180] range.
+        t = centralLongitudeZone1 + (getZone(centralLongitudeZone1, zoneWidth) - 1) * zoneWidth;
+        t -= 360 * floor((t + 180) / 360); // Bring back into [-180..+180] range.
         return t;
     }
 
@@ -437,8 +443,8 @@ public class TransverseMercator extends MapProjection {
      * Convenience method computing the zone code from the central meridian.
      *
      * @return The zone number, using the scalefactor and false easting
-     *         to decide if this is a UTM or MTM case. Returns 0 if the
-     *         case of the projection cannot be determined.
+     * to decide if this is a UTM or MTM case. Returns 0 if the
+     * case of the projection cannot be determined.
      */
     public int getZone() {
         // UTM
@@ -446,7 +452,7 @@ public class TransverseMercator extends MapProjection {
             return getZone(-177, 6);
         }
         // MTM
-        if (scaleFactor == 0.9999 && falseEasting == 304800.0){
+        if (scaleFactor == 0.9999 && falseEasting == 304800.0) {
             return getZone(-52.5, -3);
         }
         // unknown
@@ -459,8 +465,8 @@ public class TransverseMercator extends MapProjection {
      * meridian is correctly set.
      *
      * @return The central meridian, using the scalefactor and false easting
-     *         to decide if this is a UTM or MTM case. Returns {@link Double#NaN}
-     *         if the case of the projection cannot be determined.
+     * to decide if this is a UTM or MTM case. Returns {@link Double#NaN}
+     * if the case of the projection cannot be determined.
      */
     public double getCentralMeridian() {
         // UTM
@@ -468,7 +474,7 @@ public class TransverseMercator extends MapProjection {
             return getCentralMedirian(-177, 6);
         }
         // MTM
-        if (scaleFactor == 0.9999 && falseEasting == 304800.0){
+        if (scaleFactor == 0.9999 && falseEasting == 304800.0) {
             return getCentralMedirian(-52.5, -3);
         }
         // unknown
@@ -481,7 +487,7 @@ public class TransverseMercator extends MapProjection {
     @Override
     public int hashCode() {
         final long code = Double.doubleToLongBits(ml0);
-        return ((int)code ^ (int)(code >>> 32)) + 37*super.hashCode();
+        return ((int) code ^ (int) (code >>> 32)) + 37 * super.hashCode();
     }
 
     /**
@@ -498,8 +504,6 @@ public class TransverseMercator extends MapProjection {
     }
 
 
-
-
     //////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////
     ////////                                                                          ////////
@@ -513,40 +517,41 @@ public class TransverseMercator extends MapProjection {
      * provider} for a {@linkplain TransverseMercator Transverse Mercator} projection (EPSG code
      * 9807).
      *
-     * @since 2.1
-     * @version $Id$
      * @author Martin Desruisseaux (PMO, IRD)
      * @author Rueben Schulz
-     *
+     * @version $Id$
      * @see org.geotools.referencing.operation.DefaultMathTransformFactory
+     * @since 2.1
      */
     public static class Provider extends AbstractProvider {
         /**
          * Returns a descriptor group for the specified parameters.
          */
-        static ParameterDescriptorGroup createDescriptorGroup(final ReferenceIdentifier[] identifiers) {
-            return createDescriptorGroup(identifiers, new ParameterDescriptor[] {
-                SEMI_MAJOR,       SEMI_MINOR,
-                CENTRAL_MERIDIAN, LATITUDE_OF_ORIGIN,
-                SCALE_FACTOR,     FALSE_EASTING,
-                FALSE_NORTHING
+        static ParameterDescriptorGroup createDescriptorGroup(final ReferenceIdentifier[] 
+                                                                      identifiers) {
+            return createDescriptorGroup(identifiers, new ParameterDescriptor[]{
+                    SEMI_MAJOR, SEMI_MINOR,
+                    CENTRAL_MERIDIAN, LATITUDE_OF_ORIGIN,
+                    SCALE_FACTOR, FALSE_EASTING,
+                    FALSE_NORTHING
             });
         }
 
         /**
          * The parameters group.
          */
-        static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(new NamedIdentifier[] {
-                new NamedIdentifier(Citations.OGC,      "Transverse_Mercator"),
-                new NamedIdentifier(Citations.EPSG,     "Transverse Mercator"),
-                new NamedIdentifier(Citations.EPSG,     "Gauss-Kruger"),
-                new NamedIdentifier(Citations.EPSG,     "9807"),
-                new NamedIdentifier(Citations.GEOTIFF,  "CT_TransverseMercator"),
-                new NamedIdentifier(Citations.ESRI,     "Transverse_Mercator"),
-                new NamedIdentifier(Citations.ESRI,     "Gauss_Kruger"),
+        static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(new 
+                NamedIdentifier[]{
+                new NamedIdentifier(Citations.OGC, "Transverse_Mercator"),
+                new NamedIdentifier(Citations.EPSG, "Transverse Mercator"),
+                new NamedIdentifier(Citations.EPSG, "Gauss-Kruger"),
+                new NamedIdentifier(Citations.EPSG, "9807"),
+                new NamedIdentifier(Citations.GEOTIFF, "CT_TransverseMercator"),
+                new NamedIdentifier(Citations.ESRI, "Transverse_Mercator"),
+                new NamedIdentifier(Citations.ESRI, "Gauss_Kruger"),
                 new NamedIdentifier(Citations.GEOTOOLS, Vocabulary.formatInternational(
-                                    VocabularyKeys.TRANSVERSE_MERCATOR_PROJECTION))
-            });
+                        VocabularyKeys.TRANSVERSE_MERCATOR_PROJECTION))
+        });
 
         /**
          * Constructs a new provider.
@@ -573,13 +578,12 @@ public class TransverseMercator extends MapProjection {
         /**
          * Creates a transform from the specified group of parameter values.
          *
-         * @param  parameters The group of parameter values.
+         * @param parameters The group of parameter values.
          * @return The created math transform.
          * @throws ParameterNotFoundException if a required parameter was not found.
          */
         protected MathTransform createMathTransform(final ParameterValueGroup parameters)
-                throws ParameterNotFoundException
-        {
+                throws ParameterNotFoundException {
             if (isSpherical(parameters)) {
                 return new Spherical(parameters);
             } else {
@@ -601,15 +605,19 @@ public class TransverseMercator extends MapProjection {
      * The usual Transverse Mercator formulas are:
      * <p>
      * <ul>
-     *   <li><var>easting</var> = <var>{@linkplain #falseEasting false easting}</var> + <var>px</var></li>
-     *   <li><var>northing</var> = <var>{@linkplain #falseNorthing false northing}</var> + <var>py</var></li>
+     * <li><var>easting</var> = <var>{@linkplain #falseEasting false easting}</var> + 
+     * <var>px</var></li>
+     * <li><var>northing</var> = <var>{@linkplain #falseNorthing false northing}</var> + 
+     * <var>py</var></li>
      * </ul>
      * <p>
      * The Transverse Mercator South Orientated Projection formulas are:
      * <p>
      * <ul>
-     *   <li><var>westing</var> = <var>{@linkplain #falseEasting false easting}</var> - <var>px</var></li>
-     *   <li><var>southing</var> = <var>{@linkplain #falseNorthing false northing}</var> - <var>py</var></li>
+     * <li><var>westing</var> = <var>{@linkplain #falseEasting false easting}</var> - 
+     * <var>px</var></li>
+     * <li><var>southing</var> = <var>{@linkplain #falseNorthing false northing}</var> - 
+     * <var>py</var></li>
      * </ul>
      * <p>
      * Where the <var>px</var> and <var>py</var> terms are the same in both cases.
@@ -621,40 +629,38 @@ public class TransverseMercator extends MapProjection {
      * projection with an affine transform for (<var>false easting</var>,<var>false northing</var>)
      * correction.
      *
-     * @since 2.2
-     * @version $Id$
      * @author Martin Desruisseaux (PMO, IRD)
-     *
+     * @version $Id$
      * @see org.geotools.referencing.operation.DefaultMathTransformFactory
+     * @since 2.2
      */
     public static class Provider_SouthOrientated extends Provider {
         /**
          * Constructs a new provider.
          */
         public Provider_SouthOrientated() {
-            super(createDescriptorGroup(new NamedIdentifier[] {
-                new NamedIdentifier(Citations.EPSG, "Transverse Mercator (South Orientated)"),
-                new NamedIdentifier(Citations.EPSG, "9808")
+            super(createDescriptorGroup(new NamedIdentifier[]{
+                    new NamedIdentifier(Citations.EPSG, "Transverse Mercator (South Orientated)"),
+                    new NamedIdentifier(Citations.EPSG, "9808")
             }));
         }
 
         /**
          * Creates a transform from the specified group of parameter values.
          *
-         * @param  parameters The group of parameter values.
+         * @param parameters The group of parameter values.
          * @return The created math transform.
          * @throws ParameterNotFoundException if a required parameter was not found.
          */
         @Override
         public MathTransform createMathTransform(final ParameterValueGroup parameters)
-                throws ParameterNotFoundException
-        {
+                throws ParameterNotFoundException {
             final MapProjection projection = (MapProjection) super.createMathTransform(parameters);
-            if (projection.falseEasting==0 && projection.falseNorthing==0) {
+            if (projection.falseEasting == 0 && projection.falseNorthing == 0) {
                 return projection;
             }
             final AffineTransform step = AffineTransform.getTranslateInstance(
-                    -2*projection.falseEasting, -2*projection.falseNorthing);
+                    -2 * projection.falseEasting, -2 * projection.falseNorthing);
             return ConcatenatedTransform.create(ProjectiveTransform.create(step), projection);
         }
     }

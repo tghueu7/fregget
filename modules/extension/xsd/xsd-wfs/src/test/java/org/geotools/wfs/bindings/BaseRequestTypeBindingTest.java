@@ -29,13 +29,11 @@ import org.w3c.dom.Element;
 
 /**
  * Unit test suite for {@link BaseRequestTypeBinding}
- * 
+ *
  * @author Gabriel Roldan (TOPP)
  * @version $Id$
- * @since 2.5.x
- *
- *
  * @source $URL$
+ * @since 2.5.x
  */
 
 public class BaseRequestTypeBindingTest extends WFSTestSupport {

@@ -47,12 +47,9 @@ import org.opengis.filter.expression.Function;
  * @author Andrea Aime
  * @author Michael Bedward
  * @author Frank Gasdorf
- * 
- * @since 2.6
- *
- *
- * @source $URL$
  * @version $Id $
+ * @source $URL$
+ * @since 2.6
  */
 
 public class EnvFunctionTest {
@@ -66,7 +63,8 @@ public class EnvFunctionTest {
         EnvFunction.clearLocalValues();
     }
 
-    public EnvFunctionTest() {}
+    public EnvFunctionTest() {
+    }
 
     /**
      * Tests the use of two thread-local tables with same var names and different values
@@ -318,7 +316,8 @@ public class EnvFunctionTest {
 
         int defaultValue = 42;
 
-        Object result = ff.function("env", ff.literal("doesnotexist"), ff.literal(defaultValue)).evaluate(null);
+        Object result = ff.function("env", ff.literal("doesnotexist"), ff.literal(defaultValue))
+                .evaluate(null);
         int value = ((Number) result).intValue();
         assertEquals(defaultValue, value);
     }
@@ -336,7 +335,7 @@ public class EnvFunctionTest {
     }
 
     /**
-     * The setFallback method should log a warning and ignore 
+     * The setFallback method should log a warning and ignore
      * the argument.
      */
     @Test
@@ -371,7 +370,8 @@ public class EnvFunctionTest {
         // remove from global lookup table
         String expectedFallback = "does not exist";
         EnvFunction.removeGlobalValue("foo");
-        assertEvalStringEquals(expectedFallback, ff.function("env", ff.literal("foo"), ff.literal(expectedFallback)));
+        assertEvalStringEquals(expectedFallback, ff.function("env", ff.literal("foo"), ff.literal
+                (expectedFallback)));
     }
 
     @Test
@@ -383,12 +383,14 @@ public class EnvFunctionTest {
         // remove from local lookup table
         String expectedFallback = "does not exist";
         EnvFunction.removeLocalValue("foo");
-        assertEvalStringEquals(expectedFallback, ff.function("env", ff.literal("foo"), ff.literal(expectedFallback)));
+        assertEvalStringEquals(expectedFallback, ff.function("env", ff.literal("foo"), ff.literal
+                (expectedFallback)));
     }
 
     @Test
     public void testNonExistingKeyEvalIsNilWithoutDefault() {
-        boolean isNil = ff.isNil(ff.function("env", ff.literal("not existig key")), null).evaluate(null);
+        boolean isNil = ff.isNil(ff.function("env", ff.literal("not existig key")), null)
+                .evaluate(null);
         assertTrue(isNil);
     }
 
@@ -414,7 +416,7 @@ public class EnvFunctionTest {
     }
 
     private void assertEvalStringEquals(final String expectedString, final Function function) {
-        String result = (String) function.evaluate(null);        
+        String result = (String) function.evaluate(null);
         assertEquals(expectedString, result);
     }
 }

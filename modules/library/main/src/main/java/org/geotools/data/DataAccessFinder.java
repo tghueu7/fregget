@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -36,32 +36,32 @@ import static java.util.stream.Collectors.toSet;
 /**
  * Enable programs to find all available DataAccess implementations, including
  * the DataStore ones.
- * 
+ * <p>
  * <p>
  * In order to be located by this finder datasources must provide an
  * implementation of the {@link DataAccessFactory} interface.
  * </p>
- * 
+ * <p>
  * <p>
  * In addition to implementing this interface datasouces should have a services
  * file:<br/><code>META-INF/services/org.geotools.data.DataAccessFactory</code>
  * </p>
- * 
+ * <p>
  * <p>
  * The file should contain a single line which gives the full name of the
  * implementing class.
  * </p>
- * 
+ * <p>
  * <p>
  * Example:<br/><code>org.geotools.data.mytype.MyTypeDataAccessFacotry</code>
  * </p>
- * 
- *
  *
  * @source $URL$
  */
 public final class DataAccessFinder {
-    /** The logger for the filter module. */
+    /**
+     * The logger for the filter module.
+     */
     protected static final Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger("org.geotools.data");
 
@@ -79,18 +79,14 @@ public final class DataAccessFinder {
      * Checks each available datasource implementation in turn and returns the
      * first one which claims to support the resource identified by the params
      * object.
-     * 
-     * @param params
-     *            A Map object which contains a defenition of the resource to
-     *            connect to. for file based resources the property 'url' should
-     *            be set within this Map.
-     * 
+     *
+     * @param params A Map object which contains a defenition of the resource to
+     *               connect to. for file based resources the property 'url' should
+     *               be set within this Map.
      * @return The first datasource which claims to process the required
-     *         resource, returns null if none can be found.
-     * 
-     * @throws IOException
-     *             If a suitable loader can be found, but it can not be attached
-     *             to the specified resource without errors.
+     * resource, returns null if none can be found.
+     * @throws IOException If a suitable loader can be found, but it can not be attached
+     *                     to the specified resource without errors.
      */
     @SuppressWarnings("unchecked")
     public static synchronized DataAccess<FeatureType, Feature> getDataStore(
@@ -139,7 +135,8 @@ public final class DataAccessFinder {
                 } else {
                     canProcessButNotAvailable = new IOException(
                             fac.getDisplayName()
-                                    + " should be used, but is not availble. Have you installed the required drivers or jar files?");
+                                    + " should be used, but is not availble. Have you installed " +
+                                    "the required drivers or jar files?");
                     LOGGER.log(Level.WARNING, fac.getDisplayName()
                             + " should be used, but is not availble", canProcessButNotAvailable);
                 }
@@ -155,9 +152,9 @@ public final class DataAccessFinder {
      * Finds all implemtaions of DataAccessFactory which have registered using
      * the services mechanism, regardless weather it has the appropriate
      * libraries on the classpath.
-     * 
+     *
      * @return An iterator over all discovered datastores which have registered
-     *         factories
+     * factories
      */
     public static synchronized Iterator<DataAccessFactory> getAllDataStores() {
         Set<DataAccessFactory> all = new HashSet<DataAccessFactory>();
@@ -185,9 +182,9 @@ public final class DataAccessFinder {
      * Finds all implemtaions of DataAccessFactory which have registered using
      * the services mechanism, and that have the appropriate libraries on the
      * classpath.
-     * 
+     *
      * @return An iterator over all discovered datastores which have registered
-     *         factories, and whose available method returns true.
+     * factories, and whose available method returns true.
      */
     public static synchronized Iterator<DataAccessFactory> getAvailableDataStores() {
 
@@ -219,7 +216,7 @@ public final class DataAccessFinder {
     private static FactoryRegistry getServiceRegistry() {
         assert Thread.holdsLock(DataAccessFinder.class);
         if (registry == null) {
-            registry = new FactoryCreator(Arrays.asList(new Class<?>[] { DataAccessFactory.class }));
+            registry = new FactoryCreator(Arrays.asList(new Class<?>[]{DataAccessFactory.class}));
         }
         return registry;
     }
@@ -238,14 +235,14 @@ public final class DataAccessFinder {
         DataStoreFinder.scanForPlugins();
         getServiceRegistry().scanForPlugins();
     }
-    
+
     /**
      * Resets the factory finder and prepares for a new full scan of the SPI subsystems
      */
     public static void reset() {
         FactoryRegistry copy = registry;
         registry = null;
-        if(copy != null) {
+        if (copy != null) {
             copy.deregisterAll();
         }
     }

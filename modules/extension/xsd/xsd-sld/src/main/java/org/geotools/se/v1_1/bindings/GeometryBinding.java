@@ -24,9 +24,9 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/se:Geometry.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:element name="Geometry" type="se:GeometryType"&gt;
@@ -36,27 +36,25 @@ import javax.xml.namespace.QName;
  *          feature to be used for rendering.
  *        &lt;/xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
- *  &lt;/xsd:element&gt; 
- * 	
+ *  &lt;/xsd:element&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:complexType name="GeometryType"&gt;
  *      &lt;xsd:sequence&gt;
  *          &lt;xsd:element ref="ogc:PropertyName"/&gt;
  *      &lt;/xsd:sequence&gt;
- *  &lt;/xsd:complexType&gt; 
- *      
+ *  &lt;/xsd:complexType&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class GeometryBinding extends SLDGeometryBinding {

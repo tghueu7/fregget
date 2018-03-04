@@ -46,7 +46,7 @@ public final class CapabilitiesServiceInfo implements WFSServiceInfo {
     private final URI getCapsUrl;
 
     public CapabilitiesServiceInfo(String schemaUri, URL getCapsUrl,
-            WFSCapabilitiesType capabilities) {
+                                   WFSCapabilitiesType capabilities) {
         try {
             this.getCapsUrl = getCapsUrl.toURI();
             this.schemaUri = new URI(schemaUri);
@@ -58,7 +58,7 @@ public final class CapabilitiesServiceInfo implements WFSServiceInfo {
 
     /**
      * Maps to the capabilities' service identification abstract
-     * 
+     *
      * @see ServiceInfo#getDescription()
      */
     public String getDescription() {
@@ -76,7 +76,7 @@ public final class CapabilitiesServiceInfo implements WFSServiceInfo {
 
     /**
      * Maps to the capabilities' service identification keywords list
-     * 
+     *
      * @see ServiceInfo#getDescription()
      */
     public Set<String> getKeywords() {
@@ -117,7 +117,7 @@ public final class CapabilitiesServiceInfo implements WFSServiceInfo {
 
     /**
      * Maps to the WFS xsd schema in schemas.opengis.net
-     * 
+     *
      * @see ServiceInfo#getSchema()
      */
     public URI getSchema() {
@@ -126,7 +126,7 @@ public final class CapabilitiesServiceInfo implements WFSServiceInfo {
 
     /**
      * Maps to the URL of the capabilities document
-     * 
+     *
      * @see ServiceInfo#getSource()
      */
     public URI getSource() {

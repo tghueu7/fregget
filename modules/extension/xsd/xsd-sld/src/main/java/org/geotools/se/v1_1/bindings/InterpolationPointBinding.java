@@ -27,17 +27,17 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/se:InterpolationPoint.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:element name="InterpolationPoint"
- *      substitutionGroup="ogc:expression" type="se:InterpolationPointType"/&gt; 
- * 	
+ *      substitutionGroup="ogc:expression" type="se:InterpolationPointType"/&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * <pre>
  *       <code>
  *  &lt;xsd:complexType name="InterpolationPointType"&gt;
@@ -49,28 +49,26 @@ import javax.xml.namespace.QName;
  *              &lt;/xsd:sequence&gt;
  *          &lt;/xsd:extension&gt;
  *      &lt;/xsd:complexContent&gt;
- *  &lt;/xsd:complexType&gt; 
- *              
+ *  &lt;/xsd:complexType&gt;
+ *
  *        </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class InterpolationPointBinding extends AbstractComplexBinding {
 
     StyleFactory styleFactory;
     FilterFactory filterFactory;
-    
+
     public InterpolationPointBinding(StyleFactory styleFactory, FilterFactory filterFactory) {
         this.styleFactory = styleFactory;
         this.filterFactory = filterFactory;
     }
-    
+
     /**
      * @generated
      */
@@ -80,7 +78,7 @@ public class InterpolationPointBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -89,7 +87,7 @@ public class InterpolationPointBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
@@ -98,10 +96,10 @@ public class InterpolationPointBinding extends AbstractComplexBinding {
 
         //&lt;xsd:element ref="se:Data"/&gt;
         entry.setQuantity(filterFactory.literal(node.getChildValue("Data")));
-        
+
         //&lt;xsd:element ref="se:Value"/&gt;
         entry.setColor((Expression) node.getChildValue("Value"));
-        
+
         return entry;
     }
 

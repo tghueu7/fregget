@@ -32,10 +32,10 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  * Very simple bean to hold the configuration of the mosaic.
- * 
- * @author Simone Giannecchini, GeoSolutions S.A.S.
- * @author Stefan Alfons Krueger (alfonx), Wikisquare.de : Support for jar:file:foo.jar/bar.properties URLs
  *
+ * @author Simone Giannecchini, GeoSolutions S.A.S.
+ * @author Stefan Alfons Krueger (alfonx), Wikisquare.de : Support for jar:file:foo.jar/bar
+ * .properties URLs
  * @source $URL$
  */
 public class MosaicConfigurationBean {
@@ -60,7 +60,8 @@ public class MosaicConfigurationBean {
     }
 
     /**
-     * <code>true</code> if we need to expand to RGB(A) the single tiles in case they use a different {@link IndexColorModel}.
+     * <code>true</code> if we need to expand to RGB(A) the single tiles in case they use a 
+     * different {@link IndexColorModel}.
      */
     private boolean expandToRGB;
 
@@ -69,40 +70,61 @@ public class MosaicConfigurationBean {
      */
     private boolean checkAuxiliaryMetadata;
 
-    /** OverviewLevel levels */
+    /**
+     * OverviewLevel levels
+     */
     private double[][] levels;
 
-    /** name for the mosaic. */
+    /**
+     * name for the mosaic.
+     */
     private String name;
 
-    /** number of levels */
+    /**
+     * number of levels
+     */
     private int levelsNum;
 
-    /** time attribute name. <code>null</code> if absent. */
+    /**
+     * time attribute name. <code>null</code> if absent.
+     */
     private String timeAttribute;
 
-    /** elevation attribute name. <code>null</code> if absent. */
+    /**
+     * elevation attribute name. <code>null</code> if absent.
+     */
     private String elevationAttribute;
-    
-    /** crs attribute name, or <code>null</code> if absent */
+
+    /**
+     * crs attribute name, or <code>null</code> if absent
+     */
     private String crsAttribute;
 
-    /** resolution attribute name, or <code>null</code> if absent */
+    /**
+     * resolution attribute name, or <code>null</code> if absent
+     */
     private String resolutionAttribute;
 
-    /** resolutionX attribute name, or <code>null</code> if absent */
+    /**
+     * resolutionX attribute name, or <code>null</code> if absent
+     */
     private String resolutionXAttribute;
 
-    /** resolutionY attribute name, or <code>null</code> if absent */
+    /**
+     * resolutionY attribute name, or <code>null</code> if absent
+     */
     private String resolutionYAttribute;
 
-    /** additional domain attributes names. <code>null</code> if absent. */
+    /**
+     * additional domain attributes names. <code>null</code> if absent.
+     */
     private String additionalDomainAttributes;
 
     private CoordinateReferenceSystem crs;
 
     /**
-     * mosaic's dummy sample model useful to store dataType and number of bands. All the other fields shouldn't be queried since they are meaningless
+     * mosaic's dummy sample model useful to store dataType and number of bands. All the other 
+     * fields shouldn't be queried since they are meaningless
      * for the whole mosaic (width, height, ...)
      */
     private SampleModel sampleModel;
@@ -111,7 +133,9 @@ public class MosaicConfigurationBean {
 
     private byte[][] palette;
 
-    /** Imposed envelope for this mosaic. If not present we need to compute from catalogue. */
+    /**
+     * Imposed envelope for this mosaic. If not present we need to compute from catalogue.
+     */
     private ReferencedEnvelope envelope;
 
     private String auxiliaryFilePath;
@@ -162,7 +186,9 @@ public class MosaicConfigurationBean {
         this.elevationAttribute = elevationAttribute;
     }
 
-    /** <code>true</code> if we need to manage footprint if available. */
+    /**
+     * <code>true</code> if we need to manage footprint if available.
+     */
     private boolean footprintManagement;
 
     public String getTimeAttribute() {
@@ -172,7 +198,7 @@ public class MosaicConfigurationBean {
     public void setTimeAttribute(final String timeAttribute) {
         this.timeAttribute = timeAttribute;
     }
-    
+
     public String getCRSAttribute() {
         return crsAttribute;
     }

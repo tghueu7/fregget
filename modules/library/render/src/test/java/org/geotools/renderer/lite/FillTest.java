@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2009 - 2016, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -49,8 +49,6 @@ import org.junit.Test;
 import org.opengis.filter.FilterFactory2;
 
 /**
- * 
- * 
  * @source $URL$
  */
 public class FillTest {
@@ -79,7 +77,7 @@ public class FillTest {
         // System.setProperty("org.geotools.test.interactive", "true");
 
     }
-    
+
     private void runSingleLayerTest(String styleName) throws Exception {
         runSingleLayerTest(styleName, 100);
     }
@@ -93,13 +91,13 @@ public class FillTest {
         StreamingRenderer renderer = new StreamingRenderer();
         renderer.setMapContent(mc);
         renderer.setJava2DHints(new RenderingHints(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON));
-        
+
         BufferedImage image = RendererBaseTest.showRender(styleName, renderer, TIME, bounds);
         File reference = new File("./src/test/resources/org/geotools/renderer/lite/test-data/"
                 + styleName + ".png");
         ImageAssert.assertEquals(reference, image, threshold);
     }
-    
+
 
     @Test
     public void testSolidFill() throws Exception {
@@ -160,47 +158,47 @@ public class FillTest {
     public void testFontFill() throws Exception {
         runSingleLayerTest("fillTTFDecorative.sld");
     }
-    
+
     @Test
     public void testRandomSlash() throws Exception {
         runSingleLayerTest("fillRandomSlash.sld");
     }
-    
+
     @Test
     public void testRandomRotatedSlash() throws Exception {
         runSingleLayerTest("fillRandomRotatedSlash.sld");
     }
-    
+
     @Test
     public void testFillRandomGraphic() throws Exception {
         runSingleLayerTest("fillRandomGraphic.sld");
     }
-    
+
     @Test
     public void testFillRandomRotatedGraphic() throws Exception {
         runSingleLayerTest("fillRandomRotatedGraphic.sld");
     }
-    
+
     @Test
     public void testFillRandomTwoMarks() throws Exception {
         runSingleLayerTest("fillRandomTwoMarks.sld");
     }
-    
+
     @Test
     public void testFillRandomGridSlash() throws Exception {
         runSingleLayerTest("fillRandomGridSlash.sld");
     }
-    
+
     @Test
     public void testFillRandomGridGraphic() throws Exception {
         runSingleLayerTest("fillRandomGridGraphic.sld");
     }
-    
+
     @Test
     public void testFillRandomGridRotatedSlash() throws Exception {
         runSingleLayerTest("fillRandomGridRotatedSlash.sld");
     }
-    
+
     @Test
     public void testFillRandomGridRotatedGraphic() throws Exception {
         runSingleLayerTest("fillRandomGridRotatedGraphic.sld");

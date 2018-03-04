@@ -55,13 +55,13 @@ import junit.framework.TestCase;
 
 /**
  * @author ian
- *
  */
 public class DirectLayerLabelsTest extends TestCase {
 
-    private long timout=3000;
+    private long timout = 3000;
     private static final int CENTERX = 130;
     private static final int CENTERY = 40;
+
     /**
      * @throws java.lang.Exception
      */
@@ -79,18 +79,18 @@ public class DirectLayerLabelsTest extends TestCase {
         MapContext map = new DefaultMapContext(DefaultGeographicCRS.WGS84);
         map.addLayer(collection, style);
         DirectLayer dl = new DirectLayer() {
-            
+
             @Override
             public ReferencedEnvelope getBounds() {
                 // TODO Auto-generated method stub
                 return null;
             }
-            
+
             @Override
             public void draw(Graphics2D graphics, MapContent map, MapViewport viewport) {
                 graphics.setColor(Color.BLACK);
                 graphics.drawString("DirectLayer", 10, 10);
-                
+
             }
         };
         map.addLayer(dl);
@@ -102,7 +102,7 @@ public class DirectLayerLabelsTest extends TestCase {
                 env.getMinY() - boundary, env.getMaxY() + boundary, null);
         RendererBaseTest.showRender("testDirectLabeling", renderer, timout, env);
         map.dispose();
-        
+
     }
 
     private Style loadStyle(String sldFilename) throws IOException {
@@ -132,8 +132,9 @@ public class DirectLayerLabelsTest extends TestCase {
     }
 
     private SimpleFeature createPointFeature(int x, int y, String name,
-            CoordinateReferenceSystem crs, GeometryFactory geomFac, AttributeDescriptor[] types)
-                    throws Exception {
+                                             CoordinateReferenceSystem crs, GeometryFactory 
+                                                     geomFac, AttributeDescriptor[] types)
+            throws Exception {
         Coordinate c = new Coordinate(x, y);
         Point point = geomFac.createPoint(c);
         SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
@@ -144,6 +145,6 @@ public class DirectLayerLabelsTest extends TestCase {
         builder.add("name", String.class);
         builder.setName("pointfeature");
         SimpleFeatureType type = builder.buildFeatureType();
-        return SimpleFeatureBuilder.build(type, new Object[] { point, name }, null);
+        return SimpleFeatureBuilder.build(type, new Object[]{point, name}, null);
     }
 }

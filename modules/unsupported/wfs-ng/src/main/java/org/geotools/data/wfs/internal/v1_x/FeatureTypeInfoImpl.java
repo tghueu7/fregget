@@ -45,7 +45,7 @@ import org.opengis.referencing.operation.TransformException;
 public class FeatureTypeInfoImpl implements FeatureTypeInfo {
 
     private final FeatureTypeType eType;
-    
+
     private final WFSConfig config;
 
     public FeatureTypeInfoImpl(FeatureTypeType eType, WFSConfig config) {

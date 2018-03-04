@@ -24,54 +24,51 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * A binding implementation which handles the case of a complex type with 
+ * A binding implementation which handles the case of a complex type with
  * simple content.
  * <p>
  * Model objects typically have a single "value" getter/setter. This binding
- * calls that method reflectively on the class created by the super type. 
+ * calls that method reflectively on the class created by the super type.
  * </p>
+ *
  * @author Justin Deoliveira, The Open Planning Project
- *
- * @see ComplexEMFBinding
- *
- *
- *
  * @source $URL$
+ * @see ComplexEMFBinding
  */
 public class SimpleContentComplexEMFBinding extends ComplexEMFBinding {
 
     public SimpleContentComplexEMFBinding(EFactory factory, QName target) {
         super(factory, target);
     }
-    
+
     /**
      * Takes <tt>value</tt> and sets its to the object value.
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
-    
+
         EObject object = createEObject(value);
-        if ( object != null ) {
+        if (object != null) {
             //set the "value" property to be the value passed in
-            EMFUtils.set( object, "value", value );
-            
+            EMFUtils.set(object, "value", value);
+
             //set all the attribute values
             setProperties(object, node, false);
             return object;
         }
-        
+
         return value;
     }
-    
+
     /**
      * Calls getValue() and appends the result as child text of <tt>value</tt>.
      */
     public Element encode(Object object, Document document, Element value) throws Exception {
         EObject eobject = (EObject) object;
-        if ( EMFUtils.has( eobject, "value") ) {
-            Object v = EMFUtils.get( ((EObject)object), "value" );
-            if ( v != null ) {
-                value.appendChild( document.createTextNode( v.toString() ) );
-            }    
+        if (EMFUtils.has(eobject, "value")) {
+            Object v = EMFUtils.get(((EObject) object), "value");
+            if (v != null) {
+                value.appendChild(document.createTextNode(v.toString()));
+            }
         }
         return value;
     }

@@ -23,16 +23,14 @@ import org.geotools.jdbc.JDBCTransactionOnlineTest;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DB2TransactionOnlineTest extends JDBCTransactionOnlineTest {
     protected JDBCTestSetup createTestSetup() {
         return new DB2TestSetup();
     }
-    
+
     public void testConcurrentTransactions() throws IOException {
-    	// TODO does not work 
+        // TODO does not work 
     }
 }

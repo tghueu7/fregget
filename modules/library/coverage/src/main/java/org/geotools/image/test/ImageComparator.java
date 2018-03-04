@@ -28,9 +28,8 @@ import org.geotools.image.ImageWorker;
  * Utility to compare two images and verify if the are equal to the human eye, or not. See the
  * {@link Mode} enumeration for comparison modes. The image comparison logic has been ported to Java
  * from Resemble.js, https://github.com/Huddle/Resemble.js
- * 
+ *
  * @author Andrea Aime - GeoSolutions
- * 
  */
 public class ImageComparator {
 
@@ -49,7 +48,9 @@ public class ImageComparator {
          * Ignores the colors and compares only the brightness
          */
         IgnoreColors
-    };
+    }
+
+    ;
 
     final class Pixel {
         int r;
@@ -207,32 +208,33 @@ public class ImageComparator {
         if (bands > 4 || (bands == 2 && !hasAlpha) || (bands == 3 && hasAlpha)) {
             throw new IllegalArgumentException(
                     "Images have the wrong type, this code only supports gray, gray/alpha, "
-                            + "RGB, RGBA images, or images that can be transformed in those models");
+                            + "RGB, RGBA images, or images that can be transformed in those " +
+                            "models");
         }
 
         this.mode = mode;
         switch (mode) {
-        case IgnoreNothing:
-            tolerance[RED] = 16;
-            tolerance[GREEN] = 16;
-            tolerance[BLUE] = 16;
-            tolerance[ALPHA] = 16;
-            tolerance[MIN_BRIGHTNESS] = 16;
-            tolerance[MAX_BRIGHTNESS] = 240;
-            break;
-        case IgnoreAntialiasing:
-            tolerance[RED] = 32;
-            tolerance[GREEN] = 32;
-            tolerance[BLUE] = 32;
-            tolerance[ALPHA] = 128;
-            tolerance[MIN_BRIGHTNESS] = 64;
-            tolerance[MAX_BRIGHTNESS] = 98;
-            break;
-        case IgnoreColors:
-            tolerance[ALPHA] = 16;
-            tolerance[MIN_BRIGHTNESS] = 16;
-            tolerance[MAX_BRIGHTNESS] = 240;
-            break;
+            case IgnoreNothing:
+                tolerance[RED] = 16;
+                tolerance[GREEN] = 16;
+                tolerance[BLUE] = 16;
+                tolerance[ALPHA] = 16;
+                tolerance[MIN_BRIGHTNESS] = 16;
+                tolerance[MAX_BRIGHTNESS] = 240;
+                break;
+            case IgnoreAntialiasing:
+                tolerance[RED] = 32;
+                tolerance[GREEN] = 32;
+                tolerance[BLUE] = 32;
+                tolerance[ALPHA] = 128;
+                tolerance[MIN_BRIGHTNESS] = 64;
+                tolerance[MAX_BRIGHTNESS] = 98;
+                break;
+            case IgnoreColors:
+                tolerance[ALPHA] = 16;
+                tolerance[MIN_BRIGHTNESS] = 16;
+                tolerance[MAX_BRIGHTNESS] = 240;
+                break;
         }
 
         computeDifference(image1, image2);
@@ -241,7 +243,7 @@ public class ImageComparator {
 
     /**
      * Forces the image to start in the origin and have a rgb/rbga/gray/gray+alpha structure
-     * 
+     *
      * @param image1
      * @return
      */
@@ -288,7 +290,7 @@ public class ImageComparator {
                         if (mode == Mode.IgnoreAntialiasing) {
                             if (isAntialised(px1, it1, r, c, width, height, components, cursor)
                                     || isAntialised(px2, it2, r, c, width, height, components,
-                                            cursor)) {
+                                    cursor)) {
                                 if (!px1.isBrightnessSimilar(px2)) {
                                     mismatchCount++;
                                 }
@@ -309,7 +311,7 @@ public class ImageComparator {
     }
 
     private boolean isAntialised(Pixel source, RandomIter it, int row, int col, int width,
-            int height, int[] pixel, Pixel cursor) {
+                                 int height, int[] pixel, Pixel cursor) {
         final int DISTANCE = 1;
 
         int highContrastSibling = 0;

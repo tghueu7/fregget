@@ -10,7 +10,7 @@ public class FilterTypeBinding extends org.geotools.filter.v1_1.FilterTypeBindin
     public FilterTypeBinding(FilterFactory filterFactory) {
         super(filterFactory);
     }
-    
+
     @Override
     public QName getTarget() {
         return FES.FilterType;

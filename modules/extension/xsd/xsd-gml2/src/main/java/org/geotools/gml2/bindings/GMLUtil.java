@@ -20,8 +20,6 @@ import com.vividsolutions.jts.geom.CoordinateSequence;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GMLUtil {
@@ -30,7 +28,6 @@ public class GMLUtil {
      * the first coordinate in the sequence.
      *
      * @param seq The coordinate sequence in question.
-     *
      * @return The best guess at a dimension, -1 if it can not be determined.
      */
     public static int getDimension(CoordinateSequence seq) {

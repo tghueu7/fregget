@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2001-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -29,6 +29,7 @@ import java.awt.image.SinglePixelPackedSampleModel;
 import org.opengis.util.InternationalString;
 import org.opengis.coverage.ColorInterpretation;
 import org.opengis.coverage.SampleDimensionType;
+
 import static org.opengis.coverage.SampleDimensionType.*;
 
 import org.geotools.resources.i18n.Errors;
@@ -48,37 +49,38 @@ import org.geotools.util.NumberRange;
  * This class provides also some methods for mapping {@link SampleDimensionType}
  * to {@link DataBuffer} types.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public final class TypeMap {
     /**
      * The mapping of {@link SampleDimensionType} to {@link DataBuffer} types.
      */
     private static final TypeMap[] MAP = new TypeMap[SampleDimensionType.values().length];
+
     static {
-        final Map<Number,Number> pool = new HashMap<Number,Number>(32);
-        final Float  M1 = -Float .MAX_VALUE;
-        final Float  P1 =  Float .MAX_VALUE;
+        final Map<Number, Number> pool = new HashMap<Number, Number>(32);
+        final Float M1 = -Float.MAX_VALUE;
+        final Float P1 = Float.MAX_VALUE;
         final Double M2 = -Double.MAX_VALUE;
-        final Double P2 =  Double.MAX_VALUE;
+        final Double P2 = Double.MAX_VALUE;
         // The constructor will register automatically those objects in the above array.
-        new TypeMap( UNSIGNED_1BIT,  DataBuffer.TYPE_BYTE,   (byte) 1, false, false,        pool);
-        new TypeMap( UNSIGNED_2BITS, DataBuffer.TYPE_BYTE,   (byte) 2, false, false,        pool);
-        new TypeMap( UNSIGNED_4BITS, DataBuffer.TYPE_BYTE,   (byte) 4, false, false,        pool);
-        new TypeMap( UNSIGNED_8BITS, DataBuffer.TYPE_BYTE,   (byte) 8, false, false,        pool);
-        new TypeMap(   SIGNED_8BITS, DataBuffer.TYPE_BYTE,   (byte) 8, true,  false,        pool);
-        new TypeMap(UNSIGNED_16BITS, DataBuffer.TYPE_USHORT, (byte)16, false, false,        pool);
-        new TypeMap(  SIGNED_16BITS, DataBuffer.TYPE_SHORT,  (byte)16, true,  false,        pool);
-        new TypeMap(UNSIGNED_32BITS, DataBuffer.TYPE_INT,    (byte)32, false, false,        pool);
-        new TypeMap(  SIGNED_32BITS, DataBuffer.TYPE_INT,    (byte)32, true,  false,        pool);
-        new TypeMap(    REAL_32BITS, DataBuffer.TYPE_FLOAT,  (byte)32, true,  true, M1, P1, pool);
-        new TypeMap(    REAL_64BITS, DataBuffer.TYPE_DOUBLE, (byte)64, true,  true, M2, P2, pool);
-    };
+        new TypeMap(UNSIGNED_1BIT, DataBuffer.TYPE_BYTE, (byte) 1, false, false, pool);
+        new TypeMap(UNSIGNED_2BITS, DataBuffer.TYPE_BYTE, (byte) 2, false, false, pool);
+        new TypeMap(UNSIGNED_4BITS, DataBuffer.TYPE_BYTE, (byte) 4, false, false, pool);
+        new TypeMap(UNSIGNED_8BITS, DataBuffer.TYPE_BYTE, (byte) 8, false, false, pool);
+        new TypeMap(SIGNED_8BITS, DataBuffer.TYPE_BYTE, (byte) 8, true, false, pool);
+        new TypeMap(UNSIGNED_16BITS, DataBuffer.TYPE_USHORT, (byte) 16, false, false, pool);
+        new TypeMap(SIGNED_16BITS, DataBuffer.TYPE_SHORT, (byte) 16, true, false, pool);
+        new TypeMap(UNSIGNED_32BITS, DataBuffer.TYPE_INT, (byte) 32, false, false, pool);
+        new TypeMap(SIGNED_32BITS, DataBuffer.TYPE_INT, (byte) 32, true, false, pool);
+        new TypeMap(REAL_32BITS, DataBuffer.TYPE_FLOAT, (byte) 32, true, true, M1, P1, pool);
+        new TypeMap(REAL_64BITS, DataBuffer.TYPE_DOUBLE, (byte) 64, true, true, M2, P2, pool);
+    }
+
+    ;
 
     /**
      * One of {@link SampleDimensionType} code list.
@@ -135,10 +137,9 @@ public final class TypeMap {
      * Constructs a new mapping with the specified value.
      */
     private TypeMap(final SampleDimensionType code,
-                    final int     type,   final byte    size,
+                    final int type, final byte size,
                     final boolean signed, final boolean real,
-                    final Map<Number,Number> pool)
-    {
+                    final Map<Number, Number> pool) {
         this(code, type, size, signed, real, null, null, pool);
     }
 
@@ -146,47 +147,46 @@ public final class TypeMap {
      * Constructs a new mapping with the specified value.
      */
     private TypeMap(final SampleDimensionType code,
-                    final int     type,   final byte    size,
+                    final int type, final byte size,
                     final boolean signed, final boolean real,
-                    Number lower, Number upper, final Map<Number,Number> pool)
-    {
+                    Number lower, Number upper, final Map<Number, Number> pool) {
         Number one = null;
         if (lower == null) {
-            final long max = (1L << (signed ? size-1 : size)) - 1;
+            final long max = (1L << (signed ? size - 1 : size)) - 1;
             final long min = signed ? ~max : 0; // Tild (~), not minus sign (-).
             if (max <= Byte.MAX_VALUE) {
                 lower = Byte.valueOf((byte) min);
                 upper = Byte.valueOf((byte) max);
-                one   = Byte.valueOf((byte) 1);
+                one = Byte.valueOf((byte) 1);
             } else if (max <= Short.MAX_VALUE) {
                 lower = Short.valueOf((short) min);
                 upper = Short.valueOf((short) max);
-                one   = Short.valueOf((short) 1);
+                one = Short.valueOf((short) 1);
             } else if (max <= Integer.MAX_VALUE) {
                 lower = Integer.valueOf((int) min);
                 upper = Integer.valueOf((int) max);
-                one   = Integer.valueOf(1);
+                one = Integer.valueOf(1);
             } else {
                 lower = Long.valueOf(min);
                 upper = Long.valueOf(max);
-                one   = Long.valueOf(1L);
+                one = Long.valueOf(1L);
             }
             lower = unique(pool, lower);
             upper = unique(pool, upper);
-            one   = unique(pool, one);
+            one = unique(pool, one);
             assert lower.longValue() == min;
             assert upper.longValue() == max;
         }
         assert ((Comparable) lower).compareTo(upper) < 0 : upper;
         final Class<? extends Number> c = upper.getClass();
-        this.code          = code;
-        this.type          = type;
-        this.size          = size;
-        this.signed        = signed;
-        this.real          = real;
-        this.range         = new NumberRange(c, lower, upper);
+        this.code = code;
+        this.type = type;
+        this.size = size;
+        this.signed = signed;
+        this.real = real;
+        this.range = new NumberRange(c, lower, upper);
         this.positiveRange = signed ? null : new NumberRange(c, one, upper);
-        final int ordinal  = code.ordinal();
+        final int ordinal = code.ordinal();
         assert MAP[ordinal] == null : code;
         MAP[ordinal] = this;
         assert code.equals(getSampleDimensionType(range)) : code;
@@ -195,7 +195,7 @@ public final class TypeMap {
     /**
      * Returns a single instance of the specified number.
      */
-    private static Number unique(final Map<Number,Number> pool, final Number n) {
+    private static Number unique(final Map<Number, Number> pool, final Number n) {
         final Number candidate = pool.put(n, n);
         if (candidate == null) {
             return n;
@@ -207,7 +207,7 @@ public final class TypeMap {
     /**
      * Returns the smallest sample dimension type capable to hold the specified range of values.
      *
-     * @param  range The range of values.
+     * @param range The range of values.
      * @return The smallest sample dimension type for the specified range.
      */
     public static SampleDimensionType getSampleDimensionType(final Range<?> range) {
@@ -229,8 +229,8 @@ public final class TypeMap {
      * Returns the smallest sample dimension type capable to hold the specified range of values.
      * An heuristic approach is used for non-integer values.
      *
-     * @param  min The lower value, inclusive.
-     * @param  max The upper value, <strong>inclusive</strong> as well.
+     * @param min The lower value, inclusive.
+     * @param max The upper value, <strong>inclusive</strong> as well.
      * @return The smallest sample dimension type for the specified range.
      */
     public static SampleDimensionType getSampleDimensionType(double min, double max) {
@@ -243,7 +243,7 @@ public final class TypeMap {
         }
         min = Math.abs(min);
         max = Math.abs(max);
-        if (Math.min(min,max) >= Float.MIN_VALUE  &&  Math.max(min,max) <= Float.MAX_VALUE) {
+        if (Math.min(min, max) >= Float.MIN_VALUE && Math.max(min, max) <= Float.MAX_VALUE) {
             return REAL_32BITS;
         }
         return REAL_64BITS;
@@ -252,22 +252,22 @@ public final class TypeMap {
     /**
      * Returns the smallest sample dimension type capable to hold the specified range of values.
      *
-     * @param  min The lower value, inclusive.
-     * @param  max The upper value, <strong>inclusive</strong> as well.
+     * @param min The lower value, inclusive.
+     * @param max The upper value, <strong>inclusive</strong> as well.
      * @return The smallest sample dimension type for the specified range.
      */
     public static SampleDimensionType getSampleDimensionType(final long min, final long max) {
         if (min >= 0) {
-            if (max < (1L <<  1)) return UNSIGNED_1BIT;
-            if (max < (1L <<  2)) return UNSIGNED_2BITS;
-            if (max < (1L <<  4)) return UNSIGNED_4BITS;
-            if (max < (1L <<  8)) return UNSIGNED_8BITS;
+            if (max < (1L << 1)) return UNSIGNED_1BIT;
+            if (max < (1L << 2)) return UNSIGNED_2BITS;
+            if (max < (1L << 4)) return UNSIGNED_4BITS;
+            if (max < (1L << 8)) return UNSIGNED_8BITS;
             if (max < (1L << 16)) return UNSIGNED_16BITS;
             if (max < (1L << 32)) return UNSIGNED_32BITS;
         } else {
-            if (min>=Byte   .MIN_VALUE && max<=Byte   .MAX_VALUE) return SIGNED_8BITS;
-            if (min>=Short  .MIN_VALUE && max<=Short  .MAX_VALUE) return SIGNED_16BITS;
-            if (min>=Integer.MIN_VALUE && max<=Integer.MAX_VALUE) return SIGNED_32BITS;
+            if (min >= Byte.MIN_VALUE && max <= Byte.MAX_VALUE) return SIGNED_8BITS;
+            if (min >= Short.MIN_VALUE && max <= Short.MAX_VALUE) return SIGNED_16BITS;
+            if (min >= Integer.MIN_VALUE && max <= Integer.MAX_VALUE) return SIGNED_32BITS;
         }
         return REAL_32BITS;
     }
@@ -276,34 +276,45 @@ public final class TypeMap {
      * Returns the sample dimension type for the specified sample model and band number. If
      * the sample model use an undefined data type, then this method returns {@code null}.
      *
-     * @param  model The sample model.
-     * @param  band  The band to query.
+     * @param model The sample model.
+     * @param band  The band to query.
      * @return The sample dimension type for the specified sample model and band number.
      * @throws IllegalArgumentException if the band number is not in the valid range.
      */
     @SuppressWarnings("fallthrough")
-    public static SampleDimensionType getSampleDimensionType(final SampleModel model, final int band)
-            throws IllegalArgumentException
-    {
-        if (band<0 || band>=model.getNumBands()) {
+    public static SampleDimensionType getSampleDimensionType(final SampleModel model, final int 
+            band)
+            throws IllegalArgumentException {
+        if (band < 0 || band >= model.getNumBands()) {
             throw new IllegalArgumentException(Errors.format(ErrorKeys.BAD_BAND_NUMBER_$1, band));
         }
         boolean signed = true;
         switch (model.getDataType()) {
-            case DataBuffer.TYPE_DOUBLE: return REAL_64BITS;
-            case DataBuffer.TYPE_FLOAT:  return REAL_32BITS;
+            case DataBuffer.TYPE_DOUBLE:
+                return REAL_64BITS;
+            case DataBuffer.TYPE_FLOAT:
+                return REAL_32BITS;
             case DataBuffer.TYPE_USHORT: // Fall through
-            case DataBuffer.TYPE_BYTE:   signed=false; // Fall through
+            case DataBuffer.TYPE_BYTE:
+                signed = false; // Fall through
             case DataBuffer.TYPE_INT:
             case DataBuffer.TYPE_SHORT: {
                 switch (model.getSampleSize(band)) {
-                    case  1: return UNSIGNED_1BIT;
-                    case  2: return UNSIGNED_2BITS;
-                    case  4: return UNSIGNED_4BITS;
-                    case  5: return UNSIGNED_8BITS; // for BufferedImages TYPE_USHORT_555_RGB TYPE_USHORT_565_RGB 
-                    case  8: return signed ? SIGNED_8BITS  : UNSIGNED_8BITS;
-                    case 16: return signed ? SIGNED_16BITS : UNSIGNED_16BITS;
-                    case 32: return signed ? SIGNED_32BITS : UNSIGNED_32BITS;
+                    case 1:
+                        return UNSIGNED_1BIT;
+                    case 2:
+                        return UNSIGNED_2BITS;
+                    case 4:
+                        return UNSIGNED_4BITS;
+                    case 5:
+                        return UNSIGNED_8BITS; // for BufferedImages TYPE_USHORT_555_RGB 
+                    // TYPE_USHORT_565_RGB 
+                    case 8:
+                        return signed ? SIGNED_8BITS : UNSIGNED_8BITS;
+                    case 16:
+                        return signed ? SIGNED_16BITS : UNSIGNED_16BITS;
+                    case 32:
+                        return signed ? SIGNED_32BITS : UNSIGNED_32BITS;
                 }
             }
         }
@@ -312,12 +323,13 @@ public final class TypeMap {
 
     /**
      * Returns the sample dimension type name as an international string. For example, the localized
-     * name for {@link SampleDimensionType#UNSIGNED_16BITS} is "<cite>16 bits unsigned integer</cite>"
+     * name for {@link SampleDimensionType#UNSIGNED_16BITS} is "<cite>16 bits unsigned 
+     * integer</cite>"
      * in English and "<cite>Entier non-signé sur 16 bits</cite>" in French.
      */
     public static InternationalString getName(final SampleDimensionType type) {
         final int ordinal = type.ordinal();
-        if (ordinal>=0 && ordinal<MAP.length) {
+        if (ordinal >= 0 && ordinal < MAP.length) {
             return MAP[ordinal].name;
         }
         return new SimpleInternationalString(type.name());
@@ -336,7 +348,7 @@ public final class TypeMap {
     public static int getDataBufferType(final SampleDimensionType type) {
         if (type != null) {
             final int ordinal = type.ordinal();
-            if (ordinal>=0 && ordinal<MAP.length) {
+            if (ordinal >= 0 && ordinal < MAP.length) {
                 return MAP[ordinal].type;
             }
         }
@@ -372,7 +384,7 @@ public final class TypeMap {
     public static NumberRange<? extends Number> getRange(final SampleDimensionType type) {
         if (type != null) {
             final int ordinal = type.ordinal();
-            if (ordinal>=0 && ordinal<MAP.length) {
+            if (ordinal >= 0 && ordinal < MAP.length) {
                 return MAP[ordinal].range;
             }
         }
@@ -387,7 +399,7 @@ public final class TypeMap {
     public static NumberRange<? extends Number> getPositiveRange(final SampleDimensionType type) {
         if (type != null) {
             final int ordinal = type.ordinal();
-            if (ordinal>=0 && ordinal<MAP.length) {
+            if (ordinal >= 0 && ordinal < MAP.length) {
                 return MAP[ordinal].positiveRange;
             }
         }
@@ -401,14 +413,15 @@ public final class TypeMap {
     private static TypeMap map(final SampleDimensionType type) throws IllegalArgumentException {
         if (type != null) {
             final int ordinal = type.ordinal();
-            if (ordinal>=0 && ordinal<MAP.length) {
+            if (ordinal >= 0 && ordinal < MAP.length) {
                 final TypeMap map = MAP[ordinal];
                 if (map != null) {
                     return map;
                 }
             }
         }
-        throw new IllegalArgumentException(Errors.format(ErrorKeys.ILLEGAL_ARGUMENT_$2, "type", type));
+        throw new IllegalArgumentException(Errors.format(ErrorKeys.ILLEGAL_ARGUMENT_$2, "type", 
+                type));
     }
 
     /**
@@ -416,21 +429,21 @@ public final class TypeMap {
      * value can't fit in the specified type, then a wider type is choosen unless
      * {@code allowWidening} is {@code false}.
      *
-     * @param  value The value to wrap in a {@link Number} object.
-     * @param  type A constant from the {@link SampleDimensionType} code list.
-     * @param  allowWidening {@code true} if this method is allowed to returns
-     *         a wider type than the usual one for the specified {@code type}.
+     * @param value         The value to wrap in a {@link Number} object.
+     * @param type          A constant from the {@link SampleDimensionType} code list.
+     * @param allowWidening {@code true} if this method is allowed to returns
+     *                      a wider type than the usual one for the specified {@code type}.
      * @return The value as a {@link Number}.
      * @throws IllegalArgumentException if {@code type} is not a recognized constant.
      * @throws IllegalArgumentException if {@code allowWidening} is {@code false}
-     *         and the specified {@code value} can't fit in the specified sample type.
+     *                                  and the specified {@code value} can't fit in the 
+     *                                  specified sample type.
      */
     @SuppressWarnings("fallthrough")
-    public static Number wrapSample(final double             value,
+    public static Number wrapSample(final double value,
                                     final SampleDimensionType type,
-                                    final boolean    allowWidening)
-            throws IllegalArgumentException
-    {
+                                    final boolean allowWidening)
+            throws IllegalArgumentException {
         /*
          * Note about 'ordinal' computation: We would like to switch on SampleDimensionType
          * ordinal values. But the compiler requires constant values, and doesn't recognize
@@ -446,9 +459,9 @@ public final class TypeMap {
             ordinal = -ordinal;
         }
         switch (ordinal) {
-            case  1: // Fall through
-            case  2: // Fall through
-            case  4: // Fall through
+            case 1: // Fall through
+            case 2: // Fall through
+            case 4: // Fall through
             case -8: {
                 final byte candidate = (byte) value;
                 if (candidate == value) {
@@ -457,7 +470,7 @@ public final class TypeMap {
                 if (!allowWidening) break;
                 // Fall through
             }
-            case   8: // Fall through
+            case 8: // Fall through
             case -16: {
                 final short candidate = (short) value;
                 if (candidate == value) {
@@ -466,7 +479,7 @@ public final class TypeMap {
                 if (!allowWidening) break;
                 // Fall through
             }
-            case  16: // Fall through
+            case 16: // Fall through
             case -32: {
                 final int candidate = (int) value;
                 if (candidate == value) {
@@ -493,27 +506,28 @@ public final class TypeMap {
                 return Double.valueOf(value);
             }
             default: {
-                throw new IllegalArgumentException(Errors.format(ErrorKeys.ILLEGAL_ARGUMENT_$2, "type", type));
+                throw new IllegalArgumentException(Errors.format(ErrorKeys.ILLEGAL_ARGUMENT_$2, 
+                        "type", type));
             }
         }
-        throw new IllegalArgumentException(Errors.format(ErrorKeys.ILLEGAL_ARGUMENT_$2, "value", value));
+        throw new IllegalArgumentException(Errors.format(ErrorKeys.ILLEGAL_ARGUMENT_$2, "value", 
+                value));
     }
 
     /**
      * Returns the color interpretation code for the specified color model and band number.
      *
-     * @param  model The color model.
-     * @param  band  The band to query.
+     * @param model The color model.
+     * @param band  The band to query.
      * @return The code for the specified color model and band number.
      * @throws IllegalArgumentException if the band number is not in the valid range.
      */
-	public static ColorInterpretation getColorInterpretation(final ColorModel model, final int band)
-            throws IllegalArgumentException
-    {
+    public static ColorInterpretation getColorInterpretation(final ColorModel model, final int band)
+            throws IllegalArgumentException {
         if (model == null) {
             return ColorInterpretation.UNDEFINED;
         }
-        if (band<0 || band>=ColorUtilities.getNumBands(model)) {
+        if (band < 0 || band >= ColorUtilities.getNumBands(model)) {
             throw new IllegalArgumentException(Errors.format(ErrorKeys.BAD_BAND_NUMBER_$1, band));
         }
         if (model instanceof IndexColorModel) {
@@ -522,38 +536,55 @@ public final class TypeMap {
         switch (model.getColorSpace().getType()) {
             case ColorSpace.TYPE_GRAY: {
                 switch (band) {
-                    case  0: return ColorInterpretation.GRAY_INDEX;
-                    default: return ColorInterpretation.UNDEFINED;
+                    case 0:
+                        return ColorInterpretation.GRAY_INDEX;
+                    default:
+                        return ColorInterpretation.UNDEFINED;
                 }
             }
             case ColorSpace.TYPE_RGB: {
                 switch (band) {
-                    case  0: return ColorInterpretation.RED_BAND;
-                    case  1: return ColorInterpretation.GREEN_BAND;
-                    case  2: return ColorInterpretation.BLUE_BAND;
-                    case  3: return ColorInterpretation.ALPHA_BAND;
-                    default: return ColorInterpretation.UNDEFINED;
+                    case 0:
+                        return ColorInterpretation.RED_BAND;
+                    case 1:
+                        return ColorInterpretation.GREEN_BAND;
+                    case 2:
+                        return ColorInterpretation.BLUE_BAND;
+                    case 3:
+                        return ColorInterpretation.ALPHA_BAND;
+                    default:
+                        return ColorInterpretation.UNDEFINED;
                 }
             }
             case ColorSpace.TYPE_HSV: {
                 switch (band) {
-                    case  0: return ColorInterpretation.HUE_BAND;
-                    case  1: return ColorInterpretation.SATURATION_BAND;
-                    case  2: return ColorInterpretation.LIGHTNESS_BAND;
-                    default: return ColorInterpretation.UNDEFINED;
+                    case 0:
+                        return ColorInterpretation.HUE_BAND;
+                    case 1:
+                        return ColorInterpretation.SATURATION_BAND;
+                    case 2:
+                        return ColorInterpretation.LIGHTNESS_BAND;
+                    default:
+                        return ColorInterpretation.UNDEFINED;
                 }
             }
             case ColorSpace.TYPE_CMY:
             case ColorSpace.TYPE_CMYK: {
                 switch (band) {
-                    case  0: return ColorInterpretation.CYAN_BAND;
-                    case  1: return ColorInterpretation.MAGENTA_BAND;
-                    case  2: return ColorInterpretation.YELLOW_BAND;
-                    case  3: return ColorInterpretation.BLACK_BAND;
-                    default: return ColorInterpretation.UNDEFINED;
+                    case 0:
+                        return ColorInterpretation.CYAN_BAND;
+                    case 1:
+                        return ColorInterpretation.MAGENTA_BAND;
+                    case 2:
+                        return ColorInterpretation.YELLOW_BAND;
+                    case 3:
+                        return ColorInterpretation.BLACK_BAND;
+                    default:
+                        return ColorInterpretation.UNDEFINED;
                 }
             }
-            default: return ColorInterpretation.UNDEFINED;
+            default:
+                return ColorInterpretation.UNDEFINED;
         }
     }
 }

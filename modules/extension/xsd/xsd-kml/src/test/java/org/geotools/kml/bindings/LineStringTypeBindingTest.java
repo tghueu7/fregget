@@ -27,8 +27,6 @@ import org.w3c.dom.Element;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class LineStringTypeBindingTest extends KMLTestSupport {
@@ -49,14 +47,14 @@ public class LineStringTypeBindingTest extends KMLTestSupport {
         assertEquals(new Coordinate(1, 1), l.getCoordinateN(0));
         assertEquals(new Coordinate(3, 3), l.getCoordinateN(2));
     }
-    
+
     public void testEncode() throws Exception {
         LineString l = new GeometryFactory().createLineString(
-            new Coordinate[]{ new Coordinate(1,1), new Coordinate(2,2), new Coordinate(3,3)}
+                new Coordinate[]{new Coordinate(1, 1), new Coordinate(2, 2), new Coordinate(3, 3)}
         );
-        
-        Document dom = encode( l, KML.LineString );
-        Element coordinates = getElementByQName( dom, KML.coordinates );
-        assertNotNull( coordinates );
+
+        Document dom = encode(l, KML.LineString);
+        Element coordinates = getElementByQName(dom, KML.coordinates);
+        assertNotNull(coordinates);
     }
 }

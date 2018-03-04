@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry;
@@ -19,10 +19,8 @@ import org.opengis.util.CodeList;
  * The rounding policy used for a {@linkplain Precision precision model}.
  *
  * @author Jody Garnett
- * @since GeoAPI 2.1
- *
- *
  * @source $URL$
+ * @since GeoAPI 2.1
  */
 public final class PrecisionType extends CodeList<PrecisionType> {
     /**
@@ -56,15 +54,15 @@ public final class PrecisionType extends CodeList<PrecisionType> {
      * Floating single precision corresponds to the standard Java single-precision
      * floating-point representation, which is based on the IEEE-754 standard.
      */
-    public static final PrecisionType FLOAT  = new PrecisionType("FLOAT", true);
+    public static final PrecisionType FLOAT = new PrecisionType("FLOAT", true);
 
     /**
      * Constructs an enum with the given name. The new enum is
      * automatically added to the list returned by {@link #values}.
      *
-     * @param name The enum name. This name must not be in use by an other enum of this type.
+     * @param name       The enum name. This name must not be in use by an other enum of this type.
      * @param isFloating {@code true} if the precision model uses floating point math
-     *        (rather then a grid).
+     *                   (rather then a grid).
      */
     private PrecisionType(final String name, final boolean isFloating) {
         super(name, VALUES);
@@ -85,7 +83,7 @@ public final class PrecisionType extends CodeList<PrecisionType> {
      *
      * @return true if floating point arithmatic is used.
      */
-    public boolean isFloating(){
+    public boolean isFloating() {
         return isFloating;
     }
 

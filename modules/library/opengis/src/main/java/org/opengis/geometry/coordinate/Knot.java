@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.coordinate;
@@ -24,14 +24,12 @@ import static org.opengis.annotation.Specification.*;
  * and (<var>v<sub>j</sub></var>). Each knot of a spline curve or surface is described using a
  * {@code Knot}.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @since GeoAPI 2.0
  */
-@UML(identifier="GM_Knot", specification=ISO_19107)
+@UML(identifier = "GM_Knot", specification = ISO_19107)
 public interface Knot {
     /**
      * The value of the parameter at the knot of the spline. The sequence of knots shall be a
@@ -39,18 +37,18 @@ public interface Knot {
      * greater than the previous knot's value. The use of equal consecutive knots is normally
      * handled using the multiplicity.
      */
-    @UML(identifier="value", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "value", obligation = MANDATORY, specification = ISO_19107)
     double getValue();
 
     /**
      * The multiplicity of this knot used in the definition of the spline (with the same weight).
      */
-    @UML(identifier="multiplicity", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "multiplicity", obligation = MANDATORY, specification = ISO_19107)
     int getMultiplicity();
 
     /**
      * The value of the averaging weight used for this knot of the spline.
      */
-    @UML(identifier="weight", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "weight", obligation = MANDATORY, specification = ISO_19107)
     double getWeight();
 }

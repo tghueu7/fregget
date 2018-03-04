@@ -3,7 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2007-2008, Open Source Geospatial Foundation (OSGeo)
- *   
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -28,41 +28,35 @@ import org.opengis.referencing.datum.GeodeticDatum;
  * This class tests the Factory<b>Using</b>OracleSQL - ie the thing that does work!
  * <p>
  * No cache or buffer was harmed in the making of these tests.
- *  
+ *
  * @author Jody
- *
- *
- *
- *
  * @source $URL$
  */
 public class FactoryUsingOracleSQLOnlineTest extends OracleOnlineTestCase {
 
     public void testDatumCreation() throws Exception {
         Connection connection = datasource.getConnection();
-        try{
+        try {
             Hints hints = new Hints(Hints.EPSG_DATA_SOURCE, "jdbc/EPSG");
-        
+
             OracleDialectEpsgFactory oracle = new OracleDialectEpsgFactory(hints, connection);
-    
+
             GeodeticDatum datum = oracle.createGeodeticDatum("6326");
             assertNotNull(datum);
-        }
-        finally {
+        } finally {
             connection.close();
         }
     }
-    
+
     public void testCRSCreation() throws Exception {
         Connection connection = datasource.getConnection();
-        try{
+        try {
             Hints hints = new Hints(Hints.EPSG_DATA_SOURCE, "jdbc/EPSG");
-            OracleDialectEpsgFactory oracle = new OracleDialectEpsgFactory(hints, connection );
-            
+            OracleDialectEpsgFactory oracle = new OracleDialectEpsgFactory(hints, connection);
+
             CoordinateReferenceSystem crs = oracle.createCoordinateReferenceSystem("4326");
             assertNotNull(crs);
-        }
-        finally {
+        } finally {
             connection.close();
         }
     }

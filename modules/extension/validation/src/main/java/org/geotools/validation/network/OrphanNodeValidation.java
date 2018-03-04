@@ -31,25 +31,25 @@ import org.opengis.feature.simple.SimpleFeature;
 
 /**
  * OrphanNodeValidation purpose.
- * 
+ * <p>
  * <p>
  * Builds a network, and looks for orphaned nodes.
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class OrphanNodeValidation extends DefaultIntegrityValidation {
-    /** the SimpleFeatureSource name datastoreId:typename */
+    /**
+     * the SimpleFeatureSource name datastoreId:typename
+     */
     private String typeName;
 
     /**
      * StarNodeValidation constructor.
-     * 
+     * <p>
      * <p>
      * Description
      * </p>
@@ -57,57 +57,54 @@ public class OrphanNodeValidation extends DefaultIntegrityValidation {
     public OrphanNodeValidation() {
         super();
     }
-    
+
     /**
      * Implementation of getTypeRefs.
-     * 
+     *
      * @see org.geotools.validation.Validation#getTypeRefs()
-     * 
      */
     public String[] getTypeRefs() {
-    	return new String[] {typeName};
+        return new String[]{typeName};
     }
 
     /**
      * Check FeatureType for ...
-     * 
+     * <p>
      * <p>
      * Detailed description...
      * </p>
      *
-     * @param layers Map of SimpleFeatureSource by "dataStoreID:typeName"
+     * @param layers   Map of SimpleFeatureSource by "dataStoreID:typeName"
      * @param envelope The bounding box that encloses the unvalidated data
-     * @param results Used to coallate results information
-     *
+     * @param results  Used to coallate results information
      * @return <code>true</code> if all the features pass this test.
-     *
      * @throws Exception DOCUMENT ME!
      */
     public boolean validate(Map layers, ReferencedEnvelope envelope,
-        final ValidationResults results) throws Exception {
-    	
-      LineStringGraphGenerator lgb = new LineStringGraphGenerator();
-      SimpleFeatureSource fs = (SimpleFeatureSource) layers.get(typeName);
-      SimpleFeatureCollection fr = fs.getFeatures();
-      SimpleFeatureCollection fc = fr;
-      SimpleFeatureIterator f = fc.features();
+                            final ValidationResults results) throws Exception {
 
-      while (f.hasNext()) {
-          SimpleFeature ft = f.next();
+        LineStringGraphGenerator lgb = new LineStringGraphGenerator();
+        SimpleFeatureSource fs = (SimpleFeatureSource) layers.get(typeName);
+        SimpleFeatureCollection fr = fs.getFeatures();
+        SimpleFeatureCollection fc = fr;
+        SimpleFeatureIterator f = fc.features();
 
-          if (envelope.contains(ft.getBounds())) {
-              //lgb.add(ft);
-          	lgb.add(ft.getDefaultGeometry());
-          }
-      }
+        while (f.hasNext()) {
+            SimpleFeature ft = f.next();
 
-      // lgb is loaded
-      Graph g = lgb.getGraph();
-			
-      return(g.getNodesOfDegree(0).size() == 0);
-      
+            if (envelope.contains(ft.getBounds())) {
+                //lgb.add(ft);
+                lgb.add(ft.getDefaultGeometry());
+            }
+        }
+
+        // lgb is loaded
+        Graph g = lgb.getGraph();
+
+        return (g.getNodesOfDegree(0).size() == 0);
+
     }
-    
+
 //    public boolean validate_old(Map layers, Envelope envelope,
 //        final ValidationResults results) throws Exception {
 //        LineGraphBuilder lgb = new LineGraphBuilder();

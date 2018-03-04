@@ -22,9 +22,8 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 
 /**
  * Provides access to the various reader/writers for the group of files making up a Shapefile
- * 
+ *
  * @author Andrea Aime - GeoSolutions
- * 
  */
 class ShapefileSetManager implements FileReader {
 
@@ -40,15 +39,15 @@ class ShapefileSetManager implements FileReader {
 
     /**
      * Convenience method for opening a ShapefileReader.
-     * 
+     *
      * @return A new ShapefileReader.
-     * 
      * @throws IOException If an error occurs during creation.
      */
     protected ShapefileReader openShapeReader(GeometryFactory gf, boolean onlyRandomAccess)
             throws IOException {
         try {
-            return new ShapefileReader(shpFiles, true, store.isMemoryMapped(), gf, onlyRandomAccess);
+            return new ShapefileReader(shpFiles, true, store.isMemoryMapped(), gf, 
+                    onlyRandomAccess);
         } catch (ShapefileException se) {
             throw new DataSourceException("Error creating ShapefileReader", se);
         }
@@ -56,9 +55,8 @@ class ShapefileSetManager implements FileReader {
 
     /**
      * Convenience method for opening a DbaseFileReader.
-     * 
+     *
      * @return A new DbaseFileReader
-     * 
      * @throws IOException If an error occurs during creation.
      */
     protected DbaseFileReader openDbfReader(boolean indexed) throws IOException {
@@ -86,10 +84,9 @@ class ShapefileSetManager implements FileReader {
 
     /**
      * Convenience method for opening a DbaseFileReader.
-     * 
+     *
      * @return A new DbaseFileReader
-     * 
-     * @throws IOException If an error occurs during creation.
+     * @throws IOException      If an error occurs during creation.
      * @throws FactoryException DOCUMENT ME!
      */
     protected PrjFileReader openPrjReader() throws IOException, FactoryException {
@@ -112,9 +109,8 @@ class ShapefileSetManager implements FileReader {
 
     /**
      * Convenience method for opening an index file.
-     * 
+     *
      * @return An IndexFile
-     * 
      * @throws IOException
      */
     protected IndexFile openIndexFile() throws IOException {

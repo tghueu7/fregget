@@ -8,27 +8,27 @@
         Version: $Id
      ======================================================================= -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                                http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.geotools</groupId>
-    <artifactId>unsupported</artifactId>
-    <version>20-SNAPSHOT</version>
-  </parent>
+    <parent>
+        <groupId>org.geotools</groupId>
+        <artifactId>unsupported</artifactId>
+        <version>20-SNAPSHOT</version>
+    </parent>
 
-  <!-- =========================================================== -->
-  <!--     Module Description                                      -->
-  <!-- =========================================================== -->
+    <!-- =========================================================== -->
+    <!--     Module Description                                      -->
+    <!-- =========================================================== -->
     <groupId>org.geotools</groupId>
     <artifactId>gt-kml</artifactId>
     <packaging>jar</packaging>
     <name>KML DataStore Module</name>
 
     <description>
-    Provides datastore support for KML format.
+        Provides datastore support for KML format.
     </description>
 
     <licenses>
@@ -40,9 +40,9 @@
     </licenses>
 
 
-  <!-- =========================================================== -->
-  <!--     Developers and Contributors                             -->
-  <!-- =========================================================== -->
+    <!-- =========================================================== -->
+    <!--     Developers and Contributors                             -->
+    <!-- =========================================================== -->
     <developers>
         <developer>
             <name>Niels Charlier</name>
@@ -56,26 +56,26 @@
         </developer>
     </developers>
 
-    <dependencies>       
+    <dependencies>
         <dependency>
-          <groupId>org.geotools</groupId>
-          <artifactId>gt-main</artifactId>
-          <version>${project.version}</version>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-main</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
-          <groupId>org.geotools</groupId>
-          <artifactId>gt-data</artifactId>
-          <version>${project.version}</version>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-data</artifactId>
+            <version>${project.version}</version>
         </dependency>
-	<dependency>
-          <groupId>org.geotools.xsd</groupId>
-          <artifactId>gt-xsd-core</artifactId>
-          <version>${project.version}</version>
+        <dependency>
+            <groupId>org.geotools.xsd</groupId>
+            <artifactId>gt-xsd-core</artifactId>
+            <version>${project.version}</version>
         </dependency>
-	<dependency>
-          <groupId>org.geotools.xsd</groupId>
-          <artifactId>gt-xsd-kml</artifactId>
-          <version>${project.version}</version>
+        <dependency>
+            <groupId>org.geotools.xsd</groupId>
+            <artifactId>gt-xsd-kml</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 

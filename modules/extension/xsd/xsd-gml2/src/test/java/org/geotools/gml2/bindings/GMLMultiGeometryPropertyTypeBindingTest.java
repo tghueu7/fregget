@@ -28,8 +28,6 @@ import com.vividsolutions.jts.geom.Point;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GMLMultiGeometryPropertyTypeBindingTest extends AbstractGMLBindingTest {
@@ -49,13 +47,15 @@ public class GMLMultiGeometryPropertyTypeBindingTest extends AbstractGMLBindingT
         Point p1 = new GeometryFactory().createPoint(new Coordinate(0, 0));
         Point p2 = new GeometryFactory().createPoint(new Coordinate(1, 1));
 
-        Node node = createNode(association, new ElementInstance[] { geometry },
-                new Object[] {
-                    new GeometryFactory().createGeometryCollection(new Geometry[] { p1, p2 })
+        Node node = createNode(association, new ElementInstance[]{geometry},
+                new Object[]{
+                        new GeometryFactory().createGeometryCollection(new Geometry[]{p1, p2})
                 }, null, null);
 
-        GMLGeometryAssociationTypeBinding s = (GMLGeometryAssociationTypeBinding) getBinding(GML.GEOMETRYASSOCIATIONTYPE);
-        GMLMultiGeometryPropertyTypeBinding s1 = (GMLMultiGeometryPropertyTypeBinding) getBinding(GML.MULTIGEOMETRYPROPERTYTYPE);
+        GMLGeometryAssociationTypeBinding s = (GMLGeometryAssociationTypeBinding) getBinding(GML
+                .GEOMETRYASSOCIATIONTYPE);
+        GMLMultiGeometryPropertyTypeBinding s1 = (GMLMultiGeometryPropertyTypeBinding) getBinding
+                (GML.MULTIGEOMETRYPROPERTYTYPE);
 
         GeometryCollection p = (GeometryCollection) s1.parse(association, node,
                 s.parse(association, node, null));

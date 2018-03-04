@@ -19,6 +19,7 @@ package org.geotools.ml.bindings;
 import java.math.BigInteger;
 import java.util.List;
 import javax.xml.namespace.QName;
+
 import org.geotools.ml.Attachment;
 import org.geotools.ml.Envelope;
 import org.geotools.ml.Mail;
@@ -29,9 +30,9 @@ import org.geotools.xml.Node;
 
 /**
  * Strategy object for the type http://mails/refractions/net:mailType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="mailType"&gt;
  *      &lt;xsd:sequence&gt;
@@ -48,9 +49,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class MLMailTypeBinding extends AbstractComplexBinding {
@@ -72,7 +70,7 @@ public class MLMailTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         Envelope envelope = (Envelope) node.getChildValue("envelope");
         String body = (String) node.getChildValue("body");
         BigInteger id = (BigInteger) node.getAttributeValue("id");
@@ -82,14 +80,14 @@ public class MLMailTypeBinding extends AbstractComplexBinding {
 
         return new Mail(id, body, envelope, attachments);
     }
-    
+
     @Override
     public Object getProperty(Object object, QName name) throws Exception {
         Mail m = (Mail) object;
-        if ( "envelope".equals( name.getLocalPart() ) ) {
+        if ("envelope".equals(name.getLocalPart())) {
             return m.getEnvelope();
         }
-        
+
         return null;
     }
 }

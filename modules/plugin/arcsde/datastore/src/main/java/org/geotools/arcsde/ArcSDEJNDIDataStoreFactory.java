@@ -62,15 +62,12 @@ import org.geotools.util.logging.Logging;
  * For example, on the J2EE container, it will depend on if the JNDI resource is globally configured
  * or not, and the required jar files are on a J2EE container shared libraries folder or not.
  * </p>
- * 
+ *
  * @author Gabriel Roldan (OpenGeo)
- * 
- *
- *
- * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/main/java/org
- *         /geotools/arcsde/ArcSDEJNDIDataStoreFactory.java $
  * @version $Id$
+ * @source $URL$
+ * http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/main/java/org
+ * /geotools/arcsde/ArcSDEJNDIDataStoreFactory.java $
  * @since 2.5.7
  */
 public class ArcSDEJNDIDataStoreFactory implements DataStoreFactorySpi {
@@ -98,7 +95,7 @@ public class ArcSDEJNDIDataStoreFactory implements DataStoreFactorySpi {
      * See {@link #getParametersInfo()} to check which datastore creation parameters are expected by
      * this factory method.
      * </p>
-     * 
+     *
      * @see org.geotools.data.DataStoreFactorySpi#createDataStore(java.util.Map)
      */
     public DataStore createDataStore(Map<String, Serializable> params) throws IOException {
@@ -165,13 +162,12 @@ public class ArcSDEJNDIDataStoreFactory implements DataStoreFactorySpi {
 
     /**
      * Looks up and returns the JNDI resource addressed by {@code jndiName}
-     * 
+     *
      * @param jndiName
      * @return the resource mapped at {@code jndiName}, which shall be either a
-     *         {@code java.util.Map<String, String>}, an {@link ArcSDEConnectionConfig} or a
-     *         {@link ISessionPool}.
-     * @throws IOException
-     *             if a resource is not found at {@code jndiName}
+     * {@code java.util.Map<String, String>}, an {@link ArcSDEConnectionConfig} or a
+     * {@link ISessionPool}.
+     * @throws IOException if a resource is not found at {@code jndiName}
      */
     private Object lookupJndiResource(final String jndiName) throws IOException {
         if (jndiName == null) {
@@ -215,7 +211,7 @@ public class ArcSDEJNDIDataStoreFactory implements DataStoreFactorySpi {
      * check the validity of the parameter, it only asserts the {@link #JNDI_REFNAME} parameter is
      * present. That is so so any failure is handled by {@link #createDataStore(Map)} instead of
      * getting client code silently failing (as this method does not throw an exception)
-     * 
+     *
      * @see org.geotools.data.DataAccessFactory#canProcess(java.util.Map)
      */
     public boolean canProcess(Map<String, Serializable> params) {
@@ -265,11 +261,11 @@ public class ArcSDEJNDIDataStoreFactory implements DataStoreFactorySpi {
      * Object Classes). Defaults to {@code false}.
      * </ul>
      * </p>
-     * 
+     *
      * @see org.geotools.data.DataAccessFactory#getParametersInfo()
      */
     public Param[] getParametersInfo() {
-        return new Param[] { JNDI_REFNAME, NAMESPACE_PARAM, VERSION_PARAM, ALLOW_NON_SPATIAL_PARAM };
+        return new Param[]{JNDI_REFNAME, NAMESPACE_PARAM, VERSION_PARAM, ALLOW_NON_SPATIAL_PARAM};
     }
 
     /**
@@ -278,7 +274,7 @@ public class ArcSDEJNDIDataStoreFactory implements DataStoreFactorySpi {
      * Check in an Initial Context is available, that is all what can be done Checking for the right
      * jdbc jars in the classpath is not possible here
      * </p>
-     * 
+     *
      * @see org.geotools.data.DataAccessFactory#isAvailable()
      */
     public boolean isAvailable() {
@@ -301,6 +297,7 @@ public class ArcSDEJNDIDataStoreFactory implements DataStoreFactorySpi {
      * @see org.geotools.data.DataStoreFactorySpi#createNewDataStore(java.util.Map)
      */
     public DataStore createNewDataStore(Map<String, Serializable> params) throws IOException {
-        throw new UnsupportedOperationException("ArcSDE PlugIn does not support createNewDataStore");
+        throw new UnsupportedOperationException("ArcSDE PlugIn does not support " +
+                "createNewDataStore");
     }
 }

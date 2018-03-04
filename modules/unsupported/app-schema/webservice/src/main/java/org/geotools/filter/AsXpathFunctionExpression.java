@@ -3,7 +3,7 @@ package org.geotools.filter;
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2009, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -37,20 +37,18 @@ import org.xml.sax.helpers.NamespaceSupport;
  * <ol>
  * <li>Expression: an xpath to underlying web service
  * </ol>
- * 
- * @author Rini Angreani (CSIRO Earth Science and Resource Engineering)
- * 
  *
+ * @author Rini Angreani (CSIRO Earth Science and Resource Engineering)
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/app-schema/webservice/src/main
- *         /java/org/geotools/filter/AsXpathFunctionExpression.java $
+ * http://svn.osgeo.org/geotools/trunk/modules/unsupported/app-schema/webservice/src/main
+ * /java/org/geotools/filter/AsXpathFunctionExpression.java $
  */
 public class AsXpathFunctionExpression extends FunctionExpressionImpl {
     /**
      * Make the instance of FunctionName available in a consistent spot.
      */
     public static final FunctionName NAME = new FunctionNameImpl("asXpath", "XPATH");
-    
+
     public AsXpathFunctionExpression() {
         super(NAME.getName());
         functionName = NAME;

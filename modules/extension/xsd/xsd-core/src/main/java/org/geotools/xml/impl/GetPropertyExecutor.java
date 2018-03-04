@@ -17,6 +17,7 @@
 package org.geotools.xml.impl;
 
 import org.eclipse.xsd.XSDNamedComponent;
+
 import java.util.logging.Logger;
 import javax.xml.namespace.QName;
 
@@ -31,10 +32,6 @@ import org.geotools.xml.ComplexBinding;
  * hierachy until one is found.
  *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
- *
  * @source $URL$
  */
 public class GetPropertyExecutor implements BindingWalker.Visitor {
@@ -43,11 +40,15 @@ public class GetPropertyExecutor implements BindingWalker.Visitor {
      */
     static Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org.geotools.xml");
 
-    /** parent + child objects **/
+    /**
+     * parent + child objects
+     **/
     Object parent;
     Object child;
 
-    /** declaration (element or attribute) + qualified name**/
+    /**
+     * declaration (element or attribute) + qualified name
+     **/
     QName name;
 
     public GetPropertyExecutor(Object parent, XSDNamedComponent content) {
@@ -78,7 +79,7 @@ public class GetPropertyExecutor implements BindingWalker.Visitor {
             if (parent != null && (binding.getType() != null)
                     && !binding.getType().isAssignableFrom(parent.getClass())) {
                 LOGGER.fine(parent + " (" + parent.getClass().getName() + ") "
-                    + " is not of type " + binding.getType().getName());
+                        + " is not of type " + binding.getType().getName());
 
                 //try to convert
                 Object converted = Converters.convert(parent, binding.getType());
@@ -87,7 +88,7 @@ public class GetPropertyExecutor implements BindingWalker.Visitor {
                     parent = converted;
                 } else {
                     LOGGER.fine("Could not convert " + parent + " to "
-                        + binding.getType().getName());
+                            + binding.getType().getName());
                     // For complex feature, if the feature can't be converted to the binding type,
                     // exit the route to avoid ClassCastException raised in
                     // child = complex.getProperty(parent, name);

@@ -38,38 +38,37 @@ import org.geotools.geometry.jts.ReferencedEnvelope;
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class JDBCEmptyOnlineTest extends JDBCTestSupport {
 
     @Override
     protected abstract JDBCEmptyTestSetup createTestSetup();
-    
+
     public void testFeatureSource() throws Exception {
-        
-        FeatureSource fs = dataStore.getFeatureSource( tname("empty") );
+
+        FeatureSource fs = dataStore.getFeatureSource(tname("empty"));
         assertNotNull(fs);
-        
+
         ReferencedEnvelope bounds = fs.getBounds();
-        assertTrue( bounds.isNull() );
-        
-        int count = fs.getCount( Query.ALL );
-        assertEquals( 0, count );
+        assertTrue(bounds.isNull());
+
+        int count = fs.getCount(Query.ALL);
+        assertEquals(0, count);
     }
-    
+
     public void testFeatureCollection() throws Exception {
-        FeatureSource fs = dataStore.getFeatureSource( tname("empty") );
+        FeatureSource fs = dataStore.getFeatureSource(tname("empty"));
         FeatureCollection features = fs.getFeatures();
-        
-        assertTrue( features.getBounds().isNull() );
-        assertEquals( 0, features.size() );
-        
-        try(FeatureIterator i = features.features()) {
+
+        assertTrue(features.getBounds().isNull());
+        assertEquals(0, features.size());
+
+        try (FeatureIterator i = features.features()) {
             assertFalse(i.hasNext());
-        }        
+        }
     }
 
 }

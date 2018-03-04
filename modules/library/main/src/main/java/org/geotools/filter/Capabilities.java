@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -87,100 +87,119 @@ import org.opengis.filter.spatial.Within;
  * </code></pre>
  * Right now the class gives no indication as to what part of the provided
  * filter was in error.
- * 
+ *
  * @author Jody Garnett
- *
- *
- *
  * @source $URL$
  */
-public class Capabilities {    
-    private static Map<Class<?>,String> scalarNames;
+public class Capabilities {
+    private static Map<Class<?>, String> scalarNames;
+
     static {
-        scalarNames = new HashMap<Class<?>,String>();
-        scalarNames.put(PropertyIsEqualTo.class,PropertyIsEqualTo.NAME);
-        scalarNames.put(PropertyIsNotEqualTo.class,PropertyIsNotEqualTo.NAME);
-        scalarNames.put(PropertyIsGreaterThan.class,PropertyIsGreaterThan.NAME);
-        scalarNames.put(PropertyIsGreaterThanOrEqualTo.class,PropertyIsGreaterThanOrEqualTo.NAME);
-        scalarNames.put(PropertyIsLessThan.class,PropertyIsLessThan.NAME);
-        scalarNames.put(PropertyIsLessThanOrEqualTo.class,PropertyIsLessThanOrEqualTo.NAME);
-        scalarNames.put(PropertyIsNull.class,PropertyIsNull.NAME);
-        scalarNames.put(PropertyIsLike.class,PropertyIsLike.NAME);
-        scalarNames.put(PropertyIsBetween.class,PropertyIsBetween.NAME);
-    }
-    private static Map<Class<?>,String> spatialNames;
-    static {
-        spatialNames = new HashMap<Class<?>,String>();
-        spatialNames.put(BBOX.class, BBOX.NAME );
-        spatialNames.put(Equals.class, Equals.NAME);
-        spatialNames.put(Disjoint.class,Disjoint.NAME);
-        spatialNames.put(Intersects.class,Intersects.NAME);
-        spatialNames.put(Touches.class,Touches.NAME);
-        spatialNames.put(Crosses.class,Crosses.NAME);
-        spatialNames.put(Within.class,Within.NAME);
-        spatialNames.put(Contains.class,Contains.NAME);
-        spatialNames.put(Overlaps.class,Overlaps.NAME);
-        spatialNames.put(Beyond.class,Beyond.NAME);
-        spatialNames.put(DWithin.class,DWithin.NAME);
-    }
-    private static Map<Class<?>,String> logicalNames;
-    static {
-        logicalNames = new HashMap<Class<?>,String>();
-        logicalNames.put(And.class,"And"); // not an operator name, see scalarCapabilities.hasLogicalOperators()  
-        logicalNames.put(Or.class, "Or"); // not an operator name, see scalarCapabilities.hasLogicalOperators()
-        logicalNames.put(Not.class, "Not"); // not an operator name, see scalarCapabilities.hasLogicalOperators()
-    }
-    private static Map<Class<?>,String> filterNames;
-    static {
-        filterNames = new HashMap<Class<?>,String>();
-        filterNames.putAll( scalarNames );
-        filterNames.putAll( spatialNames );
-        filterNames.putAll( logicalNames );
-        
-        filterNames.put(Id.class, "Id"); // not an operator name, see idCapabilities.hasFID() or idCapabilities.hasEID()
-    }
-    
-    private static Map<Class<? extends Expression>,String> arithmaticNames;    
-    static {
-        arithmaticNames = new HashMap<Class<? extends Expression>,String>();        
-        arithmaticNames.put(Add.class, Add.NAME );
-        arithmaticNames.put(Subtract.class, Subtract.NAME );
-        arithmaticNames.put(Multiply.class, Multiply.NAME );
-        arithmaticNames.put(Divide.class, Divide.NAME);
-    }
-    private static Map<Class<? extends Expression>,String> exprNames;    
-    static {
-        exprNames = new HashMap<Class<? extends Expression>, String>();        
-        exprNames.putAll( arithmaticNames );
-        
-        // while function is an expression, we should check the name
-        exprNames.put(Function.class,"Function");
+        scalarNames = new HashMap<Class<?>, String>();
+        scalarNames.put(PropertyIsEqualTo.class, PropertyIsEqualTo.NAME);
+        scalarNames.put(PropertyIsNotEqualTo.class, PropertyIsNotEqualTo.NAME);
+        scalarNames.put(PropertyIsGreaterThan.class, PropertyIsGreaterThan.NAME);
+        scalarNames.put(PropertyIsGreaterThanOrEqualTo.class, PropertyIsGreaterThanOrEqualTo.NAME);
+        scalarNames.put(PropertyIsLessThan.class, PropertyIsLessThan.NAME);
+        scalarNames.put(PropertyIsLessThanOrEqualTo.class, PropertyIsLessThanOrEqualTo.NAME);
+        scalarNames.put(PropertyIsNull.class, PropertyIsNull.NAME);
+        scalarNames.put(PropertyIsLike.class, PropertyIsLike.NAME);
+        scalarNames.put(PropertyIsBetween.class, PropertyIsBetween.NAME);
     }
 
-    private static final OperatorNameFilterVisitor operationNameVisitor = new OperatorNameFilterVisitor();
-    
-    /** Support for logical types AND, OR and NOT */
-    public static Capabilities LOGICAL; 
+    private static Map<Class<?>, String> spatialNames;
+
+    static {
+        spatialNames = new HashMap<Class<?>, String>();
+        spatialNames.put(BBOX.class, BBOX.NAME);
+        spatialNames.put(Equals.class, Equals.NAME);
+        spatialNames.put(Disjoint.class, Disjoint.NAME);
+        spatialNames.put(Intersects.class, Intersects.NAME);
+        spatialNames.put(Touches.class, Touches.NAME);
+        spatialNames.put(Crosses.class, Crosses.NAME);
+        spatialNames.put(Within.class, Within.NAME);
+        spatialNames.put(Contains.class, Contains.NAME);
+        spatialNames.put(Overlaps.class, Overlaps.NAME);
+        spatialNames.put(Beyond.class, Beyond.NAME);
+        spatialNames.put(DWithin.class, DWithin.NAME);
+    }
+
+    private static Map<Class<?>, String> logicalNames;
+
+    static {
+        logicalNames = new HashMap<Class<?>, String>();
+        logicalNames.put(And.class, "And"); // not an operator name, see scalarCapabilities
+        // .hasLogicalOperators()  
+        logicalNames.put(Or.class, "Or"); // not an operator name, see scalarCapabilities
+        // .hasLogicalOperators()
+        logicalNames.put(Not.class, "Not"); // not an operator name, see scalarCapabilities
+        // .hasLogicalOperators()
+    }
+
+    private static Map<Class<?>, String> filterNames;
+
+    static {
+        filterNames = new HashMap<Class<?>, String>();
+        filterNames.putAll(scalarNames);
+        filterNames.putAll(spatialNames);
+        filterNames.putAll(logicalNames);
+
+        filterNames.put(Id.class, "Id"); // not an operator name, see idCapabilities.hasFID() or 
+        // idCapabilities.hasEID()
+    }
+
+    private static Map<Class<? extends Expression>, String> arithmaticNames;
+
+    static {
+        arithmaticNames = new HashMap<Class<? extends Expression>, String>();
+        arithmaticNames.put(Add.class, Add.NAME);
+        arithmaticNames.put(Subtract.class, Subtract.NAME);
+        arithmaticNames.put(Multiply.class, Multiply.NAME);
+        arithmaticNames.put(Divide.class, Divide.NAME);
+    }
+
+    private static Map<Class<? extends Expression>, String> exprNames;
+
+    static {
+        exprNames = new HashMap<Class<? extends Expression>, String>();
+        exprNames.putAll(arithmaticNames);
+
+        // while function is an expression, we should check the name
+        exprNames.put(Function.class, "Function");
+    }
+
+    private static final OperatorNameFilterVisitor operationNameVisitor = new 
+            OperatorNameFilterVisitor();
+
+    /**
+     * Support for logical types AND, OR and NOT
+     */
+    public static Capabilities LOGICAL;
+
     static {
         LOGICAL = new Capabilities();
         LOGICAL.addType(And.class);
         LOGICAL.addType(Not.class);
         LOGICAL.addType(Or.class);
     }
+
     public static Capabilities LOGICAL_OPENGIS = LOGICAL;
     /**
      * Capabilities representing the simple comparisions.
      */
     public static Capabilities SIMPLE_COMPARISONS;
+
     static {
         SIMPLE_COMPARISONS = new Capabilities();
-        SIMPLE_COMPARISONS.addType( PropertyIsEqualTo.class ); //COMPARE_EQUALS|
-        SIMPLE_COMPARISONS.addType( PropertyIsGreaterThan.class ); // COMPARE_GREATER_THAN
-        SIMPLE_COMPARISONS.addType( PropertyIsGreaterThanOrEqualTo.class ); // COMPARE_GREATER_THAN_EQUAL
-        SIMPLE_COMPARISONS.addType( PropertyIsLessThan.class ); // COMPARE_LESS_THAN
-        SIMPLE_COMPARISONS.addType( PropertyIsLessThanOrEqualTo.class ); // COMPARE_LESS_THAN_EQUAL
-        SIMPLE_COMPARISONS.addType( PropertyIsNotEqualTo.class ); // COMPARE_NOT_EQUALS;
+        SIMPLE_COMPARISONS.addType(PropertyIsEqualTo.class); //COMPARE_EQUALS|
+        SIMPLE_COMPARISONS.addType(PropertyIsGreaterThan.class); // COMPARE_GREATER_THAN
+        SIMPLE_COMPARISONS.addType(PropertyIsGreaterThanOrEqualTo.class); // 
+        // COMPARE_GREATER_THAN_EQUAL
+        SIMPLE_COMPARISONS.addType(PropertyIsLessThan.class); // COMPARE_LESS_THAN
+        SIMPLE_COMPARISONS.addType(PropertyIsLessThanOrEqualTo.class); // COMPARE_LESS_THAN_EQUAL
+        SIMPLE_COMPARISONS.addType(PropertyIsNotEqualTo.class); // COMPARE_NOT_EQUALS;
     }
+
     public static Capabilities SIMPLE_COMPARISONS_OPENGIS = SIMPLE_COMPARISONS;
 
     /**
@@ -193,59 +212,60 @@ public class Capabilities {
      * by our FilterCapabilities.
      */
     IsFullySupportedFilterVisitor fullySupportedVisitor;
-    
+
     /**
      * Internal FilterCapabilities data structure used
      * to maintain state.
      */
     FilterCapabilitiesImpl contents;
-     
-    public Capabilities(){
-        this( new FilterCapabilitiesImpl() );
+
+    public Capabilities() {
+        this(new FilterCapabilitiesImpl());
     }
-    
-    public Capabilities( FilterCapabilities contents ){
-        if( contents instanceof FilterCapabilitiesImpl){
+
+    public Capabilities(FilterCapabilities contents) {
+        if (contents instanceof FilterCapabilitiesImpl) {
             this.contents = (FilterCapabilitiesImpl) contents;
+        } else {
+            this.contents = new FilterCapabilitiesImpl(contents);
         }
-        else {
-            this.contents = new FilterCapabilitiesImpl( contents );
-        }
-        supportedVisitor = new IsSupportedFilterVisitor( contents );
-        fullySupportedVisitor = new IsFullySupportedFilterVisitor( contents );        
+        supportedVisitor = new IsSupportedFilterVisitor(contents);
+        fullySupportedVisitor = new IsFullySupportedFilterVisitor(contents);
     }
-    
+
     /**
      * Returns the internal FilterCapabilities data structure
      * used for checking.
-     * 
+     *
      * @return FilterCapabilities
      */
     public FilterCapabilitiesImpl getContents() {
         return contents;
     }
-    
+
     /**
      * Adds a new support type to capabilities.
      * <p>
      * This is the same as:<code>addName( toOperationName( type ) )
      * <p>
+     *
      * @param type the Class that indicates the new support.
      */
-    public void addType( Class type ){
-        String name = toOperationName( type );
-        if( name == null ) return;
-        
-        addName( name );
+    public void addType(Class type) {
+        String name = toOperationName(type);
+        if (name == null) return;
+
+        addName(name);
     }
-    
+
     /**
      * Adds support for the provided name.
      * <p>
      * If this is a known name (avaialble as part of opengis interface)
      * it will be grouped into:
      * <ul>
-     * <li>Spatial Operators: Will added a SpatialOperator into the mix with Point, LineString, Polygon as the supported geometry
+     * <li>Spatial Operators: Will added a SpatialOperator into the mix with Point, LineString, 
+     * Polygon as the supported geometry
      * operands (based on the assumption of JTS)
      * <li>Comparison Operators:
      * <li>Arithmetic Operators: will cause hassimpleArithmetic to be true
@@ -259,99 +279,102 @@ public class Capabilities {
      * capabilities.addName("SUB"); // will enabled hasSimpleArithmetic
      * capabilities.addName("PI"); // add a no argument function called PI()
      * </code></pre>
-     * 
+     *
      * @param name FilterCapabilities Operand name such as "BBOX", "Like" or "MUL"
      */
-    public void addName( String name ){
-        if( name == null ){
+    public void addName(String name) {
+        if (name == null) {
             return;
-        }
-        else if( spatialNames.containsValue( name )){
-            SpatialOperatorsImpl operators = contents.getSpatialCapabilities().getSpatialOperators();
-            if( operators.getOperator( name ) == null ){
+        } else if (spatialNames.containsValue(name)) {
+            SpatialOperatorsImpl operators = contents.getSpatialCapabilities()
+                    .getSpatialOperators();
+            if (operators.getOperator(name) == null) {
                 SpatialOperatorImpl operator = new SpatialOperatorImpl(name);
                 // default JTS?
-                operator.getGeometryOperands().add( GeometryOperand.LineString );
-                operator.getGeometryOperands().add( GeometryOperand.Point );
-                operator.getGeometryOperands().add( GeometryOperand.Polygon );
-                
-                operators.getOperators().add( operator );
+                operator.getGeometryOperands().add(GeometryOperand.LineString);
+                operator.getGeometryOperands().add(GeometryOperand.Point);
+                operator.getGeometryOperands().add(GeometryOperand.Polygon);
+
+                operators.getOperators().add(operator);
             }
-        }
-        else if( scalarNames.containsValue( name )){
-            ComparisonOperatorsImpl operators = contents.getScalarCapabilities().getComparisonOperators();
-            if( operators.getOperator( name ) == null ){
-                OperatorImpl operator = new OperatorImpl( name );                
-                operators.getOperators().add( operator );
+        } else if (scalarNames.containsValue(name)) {
+            ComparisonOperatorsImpl operators = contents.getScalarCapabilities()
+                    .getComparisonOperators();
+            if (operators.getOperator(name) == null) {
+                OperatorImpl operator = new OperatorImpl(name);
+                operators.getOperators().add(operator);
             }
-        }
-        else if( arithmaticNames.containsValue( name )){
-            ArithmeticOperatorsImpl operators = contents.getScalarCapabilities().getArithmeticOperators();
+        } else if (arithmaticNames.containsValue(name)) {
+            ArithmeticOperatorsImpl operators = contents.getScalarCapabilities()
+                    .getArithmeticOperators();
             operators.setSimpleArithmetic(true);
-        }
-        else if( logicalNames.containsValue( name )){
+        } else if (logicalNames.containsValue(name)) {
             contents.getScalarCapabilities().setLogicalOperators(true);
-        }
-        else if( "Id".equals(name)){
+        } else if ("Id".equals(name)) {
             contents.getIdCapabilities().setFID(true);
-        }
-        else {
-            FunctionsImpl functions = contents.getScalarCapabilities().getArithmeticOperators().getFunctions();
-            if( functions.getFunctionName( name ) == null ){
-                FunctionNameImpl function = new FunctionNameImpl( name, 0 );
-                functions.getFunctionNames().add( function );
+        } else {
+            FunctionsImpl functions = contents.getScalarCapabilities().getArithmeticOperators()
+                    .getFunctions();
+            if (functions.getFunctionName(name) == null) {
+                FunctionNameImpl function = new FunctionNameImpl(name, 0);
+                functions.getFunctionNames().add(function);
             }
         }
     }
+
     /**
      * Will add support for a function with the provided number of arguments
      * <p>
      * This method will have no effect if the function is already listed.
      * <p>
      * Example:<code>capabilities.addName( "Length", 1 )</code>
-     * 
+     *
      * @param name
      * @param argumentCount
      */
-    public void addName( String name, int argumentCount ){
-        FunctionsImpl functions = contents.getScalarCapabilities().getArithmeticOperators().getFunctions();
-        if( functions.getFunctionName( name ) == null ){
-            FunctionNameImpl function = new FunctionNameImpl( name, argumentCount );
-            functions.getFunctionNames().add( function );
+    public void addName(String name, int argumentCount) {
+        FunctionsImpl functions = contents.getScalarCapabilities().getArithmeticOperators()
+                .getFunctions();
+        if (functions.getFunctionName(name) == null) {
+            FunctionNameImpl function = new FunctionNameImpl(name, argumentCount);
+            functions.getFunctionNames().add(function);
         }
     }
-    
+
     /**
      * Document support for the provided function.
      * <p>
      * This method will have no effect if the function is already listed.
      * <p>
      * Example:<code>capabilities.addName( "Min", "value1", "value2" )</code>
+     *
      * @param name
      * @param argumentCount
      */
-    public void addName( String name, String... argumentNames ){
-        FunctionsImpl functions = contents.getScalarCapabilities().getArithmeticOperators().getFunctions();
-        if( functions.getFunctionName( name ) == null ){
-            FunctionNameImpl function = new FunctionNameImpl( name, argumentNames );            
-            functions.getFunctionNames().add( function );
+    public void addName(String name, String... argumentNames) {
+        FunctionsImpl functions = contents.getScalarCapabilities().getArithmeticOperators()
+                .getFunctions();
+        if (functions.getFunctionName(name) == null) {
+            FunctionNameImpl function = new FunctionNameImpl(name, argumentNames);
+            functions.getFunctionNames().add(function);
         }
     }
+
     /**
      * Determines if specific filter passed in is supported.
      *
-     * @see IsSupportedFilterVisitor
      * @param filter The Filter to be tested.
      * @return true if supported, false otherwise.
+     * @see IsSupportedFilterVisitor
      */
     public boolean supports(Filter filter) {
         if (filter == null) {
             return false;
         }
-        if( supportedVisitor == null ){
-            supportedVisitor = new IsSupportedFilterVisitor( contents );
+        if (supportedVisitor == null) {
+            supportedVisitor = new IsSupportedFilterVisitor(contents);
         }
-        return (Boolean) filter.accept( supportedVisitor, null );
+        return (Boolean) filter.accept(supportedVisitor, null);
     }
 
     /**
@@ -362,51 +385,54 @@ public class Capabilities {
      * allow for the handling of null, even so care should be taken to use
      * Filter.INCLUDE and Expression.NIL where you can.
      * <p>
-     * @see IsFullySupportedFilterVisitor
+     *
      * @param filter the filter to be tested.
      * @return true if all sub filters are supported, false otherwise.
+     * @see IsFullySupportedFilterVisitor
      */
     public boolean fullySupports(Filter filter) {
         if (filter == null) {
             return false;
         }
-        if( fullySupportedVisitor == null ){
-            fullySupportedVisitor = new IsFullySupportedFilterVisitor( contents );
+        if (fullySupportedVisitor == null) {
+            fullySupportedVisitor = new IsFullySupportedFilterVisitor(contents);
         }
-        return (Boolean) filter.accept( fullySupportedVisitor, null );
+        return (Boolean) filter.accept(fullySupportedVisitor, null);
     }
+
     /**
      * Determines if the expression and all its sub expressions is supported.
      * <p>
      * The Expression visitor used for this work can handle null, even so care
      * should be taken to useExpression.NIL where you can.
      * <p>
-     * @see IsFullySupportedFilterVisitor
+     *
      * @param filter the filter to be tested.
      * @return true if all sub filters are supported, false otherwise.
+     * @see IsFullySupportedFilterVisitor
      */
     public boolean fullySupports(Expression expression) {
         if (expression == null) {
             return false;
         }
-        if( fullySupportedVisitor == null ){
-            fullySupportedVisitor = new IsFullySupportedFilterVisitor( contents );
+        if (fullySupportedVisitor == null) {
+            fullySupportedVisitor = new IsFullySupportedFilterVisitor(contents);
         }
-        return (Boolean) expression.accept( fullySupportedVisitor, null );
+        return (Boolean) expression.accept(fullySupportedVisitor, null);
     }
 
     /**
      * Quickly look at the filter and determine the OperationName
      * we need to check for in the FilterCapabilities data structure.
-     * 
+     *
      * @param filter
      * @return Operation name
      */
-    public String toOperationName( Filter filter ){
-        if( filter == null ) return null;        
-        return (String) filter.accept( operationNameVisitor, null);
+    public String toOperationName(Filter filter) {
+        if (filter == null) return null;
+        return (String) filter.accept(operationNameVisitor, null);
     }
-    
+
     /**
      * Figure out the OperationName for the provided filterType.
      * <p>
@@ -415,20 +441,21 @@ public class Capabilities {
      * <p>
      * This approach is not applicable for Functions.
      * <p>
+     *
      * @param filterType Filter type
      * @return Operation name for the provided FilterType
      */
-    public String toOperationName( Class filterType ){
-        if( filterType == null ) return null;
-        
-        String quick = filterNames.get( filterType );
-        if( quick != null ) {
+    public String toOperationName(Class filterType) {
+        if (filterType == null) return null;
+
+        String quick = filterNames.get(filterType);
+        if (quick != null) {
             return quick;
         }
-        
+
         // The following is O(N) and slightly wrong in that And.class is not an operator
-        for( Map.Entry<Class<?>,String> mapping : filterNames.entrySet() ){
-            if( mapping.getKey().isAssignableFrom( filterType )){
+        for (Map.Entry<Class<?>, String> mapping : filterNames.entrySet()) {
+            if (mapping.getKey().isAssignableFrom(filterType)) {
                 return mapping.getValue();
             }
         }
@@ -504,11 +531,12 @@ public class Capabilities {
         */
         return null;
     }
-    
-    public void addAll( Capabilities copy ){
-        addAll( copy.getContents() );
+
+    public void addAll(Capabilities copy) {
+        addAll(copy.getContents());
     }
-    public void addAll( FilterCapabilities copy ) {
-        contents.addAll( copy );
+
+    public void addAll(FilterCapabilities copy) {
+        contents.addAll(copy);
     }
 }

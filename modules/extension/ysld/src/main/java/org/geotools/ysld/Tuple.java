@@ -4,7 +4,7 @@
  *
  *    (C) 2016 Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2016 Boundless Spatial
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -38,6 +38,7 @@ public class Tuple {
 
     /**
      * Return a tuple comprised of the passed values
+     *
      * @param values
      */
     public static Tuple of(Object... values) {
@@ -48,6 +49,7 @@ public class Tuple {
 
     /**
      * Returns an empty tuple of length n.
+     *
      * @param n
      */
     public static Tuple of(int n) {
@@ -79,8 +81,9 @@ public class Tuple {
 
     @Deprecated
     public Tuple parse(String str) throws IllegalArgumentException {
-        LOG.warning("The tuple syntax "+str+
-                " is deprecated. Please update your style to use '[' and ']' instead of '(' and ')' for tuples");
+        LOG.warning("The tuple syntax " + str +
+                " is deprecated. Please update your style to use '[' and ']' instead of '(' and " +
+                "')' for tuples");
         Matcher m = pattern.matcher(str);
         if (!m.matches()) {
             throw new IllegalArgumentException();
@@ -97,6 +100,7 @@ public class Tuple {
 
     /**
      * Parse the values of seq and write them to this Tuple
+     *
      * @param seq
      * @throws IllegalArgumentException if seq and this differ in length
      */
@@ -117,6 +121,7 @@ public class Tuple {
 
     /**
      * Parse an object to this Tuple
+     *
      * @param obj
      * @throws IllegalArgumentException if obj cannot be parsed to a Tuple
      */

@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.metadata.content;
@@ -19,15 +19,13 @@ import static org.opengis.annotation.Specification.*;
 /**
  * Information about an image's suitability for use.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
+ * @author Cory Horner (Refractions Research)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Martin Desruisseaux (IRD)
- * @author  Cory Horner (Refractions Research)
- * @since   GeoAPI 2.0
+ * @source $URL$
+ * @since GeoAPI 2.0
  */
-@UML(identifier="MD_ImageDescription", specification=ISO_19115)
+@UML(identifier = "MD_ImageDescription", specification = ISO_19115)
 public interface ImageDescription extends CoverageDescription {
     /**
      * Illumination elevation measured in degrees clockwise from the target plane at
@@ -36,7 +34,8 @@ public interface ImageDescription extends CoverageDescription {
      *
      * @return A value between -90&deg; and +90&deg;, or {@code null} if unspecified.
      */
-    @UML(identifier="illuminationElevationAngle", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "illuminationElevationAngle", obligation = OPTIONAL, specification = 
+            ISO_19115)
     Double getIlluminationElevationAngle();
 
     /**
@@ -45,7 +44,7 @@ public interface ImageDescription extends CoverageDescription {
      *
      * @return A value between 0&deg; and 360&deg;, or {@code null} if unspecified.
      */
-    @UML(identifier="illuminationAzimuthAngle", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "illuminationAzimuthAngle", obligation = OPTIONAL, specification = ISO_19115)
     Double getIlluminationAzimuthAngle();
 
     /**
@@ -53,7 +52,7 @@ public interface ImageDescription extends CoverageDescription {
      *
      * @return Conditions affected the image, or {@code null} if unknown.
      */
-    @UML(identifier="imagingCondition", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "imagingCondition", obligation = OPTIONAL, specification = ISO_19115)
     ImagingCondition getImagingCondition();
 
     /**
@@ -61,7 +60,7 @@ public interface ImageDescription extends CoverageDescription {
      *
      * @return The image quality, or {@code null} if unknown.
      */
-    @UML(identifier="imageQualityCode", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "imageQualityCode", obligation = OPTIONAL, specification = ISO_19115)
     Identifier getImageQualityCode();
 
     /**
@@ -69,7 +68,7 @@ public interface ImageDescription extends CoverageDescription {
      *
      * @return A value between 0 and 100, or {@code null} if unknown.
      */
-    @UML(identifier="cloudCoverPercentage", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "cloudCoverPercentage", obligation = OPTIONAL, specification = ISO_19115)
     Double getCloudCoverPercentage();
 
     /**
@@ -77,9 +76,9 @@ public interface ImageDescription extends CoverageDescription {
      * processing that has been applied.
      *
      * @return The level of radiometric and geometric processing that has been applied,
-     *         or {@code null} if unknown.
+     * or {@code null} if unknown.
      */
-    @UML(identifier="processingLevelCode", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "processingLevelCode", obligation = OPTIONAL, specification = ISO_19115)
     Identifier getProcessingLevelCode();
 
     /**
@@ -87,9 +86,10 @@ public interface ImageDescription extends CoverageDescription {
      * Returns {@code null} if the information is not provided.
      *
      * @return The number the number of lossy compression cycles performed on the image,
-     *         or {@code null} if unknown.
+     * or {@code null} if unknown.
      */
-    @UML(identifier="compressionGenerationQuantity", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "compressionGenerationQuantity", obligation = OPTIONAL, specification = 
+            ISO_19115)
     Integer getCompressionGenerationQuantity();
 
     /**
@@ -97,9 +97,9 @@ public interface ImageDescription extends CoverageDescription {
      * Returns {@code null} if the information is not provided.
      *
      * @return Whether or not triangulation has been performed upon the image,
-     *         or {@code null} if unknown.
+     * or {@code null} if unknown.
      */
-    @UML(identifier="triangulationIndicator", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "triangulationIndicator", obligation = OPTIONAL, specification = ISO_19115)
     Boolean getTriangulationIndicator();
 
     /**
@@ -107,9 +107,10 @@ public interface ImageDescription extends CoverageDescription {
      * radiometrically calibrated standard data product is available.
      *
      * @return Whether or not the radiometric calibration information is available,
-     *         or {@code null} if unknown.
+     * or {@code null} if unknown.
      */
-    @UML(identifier="radiometricCalibrationDataAvailability", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "radiometricCalibrationDataAvailability", obligation = OPTIONAL, 
+            specification = ISO_19115)
     Boolean isRadiometricCalibrationDataAvailable();
 
     /**
@@ -117,26 +118,29 @@ public interface ImageDescription extends CoverageDescription {
      * corrections.
      *
      * @return Whether or not constants are available for camera calibration corrections,
-     *         or {@code null} if unknown.
+     * or {@code null} if unknown.
      */
-    @UML(identifier="cameraCalibrationInformationAvailability", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "cameraCalibrationInformationAvailability", obligation = OPTIONAL, 
+            specification = ISO_19115)
     Boolean isCameraCalibrationInformationAvailable();
 
     /**
      * Indication of whether or not Calibration Reseau information is available.
      *
      * @return Whether or not Calibration Reseau information is available,
-     *         or {@code null} if unknown.
+     * or {@code null} if unknown.
      */
-    @UML(identifier="filmDistortionInformationAvailability", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "filmDistortionInformationAvailability", obligation = OPTIONAL, 
+            specification = ISO_19115)
     Boolean isFilmDistortionInformationAvailable();
 
     /**
      * Indication of whether or not lens aberration correction information is available.
      *
      * @return Whether or not lens aberration correction information is available,
-     *         or {@code null} if unknown.
+     * or {@code null} if unknown.
      */
-    @UML(identifier="lensDistortionInformationAvailability", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "lensDistortionInformationAvailability", obligation = OPTIONAL, 
+            specification = ISO_19115)
     Boolean isLensDistortionInformationAvailable();
 }

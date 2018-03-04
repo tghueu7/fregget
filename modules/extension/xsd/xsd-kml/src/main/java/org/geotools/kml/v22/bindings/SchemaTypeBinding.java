@@ -19,9 +19,9 @@ import org.opengis.feature.type.Schema;
 
 /**
  * Binding object for the type http://www.opengis.net/kml/2.2:SchemaType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;complexType final="#all" name="SchemaType"&gt;
@@ -31,13 +31,13 @@ import org.opengis.feature.type.Schema;
  *      &lt;/sequence&gt;
  *      &lt;attribute name="name" type="string"/&gt;
  *      &lt;attribute name="id" type="ID"/&gt;
- *  &lt;/complexType&gt; 
- * 	
+ *  &lt;/complexType&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
  */
 public class SchemaTypeBinding extends AbstractComplexBinding {
@@ -57,7 +57,7 @@ public class SchemaTypeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -66,7 +66,7 @@ public class SchemaTypeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
@@ -80,11 +80,9 @@ public class SchemaTypeBinding extends AbstractComplexBinding {
 
         if (node.hasAttribute("name")) {
             featureTypeName = (String) node.getAttributeValue("name");
-        }
-        else if (featureTypeId != null) {
+        } else if (featureTypeId != null) {
             featureTypeName = featureTypeId;
-        }
-        else {
+        } else {
             featureTypeName = "feature";
         }
 

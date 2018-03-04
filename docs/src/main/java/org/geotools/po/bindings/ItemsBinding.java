@@ -20,9 +20,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://www.geotools.org/po:Items.
- *
  * <p>
- *    <pre>
+ * <p>
+ * <pre>
  *     <code>
  *  &lt;xsd:complexType name="Items"&gt;
  *      &lt;xsd:sequence&gt;
@@ -45,8 +45,8 @@ import org.geotools.xml.Node;
  *              &lt;/xsd:complexType&gt;
  *          &lt;/xsd:element&gt;
  *      &lt;/xsd:sequence&gt;
- *  &lt;/xsd:complexType&gt; 
- *        
+ *  &lt;/xsd:complexType&gt;
+ *
  *      </code>
  *     </pre>
  * </p>
@@ -55,8 +55,9 @@ import org.geotools.xml.Node;
  */
 public class ItemsBinding extends AbstractComplexBinding {
 
-    ObjectFactory factory;        
-    public ItemsBinding( ObjectFactory factory ) {
+    ObjectFactory factory;
+
+    public ItemsBinding(ObjectFactory factory) {
         super();
         this.factory = factory;
     }
@@ -67,23 +68,23 @@ public class ItemsBinding extends AbstractComplexBinding {
     public QName getTarget() {
         return PO.Items;
     }
-    
+
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     *    
+     *
      * @generated modifiable
-     */    
+     */
     public Class getType() {
         return Items.class;
     }
-    
+
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     *    
+     *
      * @generated modifiable
-     */    
+     */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
         Items items = factory.createItems();
         items.getItem().addAll(node.getChildValues("item"));

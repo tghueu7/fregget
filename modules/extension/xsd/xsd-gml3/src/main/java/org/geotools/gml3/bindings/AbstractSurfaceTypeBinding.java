@@ -26,13 +26,14 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:AbstractSurfaceType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="AbstractSurfaceType"&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;An abstraction of a surface to support the different levels of complexity. A surface is always a continuous region of a plane.&lt;/documentation&gt;
+ *          &lt;documentation&gt;An abstraction of a surface to support the different levels of 
+ *          complexity. A surface is always a continuous region of a plane.&lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;complexContent&gt;
  *          &lt;extension base="gml:AbstractGeometricPrimitiveType"/&gt;
@@ -44,9 +45,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class AbstractSurfaceTypeBinding extends AbstractComplexBinding {
@@ -74,7 +72,7 @@ public class AbstractSurfaceTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //TODO: implement
         return null;
     }

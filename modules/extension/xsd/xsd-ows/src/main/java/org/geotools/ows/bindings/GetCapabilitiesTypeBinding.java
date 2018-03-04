@@ -18,41 +18,53 @@ package org.geotools.ows.bindings;
 
 import net.opengis.ows10.GetCapabilitiesType;
 import net.opengis.ows10.Ows10Factory;
+
 import javax.xml.namespace.QName;
+
 import org.geotools.ows.OWS;
 import org.geotools.xml.*;
 
 
 /**
  * Binding object for the type http://www.opengis.net/ows:GetCapabilitiesType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="GetCapabilitiesType"&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;XML encoded GetCapabilities operation request. This operation allows clients to retrieve service metadata about a specific service instance. In this XML encoding, no "request" parameter is included, since the element name specifies the specific operation. This base type shall be extended by each specific OWS to include the additional required "service" attribute, with the correct value for that OWS. &lt;/documentation&gt;
+ *          &lt;documentation&gt;XML encoded GetCapabilities operation request. This operation 
+ *          allows clients to retrieve service metadata about a specific service instance. In 
+ *          this XML encoding, no "request" parameter is included, since the element name 
+ *          specifies the specific operation. This base type shall be extended by each specific 
+ *          OWS to include the additional required "service" attribute, with the correct value 
+ *          for that OWS. &lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;sequence&gt;
  *          &lt;element minOccurs="0" name="AcceptVersions" type="ows:AcceptVersionsType"&gt;
  *              &lt;annotation&gt;
- *                  &lt;documentation&gt;When omitted, server shall return latest supported version. &lt;/documentation&gt;
+ *                  &lt;documentation&gt;When omitted, server shall return latest supported 
+ *                  version. &lt;/documentation&gt;
  *              &lt;/annotation&gt;
  *          &lt;/element&gt;
  *          &lt;element minOccurs="0" name="Sections" type="ows:SectionsType"&gt;
  *              &lt;annotation&gt;
- *                  &lt;documentation&gt;When omitted or not supported by server, server shall return complete service metadata (Capabilities) document. &lt;/documentation&gt;
+ *                  &lt;documentation&gt;When omitted or not supported by server, server shall 
+ *                  return complete service metadata (Capabilities) document. &lt;/documentation&gt;
  *              &lt;/annotation&gt;
  *          &lt;/element&gt;
  *          &lt;element minOccurs="0" name="AcceptFormats" type="ows:AcceptFormatsType"&gt;
  *              &lt;annotation&gt;
- *                  &lt;documentation&gt;When omitted or not supported by server, server shall return service metadata document using the MIME type "text/xml". &lt;/documentation&gt;
+ *                  &lt;documentation&gt;When omitted or not supported by server, server shall 
+ *                  return service metadata document using the MIME type "text/xml". &lt;
+ *                  /documentation&gt;
  *              &lt;/annotation&gt;
  *          &lt;/element&gt;
  *      &lt;/sequence&gt;
  *      &lt;attribute name="updateSequence" type="ows:UpdateSequenceType" use="optional"&gt;
  *          &lt;annotation&gt;
- *              &lt;documentation&gt;When omitted or not supported by server, server shall return latest complete service metadata document. &lt;/documentation&gt;
+ *              &lt;documentation&gt;When omitted or not supported by server, server shall return
+ *              latest complete service metadata document. &lt;/documentation&gt;
  *          &lt;/annotation&gt;
  *      &lt;/attribute&gt;
  *  &lt;/complexType&gt;
@@ -62,9 +74,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GetCapabilitiesTypeBinding extends AbstractComplexEMFBinding {
@@ -96,7 +105,7 @@ public class GetCapabilitiesTypeBinding extends AbstractComplexEMFBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //TODO: implement and remove call to super
         return super.parse(instance, node, value);
     }

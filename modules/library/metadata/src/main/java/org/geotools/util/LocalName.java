@@ -33,14 +33,11 @@ import org.opengis.util.ScopedName;
  * {@link GenericName}, or a pointer to another name space (with a new {@link GenericName})
  * one step closer to the target of the identifier.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see NameFactory
+ * @since 2.1
  */
 public class LocalName extends org.geotools.util.GenericName implements org.opengis.util.LocalName {
     /**
@@ -92,7 +89,7 @@ public class LocalName extends org.geotools.util.GenericName implements org.open
 
     /**
      * Constructs a local name from the specified international string.
-     *
+     * <p>
      * This constructor is not public since it can't be used from outside
      * of {@link org.geotools.util.ScopedName} constructor (otherwise some
      * methods in this class may have the wrong semantic).
@@ -102,7 +99,7 @@ public class LocalName extends org.geotools.util.GenericName implements org.open
      */
     LocalName(final ScopedName asScopedName, final CharSequence name) {
         this.asScopedName = asScopedName;
-        this.name         = validate(name);
+        this.name = validate(name);
         AbstractInternationalString.ensureNonNull("name", name);
     }
 
@@ -137,15 +134,14 @@ public class LocalName extends org.geotools.util.GenericName implements org.open
      * associated with a {@linkplain NameSpace name space} having the name {@code "org.opengis"},
      * then the fully qualified name would be {@code "org.opengis.util.GenericName"}.
      *
-     * @since 2.3
-     *
      * @todo To be strict, maybe we should returns {@code null} if there is no namespace.
-     *       Current implementation returns a namespace instance whith a null name. This
-     *       behavior is for transition from legacy API to later ISO 19103 revision and
-     *       may change in future GeoTools version.
+     * Current implementation returns a namespace instance whith a null name. This
+     * behavior is for transition from legacy API to later ISO 19103 revision and
+     * may change in future GeoTools version.
+     * @since 2.3
      */
     public NameSpace scope() {
-        return (asScopedName!=null) ? asScopedName.scope() : super.scope();
+        return (asScopedName != null) ? asScopedName.scope() : super.scope();
     }
 
     /**
@@ -217,17 +213,16 @@ public class LocalName extends org.geotools.util.GenericName implements org.open
      * the following relationships must hold:
      * <p>
      * <ul>
-     *   <li><code>push(<var>name</var>).getParsedList() ==
-     *       <var>name</var>.getParsedList().addAll({@linkplain #getParsedNames()})</code></li>
-     *   <li><code>push(<var>name</var>).scope() == <var>name</var>.{@linkplain #scope()}</code></li>
+     * <li><code>push(<var>name</var>).getParsedList() ==
+     * <var>name</var>.getParsedList().addAll({@linkplain #getParsedNames()})</code></li>
+     * <li><code>push(<var>name</var>).scope() == <var>name</var>.{@linkplain #scope()}</code></li>
      * </ul>
      * <p>
      * <strong>Note:</strong> Those conditions can be understood in terms of the Java
      * {@link Object#equals equals} method instead of the Java identity comparator {@code ==}.
      *
-     * @since 2.3
-     *
      * @todo Not yet implemented.
+     * @since 2.3
      */
     public ScopedName push(GenericName scope) {
         throw new UnsupportedOperationException("Not yet implemented");
@@ -284,11 +279,11 @@ public class LocalName extends org.geotools.util.GenericName implements org.open
         if (object == this) {
             return true;
         }
-        if (object!=null && object.getClass().equals(getClass())) {
+        if (object != null && object.getClass().equals(getClass())) {
             final LocalName that = (LocalName) object;
             // Do not use 'asScopedName' in order to avoid never-ending loop.
             return Utilities.equals(this.getInternalScope(), that.getInternalScope()) &&
-                   Utilities.equals(this.name,               that.name);
+                    Utilities.equals(this.name, that.name);
         }
         return false;
     }
@@ -298,7 +293,7 @@ public class LocalName extends org.geotools.util.GenericName implements org.open
      */
     @Override
     public int hashCode() {
-        int code = (int)serialVersionUID;
+        int code = (int) serialVersionUID;
         // Do not use 'asScopedName' in order to avoid never-ending loop.
         if (name != null) code ^= name.hashCode();
         return code;

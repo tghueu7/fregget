@@ -34,16 +34,13 @@ import java.util.Set;
  * implementation may live outside this plugin as long as they're declared in it's own {code
  * /META-INF/services/org.geotools.data.wfs.protocol.wfs.WFSResponseParserFactory} text file.
  * </p>
- * 
+ *
  * @author Gabriel Roldan (OpenGeo)
  * @version $Id$
- * @since 2.6
- * 
- * 
- * 
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/wfs/src/main/java/org/geotools
- *         /data/wfs/protocol/wfs/WFSExtensions.java $
+ * http://svn.osgeo.org/geotools/trunk/modules/unsupported/wfs/src/main/java/org/geotools
+ * /data/wfs/protocol/wfs/WFSExtensions.java $
+ * @since 2.6
  */
 @SuppressWarnings("nls")
 public class WFSExtensions {
@@ -60,7 +57,7 @@ public class WFSExtensions {
      * <li>a {@link WFSException} exception if the WFS response was an exception report
      * <li>a {@link GetFeatureParser} if the WFS returned a FeatureCollection
      * </p>
-     * 
+     *
      * @param request
      *            the WFS request that originated the given response
      * @param response
@@ -82,12 +79,11 @@ public class WFSExtensions {
     /**
      * @param originatingRequest
      * @param contentType
-     * 
      * @return
      * @throws FactoryNotFoundException
      */
     public static WFSResponseFactory findResponseFactory(final WFSRequest originatingRequest,
-            final String contentType) {
+                                                         final String contentType) {
 
         Iterator<WFSResponseFactory> serviceProviders;
         serviceProviders = getServiceProviders();

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2001-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -35,12 +35,10 @@ import java.lang.reflect.Field;
  * final JAR file. They are used at compile time only and no other classes should keep reference to
  * them.
  *
- * @since 2.4
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.4
  */
 public final class IndexedResourceCompiler implements Comparator<Object> {
     /**
@@ -55,11 +53,12 @@ public final class IndexedResourceCompiler implements Comparator<Object> {
      * The resources to process.
      */
     @SuppressWarnings("unchecked")
-    private static final Class<? extends IndexedResourceBundle>[] RESOURCES_TO_PROCESS = new Class[] {
-        org.geotools.resources.i18n.Descriptions.class,
-        org.geotools.resources.i18n.Vocabulary  .class,
-        org.geotools.resources.i18n.Loggings    .class,
-        org.geotools.resources.i18n.Errors      .class
+    private static final Class<? extends IndexedResourceBundle>[] RESOURCES_TO_PROCESS = new 
+            Class[]{
+            org.geotools.resources.i18n.Descriptions.class,
+            org.geotools.resources.i18n.Vocabulary.class,
+            org.geotools.resources.i18n.Loggings.class,
+            org.geotools.resources.i18n.Errors.class
     };
 
     /**
@@ -95,13 +94,13 @@ public final class IndexedResourceCompiler implements Comparator<Object> {
      * Integer IDs allocated to resource keys. This map will be shared for all languages
      * of a given resource bundle.
      */
-    private final Map<Integer,String> allocatedIDs = new HashMap<Integer,String>();
+    private final Map<Integer, String> allocatedIDs = new HashMap<Integer, String>();
 
     /**
      * Resource keys and their localized values. This map will be cleared for each language
      * in a resource bundle.
      */
-    private final Map<Object,Object> resources = new HashMap<Object,Object>();
+    private final Map<Object, Object> resources = new HashMap<Object, Object>();
 
     /**
      * The output stream for printing message.
@@ -113,19 +112,20 @@ public final class IndexedResourceCompiler implements Comparator<Object> {
      * a {@code FooKeys.class} file. If one is found, integer keys are loaded in order to reuse
      * the same values.
      *
-     * @param  sourceDirectory The base directory for {@code "java"} {@code "resources"}
-     *         sub-directories. The directory structure must be consistent with Maven conventions.
-     * @param  bundleClass The resource bundle base class
-     *         (e.g. <code>{@linkplain org.geotools.resources.i18n.Vocabulary}.class}</code>).
-     * @param  renumber {@code true} for renumbering all key values.
-     * @param  out The output stream for printing message.
+     * @param sourceDirectory The base directory for {@code "java"} {@code "resources"}
+     *                        sub-directories. The directory structure must be consistent with 
+     *                        Maven conventions.
+     * @param bundleClass     The resource bundle base class
+     *                        (e.g. <code>{@linkplain org.geotools.resources.i18n.Vocabulary}
+     *                        .class}</code>).
+     * @param renumber        {@code true} for renumbering all key values.
+     * @param out             The output stream for printing message.
      * @throws IOException if an input/output operation failed.
      */
     private IndexedResourceCompiler(final File sourceDirectory,
                                     final Class<? extends IndexedResourceBundle> bundleClass,
                                     final boolean renumber, final PrintWriter out)
-            throws IOException
-    {
+            throws IOException {
         this.sourceDirectory = sourceDirectory;
         this.out = out;
         if (!renumber) try {
@@ -137,16 +137,16 @@ public final class IndexedResourceCompiler implements Comparator<Object> {
              * Copies all fields into {@link #allocatedIDs} map.
              */
             Field.setAccessible(fields, true);
-            for (int i=fields.length; --i>=0;) {
+            for (int i = fields.length; --i >= 0; ) {
                 final Field field = fields[i];
-                final String  key = field.getName();
+                final String key = field.getName();
                 try {
                     final Object ID = field.get(null);
                     if (ID instanceof Integer) {
-                        allocatedIDs.put((Integer)ID, key);
+                        allocatedIDs.put((Integer) ID, key);
                     }
                 } catch (IllegalAccessException exception) {
-                    final File source = new File(classname.replace('.','/') + ".class");
+                    final File source = new File(classname.replace('.', '/') + ".class");
                     warning(source, key, "Access denied", exception);
                 }
             }
@@ -165,7 +165,7 @@ public final class IndexedResourceCompiler implements Comparator<Object> {
      */
     private static String toKeyClass(String bundleClass) {
         if (bundleClass.endsWith("s")) {
-            bundleClass = bundleClass.substring(0, bundleClass.length()-1);
+            bundleClass = bundleClass.substring(0, bundleClass.length() - 1);
         }
         return bundleClass + "Keys";
     }
@@ -187,14 +187,14 @@ public final class IndexedResourceCompiler implements Comparator<Object> {
      * {@code "_$n"} where {@code "n"} is the number of arguments). This method transforms resource
      * values into legal {@link MessageFormat} patterns when necessary.
      *
-     * @param  file The properties file to read.
+     * @param file The properties file to read.
      * @throws IOException if an input/output operation failed.
      */
     private void processPropertyFile(final File file) throws IOException {
         final Properties properties = loadPropertyFile(file);
         resources.clear();
-        for (final Map.Entry<Object,Object> entry : properties.entrySet()) {
-            final String key   = (String) entry.getKey();
+        for (final Map.Entry<Object, Object> entry : properties.entrySet()) {
+            final String key = (String) entry.getKey();
             final String value = (String) entry.getValue();
             /*
              * Checks key and value validity.
@@ -237,7 +237,7 @@ public final class IndexedResourceCompiler implements Comparator<Object> {
             final int expected = message.getFormats().length;
             if (argumentCount != expected) {
                 final String suffix = ARGUMENT_COUNT_PREFIX + expected;
-                warning(file, key, "Key name should ends with \""+suffix+"\".", null);
+                warning(file, key, "Key name should ends with \"" + suffix + "\".", null);
                 continue;
             }
         }
@@ -247,7 +247,7 @@ public final class IndexedResourceCompiler implements Comparator<Object> {
         final String[] keys = resources.keySet().toArray(new String[resources.size()]);
         Arrays.sort(keys, this);
         int freeID = 0;
-        for (int i=0; i<keys.length; i++) {
+        for (int i = 0; i < keys.length; i++) {
             final String key = keys[i];
             if (!allocatedIDs.containsValue(key)) {
                 Integer ID;
@@ -263,16 +263,17 @@ public final class IndexedResourceCompiler implements Comparator<Object> {
      * Write UTF file. Method {@link #processPropertyFile} should be invoked beforehand to
      * {@code writeUTFFile}.
      *
-     * @param  file The destination file.
+     * @param file The destination file.
      * @throws IOException if an input/output operation failed.
      */
     private void writeUTFFile(final File file) throws IOException {
         final int count = allocatedIDs.isEmpty() ? 0 : Collections.max(allocatedIDs.keySet()) + 1;
-        final DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(file)));
+        final DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new 
+                FileOutputStream(file)));
         out.writeInt(count);
-        for (int i=0; i<count; i++) {
+        for (int i = 0; i < count; i++) {
             final String value = (String) resources.get(allocatedIDs.get(i));
-            out.writeUTF((value!=null) ? value : "");
+            out.writeUTF((value != null) ? value : "");
         }
         out.close();
     }
@@ -282,10 +283,11 @@ public final class IndexedResourceCompiler implements Comparator<Object> {
      * The main operation consists of changing ' for '', except for '{' and '}' strings.
      */
     private static String toMessageFormatString(final String text) {
-        int level =  0;
-        int last  = -1;
+        int level = 0;
+        int last = -1;
         final StringBuilder buffer = new StringBuilder(text);
-search: for (int i=0; i<buffer.length(); i++) { // Length of 'buffer' will vary.
+        search:
+        for (int i = 0; i < buffer.length(); i++) { // Length of 'buffer' will vary.
             switch (buffer.charAt(i)) {
                 /*
                  * Left and right braces take us up or down a level.  Quotes will only be doubled
@@ -293,17 +295,27 @@ search: for (int i=0; i<buffer.length(); i++) { // Length of 'buffer' will vary.
                  * account as it will have been skipped over during the previous pass through the
                  * loop.
                  */
-                case '{' : level++; last=i; break;
-                case '}' : level--; last=i; break;
+                case '{':
+                    level++;
+                    last = i;
+                    break;
+                case '}':
+                    level--;
+                    last = i;
+                    break;
                 case '\'': {
                     /*
                      * If a brace ('{' or '}') is found between quotes, the entire block is
                      * ignored and we continue with the character following the closing quote.
                      */
-                    if (i+2<buffer.length() && buffer.charAt(i+2)=='\'') {
-                        switch (buffer.charAt(i+1)) {
-                            case '{': i+=2; continue search;
-                            case '}': i+=2; continue search;
+                    if (i + 2 < buffer.length() && buffer.charAt(i + 2) == '\'') {
+                        switch (buffer.charAt(i + 1)) {
+                            case '{':
+                                i += 2;
+                                continue search;
+                            case '}':
+                                i += 2;
+                                continue search;
                         }
                     }
                     if (level <= 0) {
@@ -317,13 +329,14 @@ search: for (int i=0; i<buffer.length(); i++) { // Length of 'buffer' will vary.
                      * If we find ourselves between braces, we don't normally need to double
                      * our quotes.  However, the format {0,choice,...} is an exception.
                      */
-                    if (last>=0 && buffer.charAt(last)=='{') {
-                        int scan=last;
-                        do if (scan>=i) continue search;
+                    if (last >= 0 && buffer.charAt(last) == '{') {
+                        int scan = last;
+                        do if (scan >= i) continue search;
                         while (Character.isDigit(buffer.charAt(++scan)));
-                        final String choice=",choice,";
-                        final int end=scan+choice.length();
-                        if (end<buffer.length() && buffer.substring(scan, end).equalsIgnoreCase(choice)) {
+                        final String choice = ",choice,";
+                        final int end = scan + choice.length();
+                        if (end < buffer.length() && buffer.substring(scan, end).equalsIgnoreCase
+                                (choice)) {
                             buffer.insert(i++, '\'');
                             continue search;
                         }
@@ -342,14 +355,13 @@ search: for (int i=0; i<buffer.length(); i++) { // Length of 'buffer' will vary.
      * @param message   The message string.
      * @param exception An optional exception that is the cause of this warning.
      */
-    private void warning(final File file,      final String key,
-                         final String message, final Exception exception)
-    {
+    private void warning(final File file, final String key,
+                         final String message, final Exception exception) {
         out.print("ERROR ");
         if (file != null) {
             String filename = file.getPath();
             if (filename.endsWith(PROPERTIES_EXT)) {
-                filename = filename.substring(0, filename.length()-PROPERTIES_EXT.length());
+                filename = filename.substring(0, filename.length() - PROPERTIES_EXT.length());
             }
             out.print('(');
             out.print(filename);
@@ -375,16 +387,17 @@ search: for (int i=0; i<buffer.length(); i++) { // Length of 'buffer' will vary.
     /**
      * Creates a source file for resource keys.
      *
-     * @param  bundleClass The resource bundle base class
-     *         (e.g. <code>{@linkplain org.geotools.resources.i18n.Vocabulary}.class}</code>).
+     * @param bundleClass The resource bundle base class
+     *                    (e.g. <code>{@linkplain org.geotools.resources.i18n.Vocabulary}
+     *                    .class}</code>).
      * @throws IOException if an input/output operation failed.
      */
     private void writeJavaSource(final Class bundleClass) throws IOException {
-        final String fullname    = toKeyClass(bundleClass.getName());
-        final int    packageEnd  = fullname.lastIndexOf('.');
+        final String fullname = toKeyClass(bundleClass.getName());
+        final int packageEnd = fullname.lastIndexOf('.');
         final String packageName = fullname.substring(0, packageEnd);
-        final String classname   = fullname.substring(packageEnd + 1);
-        final File   file        = new File(sourceDirectory,
+        final String classname = fullname.substring(packageEnd + 1);
+        final File file = new File(sourceDirectory,
                 "java/" + fullname.replace('.', '/') + ".java");
         if (!file.getParentFile().isDirectory()) {
             warning(file, null, "Parent directory not found.", null);
@@ -393,57 +406,62 @@ search: for (int i=0; i<buffer.length(); i++) { // Length of 'buffer' will vary.
         final BufferedWriter out = new BufferedWriter(new OutputStreamWriter(
                 new FileOutputStream(file), "UTF-8"));
         out.write("/*\n" +
-                  " *    GeoTools - The Open Source Java GIS Toolkit\n" +
-                  " *    http://geotools.org\n" +
-                  " *    \n" +
-                  " *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)\n" +
-                  " *    \n" +
-                  " *    This library is free software; you can redistribute it and/or\n" +
-                  " *    modify it under the terms of the GNU Lesser General Public\n" +
-                  " *    License as published by the Free Software Foundation;\n" +
-                  " *    version 2.1 of the License.\n" +
-                  " *    \n" +
-                  " *    This library is distributed in the hope that it will be useful,\n" +
-                  " *    but WITHOUT ANY WARRANTY; without even the implied warranty of\n" +
-                  " *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU\n" +
-                  " *    Lesser General Public License for more details.\n" +
-                  " *    \n" +
-                  " *    THIS IS AN AUTOMATICALLY GENERATED FILE. DO NOT EDIT!\n"   +
-                  " *    Generated with: org.geotools.resources.IndexedResourceCompiler\n" +
-                  " */\n");
+                " *    GeoTools - The Open Source Java GIS Toolkit\n" +
+                " *    http://geotools.org\n" +
+                " *    \n" +
+                " *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)\n" +
+                " *    \n" +
+                " *    This library is free software; you can redistribute it and/or\n" +
+                " *    modify it under the terms of the GNU Lesser General Public\n" +
+                " *    License as published by the Free Software Foundation;\n" +
+                " *    version 2.1 of the License.\n" +
+                " *    \n" +
+                " *    This library is distributed in the hope that it will be useful,\n" +
+                " *    but WITHOUT ANY WARRANTY; without even the implied warranty of\n" +
+                " *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU\n" +
+                " *    Lesser General Public License for more details.\n" +
+                " *    \n" +
+                " *    THIS IS AN AUTOMATICALLY GENERATED FILE. DO NOT EDIT!\n" +
+                " *    Generated with: org.geotools.resources.IndexedResourceCompiler\n" +
+                " */\n");
         out.write("package ");
         out.write(packageName);
         out.write(";\n\n\n");
-        out.write("/**\n"                                                                  +
-                  " * Resource keys. This class is used when compiling sources, but\n"     +
-                  " * no dependencies to {@code ResourceKeys} should appear in any\n"      +
-                  " * resulting class files.  Since Java compiler inlines final integer\n" +
-                  " * values, using long identifiers will not bloat constant pools of\n"   +
-                  " * classes compiled against the interface, provided that no class\n"    +
-                  " * implements this interface.\n"                                        +
-                  " *\n"                                                                   +
-                  " * @see org.geotools.resources.IndexedResourceBundle\n"                 +
-                  " * @see org.geotools.resources.IndexedResourceCompiler\n"               +
-                  " * @source \u0024URL\u0024\n"                                           +
-                  " */\n");
-        out.write("public final class "); out.write(classname); out.write(" {\n");
-        out.write("    private "); out.write(classname); out.write("() {\n");
+        out.write("/**\n" +
+                " * Resource keys. This class is used when compiling sources, but\n" +
+                " * no dependencies to {@code ResourceKeys} should appear in any\n" +
+                " * resulting class files.  Since Java compiler inlines final integer\n" +
+                " * values, using long identifiers will not bloat constant pools of\n" +
+                " * classes compiled against the interface, provided that no class\n" +
+                " * implements this interface.\n" +
+                " *\n" +
+                " * @see org.geotools.resources.IndexedResourceBundle\n" +
+                " * @see org.geotools.resources.IndexedResourceCompiler\n" +
+                " * @source \u0024URL\u0024\n" +
+                " */\n");
+        out.write("public final class ");
+        out.write(classname);
+        out.write(" {\n");
+        out.write("    private ");
+        out.write(classname);
+        out.write("() {\n");
         out.write("    }\n");
-        final Map.Entry[] entries = allocatedIDs.entrySet().toArray(new Map.Entry[allocatedIDs.size()]);
+        final Map.Entry[] entries = allocatedIDs.entrySet().toArray(new Map.Entry[allocatedIDs
+                .size()]);
         Arrays.sort(entries, this);
-        for (int i=0; i<entries.length; i++) {
+        for (int i = 0; i < entries.length; i++) {
             out.write('\n');
             final String key = (String) entries[i].getValue();
-            final String ID  = entries[i].getKey().toString();
+            final String ID = entries[i].getKey().toString();
             String message = (String) resources.get(key);
             if (message != null) {
                 out.write("    /**\n");
-                while (((message=message.trim()).length()) != 0) {
+                while (((message = message.trim()).length()) != 0) {
                     out.write("     * ");
                     int stop = message.length();
                     if (stop > COMMENT_LENGTH) {
                         stop = COMMENT_LENGTH;
-                        while (stop>20 && !Character.isWhitespace(message.charAt(stop))) {
+                        while (stop > 20 && !Character.isWhitespace(message.charAt(stop))) {
                             stop--;
                         }
                     }
@@ -479,26 +497,27 @@ search: for (int i=0; i<buffer.length(); i++) { // Length of 'buffer' will vary.
     /**
      * Scans the package for resources.
      *
-     * @param  sourceDirectory The base directory for {@code "java"} {@code "resources"}
-     *         sub-directories. The directory structure must be consistent with Maven conventions.
-     * @param  bundleClass The resource bundle base class
-     *         (e.g. <code>{@linkplain org.geotools.resources.i18n.Vocabulary}.class}</code>).
-     * @param  renumber {@code true} for renumbering all key values.
-     * @param  out The output stream for printing message.
+     * @param sourceDirectory The base directory for {@code "java"} {@code "resources"}
+     *                        sub-directories. The directory structure must be consistent with 
+     *                        Maven conventions.
+     * @param bundleClass     The resource bundle base class
+     *                        (e.g. <code>{@linkplain org.geotools.resources.i18n.Vocabulary}
+     *                        .class}</code>).
+     * @param renumber        {@code true} for renumbering all key values.
+     * @param out             The output stream for printing message.
      * @throws IOException if an input/output operation failed.
      */
     private static void scanForResources(final File sourceDirectory,
                                          final Class<? extends IndexedResourceBundle> bundleClass,
                                          final boolean renumber, final PrintWriter out)
-            throws IOException
-    {
-        final String fullname    = bundleClass.getName();
-        final int    packageEnd  = fullname.lastIndexOf('.');
+            throws IOException {
+        final String fullname = bundleClass.getName();
+        final int packageEnd = fullname.lastIndexOf('.');
         final String packageName = fullname.substring(0, packageEnd);
-        final String classname   = fullname.substring(packageEnd + 1);
-        final String packageDir  = packageName.replace('.', '/');
-        final File   srcDir      = new File(sourceDirectory, "java/"      + packageDir);
-        final File   utfDir      = new File(sourceDirectory, "resources/" + packageDir);
+        final String classname = fullname.substring(packageEnd + 1);
+        final String packageDir = packageName.replace('.', '/');
+        final File srcDir = new File(sourceDirectory, "java/" + packageDir);
+        final File utfDir = new File(sourceDirectory, "resources/" + packageDir);
         if (!srcDir.isDirectory()) {
             out.print('"');
             out.print(srcDir.getPath());
@@ -514,15 +533,17 @@ search: for (int i=0; i<buffer.length(); i++) { // Length of 'buffer' will vary.
         IndexedResourceCompiler compiler = null;
         final File[] content = srcDir.listFiles();
         File defaultLanguage = null;
-        for (int i=0; i<content.length; i++) {
+        for (int i = 0; i < content.length; i++) {
             final File file = content[i];
             final String filename = file.getName();
             if (filename.startsWith(classname) && filename.endsWith(PROPERTIES_EXT)) {
                 if (compiler == null) {
-                    compiler = new IndexedResourceCompiler(sourceDirectory, bundleClass, renumber, out);
+                    compiler = new IndexedResourceCompiler(sourceDirectory, bundleClass, 
+                            renumber, out);
                 }
                 compiler.processPropertyFile(file);
-                final String noExt = filename.substring(0, filename.length() - PROPERTIES_EXT.length());
+                final String noExt = filename.substring(0, filename.length() - PROPERTIES_EXT
+                        .length());
                 final File utfFile = new File(utfDir, noExt + RESOURCES_EXT);
                 compiler.writeUTFFile(utfFile);
                 if (noExt.equals(classname)) {
@@ -542,15 +563,16 @@ search: for (int i=0; i<buffer.length(); i++) { // Length of 'buffer' will vary.
     /**
      * Run the resource compiler.
      *
-     * @param args The command-line arguments.
-     * @param  sourceDirectory The base directory for {@code "java"} {@code "resources"}
-     *         sub-directories. The directory structure must be consistent with Maven conventions.
-     * @param  resourcesToProcess The resource bundle base classes
-     *         (e.g. <code>{@linkplain org.geotools.resources.i18n.Vocabulary}.class}</code>).
+     * @param args               The command-line arguments.
+     * @param sourceDirectory    The base directory for {@code "java"} {@code "resources"}
+     *                           sub-directories. The directory structure must be consistent with
+     *                           Maven conventions.
+     * @param resourcesToProcess The resource bundle base classes
+     *                           (e.g. <code>{@linkplain org.geotools.resources.i18n.Vocabulary}
+     *                           .class}</code>).
      */
     public static void main(String[] args, final File sourceDirectory,
-                            final Class<? extends IndexedResourceBundle>[] resourcesToProcess)
-{
+                            final Class<? extends IndexedResourceBundle>[] resourcesToProcess) {
         final Arguments arguments = new Arguments(args);
         final boolean renumber = arguments.getFlag("-renumber");
         final PrintWriter out = arguments.out;
@@ -560,7 +582,7 @@ search: for (int i=0; i<buffer.length(); i++) { // Length of 'buffer' will vary.
             out.println(" not found or is not a directory.");
             return;
         }
-        for (int i=0; i<resourcesToProcess.length; i++) {
+        for (int i = 0; i < resourcesToProcess.length; i++) {
             try {
                 scanForResources(sourceDirectory, resourcesToProcess[i], renumber, out);
             } catch (IOException exception) {

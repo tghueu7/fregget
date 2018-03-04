@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,6 +17,7 @@
 package org.geotools.referencing.factory.epsg;
 
 // JSE dependencies
+
 import java.util.Set;
 import java.util.Iterator;
 import java.io.PrintWriter;
@@ -43,13 +44,11 @@ import junit.framework.TestSuite;
 
 /**
  * Tests ESRI CRS support.
- * 
  *
- *
- * @source $URL$
- * @version $Id$
  * @author Jody Garnett
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
  */
 public class EsriExtensionTest extends TestCase {
     /**
@@ -103,7 +102,7 @@ public class EsriExtensionTest extends TestCase {
      * Tests the vendor.
      */
     public void testVendor() {
-        Citation vendor = factory.getVendor();        
+        Citation vendor = factory.getVendor();
         assertNotNull(vendor);
         assertEquals("Geotools", vendor.getTitle().toString());
     }
@@ -112,7 +111,7 @@ public class EsriExtensionTest extends TestCase {
      * Tests the codes.
      */
     public void testCodes() throws FactoryException {
-        final Set codes  = factory.getAuthorityCodes(IdentifiedObject.class);
+        final Set codes = factory.getAuthorityCodes(IdentifiedObject.class);
         final Set subset = factory.getAuthorityCodes(CoordinateReferenceSystem.class);
         assertNotNull(codes);
         assertEquals(codes.size(), subset.size());
@@ -127,7 +126,7 @@ public class EsriExtensionTest extends TestCase {
      */
     public void testDuplication() throws FactoryException {
         final StringWriter buffer = new StringWriter();
-        final PrintWriter  writer = new PrintWriter(buffer);
+        final PrintWriter writer = new PrintWriter(buffer);
         final Set duplicated = factory.reportDuplicatedCodes(writer);
         assertTrue(buffer.toString(), duplicated.isEmpty());
     }
@@ -137,7 +136,7 @@ public class EsriExtensionTest extends TestCase {
      */
     public void testInstantiation() throws FactoryException {
         final StringWriter buffer = new StringWriter();
-        final PrintWriter  writer = new PrintWriter(buffer);
+        final PrintWriter writer = new PrintWriter(buffer);
         final Set duplicated = factory.reportInstantiationFailures(writer);
         // The following number may be adjusted if esri.properties is updated.
         assertTrue(buffer.toString(), duplicated.size() <= 87);

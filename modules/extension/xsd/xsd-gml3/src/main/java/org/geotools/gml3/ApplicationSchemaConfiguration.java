@@ -32,11 +32,8 @@ import org.picocontainer.MutablePicoContainer;
  *
  * @author Justin Deoliveira, The Open Planning Project
  * @author Gabriel Roldan, Axios Engineering
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  * @since 2.4
  */
 public class ApplicationSchemaConfiguration extends Configuration {

@@ -18,6 +18,7 @@ package org.geotools.filter.v1_1;
 
 import java.util.List;
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.sort.SortBy;
 import org.geotools.xml.AbstractComplexBinding;
@@ -27,13 +28,14 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:SortByType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="SortByType"&gt;
  *      &lt;xsd:sequence&gt;
- *          &lt;xsd:element maxOccurs="unbounded" name="SortProperty" type="ogc:SortPropertyType"/&gt;
+ *          &lt;xsd:element maxOccurs="unbounded" name="SortProperty" 
+ *          type="ogc:SortPropertyType"/&gt;
  *      &lt;/xsd:sequence&gt;
  *  &lt;/xsd:complexType&gt;
  *
@@ -42,9 +44,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SortByTypeBinding extends AbstractComplexBinding {
@@ -78,7 +77,7 @@ public class SortByTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //&lt;xsd:element maxOccurs="unbounded" name="SortProperty" type="ogc:SortPropertyType"/&gt;
         List sortBy = node.getChildValues(SortBy.class);
 
@@ -86,7 +85,7 @@ public class SortByTypeBinding extends AbstractComplexBinding {
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         if ("SortProperty".equals(name.getLocalPart())) {
             SortBy[] sortBy = (SortBy[]) object;
 

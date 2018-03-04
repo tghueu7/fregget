@@ -34,15 +34,11 @@ import org.geotools.arcsde.session.UnavailableConnectionException;
 /**
  * A {@link ISessionPool session pool} that is not closable and hence can be shared between
  * different applications/datastores when referenced by a JNDI context.
- * 
- * 
+ *
  * @author Gabriel Roldan (OpenGeo)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  * @since 2.5.7
- * 
  */
 public final class SharedSessionPool implements ISessionPool {
 
@@ -63,7 +59,7 @@ public final class SharedSessionPool implements ISessionPool {
     }
 
     public static ISessionPool getInstance(final ArcSDEConnectionConfig config,
-            final ISessionPoolFactory factory) throws IOException {
+                                           final ISessionPoolFactory factory) throws IOException {
         LOGGER.info("Getting shared session pool for " + config);
         if (!instances.containsKey(config)) {
             synchronized (instances) {

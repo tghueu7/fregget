@@ -20,8 +20,6 @@ import org.geotools.jdbc.JDBCPrimaryKeyOnlineTest;
 import org.geotools.jdbc.JDBCPrimaryKeyTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SpatiaLitePrimaryKeyOnlineTest extends JDBCPrimaryKeyOnlineTest {
@@ -30,7 +28,7 @@ public class SpatiaLitePrimaryKeyOnlineTest extends JDBCPrimaryKeyOnlineTest {
     protected JDBCPrimaryKeyTestSetup createTestSetup() {
         return new SpatiaLitePrimaryKeyTestSetup();
     }
-    
+
     @Override
     public void testSequencedPrimaryKey() throws Exception {
         //SQLite does not do sequences

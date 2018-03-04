@@ -28,12 +28,9 @@ import org.geotools.swt.utils.Messages;
 /**
  * The base class for map pane cursor tools. Simply adds a getCursor
  * method to the MapToolAdapter
- * 
+ *
  * @author Michael Bedward
  * @author Andrea Antonello (www.hydrologis.com)
- *
- *
- *
  * @source $URL$
  */
 public abstract class CursorTool extends MapMouseAdapter {
@@ -54,7 +51,7 @@ public abstract class CursorTool extends MapMouseAdapter {
      * a combination of multiple SWT-masks.
      *
      * @param triggerButtonMask Mouse button which triggers the tool's activation
-     * or {@value #ANY_BUTTON} if the tool is to be triggered by any button
+     *                          or {@value #ANY_BUTTON} if the tool is to be triggered by any button
      */
     public CursorTool(int triggerButtonMask) {
         this.triggerButtonMask = triggerButtonMask;
@@ -69,10 +66,11 @@ public abstract class CursorTool extends MapMouseAdapter {
 
     /**
      * Set the map pane that this cursor tool is associated with
+     *
      * @param pane the map pane
      * @throws IllegalArgumentException if mapPane is null
      */
-    public void setMapPane( SwtMapPane pane ) {
+    public void setMapPane(SwtMapPane pane) {
         if (pane == null) {
             throw new IllegalArgumentException(Messages.getString("arg_null_error"));
         }
@@ -101,14 +99,14 @@ public abstract class CursorTool extends MapMouseAdapter {
 
     /**
      * Checks if the tool can draw when dragging.
-     * 
+     *
      * @return <code>true</code> if the tool can draw.
      */
     public abstract boolean canDraw();
 
     /**
      * Checks if the tool can move the map when dragging.
-     * 
+     *
      * @return <code>true</code> if the tool can move the map while dragging.
      */
     public abstract boolean canMove();
@@ -121,30 +119,35 @@ public abstract class CursorTool extends MapMouseAdapter {
      *
      * @return <code>true</code> if the tool is drawing while dragging
      */
-    public boolean isDrawing()
-    {
-    	return canDraw();
+    public boolean isDrawing() {
+        return canDraw();
     }
 
     /**
      * Checks if the tool should be triggered by the event.
+     *
      * @param event event to be checked
      * @return <code>true</code> if the tool is triggered by the event
      */
-    protected boolean isTriggerMouseButton(MapMouseEvent event)
-    {
+    protected boolean isTriggerMouseButton(MapMouseEvent event) {
         return
-        		triggerButtonMask == ANY_BUTTON
-        	|| // on mouse move or mouse drag the mouse button field is 0 but the state mask is set
-        	    0 != (triggerButtonMask & event.getStateMask())
-        	|| // on mouse click the state mask is 0, but the mouse button field is set
-        	   (	event.getStateMask() == 0
-        	  	&& ( ((triggerButtonMask & SWT.BUTTON1) != 0 && event.getMouseButton() == 1)
-        	  	  || ((triggerButtonMask & SWT.BUTTON2) != 0 && event.getMouseButton() == 2)
-        	  	  || ((triggerButtonMask & SWT.BUTTON3) != 0 && event.getMouseButton() == 3)
-        	  	  || ((triggerButtonMask & SWT.BUTTON4) != 0 && event.getMouseButton() == 4)
-        	  	  || ((triggerButtonMask & SWT.BUTTON5) != 0 && event.getMouseButton() == 5)
-        	  	   )
-        		);
+                triggerButtonMask == ANY_BUTTON
+                        || // on mouse move or mouse drag the mouse button field is 0 but the 
+                        // state mask is set
+                        0 != (triggerButtonMask & event.getStateMask())
+                        || // on mouse click the state mask is 0, but the mouse button field is set
+                        (event.getStateMask() == 0
+                                && (((triggerButtonMask & SWT.BUTTON1) != 0 && event
+                                .getMouseButton() == 1)
+                                || ((triggerButtonMask & SWT.BUTTON2) != 0 && event
+                                .getMouseButton() == 2)
+                                || ((triggerButtonMask & SWT.BUTTON3) != 0 && event
+                                .getMouseButton() == 3)
+                                || ((triggerButtonMask & SWT.BUTTON4) != 0 && event
+                                .getMouseButton() == 4)
+                                || ((triggerButtonMask & SWT.BUTTON5) != 0 && event
+                                .getMouseButton() == 5)
+                        )
+                        );
     }
 }

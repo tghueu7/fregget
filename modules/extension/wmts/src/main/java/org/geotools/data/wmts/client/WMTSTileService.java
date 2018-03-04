@@ -19,6 +19,7 @@ package org.geotools.data.wmts.client;
 import org.geotools.data.wmts.model.WMTSServiceType;
 import org.geotools.data.wmts.model.TileMatrixSet;
 import org.geotools.data.wmts.model.TileMatrix;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -37,11 +38,13 @@ import org.opengis.referencing.cs.AxisDirection;
 import org.opengis.referencing.operation.TransformException;
 
 import com.vividsolutions.jts.geom.Envelope;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.geotools.data.ows.CRSEnvelope;
 import org.geotools.data.wmts.model.TileMatrixSetLink;
 import org.geotools.data.wmts.model.WMTSLayer;
@@ -49,7 +52,7 @@ import org.geotools.util.logging.Logging;
 
 /**
  * A tile service for WMTS servers.
- *
+ * <p>
  * This is tied to a single layer, style and matrixset.
  *
  * @author ian
@@ -97,19 +100,14 @@ public class WMTSTileService extends TileService {
     /**
      * create a service directly with out parsing the capabilties again.
      *
-     * @param requestURL
-     *            - where to ask for tiles
-     * @param type
-     *            - KVP or REST
-     * @param layerName
-     *            - name of the layer to request
-     * @param styleName
-     *            - name of the style to use?
-     * @param tileMatrixSetName
-     *            - matrixset name
+     * @param requestURL        - where to ask for tiles
+     * @param type              - KVP or REST
+     * @param layerName         - name of the layer to request
+     * @param styleName         - name of the style to use?
+     * @param tileMatrixSetName - matrixset name
      */
     public WMTSTileService(String templateURL, WMTSServiceType type, WMTSLayer layer,
-            String styleName, TileMatrixSet tileMatrixSet) {
+                           String styleName, TileMatrixSet tileMatrixSet) {
         super("wmts", templateURL);
 
         this.layer = layer;
@@ -199,7 +197,7 @@ public class WMTSTileService extends TileService {
             LOGGER.log(Level.FINE,
                     "tile crs req bbox :" + reqExtentInTileCrs + " "
                             + reqExtentInTileCrs.getCoordinateReferenceSystem()
-                                    .getCoordinateSystem().getAxis(0).getDirection()
+                            .getCoordinateSystem().getAxis(0).getDirection()
                             + " (" + reqExtentInTileCrs.getCoordinateReferenceSystem().getName()
                             + ")");
         }
@@ -210,7 +208,7 @@ public class WMTSTileService extends TileService {
             LOGGER.log(Level.FINE,
                     "coverage bbox :" + coverageEnvelope + " "
                             + coverageEnvelope.getCoordinateReferenceSystem().getCoordinateSystem()
-                                    .getAxis(0).getDirection()
+                            .getAxis(0).getDirection()
                             + " (" + coverageEnvelope.getCoordinateReferenceSystem().getName()
                             + ")");
         }
@@ -247,7 +245,7 @@ public class WMTSTileService extends TileService {
 
     @Override
     public Set<Tile> findTilesInExtent(ReferencedEnvelope requestedExtent, int scaleFactor,
-            boolean recommendedZoomLevel, int maxNumberOfTiles) {
+                                       boolean recommendedZoomLevel, int maxNumberOfTiles) {
 
         Set<Tile> ret = Collections.emptySet();
 
@@ -285,19 +283,19 @@ public class WMTSTileService extends TileService {
         // Let's get upper-left corner coords
         CRS.AxisOrder aorder = CRS.getAxisOrder(reqExtentInTileCrs.getCoordinateReferenceSystem());
         switch (aorder) {
-        case EAST_NORTH:
-            ulLon = reqExtentInTileCrs.getMinX();
-            ulLat = reqExtentInTileCrs.getMaxY();
-            break;
-        case NORTH_EAST:
-            if (LOGGER.isLoggable(Level.FINE))
-                LOGGER.log(Level.FINE, "Inverted tile coords!");
-            ulLon = reqExtentInTileCrs.getMinY();
-            ulLat = reqExtentInTileCrs.getMaxX();
-            break;
-        default:
-            LOGGER.log(Level.WARNING, "unexpected axis order " + aorder);
-            return ret;
+            case EAST_NORTH:
+                ulLon = reqExtentInTileCrs.getMinX();
+                ulLat = reqExtentInTileCrs.getMaxY();
+                break;
+            case NORTH_EAST:
+                if (LOGGER.isLoggable(Level.FINE))
+                    LOGGER.log(Level.FINE, "Inverted tile coords!");
+                ulLon = reqExtentInTileCrs.getMinY();
+                ulLat = reqExtentInTileCrs.getMaxX();
+                break;
+            default:
+                LOGGER.log(Level.WARNING, "unexpected axis order " + aorder);
+                return ret;
         }
 
         // The first tile which covers the upper-left corner
@@ -329,7 +327,8 @@ public class WMTSTileService extends TileService {
             do { // Loop row
 
                 // get the next tile right of this one
-                Tile rightNeighbour = tileFactory.findRightNeighbour(movingTile, this);// movingTile.getRightNeighbour();
+                Tile rightNeighbour = tileFactory.findRightNeighbour(movingTile, this);// 
+                // movingTile.getRightNeighbour();
 
                 if (rightNeighbour == null) { // no more tiles to the right
                     if (LOGGER.isLoggable(Level.FINE)) {
@@ -403,12 +402,13 @@ public class WMTSTileService extends TileService {
 
     /**
      * Add a tile to the cache.
-     *
-     * At the moment we are delegating the cache to the super class, which handles the cache as a soft cache.
-     * The soft cache has an un-controllable time to live, could last a split seconds or 100 years. 
-     * However, WMTS services normally come with caching headers of some sort, e.g., 
+     * <p>
+     * At the moment we are delegating the cache to the super class, which handles the cache as a
+     * soft cache.
+     * The soft cache has an un-controllable time to live, could last a split seconds or 100 years.
+     * However, WMTS services normally come with caching headers of some sort, e.g.,
      * do not cache, or keep for 1 hour, or 6 months and so on.
-     *
+     * <p>
      * TODO: The code should account for that.
      */
     @Override
@@ -424,8 +424,7 @@ public class WMTSTileService extends TileService {
     }
 
     /**
-     * @param type
-     *            the type to set
+     * @param type the type to set
      */
     public void setType(WMTSServiceType type) {
         this.type = type;
@@ -453,8 +452,7 @@ public class WMTSTileService extends TileService {
     }
 
     /**
-     * @param styleName
-     *            the styleName to set
+     * @param styleName the styleName to set
      */
     public void setStyleName(String styleName) {
         this.styleName = styleName;
@@ -488,8 +486,7 @@ public class WMTSTileService extends TileService {
     }
 
     /**
-     * @param tileMatrixSetName
-     *            the tileMatrixSetName to set
+     * @param tileMatrixSetName the tileMatrixSetName to set
      */
     public void setTileMatrixSetName(String tileMatrixSetName) {
         if (tileMatrixSetName == null || tileMatrixSetName.isEmpty()) {
@@ -511,8 +508,7 @@ public class WMTSTileService extends TileService {
     }
 
     /**
-     * @param templateURL
-     *            the templateURL to set
+     * @param templateURL the templateURL to set
      */
     public void setTemplateURL(String templateURL) {
         this.templateURL = templateURL;
@@ -537,8 +533,7 @@ public class WMTSTileService extends TileService {
     }
 
     /**
-     * @param matrixSet
-     *            the matrixSet to set
+     * @param matrixSet the matrixSet to set
      */
     public void setMatrixSet(TileMatrixSet matrixSet) {
         this.matrixSet = matrixSet;
@@ -557,8 +552,7 @@ public class WMTSTileService extends TileService {
     }
 
     /**
-     * @param format
-     *            the format to set
+     * @param format the format to set
      */
     public void setFormat(String format) {
         this.format = format;

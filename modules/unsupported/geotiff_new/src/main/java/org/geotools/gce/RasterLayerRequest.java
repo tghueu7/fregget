@@ -68,32 +68,45 @@ import org.opengis.referencing.operation.TransformException;
 
 /**
  * A class to handle coverage requests to a reader for a single 2D layer..
- * 
+ *
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini, GeoSolutions
  */
 class RasterLayerRequest {
 
-    /** Logger. */
+    /**
+     * Logger.
+     */
     private final static Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger(RasterLayerRequest.class);
 
-    private ReadType readType = AbstractGridFormat.USE_JAI_IMAGEREAD.getDefaultValue() ? ReadType.JAI_IMAGEREAD
+    private ReadType readType = AbstractGridFormat.USE_JAI_IMAGEREAD.getDefaultValue() ? ReadType
+            .JAI_IMAGEREAD
             : ReadType.DIRECT_READ;
 
-    /** The {@link BoundingBox} requested */
+    /**
+     * The {@link BoundingBox} requested
+     */
     private BoundingBox requestedBBox;
 
-    /** The {@link BoundingBox} of the portion of the coverage that intersects the requested bbox */
+    /**
+     * The {@link BoundingBox} of the portion of the coverage that intersects the requested bbox
+     */
     private BoundingBox cropBBox;
 
-    /** The desired overview Policy for this request */
+    /**
+     * The desired overview Policy for this request
+     */
     private OverviewPolicy overviewPolicy;
 
-    /** The region where to fit the requested envelope */
+    /**
+     * The region where to fit the requested envelope
+     */
     private Rectangle requestedRasterArea;
 
-    /** The region of the */
+    /**
+     * The region of the
+     */
     private Rectangle destinationRasterArea;
 
     /**
@@ -102,7 +115,9 @@ class RasterLayerRequest {
      */
     private boolean empty;
 
-    private Color inputTransparentColor = AbstractGridFormat.INPUT_TRANSPARENT_COLOR.getDefaultValue();;
+    private Color inputTransparentColor = AbstractGridFormat.INPUT_TRANSPARENT_COLOR
+            .getDefaultValue();
+    ;
 
     // private Color outputTransparentColor=JP2KFormat.OUTPUT_TRANSPARENT_COLOR.getDefaultValue();;
 
@@ -111,7 +126,7 @@ class RasterLayerRequest {
     private double[] requestedResolution;
 
     private double[] backgroundValues;
-    
+
     private boolean needsReprojection = false;
 
     RasterManager rasterManager;
@@ -130,21 +145,22 @@ class RasterLayerRequest {
 
     private SingleCRS requestCRS;
 
-    /** The desired decimation Policy for this request */
+    /**
+     * The desired decimation Policy for this request
+     */
     private DecimationPolicy decimationPolicy;
 
 //    private boolean multithreadingAllowed;
 
     /**
      * Build a new {@code CoverageRequest} given a set of input parameters.
-     * 
-     * @param params
-     *            The {@code GeneralParameterValue}s to initialize this request
+     *
+     * @param params                   The {@code GeneralParameterValue}s to initialize this request
      * @param baseGridCoverage2DReader
      * @throws DataSourceException
      */
     public RasterLayerRequest(final GeneralParameterValue[] params,
-            final RasterManager rasterManager) throws DataSourceException {
+                              final RasterManager rasterManager) throws DataSourceException {
 
         // //
         //
@@ -328,11 +344,9 @@ class RasterLayerRequest {
 
     /**
      * Set proper fields from the specified input parameter.
-     * 
-     * @param param
-     *            the input {@code ParamaterValue} object
-     * @param name
-     *            the name of the parameter
+     *
+     * @param param the input {@code ParamaterValue} object
+     * @param name  the name of the parameter
      */
     private void extractParameter(ParameterValue<?> param, Identifier name) {
 
@@ -388,13 +402,13 @@ class RasterLayerRequest {
         //
         // //
         if (name.equals(AbstractGridFormat.DECIMATION_POLICY.getName())) {
-                final Object value = param.getValue();
-                if(value==null)
-                        return;
+            final Object value = param.getValue();
+            if (value == null)
+                return;
             decimationPolicy = (DecimationPolicy) value;
             return;
         }
-        
+
         if (name.equals(AbstractGridFormat.INPUT_TRANSPARENT_COLOR.getName())) {
             final Object value = param.getValue();
             if (value == null) {
@@ -473,7 +487,7 @@ class RasterLayerRequest {
     /**
      * Compute this specific request settings all the parameters needed by a visiting
      * {@link RasterLayerResponse} object.
-     * 
+     *
      * @throws DataSourceException
      */
     private void prepare() throws DataSourceException {
@@ -490,20 +504,25 @@ class RasterLayerRequest {
             //
             requestedBBox = rasterManager.spatialDomainManager.coverageBBox;
             cropBBox = rasterManager.spatialDomainManager.coverageBBox;
-            requestedRasterArea = (Rectangle) rasterManager.spatialDomainManager.coverageRasterArea.clone();
-            destinationRasterArea = (Rectangle) rasterManager.spatialDomainManager.coverageRasterArea.clone();
-            final OverviewLevel highestResLevel = rasterManager.overviewsController.resolutionsLevels.get(0);
+            requestedRasterArea = (Rectangle) rasterManager.spatialDomainManager
+                    .coverageRasterArea.clone();
+            destinationRasterArea = (Rectangle) rasterManager.spatialDomainManager
+                    .coverageRasterArea.clone();
+            final OverviewLevel highestResLevel = rasterManager.overviewsController
+                    .resolutionsLevels.get(0);
             requestedResolution = new double[]{
                     highestResLevel.resolutionX,
                     highestResLevel.resolutionY,
             };
             // TODO harmonize the various types of transformations
-            requestedGridToWorld = (AffineTransform) rasterManager.spatialDomainManager.coverageGridToWorld2D;
+            requestedGridToWorld = (AffineTransform) rasterManager.spatialDomainManager
+                    .coverageGridToWorld2D;
             return;
         }
 
         //
-        // Adjust requested bounding box and sourceFile region in order to fall within the sourceFile
+        // Adjust requested bounding box and sourceFile region in order to fall within the 
+        // sourceFile
         // coverage
         //
         computeRequestSpatialElements();
@@ -535,7 +554,8 @@ class RasterLayerRequest {
             //
             // we should not have any problems with regards to BBOX reprojection
 
-            // update the requested grid to world transformation by pre concatenating the destination to sourceFile transform
+            // update the requested grid to world transformation by pre concatenating the 
+            // destination to sourceFile transform
             AffineTransform mutableTransform = (AffineTransform) requestedGridToWorld.clone();
             mutableTransform.preConcatenate((AffineTransform) destinationToSourceTransform);
 
@@ -562,9 +582,9 @@ class RasterLayerRequest {
      * Check the type of read operation which will be performed and return {@code true} if a JAI
      * imageRead operation need to be performed or {@code false} if a simple read operation is
      * needed.
-     * 
+     *
      * @return {@code true} if the read operation will use a JAI ImageRead operation instead of a
-     *         simple {@code ImageReader.read(...)} call.
+     * simple {@code ImageReader.read(...)} call.
      */
     private void checkReadType() {
 
@@ -597,12 +617,10 @@ class RasterLayerRequest {
     /**
      * Return a crop region from a specified envelope, leveraging on the grid to world
      * transformation.
-     * 
-     * @param refinedRequestedBBox
-     *            the crop envelope
+     *
+     * @param refinedRequestedBBox the crop envelope
      * @return a {@code Rectangle} representing the crop region.
-     * @throws TransformException
-     *             in case a problem occurs when going back to raster space.
+     * @throws TransformException  in case a problem occurs when going back to raster space.
      * @throws DataSourceException
      */
     private void computeCropRasterArea() throws DataSourceException {
@@ -672,7 +690,7 @@ class RasterLayerRequest {
         if (destinationRasterArea.isEmpty()) {
             if (LOGGER.isLoggable(Level.FINE)) {
                 LOGGER.log(Level.FINE, "Requested envelope too small resulting in empty cropped " +
-                		"raster region");
+                        "raster region");
             }
             // TODO: Future versions may define a 1x1 rectangle starting
             // from the lower coordinate
@@ -685,31 +703,26 @@ class RasterLayerRequest {
     /**
      * Evaluates the requested envelope and builds a new adjusted version of it fitting this
      * coverage envelope.
-     * 
+     * <p>
      * <p>
      * While adjusting the requested envelope this methods also compute the sourceFile region as a
      * rectangle which is suitable for a successive read operation with {@link ImageIO} to do
      * crop-on-read.
-     * 
-     * 
-     * @param requestedBBox
-     *            is the envelope we are requested to load.
-     * @param destinationRasterArea
-     *            represents the area to load in raster space. This parameter cannot be null since
-     *            it gets filled with whatever the crop region is depending on the
-     *            <code>requestedEnvelope</code>.
-     * @param requestedRasterArea
-     *            is the requested region where to load data of the specified envelope.
-     * @param readGridToWorld
-     *            the Grid to world transformation to be used
+     *
+     * @param requestedBBox         is the envelope we are requested to load.
+     * @param destinationRasterArea represents the area to load in raster space. This parameter 
+     *                              cannot be null since
+     *                              it gets filled with whatever the crop region is depending on the
+     *                              <code>requestedEnvelope</code>.
+     * @param requestedRasterArea   is the requested region where to load data of the specified 
+     *                              envelope.
+     * @param readGridToWorld       the Grid to world transformation to be used
      * @return the adjusted requested envelope, empty if no requestedEnvelope has been specified,
-     *         {@code null} in case the requested envelope does not intersect the coverage envelope
-     *         or in case the adjusted requested envelope is covered by a too small raster region
-     *         (an empty region).
+     * {@code null} in case the requested envelope does not intersect the coverage envelope
+     * or in case the adjusted requested envelope is covered by a too small raster region
+     * (an empty region).
      * @throws DataSourceException
-     * 
-     * @throws DataSourceException
-     *             in case something bad occurs
+     * @throws DataSourceException in case something bad occurs
      */
     private void computeRequestSpatialElements() throws DataSourceException {
 
@@ -755,9 +768,10 @@ class RasterLayerRequest {
         }
 
         if (LOGGER.isLoggable(Level.FINE)) {
-            final String loggedMessage = "Adjusted Requested Envelope = " + requestedBBox.toString() + "\n" +
-                "Requested raster dimension = " + requestedRasterArea.toString() + "\n" + 
-                "Corresponding raster sourceFile region = " + requestedRasterArea.toString();
+            final String loggedMessage = "Adjusted Requested Envelope = " + requestedBBox
+                    .toString() + "\n" +
+                    "Requested raster dimension = " + requestedRasterArea.toString() + "\n" +
+                    "Corresponding raster sourceFile region = " + requestedRasterArea.toString();
             LOGGER.log(Level.FINE, loggedMessage);
         }
         //
@@ -770,18 +784,18 @@ class RasterLayerRequest {
     /**
      * Computes the requested resolution which is going to be used for selecting levels and or
      * deciding decimation factors on the target coverage.
-     * 
+     * <p>
      * <p>
      * In case the requested envelope is in the same {@link CoordinateReferenceSystem} of the
      * coverage we compute the resolution using the requested {@link MathTransform}. Notice that it
      * must be a {@link LinearTransform} or else we fail.
-     * 
+     * <p>
      * <p>
      * In case the requested envelope is not in the same {@link CoordinateReferenceSystem} of the
      * coverage we
-     * 
-     * @throws DataSourceException
-     *             in case something bad happens during reprojections and/or intersections.
+     *
+     * @throws DataSourceException in case something bad happens during reprojections and/or 
+     * intersections.
      */
     private void computeRequestedResolution() throws DataSourceException {
 
@@ -806,13 +820,14 @@ class RasterLayerRequest {
                     //
                     requestedResolution = null;
 
-                    final GridToEnvelopeMapper geMapper= new GridToEnvelopeMapper(new GridEnvelope2D(destinationRasterArea),cropBBox);
+                    final GridToEnvelopeMapper geMapper = new GridToEnvelopeMapper(new 
+                            GridEnvelope2D(destinationRasterArea), cropBBox);
                     final AffineTransform tempTransform = geMapper.createAffineTransform();
-                    
+
                     requestedRasterScaleFactors = new double[2];
-                    requestedResolution = new double[] {
+                    requestedResolution = new double[]{
                             XAffineTransform.getScaleX0(tempTransform),
-                            XAffineTransform.getScaleY0(tempTransform) 
+                            XAffineTransform.getScaleY0(tempTransform)
                     };
 
                 } else {
@@ -822,14 +837,15 @@ class RasterLayerRequest {
                     // same, we can get the resolution from the grid to world
                     //
                     // if(requestedGridToWorld instanceof AffineTransform){
-                    requestedResolution = new double[] {
+                    requestedResolution = new double[]{
                             XAffineTransform.getScaleX0(requestedGridToWorld),
-                            XAffineTransform.getScaleY0(requestedGridToWorld) };
+                            XAffineTransform.getScaleY0(requestedGridToWorld)};
                 }
             } else
                 // should not happen
-                throw new UnsupportedOperationException(Errors.format(ErrorKeys.UNSUPPORTED_OPERATION_$1,requestedGridToWorld.toString()));
-                
+                throw new UnsupportedOperationException(Errors.format(ErrorKeys
+                        .UNSUPPORTED_OPERATION_$1, requestedGridToWorld.toString()));
+
             //leave
             return;
         } catch (Throwable e) {
@@ -841,8 +857,10 @@ class RasterLayerRequest {
         //
         // use the coverage resolution since we cannot compute the requested one
         //
-        LOGGER.log(Level.WARNING, "Unable to compute requested resolution, using highest available");
-        final OverviewLevel highestResLevel = rasterManager.overviewsController.resolutionsLevels.get(0);
+        LOGGER.log(Level.WARNING, "Unable to compute requested resolution, using highest " +
+                "available");
+        final OverviewLevel highestResLevel = rasterManager.overviewsController.resolutionsLevels
+                .get(0);
         requestedResolution = new double[]{
                 highestResLevel.resolutionX,
                 highestResLevel.resolutionY,
@@ -853,7 +871,7 @@ class RasterLayerRequest {
     private void computeCropBBOX() throws DataSourceException {
 
         // get the crs for the requested bbox
-        if(requestCRS == null)
+        if (requestCRS == null)
             requestCRS = CRS.getHorizontalCRS(requestedBBox.getCoordinateReferenceSystem());
         try {
 
@@ -865,7 +883,8 @@ class RasterLayerRequest {
 
             // STEP 1: reproject requested BBox to native CRS if needed
             // now transform the requested envelope to sourceFile crs
-            if (destinationToSourceTransform != null && !destinationToSourceTransform.isIdentity()) {
+            if (destinationToSourceTransform != null && !destinationToSourceTransform.isIdentity
+                    ()) {
                 final GeneralEnvelope temp = new GeneralEnvelope(CRS.transform(requestedBBox,
                         rasterManager.spatialDomainManager.coverageCRS2D));
                 temp.setCoordinateReferenceSystem(rasterManager.spatialDomainManager.coverageCRS2D);
@@ -887,7 +906,8 @@ class RasterLayerRequest {
             //
             // intersect the requested area with the bounds of this
             // layer in native crs
-            if (!cropBBox.intersects((BoundingBox) rasterManager.spatialDomainManager.coverageBBox)) {
+            if (!cropBBox.intersects((BoundingBox) rasterManager.spatialDomainManager
+                    .coverageBBox)) {
                 cropBBox = null;
                 empty = true;
                 return;
@@ -917,13 +937,15 @@ class RasterLayerRequest {
             //
 
             // STEP 1 reproject the requested envelope to the coverage geographic bbox
-            if (destinationToSourceTransform != null && !destinationToSourceTransform.isIdentity()) {
+            if (destinationToSourceTransform != null && !destinationToSourceTransform.isIdentity
+                    ()) {
                 // try to convert the requested bbox to the coverage geocrs
 
                 requestedBBOXInCoverageGeographicCRS = new GeneralEnvelope(CRS.transform(
                         requestedBBox, rasterManager.spatialDomainManager.coverageGeographicCRS2D));
                 requestedBBOXInCoverageGeographicCRS
-                        .setCoordinateReferenceSystem(rasterManager.spatialDomainManager.coverageGeographicCRS2D);
+                        .setCoordinateReferenceSystem(rasterManager.spatialDomainManager
+                                .coverageGeographicCRS2D);
 
             }
             if (requestedBBOXInCoverageGeographicCRS == null)
@@ -942,7 +964,8 @@ class RasterLayerRequest {
             requestedBBOXInCoverageGeographicCRS
                     .intersect(rasterManager.spatialDomainManager.coverageGeographicBBox);
             requestedBBOXInCoverageGeographicCRS
-                    .setCoordinateReferenceSystem(rasterManager.spatialDomainManager.coverageGeographicCRS2D);
+                    .setCoordinateReferenceSystem(rasterManager.spatialDomainManager
+                            .coverageGeographicCRS2D);
 
             // now go back to the coverage native CRS in order to compute an approximate requested
             // resolution
@@ -968,7 +991,8 @@ class RasterLayerRequest {
         }
 
         LOGGER.log(Level.INFO,
-                "We did not manage to crop the requested envelope, we fall back onto loading the whole coverage.");
+                "We did not manage to crop the requested envelope, we fall back onto loading the " +
+                        "whole coverage.");
         cropBBox = null;
     }
 
@@ -1001,9 +1025,9 @@ class RasterLayerRequest {
         return inputTransparentColor;
     }
 
-     public double[] getBackgroundValues() {
-         return backgroundValues;
-     }
+    public double[] getBackgroundValues() {
+        return backgroundValues;
+    }
 
     public ReadType getReadType() {
         return readType;
@@ -1042,7 +1066,7 @@ class RasterLayerRequest {
     }
 
     public DecimationPolicy getDecimationPolicy() {
-            return decimationPolicy;
+        return decimationPolicy;
     }
 
     public boolean isNeedsReprojection() {

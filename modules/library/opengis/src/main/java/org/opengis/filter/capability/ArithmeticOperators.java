@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.filter.capability;
@@ -21,10 +21,8 @@ package org.opengis.filter.capability;
  *  &lt;/xsd:complexType>
  * </pre>
  * </p>
+ *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
  * @source $URL$
  */
 public interface ArithmeticOperators {

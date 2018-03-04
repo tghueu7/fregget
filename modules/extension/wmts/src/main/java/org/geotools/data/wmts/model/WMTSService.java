@@ -18,6 +18,7 @@ package org.geotools.data.wmts.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.geotools.data.ows.Service;
 
 import net.opengis.ows11.LanguageStringType;
@@ -27,7 +28,6 @@ import net.opengis.ows11.impl.LanguageStringTypeImpl;
 
 /**
  * @author ian
- *
  */
 public class WMTSService extends Service {
 

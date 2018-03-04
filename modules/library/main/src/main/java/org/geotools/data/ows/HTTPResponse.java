@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2011, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -27,7 +27,7 @@ import java.io.InputStream;
  * {@link #getResponseStream() response stream} has been consumed or is no longer needed. It's up to
  * the implementations to just close the actual {@link InputStream} or return the http connection to
  * the connection pool, or any other resource clean up task that needs to be done.
- * 
+ *
  * @author groldan
  * @see HTTPClient
  */
@@ -53,15 +53,14 @@ public interface HTTPResponse {
     /**
      * Returns the HTTP response content byte stream, automatically recognizing gzip encoded
      * responses and returning an uncompressing stream if that's the case.
-     * 
-     * @throws IOException
-     *             if such happens when obtaining the response stream.
+     *
+     * @throws IOException if such happens when obtaining the response stream.
      */
     public InputStream getResponseStream() throws IOException;
 
     /**
      * @return the response charset parsed out of the content type response header, if any, or
-     *         {@code null} otherwise.
+     * {@code null} otherwise.
      */
     public String getResponseCharset();
 

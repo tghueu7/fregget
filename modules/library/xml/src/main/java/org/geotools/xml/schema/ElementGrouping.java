@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -23,14 +23,12 @@ import java.net.URI;
  * This represents an abstract collection of xml element definitions within a
  * Schema.
  * </p>
- * 
+ * <p>
  * <p>
  * To avoid multiple type checks, a group mask was include, as described below.
  * </p>
  *
  * @author dzwiers www.refractions.net
- *
- *
  * @source $URL$
  */
 public interface ElementGrouping {
@@ -75,7 +73,7 @@ public interface ElementGrouping {
      * operand,  increasing performance.
      */
     public static final int ALL = 32;
-    
+
     public static final int UNBOUNDED = Integer.MAX_VALUE;
 
     /**
@@ -83,7 +81,6 @@ public interface ElementGrouping {
      * Returns the mask informing the caller as to the type of object they are
      * dealing with.
      * </p>
-     *
      */
     public int getGrouping();
 
@@ -96,8 +93,7 @@ public interface ElementGrouping {
      * </p>
      *
      * @param name The Element LocalName (namespace and prefix should not be
-     *        included)
-     *
+     *             included)
      * @return Element or null if not found.
      */
     public Element findChildElement(String name);
@@ -107,7 +103,6 @@ public interface ElementGrouping {
      * returns the max number of allowable occurences within the xml schema for
      * this construct.
      * </p>
-     *
      */
     public int getMaxOccurs();
 
@@ -116,9 +111,8 @@ public interface ElementGrouping {
      * returns the min number of allowable occurences within the xml schema for
      * this construct.
      * </p>
-     *
      */
     public int getMinOccurs();
 
-	public Element findChildElement(String localName, URI namespaceURI);
+    public Element findChildElement(String localName, URI namespaceURI);
 }

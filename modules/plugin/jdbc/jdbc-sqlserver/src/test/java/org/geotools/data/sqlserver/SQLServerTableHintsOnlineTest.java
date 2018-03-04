@@ -35,7 +35,7 @@ import com.vividsolutions.jts.geom.impl.PackedCoordinateSequenceFactory;
 
 /**
  * Same as {@link SQLServerSpatialFiltersOnlineTest}, but forcing the sql hints for spatial filters
- * 
+ *
  * @source $URL$
  */
 public class SQLServerTableHintsOnlineTest extends SQLServerSpatialFiltersOnlineTest {
@@ -50,7 +50,7 @@ public class SQLServerTableHintsOnlineTest extends SQLServerSpatialFiltersOnline
         dialect.setForceSpatialIndexes(true);
         dialect.setTableHints(null);
     }
-    
+
     @Override
     protected void tearDownInternal() throws Exception {
         dataStore.setDatabaseSchema(originalSchema);
@@ -69,15 +69,17 @@ public class SQLServerTableHintsOnlineTest extends SQLServerSpatialFiltersOnline
         StringBuffer sql1 = new StringBuffer(
                 "SELECT \"fid\",\"id\",\"geom\".STAsBinary() as \"geom\",\"name\" "
                         + "FROM \"schema\".\"road\" "
-                        + "WHERE  \"geom\".Filter(geometry::STGeomFromText('POLYGON ((2 -1, 2 5, 4 5, 4 -1, 2 -1))', 4326)) = 1 "
-                        + "AND geometry::STGeomFromText('POLYGON ((2 -1, 2 5, 4 5, 4 -1, 2 -1))', 4326).STContains(\"geom\") = 1");
+                        + "WHERE  \"geom\".Filter(geometry::STGeomFromText('POLYGON ((2 -1, 2 5, " +
+                        "4 5, 4 -1, 2 -1))', 4326)) = 1 "
+                        + "AND geometry::STGeomFromText('POLYGON ((2 -1, 2 5, 4 5, 4 -1, 2 -1))'," +
+                        " 4326).STContains(\"geom\") = 1");
 
         // the filter for the Query
         FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
         GeometryFactory gf = new GeometryFactory();
         PackedCoordinateSequenceFactory sf = new PackedCoordinateSequenceFactory();
-        LinearRing shell = gf.createLinearRing(sf.create(new double[] { 2, -1, 2, 5, 4, 5, 4, -1,
-                2, -1 }, 2));
+        LinearRing shell = gf.createLinearRing(sf.create(new double[]{2, -1, 2, 5, 4, 5, 4, -1,
+                2, -1}, 2));
         Polygon polygon = gf.createPolygon(shell, null);
         Contains cs = ff.contains(ff.literal(polygon), ff.property(aname("geom")));
 
@@ -101,21 +103,24 @@ public class SQLServerTableHintsOnlineTest extends SQLServerSpatialFiltersOnline
     }
 
     private StringBuffer decorateSpatialQuery(SQLServerDialect dialect) throws IOException {
-        StringBuffer sql = new StringBuffer("SELECT \"fid\",\"id\",\"geom\".STAsBinary() as \"geom\",\"name\" "
+        StringBuffer sql = new StringBuffer("SELECT \"fid\",\"id\",\"geom\".STAsBinary() as " +
+                "\"geom\",\"name\" "
                 + "FROM \"road\" "
-                + "WHERE  \"geom\".Filter(geometry::STGeomFromText('POLYGON ((2 -1, 2 5, 4 5, 4 -1, 2 -1))', 4326)) = 1 "
-                + "AND geometry::STGeomFromText('POLYGON ((2 -1, 2 5, 4 5, 4 -1, 2 -1))', 4326).STContains(\"geom\") = 1");
-        
+                + "WHERE  \"geom\".Filter(geometry::STGeomFromText('POLYGON ((2 -1, 2 5, 4 5, 4 " +
+                "-1, 2 -1))', 4326)) = 1 "
+                + "AND geometry::STGeomFromText('POLYGON ((2 -1, 2 5, 4 5, 4 -1, 2 -1))', 4326)" +
+                ".STContains(\"geom\") = 1");
+
         // the filter for the Query
         FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
         GeometryFactory gf = new GeometryFactory();
         PackedCoordinateSequenceFactory sf = new PackedCoordinateSequenceFactory();
-        LinearRing shell = gf.createLinearRing(sf.create(new double[] { 2, -1, 2, 5, 4, 5, 4, -1,
-                2, -1 }, 2));
+        LinearRing shell = gf.createLinearRing(sf.create(new double[]{2, -1, 2, 5, 4, 5, 4, -1,
+                2, -1}, 2));
         Polygon polygon = gf.createPolygon(shell, null);
         Contains cs = ff.contains(ff.literal(polygon), ff.property(aname("geom")));
 
-        
+
         SimpleFeatureType roadSchema = dataStore.getSchema("road");
         dialect.handleSelectHints(sql, roadSchema, new Query("road", cs));
         return sql;

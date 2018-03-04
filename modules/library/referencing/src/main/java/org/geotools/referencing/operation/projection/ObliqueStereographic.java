@@ -21,6 +21,7 @@
 package org.geotools.referencing.operation.projection;
 
 import java.awt.geom.Point2D;
+
 import org.opengis.parameter.ParameterValueGroup;
 import org.opengis.parameter.ParameterDescriptor;
 import org.opengis.parameter.ParameterDescriptorGroup;
@@ -46,29 +47,27 @@ import static java.lang.Math.*;
  * <p>
  * <b>References:</b>
  * <ul>
- *   <li>{@code libproj4} is available at
- *       <A HREF="http://members.bellatlantic.net/~vze2hc4d/proj4/">libproj4 Miscellanea</A><br>
- *        Relevent files are: {@code PJ_sterea.c}, {@code pj_gauss.c},
- *        {@code pj_fwd.c}, {@code pj_inv.c} and {@code lib_proj.h}</li>
- *   <li>Gerald Evenden. <A HREF="http://members.bellatlantic.net/~vze2hc4d/proj4/sterea.pdf">
- *       "Supplementary PROJ.4 Notes - Oblique Stereographic Alternative"</A></li>
- *   <li>"Coordinate Conversions and Transformations including Formulas",
- *       EPSG Guidence Note Number 7, Version 19.</li>
- *   <li>Krakiwsky, E.J., D.B. Thomson, and R.R. Steeves. 1977. A Manual
- *       For Geodetic Coordinate Transformations in the Maritimes.
- *       Geodesy and Geomatics Engineering, UNB. Technical Report No. 48.</li>
- *   <li>Thomson, D.B., M.P. Mepham and R.R. Steeves. 1977.
- *       The Stereographic Double Projection.
- *       Surveying Engineering, University of New Brunswick. Technical Report No. 46.</li>
+ * <li>{@code libproj4} is available at
+ * <A HREF="http://members.bellatlantic.net/~vze2hc4d/proj4/">libproj4 Miscellanea</A><br>
+ * Relevent files are: {@code PJ_sterea.c}, {@code pj_gauss.c},
+ * {@code pj_fwd.c}, {@code pj_inv.c} and {@code lib_proj.h}</li>
+ * <li>Gerald Evenden. <A HREF="http://members.bellatlantic.net/~vze2hc4d/proj4/sterea.pdf">
+ * "Supplementary PROJ.4 Notes - Oblique Stereographic Alternative"</A></li>
+ * <li>"Coordinate Conversions and Transformations including Formulas",
+ * EPSG Guidence Note Number 7, Version 19.</li>
+ * <li>Krakiwsky, E.J., D.B. Thomson, and R.R. Steeves. 1977. A Manual
+ * For Geodetic Coordinate Transformations in the Maritimes.
+ * Geodesy and Geomatics Engineering, UNB. Technical Report No. 48.</li>
+ * <li>Thomson, D.B., M.P. Mepham and R.R. Steeves. 1977.
+ * The Stereographic Double Projection.
+ * Surveying Engineering, University of New Brunswick. Technical Report No. 46.</li>
  * </ul>
  *
- * @since 2.4
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Gerald I. Evenden (for original code in Proj4)
  * @author Rueben Schulz
+ * @version $Id$
+ * @source $URL$
+ * @since 2.4
  */
 public class ObliqueStereographic extends StereographicUSGS {
     /**
@@ -105,40 +104,38 @@ public class ObliqueStereographic extends StereographicUSGS {
     /**
      * Constructs an oblique stereographic projection (EPSG equations).
      *
-     * @param  parameters The group of parameter values.
+     * @param parameters The group of parameter values.
      * @throws ParameterNotFoundException if a required parameter was not found.
      */
     protected ObliqueStereographic(final ParameterValueGroup parameters)
-            throws ParameterNotFoundException
-    {
+            throws ParameterNotFoundException {
         this(parameters, Provider.PARAMETERS);
     }
 
     /**
      * Constructs an oblique stereographic projection (EPSG equations).
      *
-     * @param  parameters The group of parameter values.
-     * @param  descriptor The expected parameter descriptor.
+     * @param parameters The group of parameter values.
+     * @param descriptor The expected parameter descriptor.
      * @throws ParameterNotFoundException if a required parameter was not found.
      */
     ObliqueStereographic(final ParameterValueGroup parameters,
                          final ParameterDescriptorGroup descriptor)
-            throws ParameterNotFoundException
-    {
+            throws ParameterNotFoundException {
         super(parameters, descriptor);
 
         // Compute constants
         final double sphi = sin(latitudeOfOrigin);
-        double       cphi = cos(latitudeOfOrigin);
-        cphi  *= cphi;
-        R2     = 2.0 * sqrt(1-excentricitySquared) / (1-excentricitySquared * sphi * sphi);
-        C      = sqrt(1. + excentricitySquared * cphi * cphi / (1. - excentricitySquared));
-        phic0  = asin(sphi / C);
-        sinc0  = sin(phic0);
-        cosc0  = cos(phic0);
+        double cphi = cos(latitudeOfOrigin);
+        cphi *= cphi;
+        R2 = 2.0 * sqrt(1 - excentricitySquared) / (1 - excentricitySquared * sphi * sphi);
+        C = sqrt(1. + excentricitySquared * cphi * cphi / (1. - excentricitySquared));
+        phic0 = asin(sphi / C);
+        sinc0 = sin(phic0);
+        cosc0 = cos(phic0);
         ratexp = 0.5 * C * excentricity;
-        K      = tan(0.5 * phic0 + PI/4) /
-                (pow(tan(0.5 * latitudeOfOrigin + PI/4), C) * srat(excentricity * sphi, ratexp));
+        K = tan(0.5 * phic0 + PI / 4) /
+                (pow(tan(0.5 * latitudeOfOrigin + PI / 4), C) * srat(excentricity * sphi, ratexp));
     }
 
     /**
@@ -148,12 +145,12 @@ public class ObliqueStereographic extends StereographicUSGS {
      */
     @Override
     protected Point2D transformNormalized(double x, double y, Point2D ptDst)
-            throws ProjectionException
-    {
+            throws ProjectionException {
         // Compute using USGS formulas, for comparaison later.
         assert (ptDst = super.transformNormalized(x, y, ptDst)) != null;
 
-        y = 2.0 * atan(K * pow(tan(0.5 * y + PI/4), C) * srat(excentricity * sin(y), ratexp)) - PI/2;
+        y = 2.0 * atan(K * pow(tan(0.5 * y + PI / 4), C) * srat(excentricity * sin(y), ratexp)) -
+                PI / 2;
         x *= C;
         final double sinc = sin(y);
         final double cosc = cos(y);
@@ -164,10 +161,10 @@ public class ObliqueStereographic extends StereographicUSGS {
 
         assert checkTransform(x, y, ptDst, 0.1);
         if (ptDst != null) {
-            ptDst.setLocation(x,y);
+            ptDst.setLocation(x, y);
             return ptDst;
         }
-        return new Point2D.Double(x,y);
+        return new Point2D.Double(x, y);
     }
 
     /**
@@ -176,8 +173,7 @@ public class ObliqueStereographic extends StereographicUSGS {
      */
     @Override
     protected Point2D inverseTransformNormalized(double x, double y, Point2D ptDst)
-            throws ProjectionException
-    {
+            throws ProjectionException {
         // Compute using USGS formulas, for comparaison later.
         assert (ptDst = super.inverseTransformNormalized(x, y, ptDst)) != null;
         final double rho = hypot(x, y);
@@ -185,23 +181,24 @@ public class ObliqueStereographic extends StereographicUSGS {
             x = 0.0;
             y = phic0;
         } else {
-            final double ce   = 2.0 * atan2(rho, R2);
+            final double ce = 2.0 * atan2(rho, R2);
             final double sinc = sin(ce);
             final double cosc = cos(ce);
             x = atan2(x * sinc, rho * cosc0 * cosc - y * sinc0 * sinc);
             y = (cosc * sinc0) + (y * sinc * cosc0 / rho);
 
             if (abs(y) >= 1.0) {
-                y = (y < 0.0) ? -PI/2.0 : PI/2.0;
+                y = (y < 0.0) ? -PI / 2.0 : PI / 2.0;
             } else {
                 y = asin(y);
             }
         }
         // Begin pj_inv_gauss(...) method inlined
         x /= C;
-        double num = pow(tan(0.5 * y + PI/4)/K, 1.0/C);
-        for (int i=MAXIMUM_ITERATIONS;;) {
-            double phi = 2.0 * atan(num * srat(excentricity * sin(y), -0.5 * excentricity)) - PI/2;
+        double num = pow(tan(0.5 * y + PI / 4) / K, 1.0 / C);
+        for (int i = MAXIMUM_ITERATIONS; ; ) {
+            double phi = 2.0 * atan(num * srat(excentricity * sin(y), -0.5 * excentricity)) - PI 
+                    / 2;
             if (abs(phi - y) < ITERATION_TOLERANCE) {
                 break;
             }
@@ -216,10 +213,10 @@ public class ObliqueStereographic extends StereographicUSGS {
         //       an angle in radians. We should check if this is normal.
         assert checkInverseTransform(x, y, ptDst, 0.01);
         if (ptDst != null) {
-            ptDst.setLocation(x,y);
+            ptDst.setLocation(x, y);
             return ptDst;
         }
-        return new Point2D.Double(x,y);
+        return new Point2D.Double(x, y);
     }
 
     /**
@@ -228,8 +225,6 @@ public class ObliqueStereographic extends StereographicUSGS {
     private static double srat(double esinp, double exp) {
         return pow((1.0 - esinp) / (1.0 + esinp), exp);
     }
-
-
 
 
     //////////////////////////////////////////////////////////////////////////////////////////
@@ -245,12 +240,11 @@ public class ObliqueStereographic extends StereographicUSGS {
      * provider} for a stereographic projection of any kind. The equations used are the one from
      * EPSG.
      *
-     * @since 2.4
-     * @source $URL$
-     * @version $Id$
      * @author Rueben Schulz
-     *
+     * @version $Id$
+     * @source $URL$
      * @see org.geotools.referencing.operation.DefaultMathTransformFactory
+     * @since 2.4
      */
     public static final class Provider extends Stereographic.Provider {
         /**
@@ -261,20 +255,21 @@ public class ObliqueStereographic extends StereographicUSGS {
         /**
          * The parameters group.
          */
-        static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(new NamedIdentifier[] {
-                new NamedIdentifier(Citations.OGC,      "Oblique_Stereographic"),
-                new NamedIdentifier(Citations.EPSG,     "Oblique Stereographic"),
-                new NamedIdentifier(Citations.EPSG,     "Roussilhe"),
-                new NamedIdentifier(Citations.EPSG,     "9809"),
-                new NamedIdentifier(Citations.GEOTIFF,  "CT_ObliqueStereographic"),
-                new NamedIdentifier(Citations.ESRI,     "Double_Stereographic"),
+        static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(new 
+                NamedIdentifier[]{
+                new NamedIdentifier(Citations.OGC, "Oblique_Stereographic"),
+                new NamedIdentifier(Citations.EPSG, "Oblique Stereographic"),
+                new NamedIdentifier(Citations.EPSG, "Roussilhe"),
+                new NamedIdentifier(Citations.EPSG, "9809"),
+                new NamedIdentifier(Citations.GEOTIFF, "CT_ObliqueStereographic"),
+                new NamedIdentifier(Citations.ESRI, "Double_Stereographic"),
                 new NamedIdentifier(Citations.GEOTOOLS, NAME)
-            }, new ParameterDescriptor[] {
-                SEMI_MAJOR,          SEMI_MINOR,
-                CENTRAL_MERIDIAN,    LATITUDE_OF_ORIGIN,
+        }, new ParameterDescriptor[]{
+                SEMI_MAJOR, SEMI_MINOR,
+                CENTRAL_MERIDIAN, LATITUDE_OF_ORIGIN,
                 SCALE_FACTOR,
-                FALSE_EASTING,       FALSE_NORTHING
-            });
+                FALSE_EASTING, FALSE_NORTHING
+        });
 
         /**
          * Constructs a new provider.
@@ -289,8 +284,7 @@ public class ObliqueStereographic extends StereographicUSGS {
         @Override
         MathTransform createMathTransform(final ParameterValueGroup parameters,
                                           final ParameterDescriptorGroup descriptor)
-                throws ParameterNotFoundException
-        {
+                throws ParameterNotFoundException {
             return new ObliqueStereographic(parameters, descriptor);
         }
     }

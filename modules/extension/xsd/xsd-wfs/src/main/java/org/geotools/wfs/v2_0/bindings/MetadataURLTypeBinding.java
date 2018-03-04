@@ -31,12 +31,12 @@ public class MetadataURLTypeBinding extends AbstractComplexEMFBinding {
     public MetadataURLTypeBinding(Wfs20Factory factory) {
         super(factory);
     }
-    
+
     @Override
     public Class getType() {
         return MetadataURLType.class;
     }
-    
+
     @Override
     public QName getTarget() {
         return WFS.MetadataURLType;

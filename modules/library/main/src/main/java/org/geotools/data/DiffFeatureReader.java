@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -49,40 +49,41 @@ import com.vividsolutions.jts.geom.Geometry;
  * Used to implement In-Process Transaction support. This implementation will need to peek ahead in
  * order to check for deletetions.
  * </p>
- * 
+ *
  * @author Jody Garnett, Refractions Research
- *
- *
  * @source $URL$
  */
-public class DiffFeatureReader<T extends FeatureType, F extends Feature> implements  FeatureReader<T, F> {
+public class DiffFeatureReader<T extends FeatureType, F extends Feature> implements 
+        FeatureReader<T, F> {
     FeatureReader<T, F> reader;
     Diff diff;
 
-    /** Next value as peeked by hasNext() */
+    /**
+     * Next value as peeked by hasNext()
+     */
     F next = null;
     private Filter filter;
     private Set encounteredFids;
 
-	private Iterator<F> addedIterator;
-	private Iterator<F> modifiedIterator;
-	private Iterator<Identifier> fids;
-	private Iterator<F> spatialIndexIterator;
-	
-	private boolean indexedGeometryFilter = false;
-	private boolean fidFilter = false;
-	
+    private Iterator<F> addedIterator;
+    private Iterator<F> modifiedIterator;
+    private Iterator<Identifier> fids;
+    private Iterator<F> spatialIndexIterator;
+
+    private boolean indexedGeometryFilter = false;
+    private boolean fidFilter = false;
+
     /**
      * This constructor grabs a "copy" of the current diff.
      * <p>
      * This reader is not "live" to changes over the course of the Transaction. (Iterators are not
      * always stable of the course of modifications)
      * </p>
-     * 
+     *
      * @param reader
-     * @param diff2 Differences of Feature by FID
+     * @param diff2  Differences of Feature by FID
      */
-    public DiffFeatureReader(FeatureReader<T, F> reader, Diff diff2 ) {
+    public DiffFeatureReader(FeatureReader<T, F> reader, Diff diff2) {
         this(reader, diff2, Filter.INCLUDE);
     }
 
@@ -92,28 +93,28 @@ public class DiffFeatureReader<T extends FeatureType, F extends Feature> impleme
      * This reader is not "live" to changes over the course of the Transaction. (Iterators are not
      * always stable of the course of modifications)
      * </p>
-     * 
+     *
      * @param reader
-     * @param diff2 Differences of Feature by FID
+     * @param diff2  Differences of Feature by FID
      */
-    public DiffFeatureReader(FeatureReader<T, F> reader, Diff diff2, Filter filter ) {
+    public DiffFeatureReader(FeatureReader<T, F> reader, Diff diff2, Filter filter) {
         this.reader = reader;
         this.diff = diff2;
         this.filter = filter;
-        encounteredFids=new HashSet();
+        encounteredFids = new HashSet();
 
-        if( filter instanceof Id){
-        	fidFilter=true;
-        }else if( isSubsetOfBboxFilter(filter) ){
-        	indexedGeometryFilter=true;
+        if (filter instanceof Id) {
+            fidFilter = true;
+        } else if (isSubsetOfBboxFilter(filter)) {
+            indexedGeometryFilter = true;
         }
-        
+
         synchronized (diff) {
-        	if( indexedGeometryFilter ){
-        		spatialIndexIterator=getIndexedFeatures().iterator();
-        	}
-        	addedIterator=(Iterator<F>)diff.getAdded().values().iterator();
-        	modifiedIterator=(Iterator<F>)diff.getModified().values().iterator();
+            if (indexedGeometryFilter) {
+                spatialIndexIterator = getIndexedFeatures().iterator();
+            }
+            addedIterator = (Iterator<F>) diff.getAdded().values().iterator();
+            modifiedIterator = (Iterator<F>) diff.getModified().values().iterator();
         }
     }
 
@@ -129,8 +130,8 @@ public class DiffFeatureReader<T extends FeatureType, F extends Feature> impleme
      */
     public F next() throws IOException, IllegalAttributeException, NoSuchElementException {
         if (hasNext()) {
-        	F live = next;
-        	next = null;
+            F live = next;
+            next = null;
 
             return live;
         }
@@ -148,10 +149,10 @@ public class DiffFeatureReader<T extends FeatureType, F extends Feature> impleme
         }
         F peek;
 
-        if( filter==Filter.EXCLUDE)
+        if (filter == Filter.EXCLUDE)
             return false;
-        
-        while( (reader != null) && reader.hasNext() ) {
+
+        while ((reader != null) && reader.hasNext()) {
 
             try {
                 peek = reader.next();
@@ -167,7 +168,7 @@ public class DiffFeatureReader<T extends FeatureType, F extends Feature> impleme
             Map<String, SimpleFeature> modified = diff.getModified();
             if (modified.containsKey(fid)) {
                 F changed = (F) modified.get(fid);
-                if (changed == Diff.NULL || !filter.evaluate(changed) ) {
+                if (changed == Diff.NULL || !filter.evaluate(changed)) {
                     continue;
                 } else {
                     next = changed;
@@ -195,95 +196,97 @@ public class DiffFeatureReader<T extends FeatureType, F extends Feature> impleme
 
         if (diff != null) {
             diff = null;
-            addedIterator=null;
+            addedIterator = null;
         }
     }
-    
+
     protected void queryDiff() {
-        if( fidFilter ){
+        if (fidFilter) {
             queryFidFilter();
-        } else if( indexedGeometryFilter ){
-        	querySpatialIndex();
+        } else if (indexedGeometryFilter) {
+            querySpatialIndex();
         } else {
-        	queryAdded();
-        	queryModified();
-         }
+            queryAdded();
+            queryModified();
+        }
     }
 
-	protected void querySpatialIndex() {
-		while( spatialIndexIterator.hasNext() && next == null ){
-		    F f = (F) spatialIndexIterator.next();
-			if( encounteredFids.contains(f.getIdentifier().getID()) || !filter.evaluate(f)){
-				continue;
-			}
-			next = f;
-		}
-	}
-    
-	protected void queryAdded() {
-		while( addedIterator.hasNext() && next == null ){
-			next = (F) addedIterator.next();
-			if( encounteredFids.contains(next.getIdentifier().getID()) || !filter.evaluate(next)){
-				next = null;
-			}
-		}
-	}
-	
-	protected void queryModified() {
-		while( modifiedIterator.hasNext() && next == null ){
-			next = (F) modifiedIterator.next();
-			if( next==Diff.NULL || encounteredFids.contains(next.getIdentifier().getID()) || !filter.evaluate(next) ){
-				next = null;
-			}
-		}
-	}
-	
-	protected void queryFidFilter() {
-		Id fidFilter = (Id) filter;
-		if (fids == null) {
-		    fids = fidFilter.getIdentifiers().iterator();
-		}
-        while( fids.hasNext() && next == null ) {
-		    String fid = fids.next().toString();
-		    if( !encounteredFids.contains(fid) ){
-    			next = (F) diff.getModified().get(fid);
-    		    if( next==null ){
-    		    	next = (F) diff.getAdded().get(fid);
-    		    }
-		    }
-		}
-	}
-    
+    protected void querySpatialIndex() {
+        while (spatialIndexIterator.hasNext() && next == null) {
+            F f = (F) spatialIndexIterator.next();
+            if (encounteredFids.contains(f.getIdentifier().getID()) || !filter.evaluate(f)) {
+                continue;
+            }
+            next = f;
+        }
+    }
+
+    protected void queryAdded() {
+        while (addedIterator.hasNext() && next == null) {
+            next = (F) addedIterator.next();
+            if (encounteredFids.contains(next.getIdentifier().getID()) || !filter.evaluate(next)) {
+                next = null;
+            }
+        }
+    }
+
+    protected void queryModified() {
+        while (modifiedIterator.hasNext() && next == null) {
+            next = (F) modifiedIterator.next();
+            if (next == Diff.NULL || encounteredFids.contains(next.getIdentifier().getID()) || 
+                    !filter.evaluate(next)) {
+                next = null;
+            }
+        }
+    }
+
+    protected void queryFidFilter() {
+        Id fidFilter = (Id) filter;
+        if (fids == null) {
+            fids = fidFilter.getIdentifiers().iterator();
+        }
+        while (fids.hasNext() && next == null) {
+            String fid = fids.next().toString();
+            if (!encounteredFids.contains(fid)) {
+                next = (F) diff.getModified().get(fid);
+                if (next == null) {
+                    next = (F) diff.getAdded().get(fid);
+                }
+            }
+        }
+    }
+
     protected List getIndexedFeatures() {
         // TODO: check geom is default geom.
-    	Envelope env = null;
-    	env = extractBboxForSpatialIndexQuery((BinarySpatialOperator)filter);
+        Envelope env = null;
+        env = extractBboxForSpatialIndexQuery((BinarySpatialOperator) filter);
         return diff.queryIndex(env);
     }
-    
-    protected Envelope extractBboxForSpatialIndexQuery(BinarySpatialOperator filter){
-    	org.opengis.filter.expression.Expression leftGeom = filter.getExpression1();
-    	org.opengis.filter.expression.Expression rightGeom = filter.getExpression2();
-    	
-    	Geometry g ;
-    	if (leftGeom instanceof org.opengis.filter.expression.Literal){
-    		g = (Geometry)((org.opengis.filter.expression.Literal)leftGeom).getValue();
-    	}else{
-    		g = (Geometry)((org.opengis.filter.expression.Literal)rightGeom).getValue(); 
-    	}
-    	return g.getEnvelopeInternal();
+
+    protected Envelope extractBboxForSpatialIndexQuery(BinarySpatialOperator filter) {
+        org.opengis.filter.expression.Expression leftGeom = filter.getExpression1();
+        org.opengis.filter.expression.Expression rightGeom = filter.getExpression2();
+
+        Geometry g;
+        if (leftGeom instanceof org.opengis.filter.expression.Literal) {
+            g = (Geometry) ((org.opengis.filter.expression.Literal) leftGeom).getValue();
+        } else {
+            g = (Geometry) ((org.opengis.filter.expression.Literal) rightGeom).getValue();
+        }
+        return g.getEnvelopeInternal();
     }
-    
+
     protected boolean isDefaultGeometry(PropertyName ae) {
-    	return reader.getFeatureType().getGeometryDescriptor().getLocalName().equals(ae.getPropertyName());
+        return reader.getFeatureType().getGeometryDescriptor().getLocalName().equals(ae
+                .getPropertyName());
     }
-    
+
     protected boolean isSubsetOfBboxFilter(Filter f) {
-       return filter instanceof Contains ||
-            filter instanceof Crosses ||
-            filter instanceof Overlaps ||
-            filter instanceof Touches ||
-            filter instanceof Within ||
-            filter instanceof BBOX;
+        return filter instanceof Contains ||
+                filter instanceof Crosses ||
+                filter instanceof Overlaps ||
+                filter instanceof Touches ||
+                filter instanceof Within ||
+                filter instanceof BBOX;
     }
 }

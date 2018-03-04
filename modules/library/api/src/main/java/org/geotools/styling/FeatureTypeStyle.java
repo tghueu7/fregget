@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -57,14 +57,12 @@ import org.opengis.metadata.citation.OnLineResource;
  * &lt;/xsd:element&gt;
  * </code></pre>
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author James Macgill, CCG
+ * @version $Id$
+ * @source $URL$
  */
 public interface FeatureTypeStyle extends org.opengis.style.FeatureTypeStyle {
-    
+
     /**
      * This option influences how multiple rules matching the same feature are evaluated
      */
@@ -102,12 +100,12 @@ public interface FeatureTypeStyle extends org.opengis.style.FeatureTypeStyle {
      * <li>{code}<VendorOption name="composite">multiply</VendorOption>{code} blends the current FTS
      * with the underlying map using color multiplication</li>
      * </ul>
-     * 
+     * <p>
      * <p>
      * The same vendor option can also be applied at the symbolizer level to achieve different
      * effects (feature by feature composition as oppose to layer by layer one).
      * </p>
-     * 
+     * <p>
      * <p>
      * Important note: for most compositing operation to work properly, the graphics used for the
      * rendering should be derived from an image that has an alpha channel and transparent
@@ -164,11 +162,12 @@ public interface FeatureTypeStyle extends org.opengis.style.FeatureTypeStyle {
 
     /**
      * Description for this style.
+     *
      * @return Human readable description for use in user interfaces
      * @since 2.5.x
      */
     Description getDescription();
-    
+
     /**
      * @deprecated use getDescription().getAbstract().toString()
      */
@@ -176,15 +175,16 @@ public interface FeatureTypeStyle extends org.opengis.style.FeatureTypeStyle {
 
     /**
      * @param abstractStr
-     * @deprecated Please use getDescription().setAbstract( new SimpleInternationalString( abstractStr ))
+     * @deprecated Please use getDescription().setAbstract( new SimpleInternationalString( 
+     * abstractStr ))
      */
     void setAbstract(String abstractStr);
 
     /**
      * Only features with the type name returned by this method should
      * be styled by this feature type styler.
+     *
      * @return The name of types that this styler applies to
-     * 
      * @deprecated this method is replaced by a live set featureTypeNames()
      */
     String getFeatureTypeName();
@@ -192,8 +192,9 @@ public interface FeatureTypeStyle extends org.opengis.style.FeatureTypeStyle {
     /**
      * Sets the type name of the features that this styler should be
      * applied to.
-     * @task REVISIT: should a set method be declared in this interface at all?
+     *
      * @param name The TypeName of the features to be styled by this instance.
+     * @task REVISIT: should a set method be declared in this interface at all?
      * @deprecated Use featureTypeNames().clear() and featureTypeNames.add( new NameImpl( name ))
      */
     void setFeatureTypeName(String name);
@@ -212,14 +213,13 @@ public interface FeatureTypeStyle extends org.opengis.style.FeatureTypeStyle {
      * properties are referenced in the feature type style).
      * <p>
      * This method will be replaced by a live set semanticIdentifiers() in 2.6.x
-     * 
+     *
      * @return An array of strings representing systematic types which
-     *         could be styled by this instance.
-     * 
+     * could be styled by this instance.
      * @deprecated this method is replaced by a live set semanticIdentifiers()
      */
     String[] getSemanticTypeIdentifiers();
-    
+
     /**
      * The SemanticTypeIdentifiers is experimental and is intended to be used
      * to identify, using a community-controlled name(s), what the style is
@@ -233,9 +233,8 @@ public interface FeatureTypeStyle extends org.opengis.style.FeatureTypeStyle {
      * with the corresponding default geometry type (i.e., no feature
      * properties are referenced in the feature type style).
      *
-     *
      * @param types An array of strings representing systematic types which
-     *         could be styled by this instance.
+     *              could be styled by this instance.
      * @deprecated Please use semanticIdentifiers().addAll()
      */
     void setSemanticTypeIdentifiers(String[] types);
@@ -246,10 +245,9 @@ public interface FeatureTypeStyle extends org.opengis.style.FeatureTypeStyle {
      * feature attribute values.  In addition, rules contain the symbolizers
      * which should be applied when the rule holds true.
      *
+     * @return The full set of rules contained in this styler.
      * @version SLD 1.0
      * @version SLD 1.0.20 TODO: GeoAPI getRules(): List<Rule>
-     * @return The full set of rules contained in this styler.
-     * 
      * @deprecated use rules().toArray( new Rule[0] )
      */
     Rule[] getRules();
@@ -261,7 +259,6 @@ public interface FeatureTypeStyle extends org.opengis.style.FeatureTypeStyle {
      * which should be applied when the rule holds true.
      *
      * @param rules The set of rules to be set for this styler.
-     * 
      * @deprecated Please use rules().clear(); rules.addAll( rules )
      */
     void setRules(Rule[] rules);
@@ -277,32 +274,35 @@ public interface FeatureTypeStyle extends org.opengis.style.FeatureTypeStyle {
      * <p>
      * This is *the* list being used to manage the rules!
      * </p>
+     *
      * @since GeoTools 2.2.M3, GeoAPI 2.0
      */
     List<Rule> rules();
-    
+
     /**
      * It is common to have a style coming from a external xml file, this method
      * provide a way to get the original source if there is one.
-     *    
+     *
      * @param online location external file defining this style, or null if not available
      */
     void setOnlineResource(OnLineResource online);
 
     void accept(org.geotools.styling.StyleVisitor visitor);
-    
+
     /**
-     * The eventual transformation to be applied before rendering the data (should be an expression 
-     * taking a feature collection or a grid coverage as the evaluation context and returns a 
-     * feature collection or a grid coverage as an output) 
+     * The eventual transformation to be applied before rendering the data (should be an expression
+     * taking a feature collection or a grid coverage as the evaluation context and returns a
+     * feature collection or a grid coverage as an output)
+     *
      * @return
      */
     Expression getTransformation();
-    
+
     /**
-     * Sets the eventual transformation to be applied before rendering the data (should be an 
-     * expression taking a feature collection or a grid coverage as an input and returns a 
-     * feature collection or a grid coverage as an output) 
+     * Sets the eventual transformation to be applied before rendering the data (should be an
+     * expression taking a feature collection or a grid coverage as an input and returns a
+     * feature collection or a grid coverage as an output)
+     *
      * @return
      */
     void setTransformation(Expression transformation);

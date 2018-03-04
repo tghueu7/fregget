@@ -2,7 +2,8 @@
  **
  ** $Id$
  **
- ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/aggregate/AggregateImpl.java,v $
+ ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/aggregate
+ * /AggregateImpl.java,v $
  **
  ** Copyright (C) 2003 Open GIS Consortium, Inc. All Rights Reserved. http://www.opengis.org/Legal/
  **
@@ -23,8 +24,6 @@ import org.geotools.geometry.jts.JTSUtils;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class AggregateImpl extends GeometryImpl implements Aggregate {
@@ -47,7 +46,7 @@ public abstract class AggregateImpl extends GeometryImpl implements Aggregate {
             childParts.add(jtsGeom.getJTSGeometry());
         }
         com.vividsolutions.jts.geom.Geometry result =
-            JTSUtils.GEOMETRY_FACTORY.buildGeometry(childParts);
+                JTSUtils.GEOMETRY_FACTORY.buildGeometry(childParts);
         return result;
     }
 

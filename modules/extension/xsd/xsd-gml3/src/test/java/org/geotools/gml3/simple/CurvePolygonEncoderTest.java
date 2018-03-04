@@ -45,7 +45,8 @@ public class CurvePolygonEncoderTest extends GeometryEncoderTestSupport {
     public void testDonut() throws Exception {
         PolygonEncoder encoder = new PolygonEncoder(gtEncoder, "gml", GML.NAMESPACE);
         Geometry geometry = new WKTReader2()
-                .read("CURVEPOLYGON(CIRCULARSTRING(-7 -8, -5 -6, -3 -8, -5 -10, -7 -8),CIRCULARSTRING(-6 -8, -5 -7, -4 -8, -5 -9, -6 -8))");
+                .read("CURVEPOLYGON(CIRCULARSTRING(-7 -8, -5 -6, -3 -8, -5 -10, -7 -8)," +
+                        "CIRCULARSTRING(-6 -8, -5 -7, -4 -8, -5 -9, -6 -8))");
         Document doc = encode(encoder, geometry);
         // XMLTestSupport.print(doc);
 
@@ -68,7 +69,8 @@ public class CurvePolygonEncoderTest extends GeometryEncoderTestSupport {
     public void testComplex() throws Exception {
         PolygonEncoder encoder = new PolygonEncoder(gtEncoder, "gml", GML.NAMESPACE);
         Geometry geometry = new WKTReader2()
-                .read("CURVEPOLYGON(COMPOUNDCURVE(CIRCULARSTRING(0 0, 2 0, 2 1, 2 3, 4 3),(4 3, 4 5, 1 4, 0 0)), "
+                .read("CURVEPOLYGON(COMPOUNDCURVE(CIRCULARSTRING(0 0, 2 0, 2 1, 2 3, 4 3),(4 3, 4" +
+                        " 5, 1 4, 0 0)), "
                         + "CIRCULARSTRING(1.7 1, 1.4 0.4, 1.6 0.4, 1.6 0.5, 1.7 1) )");
         Document doc = encode(encoder, geometry);
         // XMLTestSupport.print(doc);
@@ -90,8 +92,6 @@ public class CurvePolygonEncoderTest extends GeometryEncoderTestSupport {
         assertEquals("1.7 1 1.4 0.4 1.6 0.4 1.6 0.5 1.7 1",
                 xpath.evaluate(int1 + "/gml:Curve/gml:segments/gml:ArcString/gml:posList", doc));
     }
-
-
 
 
 }

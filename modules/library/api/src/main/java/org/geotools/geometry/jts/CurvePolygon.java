@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -25,7 +25,7 @@ import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * A subclass of polygon that can host also curves and will linearize if needed
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 public class CurvePolygon extends Polygon implements CurvedGeometry<Polygon> {
@@ -34,13 +34,13 @@ public class CurvePolygon extends Polygon implements CurvedGeometry<Polygon> {
     private double tolerance;
 
     public CurvePolygon(LinearRing shell, List<LinearRing> holes, GeometryFactory factory,
-            double tolerance) {
+                        double tolerance) {
         super(shell, holes.toArray(new LinearRing[holes.size()]), factory);
         this.tolerance = tolerance;
     }
 
     public CurvePolygon(LinearRing shell, LinearRing[] holes, GeometryFactory factory,
-            double tolerance) {
+                        double tolerance) {
         super(shell, holes, factory);
         this.tolerance = tolerance;
     }

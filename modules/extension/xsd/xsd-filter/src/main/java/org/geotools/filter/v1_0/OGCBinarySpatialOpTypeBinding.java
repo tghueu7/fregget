@@ -20,7 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.picocontainer.MutablePicoContainer;
+
 import javax.xml.namespace.QName;
+
 import com.vividsolutions.jts.geom.GeometryFactory;
 import org.opengis.filter.FilterFactory2;
 import org.opengis.filter.expression.Function;
@@ -32,9 +34,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:BinarySpatialOpType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="BinarySpatialOpType"&gt;
  *      &lt;xsd:complexContent&gt;
@@ -55,9 +57,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OGCBinarySpatialOpTypeBinding extends AbstractComplexBinding {
@@ -113,7 +112,7 @@ public class OGCBinarySpatialOpTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //implemented by element bindings
         return null;
 
@@ -140,36 +139,44 @@ public class OGCBinarySpatialOpTypeBinding extends AbstractComplexBinding {
         //
         //        String name = instance.getName();
         //
-        //        //<xsd:element name="Equals" substitutionGroup="ogc:spatialOps" type="ogc:BinarySpatialOpType"/>
+        //        //<xsd:element name="Equals" substitutionGroup="ogc:spatialOps" 
+        // type="ogc:BinarySpatialOpType"/>
         //        if ("Equals".equals(name)) {
         //            return factory.equal(e1, e2);
         //        }
-        //        //<xsd:element name="Disjoint" substitutionGroup="ogc:spatialOps" type="ogc:BinarySpatialOpType"/>
+        //        //<xsd:element name="Disjoint" substitutionGroup="ogc:spatialOps" 
+        // type="ogc:BinarySpatialOpType"/>
         //        else if ("Disjoint".equals(name)) {
         //            return factory.disjoint(e1, e2);
         //        }
-        //        //<xsd:element name="Touches" substitutionGroup="ogc:spatialOps" type="ogc:BinarySpatialOpType"/>
+        //        //<xsd:element name="Touches" substitutionGroup="ogc:spatialOps" 
+        // type="ogc:BinarySpatialOpType"/>
         //        else if ("Touches".equals(name)) {
         //            return factory.touches(e1, e2);
         //        }
-        //        //<xsd:element name="Within" substitutionGroup="ogc:spatialOps" type="ogc:BinarySpatialOpType"/>
+        //        //<xsd:element name="Within" substitutionGroup="ogc:spatialOps" 
+        // type="ogc:BinarySpatialOpType"/>
         //        else if ("Within".equals(name)) {
         //            //TODO: within method on FilterFactory2 needs to take two expressoins
         //            return factory.within(e1, e2);
         //        }
-        //        //<xsd:element name="Overlaps" substitutionGroup="ogc:spatialOps" type="ogc:BinarySpatialOpType"/>
+        //        //<xsd:element name="Overlaps" substitutionGroup="ogc:spatialOps" 
+        // type="ogc:BinarySpatialOpType"/>
         //        else if ("Overlaps".equals(name)) {
         //            return factory.overlaps(e1, e2);
         //        }
-        //        //<xsd:element name="Crosses" substitutionGroup="ogc:spatialOps" type="ogc:BinarySpatialOpType"/>
+        //        //<xsd:element name="Crosses" substitutionGroup="ogc:spatialOps" 
+        // type="ogc:BinarySpatialOpType"/>
         //        else if ("Crosses".equals(name)) {
         //            return factory.crosses(e1, e2);
         //        }
-        //        //<xsd:element name="Intersects" substitutionGroup="ogc:spatialOps" type="ogc:BinarySpatialOpType"/>
+        //        //<xsd:element name="Intersects" substitutionGroup="ogc:spatialOps" 
+        // type="ogc:BinarySpatialOpType"/>
         //        else if ("Intersects".equals(name)) {
         //            return factory.intersects(e1, e2);
         //        }
-        //        //<xsd:element name="Contains" substitutionGroup="ogc:spatialOps" type="ogc:BinarySpatialOpType"/>
+        //        //<xsd:element name="Contains" substitutionGroup="ogc:spatialOps" 
+        // type="ogc:BinarySpatialOpType"/>
         //        else if ("Contains".equals(name)) {
         //            return factory.contains(e1, e2);
         //        } else {
@@ -178,23 +185,23 @@ public class OGCBinarySpatialOpTypeBinding extends AbstractComplexBinding {
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         BinarySpatialOperator operator = (BinarySpatialOperator) object;
 
         return OGCUtils.property(operator.getExpression1(), operator.getExpression2(), name);
     }
-    
+
     public List getProperties(Object object) throws Exception {
         //special hack for Functions, while not mandated by the spec we handle it 
         // here
         BinarySpatialOperator operator = (BinarySpatialOperator) object;
-        if ( operator.getExpression2() instanceof Function ) {
+        if (operator.getExpression2() instanceof Function) {
             ArrayList props = new ArrayList();
-            props.add( new Object[]{ OGC.Function, operator.getExpression2() } ); 
+            props.add(new Object[]{OGC.Function, operator.getExpression2()});
             return props;
         }
-        
+
         return super.getProperties(object);
     }
-    
+
 }

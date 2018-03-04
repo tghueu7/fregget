@@ -29,8 +29,6 @@ import com.vividsolutions.jts.geom.Point;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GMLFeatureStreamingTest extends TestCase {

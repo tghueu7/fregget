@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,6 +17,7 @@
 package org.geotools.geometry.jts;
 
 // J2SE dependencies
+
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Set;
@@ -40,11 +41,9 @@ import org.geotools.resources.LazySet;
  * {@linkplain CoordinateSequenceFactory coordinate sequence} or
  * {@linkplain PrecisionModel precision model} factories.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
  * @deprecated Please use JTSFactoryFinder
  */
 public class FactoryFinder {
@@ -65,12 +64,13 @@ public class FactoryFinder {
      * {@link Hints#JTS_PRECISION_MODEL             JTS_PRECISION_MODEL} and
      * {@link Hints#JTS_SRID                        JTS_SRID}.
      *
-     * @param  hints An optional map of hints, or {@code null} if none.
+     * @param hints An optional map of hints, or {@code null} if none.
      * @return The first geometry factory that matches the supplied hints.
      * @throws FactoryRegistryException if no implementation was found or can be created for the
-     *         {@link GeometryFactory} category and the given hints.
+     *                                  {@link GeometryFactory} category and the given hints.
      */
-    public static synchronized GeometryFactory getGeometryFactory(Hints hints) throws FactoryRegistryException {
+    public static synchronized GeometryFactory getGeometryFactory(Hints hints) throws 
+            FactoryRegistryException {
         return JTSFactoryFinder.getGeometryFactory(hints);
     }
 
@@ -88,12 +88,13 @@ public class FactoryFinder {
      * If no implementation matches, a new one is created if possible or an exception is thrown
      * otherwise.
      *
-     * @param  hints An optional map of hints, or {@code null} if none.
+     * @param hints An optional map of hints, or {@code null} if none.
      * @return The first precision model that matches the supplied hints.
      * @throws FactoryRegistryException if no implementation was found or can be created for the
-     *         {@link PrecisionModel} category and the given hints.
+     *                                  {@link PrecisionModel} category and the given hints.
      */
-    public static synchronized PrecisionModel getPrecisionModel(Hints hints) throws FactoryRegistryException {
+    public static synchronized PrecisionModel getPrecisionModel(Hints hints) throws 
+            FactoryRegistryException {
         return JTSFactoryFinder.getPrecisionModel(hints);
     }
 
@@ -111,10 +112,11 @@ public class FactoryFinder {
      * hints. If no implementation matches, a new one is created if possible or an exception is
      * thrown otherwise.
      *
-     * @param  hints An optional map of hints, or {@code null} if none.
+     * @param hints An optional map of hints, or {@code null} if none.
      * @return The first coordinate sequence factory that matches the supplied hints.
      * @throws FactoryRegistryException if no implementation was found or can be created for the
-     *         {@link CoordinateSequenceFactory} interface and the given hints.
+     *                                  {@link CoordinateSequenceFactory} interface and the given
+     *                                  hints.
      */
     public static synchronized CoordinateSequenceFactory getCoordinateSequenceFactory(Hints hints) throws FactoryRegistryException {
         return JTSFactoryFinder.getCoordinateSequenceFactory(hints);

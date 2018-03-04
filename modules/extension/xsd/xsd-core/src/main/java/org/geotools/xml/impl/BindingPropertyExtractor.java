@@ -22,6 +22,7 @@ import org.eclipse.xsd.XSDFactory;
 import org.eclipse.xsd.XSDParticle;
 import org.picocontainer.MutablePicoContainer;
 import org.w3c.dom.Element;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -41,10 +42,6 @@ import org.geotools.xml.Schemas;
  * properties from the objecet being encoded.
  *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
- *
  * @source $URL$
  */
 public class BindingPropertyExtractor implements PropertyExtractor {
@@ -70,8 +67,8 @@ public class BindingPropertyExtractor implements PropertyExtractor {
         //first get all the properties that can be infered from teh schema
         List children = encoder.getSchemaIndex().getChildElementParticles(element);
 
-O: 
-        for (Iterator itr = children.iterator(); itr.hasNext();) {
+        O:
+        for (Iterator itr = children.iterator(); itr.hasNext(); ) {
             XSDParticle particle = (XSDParticle) itr.next();
             XSDElementDeclaration child = (XSDElementDeclaration) particle.getContent();
 
@@ -86,12 +83,12 @@ O:
                     context);
 
             if (executor.getChildObject() != null) {
-                properties.add(new Object[] { particle, executor.getChildObject() });
+                properties.add(new Object[]{particle, executor.getChildObject()});
             }
         }
 
         //second, get the properties which cannot be infereed from the schema
-        GetPropertiesExecutor executor = new GetPropertiesExecutor(object,element);
+        GetPropertiesExecutor executor = new GetPropertiesExecutor(object, element);
 
         BindingVisitorDispatch.walk(object, encoder.getBindingWalker(), element, executor, context);
 
@@ -99,7 +96,7 @@ O:
             //group into a map of name, list
             MultiHashMap map = new MultiHashMap();
 
-            for (Iterator p = executor.getProperties().iterator(); p.hasNext();) {
+            for (Iterator p = executor.getProperties().iterator(); p.hasNext(); ) {
                 Object[] property = (Object[]) p.next();
                 map.put(property[0], property[1]);
             }
@@ -107,16 +104,16 @@ O:
             //turn each map entry into a particle
             HashMap particles = new HashMap();
 
-            for (Iterator e = map.entrySet().iterator(); e.hasNext();) {
+            for (Iterator e = map.entrySet().iterator(); e.hasNext(); ) {
                 Map.Entry entry = (Map.Entry) e.next();
-                
+
                 //key could be a name or a particle
-                if ( entry.getKey() instanceof XSDParticle ) {
+                if (entry.getKey() instanceof XSDParticle) {
                     XSDParticle particle = (XSDParticle) entry.getKey();
-                    particles.put( Schemas.getParticleName( particle), particle );
+                    particles.put(Schemas.getParticleName(particle), particle);
                     continue;
                 }
-                
+
                 QName name = (QName) entry.getKey();
                 Collection values = (Collection) entry.getValue();
 
@@ -124,16 +121,17 @@ O:
                 if (Encoder.COMMENT.equals(name)) {
                     //create a dom element which text nodes for the comments
                     Element comment = encoder.getDocument()
-                                             .createElement(Encoder.COMMENT.getLocalPart());
+                            .createElement(Encoder.COMMENT.getLocalPart());
 
-                    for (Iterator v = values.iterator(); v.hasNext();) {
-                        comment.appendChild(encoder.getDocument().createTextNode(v.next().toString()));
+                    for (Iterator v = values.iterator(); v.hasNext(); ) {
+                        comment.appendChild(encoder.getDocument().createTextNode(v.next()
+                                .toString()));
                     }
 
                     XSDParticle particle = XSDFactory.eINSTANCE.createXSDParticle();
 
                     XSDElementDeclaration elementDecl = XSDFactory.eINSTANCE
-                        .createXSDElementDeclaration();
+                            .createXSDElementDeclaration();
                     elementDecl.setTargetNamespace(Encoder.COMMENT.getNamespaceURI());
                     elementDecl.setName(Encoder.COMMENT.getLocalPart());
                     elementDecl.setElement(comment);
@@ -146,12 +144,13 @@ O:
 
                 //find hte element 
                 XSDElementDeclaration elementDecl = encoder.getSchemaIndex()
-                                                           .getElementDeclaration(name);
+                        .getElementDeclaration(name);
 
                 if (elementDecl == null) {
                     //look for the element declaration as a particle of the containing type
-                    XSDParticle particle = 
-                        Schemas.getChildElementParticle(element.getType(), name.getLocalPart(), true);
+                    XSDParticle particle =
+                            Schemas.getChildElementParticle(element.getType(), name.getLocalPart
+                                    (), true);
                     if (particle != null) {
                         particles.put(name, particle);
                         continue;
@@ -164,8 +163,8 @@ O:
                     // be dangerous. What we shold do is force the schema to 
                     // resolve all of it simports when the encoder starts
                     elementDecl = encoder.getSchema()
-                                         .resolveElementDeclaration(name.getNamespaceURI(),
-                            name.getLocalPart());
+                            .resolveElementDeclaration(name.getNamespaceURI(),
+                                    name.getLocalPart());
                 }
 
                 //look for a particle in the containing type which is either 
@@ -173,54 +172,53 @@ O:
                 // b) in the same subsittuion group
                 // if found use the particle to dervice multiplicity
                 XSDParticle reference = null;
-                for ( Iterator p = Schemas.getChildElementParticles(element.getType(), true).iterator(); p.hasNext(); ) {
+                for (Iterator p = Schemas.getChildElementParticles(element.getType(), true)
+                        .iterator(); p.hasNext(); ) {
                     XSDParticle particle = (XSDParticle) p.next();
                     XSDElementDeclaration el = (XSDElementDeclaration) particle.getContent();
-                    if ( el.isElementDeclarationReference() ) {
+                    if (el.isElementDeclarationReference()) {
                         el = el.getResolvedElementDeclaration();
                     }
-                    
-                    if ( Schemas.isBaseType(elementDecl, el) ) {
+
+                    if (Schemas.isBaseType(elementDecl, el)) {
                         reference = particle;
                         break;
                     }
                 }
-                
+
                 //wrap the property in a particle
                 XSDParticle particle = XSDFactory.eINSTANCE.createXSDParticle();
                 XSDElementDeclaration wrapper = XSDFactory.eINSTANCE.createXSDElementDeclaration();
-                wrapper.setResolvedElementDeclaration( elementDecl );
+                wrapper.setResolvedElementDeclaration(elementDecl);
                 particle.setContent(wrapper);
                 //particle.setContent(elementDecl);
 
                 //if there is a reference, derive multiplicity
-                if ( reference != null ) {
-                    particle.setMaxOccurs( reference.getMaxOccurs() );
-                }
-                else {
+                if (reference != null) {
+                    particle.setMaxOccurs(reference.getMaxOccurs());
+                } else {
                     //dervice from collection
-                    if ( values.size() > 1) {
+                    if (values.size() > 1) {
                         //make a multi property
                         particle.setMaxOccurs(-1);
                     } else {
                         //single property
                         particle.setMaxOccurs(1);
-                    }    
+                    }
                 }
-                
+
                 particles.put(name, particle);
             }
 
             //process the particles in order in which we got the properties
-            for (Iterator p = executor.getProperties().iterator(); p.hasNext();) {
+            for (Iterator p = executor.getProperties().iterator(); p.hasNext(); ) {
                 Object[] property = (Object[]) p.next();
-                Collection values = (Collection) map.get( property[0] );
-                
+                Collection values = (Collection) map.get(property[0]);
+
                 QName name;
-                if ( property[0]  instanceof XSDParticle ) {
-                    name = Schemas.getParticleName( (XSDParticle) property[0] );
-                }
-                else {
+                if (property[0] instanceof XSDParticle) {
+                    name = Schemas.getParticleName((XSDParticle) property[0]);
+                } else {
                     name = (QName) property[0];
                 }
 
@@ -229,43 +227,46 @@ O:
                 if (particle == null) {
                     continue; //already processed, must be a multi property
                 }
-                
+
                 if (values.size() > 1) {
                     //add as is, the encoder will unwrap
-                    properties.add(new Object[] { particle, values });
+                    properties.add(new Object[]{particle, values});
                 } else {
                     //unwrap it
-                    properties.add(new Object[] { particle, values.iterator().next() });
+                    properties.add(new Object[]{particle, values.iterator().next()});
                 }
 
                 //done with this particle
                 particles.remove(name);
             }
         }
-        
+
         //return properties;        
-        if (properties.size()<=1){
+        if (properties.size() <= 1) {
             return properties;
         }
         
         /*
-         feature properties in the "properties" list may not be in the same order as they appear in the schema,
-         because in the above implementation, simple attributes and complex attributes are processed separately.
+         feature properties in the "properties" list may not be in the same order as they appear 
+         in the schema,
+         because in the above implementation, simple attributes and complex attributes are 
+         processed separately.
           
-         to maintain the feature properties order, sort the properties to their original order as in "children" list               
+         to maintain the feature properties order, sort the properties to their original order as
+          in "children" list               
         */
         if (object instanceof ComplexAttributeImpl && propertiesSortable(properties, children)) {
             List sortedProperties = new ArrayList();
-            
+
             //sort properties according to their XSDParticle order in "children"
-            for (int i = 0; i<children.size(); i++) {
+            for (int i = 0; i < children.size(); i++) {
                 XSDParticle particle = (XSDParticle) children.get(i);
                 XSDElementDeclaration child = (XSDElementDeclaration) particle.getContent();
                 if (child.getResolvedElementDeclaration() != null) {
                     child = child.getResolvedElementDeclaration();
                 }
 
-                for (Iterator itr = properties.iterator(); itr.hasNext();) {
+                for (Iterator itr = properties.iterator(); itr.hasNext(); ) {
                     Object[] prop = (Object[]) itr.next();
                     XSDParticle part = (XSDParticle) prop[0];
                     XSDElementDeclaration partContent = (XSDElementDeclaration) part.getContent();
@@ -274,8 +275,8 @@ O:
                     }
                     if (child.getName().equals(partContent.getName())
                             && ((child.getTargetNamespace() != null && partContent
-                                    .getTargetNamespace() != null) ? child.getTargetNamespace()
-                                    .equals(partContent.getTargetNamespace()) : true)) {
+                            .getTargetNamespace() != null) ? child.getTargetNamespace()
+                            .equals(partContent.getTargetNamespace()) : true)) {
                         sortedProperties.add(prop);
                         properties.remove(prop);
                         i--;
@@ -285,39 +286,38 @@ O:
             }
             //return properties in order they appear in the schema
             return sortedProperties;
-        }
-        else{
+        } else {
             return properties;
         }
     }
 
     /**
      * Check whether properties can be sorted to the order as in the "children" list.
-     * This is only possible when all properties have references (XSDParticle) in the "children" list. 
-     * 
-     * @param properties 
-     *                feature properties obtained
-     * @param children 
-     *                list of XSDParticle in the order as they appear in the schema
+     * This is only possible when all properties have references (XSDParticle) in the "children" 
+     * list.
+     *
+     * @param properties feature properties obtained
+     * @param children   list of XSDParticle in the order as they appear in the schema
      * @return
-     */    
+     */
     private boolean propertiesSortable(List properties, List children) {
         /*
          *feature properties contains more elements than it's containing feature (_Feature),
-         *for example: 
-	     * 	<gsml:specification>
-	     *		<gsml:GeologicUnit>
-	     *		...
-	     *		</gsml:GeologicUnit>
-	     *	</gsml:specification>  
-    	 *in this case, "properties" for GeologicUnit has more elements than "children" for specification 
-    	 */
-    	
+         *for example:
+         * 	<gsml:specification>
+         *		<gsml:GeologicUnit>
+         *		...
+         *		</gsml:GeologicUnit>
+         *	</gsml:specification>
+         *in this case, "properties" for GeologicUnit has more elements than "children" for 
+         * specification
+         */
+
         if (properties.size() > children.size()) {
             return false;
         }
 
-        for (Iterator itr = properties.iterator(); itr.hasNext();) {
+        for (Iterator itr = properties.iterator(); itr.hasNext(); ) {
             Object[] prop = (Object[]) itr.next();
             XSDParticle part = (XSDParticle) prop[0];
             XSDElementDeclaration partContent = (XSDElementDeclaration) part.getContent();
@@ -332,16 +332,18 @@ O:
                     child = child.getResolvedElementDeclaration();
                 }
                 if (child.getName().equals(partContent.getName()) &&
-                        (child.getTargetNamespace()==null? partContent.getTargetNamespace()==null :
-                       child.getTargetNamespace().equals(partContent.getTargetNamespace()))) {
+                        (child.getTargetNamespace() == null ? partContent.getTargetNamespace() ==
+                                null :
+                                child.getTargetNamespace().equals(partContent.getTargetNamespace
+                                        ()))) {
                     notFound = false;
                     break;
                 }
             }
-            if (notFound){
+            if (notFound) {
                 return false;
             }
-            
+
         }
 
         return true;

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,6 +17,7 @@
 package org.geotools.referencing.factory.epsg;
 
 // J2SE dependencies
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -47,79 +48,77 @@ import org.postgresql.ds.common.BaseDataSource;
  * {@value #CONFIGURATION_FILE} file is found in current directory or in the user's home
  * directory, then the following properties are fetch. Note that the default value may change
  * in a future version if a public server become available.
- * <P>
+ * <p>
  * <TABLE BORDER="1">
  * <TR>
- *   <TH>Property</TH>
- *   <TH>Type</TH>
- *   <TH>Description</TH>
- *   <TH>Geotools Default</TH>
+ * <TH>Property</TH>
+ * <TH>Type</TH>
+ * <TH>Description</TH>
+ * <TH>Geotools Default</TH>
  * </TR>
  * <TR>
- *   <TD>{@code serverName}</TD>
- *   <TD>String</TD>
- *   <TD>PostgreSQL database server host name</TD>
- *   <TD>{@code localhost}</TD>
+ * <TD>{@code serverName}</TD>
+ * <TD>String</TD>
+ * <TD>PostgreSQL database server host name</TD>
+ * <TD>{@code localhost}</TD>
  * </TR>
  * <TR>
- *   <TD>{@code databaseName}</TD>
- *   <TD>String</TD>
- *   <TD>PostgreSQL database name</TD>
- *   <TD>{@code EPSG}</TD>
+ * <TD>{@code databaseName}</TD>
+ * <TD>String</TD>
+ * <TD>PostgreSQL database name</TD>
+ * <TD>{@code EPSG}</TD>
  * </TR>
  * <TR>
- *   <TD>{@code schema}</TD>
- *   <TD>String</TD>
- *   <TD>The schema for the EPSG tables</TD>
- *   <TD></TD>
+ * <TD>{@code schema}</TD>
+ * <TD>String</TD>
+ * <TD>The schema for the EPSG tables</TD>
+ * <TD></TD>
  * </TR>
  * <TR>
- *   <TD>{@code portNumber}</TD>
- *   <TD>int</TD>
- *   <TD>TCP port which the PostgreSQL database server is listening on</TD>
- *   <TD>{@code 5432}</TD>
+ * <TD>{@code portNumber}</TD>
+ * <TD>int</TD>
+ * <TD>TCP port which the PostgreSQL database server is listening on</TD>
+ * <TD>{@code 5432}</TD>
  * </TR>
  * <TR>
- *   <TD>{@code user}</TD>
- *   <TD>String</TD>
- *   <TD>User used to make database connections</TD>
- *   <TD>{@code GeoTools}</TD>
+ * <TD>{@code user}</TD>
+ * <TD>String</TD>
+ * <TD>User used to make database connections</TD>
+ * <TD>{@code GeoTools}</TD>
  * </TR>
  * <TR>
- *   <TD>{@code password}</TD>
- *   <TD>String</TD>
- *   <TD>Password used to make database connections</TD>
- *   <TD>{@code GeoTools}</TD></TR>
+ * <TD>{@code password}</TD>
+ * <TD>String</TD>
+ * <TD>Password used to make database connections</TD>
+ * <TD>{@code GeoTools}</TD></TR>
  * </TABLE>
- * <P>
+ * <p>
  * The database version is given in the
  * {@linkplain org.opengis.metadata.citation.Citation#getEdition edition attribute}
  * of the {@linkplain org.opengis.referencing.AuthorityFactory#getAuthority authority}.
  * The postgreSQL database should be read only.
- * <P>
+ * <p>
  * Just having this class accessible in the classpath, together with the registration in
  * the {@code META-INF/services/} directory, is suffisient to get a working EPSG authority
  * factory backed by this database. Vendors can create a copy of this class, modify it and
  * bundle it with their own distribution if they want to connect their users to an other
  * database.
  *
- * @since 2.4
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Didier Richard
  * @author Martin Desruisseaux
- *
- * @tutorial http://docs.codehaus.org/display/GEOTOOLS/How+to+install+the+EPSG+database+in+PostgreSQL
+ * @version $Id$
+ * @source $URL$
+ * @tutorial http://docs.codehaus.org/display/GEOTOOLS/How+to+install+the+EPSG+database+in
+ * +PostgreSQL
+ * @since 2.4
  */
 public class ThreadedPostgreSQLEpsgFactory extends ThreadedEpsgFactory {
     /**
      * The user configuration file. This class search first for the first file found in the
      * following directories:
      * <ul>
-     *   <li>The current directory</li>
-     *   <li>The user's home directory</li>
+     * <li>The current directory</li>
+     * <li>The user's home directory</li>
      * </ul>
      */
     public static final String CONFIGURATION_FILE = "EPSG-DataSource.properties";
@@ -171,7 +170,7 @@ public class ThreadedPostgreSQLEpsgFactory extends ThreadedEpsgFactory {
             in.close();
         } catch (IOException exception) {
             Logging.unexpectedException("org.geotools.referencing.factory", DataSource.class,
-                                        "<init>", exception);
+                    "<init>", exception);
             // Continue. We will try to work with whatever properties are available.
         }
         return p;
@@ -194,13 +193,13 @@ public class ThreadedPostgreSQLEpsgFactory extends ThreadedEpsgFactory {
         } catch (NumberFormatException exception) {
             portNumber = 5432;
             Logging.unexpectedException("org.geotools.referencing.factory", DataSource.class,
-                                        "<init>", exception);
+                    "<init>", exception);
         }
-        source.setPortNumber  (portNumber);
-        source.setServerName  (p.getProperty("serverName",   "localhost"));
-        source.setDatabaseName(p.getProperty("databaseName", "EPSG"     ));
-        source.setUser        (p.getProperty("user",         "Geotools" ));
-        source.setPassword    (p.getProperty("password",     "Geotools" ));
+        source.setPortNumber(portNumber);
+        source.setServerName(p.getProperty("serverName", "localhost"));
+        source.setDatabaseName(p.getProperty("databaseName", "EPSG"));
+        source.setUser(p.getProperty("user", "Geotools"));
+        source.setPassword(p.getProperty("password", "Geotools"));
         source.setProperty("stringtype", "unspecified");
         schema = p.getProperty("schema", null);
         return source;
@@ -209,7 +208,7 @@ public class ThreadedPostgreSQLEpsgFactory extends ThreadedEpsgFactory {
     /**
      * Returns the backing-store factory for PostgreSQL syntax.
      *
-     * @param  hints A map of hints, including the low-level factories to use for CRS creation.
+     * @param hints A map of hints, including the low-level factories to use for CRS creation.
      * @return The EPSG factory using PostgreSQL syntax.
      * @throws SQLException if connection to the database failed.
      */

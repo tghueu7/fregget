@@ -34,7 +34,7 @@ import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * Defines a transformed attribute to be used in {@link TransformFeatureSource}
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 public class Definition {
@@ -45,13 +45,13 @@ public class Definition {
     Class binding;
 
     CoordinateReferenceSystem crs;
-    
+
     static final FilterFactory2 FF = CommonFactoryFinder.getFilterFactory2();
 
     /**
      * Creates a new transformed property that mirrors 1-1 an existing property in the source type,
      * without even renaming it
-     * 
+     *
      * @param name The property name
      */
     public Definition(String name) {
@@ -60,8 +60,8 @@ public class Definition {
 
     /**
      * Creates a new transformed property
-     * 
-     * @param name The property name
+     *
+     * @param name   The property name
      * @param source The expression generating the property
      */
     public Definition(String name, Expression source) {
@@ -70,11 +70,11 @@ public class Definition {
 
     /**
      * Creates a new transformed property
-     * 
-     * @param name The property name
-     * @param source The expression generating the property
+     *
+     * @param name    The property name
+     * @param source  The expression generating the property
      * @param binding The property type. Optional, the store will try to figure out the type from
-     *        the expression in case it's missing
+     *                the expression in case it's missing
      */
     public Definition(String name, Expression source, Class binding) {
         this(name, source, binding, null);
@@ -82,15 +82,16 @@ public class Definition {
 
     /**
      * Creates a new transformed property
-     * 
-     * @param name The property name
-     * @param source The expression generating the property
+     *
+     * @param name    The property name
+     * @param source  The expression generating the property
      * @param binding The property type. Optional, the store will try to figure out the type from
-     *        the expression in case it's missing
-     * @param crs The coordinate reference system of the property, to be used only for geometry
-     *        properties
+     *                the expression in case it's missing
+     * @param crs     The coordinate reference system of the property, to be used only for geometry
+     *                properties
      */
-    public Definition(String name, Expression source, Class binding, CoordinateReferenceSystem crs) {
+    public Definition(String name, Expression source, Class binding, CoordinateReferenceSystem 
+            crs) {
         this.name = name;
         if (source == null) {
             this.expression = TransformFeatureSource.FF.property(name);
@@ -112,28 +113,29 @@ public class Definition {
     public Class getBinding() {
         return binding;
     }
-    
+
     /**
      * Returns the inverse to this Definition, that is, the definition of the source attribute
      * corresponding to this computed attribute, if any. Only a small set of expression
-     * are invertible in general, and a smaller subset of that can be inverted by this method.     
+     * are invertible in general, and a smaller subset of that can be inverted by this method.
      * Implementor can override this method to provide a custom inversion logic.
-     * 
+     *
      * @return The inverse of this definition, or null if not invertible or if the inversion
-     *         logic for the specified case is missing
+     * logic for the specified case is missing
      */
     public List<Definition> inverse() {
-        if(expression instanceof PropertyName) {
+        if (expression instanceof PropertyName) {
             PropertyName pn = (PropertyName) expression;
             return Arrays.asList(new Definition(pn.getPropertyName(), FF.property(name)));
-        } 
-        
+        }
+
         // add a Point(x,y) function and then have it be split into x,y here (two definitions)
-        
-        // TODO: look into algebraic inversion (e.g y = x + 3 -> x = y  - 3) and into creating a concept
+
+        // TODO: look into algebraic inversion (e.g y = x + 3 -> x = y  - 3) and into creating a 
+        // concept
         // of invertible function (which would work, with a bit of a loss in precision, 
         // for some math functions for example)
-        
+
         return null;
     }
 
@@ -141,17 +143,17 @@ public class Definition {
      * Computes the output attribute descriptor for this {@link Definition} given a sample feature
      * of the original feature type. The code will first attempt a static analysis on the original
      * feature type, if that fails it will try to evaluate the expression on the sample feature.
-     * 
+     *
      * @param originalFeature
      * @return
      */
     public AttributeDescriptor getAttributeDescriptor(SimpleFeature originalFeature) {
         // try the static analysis
         AttributeDescriptor ad = getAttributeDescriptor(originalFeature.getFeatureType());
-        if(ad != null) {
+        if (ad != null) {
             return ad;
         }
-        
+
         // build it from the sample then
         AttributeTypeBuilder ab = new AttributeTypeBuilder();
         Object result = expression.evaluate(originalFeature);
@@ -173,12 +175,13 @@ public class Definition {
 
         return ab.buildDescriptor(name);
     }
-    
+
     /**
-     * Computes the output attribute descriptor for this {@link Definition} given only the original feature type. 
+     * Computes the output attribute descriptor for this {@link Definition} given only the 
+     * original feature type.
      * The code will attempt a static analysis on the original
      * feature type, if that fails it will return null
-     * 
+     *
      * @param originalFeature
      * @return
      */
@@ -220,7 +223,7 @@ public class Definition {
             } else {
                 // try static analysis
                 computedBinding = (Class) expression.accept(typeEvaluator, null);
-                if(computedBinding == null) {
+                if (computedBinding == null) {
                     return null;
                 }
 
@@ -258,7 +261,7 @@ public class Definition {
         }
         return computedCRS;
     }
-    
+
     private CoordinateReferenceSystem evaluateCRS(SimpleFeatureType originalSchema) {
         return (CoordinateReferenceSystem) expression
                 .accept(new CRSEvaluator(originalSchema), null);
@@ -313,7 +316,6 @@ public class Definition {
         return "Definition [name=" + name + ", binding=" + binding
                 + ", crs=" + crs + ", expression=" + expression + "]";
     }
-    
-    
+
 
 }

@@ -28,12 +28,10 @@ package org.geotools.math;
  * <p>
  * This class is final for performance reason.
  *
- * @since 2.5
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (MPO)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.5
  */
 public final class Fraction extends Number implements Comparable<Fraction>, Cloneable {
     /**
@@ -64,7 +62,7 @@ public final class Fraction extends Number implements Comparable<Fraction>, Clon
      * @param other The fraction to copy in this fraction.
      */
     public Fraction(final Fraction other) {
-        this.numerator   = other.numerator;
+        this.numerator = other.numerator;
         this.denominator = other.denominator;
     }
 
@@ -81,11 +79,11 @@ public final class Fraction extends Number implements Comparable<Fraction>, Clon
     /**
      * Creates a new fraction.
      *
-     * @param numerator The numerator.
+     * @param numerator   The numerator.
      * @param denominator The denominator.
      */
     public Fraction(final int numerator, final int denominator) {
-        this.numerator   = numerator;
+        this.numerator = numerator;
         this.denominator = denominator;
         simplify();
     }
@@ -93,11 +91,11 @@ public final class Fraction extends Number implements Comparable<Fraction>, Clon
     /**
      * Sets this fraction to the given value.
      *
-     * @param numerator The numerator.
+     * @param numerator   The numerator.
      * @param denominator The denominator.
      */
     public void set(final int numerator, final int denominator) {
-        this.numerator   = numerator;
+        this.numerator = numerator;
         this.denominator = denominator;
         simplify();
     }
@@ -133,7 +131,7 @@ public final class Fraction extends Number implements Comparable<Fraction>, Clon
      * @param other The fraction to multiply to this fraction.
      */
     public void multiply(final Fraction other) {
-        numerator   *= other.numerator;
+        numerator *= other.numerator;
         denominator *= other.denominator;
         simplify();
     }
@@ -145,7 +143,7 @@ public final class Fraction extends Number implements Comparable<Fraction>, Clon
      * @param other The fraction to divide to this fraction.
      */
     public void divide(final Fraction other) {
-        numerator   *= other.denominator;
+        numerator *= other.denominator;
         denominator *= other.numerator;
         simplify();
     }
@@ -193,10 +191,10 @@ public final class Fraction extends Number implements Comparable<Fraction>, Clon
             pgcd = remainder;
             remainder = num % den;
         } while (remainder != 0);
-        numerator   /= pgcd;
-        denominator /=pgcd;
+        numerator /= pgcd;
+        denominator /= pgcd;
         if (denominator < 0) {
-            numerator   = -numerator;
+            numerator = -numerator;
             denominator = -denominator;
         }
     }
@@ -264,7 +262,7 @@ public final class Fraction extends Number implements Comparable<Fraction>, Clon
      * If the result is located at equal distance from the two nearest integers, then rounds
      * to the even one.
      *
-     * @param numerator The numerator in the division.
+     * @param numerator   The numerator in the division.
      * @param denominator The denominator in the division.
      * @return {@code numerator / denominator} rounded toward nearest integer.
      */
@@ -290,7 +288,7 @@ public final class Fraction extends Number implements Comparable<Fraction>, Clon
      * If the result is located at equal distance from the two nearest integers, then rounds
      * to the even one.
      *
-     * @param numerator The numerator in the division.
+     * @param numerator   The numerator in the division.
      * @param denominator The denominator in the division.
      * @return {@code numerator / denominator} rounded toward nearest integer.
      */
@@ -318,7 +316,7 @@ public final class Fraction extends Number implements Comparable<Fraction>, Clon
      * <b>Tip:</b> if the numerator and the denominator are both positive or both negative,
      * then the result is positive and identical to {@code numerator / denominator}.
      *
-     * @param numerator The numerator in the division.
+     * @param numerator   The numerator in the division.
      * @param denominator The denominator in the division.
      * @return {@code numerator / denominator} rounded toward negative infinity.
      */
@@ -334,7 +332,7 @@ public final class Fraction extends Number implements Comparable<Fraction>, Clon
      * Computes {@code numerator / denominator} and rounds the result toward positive infinity.
      * This is different from the default operation on primitive types, which rounds toward zero.
      *
-     * @param numerator The numerator in the division.
+     * @param numerator   The numerator in the division.
      * @param denominator The denominator in the division.
      * @return {@code numerator / denominator} rounded toward positive infinity.
      */
@@ -351,7 +349,7 @@ public final class Fraction extends Number implements Comparable<Fraction>, Clon
      *
      * @param other The fraction to compare to this fraction for ordering.
      * @return A negative number if this fraction is smaller than the given fraction,
-     *         a positive number if greater, or 0 if equals.
+     * a positive number if greater, or 0 if equals.
      */
     public int compareTo(final Fraction other) {
         return numerator * other.denominator - other.numerator * denominator;
@@ -362,7 +360,7 @@ public final class Fraction extends Number implements Comparable<Fraction>, Clon
      *
      * @param other The object to compare with this fraction for equality.
      * @return {@code true} if the given object is an other fraction numerically
-     *         equals to this fraction.
+     * equals to this fraction.
      */
     @Override
     public boolean equals(final Object other) {

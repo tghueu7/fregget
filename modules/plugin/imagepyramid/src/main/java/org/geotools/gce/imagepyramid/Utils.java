@@ -46,10 +46,9 @@ import org.geotools.util.logging.Logging;
 
 /**
  * Code to build a pyramid from a gdal_retile output
- * 
+ *
  * @author Andrea Aime - GeoSolutions SAS
  * @author Simone Giannecchini, GeoSolutions SAS
- *
  */
 class Utils {
 
@@ -92,7 +91,8 @@ class Utils {
         } else {
             // we really don't know how to convert the thing... give up
             if (LOGGER.isLoggable(Level.WARNING)) {
-                LOGGER.warning("we really don't know how to convert the thing: " + source != null ? source
+                LOGGER.warning("we really don't know how to convert the thing: " + source != null
+                        ? source
                         .toString() : "null");
             }
             return null;
@@ -146,7 +146,8 @@ class Utils {
         // do we have at least one numeric? sub-directory?
         if (numericDirectories.length == 0) {
             if (LOGGER.isLoggable(Level.INFO)) {
-                LOGGER.info("I was unable to determine a structure similar to the GDAL Retile one for the provided path: "
+                LOGGER.info("I was unable to determine a structure similar to the GDAL Retile one" +
+                        " for the provided path: "
                         + directory);
             }
             return null;
@@ -180,7 +181,8 @@ class Utils {
                 directories = directory.listFiles((FileFilter) directoryFilter);
             } else {
                 if (LOGGER.isLoggable(Level.INFO)) {
-                    LOGGER.info("I was unable to create the 0 directory. check the file permission in the parent directory:"
+                    LOGGER.info("I was unable to create the 0 directory. check the file " +
+                            "permission in the parent directory:"
                             + sourceFile.getParent());
                 }
                 return null;
@@ -293,11 +295,11 @@ class Utils {
 
     private static void appendResolutionLevels(StringBuilder sbLevels, double[][] resolutions) {
         final int numResolutions = resolutions.length;
-        for (int i=0; i < numResolutions - 1;i++) {
+        for (int i = 0; i < numResolutions - 1; i++) {
             // separate overviews with ";"
             appendXYResolutions(sbLevels, resolutions[i]);
             sbLevels.append(";");
-        } 
+        }
         appendXYResolutions(sbLevels, resolutions[numResolutions - 1]);
         sbLevels.append(" ");
     }
@@ -343,10 +345,10 @@ class Utils {
 
     /**
      * Prepares a message with the status of the provided file.
-     * 
+     *
      * @param sourceFile The {@link File} to provided the status message for
      * @return a status message for the provided {@link File} or a {@link NullPointerException} in
-     *         case the {@link File}is <code>null</code>.
+     * case the {@link File}is <code>null</code>.
      */
     private static String fileStatus(File sourceFile) {
         if (sourceFile == null) {
@@ -436,7 +438,7 @@ class Utils {
 
     /**
      * A file filter that only returns directories whose name is an integer number
-     * 
+     *
      * @author Andrea Aime - OpenGeo
      */
     static class NumericDirectoryFilter implements FileFilter {

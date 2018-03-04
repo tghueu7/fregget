@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.filter;
 
 // J2SE direct dependencies
+
 import java.util.List;
 
 import org.opengis.annotation.XmlElement;
@@ -20,11 +21,9 @@ import org.opengis.annotation.XmlElement;
  * other logical values as inputs.  Currently, the only two subclasses are
  * {@link And} and {@link Or}.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengis.org/docs/02-059.pdf">Implementation specification 1.0</A>
  * @author Chris Dillard (SYS Technologies)
+ * @version <A HREF="http://www.opengis.org/docs/02-059.pdf">Implementation specification 1.0</A>
+ * @source $URL$
  * @since GeoAPI 2.0
  */
 @XmlElement("BinaryLogicOpType")

@@ -65,9 +65,10 @@ public class WFSClient extends AbstractOpenWebService<WFSGetCapabilities, QName>
     }
 
     public WFSClient(URL capabilitiesURL, HTTPClient httpClient, WFSConfig config,
-            WFSGetCapabilities capabilities) throws IOException, ServiceException {
+                     WFSGetCapabilities capabilities) throws IOException, ServiceException {
 
-        super(capabilitiesURL, httpClient, capabilities, Collections.singletonMap(XMLHandlerHints.ENTITY_RESOLVER, config.getEntityResolver()));
+        super(capabilitiesURL, httpClient, capabilities, Collections.singletonMap(XMLHandlerHints
+                .ENTITY_RESOLVER, config.getEntityResolver()));
         this.config = config;
         super.specification = determineCorrectStrategy();
         ((WFSStrategy) specification).setCapabilities(super.capabilities);
@@ -116,11 +117,10 @@ public class WFSClient extends AbstractOpenWebService<WFSGetCapabilities, QName>
 
     /**
      * Determine correct WFSStrategy based on capabilities document.
-     * 
+     *
      * @param getCapabilitiesRequest
      * @param capabilitiesDoc
-     * @param override
-     *            optional override provided by user
+     * @param override               optional override provided by user
      * @return WFSStrategy to use
      */
     private WFSStrategy determineCorrectStrategy() {
@@ -131,12 +131,12 @@ public class WFSClient extends AbstractOpenWebService<WFSGetCapabilities, QName>
         final String override = config.getWfsStrategy();
 
         WFSStrategy strategy = null;
-        
+
         //only one 2.0.0 strategy!
         if (Versions.v2_0_0.equals(capsVersion)) {
             strategy = new StrictWFS_2_0_Strategy();
-        }        
-        
+        }
+
         // override
         if (!"auto".equals(override)) {
             if (override.equalsIgnoreCase("geoserver")) {
@@ -178,10 +178,11 @@ public class WFSClient extends AbstractOpenWebService<WFSGetCapabilities, QName>
                 if (ionicNs.equals("http://www.ionicsoft.com/versions/4")) {
                     strategy = new IonicStrategy();
                 } else if (ionicNs.startsWith("http://www.ionicsoft.com/versions")) {
-                    LOGGER.warning("Found a Ionic server but the version may not match the strategy "
+                    LOGGER.warning("Found a Ionic server but the version may not match the " +
+                            "strategy "
                             + "we have (v.4). Ionic namespace url: " + ionicNs);
                     strategy = new IonicStrategy();
-                } 
+                }
             }
         }
 
@@ -191,14 +192,19 @@ public class WFSClient extends AbstractOpenWebService<WFSGetCapabilities, QName>
             String uri = capabilitiesURL.toExternalForm();
             /*
              * TODO: the "file:" test is a workaround for GEOT-4223
-             * 
-             * Gabriel Roldán commented on GEOT-4223: sigh, yeah, that's probably that worse heuristic ever, but its inherited from the current wfs
-             * 1.0 module. We've briefly discussed a better approach on the list a while back (checking for the list of supported functions to figure
-             * out whether its a geoserver. Some key function names may even let you know which geoserver version it is). For the time being, please
-             * feel free to apply the patch if its a blocker for you, but don't close this issue. Just add a reminder that the heuristic for geoserver
+             *
+             * Gabriel Roldán commented on GEOT-4223: sigh, yeah, that's probably that worse 
+             * heuristic ever, but its inherited from the current wfs
+             * 1.0 module. We've briefly discussed a better approach on the list a while back 
+             * (checking for the list of supported functions to figure
+             * out whether its a geoserver. Some key function names may even let you know which 
+             * geoserver version it is). For the time being, please
+             * feel free to apply the patch if its a blocker for you, but don't close this issue.
+              * Just add a reminder that the heuristic for geoserver
              * needs to be improved?
              */
-            if (!uri.startsWith("file:") && uri.contains("geoserver") && !Versions.v2_0_0.equals(capsVersion)) {
+            if (!uri.startsWith("file:") && uri.contains("geoserver") && !Versions.v2_0_0.equals
+                    (capsVersion)) {
                 strategy = new GeoServerPre200Strategy();
             } else if (uri.contains("/ArcGIS/services/")) {
                 strategy = new StrictWFS_1_x_Strategy(); // new ArcGISServerStrategy();
@@ -219,7 +225,7 @@ public class WFSClient extends AbstractOpenWebService<WFSGetCapabilities, QName>
         }
         LOGGER.finer("Using WFS Strategy: " + strategy.getClass().getName());
         strategy.setConfig(config);
-        
+
         return strategy;
     }
 
@@ -244,19 +250,21 @@ public class WFSClient extends AbstractOpenWebService<WFSGetCapabilities, QName>
         return true;
     }
 
-  public boolean canSort() {
-    final Version capsVersion = new Version(capabilities.getVersion());
-    //currently on version 1.1.0 supports native sorting
-    if (Versions.v1_1_0.equals(capsVersion)) {
-      return true;
-    } else {
-      return false;
+    public boolean canSort() {
+        final Version capsVersion = new Version(capabilities.getVersion());
+        //currently on version 1.1.0 supports native sorting
+        if (Versions.v1_1_0.equals(capsVersion)) {
+            return true;
+        } else {
+            return false;
+        }
     }
-  }
-    
+
     public boolean supportsStoredQueries() {
-        return getStrategy().supportsOperation(WFSOperationType.LIST_STORED_QUERIES, HttpMethod.POST) ||
-            getStrategy().supportsOperation(WFSOperationType.LIST_STORED_QUERIES, HttpMethod.GET);
+        return getStrategy().supportsOperation(WFSOperationType.LIST_STORED_QUERIES, HttpMethod
+                .POST) ||
+                getStrategy().supportsOperation(WFSOperationType.LIST_STORED_QUERIES, HttpMethod
+                        .GET);
     }
 
     public ReferencedEnvelope getBounds(QName typeName, CoordinateReferenceSystem targetCrs) {
@@ -309,15 +317,15 @@ public class WFSClient extends AbstractOpenWebService<WFSGetCapabilities, QName>
     }
 
     public ListStoredQueriesResponse issueRequest(ListStoredQueriesRequest request)
-        throws IOException {
+            throws IOException {
         return (ListStoredQueriesResponse) internalIssueRequest(request);
     }
-    
+
     public DescribeStoredQueriesResponse issueRequest(DescribeStoredQueriesRequest request)
-        throws IOException {
+            throws IOException {
         return (DescribeStoredQueriesResponse) internalIssueRequest(request);
     }
-    
+
     public TransactionRequest createTransaction() {
         WFSStrategy strategy = getStrategy();
         return new TransactionRequest(config, strategy);
@@ -346,12 +354,12 @@ public class WFSClient extends AbstractOpenWebService<WFSGetCapabilities, QName>
     public ListStoredQueriesRequest createListStoredQueriesRequest() {
         return new ListStoredQueriesRequest(config, getStrategy());
     }
-    
+
     public DescribeStoredQueriesRequest createDescribeStoredQueriesRequest() {
         return new DescribeStoredQueriesRequest(config, getStrategy());
     }
-    
-    
+
+
     public DescribeFeatureTypeResponse issueRequest(DescribeFeatureTypeRequest request)
             throws IOException {
 
@@ -364,31 +372,31 @@ public class WFSClient extends AbstractOpenWebService<WFSGetCapabilities, QName>
     /**
      * Splits the filter provided by the geotools query into the server supported and unsupported
      * ones.
-     * 
+     *
      * @param typeName
-     * 
      * @return a two-element array where the first element is the supported filter and the second
-     *         the one to post-process
+     * the one to post-process
      * @see org.geotools.data.wfs.internal.WFSStrategy#splitFilters(org.opengis.filter.Filter)
      */
     public Filter[] splitFilters(QName typeName, Filter filter) {
         return getStrategy().splitFilters(typeName, filter);
     }
+
     public CoordinateReferenceSystem getDefaultCRS(QName typeName) {
         final WFSStrategy strategy = getStrategy();
         FeatureTypeInfo typeInfo = strategy.getFeatureTypeInfo(typeName);
         CoordinateReferenceSystem crs = typeInfo.getCRS();
         return crs;
     }
-    
-    public String getAxisOrderFilter(){
+
+    public String getAxisOrderFilter() {
         return config.getAxisOrderFilter();
     }
-    
+
     public URL getCapabilitiesURL() {
         return serverURL;
     }
-    
+
     public WFSConfig getConfig() {
         return config;
     }

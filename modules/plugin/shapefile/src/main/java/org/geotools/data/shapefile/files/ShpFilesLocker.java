@@ -25,13 +25,14 @@ import org.geotools.util.logging.Logging;
 
 class ShpFilesLocker {
     static final Logger LOGGER = Logging.getLogger("org.geotools.data.shapefile");
-    
+
     /**
      * When true, the stack trace that got a lock that wasn't released is recorded and then
      * printed out when warning the user about this.
      */
-    protected static final Boolean TRACE_ENABLED = "true".equalsIgnoreCase(System.getProperty("gt2.shapefile.trace"));
-    
+    protected static final Boolean TRACE_ENABLED = "true".equalsIgnoreCase(System.getProperty
+            ("gt2.shapefile.trace"));
+
     final URI uri;
     final URL url;
     final FileReader reader;
@@ -39,34 +40,34 @@ class ShpFilesLocker {
     boolean upgraded;
     private Trace trace;
 
-    public ShpFilesLocker( URL url, FileReader reader ) {
+    public ShpFilesLocker(URL url, FileReader reader) {
         this.url = url;
         this.reader = reader;
         this.writer = null;
         LOGGER.fine("Read lock: " + url + " by " + reader.id());
         setTraceException();
-        
-    	// extracts the URI from the URL, if possible
+
+        // extracts the URI from the URL, if possible
         this.uri = getURI(url);
     }
 
     URI getURI(URL url) {
         try {
-    		return url.toURI();
-    	} catch (URISyntaxException e) {
-    		// may fail if URL does not conform to RFC 2396
- 		}
+            return url.toURI();
+        } catch (URISyntaxException e) {
+            // may fail if URL does not conform to RFC 2396
+        }
         return null;
     }
 
-    public ShpFilesLocker( URL url, FileWriter writer ) {
+    public ShpFilesLocker(URL url, FileWriter writer) {
         this.url = url;
         this.reader = null;
         this.writer = writer;
         LOGGER.fine("Write lock: " + url + " by " + writer.id());
         setTraceException();
-        
-    	// extracts the URI from the URL, if possible
+
+        // extracts the URI from the URL, if possible
         this.uri = getURI(url);
     }
 
@@ -80,15 +81,16 @@ class ShpFilesLocker {
             type = "write";
             id = writer.id();
         }
-        if(TRACE_ENABLED) {
-            trace = new Trace("Locking " + url + " for " + type + " by " + id + " in thread " + name);
+        if (TRACE_ENABLED) {
+            trace = new Trace("Locking " + url + " for " + type + " by " + id + " in thread " + 
+                    name);
         }
     }
 
     /**
      * Returns the Exception that is created when the Locker is created. This is simply a way of
      * determining who created the Locker.
-     * 
+     *
      * @return the Exception that is created when the Locker is created
      */
     public Exception getTrace() {
@@ -99,12 +101,14 @@ class ShpFilesLocker {
      * Verifies that the url and requestor are the same as the url and the reader or writer of this
      * class. assertions are used so this will do nothing if assertions are not enabled.
      */
-    public void compare( URL url2, Object requestor ) {
+    public void compare(URL url2, Object requestor) {
         URL url = this.url;
         assert (url2 == url) : "Expected: " + url + " but got: " + url2;
-        assert (reader == null || requestor == reader) : "Expected the requestor and the reader to be the same object: "
+        assert (reader == null || requestor == reader) : "Expected the requestor and the reader " +
+                "to be the same object: "
                 + reader.id();
-        assert (writer == null || requestor == writer) : "Expected the requestor and the writer to be the same object: "
+        assert (writer == null || requestor == writer) : "Expected the requestor and the writer " +
+                "to be the same object: "
                 + writer.id();
     }
 
@@ -128,7 +132,7 @@ class ShpFilesLocker {
     }
 
     @Override
-    public boolean equals( Object obj ) {
+    public boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -145,13 +149,13 @@ class ShpFilesLocker {
             if (other.url != null)
                 return false;
         } else {
-        	// calls URI.equals if a valid URI is available  
-        	if (uri != null) {
-        		if (!uri.equals(other.uri))
-            		return false;
-        	}
-        	// if URI is not available, calls URL.equals (which may take a long time)  
-        	else if (!url.equals(other.url))
+            // calls URI.equals if a valid URI is available  
+            if (uri != null) {
+                if (!uri.equals(other.uri))
+                    return false;
+            }
+            // if URI is not available, calls URL.equals (which may take a long time)  
+            else if (!url.equals(other.url))
                 return false;
         }
         if (writer == null) {
@@ -166,7 +170,7 @@ class ShpFilesLocker {
 
         private static final long serialVersionUID = 1L;
 
-        public Trace( String message ) {
+        public Trace(String message) {
             super(message);
         }
     }

@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2015, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -59,13 +59,12 @@ import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class AbstractPreGeneralizedFeatureSourceTest extends TestCase {
 
-    static Map<String, PreGeneralizedDataStore> DSMap = new HashMap<String, PreGeneralizedDataStore>();
+    static Map<String, PreGeneralizedDataStore> DSMap = new HashMap<String, 
+            PreGeneralizedDataStore>();
 
     @Override
     protected void setUp() throws Exception {
@@ -191,7 +190,7 @@ public abstract class AbstractPreGeneralizedFeatureSourceTest extends TestCase {
             DefaultQuery[] queries = new DefaultQuery[2];
             queries[0] = new DefaultQuery("GenStreams");
             queries[1] = new DefaultQuery("GenStreams", filter,
-                    new String[] { "the_geom", "CAT_ID" });
+                    new String[]{"the_geom", "CAT_ID"});
 
             for (DefaultQuery q : queries) {
 
@@ -275,9 +274,9 @@ public abstract class AbstractPreGeneralizedFeatureSourceTest extends TestCase {
 
             Filter filter = CQL.toFilter("CAT_ID = 2");
 
-            Query q = new DefaultQuery("GenStreams", filter, new String[] { "CAT_ID" });
+            Query q = new DefaultQuery("GenStreams", filter, new String[]{"CAT_ID"});
 
-            for (Double distance : new Double[] { 1.0, 5.0, 10.0, 20.0, 50.0 }) {
+            for (Double distance : new Double[]{1.0, 5.0, 10.0, 20.0, 50.0}) {
                 FeatureReader<SimpleFeatureType, SimpleFeature> reader;
                 String typeName;
 
@@ -306,7 +305,7 @@ public abstract class AbstractPreGeneralizedFeatureSourceTest extends TestCase {
             DefaultQuery[] queries = new DefaultQuery[2];
             queries[0] = new DefaultQuery("GenStreams");
             queries[1] = new DefaultQuery("GenStreams", filter,
-                    new String[] { "the_geom", "CAT_ID" });
+                    new String[]{"the_geom", "CAT_ID"});
 
             for (DefaultQuery q : queries) {
 
@@ -325,8 +324,7 @@ public abstract class AbstractPreGeneralizedFeatureSourceTest extends TestCase {
                         SimpleFeature f = iterator.next();
                         checkPoints(f, 0.0);
                     }
-                }
-                finally {
+                } finally {
                     iterator.close();
                 }
 
@@ -342,8 +340,7 @@ public abstract class AbstractPreGeneralizedFeatureSourceTest extends TestCase {
                         SimpleFeature f = iterator.next();
                         checkPoints(f, 5.0);
                     }
-                }
-                finally {
+                } finally {
                     iterator.close();
                 }
 
@@ -359,8 +356,7 @@ public abstract class AbstractPreGeneralizedFeatureSourceTest extends TestCase {
                         SimpleFeature f = iterator.next();
                         checkPoints(f, 10.0);
                     }
-                }
-                finally {
+                } finally {
                     iterator.close();
                 }
 
@@ -376,8 +372,7 @@ public abstract class AbstractPreGeneralizedFeatureSourceTest extends TestCase {
                         SimpleFeature f = iterator.next();
                         checkPoints(f, 20.0);
                     }
-                }
-                finally {
+                } finally {
                     iterator.close();
                 }
                 q.getHints().put(Hints.GEOMETRY_DISTANCE, 50.0);
@@ -392,8 +387,7 @@ public abstract class AbstractPreGeneralizedFeatureSourceTest extends TestCase {
                         SimpleFeature f = iterator.next();
                         checkPoints(f, 0.0);
                     }
-                }
-                finally {
+                } finally {
                     iterator.close();
                 }
             }
@@ -434,8 +428,7 @@ public abstract class AbstractPreGeneralizedFeatureSourceTest extends TestCase {
                     SimpleFeature f = iterator.next();
                     checkPoints(f, 0.0);
                 }
-            }
-            finally {
+            } finally {
                 iterator.close();
             }
             fCollection = fs.getFeatures(Filter.INCLUDE);
@@ -446,13 +439,12 @@ public abstract class AbstractPreGeneralizedFeatureSourceTest extends TestCase {
             iterator = fCollection.features();
             try {
                 while (iterator.hasNext()) {
-                
+
                     SimpleFeature f = iterator.next();
                     checkPoints(f, 0.0);
                 }
                 // iterator.remove() no longer provided
-            }
-            finally {
+            } finally {
                 iterator.close();
             }
             ds.dispose();
@@ -516,6 +508,7 @@ public abstract class AbstractPreGeneralizedFeatureSourceTest extends TestCase {
                 public PropertyName getPropertyName() {
                     return new AttributeExpressionImpl("CAT_ID");
                 }
+
                 public SortOrder getSortOrder() {
                     return SortOrder.ASCENDING;
                 }
@@ -603,7 +596,7 @@ public abstract class AbstractPreGeneralizedFeatureSourceTest extends TestCase {
 
             SortOrder so = SortOrder.valueOf("CAT_ID");
             assertTrue(fs.getQueryCapabilities().supportsSorting(
-                    new SortBy[] { new SortByImpl(propertyName, so) }));
+                    new SortBy[]{new SortByImpl(propertyName, so)}));
 
             ds.dispose();
 

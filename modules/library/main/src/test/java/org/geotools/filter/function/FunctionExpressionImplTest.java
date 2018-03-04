@@ -17,40 +17,40 @@ public class FunctionExpressionImplTest {
         FunctionName name = new FunctionNameImpl(
                 "test",
                 parameter("result", Double.class),
-                parameter("double",Double.class,2,Integer.MAX_VALUE));
+                parameter("double", Double.class, 2, Integer.MAX_VALUE));
 
         FunctionExpressionImpl f = new FunctionExpressionImpl(name) {
         };
-        
+
         assertEquals(-2, f.getFunctionName().getArgumentCount());
     }
-    
+
     @Test
     public void testHigherCardinality() {
         FunctionName name = new FunctionNameImpl(
                 "test",
                 parameter("result", Double.class),
-                parameter("double",Double.class,2,2));
+                parameter("double", Double.class, 2, 2));
 
         FunctionExpressionImpl f = new FunctionExpressionImpl(name) {
-            
+
         };
-        
+
         assertEquals(2, f.getFunctionName().getArgumentCount());
     }
-    
+
     @Test
     public void testSimpleArguments() {
         FunctionName name = new FunctionNameImpl(
                 "test",
                 parameter("result", Double.class),
-                parameter("one",Double.class),
-                parameter("two",Double.class));
+                parameter("one", Double.class),
+                parameter("two", Double.class));
 
         FunctionExpressionImpl f = new FunctionExpressionImpl(name) {
-            
+
         };
-        
+
         assertEquals(2, f.getFunctionName().getArgumentCount());
     }
 }

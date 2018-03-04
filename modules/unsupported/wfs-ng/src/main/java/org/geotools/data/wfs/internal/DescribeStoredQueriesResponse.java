@@ -46,7 +46,8 @@ public class DescribeStoredQueriesResponse extends WFSResponse {
 
     private DescribeStoredQueriesResponseType describeStoredQueriesResponse;
 
-    public DescribeStoredQueriesResponse(WFSRequest originatingRequest, HTTPResponse response) throws IOException, ServiceException {
+    public DescribeStoredQueriesResponse(WFSRequest originatingRequest, HTTPResponse response) 
+            throws IOException, ServiceException {
         super(originatingRequest, response);
 
         MODULE.finer("Parsing DescribeStoredQueries response");
@@ -95,7 +96,8 @@ public class DescribeStoredQueriesResponse extends WFSResponse {
 
 
     private DescribeStoredQueriesResponseType parseStoredQueries(Document document,
-            Configuration wfsConfig) throws DataSourceException {
+                                                                 Configuration wfsConfig) throws 
+            DataSourceException {
         DOMParser parser = new DOMParser(wfsConfig, document);
         final Object parsed;
         try {
@@ -105,10 +107,11 @@ public class DescribeStoredQueriesResponse extends WFSResponse {
         }
 
         if (!(parsed instanceof DescribeStoredQueriesResponseType)) {
-            throw new DataSourceException("DescribedStoredQueries response is not a DescribeStoredQueriesResponseType but a "+parsed.getClass());
+            throw new DataSourceException("DescribedStoredQueries response is not a " +
+                    "DescribeStoredQueriesResponseType but a " + parsed.getClass());
         }
 
-        return (DescribeStoredQueriesResponseType)parsed;
+        return (DescribeStoredQueriesResponseType) parsed;
     }
 
     public List<StoredQueryDescriptionType> getStoredQueryDescriptions() {

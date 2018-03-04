@@ -325,13 +325,9 @@ import org.opengis.util.InternationalString;
  * <li>{@link collection()}
  * </ul>
  * <p>
- * 
+ *
  * @author Justin Deoliveira
  * @author Jody Garnett
- *
- *
- *
- *
  * @source $URL$
  */
 public class TypeBuilder {
@@ -415,10 +411,14 @@ public class TypeBuilder {
 
     private CoordinateReferenceSystem crs = null;
 
-    /** Used as the target of association() */
+    /**
+     * Used as the target of association()
+     */
     private AttributeType referenceType;
 
-    /** Members of a collection() */
+    /**
+     * Members of a collection()
+     */
     protected Collection members;
 
     /**
@@ -479,7 +479,7 @@ public class TypeBuilder {
      * <p>
      * This method cleans the builder of all contained state.
      * </p>
-     * 
+     *
      * @see reset
      */
     public void init() {
@@ -569,23 +569,23 @@ public class TypeBuilder {
      * Creation method for AttributeType.
      * <p>
      * Example:
-     * 
+     * <p>
      * <pre><code>
      * AttributeType TEXT = builder.name(&quot;Text&quot;).bind(String.class).attribute();
      * </code></pre>
-     * 
+     * <p>
      * </p>
      * <p>
      * Example:
-     * 
+     * <p>
      * <pre><code>
      * builder.setName(&quot;Interger&quot;);
      * builder.setBinding(Integer.class);
      * AttributeType INTEGER = builder.attribute();
      * </code></pre>
-     * 
+     * <p>
      * </p>
-     * 
+     *
      * @return AttributeType created
      */
     public AttributeType attribute() {
@@ -595,7 +595,9 @@ public class TypeBuilder {
         return type;
     }
 
-    /** Create AssociationType */
+    /**
+     * Create AssociationType
+     */
     public AssociationType association() {
         return factory.createAssociationType(typeName(), getReferenceType(), true,
                 this.restrictions, getAssociationSuper(), this.getDescription());
@@ -605,22 +607,22 @@ public class TypeBuilder {
      * Create GeometryType.
      * <p>
      * SFSQL Example JTS LineString.class:
-     * 
+     * <p>
      * <pre><code>
-     * AttributeType ROUTE = builder.name(&quot;Route&quot;).bind(LineString.class).crs(&quot;EPSG:4326&quot;).geometry();
+     * AttributeType ROUTE = builder.name(&quot;Route&quot;).bind(LineString.class).crs(&quot;
+     * EPSG:4326&quot;).geometry();
      * </code></pre>
-     * 
+     * <p>
      * Shape Example Java Rectangle2D:
-     * 
+     * <p>
      * <pre><code>
      * builder.setName(&quot;Quad&quot;);
      * builder.setBinding(Rectangle2D.class);
      * builder.setCRS(crs);
      * AttributeType QUAD = builder.geometry();
      * </code></pre>
-     * 
+     * <p>
      * Use of GeoAPI Geometry interfaces is encouraged as implementations are made avaiable.
-     * 
      */
     public GeometryType geometry() {
         return getTypeFactory().createGeometryType(typeName(), getBinding(), getCRS(),
@@ -631,7 +633,7 @@ public class TypeBuilder {
      * Create a complex attribute, made up of other attributes.
      * <p>
      * Example using Set:
-     * 
+     * <p>
      * <pre><code>
      * builder.setName(&quot;FullName&quot;);
      * builder.setProperties(new HasSet());
@@ -642,15 +644,17 @@ public class TypeBuilder {
      * builder.addAttribute(&quot;last&quot;, TEXT);
      * ComplexType FULLNAME = builder.complex();
      * </code></pre>
-     * 
+     * <p>
      * <p>
      * Example using chaining:
-     * 
+     * <p>
      * <pre><code>
-     * ComplexType FULLNAME = builder.name(&quot;FullName&quot;).attribute(&quot;first&quot;, TEXT).cardinality(0,
-     *         Integer.MAX_VALUE).attribute(&quot;middle&quot;, TEXT).attribute(&quot;last&quot;, TEXT).complex();
+     * ComplexType FULLNAME = builder.name(&quot;FullName&quot;).attribute(&quot;first&quot;, 
+     * TEXT).cardinality(0,
+     *         Integer.MAX_VALUE).attribute(&quot;middle&quot;, TEXT).attribute(&quot;last&quot;,
+     *         TEXT).complex();
      * </code></pre>
-     * 
+     *
      * @return ComplexType
      */
     public ComplexType complex() {
@@ -664,18 +668,18 @@ public class TypeBuilder {
      * Create an AttributeDesctiptor, useful for fine grain control.
      * <p>
      * Example:
-     * 
+     * <p>
      * <pre><code>
      * AttributeDescriptor name = build.name(&quot;name&quot;).property(TEXT).cardinality(1, 5)
      *         .attributeDescriptor();
      * </code></pre>
-     * 
+     *
      * @return AttributeDescriptor used to define sturcture of ComplexAttribtues
      */
     public AttributeDescriptor attributeDescriptor() {
         // TODO: handle default value
         AttributeDescriptor attribute;
-        if(propertyType instanceof GeometryType) {
+        if (propertyType instanceof GeometryType) {
             attribute = getTypeFactory().createGeometryDescriptor(
                     (GeometryType) propertyType, typeName(), getMinOccurs(), getMaxOccurs(),
                     isNillable(), null);
@@ -693,12 +697,13 @@ public class TypeBuilder {
      * particular FeatureCollection to members).
      * <p>
      * Example:
-     * 
+     * <p>
      * <pre><code>
-     * AttributeDescriptor contains = build.name(&quot;contains&quot;).property(ROAD).nillable(false).cardinality(0,
+     * AttributeDescriptor contains = build.name(&quot;contains&quot;).property(ROAD).nillable
+     * (false).cardinality(0,
      *         Interger.MAX_VALUE).associationDescriptor();
      * </code></pre>
-     * 
+     *
      * @return AttributeDescriptor used to define sturcture of ComplexAttribtues
      */
     public AssociationDescriptor associationDescriptor() {
@@ -711,7 +716,7 @@ public class TypeBuilder {
 
     /**
      * Create feature.
-     * 
+     *
      * @return FeatureType
      */
     public FeatureType feature() {
@@ -729,7 +734,8 @@ public class TypeBuilder {
 //     */
 //    public FeatureCollectionType collection() {
 //        FeatureCollectionType type = getTypeFactory().createFeatureCollectionType(typeName(),
-//                properties(), members(), defaultGeometry(), getCRS(), isAbstract(), restrictions(),
+//                properties(), members(), defaultGeometry(), getCRS(), isAbstract(), 
+// restrictions(),
 //                getSuper(), getDescription());
 //        reset();
 //        return type;
@@ -775,7 +781,7 @@ public class TypeBuilder {
 
     /**
      * Used as a the target for attributeDescriptor or associatioDescriptor().
-     * 
+     *
      * @param type
      * @return TypeBuilder (for chaining).
      */
@@ -862,7 +868,7 @@ public class TypeBuilder {
     /**
      * Template method to enable subclasses to customize the set implementation used for
      * restrictions.
-     * 
+     *
      * @return A HashSet.
      */
     protected List<Filter> createRestrictionSet() {
@@ -875,7 +881,6 @@ public class TypeBuilder {
      * <li>If <code>typeName</code> has been set, its value is returned.
      * <li>If <code>name</code> has been set, it + <code>namespaceURI</code> are returned.
      * </ol>
-     * 
      */
     protected Name typeName() {
 
@@ -891,7 +896,7 @@ public class TypeBuilder {
 
     /**
      * Template method for creating a type name.
-     * 
+     *
      * @return {@link org.geotools.feature.iso.Types#typeName(String, String)}
      */
     protected Name createTypeName(String ns, String local) {
@@ -900,11 +905,10 @@ public class TypeBuilder {
 
     /**
      * Used to lookup AttributeType for provided binding.
-     * 
+     *
      * @param binding
      * @return AttributeType
-     * @throws IllegalArgumentExcception
-     *                 if class is not bound to a prototype
+     * @throws IllegalArgumentExcception if class is not bound to a prototype
      */
     public AttributeType getBinding(Class binding) {
         AttributeType type = (AttributeType) bindings().get(binding);
@@ -919,7 +923,7 @@ public class TypeBuilder {
      * <p>
      * You can use this method to map the AttributeType used when addAttribute( String name, Class
      * binding ) is called.
-     * 
+     *
      * @param binding
      * @param type
      */
@@ -930,11 +934,11 @@ public class TypeBuilder {
     /**
      * Load the indicated schema to map Java class to your Type System. (please us a profile to
      * prevent binding conflicts).
-     * 
+     *
      * @param schema
      */
     public void load(Schema schema) {
-        for (Iterator itr = schema.values().iterator(); itr.hasNext();) {
+        for (Iterator itr = schema.values().iterator(); itr.hasNext(); ) {
             AttributeType type = (AttributeType) itr.next();
             addBinding(type.getBinding(), type);
         }
@@ -965,13 +969,12 @@ public class TypeBuilder {
     //
     // Structural Properties (Attirbute and Association)
     //
+
     /**
      * Add a descriptor with a provided name, with the binding
-     * 
-     * @param name
-     *                Name of descriptor (combined with uri for a Name)
-     * @param binding
-     *                Used to look up a bound AttributeType
+     *
+     * @param name    Name of descriptor (combined with uri for a Name)
+     * @param binding Used to look up a bound AttributeType
      * @return this builder for additional chaining
      */
     public TypeBuilder attribute(String name, Class binding) {
@@ -980,12 +983,10 @@ public class TypeBuilder {
 
     /**
      * Add a descriptor with a provided name, with the binding
-     * 
+     *
      * @param namespaceURI
-     * @param name
-     *                Name of descriptor (combined with uri for a Name)
-     * @param binding
-     *                Used to look up a bound AttributeType
+     * @param name         Name of descriptor (combined with uri for a Name)
+     * @param binding      Used to look up a bound AttributeType
      * @return this builder for additional chaining
      */
     public TypeBuilder attribute(String namespaceURI, String name, Class binding) {
@@ -1091,7 +1092,7 @@ public class TypeBuilder {
 
     public static boolean contains(Collection collection, PropertyDescriptor descriptor) {
         // check for a descriptor with the same name
-        for (Iterator itr = collection.iterator(); itr.hasNext();) {
+        for (Iterator itr = collection.iterator(); itr.hasNext(); ) {
             PropertyDescriptor d = (PropertyDescriptor) itr.next();
             if (d.getName().equals(descriptor.getName())) {
                 return true;
@@ -1129,9 +1130,8 @@ public class TypeBuilder {
      * Features of that FeatureType should maintain a Set of properties where order is not
      * significant.
      * </p>
-     * 
-     * @param properties
-     *                Collection implementation used to organize properties
+     *
+     * @param properties Collection implementation used to organize properties
      */
     public void setProperties(Collection<PropertyDescriptor> properties) {
         this.properties = properties;
@@ -1140,6 +1140,7 @@ public class TypeBuilder {
     //
     // Creation
     //
+
     /**
      * Template method to enable subclasses to customize the collection implementation used by
      * "default".
@@ -1147,7 +1148,7 @@ public class TypeBuilder {
      * Considered moving this to the type interface but it would be in appropriate as the user may
      * need to specifiy different collections for seperate types in the same schema.
      * </p>
-     * 
+     *
      * @return Collection (subclass may override)
      */
     protected Collection<PropertyDescriptor> newCollection() {
@@ -1163,9 +1164,8 @@ public class TypeBuilder {
      * <li>remember the user supplied collection type for subsequent builder use
      * </ul>
      * This allows a user to indicate that properties are stored in a "LinkedList" once.
-     * 
-     * @param origional
-     *                Origional collection
+     *
+     * @param origional Origional collection
      * @return New instance of the originoal Collection
      */
     protected Collection newCollection(Collection origional) {
@@ -1184,6 +1184,7 @@ public class TypeBuilder {
     //
     // Factory method argument preparation
     //
+
     /**
      * Grab property collection as an argument to factory method.
      * <p>
@@ -1210,7 +1211,7 @@ public class TypeBuilder {
 
     /**
      * Template method for creating an attribute name.
-     * 
+     *
      * @return {@link org.geotools.feature.Types#typeName(String, String)}
      */
     protected Name createName(String ns, String local) {
@@ -1242,7 +1243,6 @@ public class TypeBuilder {
      * Convenience method for getting the descriptor of the default geometry type. This method will
      * first try to look up the supplied <code>defaultGeom</code> property, if it cant find, it
      * will try to locate any added geometry.
-     * 
      */
     protected GeometryDescriptor defaultGeometry() {
         if (defaultGeom != null) {
@@ -1280,11 +1280,10 @@ public class TypeBuilder {
      * <li>"AUTHORITY:CODE"
      * <li>Well Known Text
      * </ul>
-     * 
+     *
      * @param srs
      * @return TypeBuilder ready for chaining
-     * @throws IllegalArgumentException
-     *                 When SRS not understood
+     * @throws IllegalArgumentException When SRS not understood
      */
     public TypeBuilder crs(String SRS) {
         try {
@@ -1305,6 +1304,7 @@ public class TypeBuilder {
     //
     // Feature Collection
     //
+
     /**
      * Access to members used by builder.
      * <p>
@@ -1320,7 +1320,9 @@ public class TypeBuilder {
         return members;
     }
 
-    /** Provide collection class used organize collection members */
+    /**
+     * Provide collection class used organize collection members
+     */
     public void setMembers(Collection members) {
         this.members = members;
     }
@@ -1344,7 +1346,7 @@ public class TypeBuilder {
      * <p>
      * Calls clear to reset cardinality after use.
      * </p>
-     * 
+     *
      * @param name
      * @param type
      */
@@ -1357,7 +1359,7 @@ public class TypeBuilder {
      * <p>
      * Calls clear to reset cardinality after use.
      * </p>
-     * 
+     *
      * @param name
      * @param type
      */
@@ -1370,7 +1372,7 @@ public class TypeBuilder {
      * <p>
      * Calls clear to reset cardinality after use.
      * </p>
-     * 
+     *
      * @param name
      * @param type
      */
@@ -1383,7 +1385,7 @@ public class TypeBuilder {
      * <p>
      * Calls clear to reset cardinality after use.
      * </p>
-     * 
+     *
      * @param name
      * @param type
      * @return TypeBuilder for operation chaining
@@ -1397,7 +1399,7 @@ public class TypeBuilder {
      * <p>
      * Calls clear to reset cardinality after use.
      * </p>
-     * 
+     *
      * @param name
      * @param type
      * @return TypeBuilder for operation chaining

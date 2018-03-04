@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -26,7 +26,7 @@ import org.opengis.filter.Filter;
 
 /**
  * Provides Feature based locking.
- *
+ * <p>
  * <p>
  * Features from individual shapefiles, database tables, etc. can be protected
  * or reserved from modification through this interface.
@@ -49,22 +49,23 @@ import org.opengis.filter.Filter;
  * @source $URL$
  * @version $Id$
  */
-public interface FeatureLocking<T extends FeatureType, F extends Feature> extends FeatureStore<T, F> {
+public interface FeatureLocking<T extends FeatureType, F extends Feature> extends FeatureStore<T,
+        F> {
     /**
      * All locking operations will operate against the provided
      * <code>lock</code>.
-     *
+     * <p>
      * <p>
      * This in in keeping with the stateful spirit of DataSource in which
      * operations are against the "current" transaction. If a FeatureLock is
      * not provided lock operations will only be applicable for the current
      * transaction (they will expire on the next commit or rollback).
      * </p>
-     *
+     * <p>
      * <p>
      * That is lockFeatures() operations will:
      * </p>
-     *
+     * <p>
      * <ul>
      * <li>
      * Be recorded against the provided FeatureLock.
@@ -74,16 +75,16 @@ public interface FeatureLocking<T extends FeatureType, F extends Feature> extend
      * provided.
      * </li>
      * </ul>
-     *
+     * <p>
      * <p>
      * Calling this method with <code>setFeatureLock( FeatureLock.TRANSACTION
      * )</code> will revert to per transaction operation.
      * </p>
-     *
+     * <p>
      * <p>
      * This design allows for the following:
      * </p>
-     *
+     * <p>
      * <ul>
      * <li>
      * cross DataSource FeatureLock usage
@@ -93,13 +94,13 @@ public interface FeatureLocking<T extends FeatureType, F extends Feature> extend
      * </li>
      * </ul>
      *
-     * @param lock FeatureLock configuration including authorization and requested duration 
+     * @param lock FeatureLock configuration including authorization and requested duration
      */
     void setFeatureLock(FeatureLock lock);
 
     /**
      * FeatureLock features described by Query.
-     *
+     * <p>
      * <p>
      * To implement WFS parcial Locking retrieve your features with a query
      * operation first before trying to lock them individually. If you are not
@@ -107,16 +108,14 @@ public interface FeatureLocking<T extends FeatureType, F extends Feature> extend
      * </p>
      *
      * @param query Query describing the features to lock
-     *
      * @return Number of features locked
-     *
      * @throws IOException Thrown if anything goes wrong
      */
     int lockFeatures(Query query) throws IOException;
 
     /**
      * FeatureLock features described by Filter.
-     *
+     * <p>
      * <p>
      * To implement WFS parcial Locking retrieve your features with a query
      * operation first before trying to lock them individually. If you are not
@@ -124,30 +123,27 @@ public interface FeatureLocking<T extends FeatureType, F extends Feature> extend
      * </p>
      *
      * @param filter Filter describing the features to lock
-     *
      * @return Number of features locked
-     *
      * @throws IOException Thrown if anything goes wrong
      */
     int lockFeatures(Filter filter) throws IOException;
 
     /**
      * FeatureLock all Features.
-     *
+     * <p>
      * <p>
      * The method does not prevent addFeatures() from being used (we could add
      * a lockDataSource() method if this functionality is required.
      * </p>
      *
      * @return Number of Features locked by this opperation
-     *
      * @throws IOException
      */
     int lockFeatures() throws IOException;
 
     /**
      * Unlocks all Features.
-     *
+     * <p>
      * <p>
      * Authorization must be provided prior before calling this method.
      * </p>
@@ -164,26 +160,24 @@ public interface FeatureLocking<T extends FeatureType, F extends Feature> extend
 
     /**
      * Unlock Features denoted by provided filter.
-     *
+     * <p>
      * <p>
      * Authorization must be provided prior before calling this method.
      * </p>
      *
      * @param filter
-     *
      * @throws IOException
      */
     void unLockFeatures(Filter filter) throws IOException;
 
     /**
      * Unlock Features denoted by provided query.
-     *
+     * <p>
      * <p>
      * Authorization must be provided prior before calling this method.
      * </p>
      *
      * @param query Specifies fatures to unlock
-     *
      * @throws IOException
      */
     void unLockFeatures(Query query) throws IOException;

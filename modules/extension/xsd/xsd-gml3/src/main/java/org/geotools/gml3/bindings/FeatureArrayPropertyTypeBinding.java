@@ -31,13 +31,14 @@ import org.opengis.feature.simple.SimpleFeature;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:FeatureArrayPropertyType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="FeatureArrayPropertyType"&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;Container for features - follow gml:ArrayAssociationType pattern.&lt;/documentation&gt;
+ *          &lt;documentation&gt;Container for features - follow gml:ArrayAssociationType pattern
+ *          .&lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;sequence&gt;
  *          &lt;element maxOccurs="unbounded" minOccurs="0" ref="gml:_Feature"/&gt;
@@ -49,9 +50,6 @@ import org.opengis.feature.simple.SimpleFeature;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class FeatureArrayPropertyTypeBinding extends AbstractComplexBinding {
@@ -79,16 +77,16 @@ public class FeatureArrayPropertyTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         FeatureCollection fc = (FeatureCollection) node.getChildValue(FeatureCollection.class);
         if (fc != null) {
             return fc;
         }
-        
+
         List features = node.getChildValues(SimpleFeature.class);
-        fc = new DelayedSchemaFeatureCollection(); 
-        
-        ((Collection)fc).addAll(features);
+        fc = new DelayedSchemaFeatureCollection();
+
+        ((Collection) fc).addAll(features);
         return fc;
     }
 

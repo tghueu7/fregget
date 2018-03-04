@@ -66,14 +66,14 @@ public class PostGISCurvesOnlineTest extends JDBCTestSupport {
         assertTrue(g instanceof SingleCurvedGeometry);
         SingleCurvedGeometry<?> curved = (SingleCurvedGeometry<?>) g;
         double[] cp = curved.getControlPoints();
-        assertArrayEquals(new double[] { 10, 15, 15, 20, 20, 15 }, cp, 0d);
+        assertArrayEquals(new double[]{10, 15, 15, 20, 20, 15}, cp, 0d);
         assertEquals(0.1, curved.getTolerance(), 0d);
     }
 
     /**
      * All write tests follow the same pattern: grab the feature we want, delete everything, insert
      * back, and run its read test again
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -92,7 +92,7 @@ public class PostGISCurvesOnlineTest extends JDBCTestSupport {
         assertTrue(g instanceof SingleCurvedGeometry);
         SingleCurvedGeometry<?> curved = (SingleCurvedGeometry<?>) g;
         double[] cp = curved.getControlPoints();
-        assertArrayEquals(new double[] { 10, 35, 15, 40, 20, 35, 25, 30, 30, 35 }, cp, 0d);
+        assertArrayEquals(new double[]{10, 35, 15, 40, 20, 35, 25, 30, 30, 35}, cp, 0d);
     }
 
     @Test
@@ -119,7 +119,7 @@ public class PostGISCurvesOnlineTest extends JDBCTestSupport {
         assertEquals(new Coordinate(20, 45), ls1.getCoordinateN(1));
 
         CircularString cs = (CircularString) components.get(1);
-        assertArrayEquals(new double[] { 20.0, 45.0, 23.0, 48.0, 20.0, 51.0 },
+        assertArrayEquals(new double[]{20.0, 45.0, 23.0, 48.0, 20.0, 51.0},
                 cs.getControlPoints(), 0d);
 
         LineString ls2 = components.get(2);
@@ -154,7 +154,7 @@ public class PostGISCurvesOnlineTest extends JDBCTestSupport {
         assertEquals(new Coordinate(20, 78), ls.getCoordinateN(3));
 
         CircularString cs = (CircularString) components.get(1);
-        assertArrayEquals(new double[] { 20, 78, 15, 80, 10, 78 }, cs.getControlPoints(), 0d);
+        assertArrayEquals(new double[]{20, 78, 15, 80, 10, 78}, cs.getControlPoints(), 0d);
     }
 
     @Test
@@ -211,7 +211,7 @@ public class PostGISCurvesOnlineTest extends JDBCTestSupport {
         assertEquals(new Coordinate(14, 10), ls.getCoordinateN(2));
 
         CircularString cs = (CircularString) components.get(1);
-        assertArrayEquals(new double[] { 14, 10, 10, 14, 6, 10 }, cs.getControlPoints(), 0d);
+        assertArrayEquals(new double[]{14, 10, 10, 14, 6, 10}, cs.getControlPoints(), 0d);
     }
 
     @Test
@@ -249,7 +249,7 @@ public class PostGISCurvesOnlineTest extends JDBCTestSupport {
         assertEquals(new Coordinate(27, 30), ls.getCoordinateN(6));
 
         CircularString cs = (CircularString) components.get(1);
-        assertArrayEquals(new double[] { 27, 30, 25, 27, 20, 30 }, cs.getControlPoints(), 0d);
+        assertArrayEquals(new double[]{27, 30, 25, 27, 20, 30}, cs.getControlPoints(), 0d);
 
         // the inner ring
         assertTrue(p.getInteriorRingN(0) instanceof CircularRing);
@@ -281,14 +281,15 @@ public class PostGISCurvesOnlineTest extends JDBCTestSupport {
         assertTrue(p1.getExteriorRing() instanceof CompoundCurvedGeometry<?>);
         assertEquals(2, ((CompoundCurvedGeometry<?>) p1.getExteriorRing()).getComponents().size());
         assertEquals(1, p1.getNumInteriorRing());
-        assertEquals(2, ((CompoundCurvedGeometry<?>) p1.getInteriorRingN(0)).getComponents().size());
+        assertEquals(2, ((CompoundCurvedGeometry<?>) p1.getInteriorRingN(0)).getComponents().size
+                ());
 
         Polygon p2 = (Polygon) mp.getGeometryN(1);
         assertTrue(p2.getExteriorRing() instanceof CompoundCurvedGeometry<?>);
         assertEquals(2, ((CompoundCurvedGeometry<?>) p2.getExteriorRing()).getComponents().size());
         assertEquals(0, p2.getNumInteriorRing());
     }
-    
+
     @Test
     public void testWriteMultipolygon() throws Exception {
         SimpleFeature feature = getSingleFeatureByName("Multipolygon with curves");
@@ -312,7 +313,7 @@ public class PostGISCurvesOnlineTest extends JDBCTestSupport {
         assertEquals(new Coordinate(5, 5), ls.getCoordinateN(1));
 
         CircularString cs = (CircularString) mls.getGeometryN(1);
-        assertArrayEquals(new double[] { 4, 0, 4, 4, 8, 4 }, cs.getControlPoints(), 0d);
+        assertArrayEquals(new double[]{4, 0, 4, 4, 8, 4}, cs.getControlPoints(), 0d);
     }
 
     @Test
@@ -386,7 +387,7 @@ public class PostGISCurvesOnlineTest extends JDBCTestSupport {
         // check the interior ring has been normalized
         assertEquals(1, p.getNumInteriorRing());
         CircularRing hole = (CircularRing) p.getInteriorRingN(0);
-        assertArrayEquals(new double[] { -9.0, -8.5, -9.0, -9.5, -9.0, -8.5 },
+        assertArrayEquals(new double[]{-9.0, -8.5, -9.0, -9.5, -9.0, -8.5},
                 hole.getControlPoints(), 1e-6);
     }
 

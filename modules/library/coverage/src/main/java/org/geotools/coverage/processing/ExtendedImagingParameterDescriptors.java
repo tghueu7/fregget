@@ -27,23 +27,23 @@ import org.opengis.parameter.ParameterDescriptor;
 import org.opengis.referencing.ReferenceIdentifier;
 
 /**
- * Extension of the {@link ImagingParameterDescriptors} class used for setting the right operation name
- *for the operation associated to the input {@link RegistryElementDescriptor}.
- * 
+ * Extension of the {@link ImagingParameterDescriptors} class used for setting the right 
+ * operation name
+ * for the operation associated to the input {@link RegistryElementDescriptor}.
+ *
  * @author Nicola Lagomarsini Geosolutions
- * 
  */
 public class ExtendedImagingParameterDescriptors extends ImagingParameterDescriptors {
 
     private ReferenceIdentifier operationName;
 
     public ExtendedImagingParameterDescriptors(String operationName,
-            RegistryElementDescriptor operation) {
+                                               RegistryElementDescriptor operation) {
         this(operationName, operation, null);
     }
 
     ExtendedImagingParameterDescriptors(String operationName, RegistryElementDescriptor operation,
-            Collection<ParameterDescriptor> extension) {
+                                        Collection<ParameterDescriptor> extension) {
         super(operation, extension);
         this.operationName = new NamedIdentifier(Citations.JAI, operationName);
     }

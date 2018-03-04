@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2008, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.style;
 
 import java.util.List;
+
 import org.opengis.annotation.Extension;
 import org.opengis.filter.expression.Expression;
 import org.opengis.annotation.XmlElement;
@@ -19,13 +20,12 @@ import org.opengis.annotation.XmlParameter;
 /**
  * The Font element identifies a font of a certain family, style, and size.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding Implementation Specification 1.1.0</A>
  * @author Open Geospatial Consortium
  * @author Johann Sorel (Geomatys)
  * @author Chris Dillard (SYS Technologies)
+ * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding 
+ * Implementation Specification 1.1.0</A>
+ * @source $URL$
  * @since GeoAPI 2.2
  */
 @XmlElement("Font")
@@ -49,6 +49,7 @@ public interface Font {
      * The "font-style" SvgParameter element gives the style to use for a font. The allowed
      * values are "normal", "italic", and "oblique".
      * If null, the default is "normal".
+     *
      * @return Expression or Expression.NIL
      */
     @XmlParameter("font-style")
@@ -81,5 +82,5 @@ public interface Font {
      */
     @Extension
     Object accept(StyleVisitor visitor, Object extraData);
-    
+
 }

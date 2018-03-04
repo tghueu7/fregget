@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -20,6 +20,7 @@
 package org.geotools.metadata.iso.distribution;
 
 import java.util.Collection;
+
 import org.opengis.metadata.citation.ResponsibleParty;
 import org.opengis.metadata.distribution.DigitalTransferOptions;
 import org.opengis.metadata.distribution.Distributor;
@@ -31,13 +32,10 @@ import org.geotools.metadata.iso.MetadataEntity;
 /**
  * Information about the distributor.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class DistributorImpl extends MetadataEntity implements Distributor {
@@ -118,10 +116,9 @@ public class DistributorImpl extends MetadataEntity implements Distributor {
      * instructions and fee information.
      */
     public synchronized void setDistributionOrderProcesses(
-            final Collection<? extends StandardOrderProcess> newValues)
-    {
+            final Collection<? extends StandardOrderProcess> newValues) {
         distributionOrderProcesses = copyCollection(newValues, distributionOrderProcesses,
-                                                    StandardOrderProcess.class);
+                StandardOrderProcess.class);
     }
 
     /**
@@ -150,17 +147,16 @@ public class DistributorImpl extends MetadataEntity implements Distributor {
      * Provides information about the technical means and media used by the distributor.
      */
     public synchronized void setDistributorTransferOptions(
-            final Collection<? extends DigitalTransferOptions> newValues)
-    {
+            final Collection<? extends DigitalTransferOptions> newValues) {
         distributorTransferOptions = copyCollection(newValues, distributorTransferOptions,
-                                                    DigitalTransferOptions.class);
+                DigitalTransferOptions.class);
     }
 
     /**
      * Sets the {@code xmlMarshalling} flag to {@code true}, since the marshalling
      * process is going to be done.
      * This method is automatically called by JAXB, when the marshalling begins.
-     * 
+     *
      * @param marshaller Not used in this implementation.
      */
 ///    private void beforeMarshal(Marshaller marshaller) {
@@ -171,7 +167,7 @@ public class DistributorImpl extends MetadataEntity implements Distributor {
      * Sets the {@code xmlMarshalling} flag to {@code false}, since the marshalling
      * process is finished.
      * This method is automatically called by JAXB, when the marshalling ends.
-     * 
+     *
      * @param marshaller Not used in this implementation
      */
 ///    private void afterMarshal(Marshaller marshaller) {

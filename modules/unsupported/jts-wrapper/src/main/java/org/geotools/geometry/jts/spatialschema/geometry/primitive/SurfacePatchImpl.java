@@ -2,7 +2,8 @@
  **
  ** $Id$
  **
- ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/primitive/SurfacePatchImpl.java,v $
+ ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/primitive
+ * /SurfacePatchImpl.java,v $
  **
  ** Copyright (C) 2003 Open GIS Consortium, Inc. All Rights Reserved. http://www.opengis.org/Legal/
  **
@@ -10,6 +11,7 @@
 package org.geotools.geometry.jts.spatialschema.geometry.primitive;
 
 // OpenGIS direct dependencies
+
 import org.opengis.geometry.DirectPosition;
 import org.opengis.geometry.primitive.Ring;
 import org.opengis.geometry.primitive.Surface;
@@ -25,17 +27,14 @@ import com.vividsolutions.jts.geom.Geometry;
  * Defines a homogeneous portion of a {@linkplain Surface surface}.
  * Each {@code SurfacePatch} shall be in at most one {@linkplain Surface surface}.
  *
- * @UML type GM_SurfacePatch
  * @author ISO/DIS 19107
  * @author <A HREF="http://www.opengis.org">OpenGIS&reg; consortium</A>
- *
- *
- *
- *
- * @source $URL$
  * @version 2.0
+ * @UML type GM_SurfacePatch
+ * @source $URL$
  */
-public abstract class SurfacePatchImpl extends GenericSurfaceImpl implements SurfacePatch, JTSGeometry {
+public abstract class SurfacePatchImpl extends GenericSurfaceImpl implements SurfacePatch, 
+        JTSGeometry {
     private Surface surface;
     private SurfaceInterpolation interpolation;
     private SurfaceBoundary boundary;
@@ -48,7 +47,7 @@ public abstract class SurfacePatchImpl extends GenericSurfaceImpl implements Sur
 
     /**
      * Returns the patch which own this surface patch.
-     *
+     * <p>
      * <blockquote><font size=2>
      * <strong>NOTE:</strong> In this specification, surface patches do not appear except in the
      * context of a surface, and therefore this method should never returns {@code null}
@@ -59,7 +58,6 @@ public abstract class SurfacePatchImpl extends GenericSurfaceImpl implements Sur
      *
      * @return The owner of this surface patch, or {@code null} if none.
      * @UML association surface
-     *
      * @see Surface#getPatches
      */
     public Surface getSurface() {
@@ -89,7 +87,8 @@ public abstract class SurfacePatchImpl extends GenericSurfaceImpl implements Sur
      * {@link #getBoundary} for this patch. The default value of "0" means simple continuity, which
      * is a mandatory minimum level of continuity. This level is referred to as "C<sup>0</sup>" in
      * mathematical texts. A value of 1 means that the functions are continuous and differentiable
-     * at the appropriate end point: "C<sup>1</sup>" continuity. A value of "n" for any integer means
+     * at the appropriate end point: "C<sup>1</sup>" continuity. A value of "n" for any integer 
+     * means
      * <var>n</var>-times differentiable: "C<sup>n</sup>" continuity.
      *
      * @return The type of continuity between this surface patch and its immediate neighbors.
@@ -108,10 +107,11 @@ public abstract class SurfacePatchImpl extends GenericSurfaceImpl implements Sur
     /**
      * @param point
      * @return
-     * @see com.polexis.lite.spatialschema.geometry.geometry.GenericSurfaceImpl#getUpNormal(org.opengis.geometry.coordinate.DirectPosition)
+     * @see com.polexis.lite.spatialschema.geometry.geometry.GenericSurfaceImpl#getUpNormal(org
+     * .opengis.geometry.coordinate.DirectPosition)
      */
     public final double[] getUpNormal(DirectPosition point) {
-        return new double [] { 0, 0, 1 };
+        return new double[]{0, 0, 1};
     }
 
     /**

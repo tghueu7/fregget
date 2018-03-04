@@ -33,14 +33,12 @@ import org.h2.tools.Server;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class H2DataStoreFactoryTest extends TestCase {
     H2DataStoreFactory factory;
     HashMap params;
-    
+
     protected void setUp() throws Exception {
         factory = new H2DataStoreFactory();
         params = new HashMap();
@@ -53,10 +51,10 @@ public class H2DataStoreFactoryTest extends TestCase {
         assertFalse(factory.canProcess(Collections.EMPTY_MAP));
         assertTrue(factory.canProcess(params));
     }
-    
+
     public void testCreateDataStore() throws Exception {
-        JDBCDataStore ds = factory.createDataStore( params );
-        assertNotNull( ds );
+        JDBCDataStore ds = factory.createDataStore(params);
+        assertNotNull(ds);
         assertTrue(ds.getDataSource() instanceof ManageableDataSource);
     }
 
@@ -82,25 +80,24 @@ public class H2DataStoreFactoryTest extends TestCase {
         params.put(H2DataStoreFactory.DATABASE.key, "geotools");
         params.put(H2DataStoreFactory.USER.key, "geotools");
         params.put(H2DataStoreFactory.PASSWD.key, "geotools");
-        
+
         DataStore ds = factory.createDataStore(params);
         try {
             ds.getTypeNames();
             fail("Should not have made a connection.");
+        } catch (Exception ok) {
         }
-        catch(Exception ok) {}
-        
+
         Server server = Server.createTcpServer(new String[]{"-baseDir", "target"});
         server.start();
         try {
-            while(!server.isRunning(false)) {
+            while (!server.isRunning(false)) {
                 Thread.sleep(100);
             }
-            
+
             ds = factory.createDataStore(params);
             ds.getTypeNames();
-        }
-        finally {
+        } finally {
             server.shutdown();
         }
     }

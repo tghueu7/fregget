@@ -20,14 +20,12 @@ package org.geotools.arcsde.filter;
 /**
  * Indicates a client class has attempted to encode a filter not supported by the GeometryEncoderSDE
  * being used.
- * 
+ *
  * @author Gabriel Roldan
- *
- *
- * @source $URL$
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
- *         /org/geotools/arcsde/filter/GeometryEncoderException.java $
  * @version $Id$
+ * @source $URL$
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
+ * /org/geotools/arcsde/filter/GeometryEncoderException.java $
  */
 public class GeometryEncoderException extends Exception {
     /**

@@ -23,18 +23,14 @@ import java.sql.SQLException;
  * Extension of JDBCTestSetup which is used by {@link JDBCDataStoreAPIOnlineTest}.
  *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
- *
  * @source $URL$
  */
 public abstract class JDBCDataStoreAPITestSetup extends JDBCDelegatingTestSetup {
-   
+
     protected JDBCDataStoreAPITestSetup(JDBCTestSetup delegate) {
-        super( delegate );
+        super(delegate);
     }
-    
+
     protected void setUpData() throws Exception {
         //kill all the data
         try {
@@ -101,9 +97,9 @@ public abstract class JDBCDataStoreAPITestSetup extends JDBCDelegatingTestSetup 
      * </p>
      * <p>
      * The table should be populated with the following data:
-     *  0 | LINESTRING( 1 1, 2 2, 4 2, 5 1 );srid=4326 | "r1"
-     *  1 | LINESTRING( 3 0, 3 2, 3 3, 3 4 );srid=4326 | "r2"
-     *  2 | LINESTRING( 3 2, 4 2, 5 3 );srid=4326 | "r3"
+     * 0 | LINESTRING( 1 1, 2 2, 4 2, 5 1 );srid=4326 | "r1"
+     * 1 | LINESTRING( 3 0, 3 2, 3 3, 3 4 );srid=4326 | "r2"
+     * 2 | LINESTRING( 3 2, 4 2, 5 3 );srid=4326 | "r3"
      * </p>
      */
     protected abstract void createRoadTable() throws Exception;

@@ -47,33 +47,36 @@ import org.xml.sax.helpers.AttributesImpl;
 
 
 public class CSWCapabilitiesTest {
-    
+
     Parser parser = new Parser(new CSWConfiguration());
 
     @Test
     public void testParseCapabilitiesRequest() throws Exception {
         String capRequestPath = "GetCapabilities.xml";
-        GetCapabilitiesType caps = (GetCapabilitiesType) parser.parse(getClass().getResourceAsStream(capRequestPath));
+        GetCapabilitiesType caps = (GetCapabilitiesType) parser.parse(getClass()
+                .getResourceAsStream(capRequestPath));
         assertEquals("CSW", caps.getService());
-        
+
         List versions = caps.getAcceptVersions().getVersion();
         assertEquals("2.0.2", versions.get(0));
         assertEquals("2.0.0", versions.get(1));
         assertEquals("0.7.2", versions.get(2));
-        
+
         List sections = caps.getSections().getSection();
         assertEquals("OperationsMetadata", sections.get(0));
     }
-    
+
     @Test
     public void testParseCapabilities() throws Exception {
-        CapabilitiesType caps = (CapabilitiesType) parser.parse(getClass().getResourceAsStream("Capabilities.xml"));
+        CapabilitiesType caps = (CapabilitiesType) parser.parse(getClass().getResourceAsStream
+                ("Capabilities.xml"));
         assertEquals("2.0.2", caps.getVersion());
-        
+
         ServiceIdentificationType si = caps.getServiceIdentification();
         assertEquals("con terra GmbH Catalogue Server", si.getTitle());
-        assertEquals("terraCatalog 2.1 - Web based Catalogue Service \n" + 
-        		"        (CS-W 2.0.0/AP ISO19115/19 0.9.3 (DE-Profil 1.0.1)) for service, datasets and applications", si.getAbstract());
+        assertEquals("terraCatalog 2.1 - Web based Catalogue Service \n" +
+                "        (CS-W 2.0.0/AP ISO19115/19 0.9.3 (DE-Profil 1.0.1)) for service, " +
+                "datasets and applications", si.getAbstract());
         KeywordsType keywords = (KeywordsType) si.getKeywords().get(0);
         assertEquals("CS-W", keywords.getKeyword().get(0));
         assertEquals("ISO19119", keywords.getKeyword().get(1));
@@ -82,7 +85,7 @@ public class CSWCapabilitiesTest {
         assertEquals("CSW", si.getServiceType().getValue());
         // minor trouble here, this should be a list, not a string
         assertEquals("2.0.2", si.getServiceTypeVersion());
-        
+
         ServiceProviderType sp = caps.getServiceProvider();
         assertEquals("con terra GmbH", sp.getProviderName());
         assertEquals("http://www.conterra.de", sp.getProviderSite().getHref());
@@ -94,7 +97,7 @@ public class CSWCapabilitiesTest {
         assertEquals("Marting-Luther-King-Weg 24", ci.getAddress().getDeliveryPoint());
         assertEquals("Muenster", ci.getAddress().getCity());
         assertEquals("mailto:conterra@conterra.de", ci.getOnlineResource().getHref());
-        
+
         OperationsMetadataType opm = caps.getOperationsMetadata();
         assertEquals(6, opm.getOperation().size());
         OperationType gr = (OperationType) opm.getOperation().get(0);
@@ -113,7 +116,7 @@ public class CSWCapabilitiesTest {
         assertEquals(25, ct.getValue().size());
         assertEquals("RevisionDate", ct.getValue().get(0));
         assertEquals("OperatesOnWithOpName", ct.getValue().get(24));
-        
+
         /** This fails, caps are not getting parsed **/
         FilterCapabilities filterCapabilities = caps.getFilterCapabilities();
         assertNotNull(filterCapabilities);
@@ -155,10 +158,11 @@ public class CSWCapabilitiesTest {
         assertTrue(id.hasFID());
         assertFalse(id.hasEID());
     }
-    
+
     @Test
     public void testRoundTripCapabilities() throws Exception {
-        CapabilitiesType caps = (CapabilitiesType) parser.parse(getClass().getResourceAsStream("Capabilities.xml"));
+        CapabilitiesType caps = (CapabilitiesType) parser.parse(getClass().getResourceAsStream
+                ("Capabilities.xml"));
 
         Encoder encoder = new Encoder(new CSWConfiguration());
         encoder.setIndenting(true);
@@ -168,12 +172,12 @@ public class CSWCapabilitiesTest {
         encoder.getNamespaces().declarePrefix("gml", GML.NAMESPACE);
         String encoded = encoder.encodeAsString(caps, CSW.Capabilities);
         // System.out.println(encoded);
-        
+
         CapabilitiesType reParsed = (CapabilitiesType) parser.parse(new StringReader(encoded));
         assertTrue(EMFUtils.emfEquals(caps, reParsed));
     }
-    
-    @Test 
+
+    @Test
     @SuppressWarnings("unchecked")
     public void testExtendedCapabilities() throws Exception {
         Csw20Factory cswf = Csw20Factory.eINSTANCE;
@@ -183,7 +187,7 @@ public class CSWCapabilitiesTest {
         caps.setOperationsMetadata(om);
         final String rimNamespace = "urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0";
         om.setExtendedCapabilities(new EncoderDelegate() {
-            
+
             @Override
             public void encode(ContentHandler output) throws Exception {
                 AttributesImpl atts = new AttributesImpl();
@@ -196,7 +200,7 @@ public class CSWCapabilitiesTest {
                 output.endPrefixMapping("rim");
             }
         });
-        
+
         Encoder encoder = new Encoder(new CSWConfiguration());
         encoder.setIndenting(true);
         encoder.setNamespaceAware(true);
@@ -204,7 +208,7 @@ public class CSWCapabilitiesTest {
         encoder.getNamespaces().declarePrefix("ogc", OGC.NAMESPACE);
         encoder.getNamespaces().declarePrefix("gml", GML.NAMESPACE);
         String encoded = encoder.encodeAsString(caps, CSW.Capabilities);
-        
+
         // System.out.println(encoded);
 
         // prepare xmlunit
@@ -213,9 +217,11 @@ public class CSWCapabilitiesTest {
         namespaces.put("ows", OWS.NAMESPACE);
         namespaces.put("rim", rimNamespace);
         XMLUnit.setXpathNamespaceContext(new SimpleNamespaceContext(namespaces));
-        
+
         Document doc = XMLUnit.buildControlDocument(encoded);
-        XMLAssert.assertXpathEvaluatesTo("test", "/csw:Capabilities/ows:OperationsMetadata/rim:Slot/@rim:test", doc);
-        XMLAssert.assertXpathEvaluatesTo("test content", "/csw:Capabilities/ows:OperationsMetadata/rim:Slot", doc);
+        XMLAssert.assertXpathEvaluatesTo("test", 
+                "/csw:Capabilities/ows:OperationsMetadata/rim:Slot/@rim:test", doc);
+        XMLAssert.assertXpathEvaluatesTo("test content", 
+                "/csw:Capabilities/ows:OperationsMetadata/rim:Slot", doc);
     }
 }

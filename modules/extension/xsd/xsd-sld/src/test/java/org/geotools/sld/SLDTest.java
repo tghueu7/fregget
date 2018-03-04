@@ -17,6 +17,7 @@
 package org.geotools.sld;
 
 import junit.framework.TestCase;
+
 import java.awt.Color;
 import java.io.IOException;
 import java.util.List;
@@ -36,8 +37,6 @@ import static org.junit.Assert.assertTrue;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SLDTest {
@@ -47,7 +46,7 @@ public class SLDTest {
         Parser parser = new Parser(new SLDConfiguration());
 
         StyledLayerDescriptor sld = (StyledLayerDescriptor) parser.parse(getClass()
-                                                                             .getResourceAsStream("example-sld.xml"));
+                .getResourceAsStream("example-sld.xml"));
 
         assertEquals(1, sld.getStyledLayers().length);
 
@@ -96,15 +95,20 @@ public class SLDTest {
     @Ignore
     // GEOT-5726 - test consistency with org.geotools.styling.SLDParser
     @Test
-    public void testParserConsistency() throws ParserConfigurationException, SAXException, IOException {
-        String sldText = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><sld:StyledLayerDescriptor xmlns=\"http://www.opengis.net/sld\" xmlns:sld=\"http://www.opengis.net/sld\" xmlns:gml=\"http://www.opengis.net/gml\" xmlns:ogc=\"http://www.opengis.net/ogc\" version=\"1.0.0\">\n" +
+    public void testParserConsistency() throws ParserConfigurationException, SAXException, 
+            IOException {
+        String sldText = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><sld:StyledLayerDescriptor " +
+                "xmlns=\"http://www.opengis.net/sld\" xmlns:sld=\"http://www.opengis.net/sld\" " +
+                "xmlns:gml=\"http://www.opengis.net/gml\" xmlns:ogc=\"http://www.opengis" +
+                ".net/ogc\" version=\"1.0.0\">\n" +
                 "  <sld:Name>emptytag</sld:Name>\n" +
                 "  <sld:UserLayer>\n" +
                 "    <sld:UserStyle>\n" +
                 "      <sld:Name>Empty tag test</sld:Name>\n" +
                 "      <sld:FeatureTypeStyle>\n" +
                 "        <sld:Rule>\n" +
-                "          <sld:TextSymbolizer uom=\"http://www.opengeospatial.org/se/units/pixel\">\n" +
+                "          <sld:TextSymbolizer uom=\"http://www.opengeospatial" +
+                ".org/se/units/pixel\">\n" +
                 "            <sld:Label>\n" +
                 "              <ogc:PropertyName>NAME</ogc:PropertyName>\n" +
                 "            </sld:Label>\n" +
@@ -125,10 +129,12 @@ public class SLDTest {
 
         Configuration config = new SLDConfiguration();
         Parser parser = new Parser(config);
-        StyledLayerDescriptor sld = (StyledLayerDescriptor) parser.parse(IOUtils.toInputStream(sldText));
+        StyledLayerDescriptor sld = (StyledLayerDescriptor) parser.parse(IOUtils.toInputStream
+                (sldText));
 
-        Style s = ((UserLayer)(sld.layers().get(0))).getUserStyles()[0];
-        TextSymbolizer symbolizer = (TextSymbolizer)(s.featureTypeStyles().get(0).rules().get(0).symbolizers().get(0));
+        Style s = ((UserLayer) (sld.layers().get(0))).getUserStyles()[0];
+        TextSymbolizer symbolizer = (TextSymbolizer) (s.featureTypeStyles().get(0).rules().get(0)
+                .symbolizers().get(0));
         Font font = symbolizer.fonts().get(0);
         assertTrue(font.getFamily().size() > 0);
 

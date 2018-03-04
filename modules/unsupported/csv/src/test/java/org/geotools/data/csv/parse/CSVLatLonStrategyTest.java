@@ -120,16 +120,16 @@ public class CSVLatLonStrategyTest {
                 getBindingName(featureType, "stringval"));
 
         // iterate through values and verify
-        Object[][] expValues = new Object[][] { new Object[] { 3.8, 7, "foo", 73.28, -14.39 },
-                new Object[] { 9.12, -38, "bar", 0, 29 }, new Object[] { -37.0, 0, "baz", 49, 0 } };
-        Object[] expTypes = new Object[] { Double.class, Integer.class, String.class };
+        Object[][] expValues = new Object[][]{new Object[]{3.8, 7, "foo", 73.28, -14.39},
+                new Object[]{9.12, -38, "bar", 0, 29}, new Object[]{-37.0, 0, "baz", 49, 0}};
+        Object[] expTypes = new Object[]{Double.class, Integer.class, String.class};
         List<SimpleFeature> features = new ArrayList<SimpleFeature>(3);
         while (iterator.hasNext()) {
             features.add(iterator.next());
         }
         assertEquals("Invalid number of features", 3, features.size());
 
-        String[] attrNames = new String[] { "doubleval", "intval", "stringval" };
+        String[] attrNames = new String[]{"doubleval", "intval", "stringval"};
         int i = 0;
         for (SimpleFeature feature : features) {
             Object[] expVals = expValues[i];
@@ -153,8 +153,10 @@ public class CSVLatLonStrategyTest {
 
         assertEquals("Invalid number of attributes", 2, featureType.getAttributeCount());
         assertNull("Expected no geometry in feature type", featureType.getGeometryDescriptor());
-        assertEquals("Invalid attribute type", "java.lang.String", getBindingName(featureType, "a"));
-        assertEquals("Invalid attribute type", "java.lang.String", getBindingName(featureType, "b"));
+        assertEquals("Invalid attribute type", "java.lang.String", getBindingName(featureType, 
+                "a"));
+        assertEquals("Invalid attribute type", "java.lang.String", getBindingName(featureType, 
+                "b"));
 
         CSVIterator iterator = strategy.iterator();
         SimpleFeature feature = iterator.next();
@@ -230,16 +232,18 @@ public class CSVLatLonStrategyTest {
                 getBindingName(featureType, "foo"));
         assertNull("Unexpected geometry", featureType.getGeometryDescriptor());
         CSVIterator iterator = strategy.iterator();
-        String[] expLats = new String[] { "-72.3829", "12", "foo" };
-        Double[] expLons = new Double[] { 42.29, -13.21, 2.5 };
-        Double[] expFoos = new Double[] { 38.0, 9.0, 7.8 };
+        String[] expLats = new String[]{"-72.3829", "12", "foo"};
+        Double[] expLons = new Double[]{42.29, -13.21, 2.5};
+        Double[] expFoos = new Double[]{38.0, 9.0, 7.8};
         int i = 0;
         while (iterator.hasNext()) {
             SimpleFeature feature = iterator.next();
             assertEquals("Invalid attribute count", 3, feature.getAttributeCount());
             assertEquals("Invalid lat value", expLats[i], feature.getAttribute("lat"));
-            assertEquals("Invalid lat value", expLons[i], (Double) feature.getAttribute("lon"), 0.1);
-            assertEquals("Invalid foo value", expFoos[i], (Double) feature.getAttribute("foo"), 0.1);
+            assertEquals("Invalid lat value", expLons[i], (Double) feature.getAttribute("lon"), 
+                    0.1);
+            assertEquals("Invalid foo value", expFoos[i], (Double) feature.getAttribute("foo"), 
+                    0.1);
             i++;
         }
     }
@@ -251,7 +255,8 @@ public class CSVLatLonStrategyTest {
         CSVLatLonStrategy strategy = new CSVLatLonStrategy(fileState);
         SimpleFeatureType featureType = strategy.getFeatureType();
         assertEquals("Invalid attribute count", 2, featureType.getAttributeCount());
-        assertEquals("Invalid attribute type", "java.lang.String", getBindingName(featureType, "a"));
+        assertEquals("Invalid attribute type", "java.lang.String", getBindingName(featureType, 
+                "a"));
         assertEquals("Invalid attribute type", "java.lang.Integer",
                 getBindingName(featureType, "b"));
     }
@@ -317,7 +322,7 @@ public class CSVLatLonStrategyTest {
         String bindingName = binding.getName();
         return bindingName;
     }
-    
+
     @Test
     public void testSpecifiedBuildFeatureType() {
         String input = CSVTestStrategySupport.buildInputString("quux,morx\n");

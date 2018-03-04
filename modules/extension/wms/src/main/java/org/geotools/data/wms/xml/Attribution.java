@@ -3,7 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2014, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -19,19 +19,26 @@ package org.geotools.data.wms.xml;
 import java.net.URL;
 
 /**
- * This class is used for representing the Attribution element inside a Layer when parsing a GetCapabilities response.
- * 
+ * This class is used for representing the Attribution element inside a Layer when parsing a 
+ * GetCapabilities response.
+ *
  * @author Nicola Lagomarsini GeoSolutions S.A.S.
  */
 public class Attribution {
 
-    /** Attribution Title */
+    /**
+     * Attribution Title
+     */
     private String title;
 
-    /** Attribution Link */
+    /**
+     * Attribution Link
+     */
     private URL onlineResource;
 
-    /** Attribution Logo */
+    /**
+     * Attribution Logo
+     */
     private LogoURL logoURL;
 
     public Attribution(String title, URL onlineResource, LogoURL logoURL) {

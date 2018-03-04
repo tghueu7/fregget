@@ -27,11 +27,12 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the type http://www.opengis.net/gpkg:geopkgtype.
- *
  * <p>
- *	<pre>
- *	 <code>
- *  &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;xs:complexType name="geopkgtype" xmlns:xs="http://www.w3.org/2001/XMLSchema"&gt;
+ * <p>
+ * <pre>
+ * 	 <code>
+ *  &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;xs:complexType name="geopkgtype" 
+ *  xmlns:xs="http://www.w3.org/2001/XMLSchema"&gt;
  *      &lt;xs:sequence&gt;
  *        &lt;xs:element maxOccurs="unbounded" minOccurs="0" name="features"&gt;
  *          &lt;xs:complexType name="geopkgtype_features"&gt;
@@ -69,61 +70,61 @@ import javax.xml.namespace.QName;
  *        &lt;/xs:element&gt;
  *      &lt;/xs:sequence&gt;
  *      &lt;xs:attribute name="name" use="required"/&gt;
- *    &lt;/xs:complexType&gt; 
- *		
- *	  </code>
- *	 </pre>
+ *    &lt;/xs:complexType&gt;
+ *
+ * 	  </code>
+ * 	 </pre>
  * </p>
  *
  * @generated
  */
 public class GeopkgtypeBinding extends AbstractComplexBinding {
 
-	/**
-	 * @generated
-	 */
-	public QName getTarget() {
-		return GPKG.geopkgtype;
-	}
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 *	
-	 * @generated modifiable
-	 */	
-	public Class getType() {
-		return GeoPackageProcessRequest.class;
-	}
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 *	
-	 * @generated modifiable
-	 */	
-	public Object parse(ElementInstance instance, Node node, Object value) 
-		throws Exception {
-	    
-	    GeoPackageProcessRequest request = new GeoPackageProcessRequest();
-	    
-	    request.setName((String) node.getAttributeValue("name"));
-	    String attributeValue = (String) node.getAttributeValue("path");
-	    if(attributeValue != null && !attributeValue.isEmpty()){
-	           URL url = new URL(attributeValue);
-	            request.setPath(url);
-	    }
-	    
-	    String removeFile = (String) node.getAttributeValue("remove");
-            if(removeFile != null && !removeFile.isEmpty()){
-                    request.setRemove(Boolean.parseBoolean(removeFile));
-            }else{
-                request.setRemove(true);
-            }
-	    for (Object child : node.getChildren()){
-	        request.addLayer((GeoPackageProcessRequest.Layer) ((Node) child).getValue());
-	    }
-	    return request;
-	}
+    /**
+     * @generated
+     */
+    public QName getTarget() {
+        return GPKG.geopkgtype;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     *
+     * @generated modifiable
+     */
+    public Class getType() {
+        return GeoPackageProcessRequest.class;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     *
+     * @generated modifiable
+     */
+    public Object parse(ElementInstance instance, Node node, Object value)
+            throws Exception {
+
+        GeoPackageProcessRequest request = new GeoPackageProcessRequest();
+
+        request.setName((String) node.getAttributeValue("name"));
+        String attributeValue = (String) node.getAttributeValue("path");
+        if (attributeValue != null && !attributeValue.isEmpty()) {
+            URL url = new URL(attributeValue);
+            request.setPath(url);
+        }
+
+        String removeFile = (String) node.getAttributeValue("remove");
+        if (removeFile != null && !removeFile.isEmpty()) {
+            request.setRemove(Boolean.parseBoolean(removeFile));
+        } else {
+            request.setRemove(true);
+        }
+        for (Object child : node.getChildren()) {
+            request.addLayer((GeoPackageProcessRequest.Layer) ((Node) child).getValue());
+        }
+        return request;
+    }
 
 }

@@ -41,7 +41,7 @@ import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * Helper mapping between geotools and OGR feature types
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 class FeatureTypeMapper {
@@ -54,7 +54,7 @@ class FeatureTypeMapper {
 
     /**
      * Returns the geotools feature type equivalent from the native OGR one
-     * 
+     *
      * @param layer
      * @param typeName
      * @param namespaceURI
@@ -89,7 +89,7 @@ class FeatureTypeMapper {
                 Object field = ogr.LayerGetFieldDefn(definition, i);
                 String name = ogr.FieldGetName(field);
                 Class binding = getBinding(field);
-               int width = ogr.FieldGetWidth(field);
+                int width = ogr.FieldGetWidth(field);
                 if (width > 0) {
                     tb.length(width);
                 }
@@ -115,14 +115,14 @@ class FeatureTypeMapper {
 
     /**
      * Maps the OGR field type to a java class
-     * 
+     *
      * @param field
      * @return
      */
     private Class getBinding(Object field) {
         long type = ogr.FieldGetType(field);
         int width = ogr.FieldGetWidth(field);
-        
+
         if (ogr.FieldIsIntegerType(type)) {
             if (width <= 3) {
                 return Byte.class;
@@ -169,7 +169,7 @@ class FeatureTypeMapper {
      * <li>precision is the number of chars after decimal pont</li>
      * <li>justification: right or left (in outputs)</li>
      * </ul>
-     * 
+     *
      * @param ad
      * @throws IOException
      */
@@ -222,7 +222,7 @@ class FeatureTypeMapper {
                 length = 255;
             }
             ogr.FieldSetWidth(def, length);
-            
+
         } else if (byte[].class.equals(type)) {
             def = ogr.CreateBinaryField(name);
         } else if (java.sql.Date.class.isAssignableFrom(type)) {
@@ -240,7 +240,7 @@ class FeatureTypeMapper {
 
     /**
      * Returns the OGR geometry type constant given a geometry attribute type
-     * 
+     *
      * @param descriptor
      * @return
      * @throws IOException
@@ -275,14 +275,14 @@ class FeatureTypeMapper {
 
     /**
      * Returns the JTS geometry type equivalent to the layer native one
-     * 
+     *
      * @param definition
      * @return
      * @throws IOException
      */
     private Class<? extends Geometry> getGeometryBinding(Object definition) throws IOException {
         long value = ogr.LayerGetGeometryType(definition);
-        
+
         // for line and polygon we return multi in any case since OGR will declare simple for
         // multigeom
         // anyways and then return simple or multi in the actual geoemtries depending on
@@ -316,7 +316,7 @@ class FeatureTypeMapper {
 
     /**
      * Returns the GeoTools {@link CoordinateReferenceSystem} equivalent to the layer native one
-     * 
+     *
      * @param layer
      * @return
      * @throws IOException
@@ -355,7 +355,7 @@ class FeatureTypeMapper {
 
     /**
      * Returns a Pointer to a OGR spatial reference object equivalent to the specified GeoTools CRS
-     * 
+     *
      * @param crs
      * @return
      */

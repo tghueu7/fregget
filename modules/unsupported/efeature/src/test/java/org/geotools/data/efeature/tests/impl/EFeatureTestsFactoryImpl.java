@@ -1,7 +1,7 @@
 /**
  * <copyright>
  * </copyright>
- *
+ * <p>
  * $Id$
  */
 package org.geotools.data.efeature.tests.impl;
@@ -22,8 +22,8 @@ import org.geotools.data.efeature.tests.*;
  * <!-- begin-user-doc -->
  * An implementation of the model <b>Factory</b>.
  * <!-- end-user-doc -->
- * @generated
  *
+ * @generated
  * @source $URL$
  */
 public class EFeatureTestsFactoryImpl extends EFactoryImpl implements EFeatureTestsFactory {
@@ -31,16 +31,18 @@ public class EFeatureTestsFactoryImpl extends EFactoryImpl implements EFeatureTe
      * Creates the default factory implementation.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      */
     public static EFeatureTestsFactory init() {
         try {
-            EFeatureTestsFactory theEFeatureTestsFactory = (EFeatureTestsFactory)EPackage.Registry.INSTANCE.getEFactory("http://geotools.org/data/efeature/efeature-tests.ecore/1.0"); //$NON-NLS-1$ 
+            EFeatureTestsFactory theEFeatureTestsFactory = (EFeatureTestsFactory) EPackage
+                    .Registry.INSTANCE.getEFactory("http://geotools" +
+                            ".org/data/efeature/efeature-tests.ecore/1.0"); //$NON-NLS-1$ 
             if (theEFeatureTestsFactory != null) {
                 return theEFeatureTestsFactory;
             }
-        }
-        catch (Exception exception) {
+        } catch (Exception exception) {
             EcorePlugin.INSTANCE.log(exception);
         }
         return new EFeatureTestsFactoryImpl();
@@ -50,6 +52,7 @@ public class EFeatureTestsFactoryImpl extends EFactoryImpl implements EFeatureTe
      * Creates an instance of the factory.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      */
     public EFeatureTestsFactoryImpl() {
@@ -59,22 +62,28 @@ public class EFeatureTestsFactoryImpl extends EFactoryImpl implements EFeatureTe
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      */
     @Override
     public EObject create(EClass eClass) {
         switch (eClass.getClassifierID()) {
-            case EFeatureTestsPackage.EFEATURE_DATA: return createEFeatureData();
-            case EFeatureTestsPackage.NON_GEO_EOBJECT: return createNonGeoEObject();
-            case EFeatureTestsPackage.EFEATURE_COMPATIBLE_DATA: return createEFeatureCompatibleData();
+            case EFeatureTestsPackage.EFEATURE_DATA:
+                return createEFeatureData();
+            case EFeatureTestsPackage.NON_GEO_EOBJECT:
+                return createNonGeoEObject();
+            case EFeatureTestsPackage.EFEATURE_COMPATIBLE_DATA:
+                return createEFeatureCompatibleData();
             default:
-                throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
+                throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a" +
+                        " valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
         }
     }
 
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      */
     @Override
@@ -86,6 +95,7 @@ public class EFeatureTestsFactoryImpl extends EFactoryImpl implements EFeatureTe
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      */
     @Override
@@ -97,29 +107,33 @@ public class EFeatureTestsFactoryImpl extends EFactoryImpl implements EFeatureTe
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      */
     @Override
     public <A, G extends Geometry> EFeatureCompatibleData<A, G> createEFeatureCompatibleData() {
-        EFeatureCompatibleDataImpl<A, G> eFeatureCompatibleData = new EFeatureCompatibleDataImpl<A, G>();
+        EFeatureCompatibleDataImpl<A, G> eFeatureCompatibleData = new 
+                EFeatureCompatibleDataImpl<A, G>();
         return eFeatureCompatibleData;
     }
 
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      */
     @Override
     public EFeatureTestsPackage getEFeatureTestsPackage() {
-        return (EFeatureTestsPackage)getEPackage();
+        return (EFeatureTestsPackage) getEPackage();
     }
 
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @deprecated
+     *
      * @generated
+     * @deprecated
      */
     @Deprecated
     public static EFeatureTestsPackage getPackage() {

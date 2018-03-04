@@ -72,7 +72,7 @@ import com.esri.sde.sdk.geom.GeometryFactory;
  * example, by running your application like
  * {@code java -Dorg.geotools.arcsde.session.AutoCloseThreshold=100 -cp... MyApp}
  * </p>
- * 
+ *
  * @author Gabriel Roldan
  * @author Jody Garnett
  * @version $Id$
@@ -87,6 +87,7 @@ class Session implements ISession {
      * Session and its {@link SeConnection}
      */
     private static final int AUTO_CLOSE_COUNTER_THRESHOLD;
+
     static {
         Integer systemPropValue = Integer
                 .getInteger("org.geotools.arcsde.session.AutoCloseThreshold");
@@ -98,7 +99,7 @@ class Session implements ISession {
      * Counter incremented every time an operation that degrades the performance of the running
      * application is executed, in order to close the {@link SeConnection} when it reaches
      * {@link #AUTO_CLOSE_COUNTER_THRESHOLD}. See class' JavaDocs for more details
-     * 
+     *
      * @see <a href="http://jira.codehaus.org/browse/GEOT-3227">GEOT-3227</a>
      * @see #prepareQuery(SeQueryInfo, SeFilter[], ArcSdeVersionHandler)
      */
@@ -110,7 +111,9 @@ class Session implements ISession {
      */
     protected static final long TEST_SERVER_ROUNDTRIP_INTERVAL_SECONDS = 5;
 
-    /** Actual SeConnection being protected */
+    /**
+     * Actual SeConnection being protected
+     */
     private final SeConnection connection;
 
     /**
@@ -147,13 +150,10 @@ class Session implements ISession {
 
     /**
      * Provides safe access to an SeConnection.
-     * 
-     * @param pool
-     *            SessionPool used to manage SeConnection
-     * @param config
-     *            Used to set up a SeConnection
-     * @throws SeException
-     *             If we cannot connect
+     *
+     * @param pool   SessionPool used to manage SeConnection
+     * @param config Used to set up a SeConnection
+     * @throws SeException If we cannot connect
      */
     Session(final SessionPool pool, final ArcSDEConnectionConfig config) throws IOException {
         this.sessionId = sessionCounter.incrementAndGet();
@@ -216,7 +216,7 @@ class Session implements ISession {
      * <p>
      * Shall be called just before being returned from the connection pool
      * </p>
-     * 
+     *
      * @see #isPassivated
      * @see #checkActive()
      */
@@ -230,7 +230,7 @@ class Session implements ISession {
      * <p>
      * Shall be callled just before sending it back to the pool
      * </p>
-     * 
+     *
      * @see #markActive()
      * @see #isPassivated
      * @see #checkActive()
@@ -251,10 +251,10 @@ class Session implements ISession {
 
     /**
      * Sanity check method called before every public operation delegates to the superclass.
-     * 
-     * @throws IllegalStateException
-     *             if {@link #isDisposed() isPassivated() == true} as this is a serious workflow
-     *             breackage.
+     *
+     * @throws IllegalStateException if {@link #isDisposed() isPassivated() == true} as this is a
+     * serious workflow
+     *                               breackage.
      */
     private void checkActive() {
         if (isDisposed()) {
@@ -555,7 +555,7 @@ class Session implements ISession {
 
     /**
      * @see ISession#createAndExecuteQuery(java.lang.String[],
-     *      com.esri.sde.sdk.client.SeSqlConstruct)
+     * com.esri.sde.sdk.client.SeSqlConstruct)
      */
     public SeQuery createAndExecuteQuery(final String[] propertyNames, final SeSqlConstruct sql)
             throws IOException {
@@ -578,13 +578,13 @@ class Session implements ISession {
         private final int sessionId;
 
         /**
-         * 
          * @param config
-         * @param sessionId
-         *            the session id the connection is to be created for. For exception reporting
-         *            purposes only
+         * @param sessionId the session id the connection is to be created for. For exception 
+         *                  reporting
+         *                  purposes only
          */
-        private CreateSeConnectionCommand(final ArcSDEConnectionConfig config, final int sessionId) {
+        private CreateSeConnectionCommand(final ArcSDEConnectionConfig config, final int 
+                sessionId) {
             this.config = config;
             this.sessionId = sessionId;
         }
@@ -637,10 +637,10 @@ class Session implements ISession {
 
     /**
      * @see org.geotools.arcsde.session.ISession#prepareQuery(com.esri.sde.sdk.client.SeQueryInfo,
-     *      com.esri.sde.sdk.client.SeFilter[], org.geotools.arcsde.versioning.ArcSdeVersionHandler)
+     * com.esri.sde.sdk.client.SeFilter[], org.geotools.arcsde.versioning.ArcSdeVersionHandler)
      */
     public SeQuery prepareQuery(final SeQueryInfo qInfo, final SeFilter[] spatialConstraints,
-            final ArcSdeVersionHandler version) throws IOException {
+                                final ArcSdeVersionHandler version) throws IOException {
         this.autoCloseCounter++;
         return issue(new Commands.PrepareQueryCommand(qInfo, spatialConstraints, version));
     }

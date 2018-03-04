@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2010-2011, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -45,52 +45,56 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
  * Please note that a StyleLayerDescriptor (defined by SLD) document is usually used to describe the
  * rendering requirements for an entire Map; while a Style (defined by SE) is focused on a single
  * layer of content
- * @since 2.7
- * @version 8.0
  *
+ * @version 8.0
  * @source $URL$
+ * @since 2.7
  */
 public class FeatureLayer extends StyleLayer {
 
-    /** FeatureSource offering content for display */
+    /**
+     * FeatureSource offering content for display
+     */
     protected FeatureSource<? extends FeatureType, ? extends Feature> featureSource;
 
-    /** Query use to limit content of featureSource */
+    /**
+     * Query use to limit content of featureSource
+     */
     protected Query query;
 
-    /** Listener to forward feature source events as layer events */
+    /**
+     * Listener to forward feature source events as layer events
+     */
     protected FeatureListener sourceListener;
 
     /**
      * Creates a new instance of FeatureLayer
-     * 
-     * @param featureSource
-     *            the data source for this layer
-     * @param style
-     *            the style used to represent this layer
+     *
+     * @param featureSource the data source for this layer
+     * @param style         the style used to represent this layer
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public FeatureLayer(FeatureSource featureSource, Style style) {
         super(style);
         this.featureSource = featureSource;
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public FeatureLayer(FeatureSource featureSource, Style style, String title) {
-        super(style,title);
+        super(style, title);
         this.featureSource = featureSource;
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public FeatureLayer(FeatureCollection collection, Style style) {
         super(style);
         this.featureSource = DataUtilities.source(collection);
         this.style = style;
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public FeatureLayer(FeatureCollection collection, Style style, String title) {
-        super( style, title );
+        super(style, title);
         this.featureSource = DataUtilities.source(collection);
     }
 
@@ -128,17 +132,17 @@ public class FeatureLayer extends StyleLayer {
 
     /**
      * Get the feature source for this layer.
-     * 
+     *
      * @return feature source for the contents of this layer
      */
     @Override
-    public FeatureSource<?,?> getFeatureSource() {
+    public FeatureSource<?, ?> getFeatureSource() {
         return featureSource;
     }
 
     /**
      * Get the feature source for this layer.
-     * 
+     *
      * @return SimpleFeatureSource for this layer, or null if not available
      */
     public SimpleFeatureSource getSimpleFeatureSource() {
@@ -151,9 +155,9 @@ public class FeatureLayer extends StyleLayer {
     /**
      * Returns the definition query (filter) for this layer. If no definition query has been defined
      * {@link Query.ALL} is returned.
-     * 
+     *
      * @return Query used to process content prior to display, or Query.ALL to indicate all content
-     *         is used
+     * is used
      */
     public Query getQuery() {
         if (query == null) {
@@ -166,7 +170,7 @@ public class FeatureLayer extends StyleLayer {
     /**
      * Sets a definition query for the layer which acts as a filter for the features that the layer
      * will draw.
-     * 
+     * <p>
      * <p>
      * A consumer must ensure that this query is used in combination with the bounding box filter
      * generated on each map interaction to limit the number of features returned to those that
@@ -177,7 +181,7 @@ public class FeatureLayer extends StyleLayer {
      * It is desirable to not include attributes at all but let the layer user (a renderer?) to
      * decide wich attributes are actually needed to perform its requiered operation.
      * </p>
-     * 
+     *
      * @param query
      */
     public void setQuery(Query query) {
@@ -189,43 +193,46 @@ public class FeatureLayer extends StyleLayer {
     public ReferencedEnvelope getBounds() {
         try {
             ReferencedEnvelope bounds;
-            if(query != null) {
+            if (query != null) {
                 bounds = featureSource.getBounds(query);
             } else {
                 bounds = featureSource.getBounds();
             }
-            if( bounds != null ){
+            if (bounds != null) {
                 FeatureType schema = featureSource.getSchema();
                 CoordinateReferenceSystem schemaCrs = schema.getCoordinateReferenceSystem();
                 CoordinateReferenceSystem boundsCrs = bounds.getCoordinateReferenceSystem();
-                
-                if( boundsCrs == null && schemaCrs != null ){
-                    LOGGER.warning("Bounds crs not defined; assuming bounds from schema are correct for "+featureSource );
-                    bounds = new ReferencedEnvelope(bounds.getMinX(),bounds.getMaxX(),bounds.getMinY(),bounds.getMaxY(),schemaCrs);
+
+                if (boundsCrs == null && schemaCrs != null) {
+                    LOGGER.warning("Bounds crs not defined; assuming bounds from schema are " +
+                            "correct for " + featureSource);
+                    bounds = new ReferencedEnvelope(bounds.getMinX(), bounds.getMaxX(), bounds
+                            .getMinY(), bounds.getMaxY(), schemaCrs);
                 }
-                if( boundsCrs != null && schemaCrs != null && !CRS.equalsIgnoreMetadata(boundsCrs, schemaCrs)){
-                    LOGGER.warning("Bounds crs and schema crs are not consistent; forcing the use of the schema crs so they are consistent" );
+                if (boundsCrs != null && schemaCrs != null && !CRS.equalsIgnoreMetadata
+                        (boundsCrs, schemaCrs)) {
+                    LOGGER.warning("Bounds crs and schema crs are not consistent; forcing the use" +
+                            " of the schema crs so they are consistent");
                     //bounds = bounds.transform(schemaCrs, true );
-                    bounds = new ReferencedEnvelope(bounds.getMinX(),bounds.getMaxX(),bounds.getMinY(),bounds.getMaxY(),schemaCrs);
+                    bounds = new ReferencedEnvelope(bounds.getMinX(), bounds.getMaxX(), bounds
+                            .getMinY(), bounds.getMaxY(), schemaCrs);
                 }
                 return bounds;
-            }            
+            }
         } catch (IOException e) {
             // feature bounds unavailable
         }
-        
+
         CoordinateReferenceSystem crs = featureSource.getSchema().getCoordinateReferenceSystem();
         if (crs != null) {
             // returns the envelope based on the CoordinateReferenceSystem
             Envelope envelope = CRS.getEnvelope(crs);
             if (envelope != null) {
                 return new ReferencedEnvelope(envelope); // nice!
-            }
-            else {
+            } else {
                 return new ReferencedEnvelope(crs); // empty bounds
             }
-        }
-        else {
+        } else {
             return null; // unknown
         }
     }

@@ -19,8 +19,6 @@ import org.geotools.feature.NameImpl;
 import org.junit.Test;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DataStoreFactoryTest extends AbstractAggregatingStoreTest {
@@ -40,7 +38,7 @@ public class DataStoreFactoryTest extends AbstractAggregatingStoreTest {
     public void testOneStore() throws IOException {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put(REPOSITORY_PARAM.key, repository);
-        params.put(STORES_PARAM.key, new String[] { "gt:store3" });
+        params.put(STORES_PARAM.key, new String[]{"gt:store3"});
 
         AggregatingDataStore store = (AggregatingDataStore) DataStoreFinder.getDataStore(params);
         assertNotNull(store);
@@ -93,15 +91,15 @@ public class DataStoreFactoryTest extends AbstractAggregatingStoreTest {
         // build the store so that we have a ready to use configuration
         Map<String, Object> params = new HashMap<String, Object>();
         params.put(REPOSITORY_PARAM.key, repository);
-        params.put(STORES_PARAM.key, new String[] { "store1", "gt:store3" });
+        params.put(STORES_PARAM.key, new String[]{"store1", "gt:store3"});
 
         AggregatingDataStore store = (AggregatingDataStore) DataStoreFinder.getDataStore(params);
         List<AggregateTypeConfiguration> configs = new ArrayList<AggregateTypeConfiguration>(store
                 .getConfigurations().values());
-        
+
         AggregatingDataStoreFactory factory = new AggregatingDataStoreFactory();
         String xml = factory.encodeConfiguration(configs);
-        
+
         List<AggregateTypeConfiguration> configs2 = factory.parseConfiguration(xml);
         assertEquals(configs, configs2);
     }

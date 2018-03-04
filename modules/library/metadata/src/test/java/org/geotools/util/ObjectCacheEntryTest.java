@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2007-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,6 +17,7 @@
 package org.geotools.util;
 
 import org.junit.*;
+
 import static org.junit.Assert.*;
 
 
@@ -24,9 +25,6 @@ import static org.junit.Assert.*;
  * Simple deadlock tests for {@link ObjectCacheEntry}.
  *
  * @author Cory Horner (Refractions Research)
- *
- *
- *
  * @source $URL$
  */
 public final class ObjectCacheEntryTest {
@@ -42,7 +40,7 @@ public final class ObjectCacheEntryTest {
 
         public void run() {
             try {
-                values = new Object[] {entry.getValue()};
+                values = new Object[]{entry.getValue()};
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -65,7 +63,7 @@ public final class ObjectCacheEntryTest {
                 entry.writeLock();
                 entry.setValue(1);
                 entry.writeUnLock();
-                values = new Object[] {entry.getValue()};
+                values = new Object[]{entry.getValue()};
             } catch (Exception e) {
                 e.printStackTrace();
             }

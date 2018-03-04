@@ -24,7 +24,9 @@ import org.junit.Test;
 
 public class RasterLayoutTest extends Assert {
 
-    /** The reference Test RasterLayout */
+    /**
+     * The reference Test RasterLayout
+     */
     public static RasterLayout testRasterLayout;
 
     private final static int H = 100;

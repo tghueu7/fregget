@@ -75,7 +75,11 @@ public class SelectionLab {
     /*
      * Convenient constants for the type of feature geometry in the shapefile
      */
-    private enum GeomType { POINT, LINE, POLYGON };
+    private enum GeomType {
+        POINT, LINE, POLYGON
+    }
+
+    ;
 
     /*
      * Some default style variables
@@ -109,6 +113,7 @@ public class SelectionLab {
 // docs end main
 
 // docs start display shapefile
+
     /**
      * This method connects to the shapefile; retrieves information about
      * its features; creates a map frame to display the shapefile and adds
@@ -168,6 +173,7 @@ public class SelectionLab {
 // docs end display shapefile
 
 // docs start select features
+
     /**
      * This method is called by our feature selection tool when
      * the user has clicked on the map.
@@ -182,8 +188,8 @@ public class SelectionLab {
          * Construct a 5x5 pixel rectangle centred on the mouse click position
          */
         Point screenPos = ev.getPoint();
-        Rectangle screenRect = new Rectangle(screenPos.x-2, screenPos.y-2, 5, 5);
-        
+        Rectangle screenRect = new Rectangle(screenPos.x - 2, screenPos.y - 2, 5, 5);
+
         /*
          * Transform the screen rectangle into bounding box in the coordinate
          * reference system of our map context. Note: we are using a naive method
@@ -232,6 +238,7 @@ public class SelectionLab {
 // docs end select features
 
 // docs start display selected
+
     /**
      * Sets the display to paint selected features yellow and
      * unselected features in the default style.
@@ -255,6 +262,7 @@ public class SelectionLab {
 // docs end display selected
 
 // docs start default style
+
     /**
      * Create a default Style for feature display
      */
@@ -271,6 +279,7 @@ public class SelectionLab {
 // docs end default style
 
 // docs start selected style
+
     /**
      * Create a Style where features with given IDs are painted
      * yellow, while others are painted with the default colors.
@@ -293,6 +302,7 @@ public class SelectionLab {
 // docs end selected style
 
 // docs start create rule
+
     /**
      * Helper for createXXXStyle methods. Creates a new Rule containing
      * a Symbolizer tailored to the geometry type of the features that
@@ -335,6 +345,7 @@ public class SelectionLab {
 // docs end create rule
 
 // docs start set geometry
+
     /**
      * Retrieve information about the feature geometry
      */

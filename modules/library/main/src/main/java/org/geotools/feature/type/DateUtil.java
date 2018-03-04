@@ -37,31 +37,43 @@ import java.util.*;
  * the Java date handling, which uses a discontinuous Gregorian calendar.
  *
  * @author Dennis M. Sosnoski
- *
- *
- * @source $URL$
  * @version 1.0
+ * @source $URL$
  */
 public abstract class DateUtil {
-    /** Number of milliseconds in a minute. */
+    /**
+     * Number of milliseconds in a minute.
+     */
     private static final int MSPERMINUTE = 60000;
 
-    /** Number of milliseconds in an hour. */
+    /**
+     * Number of milliseconds in an hour.
+     */
     private static final int MSPERHOUR = MSPERMINUTE * 60;
 
-    /** Number of milliseconds in a day. */
+    /**
+     * Number of milliseconds in a day.
+     */
     private static final int MSPERDAY = MSPERHOUR * 24;
 
-    /** Number of milliseconds in a day as a long. */
+    /**
+     * Number of milliseconds in a day as a long.
+     */
     private static final long LMSPERDAY = (long) MSPERDAY;
 
-    /** Number of milliseconds in a (non-leap) year. */
+    /**
+     * Number of milliseconds in a (non-leap) year.
+     */
     private static final long MSPERYEAR = LMSPERDAY * 365;
 
-    /** Average number of milliseconds in a year within century. */
+    /**
+     * Average number of milliseconds in a year within century.
+     */
     private static final long MSPERAVGYEAR = (long) (MSPERDAY * 365.25);
 
-    /** Number of milliseconds in a normal century. */
+    /**
+     * Number of milliseconds in a normal century.
+     */
     private static final long MSPERCENTURY = (long) (MSPERDAY * 36524.25);
 
     /**
@@ -69,39 +81,51 @@ public abstract class DateUtil {
      * the bias relative to January 1 of the year 1 C.E.
      */
     private static final long TIME_BASE = (1969 * MSPERYEAR)
-        + (((1969 / 4) - 19 + 4) * LMSPERDAY);
+            + (((1969 / 4) - 19 + 4) * LMSPERDAY);
 
-    /** Day number for start of month in non-leap year. */
+    /**
+     * Day number for start of month in non-leap year.
+     */
     private static final int[] MONTHS_NONLEAP = {
             0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365
-        };
+    };
 
-    /** Day number for start of month in non-leap year. */
+    /**
+     * Day number for start of month in non-leap year.
+     */
     private static final int[] MONTHS_LEAP = {
             0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366
-        };
+    };
 
-    /** Millisecond count prior to start of month in March 1-biased year. */
+    /**
+     * Millisecond count prior to start of month in March 1-biased year.
+     */
     private static final long[] BIAS_MONTHMS = {
             0 * LMSPERDAY, 0 * LMSPERDAY, 0 * LMSPERDAY, 0 * LMSPERDAY,
             31 * LMSPERDAY, 61 * LMSPERDAY, 92 * LMSPERDAY, 122 * LMSPERDAY,
             153 * LMSPERDAY, 184 * LMSPERDAY, 214 * LMSPERDAY, 245 * LMSPERDAY,
             275 * LMSPERDAY, 306 * LMSPERDAY, 337 * LMSPERDAY
-        };
+    };
 
-    /** Pad character for base64 encoding. */
+    /**
+     * Pad character for base64 encoding.
+     */
     private static final char PAD_CHAR = '=';
 
-    /** Characters used in base64 encoding. */
+    /**
+     * Characters used in base64 encoding.
+     */
     private static final char[] s_base64Chars = {
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
             'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b',
             'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
             'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3',
             '4', '5', '6', '7', '8', '9', '+', '/'
-        };
+    };
 
-    /** Values corresponding to characters used in bas64 encoding. */
+    /**
+     * Values corresponding to characters used in bas64 encoding.
+     */
     private static final byte[] s_base64Values = new byte[128];
 
     static {
@@ -121,16 +145,14 @@ public abstract class DateUtil {
      * number values embedded within lexical structures. Only decimal digits
      * can be included in the text range parsed.
      *
-     * @param text text to be parsed
+     * @param text   text to be parsed
      * @param offset starting offset in text
      * @param length number of digits to be parsed
-     *
      * @return converted positive integer value
-     *
      * @throws IllegalArgumentException on parse error
      */
     private static int parseDigits(String text, int offset, int length)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         // check if overflow a potential problem
         int value = 0;
 
@@ -152,7 +174,7 @@ public abstract class DateUtil {
                     value = (value * 10) + (chr - '0');
                 } else {
                     throw new IllegalArgumentException(
-                        "Non-digit in number value");
+                            "Non-digit in number value");
                 }
             }
         }
@@ -165,9 +187,7 @@ public abstract class DateUtil {
      * leading sign flag, followed by any number of digits.
      *
      * @param text text to be parsed
-     *
      * @return converted integer value
-     *
      * @throws IllegalArgumentException on parse error
      */
     public static int parseInt(String text) throws IllegalArgumentException {
@@ -219,7 +239,6 @@ public abstract class DateUtil {
      * Serialize int value to text.
      *
      * @param value int value to be serialized
-     *
      * @return text representation of value
      */
     public static String serializeInt(int value) {
@@ -231,9 +250,7 @@ public abstract class DateUtil {
      * sign flag, followed by any number of digits.
      *
      * @param text text to be parsed
-     *
      * @return converted long value
-     *
      * @throws IllegalArgumentException on parse error
      */
     public static long parseLong(String text) throws IllegalArgumentException {
@@ -285,7 +302,7 @@ public abstract class DateUtil {
                     value = (value * 10) + (chr - '0');
                 } else {
                     throw new IllegalArgumentException(
-                        "Non-digit in number value");
+                            "Non-digit in number value");
                 }
             }
 
@@ -301,7 +318,6 @@ public abstract class DateUtil {
      * Serialize long value to text.
      *
      * @param value long value to be serialized
-     *
      * @return text representation of value
      */
     public static String serializeLong(long value) {
@@ -313,9 +329,7 @@ public abstract class DateUtil {
      * leading sign flag, followed by any number of digits.
      *
      * @param text text to be parsed
-     *
      * @return converted short value
-     *
      * @throws IllegalArgumentException on parse error
      */
     public static short parseShort(String text) throws IllegalArgumentException {
@@ -332,7 +346,6 @@ public abstract class DateUtil {
      * Serialize short value to text.
      *
      * @param value short value to be serialized
-     *
      * @return text representation of value
      */
     public static String serializeShort(short value) {
@@ -344,9 +357,7 @@ public abstract class DateUtil {
      * sign flag, followed by any number of digits.
      *
      * @param text text to be parsed
-     *
      * @return converted byte value
-     *
      * @throws IllegalArgumentException on parse error
      */
     public static byte parseByte(String text) throws IllegalArgumentException {
@@ -363,7 +374,6 @@ public abstract class DateUtil {
      * Serialize byte value to text.
      *
      * @param value byte value to be serialized
-     *
      * @return text representation of value
      */
     public static String serializeByte(byte value) {
@@ -375,13 +385,11 @@ public abstract class DateUtil {
      * "true" and "false", or "1" and "0" numeric equivalents.
      *
      * @param text text to be parsed
-     *
      * @return converted boolean value
-     *
      * @throws IllegalArgumentException on parse error
      */
     public static boolean parseBoolean(String text)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         text = text.trim();
 
         if ("true".equals(text) || "1".equals(text)) {
@@ -398,7 +406,6 @@ public abstract class DateUtil {
      * text representation as "true" or "false".
      *
      * @param value boolean value to be serialized
-     *
      * @return text representation of value
      */
     public static String serializeBoolean(boolean value) {
@@ -411,9 +418,7 @@ public abstract class DateUtil {
      * digits.
      *
      * @param text text to be parsed
-     *
      * @return converted char value
-     *
      * @throws IllegalArgumentException on parse error
      */
     public static char parseChar(String text) throws IllegalArgumentException {
@@ -430,7 +435,6 @@ public abstract class DateUtil {
      * Serialize char value to text as unsigned 16-bit integer.
      *
      * @param value char value to be serialized
-     *
      * @return text representation of value
      */
     public static String serializeChar(char value) {
@@ -442,18 +446,16 @@ public abstract class DateUtil {
      * string must be of length one.
      *
      * @param text text to be parsed
-     *
      * @return converted char value
-     *
      * @throws IllegalArgumentException on parse error
      */
     public static char parseCharString(String text)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         if (text.length() == 1) {
             return text.charAt(0);
         } else {
             throw new IllegalArgumentException(
-                "Input must be a single character");
+                    "Input must be a single character");
         }
     }
 
@@ -462,13 +464,11 @@ public abstract class DateUtil {
      * the string must be null or of length one.
      *
      * @param text text to be parsed (may be <code>null</code>)
-     *
      * @return converted char value
-     *
      * @throws IllegalArgumentException on parse error
      */
     public static char deserializeCharString(String text)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         if (text == null) {
             return 0;
         } else {
@@ -480,7 +480,6 @@ public abstract class DateUtil {
      * Serialize char value to text as string of length one.
      *
      * @param value char value to be serialized
-     *
      * @return text representation of value
      */
     public static String serializeCharString(char value) {
@@ -494,9 +493,7 @@ public abstract class DateUtil {
      * but is included for interoperability with other Java XML processing.
      *
      * @param text text to be parsed
-     *
      * @return converted float value
-     *
      * @throws IllegalArgumentException on parse error
      */
     public static float parseFloat(String text) throws IllegalArgumentException {
@@ -519,7 +516,6 @@ public abstract class DateUtil {
      * Serialize float value to text.
      *
      * @param value float value to be serialized
-     *
      * @return text representation of value
      */
     public static String serializeFloat(float value) {
@@ -537,13 +533,11 @@ public abstract class DateUtil {
      * but is included for interoperability with other Java XML processing.
      *
      * @param text text to be parsed
-     *
      * @return converted double value
-     *
      * @throws IllegalArgumentException on parse error
      */
     public static double parseDouble(String text)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         text = text.trim();
 
         if ("-INF".equals(text)) {
@@ -563,7 +557,6 @@ public abstract class DateUtil {
      * Serialize double value to text.
      *
      * @param value double value to be serialized
-     *
      * @return text representation of value
      */
     public static String serializeDouble(double value) {
@@ -579,9 +572,7 @@ public abstract class DateUtil {
      * XML Schema standard format as CCYY, with optional leading sign.
      *
      * @param text text to be parsed
-     *
      * @return start of year date as millisecond value from 1 C.E.
-     *
      * @throws IllegalArgumentException on parse error
      */
     public static long parseYear(String text) throws IllegalArgumentException {
@@ -618,7 +609,7 @@ public abstract class DateUtil {
         }
 
         long day = ((((long) year) * 365) + (year / 4)) - (year / 100)
-            + (year / 400);
+                + (year / 400);
 
         return (day * MSPERDAY) - TIME_BASE;
     }
@@ -628,13 +619,11 @@ public abstract class DateUtil {
      * W3C XML Schema standard format as CCYY-MM, with optional leading sign.
      *
      * @param text text to be parsed
-     *
      * @return start of month in year date as millisecond value
-     *
      * @throws IllegalArgumentException on parse error
      */
     public static long parseYearMonth(String text)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         // start by validating the length and basic format
         text = text.trim();
 
@@ -676,14 +665,14 @@ public abstract class DateUtil {
         }
 
         boolean leap = ((year % 4) == 0)
-            && !(((year % 100) == 0) && ((year % 400) != 0));
+                && !(((year % 100) == 0) && ((year % 400) != 0));
 
         if (year > 0) {
             year--;
         }
 
         long day = ((((long) year) * 365) + (year / 4)) - (year / 100)
-            + (year / 400) + (leap ? MONTHS_LEAP : MONTHS_NONLEAP)[month];
+                + (year / 400) + (leap ? MONTHS_LEAP : MONTHS_NONLEAP)[month];
 
         return (day * MSPERDAY) - TIME_BASE;
     }
@@ -694,9 +683,7 @@ public abstract class DateUtil {
      * and trailing time zone (though the time zone is ignored in this case).
      *
      * @param text text to be parsed
-     *
      * @return start of day in month and year date as millisecond value
-     *
      * @throws IllegalArgumentException on parse error
      */
     public static long parseDate(String text) throws IllegalArgumentException {
@@ -740,7 +727,7 @@ public abstract class DateUtil {
 
         long day = parseDigits(text, split + 4, 2) - 1;
         boolean leap = ((year % 4) == 0)
-            && !(((year % 100) == 0) && ((year % 400) != 0));
+                && !(((year % 100) == 0) && ((year % 400) != 0));
         int[] starts = leap ? MONTHS_LEAP : MONTHS_NONLEAP;
 
         if ((day < 0) || (day >= (starts[month + 1] - starts[month]))) {
@@ -752,7 +739,7 @@ public abstract class DateUtil {
         }
 
         day += (((((long) year) * 365) + (year / 4)) - (year / 100)
-        + (year / 400) + starts[month]);
+                + (year / 400) + starts[month]);
 
         return (day * MSPERDAY) - TIME_BASE;
     }
@@ -764,14 +751,12 @@ public abstract class DateUtil {
      * requirements by accepting a <code>null</code> input.
      *
      * @param text text to be parsed (may be <code>null</code>)
-     *
      * @return converted date, or <code>null</code> if passed <code>null</code>
-     *         input
-     *
+     * input
      * @throws IllegalArgumentException on parse error
      */
     public static Date deserializeDate(String text)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         if (text == null) {
             return null;
         } else {
@@ -786,14 +771,12 @@ public abstract class DateUtil {
      * requirements by accepting a <code>null</code> input.
      *
      * @param text text to be parsed (may be <code>null</code>)
-     *
      * @return converted date, or <code>null</code> if passed <code>null</code>
-     *         input
-     *
+     * input
      * @throws IllegalArgumentException on parse error
      */
     public static java.sql.Date deserializeSqlDate(String text)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         if (text == null) {
             return null;
         } else {
@@ -810,21 +793,19 @@ public abstract class DateUtil {
      * W3C XML Schema standard format as hh:mm:ss.fff, with optional leading
      * sign and trailing time zone.
      *
-     * @param text text to be parsed
-     * @param start offset of first character of time value
+     * @param text   text to be parsed
+     * @param start  offset of first character of time value
      * @param length number of characters in time value
-     *
      * @return converted time as millisecond value
-     *
      * @throws IllegalArgumentException on parse error
      */
     public static long parseTime(String text, int start, int length)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         // validate time value following date
         long milli = 0;
         boolean valid = (length > (start + 7))
-            && (text.charAt(start + 2) == ':')
-            && (text.charAt(start + 5) == ':');
+                && (text.charAt(start + 2) == ':')
+                && (text.charAt(start + 5) == ':');
 
         if (valid) {
             int hour = parseDigits(text, start, 2);
@@ -868,7 +849,7 @@ public abstract class DateUtil {
                     // check for trailing fractional second
                     if (text.charAt(start) == '.') {
                         double fraction = Double.parseDouble(text.substring(
-                                    start, length));
+                                start, length));
                         milli += (fraction * 1000.0);
                     } else if (length > start) {
                         valid = false;
@@ -891,23 +872,21 @@ public abstract class DateUtil {
      * optional leading sign and trailing time zone.
      *
      * @param text text to be parsed
-     *
      * @return converted date as millisecond value
-     *
      * @throws IllegalArgumentException on parse error
      */
     public static long parseDateTime(String text)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         // split text to convert portions separately
         int split = text.indexOf('T');
 
         if (split < 0) {
             throw new IllegalArgumentException(
-                "Missing 'T' separator in dateTime");
+                    "Missing 'T' separator in dateTime");
         }
 
         return parseDate(text.substring(0, split))
-        + parseTime(text, split + 1, text.length());
+                + parseTime(text, split + 1, text.length());
     }
 
     /**
@@ -918,14 +897,12 @@ public abstract class DateUtil {
      * accepting a <code>null</code> input.
      *
      * @param text text to be parsed (may be <code>null</code>)
-     *
      * @return converted date, or <code>null</code> if passed <code>null</code>
-     *         input
-     *
+     * input
      * @throws IllegalArgumentException on parse error
      */
     public static Date deserializeDateTime(String text)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         if (text == null) {
             return null;
         } else {
@@ -941,14 +918,12 @@ public abstract class DateUtil {
      * <code>null</code> input.
      *
      * @param text text to be parsed (may be <code>null</code>)
-     *
      * @return converted timestamp, or <code>null</code> if passed
-     *         <code>null</code> input
-     *
+     * <code>null</code> input
      * @throws IllegalArgumentException on parse error
      */
     public static Timestamp deserializeTimestamp(String text)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         if (text == null) {
             return null;
         } else {
@@ -960,7 +935,7 @@ public abstract class DateUtil {
                 // make sure there aren't multiple decimal points
                 if (text.indexOf('.', split) > 0) {
                     throw new IllegalArgumentException(
-                        "Not a valid dateTime value");
+                            "Not a valid dateTime value");
                 }
 
                 // scan through all digits following decimal point
@@ -1012,14 +987,12 @@ public abstract class DateUtil {
      * deserializer usage requirements by accepting a <code>null</code> input.
      *
      * @param text text to be parsed (may be <code>null</code>)
-     *
      * @return converted time, or <code>null</code> if passed <code>null</code>
-     *         input
-     *
+     * input
      * @throws IllegalArgumentException on parse error
      */
     public static Time deserializeSqlTime(String text)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         if (text == null) {
             return null;
         } else {
@@ -1064,7 +1037,7 @@ public abstract class DateUtil {
      * zero digit for values less than ten.
      *
      * @param value number to be formatted (<code>0</code> to <code>99</code>)
-     * @param buff text formatting buffer
+     * @param buff  text formatting buffer
      */
     protected static void formatTwoDigits(int value, StringBuffer buff) {
         if (value < 10) {
@@ -1081,7 +1054,7 @@ public abstract class DateUtil {
      * included for years prior to 1 C.E.
      *
      * @param value time in milliseconds to be converted (from 1 C.E.)
-     * @param buff text formatting buffer
+     * @param buff  text formatting buffer
      */
     protected static void formatYear(long value, StringBuffer buff) {
         // find the actual year and month number; this uses a integer arithmetic
@@ -1099,7 +1072,7 @@ public abstract class DateUtil {
         }
 
         long yms = (adjusted + (LMSPERDAY / 4))
-            - (((year * 365) + (year / 4)) * LMSPERDAY);
+                - (((year * 365) + (year / 4)) * LMSPERDAY);
         int yday = (int) (yms / LMSPERDAY); // day number in year
         int month = ((5 * yday) + 456) / 153; // (biased) month number
 
@@ -1118,8 +1091,7 @@ public abstract class DateUtil {
      * two digits for the month.
      *
      * @param value time in milliseconds to be converted (from 1 C.E.)
-     * @param buff text formatting buffer
-     *
+     * @param buff  text formatting buffer
      * @return number of milliseconds into month
      */
     protected static long formatYearMonth(long value, StringBuffer buff) {
@@ -1138,7 +1110,7 @@ public abstract class DateUtil {
         }
 
         long yms = (adjusted + (LMSPERDAY / 4))
-            - (((year * 365) + (year / 4)) * LMSPERDAY);
+                - (((year * 365) + (year / 4)) * LMSPERDAY);
         int yday = (int) (yms / LMSPERDAY); // day number in year
 
         if (yday == 0) { // special for negative
@@ -1183,8 +1155,7 @@ public abstract class DateUtil {
      * exactly two digits each for the month and day.
      *
      * @param value time in milliseconds to be converted (from 1 C.E.)
-     * @param buff text formatting buffer
-     *
+     * @param buff  text formatting buffer
      * @return number of milliseconds into day
      */
     protected static int formatYearMonthDay(long value, StringBuffer buff) {
@@ -1206,13 +1177,11 @@ public abstract class DateUtil {
      * if necessary.
      *
      * @param time time to be converted, as milliseconds from January 1, 1970
-     *
      * @return converted gYear text
-     *
      * @throws IllegalArgumentException on conversion error
      */
     public static String serializeYear(long time)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         StringBuffer buff = new StringBuffer(6);
         formatYear(time + TIME_BASE, buff);
 
@@ -1225,13 +1194,11 @@ public abstract class DateUtil {
      * if necessary.
      *
      * @param date date to be converted
-     *
      * @return converted gYear text
-     *
      * @throws IllegalArgumentException on conversion error
      */
     public static String serializeYear(Date date)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         return serializeYear(date.getTime());
     }
 
@@ -1241,13 +1208,11 @@ public abstract class DateUtil {
      * included if necessary.
      *
      * @param time time to be converted, as milliseconds from January 1, 1970
-     *
      * @return converted gYearMonth text
-     *
      * @throws IllegalArgumentException on conversion error
      */
     public static String serializeYearMonth(long time)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         StringBuffer buff = new StringBuffer(12);
         formatYearMonth(time + TIME_BASE, buff);
 
@@ -1260,13 +1225,11 @@ public abstract class DateUtil {
      * included if necessary.
      *
      * @param date date to be converted
-     *
      * @return converted gYearMonth text
-     *
      * @throws IllegalArgumentException on conversion error
      */
     public static String serializeYearMonth(Date date)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         return serializeYearMonth(date.getTime());
     }
 
@@ -1276,13 +1239,11 @@ public abstract class DateUtil {
      * included if necessary.
      *
      * @param time time to be converted, as milliseconds from January 1, 1970
-     *
      * @return converted date text
-     *
      * @throws IllegalArgumentException on conversion error
      */
     public static String serializeDate(long time)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         StringBuffer buff = new StringBuffer(12);
         formatYearMonthDay(time + TIME_BASE, buff);
 
@@ -1295,14 +1256,12 @@ public abstract class DateUtil {
      * included if necessary.
      *
      * @param date date to be converted
-     *
      * @return converted date text
-     *
      * @throws IllegalArgumentException on conversion error
      */
     public static String serializeDate(Date date)
-        throws IllegalArgumentException {
-        long time = date.getTime();       
+            throws IllegalArgumentException {
+        long time = date.getTime();
         time += TimeZone.getDefault().getOffset(time);
         return serializeDate(time);
     }
@@ -1313,13 +1272,11 @@ public abstract class DateUtil {
      * sign included if necessary.
      *
      * @param date date to be converted
-     *
      * @return converted date text
-     *
      * @throws IllegalArgumentException on conversion error
      */
     public static String serializeSqlDate(java.sql.Date date)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         return serializeDate(date);
     }
 
@@ -1331,11 +1288,10 @@ public abstract class DateUtil {
      *
      * @param time time to be converted, as milliseconds in day
      * @param buff buffer for appending time text
-     *
      * @throws IllegalArgumentException on conversion error
      */
     public static void serializeTime(int time, StringBuffer buff)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         // append the hour, minute, and second
         formatTwoDigits(time / MSPERHOUR, buff);
         time = time % MSPERHOUR;
@@ -1370,13 +1326,11 @@ public abstract class DateUtil {
      *
      * @param time time to be converted, as milliseconds from January 1, 1970
      * @param zone flag for trailing 'Z' to be appended to indicate UTC
-     *
      * @return converted dateTime text
-     *
      * @throws IllegalArgumentException on conversion error
      */
     public static String serializeDateTime(long time, boolean zone)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         // start with the year, month, and day
         StringBuffer buff = new StringBuffer(25);
         int extra = formatYearMonthDay(time + TIME_BASE, buff);
@@ -1399,13 +1353,11 @@ public abstract class DateUtil {
      * trailing 'Z' to indicate UTC.
      *
      * @param time time to be converted, as milliseconds from January 1, 1970
-     *
      * @return converted dateTime text
-     *
      * @throws IllegalArgumentException on conversion error
      */
     public static String serializeDateTime(long time)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         return serializeDateTime(time, false);
     }
 
@@ -1415,14 +1367,12 @@ public abstract class DateUtil {
      * leading sign and trailing seconds decimal, as necessary.
      *
      * @param date date to be converted
-     *
      * @return converted dateTime text
-     *
      * @throws IllegalArgumentException on conversion error
      */
     public static String serializeDateTime(Date date)
-        throws IllegalArgumentException {
-        long time = date.getTime();       
+            throws IllegalArgumentException {
+        long time = date.getTime();
         time += TimeZone.getDefault().getOffset(time);
         return serializeDateTime(time, false);
     }
@@ -1433,13 +1383,11 @@ public abstract class DateUtil {
      * in the fractional second value (down to nanoseconds).
      *
      * @param stamp timestamp to be converted
-     *
      * @return converted dateTime text
-     *
      * @throws IllegalArgumentException on conversion error
      */
     public static String serializeTimestamp(Timestamp stamp)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         // check for nanosecond value to be included
         int nano = stamp.getNanos();
 
@@ -1473,7 +1421,7 @@ public abstract class DateUtil {
 
             // finish by appending to time with decimal separator
             return serializeDateTime(stamp.getTime(), false) + '.' + digits
-            + 'Z';
+                    + 'Z';
         } else {
             return serializeDateTime(stamp.getTime(), true);
         }
@@ -1486,15 +1434,13 @@ public abstract class DateUtil {
      * zone indication.
      *
      * @param time time to be converted
-     *
      * @return converted time text
-     *
      * @throws IllegalArgumentException on conversion error
      */
     public static String serializeSqlTime(Time time)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         StringBuffer buff = new StringBuffer(12);
-        long t = time.getTime();       
+        long t = time.getTime();
         t += TimeZone.getDefault().getOffset(t);
         int extra = formatYearMonthDay(t + TIME_BASE, buff);
         buff.delete(0, buff.length());
@@ -1510,9 +1456,8 @@ public abstract class DateUtil {
      *
      * @param a first object to be compared
      * @param b second object to be compared
-     *
      * @return <code>true</code> if both objects are <code>null</code>, or if
-     *         <code>a.equals(b)</code>; <code>false</code> otherwise
+     * <code>a.equals(b)</code>; <code>false</code> otherwise
      */
     public static boolean isEqual(Object a, Object b) {
         return (a == null) ? (b == null) : a.equals(b);
@@ -1525,17 +1470,15 @@ public abstract class DateUtil {
      * otherwise the match index is returned directly.
      *
      * @param target text to be found in enumeration
-     * @param enums ordered array of texts included in enumeration
-     * @param vals array of values to be returned for corresponding text match
-     *        positions (position returned directly if this is
-     *        <code>null</code>)
-     *
+     * @param enums  ordered array of texts included in enumeration
+     * @param vals   array of values to be returned for corresponding text match
+     *               positions (position returned directly if this is
+     *               <code>null</code>)
      * @return enumeration value for target text
-     *
      * @throws IllegalArgumentException if target text not found in enumeration
      */
     public static int enumValue(String target, String[] enums, int[] vals)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         int base = 0;
         int limit = enums.length - 1;
 
@@ -1555,7 +1498,7 @@ public abstract class DateUtil {
         }
 
         throw new IllegalArgumentException("Target value \"" + target
-            + "\" not found in enumeration");
+                + "\" not found in enumeration");
     }
 
     /**
@@ -1568,14 +1511,12 @@ public abstract class DateUtil {
      * @param chrs character array for base64 text representation
      * @param fill starting offset within byte data array
      * @param byts byte data array
-     *
      * @return number of decoded bytes
-     *
      * @throws IllegalArgumentException if invalid character in base64
-     *         representation
+     *                                  representation
      */
     private static int decodeChunk(int base, char[] chrs, int fill, byte[] byts)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         // find the byte count to be decoded
         int length = 3;
 
@@ -1595,16 +1536,16 @@ public abstract class DateUtil {
 
         // convert and store bytes of data
         switch (length) {
-        case 3:
-            byts[fill + 2] = (byte) ((v2 << 6) | v3);
+            case 3:
+                byts[fill + 2] = (byte) ((v2 << 6) | v3);
 
-        case 2:
-            byts[fill + 1] = (byte) ((v1 << 4) | (v2 >> 2));
+            case 2:
+                byts[fill + 1] = (byte) ((v1 << 4) | (v2 >> 2));
 
-        case 1:
-            byts[fill] = (byte) ((v0 << 2) | (v1 >> 4));
+            case 1:
+                byts[fill] = (byte) ((v0 << 2) | (v1 >> 4));
 
-            break;
+                break;
         }
 
         return length;
@@ -1615,14 +1556,12 @@ public abstract class DateUtil {
      * array of the appopriate length. In keeping with the recommendations,
      *
      * @param text text to be parsed (may include extra characters)
-     *
      * @return byte array of data
-     *
      * @throws IllegalArgumentException if invalid character in base64
-     *         representation
+     *                                  representation
      */
     public static byte[] parseBase64(String text)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         // convert raw text to base64 character array
         char[] chrs = new char[text.length()];
         int length = 0;
@@ -1638,7 +1577,7 @@ public abstract class DateUtil {
         // check the text length
         if ((length % 4) != 0) {
             throw new IllegalArgumentException(
-                "Text length for base64 must be a multiple of 4");
+                    "Text length for base64 must be a multiple of 4");
         } else if (length == 0) {
             return new byte[0];
         }
@@ -1664,7 +1603,7 @@ public abstract class DateUtil {
 
         if (fill != blength) {
             throw new IllegalArgumentException(
-                "Embedded padding characters in byte64 text");
+                    "Embedded padding characters in byte64 text");
         }
 
         return byts;
@@ -1675,14 +1614,12 @@ public abstract class DateUtil {
      * array of the appopriate length. In keeping with the recommendations,
      *
      * @param text text to be parsed (may be null, or include extra characters)
-     *
      * @return byte array of data
-     *
      * @throws IllegalArgumentException if invalid character in base64
-     *         representation
+     *                                  representation
      */
     public static byte[] deserializeBase64(String text)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         if (text == null) {
             return null;
         } else {
@@ -1742,7 +1679,6 @@ public abstract class DateUtil {
      * representation.
      *
      * @param byts byte data array
-     *
      * @return base64 encoded text
      */
     public static String serializeBase64(byte[] byts) {

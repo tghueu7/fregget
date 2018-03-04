@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -13,7 +13,7 @@
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
- */ 
+ */
 package org.geotools.geometry.text;
 
 
@@ -51,7 +51,7 @@ import java.util.Set;
  * spec which describes feature geometry. It doesn't seem to exactly mesh up
  * with the geometry as described in 19107 so not all of the grammar is supported.
  * <p/>
- *
+ * <p>
  * The types in the WKT format, and their mappings:
  * <ul>
  * <li>
@@ -65,33 +65,30 @@ import java.util.Set;
  * </li>
  * <li>
  * MULTIPOINT       org.opengis.geometry.coordinate.aggregate.MultiPoint
- *                  Note that there is no factory method for MultiPoint.
- *                  <br>
- *                  For now, to keep implementation-independance I'm returning it as a List
+ * Note that there is no factory method for MultiPoint.
+ * <br>
+ * For now, to keep implementation-independance I'm returning it as a List
  * </li>
  * <li>
  * MULTILINESTRING  no matching type in the GeoAPI interfaces
- *                  Could also be returned as list.
- *                  <br>
- *                  Not handled for now
+ * Could also be returned as list.
+ * <br>
+ * Not handled for now
  * </li>
  * <li>
  * MULTIPOLYGON     no matching type in the GeoAPI interfaces
- *                  Could also be returned as list.
- *                  <br>
- *                  Not handled for now
+ * Could also be returned as list.
+ * <br>
+ * Not handled for now
  * </li>
  * </ul>>
  * Please note that this parser is not thread safe; you can however reuse the parser.
- * 
+ *
  * @author Jody Garnett
  * @author Joel Skelton
- * @since 2.5
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.5
  */
 public class WKTParser {
 
@@ -99,7 +96,7 @@ public class WKTParser {
     private static final String COMMA = ",";
     private static final String L_PAREN = "(";
     private static final String R_PAREN = ")";
-    
+
     private GeometryFactory geometryFactory;
     private PrimitiveFactory primitiveFactory;
     private PositionFactory positionFactory;
@@ -107,31 +104,41 @@ public class WKTParser {
 
 
     public WKTParser(GeometryBuilder builder) {
-        this( builder.getGeometryFactory(), builder.getPrimitiveFactory(), builder.getPositionFactory(), builder.getAggregateFactory() );
+        this(builder.getGeometryFactory(), builder.getPrimitiveFactory(), builder
+                .getPositionFactory(), builder.getAggregateFactory());
     }
+
     /**
      * Constructor takes pre-created geometry and primitive factories that will be used to
      * parse the Well Known Text (WKT). The geometries created from the WKT will be created
      * in the <code>CoordinateReferenceSystem</code>
      *
-     * @param geometryFactory A <code>GeometryFactory</code> created with a <code>CoordinateReferenceSystem</code> and <code>PrecisionModel</code>
-     * @param primitiveFactory A <code>PrimitiveFactory</code> created with the same crs and precision as above
-     * @param positionFactory A <code>PositionFactory</code> created with the same crs and precision as above
-     * @param aggregateFactory A <Code>AggregateFactory</code> created with the same crs and precision as above
+     * @param geometryFactory  A <code>GeometryFactory</code> created with a 
+     *                         <code>CoordinateReferenceSystem</code> and 
+     *                         <code>PrecisionModel</code>
+     * @param primitiveFactory A <code>PrimitiveFactory</code> created with the same crs and 
+     *                         precision as above
+     * @param positionFactory  A <code>PositionFactory</code> created with the same crs and 
+     *                         precision as above
+     * @param aggregateFactory A <Code>AggregateFactory</code> created with the same crs and 
+     *                         precision as above
      */
-    public WKTParser(GeometryFactory geometryFactory, PrimitiveFactory primitiveFactory, PositionFactory positionFactory, AggregateFactory aggregateFactory) {
+    public WKTParser(GeometryFactory geometryFactory, PrimitiveFactory primitiveFactory, 
+                     PositionFactory positionFactory, AggregateFactory aggregateFactory) {
         this.geometryFactory = geometryFactory;
         this.primitiveFactory = primitiveFactory;
         this.positionFactory = positionFactory;
         this.aggregateFactory = aggregateFactory;
     }
+
     /**
      * Provide a GeometryFactory for the parser.
      * <p>
      * Should be called prior to use.
+     *
      * @param factory
      */
-    public void setFactory( GeometryFactory factory){
+    public void setFactory(GeometryFactory factory) {
         this.geometryFactory = factory;
     }
 
@@ -139,21 +146,24 @@ public class WKTParser {
      * Provide a PrimitiveFactory for the parser.
      * <p>
      * Should be called prior to use.
+     *
      * @param factory
      */
-    public void setFactory( PrimitiveFactory factory){
+    public void setFactory(PrimitiveFactory factory) {
         this.primitiveFactory = factory;
     }
+
     /**
      * Provide a PositionFactory for the parser.
      * <p>
      * Should be called prior to use.
+     *
      * @param factory
      */
-    public void setFactory( PositionFactory factory){
+    public void setFactory(PositionFactory factory) {
         this.positionFactory = factory;
     }
-    
+
     /**
      * Takes a string containing well known text geometry description and
      * wraps it in a Reader which is then passed on to parseWKT for handling.
@@ -214,30 +224,31 @@ public class WKTParser {
      * @param tokenizer tokenizer over a stream of text in Well-known Text
      *                  format. The next tokens must form a &lt;Geometry Tagged Text&gt;.
      * @return a <code>Object</code> of the correct type for the next item
-     *         in the stream
+     * in the stream
      * @throws ParseException if the coordinates used to create a <code>Polygon</code>
      *                        shell and holes do not form closed linestrings, or if an unexpected
      *                        token was encountered
      * @throws IOException    if an I/O error occurs
      */
-    private Geometry readGeometryTaggedText(StreamTokenizer tokenizer) throws IOException, ParseException {
+    private Geometry readGeometryTaggedText(StreamTokenizer tokenizer) throws IOException, 
+            ParseException {
         String type = getNextWord(tokenizer);
         if (type.equals("POINT")) {
             return readPointText(tokenizer);
-        }  else if (type.equalsIgnoreCase("LINESTRING")) {
+        } else if (type.equalsIgnoreCase("LINESTRING")) {
             return readLineStringText(tokenizer);
         } else if (type.equalsIgnoreCase("LINEARRING")) {
-        	return readLinearRingText(tokenizer);
-        }  else if (type.equalsIgnoreCase("POLYGON")) {
+            return readLinearRingText(tokenizer);
+        } else if (type.equalsIgnoreCase("POLYGON")) {
             return readPolygonText(tokenizer);
         } else if (type.equalsIgnoreCase("MULTIPOINT")) {
             return readMultiPointText(tokenizer);
         } else if (type.equalsIgnoreCase("MULTIPOLYGON")) {
             return readMultiPolygonText(tokenizer);
         } else if (type.equalsIgnoreCase("GEOMETRYCOLLECTION")) {
-        	return readGeometryCollectionText(tokenizer);
+            return readGeometryCollectionText(tokenizer);
         } else if (type.equalsIgnoreCase("MULTILINESTRING")) {
-        	return readMultiLineStringText(tokenizer);
+            return readMultiLineStringText(tokenizer);
         }
         throw new ParseException("Unknown geometry type: " + type, tokenizer.lineno());
     }
@@ -311,7 +322,8 @@ public class WKTParser {
                 try {
                     return Double.parseDouble(tokenizer.sval);
                 } catch (NumberFormatException ex) {
-                    throw new ParseException("Invalid number: " + tokenizer.sval, tokenizer.lineno());
+                    throw new ParseException("Invalid number: " + tokenizer.sval, tokenizer
+                            .lineno());
                 }
             }
             default:
@@ -326,11 +338,12 @@ public class WKTParser {
      * @param tokenizer tokenizer over a stream of text in Well-known Text
      *                  format. The next token must be EMPTY or L_PAREN.
      * @return the next EMPTY or L_PAREN in the stream as uppercase
-     *         text.
+     * text.
      * @throws ParseException if the next token is not EMPTY or L_PAREN
      * @throws IOException    if an I/O error occurs
      */
-    private String getNextEmptyOrOpener(StreamTokenizer tokenizer) throws IOException, ParseException {
+    private String getNextEmptyOrOpener(StreamTokenizer tokenizer) throws IOException, 
+            ParseException {
         String nextWord = getNextWord(tokenizer);
         if (nextWord.equals(EMPTY) || nextWord.equals(L_PAREN)) {
             return nextWord;
@@ -348,7 +361,8 @@ public class WKTParser {
      * @throws ParseException if the next token is not R_PAREN or COMMA
      * @throws IOException    if an I/O error occurs
      */
-    private String getNextCloserOrComma(StreamTokenizer tokenizer) throws IOException, ParseException {
+    private String getNextCloserOrComma(StreamTokenizer tokenizer) throws IOException, 
+            ParseException {
         String nextWord = getNextWord(tokenizer);
         if (nextWord.equals(COMMA) || nextWord.equals(R_PAREN)) {
             return nextWord;
@@ -395,13 +409,13 @@ public class WKTParser {
                 }
                 value = word;
                 break;
-            case'(':
+            case '(':
                 value = L_PAREN;
                 break;
-            case')':
+            case ')':
                 value = R_PAREN;
                 break;
-            case',':
+            case ',':
                 value = COMMA;
                 break;
             default:
@@ -450,7 +464,7 @@ public class WKTParser {
      * @param tokenizer tokenizer over a stream of text in Well-known Text
      *                  format. The next tokens must form a &lt;Point Text&gt;.
      * @return a <code>Point</code> specified by the next token in
-     *         the stream
+     * the stream
      * @throws IOException    if an I/O error occurs
      * @throws ParseException if an unexpected token was encountered
      */
@@ -470,7 +484,7 @@ public class WKTParser {
      * @param tokenizer tokenizer over a stream of text in Well-known Text
      *                  format. The next tokens must form a &lt;LineString Text&gt;.
      * @return a <code>LineString</code> specified by the next
-     *         token in the stream
+     * token in the stream
      * @throws IOException    if an I/O error occurs
      * @throws ParseException if an unexpected token was encountered
      */
@@ -488,7 +502,7 @@ public class WKTParser {
      * @param tokenizer tokenizer over a stream of text in Well-known Text
      *                  format. The next tokens must form a &lt;LineString Text&gt;.
      * @return a <code>Curve</code> specified by the next
-     *         token in the stream
+     * token in the stream
      * @throws IOException    if an I/O error occurs
      * @throws ParseException if the coordinates used to create the <code>Curve</code>
      *                        do not form a closed linestring, or if an unexpected token was
@@ -511,12 +525,12 @@ public class WKTParser {
      * @param coordinates the <code>Coordinate</code>s with which to create the
      *                    <code>Point</code>s
      * @return <code>Point</code>s created using this <code>WKTReader</code>
-     *         s <code>GeometryFactory</code>
+     * s <code>GeometryFactory</code>
      */
     private List toPoints(List coordinates) {
         List points = new ArrayList();
         for (int i = 0; i < coordinates.size(); i++) {
-            points.add(positionFactory.createPosition((Point)coordinates.get(i)));
+            points.add(positionFactory.createPosition((Point) coordinates.get(i)));
         }
         return points;
     }
@@ -544,7 +558,7 @@ public class WKTParser {
         List holes = new ArrayList();
         nextToken = getNextCloserOrComma(tokenizer);
         while (nextToken.equals(COMMA)) {
-        	Curve holecurve = readLinearRingText(tokenizer);
+            Curve holecurve = readLinearRingText(tokenizer);
             List holeList = Collections.singletonList(holecurve);
             Ring hole = primitiveFactory.createRing(holeList);
             //Ring hole = readLinearRingText(tokenizer);
@@ -561,19 +575,20 @@ public class WKTParser {
      * @param tokenizer tokenizer on top of a stream of text in Well-known Text
      *                  format. The next tokens must form a &lt;Polygon Text&gt;.
      * @return a <code>MultiPrimitive</code> specified by the next token
-     *         in the stream
+     * in the stream
      * @throws ParseException if the coordinates used to create the <code>Polygon</code>
      *                        shell and holes do not form closed linestrings, or if an unexpected
      *                        token was encountered.
      * @throws IOException    if an I/O error occurs
      */
-    private MultiPrimitive readMultiPolygonText(StreamTokenizer tokenizer) throws IOException, ParseException {
-        String nextToken = getNextEmptyOrOpener(tokenizer);        
+    private MultiPrimitive readMultiPolygonText(StreamTokenizer tokenizer) throws IOException, 
+            ParseException {
+        String nextToken = getNextEmptyOrOpener(tokenizer);
         if (nextToken.equals(EMPTY)) {
-        	return null;
+            return null;
         }
         MultiPrimitive multi = geometryFactory.createMultiPrimitive();
-        Surface surface  = readPolygonText(tokenizer);
+        Surface surface = readPolygonText(tokenizer);
         //multi.getElements().add(surface);
         Set elements = multi.getElements();
         elements.add(surface);
@@ -586,53 +601,55 @@ public class WKTParser {
         }
         return multi;
     }
-    
+
     /**
      * Creates a {@code MultiPrimitive} using the next token in the stream.
      *
      * @param tokenizer tokenizer on top of a stream of text in Well-known Text
      *                  format. The next tokens must form a &lt;Point Text&gt;.
      * @return a <code>MultiPrimitive</code> specified by the next token
-     *         in the stream
+     * in the stream
      * @throws ParseException if the coordinates used to create the <code>Polygon</code>
      *                        shell and holes do not form closed linestrings, or if an unexpected
      *                        token was encountered.
      * @throws IOException    if an I/O error occurs
      */
-    private MultiPrimitive readMultiPointText(StreamTokenizer tokenizer) throws IOException, ParseException {
-        String nextToken = getNextEmptyOrOpener(tokenizer);        
+    private MultiPrimitive readMultiPointText(StreamTokenizer tokenizer) throws IOException, 
+            ParseException {
+        String nextToken = getNextEmptyOrOpener(tokenizer);
         if (nextToken.equals(EMPTY)) {
-        	return null;
+            return null;
         }
-        MultiPrimitive multi = geometryFactory.createMultiPrimitive();        
+        MultiPrimitive multi = geometryFactory.createMultiPrimitive();
         Point point = primitiveFactory.createPoint(getPreciseCoordinate(tokenizer));
         //multi.getElements().add(point);
         Set elements = multi.getElements();
         elements.add(point);
         nextToken = getNextCloserOrComma(tokenizer);
         while (nextToken.equals(COMMA)) {
-        	point = primitiveFactory.createPoint(getPreciseCoordinate(tokenizer));
+            point = primitiveFactory.createPoint(getPreciseCoordinate(tokenizer));
             //multi.getElements().add(point);
-        	elements.add(point);
+            elements.add(point);
             nextToken = getNextCloserOrComma(tokenizer);
         }
         return multi;
     }
-        
+
     /**
      * Creates a {@code MultiPrimitive} out of a GEOMETRYCOLLECCTION specifier.
      *
      * @param tokenizer tokenizer on top of a stream of text in Well-known Text
      *                  format.
      * @return a <code>MultiPrimitive</code> specified by the next tokens
-     *         in the stream
-     * @throws ParseException 
+     * in the stream
+     * @throws ParseException
      * @throws IOException    if an I/O error occurs
      */
-    private MultiPrimitive readGeometryCollectionText(StreamTokenizer tokenizer) throws IOException, ParseException {
-        String nextToken = getNextEmptyOrOpener(tokenizer);        
+    private MultiPrimitive readGeometryCollectionText(StreamTokenizer tokenizer) throws 
+            IOException, ParseException {
+        String nextToken = getNextEmptyOrOpener(tokenizer);
         if (nextToken.equals(EMPTY)) {
-        	return null;
+            return null;
         }
         MultiPrimitive multi = geometryFactory.createMultiPrimitive();
         Geometry geom = readGeometryTaggedText(tokenizer);
@@ -641,7 +658,7 @@ public class WKTParser {
         elements.add(geom);
         nextToken = getNextCloserOrComma(tokenizer);
         while (nextToken.equals(COMMA)) {
-            geom  = readGeometryTaggedText(tokenizer);
+            geom = readGeometryTaggedText(tokenizer);
             //multi.getElements().add(geom);
             elements.add(geom);
             nextToken = getNextCloserOrComma(tokenizer);
@@ -653,19 +670,20 @@ public class WKTParser {
      * Creates a {@code MultiPrimitive} out of a MULTILINESTRING specifier
      *
      * @param tokenizer tokenizer on top of a stream of text in Well-known Text
-     *                  format. 
+     *                  format.
      * @return a <code>MultiPrimitive</code> specified by the next tokens
-     *         in the stream
-     * @throws ParseException 
+     * in the stream
+     * @throws ParseException
      * @throws IOException    if an I/O error occurs
      */
-    private MultiPrimitive readMultiLineStringText(StreamTokenizer tokenizer) throws IOException, ParseException {
-        String nextToken = getNextEmptyOrOpener(tokenizer);        
+    private MultiPrimitive readMultiLineStringText(StreamTokenizer tokenizer) throws IOException,
+            ParseException {
+        String nextToken = getNextEmptyOrOpener(tokenizer);
         if (nextToken.equals(EMPTY)) {
-        	return null;
+            return null;
         }
         MultiPrimitive multi = geometryFactory.createMultiPrimitive();
-    	Curve curve = readLineStringText(tokenizer);
+        Curve curve = readLineStringText(tokenizer);
         //multi.getElements().add(curve);
         Set elements = multi.getElements();
         elements.add(curve);
@@ -678,5 +696,5 @@ public class WKTParser {
         }
         return multi;
     }
-    
+
 }

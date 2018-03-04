@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -33,15 +33,13 @@ import org.opengis.feature.simple.SimpleFeature;
  * idea of what is needed.
  * </p>
  *
- *
- * @source $URL$
  * @version $Id$
- *
+ * @source $URL$
  * @task REVISIT: consider a static create(Object[] attributes,  String
- *       FeatureID, FeatureType type) method.
+ * FeatureID, FeatureType type) method.
  * @task REVISIT: move these methods directly to FeatureType?  This would not
- *       allow independent FeatureFactories, but I'm not sure if those are
- *       useful at all.
+ * allow independent FeatureFactories, but I'm not sure if those are
+ * useful at all.
  */
 public interface FeatureFactory {
     /**
@@ -49,27 +47,25 @@ public interface FeatureFactory {
      * than ideal, as a FeatureID should be persistant over time, generally
      * created by a datasource.  This method is more for testing that doesn't
      * need featureID.
-     * 
-     * @deprecated Schema information is required
+     *
      * @param attributes the array of attribute values
      * @return The created feature
      * @throws IllegalAttributeException if the FeatureType does not validate
-     *         the attributes.
+     *                                   the attributes.
+     * @deprecated Schema information is required
      */
     SimpleFeature create(Object[] attributes) throws IllegalAttributeException;
 
     /**
      * Creates a new feature, with the proper featureID.
-     * 
-     * @deprecated Schema information is required
+     *
      * @param attributes the array of attribute values.
-     * @param featureID the feature ID.
-     *
+     * @param featureID  the feature ID.
      * @return the created feature.
-     *
      * @throws IllegalAttributeException if the FeatureType does not validate
-     *         the attributes.
+     *                                   the attributes.
+     * @deprecated Schema information is required
      */
     SimpleFeature create(Object[] attributes, String featureID)
-        throws IllegalAttributeException;
+            throws IllegalAttributeException;
 }

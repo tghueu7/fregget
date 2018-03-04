@@ -3,7 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -25,28 +25,32 @@ import java.util.logging.Logger;
 
 /**
  * WriterUtils purpose.
- * 
+ * <p>
  * <p>
  * Used to provide assitance writing xml to a Writer.
  * </p>
- * 
+ * <p>
  * <p></p>
  *
  * @author dzwiers, Refractions Research, Inc.
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 class WriterUtils {
-    /** Used internally to create log information to detect errors. */
+    /**
+     * Used internally to create log information to detect errors.
+     */
     private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger(
             "org.vfny.geoserver.global");
 
-    /** The output writer. */
+    /**
+     * The output writer.
+     */
     protected Writer writer;
 
     /**
      * WriterUtils constructor.
-     * 
+     * <p>
      * <p>
      * Should never be called.
      * </p>
@@ -56,7 +60,7 @@ class WriterUtils {
 
     /**
      * WriterUtils constructor.
-     * 
+     * <p>
      * <p>
      * Stores the specified writer to use for output.
      * </p>
@@ -70,13 +74,12 @@ class WriterUtils {
 
     /**
      * write purpose.
-     * 
+     * <p>
      * <p>
      * Writes the String specified to the stored output writer.
      * </p>
      *
      * @param s The String to write.
-     *
      * @throws IOException When an IO exception occurs.
      */
     public void write(String s) throws IOException {
@@ -86,13 +89,12 @@ class WriterUtils {
 
     /**
      * writeln purpose.
-     * 
+     * <p>
      * <p>
      * Writes the String specified to the stored output writer.
      * </p>
      *
      * @param s The String to write.
-     *
      * @throws IOException When an IO exception occurs.
      */
     public void writeln(String s) throws IOException {
@@ -102,14 +104,13 @@ class WriterUtils {
 
     /**
      * openTag purpose.
-     * 
+     * <p>
      * <p>
      * Writes an open xml tag with the name specified to the stored output
      * writer.
      * </p>
      *
      * @param tagName The tag name to write.
-     *
      * @throws IOException When an IO exception occurs.
      */
     public void openTag(String tagName) throws IOException {
@@ -118,19 +119,18 @@ class WriterUtils {
 
     /**
      * openTag purpose.
-     * 
+     * <p>
      * <p>
      * Writes an open xml tag with the name and attributes specified to the
      * stored output writer.
      * </p>
      *
-     * @param tagName The tag name to write.
+     * @param tagName    The tag name to write.
      * @param attributes The tag attributes to write.
-     *
      * @throws IOException When an IO exception occurs.
      */
     public void openTag(String tagName, Map attributes)
-        throws IOException {
+            throws IOException {
         write("<" + tagName + " ");
 
         Iterator i = attributes.keySet().iterator();
@@ -145,14 +145,13 @@ class WriterUtils {
 
     /**
      * closeTag purpose.
-     * 
+     * <p>
      * <p>
      * Writes an close xml tag with the name specified to the stored output
      * writer.
      * </p>
      *
      * @param tagName The tag name to write.
-     *
      * @throws IOException When an IO exception occurs.
      */
     public void closeTag(String tagName) throws IOException {
@@ -161,15 +160,14 @@ class WriterUtils {
 
     /**
      * textTag purpose.
-     * 
+     * <p>
      * <p>
      * Writes a text xml tag with the name and text specified to the stored
      * output writer.
      * </p>
      *
      * @param tagName The tag name to write.
-     * @param data The text data to write.
-     *
+     * @param data    The text data to write.
      * @throws IOException When an IO exception occurs.
      */
     public void textTag(String tagName, String data) throws IOException {
@@ -178,37 +176,35 @@ class WriterUtils {
 
     /**
      * valueTag purpose.
-     * 
+     * <p>
      * <p>
      * Writes an xml tag with the name and value specified to the stored output
      * writer.
      * </p>
      *
      * @param tagName The tag name to write.
-     * @param value The text data to write.
-     *
+     * @param value   The text data to write.
      * @throws IOException When an IO exception occurs.
      */
     public void valueTag(String tagName, String value)
-        throws IOException {
+            throws IOException {
         writeln("<" + tagName + " value = \"" + value + "\" />");
     }
 
     /**
      * attrTag purpose.
-     * 
+     * <p>
      * <p>
      * Writes an xml tag with the name and attributes specified to the stored
      * output writer.
      * </p>
      *
-     * @param tagName The tag name to write.
+     * @param tagName    The tag name to write.
      * @param attributes The tag attributes to write.
-     *
      * @throws IOException When an IO exception occurs.
      */
     public void attrTag(String tagName, Map attributes)
-        throws IOException {
+            throws IOException {
         write("<" + tagName + " ");
 
         Iterator i = attributes.keySet().iterator();
@@ -223,20 +219,19 @@ class WriterUtils {
 
     /**
      * textTag purpose.
-     * 
+     * <p>
      * <p>
      * Writes an xml tag with the name, text and attributes specified to the
      * stored output writer.
      * </p>
      *
-     * @param tagName The tag name to write.
+     * @param tagName    The tag name to write.
      * @param attributes The tag attributes to write.
-     * @param data The tag text to write.
-     *
+     * @param data       The tag text to write.
      * @throws IOException When an IO exception occurs.
      */
     public void textTag(String tagName, Map attributes, String data)
-        throws IOException {
+            throws IOException {
         write("<" + tagName + " ");
 
         Iterator i = attributes.keySet().iterator();
@@ -251,14 +246,13 @@ class WriterUtils {
 
     /**
      * comment purpose.
-     * 
+     * <p>
      * <p>
      * Writes an xml comment with the text specified to the stored output
      * writer.
      * </p>
      *
      * @param comment The comment text to write.
-     *
      * @throws IOException When an IO exception occurs.
      */
     public void comment(String comment) throws IOException {

@@ -24,11 +24,16 @@ import javax.media.jai.registry.RenderedRegistryMode;
 
 public class TransparencyFillSpi implements OperationRegistrySpi {
 
-    /** The name of the product to which these operations belong. */
+    /**
+     * The name of the product to which these operations belong.
+     */
     private String productName = "it.geosolutions.jaiext";
 
-    /** Default constructor. */
-    public TransparencyFillSpi() {}
+    /**
+     * Default constructor.
+     */
+    public TransparencyFillSpi() {
+    }
 
 
     public void updateRegistry(OperationRegistry registry) {

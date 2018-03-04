@@ -32,28 +32,26 @@ import org.opengis.filter.expression.Function;
 
 /**
  * Test for like predicate
- * 
  * <p>
- *
+ * <p>
+ * <p>
  * <pre>
  *  &lt;text predicate &gt; ::=
  *      &lt;expression &gt; [ NOT ] <b>LIKE</b>  &lt;character pattern &gt;
  *
  * </pre>
  * <p>
+ *
  * @author Mauricio Pazos (Axios Engineering)
- * @since 2.6
- *
- *
- *
  * @source $URL$
+ * @since 2.6
  */
 public class ECQLLikePredicateTest extends CQLLikePredicateTest {
-    
-    public ECQLLikePredicateTest(){
+
+    public ECQLLikePredicateTest() {
         super(Language.ECQL);
     }
-    
+
     /**
      * Test Text Predicate
      * <p>
@@ -64,55 +62,57 @@ public class ECQLLikePredicateTest extends CQLLikePredicateTest {
     public void functionlikePredicate() throws Exception {
 
         // Like strConcat('aa', 'bbcc') like '%bb%'
-        Filter resultFilter = CompilerUtil.parseFilter(this.language, FilterECQLSample.FUNCTION_LIKE_ECQL_PATTERN);
+        Filter resultFilter = CompilerUtil.parseFilter(this.language, FilterECQLSample
+                .FUNCTION_LIKE_ECQL_PATTERN);
 
         Assert.assertNotNull("Filter expected", resultFilter);
 
         Assert.assertTrue(resultFilter instanceof PropertyIsLike);
-        
-        PropertyIsLike expected = (PropertyIsLike) FilterECQLSample.getSample(FilterECQLSample.FUNCTION_LIKE_ECQL_PATTERN);
+
+        PropertyIsLike expected = (PropertyIsLike) FilterECQLSample.getSample(FilterECQLSample
+                .FUNCTION_LIKE_ECQL_PATTERN);
 
         Assert.assertEquals("like filter was expected", expected, resultFilter);
-        
+
         // test for strToUpperCase function
-        resultFilter = ECQL.toFilter( "strToUpperCase(anAttribute) like '%BB%'"); 
+        resultFilter = ECQL.toFilter("strToUpperCase(anAttribute) like '%BB%'");
 
         Assert.assertTrue(resultFilter instanceof PropertyIsLike);
 
         PropertyIsLike resultLike = (PropertyIsLike) resultFilter;
-        
+
         Expression resultExpression = resultLike.getExpression();
-        Assert.assertTrue(  resultExpression instanceof Function);
-        
-        Function resultFunction = (Function)resultExpression;
+        Assert.assertTrue(resultExpression instanceof Function);
+
+        Function resultFunction = (Function) resultExpression;
         Assert.assertEquals("strToUpperCase", resultFunction.getName());
-        
-        Assert.assertEquals( resultLike.getLiteral(),  "%BB%" );
-        
+
+        Assert.assertEquals(resultLike.getLiteral(), "%BB%");
+
     }
-    
+
     /**
-     * Test like using a pattern with spanish caracters 
+     * Test like using a pattern with spanish caracters
      */
     @Test
-    public void functionAndPatternWithSpanishCharacter() throws CQLException{
+    public void functionAndPatternWithSpanishCharacter() throws CQLException {
 
-    	Filter resultFilter = ECQL.toFilter( "strToUpperCase(anAttribute) like '%año%'"); 
+        Filter resultFilter = ECQL.toFilter("strToUpperCase(anAttribute) like '%año%'");
 
         Assert.assertTrue(resultFilter instanceof PropertyIsLike);
 
         PropertyIsLike resultLike = (PropertyIsLike) resultFilter;
-        
+
         Expression resultExpression = resultLike.getExpression();
-        Assert.assertTrue(  resultExpression instanceof Function);
-        
-        Function resultFunction = (Function)resultExpression;
+        Assert.assertTrue(resultExpression instanceof Function);
+
+        Function resultFunction = (Function) resultExpression;
         Assert.assertEquals("strToUpperCase", resultFunction.getName());
-        
-        Assert.assertEquals( resultLike.getLiteral(),  "%año%" );
-        
+
+        Assert.assertEquals(resultLike.getLiteral(), "%año%");
+
     }
-    
+
     @Test
     public void likePredicateCaseSensitive() throws Exception {
 
@@ -124,7 +124,7 @@ public class ECQLLikePredicateTest extends CQLLikePredicateTest {
         Assert.assertTrue(resultFilter instanceof LikeFilterImpl);
         LikeFilterImpl likeFilter = (LikeFilterImpl) resultFilter;
 
-        Assert.assertTrue( likeFilter.isMatchingCase() );
+        Assert.assertTrue(likeFilter.isMatchingCase());
     }
 
     @Test
@@ -138,7 +138,7 @@ public class ECQLLikePredicateTest extends CQLLikePredicateTest {
         Assert.assertTrue(resultFilter instanceof LikeFilterImpl);
         LikeFilterImpl likeFilter = (LikeFilterImpl) resultFilter;
 
-        Assert.assertFalse( likeFilter.isMatchingCase() );
+        Assert.assertFalse(likeFilter.isMatchingCase());
     }
 
     @Test
@@ -147,13 +147,13 @@ public class ECQLLikePredicateTest extends CQLLikePredicateTest {
         // not iLike
         Filter resultFilter = CompilerUtil.parseFilter(this.language, "not ATTR1 ILIKE 'abc%'");
 
-        Not notFilter = (Not)resultFilter;
-        
-        LikeFilterImpl likeFilter = (LikeFilterImpl)notFilter.getFilter();
+        Not notFilter = (Not) resultFilter;
 
-        Assert.assertFalse( likeFilter.isMatchingCase() );
+        LikeFilterImpl likeFilter = (LikeFilterImpl) notFilter.getFilter();
+
+        Assert.assertFalse(likeFilter.isMatchingCase());
     }
-    
+
     /**
      * Test Text Predicate
      * <p>
@@ -163,13 +163,15 @@ public class ECQLLikePredicateTest extends CQLLikePredicateTest {
     @Test
     public void literallikePredicate() throws Exception {
 
-        Filter resultFilter = CompilerUtil.parseFilter(this.language, FilterECQLSample.LITERAL_LIKE_ECQL_PATTERN);
+        Filter resultFilter = CompilerUtil.parseFilter(this.language, FilterECQLSample
+                .LITERAL_LIKE_ECQL_PATTERN);
 
         Assert.assertNotNull("Filter expected", resultFilter);
 
         Assert.assertTrue(resultFilter instanceof PropertyIsLike);
-        
-        PropertyIsLike expected = (PropertyIsLike) FilterECQLSample.getSample(FilterECQLSample.LITERAL_LIKE_ECQL_PATTERN);
+
+        PropertyIsLike expected = (PropertyIsLike) FilterECQLSample.getSample(FilterECQLSample
+                .LITERAL_LIKE_ECQL_PATTERN);
 
         Assert.assertEquals("like filter was expected", expected, resultFilter);
 
@@ -178,17 +180,19 @@ public class ECQLLikePredicateTest extends CQLLikePredicateTest {
     @Test
     public void literalNotlikePredicate() throws Exception {
 
-        Filter resultFilter = CompilerUtil.parseFilter(this.language, FilterECQLSample.LITERAL_NOT_LIKE_ECQL_PATTERN);
+        Filter resultFilter = CompilerUtil.parseFilter(this.language, FilterECQLSample
+                .LITERAL_NOT_LIKE_ECQL_PATTERN);
 
         Assert.assertNotNull("Filter expected", resultFilter);
 
         Assert.assertTrue(resultFilter instanceof Not);
-        
-        Not expected = (Not) FilterECQLSample.getSample(FilterECQLSample.LITERAL_NOT_LIKE_ECQL_PATTERN);
-        
+
+        Not expected = (Not) FilterECQLSample.getSample(FilterECQLSample
+                .LITERAL_NOT_LIKE_ECQL_PATTERN);
+
         Assert.assertTrue(expected.getFilter() instanceof PropertyIsLike);
-        
+
         Assert.assertEquals("like filter was expected", expected, resultFilter);
     }
-    
+
 }

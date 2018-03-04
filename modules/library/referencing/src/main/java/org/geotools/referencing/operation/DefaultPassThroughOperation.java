@@ -35,14 +35,13 @@ import org.geotools.util.UnsupportedImplementationException;
  * A pass-through operation specifies that a subset of a coordinate tuple is subject to a specific
  * coordinate operation.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
-public class DefaultPassThroughOperation extends DefaultSingleOperation implements PassThroughOperation {
+public class DefaultPassThroughOperation extends DefaultSingleOperation implements 
+        PassThroughOperation {
     /**
      * Serial number for interoperability with different versions.
      */
@@ -59,26 +58,25 @@ public class DefaultPassThroughOperation extends DefaultSingleOperation implemen
      * Affected ordinates will range from {@code firstAffectedOrdinate}
      * inclusive to {@code dimTarget-numTrailingOrdinates} exclusive.
      *
-     * @param properties Set of properties. Should contains at least {@code "name"}.
-     * @param sourceCRS The source CRS.
-     * @param targetCRS The target CRS.
-     * @param operation The operation to apply on the subset of a coordinate tuple.
+     * @param properties            Set of properties. Should contains at least {@code "name"}.
+     * @param sourceCRS             The source CRS.
+     * @param targetCRS             The target CRS.
+     * @param operation             The operation to apply on the subset of a coordinate tuple.
      * @param firstAffectedOrdinate Index of the first affected ordinate.
-     * @param numTrailingOrdinates Number of trailing ordinates to pass through.
+     * @param numTrailingOrdinates  Number of trailing ordinates to pass through.
      */
-    public DefaultPassThroughOperation(final Map<String,?>            properties,
+    public DefaultPassThroughOperation(final Map<String, ?> properties,
                                        final CoordinateReferenceSystem sourceCRS,
                                        final CoordinateReferenceSystem targetCRS,
-                                       final Operation                 operation,
-                                       final int           firstAffectedOrdinate,
-                                       final int            numTrailingOrdinates)
-    {
+                                       final Operation operation,
+                                       final int firstAffectedOrdinate,
+                                       final int numTrailingOrdinates) {
 //      TODO: Uncomment if Sun fix RFE #4093999
 //      ensureNonNull("operation", operation);
         this(properties, sourceCRS, targetCRS, operation,
-             PassThroughTransform.create(firstAffectedOrdinate,
-                                         operation.getMathTransform(),
-                                         numTrailingOrdinates));
+                PassThroughTransform.create(firstAffectedOrdinate,
+                        operation.getMathTransform(),
+                        numTrailingOrdinates));
     }
 
     /**
@@ -86,19 +84,18 @@ public class DefaultPassThroughOperation extends DefaultSingleOperation implemen
      * The properties given in argument follow the same rules than for the
      * {@link AbstractCoordinateOperation} constructor.
      *
-     * @param  properties Set of properties. Should contains at least {@code "name"}.
-     * @param  sourceCRS The source CRS.
-     * @param  targetCRS The target CRS.
-     * @param  operation The operation to apply on the subset of a coordinate tuple.
-     * @param  transform The {@linkplain MathTransformFactory#createPassThroughTransform
+     * @param properties Set of properties. Should contains at least {@code "name"}.
+     * @param sourceCRS  The source CRS.
+     * @param targetCRS  The target CRS.
+     * @param operation  The operation to apply on the subset of a coordinate tuple.
+     * @param transform  The {@linkplain MathTransformFactory#createPassThroughTransform
      *                   pass through transform}.
      */
-    public DefaultPassThroughOperation(final Map<String,?>            properties,
+    public DefaultPassThroughOperation(final Map<String, ?> properties,
                                        final CoordinateReferenceSystem sourceCRS,
                                        final CoordinateReferenceSystem targetCRS,
-                                       final Operation                 operation,
-                                       final MathTransform             transform)
-    {
+                                       final Operation operation,
+                                       final MathTransform transform) {
         super(properties, sourceCRS, targetCRS, transform);
         this.operation = operation;
         ensureNonNull("operation", operation);
@@ -130,7 +127,6 @@ public class DefaultPassThroughOperation extends DefaultSingleOperation implemen
      * index are for source coordinates.
      *
      * @return The modified coordinates.
-     *
      * @todo Current version work only with Geotools implementation.
      */
     public int[] getModifiedCoordinates() {
@@ -148,7 +144,7 @@ public class DefaultPassThroughOperation extends DefaultSingleOperation implemen
         final String name = super.formatWKT(formatter);
         try {
             final int[] ordinates = getModifiedCoordinates();
-            for (int i=0; i<ordinates.length; i++) {
+            for (int i = 0; i < ordinates.length; i++) {
                 formatter.append(ordinates[i]);
             }
         } catch (UnsupportedOperationException exception) {

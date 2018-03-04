@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2006-2012, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -36,16 +36,15 @@ import org.opengis.referencing.operation.CoordinateOperationAuthorityFactory;
 
 /**
  * Base class for building OGC URN and HTTP URI wrappers around {@link AllAuthoritiesFactory}.
- * 
+ *
  * @author Justin Deoliveira
  * @author Martin Desruisseaux
  * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
- *
  * @source $URL$
  */
-public abstract class Abstract_URI_AuthorityFactory extends AuthorityFactoryAdapter implements CRSAuthorityFactory,
-        CSAuthorityFactory, DatumAuthorityFactory, CoordinateOperationAuthorityFactory
-{
+public abstract class Abstract_URI_AuthorityFactory extends AuthorityFactoryAdapter implements 
+        CRSAuthorityFactory,
+        CSAuthorityFactory, DatumAuthorityFactory, CoordinateOperationAuthorityFactory {
     /**
      * The backing factory. Will be used as a fallback if no object
      * is available for some specific version of an EPSG database.
@@ -66,19 +65,23 @@ public abstract class Abstract_URI_AuthorityFactory extends AuthorityFactoryAdap
 
     /**
      * Creates a default wrapper
-     * 
-     * @param hintsAuthority the name used to reference thi factory in {@link Hints#FORCE_AXIS_ORDER_HONORING}.
+     *
+     * @param hintsAuthority the name used to reference thi factory in 
+     * {@link Hints#FORCE_AXIS_ORDER_HONORING}.
      */
     public Abstract_URI_AuthorityFactory(String hintsAuthority) {
         this((Hints) null, hintsAuthority);
     }
 
     /**
-     * Creates a wrapper using the specified hints. For strict compliance with OGC definitions, the supplied hints should contains at least the
-     * {@link Hints#FORCE_LONGITUDE_FIRST_AXIS_ORDER FORCE_LONGITUDE_FIRST_AXIS_ORDER} hint with value {@link Boolean#FALSE FALSE}.
-     * 
-     * @param userHints The hints to be given to backing factories.
-     * @param hintsAuthority the name used to reference thi factory in {@link Hints#FORCE_AXIS_ORDER_HONORING}.
+     * Creates a wrapper using the specified hints. For strict compliance with OGC definitions, 
+     * the supplied hints should contains at least the
+     * {@link Hints#FORCE_LONGITUDE_FIRST_AXIS_ORDER FORCE_LONGITUDE_FIRST_AXIS_ORDER} hint with 
+     * value {@link Boolean#FALSE FALSE}.
+     *
+     * @param userHints      The hints to be given to backing factories.
+     * @param hintsAuthority the name used to reference thi factory in 
+     * {@link Hints#FORCE_AXIS_ORDER_HONORING}.
      */
     public Abstract_URI_AuthorityFactory(final Hints userHints, String hintsAuthority) {
         this(HTTP_AuthorityFactory.getFactory(userHints, hintsAuthority));
@@ -95,8 +98,9 @@ public abstract class Abstract_URI_AuthorityFactory extends AuthorityFactoryAdap
     }
 
     /**
-     * Subclasses must implement this method to return a subclass of URI_Parser appropriate to their URI.
-     * 
+     * Subclasses must implement this method to return a subclass of URI_Parser appropriate to 
+     * their URI.
+     *
      * @param code the URI to be parsed
      * @return
      */
@@ -111,7 +115,7 @@ public abstract class Abstract_URI_AuthorityFactory extends AuthorityFactoryAdap
     /**
      * Parses the specified code. For performance reason, returns the last result if applicable.
      *
-     * @param  code The URI to parse.
+     * @param code The URI to parse.
      * @return parser The parser.
      * @throws NoSuchAuthorityCodeException if the URI syntax is invalid.
      */
@@ -133,14 +137,15 @@ public abstract class Abstract_URI_AuthorityFactory extends AuthorityFactoryAdap
      * <code>get</code><var>Type</var><code>AuthorityFactory</code> methods where
      * <var>Type</var> is inferred from the code.
      *
-     * @param  code The authority code given to this class.
+     * @param code The authority code given to this class.
      * @return A factory for the specified authority code (never {@code null}).
      * @throws FactoryException if no suitable factory were found.
      */
     @Override
     protected AuthorityFactory getAuthorityFactory(final String code) throws FactoryException {
         if (code != null) {
-            return getAuthorityFactory(getParser(code).type.type.asSubclass(AuthorityFactory.class), code);
+            return getAuthorityFactory(getParser(code).type.type.asSubclass(AuthorityFactory
+                    .class), code);
         } else {
             return super.getAuthorityFactory(code);
         }
@@ -153,14 +158,13 @@ public abstract class Abstract_URI_AuthorityFactory extends AuthorityFactoryAdap
      * is provided for that specific version, then the
      * {@linkplain AuthorityFactoryAdapter#getDatumAuthorityFactory default one} is used.
      *
-     * @param  code The URI given to this class.
+     * @param code The URI given to this class.
      * @return A factory for the specified URI (never {@code null}).
      * @throws FactoryException if no datum factory is available.
      */
     @Override
     protected DatumAuthorityFactory getDatumAuthorityFactory(final String code)
-            throws FactoryException
-    {
+            throws FactoryException {
         if (code != null) {
             final URI_Parser parser = getParser(code);
             parser.logWarningIfTypeMismatch(this, DatumAuthorityFactory.class);
@@ -179,14 +183,13 @@ public abstract class Abstract_URI_AuthorityFactory extends AuthorityFactoryAdap
      * is provided for that specific version, then the
      * {@linkplain AuthorityFactoryAdapter#getCSAuthorityFactory default one} is used.
      *
-     * @param  code The URI given to this class.
+     * @param code The URI given to this class.
      * @return A factory for the specified URI (never {@code null}).
      * @throws FactoryException if no coordinate system factory is available.
      */
     @Override
     protected CSAuthorityFactory getCSAuthorityFactory(final String code)
-            throws FactoryException
-    {
+            throws FactoryException {
         if (code != null) {
             final URI_Parser parser = getParser(code);
             parser.logWarningIfTypeMismatch(this, CSAuthorityFactory.class);
@@ -205,14 +208,13 @@ public abstract class Abstract_URI_AuthorityFactory extends AuthorityFactoryAdap
      * invoked for that purpose. If no factory is provided for that specific version, then
      * the {@linkplain AuthorityFactoryAdapter#getCRSAuthorityFactory default one} is used.
      *
-     * @param  code The URI given to this class.
+     * @param code The URI given to this class.
      * @return A factory for the specified URI (never {@code null}).
      * @throws FactoryException if no coordinate reference system factory is available.
      */
     @Override
     protected CRSAuthorityFactory getCRSAuthorityFactory(final String code)
-            throws FactoryException
-    {
+            throws FactoryException {
         if (code != null) {
             final URI_Parser parser = getParser(code);
             parser.logWarningIfTypeMismatch(this, CRSAuthorityFactory.class);
@@ -232,14 +234,14 @@ public abstract class Abstract_URI_AuthorityFactory extends AuthorityFactoryAdap
      * {@linkplain AuthorityFactoryAdapter#getCoordinateOperationAuthorityFactory default one}
      * is used.
      *
-     * @param  code The URI given to this class.
+     * @param code The URI given to this class.
      * @return A factory for the specified URI (never {@code null}).
      * @throws FactoryException if no coordinate operation factory is available.
      */
     @Override
-    protected CoordinateOperationAuthorityFactory getCoordinateOperationAuthorityFactory(final String code)
-            throws FactoryException
-    {
+    protected CoordinateOperationAuthorityFactory getCoordinateOperationAuthorityFactory(final 
+                                                                                             String code)
+            throws FactoryException {
         if (code != null) {
             final URI_Parser parser = getParser(code);
             parser.logWarningIfTypeMismatch(this, CoordinateOperationAuthorityFactory.class);
@@ -259,8 +261,7 @@ public abstract class Abstract_URI_AuthorityFactory extends AuthorityFactoryAdap
      * @throws FactoryException if an error occurred while creating the factory.
      */
     private AuthorityFactory getVersionedFactory(final URI_Parser parser)
-            throws FactoryException
-    {
+            throws FactoryException {
         final Version version = parser.version;
         if (version == null) {
             return null;
@@ -285,26 +286,26 @@ public abstract class Abstract_URI_AuthorityFactory extends AuthorityFactoryAdap
      * specified at {@linkplain #URI_AuthorityFactory(AuthorityFactory, String, Citation)
      * construction time}.
      *
-     * @param  version The version for the factory to create.
+     * @param version The version for the factory to create.
      * @return The factory, of {@code null} if there is none for the specified version.
      * @throws FactoryException if an error occurred while creating the factory.
      */
     protected AuthorityFactory createVersionedFactory(final Version version)
-            throws FactoryException
-    {
+            throws FactoryException {
         final Hints hints = new Hints(factory.getImplementationHints());
         hints.put(Hints.VERSION, version);
-        final List<AuthorityFactory> factories = Arrays.asList(new AuthorityFactory[] {
-            new AllAuthoritiesFactory(hints),
-            factory
+        final List<AuthorityFactory> factories = Arrays.asList(new AuthorityFactory[]{
+                new AllAuthoritiesFactory(hints),
+                factory
         });
         return FallbackAuthorityFactory.create(factories);
     }
 
     /**
-     * Returns a simple authority code (like "EPSG:4236") that can be passed to the wrapped factories.
+     * Returns a simple authority code (like "EPSG:4236") that can be passed to the wrapped 
+     * factories.
      *
-     * @param  code The code given to this factory.
+     * @param code The code given to this factory.
      * @return The code to give to the underlying factories.
      * @throws FactoryException if the code can't be converted.
      */

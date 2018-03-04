@@ -23,8 +23,6 @@ import org.geotools.util.Converters;
 import org.opengis.filter.expression.Expression;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class FillBuilder extends AbstractStyleBuilder<org.opengis.style.Fill> {
@@ -90,7 +88,7 @@ public class FillBuilder extends AbstractStyleBuilder<org.opengis.style.Fill> {
 
     /**
      * Build Fill as defined; FillBuilder will be reset after this use.
-     * 
+     *
      * @return Created Fill as defined
      */
     public Fill build() {

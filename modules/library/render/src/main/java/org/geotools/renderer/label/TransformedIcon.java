@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -27,9 +27,8 @@ import javax.swing.Icon;
 
 /**
  * Applies a generic transformation on top of an icon
- * 
+ *
  * @author Andrea Aime - OpenGeo
- * 
  */
 class TransformedIcon implements Icon {
     AffineTransform at;
@@ -42,16 +41,15 @@ class TransformedIcon implements Icon {
 
     /**
      * Builds a new transformed icon
-     * 
-     * @param icon
-     *            The icon to be rescaled
-     * @param transformation
-     *            The icon transformation
+     *
+     * @param icon           The icon to be rescaled
+     * @param transformation The icon transformation
      */
     public TransformedIcon(Icon icon, AffineTransform at) {
         this.icon = icon;
         this.at = at;
-        Rectangle2D bounds = new Rectangle2D.Double(0, 0, icon.getIconWidth(), icon.getIconHeight());
+        Rectangle2D bounds = new Rectangle2D.Double(0, 0, icon.getIconWidth(), icon.getIconHeight
+                ());
         bounds = at.createTransformedShape(bounds).getBounds2D();
         this.width = (int) Math.round(bounds.getWidth());
         this.height = (int) Math.round(bounds.getHeight());

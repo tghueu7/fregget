@@ -33,14 +33,12 @@ import java.util.List;
  *   &lt;/restriction&gt;
  * &lt;/simpleType&gt;
  * </code></pre>
+ *
+ * @author jgarnett
+ * @source $URL$
  * @see a longing for Java 5 Enum construct
  * @see <a href="http://www.w3.org/TR/xmlschema-2/#rf-whiteSpace">This web page</a>
- * @author jgarnett
  * @since 1.0.0
- *
- *
- *
- * @source $URL$
  */
 public abstract class Whitespace implements Comparable {
     /**
@@ -51,10 +49,10 @@ public abstract class Whitespace implements Comparable {
      * </p>
      */
     public static final Whitespace PRESERVE = new Whitespace("preserve", 0) {
-            public String preparse(String text) {
-                return text;
-            }
-        };
+        public String preparse(String text) {
+            return text;
+        }
+    };
 
     /**
      * All occurrences of tab, line feed and carriage return are replaced with space.
@@ -64,20 +62,20 @@ public abstract class Whitespace implements Comparable {
      * </p>
      */
     public static final Whitespace REPLACE = new Whitespace("replace", 1) {
-            public String preparse(String text) {
-                StringBuffer replace = new StringBuffer(text);
+        public String preparse(String text) {
+            StringBuffer replace = new StringBuffer(text);
 
-                for (int i = 0; i < replace.length(); i++) {
-                    char ch = replace.charAt(i);
+            for (int i = 0; i < replace.length(); i++) {
+                char ch = replace.charAt(i);
 
-                    if (('\t' == ch) || ('\n' == ch) || ('\r' == ch)) {
-                        replace.setCharAt(i, ' ');
-                    }
+                if (('\t' == ch) || ('\n' == ch) || ('\r' == ch)) {
+                    replace.setCharAt(i, ' ');
                 }
-
-                return replace.toString();
             }
-        };
+
+            return replace.toString();
+        }
+    };
 
     /**
      * All occurrences of tab, line feed and carriage return are replaced with space.
@@ -87,24 +85,24 @@ public abstract class Whitespace implements Comparable {
      * </p>
      */
     public static final Whitespace COLLAPSE = new Whitespace("collapse", 2) {
-            public String preparse(String text) {
-                text = REPLACE.preparse(text);
-                text = text.trim();
+        public String preparse(String text) {
+            text = REPLACE.preparse(text);
+            text = text.trim();
 
-                StringBuffer collapse = new StringBuffer(text);
-                int i = 0;
+            StringBuffer collapse = new StringBuffer(text);
+            int i = 0;
 
-                for (; i < collapse.length(); i++) {
-                    if (' ' == collapse.charAt(i)) {
-                        for (++i; (i < collapse.length()) && (' ' == collapse.charAt(i));) {
-                            collapse.deleteCharAt(i);
-                        }
+            for (; i < collapse.length(); i++) {
+                if (' ' == collapse.charAt(i)) {
+                    for (++i; (i < collapse.length()) && (' ' == collapse.charAt(i)); ) {
+                        collapse.deleteCharAt(i);
                     }
                 }
-
-                return collapse.toString();
             }
-        };
+
+            return collapse.toString();
+        }
+    };
 
     //
     // Fake the ENUM thing for the Java 14 crowd
@@ -125,7 +123,9 @@ public abstract class Whitespace implements Comparable {
         this.name = name;
     }
 
-    /** Handle whitespace */
+    /**
+     * Handle whitespace
+     */
     public abstract String preparse(String text);
 
     public String name() {
@@ -146,7 +146,7 @@ public abstract class Whitespace implements Comparable {
 
     public boolean equals(Object other) {
         return (other != null) && other instanceof Whitespace
-        && (((Whitespace) other).ordinal == ordinal);
+                && (((Whitespace) other).ordinal == ordinal);
     }
 
     public int compareTo(Object other) {
@@ -168,11 +168,14 @@ public abstract class Whitespace implements Comparable {
     }
 
     /**
-     * Returns the enum constant of the specified enum type with the specified name. The name must match exactly an identifier used to declare an enum constant in this type. (Extraneous whitespace characters are not permitted.)
+     * Returns the enum constant of the specified enum type with the specified name. The name 
+     * must match exactly an identifier used to declare an enum constant in this type. 
+     * (Extraneous whitespace characters are not permitted.)
+     *
      * @param whitespace
      */
     public static Whitespace valueOf(String whitespace) {
-        for (Iterator i = values.iterator(); i.hasNext();) {
+        for (Iterator i = values.iterator(); i.hasNext(); ) {
             Whitespace item = (Whitespace) i.next();
 
             if (whitespace.equals(item.name)) {

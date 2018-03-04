@@ -23,14 +23,19 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:CurveType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="CurveType"&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;Curve is a 1-dimensional primitive. Curves are continuous, connected, and have a measurable length in terms of the coordinate system.
- *                                  A curve is composed of one or more curve segments. Each curve segment within a curve may be defined using a different interpolation method. The curve segments are connected to one another, with the end point of each segment except the last being the start point of the next segment in the segment list.
+ *          &lt;documentation&gt;Curve is a 1-dimensional primitive. Curves are continuous, 
+ *          connected, and have a measurable length in terms of the coordinate system.
+ *                                  A curve is composed of one or more curve segments. Each curve
+ *                                  segment within a curve may be defined using a different 
+ *                                  interpolation method. The curve segments are connected to one
+ *                                  another, with the end point of each segment except the last 
+ *                                  being the start point of the next segment in the segment list.
  *                                  The orientation of the curve is positive.&lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;complexContent&gt;
@@ -38,7 +43,8 @@ import com.vividsolutions.jts.geom.GeometryFactory;
  *              &lt;sequence&gt;
  *                  &lt;element ref="gml:segments"&gt;
  *                      &lt;annotation&gt;
- *                          &lt;documentation&gt;This element encapsulates the segments of the curve.&lt;/documentation&gt;
+ *                          &lt;documentation&gt;This element encapsulates the segments of the 
+ *                          curve.&lt;/documentation&gt;
  *                      &lt;/annotation&gt;
  *                  &lt;/element&gt;
  *              &lt;/sequence&gt;
@@ -51,14 +57,11 @@ import com.vividsolutions.jts.geom.GeometryFactory;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class CurveTypeBinding extends org.geotools.gml3.bindings.CurveTypeBinding
-    implements Comparable {
-    
+        implements Comparable {
+
     public CurveTypeBinding(GeometryFactory gf) {
         super(gf);
     }

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2007-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,6 +17,7 @@
 package org.geotools.referencing.cs;
 
 import java.util.Arrays;
+
 import org.opengis.referencing.cs.AxisDirection;
 import org.opengis.referencing.cs.CoordinateSystemAxis;
 
@@ -27,9 +28,9 @@ import org.opengis.referencing.cs.CoordinateSystemAxis;
  * {@linkplain AxisDirection#NORTH North} or {@linkplain AxisDirection#EAST East} are first,
  * and vertical or temporal directions like {@linkplain AxisDirection#UP Up} are last.
  *
+ * @author Martin Desruisseaux
  * @version $Id$
  * @source $URL$
- * @author Martin Desruisseaux
  */
 final class ComparableAxisWrapper implements Comparable {
     /**
@@ -96,12 +97,12 @@ final class ComparableAxisWrapper implements Comparable {
      */
     public static boolean sort(final CoordinateSystemAxis[] axis) {
         final ComparableAxisWrapper[] wrappers = new ComparableAxisWrapper[axis.length];
-        for (int i=0; i<axis.length; i++) {
+        for (int i = 0; i < axis.length; i++) {
             wrappers[i] = new ComparableAxisWrapper(axis[i]);
         }
         Arrays.sort(wrappers);
         boolean changed = false;
-        for (int i=0; i<axis.length; i++) {
+        for (int i = 0; i < axis.length; i++) {
             final CoordinateSystemAxis a = wrappers[i].axis;
             changed |= (axis[i] != a);
             axis[i] = a;

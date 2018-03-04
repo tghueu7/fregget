@@ -17,7 +17,9 @@
 package org.geotools.util;
 
 import java.util.*;
+
 import org.junit.*;
+
 import static org.junit.Assert.*;
 
 
@@ -25,10 +27,8 @@ import static org.junit.Assert.*;
  * Tests {@link IntegerList} implementations.
  *
  * @author Martin Desruisseaux
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public final class IntegerListTest {
     /**
@@ -52,7 +52,7 @@ public final class IntegerListTest {
         list = new IntegerList(length / 2, maximalValue);
         assertTrue(list.maximalValue() >= maximalValue);
         final List<Integer> copy = new ArrayList<Integer>();
-        for (int i=0; i<length; i++) {
+        for (int i = 0; i < length; i++) {
             assertEquals(i, list.size());
             final Integer value = nextInt(maximalValue);
             assertTrue(copy.add(value));
@@ -60,13 +60,13 @@ public final class IntegerListTest {
         }
         assertEquals(copy, list);
         assertEquals(copy.hashCode(), list.hashCode());
-        for (int i=0; i<length; i+=10) {
+        for (int i = 0; i < length; i += 10) {
             final Integer value = nextInt(maximalValue);
             final Integer old = copy.set(i, value);
             assertNotNull(old);
             assertEquals(old, list.set(i, value));
         }
-        for (int i=0; i<length; i++) {
+        for (int i = 0; i < length; i++) {
             assertEquals(String.valueOf(i), copy.get(i), list.get(i));
         }
         assertEquals(copy, list);
@@ -153,7 +153,7 @@ public final class IntegerListTest {
         assertEquals(200, list.size());
         assertEquals(old100, list.getInteger(100));
         assertEquals(0, list.getInteger(101));
-        for (int i=101; i<200; i++) {
+        for (int i = 101; i < 200; i++) {
             assertEquals(0, list.getInteger(i));
         }
         list.resize(400);

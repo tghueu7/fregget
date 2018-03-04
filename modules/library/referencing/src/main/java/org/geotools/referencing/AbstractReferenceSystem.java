@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -36,12 +36,9 @@ import org.geotools.util.Utilities;
  * {@code Default} prefix instead. An exception to this rule may occurs when it is not possible to
  * identify the exact type.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class AbstractReferenceSystem extends AbstractIdentifiedObject implements ReferenceSystem {
@@ -74,13 +71,12 @@ public class AbstractReferenceSystem extends AbstractIdentifiedObject implements
      * i.e. the properties are not cloned.
      *
      * @param object The reference system to copy.
-     *
      * @since 2.2
      */
     public AbstractReferenceSystem(final ReferenceSystem object) {
         super(object);
         domainOfValidity = object.getDomainOfValidity();
-        scope            = object.getScope();
+        scope = object.getScope();
     }
 
     /**
@@ -90,36 +86,37 @@ public class AbstractReferenceSystem extends AbstractIdentifiedObject implements
      * Additionally, the following properties are understood by this construtor:
      * <p>
      * <table border='1'>
-     *   <tr bgcolor="#CCCCFF" class="TableHeadingColor">
-     *     <th nowrap>Property name</th>
-     *     <th nowrap>Value type</th>
-     *     <th nowrap>Value given to</th>
-     *   </tr>
-     *   <tr>
-     *     <td nowrap>&nbsp;{@link #DOMAIN_OF_VALIDITY_KEY "domainOfValidity"}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link Extent}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link #getDomainOfValidity}</td>
-     *   </tr>
-     *   <tr>
-     *     <td nowrap>&nbsp;{@link #SCOPE_KEY "scope"}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link String} or {@link InternationalString}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link #getScope}</td>
-     *   </tr>
+     * <tr bgcolor="#CCCCFF" class="TableHeadingColor">
+     * <th nowrap>Property name</th>
+     * <th nowrap>Value type</th>
+     * <th nowrap>Value given to</th>
+     * </tr>
+     * <tr>
+     * <td nowrap>&nbsp;{@link #DOMAIN_OF_VALIDITY_KEY "domainOfValidity"}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link Extent}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link #getDomainOfValidity}</td>
+     * </tr>
+     * <tr>
+     * <td nowrap>&nbsp;{@link #SCOPE_KEY "scope"}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link String} or {@link InternationalString}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link #getScope}</td>
+     * </tr>
      * </table>
      *
      * @param properties The properties to be given to this object.
      */
-    public AbstractReferenceSystem(final Map<String,?> properties) {
-        this(properties, new HashMap<String,Object>());
+    public AbstractReferenceSystem(final Map<String, ?> properties) {
+        this(properties, new HashMap<String, Object>());
     }
 
     /**
      * Work around for RFE #4093999 in Sun's bug database
      * ("Relax constraint on placement of this()/super() call in constructors").
      */
-    private AbstractReferenceSystem(final Map<String,?> properties, final Map<String,Object> subProperties) {
+    private AbstractReferenceSystem(final Map<String, ?> properties, final Map<String, Object> 
+            subProperties) {
         super(properties, subProperties, LOCALIZABLES);
-        domainOfValidity = (Extent)   subProperties.get(DOMAIN_OF_VALIDITY_KEY);
+        domainOfValidity = (Extent) subProperties.get(DOMAIN_OF_VALIDITY_KEY);
         scope = (InternationalString) subProperties.get(SCOPE_KEY);
     }
 
@@ -157,9 +154,10 @@ public class AbstractReferenceSystem extends AbstractIdentifiedObject implements
      * If {@code compareMetadata} is {@code true}, then all available properties are
      * compared including {@linkplain #getValidArea valid area} and {@linkplain #getScope scope}.
      *
-     * @param  object The object to compare to {@code this}.
-     * @param  compareMetadata {@code true} for performing a strict comparaison, or
-     *         {@code false} for comparing only properties relevant to transformations.
+     * @param object          The object to compare to {@code this}.
+     * @param compareMetadata {@code true} for performing a strict comparaison, or
+     *                        {@code false} for comparing only properties relevant to 
+     *                                    transformations.
      * @return {@code true} if both objects are equal.
      */
     @Override
@@ -170,7 +168,7 @@ public class AbstractReferenceSystem extends AbstractIdentifiedObject implements
             }
             final AbstractReferenceSystem that = (AbstractReferenceSystem) object;
             return Utilities.equals(domainOfValidity, that.domainOfValidity) &&
-                   Utilities.equals(scope,            that.scope);
+                    Utilities.equals(scope, that.scope);
         }
         return false;
     }

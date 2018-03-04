@@ -17,7 +17,9 @@
 package org.geotools.filter.v1_1.capabilities;
 
 import org.w3c.dom.Document;
+
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.capability.SpatialOperator;
 import org.geotools.filter.v1_1.OGC;
 import org.geotools.xml.Binding;
@@ -25,13 +27,14 @@ import org.geotools.xml.Binding;
 
 /**
  * Binding test case for http://www.opengis.net/ogc:SpatialOperatorType.
- *
  * <p>
- *  <pre>
+ * <p>
+ * <pre>
  *   <code>
  *  &lt;xsd:complexType name="SpatialOperatorType"&gt;
  *      &lt;xsd:sequence&gt;
- *          &lt;xsd:element minOccurs="0" name="GeometryOperands" type="ogc:GeometryOperandsType"/&gt;
+ *          &lt;xsd:element minOccurs="0" name="GeometryOperands" 
+ *          type="ogc:GeometryOperandsType"/&gt;
  *      &lt;/xsd:sequence&gt;
  *      &lt;xsd:attribute name="name" type="ogc:SpatialOperatorNameType"/&gt;
  *  &lt;/xsd:complexType&gt;
@@ -41,9 +44,6 @@ import org.geotools.xml.Binding;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SpatialOperatorTypeBindingTest extends OGCTestSupport {

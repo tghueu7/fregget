@@ -25,8 +25,6 @@ import org.opengis.feature.type.Name;
 import org.opengis.util.InternationalString;
 
 /**
- * 
- * 
  * @source $URL$
  */
 public class DefaultFieldType implements FieldType {
@@ -39,7 +37,6 @@ public class DefaultFieldType implements FieldType {
     private Set<SampleDimension> sampleDimensions;
 
     /**
-     * 
      * @param name
      * @param description
      * @param unit
@@ -47,9 +44,9 @@ public class DefaultFieldType implements FieldType {
      * @param samples
      */
     public DefaultFieldType(Name name, InternationalString description,
-    // Unit<?> unit,
-    // List<Axis<?,?>> axes,
-            Set<SampleDimension> samples) {
+                            // Unit<?> unit,
+                            // List<Axis<?,?>> axes,
+                            Set<SampleDimension> samples) {
         this.name = name;
         this.description = description;
         // this.axes = axes;

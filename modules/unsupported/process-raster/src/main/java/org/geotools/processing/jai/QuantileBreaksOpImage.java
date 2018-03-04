@@ -32,8 +32,9 @@ import org.geotools.process.raster.classify.QuantileClassification;
 public class QuantileBreaksOpImage extends ClassBreaksOpImage {
 
     public QuantileBreaksOpImage(RenderedImage image, Integer numClasses, Double[][] extrema,
-            ROI roi, Integer[] bands, Integer xStart, Integer yStart, Integer xPeriod,
-            Integer yPeriod, Double noData) {
+                                 ROI roi, Integer[] bands, Integer xStart, Integer yStart, 
+                                 Integer xPeriod,
+                                 Integer yPeriod, Double noData) {
         super(image, numClasses, extrema, roi, bands, xStart, yStart, xPeriod, yPeriod, noData);
     }
 
@@ -53,7 +54,7 @@ public class QuantileBreaksOpImage extends ClassBreaksOpImage {
                 return;
             }
         }
-        
+
         qc.count(d, band);
     }
 
@@ -72,8 +73,8 @@ public class QuantileBreaksOpImage extends ClassBreaksOpImage {
 
         TreeSet<Double> set = new TreeSet<Double>();
         Map.Entry<Double, Integer> e = it.next();
-        
-        while(nvalues > 0) {
+
+        while (nvalues > 0) {
             //add the next break
             set.add(e.getKey());
 
@@ -82,7 +83,7 @@ public class QuantileBreaksOpImage extends ClassBreaksOpImage {
                 int count = e.getValue();
                 e.setValue(--count);
                 nvalues--;
-                
+
                 if (count == 0) {
                     //number of occurences of this entry exhausted, move to next
                     if (!it.hasNext()) {
@@ -98,7 +99,7 @@ public class QuantileBreaksOpImage extends ClassBreaksOpImage {
             }
         }
         qc.setBreaks(band, set.toArray(new Double[set.size()]));
-        
+
 
     }
 

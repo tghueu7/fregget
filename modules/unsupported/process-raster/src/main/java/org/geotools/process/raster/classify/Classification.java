@@ -23,13 +23,19 @@ import org.geotools.process.classify.ClassificationMethod;
  */
 public class Classification {
 
-    /** classification method */
+    /**
+     * classification method
+     */
     ClassificationMethod method;
 
-    /** the breaks */
+    /**
+     * the breaks
+     */
     Double[][] breaks;
-    
-    /** min/max */
+
+    /**
+     * min/max
+     */
     Double[] min, max;
 
     public Classification(ClassificationMethod method, int numBands) {
@@ -48,7 +54,7 @@ public class Classification {
     }
 
     public void setBreaks(int b, Double[] breaks) {
-        this. breaks[b] = breaks;
+        this.breaks[b] = breaks;
     }
 
     public Double getMin(int b) {

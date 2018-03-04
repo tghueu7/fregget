@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -19,21 +19,20 @@ package org.geotools.temporal.reference;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+
 import org.geotools.util.SimpleInternationalString;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
+
 import org.opengis.temporal.OrdinalEra;
 import org.opengis.util.InternationalString;
 
 
 /**
- *
  * @author Mehdi Sidhoum (Geomatys)
- *
- *
- *
  * @source $URL$
  */
 public class DefaultOrdinalEraTest {
@@ -41,10 +40,10 @@ public class DefaultOrdinalEraTest {
     private OrdinalEra ordinalEra1;
     private OrdinalEra ordinalEra2;
     private Calendar cal = Calendar.getInstance();
-    
+
     @Before
     public void setUp() {
-        
+
         cal.set(1900, 1, 1);
         Date beginning1 = cal.getTime();
         cal.set(2000, 1, 1);
@@ -53,8 +52,10 @@ public class DefaultOrdinalEraTest {
         Date beginning2 = cal.getTime();
         cal.set(2012, 1, 1);
         Date end2 = cal.getTime();
-        ordinalEra1 = new DefaultOrdinalEra(new SimpleInternationalString("old Era"), beginning1, end1);
-        ordinalEra2 = new DefaultOrdinalEra(new SimpleInternationalString("new Era"), beginning2, end2);
+        ordinalEra1 = new DefaultOrdinalEra(new SimpleInternationalString("old Era"), beginning1,
+                end1);
+        ordinalEra2 = new DefaultOrdinalEra(new SimpleInternationalString("new Era"), beginning2,
+                end2);
     }
 
     @After
@@ -145,7 +146,8 @@ public class DefaultOrdinalEraTest {
     public void testSetGroup() {
         DefaultOrdinalEra result = ((DefaultOrdinalEra) ordinalEra1).getGroup();
         cal.set(1900, 0, 0);
-        ((DefaultOrdinalEra) ordinalEra1).setGroup(new DefaultOrdinalEra(new SimpleInternationalString(""), cal.getTime(), new Date()));
+        ((DefaultOrdinalEra) ordinalEra1).setGroup(new DefaultOrdinalEra(new 
+                SimpleInternationalString(""), cal.getTime(), new Date()));
         assertFalse(((DefaultOrdinalEra) ordinalEra1).getGroup().equals(result));
     }
 

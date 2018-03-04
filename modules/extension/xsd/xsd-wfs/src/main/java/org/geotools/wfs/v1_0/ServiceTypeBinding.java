@@ -51,9 +51,9 @@ public class ServiceTypeBinding extends AbstractComplexEMFBinding {
         CodeType serviceType = ows10Factory.createCodeType();
         serviceType.setValue(name);
         service.setServiceType(serviceType);
-        
+
         service.setServiceTypeVersion("1.0.0");
-        
+
         service.setTitle(title);
         service.setAbstract(abstract_);
         service.setAccessConstraints(accessConstraints);

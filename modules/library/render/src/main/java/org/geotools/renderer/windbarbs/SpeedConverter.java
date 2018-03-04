@@ -28,16 +28,20 @@ import org.geotools.util.Utilities;
 
 /**
  * Utility class doing speed conversion since windBarbs are based on knots
- * 
+ *
  * @author Daniele Romagnoli, GeoSolutions SAS
  */
 class SpeedConverter {
 
-    /** The logger. */
+    /**
+     * The logger.
+     */
     private static final Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger(SpeedConverter.class);
 
-    /** UCUM_FORMAT_INSTANCE */
+    /**
+     * UCUM_FORMAT_INSTANCE
+     */
     private static final UnitFormat UCUM_FORMAT_INSTANCE = UnitFormat.getUCUMInstance();
 
     private static final double SECONDS_IN_HOUR = 3600d;
@@ -71,7 +75,7 @@ class SpeedConverter {
 
     private static final String KN = NonSI.KNOT.toString();
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({"rawtypes", "unchecked"})
     static double toKnots(double speed, String uom) {
         Utilities.ensureNonNull("uom", uom);
         if (LOGGER.isLoggable(Level.FINE)) {

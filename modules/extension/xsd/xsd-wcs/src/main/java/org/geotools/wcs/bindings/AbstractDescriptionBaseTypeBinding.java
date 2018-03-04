@@ -9,10 +9,10 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the type http://www.opengis.net/wcs:AbstractDescriptionBaseType.
- *
  * <p>
- *	<pre>
- *	 <code>
+ * <p>
+ * <pre>
+ * 	 <code>
  *  &lt;complexType abstract="true" name="AbstractDescriptionBaseType"&gt;
  *      &lt;annotation&gt;
  *          &lt;documentation&gt;Description of a WCS object. &lt;/documentation&gt;
@@ -24,47 +24,45 @@ import javax.xml.namespace.QName;
  *              &lt;/sequence&gt;
  *          &lt;/restriction&gt;
  *      &lt;/complexContent&gt;
- *  &lt;/complexType&gt; 
- *		
- *	  </code>
- *	 </pre>
+ *  &lt;/complexType&gt;
+ *
+ * 	  </code>
+ * 	 </pre>
  * </p>
  *
  * @generated
- *
- *
  * @source $URL$
  */
 public class AbstractDescriptionBaseTypeBinding extends AbstractComplexBinding {
 
-	/**
-	 * @generated
-	 */
-	public QName getTarget() {
-		return WCS.AbstractDescriptionBaseType;
-	}
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 *	
-	 * @generated modifiable
-	 */	
-	public Class getType() {
-		return null;
-	}
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 *	
-	 * @generated modifiable
-	 */	
-	public Object parse(ElementInstance instance, Node node, Object value) 
-		throws Exception {
-		
-		//TODO: implement and remove call to super
-		return super.parse(instance,node,value);
-	}
+    /**
+     * @generated
+     */
+    public QName getTarget() {
+        return WCS.AbstractDescriptionBaseType;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     *
+     * @generated modifiable
+     */
+    public Class getType() {
+        return null;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     *
+     * @generated modifiable
+     */
+    public Object parse(ElementInstance instance, Node node, Object value)
+            throws Exception {
+
+        //TODO: implement and remove call to super
+        return super.parse(instance, node, value);
+    }
 
 }

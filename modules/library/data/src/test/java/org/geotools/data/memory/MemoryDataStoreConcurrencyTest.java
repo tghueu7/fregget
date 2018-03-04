@@ -10,7 +10,7 @@ import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
  * Concurrency test from GEOT-2515.
- * 
+ *
  * @author Frank Gasdorf
  */
 public class MemoryDataStoreConcurrencyTest extends DataTestCase {
@@ -32,8 +32,8 @@ public class MemoryDataStoreConcurrencyTest extends DataTestCase {
                         break;
                     SimpleFeature feature = SimpleFeatureBuilder
                             .build(roadType,
-                                    new Object[] { new Integer(i),
-                                            line(new int[] { 10, 10, 20, 10 }), "r" + i },
+                                    new Object[]{new Integer(i),
+                                            line(new int[]{10, 10, 20, 10}), "r" + i},
                                     "road.rd" + i);
                     dataStore.addFeature(feature);
                 }
@@ -48,7 +48,7 @@ public class MemoryDataStoreConcurrencyTest extends DataTestCase {
                 assertTrue(dataStore != null);
                 Query query = new Query(roadType.getTypeName());
                 FeatureReader<SimpleFeatureType, SimpleFeature> featureReader = dataStore
-                        .getFeatureReader(query,Transaction.AUTO_COMMIT);
+                        .getFeatureReader(query, Transaction.AUTO_COMMIT);
                 assertTrue(featureReader != null);
                 while (featureReader.hasNext()) {
                     featureReader.next();

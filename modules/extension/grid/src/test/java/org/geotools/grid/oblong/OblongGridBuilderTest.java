@@ -34,12 +34,9 @@ import com.vividsolutions.jts.geom.Coordinate;
  * Unit tests for the OblongGridBuilder class.
  *
  * @author mbedward
- * @since 2.7
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.7
  */
 public class OblongGridBuilderTest extends TestBase {
 

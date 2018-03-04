@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.metadata.identification;
@@ -22,14 +22,12 @@ import static org.opengis.annotation.Specification.*;
 /**
  * Status of the dataset or progress of a review.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 2.0
+ * @source $URL$
+ * @since GeoAPI 2.0
  */
-@UML(identifier="MD_ProgressCode", specification=ISO_19115)
+@UML(identifier = "MD_ProgressCode", specification = ISO_19115)
 public final class Progress extends CodeList<Progress> {
     /**
      * Serial number for compatibility with different versions.
@@ -45,43 +43,43 @@ public final class Progress extends CodeList<Progress> {
     /**
      * Production of the data has been completed.
      */
-    @UML(identifier="completed", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "completed", obligation = CONDITIONAL, specification = ISO_19115)
     public static final Progress COMPLETED = new Progress("COMPLETED");
 
     /**
      * Data has been stored in an offline storage facility
      */
-    @UML(identifier="historicalArchive", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "historicalArchive", obligation = CONDITIONAL, specification = ISO_19115)
     public static final Progress HISTORICAL_ARCHIVE = new Progress("HISTORICAL_ARCHIVE");
 
     /**
      * Data is no longer relevant.
      */
-    @UML(identifier="obsolete", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "obsolete", obligation = CONDITIONAL, specification = ISO_19115)
     public static final Progress OBSOLETE = new Progress("OBSOLETE");
 
     /**
      * Data is continually being updated.
      */
-    @UML(identifier="onGoing", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "onGoing", obligation = CONDITIONAL, specification = ISO_19115)
     public static final Progress ON_GOING = new Progress("ON_GOING");
 
     /**
      * Fixed date has been established upon or by which the data will be created or updated.
      */
-    @UML(identifier="planned", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "planned", obligation = CONDITIONAL, specification = ISO_19115)
     public static final Progress PLANNED = new Progress("PLANNED");
 
     /**
      * Data needs to be generated or updated.
      */
-    @UML(identifier="required", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "required", obligation = CONDITIONAL, specification = ISO_19115)
     public static final Progress REQUIRED = new Progress("REQUIRED");
 
     /**
      * Data is currently in the process of being created.
      */
-    @UML(identifier="underDevelopment", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "underDevelopment", obligation = CONDITIONAL, specification = ISO_19115)
     public static final Progress UNDER_DEVELOPMENT = new Progress("UNDER_DEVELOPMENT");
 
     /**

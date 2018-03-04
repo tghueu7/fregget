@@ -18,6 +18,7 @@ package org.geotools.xml;
 
 import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.util.XSDSchemaLocationResolver;
+
 import java.io.File;
 import java.net.URI;
 import java.net.URL;
@@ -32,23 +33,21 @@ import java.util.List;
  * </p>
  * <p>
  * Example usage:
- *
+ * <p>
  * <code>
- *         <pre>
+ * <pre>
  *         XSD xsd = ...
  *         String namespaceURI = xsd.getNamesapceURI();
  *
  *         SchemaLocationResolver resolver = new SchemaLocationResolver( xsd );
- *         String schemaLocation = locator.resolveSchemaLocation( null, namespaceURI, "mySchema.xsd" );
+ *         String schemaLocation = locator.resolveSchemaLocation( null, namespaceURI, "mySchema
+ *         .xsd" );
  *         </pre>
  * </code>
- *
+ * <p>
  * </p>
+ *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
- *
  * @source $URL$
  */
 public class SchemaLocationResolver implements XSDSchemaLocationResolver {
@@ -56,12 +55,12 @@ public class SchemaLocationResolver implements XSDSchemaLocationResolver {
      * the xsd instance
      */
     protected XSD xsd;
-    
+
     /**
      * A list of locations to use as prefixes when looking up schema files.
      * <p>
      * This value should be set in cases where an xml schema imports or includes
-     * schema files from sub directories. 
+     * schema files from sub directories.
      * </p>
      */
     protected String[] lookupDirectories;
@@ -72,9 +71,9 @@ public class SchemaLocationResolver implements XSDSchemaLocationResolver {
      * @param xsd The xsd to resolve filenames relative to.
      */
     public SchemaLocationResolver(XSD xsd) {
-        this(xsd,new String[]{});
+        this(xsd, new String[]{});
     }
-    
+
     /**
      * Creates the new schema location resolver specifying additional directories to locate
      * schema files in.
@@ -88,15 +87,17 @@ public class SchemaLocationResolver implements XSDSchemaLocationResolver {
      *   dir2/
      *      include2.xsd
      * </pre>
-     * 
+     * <p>
      * The constructor would be called with:
      * <pre>
      * new SchemaLocationResolver(this,"include1","include2");
      * </pre>
-     * 
+     * <p>
      * </p>
-     * @param xsd The xsd to resolve files relative to.
-     * @param lookupDirectories Additional lookup directories relative to the xsd to lookup files in.
+     *
+     * @param xsd               The xsd to resolve files relative to.
+     * @param lookupDirectories Additional lookup directories relative to the xsd to lookup files
+     *                         in.
      */
     public SchemaLocationResolver(XSD xsd, String... lookupDirectories) {
         this.xsd = xsd;
@@ -104,47 +105,47 @@ public class SchemaLocationResolver implements XSDSchemaLocationResolver {
     }
 
     /**
-     * Determines if the locator can resolve the schema location for a particular 
+     * Determines if the locator can resolve the schema location for a particular
      * namespace uri and schema location.
-     * 
+     *
      * @return true if it can handle, otherwise false.
      */
-    public boolean canHandle( XSDSchema schema, String uri, String location ) {
-        if ( xsd.getNamespaceURI().equals(uri) ) {
+    public boolean canHandle(XSDSchema schema, String uri, String location) {
+        if (xsd.getNamespaceURI().equals(uri)) {
             //try resolving directly
-            URL xsdLocation = resolveLocationToResource( location );
+            URL xsdLocation = resolveLocationToResource(location);
             return xsdLocation != null;
         }
-        
+
         return false;
     }
-    
-    private URL resolveLocationToResource( String location ) {
+
+    private URL resolveLocationToResource(String location) {
         //try to resolve it directly
-        URL url = xsd.getClass().getResource( location );
-        
-        if ( url == null ) {
+        URL url = xsd.getClass().getResource(location);
+
+        if (url == null) {
             //strip off the filename and do a resource lookup
             String fileName = new File(location).getName();
             url = xsd.getClass().getResource(fileName);
         }
-        
-        if ( url == null ) {
+
+        if (url == null) {
             //try resolving relative to lookupDirectories
-            if ( lookupDirectories != null ) {
-                for ( String lookup : lookupDirectories ) {
-                    if ( lookup.endsWith( "/" ) ) {
-                        lookup = lookup.substring(0,lookup.length()-1);
+            if (lookupDirectories != null) {
+                for (String lookup : lookupDirectories) {
+                    if (lookup.endsWith("/")) {
+                        lookup = lookup.substring(0, lookup.length() - 1);
                     }
-                    url = xsd.getClass().getResource( lookup + "/" + location );
+                    url = xsd.getClass().getResource(lookup + "/" + location);
                 }
             }
         }
-        
+
         return url;
-    
+
     }
-    
+
     /**
      * Resolves <param>location<param> to a physical location.
      * <p>
@@ -164,7 +165,7 @@ public class SchemaLocationResolver implements XSDSchemaLocationResolver {
 
         //namespace match?
         if (canHandle(schema, uri, location)) {
-            return resolveLocationToResource( location ).toString();
+            return resolveLocationToResource(location).toString();
         }
 
         return null;

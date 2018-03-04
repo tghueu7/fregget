@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2007-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -35,7 +35,7 @@ import java.util.regex.Pattern;
  * ones. Subclasses should implement those methods in order to map Java logging levels to
  * the backend logging framework.
  * <p>
- * All {@link #log(Level,String) log} methods are overriden in order to redirect to one of the
+ * All {@link #log(Level, String) log} methods are overriden in order to redirect to one of the
  * above-cited methods. Note that this is the opposite approach than the Java logging framework
  * one, which implemented everything on top of {@link Logger#log(LogRecord)}. This adapter is
  * defined in terms of {@link #severe(String) severe} &hellip; {@link #finest(String) finest}
@@ -49,19 +49,19 @@ import java.util.regex.Pattern;
  * framework, every configuration methods inherited from {@link Logger} are disabled:
  * <p>
  * <ul>
- *   <li>{@link #addHandler}
- *       since the handling is performed by the external framework.</li>
- *
- *   <li>{@link #setUseParentHandlers}
- *       since this adapter never delegates to the parent handlers. This is consistent with the
- *       previous item and avoid mixing loggings from the external framework with Java loggings.</li>
- *
- *   <li>{@link #setParent}
- *       since this adapter should not inherits any configuration from a parent logger using the
- *       Java logging framework.</li>
- *
- *   <li>{@link #setFilter}
- *       for keeping this {@code LoggerAdapter} simple.</li>
+ * <li>{@link #addHandler}
+ * since the handling is performed by the external framework.</li>
+ * <p>
+ * <li>{@link #setUseParentHandlers}
+ * since this adapter never delegates to the parent handlers. This is consistent with the
+ * previous item and avoid mixing loggings from the external framework with Java loggings.</li>
+ * <p>
+ * <li>{@link #setParent}
+ * since this adapter should not inherits any configuration from a parent logger using the
+ * Java logging framework.</li>
+ * <p>
+ * <li>{@link #setFilter}
+ * for keeping this {@code LoggerAdapter} simple.</li>
  * </ul>
  * <p>
  * Since {@code LoggerAdapter}s do not hold any configuration by themself, it is not strictly
@@ -84,14 +84,11 @@ import java.util.regex.Pattern;
  * method will be invoked. See {@link #isLoggable} for implementation tips taking advantage of
  * this rule.
  *
- * @since 2.4
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
- *
+ * @version $Id$
+ * @source $URL$
  * @see Logging
+ * @since 2.4
  */
 public abstract class LoggerAdapter extends Logger {
     /**
@@ -147,14 +144,17 @@ public abstract class LoggerAdapter extends Logger {
      * Returns {@code true} if the specified level is loggable.
      * <p>
      * <b>Implementation tip</b><br>
-     * Given that {@link Level#intValue} for all predefined levels are documented in the {@link Level}
-     * specification and are multiple of 100, given that integer divisions are rounded toward zero and
+     * Given that {@link Level#intValue} for all predefined levels are documented in the 
+     * {@link Level}
+     * specification and are multiple of 100, given that integer divisions are rounded toward 
+     * zero and
      * given rule documented in this class javadoc, then logging levels can be efficiently mapped to
-     * predefined levels using {@code switch} statements as below. This statement has good chances to
+     * predefined levels using {@code switch} statements as below. This statement has good 
+     * chances to
      * be compiled to the {@code tableswitch} bytecode rather than {@code lookupswitch} (see
      * <a href="http://java.sun.com/docs/books/jvms/second_edition/html/Compiling.doc.html#14942">Compiling
      * Switches</a> in <cite>The Java Virtual Machine Specification</cite>).
-     *
+     * <p>
      * <blockquote><pre>
      * @SuppressWarnings("fallthrough")
      * public boolean isLoggable(Level level) {
@@ -255,17 +255,24 @@ public abstract class LoggerAdapter extends Logger {
      * order to let the backing logging framework do its own check.
      */
     @Override
-    public void entering(final String sourceClass, final String sourceMethod, final Object[] params) {
+    public void entering(final String sourceClass, final String sourceMethod, final Object[] 
+            params) {
         final String message;
         if (params == null) {
             message = "ENTRY";
         } else switch (params.length) {
-            case 0: message = "ENTRY";         break;
-            case 1: message = "ENTRY {0}";     break;
-            case 2: message = "ENTRY {0} {1}"; break;
+            case 0:
+                message = "ENTRY";
+                break;
+            case 1:
+                message = "ENTRY {0}";
+                break;
+            case 2:
+                message = "ENTRY {0} {1}";
+                break;
             default: {
                 final StringBuilder builder = new StringBuilder("ENTRY");
-                for (int i=0; i<params.length; i++) {
+                for (int i = 0; i < params.length; i++) {
                     builder.append(" {").append(i).append('}');
                 }
                 message = builder.toString();
@@ -307,7 +314,7 @@ public abstract class LoggerAdapter extends Logger {
 
     /**
      * Logs a record. The default implementation delegates to
-     * {@link #logrb(Level,String,String,String,String,Object[]) logrb}.
+     * {@link #logrb(Level, String, String, String, String, Object[]) logrb}.
      */
     @Override
     public void log(final LogRecord record) {
@@ -321,17 +328,17 @@ public abstract class LoggerAdapter extends Logger {
         if (filter != null && !filter.isLoggable(record)) {
             return;
         }
-        Level     level        = record.getLevel();
-        String    sourceClass  = record.getSourceClassName();
-        String    sourceMethod = record.getSourceMethodName();
-        String    bundleName   = record.getResourceBundleName();
-        String    message      = record.getMessage();
-        Object[]  params       = record.getParameters();
-        Throwable thrown       = record.getThrown();
-        ResourceBundle bundle  = record.getResourceBundle();
-        boolean   localized    = false;
+        Level level = record.getLevel();
+        String sourceClass = record.getSourceClassName();
+        String sourceMethod = record.getSourceMethodName();
+        String bundleName = record.getResourceBundleName();
+        String message = record.getMessage();
+        Object[] params = record.getParameters();
+        Throwable thrown = record.getThrown();
+        ResourceBundle bundle = record.getResourceBundle();
+        boolean localized = false;
         if (bundle != null) try {
-            message   = bundle.getString(message);
+            message = bundle.getString(message);
             localized = true; // Sets only if the above succeed.
         } catch (MissingResourceException e) {
             // The default Formatter.messageFormat implementation ignores this exception
@@ -372,23 +379,38 @@ public abstract class LoggerAdapter extends Logger {
                 // MAX_VALUE is a special value for Level.OFF. Otherwise and
                 // if positive, fallthrough since we are greater than SEVERE.
             }
-            case 10: severe (message); break;
-            case  9: warning(message); break;
-            case  8: info   (message); break;
-            case  7: config (message); break;
-            case  6:
-            case  5: fine   (message); break;
-            case  4: finer  (message); break;
-            case  3: finest (message); break;
-            case  2: /* Logging OFF */
-            case  1: /* Logging OFF */
-            case  0: /* Logging OFF */ break;
+            case 10:
+                severe(message);
+                break;
+            case 9:
+                warning(message);
+                break;
+            case 8:
+                info(message);
+                break;
+            case 7:
+                config(message);
+                break;
+            case 6:
+            case 5:
+                fine(message);
+                break;
+            case 4:
+                finer(message);
+                break;
+            case 3:
+                finest(message);
+                break;
+            case 2: /* Logging OFF */
+            case 1: /* Logging OFF */
+            case 0: /* Logging OFF */
+                break;
         }
     }
 
     /**
      * Logs a record at the specified level. The default implementation discards the exception
-     * and delegates to <code>{@linkplain #log(Level,String) log}(level, message)</code>.
+     * and delegates to <code>{@linkplain #log(Level, String) log}(level, message)</code>.
      */
     @Override
     public void log(final Level level, final String message, final Throwable thrown) {
@@ -397,7 +419,7 @@ public abstract class LoggerAdapter extends Logger {
 
     /**
      * Logs a record at the specified level. The defaut implementation delegates to
-     * <code>{@linkplain #log(Level,String,Object[]) log}(level, message, params)</code>
+     * <code>{@linkplain #log(Level, String, Object[]) log}(level, message, params)</code>
      * where the {@code params} array is built from the {@code param} object.
      */
     @Override
@@ -410,7 +432,7 @@ public abstract class LoggerAdapter extends Logger {
     /**
      * Logs a record at the specified level.
      * The defaut implementation formats the message immediately, then delegates to
-     * <code>{@linkplain #log(Level,String) log}(level, message)</code>.
+     * <code>{@linkplain #log(Level, String) log}(level, message)</code>.
      */
     @Override
     public void log(final Level level, final String message, final Object[] params) {
@@ -422,40 +444,37 @@ public abstract class LoggerAdapter extends Logger {
     /**
      * Logs a record at the specified level. The defaut implementation discards
      * the source class and source method, then delegates to
-     * <code>{@linkplain #log(Level,String) log}(level, message)</code>.
+     * <code>{@linkplain #log(Level, String) log}(level, message)</code>.
      */
     @Override
     public void logp(final Level level, final String sourceClass, final String sourceMethod,
-                     final String message)
-    {
+                     final String message) {
         log(level, message);
     }
 
     /**
      * Logs a record at the specified level. The defaut implementation discards
      * the source class and source method, then delegates to
-     * <code>{@linkplain #log(Level,String,Throwable) log}(level, message, thrown)</code>.
+     * <code>{@linkplain #log(Level, String, Throwable) log}(level, message, thrown)</code>.
      */
     @Override
     public void logp(final Level level, final String sourceClass, final String sourceMethod,
-                     final String message, final Throwable thrown)
-    {
+                     final String message, final Throwable thrown) {
         log(level, message, thrown);
     }
 
     /**
      * Logs a record at the specified level. The defaut implementation delegates to
-     * <code>{@linkplain #logp(Level,String,String,String,Object[]) logp}(level, sourceClass,
+     * <code>{@linkplain #logp(Level, String, String, String, Object[]) logp}(level, sourceClass,
      * sourceMethod, message, params)</code> where the {@code params} array is built from the
      * {@code param} object.
      * <p>
      * Note that {@code sourceClass} and {@code sourceMethod} will be discarted unless the
-     * target {@link #logp(Level,String,String,String) logp} method has been overriden.
+     * target {@link #logp(Level, String, String, String) logp} method has been overriden.
      */
     @Override
     public void logp(final Level level, final String sourceClass, final String sourceMethod,
-                     final String message, final Object param)
-    {
+                     final String message, final Object param) {
         if (isLoggable(level)) {
             logp(level, sourceClass, sourceMethod, message, asArray(param));
         }
@@ -463,16 +482,15 @@ public abstract class LoggerAdapter extends Logger {
 
     /**
      * Logs a record at the specified level. The defaut implementation formats the message
-     * immediately, then delegates to <code>{@linkplain #logp(Level,String,String,String)
+     * immediately, then delegates to <code>{@linkplain #logp(Level, String, String, String)
      * logp}(level, sourceClass, sourceMethod, message)</code>.
      * <p>
      * Note that {@code sourceClass} and {@code sourceMethod} will be discarted unless the
-     * target {@link #logp(Level,String,String,String) logp} method has been overriden.
+     * target {@link #logp(Level, String, String, String) logp} method has been overriden.
      */
     @Override
     public void logp(final Level level, final String sourceClass, final String sourceMethod,
-                     final String message, final Object[] params)
-    {
+                     final String message, final Object[] params) {
         if (isLoggable(level)) {
             logp(level, sourceClass, sourceMethod, format(message, params));
         }
@@ -480,13 +498,12 @@ public abstract class LoggerAdapter extends Logger {
 
     /**
      * Logs a localizable record at the specified level. The defaut implementation localizes the
-     * message immediately, then delegates to <code>{@linkplain #logp(Level,String,String,String)
+     * message immediately, then delegates to <code>{@linkplain #logp(Level, String, String, String)
      * logp}(level, sourceClass, sourceMethod, message)</code>.
      */
     @Override
     public void logrb(final Level level, final String sourceClass, final String sourceMethod,
-                      final String bundleName, final String message)
-    {
+                      final String bundleName, final String message) {
         if (isLoggable(level)) {
             logp(level, sourceClass, sourceMethod, localize(bundleName, message));
         }
@@ -494,13 +511,12 @@ public abstract class LoggerAdapter extends Logger {
 
     /**
      * Logs a localizable record at the specified level. The defaut implementation localizes the
-     * message immediately, then delegates to <code>{@linkplain #logp(Level,String,String,String,
+     * message immediately, then delegates to <code>{@linkplain #logp(Level, String, String, String,
      * Throwable) logp}(level, sourceClass, sourceMethod, message, thrown)</code>.
      */
     @Override
     public void logrb(final Level level, final String sourceClass, final String sourceMethod,
-                      final String bundleName, final String message, final Throwable thrown)
-    {
+                      final String bundleName, final String message, final Throwable thrown) {
         if (isLoggable(level)) {
             logp(level, sourceClass, sourceMethod, localize(bundleName, message), thrown);
         }
@@ -508,13 +524,12 @@ public abstract class LoggerAdapter extends Logger {
 
     /**
      * Logs a localizable record at the specified level. The defaut implementation localizes the
-     * message immediately, then delegates to <code>{@linkplain #logp(Level,String,String,String,
+     * message immediately, then delegates to <code>{@linkplain #logp(Level, String, String, String,
      * Object) logp}(level, sourceClass, sourceMethod, message, param)</code>.
      */
     @Override
     public void logrb(final Level level, final String sourceClass, final String sourceMethod,
-                      final String bundleName, final String message, final Object param)
-    {
+                      final String bundleName, final String message, final Object param) {
         if (isLoggable(level)) {
             logp(level, sourceClass, sourceMethod, localize(bundleName, message), param);
         }
@@ -522,13 +537,12 @@ public abstract class LoggerAdapter extends Logger {
 
     /**
      * Logs a localizable record at the specified level. The defaut implementation localizes the
-     * message immediately, then delegates to <code>{@linkplain #logp(Level,String,String,String,
+     * message immediately, then delegates to <code>{@linkplain #logp(Level, String, String, String,
      * Object[]) logp}(level, sourceClass, sourceMethod, message, params)</code>.
      */
     @Override
     public void logrb(final Level level, final String sourceClass, final String sourceMethod,
-                      final String bundleName, String message, final Object[] params)
-    {
+                      final String bundleName, String message, final Object[] params) {
         if (isLoggable(level)) {
             logp(level, sourceClass, sourceMethod, localize(bundleName, message), params);
         }
@@ -585,7 +599,7 @@ public abstract class LoggerAdapter extends Logger {
      * {@code log(..., Object)} methods that delegate their work to {@code log(..., Object[])}
      */
     private static Object[] asArray(final Object param) {
-        return (param != null) ? new Object[] {param} : null;
+        return (param != null) ? new Object[]{param} : null;
     }
 
     /**

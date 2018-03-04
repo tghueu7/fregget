@@ -62,24 +62,21 @@ import org.geotools.util.Utilities;
  * determine which of the {@link DatumAuthorityFactory}, {@link CSAuthorityFactory}
  * and {@link CRSAuthorityFactory} interfaces to implement.
  *
- * @since 2.3
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @todo Use generic types for all {@code replace(...)} methods when we will be
- *       allowed to compile for J2SE 1.5, and remove casts in all
- *       {@code createXXX(...)} methods.
+ * allowed to compile for J2SE 1.5, and remove casts in all
+ * {@code createXXX(...)} methods.
+ * @since 2.3
  */
 public class TransformedAuthorityFactory extends AuthorityFactoryAdapter {
     /**
      * Axis that need to be renamed if their direction changes.
      */
     private static final DefaultCoordinateSystemAxis[] RENAMEABLE = {
-        DefaultCoordinateSystemAxis.NORTHING,   DefaultCoordinateSystemAxis.SOUTHING,
-        DefaultCoordinateSystemAxis.EASTING,    DefaultCoordinateSystemAxis.WESTING
+            DefaultCoordinateSystemAxis.NORTHING, DefaultCoordinateSystemAxis.SOUTHING,
+            DefaultCoordinateSystemAxis.EASTING, DefaultCoordinateSystemAxis.WESTING
     };
 
     /**
@@ -115,8 +112,7 @@ public class TransformedAuthorityFactory extends AuthorityFactoryAdapter {
     protected TransformedAuthorityFactory(final CRSAuthorityFactory crsFactory,
                                           final CSAuthorityFactory csFactory,
                                           final DatumAuthorityFactory datumFactory,
-                                          final CoordinateOperationAuthorityFactory opFactory)
-    {
+                                          final CoordinateOperationAuthorityFactory opFactory) {
         super(crsFactory, csFactory, datumFactory, opFactory);
     }
 
@@ -129,12 +125,10 @@ public class TransformedAuthorityFactory extends AuthorityFactoryAdapter {
      *                  set of hints.
      * @param userHints An optional set of hints, or {@code null} if none.
      * @throws FactoryRegistryException if at least one factory can not be obtained.
-     *
      * @since 2.4
      */
     protected TransformedAuthorityFactory(final String authority, final Hints userHints)
-            throws FactoryRegistryException
-    {
+            throws FactoryRegistryException {
         super(authority, userHints);
     }
 
@@ -191,8 +185,8 @@ public class TransformedAuthorityFactory extends AuthorityFactoryAdapter {
     protected CoordinateSystemAxis replace(CoordinateSystemAxis axis) throws FactoryException {
         final AxisDirection oldDirection = axis.getDirection();
         final AxisDirection newDirection = replace(oldDirection);
-              Unit<?>       oldUnits     = axis.getUnit();
-        final Unit<?>       newUnits     = replace(oldUnits);
+        Unit<?> oldUnits = axis.getUnit();
+        final Unit<?> newUnits = replace(oldUnits);
         boolean directionChanged = !oldDirection.equals(newDirection);
         if (directionChanged) {
             /*
@@ -201,9 +195,9 @@ public class TransformedAuthorityFactory extends AuthorityFactoryAdapter {
              * the axis should be renamed as "Northing".
              */
             final String name = axis.getName().getCode();
-            for (int i=0; i<RENAMEABLE.length; i++) {
+            for (int i = 0; i < RENAMEABLE.length; i++) {
                 if (RENAMEABLE[i].nameMatches(name)) {
-                    for (i=0; i<RENAMEABLE.length; i++) {
+                    for (i = 0; i < RENAMEABLE.length; i++) {
                         final CoordinateSystemAxis candidate = RENAMEABLE[i];
                         if (newDirection.equals(candidate.getDirection())) {
                             axis = candidate;          // The new axis, but may change again later.
@@ -233,7 +227,7 @@ public class TransformedAuthorityFactory extends AuthorityFactoryAdapter {
      * for each axis. In addition, axis are sorted if this factory implements the
      * {@link Comparator} interface.
      *
-     * @param  cs The coordinate system to replace.
+     * @param cs The coordinate system to replace.
      * @return The new coordinate system, or {@code cs} if no change were needed.
      * @throws FactoryException if an error occured while creating the new coordinate system.
      */
@@ -241,16 +235,17 @@ public class TransformedAuthorityFactory extends AuthorityFactoryAdapter {
     protected CoordinateSystem replace(final CoordinateSystem cs) throws FactoryException {
         final int dimension = cs.getDimension();
         final CoordinateSystemAxis[] orderedAxis = new CoordinateSystemAxis[dimension];
-        for (int i=0; i<dimension; i++) {
+        for (int i = 0; i < dimension; i++) {
             orderedAxis[i] = replace(cs.getAxis(i));
         }
         if (this instanceof Comparator) {
             Arrays.sort(orderedAxis, (Comparator) this);
         }
-        for (int i=0; i<dimension; i++) {
+        for (int i = 0; i < dimension; i++) {
             if (!orderedAxis[i].equals(cs.getAxis(i))) {
                 CoordinateSystem modified = createCS(cs.getClass(), getProperties(cs), orderedAxis);
-                assert Classes.sameInterfaces(cs.getClass(), modified.getClass(), CoordinateSystem.class);
+                assert Classes.sameInterfaces(cs.getClass(), modified.getClass(), 
+                        CoordinateSystem.class);
                 modified = (CoordinateSystem) pool.unique(modified);
                 return modified;
             }
@@ -286,8 +281,7 @@ public class TransformedAuthorityFactory extends AuthorityFactoryAdapter {
      */
     // @Override
     protected CoordinateReferenceSystem replace(final CoordinateReferenceSystem crs)
-            throws FactoryException
-    {
+            throws FactoryException {
         /*
          * Gets the replaced coordinate system and datum, and checks if there is any change.
          */
@@ -308,13 +302,13 @@ public class TransformedAuthorityFactory extends AuthorityFactoryAdapter {
          */
         CoordinateReferenceSystem modified;
         if (crs instanceof GeneralDerivedCRS) {
-            final GeneralDerivedCRS         derivedCRS = (GeneralDerivedCRS) crs;
+            final GeneralDerivedCRS derivedCRS = (GeneralDerivedCRS) crs;
             final CoordinateReferenceSystem oldBaseCRS = derivedCRS.getBaseCRS();
-            final CoordinateReferenceSystem    baseCRS = replace(oldBaseCRS);
+            final CoordinateReferenceSystem baseCRS = replace(oldBaseCRS);
             if (sameCS && Utilities.equals(baseCRS, oldBaseCRS)) {
                 return crs;
             }
-            final Map<String,?> properties = getProperties(crs);
+            final Map<String, ?> properties = getProperties(crs);
             final ReferencingFactoryContainer factories = getFactoryContainer(true);
             final CRSFactory crsFactory = factories.getCRSFactory();
             Conversion fromBase = derivedCRS.getConversionFromBase();
@@ -359,8 +353,9 @@ public class TransformedAuthorityFactory extends AuthorityFactoryAdapter {
             } else if (crs instanceof CompoundCRS) {
                 final List/* <CoordinateReferenceSystem> */elements =
                         ((CompoundCRS) crs).getCoordinateReferenceSystems();
-                final CoordinateReferenceSystem[] m = new CoordinateReferenceSystem[elements.size()];
-                for (int i=0; i<m.length; i++) {
+                final CoordinateReferenceSystem[] m = new CoordinateReferenceSystem[elements.size
+                        ()];
+                for (int i = 0; i < m.length; i++) {
                     m[i] = replace((CoordinateReferenceSystem) elements.get(i));
                 }
                 modified = crsFactory.createCompoundCRS(properties, m);
@@ -386,8 +381,7 @@ public class TransformedAuthorityFactory extends AuthorityFactoryAdapter {
      */
     // @Override
     protected CoordinateOperation replace(final CoordinateOperation operation)
-            throws FactoryException
-    {
+            throws FactoryException {
         final CoordinateReferenceSystem oldSrcCRS = operation.getSourceCRS();
         final CoordinateReferenceSystem oldTgtCRS = operation.getTargetCRS();
         final CoordinateReferenceSystem sourceCRS = (oldSrcCRS != null) ? replace(oldSrcCRS) : null;
@@ -419,49 +413,60 @@ public class TransformedAuthorityFactory extends AuthorityFactoryAdapter {
     private CoordinateSystem createCS(final Class/* <CoordinateSystem> */type,
                                       final Map properties,
                                       final CoordinateSystemAxis[] axis)
-            throws FactoryException
-    {
+            throws FactoryException {
         final int dimension = axis.length;
         final ReferencingFactoryContainer factories = getFactoryContainer(false);
         final CSFactory csFactory = factories.getCSFactory();
         if (CartesianCS.class.isAssignableFrom(type)) {
             switch (dimension) {
-                case 2: return csFactory.createCartesianCS(properties, axis[0], axis[1]);
-                case 3: return csFactory.createCartesianCS(properties, axis[0], axis[1], axis[2]);
+                case 2:
+                    return csFactory.createCartesianCS(properties, axis[0], axis[1]);
+                case 3:
+                    return csFactory.createCartesianCS(properties, axis[0], axis[1], axis[2]);
             }
         } else if (EllipsoidalCS.class.isAssignableFrom(type)) {
             switch (dimension) {
-                case 2: return csFactory.createEllipsoidalCS(properties, axis[0], axis[1]);
-                case 3: return csFactory.createEllipsoidalCS(properties, axis[0], axis[1], axis[2]);
+                case 2:
+                    return csFactory.createEllipsoidalCS(properties, axis[0], axis[1]);
+                case 3:
+                    return csFactory.createEllipsoidalCS(properties, axis[0], axis[1], axis[2]);
             }
         } else if (SphericalCS.class.isAssignableFrom(type)) {
             switch (dimension) {
-                case 3: return csFactory.createSphericalCS(properties, axis[0], axis[1], axis[2]);
+                case 3:
+                    return csFactory.createSphericalCS(properties, axis[0], axis[1], axis[2]);
             }
         } else if (CylindricalCS.class.isAssignableFrom(type)) {
             switch (dimension) {
-                case 3: return csFactory.createCylindricalCS(properties, axis[0], axis[1], axis[2]);
+                case 3:
+                    return csFactory.createCylindricalCS(properties, axis[0], axis[1], axis[2]);
             }
         } else if (PolarCS.class.isAssignableFrom(type)) {
             switch (dimension) {
-                case 2: return csFactory.createPolarCS(properties, axis[0], axis[1]);
+                case 2:
+                    return csFactory.createPolarCS(properties, axis[0], axis[1]);
             }
         } else if (VerticalCS.class.isAssignableFrom(type)) {
             switch (dimension) {
-                case 1: return csFactory.createVerticalCS(properties, axis[0]);
+                case 1:
+                    return csFactory.createVerticalCS(properties, axis[0]);
             }
         } else if (TimeCS.class.isAssignableFrom(type)) {
             switch (dimension) {
-                case 1: return csFactory.createTimeCS(properties, axis[0]);
+                case 1:
+                    return csFactory.createTimeCS(properties, axis[0]);
             }
         } else if (LinearCS.class.isAssignableFrom(type)) {
             switch (dimension) {
-                case 1: return csFactory.createLinearCS(properties, axis[0]);
+                case 1:
+                    return csFactory.createLinearCS(properties, axis[0]);
             }
         } else if (UserDefinedCS.class.isAssignableFrom(type)) {
             switch (dimension) {
-                case 2: return csFactory.createUserDefinedCS(properties, axis[0], axis[1]);
-                case 3: return csFactory.createUserDefinedCS(properties, axis[0], axis[1], axis[2]);
+                case 2:
+                    return csFactory.createUserDefinedCS(properties, axis[0], axis[1]);
+                case 3:
+                    return csFactory.createUserDefinedCS(properties, axis[0], axis[1], axis[2]);
             }
         }
         throw new FactoryException(Errors.format(ErrorKeys.UNSUPPORTED_COORDINATE_SYSTEM_$1, type));
@@ -476,9 +481,9 @@ public class TransformedAuthorityFactory extends AuthorityFactoryAdapter {
      *
      * @param object The original object.
      * @return The properties to be given to the object created as a substitute
-     *         of {@code object}.
+     * of {@code object}.
      */
-    private Map<String,?> getProperties(final IdentifiedObject object) {
+    private Map<String, ?> getProperties(final IdentifiedObject object) {
         final Citation authority = getAuthority();
         if (!Utilities.equals(authority, object.getName().getAuthority())) {
             return AbstractIdentifiedObject.getProperties(object, authority);
@@ -496,12 +501,11 @@ public class TransformedAuthorityFactory extends AuthorityFactoryAdapter {
      */
     public Set<CoordinateOperation> createFromCoordinateReferenceSystemCodes(
             final String sourceCode, final String targetCode)
-            throws FactoryException
-    {
+            throws FactoryException {
         final Set/* <CoordinateOperation> */operations, modified;
         operations = super.createFromCoordinateReferenceSystemCodes(sourceCode, targetCode);
         modified = new LinkedHashSet((int) (operations.size() / 0.75f) + 1);
-        for (final Iterator it = operations.iterator(); it.hasNext();) {
+        for (final Iterator it = operations.iterator(); it.hasNext(); ) {
             final CoordinateOperation operation;
             try {
                 operation = (CoordinateOperation) it.next();

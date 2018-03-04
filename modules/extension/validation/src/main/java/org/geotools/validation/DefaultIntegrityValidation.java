@@ -24,7 +24,7 @@ import org.geotools.geometry.jts.ReferencedEnvelope;
 
 /**
  * Tests to see if a Feature ...
- * 
+ * <p>
  * <p>
  * This class is intended to be copied as a starting point for implementing
  * IntegrityValidation. Chances are you are not working against a single
@@ -33,20 +33,24 @@ import org.geotools.geometry.jts.ReferencedEnvelope;
  *
  * @author Jody Garnett, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class DefaultIntegrityValidation implements IntegrityValidation {
-    /** The logger for the validation module. */
+    /**
+     * The logger for the validation module.
+     */
     private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger(
             "org.geotools.validation");
 
-    /** User's Name of this integrity test. */
+    /**
+     * User's Name of this integrity test.
+     */
     private String name;
 
-    /** User's description of this integrity test. */
+    /**
+     * User's description of this integrity test.
+     */
     private String description;
 
     /**
@@ -57,13 +61,12 @@ public class DefaultIntegrityValidation implements IntegrityValidation {
 
     /**
      * Override setName.
-     * 
+     * <p>
      * <p>
      * Sets the name of this validation.
      * </p>
      *
      * @param name The name of this validation.
-     *
      * @see org.geotools.validation.Validation#setName(java.lang.String)
      */
     public final void setName(String name) {
@@ -72,13 +75,12 @@ public class DefaultIntegrityValidation implements IntegrityValidation {
 
     /**
      * Override getName.
-     * 
+     * <p>
      * <p>
      * Returns the name of this particular validation.
      * </p>
      *
      * @return The name of this particular validation.
-     *
      * @see org.geotools.validation.Validation#getName()
      */
     public final String getName() {
@@ -87,13 +89,12 @@ public class DefaultIntegrityValidation implements IntegrityValidation {
 
     /**
      * Override setDescription.
-     * 
+     * <p>
      * <p>
      * Sets the description of this validation.
      * </p>
      *
      * @param description The description of the validation.
-     *
      * @see org.geotools.validation.Validation#setDescription(java.lang.String)
      */
     public final void setDescription(String description) {
@@ -102,13 +103,12 @@ public class DefaultIntegrityValidation implements IntegrityValidation {
 
     /**
      * Override getDescription.
-     * 
+     * <p>
      * <p>
      * Returns the description of this validation as a string.
      * </p>
      *
      * @return The description of this validation.
-     *
      * @see org.geotools.validation.Validation#getDescription()
      */
     public final String getDescription() {
@@ -119,7 +119,6 @@ public class DefaultIntegrityValidation implements IntegrityValidation {
      * The priority level used to schedule this Validation.
      *
      * @return PRORITY_SIMPLE
-     *
      * @see org.geotools.validation.Validation#getPriority()
      */
     public int getPriority() {
@@ -130,7 +129,6 @@ public class DefaultIntegrityValidation implements IntegrityValidation {
      * Implementation of getTypeNames.
      *
      * @return Array of typeNames, or empty array for all, null for disabled
-     *
      * @see org.geotools.validation.Validation#getTypeRefs()
      */
     public String[] getTypeRefs() {
@@ -139,21 +137,19 @@ public class DefaultIntegrityValidation implements IntegrityValidation {
 
     /**
      * Check FeatureType for ...
-     * 
+     * <p>
      * <p>
      * Detailed description...
      * </p>
      *
-     * @param layers Map of SimpleFeatureSource by "dataStoreID:typeName"
+     * @param layers   Map of SimpleFeatureSource by "dataStoreID:typeName"
      * @param envelope The bounding box that encloses the unvalidated data
-     * @param results Used to coallate results information
-     *
+     * @param results  Used to coallate results information
      * @return <code>true</code> if all the features pass this test.
-     *
      * @throws Exception DOCUMENT ME!
      */
     public boolean validate(Map layers, ReferencedEnvelope envelope,
-        ValidationResults results) throws Exception {
+                            ValidationResults results) throws Exception {
         results.warning(null, "Validation not yet implemented");
 
         return false;

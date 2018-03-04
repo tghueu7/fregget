@@ -14,13 +14,12 @@ public class SQLServerSkipColumnOnlineTest extends JDBCSkipColumnOnlineTest {
 
     @Override
     public void testSkippedColumn() throws Exception {
-        if(dataStore.getDataStoreFactory() instanceof JTDSSqlServerDataStoreFactory) {
+        if (dataStore.getDataStoreFactory() instanceof JTDSSqlServerDataStoreFactory) {
             //I can't find a weird enough column to skip - IJT
             return;
         }
         super.testSkippedColumn();
     }
-
 
 
     @Override

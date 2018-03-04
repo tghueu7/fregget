@@ -7,25 +7,26 @@ import org.opengis.filter.expression.Literal;
 import com.vividsolutions.jts.geom.Geometry;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class EGeometryValueOverlaps extends EObjectAttributeValueCondition {
 
     public EGeometryValueOverlaps(EAttribute eAttribute, Literal geometry, boolean swapped)
             throws EFeatureEncoderException {
-        super(eAttribute, SpatialConditionEncoder.overlaps(eAttribute.getEAttributeType(), geometry, swapped));
+        super(eAttribute, SpatialConditionEncoder.overlaps(eAttribute.getEAttributeType(), 
+                geometry, swapped));
     }
 
     public EGeometryValueOverlaps(EAttribute eAttribute, Object geometry, boolean swapped)
             throws EFeatureEncoderException {
-        super(eAttribute, SpatialConditionEncoder.overlaps(eAttribute.getEAttributeType(), geometry, swapped));
+        super(eAttribute, SpatialConditionEncoder.overlaps(eAttribute.getEAttributeType(), 
+                geometry, swapped));
     }
 
     public EGeometryValueOverlaps(EAttribute eAttribute, Geometry geometry, boolean swapped)
             throws EFeatureEncoderException {
-        super(eAttribute, SpatialConditionEncoder.overlaps(eAttribute.getEAttributeType(), geometry, swapped));
+        super(eAttribute, SpatialConditionEncoder.overlaps(eAttribute.getEAttributeType(), 
+                geometry, swapped));
     }
 
 }

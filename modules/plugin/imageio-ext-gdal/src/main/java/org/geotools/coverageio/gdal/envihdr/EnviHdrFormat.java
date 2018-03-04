@@ -30,8 +30,6 @@ import org.opengis.geometry.MismatchedDimensionException;
 /**
  * @author Mathew Wyatt, CSIRO Australia
  * @author Daniele Romagnoli, GeoSolutions SAS
- *
- *
  * @source $URL$
  */
 public final class EnviHdrFormat extends BaseGDALGridFormat implements Format {

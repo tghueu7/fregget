@@ -41,17 +41,14 @@ import org.opengis.referencing.NoSuchAuthorityCodeException;
 /**
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini (simboss), GeoSolutions
- *
+ * <p>
  * Testing {@link JP2KReader}
- *
- *
- *
  * @source $URL$
  */
 public final class JP2KTest extends GDALTestCase {
     protected final static Logger LOGGER = org.geotools.util.logging.Logging.getLogger(
-    "org.geotools.coverageio.gdal.jp2kak");
-    
+            "org.geotools.coverageio.gdal.jp2kak");
+
     /**
      * file name of a valid JP2K sample data to be used for tests.
      */
@@ -76,29 +73,30 @@ public final class JP2KTest extends GDALTestCase {
         // read in the grid coverage
         if (fileName.equalsIgnoreCase("")) {
             LOGGER.info("===================================================================\n"
-                + " Warning! No valid test File has been yet specified.\n"
-                + " Please provide a valid sample in the source code and repeat this test!\n"
-                + "========================================================================");
+                    + " Warning! No valid test File has been yet specified.\n"
+                    + " Please provide a valid sample in the source code and repeat this test!\n"
+                    + "========================================================================");
 
             return;
         }
         File file = null;
-        try{
+        try {
             file = TestData.file(this, fileName);
-        }catch (FileNotFoundException fnfe){
+        } catch (FileNotFoundException fnfe) {
             LOGGER.warning("test-data not found: " + fileName + "\nTests are skipped");
             return;
         }
 
         final BaseGDALGridCoverage2DReader reader = new JP2KReader(file);
-        final ParameterValue gg = (ParameterValue) ((AbstractGridFormat) reader.getFormat()).READ_GRIDGEOMETRY2D
-            .createValue();
+        final ParameterValue gg = (ParameterValue) ((AbstractGridFormat) reader.getFormat())
+                .READ_GRIDGEOMETRY2D
+                .createValue();
         final GeneralEnvelope oldEnvelope = reader.getOriginalEnvelope();
         gg.setValue(new GridGeometry2D(reader.getOriginalGridRange(), oldEnvelope));
 
-        final GridCoverage2D gc = (GridCoverage2D) reader.read(new GeneralParameterValue[] { gg });
+        final GridCoverage2D gc = (GridCoverage2D) reader.read(new GeneralParameterValue[]{gg});
         forceDataLoading(gc);
-        
+
         if (TestData.isInteractiveTest()) {
             // printing CRS information
             LOGGER.info(gc.getCoordinateReferenceSystem().toWKT());
@@ -107,29 +105,29 @@ public final class JP2KTest extends GDALTestCase {
     }
 
     @Test
-	public void testIsAvailable() throws NoSuchAuthorityCodeException, FactoryException {
-	    if (!testingEnabled()) {
-	        return;
-	    }
-	
-	    GridFormatFinder.scanForPlugins();
-	
-	    Iterator list = GridFormatFinder.getAvailableFormats().iterator();
-	    boolean found = false;
-	    GridFormatFactorySpi fac = null;
-	
-	    while (list.hasNext()) {
-	        fac = (GridFormatFactorySpi) list.next();
-	
-	        if (fac instanceof JP2KFormatFactory) {
-	            found = true;
-	
-	            break;
-	        }
-	    }
-	
-	    Assert.assertTrue("JP2KFormatFactory not registered", found);
-	    Assert.assertTrue("JP2KFormatFactory not available", fac.isAvailable());
-	    Assert.assertNotNull(new JP2KFormatFactory().createFormat());
-	}
+    public void testIsAvailable() throws NoSuchAuthorityCodeException, FactoryException {
+        if (!testingEnabled()) {
+            return;
+        }
+
+        GridFormatFinder.scanForPlugins();
+
+        Iterator list = GridFormatFinder.getAvailableFormats().iterator();
+        boolean found = false;
+        GridFormatFactorySpi fac = null;
+
+        while (list.hasNext()) {
+            fac = (GridFormatFactorySpi) list.next();
+
+            if (fac instanceof JP2KFormatFactory) {
+                found = true;
+
+                break;
+            }
+        }
+
+        Assert.assertTrue("JP2KFormatFactory not registered", found);
+        Assert.assertTrue("JP2KFormatFactory not available", fac.isAvailable());
+        Assert.assertNotNull(new JP2KFormatFactory().createFormat());
+    }
 }

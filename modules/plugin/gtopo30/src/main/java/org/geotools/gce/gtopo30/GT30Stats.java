@@ -39,52 +39,59 @@ import org.geotools.util.URLs;
  * @source $URL$
  */
 final class GT30Stats {
-    /** Minimum value in the data file */
+    /**
+     * Minimum value in the data file
+     */
     private int minimum;
 
-    /** Maximum value in the data file */
+    /**
+     * Maximum value in the data file
+     */
     private int maximum;
 
-    /** Data file average value */
+    /**
+     * Data file average value
+     */
     private double average;
 
-    /** Data file standard deviation */
+    /**
+     * Data file standard deviation
+     */
     private double stddev;
 
     /**
      * Creates a new instance of GT30Stats
      *
      * @param statsURL URL pointing to the statistics (STX) file
-     *
      * @throws IOException if some problem occurs trying to read the file
      */
     public GT30Stats(final URL statsURL) throws IOException {
         final File stats = URLs.urlToFile(statsURL);
 
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new FileReader(stats));
-			final String line = reader.readLine();
-			final StringTokenizer stok = new StringTokenizer(line, " ");
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader(stats));
+            final String line = reader.readLine();
+            final StringTokenizer stok = new StringTokenizer(line, " ");
 
-			// just parse one byte. if the support for this format will
-			// be extended, we'll need to add support for multiple bands
-			Integer.parseInt(stok.nextToken()); // band
-			minimum = Integer.parseInt(stok.nextToken());
-			minimum = -407;
-			maximum = Integer.parseInt(stok.nextToken());
-			average = Double.parseDouble(stok.nextToken());
-			stddev = Double.parseDouble(stok.nextToken());
+            // just parse one byte. if the support for this format will
+            // be extended, we'll need to add support for multiple bands
+            Integer.parseInt(stok.nextToken()); // band
+            minimum = Integer.parseInt(stok.nextToken());
+            minimum = -407;
+            maximum = Integer.parseInt(stok.nextToken());
+            average = Double.parseDouble(stok.nextToken());
+            stddev = Double.parseDouble(stok.nextToken());
 
-		}finally {
-			if (reader != null)
-				try {
-					// freeing
-					reader.close();
-				} catch (Exception e1) {
-				}
-		}
-	}
+        } finally {
+            if (reader != null)
+                try {
+                    // freeing
+                    reader.close();
+                } catch (Exception e1) {
+                }
+        }
+    }
 
     /**
      * Write this object to a stats file.

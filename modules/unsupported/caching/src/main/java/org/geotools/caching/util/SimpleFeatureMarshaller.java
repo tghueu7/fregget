@@ -29,34 +29,32 @@ import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 
 
-/** Simple marshaller that can write features to an ObjectOutputStream.
- * Feature is not Serializable, but this is based on the idea that most attributes object are Serializable
- * (JTS geometries are Serializable), and that attributes which are not simple, are either a collection we can iterate through, or another Feature.
+/**
+ * Simple marshaller that can write features to an ObjectOutputStream.
+ * Feature is not Serializable, but this is based on the idea that most attributes object are 
+ * Serializable
+ * (JTS geometries are Serializable), and that attributes which are not simple, are either a 
+ * collection we can iterate through, or another Feature.
  * Serialization is then achieved recursively.
  * Unmarshalling implies to know the FeatureType of the marshalled feature.
- *
+ * <p>
  * Storage format : Header,
- *                  Attributes
- *
+ * Attributes
+ * <p>
  * Header := int     : FeatureType hashCode,
- *           String  : FeatureType name,
- *           String  : Feature ID,
- *           int     : number of attributes
+ * String  : FeatureType name,
+ * String  : Feature ID,
+ * int     : number of attributes
  * Attributes := [Attribute]
  * Attribute  := int : multiplicity, or O if simple, or -1 if FeatureAttribute,
- *               Object|Feature|[Attribute] : attribute value
- *
+ * Object|Feature|[Attribute] : attribute value
+ * <p>
  * This implementation does not have the ambition of being robust.
  *
- * @task test with other FeatureType than DefaultFeatureType
- * @task add method marshall(Feature, ByteArrayOutputStream) and unmarshall(ByteArrayOutputStream), or create sub class.
- *
  * @author Christophe Rousson, SoC 2007, CRG-ULAVAL
- *
- *
- *
- *
- *
+ * @task test with other FeatureType than DefaultFeatureType
+ * @task add method marshall(Feature, ByteArrayOutputStream) and unmarshall
+ * (ByteArrayOutputStream), or create sub class.
  * @source $URL$
  */
 public class SimpleFeatureMarshaller {
@@ -65,11 +63,12 @@ public class SimpleFeatureMarshaller {
      */
     public static final int FEATURE = -1;
     public static final int SIMPLEATTRIBUTE = 0;
-    
+
     private HashMap<String, SimpleFeatureType> types;
     private HashMap<String, SimpleFeatureBuilder> builders;
 
-    /** Default constructor.
+    /**
+     * Default constructor.
      */
     public SimpleFeatureMarshaller() {
         types = new HashMap<String, SimpleFeatureType>();
@@ -78,17 +77,18 @@ public class SimpleFeatureMarshaller {
 
     /**
      * Registers a type with the feature marshaller
-     * 
+     *
      * @param type
      */
     public void registerType(SimpleFeatureType type) {
-        if (!types.containsKey(type.getName().getURI())){
+        if (!types.containsKey(type.getName().getURI())) {
             types.put(type.getName().getURI(), type);
         }
     }
 
     /**
      * Looks in the type cache for a particular feature  type
+     *
      * @param typeName
      * @return
      */
@@ -96,7 +96,8 @@ public class SimpleFeatureMarshaller {
         return types.get(typeName);
     }
 
-    /** Marshall a feature into a stream.
+    /**
+     * Marshall a feature into a stream.
      * The type of that feature is not marshalled,
      * type name is marshalled.
      *
@@ -105,34 +106,34 @@ public class SimpleFeatureMarshaller {
      * @throws IOException
      */
     public void marshall(SimpleFeature f, ObjectOutput s)
-        throws IOException {
+            throws IOException {
         SimpleFeatureType type = (SimpleFeatureType) f.getType();
         registerType(type);
         s.writeObject(type.getName().getURI());
         s.writeObject(f.getID());
-        
+
         int natt = f.getAttributes().size();
         s.writeInt(natt);
-        
-        for (Iterator<Object> it = f.getAttributes().iterator(); it.hasNext();) {
-        	Object att = it.next();
-        	marshallSimpleAttribute(att, s);
+
+        for (Iterator<Object> it = f.getAttributes().iterator(); it.hasNext(); ) {
+            Object att = it.next();
+            marshallSimpleAttribute(att, s);
         }
     }
 
-    /** Marshall an attribute into a stream.
-     *
-     * @task test object is instance of Serializable
+    /**
+     * Marshall an attribute into a stream.
      *
      * @param o an attribute value which is Serializable, or a feature, or a collection
      * @param s the stream to write to
      * @throws IOException
+     * @task test object is instance of Serializable
      */
     protected void marshallSimpleAttribute(Object o, ObjectOutput s)
-        throws IOException {
+            throws IOException {
         if (o instanceof Collection) {
             throw new IllegalArgumentException(
-                "Got instance of SimpleFeature with complex attributes.");
+                    "Got instance of SimpleFeature with complex attributes.");
         } else if (o instanceof SimpleFeature) {
             s.writeInt(FEATURE);
             marshall((SimpleFeature) o, s);
@@ -142,7 +143,8 @@ public class SimpleFeatureMarshaller {
         }
     }
 
-    /** Inverse operation of marshall : read a feature from a stream.
+    /**
+     * Inverse operation of marshall : read a feature from a stream.
      *
      * @param s the stream to read from
      * @return the unmarshalled feature
@@ -151,7 +153,7 @@ public class SimpleFeatureMarshaller {
      * @throws IllegalAttributeException
      */
     public SimpleFeature unmarshall(ObjectInput s)
-        throws IOException, ClassNotFoundException, IllegalAttributeException {
+            throws IOException, ClassNotFoundException, IllegalAttributeException {
         String typeName = (String) s.readObject();
         SimpleFeatureType type = typeLookUp(typeName);
 
@@ -168,9 +170,10 @@ public class SimpleFeatureMarshaller {
         }
     }
 
-    /** Inverse operation of marshall : read a feature from a stream.
+    /**
+     * Inverse operation of marshall : read a feature from a stream.
      *
-     * @param s the stream to read from
+     * @param s   the stream to read from
      * @param the type of the feature to unmarshall
      * @return the unmarshalled feature
      * @throws IOException
@@ -178,7 +181,7 @@ public class SimpleFeatureMarshaller {
      * @throws IllegalAttributeException
      */
     protected SimpleFeature unmarshall(ObjectInput s, SimpleFeatureType type)
-        throws IOException, ClassNotFoundException, IllegalAttributeException {
+            throws IOException, ClassNotFoundException, IllegalAttributeException {
         String fid = (String) s.readObject();
         int natt = s.readInt();
 
@@ -194,21 +197,22 @@ public class SimpleFeatureMarshaller {
         //return builder.feature(fid);
         return builder.buildFeature(fid);
     }
-    
+
     /*
      * Looks up a feature builder from the builder cache; if not found then
      * it will create a new one and add it to the cache.
      */
-    private SimpleFeatureBuilder lookupBuilder(SimpleFeatureType type){
+    private SimpleFeatureBuilder lookupBuilder(SimpleFeatureType type) {
         SimpleFeatureBuilder builder = builders.get(type.getName().getURI());
-        if (builder == null){
+        if (builder == null) {
             builder = new SimpleFeatureBuilder(type);
             builders.put(type.getName().getURI(), builder);
         }
         return builder;
     }
 
-    /** Read attribute values from a stream.
+    /**
+     * Read attribute values from a stream.
      *
      * @param s the stream to read from
      * @return a list of attribute values, possibly a singleton, if attribute's multiplicity is 1
@@ -217,7 +221,7 @@ public class SimpleFeatureMarshaller {
      * @throws IllegalAttributeException
      */
     protected Object unmarshallSimpleAttribute(ObjectInput s)
-        throws IOException, ClassNotFoundException, IllegalAttributeException {
+            throws IOException, ClassNotFoundException, IllegalAttributeException {
         int m = s.readInt();
         Object att = null;
 
@@ -227,7 +231,8 @@ public class SimpleFeatureMarshaller {
             SimpleFeature f = unmarshall(s);
             att = f;
         } else { // this should never happen
-            throw new IllegalAttributeException(null, null, "Found complex attribute which is not legal for SimpleFeature.");
+            throw new IllegalAttributeException(null, null, "Found complex attribute which is not" +
+                    " legal for SimpleFeature.");
         }
 
         return att;

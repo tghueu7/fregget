@@ -19,8 +19,6 @@ package org.geotools.data.ingres;
 import org.geotools.jdbc.JDBCPrimaryKeyFinderTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class IngresPrimaryKeyFinderTestSetup extends JDBCPrimaryKeyFinderTestSetup {
@@ -33,8 +31,8 @@ public class IngresPrimaryKeyFinderTestSetup extends JDBCPrimaryKeyFinderTestSet
     protected void createMetadataTable() throws Exception {
         run("CREATE TABLE gt_pk_metadata ( " + "table_schema VARCHAR(32), "
                 + "table_name VARCHAR(32) NOT NULL, " + "pk_column VARCHAR(32) NOT NULL, "
-                + "pk_column_idx INTEGER, " + "pk_policy VARCHAR(32), " + "pk_sequence VARCHAR(64)," 
-                + "unique (table_name, pk_column)," 
+                + "pk_column_idx INTEGER, " + "pk_policy VARCHAR(32), " + "pk_sequence VARCHAR(64),"
+                + "unique (table_name, pk_column),"
                 + "check (pk_policy in ('sequence', 'assigned', 'autoincrement')))");
     }
 
@@ -49,12 +47,12 @@ public class IngresPrimaryKeyFinderTestSetup extends JDBCPrimaryKeyFinderTestSet
                 + "\"name\" VARCHAR(256), \"geom\" GEOMETRY)");
         run("CREATE SEQUENCE pksequence START WITH 1");
 
-        run( "INSERT INTO \"seqtable\" (\"key\", \"name\",\"geom\" ) VALUES (" + 
-            "NEXT VALUE FOR pksequence,'one',NULL)");
-        run( "INSERT INTO \"seqtable\" (\"key\", \"name\",\"geom\" ) VALUES (" +
-            "NEXT VALUE FOR pksequence,'two',NULL)");
-        run( "INSERT INTO \"seqtable\" (\"key\", \"name\",\"geom\" ) VALUES (" + 
-            "NEXT VALUE FOR pksequence,'three',NULL)");
+        run("INSERT INTO \"seqtable\" (\"key\", \"name\",\"geom\" ) VALUES (" +
+                "NEXT VALUE FOR pksequence,'one',NULL)");
+        run("INSERT INTO \"seqtable\" (\"key\", \"name\",\"geom\" ) VALUES (" +
+                "NEXT VALUE FOR pksequence,'two',NULL)");
+        run("INSERT INTO \"seqtable\" (\"key\", \"name\",\"geom\" ) VALUES (" +
+                "NEXT VALUE FOR pksequence,'three',NULL)");
 
         run("INSERT INTO gt_pk_metadata VALUES"
                 + "(NULL, 'seqtable', 'key', 0, 'sequence', 'PKSEQUENCE')");
@@ -62,8 +60,8 @@ public class IngresPrimaryKeyFinderTestSetup extends JDBCPrimaryKeyFinderTestSet
 
     @Override
     protected void dropSequencedPrimaryKeyTable() throws Exception {
-        runSafe( "DROP TABLE \"seqtable\"");
-        runSafe( "DROP SEQUENCE pksequence");
+        runSafe("DROP TABLE \"seqtable\"");
+        runSafe("DROP SEQUENCE pksequence");
     }
 
     @Override

@@ -25,7 +25,7 @@ import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * Encodes a GML2 multi polygon
- * 
+ *
  * @author Justin Deoliveira, OpenGeo
  * @author Andrea Aime - GeoSolutions
  */

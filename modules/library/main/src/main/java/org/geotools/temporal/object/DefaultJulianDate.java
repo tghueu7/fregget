@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -26,20 +26,19 @@ import org.opengis.temporal.TemporalReferenceSystem;
  * value; the Julian date is a decimal value that allows greater resolution.
  *
  * @author Mehdi Sidhoum (Geomatys)
- *
- *
- *
  * @source $URL$
  */
 public class DefaultJulianDate extends DefaultTemporalCoordinate implements JulianDate {
 
     /**
      * Creates a new instance of JulianDate.
+     *
      * @param frame
      * @param indeterminatePosition
      * @param coordinateValue
      */
-    public DefaultJulianDate(TemporalReferenceSystem frame, IndeterminateValue indeterminatePosition, Number coordinateValue) {
+    public DefaultJulianDate(TemporalReferenceSystem frame, IndeterminateValue 
+            indeterminatePosition, Number coordinateValue) {
         super(frame, indeterminatePosition, coordinateValue);
     }
 }

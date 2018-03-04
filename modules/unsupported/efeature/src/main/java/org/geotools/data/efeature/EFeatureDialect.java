@@ -13,8 +13,6 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.opengis.feature.simple.SimpleFeature;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class EFeatureDialect {
@@ -22,7 +20,7 @@ public class EFeatureDialect {
     // ----------------------------------------------------- 
     //  Public property names
     // -----------------------------------------------------
-    
+
     /**
      * {@link EFeatureContext} instance ID.
      * <p>
@@ -57,49 +55,50 @@ public class EFeatureDialect {
      * <p>
      */
     public static final String ERESOURCE_URI = "eURI";
-    
+
     /**
-     * A query that defines which {@link EFeature} folders to include in a {@link EFeatureDataStore}.
+     * A query that defines which {@link EFeature} folders to include in a 
+     * {@link EFeatureDataStore}.
      * <p>
      * This parameter has the following syntax:
-     * 
+     * <p>
      * <pre>
      * eFolders=&lt;eFolder1&gt;+...+&lt;eFolderN&gt;
-     * 
+     *
      * where
-     * 
+     *
      * eFolder = &lt;eName&gt;[:&lt;eQuery&gt;|$&lt;eFragment&gt;]
      * </pre>
      */
     public static final String EFOLDERS_QUERY = "eFolders";
-    
+
     /**
-     * A boolean flag indication if {@link EFeature}s can be 
-     * written ({@link EFeatureWriter#UPDATE} | 
-     * {@link EFeatureWriter#APPEND}).  
+     * A boolean flag indication if {@link EFeature}s can be
+     * written ({@link EFeatureWriter#UPDATE} |
+     * {@link EFeatureWriter#APPEND}).
      */
     public static final String EFEATURE_WRITABLE = "eWritable";
 
     // ----------------------------------------------------- 
     //  EFeatureDialog methods
     // -----------------------------------------------------
-    
+
     /**
      * Create connection parameter {@link Map} from required parameter values
-     * 
+     *
      * @param eContextID - id of {@link EFeatureContext} instance
-     * @param eDomainID - id of {@link EditingDomain} instance
-     * @param eNsURI TODO
-     * @param eURI - {@link URI} to {@link Resource} containing {@link SimpleFeature} data
-     * @param eFolders - {@link EFeature} folders query
+     * @param eDomainID  - id of {@link EditingDomain} instance
+     * @param eNsURI     TODO
+     * @param eURI       - {@link URI} to {@link Resource} containing {@link SimpleFeature} data
+     * @param eFolders   - {@link EFeature} folders query
      * @return a {@link Map} of connection parameters
      */
-    public Map<String, Serializable> toParams(String eContextID, String eDomainID, 
-            String eNsURI, String eURI, String eFolders) {
+    public Map<String, Serializable> toParams(String eContextID, String eDomainID,
+                                              String eNsURI, String eURI, String eFolders) {
         Map<String, Serializable> params = new HashMap<String, Serializable>(1);
         params.put(EFEATURE_CONTEXT_ID, eContextID);
         params.put(EDITING_DOMAIN_ID, eDomainID);
-        params.put(EPACKAGE_NS_URI, eNsURI);        
+        params.put(EPACKAGE_NS_URI, eNsURI);
         params.put(ERESOURCE_URI, eURI);
         params.put(EFOLDERS_QUERY, eFolders);
         return params;
@@ -154,9 +153,9 @@ public class EFeatureDialect {
 
     /**
      * Get folder query specification
-     * 
-     * @param eName - name of {@link EFeature} folder
-     * @param eQuery - {@link EFeature} query
+     *
+     * @param eName     - name of {@link EFeature} folder
+     * @param eQuery    - {@link EFeature} query
      * @param eFragment - {@link EFeature} {@link EObject parent} fragment
      * @return a {@link #EFOLDERS_QUERY} folder query specification
      */

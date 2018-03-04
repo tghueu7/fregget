@@ -36,8 +36,8 @@ import org.geotools.map.MapViewport;
 import org.geotools.renderer.GTRenderer;
 
 /**
- * The default implementation of {@code RenderingExecutor} which is used by 
- * {@linkplain JMapPane} and {@linkplain JLayeredMapPane}. It runs no more than 
+ * The default implementation of {@code RenderingExecutor} which is used by
+ * {@linkplain JMapPane} and {@linkplain JLayeredMapPane}. It runs no more than
  * one rendering task at any given time, although that task may involve multiple
  * threads (e.g. each layer of a map being rendered into separate destinations.
  * While a task is running any other submitted tasks are rejected.
@@ -49,7 +49,7 @@ import org.geotools.renderer.GTRenderer;
  *     ...
  * }
  * </code></pre>
- *
+ * <p>
  * While a rendering task is running it is regularly polled to see if it has completed
  * and, if so, whether it finished normally, was cancelled or failed. The interval between
  * polling can be adjusted which might be useful to tune the executor for particular
@@ -59,24 +59,24 @@ import org.geotools.renderer.GTRenderer;
  * </code></pre>
  *
  * @author Michael Bedward
- * @since 2.7
- *
- * @source $URL$
  * @version $Id$
- * 
+ * @source $URL$
  * @see RenderingExecutorListener
+ * @since 2.7
  */
 public class DefaultRenderingExecutor implements RenderingExecutor {
 
     private final AtomicLong NEXT_ID = new AtomicLong(1);
-    
+
     private final ExecutorService taskExecutor;
     private final ScheduledExecutorService watchExecutor;
     private ScheduledFuture<?> watcher;
-    
+
     private CountDownLatch tasksLatch = new CountDownLatch(0);
 
-    /** The default interval (milliseconds) for polling the result of a rendering task */
+    /**
+     * The default interval (milliseconds) for polling the result of a rendering task
+     */
     public static final long DEFAULT_POLLING_INTERVAL = 20L;
 
     private long pollingInterval;
@@ -99,7 +99,7 @@ public class DefaultRenderingExecutor implements RenderingExecutor {
         boolean polledDone;
 
         TaskInfo(long id, RenderingTask task, MapContent mapContent,
-                Future<Boolean> future, RenderingExecutorListener listener) {
+                 Future<Boolean> future, RenderingExecutorListener listener) {
             this.id = id;
             this.task = task;
             this.mapContent = mapContent;
@@ -108,7 +108,7 @@ public class DefaultRenderingExecutor implements RenderingExecutor {
             this.polledDone = false;
         }
     }
-    
+
     private List<TaskInfo> currentTasks;
 
     /**
@@ -116,10 +116,10 @@ public class DefaultRenderingExecutor implements RenderingExecutor {
      */
     public DefaultRenderingExecutor() {
         currentTasks = new CopyOnWriteArrayList<TaskInfo>();
-        
+
         taskExecutor = Executors.newCachedThreadPool();
         pollingInterval = DEFAULT_POLLING_INTERVAL;
-        
+
         watchExecutor = Executors.newSingleThreadScheduledExecutor(new DaemonThreadFactory());
         startPolling();
     }
@@ -142,23 +142,23 @@ public class DefaultRenderingExecutor implements RenderingExecutor {
             restartPolling();
         }
     }
-    
+
     /**
      * {@inheritDoc}
-     * If no rendering task is presently running this new task will be accepted, 
+     * If no rendering task is presently running this new task will be accepted,
      * otherwise it will be rejected (ie. there is no task queue).
      */
     @Override
     public synchronized long submit(MapContent mapContent, GTRenderer renderer,
-            Graphics2D graphics,
-            RenderingExecutorListener listener) {
-        
+                                    Graphics2D graphics,
+                                    RenderingExecutorListener listener) {
+
         long rtnValue = RenderingExecutor.TASK_REJECTED;
-        
+
         if (taskExecutor.isShutdown()) {
             throw new IllegalStateException("Calling submit after the executor has been shutdown");
         }
-        
+
         if (mapContent == null) {
             throw new IllegalArgumentException("mapContent must not be null");
         }
@@ -171,35 +171,35 @@ public class DefaultRenderingExecutor implements RenderingExecutor {
         if (listener == null) {
             throw new IllegalArgumentException("listener must not be null");
         }
-        
-        
+
+
         if (tasksLatch.getCount() == 0) {
             tasksLatch = new CountDownLatch(1);
 
             long id = NEXT_ID.getAndIncrement();
             RenderingExecutorEvent event = new RenderingExecutorEvent(this, id);
             listener.onRenderingStarted(event);
-            
+
             RenderingTask task = new RenderingTask(mapContent, graphics, renderer);
             Future<Boolean> future = taskExecutor.submit(task);
-            currentTasks.add( new TaskInfo(id, task, mapContent, future, listener) );
+            currentTasks.add(new TaskInfo(id, task, mapContent, future, listener));
             rtnValue = id;
         }
-        
+
         return rtnValue;
     }
-    
+
     @Override
-    public long submit(MapContent mapContent, 
-            List<RenderingOperands> operands,
-            RenderingExecutorListener listener) {
-        
+    public long submit(MapContent mapContent,
+                       List<RenderingOperands> operands,
+                       RenderingExecutorListener listener) {
+
         long rtnValue = RenderingExecutor.TASK_REJECTED;
-        
+
         if (taskExecutor.isShutdown()) {
             throw new IllegalStateException("Calling submit after the executor has been shutdown");
         }
-        
+
         if (mapContent == null) {
             throw new IllegalArgumentException("mapContent must not be null");
         }
@@ -212,30 +212,31 @@ public class DefaultRenderingExecutor implements RenderingExecutor {
         if (listener == null) {
             throw new IllegalArgumentException("listener must not be null");
         }
-        
+
         if (tasksLatch.getCount() == 0) {
             tasksLatch = new CountDownLatch(operands.size());
-            
+
             long id = NEXT_ID.getAndIncrement();
             RenderingExecutorEvent event = new RenderingExecutorEvent(this, id);
             listener.onRenderingStarted(event);
-            
+
             // Clone the viewport and mark it as not editable to prevent
             // the temporary MapContents created below from changing it
             MapViewport vp = new MapViewport(mapContent.getViewport());
             vp.setEditable(false);
-            
+
             for (RenderingOperands op : operands) {
                 MapContent mc = new SingleLayerMapContent(op.getLayer());
                 mc.setViewport(vp);
                 op.getRenderer().setMapContent(mc);
-                RenderingTask task = new RenderingTask(mapContent, op.getGraphics(), op.getRenderer());
+                RenderingTask task = new RenderingTask(mapContent, op.getGraphics(), op
+                        .getRenderer());
                 Future<Boolean> future = taskExecutor.submit(task);
-                currentTasks.add( new TaskInfo(id, task, mc, future, listener) );
+                currentTasks.add(new TaskInfo(id, task, mc, future, listener));
             }
             rtnValue = id;
         }
-        
+
         return rtnValue;
     }
 
@@ -248,11 +249,11 @@ public class DefaultRenderingExecutor implements RenderingExecutor {
             cancelAll();
         }
     }
-    
+
     /**
-     * {@inheritDoc} 
-     * Since this task can only ever have a single task running, and 
-     * no tasks queued, this method simply checks for a running task 
+     * {@inheritDoc}
+     * Since this task can only ever have a single task running, and
+     * no tasks queued, this method simply checks for a running task
      * and, if one exists, cancels it.
      */
     @Override
@@ -261,7 +262,7 @@ public class DefaultRenderingExecutor implements RenderingExecutor {
             info.task.cancel();
         }
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -272,7 +273,7 @@ public class DefaultRenderingExecutor implements RenderingExecutor {
             watchExecutor.shutdown();
         }
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -280,12 +281,12 @@ public class DefaultRenderingExecutor implements RenderingExecutor {
     public boolean isShutdown() {
         return taskExecutor.isShutdown();
     }
-    
+
     private void pollTaskResult() {
         for (TaskInfo info : currentTasks) {
             if (!info.polledDone && info.future.isDone()) {
                 info.polledDone = true;
-                
+
                 Boolean result = null;
                 try {
                     result = info.future.get();
@@ -313,17 +314,17 @@ public class DefaultRenderingExecutor implements RenderingExecutor {
     private void startPolling() {
         watcher = watchExecutor.scheduleAtFixedRate(new Runnable() {
             @Override
-                public void run() {
-                    pollTaskResult();
-                }
-            }, pollingInterval, pollingInterval, TimeUnit.MILLISECONDS);
+            public void run() {
+                pollTaskResult();
+            }
+        }, pollingInterval, pollingInterval, TimeUnit.MILLISECONDS);
     }
-    
+
     private void restartPolling() {
         stopPolling();
         startPolling();
     }
-    
+
     private void stopPolling() {
         if (watcher != null && !watcher.isDone()) {
             watcher.cancel(false);

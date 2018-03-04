@@ -15,6 +15,7 @@
  *    Lesser General Public License for more details.
  */
 package org.geotools.data.wfs.internal.v1_1;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -49,20 +50,18 @@ import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * Unit test suite for WFSContentDataStore
- * 
+ *
  * @author Gabriel Roldan
  * @author Niels Charlier
- *
- *
  */
 @SuppressWarnings("nls")
 public class DataStoreTest {
 
     /**
      * Test method for {@link WFS_1_1_0_DataStore#getTypeNames()}.
-     * 
+     *
      * @throws IOException
-     * @throws ServiceException 
+     * @throws ServiceException
      */
     @Test
     public void testGetTypeNames() throws IOException, ServiceException {
@@ -87,14 +86,16 @@ public class DataStoreTest {
     /**
      * Test method for
      * {@link org.geotools.wfs.v_1_1_0.data.WFS_1_1_0_DataStore#getSchema(java.lang.String)}.
-     * 
+     *
      * @throws IOException
-     * @throws ServiceException 
+     * @throws ServiceException
      */
     @Test
     public void testGetSchema() throws IOException, ServiceException {
-        TestHttpResponse httpResponse = new TestHttpResponse("", "UTF-8", CUBEWERX_GOVUNITCE.SCHEMA.openStream());
-        TestWFSClient wfs = createTestProtocol(CUBEWERX_GOVUNITCE.CAPABILITIES, new MockHTTPClient(httpResponse));
+        TestHttpResponse httpResponse = new TestHttpResponse("", "UTF-8", CUBEWERX_GOVUNITCE
+                .SCHEMA.openStream());
+        TestWFSClient wfs = createTestProtocol(CUBEWERX_GOVUNITCE.CAPABILITIES, new 
+                MockHTTPClient(httpResponse));
 
         // override the describe feature type url so it loads from the test resource
         wfs.setDescribeFeatureTypeURLOverride(CUBEWERX_GOVUNITCE.SCHEMA);
@@ -114,54 +115,56 @@ public class DataStoreTest {
 
     @Test
     public void testGetDefaultOutputFormat() throws IOException, ServiceException {
-        TestHttpResponse httpResponse = new TestHttpResponse("text/xml; subtype=gml/2.1.2", "UTF-8", 
+        TestHttpResponse httpResponse = new TestHttpResponse("text/xml; subtype=gml/2.1.2", "UTF-8",
                 stream("CubeWerx_nsdi/1.1.0/gml212.xml"));
-        TestWFSClient wfs = createTestProtocol(CUBEWERX_GOVUNITCE.CAPABILITIES, new MockHTTPClient(httpResponse));
+        TestWFSClient wfs = createTestProtocol(CUBEWERX_GOVUNITCE.CAPABILITIES, new 
+                MockHTTPClient(httpResponse));
 
         // override the describe feature type url so it loads from the test resource
         wfs.setDescribeFeatureTypeURLOverride(CUBEWERX_GOVUNITCE.SCHEMA);
 
         WFSDataStore ds = new WFSDataStore(wfs);
-        
+
         wfs.setOutputformatOverride("text/xml; subtype=gml/2.1.2");
 
         Query query = new Query(CUBEWERX_GOVUNITCE.FEATURETYPENAME);
-        
+
         FeatureReader<SimpleFeatureType, SimpleFeature> featureReader;
         featureReader = ds.getFeatureReader(query, Transaction.AUTO_COMMIT);
-        while(featureReader.hasNext()) {
+        while (featureReader.hasNext()) {
             SimpleFeature feature = featureReader.next();
             Object geometry = feature.getDefaultGeometry();
-            assertNotNull( geometry );
-            assertTrue( geometry instanceof Polygon);
+            assertNotNull(geometry);
+            assertTrue(geometry instanceof Polygon);
         }
         GetFeatureRequest request = wfs.getRequest();
         assertEquals("text/xml; subtype=gml/2.1.2", request.getOutputFormat());
     }
 
-    
+
     /**
      * Test for the useDefaultSRS parameter set to true. Query in a CRS different
      * from the DefaultSRS should be done in DefaultSRS and then reprojected.
-     * 
+     *
      * @throws IOException
      * @throws NoSuchAuthorityCodeException
      * @throws FactoryException
-     * @throws ServiceException 
+     * @throws ServiceException
      */
     @Test
     public void tesUseDefaultSRS() throws IOException,
             NoSuchAuthorityCodeException, FactoryException, ServiceException {
         TestHttpResponse httpResponse = new TestHttpResponse(
                 "text/xml; subtype=gml/3.1.1", "UTF-8", CUBEWERX_GOVUNITCE.DATA.openStream());
-        TestWFSClient wfs = createTestProtocol(CUBEWERX_GOVUNITCE.CAPABILITIES, new MockHTTPClient(httpResponse));
-    
+        TestWFSClient wfs = createTestProtocol(CUBEWERX_GOVUNITCE.CAPABILITIES, new 
+                MockHTTPClient(httpResponse));
+
         // override the describe feature type url so it loads from the test resource
         wfs.setDescribeFeatureTypeURLOverride(CUBEWERX_GOVUNITCE.SCHEMA);
-    
+
         WFSDataStore ds = new WFSDataStore(wfs);
         Query query = new Query(CUBEWERX_GOVUNITCE.FEATURETYPENAME);
-    
+
         // use the OtherSRS
         CoordinateReferenceSystem otherCrs = CRS
                 .decode(CUBEWERX_GOVUNITCE.CRS);
@@ -173,11 +176,11 @@ public class DataStoreTest {
                 .getCoordinateReferenceSystem());
         GetFeatureRequest request = wfs.getRequest();
         assertEquals(CUBEWERX_GOVUNITCE.CRS, request.getSrsName());
-    
+
         // use an SRS not supported by server
         CoordinateReferenceSystem unknownCrs = CRS.decode("EPSG:3003");
         query.setCoordinateSystem(unknownCrs);
-    
+
         featureReader = ds.getFeatureReader(query, Transaction.AUTO_COMMIT);
         assertNotNull(featureReader);
         assertTrue(featureReader instanceof ReprojectFeatureReader);
@@ -186,30 +189,31 @@ public class DataStoreTest {
         request = wfs.getRequest();
         assertNull(request.getSrsName());
     }
-    
+
     /**
      * Test for the useDefaultSRS parameter set to false. Query in a CRS listed in
      * OtherSRS should be done in OtherSRS and not reprojected.
-     * 
+     *
      * @throws IOException
      * @throws NoSuchAuthorityCodeException
      * @throws FactoryException
-     * @throws ServiceException 
+     * @throws ServiceException
      */
     @Test
     public void tesUseOtherSRS() throws IOException, NoSuchAuthorityCodeException,
             FactoryException, ServiceException {
         TestHttpResponse httpResponse = new TestHttpResponse(
                 "text/xml; subtype=gml/3.1.1", "UTF-8", CUBEWERX_GOVUNITCE.DATA.openStream());
-        TestWFSClient wfs = createTestProtocol(CUBEWERX_GOVUNITCE.CAPABILITIES, new MockHTTPClient(httpResponse));
-    
+        TestWFSClient wfs = createTestProtocol(CUBEWERX_GOVUNITCE.CAPABILITIES, new 
+                MockHTTPClient(httpResponse));
+
         // override the describe feature type url so it loads from the test resource
         wfs.setDescribeFeatureTypeURLOverride(CUBEWERX_GOVUNITCE.SCHEMA);
-    
+
         WFSDataStore ds = new WFSDataStore(wfs);
         wfs.setUseDefaultSrs(true);
         Query query = new Query(CUBEWERX_GOVUNITCE.FEATURETYPENAME);
-    
+
         // use the OtherSRS
         CoordinateReferenceSystem otherCrs = CRS
                 .decode("EPSG:4326");
@@ -222,11 +226,11 @@ public class DataStoreTest {
                 .getCoordinateReferenceSystem());
         GetFeatureRequest request = wfs.getRequest();
         assertNull(request.getSrsName());
-    
+
         // use an SRS not supported by server
         CoordinateReferenceSystem unknownCrs = CRS.decode("EPSG:3003");
         query.setCoordinateSystem(unknownCrs);
-    
+
         featureReader = ds.getFeatureReader(query, Transaction.AUTO_COMMIT);
         assertNotNull(featureReader);
         assertTrue(featureReader instanceof ReprojectFeatureReader);
@@ -235,49 +239,51 @@ public class DataStoreTest {
         request = wfs.getRequest();
         assertNull(request.getSrsName());
     }
-    
+
     /**
      * Test for the useDefaultSRS parameter set to false and OtherSRS specified in
      * urn form. Query in a CRS listed in OtherSRS should be done in OtherSRS and
      * not reprojected.
-     * 
+     *
      * @throws IOException
      * @throws NoSuchAuthorityCodeException
      * @throws FactoryException
-     * @throws ServiceException 
+     * @throws ServiceException
      */
     @Test
     public void tesUseOtherSRSUsingURN() throws IOException,
             NoSuchAuthorityCodeException, FactoryException, ServiceException {
         TestHttpResponse httpResponse = new TestHttpResponse(
                 "text/xml; subtype=gml/3.1.1", "UTF-8", CUBEWERX_GOVUNITCE.DATA.openStream());
-        TestWFSClient wfs = createTestProtocol(CUBEWERX_GOVUNITCE.CAPABILITIES, new MockHTTPClient(httpResponse));
-    
+        TestWFSClient wfs = createTestProtocol(CUBEWERX_GOVUNITCE.CAPABILITIES, new 
+                MockHTTPClient(httpResponse));
+
         // override the describe feature type url so it loads from the test resource
         wfs.setDescribeFeatureTypeURLOverride(CUBEWERX_GOVUNITCE.SCHEMA);
-    
+
         WFSDataStore ds = new WFSDataStore(wfs);
         Query query = new Query(CUBEWERX_GOVUNITCE.FEATURETYPENAME);
-    
+
         // use the OtherSRS
         CoordinateReferenceSystem otherCrs = CRS.decode("EPSG:3857");
-        query.setCoordinateSystem(otherCrs);        
+        query.setCoordinateSystem(otherCrs);
         FeatureReader<SimpleFeatureType, SimpleFeature> featureReader;
         featureReader = ds.getFeatureReader(query, Transaction.AUTO_COMMIT);
         assertNotNull(featureReader);
-    
+
         assertEquals(GML2EncodingUtils.epsgCode(otherCrs),
                 GML2EncodingUtils.epsgCode(featureReader.getFeatureType()
                         .getCoordinateReferenceSystem()));
         //GetFeatureRequest request = wfs.getRequest();
         //assertEquals("urn:ogc:def:crs:EPSG::3857", request.getSrsName());
     }
-    
+
     @Test
     public void tesGetFeatureReader() throws IOException, ServiceException {
         TestHttpResponse httpResponse = new TestHttpResponse("text/xml; subtype=gml/3.1.1",
                 "UTF-8", CUBEWERX_GOVUNITCE.DATA.openStream());
-        TestWFSClient wfs = createTestProtocol(CUBEWERX_GOVUNITCE.CAPABILITIES, new MockHTTPClient(httpResponse));
+        TestWFSClient wfs = createTestProtocol(CUBEWERX_GOVUNITCE.CAPABILITIES, new 
+                MockHTTPClient(httpResponse));
 
         // override the describe feature type url so it loads from the test resource
         wfs.setDescribeFeatureTypeURLOverride(CUBEWERX_GOVUNITCE.SCHEMA);

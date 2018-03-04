@@ -47,18 +47,16 @@ import com.vividsolutions.jts.geom.GeometryFactory;
  * the {@code MapLayer} it is working with to avoid memory leaks if
  * the layer is deleted.
  *
+ * @author Michael Bedward
+ * @source $URL$
  * @see InfoTool
  * @see GridLayerHelper
- *
- * @author Michael Bedward
  * @since 2.6
- *
- *
- * @source $URL$
  */
 public class VectorLayerHelper extends InfoToolHelper<SimpleFeatureCollection> {
 
-    private static final GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory(null);
+    private static final GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory
+            (null);
     private static final FilterFactory2 filterFactory = CommonFactoryFinder.getFilterFactory2(null);
     private final WeakReference<Layer> layerRef;
     private final String attrName;
@@ -67,22 +65,22 @@ public class VectorLayerHelper extends InfoToolHelper<SimpleFeatureCollection> {
     /**
      * Create a new helper to work with a {@code MapLayer} that has vector feature data.
      *
-     * @param layer the map layer
-     *
+     * @param layer             the map layer
      * @param geomAttributeName the name of the geometry attribute for {@code Features}
-     *
-     * @param geomClass the geometry class
+     * @param geomClass         the geometry class
      */
     @SuppressWarnings("unchecked")
-    public VectorLayerHelper( MapContent context, Layer layer ) {
+    public VectorLayerHelper(MapContent context, Layer layer) {
         super(context, layer.getFeatureSource().getSchema().getCoordinateReferenceSystem());
 
         this.layerRef = new WeakReference<Layer>(layer);
 
-        final GeometryDescriptor geomDesc = layer.getFeatureSource().getSchema().getGeometryDescriptor();
+        final GeometryDescriptor geomDesc = layer.getFeatureSource().getSchema()
+                .getGeometryDescriptor();
         this.attrName = geomDesc.getLocalName();
 
-        final Class< ? extends Geometry> geomClass = (Class< ? extends Geometry>) geomDesc.getType().getBinding();
+        final Class<? extends Geometry> geomClass = (Class<? extends Geometry>) geomDesc.getType
+                ().getBinding();
         final Geometries type = Geometries.getForBinding(geomClass);
         this.isPolygonGeometry = (type == Geometries.POLYGON || type == Geometries.MULTIPOLYGON);
     }
@@ -98,7 +96,6 @@ public class VectorLayerHelper extends InfoToolHelper<SimpleFeatureCollection> {
      * Get the {@code MapLayer} that this helper is working with.
      *
      * @return the {@code MapLayer} or null if the original layer is no longer valid
-     *
      * @see #isValid()
      */
     public Layer getMapLayer() {
@@ -112,18 +109,18 @@ public class VectorLayerHelper extends InfoToolHelper<SimpleFeatureCollection> {
      *
      *
      */
+
     /**
      * {@inheritDoc}
      *
      * @param params a {@code Double} value for the search radius to use with
-     *        point or line features
-     *
+     *               point or line features
      * @return the features that lie within the search radius of {@code pos}; if
-     *         this helper is not valid an empty collection will be returned
-     *
+     * this helper is not valid an empty collection will be returned
      * @throws IOException if the feature source for the layer cannot be accessed
      */
-    public SimpleFeatureCollection getInfo( DirectPosition2D pos, Object... params ) throws IOException {
+    public SimpleFeatureCollection getInfo(DirectPosition2D pos, Object... params) throws 
+            IOException {
 
         SimpleFeatureCollection collection = null;
         Layer layer = layerRef.get();
@@ -135,7 +132,8 @@ public class VectorLayerHelper extends InfoToolHelper<SimpleFeatureCollection> {
                  * Polygon features - use an intersects filter
                  */
                 Geometry posGeom = createSearchPos(pos);
-                filter = filterFactory.intersects(filterFactory.property(attrName), filterFactory.literal(posGeom));
+                filter = filterFactory.intersects(filterFactory.property(attrName), filterFactory
+                        .literal(posGeom));
 
             } else {
                 /*
@@ -154,7 +152,7 @@ public class VectorLayerHelper extends InfoToolHelper<SimpleFeatureCollection> {
         return collection;
     }
 
-    private Geometry createSearchPos( DirectPosition2D pos ) {
+    private Geometry createSearchPos(DirectPosition2D pos) {
         Geometry point = geometryFactory.createPoint(new Coordinate(pos.x, pos.y));
         if (isTransformRequired()) {
             MathTransform transform = getTransform();
@@ -170,12 +168,14 @@ public class VectorLayerHelper extends InfoToolHelper<SimpleFeatureCollection> {
         return point;
     }
 
-    private ReferencedEnvelope createSearchEnv( DirectPosition2D pos, double radius ) {
+    private ReferencedEnvelope createSearchEnv(DirectPosition2D pos, double radius) {
         final CoordinateReferenceSystem contextCRS = getMapContent().getCoordinateReferenceSystem();
-        ReferencedEnvelope env = new ReferencedEnvelope(pos.x - radius, pos.x + radius, pos.y - radius, pos.y + radius,
+        ReferencedEnvelope env = new ReferencedEnvelope(pos.x - radius, pos.x + radius, pos.y - 
+                radius, pos.y + radius,
                 contextCRS);
         if (isTransformRequired()) {
-            CoordinateReferenceSystem layerCRS = layerRef.get().getFeatureSource().getSchema().getCoordinateReferenceSystem();
+            CoordinateReferenceSystem layerCRS = layerRef.get().getFeatureSource().getSchema()
+                    .getCoordinateReferenceSystem();
             try {
                 env = env.transform(layerCRS, true);
             } catch (Exception ex) {

@@ -20,8 +20,6 @@ import org.geotools.styling.PointPlacement;
 import org.opengis.filter.expression.Expression;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class PointPlacementBuilder extends AbstractStyleBuilder<PointPlacement> {

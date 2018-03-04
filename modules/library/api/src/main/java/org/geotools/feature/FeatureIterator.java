@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -35,16 +35,18 @@ import org.opengis.feature.Feature;
  *    i.close();
  * }
  * </pre>
- * @author Ian Schneider
  *
+ * @author Ian Schneider
  * @source $URL$
  */
 public interface FeatureIterator<F extends Feature> extends Closeable {
     /**
      * Does another Feature exist in this Iteration.
      * <p>
-     * Iterator defin: Returns true if the iteration has more elements. (In other words, returns true if next would return an element rather than throwing an exception.)
+     * Iterator defin: Returns true if the iteration has more elements. (In other words, returns 
+     * true if next would return an element rather than throwing an exception.)
      * </p>
+     *
      * @return true if more Features exist, false otherwise.
      */
     public boolean hasNext();
@@ -53,7 +55,6 @@ public interface FeatureIterator<F extends Feature> extends Closeable {
      * Get the next Feature in this iteration.
      *
      * @return The next Feature
-     *
      * @throws java.util.NoSuchElementException If no more Features exist.
      */
     public F next() throws java.util.NoSuchElementException;

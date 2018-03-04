@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -73,51 +73,54 @@ import org.xml.sax.SAXException;
  * External graphic factory accepting an Expression that can be evaluated to a URL pointing to a SVG
  * file. The <code>format</code> must be <code>image/svg+xml</code>, thought for backwards
  * compatibility <code>image/svg-xml</code> and <code>image/svg</code> are accepted as well.
- * 
+ *
  * @author Andrea Aime - TOPP
- * 
- *
- *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/branches/2.6.x/modules/plugin/svg/src/main/java/org/geotools
- *         /renderer/style/SVGGraphicFactory.java $
+ * http://svn.osgeo.org/geotools/branches/2.6.x/modules/plugin/svg/src/main/java/org/geotools
+ * /renderer/style/SVGGraphicFactory.java $
  */
 public class SVGGraphicFactory implements Factory, ExternalGraphicFactory, GraphicCache {
 
     private static final Pattern PARAMETER_PATTERN = Pattern.compile("param\\((.+)\\).*");
 
-    /** Parsed SVG glyphs cache */
-    static Map<String, RenderableSVG> glyphCache = Collections.synchronizedMap(new SoftValueHashMap<String, RenderableSVG>());
+    /**
+     * Parsed SVG glyphs cache
+     */
+    static Map<String, RenderableSVG> glyphCache = Collections.synchronizedMap(new 
+            SoftValueHashMap<String, RenderableSVG>());
 
-    /** The possible mime types for SVG */
+    /**
+     * The possible mime types for SVG
+     */
     static final Set<String> formats = new HashSet<String>();
-    
+
     static {
         formats.add("image/svg");
         formats.add("image/svg-xml");
         formats.add("image/svg+xml");
     }
 
-    /** Hints we care about */
+    /**
+     * Hints we care about
+     */
     final private Map<Key, Object> implementationHints = new HashMap<>();
-    
+
     private EntityResolver resolver;
-    
-    public SVGGraphicFactory(){
-        this( null );
+
+    public SVGGraphicFactory() {
+        this(null);
     }
-    
-    public SVGGraphicFactory(Map<Key, Object> hints){
-        if( hints != null && hints.containsKey(Hints.ENTITY_RESOLVER)){
+
+    public SVGGraphicFactory(Map<Key, Object> hints) {
+        if (hints != null && hints.containsKey(Hints.ENTITY_RESOLVER)) {
             // use entity resolver provided (even if null)
             this.resolver = (EntityResolver) hints.get(Hints.ENTITY_RESOLVER);
-            this.implementationHints.put( Hints.ENTITY_RESOLVER, this.resolver );
+            this.implementationHints.put(Hints.ENTITY_RESOLVER, this.resolver);
 
-            if( this.resolver == null ){ // use null instance rather than check each time
+            if (this.resolver == null) { // use null instance rather than check each time
                 this.resolver = NullEntityResolver.INSTANCE;
             }
-        }
-        else {
+        } else {
             this.resolver = GeoTools.getEntityResolver(null);
         }
     }
@@ -126,6 +129,7 @@ public class SVGGraphicFactory implements Factory, ExternalGraphicFactory, Graph
     public Map<Key, ?> getImplementationHints() {
         return implementationHints;
     }
+
     public Icon getIcon(Feature feature, Expression url, String format, int size) throws Exception {
         // check we do support the declared format
         if (format == null || !formats.contains(format.toLowerCase()))
@@ -146,7 +150,7 @@ public class SVGGraphicFactory implements Factory, ExternalGraphicFactory, Graph
 
         // turn the svg into a document and cache results
         RenderableSVG svg = glyphCache.get(svgfile);
-        if(svg == null) {
+        if (svg == null) {
             String parser = XMLResourceDescriptor.getXMLParserClassName();
             SAXSVGDocumentFactory f = new SAXSVGDocumentFactory(parser) {
                 @Override
@@ -173,7 +177,7 @@ public class SVGGraphicFactory implements Factory, ExternalGraphicFactory, Graph
             }
             Document doc = f.createDocument(svgUri);
             Map<String, String> parameters = getParametersFromUrl(svgfile);
-            if(!parameters.isEmpty() || hasParameters(doc.getDocumentElement())) {
+            if (!parameters.isEmpty() || hasParameters(doc.getDocumentElement())) {
                 replaceParameters(doc.getDocumentElement(), parameters);
             }
             svg = new RenderableSVG(doc);
@@ -184,57 +188,59 @@ public class SVGGraphicFactory implements Factory, ExternalGraphicFactory, Graph
     }
 
     /**
-     * Splits the query string in 
+     * Splits the query string in
+     *
      * @param url
      * @return
      */
     Map<String, String> getParametersFromUrl(String url) {
         // url.getQuery won't work on file addresses
         int idx = url.indexOf("?");
-        if(idx == -1 || idx == url.length() - 1) {
+        if (idx == -1 || idx == url.length() - 1) {
             return Collections.emptyMap();
         }
         String query = url.substring(idx + 1);
-        return Arrays.stream(query.split("&")).map(this::splitQueryParameter).filter(e -> e.getValue() != null)
+        return Arrays.stream(query.split("&")).map(this::splitQueryParameter).filter(e -> e
+                .getValue() != null)
                 .collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue(), (v1, v2) -> v2));
     }
 
     SimpleImmutableEntry<String, String> splitQueryParameter(String parameter) {
         final int idx = parameter.indexOf("=");
         final String key = idx > 0 ? parameter.substring(0, idx) : parameter;
-        
+
         try {
             String value = null;
-            if(idx > 0 && parameter.length() > idx + 1) {
+            if (idx > 0 && parameter.length() > idx + 1) {
                 final String encodedValue = parameter.substring(idx + 1);
-                value =  URLDecoder.decode(encodedValue, "UTF-8");
+                value = URLDecoder.decode(encodedValue, "UTF-8");
             }
             return new SimpleImmutableEntry<>(key, value);
         } catch (UnsupportedEncodingException e) {
             // UTF-8 not supported??
             throw new RuntimeException(e);
         }
-        
+
     }
-    
+
     private boolean hasParameters(Element root) {
         // check if any attribute is parametric
         NamedNodeMap attributes = root.getAttributes();
-        for(int i = 0; i < attributes.getLength(); i++) {
+        for (int i = 0; i < attributes.getLength(); i++) {
             Node attribute = attributes.item(i);
             final String nv = attribute.getNodeValue();
-            if(nv != null && nv.contains("param(")) {
+            if (nv != null && nv.contains("param(")) {
                 return true;
             }
         }
-        
+
         // recurse
-        if(root.hasChildNodes()) {
+        if (root.hasChildNodes()) {
             NodeList childNodes = root.getChildNodes();
-            for(int i = 0; i < childNodes.getLength(); i++) {
+            for (int i = 0; i < childNodes.getLength(); i++) {
                 Node n = childNodes.item(i);
                 if (n != null && n instanceof Element) {
-                    if(hasParameters((Element) n)) {
+                    if (hasParameters((Element) n)) {
                         return true;
                     }
                 }
@@ -242,29 +248,29 @@ public class SVGGraphicFactory implements Factory, ExternalGraphicFactory, Graph
         }
         return true;
     }
-    
-    
+
+
     private void replaceParameters(Element root, Map<String, String> parameters) {
-        if(root.hasChildNodes()) {
+        if (root.hasChildNodes()) {
             NodeList childNodes = root.getChildNodes();
-            for(int i = 0; i < childNodes.getLength(); i++) {
+            for (int i = 0; i < childNodes.getLength(); i++) {
                 Node n = childNodes.item(i);
                 if (n != null && n instanceof Element) {
                     replaceParameters((Element) n, parameters);
                 }
             }
-            
+
         }
-        
+
         NamedNodeMap attributes = root.getAttributes();
-        for(int i = 0; i < attributes.getLength(); i++) {
+        for (int i = 0; i < attributes.getLength(); i++) {
             Node attribute = attributes.item(i);
-            if("style".equalsIgnoreCase(attribute.getNodeName())) {
+            if ("style".equalsIgnoreCase(attribute.getNodeName())) {
                 String[] keyValues = attribute.getNodeValue().split("\\s*;\\s*");
                 StringBuilder newAttribute = new StringBuilder();
                 for (String keyValue : keyValues) {
                     String[] kv = keyValue.split("\\s*:\\s*");
-                    if(kv.length < 2) {
+                    if (kv.length < 2) {
                         continue;
                     }
                     String key = kv[0];
@@ -277,24 +283,24 @@ public class SVGGraphicFactory implements Factory, ExternalGraphicFactory, Graph
                 attribute.setNodeValue(value);
             }
         }
-        
+
     }
 
     private String replaceValue(String value, Map<String, String> parameters) {
         Matcher m = PARAMETER_PATTERN.matcher(value);
         String newValue;
-        if(m.matches()) {
+        if (m.matches()) {
             final String key = m.group(1);
             newValue = parameters.get(key);
-            
+
             // Batik unfortunately writes to log.err when it finds property it does not
             // recognize, that's pretty bad, so we try to fit in some valid value
             // for the "well known" cases
-            if(newValue != null) {
-                value  = newValue;
-            } else if(key.contains("width")) {
+            if (newValue != null) {
+                value = newValue;
+            } else if (key.contains("width")) {
                 value = "0";
-            } else if(key.contains("opacity") || key.contains("alpha")) {
+            } else if (key.contains("opacity") || key.contains("alpha")) {
                 value = "1";
             } else {
                 value = "#000000";
@@ -359,13 +365,11 @@ public class SVGGraphicFactory implements Factory, ExternalGraphicFactory, Graph
 
         /**
          * Retrieves an SVG document's specified bounds.
-         * 
-         * @param svgLocation
-         *            an URL that specifies the SVG.
+         *
+         * @param svgLocation an URL that specifies the SVG.
          * @return a {@link Rectangle2D} with the corresponding bounds. If the SVG document does not
-         *         specify any bounds, then null is returned.
+         * specify any bounds, then null is returned.
          * @throws IOException
-         * 
          */
         private Rectangle2D getSvgDocBounds(Document doc) {
             NodeList list = doc.getElementsByTagName("svg");
@@ -383,12 +387,11 @@ public class SVGGraphicFactory implements Factory, ExternalGraphicFactory, Graph
 
             return null;
         }
-        
+
         private double parseDouble(String value) {
             try {
                 return Double.parseDouble(value);
-            }
-            catch(NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 //strip off any units
                 return Double.parseDouble(value.replaceAll("\\D*$", ""));
             }
@@ -396,9 +399,8 @@ public class SVGGraphicFactory implements Factory, ExternalGraphicFactory, Graph
 
         /**
          * Retrieves a Batik {@link GraphicsNode} for a given SVG.
-         * 
-         * @param svgLocation
-         *            an URL that specifies the SVG.
+         *
+         * @param svgLocation an URL that specifies the SVG.
          * @return the corresponding GraphicsNode.
          * @throws IOException
          * @throws URISyntaxException
@@ -421,9 +423,9 @@ public class SVGGraphicFactory implements Factory, ExternalGraphicFactory, Graph
             try {
                 if (oldTransform == null)
                     oldTransform = new AffineTransform();
-     
+
                 AffineTransform transform = new AffineTransform(oldTransform);
-     
+
                 // adds scaling to the transform so that we respect the declared size
                 transform.translate(x, y);
                 transform.scale(width / bounds.getWidth(), height / bounds.getHeight());
@@ -435,14 +437,14 @@ public class SVGGraphicFactory implements Factory, ExternalGraphicFactory, Graph
 
         }
     }
-    
+
     /**
-     * Forcefully drops the SVG cache 
+     * Forcefully drops the SVG cache
      */
     public static void resetCache() {
         glyphCache.clear();
     }
-    
+
     @Override
     public void clearCache() {
         resetCache();

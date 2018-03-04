@@ -17,6 +17,7 @@
 package org.geotools.filter.v1_0.capabilities;
 
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.capability.FunctionName;
 import org.opengis.filter.capability.Functions;
@@ -25,9 +26,9 @@ import org.geotools.xml.*;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:FunctionsType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="FunctionsType"&gt;
  *      &lt;xsd:sequence&gt;
@@ -40,9 +41,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class FunctionsTypeBinding extends AbstractComplexBinding {
@@ -76,14 +74,14 @@ public class FunctionsTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         FunctionName[] functionNames = (FunctionName[]) node.getChildValue(FunctionName[].class);
 
         return factory.functions(functionNames);
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         if ("Function_Names".equals(name.getLocalPart())
                 || "FunctionNames".equals(name.getLocalPart()) /* 1.1 */) {
             Functions functions = (Functions) object;

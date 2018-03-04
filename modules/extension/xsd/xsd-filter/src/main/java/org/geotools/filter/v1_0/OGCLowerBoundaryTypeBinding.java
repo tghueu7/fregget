@@ -17,6 +17,7 @@
 package org.geotools.filter.v1_0;
 
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.expression.Expression;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
@@ -25,9 +26,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:LowerBoundaryType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="LowerBoundaryType"&gt;
  *      &lt;xsd:choice&gt;
@@ -40,9 +41,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OGCLowerBoundaryTypeBinding extends AbstractComplexBinding {
@@ -70,12 +68,12 @@ public class OGCLowerBoundaryTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return node.getChildValue(Expression.class);
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         //&lt;xsd:element ref="ogc:expression"/&gt;
         if (OGC.expression.equals(name)) {
             return object;

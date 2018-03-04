@@ -26,11 +26,8 @@ import java.nio.channels.WritableByteChannel;
  * A WritableByteChannel that delegates all calls to the underlying
  * WritableByteChannel but for {@link #close()} it also calls
  * ShapefileFiles.unlock method to release the lock on the URL.
- * 
+ *
  * @author jesse
- *
- *
- *
  * @source $URL$
  */
 public class WritableByteChannelDecorator implements WritableByteChannel {
@@ -42,7 +39,7 @@ public class WritableByteChannelDecorator implements WritableByteChannel {
     private boolean closed;
 
     public WritableByteChannelDecorator(WritableByteChannel newChannel,
-            ShpFiles shapefileFiles, URL url, FileWriter requestor) {
+                                        ShpFiles shapefileFiles, URL url, FileWriter requestor) {
         this.wrapped = newChannel;
         this.shapefileFiles = shapefileFiles;
         this.url = url;

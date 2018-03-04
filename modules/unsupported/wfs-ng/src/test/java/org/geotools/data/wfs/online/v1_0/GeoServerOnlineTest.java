@@ -34,23 +34,24 @@ import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.geom.Polygon;
 
 /**
- * 
- * 
  * @source $URL$
  */
 public class GeoServerOnlineTest extends AbstractWfsDataStoreOnlineTest {
 
-    public static final String SERVER_URL = "http://localhost:8080/geoserver/wfs?service=WFS&request=GetCapabilities&version=1.0.0"; //$NON-NLS-1$
+    public static final String SERVER_URL = 
+            "http://localhost:8080/geoserver/wfs?service=WFS&request=GetCapabilities&version" +
+                    "=1.0.0"; //$NON-NLS-1$
 
     public GeoServerOnlineTest() {
         super(SERVER_URL, GEOS_STATES_11, "the_geom", MultiPolygon.class, -1, ff.id(Collections
-                .singleton(ff.featureId("states.1"))), createSpatialFilter(), WFSDataStoreFactory.AXIS_ORDER_EAST_NORTH);
+                .singleton(ff.featureId("states.1"))), createSpatialFilter(), WFSDataStoreFactory
+                .AXIS_ORDER_EAST_NORTH);
     }
-    
+
     public static Filter createSpatialFilter() {
-        GeometryFactory gf = new GeometryFactory(); 
-        Coordinate[] coordinates = { new Coordinate(39, -107), new Coordinate(38, -107),
-                new Coordinate(38, -104), new Coordinate(39, -104), new Coordinate(39, -107) };
+        GeometryFactory gf = new GeometryFactory();
+        Coordinate[] coordinates = {new Coordinate(39, -107), new Coordinate(38, -107),
+                new Coordinate(38, -104), new Coordinate(39, -104), new Coordinate(39, -107)};
         LinearRing shell = gf.createLinearRing(coordinates);
         Polygon polygon = gf.createPolygon(shell, null);
         FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);

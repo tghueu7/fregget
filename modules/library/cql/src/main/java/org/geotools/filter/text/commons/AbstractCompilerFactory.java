@@ -25,30 +25,29 @@ import org.opengis.filter.FilterFactory;
 /**
  * Provides the common behavior to make a compiler implementation
  * <p>
- * Warning: This component is not published. It is part of module implementation. 
+ * Warning: This component is not published. It is part of module implementation.
  * Client module should not use this feature.
  * </p>
+ *
  * @author Mauricio Pazos (Axios Engineering)
- * @since 2.6
- *
- *
- *
  * @source $URL$
+ * @since 2.6
  */
 public abstract class AbstractCompilerFactory {
 
 
     /**
      * Initializes and create the new compiler
-     * 
+     *
      * @param predicate
      * @param filterFactory
      * @return CQLCompiler
-     * @throws CQLException 
+     * @throws CQLException
      */
-    public ICompiler makeCompiler(final String predicate, final FilterFactory filterFactory) throws CQLException {
+    public ICompiler makeCompiler(final String predicate, final FilterFactory filterFactory) 
+            throws CQLException {
 
-       
+
         FilterFactory ff = filterFactory;
 
         if (filterFactory == null) {
@@ -56,10 +55,11 @@ public abstract class AbstractCompilerFactory {
         }
         String clonePredicate = new String(predicate);
         ICompiler compiler = createCompiler(clonePredicate, ff);
-        
+
         return compiler;
     }
 
-    protected abstract ICompiler createCompiler(final String predicate,final FilterFactory filterFactory);
-    
+    protected abstract ICompiler createCompiler(final String predicate, final FilterFactory 
+            filterFactory);
+
 }

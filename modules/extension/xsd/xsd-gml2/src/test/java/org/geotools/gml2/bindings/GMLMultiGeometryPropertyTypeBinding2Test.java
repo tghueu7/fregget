@@ -23,8 +23,6 @@ import com.vividsolutions.jts.geom.GeometryCollection;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GMLMultiGeometryPropertyTypeBinding2Test extends GMLTestSupport {

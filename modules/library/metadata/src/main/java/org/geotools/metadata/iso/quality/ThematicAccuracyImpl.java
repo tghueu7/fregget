@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -26,13 +26,10 @@ import org.opengis.metadata.quality.ThematicAccuracy;
  * Accuracy of quantitative attributes and the correctness of non-quantitative attributes
  * and of the classifications of features and their relationships.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class ThematicAccuracyImpl extends ElementImpl implements ThematicAccuracy {

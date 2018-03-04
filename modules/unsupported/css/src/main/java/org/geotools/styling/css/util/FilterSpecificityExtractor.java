@@ -28,8 +28,10 @@ import org.opengis.filter.expression.PropertyName;
 import org.opengis.filter.expression.VolatileFunction;
 
 /**
- * A subclass of {@link FilterAttributeExtractor} that computes a specificity score for the filter. Besides counting the attributes being used, it
- * applies special logic to the dynamic property function, the env function, and volatile functions too
+ * A subclass of {@link FilterAttributeExtractor} that computes a specificity score for the 
+ * filter. Besides counting the attributes being used, it
+ * applies special logic to the dynamic property function, the env function, and volatile 
+ * functions too
  */
 public class FilterSpecificityExtractor extends DefaultFilterVisitor {
 
@@ -52,7 +54,9 @@ public class FilterSpecificityExtractor extends DefaultFilterVisitor {
             properties.add(expression.getParameters().get(0));
         }
         return super.visit(expression, data);
-    };
+    }
+
+    ;
 
     public int getSpecificityScore() {
         return properties.size();

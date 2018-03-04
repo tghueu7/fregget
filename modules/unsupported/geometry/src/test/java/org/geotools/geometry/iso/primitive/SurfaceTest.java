@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -58,193 +58,195 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  * @author sanjay
- *
- *
- *
- *
- *
  * @source $URL$
  */
 public class SurfaceTest extends TestCase {
     GeometryBuilder builder;
-    
+
     protected void setUp() throws Exception {
         super.setUp();
-        
-        builder = new GeometryBuilder(DefaultGeographicCRS.WGS84);                
+
+        builder = new GeometryBuilder(DefaultGeographicCRS.WGS84);
     }
-    /** We need to create a large surface with 7000 points */
-    public void testLargeSurfaceFactory(){
+
+    /**
+     * We need to create a large surface with 7000 points
+     */
+    public void testLargeSurfaceFactory() {
         DefaultGeographicCRS crs = DefaultGeographicCRS.WGS84;
-        PositionFactory postitionFactory = new PositionFactoryImpl( crs );
-        PrimitiveFactory primitiveFactory = new PrimitiveFactoryImpl( crs, postitionFactory );
-        GeometryFactory geometryFactory = new GeometryFactoryImpl( crs, postitionFactory );
-        
+        PositionFactory postitionFactory = new PositionFactoryImpl(crs);
+        PrimitiveFactory primitiveFactory = new PrimitiveFactoryImpl(crs, postitionFactory);
+        GeometryFactory geometryFactory = new GeometryFactoryImpl(crs, postitionFactory);
+
         int NUMBER = 100000;
-         double delta = 360.0 / (double) NUMBER;
-         PointArray points = postitionFactory.createPointArray();
-         for( double angle = 0.0; angle < 360.0; angle += delta ){
-             double ordinates[] = new double[]{
-                     Math.sin( Math.toRadians(angle) ),
-                     Math.cos( Math.toRadians(angle) )
-             };
-             DirectPosition point = postitionFactory.createDirectPosition( ordinates );
-             points.add( point );
-         }
-         List<OrientableCurve> curves = new ArrayList<OrientableCurve>();        
-         // A curve will be created
-         // - The curve will be set as parent curves for the Curve segments
-         // - Start and end params for the CurveSegments will be set
-         List<CurveSegment> segmentList = new ArrayList<CurveSegment>();
-         for( int i=0; i<points.size();i++){
-             int start = i;
-             int end = (i+1)%points.size();
-             DirectPosition point1 = points.getDirectPosition( start, null );
-             DirectPosition point2 = points.getDirectPosition( end, null );
-             LineSegment segment = geometryFactory.createLineSegment( point1, point2 );
-             segmentList.add( segment );
-         }
-         Curve curve = primitiveFactory.createCurve( segmentList );
-         curves.add( curve);         
-         Ring ring = primitiveFactory.createRing( curves );
-         SurfaceBoundary boundary = primitiveFactory.createSurfaceBoundary(ring,new ArrayList());
-         Surface surface = primitiveFactory.createSurface(boundary);         
+        double delta = 360.0 / (double) NUMBER;
+        PointArray points = postitionFactory.createPointArray();
+        for (double angle = 0.0; angle < 360.0; angle += delta) {
+            double ordinates[] = new double[]{
+                    Math.sin(Math.toRadians(angle)),
+                    Math.cos(Math.toRadians(angle))
+            };
+            DirectPosition point = postitionFactory.createDirectPosition(ordinates);
+            points.add(point);
+        }
+        List<OrientableCurve> curves = new ArrayList<OrientableCurve>();
+        // A curve will be created
+        // - The curve will be set as parent curves for the Curve segments
+        // - Start and end params for the CurveSegments will be set
+        List<CurveSegment> segmentList = new ArrayList<CurveSegment>();
+        for (int i = 0; i < points.size(); i++) {
+            int start = i;
+            int end = (i + 1) % points.size();
+            DirectPosition point1 = points.getDirectPosition(start, null);
+            DirectPosition point2 = points.getDirectPosition(end, null);
+            LineSegment segment = geometryFactory.createLineSegment(point1, point2);
+            segmentList.add(segment);
+        }
+        Curve curve = primitiveFactory.createCurve(segmentList);
+        curves.add(curve);
+        Ring ring = primitiveFactory.createRing(curves);
+        SurfaceBoundary boundary = primitiveFactory.createSurfaceBoundary(ring, new ArrayList());
+        Surface surface = primitiveFactory.createSurface(boundary);
     }
-    
-    /** We need to create a large surface with 7000 points */
-    public void testLargeSurfaceBuilder(){
-         int NUMBER = 100000;
-         double delta = 360.0 / (double) NUMBER;
-         PointArray points = builder.createPointArray();
-         for( double angle = 0.0; angle < 360.0; angle += delta ){
-             DirectPosition point = builder.createDirectPosition();
-             point.setOrdinate( 0, Math.sin( Math.toRadians(angle) ) );
-             point.setOrdinate( 1, Math.cos( Math.toRadians(angle) ) );   
 
-             points.add( point );
-         }
-         List<OrientableCurve> curves = new ArrayList<OrientableCurve>();        
-         // A curve will be created
-         // - The curve will be set as parent curves for the Curve segments
-         // - Start and end params for the CurveSegments will be set
-         List<LineSegment> segmentList = new ArrayList<LineSegment>();
-         for( int i=0; i<points.size();i++){
-             int start = i;
-             int end = (i+1)%points.size();
-             DirectPosition point1 = points.getDirectPosition( start, null );
-             DirectPosition point2 = points.getDirectPosition( end, null );
-             LineSegment segment = builder.createLineSegment( point1, point2 );
-             segmentList.add( segment );
-         }
-         Curve curve = builder.createCurve( segmentList );
-         curves.add( curve);         
-         Ring ring = builder.createRing( curves );
-         SurfaceBoundary boundary = builder.createSurfaceBoundary(ring );
-         Surface surface = builder.createSurface(boundary);         
+    /**
+     * We need to create a large surface with 7000 points
+     */
+    public void testLargeSurfaceBuilder() {
+        int NUMBER = 100000;
+        double delta = 360.0 / (double) NUMBER;
+        PointArray points = builder.createPointArray();
+        for (double angle = 0.0; angle < 360.0; angle += delta) {
+            DirectPosition point = builder.createDirectPosition();
+            point.setOrdinate(0, Math.sin(Math.toRadians(angle)));
+            point.setOrdinate(1, Math.cos(Math.toRadians(angle)));
+
+            points.add(point);
+        }
+        List<OrientableCurve> curves = new ArrayList<OrientableCurve>();
+        // A curve will be created
+        // - The curve will be set as parent curves for the Curve segments
+        // - Start and end params for the CurveSegments will be set
+        List<LineSegment> segmentList = new ArrayList<LineSegment>();
+        for (int i = 0; i < points.size(); i++) {
+            int start = i;
+            int end = (i + 1) % points.size();
+            DirectPosition point1 = points.getDirectPosition(start, null);
+            DirectPosition point2 = points.getDirectPosition(end, null);
+            LineSegment segment = builder.createLineSegment(point1, point2);
+            segmentList.add(segment);
+        }
+        Curve curve = builder.createCurve(segmentList);
+        curves.add(curve);
+        Ring ring = builder.createRing(curves);
+        SurfaceBoundary boundary = builder.createSurfaceBoundary(ring);
+        Surface surface = builder.createSurface(boundary);
     }
-    
-	private List<Triangle> createTestTriangle1(GeometryBuilder builder) {		
-		GeometryFactoryImpl tCoordFactory = (GeometryFactoryImpl) builder.getGeometryFactory();
-		PrimitiveFactoryImpl tPrimFactory = (PrimitiveFactoryImpl) builder.getPrimitiveFactory();
 
-		ArrayList<double[][]> tDoubleList = new ArrayList<double[][]>();
-		tDoubleList.add(new double[][]{{0,0},{100,100},{0, 100}});
-		tDoubleList.add(new double[][]{{0,100},{100,100},{50,200}});
-		tDoubleList.add(new double[][]{{50,200},{100,100},{150,200}});
-		ArrayList<Triangle> triangleList = tCoordFactory.createTriangles(tDoubleList);
-	    
-		for (int i=0; i < triangleList.size(); i++) {
-			Triangle triangle1 = triangleList.get(i);
-			//System.out.println(triangle1);
-		}
-	    
-	    //System.out.println(triangle1.get.getEnvelope());
-	    
-	    //System.out.println(triangle1.getBoundary());
-	    
-		return triangleList;
-	    
-	}
+    private List<Triangle> createTestTriangle1(GeometryBuilder builder) {
+        GeometryFactoryImpl tCoordFactory = (GeometryFactoryImpl) builder.getGeometryFactory();
+        PrimitiveFactoryImpl tPrimFactory = (PrimitiveFactoryImpl) builder.getPrimitiveFactory();
 
-	/**
-	 * Create a surface on basis of SurfacePatches (Triangles)
-	 * @param aGeomFactory
-	 */
-	public void testSurface1() {
-		PrimitiveFactoryImpl tPrimFactory = (PrimitiveFactoryImpl) builder.getPrimitiveFactory();
-		
-		List<? extends SurfacePatch> triangleList = createTestTriangle1(builder);
-		
-		List<SurfacePatch> surfacePatches1 = (List<SurfacePatch>)triangleList;
+        ArrayList<double[][]> tDoubleList = new ArrayList<double[][]>();
+        tDoubleList.add(new double[][]{{0, 0}, {100, 100}, {0, 100}});
+        tDoubleList.add(new double[][]{{0, 100}, {100, 100}, {50, 200}});
+        tDoubleList.add(new double[][]{{50, 200}, {100, 100}, {150, 200}});
+        ArrayList<Triangle> triangleList = tCoordFactory.createTriangles(tDoubleList);
 
-		Surface surface1 = tPrimFactory.createSurface(surfacePatches1);
-		
-		//System.out.print("\n******************* SURFACE GENERATED BY SURFACEPATCHES");
-		this.testSurfaces((SurfaceImpl) surface1);
-	}
+        for (int i = 0; i < triangleList.size(); i++) {
+            Triangle triangle1 = triangleList.get(i);
+            //System.out.println(triangle1);
+        }
 
-	public Surface _testSurface2(GeometryBuilder builder) {
-		
-		GeometryFactoryImpl tCoordFactory = (GeometryFactoryImpl) builder.getGeometryFactory();
-		PrimitiveFactoryImpl tPrimFactory = (PrimitiveFactoryImpl) builder.getPrimitiveFactory();
+        //System.out.println(triangle1.get.getEnvelope());
 
-		List<DirectPosition> directPositionList = new ArrayList<DirectPosition>();
-		directPositionList.add(tCoordFactory.createDirectPosition(new double[] {20, 10}));
-		directPositionList.add(tCoordFactory.createDirectPosition(new double[] {40, 10}));
-		directPositionList.add(tCoordFactory.createDirectPosition(new double[] {50, 40}));
-		directPositionList.add(tCoordFactory.createDirectPosition(new double[] {30, 50}));
-		directPositionList.add(tCoordFactory.createDirectPosition(new double[] {10, 30}));
-		directPositionList.add(tCoordFactory.createDirectPosition(new double[] {20, 10}));
+        //System.out.println(triangle1.getBoundary());
 
-		Ring exteriorRing = (Ring) tPrimFactory.createRingByDirectPositions(directPositionList);
-		List<Ring> interiors = new ArrayList<Ring>();
-		
-		SurfaceBoundaryImpl surfaceBoundary1 = tPrimFactory.createSurfaceBoundary(exteriorRing, interiors );
-		
-		Surface surface2 = tPrimFactory.createSurface(surfaceBoundary1);
-		
-		//System.out.print("\n******************* SURFACE GENERATED BY SURFACEBOUNDARY");
+        return triangleList;
 
-		
-		this.testSurfaces((SurfaceImpl) surface2);
-		
-		// ***** clone()
-		SurfaceImpl surface3 = null;
-		try {
-			surface3 = (SurfaceImpl) surface2.clone();
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
-		assertTrue(surface2 != surface3);
-		this.testSurfaces((SurfaceImpl) surface3);
-		
-		// ***** getRepresentativePoint()
-		double[] dp = surface2.getRepresentativePoint().getCoordinate();
-		assertTrue(dp[0] == 20);
-		assertTrue(dp[1] == 10);
+    }
+
+    /**
+     * Create a surface on basis of SurfacePatches (Triangles)
+     *
+     * @param aGeomFactory
+     */
+    public void testSurface1() {
+        PrimitiveFactoryImpl tPrimFactory = (PrimitiveFactoryImpl) builder.getPrimitiveFactory();
+
+        List<? extends SurfacePatch> triangleList = createTestTriangle1(builder);
+
+        List<SurfacePatch> surfacePatches1 = (List<SurfacePatch>) triangleList;
+
+        Surface surface1 = tPrimFactory.createSurface(surfacePatches1);
+
+        //System.out.print("\n******************* SURFACE GENERATED BY SURFACEPATCHES");
+        this.testSurfaces((SurfaceImpl) surface1);
+    }
+
+    public Surface _testSurface2(GeometryBuilder builder) {
+
+        GeometryFactoryImpl tCoordFactory = (GeometryFactoryImpl) builder.getGeometryFactory();
+        PrimitiveFactoryImpl tPrimFactory = (PrimitiveFactoryImpl) builder.getPrimitiveFactory();
+
+        List<DirectPosition> directPositionList = new ArrayList<DirectPosition>();
+        directPositionList.add(tCoordFactory.createDirectPosition(new double[]{20, 10}));
+        directPositionList.add(tCoordFactory.createDirectPosition(new double[]{40, 10}));
+        directPositionList.add(tCoordFactory.createDirectPosition(new double[]{50, 40}));
+        directPositionList.add(tCoordFactory.createDirectPosition(new double[]{30, 50}));
+        directPositionList.add(tCoordFactory.createDirectPosition(new double[]{10, 30}));
+        directPositionList.add(tCoordFactory.createDirectPosition(new double[]{20, 10}));
+
+        Ring exteriorRing = (Ring) tPrimFactory.createRingByDirectPositions(directPositionList);
+        List<Ring> interiors = new ArrayList<Ring>();
+
+        SurfaceBoundaryImpl surfaceBoundary1 = tPrimFactory.createSurfaceBoundary(exteriorRing, 
+                interiors);
+
+        Surface surface2 = tPrimFactory.createSurface(surfaceBoundary1);
+
+        //System.out.print("\n******************* SURFACE GENERATED BY SURFACEBOUNDARY");
 
 
-		return surface2;
+        this.testSurfaces((SurfaceImpl) surface2);
 
-	}
-	
-	
-	private void testSurfaces(SurfaceImpl surface) {
+        // ***** clone()
+        SurfaceImpl surface3 = null;
+        try {
+            surface3 = (SurfaceImpl) surface2.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        assertTrue(surface2 != surface3);
+        this.testSurfaces((SurfaceImpl) surface3);
 
-		try {
-			//System.out.print("\nSurface: " + surface);
-		} catch (NullPointerException e) {
-		}
+        // ***** getRepresentativePoint()
+        double[] dp = surface2.getRepresentativePoint().getCoordinate();
+        assertTrue(dp[0] == 20);
+        assertTrue(dp[1] == 10);
+
+
+        return surface2;
+
+    }
+
+
+    private void testSurfaces(SurfaceImpl surface) {
+
+        try {
+            //System.out.print("\nSurface: " + surface);
+        } catch (NullPointerException e) {
+        }
 //		System.out.print("\ngetBoundary: " + surface.getBoundary());
-        assertNotNull( surface.getBoundary() );
+        assertNotNull(surface.getBoundary());
 //		System.out.print("\ngetEnvelope: " + surface.getEnvelope());
-        assertNotNull( surface.getEnvelope() );
+        assertNotNull(surface.getEnvelope());
 //		System.out.print("\ngetCoordinateDimension: " + surface.getCoordinateDimension());\
-        assertNotNull( surface.getCoordinateDimension() );
+        assertNotNull(surface.getCoordinateDimension());
 //		System.out.print("\ngetDimension: " + surface.getDimension(null));
-		assertTrue(surface.isCycle() == false);
-		
-	}
+        assertTrue(surface.isCycle() == false);
+
+    }
 
 //    public void testSlowGeometry() throws FileNotFoundException {
 //        String fname = System.getenv("ESP_HOME") + "\\resources\\users\\petritis\\zzzPoints.bin";
@@ -286,7 +288,8 @@ public class SurfaceTest extends TestCase {
 //
 //        //StopWatch timer = new StopWatch();
 //        
-//        LineString lineString = tGeomFactory.createLineString(new ArrayList(Arrays.asList(points)));        
+//        LineString lineString = tGeomFactory.createLineString(new ArrayList(Arrays.asList
+// (points)));        
 //        List curveSegmentList = Collections.singletonList(lineString);
 //        List curveList = Collections.singletonList(tPrimFactory.createCurve(curveSegmentList));
 //        Ring exteriorRing = tPrimFactory.createRing(curveList);
@@ -300,70 +303,72 @@ public class SurfaceTest extends TestCase {
 //
 //        assertNotNull(polygon);
 //    }
-	
-	
-    public void testFastSurfaceBuilder(){
+
+
+    public void testFastSurfaceBuilder() {
         double closed[] = new double[]{
                 0.0, 0.0,
                 0.0, 0.5,
                 0.5, 0.5,
                 0.5, 0.0,
-                0.0, 0.0}; 
-        PointArray closedPoints = builder.createPointArray( closed );
-        SurfaceBoundary closedBoundary = builder.createSurfaceBoundary( closedPoints );
-        Surface closedSurface = builder.createSurface( closedBoundary );
-        
+                0.0, 0.0};
+        PointArray closedPoints = builder.createPointArray(closed);
+        SurfaceBoundary closedBoundary = builder.createSurfaceBoundary(closedPoints);
+        Surface closedSurface = builder.createSurface(closedBoundary);
+
         // this example is not closed and would fail
         // if we were not calling createSurfaceBoundary
         double open[] = new double[]{
                 0.0, 0.0,
                 0.0, 0.5,
                 0.5, 0.5,
-                0.5, 0.0,};                      
-        PointArray openPoints = builder.createPointArray( open );
-        SurfaceBoundary openBoundary = builder.createSurfaceBoundary( openPoints );
-        Surface openSurface = builder.createSurface( openBoundary );
-        
-        assertEquals( "close array", openSurface, closedSurface );                
+                0.5, 0.0,};
+        PointArray openPoints = builder.createPointArray(open);
+        SurfaceBoundary openBoundary = builder.createSurfaceBoundary(openPoints);
+        Surface openSurface = builder.createSurface(openBoundary);
+
+        assertEquals("close array", openSurface, closedSurface);
     }
+
     public void testFastSurfaceFactory() throws Exception {
 
-        
+
         double closed[] = new double[]{
                 0.0, 0.0,
                 0.0, 0.5,
                 0.5, 0.5,
                 0.5, 0.0,
-                0.0, 0.0}; 
+                0.0, 0.0};
         Surface closedSurface = createSurfaceFast(closed);
-        
-        
+
+
         // this example is not closed and would fail
         // if we were not calling createSurfaceBoundary
         double open[] = new double[]{
                 0.0, 0.0,
                 0.0, 0.5,
                 0.5, 0.5,
-                0.5, 0.0,};                      
-        PointArray openPoints = builder.createPointArray( open );
-        SurfaceBoundary openBoundary = builder.createSurfaceBoundary( openPoints );
-        Surface openSurface = builder.createSurface( openBoundary );
-        
-        assertEquals( "close array", openSurface, closedSurface );
-        
+                0.5, 0.0,};
+        PointArray openPoints = builder.createPointArray(open);
+        SurfaceBoundary openBoundary = builder.createSurfaceBoundary(openPoints);
+        Surface openSurface = builder.createSurface(openBoundary);
+
+        assertEquals("close array", openSurface, closedSurface);
+
         Surface surface = transmit(closedSurface);
-        assertEquals( closedSurface, surface );
-        
+        assertEquals(closedSurface, surface);
+
         DirectPosition aPoint = surface.getRepresentativePoint();
-        DirectPosition point = transmit( aPoint );
-        assertEquals( aPoint, point );
+        DirectPosition point = transmit(aPoint);
+        assertEquals(aPoint, point);
     }
-    private <T> T transmit( T send ) throws IOException, ClassNotFoundException {
+
+    private <T> T transmit(T send) throws IOException, ClassNotFoundException {
         // ensure we can serialize this beast
         // serialize
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream(out);
-        oos.writeObject( send );
+        oos.writeObject(send);
         oos.close();
 
         //deserialize
@@ -372,26 +377,27 @@ public class SurfaceTest extends TestCase {
         ObjectInputStream ois = new ObjectInputStream(in);
         return (T) ois.readObject();
     }
-    
-    private Surface createSurfaceFast(double[] array ) {
+
+    private Surface createSurfaceFast(double[] array) {
         PositionFactory postitionFactory = builder.getPositionFactory();
         PrimitiveFactory primitiveFactory = builder.getPrimitiveFactory();
         GeometryFactory geometryFactory = builder.getGeometryFactory();
         CoordinateReferenceSystem crs = builder.getCoordinateReferenceSystem();
-        
+
         int length = array.length / crs.getCoordinateSystem().getDimension();
-        PointArray closedPoints = postitionFactory.createPointArray( array, 0, length );
-        LineString lines = geometryFactory.createLineString(closedPoints);        
+        PointArray closedPoints = postitionFactory.createPointArray(array, 0, length);
+        LineString lines = geometryFactory.createLineString(closedPoints);
         List<CurveSegment> segmentList = new ArrayList<CurveSegment>();
         segmentList.add(lines);
-        
+
         Curve curve = primitiveFactory.createCurve(segmentList);
-        
-        List<OrientableCurve> curves = new ArrayList<OrientableCurve>();        
+
+        List<OrientableCurve> curves = new ArrayList<OrientableCurve>();
         curves.add(curve);
-        
+
         Ring ring = primitiveFactory.createRing(curves);
-        SurfaceBoundary surfaceBoundary = primitiveFactory.createSurfaceBoundary( ring, Collections.EMPTY_LIST );       
+        SurfaceBoundary surfaceBoundary = primitiveFactory.createSurfaceBoundary(ring, 
+                Collections.EMPTY_LIST);
         return primitiveFactory.createSurface(surfaceBoundary);
     }
 

@@ -71,16 +71,16 @@ public class StringTemplateFunctionTest extends SEFunctionTestBase {
 
         SimpleFeatureType type = DataUtilities.createType("test",
                 "input:string,pattern:string,template:string");
-        SimpleFeature f1 = SimpleFeatureBuilder.build(type, new Object[] { "abc123_567",
-                ".*(\\d{3})_(\\d{3})", "${1}|${2}" }, null);
+        SimpleFeature f1 = SimpleFeatureBuilder.build(type, new Object[]{"abc123_567",
+                ".*(\\d{3})_(\\d{3})", "${1}|${2}"}, null);
         assertEquals("123|567", fn.evaluate(f1));
 
-        SimpleFeature f2 = SimpleFeatureBuilder.build(type, new Object[] { "abc12_67",
-                "(.*)_(\\d{3})", "${1}_${2}" }, null);
+        SimpleFeature f2 = SimpleFeatureBuilder.build(type, new Object[]{"abc12_67",
+                "(.*)_(\\d{3})", "${1}_${2}"}, null);
         assertEquals(null, fn.evaluate(f2));
 
-        SimpleFeature f3 = SimpleFeatureBuilder.build(type, new Object[] { "abc12_67", "(.*)_(.*)",
-                "${1}|${2}" }, null);
+        SimpleFeature f3 = SimpleFeatureBuilder.build(type, new Object[]{"abc12_67", "(.*)_(.*)",
+                "${1}|${2}"}, null);
         assertEquals("abc12|67", fn.evaluate(f3));
 
     }

@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2014, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -23,12 +23,9 @@ import org.opengis.feature.FeatureVisitor;
  * implement startOffset, maxFeatures pagination).
  *
  * @author Mauro Bartolomeoli (mauro.bartolomeoli at geo-solutions.it)
- *
+ * @source $URL$
  * @see FeatureVisitor
  * @since 12.x
- *
- *
- * @source $URL$
  */
 public interface LimitingVisitor extends FeatureVisitor {
     /**
@@ -37,9 +34,10 @@ public interface LimitingVisitor extends FeatureVisitor {
      * @return true if the visitor has limits
      */
     boolean hasLimits();
-    
+
     /**
      * Returns startIndex (first element to return)
+     *
      * @return
      */
     int getStartIndex();
@@ -47,8 +45,9 @@ public interface LimitingVisitor extends FeatureVisitor {
 
     /**
      * Returns maxFeatures (max # of elements to return)
+     *
      * @return
      */
     int getMaxFeatures();
-    
+
 }

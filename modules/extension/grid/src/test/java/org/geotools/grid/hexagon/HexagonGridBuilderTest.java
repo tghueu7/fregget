@@ -35,15 +35,12 @@ import com.vividsolutions.jts.geom.Coordinate;
  * Unit tests for the HexagonGridBuilder class.
  *
  * @author mbedward
- * @since 2.7
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.7
  */
 public class HexagonGridBuilderTest extends HexagonTestBase {
-    
+
     private final ReferencedEnvelope bounds = new ReferencedEnvelope(0, 10, 0, 10, null);
     private HexagonBuilder angledBuilder;
     private HexagonBuilder flatBuilder;
@@ -69,23 +66,23 @@ public class HexagonGridBuilderTest extends HexagonTestBase {
         }
 
         Case[] cases = {
-            new Case(HexagonOrientation.ANGLED, Neighbor.LEFT, true),
-            new Case(HexagonOrientation.ANGLED, Neighbor.LOWER, false),
-            new Case(HexagonOrientation.ANGLED, Neighbor.LOWER_LEFT, true),
-            new Case(HexagonOrientation.ANGLED, Neighbor.LOWER_RIGHT, true),
-            new Case(HexagonOrientation.ANGLED, Neighbor.RIGHT, true),
-            new Case(HexagonOrientation.ANGLED, Neighbor.UPPER, false),
-            new Case(HexagonOrientation.ANGLED, Neighbor.UPPER_LEFT, true),
-            new Case(HexagonOrientation.ANGLED, Neighbor.UPPER_RIGHT, true),
+                new Case(HexagonOrientation.ANGLED, Neighbor.LEFT, true),
+                new Case(HexagonOrientation.ANGLED, Neighbor.LOWER, false),
+                new Case(HexagonOrientation.ANGLED, Neighbor.LOWER_LEFT, true),
+                new Case(HexagonOrientation.ANGLED, Neighbor.LOWER_RIGHT, true),
+                new Case(HexagonOrientation.ANGLED, Neighbor.RIGHT, true),
+                new Case(HexagonOrientation.ANGLED, Neighbor.UPPER, false),
+                new Case(HexagonOrientation.ANGLED, Neighbor.UPPER_LEFT, true),
+                new Case(HexagonOrientation.ANGLED, Neighbor.UPPER_RIGHT, true),
 
-            new Case(HexagonOrientation.FLAT, Neighbor.LEFT, false),
-            new Case(HexagonOrientation.FLAT, Neighbor.LOWER, true),
-            new Case(HexagonOrientation.FLAT, Neighbor.LOWER_LEFT, true),
-            new Case(HexagonOrientation.FLAT, Neighbor.LOWER_RIGHT, true),
-            new Case(HexagonOrientation.FLAT, Neighbor.RIGHT, false),
-            new Case(HexagonOrientation.FLAT, Neighbor.UPPER, true),
-            new Case(HexagonOrientation.FLAT, Neighbor.UPPER_LEFT, true),
-            new Case(HexagonOrientation.FLAT, Neighbor.UPPER_RIGHT, true),
+                new Case(HexagonOrientation.FLAT, Neighbor.LEFT, false),
+                new Case(HexagonOrientation.FLAT, Neighbor.LOWER, true),
+                new Case(HexagonOrientation.FLAT, Neighbor.LOWER_LEFT, true),
+                new Case(HexagonOrientation.FLAT, Neighbor.LOWER_RIGHT, true),
+                new Case(HexagonOrientation.FLAT, Neighbor.RIGHT, false),
+                new Case(HexagonOrientation.FLAT, Neighbor.UPPER, true),
+                new Case(HexagonOrientation.FLAT, Neighbor.UPPER_LEFT, true),
+                new Case(HexagonOrientation.FLAT, Neighbor.UPPER_RIGHT, true),
         };
 
         for (Case c : cases) {
@@ -132,7 +129,8 @@ public class HexagonGridBuilderTest extends HexagonTestBase {
         angledShifts.put(Neighbor.UPPER_LEFT, new Shift(-0.5 * MINOR, 0.75 * MAJOR));
         angledShifts.put(Neighbor.UPPER_RIGHT, new Shift(0.5 * MINOR, 0.75 * MAJOR));
 
-        Map<HexagonOrientation, Map<Neighbor, Shift>> table = new HashMap<HexagonOrientation, Map<Neighbor, Shift>>();
+        Map<HexagonOrientation, Map<Neighbor, Shift>> table = new HashMap<HexagonOrientation, 
+                Map<Neighbor, Shift>>();
         table.put(HexagonOrientation.FLAT, flatShifts);
         table.put(HexagonOrientation.ANGLED, angledShifts);
 

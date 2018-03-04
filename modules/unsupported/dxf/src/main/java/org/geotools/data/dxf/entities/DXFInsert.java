@@ -1,8 +1,11 @@
 package org.geotools.data.dxf.entities;
 
 import java.io.EOFException;
+
 import org.geotools.data.dxf.parser.DXFLineNumberReader;
+
 import java.io.IOException;
+
 import org.geotools.data.GeometryType;
 import org.geotools.data.dxf.parser.DXFUnivers;
 import org.geotools.data.dxf.header.DXFBlock;
@@ -16,8 +19,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DXFInsert extends DXFBlockReference {
@@ -27,25 +28,30 @@ public class DXFInsert extends DXFBlockReference {
     public double _angle = 0.0;
 
     public DXFInsert(DXFInsert newInsert) {
-        this(newInsert._point._point.x, newInsert._point._point.y, newInsert._blockName, newInsert._refBlock, newInsert.getRefLayer(), 0, newInsert.getColor(), newInsert.getLineType(), newInsert._angle);
+        this(newInsert._point._point.x, newInsert._point._point.y, newInsert._blockName, 
+                newInsert._refBlock, newInsert.getRefLayer(), 0, newInsert.getColor(), newInsert
+                        .getLineType(), newInsert._angle);
 
         setType(newInsert.getType());
         setStartingLineNumber(newInsert.getStartingLineNumber());
         setUnivers(newInsert.getUnivers());
     }
 
-    public DXFInsert(double x, double y, String nomBlock, DXFBlock refBlock, DXFLayer l, int visibility, int c, DXFLineType lineType, double angle) {
+    public DXFInsert(double x, double y, String nomBlock, DXFBlock refBlock, DXFLayer l, int 
+            visibility, int c, DXFLineType lineType, double angle) {
         super(c, l, visibility, lineType, nomBlock, refBlock);
         _point = new DXFPoint(x, y, c, null, visibility, 1);
         _angle = angle;
         setName("DXFInsert");
     }
-    public DXFInsert(double x, double y, String nomBlock, DXFBlock refBlock, DXFLayer l, int visibility, int c, DXFLineType lineType, double angle, DXFExtendedData extData) {
-    	super(c, l, visibility, lineType, nomBlock, refBlock);
-    	_point = new DXFPoint(x, y, c, null, visibility, 1);
-    	_angle = angle;
-    	setName("DXFInsert");
-    	_extendedData = extData;
+
+    public DXFInsert(double x, double y, String nomBlock, DXFBlock refBlock, DXFLayer l, int 
+            visibility, int c, DXFLineType lineType, double angle, DXFExtendedData extData) {
+        super(c, l, visibility, lineType, nomBlock, refBlock);
+        _point = new DXFPoint(x, y, c, null, visibility, 1);
+        _angle = angle;
+        setName("DXFInsert");
+        _extendedData = extData;
     }
 
     public static DXFInsert read(DXFLineNumberReader br, DXFUnivers univers) throws IOException {
@@ -64,7 +70,7 @@ public class DXFInsert extends DXFBlockReference {
         DXFCodeValuePair cvp = null;
         DXFGroupCode gc = null;
         DXFExtendedData _extData = null;
-        
+
         boolean doLoop = true;
         while (doLoop) {
             cvp = new DXFCodeValuePair();
@@ -109,9 +115,9 @@ public class DXFInsert extends DXFBlockReference {
                     lineType = univers.findLType(cvp.getStringValue());
                     break;
                 case XDATA_APPLICATION_NAME:
-                	String appName = cvp.getStringValue();
-            		_extData = DXFExtendedData.getExtendedData(br);
-            		_extData.setAppName(appName);
+                    String appName = cvp.getStringValue();
+                    _extData = DXFExtendedData.getExtendedData(br);
+                    _extData.setAppName(appName);
                     break;
                 default:
                     break;

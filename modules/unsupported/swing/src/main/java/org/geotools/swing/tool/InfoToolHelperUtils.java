@@ -25,10 +25,9 @@ import org.opengis.referencing.operation.MathTransform;
  * Contains static methods used by some {@code InfoToolHelper} classes.
  *
  * @author Michael Bedward
- * @since 8.0
- *
- * @source $URL$
  * @version $URL$
+ * @source $URL$
+ * @since 8.0
  */
 public class InfoToolHelperUtils {
 
@@ -37,7 +36,6 @@ public class InfoToolHelperUtils {
      * position is returned.
      *
      * @param pos the position
-     *
      * @return the transformed position
      */
     public static DirectPosition2D getTransformed(DirectPosition2D pos, MathTransform transform) {
@@ -53,13 +51,11 @@ public class InfoToolHelperUtils {
     }
 
 
-
     /**
      * Convert the Object returned by {@linkplain GridCoverage2D#evaluate(DirectPosition)}
      * into an array of {@code Numbers}.
      *
      * @param objArray an Object representing a primitive array
-     *
      * @return a new array of Numbers
      */
     public static Number[] asNumberArray(Object objArray) {
@@ -69,7 +65,7 @@ public class InfoToolHelperUtils {
             byte[] values = (byte[]) objArray;
             numbers = new Number[values.length];
             for (int i = 0; i < values.length; i++) {
-                numbers[i] = ((int)values[i]) & 0xff;
+                numbers[i] = ((int) values[i]) & 0xff;
             }
 
         } else if (objArray instanceof int[]) {

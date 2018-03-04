@@ -52,8 +52,6 @@ import com.vividsolutions.jts.geom.impl.CoordinateArraySequenceFactory;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class AbstractGMLBindingTest extends TestCase {
@@ -82,7 +80,7 @@ public class AbstractGMLBindingTest extends TestCase {
     }
 
     Node createNode(InstanceComponent instance, ElementInstance[] elements, Object[] elementValues,
-        AttributeInstance[] attributes, Object[] attValues) {
+                    AttributeInstance[] attributes, Object[] attValues) {
         NodeImpl node = new NodeImpl(instance);
 
         if ((elements != null) && (elements.length > 0)) {
@@ -130,7 +128,7 @@ public class AbstractGMLBindingTest extends TestCase {
     }
 
     public CoordinateSequence createCoordinateSequence(Coordinate c) {
-        return createCoordinateSequence(new Coordinate[] { c });
+        return createCoordinateSequence(new Coordinate[]{c});
     }
 
     public CoordinateSequence createCoordinateSequence(Coordinate[] c) {
@@ -158,7 +156,7 @@ public class AbstractGMLBindingTest extends TestCase {
     XSDTypeDefinition findTypeDefinition(XSDSchema schema, QName type) {
         List types = schema.getTypeDefinitions();
 
-        for (Iterator itr = types.iterator(); itr.hasNext();) {
+        for (Iterator itr = types.iterator(); itr.hasNext(); ) {
             XSDTypeDefinition typeDef = (XSDTypeDefinition) itr.next();
 
             if (type.getNamespaceURI().equals(typeDef.getTargetNamespace())

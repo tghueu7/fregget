@@ -49,29 +49,27 @@ import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * The general use of this class is: <CODE><PRE>
- * 
+ * <p>
  * FileChannel in = new FileInputStream(&quot;thefile.dbf&quot;).getChannel();
  * ShapefileReader r = new ShapefileReader( in ) while (r.hasNext()) { Geometry
  * shape = (Geometry) r.nextRecord().shape() // do stuff } r.close();
- * 
+ * <p>
  * </PRE></CODE> You don't have to immediately ask for the shape from the record. The
  * record will contain the bounds of the shape and will only read the shape when
  * the shape() method is called. This ShapefileReader.Record is the same object
  * every time, so if you need data from the Record, be sure to copy it.
- * 
+ *
  * @author jamesm
  * @author aaime
  * @author Ian Schneider
- *
- *
  * @source $URL$
  */
 public class ShapefileReader implements FileReader {
     private static final Logger LOGGER = Logging.getLogger(ShapefileReader.class);
-    
+
     /**
-     *  Used to mark the current shape is not known, either because someone moved the reader
-     *  to a specific byte offset manually, or because the .shx could not be opened
+     * Used to mark the current shape is not known, either because someone moved the reader
+     * to a specific byte offset manually, or because the .shx could not be opened
      */
     private static final int UNKNOWN = Integer.MIN_VALUE;
 
@@ -88,16 +86,24 @@ public class ShapefileReader implements FileReader {
 
         int start = 0; // Relative to the current loaded buffer
 
-        /** The minimum X value. */
+        /**
+         * The minimum X value.
+         */
         public double minX;
 
-        /** The minimum Y value. */
+        /**
+         * The minimum Y value.
+         */
         public double minY;
 
-        /** The maximum X value. */
+        /**
+         * The maximum X value.
+         */
         public double maxX;
 
-        /** The maximum Y value. */
+        /**
+         * The maximum Y value.
+         */
         public double maxY;
 
         public ShapeType type;
@@ -106,16 +112,18 @@ public class ShapefileReader implements FileReader {
 
         Object shape = null;
 
-        /** Fetch the shape stored in this record. */
+        /**
+         * Fetch the shape stored in this record.
+         */
         public Object shape() {
             if (shape == null) {
                 buffer.position(start);
                 buffer.order(ByteOrder.LITTLE_ENDIAN);
-				if (type == ShapeType.NULL) {
-					shape = null;
-				} else {
-					shape = handler.read(buffer, type, flatGeometry);
-				}
+                if (type == ShapeType.NULL) {
+                    shape = null;
+                } else {
+                    shape = handler.read(buffer, type, flatGeometry);
+                }
             }
             return shape;
         }
@@ -124,31 +132,35 @@ public class ShapefileReader implements FileReader {
             return offset;
         }
 
-        /** A summary of the record. */
+        /**
+         * A summary of the record.
+         */
         public String toString() {
             return "Record " + number + " length " + length + " bounds " + minX
                     + "," + minY + " " + maxX + "," + maxY;
         }
-        
+
         public Envelope envelope() {
             return new Envelope(minX, maxX, minY, maxY);
         }
-        
+
         public Object getSimplifiedShape() {
             CoordinateSequenceFactory csf = geometryFactory.getCoordinateSequenceFactory();
-            if(type.isPointType()) {
+            if (type.isPointType()) {
                 CoordinateSequence cs = JTS.createCS(csf, 1, 2);
                 cs.setOrdinate(0, 0, (minX + maxX) / 2);
                 cs.setOrdinate(0, 1, (minY + maxY) / 2);
-                return geometryFactory.createMultiPoint(new Point[] {geometryFactory.createPoint(cs)});
-            } else if(type.isLineType()) {
+                return geometryFactory.createMultiPoint(new Point[]{geometryFactory.createPoint
+                        (cs)});
+            } else if (type.isLineType()) {
                 CoordinateSequence cs = JTS.createCS(csf, 2, 2);
                 cs.setOrdinate(0, 0, minX);
                 cs.setOrdinate(0, 1, minY);
                 cs.setOrdinate(1, 0, maxX);
                 cs.setOrdinate(1, 1, maxY);
-                return geometryFactory.createMultiLineString(new LineString[] {geometryFactory.createLineString(cs)});
-            } else if(type.isPolygonType()) {
+                return geometryFactory.createMultiLineString(new LineString[]{geometryFactory
+                        .createLineString(cs)});
+            } else if (type.isPolygonType()) {
                 CoordinateSequence cs = JTS.createCS(csf, 5, 2);
                 cs.setOrdinate(0, 0, minX);
                 cs.setOrdinate(0, 1, minY);
@@ -161,23 +173,24 @@ public class ShapefileReader implements FileReader {
                 cs.setOrdinate(4, 0, minX);
                 cs.setOrdinate(4, 1, minY);
                 LinearRing ring = geometryFactory.createLinearRing(cs);
-                return geometryFactory.createMultiPolygon(new Polygon[] {geometryFactory.createPolygon(ring, null)});
+                return geometryFactory.createMultiPolygon(new Polygon[]{geometryFactory
+                        .createPolygon(ring, null)});
             } else {
                 return shape();
             }
         }
-        
+
         public Object getSimplifiedShape(ScreenMap sm) {
-            if(type.isPointType()) {
+            if (type.isPointType()) {
                 return shape();
             }
-            
+
             Class geomType = Geometry.class;
-            if(type.isLineType()) {
+            if (type.isLineType()) {
                 geomType = MultiLineString.class;
-            } else if(type.isMultiPointType()) {
+            } else if (type.isMultiPointType()) {
                 geomType = MultiPoint.class;
-            } else if(type.isPolygonType()) {
+            } else if (type.isPolygonType()) {
                 geomType = MultiPolygon.class;
             }
             return sm.getSimplifiedShape(minX, minY, maxX, maxY, geometryFactory, geomType);
@@ -203,62 +216,56 @@ public class ShapefileReader implements FileReader {
     private boolean useMemoryMappedBuffer;
 
     private long currentOffset = 0L;
-    
+
     private int currentShape = 0;
-    
+
     private IndexFile shxReader;
-    
+
     private StreamLogging streamLogger = new StreamLogging("Shapefile Reader");
-    
+
     private GeometryFactory geometryFactory;
 
     private boolean flatGeometry;
-    
+
     /**
      * Creates a new instance of ShapeFile.
-     * 
-     * @param shapefileFiles
-     *                The ReadableByteChannel this reader will use.
-     * @param strict
-     *                True to make the header parsing throw Exceptions if the
-     *                version or magic number are incorrect.
-     * @throws IOException
-     *                 If problems arise.
-     * @throws ShapefileException
-     *                 If for some reason the file contains invalid records.
+     *
+     * @param shapefileFiles The ReadableByteChannel this reader will use.
+     * @param strict         True to make the header parsing throw Exceptions if the
+     *                       version or magic number are incorrect.
+     * @throws IOException        If problems arise.
+     * @throws ShapefileException If for some reason the file contains invalid records.
      */
     public ShapefileReader(ShpFiles shapefileFiles, boolean strict,
-            boolean useMemoryMapped, GeometryFactory gf) throws IOException, ShapefileException {
+                           boolean useMemoryMapped, GeometryFactory gf) throws IOException, 
+            ShapefileException {
         this(shapefileFiles, strict, useMemoryMapped, gf, false);
     }
-    
+
     /**
      * Creates a new instance of ShapeFile.
-     * 
-     * @param shapefileFiles
-     *                The ReadableByteChannel this reader will use.
-     * @param strict
-     *                True to make the header parsing throw Exceptions if the
-     *                version or magic number are incorrect.
-     * @param useMemoryMapped Wheter to enable memory mapping or not
-     * @param gf      The geometry factory used to build the geometries
+     *
+     * @param shapefileFiles   The ReadableByteChannel this reader will use.
+     * @param strict           True to make the header parsing throw Exceptions if the
+     *                         version or magic number are incorrect.
+     * @param useMemoryMapped  Wheter to enable memory mapping or not
+     * @param gf               The geometry factory used to build the geometries
      * @param onlyRandomAccess When true sets up the reader to do exclusively read driven by goTo(x)
      *                         and thus avoids opening the .shx file
-     * @throws IOException
-     *                 If problems arise.
-     * @throws ShapefileException
-     *                 If for some reason the file contains invalid records.
+     * @throws IOException        If problems arise.
+     * @throws ShapefileException If for some reason the file contains invalid records.
      */
     public ShapefileReader(ShpFiles shapefileFiles, boolean strict,
-            boolean useMemoryMapped, GeometryFactory gf, boolean onlyRandomAccess) throws IOException, ShapefileException {
+                           boolean useMemoryMapped, GeometryFactory gf, boolean onlyRandomAccess)
+            throws IOException, ShapefileException {
         this.channel = shapefileFiles.getReadChannel(ShpFileType.SHP, this);
         this.useMemoryMappedBuffer = useMemoryMapped;
         streamLogger.open();
         randomAccessEnabled = channel instanceof FileChannel;
-        if(!onlyRandomAccess) {
+        if (!onlyRandomAccess) {
             try {
                 shxReader = new IndexFile(shapefileFiles, this.useMemoryMappedBuffer);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 LOGGER.log(Level.WARNING, "Could not open the .shx file, continuing " +
                         "assuming the .shp file is not sparse", e);
                 currentShape = UNKNOWN;
@@ -266,15 +273,16 @@ public class ShapefileReader implements FileReader {
         }
         init(strict, gf);
     }
-    
+
     /**
-     * Disables .shx file usage. By doing so you drop support for sparse shapefiles, the 
+     * Disables .shx file usage. By doing so you drop support for sparse shapefiles, the
      * .shp will have to be without holes, all the valid shapefile records will have to
      * be contiguous.
+     *
      * @throws IOException
      */
     public void disableShxUsage() throws IOException {
-        if(shxReader != null) {
+        if (shxReader != null) {
             shxReader.close();
             shxReader = null;
         }
@@ -285,7 +293,7 @@ public class ShapefileReader implements FileReader {
     // capacity until it is big enough
     // this may be naiive and result in out of MemoryError as implemented...
     private ByteBuffer ensureCapacity(ByteBuffer buffer, int size,
-            boolean useMemoryMappedBuffer) {
+                                      boolean useMemoryMappedBuffer) {
         // This sucks if you accidentally pass is a MemoryMappedBuffer of size
         // 80M
         // like I did while messing around, within moments I had 1 gig of
@@ -352,7 +360,7 @@ public class ShapefileReader implements FileReader {
 
     /**
      * Get the header. Its parsed in the constructor.
-     * 
+     *
      * @return The header that is associated with this file.
      */
     public ShapefileHeader getHeader() {
@@ -361,15 +369,15 @@ public class ShapefileReader implements FileReader {
 
     // do important cleanup stuff.
     // Closes channel !
+
     /**
      * Clean up any resources. Closes the channel.
-     * 
-     * @throws IOException
-     *                 If errors occur while closing the channel.
+     *
+     * @throws IOException If errors occur while closing the channel.
      */
     public void close() throws IOException {
         // don't throw NPE on double close
-        if(channel == null)
+        if (channel == null)
             return;
         try {
             if (channel.isOpen()) {
@@ -378,7 +386,7 @@ public class ShapefileReader implements FileReader {
             }
             NIOUtilities.clean(buffer, useMemoryMappedBuffer);
         } finally {
-            if(shxReader != null)
+            if (shxReader != null)
                 shxReader.close();
         }
         shxReader = null;
@@ -395,9 +403,9 @@ public class ShapefileReader implements FileReader {
      * presence of 8 more bytes, the length of a record. If this is true and the
      * record indicates the next logical record number, there exists more
      * records.
-     * 
-     * @throws IOException
+     *
      * @return True if has next record, false otherwise.
+     * @throws IOException
      */
     public boolean hasNext() throws IOException {
         return this.hasNext(true);
@@ -408,18 +416,17 @@ public class ShapefileReader implements FileReader {
      * presence of 8 more bytes, the length of a record. If this is true and the
      * record indicates the next logical record number (if checkRecord == true),
      * there exists more records.
-     * 
-     * @param checkRecno
-     *                If true then record number is checked
-     * @throws IOException
+     *
+     * @param checkRecno If true then record number is checked
      * @return True if has next record, false otherwise.
+     * @throws IOException
      */
     private boolean hasNext(boolean checkRecno) throws IOException {
         // don't read past the end of the file (provided currentShape accurately
         // represents the current position)
-        if(currentShape > UNKNOWN && currentShape > shxReader.getRecordCount() - 1)
+        if (currentShape > UNKNOWN && currentShape > shxReader.getRecordCount() - 1)
             return false;
-        
+
         // ensure the proper position, regardless of read or handler behavior
         positionBufferForOffset(buffer, getNextOffset());
 
@@ -445,22 +452,21 @@ public class ShapefileReader implements FileReader {
 
         return hasNext;
     }
-    
+
     private int getNextOffset() throws IOException {
-        if(currentShape >= 0) {
+        if (currentShape >= 0) {
             return shxReader.getOffsetInBytes(currentShape);
         } else {
             return record.end;
         }
     }
-    
+
     /**
      * Transfer (by bytes) the data at the current record to the
      * ShapefileWriter.
-     * 
-     * @param bounds
-     *                double array of length four for transfering the bounds
-     *                into
+     *
+     * @param bounds double array of length four for transfering the bounds
+     *               into
      * @return The length of the record transfered in bytes
      */
     public int transferTo(ShapefileWriter writer, int recordNum, double[] bounds)
@@ -512,7 +518,8 @@ public class ShapefileReader implements FileReader {
             return;
         }
 
-        // Check to see if requested offset is already loaded; ensure that record header is in the buffer
+        // Check to see if requested offset is already loaded; ensure that record header is in 
+        // the buffer
         if (currentOffset <= offset && currentOffset + buffer.limit() >= offset + 8) {
             buffer.position(toBufferOffset(offset));
         } else {
@@ -531,15 +538,15 @@ public class ShapefileReader implements FileReader {
 
     /**
      * Fetch the next record information.
-     * 
-     * @throws IOException
+     *
      * @return The record instance associated with this reader.
+     * @throws IOException
      */
     public Record nextRecord() throws IOException {
 
         // need to update position
         positionBufferForOffset(buffer, getNextOffset());
-        if(currentShape != UNKNOWN)
+        if (currentShape != UNKNOWN)
             currentShape++;
 
         // record header is big endian
@@ -566,15 +573,15 @@ public class ShapefileReader implements FileReader {
                 fill(buffer, channel);
                 buffer.position(0);
             } else
-            // remaining is less than record length
-            // compact the remaining data and read again,
-            // allowing enough room for one more record header
-            if (buffer.remaining() < recordLength + 8) {
-                this.currentOffset += buffer.position();
-                buffer.compact();
-                fill(buffer, channel);
-                buffer.position(0);
-            }
+                // remaining is less than record length
+                // compact the remaining data and read again,
+                // allowing enough room for one more record header
+                if (buffer.remaining() < recordLength + 8) {
+                    this.currentOffset += buffer.position();
+                    buffer.compact();
+                    fill(buffer, channel);
+                    buffer.position(0);
+                }
         }
 
         // shape record is all little endian
@@ -628,7 +635,7 @@ public class ShapefileReader implements FileReader {
      * <li>once you call this, reading with hasNext/next on sparse shapefiles
      * will be broken (we don't know anymore at which shape we are)</li>
      * </ul>
-     * 
+     *
      * @param offset
      * @throws IOException
      * @throws UnsupportedOperationException
@@ -661,8 +668,7 @@ public class ShapefileReader implements FileReader {
      * <li>once you call this, reading with hasNext/next on sparse shapefiles
      * will be broken (we don't know anymore at which shape we are)</li>
      * </ul>
-     * 
-     * 
+     *
      * @param offset
      * @throws IOException
      * @throws UnsupportedOperationException
@@ -687,17 +693,12 @@ public class ShapefileReader implements FileReader {
      * <li>once you call this, reading with hasNext/next on sparse shapefiles
      * will be broken (we don't know anymore at which shape we are)</li>
      * </ul>
-     * 
-     * 
-     * 
-     * @param offset
-     *            If using an shx file the offset would be: 2 *
-     *            (index.getOffset(i))
+     *
+     * @param offset If using an shx file the offset would be: 2 *
+     *               (index.getOffset(i))
      * @return The record after the offset location in the bytestream
-     * @throws IOException
-     *             thrown in a read error occurs
-     * @throws UnsupportedOperationException
-     *             thrown if not a random access file
+     * @throws IOException                   thrown in a read error occurs
+     * @throws UnsupportedOperationException thrown if not a random access file
      */
     public Record recordAt(int offset) throws IOException,
             UnsupportedOperationException {
@@ -710,9 +711,8 @@ public class ShapefileReader implements FileReader {
 
     /**
      * Converts file offset to buffer offset
-     * 
-     * @param offset
-     *                The offset relative to the whole file
+     *
+     * @param offset The offset relative to the whole file
      * @return The offset relative to the current loaded portion of the file
      */
     private int toBufferOffset(int offset) {
@@ -721,9 +721,8 @@ public class ShapefileReader implements FileReader {
 
     /**
      * Converts buffer offset to file offset
-     * 
-     * @param offset
-     *                The offset relative to the buffer
+     *
+     * @param offset The offset relative to the buffer
      * @return The offset relative to the whole file
      */
     private int toFileOffset(int offset) {
@@ -732,7 +731,7 @@ public class ShapefileReader implements FileReader {
 
     /**
      * Parses the shpfile counting the records.
-     * 
+     *
      * @return the number of non-null records in the shapefile
      */
     public int getCount(int count) throws DataSourceException {
@@ -763,8 +762,7 @@ public class ShapefileReader implements FileReader {
     }
 
     /**
-     * @param handler
-     *                The handler to set.
+     * @param handler The handler to set.
      */
     public void setHandler(ShapeHandler handler) {
         this.handler = handler;
@@ -775,6 +773,6 @@ public class ShapefileReader implements FileReader {
     }
 
     public void setFlatGeometry(boolean flatGeometry) {
-        this.flatGeometry = flatGeometry;        
+        this.flatGeometry = flatGeometry;
     }
 }

@@ -27,14 +27,12 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LinearRing;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class IngresFilterToSQL extends PreparedFilterToSQL {
 
-	boolean looseBBOXEnabled;
-	
+    boolean looseBBOXEnabled;
+
     public IngresFilterToSQL(IngresDialect dialect) {
         super(dialect);
     }
@@ -50,16 +48,16 @@ public class IngresFilterToSQL extends PreparedFilterToSQL {
     @Override
     protected void visitLiteralGeometry(Literal expression) throws IOException {
         // evaluate the literal and store it for later
-        Geometry geom  = (Geometry) evaluateLiteral(expression, Geometry.class);
-        
-        if ( geom instanceof LinearRing ) {
+        Geometry geom = (Geometry) evaluateLiteral(expression, Geometry.class);
+
+        if (geom instanceof LinearRing) {
             //ingres does not handle linear rings, convert to just a line string
             geom = geom.getFactory().createLineString(((LinearRing) geom).getCoordinateSequence());
         }
-        
+
         out.write("ST_GeomFromText('");
         out.write(geom.toText());
-        if(currentSRID == null && currentGeometry  != null) {
+        if (currentSRID == null && currentGeometry != null) {
             // if we don't know at all, use the srid of the geometry we're comparing against
             // (much slower since that has to be extracted record by record as opposed to 
             // being a constant)
@@ -90,8 +88,9 @@ public class IngresFilterToSQL extends PreparedFilterToSQL {
     }
 
     protected Object visitBinarySpatialOperator(BinarySpatialOperator filter,
-            PropertyName property, Literal geometry, boolean swapped,
-            Object extraData) {
+                                                PropertyName property, Literal geometry, boolean 
+                                                        swapped,
+                                                Object extraData) {
         try {
             if (filter instanceof DistanceBufferOperator) {
                 visitDistanceSpatialOperator((DistanceBufferOperator) filter,
@@ -105,10 +104,10 @@ public class IngresFilterToSQL extends PreparedFilterToSQL {
         }
         return extraData;
     }
-        
+
     void visitDistanceSpatialOperator(DistanceBufferOperator filter,
-            PropertyName property, Literal geometry, boolean swapped,
-            Object extraData) throws IOException {
+                                      PropertyName property, Literal geometry, boolean swapped,
+                                      Object extraData) throws IOException {
         if ((filter instanceof DWithin && !swapped)
                 || (filter instanceof Beyond && swapped)) {
             out.write("ST_DWithin(");
@@ -131,9 +130,10 @@ public class IngresFilterToSQL extends PreparedFilterToSQL {
     }
 
     void visitComparisonSpatialOperator(BinarySpatialOperator filter,
-            PropertyName property, Literal geometry, boolean swapped, Object extraData)
+                                        PropertyName property, Literal geometry, boolean swapped,
+                                        Object extraData)
             throws IOException {
-        
+
         String closingParenthesis = ")";
 //        if(!(filter instanceof Disjoint)) {
 //            out.write("ST_Disjoint ");
@@ -148,12 +148,12 @@ public class IngresFilterToSQL extends PreparedFilterToSQL {
         } else if (filter instanceof Crosses) {
             out.write("ST_Crosses");
         } else if (filter instanceof Within) {
-            if(swapped)
+            if (swapped)
                 out.write("ST_Within");
             else
                 out.write("ST_Contains");
         } else if (filter instanceof Contains) {
-            if(swapped)
+            if (swapped)
                 out.write("ST_Contains");
             else
                 out.write("ST_Within");
@@ -169,8 +169,8 @@ public class IngresFilterToSQL extends PreparedFilterToSQL {
         property.accept(this, extraData);
         out.write(", ");
         geometry.accept(this, extraData);
-        
-        if(currentSRID == null && currentGeometry  != null) {
+
+        if (currentSRID == null && currentGeometry != null) {
             // if we don't know at all, use the srid of the geometry we're comparing against
             // (much slower since that has to be extracted record by record as opposed to 
             // being a constant)
@@ -178,7 +178,7 @@ public class IngresFilterToSQL extends PreparedFilterToSQL {
         } else {
             out.write(", " + currentSRID + ")");
         }
-        
+
         out.write(closingParenthesis);
         out.write(" = 1");
     }

@@ -42,9 +42,7 @@ import it.geosolutions.imageio.plugins.tiff.TIFFImageReadParam;
 import it.geosolutions.imageioimpl.plugins.tiff.TIFFImageReaderSpi;
 
 /**
- * 
  * @author Nicola Lagomarsini Geosolutions
- *
  */
 public class ReadTypeTest {
 
@@ -122,7 +120,7 @@ public class ReadTypeTest {
             if (in != null) {
                 in.close();
             }
-            if(reader != null){
+            if (reader != null) {
                 reader.dispose();
             }
         }
@@ -142,7 +140,7 @@ public class ReadTypeTest {
         assertNull(output);
 
         // Test 2 = null URL
-        output = testRead(directRead, readParameters, IMAGE_INDEX, null, rasterDimensions, 
+        output = testRead(directRead, readParameters, IMAGE_INDEX, null, rasterDimensions,
                 hints, CLOSE_ELEMENTS, true);
         assertNull(output);
 
@@ -166,9 +164,11 @@ public class ReadTypeTest {
         assertEquals(output.getHeight(), sourceRegion.height);
     }
 
-    private RenderedImage testRead(ReadType directRead, ImageReadParam readParameters, int imageIndex,
-            URL granuleUrl, Rectangle rasterDimensions, Hints hints, boolean closeElements, 
-            boolean getReader) throws IOException {
+    private RenderedImage testRead(ReadType directRead, ImageReadParam readParameters, int 
+            imageIndex,
+                                   URL granuleUrl, Rectangle rasterDimensions, Hints hints, 
+                                   boolean closeElements,
+                                   boolean getReader) throws IOException {
         ImageReader reader = null;
         FileImageInputStream in = null;
         try {

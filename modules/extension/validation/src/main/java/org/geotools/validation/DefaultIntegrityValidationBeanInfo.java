@@ -21,22 +21,20 @@ import java.beans.PropertyDescriptor;
 
 /**
  * DefaultFeatureValidationBeanInfo purpose.
- * 
+ * <p>
  * <p>
  * Description of DefaultFeatureValidationBeanInfo ...
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class DefaultIntegrityValidationBeanInfo extends ValidationBeanInfo {
     /**
      * DefaultFeatureValidationBeanInfo constructor.
-     * 
+     * <p>
      * <p>
      * super
      * </p>

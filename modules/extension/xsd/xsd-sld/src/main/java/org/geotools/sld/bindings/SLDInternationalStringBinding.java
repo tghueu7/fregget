@@ -30,9 +30,9 @@ import org.picocontainer.MutablePicoContainer;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:InternationalStringType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="InternationalStringType" mixed="true"&gt;
  *    &lt;xsd:annotation&gt;
@@ -42,7 +42,7 @@ import org.picocontainer.MutablePicoContainer;
  *       model is used with localized value elements and default text value.
  *     &lt;/xsd:documentation&gt;
  *    &lt;/xsd:annotation&gt;
- *    &lt;xsd:sequence minOccurs="0" maxOccurs="unbounded"&gt;        
+ *    &lt;xsd:sequence minOccurs="0" maxOccurs="unbounded"&gt;
  *     &lt;xsd:element ref="sld:Localized"/&gt;
  *    &lt;/xsd:sequence&gt;
  *  &lt;/xsd:complexType&gt;
@@ -52,9 +52,6 @@ import org.picocontainer.MutablePicoContainer;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public abstract class SLDInternationalStringBinding extends AbstractComplexBinding {
@@ -78,7 +75,7 @@ public abstract class SLDInternationalStringBinding extends AbstractComplexBindi
     public Class getType() {
         return InternationalString.class;
     }
-    
+
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -90,7 +87,7 @@ public abstract class SLDInternationalStringBinding extends AbstractComplexBindi
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
@@ -98,7 +95,7 @@ public abstract class SLDInternationalStringBinding extends AbstractComplexBindi
         Map<String, Object> map = (Map<String, Object>) value;
         GrowableInternationalString intString = new GrowableInternationalString(map
                 .get(null).toString()) {
-    
+
             @Override
             public String toString() {
                 return super.toString(null);

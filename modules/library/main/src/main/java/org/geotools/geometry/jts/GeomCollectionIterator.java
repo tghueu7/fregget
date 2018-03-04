@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -37,64 +37,76 @@ import com.vividsolutions.jts.geom.Polygon;
  * other, simpler iterator to carry on its duties.
  *
  * @author Andrea Aime
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public final class GeomCollectionIterator extends AbstractLiteIterator {
-    /** Transform applied on the coordinates during iteration */
+    /**
+     * Transform applied on the coordinates during iteration
+     */
     private AffineTransform at;
 
-    /** The set of geometries that we will iterate over */
+    /**
+     * The set of geometries that we will iterate over
+     */
     private GeometryCollection gc;
-    
-    /** The current geometry */
+
+    /**
+     * The current geometry
+     */
     private int currentGeom;
 
-    /** The current sub-iterator */
+    /**
+     * The current sub-iterator
+     */
     private PathIterator currentIterator;
 
-    /** True when the iterator is terminate */
+    /**
+     * True when the iterator is terminate
+     */
     private boolean done = false;
 
-    /** If true, apply simple distance based generalization */
+    /**
+     * If true, apply simple distance based generalization
+     */
     private boolean generalize = false;
 
-    /** Maximum distance for point elision when generalizing */
-    private double maxDistance = 1.0;
-    
-    public GeomCollectionIterator()
-    {
-    	
-    }
-    
     /**
-	 * @param gc
-	 * @param at
-	 */
-	public void init(GeometryCollection gc, AffineTransform at, boolean generalize, double maxDistance) {
+     * Maximum distance for point elision when generalizing
+     */
+    private double maxDistance = 1.0;
+
+    public GeomCollectionIterator() {
+
+    }
+
+    /**
+     * @param gc
+     * @param at
+     */
+    public void init(GeometryCollection gc, AffineTransform at, boolean generalize, double 
+            maxDistance) {
         this.gc = gc;
-        this.at = at==null?new AffineTransform():at;
+        this.at = at == null ? new AffineTransform() : at;
         this.generalize = generalize;
         this.maxDistance = maxDistance;
         currentGeom = 0;
         done = false;
         currentIterator = gc.isEmpty() ? EmptyIterator.INSTANCE : getIterator(gc.getGeometryN(0));
-	}
+    }
 
     /**
      * Creates a new instance of GeomCollectionIterator
      *
-     * @param gc The geometry collection the iterator will use
-     * @param at The affine transform applied to coordinates during iteration
-     * @param generalize if true apply simple distance based generalization
+     * @param gc          The geometry collection the iterator will use
+     * @param at          The affine transform applied to coordinates during iteration
+     * @param generalize  if true apply simple distance based generalization
      * @param maxDistance during iteration, a point will be skipped if it's
-     *        distance from the previous is less than maxDistance
+     *                    distance from the previous is less than maxDistance
      */
     public GeomCollectionIterator(
-        GeometryCollection gc, AffineTransform at, boolean generalize,
-		double maxDistance) {
+            GeometryCollection gc, AffineTransform at, boolean generalize,
+            double maxDistance) {
         init(gc, at, generalize, maxDistance);
     }
 
@@ -122,7 +134,6 @@ public final class GeomCollectionIterator extends AbstractLiteIterator {
      * Returns the specific iterator for the geometry passed.
      *
      * @param g The geometry whole iterator is requested
-     *
      * @return the specific iterator for the geometry passed.
      */
     private AbstractLiteIterator getIterator(Geometry g) {
@@ -143,7 +154,7 @@ public final class GeomCollectionIterator extends AbstractLiteIterator {
             Point p = (Point) g;
             pi = new PointIterator(p, at);
         }
-        
+
         return pi;
     }
 
@@ -158,9 +169,7 @@ public final class GeomCollectionIterator extends AbstractLiteIterator {
      * any points.
      *
      * @param coords an array that holds the data returned from this method
-     *
      * @return the path-segment type of the current path segment.
-     *
      * @see #SEG_MOVETO
      * @see #SEG_LINETO
      * @see #SEG_QUADTO
@@ -182,9 +191,7 @@ public final class GeomCollectionIterator extends AbstractLiteIterator {
      * any points.
      *
      * @param coords an array that holds the data returned from this method
-     *
      * @return the path-segment type of the current path segment.
-     *
      * @see #SEG_MOVETO
      * @see #SEG_LINETO
      * @see #SEG_QUADTO
@@ -199,7 +206,6 @@ public final class GeomCollectionIterator extends AbstractLiteIterator {
      * Returns the winding rule for determining the interior of the path.
      *
      * @return the winding rule.
-     *
      * @see #WIND_EVEN_ODD
      * @see #WIND_NON_ZERO
      */
@@ -211,7 +217,7 @@ public final class GeomCollectionIterator extends AbstractLiteIterator {
      * Tests if the iteration is complete.
      *
      * @return <code>true</code> if all the segments have been read;
-     *         <code>false</code> otherwise.
+     * <code>false</code> otherwise.
      */
     public boolean isDone() {
         return done;
@@ -224,19 +230,19 @@ public final class GeomCollectionIterator extends AbstractLiteIterator {
      */
     public void next() {
         // try to move the current iterator forward
-        if(!currentIterator.isDone()) {
+        if (!currentIterator.isDone()) {
             currentIterator.next();
         }
         // if the iterator is finished, let's move to the next one (and if
         // the next one, should the next one be empty)
-        while(currentIterator.isDone() && !done) {
+        while (currentIterator.isDone() && !done) {
             if (currentGeom < (gc.getNumGeometries() - 1)) {
                 currentGeom++;
                 currentIterator = getIterator(gc.getGeometryN(currentGeom));
             } else {
                 done = true;
             }
-        } 
+        }
     }
 
 }

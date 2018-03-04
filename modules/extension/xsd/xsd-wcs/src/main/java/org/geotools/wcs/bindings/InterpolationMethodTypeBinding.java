@@ -10,14 +10,16 @@ import org.geotools.xml.InstanceComponent;
 
 /**
  * Binding object for the type http://www.opengis.net/wcs:InterpolationMethodType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;simpleType name=&quot;InterpolationMethodType&quot;&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;Codes that identify interpolation methods. The meanings of these codes are defined in Annex B of ISO 19123: Geographic information  Schema for coverage geometry and functions. &lt;/documentation&gt;
+ *          &lt;documentation&gt;Codes that identify interpolation methods. The meanings of these
+ *          codes are defined in Annex B of ISO 19123: Geographic information  Schema for 
+ *          coverage geometry and functions. &lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;restriction base=&quot;string&quot;&gt;
  *          &lt;enumeration value=&quot;nearest neighbor&quot;/&gt;
@@ -31,16 +33,14 @@ import org.geotools.xml.InstanceComponent;
  *              &lt;/annotation&gt;
  *          &lt;/enumeration&gt;
  *      &lt;/restriction&gt;
- *  &lt;/simpleType&gt; 
- * 	
+ *  &lt;/simpleType&gt;
+ *
  * </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- * 
- * 
  * @source $URL$
  */
 public class InterpolationMethodTypeBinding extends AbstractSimpleBinding {
@@ -54,7 +54,7 @@ public class InterpolationMethodTypeBinding extends AbstractSimpleBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -63,7 +63,7 @@ public class InterpolationMethodTypeBinding extends AbstractSimpleBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value)

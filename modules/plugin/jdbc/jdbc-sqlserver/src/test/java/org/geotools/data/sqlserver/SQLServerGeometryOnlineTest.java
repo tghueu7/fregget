@@ -32,7 +32,6 @@ import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * @author DamianoG
- * 
  */
 public class SQLServerGeometryOnlineTest extends JDBCGeometryOnlineTest {
 
@@ -96,11 +95,12 @@ public class SQLServerGeometryOnlineTest extends JDBCGeometryOnlineTest {
         testSetup.setupMetadataTable(dataStore);
         assertEquals(GeometryCollection.class, checkGeometryType(GeometryCollection.class));
     }
-    
+
     public void testGeometryMetadataTable() throws Exception {
         testSetup.setupMetadataTable(dataStore);
-        
-        GeometryDescriptor gd = dataStore.getFeatureSource(tname("gtmeta")).getSchema().getGeometryDescriptor();
+
+        GeometryDescriptor gd = dataStore.getFeatureSource(tname("gtmeta")).getSchema()
+                .getGeometryDescriptor();
         assertEquals(Point.class, gd.getType().getBinding());
         assertEquals(4326, (int) CRS.lookupEpsgCode(gd.getCoordinateReferenceSystem(), false));
     }

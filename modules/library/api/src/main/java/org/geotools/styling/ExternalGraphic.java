@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -22,14 +22,13 @@ import java.net.URL;
 import java.util.Map;
 
 
-
 /**
  * Holds a reference to an external graphics file with a URL to its location
  * and its expected MIME type. Knowing the MIME type in advance allows stylers
  * to select best-supported formats from a list of external graphics.
- *
+ * <p>
  * <p></p>
- *
+ * <p>
  * <p>
  * The details of this object are taken from the <a
  * href="https://portal.opengeospatial.org/files/?artifact_id=1188"> OGC
@@ -51,17 +50,17 @@ import java.util.Map;
  * &lt;/xsd:element&gt;
  * </code></pre>
  * </p>
- *
+ * <p>
  * <p>
  * Renderers can use this information when displaying styled features, though
  * it must be remembered that not all renderers will be able to fully
  * represent strokes as set out by this interface.  For example, opacity may
  * not be supported.
  * </p>
- *
+ * <p>
  * <p>
  * Notes:
- *
+ * <p>
  * <ul>
  * <li>
  * The graphical parameters and their values are derived from SVG/CSS2
@@ -71,12 +70,10 @@ import java.util.Map;
  * </p>
  *
  * @author James Macgill, CCG
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
-public interface ExternalGraphic extends org.opengis.style.ExternalGraphic,Symbol {
+public interface ExternalGraphic extends org.opengis.style.ExternalGraphic, Symbol {
     public static final ExternalGraphic[] EXTERNAL_GRAPHICS_EMPTY = new ExternalGraphic[0];
 
     /**
@@ -85,10 +82,11 @@ public interface ExternalGraphic extends org.opengis.style.ExternalGraphic,Symbo
      * @param uri the uri of the external graphic
      */
     public void setURI(String uri);
-    
+
     /**
-     * Returns the un-parsed URI for the mark (useful if the uri is using transformations or relative locations)
-     * 
+     * Returns the un-parsed URI for the mark (useful if the uri is using transformations or 
+     * relative locations)
+     *
      * @param uri
      * @return
      */
@@ -98,11 +96,10 @@ public interface ExternalGraphic extends org.opengis.style.ExternalGraphic,Symbo
      * Provides the URL for where the external graphic resource can be located.
      * <p>
      * This method will be replaced by getOnlineResource().getLinkage() in 2.6.x
-     * 
-     * @return The URL of the ExternalGraphic
      *
+     * @return The URL of the ExternalGraphic
      * @throws MalformedURLException If the url held in the ExternalGraphic is
-     *         malformed.
+     *                               malformed.
      */
     URL getLocation() throws MalformedURLException;
 
@@ -117,7 +114,7 @@ public interface ExternalGraphic extends org.opengis.style.ExternalGraphic,Symbo
      * Provides the format of the external graphic.
      *
      * @param format The format of the external graphic.  Reported as its MIME
-     *        type in a String object.
+     *               type in a String object.
      */
     void setFormat(String format);
 
@@ -139,16 +136,16 @@ public interface ExternalGraphic extends org.opengis.style.ExternalGraphic,Symbo
      * <li>wedge width: 25
      * <li>wedge color: #9999FF"
      * </ul>
-     * 
+     *
      * @param properties
      */
-    public void setCustomProperties(Map<String,Object> properties);
-    
+    public void setCustomProperties(Map<String, Object> properties);
+
     /**
      * Custom user supplied properties available when working with an external graphic.
-     * 
+     *
      * @return properties
      */
-    public Map<String,Object> getCustomProperties();
-	
+    public Map<String, Object> getCustomProperties();
+
 }

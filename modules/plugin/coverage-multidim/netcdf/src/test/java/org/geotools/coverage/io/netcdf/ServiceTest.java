@@ -37,10 +37,9 @@ import org.opengis.referencing.NoSuchAuthorityCodeException;
 
 /**
  * Class for testing availability of NetCDF format factory
- * 
+ *
  * @author Simone Giannecchini
  * @author Daniele Romagnoli
- * 
  * @source $URL$
  */
 public class ServiceTest {

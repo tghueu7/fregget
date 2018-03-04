@@ -17,15 +17,15 @@
 package org.geotools.filter.v1_0.capabilities;
 
 import org.w3c.dom.Document;
+
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.capability.ScalarCapabilities;
 import org.opengis.filter.capability.SpatialOperators;
 import org.geotools.xml.Binding;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class Spatial_OperatorsTypeBindingTest extends FilterCapabilitiesTestSupport {

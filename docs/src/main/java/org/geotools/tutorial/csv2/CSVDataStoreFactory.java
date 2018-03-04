@@ -35,7 +35,9 @@ public class CSVDataStoreFactory implements DataStoreFactorySpi {
     public CSVDataStoreFactory() {
     }
 
-    /** No implementation hints required at this time */
+    /**
+     * No implementation hints required at this time
+     */
     public Map<Key, ?> getImplementationHints() {
         return Collections.emptyMap();
     }
@@ -50,14 +52,16 @@ public class CSVDataStoreFactory implements DataStoreFactorySpi {
         return "Comma delimited text file.";
     }
 
-    /** Confirm DataStore availability, null if unknown */
+    /**
+     * Confirm DataStore availability, null if unknown
+     */
     Boolean isAvailable = null;
 
     /**
      * Test to see if this DataStore is available, for example if it has all the appropriate libraries to construct an instance.
-     * 
+     * <p>
      * This method is used for interactive applications, so as to not advertise support for formats that will not function.
-     * 
+     *
      * @return <tt>true</tt> if and only if this factory is available to create DataStores.
      */
     public synchronized boolean isAvailable() {
@@ -75,19 +79,22 @@ public class CSVDataStoreFactory implements DataStoreFactorySpi {
     // metadata end
 
     // getParametersInfo start
-    /** Parameter description of information required to connect */
+    /**
+     * Parameter description of information required to connect
+     */
     public static final Param FILE_PARAM = new Param("file", File.class, "Comma seperated value file", true,
             null, new KVP(Param.EXT, "csv"));
 
     public Param[] getParametersInfo() {
-        return new Param[] { FILE_PARAM };
+        return new Param[]{FILE_PARAM};
     }
 
     // getParametersInfo end
     // canProcess start
+
     /**
      * Works for csv file.
-     * 
+     *
      * @param params connection parameters
      * @return true for connection parameters indicating a csv file
      */
@@ -111,14 +118,14 @@ public class CSVDataStoreFactory implements DataStoreFactorySpi {
         return new CSVDataStore(file);
     }
     // createDataStore end
-    
+
     private static final Logger LOGGER = Logging.getLogger("org.geotools.data.csv");
-    
+
     // createNewDataStore start
     public DataStore createNewDataStore(Map<String, Serializable> params) throws IOException {
         File file = (File) FILE_PARAM.lookUp(params);
-        if (file.exists() ){
-            LOGGER.warning("File already exsists: "+file);
+        if (file.exists()) {
+            LOGGER.warning("File already exsists: " + file);
         }
         return new CSVDataStore(file);
     }

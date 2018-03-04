@@ -26,12 +26,9 @@ import org.opengis.feature.type.FeatureType;
 
 /**
  * Test for {@link SampleDataAccess}.
- * 
+ *
  * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
  * @version $Id$
- * 
- * 
- *
  * @source $URL$
  * @since 2.6
  */
@@ -39,7 +36,7 @@ public class SampleDataAccessTest extends TestCase {
 
     /**
      * Test that {@link SampleDataAccess} can be used to obtain two features.
-     * 
+     *
      * @throws Exception
      */
     public static void testDataAccess() throws Exception {
@@ -49,7 +46,8 @@ public class SampleDataAccessTest extends TestCase {
                 .getFeatureSource(SampleDataAccessData.MAPPEDFEATURE_TYPE_NAME);
         FeatureCollection<FeatureType, Feature> featureCollection = featureSource.getFeatures();
         int count = 0;
-        for (FeatureIterator<Feature> iterator = featureCollection.features(); iterator.hasNext(); iterator
+        for (FeatureIterator<Feature> iterator = featureCollection.features(); iterator.hasNext()
+                ; iterator
                 .next()) {
             count++;
         }

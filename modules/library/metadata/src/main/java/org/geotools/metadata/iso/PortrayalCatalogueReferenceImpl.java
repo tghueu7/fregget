@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -28,18 +28,14 @@ import org.opengis.metadata.PortrayalCatalogueReference;
 /**
  * Information identifying the portrayal catalogue used.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class PortrayalCatalogueReferenceImpl extends MetadataEntity
-        implements PortrayalCatalogueReference
-{
+        implements PortrayalCatalogueReference {
     /**
      * Serial number for compatibility with different versions.
      */
@@ -76,15 +72,16 @@ public class PortrayalCatalogueReferenceImpl extends MetadataEntity
      * Bibliographic reference to the portrayal catalogue cited.
      */
     public synchronized Collection<Citation> getPortrayalCatalogueCitations() {
-        return portrayalCatalogueCitations = nonNullCollection(portrayalCatalogueCitations, Citation.class);
+        return portrayalCatalogueCitations = nonNullCollection(portrayalCatalogueCitations, 
+                Citation.class);
     }
 
     /**
      * Set bibliographic reference to the portrayal catalogue cited.
      */
     public synchronized void setPortrayalCatalogueCitations(
-            Collection<? extends Citation> newValues)
-    {
-        portrayalCatalogueCitations = copyCollection(newValues, portrayalCatalogueCitations, Citation.class);
+            Collection<? extends Citation> newValues) {
+        portrayalCatalogueCitations = copyCollection(newValues, portrayalCatalogueCitations, 
+                Citation.class);
     }
 }

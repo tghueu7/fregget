@@ -22,6 +22,7 @@ package org.geotools.referencing.operation.projection;
 
 import java.util.Collection;
 import java.awt.geom.Point2D;
+
 import org.opengis.parameter.GeneralParameterDescriptor;
 import org.opengis.parameter.ParameterValueGroup;
 import org.opengis.parameter.ParameterNotFoundException;
@@ -45,25 +46,25 @@ import static java.lang.Math.*;
  * <p>
  * <b>References:</b>
  * <ul>
- *   <li>John P. Snyder (Map Projections - A Working Manual,<br>
- *       U.S. Geological Survey Professional Paper 1395, 1987)</li>
- *   <li>"Coordinate Conversions and Transformations including Formulas",<br>
- *       EPSG Guidence Note Number 7, Version 19.</li>
+ * <li>John P. Snyder (Map Projections - A Working Manual,<br>
+ * U.S. Geological Survey Professional Paper 1395, 1987)</li>
+ * <li>"Coordinate Conversions and Transformations including Formulas",<br>
+ * EPSG Guidence Note Number 7, Version 19.</li>
  * </ul>
  *
- * @see <A HREF="http://mathworld.wolfram.com/MercatorProjection.html">Mercator projection on MathWorld</A>
- * @see <A HREF="http://www.remotesensing.org/geotiff/proj_list/mercator_1sp.html">"mercator_1sp" on RemoteSensing.org</A>
- * @see <A HREF="http://www.remotesensing.org/geotiff/proj_list/mercator_2sp.html">"mercator_2sp" on RemoteSensing.org</A>
- *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author André Gosselin
  * @author Martin Desruisseaux (PMO, IRD)
  * @author Rueben Schulz
  * @author Simone Giannecchini
+ * @version $Id$
+ * @source $URL$
+ * @see <A HREF="http://mathworld.wolfram.com/MercatorProjection.html">Mercator projection on 
+ * MathWorld</A>
+ * @see <A HREF="http://www.remotesensing.org/geotiff/proj_list/mercator_1sp.html">"mercator_1sp"
+ * on RemoteSensing.org</A>
+ * @see <A HREF="http://www.remotesensing.org/geotiff/proj_list/mercator_2sp.html">"mercator_2sp"
+ * on RemoteSensing.org</A>
+ * @since 2.1
  */
 public abstract class Mercator extends MapProjection {
     /**
@@ -85,12 +86,13 @@ public abstract class Mercator extends MapProjection {
     /**
      * Constructs a new map projection from the supplied parameters.
      *
-     * @param  parameters The parameter values in standard units.
+     * @param parameters The parameter values in standard units.
      * @throws ParameterNotFoundException if a mandatory parameter is missing.
      */
     protected Mercator(final ParameterValueGroup parameters) throws ParameterNotFoundException {
         super(parameters);
-        final Collection<GeneralParameterDescriptor> expected = getParameterDescriptors().descriptors();
+        final Collection<GeneralParameterDescriptor> expected = getParameterDescriptors()
+                .descriptors();
         if (expected.contains(AbstractProvider.STANDARD_PARALLEL_1)) {
             /*
              * scaleFactor is not a parameter in the Mercator_2SP case and is computed from
@@ -98,11 +100,12 @@ public abstract class Mercator extends MapProjection {
              * 'scaleFactor' to 1. We still use the '*=' operator rather than '=' in case a
              * user implementation still provides a scale factor for its custom projections.
              */
-            standardParallel = abs(doubleValue(expected, AbstractProvider.STANDARD_PARALLEL_1, parameters));
+            standardParallel = abs(doubleValue(expected, AbstractProvider.STANDARD_PARALLEL_1, 
+                    parameters));
             ensureLatitudeInRange(AbstractProvider.STANDARD_PARALLEL_1, standardParallel, false);
             if (isSpherical) {
                 scaleFactor *= cos(standardParallel);
-            }  else {
+            } else {
                 scaleFactor *= msfn(sin(standardParallel), cos(standardParallel));
             }
             globalScale = scaleFactor * semiMajor;
@@ -128,7 +131,8 @@ public abstract class Mercator extends MapProjection {
     public ParameterValueGroup getParameterValues() {
         final ParameterValueGroup values = super.getParameterValues();
         if (!Double.isNaN(standardParallel)) {
-            final Collection<GeneralParameterDescriptor> expected = getParameterDescriptors().descriptors();
+            final Collection<GeneralParameterDescriptor> expected = getParameterDescriptors()
+                    .descriptors();
             set(expected, AbstractProvider.STANDARD_PARALLEL_1, values, standardParallel);
         }
         return values;
@@ -140,18 +144,17 @@ public abstract class Mercator extends MapProjection {
      * on a unit sphere).
      */
     protected Point2D transformNormalized(double x, double y, final Point2D ptDst)
-            throws ProjectionException
-    {
-        if (abs(y) > (PI/2 - EPSILON)) {
+            throws ProjectionException {
+        if (abs(y) > (PI / 2 - EPSILON)) {
             throw new ProjectionException(y);
         }
         y = -log(tsfn(y, sin(y)));
 
         if (ptDst != null) {
-            ptDst.setLocation(x,y);
+            ptDst.setLocation(x, y);
             return ptDst;
         }
-        return new Point2D.Double(x,y);
+        return new Point2D.Double(x, y);
     }
 
     /**
@@ -159,25 +162,24 @@ public abstract class Mercator extends MapProjection {
      * and stores the result in {@code ptDst}.
      */
     protected Point2D inverseTransformNormalized(double x, double y, final Point2D ptDst)
-            throws ProjectionException
-    {
+            throws ProjectionException {
         y = exp(-y);
         y = cphi2(y);
 
         if (ptDst != null) {
-            ptDst.setLocation(x,y);
+            ptDst.setLocation(x, y);
             return ptDst;
         }
-        return new Point2D.Double(x,y);
+        return new Point2D.Double(x, y);
     }
 
 
     /**
      * Provides the transform equations for the spherical case of the Mercator projection.
      *
-     * @version $Id$
      * @author Martin Desruisseaux (PMO, IRD)
      * @author Rueben Schulz
+     * @version $Id$
      */
     static abstract class Spherical extends Mercator {
         /**
@@ -188,10 +190,11 @@ public abstract class Mercator extends MapProjection {
         /**
          * Constructs a new map projection from the suplied parameters.
          *
-         * @param  parameters The parameter values in standard units.
+         * @param parameters The parameter values in standard units.
          * @throws ParameterNotFoundException if a mandatory parameter is missing.
          */
-        protected Spherical(final ParameterValueGroup parameters) throws ParameterNotFoundException {
+        protected Spherical(final ParameterValueGroup parameters) throws 
+                ParameterNotFoundException {
             super(parameters);
             ensureSpherical();
         }
@@ -203,22 +206,21 @@ public abstract class Mercator extends MapProjection {
          */
         @Override
         protected Point2D transformNormalized(double x, double y, Point2D ptDst)
-                throws ProjectionException
-        {
-            if (abs(y) > (PI/2 - EPSILON)) {
+                throws ProjectionException {
+            if (abs(y) > (PI / 2 - EPSILON)) {
                 throw new ProjectionException(y);
             }
             // Compute using ellipsoidal formulas, for comparaison later.
             assert (ptDst = super.transformNormalized(x, y, ptDst)) != null;
 
-            y = log(tan(PI/4 + 0.5*y));
+            y = log(tan(PI / 4 + 0.5 * y));
 
             assert checkTransform(x, y, ptDst);
             if (ptDst != null) {
-                ptDst.setLocation(x,y);
+                ptDst.setLocation(x, y);
                 return ptDst;
             }
-            return new Point2D.Double(x,y);
+            return new Point2D.Double(x, y);
         }
 
         /**
@@ -227,19 +229,18 @@ public abstract class Mercator extends MapProjection {
          */
         @Override
         protected Point2D inverseTransformNormalized(double x, double y, Point2D ptDst)
-                throws ProjectionException
-        {
+                throws ProjectionException {
             // Computes using ellipsoidal formulas, for comparaison later.
             assert (ptDst = super.inverseTransformNormalized(x, y, ptDst)) != null;
 
-            y = PI/2 - 2.0*atan(exp(-y));
+            y = PI / 2 - 2.0 * atan(exp(-y));
 
             assert checkInverseTransform(x, y, ptDst);
             if (ptDst != null) {
-                ptDst.setLocation(x,y);
+                ptDst.setLocation(x, y);
                 return ptDst;
             }
-            return new Point2D.Double(x,y);
+            return new Point2D.Double(x, y);
         }
     }
 
@@ -250,7 +251,7 @@ public abstract class Mercator extends MapProjection {
     @Override
     public int hashCode() {
         final long code = Double.doubleToLongBits(standardParallel);
-        return ((int)code ^ (int)(code >>> 32)) + 37*super.hashCode();
+        return ((int) code ^ (int) (code >>> 32)) + 37 * super.hashCode();
     }
 
     /**
@@ -264,7 +265,7 @@ public abstract class Mercator extends MapProjection {
         }
         if (super.equals(object)) {
             final Mercator that = (Mercator) object;
-            return equals(this.standardParallel,  that.standardParallel);
+            return equals(this.standardParallel, that.standardParallel);
         }
         return false;
     }

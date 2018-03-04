@@ -23,14 +23,12 @@ import javax.swing.JOptionPane;
 import org.geotools.data.DataStore;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class TypeNameChooser {
-    
-    public static String showTypeNameChooser( DataStore dataStore ){
-        if( dataStore == null ){
+
+    public static String showTypeNameChooser(DataStore dataStore) {
+        if (dataStore == null) {
             return null; // could not connect
         }
         String typeNames[];
@@ -39,7 +37,7 @@ public class TypeNameChooser {
         } catch (IOException e) {
             return null; // could not connect
         }
-        if( typeNames.length == 0 ){
+        if (typeNames.length == 0) {
             return null; // could not connect
         }
         if (typeNames.length == 1) {

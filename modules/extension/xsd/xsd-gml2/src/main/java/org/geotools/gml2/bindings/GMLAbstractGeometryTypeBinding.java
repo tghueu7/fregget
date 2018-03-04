@@ -33,9 +33,9 @@ import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:AbstractGeometryType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="AbstractGeometryType" abstract="true"&gt;
  *      &lt;annotation&gt;
@@ -57,9 +57,6 @@ import com.vividsolutions.jts.geom.Geometry;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLAbstractGeometryTypeBinding extends AbstractComplexBinding {
@@ -103,7 +100,7 @@ public class GMLAbstractGeometryTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         if (value instanceof Geometry) {
             Geometry geometry = (Geometry) value;
 
@@ -126,7 +123,7 @@ public class GMLAbstractGeometryTypeBinding extends AbstractComplexBinding {
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         if ("srsName".equals(name.getLocalPart())) {
             Geometry geometry = (Geometry) object;
 

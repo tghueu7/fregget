@@ -49,8 +49,9 @@ import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 
 /**
- *  A Generic Utility class for misc. methods
- *  @author
+ * A Generic Utility class for misc. methods
+ *
+ * @author
  */
 class SFSDataStoreUtil {
 
@@ -62,19 +63,20 @@ class SFSDataStoreUtil {
      * As per its documentation "In this implementation, Coordinates returned
      * by #toArray and #getCoordinate are live -- modifications to them are
      * actually changing the CoordinateSequence's underlying data."
+     *
      * @param fnG
      */
     public static void flipFeatureYX(Geometry fnG) {
         fnG.apply(new CoordinateSequenceFilter() {
-            
+
             public boolean isGeometryChanged() {
                 return true;
             }
-            
+
             public boolean isDone() {
                 return false;
             }
-            
+
             public void filter(CoordinateSequence seq, int i) {
                 double x = seq.getX(i);
                 double y = seq.getY(i);
@@ -87,7 +89,7 @@ class SFSDataStoreUtil {
     /**
      * Bounding Box has the form [ymin,xmin, ymax, xmax] and wre want to transform
      * it in [xmin,ymin,xmax,ymax]
-     * 
+     *
      * @param fnAL
      */
     public static void flipYXInsideTheBoundingBox(ArrayList fnAL) {
@@ -110,10 +112,12 @@ class SFSDataStoreUtil {
      * This method parses the query and creates a string which can be appended to
      * the baseURL and then execute it to get response
      * Pulled from GeoRest DataStore
+     *
      * @param fnQuery
      * @return String
      */
-    public static String encodeQuery(Query fnQuery, SimpleFeatureType targetType) throws UnsupportedEncodingException {
+    public static String encodeQuery(Query fnQuery, SimpleFeatureType targetType) throws 
+            UnsupportedEncodingException {
 
         boolean firstChar = false;
 
@@ -135,18 +139,20 @@ class SFSDataStoreUtil {
             firstChar = false;
             urlBuilder.append("attrs=");
             for (int i = 0; i < fnQuery.getPropertyNames().length; i++) {
-                if (targetType.getDescriptor(fnQuery.getPropertyNames()[i]) instanceof GeometryDescriptor) {
+                if (targetType.getDescriptor(fnQuery.getPropertyNames()[i]) instanceof 
+                        GeometryDescriptor) {
                     no_geom = false;
                 }
 
-                urlBuilder.append(URLEncoder.encode(fnQuery.getPropertyNames()[i], DEFAULT_ENCODING));
+                urlBuilder.append(URLEncoder.encode(fnQuery.getPropertyNames()[i], 
+                        DEFAULT_ENCODING));
 
                 if (i < fnQuery.getPropertyNames().length - 1) {
                     urlBuilder.append(",");
                 }
             }
             /*This is to add no_geom*/
-            if(no_geom) {
+            if (no_geom) {
                 urlBuilder.append(getGlueChar(firstChar));
                 urlBuilder.append("no_geom=");
                 urlBuilder.append(no_geom);
@@ -167,9 +173,10 @@ class SFSDataStoreUtil {
 
             urlBuilder.append(getGlueChar(firstChar));
             firstChar = false;
-            
+
             urlBuilder.append("order_by=");
-            urlBuilder.append(URLEncoder.encode(fnQuery.getSortBy()[0].getPropertyName().getPropertyName(), DEFAULT_ENCODING));
+            urlBuilder.append(URLEncoder.encode(fnQuery.getSortBy()[0].getPropertyName()
+                    .getPropertyName(), DEFAULT_ENCODING));
 
             urlBuilder.append(getGlueChar(firstChar));
             urlBuilder.append("dir=");
@@ -184,7 +191,7 @@ class SFSDataStoreUtil {
             visitor.finish(urlBuilder, !firstChar);
             firstChar = false;
         }
-        
+
         // handle the query hints
         if (fnQuery.getHints() != null
                 && fnQuery.getHints().get(Hints.VIRTUAL_TABLE_PARAMETERS) != null) {
@@ -195,7 +202,7 @@ class SFSDataStoreUtil {
             firstChar = false;
             urlBuilder.append("hints=");
 
-            for (Iterator it = params.entrySet().iterator(); it.hasNext();) {
+            for (Iterator it = params.entrySet().iterator(); it.hasNext(); ) {
                 Map.Entry<String, String> pair = (Map.Entry<String, String>) it.next();
 
                 urlBuilder.append(URLEncoder.encode(pair.getKey().toString(), DEFAULT_ENCODING));
@@ -207,7 +214,7 @@ class SFSDataStoreUtil {
             }
         }
 
-        if(urlBuilder.length() > 1) {
+        if (urlBuilder.length() > 1) {
             return urlBuilder.substring(1).toString();
         } else {
             return "";
@@ -216,6 +223,7 @@ class SFSDataStoreUtil {
 
     /**
      * Method used to construct the URL from query
+     *
      * @param fcFlag
      * @return String
      */
@@ -227,7 +235,6 @@ class SFSDataStoreUtil {
     }
 
     /**
-     * 
      * @param json
      * @return
      */
@@ -251,6 +258,7 @@ class SFSDataStoreUtil {
      * This method returns the class, which is required to build the feature type
      * if input string type in not among String, int, double, boolean,
      * timestamp and geometry objects then default string is returned
+     *
      * @param strObj
      * @return Class
      */
@@ -292,23 +300,25 @@ class SFSDataStoreUtil {
             }
         }
     }
-    
+
     /**
      * Decodes a CRS ensuring the axis order is X/Y no matter what syntaxhas been used
+     *
      * @param srsName
      * @return
      * @throws NoSuchAuthorityCodeException
      * @throws FactoryException
      */
-    public static CoordinateReferenceSystem decodeXY(String srsName) throws NoSuchAuthorityCodeException, FactoryException {
+    public static CoordinateReferenceSystem decodeXY(String srsName) throws 
+            NoSuchAuthorityCodeException, FactoryException {
         CoordinateReferenceSystem crs = CRS.decode(srsName, true);
-        if(!isXYOriented(crs)) {
+        if (!isXYOriented(crs)) {
             return CRS.decode("EPSG:" + CRS.lookupEpsgCode(crs, false), true);
         } else {
             return crs;
         }
     }
-    
+
     /**
      * Returns the axis order of the provided {@link CoordinateReferenceSystem} object.
      * TODO: this utility has been taken from GML2Utils, move it to CRS so that it can be shared

@@ -33,11 +33,11 @@ import org.geotools.styling.css.util.UnboundSimplifyingFilterVisitor;
 import org.geotools.util.logging.Logging;
 
 /**
- * Gives a list of Rules, it builds their power set, making it so that any set of rules extracted as at least a chance to match a feature (e.g., the
+ * Gives a list of Rules, it builds their power set, making it so that any set of rules extracted
+ * as at least a chance to match a feature (e.g., the
  * rule selectors are not contractiding each other)
- * 
+ *
  * @author Andrea Aime - GeoSolutions
- * 
  */
 class RulePowerSetBuilder extends FilteredPowerSetBuilder<CssRule, CssRule> {
 
@@ -52,7 +52,8 @@ class RulePowerSetBuilder extends FilteredPowerSetBuilder<CssRule, CssRule> {
     UnboundSimplifyingFilterVisitor simplifier;
 
     /**
-     * These are pseudo class bits that mix in the main rule set, or not, depending on whether their pseudo class is a match. They are treated
+     * These are pseudo class bits that mix in the main rule set, or not, depending on whether 
+     * their pseudo class is a match. They are treated
      * separately to reduce the number of rules the power set generates
      */
     List<CssRule> mixins;
@@ -72,7 +73,7 @@ class RulePowerSetBuilder extends FilteredPowerSetBuilder<CssRule, CssRule> {
         Collections.sort(main, CssRuleComparator.ASCENDING);
         Collections.sort(mixins, CssRuleComparator.ASCENDING);
 
-        return new List[] { main, mixins };
+        return new List[]{main, mixins};
     }
 
     public RulePowerSetBuilder(List<CssRule> domain, UnboundSimplifyingFilterVisitor simplifier) {
@@ -80,12 +81,12 @@ class RulePowerSetBuilder extends FilteredPowerSetBuilder<CssRule, CssRule> {
     }
 
     RulePowerSetBuilder(List<CssRule> domain, UnboundSimplifyingFilterVisitor simplifier,
-            int maxCombinations) {
+                        int maxCombinations) {
         this(classifyRules(domain), simplifier, maxCombinations);
     }
 
     protected RulePowerSetBuilder(List[] domainMixins, UnboundSimplifyingFilterVisitor simplifier,
-            int maxCombinations) {
+                                  int maxCombinations) {
         super(domainMixins[0]);
         this.mixins = domainMixins[1];
         this.maxCombinations = maxCombinations;
@@ -149,7 +150,7 @@ class RulePowerSetBuilder extends FilteredPowerSetBuilder<CssRule, CssRule> {
                     list.add(combined);
                     list.addAll(applicableMixins.subList(idx, applicableMixins.size()));
                     RulePowerSetBuilder builder = new RulePowerSetBuilder(
-                            new List[] { list, Collections.emptyList() }, simplifier,
+                            new List[]{list, Collections.emptyList()}, simplifier,
                             maxCombinations - count);
                     List<CssRule> conditionalPowerSet = builder.buildPowerSet();
                     results.addAll(conditionalPowerSet);
@@ -175,10 +176,12 @@ class RulePowerSetBuilder extends FilteredPowerSetBuilder<CssRule, CssRule> {
     }
 
     /**
-     * Returns all the mixins that can be combined with the rule at hand, that is, mixins that have their pseudo-classes matched by the main rule
-     * symbolizers. Two lists will be returned, an in-conditional one, where the mixins just blend into the main rule, and a conditional one, where
+     * Returns all the mixins that can be combined with the rule at hand, that is, mixins that 
+     * have their pseudo-classes matched by the main rule
+     * symbolizers. Two lists will be returned, an in-conditional one, where the mixins just 
+     * blend into the main rule, and a conditional one, where
      * the mixin adds its own conditions, and thus require its own power set expansion
-     * 
+     *
      * @param rule
      * @return
      */
@@ -207,7 +210,7 @@ class RulePowerSetBuilder extends FilteredPowerSetBuilder<CssRule, CssRule> {
 
     /**
      * Filter applicable mixin rules. Defaults to accepting all rules.
-     * 
+     *
      * @param rule
      * @param mixinRule
      * @return

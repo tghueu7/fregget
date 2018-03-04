@@ -22,21 +22,19 @@ import org.geotools.data.efeature.query.EFeatureEncoderException;
 
 /**
  * @author kengu - 14. juni 2011
- *
- *
  * @source $URL$
  */
 public class EAttributeValueIsLikeTest extends AbstractEAttributeValueTest {
-    
+
     // ----------------------------------------------------- 
     //  Constructors
     // -----------------------------------------------------
-    
+
     /**
      * @param name
      */
     public EAttributeValueIsLikeTest(String name) {
-        super(name,IS_LIKE);
+        super(name, IS_LIKE);
     }
 
     // ----------------------------------------------------- 

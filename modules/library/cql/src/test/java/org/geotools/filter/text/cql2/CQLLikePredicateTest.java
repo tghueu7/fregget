@@ -25,7 +25,7 @@ import org.opengis.filter.Filter;
 
 /**
  * Test case for Like predicate
- * 
+ * <p>
  * <p>
  * <pre>
  *  &lt;text predicate &gt; ::=
@@ -39,35 +39,32 @@ import org.opengis.filter.Filter;
  *      attribute not like 'will_not_begin_with_this%'
  *      attribute not like '%will_not_end_with_this'
  * </pre>
- *
+ * <p>
  * </p>
  *
  * @author Mauricio Pazos (Axios Engineering)
- * @since 2.5
- *
- *
- *
  * @source $URL$
+ * @since 2.5
  */
 public class CQLLikePredicateTest {
 
     protected final Language language;
-    
-    public CQLLikePredicateTest(){
+
+    public CQLLikePredicateTest() {
         this(Language.CQL);
     }
 
     protected CQLLikePredicateTest(final Language language) {
-        
-        assert language != null: "language cannot be null";
-        
+
+        assert language != null : "language cannot be null";
+
         this.language = language;
     }
 
     /**
      * Test Text Predicate
      * <p>
-     *
+     * <p>
      * <pre>
      *  &lt;text predicate &gt; ::=
      *      &lt;attribute name &gt; [ NOT ] <b>LIKE</b>  &lt;character pattern &gt;
@@ -77,7 +74,7 @@ public class CQLLikePredicateTest {
      *      attribute like '%ends_with_this'
      *      attribute like 'd_ve' will match 'dave' or 'dove'
      * </pre>
-     *
+     * <p>
      * </p>
      */
     @Test
@@ -93,11 +90,11 @@ public class CQLLikePredicateTest {
         Assert.assertEquals("like filter was expected", expected, resultFilter);
 
     }
-    
+
     /**
      * Test Text Predicate
      * <p>
-     *
+     * <p>
      * <pre>
      *  &lt;text predicate &gt; ::=
      *      &lt;attribute name &gt; <b>[ NOT ] LIKE</b>  &lt;character pattern &gt;
@@ -106,20 +103,21 @@ public class CQLLikePredicateTest {
      *      attribute not like 'will_not_begin_with_this%'
      *      attribute not like '%will_not_end_with_this'
      * </pre>
-     *
+     * <p>
      * </p>
      */
     @Test
-    public void notLikePredicate() throws Exception{
+    public void notLikePredicate() throws Exception {
         // not Like
-        Filter resultFilter = CompilerUtil.parseFilter(this.language,FilterCQLSample.NOT_LIKE_FILTER);
+        Filter resultFilter = CompilerUtil.parseFilter(this.language, FilterCQLSample
+                .NOT_LIKE_FILTER);
 
         Assert.assertNotNull("Filter expected", resultFilter);
 
         Filter expected = FilterCQLSample.getSample(FilterCQLSample.NOT_LIKE_FILTER);
 
         Assert.assertEquals("like filter was expected", expected, resultFilter);
-        
+
     }
-    
+
 }

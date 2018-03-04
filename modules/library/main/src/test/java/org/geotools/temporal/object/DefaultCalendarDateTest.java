@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -25,16 +25,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.opengis.temporal.CalendarDate;
 import org.opengis.temporal.TemporalReferenceSystem;
+
 import static org.junit.Assert.*;
+
 import org.opengis.util.InternationalString;
 
 
 /**
- *
  * @author Mehdi Sidhoum (Geomatys)
- *
- *
- *
  * @source $URL$
  */
 public class DefaultCalendarDateTest {
@@ -83,7 +81,8 @@ public class DefaultCalendarDateTest {
     @Test
     public void testSetCalendarEraName() {
         InternationalString result = calendarDate1.getCalendarEraName();
-        ((DefaultCalendarDate) calendarDate1).setCalendarEraName(new SimpleInternationalString("new Era"));
+        ((DefaultCalendarDate) calendarDate1).setCalendarEraName(new SimpleInternationalString
+                ("new Era"));
         assertFalse(calendarDate1.getCalendarEraName().equals(result));
     }
 

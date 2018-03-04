@@ -54,9 +54,8 @@ import com.vividsolutions.jts.geom.PrecisionModel;
 
 /**
  * @author Simone Giannecchini, GeoSolutions SAS
- *
  */
-public class CatalogSliceTest extends Assert{
+public class CatalogSliceTest extends Assert {
 
     private H2DataStoreFactory INTERNAL_STORE_SPI = new H2DataStoreFactory();
 
@@ -65,8 +64,10 @@ public class CatalogSliceTest extends Assert{
     final static PrecisionModel PRECISION_MODEL = new PrecisionModel(PrecisionModel.FLOATING);
 
     final static GeometryFactory GEOM_FACTORY = new GeometryFactory(PRECISION_MODEL);
-    
-    /** Default Logger * */
+
+    /**
+     * Default Logger *
+     */
     private static final Logger LOGGER = Logging.getLogger(CatalogSliceTest.class);
 
     private static final double DELTA = 0.01d;
@@ -88,7 +89,8 @@ public class CatalogSliceTest extends Assert{
             assertNull(typeNames);
 
             // create new schema 1
-            final String schemaDef1 = "the_geom:Polygon,coverage:String,imageindex:Integer,cloud_formations:Integer";
+            final String schemaDef1 = "the_geom:Polygon,coverage:String,imageindex:Integer," +
+                    "cloud_formations:Integer";
             sliceCat.createType("1", schemaDef1);
             typeNames = sliceCat.getTypeNames();
             assertNotNull(typeNames);
@@ -121,7 +123,8 @@ public class CatalogSliceTest extends Assert{
             assertEquals(2, cv.getCount());
 
             // create new schema 2
-            final String schemaDef2 = "the_geom:Polygon,coverage:String,imageindex:Integer,new:Double";
+            final String schemaDef2 = "the_geom:Polygon,coverage:String,imageindex:Integer," +
+                    "new:Double";
             sliceCat.createType("2", schemaDef2);
             typeNames = sliceCat.getTypeNames();
             assertNotNull(typeNames);
@@ -158,17 +161,17 @@ public class CatalogSliceTest extends Assert{
             q.setFilter(Filter.INCLUDE);
             sliceCat.computeAggregateFunction(q, cv);
             assertEquals(3, cv.getCount());
-            
+
             // Get the CoverageSlices
             List<CoverageSlice> slices = sliceCat.getGranules(q);
             double[] news = new double[]{3.22, 1.12, 1.32};
-            for(int i = 0; i < news.length; i++){
+            for (int i = 0; i < news.length; i++) {
                 CoverageSlice slice = slices.get(i);
                 assertTrue(slice.getGranuleBBOX().contains(referencedEnvelope));
                 double newAttr = (double) slice.getOriginator().getAttribute("new");
                 assertEquals(newAttr, news[i], DELTA);
             }
-            
+
             // Creating a CoverageSliceCatalogSource and check if it behaves correctly
             CoverageSlicesCatalogSource src = new CoverageSlicesCatalogSource(sliceCat, "2");
             assertEquals(3, src.getCount(q));
@@ -177,7 +180,8 @@ public class CatalogSliceTest extends Assert{
             coll.accepts(cv, null);
             assertEquals(3, cv.getCount());
             assertTrue(src.getBounds(q).contains(
-                    referencedEnvelope.toBounds(referencedEnvelope.getCoordinateReferenceSystem())));
+                    referencedEnvelope.toBounds(referencedEnvelope.getCoordinateReferenceSystem()
+                    )));
             assertEquals(src.getSchema(), schema);
 
             // remove
@@ -216,7 +220,7 @@ public class CatalogSliceTest extends Assert{
         // H2 database URLs must not be percent-encoded: see GEOT-4504
         final URL url = new URL("file:"
                 + URLs.urlToFile(TestData.url(this,
-                        ".IASI_C_EUMP_20121120062959_31590_eps_o_l2")));
+                ".IASI_C_EUMP_20121120062959_31590_eps_o_l2")));
         params.put("ParentLocation", url);
         params.put("database", url + "/IASI_C_EUMP_20121120062959_31590_eps_o_l2");
         params.put("dbtype", "h2");
@@ -261,7 +265,7 @@ public class CatalogSliceTest extends Assert{
             while (it.hasNext()) {
                 final SimpleFeature feat = it.next();
 
-                assertTrue((Integer)feat.getAttribute("new")>=0);
+                assertTrue((Integer) feat.getAttribute("new") >= 0);
 
             }
 

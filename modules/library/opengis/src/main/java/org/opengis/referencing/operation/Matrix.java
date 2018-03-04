@@ -4,7 +4,7 @@
  *
  *    (C) 2011-2015, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.referencing.operation;
@@ -17,16 +17,16 @@ import static org.opengis.annotation.Specification.*;
 
 
 /**
- * A two dimensional array of numbers. Row and column numbering begins with zero. 
+ * A two dimensional array of numbers. Row and column numbering begins with zero.
  *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengis.org/docs/01-009.pdf">Implementation specification 1.0</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
+ * @source $URL$
  * @see java.awt.geom.AffineTransform
  * @see <A HREF="http://ejml.org/"EJML</A>
+ * @since GeoAPI 1.0
  */
-@UML(identifier="PT_Matrix", specification=OGC_01009)
+@UML(identifier = "PT_Matrix", specification = OGC_01009)
 public interface Matrix extends Cloneable {
     /**
      * Returns the number of rows in this matrix.
@@ -65,7 +65,7 @@ public interface Matrix extends Cloneable {
      */
     @Extension
     void setElement(int row, int column, double value);
-    
+
     /**
      * Returns {@code true} if this matrix is an identity matrix.
      *

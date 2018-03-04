@@ -19,47 +19,48 @@ import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * A test rendering transformation that buffers a feature collection by a given amount
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 public class BufferTestFunction extends FunctionExpressionImpl {
 
-    public static FunctionName NAME = new FunctionNameImpl("BufferTest", parameter("distance", Double.class));
+    public static FunctionName NAME = new FunctionNameImpl("BufferTest", parameter("distance", 
+            Double.class));
 
     public BufferTestFunction() {
         super(NAME);
     }
 
     public Object evaluate(Object object) {
-    
+
         SimpleFeatureCollection fc = (SimpleFeatureCollection) object;
         Double distance = null;
 
-        try { 
+        try {
             distance = getExpression(0).evaluate(null, Double.class);
         } catch (Exception e) // probably a type error
         {
             throw new IllegalArgumentException(
                     "Filter Function problem for test buffer argument #0 - expected type Double");
         }
-        
+
         // compute the output schema
         SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
         GeometryDescriptor gd = fc.getSchema().getGeometryDescriptor();
         tb.add(gd.getName().getLocalPart(), Polygon.class, gd.getCoordinateReferenceSystem());
         tb.setName("bufferedCollection");
         SimpleFeatureType schema = tb.buildFeatureType();
-        
+
         // compute the output features
         SimpleFeatureBuilder fb = new SimpleFeatureBuilder(schema);
         ListFeatureCollection result = new ListFeatureCollection(schema);
         SimpleFeatureIterator fi = fc.features();
-        while(fi.hasNext()) {
+        while (fi.hasNext()) {
             SimpleFeature f = fi.next();
             fb.add(((Geometry) f.getDefaultGeometry()).buffer(distance));
             result.add(fb.buildFeature(null));
         }
-        
+
         return result;
     }
 }

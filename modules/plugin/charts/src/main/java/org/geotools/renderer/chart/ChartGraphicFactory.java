@@ -34,13 +34,16 @@ import org.opengis.filter.expression.Expression;
 /**
  * Parses Google charts like requests into various kinds of charts.
  * <p>
- * Underlying implementation is based on <a href="http://www.jfree.org/eastwood/">Eastwood charts</a>
+ * Underlying implementation is based on <a href="http://www.jfree.org/eastwood/">Eastwood 
+ * charts</a>
  * and <a href="http://www.jfree.org/jfreechart/index.html">JFreeChart</a>
  * <p>
  * And example of a valid symbolizer use in SLD is:
  * <pre>
  * &lt;ExternalGraphic&gt;
- *   &lt;OnlineResource xlink:href=&quot;http://chart?cht=p&amp;amp;chl=male|female&amp;amp;chd=t:${100 * male / (male + female)},${100 * female / (male + female)}&amp;amp;chs=200x100&amp;amp;chf=bg,s,FFFFFF00&quot;/&gt;
+ *   &lt;OnlineResource xlink:href=&quot;http://chart?cht=p&amp;amp;chl=male|female&amp;amp;
+ *   chd=t:${100 * male / (male + female)},${100 * female / (male + female)}&amp;amp;
+ *   chs=200x100&amp;amp;chf=bg,s,FFFFFF00&quot;/&gt;
  *   &lt;Format&gt;application/chart&lt;/Format&gt;
  * &lt;/ExternalGraphic&gt;
  * </pre>
@@ -49,19 +52,17 @@ import org.opengis.filter.expression.Expression;
  * used.
  * </p>
  * <p>
- * For details on the URL format documentation refer to the online 
+ * For details on the URL format documentation refer to the online
  * <a href="http://code.google.com/intl/it-IT/apis/chart/">Google charts API</a>.
  * </p>
  * <p>
  * Also mind Eastwood does not implement all of the Google charts API, for example,
  * Venn diagram and spider diagrams are not supported. Check on the Eastwood project
- * pages for details. 
+ * pages for details.
  * </p>
- * @since 2.5.6
- *
- *
  *
  * @source $URL$
+ * @since 2.5.6
  */
 public class ChartGraphicFactory implements ExternalGraphicFactory {
 
@@ -128,7 +129,7 @@ public class ChartGraphicFactory implements ExternalGraphicFactory {
 
         if (size > 0) {
             if (dims == null) {
-                dims = new int[] { size, size };
+                dims = new int[]{size, size};
             } else {
                 if (dims[0] > dims[1]) {
                     dims[1] = dims[1] * size / dims[0];
@@ -146,7 +147,7 @@ public class ChartGraphicFactory implements ExternalGraphicFactory {
     /**
      * Parses the CHS parameter, should be in the form wxh, where w and h are integers and x is the
      * separator
-     * 
+     *
      * @param sizes
      * @return
      */

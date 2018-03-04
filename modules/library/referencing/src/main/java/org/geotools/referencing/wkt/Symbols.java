@@ -24,12 +24,10 @@ import java.util.Locale;
 /**
  * The set of symbols to use for WKT parsing and formatting.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class Symbols {
     /**
@@ -48,8 +46,9 @@ public class Symbols {
      * like {@code (...)}.
      */
     public static final Symbols CURLY_BRACKETS = new Symbols();
+
     static {
-        CURLY_BRACKETS.open  = '(';
+        CURLY_BRACKETS.open = '(';
         CURLY_BRACKETS.close = ')';
     }
 
@@ -122,7 +121,7 @@ public class Symbols {
 
     /**
      * The object to use for parsing and formatting numbers.
-     *
+     * <p>
      * <STRONG>Note:</STRONG> {@link NumberFormat} object are usually not thread safe.
      * Consequently, each instances of {@link Parser} or {@link Formatter} must use a
      * clone of this object, not this object directly (unless they synchronize on it).
@@ -157,7 +156,7 @@ public class Symbols {
          */
         if (numberFormat instanceof DecimalFormat) {
             final char decimalSeparator = ((DecimalFormat) numberFormat)
-                       .getDecimalFormatSymbols().getDecimalSeparator();
+                    .getDecimalFormatSymbols().getDecimalSeparator();
             if (decimalSeparator == ',') {
                 separator = ';';
             }
@@ -179,9 +178,9 @@ public class Symbols {
      * The element must be followed (ignoring spaces) by an opening bracket. If found, this
      * method returns the index of the opening bracket after the element.
      *
-     * @param  wkt The WKT to parse.
-     * @param  element The element to search. Must contains only uppercase letters.
-     * @param  index The index to start the search from.
+     * @param wkt     The WKT to parse.
+     * @param element The element to search. Must contains only uppercase letters.
+     * @param index   The index to start the search from.
      */
     private int indexOf(final CharSequence wkt, final String element, int index) {
         assert element.equals(element.trim().toUpperCase(locale)) : element;
@@ -191,7 +190,8 @@ public class Symbols {
         final int length = wkt.length();
         if (index < length) {
             char c = wkt.charAt(index);
-search:     while (true) {
+            search:
+            while (true) {
                 // Do not parse any content between quotes.
                 if (c == quote) {
                     isQuoting = !isQuoting;
@@ -204,7 +204,7 @@ search:     while (true) {
                     continue;
                 }
                 // Checks if we have a match.
-                for (int j=0; j<elementLength; j++) {
+                for (int j = 0; j < elementLength; j++) {
                     c = Character.toUpperCase(c);
                     if (c != element.charAt(j)) {
                         // No match. Skip all remaining letters and resume the search.
@@ -228,7 +228,7 @@ search:     while (true) {
                     }
                     c = wkt.charAt(index);
                 }
-                for (int i=0; i<openingBrackets.length; i++) {
+                for (int i = 0; i < openingBrackets.length; i++) {
                     if (c == openingBrackets[i]) {
                         return index;
                     }

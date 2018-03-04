@@ -28,53 +28,52 @@ import org.opengis.util.InternationalString;
 
 /**
  * Helper class for working with InternaionalString and other forms of Text.
- * 
+ *
  * @author Jody Garnett
- *
- *
  * @source $URL$
  */
 public class Text {
     // additional methods needed to register additional
     // properties files at a later time.
+
     /**
      * Create a international string based on the provided English text.
      * <p>
      * We will hook up this method to a properties file at a later time,
      * making other translations available via the Factory SPI mechanism.
-     * 
+     *
      * @param english
      * @return SimpleInternationalString
      */
-    public static InternationalString text(String english){
-        return new SimpleInternationalString( english );
+    public static InternationalString text(String english) {
+        return new SimpleInternationalString(english);
     }
-    
+
     /**
      * Create an international string based on provided key, and resource bundle.
-     * 
-     * @param key The key for the resource to fetch
+     *
+     * @param key       The key for the resource to fetch
      * @param resources The name of the resource bundle, as a fully qualified class name.
      * @return ResourceInternationalString
      */
-    public static InternationalString text(String key, String resourceBundle ){
-        return new ResourceInternationalString( resourceBundle, key );
+    public static InternationalString text(String key, String resourceBundle) {
+        return new ResourceInternationalString(resourceBundle, key);
     }
-    
-    public static InternationalString text(String key, Map<String,String> translations ){
+
+    public static InternationalString text(String key, Map<String, String> translations) {
         GrowableInternationalString text = new GrowableInternationalString();
-        
-        for( Entry<String, String> entry : translations.entrySet() ){
-            text.add( key, entry.getKey(), entry.getValue() );
+
+        for (Entry<String, String> entry : translations.entrySet()) {
+            text.add(key, entry.getKey(), entry.getValue());
         }
         return text;
     }
-    
-    public static InternationalString text(String key, Properties properties ){
+
+    public static InternationalString text(String key, Properties properties) {
         GrowableInternationalString text = new GrowableInternationalString();
-        
-        for( Entry<Object, Object> entry : properties.entrySet() ){
-            text.add( key, (String) entry.getKey(), (String) entry.getValue() );
+
+        for (Entry<Object, Object> entry : properties.entrySet()) {
+            text.add(key, (String) entry.getKey(), (String) entry.getValue());
         }
         return text;
     }

@@ -33,9 +33,9 @@ import org.picocontainer.MutablePicoContainer;
 
 /**
  * Binding object for the type http://www.opengis.net/sld:ParameterValueType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="ParameterValueType" mixed="true"&gt;
  *      &lt;xsd:annotation&gt;
@@ -54,9 +54,6 @@ import org.picocontainer.MutablePicoContainer;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDParameterValueTypeBinding extends AbstractComplexBinding {
@@ -113,28 +110,27 @@ public class SLDParameterValueTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
 
         List<Expression> expressions = new ArrayList();
-        for (Iterator itr = node.getChildren().iterator(); itr.hasNext();) {
+        for (Iterator itr = node.getChildren().iterator(); itr.hasNext(); ) {
             Node child = (Node) itr.next();
 
             if (child.getValue() instanceof Expression) {
                 expressions.add((Expression) child.getValue());
-            }
-            else if (child.getValue() instanceof Text) {
-                expressions.add(filterFactory.literal(((Text)child.getValue()).getValue()));
+            } else if (child.getValue() instanceof Text) {
+                expressions.add(filterFactory.literal(((Text) child.getValue()).getValue()));
             }
         }
-        
+
         if (expressions.isEmpty()) {
             return null;
         }
         if (expressions.size() == 1) return (Expression) expressions.get(0);
-      
+
         Expression e = expressions.get(0);
         for (int i = 1; i < expressions.size(); i++) {
-              e = filterFactory.function("strConcat", new Expression[]{e, expressions.get(i)});
+            e = filterFactory.function("strConcat", new Expression[]{e, expressions.get(i)});
         }
 
         return e;

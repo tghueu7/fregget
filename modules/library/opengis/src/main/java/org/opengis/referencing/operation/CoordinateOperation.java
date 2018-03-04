@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.referencing.operation;
 
 import java.util.Collection;
+
 import org.opengis.referencing.IdentifiedObject;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.metadata.quality.PositionalAccuracy;
@@ -36,14 +37,13 @@ import static org.opengis.annotation.Specification.*;
  * entirely different parameter values are needed, a different coordinate operation
  * shall be defined.
  *
- *
- *
+ * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract 
+ * specification 2.0</A>
  * @source $URL$
- * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract specification 2.0</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
+ * @since GeoAPI 1.0
  */
-@UML(identifier="CC_CoordinateOperation", specification=ISO_19111)
+@UML(identifier = "CC_CoordinateOperation", specification = ISO_19111)
 public interface CoordinateOperation extends IdentifiedObject {
     /**
      * Key for the <code>{@value}</code> property.
@@ -58,7 +58,6 @@ public interface CoordinateOperation extends IdentifiedObject {
      * This is used for setting the value to be returned by {@link #getCoordinateOperationAccuracy}.
      *
      * @see #getCoordinateOperationAccuracy
-     *
      * @since GeoAPI 2.1
      */
     String COORDINATE_OPERATION_ACCURACY_KEY = "coordinateOperationAccuracy";
@@ -68,7 +67,6 @@ public interface CoordinateOperation extends IdentifiedObject {
      * This is used for setting the value to be returned by {@link #getDomainOfValidity}.
      *
      * @see #getDomainOfValidity
-     *
      * @since GeoAPI 2.1
      */
     String DOMAIN_OF_VALIDITY_KEY = "domainOfValidity";
@@ -88,11 +86,10 @@ public interface CoordinateOperation extends IdentifiedObject {
      * {@link org.opengis.referencing.crs.GeneralDerivedCRS#getBaseCRS} instead.
      *
      * @return The source CRS, or {@code null} if not available.
-     *
      * @see Conversion#getSourceCRS
      * @see Transformation#getSourceCRS
      */
-    @UML(identifier="sourceCRS", obligation=CONDITIONAL, specification=ISO_19111)
+    @UML(identifier = "sourceCRS", obligation = CONDITIONAL, specification = ISO_19111)
     CoordinateReferenceSystem getSourceCRS();
 
     /**
@@ -102,11 +99,10 @@ public interface CoordinateOperation extends IdentifiedObject {
      * {@link org.opengis.referencing.crs.GeneralDerivedCRS} instead.
      *
      * @return The target CRS, or {@code null} if not available.
-     *
      * @see Conversion#getTargetCRS
      * @see Transformation#getTargetCRS
      */
-    @UML(identifier="targetCRS", obligation=CONDITIONAL, specification=ISO_19111)
+    @UML(identifier = "targetCRS", obligation = CONDITIONAL, specification = ISO_19111)
     CoordinateReferenceSystem getTargetCRS();
 
     /**
@@ -116,7 +112,7 @@ public interface CoordinateOperation extends IdentifiedObject {
      *
      * @return The coordinate operation version, or {@code null} in none.
      */
-    @UML(identifier="operationVersion", obligation=CONDITIONAL, specification=ISO_19111)
+    @UML(identifier = "operationVersion", obligation = CONDITIONAL, specification = ISO_19111)
     String getOperationVersion();
 
     /**
@@ -125,20 +121,19 @@ public interface CoordinateOperation extends IdentifiedObject {
      * operation, assuming no errors in source coordinates.
      *
      * @return The position error estimates, or an empty collection if not available.
-     *
      * @since GeoAPI 2.1
      */
-    @UML(identifier="coordinateOperationAccuracy", obligation=OPTIONAL, specification=ISO_19111)
+    @UML(identifier = "coordinateOperationAccuracy", obligation = OPTIONAL, specification = 
+            ISO_19111)
     Collection<PositionalAccuracy> getCoordinateOperationAccuracy();
 
     /**
      * Area or region or timeframe in which this coordinate operation is valid.
      *
      * @return The coordinate operation valid domain, or {@code null} if not available.
-     *
      * @since GeoAPI 2.1
      */
-    @UML(identifier="domainOfValidity", obligation=OPTIONAL, specification=ISO_19111)
+    @UML(identifier = "domainOfValidity", obligation = OPTIONAL, specification = ISO_19111)
     Extent getDomainOfValidity();
 
     /**
@@ -146,7 +141,7 @@ public interface CoordinateOperation extends IdentifiedObject {
      *
      * @return A description of domain of usage, or {@code null} if none.
      */
-    @UML(identifier="scope", obligation=OPTIONAL, specification=ISO_19111)
+    @UML(identifier = "scope", obligation = OPTIONAL, specification = ISO_19111)
     InternationalString getScope();
 
     /**
@@ -158,6 +153,6 @@ public interface CoordinateOperation extends IdentifiedObject {
      *
      * @return The transform from source to target CRS, or {@code null} if not applicable.
      */
-    @UML(identifier="CT_CoordinateTransformation.getMathTransform", specification=OGC_01009)
+    @UML(identifier = "CT_CoordinateTransformation.getMathTransform", specification = OGC_01009)
     MathTransform getMathTransform();
 }

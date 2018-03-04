@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -26,27 +26,33 @@ import org.opengis.feature.type.Name;
 
 /**
  * This is the top-level interface for access to {@code FeatureData}.
- *
+ * <p>
  * <p>
  * <h2>Description</h2>
  * The DataAccess interface provides the following information about its contents:
  * <ul>
  * <li>{@link DataAccess.getInfo()} - information about the file or server itself
- * <li>{@link DataAccess.getNames()} - list of the available contents (each is an individual resource)
- * <li>{@link DataAccess.getSchema( Name )} - FeatureType describing the information available in the named resource
+ * <li>{@link DataAccess.getNames()} - list of the available contents (each is an individual 
+ * resource)
+ * <li>{@link DataAccess.getSchema( Name )} - FeatureType describing the information available in
+ * the named resource
  * </ul>
  * <p>
  * <h2>Contents</h2>
  * You can access the contents of a service or file using getFeatureSource( Name ). Depending the
  * abilities of your implementation and your credentials you will have access to
  * <ul>
- * <li>{@link FeatureSource}: read-only api similar to the WFS getFeature operations. Please note the reutrned
- *    FeatureCollection may be *lazy*; for many implementations no actual access will occur until you
- *    use the FetaureCollection for the first time.
- * <li>{@link FeatureStore}: read/write api similar to the WFS Transaction operation. Batch changes such as 
- *    addFeatures, modifyFeatures and removeFeatures are supported.
- * <li>{@link FeatureLocking}: concurrency control; the Data Access API is thread safe; one consequence of this
- * is modifications being held up while other threads read the contents. You may wish to Lock a selection
+ * <li>{@link FeatureSource}: read-only api similar to the WFS getFeature operations. Please note
+ * the reutrned
+ * FeatureCollection may be *lazy*; for many implementations no actual access will occur until you
+ * use the FetaureCollection for the first time.
+ * <li>{@link FeatureStore}: read/write api similar to the WFS Transaction operation. Batch 
+ * changes such as
+ * addFeatures, modifyFeatures and removeFeatures are supported.
+ * <li>{@link FeatureLocking}: concurrency control; the Data Access API is thread safe; one 
+ * consequence of this
+ * is modifications being held up while other threads read the contents. You may wish to Lock a 
+ * selection
  * of features for your exclusive use. Locks are timed; and will expire after the indicated period.
  * </ul>
  * <p>
@@ -59,9 +65,9 @@ import org.opengis.feature.type.Name;
  * The use of Transaction.AUTO_COMMIT is suitable for read-only access when you wish
  * to minimize the number of connections in use, when used for writing performance
  * will often be terrible.
- * 
+ * <p>
  * <h2>Lifecycle</h2>
- * 
+ * <p>
  * Normal use:
  * <ul>
  * <li>Connect using a DataAccessFactory.createDataStore using a set of connection parameters
@@ -70,26 +76,25 @@ import org.opengis.feature.type.Name;
  * should not be duplicated.
  * <li>DataAccess.dispose() is called when the application is shut down
  * </ul>
- * 
+ * <p>
  * Creation:
  * <ul>
  * <li>Created using a DataAccessFactory.createNewDataStore using a set of creation parameters
  * <li>DataAccess.createSchema( T ) is called to set up the contents
- * <li>DataAccess.getFetaureSource( Name ) is called, and FeatureStore.addFeatures( collection ) used to populate the contents
+ * <li>DataAccess.getFetaureSource( Name ) is called, and FeatureStore.addFeatures( collection ) 
+ * used to populate the contents
  * <li>DataAccess.dispose() is called when the application is shut down
  * </ul>
  * <p>
  * Applications are responsible for holding a single instance to the service or file, The
- * DataAccess implementations will hold onto database connections, internal caches and so on - and as such
+ * DataAccess implementations will hold onto database connections, internal caches and so on - 
+ * and as such
  * should not be duplicated.
- * 
- * @see DataStore Subclass restricted to working with simple content
+ *
  * @param <T> Type of Feature Content, may be SimpleFeatureType
  * @param <F> Feature Content, may be SimpleFetaure
- *
- *
- *
  * @source $URL$
+ * @see DataStore Subclass restricted to working with simple content
  */
 public interface DataAccess<T extends FeatureType, F extends Feature> {
 
@@ -100,21 +105,21 @@ public interface DataAccess<T extends FeatureType, F extends Feature> {
      * information describing the service.
      * </p>
      * Subclasses may return a specific ServiceInfo instance that has
-     * additional information (such as FilterCapabilities). 
+     * additional information (such as FilterCapabilities).
+     *
      * @return SeviceInfo
      */
     ServiceInfo getInfo();
 
     /**
      * Creates storage for a new <code>featureType</code>.
-     *
+     * <p>
      * <p>
      * The provided <code>featureType</code> we be accessable by the typeName
      * provided by featureType.getTypeName().
      * </p>
      *
      * @param featureType FetureType to add to DataStore
-     *
      * @throws IOException If featureType cannot be created
      */
     void createSchema(T featureType) throws IOException;
@@ -124,21 +129,23 @@ public interface DataAccess<T extends FeatureType, F extends Feature> {
      * <p>
      * This functionality is similar to an "alter table" statement in SQL. Implementation
      * is optional; it may not be supported by all servers or files.
+     *
      * @param typeName
      * @param featureType
-     * @throws IOException if the operation failed
+     * @throws IOException          if the operation failed
      * @throws UnsupportedOperation if functionality is not available
      */
     void updateSchema(Name typeName, T featureType)
-        throws IOException;
+            throws IOException;
 
     /**
      * Used to permanently remove a schema from the underlying storage
      * <p>
      * This functionality is similar to an "drop table" statement in SQL. Implementation
      * is optional; it may not be supported by all servers or files.
+     *
      * @param typeName
-     * @throws IOException if the operation failed
+     * @throws IOException          if the operation failed
      * @throws UnsupportedOperation if functionality is not available
      */
     void removeSchema(Name typeName) throws IOException;
@@ -148,23 +155,24 @@ public interface DataAccess<T extends FeatureType, F extends Feature> {
      * <p>
      * For additional information please see getInfo( Name ) and getSchema( Name ).
      * </p>
+     *
      * @return Names of the available contents.
      * @throws IOException
      */
     List<Name> getNames() throws IOException;
-        
+
     /**
      * Description of the named resource.
      * <p>
      * The FeatureType returned describes the contents being published. For
      * additional metadata please review getInfo( Name ).
-     * 
+     *
      * @param name Type name a the resource from getNames()
      * @return Description of the FeatureType being made avaialble
      * @throws IOException
      */
     T getSchema(Name name) throws IOException;
-    
+
     /**
      * Access to the named resource.
      * <p>
@@ -178,11 +186,12 @@ public interface DataAccess<T extends FeatureType, F extends Feature> {
      * <li>FetureLocking - concurrency control
      * <ul>
      * Additional interfaces may be supported by the implementation you are using.
+     *
      * @param typeName
      * @return Access to the named resource being made available
      * @throws IOException
      */
-    FeatureSource<T,F> getFeatureSource(Name typeName) throws IOException;
+    FeatureSource<T, F> getFeatureSource(Name typeName) throws IOException;
 
     /**
      * Disposes of this data store and releases any resource that it is using.
@@ -203,7 +212,7 @@ public interface DataAccess<T extends FeatureType, F extends Feature> {
 
     //FeatureReader<T,F> getFeatureReader(Query query, Transaction transaction)
     //    throws IOException;
-    
+
     //FeatureWriter<T,F> getFeatureWriter(Name typeName, Filter filter, Transaction transaction)
     //    throws IOException;
 

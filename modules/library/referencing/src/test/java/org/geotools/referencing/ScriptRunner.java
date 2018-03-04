@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -32,11 +32,9 @@ import org.opengis.geometry.MismatchedDimensionException;
  * used by {@link ScriptTest}. It can also be run from the command line for executing all
  * files specified in argument.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
  */
 public final class ScriptRunner extends Console {
     /**
@@ -89,7 +87,7 @@ public final class ScriptRunner extends Console {
             table.write("Success rate:");
             table.nextColumn();
             table.setAlignment(TableWriter.ALIGN_RIGHT);
-            table.write(f.format((double)testPassed / (double)testRun));
+            table.write(f.format((double) testPassed / (double) testRun));
             table.nextLine();
         }
         table.writeHorizontalSeparator();
@@ -102,7 +100,7 @@ public final class ScriptRunner extends Console {
     public static void main(final String[] args) {
         final String lineSeparator = System.getProperty("line.separator", "\r");
         try {
-            for (int i=0; i<args.length; i++) {
+            for (int i = 0; i < args.length; i++) {
                 final String filename = args[i];
                 final LineNumberReader in = new LineNumberReader(new FileReader(filename));
                 final ScriptRunner test = new ScriptRunner(in);

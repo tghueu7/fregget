@@ -42,15 +42,20 @@ import com.vividsolutions.jts.geom.Envelope;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:EnvelopeType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="EnvelopeType"&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;Envelope defines an extent using a pair of positions defining opposite corners in arbitrary dimensions. The first direct
- *                          position is the "lower corner" (a coordinate position consisting of all the minimal ordinates for each dimension for all points within the envelope),
- *                          the second one the "upper corner" (a coordinate position consisting of all the maximal ordinates for each dimension for all points within the
+ *          &lt;documentation&gt;Envelope defines an extent using a pair of positions defining 
+ *          opposite corners in arbitrary dimensions. The first direct
+ *                          position is the "lower corner" (a coordinate position consisting of 
+ *                          all the minimal ordinates for each dimension for all points within 
+ *                          the envelope),
+ *                          the second one the "upper corner" (a coordinate position consisting 
+ *                          of all the maximal ordinates for each dimension for all points within
+ *                          the
  *                          envelope).&lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;choice&gt;
@@ -67,12 +72,14 @@ import com.vividsolutions.jts.geom.Envelope;
  *          &lt;element maxOccurs="2" minOccurs="2" ref="gml:pos"&gt;
  *              &lt;annotation&gt;
  *                  &lt;appinfo&gt;deprecated&lt;/appinfo&gt;
- *                  &lt;documentation&gt;Deprecated with GML version 3.1. Use the explicit properties "lowerCorner" and "upperCorner" instead.&lt;/documentation&gt;
+ *                  &lt;documentation&gt;Deprecated with GML version 3.1. Use the explicit 
+ *                  properties "lowerCorner" and "upperCorner" instead.&lt;/documentation&gt;
  *              &lt;/annotation&gt;
  *          &lt;/element&gt;
  *          &lt;element ref="gml:coordinates"&gt;
  *              &lt;annotation&gt;
- *                  &lt;documentation&gt;Deprecated with GML version 3.1.0. Use the explicit properties "lowerCorner" and "upperCorner" instead.&lt;/documentation&gt;
+ *                  &lt;documentation&gt;Deprecated with GML version 3.1.0. Use the explicit 
+ *                  properties "lowerCorner" and "upperCorner" instead.&lt;/documentation&gt;
  *              &lt;/annotation&gt;
  *          &lt;/element&gt;
  *      &lt;/choice&gt;
@@ -84,9 +91,6 @@ import com.vividsolutions.jts.geom.Envelope;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class EnvelopeTypeBinding extends AbstractComplexBinding {
@@ -122,7 +126,7 @@ public class EnvelopeTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         CoordinateReferenceSystem crs = GML3ParsingUtils.crs(node);
 
         if (node.getChild("lowerCorner") != null) {
@@ -130,10 +134,12 @@ public class EnvelopeTypeBinding extends AbstractComplexBinding {
             DirectPosition u = (DirectPosition) node.getChildValue("upperCorner");
 
             if (l.getDimension() > 2) {
-        		return new ReferencedEnvelope3D(u.getOrdinate(0), l.getOrdinate(0), u.getOrdinate(1), l.getOrdinate(1), u.getOrdinate(2), l.getOrdinate(2), crs);
-        	}
-        	
-        	return new ReferencedEnvelope(u.getOrdinate(0), l.getOrdinate(0), u.getOrdinate(1), l.getOrdinate(1), crs);
+                return new ReferencedEnvelope3D(u.getOrdinate(0), l.getOrdinate(0), u.getOrdinate
+                        (1), l.getOrdinate(1), u.getOrdinate(2), l.getOrdinate(2), crs);
+            }
+
+            return new ReferencedEnvelope(u.getOrdinate(0), l.getOrdinate(0), u.getOrdinate(1), l
+                    .getOrdinate(1), crs);
         }
 
         if (node.hasChild(Coordinate.class)) {
@@ -142,9 +148,9 @@ public class EnvelopeTypeBinding extends AbstractComplexBinding {
             Coordinate c2 = (Coordinate) c.get(1);
 
             if (!Double.isNaN(c1.z)) {
-            	return new ReferencedEnvelope3D(c1.x, c2.x, c1.y, c2.y, c1.z, c1.z, crs);
+                return new ReferencedEnvelope3D(c1.x, c2.x, c1.y, c2.y, c1.z, c1.z, crs);
             } else {
-            	return new ReferencedEnvelope(c1.x, c2.x, c1.y, c2.y, crs);
+                return new ReferencedEnvelope(c1.x, c2.x, c1.y, c2.y, crs);
             }
         }
 
@@ -154,20 +160,25 @@ public class EnvelopeTypeBinding extends AbstractComplexBinding {
             DirectPosition dp2 = (DirectPosition) dp.get(1);
 
             if (dp1.getDimension() > 2) {
-        		return new ReferencedEnvelope3D(dp1.getOrdinate(0), dp2.getOrdinate(0), dp1.getOrdinate(1), dp2.getOrdinate(1), dp1.getOrdinate(2), dp2.getOrdinate(2), crs);
-        	} else {
-        		return new ReferencedEnvelope(dp1.getOrdinate(0), dp2.getOrdinate(0),
-        				dp1.getOrdinate(1), dp2.getOrdinate(1), crs);
-        	}
+                return new ReferencedEnvelope3D(dp1.getOrdinate(0), dp2.getOrdinate(0), 
+                        dp1.getOrdinate(1), dp2.getOrdinate(1), dp1.getOrdinate(2), 
+                        dp2.getOrdinate(2), crs);
+            } else {
+                return new ReferencedEnvelope(dp1.getOrdinate(0), dp2.getOrdinate(0),
+                        dp1.getOrdinate(1), dp2.getOrdinate(1), crs);
+            }
         }
 
         if (node.hasChild(CoordinateSequence.class)) {
-            CoordinateSequence seq = (CoordinateSequence) node.getChildValue(CoordinateSequence.class);
-            
+            CoordinateSequence seq = (CoordinateSequence) node.getChildValue(CoordinateSequence
+                    .class);
+
             if (seq.getDimension() > 2) {
-            	return new ReferencedEnvelope3D(seq.getX(0), seq.getX(1), seq.getY(0), seq.getY(1), seq.getOrdinate (0, 2), seq.getOrdinate( 1, 2), crs);
-            } else {            
-            	return new ReferencedEnvelope(seq.getX(0), seq.getX(1), seq.getY(0), seq.getY(1), crs);
+                return new ReferencedEnvelope3D(seq.getX(0), seq.getX(1), seq.getY(0), seq.getY
+                        (1), seq.getOrdinate(0, 2), seq.getOrdinate(1, 2), crs);
+            } else {
+                return new ReferencedEnvelope(seq.getX(0), seq.getX(1), seq.getY(0), seq.getY(1),
+                        crs);
             }
         }
 
@@ -175,11 +186,12 @@ public class EnvelopeTypeBinding extends AbstractComplexBinding {
     }
 
     public Element encode(Object object, Document document, Element value)
-        throws Exception {
+            throws Exception {
         Envelope envelope = (Envelope) object;
 
         if (envelope.isNull()) {
-            value.appendChild(document.createElementNS(getTarget().getNamespaceURI(), GML.Null.getLocalPart()));
+            value.appendChild(document.createElementNS(getTarget().getNamespaceURI(), GML.Null
+                    .getLocalPart()));
         }
 
         return null;
@@ -193,11 +205,13 @@ public class EnvelopeTypeBinding extends AbstractComplexBinding {
         }
 
         if (name.getLocalPart().equals("lowerCorner")) {
-        	return new LiteCoordinateSequence(new double[] { envelope.getMinX(), envelope.getMinY() }, 2);
+            return new LiteCoordinateSequence(new double[]{envelope.getMinX(), envelope.getMinY()
+            }, 2);
         }
 
         if (name.getLocalPart().equals("upperCorner")) {
-        	return new LiteCoordinateSequence(new double[] { envelope.getMaxX(), envelope.getMaxY() }, 2);
+            return new LiteCoordinateSequence(new double[]{envelope.getMaxX(), envelope.getMaxY()
+            }, 2);
         }
 
         if (envelope instanceof ReferencedEnvelope) {

@@ -1,4 +1,3 @@
-
 package org.geotools.data.arcgisrest.schema.webservice;
 
 import com.google.gson.annotations.Expose;
@@ -10,31 +9,25 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class Prototype {
 
     /**
-     * 
      * (Required)
-     * 
      */
     @SerializedName("attributes")
     @Expose
     private Attributes attributes;
 
     /**
-     * 
      * (Required)
-     * 
-     * @return
-     *     The attributes
+     *
+     * @return The attributes
      */
     public Attributes getAttributes() {
         return attributes;
     }
 
     /**
-     * 
      * (Required)
-     * 
-     * @param attributes
-     *     The attributes
+     *
+     * @param attributes The attributes
      */
     public void setAttributes(Attributes attributes) {
         this.attributes = attributes;

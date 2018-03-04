@@ -40,18 +40,18 @@ import com.vividsolutions.jts.geom.Point;
 /**
  * A process that returns the centroids for the geometries in the
  * input feature collection.
- * 
- * @author Rohan Singh
- * 
  *
- * @source $URL: http://svn.osgeo.org/geotools/trunk/modules/unsupported/process-feature/src/main/java/org/geotools/process/feature/gs/CentroidProcess.java $
+ * @author Rohan Singh
+ * @source $URL: http://svn.osgeo.org/geotools/trunk/modules/unsupported/process-feature/src/main
+ * /java/org/geotools/process/feature/gs/CentroidProcess.java $
  */
 @DescribeProcess(title = "Centroid", description = "Computes the geometric centroids of features")
 public class CentroidProcess implements VectorProcess {
 
     @DescribeResult(name = "result", description = "Centroids of input features")
     public SimpleFeatureCollection execute(
-            @DescribeParameter(name = "features", description = "Input feature collection") SimpleFeatureCollection features)
+            @DescribeParameter(name = "features", description = "Input feature collection") 
+                    SimpleFeatureCollection features)
             throws ProcessException {
         return DataUtilities.simple(new CentroidFeatureCollection(features));
     }
@@ -70,17 +70,17 @@ public class CentroidProcess implements VectorProcess {
 
         @Override
         public ReferencedEnvelope getBounds() {
-            return DataUtilities.bounds( features() );
+            return DataUtilities.bounds(features());
         }
 
         @Override
         protected SimpleFeatureType buildTargetFeatureType() {
             SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
             for (AttributeDescriptor ad : delegate.getSchema().getAttributeDescriptors()) {
-                if(ad instanceof GeometryDescriptor) {
+                if (ad instanceof GeometryDescriptor) {
                     GeometryDescriptor gd = (GeometryDescriptor) ad;
                     Class<?> binding = ad.getType().getBinding();
-                    if(Point.class.isAssignableFrom(binding)) {
+                    if (Point.class.isAssignableFrom(binding)) {
                         tb.add(ad);
                     } else {
                         tb.minOccurs(ad.getMinOccurs());
@@ -124,7 +124,7 @@ public class CentroidProcess implements VectorProcess {
             SimpleFeature f = delegate.next();
             for (Object attribute : f.getAttributes()) {
                 if ((attribute instanceof Geometry) &&
-                    !(attribute instanceof Point)) {
+                        !(attribute instanceof Point)) {
                     attribute = ((Geometry) attribute).getCentroid();
                 }
                 fb.add(attribute);

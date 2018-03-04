@@ -23,29 +23,37 @@ import java.util.Map;
 
 /**
  * Represents a set of ArcSDE database connection parameters.
- * 
+ *
  * @author Gabriel Roldan
- *
- *
- * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/common/src/main/java/org/geotools
- *         /arcsde/session/ArcSDEConnectionConfig.java $
  * @version $Id$
+ * @source $URL$
+ * http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/common/src/main/java/org/geotools
+ * /arcsde/session/ArcSDEConnectionConfig.java $
  */
 public class ArcSDEConnectionConfig {
-    /** ArcSDE server parameter name */
+    /**
+     * ArcSDE server parameter name
+     */
     public static final String SERVER_NAME_PARAM_NAME = "server";
 
-    /** ArcSDE server port parameter name */
+    /**
+     * ArcSDE server port parameter name
+     */
     public static final String PORT_NUMBER_PARAM_NAME = "port";
 
-    /** ArcSDE database name parameter name */
+    /**
+     * ArcSDE database name parameter name
+     */
     public static final String INSTANCE_NAME_PARAM_NAME = "instance";
 
-    /** ArcSDE database user name parameter name */
+    /**
+     * ArcSDE database user name parameter name
+     */
     public static final String USER_NAME_PARAM_NAME = "user";
 
-    /** ArcSDE database user password parameter name */
+    /**
+     * ArcSDE database user password parameter name
+     */
     public static final String PASSWORD_PARAM_NAME = "password";
 
     public static final String MIN_CONNECTIONS_PARAM_NAME = "pool.minConnections";
@@ -54,28 +62,44 @@ public class ArcSDEConnectionConfig {
 
     public static final String CONNECTION_TIMEOUT_PARAM_NAME = "pool.timeOut";
 
-    /** name or IP of the ArcSDE server to connect to */
+    /**
+     * name or IP of the ArcSDE server to connect to
+     */
     private String serverName;
 
-    /** port number where the ArcSDE instance listens for connections */
+    /**
+     * port number where the ArcSDE instance listens for connections
+     */
     private String portNumber;
 
-    /** name of the ArcSDE database to connect to */
+    /**
+     * name of the ArcSDE database to connect to
+     */
     private String databaseName;
 
-    /** database user name to connect as */
+    /**
+     * database user name to connect as
+     */
     private String userName;
 
-    /** database user password */
+    /**
+     * database user password
+     */
     private String password;
 
-    /** minimum number of connection held in reserve, often 0 */
+    /**
+     * minimum number of connection held in reserve, often 0
+     */
     private Integer minConnections = null;
 
-    /** maximum number of connections */
+    /**
+     * maximum number of connections
+     */
     private Integer maxConnections = null;
 
-    /** time to hold onto an idle connection before cleaning it up */
+    /**
+     * time to hold onto an idle connection before cleaning it up
+     */
     private Integer connTimeOut = null;
 
     public ArcSDEConnectionConfig() throws IllegalArgumentException {
@@ -185,7 +209,7 @@ public class ArcSDEConnectionConfig {
         int prime = 17;
         int hash = prime
                 * (hash(serverName) + hash(portNumber) + hash(databaseName) + hash(userName)
-                        + hash(password) + hash(minConnections) + hash(maxConnections) + hash(connTimeOut));
+                + hash(password) + hash(minConnections) + hash(maxConnections) + hash(connTimeOut));
         return hash;
     }
 
@@ -201,9 +225,12 @@ public class ArcSDEConnectionConfig {
         config.setServerName(String.valueOf(map.get(SERVER_NAME_PARAM_NAME)));
         config.setUserName(String.valueOf(map.get(USER_NAME_PARAM_NAME)));
 
-        config.setConnTimeOut(Integer.valueOf(String.valueOf(map.get(CONNECTION_TIMEOUT_PARAM_NAME))));
-        config.setMaxConnections(Integer.valueOf(String.valueOf(map.get(MAX_CONNECTIONS_PARAM_NAME))));
-        config.setMinConnections(Integer.valueOf(String.valueOf(map.get(MIN_CONNECTIONS_PARAM_NAME))));
+        config.setConnTimeOut(Integer.valueOf(String.valueOf(map.get
+                (CONNECTION_TIMEOUT_PARAM_NAME))));
+        config.setMaxConnections(Integer.valueOf(String.valueOf(map.get
+                (MAX_CONNECTIONS_PARAM_NAME))));
+        config.setMinConnections(Integer.valueOf(String.valueOf(map.get
+                (MIN_CONNECTIONS_PARAM_NAME))));
 
         return config;
     }

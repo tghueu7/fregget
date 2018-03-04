@@ -34,11 +34,8 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Tests for {@link SimpleFeatureImpl}.
- * 
+ *
  * @author Ben Caradoc-Davies, CSIRO Exploration and Mining
- *
- *
- *
  * @source $URL$
  */
 public class SimpleFeatureTypeImplTest extends TestCase {
@@ -50,7 +47,8 @@ public class SimpleFeatureTypeImplTest extends TestCase {
     public void testConsistentIterationOrder() {
         SimpleFeatureType type = buildLocationCountType();
         assertEquals(
-                "FeatureType and SimpleFeatureType APIs must return the same descriptors in the same order",
+                "FeatureType and SimpleFeatureType APIs must return the same descriptors in the " +
+                        "same order",
                 new ArrayList<PropertyDescriptor>(type.getAttributeDescriptors()),
                 new ArrayList<PropertyDescriptor>(type.getDescriptors()));
     }
@@ -82,7 +80,8 @@ public class SimpleFeatureTypeImplTest extends TestCase {
     }
 
     /**
-     * Test that calls to getType(int) from multiple threads will not throw an IndexOutOfBoundsException
+     * Test that calls to getType(int) from multiple threads will not throw an 
+     * IndexOutOfBoundsException
      * due to poor synchronization
      */
     public void testGetTypeThreadSafety() {
@@ -130,7 +129,7 @@ public class SimpleFeatureTypeImplTest extends TestCase {
      */
     private SimpleFeatureType buildLocationCountType() {
         SimpleFeatureTypeBuilder builder = buildPartialBuilder();
-        builder.add("location", Point.class, (CoordinateReferenceSystem) null );
+        builder.add("location", Point.class, (CoordinateReferenceSystem) null);
         builder.add("count", Integer.class);
         return builder.buildFeatureType();
     }
@@ -147,7 +146,7 @@ public class SimpleFeatureTypeImplTest extends TestCase {
 
     /**
      * @return a simple feature type builder that is ready for the addition of location and count
-     *         properties
+     * properties
      */
     private SimpleFeatureTypeBuilder buildPartialBuilder() {
         String uri = "http://example.org/things";

@@ -27,7 +27,7 @@ import org.opengis.filter.Filter;
 
 /**
  * Tests to see if an attribute is equal to a provided value.
- * 
+ * <p>
  * <p>
  * I can only see this test being useful if a Filter is also used. Online
  * research shows that this test is used in the wild, so we are adding it into
@@ -36,21 +36,25 @@ import org.opengis.filter.Filter;
  *
  * @author Jody Garnett, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class EqualityValidation extends DefaultFeatureValidation {
-    /** The logger for the validation module. */
+    /**
+     * The logger for the validation module.
+     */
     private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger(
             "org.geotools.validation");
     private String attributeName;
 
-    /** Expected value that attribute are supposed to equal */
+    /**
+     * Expected value that attribute are supposed to equal
+     */
     private Object expected;
 
-    /** Filter used to limit the number of Features we check */
+    /**
+     * Filter used to limit the number of Features we check
+     */
     private Filter filter = Filter.INCLUDE;
 
     /**
@@ -63,7 +67,6 @@ public class EqualityValidation extends DefaultFeatureValidation {
      * The priority level used to schedule this Validation.
      *
      * @return PRORITY_SIMPLE
-     *
      * @see org.geotools.validation.Validation#getPriority()
      */
     public int getPriority() {
@@ -74,7 +77,6 @@ public class EqualityValidation extends DefaultFeatureValidation {
      * Implementation of getTypeNames.
      *
      * @return Array of typeNames, or empty array for all, null for disabled
-     *
      * @see org.geotools.validation.Validation#getTypeRefs()
      */
     public String[] getTypeRefs() {
@@ -86,26 +88,24 @@ public class EqualityValidation extends DefaultFeatureValidation {
             return ALL;
         }
 
-        return new String[] { getTypeRef(), };
+        return new String[]{getTypeRef(),};
     }
 
     /**
      * Validation test for feature.
-     * 
+     * <p>
      * <p>
      * Description of test ...
      * </p>
      *
      * @param feature The Feature to be validated
-     * @param type The FeatureType of the feature
+     * @param type    The FeatureType of the feature
      * @param results The storage for error messages.
-     *
      * @return <code>true</code> if the feature is a valid geometry.
-     *
      * @see org.geotools.validation.FeatureValidation#validate
      */
     public boolean validate(SimpleFeature feature, SimpleFeatureType type,
-        ValidationResults results) {
+                            ValidationResults results) {
         if (!filter.evaluate(feature)) {
             return true;
         }
@@ -117,7 +117,7 @@ public class EqualityValidation extends DefaultFeatureValidation {
         }
 
         results.error(feature, attributeName + " did not not equals "
-            + expected);
+                + expected);
 
         return false;
     }

@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import javax.measure.unit.SI;
+
 import static java.lang.Math.*;
 
 import org.opengis.util.GenericName;
@@ -52,32 +53,33 @@ import org.geotools.resources.i18n.Errors;
  * reference system to another (a datum shift), using three shift parameters (delta X, delta Y,
  * delta Z) and the difference between the semi-major axis and flattenings of the two ellipsoids.
  * <p>
- *
+ * <p>
  * Unlike the Bursa-Wolf 3 parameter method (which acts on geocentric coordinates),
  * this transformation can be performed directly on geographic coordinates.
  * <p>
- *
+ * <p>
  * <strong>References:</strong><ul>
- *   <li> Defense Mapping Agency (DMA), Datums, Ellipsoids, Grids and Grid Reference Systems,
- *        Technical Manual 8358.1.
- *        Available from <a href="http://earth-info.nga.mil/GandG/pubs.html">http://earth-info.nga.mil/GandG/pubs.html</a></li>
- *   <li> Defense Mapping Agency (DMA), The Universal Grids: Universal Transverse
- *        Mercator (UTM) and Universal Polar Stereographic (UPS), Fairfax VA, Technical Manual 8358.2.
- *        Available from <a href="http://earth-info.nga.mil/GandG/pubs.html">http://earth-info.nga.mil/GandG/pubs.html</a></li>
- *   <li> National Imagery and Mapping Agency (NIMA), Department of Defense World
- *        Geodetic System 1984, Technical Report 8350.2.
- *        Available from <a href="http://earth-info.nga.mil/GandG/pubs.html">http://earth-info.nga.mil/GandG/pubs.html</a></li>
- *   <li> "Coordinate Conversions and Transformations including Formulas",
- *        EPSG Guidence Note Number 7, Version 19.</li>
+ * <li> Defense Mapping Agency (DMA), Datums, Ellipsoids, Grids and Grid Reference Systems,
+ * Technical Manual 8358.1.
+ * Available from <a href="http://earth-info.nga.mil/GandG/pubs.html">http://earth-info.nga
+ * .mil/GandG/pubs.html</a></li>
+ * <li> Defense Mapping Agency (DMA), The Universal Grids: Universal Transverse
+ * Mercator (UTM) and Universal Polar Stereographic (UPS), Fairfax VA, Technical Manual 8358.2.
+ * Available from <a href="http://earth-info.nga.mil/GandG/pubs.html">http://earth-info.nga
+ * .mil/GandG/pubs.html</a></li>
+ * <li> National Imagery and Mapping Agency (NIMA), Department of Defense World
+ * Geodetic System 1984, Technical Report 8350.2.
+ * Available from <a href="http://earth-info.nga.mil/GandG/pubs.html">http://earth-info.nga
+ * .mil/GandG/pubs.html</a></li>
+ * <li> "Coordinate Conversions and Transformations including Formulas",
+ * EPSG Guidence Note Number 7, Version 19.</li>
  * </ul>
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Rueben Schulz
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class MolodenskiTransform extends AbstractMathTransform implements Serializable {
     /**
@@ -166,28 +168,27 @@ public class MolodenskiTransform extends AbstractMathTransform implements Serial
      * @param dz       The <var>z</var> translation in meters.
      */
     public MolodenskiTransform(final boolean abridged,
-                               final double  a, final double  b, final boolean source3D,
+                               final double a, final double b, final boolean source3D,
                                final double ta, final double tb, final boolean target3D,
-                               final double dx, final double dy, final double  dz)
-    {
+                               final double dx, final double dy, final double dz) {
         this.abridged = abridged;
         this.source3D = source3D;
         this.target3D = target3D;
-        this.dx       = dx;
-        this.dy       = dy;
-        this.dz       = dz;
-        this.a        = a;
-        this.b        = b;
+        this.dx = dx;
+        this.dy = dy;
+        this.dz = dz;
+        this.a = a;
+        this.b = b;
 
-        da    =  ta - a;
-        db    =  tb - b;
-        a_b   =  a / b;
-        b_a   =  b / a;
-        daa   =  da * a;
-        da_a  =  da / a;
-        df    =  (ta-tb)/ta - (a-b)/a;
-        e2    =  1 - (b*b)/(a*a);
-        adf   =  (a*df) + (a-b)*da/a;
+        da = ta - a;
+        db = tb - b;
+        a_b = a / b;
+        b_a = b / a;
+        daa = da * a;
+        da_a = da / a;
+        df = (ta - tb) / ta - (a - b) / a;
+        e2 = 1 - (b * b) / (a * a);
+        adf = (a * df) + (a - b) * da / a;
     }
 
     /**
@@ -208,16 +209,16 @@ public class MolodenskiTransform extends AbstractMathTransform implements Serial
         final ParameterValue<Integer> dim = new Parameter<Integer>(Provider.DIM);
         dim.setValue(getSourceDimensions());
         return new ParameterGroup(getParameterDescriptors(),
-               new ParameterValue[] {
-                   dim,
-                   new FloatParameter(Provider.DX,             dx),
-                   new FloatParameter(Provider.DY,             dy),
-                   new FloatParameter(Provider.DZ,             dz),
-                   new FloatParameter(Provider.SRC_SEMI_MAJOR, a),
-                   new FloatParameter(Provider.SRC_SEMI_MINOR, b),
-                   new FloatParameter(Provider.TGT_SEMI_MAJOR, a+da),
-                   new FloatParameter(Provider.TGT_SEMI_MINOR, b+db)
-               });
+                new ParameterValue[]{
+                        dim,
+                        new FloatParameter(Provider.DX, dx),
+                        new FloatParameter(Provider.DY, dy),
+                        new FloatParameter(Provider.DZ, dz),
+                        new FloatParameter(Provider.SRC_SEMI_MAJOR, a),
+                        new FloatParameter(Provider.SRC_SEMI_MINOR, b),
+                        new FloatParameter(Provider.TGT_SEMI_MAJOR, a + da),
+                        new FloatParameter(Provider.TGT_SEMI_MINOR, b + db)
+                });
     }
 
     /**
@@ -240,9 +241,9 @@ public class MolodenskiTransform extends AbstractMathTransform implements Serial
      * The supplied array of ordinal values will contain packed ordinal
      * values.  For example, if the source dimension is 3, then the ordinals
      * will be packed in this order:
-     *
+     * <p>
      * (<var>x<sub>0</sub></var>,<var>y<sub>0</sub></var>,<var>z<sub>0</sub></var>,
-     *  <var>x<sub>1</sub></var>,<var>y<sub>1</sub></var>,<var>z<sub>1</sub></var> ...).
+     * <var>x<sub>1</sub></var>,<var>y<sub>1</sub></var>,<var>z<sub>1</sub></var> ...).
      *
      * @param srcPts the array containing the source point coordinates.
      * @param srcOff the offset to the first point to be transformed
@@ -256,8 +257,7 @@ public class MolodenskiTransform extends AbstractMathTransform implements Serial
      * @param numPts the number of point objects to be transformed.
      */
     public void transform(double[] srcPts, int srcOff,
-                          double[] dstPts, int dstOff, int numPts)
-    {
+                          double[] dstPts, int dstOff, int numPts) {
         transform(null, srcPts, srcOff, null, dstPts, dstOff, numPts);
         /*
          * Assertions: computes the inverse transform in the 3D-case only
@@ -269,7 +269,7 @@ public class MolodenskiTransform extends AbstractMathTransform implements Serial
          * would be executed everytime and would hurt performance for normal operations
          * (instead of slowing down during debugging only).
          */
-        assert !(target3D && srcPts!=dstPts &&
+        assert !(target3D && srcPts != dstPts &&
                 (maxError(null, srcPts, srcOff, null, dstPts, dstOff, numPts)) > EPS);
     }
 
@@ -279,9 +279,9 @@ public class MolodenskiTransform extends AbstractMathTransform implements Serial
      * The supplied array of ordinal values will contain packed ordinal
      * values.  For example, if the source dimension is 3, then the ordinals
      * will be packed in this order:
-     *
+     * <p>
      * (<var>x<sub>0</sub></var>,<var>y<sub>0</sub></var>,<var>z<sub>0</sub></var>,
-     *  <var>x<sub>1</sub></var>,<var>y<sub>1</sub></var>,<var>z<sub>1</sub></var> ...).
+     * <var>x<sub>1</sub></var>,<var>y<sub>1</sub></var>,<var>z<sub>1</sub></var> ...).
      *
      * @param srcPts the array containing the source point coordinates.
      * @param srcOff the offset to the first point to be transformed
@@ -296,8 +296,7 @@ public class MolodenskiTransform extends AbstractMathTransform implements Serial
      */
     @Override
     public void transform(final float[] srcPts, int srcOff,
-                          final float[] dstPts, int dstOff, int numPts)
-    {
+                          final float[] dstPts, int dstOff, int numPts) {
         transform(srcPts, null, srcOff, dstPts, null, dstOff, numPts);
         /*
          * Assertions: computes the inverse transform in the 3D-case only
@@ -309,7 +308,7 @@ public class MolodenskiTransform extends AbstractMathTransform implements Serial
          * would be executed everytime and would hurt performance for normal operations
          * (instead of slowing down during debugging only).
          */
-        assert !(target3D && srcPts!=dstPts &&
+        assert !(target3D && srcPts != dstPts &&
                 (maxError(srcPts, null, srcOff, dstPts, null, dstOff, numPts)) > EPS);
     }
 
@@ -317,12 +316,10 @@ public class MolodenskiTransform extends AbstractMathTransform implements Serial
      * Implementation of the transformation methods for all cases.
      */
     private void transform(final float[] srcPts1, final double[] srcPts2, int srcOff,
-                           final float[] dstPts1, final double[] dstPts2, int dstOff, int numPts)
-    {
+                           final float[] dstPts1, final double[] dstPts2, int dstOff, int numPts) {
         int step = 0;
-        if ((srcPts2!=null ? srcPts2==dstPts2 : srcPts1==dstPts1) &&
-            srcOff<dstOff && srcOff+numPts*getSourceDimensions()>dstOff)
-        {
+        if ((srcPts2 != null ? srcPts2 == dstPts2 : srcPts1 == dstPts1) &&
+                srcOff < dstOff && srcOff + numPts * getSourceDimensions() > dstOff) {
             if (source3D != target3D) {
                 // TODO: we need to figure out a general way to handle this case
                 //       (overwritting the source array  while source and target
@@ -331,19 +328,19 @@ public class MolodenskiTransform extends AbstractMathTransform implements Serial
                 throw new UnsupportedOperationException("Not yet implemented.");
             }
             step = getSourceDimensions();
-            srcOff += (numPts-1)*step;
-            dstOff += (numPts-1)*step;
+            srcOff += (numPts - 1) * step;
+            dstOff += (numPts - 1) * step;
             step *= -2;
         }
         while (--numPts >= 0) {
-            double x,y,z;
+            double x, y, z;
             if (srcPts2 != null) {
-                x =              srcPts2[srcOff++];
-                y =              srcPts2[srcOff++];
+                x = srcPts2[srcOff++];
+                y = srcPts2[srcOff++];
                 z = (source3D) ? srcPts2[srcOff++] : 0.0;
             } else {
-                x =              srcPts1[srcOff++];
-                y =              srcPts1[srcOff++];
+                x = srcPts1[srcOff++];
+                y = srcPts1[srcOff++];
                 z = (source3D) ? srcPts1[srcOff++] : 0.0;
             }
             x = toRadians(x);
@@ -353,8 +350,8 @@ public class MolodenskiTransform extends AbstractMathTransform implements Serial
             final double sinY = sin(y);
             final double cosY = cos(y);
             final double sin2Y = sinY * sinY;
-            final double Rn = a / sqrt(1 - e2*sin2Y);
-            final double Rm = Rn * (1 - e2) / (1 - e2*sin2Y);
+            final double Rn = a / sqrt(1 - e2 * sin2Y);
+            final double Rm = Rn * (1 - e2) / (1 - e2 * sin2Y);
 
             // Note: Computation of 'x' and 'y' ommit the division by sin(1"), because
             //       1/sin(1") / (60*60*180/PI) = 1.0000000000039174050898603898692...
@@ -362,15 +359,15 @@ public class MolodenskiTransform extends AbstractMathTransform implements Serial
             //       and 180/PI is for converting degrees to radians). This is an error
             //       of about 8E-7 arc seconds, probably close to rounding errors anyway.
             if (abridged) {
-                y += (dz*cosY - sinY*(dy*sinX + dx*cosX) + adf*sin(2*y)) / Rm;
-                x += (dy*cosX - dx*sinX) / (Rn*cosY);
+                y += (dz * cosY - sinY * (dy * sinX + dx * cosX) + adf * sin(2 * y)) / Rm;
+                x += (dy * cosX - dx * sinX) / (Rn * cosY);
             } else {
-                y += (dz*cosY - sinY*(dy*sinX + dx*cosX) + da_a*(Rn*e2*sinY*cosY) +
-                      df*(Rm*(a_b) + Rn*(b_a))*sinY*cosY) / (Rm + z);
-                x += (dy*cosX - dx*sinX) / ((Rn + z)*cosY);
+                y += (dz * cosY - sinY * (dy * sinX + dx * cosX) + da_a * (Rn * e2 * sinY * cosY) +
+                        df * (Rm * (a_b) + Rn * (b_a)) * sinY * cosY) / (Rm + z);
+                x += (dy * cosX - dx * sinX) / ((Rn + z) * cosY);
             }
             // stay within latitude +-90 deg. and longitude +-180 deg.
-            if (abs(y) > PI/2.0) {
+            if (abs(y) > PI / 2.0) {
                 if (dstPts2 != null) {
                     dstPts2[dstOff++] = 0.0;
                     dstPts2[dstOff++] = (y > 0.0) ? 90.0 : -90.0;
@@ -391,9 +388,10 @@ public class MolodenskiTransform extends AbstractMathTransform implements Serial
             }
             if (target3D) {
                 if (abridged) {
-                    z += dx*cosY*cosX + dy*cosY*sinX + dz*sinY + adf*sin2Y - da;
+                    z += dx * cosY * cosX + dy * cosY * sinX + dz * sinY + adf * sin2Y - da;
                 } else {
-                    z += dx*cosY*cosX + dy*cosY*sinX + dz*sinY + df*(b_a)*Rn*sin2Y - daa/Rn;
+                    z += dx * cosY * cosX + dy * cosY * sinX + dz * sinY + df * (b_a) * Rn * 
+                            sin2Y - daa / Rn;
                 }
                 if (dstPts2 != null) {
                     dstPts2[dstOff++] = z;
@@ -412,8 +410,7 @@ public class MolodenskiTransform extends AbstractMathTransform implements Serial
      * returned. This method is used for assertions.
      */
     private float maxError(final float[] srcPts1, final double[] srcPts2, int srcOff,
-                           final float[] dstPts1, final double[] dstPts2, int dstOff, int numPts)
-    {
+                           final float[] dstPts1, final double[] dstPts2, int dstOff, int numPts) {
         float max = 0f;
         if (inverse == null) {
             inverse();
@@ -424,12 +421,15 @@ public class MolodenskiTransform extends AbstractMathTransform implements Serial
         final int sourceDim = getSourceDimensions();
         final float[] tmp = new float[numPts * sourceDim];
         inverse.transform(dstPts1, dstPts2, dstOff, tmp, null, 0, numPts);
-        for (int i=0; i<tmp.length; i++,srcOff++) {
-            final float expected = (srcPts2!=null) ? (float)srcPts2[srcOff] : srcPts1[srcOff];
+        for (int i = 0; i < tmp.length; i++, srcOff++) {
+            final float expected = (srcPts2 != null) ? (float) srcPts2[srcOff] : srcPts1[srcOff];
             float error = abs(tmp[i] - expected);
             switch (i % sourceDim) {
-                case 0: error -= 360 * floor(error / 360); break; // Rool Longitude
-                case 2: continue; // Ignore height because inacurate.
+                case 0:
+                    error -= 360 * floor(error / 360);
+                    break; // Rool Longitude
+                case 2:
+                    continue; // Ignore height because inacurate.
             }
             if (error > max) {
                 max = error;
@@ -443,9 +443,9 @@ public class MolodenskiTransform extends AbstractMathTransform implements Serial
      * This transform is considered identity (minus rounding errors) if:
      * <p>
      * <ul>
-     *   <li>the X,Y,Z shift are zero</li>
-     *   <li>the source and target axis length are the same</li>
-     *   <li>the input and output dimension are the same.</li>
+     * <li>the X,Y,Z shift are zero</li>
+     * <li>the source and target axis length are the same</li>
+     * <li>the input and output dimension are the same.</li>
      * </ul>
      *
      * @since 2.5
@@ -462,7 +462,7 @@ public class MolodenskiTransform extends AbstractMathTransform implements Serial
     public MathTransform inverse() {
         if (inverse == null) {
             inverse = new MolodenskiTransform(abridged,
-                      a+da, b+db, target3D, a, b, source3D, -dx, -dy, -dz);
+                    a + da, b + db, target3D, a, b, source3D, -dx, -dy, -dz);
             inverse.inverse = this;
         }
         return inverse;
@@ -474,13 +474,13 @@ public class MolodenskiTransform extends AbstractMathTransform implements Serial
     @Override
     public final int hashCode() {
         final long code = Double.doubleToLongBits(dx) +
-                      37*(Double.doubleToLongBits(dy) +
-                      37*(Double.doubleToLongBits(dz) +
-                      37*(Double.doubleToLongBits(a ) +
-                      37*(Double.doubleToLongBits(b ) +
-                      37*(Double.doubleToLongBits(da) +
-                      37*(Double.doubleToLongBits(db)))))));
-        int c = (int) code ^ (int) (code >>> 32) ^ (int)serialVersionUID;
+                37 * (Double.doubleToLongBits(dy) +
+                        37 * (Double.doubleToLongBits(dz) +
+                                37 * (Double.doubleToLongBits(a) +
+                                        37 * (Double.doubleToLongBits(b) +
+                                                37 * (Double.doubleToLongBits(da) +
+                                                        37 * (Double.doubleToLongBits(db)))))));
+        int c = (int) code ^ (int) (code >>> 32) ^ (int) serialVersionUID;
         if (abridged) c = ~c;
         return c;
     }
@@ -497,15 +497,15 @@ public class MolodenskiTransform extends AbstractMathTransform implements Serial
         if (super.equals(object)) {
             final MolodenskiTransform that = (MolodenskiTransform) object;
             return this.abridged == that.abridged &&
-                   this.source3D == that.source3D &&
-                   this.target3D == that.target3D &&
-                   Double.doubleToLongBits(this.dx) == Double.doubleToLongBits(that.dx) &&
-                   Double.doubleToLongBits(this.dy) == Double.doubleToLongBits(that.dy) &&
-                   Double.doubleToLongBits(this.dz) == Double.doubleToLongBits(that.dz) &&
-                   Double.doubleToLongBits(this.a ) == Double.doubleToLongBits(that.a ) &&
-                   Double.doubleToLongBits(this.b ) == Double.doubleToLongBits(that.b ) &&
-                   Double.doubleToLongBits(this.da) == Double.doubleToLongBits(that.da) &&
-                   Double.doubleToLongBits(this.db) == Double.doubleToLongBits(that.db);
+                    this.source3D == that.source3D &&
+                    this.target3D == that.target3D &&
+                    Double.doubleToLongBits(this.dx) == Double.doubleToLongBits(that.dx) &&
+                    Double.doubleToLongBits(this.dy) == Double.doubleToLongBits(that.dy) &&
+                    Double.doubleToLongBits(this.dz) == Double.doubleToLongBits(that.dz) &&
+                    Double.doubleToLongBits(this.a) == Double.doubleToLongBits(that.a) &&
+                    Double.doubleToLongBits(this.b) == Double.doubleToLongBits(that.b) &&
+                    Double.doubleToLongBits(this.da) == Double.doubleToLongBits(that.da) &&
+                    Double.doubleToLongBits(this.db) == Double.doubleToLongBits(that.db);
         }
         return false;
     }
@@ -515,19 +515,24 @@ public class MolodenskiTransform extends AbstractMathTransform implements Serial
      * {@link MolodenksiTransform} except that it implements {@link MathTransform2D}.
      */
     private static final class As2D extends MolodenskiTransform implements MathTransform2D {
-        /** Serial number for compatibility with different versions. */
+        /**
+         * Serial number for compatibility with different versions.
+         */
         private static final long serialVersionUID = 8098439371246167474L;
 
-        /** Constructs a 2D transform using Molodenski formulas. */
+        /**
+         * Constructs a 2D transform using Molodenski formulas.
+         */
         public As2D(final boolean abridged,
-                    final double  a, final double  b,
+                    final double a, final double b,
                     final double ta, final double tb,
-                    final double dx, final double dy, final double  dz)
-        {
+                    final double dx, final double dy, final double dz) {
             super(abridged, a, b, false, ta, tb, false, dx, dy, dz);
         }
 
-        /** Creates the inverse transform of this object. */
+        /**
+         * Creates the inverse transform of this object.
+         */
         @Override
         public MathTransform2D inverse() {
             if (super.inverse == null) {
@@ -550,8 +555,8 @@ public class MolodenskiTransform extends AbstractMathTransform implements Serial
      * The EPSG does not use src_semi_major, etc. parameters and instead uses
      * "Semi-major axis length difference" and "Flattening difference".
      *
-     * @version $Id$
      * @author Rueben Schulz
+     * @version $Id$
      */
     public static class Provider extends MathTransformProvider {
         /**
@@ -570,10 +575,10 @@ public class MolodenskiTransform extends AbstractMathTransform implements Serial
          * The number of geographic dimension (2 or 3). This argument applies on
          * both the source and the target dimension. The default value is 2.
          */
-        public static final ParameterDescriptor<Integer> DIM =DefaultParameterDescriptor.create(
-                    Collections.singletonMap(NAME_KEY,
+        public static final ParameterDescriptor<Integer> DIM = DefaultParameterDescriptor.create(
+                Collections.singletonMap(NAME_KEY,
                         new NamedIdentifier(Citations.OGC, "dim")),
-                    DEFAULT_DIMENSION, 2, 3, false);
+                DEFAULT_DIMENSION, 2, 3, false);
 
         /**
          * The number of source geographic dimension (2 or 3).
@@ -646,7 +651,9 @@ public class MolodenskiTransform extends AbstractMathTransform implements Serial
                 identifiers(GeocentricTranslation.Provider.TGT_SEMI_MINOR),
                 Double.NaN, 0.0, Double.POSITIVE_INFINITY, SI.METER);
 
-        /** Helper method for parameter descriptor creation. */
+        /**
+         * Helper method for parameter descriptor creation.
+         */
         private static final NamedIdentifier[] identifiers(final ParameterDescriptor parameter) {
             final Collection<GenericName> id = parameter.getAlias();
             return id.toArray(new NamedIdentifier[id.size()]);
@@ -655,17 +662,18 @@ public class MolodenskiTransform extends AbstractMathTransform implements Serial
         /**
          * The parameters group.
          */
-        static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(new NamedIdentifier[] {
-                new NamedIdentifier(Citations.OGC,      "Molodenski"),
-                new NamedIdentifier(Citations.EPSG,     "Molodenski"),
-                new NamedIdentifier(Citations.EPSG,     "9604"),
+        static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(new 
+                NamedIdentifier[]{
+                new NamedIdentifier(Citations.OGC, "Molodenski"),
+                new NamedIdentifier(Citations.EPSG, "Molodenski"),
+                new NamedIdentifier(Citations.EPSG, "9604"),
                 new NamedIdentifier(Citations.GEOTOOLS, Vocabulary.formatInternational(
-                                                        VocabularyKeys.MOLODENSKI_TRANSFORM))
-            }, new ParameterDescriptor[] {
+                        VocabularyKeys.MOLODENSKI_TRANSFORM))
+        }, new ParameterDescriptor[]{
                 DIM, DX, DY, DZ,
                 SRC_SEMI_MAJOR, SRC_SEMI_MINOR,
                 TGT_SEMI_MAJOR, TGT_SEMI_MINOR
-            });
+        });
 
         /**
          * The provider for the 3D case. Will be constructed
@@ -689,8 +697,7 @@ public class MolodenskiTransform extends AbstractMathTransform implements Serial
          */
         Provider(final int sourceDimensions,
                  final int targetDimensions,
-                 final ParameterDescriptorGroup parameters)
-        {
+                 final ParameterDescriptorGroup parameters) {
             super(sourceDimensions, targetDimensions, parameters);
         }
 
@@ -705,13 +712,12 @@ public class MolodenskiTransform extends AbstractMathTransform implements Serial
         /**
          * Creates a math transform from the specified group of parameter values.
          *
-         * @param  values The group of parameter values.
+         * @param values The group of parameter values.
          * @return The created math transform.
          * @throws ParameterNotFoundException if a required parameter was not found.
          */
         protected MathTransform createMathTransform(final ParameterValueGroup values)
-                throws ParameterNotFoundException
-        {
+                throws ParameterNotFoundException {
             final boolean hasHeight;
             final int dim = intValue(DIM, values);
             switch (dim) {
@@ -732,13 +738,13 @@ public class MolodenskiTransform extends AbstractMathTransform implements Serial
                             ErrorKeys.ILLEGAL_ARGUMENT_$2, "dim", dim));
                 }
             }
-            final double  a = doubleValue(SRC_SEMI_MAJOR, values);
-            final double  b = doubleValue(SRC_SEMI_MINOR, values);
+            final double a = doubleValue(SRC_SEMI_MAJOR, values);
+            final double b = doubleValue(SRC_SEMI_MINOR, values);
             final double ta = doubleValue(TGT_SEMI_MAJOR, values);
             final double tb = doubleValue(TGT_SEMI_MINOR, values);
-            final double dx = doubleValue(DX,             values);
-            final double dy = doubleValue(DY,             values);
-            final double dz = doubleValue(DZ,             values);
+            final double dx = doubleValue(DX, values);
+            final double dy = doubleValue(DY, values);
+            final double dz = doubleValue(DZ, values);
             final boolean abridged = isAbridged();
             if (!hasHeight) {
                 return new As2D(abridged, a, b, ta, tb, dx, dy, dz);
@@ -775,9 +781,9 @@ public class MolodenskiTransform extends AbstractMathTransform implements Serial
      * The EPSG does not use src_semi_major, etc. parameters and instead uses
      * "Semi-major axis length difference" and "Flattening difference".
      *
-     * @version $Id$
      * @author Martin Desruisseaux
      * @author Rueben Schulz
+     * @version $Id$
      */
     public static class ProviderAbridged extends Provider {
         /**
@@ -788,17 +794,18 @@ public class MolodenskiTransform extends AbstractMathTransform implements Serial
         /**
          * The parameters group.
          */
-        static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(new NamedIdentifier[] {
-                new NamedIdentifier(Citations.OGC,      "Abridged_Molodenski"),
-                new NamedIdentifier(Citations.EPSG,     "Abridged Molodenski"),
-                new NamedIdentifier(Citations.EPSG,     "9605"),
+        static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(new 
+                NamedIdentifier[]{
+                new NamedIdentifier(Citations.OGC, "Abridged_Molodenski"),
+                new NamedIdentifier(Citations.EPSG, "Abridged Molodenski"),
+                new NamedIdentifier(Citations.EPSG, "9605"),
                 new NamedIdentifier(Citations.GEOTOOLS, Vocabulary.format(
-                                    VocabularyKeys.ABRIDGED_MOLODENSKI_TRANSFORM))
-            }, new ParameterDescriptor[] {
+                        VocabularyKeys.ABRIDGED_MOLODENSKI_TRANSFORM))
+        }, new ParameterDescriptor[]{
                 DIM, DX, DY, DZ,
                 SRC_SEMI_MAJOR, SRC_SEMI_MINOR,
                 TGT_SEMI_MAJOR, TGT_SEMI_MINOR
-            });
+        });
 
         /**
          * Constructs a provider.
@@ -816,8 +823,7 @@ public class MolodenskiTransform extends AbstractMathTransform implements Serial
          */
         private ProviderAbridged(final int sourceDimensions,
                                  final int targetDimensions,
-                                 final ParameterDescriptorGroup parameters)
-        {
+                                 final ParameterDescriptorGroup parameters) {
             super(sourceDimensions, targetDimensions, parameters);
         }
 

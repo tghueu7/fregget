@@ -23,8 +23,6 @@ import org.opengis.filter.expression.Multiply;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class MultiplyBuilder implements Builder<Multiply> {

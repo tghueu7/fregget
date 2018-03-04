@@ -26,15 +26,13 @@ import org.geotools.jdbc.JDBCDataStore;
 import org.geotools.jdbc.JDBCDataStoreFactory;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SpatiaLiteDataStoreFactoryTest extends TestCase {
 
     SpatiaLiteDataStoreFactory factory;
     HashMap params;
-    
+
     protected void setUp() throws Exception {
         factory = new SpatiaLiteDataStoreFactory();
         params = new HashMap();
@@ -50,8 +48,7 @@ public class SpatiaLiteDataStoreFactoryTest extends TestCase {
             if (new SpatiaLiteDataStoreFactory().isAvailable()) {
                 super.run(result);
             }
-        }
-        catch(Throwable t) {
+        } catch (Throwable t) {
             t.printStackTrace();
         }
     }
@@ -60,9 +57,9 @@ public class SpatiaLiteDataStoreFactoryTest extends TestCase {
         assertFalse(factory.canProcess(Collections.EMPTY_MAP));
         assertTrue(factory.canProcess(params));
     }
-    
+
     public void testCreateDataStore() throws Exception {
-        JDBCDataStore ds = factory.createDataStore( params );
-        assertNotNull( ds );
+        JDBCDataStore ds = factory.createDataStore(params);
+        assertNotNull(ds);
     }
 }

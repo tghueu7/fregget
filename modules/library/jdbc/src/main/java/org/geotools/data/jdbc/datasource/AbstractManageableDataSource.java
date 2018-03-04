@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -28,12 +28,8 @@ import javax.sql.DataSource;
  * An abstract wrapper created to ease the setup of a
  * {@link ManageableDataSource}, you just have to subclass and create a close
  * method
- * 
+ *
  * @author Andrea Aime - TOPP
- * 
- *
- *
- *
  * @source $URL$
  */
 public abstract class AbstractManageableDataSource implements ManageableDataSource {
@@ -68,10 +64,10 @@ public abstract class AbstractManageableDataSource implements ManageableDataSour
     public void setLogWriter(PrintWriter out) throws SQLException {
         wrapped.setLogWriter(out);
     }
-    
+
     public boolean isWrapperFor(Class c) throws SQLException {
-		return false;
-	}
+        return false;
+    }
 
     public Object unwrap(Class arg0) throws SQLException {
         throw new SQLException("This implementation cannot unwrap anything");

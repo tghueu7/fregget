@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.util;
@@ -26,7 +26,6 @@ import static org.junit.Assert.*;
  * Scans every classes in the OpenGIS classpath.
  *
  * @author Martin Desruisseaux (IRD)
- *
  * @source $URL$
  */
 final class ClassScanner implements Iterator<Class<?>> {

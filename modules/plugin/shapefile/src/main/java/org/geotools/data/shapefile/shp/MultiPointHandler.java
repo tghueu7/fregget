@@ -28,19 +28,17 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.MultiPoint;
 
 /**
- * 
  * @author aaime
  * @author Ian Schneider
- *
- *
  * @source $URL$
- * 
  */
 public class MultiPointHandler implements ShapeHandler {
     final ShapeType shapeType;
     GeometryFactory geometryFactory;
 
-    /** Creates new MultiPointHandler */
+    /**
+     * Creates new MultiPointHandler
+     */
     public MultiPointHandler(GeometryFactory gf) {
         shapeType = ShapeType.POINT;
         this.geometryFactory = gf;
@@ -56,10 +54,10 @@ public class MultiPointHandler implements ShapeHandler {
         shapeType = type;
         this.geometryFactory = gf;
     }
-    
+
     /**
      * Returns the shapefile shape type value for a point
-     * 
+     *
      * @return int Shapefile.POINT
      */
     public ShapeType getShapeType() {
@@ -68,9 +66,9 @@ public class MultiPointHandler implements ShapeHandler {
 
     /**
      * Calcuates the record length of this object.
-     * 
+     *
      * @return int The length of the record that this shapepoint will take up in
-     *         a shapefile
+     * a shapefile
      */
     public int getLength(Object geometry) {
         MultiPoint mp = (MultiPoint) geometry;
@@ -113,7 +111,7 @@ public class MultiPointHandler implements ShapeHandler {
         int numpoints = buffer.getInt();
         int dimensions = shapeType == shapeType.MULTIPOINTZ && !flatGeometry ? 3 : 2;
         CoordinateSequence cs =
-            JTS.createCS(geometryFactory.getCoordinateSequenceFactory(), numpoints, dimensions);
+                JTS.createCS(geometryFactory.getCoordinateSequenceFactory(), numpoints, dimensions);
 
         DoubleBuffer dbuffer = buffer.asDoubleBuffer();
         double[] ordinates = new double[numpoints * 2];

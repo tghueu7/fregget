@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.xml.namespace.QName;
+
 import org.geotools.ml.Envelope;
 import org.geotools.ml.Header;
 import org.geotools.xml.AbstractComplexBinding;
@@ -30,9 +31,9 @@ import org.geotools.xml.Node;
 
 /**
  * Strategy object for the type http://mails/refractions/net:envelopeType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="envelopeType"&gt;
  *      &lt;xsd:sequence&gt;
@@ -50,9 +51,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class MLEnvelopeTypeBinding extends AbstractComplexBinding {
@@ -74,7 +72,7 @@ public class MLEnvelopeTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         String from = (String) node.getChildValue("From");
         String to = (String) node.getChildValue("To");
         Calendar date = (Calendar) node.getChildValue("Data");
@@ -85,7 +83,7 @@ public class MLEnvelopeTypeBinding extends AbstractComplexBinding {
 
         int i = 0;
 
-        for (Iterator itr = headerElements.iterator(); itr.hasNext();) {
+        for (Iterator itr = headerElements.iterator(); itr.hasNext(); ) {
             Map headerObject = (Map) itr.next();
             headers[i++] = new Header((String) headerObject.get("name"),
                     (String) headerObject.get(null));
@@ -93,15 +91,15 @@ public class MLEnvelopeTypeBinding extends AbstractComplexBinding {
 
         return new Envelope(from, to, date, subject, headers);
     }
-    
+
     @Override
     public Object getProperty(Object object, QName name) throws Exception {
         Envelope e = (Envelope) object;
-        
-        if ( "From".equals( name.getLocalPart() ) ) {
+
+        if ("From".equals(name.getLocalPart())) {
             return e.getFrom();
         }
-        if ( "To".equals( name.getLocalPart() ) ) {
+        if ("To".equals(name.getLocalPart())) {
             return e.getTo();
         }
 

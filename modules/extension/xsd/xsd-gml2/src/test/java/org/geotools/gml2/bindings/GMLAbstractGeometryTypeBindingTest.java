@@ -27,8 +27,6 @@ import com.vividsolutions.jts.geom.Point;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GMLAbstractGeometryTypeBindingTest extends GMLTestSupport {
@@ -54,6 +52,6 @@ public class GMLAbstractGeometryTypeBindingTest extends GMLTestSupport {
 
         Document doc = encode(p, GML.Point);
         assertEquals("http://www.opengis.net/gml/srs/epsg.xml#4326",
-            doc.getDocumentElement().getAttribute("srsName"));
+                doc.getDocumentElement().getAttribute("srsName"));
     }
 }

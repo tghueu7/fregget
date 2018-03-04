@@ -34,24 +34,21 @@ import com.vividsolutions.jts.geom.Point;
 /**
  * Test RelGeo Operations
  * <p>
- * 
+ * <p>
  * <pre>
  *   &lt;routine invocation &gt; ::=
  *       &lt;geoop name &gt; &lt;georoutine argument list &gt;
- *   |   &lt;relgeoop name &gt; &lt;relgeoop argument list &gt; 
+ *   |   &lt;relgeoop name &gt; &lt;relgeoop argument list &gt;
  *   |  &lt;routine name &gt; &lt;argument list &gt;
  *   &lt;relgeoop name &gt; ::=
  *       DWITHIN | BEYOND [*]
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @author Mauricio Pazos (Axios Engineering)
- * @since 2.6
- *
- *
- *
  * @source $URL$
+ * @since 2.6
  */
 public class CQLRelGeoOpTest {
 
@@ -146,7 +143,7 @@ public class CQLRelGeoOpTest {
     /**
      * Test RelGeo Operations [*]
      * <p>
-     * 
+     * <p>
      * <pre>
      *   &lt;routine invocation &gt; ::=
      *       &lt;geoop name &gt; &lt;georoutine argument list &gt;
@@ -160,9 +157,9 @@ public class CQLRelGeoOpTest {
      *       &lt;literal&gt;
      *   |   &lt;attribute name&gt;
      * </pre>
-     * 
+     * <p>
      * </p>
-     * 
+     *
      * @throws Exception
      */
     @Ignore

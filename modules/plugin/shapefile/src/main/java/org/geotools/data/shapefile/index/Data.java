@@ -20,10 +20,8 @@ import java.util.ArrayList;
 
 /**
  * Holds values (with associated DataDefinition)
- * 
+ *
  * @author Tommaso Nolli
- *
- *
  * @source $URL$
  */
 public class Data {
@@ -32,7 +30,7 @@ public class Data {
 
     /**
      * DOCUMENT ME!
-     * 
+     *
      * @param def
      */
     public Data(DataDefinition def) {
@@ -43,7 +41,6 @@ public class Data {
     /**
      * Check to see if a <code>Data</code> respects its
      * <code>DataDefinition</code>
-     * 
      */
     public final boolean isValid() {
         if (this.getValuesCount() != this.def.getFieldsCount()) {
@@ -66,11 +63,9 @@ public class Data {
 
     /**
      * DOCUMENT ME!
-     * 
+     *
      * @param val
-     * 
      * @return - this Data object
-     * 
      * @throws TreeException
      */
     public Data addValue(Object val) throws TreeException {
@@ -92,7 +87,6 @@ public class Data {
 
     /**
      * Return the KeyDefinition
-     * 
      */
     public DataDefinition getDefinition() {
         return this.def;
@@ -100,7 +94,6 @@ public class Data {
 
     /**
      * DOCUMENT ME!
-     * 
      */
     public int getValuesCount() {
         return this.values.size();
@@ -108,9 +101,8 @@ public class Data {
 
     /**
      * DOCUMENT ME!
-     * 
+     *
      * @param i
-     * 
      */
     public Object getValue(int i) {
         return this.values.get(i);
@@ -134,7 +126,7 @@ public class Data {
 
         return ret.toString();
     }
-    
+
     public void clear() {
         values.clear();
     }

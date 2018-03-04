@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2017, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -17,15 +17,18 @@
 package org.geotools.filter.function;
 
 import java.util.regex.Pattern;
+
 import org.geotools.filter.FunctionExpressionImpl;
 import org.geotools.filter.capability.FunctionNameImpl;
+
 import static org.geotools.filter.capability.FunctionNameImpl.parameter;
+
 import org.opengis.filter.capability.FunctionName;
 import org.opengis.filter.expression.Expression;
 
 /**
  * Filter function to multiply a text list of numbers with a given factor.
- *
+ * <p>
  * "1 2 3" * 2 = "2 4 6"
  *
  * @author Tobias Warneke
@@ -57,7 +60,8 @@ public class FilterFunction_listMultiply extends FunctionExpressionImpl {
         } catch (Exception e) // probably a type error
         {
             throw new IllegalArgumentException(
-                    "Filter Function problem for function listMultiply argument #0 - expected type Double (" + e.getMessage() + ")");
+                    "Filter Function problem for function listMultiply argument #0 - expected " +
+                            "type Double (" + e.getMessage() + ")");
         }
 
         try {
@@ -76,7 +80,8 @@ public class FilterFunction_listMultiply extends FunctionExpressionImpl {
         } catch (Exception e) // probably a type error
         {
             throw new IllegalArgumentException(
-                    "Filter Function problem for function listMultiply argument #1 - expected type String (" + e.getMessage() + ")");
+                    "Filter Function problem for function listMultiply argument #1 - expected " +
+                            "type String (" + e.getMessage() + ")");
         }
 
         if (arg1 == null || arg1.isEmpty()) {

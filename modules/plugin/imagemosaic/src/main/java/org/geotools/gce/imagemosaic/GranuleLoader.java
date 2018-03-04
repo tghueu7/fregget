@@ -32,11 +32,11 @@ import org.opengis.geometry.BoundingBox;
 import org.opengis.referencing.operation.MathTransform2D;
 
 /**
- * Specific {@link Callable} implementation that can be used to load the result of a request on a single {@link GranuleDescriptor} via
+ * Specific {@link Callable} implementation that can be used to load the result of a request on a
+ * single {@link GranuleDescriptor} via
  * {@link GranuleLoadingResult}.
- * 
+ *
  * @author Simone Giannecchini, GeoSolutions SAS
- * 
  */
 public class GranuleLoader implements Callable<GranuleLoadingResult> {
 
@@ -55,9 +55,10 @@ public class GranuleLoader implements Callable<GranuleLoadingResult> {
     RasterLayerRequest request;
 
     public GranuleLoader(final ImageReadParam readParameters, final int imageIndex,
-            final ReferencedEnvelope cropBBox, final MathTransform2D mosaicWorldToGrid,
-            final GranuleDescriptor granuleDescriptor, final RasterLayerRequest request,
-            final Hints hints) {
+                         final ReferencedEnvelope cropBBox, final MathTransform2D mosaicWorldToGrid,
+                         final GranuleDescriptor granuleDescriptor, final RasterLayerRequest 
+                                 request,
+                         final Hints hints) {
         this.readParameters = ImageUtilities.cloneImageReadParam(readParameters);
         this.imageIndex = imageIndex;
         this.cropBBox = cropBBox;
@@ -104,10 +105,12 @@ public class GranuleLoader implements Callable<GranuleLoadingResult> {
 
     public GranuleLoadingResult call() throws Exception {
         try {
-            return granuleDescriptor.loadRaster(readParameters, imageIndex, cropBBox, mosaicWorldToGrid,
+            return granuleDescriptor.loadRaster(readParameters, imageIndex, cropBBox, 
+                    mosaicWorldToGrid,
                     request, hints);
-        } catch(Exception e) {
-            throw new GranuleLoadingException("Failed to load granule " + granuleDescriptor.getGranuleUrl(), e);
+        } catch (Exception e) {
+            throw new GranuleLoadingException("Failed to load granule " + granuleDescriptor
+                    .getGranuleUrl(), e);
         }
     }
 

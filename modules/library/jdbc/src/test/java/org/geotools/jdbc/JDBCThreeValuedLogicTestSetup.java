@@ -13,7 +13,7 @@ public class JDBCThreeValuedLogicTestSetup extends JDBCDelegatingTestSetup {
     public JDBCThreeValuedLogicTestSetup(JDBCTestSetup delegate) {
         super(delegate);
     }
-    
+
     protected final void setUpData() throws Exception {
         //kill all the data
         try {
@@ -32,8 +32,8 @@ public class JDBCThreeValuedLogicTestSetup extends JDBCDelegatingTestSetup {
      * </p>
      * <p>
      * The table should be populated with the following data
-     *  n_n_n | null | null | null
-     *  a_b_c | 1 | 2 | 3
+     * n_n_n | null | null | null
+     * a_b_c | 1 | 2 | 3
      * </p>
      * Where [0,1,2,3,4,5] is a byte[]
      */

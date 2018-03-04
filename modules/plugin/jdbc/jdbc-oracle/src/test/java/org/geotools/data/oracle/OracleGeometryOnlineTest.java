@@ -45,12 +45,10 @@ import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.io.WKTReader;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class OracleGeometryOnlineTest extends JDBCGeometryOnlineTest {
-    
+
     OracleGeometryTestSetup testSetup;
 
     @Override
@@ -62,7 +60,7 @@ public class OracleGeometryOnlineTest extends JDBCGeometryOnlineTest {
     public void testLinearRing() throws Exception {
         assertEquals(LineString.class, checkGeometryType(LinearRing.class));
     }
-    
+
     public void testInsertEmptyGeometry() throws Exception {
         ContentFeatureSource source = dataStore.getFeatureSource("COLA_MARKETS_CS");
         if (!(source instanceof SimpleFeatureStore)) {
@@ -71,17 +69,17 @@ public class OracleGeometryOnlineTest extends JDBCGeometryOnlineTest {
         GeometryFactory gf = new GeometryFactory();
         ArrayList<SimpleFeature> list = new ArrayList<>();
         SimpleFeatureBuilder builder = new SimpleFeatureBuilder(source.getSchema());
-        
+
         builder.add("empty point");
-        builder.add(gf.createPoint((Coordinate)null));
+        builder.add(gf.createPoint((Coordinate) null));
         SimpleFeature f = builder.buildFeature(null);
         list.add(f);
         builder.add("empty line");
-        builder.add(gf.createLineString((CoordinateSequence)null));
+        builder.add(gf.createLineString((CoordinateSequence) null));
         f = builder.buildFeature(null);
         list.add(f);
         builder.add("empty polygon");
-        builder.add(gf.createPolygon(null,null));
+        builder.add(gf.createPolygon(null, null));
         f = builder.buildFeature(null);
         list.add(f);
         FeatureCollection<SimpleFeatureType, SimpleFeature> collection = DataUtilities
@@ -92,18 +90,20 @@ public class OracleGeometryOnlineTest extends JDBCGeometryOnlineTest {
 
         try {
             //GEOT-724 https://osgeo-org.atlassian.net/browse/GEOT-724 
-        	//throws exception here
-        	List<FeatureId> ids = store.addFeatures(collection);
-            
+            //throws exception here
+            List<FeatureId> ids = store.addFeatures(collection);
+
             transaction.commit();
         } finally {
             transaction.close();
         }
-        
+
 
     }
+
     public void testComplexGeometryFallback() throws Exception {
-        SimpleFeatureIterator fi = dataStore.getFeatureSource("COLA_MARKETS_CS").getFeatures().features();
+        SimpleFeatureIterator fi = dataStore.getFeatureSource("COLA_MARKETS_CS").getFeatures()
+                .features();
         assertTrue(fi.hasNext());
         SimpleFeature sf = fi.next();
         assertNotNull(sf.getDefaultGeometry());
@@ -111,11 +111,12 @@ public class OracleGeometryOnlineTest extends JDBCGeometryOnlineTest {
         assertTrue(expected.equalsTopo((Geometry) sf.getDefaultGeometry()));
         fi.close();
     }
-    
+
     public void testGeometryMetadataTable() throws Exception {
         testSetup.setupGeometryColumns(dataStore);
-        
-        GeometryDescriptor gd = dataStore.getFeatureSource("GTMETA").getSchema().getGeometryDescriptor();
+
+        GeometryDescriptor gd = dataStore.getFeatureSource("GTMETA").getSchema()
+                .getGeometryDescriptor();
         assertEquals(Point.class, gd.getType().getBinding());
         assertEquals(4269, (int) CRS.lookupEpsgCode(gd.getCoordinateReferenceSystem(), false));
     }

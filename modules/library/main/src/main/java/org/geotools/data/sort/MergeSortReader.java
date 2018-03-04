@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -29,9 +29,8 @@ import org.opengis.feature.simple.SimpleFeatureType;
 /**
  * Reads from a list of {@link FeatureBlockReader} backed by a {@link RandomAccessFile} and performs
  * the classic merge-sort algorithm
- * 
+ *
  * @author Andrea Aime - GeoSolutions
- * 
  */
 class MergeSortReader implements SimpleFeatureReader {
 
@@ -44,7 +43,7 @@ class MergeSortReader implements SimpleFeatureReader {
     Comparator<SimpleFeature> comparator;
 
     public MergeSortReader(SimpleFeatureType schema, SimpleFeatureIO io,
-            List<FeatureBlockReader> readers, Comparator<SimpleFeature> comparator) {
+                           List<FeatureBlockReader> readers, Comparator<SimpleFeature> comparator) {
         this.schema = schema;
         this.comparator = comparator;
         this.readers = readers;

@@ -37,15 +37,11 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
  * This class represents the fake feature type needed for feature chaining for properties that are
  * not features. When a non feature is mapped separately in app schema data access, it is regarded
  * as a feature since it would have a feature source.
- * 
+ *
  * @author Rini Angreani (CSIRO Earth Science and Resource Engineering)
- * 
- *
- *
- *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/app-schema/app-schema/src/main
- *         /java/org/geotools/data/complex/config/NonFeatureTypeProxy.java $
+ * http://svn.osgeo.org/geotools/trunk/modules/unsupported/app-schema/app-schema/src/main
+ * /java/org/geotools/data/complex/config/NonFeatureTypeProxy.java $
  */
 public class NonFeatureTypeProxy extends ComplexTypeProxy implements FeatureType {
 
@@ -61,9 +57,8 @@ public class NonFeatureTypeProxy extends ComplexTypeProxy implements FeatureType
 
     /**
      * Sole constructor
-     * 
-     * @param type
-     *            The underlying non feature type
+     *
+     * @param type The underlying non feature type
      */
     public NonFeatureTypeProxy(final AttributeType type, final FeatureTypeMapping mapping) {
         super(type.getName(), null);
@@ -91,11 +86,11 @@ public class NonFeatureTypeProxy extends ComplexTypeProxy implements FeatureType
         };
         if (subject instanceof ComplexType) {
             descriptors.addAll(((ComplexType) subject).getDescriptors());
-        } 
+        }
     }
 
     public NonFeatureTypeProxy(final AttributeType type, final FeatureTypeMapping mapping,
-            Collection<PropertyDescriptor> schema) {
+                               Collection<PropertyDescriptor> schema) {
         super(type.getName(), null);
 
         subject = type;
@@ -141,7 +136,7 @@ public class NonFeatureTypeProxy extends ComplexTypeProxy implements FeatureType
 
     /**
      * Return only the schema descriptors
-     * 
+     *
      * @return
      */
     public Collection<PropertyDescriptor> getTypeDescriptors() {

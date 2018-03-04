@@ -20,7 +20,7 @@ import org.junit.Test;
 
 import org.testfx.framework.junit.ApplicationTest;
 
-public class FXMapTest extends ApplicationTest{
+public class FXMapTest extends ApplicationTest {
 
     private static FXMap map;
 
@@ -35,7 +35,7 @@ public class FXMapTest extends ApplicationTest{
     private static final String wmsURL = "http://ows.terrestris.de/osm/service";
 
     @BeforeClass
-    public static void initTests(){
+    public static void initTests() {
         System.setProperty("testfx.robot", "glass");
         System.setProperty("testfx.headless", "true");
         System.setProperty("prism.order", "sw");
@@ -43,29 +43,29 @@ public class FXMapTest extends ApplicationTest{
     }
 
     @Override
-    public void start(Stage stage){
+    public void start(Stage stage) {
         Scene scene = new Scene(new Pane(), sceneWidth, sceneHeight);
         stage.setScene(scene);
         stage.show();
     }
 
     @Test
-    public void MapCreationTest(){
+    public void MapCreationTest() {
         WebMapServer wms = null;
-        try{
+        try {
             wms = new WebMapServer(new URL(wmsURL));
             initialBounds = new GeneralEnvelope(new double[]{-22, 31}, new double[]{50, 67});
         } catch (Exception e) {
             log.log(Level.SEVERE, e.toString());
         }
         Layer displayLayer = wms.getCapabilities().getLayer();
-        for(Layer layer: wms.getCapabilities().getLayerList()){
-            if(layer.getTitle().toLowerCase().equals(wmsLayer.toLowerCase())){
+        for (Layer layer : wms.getCapabilities().getLayerList()) {
+            if (layer.getTitle().toLowerCase().equals(wmsLayer.toLowerCase())) {
                 displayLayer = layer;
                 break;
             }
         }
-        try{
+        try {
             displayLayer.setBoundingBoxes(new CRSEnvelope(initialBounds));
             map = new FXMap(wms, displayLayer, sceneHeight, sceneWidth, initialBounds);
         } catch (Exception e) {

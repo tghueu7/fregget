@@ -20,8 +20,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DXFBlock extends DXFEntity implements DXFConstants {
@@ -33,7 +31,8 @@ public class DXFBlock extends DXFEntity implements DXFConstants {
     public int _flag;
 
     public DXFBlock(DXFBlock newBlock) {
-        this(newBlock._point.X(), newBlock._point.Y(), newBlock._flag, newBlock._name, null, newBlock.getColor(), newBlock.getRefLayer());
+        this(newBlock._point.X(), newBlock._point.Y(), newBlock._flag, newBlock._name, null, 
+                newBlock.getColor(), newBlock.getRefLayer());
 
         // Copy entities
         Iterator iter = newBlock.theEntities.iterator();
@@ -42,7 +41,8 @@ public class DXFBlock extends DXFEntity implements DXFConstants {
         }
     }
 
-    public DXFBlock(double x, double y, int flag, String name, Vector<DXFEntity> ent, int c, DXFLayer l) {
+    public DXFBlock(double x, double y, int flag, String name, Vector<DXFEntity> ent, int c, 
+                    DXFLayer l) {
         super(c, l, 0, null, DXFTables.defaultThickness);
         _point = new DXFPoint(x, y, c, l, 0, 1);
         _name = name;
@@ -118,7 +118,7 @@ public class DXFBlock extends DXFEntity implements DXFConstants {
                     break;
             }
         }
-        
+
         DXFBlock e = new DXFBlock(x, y, flag, name, sEnt, DXFColor.getDefaultColorIndex(), l);
         log.debug(e.toString(x, y, flag, name, sEnt.size(), DXFColor.getDefaultColorIndex()));
         log.debug("Exit at line: " + br.getLineNumber());

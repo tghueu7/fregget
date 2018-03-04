@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -29,25 +29,23 @@ import org.opengis.feature.simple.SimpleFeatureType;
  * Allows developer to skip refering to the typeName when a file contains
  * only a single set of content.
  *
- *
- *
  * @source $URL$
  */
 public interface FileDataStore extends DataStore {
-    
+
     /**
      * FeatureType for the file being read.
      * <p>
      * This is the same as getSchema( getTypeName[0] )
      * </p>
-     * 
+     *
      * @return FeatureType of the file being read
      * @see org.geotools.data.DataStore#getSchema(java.lang.String)
      */
     SimpleFeatureType getSchema() throws IOException;
 
     /**
-     * @see org.geotools.data.DataStore#updateSchema(java.lang.String,SimpleFeatureType)
+     * @see org.geotools.data.DataStore#updateSchema(java.lang.String, SimpleFeatureType)
      */
     void updateSchema(SimpleFeatureType featureType) throws IOException;
 
@@ -62,22 +60,23 @@ public interface FileDataStore extends DataStore {
     FeatureReader<SimpleFeatureType, SimpleFeature> getFeatureReader() throws IOException;
 
     /**
-     * @see org.geotools.data.DataStore#getFeatureWriter(Filter,Transaction)
+     * @see org.geotools.data.DataStore#getFeatureWriter(Filter, Transaction)
      */
     FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriter(Filter filter,
-            Transaction transaction) throws IOException;
+                                                                     Transaction transaction) 
+            throws IOException;
 
     /**
      * @see org.geotools.data.DataStore#getFeatureWriter(java.lang.String,
-     *      org.geotools.data.Transaction)
+     * org.geotools.data.Transaction)
      */
     FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriter(Transaction transaction)
-        throws IOException;
+            throws IOException;
 
     /**
      * @see org.geotools.data.DataStore#getFeatureWriterAppend(java.lang.String,
-     *      org.geotools.data.Transaction)
+     * org.geotools.data.Transaction)
      */
     FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriterAppend(Transaction transaction)
-        throws IOException;
+            throws IOException;
 }

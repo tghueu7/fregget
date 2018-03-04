@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -30,34 +30,40 @@ package org.geotools.util;
  * featureCollection.accepts( visitor, new SubProgress( progress, 80 ) );
  * progress.completed();
  * </code></pre>
- * 
+ *
  * @author Jody
- *
- *
- *
  * @source $URL$
  */
 public class SubProgressListener extends DelegateProgressListener {
-    /** Initial starting value */
+    /**
+     * Initial starting value
+     */
     float start;
-    
-    /** Amount of work we have been asked to perform */
+
+    /**
+     * Amount of work we have been asked to perform
+     */
     float amount;
-    
-    /** Scale between subprogress and delegate */
+
+    /**
+     * Scale between subprogress and delegate
+     */
     float scale;
-    
-    /** running total of amount we have worked thus far */
+
+    /**
+     * running total of amount we have worked thus far
+     */
     float progress;
-   
+
     /**
      * Create a sub progress monitor, used to delegate work to a separate process.
-     * 
+     *
      * @param progress parent progress to notify as we get work done
-     * @param start the starting offset for the progress
-     * @param amount amount of progress represented
+     * @param start    the starting offset for the progress
+     * @param amount   amount of progress represented
      */
-    public SubProgressListener(org.opengis.util.ProgressListener progress, float start, float amount) {
+    public SubProgressListener(org.opengis.util.ProgressListener progress, float start, float 
+            amount) {
         super(progress);
         this.start = start;
         this.amount = (amount > 0.0f) ? amount : 0.0f;
@@ -66,28 +72,31 @@ public class SubProgressListener extends DelegateProgressListener {
 
     /**
      * Create a sub progress monitor, used to delegate work to a separate process.
-     * 
+     *
      * @param progress parent progress to notify as we get work done
-     * @param amount amount of progress represented
+     * @param amount   amount of progress represented
      */
-    public SubProgressListener( org.opengis.util.ProgressListener progress, float amount ) {
+    public SubProgressListener(org.opengis.util.ProgressListener progress, float amount) {
         this(progress, progress.getProgress(), amount);
     }
 
     public void started() {
         progress = 0.0f;
-        if(this.start == 0.0f) {
+        if (this.start == 0.0f) {
             super.started();
         }
     }
+
     public void complete() {
-        delegate.progress( start + amount );        
+        delegate.progress(start + amount);
         progress = 100.0f;
     }
+
     public float getProgress() {
         return progress;
     }
-    public void progress( float progress ) {
+
+    public void progress(float progress) {
         this.progress = progress;
         super.progress(start + (scale * progress));
     }

@@ -19,15 +19,17 @@ package org.geotools.sld.bindings;
 import org.picocontainer.MutablePicoContainer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 import javax.xml.namespace.QName;
+
 import org.geotools.xml.*;
 
 
 /**
  * Binding object for the element http://www.opengis.net/sld:RedChannel.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="RedChannel" type="sld:SelectedChannelType"/&gt;
  *
@@ -36,9 +38,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDRedChannelBinding extends AbstractComplexBinding {
@@ -85,7 +84,7 @@ public class SLDRedChannelBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //TODO: implement
         return null;
     }

@@ -23,12 +23,11 @@ import java.util.List;
  * <p>
  * A JGrass colorrule
  * </p>
+ *
  * @author Andrea Antonello - www.hydrologis.com
  * @author John Preston
- * @since 1.1.0
- *
- *
  * @source $URL$
+ * @since 1.1.0
  */
 public class ColorRule {
     // public static final byte[] blank = {0, 0, 0, 0};
@@ -45,15 +44,19 @@ public class ColorRule {
 
     private float bmul = 0f;
 
-    /** Creates a new instance of ColorRule */
-    public ColorRule( int cat, int r, int g, int b ) {
+    /**
+     * Creates a new instance of ColorRule
+     */
+    public ColorRule(int cat, int r, int g, int b) {
         low = cat;
         range = 0f;
         catColor = new byte[]{(byte) r, (byte) g, (byte) b, (byte) 255};
     }
 
-    /** Creates a new instance of ColorRule */
-    public ColorRule( float cat0, int r0, int g0, int b0, float cat1, int r1, int g1, int b1 ) {
+    /**
+     * Creates a new instance of ColorRule
+     */
+    public ColorRule(float cat0, int r0, int g0, int b0, float cat1, int r1, int g1, int b1) {
         if (cat1 > cat0) {
             low = cat0;
             range = cat1 - cat0;
@@ -74,7 +77,7 @@ public class ColorRule {
     /**
      *
      */
-    public int compare( float cat ) {
+    public int compare(float cat) {
         float diff = cat - low;
 
         if (diff < 0)
@@ -90,18 +93,18 @@ public class ColorRule {
     /**
      * Return the colour tupple for specified category value
      */
-    public byte[] getColor( float cat ) {
+    public byte[] getColor(float cat) {
         /* First check to see if the category
          * value is within the range of this rule. */
         float diff = cat - low;
         if (diff <= 0f)
             return catColor;
-        // else if (diff < 0)
-        // {
-        // /* Category value below lowest value in this rule. */
-        // return new byte[]{(byte)catColor[0], (byte)catColor[1],
-        // (byte)catColor[2], (byte)catColor[3]};
-        // }
+            // else if (diff < 0)
+            // {
+            // /* Category value below lowest value in this rule. */
+            // return new byte[]{(byte)catColor[0], (byte)catColor[1],
+            // (byte)catColor[2], (byte)catColor[3]};
+            // }
         else if (diff > range) {
             return new byte[]{(byte) ((int) (rmul * range) + (int) catColor[0]),
                     (byte) ((int) (gmul * range) + (int) catColor[1]),
@@ -144,7 +147,7 @@ public class ColorRule {
                     + ((int) (bmul * range) + (int) catColor[2]) + "," + (catColor[3] & 0xff) + "]";
     }
 
-    public static void parseColorRule( String colorRule, List<Double> values, List<Color> colors ) {
+    public static void parseColorRule(String colorRule, List<Double> values, List<Color> colors) {
         String[] ruleSplit = colorRule.split(":"); //$NON-NLS-1$
 
         String valuesString = ruleSplit[0];

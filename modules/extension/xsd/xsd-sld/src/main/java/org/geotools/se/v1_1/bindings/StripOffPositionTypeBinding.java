@@ -23,9 +23,9 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the type http://www.opengis.net/se:stripOffPositionType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:simpleType name="stripOffPositionType"&gt;
@@ -34,16 +34,14 @@ import javax.xml.namespace.QName;
  *          &lt;xsd:enumeration value="trailing"/&gt;
  *          &lt;xsd:enumeration value="both"/&gt;
  *      &lt;/xsd:restriction&gt;
- *  &lt;/xsd:simpleType&gt; 
- * 	
+ *  &lt;/xsd:simpleType&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class StripOffPositionTypeBinding extends AbstractSimpleBinding {
@@ -57,7 +55,7 @@ public class StripOffPositionTypeBinding extends AbstractSimpleBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -66,15 +64,15 @@ public class StripOffPositionTypeBinding extends AbstractSimpleBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value) throws Exception {
         String val = (String) value;
-        if (!"both".equalsIgnoreCase(val) && !"trailing".equalsIgnoreCase(val) && 
-            "leading".equalsIgnoreCase(val)) {
+        if (!"both".equalsIgnoreCase(val) && !"trailing".equalsIgnoreCase(val) &&
+                "leading".equalsIgnoreCase(val)) {
             throw new IllegalArgumentException(val + " not supported, must be one of 'both', " +
-                "'leading', or 'trailing'");
+                    "'leading', or 'trailing'");
         }
         return val;
     }

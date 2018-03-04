@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.metadata.lineage;
 
 import java.util.Collection;
+
 import org.opengis.util.InternationalString;
 import org.opengis.annotation.UML;
 import org.opengis.annotation.Profile;
@@ -22,19 +23,17 @@ import static org.opengis.annotation.ComplianceLevel.*;
 /**
  * Information about the events or source data used in constructing the data specified by
  * the scope or lack of knowledge about lineage.
- *
+ * <p>
  * Only one of {@linkplain #getStatement statement}, {@linkplain #getProcessSteps process steps}
  * and {@linkplain #getSources sources} should be provided.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 2.0
+ * @source $URL$
+ * @since GeoAPI 2.0
  */
-@Profile (level=CORE)
-@UML(identifier="LI_Lineage", specification=ISO_19115)
+@Profile(level = CORE)
+@UML(identifier = "LI_Lineage", specification = ISO_19115)
 public interface Lineage {
     /**
      * General explanation of the data producer's knowledge about the lineage of a dataset.
@@ -45,8 +44,8 @@ public interface Lineage {
      *
      * @return Explanation of the data producer's knowledge about the lineage, or {@code null}.
      */
-    @Profile (level=CORE)
-    @UML(identifier="statement", obligation=CONDITIONAL, specification=ISO_19115)
+    @Profile(level = CORE)
+    @UML(identifier = "statement", obligation = CONDITIONAL, specification = ISO_19115)
     InternationalString getStatement();
 
     /**
@@ -54,7 +53,7 @@ public interface Lineage {
      *
      * @return Information about an event in the creation process.
      */
-    @UML(identifier="processStep", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "processStep", obligation = CONDITIONAL, specification = ISO_19115)
     Collection<? extends ProcessStep> getProcessSteps();
 
     /**
@@ -62,6 +61,6 @@ public interface Lineage {
      *
      * @return Information about the source data.
      */
-    @UML(identifier="source", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "source", obligation = CONDITIONAL, specification = ISO_19115)
     Collection<? extends Source> getSources();
 }

@@ -8,22 +8,24 @@ import java.util.Map;
 /**
  * Helper class that provides utility methods to extract and parse elements from the vendor options
  * map, some generic, other geared to specific contents
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 public class VendorOptionParser {
 
     /**
-     * Extracts a enumeration from the vendor options map, returns it if found, returns the default value if not 
-     * 
+     * Extracts a enumeration from the vendor options map, returns it if found, returns the 
+     * default value if not
+     *
      * @param symbolizer
      * @param optionName
      * @param defaultValue
      * @return
      */
-    public <T extends Enum<T>> Enum<T> getEnumOption(Symbolizer symbolizer, String optionName, Enum<T> defaultValue) {
+    public <T extends Enum<T>> Enum<T> getEnumOption(Symbolizer symbolizer, String optionName, 
+                                                     Enum<T> defaultValue) {
         String value = getOption(symbolizer, optionName);
-        
+
         if (value == null)
             return defaultValue;
         try {
@@ -36,25 +38,27 @@ public class VendorOptionParser {
 
     /**
      * Null safe options retrival
+     *
      * @param symbolizer
      * @param optionName
      * @return
      */
     private String getOption(Symbolizer symbolizer, String optionName) {
-        if(symbolizer == null) {
+        if (symbolizer == null) {
             return null;
         }
         Map<String, String> options = symbolizer.getOptions();
-        if(options == null) {
+        if (options == null) {
             return null;
         } else {
-            return options .get(optionName);
+            return options.get(optionName);
         }
     }
 
     /**
-     * Extracts a integer from the vendor options map, returns it if found, returns the default value if not
-     * 
+     * Extracts a integer from the vendor options map, returns it if found, returns the default 
+     * value if not
+     *
      * @param symbolizer
      * @param optionName
      * @param defaultValue
@@ -72,7 +76,9 @@ public class VendorOptionParser {
     }
 
     /**
-     * Extracts a double from the vendor options map, returns it if found, returns the default value if not
+     * Extracts a double from the vendor options map, returns it if found, returns the default 
+     * value if not
+     *
      * @param symbolizer
      * @param optionName
      * @param defaultValue
@@ -90,12 +96,13 @@ public class VendorOptionParser {
     }
 
     /**
-     * Extracts a boolean from the vendor options map, returns it if found, returns the default value if not
-     * 
+     * Extracts a boolean from the vendor options map, returns it if found, returns the default 
+     * value if not
+     *
      * @param symbolizer
      */
     public boolean getBooleanOption(Symbolizer symbolizer, String optionName,
-            boolean defaultValue) {
+                                    boolean defaultValue) {
         String value = getOption(symbolizer, optionName);
         if (value == null) {
             return defaultValue;
@@ -103,11 +110,13 @@ public class VendorOptionParser {
         return value.equalsIgnoreCase("yes") || value.equalsIgnoreCase("true")
                 || value.equalsIgnoreCase("1");
     }
-    
+
     /**
-     * Returns a CSS margin from the options map. The result always has 4 components, in top,right,bottom,left
+     * Returns a CSS margin from the options map. The result always has 4 components, in top,
+     * right,bottom,left
      * order.
      * The syntax can follow the CSS shorthand, http://www.w3schools.com/css/css_margin.asp
+     *
      * @param symbolizer
      * @return
      */
@@ -120,7 +129,8 @@ public class VendorOptionParser {
             if (values.length == 0) {
                 return null;
             } else if (values.length > 4) {
-                throw new IllegalArgumentException("The graphic margin is to be specified with 1, 2 or 4 values");
+                throw new IllegalArgumentException("The graphic margin is to be specified with 1," +
+                        " 2 or 4 values");
             }
             int[] parsed = new int[values.length];
             boolean allZeroMargin = false;
@@ -143,36 +153,38 @@ public class VendorOptionParser {
             }
         }
     }
-    
-    
+
+
     /**
-     * Returns an array of int in the range [0, 360) which corresponds to the possible 
+     * Returns an array of int in the range [0, 360) which corresponds to the possible
      * displacement angles.
-     * 
+     *
      * @param symbolizer
-     * @param optionName expected a String with DisplacementMode enum values comma separated 
+     * @param optionName expected a String with DisplacementMode enum values comma separated
      * @return
      */
     public int[] getDisplacementAngles(Symbolizer symbolizer, String optionName) {
         String value = getOption(symbolizer, optionName);
-        if(value == null) {
+        if (value == null) {
             return null;
         } else {
             String[] values = value.trim().split(",");
-            if(values.length == 0) {
+            if (values.length == 0) {
                 return null;
             }
             int[] parsed = new int[values.length];
             for (int i = 0; i < parsed.length; i++) {
                 try {
-                    DisplacementMode mode = DisplacementMode.valueOf(values[i].trim().toUpperCase());
+                    DisplacementMode mode = DisplacementMode.valueOf(values[i].trim().toUpperCase
+                            ());
                     parsed[i] = mode.getAngle();
                 } catch (Exception e) {
-                    throw new IllegalArgumentException(values[i] + 
-                            " is not legal. The values of displacement mode must be one of the following: " + DisplacementMode.values());
+                    throw new IllegalArgumentException(values[i] +
+                            " is not legal. The values of displacement mode must be one of the " +
+                            "following: " + DisplacementMode.values());
                 }
-            } 
-           return parsed;
+            }
+            return parsed;
         }
     }
 }

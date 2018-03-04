@@ -22,15 +22,14 @@ import org.geotools.styling.StyleFactory;
 
 /**
  * <p>
- *        <pre>
- *         <code> 
+ * <pre>
+ *         <code>
  *    &lt;xsd:element name="Abstract" type="sld:InternationalStringType"/&gt;
  *          </code>
  *         </pre>
  * </p>
- *  
- * @author "Mauro Bartolomeoli - mauro.bartolomeoli@geo-solutions.it"
  *
+ * @author "Mauro Bartolomeoli - mauro.bartolomeoli@geo-solutions.it"
  */
 public class SLDAbstractBinding extends SLDInternationalStringBinding {
 
@@ -45,5 +44,5 @@ public class SLDAbstractBinding extends SLDInternationalStringBinding {
     public QName getTarget() {
         return SLD.ABSTRACT;
     }
-    
+
 }

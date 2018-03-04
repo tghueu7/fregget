@@ -37,13 +37,11 @@ import org.w3c.dom.Element;
 
 /**
  * Unit test suite for {@link LockFeatureTypeBinding}
- * 
+ *
  * @author Gabriel Roldan (TOPP)
  * @version $Id$
- * @since 2.5.x
- *
- *
  * @source $URL$
+ * @since 2.5.x
  */
 public class LockFeatureTypeBindingTest extends WFSTestSupport {
 

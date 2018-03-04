@@ -32,18 +32,14 @@ import org.geotools.resources.i18n.Errors;
 /**
  * Abstract definition of a parameter or group of parameters used by an operation method.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see AbstractParameter
+ * @since 2.1
  */
 public abstract class AbstractParameterDescriptor extends AbstractIdentifiedObject
-           implements GeneralParameterDescriptor
-{
+        implements GeneralParameterDescriptor {
     /**
      * Serial number for interoperability with different versions.
      */
@@ -70,23 +66,24 @@ public abstract class AbstractParameterDescriptor extends AbstractIdentifiedObje
      * Constructs a parameter from a set of properties. The properties map is given unchanged to the
      * {@linkplain AbstractIdentifiedObject#AbstractIdentifiedObject(Map) super-class constructor}.
      *
-     * @param properties Set of properties. Should contains at least {@code "name"}.
+     * @param properties    Set of properties. Should contains at least {@code "name"}.
      * @param minimumOccurs The {@linkplain #getMinimumOccurs minimum number of times}
-     *        that values for this parameter group or parameter are required.
+     *                      that values for this parameter group or parameter are required.
      * @param maximumOccurs The {@linkplain #getMaximumOccurs maximum number of times} that values
-     *        for this parameter group or parameter are required. This value is used in order to
-     *        check the range. For {@link org.opengis.parameter.ParameterValue}, it should always
-     *        be 1.
+     *                      for this parameter group or parameter are required. This value is 
+     *                      used in order to
+     *                      check the range. For {@link org.opengis.parameter.ParameterValue}, it
+     *                      should always
+     *                      be 1.
      */
-    protected AbstractParameterDescriptor(final Map<String,?> properties,
+    protected AbstractParameterDescriptor(final Map<String, ?> properties,
                                           final int minimumOccurs,
-                                          final int maximumOccurs)
-    {
+                                          final int maximumOccurs) {
         super(properties);
         this.minimumOccurs = minimumOccurs;
-        if (minimumOccurs < 0  ||  maximumOccurs < minimumOccurs) {
+        if (minimumOccurs < 0 || maximumOccurs < minimumOccurs) {
             throw new IllegalArgumentException(Errors.format(ErrorKeys.BAD_RANGE_$2,
-                        minimumOccurs, maximumOccurs));
+                    minimumOccurs, maximumOccurs));
         }
     }
 
@@ -127,9 +124,10 @@ public abstract class AbstractParameterDescriptor extends AbstractIdentifiedObje
     /**
      * Compares the specified object with this parameter for equality.
      *
-     * @param  object The object to compare to {@code this}.
-     * @param  compareMetadata {@code true} for performing a strict comparaison, or
-     *         {@code false} for comparing only properties relevant to transformations.
+     * @param object          The object to compare to {@code this}.
+     * @param compareMetadata {@code true} for performing a strict comparaison, or
+     *                        {@code false} for comparing only properties relevant to 
+     *                                    transformations.
      * @return {@code true} if both objects are equal.
      */
     @Override
@@ -145,20 +143,22 @@ public abstract class AbstractParameterDescriptor extends AbstractIdentifiedObje
      * Returns a hash value for this parameter.
      *
      * @return The hash code value. This value doesn't need to be the same
-     *         in past or future versions of this class.
+     * in past or future versions of this class.
      */
     @Override
     public int hashCode() {
-        return (int)serialVersionUID ^ minimumOccurs;
+        return (int) serialVersionUID ^ minimumOccurs;
     }
 
     /**
      * Format the inner part of a
-     * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
-     * Known Text</cite> (WKT)</A> element. Note that WKT is not yet defined for parameter descriptor.
+     * <A HREF="http://geoapi.sourceforge
+     * .net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
+     * Known Text</cite> (WKT)</A> element. Note that WKT is not yet defined for parameter 
+     * descriptor.
      * Current implementation print only the name.
      *
-     * @param  formatter The formatter to use.
+     * @param formatter The formatter to use.
      * @return The WKT element name, which is "PARAMETER"
      */
     @Override

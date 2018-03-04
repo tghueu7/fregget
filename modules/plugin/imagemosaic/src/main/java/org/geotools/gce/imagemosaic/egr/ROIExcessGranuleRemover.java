@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2016, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -31,11 +31,11 @@ import org.geotools.referencing.CRS;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
- * Support class helping to remove images not contributing pixels to the final mosaic based on the image ROIs (thus, working in raster space after the
+ * Support class helping to remove images not contributing pixels to the final mosaic based on 
+ * the image ROIs (thus, working in raster space after the
  * images are read)
- * 
- * @author Andrea Aime - GeoSolutions
  *
+ * @author Andrea Aime - GeoSolutions
  */
 public class ROIExcessGranuleRemover {
 
@@ -55,12 +55,13 @@ public class ROIExcessGranuleRemover {
     CoordinateReferenceSystem targetCRS;
 
     /**
-     * Holds the granule loading results until it becomes evident actual geometric computation is needed
+     * Holds the granule loading results until it becomes evident actual geometric computation is
+     * needed
      */
     List<ROI> roiBuffer = new ArrayList<ROI>();
 
     public ROIExcessGranuleRemover(Rectangle rasterBounds, int tileWidth, int tileHeight,
-            CoordinateReferenceSystem targetCRS) {
+                                   CoordinateReferenceSystem targetCRS) {
         this.rasterBounds = rasterBounds;
         this.tileWidth = tileWidth;
         this.tileHeight = tileHeight;
@@ -109,7 +110,7 @@ public class ROIExcessGranuleRemover {
 
     /**
      * Returns true if the rendering area is complete
-     * 
+     *
      * @return
      */
     public boolean isRenderingAreaComplete() {

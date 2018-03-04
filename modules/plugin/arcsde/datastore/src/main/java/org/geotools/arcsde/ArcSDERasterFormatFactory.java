@@ -33,19 +33,19 @@ import com.esri.sde.sdk.pe.PeCoordinateSystem;
 /**
  * Implementation of the GridCoverageFormat service provider interface for ArcSDE Databases. Based
  * on the Arc Grid implementation.
- * 
+ *
  * @author Saul Farber (saul.farber)
  * @author aaime
  * @author Simone Giannecchini (simboss)
- *
- *
  * @source $URL$
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
- *         /org/geotools/arcsde/ArcSDERasterFormatFactory.java $
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
+ * /org/geotools/arcsde/ArcSDERasterFormatFactory.java $
  */
 public class ArcSDERasterFormatFactory implements GridFormatFactorySpi {
 
-    /** package's logger */
+    /**
+     * package's logger
+     */
     protected static final Logger LOGGER = Logging.getLogger(ArcSDERasterFormatFactory.class
             .getName());
 
@@ -76,7 +76,7 @@ public class ArcSDERasterFormatFactory implements GridFormatFactorySpi {
 
     /**
      * Returns the implementation hints. The default implementation returns en empty map.
-     * 
+     *
      * @return the empty map, this factory make no use of any implementation hint so far
      */
     public Map<RenderingHints.Key, ?> getImplementationHints() {

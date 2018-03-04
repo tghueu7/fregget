@@ -25,9 +25,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:NamedStyle.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:element name="NamedStyle"&gt;
@@ -42,16 +42,14 @@ import org.geotools.xml.Node;
  *              &lt;xsd:element minOccurs="0" ref="se:Description"/&gt;
  *          &lt;/xsd:sequence&gt;
  *      &lt;/xsd:complexType&gt;
- *  &lt;/xsd:element&gt; 
- * 	
+ *  &lt;/xsd:element&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class NamedStyleBinding extends SLDNamedStyleBinding {
@@ -62,18 +60,18 @@ public class NamedStyleBinding extends SLDNamedStyleBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
         NamedStyle style = (NamedStyle) super.parse(instance, node, value);
-        
+
         if (node.hasChild("Description")) {
             Description desc = (Description) node.getChildValue("Description");
             style.getDescription().setAbstract(desc.getAbstract());
             style.getDescription().setTitle(desc.getTitle());
         }
-        
+
         return style;
     }
 

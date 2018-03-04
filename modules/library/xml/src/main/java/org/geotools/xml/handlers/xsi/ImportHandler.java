@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -26,20 +26,20 @@ import org.xml.sax.SAXException;
 
 /**
  * ImportHandler purpose.
- * 
+ * <p>
  * <p>
  * Represents an 'import' element.
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc. http://www.refractions.net
  * @author $Author:$ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class ImportHandler extends XSIElementHandler {
-    /** 'import' */
+    /**
+     * 'import'
+     */
     public final static String LOCALNAME = "import";
     private static int offset = 0;
 
@@ -60,35 +60,35 @@ public class ImportHandler extends XSIElementHandler {
      */
     public int hashCode() {
         return (LOCALNAME.hashCode() * ((schemaLocation == null) ? 1
-                                                                 : schemaLocation
-        .hashCode())) + hashCodeOffset;
+                : schemaLocation
+                .hashCode())) + hashCodeOffset;
     }
 
     /**
      * @see org.geotools.xml.XSIElementHandler#getHandler(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
-    public XSIElementHandler getHandler(String namespaceURI, String localName){
+    public XSIElementHandler getHandler(String namespaceURI, String localName) {
         return null;
     }
 
     /**
      * @see org.geotools.xml.XSIElementHandler#startElement(java.lang.String,
-     *      java.lang.String, org.xml.sax.Attributes)
+     * java.lang.String, org.xml.sax.Attributes)
      */
     public void startElement(String namespaceURI, String localName,
-        Attributes atts) throws SAXException {
+                             Attributes atts) throws SAXException {
         String sl = atts.getValue("", "schemaLocation");
 
         if (sl == null) {
-        	sl = atts.getValue(namespaceURI, "schemaLocation");
+            sl = atts.getValue(namespaceURI, "schemaLocation");
         }
         try {
-			schemaLocation = sl!=null?new URI(sl):null;
-		} catch (URISyntaxException e) {
+            schemaLocation = sl != null ? new URI(sl) : null;
+        } catch (URISyntaxException e) {
             logger.warning(e.toString());
             throw new SAXException(e);
-		}
+        }
 
         String namespace1 = atts.getValue("", "namespace");
 
@@ -105,7 +105,7 @@ public class ImportHandler extends XSIElementHandler {
 
         if (namespaceURI.equalsIgnoreCase(namespace1)) {
             throw new SAXException(
-                "You may not import a namespace with the same name as the current namespace");
+                    "You may not import a namespace with the same name as the current namespace");
         }
     }
 
@@ -120,7 +120,6 @@ public class ImportHandler extends XSIElementHandler {
      * <p>
      * gets the namespace attribute
      * </p>
-     *
      */
     public URI getNamespace() {
         return namespace;
@@ -130,7 +129,6 @@ public class ImportHandler extends XSIElementHandler {
      * <p>
      * gets the schemaLocation attribute
      * </p>
-     *
      */
     public URI getSchemaLocation() {
         return schemaLocation;
@@ -145,9 +143,9 @@ public class ImportHandler extends XSIElementHandler {
 
     /**
      * @see org.geotools.xml.XSIElementHandler#endElement(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
-    public void endElement(String namespaceURI, String localName){
+    public void endElement(String namespaceURI, String localName) {
         // do nothing
     }
 }

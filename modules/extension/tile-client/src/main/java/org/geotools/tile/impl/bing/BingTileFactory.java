@@ -30,7 +30,7 @@ import org.geotools.tile.impl.ZoomLevel;
 class BingTileFactory extends WebMercatorTileFactory {
 
     public Tile findTileAtCoordinate(double lon, double lat, ZoomLevel zoomLevel,
-            TileService service) {
+                                     TileService service) {
 
         int[] tileXY = BingTileUtil.lonLatToPixelXY(lon, lat, zoomLevel.getZoomLevel());
 

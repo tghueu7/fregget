@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -18,17 +18,16 @@ package org.geotools.factory;
 
 import java.util.Arrays;
 import java.util.Iterator;
+
 import static org.junit.Assert.*;
 
 
 /**
  * An implementation of {@link FactoryIteratorProvider} over the {@link DummyFactory}.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
  */
 public final class DummyFactoryIteratorProvider implements FactoryIteratorProvider {
     /**
@@ -52,14 +51,14 @@ public final class DummyFactoryIteratorProvider implements FactoryIteratorProvid
         assertEquals(DummyFactory.class, category);
         final DummyFactory[] factories;
         if (firstHalf) {
-            factories = new DummyFactory[] {
-                new DummyFactory.Example1(),
-                new DummyFactory.Example2(),
+            factories = new DummyFactory[]{
+                    new DummyFactory.Example1(),
+                    new DummyFactory.Example2(),
             };
         } else {
-            factories = new DummyFactory[] {
-                new DummyFactory.Example3(),
-                new DummyFactory.Example4()
+            factories = new DummyFactory[]{
+                    new DummyFactory.Example3(),
+                    new DummyFactory.Example4()
             };
         }
         return (Iterator) Arrays.asList(factories).iterator();

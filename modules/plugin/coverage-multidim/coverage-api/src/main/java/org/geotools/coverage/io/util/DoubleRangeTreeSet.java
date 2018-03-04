@@ -24,14 +24,13 @@ import org.geotools.util.NumberRange;
 
 /**
  * A treeset implementation with a built-in comparator for NumberRange<Double> objects
- * 
+ *
  * @author Andrea Aime - GeoSolutions
- * 
  */
 public class DoubleRangeTreeSet extends TreeSet<NumberRange<Double>> {
 
     private static final long serialVersionUID = -1613807310486642564L;
-    
+
     static NumberRangeComparator COMPARATOR = new NumberRangeComparator();
 
     public DoubleRangeTreeSet() {

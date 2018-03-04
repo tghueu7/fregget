@@ -88,7 +88,8 @@ public class TileViewer {
 
         map.getViewport().setBounds(env);
 
-        String baseURL = "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/${code}?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z";
+        String baseURL = "http://ak.dynamic.t2.tiles.virtualearth" +
+                ".net/comp/ch/${code}?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z";
         map.addLayer(new TileLayer(new BingService("Road", baseURL)));
         map.addLayer(
                 new AsyncTileLayer(new OSMService("Mapnik", "http://tile.openstreetmap.org/")));

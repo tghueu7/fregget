@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -33,14 +33,12 @@ import org.opengis.style.StyleVisitor;
  *
  * @author iant
  * @author Johann Sorel (Geomatys)
- *
- *
  * @source $URL$
  */
 public class RasterSymbolizerImpl extends AbstractSymbolizer implements RasterSymbolizer {
-    
+
     private OverlapBehavior behavior;
-    
+
     // TODO: make container ready
     private FilterFactory filterFactory;
     private ChannelSelection channelSelection = new ChannelSelectionImpl();
@@ -51,21 +49,22 @@ public class RasterSymbolizerImpl extends AbstractSymbolizer implements RasterSy
     private Symbolizer symbolizer;
     private Expression opacity;
 
-    public RasterSymbolizerImpl(){
-        this( CommonFactoryFinder.getFilterFactory(GeoTools.getDefaultHints()));
+    public RasterSymbolizerImpl() {
+        this(CommonFactoryFinder.getFilterFactory(GeoTools.getDefaultHints()));
     }
 
     public RasterSymbolizerImpl(FilterFactory factory) {
-        this(factory,null,null,null,null);   
+        this(factory, null, null, null, null);
     }
-    
-    public RasterSymbolizerImpl(FilterFactory factory, Description desc, String name, Unit<Length> uom, OverlapBehavior behavior) {
+
+    public RasterSymbolizerImpl(FilterFactory factory, Description desc, String name, 
+                                Unit<Length> uom, OverlapBehavior behavior) {
         super(name, desc, (String) null, uom);
         this.filterFactory = factory;
         this.opacity = filterFactory.literal(1.0);
         this.behavior = behavior;
     }
-    
+
 
     @Override
     public int hashCode() {
@@ -243,7 +242,7 @@ public class RasterSymbolizerImpl extends AbstractSymbolizer implements RasterSy
      * system-dependent.
      *
      * @return The expression which evaluates to LATEST_ON_TOP,
-     *         EARLIEST_ON_TOP, AVERAGE or RANDOM
+     * EARLIEST_ON_TOP, AVERAGE or RANDOM
      */
     @Deprecated
     public Expression getOverlap() {
@@ -253,11 +252,11 @@ public class RasterSymbolizerImpl extends AbstractSymbolizer implements RasterSy
         }
         return filterFactory.literal(overlap.toString());
     }
-    
+
     public OverlapBehavior getOverlapBehavior() {
         return behavior;
     }
-    
+
     public void setOverlapBehavior(OverlapBehavior overlapBehavior) {
         this.behavior = overlapBehavior;
     }
@@ -299,7 +298,7 @@ public class RasterSymbolizerImpl extends AbstractSymbolizer implements RasterSy
         if (this.channelSelection == channel) {
             return;
         }
-        this.channelSelection = ChannelSelectionImpl.cast( channel );
+        this.channelSelection = ChannelSelectionImpl.cast(channel);
     }
 
     /**
@@ -322,7 +321,7 @@ public class RasterSymbolizerImpl extends AbstractSymbolizer implements RasterSy
         if (this.colorMap == colorMap) {
             return;
         }
-        this.colorMap = ColorMapImpl.cast( colorMap );
+        this.colorMap = ColorMapImpl.cast(colorMap);
     }
 
     /**
@@ -347,7 +346,7 @@ public class RasterSymbolizerImpl extends AbstractSymbolizer implements RasterSy
         if (this.contrastEnhancement == contrastEnhancement) {
             return;
         }
-        this.contrastEnhancement = ContrastEnhancementImpl.cast( contrastEnhancement );
+        this.contrastEnhancement = ContrastEnhancementImpl.cast(contrastEnhancement);
     }
 
     /**
@@ -371,24 +370,22 @@ public class RasterSymbolizerImpl extends AbstractSymbolizer implements RasterSy
      * the fill.
      *
      * @param symbolizer the symbolizer to be used. If this is <B>not</B> a
-     *        polygon or a line symbolizer an unexpected argument exception
-     *        may be thrown by an implementing class.
-     *
+     *                   polygon or a line symbolizer an unexpected argument exception
+     *                   may be thrown by an implementing class.
      * @throws IllegalArgumentException DOCUMENT ME!
      */
     public void setImageOutline(org.opengis.style.Symbolizer symbolizer) {
-        if( symbolizer == null ){
+        if (symbolizer == null) {
             this.symbolizer = null;
-        }
-        else if (symbolizer instanceof LineSymbolizer
+        } else if (symbolizer instanceof LineSymbolizer
                 || symbolizer instanceof PolygonSymbolizer) {
             if (this.symbolizer == symbolizer) {
                 return;
             }
-            this.symbolizer = StyleFactoryImpl2.cast( symbolizer );
+            this.symbolizer = StyleFactoryImpl2.cast(symbolizer);
         } else {
             throw new IllegalArgumentException(
-                "Only a line or polygon symbolizer may be used to outline a raster");
+                    "Only a line or polygon symbolizer may be used to outline a raster");
         }
     }
 
@@ -417,11 +414,11 @@ public class RasterSymbolizerImpl extends AbstractSymbolizer implements RasterSy
      * system-dependent.
      *
      * @param overlap the expression which evaluates to LATEST_ON_TOP,
-     *        EARLIEST_ON_TOP, AVERAGE or RANDOM
+     *                EARLIEST_ON_TOP, AVERAGE or RANDOM
      */
     @Deprecated
     public void setOverlap(Expression overlap) {
-        if(overlap == null)	{
+        if (overlap == null) {
             return;
         }
 
@@ -450,24 +447,23 @@ public class RasterSymbolizerImpl extends AbstractSymbolizer implements RasterSy
         if (this.shadedRelief == shadedRelief) {
             return;
         }
-        this.shadedRelief = ShadedReliefImpl.cast( shadedRelief );
+        this.shadedRelief = ShadedReliefImpl.cast(shadedRelief);
     }
 
-    public Object accept(StyleVisitor visitor,Object data) {
-        return visitor.visit(this,data);
+    public Object accept(StyleVisitor visitor, Object data) {
+        return visitor.visit(this, data);
     }
-        
+
     public void accept(org.geotools.styling.StyleVisitor visitor) {
         visitor.visit(this);
     }
-    
+
 
     /**
      * Creates a deep copy clone.   TODO: Need to complete the deep copy,
      * currently only shallow copy.
      *
      * @return The deep copy clone.
-     *
      * @throws RuntimeException DOCUMENT ME!
      */
     public Object clone() {
@@ -483,27 +479,27 @@ public class RasterSymbolizerImpl extends AbstractSymbolizer implements RasterSy
     }
 
     static RasterSymbolizerImpl cast(org.opengis.style.Symbolizer symbolizer) {
-        if( symbolizer == null ){
+        if (symbolizer == null) {
             return null;
         }
-        if( symbolizer instanceof RasterSymbolizerImpl ){
+        if (symbolizer instanceof RasterSymbolizerImpl) {
             return (RasterSymbolizerImpl) symbolizer;
-        }
-        else if (symbolizer instanceof org.opengis.style.RasterSymbolizer ){
-            org.opengis.style.RasterSymbolizer rasterSymbolizer = (org.opengis.style.RasterSymbolizer) symbolizer;
+        } else if (symbolizer instanceof org.opengis.style.RasterSymbolizer) {
+            org.opengis.style.RasterSymbolizer rasterSymbolizer = (org.opengis.style
+                    .RasterSymbolizer) symbolizer;
             RasterSymbolizerImpl copy = new RasterSymbolizerImpl();
-            copy.setChannelSelection( rasterSymbolizer.getChannelSelection());
-            copy.setColorMap( rasterSymbolizer.getColorMap() );
-            copy.setContrastEnhancement( rasterSymbolizer.getContrastEnhancement() );
-            copy.setDescription( rasterSymbolizer.getDescription());
-            copy.setGeometryPropertyName( rasterSymbolizer.getGeometryPropertyName() );
-            copy.setImageOutline( rasterSymbolizer.getImageOutline() );
-            copy.setName( rasterSymbolizer.getName());
-            copy.setOpacity( rasterSymbolizer.getOpacity());
-            copy.setOverlapBehavior( rasterSymbolizer.getOverlapBehavior() );
-            copy.setShadedRelief( rasterSymbolizer.getShadedRelief());
-            copy.setUnitOfMeasure( rasterSymbolizer.getUnitOfMeasure());
-            
+            copy.setChannelSelection(rasterSymbolizer.getChannelSelection());
+            copy.setColorMap(rasterSymbolizer.getColorMap());
+            copy.setContrastEnhancement(rasterSymbolizer.getContrastEnhancement());
+            copy.setDescription(rasterSymbolizer.getDescription());
+            copy.setGeometryPropertyName(rasterSymbolizer.getGeometryPropertyName());
+            copy.setImageOutline(rasterSymbolizer.getImageOutline());
+            copy.setName(rasterSymbolizer.getName());
+            copy.setOpacity(rasterSymbolizer.getOpacity());
+            copy.setOverlapBehavior(rasterSymbolizer.getOverlapBehavior());
+            copy.setShadedRelief(rasterSymbolizer.getShadedRelief());
+            copy.setUnitOfMeasure(rasterSymbolizer.getUnitOfMeasure());
+
             return copy;
         }
         return null; // must not be a raster symbolizer

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -41,7 +41,6 @@ import junit.framework.TestCase;
 
 /**
  * Purpose: these tests ensure that the output of CalcResult converts as expected.
- *
  *
  * @source $URL$
  */

@@ -44,46 +44,53 @@ import org.geotools.feature.NameImpl;
 
 public class MapServerTest {
 
-    private WFSDataStore getWFSDataStore(HTTPClient httpClient) throws IOException, ServiceException {
-        URL capabilitiesUrl = new URL("http://127.0.0.1:8888/mapserver?service=WFS&version=1.1.0&REQUEST=GetCapabilities");        
-        
-        WFSDataStore wfs = new WFSDataStore(new WFSClient(capabilitiesUrl, httpClient, 
+    private WFSDataStore getWFSDataStore(HTTPClient httpClient) throws IOException, 
+            ServiceException {
+        URL capabilitiesUrl = new URL("http://127.0.0.1:8888/mapserver?service=WFS&version=1.1.0" +
+                "&REQUEST=GetCapabilities");
+
+        WFSDataStore wfs = new WFSDataStore(new WFSClient(capabilitiesUrl, httpClient,
                 WFSTestData.getGmlCompatibleConfig()));
-            
+
         return wfs;
     }
-   
+
     @Test
     public void testGetFeatures() throws Exception {
-        
+
         WFSDataStore wfs = getWFSDataStore(new AbstractTestHTTPClient() {
-            
+
             @Override
             public HTTPResponse get(URL url) throws IOException {
                 if (url.getQuery().contains("REQUEST=GetCapabilities")) {
-                    return new TestHttpResponse(url("MapServer/GetCapabilities_1_1_0.xml"), "text/xml");
+                    return new TestHttpResponse(url("MapServer/GetCapabilities_1_1_0.xml"), 
+                            "text/xml");
                 } else {
-                    return new TestHttpResponse(url("MapServer/GetFeature_GovernmentalUnitCE.xml"), "text/xml");                    
+                    return new TestHttpResponse(url("MapServer/GetFeature_GovernmentalUnitCE" +
+                            ".xml"), "text/xml");
                 }
-                
+
             }
 
             @Override
-            public HTTPResponse post(URL url, InputStream postContent, String postContentType) throws IOException {
-                String request = new String(IOUtils.toByteArray(postContent), "UTF-8");     
-                if (request.contains("<wfs:DescribeFeatureType"))
-                {
-                    return new TestHttpResponse(url("MapServer/DescribeFeatureType_GovernmentalUnitCE.xsd"), "text/xml");
+            public HTTPResponse post(URL url, InputStream postContent, String postContentType) 
+                    throws IOException {
+                String request = new String(IOUtils.toByteArray(postContent), "UTF-8");
+                if (request.contains("<wfs:DescribeFeatureType")) {
+                    return new TestHttpResponse(url
+                            ("MapServer/DescribeFeatureType_GovernmentalUnitCE.xsd"), "text/xml");
                 } else {
-                    return new TestHttpResponse(url("MapServer/GetFeature_GovernmentalUnitCE.xml"), "text/xml");
+                    return new TestHttpResponse(url("MapServer/GetFeature_GovernmentalUnitCE" +
+                            ".xml"), "text/xml");
                 }
             }
         });
-        
-        SimpleFeatureSource source = wfs.getFeatureSource(new NameImpl("http://mapserver.gis.umn.edu/mapserver", "ms_GovernmentalUnitCE"));
+
+        SimpleFeatureSource source = wfs.getFeatureSource(new NameImpl("http://mapserver.gis.umn" +
+                ".edu/mapserver", "ms_GovernmentalUnitCE"));
         SimpleFeatureCollection features = source.getFeatures();
         SimpleFeatureIterator reader = features.features();
-        SimpleFeature sf = null;        
+        SimpleFeature sf = null;
         try {
             if (reader.hasNext()) {
                 sf = reader.next();
@@ -95,6 +102,6 @@ public class MapServerTest {
             assertNotNull(sf);
         } finally {
             reader.close();
-        }  
-    } 
+        }
+    }
 }

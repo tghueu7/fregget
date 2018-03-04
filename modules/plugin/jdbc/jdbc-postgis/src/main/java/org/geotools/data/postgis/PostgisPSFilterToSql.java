@@ -26,15 +26,13 @@ import org.opengis.filter.spatial.BinarySpatialOperator;
 import org.opengis.filter.spatial.DistanceBufferOperator;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class PostgisPSFilterToSql extends PreparedFilterToSQL {
-    
+
     FilterToSqlHelper helper;
     boolean functionEncodingEnabled;
-    
+
     public PostgisPSFilterToSql(PostGISPSDialect dialect) {
         super(dialect);
         helper = new FilterToSqlHelper(this);
@@ -51,11 +49,11 @@ public class PostgisPSFilterToSql extends PreparedFilterToSQL {
     public boolean isEncodeBBOXFilterAsEnvelope(boolean encodeBBOXFilterAsEnvelope) {
         return helper.encodeBBOXFilterAsEnvelope;
     }
-    
+
     public void setEncodeBBOXFilterAsEnvelope(boolean encodeBBOXFilterAsEnvelope) {
         helper.encodeBBOXFilterAsEnvelope = encodeBBOXFilterAsEnvelope;
     }
-    
+
     @Override
     protected FilterCapabilities createFilterCapabilities() {
         return helper.createFilterCapabilities(functionEncodingEnabled);
@@ -63,14 +61,15 @@ public class PostgisPSFilterToSql extends PreparedFilterToSQL {
 
     @Override
     protected Object visitBinarySpatialOperator(BinarySpatialOperator filter,
-            PropertyName property, Literal geometry, boolean swapped,
-            Object extraData) {
+                                                PropertyName property, Literal geometry, boolean 
+                                                            swapped,
+                                                Object extraData) {
         helper.out = out;
         return helper.visitBinarySpatialOperator(filter, property, geometry, swapped, extraData);
     }
 
-    protected Object visitBinarySpatialOperator(BinarySpatialOperator filter, Expression e1, 
-            Expression e2, Object extraData) {
+    protected Object visitBinarySpatialOperator(BinarySpatialOperator filter, Expression e1,
+                                                Expression e2, Object extraData) {
         helper.out = out;
         return helper.visitBinarySpatialOperator(filter, e1, e2, extraData);
     }
@@ -82,7 +81,7 @@ public class PostgisPSFilterToSql extends PreparedFilterToSQL {
     public void setFunctionEncodingEnabled(boolean functionEncodingEnabled) {
         this.functionEncodingEnabled = functionEncodingEnabled;
     }
-    
+
     @Override
     public double getDistanceInMeters(DistanceBufferOperator operator) {
         return super.getDistanceInMeters(operator);

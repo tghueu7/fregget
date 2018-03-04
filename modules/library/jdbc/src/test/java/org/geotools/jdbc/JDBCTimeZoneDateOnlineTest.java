@@ -28,7 +28,7 @@ import org.opengis.filter.FilterFactory;
 
 /**
  * Base class for online tests of JDBC time zone handling.
- * 
+ *
  * @source $URL$
  */
 public abstract class JDBCTimeZoneDateOnlineTest extends JDBCTestSupport {

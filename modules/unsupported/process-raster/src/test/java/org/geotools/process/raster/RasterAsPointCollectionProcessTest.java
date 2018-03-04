@@ -144,7 +144,7 @@ public class RasterAsPointCollectionProcessTest {
             TransformException {
         // Execution of the RasterAsPointCollectionProcess setting hemisphere and scaleFactor
         boolean hemisphere = true;
-        float scaleFactor = 1f/18;
+        float scaleFactor = 1f / 18;
         SimpleFeatureCollection collection = process.execute(coverage, null, scaleFactor, null,
                 hemisphere);
         // Check if the points are exactly as the number of pixel number
@@ -152,11 +152,12 @@ public class RasterAsPointCollectionProcessTest {
         // Check if each Point Attribute contains the same values of the Input coverage
         checkCollectionPoints(collection, hemisphere, scaleFactor, null);
     }
-    
+
     @Test
     public void testCoverageWithNearestInterp() throws MismatchedDimensionException,
             TransformException {
-        // Execution of the RasterAsPointCollectionProcess setting hemisphere, scaleFactor and nearest interpolation
+        // Execution of the RasterAsPointCollectionProcess setting hemisphere, scaleFactor and 
+        // nearest interpolation
         boolean hemisphere = true;
         float scaleFactor = 2.0f;
         Interpolation interp = new InterpolationNearest();
@@ -171,7 +172,8 @@ public class RasterAsPointCollectionProcessTest {
     @Test
     public void testCoverageWithBilinearInterp() throws MismatchedDimensionException,
             TransformException {
-        // Execution of the RasterAsPointCollectionProcess setting hemisphere, scaleFactor and bilinear interpolation
+        // Execution of the RasterAsPointCollectionProcess setting hemisphere, scaleFactor and 
+        // bilinear interpolation
         boolean hemisphere = true;
         float scaleFactor = 2.0f;
         Interpolation interp = new InterpolationBilinear();
@@ -186,7 +188,8 @@ public class RasterAsPointCollectionProcessTest {
     @Test
     public void testCoverageWithBicubicInterp() throws MismatchedDimensionException,
             TransformException {
-        // Execution of the RasterAsPointCollectionProcess setting hemisphere, scaleFactor and bicubic interpolation
+        // Execution of the RasterAsPointCollectionProcess setting hemisphere, scaleFactor and 
+        // bicubic interpolation
         boolean hemisphere = true;
         float scaleFactor = 2.0f;
         Interpolation interp = new InterpolationBicubic(8);
@@ -201,7 +204,8 @@ public class RasterAsPointCollectionProcessTest {
     @Test
     public void testCoverageWithTargetCRS() throws MismatchedDimensionException,
             TransformException, FactoryException {
-        // Execution of the RasterAsPointCollectionProcess setting hemisphere, scaleFactor, nearest interpolation and targetCRS
+        // Execution of the RasterAsPointCollectionProcess setting hemisphere, scaleFactor, 
+        // nearest interpolation and targetCRS
         boolean hemisphere = true;
         float scaleFactor = 2.0f;
         Interpolation interp = new InterpolationNearest();
@@ -227,7 +231,8 @@ public class RasterAsPointCollectionProcessTest {
     @Test
     public void testCoverageDifferentCRS() throws MismatchedDimensionException, TransformException,
             FactoryException {
-        // Execution of the RasterAsPointCollectionProcess setting hemisphere, scaleFactor, nearest interpolation and targetCRS
+        // Execution of the RasterAsPointCollectionProcess setting hemisphere, scaleFactor, 
+        // nearest interpolation and targetCRS
         boolean hemisphere = true;
         float scaleFactor = 2.0f;
         Interpolation interp = new InterpolationNearest();
@@ -252,7 +257,7 @@ public class RasterAsPointCollectionProcessTest {
     }
 
     private void checkCollectionPoints(SimpleFeatureCollection collection, boolean hemisphere,
-            Float scaleFactor, CoordinateReferenceSystem targetCRS)
+                                       Float scaleFactor, CoordinateReferenceSystem targetCRS)
             throws MismatchedDimensionException, TransformException {
         // World2Grid transform associated to the coverage
         MathTransform2D w2g = coverage.getGridGeometry()
@@ -268,7 +273,8 @@ public class RasterAsPointCollectionProcessTest {
             while (it.hasNext()) {
                 // Selection of the feature
                 SimpleFeature ft = it.next();
-                // If the scale factor is more than 1 then no comparison between the values is done due
+                // If the scale factor is more than 1 then no comparison between the values is 
+                // done due
                 // to possible differences on the interpolation
                 if (scaleFactor == null) {
                     // Selection of the associated point

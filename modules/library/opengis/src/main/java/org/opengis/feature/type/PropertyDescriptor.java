@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2007 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.feature.type;
@@ -20,10 +20,10 @@ import org.opengis.feature.ComplexAttribute;
  * <p>
  * A property descriptor defines the following about the property:
  * <ul>
- *   <li>type of the property
- *   <li>the name of the property
- *   <li>number of allowable occurrences of the property
- *   <li>nilability of the property
+ * <li>type of the property
+ * <li>the name of the property
+ * <li>number of allowable occurrences of the property
+ * <li>nilability of the property
  * </ul>
  * </p>
  * <br>
@@ -79,8 +79,6 @@ import org.opengis.feature.ComplexAttribute;
  *
  * @author Jody Garnett, Refractions Research
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
  * @source $URL$
  */
 public interface PropertyDescriptor {
@@ -111,6 +109,7 @@ public interface PropertyDescriptor {
      * <p>
      * This value is always an integer greater than or equal to zero.
      * </p>
+     *
      * @return An integer >= 0
      */
     int getMinOccurs();
@@ -122,6 +121,7 @@ public interface PropertyDescriptor {
      * This value is a positive integer. A value of <code>-1</code> means that
      * the max number of occurrences is unbounded.
      * </p>
+     *
      * @return An integer >= 0, or -1.
      */
     int getMaxOccurs();
@@ -141,5 +141,5 @@ public interface PropertyDescriptor {
      *
      * @return A map of user data.
      */
-    Map<Object,Object> getUserData();
+    Map<Object, Object> getUserData();
 }

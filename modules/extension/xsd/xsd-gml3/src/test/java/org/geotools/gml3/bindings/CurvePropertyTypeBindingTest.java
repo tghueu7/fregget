@@ -22,8 +22,6 @@ import org.w3c.dom.Document;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class CurvePropertyTypeBindingTest extends GML3TestSupport {
@@ -36,6 +34,7 @@ public class CurvePropertyTypeBindingTest extends GML3TestSupport {
     public void testEncode() throws Exception {
         Document dom = encode(GML3MockData.multiLineString(), GML.curveProperty);
         // print(dom);
-        assertEquals(1, dom.getElementsByTagName("gml:Curve").getLength() + dom.getElementsByTagName("gml:LineString").getLength() );
+        assertEquals(1, dom.getElementsByTagName("gml:Curve").getLength() + dom
+                .getElementsByTagName("gml:LineString").getLength());
     }
 }

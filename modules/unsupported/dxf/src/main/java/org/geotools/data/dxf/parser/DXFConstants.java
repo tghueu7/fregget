@@ -1,11 +1,7 @@
 package org.geotools.data.dxf.parser;
 
 /**
- *
  * @author Chris
- *
- *
- *
  * @source $URL$
  */
 public interface DXFConstants {
@@ -53,7 +49,8 @@ public interface DXFConstants {
     /* layer constants */
     public static final short LAYER_FROZEN = 1;  /* layer is frozen */
 
-    public static final short LAYER_AUTO_FROZEN = 2;  /* layer automatically frozen in all VIEWPORTS */
+    public static final short LAYER_AUTO_FROZEN = 2;  /* layer automatically frozen in all 
+    VIEWPORTS */
 
     public static final short LAYER_LOCKED = 4;  /* layer is locked */
 

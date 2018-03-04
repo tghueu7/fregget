@@ -18,6 +18,7 @@ package org.geotools.filter.v1_0;
 
 import java.net.URI;
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.identity.FeatureId;
 import org.geotools.xml.AbstractComplexBinding;
@@ -27,9 +28,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:FeatureIdType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="FeatureIdType"&gt;
  *      &lt;xsd:attribute name="fid" type="xsd:anyURI" use="required"/&gt;
@@ -40,9 +41,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OGCFeatureIdTypeBinding extends AbstractComplexBinding {
@@ -73,12 +71,12 @@ public class OGCFeatureIdTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return factory.featureId(node.getAttributeValue("fid").toString());
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         if ("fid".equals(name.getLocalPart())) {
             FeatureId featureId = (FeatureId) object;
 

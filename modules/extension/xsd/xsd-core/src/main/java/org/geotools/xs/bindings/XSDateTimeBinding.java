@@ -32,9 +32,9 @@ import org.geotools.xs.XS;
 
 /**
  * Binding object for the type http://www.w3.org/2001/XMLSchema:dateTime.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xs:simpleType name="dateTime" id="dateTime"&gt;
  *      &lt;xs:annotation&gt;
@@ -63,9 +63,6 @@ import org.geotools.xs.XS;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class XSDateTimeBinding implements SimpleBinding {
@@ -105,7 +102,7 @@ public class XSDateTimeBinding implements SimpleBinding {
      * @generated modifiable
      */
     public Timestamp parse(InstanceComponent instance, Object value)
-        throws Exception {
+            throws Exception {
         Calendar calendar = DatatypeConverterImpl.getInstance().parseDateTime((String) value, true);
         Timestamp dateTime = new Timestamp(calendar.getTimeInMillis());
         return dateTime;

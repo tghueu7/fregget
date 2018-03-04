@@ -42,7 +42,7 @@ import org.geotools.resources.i18n.Errors;
  * Miscellaneous methods, including cnvenience methods for {@link Object#equals equals} and
  * {@link Object#hashCode hashCode} implementations. Example use case in a class called
  * {@code Car}:
- *
+ * <p>
  * <pre>
  * public boolean equals(Object other) {
  *     if (this == aThat) {
@@ -59,7 +59,7 @@ import org.geotools.resources.i18n.Errors;
  *            Arrays   .equals(this.maintenanceChecks, that.maintenanceChecks);
  * }
  * </pre>
- *
+ * <p>
  * Note the usage of {@link Arrays} method for comparing arrays.
  * <p>
  * This class also provides convenience methods for computing {@linkplain Object#hashCode hash code}
@@ -69,12 +69,10 @@ import org.geotools.resources.i18n.Errors;
  * class in order to reduce the risk of collision between "empty" instances of different classes.
  * {@linkplain java.io.Serializable} classes can use {@code (int) serialVersionUID} for example.
  *
- * @since 2.5
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.5
  */
 public final class Utilities {
     /**
@@ -83,6 +81,7 @@ public final class Utilities {
      * length 4. Strings are constructed only when first needed.
      */
     private static final String[] spaces = new String[21];
+
     static {
         final int last = spaces.length - 1;
         final char[] blancs = new char[last];
@@ -105,47 +104,65 @@ public final class Utilities {
      * anonymous in order to avoid serialization issue.
      */
     private static final class EmptyQueue<E> extends AbstractQueue<E> implements Serializable {
-        /** For cross-version compatibility. **/
+        /**
+         * For cross-version compatibility.
+         **/
         private static final long serialVersionUID = -6147951199761870325L;
 
-        /** No effect on an queue which is already empty. */
+        /**
+         * No effect on an queue which is already empty.
+         */
         @Override
         public void clear() {
         }
 
-        /** Returns {@code true} is all case. */
+        /**
+         * Returns {@code true} is all case.
+         */
         @Override
         public boolean isEmpty() {
             return true;
         }
 
-        /** Returns the size, which is always 0. */
+        /**
+         * Returns the size, which is always 0.
+         */
         public int size() {
             return 0;
         }
 
-        /** Returns an empty iterator. */
+        /**
+         * Returns an empty iterator.
+         */
         public Iterator<E> iterator() {
             final Set<E> empty = Collections.emptySet();
             return empty.iterator();
         }
 
-        /** Always returns {@code false} since this queue doesn't accept any element. */
+        /**
+         * Always returns {@code false} since this queue doesn't accept any element.
+         */
         public boolean offer(E e) {
             return false;
         }
 
-        /** Always returns {@code null} since this queue is always empty. */
+        /**
+         * Always returns {@code null} since this queue is always empty.
+         */
         public E poll() {
             return null;
         }
 
-        /** Always returns {@code null} since this queue is always empty. */
+        /**
+         * Always returns {@code null} since this queue is always empty.
+         */
         public E peek() {
             return null;
         }
 
-        /** Returns the singleton instance of deserialization. */
+        /**
+         * Returns the singleton instance of deserialization.
+         */
         protected Object readResolve() throws ObjectStreamException {
             return EMPTY_QUEUE;
         }
@@ -165,7 +182,6 @@ public final class Utilities {
      * @param o1 The first value to compare.
      * @param o2 The second value to compare.
      * @return {@code true} if both values are equal.
-     *
      * @see Boolean#equals
      */
     public static boolean equals(boolean o1, boolean o2) {
@@ -180,7 +196,6 @@ public final class Utilities {
      * @param o1 The first value to compare.
      * @param o2 The second value to compare.
      * @return {@code true} if both values are equal.
-     *
      * @see Character#equals
      */
     public static boolean equals(char o1, char o2) {
@@ -195,7 +210,6 @@ public final class Utilities {
      * @param o1 The first value to compare.
      * @param o2 The second value to compare.
      * @return {@code true} if both values are equal.
-     *
      * @see Byte#equals
      */
     public static boolean equals(byte o1, byte o2) {
@@ -210,7 +224,6 @@ public final class Utilities {
      * @param o1 The first value to compare.
      * @param o2 The second value to compare.
      * @return {@code true} if both values are equal.
-     *
      * @see Short#equals
      */
     public static boolean equals(short o1, short o2) {
@@ -225,7 +238,6 @@ public final class Utilities {
      * @param o1 The first value to compare.
      * @param o2 The second value to compare.
      * @return {@code true} if both values are equal.
-     *
      * @see Integer#equals
      */
     public static boolean equals(int o1, int o2) {
@@ -240,7 +252,6 @@ public final class Utilities {
      * @param o1 The first value to compare.
      * @param o2 The second value to compare.
      * @return {@code true} if both values are equal.
-     *
      * @see Long#equals
      */
     public static boolean equals(long o1, long o2) {
@@ -254,15 +265,14 @@ public final class Utilities {
      * @param o1 The first value to compare.
      * @param o2 The second value to compare.
      * @return {@code true} if both values are equal.
-     *
      * @see Float#equals
      */
     public static boolean equals(float o1, float o2) {
         if (Float.floatToIntBits(o1) == Float.floatToIntBits(o2))
             return true;
-        
+
         double tol = getTolerance();
-        final double min = o1 - o1 * tol; 
+        final double min = o1 - o1 * tol;
         final double max = o1 + o1 * tol;
         return min <= o2 && o2 <= max;
     }
@@ -274,31 +284,31 @@ public final class Utilities {
      * @param o1 The first value to compare.
      * @param o2 The second value to compare.
      * @return {@code true} if both values are equal.
-     *
      * @see Double#equals
      */
     public static boolean equals(double o1, double o2) {
         if (Double.doubleToLongBits(o1) == Double.doubleToLongBits(o2))
             return true;
-        
+
         double tol = getTolerance();
-        final double min = o1 - Math.signum(o1) * o1 * tol; 
+        final double min = o1 - Math.signum(o1) * o1 * tol;
         final double max = o1 + Math.signum(o1) * o1 * tol;
         return min <= o2 && o2 <= max;
     }
-    
+
     /**
      * Gathers the tolerance for floating point comparisons
+     *
      * @return The tolerance set in the hints, or its default value if not set
      */
     private static double getTolerance() {
         Double tol = ((Double) Hints.getSystemDefault(Hints.COMPARISON_TOLERANCE));
-        if(tol == null)
+        if (tol == null)
             return Hints.COMPARISON_TOLERANCE.getDefault();
         else
             return tol;
     }
-    
+
     /**
      * Convenience method for testing two objects for equality. One or both objects may be null.
      * This method do <strong>not</strong> iterates recursively in array elements. If array needs
@@ -335,29 +345,29 @@ public final class Utilities {
      * If both are non-null and are arrays, then every array elements will be compared.
      * <p>
      * This method may be useful when the objects may or may not be array. If they are known
-     * to be arrays, consider using {@link Arrays#deepEquals(Object[],Object[])} or one of its
+     * to be arrays, consider using {@link Arrays#deepEquals(Object[], Object[])} or one of its
      * primitive counter-part instead.
      * <p>
      * <strong>Rules for choosing an {@code equals} or {@code deepEquals} method</strong>
      * <ul>
-     *   <li>If <em>both</em> objects are declared as {@code Object[]} (not anything else like
-     *   {@code String[]}), consider using {@link Arrays#deepEquals(Object[],Object[])} except
-     *   if it is known that the array elements can never be other arrays.</li>
-     *
-     *   <li>Otherwise if both objects are arrays (e.g. {@code Expression[]}, {@code String[]},
-     *   {@code int[]}, <cite>etc.</cite>), use {@link Arrays#equals(Object[],Object[])}. This
-     *   rule is applicable to arrays of primitive type too, since {@code Arrays.equals} is
-     *   overriden with primitive counter-parts.</li>
-     *
-     *   <li>Otherwise if at least one object is anything else than {@code Object} (e.g.
-     *   {@code String}, {@code Expression}, <cite>etc.</cite>), use {@link #equals(Object,Object)}.
-     *   Using this {@code deepEquals} method would be an overkill since there is no chance that
-     *   {@code String} or {@code Expression} could be an array.</li>
-     *
-     *   <li>Otherwise if <em>both</em> objects are declared exactly as {@code Object} type and
-     *   it is known that they could be arrays, only then invoke this {@code deepEquals} method.
-     *   In such case, make sure that the hash code is computed using {@link #deepHashCode} for
-     *   consistency.</li>
+     * <li>If <em>both</em> objects are declared as {@code Object[]} (not anything else like
+     * {@code String[]}), consider using {@link Arrays#deepEquals(Object[], Object[])} except
+     * if it is known that the array elements can never be other arrays.</li>
+     * <p>
+     * <li>Otherwise if both objects are arrays (e.g. {@code Expression[]}, {@code String[]},
+     * {@code int[]}, <cite>etc.</cite>), use {@link Arrays#equals(Object[], Object[])}. This
+     * rule is applicable to arrays of primitive type too, since {@code Arrays.equals} is
+     * overriden with primitive counter-parts.</li>
+     * <p>
+     * <li>Otherwise if at least one object is anything else than {@code Object} (e.g.
+     * {@code String}, {@code Expression}, <cite>etc.</cite>), use {@link #equals(Object, Object)}.
+     * Using this {@code deepEquals} method would be an overkill since there is no chance that
+     * {@code String} or {@code Expression} could be an array.</li>
+     * <p>
+     * <li>Otherwise if <em>both</em> objects are declared exactly as {@code Object} type and
+     * it is known that they could be arrays, only then invoke this {@code deepEquals} method.
+     * In such case, make sure that the hash code is computed using {@link #deepHashCode} for
+     * consistency.</li>
      * </ul>
      *
      * @param object1 The first object to compare, or {@code null}.
@@ -413,9 +423,9 @@ public final class Utilities {
     /**
      * Alters the given seed with the hash code value computed from the given value.
      *
-     * @param  value The value whose hash code to compute.
-     * @param  seed  The hash code value computed so far. If this method is invoked for the first
-     *               field, then any arbitrary value (preferrably different for each class) is okay.
+     * @param value The value whose hash code to compute.
+     * @param seed  The hash code value computed so far. If this method is invoked for the first
+     *              field, then any arbitrary value (preferrably different for each class) is okay.
      * @return An updated hash code value.
      */
     public static int hash(boolean value, int seed) {
@@ -426,9 +436,9 @@ public final class Utilities {
     /**
      * Alters the given seed with the hash code value computed from the given value.
      *
-     * @param  value The value whose hash code to compute.
-     * @param  seed  The hash code value computed so far. If this method is invoked for the first
-     *               field, then any arbitrary value (preferably different for each class) is okay.
+     * @param value The value whose hash code to compute.
+     * @param seed  The hash code value computed so far. If this method is invoked for the first
+     *              field, then any arbitrary value (preferably different for each class) is okay.
      * @return An updated hash code value.
      */
     public static int hash(char value, int seed) {
@@ -440,9 +450,9 @@ public final class Utilities {
      * {@code byte} and {@code short} primitive types are handled by this method as
      * well through implicit widening conversion.
      *
-     * @param  value The value whose hash code to compute.
-     * @param  seed  The hash code value computed so far. If this method is invoked for the first
-     *               field, then any arbitrary value (preferably different for each class) is okay.
+     * @param value The value whose hash code to compute.
+     * @param seed  The hash code value computed so far. If this method is invoked for the first
+     *              field, then any arbitrary value (preferably different for each class) is okay.
      * @return An updated hash code value.
      */
     public static int hash(int value, int seed) {
@@ -454,9 +464,9 @@ public final class Utilities {
      * {@code byte} and {@code short} primitive types are handled by this method as
      * well through implicit widening conversion.
      *
-     * @param  value The value whose hash code to compute.
-     * @param  seed  The hash code value computed so far. If this method is invoked for the first
-     *               field, then any arbitrary value (preferably different for each class) is okay.
+     * @param value The value whose hash code to compute.
+     * @param seed  The hash code value computed so far. If this method is invoked for the first
+     *              field, then any arbitrary value (preferably different for each class) is okay.
      * @return An updated hash code value.
      */
     public static int hash(long value, int seed) {
@@ -466,9 +476,9 @@ public final class Utilities {
     /**
      * Alters the given seed with the hash code value computed from the given value.
      *
-     * @param  value The value whose hash code to compute.
-     * @param  seed  The hash code value computed so far. If this method is invoked for the first
-     *               field, then any arbitrary value (preferably different for each class) is okay.
+     * @param value The value whose hash code to compute.
+     * @param seed  The hash code value computed so far. If this method is invoked for the first
+     *              field, then any arbitrary value (preferably different for each class) is okay.
      * @return An updated hash code value.
      */
     public static int hash(float value, int seed) {
@@ -478,9 +488,9 @@ public final class Utilities {
     /**
      * Alters the given seed with the hash code value computed from the given value.
      *
-     * @param  value The value whose hash code to compute.
-     * @param  seed  The hash code value computed so far. If this method is invoked for the first
-     *               field, then any arbitrary value (preferably different for each class) is okay.
+     * @param value The value whose hash code to compute.
+     * @param seed  The hash code value computed so far. If this method is invoked for the first
+     *              field, then any arbitrary value (preferably different for each class) is okay.
      * @return An updated hash code value.
      */
     public static int hash(double value, int seed) {
@@ -500,9 +510,9 @@ public final class Utilities {
      * runtime only if assertions are enabled. Using assertions for argument check in a public
      * API is usually a deprecated practice, but we make an exception for this particular method.
      *
-     * @param  value The value whose hash code to compute, or {@code null}.
-     * @param  seed  The hash code value computed so far. If this method is invoked for the first
-     *               field, then any arbitrary value (preferably different for each class) is okay.
+     * @param value The value whose hash code to compute, or {@code null}.
+     * @param seed  The hash code value computed so far. If this method is invoked for the first
+     *              field, then any arbitrary value (preferably different for each class) is okay.
      * @return An updated hash code value.
      * @throws AssertionError If assertions are enabled and the given value is an array.
      */
@@ -520,12 +530,12 @@ public final class Utilities {
      * This method returns one of the following values:
      * <p>
      * <ul>
-     *   <li>If the supplied object is {@code null}, then this method returns 0.</li>
-     *   <li>Otherwise if the object is an array of objects, then
-     *       {@link Arrays#deepHashCode(Object[])} is invoked.</li>
-     *   <li>Otherwise if the object is an array of primitive type, then the corresponding
-     *       {@link Arrays#hashCode(double[]) Arrays.hashCode(...)} method is invoked.</li>
-     *   <li>Otherwise {@link Object#hashCode()} is invoked.<li>
+     * <li>If the supplied object is {@code null}, then this method returns 0.</li>
+     * <li>Otherwise if the object is an array of objects, then
+     * {@link Arrays#deepHashCode(Object[])} is invoked.</li>
+     * <li>Otherwise if the object is an array of primitive type, then the corresponding
+     * {@link Arrays#hashCode(double[]) Arrays.hashCode(...)} method is invoked.</li>
+     * <li>Otherwise {@link Object#hashCode()} is invoked.<li>
      * </ul>
      * <p>
      * This method should be invoked <strong>only</strong> if the object type is declared
@@ -574,11 +584,11 @@ public final class Utilities {
      * This method returns one of the following values:
      * <p>
      * <ul>
-     *   <li>If the object is an array of objects, then
-     *       {@link Arrays#deepToString(Object[])} is invoked.</li>
-     *   <li>Otherwise if the object is an array of primitive type, then the corresponding
-     *       {@link Arrays#toString(double[]) Arrays.toString(...)} method is invoked.</li>
-     *   <li>Otherwise {@link String#valueOf(String)} is invoked.<li>
+     * <li>If the object is an array of objects, then
+     * {@link Arrays#deepToString(Object[])} is invoked.</li>
+     * <li>Otherwise if the object is an array of primitive type, then the corresponding
+     * {@link Arrays#toString(double[]) Arrays.toString(...)} method is invoked.</li>
+     * <li>Otherwise {@link String#valueOf(String)} is invoked.<li>
      * </ul>
      * <p>
      * This method should be invoked <strong>only</strong> if the object type is declared
@@ -624,7 +634,6 @@ public final class Utilities {
      *
      * @param <E> The type of elements in the empty collection.
      * @return An empty collection.
-     *
      * @see Collections#emptyList
      * @see Collections#emptySet
      */
@@ -637,7 +646,7 @@ public final class Utilities {
      * Returns a string of the specified length filled with white spaces.
      * This method tries to return a pre-allocated string if possible.
      *
-     * @param  length The string length. Negative values are clamped to 0.
+     * @param length The string length. Negative values are clamped to 0.
      * @return A string of length {@code length} filled with white spaces.
      */
     public static String spaces(int length) {
@@ -666,8 +675,8 @@ public final class Utilities {
 
     /**
      * Makes sure that an argument is non-null.
-     * 
-     * @param name Argument name.
+     *
+     * @param name   Argument name.
      * @param object User argument.
      * @throws NullPointerException if {@code object} is null.
      */
@@ -682,7 +691,7 @@ public final class Utilities {
      * Makes sure that an argument is non-null and throws an {@link IllegalArgumentException}
      * if it is.
      *
-     * @param name argument name
+     * @param name   argument name
      * @param object argument
      * @throws IllegalArgumentException if {@code object} is null.
      */
@@ -695,12 +704,12 @@ public final class Utilities {
 
     /**
      * Creates a stream over the specified {@link Iterable}'s elements.
-     *
+     * <p>
      * This operation is lazy in the sense that it does not iterate over the elements
      * until the Stream is consumed.
      *
      * @param iterable the iterable to stream over
-     * @param <T> the type of elements contained in the iterable
+     * @param <T>      the type of elements contained in the iterable
      * @return a stream over the iterable's elements
      */
     public static <T> Stream<T> stream(Iterable<T> iterable) {
@@ -709,12 +718,12 @@ public final class Utilities {
 
     /**
      * Creates a stream over the specified {@link Iterator}'s elements.
-     *
+     * <p>
      * This operation is lazy in the sense that it does not iterate over the elements
      * until the Stream is consumed.
      *
      * @param iterator the iterator to stream over
-     * @param <T> the type of elements contained in the iterator
+     * @param <T>      the type of elements contained in the iterator
      * @return a stream over the iterator's elements
      */
     public static <T> Stream<T> stream(Iterator<T> iterator) {
@@ -726,7 +735,7 @@ public final class Utilities {
      * {@link Optional} is empty or not.
      *
      * @param optional the optional to stream over
-     * @param <T> the type of the element contained in the optional
+     * @param <T>      the type of the element contained in the optional
      * @return a stream over the option's element or empty
      */
     public static <T> Stream<T> stream(Optional<T> optional) {
@@ -734,46 +743,51 @@ public final class Utilities {
     }
 
     /**
-     * Creates a stream with zero or one elements, depending on whether the specified {@code supertype} is
-     * actually a supertype of the specified {@code type} (according to {@code supertype.isAssignableFrom(type)}).
-     *
-     * If the test is {@code true}, {@code type} is cast to a subclass of {@code supertype} and returned
+     * Creates a stream with zero or one elements, depending on whether the specified {@code 
+     * supertype} is
+     * actually a supertype of the specified {@code type} (according to {@code supertype
+     * .isAssignableFrom(type)}).
+     * <p>
+     * If the test is {@code true}, {@code type} is cast to a subclass of {@code supertype} and 
+     * returned
      * in the stream; otherwise the stream is empty.
      *
-     * @param type the type to cast
+     * @param type      the type to cast
      * @param supertype the surmised supertype of {@code type}
-     * @param <T> the type of {@code type}
-     * @param <U> the type of {@code supertype}
+     * @param <T>       the type of {@code type}
+     * @param <U>       the type of {@code supertype}
      * @return a stream over {@code type} cast to a subclass of {@code supertype} or empty
      */
-    public static <T, U> Stream<Class<? extends U>> streamIfSubtype(Class<T> type, Class<U> supertype) {
+    public static <T, U> Stream<Class<? extends U>> streamIfSubtype(Class<T> type, Class<U> 
+            supertype) {
         return supertype.isAssignableFrom(type)
                 ? Stream.of(type.asSubclass(supertype))
                 : Stream.empty();
     }
 
-	/**
-	 * @param <T> the type of elements in the stream
-	 * @return a {@code Collector} which collects elements into an unmodifiable {@code Set}
-	 */
-	public static <T> Collector<T, ?, Set<T>> toUnmodifiableSet() {
+    /**
+     * @param <T> the type of elements in the stream
+     * @return a {@code Collector} which collects elements into an unmodifiable {@code Set}
+     */
+    public static <T> Collector<T, ?, Set<T>> toUnmodifiableSet() {
         return Collectors.collectingAndThen(Collectors.toSet(), Collections::unmodifiableSet);
     }
 
-	/**
-	 * Collects stream elements into a {@code Map} whose values are the stream elements and
-	 * whose keys are those elements' fully qualified class names.
-	 *
-	 * If the stream contains several instances of the same class, only one of them will be
-	 * present in the map. If the stream has an iteration order, the later elements win
-	 * over earlier ones.
-	 *
-	 * @param <T> the type of elements in the stream
-	 * @return a {@code Collector} which collects elements into a {@code Map}
-	 * whose keys are class names and whose values are stream elements
-	 */
-	public static <T> Collector<T, ?, Map<String, T>> toInstanceByClassNameMap() {
-        return Collectors.toMap(element -> element.getClass().getName(), Function.identity(), (first, second) -> second);
+    /**
+     * Collects stream elements into a {@code Map} whose values are the stream elements and
+     * whose keys are those elements' fully qualified class names.
+     * <p>
+     * If the stream contains several instances of the same class, only one of them will be
+     * present in the map. If the stream has an iteration order, the later elements win
+     * over earlier ones.
+     *
+     * @param <T> the type of elements in the stream
+     * @return a {@code Collector} which collects elements into a {@code Map}
+     * whose keys are class names and whose values are stream elements
+     */
+    public static <T> Collector<T, ?, Map<String, T>> toInstanceByClassNameMap() {
+        return Collectors.toMap(element -> element.getClass().getName(), Function.identity(), 
+                (first, second) -> second);
     }
 
 }

@@ -28,28 +28,27 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/se:PolygonSymbolizer.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
- *  &lt;xsd:element name="PolygonSymbolizer" substitutionGroup="se:Symbolizer" type="se:PolygonSymbolizerType"&gt;
+ *  &lt;xsd:element name="PolygonSymbolizer" substitutionGroup="se:Symbolizer" 
+ *  type="se:PolygonSymbolizerType"&gt;
  *      &lt;xsd:annotation&gt;
  *          &lt;xsd:documentation&gt;
  *          A "PolygonSymbolizer" specifies the rendering of a polygon or
  *          area geometry, including its interior fill and border stroke.
  *        &lt;/xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
- *  &lt;/xsd:element&gt; 
- * 	
+ *  &lt;/xsd:element&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class PolygonSymbolizerBinding extends SLDPolygonSymbolizerBinding {
@@ -69,24 +68,24 @@ public class PolygonSymbolizerBinding extends SLDPolygonSymbolizerBinding {
     public int getExecutionMode() {
         return BEFORE;
     }
-    
+
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
-        PolygonSymbolizer sym = (PolygonSymbolizer) super.parse(instance, node, value); 
-        
+        PolygonSymbolizer sym = (PolygonSymbolizer) super.parse(instance, node, value);
+
         //&lt;xsd:element minOccurs="0" ref="se:Displacement"/&gt;
         if (node.hasChild("Displacement")) {
             sym.setDisplacement((Displacement) node.getChildValue("Displacement"));
         }
         //&lt;xsd:element minOccurs="0" ref="se:PerpendicularOffset"/&gt;
         if (node.hasChild("PerpendicularOffset")) {
-            sym.setPerpendicularOffset((Expression)node.getChildValue("PerpendicularOffset"));
+            sym.setPerpendicularOffset((Expression) node.getChildValue("PerpendicularOffset"));
         }
-        
+
         return sym;
     }
 

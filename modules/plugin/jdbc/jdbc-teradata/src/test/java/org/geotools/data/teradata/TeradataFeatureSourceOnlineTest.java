@@ -21,8 +21,6 @@ import org.geotools.jdbc.JDBCTestSetup;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class TeradataFeatureSourceOnlineTest extends JDBCFeatureSourceOnlineTest {

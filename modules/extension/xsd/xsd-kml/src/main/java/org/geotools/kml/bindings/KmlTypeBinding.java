@@ -19,6 +19,7 @@ package org.geotools.kml.bindings;
 import java.util.List;
 
 import javax.xml.namespace.QName;
+
 import org.opengis.feature.simple.SimpleFeature;
 import org.geotools.feature.FeatureCollection;
 import org.geotools.kml.KML;
@@ -29,13 +30,14 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://earth.google.com/kml/2.1:KmlType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType final="#all" name="KmlType"&gt;
  *      &lt;all&gt;
- *          &lt;element minOccurs="0" name="NetworkLinkControl" type="kml:NetworkLinkControlType"/&gt;
+ *          &lt;element minOccurs="0" name="NetworkLinkControl" 
+ *          type="kml:NetworkLinkControlType"/&gt;
  *          &lt;element minOccurs="0" ref="kml:Feature"/&gt;
  *      &lt;/all&gt;
  *  &lt;/complexType&gt;
@@ -45,9 +47,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class KmlTypeBinding extends AbstractComplexBinding {
@@ -75,17 +74,17 @@ public class KmlTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return node.getChildValue(SimpleFeature.class);
     }
-    
+
     public Object getProperty(Object object, QName name) throws Exception {
         if (KML.Feature.getLocalPart().equals(name.getLocalPart())
                 || org.geotools.kml.v22.KML.AbstractFeatureGroup.getLocalPart().equals(
-                        name.getLocalPart())) {
+                name.getLocalPart())) {
             return object;
         }
-        
+
         return null;
     }
 }

@@ -36,13 +36,12 @@ import org.opengis.geometry.Envelope;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
- * Mock map pane class for testing in a headless environment. 
- * 
- * @author Michael Bedward
- * @since 8.0
+ * Mock map pane class for testing in a headless environment.
  *
- * @source $URL$
+ * @author Michael Bedward
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 public class MockMapPane extends JPanel implements MapPane {
     private MapContent mapContent;
@@ -53,7 +52,7 @@ public class MockMapPane extends JPanel implements MapPane {
         mapPaneListeners = new ArrayList<MapPaneListener>();
         mouseEventDispatcher = new DefaultMapMouseEventDispatcher(this);
     }
-    
+
     @Override
     public void setMapContent(MapContent content) {
         mapContent = content;
@@ -78,11 +77,11 @@ public class MockMapPane extends JPanel implements MapPane {
             crs = mapContent.getCoordinateReferenceSystem();
         }
         ReferencedEnvelope refEnv = new ReferencedEnvelope(
-                envelope.getMinimum(0), envelope.getMaximum(0), 
+                envelope.getMinimum(0), envelope.getMaximum(0),
                 envelope.getMinimum(1), envelope.getMaximum(1), crs);
         mapContent.getViewport().setBounds(refEnv);
     }
-    
+
     public void setScreenArea(Rectangle screenArea) {
         mapContent.getViewport().setScreenArea(screenArea);
     }
@@ -101,7 +100,7 @@ public class MockMapPane extends JPanel implements MapPane {
     public AffineTransform getWorldToScreenTransform() {
         return mapContent.getViewport().getWorldToScreen();
     }
-    
+
     @Override
     public void addMapPaneListener(MapPaneListener listener) {
         if (listener == null) {

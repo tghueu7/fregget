@@ -1,7 +1,7 @@
 /**
  * <copyright>
  * </copyright>
- *
+ * <p>
  * $Id$
  */
 package org.geotools.data.efeature.internal;
@@ -19,22 +19,22 @@ import org.opengis.feature.Property;
 
 /**
  * An abstract implementation of the model data type {@link EFeatureProperty}.
- * 
- * @author kengu, 22. apr. 2011
  *
+ * @author kengu, 22. apr. 2011
  * @source $URL$
  */
 public abstract class EFeaturePropertyDelegate<V, T extends Property, S extends EStructuralFeature>
         implements EFeatureProperty<V, T> {
-    
+
     /**
-     * Cached {@link EFeatureInternal} instance containing the {@link Property#getValue() property value}.
+     * Cached {@link EFeatureInternal} instance containing the 
+     * {@link Property#getValue() property value}.
      * <p>
      * The {@link #eObject delegate} is stored as a {@link WeakReference weak reference} so it is
      * not prevented from being finalized and garbage collected.
      */
     protected WeakReference<EFeatureInternal> eInternal;
-    
+
     /**
      * Cached {@link Property property data} instance
      */
@@ -49,29 +49,29 @@ public abstract class EFeaturePropertyDelegate<V, T extends Property, S extends 
      * The actual value class.
      */
     protected Class<V> eValueType;
-    
+
     /**
      * Cached {@link EFeatureAttributeInfo}
      */
     protected EFeatureAttributeInfo eStructure;
 
     /**
-     * The id of the {@link EStructuralFeature structural feature} 
-     * of the {@link #eObject implementation} which contains 
+     * The id of the {@link EStructuralFeature structural feature}
+     * of the {@link #eObject implementation} which contains
      * the {@link #getData() property data}
      */
     protected WeakReference<EStructuralFeature> eStructuralFeature;
-    
+
     /**
-     * Cached value when {@link #isDetached() detached} 
+     * Cached value when {@link #isDetached() detached}
      */
     protected V eValue;
-    
+
     /**
      * Flag indication that detached value should be updated
      */
     protected Boolean eInitDetached = true;
-    
+
     // ----------------------------------------------------- 
     //  Constructors
     // -----------------------------------------------------
@@ -79,17 +79,18 @@ public abstract class EFeaturePropertyDelegate<V, T extends Property, S extends 
     /**
      * Default constructor.
      * <p>
+     *
      * @param eInternal
      * @param eStructuralFeature
-     * @param dataType - {@link #getData() data} type.
-     * @param valueType - {@link #getValue() value} type.
+     * @param dataType           - {@link #getData() data} type.
+     * @param valueType          - {@link #getValue() value} type.
      */
-    protected EFeaturePropertyDelegate(EFeatureInternal eInternal, 
-            String eName, Class<T> dataType, Class<V> valueType) {
+    protected EFeaturePropertyDelegate(EFeatureInternal eInternal,
+                                       String eName, Class<T> dataType, Class<V> valueType) {
         //
         // Forward
         //
-        super();        
+        super();
         //
         // Get EFeatureAttribute structure
         //
@@ -109,7 +110,7 @@ public abstract class EFeaturePropertyDelegate<V, T extends Property, S extends 
             //
             // Not correct type
             //
-            throw new IllegalArgumentException("Value type '" + 
+            throw new IllegalArgumentException("Value type '" +
                     valueType.getName() + "'" + " mismatch");
         }
         //
@@ -119,7 +120,7 @@ public abstract class EFeaturePropertyDelegate<V, T extends Property, S extends 
         this.eValueType = valueType;
         this.eInternal = new WeakReference<EFeatureInternal>(eInternal);
         this.eStructuralFeature = new WeakReference<EStructuralFeature>(eAttribute);
-        
+
     }
 
     // ----------------------------------------------------- 
@@ -130,16 +131,16 @@ public abstract class EFeaturePropertyDelegate<V, T extends Property, S extends 
     public String getName() {
         return getStructuralFeature().getName();
     }
-        
+
     /**
      * Check if EFeaturePropertyDelegate is disposed.
      * <p>
-     * 
+     *
      * @return <code>true</code> if EFeaturePropertyDelegate is disposed.
      */
     public final boolean isDisposed() {
-        return eInternal.get() == null 
-            || eStructuralFeature.get() == null;
+        return eInternal.get() == null
+                || eStructuralFeature.get() == null;
     }
 
     /**
@@ -189,7 +190,7 @@ public abstract class EFeaturePropertyDelegate<V, T extends Property, S extends 
     public final Class<V> getValueType() {
         return eValueType;
     }
-    
+
     @Override
     public boolean isDetached() {
         return eInternal().eHints.eValuesDetached();
@@ -203,18 +204,18 @@ public abstract class EFeaturePropertyDelegate<V, T extends Property, S extends 
         //
         // Detached?
         //
-        if(isDetached()) {
+        if (isDetached()) {
             //
             // Initialize detached value?
             //
-            if(eInitDetached) {
+            if (eInitDetached) {
                 return read();
-            } 
+            }
             //
             // Finished
             //    
             return eValue;
-            
+
         } else {
             //
             // Release value
@@ -233,7 +234,7 @@ public abstract class EFeaturePropertyDelegate<V, T extends Property, S extends 
 
     /**
      * @throws IllegalStateException If delegate is {@link #isDisposed() disposed}.
-     * @throws NullPointerException If new value is <code>null</code>.
+     * @throws NullPointerException  If new value is <code>null</code>.
      */
     @Override
     public final void setValue(V newValue) {
@@ -241,13 +242,13 @@ public abstract class EFeaturePropertyDelegate<V, T extends Property, S extends 
             throw new NullPointerException("Value can not be set to null");
         }
         V value = eValueType.cast(newValue);
-        if(isDetached()) {
+        if (isDetached()) {
             eValue = newValue;
         } else {
             eObject().eSet(eStructuralFeature(), value);
         }
     }
-    
+
     @Override
     public V read() throws IllegalStateException {
         return read(eInternal().eTx);
@@ -258,7 +259,7 @@ public abstract class EFeaturePropertyDelegate<V, T extends Property, S extends 
         //
         // Check if detached 
         //
-        if(isDetached()) {
+        if (isDetached()) {
             //
             // TODO Implement read lock check
             //
@@ -283,12 +284,12 @@ public abstract class EFeaturePropertyDelegate<V, T extends Property, S extends 
     }
 
     @Override
-    public V write(Transaction transaction) throws IllegalStateException {            
+    public V write(Transaction transaction) throws IllegalStateException {
         //
         // Decide if value is allowed to be updated from backing store
         //
-        if(!isDetached()) {
-            throw new IllegalStateException("EFeatureProperty " 
+        if (!isDetached()) {
+            throw new IllegalStateException("EFeatureProperty "
                     + getName() + " is not detached");
         }
         //
@@ -302,12 +303,11 @@ public abstract class EFeaturePropertyDelegate<V, T extends Property, S extends 
     }
 
     /**
-     * @throws IllegalStateException 
-     *  If {@link EFeatureInternal internal implementation} 
-     *  is {@link #isDisposed() disposed}.
+     * @throws IllegalStateException If {@link EFeatureInternal internal implementation}
+     *                               is {@link #isDisposed() disposed}.
      */
     @Override
-    public final EObject eObject() {        
+    public final EObject eObject() {
         return eInternal().eImpl();
     }
 
@@ -334,15 +334,14 @@ public abstract class EFeaturePropertyDelegate<V, T extends Property, S extends 
         result.append(')');
         return result.toString();
     }
-    
+
     // ----------------------------------------------------- 
     //  EFeaturePropertyDelegate methods 
     // -----------------------------------------------------
-        
+
     /**
-     * @throws IllegalStateException 
-     *  If {@link EFeatureInternal internal implementation} 
-     *  is {@link #isDisposed() disposed}.
+     * @throws IllegalStateException If {@link EFeatureInternal internal implementation}
+     *                               is {@link #isDisposed() disposed}.
      */
     public final EFeatureInternal eInternal() {
         if (isDisposed()) {
@@ -350,7 +349,7 @@ public abstract class EFeaturePropertyDelegate<V, T extends Property, S extends 
         }
         return eInternal.get();
     }
-        
+
     // ----------------------------------------------------- 
     //  Abstract EFeaturePropertyDelegate methods 
     // -----------------------------------------------------
@@ -362,17 +361,17 @@ public abstract class EFeaturePropertyDelegate<V, T extends Property, S extends 
 
     /**
      * Validate {@link Property property data} instance.
-     * 
-     * @throws IllegalArgumentException If data is not valid.
+     *
      * @return property value casted to {@link #getValueType() value type} if valid.
+     * @throws IllegalArgumentException If data is not valid.
      */
     protected abstract V validate(T data) throws IllegalArgumentException;
 
     /**
      * Validate {@link Property#getValue() property value}.
-     * 
-     * @throws IllegalArgumentException If value is not valid.
+     *
      * @return property value casted to {@link #getValueType() value type} if valid.
+     * @throws IllegalArgumentException If value is not valid.
      */
     protected abstract V validate(Object value) throws IllegalArgumentException;
 
@@ -381,9 +380,9 @@ public abstract class EFeaturePropertyDelegate<V, T extends Property, S extends 
     // -----------------------------------------------------
 
     protected final void eSetInitDetachedValues() {
-        eInitDetached=true;
+        eInitDetached = true;
     }
-    
+
     /**
      * @throws IllegalStateException If delegate is {@link #isDisposed() disposed}.
      */
@@ -393,6 +392,6 @@ public abstract class EFeaturePropertyDelegate<V, T extends Property, S extends 
         }
         return eStructuralFeature.get();
     }
-    
+
 
 } // EFeaturePropertyDelegate

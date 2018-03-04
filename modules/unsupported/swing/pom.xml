@@ -8,8 +8,8 @@
         Version: $Id: pom.xml 33582 2009-07-17 04:40:35Z mbedward $
      ======================================================================= -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                                http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -19,9 +19,9 @@
         <version>20-SNAPSHOT</version>
     </parent>
 
-  <!-- =========================================================== -->
-  <!--     Module Description                                      -->
-  <!-- =========================================================== -->
+    <!-- =========================================================== -->
+    <!--     Module Description                                      -->
+    <!-- =========================================================== -->
     <groupId>org.geotools</groupId>
     <artifactId>gt-swing</artifactId>
     <packaging>jar</packaging>
@@ -29,7 +29,7 @@
 
 
     <description>
-    Provides widgets for map display and other GUI elements
+        Provides widgets for map display and other GUI elements
     </description>
 
     <licenses>
@@ -41,9 +41,9 @@
     </licenses>
 
 
-  <!-- =========================================================== -->
-  <!--     Developers and Contributors                             -->
-  <!-- =========================================================== -->
+    <!-- =========================================================== -->
+    <!--     Developers and Contributors                             -->
+    <!-- =========================================================== -->
     <developers>
         <developer>
             <name>Jody Garnett</name>
@@ -138,10 +138,10 @@
             <version>${jt.version}</version>
             <scope>test</scope>
             <exclusions>
-              <exclusion>
-                 <groupId>com.vividsolutions</groupId>
-                 <artifactId>jts</artifactId>
-              </exclusion>
+                <exclusion>
+                    <groupId>com.vividsolutions</groupId>
+                    <artifactId>jts</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
     </dependencies>

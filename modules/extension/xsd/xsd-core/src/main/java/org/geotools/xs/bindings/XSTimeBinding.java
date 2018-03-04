@@ -21,6 +21,7 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 import javax.xml.namespace.QName;
+
 import org.geotools.xml.InstanceComponent;
 import org.geotools.xml.SimpleBinding;
 import org.geotools.xml.impl.DatatypeConverterImpl;
@@ -29,9 +30,9 @@ import org.geotools.xs.XS;
 
 /**
  * Binding object for the type http://www.w3.org/2001/XMLSchema:time.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xs:simpleType name="time" id="time"&gt;
  *      &lt;xs:annotation&gt;
@@ -60,9 +61,6 @@ import org.geotools.xs.XS;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class XSTimeBinding implements SimpleBinding {
@@ -102,7 +100,7 @@ public class XSTimeBinding implements SimpleBinding {
      * @generated modifiable
      */
     public Time parse(InstanceComponent instance, Object value)
-        throws Exception {
+            throws Exception {
         Calendar calTime = DatatypeConverterImpl.getInstance().parseTime((String) value);
         Time time = new Time(calTime.getTimeInMillis());
         return time;

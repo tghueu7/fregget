@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2012, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -25,12 +25,14 @@ import org.geotools.xml.XSD;
 /**
  * This interface contains the qualified names of all the types,elements, and attributes in the
  * http://www.opengis.net/wcseo/1.0 schema.
- * 
+ *
  * @generated
  */
 public final class WCSEO extends XSD {
 
-    /** singleton instance */
+    /**
+     * singleton instance
+     */
     private static final WCSEO instance = new WCSEO();
 
     /**
@@ -64,17 +66,25 @@ public final class WCSEO extends XSD {
         return getClass().getResource("wcseo/v1_0/wcsEODescribeEOCoverageSet.xsd").toString();
     }
 
-    /** @generated */
+    /**
+     * @generated
+     */
     public static final String NAMESPACE = "http://www.opengis.net/wcseo/1.0";
 
-    /** @generated */
+    /**
+     * @generated
+     */
     public static final QName DescribeEOCoverageSetType = new QName(NAMESPACE,
             "DescribeEOCoverageSetType");
 
-    /** @generated */
+    /**
+     * @generated
+     */
     public static final QName Sections = new QName(NAMESPACE, "Sections");
 
-    /** @generated */
+    /**
+     * @generated
+     */
     public static final QName Section = new QName(NAMESPACE, "Section");
 
 }

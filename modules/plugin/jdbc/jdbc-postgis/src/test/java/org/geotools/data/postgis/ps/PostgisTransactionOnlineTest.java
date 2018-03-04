@@ -20,8 +20,6 @@ import org.geotools.jdbc.JDBCTestSetup;
 import org.geotools.jdbc.JDBCTransactionOnlineTest;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class PostgisTransactionOnlineTest extends JDBCTransactionOnlineTest {

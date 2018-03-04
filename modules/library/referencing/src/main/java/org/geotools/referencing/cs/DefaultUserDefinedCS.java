@@ -20,6 +20,7 @@
 package org.geotools.referencing.cs;
 
 import java.util.Map;
+
 import org.opengis.referencing.cs.UserDefinedCS;
 import org.opengis.referencing.cs.CoordinateSystemAxis;
 
@@ -33,12 +34,10 @@ import org.opengis.referencing.cs.CoordinateSystemAxis;
  * curved. A {@code UserDefinedCS} shall have two or three
  * {@linkplain #getAxis axis}.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class DefaultUserDefinedCS extends AbstractCS implements UserDefinedCS {
     /**
@@ -66,11 +65,10 @@ public class DefaultUserDefinedCS extends AbstractCS implements UserDefinedCS {
      * @param axis0 The first axis.
      * @param axis1 The second axis.
      */
-    public DefaultUserDefinedCS(final String               name,
+    public DefaultUserDefinedCS(final String name,
                                 final CoordinateSystemAxis axis0,
-                                final CoordinateSystemAxis axis1)
-    {
-        super(name, new CoordinateSystemAxis[] {axis0, axis1});
+                                final CoordinateSystemAxis axis1) {
+        super(name, new CoordinateSystemAxis[]{axis0, axis1});
     }
 
     /**
@@ -81,45 +79,42 @@ public class DefaultUserDefinedCS extends AbstractCS implements UserDefinedCS {
      * @param axis1 The second axis.
      * @param axis2 The third axis.
      */
-    public DefaultUserDefinedCS(final String               name,
+    public DefaultUserDefinedCS(final String name,
                                 final CoordinateSystemAxis axis0,
                                 final CoordinateSystemAxis axis1,
-                                final CoordinateSystemAxis axis2)
-    {
-        super(name, new CoordinateSystemAxis[] {axis0, axis1, axis2});
+                                final CoordinateSystemAxis axis2) {
+        super(name, new CoordinateSystemAxis[]{axis0, axis1, axis2});
     }
 
     /**
      * Constructs a two-dimensional coordinate system from a set of properties.
      * The properties map is given unchanged to the
-     * {@linkplain AbstractCS#AbstractCS(Map,CoordinateSystemAxis[]) super-class constructor}.
+     * {@linkplain AbstractCS#AbstractCS(Map, CoordinateSystemAxis[]) super-class constructor}.
      *
      * @param properties Set of properties. Should contains at least {@code "name"}.
-     * @param axis0 The first axis.
-     * @param axis1 The second axis.
+     * @param axis0      The first axis.
+     * @param axis1      The second axis.
      */
-    public DefaultUserDefinedCS(final Map<String,?>   properties,
+    public DefaultUserDefinedCS(final Map<String, ?> properties,
                                 final CoordinateSystemAxis axis0,
-                                final CoordinateSystemAxis axis1)
-    {
-        super(properties, new CoordinateSystemAxis[] {axis0, axis1});
+                                final CoordinateSystemAxis axis1) {
+        super(properties, new CoordinateSystemAxis[]{axis0, axis1});
     }
 
     /**
      * Constructs a three-dimensional coordinate system from a set of properties.
      * The properties map is given unchanged to the
-     * {@linkplain AbstractCS#AbstractCS(Map,CoordinateSystemAxis[]) super-class constructor}.
+     * {@linkplain AbstractCS#AbstractCS(Map, CoordinateSystemAxis[]) super-class constructor}.
      *
      * @param properties Set of properties. Should contains at least {@code "name"}.
-     * @param axis0 The first axis.
-     * @param axis1 The second axis.
-     * @param axis2 The third axis.
+     * @param axis0      The first axis.
+     * @param axis1      The second axis.
+     * @param axis2      The third axis.
      */
-    public DefaultUserDefinedCS(final Map<String,?>   properties,
+    public DefaultUserDefinedCS(final Map<String, ?> properties,
                                 final CoordinateSystemAxis axis0,
                                 final CoordinateSystemAxis axis1,
-                                final CoordinateSystemAxis axis2)
-    {
-        super(properties, new CoordinateSystemAxis[] {axis0, axis1, axis2});
+                                final CoordinateSystemAxis axis2) {
+        super(properties, new CoordinateSystemAxis[]{axis0, axis1, axis2});
     }
 }

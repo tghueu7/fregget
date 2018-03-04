@@ -38,7 +38,7 @@ class SFSLayer {
     Envelope bounds;
 
     public SFSLayer(Name typeName, boolean layerAxisOrder, String layerSRS,
-            CoordinateReferenceSystem crs, Envelope bounds) {
+                    CoordinateReferenceSystem crs, Envelope bounds) {
         super();
         this.typeName = typeName;
         this.xyOrder = layerAxisOrder;

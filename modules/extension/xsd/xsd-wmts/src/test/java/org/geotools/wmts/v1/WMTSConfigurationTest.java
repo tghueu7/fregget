@@ -22,23 +22,24 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import javax.xml.parsers.ParserConfigurationException;
+
 import net.opengis.wmts.v_1.CapabilitiesType;
 import net.opengis.wmts.v_1.ContentsType;
 import net.opengis.wmts.v_1.LayerType;
 import org.geotools.wmts.WMTSConfiguration;
 import org.geotools.xml.Parser;
+
 import static org.junit.Assert.*;
+
 import org.junit.Ignore;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 /**
- *
  * @author Emanuele Tajariol (etj at geo-solutions dot it)
  */
-public class WMTSConfigurationTest
-{
+public class WMTSConfigurationTest {
 
     public WMTSConfigurationTest() {
     }
@@ -78,13 +79,15 @@ public class WMTSConfigurationTest
 
     /**
      * TODO.
-     *
+     * <p>
      * Validation fails due to a gml/xlink conflict of some type:
-     *
-     * org.xml.sax.SAXParseException; systemId: http://schemas.opengis.net/gml/3.1.1/base/gmlBase.xsd; lineNumber: 268; columnNumber: 44; src-resolve: Cannot resolve the name 'xlink:simpleAttrs' to a(n) 'attribute group' component.
-     *
+     * <p>
+     * org.xml.sax.SAXParseException; systemId: http://schemas.opengis.net/gml/3.1.1/base/gmlBase
+     * .xsd; lineNumber: 268; columnNumber: 44; src-resolve: Cannot resolve the name 
+     * 'xlink:simpleAttrs' to a(n) 'attribute group' component.
+     * <p>
      * on line
-     *    <attributeGroup ref="xlink:simpleAttrs"/>
+     * <attributeGroup ref="xlink:simpleAttrs"/>
      */
     @Ignore
     @Test
@@ -95,7 +98,7 @@ public class WMTSConfigurationTest
             p.parse(is);
         }
         if (!p.getValidationErrors().isEmpty()) {
-            for (Iterator e = p.getValidationErrors().iterator(); e.hasNext();) {
+            for (Iterator e = p.getValidationErrors().iterator(); e.hasNext(); ) {
                 SAXParseException ex = (SAXParseException) e.next();
                 System.out.println(
                         ex.getLineNumber() + "," + ex.getColumnNumber() + " -" + ex.toString());

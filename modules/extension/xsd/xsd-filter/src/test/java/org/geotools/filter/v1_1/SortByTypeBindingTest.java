@@ -22,8 +22,6 @@ import org.geotools.xml.Binding;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SortByTypeBindingTest extends FilterTestSupport {

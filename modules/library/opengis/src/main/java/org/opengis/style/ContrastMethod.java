@@ -4,13 +4,14 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2008, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.style;
 
 import java.util.List;
 import java.util.ArrayList;
+
 import org.opengis.util.CodeList;
 
 import org.opengis.annotation.XmlElement;
@@ -19,7 +20,7 @@ import org.opengis.annotation.XmlElement;
 /**
  * The ContrastEnhancement element defines contrast enhancement for a channel of a
  * false-color image or for a color image.
- * 
+ * <p>
  * In the case of a color image, the relative grayscale brightness of a pixel color is used.
  * “Normalize” means to stretch the contrast so that the dimmest color is stretched to black
  * and the brightest color is stretched to white, with all colors in between stretched out
@@ -28,12 +29,11 @@ import org.opengis.annotation.XmlElement;
  * pixels in the image at each brightness level on output. This has the effect of revealing
  * many subtle ground features.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding Implementation Specification 1.1.0</A>
  * @author Open Geospatial Consortium
  * @author Johann Sorel (Geomatys)
+ * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding 
+ * Implementation Specification 1.1.0</A>
+ * @source $URL$
  * @since GeoAPI 2.2
  */
 @XmlElement("ContrastEnchancement:type")

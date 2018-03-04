@@ -20,14 +20,12 @@ import org.geotools.styling.StyledLayerDescriptor;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SLDStyledLayerDescriptorBindingTest extends SLDTestSupport {
     public void testType() throws Exception {
         assertEquals(StyledLayerDescriptor.class,
-            new SLDStyledLayerDescriptorBinding(null).getType());
+                new SLDStyledLayerDescriptorBinding(null).getType());
     }
 
     public void test() throws Exception {

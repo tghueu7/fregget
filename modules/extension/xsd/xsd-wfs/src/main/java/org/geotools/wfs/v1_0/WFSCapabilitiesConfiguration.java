@@ -21,13 +21,13 @@ package org.geotools.wfs.v1_0;
  * Parser configuration for the wfs 1.0 {@link WFSCapabilities schema}, different from the
  * {@link WFSConfiguration} because WFS 1.0 bases capabilities document and request/response
  * documents on different schemas.
- * 
+ *
  * @see WFSCapabilities
  */
 public class WFSCapabilitiesConfiguration extends org.geotools.wfs.WFSConfiguration {
     /**
      * Creates a new configuration.
-     * 
+     *
      * @generated
      */
     public WFSCapabilitiesConfiguration() {

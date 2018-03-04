@@ -7,8 +7,6 @@ import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class PostgisViewOnlineTest extends JDBCViewOnlineTest {
@@ -18,10 +16,11 @@ public class PostgisViewOnlineTest extends JDBCViewOnlineTest {
         return new PostgisViewTestSetup();
     }
 
-    
+
     public void testViewSrid() throws Exception {
         SimpleFeatureType schema = dataStore.getSchema("lakes_null_view");
-        CoordinateReferenceSystem crs = schema.getGeometryDescriptor().getCoordinateReferenceSystem();
+        CoordinateReferenceSystem crs = schema.getGeometryDescriptor()
+                .getCoordinateReferenceSystem();
         assertNotNull(crs);
         assertTrue(CRS.equalsIgnoreMetadata(CRS.decode("EPSG:4326"), crs));
     }

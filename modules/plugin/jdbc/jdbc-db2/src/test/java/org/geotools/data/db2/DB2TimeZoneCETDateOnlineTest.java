@@ -6,8 +6,6 @@ import org.geotools.jdbc.JDBCDateTestSetup;
 import org.geotools.jdbc.JDBCTimeZoneDateOnlineTest;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DB2TimeZoneCETDateOnlineTest extends JDBCTimeZoneDateOnlineTest {
@@ -17,5 +15,5 @@ public class DB2TimeZoneCETDateOnlineTest extends JDBCTimeZoneDateOnlineTest {
         super.setTimeZone(TimeZone.getTimeZone("CET"));
         return new DB2DateTestSetup();
     }
-    
+
 }

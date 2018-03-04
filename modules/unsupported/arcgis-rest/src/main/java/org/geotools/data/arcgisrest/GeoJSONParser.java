@@ -157,7 +157,7 @@ public class GeoJSONParser implements SimpleFeatureIterator {
 
         try {
             if (this.inFeatureCollection == true
-                && this.reader.peek() == JsonToken.BEGIN_OBJECT) {
+                    && this.reader.peek() == JsonToken.BEGIN_OBJECT) {
                 return true;
             }
         } catch (IOException e) {
@@ -267,7 +267,7 @@ public class GeoJSONParser implements SimpleFeatureIterator {
      * @throws IOException, JsonSyntaxException, IllegalStateException
      */
     protected void parsePointCoordinates(List<Double> coords)
-        throws JsonSyntaxException, IOException, IllegalStateException {
+            throws JsonSyntaxException, IOException, IllegalStateException {
 
         this.reader.beginArray();
 
@@ -295,7 +295,7 @@ public class GeoJSONParser implements SimpleFeatureIterator {
      * @throws IOException, JsonSyntaxException, IllegalStateException
      */
     public double[] parseCoordinateArray()
-        throws JsonSyntaxException, IOException, IllegalStateException {
+            throws JsonSyntaxException, IOException, IllegalStateException {
 
         List<Double> coords = new ArrayList<Double>();
 
@@ -317,7 +317,7 @@ public class GeoJSONParser implements SimpleFeatureIterator {
      * @throws IOException, JsonSyntaxException, IllegalStateException
      */
     public double[] parsePointCoordinates()
-        throws JsonSyntaxException, IOException, IllegalStateException {
+            throws JsonSyntaxException, IOException, IllegalStateException {
 
         List<Double> coords = new ArrayList<Double>();
         this.parsePointCoordinates(coords);
@@ -331,7 +331,7 @@ public class GeoJSONParser implements SimpleFeatureIterator {
      * @throws IOException, JsonSyntaxException, IllegalStateException
      */
     public List<double[]> parseMultiPointCoordinates()
-        throws JsonSyntaxException, IOException, IllegalStateException {
+            throws JsonSyntaxException, IOException, IllegalStateException {
 
         List<double[]> points = new ArrayList<double[]>();
 
@@ -351,7 +351,7 @@ public class GeoJSONParser implements SimpleFeatureIterator {
      * @throws IOException, JsonSyntaxException, IllegalStateExceptionadds them to coords
      */
     public double[] parseLineStringCoordinates()
-        throws JsonSyntaxException, IOException, IllegalStateException {
+            throws JsonSyntaxException, IOException, IllegalStateException {
 
         return this.parseCoordinateArray();
     }
@@ -363,7 +363,7 @@ public class GeoJSONParser implements SimpleFeatureIterator {
      * @throws IOException, JsonSyntaxException, IllegalStateException
      */
     public List<double[]> parseMultiLineStringCoordinates()
-        throws JsonSyntaxException, IOException, IllegalStateException {
+            throws JsonSyntaxException, IOException, IllegalStateException {
 
         List<double[]> lines = new ArrayList<double[]>();
 
@@ -382,7 +382,7 @@ public class GeoJSONParser implements SimpleFeatureIterator {
      * @throws IOException, JsonSyntaxException, IllegalStateException
      */
     public List<double[]> parsePolygonCoordinates()
-        throws JsonSyntaxException, IOException, IllegalStateException {
+            throws JsonSyntaxException, IOException, IllegalStateException {
 
         List<double[]> rings = new ArrayList<double[]>();
 
@@ -401,7 +401,7 @@ public class GeoJSONParser implements SimpleFeatureIterator {
      * @throws IOException, JsonSyntaxException, IllegalStateException
      */
     public List<List<double[]>> parseMultiPolygonCoordinates()
-        throws JsonSyntaxException, IOException, IllegalStateException {
+            throws JsonSyntaxException, IOException, IllegalStateException {
 
         List<List<double[]>> polys = new ArrayList<List<double[]>>();
 
@@ -420,7 +420,7 @@ public class GeoJSONParser implements SimpleFeatureIterator {
      * @throws IOException, JsonSyntaxException, IllegalStateException
      */
     public Geometry parseGeometry()
-        throws JsonSyntaxException, IOException, IllegalStateException {
+            throws JsonSyntaxException, IOException, IllegalStateException {
 
         double[] coords;
         GeometryBuilder builder = new GeometryBuilder();
@@ -431,7 +431,7 @@ public class GeoJSONParser implements SimpleFeatureIterator {
             if (this.reader.peek() == JsonToken.NULL) {
                 this.reader.nextNull();
                 throw (new MalformedJsonException(
-                    "just here to avoid repeating the return statement"));
+                        "just here to avoid repeating the return statement"));
             }
         } catch (IllegalStateException | MalformedJsonException e) {
             return builder.point();
@@ -459,7 +459,7 @@ public class GeoJSONParser implements SimpleFeatureIterator {
                 Point[] points = new Point[pointCoords.size()];
                 for (int i = 0; i < pointCoords.size(); i++) {
                     points[i] = (Point) builder.point(pointCoords.get(i)[0],
-                        pointCoords.get(i)[1]);
+                            pointCoords.get(i)[1]);
                 }
                 this.reader.endObject();
                 return (Geometry) new MultiPoint(points, geomFactory);
@@ -513,7 +513,7 @@ public class GeoJSONParser implements SimpleFeatureIterator {
      * @throws IOException, JsonSyntaxException, IllegalStateException
      */
     public Map<String, Object> parseProperties()
-        throws JsonSyntaxException, IOException, IllegalStateException {
+            throws JsonSyntaxException, IOException, IllegalStateException {
 
         Map<String, Object> props = new HashMap<String, Object>();
         String name;
@@ -524,7 +524,7 @@ public class GeoJSONParser implements SimpleFeatureIterator {
             if (this.reader.peek() == JsonToken.NULL) {
                 this.reader.nextNull();
                 throw (new MalformedJsonException(
-                    "just here to avoid repeating the return statement"));
+                        "just here to avoid repeating the return statement"));
             }
         } catch (IllegalStateException | MalformedJsonException e) {
             return props;
@@ -577,7 +577,7 @@ public class GeoJSONParser implements SimpleFeatureIterator {
 
         Geometry geom = null;
         String id = SimpleFeatureBuilder.createDefaultFeatureIdentifier(FEATURES)
-            .getID();
+                .getID();
         Map<String, Object> props = new HashMap<String, Object>();
         List<Object> values = new ArrayList();
         SimpleFeatureBuilder builder = new SimpleFeatureBuilder(this.featureType);
@@ -621,10 +621,10 @@ public class GeoJSONParser implements SimpleFeatureIterator {
         // Builds the feature, inserting the properties in the same
         // order of the atterbiutes in the feature type
         for (AttributeDescriptor attr : this.featureType
-            .getAttributeDescriptors()) {
+                .getAttributeDescriptors()) {
 
             if (this.featureType.getGeometryDescriptor().getLocalName()
-                .equals(attr.getLocalName())) {
+                    .equals(attr.getLocalName())) {
                 builder.add(geom);
             } else {
                 builder.add(props.get(attr.getLocalName()));
@@ -678,7 +678,7 @@ public class GeoJSONParser implements SimpleFeatureIterator {
 
         this.close();
         return new IOException("ArcGIS ReST API Error: " + err.getCode() + " "
-            + err.getMessage() + " " + String.join(",", err.getDetails()));
+                + err.getMessage() + " " + String.join(",", err.getDetails()));
     }
 
     /**
@@ -688,7 +688,7 @@ public class GeoJSONParser implements SimpleFeatureIterator {
      * @throws JsonSyntaxException ,IoException
      */
     protected void checkPropertyName(String expProp)
-        throws JsonSyntaxException, IOException {
+            throws JsonSyntaxException, IOException {
 
         if (!expProp.equals(this.reader.nextName())) {
             throw (new JsonSyntaxException("'" + expProp + "' property expected"));
@@ -702,7 +702,7 @@ public class GeoJSONParser implements SimpleFeatureIterator {
      * @throws JsonSyntaxException ,IoException
      */
     protected void checkPropertyValue(String expValue)
-        throws JsonSyntaxException, IOException {
+            throws JsonSyntaxException, IOException {
 
         if (!expValue.equals(this.reader.nextString())) {
             throw (new JsonSyntaxException("'" + expValue + "' value expected"));

@@ -27,19 +27,17 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineString;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class MultiCurveTypeBinding extends org.geotools.gml3.bindings.MultiCurveTypeBinding
-    implements Comparable {
-    
+        implements Comparable {
+
     public MultiCurveTypeBinding(GeometryFactory gf) {
         super(gf);
     }
 
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         // &lt;element maxOccurs="unbounded" minOccurs="0" ref="gml:curveMember"/&gt;
         List<Geometry> curveMemberList = node.getChildValues("curveMember");
         //&lt;element minOccurs="0" ref="gml:curveMembers"/&gt;
@@ -50,7 +48,7 @@ public class MultiCurveTypeBinding extends org.geotools.gml3.bindings.MultiCurve
         if (curveMemberList != null) {
             for (Geometry curveMember : curveMemberList) {
                 for (int i = 0; i < curveMember.getNumGeometries(); i++) {
-                    LineString lineString = (LineString)curveMember.getGeometryN(i);
+                    LineString lineString = (LineString) curveMember.getGeometryN(i);
                     lineStrings.add(lineString);
                 }
             }
@@ -58,7 +56,7 @@ public class MultiCurveTypeBinding extends org.geotools.gml3.bindings.MultiCurve
 
         if (curveMembers != null) {
             for (int i = 0; i < curveMembers.getNumGeometries(); i++) {
-                LineString lineString = (LineString)curveMembers.getGeometryN(i);
+                LineString lineString = (LineString) curveMembers.getGeometryN(i);
                 lineStrings.add(lineString);
             }
         }

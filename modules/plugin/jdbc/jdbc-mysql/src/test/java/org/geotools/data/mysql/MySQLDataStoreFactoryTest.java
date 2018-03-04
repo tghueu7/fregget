@@ -24,8 +24,6 @@ import org.geotools.jdbc.JDBCDataStoreFactory;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class MySQLDataStoreFactoryTest extends TestCase {

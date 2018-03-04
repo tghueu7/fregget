@@ -35,9 +35,9 @@ import org.geotools.xml.*;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:LineSymbolizer.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="LineSymbolizer" substitutionGroup="sld:Symbolizer"&gt;
  *      &lt;xsd:annotation&gt;
@@ -61,9 +61,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDLineSymbolizerBinding extends AbstractComplexBinding {
@@ -116,13 +113,13 @@ public class SLDLineSymbolizerBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         LineSymbolizer ls = styleFactory.createLineSymbolizer();
 
         //&lt;xsd:element ref="sld:Geometry" minOccurs="0"/&gt;
-        if(node.hasChild("Geometry")) {
+        if (node.hasChild("Geometry")) {
             Expression geometry = (Expression) node.getChildValue("Geometry");
-            if(geometry instanceof PropertyName) {
+            if (geometry instanceof PropertyName) {
                 PropertyName propertyName = (PropertyName) geometry;
                 ls.setGeometryPropertyName(propertyName.getPropertyName());
             } else {
@@ -134,10 +131,11 @@ public class SLDLineSymbolizerBinding extends AbstractComplexBinding {
         if (node.hasChild(Stroke.class)) {
             ls.setStroke((Stroke) node.getChildValue(Stroke.class));
         }
-        
+
         //&lt;xsd:element ref="sld:VendorOption" minOccurs="0" maxOccurs="unbounded"/&gt;
         for (CssParameter param : (List<CssParameter>) node.getChildValues(CssParameter.class)) {
-            ls.getOptions().put(param.getName(), param.getExpression().evaluate(null, String.class));
+            ls.getOptions().put(param.getName(), param.getExpression().evaluate(null, String
+                    .class));
         }
 
         return ls;

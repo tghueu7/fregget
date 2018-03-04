@@ -36,8 +36,6 @@ import org.opengis.referencing.NoSuchAuthorityCodeException;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SFSFeatureSourceTest extends OnlineTest {
@@ -59,7 +57,8 @@ public class SFSFeatureSourceTest extends OnlineTest {
         super.tearDown();
     }
 
-    public void testGetFeatureSource() throws MalformedURLException, IOException, NoSuchAuthorityCodeException, FactoryException {
+    public void testGetFeatureSource() throws MalformedURLException, IOException, 
+            NoSuchAuthorityCodeException, FactoryException {
         if (super.onlineTest("testGetFeatureSource")) {
             SFSDataStoreFactory factory = new SFSDataStoreFactory();
             SFSDataStore ods = (SFSDataStore) factory.createDataStore(createParams());
@@ -68,7 +67,8 @@ public class SFSFeatureSourceTest extends OnlineTest {
         }
     }
 
-    public void testGetSchema() throws MalformedURLException, IOException, NoSuchAuthorityCodeException, FactoryException {
+    public void testGetSchema() throws MalformedURLException, IOException, 
+            NoSuchAuthorityCodeException, FactoryException {
 
         if (super.onlineTest("testGetSchema")) {
             SFSDataStoreFactory factory = new SFSDataStoreFactory();
@@ -88,7 +88,8 @@ public class SFSFeatureSourceTest extends OnlineTest {
         }
     }
 
-    public void testCountFeatures() throws MalformedURLException, IOException, NoSuchAuthorityCodeException, FactoryException {
+    public void testCountFeatures() throws MalformedURLException, IOException, 
+            NoSuchAuthorityCodeException, FactoryException {
         if (super.onlineTest("testCountFeatures")) {
             SFSDataStoreFactory factory = new SFSDataStoreFactory();
             SFSDataStore ods = (SFSDataStore) factory.createDataStore(createParams());
@@ -98,32 +99,35 @@ public class SFSFeatureSourceTest extends OnlineTest {
             assertEquals(2, count);
         }
     }
-    
-    public void testCountFeaturesOffset() throws MalformedURLException, IOException, NoSuchAuthorityCodeException, FactoryException {
+
+    public void testCountFeaturesOffset() throws MalformedURLException, IOException, 
+            NoSuchAuthorityCodeException, FactoryException {
         if (super.onlineTest("testCountFeaturesOffset")) {
             SFSDataStoreFactory factory = new SFSDataStoreFactory();
             SFSDataStore ods = (SFSDataStore) factory.createDataStore(createParams());
             SFSFeatureSource odsfs = (SFSFeatureSource) ods.getFeatureSource(FEATURESOURCE);
             Query query = new Query(Query.ALL);
             query.setStartIndex(1);
- 
+
             assertEquals(1, odsfs.getCount(query));
         }
     }
-    
-    public void testCountFeaturesLimit() throws MalformedURLException, IOException, NoSuchAuthorityCodeException, FactoryException {
+
+    public void testCountFeaturesLimit() throws MalformedURLException, IOException, 
+            NoSuchAuthorityCodeException, FactoryException {
         if (super.onlineTest("testCountFeaturesLimit")) {
             SFSDataStoreFactory factory = new SFSDataStoreFactory();
             SFSDataStore ods = (SFSDataStore) factory.createDataStore(createParams());
             SFSFeatureSource odsfs = (SFSFeatureSource) ods.getFeatureSource(FEATURESOURCE);
             Query query = new Query(Query.ALL);
             query.setMaxFeatures(1);
-            
+
             assertEquals(1, odsfs.getCount(query));
         }
     }
-    
-    public void testCountFeaturesLimitOffset() throws MalformedURLException, IOException, NoSuchAuthorityCodeException, FactoryException {
+
+    public void testCountFeaturesLimitOffset() throws MalformedURLException, IOException, 
+            NoSuchAuthorityCodeException, FactoryException {
         if (super.onlineTest("testCountFeaturesLimitOffset")) {
             SFSDataStoreFactory factory = new SFSDataStoreFactory();
             SFSDataStore ods = (SFSDataStore) factory.createDataStore(createParams());
@@ -131,18 +135,20 @@ public class SFSFeatureSourceTest extends OnlineTest {
             Query query = new Query(Query.ALL);
             query.setMaxFeatures(1);
             query.setStartIndex(1);
-            
+
             assertEquals(1, odsfs.getCount(query));
         }
     }
 
-    public void testFeatureBounds() throws MalformedURLException, IOException, NoSuchAuthorityCodeException, FactoryException {
+    public void testFeatureBounds() throws MalformedURLException, IOException, 
+            NoSuchAuthorityCodeException, FactoryException {
         if (super.onlineTest("testFeatureBounds")) {
             SFSDataStoreFactory factory = new SFSDataStoreFactory();
             SFSDataStore ods = (SFSDataStore) factory.createDataStore(createParams());
             SFSFeatureSource odsfs = (SFSFeatureSource) ods.getFeatureSource(FEATURESOURCE);
 
-            ReferencedEnvelope env = odsfs.getBoundsInternal(new Query(FEATURESOURCE, Filter.INCLUDE));
+            ReferencedEnvelope env = odsfs.getBoundsInternal(new Query(FEATURESOURCE, Filter
+                    .INCLUDE));
             /* Remember the axis order is flipped so this also test if flipaxis is working or not*/
             assertEquals(-40.0, env.getMinX());
             assertEquals(-10.0, env.getMinY());
@@ -156,23 +162,25 @@ public class SFSFeatureSourceTest extends OnlineTest {
             SFSDataStoreFactory factory = new SFSDataStoreFactory();
             SFSDataStore ods = (SFSDataStore) factory.createDataStore(createParams());
 
-            FeatureReader<SimpleFeatureType, SimpleFeature> r = ods.getFeatureReader(new Query(FEATURESOURCE), Transaction.AUTO_COMMIT);
+            FeatureReader<SimpleFeatureType, SimpleFeature> r = ods.getFeatureReader(new Query
+                    (FEATURESOURCE), Transaction.AUTO_COMMIT);
             assertNotNull(r);
             assertTrue(r.hasNext());
         }
     }
-    
+
     public void testGetFeatureReaderWithOrFilter() throws Exception {
         if (super.onlineTest("testGetFeatureReader")) {
             SFSDataStoreFactory factory = new SFSDataStoreFactory();
             SFSDataStore ods = (SFSDataStore) factory.createDataStore(createParams());
-            
+
             FilterFactory ff = CommonFactoryFinder.getFilterFactory(null);
             Filter f1 = ff.equals(ff.property("CFCC"), ff.literal("A41"));
             Filter f2 = ff.equals(ff.property("CFCC"), ff.literal("A42"));
             Filter ored = ff.or(f1, f2);
 
-            FeatureReader<SimpleFeatureType, SimpleFeature> r = ods.getFeatureReader(new Query(FEATURESOURCE, ored), Transaction.AUTO_COMMIT);
+            FeatureReader<SimpleFeatureType, SimpleFeature> r = ods.getFeatureReader(new Query
+                    (FEATURESOURCE, ored), Transaction.AUTO_COMMIT);
             assertNotNull(r);
             assertTrue(r.hasNext());
             r.next();

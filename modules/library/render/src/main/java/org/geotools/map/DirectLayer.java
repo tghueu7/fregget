@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2010-2011, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -32,12 +32,12 @@ import java.awt.Graphics2D;
  * a visual display and are not making the raw features available to the geotools library for use.
  * </ul>
  * While any and all data sources could be wrapped up as a DirectLayer we encourage you to consider
- * a separate data mode, style model and renderer. 
- * @author Jody
- * @since 2.7
- * @version 8.0
+ * a separate data mode, style model and renderer.
  *
+ * @author Jody
+ * @version 8.0
  * @source $URL$
+ * @since 2.7
  */
 public abstract class DirectLayer extends Layer {
 
@@ -46,14 +46,11 @@ public abstract class DirectLayer extends Layer {
 
     /**
      * Draw layer contents onto screen
-     * 
-     * @param map
-     *            Map being drawn; check map bounds and crs
-     * @param graphics
-     *            Graphics to draw into
-     * @param viewport
-     *            Area to draw the map into; including screen area
+     *
+     * @param map      Map being drawn; check map bounds and crs
+     * @param graphics Graphics to draw into
+     * @param viewport Area to draw the map into; including screen area
      */
     public abstract void draw(Graphics2D graphics, MapContent map, MapViewport viewport);
-    
+
 }

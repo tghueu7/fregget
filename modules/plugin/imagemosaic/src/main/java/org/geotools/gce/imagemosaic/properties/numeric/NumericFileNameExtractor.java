@@ -37,7 +37,7 @@ abstract class NumericFileNameExtractor<N extends Number & Comparable<N>>
     static class IntegerFileNameExtractor extends NumericFileNameExtractor<Integer> {
 
         public IntegerFileNameExtractor(PropertiesCollectorSPI spi, List<String> propertyNames,
-                String regex) {
+                                        String regex) {
             super(spi, propertyNames, regex, Integer.class);
         }
 
@@ -46,7 +46,7 @@ abstract class NumericFileNameExtractor<N extends Number & Comparable<N>>
     static class ShortFileNameExtractor extends NumericFileNameExtractor<Short> {
 
         public ShortFileNameExtractor(PropertiesCollectorSPI spi, List<String> propertyNames,
-                String regex) {
+                                      String regex) {
             super(spi, propertyNames, regex, Short.class);
         }
 
@@ -55,7 +55,7 @@ abstract class NumericFileNameExtractor<N extends Number & Comparable<N>>
     static class DoubleFileNameExtractor extends NumericFileNameExtractor<Double> {
 
         public DoubleFileNameExtractor(PropertiesCollectorSPI spi, List<String> propertyNames,
-                String regex) {
+                                       String regex) {
             super(spi, propertyNames, regex, Double.class);
         }
 
@@ -64,7 +64,7 @@ abstract class NumericFileNameExtractor<N extends Number & Comparable<N>>
     static class FloatFileNameExtractor extends NumericFileNameExtractor<Float> {
 
         public FloatFileNameExtractor(PropertiesCollectorSPI spi, List<String> propertyNames,
-                String regex) {
+                                      String regex) {
             super(spi, propertyNames, regex, Float.class);
         }
 
@@ -73,7 +73,7 @@ abstract class NumericFileNameExtractor<N extends Number & Comparable<N>>
     static class ByteFileNameExtractor extends NumericFileNameExtractor<Byte> {
 
         public ByteFileNameExtractor(PropertiesCollectorSPI spi, List<String> propertyNames,
-                String regex) {
+                                     String regex) {
             super(spi, propertyNames, regex, Byte.class);
         }
 
@@ -82,7 +82,7 @@ abstract class NumericFileNameExtractor<N extends Number & Comparable<N>>
     static class LongFileNameExtractor extends NumericFileNameExtractor<Long> {
 
         public LongFileNameExtractor(PropertiesCollectorSPI spi, List<String> propertyNames,
-                String regex) {
+                                     String regex) {
             super(spi, propertyNames, regex, Long.class);
         }
 
@@ -95,7 +95,7 @@ abstract class NumericFileNameExtractor<N extends Number & Comparable<N>>
     private Converter converter;
 
     public NumericFileNameExtractor(PropertiesCollectorSPI spi, List<String> propertyNames,
-            String regex, final Class<N> targetClass) {
+                                    String regex, final Class<N> targetClass) {
         super(spi, propertyNames, regex);
 
         this.targetClasse = targetClass;
@@ -103,12 +103,15 @@ abstract class NumericFileNameExtractor<N extends Number & Comparable<N>>
                 GeoTools.getDefaultHints());
         // if (targetClasse != null) {
         // // look up a converter
-        // final Set<ConverterFactory> converters = Converters.getConverterFactories(String.class, targetClasse);
+        // final Set<ConverterFactory> converters = Converters.getConverterFactories(String
+        // .class, targetClasse);
         // if (!converters.isEmpty()) {
-        // this.converter = converters.iterator().next().createConverter(String.class, targetClasse, GeoTools.getDefaultHints());
+        // this.converter = converters.iterator().next().createConverter(String.class, 
+        // targetClasse, GeoTools.getDefaultHints());
         // return;
         // }
-        // throw new IllegalArgumentException("Unable to find a proper converter from String to the class:" + targetClasse);
+        // throw new IllegalArgumentException("Unable to find a proper converter from String to 
+        // the class:" + targetClasse);
         // }
 
     }

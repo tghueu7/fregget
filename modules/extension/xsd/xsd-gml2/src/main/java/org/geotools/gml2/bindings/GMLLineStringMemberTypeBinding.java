@@ -30,9 +30,9 @@ import com.vividsolutions.jts.geom.LineString;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:LineStringMemberType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="LineStringMemberType"&gt;
  *      &lt;annotation&gt;
@@ -54,9 +54,6 @@ import com.vividsolutions.jts.geom.LineString;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLLineStringMemberTypeBinding extends AbstractComplexBinding {
@@ -84,15 +81,15 @@ public class GMLLineStringMemberTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        return node.getChildValue( LineString.class );
+            throws Exception {
+        return node.getChildValue(LineString.class);
     }
-    
+
     public Object getProperty(Object object, QName name) {
-        return GML2EncodingUtils.GeometryPropertyType_getProperty( (LineString) object, name, false );
+        return GML2EncodingUtils.GeometryPropertyType_getProperty((LineString) object, name, false);
     }
-    
+
     public List getProperties(Object object) throws Exception {
-        return GML2EncodingUtils.GeometryPropertyType_getProperties( (LineString) object );
+        return GML2EncodingUtils.GeometryPropertyType_getProperties((LineString) object);
     }
 }

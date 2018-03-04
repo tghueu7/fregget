@@ -40,12 +40,9 @@ import com.vividsolutions.jts.geom.Polygon;
  * Unit tests for the Grids class.
  *
  * @author mbedward
- * @since 2.7
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.7
  */
 public class GridsSquareTest extends TestBase {
 
@@ -54,7 +51,8 @@ public class GridsSquareTest extends TestBase {
     private final int expectedRows = (int) (bounds.getHeight() / sideLen);
     private final int expectedCols = (int) (bounds.getWidth() / sideLen);
     private final int expectedNumElements = expectedRows * expectedCols;
-    private final ReferencedEnvelope expectedBounds = new ReferencedEnvelope(0, sideLen * expectedCols, 0, sideLen * expectedRows, null);
+    private final ReferencedEnvelope expectedBounds = new ReferencedEnvelope(0, sideLen * 
+            expectedCols, 0, sideLen * expectedRows, null);
 
     @Test
     public void createGrid() throws Exception {
@@ -73,7 +71,8 @@ public class GridsSquareTest extends TestBase {
     @Test
     public void createDensifiedGrid() throws Exception {
         final int vertexDensity = 10;
-        SimpleFeatureSource gridSource = Grids.createSquareGrid(bounds, sideLen, sideLen / vertexDensity);
+        SimpleFeatureSource gridSource = Grids.createSquareGrid(bounds, sideLen, sideLen / 
+                vertexDensity);
         assertGridSizeAndIds(gridSource);
 
         SimpleFeatureIterator iter = gridSource.getFeatures().features();
@@ -85,22 +84,22 @@ public class GridsSquareTest extends TestBase {
         }
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void createGrid_InvalidBounds() {
         Grids.createSquareGrid(ReferencedEnvelope.EVERYTHING, sideLen);
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void createGrid_NullBounds() {
         Grids.createSquareGrid(null, sideLen);
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void createGrid_BadSideLength() {
         Grids.createSquareGrid(bounds, 0);
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void incompatibleCRS() {
         CoordinateReferenceSystem boundsCRS = DefaultGeographicCRS.WGS84;
         CoordinateReferenceSystem builderCRS;
@@ -117,7 +116,8 @@ public class GridsSquareTest extends TestBase {
             }
         };
 
-        Grids.createSquareGrid(new ReferencedEnvelope(150, 151, -33, -34, boundsCRS), sideLen, sideLen, builder);
+        Grids.createSquareGrid(new ReferencedEnvelope(150, 151, -33, -34, boundsCRS), sideLen, 
+                sideLen, builder);
     }
 
     private void assertGridSizeAndIds(SimpleFeatureSource gridSource) throws Exception {
@@ -136,7 +136,7 @@ public class GridsSquareTest extends TestBase {
                 assertFalse(id == 0);
                 assertFalse(flag[id]);
                 flag[id] = true;
-                count++ ;
+                count++;
             }
 
         } finally {

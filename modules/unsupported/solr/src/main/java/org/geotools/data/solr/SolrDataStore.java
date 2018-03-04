@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2014 - 2016, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -57,6 +57,7 @@ import org.opengis.filter.sort.SortBy;
 import org.opengis.filter.sort.SortOrder;
 
 import com.vividsolutions.jts.geom.Geometry;
+
 import java.util.logging.Logger;
 
 /**
@@ -83,14 +84,15 @@ public class SolrDataStore extends ContentDataStore {
     private SolrAttribute pk = null;
 
     // Attributes configurations of the store entries
-    private Map<String, SolrLayerConfiguration> solrConfigurations = new ConcurrentHashMap<String, SolrLayerConfiguration>();
+    private Map<String, SolrLayerConfiguration> solrConfigurations = new 
+            ConcurrentHashMap<String, SolrLayerConfiguration>();
 
     HttpSolrClient solrServer;
 
     /**
      * Create the data store, using the {@link FieldLayerMapper}.
-     * 
-     * @param url the URL of SOLR server
+     *
+     * @param url   the URL of SOLR server
      * @param field SOLR field to query to obtain the store types
      */
     public SolrDataStore(URL url, String field) {
@@ -100,7 +102,7 @@ public class SolrDataStore extends ContentDataStore {
     /**
      * Creates the datastore.
      *
-     * @param url The URL of SOLR server
+     * @param url         The URL of SOLR server
      * @param layerMapper The document loader.
      */
     public SolrDataStore(URL url, SolrLayerMapper layerMapper) {
@@ -125,12 +127,10 @@ public class SolrDataStore extends ContentDataStore {
      * SolrJ not extracts information about uniqueKey so custom class
      * {@link ExtendedFieldSchemaInfo} is used. <br/>
      * MultiValued SOLR field is mapped as String type
-     * 
+     *
      * @param layerName the type to use to query the SOLR field {@link SolrDataStore#field}
-     * 
      * @see {@link SolrUtils#decodeSolrFieldType}
      * @see {@link ExtendedFieldSchemaInfo#ExtendedFieldSchemaInfo}
-     * 
      */
     public ArrayList<SolrAttribute> getSolrAttributes(String layerName) {
         if (solrAttributes.isEmpty()) {
@@ -155,7 +155,8 @@ public class SolrDataStore extends ContentDataStore {
                         String solrTypeName = fty.getClassName();
                         Class<?> objType = SolrUtils.decodeSolrFieldType(solrTypeName);
                         if (objType != null) {
-                            ExtendedFieldSchemaInfo extendedFieldSchemaInfo = new SolrUtils.ExtendedFieldSchemaInfo(
+                            ExtendedFieldSchemaInfo extendedFieldSchemaInfo = new SolrUtils
+                                    .ExtendedFieldSchemaInfo(
                                     processSchema, processField, name);
                             SolrAttribute at = new SolrAttribute(name, objType);
                             at.setSolrType(solrTypeName);
@@ -227,7 +228,7 @@ public class SolrDataStore extends ContentDataStore {
     /**
      * The filter capabilities which reports which spatial operations the underlying SOLR server can
      * handle natively.
-     * 
+     *
      * @return The filter capabilities, never <code>null</code>.
      */
     public FilterCapabilities getFilterCapabilities() {
@@ -267,7 +268,8 @@ public class SolrDataStore extends ContentDataStore {
             return ((FieldLayerMapper) layerMapper).getField();
         }
 
-        throw new IllegalStateException("Layer mapper not instance of " + FieldLayerMapper.class.getName());
+        throw new IllegalStateException("Layer mapper not instance of " + FieldLayerMapper.class
+                .getName());
     }
 
     /**
@@ -280,7 +282,7 @@ public class SolrDataStore extends ContentDataStore {
     /**
      * Gets the primary key attribute a type in this datastore.</br> If the key is not currently
      * available a call to {@link #getSolrAttributes} is needed.
-     * 
+     *
      * @param layerName the type to use to query the SOLR field {@link SolrDataStore#field}
      */
     public SolrAttribute getPrimaryKey(String layerName) {
@@ -303,12 +305,10 @@ public class SolrDataStore extends ContentDataStore {
      * retrieving <br>
      * Currently only additional "q" and "fq" SOLR parameters can be passed using vireParams, this
      * conditions are added in AND with others
-     * 
+     *
      * @param featureType the feature type to query
-     * @param q the OGC query to translate in SOLR request
-     * 
+     * @param q           the OGC query to translate in SOLR request
      * @see {@link Hints#VIRTUAL_TABLE_PARAMETERS}
-     * 
      */
     protected SolrQuery select(SimpleFeatureType featureType, Query q) {
         SolrQuery query = new SolrQuery();
@@ -338,7 +338,8 @@ public class SolrDataStore extends ContentDataStore {
                         query.addSort(sort.getPropertyName().getPropertyName(), sort.getSortOrder()
                                 .equals(SortOrder.ASCENDING) ? ORDER.asc : ORDER.desc);
                     } else {
-                        naturalSortOrder = sort.getSortOrder().equals(SortOrder.ASCENDING) ? ORDER.asc
+                        naturalSortOrder = sort.getSortOrder().equals(SortOrder.ASCENDING) ? 
+                                ORDER.asc
                                 : ORDER.desc;
                     }
                 }
@@ -367,15 +368,14 @@ public class SolrDataStore extends ContentDataStore {
     }
 
     /**
-     * Builds the SolrJ count query with support of limit/offset, OGC filter encoding and viewParams <br>
+     * Builds the SolrJ count query with support of limit/offset, OGC filter encoding and 
+     * viewParams <br>
      * Currently only additional "q" and "fq" SOLR parameters can be passed using viewParams, this
      * conditions are added in AND with others
-     * 
+     *
      * @param featureType the feature type to query
-     * @param q the OGC query to translate in SOLR request
-     * 
+     * @param q           the OGC query to translate in SOLR request
      * @see {@link Hints#VIRTUAL_TABLE_PARAMETERS}
-     * 
      */
     protected SolrQuery count(SimpleFeatureType featureType, Query q) {
         SolrQuery query = new SolrQuery();
@@ -385,7 +385,7 @@ public class SolrDataStore extends ContentDataStore {
         try {
 
             // Encode limit/offset, if necessary
-           
+
             if (q.getStartIndex() != null && q.getStartIndex() >= 0) {
                 query.setStart(q.getStartIndex());
             }

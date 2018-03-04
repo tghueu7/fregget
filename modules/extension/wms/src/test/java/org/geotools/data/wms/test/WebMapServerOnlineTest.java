@@ -41,11 +41,9 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  * @author Richard Gould
- *
+ * <p>
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
- *
- *
  * @source $URL$
  */
 public class WebMapServerOnlineTest extends ServerTestCase {
@@ -59,15 +57,20 @@ public class WebMapServerOnlineTest extends ServerTestCase {
      */
     protected void setUp() throws Exception {
         super.setUp();
-        // serverURL = new URL("http://demo.cubewerx.com/demo/cubeserv/cubeserv.cgi?CONFIG=main&SERVICE=WMS&?VERSION=1.3.0&REQUEST=GetCapabilities");
-        serverURL = new URL("http://terraservice.net/ogccapabilities.ashx?version=1.1.1&request=GetCapabilties");
-        // serverURL = new URL("http://www.mapserv.nl/wms?mosm&request=GetCapabilities&service=WMS&VERSION=1.1.1");        
+        // serverURL = new URL("http://demo.cubewerx.com/demo/cubeserv/cubeserv
+        // .cgi?CONFIG=main&SERVICE=WMS&?VERSION=1.3.0&REQUEST=GetCapabilities");
+        serverURL = new URL("http://terraservice.net/ogccapabilities" +
+                ".ashx?version=1.1.1&request=GetCapabilties");
+        // serverURL = new URL("http://www.mapserv
+        // .nl/wms?mosm&request=GetCapabilities&service=WMS&VERSION=1.1.1");        
         featureURL = new URL(
-                "http://www2.dmsolutions.ca/cgi-bin/mswms_gmap?VERSION=1.1.0&REQUEST=GetCapabilities");
-        
+                "http://www2.dmsolutions" +
+                        ".ca/cgi-bin/mswms_gmap?VERSION=1.1.0&REQUEST=GetCapabilities");
+
         brokenURL = new URL("http://afjklda.com");
-        
-        serverWithSpacedLayerNamesURL = new URL("http://tigerweb.geo.census.gov/arcgis/services/TIGERweb/tigerWMS_ACS2015/MapServer/WMSServer");
+
+        serverWithSpacedLayerNamesURL = new URL("http://tigerweb.geo.census" +
+                ".gov/arcgis/services/TIGERweb/tigerWMS_ACS2015/MapServer/WMSServer");
     }
 
     /*
@@ -101,10 +104,10 @@ public class WebMapServerOnlineTest extends ServerTestCase {
 
             Layer layer = (Layer) iter.next();
             count++;
-            if (count >= 5) { 
+            if (count >= 5) {
                 break;
             }
-                        
+
             List styles = layer.getStyles();
 
             if (styles.size() == 0) {
@@ -114,7 +117,7 @@ public class WebMapServerOnlineTest extends ServerTestCase {
 
             Random random = new Random();
             int randomInt = random.nextInt(styles.size());
-            
+
             request.addLayer(layer, (StyleImpl) styles.get(randomInt));
         }
 
@@ -126,7 +129,7 @@ public class WebMapServerOnlineTest extends ServerTestCase {
         List formats = wms.getCapabilities().getRequest().getGetMap().getFormats();
         if (!formats.contains("image/gif")) {
             format = (String) formats.get(0);
-        } 
+        }
         request.setFormat(format);
 
         request.setBBox("366800,2170400,816000,2460400");
@@ -140,7 +143,7 @@ public class WebMapServerOnlineTest extends ServerTestCase {
         BufferedImage image = ImageIO.read(response.getInputStream());
         assertEquals(image.getHeight(), 400);
     }
-    
+
     public void testIssueGetMapRequestWithSpacedLayerNames() throws Exception {
         WebMapServer wms = new WebMapServer(serverWithSpacedLayerNamesURL);
 
@@ -153,9 +156,8 @@ public class WebMapServerOnlineTest extends ServerTestCase {
         boolean atLeastOneLayerNameContainsSpaces = false;
         while (iter.hasNext()) {
 
-            Layer layer = (Layer) iter.next();      
-            if(layer.getName().contains(" "))
-            {
+            Layer layer = (Layer) iter.next();
+            if (layer.getName().contains(" ")) {
                 atLeastOneLayerNameContainsSpaces = true;
                 request.addLayer(layer);
             }
@@ -171,7 +173,7 @@ public class WebMapServerOnlineTest extends ServerTestCase {
         List<String> formats = wms.getCapabilities().getRequest().getGetMap().getFormats();
         if (!formats.contains("image/gif")) {
             format = (String) formats.get(0);
-        } 
+        }
         request.setFormat(format);
 
         request.setBBox("-93.239328320802,44.8440037593985,-92.976671679198,45.0409962406015");
@@ -185,7 +187,9 @@ public class WebMapServerOnlineTest extends ServerTestCase {
     public void testIssueGetFeatureInfoRequest() throws Exception {
 /* TODO fix this
 
-//        http://dev1.dmsolutions.ca/cgi-bin/mswms_gmap?LAYERS=DEMO&FORMAT=image/png&TRANSPARENT=TRUE&HEIGHT=213&REQUEST=GetMap&BBOX=-172.367,35.667300000000004,-11.562400000000014,83.8293&WIDTH=710&STYLES=&SRS=EPSG:4326&VERSION=1.1.1
+//        http://dev1.dmsolutions.ca/cgi-bin/mswms_gmap?LAYERS=DEMO&FORMAT=image/png&TRANSPARENT
+=TRUE&HEIGHT=213&REQUEST=GetMap&BBOX=-172.367,35.667300000000004,-11.562400000000014,
+83.8293&WIDTH=710&STYLES=&SRS=EPSG:4326&VERSION=1.1.1
         
         WebMapServer wms = new WebMapServer(featureURL);
         WMSCapabilities capabilities = wms.getCapabilities();
@@ -242,17 +246,17 @@ public class WebMapServerOnlineTest extends ServerTestCase {
         assertTrue(textFound);
 */
     }
-        
+
     public void testGetEnvelope() throws Exception {
         WebMapServer wms = new WebMapServer(featureURL);
-        
+
         WMSCapabilities caps = wms.getCapabilities();
-        
+
         Layer layer = (Layer) caps.getLayerList().get(0);
         CoordinateReferenceSystem crs = CRS.decode("EPSG:4326");
-        
+
         GeneralEnvelope envelope = wms.getEnvelope(layer, crs);
-        
+
 //        minx="-172.367" miny="35.6673" maxx="-11.5624" maxy="83.8293" />
         assertEquals(envelope.getMinimum(0), -172.367, 0.0);
         assertEquals(envelope.getMinimum(1), 35.6673, 0.0);
@@ -261,35 +265,35 @@ public class WebMapServerOnlineTest extends ServerTestCase {
 
         crs = CRS.decode("EPSG:42304");
         envelope = wms.getEnvelope(layer, crs);
-        
+
 //        minx="-2.2e+06" miny="-712631" maxx="3.0728e+06" maxy="3.84e+06" />
         assertEquals(envelope.getMinimum(0), -2.2e+06, 0.0);
         assertEquals(envelope.getMinimum(1), -712631, 0.0);
         assertEquals(envelope.getMaximum(0), 3.0728e+06, 0.0);
         assertEquals(envelope.getMaximum(1), 3.84e+06, 0.0);
-        
+
         layer = (Layer) caps.getLayerList().get(2);
         crs = CRS.decode("EPSG:4326");
-        
+
         envelope = wms.getEnvelope(layer, crs);
-        
+
 //        minx="-178.838" miny="31.8844" maxx="179.94" maxy="89.8254" />
         assertEquals(envelope.getMinimum(0), -178.838, 0.0);
         assertEquals(envelope.getMinimum(1), 31.8844, 0.0);
         assertEquals(envelope.getMaximum(0), 179.94, 0.0);
         assertEquals(envelope.getMaximum(1), 89.8254, 0.0);
     }
-    
-    public void testServiceExceptions  () throws Exception { 
-    	WebMapServer wms = new WebMapServer(featureURL);
-    	GetMapRequest request = wms.createGetMapRequest();
-    	request.addLayer("NoLayer", "NoStyle");
-    	try {
-    		//System.out.println(request.getFinalURL());
-    		GetMapResponse response = wms.issueRequest(request);
-    		assertTrue(false);
-    	} catch (ServiceException e) {
-    		//e.printStackTrace();
-    	}    	
+
+    public void testServiceExceptions() throws Exception {
+        WebMapServer wms = new WebMapServer(featureURL);
+        GetMapRequest request = wms.createGetMapRequest();
+        request.addLayer("NoLayer", "NoStyle");
+        try {
+            //System.out.println(request.getFinalURL());
+            GetMapResponse response = wms.issueRequest(request);
+            assertTrue(false);
+        } catch (ServiceException e) {
+            //e.printStackTrace();
+        }
     }
 }

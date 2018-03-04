@@ -27,7 +27,8 @@ import org.geotools.coverage.io.CoverageSource.VerticalDomain;
 import org.geotools.coverage.io.range.RangeType;
 
 /**
- * Describes a {@link CoverageSource} in terms of Name, {@link SpatialDomain}, {@link VerticalDomain}, {@link TemporalDomain},
+ * Describes a {@link CoverageSource} in terms of Name, {@link SpatialDomain}, 
+ * {@link VerticalDomain}, {@link TemporalDomain},
  * {@link AdditionalDomain}s, {@link DimensionDescriptor}s
  */
 public class CoverageSourceDescriptor {
@@ -40,19 +41,29 @@ public class CoverageSourceDescriptor {
 
     private String name;
 
-    /** range type of the wrapped coverage source */
+    /**
+     * range type of the wrapped coverage source
+     */
     private RangeType rangeType;
 
-    /** spatial domain of the wrapped coverage source */
+    /**
+     * spatial domain of the wrapped coverage source
+     */
     private SpatialDomain spatialDomain;
 
-    /** temporal domain of the wrapped coverage source */
+    /**
+     * temporal domain of the wrapped coverage source
+     */
     private TemporalDomain temporalDomain;
 
-    /** vertical domain of the wrapped coverage source */
+    /**
+     * vertical domain of the wrapped coverage source
+     */
     private VerticalDomain verticalDomain;
 
-    /** additional domains of the wrapped coverage source */
+    /**
+     * additional domains of the wrapped coverage source
+     */
     private List<AdditionalDomain> additionalDomains;
 
     private List<DimensionDescriptor> dimensionDescriptors;
@@ -138,7 +149,7 @@ public class CoverageSourceDescriptor {
     }
 
     /**
-     * 
+     *
      */
     public void dispose() {
         // default impl, do nothing

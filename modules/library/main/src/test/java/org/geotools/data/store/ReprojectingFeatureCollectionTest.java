@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -39,9 +39,8 @@ import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Point;
 
 import static org.easymock.EasyMock.*;
+
 /**
- * 
- *
  * @source $URL$
  */
 public class ReprojectingFeatureCollectionTest extends FeatureCollectionWrapperTestSupport {
@@ -49,7 +48,7 @@ public class ReprojectingFeatureCollectionTest extends FeatureCollectionWrapperT
     CoordinateReferenceSystem target;
 
     GeometryCoordinateSequenceTransformer transformer;
-    
+
     FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
 
     protected void setUp() throws Exception {
@@ -66,13 +65,14 @@ public class ReprojectingFeatureCollectionTest extends FeatureCollectionWrapperT
 
     public void testNormal() throws Exception {
 
-        SimpleFeatureIterator reproject = new ReprojectingFeatureCollection(delegate, target).features();
+        SimpleFeatureIterator reproject = new ReprojectingFeatureCollection(delegate, target)
+                .features();
         SimpleFeatureIterator reader = delegate.features();
         try {
             while (reader.hasNext()) {
                 SimpleFeature normal = (SimpleFeature) reader.next();
                 SimpleFeature reprojected = (SimpleFeature) reproject.next();
-    
+
                 Point p1 = (Point) normal.getAttribute("defaultGeom");
                 Point p2 = (Point) reprojected.getAttribute("defaultGeom");
                 if (p1 != null) {
@@ -81,7 +81,7 @@ public class ReprojectingFeatureCollectionTest extends FeatureCollectionWrapperT
                 } else {
                     assertNull(p2);
                 }
-    
+
                 LineString l1 = (LineString) normal.getAttribute("otherGeom");
                 LineString l2 = (LineString) reprojected.getAttribute("otherGeom");
                 if (l1 != null) {
@@ -91,8 +91,7 @@ public class ReprojectingFeatureCollectionTest extends FeatureCollectionWrapperT
                     assertNull(l2);
                 }
             }
-        }
-        finally {
+        } finally {
             reproject.close();
             reader.close();
         }
@@ -108,30 +107,43 @@ public class ReprojectingFeatureCollectionTest extends FeatureCollectionWrapperT
         // make sure that the reprojected bounds contain the target CRS
         assertEquals(target, rfc.getBounds().getCoordinateReferenceSystem());
     }
-    
+
     public void testFilter() throws Exception {
         ReprojectingFeatureCollection rfc = new ReprojectingFeatureCollection(delegate, target);
         ReferencedEnvelope bounds = delegate.getBounds();
         ReferencedEnvelope rbounds = bounds.transform(target, true);
-        
+
         // check the bounds filtering works the same way in the standard and reprojected case
-        BBOX filter = ff.bbox("", bounds.getMinX(), bounds.getMinY(), bounds.getMaxX(), bounds.getMaxY(), 
+        BBOX filter = ff.bbox("", bounds.getMinX(), bounds.getMinY(), bounds.getMaxX(), bounds
+                        .getMaxY(),
                 CRS.toSRS(delegate.getSchema().getCoordinateReferenceSystem()));
-        BBOX rfilter = ff.bbox("", rbounds.getMinX(), rbounds.getMinY(), rbounds.getMaxX(), rbounds.getMaxY(), CRS.toSRS(target));
+        BBOX rfilter = ff.bbox("", rbounds.getMinX(), rbounds.getMinY(), rbounds.getMaxX(), 
+                rbounds.getMaxY(), CRS.toSRS(target));
         assertEquals(delegate.subCollection(filter).size(), rfc.subCollection(rfilter).size());
     }
-    
+
     public void testLenient() throws Exception {
         CoordinateReferenceSystem lenientTarget;
 
         lenientTarget = CRS.parseWKT(
-                "PROJCS[\"MGI (Ferro) / Austria GK West Zone\",GEOGCS[\"MGI (Ferro)\",DATUM[\"Militar_Geographische_Institut_Ferro\",SPHEROID[\"Bessel 1841\",6377397.155,299.1528128,AUTHORITY[\"EPSG\",\"7004\"]],AUTHORITY[\"EPSG\",\"6805\"]],PRIMEM[\"Ferro\",-17.66666666666667,AUTHORITY[\"EPSG\",\"8909\"]],UNIT[\"degree\",0.01745329251994328,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"4805\"]],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",28],PARAMETER[\"scale_factor\",1],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",-5000000],AUTHORITY[\"EPSG\",\"31251\"],AXIS[\"Y\",EAST],AXIS[\"X\",NORTH]]"
-            );
-        
-        SimpleFeatureIterator reproject = new ReprojectingFeatureCollection( delegate, lenientTarget ).features();
+                "PROJCS[\"MGI (Ferro) / Austria GK West Zone\",GEOGCS[\"MGI (Ferro)\"," +
+                        "DATUM[\"Militar_Geographische_Institut_Ferro\",SPHEROID[\"Bessel 1841\"," +
+                        "6377397.155,299.1528128,AUTHORITY[\"EPSG\",\"7004\"]]," +
+                        "AUTHORITY[\"EPSG\",\"6805\"]],PRIMEM[\"Ferro\",-17.66666666666667," +
+                        "AUTHORITY[\"EPSG\",\"8909\"]],UNIT[\"degree\",0.01745329251994328," +
+                        "AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"4805\"]]," +
+                        "UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]]," +
+                        "PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"latitude_of_origin\",0]," +
+                        "PARAMETER[\"central_meridian\",28],PARAMETER[\"scale_factor\",1]," +
+                        "PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",-5000000]," +
+                        "AUTHORITY[\"EPSG\",\"31251\"],AXIS[\"Y\",EAST],AXIS[\"X\",NORTH]]"
+        );
+
+        SimpleFeatureIterator reproject = new ReprojectingFeatureCollection(delegate, 
+                lenientTarget).features();
         reproject.close();
     }
-    
+
     public void testDelegateAccepts() throws Exception {
         SimpleFeatureTypeBuilder stb = new SimpleFeatureTypeBuilder();
         stb.setName("test");

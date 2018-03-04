@@ -19,8 +19,6 @@ package org.geotools.data.teradata;
 import org.geotools.jdbc.JDBCUDTTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class TeradataUDTTestSetup extends JDBCUDTTestSetup {

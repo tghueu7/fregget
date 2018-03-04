@@ -31,8 +31,6 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class OracleFilterToSqlTest extends TestCase {
@@ -66,12 +64,13 @@ public class OracleFilterToSqlTest extends TestCase {
                 "WHERE SDO_RELATE(\"GEOM\", ?, 'mask=anyinteract querytype=WINDOW') = 'TRUE' ",
                 encoded);
     }
-    
+
     public void testLooseBboxFilter() throws Exception {
         BBOX bbox = ff.bbox("GEOM", -180, -90, 180, 90, "ESPG:4326");
         encoder.setLooseBBOXEnabled(true);
         String encoded = encoder.encodeToString(bbox);
-        assertEquals("WHERE SDO_FILTER(\"GEOM\", ?, 'mask=anyinteract querytype=WINDOW') = 'TRUE' ", encoded);
+        assertEquals("WHERE SDO_FILTER(\"GEOM\", ?, 'mask=anyinteract querytype=WINDOW') = 'TRUE'" +
+                " ", encoded);
     }
 
     public void testContainsFilter() throws Exception {
@@ -84,42 +83,48 @@ public class OracleFilterToSqlTest extends TestCase {
 
     public void testCrossesFilter() throws Exception {
         Crosses crosses = ff.crosses(ff.property("GEOM"), ff.literal(gf
-                .createLineString(new Coordinate[] { new Coordinate(-10.0d, -10.0d),
-                        new Coordinate(10d, 10d) })));
+                .createLineString(new Coordinate[]{new Coordinate(-10.0d, -10.0d),
+                        new Coordinate(10d, 10d)})));
         String encoded = encoder.encodeToString(crosses);
-        assertEquals("WHERE SDO_RELATE(\"GEOM\", ?, 'mask=overlapbdydisjoint querytype=WINDOW') = 'TRUE' ", encoded);
+        assertEquals("WHERE SDO_RELATE(\"GEOM\", ?, 'mask=overlapbdydisjoint querytype=WINDOW') =" +
+                " 'TRUE' ", encoded);
     }
-    
+
     public void testIntersectsFilter() throws Exception {
         Intersects intersects = ff.intersects(ff.property("GEOM"), ff.literal(gf
-                .createLineString(new Coordinate[] { new Coordinate(-10.0d, -10.0d),
-                        new Coordinate(10d, 10d) })));
+                .createLineString(new Coordinate[]{new Coordinate(-10.0d, -10.0d),
+                        new Coordinate(10d, 10d)})));
         String encoded = encoder.encodeToString(intersects);
-        assertEquals("WHERE SDO_RELATE(\"GEOM\", ?, 'mask=anyinteract querytype=WINDOW') = 'TRUE' ", encoded);
+        assertEquals("WHERE SDO_RELATE(\"GEOM\", ?, 'mask=anyinteract querytype=WINDOW') = 'TRUE'" +
+                " ", encoded);
     }
-    
+
     public void testOverlapsFilter() throws Exception {
         Overlaps overlaps = ff.overlaps(ff.property("GEOM"), ff.literal(gf
-                .createLineString(new Coordinate[] { new Coordinate(-10.0d, -10.0d),
-                        new Coordinate(10d, 10d) })));
+                .createLineString(new Coordinate[]{new Coordinate(-10.0d, -10.0d),
+                        new Coordinate(10d, 10d)})));
         String encoded = encoder.encodeToString(overlaps);
-        assertEquals("WHERE SDO_RELATE(\"GEOM\", ?, 'mask=overlapbdyintersect querytype=WINDOW') = 'TRUE' ", encoded);
+        assertEquals("WHERE SDO_RELATE(\"GEOM\", ?, 'mask=overlapbdyintersect querytype=WINDOW') " +
+                "= 'TRUE' ", encoded);
     }
-    
+
     public void testDWithinFilterWithUnit() throws Exception {
         Coordinate coordinate = new Coordinate();
-		DWithin dwithin = ff.dwithin(ff.property("GEOM"), ff.literal(gf.createPoint(coordinate)), 10.0, "kilometers");
+        DWithin dwithin = ff.dwithin(ff.property("GEOM"), ff.literal(gf.createPoint(coordinate)),
+                10.0, "kilometers");
         String encoded = encoder.encodeToString(dwithin);
-        assertEquals("WHERE SDO_WITHIN_DISTANCE(\"GEOM\",?,'distance=10.0 unit=km') = 'TRUE' ", encoded);
+        assertEquals("WHERE SDO_WITHIN_DISTANCE(\"GEOM\",?,'distance=10.0 unit=km') = 'TRUE' ", 
+                encoded);
     }
-    
+
     public void testDWithinFilterWithoutUnit() throws Exception {
         Coordinate coordinate = new Coordinate();
-        DWithin dwithin = ff.dwithin(ff.property("GEOM"), ff.literal(gf.createPoint(coordinate)), 10.0, null);
+        DWithin dwithin = ff.dwithin(ff.property("GEOM"), ff.literal(gf.createPoint(coordinate)),
+                10.0, null);
         String encoded = encoder.encodeToString(dwithin);
         assertEquals("WHERE SDO_WITHIN_DISTANCE(\"GEOM\",?,'distance=10.0') = 'TRUE' ", encoded);
     }
-    
+
     // THIS ONE WON'T PASS RIGHT NOW, BUT WE NEED TO PUT A TEST LIKE THIS
     // SOMEHWERE
     // THAT IS, SOMETHING CHECKING THAT TYPED FIDS GET CONVERTED INTO THE PROPER

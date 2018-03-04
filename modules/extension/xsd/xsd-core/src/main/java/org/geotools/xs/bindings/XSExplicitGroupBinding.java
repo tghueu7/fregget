@@ -17,7 +17,9 @@
 package org.geotools.xs.bindings;
 
 import org.picocontainer.MutablePicoContainer;
+
 import javax.xml.namespace.QName;
+
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
@@ -26,13 +28,14 @@ import org.geotools.xs.XS;
 
 /**
  * Binding object for the type http://www.w3.org/2001/XMLSchema:explicitGroup.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xs:complexType name="explicitGroup"&gt;
  *      &lt;xs:annotation&gt;
- *          &lt;xs:documentation&gt;    group type for the three kinds of group&lt;/xs:documentation&gt;
+ *          &lt;xs:documentation&gt;    group type for the three kinds of group&lt;
+ *          /xs:documentation&gt;
  *      &lt;/xs:annotation&gt;
  *      &lt;xs:complexContent&gt;
  *          &lt;xs:restriction base="xs:group"&gt;
@@ -52,9 +55,6 @@ import org.geotools.xs.XS;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class XSExplicitGroupBinding extends AbstractComplexBinding {
@@ -101,7 +101,7 @@ public class XSExplicitGroupBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //TODO: implement
         return null;
     }

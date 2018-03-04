@@ -2,6 +2,7 @@ package org.geotools.data.dxf.entities;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
+
 import java.io.EOFException;
 import java.io.IOException;
 
@@ -21,8 +22,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DXFArc extends DXFEntity {
@@ -34,14 +33,17 @@ public class DXFArc extends DXFEntity {
     protected double _angle2 = 0;
 
     public DXFArc(DXFArc newArc) {
-        this(newArc.getAngle1(), newArc.getAngle2(), newArc._point, newArc._radius, newArc.getLineType(), newArc.getColor(), newArc.getRefLayer(), 0, newArc.getThickness(), newArc._extendedData);
+        this(newArc.getAngle1(), newArc.getAngle2(), newArc._point, newArc._radius, newArc
+                .getLineType(), newArc.getColor(), newArc.getRefLayer(), 0, newArc.getThickness()
+                , newArc._extendedData);
 
         setType(newArc.getType());
         setStartingLineNumber(newArc.getStartingLineNumber());
         setUnivers(newArc.getUnivers());
     }
 
-    public DXFArc(double a1, double a2, DXFPoint p, double r, DXFLineType lineType, int c, DXFLayer l, int visibility, double thickness) {
+    public DXFArc(double a1, double a2, DXFPoint p, double r, DXFLineType lineType, int c, 
+                  DXFLayer l, int visibility, double thickness) {
         super(c, l, visibility, lineType, thickness);
         _point = p;
         _radius = r;
@@ -50,16 +52,17 @@ public class DXFArc extends DXFEntity {
         setThickness(thickness);
         setName("DXFArc");
     }
-    
-    public DXFArc(double a1, double a2, DXFPoint p, double r, DXFLineType lineType, int c, DXFLayer l, int visibility, double thickness, DXFExtendedData extendedData) {
-    	super(c, l, visibility, lineType, thickness);
-    	_point = p;
-    	_radius = r;
-    	_angle1 = a1;
-    	_angle2 = a2;
-    	setThickness(thickness);
-    	setName("DXFArc");
-    	_extendedData = extendedData;
+
+    public DXFArc(double a1, double a2, DXFPoint p, double r, DXFLineType lineType, int c, 
+                  DXFLayer l, int visibility, double thickness, DXFExtendedData extendedData) {
+        super(c, l, visibility, lineType, thickness);
+        _point = p;
+        _radius = r;
+        _angle1 = a1;
+        _angle2 = a2;
+        setThickness(thickness);
+        setName("DXFArc");
+        _extendedData = extendedData;
     }
 
     public double getAngle1() {
@@ -70,8 +73,9 @@ public class DXFArc extends DXFEntity {
         return _angle2;
     }
 
-    public static DXFArc read(DXFLineNumberReader br, DXFUnivers univers) throws NumberFormatException, IOException {
-        double x = 0, y = 0, r = 0, a1 = 0, a2 = 0, thickness = 0;       
+    public static DXFArc read(DXFLineNumberReader br, DXFUnivers univers) throws 
+            NumberFormatException, IOException {
+        double x = 0, y = 0, r = 0, a1 = 0, a2 = 0, thickness = 0;
         int visibility = 0, c = 0;
         DXFLineType lineType = null;
         DXFLayer l = null;
@@ -130,18 +134,19 @@ public class DXFArc extends DXFEntity {
                     break;
                 case THICKNESS:
                     thickness = cvp.getDoubleValue();
-                    break;                  
+                    break;
                 case XDATA_APPLICATION_NAME:
-                	String appName = cvp.getStringValue();
-            		_extData = DXFExtendedData.getExtendedData(br);
-            		_extData.setAppName(appName);
+                    String appName = cvp.getStringValue();
+                    _extData = DXFExtendedData.getExtendedData(br);
+                    _extData.setAppName(appName);
                     break;
                 default:
                     break;
             }
 
         }
-        DXFArc e = new DXFArc(a1, a2, new DXFPoint(x, y, c, null, visibility, 1), r, lineType, c, l, visibility, thickness, _extData);
+        DXFArc e = new DXFArc(a1, a2, new DXFPoint(x, y, c, null, visibility, 1), r, lineType, c,
+                l, visibility, thickness, _extData);
         e.setType(GeometryType.LINE);
         e.setStartingLineNumber(sln);
         e.setUnivers(univers);
@@ -160,12 +165,12 @@ public class DXFArc extends DXFEntity {
         double endAngle = _angle2 * Math.PI / 180.0;
         double segAngle = 2 * Math.PI / _radius;
 
-        if(_radius < DXFUnivers.NUM_OF_SEGMENTS){
+        if (_radius < DXFUnivers.NUM_OF_SEGMENTS) {
             segAngle = DXFUnivers.MIN_ANGLE;
         }
 
         double angle = startAngle;
-        for (;;) {
+        for (; ; ) {
             double x = _point.X() + _radius * Math.cos(angle);
             double y = _point.Y() + _radius * Math.sin(angle);
 
@@ -202,13 +207,13 @@ public class DXFArc extends DXFEntity {
     }
 
     public String toString(int c,
-            double r,
-            double x,
-            double y,
-            double a1,
-            double a2,
-            int visibility,
-            double thickness) {
+                           double r,
+                           double x,
+                           double y,
+                           double a1,
+                           double a2,
+                           int visibility,
+                           double thickness) {
         StringBuffer s = new StringBuffer();
         s.append("DXFArc [");
         s.append("color: ");

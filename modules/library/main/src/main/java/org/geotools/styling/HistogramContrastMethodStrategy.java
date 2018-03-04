@@ -20,7 +20,6 @@ import org.opengis.style.ContrastMethod;
 
 /**
  * @author iant
- *
  */
 public class HistogramContrastMethodStrategy extends AbstractContrastMethodStrategy {
 

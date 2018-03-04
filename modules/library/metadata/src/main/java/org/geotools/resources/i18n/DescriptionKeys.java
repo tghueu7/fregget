@@ -1,19 +1,19 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- *    
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
  *    version 2.1 of the License.
- *    
+ *
  *    This library is distributed in the hope that it will be useful,
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
- *    
+ *
  *    THIS IS AN AUTOMATICALLY GENERATED FILE. DO NOT EDIT!
  *    Generated with: org.geotools.resources.IndexedResourceCompiler
  */
@@ -28,11 +28,9 @@ package org.geotools.resources.i18n;
  * classes compiled against the interface, provided that no class
  * implements this interface.
  *
+ * @source $URL$
  * @see org.geotools.resources.IndexedResourceBundle
  * @see org.geotools.resources.IndexedResourceCompiler
- *
- *
- * @source $URL$
  */
 public final class DescriptionKeys {
     private DescriptionKeys() {
@@ -55,11 +53,11 @@ public final class DescriptionKeys {
 
     /**
      * Count:	{0}
-Minimum:	{1}
-Maximum:	{2}
-Mean:	{3}
-RMS:	{4}
-Standard deviation:	{5}
+     * Minimum:	{1}
+     * Maximum:	{2}
+     * Mean:	{3}
+     * RMS:	{4}
+     * Standard deviation:	{5}
      */
     public static final int STATISTICS_TO_STRING_$6 = 3;
 }

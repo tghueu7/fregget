@@ -7,8 +7,6 @@ import org.geotools.jdbc.JDBCDateTestSetup;
 import org.geotools.jdbc.JDBCTimeZoneDateOnlineTest;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class TeradataTimeZoneGMTMinus14DateOnlineTest extends JDBCTimeZoneDateOnlineTest {
@@ -18,5 +16,5 @@ public class TeradataTimeZoneGMTMinus14DateOnlineTest extends JDBCTimeZoneDateOn
         super.setTimeZone(TimeZone.getTimeZone("Etc/GMT-14"));
         return new TeradataDateTestSetup(new TeradataTestSetup());
     }
-    
+
 }

@@ -64,11 +64,8 @@ import com.vividsolutions.jts.geom.Polygon;
  * after parsing. This visitor also has the option to sort the URL properties in it's URL creation.
  * This can be handy in unit tests.
  * </p>
- * 
+ *
  * @author Pieter De Graef
- *
- *
- *
  * @source $URL$
  */
 public class GeoRestFilterVisitor implements FilterVisitor {
@@ -98,12 +95,10 @@ public class GeoRestFilterVisitor implements FilterVisitor {
 
     /**
      * Finish up building the URL, and return it as a string.
-     * 
-     * @param builder
-     *            StringBuilder that contains the base URL from which to start adding URL
-     *            properties.
-     * @param hasProperties
-     *            Does the given URL already contains other properties?
+     *
+     * @param builder       StringBuilder that contains the base URL from which to start adding URL
+     *                      properties.
+     * @param hasProperties Does the given URL already contains other properties?
      * @return Returns the URL with the newly added properties for filtering.
      */
     public String finish(StringBuilder builder, boolean hasProperties) {
@@ -299,7 +294,7 @@ public class GeoRestFilterVisitor implements FilterVisitor {
     }
 
     private void checkPropertyFilter(String propertyName, String extension,
-            BinaryComparisonOperator filter) {
+                                     BinaryComparisonOperator filter) {
         String combined = propertyName + extension;
         if (!properties.containsKey(combined)) {
             Object value = ((Literal) filter.getExpression2()).getValue();

@@ -31,26 +31,29 @@ public class MultiLevelROIGeometryProvider implements MultiLevelROIProvider {
 
     private final double inset;
 
-    /** The FootprintInsetPolicy if any for inset management */
+    /**
+     * The FootprintInsetPolicy if any for inset management
+     */
     private final FootprintInsetPolicy insetPolicy;
 
-    /** 
-     * The optional granuleBounds to be used as a default value when there is 
+    /**
+     * The optional granuleBounds to be used as a default value when there is
      * no need to do ROI lookup against specific features.
-     * Specify that when dealing with single granules store  
+     * Specify that when dealing with single granules store
      */
     private final Geometry defaultGranuleBounds;
 
     /**
-     * Geometry provider constructor based on a fixed granuleBounds 
-     * 
+     * Geometry provider constructor based on a fixed granuleBounds
+     *
      * @param geometryProvider
      * @param inset
      * @param insetPolicy
      * @param defaultGranuleBounds
      */
     public MultiLevelROIGeometryProvider(FootprintGeometryProvider geometryProvider, double inset,
-            FootprintInsetPolicy insetPolicy, Geometry defaultGranuleBounds) {
+                                         FootprintInsetPolicy insetPolicy, Geometry 
+                                                 defaultGranuleBounds) {
         this.geometryProvider = geometryProvider;
         this.inset = inset;
         this.insetPolicy = insetPolicy;
@@ -58,13 +61,14 @@ public class MultiLevelROIGeometryProvider implements MultiLevelROIProvider {
     }
 
     /**
-     * Geometry provider constructor based on per feature granuleBounds 
+     * Geometry provider constructor based on per feature granuleBounds
+     *
      * @param geometryProvider
      * @param inset
      * @param insetPolicy
      */
     public MultiLevelROIGeometryProvider(FootprintGeometryProvider geometryProvider, double inset,
-            FootprintInsetPolicy insetPolicy) {
+                                         FootprintInsetPolicy insetPolicy) {
         this(geometryProvider, inset, insetPolicy, null);
     }
 

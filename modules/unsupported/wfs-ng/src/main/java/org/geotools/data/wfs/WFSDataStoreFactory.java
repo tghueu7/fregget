@@ -62,15 +62,15 @@ import com.vividsolutions.jts.geom.impl.PackedCoordinateSequenceFactory;
  * In the case the provided GetCapabilities URL explicitly contains a VERSION parameter and both the
  * server and client support that version, that version will be used.
  * </p>
- * 
+ *
  * @see WFSDataStore
  * @see WFSClient
  */
-@SuppressWarnings({ "unchecked", "nls" })
+@SuppressWarnings({"unchecked", "nls"})
 public class WFSDataStoreFactory extends WFSDataAccessFactory implements DataStoreFactorySpi {
-    
+
     private static int GMLComplianceLevel = 0;
-      
+
     /**
      * Requests the WFS Capabilities document from the {@link WFSDataStoreFactory#URL url} parameter
      * in {@code params} and returns a {@link WFSDataStore} according to the version of the
@@ -80,7 +80,7 @@ public class WFSDataStoreFactory extends WFSDataAccessFactory implements DataSto
      * request. If you need to specify a preferred version or want the GetCapabilities request to be
      * generated from a base URL build the URL with the {@link #createGetCapabilitiesRequest} first.
      * </p>
-     * 
+     *
      * @see org.geotools.data.DataStoreFactorySpi#createDataStore(java.util.Map)
      */
     @Override
@@ -95,7 +95,8 @@ public class WFSDataStoreFactory extends WFSDataAccessFactory implements DataSto
             if (((user == null) && (password != null))
                     || ((config.getPassword() == null) && (config.getUser() != null))) {
                 throw new IOException(
-                        "Cannot define only one of USERNAME or PASSWORD, must define both or neither");
+                        "Cannot define only one of USERNAME or PASSWORD, must define both or " +
+                                "neither");
             }
         }
 
@@ -129,12 +130,12 @@ public class WFSDataStoreFactory extends WFSDataAccessFactory implements DataSto
 
         return dataStore;
     }
-    
+
     @Override
     public DataStore createNewDataStore(final Map<String, Serializable> params) throws IOException {
         throw new UnsupportedOperationException("Operation not applicable to a WFS service");
     }
-    
+
 
     @Override
     public String getDisplayName() {
@@ -144,10 +145,10 @@ public class WFSDataStoreFactory extends WFSDataAccessFactory implements DataSto
     @Override
     public String getDescription() {
         return "Provides access to the Features published a Web Feature Service, "
-                + "and the ability to perform transactions on the server (when supported / allowed).";
+                + "and the ability to perform transactions on the server (when supported / " +
+                "allowed).";
     }
-    
-    
+
 
     /**
      * Checks whether {@code params} contains a valid set of parameters to connecto to a WFS.
@@ -163,7 +164,7 @@ public class WFSDataStoreFactory extends WFSDataAccessFactory implements DataSto
     public boolean canProcess(@SuppressWarnings("rawtypes") final Map params) {
         return super.canProcess(params, GMLComplianceLevel);
     }
-    
+
     /**
      * Creates a HTTP GET Method based WFS {@code GetCapabilities} request for the given protocol
      * version.
@@ -171,10 +172,9 @@ public class WFSDataStoreFactory extends WFSDataAccessFactory implements DataSto
      * If the query string in the {@code host} URL already contains a VERSION number, that version
      * is <b>discarded</b>.
      * </p>
-     * 
-     * @param host
-     *            non null URL from which to construct the WFS {@code GetCapabilities} request by
-     *            discarding the query string, if any, and appending the propper query string.
+     *
+     * @param host non null URL from which to construct the WFS {@code GetCapabilities} request by
+     *             discarding the query string, if any, and appending the propper query string.
      * @return
      */
     public static URL createGetCapabilitiesRequest(URL host, Version version) {
@@ -203,10 +203,9 @@ public class WFSDataStoreFactory extends WFSDataAccessFactory implements DataSto
      * for general use. If you want to use a 1.1.0 WFS you'll have to explicitly provide the
      * VERSION=1.1.0 parameter in the GetCapabilities request meanwhile.
      * </p>
-     * 
-     * @param host
-     *            non null URL pointing either to a base WFS service access point, or to a full
-     *            {@code GetCapabilities} request.
+     *
+     * @param host non null URL pointing either to a base WFS service access point, or to a full
+     *             {@code GetCapabilities} request.
      * @return
      */
     public static URL createGetCapabilitiesRequest(final URL host) {
@@ -219,7 +218,7 @@ public class WFSDataStoreFactory extends WFSDataAccessFactory implements DataSto
                 .toUpperCase();
 
         final Version defaultVersion = Versions.highest();
-        
+
         // which version to use
         Version requestVersion = defaultVersion;
 

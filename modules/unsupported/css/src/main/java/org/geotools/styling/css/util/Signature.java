@@ -20,8 +20,9 @@ import java.util.BitSet;
 import java.util.function.IntConsumer;
 
 /**
- * The binary signature for a list of values, indicates which objects of the list have been selected using 1s, those that have not using 0s
- * 
+ * The binary signature for a list of values, indicates which objects of the list have been 
+ * selected using 1s, those that have not using 0s
+ *
  * @author Andrea Aime - GeoSolutions
  */
 public abstract class Signature implements Cloneable {
@@ -33,7 +34,7 @@ public abstract class Signature implements Cloneable {
 
     /**
      * Checks if this signature contains another
-     * 
+     *
      * @param other
      * @param k
      * @return
@@ -42,7 +43,7 @@ public abstract class Signature implements Cloneable {
 
     /**
      * Returns the flag at the i-th position
-     * 
+     *
      * @param i
      * @return
      */
@@ -50,7 +51,7 @@ public abstract class Signature implements Cloneable {
 
     /**
      * Sets the flag at the i-th position
-     * 
+     *
      * @param idx
      * @param b
      */
@@ -58,7 +59,7 @@ public abstract class Signature implements Cloneable {
 
     /**
      * The size of the signature, in number of bits
-     * 
+     *
      * @return
      */
     public abstract int size();

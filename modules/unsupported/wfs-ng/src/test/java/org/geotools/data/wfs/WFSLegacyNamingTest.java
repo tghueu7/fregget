@@ -19,7 +19,7 @@ package org.geotools.data.wfs;
 import org.geotools.data.wfs.internal.WFSConfig;
 
 public class WFSLegacyNamingTest extends WFSDataStoreTest {
-    
+
     @Override
     protected WFSConfig createConfig() {
         return new WFSConfig();

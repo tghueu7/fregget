@@ -24,6 +24,7 @@ import it.geosolutions.jaiext.stats.Statistics;
 import it.geosolutions.jaiext.stats.Statistics.StatsType;
 import it.geosolutions.jaiext.zonal.ZonalStatsDescriptor;
 import it.geosolutions.jaiext.zonal.ZoneGeometry;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.media.jai.PlanarImage;
+
 import org.geotools.TestData;
 import org.geotools.coverage.CoverageFactoryFinder;
 import org.geotools.coverage.GridSampleDimension;
@@ -63,24 +65,26 @@ import org.opengis.referencing.operation.TransformException;
 import junit.framework.TestCase;
 
 /**
- * This test-class evaluates the functionalities of the "ZonalStatistics" {@link OperationJAI}. 
- * The test is executed with and without the calculations of the statistics for each range. 
+ * This test-class evaluates the functionalities of the "ZonalStatistics" {@link OperationJAI}.
+ * The test is executed with and without the calculations of the statistics for each range.
  * The utility class {@link StatisticsTool} is used for storing the statistic results.
- * 
+ *
  * @author Nicola Lagomarsini, GeoSolutions
- * 
  */
 public class ZonalStatisticsTest extends TestCase {
 
-    /** {@link Logger} used */
+    /**
+     * {@link Logger} used
+     */
     private final static Logger LOGGER = Logging.getLogger(ZonalStatisticsTest.class.toString());
 
-    /** CoverageProcessor*/
+    /**
+     * CoverageProcessor
+     */
     private final static CoverageProcessor PROCESSOR = CoverageProcessor.getInstance();
-    
+
     /**
      * Utility class used for calculating and preparing the results
-     * 
      */
     private class StatisticsTool {
 
@@ -102,11 +106,12 @@ public class ZonalStatisticsTest extends TestCase {
         /*
          * results
          */
-        private Map<String, Map<Integer, Map<StatsType, Object>>> feature2StatisticsMap = new HashMap<String, Map<Integer, Map<StatsType, Object>>>();
+        private Map<String, Map<Integer, Map<StatsType, Object>>> feature2StatisticsMap = new 
+                HashMap<String, Map<Integer, Map<StatsType, Object>>>();
 
         private StatisticsTool(Set<StatsType> statisticsSet, GridCoverage2D gridCoverage2D,
-                int[] bands, List<SimpleFeature> polygonsList, List<Range> ranges,
-                boolean localStats) {
+                               int[] bands, List<SimpleFeature> polygonsList, List<Range> ranges,
+                               boolean localStats) {
             this.statisticsSet = statisticsSet;
             this.gridCoverage2D = gridCoverage2D;
             this.bands = bands;
@@ -117,11 +122,12 @@ public class ZonalStatisticsTest extends TestCase {
 
         /**
          * Run the requested analysis.
-         * 
          * <p>
-         * This is the moment in which the analysis takes place. This method is intended to give the user the possibility to choose the moment in
+         * <p>
+         * This is the moment in which the analysis takes place. This method is intended to give 
+         * the user the possibility to choose the moment in
          * which the workload is done.
-         * 
+         *
          * @throws Exception
          */
         public void run() throws Exception {
@@ -142,7 +148,8 @@ public class ZonalStatisticsTest extends TestCase {
             params.parameter("rangeData").setValue(ranges);
             params.parameter("localStats").setValue(localStats);
             // Execution of the operation
-            final GridCoverage2D coverage = (GridCoverage2D) ((ZonalStatistics)PROCESSOR.getOperation("Zonal")).doOperation(params, null);
+            final GridCoverage2D coverage = (GridCoverage2D) ((ZonalStatistics) PROCESSOR
+                    .getOperation("Zonal")).doOperation(params, null);
             // Results for each geometry
             final List<ZoneGeometry> zoneList = (List<ZoneGeometry>) coverage
                     .getProperty(ZonalStatsDescriptor.ZS_PROPERTY);
@@ -157,7 +164,8 @@ public class ZonalStatisticsTest extends TestCase {
 
                 final String fid = feature.getID();
                 // Creation of a Map associated with each range
-                final Map<Integer, Map<StatsType, Object>> rangeMap = new HashMap<Integer, Map<StatsType, Object>>();
+                final Map<Integer, Map<StatsType, Object>> rangeMap = new HashMap<Integer, 
+                        Map<StatsType, Object>>();
 
                 int count = 0;
                 // If local statistics are requested, then the results are stored for each range
@@ -185,7 +193,8 @@ public class ZonalStatisticsTest extends TestCase {
                         count++;
                     }
                 } else {
-                    // If Range statistics are not local then all the results are stored into only one
+                    // If Range statistics are not local then all the results are stored into 
+                    // only one
                     // map.
                     final Map<StatsType, Object> statsMap = new HashMap<StatsType, Object>();
 
@@ -214,10 +223,11 @@ public class ZonalStatisticsTest extends TestCase {
 
         /**
          * Gets the performed statistics.
-         * 
+         *
          * @param fId the id of the feature used as region for the analysis.
-         * @return the {@link Map} of results of the analysis for all the requested {@link Range} index, and for each index, the statistics are
-         *         mapped.
+         * @return the {@link Map} of results of the analysis for all the requested {@link Range}
+         * index, and for each index, the statistics are
+         * mapped.
          */
         public Map<Integer, Map<StatsType, Object>> getStatistics(String fId) {
             return feature2StatisticsMap.get(fId);
@@ -236,7 +246,8 @@ public class ZonalStatisticsTest extends TestCase {
         final File tfw = TestData.file(this, "test.tfw");
 
         // Reading of the input image
-        final TIFFImageReader reader = (it.geosolutions.imageioimpl.plugins.tiff.TIFFImageReader) new TIFFImageReaderSpi()
+        final TIFFImageReader reader = (it.geosolutions.imageioimpl.plugins.tiff.TIFFImageReader)
+                new TIFFImageReaderSpi()
                 .createReaderInstance();
         reader.setInput(ImageIO.createImageInputStream(tiff));
         final BufferedImage image = reader.read(0);
@@ -250,7 +261,7 @@ public class ZonalStatisticsTest extends TestCase {
                         image,
                         new GridGeometry2D(new GridEnvelope2D(PlanarImage.wrapRenderedImage(image)
                                 .getBounds()), transform, DefaultGeographicCRS.WGS84),
-                        new GridSampleDimension[] { new GridSampleDimension("coverage") }, null,
+                        new GridSampleDimension[]{new GridSampleDimension("coverage")}, null,
                         null);
 
         // Selection of the input geometries and creation of the related list.
@@ -276,7 +287,7 @@ public class ZonalStatisticsTest extends TestCase {
         includedRanges.add(RangeFactory.create(1370f, true, 1600f, true, false));
 
         // select the bands to work on
-        int[] bands = new int[] { 0 };
+        int[] bands = new int[]{0};
 
         // create the proper instance
         StatisticsTool statisticsTool = new StatisticsTool(statsSet, coverage2D, bands,
@@ -346,7 +357,8 @@ public class ZonalStatisticsTest extends TestCase {
         final File tfw = TestData.file(this, "test.tfw");
 
         // Reading of the input image
-        final TIFFImageReader reader = (it.geosolutions.imageioimpl.plugins.tiff.TIFFImageReader) new TIFFImageReaderSpi()
+        final TIFFImageReader reader = (it.geosolutions.imageioimpl.plugins.tiff.TIFFImageReader)
+                new TIFFImageReaderSpi()
                 .createReaderInstance();
         reader.setInput(ImageIO.createImageInputStream(tiff));
         final BufferedImage image = reader.read(0);
@@ -360,7 +372,7 @@ public class ZonalStatisticsTest extends TestCase {
                         image,
                         new GridGeometry2D(new GridEnvelope2D(PlanarImage.wrapRenderedImage(image)
                                 .getBounds()), transform, DefaultGeographicCRS.WGS84),
-                        new GridSampleDimension[] { new GridSampleDimension("coverage") }, null,
+                        new GridSampleDimension[]{new GridSampleDimension("coverage")}, null,
                         null);
 
         // Selection of the input geometries and creation of the related list.
@@ -386,7 +398,7 @@ public class ZonalStatisticsTest extends TestCase {
         includedRanges.add(RangeFactory.create(1370f, true, 1600f, true, false));
 
         // select the bands to work on
-        int[] bands = new int[] { 0 };
+        int[] bands = new int[]{0};
 
         // create the proper instance
         StatisticsTool statisticsTool = new StatisticsTool(statsSet, coverage2D, bands,

@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -32,13 +32,10 @@ import org.opengis.filter.capability.FunctionName;
 import org.opengis.filter.expression.Expression;
 
 /**
- * Formats a number into a string given a certain pattern (specified in the format accepted by {@link DecimalFormat}}
- * 
+ * Formats a number into a string given a certain pattern (specified in the format accepted by 
+ * {@link DecimalFormat}}
+ *
  * @author Andrea Aime - OpenGeo
- *
- *
- *
- *
  * @source $URL$
  */
 public class FilterFunction_numberFormat extends FunctionExpressionImpl {
@@ -49,8 +46,8 @@ public class FilterFunction_numberFormat extends FunctionExpressionImpl {
     Locale locale = Locale.ENGLISH;
 
     static {
-        
-        for(Locale loc:Locale.getAvailableLocales()) {
+
+        for (Locale loc : Locale.getAvailableLocales()) {
             languages.add(loc.getLanguage());
         }
     }
@@ -73,7 +70,8 @@ public class FilterFunction_numberFormat extends FunctionExpressionImpl {
         } catch (Exception e) // probably a type error
         {
             throw new IllegalArgumentException(
-                    "Filter Function problem for function NumberFormat argument #0 - expected type String");
+                    "Filter Function problem for function NumberFormat argument #0 - expected " +
+                            "type String");
         }
 
         try { // attempt to get value and perform conversion
@@ -81,7 +79,8 @@ public class FilterFunction_numberFormat extends FunctionExpressionImpl {
         } catch (Exception e) // probably a type error
         {
             throw new IllegalArgumentException(
-                    "Filter Function problem for function NumberFormat argument #1 - expected type java.util.Double");
+                    "Filter Function problem for function NumberFormat argument #1 - expected " +
+                            "type java.util.Double");
         }
 
         if (format == null || number == null) {
@@ -96,7 +95,8 @@ public class FilterFunction_numberFormat extends FunctionExpressionImpl {
         } catch (Exception e) // probably a type error
         {
             throw new IllegalArgumentException(
-                    "Filter Function problem for function NumberFormat argument #2 - expected type String");
+                    "Filter Function problem for function NumberFormat argument #2 - expected " +
+                            "type String");
         }
         if (languages.contains(localeString)) {
             if (localeString != null && !localeString.isEmpty()) {

@@ -30,9 +30,9 @@ import org.w3c.dom.Element;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:ReferenceType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="ReferenceType"&gt;
  *      &lt;annotation&gt;
@@ -50,9 +50,6 @@ import org.w3c.dom.Element;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class ReferenceTypeBinding extends AbstractComplexBinding {
@@ -80,11 +77,11 @@ public class ReferenceTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //TODO: implement and remove call to super
         return super.parse(instance, node, value);
     }
-    
+
     public Element encode(Object object, Document document, Element value) throws Exception {
         Property property = (Property) object;
         // I don't think we can assign values to this type, so only encode client properties
@@ -96,15 +93,15 @@ public class ReferenceTypeBinding extends AbstractComplexBinding {
 
     public Object getProperty(Object object, QName name) throws Exception {
         Property association = (Property) object;
-    
+
         //non resolved, return the xlink:href
         if (XLINK.HREF.equals(name)) {
             String id = (String) association.getUserData().get("gml:id");
-            if (id != null) {    
+            if (id != null) {
                 return "#" + id;
             }
         }
-    
+
         return null;
     }
 }

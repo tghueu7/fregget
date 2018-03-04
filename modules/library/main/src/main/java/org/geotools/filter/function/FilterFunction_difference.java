@@ -3,9 +3,9 @@ package org.geotools.filter.function;
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -28,8 +28,6 @@ import org.opengis.filter.capability.FunctionName;
 import com.vividsolutions.jts.geom.Geometry;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class FilterFunction_difference extends FunctionExpressionImpl {
@@ -48,19 +46,21 @@ public class FilterFunction_difference extends FunctionExpressionImpl {
         Geometry arg1;
 
         try { // attempt to get value and perform conversion
-            arg0 = getExpression(0).evaluate(feature,Geometry.class);
+            arg0 = getExpression(0).evaluate(feature, Geometry.class);
         } catch (Exception e) // probably a type error
         {
             throw new IllegalArgumentException(
-                    "Filter Function problem for function difference argument #0 - expected type Geometry");
+                    "Filter Function problem for function difference argument #0 - expected type " +
+                            "Geometry");
         }
 
         try { // attempt to get value and perform conversion
-            arg1 = getExpression(1).evaluate(feature,Geometry.class);
+            arg1 = getExpression(1).evaluate(feature, Geometry.class);
         } catch (Exception e) // probably a type error
         {
             throw new IllegalArgumentException(
-                    "Filter Function problem for function difference argument #1 - expected type Geometry");
+                    "Filter Function problem for function difference argument #1 - expected type " +
+                            "Geometry");
         }
 
         return (StaticGeometry.difference(arg0, arg1));

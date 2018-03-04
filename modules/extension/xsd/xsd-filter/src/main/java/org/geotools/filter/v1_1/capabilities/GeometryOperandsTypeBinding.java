@@ -18,6 +18,7 @@ package org.geotools.filter.v1_1.capabilities;
 
 import java.util.List;
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.capability.GeometryOperand;
 import org.geotools.filter.v1_1.OGC;
 import org.geotools.xml.*;
@@ -25,13 +26,14 @@ import org.geotools.xml.*;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:GeometryOperandsType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="GeometryOperandsType"&gt;
  *      &lt;xsd:sequence&gt;
- *          &lt;xsd:element maxOccurs="unbounded" name="GeometryOperand" type="ogc:GeometryOperandType"/&gt;
+ *          &lt;xsd:element maxOccurs="unbounded" name="GeometryOperand" 
+ *          type="ogc:GeometryOperandType"/&gt;
  *      &lt;/xsd:sequence&gt;
  *  &lt;/xsd:complexType&gt;
  *
@@ -40,9 +42,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GeometryOperandsTypeBinding extends AbstractComplexBinding {
@@ -70,14 +69,14 @@ public class GeometryOperandsTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         List gops = node.getChildValues(GeometryOperand.class);
 
         return gops.toArray(new GeometryOperand[gops.size()]);
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         if ("GeometryOperand".equals(name.getLocalPart())) {
             return object;
         }

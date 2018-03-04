@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.referencing;
@@ -15,13 +15,10 @@ package org.opengis.referencing;
  * as been requested with an unknow {@linkplain org.opengis.referencing.operation.OperationMethod
  * operation method} identifier.
  *
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
- *
- * @see org.opengis.referencing.operation.MathTransformFactory#createParameterizedTransform
- *
- *
+ * @author Martin Desruisseaux (IRD)
  * @source $URL$
+ * @see org.opengis.referencing.operation.MathTransformFactory#createParameterizedTransform
+ * @since GeoAPI 1.0
  */
 public class NoSuchIdentifierException extends FactoryException {
     /**
@@ -37,8 +34,8 @@ public class NoSuchIdentifierException extends FactoryException {
     /**
      * Constructs an exception with the specified detail message and classification name.
      *
-     * @param  message The detail message. The detail message is saved
-     *         for later retrieval by the {@link #getMessage()} method.
+     * @param message    The detail message. The detail message is saved
+     *                   for later retrieval by the {@link #getMessage()} method.
      * @param identifier {@linkplain ReferenceIdentifier#getCode identifier code}.
      */
     public NoSuchIdentifierException(final String message, final String identifier) {

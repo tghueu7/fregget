@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -32,29 +32,28 @@ import org.geotools.factory.FactoryRegistryException;
  * FeatureLock lock = FeatureLockFactory.generate( "MyLock", 3600 );
  * </pre></code>
  *
- *
- * @source $URL$
- * @version $Id$
- * @task REVISIT: Combine this with a factory to also make Query objects?
  * @author Chris Holmes, TOPP
- * 
+ * @version $Id$
+ * @source $URL$
+ * @task REVISIT: Combine this with a factory to also make Query objects?
  * @deprecated Please use {@link FeatureLock} directly
  */
 
 public abstract class FeatureLockFactory implements Factory {
-    /** A cached factory to create FeatureLocks. */
+    /**
+     * A cached factory to create FeatureLocks.
+     */
     private static FeatureLockFactory factory = null;
 
     /**
      * Gets an instance of the FeatureLockFactory.
      *
      * @return A FeatureLockFactory instance.
-     *
      * @throws FactoryRegistryException If there exists a configuration error.
      */
     public static FeatureLockFactory getInstance() throws FactoryRegistryException {
         if (factory == null) {
-            factory = CommonFactoryFinder.getFeatureLockFactory( null );
+            factory = CommonFactoryFinder.getFeatureLockFactory(null);
         }
         return factory;
     }
@@ -78,12 +77,12 @@ public abstract class FeatureLockFactory implements Factory {
      * @param duration FeatureLock duration in milliseconds
      */
     public static FeatureLock generate(long duration) {
-	   return generate("LockID", duration);
+        return generate("LockID", duration);
     }
 
     /**
      * Generates a new FeatureLock for use.
-     *
+     * <p>
      * The lock will be of the form:
      * <table border=1 width="100%" background="gray"><code><pre>
      * {name}{number}
@@ -94,10 +93,11 @@ public abstract class FeatureLockFactory implements Factory {
      * <p>
      * To aid in tracing your may wish to supply your own name,
      * rather than <code>LockID<code>, for use in lock generation.
+     *
      * @param name     User supplied name used in lock generation.
      * @param duration Date lock expires on.
      */
-    public static FeatureLock generate(String name, long duration){
+    public static FeatureLock generate(String name, long duration) {
         return getInstance().createLock(name, duration);
     }
 
@@ -106,7 +106,7 @@ public abstract class FeatureLockFactory implements Factory {
     /**
      * Returns the implementation hints. The default implementation returns en empty map.
      */
-    public Map<RenderingHints.Key,Object> getImplementationHints() {
+    public Map<RenderingHints.Key, Object> getImplementationHints() {
         return Collections.emptyMap();
     }
 }

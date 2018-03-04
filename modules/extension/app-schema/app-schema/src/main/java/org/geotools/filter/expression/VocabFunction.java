@@ -2,7 +2,7 @@ package org.geotools.filter.expression;
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2009-2011, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -15,6 +15,7 @@ package org.geotools.filter.expression;
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -49,15 +50,11 @@ import org.opengis.filter.expression.Literal;
  * <li>Expression: often a property name expression
  * <li>Literal: URI defining the lookup table to use
  * </ol>
- * 
+ *
  * @author Jody Garnett (GeoServer)
- *
- *
- *
- *
  * @source $URL$
  */
-public class VocabFunction implements Function {    
+public class VocabFunction implements Function {
 
     private final List<Expression> parameters;
 
@@ -66,7 +63,7 @@ public class VocabFunction implements Function {
     public static final FunctionName NAME = new FunctionNameImpl("Vocab", "expr", "vocab");
 
     public VocabFunction() {
-        this( new ArrayList<Expression>(), null);
+        this(new ArrayList<Expression>(), null);
     }
 
     public VocabFunction(List<Expression> parameters, Literal fallback) {
@@ -77,6 +74,7 @@ public class VocabFunction implements Function {
     public String getName() {
         return NAME.getName();
     }
+
     public FunctionName getFunctionName() {
         return NAME;
     }
@@ -96,43 +94,44 @@ public class VocabFunction implements Function {
     public <T> T evaluate(Object object, Class<T> context) {
         final Expression expr = parameters.get(0);
         Expression vocab = parameters.get(1);
-        
+
         String key = expr.evaluate(object, String.class);
         String urn = vocab.evaluate(object, String.class);
-        
-        Properties lookup = lookup( urn );
-        if( lookup == null ){
-            throw new RuntimeException("Unable to resolve lookup table "+urn);
+
+        Properties lookup = lookup(urn);
+        if (lookup == null) {
+            throw new RuntimeException("Unable to resolve lookup table " + urn);
         }
-        return Converters.convert( lookup.get(key), context );        
+        return Converters.convert(lookup.get(key), context);
     }
-    
-    static Map<String,Properties> cache = Collections.synchronizedMap(new SoftValueHashMap<String,Properties>());
-    
-    public static synchronized Properties lookup( String urn ){
+
+    static Map<String, Properties> cache = Collections.synchronizedMap(new 
+            SoftValueHashMap<String, Properties>());
+
+    public static synchronized Properties lookup(String urn) {
         // We should look up in our Registery 
         // (or in a perfrect world JNDI directory)
         // for this stuff
         Properties properties;
 
-        if( cache.containsKey(urn)){
-            properties = cache.get( urn );
-            if( properties == null){
-                throw new RuntimeException("Could not find file for lookup table "+urn );
+        if (cache.containsKey(urn)) {
+            properties = cache.get(urn);
+            if (properties == null) {
+                throw new RuntimeException("Could not find file for lookup table " + urn);
             }
             return properties;
         }
         properties = new Properties();
-        File file = new File( urn );
-        if( file.exists() ){
+        File file = new File(urn);
+        if (file.exists()) {
             InputStream input = null;
             try {
                 input = new BufferedInputStream(new FileInputStream(file));
                 properties.load(input);
             } catch (FileNotFoundException e) {
-                throw new RuntimeException("Could not find file for lookup table "+urn );
+                throw new RuntimeException("Could not find file for lookup table " + urn);
             } catch (IOException e) {
-                throw new RuntimeException("Difficulty parsing lookup table "+urn );
+                throw new RuntimeException("Difficulty parsing lookup table " + urn);
             } finally {
                 if (input != null) {
                     try {
@@ -142,9 +141,8 @@ public class VocabFunction implements Function {
                     }
                 }
             }
-        }
-        else {
-            cache.put(urn,null); // don't check again and waste our time
+        } else {
+            cache.put(urn, null); // don't check again and waste our time
             return null;
         }
         return properties;
@@ -153,5 +151,5 @@ public class VocabFunction implements Function {
     public Literal getFallbackValue() {
         return fallback;
     }
-    
+
 }

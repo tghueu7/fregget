@@ -22,21 +22,19 @@ import org.geotools.data.efeature.query.EGeometryValueDisjoint;
 
 /**
  * @author kengu - 14. juni 2011
- *
- *
  * @source $URL$
  */
 public class EGeometryValueDisjointTest extends AbstractEGeometryValueTest {
-    
+
     // ----------------------------------------------------- 
     //  Constructors
     // -----------------------------------------------------
-    
+
     /**
      * @param name
      */
     public EGeometryValueDisjointTest(String name) {
-        super(name,DISJOINT);
+        super(name, DISJOINT);
     }
 
     // ----------------------------------------------------- 

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -34,58 +34,56 @@ import org.opengis.util.InternationalString;
  * Maps the sample values of a coverage from one range to another range. The rescaling is done by
  * multiplying each sample value by one of a set of constants and then adding another constant to
  * the result of the multiplication. The destination sample values are defined by the pseudocode:
- *
+ * <p>
  * <BLOCKQUOTE><CODE>
  * dst[<var>x</var>][<var>y</var>][<var>b</var>] =
- * src[<var>x</var>][<var>y</var>][<var>b</var>]*<strong>constant</strong> + <strong>offset</strong>;
+ * src[<var>x</var>][<var>y</var>][<var>b</var>]*<strong>constant</strong> + 
+ * <strong>offset</strong>;
  * </CODE></BLOCKQUOTE>
- *
+ * <p>
  * <P><STRONG>Name:</STRONG>&nbsp;<CODE>"Rescale"</CODE><BR>
- *    <STRONG>JAI operator:</STRONG>&nbsp;<CODE>"{@linkplain javax.media.jai.operator.RescaleDescriptor Rescale}"</CODE><BR>
- *    <STRONG>Parameters:</STRONG></P>
+ * <STRONG>JAI operator:</STRONG>&nbsp;
+ * <CODE>"{@linkplain javax.media.jai.operator.RescaleDescriptor Rescale}"</CODE><BR>
+ * <STRONG>Parameters:</STRONG></P>
  * <table border='3' cellpadding='6' bgcolor='F4F8FF'>
- *   <tr bgcolor='#B9DCFF'>
- *     <th>Name</th>
- *     <th>Class</th>
- *     <th>Default value</th>
- *     <th>Minimum value</th>
- *     <th>Maximum value</th>
- *   </tr>
- *   <tr>
- *     <td>{@code "Source"}</td>
- *     <td>{@link org.geotools.coverage.grid.GridCoverage2D}</td>
- *     <td align="center">N/A</td>
- *     <td align="center">N/A</td>
- *     <td align="center">N/A</td>
- *   </tr>
- *   <tr>
- *     <td>{@code "constants"}</td>
- *     <td><code>double[]</code></td>
- *     <td align="center">1.0</td>
- *     <td align="center">N/A</td>
- *     <td align="center">N/A</td>
- *   </tr>
- *   <tr>
- *     <td>{@code "offsets"}</td>
- *     <td><code>double[]</code></td>
- *     <td align="center">0.0</td>
- *     <td align="center">N/A</td>
- *     <td align="center">N/A</td>
- *   </tr>
+ * <tr bgcolor='#B9DCFF'>
+ * <th>Name</th>
+ * <th>Class</th>
+ * <th>Default value</th>
+ * <th>Minimum value</th>
+ * <th>Maximum value</th>
+ * </tr>
+ * <tr>
+ * <td>{@code "Source"}</td>
+ * <td>{@link org.geotools.coverage.grid.GridCoverage2D}</td>
+ * <td align="center">N/A</td>
+ * <td align="center">N/A</td>
+ * <td align="center">N/A</td>
+ * </tr>
+ * <tr>
+ * <td>{@code "constants"}</td>
+ * <td><code>double[]</code></td>
+ * <td align="center">1.0</td>
+ * <td align="center">N/A</td>
+ * <td align="center">N/A</td>
+ * </tr>
+ * <tr>
+ * <td>{@code "offsets"}</td>
+ * <td><code>double[]</code></td>
+ * <td align="center">0.0</td>
+ * <td align="center">N/A</td>
+ * <td align="center">N/A</td>
+ * </tr>
  * </table>
  *
- * @since 2.2
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
+ * @todo Should operates on {@code sampleToGeophysics} transform when possible.
+ * See <A HREF="http://jira.codehaus.org/browse/GEOT-610">GEOT-610</A>.
  * @see org.geotools.coverage.processing.Operations#rescale
  * @see javax.media.jai.operator.RescaleDescriptor
- *
- * @todo Should operates on {@code sampleToGeophysics} transform when possible.
- *       See <A HREF="http://jira.codehaus.org/browse/GEOT-610">GEOT-610</A>.
+ * @since 2.2
  */
 public class Rescale extends OperationJAI {
     /**
@@ -109,15 +107,18 @@ public class Rescale extends OperationJAI {
     protected NumberRange deriveRange(final NumberRange[] ranges, final Parameters parameters) {
         return super.deriveRange(ranges, parameters);
     }
-    
-    protected void handleJAIEXTParams(ParameterBlockJAI parameters, ParameterValueGroup parameters2) {
+
+    protected void handleJAIEXTParams(ParameterBlockJAI parameters, ParameterValueGroup 
+            parameters2) {
         GridCoverage2D source = (GridCoverage2D) parameters2.parameter("source0").getValue();
         handleROINoDataInternal(parameters, source, "Rescale", 2, 3);
     }
-    
+
     protected Map<String, ?> getProperties(RenderedImage data, CoordinateReferenceSystem crs,
-            InternationalString name, MathTransform gridToCRS, GridCoverage2D[] sources,
-            Parameters parameters) {
-        return handleROINoDataProperties(null, parameters.parameters, sources[0], "Rescale", 2, 3, 5);
+                                           InternationalString name, MathTransform gridToCRS, 
+                                           GridCoverage2D[] sources,
+                                           Parameters parameters) {
+        return handleROINoDataProperties(null, parameters.parameters, sources[0], "Rescale", 2, 
+                3, 5);
     }
 }

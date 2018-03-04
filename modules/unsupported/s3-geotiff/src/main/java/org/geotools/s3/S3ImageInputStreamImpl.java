@@ -89,7 +89,8 @@ public class S3ImageInputStreamImpl extends ImageInputStreamImpl {
 
     private byte[] getFromCache(int block) throws IOException {
         int blockSizeForBlock = this.calculateBlockSizeForBlock(block);
-        CacheEntryKey keyForBlock = new CacheEntryKey(this.bucket, this.key, block, blockSizeForBlock);
+        CacheEntryKey keyForBlock = new CacheEntryKey(this.bucket, this.key, block, 
+                blockSizeForBlock);
         return CacheManagement.DEFAULT.getChunk(keyForBlock, connector);
     }
 
@@ -136,7 +137,8 @@ public class S3ImageInputStreamImpl extends ImageInputStreamImpl {
             int block = getBlockIndex();
             int offset = getCurrentOffset();
             byte[] blockBytes = this.getFromCache(block);
-            //block could be longer than what we want to read... or shorter, or longer than the rest of the block
+            //block could be longer than what we want to read... or shorter, or longer than the 
+            // rest of the block
             int bytesToRead = Math.min(readRemaining, blockBytes.length - offset);
             readBuffer.put(blockBytes, offset, bytesToRead);
             readRemaining -= bytesToRead;

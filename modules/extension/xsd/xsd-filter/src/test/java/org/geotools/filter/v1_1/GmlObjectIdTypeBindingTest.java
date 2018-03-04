@@ -23,8 +23,6 @@ import org.geotools.xml.Binding;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GmlObjectIdTypeBindingTest extends FilterTestSupport {

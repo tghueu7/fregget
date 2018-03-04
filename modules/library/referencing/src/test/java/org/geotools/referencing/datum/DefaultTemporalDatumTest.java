@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -20,21 +20,22 @@ import java.util.Locale;
 import java.util.TimeZone;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+
 import org.opengis.referencing.datum.TemporalDatum;
+
 import static org.geotools.referencing.datum.DefaultTemporalDatum.*;
 
 import org.junit.*;
+
 import static org.junit.Assert.*;
 
 
 /**
  * Tests the {@link DefaultTemporalDatum} class.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
  */
 public class DefaultTemporalDatumTest {
     /**
@@ -75,7 +76,7 @@ public class DefaultTemporalDatumTest {
      * Returns the epoch of the given datum, in day units relative to Java epoch.
      */
     private static double epoch(final TemporalDatum datum) {
-        return datum.getOrigin().getTime() / (24*60*60*1000.0);
+        return datum.getOrigin().getTime() / (24 * 60 * 60 * 1000.0);
     }
 
     /**

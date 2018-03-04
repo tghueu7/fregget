@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -42,27 +42,27 @@ import org.opengis.feature.type.Name;
  * <ul>
  * <li>load( File )
  * <li>
- * 
- * 
+ * <p>
+ * <p>
  * This also serves as a reminder that we need CrossDataStore functionality - at least for Locks.
  * And possibly for "Query".
- * 
+ *
  * @author Jody Garnett
- *
- *
  * @source $URL$
- *         DefaultRepository.java $
+ * DefaultRepository.java $
  */
 public class DefaultRepository implements Repository {
-    
-    /** Holds the DataStores so we can clean up when closed */
-    protected Map<Name, DataAccess<?,?>> repository = new HashMap<Name,DataAccess<?,?>>();
+
+    /**
+     * Holds the DataStores so we can clean up when closed
+     */
+    protected Map<Name, DataAccess<?, ?>> repository = new HashMap<Name, DataAccess<?, ?>>();
 
     // 
     // lookup methods provided by Repository interface
     //
     public DataAccess<?, ?> access(String name) {
-        return access( new NameImpl( name ));
+        return access(new NameImpl(name));
     }
 
     public DataAccess<?, ?> access(Name name) {
@@ -70,17 +70,17 @@ public class DefaultRepository implements Repository {
     }
 
     public DataStore dataStore(String name) {
-        return (DataStore) access( name );
+        return (DataStore) access(name);
     }
 
     public DataStore dataStore(Name name) {
-        return (DataStore) access( name );
+        return (DataStore) access(name);
     }
-    
+
     //
     // DefaultRepository methods used to maintain datastores
     //
-    
+
     /**
      * Load a quick repository from a properties file.
      * <p>
@@ -89,7 +89,7 @@ public class DefaultRepository implements Repository {
      * nameA=param=value,param2=value2,...
      * nameB=param=value,param2=value2,...
      * </code></pre>
-     * 
+     *
      * @throws IOException
      * @throws FileNotFoundException
      */
@@ -97,32 +97,32 @@ public class DefaultRepository implements Repository {
         Properties properties = new Properties();
         properties.load(new FileInputStream(propertiesFile));
 
-        for (Iterator i = properties.entrySet().iterator(); i.hasNext();) {
-            Map.Entry<String,String> entry = (Map.Entry) i.next();
+        for (Iterator i = properties.entrySet().iterator(); i.hasNext(); ) {
+            Map.Entry<String, String> entry = (Map.Entry) i.next();
             String name = (String) entry.getKey();
             String definition = (String) entry.getValue();
-            Map<String,Serializable> params = definition(definition);
+            Map<String, Serializable> params = definition(definition);
 
             DataStore dataStore = DataStoreFinder.getDataStore(params);
-            
+
             register(name, dataStore);
         }
     }
 
     /**
      * Check if a lock exists in any of the DataStores.
-     * 
+     *
      * @param lockID
      */
     public boolean lockExists(String lockID) {
-        if (lockID == null){
+        if (lockID == null) {
             return false;
         }
         LockingManager lockManager;
-        for ( DataAccess<?,?> access : repository.values() ){
+        for (DataAccess<?, ?> access : repository.values()) {
             DataStore store = (DataStore) access;
             lockManager = store.getLockingManager();
-            if (lockManager == null){
+            if (lockManager == null) {
                 continue; // did not support locking
             }
             if (lockManager.exists(lockID)) {
@@ -143,17 +143,12 @@ public class DefaultRepository implements Repository {
      * will still exist when you try to refresh it. Nothing we do can protect client code from this
      * fact, they will need to do with the IOException when (not if) this situation occurs.
      * </p>
-     * 
+     *
+     * @param lockID      Authorizataion of lock to refresh
+     * @param transaction Transaction used to authorize refresh
+     * @throws IOException              If opperation encounters problems, or lock not found
+     * @throws IllegalArgumentException if lockID is <code>null</code>
      * @see org.geotools.data.Catalog#lockRefresh(java.lang.String, org.geotools.data.Transaction)
-     * 
-     * @param lockID
-     *            Authorizataion of lock to refresh
-     * @param transaction
-     *            Transaction used to authorize refresh
-     * @throws IOException
-     *             If opperation encounters problems, or lock not found
-     * @throws IllegalArgumentException
-     *             if lockID is <code>null</code>
      */
     public boolean lockRefresh(String lockID, Transaction transaction) throws IOException {
         if (lockID == null) {
@@ -166,10 +161,10 @@ public class DefaultRepository implements Repository {
         LockingManager lockManager;
 
         boolean refresh = false;
-        for ( DataAccess<?,?> access : repository.values() ){
+        for (DataAccess<?, ?> access : repository.values()) {
             DataStore store = (DataStore) access;
             lockManager = store.getLockingManager();
-            if (lockManager == null){
+            if (lockManager == null) {
                 continue; // did not support locking
             }
             if (lockManager.release(lockID, transaction)) {
@@ -186,17 +181,12 @@ public class DefaultRepository implements Repository {
      * locks are time sensitive it is impossible to check if a lockExists and then be sure it will
      * still exist when you try to release it.
      * </p>
-     * 
+     *
+     * @param lockID      Authorizataion of lock to refresh
+     * @param transaction Transaction used to authorize refresh
+     * @throws IOException              If opperation encounters problems
+     * @throws IllegalArgumentException if lockID is <code>null</code>
      * @see org.geotools.data.Catalog#lockRefresh(java.lang.String, org.geotools.data.Transaction)
-     * 
-     * @param lockID
-     *            Authorizataion of lock to refresh
-     * @param transaction
-     *            Transaction used to authorize refresh
-     * @throws IOException
-     *             If opperation encounters problems
-     * @throws IllegalArgumentException
-     *             if lockID is <code>null</code>
      */
     public boolean lockRelease(String lockID, Transaction transaction) throws IOException {
         if (lockID == null) {
@@ -210,7 +200,7 @@ public class DefaultRepository implements Repository {
         LockingManager lockManager;
 
         boolean release = false;
-        for ( DataAccess<?,?> access : repository.values() ){
+        for (DataAccess<?, ?> access : repository.values()) {
             DataStore store = (DataStore) access;
             lockManager = store.getLockingManager();
             if (lockManager == null)
@@ -228,20 +218,19 @@ public class DefaultRepository implements Repository {
      * <p>
      * Description ...
      * </p>
-     * 
-     * @see org.geotools.data.Catalog#registerDataStore(org.geotools.data.DataStore)
-     * 
-     * @param String namespace Namespace to 
+     *
+     * @param String    namespace Namespace to
      * @param dataStore
      * @throws IOException
+     * @see org.geotools.data.Catalog#registerDataStore(org.geotools.data.DataStore)
      */
-    public void register(String name, DataAccess<?,?> dataStore) throws IOException {
-        register( new NameImpl(name), dataStore );
+    public void register(String name, DataAccess<?, ?> dataStore) throws IOException {
+        register(new NameImpl(name), dataStore);
     }
-    
-    public void register(Name name, DataAccess<?,?> dataStore) throws IOException {
+
+    public void register(Name name, DataAccess<?, ?> dataStore) throws IOException {
         if (repository.containsKey(name)) {
-            throw new IOException("Name "+name+" already registered");
+            throw new IOException("Name " + name + " already registered");
         }
         if (repository.containsValue(dataStore)) {
             throw new IOException("The dataStore already registered");
@@ -250,15 +239,15 @@ public class DefaultRepository implements Repository {
     }
 
     public DataStore datastore(String id) {
-        return dataStore( new NameImpl( id ));
+        return dataStore(new NameImpl(id));
     }
 
     public SimpleFeatureSource source(String dataStoreId,
-            String typeName) throws IOException {
+                                      String typeName) throws IOException {
         DataStore ds = datastore(dataStoreId);
         return ds.getFeatureSource(typeName);
     }
-    
+
     /**
      * Internal method parsing parameters from a string
      */
@@ -281,13 +270,14 @@ public class DefaultRepository implements Repository {
     }
 
     @SuppressWarnings("unchecked")
-    public Set<Name> getNames(){
-        Set names = new HashSet( repository.keySet());
-        return (Set<Name>) names;            
+    public Set<Name> getNames() {
+        Set names = new HashSet(repository.keySet());
+        return (Set<Name>) names;
     }
+
     @SuppressWarnings("unchecked")
     public List<DataStore> getDataStores() {
-        List list = new ArrayList( repository.values());
+        List list = new ArrayList(repository.values());
         return (List<DataStore>) list;
     }
 

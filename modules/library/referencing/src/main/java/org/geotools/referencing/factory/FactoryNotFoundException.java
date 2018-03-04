@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2006-2008, Open Source Geospatial Foundation (OSGeo)
- *   
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -17,6 +17,7 @@
 package org.geotools.referencing.factory;
 
 // OpenGIS dependencies
+
 import org.opengis.referencing.FactoryException;
 
 
@@ -24,12 +25,10 @@ import org.opengis.referencing.FactoryException;
  * Thrown when a requested factory has not been found. This exception may be thrown by
  * {@link DeferredAuthorityFactory#createBackingStore}.
  *
- * @since 2.3
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.3
  */
 public class FactoryNotFoundException extends FactoryException {
     /**
@@ -46,8 +45,8 @@ public class FactoryNotFoundException extends FactoryException {
     /**
      * Construct an exception with the specified detail message.
      *
-     * @param  message The detail message. The detail message is saved
-     *         for later retrieval by the {@link #getMessage()} method.
+     * @param message The detail message. The detail message is saved
+     *                for later retrieval by the {@link #getMessage()} method.
      */
     public FactoryNotFoundException(String message) {
         super(message);
@@ -58,8 +57,8 @@ public class FactoryNotFoundException extends FactoryException {
      * is copied from the cause {@linkplain Exception#getLocalizedMessage
      * localized message}.
      *
-     * @param  cause The cause for this exception. The cause is saved
-     *         for later retrieval by the {@link #getCause()} method.
+     * @param cause The cause for this exception. The cause is saved
+     *              for later retrieval by the {@link #getCause()} method.
      */
     public FactoryNotFoundException(Exception cause) {
         super(cause.getLocalizedMessage(), cause);
@@ -70,10 +69,10 @@ public class FactoryNotFoundException extends FactoryException {
      * The cause is the exception thrown in the underlying database
      * (e.g. {@link java.io.IOException} or {@link java.sql.SQLException}).
      *
-     * @param  message The detail message. The detail message is saved
-     *         for later retrieval by the {@link #getMessage()} method.
-     * @param  cause The cause for this exception. The cause is saved
-     *         for later retrieval by the {@link #getCause()} method.
+     * @param message The detail message. The detail message is saved
+     *                for later retrieval by the {@link #getMessage()} method.
+     * @param cause   The cause for this exception. The cause is saved
+     *                for later retrieval by the {@link #getCause()} method.
      */
     public FactoryNotFoundException(String message, Throwable cause) {
         super(message, cause);

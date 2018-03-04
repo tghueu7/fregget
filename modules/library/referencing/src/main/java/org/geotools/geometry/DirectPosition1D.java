@@ -17,6 +17,7 @@
 package org.geotools.geometry;
 
 import java.io.Serializable;
+
 import org.opengis.util.Cloneable;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.geometry.DirectPosition;
@@ -26,15 +27,12 @@ import org.opengis.geometry.MismatchedDimensionException;
 /**
  * Holds the coordinates for a one-dimensional position within some coordinate reference system.
  *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see DirectPosition2D
  * @see GeneralPosition
+ * @since 2.0
  */
 public class DirectPosition1D extends AbstractDirectPosition implements Serializable, Cloneable {
     /**
@@ -126,16 +124,15 @@ public class DirectPosition1D extends AbstractDirectPosition implements Serializ
      */
     @Override
     public double[] getCoordinate() {
-        return new double[] {ordinate};
+        return new double[]{ordinate};
     }
 
     /**
      * Returns the ordinate at the specified dimension.
      *
-     * @param  dimension The dimension, which must be 0.
+     * @param dimension The dimension, which must be 0.
      * @return The {@linkplain #ordinate}.
      * @throws IndexOutOfBoundsException if the specified dimension is out of bounds.
-     *
      * @todo Provides a more detailled error message.
      */
     public final double getOrdinate(final int dimension) throws IndexOutOfBoundsException {
@@ -149,10 +146,9 @@ public class DirectPosition1D extends AbstractDirectPosition implements Serializ
     /**
      * Sets the ordinate value along the specified dimension.
      *
-     * @param  dimension The dimension, which must be 0.
-     * @param  value the ordinate value.
+     * @param dimension The dimension, which must be 0.
+     * @param value     the ordinate value.
      * @throws IndexOutOfBoundsException if the specified dimension is out of bounds.
-     *
      * @todo Provides a more detailled error message.
      */
     public final void setOrdinate(int dimension, double value) throws IndexOutOfBoundsException {
@@ -168,7 +164,7 @@ public class DirectPosition1D extends AbstractDirectPosition implements Serializ
      * contains a {@linkplain CoordinateReferenceSystem coordinate reference system},
      * then the CRS for this position will be set to the CRS of the specified position.
      *
-     * @param  position The new position for this point.
+     * @param position The new position for this point.
      * @throws MismatchedDimensionException if this point doesn't have the expected dimension.
      */
     public void setLocation(final DirectPosition position) throws MismatchedDimensionException {
@@ -183,7 +179,7 @@ public class DirectPosition1D extends AbstractDirectPosition implements Serializ
     @Override
     public int hashCode() {
         final long value = Double.doubleToLongBits(ordinate);
-        int code = 31 + ((int)value ^ (int)(value >>> 32));
+        int code = 31 + ((int) value ^ (int) (value >>> 32));
         if (crs != null) {
             code += crs.hashCode();
         }

@@ -9,19 +9,17 @@ import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.filter.Filter;
 
 /**
- * 
- *
- *
  * @source $URL$
  */
-public interface SimpleFeatureStore extends FeatureStore<SimpleFeatureType,SimpleFeature>, SimpleFeatureSource {
-    
+public interface SimpleFeatureStore extends FeatureStore<SimpleFeatureType, SimpleFeature>, 
+        SimpleFeatureSource {
+
     public void modifyFeatures(String name, Object attributeValue, Filter filter)
             throws IOException;
 
     public void modifyFeatures(String[] names, Object[] attributeValues, Filter filter)
             throws IOException;
-    
+
     public SimpleFeatureCollection getFeatures() throws IOException;
 
     public SimpleFeatureCollection getFeatures(Filter filter)

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -31,10 +31,8 @@ import com.vividsolutions.jts.geom.Geometry;
  * geometry internal envelope. If a max bounding box has been provided it will be used to clip this
  * request envelope.
  * <p>
- * 
+ *
  * @author Jody
- *
- *
  * @source $URL$
  */
 public class FixBBOXFilterVisitor extends DuplicatingFilterVisitor {
@@ -49,7 +47,7 @@ public class FixBBOXFilterVisitor extends DuplicatingFilterVisitor {
 
     /**
      * Visitor used to "clean up" any BBOX expressions.
-     * 
+     *
      * @param max Max bounding box used to clip any BBox expressions to ensure they are vaild
      */
     public FixBBOXFilterVisitor(ReferencedEnvelope fsd) {

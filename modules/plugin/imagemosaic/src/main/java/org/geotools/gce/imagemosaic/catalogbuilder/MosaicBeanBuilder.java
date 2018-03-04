@@ -27,9 +27,8 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  * Simple builder which builds the configuration bean of a mosaic configuration.
- * 
+ *
  * @author Daniele Romagnoli, GeoSolutions SAS
- * 
  */
 public class MosaicBeanBuilder {
 
@@ -44,7 +43,8 @@ public class MosaicBeanBuilder {
     }
 
     /**
-     * <code>true</code> if we need to expand to RGB(A) the single tiles in case they use a different {@link IndexColorModel}.
+     * <code>true</code> if we need to expand to RGB(A) the single tiles in case they use a 
+     * different {@link IndexColorModel}.
      */
     private boolean expandToRGB;
 
@@ -53,25 +53,39 @@ public class MosaicBeanBuilder {
      */
     private boolean checkAuxiliaryMetadata;
 
-    /** OverviewLevel levels */
+    /**
+     * OverviewLevel levels
+     */
     private double[][] levels;
 
-    /** name for the mosaic. */
+    /**
+     * name for the mosaic.
+     */
     private String name;
 
-    /** number of levels */
+    /**
+     * number of levels
+     */
     private int levelsNum;
 
-    /** time attribute name. <code>null</code> if absent. */
+    /**
+     * time attribute name. <code>null</code> if absent.
+     */
     private String timeAttribute;
 
-    /** elevation attribute name. <code>null</code> if absent. */
+    /**
+     * elevation attribute name. <code>null</code> if absent.
+     */
     private String elevationAttribute;
-    
-    /** crs attribute name. <code>null</code> if absent. */
+
+    /**
+     * crs attribute name. <code>null</code> if absent.
+     */
     private String crsAttribute;
 
-    /** additional domain attributes names. <code>null</code> if absent. */
+    /**
+     * additional domain attributes names. <code>null</code> if absent.
+     */
     private String additionalDomainAttributes;
 
     private String auxiliaryFilePath;
@@ -79,7 +93,8 @@ public class MosaicBeanBuilder {
     private String auxiliaryDatastorePath;
 
     /**
-     * mosaic's dummy sample model useful to store dataType and number of bands. All the other fields shouldn't be queried since they are meaningless
+     * mosaic's dummy sample model useful to store dataType and number of bands. All the other 
+     * fields shouldn't be queried since they are meaningless
      * for the whole mosaic (width, height, ...)
      */
     private SampleModel sampleModel;
@@ -147,7 +162,7 @@ public class MosaicBeanBuilder {
         this.timeAttribute = timeAttribute;
         bean = null;
     }
-    
+
     public String getCrsAttribute() {
         return timeAttribute;
     }
@@ -272,7 +287,8 @@ public class MosaicBeanBuilder {
             bean.setAuxiliaryFilePath(auxiliaryFilePath);
             bean.setAuxiliaryDatastorePath(auxiliaryDatastorePath);
             bean.setCheckAuxiliaryMetadata(checkAuxiliaryMetadata);
-            bean.setNoData(noData);;
+            bean.setNoData(noData);
+            ;
         }
         return bean;
     }

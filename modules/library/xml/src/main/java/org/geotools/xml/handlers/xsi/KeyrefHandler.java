@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -27,7 +27,7 @@ import org.xml.sax.SAXNotRecognizedException;
 
 /**
  * KeyrefHandler purpose.
- * 
+ * <p>
  * <p>
  * represents a 'keyref' element. This class is not currently used asside  from
  * as a placeholder.
@@ -36,13 +36,13 @@ import org.xml.sax.SAXNotRecognizedException;
  *
  * @author dzwiers, Refractions Research, Inc. http://www.refractions.net
  * @author $Author:$ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class KeyrefHandler extends XSIElementHandler {
-    /** 'keyref' */
+    /**
+     * 'keyref'
+     */
     public final static String LOCALNAME = "keyref";
     private String id;
     private String name;
@@ -55,15 +55,15 @@ public class KeyrefHandler extends XSIElementHandler {
      */
     public int hashCode() {
         return LOCALNAME.hashCode() * ((id == null) ? 1 : id.hashCode()) * ((refer == null)
-        ? 1 : refer.hashCode()) * ((name == null) ? 1 : name.hashCode());
+                ? 1 : refer.hashCode()) * ((name == null) ? 1 : name.hashCode());
     }
 
     /**
      * @see org.geotools.xml.XSIElementHandler#getHandler(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
     public XSIElementHandler getHandler(String namespaceURI, String localName)
-        throws SAXException {
+            throws SAXException {
         if (SchemaHandler.namespaceURI.equalsIgnoreCase(namespaceURI)) {
             // child types
             //
@@ -87,7 +87,7 @@ public class KeyrefHandler extends XSIElementHandler {
                     selector = sth;
                 } else {
                     throw new SAXNotRecognizedException(LOCALNAME
-                        + " may only have one child.");
+                            + " may only have one child.");
                 }
 
                 return sth;
@@ -99,10 +99,10 @@ public class KeyrefHandler extends XSIElementHandler {
 
     /**
      * @see org.geotools.xml.XSIElementHandler#startElement(java.lang.String,
-     *      java.lang.String, org.xml.sax.Attributes)
+     * java.lang.String, org.xml.sax.Attributes)
      */
     public void startElement(String namespaceURI, String localName,
-        Attributes atts) {
+                             Attributes atts) {
         id = atts.getValue("", "id");
 
         if (id == null) {
@@ -133,7 +133,6 @@ public class KeyrefHandler extends XSIElementHandler {
      * <p>
      * returns a list of child field elements
      * </p>
-     *
      */
     public List getFields() {
         return fields;
@@ -143,7 +142,6 @@ public class KeyrefHandler extends XSIElementHandler {
      * <p>
      * returns the id attribute
      * </p>
-     *
      */
     public String getId() {
         return id;
@@ -153,7 +151,6 @@ public class KeyrefHandler extends XSIElementHandler {
      * <p>
      * returns the name attribute
      * </p>
-     *
      */
     public String getName() {
         return name;
@@ -163,7 +160,6 @@ public class KeyrefHandler extends XSIElementHandler {
      * <p>
      * returns the refer attribute
      * </p>
-     *
      */
     public String getRefer() {
         return refer;
@@ -173,7 +169,6 @@ public class KeyrefHandler extends XSIElementHandler {
      * <p>
      * returns the child selector element
      * </p>
-     *
      */
     public SelectorHandler getSelector() {
         return selector;
@@ -188,9 +183,9 @@ public class KeyrefHandler extends XSIElementHandler {
 
     /**
      * @see org.geotools.xml.XSIElementHandler#endElement(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
-    public void endElement(String namespaceURI, String localName){
+    public void endElement(String namespaceURI, String localName) {
         // do nothing
     }
 }

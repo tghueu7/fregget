@@ -29,9 +29,6 @@ import org.geotools.xml.XSD;
  * attributes in the http://www.w3.org/2001/SMIL20/ schema.
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public final class SMIL20 extends XSD {
@@ -40,67 +37,99 @@ public final class SMIL20 extends XSD {
      */
     private static SMIL20 instance = new SMIL20();
 
-    /** @generated */
+    /**
+     * @generated
+     */
     public static final String NAMESPACE = "http://www.w3.org/2001/SMIL20/";
 
     /* Type Definitions */
-    /** @generated */
+    /**
+     * @generated
+     */
     public static final QName ANIMATECOLORPROTOTYPE = new QName("http://www.w3.org/2001/SMIL20/",
             "animateColorPrototype");
 
-    /** @generated */
+    /**
+     * @generated
+     */
     public static final QName ANIMATEMOTIONPROTOTYPE = new QName("http://www.w3.org/2001/SMIL20/",
             "animateMotionPrototype");
 
-    /** @generated */
+    /**
+     * @generated
+     */
     public static final QName ANIMATEPROTOTYPE = new QName("http://www.w3.org/2001/SMIL20/",
             "animatePrototype");
 
-    /** @generated */
+    /**
+     * @generated
+     */
     public static final QName FILLDEFAULTTYPE = new QName("http://www.w3.org/2001/SMIL20/",
             "fillDefaultType");
 
-    /** @generated */
+    /**
+     * @generated
+     */
     public static final QName FILLTIMINGATTRSTYPE = new QName("http://www.w3.org/2001/SMIL20/",
             "fillTimingAttrsType");
 
-    /** @generated */
+    /**
+     * @generated
+     */
     public static final QName NONNEGATIVEDECIMALTYPE = new QName("http://www.w3.org/2001/SMIL20/",
             "nonNegativeDecimalType");
 
-    /** @generated */
+    /**
+     * @generated
+     */
     public static final QName RESTARTDEFAULTTYPE = new QName("http://www.w3.org/2001/SMIL20/",
             "restartDefaultType");
 
-    /** @generated */
+    /**
+     * @generated
+     */
     public static final QName RESTARTTIMINGTYPE = new QName("http://www.w3.org/2001/SMIL20/",
             "restartTimingType");
 
-    /** @generated */
+    /**
+     * @generated
+     */
     public static final QName SETPROTOTYPE = new QName("http://www.w3.org/2001/SMIL20/",
             "setPrototype");
 
-    /** @generated */
+    /**
+     * @generated
+     */
     public static final QName SYNCBEHAVIORDEFAULTTYPE = new QName("http://www.w3.org/2001/SMIL20/",
             "syncBehaviorDefaultType");
 
-    /** @generated */
+    /**
+     * @generated
+     */
     public static final QName SYNCBEHAVIORTYPE = new QName("http://www.w3.org/2001/SMIL20/",
             "syncBehaviorType");
 
     /* Elements */
-    /** @generated */
+    /**
+     * @generated
+     */
     public static final QName ANIMATE = new QName("http://www.w3.org/2001/SMIL20/", "animate");
 
-    /** @generated */
+    /**
+     * @generated
+     */
     public static final QName ANIMATECOLOR = new QName("http://www.w3.org/2001/SMIL20/",
             "animateColor");
 
-    /** @generated */
+    /**
+     * @generated
+     */
     public static final QName ANIMATEMOTION = new QName("http://www.w3.org/2001/SMIL20/",
             "animateMotion");
 
-    /** @generated */
+    /**
+     * @generated
+     */
     public static final QName SET = new QName("http://www.w3.org/2001/SMIL20/", "set");
 
     /**
@@ -138,6 +167,6 @@ public final class SMIL20 extends XSD {
         //being built
         return null;
     }
-    
+
     /* Attributes */
 }

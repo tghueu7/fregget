@@ -40,9 +40,8 @@ import org.geotools.util.Converters;
 
 /**
  * A rule in CSS
- * 
- * @author Andrea Aime - GeoSolutions
  *
+ * @author Andrea Aime - GeoSolutions
  */
 public class CssRule {
 
@@ -60,8 +59,8 @@ public class CssRule {
 
     /**
      * Builds a CSS rule
-     * 
-     * @param selector The rule selector
+     *
+     * @param selector   The rule selector
      * @param properties The set of rule properties
      */
     public CssRule(Selector selector, List<Property> properties) {
@@ -78,10 +77,10 @@ public class CssRule {
 
     /**
      * Builds a CSS rule
-     * 
-     * @param selector The rule selector
+     *
+     * @param selector   The rule selector
      * @param properties The set of rule properties
-     * @param comment The rule comment (can be used to generate SLD's title and abstract
+     * @param comment    The rule comment (can be used to generate SLD's title and abstract
      */
     public CssRule(Selector selector, List<Property> properties, String comment) {
         this(selector, properties);
@@ -90,10 +89,10 @@ public class CssRule {
 
     /**
      * Builds a CSS rule
-     * 
-     * @param selector The rule selector
+     *
+     * @param selector   The rule selector
      * @param properties The set of rule properties, already organized by pseudo-selector
-     * @param comment The rule comment (can be used to generate SLD's title and abstract
+     * @param comment    The rule comment (can be used to generate SLD's title and abstract
      */
     CssRule(Selector selector, Map<PseudoClass, List<Property>> properties, String comment) {
         this.setSelector(selector);
@@ -146,14 +145,15 @@ public class CssRule {
     }
 
     /**
-     * Returns the property values by pseudo-class, matching those that satisfy the specified name prefixes
-     * 
+     * Returns the property values by pseudo-class, matching those that satisfy the specified 
+     * name prefixes
+     *
      * @param pseudoClass
      * @param symbolizerPrefixes
      * @return
      */
     public Map<String, List<Value>> getPropertyValues(PseudoClass pseudoClass,
-            String... symbolizerPrefixes) {
+                                                      String... symbolizerPrefixes) {
         List<Property> psProperties = getProperties().get(pseudoClass);
         if (psProperties == null) {
             return Collections.emptyMap();
@@ -179,7 +179,7 @@ public class CssRule {
 
     /**
      * Returns true if the rule has any property for the given name, in the give pseudo-class
-     * 
+     *
      * @param pseudoClass
      * @param propertyName
      * @return
@@ -200,7 +200,7 @@ public class CssRule {
 
     /**
      * Returns the property with a given name (will look for an exact match)
-     * 
+     *
      * @param pseudoClass
      * @param propertyName
      * @return
@@ -221,7 +221,7 @@ public class CssRule {
 
     /**
      * Returns true if any of the "vendor" properties specified is found in the given pseudo-class
-     * 
+     *
      * @param pseudoClass
      * @param propertyNames
      * @return
@@ -246,7 +246,7 @@ public class CssRule {
 
     /**
      * Returns true if any of the properties specified is found in the given pseudo-class
-     * 
+     *
      * @param pseudoClass
      * @param propertyNames
      * @return
@@ -266,8 +266,9 @@ public class CssRule {
     }
 
     /**
-     * This rule covers the other if it has the same selector, and has all the properties of the other, plus eventually some more
-     * 
+     * This rule covers the other if it has the same selector, and has all the properties of the 
+     * other, plus eventually some more
+     *
      * @param other
      * @return
      */
@@ -294,8 +295,9 @@ public class CssRule {
     }
 
     /**
-     * Extracts a sub-rule at the given z-index. Will return null if this rule has nothing at that specific z-index
-     * 
+     * Extracts a sub-rule at the given z-index. Will return null if this rule has nothing at 
+     * that specific z-index
+     *
      * @param zIndex
      * @return
      */
@@ -364,7 +366,7 @@ public class CssRule {
 
     /**
      * Returns all z-index values used by this rule
-     * 
+     *
      * @return
      */
     public Set<Integer> getZIndexes() {
@@ -380,7 +382,7 @@ public class CssRule {
 
     /**
      * Returns the z-index values, in the order they are submitted
-     * 
+     *
      * @param properties
      * @return
      */
@@ -407,7 +409,8 @@ public class CssRule {
                         }
                     } else {
                         throw new IllegalArgumentException(
-                                "z-index must be integer literals, they cannot be expressions, multi-values or any other type: "
+                                "z-index must be integer literals, they cannot be expressions, " +
+                                        "multi-values or any other type: "
                                         + value);
                     }
                 }
@@ -426,7 +429,7 @@ public class CssRule {
 
     /**
      * Returns the rule selector
-     * 
+     *
      * @return
      */
     public Selector getSelector() {
@@ -439,7 +442,7 @@ public class CssRule {
 
     /**
      * Returns the rules properties, organized by pseudo-class
-     * 
+     *
      * @return
      */
     public Map<PseudoClass, List<Property>> getProperties() {
@@ -452,7 +455,7 @@ public class CssRule {
 
     /**
      * Returns the rule comment
-     * 
+     *
      * @return
      */
     public String getComment() {
@@ -464,7 +467,8 @@ public class CssRule {
     }
 
     /**
-     * Returns the original rules from which this rule originated (rules get re-organized and combined a lot during the translation process to
+     * Returns the original rules from which this rule originated (rules get re-organized and 
+     * combined a lot during the translation process to
      * Geotools {@link Style}
      */
     public List<CssRule> getAncestry() {
@@ -477,7 +481,7 @@ public class CssRule {
 
     /**
      * Returns the rules nested in this one
-     * 
+     *
      * @return
      */
     public List<CssRule> getNestedRules() {
@@ -485,8 +489,9 @@ public class CssRule {
     }
 
     /**
-     * Returns true if the style has at least one property activating a symbolizer, e.g., fill, stroke, mark, label or raster-channel
-     * 
+     * Returns true if the style has at least one property activating a symbolizer, e.g., fill, 
+     * stroke, mark, label or raster-channel
+     *
      * @param rootProperties
      * @return
      */
@@ -498,12 +503,12 @@ public class CssRule {
         for (Property property : rootProperties) {
             String name = property.getName();
             switch (name) {
-            case "fill":
-            case "stroke":
-            case "mark":
-            case "label":
-            case "raster-channels":
-                return true;
+                case "fill":
+                case "stroke":
+                case "mark":
+                case "label":
+                case "raster-channels":
+                    return true;
             }
         }
 
@@ -511,9 +516,10 @@ public class CssRule {
     }
 
     /**
-     * Returns the list of pseudo classes that can be mixed into this rule, meaning we have root properties in which these pseudo classes can be mixed
+     * Returns the list of pseudo classes that can be mixed into this rule, meaning we have root 
+     * properties in which these pseudo classes can be mixed
      * in.
-     * 
+     *
      * @param rootProperties
      * @return
      */
@@ -526,21 +532,21 @@ public class CssRule {
         for (Property property : rootProperties) {
             String name = property.getName();
             switch (name) {
-            case "fill":
-            case "stroke":
-                result.add(PseudoClass.newPseudoClass("symbol"));
-                addPseudoClassesForConditionallyMixableProperty(result, property);
-                break;
-            case "mark":
-                result.add(PseudoClass.newPseudoClass("symbol"));
-                result.add(PseudoClass.newPseudoClass("mark"));
-                addIndexedPseudoClasses(result, "mark");
-                break;
-            case "label":
-                result.add(PseudoClass.newPseudoClass("symbol"));
-                result.add(PseudoClass.newPseudoClass("shield"));
-                addIndexedPseudoClasses(result, "shield");
-                break;
+                case "fill":
+                case "stroke":
+                    result.add(PseudoClass.newPseudoClass("symbol"));
+                    addPseudoClassesForConditionallyMixableProperty(result, property);
+                    break;
+                case "mark":
+                    result.add(PseudoClass.newPseudoClass("symbol"));
+                    result.add(PseudoClass.newPseudoClass("mark"));
+                    addIndexedPseudoClasses(result, "mark");
+                    break;
+                case "label":
+                    result.add(PseudoClass.newPseudoClass("symbol"));
+                    result.add(PseudoClass.newPseudoClass("shield"));
+                    addIndexedPseudoClasses(result, "shield");
+                    break;
             }
         }
 
@@ -548,14 +554,15 @@ public class CssRule {
     }
 
     /**
-     * Adds pseudo classes for fill and stroke, whose ability to mix-in depends on whether a function (symbol) or a straight value was used for the
+     * Adds pseudo classes for fill and stroke, whose ability to mix-in depends on whether a 
+     * function (symbol) or a straight value was used for the
      * value of the property
-     * 
+     *
      * @param result
      * @param property
      */
     private void addPseudoClassesForConditionallyMixableProperty(Set<PseudoClass> result,
-            Property property) {
+                                                                 Property property) {
         String propertyName = property.getName();
         List<Value> values = property.getValues();
         if (values.size() == 1 && values.get(0) instanceof Function) {
@@ -572,8 +579,9 @@ public class CssRule {
     }
 
     /**
-     * Collects all properties starting with the propertyName, and adds pseudo classes up to the max index found in said properties
-     * 
+     * Collects all properties starting with the propertyName, and adds pseudo classes up to the 
+     * max index found in said properties
+     *
      * @param result
      * @param propertyName
      */
@@ -589,8 +597,9 @@ public class CssRule {
     }
 
     /**
-     * Returns the max number of property values in the provided property set (for repeated symbolizers)
-     * 
+     * Returns the max number of property values in the provided property set (for repeated 
+     * symbolizers)
+     *
      * @param valueMap
      * @return
      */
@@ -604,9 +613,10 @@ public class CssRule {
     }
 
     /**
-     * Turns a rule with nested subrules into a flat list of rules (this rule, plus all nested with a properly combined selector and property
+     * Turns a rule with nested subrules into a flat list of rules (this rule, plus all nested 
+     * with a properly combined selector and property
      * inheritance)
-     * 
+     *
      * @return
      */
     public List<CssRule> expandNested(RulesCombiner combiner) {

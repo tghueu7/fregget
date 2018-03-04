@@ -10,25 +10,23 @@ import org.opengis.coverage.grid.GridEnvelope;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:GridLimitsType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
- *	 <code>
+ * 	 <code>
  *  &lt;complexType name=&quot;GridLimitsType&quot;&gt;
  *      &lt;sequence&gt;
  *          &lt;element name=&quot;GridEnvelope&quot; type=&quot;gml:GridEnvelopeType&quot;/&gt;
  *      &lt;/sequence&gt;
- *  &lt;/complexType&gt; 
- * 	
+ *  &lt;/complexType&gt;
+ *
  * </code>
- *	 </pre>
- * 
+ * 	 </pre>
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class GridLimitsTypeBinding extends AbstractComplexBinding {
@@ -42,7 +40,7 @@ public class GridLimitsTypeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -51,13 +49,13 @@ public class GridLimitsTypeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
             throws Exception {
         GridEnvelope envelope = (GridEnvelope) node.getChildValue("GridEnvelope");
-        
+
         return envelope;
     }
 

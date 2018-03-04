@@ -7,9 +7,9 @@
                                                                                 
         Version: $Id$              
      ======================================================================= -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-             xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                                  http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -20,9 +20,9 @@
     </parent>
 
 
-  <!-- =========================================================== -->
-  <!--     Module Description                                      -->
-  <!-- =========================================================== -->
+    <!-- =========================================================== -->
+    <!--     Module Description                                      -->
+    <!-- =========================================================== -->
     <groupId>org.geotools</groupId>
     <artifactId>gt-process-raster</artifactId>
     <packaging>jar</packaging>
@@ -30,10 +30,10 @@
 
 
     <description>
-      Processes for handling of raster information; often wrapping up jai-tools
-      functionality.
+        Processes for handling of raster information; often wrapping up jai-tools
+        functionality.
     </description>
-  
+
     <licenses>
         <license>
             <name>Lesser General Public License (LGPL)</name>
@@ -43,9 +43,9 @@
     </licenses>
 
 
-  <!-- =========================================================== -->
-  <!--     Developers and Contributors                             -->
-  <!-- =========================================================== -->
+    <!-- =========================================================== -->
+    <!--     Developers and Contributors                             -->
+    <!-- =========================================================== -->
     <developers>
         <developer>
             <id>jive</id>
@@ -72,9 +72,9 @@
     </developers>
 
 
-  <!-- =========================================================== -->
-  <!--     Dependency Mangement                                    -->
-  <!-- =========================================================== -->
+    <!-- =========================================================== -->
+    <!--     Dependency Mangement                                    -->
+    <!-- =========================================================== -->
     <dependencies>
         <dependency>
             <groupId>org.geotools</groupId>
@@ -88,61 +88,61 @@
         </dependency>
 
         <dependency>
-          <groupId>org.jaitools</groupId>
-          <artifactId>jt-zonalstats</artifactId>
-          <version>${jt.version}</version>
-          <exclusions>
-            <exclusion>
-               <groupId>com.vividsolutions</groupId>
-               <artifactId>jts</artifactId>
-            </exclusion>
-          </exclusions>
+            <groupId>org.jaitools</groupId>
+            <artifactId>jt-zonalstats</artifactId>
+            <version>${jt.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.vividsolutions</groupId>
+                    <artifactId>jts</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
-          <groupId>org.jaitools</groupId>
-          <artifactId>jt-rangelookup</artifactId>
-          <version>${jt.version}</version>
-          <exclusions>
-            <exclusion>
-               <groupId>com.vividsolutions</groupId>
-               <artifactId>jts</artifactId>
-            </exclusion>
-          </exclusions>
+            <groupId>org.jaitools</groupId>
+            <artifactId>jt-rangelookup</artifactId>
+            <version>${jt.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.vividsolutions</groupId>
+                    <artifactId>jts</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
-          <groupId>org.jaitools</groupId>
-          <artifactId>jt-contour</artifactId>
-          <version>${jt.version}</version>
-          <exclusions>
-            <exclusion>
-               <groupId>com.vividsolutions</groupId>
-               <artifactId>jts</artifactId>
-            </exclusion>
-          </exclusions>
+            <groupId>org.jaitools</groupId>
+            <artifactId>jt-contour</artifactId>
+            <version>${jt.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.vividsolutions</groupId>
+                    <artifactId>jts</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
-          <groupId>org.jaitools</groupId>
-          <artifactId>jt-vectorize</artifactId>
-          <version>${jt.version}</version>
-          <exclusions>
-            <exclusion>
-               <groupId>com.vividsolutions</groupId>
-               <artifactId>jts</artifactId>
-            </exclusion>
-          </exclusions>
+            <groupId>org.jaitools</groupId>
+            <artifactId>jt-vectorize</artifactId>
+            <version>${jt.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.vividsolutions</groupId>
+                    <artifactId>jts</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
-          <groupId>org.jaitools</groupId>
-          <artifactId>jt-utils</artifactId>
-          <version>${jt.version}</version>
-          <exclusions>
-            <exclusion>
-               <groupId>com.vividsolutions</groupId>
-               <artifactId>jts</artifactId>
-            </exclusion>
-          </exclusions>
+            <groupId>org.jaitools</groupId>
+            <artifactId>jt-utils</artifactId>
+            <version>${jt.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.vividsolutions</groupId>
+                    <artifactId>jts</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
-        
+
         <!-- Test dependencies -->
         <dependency>
             <groupId>org.geotools</groupId>
@@ -157,27 +157,27 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-	        <groupId>org.geotools</groupId>
-	        <artifactId>gt-property</artifactId>
-	        <version>${project.version}</version>
-	        <scope>test</scope>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-property</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
-	        <groupId>org.geotools</groupId>
-	        <artifactId>gt-geotiff</artifactId>
-	        <version>${project.version}</version>
-	        <scope>test</scope>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-geotiff</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
-	        <groupId>org.geotools</groupId>
-	        <artifactId>gt-epsg-hsql</artifactId>
-	        <version>${project.version}</version>
-	        <scope>test</scope>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-epsg-hsql</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
         </dependency>
-	<dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <scope>test</scope>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

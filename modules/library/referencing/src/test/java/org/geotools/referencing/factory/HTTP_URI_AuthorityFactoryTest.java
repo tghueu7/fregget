@@ -39,10 +39,9 @@ import org.opengis.referencing.crs.GeographicCRS;
 
 /**
  * Tests for {@link HTTP_URI_AuthorityFactory}.
- * 
+ *
  * @author Martin Desruisseaux
  * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
- * 
  * @source $URL$
  */
 public class HTTP_URI_AuthorityFactoryTest {
@@ -88,7 +87,8 @@ public class HTTP_URI_AuthorityFactoryTest {
     }
 
     /**
-     * Tests fetching the HTTP URI CRS factory when the "longitude first axis order" hint is set. This test ensures that the factory ignores this
+     * Tests fetching the HTTP URI CRS factory when the "longitude first axis order" hint is set.
+     * This test ensures that the factory ignores this
      * hint.
      */
     @Test

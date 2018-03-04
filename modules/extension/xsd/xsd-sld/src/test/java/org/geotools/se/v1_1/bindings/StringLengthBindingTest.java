@@ -20,8 +20,6 @@ import org.geotools.se.v1_1.SETestSupport;
 import org.opengis.filter.expression.Function;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class StringLengthBindingTest extends SETestSupport {
@@ -29,7 +27,7 @@ public class StringLengthBindingTest extends SETestSupport {
     public void testParse() throws Exception {
         SEMockData.stringLength(document, document);
         Function f = (Function) parse();
-        
+
         assertEquals("5", f.evaluate(null, String.class));
     }
 }

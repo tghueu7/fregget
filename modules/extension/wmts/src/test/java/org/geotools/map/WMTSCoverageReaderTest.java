@@ -27,6 +27,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Set;
 import javax.xml.parsers.ParserConfigurationException;
+
 import net.opengis.wmts.v_1.CapabilitiesType;
 import org.apache.commons.io.IOUtils;
 import org.geotools.data.wmts.model.WMTSCapabilities;
@@ -46,7 +47,6 @@ import org.xml.sax.SAXException;
 
 /**
  * @author ian
- *
  */
 public class WMTSCoverageReaderTest {
 

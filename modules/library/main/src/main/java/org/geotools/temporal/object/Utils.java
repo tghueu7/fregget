@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 import javax.measure.unit.NonSI;
 import javax.measure.unit.SI;
 import javax.measure.unit.Unit;
+
 import org.geotools.temporal.reference.DefaultTemporalCoordinateSystem;
 import org.opengis.temporal.CalendarDate;
 import org.opengis.temporal.DateAndTime;
@@ -36,11 +37,8 @@ import org.opengis.temporal.TemporalCoordinateSystem;
 
 /**
  * This is a tool class to convert DateTime from ISO8601 to Date object.
- * 
+ *
  * @author Mehdi Sidhoum (Geomatys)
- *
- *
- *
  * @source $URL$
  */
 public class Utils {
@@ -74,9 +72,11 @@ public class Utils {
      * The number of millisecond in one second.
      */
     private final static long secondMS = 1000;
-    
+
     /**
-     * Returns a Date object from an ISO-8601 representation string. (String defined with pattern yyyy-MM-dd'T'HH:mm:ss.SSSZ or yyyy-MM-dd).
+     * Returns a Date object from an ISO-8601 representation string. (String defined with pattern
+     * yyyy-MM-dd'T'HH:mm:ss.SSSZ or yyyy-MM-dd).
+     *
      * @param dateString
      * @return
      */
@@ -108,7 +108,7 @@ public class Utils {
             } else if (dateString.endsWith("Z")) {
                 //e.g : 1985-04-12T10:15:30Z
                 dateString = dateString.substring(0, dateString.length() - 1).concat("+0000");
-            }else {
+            } else {
                 //e.g : 1985-04-12T10:15:30
                 dateString = dateString + "+0000";
             }
@@ -142,7 +142,7 @@ public class Utils {
 
     /**
      * Return a Date (long time) from a String description
-     * 
+     *
      * @param periodDuration
      * @return
      */
@@ -161,8 +161,10 @@ public class Utils {
 
         //we look if the period contains months (2628000000 ms)
         if (periodDuration.indexOf('M') != -1 &&
-                (periodDuration.indexOf("T") == -1 || periodDuration.indexOf("T") > periodDuration.indexOf('M'))) {
-            int nbMonth = Integer.parseInt(periodDuration.substring(0, periodDuration.indexOf('M')));
+                (periodDuration.indexOf("T") == -1 || periodDuration.indexOf("T") > 
+                        periodDuration.indexOf('M'))) {
+            int nbMonth = Integer.parseInt(periodDuration.substring(0, periodDuration.indexOf
+                    ('M')));
             time += nbMonth * monthMS;
             periodDuration = periodDuration.substring(periodDuration.indexOf('M') + 1);
         }
@@ -254,6 +256,7 @@ public class Utils {
 
     /**
      * Convert a CalendarDate object to java.util.Date.
+     *
      * @param calDate
      * @return
      */
@@ -269,7 +272,8 @@ public class Utils {
             int month = 0;
             int day = 0;
             if (cal.length > 3) {
-                throw new IllegalArgumentException("The CalendarDate integer array is malformed ! see ISO 8601 format.");
+                throw new IllegalArgumentException("The CalendarDate integer array is malformed !" +
+                        " see ISO 8601 format.");
             } else {
                 year = cal[0];
                 if (cal.length > 0) {
@@ -287,6 +291,7 @@ public class Utils {
 
     /**
      * Convert a DateAndTime object to Date.
+     *
      * @param dateAndTime
      * @return
      */
@@ -302,7 +307,8 @@ public class Utils {
             int month = 0;
             int day = 0;
             if (cal.length > 3) {
-                throw new IllegalArgumentException("The CalendarDate integer array is malformed ! see ISO 8601 format.");
+                throw new IllegalArgumentException("The CalendarDate integer array is malformed !" +
+                        " see ISO 8601 format.");
             } else {
                 year = cal[0];
                 if (cal.length > 0) {
@@ -318,7 +324,8 @@ public class Utils {
             Number minute = 0;
             Number second = 0;
             if (clock.length > 3) {
-                throw new IllegalArgumentException("The ClockTime Number array is malformed ! see ISO 8601 format.");
+                throw new IllegalArgumentException("The ClockTime Number array is malformed ! see" +
+                        " ISO 8601 format.");
             } else {
                 hour = clock[0];
                 if (clock.length > 0) {
@@ -336,6 +343,7 @@ public class Utils {
 
     /**
      * Convert a TemporalCoordinate object to Date.
+     *
      * @param temporalCoord
      */
     public static Date temporalCoordToDate(final TemporalCoordinate temporalCoord) {
@@ -346,7 +354,8 @@ public class Utils {
         final DefaultTemporalCoordinate timeCoord = (DefaultTemporalCoordinate) temporalCoord;
         Number value = timeCoord.getCoordinateValue();
         if (timeCoord.getFrame() instanceof TemporalCoordinateSystem) {
-            DefaultTemporalCoordinateSystem coordSystem = (DefaultTemporalCoordinateSystem) timeCoord.getFrame();
+            DefaultTemporalCoordinateSystem coordSystem = (DefaultTemporalCoordinateSystem) 
+                    timeCoord.getFrame();
             Date origin = coordSystem.getOrigin();
             String interval = coordSystem.getInterval().toString();
 
@@ -367,13 +376,15 @@ public class Utils {
             } else if (interval.equals("second")) {
                 timeInMS = value.longValue() * secondMS;
             } else {
-                throw new IllegalArgumentException(" The interval of TemporalCoordinateSystem for this TemporalCoordinate object is unknown ! ");
+                throw new IllegalArgumentException(" The interval of TemporalCoordinateSystem for" +
+                        " this TemporalCoordinate object is unknown ! ");
             }
             timeInMS = timeInMS + origin.getTime();
             calendar.setTimeInMillis(timeInMS);
             return calendar.getTime();
         } else {
-            throw new IllegalArgumentException("The frame of this TemporalCoordinate object must be an instance of TemporalCoordinateSystem");
+            throw new IllegalArgumentException("The frame of this TemporalCoordinate object must " +
+                    "be an instance of TemporalCoordinateSystem");
         }
     }
 

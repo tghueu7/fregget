@@ -31,12 +31,11 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 /**
  * List model class for {@code JCRSChooser}. Supports filtering
  * by case-insensitive sub-string matching.
- * 
- * @author Michael Bedward
- * @since 8.0
  *
- * @source $URL$
+ * @author Michael Bedward
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 public class CRSListModel extends AbstractListModel {
     private static class Item {
@@ -56,33 +55,33 @@ public class CRSListModel extends AbstractListModel {
 
     private List<Item> allItems = new ArrayList<Item>();
     private List<Item> filterItems = new ArrayList<Item>();
-    
+
     /**
      * Constructor. Populates the model with available reference systems
      * for the specified authority. If {@code authority} is {@code null}
      * or empty, it defaults to {@link JCRSChooser#DEFAULT_AUTHORITY}.
-     * 
-     * @param authority the authority name
+     *
+     * @param authority    the authority name
      * @param showDefaults show GeoTools default reference systems
      */
     public CRSListModel(String authority) {
         try {
-            CRSAuthorityFactory fac = 
+            CRSAuthorityFactory fac =
                     ReferencingFactoryFinder.getCRSAuthorityFactory(authority, null);
 
             Set<String> codes = fac.getAuthorityCodes(CoordinateReferenceSystem.class);
-            
+
             if (authority == null || authority.trim().length() == 0) {
                 authority = JCRSChooser.DEFAULT_AUTHORITY;
             }
-            
+
             for (String code : codes) {
                 code = code.trim();
                 String desc = fac.getDescriptionText(authority + ":" + code).toString();
                 allItems.add(new Item(code, desc));
             }
             filterItems.addAll(allItems);
-            
+
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
@@ -91,7 +90,7 @@ public class CRSListModel extends AbstractListModel {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @return the length of the list with the current filter applied
      */
     @Override
@@ -101,27 +100,27 @@ public class CRSListModel extends AbstractListModel {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @return a {@code String} of the form {@code reference code: description}
      */
     @Override
     public String getElementAt(int i) {
         return filterItems.get(i).toString();
     }
-    
+
     /**
      * Filters the model items by searching for the given sub-string.
      * Case is ignored for matching.
-     * 
-     * @param subStr sub-string to filter on; or {@code null} or 
-     *     empty string for no filtering
+     *
+     * @param subStr sub-string to filter on; or {@code null} or
+     *               empty string for no filtering
      */
     public void setFilter(String subStr) {
         filterItems.clear();
-        
+
         if (subStr == null || subStr.trim().length() == 0) {
             filterItems.addAll(allItems);
-            
+
         } else {
             String lo = subStr.toLowerCase();
 
@@ -134,10 +133,10 @@ public class CRSListModel extends AbstractListModel {
 
         fireContentsChanged(this, 0, getSize());
     }
-    
+
     /**
      * Gets the code for the given element index.
-     * 
+     *
      * @param i the index
      * @return the code
      */
@@ -148,15 +147,14 @@ public class CRSListModel extends AbstractListModel {
     /**
      * Searches for the element with the given code. The search
      * is undertaken on the filtered items.
-     * 
+     *
      * @param code the code to match; may be {@code null} or empty in which
-     *     case -1 is returned
-     * 
+     *             case -1 is returned
      * @return index of the matching element or -1 if not found.
      */
     public int findCode(String code) {
         String searchCode = code == null ? null : code.trim();
-        
+
         if (searchCode != null && searchCode.length() > 0) {
             for (int i = 0; i < filterItems.size(); i++) {
                 if (filterItems.get(i).code.equalsIgnoreCase(code)) {

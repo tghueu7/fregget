@@ -75,15 +75,13 @@ import org.geotools.util.logging.Logging;
  * two arguments constructor (this factory defaults to {@link ThreadedEpsgFactory#PRIORITY} - 10,
  * so it's used as an extension).
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
  * @author Jody Garnett
  * @author Rueben Schulz
  * @author Andrea Aime
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class FactoryUsingWKT extends DeferredAuthorityFactory implements CRSAuthorityFactory {
     /**
@@ -98,10 +96,10 @@ public class FactoryUsingWKT extends DeferredAuthorityFactory implements CRSAuth
      * search for the first occurence of this file in the following places:
      * <p>
      * <ul>
-     *   <li>In the directory specified by the
-     *       {@value org.geotools.factory.GeoTools#CRS_DIRECTORY_KEY} system property.</li>
-     *   <li>In every {@code org/geotools/referencing/factory/espg} directories found on the
-     *       classpath.</li>
+     * <li>In the directory specified by the
+     * {@value org.geotools.factory.GeoTools#CRS_DIRECTORY_KEY} system property.</li>
+     * <li>In every {@code org/geotools/referencing/factory/espg} directories found on the
+     * classpath.</li>
      * </ul>
      * <p>
      * The filename part before the extension ({@code "epsg"}) denotes the authority namespace
@@ -124,7 +122,7 @@ public class FactoryUsingWKT extends DeferredAuthorityFactory implements CRSAuth
      *
      * @since 2.4
      * @deprecated We will try to replace the priority mechanism by a better
-     *             one in a future Geotools version.
+     * one in a future Geotools version.
      */
     protected static final int DEFAULT_PRIORITY = ThreadedEpsgFactory.PRIORITY - 10;
 
@@ -185,12 +183,16 @@ public class FactoryUsingWKT extends DeferredAuthorityFactory implements CRSAuth
         if (authority == null) {
             final Citation[] authorities = getAuthorities();
             switch (authorities.length) {
-                case 0: authority = Citations.EPSG; break;
-                case 1: authority = authorities[0]; break;
+                case 0:
+                    authority = Citations.EPSG;
+                    break;
+                case 1:
+                    authority = authorities[0];
+                    break;
                 default: {
                     final CitationImpl c = new CitationImpl(authorities[0]);
                     final Collection<Identifier> identifiers = c.getIdentifiers();
-                    for (int i=1; i<authorities.length; i++) {
+                    for (int i = 1; i < authorities.length; i++) {
                         identifiers.addAll(authorities[i].getIdentifiers());
                     }
                     c.freeze();
@@ -216,8 +218,8 @@ public class FactoryUsingWKT extends DeferredAuthorityFactory implements CRSAuth
      * @since 2.4
      */
     protected Citation[] getAuthorities() {
-        return new Citation[] {
-            Citations.EPSG
+        return new Citation[]{
+                Citations.EPSG
         };
     }
 
@@ -225,13 +227,13 @@ public class FactoryUsingWKT extends DeferredAuthorityFactory implements CRSAuth
      * Returns the URL to the property file that contains CRS definitions.
      * The default implementation performs the following search path:
      * <ul>
-     *   <li>If a value is set for the {@value #CRS_DIRECTORY_KEY} system property key,
-     *       then the {@value #FILENAME} file will be searched in this directory.</li>
-     *   <li>If no value is set for the above-cited system property, or if no {@value #FILENAME}
-     *       file was found in that directory, then the first {@value #FILENAME} file found in
-     *       any {@code org/geotools/referencing/factory/epsg} directory on the classpath will
-     *       be used.</li>
-     *   <li>If no file was found on the classpath neither, then this factory will be disabled.</li>
+     * <li>If a value is set for the {@value #CRS_DIRECTORY_KEY} system property key,
+     * then the {@value #FILENAME} file will be searched in this directory.</li>
+     * <li>If no value is set for the above-cited system property, or if no {@value #FILENAME}
+     * file was found in that directory, then the first {@value #FILENAME} file found in
+     * any {@code org/geotools/referencing/factory/epsg} directory on the classpath will
+     * be used.</li>
+     * <li>If no file was found on the classpath neither, then this factory will be disabled.</li>
      * </ul>
      *
      * @return The URL, or {@code null} if none.
@@ -257,8 +259,9 @@ public class FactoryUsingWKT extends DeferredAuthorityFactory implements CRSAuth
      *
      * @return The backing store to uses in {@code createXXX(...)} methods.
      * @throws FactoryNotFoundException if the no {@code epsg.properties} file has been found.
-     * @throws FactoryException if the constructor failed to find or read the file.
-     *         This exception usually has an {@link IOException} as its cause.
+     * @throws FactoryException         if the constructor failed to find or read the file.
+     *                                  This exception usually has an {@link IOException} as its 
+     *                                  cause.
      */
     protected AbstractAuthorityFactory createBackingStore() throws FactoryException {
         try {
@@ -293,10 +296,9 @@ public class FactoryUsingWKT extends DeferredAuthorityFactory implements CRSAuth
      * the content of the {@value #FILENAME} file (or whatever property file used as backing
      * store for this factory) from the command line.
      *
-     * @param  out The writer where to print the report.
+     * @param out The writer where to print the report.
      * @return The set of duplicated codes.
      * @throws FactoryException if an error occured.
-     *
      * @since 2.4
      */
     protected Set reportDuplicatedCodes(final PrintWriter out) throws FactoryException {
@@ -313,8 +315,8 @@ public class FactoryUsingWKT extends DeferredAuthorityFactory implements CRSAuth
             throw new AssertionError(e);
         }
         out.println();
-        final Set<String> wktCodes   = this.      getAuthorityCodes(IdentifiedObject.class);
-        final Set<String> sqlCodes   = sqlFactory.getAuthorityCodes(IdentifiedObject.class);
+        final Set<String> wktCodes = this.getAuthorityCodes(IdentifiedObject.class);
+        final Set<String> sqlCodes = sqlFactory.getAuthorityCodes(IdentifiedObject.class);
         final Set<String> duplicated = new TreeSet<String>();
         for (String code : wktCodes) {
             code = code.trim();
@@ -346,16 +348,15 @@ public class FactoryUsingWKT extends DeferredAuthorityFactory implements CRSAuth
      * file (or whatever property file used as backing store for this factory) from the command
      * line.
      *
-     * @param  out The writer where to print the report.
+     * @param out The writer where to print the report.
      * @return The set of codes that can't be instantiated.
      * @throws FactoryException if an error occured while
-     *         {@linkplain #getAuthorityCodes fetching authority codes}.
-     *
+     *                          {@linkplain #getAuthorityCodes fetching authority codes}.
      * @since 2.4
      */
     protected Set reportInstantiationFailures(final PrintWriter out) throws FactoryException {
         final Set<String> codes = getAuthorityCodes(CoordinateReferenceSystem.class);
-        final Map<String,String> failures = new TreeMap<String,String>();
+        final Map<String, String> failures = new TreeMap<String, String>();
         for (final String code : codes) {
             try {
                 createCoordinateReferenceSystem(code);
@@ -365,7 +366,7 @@ public class FactoryUsingWKT extends DeferredAuthorityFactory implements CRSAuth
         }
         if (!failures.isEmpty()) {
             final TableWriter writer = new TableWriter(out, " ");
-            for (final Map.Entry<String,String> entry : failures.entrySet()) {
+            for (final Map.Entry<String, String> entry : failures.entrySet()) {
                 writer.write(entry.getKey());
                 writer.write(':');
                 writer.nextColumn();
@@ -390,15 +391,14 @@ public class FactoryUsingWKT extends DeferredAuthorityFactory implements CRSAuth
      * property file. Valid arguments are:
      * <p>
      * <table>
-     *   <tr><td>{@code -test}</td><td>Try to instantiate all CRS and reports any failure
-     *       to do so.</td></tr>
-     *   <tr><td>{@code -duplicated}</td><td>List all codes from the WKT factory that are
-     *       duplicating a code from the SQL factory.</td></tr>
+     * <tr><td>{@code -test}</td><td>Try to instantiate all CRS and reports any failure
+     * to do so.</td></tr>
+     * <tr><td>{@code -duplicated}</td><td>List all codes from the WKT factory that are
+     * duplicating a code from the SQL factory.</td></tr>
      * </table>
      *
-     * @param  args Command line arguments.
+     * @param args Command line arguments.
      * @throws FactoryException if an error occured.
-     *
      * @since 2.4
      */
     public static void main(final String[] args) throws FactoryException {
@@ -409,11 +409,10 @@ public class FactoryUsingWKT extends DeferredAuthorityFactory implements CRSAuth
      * Implementation of the {@link #main} method, shared by subclasses.
      */
     static void main(String[] args, final Class<? extends FactoryUsingWKT> type)
-            throws FactoryException
-    {
+            throws FactoryException {
         final Arguments arguments = new Arguments(args);
         Locale.setDefault(arguments.locale);
-        final boolean duplicated  = arguments.getFlag("-duplicated");
+        final boolean duplicated = arguments.getFlag("-duplicated");
         final boolean instantiate = arguments.getFlag("-test");
         args = arguments.getRemainingArguments(0);
         final FactoryUsingWKT factory = getFactory(type);

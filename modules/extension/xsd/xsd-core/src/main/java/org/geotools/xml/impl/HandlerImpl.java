@@ -21,8 +21,6 @@ import org.xml.sax.SAXException;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class HandlerImpl implements Handler {

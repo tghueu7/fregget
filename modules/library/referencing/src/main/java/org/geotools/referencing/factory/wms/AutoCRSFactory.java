@@ -17,6 +17,7 @@
 package org.geotools.referencing.factory.wms;
 
 // J2SE dependencies
+
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.Iterator;
@@ -46,21 +47,20 @@ import org.geotools.referencing.factory.DirectAuthorityFactory;
  * The factory for {@linkplain ProjectedCRS projected CRS} in the {@code AUTO} and {@code AUTO2}
  * space.
  *
- * @since 2.2
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Jody Garnett
  * @author Rueben Schulz
  * @author Martin Desruisseaux
  * @author Simon Schafer
- *
- * @deprecated This class will move in a <code>org.geotools.referencing.factory.<strong>web</strong></code>
- *             package in a future Geotools version, in order to put together other web-related factories defined
- *             outside the WMS specification. Don't use this class directly. You should not need to
- *             anyway - use {@link org.geotools.referencing.ReferencingFactoryFinder} instead, which
- *             will continue to work no matter where this class is located.
+ * @version $Id$
+ * @source $URL$
+ * @since 2.2
+ * @deprecated This class will move in a <code>org.geotools.referencing.factory
+ * .<strong>web</strong></code>
+ * package in a future Geotools version, in order to put together other web-related factories 
+ * defined
+ * outside the WMS specification. Don't use this class directly. You should not need to
+ * anyway - use {@link org.geotools.referencing.ReferencingFactoryFinder} instead, which
+ * will continue to work no matter where this class is located.
  */
 public class AutoCRSFactory extends DirectAuthorityFactory implements CRSAuthorityFactory {
     /**
@@ -68,6 +68,7 @@ public class AutoCRSFactory extends DirectAuthorityFactory implements CRSAuthori
      * {@code AUTO2} identifiers in order to use the same factory for both authorities.
      */
     private static final Citation AUTHORITY;
+
     static {
         final CitationImpl c = new CitationImpl(Citations.AUTO2);
         c.getIdentifiers().addAll(Citations.AUTO.getIdentifiers());
@@ -79,7 +80,7 @@ public class AutoCRSFactory extends DirectAuthorityFactory implements CRSAuthori
      *
      * @todo Replace this with full FactorySPI system.
      */
-    private final Map<Integer,Factlet> factlets = new TreeMap<Integer,Factlet>();
+    private final Map<Integer, Factlet> factlets = new TreeMap<Integer, Factlet>();
 
     /**
      * Constructs a default factory for the {@code AUTO} authority.
@@ -116,14 +117,13 @@ public class AutoCRSFactory extends DirectAuthorityFactory implements CRSAuthori
     /**
      * Returns the {@link Factlet} for the given code.
      *
-     * @param  code The code.
+     * @param code The code.
      * @return The fatclet for the specified code.
      * @throws NoSuchAuthorityCodeException if no factlet has been found for the specified code.
      */
     private Factlet findFactlet(final Code code) throws NoSuchAuthorityCodeException {
         if (code.authority.equalsIgnoreCase("AUTO") ||
-            code.authority.equalsIgnoreCase("AUTO2"))
-        {
+                code.authority.equalsIgnoreCase("AUTO2")) {
             final Integer key = code.code;
             final Factlet fac = factlets.get(key);
             if (fac != null) {
@@ -155,7 +155,7 @@ public class AutoCRSFactory extends DirectAuthorityFactory implements CRSAuthori
     public Set getAuthorityCodes(final Class type) throws FactoryException {
         if (type.isAssignableFrom(ProjectedCRS.class)) {
             final Set set = new LinkedHashSet();
-            for (final Iterator it=factlets.keySet().iterator(); it.hasNext();) {
+            for (final Iterator it = factlets.keySet().iterator(); it.hasNext(); ) {
                 Integer code = (Integer) it.next();
                 set.add(String.valueOf(code));
             }
@@ -175,7 +175,8 @@ public class AutoCRSFactory extends DirectAuthorityFactory implements CRSAuthori
 
     /**
      * Creates an object from the specified code. The default implementation delegates to
-     * <code>{@linkplain #createCoordinateReferenceSystem createCoordinateReferenceSystem}(code)</code>.
+     * <code>{@linkplain #createCoordinateReferenceSystem createCoordinateReferenceSystem}(code)
+     * </code>.
      */
     public IdentifiedObject createObject(final String code) throws FactoryException {
         return createCoordinateReferenceSystem(code);
@@ -186,8 +187,7 @@ public class AutoCRSFactory extends DirectAuthorityFactory implements CRSAuthori
      * delegates to <code>{@linkplain #createProjectedCRS createProjectedCRS}(code)</code>.
      */
     public CoordinateReferenceSystem createCoordinateReferenceSystem(final String code)
-            throws FactoryException
-    {
+            throws FactoryException {
         return createProjectedCRS(code);
     }
 

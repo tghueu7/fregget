@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -42,64 +42,67 @@ import org.opengis.filter.expression.Literal;
  * <li>org.opengis.filter.expression.Function
  * </ul>
  * This is done as a proper utility class that accepts Hints.
- * 
+ *
  * @author Jody Garnett
- *
- *
- *
  * @source $URL$
  */
 public class FunctionFinder {
-	private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org.geotools.filter");
-	
-    private volatile Map<Name,FunctionFactory> functionFactoryCache;
-    
+    private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org" +
+            ".geotools.filter");
+
+    private volatile Map<Name, FunctionFactory> functionFactoryCache;
+
     public FunctionFinder(Hints hints) {
         // currently hints are not used, need help :-P
     }
 
     /**
      * Return a List of FunctionName's describing the functions currently available.
+     *
      * @return List describing available functions
      */
-    public List<FunctionName> getAllFunctionDescriptions(){
+    public List<FunctionName> getAllFunctionDescriptions() {
         Set<FunctionFactory> functionFactories = CommonFactoryFinder.getFunctionFactories(null);
         List<FunctionName> allFunctionDescriptions = new ArrayList<FunctionName>();
-        
+
         for (FunctionFactory factory : functionFactories) {
             List<FunctionName> functionNames = factory.getFunctionNames();
-            allFunctionDescriptions.addAll( functionNames );
+            allFunctionDescriptions.addAll(functionNames);
         }
-        Collections.sort( allFunctionDescriptions, new Comparator<FunctionName>() {
+        Collections.sort(allFunctionDescriptions, new Comparator<FunctionName>() {
             public int compare(FunctionName o1, FunctionName o2) {
-                if( o1 == null && o2 == null ) return 0;
-                if( o1 == null && o2 != null ) return 1;
-                if( o1 != null && o2 == null ) return -1;
-                
-                return o1.getName().compareTo( o2.getName() );
+                if (o1 == null && o2 == null) return 0;
+                if (o1 == null && o2 != null) return 1;
+                if (o1 != null && o2 == null) return -1;
+
+                return o1.getName().compareTo(o2.getName());
             }
-        } );
+        });
         return Collections.unmodifiableList(allFunctionDescriptions);
     }
+
     /**
      * Lookup the FunctionName description.
+     *
      * @param name Function name; this will need to be an exact match
      * @return FunctioName description, or null if function is not available
      */
-    public FunctionName findFunctionDescription(String name ){
+    public FunctionName findFunctionDescription(String name) {
         return findFunctionDescription(new NameImpl(name));
     }
+
     /**
      * Lookup the FunctionName description.
+     *
      * @param name Function name; this will need to be an exact match
      * @return FunctioName description, or null if function is not available
      */
-    public FunctionName findFunctionDescription(Name name ){
+    public FunctionName findFunctionDescription(Name name) {
         Set<FunctionFactory> functionFactories = CommonFactoryFinder.getFunctionFactories(null);
         for (FunctionFactory factory : functionFactories) {
             List<FunctionName> functionNames = factory.getFunctionNames();
-            for( FunctionName description : functionNames ){
-                if( description.getFunctionName().equals( name )){
+            for (FunctionName description : functionNames) {
+                if (description.getFunctionName().equals(name)) {
                     return description;
                 }
             }
@@ -110,46 +113,47 @@ public class FunctionFinder {
     public Function findFunction(String name) {
         return findFunction(new NameImpl(name));
     }
-    
+
     public Function findFunction(Name name) {
         return findFunction(name, null);
     }
-    
+
     /**
      * Look up a function for the provided name.
-     * 
-     * @param name Function name; this will need to be an exact match
+     *
+     * @param name       Function name; this will need to be an exact match
      * @param parameters Set of parameters required
      * @return Generated function
      * @throws a RuntimeException if an implementation for name could not be found
      */
-    public Function findFunction(String name, List<org.opengis.filter.expression.Expression> parameters){
-    	return findFunction(toName(name), parameters);
+    public Function findFunction(String name, List<org.opengis.filter.expression.Expression> 
+            parameters) {
+        return findFunction(toName(name), parameters);
     }
 
     Name toName(String name) {
         if (name.contains(":")) {
             String[] split = name.split(":");
             return new NameImpl(split[0], ":", split[1]);
-        }
-        else if (name.contains("#")) {
+        } else if (name.contains("#")) {
             String[] split = name.split("#");
             return new NameImpl(split[0], "#", split[1]);
-        }
-        else {
+        } else {
             return new NameImpl(name);
         }
     }
+
     /**
      * Look up a function for the provided name.
-     * 
-     * @param name Function name; this will need to be an exact match
+     *
+     * @param name       Function name; this will need to be an exact match
      * @param parameters Set of parameters required
      * @return Generated function
      * @throws a RuntimeException if an implementation for name could not be found
      */
-    public Function findFunction(Name name, List<org.opengis.filter.expression.Expression> parameters){
-        return findFunction(name, parameters, null );
+    public Function findFunction(Name name, List<org.opengis.filter.expression.Expression> 
+            parameters) {
+        return findFunction(name, parameters, null);
     }
 
     /**
@@ -157,30 +161,36 @@ public class FunctionFinder {
      * an implementation could not be found.
      * <p>
      * You can create a function to represent an SQL function or a function hosted on
-     * an external service; the fallback value will be used if you evulate 
+     * an external service; the fallback value will be used if you evulate
      * by a Java implementation on the classpath.
-     * @param name Function name; this will need to be an exact match
-     * @param parameters Set of Expressions to use as function parameters
+     *
+     * @param name          Function name; this will need to be an exact match
+     * @param parameters    Set of Expressions to use as function parameters
      * @param fallbackValue Literal to use if an implementation could not be found
-     * @return Function for the provided name, may be a FallbackFunction if an implementation could not be found
+     * @return Function for the provided name, may be a FallbackFunction if an implementation 
+     * could not be found
      */
-    public Function findFunction(String name, List<org.opengis.filter.expression.Expression>  parameters, Literal fallback) {
+    public Function findFunction(String name, List<org.opengis.filter.expression.Expression> 
+            parameters, Literal fallback) {
         return findFunction(new NameImpl(name), parameters, fallback);
     }
-    
+
     /**
      * Look up a function for the provided name, may return a FallbackFunction if
      * an implementation could not be found.
      * <p>
      * You can create a function to represent an SQL function or a function hosted on
-     * an external service; the fallback value will be used if you evulate 
+     * an external service; the fallback value will be used if you evulate
      * by a Java implementation on the classpath.
-     * @param name Function name; this will need to be an exact match
-     * @param parameters Set of Expressions to use as function parameters
+     *
+     * @param name          Function name; this will need to be an exact match
+     * @param parameters    Set of Expressions to use as function parameters
      * @param fallbackValue Literal to use if an implementation could not be found
-     * @return Function for the provided name, may be a FallbackFunction if an implementation could not be found
+     * @return Function for the provided name, may be a FallbackFunction if an implementation 
+     * could not be found
      */
-    public Function findFunction(Name name, List<org.opengis.filter.expression.Expression>  parameters, Literal fallback) {
+    public Function findFunction(Name name, List<org.opengis.filter.expression.Expression> 
+            parameters, Literal fallback) {
         //try name as is
         Function f = findFunctionInternal(name, parameters, fallback);
 
@@ -188,20 +198,20 @@ public class FunctionFinder {
             //try by trimming "Function" off of name
             if (name.getLocalPart().endsWith("Function")) {
                 String local = name.getLocalPart();
-                local = local.substring(0, local.length()-"Function".length());
+                local = local.substring(0, local.length() - "Function".length());
                 name = new NameImpl(name.getNamespaceURI(), name.getSeparator(), local);
                 f = findFunctionInternal(name, parameters, fallback);
             }
         }
-        if( f == null && fallback != null ){
-            return new FallbackFunction( name, parameters, fallback );
+        if (f == null && fallback != null) {
+            return new FallbackFunction(name, parameters, fallback);
         }
-        
-        
+
+
         if (f != null) {
             return f;
         }
-        
+
         throw new RuntimeException("Unable to find function " + name);
 
     }
@@ -214,12 +224,12 @@ public class FunctionFinder {
                 }
             }
         }
-        
+
         if (functionFactoryCache.containsKey(name)) {
             FunctionFactory functionFactory = functionFactoryCache.get(name);
             return functionFactory.function(name, parameters, fallback);
         }
-        
+
         //do a lookup from all factories, this is because of the name tricks the default
         // factory does
         Function f = null;
@@ -230,19 +240,19 @@ public class FunctionFinder {
 
         return null;
     }
-    
-    private HashMap<Name,FunctionFactory> lookupFunctions() {
+
+    private HashMap<Name, FunctionFactory> lookupFunctions() {
         // get all filter functions via function factory
-        HashMap<Name,FunctionFactory> result = new HashMap<Name,FunctionFactory>();
-        
+        HashMap<Name, FunctionFactory> result = new HashMap<Name, FunctionFactory>();
+
         Set<FunctionFactory> functionFactories = CommonFactoryFinder.getFunctionFactories(null);
         for (FunctionFactory ff : functionFactories) {
             for (FunctionName functionName : ff.getFunctionNames()) {
                 result.put(functionName.getFunctionName(), ff);
             }
         }
-        
+
         return result;
     }
-    
+
 }

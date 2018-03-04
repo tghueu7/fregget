@@ -64,7 +64,7 @@ import org.opengis.filter.FilterFactory;
 
 /**
  * This class simply builds an index for fast indexed queries.
- * 
+ * <p>
  * TODO: we may consider converting {@link CoverageSlice}s to {@link SimpleFeature}s
  */
 public class CoverageSlicesCatalog {
@@ -72,24 +72,26 @@ public class CoverageSlicesCatalog {
     /**
      * CoverageSlicesCatalog always used an hidden H2 DB to store granules
      * index related to a specific file.
-     * 
+     * <p>
      * Starting from 14.x it also can be setup on top of a shared PostGIS
      * datastore.
-     * 
+     * <p>
      * Using a PostGIS shared index, we need to add a LOCATION attribute
      * to distinguish the different granules, as well as add a Filter
-     * setting the LOCATION value to each query from a reader 
+     * setting the LOCATION value to each query from a reader
      * (1 reader <-> 1 file <-> 1 location)
-     *
      */
     public static class WrappedCoverageSlicesCatalog extends CoverageSlicesCatalog {
 
         private final static FilterFactory FF = FeatureUtilities.DEFAULT_FILTER_FACTORY;
 
-        /** Internal query filter to be ANDED with the input query */
-        private Filter queryFilter;  
+        /**
+         * Internal query filter to be ANDED with the input query
+         */
+        private Filter queryFilter;
 
-        public WrappedCoverageSlicesCatalog(DataStoreConfiguration config, File file, Repository repository)
+        public WrappedCoverageSlicesCatalog(DataStoreConfiguration config, File file, Repository 
+                repository)
                 throws IOException {
             super(config, repository);
             queryFilter = FF.equal(FF.property(CoverageSlice.Attributes.LOCATION),
@@ -115,6 +117,7 @@ public class CoverageSlicesCatalog {
         /**
          * Refine query to make sure to restrict the query to the single file
          * associated.
+         *
          * @param q
          * @return
          */
@@ -126,8 +129,8 @@ public class CoverageSlicesCatalog {
 
         /**
          * Refine filter to make sure to AND the filter with a filter
-         * selecting the proper file 
-
+         * selecting the proper file
+         *
          * @param filter
          * @return
          */
@@ -136,29 +139,39 @@ public class CoverageSlicesCatalog {
         }
     }
 
-    /** Logger. */
-    final static Logger LOGGER = org.geotools.util.logging.Logging.getLogger(CoverageSlicesCatalog.class);
+    /**
+     * Logger.
+     */
+    final static Logger LOGGER = org.geotools.util.logging.Logging.getLogger
+            (CoverageSlicesCatalog.class);
 
-    /** The slices index store */
+    /**
+     * The slices index store
+     */
     private DataStore slicesIndexStore;
 
-    /** The feature type name */
+    /**
+     * The feature type name
+     */
     private Set<String> typeNames = new HashSet<String>();
 
     public final static String IMAGE_INDEX_ATTR = "imageindex";
 
     private static final String HIDDEN_FOLDER = ".mapping";
 
-    private final SoftValueHashMap<Integer, CoverageSlice> coverageSliceDescriptorsCache = new SoftValueHashMap<Integer, CoverageSlice>(0);
+    private final SoftValueHashMap<Integer, CoverageSlice> coverageSliceDescriptorsCache = new 
+            SoftValueHashMap<Integer, CoverageSlice>(0);
 
     private boolean repositoryStore;
 
     public CoverageSlicesCatalog(final String database, final File parentLocation) {
         this(database, parentLocation, null);
     }
-    
-    public CoverageSlicesCatalog(final String database, final File parentLocation, Repository repository) {
-        this(new DataStoreConfiguration(DataStoreConfiguration.getDefaultParams(database, parentLocation)), repository);
+
+    public CoverageSlicesCatalog(final String database, final File parentLocation, Repository 
+            repository) {
+        this(new DataStoreConfiguration(DataStoreConfiguration.getDefaultParams(database, 
+                parentLocation)), repository);
     }
 
     public CoverageSlicesCatalog(DataStoreConfiguration datastoreConfig) {
@@ -199,7 +212,7 @@ public class CoverageSlicesCatalog {
                                     + " H2 and PostGIS databases");
                 }
                 Utilities.ensureNonNull("params", params);
-                
+
                 slicesIndexStore = spi.createDataStore(params);
             }
             boolean wrapDatastore = false;
@@ -208,7 +221,8 @@ public class CoverageSlicesCatalog {
                 wrapDatastore = (Boolean) params.get(Utils.Prop.WRAP_STORE);
             }
             if (isPostgis && wrapDatastore) {
-                slicesIndexStore = new PostgisDatastoreWrapper(slicesIndexStore, parentLocation, HIDDEN_FOLDER);
+                slicesIndexStore = new PostgisDatastoreWrapper(slicesIndexStore, parentLocation, 
+                        HIDDEN_FOLDER);
             }
 
             String typeName = null;
@@ -218,7 +232,7 @@ public class CoverageSlicesCatalog {
             // Handle multiple typeNames
             if (params.containsKey(Utils.Prop.TYPENAME)) {
                 typeName = (String) params.get(Utils.Prop.TYPENAME);
-                if (typeName != null && typeName.contains(",")){
+                if (typeName != null && typeName.contains(",")) {
                     typeNamesValues = typeName.split(",");
                 }
             }
@@ -228,7 +242,7 @@ public class CoverageSlicesCatalog {
             }
             if (typeNamesValues == null && scanForTypeNames) {
                 typeNamesValues = slicesIndexStore.getTypeNames();
-            } 
+            }
 
             if (typeNamesValues != null) {
                 for (String tn : typeNamesValues) {
@@ -245,11 +259,11 @@ public class CoverageSlicesCatalog {
             }
         } catch (Throwable e) {
             try {
-                if (slicesIndexStore != null){
+                if (slicesIndexStore != null) {
                     slicesIndexStore.dispose();
                 }
             } catch (Throwable e1) {
-                if (LOGGER.isLoggable(Level.FINE)){
+                if (LOGGER.isLoggable(Level.FINE)) {
                     LOGGER.log(Level.FINE, e1.getLocalizedMessage(), e1);
                 }
             } finally {
@@ -264,7 +278,7 @@ public class CoverageSlicesCatalog {
      * If the underlying store has been disposed we throw an {@link IllegalStateException}.
      * <p>
      * We need to arrive here with at least a read lock!
-     * 
+     *
      * @throws IllegalStateException in case the underlying store has been disposed.
      */
     private void checkStore() throws IllegalStateException {
@@ -277,10 +291,11 @@ public class CoverageSlicesCatalog {
 
         if (typeName == null) {
             final String[] typeNames = slicesIndexStore.getTypeNames();
-            if (typeNames == null || typeNames.length <= 0){
-                if(LOGGER.isLoggable(Level.FINE)){
-                       LOGGER.fine("BBOXFilterExtractor::extractBasicProperties(): Problems when opening the index,"
-                                + " no typenames for the schema are defined");
+            if (typeNames == null || typeNames.length <= 0) {
+                if (LOGGER.isLoggable(Level.FINE)) {
+                    LOGGER.fine("BBOXFilterExtractor::extractBasicProperties(): Problems when " +
+                            "opening the index,"
+                            + " no typenames for the schema are defined");
                 }
                 return;
             }
@@ -288,7 +303,8 @@ public class CoverageSlicesCatalog {
                 typeName = typeNames[0];
                 addTypeName(typeName, false);
                 if (LOGGER.isLoggable(Level.WARNING))
-                    LOGGER.warning("BBOXFilterExtractor::extractBasicProperties(): passed typename is null, using: "
+                    LOGGER.warning("BBOXFilterExtractor::extractBasicProperties(): passed " +
+                            "typename is null, using: "
                             + typeName);
             }
 
@@ -302,7 +318,8 @@ public class CoverageSlicesCatalog {
                             + "\'.");
                 if (type.equalsIgnoreCase(typeName)) {
                     if (LOGGER.isLoggable(Level.FINE))
-                        LOGGER.fine("BBOXFilterExtractor::extractBasicProperties(): SUCCESS -> type \'"
+                        LOGGER.fine("BBOXFilterExtractor::extractBasicProperties(): SUCCESS -> " +
+                                "type \'"
                                 + typeName + "\' is equalsIgnoreCase() to \'" + type + "\'.");
                     typeName = type;
                     addTypeName(typeName, false);
@@ -313,11 +330,11 @@ public class CoverageSlicesCatalog {
     }
 
     private void addTypeName(String typeName, final boolean check) {
-          if (check && this.typeNames.contains(typeName)) {
-              throw new IllegalArgumentException("This typeName already exists: " + typeName);
-          }
-          this.typeNames.add(typeName);    
-  }
+        if (check && this.typeNames.contains(typeName)) {
+            throw new IllegalArgumentException("This typeName already exists: " + typeName);
+        }
+        this.typeNames.add(typeName);
+    }
 
     public String[] getTypeNames() {
         if (this.typeNames != null && !this.typeNames.isEmpty()) {
@@ -350,17 +367,19 @@ public class CoverageSlicesCatalog {
         }
     }
 
-    public void addGranule(final String typeName, final SimpleFeature granule, final Transaction transaction)
+    public void addGranule(final String typeName, final SimpleFeature granule, final Transaction 
+            transaction)
             throws IOException {
         Utilities.ensureNonNull("typeName", typeName);
         Utilities.ensureNonNull("granule", granule);
         Utilities.ensureNonNull("transaction", transaction);
-        final DefaultFeatureCollection collection= new DefaultFeatureCollection();
+        final DefaultFeatureCollection collection = new DefaultFeatureCollection();
         collection.add(granule);
         addGranules(typeName, collection, transaction);
     }
 
-    public void addGranules(final String typeName, final SimpleFeatureCollection granules, final Transaction transaction)
+    public void addGranules(final String typeName, final SimpleFeatureCollection granules, final 
+    Transaction transaction)
             throws IOException {
         Utilities.ensureNonNull("granuleMetadata", granules);
         final Lock lock = rwLock.writeLock();
@@ -369,7 +388,8 @@ public class CoverageSlicesCatalog {
             // check if the index has been cleared
             checkStore();
 
-            final SimpleFeatureStore store = (SimpleFeatureStore) slicesIndexStore.getFeatureSource(typeName);
+            final SimpleFeatureStore store = (SimpleFeatureStore) slicesIndexStore
+                    .getFeatureSource(typeName);
             store.setTransaction(transaction);
             store.addFeatures(granules);
 
@@ -394,7 +414,8 @@ public class CoverageSlicesCatalog {
             final SimpleFeatureSource featureSource = slicesIndexStore.getFeatureSource(typeName);
             if (featureSource == null) {
                 throw new NullPointerException(
-                        "The provided SimpleFeatureSource is null, it's impossible to create an index!");
+                        "The provided SimpleFeatureSource is null, it's impossible to create an " +
+                                "index!");
             }
             Transaction tx = null;
             SimpleFeatureIterator it = null;
@@ -411,20 +432,23 @@ public class CoverageSlicesCatalog {
                 final SimpleFeatureCollection features = featureSource.getFeatures(q);
                 if (features == null) {
                     throw new NullPointerException(
-                            "The provided SimpleFeatureCollection is null, it's impossible to create an index!");
+                            "The provided SimpleFeatureCollection is null, it's impossible to " +
+                                    "create an index!");
                 }
 
                 // load the feature from the underlying datastore as needed
                 it = features.features();
                 if (it == null) {
                     if (LOGGER.isLoggable(Level.FINE)) {
-                        LOGGER.fine("The provided SimpleFeatureCollection returned a null iterator, it's impossible to create an index!");
+                        LOGGER.fine("The provided SimpleFeatureCollection returned a null " +
+                                "iterator, it's impossible to create an index!");
                     }
                     return Collections.emptyList();
                 }
                 if (!it.hasNext()) {
                     if (LOGGER.isLoggable(Level.FINE)) {
-                        LOGGER.fine("The provided SimpleFeatureCollection is empty, it's impossible to create an index!");
+                        LOGGER.fine("The provided SimpleFeatureCollection is empty, it's " +
+                                "impossible to create an index!");
                     }
                     return Collections.emptyList();
                 }
@@ -477,7 +501,7 @@ public class CoverageSlicesCatalog {
             lock.lock();
             checkStore();
             return this.slicesIndexStore.getFeatureSource(typeName).getBounds();
-            
+
         } catch (IOException e) {
             LOGGER.log(Level.FINER, e.getMessage(), e);
             return null;
@@ -502,7 +526,7 @@ public class CoverageSlicesCatalog {
                     // Check the store doesn't already exists
                     existing = slicesIndexStore.getSchema(name);
                 } catch (IOException ioe) {
-    
+
                     // Logs existence check at finer level 
                     if (LOGGER.isLoggable(Level.FINER)) {
                         LOGGER.finer(ioe.getLocalizedMessage());
@@ -592,7 +616,8 @@ public class CoverageSlicesCatalog {
         // warn people
         if (this.slicesIndexStore != null) {
             if (LOGGER.isLoggable(Level.WARNING)) {
-                LOGGER.warning("This granule catalog was not properly dispose as it still points to:"
+                LOGGER.warning("This granule catalog was not properly dispose as it still points " +
+                        "to:"
                         + slicesIndexStore.getInfo().toString());
             }
             // try to dispose the underlying store if it has not been disposed yet
@@ -600,7 +625,8 @@ public class CoverageSlicesCatalog {
         }
     }
 
-    public void removeGranules(String typeName, Filter filter, Transaction transaction) throws IOException {
+    public void removeGranules(String typeName, Filter filter, Transaction transaction) throws 
+            IOException {
         Utilities.ensureNonNull("typeName", typeName);
         Utilities.ensureNonNull("filter", filter);
         Utilities.ensureNonNull("transaction", transaction);
@@ -610,7 +636,8 @@ public class CoverageSlicesCatalog {
             // check if the index has been cleared
             checkStore();
 
-            final SimpleFeatureStore store = (SimpleFeatureStore) slicesIndexStore.getFeatureSource(typeName);
+            final SimpleFeatureStore store = (SimpleFeatureStore) slicesIndexStore
+                    .getFeatureSource(typeName);
             store.setTransaction(transaction);
             store.removeFeatures(filter);
 
@@ -623,7 +650,7 @@ public class CoverageSlicesCatalog {
         DefaultTransaction transaction = null;
         try {
             transaction = new DefaultTransaction("CleanupTransaction" + System.nanoTime());
-            for (String typeName: typeNames) {
+            for (String typeName : typeNames) {
                 removeGranules(typeName, filter, transaction);
             }
             transaction.commit();

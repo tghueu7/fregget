@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -45,12 +45,10 @@ import org.geotools.referencing.ReferencingFactoryFinder;
  * is wanted, then users need to refer explicitly to the {@link #DEFAULT} constant or to create
  * their own instance.
  *
- * @since 2.2
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.2
  */
 public class AllAuthoritiesFactory extends ManyAuthoritiesFactory {
     /**
@@ -97,10 +95,11 @@ public class AllAuthoritiesFactory extends ManyAuthoritiesFactory {
             authorityNames = authorities;
             final Hints hints = getHints();
             final Set<AuthorityFactory> factories = new LinkedHashSet<AuthorityFactory>();
-            factories.addAll(ReferencingFactoryFinder.getCRSAuthorityFactories                (hints));
-            factories.addAll(ReferencingFactoryFinder.getCSAuthorityFactories                 (hints));
-            factories.addAll(ReferencingFactoryFinder.getDatumAuthorityFactories              (hints));
-            factories.addAll(ReferencingFactoryFinder.getCoordinateOperationAuthorityFactories(hints));
+            factories.addAll(ReferencingFactoryFinder.getCRSAuthorityFactories(hints));
+            factories.addAll(ReferencingFactoryFinder.getCSAuthorityFactories(hints));
+            factories.addAll(ReferencingFactoryFinder.getDatumAuthorityFactories(hints));
+            factories.addAll(ReferencingFactoryFinder.getCoordinateOperationAuthorityFactories
+                    (hints));
             setFactories(factories);
         }
         return super.getFactories();
@@ -110,9 +109,9 @@ public class AllAuthoritiesFactory extends ManyAuthoritiesFactory {
      * Returns a factory for the specified authority and type.
      */
     @Override
-    final <T extends AuthorityFactory> T fromFactoryRegistry(final String authority, final Class<T> type)
-            throws FactoryRegistryException
-    {
+    final <T extends AuthorityFactory> T fromFactoryRegistry(final String authority, final 
+    Class<T> type)
+            throws FactoryRegistryException {
         final AuthorityFactory f;
         if (CRSAuthorityFactory.class.equals(type)) {
             f = ReferencingFactoryFinder.getCRSAuthorityFactory(authority, getHints());
@@ -121,7 +120,8 @@ public class AllAuthoritiesFactory extends ManyAuthoritiesFactory {
         } else if (DatumAuthorityFactory.class.equals(type)) {
             f = ReferencingFactoryFinder.getDatumAuthorityFactory(authority, getHints());
         } else if (CoordinateOperationAuthorityFactory.class.equals(type)) {
-            f = ReferencingFactoryFinder.getCoordinateOperationAuthorityFactory(authority, getHints());
+            f = ReferencingFactoryFinder.getCoordinateOperationAuthorityFactory(authority, 
+                    getHints());
         } else {
             f = super.fromFactoryRegistry(authority, type);
         }
@@ -150,8 +150,7 @@ public class AllAuthoritiesFactory extends ManyAuthoritiesFactory {
      */
     @Override
     public IdentifiedObjectFinder getIdentifiedObjectFinder(Class<? extends IdentifiedObject> type)
-            throws FactoryException
-    {
+            throws FactoryException {
         return new Finder(this, type);
     }
 
@@ -163,8 +162,7 @@ public class AllAuthoritiesFactory extends ManyAuthoritiesFactory {
          * Creates a finder for the specified type.
          */
         protected Finder(final ManyAuthoritiesFactory factory,
-                         final Class<? extends IdentifiedObject> type)
-        {
+                         final Class<? extends IdentifiedObject> type) {
             super(factory, type);
         }
 
@@ -172,7 +170,8 @@ public class AllAuthoritiesFactory extends ManyAuthoritiesFactory {
          * Returns all factories to try.
          */
         private Set<AuthorityFactory> fromFactoryRegistry() {
-            final ManyAuthoritiesFactory factory = (ManyAuthoritiesFactory) getProxy().getAuthorityFactory();
+            final ManyAuthoritiesFactory factory = (ManyAuthoritiesFactory) getProxy()
+                    .getAuthorityFactory();
             final Class<? extends AuthorityFactory> type = getProxy().getType();
             final Set<AuthorityFactory> factories = new LinkedHashSet<AuthorityFactory>();
             for (final String authority : ReferencingFactoryFinder.getAuthorityNames()) {

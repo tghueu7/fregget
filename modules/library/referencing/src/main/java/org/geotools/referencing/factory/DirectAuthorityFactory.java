@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -35,12 +35,10 @@ import org.geotools.factory.Hints;
  * or {@linkplain BufferedAuthorityFactory buffered} ones, which delegates their work to
  * an other factory.
  *
- * @since 2.3
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.3
  */
 public abstract class DirectAuthorityFactory extends AbstractAuthorityFactory {
 
@@ -67,11 +65,12 @@ public abstract class DirectAuthorityFactory extends AbstractAuthorityFactory {
      * Constructs an instance using the specified set of factories.
      *
      * @param factories The low-level factories to use.
-     * @param priority The priority for this factory, as a number between
-     *        {@link #MINIMUM_PRIORITY MINIMUM_PRIORITY} and
-     *        {@link #MAXIMUM_PRIORITY MAXIMUM_PRIORITY} inclusive.
+     * @param priority  The priority for this factory, as a number between
+     *                  {@link #MINIMUM_PRIORITY MINIMUM_PRIORITY} and
+     *                  {@link #MAXIMUM_PRIORITY MAXIMUM_PRIORITY} inclusive.
      */
-    protected DirectAuthorityFactory(final ReferencingFactoryContainer factories, final int priority) {
+    protected DirectAuthorityFactory(final ReferencingFactoryContainer factories, final int 
+            priority) {
         super(priority);
         this.factories = factories;
         ensureNonNull("factories", factories);
@@ -82,10 +81,10 @@ public abstract class DirectAuthorityFactory extends AbstractAuthorityFactory {
      * {@link Hints#CRS_FACTORY CRS}, {@link Hints#CS_FACTORY CS}, {@link Hints#DATUM_FACTORY DATUM}
      * and {@link Hints#MATH_TRANSFORM_FACTORY MATH_TRANSFORM} {@code FACTORY} hints.
      *
-     * @param hints The hints, or {@code null} if none.
+     * @param hints    The hints, or {@code null} if none.
      * @param priority The priority for this factory, as a number between
-     *        {@link #MINIMUM_PRIORITY MINIMUM_PRIORITY} and
-     *        {@link #MAXIMUM_PRIORITY MAXIMUM_PRIORITY} inclusive.
+     *                 {@link #MINIMUM_PRIORITY MINIMUM_PRIORITY} and
+     *                 {@link #MAXIMUM_PRIORITY MAXIMUM_PRIORITY} inclusive.
      */
     protected DirectAuthorityFactory(final Hints hints, final int priority) {
         super(priority);
@@ -101,7 +100,7 @@ public abstract class DirectAuthorityFactory extends AbstractAuthorityFactory {
      * may be provided as well, at implementation choice.
      */
     @Override
-    public Map<RenderingHints.Key,?> getImplementationHints() {
+    public Map<RenderingHints.Key, ?> getImplementationHints() {
         synchronized (hints) { // Note: avoid lock on public object.
             if (!hintsInitialized) {
                 hintsInitialized = true;

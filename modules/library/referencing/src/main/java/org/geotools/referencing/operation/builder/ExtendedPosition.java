@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -23,21 +23,24 @@ import org.opengis.geometry.DirectPosition;
 /**
  * DirectPosition associated with another DirectPosition.
  *
- * @since 2.4
- * @source $URL$
- * @version $Id$
  * @author Jan Jezek
+ * @version $Id$
+ * @source $URL$
+ * @since 2.4
  */
 class ExtendedPosition extends DirectPosition2D {
     /**  */
     private static final long serialVersionUID = 4400395722009854165L;
 
-    /** Coordinate associated with original coordinate. */
+    /**
+     * Coordinate associated with original coordinate.
+     */
     private DirectPosition mappedposition;
 
     /**
      * Creates a MappedPosition
-     * @param c the original DirectPosition.
+     *
+     * @param c              the original DirectPosition.
      * @param mappedposition the associated DirectPosition.
      */
     public ExtendedPosition(DirectPosition c, DirectPosition mappedposition) {

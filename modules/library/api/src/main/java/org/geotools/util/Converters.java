@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -34,15 +34,12 @@ import org.geotools.util.logging.Logging;
  * Convenience class for converting an object from one type to an object of another.
  *
  * @author Justin Deoliveira, The Open Planning Project
- * @since 2.4
- *
- *
- *
  * @source $URL$
+ * @since 2.4
  */
 public final class Converters {
-    
-    private static final Logger LOGGER = Logging.getLogger(Converters.class); 
+
+    private static final Logger LOGGER = Logging.getLogger(Converters.class);
 
     /**
      * Cached list of converter factories
@@ -62,8 +59,8 @@ public final class Converters {
     private static FactoryRegistry getServiceRegistry() {
         assert Thread.holdsLock(Converters.class);
         if (registry == null) {
-            registry = new FactoryCreator(Arrays.asList(new Class<?>[] {
-            		ConverterFactory.class,}));
+            registry = new FactoryCreator(Arrays.asList(new Class<?>[]{
+                    ConverterFactory.class,}));
         }
         return registry;
     }
@@ -80,7 +77,7 @@ public final class Converters {
     /**
      * Returns a set of all available implementations for the {@link ConverterFactory} interface.
      *
-     * @param  hints An optional map of hints, or {@code null} if none.
+     * @param hints An optional map of hints, or {@code null} if none.
      * @return Set of available ConverterFactory implementations.
      */
     public static synchronized Set<ConverterFactory> getConverterFactories(Hints hints) {
@@ -93,20 +90,20 @@ public final class Converters {
      * Returns a set of all available {@link ConverterFactory}'s which can handle
      * convert from the source to destination class.
      * <p>
-     * This method essentially returns all factories in which the following 
+     * This method essentially returns all factories in which the following
      * returns non null.
      * <pre>
      * factory.createConverter( source, target );
      * </pre>
      * </p>
-     * 
+     *
      * @since 2.5
      */
-    public static Set<ConverterFactory> getConverterFactories( Class<?> source, Class<?> target ) {
+    public static Set<ConverterFactory> getConverterFactories(Class<?> source, Class<?> target) {
         HashSet<ConverterFactory> factories = new HashSet<ConverterFactory>();
         for (ConverterFactory factory : factories()) {
-            if ( factory.createConverter( source, target, null ) != null ) {
-                factories.add( factory );
+            if (factory.createConverter(source, target, null) != null) {
+                factories.add(factory);
             }
         }
         return factories;
@@ -116,13 +113,11 @@ public final class Converters {
      * Converts an object of a particular type into an object of a different type.
      * <p>
      * Convenience for {@link #convert(Object, Class, Hints)}
-     * 
-     * @param source
-     *            The object to convert.
-     * @param target
-     *            The type of the converted value.
+     *
+     * @param source The object to convert.
+     * @param target The type of the converted value.
      * @return The converted value as an instance of target, or <code>null</code> if a converter
-     *         could not be found
+     * could not be found
      * @since 2.4
      */
     public static <T> T convert(Object source, Class<T> target) {
@@ -136,17 +131,12 @@ public final class Converters {
      * performing the conversion. The first converter found is the one used. Using this class there
      * is no way to guarantee which converter will be used.
      * </p>
-     * 
-     * @param source
-     *            The object to convert.
-     * @param target
-     *            The type of the converted value.
-     * @param hints
-     *            Any hints for the converter factory.
-     * 
+     *
+     * @param source The object to convert.
+     * @param target The type of the converted value.
+     * @param hints  Any hints for the converter factory.
      * @return The converted value as an instance of target, or <code>null</code> if a converter
-     *         could not be found.
-     * 
+     * could not be found.
      * @since 2.4
      */
     public static <T> T convert(Object source, Class<T> target, Hints hints) {
@@ -158,7 +148,7 @@ public final class Converters {
         final Class<?> sourceClass = source.getClass();
         if (sourceClass == target || sourceClass.equals(target)
                 || target.isAssignableFrom(sourceClass)) {
-            return target.cast( source );
+            return target.cast(source);
         }
 
         for (ConverterFactory factory : factories()) {
@@ -180,14 +170,14 @@ public final class Converters {
 
         // a couple of final tries
         if (String.class.equals(target)) {
-            return target.cast( source.toString() );
+            return target.cast(source.toString());
         }
         return null;
     }
 
     /**
      * Processed the {@link ConverterFactory} extension point.
-     * 
+     *
      * @return A collection of converter factories.
      * @since 2.4
      */

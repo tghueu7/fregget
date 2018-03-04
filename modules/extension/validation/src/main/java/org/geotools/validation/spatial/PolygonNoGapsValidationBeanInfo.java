@@ -23,33 +23,30 @@ import org.geotools.validation.DefaultFeatureValidationBeanInfo;
 
 /**
  * LineAbstractValidationBeanInfopurpose.
- * 
+ * <p>
  * <p>
  * Description of LineAbstractValidationBeanInfo...
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
-public class PolygonNoGapsValidationBeanInfo extends DefaultFeatureValidationBeanInfo{
+public class PolygonNoGapsValidationBeanInfo extends DefaultFeatureValidationBeanInfo {
     /**
      * LineAbstractValidationBeanInfoconstructor.
-     * 
+     * <p>
      * <p>
      * Description
      * </p>
      */
-    public PolygonNoGapsValidationBeanInfo(){
+    public PolygonNoGapsValidationBeanInfo() {
         super();
     }
 
     /**
      * Implementation of getPropertyDescriptors.
-     *
      *
      * @see java.beans.BeanInfo#getPropertyDescriptors()
      */

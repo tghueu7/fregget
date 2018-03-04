@@ -26,7 +26,7 @@ import org.geotools.tile.impl.ZoomLevel;
 
 /**
  * The tile factory implementation for the OpenStreetMap family
- * 
+ *
  * @author Tobias Sauerwein
  * @author Ugo Taddei
  * @since 12
@@ -34,12 +34,13 @@ import org.geotools.tile.impl.ZoomLevel;
 public class OSMTileFactory extends WebMercatorTileFactory {
 
     public Tile findTileAtCoordinate(double lon, double lat, ZoomLevel zoomLevel,
-            TileService service) {
+                                     TileService service) {
         lat = TileFactory.normalizeDegreeValue(lat, 90);
         lon = TileFactory.normalizeDegreeValue(lon, 180);
 
         /**
-         * Because the latitude is only valid in 85.0511 °N to 85.0511 °S (http://wiki.openstreetmap.org/wiki/Tilenames#X_and_Y), we have to correct
+         * Because the latitude is only valid in 85.0511 °N to 85.0511 °S (http://wiki
+         * .openstreetmap.org/wiki/Tilenames#X_and_Y), we have to correct
          * if necessary.
          */
         lat = OSMTileFactory.moveInRange(lat, WebMercatorTileService.MIN_LATITUDE,
@@ -49,8 +50,8 @@ public class OSMTileFactory extends WebMercatorTileFactory {
         int yTile = (int) Math.floor(
                 (1 - Math.log(Math.tan(lat * Math.PI / 180) + 1 / Math.cos(lat * Math.PI / 180))
                         / Math.PI) / 2 * (1 << zoomLevel.getZoomLevel()));
-        if(yTile<0)
-          yTile=0;
+        if (yTile < 0)
+            yTile = 0;
         return new OSMTile(xTile, yTile, zoomLevel, service);
     }
 

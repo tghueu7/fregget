@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.referencing.crs;
@@ -39,39 +39,39 @@ import static org.opengis.annotation.Specification.*;
  * common in seismic imaging. A second time-coordinate indicates the time of observation, usually
  * expressed in whole years.
  *
- *
- *
+ * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract 
+ * specification 2.0</A>
  * @source $URL$
- * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract specification 2.0</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
+ * @since GeoAPI 1.0
  */
-@UML(identifier="SC_CRS", specification=ISO_19111)
+@UML(identifier = "SC_CRS", specification = ISO_19111)
 public interface CoordinateReferenceSystem extends ReferenceSystem {
     /**
      * Returns a relevant coordinate system instance. Special cases:
-     *
+     * <p>
      * <ul>
-     *   <li><p>If the CRS instance on which this method is invoked is an instance of the
-     *       {@linkplain SingleCRS single CRS} interface, then the CS instance which is
-     *       returned shall be one of the defined sub-interfaces of {@linkplain CoordinateSystem
-     *       coordinate system}.</p></li>
-     *
-     *   <li><p>If the CRS instance on which this method is invoked is an instance of the
-     *       {@linkplain CompoundCRS compound CRS} interface, then the CS instance which is
-     *       returned shall have dimension and axis components obtained from different
-     *       {@linkplain CompoundCRS#getCoordinateReferenceSystems components} of the instance
-     *       CRS.</p></li>
+     * <li><p>If the CRS instance on which this method is invoked is an instance of the
+     * {@linkplain SingleCRS single CRS} interface, then the CS instance which is
+     * returned shall be one of the defined sub-interfaces of {@linkplain CoordinateSystem
+     * coordinate system}.</p></li>
+     * <p>
+     * <li><p>If the CRS instance on which this method is invoked is an instance of the
+     * {@linkplain CompoundCRS compound CRS} interface, then the CS instance which is
+     * returned shall have dimension and axis components obtained from different
+     * {@linkplain CompoundCRS#getCoordinateReferenceSystems components} of the instance
+     * CRS.</p></li>
      * </ul>
      *
-     * @departure
-     *   Strictly speaking, this method is defined by ISO 19111 for {@linkplain SingleCRS single CRS}
-     *   only. GeoAPI declares this method in this parent interface for user convenience, since CS
-     *   {@linkplain CoordinateSystem#getDimension dimension} and {@linkplain CoordinateSystem#getAxis axis}
-     *   are commonly requested information and shall be available, directly or indirectly, in all cases
-     *   (including {@linkplain CompoundCRS compound CRS}).
-     *
      * @return The coordinate system.
+     * @departure Strictly speaking, this method is defined by ISO 19111 for 
+     * {@linkplain SingleCRS single CRS}
+     * only. GeoAPI declares this method in this parent interface for user convenience, since CS
+     * {@linkplain CoordinateSystem#getDimension dimension} and 
+     * {@linkplain CoordinateSystem#getAxis axis}
+     * are commonly requested information and shall be available, directly or indirectly, in all 
+     * cases
+     * (including {@linkplain CompoundCRS compound CRS}).
      */
     @Extension
     CoordinateSystem getCoordinateSystem();

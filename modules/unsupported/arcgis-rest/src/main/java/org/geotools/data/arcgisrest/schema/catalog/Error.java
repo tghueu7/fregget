@@ -1,4 +1,3 @@
-
 package org.geotools.data.arcgisrest.schema.catalog;
 
 import com.google.gson.annotations.Expose;
@@ -10,31 +9,25 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class Error {
 
     /**
-     * 
      * (Required)
-     * 
      */
     @SerializedName("error")
     @Expose
     private Error_ error;
 
     /**
-     * 
      * (Required)
-     * 
-     * @return
-     *     The error
+     *
+     * @return The error
      */
     public Error_ getError() {
         return error;
     }
 
     /**
-     * 
      * (Required)
-     * 
-     * @param error
-     *     The error
+     *
+     * @param error The error
      */
     public void setError(Error_ error) {
         this.error = error;

@@ -58,10 +58,12 @@ public abstract class GeostationarySatellite extends MapProjection {
     final double radius_g_1;
     final double C;
 
-    public GeostationarySatellite(ParameterValueGroup parameters) throws ParameterNotFoundException {
+    public GeostationarySatellite(ParameterValueGroup parameters) throws 
+            ParameterNotFoundException {
         super(parameters);
 
-        final Collection<GeneralParameterDescriptor> expected = getParameterDescriptors().descriptors();
+        final Collection<GeneralParameterDescriptor> expected = getParameterDescriptors()
+                .descriptors();
 
         // from https://github.com/OSGeo/proj.4/blob/4.9/src/projects.h
         //  a,  /* major axis or radius if es==0 */
@@ -108,10 +110,11 @@ public abstract class GeostationarySatellite extends MapProjection {
         }
 
         @Override
-        protected Point2D transformNormalized(double lambda, double phi, Point2D p2d) throws ProjectionException {
+        protected Point2D transformNormalized(double lambda, double phi, Point2D p2d) throws 
+                ProjectionException {
             // from https://github.com/OSGeo/proj.4/blob/4.9/src/PJ_geos.c
             /* Calculation of the three components of the vector from satellite to
-            ** position on earth surface (lon,lat).*/
+             ** position on earth surface (lon,lat).*/
             double tmp = Math.cos(phi);
             double Vx = Math.cos(lambda) * tmp;
             double Vy = Math.sin(lambda) * tmp;
@@ -131,7 +134,8 @@ public abstract class GeostationarySatellite extends MapProjection {
         }
 
         @Override
-        protected Point2D inverseTransformNormalized(double x, double y, Point2D p2d) throws ProjectionException {
+        protected Point2D inverseTransformNormalized(double x, double y, Point2D p2d) throws 
+                ProjectionException {
             // from https://github.com/OSGeo/proj.4/blob/4.9/src/PJ_geos.c
             /* Setting three components of vector from satellite to position.*/
             double Vx = -1.;
@@ -187,12 +191,13 @@ public abstract class GeostationarySatellite extends MapProjection {
         }
 
         @Override
-        protected Point2D transformNormalized(double lambda, double phi, Point2D p2d) throws ProjectionException {
+        protected Point2D transformNormalized(double lambda, double phi, Point2D p2d) throws 
+                ProjectionException {
             // from https://github.com/OSGeo/proj.4/blob/4.9/src/PJ_geos.c
             /* Calculation of geocentric latitude. */
             phi = Math.atan(radius_p2 * Math.tan(phi));
             /* Calculation of the three components of the vector from satellite to
-            ** position on earth surface (lon,lat).*/
+             ** position on earth surface (lon,lat).*/
             double r = radius_p / Math.hypot(radius_p * Math.cos(phi), Math.sin(phi));
             double Vx = r * Math.cos(lambda) * Math.cos(phi);
             double Vy = r * Math.sin(lambda) * Math.cos(phi);
@@ -212,7 +217,8 @@ public abstract class GeostationarySatellite extends MapProjection {
         }
 
         @Override
-        protected Point2D inverseTransformNormalized(double x, double y, Point2D p2d) throws ProjectionException {
+        protected Point2D inverseTransformNormalized(double x, double y, Point2D p2d) throws 
+                ProjectionException {
             // from https://github.com/OSGeo/proj.4/blob/4.9/src/PJ_geos.c
             /* Setting three components of vector from satellite to position.*/
             double Vx = -1.;
@@ -244,13 +250,15 @@ public abstract class GeostationarySatellite extends MapProjection {
     /**
      * Circumscribed rectangle (smallest) for full disk earth image
      */
-    public static Envelope2D circumscribeFullDisk(CoordinateReferenceSystem geosCRS) throws TransformException, FactoryException {
+    public static Envelope2D circumscribeFullDisk(CoordinateReferenceSystem geosCRS) throws 
+            TransformException, FactoryException {
 
         if (!isGeostationaryCRS(geosCRS)) {
             return null;
         }
 
-        MathTransform mt = CRS.findMathTransform(geosCRS, CRS.getProjectedCRS(geosCRS).getBaseCRS(), true);
+        MathTransform mt = CRS.findMathTransform(geosCRS, CRS.getProjectedCRS(geosCRS).getBaseCRS
+                (), true);
         MathTransform imt = mt.inverse();
 
         ParameterValueGroup parameters = CRS.getMapProjection(geosCRS).getParameterValues();
@@ -283,14 +291,17 @@ public abstract class GeostationarySatellite extends MapProjection {
     }
 
     /**
-     * Inscribed rectangle for for full disk earth image (not largest inscribing rectangle but close, hence "Estimate")
+     * Inscribed rectangle for for full disk earth image (not largest inscribing rectangle but 
+     * close, hence "Estimate")
      */
-    public static Envelope2D inscribeFullDiskEstimate(CoordinateReferenceSystem geosCRS) throws TransformException, FactoryException {
+    public static Envelope2D inscribeFullDiskEstimate(CoordinateReferenceSystem geosCRS) throws 
+            TransformException, FactoryException {
         Envelope2D circumscribed = circumscribeFullDisk(geosCRS);
         return (circumscribed == null) ? null : doInscribeFullDisk(circumscribed);
     }
 
     private final static double SQRT2 = Math.sqrt(2.);
+
     static Envelope2D doInscribeFullDisk(Envelope2D circumscribed) {
         double dx = circumscribed.getWidth() / SQRT2;
         double dy = circumscribed.getHeight() / SQRT2;
@@ -299,7 +310,7 @@ public abstract class GeostationarySatellite extends MapProjection {
     }
 
     static boolean isGeostationaryCRS(CoordinateReferenceSystem crs) {
-        if(crs == null) {
+        if (crs == null) {
             return false;
         }
         String code = crs.getName().getCode();

@@ -30,11 +30,9 @@ import com.vividsolutions.jts.geom.LinearRing;
 import com.vividsolutions.jts.geom.PrecisionModel;
 
 /**
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Ian Schneider
+ * @version $Id$
+ * @source $URL$
  */
 public class PolygonHandler2Test extends org.geotools.data.shapefile.TestCaseSupport {
 
@@ -97,7 +95,7 @@ public class PolygonHandler2Test extends org.geotools.data.shapefile.TestCaseSup
     }
 
     public static Geometry copyTo(double x, double y, double w, double h,
-            Geometry g) {
+                                  Geometry g) {
         if (g.getNumPoints() != 5) {
             throw new IllegalArgumentException("Geometry must have 5 points");
         }

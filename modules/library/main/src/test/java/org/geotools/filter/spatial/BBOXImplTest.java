@@ -27,8 +27,6 @@ import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.geom.PrecisionModel;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class BBOXImplTest {
@@ -37,7 +35,7 @@ public class BBOXImplTest {
 
     @Test
     public void testBbox() {
-        
+
         GeometryFactory gf = new GeometryFactory(new PrecisionModel());
         Coordinate coords[] = new Coordinate[6];
         coords[0] = new Coordinate(0, 1.5);
@@ -58,7 +56,7 @@ public class BBOXImplTest {
         attributes.add("testFeature");
         attributes.add(p);
         Feature f = null;
-        f = SimpleFeatureBuilder.build(type, new Object[] { "testFeature", p }, null);
+        f = SimpleFeatureBuilder.build(type, new Object[]{"testFeature", p}, null);
         Envelope e1 = new Envelope(3, 6, 0, 2);
         Envelope e2 = new Envelope(3.25, 3.75, 1.25, 1.75);
         assertTrue(e1.contains(e2));
@@ -71,7 +69,7 @@ public class BBOXImplTest {
         assertFalse(bbox2.evaluate(f));
         assertFalse(bbox1.evaluate(f));
     }
-    
+
     @Test
     public void testPreserveOriginalSRS() throws NoSuchAuthorityCodeException, FactoryException {
         String srs = "AUTO:42004,9001,0,33";

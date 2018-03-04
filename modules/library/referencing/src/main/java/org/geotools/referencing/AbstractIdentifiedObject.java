@@ -71,18 +71,18 @@ import org.geotools.util.Utilities;
  * instantiate it. Typical applications should create instances of the most specific subclass with
  * {@code Default} prefix instead. An exception to this rule may occurs when it is not possible to
  * identify the exact type. For example it is not possible to infer the exact coordinate system from
- * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
+ * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT
+ * .html"><cite>Well
  * Known Text</cite></A> is some cases (e.g. in a {@code LOCAL_CS} element). In such exceptional
  * situation, a plain {@link org.geotools.referencing.cs.AbstractCS} object may be instantiated.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
-public class AbstractIdentifiedObject extends Formattable implements IdentifiedObject, Serializable {
+public class AbstractIdentifiedObject extends Formattable implements IdentifiedObject, 
+        Serializable {
     /**
      * Serial number for interoperability with different versions.
      */
@@ -115,16 +115,23 @@ public class AbstractIdentifiedObject extends Formattable implements IdentifiedO
      * {@link #NAME_COMPARATOR} implementation as a named class (rather than anonymous)
      * for more predictable serialization.
      */
-    private static final class NameComparator implements Comparator<IdentifiedObject>, Serializable {
-        /** For cross-version compatibility. */
+    private static final class NameComparator implements Comparator<IdentifiedObject>, 
+            Serializable {
+        /**
+         * For cross-version compatibility.
+         */
         private static final long serialVersionUID = -6605097017814062198L;
 
-        /** Compares the given identified objects for order. */
+        /**
+         * Compares the given identified objects for order.
+         */
         public int compare(final IdentifiedObject o1, final IdentifiedObject o2) {
             return doCompare(o1.getName().getCode(), o2.getName().getCode());
         }
 
-        /** Canonicalizes to the singleton on deserialization. */
+        /**
+         * Canonicalizes to the singleton on deserialization.
+         */
         protected Object readResolve() throws ObjectStreamException {
             return NAME_COMPARATOR;
         }
@@ -133,17 +140,23 @@ public class AbstractIdentifiedObject extends Formattable implements IdentifiedO
     /**
      * A comparator for sorting identified objects by {@linkplain #getIdentifiers identifiers}.
      */
-    public static final Comparator<IdentifiedObject> IDENTIFIER_COMPARATOR = new IdentifierComparator();
+    public static final Comparator<IdentifiedObject> IDENTIFIER_COMPARATOR = new 
+            IdentifierComparator();
 
     /**
      * {@link #IDENTIFIER_COMPARATOR} implementation as a named class (rather than anonymous)
      * for more predictable serialization.
      */
-    private static final class IdentifierComparator implements Comparator<IdentifiedObject>, Serializable {
-        /** For cross-version compatibility. */
+    private static final class IdentifierComparator implements Comparator<IdentifiedObject>, 
+            Serializable {
+        /**
+         * For cross-version compatibility.
+         */
         private static final long serialVersionUID = -7315726806679993522L;
 
-        /** Compares the given identified objects for order. */
+        /**
+         * Compares the given identified objects for order.
+         */
         public int compare(final IdentifiedObject o1, final IdentifiedObject o2) {
             Collection<ReferenceIdentifier> a1 = o1.getIdentifiers();
             Collection<ReferenceIdentifier> a2 = o2.getIdentifiers();
@@ -152,7 +165,7 @@ public class AbstractIdentifiedObject extends Formattable implements IdentifiedO
             final Iterator<ReferenceIdentifier> i1 = a1.iterator();
             final Iterator<ReferenceIdentifier> i2 = a2.iterator();
             boolean n1, n2;
-            while ((n1=i1.hasNext()) & (n2=i2.hasNext())) {  // Really '&', not '&&'
+            while ((n1 = i1.hasNext()) & (n2 = i2.hasNext())) {  // Really '&', not '&&'
                 final int c = doCompare(i1.next().getCode(), i2.next().getCode());
                 if (c != 0) {
                     return c;
@@ -163,7 +176,9 @@ public class AbstractIdentifiedObject extends Formattable implements IdentifiedO
             return 0;
         }
 
-        /** Canonicalizes to the singleton on deserialization. */
+        /**
+         * Canonicalizes to the singleton on deserialization.
+         */
         protected Object readResolve() throws ObjectStreamException {
             return IDENTIFIER_COMPARATOR;
         }
@@ -178,16 +193,23 @@ public class AbstractIdentifiedObject extends Formattable implements IdentifiedO
      * {@link #REMARKS_COMPARATOR} implementation as a named class (rather than anonymous)
      * for more predictable serialization.
      */
-    private static final class RemarksComparator implements Comparator<IdentifiedObject>, Serializable {
-        /** For cross-version compatibility. */
+    private static final class RemarksComparator implements Comparator<IdentifiedObject>, 
+            Serializable {
+        /**
+         * For cross-version compatibility.
+         */
         private static final long serialVersionUID = -6675419613224162715L;
 
-        /** Compares the given identified objects for order. */
+        /**
+         * Compares the given identified objects for order.
+         */
         public int compare(final IdentifiedObject o1, final IdentifiedObject o2) {
             return doCompare(o1.getRemarks(), o2.getRemarks());
         }
 
-        /** Canonicalizes to the singleton on deserialization. */
+        /**
+         * Canonicalizes to the singleton on deserialization.
+         */
         protected Object readResolve() throws ObjectStreamException {
             return REMARKS_COMPARATOR;
         }
@@ -224,10 +246,10 @@ public class AbstractIdentifiedObject extends Formattable implements IdentifiedO
      * @param object The object to copy.
      */
     public AbstractIdentifiedObject(final IdentifiedObject object) {
-        name        = object.getName();
-        alias       = object.getAlias();
+        name = object.getName();
+        alias = object.getAlias();
         identifiers = object.getIdentifiers();
-        remarks     = object.getRemarks();
+        remarks = object.getRemarks();
     }
 
     /**
@@ -237,62 +259,68 @@ public class AbstractIdentifiedObject extends Formattable implements IdentifiedO
      * in the table below are optional.
      * <p>
      * <table border='1'>
-     *   <tr bgcolor="#CCCCFF" class="TableHeadingColor">
-     *     <th nowrap>Property name</th>
-     *     <th nowrap>Value type</th>
-     *     <th nowrap>Value given to</th>
-     *   </tr>
-     *   <tr>
-     *     <td nowrap>&nbsp;{@value org.opengis.referencing.IdentifiedObject#NAME_KEY}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link String} or {@link ReferenceIdentifier}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link #getName()}</td>
-     *   </tr>
-     *   <tr>
-     *     <td nowrap>&nbsp;{@value org.opengis.referencing.IdentifiedObject#ALIAS_KEY}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link String}, <code>{@linkplain String}[]</code>,
-     *     {@link GenericName} or <code>{@linkplain GenericName}[]</code>&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link #getAlias}</td>
-     *   </tr>
-     *   <tr>
-     *     <td nowrap>&nbsp;{@value org.opengis.metadata.Identifier#AUTHORITY_KEY}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link String} or {@link Citation}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link ReferenceIdentifier#getAuthority} on the {@linkplain #getName() name}</td>
-     *   </tr>
-     *   <tr>
-     *     <td nowrap>&nbsp;{@value org.opengis.referencing.ReferenceIdentifier#CODESPACE_KEY}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link String}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link ReferenceIdentifier#getCodeSpace} on the {@linkplain #getName() name}</td>
-     *   </tr>
-     *   <tr>
-     *     <td nowrap>&nbsp;{@value org.opengis.referencing.ReferenceIdentifier#VERSION_KEY}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link String}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link ReferenceIdentifier#getVersion} on the {@linkplain #getName() name}</td>
-     *   </tr>
-     *   <tr>
-     *     <td nowrap>&nbsp;{@value org.opengis.referencing.IdentifiedObject#IDENTIFIERS_KEY}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link ReferenceIdentifier} or <code>{@linkplain ReferenceIdentifier}[]</code>&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link #getIdentifiers}</td>
-     *   </tr>
-     *   <tr>
-     *     <td nowrap>&nbsp;{@value org.opengis.referencing.IdentifiedObject#REMARKS_KEY}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link String} or {@link InternationalString}&nbsp;</td>
-     *     <td nowrap>&nbsp;{@link #getRemarks}</td>
-     *   </tr>
+     * <tr bgcolor="#CCCCFF" class="TableHeadingColor">
+     * <th nowrap>Property name</th>
+     * <th nowrap>Value type</th>
+     * <th nowrap>Value given to</th>
+     * </tr>
+     * <tr>
+     * <td nowrap>&nbsp;{@value org.opengis.referencing.IdentifiedObject#NAME_KEY}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link String} or {@link ReferenceIdentifier}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link #getName()}</td>
+     * </tr>
+     * <tr>
+     * <td nowrap>&nbsp;{@value org.opengis.referencing.IdentifiedObject#ALIAS_KEY}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link String}, <code>{@linkplain String}[]</code>,
+     * {@link GenericName} or <code>{@linkplain GenericName}[]</code>&nbsp;</td>
+     * <td nowrap>&nbsp;{@link #getAlias}</td>
+     * </tr>
+     * <tr>
+     * <td nowrap>&nbsp;{@value org.opengis.metadata.Identifier#AUTHORITY_KEY}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link String} or {@link Citation}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link ReferenceIdentifier#getAuthority} on the 
+     * {@linkplain #getName() name}</td>
+     * </tr>
+     * <tr>
+     * <td nowrap>&nbsp;{@value org.opengis.referencing.ReferenceIdentifier#CODESPACE_KEY}&nbsp;
+     * </td>
+     * <td nowrap>&nbsp;{@link String}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link ReferenceIdentifier#getCodeSpace} on the 
+     * {@linkplain #getName() name}</td>
+     * </tr>
+     * <tr>
+     * <td nowrap>&nbsp;{@value org.opengis.referencing.ReferenceIdentifier#VERSION_KEY}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link String}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link ReferenceIdentifier#getVersion} on the 
+     * {@linkplain #getName() name}</td>
+     * </tr>
+     * <tr>
+     * <td nowrap>&nbsp;{@value org.opengis.referencing.IdentifiedObject#IDENTIFIERS_KEY}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link ReferenceIdentifier} or 
+     * <code>{@linkplain ReferenceIdentifier}[]</code>&nbsp;</td>
+     * <td nowrap>&nbsp;{@link #getIdentifiers}</td>
+     * </tr>
+     * <tr>
+     * <td nowrap>&nbsp;{@value org.opengis.referencing.IdentifiedObject#REMARKS_KEY}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link String} or {@link InternationalString}&nbsp;</td>
+     * <td nowrap>&nbsp;{@link #getRemarks}</td>
+     * </tr>
      * </table>
-     * <P>
+     * <p>
      * Additionally, all localizable attributes like {@code "remarks"} may have a language and
      * country code suffix. For example the {@code "remarks_fr"} property stands for remarks in
      * {@linkplain java.util.Locale#FRENCH French} and the {@code "remarks_fr_CA"} property stands
      * for remarks in {@linkplain java.util.Locale#CANADA_FRENCH French Canadian}.
-     * <P>
+     * <p>
      * Note that the {@code "authority"} and {@code "version"} properties are ignored if the
      * {@code "name"} property is already a {@link Citation} object instead of a {@link String}.
      *
      * @param properties The properties to be given to this identified object.
      * @throws InvalidParameterValueException if a property has an invalid value.
-     * @throws IllegalArgumentException if a property is invalid for some other reason.
+     * @throws IllegalArgumentException       if a property is invalid for some other reason.
      */
-    public AbstractIdentifiedObject(final Map<String,?> properties) throws IllegalArgumentException {
+    public AbstractIdentifiedObject(final Map<String, ?> properties) throws 
+            IllegalArgumentException {
         this(properties, null, null);
     }
 
@@ -303,7 +331,7 @@ public class AbstractIdentifiedObject extends Formattable implements IdentifiedO
      * properties unknow to this {@code AbstractIdentifiedObject} constructor are copied
      * in the {@code subProperties} map, after their key has been normalized (usually
      * lower case, leading and trailing space removed).
-     *
+     * <p>
      * <P>If {@code localizables} is non-null, then all keys listed in this argument are
      * treated as localizable one (i.e. may have a suffix like "_fr", "_de", etc.). Localizable
      * properties are stored in the {@code subProperties} map as {@link InternationalString}
@@ -312,21 +340,19 @@ public class AbstractIdentifiedObject extends Formattable implements IdentifiedO
      * @param properties    Set of properties. Should contains at least {@code "name"}.
      * @param subProperties The map in which to copy unrecognized properties.
      * @param localizables  Optional list of localized properties.
-     *
      * @throws InvalidParameterValueException if a property has an invalid value.
-     * @throws IllegalArgumentException if a property is invalid for some other reason.
+     * @throws IllegalArgumentException       if a property is invalid for some other reason.
      */
-    protected AbstractIdentifiedObject(final Map<String,?>      properties,
-                                       final Map<String,Object> subProperties,
-                                       final String[]           localizables)
-            throws IllegalArgumentException
-    {
+    protected AbstractIdentifiedObject(final Map<String, ?> properties,
+                                       final Map<String, Object> subProperties,
+                                       final String[] localizables)
+            throws IllegalArgumentException {
         ensureNonNull("properties", properties);
-        Object name        = null;
-        Object alias       = null;
+        Object name = null;
+        Object alias = null;
         Object identifiers = null;
-        Object remarks     = null;
-        GrowableInternationalString       growable = null;
+        Object remarks = null;
+        GrowableInternationalString growable = null;
         GrowableInternationalString[] subGrowables = null;
         /*
          * Iterate through each map entry. This have two purposes:
@@ -337,9 +363,10 @@ public class AbstractIdentifiedObject extends Formattable implements IdentifiedO
          * This algorithm is sub-optimal if the map contains a lot of entries of no interest to
          * this object. Hopefully, most users will fill a map only with usefull entries.
          */
-NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
-            String    key   = entry.getKey().trim().toLowerCase();
-            Object    value = entry.getValue();
+        NEXT_KEY:
+        for (final Map.Entry<String, ?> entry : properties.entrySet()) {
+            String key = entry.getKey().trim().toLowerCase();
+            Object value = entry.getValue();
             /*
              * Note: String.hashCode() is part of J2SE specification,
              *       so it should not change across implementations.
@@ -347,14 +374,31 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
             switch (key.hashCode()) {
                 // Fix case for common keywords. They are not used
                 // by this class, but are used by some subclasses.
-                case -1528693765: if (key.equalsIgnoreCase("anchorPoint"))                 key="anchorPoint";                 break;
-                case -1805658881: if (key.equalsIgnoreCase("bursaWolf"))                   key="bursaWolf";                   break;
-                case   109688209: if (key.equalsIgnoreCase("operationVersion"))            key="operationVersion";            break;
-                case  1479434472: if (key.equalsIgnoreCase("coordinateOperationAccuracy")) key="coordinateOperationAccuracy"; break;
-                case  1126917133: if (key.equalsIgnoreCase("positionalAccuracy"))          key="positionalAccuracy";          break;
-                case  1127093059: if (key.equalsIgnoreCase("realizationEpoch"))            key="realizationEpoch";            break;
-                case  1790520781: if (key.equalsIgnoreCase("domainOfValidity"))            key="domainOfValidity";            break;
-                case -1109785975: if (key.equalsIgnoreCase("validArea"))                   key="validArea";                   break;
+                case -1528693765:
+                    if (key.equalsIgnoreCase("anchorPoint")) key = "anchorPoint";
+                    break;
+                case -1805658881:
+                    if (key.equalsIgnoreCase("bursaWolf")) key = "bursaWolf";
+                    break;
+                case 109688209:
+                    if (key.equalsIgnoreCase("operationVersion")) key = "operationVersion";
+                    break;
+                case 1479434472:
+                    if (key.equalsIgnoreCase("coordinateOperationAccuracy"))
+                        key = "coordinateOperationAccuracy";
+                    break;
+                case 1126917133:
+                    if (key.equalsIgnoreCase("positionalAccuracy")) key = "positionalAccuracy";
+                    break;
+                case 1127093059:
+                    if (key.equalsIgnoreCase("realizationEpoch")) key = "realizationEpoch";
+                    break;
+                case 1790520781:
+                    if (key.equalsIgnoreCase("domainOfValidity")) key = "domainOfValidity";
+                    break;
+                case -1109785975:
+                    if (key.equalsIgnoreCase("validArea")) key = "validArea";
+                    break;
 
                 // -------------------------------------
                 // "name": String or ReferenceIdentifier
@@ -391,8 +435,8 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
                     if (key.equals(IDENTIFIERS_KEY)) {
                         if (value != null) {
                             if (value instanceof ReferenceIdentifier) {
-                                identifiers = new ReferenceIdentifier[] {
-                                    (ReferenceIdentifier) value
+                                identifiers = new ReferenceIdentifier[]{
+                                        (ReferenceIdentifier) value
                                 };
                             } else {
                                 identifiers = value;
@@ -439,7 +483,7 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
                 continue NEXT_KEY;
             }
             if (localizables != null) {
-                for (int i=0; i<localizables.length; i++) {
+                for (int i = 0; i < localizables.length; i++) {
                     final String prefix = localizables[i];
                     if (key.equals(prefix)) {
                         if (value instanceof InternationalString) {
@@ -472,12 +516,13 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
          * both as InternationalString and as String for some locales (which is a weird
          * usage...), then current implementation discart the later with a warning.
          */
-        if (growable!=null && !growable.getLocales().isEmpty()) {
+        if (growable != null && !growable.getLocales().isEmpty()) {
             if (remarks == null) {
                 remarks = growable;
             } else if (!growable.isSubsetOf(remarks)) {
                 final Logger logger = Logging.getLogger(AbstractIdentifiedObject.class);
-                final LogRecord record = Loggings.format(Level.WARNING, LoggingKeys.LOCALES_DISCARTED);
+                final LogRecord record = Loggings.format(Level.WARNING, LoggingKeys
+                        .LOCALES_DISCARTED);
                 record.setLoggerName(logger.getName());
                 logger.log(record);
             }
@@ -485,17 +530,18 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
         /*
          * Get the localized user-defined properties.
          */
-        if (subProperties!=null && subGrowables!=null) {
-            for (int i=0; i<subGrowables.length; i++) {
+        if (subProperties != null && subGrowables != null) {
+            for (int i = 0; i < subGrowables.length; i++) {
                 growable = subGrowables[i];
-                if (growable!=null && !growable.getLocales().isEmpty()) {
+                if (growable != null && !growable.getLocales().isEmpty()) {
                     final String prefix = localizables[i];
                     final Object current = subProperties.get(prefix);
                     if (current == null) {
                         subProperties.put(prefix, growable);
                     } else if (!growable.isSubsetOf(current)) {
                         final Logger logger = Logging.getLogger(AbstractIdentifiedObject.class);
-                        final LogRecord record = Loggings.format(Level.WARNING, LoggingKeys.LOCALES_DISCARTED);
+                        final LogRecord record = Loggings.format(Level.WARNING, LoggingKeys
+                                .LOCALES_DISCARTED);
                         record.setLoggerName(logger.getName());
                         logger.log(record);
                     }
@@ -507,7 +553,8 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
          * there (not before). This is a wanted feature, since we want to catch ClassCastExceptions
          * are rethrown them as more informative exceptions.
          */
-        String key=null; Object value=null;
+        String key = null;
+        Object value = null;
         try {
             key = NAME_KEY;
             this.name = (ReferenceIdentifier) (value = name);
@@ -543,7 +590,6 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
      * An alternative name by which this object is identified.
      *
      * @return The aliases, or an empty array if there is none.
-     *
      * @see #getName(Citation)
      */
     public Collection<GenericName> getAlias() {
@@ -558,7 +604,6 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
      * Alternatively an identifier by which this object can be referenced.
      *
      * @return This object identifiers, or an empty array if there is none.
-     *
      * @see #getIdentifier(Citation)
      */
     public Set<ReferenceIdentifier> getIdentifiers() {
@@ -571,7 +616,7 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
     /**
      * Comments on or information about this object, including data source information.
      */
-    public InternationalString getRemarks(){
+    public InternationalString getRemarks() {
         return remarks;
     }
 
@@ -580,10 +625,10 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
      * properties. The returned map contains key such as {@link #NAME_KEY NAME_KEY}, and
      * values from methods such as {@link #getName}.
      *
-     * @param  info The identified object to view as a properties map.
+     * @param info The identified object to view as a properties map.
      * @return An view of the identified object as an immutable map.
      */
-    public static Map<String,?> getProperties(final IdentifiedObject info) {
+    public static Map<String, ?> getProperties(final IdentifiedObject info) {
         return new Properties(info);
     }
 
@@ -595,21 +640,22 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
      * the following:
      * <p>
      * <ul>
-     *   <li>The {@linkplain #getName() name}'s authority is replaced by the specified one.</li>
-     *   <li>All {@linkplain #getIdentifiers identifiers} are removed, because the new object
-     *       to be created is probably not endorsed by the original authority.</li>
+     * <li>The {@linkplain #getName() name}'s authority is replaced by the specified one.</li>
+     * <li>All {@linkplain #getIdentifiers identifiers} are removed, because the new object
+     * to be created is probably not endorsed by the original authority.</li>
      * </ul>
      * <p>
      * This method returns a mutable map. Consequently, callers can add their own identifiers
      * directly to this map if they wish.
      *
-     * @param  info The identified object to view as a properties map.
-     * @param  authority The new authority for the object to be created, or {@code null} if it
-     *         is not going to have any declared authority.
+     * @param info      The identified object to view as a properties map.
+     * @param authority The new authority for the object to be created, or {@code null} if it
+     *                  is not going to have any declared authority.
      * @return An view of the identified object as a mutable map.
      */
-    public static Map<String,Object> getProperties(final IdentifiedObject info, final Citation authority) {
-        final Map<String,Object> properties = new HashMap<String,Object>(getProperties(info));
+    public static Map<String, Object> getProperties(final IdentifiedObject info, final Citation 
+            authority) {
+        final Map<String, Object> properties = new HashMap<String, Object>(getProperties(info));
         properties.put(NAME_KEY, new NamedIdentifier(authority, info.getName().getCode()));
         properties.remove(IDENTIFIERS_KEY);
         return properties;
@@ -619,14 +665,13 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
      * Returns an identifier according the given authority. This method first checks all
      * {@linkplain #getIdentifiers identifiers} in their iteration order. It returns the first
      * identifier with an {@linkplain ReferenceIdentifier#getAuthority authority} citation
-     * {@linkplain Citations#identifierMatches(Citation,Citation) matching} the specified
+     * {@linkplain Citations#identifierMatches(Citation, Citation) matching} the specified
      * authority.
      *
-     * @param  authority The authority for the identifier to return, or {@code null} for
-     *         the first identifier regarless its authority.
+     * @param authority The authority for the identifier to return, or {@code null} for
+     *                  the first identifier regarless its authority.
      * @return The object's identifier, or {@code null} if no identifier matching the specified
-     *         authority was found.
-     *
+     * authority was found.
      * @since 2.2
      */
     public ReferenceIdentifier getIdentifier(final Citation authority) {
@@ -637,15 +682,15 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
      * Returns an identifier according the given authority. This method performs the same search
      * than {@link #getIdentifier(Citation)} on arbitrary implementations of GeoAPI interface.
      *
-     * @param  info The object to get the identifier from.
-     * @param  authority The authority for the identifier to return, or {@code null} for
-     *         the first identifier regarless its authority.
+     * @param info      The object to get the identifier from.
+     * @param authority The authority for the identifier to return, or {@code null} for
+     *                  the first identifier regarless its authority.
      * @return The object's identifier, or {@code null} if no identifier matching the specified
-     *         authority was found.
-     *
+     * authority was found.
      * @since 2.2
      */
-    public static ReferenceIdentifier getIdentifier(final IdentifiedObject info, final Citation authority) {
+    public static ReferenceIdentifier getIdentifier(final IdentifiedObject info, final Citation 
+            authority) {
         if (info instanceof AbstractIdentifiedObject) {
             // Gives a chances to subclasses to get their overridden method invoked.
             return ((AbstractIdentifiedObject) info).getIdentifier(authority);
@@ -656,7 +701,8 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
     /**
      * Implementation of {@link #getIdentifier(Citation)}.
      */
-    private static ReferenceIdentifier getIdentifier0(final IdentifiedObject info, final Citation authority) {
+    private static ReferenceIdentifier getIdentifier0(final IdentifiedObject info, final Citation
+            authority) {
         if (info == null) {
             return null;
         }
@@ -681,34 +727,32 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
      * Returns this object's name according the given authority. This method checks first the
      * {@linkplain #getName() primary name}, then all {@linkplain #getAlias() alias} in their
      * iteration order.
-     *
+     * <p>
      * <ul>
-     *   <li><p>If the name or alias implements the {@link ReferenceIdentifier} interface,
-     *       then this method compares the {@linkplain ReferenceIdentifier#getAuthority
-     *       identifier authority} against the specified citation using the
-     *       {@link Citations#identifierMatches(Citation,Citation) identifierMatches}
-     *       method. If a matching is found, then this method returns the
-     *       {@linkplain ReferenceIdentifier#getCode identifier code} of this object.</p></li>
-     *
-     *   <li><p>Otherwise, if the alias implements the {@link GenericName} interface, then this
-     *       method compares the {@linkplain GenericName#getScope name scope} against the specified
-     *       citation using the {@linkplain Citations#identifierMatches(Citation,String)
-     *       identifierMatches} method. If a matching is found, then this method returns the
-     *       {@linkplain GenericName#asLocalName local name} of this object.</p></li>
+     * <li><p>If the name or alias implements the {@link ReferenceIdentifier} interface,
+     * then this method compares the {@linkplain ReferenceIdentifier#getAuthority
+     * identifier authority} against the specified citation using the
+     * {@link Citations#identifierMatches(Citation, Citation) identifierMatches}
+     * method. If a matching is found, then this method returns the
+     * {@linkplain ReferenceIdentifier#getCode identifier code} of this object.</p></li>
+     * <p>
+     * <li><p>Otherwise, if the alias implements the {@link GenericName} interface, then this
+     * method compares the {@linkplain GenericName#getScope name scope} against the specified
+     * citation using the {@linkplain Citations#identifierMatches(Citation, String)
+     * identifierMatches} method. If a matching is found, then this method returns the
+     * {@linkplain GenericName#asLocalName local name} of this object.</p></li>
      * </ul>
-     *
+     * <p>
      * Note that alias may implement both the {@link ReferenceIdentifier} and {@link GenericName}
      * interfaces (for example {@link NamedIdentifier}). In such cases, the identifier view has
      * precedence.
      *
-     * @param  authority The authority for the name to return.
+     * @param authority The authority for the name to return.
      * @return The object's name (either a {@linkplain ReferenceIdentifier#getCode code}
-     *         or a {@linkplain GenericName#asLocalName local name}), or {@code null} if
-     *         no name matching the specified authority was found.
-     *
+     * or a {@linkplain GenericName#asLocalName local name}), or {@code null} if
+     * no name matching the specified authority was found.
      * @see #getName()
      * @see #getAlias()
-     *
      * @since 2.2
      */
     public String getName(final Citation authority) {
@@ -719,12 +763,11 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
      * Returns an object's name according the given authority. This method performs the same search
      * than {@link #getName(Citation)} on arbitrary implementations of GeoAPI interface.
      *
-     * @param  info The object to get the name from.
-     * @param  authority The authority for the name to return.
+     * @param info      The object to get the name from.
+     * @param authority The authority for the name to return.
      * @return The object's name (either a {@linkplain ReferenceIdentifier#getCode code}
-     *         or a {@linkplain GenericName#asLocalName local name}), or {@code null} if
-     *         no name matching the specified authority was found.
-     *
+     * or a {@linkplain GenericName#asLocalName local name}), or {@code null} if
+     * no name matching the specified authority was found.
      * @since 2.2
      */
     public static String getName(final IdentifiedObject info, final Citation authority) {
@@ -779,14 +822,14 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
      * one {@linkplain #getAlias alias} matches the specified string. This method performs
      * the search in the following order, regardless of any authority:
      * <ul>
-     *   <li>The {@linkplain #getName() primary name} of this object</li>
-     *   <li>The {@linkplain org.opengis.util.ScopedName fully qualified name} of an alias</li>
-     *   <li>The {@linkplain org.opengis.util.LocalName local name} of an alias</li>
+     * <li>The {@linkplain #getName() primary name} of this object</li>
+     * <li>The {@linkplain org.opengis.util.ScopedName fully qualified name} of an alias</li>
+     * <li>The {@linkplain org.opengis.util.LocalName local name} of an alias</li>
      * </ul>
      *
-     * @param  name The name to compare.
+     * @param name The name to compare.
      * @return {@code true} if the primary name of at least one alias
-     *         matches the specified {@code name}.
+     * matches the specified {@code name}.
      */
     public boolean nameMatches(final String name) {
         return nameMatches(this, alias, name);
@@ -798,10 +841,10 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
      * same check than the {@linkplain #nameMatches(String) non-static method} on arbitrary
      * object implementing the GeoAPI interface.
      *
-     * @param  object The object to check.
-     * @param  name The name.
+     * @param object The object to check.
+     * @param name   The name.
      * @return {@code true} if the primary name of at least one alias
-     *         matches the specified {@code name}.
+     * matches the specified {@code name}.
      */
     public static boolean nameMatches(final IdentifiedObject object, final String name) {
         if (object instanceof AbstractIdentifiedObject) {
@@ -818,28 +861,26 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
      * @param o1 The first object to compare by name.
      * @param o2 The second object to compare by name.
      * @return {@code true} if both objects have a common name.
-     *
      * @since 2.4
      */
     public static boolean nameMatches(final IdentifiedObject o1, final IdentifiedObject o2) {
         return nameMatches(o1, o2.getName().getCode()) ||
-               nameMatches(o2, o1.getName().getCode());
+                nameMatches(o2, o1.getName().getCode());
     }
 
     /**
      * Implementation of {@code nameMatches} method.
      *
-     * @param  object The object to check.
-     * @param  alias  The list of alias in {@code object} (may be {@code null}).
-     *                This method will never modify this list. Consequently, it may be a
-     *                direct reference to an internal array.
-     * @param  name The name.
+     * @param object The object to check.
+     * @param alias  The list of alias in {@code object} (may be {@code null}).
+     *               This method will never modify this list. Consequently, it may be a
+     *               direct reference to an internal array.
+     * @param name   The name.
      * @return {@code true} if the primary name of at least one alias
-     *         matches the specified {@code name}.
+     * matches the specified {@code name}.
      */
     private static boolean nameMatches(final IdentifiedObject object,
-                                       final Collection<GenericName> alias, String name)
-    {
+                                       final Collection<GenericName> alias, String name) {
         name = name.trim();
         if (name.equalsIgnoreCase(object.getName().getCode().trim())) {
             return true;
@@ -847,7 +888,7 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
         if (alias != null) {
             for (final GenericName asName : alias) {
                 final GenericName asScoped = asName.toFullyQualifiedName();
-                if (asScoped!=asName && name.equalsIgnoreCase(asScoped.toString().trim())) {
+                if (asScoped != asName && name.equalsIgnoreCase(asScoped.toString().trim())) {
                     return true;
                 }
                 if (name.equalsIgnoreCase(asName.tip().toString().trim())) {
@@ -861,7 +902,7 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
     /**
      * Compares the specified object with this object for equality.
      *
-     * @param  object The other object (may be {@code null}).
+     * @param object The other object (may be {@code null}).
      * @return {@code true} if both objects are equal.
      */
     @Override
@@ -872,17 +913,17 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
 
     /**
      * Compares this object with the specified object for equality.
-     *
+     * <p>
      * If {@code compareMetadata} is {@code true}, then all available properties are
      * compared including {@linkplain #getName() name}, {@linkplain #getRemarks remarks},
      * {@linkplain #getIdentifiers identifiers code}, etc.
-     *
+     * <p>
      * If {@code compareMetadata} is {@code false}, then this method compare
      * only the properties needed for computing transformations. In other words,
      * {@code sourceCS.equals(targetCS, false)} returns {@code true} only if
      * the transformation from {@code sourceCS} to {@code targetCS} is
      * the identity transform, no matter what {@link #getName()} saids.
-     * <P>
+     * <p>
      * Some subclasses (especially {@link org.geotools.referencing.datum.AbstractDatum}
      * and {@link org.geotools.parameter.AbstractParameterDescriptor}) will test for the
      * {@linkplain #getName() name}, since objects with different name have completly
@@ -890,20 +931,21 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
      * {@code "semi_minor"} parameters except the name. The name comparaison may be loose
      * however, i.e. we may accept a name matching an alias.
      *
-     * @param  object The object to compare to {@code this}.
-     * @param  compareMetadata {@code true} for performing a strict comparaison, or
-     *         {@code false} for comparing only properties relevant to transformations.
+     * @param object          The object to compare to {@code this}.
+     * @param compareMetadata {@code true} for performing a strict comparaison, or
+     *                        {@code false} for comparing only properties relevant to 
+     *                                    transformations.
      * @return {@code true} if both objects are equal.
      */
     public boolean equals(final AbstractIdentifiedObject object, final boolean compareMetadata) {
-        if (object!=null && object.getClass().equals(getClass())) {
+        if (object != null && object.getClass().equals(getClass())) {
             if (!compareMetadata) {
                 return true;
             }
-            return Utilities.equals(name,        object.name       ) &&
-                   Utilities.equals(alias,       object.alias      ) &&
-                   Utilities.equals(identifiers, object.identifiers) &&
-                   Utilities.equals(remarks,     object.remarks    );
+            return Utilities.equals(name, object.name) &&
+                    Utilities.equals(alias, object.alias) &&
+                    Utilities.equals(identifiers, object.identifiers) &&
+                    Utilities.equals(remarks, object.remarks);
         }
         return false;
     }
@@ -914,58 +956,61 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
      * except that one or both arguments may be null. This convenience method is provided for
      * implementation of {@code equals} in subclasses.
      *
-     * @param  object1 The first object to compare (may be {@code null}).
-     * @param  object2 The second object to compare (may be {@code null}).
-     * @param  compareMetadata {@code true} for performing a strict comparaison, or
-     *         {@code false} for comparing only properties relevant to transformations.
+     * @param object1         The first object to compare (may be {@code null}).
+     * @param object2         The second object to compare (may be {@code null}).
+     * @param compareMetadata {@code true} for performing a strict comparaison, or
+     *                        {@code false} for comparing only properties relevant to 
+     *                                    transformations.
      * @return {@code true} if both objects are equal.
      */
     static boolean equals(final AbstractIdentifiedObject object1,
                           final AbstractIdentifiedObject object2,
-                          final boolean          compareMetadata)
-    {
-        return (object1 == object2) || (object1!=null && object1.equals(object2, compareMetadata));
+                          final boolean compareMetadata) {
+        return (object1 == object2) || (object1 != null && object1.equals(object2, 
+                compareMetadata));
     }
 
     /**
      * Compares two OpenGIS's {@code IdentifiedObject} objects for equality. This convenience
      * method is provided for implementation of {@code equals} in subclasses.
      *
-     * @param  object1 The first object to compare (may be {@code null}).
-     * @param  object2 The second object to compare (may be {@code null}).
-     * @param  compareMetadata {@code true} for performing a strict comparaison, or
-     *         {@code false} for comparing only properties relevant to transformations.
+     * @param object1         The first object to compare (may be {@code null}).
+     * @param object2         The second object to compare (may be {@code null}).
+     * @param compareMetadata {@code true} for performing a strict comparaison, or
+     *                        {@code false} for comparing only properties relevant to 
+     *                                    transformations.
      * @return {@code true} if both objects are equal.
      */
     protected static boolean equals(final IdentifiedObject object1,
                                     final IdentifiedObject object2,
-                                    final boolean  compareMetadata)
-    {
-        if (!(object1 instanceof AbstractIdentifiedObject)) return Utilities.equals(object1, object2);
-        if (!(object2 instanceof AbstractIdentifiedObject)) return Utilities.equals(object2, object1);
+                                    final boolean compareMetadata) {
+        if (!(object1 instanceof AbstractIdentifiedObject))
+            return Utilities.equals(object1, object2);
+        if (!(object2 instanceof AbstractIdentifiedObject))
+            return Utilities.equals(object2, object1);
         return equals((AbstractIdentifiedObject) object1,
-                      (AbstractIdentifiedObject) object2, compareMetadata);
+                (AbstractIdentifiedObject) object2, compareMetadata);
     }
 
     /**
      * Compares two arrays of OpenGIS's {@code IdentifiedObject} objects for equality. This
      * convenience method is provided for implementation of {@code equals} method in subclasses.
      *
-     * @param  array1 The first array to compare (may be {@code null}).
-     * @param  array2 The second array to compare (may be {@code null}).
-     * @param  compareMetadata {@code true} for performing a strict comparaison, or
-     *         {@code false} for comparing only properties relevant to transformations.
+     * @param array1          The first array to compare (may be {@code null}).
+     * @param array2          The second array to compare (may be {@code null}).
+     * @param compareMetadata {@code true} for performing a strict comparaison, or
+     *                        {@code false} for comparing only properties relevant to 
+     *                                    transformations.
      * @return {@code true} if both arrays are equal.
      */
     protected static boolean equals(final IdentifiedObject[] array1,
                                     final IdentifiedObject[] array2,
-                                    final boolean   compareMetadata)
-    {
+                                    final boolean compareMetadata) {
         if (array1 != array2) {
             if ((array1 == null) || (array2 == null) || (array1.length != array2.length)) {
                 return false;
             }
-            for (int i=array1.length; --i>=0;) {
+            for (int i = array1.length; --i >= 0; ) {
                 if (!equals(array1[i], array2[i], compareMetadata)) {
                     return false;
                 }
@@ -980,20 +1025,20 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
      * or {@link LinkedHashSet} comparaisons. This convenience method is provided for
      * implementation of {@code equals} method in subclasses.
      *
-     * @param  collection1 The first collection to compare (may be {@code null}).
-     * @param  collection2 The second collection to compare (may be {@code null}).
-     * @param  compareMetadata {@code true} for performing a strict comparaison, or
-     *         {@code false} for comparing only properties relevant to transformations.
+     * @param collection1     The first collection to compare (may be {@code null}).
+     * @param collection2     The second collection to compare (may be {@code null}).
+     * @param compareMetadata {@code true} for performing a strict comparaison, or
+     *                        {@code false} for comparing only properties relevant to 
+     *                                    transformations.
      * @return {@code true} if both collections are equal.
      */
     protected static boolean equals(final Collection<? extends IdentifiedObject> collection1,
                                     final Collection<? extends IdentifiedObject> collection2,
-                                    final boolean compareMetadata)
-    {
+                                    final boolean compareMetadata) {
         if (collection1 == collection2) {
             return true;
         }
-        if (collection1==null || collection2==null) {
+        if (collection1 == null || collection2 == null) {
             return false;
         }
         final Iterator<? extends IdentifiedObject> it1 = collection1.iterator();
@@ -1012,7 +1057,7 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
      */
     private static <E extends Comparable<E>> int doCompare(final E c1, final E c2) {
         if (c1 == null) {
-            return (c2==null) ? 0 : -1;
+            return (c2 == null) ? 0 : -1;
         }
         if (c2 == null) {
             return +1;
@@ -1025,16 +1070,16 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
      * {@linkplain #getIdentifiers identifiers} and {@linkplain #getRemarks remarks}
      * are not taken in account. In other words, two identified objects will return
      * the same hash value if they are equal in the sense of <code>{@linkplain
-     * #equals(AbstractIdentifiedObject,boolean) equals}(AbstractIdentifiedObject,
+     * #equals(AbstractIdentifiedObject, boolean) equals}(AbstractIdentifiedObject,
      * <strong>false</strong>)</code>.
      *
      * @return The hash code value. This value doesn't need to be the same
-     *         in past or future versions of this class.
+     * in past or future versions of this class.
      */
     @Override
     public int hashCode() {
         // Subclasses need to overrides this!!!!
-        return (int)serialVersionUID ^ getClass().hashCode();
+        return (int) serialVersionUID ^ getClass().hashCode();
     }
 
     /**
@@ -1042,8 +1087,8 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
      * array is empty or null. This is a convenience method for sub-classes
      * constructors.
      *
-     * @param  <E> The type of array elements.
-     * @param  array The array to copy in a set. May be {@code null}.
+     * @param <E>   The type of array elements.
+     * @param array The array to copy in a set. May be {@code null}.
      * @return A set containing the array elements, or {@code null} if none or empty.
      */
     protected static <E> Set<E> asSet(final E[] array) {
@@ -1051,9 +1096,12 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
             return null;
         }
         switch (array.length) {
-            case 0:  return null;
-            case 1:  return Collections.singleton(array[0]);
-            default: return Collections.unmodifiableSet(new LinkedHashSet<E>(Arrays.asList(array)));
+            case 0:
+                return null;
+            case 1:
+                return Collections.singleton(array[0]);
+            default:
+                return Collections.unmodifiableSet(new LinkedHashSet<E>(Arrays.asList(array)));
         }
     }
 
@@ -1061,16 +1109,15 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
      * Makes sure that an argument is non-null. This is a
      * convenience method for subclass constructors.
      *
-     * @param  name   Argument name.
-     * @param  object User argument.
+     * @param name   Argument name.
+     * @param object User argument.
      * @throws InvalidParameterValueException if {@code object} is null.
      */
     protected static void ensureNonNull(final String name, final Object object)
-            throws InvalidParameterValueException
-    {
+            throws InvalidParameterValueException {
         if (object == null) {
             throw new InvalidParameterValueException(Errors.format(
-                        ErrorKeys.NULL_ARGUMENT_$1, name), name, object);
+                    ErrorKeys.NULL_ARGUMENT_$1, name), name, object);
         }
     }
 
@@ -1078,17 +1125,16 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
      * Makes sure an array element is non-null. This is
      * a convenience method for subclass constructors.
      *
-     * @param  name  Argument name.
-     * @param  array User argument.
-     * @param  index Index of the element to check.
+     * @param name  Argument name.
+     * @param array User argument.
+     * @param index Index of the element to check.
      * @throws InvalidParameterValueException if {@code array[i]} is null.
      */
     protected static void ensureNonNull(final String name, final Object[] array, final int index)
-            throws InvalidParameterValueException
-    {
+            throws InvalidParameterValueException {
         if (array[index] == null) {
             throw new InvalidParameterValueException(Errors.format(
-                        ErrorKeys.NULL_ARGUMENT_$1, name+'['+index+']'), name, array);
+                    ErrorKeys.NULL_ARGUMENT_$1, name + '[' + index + ']'), name, array);
         }
     }
 
@@ -1096,7 +1142,7 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
      * Makes sure that the specified unit is a temporal one.
      * This is a convenience method for subclass constructors.
      *
-     * @param  unit Unit to check.
+     * @param unit Unit to check.
      * @throws IllegalArgumentException if {@code unit} is not a temporal unit.
      */
     protected static void ensureTimeUnit(final Unit<?> unit) throws IllegalArgumentException {
@@ -1109,7 +1155,7 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
      * Makes sure that the specified unit is a linear one.
      * This is a convenience method for subclass constructors.
      *
-     * @param  unit Unit to check.
+     * @param unit Unit to check.
      * @throws IllegalArgumentException if {@code unit} is not a linear unit.
      */
     protected static void ensureLinearUnit(final Unit<?> unit) throws IllegalArgumentException {
@@ -1122,7 +1168,7 @@ NEXT_KEY: for (final Map.Entry<String,?> entry : properties.entrySet()) {
      * Makes sure that the specified unit is an angular one.
      * This is a convenience method for subclass constructors.
      *
-     * @param  unit Unit to check.
+     * @param unit Unit to check.
      * @throws IllegalArgumentException if {@code unit} is not an angular unit.
      */
     protected static void ensureAngularUnit(final Unit<?> unit) throws IllegalArgumentException {

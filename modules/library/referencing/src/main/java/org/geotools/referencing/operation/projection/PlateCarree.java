@@ -17,6 +17,7 @@
 package org.geotools.referencing.operation.projection;
 
 import java.awt.geom.Point2D;
+
 import org.opengis.parameter.ParameterDescriptor;
 import org.opengis.parameter.ParameterDescriptorGroup;
 import org.opengis.parameter.ParameterNotFoundException;
@@ -35,15 +36,13 @@ import org.geotools.resources.i18n.Errors;
  * {@linkplain EquidistantCylindrical Equidistant Cylindrical} projection where the
  * {@code standard_parallel_1} is 0°.
  *
- * @see <A HREF="http://www.remotesensing.org/geotiff/proj_list/equirectangular.html">"Equirectangular" on RemoteSensing.org</A>
- *
- * @since 2.2
- *
- *
- * @source $URL$
- * @version $Id$
  * @author John Grange
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @see <A HREF="http://www.remotesensing.org/geotiff/proj_list/equirectangular
+ * .html">"Equirectangular" on RemoteSensing.org</A>
+ * @since 2.2
  */
 public class PlateCarree extends EquidistantCylindrical {
     /**
@@ -54,7 +53,7 @@ public class PlateCarree extends EquidistantCylindrical {
     /**
      * Constructs a new map projection from the supplied parameters.
      *
-     * @param  parameters The parameter values in standard units.
+     * @param parameters The parameter values in standard units.
      * @throws ParameterNotFoundException if a mandatory parameter is missing.
      */
     protected PlateCarree(final ParameterValueGroup parameters) throws ParameterNotFoundException {
@@ -76,13 +75,12 @@ public class PlateCarree extends EquidistantCylindrical {
      */
     @Override
     protected Point2D transformNormalized(double x, double y, final Point2D ptDst)
-            throws ProjectionException
-    {
+            throws ProjectionException {
         if (ptDst != null) {
-            ptDst.setLocation(x,y);
+            ptDst.setLocation(x, y);
             return ptDst;
         }
-        return new Point2D.Double(x,y);
+        return new Point2D.Double(x, y);
     }
 
     /**
@@ -91,16 +89,13 @@ public class PlateCarree extends EquidistantCylindrical {
      */
     @Override
     protected Point2D inverseTransformNormalized(double x, double y, final Point2D ptDst)
-            throws ProjectionException
-    {
+            throws ProjectionException {
         if (ptDst != null) {
-            ptDst.setLocation(x,y);
+            ptDst.setLocation(x, y);
             return ptDst;
         }
-        return new Point2D.Double(x,y);
+        return new Point2D.Double(x, y);
     }
-
-
 
 
     //////////////////////////////////////////////////////////////////////////////////////////
@@ -116,11 +111,10 @@ public class PlateCarree extends EquidistantCylindrical {
      * provider} for an {@linkplain org.geotools.referencing.operation.projection.PlateCarree
      * Plate Carree} projection.
      *
-     * @since 2.2
-     * @version $Id$
      * @author John Grange
-     *
+     * @version $Id$
      * @see org.geotools.referencing.operation.DefaultMathTransformFactory
+     * @since 2.2
      */
     public static class Provider extends AbstractProvider {
         /**
@@ -131,15 +125,16 @@ public class PlateCarree extends EquidistantCylindrical {
         /**
          * The parameters group.
          */
-        static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(new NamedIdentifier[] {
-                new NamedIdentifier(Citations.ESRI,     "Plate_Carree"),
-                new NamedIdentifier(Citations.OGC,      "Equirectangular"),
-                new NamedIdentifier(Citations.GEOTIFF,  "CT_Equirectangular")
-            }, new ParameterDescriptor[] {
-                SEMI_MAJOR,       SEMI_MINOR,
+        static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(new 
+                NamedIdentifier[]{
+                new NamedIdentifier(Citations.ESRI, "Plate_Carree"),
+                new NamedIdentifier(Citations.OGC, "Equirectangular"),
+                new NamedIdentifier(Citations.GEOTIFF, "CT_Equirectangular")
+        }, new ParameterDescriptor[]{
+                SEMI_MAJOR, SEMI_MINOR,
                 CENTRAL_MERIDIAN,
-                FALSE_EASTING,    FALSE_NORTHING
-            });
+                FALSE_EASTING, FALSE_NORTHING
+        });
 
         /**
          * Constructs a new provider.
@@ -159,13 +154,12 @@ public class PlateCarree extends EquidistantCylindrical {
         /**
          * Creates a transform from the specified group of parameter values.
          *
-         * @param  parameters The group of parameter values.
+         * @param parameters The group of parameter values.
          * @return The created math transform.
          * @throws ParameterNotFoundException if a required parameter was not found.
          */
         protected MathTransform createMathTransform(final ParameterValueGroup parameters)
-                throws ParameterNotFoundException, FactoryException
-        {
+                throws ParameterNotFoundException, FactoryException {
             if (isSpherical(parameters)) {
                 return new PlateCarree(parameters);
             } else {

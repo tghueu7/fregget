@@ -28,9 +28,9 @@ import org.geotools.xml.impl.AttributeImpl;
 
 /**
  * Binding object for the type http://www.opengis.net/wfs:AllSomeType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *         <code>
  *  &lt;xsd:simpleType name=&quot;AllSomeType&quot;&gt;
@@ -41,13 +41,10 @@ import org.geotools.xml.impl.AttributeImpl;
  *  &lt;/xsd:simpleType&gt;
  * </code>
  *         </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class AllSomeTypeBinding extends AbstractSimpleBinding {
@@ -66,7 +63,7 @@ public class AllSomeTypeBinding extends AbstractSimpleBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -75,7 +72,7 @@ public class AllSomeTypeBinding extends AbstractSimpleBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value) throws Exception {

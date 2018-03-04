@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -19,21 +19,20 @@ package org.geotools.temporal.object;
 import java.sql.Time;
 import java.util.Calendar;
 import java.util.Date;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.opengis.temporal.Position;
+
 import static org.junit.Assert.*;
+
 import org.opengis.temporal.TemporalPosition;
 import org.opengis.util.InternationalString;
 
 
 /**
- *
  * @author Mehdi Sidhoum (Geomatys)
- *
- *
- *
  * @source $URL$
  */
 public class DefaultPositionTest {
@@ -73,7 +72,7 @@ public class DefaultPositionTest {
         Date result = position1.getDate();
         assertFalse(position2.getDate().equals(result));
     }
-  
+
 
     /**
      * Test of getTime method, of class DefaultPosition.

@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.metadata.lineage;
 
 import java.util.Collection;
+
 import org.opengis.metadata.extent.Extent;
 import org.opengis.metadata.identification.RepresentativeFraction;
 import org.opengis.metadata.citation.Citation;
@@ -24,22 +25,20 @@ import static org.opengis.annotation.Specification.*;
 /**
  * Information about the source data used in creating the data specified by the scope.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
+ * @author Cory Horner (Refractions Research)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Martin Desruisseaux (IRD)
- * @author  Cory Horner (Refractions Research)
- * @since   GeoAPI 2.0
+ * @source $URL$
+ * @since GeoAPI 2.0
  */
-@UML(identifier="LI_Source", specification=ISO_19115)
+@UML(identifier = "LI_Source", specification = ISO_19115)
 public interface Source {
     /**
      * Detailed description of the level of the source data.
      *
      * @return Description of the level of the source data, or {@code null}.
      */
-    @UML(identifier="description", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "description", obligation = CONDITIONAL, specification = ISO_19115)
     InternationalString getDescription();
 
     /**
@@ -47,7 +46,7 @@ public interface Source {
      *
      * @return Representative fraction on a source map, or {@code null}.
      */
-    @UML(identifier="scaleDenominator", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "scaleDenominator", obligation = OPTIONAL, specification = ISO_19115)
     RepresentativeFraction getScaleDenominator();
 
     /**
@@ -55,7 +54,7 @@ public interface Source {
      *
      * @return Spatial reference system used by the source data, or {@code null}.
      */
-    @UML(identifier="sourceReferenceSystem", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "sourceReferenceSystem", obligation = OPTIONAL, specification = ISO_19115)
     ReferenceSystem getSourceReferenceSystem();
 
     /**
@@ -63,7 +62,7 @@ public interface Source {
      *
      * @return Recommended reference to be used for the source data, or {@code null}.
      */
-    @UML(identifier="sourceCitation", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "sourceCitation", obligation = OPTIONAL, specification = ISO_19115)
     Citation getSourceCitation();
 
     /**
@@ -71,7 +70,7 @@ public interface Source {
      *
      * @return Information about the extent of the source data.
      */
-    @UML(identifier="sourceExtent", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "sourceExtent", obligation = CONDITIONAL, specification = ISO_19115)
     Collection<? extends Extent> getSourceExtents();
 
     /**
@@ -79,6 +78,6 @@ public interface Source {
      *
      * @return Information about an event in the creation process.
      */
-    @UML(identifier="sourceStep", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "sourceStep", obligation = OPTIONAL, specification = ISO_19115)
     Collection<? extends ProcessStep> getSourceSteps();
 }

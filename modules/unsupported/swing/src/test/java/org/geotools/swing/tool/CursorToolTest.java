@@ -23,16 +23,17 @@ import org.geotools.swing.testutils.GraphicsTestBase;
 
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 /**
  * Test for the {@linkplain CursorTool} base class. These tests can be run
  * in a headless environment.
- * 
+ *
  * @author Michael Bedward
- * @since 8.0
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 public class CursorToolTest extends GraphicsTestBase {
 
@@ -40,7 +41,8 @@ public class CursorToolTest extends GraphicsTestBase {
 
     @Before
     public void setup() {
-        tool = new CursorTool() {};
+        tool = new CursorTool() {
+        };
     }
 
     @Test(expected = IllegalArgumentException.class)

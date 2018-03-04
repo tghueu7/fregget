@@ -18,6 +18,7 @@ package org.geotools.xs.bindings;
 
 import java.math.BigInteger;
 import javax.xml.namespace.QName;
+
 import org.geotools.xml.InstanceComponent;
 import org.geotools.xml.SimpleBinding;
 import org.geotools.xs.XS;
@@ -25,9 +26,9 @@ import org.geotools.xs.XS;
 
 /**
  * Binding object for the type http://www.w3.org/2001/XMLSchema:positiveInteger.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xs:simpleType name="positiveInteger" id="positiveInteger"&gt;
  *      &lt;xs:annotation&gt;
@@ -43,9 +44,6 @@ import org.geotools.xs.XS;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class XSPositiveIntegerBinding implements SimpleBinding {
@@ -84,18 +82,19 @@ public class XSPositiveIntegerBinding implements SimpleBinding {
      * Please just treat this as a Number, actual value returned
      * may be BigInteger or Long or Integer.
      * </p>
+     *
      * @param instance with text to be parsed
-     * @param value Number from parent XSNonNegativeIntegerStratagy
+     * @param value    Number from parent XSNonNegativeIntegerStratagy
      * @return Number positive in range 1 to ...
      * <!-- begin-user-doc -->
      */
     public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
+            throws Exception {
         Number number = (Number) value;
 
         if (number.longValue() < 1) {
             throw new IllegalArgumentException("positiveInteger value '" + number
-                + "' must be positive.");
+                    + "' must be positive.");
         }
 
         return BigInteger.valueOf(number.longValue());
@@ -112,7 +111,7 @@ public class XSPositiveIntegerBinding implements SimpleBinding {
 
         if (number.longValue() == 0) {
             throw new IllegalArgumentException("positiveInteger value '" + number
-                + "' must be positive.");
+                    + "' must be positive.");
         }
 
         return value;

@@ -40,32 +40,35 @@ import org.opengis.util.InternationalString;
  * To make use of this class you will need to:
  * <ol>
  * <li>Create an instance passing in a list of "bean" classes you wish to publish:<pre>
- * ProcessFactory factory = new AnnotatedBeanProcessFactory( Text.text("Internal"),"internal", ExampleProcess);</pre></li>
+ * ProcessFactory factory = new AnnotatedBeanProcessFactory( Text.text("Internal"),"internal", 
+ * ExampleProcess);</pre></li>
  * <li>Create an implementation of each bean class referenced:
- *    <ul>
- *    <li>Annotate the class with {@link DescribeProcess}:<pre>    @DescribeProcess( title = "bounds",
+ * <ul>
+ * <li>Annotate the class with {@link DescribeProcess}:<pre>    @DescribeProcess( title = "bounds",
  *                      description = "Computes the overlall bounds of the input features")
  *    public class BoundsProcess {
  *    ...
  *    }</pre></li>
- *    <li>Supply an <b>execute</b> method (which we can call by reflection):<pre>     @DescribeResult(name = "bounds",
+ * <li>Supply an <b>execute</b> method (which we can call by reflection):<pre>     
+ *     @DescribeResult(name = "bounds",
  *                     description = "The feature collection bounds")
  *     public ReferencedEnvelope execute( @DescribeParameter(name = "features",
- *                                                           description = "Collection whose bounds will be computed")
+ *                                                           description = "Collection whose 
+ *                                                           bounds will be computed")
  *                                         FeatureCollection features) {
  *         return features.getBounds();
  *    }
  *    </pre></li>
- *    </ul>
+ * </ul>
  * </li>
- * <li>Optional: If you are using this technique in an environment such as Spring you may wish to use a
+ * <li>Optional: If you are using this technique in an environment such as Spring you may wish to
+ * use a
  * "marker interface" to allow Spring to discover implementations on the classpath.<pre>
  * public class BoundsProcess implements GeoServerProcess {
  *     ...
  * }
  * </pre></li>
  * </ol>
- * 
  *
  * @source $URL$
  */
@@ -73,21 +76,22 @@ public class AnnotatedBeanProcessFactory extends AnnotationDrivenProcessFactory 
     Map<String, Class<?>> classMap;
 
     public AnnotatedBeanProcessFactory(InternationalString title, String namespace,
-            Class<?>... beanClasses) {
+                                       Class<?>... beanClasses) {
         super(title, namespace);
-        classMap = classMap( beanClasses );
+        classMap = classMap(beanClasses);
     }
-    
+
     /**
      * Method responsible for using reflection on the list of bean classes and producing
      * a map of process names to implementing java bean.
      * <p>
      * This is isolated as a static method to allow for unit test; it is called by the constructor.
+     *
      * @param beanClasses
      * @return class map from process name to implementing class.
      */
-    static  Map<String, Class<?>> classMap( Class<?>... beanClasses ){
-        Map<String,Class<?>> map = new HashMap<String, Class<?>>();
+    static Map<String, Class<?>> classMap(Class<?>... beanClasses) {
+        Map<String, Class<?>> map = new HashMap<String, Class<?>>();
         for (Class<?> c : beanClasses) {
             String name = c.getSimpleName();
             if (name.endsWith("Process")) {
@@ -97,10 +101,11 @@ public class AnnotatedBeanProcessFactory extends AnnotationDrivenProcessFactory 
         }
         return map;
     }
-    
+
     /**
      * Used to go through the list of java beans; returning the DescribeProcess
      * annotation for each one.
+     *
      * @param name Process name
      * @return DescribeProcess annotation for the named process
      */
@@ -116,68 +121,69 @@ public class AnnotatedBeanProcessFactory extends AnnotationDrivenProcessFactory 
 
     /**
      * Resolves to the <b>execute</b> method for the provided java bean.
+     *
      * @return the "execute" method of the indicated java bean.
      */
     @Override
     protected Method method(String className) {
         Class<?> c = classMap.get(className);
         if (c != null) {
-            
+
             List<Method> candidates = new ArrayList<Method>();
             for (Method m : c.getMethods()) {
                 if ("execute".equals(m.getName())) {
                     candidates.add(m);
                 }
             }
-            
-            if(candidates.size() == 1) {
+
+            if (candidates.size() == 1) {
                 return candidates.get(0);
-            } else if(candidates.size() > 1) {
+            } else if (candidates.size() > 1) {
                 // uh, we have various methods in overload, we'll prefer the one
                 // that has annotations and exposes most params
                 Method selection = null;
                 for (Method m : candidates) {
-                    if(hasProcessAnnotations(m)) {
-                        if(selection != null) {
-                            throw new IllegalArgumentException("Invalid process bean " + className 
+                    if (hasProcessAnnotations(m)) {
+                        if (selection != null) {
+                            throw new IllegalArgumentException("Invalid process bean " + className
                                     + ", has two annotated execute methods");
                         } else {
                             selection = m;
                         }
                     }
                 }
-                
+
                 return selection;
             }
         }
-        
-        
-        
+
+
         return null;
     }
-    
+
     private boolean hasProcessAnnotations(Method m) {
         Annotation[] annotations = m.getAnnotations();
-        if(hasProcessAnnotations(annotations)) {
+        if (hasProcessAnnotations(annotations)) {
             return true;
         }
         Annotation[][] paramAnnotations = m.getParameterAnnotations();
         for (Annotation[] pa : paramAnnotations) {
-            if(hasProcessAnnotations(pa)) {
+            if (hasProcessAnnotations(pa)) {
                 return true;
             }
         }
-        
+
         return false;
     }
 
     private boolean hasProcessAnnotations(Annotation[] annotations) {
         for (Annotation annotation : annotations) {
-            if(annotation instanceof DescribeResult || annotation instanceof DescribeResults || annotation instanceof DescribeParameter) {
+            if (annotation instanceof DescribeResult || annotation instanceof DescribeResults || 
+                    annotation instanceof DescribeParameter) {
                 return true;
             }
         }
-        
+
         return false;
     }
 
@@ -204,7 +210,7 @@ public class AnnotatedBeanProcessFactory extends AnnotationDrivenProcessFactory 
     protected Object createProcessBean(Name name) {
         try {
             Class<?> processClass = classMap.get(name.getLocalPart());
-            if(processClass == null) {
+            if (processClass == null) {
                 throw new IllegalArgumentException("Process " + name + " is unknown");
             }
             return processClass.newInstance();
@@ -226,7 +232,8 @@ public class AnnotatedBeanProcessFactory extends AnnotationDrivenProcessFactory 
         }
 
         public Class<T> getBeanClass() {
-            return (Class<T>) streamCategories().findFirst().orElseThrow(NoSuchElementException::new);
+            return (Class<T>) streamCategories().findFirst().orElseThrow
+                    (NoSuchElementException::new);
         }
 
         public Class<? extends T>[] lookupBeanClasses() {

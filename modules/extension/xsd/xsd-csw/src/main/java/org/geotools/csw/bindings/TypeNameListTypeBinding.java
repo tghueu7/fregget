@@ -26,7 +26,6 @@ import org.geotools.xml.AbstractSimpleBinding;
 import org.geotools.xml.InstanceComponent;
 
 
-
 public class TypeNameListTypeBinding extends AbstractSimpleBinding {
     public TypeNameListTypeBinding() {
     }
@@ -55,10 +54,10 @@ public class TypeNameListTypeBinding extends AbstractSimpleBinding {
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
+            throws Exception {
         return value;
     }
-    
+
     public String encode(Object object, String value) throws Exception {
         //just return the value passed in, subclasses should override to provide new value
         return value;

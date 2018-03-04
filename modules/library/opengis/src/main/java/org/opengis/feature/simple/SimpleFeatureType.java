@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2007 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.feature.simple;
@@ -32,7 +32,7 @@ import org.opengis.feature.type.Name;
  * The attributes which compose a simple feature type are ordered. For this
  * reason attributes are available via a simple index. Given the following type
  * definition:
- *
+ * <p>
  * <pre>
  *   &lt;complexType name=&quot;mySimpleType&quot;/&gt;
  *     &lt;sequence&gt;
@@ -41,17 +41,17 @@ import org.opengis.feature.type.Name;
  *     &lt;/sequence&gt;
  *   &lt;/complexType&gt;
  * </pre>
- *
+ * <p>
  * <br>
  * The attribute descriptor are addressable via index:
- *
+ * <p>
  * <pre>
  *   SimpleFeatureType type = ...;
  *
  *   AttributeDescriptor foo = type.getAttribute( 0 );
  *   AttributeDescriptor bar-= type.getAttribute( 1 );
  * </pre>
- *
+ * <p>
  * <p>
  * <h3>Attribute Multiplicity</h3>
  * With simple feature types, the multiplicity of attributes is always assumed
@@ -59,7 +59,7 @@ import org.opengis.feature.type.Name;
  * <code>getMaxOccurs() == 1</code>. A consequence of this is that attributes
  * from a simple feature always line up 1 to 1 with the descriptors from the
  * type:
- *
+ * <p>
  * <pre>
  *   SimpleFeature feature = ...;
  *   SimpleFeatureType type = feature.getType();
@@ -67,9 +67,9 @@ import org.opengis.feature.type.Name;
  *   type.getAttribute( 0 ).getDescriptor() == type.getAttribute( 0 );
  *   type.getAttribute( 1 ).getDescriptor() == type.getAttribute( 1 );
  * </pre>
- *
+ * <p>
  * </p>
- *
+ * <p>
  * <p>
  * <h3>Attribute Naming</h3>
  * The names of attributes in a simple feature type are never namespace
@@ -79,16 +79,15 @@ import org.opengis.feature.type.Name;
  *
  * @author Jody Garnett, Refractions Research
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
  * @source $URL$
  */
 public interface SimpleFeatureType extends FeatureType {
 
     /**
      * The local name for this FeatureType.
-     *
+     * <p>
      * Specifically this method returns <code>getName().getLocalPart().</code>
+     *
      * @return The local name for this FeatureType.
      */
     String getTypeName();
@@ -97,11 +96,11 @@ public interface SimpleFeatureType extends FeatureType {
      * The list of attribute descriptors which make up the feature type.
      * <p>
      * This method is a convenience for:
-     *
+     * <p>
      * <pre>
      * return (List&lt;AttributeDescriptor&gt;) getProperties();
      * </pre>
-     *
+     * <p>
      * </p>
      *
      * @return The ordered list of attribute descriptors.
@@ -112,21 +111,19 @@ public interface SimpleFeatureType extends FeatureType {
      * Returns the attribute descriptor which matches the specified name.
      * <p>
      * This method is convenience for:
-     *
+     * <p>
      * <pre>
      * return (AttributeDescriptor) getProperty(name);
      * </pre>
-     *
+     * <p>
      * </p>
      * <p>
      * This method returns <code>null</code> if no such attribute exists.
      * </p>
      *
-     * @param name
-     *            The name of the descriptor to return.
-     *
+     * @param name The name of the descriptor to return.
      * @return The attribute descriptor matching the specified name, or
-     *         <code>null</code> if no such attribute exists.
+     * <code>null</code> if no such attribute exists.
      */
     AttributeDescriptor getDescriptor(String name);
 
@@ -134,21 +131,19 @@ public interface SimpleFeatureType extends FeatureType {
      * Returns the attribute descriptor which matches the specified name.
      * <p>
      * This method is convenience for:
-     *
+     * <p>
      * <pre>
      * return (AttributeDescriptor) getProperty(name);
      * </pre>
-     *
+     * <p>
      * </p>
      * <p>
      * This method returns <code>null</code> if no such attribute exists.
      * </p>
      *
-     * @param name
-     *            The name of the descriptor to return.
-     *
+     * @param name The name of the descriptor to return.
      * @return The attribute descriptor matching the specified name, or
-     *         <code>null</code> if no such attribute exists.
+     * <code>null</code> if no such attribute exists.
      */
     AttributeDescriptor getDescriptor(Name name);
 
@@ -156,20 +151,16 @@ public interface SimpleFeatureType extends FeatureType {
      * Returns the attribute descriptor at the specified index.
      * <p>
      * This method is convenience for:
-     *
+     * <p>
      * <pre>
      * return (AttributeDescriptor) ((List) getProperties()).get(index);
      * </pre>
-     *
+     * <p>
      * </p>
      *
-     * @param name
-     *            The name of the descriptor to return.
-     *
+     * @param name The name of the descriptor to return.
      * @return The attribute descriptor at the specified index.
-     *
-     * @throws IndexOutOfBoundsException
-     *             When the index is out of bounds.
+     * @throws IndexOutOfBoundsException When the index is out of bounds.
      */
     AttributeDescriptor getDescriptor(int index)
             throws IndexOutOfBoundsException;
@@ -179,6 +170,7 @@ public interface SimpleFeatureType extends FeatureType {
      * <p>
      * This method is convenience for <code>getAttributes().size()</code>.
      * </p>
+     *
      * @return The number of attributes.
      */
     int getAttributeCount();
@@ -187,7 +179,7 @@ public interface SimpleFeatureType extends FeatureType {
      * Returns the types of all the attributes which make up the feature.
      * <p>
      * This method is convenience for:
-     *
+     * <p>
      * <pre>
      * List types = new ArrayList();
      * for (Property p : getProperties()) {
@@ -195,7 +187,7 @@ public interface SimpleFeatureType extends FeatureType {
      * }
      * return types;
      * </pre>
-     *
+     * <p>
      * </p>
      *
      * @return The list of attribute types.
@@ -206,22 +198,20 @@ public interface SimpleFeatureType extends FeatureType {
      * Returns the type of the attribute which matches the specified name.
      * <p>
      * This method is convenience for:
-     *
+     * <p>
      * <pre>
      * return (AttributeType) getProperty(name).getType();
      * </pre>
-     *
+     * <p>
      * </p>
      * <p>
      * If there is no such attribute which matches <tt>name</tt>,
      * <code>null</code> is returned.
      * </p>
      *
-     * @param name
-     *            The name of the attribute whose type to return.
-     *
+     * @param name The name of the attribute whose type to return.
      * @return The attribute type matching the specified name, or
-     *         <code>null</code>.
+     * <code>null</code>.
      */
     AttributeType getType(String name);
 
@@ -229,22 +219,20 @@ public interface SimpleFeatureType extends FeatureType {
      * Returns the type of the attribute which matches the specified name.
      * <p>
      * This method is convenience for:
-     *
+     * <p>
      * <pre>
      * return (AttributeType) getProperty(name).getType();
      * </pre>
-     *
+     * <p>
      * </p>
      * <p>
      * If there is no such attribute which matches <tt>name</tt>,
      * <code>null</code> is returned.
      * </p>
      *
-     * @param name
-     *            The name of the attribute whose type to return.
-     *
+     * @param name The name of the attribute whose type to return.
      * @return The attribute type matching the specified name, or
-     *         <code>null</code>.
+     * <code>null</code>.
      */
     AttributeType getType(Name name);
 
@@ -252,20 +240,16 @@ public interface SimpleFeatureType extends FeatureType {
      * Returns the type of the attribute at the specified index.
      * <p>
      * This method is convenience for:
-     *
+     * <p>
      * <pre>
      *   return (AttributeType)((List)getProperties()).get(index)).getType();
      * </pre>
-     *
+     * <p>
      * </p>
      *
-     * @param index
-     *            The index of the attribute whose type to return.
-     *
+     * @param index The index of the attribute whose type to return.
      * @return The attribute type at the specified index.
-     *
-     * @throws IndexOutOfBoundsException
-     *             When the index is out of bounds.
+     * @throws IndexOutOfBoundsException When the index is out of bounds.
      */
     AttributeType getType(int index) throws IndexOutOfBoundsException;
 
@@ -276,9 +260,7 @@ public interface SimpleFeatureType extends FeatureType {
      * specified name.
      * </p>
      *
-     * @param name
-     *            The name of the attribute whose index to return.
-     *
+     * @param name The name of the attribute whose index to return.
      * @return index of named attribute, or -1 if not found.
      */
     int indexOf(String name);
@@ -290,9 +272,7 @@ public interface SimpleFeatureType extends FeatureType {
      * specified name.
      * </p>
      *
-     * @param name
-     *            The name of the attribute whose index to return.
-     *
+     * @param name The name of the attribute whose index to return.
      * @return index of named attribute, or -1 if not found.
      */
     int indexOf(Name name);

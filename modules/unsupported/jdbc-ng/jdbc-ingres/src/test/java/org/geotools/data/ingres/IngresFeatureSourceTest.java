@@ -31,13 +31,11 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class IngresFeatureSourceTest extends JDBCFeatureSourceTest {
 
-	@Override
+    @Override
     protected JDBCTestSetup createTestSetup() {
         return new IngresTestSetup();
     }

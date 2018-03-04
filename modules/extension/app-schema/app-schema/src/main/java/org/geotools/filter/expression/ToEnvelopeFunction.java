@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2009-2011, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -45,13 +45,8 @@ import com.vividsolutions.jts.geom.Envelope;
  * <li>Option 3 (2D Envelope) : <OCQL>ToEnvelope(minx,maxx,miny,maxy)</OCQL>
  * <li>Option 4 (2D Envelope with crsname): <OCQL>ToEnvelope(minx,maxx,miny,maxy,crsname)</OCQL>
  * </ol>
- * 
+ *
  * @author Florence Tan (Curtin University of Technology)
- * 
- *
- *
- *
- *
  * @source $URL$
  */
 public class ToEnvelopeFunction implements Function {
@@ -62,8 +57,8 @@ public class ToEnvelopeFunction implements Function {
 
     public static final FunctionName NAME = new FunctionNameImpl("ToEnvelope",
             FunctionNameImpl.parameter("return", Envelope.class), FunctionNameImpl.parameter(
-                    "parameter", Object.class, 2, 5));
- 
+            "parameter", Object.class, 2, 5));
+
     public ToEnvelopeFunction() {
         this(new ArrayList<Expression>(), null);
     }
@@ -76,7 +71,7 @@ public class ToEnvelopeFunction implements Function {
     public String getName() {
         return NAME.getName();
     }
-    
+
     public FunctionName getFunctionName() {
         return NAME;
     }

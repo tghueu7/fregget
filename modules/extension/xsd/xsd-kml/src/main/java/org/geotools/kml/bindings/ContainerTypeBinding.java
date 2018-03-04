@@ -17,6 +17,7 @@
 package org.geotools.kml.bindings;
 
 import javax.xml.namespace.QName;
+
 import org.opengis.feature.simple.SimpleFeature;
 import org.geotools.kml.KML;
 import org.geotools.xml.AbstractComplexBinding;
@@ -27,9 +28,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://earth.google.com/kml/2.1:ContainerType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType abstract="true" name="ContainerType"&gt;
  *      &lt;complexContent&gt;
@@ -42,9 +43,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class ContainerTypeBinding extends AbstractComplexBinding {
@@ -76,7 +74,7 @@ public class ContainerTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return value;
     }
 }

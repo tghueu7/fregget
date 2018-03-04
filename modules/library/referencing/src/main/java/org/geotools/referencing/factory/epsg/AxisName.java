@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2006-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -22,10 +22,10 @@ import org.geotools.util.Utilities;
 /**
  * A (name, description) pair for a coordinate system axis.
  *
- * @since 2.3
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @since 2.3
  */
 final class AxisName {
     /**
@@ -61,8 +61,8 @@ final class AxisName {
     public boolean equals(final Object object) {
         if (object instanceof AxisName) {
             final AxisName that = (AxisName) object;
-            return Utilities.equals(this.name,        that.name) &&
-                   Utilities.equals(this.description, that.description);
+            return Utilities.equals(this.name, that.name) &&
+                    Utilities.equals(this.description, that.description);
         }
         return false;
     }

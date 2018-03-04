@@ -57,6 +57,7 @@ public class StyleLab {
     // docs end main
 
     // docs start display
+
     /**
      * Prompts the user for a shapefile (unless a filename is provided
      * on the command line; then creates a simple Style and displays
@@ -90,6 +91,7 @@ public class StyleLab {
     // docs end display
 
     // docs start create style
+
     /**
      * Create a Style to display the features. If an SLD file is in the same
      * directory as the shapefile then we will create the Style by processing
@@ -102,27 +104,28 @@ public class StyleLab {
             return createFromSLD(sld);
         }
 
-        SimpleFeatureType schema = (SimpleFeatureType)featureSource.getSchema();
+        SimpleFeatureType schema = (SimpleFeatureType) featureSource.getSchema();
         return JSimpleStyleDialog.showDialog(null, schema);
     }
 
     // docs end create style
 
     // docs start sld
+
     /**
      * Figure out if a valid SLD file is available.
      */
-    public File toSLDFile(File file)  {
+    public File toSLDFile(File file) {
         String path = file.getAbsolutePath();
-        String base = path.substring(0,path.length()-4);
+        String base = path.substring(0, path.length() - 4);
         String newPath = base + ".sld";
-        File sld = new File( newPath );
-        if( sld.exists() ){
+        File sld = new File(newPath);
+        if (sld.exists()) {
             return sld;
         }
         newPath = base + ".SLD";
-        sld = new File( newPath );
-        if( sld.exists() ){
+        sld = new File(newPath);
+        if (sld.exists()) {
             return sld;
         }
         return null;
@@ -136,7 +139,7 @@ public class StyleLab {
             SLDParser stylereader = new SLDParser(styleFactory, sld.toURI().toURL());
             Style[] style = stylereader.readXML();
             return style[0];
-            
+
         } catch (Exception e) {
             JExceptionReporter.showDialog(e, "Problem creating style");
         }
@@ -147,6 +150,7 @@ public class StyleLab {
 
 
     // docs start alternative
+
     /**
      * Here is a programmatic alternative to using JSimpleStyleDialog to
      * get a Style. This methods works out what sort of feature geometry
@@ -154,7 +158,7 @@ public class StyleLab {
      * creating method.
      */
     private Style createStyle2(FeatureSource featureSource) {
-        SimpleFeatureType schema = (SimpleFeatureType)featureSource.getSchema();
+        SimpleFeatureType schema = (SimpleFeatureType) featureSource.getSchema();
         Class geomType = schema.getGeometryDescriptor().getType().getBinding();
 
         if (Polygon.class.isAssignableFrom(geomType)
@@ -203,7 +207,7 @@ public class StyleLab {
 
         return style;
     }
-    
+
     /**
      * Create a Style to draw line features as thin blue lines
      */

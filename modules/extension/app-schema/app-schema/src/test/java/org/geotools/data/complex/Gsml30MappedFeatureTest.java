@@ -44,9 +44,8 @@ import org.opengis.feature.type.Name;
 
 /**
  * Test app-schema with GeoSciML 3.0rc1, a GML 3.2 application schema.
- * 
- * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
  *
+ * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
  * @source $URL$
  */
 public class Gsml30MappedFeatureTest extends AppSchemaTestSupport {
@@ -105,7 +104,8 @@ public class Gsml30MappedFeatureTest extends AppSchemaTestSupport {
             for (int i = 1; i <= 2; i++) {
                 Assert.assertEquals(
                         BigInteger.valueOf(250000),
-                        ((Attribute) ((ComplexAttribute) ((ComplexAttribute) ((ComplexAttribute) featureMap
+                        ((Attribute) ((ComplexAttribute) ((ComplexAttribute) ((ComplexAttribute) 
+                                featureMap
                                 .get("mf." + i).getProperty(new NameImpl(GSML, "resolutionScale")))
                                 .getProperty(new NameImpl(GMD.NAMESPACE,
                                         "MD_RepresentativeFraction"))).getProperty(new NameImpl(

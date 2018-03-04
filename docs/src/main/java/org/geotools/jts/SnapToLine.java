@@ -32,7 +32,7 @@ public class SnapToLine {
         /*
          * Open a shapefile. You should choose one with line features
          * (LineString or MultiLineString geometry)
-         * 
+         *
          */
         File file = JFileDataStoreChooser.showOpenFile("shp", null);
         if (file == null) {
@@ -41,13 +41,13 @@ public class SnapToLine {
 
         FileDataStore store = FileDataStoreFinder.getDataStore(file);
         FeatureSource source = store.getFeatureSource();
-        
+
         // Check that we have line features
         Class<?> geomBinding = source.getSchema().getGeometryDescriptor().getType().getBinding();
-        boolean isLine = geomBinding != null 
+        boolean isLine = geomBinding != null
                 && (LineString.class.isAssignableFrom(geomBinding) ||
-                    MultiLineString.class.isAssignableFrom(geomBinding));
-        
+                MultiLineString.class.isAssignableFrom(geomBinding));
+
         if (!isLine) {
             System.out.println("This example needs a shapefile with line features");
             return;
@@ -95,7 +95,7 @@ public class SnapToLine {
         /*
          * We defined the maximum distance that a line can be from a point
          * to be a candidate for snapping (1% of the width of the feature
-         * bounds for this example). 
+         * bounds for this example).
          */
         final double MAX_SEARCH_DISTANCE = bounds.getSpan(0) / 100.0;
 
@@ -106,7 +106,7 @@ public class SnapToLine {
         int pointsSnapped = 0;
         long elapsedTime = 0;
         long startTime = System.currentTimeMillis();
-        while (pointsProcessed < NUM_POINTS && 
+        while (pointsProcessed < NUM_POINTS &&
                 (elapsedTime = System.currentTimeMillis() - startTime) < DURATION) {
 
             // Get point and create search envelope
@@ -143,14 +143,14 @@ public class SnapToLine {
                 System.out.println(pt + "- X");
 
             } else {
-                System.out.printf("%s - snapped by moving %.4f\n", 
+                System.out.printf("%s - snapped by moving %.4f\n",
                         pt.toString(), minDist);
                 pointsSnapped++;
             }
         }
 
         System.out.printf("Processed %d points (%.2f points per second). \n"
-                + "Snapped %d points.\n\n",
+                        + "Snapped %d points.\n\n",
                 pointsProcessed,
                 1000.0 * pointsProcessed / elapsedTime,
                 pointsSnapped);

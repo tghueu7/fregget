@@ -20,13 +20,15 @@ import java.util.Map;
 
 import org.geotools.coverage.grid.io.GridCoverage2DReader;
 
-/** The {@link CoverageNameCollector} instance */
+/**
+ * The {@link CoverageNameCollector} instance
+ */
 public interface CoverageNameCollector {
 
-    /** 
+    /**
      * Return the coverage Name based on properties collected from optional input
      * {@link GridCoverage2DReader} and map
-     * Specific implementations may ignore the reader, the map or both. 
-     */ 
+     * Specific implementations may ignore the reader, the map or both.
+     */
     String getName(GridCoverage2DReader reader, Map<String, String> map);
 }

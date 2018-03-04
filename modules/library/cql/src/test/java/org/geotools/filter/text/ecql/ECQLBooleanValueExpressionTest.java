@@ -22,18 +22,15 @@ import org.geotools.filter.text.cql2.CQLBooleanValueExpressionTest;
 
 /**
  * Boolean expression test
- *
+ * <p>
  * <p>
  * Executes the and/or predicates test implemented for CQL using the {@link ECQLCompiler}}
  * </p>
- * @see CQLBooleanValueExpression
  *
  * @author Mauricio Pazos (Axios Engineering)
- * @since 2.6
- *
- *
- *
  * @source $URL$
+ * @see CQLBooleanValueExpression
+ * @since 2.6
  */
 public class ECQLBooleanValueExpressionTest extends CQLBooleanValueExpressionTest {
 

@@ -27,12 +27,10 @@ import javax.measure.quantity.Dimensionless;
 /**
  * A set of units to use in addition of {@link SI} and {@link NonSI}.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public final class Units {
     /**
@@ -43,10 +41,10 @@ public final class Units {
 
     /**
      * Pseudo-unit for sexagesimal degree. Numbers in this pseudo-unit has the following format:
-     *
+     * <p>
      * <cite>sign - degrees - decimal point - minutes (two digits) - integer seconds (two digits) -
      * fraction of seconds (any precision)</cite>.
-     *
+     * <p>
      * This unit is non-linear and not pratical for computation. Consequently, it should be
      * avoid as much as possible. Unfortunatly, this pseudo-unit is extensively used in the
      * EPSG database (code 9110).
@@ -57,10 +55,10 @@ public final class Units {
     /**
      * Pseudo-unit for degree - minute - second. Numbers in this pseudo-unit has the following
      * format:
-     *
+     * <p>
      * <cite>signed degrees (integer) - arc-minutes (integer) - arc-seconds
      * (real, any precision)</cite>.
-     *
+     * <p>
      * This unit is non-linear and not pratical for computation. Consequently, it should be
      * avoid as much as possible. Unfortunatly, this pseudo-unit is extensively used in the
      * EPSG database (code 9107).
@@ -78,8 +76,8 @@ public final class Units {
      */
     static {
         final UnitFormat format = UnitFormat.getInstance();
-        format.label(SEXAGESIMAL_DMS,      "D.MS");
-        format.label(DEGREE_MINUTE_SECOND, "DMS" );
-        format.label(PPM,                  "ppm" );
+        format.label(SEXAGESIMAL_DMS, "D.MS");
+        format.label(DEGREE_MINUTE_SECOND, "DMS");
+        format.label(PPM, "ppm");
     }
 }

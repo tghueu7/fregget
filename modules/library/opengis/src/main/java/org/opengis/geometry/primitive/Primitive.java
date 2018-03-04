@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.primitive;
 
 import java.util.Set;
+
 import org.opengis.geometry.Geometry;
 import org.opengis.geometry.complex.Complex;
 import org.opengis.geometry.complex.Composite;
@@ -24,30 +25,28 @@ import static org.opengis.annotation.Specification.*;
  * Abstract root class of the geometric primitives. Its main purpose is to define the basic
  * "boundary" operation that ties the primitives in each dimension together. A geometric primitive
  * is a geometric object that is not decomposed further into other primitives in the system. This
- * includes curves and surfaces, even though they are composed of curve segments and surface patches,
+ * includes curves and surfaces, even though they are composed of curve segments and surface 
+ * patches,
  * respectively. Those curve segments and surface patches cannot exist outside the context of a
  * primitive.
  * <p>
  * Any geometric object that is used to describe a feature is a collection of geometric primitives.
  * A collection of geometric primitives may or may not be a geometric complex. Geometric complexes
- * have additional properties such as closure by boundary operations and mutually exclusive component
+ * have additional properties such as closure by boundary operations and mutually exclusive 
+ * component
  * parts. {@code Primitive} and {@link Complex} share most semantics, in the meaning of operations
  * and attributes. There is an exception in that a {@code Primitive} shall not contain its boundary
  * (except in the trivial case of {@linkplain Point point} where the boundary is empty), while a
  * {@linkplain Complex complex} shall contain its boundary in all cases.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
- * @since GeoAPI 1.0
- *
- * @see PrimitiveFactory#createPrimitive(org.opengis.geometry.Envelope)
- *
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @todo Some associations are commented out for now.
+ * @see PrimitiveFactory#createPrimitive(org.opengis.geometry.Envelope)
+ * @since GeoAPI 1.0
  */
-@UML(identifier="GM_Primitive", specification=ISO_19107)
+@UML(identifier = "GM_Primitive", specification = ISO_19107)
 public interface Primitive extends Geometry {
     /**
      * Returns the boundary of a {@code Primitive} as a set of
@@ -58,7 +57,7 @@ public interface Primitive extends Geometry {
      *
      * @return The sets of positions on the boundary.
      */
-    @UML(identifier="boundary", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "boundary", obligation = MANDATORY, specification = ISO_19107)
     PrimitiveBoundary getBoundary();
 
     /**
@@ -67,42 +66,37 @@ public interface Primitive extends Geometry {
      * {@link org.opengis.geometry.TransfiniteSet TransfiniteSet&lt;DirectPosition&gt;}
      * interpretation and its associated computational geometry, and declare one
      * {@code Primitive} to be "interior to" another.
-     *
+     * <p>
      * This set should normally be empty when the {@code Primitive}s are within a
      * {@linkplain Complex complex}, since in that case the boundary
      * information is sufficient for most cases.
-     *
+     * <p>
      * This association should not be used when the two {@code Primitive}s are not close
      * to one another. The intent is to allow applications to compensate for inherent and
      * unavoidable round off, truncation, and other mathematical problems indigenous to
      * computer calculations.
      *
      * @return The set of primitives contained into this primitive.
-     *
      * @todo Using a {@link Set} returns type allows the user to add or remove element in
-     *       this set at his convenience. Is it the right interpretation of this specification?
-     *
+     * this set at his convenience. Is it the right interpretation of this specification?
      * @see #getContainingPrimitives
      */
-    @UML(identifier="containedPrimitive", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "containedPrimitive", obligation = MANDATORY, specification = ISO_19107)
     Set<Primitive> getContainedPrimitives();
 
     /**
      * Returns the {@code Primitive}s which are by definition coincident with this one.
      *
      * @return The set of primitives which contains this primitive.
-     *
      * @todo Using a {@link Set} returns type allows the user to add or remove element in
-     *       this set at his convenience. Is it the right interpretation of this specification?
-     *
+     * this set at his convenience. Is it the right interpretation of this specification?
      * @todo Should we stretch out some relation with contained primitive? For example
-     *       should we update the specification with something like the following?
-     *       "Invoking {@code B.getContainingPrimitive().add(A)} is equivalent to
-     *        invoking {@code A.getContainedPrimitive().add(B)}".
-     *
+     * should we update the specification with something like the following?
+     * "Invoking {@code B.getContainingPrimitive().add(A)} is equivalent to
+     * invoking {@code A.getContainedPrimitive().add(B)}".
      * @see #getContainedPrimitives
      */
-    @UML(identifier="containingPrimitive", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "containingPrimitive", obligation = MANDATORY, specification = ISO_19107)
     Set<Primitive> getContainingPrimitives();
 
     /**
@@ -112,7 +106,7 @@ public interface Primitive extends Geometry {
      *
      * @return The set of complexes which contains this primitive.
      */
-    @UML(identifier="complex", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "complex", obligation = MANDATORY, specification = ISO_19107)
     Set<Complex> getComplexes();
 
     /**
@@ -121,13 +115,12 @@ public interface Primitive extends Geometry {
      * {@code Primitive}, not the other way.
      *
      * @return The owner of this primitive, or {@code null} if the association is
-     *         not available or not implemented that way.
-     *
-     * @see Composite#getGenerators
+     * not available or not implemented that way.
      * @issue http://jira.codehaus.org/browse/GEO-63
+     * @see Composite#getGenerators
      */
     @Association("Composition")
-    @UML(identifier="composite", obligation=OPTIONAL, specification=ISO_19107)
+    @UML(identifier = "composite", obligation = OPTIONAL, specification = ISO_19107)
     Composite getComposite();
 
     /**
@@ -143,12 +136,11 @@ public interface Primitive extends Geometry {
      * later should return {@code null}.
      *
      * @return The orientable primitives as an array of length 2, or {@code null} if none.
-     *
-     * @see OrientablePrimitive#getPrimitive
      * @issue http://jira.codehaus.org/browse/GEO-63
+     * @see OrientablePrimitive#getPrimitive
      */
     @Association("Oriented")
-    @UML(identifier="proxy", obligation=CONDITIONAL, specification=ISO_19107)
+    @UML(identifier = "proxy", obligation = CONDITIONAL, specification = ISO_19107)
     OrientablePrimitive[] getProxy();
 
 //    public org.opengis.topology.primitive.TP_Primitive topology[];

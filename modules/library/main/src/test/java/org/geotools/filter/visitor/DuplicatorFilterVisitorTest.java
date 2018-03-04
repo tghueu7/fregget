@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -37,8 +37,6 @@ import org.opengis.filter.expression.InternalFunction;
  * Unit test for DuplicatorFilterVisitor.
  *
  * @author Cory Horner, Refractions Research Inc.
- *
- *
  * @source $URL$
  */
 public class DuplicatorFilterVisitorTest extends TestCase {
@@ -51,7 +49,7 @@ public class DuplicatorFilterVisitorTest extends TestCase {
     protected void setUp() throws Exception {
         fac = CommonFactoryFinder.getFilterFactory(null);
     }
-    
+
     public void testLogicFilterDuplication() throws IllegalFilterException {
         List filters = new ArrayList();
         // create a filter
@@ -62,14 +60,14 @@ public class DuplicatorFilterVisitorTest extends TestCase {
 
         And oldFilter = fac.and(filters);
         //duplicate it
-    	DuplicatingFilterVisitor visitor = new DuplicatingFilterVisitor((FilterFactory2) fac);
-    	Filter newFilter = (Filter) oldFilter.accept(visitor, null);
+        DuplicatingFilterVisitor visitor = new DuplicatingFilterVisitor((FilterFactory2) fac);
+        Filter newFilter = (Filter) oldFilter.accept(visitor, null);
 
-    	//compare it
-    	assertNotNull(newFilter);
-    	//TODO: a decent comparison
+        //compare it
+        assertNotNull(newFilter);
+        //TODO: a decent comparison
     }
-    
+
     public void testDuplicateInternalFunction() throws IllegalFilterException {
         class TestInternalFunction extends InternalVolatileFunction {
 
@@ -77,21 +75,22 @@ public class DuplicatorFilterVisitorTest extends TestCase {
             public Object evaluate(Object object) {
                 return null;
             }
+
             @Override
             public InternalFunction duplicate(Expression... parameters) {
                 return new TestInternalFunction();
             }
 
         }
-        
+
         Expression internalFunction = new TestInternalFunction();
         Filter filter = fac.isNull(internalFunction);
 
         DuplicatingFilterVisitor visitor = new DuplicatingFilterVisitor((FilterFactory2) fac);
         Filter newFilter = (Filter) filter.accept(visitor, null);
-        
+
         assertTrue(newFilter instanceof PropertyIsNull);
-        Expression newExpression = ((PropertyIsNull)newFilter).getExpression();
+        Expression newExpression = ((PropertyIsNull) newFilter).getExpression();
         assertNotNull(newExpression);
         assertTrue(newExpression instanceof TestInternalFunction);
         assertNotSame(internalFunction, newExpression);

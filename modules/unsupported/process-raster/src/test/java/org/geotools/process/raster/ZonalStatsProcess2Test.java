@@ -56,11 +56,11 @@ import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.referencing.operation.MathTransform;
 
 /**
- * This test-class checks the functionalities of the {@link RasterZonalStatistics2} process. The test is performed by comparing the results of the
+ * This test-class checks the functionalities of the {@link RasterZonalStatistics2} process. The 
+ * test is performed by comparing the results of the
  * process with the previously known statistics for each geometry.
- * 
+ *
  * @author geosolutions
- * 
  */
 public class ZonalStatsProcess2Test extends Assert {
 
@@ -120,7 +120,8 @@ public class ZonalStatsProcess2Test extends Assert {
             // build the DataFile
             final File tiff = TestData.file(this, "test.tif");
             final File tfw = TestData.file(this, "test.tfw");
-            reader = (it.geosolutions.imageioimpl.plugins.tiff.TIFFImageReader) new TIFFImageReaderSpi()
+            reader = (it.geosolutions.imageioimpl.plugins.tiff.TIFFImageReader) new 
+                    TIFFImageReaderSpi()
                     .createReaderInstance();
             assertNotNull(reader);
             reader.setInput(ImageIO.createImageInputStream(tiff));
@@ -134,7 +135,7 @@ public class ZonalStatsProcess2Test extends Assert {
                     image,
                     new GridGeometry2D(new GridEnvelope2D(PlanarImage.wrapRenderedImage(image)
                             .getBounds()), transform, DefaultGeographicCRS.WGS84),
-                    new GridSampleDimension[] { new GridSampleDimension("coverage") }, null, null);
+                    new GridSampleDimension[]{new GridSampleDimension("coverage")}, null, null);
             assertNotNull(coverage2D);
 
             // build the classificator
@@ -142,8 +143,8 @@ public class ZonalStatsProcess2Test extends Assert {
             final BufferedImage imageClassificator = new BufferedImage(120, 80,
                     BufferedImage.TYPE_BYTE_INDEXED);
             final WritableRaster raster = imageClassificator.getRaster();
-            for (int i = raster.getWidth(); --i >= 0;) {
-                for (int j = raster.getHeight(); --j >= 0;) {
+            for (int i = raster.getWidth(); --i >= 0; ) {
+                for (int j = raster.getHeight(); --j >= 0; ) {
                     // create a simple raster used for classification
                     int sampleValue = (i % 2 == 0) ? 1 : 2;
                     raster.setSample(i, j, 0, sampleValue);
@@ -155,13 +156,13 @@ public class ZonalStatsProcess2Test extends Assert {
                     imageClassificator,
                     new GridGeometry2D(new GridEnvelope2D(PlanarImage.wrapRenderedImage(
                             imageClassificator).getBounds()), coverage2D.getEnvelope()),
-                    new GridSampleDimension[] { new GridSampleDimension("coverage") }, null, null);
+                    new GridSampleDimension[]{new GridSampleDimension("coverage")}, null, null);
             assertNotNull(coverage2D);
 
             // Statistics definition
 
-            StatsType[] def = new StatsType[] { StatsType.MIN, StatsType.MAX, StatsType.SUM,
-                    StatsType.MEAN, StatsType.DEV_STD };
+            StatsType[] def = new StatsType[]{StatsType.MIN, StatsType.MAX, StatsType.SUM,
+                    StatsType.MEAN, StatsType.DEV_STD};
 
             // invoke the process
             List<ZoneGeometry> zoneListStart = process.execute(coverage2D, null, zones,

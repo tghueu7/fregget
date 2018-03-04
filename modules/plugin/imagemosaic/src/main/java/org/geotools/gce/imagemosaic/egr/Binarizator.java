@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2016, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -60,7 +60,8 @@ import com.vividsolutions.jts.geom.prep.PreparedGeometryFactory;
  * <br/>
  * The BBOx is represented by a grid of pixels, which are then split in a set of tiles. <br/>
  * <p/>
- * By {@link #add(com.vividsolutions.jts.geom.Geometry) adding} Geometries to the Binarizator, they will be rendered on the grid.<br/>
+ * By {@link #add(com.vividsolutions.jts.geom.Geometry) adding} Geometries to the Binarizator, 
+ * they will be rendered on the grid.<br/>
  * <p/>
  * You can check if the grid has been fully drawn using the {@link #isComplete() } method.<br/>
  * <p/>
@@ -147,9 +148,10 @@ class Binarizator {
     }
 
     /**
-     * Adds a ROI to the binarizator. This assumes the operation is already fully working in raster space, in other words, the world to grid
+     * Adds a ROI to the binarizator. This assumes the operation is already fully working in 
+     * raster space, in other words, the world to grid
      * transformation is the identity
-     * 
+     *
      * @param roi
      * @return
      */
@@ -175,7 +177,7 @@ class Binarizator {
         final PlanarImage roiImage = roi.getAsImage();
         final Rectangle roiBounds = roiImage.getBounds();
         boolean added = false;
-        for (Iterator<Tile> it = activeTiles.iterator(); it.hasNext();) {
+        for (Iterator<Tile> it = activeTiles.iterator(); it.hasNext(); ) {
             Tile tile = it.next();
 
             Rectangle tileBounds = tile.getTileArea();
@@ -219,7 +221,7 @@ class Binarizator {
         Shape projectedShape = w2gTransform.createTransformedShape(shape);
         boolean added = false;
 
-        for (Iterator<Tile> it = activeTiles.iterator(); it.hasNext();) {
+        for (Iterator<Tile> it = activeTiles.iterator(); it.hasNext(); ) {
             Tile tile = it.next();
 
             Polygon tileBBox = tile.getTileBBox();
@@ -290,7 +292,7 @@ class Binarizator {
         int colnum = origW / tileWidth;
         int rownum = origH / tileHeight;
 
-        final byte[] x00FF = { 0, (byte) 0xff };
+        final byte[] x00FF = {0, (byte) 0xff};
         final ColorModel binaryCM = new IndexColorModel(1, 2, x00FF, x00FF, x00FF);
 
         BufferedImage mainBI = new BufferedImage(binaryCM, mainRaster, false, null);
@@ -332,7 +334,8 @@ class Binarizator {
         // for (int row = 0; row <= rownum; row++)
         // {
         // graphics.setColor(Color.WHITE);
-        // graphics.drawString(col + "x" + row, (int) ((col + 0.5) * tileWidth), (int) ((row - 0.5) * tileWidth));
+        // graphics.drawString(col + "x" + row, (int) ((col + 0.5) * tileWidth), (int) ((row - 
+        // 0.5) * tileWidth));
         // }
         // }
 

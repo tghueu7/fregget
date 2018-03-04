@@ -37,24 +37,25 @@ import org.xml.sax.SAXException;
 
 /**
  * Digester to consume the app-schema {@link AppSchemaDataAccessFactory} configuration file.
- * 
+ *
  * @author Gabriel Roldan (Axios Engineering)
  * @author Rini Angreani (CSIRO Earth Science and Resource Engineering)
  * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
  * @author Russell Petty (GeoScience Victoria)
  * @version $Id$
- *
- *
- *
  * @source $URL$
  * @since 2.4
  */
 public class XMLConfigDigester {
-    /** DOCUMENT ME! */
+    /**
+     * DOCUMENT ME!
+     */
     private static final Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger(XMLConfigDigester.class.getPackage().getName());
 
-    /** Namespace URI for the AppSchemaDataAccess configuration files */
+    /**
+     * Namespace URI for the AppSchemaDataAccess configuration files
+     */
     private static final String CONFIG_NS_URI = "http://www.geotools.org/app-schema";
 
     /**
@@ -67,21 +68,21 @@ public class XMLConfigDigester {
      */
     private static final String CONFIG_PARENT_PROPERTY = "config.parent";
 
-    /** 
+    /**
      * Properties
      */
     protected InterpolationProperties properties;
-    
+
     /**
      * Creates a new XMLConfigReader object.
      */
     public XMLConfigDigester() {
-        this (AppSchemaDataAccessRegistry.getAppSchemaProperties());
+        this(AppSchemaDataAccessRegistry.getAppSchemaProperties());
     }
 
     /**
      * Creates a new XMLConfigReader object.
-     * 
+     *
      * @param properties Properties to use for interpolation
      */
     public XMLConfigDigester(InterpolationProperties properties) {
@@ -91,14 +92,10 @@ public class XMLConfigDigester {
     /**
      * Parses a complex datastore configuration file in xml format into a
      * {@link AppSchemaDataAccessDTO}
-     * 
-     * @param dataStoreConfigUrl
-     *            config file location
-     * 
+     *
+     * @param dataStoreConfigUrl config file location
      * @return a DTO object representing the datastore's configuration
-     * 
-     * @throws IOException
-     *             if an error occurs parsing the file
+     * @throws IOException if an error occurs parsing the file
      */
     public AppSchemaDataAccessDTO parse(URL dataStoreConfigUrl) throws IOException {
         AppSchemaDataAccessDTO config = digest(dataStoreConfigUrl);
@@ -107,16 +104,11 @@ public class XMLConfigDigester {
 
     /**
      * DOCUMENT ME!
-     * 
-     * @param dataStoreConfigUrl
-     *            DOCUMENT ME!
-     * 
+     *
+     * @param dataStoreConfigUrl DOCUMENT ME!
      * @return DOCUMENT ME!
-     * 
-     * @throws IOException
-     *             DOCUMENT ME!
-     * @throws NullPointerException
-     *             DOCUMENT ME!
+     * @throws IOException          DOCUMENT ME!
+     * @throws NullPointerException DOCUMENT ME!
      */
     private AppSchemaDataAccessDTO digest(final URL dataStoreConfigUrl) throws IOException {
         if (dataStoreConfigUrl == null) {
@@ -251,10 +243,10 @@ public class XMLConfigDigester {
 
         digester.addCallMethod(attMap + "/isMultiple", "setMultiple", 1);
         digester.addCallParam(attMap + "/isMultiple", 0);
-        
+
         digester.addCallMethod(attMap + "/encodeIfEmpty", "setEncodeIfEmpty", 1);
         digester.addCallParam(attMap + "/encodeIfEmpty", 0);
-        
+
         digester.addCallMethod(attMap + "/isList", "setList", 1);
         digester.addCallParam(attMap + "/isList", 0);
 
@@ -270,7 +262,7 @@ public class XMLConfigDigester {
 
         digester.addCallMethod(attMap + "/sourceExpression/OCQL", "setSourceExpression", 1);
         digester.addCallParam(attMap + "/sourceExpression/OCQL", 0);
-        
+
         digester.addCallMethod(attMap + "/sourceExpression/index", "setSourceIndex", 1);
         digester.addCallParam(attMap + "/sourceExpression/index", 0);
 

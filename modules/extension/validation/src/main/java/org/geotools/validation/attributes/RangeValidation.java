@@ -24,15 +24,15 @@ import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
  * RangeFeatureValidation validates that a number is within a given range.
- * 
+ * <p>
  * <p>
  * RangeFeatureValidation is a quick and simple class the checks that the given
  * number resides within a given range.
  * </p>
- * 
+ * <p>
  * <p>
  * Capabilities:
- * 
+ * <p>
  * <ul>
  * <li>
  * Default max value is Integer.MAX_VALUE;
@@ -47,34 +47,35 @@ import org.opengis.feature.simple.SimpleFeatureType;
  * The value of the integer is contained in the field specified by path.
  * </li>
  * </ul>
- * 
+ * <p>
  * Example Use:
  * <pre><code>
  * RangeFeatureValidation x = new RangeFeatureValidation();
- * 
+ *
  * x.setMin(3);
  * x.setMax(5);
  * x.setName("id");
- * 
+ *
  * boolean result = x.validate(feature, featureType, results);
  * </code></pre>
  * </p>
  *
  * @author rgould, Refractions Research, Inc.
  * @author $Author: cholmesny $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class RangeValidation extends DefaultFeatureValidation {
     private int max = Integer.MAX_VALUE;
     private int min = Integer.MIN_VALUE;
-    /** XPath expression used to specify attribute */
-	private String attribute;
+    /**
+     * XPath expression used to specify attribute
+     */
+    private String attribute;
+
     /**
      * RangeFeatureValidation constructor.
-     * 
+     * <p>
      * <p>
      * Description
      * </p>
@@ -85,7 +86,7 @@ public class RangeValidation extends DefaultFeatureValidation {
 
     /**
      * Override validate.
-     * 
+     * <p>
      * <p>
      * Description ...
      * </p>
@@ -93,14 +94,12 @@ public class RangeValidation extends DefaultFeatureValidation {
      * @param feature
      * @param type
      * @param results
-     *
-     *
      * @see org.geotools.validation.FeatureValidation#validate(org.geotools.feature.Feature,
-     *      org.geotools.feature.FeatureType,
-     *      org.geotools.validation.ValidationResults)
+     * org.geotools.feature.FeatureType,
+     * org.geotools.validation.ValidationResults)
      */
     public boolean validate(SimpleFeature feature, SimpleFeatureType type,
-        ValidationResults results) {
+                            ValidationResults results) {
         Object obj = feature.getAttribute(attribute);
 
         if (obj == null) {
@@ -125,11 +124,10 @@ public class RangeValidation extends DefaultFeatureValidation {
 
     /**
      * Override getPriority.
-     * 
+     * <p>
      * <p>
      * Description ...
      * </p>
-     *
      *
      * @see org.geotools.validation.Validation#getPriority()
      */
@@ -139,11 +137,10 @@ public class RangeValidation extends DefaultFeatureValidation {
 
     /**
      * getMax purpose.
-     * 
+     * <p>
      * <p>
      * Description ...
      * </p>
-     *
      */
     public int getMax() {
         return max;
@@ -151,11 +148,10 @@ public class RangeValidation extends DefaultFeatureValidation {
 
     /**
      * getMin purpose.
-     * 
+     * <p>
      * <p>
      * Description ...
      * </p>
-     *
      */
     public int getMin() {
         return min;
@@ -163,7 +159,7 @@ public class RangeValidation extends DefaultFeatureValidation {
 
     /**
      * getPath purpose.
-     * 
+     *
      * <p>
      * Description ...
      * </p>
@@ -178,7 +174,7 @@ public class RangeValidation extends DefaultFeatureValidation {
 
     /**
      * setMax purpose.
-     * 
+     * <p>
      * <p>
      * Description ...
      * </p>
@@ -191,7 +187,7 @@ public class RangeValidation extends DefaultFeatureValidation {
 
     /**
      * setMin purpose.
-     * 
+     * <p>
      * <p>
      * Description ...
      * </p>
@@ -204,7 +200,7 @@ public class RangeValidation extends DefaultFeatureValidation {
 
     /**
      * setPath purpose.
-     * 
+     *
      * <p>
      * Description ...
      * </p>
@@ -215,20 +211,23 @@ public class RangeValidation extends DefaultFeatureValidation {
     //public void setName(String string) {
     //    name = string;
     //}
-	/**
-	 * XPATH expression used to locate attribute
-	 * @return xpath
-	 */
-	public String getAttribute() {
-		return attribute;
-	}
 
-	/**
-	 * XPATH expression used to locate attribute
-	 * @param xpath
-	 */
-	public void setAttribute(String xpath) {
-		attribute = xpath;
-	}
+    /**
+     * XPATH expression used to locate attribute
+     *
+     * @return xpath
+     */
+    public String getAttribute() {
+        return attribute;
+    }
+
+    /**
+     * XPATH expression used to locate attribute
+     *
+     * @param xpath
+     */
+    public void setAttribute(String xpath) {
+        attribute = xpath;
+    }
 
 }

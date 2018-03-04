@@ -25,20 +25,17 @@ import org.geotools.swing.tool.PanTool;
 /**
  * An action for connect a control (probably a JButton) to
  * the PanTool for panning the map with mouse drags.
- * 
+ *
  * @author Michael Bedward
- * @since 2.6
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.6
  */
 public class PanAction extends MapAction {
 
     /**
      * Constructor. The associated control will be labelled with an icon.
-     * 
+     *
      * @param mapPane the map pane being serviced by this action
      */
     public PanAction(MapPane mapPane) {
@@ -48,15 +45,15 @@ public class PanAction extends MapAction {
     /**
      * Constructor. The associated control will be labelled with an icon and,
      * optionally, the tool name.
-     * 
-     * @param mapPane the map pane being serviced by this action
+     *
+     * @param mapPane      the map pane being serviced by this action
      * @param showToolName set to true for the control to display the tool name
      */
     public PanAction(MapPane mapPane, boolean showToolName) {
         String toolName = showToolName ? PanTool.TOOL_NAME : null;
         super.init(mapPane, toolName, PanTool.TOOL_TIP, PanTool.ICON_IMAGE);
     }
-    
+
     /**
      * Called when the associated control is activated. Leads to the
      * map pane's cursor tool being set to a PanTool object

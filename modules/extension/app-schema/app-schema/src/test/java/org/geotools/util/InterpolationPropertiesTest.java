@@ -20,6 +20,7 @@ package org.geotools.util;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Properties;
+
 import org.geotools.data.DataUtilities;
 import org.geotools.data.complex.config.XMLConfigDigester;
 import org.geotools.test.AppSchemaTestSupport;
@@ -35,12 +36,8 @@ import static org.junit.Assert.assertNotNull;
 
 /**
  * Tests for {@link PropertyInterpolationUtils}.
- * 
+ *
  * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
- *
- *
- *
- *
  * @source $URL$
  */
 public class InterpolationPropertiesTest extends AppSchemaTestSupport {
@@ -131,7 +128,7 @@ public class InterpolationPropertiesTest extends AppSchemaTestSupport {
      */
     @Test
     public void testLoadPropertiesDoesNotExist() {
-        InterpolationProperties props = new InterpolationProperties(IDENTIFIER+ ".does-not-exist");
+        InterpolationProperties props = new InterpolationProperties(IDENTIFIER + ".does-not-exist");
         assertNull(props.getProperty(TEST_PROPERTY));
         checkSystemProperties(props);
     }
@@ -151,9 +148,9 @@ public class InterpolationPropertiesTest extends AppSchemaTestSupport {
 
     /**
      * Check that the system properties are as expected.
-     * 
+     *
      * @param properties
-     */    
+     */
     private void checkSystemProperties(InterpolationProperties properties) {
         // check that synthetic system property is loaded
         assertNotNull(properties.getProperty(TEST_SYSTEM_PROPERTY));
@@ -163,9 +160,8 @@ public class InterpolationPropertiesTest extends AppSchemaTestSupport {
         // system properties should override this
         assertFalse(properties.getProperty("java.version").equals("should-be-overridden"));
     }
-    
 
-    
+
     /**
      * Test for {@link XMLConfigDigester#readAll(InputStream)}.
      */

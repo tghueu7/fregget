@@ -28,12 +28,10 @@ import java.util.logging.Logger;
  * org.geotools.util.logging.Logging.getLogger method reflectively and fall back to plain
  * java.util.logger if that's the case
  * </p>
- * 
+ *
  * @author Gabriel Roldan
- * @since 2.6.6
- *
- *
  * @source $URL$
+ * @since 2.6.6
  */
 public class Loggers {
 

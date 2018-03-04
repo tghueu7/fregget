@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -38,10 +38,11 @@ import org.opengis.util.ProgressListener;
  * This class is a bridge between a FeatureCollection<SimpleFeatureType,SimpleFeature> and
  * the SimpleFeatureCollection interface.
  * <p>
- * This class is package visbile and can only be created by DataUtilities.simple( featureCollection );
+ * This class is package visbile and can only be created by DataUtilities.simple( 
+ * featureCollection );
  * it is under lock and key so that we can safely do an instance of check and not get multiple
  * wrappers piling up.
- * 
+ *
  * @author Jody
  * @since 2.7
  */
@@ -51,10 +52,10 @@ class SimpleFeatureCollectionBridge implements SimpleFeatureCollection {
 
     public SimpleFeatureCollectionBridge(
             FeatureCollection<SimpleFeatureType, SimpleFeature> featureCollection) {
-        if( featureCollection == null ){
+        if (featureCollection == null) {
             throw new NullPointerException("FeatureCollection required");
         }
-        if( featureCollection instanceof SimpleFeatureCollection){
+        if (featureCollection instanceof SimpleFeatureCollection) {
             throw new IllegalArgumentException("Already a SimpleFeatureCollection");
         }
         this.collection = featureCollection;
@@ -62,15 +63,15 @@ class SimpleFeatureCollectionBridge implements SimpleFeatureCollection {
 
     public SimpleFeatureIterator features() {
         final FeatureIterator<SimpleFeature> features = collection.features();
-        return new SimpleFeatureIterator() {            
+        return new SimpleFeatureIterator() {
             public SimpleFeature next() throws NoSuchElementException {
                 return features.next();
             }
-            
+
             public boolean hasNext() {
                 return features.hasNext();
             }
-            
+
             public void close() {
                 features.close();
             }
@@ -78,11 +79,11 @@ class SimpleFeatureCollectionBridge implements SimpleFeatureCollection {
     }
 
     public SimpleFeatureCollection sort(SortBy order) {
-        return new SimpleFeatureCollectionBridge( collection.sort(order) );
+        return new SimpleFeatureCollectionBridge(collection.sort(order));
     }
 
     public SimpleFeatureCollection subCollection(Filter filter) {
-        return new SimpleFeatureCollectionBridge( collection.subCollection(filter) );
+        return new SimpleFeatureCollectionBridge(collection.subCollection(filter));
     }
 
     public void accepts(FeatureVisitor visitor, ProgressListener progress) throws IOException {
@@ -125,5 +126,5 @@ class SimpleFeatureCollectionBridge implements SimpleFeatureCollection {
         return collection.toArray(a);
     }
 
-    
+
 }

@@ -39,8 +39,6 @@ import com.vividsolutions.jts.geom.impl.CoordinateArraySequence;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class Generator {
@@ -54,11 +52,12 @@ public class Generator {
         srand = new Random();
         filterFactory = new FilterFactoryImpl();
 
-                
+
 //        List<Filter> filters = new ArrayList<Filter>();
 //        filters.add(Filter.INCLUDE);
 //        
-//        GeometryTypeImpl geom = new GeometryTypeImpl("geom", Geometry.class, DefaultEngineeringCRS.GENERIC_2D, true, false, filters,null,null);
+//        GeometryTypeImpl geom = new GeometryTypeImpl("geom", Geometry.class, 
+// DefaultEngineeringCRS.GENERIC_2D, true, false, filters,null,null);
 ////        GeometricAttributeType geom = new GeometricAttributeType("geom", Geometry.class, true,
 ////                null, DefaultEngineeringCRS.GENERIC_2D, Filter.INCLUDE);
 //        AttributeType dummydata = DefaultAttributeTypeFactory.newAttributeType("dummydata",
@@ -67,17 +66,17 @@ public class Generator {
 //        builder.addType(dummydata);
 //        builder.setDefaultGeometry(geom);
 //        builder.setNamespace(URI.create("testStore"));
-        
-        SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();        
-        builder.setName("test");       
-        
+
+        SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
+        builder.setName("test");
+
         builder.add("geom", Geometry.class, DefaultEngineeringCRS.GENERIC_2D);
         builder.setNamespaceURI(URI.create("testStore"));
         builder.setDefaultGeometry("geom");
 
         builder.add("dummydata", String.class);
 //        try {
-            type = builder.buildFeatureType();
+        type = builder.buildFeatureType();
 //        } catch (SchemaException e) {
 //            throw (RuntimeException) new RuntimeException().initCause(e);
 //        }
@@ -176,8 +175,8 @@ public class Generator {
         String dummydata = "Id: " + i;
         SimpleFeature f = null;
 
-       	SimpleFeatureBuilder builder = new SimpleFeatureBuilder(type);
-       	f= builder.buildFeature(dummydata, new Object[]{g, dummydata});
+        SimpleFeatureBuilder builder = new SimpleFeatureBuilder(type);
+        f = builder.buildFeature(dummydata, new Object[]{g, dummydata});
         return f;
     }
 
@@ -195,7 +194,7 @@ public class Generator {
         double y_max = center.y + (yrange / 2);
         String localname = type.getGeometryDescriptor().getLocalName();
         String srs = type.getGeometryDescriptor().getCoordinateReferenceSystem().toString();
-        
+
         Filter bb = filterFactory.bbox(localname, x_min, y_min,
                 x_max, y_max, srs);
 
@@ -209,7 +208,7 @@ public class Generator {
         double y_max = center.y + (yrange / 2);
         String localname = type.getGeometryDescriptor().getLocalName();
         String srs = type.getGeometryDescriptor().getCoordinateReferenceSystem().toString();
-        
+
         Filter bb = filterFactory.bbox(localname, x_min, y_min,
                 x_max, y_max, srs);
 

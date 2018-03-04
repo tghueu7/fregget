@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2001-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -36,31 +36,32 @@ import org.geotools.resources.i18n.ErrorKeys;
  * Each column may contains numbers, dates, or other objects parseable by some {@link Format}
  * implementations. The example below reads dates in the first column and numbers in all
  * remaining columns.
- *
+ * <p>
  * <blockquote><pre>
  * final LineParser parser = new LineFormat(new Format[] {
  *     {@link java.text.DateFormat#getDateTimeInstance()},
  *     {@link java.text.NumberFormat#getNumberInstance()}
  * });
  * </pre></blockquote>
- *
+ * <p>
  * {@code LineFormat} may be used for reading a matrix with an unknow number of columns,
  * while requiring that all lines have the same number of columns. The example below gets the
  * number of columns while reading the first line, and ensure that all subsequent lines have
  * the same number of columns. If one line violate this condition, then a {@link ParseException}
  * will be thrown. The check if performed by the {@code getValues(double[])} method when
  * the {@code data} array is non-nul.
- *
+ * <p>
  * <blockquote><pre>
  * &nbsp;double[] data=null;
- * &nbsp;final {@link java.io.BufferedReader} in = new {@link java.io.BufferedReader}(new {@link java.io.FileReader}("MATRIX.TXT"));
+ * &nbsp;final {@link java.io.BufferedReader} in = new {@link java.io.BufferedReader}(new 
+ * {@link java.io.FileReader}("MATRIX.TXT"));
  * &nbsp;for ({@link String} line; (line=in.readLine()) != null;) {
  * &nbsp;    parser.setLine(line);
  * &nbsp;    data = parser.getValues(data);
  * &nbsp;    // ... process 'data' here ...
  * &nbsp;});
  * </pre></blockquote>
- *
+ * <p>
  * This code can work as well with dates instead of numbers. In this case, the values returned
  * will be microseconds ellapsed since January 1st, 1970.
  * <p>
@@ -69,12 +70,10 @@ import org.geotools.resources.i18n.ErrorKeys;
  * In all case, it is possible to gets the index of the first problem found using
  * {@link ParseException#getErrorOffset}.
  *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.0
  */
 public class LineFormat extends Format {
     /**
@@ -142,9 +141,9 @@ public class LineFormat extends Format {
      * @throws IllegalArgumentException if {@code format} is null.
      */
     public LineFormat(final Format format) throws IllegalArgumentException {
-        this.data   = new Object[16];
+        this.data = new Object[16];
         this.limits = new int[data.length + 1];
-        this.format = new Format[] {format};
+        this.format = new Format[]{format};
         if (format == null) {
             final Integer one = 1;
             throw new IllegalArgumentException(Errors.format(ErrorKeys.NULL_FORMAT_$2, one, one));
@@ -157,19 +156,19 @@ public class LineFormat extends Format {
      * {@code formats[1]}, <cite>etc</cite>. If there is more columns than formats, then the
      * last format object is reused for all remaining columns.
      *
-     * @param  formats The formats to use for parsing.
+     * @param formats The formats to use for parsing.
      * @throws IllegalArgumentException if {@code formats} is null or an element of
-     *         {@code format} is null.
+     *                                  {@code format} is null.
      */
     public LineFormat(final Format[] formats) throws IllegalArgumentException {
-        this.data   = new Object[formats.length];
+        this.data = new Object[formats.length];
         this.format = new Format[formats.length];
-        this.limits = new int   [formats.length + 1];
+        this.limits = new int[formats.length + 1];
         System.arraycopy(formats, 0, format, 0, formats.length);
-        for (int i=0; i<format.length; i++) {
+        for (int i = 0; i < format.length; i++) {
             if (format[i] == null) {
                 throw new IllegalArgumentException(Errors.format(ErrorKeys.NULL_FORMAT_$2,
-                            i+1, format.length));
+                        i + 1, format.length));
             }
         }
     }
@@ -187,9 +186,9 @@ public class LineFormat extends Format {
      * Parses the specified line. The content is immediately parsed and values
      * can be obtained using one of the {@code getValues(...)} method.
      *
-     * @param  line The line to parse.
+     * @param line The line to parse.
      * @return The number of elements parsed in the specified line.
-     *         The same information can be obtained with {@link #getValueCount}.
+     * The same information can be obtained with {@link #getValueCount}.
      * @throws ParseException If at least one column can't be parsed.
      */
     public int setLine(final String line) throws ParseException {
@@ -200,11 +199,11 @@ public class LineFormat extends Format {
      * Parses a substring of the specified line. The content is immediately parsed
      * and values can be obtained using one of the {@code getValues(...)} method.
      *
-     * @param  line  The line to parse.
-     * @param  lower Index of the first character in {@code line} to parse.
-     * @param  upper Index after the last character in {@code line} to parse.
+     * @param line  The line to parse.
+     * @param lower Index of the first character in {@code line} to parse.
+     * @param upper Index after the last character in {@code line} to parse.
      * @return The number of elements parsed in the specified line.
-     *         The same information can be obtained with {@link #getValueCount}.
+     * The same information can be obtained with {@link #getValueCount}.
      * @throws ParseException If at least one column can't be parsed.
      */
     public int setLine(final String line, int lower, final int upper) throws ParseException {
@@ -219,7 +218,8 @@ public class LineFormat extends Format {
          * Procède au balayage de toutes les valeurs qui se trouvent sur la ligne spécifiée.
          * Le balayage s'arrêtera lorsque {@code lower} aura atteint {@code upper}.
          */
-  load: while (true) {
+        load:
+        while (true) {
             while (true) {
                 if (lower >= upper) {
                     break load;
@@ -228,27 +228,29 @@ public class LineFormat extends Format {
                 lower++;
             }
             /*
-             * Procède à la lecture de la donnée. Si la lecture échoue, on produira un message d'erreur
+             * Procède à la lecture de la donnée. Si la lecture échoue, on produira un message 
+             * d'erreur
              * qui apparaîtra éventuellement en HTML afin de pouvoir souligner la partie fautive.
              */
             position.setIndex(lower);
-            final Object datum = format[Math.min(count, format.length-1)].parseObject(line, position);
+            final Object datum = format[Math.min(count, format.length - 1)].parseObject(line, 
+                    position);
             final int next = position.getIndex();
             if (datum == null || next <= lower) {
                 final int error = position.getErrorIndex();
                 int end = error;
                 while (end < upper && !Character.isWhitespace(line.charAt(end))) end++;
                 throw new ParseException(Errors.format(ErrorKeys.PARSE_EXCEPTION_$2,
-                          line.substring(lower, end).trim(),
-                          line.substring(error, Math.min(error+1, end))), error);
+                        line.substring(lower, end).trim(),
+                        line.substring(error, Math.min(error + 1, end))), error);
             }
             /*
              * Mémorise la nouvelle donnée, en agrandissant
              * l'espace réservée en mémoire si c'est nécessaire.
              */
             if (count >= data.length) {
-                data   = XArray.resize(data,   count+Math.min(count, 256));
-                limits = XArray.resize(limits, data.length+1);
+                data = XArray.resize(data, count + Math.min(count, 256));
+                limits = XArray.resize(limits, data.length + 1);
             }
             limits[count] = lower;
             data[count++] = datum;
@@ -269,15 +271,14 @@ public class LineFormat extends Format {
      * Sets all values in the current line. The {@code values} argument must be an array,
      * which may be of primitive type.
      *
-     * @param  values The array to set as values.
+     * @param values The array to set as values.
      * @throws IllegalArgumentException if {@code values} is not an array.
-     *
      * @since 2.4
      */
     public void setValues(final Object values) throws IllegalArgumentException {
         final int length = Array.getLength(values);
         data = XArray.resize(data, length);
-        for (int i=0; i<length; i++) {
+        for (int i = 0; i < length; i++) {
             data[i] = Array.get(values, i);
         }
         count = length;
@@ -288,11 +289,12 @@ public class LineFormat extends Format {
      * {@link #getValueCount} inclusively. If the index is equals to {@link #getValueCount},
      * then {@code value} will be appended as a new column after existing data.
      *
-     * @param  index Index of the value to add or modify.
-     * @param  value The new value.
+     * @param index Index of the value to add or modify.
+     * @param value The new value.
      * @throws ArrayIndexOutOfBoundsException If the index is outside the expected range.
      */
-    public void setValue(final int index, final Object value) throws ArrayIndexOutOfBoundsException {
+    public void setValue(final int index, final Object value) throws 
+            ArrayIndexOutOfBoundsException {
         if (index > count) {
             throw new ArrayIndexOutOfBoundsException(index);
         }
@@ -301,7 +303,7 @@ public class LineFormat extends Format {
         }
         if (index == count) {
             if (index == data.length) {
-                data = XArray.resize(data, index+Math.min(index, 256));
+                data = XArray.resize(data, index + Math.min(index, 256));
             }
             count++;
         }
@@ -312,7 +314,7 @@ public class LineFormat extends Format {
      * Returns the value at the specified index. The index should be in the range
      * 0 inclusively to {@link #getValueCount} exclusively.
      *
-     * @param  index Index of the value to fetch.
+     * @param index Index of the value to fetch.
      * @return The value at the specified index.
      * @throws ArrayIndexOutOfBoundsException If the index is outside the expected range.
      */
@@ -335,7 +337,7 @@ public class LineFormat extends Format {
     /**
      * Returns {@code data[index]} as a number.
      *
-     * @param  index Index of the value to returns.
+     * @param index Index of the value to returns.
      * @return The value as a {@link Number}.
      * @throws ParseException if the value can not be converted to a {@link Number}.
      */
@@ -343,7 +345,7 @@ public class LineFormat extends Format {
         Exception error = null;
         if (data[index] instanceof Comparable) {
             try {
-                return ClassChanger.toNumber((Comparable)data[index]);
+                return ClassChanger.toNumber((Comparable) data[index]);
             } catch (ClassNotFoundException exception) {
                 error = exception;
             }
@@ -364,10 +366,11 @@ public class LineFormat extends Format {
      * exception if the array length is not exactly equals to the number of elements
      * parsed.
      *
-     * @param  array The array to copy values into.
+     * @param array The array to copy values into.
      * @return {@code array} if it was not null, or a new array otherwise.
      * @throws ParseException If {@code array} was not null and its length is not equals to
-     *         the number of elements parsed, or if at least one element can't be parsed.
+     *                        the number of elements parsed, or if at least one element can't be 
+     *                        parsed.
      */
     public double[] getValues(double[] array) throws ParseException {
         if (array != null) {
@@ -375,7 +378,7 @@ public class LineFormat extends Format {
         } else {
             array = new double[count];
         }
-        for (int i=0; i<count; i++) {
+        for (int i = 0; i < count; i++) {
             array[i] = getNumber(i).doubleValue();
         }
         return array;
@@ -389,10 +392,11 @@ public class LineFormat extends Format {
      * exception if the array length is not exactly equals to the number of elements
      * parsed.
      *
-     * @param  array The array to copy values into.
+     * @param array The array to copy values into.
      * @return {@code array} if it was not null, or a new array otherwise.
      * @throws ParseException If {@code array} was not null and its length is not equals to
-     *         the number of elements parsed, or if at least one element can't be parsed.
+     *                        the number of elements parsed, or if at least one element can't be 
+     *                        parsed.
      */
     public float[] getValues(float[] array) throws ParseException {
         if (array != null) {
@@ -400,7 +404,7 @@ public class LineFormat extends Format {
         } else {
             array = new float[count];
         }
-        for (int i=0; i<count; i++) {
+        for (int i = 0; i < count; i++) {
             array[i] = getNumber(i).floatValue();
         }
         return array;
@@ -414,10 +418,11 @@ public class LineFormat extends Format {
      * exception if the array length is not exactly equals to the number of elements
      * parsed.
      *
-     * @param  array The array to copy values into.
+     * @param array The array to copy values into.
      * @return {@code array} if it was not null, or a new array otherwise.
      * @throws ParseException If {@code array} was not null and its length is not equals to
-     *         the number of elements parsed, or if at least one element can't be parsed.
+     *                        the number of elements parsed, or if at least one element can't be 
+     *                        parsed.
      */
     public long[] getValues(long[] array) throws ParseException {
         if (array != null) {
@@ -425,7 +430,7 @@ public class LineFormat extends Format {
         } else {
             array = new long[count];
         }
-        for (int i=0; i<count; i++) {
+        for (int i = 0; i < count; i++) {
             final Number n = getNumber(i);
             if ((array[i] = n.longValue()) != n.doubleValue()) {
                 throw notAnInteger(i);
@@ -442,10 +447,11 @@ public class LineFormat extends Format {
      * exception if the array length is not exactly equals to the number of elements
      * parsed.
      *
-     * @param  array The array to copy values into.
+     * @param array The array to copy values into.
      * @return {@code array} if it was not null, or a new array otherwise.
      * @throws ParseException If {@code array} was not null and its length is not equals to
-     *         the number of elements parsed, or if at least one element can't be parsed.
+     *                        the number of elements parsed, or if at least one element can't be 
+     *                        parsed.
      */
     public int[] getValues(int[] array) throws ParseException {
         if (array != null) {
@@ -453,7 +459,7 @@ public class LineFormat extends Format {
         } else {
             array = new int[count];
         }
-        for (int i=0; i<count; i++) {
+        for (int i = 0; i < count; i++) {
             final Number n = getNumber(i);
             if ((array[i] = n.intValue()) != n.doubleValue()) {
                 throw notAnInteger(i);
@@ -470,10 +476,11 @@ public class LineFormat extends Format {
      * exception if the array length is not exactly equals to the number of elements
      * parsed.
      *
-     * @param  array The array to copy values into.
+     * @param array The array to copy values into.
      * @return {@code array} if it was not null, or a new array otherwise.
      * @throws ParseException If {@code array} was not null and its length is not equals to
-     *         the number of elements parsed, or if at least one element can't be parsed.
+     *                        the number of elements parsed, or if at least one element can't be 
+     *                        parsed.
      */
     public short[] getValues(short[] array) throws ParseException {
         if (array != null) {
@@ -481,7 +488,7 @@ public class LineFormat extends Format {
         } else {
             array = new short[count];
         }
-        for (int i=0; i<count; i++) {
+        for (int i = 0; i < count; i++) {
             final Number n = getNumber(i);
             if ((array[i] = n.shortValue()) != n.doubleValue()) {
                 throw notAnInteger(i);
@@ -498,10 +505,11 @@ public class LineFormat extends Format {
      * exception if the array length is not exactly equals to the number of elements
      * parsed.
      *
-     * @param  array The array to copy values into.
+     * @param array The array to copy values into.
      * @return {@code array} if it was not null, or a new array otherwise.
      * @throws ParseException If {@code array} was not null and its length is not equals to
-     *         the number of elements parsed, or if at least one element can't be parsed.
+     *                        the number of elements parsed, or if at least one element can't be 
+     *                        parsed.
      */
     public byte[] getValues(byte[] array) throws ParseException {
         if (array != null) {
@@ -509,7 +517,7 @@ public class LineFormat extends Format {
         } else {
             array = new byte[count];
         }
-        for (int i=0; i<count; i++) {
+        for (int i = 0; i < count; i++) {
             final Number n = getNumber(i);
             if ((array[i] = n.byteValue()) != n.doubleValue()) {
                 throw notAnInteger(i);
@@ -522,28 +530,28 @@ public class LineFormat extends Format {
      * Ensures that the number of columns just parsed is equals to the number of columns expected.
      * If a mismatch is found, then an exception is thrown.
      *
-     * @param  expected The expected number of columns.
+     * @param expected The expected number of columns.
      * @throws ParseException If the number of columns parsed is not equals to the number expected.
      */
     private void checkLength(final int expected) throws ParseException {
         if (count != expected) {
-            final int lower = limits[Math.min(count, expected  )];
-            final int upper = limits[Math.min(count, expected+1)];
-            throw new ParseException(Errors.format(count<expected ?
-                                     ErrorKeys.LINE_TOO_SHORT_$2 : ErrorKeys.LINE_TOO_LONG_$3,
-                                     count, expected, line.substring(lower,upper).trim()), lower);
+            final int lower = limits[Math.min(count, expected)];
+            final int upper = limits[Math.min(count, expected + 1)];
+            throw new ParseException(Errors.format(count < expected ?
+                            ErrorKeys.LINE_TOO_SHORT_$2 : ErrorKeys.LINE_TOO_LONG_$3,
+                    count, expected, line.substring(lower, upper).trim()), lower);
         }
     }
 
     /**
      * Creates an exception for a value not being an integer.
      *
-     * @param  i The value index.
+     * @param i The value index.
      * @return The exception.
      */
     private ParseException notAnInteger(final int i) {
         return new ParseException(Errors.format(ErrorKeys.NOT_AN_INTEGER_$1,
-                                  line.substring(limits[i], limits[i+1])), limits[i]);
+                line.substring(limits[i], limits[i + 1])), limits[i]);
     }
 
     /**
@@ -563,11 +571,11 @@ public class LineFormat extends Format {
      */
     private StringBuffer toString(StringBuffer buffer) {
         final FieldPosition field = new FieldPosition(0);
-        for (int i=0; i<count; i++) {
+        for (int i = 0; i < count; i++) {
             if (i != 0) {
                 buffer.append('\t');
             }
-            buffer = format[Math.min(format.length-1, i)].format(data[i], buffer, field);
+            buffer = format[Math.min(format.length - 1, i)].format(data[i], buffer, field);
         }
         return buffer;
     }
@@ -581,8 +589,7 @@ public class LineFormat extends Format {
      * @since 2.4
      */
     public StringBuffer format(final Object values, final StringBuffer toAppendTo,
-                               final FieldPosition position)
-    {
+                               final FieldPosition position) {
         setValues(values);
         return toString(toAppendTo);
     }
@@ -638,7 +645,7 @@ public class LineFormat extends Format {
     @Override
     public LineFormat clone() {
         final LineFormat copy = (LineFormat) super.clone();
-        copy.data   = data.clone();
+        copy.data = data.clone();
         copy.limits = limits.clone();
         return copy;
     }

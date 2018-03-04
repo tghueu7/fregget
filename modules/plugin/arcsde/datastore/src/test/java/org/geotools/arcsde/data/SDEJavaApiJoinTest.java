@@ -67,7 +67,7 @@ import com.vividsolutions.jts.geom.Point;
  * <p>
  * This test will create an sde layer (table + spatial table) as master and a business table as
  * child:
- * 
+ * <p>
  * <pre>
  * &lt;code&gt;
  *  -----------------------------------------------
@@ -81,7 +81,7 @@ import com.vividsolutions.jts.geom.Point;
  *  -----------------------------------------------
  *  |     3     |   name3        |  POINT(3, 3)   |
  *  -----------------------------------------------
- * 
+ *
  *  ---------------------------------------------------------------------
  *  |                     GT_SDE_TEST_CHILD                             |
  *  ---------------------------------------------------------------------
@@ -101,16 +101,16 @@ import com.vividsolutions.jts.geom.Point;
  *  ---------------------------------------------------------------------
  * &lt;/code&gt;
  * &lt;/re&gt;
- * 
+ *
  * </p>
  * <p>
  * The following are rules that may help you in correctly specifying an SQL query that will work
  * with the ArcSDE Java API. This rules was collected empirically based on some of the tests of this
  * test suite. Be aware that ArcSDE Java API only supports &quot;queries&quot; of the following
  * form: <code>
- * SELECT &lt;list of qualified column names&gt; 
- *  FROM &lt;list of qualified table names&gt; 
- *  WHERE &lt;any where clause supported by the RDBMS&gt; 
+ * SELECT &lt;list of qualified column names&gt;
+ *  FROM &lt;list of qualified table names&gt;
+ *  WHERE &lt;any where clause supported by the RDBMS&gt;
  *  [ORDER BY &lt;qualified column names&gt;]
  * </code> Rules to create SQL QUERIES:
  * <ul>
@@ -131,14 +131,14 @@ import com.vividsolutions.jts.geom.Point;
  * </code>
  * </ul>
  * </p>
- * 
+ *
  * &#064;author Gabriel Roldan, Axios Engineering &#064;source $URL:
  * http://gtsvn.refractions.net/branches
  * /2.5.x/modules/plugin/arcsde/datastore/src/test/java/org/geotools
  * /arcsde/data/SDEJavaApiJoinTest.java $ &#064;version $Id: SDEJavaApiJoinTest.java 31903
  * 2008-11-22 20:44:25Z groldan $ &#064;since 2.3.x
- * 
- * 
+ *
+ *
  *
  *
  * @source $URL$
@@ -148,15 +148,19 @@ import com.vividsolutions.jts.geom.Point;
 @Ignore
 public class SDEJavaApiJoinTest {
 
-    /** Helper class that provides config loading and test data for unit tests */
+    /**
+     * Helper class that provides config loading and test data for unit tests
+     */
     private static TestData testData;
 
-    /** an ArcSDEDataStore created on setUp() to run tests against */
+    /**
+     * an ArcSDEDataStore created on setUp() to run tests against
+     */
     private ArcSDEDataStore store;
 
     /**
      * Initialization code for the whole test suite
-     * 
+     *
      * @throws IOException
      * @throws SeException
      * @throws FactoryException
@@ -191,7 +195,7 @@ public class SDEJavaApiJoinTest {
     /**
      * loads {@code testData/testparams.properties} into a Properties object, wich is used to obtain
      * test tables names and is used as parameter to find the DataStore
-     * 
+     *
      * @throws Exception
      */
     @Before
@@ -206,12 +210,12 @@ public class SDEJavaApiJoinTest {
      * G.DRILLED_DE, G.DRILLED__1, B.SHAPE" + " FROM SCO.LOUGHBOROUGH_BORES B,
      * SCO.LOUGHBOROUGH_BORE_GEOL G" + " WHERE (B.QS = G.QS AND B.NUMB = G.NUMB AND B.BSUFF =
      * G.BSUFF AND B.RT = G.RT)" + " ORDER BY B.QS, B.RT, B.NUMB, B.BSUFF";
-     * 
+     *
      * try { store.registerView(typeName, definitionQuery); } catch (Exception e) {
      * e.printStackTrace(); throw e; }
-     * 
+     *
      * SimpleFeatureType type = (SimpleFeatureType) store.getSchema(typeName); assertNotNull(type);
-     * 
+     *
      * SimpleFeatureSource fs = store.getFeatureSource(typeName); assertNotNull(fs); int count =
      * fs.getCount(Query.ALL); final int expected = 16479; assertEquals(expected, count); }
      */
@@ -403,7 +407,8 @@ public class SDEJavaApiJoinTest {
 
         SimpleFeatureSource fs = store.getFeatureSource(InProcessViewSupportTestData.typeName);
 
-        Query query = new Query(InProcessViewSupportTestData.typeName, Filter.INCLUDE, Query.ALL_PROPERTIES);
+        Query query = new Query(InProcessViewSupportTestData.typeName, Filter.INCLUDE, Query
+                .ALL_PROPERTIES);
         SimpleFeatureCollection fc = fs.getFeatures(query);
         int fcCount = fc.size();
         int itCount = 0;
@@ -453,7 +458,7 @@ public class SDEJavaApiJoinTest {
 
     /**
      * Meant as example to be sure we're using the ArcSDE java api correctly
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -461,19 +466,19 @@ public class SDEJavaApiJoinTest {
         ISession session = store.getSession(Transaction.AUTO_COMMIT);
 
         SeSqlConstruct sqlConstruct = new SeSqlConstruct();
-        String[] tables = { InProcessViewSupportTestData.MASTER, InProcessViewSupportTestData.CHILD };
+        String[] tables = {InProcessViewSupportTestData.MASTER, InProcessViewSupportTestData.CHILD};
         sqlConstruct.setTables(tables);
         String where = InProcessViewSupportTestData.CHILD + ".MASTER_ID = "
                 + InProcessViewSupportTestData.MASTER + ".ID";
         sqlConstruct.setWhere(where);
 
         // tricky part is that SHAPE column must always be the last one
-        String[] propertyNames = { InProcessViewSupportTestData.MASTER + ".ID AS myid2",
+        String[] propertyNames = {InProcessViewSupportTestData.MASTER + ".ID AS myid2",
                 InProcessViewSupportTestData.MASTER + ".NAME AS MNAME",
                 InProcessViewSupportTestData.CHILD + ".ID",
                 InProcessViewSupportTestData.CHILD + ".NAME",
                 InProcessViewSupportTestData.CHILD + ".DESCRIPTION",
-                InProcessViewSupportTestData.MASTER + ".SHAPE" };
+                InProcessViewSupportTestData.MASTER + ".SHAPE"};
         final int shapeIndex = 5;
         final int expectedCount = 7;
 
@@ -482,8 +487,8 @@ public class SDEJavaApiJoinTest {
         queryInfo.setColumns(propertyNames);
         queryInfo.setByClause(" ORDER BY " + InProcessViewSupportTestData.CHILD + ".ID DESC");
 
-        final Integer[] expectedChildIds = { new Integer(7), new Integer(6), new Integer(5),
-                new Integer(4), new Integer(3), new Integer(2), new Integer(1) };
+        final Integer[] expectedChildIds = {new Integer(7), new Integer(6), new Integer(5),
+                new Integer(4), new Integer(3), new Integer(2), new Integer(1)};
 
         // final int[] expectedShapeIndicators = { SeRow.SE_IS_NOT_NULL_VALUE, // child7
         // SeRow.SE_IS_REPEATED_FEATURE, // child6
@@ -543,10 +548,9 @@ public class SDEJavaApiJoinTest {
 
     /**
      * Using table alias leads to ArcSDE returning SHAPE id instead of SHAPE geometry.
-     * 
-     * @throws Exception
-     *             TODO: revisit, this test hangs with SDE 9.2/Oracle9i at
-     *             query.prepareQueryInfo(queryInfo);
+     *
+     * @throws Exception TODO: revisit, this test hangs with SDE 9.2/Oracle9i at
+     *                   query.prepareQueryInfo(queryInfo);
      */
     @Test
     @Ignore
@@ -554,14 +558,14 @@ public class SDEJavaApiJoinTest {
         ISession session = store.getSession(Transaction.AUTO_COMMIT);
 
         SeSqlConstruct sqlConstruct = new SeSqlConstruct();
-        String[] tables = { InProcessViewSupportTestData.MASTER + " MASTER",
-                InProcessViewSupportTestData.CHILD + " CHILD" };
+        String[] tables = {InProcessViewSupportTestData.MASTER + " MASTER",
+                InProcessViewSupportTestData.CHILD + " CHILD"};
         sqlConstruct.setTables(tables);
         String where = "CHILD.MASTER_ID = MASTER.ID";
         sqlConstruct.setWhere(where);
 
         // tricky part is that SHAPE column must always be the last one
-        String[] propertyNames = { "MASTER.ID", "CHILD.NAME", "MASTER.SHAPE" };
+        String[] propertyNames = {"MASTER.ID", "CHILD.NAME", "MASTER.SHAPE"};
 
         final int shapeIndex = 2;
         final int expectedCount = 7;
@@ -608,7 +612,7 @@ public class SDEJavaApiJoinTest {
     /**
      * Meant as example to be sure we're using the ArcSDE java api correctly Nasty thing about group
      * by is that is seems that we cannot include/use the geometry column :(
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -616,14 +620,14 @@ public class SDEJavaApiJoinTest {
         ISession session = store.getSession(Transaction.AUTO_COMMIT);
 
         SeSqlConstruct sqlConstruct = new SeSqlConstruct();
-        String[] tables = { InProcessViewSupportTestData.MASTER, InProcessViewSupportTestData.CHILD };
+        String[] tables = {InProcessViewSupportTestData.MASTER, InProcessViewSupportTestData.CHILD};
         sqlConstruct.setTables(tables);
         String where = InProcessViewSupportTestData.CHILD + ".MASTER_ID = "
                 + InProcessViewSupportTestData.MASTER + ".ID";
         sqlConstruct.setWhere(where);
 
         // tricky part is that SHAPE column must always be the last one
-        String[] propertyNames = { InProcessViewSupportTestData.MASTER + ".ID",
+        String[] propertyNames = {InProcessViewSupportTestData.MASTER + ".ID",
                 InProcessViewSupportTestData.CHILD + ".NAME" /*
                                                               * , MASTER + ".SHAPE"
                                                               */
@@ -692,7 +696,7 @@ public class SDEJavaApiJoinTest {
      * Meant as example to be sure we're using the ArcSDE java api correctly. We can execute a plain
      * sql query, but shapes are not returned by ArcSDE. Instead, the SHAPE field contains the SHAPE
      * id, just like in the real business table.
-     * 
+     *
      * @throws Exception
      */
     @Test

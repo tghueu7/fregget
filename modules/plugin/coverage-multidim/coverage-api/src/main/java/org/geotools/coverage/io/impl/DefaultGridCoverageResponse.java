@@ -38,12 +38,11 @@ import org.opengis.util.Record;
 import org.opengis.util.RecordType;
 
 /**
- *
  * Default GridCoverageResponse implementation.
- * 
+ *
  * @author Daniele Romagnoli, GeoSolutions SAS
  */
-public class DefaultGridCoverageResponse implements GridCoverageResponse{
+public class DefaultGridCoverageResponse implements GridCoverageResponse {
 
     public DefaultGridCoverageResponse(
             GridCoverage gridCoverage,
@@ -55,11 +54,11 @@ public class DefaultGridCoverageResponse implements GridCoverageResponse{
     }
 
     private GridCoverage gridCoverage;
-    
+
     private DateRange temporalExtent;
-    
+
     private NumberRange<Double> verticalExtent;
-    
+
     @Override
     public DateRange getTemporalExtent() {
         return temporalExtent;

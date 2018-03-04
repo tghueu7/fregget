@@ -17,6 +17,7 @@
 package org.geotools.filter.v1_1.capabilities;
 
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.capability.IdCapabilities;
 import org.geotools.filter.v1_1.OGC;
@@ -25,9 +26,9 @@ import org.geotools.xml.*;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:Id_CapabilitiesType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="Id_CapabilitiesType"&gt;
  *      &lt;xsd:choice maxOccurs="unbounded"&gt;
@@ -41,9 +42,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class Id_CapabilitiesTypeBinding extends AbstractComplexBinding {
@@ -77,7 +75,7 @@ public class Id_CapabilitiesTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //&lt;xsd:element ref="ogc:EID"/&gt;
         boolean eid = node.hasChild("EID");
 
@@ -88,7 +86,7 @@ public class Id_CapabilitiesTypeBinding extends AbstractComplexBinding {
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         IdCapabilities id = (IdCapabilities) object;
 
         if (OGC.EID.equals(name) && id.hasEID()) {

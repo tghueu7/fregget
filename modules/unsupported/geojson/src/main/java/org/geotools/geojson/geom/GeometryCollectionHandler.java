@@ -29,8 +29,6 @@ import com.vividsolutions.jts.geom.GeometryCollection;
 import com.vividsolutions.jts.geom.GeometryFactory;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GeometryCollectionHandler extends DelegatingHandler<GeometryCollection> {
@@ -53,26 +51,25 @@ public class GeometryCollectionHandler extends DelegatingHandler<GeometryCollect
         }
         return true;
     }
-    
+
     @Override
     public boolean endObject() throws ParseException, IOException {
         if (delegate instanceof GeometryHandlerBase) {
             //end of a member geometry
-            ((GeometryHandlerBase)delegate).endObject();
-            Geometry geomObject = ((GeometryHandlerBase)delegate).getValue();
+            ((GeometryHandlerBase) delegate).endObject();
+            Geometry geomObject = ((GeometryHandlerBase) delegate).getValue();
             if (geomObject != null)
                 geoms.add(geomObject);
             delegate = NULL;
-        }
-        else {
+        } else {
             Geometry[] geometries = geoms.toArray(new Geometry[geoms.size()]);
             value = factory.createGeometryCollection(geometries);
             geoms = null;
         }
-        
+
         return true;
     }
-    
+
     @Override
     public boolean startObjectEntry(String key) throws ParseException, IOException {
         if ("coordinates".equals(key) && delegate == UNINITIALIZED) {
@@ -82,20 +79,17 @@ public class GeometryCollectionHandler extends DelegatingHandler<GeometryCollect
             proxy = new RecordingHandler();
             delegate = proxy;
             return super.startObjectEntry(key);
-        }
-        else if ("type".equals(key) && delegate == proxy) {
+        } else if ("type".equals(key) && delegate == proxy) {
             delegate = UNINITIALIZED;
-        }
-        else if ("geometries".equals(key)) {
+        } else if ("geometries".equals(key)) {
             geoms = new ArrayList();
-        }
-        else if (geoms != null) {
+        } else if (geoms != null) {
             super.startObjectEntry(key);
         }
-        
+
         return true;
     }
-    
+
     @Override
     public boolean endObjectEntry() throws ParseException, IOException {
         if (delegateClass != null) {
@@ -104,7 +98,7 @@ public class GeometryCollectionHandler extends DelegatingHandler<GeometryCollect
         }
         return true;
     }
-    
+
     @Override
     public boolean primitive(Object value) throws ParseException, IOException {
         /* handle special case of "type" belonging to one of the collection's geometries
@@ -118,14 +112,13 @@ public class GeometryCollectionHandler extends DelegatingHandler<GeometryCollect
                 proxy.replay(delegate);
                 proxy = null;
             }
-        }
-        else {
+        } else {
             return super.primitive(value);
         }
-        
+
         return true;
     }
-    
+
     @Override
     public GeometryCollection getValue() {
         return value;

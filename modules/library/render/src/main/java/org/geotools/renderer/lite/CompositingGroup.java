@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -42,7 +42,7 @@ import org.geotools.util.logging.Logging;
 
 /**
  * Data structure holding a MapContent that has its own compositing base
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 class CompositingGroup {
@@ -52,8 +52,8 @@ class CompositingGroup {
     private static StyleFactory STYLE_FACTORY = CommonFactoryFinder.getStyleFactory();
 
     public static List<CompositingGroup> splitOnCompositingBase(Graphics2D graphics,
-            Rectangle screenSize,
-            MapContent mc) {
+                                                                Rectangle screenSize,
+                                                                MapContent mc) {
         List<CompositingGroup> result = new ArrayList<>();
         List<Layer> layers = new ArrayList<>();
         for (Layer layer : mc.layers()) {
@@ -62,9 +62,9 @@ class CompositingGroup {
                 layers.add(new WrappingDirectLayer((DirectLayer) layer));
             } else if (layer instanceof ZGroupLayer) {
                 ZGroupLayer zLayer = (ZGroupLayer) layer;
-                if(zLayer.isCompositingBase()) {
+                if (zLayer.isCompositingBase()) {
                     addToCompositingMapContents(graphics, screenSize, result, layers);
-                } 
+                }
                 layers.add(layer);
             } else {
                 List<Style> styles = splitOnCompositingBase(style);
@@ -98,13 +98,15 @@ class CompositingGroup {
     }
 
     private static void addToCompositingMapContents(Graphics2D graphics, Rectangle screenSize,
-            List<CompositingGroup> compositingContents, List<Layer> layers) {
+                                                    List<CompositingGroup> compositingContents, 
+                                                    List<Layer> layers) {
         Composite composite = getComposite(layers);
         addToCompositingMapContents(graphics, screenSize, compositingContents, layers, composite);
     }
 
     private static void addToCompositingMapContents(Graphics2D graphics, Rectangle screenSize,
-            List<CompositingGroup> compositingContents, List<Layer> layers, Composite composite) {
+                                                    List<CompositingGroup> compositingContents, 
+                                                    List<Layer> layers, Composite composite) {
         Graphics2D cmcGraphic;
         if (compositingContents.size() == 0 && !hasAlphaCompositing(layers)) {
             cmcGraphic = graphics;
@@ -121,7 +123,7 @@ class CompositingGroup {
 
     private static Composite getComposite(List<Layer> layers) {
         Layer layer = layers.get(0);
-        if(layer instanceof ZGroupLayer) {
+        if (layer instanceof ZGroupLayer) {
             return ((ZGroupLayer) layer).getComposite();
         }
         Style styles = layer.getStyle();
@@ -137,7 +139,7 @@ class CompositingGroup {
 
     /**
      * Returns true if alpha compositing is used anywhere in the style
-     * 
+     *
      * @param currentFeature
      * @return
      */
@@ -206,10 +208,11 @@ class CompositingGroup {
     public Composite getComposite() {
         return composite;
     }
-    
+
     /**
      * Wraps direct layer so that dispose does not get called when wrapping
      * inside a compositing group
+     *
      * @author Andrea Aime
      */
     static class WrappingDirectLayer extends DirectLayer {
@@ -228,9 +231,9 @@ class CompositingGroup {
         }
 
         public void preDispose() {
-          //do nothing so as not to kill off the layer
-          //before the label cache is completed
-          
+            //do nothing so as not to kill off the layer
+            //before the label cache is completed
+
         }
 
         public void setTitle(String title) {
@@ -296,8 +299,8 @@ class CompositingGroup {
         public String toString() {
             return delegate.toString();
         }
-        
-        
+
+
     }
 
 }

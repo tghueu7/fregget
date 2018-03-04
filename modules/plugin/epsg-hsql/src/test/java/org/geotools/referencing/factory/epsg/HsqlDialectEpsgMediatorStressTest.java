@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -38,8 +38,6 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.MathTransform;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class HsqlDialectEpsgMediatorStressTest extends TestCase {
@@ -110,21 +108,22 @@ public class HsqlDialectEpsgMediatorStressTest extends TestCase {
             //append results to file
             StringBuilder sb = new StringBuilder();
             sb.append(RUNNER_COUNT).append(", ")
-              .append(MAX_WORKERS) .append(", ")
-              .append(ITERATIONS)  .append(", ")
-              .append(hints.get(Hints.CACHE_POLICY)).append(", ")
-              .append(totalTime / totalRuns).append(", ")
-              .append(totalTime).append(", ")
-              .append(totalRuns).append(", ")
-              .append((1000 * totalRuns / (double) totalTime)).append(", ")
-              .append(minTime).append(", ")
-              .append(maxTime).append(", ")
-              .append(exceptions);
+                    .append(MAX_WORKERS).append(", ")
+                    .append(ITERATIONS).append(", ")
+                    .append(hints.get(Hints.CACHE_POLICY)).append(", ")
+                    .append(totalTime / totalRuns).append(", ")
+                    .append(totalTime).append(", ")
+                    .append(totalRuns).append(", ")
+                    .append((1000 * totalRuns / (double) totalTime)).append(", ")
+                    .append(minTime).append(", ")
+                    .append(maxTime).append(", ")
+                    .append(exceptions);
             File file = new File("mediator-stress.csv");
             String header = null;
             String content = sb.toString();
             if (!file.exists()) {
-                header = "THREADS, MAX_WORKERS, ITERATIONS_PER_THREAD, CACHE, AVG_TIME, TOTAL_TIME, TOTAL_RUNS, THROUGHPUT, MIN_TIME, MAX_TIME, EXCEPTIONS";
+                header = "THREADS, MAX_WORKERS, ITERATIONS_PER_THREAD, CACHE, AVG_TIME, " +
+                        "TOTAL_TIME, TOTAL_RUNS, THROUGHPUT, MIN_TIME, MAX_TIME, EXCEPTIONS";
             }
             file.createNewFile();
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
@@ -147,7 +146,7 @@ public class HsqlDialectEpsgMediatorStressTest extends TestCase {
      * @throws FactoryException
      */
     public static String[] getCodes() {
-        return new String[] { "4269", "2043", "31528", "2936", "32639", "2027",
+        return new String[]{"4269", "2043", "31528", "2936", "32639", "2027",
                 "2028", "2029", "2030", "2031", "2032", "2033", "2034", "2035",
                 "2040", "2041", "2042", "2043", "2058", "2059", "2060", "2061",
                 "2063", "2064", "2067", "2077", "2078", "2079", "2080", "2084",
@@ -326,7 +325,7 @@ public class HsqlDialectEpsgMediatorStressTest extends TestCase {
                 "32155", "32156", "32157", "32158", "32161", "32180", "32181",
                 "32182", "32183", "32184", "32185", "32186", "32187", "32188",
                 "32189", "32190", "32191", "32192", "32193", "32194", "32195",
-                "32196", "32197", "32198" };
+                "32196", "32197", "32198"};
     }
 
     public static class ClientThread extends TestRunnable {
@@ -341,7 +340,9 @@ public class HsqlDialectEpsgMediatorStressTest extends TestCase {
         public long totalTime = 0;
         public int totalRuns = 0;
 
-        /** number of iterations to perform */
+        /**
+         * number of iterations to perform
+         */
         public int iterations = 10;
 
         Random rand = new Random();
@@ -385,7 +386,7 @@ public class HsqlDialectEpsgMediatorStressTest extends TestCase {
                             true);
                     DirectPosition pos = new DirectPosition2D(48.417, 123.35);
                     try {
-                         transform.transform(pos, null);
+                        transform.transform(pos, null);
                     } catch (Exception e) {
                         // chomp
                     }

@@ -31,9 +31,8 @@ import org.geotools.image.palette.ColorMap.ColorEntry;
  * <p>
  * It uses significant less resources than a normal {@link HashMap} as it avoids the usage of object
  * wrappers and other redundant information that we don't need in this particular application
- * 
+ *
  * @author Andrea Aime - GeoSolutions
- * 
  */
 final class ColorMap implements Iterable<ColorEntry> {
 
@@ -66,7 +65,7 @@ final class ColorMap implements Iterable<ColorEntry> {
      * Used to check for modifications during iteration
      */
     int modificationCount;
-    
+
     /**
      * Stats
      */
@@ -79,7 +78,7 @@ final class ColorMap implements Iterable<ColorEntry> {
         int capacity = 1;
         while (capacity < initialCapacity)
             capacity <<= 1;
-        
+
         table = new ColorEntry[capacity];
         threshold = (int) (capacity * DEFAULT_LOAD_FACTOR);
         this.size = 0;
@@ -134,7 +133,7 @@ final class ColorMap implements Iterable<ColorEntry> {
 
     /**
      * Returns the value for the specified color, or -1 if the color is not found
-     * 
+     *
      * @param r
      * @param g
      * @param b
@@ -159,7 +158,7 @@ final class ColorMap implements Iterable<ColorEntry> {
 
     /**
      * Associates the specified value with a color
-     * 
+     *
      * @param r
      * @param g
      * @param b
@@ -189,10 +188,10 @@ final class ColorMap implements Iterable<ColorEntry> {
         addEntry(color, value, index);
         return -1;
     }
-    
+
     /**
      * Removes the specified color from the map
-     * 
+     *
      * @param r
      * @param g
      * @param b
@@ -202,11 +201,11 @@ final class ColorMap implements Iterable<ColorEntry> {
     public boolean remove(int r, int g, int b, int a) {
         int color = color(r, g, b, a);
         int index = indexFor(hash(color), table.length);
-     
+
         ColorEntry prev = null;
         for (ColorEntry e = table[index]; e != null; e = e.next) {
             if (e.color == color) {
-                if(prev == null) {
+                if (prev == null) {
                     table[index] = null;
                 } else {
                     prev.next = e.next;
@@ -218,13 +217,13 @@ final class ColorMap implements Iterable<ColorEntry> {
                 prev = e;
             }
         }
-        
+
         return false;
     }
 
     /**
      * Builds a new bucket array and redistributes the color entries among it
-     * 
+     *
      * @param newLength
      */
     private void rehash(int newLength) {
@@ -243,7 +242,7 @@ final class ColorMap implements Iterable<ColorEntry> {
     }
 
     /**
-     * Returns index for the specified color 
+     * Returns index for the specified color
      */
     static int indexFor(int h, int length) {
         return h & (length - 1);
@@ -291,27 +290,29 @@ final class ColorMap implements Iterable<ColorEntry> {
         int largest = 0;
         int sum = 0;
         for (int i = 0; i < table.length; i++) {
-            if(table[i] == null) {
+            if (table[i] == null) {
                 empty++;
             } else {
                 ColorEntry ce = table[i];
                 int count = 0;
-                while(ce != null) {
+                while (ce != null) {
                     count++;
                     ce = ce.next;
                 }
-                if(count > largest) {
+                if (count > largest) {
                     largest = count;
                 }
                 sum += count;
             }
         }
-        System.out.println("Bins " + table.length + ", empty: " + empty + " largest: " + largest + " avg: " + sum * 1.0 / (table.length - empty));
-        System.out.println("Accesses: " + accessCount + ", scans: " + scanCount + ", scan per access: " + (scanCount * 1.0 / accessCount));
+        System.out.println("Bins " + table.length + ", empty: " + empty + " largest: " + largest 
+                + " avg: " + sum * 1.0 / (table.length - empty));
+        System.out.println("Accesses: " + accessCount + ", scans: " + scanCount + ", scan per " +
+                "access: " + (scanCount * 1.0 / accessCount));
         accessCount = 0;
         scanCount = 0;
     }
-    
+
     public static final class ColorEntry {
         int color;
 
@@ -385,8 +386,6 @@ final class ColorMap implements Iterable<ColorEntry> {
         }
 
     }
-
-    
 
 
 }

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.geotools.arcsde.data;
 
@@ -20,16 +20,15 @@ import com.vividsolutions.jts.geom.Polygon;
  * creates JTS geometries directly by calling {@link SeRow#getGeometry(GeometryFactory, int)},
  * instead of fetching an {@link SeShape} through {@link SeRow#getShape(int)} and then converting it
  * to a JTS geometry. This is work in progress and _experimental_, though.
- * 
- *
  *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/main/java/org
- *         /geotools/arcsde/data/SeToJTSGeometryFactory.java $
+ * http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/main/java/org
+ * /geotools/arcsde/data/SeToJTSGeometryFactory.java $
  */
 public class SeToJTSGeometryFactory implements GeometryFactory {
 
-    protected static com.vividsolutions.jts.geom.GeometryFactory gf = new com.vividsolutions.jts.geom.GeometryFactory(
+    protected static com.vividsolutions.jts.geom.GeometryFactory gf = new com.vividsolutions.jts
+            .geom.GeometryFactory(
             new LiteCoordinateSequenceFactory());
 
     private SeToJTSGeometryFactory delegate;
@@ -82,8 +81,8 @@ public class SeToJTSGeometryFactory implements GeometryFactory {
     }
 
     /**
-     * 
-     * 
+     *
+     *
      */
     private static final class PolygonFactory extends SeToJTSGeometryFactory {
 
@@ -128,7 +127,7 @@ public class SeToJTSGeometryFactory implements GeometryFactory {
             this.currPointNo = 0;
             final int dimension = 2;
             this.currCoordSeq =
-                JTS.createCS(gf.getCoordinateSequenceFactory(), numPoints, dimension);
+                    JTS.createCS(gf.getCoordinateSequenceFactory(), numPoints, dimension);
         }
 
         @Override
@@ -143,8 +142,8 @@ public class SeToJTSGeometryFactory implements GeometryFactory {
     }
 
     /**
-     * 
-     * 
+     *
+     *
      */
     private static final class MultiPolygonFactory extends SeToJTSGeometryFactory {
 

@@ -31,20 +31,21 @@ import org.eclipse.xsd.impl.XSDMinExclusiveFacetImpl;
 import org.eclipse.xsd.impl.XSDMinInclusiveFacetImpl;
 import org.eclipse.xsd.impl.XSDSimpleTypeDefinitionImpl;
 import org.eclipse.xsd.impl.XSDTotalDigitsFacetImpl;
+
 import java.math.BigDecimal;
+
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 import org.geotools.xml.impl.ElementImpl;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class XSDecimalStrategyTest extends TestCase {
     /*
-     * Test method for 'org.geotools.xml.strategies.xs.XSDecimalStrategy.parse(Element, Node[], Object)'
+     * Test method for 'org.geotools.xml.strategies.xs.XSDecimalStrategy.parse(Element, Node[], 
+     * Object)'
      */
     public void testParse() throws Exception {
         //Valid values
@@ -94,7 +95,7 @@ public class XSDecimalStrategyTest extends TestCase {
     }
 
     public void validateValues(String elementText, int totalDigits, double minExc, double minInc,
-        double maxInc, double maxExc) throws Exception {
+                               double maxInc, double maxExc) throws Exception {
         XSDecimalBinding strat = new XSDecimalBinding();
 
         XSDElementDeclaration declaration = makeDeclaration(totalDigits, new BigDecimal(minExc),
@@ -103,7 +104,7 @@ public class XSDecimalStrategyTest extends TestCase {
         ElementInstance element = new ElementImpl(declaration);
         element.setText(elementText);
 
-        Node[] children = new Node[] {  };
+        Node[] children = new Node[]{};
         Object value = null;
 
         BigDecimal decimal = (BigDecimal) strat.parse(element, element.getText().trim());
@@ -112,51 +113,52 @@ public class XSDecimalStrategyTest extends TestCase {
     }
 
     private XSDElementDeclaration makeDeclaration(final int digits, final BigDecimal minExc,
-        final BigDecimal minInc, final BigDecimal maxInc, final BigDecimal maxExc) {
+                                                  final BigDecimal minInc, final BigDecimal 
+                                                          maxInc, final BigDecimal maxExc) {
         return new XSDElementDeclarationImpl() {
-                public XSDTypeDefinition getTypeDefinition() {
-                    return new XSDSimpleTypeDefinitionImpl() {
-                            public XSDTotalDigitsFacet getTotalDigitsFacet() {
-                                return new XSDTotalDigitsFacetImpl() {
-                                        public int getValue() {
-                                            return digits;
-                                        }
-                                    };
-                            }
-
-                            public XSDMinInclusiveFacet getMinInclusiveFacet() {
-                                return new XSDMinInclusiveFacetImpl() {
-                                        public Object getValue() {
-                                            return minInc;
-                                        }
-                                    };
-                            }
-
-                            public XSDMinExclusiveFacet getMinExclusiveFacet() {
-                                return new XSDMinExclusiveFacetImpl() {
-                                        public Object getValue() {
-                                            return minExc;
-                                        }
-                                    };
-                            }
-
-                            public XSDMaxInclusiveFacet getMaxInclusiveFacet() {
-                                return new XSDMaxInclusiveFacetImpl() {
-                                        public Object getValue() {
-                                            return maxInc;
-                                        }
-                                    };
-                            }
-
-                            public XSDMaxExclusiveFacet getMaxExclusiveFacet() {
-                                return new XSDMaxExclusiveFacetImpl() {
-                                        public Object getValue() {
-                                            return maxExc;
-                                        }
-                                    };
+            public XSDTypeDefinition getTypeDefinition() {
+                return new XSDSimpleTypeDefinitionImpl() {
+                    public XSDTotalDigitsFacet getTotalDigitsFacet() {
+                        return new XSDTotalDigitsFacetImpl() {
+                            public int getValue() {
+                                return digits;
                             }
                         };
-                }
-            };
+                    }
+
+                    public XSDMinInclusiveFacet getMinInclusiveFacet() {
+                        return new XSDMinInclusiveFacetImpl() {
+                            public Object getValue() {
+                                return minInc;
+                            }
+                        };
+                    }
+
+                    public XSDMinExclusiveFacet getMinExclusiveFacet() {
+                        return new XSDMinExclusiveFacetImpl() {
+                            public Object getValue() {
+                                return minExc;
+                            }
+                        };
+                    }
+
+                    public XSDMaxInclusiveFacet getMaxInclusiveFacet() {
+                        return new XSDMaxInclusiveFacetImpl() {
+                            public Object getValue() {
+                                return maxInc;
+                            }
+                        };
+                    }
+
+                    public XSDMaxExclusiveFacet getMaxExclusiveFacet() {
+                        return new XSDMaxExclusiveFacetImpl() {
+                            public Object getValue() {
+                                return maxExc;
+                            }
+                        };
+                    }
+                };
+            }
+        };
     }
 }

@@ -47,29 +47,28 @@ import com.esri.sde.sdk.client.SeTable;
  * <li>Shape fid: if none of the above, the fid happens to be the identifier of the geometry column
  * </ul>
  * </p>
- * 
+ *
  * @author Gabriel Roldan, Axios Engineering
  * @version $Id$
- *
- *
  * @source $URL$
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
- *         /org/geotools/arcsde/data/FIDReader.java $
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
+ * /org/geotools/arcsde/data/FIDReader.java $
  */
 public abstract class FIDReader {
 
     protected String layerName;
 
-    /** column name holding the feature id attribute */
+    /**
+     * column name holding the feature id attribute
+     */
     private String fidColumn;
 
     private int columnIndex;
 
     /**
      * Creates a new FIDStrategy object.
-     * 
+     *
      * @param fidColumns
-     * 
      */
     private FIDReader(String layerName, String fidColumn) {
         this.layerName = layerName;
@@ -95,15 +94,13 @@ public abstract class FIDReader {
 
     /**
      * Returns the attribute names of the FeatureType passed to the constructor.
-     * 
-     * @param the
-     *            feature type containing the properties the client code is interested in. May well
+     *
+     * @param the feature type containing the properties the client code is interested in. May well
      *            be a subset of the full set of attributes in the SeLayer
      * @return the list of property names to actually fetch for a given feature type, taking into
-     *         account the ones that possibly need to be fetched to generate the feature id, even if
-     *         they're not part of the schema.
-     * @throws IOException
-     *             if an arcsde exception is thrown somehow.
+     * account the ones that possibly need to be fetched to generate the feature id, even if
+     * they're not part of the schema.
+     * @throws IOException if an arcsde exception is thrown somehow.
      */
     public String[] getPropertiesToFetch(SimpleFeatureType schema) throws IOException {
 
@@ -128,14 +125,15 @@ public abstract class FIDReader {
 
     /**
      * Returns a FID strategy appropriate for the given SeLayer
-     * 
+     *
      * @param session
      * @param tableName
      * @return
      * @throws IOException
      */
     public static FIDReader getFidReader(final ISession session, final SeTable table,
-            final SeLayer layer, final SeRegistration reg) throws IOException {
+                                         final SeLayer layer, final SeRegistration reg) throws 
+            IOException {
         return session.issue(new Command<FIDReader>() {
             @Override
             public FIDReader execute(final ISession session, final SeConnection connection)
@@ -147,11 +145,12 @@ public abstract class FIDReader {
 
     /**
      * Only to be called from inside a command
-     * 
+     *
      * @see #getFidReader(ISession, SeTable, SeLayer, SeRegistration)
      */
     private static FIDReader getFidReaderInternal(ISession session, SeTable table, SeLayer layer,
-            SeRegistration reg) throws IOException, ArcSdeException {
+                                                  SeRegistration reg) throws IOException, 
+            ArcSdeException {
         FIDReader fidReader = null;
         final String tableName = reg.getTableName();
         try {
@@ -203,7 +202,7 @@ public abstract class FIDReader {
         private int shapeIndex;
 
         public ShapeFidReader(final String layerName, final String shapeColName,
-                final String shapeIdColName) {
+                              final String shapeIdColName) {
             super(layerName, shapeIdColName);
             this.shapeColName = shapeColName;
             this.shapeIndex = -1;

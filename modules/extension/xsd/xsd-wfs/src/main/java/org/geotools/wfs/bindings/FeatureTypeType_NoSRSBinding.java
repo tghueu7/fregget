@@ -28,9 +28,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://www.opengis.net/wfs:FeatureTypeType_NoSRS.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="FeatureTypeType_NoSRS"/&gt;
  *
@@ -39,9 +39,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class FeatureTypeType_NoSRSBinding extends AbstractComplexEMFBinding {
@@ -73,7 +70,7 @@ public class FeatureTypeType_NoSRSBinding extends AbstractComplexEMFBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //TODO: implement and remove call to super
         return super.parse(instance, node, value);
     }

@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2007 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.feature.type;
@@ -22,18 +22,18 @@ import org.opengis.util.InternationalString;
  * A property type defines information about the value of a property. This
  * includes:
  * <ul>
- *   <li>java class of the value of the property ((also known as the property "binding")
- *   <li>any restrictions on the value of the property
- *   <li>a description of the property
- *   <li>if the type is abstract or not
+ * <li>java class of the value of the property ((also known as the property "binding")
+ * <li>any restrictions on the value of the property
+ * <li>a description of the property
+ * <li>if the type is abstract or not
  * </ul>
  * </p>
  * <br/>
  * <p>
- *  <h3>Binding</h3>
- *  The {@link #getBinding()} method returns the java class of which the value
- *  of the property is an instance of.
- *  <pre>
+ * <h3>Binding</h3>
+ * The {@link #getBinding()} method returns the java class of which the value
+ * of the property is an instance of.
+ * <pre>
  *   Property property = ...;
  *   property.getType().getBinding().isAssignableFrom(property.getValue().getClass());
  *  </pre>
@@ -63,10 +63,10 @@ import org.opengis.util.InternationalString;
  * usually are the parent type of a non-abstract property type.
  * </p>
  * <p>
- *  <h3>Example</h3>
- *  Property, PropertyDescriptor, and PropertyType are very similar to concepts
- *  encountered in xml schema. Consider the following xml schema:
- *  <pre>
+ * <h3>Example</h3>
+ * Property, PropertyDescriptor, and PropertyType are very similar to concepts
+ * encountered in xml schema. Consider the following xml schema:
+ * <pre>
  *    &lt; simpleType name="number"/>
  *
  *    &lt; simpleType name="integer"/>
@@ -75,11 +75,11 @@ import org.opengis.util.InternationalString;
  *      &lt;element name="foo" type="integer"/>
  *    &lt;/complexType>
  *  </pre>
- *  <br>
- *  In the above, "number", "integer", and "myComplexType" all map to PropertyType.
- *  While "foo" maps to a PropertyDescriptor. Consider a complex attribute which is
- *  of type "myComplexType:
- *  <pre>
+ * <br>
+ * In the above, "number", "integer", and "myComplexType" all map to PropertyType.
+ * While "foo" maps to a PropertyDescriptor. Consider a complex attribute which is
+ * of type "myComplexType:
+ * <pre>
  *  ComplexAttribute complexAttribute = ...;
  *  ComplexType complexType = complexAttribute.getType();
  *
@@ -104,11 +104,9 @@ import org.opengis.util.InternationalString;
  *  property.getValue() instanceof Integer;
  *  </pre>
  * </p>
-
+ *
  * @author Jody Garnett, Refractions Research, Inc.
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
  * @source $URL$
  */
 public interface PropertyType {
@@ -126,6 +124,7 @@ public interface PropertyType {
      * <p>
      * This value is never <code>null</code>.
      * </p>
+     *
      * @return The name of the property type.
      */
     Name getName();
@@ -136,6 +135,7 @@ public interface PropertyType {
      * <p>
      * This value is never <code>null</code>.
      * </p>
+     *
      * @return The binding of the property type.
      */
     Class<?> getBinding();
@@ -174,6 +174,7 @@ public interface PropertyType {
      * This method returns an empty set in the case of no restrictions and should
      * not return <code>null</code>.
      * </p>
+     *
      * @return List<Restriction> used to validate allowable values.
      */
     List<Filter> getRestrictions();
@@ -204,7 +205,7 @@ public interface PropertyType {
      *
      * @return A map of user data.
      */
-    Map<Object,Object> getUserData();
+    Map<Object, Object> getUserData();
 
     /**
      * Equality based on property {@link #getName()}.

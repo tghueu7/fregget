@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -23,24 +23,29 @@ import org.opengis.geometry.DirectPosition;
 /**
  * Simple Circle focused on Delaunays triangulation.
  *
- * @since 2.4
- * @source $URL$
- * @version $Id$
  * @author Jan Jezek
+ * @version $Id$
+ * @source $URL$
+ * @since 2.4
  */
 class Circle {
-    /** Coordinates of center. */
+    /**
+     * Coordinates of center.
+     */
     private DirectPosition2D center;
 
-    /** Value of radius */
+    /**
+     * Value of radius
+     */
     private double radius;
 
-    /** Tolerance for the cotains method. */
+    /**
+     * Tolerance for the cotains method.
+     */
     private double tolerance = 0.0001;
 
     /**
      * Creates a circle with center [0,0] and radius = 0.
-     *
      */
     protected Circle() {
         this(new DirectPosition2D(0, 0), 0);
@@ -48,6 +53,7 @@ class Circle {
 
     /**
      * Creates a circle using the specified center and radius.
+     *
      * @param center of the circle.
      * @param radius of the circle.
      */
@@ -118,7 +124,6 @@ class Circle {
      * neverending loop.
      *
      * @param p - the point to be tested
-     *
      * @return True if the circle contais p, False if not.
      */
     protected boolean contains(DirectPosition p) {

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2015, Boundless
  *
@@ -22,7 +22,6 @@ import com.google.gson.JsonParser;
 import com.mongodb.DBObject;
 
 /**
- *
  * @author tkunicki@boundlessgeo.com
  */
 public class MongoTestUtil {
@@ -30,7 +29,7 @@ public class MongoTestUtil {
     public static String prettyPrint(DBObject dbo) {
         return prettyPrint(dbo.toString());
     }
-    
+
     public static String prettyPrint(String json) {
         return new GsonBuilder().setPrettyPrinting().create().toJson(new JsonParser().parse(json));
     }

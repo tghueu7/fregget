@@ -12,18 +12,16 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class GML32TestSupport extends XMLTestSupport {
-    
+
     static {
         HashMap namespaces = new HashMap();
         namespaces.put("gml", GML.NAMESPACE);
         XMLUnit.setXpathNamespaceContext(new SimpleNamespaceContext(namespaces));
     }
-    
+
     protected void registerNamespaces(Element root) {
         super.registerNamespaces(root);
         root.setAttribute("xmlns:gml", GML.NAMESPACE);
@@ -32,21 +30,21 @@ public abstract class GML32TestSupport extends XMLTestSupport {
     protected Configuration createConfiguration() {
         return new GMLConfiguration(enableArcSurfaceSupport());
     }
-    
+
     /*
      * To be overriden by subclasses that require the extended arc/surface bindings
-     * enabled. 
+     * enabled.
      */
     protected boolean enableArcSurfaceSupport() {
         return false;
     }
-    
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         GML3MockData.setGML(GML.getInstance());
     }
-    
+
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
@@ -55,7 +53,7 @@ public abstract class GML32TestSupport extends XMLTestSupport {
 
     /**
      * Return the gml:id of a Node (must be an Element).
-     * 
+     *
      * @param node
      * @return the gml:id
      */

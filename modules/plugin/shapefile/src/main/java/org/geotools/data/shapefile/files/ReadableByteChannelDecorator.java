@@ -26,11 +26,8 @@ import java.nio.channels.ReadableByteChannel;
  * A ReadableByteChannel that delegates all calls to the underlying
  * ReadableByteChannel but for {@link #close()} it also calls
  * ShapefileFiles.unlock method to release the lock on the URL.
- * 
+ *
  * @author jesse
- *
- *
- *
  * @source $URL$
  */
 public class ReadableByteChannelDecorator implements ReadableByteChannel {
@@ -42,7 +39,7 @@ public class ReadableByteChannelDecorator implements ReadableByteChannel {
     private boolean closed;
 
     public ReadableByteChannelDecorator(ReadableByteChannel newChannel,
-            ShpFiles shapefileFiles, URL url, FileReader requestor) {
+                                        ShpFiles shapefileFiles, URL url, FileReader requestor) {
         this.wrapped = newChannel;
         this.shapefileFiles = shapefileFiles;
         this.url = url;

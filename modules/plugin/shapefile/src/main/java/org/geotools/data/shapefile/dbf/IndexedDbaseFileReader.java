@@ -35,8 +35,8 @@ import org.geotools.resources.NIOUtilities;
  * DbaseFileReader r = new DbaseFileReader( in )
  * Object[] fields = new Object[r.getHeader().getNumFields()];
  * while (r.hasNext()) {
- *    r.readEntry(fields);
- *    // do stuff
+ * r.readEntry(fields);
+ * // do stuff
  * }
  * r.close();
  * </PRE></CODE> For consumers who wish to be a bit more selective with their reading of rows, the
@@ -49,26 +49,24 @@ import org.geotools.resources.NIOUtilities;
  * DbaseFileReader r = new DbaseFileReader( in )
  * int fields = r.getHeader().getNumFields();
  * while (r.hasNext()) {
- *   DbaseFileReader.Row row = r.readRow();
- *   for (int i = 0; i &lt; fields; i++) {
- *     // do stuff
- *     Foo.bar( row.read(i) );
- *   }
+ * DbaseFileReader.Row row = r.readRow();
+ * for (int i = 0; i &lt; fields; i++) {
+ * // do stuff
+ * Foo.bar( row.read(i) );
+ * }
  * }
  * r.close();
  * </PRE></CODE>
- * 
+ *
  * @author Ian Schneider
  * @author Tommaso Nolli
- * 
- * 
  * @source $URL$
  */
 public class IndexedDbaseFileReader extends DbaseFileReader {
 
     /**
      * Like calling DbaseFileReader(ReadableByteChannel, true);
-     * 
+     *
      * @param channel
      * @throws IOException
      */
@@ -78,8 +76,8 @@ public class IndexedDbaseFileReader extends DbaseFileReader {
 
     /**
      * Creates a new instance of DBaseFileReader
-     * 
-     * @param channel The readable channel to use.
+     *
+     * @param channel               The readable channel to use.
      * @param useMemoryMappedBuffer Wether or not map the file in memory
      * @throws IOException If an error occurs while initializing.
      */
@@ -90,15 +88,15 @@ public class IndexedDbaseFileReader extends DbaseFileReader {
     }
 
     public IndexedDbaseFileReader(ShpFiles shpFiles, boolean useMemoryMappedBuffer,
-            Charset stringCharset) throws IOException {
+                                  Charset stringCharset) throws IOException {
         super(shpFiles, useMemoryMappedBuffer, stringCharset, TimeZone.getDefault());
     }
 
     public IndexedDbaseFileReader(ShpFiles shpFiles, boolean useMemoryMappedBuffer,
-            Charset stringCharset, TimeZone timeZone) throws IOException {
+                                  Charset stringCharset, TimeZone timeZone) throws IOException {
         super(shpFiles, useMemoryMappedBuffer, stringCharset, timeZone);
     }
-    
+
     public void goTo(int recno) throws IOException, UnsupportedOperationException {
 
         if (this.randomAccessEnabled) {
@@ -108,7 +106,7 @@ public class IndexedDbaseFileReader extends DbaseFileReader {
             if (this.useMemoryMappedBuffer) {
                 if (newPosition < this.currentOffset
                         || (this.currentOffset + buffer.limit()) < (newPosition + header
-                                .getRecordLength())) {
+                        .getRecordLength())) {
                     NIOUtilities.clean(buffer);
                     FileChannel fc = (FileChannel) channel;
                     if (fc.size() > newPosition + Integer.MAX_VALUE) {

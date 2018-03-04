@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -39,7 +39,7 @@ import com.vividsolutions.jts.io.WKBWriter;
 
 /**
  * Allows writing and reading features to/from the given file
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 public class SimpleFeatureIO {
@@ -61,7 +61,7 @@ public class SimpleFeatureIO {
 
     /**
      * Writes the feature to the file
-     * 
+     *
      * @param sf
      * @throws IOException
      */
@@ -132,7 +132,7 @@ public class SimpleFeatureIO {
 
     /**
      * Reads the next feature form the file
-     * 
+     *
      * @return
      * @throws IOException
      */
@@ -151,7 +151,7 @@ public class SimpleFeatureIO {
 
     /**
      * Reads the attributes.
-     * 
+     *
      * @param ad
      * @return
      * @throws IOException
@@ -215,7 +215,7 @@ public class SimpleFeatureIO {
 
     /**
      * Moves the IO to the specified offset in the file
-     * 
+     *
      * @param offset
      * @throws IOException
      */
@@ -225,7 +225,7 @@ public class SimpleFeatureIO {
 
     /**
      * Returns the current reading position in the file
-     * 
+     *
      * @return
      * @throws IOException
      */
@@ -235,7 +235,7 @@ public class SimpleFeatureIO {
 
     /**
      * Returns true if the end of file has been reached
-     * 
+     *
      * @return
      * @throws IOException
      */
@@ -245,7 +245,7 @@ public class SimpleFeatureIO {
 
     /**
      * Closes the IO, eventually deleting the file in the process
-     * 
+     *
      * @param deleteFile
      * @throws IOException
      */
@@ -262,7 +262,7 @@ public class SimpleFeatureIO {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override

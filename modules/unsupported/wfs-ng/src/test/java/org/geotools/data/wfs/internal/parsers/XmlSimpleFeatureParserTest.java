@@ -28,18 +28,18 @@ import org.geotools.data.wfs.internal.GetFeatureParser;
 import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
- * 
- * 
  * @source $URL$
  */
 public class XmlSimpleFeatureParserTest extends AbstractGetFeatureParserTest {
 
     @Override
     protected GetFeatureParser getParser(final QName featureName, final URL schemaLocation,
-            final SimpleFeatureType featureType, final URL getFeaturesRequest) throws IOException {
+                                         final SimpleFeatureType featureType, final URL 
+                                                     getFeaturesRequest) throws IOException {
 
         InputStream inputStream = new BufferedInputStream(getFeaturesRequest.openStream());
-        GetFeatureParser parser = new XmlSimpleFeatureParser(inputStream, featureType, featureName, WFSDataStoreFactory.AXIS_ORDER_COMPLIANT);
+        GetFeatureParser parser = new XmlSimpleFeatureParser(inputStream, featureType, 
+                featureName, WFSDataStoreFactory.AXIS_ORDER_COMPLIANT);
         return parser;
     }
 

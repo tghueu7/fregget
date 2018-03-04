@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2006-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -37,13 +37,11 @@ import org.geotools.util.Utilities;
  * An association between a {@linkplain #getSource source} and {@linkplain #getTarget target}
  * direct positions. Accuracy information and comments can optionnaly be attached.
  *
- * @since 2.4
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Jan Jezek
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @since 2.4
  */
 public class MappedPosition implements Serializable {
     /**
@@ -103,13 +101,12 @@ public class MappedPosition implements Serializable {
     /**
      * Makes sure an argument is non-null.
      *
-     * @param  name   Argument name.
-     * @param  object User argument.
+     * @param name   Argument name.
+     * @param object User argument.
      * @throws InvalidParameterValueException if {@code object} is null.
      */
     private static void ensureNonNull(final String name, final Object object)
-            throws IllegalArgumentException
-    {
+            throws IllegalArgumentException {
         if (object == null) {
             throw new IllegalArgumentException(Errors.format(ErrorKeys.NULL_ARGUMENT_$1, name));
         }
@@ -190,14 +187,13 @@ public class MappedPosition implements Serializable {
      * Computes the distance between the {@linkplain #getSource source point} transformed
      * by the supplied math transform, and the {@linkplain #getTarget target point}.
      *
-     * @param  transform The transform to use for computing the error.
-     * @param  buffer An optionnaly pre-computed direct position to use as a buffer,
-     *         or {@code null} if none. The content of this buffer will be overwritten.
+     * @param transform The transform to use for computing the error.
+     * @param buffer    An optionnaly pre-computed direct position to use as a buffer,
+     *                  or {@code null} if none. The content of this buffer will be overwritten.
      * @return The distance in units of the target CRS axis.
      */
     final double getError(final MathTransform transform, final DirectPosition buffer)
-            throws TransformException
-    {
+            throws TransformException {
         return distance(transform.transform(source, buffer), target);
     }
 
@@ -205,16 +201,16 @@ public class MappedPosition implements Serializable {
      * Returns the distance between the specified points.
      */
     private static double distance(final DirectPosition source, final DirectPosition target) {
-        final int otherDim  = source.getDimension();
+        final int otherDim = source.getDimension();
         final int dimension = target.getDimension();
         if (otherDim != dimension) {
             throw new MismatchedDimensionException(Errors.format(ErrorKeys.MISMATCHED_DIMENSION_$2,
-                        otherDim, dimension));
+                    otherDim, dimension));
         }
         double sum = 0;
-        for (int i=0; i<dimension; i++) {
+        for (int i = 0; i < dimension; i++) {
             final double delta = source.getOrdinate(i) - target.getOrdinate(i);
-            sum += delta*delta;
+            sum += delta * delta;
         }
         return Math.sqrt(sum / dimension);
     }
@@ -223,19 +219,19 @@ public class MappedPosition implements Serializable {
      * Returns a hash code value for this mapped position.
      */
     public int hashCode() {
-        return source.hashCode() + 37*target.hashCode();
+        return source.hashCode() + 37 * target.hashCode();
     }
 
     /**
      * Compares this mapped position with the specified object for equality.
      */
     public boolean equals(final Object object) {
-        if (object!=null && object.getClass().equals(getClass())) {
+        if (object != null && object.getClass().equals(getClass())) {
             final MappedPosition that = (MappedPosition) object;
-            return Utilities.equals(this.source,   that.source)   &&
-                   Utilities.equals(this.target,   that.target)   &&
-                   Utilities.equals(this.comments, that.comments) &&
-                   Utilities.equals(this.accuracy, that.accuracy);
+            return Utilities.equals(this.source, that.source) &&
+                    Utilities.equals(this.target, that.target) &&
+                    Utilities.equals(this.comments, that.comments) &&
+                    Utilities.equals(this.accuracy, that.accuracy);
         }
         return false;
     }
@@ -250,7 +246,7 @@ public class MappedPosition implements Serializable {
         table.write(Vocabulary.format(VocabularyKeys.SOURCE_POINT));
         table.write(':');
         int dimension = source.getDimension();
-        for (int i=0; i<dimension; i++) {
+        for (int i = 0; i < dimension; i++) {
             table.nextColumn();
             table.write(String.valueOf(source.getOrdinate(i)));
         }
@@ -258,7 +254,7 @@ public class MappedPosition implements Serializable {
         table.write(Vocabulary.format(VocabularyKeys.TARGET_POINT));
         table.write(':');
         dimension = target.getDimension();
-        for (int i=0; i<dimension; i++) {
+        for (int i = 0; i < dimension; i++) {
             table.nextColumn();
             table.write(String.valueOf(target.getOrdinate(i)));
         }

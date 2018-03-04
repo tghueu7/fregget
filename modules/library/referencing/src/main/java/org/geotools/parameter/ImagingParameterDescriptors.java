@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -69,12 +69,10 @@ import org.geotools.resources.XArray;
  * This adaptor make it easier to access parameters for a JAI operation through the general GeoAPI
  * parameters framework.
  *
- * @since 2.2
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.2
  */
 public class ImagingParameterDescriptors extends DefaultParameterDescriptorGroup {
     /**
@@ -88,9 +86,9 @@ public class ImagingParameterDescriptors extends DefaultParameterDescriptorGroup
      */
     private static final Object[] AUTHORITIES = {
             "com.sun.media.jai", Citations.JAI,
-            "org.geotools",      Citations.GEOTOOLS,
-            "org.jaitools.media.jai",Citations.JAI,
-            "it.geosolutions.jaiext",Citations.JAI
+            "org.geotools", Citations.GEOTOOLS,
+            "org.jaitools.media.jai", Citations.JAI,
+            "it.geosolutions.jaiext", Citations.JAI
     };
 
     /**
@@ -100,7 +98,7 @@ public class ImagingParameterDescriptors extends DefaultParameterDescriptorGroup
      * {@value javax.media.jai.registry.RenderedRegistryMode#MODE_NAME} registry mode.
      */
     @SuppressWarnings("unchecked")
-    public static final Map<Class<?>,Class<?>> DEFAULT_SOURCE_TYPE_MAP = (Map)
+    public static final Map<Class<?>, Class<?>> DEFAULT_SOURCE_TYPE_MAP = (Map)
             Collections.singletonMap(RenderedImage.class, GridCoverage.class);
 
     /**
@@ -126,13 +124,13 @@ public class ImagingParameterDescriptors extends DefaultParameterDescriptorGroup
      * The {@linkplain #getName name for this parameter group} will be inferred from the
      * {@linkplain RegistryElementDescriptor#getName name of the supplied registry element}
      * using the {@link #properties properties} method.
-     *
+     * <p>
      * The <cite>source type map</cite> default to a (<code>{@linkplain RenderedImage}.class</code>,
      * <code>{@linkplain GridCoverage}.class</code>) key-value pair and the <cite>registry
      * mode</cite> default to {@value javax.media.jai.registry.RenderedRegistryMode#MODE_NAME}.
      *
      * @param operation The JAI's operation descriptor, usually as an instance of
-     *        {@link OperationDescriptor}.
+     *                  {@link OperationDescriptor}.
      */
     public ImagingParameterDescriptors(final RegistryElementDescriptor operation) {
         this(properties(operation), operation, DEFAULT_SOURCE_TYPE_MAP,
@@ -144,22 +142,21 @@ public class ImagingParameterDescriptors extends DefaultParameterDescriptorGroup
      * The {@linkplain #getName name for this parameter group} will be inferred from the
      * {@linkplain RegistryElementDescriptor#getName name of the supplied registry element}
      * using the {@link #properties properties} method.
-     *
+     * <p>
      * The <cite>source type map</cite> default to a (<code>{@linkplain RenderedImage}.class</code>,
      * <code>{@linkplain GridCoverage}.class</code>) key-value pair and the <cite>registry
      * mode</cite> default to {@value javax.media.jai.registry.RenderedRegistryMode#MODE_NAME}.
      *
      * @param operation The JAI's operation descriptor, usually as an instance of
-     *        {@link OperationDescriptor}.
+     *                  {@link OperationDescriptor}.
      * @param extension Additional parameters to put in this descriptor, or {@code null} if none.
-     *        If a parameter has the same name than an {@code operation} parameter, then the
-     *        extension overrides the later.
-     *
+     *                  If a parameter has the same name than an {@code operation} parameter, 
+     *                  then the
+     *                  extension overrides the later.
      * @since 2.4
      */
     public ImagingParameterDescriptors(final RegistryElementDescriptor operation,
-                                       final Collection<ParameterDescriptor> extension)
-    {
+                                       final Collection<ParameterDescriptor> extension) {
         this(properties(operation), operation, RenderedRegistryMode.MODE_NAME,
                 DEFAULT_SOURCE_TYPE_MAP, extension);
     }
@@ -169,26 +166,24 @@ public class ImagingParameterDescriptors extends DefaultParameterDescriptorGroup
      * The properties map is given unchanged to the
      * {@linkplain AbstractIdentifiedObject#AbstractIdentifiedObject(Map) super-class constructor}.
      *
-     * @param properties Set of properties. Should contains at least {@code "name"}.
-     * @param operation The JAI's operation descriptor, usually as an instance of
-     *        {@link OperationDescriptor}.
+     * @param properties    Set of properties. Should contains at least {@code "name"}.
+     * @param operation     The JAI's operation descriptor, usually as an instance of
+     *                      {@link OperationDescriptor}.
      * @param sourceTypeMap Mapping from JAI source type to this group source type. Typically a
-     *        singleton with the (<code>{@linkplain RenderedImage}.class</code>,
-     *        <code>{@linkplain GridCoverage}.class</code>) key-value pair.
-     * @param registryMode The JAI's registry mode (usually
-     *        {@value javax.media.jai.registry.RenderedRegistryMode#MODE_NAME}).
-     *
+     *                      singleton with the (<code>{@linkplain RenderedImage}.class</code>,
+     *                      <code>{@linkplain GridCoverage}.class</code>) key-value pair.
+     * @param registryMode  The JAI's registry mode (usually
+     *                      {@value javax.media.jai.registry.RenderedRegistryMode#MODE_NAME}).
      * @deprecated Replaced by {@link #ImagingParameterDescriptors(Map,
-     *             RegistryElementDescriptor,String,Map,Collection}.
+     * RegistryElementDescriptor, String, Map, Collection}.
      */
-    public ImagingParameterDescriptors(final Map<String,?> properties,
+    public ImagingParameterDescriptors(final Map<String, ?> properties,
                                        final RegistryElementDescriptor operation,
-                                       final Map<Class<?>,Class<?>> sourceTypeMap,
-                                       final String registryMode)
-    {
+                                       final Map<Class<?>, Class<?>> sourceTypeMap,
+                                       final String registryMode) {
         this(properties,
-             operation.getParameterListDescriptor(registryMode),
-             operation, registryMode, sourceTypeMap, null);
+                operation.getParameterListDescriptor(registryMode),
+                operation, registryMode, sourceTypeMap, null);
     }
 
     /**
@@ -196,29 +191,29 @@ public class ImagingParameterDescriptors extends DefaultParameterDescriptorGroup
      * The properties map is given unchanged to the
      * {@linkplain AbstractIdentifiedObject#AbstractIdentifiedObject(Map) super-class constructor}.
      *
-     * @param properties Set of properties. Should contains at least {@code "name"}.
-     * @param operation The JAI's operation descriptor, usually as an instance of
-     *        {@link OperationDescriptor}.
-     * @param registryMode The JAI's registry mode (usually
-     *        {@value javax.media.jai.registry.RenderedRegistryMode#MODE_NAME}).
+     * @param properties    Set of properties. Should contains at least {@code "name"}.
+     * @param operation     The JAI's operation descriptor, usually as an instance of
+     *                      {@link OperationDescriptor}.
+     * @param registryMode  The JAI's registry mode (usually
+     *                      {@value javax.media.jai.registry.RenderedRegistryMode#MODE_NAME}).
      * @param sourceTypeMap Mapping from JAI source type to this group source type. Typically a
-     *        singleton with the (<code>{@linkplain RenderedImage}.class</code>,
-     *        <code>{@linkplain GridCoverage}.class</code>) key-value pair.
-     * @param extension Additional parameters to put in this descriptor, or {@code null} if none.
-     *        If a parameter has the same name than an {@code operation} parameter, then the
-     *        extension overrides the later.
-     *
+     *                      singleton with the (<code>{@linkplain RenderedImage}.class</code>,
+     *                      <code>{@linkplain GridCoverage}.class</code>) key-value pair.
+     * @param extension     Additional parameters to put in this descriptor, or {@code null} if 
+     *                      none.
+     *                      If a parameter has the same name than an {@code operation} parameter,
+     *                      then the
+     *                      extension overrides the later.
      * @since 2.4
      */
-    public ImagingParameterDescriptors(final Map<String,?> properties,
+    public ImagingParameterDescriptors(final Map<String, ?> properties,
                                        final RegistryElementDescriptor operation,
                                        final String registryMode,
-                                       final Map<Class<?>,Class<?>> sourceTypeMap,
-                                       final Collection<ParameterDescriptor> extension)
-    {
+                                       final Map<Class<?>, Class<?>> sourceTypeMap,
+                                       final Collection<ParameterDescriptor> extension) {
         this(properties,
-             operation.getParameterListDescriptor(registryMode),
-             operation, registryMode, sourceTypeMap, extension);
+                operation.getParameterListDescriptor(registryMode),
+                operation, registryMode, sourceTypeMap, extension);
     }
 
     /**
@@ -229,9 +224,8 @@ public class ImagingParameterDescriptors extends DefaultParameterDescriptorGroup
      * @param properties Set of properties. Should contains at least {@code "name"}.
      * @param descriptor The JAI descriptor.
      */
-    public ImagingParameterDescriptors(final Map<String,?> properties,
-                                       final ParameterListDescriptor descriptor)
-    {
+    public ImagingParameterDescriptors(final Map<String, ?> properties,
+                                       final ParameterListDescriptor descriptor) {
         this(properties, descriptor, null, null, null, null);
     }
 
@@ -240,53 +234,53 @@ public class ImagingParameterDescriptors extends DefaultParameterDescriptorGroup
      * If {@code operation} is non-null, then {@code descriptor} should be derived from it.
      * This constructor is private in order to ensure this condition.
      */
-    private ImagingParameterDescriptors(final Map<String,?> properties,
+    private ImagingParameterDescriptors(final Map<String, ?> properties,
                                         final ParameterListDescriptor descriptor,
                                         final RegistryElementDescriptor operation,
                                         final String registryMode,
-                                        final Map<Class<?>,Class<?>> sourceTypeMap,
-                                        final Collection<ParameterDescriptor> extension)
-    {
-        super(properties, 1, 1, asDescriptors(descriptor, operation, registryMode, sourceTypeMap, extension));
-        this.descriptor   = descriptor;
-        this.operation    = operation;
+                                        final Map<Class<?>, Class<?>> sourceTypeMap,
+                                        final Collection<ParameterDescriptor> extension) {
+        super(properties, 1, 1, asDescriptors(descriptor, operation, registryMode, sourceTypeMap,
+                extension));
+        this.descriptor = descriptor;
+        this.operation = operation;
         this.registryMode = registryMode;
     }
 
     /**
      * Infers from the specified JAI operation a set of properties that can be given to the
-     * {@linkplain #ImagingParameterDescriptors(Map,RegistryElementDescriptor,Map,String)
+     * {@linkplain #ImagingParameterDescriptors(Map, RegistryElementDescriptor, Map, String)
      * constructor}. The returned map includes values (when available) for the following keys:
      * <p>
      * <table border="1">
-     *  <tr>
-     *   <th nowrap>Key</th>
-     *   <th nowrap>Inferred from</th>
-     *  </tr>
-     *  <tr>
-     *   <td>{@link #NAME_KEY NAME_KEY}</td>
-     *   <td>{@linkplain RegistryElementDescriptor#getName descriptor name}</td>
-     *  </tr>
-     *  <tr>
-     *   <td>{@link #ALIAS_KEY ALIAS_KEY}</td>
-     *   <td>{@code "Vendor"} (for the {@linkplain GenericName#getScope scope}) and
-     *       {@code "LocalName"} {@linkplain OperationDescriptor#getResources resources}</td>
-     *  </tr>
-     *  <tr>
-     *   <td>{@link Identifier#AUTHORITY_KEY AUTHORITY_KEY}</td>
-     *   <td>{@linkplain Citations#JAI JAI} or {@linkplain Citations#GEOTOOLS Geotools}
-     *       inferred from the vendor, extented with {@code "DocURL"}
-     *       {@linkplain OperationDescriptor#getResources resources} as
-     *       {@linkplain ResponsibleParty#getContactInfo contact information}.</td></td>
-     *  </tr>
-     *  <tr>
-     *   <td>{@link ReferenceIdentifier#VERSION_KEY VERSION_KEY}</td>
-     *   <td>{@code "Version"} {@linkplain OperationDescriptor#getResources resources}</td>
-     *  </tr>
-     *  <tr>
-     *   <td>{@link #REMARKS_KEY REMARKS_KEY}</td>
-     *   <td>{@code "Description"} {@linkplain OperationDescriptor#getResources resources}</td>
-     *  </tr>
+     * <tr>
+     * <th nowrap>Key</th>
+     * <th nowrap>Inferred from</th>
+     * </tr>
+     * <tr>
+     * <td>{@link #NAME_KEY NAME_KEY}</td>
+     * <td>{@linkplain RegistryElementDescriptor#getName descriptor name}</td>
+     * </tr>
+     * <tr>
+     * <td>{@link #ALIAS_KEY ALIAS_KEY}</td>
+     * <td>{@code "Vendor"} (for the {@linkplain GenericName#getScope scope}) and
+     * {@code "LocalName"} {@linkplain OperationDescriptor#getResources resources}</td>
+     * </tr>
+     * <tr>
+     * <td>{@link Identifier#AUTHORITY_KEY AUTHORITY_KEY}</td>
+     * <td>{@linkplain Citations#JAI JAI} or {@linkplain Citations#GEOTOOLS Geotools}
+     * inferred from the vendor, extented with {@code "DocURL"}
+     * {@linkplain OperationDescriptor#getResources resources} as
+     * {@linkplain ResponsibleParty#getContactInfo contact information}.</td></td>
+     * </tr>
+     * <tr>
+     * <td>{@link ReferenceIdentifier#VERSION_KEY VERSION_KEY}</td>
+     * <td>{@code "Version"} {@linkplain OperationDescriptor#getResources resources}</td>
+     * </tr>
+     * <tr>
+     * <td>{@link #REMARKS_KEY REMARKS_KEY}</td>
+     * <td>{@code "Description"} {@linkplain OperationDescriptor#getResources resources}</td>
+     * </tr>
      * </table>
      * <p>
      * For JAI image operation (for example {@code "Add"}, the end result is fully-qualified name
@@ -295,9 +289,9 @@ public class ImagingParameterDescriptors extends DefaultParameterDescriptorGroup
      * This method returns a modifiable map. Users can safely changes its content in order to
      * select for example a different name.
      */
-    public static Map<String,Object> properties(final RegistryElementDescriptor operation) {
+    public static Map<String, Object> properties(final RegistryElementDescriptor operation) {
         String name = operation.getName();
-        final Map<String,Object> properties = new HashMap<String,Object>();
+        final Map<String, Object> properties = new HashMap<String, Object>();
         if (operation instanceof OperationDescriptor) {
             /*
              * Gets the vendor name (if available) using US locale in order to get something as
@@ -313,9 +307,9 @@ public class ImagingParameterDescriptors extends DefaultParameterDescriptorGroup
             if (vendor != null) {
                 vendor = vendor.trim();
                 name = ImagingParameterDescription.trimPrefix(name, vendor);
-                for (int i=0; i<AUTHORITIES.length; i+=2) {
+                for (int i = 0; i < AUTHORITIES.length; i += 2) {
                     if (vendor.equalsIgnoreCase((String) AUTHORITIES[i])) {
-                        authority = (Citation) AUTHORITIES[i+1];
+                        authority = (Citation) AUTHORITIES[i + 1];
                         break;
                     }
                 }
@@ -352,8 +346,7 @@ public class ImagingParameterDescriptors extends DefaultParameterDescriptorGroup
                     if (it.hasNext()) {
                         oldParty = it.next();
                         it.remove(); // This party will be re-injected with a new URI below.
-                    }
-                    else {
+                    } else {
                         oldParty = null;
                     }
                 }
@@ -373,11 +366,11 @@ public class ImagingParameterDescriptors extends DefaultParameterDescriptorGroup
              * the end result is fully-qualified name like "JAI:Add" and one alias like
              * "com.sun.media.jai.Add".
              */
-            final GenericName alias = NameFactory.create(new InternationalString[] {
-                new ImagingParameterDescription(op, "Vendor"   , null),     // Scope name
-                new ImagingParameterDescription(op, "LocalName", "Vendor")  // Local name
+            final GenericName alias = NameFactory.create(new InternationalString[]{
+                    new ImagingParameterDescription(op, "Vendor", null),     // Scope name
+                    new ImagingParameterDescription(op, "LocalName", "Vendor")  // Local name
             }, '.');
-            properties.put(ALIAS_KEY,   alias);
+            properties.put(ALIAS_KEY, alias);
             properties.put(REMARKS_KEY, description);
             properties.put(ReferenceIdentifier.VERSION_KEY, bundle.getString("Version"));
             properties.put(Identifier.AUTHORITY_KEY, authority);
@@ -394,16 +387,15 @@ public class ImagingParameterDescriptors extends DefaultParameterDescriptorGroup
     private static ParameterDescriptor[] asDescriptors(
             final ParameterListDescriptor descriptor,
             final RegistryElementDescriptor operation, final String registryMode,
-            final Map<Class<?>,Class<?>> sourceTypeMap,
-            final Collection<ParameterDescriptor> extension)
-    {
+            final Map<Class<?>, Class<?>> sourceTypeMap,
+            final Collection<ParameterDescriptor> extension) {
         /*
          * Creates the list of JAI descriptor to be replaced by user-supplied parameters.
          * Note that this map will be modified again in the remaining of this method.
          */
         ensureNonNull("descriptor", descriptor);
-        final Map<String,ParameterDescriptor> replacements =
-                new LinkedHashMap<String,ParameterDescriptor>();
+        final Map<String, ParameterDescriptor> replacements =
+                new LinkedHashMap<String, ParameterDescriptor>();
         if (extension != null) {
             for (final ParameterDescriptor d : extension) {
                 final String name = d.getName().getCode().trim().toLowerCase();
@@ -421,15 +413,15 @@ public class ImagingParameterDescriptors extends DefaultParameterDescriptorGroup
          */
         final int numSources;
         final int numParameters = descriptor.getNumParameters();
-        final Map<String,CharSequence> properties = new HashMap<String,CharSequence>();
+        final Map<String, CharSequence> properties = new HashMap<String, CharSequence>();
         ParameterDescriptor[] desc;
         if (operation instanceof OperationDescriptor) {
             final OperationDescriptor op = (OperationDescriptor) operation;
-            final String[]   names = op.getSourceNames();
+            final String[] names = op.getSourceNames();
             final Class<?>[] types = op.getSourceClasses(registryMode);
             numSources = op.getNumSources();
             desc = new ParameterDescriptor[numParameters + numSources];
-            for (int i=0; i<numSources; i++) {
+            for (int i = 0; i < numSources; i++) {
                 Class<?> type = (Class<?>) sourceTypeMap.get(types[i]);
                 if (type == null) {
                     type = types[i];
@@ -444,21 +436,21 @@ public class ImagingParameterDescriptors extends DefaultParameterDescriptorGroup
                      */
                     final int length = name.length();
                     if (length != 0) {
-                        final char c = name.charAt(length-1);
-                        if (c=='0' || c=='1') {
+                        final char c = name.charAt(length - 1);
+                        if (c == '0' || c == '1') {
                             properties.put(ALIAS_KEY, name);
-                            name = name.substring(0, length-1);
+                            name = name.substring(0, length - 1);
                         }
                     }
                 }
                 properties.put(NAME_KEY, name);
                 desc[i] = new DefaultParameterDescriptor(properties, type,
-                            null,   // validValues
-                            null,   // defaultValue
-                            null,   // minimum
-                            null,   // maximum
-                            null,   // unit
-                            true);  // required
+                        null,   // validValues
+                        null,   // defaultValue
+                        null,   // minimum
+                        null,   // maximum
+                        null,   // unit
+                        true);  // required
             }
         } else {
             numSources = 0;
@@ -468,10 +460,10 @@ public class ImagingParameterDescriptors extends DefaultParameterDescriptorGroup
          * Source parameters completed. Now get the ordinary parameters. We check for
          * replacement of JAI parameters by user-supplied parameters in this process.
          */
-        final String[]     names = descriptor.getParamNames();
+        final String[] names = descriptor.getParamNames();
         final Class<?>[] classes = descriptor.getParamClasses();
-        final Object[]  defaults = descriptor.getParamDefaults();
-        for (int i=0; i<numParameters; i++) {
+        final Object[] defaults = descriptor.getParamDefaults();
+        for (int i = 0; i < numParameters; i++) {
             final String name = names[i];
             final ParameterDescriptor replacement = replacements.remove(name.trim().toLowerCase());
             if (replacement != null) {
@@ -493,7 +485,8 @@ public class ImagingParameterDescriptors extends DefaultParameterDescriptorGroup
                 validValues = descriptor.getEnumeratedParameterValues(name);
             } catch (UnsupportedOperationException exception) {
                 validValues = null;
-            } else {
+            }
+            else {
                 validValues = null;
             }
             Object defaultValue = defaults[i];
@@ -510,7 +503,7 @@ public class ImagingParameterDescriptors extends DefaultParameterDescriptorGroup
                 }
             }
             desc[i + numSources] = new DefaultParameterDescriptor(properties,
-                                    type, validValues, defaultValue, min, max, null, true);
+                    type, validValues, defaultValue, min, max, null, true);
         }
         /*
          * Appends the remaining extra descriptors. Note that some descriptor may
@@ -539,9 +532,10 @@ public class ImagingParameterDescriptors extends DefaultParameterDescriptorGroup
     /**
      * Compares the specified object with this parameter group for equality.
      *
-     * @param  object The object to compare to {@code this}.
-     * @param  compareMetadata {@code true} for performing a strict comparaison, or
-     *         {@code false} for comparing only properties relevant to transformations.
+     * @param object          The object to compare to {@code this}.
+     * @param compareMetadata {@code true} for performing a strict comparaison, or
+     *                        {@code false} for comparing only properties relevant to 
+     *                                    transformations.
      * @return {@code true} if both objects are equal.
      */
     @Override
@@ -552,8 +546,8 @@ public class ImagingParameterDescriptors extends DefaultParameterDescriptorGroup
         }
         if (super.equals(object, compareMetadata)) {
             final ImagingParameterDescriptors that = (ImagingParameterDescriptors) object;
-            return Utilities.equals(this.operation,  that.operation) &&
-                   Utilities.equals(this.descriptor, that.descriptor);
+            return Utilities.equals(this.operation, that.operation) &&
+                    Utilities.equals(this.descriptor, that.descriptor);
         }
         return false;
     }

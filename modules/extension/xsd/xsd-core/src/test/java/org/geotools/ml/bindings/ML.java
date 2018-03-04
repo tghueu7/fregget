@@ -17,6 +17,7 @@
 package org.geotools.ml.bindings;
 
 import javax.xml.namespace.QName;
+
 import org.geotools.xml.XSD;
 
 
@@ -25,9 +26,6 @@ import org.geotools.xml.XSD;
  * http://mails/refractions/net schema.
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class ML extends XSD {

@@ -33,26 +33,23 @@ import org.geotools.util.URLs;
  * <p>
  * Example of use (from the GeoTools example project):
  * <pre><code>
-        List<Parameter<?>> list = new ArrayList<Parameter<?>>();
-        list.add(new Parameter<File>("image", File.class, "Image",
-                "GeoTiff or World+Image to display as basemap",
-                new KVP( Parameter.EXT, "tif", Parameter.EXT, "jpg")));
-        list.add(new Parameter<File>("shape", File.class, "Shapefile",
-                "Shapefile contents to display", new KVP(Parameter.EXT, "shp")));
-
-        JParameterListWizard wizard = new JParameterListWizard("Image Lab",
-                "Fill in the following layers", list);
-        int finish = wizard.showModalDialog();
-
-        if (finish != JWizard.FINISH) {
-            System.exit(0);
-        }
-        File imageFile = (File) wizard.getConnectionParameters().get("image");
-        File shapeFile = (File) wizard.getConnectionParameters().get("shape");
+ * List<Parameter<?>> list = new ArrayList<Parameter<?>>();
+ * list.add(new Parameter<File>("image", File.class, "Image",
+ * "GeoTiff or World+Image to display as basemap",
+ * new KVP( Parameter.EXT, "tif", Parameter.EXT, "jpg")));
+ * list.add(new Parameter<File>("shape", File.class, "Shapefile",
+ * "Shapefile contents to display", new KVP(Parameter.EXT, "shp")));
+ *
+ * JParameterListWizard wizard = new JParameterListWizard("Image Lab",
+ * "Fill in the following layers", list);
+ * int finish = wizard.showModalDialog();
+ *
+ * if (finish != JWizard.FINISH) {
+ * System.exit(0);
+ * }
+ * File imageFile = (File) wizard.getConnectionParameters().get("image");
+ * File shapeFile = (File) wizard.getConnectionParameters().get("shape");
  * </pre></code>
- *
- *
- *
  *
  * @source $URL$
  */
@@ -77,15 +74,17 @@ public class JParameterListWizard extends JWizard {
     /**
      * Constructor.
      *
-     * @param title title for the dialog
-     * @param description brief description to be displayed on the page
-     * @param contents a {@code List} of {@code Parameter} objects defining the data being requested
+     * @param title            title for the dialog
+     * @param description      brief description to be displayed on the page
+     * @param contents         a {@code List} of {@code Parameter} objects defining the data 
+     *                         being requested
      * @param connectionParams an optional {@code Map} of initial parameter values
      */
     public JParameterListWizard(String title, String description, List<Parameter<?>> contents,
-            Map<String, Object> connectionParams) {
+                                Map<String, Object> connectionParams) {
         super(title);
-        this.connectionParameters = connectionParams == null ? new HashMap<String, Object>() : connectionParams;
+        this.connectionParameters = connectionParams == null ? new HashMap<String, Object>() : 
+                connectionParams;
         fillInDefaults(contents, this.connectionParameters);
 
         List<Parameter<?>> userContents = contentsForLevel(contents, "user");
@@ -112,17 +111,18 @@ public class JParameterListWizard extends JWizard {
     /**
      * Constructor.
      *
-     * @param title title for the dialog
+     * @param title       title for the dialog
      * @param description brief description to be displayed on the page
-     * @param contents a {@code List} of {@code Parameter} objects defining the data being requested
+     * @param contents    a {@code List} of {@code Parameter} objects defining the data being 
+     *                    requested
      */
     public JParameterListWizard(String title, String description, List<Parameter<?>> contents) {
-        this( title, description, contents, new HashMap<String,Object>() );
+        this(title, description, contents, new HashMap<String, Object>());
     }
 
     /**
      * Method used to fill in any required "programming" level defaults such as dbtype.
-     * 
+     *
      * @param contents
      * @param connectionParams a {@code Map} of initial parameter values
      */

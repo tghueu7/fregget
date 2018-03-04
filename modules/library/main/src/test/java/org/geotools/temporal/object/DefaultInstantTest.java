@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -19,20 +19,19 @@ package org.geotools.temporal.object;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.opengis.temporal.Instant;
+
 import static org.junit.Assert.*;
+
 import org.opengis.temporal.Period;
 import org.opengis.temporal.Position;
 
 /**
- *
  * @author Mehdi Sidhoum (Geomatys)
- *
- *
- *
  * @source $URL$
  */
 public class DefaultInstantTest {
@@ -110,16 +109,16 @@ public class DefaultInstantTest {
         ((DefaultInstant) instant1).setBegunBy(begunby);
         assertEquals(instant1.getBegunBy(), result);
     }
-    
-    
+
+
     /**
      * Test comparison of Instants
      */
     @Test
     public void testCompare() {
-       assertEquals(1,((DefaultInstant)instant1).compareTo(instant2));
-       assertEquals(0,((DefaultInstant)instant1).compareTo(instant1));
-       assertEquals(0,((DefaultInstant)instant2).compareTo(instant2));
+        assertEquals(1, ((DefaultInstant) instant1).compareTo(instant2));
+        assertEquals(0, ((DefaultInstant) instant1).compareTo(instant1));
+        assertEquals(0, ((DefaultInstant) instant2).compareTo(instant2));
     }
 
     /**

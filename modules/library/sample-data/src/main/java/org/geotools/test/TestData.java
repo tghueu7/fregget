@@ -61,9 +61,9 @@ import java.util.zip.ZipFile;
  * </pre>
  * Where the directory structure goes as bellow:
  * <ul>
- *   <li>{@code MyClass.java}<li>
- *   <li>{@code test-data/test.png}</li>
- *   <li>{@code test-data/script.xml}</li>
+ * <li>{@code MyClass.java}<li>
+ * <li>{@code test-data/test.png}</li>
+ * <li>{@code test-data/script.xml}</li>
  * </ul>
  * <p>
  * By convention you should try and locate {@code test-data} near the JUnit test
@@ -71,16 +71,13 @@ import java.util.zip.ZipFile;
  * {@link org.geotools.TestData} class from the {@code sample-module} instead
  * of this one.
  *
- * @since 2.4
- *
- *
- * @source $URL$
- * @version $Id$
  * @author James McGill
  * @author Simone Giannecchiin
  * @author Martin Desruisseaux
- *
+ * @version $Id$
+ * @source $URL$
  * @tutorial http://www.geotools.org/display/GEOT/5.8+Test+Data
+ * @since 2.4
  */
 @SuppressWarnings("unchecked")
 public class TestData implements Runnable {
@@ -123,9 +120,10 @@ public class TestData implements Runnable {
      * {@code true} if JAI media lib is available.
      */
     private static final boolean mediaLibAvailable;
+
     static {
 
-    	// do we wrappers at hand?
+        // do we wrappers at hand?
         boolean mediaLib = false;
         Class mediaLibImage = null;
         try {
@@ -133,57 +131,56 @@ public class TestData implements Runnable {
         } catch (ClassNotFoundException e) {
         }
         mediaLib = (mediaLibImage != null);
-        
-        
+
+
         // npw check if we either wanted to disable explicitly and if we installed the native libs
-        if(mediaLib){
-        
-	        try {
-	        	// explicit disable
-	            mediaLib =
-	                !Boolean.getBoolean("com.sun.media.jai.disableMediaLib");
-	            
-	            //native libs installed
-		        if(mediaLib)
-		        {
-		        	final Class mImage=mediaLibImage;
-	                mediaLib=AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
-	                     public Boolean run() {
-	                    	 try {
-	                    		//get the method
-	                    		final Class params[] = {};
-								Method method= mImage.getDeclaredMethod("isAvailable", params);
+        if (mediaLib) {
 
-								//invoke
-	                    		final Object paramsObj[] = {};
+            try {
+                // explicit disable
+                mediaLib =
+                        !Boolean.getBoolean("com.sun.media.jai.disableMediaLib");
 
-	        		        	final Object o=mImage.newInstance();
-		                        return (Boolean) method.invoke(o, paramsObj);
-							} catch (Throwable e) {
-								return false;
-							}
-	                     }
-	                });
-		        }	            
-	        } catch (Throwable e) {
-	            // Because the property com.sun.media.jai.disableMediaLib isn't
-	            // defined as public, the users shouldn't know it.  In most of
-	            // the cases, it isn't defined, and thus no access permission
-	            // is granted to it in the policy file.  When JAI is utilized in
-	            // a security environment, AccessControlException will be thrown.
-	            // In this case, we suppose that the users would like to use
-	            // medialib accelaration.  So, the medialib won't be disabled.
-	
-	            // The fix of 4531501
-	        	
-	        	mediaLib=false;
-	        }
-	        
+                //native libs installed
+                if (mediaLib) {
+                    final Class mImage = mediaLibImage;
+                    mediaLib = AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
+                        public Boolean run() {
+                            try {
+                                //get the method
+                                final Class params[] = {};
+                                Method method = mImage.getDeclaredMethod("isAvailable", params);
+
+                                //invoke
+                                final Object paramsObj[] = {};
+
+                                final Object o = mImage.newInstance();
+                                return (Boolean) method.invoke(o, paramsObj);
+                            } catch (Throwable e) {
+                                return false;
+                            }
+                        }
+                    });
+                }
+            } catch (Throwable e) {
+                // Because the property com.sun.media.jai.disableMediaLib isn't
+                // defined as public, the users shouldn't know it.  In most of
+                // the cases, it isn't defined, and thus no access permission
+                // is granted to it in the policy file.  When JAI is utilized in
+                // a security environment, AccessControlException will be thrown.
+                // In this case, we suppose that the users would like to use
+                // medialib accelaration.  So, the medialib won't be disabled.
+
+                // The fix of 4531501
+
+                mediaLib = false;
+            }
+
 
         }
 
 
-        mediaLibAvailable=mediaLib;
+        mediaLibAvailable = mediaLib;
     }
 
     /**
@@ -253,7 +250,8 @@ public class TestData implements Runnable {
     }
 
     /**
-     * Returns {@code true} if {@value #INTERACTIVE_TEST_KEY} system property is set to {@code true}.
+     * Returns {@code true} if {@value #INTERACTIVE_TEST_KEY} system property is set to {@code 
+     * true}.
      * Test suites should check this value before showing any kind of graphical window to the user.
      *
      * @return {@code true} if interactive tests are enabled.
@@ -267,14 +265,13 @@ public class TestData implements Runnable {
      * <code>{@link #url url}(caller, name)</code> method instead if the resource should always
      * exists.
      *
-     * @param  caller Calling class or object used to locate {@code test-data}.
-     * @param  name resource name in {@code test-data} directory.
+     * @param caller Calling class or object used to locate {@code test-data}.
+     * @param name   resource name in {@code test-data} directory.
      * @return URL or {@code null} if the named test-data could not be found.
-     *
      * @see #url
      */
     public static URL getResource(final Object caller, String name) {
-        if (name == null || (name=name.trim()).length() == 0) {
+        if (name == null || (name = name.trim()).length() == 0) {
             name = DIRECTORY;
         } else {
             name = DIRECTORY + '/' + name;
@@ -293,11 +290,10 @@ public class TestData implements Runnable {
      * the resource is not found. This provides a more explicit explanation about the failure
      * reason than the infamous {@link NullPointerException}.
      *
-     * @param  caller Calling class or object used to locate {@code test-data}.
-     * @param  path Path to file in {@code test-data}.
+     * @param caller Calling class or object used to locate {@code test-data}.
+     * @param path   Path to file in {@code test-data}.
      * @return The URL to the {@code test-data} resource.
      * @throws FileNotFoundException if the resource is not found.
-     *
      * @since 2.2
      */
     public static URL url(final Object caller, final String path) throws FileNotFoundException {
@@ -311,20 +307,19 @@ public class TestData implements Runnable {
     /**
      * Access to <code>{@linkplain #getResource getResource}(caller, path)</code> as a non-null
      * {@link File}. You can access the {@code test-data} directory with:
-     *
+     * <p>
      * <blockquote><pre>
      * TestData.file(MyClass.class, null);
      * </pre></blockquote>
      *
-     * @param  caller Calling class or object used to locate {@code test-data}.
-     * @param  path Path to file in {@code test-data}.
+     * @param caller Calling class or object used to locate {@code test-data}.
+     * @param path   Path to file in {@code test-data}.
      * @return The file to the {@code test-data} resource.
      * @throws FileNotFoundException if the file is not found.
-     * @throws IOException if the resource can't be fetched for an other reason.
+     * @throws IOException           if the resource can't be fetched for an other reason.
      */
     public static File file(final Object caller, final String path)
-            throws FileNotFoundException, IOException
-    {
+            throws FileNotFoundException, IOException {
         final URL url = url(caller, path);
         final File file = new File(URLDecoder.decode(url.getPath(), ENCODING));
         if (!file.exists()) {
@@ -337,16 +332,16 @@ public class TestData implements Runnable {
      * Creates a temporary file with the given name. The file will be created in the
      * {@code test-data} directory and will be deleted on exit.
      *
-     * @param  caller Calling class or object used to locate {@code test-data}.
-     * @param  name A base name for the temporary file.
+     * @param caller Calling class or object used to locate {@code test-data}.
+     * @param name   A base name for the temporary file.
      * @return The temporary file in the {@code test-data} directory.
      * @throws IOException if the file can't be created.
      */
     public static File temp(final Object caller, final String name) throws IOException {
         final File testData = file(caller, null);
         final int split = name.lastIndexOf('.');
-        final String prefix = (split < 0) ? name  : name.substring(0,split);
-        final String suffix = (split < 0) ? "tmp" : name.substring(split+1);
+        final String prefix = (split < 0) ? name : name.substring(0, split);
+        final String suffix = (split < 0) ? "tmp" : name.substring(split + 1);
         final File tmp = File.createTempFile(prefix, '.' + suffix, testData);
         deleteOnExit(tmp);
         return tmp;
@@ -356,17 +351,15 @@ public class TestData implements Runnable {
      * Provides a non-null {@link InputStream} for named test data.
      * It is the caller responsability to close this stream after usage.
      *
-     * @param  caller Calling class or object used to locate {@code test-data}.
-     * @param  name of test data to load.
+     * @param caller Calling class or object used to locate {@code test-data}.
+     * @param name   of test data to load.
      * @return The input stream.
      * @throws FileNotFoundException if the resource is not found.
-     * @throws IOException if an error occurs during an input operation.
-     *
+     * @throws IOException           if an error occurs during an input operation.
      * @since 2.2
      */
     public static InputStream openStream(final Object caller, final String name)
-            throws FileNotFoundException, IOException
-    {
+            throws FileNotFoundException, IOException {
         return new BufferedInputStream(url(caller, name).openStream());
     }
 
@@ -375,17 +368,15 @@ public class TestData implements Runnable {
      * an {@link LineNumberReader} instance, which is useful for displaying line numbers where
      * error occur. It is the caller responsability to close this reader after usage.
      *
-     * @param  caller The class of the object associated with named data.
-     * @param  name of test data to load.
+     * @param caller The class of the object associated with named data.
+     * @param name   of test data to load.
      * @return The buffered reader.
      * @throws FileNotFoundException if the resource is not found.
-     * @throws IOException if an error occurs during an input operation.
-     *
+     * @throws IOException           if an error occurs during an input operation.
      * @since 2.2
      */
     public static LineNumberReader openReader(final Object caller, final String name)
-            throws FileNotFoundException, IOException
-    {
+            throws FileNotFoundException, IOException {
         return new LineNumberReader(new InputStreamReader(url(caller, name).openStream()));
     }
 
@@ -393,22 +384,20 @@ public class TestData implements Runnable {
      * Provides a {@link java.io.BufferedReader} for named test data.
      * It is the caller responsability to close this reader after usage.
      *
-     * @param  caller The class of the object associated with named data.
-     * @param  name of test data to load.
+     * @param caller The class of the object associated with named data.
+     * @param name   of test data to load.
      * @return The reader, or {@code null} if the named test data are not found.
      * @throws IOException if an error occurs during an input operation.
-     *
      * @deprecated Use {@link #openReader} instead. The {@code openReader} method throws an
-     *  exception if the resource is not found, instead of returning null. This make debugging
-     *  easier, since it replaces infamous {@link NullPointerException} by a more explicit error
-     *  message during tests. Furthermore, the {@code openReader} name make it more obvious that
-     *  the stream is not closed automatically and is also consistent with other method names in
-     *  this class.
+     * exception if the resource is not found, instead of returning null. This make debugging
+     * easier, since it replaces infamous {@link NullPointerException} by a more explicit error
+     * message during tests. Furthermore, the {@code openReader} name make it more obvious that
+     * the stream is not closed automatically and is also consistent with other method names in
+     * this class.
      */
     @Deprecated
     public static BufferedReader getReader(final Object caller, final String name)
-            throws IOException
-    {
+            throws IOException {
         final URL url = getResource(caller, name);
         if (url == null) {
             return null; // echo handling of getResource( ... )
@@ -420,17 +409,15 @@ public class TestData implements Runnable {
      * Provides a channel for named test data. It is the caller responsability to close this
      * chanel after usage.
      *
-     * @param  caller The class of the object associated with named data.
-     * @param  name of test data to load.
+     * @param caller The class of the object associated with named data.
+     * @param name   of test data to load.
      * @return The chanel.
      * @throws FileNotFoundException if the resource is not found.
-     * @throws IOException if an error occurs during an input operation.
-     *
+     * @throws IOException           if an error occurs during an input operation.
      * @since 2.2
      */
     public static ReadableByteChannel openChannel(final Object caller, final String name)
-            throws FileNotFoundException, IOException
-    {
+            throws FileNotFoundException, IOException {
         final URL url = url(caller, name);
         final File file = new File(URLDecoder.decode(url.getPath(), ENCODING));
         if (file.exists()) {
@@ -452,21 +439,19 @@ public class TestData implements Runnable {
      * because the files are inflated in the {@code target/.../test-data} directory, which
      * is not versionned by SVN and is cleaned by Maven on {@code mvn clean} execution.
      *
-     * @param  caller The class of the object associated with named data.
-     * @param  name The file name to unzip in place.
+     * @param caller The class of the object associated with named data.
+     * @param name   The file name to unzip in place.
      * @throws FileNotFoundException if the specified zip file is not found.
-     * @throws IOException if an error occurs during an input or output operation.
-     *
+     * @throws IOException           if an error occurs during an input or output operation.
      * @since 2.2
      */
     public static void unzipFile(final Object caller, final String name)
-            throws FileNotFoundException, IOException
-    {
-        final File        file    = file(caller, name);
-        final File        parent  = file.getParentFile().getAbsoluteFile();
-        final ZipFile     zipFile = new ZipFile(file);
+            throws FileNotFoundException, IOException {
+        final File file = file(caller, name);
+        final File parent = file.getParentFile().getAbsoluteFile();
+        final ZipFile zipFile = new ZipFile(file);
         final Enumeration entries = zipFile.entries();
-        final byte[]      buffer  = new byte[4096];
+        final byte[] buffer = new byte[4096];
         while (entries.hasMoreElements()) {
             final ZipEntry entry = (ZipEntry) entries.nextElement();
             if (entry.isDirectory()) {
@@ -482,7 +467,7 @@ public class TestData implements Runnable {
             }
             // Copy the file. Note: no need for a BufferedOutputStream,
             // since we are already using a buffer of type byte[4096].
-            final InputStream  in  = zipFile.getInputStream(entry);
+            final InputStream in = zipFile.getInputStream(entry);
             final OutputStream out = new FileOutputStream(path);
             int len;
             while ((len = in.read(buffer)) >= 0) {
@@ -513,11 +498,10 @@ public class TestData implements Runnable {
      * only if it has been modified, thus giving a chance for test suites to copy their
      * resources only once.
      *
-     * @param file The file to delete.
+     * @param file  The file to delete.
      * @param force If {@code true}, delete the file in all cases. If {@code false},
-     *        delete the file if and only if it has been modified. The default value
-     *        if {@code true}.
-     *
+     *              delete the file if and only if it has been modified. The default value
+     *              if {@code true}.
      * @since 2.4
      */
     protected static void deleteOnExit(final File file, final boolean force) {
@@ -601,7 +585,7 @@ public class TestData implements Runnable {
                  */
                 System.gc();
                 System.runFinalization();
-                for (final Iterator<Deletable> it=toDelete.iterator(); it.hasNext();) {
+                for (final Iterator<Deletable> it = toDelete.iterator(); it.hasNext(); ) {
                     final Deletable f = it.next();
                     try {
                         if (f.delete()) {

@@ -43,9 +43,10 @@ public class ReprojectingGranuleHandler implements GranuleHandler {
 
     @Override
     public void handleGranule(Object source, GridCoverage2DReader inputReader,
-            SimpleFeature targetFeature, SimpleFeatureType targetFeatureType,
-            SimpleFeature inputFeature, SimpleFeatureType inputFeatureType,
-            MosaicConfigurationBean mosaicConfiguration) throws GranuleHandlingException {
+                              SimpleFeature targetFeature, SimpleFeatureType targetFeatureType,
+                              SimpleFeature inputFeature, SimpleFeatureType inputFeatureType,
+                              MosaicConfigurationBean mosaicConfiguration) throws 
+            GranuleHandlingException {
 
         CoordinateReferenceSystem targetCRS = mosaicConfiguration.getCrs();
         if (inputFeature instanceof StructuredGridCoverage2DReader) {
@@ -59,8 +60,9 @@ public class ReprojectingGranuleHandler implements GranuleHandler {
             if (!CRS.equalsIgnoreMetadata(targetCRS, coverageCRS)) {
                 try {
                     geometry = Utils.reprojectEnvelopeToGeometry(finalEnvelope, targetCRS, null);
-                    if(geometry == null) {
-                        throw new GranuleHandlingException("Reprojection of source envelope failed, got back a null one " + finalEnvelope);
+                    if (geometry == null) {
+                        throw new GranuleHandlingException("Reprojection of source envelope " +
+                                "failed, got back a null one " + finalEnvelope);
                     } else if (geometry instanceof GeometryCollection) {
                         // in case of wrapping only pick the first footprint
                         geometry = geometry.getGeometryN(0);
@@ -75,7 +77,8 @@ public class ReprojectingGranuleHandler implements GranuleHandler {
                 geometry = JTS.toGeometry(finalEnvelope);
             }
 
-            targetFeature.setAttribute(targetFeatureType.getGeometryDescriptor().getName(), geometry);
+            targetFeature.setAttribute(targetFeatureType.getGeometryDescriptor().getName(), 
+                    geometry);
 
         }
 

@@ -25,23 +25,21 @@ import org.geotools.validation.DefaultFeatureValidationBeanInfo;
 
 /**
  * GazetteerNameValidationBeanInfo purpose.
- * 
+ * <p>
  * <p>
  * Description of GazetteerNameValidationBeanInfo ...
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class AttributeValidationBeanInfo
-    extends DefaultFeatureValidationBeanInfo {
+        extends DefaultFeatureValidationBeanInfo {
     /**
      * GazetteerNameValidationBeanInfo constructor.
-     * 
+     * <p>
      * <p>
      * Description
      * </p>
@@ -52,7 +50,6 @@ public class AttributeValidationBeanInfo
 
     /**
      * Implementation of getPropertyDescriptors.
-     *
      *
      * @see java.beans.BeanInfo#getPropertyDescriptors()
      */
@@ -75,10 +72,10 @@ public class AttributeValidationBeanInfo
                     AttributeValidation.class, resourceBundle);
             pd[i].setExpert(false);
             pd[i + 1] = createPropertyDescriptor("attributeComparisonValue",
-            		AttributeValidation.class, resourceBundle);
+                    AttributeValidation.class, resourceBundle);
             pd[i + 1].setExpert(false);
             pd[i + 2] = createPropertyDescriptor("attributeName",
-            		AttributeValidation.class, resourceBundle);
+                    AttributeValidation.class, resourceBundle);
             pd[i + 2].setExpert(false);
         } catch (IntrospectionException e) {
             pd = pd2;

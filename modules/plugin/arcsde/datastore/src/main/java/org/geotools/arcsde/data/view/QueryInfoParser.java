@@ -44,14 +44,12 @@ import com.esri.sde.sdk.client.SeSqlConstruct;
  * Visits a {@link net.sf.jsqlparser.statement.select.PlainSelect} SQL SELECT construct to create
  * the correspondent {@link com.esri.sde.sdk.client.SeQueryInfo} object, that can be used as an in
  * process view definition of ArcSDE Java API.
- * 
+ *
  * @author Gabriel Roldan, Axios Engineering
  * @version $Id$
- *
- *
  * @source $URL$
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
- *         /org/geotools/arcsde/data/view/QueryInfoParser.java $
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
+ * /org/geotools/arcsde/data/view/QueryInfoParser.java $
  * @since 2.3.x
  */
 @SuppressWarnings("unchecked")
@@ -120,7 +118,7 @@ public class QueryInfoParser {
 
         List tableNames = new ArrayList(fromItems.size());
 
-        for (Iterator it = fromItems.iterator(); it.hasNext();) {
+        for (Iterator it = fromItems.iterator(); it.hasNext(); ) {
             FromItem fromItem = (FromItem) it.next();
             String fromItemDef = fromItem.toString();
             tableNames.add(fromItemDef);
@@ -131,7 +129,7 @@ public class QueryInfoParser {
     /**
      * @param selectItems
      * @return <code>null</code> if <code>selectItems</code> is null or contains only an
-     *         {@link net.sf.jsqlparser.statement.select.AllColumns}
+     * {@link net.sf.jsqlparser.statement.select.AllColumns}
      */
     private static String[] getColumns(ISession session, List selectItems) throws IOException {
         if (selectItems == null || selectItems.size() == 0) {
@@ -140,7 +138,7 @@ public class QueryInfoParser {
 
         SelectItem item;
         List colNames = new ArrayList(selectItems.size());
-        for (Iterator it = selectItems.iterator(); it.hasNext();) {
+        for (Iterator it = selectItems.iterator(); it.hasNext(); ) {
             item = (SelectItem) it.next();
             if (item instanceof AllColumns) {
                 continue;

@@ -31,7 +31,8 @@ public class GeoPkgViewTestSetup extends JDBCViewTestSetup {
     protected void createLakesTable() throws Exception {
         run("CREATE TABLE lakes(fid int primary key, id int, geom BLOB)");
 
-        String sql = "INSERT INTO gpkg_geometry_columns VALUES ('lakes', 'geom', 'POLYGON', 4326, 0, 0)";
+        String sql = "INSERT INTO gpkg_geometry_columns VALUES ('lakes', 'geom', 'POLYGON', 4326," +
+                " 0, 0)";
 
         run(sql);
         sql = "INSERT INTO gpkg_contents (table_name, data_type, identifier, srs_id) VALUES "
@@ -51,8 +52,10 @@ public class GeoPkgViewTestSetup extends JDBCViewTestSetup {
     @Override
     protected void createLakesView() throws Exception {
         run("CREATE VIEW IF NOT EXISTS lakesview as select * from lakes");
-        //run("INSERT INTO views_geometry_columns VALUES ('lakesview', 'geom', 'id', 'lakes', 'geom')");
-        String sql = "INSERT INTO gpkg_geometry_columns VALUES ('lakesview', 'geom', 'POLYGON', 4326, 0, 0)";
+        //run("INSERT INTO views_geometry_columns VALUES ('lakesview', 'geom', 'id', 'lakes', 
+        // 'geom')");
+        String sql = "INSERT INTO gpkg_geometry_columns VALUES ('lakesview', 'geom', 'POLYGON', " +
+                "4326, 0, 0)";
 
         run(sql);
         sql = "INSERT INTO gpkg_contents (table_name, data_type, identifier, srs_id) VALUES "
@@ -62,12 +65,12 @@ public class GeoPkgViewTestSetup extends JDBCViewTestSetup {
 
     @Override
     protected void dropLakesTable() throws Exception {
-        ((GeoPkgTestSetup)delegate).removeTable("lakes");
+        ((GeoPkgTestSetup) delegate).removeTable("lakes");
     }
 
     @Override
     protected void dropLakesView() throws Exception {
-        ((GeoPkgTestSetup)delegate).removeTable("lakesview");
+        ((GeoPkgTestSetup) delegate).removeTable("lakesview");
     }
 
     @Override

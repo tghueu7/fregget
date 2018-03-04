@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -25,8 +25,6 @@ import org.opengis.filter.PropertyIsEqualTo;
 import org.opengis.filter.expression.Expression;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class IsEqualsToImplTest extends TestCase {
@@ -42,22 +40,22 @@ public class IsEqualsToImplTest extends TestCase {
     }
 
     public void testOperandsShort() {
-        Expression literalShort42 = filterFactory.literal( (short) 42 );
+        Expression literalShort42 = filterFactory.literal((short) 42);
         Expression literalString42 = filterFactory.literal("42");
-        Expression literalDouble42 = filterFactory.literal( 42.0 );
-        Expression literalLong42 = filterFactory.literal( (long) 42 );
-        Expression literalFloat42 = filterFactory.literal( (float) 42 );
-        Expression literalBig42 = filterFactory.literal( new BigDecimal(42));
-        
-        assertTrue( filterFactory.equals( literalShort42, literalShort42).evaluate( null ) );
-        assertTrue( filterFactory.equals( literalShort42, literalString42).evaluate( null ) );
-        assertTrue( filterFactory.equals( literalShort42, literalDouble42).evaluate( null ) );
-        assertTrue( filterFactory.equals( literalShort42, literalLong42).evaluate( null ) );
-        assertTrue( filterFactory.equals( literalShort42, literalFloat42).evaluate( null ) );
-        assertTrue( filterFactory.equals( literalShort42, literalBig42).evaluate( null ) );
-        assertTrue( filterFactory.equals( literalShort42, literalDouble42).evaluate( null ) );        
+        Expression literalDouble42 = filterFactory.literal(42.0);
+        Expression literalLong42 = filterFactory.literal((long) 42);
+        Expression literalFloat42 = filterFactory.literal((float) 42);
+        Expression literalBig42 = filterFactory.literal(new BigDecimal(42));
+
+        assertTrue(filterFactory.equals(literalShort42, literalShort42).evaluate(null));
+        assertTrue(filterFactory.equals(literalShort42, literalString42).evaluate(null));
+        assertTrue(filterFactory.equals(literalShort42, literalDouble42).evaluate(null));
+        assertTrue(filterFactory.equals(literalShort42, literalLong42).evaluate(null));
+        assertTrue(filterFactory.equals(literalShort42, literalFloat42).evaluate(null));
+        assertTrue(filterFactory.equals(literalShort42, literalBig42).evaluate(null));
+        assertTrue(filterFactory.equals(literalShort42, literalDouble42).evaluate(null));
     }
-    
+
     public void testOperandsIntString() {
         Expression e1 = filterFactory.literal(1);
         Expression e2 = filterFactory.literal("1");
@@ -65,7 +63,7 @@ public class IsEqualsToImplTest extends TestCase {
         PropertyIsEqualTo equal = filterFactory.equals(e1, e2);
         assertTrue(equal.evaluate(null));
     }
-    
+
     public void testOperandsIntFloatString() {
         Expression e1 = filterFactory.literal(1);
         Expression e2 = filterFactory.literal("1.2");

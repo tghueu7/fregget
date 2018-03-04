@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.parameter;
 
 import java.util.List;
+
 import org.opengis.metadata.Identifier;
 import org.opengis.annotation.UML;
 import org.opengis.annotation.Extension;
@@ -20,35 +21,34 @@ import static org.opengis.annotation.Specification.*;
 
 /**
  * A group of related parameter values. The same group can be repeated more than once in an
- * {@linkplain org.opengis.referencing.operation.Operation operation} or higher level {@code ParameterValueGroup},
+ * {@linkplain org.opengis.referencing.operation.Operation operation} or higher level {@code 
+ * ParameterValueGroup},
  * if those instances contain different values of one or more {@link ParameterValue}s which suitably
  * distinquish among those groups.
  *
- *
- *
+ * @author Martin Desruisseaux (IRD)
+ * @author Jody Garnett (Refractions Research)
+ * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract 
+ * specification 2.0</A>
  * @source $URL$
- * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract specification 2.0</A>
- * @author  Martin Desruisseaux (IRD)
- * @author  Jody Garnett (Refractions Research)
- * @since   GeoAPI 1.0
- *
  * @see ParameterDescriptorGroup
  * @see ParameterValue
+ * @since GeoAPI 1.0
  */
-@UML(identifier="CC_ParameterValueGroup", specification=ISO_19111)
+@UML(identifier = "CC_ParameterValueGroup", specification = ISO_19111)
 public interface ParameterValueGroup extends GeneralParameterValue {
     /**
      * The abstract definition of this group of parameters.
      *
-     * @departure
-     *   The ISO name was {@code "valuesOfGroup"}. GeoAPI uses {@code "descriptor"} instead in order
-     *   to override the {@linkplain GeneralParameterValue#getDescriptor generic method provided in
-     *   the parent interface}. The "descriptor" name make more apparent that this method returns an
-     *   abstract definition of parameters - not their actual values - and is consistent with usage
-     *   in other Java libraries like {@link javax.media.jai.ParameterList#getParameterListDescriptor
-     *   ParameterList}.
+     * @departure The ISO name was {@code "valuesOfGroup"}. GeoAPI uses {@code "descriptor"} 
+     * instead in order
+     * to override the {@linkplain GeneralParameterValue#getDescriptor generic method provided in
+     * the parent interface}. The "descriptor" name make more apparent that this method returns an
+     * abstract definition of parameters - not their actual values - and is consistent with usage
+     * in other Java libraries like {@link javax.media.jai.ParameterList#getParameterListDescriptor
+     * ParameterList}.
      */
-    @UML(identifier="valuesOfGroup", obligation=MANDATORY, specification=ISO_19111)
+    @UML(identifier = "valuesOfGroup", obligation = MANDATORY, specification = ISO_19111)
     ParameterDescriptorGroup getDescriptor();
 
     /**
@@ -56,20 +56,20 @@ public interface ParameterValueGroup extends GeneralParameterValue {
      * this is implementation-dependent. However, if some aspects of this list are modifiable,
      * then any modification shall be reflected back into this {@code ParameterValueGroup}.
      * More specifically:
-     *
+     * <p>
      * <UL>
-     *   <LI><P>If the list supports the {@link List#add(Object) add} operation, then it should
-     *       ensure that the added {@linkplain GeneralParameterValue general parameter value} is
-     *       valid and can be added to this group.
-     *       An {@link InvalidParameterCardinalityException} (or any other appropriate exception)
-     *       shall be thrown if it is not the case.</P></LI>
-     *   <LI><P>The list may also supports the {@link List#remove(Object) remove} operation as a
-     *       way to remove parameter created by the {@link #parameter} method.</P></LI>
+     * <LI><P>If the list supports the {@link List#add(Object) add} operation, then it should
+     * ensure that the added {@linkplain GeneralParameterValue general parameter value} is
+     * valid and can be added to this group.
+     * An {@link InvalidParameterCardinalityException} (or any other appropriate exception)
+     * shall be thrown if it is not the case.</P></LI>
+     * <LI><P>The list may also supports the {@link List#remove(Object) remove} operation as a
+     * way to remove parameter created by the {@link #parameter} method.</P></LI>
      * </UL>
      *
      * @return The values in this group.
      */
-    @UML(identifier="includesValue", obligation=MANDATORY, specification=ISO_19111)
+    @UML(identifier = "includesValue", obligation = MANDATORY, specification = ISO_19111)
     List<GeneralParameterValue> values();
 
     /**
@@ -84,20 +84,22 @@ public interface ParameterValueGroup extends GeneralParameterValue {
      * This convenience method provides a way to get and set parameter values by name. For
      * example the following idiom fetches a floating point value for the
      * {@code "false_easting"} parameter:
-     *
+     * <p>
      * <blockquote><code>
-     * double value = parameter("false_easting").{@linkplain ParameterValue#doubleValue() doubleValue()};
+     * double value = parameter("false_easting")
+     * .{@linkplain ParameterValue#doubleValue() doubleValue()};
      * </code></blockquote>
-     *
+     * <p>
      * This method do not search recursively in subgroups. This is because more than one
      * subgroup may exist for the same {@linkplain ParameterDescriptorGroup descriptor}.
      * The user must {@linkplain #groups query all subgroups} and select explicitly the
      * appropriate one to use.
      *
-     * @param  name The case insensitive {@linkplain Identifier#getCode identifier code} of the
-     *              parameter to search for.
+     * @param name The case insensitive {@linkplain Identifier#getCode identifier code} of the
+     *             parameter to search for.
      * @return The parameter value for the given identifier code.
-     * @throws ParameterNotFoundException if there is no parameter value for the given identifier code.
+     * @throws ParameterNotFoundException if there is no parameter value for the given identifier
+     * code.
      */
     @Extension
     ParameterValue<?> parameter(String name) throws ParameterNotFoundException;
@@ -108,11 +110,11 @@ public interface ParameterValueGroup extends GeneralParameterValue {
      * <code>{@linkplain ParameterDescriptor#getMinimumOccurs minimumOccurs} == 0</code>)
      * and no value were defined previously, then this method returns an empty set.
      *
-     * @param  name The case insensitive {@linkplain Identifier#getCode identifier code} of the
-     *              parameter group to search for.
+     * @param name The case insensitive {@linkplain Identifier#getCode identifier code} of the
+     *             parameter group to search for.
      * @return The set of all parameter group for the given identifier code.
      * @throws ParameterNotFoundException if no {@linkplain ParameterDescriptorGroup descriptor}
-     *         was found for the given name.
+     *                                    was found for the given name.
      */
     @Extension
     List<ParameterValueGroup> groups(String name) throws ParameterNotFoundException;
@@ -122,17 +124,18 @@ public interface ParameterValueGroup extends GeneralParameterValue {
      * {@linkplain Identifier#getCode identifier code} of a {@linkplain ParameterDescriptorGroup
      * descriptor group}.
      *
-     * @param  name The case insensitive {@linkplain Identifier#getCode identifier code} of the
-     *              parameter group to create.
+     * @param name The case insensitive {@linkplain Identifier#getCode identifier code} of the
+     *             parameter group to create.
      * @return A newly created parameter group for the given identifier code.
      * @throws ParameterNotFoundException if no {@linkplain ParameterDescriptorGroup descriptor}
-     *         was found for the given name.
-     * @throws IllegalStateException if this parameter group already contains the
-     *         {@linkplain ParameterDescriptorGroup#getMaximumOccurs maximum number of occurences}
-     *         of subgroups of the given name.
+     *                                    was found for the given name.
+     * @throws IllegalStateException      if this parameter group already contains the
+     *                                    {@linkplain ParameterDescriptorGroup#getMaximumOccurs maximum number of occurences}
+     *                                    of subgroups of the given name.
      */
     @Extension
-    ParameterValueGroup addGroup(String name) throws ParameterNotFoundException, IllegalStateException;
+    ParameterValueGroup addGroup(String name) throws ParameterNotFoundException, 
+            IllegalStateException;
 
     /**
      * Returns a copy of this group of parameter values.

@@ -13,11 +13,12 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/wmts/1.0:TileMatrixLimits.
- *
+ * <p>
  * <p>
  * <pre>
  * <code>
- *  &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;element name="TileMatrixLimits" xmlns="http://www.w3.org/2001/XMLSchema"&gt;
+ *  &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;element name="TileMatrixLimits" 
+ *  xmlns="http://www.w3.org/2001/XMLSchema"&gt;
  *  		&lt;annotation&gt;
  *  			&lt;documentation&gt;Metadata describing the limits of a TileMatrix
  *  						for this layer.&lt;/documentation&gt;
@@ -26,7 +27,8 @@ import javax.xml.namespace.QName;
  *  			&lt;sequence&gt;
  *  				&lt;element name="TileMatrix" type="string"&gt;
  *  					&lt;annotation&gt;
- *  						&lt;documentation&gt;Reference to a TileMatrix identifier&lt;/documentation&gt;
+ *  						&lt;documentation&gt;Reference to a TileMatrix identifier&lt;
+ *  						/documentation&gt;
  *  					&lt;/annotation&gt;
  *  				&lt;/element&gt;
  *  				&lt;element name="MinTileRow" type="positiveInteger"&gt;
@@ -65,8 +67,7 @@ import javax.xml.namespace.QName;
  *
  * @generated
  */
-public class TileMatrixLimitsBinding extends AbstractComplexBinding
-{
+public class TileMatrixLimitsBinding extends AbstractComplexBinding {
     wmtsv_1Factory factory;
 
     public TileMatrixLimitsBinding(wmtsv_1Factory factory) {

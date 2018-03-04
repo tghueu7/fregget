@@ -24,12 +24,13 @@
  * Factory SPI.
  * <p>
  * Code example:<pre>
- import org.geotools.process.factory.DescribeParameter;
- import org.geotools.process.factory.DescribeProcess;
- import org.geotools.process.factory.DescribeResult;
- import org.geotools.process.gs.GeoServerProcess;
- import org.geotools.process.gs.WrappingIterator;
- </pre>
+ * import org.geotools.process.factory.DescribeParameter;
+ * import org.geotools.process.factory.DescribeProcess;
+ * import org.geotools.process.factory.DescribeResult;
+ * import org.geotools.process.gs.GeoServerProcess;
+ * import org.geotools.process.gs.WrappingIterator;
+ * </pre>
+ *
  * @author Jody Garnett - LISAsoft
  * @author Andrea Aime - OpenGeo
  */

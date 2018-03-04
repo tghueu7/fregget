@@ -17,7 +17,9 @@
 package org.geotools.filter.v1_0;
 
 import org.picocontainer.MutablePicoContainer;
+
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.expression.Expression;
 import org.opengis.filter.expression.Function;
@@ -28,9 +30,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:FunctionType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="FunctionType"&gt;
  *      &lt;xsd:complexContent&gt;
@@ -48,9 +50,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OGCFunctionTypeBinding extends AbstractComplexBinding {
@@ -93,7 +92,7 @@ public class OGCFunctionTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         Expression[] args = new Expression[node.getChildren().size()];
 
         for (int i = 0; i < node.getChildren().size(); i++) {
@@ -107,7 +106,7 @@ public class OGCFunctionTypeBinding extends AbstractComplexBinding {
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         Function function = (Function) object;
 
         //&lt;xsd:element maxOccurs="unbounded" minOccurs="0" ref="ogc:expression"/&gt;

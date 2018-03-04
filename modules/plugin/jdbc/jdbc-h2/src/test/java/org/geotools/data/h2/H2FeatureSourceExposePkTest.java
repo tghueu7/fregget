@@ -23,13 +23,11 @@ import org.opengis.feature.simple.SimpleFeatureType;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class H2FeatureSourceExposePkTest extends JDBCFeatureSourceExposePkOnlineTest {
     protected JDBCTestSetup createTestSetup() {
         return new H2TestSetup();
     }
-    
+
 }

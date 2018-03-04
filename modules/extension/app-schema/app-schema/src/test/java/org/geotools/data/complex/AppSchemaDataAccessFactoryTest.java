@@ -44,12 +44,8 @@ import org.opengis.feature.type.FeatureType;
 import org.opengis.feature.type.Name;
 
 /**
- * 
  * @author Gabriel Roldan (Axios Engineering)
  * @version $Id$
- *
- *
- *
  * @source $URL$
  * @since 2.4
  */
@@ -110,7 +106,6 @@ public class AppSchemaDataAccessFactoryTest extends AppSchemaTestSupport {
     }
 
     /**
-     * 
      * @throws IOException
      */
     @Test
@@ -124,7 +119,6 @@ public class AppSchemaDataAccessFactoryTest extends AppSchemaTestSupport {
     }
 
     /**
-     * 
      * @throws IOException
      */
     @Test
@@ -135,7 +129,7 @@ public class AppSchemaDataAccessFactoryTest extends AppSchemaTestSupport {
 
         FeatureSource<FeatureType, Feature> mappedSource = ds.getFeatureSource(mappedTypeName);
         assertNotNull(mappedSource);
-        
+
         ds.dispose();
     }
 
@@ -166,7 +160,6 @@ public class AppSchemaDataAccessFactoryTest extends AppSchemaTestSupport {
     }
 
     /**
-     * 
      * Test method for 'org.geotools.data.complex.AppSchemaDataAccessFactory.canProcess(Map)'
      */
     @Test
@@ -185,7 +178,6 @@ public class AppSchemaDataAccessFactoryTest extends AppSchemaTestSupport {
     }
 
     /**
-     * 
      * Test method for 'org.geotools.data.complex.AppSchemaDataAccessFactory.isAvailable()'
      */
     @Test
@@ -194,7 +186,6 @@ public class AppSchemaDataAccessFactoryTest extends AppSchemaTestSupport {
     }
 
     /**
-     * 
      * Test method for
      * 'org.geotools.data.complex.AppSchemaDataAccessFactory.getImplementationHints()'
      */

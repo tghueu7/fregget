@@ -48,8 +48,6 @@ import org.junit.Test;
 import org.opengis.feature.simple.SimpleFeature;
 
 /**
- * 
- * 
  * @source $URL$
  */
 public class DrawTest {
@@ -74,7 +72,7 @@ public class DrawTest {
     SimpleFeatureSource lineFS;
 
     SimpleFeatureSource pointFS;
-    
+
     SimpleFeatureSource singlePointFS;
 
     SimpleFeatureSource pointRotateFS;
@@ -112,9 +110,11 @@ public class DrawTest {
         renderer.setMapContent(mc);
         renderer.setJava2DHints(new RenderingHints(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON));
 
-        BufferedImage image = RendererBaseTest.showRender(styleName, renderer, TIME, bounds, listener);
+        BufferedImage image = RendererBaseTest.showRender(styleName, renderer, TIME, bounds, 
+                listener);
         ImageAssert.assertEquals(new File(
-                "./src/test/resources/org/geotools/renderer/lite/test-data/" + styleName + ".png"),
+                        "./src/test/resources/org/geotools/renderer/lite/test-data/" + styleName 
+                                + ".png"),
                 image, 1000);
     }
 
@@ -156,10 +156,12 @@ public class DrawTest {
         renderer.setRendererHints(hints);
         renderer.setMapContent(mc);
 
-        BufferedImage image = RendererBaseTest.showRender("LabeledPolygon", renderer, TIME, bounds, listener);
+        BufferedImage image = RendererBaseTest.showRender("LabeledPolygon", renderer, TIME, 
+                bounds, listener);
         mc.dispose();
         ImageAssert.assertEquals(new File(
-                "./src/test/resources/org/geotools/renderer/lite/test-data/labeledPolygon.png"), image,
+                        "./src/test/resources/org/geotools/renderer/lite/test-data/labeledPolygon" +
+                                ".png"), image,
                 1000);
     }
 
@@ -167,9 +169,11 @@ public class DrawTest {
     public void testPoint() throws Exception {
         StreamingRenderer renderer = setupPointRenderer("pointHouse.sld");
 
-        BufferedImage image = RendererBaseTest.showRender("PointHouse", renderer, TIME, bounds, listener);
+        BufferedImage image = RendererBaseTest.showRender("PointHouse", renderer, TIME, bounds, 
+                listener);
         ImageAssert.assertEquals(new File(
-                "./src/test/resources/org/geotools/renderer/lite/test-data/pointHouse.png"), image,
+                        "./src/test/resources/org/geotools/renderer/lite/test-data/pointHouse" +
+                                ".png"), image,
                 1000);
     }
 
@@ -177,29 +181,35 @@ public class DrawTest {
     public void testDisplacedPoint() throws Exception {
         StreamingRenderer renderer = setupPointRenderer("pointHouseDisplaced.sld");
 
-        BufferedImage image = RendererBaseTest.showRender("PointHouseDisplaced", renderer, TIME, bounds, listener);
+        BufferedImage image = RendererBaseTest.showRender("PointHouseDisplaced", renderer, TIME, 
+                bounds, listener);
         ImageAssert.assertEquals(new File(
-                  "./src/test/resources/org/geotools/renderer/lite/test-data/pointHouseDisplaced.png"),
-                  image, 1000);
+                        "./src/test/resources/org/geotools/renderer/lite/test-data" +
+                                "/pointHouseDisplaced.png"),
+                image, 1000);
     }
 
     @Test
     public void testDisplacedLine() throws Exception {
         StreamingRenderer renderer = setupLineRenderer("lineHouseDisplaced.sld");
 
-        BufferedImage image = RendererBaseTest.showRender("LineHouseDisplaced", renderer, TIME, bounds, listener);
+        BufferedImage image = RendererBaseTest.showRender("LineHouseDisplaced", renderer, TIME, 
+                bounds, listener);
         ImageAssert.assertEquals(new File(
-                  "./src/test/resources/org/geotools/renderer/lite/test-data/lineHouseDisplaced.png"),
-                  image, 1000);
+                        "./src/test/resources/org/geotools/renderer/lite/test-data" +
+                                "/lineHouseDisplaced.png"),
+                image, 1000);
     }
 
     @Test
     public void testAnchorPoint() throws Exception {
         StreamingRenderer renderer = setupPointRenderer("pointHouseAnchor.sld");
 
-        BufferedImage image = RendererBaseTest.showRender("PointHouse", renderer, TIME, bounds, listener);
+        BufferedImage image = RendererBaseTest.showRender("PointHouse", renderer, TIME, bounds, 
+                listener);
         ImageAssert.assertEquals(new File(
-                "./src/test/resources/org/geotools/renderer/lite/test-data/pointHouseAnchor.png"),
+                        "./src/test/resources/org/geotools/renderer/lite/test-data" +
+                                "/pointHouseAnchor.png"),
                 image, 1000);
     }
 
@@ -223,7 +233,8 @@ public class DrawTest {
         ImageAssert
                 .assertEquals(
                         new File(
-                                "./src/test/resources/org/geotools/renderer/lite/test-data/pointHouseAnchorRotateBase.png"),
+                                "./src/test/resources/org/geotools/renderer/lite/test-data" +
+                                        "/pointHouseAnchorRotateBase.png"),
                         image, 1000);
     }
 
@@ -245,38 +256,45 @@ public class DrawTest {
         BufferedImage image = RendererBaseTest.showRender("PointHouseRotate", renderer, TIME,
                 bounds, listener);
         ImageAssert.assertEquals(new File(
-                                "./src/test/resources/org/geotools/renderer/lite/test-data/pointHouseAnchorRotateSide.png"),
+                        "./src/test/resources/org/geotools/renderer/lite/test-data" +
+                                "/pointHouseAnchorRotateSide.png"),
                 image, 1000);
     }
-    
+
 
     @Test
     public void testParametricNoValues() throws Exception {
         StreamingRenderer renderer = setupSinglePointRenderer("firestationNoParams.sld");
 
-        BufferedImage image = RendererBaseTest.showRender("FireStation", renderer, TIME, bounds, listener);
+        BufferedImage image = RendererBaseTest.showRender("FireStation", renderer, TIME, bounds, 
+                listener);
         ImageAssert.assertEquals(new File(
-                "./src/test/resources/org/geotools/renderer/lite/test-data/firestationNoParams.png"),
+                        "./src/test/resources/org/geotools/renderer/lite/test-data" +
+                                "/firestationNoParams.png"),
                 image, 1000);
     }
-    
+
     @Test
     public void testParametricOnlyFill() throws Exception {
         StreamingRenderer renderer = setupSinglePointRenderer("firestationOnlyFill.sld");
 
-        BufferedImage image = RendererBaseTest.showRender("FireStation", renderer, TIME, bounds, listener);
+        BufferedImage image = RendererBaseTest.showRender("FireStation", renderer, TIME, bounds, 
+                listener);
         ImageAssert.assertEquals(new File(
-                "./src/test/resources/org/geotools/renderer/lite/test-data/firestationOnlyFill.png"),
+                        "./src/test/resources/org/geotools/renderer/lite/test-data" +
+                                "/firestationOnlyFill.png"),
                 image, 1000);
     }
-    
+
     @Test
     public void testParametricAllValues() throws Exception {
         StreamingRenderer renderer = setupSinglePointRenderer("firestationAllParams.sld");
 
-        BufferedImage image = RendererBaseTest.showRender("FireStation", renderer, TIME, bounds, listener);
+        BufferedImage image = RendererBaseTest.showRender("FireStation", renderer, TIME, bounds, 
+                listener);
         ImageAssert.assertEquals(new File(
-                "./src/test/resources/org/geotools/renderer/lite/test-data/firestationAllParams.png"),
+                        "./src/test/resources/org/geotools/renderer/lite/test-data" +
+                                "/firestationAllParams.png"),
                 image, 1000);
     }
 
@@ -295,7 +313,7 @@ public class DrawTest {
         renderer.setJava2DHints(new RenderingHints(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON));
         return renderer;
     }
-    
+
     private StreamingRenderer setupSinglePointRenderer(String pointStyle) throws IOException {
         Style pStyle = RendererBaseTest.loadStyle(this, pointStyle);
 

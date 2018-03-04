@@ -62,13 +62,12 @@ import org.opengis.referencing.NoSuchAuthorityCodeException;
 
 /**
  * Testing {@link ImagePyramidReader}.
- * 
+ *
  * @author Simone Giannecchini
  * @author Stefan Alfons Krueger (alfonx), Wikisquare.de : Test coverage for pyramids stored in JARs
- *         and referenced by URLs
- * @since 2.3
- * 
+ * and referenced by URLs
  * @source $URL$
+ * @since 2.3
  */
 public class ImagePyramidReaderTest extends ImageLevelsMapperTest {
 
@@ -81,7 +80,7 @@ public class ImagePyramidReaderTest extends ImageLevelsMapperTest {
 
     /**
      * Tests automatic building of all the mosaic and pyramid files
-     * 
+     *
      * @throws IOException
      */
     @Test
@@ -111,7 +110,7 @@ public class ImagePyramidReaderTest extends ImageLevelsMapperTest {
     /**
      * Tests automatic building of all the mosaic and pyramid files from a gdal_retile like
      * directory structure
-     * 
+     *
      * @throws IOException
      */
     @Test
@@ -147,7 +146,7 @@ public class ImagePyramidReaderTest extends ImageLevelsMapperTest {
     /**
      * Copies the mosaic from the source dir to the target dir and removes all metadata files from
      * it
-     * 
+     *
      * @param sourceDir
      * @param targetDir
      * @throws IOException
@@ -156,8 +155,8 @@ public class ImagePyramidReaderTest extends ImageLevelsMapperTest {
         FileUtils.copyDirectory(sourceDir, targetDir);
 
         // remove the files we want to recreate
-        File[] dirs = new File[] { targetDir, new File(targetDir, "0"), new File(targetDir, "2"),
-                new File(targetDir, "4"), new File(targetDir, "8") };
+        File[] dirs = new File[]{targetDir, new File(targetDir, "0"), new File(targetDir, "2"),
+                new File(targetDir, "4"), new File(targetDir, "8")};
         FileFilter metadataFilter = FileFilterUtils.prefixFileFilter("pyramid.");
         for (File dir : dirs) {
             for (File file : dir.listFiles(metadataFilter)) {
@@ -242,7 +241,8 @@ public class ImagePyramidReaderTest extends ImageLevelsMapperTest {
         //
         // Get the resource.
         //
-        final String testFile = TestData.file(this, "goodpyramid/" + TEST_FILE).getCanonicalPath();//
+        final String testFile = TestData.file(this, "goodpyramid/" + TEST_FILE).getCanonicalPath
+                ();//
         assertNotNull(testFile);
 
         //
@@ -357,7 +357,7 @@ public class ImagePyramidReaderTest extends ImageLevelsMapperTest {
         // Show the coverage
         //
         GridCoverage2D coverage = (GridCoverage2D) reader
-                .read(new GeneralParameterValue[] { transp });
+                .read(new GeneralParameterValue[]{transp});
         assertNotNull(coverage);
         assertTrue("coverage dimensions different from what we expected", coverage
                 .getGridGeometry().getGridRange().getSpan(0) == 250
@@ -373,7 +373,7 @@ public class ImagePyramidReaderTest extends ImageLevelsMapperTest {
     /**
      * This is related to http://jira.codehaus.org/browse/GEOS-4081 and happens only if the
      * requested envelope is overlapping with the pyramid envelope for way less than a pixel
-     * 
+     *
      * @throws IOException
      * @throws MismatchedDimensionException
      * @throws NoSuchAuthorityCodeException
@@ -398,19 +398,19 @@ public class ImagePyramidReaderTest extends ImageLevelsMapperTest {
         readGG.setValue(new GridGeometry2D(new GridEnvelope2D(0, 0, 400, 400), requestedEnvelope));
 
         // make sure we get back a null, not an exception
-        assertNull(reader.read(new GeneralParameterValue[] { readGG }));
+        assertNull(reader.read(new GeneralParameterValue[]{readGG}));
     }
 
     /**
      * Testing {@link ImagePyramidReader} by cropping requesting a the best possible dimension.
-     * 
+     * <p>
      * <p>
      * The underlying pyramid i made by 4 levels on the same area, more or less italy, with
      * resolution decreasing as a power of 2.
-     * 
+     * <p>
      * <p>
      * Size of the original mosaic is 250,250.
-     * 
+     *
      * @throws IOException
      * @throws MismatchedDimensionException
      * @throws NoSuchAuthorityCodeException
@@ -435,11 +435,11 @@ public class ImagePyramidReaderTest extends ImageLevelsMapperTest {
         final ParameterValue<GridGeometry2D> gg = ImageMosaicFormat.READ_GRIDGEOMETRY2D
                 .createValue();
         final GeneralEnvelope oldEnvelop = reader.getOriginalEnvelope();
-        final GeneralEnvelope cropEnvelope = new GeneralEnvelope(new double[] {
+        final GeneralEnvelope cropEnvelope = new GeneralEnvelope(new double[]{
                 oldEnvelop.getLowerCorner().getOrdinate(0),
-                oldEnvelop.getLowerCorner().getOrdinate(1) }, new double[] {
+                oldEnvelop.getLowerCorner().getOrdinate(1)}, new double[]{
                 oldEnvelop.getLowerCorner().getOrdinate(0) + oldEnvelop.getSpan(0) / 2,
-                oldEnvelop.getLowerCorner().getOrdinate(1) + oldEnvelop.getSpan(1) / 2 });
+                oldEnvelop.getLowerCorner().getOrdinate(1) + oldEnvelop.getSpan(1) / 2});
         cropEnvelope.setCoordinateReferenceSystem(DefaultGeographicCRS.WGS84);
         gg.setValue(new GridGeometry2D(new GridEnvelope2D(new Rectangle(0, 0, 125, 125)),
                 cropEnvelope));
@@ -447,7 +447,7 @@ public class ImagePyramidReaderTest extends ImageLevelsMapperTest {
         //
         // Show the coverage
         //
-        GridCoverage2D coverage = ((GridCoverage2D) reader.read(new GeneralParameterValue[] { gg }));
+        GridCoverage2D coverage = ((GridCoverage2D) reader.read(new GeneralParameterValue[]{gg}));
         assertNotNull("Null value returned instead of a coverage", coverage);
 
         // used to match exactly, but now we compute the exact bbox matching the request on the fly
@@ -463,14 +463,14 @@ public class ImagePyramidReaderTest extends ImageLevelsMapperTest {
     /**
      * Testing {@link ImagePyramidReader} by cropping requesting a the second better available
      * resolution.
-     * 
+     * <p>
      * <p>
      * The underlying pyramid is made by 4 levels on the same area, more or less italy, with
      * resolution decreasing as a power of 2.
-     * 
+     * <p>
      * <p>
      * Size of the original mosaic is 250,250.
-     * 
+     *
      * @throws IOException
      * @throws MismatchedDimensionException
      * @throws NoSuchAuthorityCodeException
@@ -497,11 +497,11 @@ public class ImagePyramidReaderTest extends ImageLevelsMapperTest {
         final ParameterValue<GridGeometry2D> gg = ImageMosaicFormat.READ_GRIDGEOMETRY2D
                 .createValue();
         final GeneralEnvelope oldEnvelop = reader.getOriginalEnvelope();
-        final GeneralEnvelope cropEnvelope = new GeneralEnvelope(new double[] {
+        final GeneralEnvelope cropEnvelope = new GeneralEnvelope(new double[]{
                 oldEnvelop.getLowerCorner().getOrdinate(0),
-                oldEnvelop.getLowerCorner().getOrdinate(1) }, new double[] {
+                oldEnvelop.getLowerCorner().getOrdinate(1)}, new double[]{
                 oldEnvelop.getLowerCorner().getOrdinate(0) + oldEnvelop.getSpan(0) / 2,
-                oldEnvelop.getLowerCorner().getOrdinate(1) + oldEnvelop.getSpan(1) / 2 });
+                oldEnvelop.getLowerCorner().getOrdinate(1) + oldEnvelop.getSpan(1) / 2});
         cropEnvelope.setCoordinateReferenceSystem(DefaultGeographicCRS.WGS84);
         gg.setValue(new GridGeometry2D(new GridEnvelope2D(new Rectangle(0, 0, 125, 125)),
                 cropEnvelope));
@@ -509,7 +509,7 @@ public class ImagePyramidReaderTest extends ImageLevelsMapperTest {
         //
         // Show the coverage
         //
-        GridCoverage2D coverage = ((GridCoverage2D) reader.read(new GeneralParameterValue[] { gg }));
+        GridCoverage2D coverage = ((GridCoverage2D) reader.read(new GeneralParameterValue[]{gg}));
         assertNotNull("Null value returned instead of a coverage", coverage);
         if (TestData.isInteractiveTest())
             coverage.show("testCropLevel1");
@@ -522,14 +522,14 @@ public class ImagePyramidReaderTest extends ImageLevelsMapperTest {
     /**
      * Testing {@link ImagePyramidReader} by cropping requesting a the third better avialble
      * resolution.
-     * 
+     * <p>
      * <p>
      * The underlying pyramid i made by 4 levels on the same area, more or less italy, with
      * resolution decreasing as a power of 2.
-     * 
+     * <p>
      * <p>
      * Size of the original mosaic is 250,250.
-     * 
+     *
      * @throws IOException
      * @throws MismatchedDimensionException
      * @throws NoSuchAuthorityCodeException
@@ -559,11 +559,11 @@ public class ImagePyramidReaderTest extends ImageLevelsMapperTest {
         final ParameterValue<GridGeometry2D> gg = ImageMosaicFormat.READ_GRIDGEOMETRY2D
                 .createValue();
         final GeneralEnvelope oldEnvelop = reader.getOriginalEnvelope();
-        final GeneralEnvelope cropEnvelope = new GeneralEnvelope(new double[] {
+        final GeneralEnvelope cropEnvelope = new GeneralEnvelope(new double[]{
                 oldEnvelop.getLowerCorner().getOrdinate(0),
-                oldEnvelop.getLowerCorner().getOrdinate(1) }, new double[] {
+                oldEnvelop.getLowerCorner().getOrdinate(1)}, new double[]{
                 oldEnvelop.getLowerCorner().getOrdinate(0) + oldEnvelop.getSpan(0) / 2,
-                oldEnvelop.getLowerCorner().getOrdinate(1) + oldEnvelop.getSpan(1) / 2 });
+                oldEnvelop.getLowerCorner().getOrdinate(1) + oldEnvelop.getSpan(1) / 2});
         cropEnvelope.setCoordinateReferenceSystem(DefaultGeographicCRS.WGS84);
         gg.setValue(new GridGeometry2D(new GridEnvelope2D(new Rectangle(0, 0, 62, 62)),
                 cropEnvelope));
@@ -571,7 +571,7 @@ public class ImagePyramidReaderTest extends ImageLevelsMapperTest {
         //
         // Show the coverage
         //
-        GridCoverage2D coverage = ((GridCoverage2D) reader.read(new GeneralParameterValue[] { gg }));
+        GridCoverage2D coverage = ((GridCoverage2D) reader.read(new GeneralParameterValue[]{gg}));
         assertNotNull("Null value returned instead of a coverage", coverage);
         if (TestData.isInteractiveTest())
             coverage.show("testCropLevel2");
@@ -583,14 +583,14 @@ public class ImagePyramidReaderTest extends ImageLevelsMapperTest {
 
     /**
      * Testing {@link ImagePyramidReader} by cropping requesting a the worst availaible resolution.
-     * 
+     * <p>
      * <p>
      * The underlying pyramid i made by 4 levels on the same area, more or less italy, with
      * resolution decreasing as a power of 2.
-     * 
+     * <p>
      * <p>
      * Size of the original mosaic is 250,250.
-     * 
+     *
      * @throws IOException
      * @throws MismatchedDimensionException
      * @throws NoSuchAuthorityCodeException
@@ -616,11 +616,11 @@ public class ImagePyramidReaderTest extends ImageLevelsMapperTest {
         final ParameterValue<GridGeometry2D> gg = ImageMosaicFormat.READ_GRIDGEOMETRY2D
                 .createValue();
         final GeneralEnvelope oldEnvelop = reader.getOriginalEnvelope();
-        final GeneralEnvelope cropEnvelope = new GeneralEnvelope(new double[] {
+        final GeneralEnvelope cropEnvelope = new GeneralEnvelope(new double[]{
                 oldEnvelop.getLowerCorner().getOrdinate(0),
-                oldEnvelop.getLowerCorner().getOrdinate(1) }, new double[] {
+                oldEnvelop.getLowerCorner().getOrdinate(1)}, new double[]{
                 oldEnvelop.getLowerCorner().getOrdinate(0) + oldEnvelop.getSpan(0) / 2,
-                oldEnvelop.getLowerCorner().getOrdinate(1) + oldEnvelop.getSpan(1) / 2 });
+                oldEnvelop.getLowerCorner().getOrdinate(1) + oldEnvelop.getSpan(1) / 2});
         cropEnvelope.setCoordinateReferenceSystem(DefaultGeographicCRS.WGS84);
         gg.setValue(new GridGeometry2D(new GridEnvelope2D(new Rectangle(0, 0, 25, 25)),
                 cropEnvelope));
@@ -628,7 +628,7 @@ public class ImagePyramidReaderTest extends ImageLevelsMapperTest {
         //
         // Show the coverage
         //
-        GridCoverage2D coverage = ((GridCoverage2D) reader.read(new GeneralParameterValue[] { gg }));
+        GridCoverage2D coverage = ((GridCoverage2D) reader.read(new GeneralParameterValue[]{gg}));
         assertNotNull("Null value returned instead of a coverage", coverage);
         // assertTrue("coverage dimensions different from what we expected",
         // coverage.getGridGeometry().getGridRange().getSpan(0) == 15
@@ -646,7 +646,7 @@ public class ImagePyramidReaderTest extends ImageLevelsMapperTest {
 
     /**
      * Tests that we recognize gdal_retile structure
-     * 
+     *
      * @throws IOException
      */
     @Test
@@ -663,7 +663,7 @@ public class ImagePyramidReaderTest extends ImageLevelsMapperTest {
 
     /**
      * Tests that we recognize gdal_retile structure
-     * 
+     *
      * @throws IOException
      */
     @Test
@@ -712,7 +712,7 @@ public class ImagePyramidReaderTest extends ImageLevelsMapperTest {
         // Show the coverage
         //
         GridCoverage2D coverage = (GridCoverage2D) reader
-                .read(new GeneralParameterValue[] { transp });
+                .read(new GeneralParameterValue[]{transp});
         assertNotNull(coverage);
         assertTrue("coverage dimensions different from what we expected", coverage
                 .getGridGeometry().getGridRange().getSpan(0) == 200
@@ -752,7 +752,7 @@ public class ImagePyramidReaderTest extends ImageLevelsMapperTest {
         });
         // Testing output coverage for level 0
         TestUtils.checkCoverage(reader.getImageMosaicReaderForLevel(0),
-                new GeneralParameterValue[] { gg, useJai, time }, "time test");
+                new GeneralParameterValue[]{gg, useJai, time}, "time test");
     }
 
     /**
@@ -795,7 +795,7 @@ public class ImagePyramidReaderTest extends ImageLevelsMapperTest {
         // Show the coverage
         //
         GridCoverage2D coverage = (GridCoverage2D) reader
-                .read(new GeneralParameterValue[] { transp });
+                .read(new GeneralParameterValue[]{transp});
         assertNotNull(coverage);
         assertTrue("coverage dimensions different from what we expected", coverage
                 .getGridGeometry().getGridRange().getSpan(0) == 200
@@ -835,7 +835,7 @@ public class ImagePyramidReaderTest extends ImageLevelsMapperTest {
         });
         // Testing output coverage for level 0
         TestUtils.checkCoverage(reader.getImageMosaicReaderForLevel(0),
-                new GeneralParameterValue[] { gg, useJai, time }, "time test");
+                new GeneralParameterValue[]{gg, useJai, time}, "time test");
     }
 
     /**
@@ -851,7 +851,8 @@ public class ImagePyramidReaderTest extends ImageLevelsMapperTest {
         final URL testFile = TestData.getResource(this, "multipyramid");
         File mosaicFolder = URLs.urlToFile(testFile);
         assertNotNull(testFile);
-        File[] pyramidLevels = mosaicFolder.listFiles((FileFilter)FileFilterUtils.directoryFileFilter());
+        File[] pyramidLevels = mosaicFolder.listFiles((FileFilter) FileFilterUtils
+                .directoryFileFilter());
         for (File pyramidLevel : pyramidLevels) {
             cleanFiles(pyramidLevel);
         }

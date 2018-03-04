@@ -28,5 +28,6 @@ import org.geotools.gce.imagemosaic.RasterManager;
  */
 public interface SubmosaicProducerFactory {
     List<SubmosaicProducer> createProducers(RasterLayerRequest request,
-            RasterManager rasterManager, RasterLayerResponse response, boolean dryRun);
+                                            RasterManager rasterManager, RasterLayerResponse 
+                                                    response, boolean dryRun);
 }

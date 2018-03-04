@@ -48,9 +48,9 @@ import com.vividsolutions.jts.geom.Point;
 
 /**
  * Binding object for the type http://earth.google.com/kml/2.1:FeatureType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType abstract="true" name="FeatureType"&gt;
  *      &lt;complexContent&gt;
@@ -79,9 +79,6 @@ import com.vividsolutions.jts.geom.Point;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class FeatureTypeBinding extends AbstractComplexBinding {
@@ -128,7 +125,7 @@ public class FeatureTypeBinding extends AbstractComplexBinding {
     }
 
     public FeatureTypeBinding(StyleMap styleMap, FolderStack folderStack,
-            SchemaRegistry schemaRegistry) {
+                              SchemaRegistry schemaRegistry) {
         this.styleMap = styleMap;
         this.folderStack = folderStack;
         this.schemaRegistry = schemaRegistry;
@@ -151,7 +148,8 @@ public class FeatureTypeBinding extends AbstractComplexBinding {
         return SimpleFeature.class;
     }
 
-    private SimpleFeatureType appendAttributes(SimpleFeatureType acc, SimpleFeatureType typeToAppend) {
+    private SimpleFeatureType appendAttributes(SimpleFeatureType acc, SimpleFeatureType 
+            typeToAppend) {
         if (typeToAppend == null) {
             return acc;
         }
@@ -173,7 +171,7 @@ public class FeatureTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
 
         // start off with the default feature type, and retype as necessary
         SimpleFeatureType featureType = FeatureType;
@@ -273,7 +271,7 @@ public class FeatureTypeBinding extends AbstractComplexBinding {
         //&lt;element minOccurs="0" name="Metadata" type="kml:MetadataType"/&gt;
         return b.buildFeature((String) node.getAttributeValue("id"));
     }
-    
+
     private String normalizeSchemaName(URI schemaURI) {
         if (schemaURI.getFragment() != null) {
             return schemaURI.getFragment();
@@ -282,63 +280,64 @@ public class FeatureTypeBinding extends AbstractComplexBinding {
     }
 
     public Object getProperty(Object object, QName name) throws Exception {
-    	if( object instanceof FeatureCollection){
-    		FeatureCollection features = (FeatureCollection) object;
-    		if ( "id".equals( name.getLocalPart() ) ) {
-                return features.getID(); 
-            }    		
-    	}
-    	if( object instanceof SimpleFeature){
-	        SimpleFeature feature = (SimpleFeature) object;
-	        
-	        if ( "id".equals( name.getLocalPart() ) ) {
-	            return feature.getID(); 
-	        }
-	        
-	        //&lt;element minOccurs="0" name="name" type="string"/&gt;
-	        if ( "name".equals( name.getLocalPart() ) ) {
-	            return feature.getAttribute( "name" );
-	        }
-	        
-	        //&lt;element minOccurs="0" name="description" type="string"/&gt;
-	        if ( "description".equals( name.getLocalPart() ) ) {
-	            return feature.getAttribute( "description" );
-	        }
-	      
-                if (KML.styleUrl.getLocalPart().equals(name.getLocalPart())) {
-                    URI uri = (URI) feature.getAttribute("Style");
-                    if (uri != null) {
-                        return styleMap.get(uri);
-                    }
-                }
-	        
-	        //&lt;element default="1" minOccurs="0" name="visibility" type="boolean"/&gt;
-	        //&lt;element default="1" minOccurs="0" name="open" type="boolean"/&gt;
-	        //&lt;element minOccurs="0" name="address" type="string"/&gt;
-	        //&lt;element minOccurs="0" name="phoneNumber" type="string"/&gt;
-	        //&lt;element minOccurs="0" name="Snippet" type="kml:SnippetType"/&gt;
-	        //&lt;element minOccurs="0" name="description" type="string"/&gt;
-	        //&lt;element minOccurs="0" ref="kml:LookAt"/&gt;
-	        //&lt;element minOccurs="0" ref="kml:TimePrimitive"/&gt;
-	        //&lt;element minOccurs="0" ref="kml:styleUrl"/&gt;
-	        //&lt;element maxOccurs="unbounded" minOccurs="0" ref="kml:StyleSelector"/&gt;
-	        //&lt;element minOccurs="0" ref="kml:Region"/&gt;
-	        //&lt;element minOccurs="0" name="Metadata" type="kml:MetadataType"/&gt;
+        if (object instanceof FeatureCollection) {
+            FeatureCollection features = (FeatureCollection) object;
+            if ("id".equals(name.getLocalPart())) {
+                return features.getID();
+            }
+        }
+        if (object instanceof SimpleFeature) {
+            SimpleFeature feature = (SimpleFeature) object;
 
-                // this is KML 2.2-specific
-                if ("ExtendedData".equals(name.getLocalPart())) {
-                    SimpleFeatureType t = feature.getFeatureType();
-                    List<Map.Entry<Name, Object>> attributes = new LinkedList<Map.Entry<Name, Object>>();
+            if ("id".equals(name.getLocalPart())) {
+                return feature.getID();
+            }
 
-                    for (AttributeDescriptor ad : t.getAttributeDescriptors()) {
-                        Object obj = feature.getAttribute(ad.getName());
-                        // do not include geographic attributes
-                        if (!(obj instanceof Geometry))
-                            attributes
-                                    .add(new AbstractMap.SimpleEntry<Name, Object>(ad.getName(), obj));
-                    }
-                    return attributes;
+            //&lt;element minOccurs="0" name="name" type="string"/&gt;
+            if ("name".equals(name.getLocalPart())) {
+                return feature.getAttribute("name");
+            }
+
+            //&lt;element minOccurs="0" name="description" type="string"/&gt;
+            if ("description".equals(name.getLocalPart())) {
+                return feature.getAttribute("description");
+            }
+
+            if (KML.styleUrl.getLocalPart().equals(name.getLocalPart())) {
+                URI uri = (URI) feature.getAttribute("Style");
+                if (uri != null) {
+                    return styleMap.get(uri);
                 }
+            }
+
+            //&lt;element default="1" minOccurs="0" name="visibility" type="boolean"/&gt;
+            //&lt;element default="1" minOccurs="0" name="open" type="boolean"/&gt;
+            //&lt;element minOccurs="0" name="address" type="string"/&gt;
+            //&lt;element minOccurs="0" name="phoneNumber" type="string"/&gt;
+            //&lt;element minOccurs="0" name="Snippet" type="kml:SnippetType"/&gt;
+            //&lt;element minOccurs="0" name="description" type="string"/&gt;
+            //&lt;element minOccurs="0" ref="kml:LookAt"/&gt;
+            //&lt;element minOccurs="0" ref="kml:TimePrimitive"/&gt;
+            //&lt;element minOccurs="0" ref="kml:styleUrl"/&gt;
+            //&lt;element maxOccurs="unbounded" minOccurs="0" ref="kml:StyleSelector"/&gt;
+            //&lt;element minOccurs="0" ref="kml:Region"/&gt;
+            //&lt;element minOccurs="0" name="Metadata" type="kml:MetadataType"/&gt;
+
+            // this is KML 2.2-specific
+            if ("ExtendedData".equals(name.getLocalPart())) {
+                SimpleFeatureType t = feature.getFeatureType();
+                List<Map.Entry<Name, Object>> attributes = new LinkedList<Map.Entry<Name, 
+                        Object>>();
+
+                for (AttributeDescriptor ad : t.getAttributeDescriptors()) {
+                    Object obj = feature.getAttribute(ad.getName());
+                    // do not include geographic attributes
+                    if (!(obj instanceof Geometry))
+                        attributes
+                                .add(new AbstractMap.SimpleEntry<Name, Object>(ad.getName(), obj));
+                }
+                return attributes;
+            }
         }
         return super.getProperty(object, name);
     }

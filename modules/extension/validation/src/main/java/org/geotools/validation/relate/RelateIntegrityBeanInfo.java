@@ -24,70 +24,65 @@ import org.geotools.validation.DefaultIntegrityValidationBeanInfo;
 
 /**
  * RelateIntegrityBeanInfo<br>
+ *
  * @author bowens<br>
  * Created Apr 27, 2004<br>
- *
- *
- * @source $URL$
  * @version <br>
- * 
+ * <p>
  * <b>Puropse:</b><br>
  * <p>
  * DOCUMENT ME!!
  * </p>
- * 
+ * <p>
  * <b>Description:</b><br>
  * <p>
  * DOCUMENT ME!!
  * </p>
- * 
+ * <p>
  * <b>Usage:</b><br>
  * <p>
  * DOCUMENT ME!!
  * </p>
+ * @source $URL$
  */
-public class RelateIntegrityBeanInfo extends DefaultIntegrityValidationBeanInfo
-{
+public class RelateIntegrityBeanInfo extends DefaultIntegrityValidationBeanInfo {
 
-	/**
-	 * 
-	 */
-	public RelateIntegrityBeanInfo()
-	{
-		super();
-	}
+    /**
+     *
+     */
+    public RelateIntegrityBeanInfo() {
+        super();
+    }
 
-	 /** 
-	  * 
-	  * 
-	  * (non-Javadoc)
-	  * @see java.beans.BeanInfo#getPropertyDescriptors()
-	 **/
-	public PropertyDescriptor[] getPropertyDescriptors() 
-	{
-		PropertyDescriptor[] pd2 = super.getPropertyDescriptors();
-		ResourceBundle resourceBundle = getResourceBundle();
-		if (pd2 == null) {
-			pd2 = new PropertyDescriptor[0];
-		}
+    /**
+     * (non-Javadoc)
+     *
+     * @see java.beans.BeanInfo#getPropertyDescriptors()
+     **/
+    public PropertyDescriptor[] getPropertyDescriptors() {
+        PropertyDescriptor[] pd2 = super.getPropertyDescriptors();
+        ResourceBundle resourceBundle = getResourceBundle();
+        if (pd2 == null) {
+            pd2 = new PropertyDescriptor[0];
+        }
 
-		PropertyDescriptor[] pd = new PropertyDescriptor[pd2.length + 1];
-		int i = 0;
+        PropertyDescriptor[] pd = new PropertyDescriptor[pd2.length + 1];
+        int i = 0;
 
-		for (; i < pd2.length; i++)
-			pd[i] = pd2[i];
+        for (; i < pd2.length; i++)
+            pd[i] = pd2[i];
 
-		try {
-			pd[i] = createPropertyDescriptor("de9imString", resourceBundle);
-			pd[i].setExpert(false);
-		
-		} catch (IntrospectionException e) {
-			pd = pd2;
+        try {
+            pd[i] = createPropertyDescriptor("de9imString", resourceBundle);
+            pd[i].setExpert(false);
 
-			// TODO error, log here
-			e.printStackTrace();
-		}
+        } catch (IntrospectionException e) {
+            pd = pd2;
 
-		return pd;
-	}
+            // TODO error, log here
+            e.printStackTrace();
+        }
+
+        return pd;
+    }
 }

@@ -25,7 +25,7 @@ import org.geotools.ows.ServiceException;
 
 /**
  * Process GetFeatureInfoResponse.
- *
+ * <p>
  * (Based on existing work by rgould for WMS service)
  *
  * @author ian

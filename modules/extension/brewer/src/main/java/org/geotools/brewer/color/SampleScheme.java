@@ -21,8 +21,6 @@ package org.geotools.brewer.color;
  * Number of samples that can be represented.
  *
  * @author James Macgill
- *
- *
  * @source $URL$
  */
 public class SampleScheme {
@@ -40,7 +38,6 @@ public class SampleScheme {
      * Indexed getter for property sampleScheme.
      *
      * @param length Index of the property.
-     *
      * @return Value of the property at <CODE>index</CODE>.
      */
     public int[] getSampleScheme(int length) {
@@ -50,7 +47,7 @@ public class SampleScheme {
     /**
      * Indexed setter for property sampleScheme.
      *
-     * @param length Index of the property.
+     * @param length       Index of the property.
      * @param sampleScheme New value of the property at <CODE>index</CODE>.
      */
     public void setSampleScheme(int length, int[] sampleScheme) {

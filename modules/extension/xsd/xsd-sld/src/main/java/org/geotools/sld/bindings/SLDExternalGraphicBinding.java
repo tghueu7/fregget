@@ -19,8 +19,10 @@ package org.geotools.sld.bindings;
 import org.picocontainer.MutablePicoContainer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 import java.net.URI;
 import javax.xml.namespace.QName;
+
 import org.geotools.styling.ExternalGraphic;
 import org.geotools.styling.StyleFactory;
 import org.geotools.util.Converters;
@@ -29,9 +31,9 @@ import org.geotools.xml.*;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:ExternalGraphic.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="ExternalGraphic"&gt;
  *      &lt;xsd:annotation&gt;
@@ -52,9 +54,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDExternalGraphicBinding extends AbstractComplexBinding {
@@ -107,11 +106,11 @@ public class SLDExternalGraphicBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //the Converters wrapper here is a workaround for http://jira.codehaus.org/browse/GEOT-2457
         // for some reason on the IBM JDK returns a string, we should really find out why instead 
         // of applying this bandaid
-        URI uri = Converters.convert( node.getChildValue("OnlineResource"), URI.class );
+        URI uri = Converters.convert(node.getChildValue("OnlineResource"), URI.class);
         String format = (String) node.getChildValue("Format");
 
         return styleFactory.createExternalGraphic(uri.toURL(), format);

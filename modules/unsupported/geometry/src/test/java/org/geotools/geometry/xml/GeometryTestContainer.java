@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -29,17 +29,14 @@ import junit.framework.TestSuite;
 /**
  * the {@code GeometryTest} class is a container that holds a {@code List} of
  * {@code GeometryTestCase}s and provides a way to execute them all.
+ *
  * @author <a href="mailto:joel@lggi.com">Joel Skelton</a>
- *
- *
- *
- *
  * @source $URL$
  */
 public class GeometryTestContainer {
     private List<GeometryTestCase> testCases;
     private PrecisionModel precisionModel;
-    
+
     /**
      * Constructor
      */
@@ -49,38 +46,41 @@ public class GeometryTestContainer {
 
     /**
      * Adds a constructed test case into the list of available tests
+     *
      * @param testCase
      */
-    public void addTestCase(GeometryTestCase testCase) {        
+    public void addTestCase(GeometryTestCase testCase) {
         testCases.add(testCase);
     }
-    
+
     /**
      * Runs all tests currently contained. Returns true if all tests pass, false otherwise
+     *
      * @return true if all tests pass, false otherwise
      */
-    public boolean runAllTestCases( TestResult result ) {
+    public boolean runAllTestCases(TestResult result) {
         for (GeometryTestCase testCase : testCases) {
-            if (!testCase.runTestCases( result )) {
+            if (!testCase.runTestCases(result)) {
                 return false;
             }
         }
         return true;
     }
-    
+
     public void addToTestSuite(String name, TestSuite suite, Properties excludes) {
         for (GeometryTestCase testCase : testCases) {
             //only add the test case if its description is NOT in the excludes list
             if (!GeometryConformanceTestSuite.isExcluded(excludes, testCase.getDescription())) {
                 testCase.setName(name);
                 //check for overrides on operations
-                System.out.println(testCase.toString()+ " - test count: " +testCase.getOperationCount());
+                System.out.println(testCase.toString() + " - test count: " + testCase
+                        .getOperationCount());
                 testCase = GeometryConformanceTestSuite.overrideOps(testCase, excludes);
                 suite.addTest(testCase);
             }
         }
     }
-    
+
     public void checkTestOverrides(String name, Properties excludes) {
         for (GeometryTestCase testCase : testCases) {
             //only add the test case if its description is NOT in the excludes list
@@ -92,12 +92,12 @@ public class GeometryTestContainer {
         }
     }
 
-	protected PrecisionModel getPrecisionModel() {
-		return precisionModel;
-	}
+    protected PrecisionModel getPrecisionModel() {
+        return precisionModel;
+    }
 
-	protected void setPrecisionModel(PrecisionModel precisionModel) {
-		this.precisionModel = precisionModel;
-	}
+    protected void setPrecisionModel(PrecisionModel precisionModel) {
+        this.precisionModel = precisionModel;
+    }
 
 }

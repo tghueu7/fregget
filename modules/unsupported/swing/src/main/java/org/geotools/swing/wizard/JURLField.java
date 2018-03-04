@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -38,12 +38,8 @@ import net.miginfocom.swing.MigLayout;
 
 /**
  * Widget for URL; provides a "Browse" button to open a file dialog.
- * 
+ *
  * @author Jody Garnett
- *
- *
- *
- *
  * @source $URL$
  */
 public class JURLField extends ParamField {
@@ -72,23 +68,22 @@ public class JURLField extends ParamField {
 
     protected void browse() {
         JFileChooser dialog;
-        Object format = this.parameter.metadata.get( Parameter.EXT );
+        Object format = this.parameter.metadata.get(Parameter.EXT);
         if (format instanceof FileDataStoreFactorySpi) {
             dialog = new JFileDataStoreChooser((FileDataStoreFactorySpi) format);
         } else if (format instanceof String) {
             dialog = new JFileDataStoreChooser((String) format);
         } else if (format instanceof String[]) {
             dialog = new JFileDataStoreChooser((String[]) format);
-        }
-        else {
+        } else {
             dialog = new JFileChooser();
         }
-        dialog.setSelectedFile( getFile() );
-        
-        int returnVal = dialog.showOpenDialog( browse );
+        dialog.setSelectedFile(getFile());
+
+        int returnVal = dialog.showOpenDialog(browse);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = dialog.getSelectedFile();
-            setValue( file );
+            setValue(file);
         }
     }
 
@@ -108,7 +103,7 @@ public class JURLField extends ParamField {
         }
         return null;
     }
-    
+
     public void addListener(Controller controller) {
         //field.addKeyListener(controller);
         field.addActionListener(controller);
@@ -120,8 +115,8 @@ public class JURLField extends ParamField {
         field.removeActionListener(controller);
         field.getDocument().removeDocumentListener(controller);
     }
-    
-    public File getFile(){
+
+    public File getFile() {
         String txt = field.getText();
         if (txt == null || txt.equals("")) {
             return null;
@@ -133,23 +128,21 @@ public class JURLField extends ParamField {
         }
         try {
             URL url = new URL(txt);
-            return URLs.urlToFile( url );            
+            return URLs.urlToFile(url);
         } catch (MalformedURLException e) {
         }
         return null; // not a file
     }
 
     public void setValue(Object value) {
-        if( value instanceof File ){
+        if (value instanceof File) {
             File file = (File) value;
-            field.setText( file.toString() );            
-        }
-        else if ( value instanceof URL ){
+            field.setText(file.toString());
+        } else if (value instanceof URL) {
             URL url = (URL) value;
-            field.setText( url.toExternalForm() );
-        }
-        else if ( value instanceof String){
-            field.setText( (String) value );
+            field.setText(url.toExternalForm());
+        } else if (value instanceof String) {
+            field.setText((String) value);
         }
     }
 
@@ -159,11 +152,11 @@ public class JURLField extends ParamField {
             return !parameter.required;
         }
         File file = getFile();
-        if( file != null ){
+        if (file != null) {
             return file.exists();
         }
         URL url = getValue();
-        
+
         return url != null;
     }
 

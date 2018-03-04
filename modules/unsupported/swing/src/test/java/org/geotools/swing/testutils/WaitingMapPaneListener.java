@@ -25,12 +25,11 @@ import org.geotools.swing.event.MapPaneListener;
 /**
  * A MapPaneListener that can be set to expect specified events
  * and test if they are received.
- * 
- * @author Michael Bedward
- * @since 8.0
  *
- * @source $URL$
+ * @author Michael Bedward
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 public class WaitingMapPaneListener extends WaitingListener<MapPaneEvent, MapPaneEvent.Type>
         implements MapPaneListener {
@@ -38,7 +37,7 @@ public class WaitingMapPaneListener extends WaitingListener<MapPaneEvent, MapPan
     public WaitingMapPaneListener() {
         super(MapPaneEvent.Type.values().length);
     }
-    
+
     @Override
     public void onNewMapContent(MapPaneEvent ev) {
         catchEvent(MapPaneEvent.Type.NEW_MAPCONTENT.ordinal(), ev);
@@ -58,5 +57,5 @@ public class WaitingMapPaneListener extends WaitingListener<MapPaneEvent, MapPan
     public void onRenderingStopped(MapPaneEvent ev) {
         catchEvent(MapPaneEvent.Type.RENDERING_STOPPED.ordinal(), ev);
     }
-    
+
 }

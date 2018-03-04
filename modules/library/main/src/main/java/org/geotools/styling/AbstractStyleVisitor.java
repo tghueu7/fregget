@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2012, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -21,7 +21,7 @@ package org.geotools.styling;
  * A basic implementation of the StyleVisitor interface.
  * <p>
  * This class implements the full StyleVisitor interface and visits all components of a style object
- * tree. 
+ * tree.
  * </p>
  */
 public class AbstractStyleVisitor implements StyleVisitor {
@@ -30,9 +30,9 @@ public class AbstractStyleVisitor implements StyleVisitor {
     public void visit(StyledLayerDescriptor sld) {
         for (StyledLayer sl : sld.getStyledLayers()) {
             if (sl instanceof UserLayer) {
-                ((UserLayer)sl).accept(this);
+                ((UserLayer) sl).accept(this);
             } else if (sl instanceof NamedLayer) {
-                ((NamedLayer)sl).accept(this);
+                ((NamedLayer) sl).accept(this);
             }
         }
     }
@@ -125,22 +125,17 @@ public class AbstractStyleVisitor implements StyleVisitor {
 
     @Override
     public void visit(Symbolizer sym) {
-        if( sym instanceof RasterSymbolizer){
-            visit( (RasterSymbolizer) sym );
-        }
-        else if( sym instanceof LineSymbolizer){
-            visit( (LineSymbolizer) sym );
-        }
-        else if( sym instanceof PolygonSymbolizer){
-            visit( (PolygonSymbolizer) sym );
-        }
-        else if( sym instanceof PointSymbolizer){
-            visit( (PointSymbolizer) sym );
-        }
-        else if( sym instanceof TextSymbolizer){
-            visit( (TextSymbolizer) sym );
-        }
-        else {
+        if (sym instanceof RasterSymbolizer) {
+            visit((RasterSymbolizer) sym);
+        } else if (sym instanceof LineSymbolizer) {
+            visit((LineSymbolizer) sym);
+        } else if (sym instanceof PolygonSymbolizer) {
+            visit((PolygonSymbolizer) sym);
+        } else if (sym instanceof PointSymbolizer) {
+            visit((PointSymbolizer) sym);
+        } else if (sym instanceof TextSymbolizer) {
+            visit((TextSymbolizer) sym);
+        } else {
             throw new RuntimeException("visit(Symbolizer) unsupported");
         }
     }
@@ -250,7 +245,7 @@ public class AbstractStyleVisitor implements StyleVisitor {
         if (raster.getOverlap() != null) {
             //raster.getOverlap().accept(visitor, extraData);
         }
-        
+
         if (raster.getShadedRelief() != null) {
             raster.getShadedRelief().accept(this);
         }
@@ -424,7 +419,7 @@ public class AbstractStyleVisitor implements StyleVisitor {
     @Override
     public void visit(SelectedChannelType sct) {
         if (sct.getContrastEnhancement() != null) {
-            sct.getContrastEnhancement().accept(this);    
+            sct.getContrastEnhancement().accept(this);
         }
     }
 
@@ -435,6 +430,5 @@ public class AbstractStyleVisitor implements StyleVisitor {
         }
     }
 
-   
 
 }

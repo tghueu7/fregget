@@ -29,22 +29,18 @@ import com.vividsolutions.jts.geom.Envelope;
 
 /**
  * The base class for builders that generate polygonal grid elements.
- * 
- * @see org.geotools.grid.hexagon.HexagonGridBuilder
- * @see org.geotools.grid.oblong.OblongGridBuilder
  *
  * @author mbedward
- * @since 8.0
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @see org.geotools.grid.hexagon.HexagonGridBuilder
+ * @see org.geotools.grid.oblong.OblongGridBuilder
+ * @since 8.0
  */
 public abstract class PolygonBuilder {
 
     private static final Logger LOGGER = Logger.getLogger("org.geotools.grid");
-    
+
     protected final ReferencedEnvelope gridBounds;
 
     public PolygonBuilder(ReferencedEnvelope gridBounds) {
@@ -52,15 +48,16 @@ public abstract class PolygonBuilder {
     }
 
     public boolean buildGrid(GridFeatureBuilder gridFeatureBuilder,
-            double vertexSpacing,
-            ListFeatureCollection fc) {
+                             double vertexSpacing,
+                             ListFeatureCollection fc) {
 
         boolean result = true;
 
         final boolean densify = isValidDenseVertexSpacing(vertexSpacing);
 
         final SimpleFeatureBuilder fb = new SimpleFeatureBuilder(gridFeatureBuilder.getType());
-        final String geomPropName = gridFeatureBuilder.getType().getGeometryDescriptor().getLocalName();
+        final String geomPropName = gridFeatureBuilder.getType().getGeometryDescriptor()
+                .getLocalName();
 
         PolygonElement el0 = getFirstElement();
         PolygonElement el = el0;

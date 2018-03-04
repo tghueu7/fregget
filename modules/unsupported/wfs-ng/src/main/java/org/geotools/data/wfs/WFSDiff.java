@@ -17,6 +17,7 @@
 package org.geotools.data.wfs;
 
 import static org.geotools.data.wfs.internal.Loggers.*;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -95,12 +96,13 @@ public class WFSDiff extends Diff {
     }
 
     public ReferencedEnvelope batchModify(Name[] properties, Object[] values, Filter filter,
-            FeatureReader<SimpleFeatureType, SimpleFeature> oldFeatures, ContentState contentState)
+                                          FeatureReader<SimpleFeatureType, SimpleFeature> 
+                                                  oldFeatures, ContentState contentState)
             throws IOException {
 
         ReferencedEnvelope bounds = new ReferencedEnvelope(contentState.getFeatureType()
                 .getCoordinateReferenceSystem());
-        
+
         synchronized (batchModified) {
 
             while (oldFeatures.hasNext()) {

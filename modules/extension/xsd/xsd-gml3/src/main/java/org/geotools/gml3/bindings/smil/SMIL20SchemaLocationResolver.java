@@ -21,11 +21,7 @@ import org.eclipse.xsd.util.XSDSchemaLocationResolver;
 
 
 /**
- *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SMIL20SchemaLocationResolver implements XSDSchemaLocationResolver {
@@ -33,10 +29,10 @@ public class SMIL20SchemaLocationResolver implements XSDSchemaLocationResolver {
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      *
-     *        @generated modifiable
+     * @generated modifiable
      */
     public String resolveSchemaLocation(XSDSchema xsdSchema, String namespaceURI,
-        String schemaLocationURI) {
+                                        String schemaLocationURI) {
         if (schemaLocationURI == null) {
             return null;
         }

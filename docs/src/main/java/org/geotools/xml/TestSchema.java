@@ -10,8 +10,8 @@ import com.vividsolutions.jts.geom.Point;
 
 /**
  * The following is a placeholder simply to make a UML Diagram.
- * @author jody
  *
+ * @author jody
  */
 public class TestSchema {
     /**
@@ -21,10 +21,13 @@ public class TestSchema {
      */
     public static interface TestFeatureType extends GML2Schema.AbstractFeatureType {
         public Point pointProperty();
+
         public int count();
+
         public Date date();
     }
-    public static class TestFeature implements TestFeatureType{
+
+    public static class TestFeature implements TestFeatureType {
 
         public String description() {
             return null;
@@ -49,19 +52,21 @@ public class TestSchema {
         public Date date() {
             return null;
         }
-    
+
     }
-    
-    
-    /** A feature collection contains zero or more featureMember elements. */
+
+
+    /**
+     * A feature collection contains zero or more featureMember elements.
+     */
     public static interface TestFeatureCollectionType extends GML2Schema.AbstractFeatureCollectionType {
     }
-    
+
     public static class TestFeatureCollection implements TestFeatureCollectionType {
 
         public List<Feature> featureMemeber() {
             return null;
         }
-    
+
     }
 }

@@ -30,8 +30,9 @@ import org.opengis.feature.simple.SimpleFeatureType;
 import com.vividsolutions.jts.geom.Geometry;
 
 /**
- * Collects type of properties, by name. When a property is given multiple types, a common ancestor is found
- * 
+ * Collects type of properties, by name. When a property is given multiple types, a common 
+ * ancestor is found
+ *
  * @author Andrea Aime - GeoSolutions
  */
 class TypeAggregator {
@@ -45,7 +46,7 @@ class TypeAggregator {
 
     /**
      * Adds/merges a property and its type
-     * 
+     *
      * @param name
      * @param binding
      */
@@ -96,7 +97,7 @@ class TypeAggregator {
 
     /**
      * Builds a feature type containing all of the attributes found so far
-     * 
+     *
      * @return
      */
     public SimpleFeatureType getFeatureType() {

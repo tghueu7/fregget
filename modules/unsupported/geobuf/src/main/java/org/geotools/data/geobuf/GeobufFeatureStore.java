@@ -51,8 +51,8 @@ public class GeobufFeatureStore extends ContentFeatureStore {
     @Override
     public void setTransaction(Transaction transaction) {
         super.setTransaction(transaction);
-        if( delegate.getTransaction() != transaction ){
-            delegate.setTransaction( transaction );
+        if (delegate.getTransaction() != transaction) {
+            delegate.setTransaction(transaction);
         }
     }
 
@@ -62,7 +62,8 @@ public class GeobufFeatureStore extends ContentFeatureStore {
     }
 
     @Override
-    protected FeatureReader<SimpleFeatureType, SimpleFeature> getReaderInternal(Query query) throws IOException {
+    protected FeatureReader<SimpleFeatureType, SimpleFeature> getReaderInternal(Query query) 
+            throws IOException {
         return delegate.getReaderInternal(query);
     }
 

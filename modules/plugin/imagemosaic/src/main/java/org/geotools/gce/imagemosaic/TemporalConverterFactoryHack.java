@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -41,13 +41,13 @@ import org.geotools.util.ConverterFactory;
  * </ul>
  * </p>
  * <p>
- * The hint {@link ConverterFactory#SAFE_CONVERSION} is used to control which conversions will be applied.
+ * The hint {@link ConverterFactory#SAFE_CONVERSION} is used to control which conversions will be
+ * applied.
  * </p>
- * 
+ *
  * @author Simone Giannecchini, GeoSolutions
- * @since 9.0
- * 
  * @source $URL$
+ * @since 9.0
  */
 class TemporalConverterFactoryHack implements ConverterFactory {
 

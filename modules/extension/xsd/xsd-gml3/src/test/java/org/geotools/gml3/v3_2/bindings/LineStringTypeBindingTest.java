@@ -17,6 +17,7 @@
 package org.geotools.gml3.v3_2.bindings;
 
 import static org.custommonkey.xmlunit.XMLAssert.*;
+
 import org.geotools.gml3.bindings.GML3MockData;
 import org.geotools.gml3.v3_2.GML;
 import org.geotools.gml3.v3_2.GML32TestSupport;
@@ -26,8 +27,6 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.LineString;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class LineStringTypeBindingTest extends GML32TestSupport {
@@ -41,7 +40,7 @@ public class LineStringTypeBindingTest extends GML32TestSupport {
 //        assertEquals(new Coordinate(3d, 4d), line.getPointN(1).getCoordinate());
 //    }
 
-//    public void testPosList() throws Exception {
+    //    public void testPosList() throws Exception {
 //        document.appendChild(GML3MockData.lineStringWithPosList(document, null));
 //
 //        LineString line = (LineString) parse();
@@ -54,7 +53,7 @@ public class LineStringTypeBindingTest extends GML32TestSupport {
     public void testEncode() throws Exception {
         LineString line = GML3MockData.lineString();
         Document d = encode(line, GML.LineString);
-        
+
         assertEquals("gml:LineString", d.getDocumentElement().getNodeName());
         assertXpathExists("/gml:LineString/gml:posList", d);
     }

@@ -33,28 +33,29 @@ import org.fest.swing.timing.Pause;
 
 import org.junit.After;
 import org.junit.BeforeClass;
+
 import static org.junit.Assert.assertNotNull;
 
 /**
  * Base for test classes which use a FEST {@linkplain WindowFixture} to hold dialogs,
- * frames etc. 
- * 
+ * frames etc.
+ *
  * @author Michael Bedward
- * @since 8.0
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 public abstract class GraphicsTestBase<T extends Window> {
-    
+
     // Max waiting time for dialog display (milliseconds)
     public static final long DISPLAY_TIMEOUT = 1000;
-    
+
     protected WindowFixture<T> windowFixture;
 
     /**
      * Installs the FEST repaint manager.
      */
-    @BeforeClass 
+    @BeforeClass
     public static void baseSetUpOnce() {
         FailOnThreadViolationRepaintManager.install();
     }
@@ -68,36 +69,36 @@ public abstract class GraphicsTestBase<T extends Window> {
             windowFixture.cleanUp();
         }
     }
-    
+
     /**
      * Waits up to {@linkplain #DISPLAY_TIMEOUT} milliseconds for a given
      * dialog class to be displayed. If the waiting time is exceeded an
      * assertion error is thrown.
-     * 
+     *
      * @param dialogClass dialog class
      */
     protected void assertComponentDisplayed(Class<? extends Component> componentClass) {
-        Pause.pause(new ComponentFoundCondition("component to be displayed", 
-                BasicComponentFinder.finderWithCurrentAwtHierarchy(), 
-                new TypeMatcher(componentClass, true)),
+        Pause.pause(new ComponentFoundCondition("component to be displayed",
+                        BasicComponentFinder.finderWithCurrentAwtHierarchy(),
+                        new TypeMatcher(componentClass, true)),
                 DISPLAY_TIMEOUT);
     }
 
     /**
      * Gets a dialog button with the specified text.
-     * 
+     *
      * @param buttonText button text
-     * 
      * @return the button fixture
      */
     protected JButtonFixture getButton(final String buttonText) {
-        JButtonFixture button = windowFixture.button(new GenericTypeMatcher<JButton>(JButton.class) {
+        JButtonFixture button = windowFixture.button(new GenericTypeMatcher<JButton>(JButton
+                .class) {
             @Override
             protected boolean isMatching(JButton component) {
                 return buttonText.equals(component.getText());
             }
         });
-        
+
         assertNotNull(button);
         return button;
     }

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -37,9 +37,8 @@ import org.opengis.filter.sort.SortBy;
 /**
  * Builds {@link ZGroupLayer} instances from a MapContent using
  * {@link FeatureTypeStyle#SORT_BY_GROUP} options
- * 
- * @author Andrea Aime - GeoSolutions
  *
+ * @author Andrea Aime - GeoSolutions
  */
 class ZGroupLayerFactory {
 
@@ -48,7 +47,7 @@ class ZGroupLayerFactory {
     /**
      * Filters a MapContent and returns a new one where adjacent {@link FeatureTypeStyle} using the
      * same {@link FeatureTypeStyle#SORT_BY_GROUP} key are turned into {@link ZGroupLayer}
-     * 
+     *
      * @param mapContent
      * @return
      */
@@ -135,7 +134,8 @@ class ZGroupLayerFactory {
     }
 
     private static void addToSplitLayers(Layer layer, ZGroupLayer previousGroup,
-            List<Layer> splitLayers, String groupId, List<FeatureTypeStyle> featureTypeStyles) {
+                                         List<Layer> splitLayers, String groupId, 
+                                         List<FeatureTypeStyle> featureTypeStyles) {
         Style style = STYLE_FACTORY.createStyle();
         style.featureTypeStyles().addAll(featureTypeStyles);
         featureTypeStyles.clear();
@@ -163,7 +163,7 @@ class ZGroupLayerFactory {
     /**
      * Makes sure the properties needed for in-memory sorting are available by adding them into the
      * query
-     * 
+     *
      * @param nativeQuery
      * @param sortBy
      * @return

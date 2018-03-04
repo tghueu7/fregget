@@ -31,16 +31,13 @@ import org.opengis.referencing.operation.PlanarProjection;
 /**
  * Base class for for azimuthal (or planar) map projections.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
- * @since 2.1
- *
+ * @version $Id$
+ * @source $URL$
  * @see org.geotools.referencing.crs.DefaultProjectedCRS
- * @see <A HREF="http://mathworld.wolfram.com/AzimuthalProjection.html">Azimuthal projection on MathWorld</A>
+ * @see <A HREF="http://mathworld.wolfram.com/AzimuthalProjection.html">Azimuthal projection on 
+ * MathWorld</A>
+ * @since 2.1
  */
 public class DefaultPlanarProjection extends DefaultProjection implements PlanarProjection {
     /**
@@ -54,16 +51,15 @@ public class DefaultPlanarProjection extends DefaultProjection implements Planar
      * typically a {@linkplain DefiningConversion defining conversion}.
      *
      * @param conversion The defining conversion.
-     * @param sourceCRS The source CRS.
-     * @param targetCRS The target CRS.
-     * @param transform Transform from positions in the {@linkplain #getSourceCRS source CRS}
-     *                  to positions in the {@linkplain #getTargetCRS target CRS}.
+     * @param sourceCRS  The source CRS.
+     * @param targetCRS  The target CRS.
+     * @param transform  Transform from positions in the {@linkplain #getSourceCRS source CRS}
+     *                   to positions in the {@linkplain #getTargetCRS target CRS}.
      */
-    public DefaultPlanarProjection(final Conversion                conversion,
+    public DefaultPlanarProjection(final Conversion conversion,
                                    final CoordinateReferenceSystem sourceCRS,
                                    final CoordinateReferenceSystem targetCRS,
-                                   final MathTransform             transform)
-    {
+                                   final MathTransform transform) {
         super(conversion, sourceCRS, targetCRS, transform);
     }
 
@@ -72,19 +68,18 @@ public class DefaultPlanarProjection extends DefaultProjection implements Planar
      * follow the same rules than for the {@link AbstractCoordinateOperation} constructor.
      *
      * @param properties Set of properties. Should contains at least {@code "name"}.
-     * @param sourceCRS The source CRS, or {@code null} if not available.
-     * @param targetCRS The target CRS, or {@code null} if not available.
-     * @param transform Transform from positions in the {@linkplain #getSourceCRS source coordinate
-     *                  reference system} to positions in the {@linkplain #getTargetCRS target
-     *                  coordinate reference system}.
-     * @param method    The operation method.
+     * @param sourceCRS  The source CRS, or {@code null} if not available.
+     * @param targetCRS  The target CRS, or {@code null} if not available.
+     * @param transform  Transform from positions in the {@linkplain #getSourceCRS source coordinate
+     *                   reference system} to positions in the {@linkplain #getTargetCRS target
+     *                   coordinate reference system}.
+     * @param method     The operation method.
      */
-    public DefaultPlanarProjection(final Map<String,?>             properties,
+    public DefaultPlanarProjection(final Map<String, ?> properties,
                                    final CoordinateReferenceSystem sourceCRS,
                                    final CoordinateReferenceSystem targetCRS,
-                                   final MathTransform             transform,
-                                   final OperationMethod           method)
-    {
+                                   final MathTransform transform,
+                                   final OperationMethod method) {
         super(properties, sourceCRS, targetCRS, transform, method);
     }
 }

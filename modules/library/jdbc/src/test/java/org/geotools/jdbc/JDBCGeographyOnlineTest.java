@@ -24,8 +24,6 @@ import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Point;
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class JDBCGeographyOnlineTest extends JDBCTestSupport {
@@ -39,8 +37,9 @@ public abstract class JDBCGeographyOnlineTest extends JDBCTestSupport {
 
     protected boolean isGeographySupportAvailable() throws Exception {
         boolean available = ((JDBCGeographyTestSetup) setup).isGeographySupportAvailable();
-        if(!available) {
-            System.out.println("Skipping geography tests as geography column support is not available");
+        if (!available) {
+            System.out.println("Skipping geography tests as geography column support is not " +
+                    "available");
         }
         return available;
     }
@@ -68,7 +67,7 @@ public abstract class JDBCGeographyOnlineTest extends JDBCTestSupport {
 
         Query q = new Query(tname("geopoint"));
 
-        try(FeatureReader r = dataStore.getFeatureReader(q, Transaction.AUTO_COMMIT)) {
+        try (FeatureReader r = dataStore.getFeatureReader(q, Transaction.AUTO_COMMIT)) {
             assertTrue(r.hasNext());
             while (r.hasNext()) {
                 SimpleFeature f = (SimpleFeature) r.next();
@@ -76,7 +75,7 @@ public abstract class JDBCGeographyOnlineTest extends JDBCTestSupport {
             }
         }
     }
-    
+
     public void testBBoxLargerThanWorld() throws Exception {
         if (!isGeographySupportAvailable()) {
             return;
@@ -87,7 +86,7 @@ public abstract class JDBCGeographyOnlineTest extends JDBCTestSupport {
         // should select everything without bombing out
         Query q = new Query(tname("geopoint"));
         q.setFilter(bbox);
-        try(FeatureReader r = dataStore.getFeatureReader(q, Transaction.AUTO_COMMIT)) {
+        try (FeatureReader r = dataStore.getFeatureReader(q, Transaction.AUTO_COMMIT)) {
             assertTrue(r.hasNext());
             while (r.hasNext()) {
                 SimpleFeature f = (SimpleFeature) r.next();
@@ -95,7 +94,7 @@ public abstract class JDBCGeographyOnlineTest extends JDBCTestSupport {
             }
         }
     }
-    
+
     public void testOutsideWorld() throws Exception {
         if (!isGeographySupportAvailable()) {
             return;
@@ -106,11 +105,11 @@ public abstract class JDBCGeographyOnlineTest extends JDBCTestSupport {
         // should select everything without bombing out
         Query q = new Query(tname("geopoint"));
         q.setFilter(bbox);
-        try(FeatureReader r = dataStore.getFeatureReader(q, Transaction.AUTO_COMMIT)) {
+        try (FeatureReader r = dataStore.getFeatureReader(q, Transaction.AUTO_COMMIT)) {
             assertFalse(r.hasNext());
         }
     }
-    
+
     public void testLargerThanHalfWorld() throws Exception {
         if (!isGeographySupportAvailable()) {
             return;
@@ -121,7 +120,7 @@ public abstract class JDBCGeographyOnlineTest extends JDBCTestSupport {
         // should select everything without bombing out
         Query q = new Query(tname("geopoint"));
         q.setFilter(bbox);
-        try(FeatureReader r = dataStore.getFeatureReader(q, Transaction.AUTO_COMMIT)) {
+        try (FeatureReader r = dataStore.getFeatureReader(q, Transaction.AUTO_COMMIT)) {
             assertTrue(r.hasNext());
             while (r.hasNext()) {
                 SimpleFeature f = (SimpleFeature) r.next();
@@ -136,7 +135,8 @@ public abstract class JDBCGeographyOnlineTest extends JDBCTestSupport {
         }
 
         Point p = gf.createPoint(new Coordinate(1, 1));
-        try(FeatureWriter fw = dataStore.getFeatureWriter(tname("geopoint"), Transaction.AUTO_COMMIT)) {
+        try (FeatureWriter fw = dataStore.getFeatureWriter(tname("geopoint"), Transaction
+                .AUTO_COMMIT)) {
             assertTrue(fw.hasNext());
             while (fw.hasNext()) {
                 SimpleFeature f = (SimpleFeature) fw.next();
@@ -145,7 +145,7 @@ public abstract class JDBCGeographyOnlineTest extends JDBCTestSupport {
             }
         }
 
-        try(FeatureReader fr = dataStore.getFeatureReader(new Query(tname("geopoint")),
+        try (FeatureReader fr = dataStore.getFeatureReader(new Query(tname("geopoint")),
                 Transaction.AUTO_COMMIT)) {
             while (fr.hasNext()) {
                 SimpleFeature f = (SimpleFeature) fr.next();
@@ -160,22 +160,22 @@ public abstract class JDBCGeographyOnlineTest extends JDBCTestSupport {
         }
 
         Point point = gf.createPoint(new Coordinate(10, 10));
-        try(FeatureWriter fw = dataStore.getFeatureWriterAppend(tname("geopoint"),
+        try (FeatureWriter fw = dataStore.getFeatureWriterAppend(tname("geopoint"),
                 Transaction.AUTO_COMMIT)) {
-    
+
             assertFalse(fw.hasNext());
             SimpleFeature f = (SimpleFeature) fw.next();
-    
+
             f.setAttribute("name", "append");
             f.setDefaultGeometry(point);
-    
+
             fw.write();
         }
 
         Filter filter = ff.equals(ff.property("name"), ff.literal("append"));
         Query q = new Query(tname("geopoint"), filter);
 
-        try(FeatureReader fr = dataStore.getFeatureReader(q, Transaction.AUTO_COMMIT)) {
+        try (FeatureReader fr = dataStore.getFeatureReader(q, Transaction.AUTO_COMMIT)) {
             assertTrue(fr.hasNext());
             SimpleFeature f = (SimpleFeature) fr.next();
             assertEquals(point, f.getDefaultGeometry());
@@ -229,7 +229,7 @@ public abstract class JDBCGeographyOnlineTest extends JDBCTestSupport {
         if (!isGeographySupportAvailable()) {
             return;
         }
-        
+
         // This is the example reported in the PostGIS example:
         //
         // You can see the power of GEOGRAPHY in action by calculating the how close a plane
@@ -240,7 +240,7 @@ public abstract class JDBCGeographyOnlineTest extends JDBCTestSupport {
         // 64.15)':: geography);
 
         // adding Reykjavik
-        try(FeatureWriter fw = dataStore.getFeatureWriterAppend(tname("geopoint"),
+        try (FeatureWriter fw = dataStore.getFeatureWriterAppend(tname("geopoint"),
                 Transaction.AUTO_COMMIT)) {
             SimpleFeature f = (SimpleFeature) fw.next();
             Point point = gf.createPoint(new Coordinate(-21.96, 64.15));
@@ -250,13 +250,13 @@ public abstract class JDBCGeographyOnlineTest extends JDBCTestSupport {
         }
 
         // testing distance filter
-        LineString line = gf.createLineString(new Coordinate[] { new Coordinate(-122.33, 47.606),
-                new Coordinate(0.0, 51.5) });
+        LineString line = gf.createLineString(new Coordinate[]{new Coordinate(-122.33, 47.606),
+                new Coordinate(0.0, 51.5)});
         DWithin filter = ff.dwithin(ff.property(aname("geo")), ff.literal(line), 130000d, "metre");
         FeatureCollection features = dataStore.getFeatureSource(tname("geopoint")).getFeatures(
                 filter);
         assertEquals(1, features.size());
-        try(FeatureIterator fi = features.features()) {
+        try (FeatureIterator fi = features.features()) {
             assertTrue(fi.hasNext());
             SimpleFeature feature = (SimpleFeature) fi.next();
             assertEquals("Reykjavik", feature.getAttribute("name"));
@@ -268,7 +268,7 @@ public abstract class JDBCGeographyOnlineTest extends JDBCTestSupport {
         StringBuffer sb = new StringBuffer();
         sb.append("select * from ");
         dialect.encodeTableName(tname("geopoint"), sb);
-        
+
         VirtualTable vt = new VirtualTable("geopoint_vt", sb.toString());
         dataStore.addVirtualTable(vt);
 

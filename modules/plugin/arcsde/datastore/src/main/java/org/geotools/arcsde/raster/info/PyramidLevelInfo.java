@@ -25,9 +25,8 @@ import org.opengis.coverage.grid.GridEnvelope;
  * Represents one level in an ArcSDE pyramid. Holds information about a given pyramid level, like
  * resolution, x/y offsets, number of tiles high/wide, total pixel size and total envelope covered
  * by this level.
- * 
+ *
  * @author sfarber
- * 
  */
 final class PyramidLevelInfo {
 
@@ -38,7 +37,7 @@ final class PyramidLevelInfo {
     private GridEnvelope2D gridEnvelope;
 
     PyramidLevelInfo(final int level, final int numTilesWide, final int numTilesHigh,
-            final GridEnvelope gridEnvelope, final GeneralEnvelope spatialExtent) {
+                     final GridEnvelope gridEnvelope, final GeneralEnvelope spatialExtent) {
         this.pyramidLevel = level;
         this.spatialExtent = spatialExtent;
         this.gridEnvelope = new GridEnvelope2D(gridEnvelope.getLow(0), gridEnvelope.getLow(1),
@@ -84,9 +83,9 @@ final class PyramidLevelInfo {
 
     /**
      * The envelope covering the image grid range inside fully tiled image at this pyramid level
-     * 
+     *
      * @return The geographical area covered by the {@link #getGridEnvelope() grid range} of the
-     *         raster at this pyramid level
+     * raster at this pyramid level
      */
     public GeneralEnvelope getSpatialExtent() {
         return new GeneralEnvelope(spatialExtent);
@@ -94,7 +93,7 @@ final class PyramidLevelInfo {
 
     /**
      * The rectangle covering the actual raster data inside the tiled space
-     * 
+     *
      * @return
      */
     public GridEnvelope getGridEnvelope() {

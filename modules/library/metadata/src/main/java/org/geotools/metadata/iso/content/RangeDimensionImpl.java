@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -28,13 +28,10 @@ import org.geotools.metadata.iso.MetadataEntity;
 /**
  * Information on the range of each dimension of a cell measurement value.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class RangeDimensionImpl extends MetadataEntity implements RangeDimension {
@@ -72,7 +69,7 @@ public class RangeDimensionImpl extends MetadataEntity implements RangeDimension
     /**
      * Returns the number that uniquely identifies instances of bands of wavelengths
      * on which a sensor operates.
-     * 
+     *
      * @TODO: needs to annotate the package org.geotools.util before.
      */
     public MemberName getSequenceIdentifier() {

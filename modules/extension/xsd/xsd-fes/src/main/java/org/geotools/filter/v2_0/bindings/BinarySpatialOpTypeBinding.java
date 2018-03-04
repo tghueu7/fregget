@@ -46,7 +46,6 @@ import com.vividsolutions.jts.geom.Geometry;
  *  &lt;/xsd:complexType>
  *  <pre>
  * @author Justin Deoliveira, OpenGeo
- *
  */
 public class BinarySpatialOpTypeBinding extends AbstractComplexBinding {
 
@@ -59,17 +58,18 @@ public class BinarySpatialOpTypeBinding extends AbstractComplexBinding {
     public Class getType() {
         return BinarySpatialOperator.class;
     }
-    
+
     @Override
     public Object getProperty(Object object, QName name) throws Exception {
         Expression e = FESParseEncodeUtil.getProperty((BinarySpatialOperator) object, name);
         if (e instanceof Literal && ((Literal) e).getValue() instanceof Geometry) {
             return new EncoderDelegate() {
                 @Override
-                public void encode(ContentHandler output) throws Exception {                    
+                public void encode(ContentHandler output) throws Exception {
                     Encoder encoder = new Encoder(new org.geotools.gml3.v3_2.GMLConfiguration());
                     encoder.setInline(true);
-                    encoder.encode(((Literal) e).getValue(), org.geotools.gml3.v3_2.GML.AbstractGeometry, output);
+                    encoder.encode(((Literal) e).getValue(), org.geotools.gml3.v3_2.GML
+                            .AbstractGeometry, output);
                 }
             };
         } else {

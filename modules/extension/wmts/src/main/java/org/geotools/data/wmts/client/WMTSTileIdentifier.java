@@ -20,7 +20,8 @@ import org.geotools.tile.TileIdentifier;
 import org.geotools.tile.impl.ZoomLevel;
 
 /**
- * A TileIdentifier locates a tile in the grid space of a given tile server by giving its column, row and zoom level.
+ * A TileIdentifier locates a tile in the grid space of a given tile server by giving its column,
+ * row and zoom level.
  *
  * @author ian
  * @author Emanuele Tajariol (etj at geo-solutions dot it)

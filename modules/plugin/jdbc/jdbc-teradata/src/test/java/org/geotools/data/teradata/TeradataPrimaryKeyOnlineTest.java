@@ -27,8 +27,6 @@ import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class TeradataPrimaryKeyOnlineTest extends JDBCPrimaryKeyOnlineTest {
@@ -39,24 +37,27 @@ public class TeradataPrimaryKeyOnlineTest extends JDBCPrimaryKeyOnlineTest {
 
 
     public void testUniqueGeneratedPrimaryKey() throws Exception {
-        JDBCFeatureStore fs = (JDBCFeatureStore) dataStore.getFeatureSource(tname("uniquetablenotgenerated"));
+        JDBCFeatureStore fs = (JDBCFeatureStore) dataStore.getFeatureSource(tname
+                ("uniquetablenotgenerated"));
 
         assertEquals(1, fs.getPrimaryKey().getColumns().size());
-        assertTrue(fs.getPrimaryKey().getColumns().get(0) instanceof NonIncrementingPrimaryKeyColumn);
+        assertTrue(fs.getPrimaryKey().getColumns().get(0) instanceof 
+                NonIncrementingPrimaryKeyColumn);
 
         ContentFeatureCollection features = fs.getFeatures();
         assertPrimaryKeyValues(features, 3);
 
         SimpleFeatureType featureType = fs.getSchema();
-        SimpleFeatureBuilder b = new SimpleFeatureBuilder( featureType );
+        SimpleFeatureBuilder b = new SimpleFeatureBuilder(featureType);
         b.add("four");
-        b.add( new GeometryFactory().createPoint( new Coordinate(4,4) ) );
+        b.add(new GeometryFactory().createPoint(new Coordinate(4, 4)));
 
         SimpleFeature f = b.buildFeature(null);
-        fs.addFeatures( DataUtilities.collection(f));
+        fs.addFeatures(DataUtilities.collection(f));
 
         //pattern match to handle the multi primary key case
-        assertTrue(((String)f.getUserData().get( "fid" )).matches( tname(featureType.getTypeName()) + ".4(\\..*)?"));
+        assertTrue(((String) f.getUserData().get("fid")).matches(tname(featureType.getTypeName())
+                + ".4(\\..*)?"));
 
         assertPrimaryKeyValues(features, 4);
     }

@@ -15,12 +15,8 @@ import org.opengis.feature.simple.SimpleFeature;
  *
  * @author Justin Deoliveira, OpenGEO
  * @author Michael Bedward
- * @since 2.6
- *
- *
- *
- *
  * @source $URL$
+ * @since 2.6
  */
 public abstract class AbstractFeatureCollectionProcess extends AbstractProcess {
 
@@ -36,10 +32,12 @@ public abstract class AbstractFeatureCollectionProcess extends AbstractProcess {
     /**
      * Performs an operation on a single feature in the collection.
      * <p>
-     * This method should do some work based on the feature and then set any attributes on the feature
+     * This method should do some work based on the feature and then set any attributes on the 
+     * feature
      * as necessary. Example of a simple buffering operation:
      * <pre>
-     * protected void processFeature(SimpleFeature feature, Map<String, Object> input) throws Exception {
+     * protected void processFeature(SimpleFeature feature, Map<String, Object> input) throws 
+     * Exception {
      *    Double buffer = (Double) input.get( BufferFeatureCollectionFactory.BUFFER.key );
      *
      *    Geometry g = (Geometry) feature.getDefaultGeometry();
@@ -51,10 +49,9 @@ public abstract class AbstractFeatureCollectionProcess extends AbstractProcess {
      * </p>
      *
      * @param feature the feature being processed
-     * @param input a Map of input parameters
-     *
+     * @param input   a Map of input parameters
      * @throws Exception
      */
-    protected abstract void processFeature( SimpleFeature feature, Map<String,Object> input )
-        throws Exception;
+    protected abstract void processFeature(SimpleFeature feature, Map<String, Object> input)
+            throws Exception;
 }

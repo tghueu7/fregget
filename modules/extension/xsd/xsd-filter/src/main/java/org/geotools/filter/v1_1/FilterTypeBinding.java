@@ -38,9 +38,9 @@ import org.opengis.filter.identity.Identifier;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:FilterType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="FilterType"&gt;
  *      &lt;xsd:choice&gt;
@@ -56,9 +56,6 @@ import org.opengis.filter.identity.Identifier;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class FilterTypeBinding extends AbstractComplexBinding {
@@ -92,7 +89,7 @@ public class FilterTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //&lt;xsd:element ref="ogc:spatialOps"/&gt;
         //&lt;xsd:element ref="ogc:comparisonOps"/&gt;
         //&lt;xsd:element ref="ogc:logicOps"/&gt;
@@ -106,17 +103,17 @@ public class FilterTypeBinding extends AbstractComplexBinding {
         if (!ids.isEmpty()) {
             return filterFactory.id(new HashSet(ids));
         }
-        
+
         //try an extended operator (part of filter/fes 2.0)
         List<Filter> extOps = FilterParsingUtils.parseExtendedOperators(node, filterFactory);
         if (!extOps.isEmpty()) {
-            return extOps.get(0); 
+            return extOps.get(0);
         }
         return null;
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         return FilterParsingUtils.Filter_getProperty(object, name);
     }
 }

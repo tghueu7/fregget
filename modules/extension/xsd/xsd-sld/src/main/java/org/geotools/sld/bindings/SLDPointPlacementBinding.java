@@ -31,9 +31,9 @@ import org.picocontainer.MutablePicoContainer;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:PointPlacement.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="PointPlacement"&gt;
  *      &lt;xsd:annotation&gt;
@@ -55,9 +55,6 @@ import org.picocontainer.MutablePicoContainer;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDPointPlacementBinding extends AbstractComplexBinding {
@@ -110,7 +107,7 @@ public class SLDPointPlacementBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //&lt;xsd:element ref="sld:AnchorPoint" minOccurs="0"/&gt;
         AnchorPoint anchorPoint = (AnchorPoint) node.getChildValue("AnchorPoint");
 

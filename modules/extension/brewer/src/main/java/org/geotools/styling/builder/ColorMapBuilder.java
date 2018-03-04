@@ -24,8 +24,6 @@ import org.geotools.styling.ColorMap;
 import org.geotools.styling.ColorMapEntry;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ColorMapBuilder extends AbstractStyleBuilder<ColorMap> {

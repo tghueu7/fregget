@@ -7,8 +7,6 @@ import org.geotools.jdbc.JDBCPrimaryKeyFinderOnlineTest;
 import org.geotools.jdbc.JDBCPrimaryKeyFinderTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class PostgisPrimaryKeyFinderOnlineTest extends JDBCPrimaryKeyFinderOnlineTest {
@@ -18,11 +16,11 @@ public class PostgisPrimaryKeyFinderOnlineTest extends JDBCPrimaryKeyFinderOnlin
         return new PostgisPrimaryKeyFinderTestSetup();
     }
 
-	@Override
-	protected HashMap createDataStoreFactoryParams() throws Exception {
-		HashMap params = super.createDataStoreFactoryParams();
-		params.put(JDBCDataStoreFactory.PK_METADATA_TABLE.key, "gt_pk_metadata");
-		return params;
-	}
+    @Override
+    protected HashMap createDataStoreFactoryParams() throws Exception {
+        HashMap params = super.createDataStoreFactoryParams();
+        params.put(JDBCDataStoreFactory.PK_METADATA_TABLE.key, "gt_pk_metadata");
+        return params;
+    }
 
 }

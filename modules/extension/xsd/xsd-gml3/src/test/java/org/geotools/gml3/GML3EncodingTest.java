@@ -65,8 +65,6 @@ import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.io.WKTReader;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GML3EncodingTest extends TestCase {
@@ -212,8 +210,8 @@ public class GML3EncodingTest extends TestCase {
         SimpleFeatureType ft = DataUtilities.createType(TEST.TestFeature.getNamespaceURI(),
                 TEST.TestFeature.getLocalPart(), "the_geom:Point,data:String");
         SimpleFeature feature = SimpleFeatureBuilder
-                .build(ft, new Object[] { new WKTReader().read("POINT(0 0)"),
-                        "One " + ((char) 0x7) + " test" }, "123");
+                .build(ft, new Object[]{new WKTReader().read("POINT(0 0)"),
+                        "One " + ((char) 0x7) + " test"}, "123");
         SimpleFeatureCollection fc = DataUtilities.collection(feature);
 
         TestConfiguration configuration = new TestConfiguration();

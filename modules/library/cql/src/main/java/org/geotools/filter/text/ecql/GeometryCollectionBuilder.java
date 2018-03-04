@@ -26,7 +26,7 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryCollection;
 
 /**
- * Builds a {@link GeometryCollection} using the 
+ * Builds a {@link GeometryCollection} using the
  *
  * @author Mauricio Pazos (Axios Engineering)
  * @since 2.6
@@ -38,20 +38,21 @@ final class GeometryCollectionBuilder extends GeometryBuilder {
      * @param resultStack
      */
     public GeometryCollectionBuilder(String statement,
-            BuildResultStack resultStack) {
+                                     BuildResultStack resultStack) {
         super(statement, resultStack);
 
     }
 
     @Override
     public Geometry build(int jjtgeometryliteral) throws CQLException {
-        
+
         List<Geometry> geometryList = popGeometryLiteral(jjtgeometryliteral);
 
-        Geometry[] geometries = geometryList.toArray(new Geometry[geometryList.size()]) ;
-        
-        GeometryCollection geometryCollection= getGeometryFactory().createGeometryCollection(geometries);
-        
+        Geometry[] geometries = geometryList.toArray(new Geometry[geometryList.size()]);
+
+        GeometryCollection geometryCollection = getGeometryFactory().createGeometryCollection
+                (geometries);
+
         return geometryCollection;
 
     }

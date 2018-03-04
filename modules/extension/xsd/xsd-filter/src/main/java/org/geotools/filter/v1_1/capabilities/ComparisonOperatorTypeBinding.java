@@ -17,6 +17,7 @@
 package org.geotools.filter.v1_1.capabilities;
 
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.capability.Operator;
 import org.geotools.filter.v1_1.OGC;
@@ -25,9 +26,9 @@ import org.geotools.xml.*;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:ComparisonOperatorType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:simpleType name="ComparisonOperatorType"&gt;
  *      &lt;xsd:restriction base="xsd:string"&gt;
@@ -48,9 +49,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class ComparisonOperatorTypeBinding extends AbstractSimpleBinding {
@@ -88,7 +86,7 @@ public class ComparisonOperatorTypeBinding extends AbstractSimpleBinding {
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
+            throws Exception {
         return factory.operator((String) value);
     }
 

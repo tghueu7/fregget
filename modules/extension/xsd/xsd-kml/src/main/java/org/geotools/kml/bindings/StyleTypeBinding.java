@@ -19,6 +19,7 @@ package org.geotools.kml.bindings;
 import java.net.URI;
 import java.util.List;
 import javax.xml.namespace.QName;
+
 import org.geotools.kml.KML;
 import org.geotools.kml.StyleMap;
 import org.geotools.styling.FeatureTypeStyle;
@@ -31,9 +32,9 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://earth.google.com/kml/2.1:StyleType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType final="#all" name="StyleType"&gt;
  *      &lt;complexContent&gt;
@@ -55,9 +56,6 @@ import org.geotools.xml.Node;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class StyleTypeBinding extends AbstractComplexBinding {
@@ -93,7 +91,7 @@ public class StyleTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         List l = node.getChildValues(Symbolizer.class);
         Symbolizer[] syms = (Symbolizer[]) l.toArray(new Symbolizer[l.size()]);
 

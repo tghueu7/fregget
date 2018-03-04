@@ -41,86 +41,91 @@ import com.vividsolutions.jts.geom.GeometryFactory;
  * <pre><code>
  * NullZeroValidationTest x = new NullZeroValidationTest(...);
  * </code></pre>
- * 
+ *
  * @author bowens, Refractions Research, Inc.
  * @author $Author: sploreg $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class NullZeroValidationTest extends TestCase {
-	private GeometryFactory gf;
-	private RoadValidationResults results;
-	private SimpleFeatureType type;	
-	NullZeroValidation test;	
-	/**
-	 * Constructor for NullZeroValidationTest.
-	 * @param arg0
-	 */
-	public NullZeroValidationTest(String arg0) {
-		super(arg0);
-	}
+    private GeometryFactory gf;
+    private RoadValidationResults results;
+    private SimpleFeatureType type;
+    NullZeroValidation test;
 
-	/*
-	 * @see TestCase#setUp()
-	 */
-	protected void setUp() throws Exception {
-		super.setUp();
-		
-		gf = new GeometryFactory();
-		test = new NullZeroValidation();
-		test.setAttribute("name");
-		test.setTypeRef("road");
-		test.setName( "JUnit" );
-		test.setName( "test used for junit test "+getName() );
-		
-		type = DataUtilities.createType(getName()+".road",
-		"id:0,*geom:LineString,name:String");
-		
-		results = new RoadValidationResults();
-	}
+    /**
+     * Constructor for NullZeroValidationTest.
+     *
+     * @param arg0
+     */
+    public NullZeroValidationTest(String arg0) {
+        super(arg0);
+    }
 
-	private SimpleFeature road( String road, int id, String name ) throws IllegalAttributeException{
-		Coordinate[] coords = new Coordinate[]{ new Coordinate(1, 1), new Coordinate( 2, 2), new Coordinate (4, 2), new Coordinate (5, 1)};		
-		return SimpleFeatureBuilder.build(type, new Object[] {
-				new Integer(id),
-				gf.createLineString(coords),
-				name,
-			},
-			type.getTypeName()+"."+road
-		);
-	}
-	/*
-	 * @see TestCase#tearDown()
-	 */
-	protected void tearDown() throws Exception {
-		test = null;
-		super.tearDown();
-	}
-	public void testValidateNumber() throws Exception {
-		test.setTypeRef("road");
-		test.setAttribute("id");
-		assertTrue( test.validate(road("rd1", 1,"street"), type, results) );
-		assertFalse( test.validate(road("rd2", 0,"avenue"), type, results) );
-	}
-	public void testValidateName() throws Exception {
-		test.setTypeRef("road");
-		test.setAttribute("name");
-		assertTrue( test.validate(road("rd1", 1,"street"), type, results) );
-		assertFalse( test.validate(road("rd2", 0,""), type, results) );
-	}
-	public void testNameAccessors() {
-		test.setName("foo");
-		assertEquals("foo", test.getName());
-	}
+    /*
+     * @see TestCase#setUp()
+     */
+    protected void setUp() throws Exception {
+        super.setUp();
 
-	public void testDescriptionAccessors() {
-		test.setDescription("foo");
-		assertEquals("foo", test.getDescription());
-	}
-	
-	public void testGetPriority() {
-		test.getPriority();
-	}
+        gf = new GeometryFactory();
+        test = new NullZeroValidation();
+        test.setAttribute("name");
+        test.setTypeRef("road");
+        test.setName("JUnit");
+        test.setName("test used for junit test " + getName());
+
+        type = DataUtilities.createType(getName() + ".road",
+                "id:0,*geom:LineString,name:String");
+
+        results = new RoadValidationResults();
+    }
+
+    private SimpleFeature road(String road, int id, String name) throws IllegalAttributeException {
+        Coordinate[] coords = new Coordinate[]{new Coordinate(1, 1), new Coordinate(2, 2), new 
+                Coordinate(4, 2), new Coordinate(5, 1)};
+        return SimpleFeatureBuilder.build(type, new Object[]{
+                        new Integer(id),
+                        gf.createLineString(coords),
+                        name,
+                },
+                type.getTypeName() + "." + road
+        );
+    }
+
+    /*
+     * @see TestCase#tearDown()
+     */
+    protected void tearDown() throws Exception {
+        test = null;
+        super.tearDown();
+    }
+
+    public void testValidateNumber() throws Exception {
+        test.setTypeRef("road");
+        test.setAttribute("id");
+        assertTrue(test.validate(road("rd1", 1, "street"), type, results));
+        assertFalse(test.validate(road("rd2", 0, "avenue"), type, results));
+    }
+
+    public void testValidateName() throws Exception {
+        test.setTypeRef("road");
+        test.setAttribute("name");
+        assertTrue(test.validate(road("rd1", 1, "street"), type, results));
+        assertFalse(test.validate(road("rd2", 0, ""), type, results));
+    }
+
+    public void testNameAccessors() {
+        test.setName("foo");
+        assertEquals("foo", test.getName());
+    }
+
+    public void testDescriptionAccessors() {
+        test.setDescription("foo");
+        assertEquals("foo", test.getDescription());
+    }
+
+    public void testGetPriority() {
+        test.getPriority();
+    }
 }

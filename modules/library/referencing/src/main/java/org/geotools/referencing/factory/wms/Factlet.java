@@ -17,6 +17,7 @@
 package org.geotools.referencing.factory.wms;
 
 // J2SE dependencies
+
 import java.util.Collections;
 
 // OpenGIS dependencies
@@ -35,11 +36,11 @@ import org.geotools.referencing.operation.DefiningConversion;
 /**
  * Mini Plug-In API for {@linkplain ProjectedCRS projected CRS} from the {@code AUTO} authority.
  *
- * @source $URL$
- * @version $Id$
  * @author Jody Garnett
  * @author Rueben Schulz
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
  */
 abstract class Factlet {
     /**
@@ -65,8 +66,7 @@ abstract class Factlet {
      * invokes {@link #setProjectionParameters} in order to fill the parameter values.
      */
     public final ProjectedCRS create(final Code code, final ReferencingFactoryContainer factories)
-            throws FactoryException
-    {
+            throws FactoryException {
         final String classification = getClassification();
         final ParameterValueGroup parameters;
         parameters = factories.getMathTransformFactory().getDefaultParameters(classification);

@@ -37,8 +37,6 @@ import com.esri.sde.sdk.pe.PeProjectedCS;
 import com.esri.sde.sdk.pe.PeProjectionException;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ArcSDEUtilsTest {

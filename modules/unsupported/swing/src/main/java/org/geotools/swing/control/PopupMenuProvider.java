@@ -24,10 +24,9 @@ import javax.swing.JPopupMenu;
  * pop-up menu.
  *
  * @author Michael Bedward
- * @since 8.0
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 public interface PopupMenuProvider {
 
@@ -37,5 +36,5 @@ public interface PopupMenuProvider {
      * @return the menu
      */
     JPopupMenu getMenu();
-    
+
 }

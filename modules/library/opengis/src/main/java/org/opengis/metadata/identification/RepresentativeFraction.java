@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.metadata.identification;
@@ -20,7 +20,7 @@ import static org.opengis.annotation.Specification.ISO_19115;
  * where {@linkplain #getDenominator denominator} = 1 / <var>scale</var>.
  * <p>
  * Implementations are encouraged to extend {@link Number} in a manner equivalent to:
- *
+ * <p>
  * <blockquote><pre>
  *  class MyRepresentedFraction extends Number implements RepresentedFraction {
  *      ...
@@ -37,20 +37,18 @@ import static org.opengis.annotation.Specification.ISO_19115;
  *  }
  * </pre></blockquote>
  *
- *
- *
- * @source $URL$
+ * @author Ely Conn (Leica Geosystems Geospatial Imaging, LLC)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Ely Conn (Leica Geosystems Geospatial Imaging, LLC)
- * @since   GeoAPI 2.1
+ * @source $URL$
+ * @since GeoAPI 2.1
  */
-@UML(identifier="MD_RepresentativeFraction", specification=ISO_19115)
+@UML(identifier = "MD_RepresentativeFraction", specification = ISO_19115)
 public interface RepresentativeFraction {
     /**
      * @deprecated Replaced by {@link #doubleValue}, which is both consistent with
-     *  {@link java.lang.Number} naming and avoid the idea that a representative
-     *  fraction is only for scales - it could be used for any quantity conveniently
-     *  represented as a ratio.
+     * {@link java.lang.Number} naming and avoid the idea that a representative
+     * fraction is only for scales - it could be used for any quantity conveniently
+     * represented as a ratio.
      */
     @Deprecated
     double toScale();
@@ -59,7 +57,6 @@ public interface RepresentativeFraction {
      * Returns the scale value in a form usable for computation.
      *
      * @return {@code 1.0 / (double) {@linkplain #getDenominator()}.
-     *
      * @since GeoAPI 2.2
      */
     double doubleValue();
@@ -78,7 +75,7 @@ public interface RepresentativeFraction {
      * acoording to {@link #getDenominator};
      * <p>
      * Implementations should match the following:
-     *
+     * <p>
      * <blockquote><pre>
      * public boolean equals(Object object) {
      *     if (object instanceof RepresentativeFraction) {
@@ -91,7 +88,7 @@ public interface RepresentativeFraction {
      *
      * @param other The object to compare with.
      * @return {@code true} if {@code other} is a {@code RepresentedFraction} with the same
-     *         {@linkplain #getDenominator denominator} value.
+     * {@linkplain #getDenominator denominator} value.
      */
     ///@Override
     boolean equals(Object other);
@@ -102,7 +99,7 @@ public interface RepresentativeFraction {
      * according to {@link #getDenominator}.
      * <p>
      * Implementations should match the following:
-     *
+     * <p>
      * <blockquote><pre>
      * public int hashCode() {
      *     return (int) getDenominator();

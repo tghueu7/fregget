@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -31,9 +31,6 @@ import org.geotools.xml.schema.Schema;
 
 /**
  * @author dzwiers
- *
- *
- *
  * @source $URL$
  */
 public class SchemaMergeTest extends TestCase {
@@ -51,42 +48,44 @@ public class SchemaMergeTest extends TestCase {
         spf.setValidating(false);
         parser = spf.newSAXParser();
     }
-    
-	public void testMergeSchema(){
-		// will load a doc that includes two schema docs which duplicate definitions
-		
+
+    public void testMergeSchema() {
+        // will load a doc that includes two schema docs which duplicate definitions
+
 
         File f;
         try {
-            f = TestData.file(this,"merge.xsd");
-	        URI u = f.toURI();
-	        XSISAXHandler contentHandler = new XSISAXHandler(u);
-	        XSISAXHandler.setLogLevel(Level.WARNING);
+            f = TestData.file(this, "merge.xsd");
+            URI u = f.toURI();
+            XSISAXHandler contentHandler = new XSISAXHandler(u);
+            XSISAXHandler.setLogLevel(Level.WARNING);
 
-	        try {
-	            parser.parse(f, contentHandler);
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            fail(e.toString());
-	        }
+            try {
+                parser.parse(f, contentHandler);
+            } catch (Exception e) {
+                e.printStackTrace();
+                fail(e.toString());
+            }
 
-	        try{
-	            assertNotNull("Schema missing", contentHandler.getSchema());
-	            System.out.println(contentHandler.getSchema());
-	            
+            try {
+                assertNotNull("Schema missing", contentHandler.getSchema());
+                System.out.println(contentHandler.getSchema());
 
-		        Schema schema = contentHandler.getSchema();
-		        
-		        assertTrue("Should only have 2 elements, had "+schema.getElements().length,schema.getElements().length == 2);
-		        assertTrue("Should only have 1 complexType, had "+schema.getComplexTypes().length,schema.getComplexTypes().length == 1);
-		        
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            fail(e.toString());
-	        }
+
+                Schema schema = contentHandler.getSchema();
+
+                assertTrue("Should only have 2 elements, had " + schema.getElements().length, 
+                        schema.getElements().length == 2);
+                assertTrue("Should only have 1 complexType, had " + schema.getComplexTypes()
+                        .length, schema.getComplexTypes().length == 1);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                fail(e.toString());
+            }
         } catch (IOException e1) {
             e1.printStackTrace();
             fail(e1.toString());
         }
-	}
+    }
 }

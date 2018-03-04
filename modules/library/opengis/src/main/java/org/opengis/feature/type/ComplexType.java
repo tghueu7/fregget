@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2007 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.feature.type;
@@ -30,7 +30,7 @@ import org.opengis.feature.Property;
  *   &lt;/sequence>
  * &lt;/complexType>
  * </pre>
- *
+ * <p>
  * The corresponding complex type that would emerge would be composed as follows:
  * <pre>
  *   ComplexType complexType = ...;
@@ -79,13 +79,11 @@ import org.opengis.feature.Property;
  *   bar.getValue() == 1;
  * </pre>
  * </p>
- * @see ComplexAttribute
  *
  * @author Jody Garnett (Refractions Research)
  * @author Justin Deoliveira (The Open Planning Project)
- *
- *
  * @source $URL$
+ * @see ComplexAttribute
  */
 public interface ComplexType extends AttributeType {
     /**
@@ -111,11 +109,11 @@ public interface ComplexType extends AttributeType {
      * <p>
      * This method returns <code>null</code> if no such property is found.
      * </p>
-     * @param name The name of the property to get.
      *
+     * @param name The name of the property to get.
      * @return The property matching the specified name, or <code>null</code>.
      */
-    PropertyDescriptor getDescriptor( Name name );
+    PropertyDescriptor getDescriptor(Name name);
 
     /**
      * Describe a single property by unqualified name.
@@ -127,17 +125,19 @@ public interface ComplexType extends AttributeType {
      * <p>
      * This method returns <code>null</code> if no such property is found.
      * </p>
-     * @param name The name of the property to get.
      *
+     * @param name The name of the property to get.
      * @return The property matching the specified name, or <code>null</code>.
      */
-    PropertyDescriptor getDescriptor( String name );
+    PropertyDescriptor getDescriptor(String name);
 
     /**
      * Indicates ability of XPath to notice this attribute.
      * <p>
-     * This facility is used to "hide" an attribute from XPath searches, while the compelx contents will still
-     * be navigated no additional nesting will be considered. It will be as if the content were "folded" inline
+     * This facility is used to "hide" an attribute from XPath searches, while the compelx 
+     * contents will still
+     * be navigated no additional nesting will be considered. It will be as if the content were 
+     * "folded" inline
      * resulting in a flatter nesting structure.
      * </p>
      * <p>
@@ -169,7 +169,7 @@ public interface ComplexType extends AttributeType {
      * root/measurement[2]/point: (2,4)
      * root/measurement[3]/reading: 445600
      * </code></pre>
-     *
+     * <p>
      * By inlining Measurement we can achive the following:<pre><code>
      * root/name: survey1
      * root/timestamp[0]:3

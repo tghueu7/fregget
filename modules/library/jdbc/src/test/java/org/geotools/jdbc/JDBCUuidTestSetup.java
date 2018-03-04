@@ -46,8 +46,8 @@ public abstract class JDBCUuidTestSetup extends JDBCDelegatingTestSetup {
      * </p>
      * <p>
      * The table should contain the following data.
-     *  0 | false
-     *  1 | true
+     * 0 | false
+     * 1 | true
      * </p>
      */
     protected abstract void createUuidTable() throws Exception;

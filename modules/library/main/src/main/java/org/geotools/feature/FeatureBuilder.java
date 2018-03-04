@@ -27,31 +27,35 @@ import org.opengis.feature.type.PropertyDescriptor;
 
 /**
  * This class provides some common functionality for builders and defines an abstraction
- * for Feature builders' public interfaces. 
+ * for Feature builders' public interfaces.
+ *
+ * @param <FT> The kind of FeatureType whose feature the builder will build. Allows you to 
+ *            enforce a stricter specialist type; eg. SimpleFeatureType.
+ * @param <F>  The kind of Feature that the builder will build. Allows you to enforce a stricter 
+ *           specialist type; eg. SimpleFeature.
  * @author Adam Brown (Curtin University of Technology)
- *  
- * @param <FT>
- * 		The kind of FeatureType whose feature the builder will build. Allows you to enforce a stricter specialist type; eg. SimpleFeatureType.
- * @param <F>
- * 		The kind of Feature that the builder will build. Allows you to enforce a stricter specialist type; eg. SimpleFeature.
  */
 public abstract class FeatureBuilder<FT extends FeatureType, F extends Feature> {
-	/** the feature type */
+    /**
+     * the feature type
+     */
     protected FT featureType;
 
-    /** the feature factory */
+    /**
+     * the feature factory
+     */
     protected FeatureFactory factory;
 
     public abstract F buildFeature(String id);
 
-    protected FeatureBuilder(FT featureType, FeatureFactory factory)
-    {
-    	this.featureType = featureType;
+    protected FeatureBuilder(FT featureType, FeatureFactory factory) {
+        this.featureType = featureType;
         this.factory = factory;
     }
-    
+
     /**
      * Returns the feature type used by this builder as a feature template
+     *
      * @return
      */
     public FT getFeatureType() {
@@ -60,17 +64,17 @@ public abstract class FeatureBuilder<FT extends FeatureType, F extends Feature> 
 
     protected Object convert(Object value, PropertyDescriptor descriptor) {
         // make sure the type of the value and the binding of the type match up
-        if ( value != null ) {
-            Class<?> target = descriptor.getType().getBinding(); 
+        if (value != null) {
+            Class<?> target = descriptor.getType().getBinding();
             Object converted = Converters.convert(value, target);
-            if(converted != null) {
+            if (converted != null) {
                 value = converted;
             }
         }
-        
+
         return value;
     }
-    
+
     /**
      * Internal method for creating feature id's when none is specified.
      */
@@ -87,15 +91,17 @@ public abstract class FeatureBuilder<FT extends FeatureType, F extends Feature> 
         // to strings for the rest, so the only non word character is really ":"
         return "fid-" + new UID().toString().replace(':', '_');
     }
+
     /**
      * Internal method for a temporary FeatureId that can be assigned
      * a real value after a commit.
+     *
      * @param suggestedId suggested id
      */
-    public static FeatureIdImpl createDefaultFeatureIdentifier( String suggestedId ) {
-    	if( suggestedId != null ){
-    		return new FeatureIdImpl( suggestedId );	
-    	}
-    	return new FeatureIdImpl( createDefaultFeatureId() );
+    public static FeatureIdImpl createDefaultFeatureIdentifier(String suggestedId) {
+        if (suggestedId != null) {
+            return new FeatureIdImpl(suggestedId);
+        }
+        return new FeatureIdImpl(createDefaultFeatureId());
     }
 }

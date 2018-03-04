@@ -27,9 +27,8 @@ import org.opengis.feature.simple.SimpleFeature;
 
 /**
  * {@link PropertiesCollector} that is able to collect properties from a file name.
- * 
+ *
  * @author Daniele Romagnoli, GeoSolutions SAS
- * 
  */
 class RuntimeExtractor extends PropertiesCollector {
     Date date;
@@ -54,7 +53,7 @@ class RuntimeExtractor extends PropertiesCollector {
 
         }
     }
-    
+
     @Override
     public void setProperties(Map<String, Object> map) {
         throw new UnsupportedOperationException();

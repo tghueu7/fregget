@@ -21,8 +21,6 @@ import org.geotools.jdbc.JDBCPrimaryKeyOnlineTest;
 import org.geotools.jdbc.JDBCPrimaryKeyTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class PostgisPrimaryKeyOnlineTest extends JDBCPrimaryKeyOnlineTest {

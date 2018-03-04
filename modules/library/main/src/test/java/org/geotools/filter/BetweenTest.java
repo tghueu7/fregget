@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -13,7 +13,7 @@
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
- *    
+ *
  *    Created on 20 June 2002, 18:53
  */
 package org.geotools.filter;
@@ -41,12 +41,12 @@ import com.vividsolutions.jts.geom.PrecisionModel;
  * tests for between filters.
  *
  * @author James Macgill
- *
- *
  * @source $URL$
  */
 public class BetweenTest extends TestCase {
-    /** Standard logging instance */
+    /**
+     * Standard logging instance
+     */
     protected static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger(
             "org.geotools.filter");
 
@@ -84,24 +84,24 @@ public class BetweenTest extends TestCase {
         LOGGER.fine("geometry is " + schema.getDescriptor("geometry"));
         LOGGER.fine("value is " + schema.getDescriptor("value"));
         LOGGER.fine("schema has value in it ? "
-            + (schema.getDescriptor("value") != null));
+                + (schema.getDescriptor("value") != null));
 
         GeometryFactory gf = new GeometryFactory(new PrecisionModel());
-        SimpleFeature f1 = SimpleFeatureBuilder.build(schema,new Object[] {
-                    new Integer(12), gf.createPoint(new Coordinate(12,12))
-                }, null);
-        SimpleFeature f2 = SimpleFeatureBuilder.build(schema, new Object[] {
-                    new Integer(3), gf.createPoint(new Coordinate(3,3))
-                }, null);
-        SimpleFeature f3 = SimpleFeatureBuilder.build(schema, new Object[] {
-                    new Integer(15), gf.createPoint(new Coordinate(15,15))
-                }, null);
-        SimpleFeature f4 = SimpleFeatureBuilder.build(schema, new Object[] {
-                    new Integer(5), gf.createPoint(new Coordinate(5,5))
-                }, null);
-        SimpleFeature f5 = SimpleFeatureBuilder.build(schema, new Object[] {
-                    new Integer(30), gf.createPoint(new Coordinate(30,30))
-                }, null);
+        SimpleFeature f1 = SimpleFeatureBuilder.build(schema, new Object[]{
+                new Integer(12), gf.createPoint(new Coordinate(12, 12))
+        }, null);
+        SimpleFeature f2 = SimpleFeatureBuilder.build(schema, new Object[]{
+                new Integer(3), gf.createPoint(new Coordinate(3, 3))
+        }, null);
+        SimpleFeature f3 = SimpleFeatureBuilder.build(schema, new Object[]{
+                new Integer(15), gf.createPoint(new Coordinate(15, 15))
+        }, null);
+        SimpleFeature f4 = SimpleFeatureBuilder.build(schema, new Object[]{
+                new Integer(5), gf.createPoint(new Coordinate(5, 5))
+        }, null);
+        SimpleFeature f5 = SimpleFeatureBuilder.build(schema, new Object[]{
+                new Integer(30), gf.createPoint(new Coordinate(30, 30))
+        }, null);
 
         assertEquals(true, a.evaluate(f1)); // in between
         assertEquals(false, a.evaluate(f2)); // too small

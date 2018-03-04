@@ -20,6 +20,7 @@
 package org.geotools.metadata.iso.extent;
 
 import javax.measure.unit.Unit;
+
 import org.opengis.metadata.extent.VerticalExtent;
 import org.opengis.referencing.crs.VerticalCRS;
 import org.opengis.referencing.datum.VerticalDatum;
@@ -29,13 +30,10 @@ import org.geotools.metadata.iso.MetadataEntity;
 /**
  * Vertical domain of dataset.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class VerticalExtentImpl extends MetadataEntity implements VerticalExtent {
@@ -83,11 +81,10 @@ public class VerticalExtentImpl extends MetadataEntity implements VerticalExtent
      */
     public VerticalExtentImpl(final Double minimumValue,
                               final Double maximumValue,
-                              final VerticalCRS verticalCRS)
-    {
+                              final VerticalCRS verticalCRS) {
         setMinimumValue(minimumValue);
         setMaximumValue(maximumValue);
-        setVerticalCRS (verticalCRS );
+        setVerticalCRS(verticalCRS);
     }
 
     /**

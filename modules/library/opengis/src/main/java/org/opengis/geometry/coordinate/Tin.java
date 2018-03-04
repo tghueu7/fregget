@@ -4,13 +4,14 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.coordinate;
 
 import java.util.List;
 import java.util.Set;
+
 import org.opengis.annotation.UML;
 
 import static org.opengis.annotation.Obligation.*;
@@ -24,16 +25,13 @@ import static org.opengis.annotation.Specification.*;
  * the network, the circle passing through its vertexes does not contain, in its interior, the
  * vertex of any other triangle.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
- * @since GeoAPI 2.0
- *
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @see GeometryFactory#createTin
+ * @since GeoAPI 2.0
  */
-@UML(identifier="GM_Tin", specification=ISO_19107)
+@UML(identifier = "GM_Tin", specification = ISO_19107)
 public interface Tin extends TriangulatedSurface {
     /**
      * Stoplines are lines where the local continuity or regularity of the surface is questionable.
@@ -42,7 +40,7 @@ public interface Tin extends TriangulatedSurface {
      * triangles, the result shall be a change of the surface boundary. The attribute
      * {@code stopLines} contains all these pathological segments as a set of line strings.
      */
-    @UML(identifier="stopLines", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "stopLines", obligation = MANDATORY, specification = ISO_19107)
     Set<LineString> getStopLines();
 
     /**
@@ -51,7 +49,7 @@ public interface Tin extends TriangulatedSurface {
      * segments must be included in the TIN even if doing so violates the Delaunay criterion. The
      * attribute {@code breakLines} contains these critical segments as a set of line strings.
      */
-    @UML(identifier="breakLines", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "breakLines", obligation = MANDATORY, specification = ISO_19107)
     Set<LineString> getBreakLines();
 
     /**
@@ -61,7 +59,7 @@ public interface Tin extends TriangulatedSurface {
      * on the length of their sides. For any triangle sides exceeding maximum length, the
      * adjacent triangles to that triangle side shall be removed from the surface.
      */
-    @UML(identifier="maxLength", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "maxLength", obligation = MANDATORY, specification = ISO_19107)
     double getMaxLength();
 
     /**
@@ -72,6 +70,6 @@ public interface Tin extends TriangulatedSurface {
      * Application schemas may add information based on the ordering of the control points to
      * facilitate the reconstruction of the TIN from the control points.
      */
-    @UML(identifier="controlPoint", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "controlPoint", obligation = MANDATORY, specification = ISO_19107)
     List<Position> getControlPoints();
 }

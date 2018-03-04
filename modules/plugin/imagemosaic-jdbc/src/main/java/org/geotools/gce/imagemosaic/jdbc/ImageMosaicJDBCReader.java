@@ -65,25 +65,21 @@ import com.vividsolutions.jts.geom.Envelope;
 /**
  * This reader is responsible for providing access to images and image pyramids stored in a JDBC
  * datbase as tiles.
- * 
+ * <p>
  * All jdbc databases which are able to handle blobs are supported.
- * 
+ * <p>
  * Additonally, spatial extensions for mysql,postgis,db2 and oracle are supported
- * 
- * 
+ *
  * @author mcr
- * @since 2.5
- * 
- * 
- *
- *
  * @source $URL$
+ * @since 2.5
  */
 public class ImageMosaicJDBCReader extends AbstractGridCoverage2DReader {
     private final static Logger LOGGER = Logging.getLogger(ImageMosaicJDBCReader.class.getPackage()
             .getName());
 
-    protected final static CoordinateOperationFactory operationFactory = new BufferedCoordinateOperationFactory(
+    protected final static CoordinateOperationFactory operationFactory = new 
+            BufferedCoordinateOperationFactory(
             new Hints(Hints.LENIENT_DATUM_SHIFT, Boolean.TRUE));
 
     private final JDBCAccess jdbcAccess;
@@ -113,8 +109,7 @@ public class ImageMosaicJDBCReader extends AbstractGridCoverage2DReader {
     }
 
     /**
-     * @param source
-     *            The source object.
+     * @param source The source object.
      * @param uHints
      * @throws IOException
      * @throws MalformedURLException
@@ -225,12 +220,10 @@ public class ImageMosaicJDBCReader extends AbstractGridCoverage2DReader {
 
     /**
      * Constructor.
-     * 
-     * @param source
-     *            The source object.
+     *
+     * @param source The source object.
      * @throws IOException
      * @throws UnsupportedEncodingException
-     * 
      */
     public ImageMosaicJDBCReader(Object source) throws IOException {
         this(source, null);
@@ -238,7 +231,7 @@ public class ImageMosaicJDBCReader extends AbstractGridCoverage2DReader {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.opengis.coverage.grid.GridCoverageReader#getFormat()
      */
     public Format getFormat() {
@@ -258,7 +251,7 @@ public class ImageMosaicJDBCReader extends AbstractGridCoverage2DReader {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.opengis.coverage.grid.GridCoverageReader#read(org.opengis.parameter.GeneralParameterValue
      * [])
@@ -282,9 +275,9 @@ public class ImageMosaicJDBCReader extends AbstractGridCoverage2DReader {
         // /////////////////////////////////////////////////////////////////////
         Color outputTransparentColor = (Color) ImageMosaicJDBCFormat.OUTPUT_TRANSPARENT_COLOR
                 .getDefaultValue();
-        
+
         Color backgroundColor = (Color) ImageMosaicJDBCFormat.BACKGROUND_COLOR
-        .getDefaultValue();
+                .getDefaultValue();
 
 
         Rectangle dim = null;
@@ -303,7 +296,7 @@ public class ImageMosaicJDBCReader extends AbstractGridCoverage2DReader {
                     outputTransparentColor = (Color) param.getValue();
                 } else if (param.getDescriptor().getName().getCode().equals(
                         ImageMosaicJDBCFormat.BACKGROUND_COLOR.getName().toString())) {
-                    backgroundColor = (Color) param.getValue();                    
+                    backgroundColor = (Color) param.getValue();
                 }
             }
         }
@@ -313,7 +306,7 @@ public class ImageMosaicJDBCReader extends AbstractGridCoverage2DReader {
         // Loading tiles trying to optimize as much as possible
         //
         // /////////////////////////////////////////////////////////////////////
-        GridCoverage2D coverage = loadTiles(backgroundColor,outputTransparentColor, dim, state);
+        GridCoverage2D coverage = loadTiles(backgroundColor, outputTransparentColor, dim, state);
         LOGGER.info("Mosaic Reader needs : " + ((new Date()).getTime() - start.getTime())
                 + " millisecs");
 
@@ -322,7 +315,7 @@ public class ImageMosaicJDBCReader extends AbstractGridCoverage2DReader {
 
     /**
      * transforms (if neccessairy) the requested envelope into the CRS used by this reader.
-     * 
+     *
      * @throws DataSourceException
      */
     private void transformRequestEnvelope(ImageMosaicJDBCReaderState state)
@@ -351,19 +344,20 @@ public class ImageMosaicJDBCReader extends AbstractGridCoverage2DReader {
                     .getRequestedEnvelope()));
             state.getRequestEnvelopeTransformed().setCoordinateReferenceSystem(crs);
 
-            if (config.getIgnoreAxisOrder()==false) { // check for axis order required
+            if (config.getIgnoreAxisOrder() == false) { // check for axis order required
                 int indexX = indexOfX(crs);
                 int indexY = indexOfY(crs);
                 int indexRequestedX = indexOfX(state.getRequestedEnvelope()
                         .getCoordinateReferenceSystem());
                 int indexRequestedY = indexOfY(state.getRequestedEnvelope()
                         .getCoordinateReferenceSystem());
-    
+
                 // x Axis problem ???
                 if (indexX == indexRequestedY && indexY == indexRequestedX) {
                     state.setXAxisSwitch(true);
                     Rectangle2D tmp = new Rectangle2D.Double(state.getRequestEnvelopeTransformed()
-                            .getMinimum(1), state.getRequestEnvelopeTransformed().getMinimum(0), state
+                            .getMinimum(1), state.getRequestEnvelopeTransformed().getMinimum(0), 
+                            state
                             .getRequestEnvelopeTransformed().getSpan(1), state
                             .getRequestEnvelopeTransformed().getSpan(0));
                     state.setRequestEnvelopeTransformed(new GeneralEnvelope(tmp));
@@ -386,16 +380,15 @@ public class ImageMosaicJDBCReader extends AbstractGridCoverage2DReader {
     }
 
     /**
-     * @param backgroundColor
-     *          the background color
-     * @param outputTransparentColor
-     *          the transparent color
+     * @param backgroundColor        the background color
+     * @param outputTransparentColor the transparent color
      * @param pixelDimension
      * @return the gridcoverage as the final result
      * @throws IOException
      */
-    private GridCoverage2D loadTiles(Color backgroundColor,Color outputTransparentColor, Rectangle pixelDimension,
-            ImageMosaicJDBCReaderState state) throws IOException {
+    private GridCoverage2D loadTiles(Color backgroundColor, Color outputTransparentColor, 
+                                     Rectangle pixelDimension,
+                                     ImageMosaicJDBCReaderState state) throws IOException {
         if (LOGGER.isLoggable(Level.FINE)) {
             LOGGER.fine(new StringBuffer("Creating mosaic to comply with envelope ").append(
                     (state.getRequestedEnvelope() != null) ? state.getRequestedEnvelope()
@@ -414,12 +407,14 @@ public class ImageMosaicJDBCReader extends AbstractGridCoverage2DReader {
         // /////////////////////////////////////////////////////////////////////
         if (!state.getRequestEnvelopeTransformed().intersects(this.originalEnvelope, true)) {
             LOGGER
-                    .warning("The requested envelope does not intersect the envelope of this mosaic");
+                    .warning("The requested envelope does not intersect the envelope of this " +
+                            "mosaic");
             LOGGER.warning(state.getRequestEnvelopeTransformed().toString());
             LOGGER.warning(originalEnvelope.toString());
 
 //            return coverageFactory.create(coverageName, getEmptyImage((int) pixelDimension
-//                    .getWidth(), (int) pixelDimension.getHeight(), backgroundColor, outputTransparentColor), state
+//                    .getWidth(), (int) pixelDimension.getHeight(), backgroundColor, 
+// outputTransparentColor), state
 //                    .getRequestedEnvelope());
             return null;
         }
@@ -443,7 +438,8 @@ public class ImageMosaicJDBCReader extends AbstractGridCoverage2DReader {
                 LOGGER.severe(e.getLocalizedMessage());
 
                 return coverageFactory.create(coverageName, getEmptyImage((int) pixelDimension
-                        .getWidth(), (int) pixelDimension.getHeight(), backgroundColor,outputTransparentColor),
+                                .getWidth(), (int) pixelDimension.getHeight(), backgroundColor, 
+                        outputTransparentColor),
                         state.getRequestedEnvelope());
             }
         } else {
@@ -454,7 +450,8 @@ public class ImageMosaicJDBCReader extends AbstractGridCoverage2DReader {
         LOGGER.info("Coverage " + info.getCoverageName() + " using spatial table "
                 + info.getSpatialTableName() + ", image table " + info.getTileTableName());
 
-        ImageComposerThread imageComposerThread = new ImageComposerThread(backgroundColor,outputTransparentColor,
+        ImageComposerThread imageComposerThread = new ImageComposerThread(backgroundColor, 
+                outputTransparentColor,
                 pixelDimension, state.getRequestEnvelopeTransformed(), info, state.getTileQueue(),
                 config, state.isXAxisSwitch(), coverageFactory);
         imageComposerThread.start();
@@ -474,7 +471,7 @@ public class ImageMosaicJDBCReader extends AbstractGridCoverage2DReader {
     }
 
     private GridCoverage2D transformResult(GridCoverage2D coverage, Rectangle pixelDimension,
-            ImageMosaicJDBCReaderState state) {
+                                           ImageMosaicJDBCReaderState state) {
         if (state.getRequestEnvelopeTransformed() == state.getRequestedEnvelope()) {
             return coverage; // nothing to do
         }
@@ -518,22 +515,23 @@ public class ImageMosaicJDBCReader extends AbstractGridCoverage2DReader {
      * @param outputTransparentColor
      * @return BufferdImage filled with outputTransparentColor
      */
-    private BufferedImage getEmptyImage(int width, int height, Color backGroundcolor,Color outputTransparentColor) {
+    private BufferedImage getEmptyImage(int width, int height, Color backGroundcolor, Color 
+            outputTransparentColor) {
         BufferedImage emptyImage = new BufferedImage(width, height, DEFAULT_IMAGE_TYPE);
         Graphics2D g2D = (Graphics2D) emptyImage.getGraphics();
         Color save = g2D.getColor();
         g2D.setColor(backGroundcolor);
         g2D.fillRect(0, 0, emptyImage.getWidth(), emptyImage.getHeight());
         g2D.setColor(save);
-        if (outputTransparentColor!=null)
+        if (outputTransparentColor != null)
             emptyImage = new RenderedImageAdapter(
-                    ImageUtilities.maskColor(outputTransparentColor,emptyImage)).getAsBufferedImage();
+                    ImageUtilities.maskColor(outputTransparentColor, emptyImage))
+                    .getAsBufferedImage();
         return emptyImage;
     }
 
     /**
-     * @param crs
-     *            CoordinateReference System
+     * @param crs CoordinateReference System
      * @return dimension index of y dir in crs
      */
     private int indexOfY(CoordinateReferenceSystem crs) {
@@ -541,8 +539,7 @@ public class ImageMosaicJDBCReader extends AbstractGridCoverage2DReader {
     }
 
     /**
-     * @param crs
-     *            CoordinateReference System
+     * @param crs CoordinateReference System
      * @return dimension index of X dir in crs
      */
     private int indexOfX(CoordinateReferenceSystem crs) {

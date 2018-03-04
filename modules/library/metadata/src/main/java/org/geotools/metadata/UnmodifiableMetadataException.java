@@ -21,12 +21,10 @@ package org.geotools.metadata;
  * Thrown when a setter method is invoked on a {@linkplain org.geotools.metadata.iso.MetadataEntity
  * metadata entity}, but this entity was declared unmodifiable.
  *
- * @since 2.4
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (Geomatys)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.4
  */
 public class UnmodifiableMetadataException extends UnsupportedOperationException {
     /**

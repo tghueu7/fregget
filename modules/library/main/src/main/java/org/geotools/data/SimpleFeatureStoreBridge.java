@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -30,19 +30,20 @@ import org.opengis.filter.Filter;
 import org.opengis.filter.identity.FeatureId;
 
 /**
- * Bridges between {@link FeatureStore<SimpleFeatureType, SimpleFeature>} and {@link SimpleFeatureStore}
+ * Bridges between {@link FeatureStore<SimpleFeatureType, SimpleFeature>} and 
+ * {@link SimpleFeatureStore}
  */
 class SimpleFeatureStoreBridge extends SimpleFeatureSourceBridge implements
         SimpleFeatureStore {
-    
+
     public SimpleFeatureStoreBridge(FeatureStore<SimpleFeatureType, SimpleFeature> delegate) {
         super(delegate);
     }
 
-    private FeatureStore<SimpleFeatureType, SimpleFeature> delegate(){
+    private FeatureStore<SimpleFeatureType, SimpleFeature> delegate() {
         return (FeatureStore<SimpleFeatureType, SimpleFeature>) delegate;
     }
-    
+
     public List<FeatureId> addFeatures(
             FeatureCollection<SimpleFeatureType, SimpleFeature> collection) throws IOException {
         return delegate().addFeatures(collection);
@@ -75,21 +76,20 @@ class SimpleFeatureStoreBridge extends SimpleFeatureSourceBridge implements
         delegate().modifyFeatures(name, value,
                 filter);
     }
+
     public void modifyFeatures(String name, Object attributeValue, Filter filter)
             throws IOException {
-        if( delegate instanceof SimpleFeatureStore){
-            ((SimpleFeatureStore)delegate).modifyFeatures(name, attributeValue, filter);
-        }
-        else {
-            modifyFeatures(new Name[] { new NameImpl(name), }, new Object[] { attributeValue, }, filter);
+        if (delegate instanceof SimpleFeatureStore) {
+            ((SimpleFeatureStore) delegate).modifyFeatures(name, attributeValue, filter);
+        } else {
+            modifyFeatures(new Name[]{new NameImpl(name),}, new Object[]{attributeValue,}, filter);
         }
     }
 
     public void modifyFeatures(String[] names, Object[] values, Filter filter) throws IOException {
-        if( delegate instanceof SimpleFeatureStore){
-            ((SimpleFeatureStore)delegate).modifyFeatures(names, values, filter);
-        }
-        else {
+        if (delegate instanceof SimpleFeatureStore) {
+            ((SimpleFeatureStore) delegate).modifyFeatures(names, values, filter);
+        } else {
             Name attributeNames[] = new Name[names.length];
             for (int i = 0; i < names.length; i++) {
                 attributeNames[i] = new NameImpl(names[i]);
@@ -97,7 +97,7 @@ class SimpleFeatureStoreBridge extends SimpleFeatureSourceBridge implements
             modifyFeatures(attributeNames, values, filter);
         }
     }
-    
+
     public void removeFeatures(Filter filter) throws IOException {
         delegate().removeFeatures(filter);
     }

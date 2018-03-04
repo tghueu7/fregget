@@ -32,13 +32,14 @@ import org.opengis.coverage.grid.Format;
  *
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini (simboss), GeoSolutions
- * @since 2.5.x
- *
- *
  * @source $URL$
+ * @since 2.5.x
  */
-public final class ErdasImgFormatFactory extends BaseGridFormatFactorySPI implements GridFormatFactorySpi {
-    /** Logger. */
+public final class ErdasImgFormatFactory extends BaseGridFormatFactorySPI implements 
+        GridFormatFactorySpi {
+    /**
+     * Logger.
+     */
     private final static Logger LOGGER = org.geotools.util.logging.Logging.getLogger(
             "org.geotools.coverageio.gdal.erdasimg");
 
@@ -57,16 +58,16 @@ public final class ErdasImgFormatFactory extends BaseGridFormatFactorySPI implem
             available = new ErdasImgImageReaderSpi().isAvailable();
 
             if (LOGGER.isLoggable(Level.FINE)) {
-                if (available) 
+                if (available)
                     LOGGER.fine("ErdasImgFormatFactory is availaible.");
                 else
                     LOGGER.fine("ErdasImgFormatFactory is not availaible.");
-               
+
             }
         } catch (ClassNotFoundException cnf) {
-            if (LOGGER.isLoggable(Level.FINE)) 
+            if (LOGGER.isLoggable(Level.FINE))
                 LOGGER.fine("ErdasImgFormatFactory is not availaible.");
-            
+
             available = false;
         }
 

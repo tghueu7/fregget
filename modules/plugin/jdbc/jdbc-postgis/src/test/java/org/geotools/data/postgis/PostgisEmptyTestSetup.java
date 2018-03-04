@@ -20,15 +20,13 @@ import org.geotools.jdbc.JDBCEmptyTestSetup;
 import org.geotools.jdbc.JDBCTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class PostgisEmptyTestSetup extends JDBCEmptyTestSetup {
 
     public PostgisEmptyTestSetup(JDBCTestSetup delegate) {
         super(delegate);
-        
+
     }
 
     @Override

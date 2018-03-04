@@ -33,7 +33,7 @@ import com.vividsolutions.jts.geom.Geometry;
 /**
  * The indexed version of the shapefile feature reader, will only read the records specified in the
  * constructor
- * 
+ *
  * @source $URL$
  */
 class IndexedShapefileFeatureReader extends ShapefileFeatureReader {
@@ -46,15 +46,17 @@ class IndexedShapefileFeatureReader extends ShapefileFeatureReader {
 
     /**
      * Create the shape reader
-     * 
-     * @param atts - the attributes that we are going to read.
-     * @param shp - the shape reader, required
-     * @param dbf - the dbf file reader. May be null, in this case no attributes will be read from
-     *        the dbf file
+     *
+     * @param atts     - the attributes that we are going to read.
+     * @param shp      - the shape reader, required
+     * @param dbf      - the dbf file reader. May be null, in this case no attributes will be 
+     *                 read from
+     *                 the dbf file
      * @param goodRecs Collection of good indexes that match the query.
      */
     public IndexedShapefileFeatureReader(SimpleFeatureType schema, ShapefileReader shp,
-            DbaseFileReader dbf, IndexedFidReader fidReader, CloseableIterator<Data> goodRecs) throws IOException {
+                                         DbaseFileReader dbf, IndexedFidReader fidReader, 
+                                         CloseableIterator<Data> goodRecs) throws IOException {
         super(schema, shp, dbf, fidReader);
         this.goodRecs = goodRecs;
         this.fidReader = fidReader;
@@ -100,7 +102,6 @@ class IndexedShapefileFeatureReader extends ShapefileFeatureReader {
 
         return nextFeature != null;
     }
-    
-    
+
 
 }

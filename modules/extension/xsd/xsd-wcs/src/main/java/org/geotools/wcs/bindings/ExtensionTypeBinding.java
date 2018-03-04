@@ -14,9 +14,8 @@ import org.geotools.xml.Node;
 
 /**
  * Custom binding for the open ended WCS:Extension element
- * 
- * @author Andrea Aime - GeoSolutions
  *
+ * @author Andrea Aime - GeoSolutions
  */
 public class ExtensionTypeBinding extends AbstractComplexBinding {
 
@@ -28,42 +27,42 @@ public class ExtensionTypeBinding extends AbstractComplexBinding {
         return ExtensionType.class;
     }
 
-    
+
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
             throws Exception {
-        
+
         ExtensionType et = Wcs20Factory.eINSTANCE.createExtensionType();
-        
+
         EList<ExtensionItemType> contents = et.getContents();
-        for(Object o : node.getChildren()) {
+        for (Object o : node.getChildren()) {
             Node child = (Node) o;
             String name = child.getComponent().getName();
             String namespace = child.getComponent().getNamespace();
             Object v = child.getValue();
-            
+
             ExtensionItemType item = Wcs20Factory.eINSTANCE.createExtensionItemType();
             item.setName(name);
             item.setNamespace(namespace);
-            if(v instanceof String) {
+            if (v instanceof String) {
                 item.setSimpleContent((String) v);
             } else {
                 item.setObjectContent(v);
             }
-            
+
             contents.add(item);
         }
-        
+
         return et;
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.xml.AbstractComplexBinding#getExecutionMode()
      */
     @Override

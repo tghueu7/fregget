@@ -39,9 +39,6 @@ import org.eclipse.swt.widgets.Composite;
  *
  * @author Michael Bedward
  * @author Andrea Antonello (www.hydrologis.com)
- *
- *
- *
  * @source $URL$
  */
 public class JIntegerField extends JValueField implements ModifyListener {
@@ -53,16 +50,17 @@ public class JIntegerField extends JValueField implements ModifyListener {
      * Creates a new text field that allows negative values and
      * has an initial value of 0.
      */
-    public JIntegerField( Composite parent, int style ) {
+    public JIntegerField(Composite parent, int style) {
         this(parent, style, 0, true);
     }
+
     /**
      * Creates a new text field with an initial value of 0.
      *
      * @param allowNegative true if this field should allow negative values to
-     *        be entered; false if only positive values are allowed
+     *                      be entered; false if only positive values are allowed
      */
-    public JIntegerField( Composite parent, int style, boolean allowsNegative ) {
+    public JIntegerField(Composite parent, int style, boolean allowsNegative) {
         this(parent, style, 0, allowsNegative);
     }
 
@@ -72,18 +70,18 @@ public class JIntegerField extends JValueField implements ModifyListener {
      *
      * @param value the initial value to display
      */
-    public JIntegerField( Composite parent, int style, int value ) {
+    public JIntegerField(Composite parent, int style, int value) {
         this(parent, style, value, true);
     }
 
     /**
      * Creates a new text field with the given initial value.
      *
-     * @param value the initial value to display
+     * @param value         the initial value to display
      * @param allowNegative true if this field should allow negative values to
-     *        be entered; false if only positive values are allowed
+     *                      be entered; false if only positive values are allowed
      */
-    public JIntegerField( Composite parent, int style, int value, boolean allowNegative ) {
+    public JIntegerField(Composite parent, int style, int value, boolean allowNegative) {
         super(parent, style);
 
         addModifyListener(this);
@@ -105,13 +103,12 @@ public class JIntegerField extends JValueField implements ModifyListener {
     /**
      * Set the integer value of this control. A {@code ValueChangedEvent} will be
      * published to all {@code ValueChangedListeners}.
-     * 
-     * @param value the value to set
      *
+     * @param value the value to set
      * @throws IllegalArgumentException if {@code value} is negative but the field
-     *         only allows positive values
+     *                                  only allows positive values
      */
-    public void setValue( int value ) {
+    public void setValue(int value) {
         setValue(value, true);
     }
 
@@ -124,14 +121,13 @@ public class JIntegerField extends JValueField implements ModifyListener {
      * In such a setting, firing change events can result in an endless cycle or a
      * mutex violation.
      *
-     * @param value the value to set
+     * @param value        the value to set
      * @param publishEvent true to notify listeners of this change; false to skip
-     *        notification
-     *
+     *                     notification
      * @throws IllegalArgumentException if {@code value} is negative but the field
-     *         only allows positive values
+     *                                  only allows positive values
      */
-    public void setValue( int value, boolean publishEvent ) {
+    public void setValue(int value, boolean publishEvent) {
         fireEvents = publishEvent;
 
         if (!allowNegative && value < 0) {
@@ -142,9 +138,10 @@ public class JIntegerField extends JValueField implements ModifyListener {
         fireEvents = true;
     }
 
-    public void modifyText( ModifyEvent arg0 ) {
+    public void modifyText(ModifyEvent arg0) {
         if (fireEvents) {
-            ValueChangedEvent<Integer> ev = new ValueChangedEvent<Integer>(JIntegerField.this, Integer.valueOf(getText()));
+            ValueChangedEvent<Integer> ev = new ValueChangedEvent<Integer>(JIntegerField.this, 
+                    Integer.valueOf(getText()));
             fireValueChangedEvent(ev);
         }
 

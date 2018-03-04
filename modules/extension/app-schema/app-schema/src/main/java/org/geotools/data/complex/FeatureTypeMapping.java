@@ -45,9 +45,6 @@ import org.xml.sax.helpers.NamespaceSupport;
  * @author Gabriel Roldan (Axios Engineering)
  * @author Rini Angreani (CSIRO Earth Science and Resource Engineering)
  * @version $Id$
- *
- *
- *
  * @source $URL$
  * @since 2.4
  */
@@ -57,7 +54,7 @@ public class FeatureTypeMapping {
      * simple feature source as we could now take in a data access instead of a data store as the
      * source data store
      */
-    private FeatureSource<? extends FeatureType,? extends Feature> source;
+    private FeatureSource<? extends FeatureType, ? extends Feature> source;
 
     /**
      * Encapsulates the name and type of target Features
@@ -90,18 +87,20 @@ public class FeatureTypeMapping {
     }
 
     public FeatureTypeMapping(FeatureSource<? extends FeatureType, ? extends Feature> source,
-            AttributeDescriptor target, List<AttributeMapping> mappings, NamespaceSupport namespaces) {
+                              AttributeDescriptor target, List<AttributeMapping> mappings, 
+                              NamespaceSupport namespaces) {
         this(source, target, mappings, namespaces, false);
     }
 
     public FeatureTypeMapping(FeatureSource<? extends FeatureType, ? extends Feature> source,
-            AttributeDescriptor target, List<AttributeMapping> mappings, NamespaceSupport namespaces, boolean isDenormalised) {
+                              AttributeDescriptor target, List<AttributeMapping> mappings, 
+                              NamespaceSupport namespaces, boolean isDenormalised) {
         this.source = source;
         this.target = target;
         this.attributeMappings = new LinkedList<AttributeMapping>(mappings);
         this.namespaces = namespaces;
         this.isDenormalised = isDenormalised;
-        
+
         // find id expression
         for (AttributeMapping attMapping : attributeMappings) {
             StepList targetXPath = attMapping.getTargetXPath();
@@ -123,7 +122,7 @@ public class FeatureTypeMapping {
     public List<AttributeMapping> getAttributeMappings() {
         return Collections.unmodifiableList(attributeMappings);
     }
-    
+
     public List<NestedAttributeMapping> getNestedMappings() {
         List<NestedAttributeMapping> mappings = new ArrayList<NestedAttributeMapping>();
         for (AttributeMapping mapping : attributeMappings) {
@@ -133,23 +132,23 @@ public class FeatureTypeMapping {
         }
         return mappings;
     }
-    
+
     public Expression getFeatureIdExpression() {
-    	return featureFidMapping;
+        return featureFidMapping;
     }
 
     /**
-     * Finds the attribute mappings for the given target location path. 
+     * Finds the attribute mappings for the given target location path.
      * If the exactPath is not indexed, it will get all the matching mappings ignoring index.
      * If it is indexed, it will get the one with matching index only.
-     * 
+     *
      * @param targetPath
      * @return
      */
     public List<AttributeMapping> getAttributeMappingsIgnoreIndex(final StepList targetPath) {
         AttributeMapping attMapping;
         List<AttributeMapping> mappings = new ArrayList<AttributeMapping>();
-        for (Iterator<AttributeMapping> it = attributeMappings.iterator(); it.hasNext();) {
+        for (Iterator<AttributeMapping> it = attributeMappings.iterator(); it.hasNext(); ) {
             attMapping = (AttributeMapping) it.next();
             if (targetPath.equalsIgnoreIndex(attMapping.getTargetXPath())) {
                 mappings.add(attMapping);
@@ -160,14 +159,15 @@ public class FeatureTypeMapping {
 
     /**
      * Finds the attribute mappings for the given source expression.
-     * 
+     *
      * @param sourceExpression
      * @return list of matching attribute mappings
      */
-    public List<AttributeMapping> getAttributeMappingsByExpression(final Expression sourceExpression) {
+    public List<AttributeMapping> getAttributeMappingsByExpression(final Expression 
+                                                                           sourceExpression) {
         AttributeMapping attMapping;
         List<AttributeMapping> mappings = new ArrayList<AttributeMapping>();
-        for (Iterator<AttributeMapping> it = attributeMappings.iterator(); it.hasNext();) {
+        for (Iterator<AttributeMapping> it = attributeMappings.iterator(); it.hasNext(); ) {
             attMapping = (AttributeMapping) it.next();
             if (sourceExpression.equals(attMapping.getSourceExpression())) {
                 mappings.add(attMapping);
@@ -178,15 +178,14 @@ public class FeatureTypeMapping {
 
     /**
      * Finds the attribute mapping for the target expression <code>exactPath</code>
-     * 
-     * @param exactPath
-     *            the xpath expression on the target schema to find the mapping for
+     *
+     * @param exactPath the xpath expression on the target schema to find the mapping for
      * @return the attribute mapping that match 1:1 with <code>exactPath</code> or <code>null</code>
-     *         if
+     * if
      */
     public AttributeMapping getAttributeMapping(final StepList exactPath) {
         AttributeMapping attMapping;
-        for (Iterator<AttributeMapping> it = attributeMappings.iterator(); it.hasNext();) {
+        for (Iterator<AttributeMapping> it = attributeMappings.iterator(); it.hasNext(); ) {
             attMapping = (AttributeMapping) it.next();
             if (exactPath.equals(attMapping.getTargetXPath())) {
                 return attMapping;
@@ -201,7 +200,7 @@ public class FeatureTypeMapping {
 
     /**
      * Has to be called after {@link #setTargetType(FeatureType)}
-     * 
+     *
      * @param elementName
      * @param featureTypeName
      */
@@ -234,13 +233,14 @@ public class FeatureTypeMapping {
     }
 
     /**
-     * Return list of attribute mappings that are configured as list (isList = true). 
+     * Return list of attribute mappings that are configured as list (isList = true).
+     *
      * @return attribute mappings with isList enabled.
      */
     public List<AttributeMapping> getIsListMappings() {
         List<AttributeMapping> mappings = new ArrayList<AttributeMapping>();
         AttributeMapping attMapping;
-        for (Iterator<AttributeMapping> it = attributeMappings.iterator(); it.hasNext();) {
+        for (Iterator<AttributeMapping> it = attributeMappings.iterator(); it.hasNext(); ) {
             attMapping = (AttributeMapping) it.next();
             if (attMapping.isList()) {
                 mappings.add(attMapping);
@@ -257,11 +257,12 @@ public class FeatureTypeMapping {
      * <code>gml:name[1]</code>, <code>gml:name[2]</code> and <code>gml:name[3]</code>, but
      * propertyName is just <code>gml:name</code>, all three mappings apply.
      * </p>
-     * 
+     *
      * @param propertyName
      * @return
      */
-    public List<Expression> findMappingsFor(final StepList propertyName, boolean includeNestedMappings) {
+    public List<Expression> findMappingsFor(final StepList propertyName, boolean 
+            includeNestedMappings) {
         // collect all the mappings for the given property
         List candidates;
 
@@ -281,7 +282,7 @@ public class FeatureTypeMapping {
             Expression idExpression = getFeatureIdExpression();
             candidates.add(new AttributeMapping(idExpression, idExpression, propertyName));
         }
-        List expressions = getExpressions(candidates, includeNestedMappings);        
+        List expressions = getExpressions(candidates, includeNestedMappings);
 
         // Does the last step refer to a client property of the parent step?
         // The parent step could be the root element which may not be on the path.
@@ -320,20 +321,23 @@ public class FeatureTypeMapping {
     }
 
     private List<Expression> getClientPropertyExpressions(final List attributeMappings,
-            final Name clientPropertyName, StepList parentPath) {
+                                                          final Name clientPropertyName, StepList
+                                                                  parentPath) {
         List<Expression> clientPropertyExpressions = new ArrayList<Expression>(attributeMappings
                 .size());
 
         AttributeMapping attMapping;
         Map clientProperties;
         Expression propertyExpression;
-        for (Iterator it = attributeMappings.iterator(); it.hasNext();) {
+        for (Iterator it = attributeMappings.iterator(); it.hasNext(); ) {
             attMapping = (AttributeMapping) it.next();
             if (attMapping instanceof JoiningNestedAttributeMapping
                     && !Types.equals(clientPropertyName, XLINK.HREF)) {
                 // if it's joining for simple content feature chaining it has to be empty
-                // so it will be added to the post filter... unless this is feature chaining by reference
-                // and we are looking at the xlink:href property, whose source expression is specified
+                // so it will be added to the post filter... unless this is feature chaining by 
+                // reference
+                // and we are looking at the xlink:href property, whose source expression is 
+                // specified
                 // in the nested attribute mapping of the parent feature
                 clientPropertyExpressions.add(null);
             } else {
@@ -351,17 +355,17 @@ public class FeatureTypeMapping {
 
         return clientPropertyExpressions;
     }
-    
+
     /**
      * Extracts the source Expressions from a list of {@link AttributeMapping}s
-     * 
+     *
      * @param attributeMappings
      */
     private List getExpressions(List attributeMappings, boolean includeNestedMappings) {
         List expressions = new ArrayList(attributeMappings.size());
         AttributeMapping mapping;
         Expression sourceExpression;
-        for (Iterator it = attributeMappings.iterator(); it.hasNext();) {
+        for (Iterator it = attributeMappings.iterator(); it.hasNext(); ) {
             mapping = (AttributeMapping) it.next();
             if (mapping instanceof JoiningNestedAttributeMapping) {
                 if (!includeNestedMappings) {
@@ -378,7 +382,7 @@ public class FeatureTypeMapping {
         }
         return expressions;
     }
-    
+
 
     public boolean isDenormalised() {
         return isDenormalised;

@@ -29,9 +29,9 @@ import com.vividsolutions.jts.geom.MultiPolygon;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:MultiPolygonType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="MultiPolygonType"&gt;
  *      &lt;annotation&gt;
@@ -55,9 +55,6 @@ import com.vividsolutions.jts.geom.MultiPolygon;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLMultiPolygonTypeBinding extends AbstractComplexBinding {
@@ -77,7 +74,6 @@ public class GMLMultiPolygonTypeBinding extends AbstractComplexBinding {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     *
      *
      * @generated modifiable
      */
@@ -102,12 +98,12 @@ public class GMLMultiPolygonTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return GML2ParsingUtils.GeometryCollectionType_parse(node, MultiPolygon.class, gFactory);
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         if (GML.polygonMember.equals(name)) {
             return GML2ParsingUtils.asCollection((MultiPolygon) object);
         }

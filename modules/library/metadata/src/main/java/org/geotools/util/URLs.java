@@ -29,7 +29,8 @@ import org.geotools.resources.i18n.Errors;
 /**
  * Utilities for manipulating and converting to and from {@link URL}s.
  * <p>
- * {@link #urlToFile(URL)} and {@link #fileToUrl(File)} and {@link #getParentUrl(URL)} are used to work with files across platforms
+ * {@link #urlToFile(URL)} and {@link #fileToUrl(File)} and {@link #getParentUrl(URL)} are used 
+ * to work with files across platforms
  */
 public class URLs {
 
@@ -41,8 +42,9 @@ public class URLs {
 
     /**
      * Changes the ending (e.g. ".sld") of a {@link URL}
-     * 
-     * @param url {@link URL} like <code>file:/sds/a.bmp</code> or <code>http://www.some.org/foo/bar.shp</code>
+     *
+     * @param url     {@link URL} like <code>file:/sds/a.bmp</code> or <code>http://www.some
+     *                           .org/foo/bar.shp</code>
      * @param postfix New file extension for the {@link URL} without <code>.</code>
      * @return A new {@link URL} with new extension.
      * @throws {@link MalformedURLException} if the new {@link URL} can not be created.
@@ -64,8 +66,9 @@ public class URLs {
 
     /**
      * Extends a {@link URL}.
-     * 
-     * @param base Has to be a {@link URL} pointing to a directory. If it doesn't end with a <code>/</code> it will be added automatically.
+     *
+     * @param base      Has to be a {@link URL} pointing to a directory. If it doesn't end with a
+     *                 <code>/</code> it will be added automatically.
      * @param extension The part that will be added to the {@link URL}
      * @throws MalformedURLException if the new {@link URL} can not be created.
      */
@@ -87,10 +90,12 @@ public class URLs {
     /**
      * A replacement for {@link File#toURL()} and <code>File.toURI().toURL()</code>.
      * <p>
-     * {@link File#toURL()} does not percent-encode characters and <code>File.toURI().toURL()</code> does not percent-encode non-ASCII characters.
-     * This method ensures that URL characters are correctly percent-encoded, and works around the reported misbehaviour of some Java implementations
+     * {@link File#toURL()} does not percent-encode characters and <code>File.toURI().toURL()
+     * </code> does not percent-encode non-ASCII characters.
+     * This method ensures that URL characters are correctly percent-encoded, and works around 
+     * the reported misbehaviour of some Java implementations
      * on Mac.
-     * 
+     *
      * @param file
      * @return URL
      */
@@ -118,9 +123,10 @@ public class URLs {
     }
 
     /**
-     * The function is supposed to be equivalent to {@link File#getParent()}. The {@link URL} is converted to a String, truncated to the last / and
+     * The function is supposed to be equivalent to {@link File#getParent()}. The {@link URL} is 
+     * converted to a String, truncated to the last / and
      * then recreated as a new URL.
-     * 
+     *
      * @throws {@link MalformedURLException} if the parent {@link URL} can not be created.
      */
     public static URL getParentUrl(URL url) throws MalformedURLException {
@@ -137,16 +143,19 @@ public class URLs {
     }
 
     /**
-     * Takes a URL and converts it to a File. The attempts to deal with Windows UNC format specific problems, specifically files located on network
+     * Takes a URL and converts it to a File. The attempts to deal with Windows UNC format 
+     * specific problems, specifically files located on network
      * shares and different drives.
      * <p>
-     * If the URL.getAuthority() returns null or is empty, then only the url's path property is used to construct the file. Otherwise, the authority
+     * If the URL.getAuthority() returns null or is empty, then only the url's path property is 
+     * used to construct the file. Otherwise, the authority
      * is prefixed before the path.
      * <p>
      * It is assumed that url.getProtocol returns "file".
      * <p>
-     * Authority is the drive or network share the file is located on. Such as "C:", "E:", "\\fooServer"
-     * 
+     * Authority is the drive or network share the file is located on. Such as "C:", "E:", 
+     * "\\fooServer"
+     *
      * @param url a URL object that uses protocol "file"
      * @return a File that corresponds to the URL's location
      */

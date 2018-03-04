@@ -59,22 +59,19 @@ import org.geotools.util.NameFactory;
  * {@link #createObject}, which may be the only method that a subclass need to override.
  * However, other methods may be overridden as well for better performances.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public abstract class AbstractAuthorityFactory extends ReferencingFactory
-        implements AuthorityFactory
-{
+        implements AuthorityFactory {
     /**
      * Constructs an instance using the specified priority level.
      *
      * @param priority The priority for this factory, as a number between
-     *        {@link #MINIMUM_PRIORITY MINIMUM_PRIORITY} and
-     *        {@link #MAXIMUM_PRIORITY MAXIMUM_PRIORITY} inclusive.
+     *                 {@link #MINIMUM_PRIORITY MINIMUM_PRIORITY} and
+     *                 {@link #MAXIMUM_PRIORITY MAXIMUM_PRIORITY} inclusive.
      */
     protected AbstractAuthorityFactory(final int priority) {
         super(priority);
@@ -128,38 +125,35 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
      * Subclasses should override this method if they are capable to automatically detect
      * the object type from its code.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
-     *
+     * @throws FactoryException             if the object creation failed for some other reason.
      * @see #createCoordinateReferenceSystem
      * @see #createDatum
      * @see #createEllipsoid
      * @see #createUnit
      */
     public IdentifiedObject createObject(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         ensureNonNull("code", code);
         throw noSuchAuthorityCode(IdentifiedObject.class, code);
     }
 
     /**
      * Returns an arbitrary {@linkplain Datum datum} from a code.
-     * The default implementation invokes <code>{@linkplain #createObject createObject}(code)</code>.
+     * The default implementation invokes <code>{@linkplain #createObject createObject}(code)
+     * </code>.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The datum for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
-     *
+     * @throws FactoryException             if the object creation failed for some other reason.
      * @see #createGeodeticDatum
      * @see #createVerticalDatum
      * @see #createTemporalDatum
      */
     public Datum createDatum(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final IdentifiedObject object = createObject(code);
         try {
             return (Datum) object;
@@ -172,16 +166,14 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
      * Creates a {@linkplain EngineeringDatum engineering datum} from a code.
      * The default implementation invokes <code>{@linkplain #createDatum createDatum}(code)</code>.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The datum for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
-     *
+     * @throws FactoryException             if the object creation failed for some other reason.
      * @see #createEngineeringCRS
      */
     public EngineeringDatum createEngineeringDatum(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final Datum datum = createDatum(code);
         try {
             return (EngineeringDatum) datum;
@@ -194,16 +186,14 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
      * Creates a {@linkplain ImageDatum image datum} from a code.
      * The default implementation invokes <code>{@linkplain #createDatum createDatum}(code)</code>.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The datum for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
-     *
+     * @throws FactoryException             if the object creation failed for some other reason.
      * @see #createImageCRS
      */
     public ImageDatum createImageDatum(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final Datum datum = createDatum(code);
         try {
             return (ImageDatum) datum;
@@ -216,16 +206,14 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
      * Creates a {@linkplain VerticalDatum vertical datum} from a code.
      * The default implementation invokes <code>{@linkplain #createDatum createDatum}(code)</code>.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The datum for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
-     *
+     * @throws FactoryException             if the object creation failed for some other reason.
      * @see #createVerticalCRS
      */
     public VerticalDatum createVerticalDatum(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final Datum datum = createDatum(code);
         try {
             return (VerticalDatum) datum;
@@ -238,16 +226,14 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
      * Creates a {@linkplain TemporalDatum temporal datum} from a code.
      * The default implementation invokes <code>{@linkplain #createDatum createDatum}(code)</code>.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The datum for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
-     *
+     * @throws FactoryException             if the object creation failed for some other reason.
      * @see #createTemporalCRS
      */
     public TemporalDatum createTemporalDatum(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final Datum datum = createDatum(code);
         try {
             return (TemporalDatum) datum;
@@ -260,19 +246,17 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
      * Returns a {@linkplain GeodeticDatum geodetic datum} from a code.
      * The default implementation invokes <code>{@linkplain #createDatum createDatum}(code)</code>.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The datum for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
-     *
+     * @throws FactoryException             if the object creation failed for some other reason.
      * @see #createEllipsoid
      * @see #createPrimeMeridian
      * @see #createGeographicCRS
      * @see #createProjectedCRS
      */
     public GeodeticDatum createGeodeticDatum(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final Datum datum = createDatum(code);
         try {
             return (GeodeticDatum) datum;
@@ -283,18 +267,17 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
 
     /**
      * Returns an {@linkplain Ellipsoid ellipsoid} from a code.
-     * The default implementation invokes <code>{@linkplain #createObject createObject}(code)</code>.
+     * The default implementation invokes <code>{@linkplain #createObject createObject}(code)
+     * </code>.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The ellipsoid for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
-     *
+     * @throws FactoryException             if the object creation failed for some other reason.
      * @see #createGeodeticDatum
      */
     public Ellipsoid createEllipsoid(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final IdentifiedObject object = createObject(code);
         try {
             return (Ellipsoid) object;
@@ -305,18 +288,17 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
 
     /**
      * Returns a {@linkplain PrimeMeridian prime meridian} from a code.
-     * The default implementation invokes <code>{@linkplain #createObject createObject}(code)</code>.
+     * The default implementation invokes <code>{@linkplain #createObject createObject}(code)
+     * </code>.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The prime meridian for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
-     *
+     * @throws FactoryException             if the object creation failed for some other reason.
      * @see #createGeodeticDatum
      */
     public PrimeMeridian createPrimeMeridian(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final IdentifiedObject object = createObject(code);
         try {
             return (PrimeMeridian) object;
@@ -327,16 +309,16 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
 
     /**
      * Returns a {@linkplain Extent extent} (usually an area of validity) from a code.
-     * The default implementation invokes <code>{@linkplain #createObject createObject}(code)</code>.
+     * The default implementation invokes <code>{@linkplain #createObject createObject}(code)
+     * </code>.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The extent for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
+     * @throws FactoryException             if the object creation failed for some other reason.
      */
     public Extent createExtent(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final IdentifiedObject object = createObject(code);
         try {
             return (Extent) object;
@@ -347,16 +329,16 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
 
     /**
      * Returns an arbitrary {@linkplain CoordinateSystem coordinate system} from a code.
-     * The default implementation invokes <code>{@linkplain #createObject createObject}(code)</code>.
+     * The default implementation invokes <code>{@linkplain #createObject createObject}(code)
+     * </code>.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The coordinate system for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
+     * @throws FactoryException             if the object creation failed for some other reason.
      */
     public CoordinateSystem createCoordinateSystem(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final IdentifiedObject object = createObject(code);
         try {
             return (CoordinateSystem) object;
@@ -370,14 +352,13 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
      * The default implementation invokes
      * <code>{@linkplain #createCoordinateSystem createCoordinateSystem}(code)</code>.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The coordinate system for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
+     * @throws FactoryException             if the object creation failed for some other reason.
      */
     public CartesianCS createCartesianCS(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final CoordinateSystem cs = createCoordinateSystem(code);
         try {
             return (CartesianCS) cs;
@@ -391,14 +372,13 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
      * The default implementation invokes
      * <code>{@linkplain #createCoordinateSystem createCoordinateSystem}(code)</code>.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The coordinate system for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
+     * @throws FactoryException             if the object creation failed for some other reason.
      */
     public PolarCS createPolarCS(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final CoordinateSystem cs = createCoordinateSystem(code);
         try {
             return (PolarCS) cs;
@@ -412,14 +392,13 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
      * The default implementation invokes
      * <code>{@linkplain #createCoordinateSystem createCoordinateSystem}(code)</code>.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The coordinate system for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
+     * @throws FactoryException             if the object creation failed for some other reason.
      */
     public CylindricalCS createCylindricalCS(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final CoordinateSystem cs = createCoordinateSystem(code);
         try {
             return (CylindricalCS) cs;
@@ -433,14 +412,13 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
      * The default implementation invokes
      * <code>{@linkplain #createCoordinateSystem createCoordinateSystem}(code)</code>.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The coordinate system for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
+     * @throws FactoryException             if the object creation failed for some other reason.
      */
     public SphericalCS createSphericalCS(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final CoordinateSystem cs = createCoordinateSystem(code);
         try {
             return (SphericalCS) cs;
@@ -454,14 +432,13 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
      * The default implementation invokes
      * <code>{@linkplain #createCoordinateSystem createCoordinateSystem}(code)</code>.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The coordinate system for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
+     * @throws FactoryException             if the object creation failed for some other reason.
      */
     public EllipsoidalCS createEllipsoidalCS(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final CoordinateSystem cs = createCoordinateSystem(code);
         try {
             return (EllipsoidalCS) cs;
@@ -475,14 +452,13 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
      * The default implementation invokes
      * <code>{@linkplain #createCoordinateSystem createCoordinateSystem}(code)</code>.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The coordinate system for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
+     * @throws FactoryException             if the object creation failed for some other reason.
      */
     public VerticalCS createVerticalCS(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final CoordinateSystem cs = createCoordinateSystem(code);
         try {
             return (VerticalCS) cs;
@@ -496,14 +472,13 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
      * The default implementation invokes
      * <code>{@linkplain #createCoordinateSystem createCoordinateSystem}(code)</code>.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The coordinate system for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
+     * @throws FactoryException             if the object creation failed for some other reason.
      */
     public TimeCS createTimeCS(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final CoordinateSystem cs = createCoordinateSystem(code);
         try {
             return (TimeCS) cs;
@@ -514,16 +489,16 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
 
     /**
      * Returns a {@linkplain CoordinateSystemAxis coordinate system axis} from a code.
-     * The default implementation invokes <code>{@linkplain #createObject createObject}(code)</code>.
+     * The default implementation invokes <code>{@linkplain #createObject createObject}(code)
+     * </code>.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The axis for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
+     * @throws FactoryException             if the object creation failed for some other reason.
      */
     public CoordinateSystemAxis createCoordinateSystemAxis(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final IdentifiedObject object = createObject(code);
         try {
             return (CoordinateSystemAxis) object;
@@ -534,16 +509,16 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
 
     /**
      * Returns an {@linkplain Unit unit} from a code.
-     * The default implementation invokes <code>{@linkplain #createObject createObject}(code)</code>.
+     * The default implementation invokes <code>{@linkplain #createObject createObject}(code)
+     * </code>.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The unit for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
+     * @throws FactoryException             if the object creation failed for some other reason.
      */
     public Unit<?> createUnit(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final IdentifiedObject object = createObject(code);
         try {
             return (Unit) object;
@@ -560,11 +535,10 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
      * instead of <code>&nbsp;createCoordinateReferenceSystem(code)&nbsp;</code> if the caller
      * know he is asking for a {@linkplain GeographicCRS geographic coordinate reference system}).
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The coordinate reference system for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
-     *
+     * @throws FactoryException             if the object creation failed for some other reason.
      * @see #createGeographicCRS
      * @see #createProjectedCRS
      * @see #createVerticalCRS
@@ -572,8 +546,7 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
      * @see #createCompoundCRS
      */
     public CoordinateReferenceSystem createCoordinateReferenceSystem(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final IdentifiedObject object = createObject(code);
         try {
             return (CoordinateReferenceSystem) object;
@@ -585,14 +558,13 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
     /**
      * Creates a 3D coordinate reference system from a code.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The coordinate reference system for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
+     * @throws FactoryException             if the object creation failed for some other reason.
      */
     public CompoundCRS createCompoundCRS(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final CoordinateReferenceSystem crs = createCoordinateReferenceSystem(code);
         try {
             return (CompoundCRS) crs;
@@ -604,14 +576,13 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
     /**
      * Creates a derived coordinate reference system from a code.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The coordinate reference system for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
+     * @throws FactoryException             if the object creation failed for some other reason.
      */
     public DerivedCRS createDerivedCRS(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final CoordinateReferenceSystem crs = createCoordinateReferenceSystem(code);
         try {
             return (DerivedCRS) crs;
@@ -623,14 +594,13 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
     /**
      * Creates a {@linkplain EngineeringCRS engineering coordinate reference system} from a code.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The coordinate reference system for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
+     * @throws FactoryException             if the object creation failed for some other reason.
      */
     public EngineeringCRS createEngineeringCRS(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final CoordinateReferenceSystem crs = createCoordinateReferenceSystem(code);
         try {
             return (EngineeringCRS) crs;
@@ -642,16 +612,14 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
     /**
      * Returns a {@linkplain GeographicCRS geographic coordinate reference system} from a code.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The coordinate reference system for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
-     *
+     * @throws FactoryException             if the object creation failed for some other reason.
      * @see #createGeodeticDatum
      */
     public GeographicCRS createGeographicCRS(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final CoordinateReferenceSystem crs = createCoordinateReferenceSystem(code);
         try {
             return (GeographicCRS) crs;
@@ -663,16 +631,14 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
     /**
      * Returns a {@linkplain GeocentricCRS geocentric coordinate reference system} from a code.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The coordinate reference system for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed.
-     *
+     * @throws FactoryException             if the object creation failed.
      * @see #createGeodeticDatum
      */
     public GeocentricCRS createGeocentricCRS(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final CoordinateReferenceSystem crs = createCoordinateReferenceSystem(code);
         try {
             return (GeocentricCRS) crs;
@@ -684,14 +650,13 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
     /**
      * Creates a {@linkplain ImageCRS image coordinate reference system} from a code.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The coordinate reference system for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
+     * @throws FactoryException             if the object creation failed for some other reason.
      */
     public ImageCRS createImageCRS(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final CoordinateReferenceSystem crs = createCoordinateReferenceSystem(code);
         try {
             return (ImageCRS) crs;
@@ -703,16 +668,14 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
     /**
      * Returns a {@linkplain ProjectedCRS projected coordinate reference system} from a code.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The coordinate reference system for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
-     *
+     * @throws FactoryException             if the object creation failed for some other reason.
      * @see #createGeodeticDatum
      */
     public ProjectedCRS createProjectedCRS(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final CoordinateReferenceSystem crs = createCoordinateReferenceSystem(code);
         try {
             return (ProjectedCRS) crs;
@@ -724,16 +687,14 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
     /**
      * Creates a {@linkplain TemporalCRS temporal coordinate reference system} from a code.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The coordinate reference system for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
-     *
+     * @throws FactoryException             if the object creation failed for some other reason.
      * @see #createTemporalDatum
      */
     public TemporalCRS createTemporalCRS(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final CoordinateReferenceSystem crs = createCoordinateReferenceSystem(code);
         try {
             return (TemporalCRS) crs;
@@ -745,16 +706,14 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
     /**
      * Creates a {@linkplain VerticalCRS vertical coordinate reference system} from a code.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The coordinate reference system for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
-     *
+     * @throws FactoryException             if the object creation failed for some other reason.
      * @see #createVerticalDatum
      */
     public VerticalCRS createVerticalCRS(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final CoordinateReferenceSystem crs = createCoordinateReferenceSystem(code);
         try {
             return (VerticalCRS) crs;
@@ -766,16 +725,14 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
     /**
      * Creates a parameter descriptor from a code.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The coordinate reference system for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
-     *
+     * @throws FactoryException             if the object creation failed for some other reason.
      * @since 2.2
      */
     public ParameterDescriptor createParameterDescriptor(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final IdentifiedObject operation = createObject(code);
         try {
             return (ParameterDescriptor) operation;
@@ -787,16 +744,14 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
     /**
      * Creates an operation method from a code.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The operation method for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
-     *
+     * @throws FactoryException             if the object creation failed for some other reason.
      * @since 2.2
      */
     public OperationMethod createOperationMethod(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final IdentifiedObject operation = createObject(code);
         try {
             return (OperationMethod) operation;
@@ -808,16 +763,14 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
     /**
      * Creates an operation from a single operation code.
      *
-     * @param  code Value allocated by authority.
+     * @param code Value allocated by authority.
      * @return The operation for the given code.
      * @throws NoSuchAuthorityCodeException if the specified {@code code} was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
-     *
+     * @throws FactoryException             if the object creation failed for some other reason.
      * @since 2.2
      */
     public CoordinateOperation createCoordinateOperation(final String code)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+            throws NoSuchAuthorityCodeException, FactoryException {
         final IdentifiedObject operation = createObject(code);
         try {
             return (CoordinateOperation) operation;
@@ -839,17 +792,16 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
      * will invoke this method. If this method invoked the coordinate operation factory in turn, the
      * application could be trapped in infinite recursive calls.
      *
-     * @param  sourceCRS   Coded value of source coordinate reference system.
-     * @param  targetCRS   Coded value of target coordinate reference system.
+     * @param sourceCRS Coded value of source coordinate reference system.
+     * @param targetCRS Coded value of target coordinate reference system.
      * @return The operations from {@code sourceCRS} to {@code targetCRS}.
      * @throws NoSuchAuthorityCodeException if a specified code was not found.
-     * @throws FactoryException if the object creation failed for some other reason.
-     *
+     * @throws FactoryException             if the object creation failed for some other reason.
      * @since 2.2
      */
-    public Set<CoordinateOperation> createFromCoordinateReferenceSystemCodes(String sourceCRS, String targetCRS)
-            throws NoSuchAuthorityCodeException, FactoryException
-    {
+    public Set<CoordinateOperation> createFromCoordinateReferenceSystemCodes(String sourceCRS, 
+                                                                             String targetCRS)
+            throws NoSuchAuthorityCodeException, FactoryException {
         return Collections.emptySet();
     }
 
@@ -859,20 +811,18 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
      * for example from an object without identifier or "{@code AUTHORITY[...]}" element in
      * <cite>Well Known Text</cite> terminology.
      *
-     * @param  type The type of objects to look for. Should be a GeoAPI interface like
-     *         {@code GeographicCRS.class}, but this method accepts also implementation
-     *         class. If the type is unknown, use {@code IdentifiedObject.class}. A more
-     *         accurate type may help to speed up the search, since it reduces the amount
-     *         of tables to scan in some implementations like the factories backed by
-     *         EPSG database.
+     * @param type The type of objects to look for. Should be a GeoAPI interface like
+     *             {@code GeographicCRS.class}, but this method accepts also implementation
+     *             class. If the type is unknown, use {@code IdentifiedObject.class}. A more
+     *             accurate type may help to speed up the search, since it reduces the amount
+     *             of tables to scan in some implementations like the factories backed by
+     *             EPSG database.
      * @return A finder to use for looking up unidentified objects.
      * @throws FactoryException if the finder can not be created.
-     *
      * @since 2.4
      */
     public IdentifiedObjectFinder getIdentifiedObjectFinder(Class<? extends IdentifiedObject> type)
-            throws FactoryException
-    {
+            throws FactoryException {
         return new IdentifiedObjectFinder(this, type);
     }
 
@@ -892,17 +842,16 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
      * Creates an exception for an unknow authority code. This convenience method is provided
      * for implementation of {@code createXXX} methods.
      *
-     * @param  type  The GeoAPI interface that was to be created
-     *               (e.g. {@code CoordinateReferenceSystem.class}).
-     * @param  code  The unknow authority code.
-     * @param  cause The cause of this error, or {@code null}.
+     * @param type  The GeoAPI interface that was to be created
+     *              (e.g. {@code CoordinateReferenceSystem.class}).
+     * @param code  The unknow authority code.
+     * @param cause The cause of this error, or {@code null}.
      * @return An exception initialized with an error message built
-     *         from the specified informations.
+     * from the specified informations.
      */
-    private NoSuchAuthorityCodeException noSuchAuthorityCode(final Class              type,
-                                                             final String             code,
-                                                             final ClassCastException cause)
-    {
+    private NoSuchAuthorityCodeException noSuchAuthorityCode(final Class type,
+                                                             final String code,
+                                                             final ClassCastException cause) {
         final NoSuchAuthorityCodeException exception = noSuchAuthorityCode(type, code);
         exception.initCause(cause);
         return exception;
@@ -913,7 +862,7 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
      * factory and the specified code start with the "EPSG:" prefix, then the prefix is removed.
      * Otherwise, the string is returned unchanged (except for leading and trailing spaces).
      *
-     * @param  code The code to trim.
+     * @param code The code to trim.
      * @return The code without the authority scope.
      */
     protected String trimAuthority(String code) {
@@ -923,7 +872,7 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
          * method as well.
          */
         code = code.trim();
-        final GenericName name  = NameFactory.create(code);
+        final GenericName name = NameFactory.create(code);
         final GenericName scope = name.scope().name();
         if (scope == null) {
             return code;
@@ -938,17 +887,16 @@ public abstract class AbstractAuthorityFactory extends ReferencingFactory
      * Creates an exception for an unknow authority code. This convenience method is provided
      * for implementation of {@code createXXX} methods.
      *
-     * @param  type  The GeoAPI interface that was to be created
-     *               (e.g. {@code CoordinateReferenceSystem.class}).
-     * @param  code  The unknow authority code.
+     * @param type The GeoAPI interface that was to be created
+     *             (e.g. {@code CoordinateReferenceSystem.class}).
+     * @param code The unknow authority code.
      * @return An exception initialized with an error message built
-     *         from the specified informations.
+     * from the specified informations.
      */
-    protected final NoSuchAuthorityCodeException noSuchAuthorityCode(final Class  type,
-                                                                     final String code)
-    {
+    protected final NoSuchAuthorityCodeException noSuchAuthorityCode(final Class type,
+                                                                     final String code) {
         final InternationalString authority = getAuthority().getTitle();
         return new NoSuchAuthorityCodeException(Errors.format(ErrorKeys.NO_SUCH_AUTHORITY_CODE_$3,
-                   code, authority, type), authority.toString(), code);
+                code, authority, type), authority.toString(), code);
     }
 }

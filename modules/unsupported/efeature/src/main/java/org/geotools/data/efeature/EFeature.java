@@ -1,12 +1,13 @@
 /**
  * <copyright>
  * </copyright>
- *
+ * <p>
  * $Id$
  */
 package org.geotools.data.efeature;
 
 import com.vividsolutions.jts.geom.Geometry;
+
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
@@ -19,23 +20,22 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>EFeature</b></em>'. <!--
  * end-user-doc -->
- *
+ * <p>
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.geotools.data.efeature.EFeature#getID <em>ID</em>}</li>
- *   <li>{@link org.geotools.data.efeature.EFeature#getData <em>Data</em>}</li>
- *   <li>{@link org.geotools.data.efeature.EFeature#getSRID <em>SRID</em>}</li>
- *   <li>{@link org.geotools.data.efeature.EFeature#getDefault <em>Default</em>}</li>
- *   <li>{@link org.geotools.data.efeature.EFeature#getStructure <em>Structure</em>}</li>
+ * <li>{@link org.geotools.data.efeature.EFeature#getID <em>ID</em>}</li>
+ * <li>{@link org.geotools.data.efeature.EFeature#getData <em>Data</em>}</li>
+ * <li>{@link org.geotools.data.efeature.EFeature#getSRID <em>SRID</em>}</li>
+ * <li>{@link org.geotools.data.efeature.EFeature#getDefault <em>Default</em>}</li>
+ * <li>{@link org.geotools.data.efeature.EFeature#getStructure <em>Structure</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.geotools.data.efeature.EFeaturePackage#getEFeature()
  * @model abstract="true"
  * @generated
- *
  * @source $URL$
+ * @see org.geotools.data.efeature.EFeaturePackage#getEFeature()
  */
 public interface EFeature extends EObject {
     /**
@@ -47,21 +47,24 @@ public interface EFeature extends EObject {
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
+     *
      * @return the value of the '<em>ID</em>' attribute.
-     * @see #setID(String)
-     * @see org.geotools.data.efeature.EFeaturePackage#getEFeature_ID()
      * @model default="" id="true" required="true" volatile="true"
      * @generated
+     * @see #setID(String)
+     * @see org.geotools.data.efeature.EFeaturePackage#getEFeature_ID()
      */
     String getID();
 
     /**
-     * Sets the value of the '{@link org.geotools.data.efeature.EFeature#getID <em>ID</em>}' attribute.
+     * Sets the value of the '{@link org.geotools.data.efeature.EFeature#getID <em>ID</em>}' 
+     * attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @param value the new value of the '<em>ID</em>' attribute.
-     * @see #getID()
      * @generated
+     * @see #getID()
      */
     void setID(String value);
 
@@ -72,44 +75,47 @@ public interface EFeature extends EObject {
      * <p>
      * The spatial reference ID (SRID) is an Coordinate Reference System authority code. The code
      * has the following format:
-     * 
+     * <p>
      * <pre>
      * code 		= &lt;AUTHORITY&gt;:&lt;ID&gt;
      * AUTHORITY	= The CRS Authority. Is used to determine applicable CRS factories.
-     * ID		= The CRS ID. Is passed to the CRS factory chosen by the {@link CRS CRS utility class}.
-     * 	
+     * ID		= The CRS ID. Is passed to the CRS factory chosen by the 
+     * {@link CRS CRS utility class}.
+     *
      * f.ex: "EPSG:4326"
      * </pre>
-     * 
+     * <p>
      * <strong>NOTE</strong>: This is a convenience method for calling
      * <p>
      * <code>
-     * getStructure().setSRID(srid).	
+     * getStructure().setSRID(srid).
      * </code>
      * </p>
      * Hence, changing the SRID affects ALL {@link EFeature}s with the same {@link #getStructure()
      * structure}. All {@link Feature#getBounds() bounds} of all {@link #getData() feature}s is
      * invalidated when the SRID is changed, forcing a bound calculation the first time
      * {@link Feature#getBounds()} is called on every feature with same structure as this. </p>
-     * 
-     * @see {@link CRS#decode(String)} - Decodes SRID into {@link CoordinateReferenceSystem}
-     *      instance
-     * @see {@link CRS#decode(String, boolean)} - Decodes SRID to {@link CoordinateReferenceSystem}
-     *      instance where axis order is forced to (longitude, latitude). <!-- end-user-doc -->
+     *
      * @return the value of the '<em>SRID</em>' attribute.
-     * @see #setSRID(String)
-     * @see org.geotools.data.efeature.EFeaturePackage#getEFeature_SRID()
      * @model default="EPSG:4326" required="true" volatile="true"
      * @generated
+     * @see {@link CRS#decode(String)} - Decodes SRID into {@link CoordinateReferenceSystem}
+     * instance
+     * @see {@link CRS#decode(String, boolean)} - Decodes SRID to {@link CoordinateReferenceSystem}
+     * instance where axis order is forced to (longitude, latitude). <!-- end-user-doc -->
+     * @see #setSRID(String)
+     * @see org.geotools.data.efeature.EFeaturePackage#getEFeature_SRID()
      */
     String getSRID();
 
     /**
-     * Sets the value of the '{@link org.geotools.data.efeature.EFeature#getSRID <em>SRID</em>}' attribute.
+     * Sets the value of the '{@link org.geotools.data.efeature.EFeature#getSRID <em>SRID</em>}' 
+     * attribute.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @param value the new value of the '<em>SRID</em>' attribute.
-     * @see #getSRID()
      * @generated
+     * @see #getSRID()
      */
     void setSRID(String value);
 
@@ -121,20 +127,24 @@ public interface EFeature extends EObject {
      * description here...
      * </p>
      * <!-- end-user-doc -->
+     *
      * @return the value of the '<em>Data</em>' attribute.
+     * @model dataType="org.geotools.data.efeature.Feature" required="true" transient="true" 
+     * derived="true"
+     * @generated
      * @see #setData(Feature)
      * @see org.geotools.data.efeature.EFeaturePackage#getEFeature_Data()
-     * @model dataType="org.geotools.data.efeature.Feature" required="true" transient="true" derived="true"
-     * @generated
      */
     Feature getData();
 
     /**
-     * Sets the value of the '{@link org.geotools.data.efeature.EFeature#getData <em>Data</em>}' attribute.
+     * Sets the value of the '{@link org.geotools.data.efeature.EFeature#getData <em>Data</em>}' 
+     * attribute.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @param value the new value of the '<em>Data</em>' attribute.
-     * @see #getData()
      * @generated
+     * @see #getData()
      */
     void setData(Feature value);
 
@@ -147,21 +157,25 @@ public interface EFeature extends EObject {
      * of a description here...
      * </p>
      * <!-- end-user-doc -->
+     *
      * @return the value of the '<em>Default</em>' attribute.
+     * @model default="geom" required="true" volatile="true"
+     * annotation="http://www.eclipse.org/emf/2002/GenModel Doumentation='Name of default 
+     * EFeatureGeometry'"
+     * @generated
      * @see #setDefault(String)
      * @see org.geotools.data.efeature.EFeaturePackage#getEFeature_Default()
-     * @model default="geom" required="true" volatile="true"
-     *        annotation="http://www.eclipse.org/emf/2002/GenModel Doumentation='Name of default EFeatureGeometry'"
-     * @generated
      */
     String getDefault();
 
     /**
-     * Sets the value of the '{@link org.geotools.data.efeature.EFeature#getDefault <em>Default</em>}' attribute.
+     * Sets the value of the 
+     * '{@link org.geotools.data.efeature.EFeature#getDefault <em>Default</em>}' attribute.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @param value the new value of the '<em>Default</em>' attribute.
-     * @see #getDefault()
      * @generated
+     * @see #getDefault()
      */
     void setDefault(String value);
 
@@ -173,21 +187,25 @@ public interface EFeature extends EObject {
      * of a description here...
      * </p>
      * <!-- end-user-doc -->
+     *
      * @return the value of the '<em>Structure</em>' attribute.
+     * @model dataType="org.geotools.data.efeature.EFeatureInfo" required="true" transient="true"
+     * volatile="true" derived="true"
+     * @generated
      * @see #setStructure(EFeatureInfo)
      * @see org.geotools.data.efeature.EFeaturePackage#getEFeature_Structure()
-     * @model dataType="org.geotools.data.efeature.EFeatureInfo" required="true" transient="true" volatile="true" derived="true"
-     * @generated
      */
     EFeatureInfo getStructure();
 
     /**
-     * Sets the value of the '{@link org.geotools.data.efeature.EFeature#getStructure <em>Structure</em>}' attribute.
+     * Sets the value of the 
+     * '{@link org.geotools.data.efeature.EFeature#getStructure <em>Structure</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @param value the new value of the '<em>Structure</em>' attribute.
-     * @see #getStructure()
      * @generated
+     * @see #getStructure()
      */
     void setStructure(EFeatureInfo value);
 
@@ -195,11 +213,13 @@ public interface EFeature extends EObject {
      * <!-- begin-user-doc --> Get all {@link EFeatureAttribute attributes} not containing
      * {@link Geometry geometry data}.
      * <p>
-     * 
+     *
      * @param valueType - attribute {@link EFeatureAttribute#getValueType() value type} filter.
-     *        Passing {@link Object} will return all {@link EFeatureAttribute attributes}. <!--
-     *        end-user-doc -->
-     * @model dataType="org.geotools.data.efeature.List<org.geotools.data.efeature.EFeatureAttribute<V>>" required="true" many="false"
+     *                  Passing {@link Object} will return all 
+     *                  {@link EFeatureAttribute attributes}. <!--
+     *                  end-user-doc -->
+     * @model dataType="org.geotools.data.efeature.List<org.geotools.data.efeature
+     * .EFeatureAttribute<V>>" required="true" many="false"
      * @generated
      */
     <V> List<EFeatureAttribute<V>> getAttributeList(Class<V> valueType);
@@ -207,11 +227,14 @@ public interface EFeature extends EObject {
     /**
      * <!-- begin-user-doc --> Get all {@link EFeatureGeometry geometry attributes}.
      * <p>
-     * 
+     *
      * @param valueType - geometry {@link EFeatureGeometry#getValueType() value type} filter.
-     *        Passing {@link Geometry} will return all {@link EFeatureGeometry geometry attributes}.
-     *        <!-- end-user-doc -->
-     * @model dataType="org.geotools.data.efeature.List<org.geotools.data.efeature.EFeatureGeometry<V>>" required="true" many="false" VBounds="org.geotools.data.efeature.Geometry"
+     *                  Passing {@link Geometry} will return all 
+     *                  {@link EFeatureGeometry geometry attributes}.
+     *                  <!-- end-user-doc -->
+     * @model dataType="org.geotools.data.efeature.List<org.geotools.data.efeature
+     * .EFeatureGeometry<V>>" required="true" many="false" VBounds="org.geotools.data.efeature
+     * .Geometry"
      * @generated
      */
     <V extends Geometry> List<EFeatureGeometry<V>> getGeometryList(Class<V> valueType);
@@ -219,7 +242,9 @@ public interface EFeature extends EObject {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @model dataType="org.geotools.data.efeature.Feature" required="true" transactionDataType="org.geotools.data.efeature.Transaction" transactionRequired="true"
+     *
+     * @model dataType="org.geotools.data.efeature.Feature" required="true" 
+     * transactionDataType="org.geotools.data.efeature.Transaction" transactionRequired="true"
      * @generated
      */
     Feature getData(Transaction transaction);
@@ -227,7 +252,10 @@ public interface EFeature extends EObject {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @model dataType="org.geotools.data.efeature.Feature" required="true" newDataDataType="org.geotools.data.efeature.Feature" newDataRequired="true" transactionDataType="org.geotools.data.efeature.Transaction" transactionRequired="true"
+     *
+     * @model dataType="org.geotools.data.efeature.Feature" required="true" newDataDataType="org
+     * .geotools.data.efeature.Feature" newDataRequired="true" transactionDataType="org.geotools
+     * .data.efeature.Transaction" transactionRequired="true"
      * @generated
      */
     Feature setData(Feature newData, Transaction transaction);

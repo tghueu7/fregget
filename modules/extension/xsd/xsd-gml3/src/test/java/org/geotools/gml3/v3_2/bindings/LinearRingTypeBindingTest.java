@@ -28,8 +28,6 @@ import com.vividsolutions.jts.geom.LinearRing;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class LinearRingTypeBindingTest extends GML32TestSupport {
@@ -58,13 +56,13 @@ public class LinearRingTypeBindingTest extends GML32TestSupport {
 //        assertEquals(new Coordinate(5d, 6d), line.getPointN(2).getCoordinate());
 //        assertEquals(new Coordinate(1d, 2d), line.getPointN(3).getCoordinate());
 //    }
-    
+
     public void testEncode() throws Exception {
         Document d = encode(GML3MockData.linearRing(), GML.LinearRing);
-        
+
         assertEquals("gml:LinearRing", d.getDocumentElement().getNodeName());
         assertXpathExists("/gml:LinearRing/gml:posList", d);
-        
+
         // print(d);
     }
 }

@@ -36,7 +36,7 @@ import static org.geotools.util.Utilities.stream;
  * The category registry holds multiple instances per category. Categories are {@link Class classes}
  * and instances are also accessible by the class they implement. Note that instances have to
  * implement/extend the category they are filed under.
- *
+ * <p>
  * This class is not thread-safe and {@code null}-intolerant (throws an
  * {@link IllegalArgumentException} if an argument is {@code null}).
  */
@@ -44,7 +44,7 @@ class CategoryRegistry {
 
     /**
      * Heterogeneous map, where `Class<T>` is mapped to `InstanceRegistry<T>` for any `T`.
-     *
+     * <p>
      * Code depends on this map never being mutated to avoid concurrent modification exceptions.
      */
     private final Map<Class<?>, InstanceRegistry<?>> categories;
@@ -55,11 +55,11 @@ class CategoryRegistry {
      * are lost.
      *
      * @param factoryRegistry The {@link FactoryRegistry} this registry belongs to.
-     * @param categories The categories to register; must not be {@code null} but can contain
-     *        {@code null}.
+     * @param categories      The categories to register; must not be {@code null} but can contain
+     *                        {@code null}.
      */
     public CategoryRegistry(final FactoryRegistry factoryRegistry,
-            final Iterable<Class<?>> categories) {
+                            final Iterable<Class<?>> categories) {
         ensureArgumentNonNull("factoryRegistry", factoryRegistry);
         ensureArgumentNonNull("categories", categories);
         // use an unmodifiable map to guarantee immutability
@@ -67,9 +67,10 @@ class CategoryRegistry {
                 .collect(
                         collectingAndThen(
                                 toMap(category -> category,
-                                      category -> new InstanceRegistry<>(factoryRegistry,category),
-                                      (firstRegistry, secondRegistry) -> secondRegistry),
-                                      Collections::unmodifiableMap));
+                                        category -> new InstanceRegistry<>(factoryRegistry, 
+                                                category),
+                                        (firstRegistry, secondRegistry) -> secondRegistry),
+                                Collections::unmodifiableMap));
     }
 
     /**
@@ -152,8 +153,8 @@ class CategoryRegistry {
         ensureArgumentNonNull("category", category);
         @SuppressWarnings("unchecked")
         // during construction, we registered `InstanceRegistry<T>` for `Class<T>`, so this cast is
-        // save
-        InstanceRegistry<T> registry = (InstanceRegistry<T>) categories.get(category);
+                // save
+                InstanceRegistry<T> registry = (InstanceRegistry<T>) categories.get(category);
         if (registry == null) {
             throw new IllegalArgumentException("The category '" + category + "' is not registered");
         }
@@ -172,7 +173,7 @@ class CategoryRegistry {
      *
      * @param category The category for which instances are.
      * @param useOrder whether to return instances in topological order as specified by
-     *        {@link #setOrder}
+     *                 {@link #setOrder}
      * @return The instances registered for the specified category.
      */
     public <T> Stream<T> streamInstances(final Class<T> category, final boolean useOrder) {
@@ -228,7 +229,7 @@ class CategoryRegistry {
 
     /**
      * Registry tracking instances of a single category.
-     * 
+     *
      * @param <T> category
      */
     private static class InstanceRegistry<T> {
@@ -236,15 +237,16 @@ class CategoryRegistry {
          * The logger for all events related to factory registry.
          */
         protected static final Logger LOGGER = Logging.getLogger("org.geotools.factory");
-        
+
         private static Class<?> REGISTERABLE_SERVICE = null;
+
         static {
             try {
                 REGISTERABLE_SERVICE = Class.forName("javax.imageio.spi.RegisterableService");
-            }
-            catch (ClassNotFoundException ignore) {
+            } catch (ClassNotFoundException ignore) {
             }
         }
+
         private final FactoryRegistry factoryRegistry;
 
         private final Class<?> category;
@@ -258,7 +260,9 @@ class CategoryRegistry {
             this.category = category;
         }
 
-        /** @return {@code true} if this the first instance of its class. */
+        /**
+         * @return {@code true} if this the first instance of its class.
+         */
         public boolean register(final T instance) {
             ensureArgumentNonNull("instance", instance);
             boolean deregistered = deregisterByType(instance);
@@ -271,8 +275,9 @@ class CategoryRegistry {
             if (instance instanceof RegistrableFactory) {
                 ((RegistrableFactory) instance).onRegistration(factoryRegistry, category);
             }
-            if( REGISTERABLE_SERVICE !=  null && REGISTERABLE_SERVICE.isInstance(instance)) {
-                LOGGER.warning("Migrate instances from RegisterableService to RegistrableFactory: "+instance);
+            if (REGISTERABLE_SERVICE != null && REGISTERABLE_SERVICE.isInstance(instance)) {
+                LOGGER.warning("Migrate instances from RegisterableService to RegistrableFactory:" +
+                        " " + instance);
             }
         }
 
@@ -281,7 +286,9 @@ class CategoryRegistry {
             orderedInstances.add(instance);
         }
 
-        /** @return {true} if an instance of the same type was previously registered */
+        /**
+         * @return {true} if an instance of the same type was previously registered
+         */
         public boolean deregister(final T instance) {
             ensureArgumentNonNull("instance", instance);
             if (instancesByType.containsKey(instance.getClass())) {
@@ -292,7 +299,9 @@ class CategoryRegistry {
             }
         }
 
-        /** @return {true} if an instance of the same type was previously registered */
+        /**
+         * @return {true} if an instance of the same type was previously registered
+         */
         private boolean deregisterByType(final T instance) {
             T removed = instancesByType.remove(instance.getClass());
             boolean instanceWasRemoved = removed != null;
@@ -336,7 +345,9 @@ class CategoryRegistry {
             return Optional.ofNullable(instance);
         }
 
-        /** @see CategoryRegistry#setOrder(Class, Object, Object) */
+        /**
+         * @see CategoryRegistry#setOrder(Class, Object, Object)
+         */
         public boolean setOrder(T firstInstance, T secondInstance) {
             return instancesByType.containsKey(firstInstance.getClass())
                     && instancesByType.containsKey(secondInstance.getClass())
@@ -344,7 +355,9 @@ class CategoryRegistry {
                     && orderedInstances.setOrder(firstInstance, secondInstance);
         }
 
-        /** @see CategoryRegistry#clearOrder(Class, Object, Object) */
+        /**
+         * @see CategoryRegistry#clearOrder(Class, Object, Object)
+         */
         public boolean clearOrder(T firstInstance, T secondInstance) {
             ensureArgumentNonNull("firstInstance", firstInstance);
             ensureArgumentNonNull("secondInstance", secondInstance);

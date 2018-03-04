@@ -34,11 +34,9 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 /**
  * Tests the creation of a grid coverage using floating point value.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
  */
 public final class FloatRasterTest extends GridCoverageTestBase {
     /**
@@ -51,13 +49,13 @@ public final class FloatRasterTest extends GridCoverageTestBase {
          * is pretty similar to the code we would have if we were just setting the values in
          * a matrix.
          */
-        final int width  = 500;
+        final int width = 500;
         final int height = 500;
         WritableRaster raster =
                 RasterFactory.createBandedRaster(DataBuffer.TYPE_FLOAT, width, height, 1, null);
-        for (int y=0; y<height; y++) {
-            for (int x=0; x<width; x++) {
-                raster.setSample(x, y, 0, x+y);
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                raster.setSample(x, y, 0, x + y);
             }
         }
         /*
@@ -79,9 +77,9 @@ public final class FloatRasterTest extends GridCoverageTestBase {
          * arguments to null (as in this example) lets GridCoverage computes automatically a
          * default value.
          */
-        Color[] colors = new Color[] {Color.BLUE, Color.CYAN, Color.WHITE, Color.YELLOW, Color.RED};
+        Color[] colors = new Color[]{Color.BLUE, Color.CYAN, Color.WHITE, Color.YELLOW, Color.RED};
         gc = factory.create("My colored coverage", raster, envelope,
-                            null, null, null, new Color[][] {colors}, null);
+                null, null, null, new Color[][]{colors}, null);
         if (SHOW) {
             ((GridCoverage2D) gc).show();
         }
@@ -92,12 +90,12 @@ public final class FloatRasterTest extends GridCoverageTestBase {
      */
     @Test
     public void testMatrix() {
-        final int width  = 500;
+        final int width = 500;
         final int height = 500;
         final float[][] matrix = new float[height][width];
-        for (int y=0; y<height; y++) {
-            for (int x=0; x<width; x++) {
-                matrix[y][x] = x+y;
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                matrix[y][x] = x + y;
             }
         }
         CoordinateReferenceSystem crs = DefaultGeographicCRS.WGS84;

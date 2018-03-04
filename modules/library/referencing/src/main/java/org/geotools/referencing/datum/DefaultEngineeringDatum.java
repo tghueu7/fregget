@@ -34,12 +34,10 @@ import org.geotools.resources.i18n.VocabularyKeys;
  * defined point at a construction site), or be a defined point on a moving vehicle (such as on a
  * ship or satellite).
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class DefaultEngineeringDatum extends AbstractDatum implements EngineeringDatum {
     /**
@@ -53,12 +51,11 @@ public class DefaultEngineeringDatum extends AbstractDatum implements Engineerin
      *
      * @see org.geotools.referencing.crs.DefaultEngineeringCRS#CARTESIAN_2D
      * @see org.geotools.referencing.crs.DefaultEngineeringCRS#CARTESIAN_3D
-     * 
      * @deprecated Use UKNONWN instead
      */
     public static final DefaultEngineeringDatum UNKNOW =
             new DefaultEngineeringDatum(name(VocabularyKeys.UNKNOW));
-    
+
     /**
      * An engineering datum for unknown coordinate reference system. Such CRS are usually
      * assumed cartesian, but will not have any transformation path to other CRS.
@@ -97,16 +94,17 @@ public class DefaultEngineeringDatum extends AbstractDatum implements Engineerin
      *
      * @param properties Set of properties. Should contains at least {@code "name"}.
      */
-    public DefaultEngineeringDatum(final Map<String,?> properties) {
+    public DefaultEngineeringDatum(final Map<String, ?> properties) {
         super(properties);
     }
 
     /**
      * Compare this datum with the specified object for equality.
      *
-     * @param  object The object to compare to {@code this}.
-     * @param  compareMetadata {@code true} for performing a strict comparaison, or
-     *         {@code false} for comparing only properties relevant to transformations.
+     * @param object          The object to compare to {@code this}.
+     * @param compareMetadata {@code true} for performing a strict comparaison, or
+     *                        {@code false} for comparing only properties relevant to 
+     *                                    transformations.
      * @return {@code true} if both objects are equal.
      */
     @Override
@@ -119,10 +117,11 @@ public class DefaultEngineeringDatum extends AbstractDatum implements Engineerin
 
     /**
      * Format the inner part of a
-     * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
+     * <A HREF="http://geoapi.sourceforge
+     * .net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
      * Known Text</cite> (WKT)</A> element.
      *
-     * @param  formatter The formatter to use.
+     * @param formatter The formatter to use.
      * @return The WKT element name, which is "LOCAL_DATUM"
      */
     @Override

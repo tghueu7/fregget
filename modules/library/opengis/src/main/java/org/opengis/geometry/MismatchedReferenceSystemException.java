@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry;
@@ -16,10 +16,8 @@ package org.opengis.geometry;
  * geometric components.
  *
  * @author Martin Desruisseaux (IRD)
- * @since GeoAPI 2.0
- *
- *
  * @source $URL$
+ * @since GeoAPI 2.0
  */
 public class MismatchedReferenceSystemException extends IllegalArgumentException {
     /**
@@ -37,8 +35,8 @@ public class MismatchedReferenceSystemException extends IllegalArgumentException
     /**
      * Creates an exception with the specified message.
      *
-     * @param  message The detail message. The detail message is saved for
-     *         later retrieval by the {@link #getMessage()} method.
+     * @param message The detail message. The detail message is saved for
+     *                later retrieval by the {@link #getMessage()} method.
      */
     public MismatchedReferenceSystemException(final String message) {
         super(message);
@@ -47,9 +45,9 @@ public class MismatchedReferenceSystemException extends IllegalArgumentException
     /**
      * Creates an exception with the specified message and cause.
      *
-     * @param  message The detail message. The detail message is saved for
-     *         later retrieval by the {@link #getMessage()} method.
-     * @param  cause The cause.
+     * @param message The detail message. The detail message is saved for
+     *                later retrieval by the {@link #getMessage()} method.
+     * @param cause   The cause.
      */
     public MismatchedReferenceSystemException(final String message, final Throwable cause) {
         super(message, cause);

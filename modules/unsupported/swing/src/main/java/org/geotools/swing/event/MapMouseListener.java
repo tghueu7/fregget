@@ -21,15 +21,12 @@ package org.geotools.swing.event;
  * Interface for classes that listen to MapMouseEvents
  *
  * @author Michael Bedward
- * @since 2.6
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.6
  */
 public interface MapMouseListener {
-    
+
     /**
      * Respond to a mouse click event received from the map pane
      *

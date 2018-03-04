@@ -3,7 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -36,14 +36,14 @@ import com.vividsolutions.jts.io.WKTReader;
 
 /**
  * Test the functionality of the {@link SDO} utility class.
- * 
+ *
+ * @author Jody Garnett (LISAsoft)
+ * <p>
+ * TODO To change the template for this generated type comment go to Window - Preferences - Java 
+ * - Code Style - Code Templates
+ * @source $URL$
  * @see GeometryFixture
  * @see SDOTestSetup
- * @author Jody Garnett (LISAsoft)
- * 
- *         TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code Templates
- * 
- * @source $URL$
  */
 public class SDOOnlineTest extends JDBCTestSupport {
     GeometryFixture fixture;
@@ -54,12 +54,13 @@ public class SDOOnlineTest extends JDBCTestSupport {
     protected JDBCTestSetup createTestSetup() {
         return new OracleTestSetup();
     }
+
     // called from setup
     public void connect() throws Exception {
         super.connect();
         fixture = new GeometryFixture();
         this.connection = setup.getDataSource().getConnection();
-        
+
         UnWrapper unwrapper = DataSourceFinder.getUnWrapper(this.connection);
         OracleConnection oraConn = (OracleConnection) unwrapper.unwrap(this.connection);
         converter = new GeometryConverter(oraConn);
@@ -181,7 +182,7 @@ public class SDOOnlineTest extends JDBCTestSupport {
      * Two triplets
      * <ul>
      * <li>(1,1003,1): exterior polygon ring starting at 1</li>
-     * 
+     * <p>
      * <li>(19,2003,1): interior polygon ring starting at 19</li>
      * </ul>
      * </li>
@@ -189,7 +190,7 @@ public class SDOOnlineTest extends JDBCTestSupport {
      *        (2,4, 4,3, 10,3, 13,5, 13,9, 11,13, 5,13, 2,11, 2,4,
      *         7,5, 7,10, 10,10, 10,5, 7,5)
      *     </code>
-     * 
+     * <p>
      * <pre/></li>
      * </ul>
      * <p>
@@ -218,13 +219,14 @@ public class SDOOnlineTest extends JDBCTestSupport {
         assertNull(SDO.point(g));
 
         int elemInfo[] = SDO.elemInfo(g);
-        assertEquals("elemInfo", new int[] { 1, 1003, 1, // polygon
-                19, 2003, 1 }, // hole
+        assertEquals("elemInfo", new int[]{1, 1003, 1, // polygon
+                        19, 2003, 1}, // hole
                 elemInfo);
 
         double ords[] = SDO.ordinates(g);
-        double expt[] = new double[] { 2, 4, 4, 3, 10, 3, 13, 5, 13, 9, 11, 13, 5, 13, 2, 11, 2, 4, // ring
-                7, 5, 7, 10, 10, 10, 10, 5, 7, 5 }; // hole
+        double expt[] = new double[]{2, 4, 4, 3, 10, 3, 13, 5, 13, 9, 11, 13, 5, 13, 2, 11, 2, 4,
+                // ring
+                7, 5, 7, 10, 10, 10, 10, 5, 7, 5}; // hole
         assertEquals("ords", expt, ords);
         Geometry geom = (Geometry) converter.asGeometry(datum);
 
@@ -307,17 +309,20 @@ public class SDOOnlineTest extends JDBCTestSupport {
         assertTrue(geom.isValid());
         assertEquals(fixture.geometryCollection, geom);
     }
-    
+
     final public void testGeometryCollection2() throws Exception {
-        if(this.connection == null)
+        if (this.connection == null)
             return;
-        
-        String wkt = "GEOMETRYCOLLECTION (LINESTRING (679572.8376 5151850.0275, 679583.1288 5151850.8366, "
-                + "679615.3222 5151853.3675, 679611.828 5151902.3184, 679611.846517919 5151904.66336728, "
+
+        String wkt = "GEOMETRYCOLLECTION (LINESTRING (679572.8376 5151850.0275, 679583.1288 " +
+                "5151850.8366, "
+                + "679615.3222 5151853.3675, 679611.828 5151902.3184, 679611.846517919 " +
+                "5151904.66336728, "
                 + "679611.995 5151923.466, 679602.995 5151920.386, 679582.765 5151918.536, "
                 + "679577.8433 5151918.0814, 679567.425 5151917.796), "
-                + "LINESTRING (679569.221815255 5151900.91179101, 679611.846517919 5151904.66336728), "
-                + "POINT (679611.982873552 5151904.66229049))"; 
+                + "LINESTRING (679569.221815255 5151900.91179101, 679611.846517919 " +
+                "5151904.66336728), "
+                + "POINT (679611.982873552 5151904.66229049))";
         Geometry original = new WKTReader().read(wkt);
         original.setSRID(25832);
         STRUCT datum = converter.toSDO(original);
@@ -325,12 +330,12 @@ public class SDOOnlineTest extends JDBCTestSupport {
         assertEquals(25832, geom.getSRID());
         assertEquals(original, geom);
     }
-    
+
     final public void testGeometryCollection3() throws Exception {
-        if(this.connection == null)
+        if (this.connection == null)
             return;
-        
-        String wkt = "GEOMETRYCOLLECTION (POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0)), POINT (5 5))"; 
+
+        String wkt = "GEOMETRYCOLLECTION (POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0)), POINT (5 5))";
         Geometry original = new WKTReader().read(wkt);
         original.setSRID(4326);
         STRUCT datum = converter.toSDO(original);
@@ -338,12 +343,13 @@ public class SDOOnlineTest extends JDBCTestSupport {
         assertEquals(4326, geom.getSRID());
         assertEquals(original, geom);
     }
-    
+
     final public void testGeometryCollectionMultipoint() throws Exception {
-        if(this.connection == null)
+        if (this.connection == null)
             return;
-        
-        String wkt = "GEOMETRYCOLLECTION (POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0)), MULTIPOINT ((5 5), (10 10)))"; 
+
+        String wkt = "GEOMETRYCOLLECTION (POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0)), MULTIPOINT ((5" +
+                " 5), (10 10)))";
         Geometry original = new WKTReader().read(wkt);
         original.setSRID(4326);
         STRUCT datum = converter.toSDO(original);
@@ -396,5 +402,5 @@ public class SDOOnlineTest extends JDBCTestSupport {
             assertEquals(message + ":" + i, expected[i], actual[i], 0.0);
         }
     }
-    
+
 }

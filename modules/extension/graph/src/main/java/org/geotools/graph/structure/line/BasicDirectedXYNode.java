@@ -23,28 +23,24 @@ import com.vividsolutions.jts.geom.Coordinate;
 /**
  * Basic implementation of a directed XYNode extended from BasicDirectedNode.
  * The coordinate is stored in the underlying object reference of the node.
- * 
- * @see org.geotools.graph.structure.basic.BasicDirectedNode
- * 
+ *
  * @author Justin Deoliveira, Refractions Research Inc, jdeolive@refractions.net
- * 
- *
- *
  * @source $URL$
+ * @see org.geotools.graph.structure.basic.BasicDirectedNode
  */
 public class BasicDirectedXYNode extends BasicDirectedNode implements XYNode {
 
-  /**
-   * @see XYNode#getCoordinate()
-   */
-  public Coordinate getCoordinate() {
-    return((Coordinate)getObject());
-  }
+    /**
+     * @see XYNode#getCoordinate()
+     */
+    public Coordinate getCoordinate() {
+        return ((Coordinate) getObject());
+    }
 
-  /**
-   * @see XYNode#setCoordinate(Coordinate)
-   */
-  public void setCoordinate(Coordinate c) {
-    setObject(c);    
-  }
+    /**
+     * @see XYNode#setCoordinate(Coordinate)
+     */
+    public void setCoordinate(Coordinate c) {
+        setObject(c);
+    }
 }

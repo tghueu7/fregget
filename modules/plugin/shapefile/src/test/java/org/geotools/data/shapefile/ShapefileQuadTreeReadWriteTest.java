@@ -49,15 +49,13 @@ import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
 
 /**
- * 
- * 
- * @source $URL$
- * @version $Id$
  * @author Ian Schneider
+ * @version $Id$
+ * @source $URL$
  */
 public class ShapefileQuadTreeReadWriteTest extends TestCaseSupport {
-    final String[] files = { "shapes/statepop.shp", "shapes/polygontest.shp",
-            "shapes/pointtest.shp", "shapes/holeTouchEdge.shp", "shapes/streams.shp" };
+    final String[] files = {"shapes/statepop.shp", "shapes/polygontest.shp",
+            "shapes/pointtest.shp", "shapes/holeTouchEdge.shp", "shapes/streams.shp"};
 
     boolean readStarted = false;
 
@@ -117,7 +115,8 @@ public class ShapefileQuadTreeReadWriteTest extends TestCaseSupport {
     }
 
     private void doubleWrite(SimpleFeatureType type, SimpleFeatureCollection one, File tmp,
-            ShapefileDataStoreFactory maker, boolean memorymapped) throws IOException,
+                             ShapefileDataStoreFactory maker, boolean memorymapped) throws 
+            IOException,
             MalformedURLException {
         DataStore s;
         s = createDataStore(maker, tmp.toURI().toURL(), memorymapped);
@@ -150,7 +149,7 @@ public class ShapefileQuadTreeReadWriteTest extends TestCaseSupport {
     }
 
     private void test(SimpleFeatureType type, SimpleFeatureCollection one, File tmp,
-            ShapefileDataStoreFactory maker, boolean memorymapped) throws IOException,
+                      ShapefileDataStoreFactory maker, boolean memorymapped) throws IOException,
             MalformedURLException, Exception {
         DataStore s;
         String typeName;
@@ -216,7 +215,7 @@ public class ShapefileQuadTreeReadWriteTest extends TestCaseSupport {
 
     /**
      * Test optimized getBounds(). Testing when filter is a bbox filter and a fidfilter
-     * 
+     *
      * @throws Exception
      */
     @Test

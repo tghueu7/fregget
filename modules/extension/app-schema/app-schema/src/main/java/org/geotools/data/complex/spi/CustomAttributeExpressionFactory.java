@@ -26,6 +26,7 @@ import org.opengis.filter.expression.Expression;
  */
 public interface CustomAttributeExpressionFactory {
 
-    Expression createNestedAttributeExpression(FeatureTypeMapping mappings, XPathUtil.StepList xpath,
+    Expression createNestedAttributeExpression(FeatureTypeMapping mappings, XPathUtil.StepList 
+            xpath,
                                                NestedAttributeMapping nestedMapping);
 }

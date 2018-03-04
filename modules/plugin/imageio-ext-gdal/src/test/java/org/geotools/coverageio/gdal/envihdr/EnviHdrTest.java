@@ -52,8 +52,6 @@ import org.opengis.referencing.NoSuchAuthorityCodeException;
 /**
  * @author Mathew Wyatt, CSIRO Australia
  * @author Daniele Romagnoli, GeoSolutions SAS
- *
- *
  * @source $URL$
  */
 public class EnviHdrTest extends GDALTestCase {
@@ -63,7 +61,7 @@ public class EnviHdrTest extends GDALTestCase {
      */
     private final static String fileName = "envihdr.dat";
 
-     /**
+    /**
      * Creates a new instance of {@code EnviHdrTest}
      *
      * @param name
@@ -81,7 +79,7 @@ public class EnviHdrTest extends GDALTestCase {
         File file = null;
         try {
             file = TestData.file(this, fileName);
-        }catch (FileNotFoundException fnfe){
+        } catch (FileNotFoundException fnfe) {
             LOGGER.warning("test-data not found: " + fileName + "\nTests are skipped");
             return;
         } catch (IOException ioe) {
@@ -110,7 +108,7 @@ public class EnviHdrTest extends GDALTestCase {
         // /////////////////////////////////////////////////////////////////////
         GridCoverage2D gc = (GridCoverage2D) reader.read(null);
         forceDataLoading(gc);
-        
+
         // /////////////////////////////////////////////////////////////////////
         //
         // read again with subsampling and crop
@@ -119,16 +117,16 @@ public class EnviHdrTest extends GDALTestCase {
         final double cropFactor = 2.0;
         final int oldW = gc.getRenderedImage().getWidth();
         final int oldH = gc.getRenderedImage().getHeight();
-        final Rectangle range =((GridEnvelope2D)reader.getOriginalGridRange());
+        final Rectangle range = ((GridEnvelope2D) reader.getOriginalGridRange());
         final GeneralEnvelope oldEnvelope = reader.getOriginalEnvelope();
-        final GeneralEnvelope cropEnvelope = new GeneralEnvelope(new double[] {
+        final GeneralEnvelope cropEnvelope = new GeneralEnvelope(new double[]{
                 oldEnvelope.getLowerCorner().getOrdinate(0)
                         + (oldEnvelope.getSpan(0) / cropFactor),
 
                 oldEnvelope.getLowerCorner().getOrdinate(1)
-                        + (oldEnvelope.getSpan(1) / cropFactor) },
-                new double[] { oldEnvelope.getUpperCorner().getOrdinate(0),
-                        oldEnvelope.getUpperCorner().getOrdinate(1) });
+                        + (oldEnvelope.getSpan(1) / cropFactor)},
+                new double[]{oldEnvelope.getUpperCorner().getOrdinate(0),
+                        oldEnvelope.getUpperCorner().getOrdinate(1)});
         cropEnvelope.setCoordinateReferenceSystem(reader.getCrs());
 
         final ParameterValue gg = (ParameterValue) ((AbstractGridFormat) reader
@@ -136,7 +134,7 @@ public class EnviHdrTest extends GDALTestCase {
         gg.setValue(new GridGeometry2D(new GridEnvelope2D(new Rectangle(0, 0,
                 (int) (range.width / 4.0 / cropFactor),
                 (int) (range.height / 4.0 / cropFactor))), cropEnvelope));
-        gc = (GridCoverage2D) reader.read(new GeneralParameterValue[] { gg });
+        gc = (GridCoverage2D) reader.read(new GeneralParameterValue[]{gg});
         Assert.assertNotNull(gc);
         // NOTE: in some cases might be too restrictive
         Assert.assertTrue(cropEnvelope.equals(gc.getEnvelope(), XAffineTransform
@@ -172,7 +170,7 @@ public class EnviHdrTest extends GDALTestCase {
         Assert.assertTrue("EnviHdrFormatFactory not available", fac.isAvailable());
         Assert.assertNotNull(new EnviHdrFormatFactory().createFormat());
     }
-    
+
     @Test
     public void testDimensionNames() throws Exception {
         if (!testingEnabled()) {
@@ -210,7 +208,7 @@ public class EnviHdrTest extends GDALTestCase {
         // /////////////////////////////////////////////////////////////////////
         GridCoverage2D gc = (GridCoverage2D) reader.read(null);
         forceDataLoading(gc);
-        
+
         GridSampleDimension[] sampleDimensions = gc.getSampleDimensions();
         Assert.assertEquals(9, sampleDimensions.length);
         for (int i = 0; i < sampleDimensions.length; i++) {
@@ -218,5 +216,5 @@ public class EnviHdrTest extends GDALTestCase {
         }
     }
 
-    
+
 }

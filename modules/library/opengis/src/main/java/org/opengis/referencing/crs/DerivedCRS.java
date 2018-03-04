@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.referencing.crs;
 
 import org.opengis.annotation.UML;
+
 import static org.opengis.annotation.Specification.*;
 
 
@@ -19,18 +20,16 @@ import static org.opengis.annotation.Specification.*;
  * category includes coordinate reference systems derived from a {@linkplain ProjectedCRS
  * projected coordinate reference system}.
  *
- * @departure
- *   ISO 19111 defines a {@code DerivedCRSType} code list. The later is omitted in GeoAPI since
- *   Java expressions like {@code (baseCRS instanceof FooCRS)} provides the same capability
- *   with more flexibility.
- *
- *
- *
+ * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract 
+ * specification 2.0</A>
+ * @departure ISO 19111 defines a {@code DerivedCRSType} code list. The later is omitted in 
+ * GeoAPI since
+ * Java expressions like {@code (baseCRS instanceof FooCRS)} provides the same capability
+ * with more flexibility.
  * @source $URL$
- * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract specification 2.0</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
+ * @since GeoAPI 1.0
  */
-@UML(identifier="SC_DerivedCRS", specification=ISO_19111)
+@UML(identifier = "SC_DerivedCRS", specification = ISO_19111)
 public interface DerivedCRS extends GeneralDerivedCRS {
 }

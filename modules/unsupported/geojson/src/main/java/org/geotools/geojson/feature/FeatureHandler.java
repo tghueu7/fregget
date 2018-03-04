@@ -35,8 +35,6 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class FeatureHandler extends DelegatingHandler<SimpleFeature> {
@@ -63,7 +61,7 @@ public class FeatureHandler extends DelegatingHandler<SimpleFeature> {
 
     private String baseId = "feature";
 
-    /** 
+    /**
      * should we attempt to automatically build fids
      */
     private boolean autoFID = false;
@@ -96,7 +94,8 @@ public class FeatureHandler extends DelegatingHandler<SimpleFeature> {
         } else if ("crs".equals(key) && properties == null /* it's top level, not a property */) {
             delegate = new CRSHandler();
             return true;
-        } else if ("geometry".equals(key) && properties == null /* it's top level, not a property */) {
+        } else if ("geometry".equals(key) && properties == null /* it's top level, not a property
+         */) {
             delegate = new GeometryHandler(new GeometryFactory());
             return true;
         } else if ("properties".equals(key) && delegate == NULL) {
@@ -312,7 +311,7 @@ public class FeatureHandler extends DelegatingHandler<SimpleFeature> {
             index = f.indexOf('-');
             if (index >= 0) {
                 separator = "-";
-            }else {
+            } else {
                 autoFID = false;
                 id = f;
                 return;

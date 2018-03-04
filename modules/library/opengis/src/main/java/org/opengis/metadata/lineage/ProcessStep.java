@@ -4,13 +4,14 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.metadata.lineage;
 
 import java.util.Collection;
 import java.util.Date;
+
 import org.opengis.util.InternationalString;
 import org.opengis.metadata.citation.ResponsibleParty;
 import org.opengis.annotation.UML;
@@ -22,21 +23,19 @@ import static org.opengis.annotation.Specification.*;
 /**
  * Description of the event, including related parameters or tolerances.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 2.0
+ * @source $URL$
+ * @since GeoAPI 2.0
  */
-@UML(identifier="LI_ProcessStep", specification=ISO_19115)
+@UML(identifier = "LI_ProcessStep", specification = ISO_19115)
 public interface ProcessStep {
     /**
      * Description of the event, including related parameters or tolerances.
      *
      * @return Description of the event.
      */
-    @UML(identifier="description", obligation=MANDATORY, specification=ISO_19115)
+    @UML(identifier = "description", obligation = MANDATORY, specification = ISO_19115)
     InternationalString getDescription();
 
     /**
@@ -44,7 +43,7 @@ public interface ProcessStep {
      *
      * @return Requirement or purpose for the process step, or {@code null}.
      */
-    @UML(identifier="rationale", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "rationale", obligation = OPTIONAL, specification = ISO_19115)
     InternationalString getRationale();
 
     /**
@@ -52,7 +51,7 @@ public interface ProcessStep {
      *
      * @return Date on or over which the process step occurred, or {@code null}.
      */
-    @UML(identifier="dateTime", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "dateTime", obligation = OPTIONAL, specification = ISO_19115)
     Date getDate();
 
     /**
@@ -60,9 +59,9 @@ public interface ProcessStep {
      * organization(s) associated with the process step.
      *
      * @return Means of communication with person(s) and organization(s) associated
-     *         with the process step.
+     * with the process step.
      */
-    @UML(identifier="processor", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "processor", obligation = OPTIONAL, specification = ISO_19115)
     Collection<? extends ResponsibleParty> getProcessors();
 
     /**
@@ -70,6 +69,6 @@ public interface ProcessStep {
      *
      * @return Information about the source data used in creating the data.
      */
-    @UML(identifier="source", obligation=OPTIONAL, specification=ISO_19115)
+    @UML(identifier = "source", obligation = OPTIONAL, specification = ISO_19115)
     Collection<? extends Source> getSources();
 }

@@ -17,15 +17,16 @@
 package org.geotools.ml.bindings;
 
 import javax.xml.namespace.QName;
+
 import org.geotools.xml.AbstractSimpleBinding;
 import org.geotools.xml.InstanceComponent;
 
 
 /**
  * Strategy object for the type http://mails/refractions/net:mimeTopLevelType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:simpleType name="mimeTopLevelType"&gt;
  *      &lt;xsd:restriction base="xsd:string"&gt;
@@ -44,9 +45,6 @@ import org.geotools.xml.InstanceComponent;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class MLMimeTopLevelTypeBinding extends AbstractSimpleBinding {
@@ -68,7 +66,7 @@ public class MLMimeTopLevelTypeBinding extends AbstractSimpleBinding {
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
+            throws Exception {
         //shouldn't have to do anything special here
         return value;
     }

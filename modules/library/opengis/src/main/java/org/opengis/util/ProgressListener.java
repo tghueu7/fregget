@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.util;
@@ -38,12 +38,10 @@ import org.opengis.annotation.Extension;
  * listener.complete();
  * </pre></blockquote>
  *
- * @since  GeoAPI 2.1
  * @author Martin Desruisseaux
  * @author Jody Garnet
- *
- *
  * @source $URL$
+ * @since GeoAPI 2.1
  */
 @Extension
 public interface ProgressListener {
@@ -60,7 +58,6 @@ public interface ProgressListener {
      * Description for the lengthly operation to be reported, or {@code null} if none.
      *
      * @return The task description.
-     *
      * @deprecated Replaced by getTask().toString()
      */
     @Deprecated
@@ -73,9 +70,8 @@ public interface ProgressListener {
      * percentage accomplished.
      *
      * @param task Description of the task being performed, or {@code null} if none.
-     *
      * @todo Replace the argument type by {@link CharSequence} so the user can specify
-     *       an {@link InternationalString} or a {@link String} at his choice.
+     * an {@link InternationalString} or a {@link String} at his choice.
      */
     void setTask(InternationalString task);
 
@@ -86,7 +82,6 @@ public interface ProgressListener {
      * any change to the percentage accomplished.
      *
      * @param description The new description, or {@code null} if none.
-     *
      * @deprecated Replaced by setTask
      */
     @Deprecated
@@ -102,7 +97,6 @@ public interface ProgressListener {
      * as a value between 0 and 100 inclusive. Values out of bounds will be clamped.
      *
      * @param percent The progress as a value between 0 and 100 inclusive.
-     *
      * @todo Should be renamed setProgress(float) for consistency with getProgress().
      */
     void progress(float percent);
@@ -111,7 +105,6 @@ public interface ProgressListener {
      * Returns the current progress as a percent completed.
      *
      * @return Percent completed between 0 and 100 inclusive.
-     *
      * @since GeoAPI 2.2
      */
     float getProgress();
@@ -140,7 +133,6 @@ public interface ProgressListener {
      * Indicates that task should be cancelled.
      *
      * @param cancel {@code true} for cancelling the task.
-     *
      * @todo Should be a {@code cancel()} method without arguments.
      */
     void setCanceled(boolean cancel);
@@ -150,15 +142,14 @@ public interface ProgressListener {
      * to the {@linkplain System#err standard error stream}, appears in a windows or be ignored,
      * at implementor choice.
      *
-     * @param source
-     *          Name of the warning source, or {@code null} if none. This is typically the
-     *          filename in process of being parsed or the URL of the data being processed
-     * @param location
-     *          Text to write on the left side of the warning message, or {@code null} if none.
-     *          This is typically the line number where the error occured in the {@code source}
-     *          file or the feature ID of the feature that produced the message
-     * @param warning
-     *          The warning message.
+     * @param source   Name of the warning source, or {@code null} if none. This is typically the
+     *                 filename in process of being parsed or the URL of the data being processed
+     * @param location Text to write on the left side of the warning message, or {@code null} if 
+     *                 none.
+     *                 This is typically the line number where the error occured in the {@code 
+     *                 source}
+     *                 file or the feature ID of the feature that produced the message
+     * @param warning  The warning message.
      */
     void warningOccurred(String source, String location, String warning);
 

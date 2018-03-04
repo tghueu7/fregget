@@ -9,14 +9,15 @@ import org.geotools.feature.FeatureIterator;
 import org.opengis.feature.Feature;
 
 /**
- * A closeable iterator wrapped around a provided feature iterator. 
- * 
+ * A closeable iterator wrapped around a provided feature iterator.
+ *
+ * @author Jody Garnett (LISAsoft)
  * @see DataUtilities#iterator(FeatureIterator)
  * @see DataUtilities#close(Iterator)
- * @author Jody Garnett (LISAsoft)
  */
 public class BridgeIterator<F extends Feature> implements Iterator<F>, Closeable {
     FeatureIterator<F> delegate;
+
     public BridgeIterator(FeatureIterator<F> features) {
         this.delegate = features;
     }

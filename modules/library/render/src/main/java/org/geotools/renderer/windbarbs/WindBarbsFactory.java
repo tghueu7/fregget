@@ -34,10 +34,12 @@ import org.opengis.feature.Feature;
 import org.opengis.filter.expression.Expression;
 
 /**
- * Factory to produce WindBarbs. Urls for wind barbs are in the form: windbarbs://default(speed_value)[units_of_measure]
- * 
- * TODO: We may consider adding a FLAG to say whether the arrows are toward wind (meteo convention) or against wind (ocean convention)
- * 
+ * Factory to produce WindBarbs. Urls for wind barbs are in the form: windbarbs://default
+ * (speed_value)[units_of_measure]
+ * <p>
+ * TODO: We may consider adding a FLAG to say whether the arrows are toward wind (meteo 
+ * convention) or against wind (ocean convention)
+ *
  * @author Daniele Romagnoli, GeoSolutions SAS
  */
 public class WindBarbsFactory implements MarkFactory {
@@ -46,14 +48,20 @@ public class WindBarbsFactory implements MarkFactory {
 
     private static final int NUMBER_OF_ITEMS_IN_CACHE = MAX_SPEED / 5;
 
-    /** WINDBARB_DEFINITION */
+    /**
+     * WINDBARB_DEFINITION
+     */
     private static final String WINDBARB_DEFINITION = "windbarbs://.*\\(.{1,}\\)\\[.{1,5}\\]\\??.*";
 
-    /** SOUTHERN_EMISPHERE_FLIP */
+    /**
+     * SOUTHERN_EMISPHERE_FLIP
+     */
     public static final AffineTransform SOUTHERN_EMISPHERE_FLIP = new AffineTransform2D(
             AffineTransform.getScaleInstance(-1, 1));
 
-    /** The loggermodule. */
+    /**
+     * The loggermodule.
+     */
     private static final Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger(WindBarbsFactory.class);
 
@@ -61,23 +69,28 @@ public class WindBarbsFactory implements MarkFactory {
 
     private static final String DEFAULT_NAME = "default";
 
-    private static Pattern SPEED_PATTERN = Pattern.compile("(.*?)\\((.{1,})\\)(.*)");// Pattern.compile("(.*?)(\\d+\\.?\\d*)(.*)");
+    private static Pattern SPEED_PATTERN = Pattern.compile("(.*?)\\((.{1,})\\)(.*)");// Pattern
+    // .compile("(.*?)(\\d+\\.?\\d*)(.*)");
 
     private static Pattern WINDBARB_SET_PATTERN = Pattern.compile("(.*?)://(.*)\\((.*)");
 
     private static Pattern UNIT_PATTERN = Pattern.compile("(.*?)\\[(.*)\\](.*)");
 
     private static final SoftValueHashMap<WindBarbDefinition, Map<Integer, Shape>> CACHE;
+
     static {
-        CACHE = new SoftValueHashMap<WindBarb.WindBarbDefinition, Map<Integer, Shape>>(1);// make room for the default definition
-        CACHE.put(WindBarb.DEFAULT_WINDBARB_DEFINITION, createWindBarbs(WindBarb.DEFAULT_WINDBARB_DEFINITION));
+        CACHE = new SoftValueHashMap<WindBarb.WindBarbDefinition, Map<Integer, Shape>>(1);// make
+        // room for the default definition
+        CACHE.put(WindBarb.DEFAULT_WINDBARB_DEFINITION, createWindBarbs(WindBarb
+                .DEFAULT_WINDBARB_DEFINITION));
     }
 
     /**
      * Return a shape with the given url.
-     * 
-     * @see org.geotools.renderer.style.MarkFactory#getShape(java.awt.Graphics2D, org.opengis.filter.expression.Expression,
-     *      org.opengis.feature.Feature)
+     *
+     * @see org.geotools.renderer.style.MarkFactory#getShape(java.awt.Graphics2D, org.opengis
+     * .filter.expression.Expression,
+     * org.opengis.feature.Feature)
      */
     public Shape getShape(Graphics2D graphics, Expression symbolUrl, Feature feature) {
 
@@ -255,8 +268,9 @@ public class WindBarbsFactory implements MarkFactory {
 
     private static Map<Integer, Shape> createWindBarbs(WindBarbDefinition definition) {
         final Map<Integer, Shape> windBarbsMapping = new HashMap<Integer, Shape>();
-        for (int i = 0; i <= NUMBER_OF_ITEMS_IN_CACHE; i++) { 
-            windBarbsMapping.put(i, new WindBarb(definition, i * 5).build()); // pass over the knots definition
+        for (int i = 0; i <= NUMBER_OF_ITEMS_IN_CACHE; i++) {
+            windBarbsMapping.put(i, new WindBarb(definition, i * 5).build()); // pass over the 
+            // knots definition
         }
 
         // no module x----- symbol
@@ -272,7 +286,7 @@ public class WindBarbsFactory implements MarkFactory {
      * @return
      */
     private Shape getWindBarb(String windBarbName, double speed, String units,
-            Map<String, String> params) {
+                              Map<String, String> params) {
         // speed
         try {
             double knots = SpeedConverter.toKnots(speed, units);
@@ -289,7 +303,7 @@ public class WindBarbsFactory implements MarkFactory {
 
     /**
      * Get the proper WindBarb related to the referred speed
-     * 
+     *
      * @param speed
      * @param units
      * @return
@@ -299,7 +313,7 @@ public class WindBarbsFactory implements MarkFactory {
     }
 
     private Shape getWindBarbForKnots(final String windBarbName, final double knots,
-            Map<String, String> params) {
+                                      Map<String, String> params) {
         // No module is signaled by NaN
         // checking the barbs using our own limits
         int index = -1;// no wind module is -1
@@ -339,7 +353,8 @@ public class WindBarbsFactory implements MarkFactory {
                 // flip shape on Y axis
                 return SOUTHERN_EMISPHERE_FLIP.createTransformedShape(shp);
             }
-            if (params.containsKey("hemisphere") && params.get("hemisphere").equalsIgnoreCase("s")) {
+            if (params.containsKey("hemisphere") && params.get("hemisphere").equalsIgnoreCase
+                    ("s")) {
                 // flip shape on Y axis
                 return SOUTHERN_EMISPHERE_FLIP.createTransformedShape(shp);
             }

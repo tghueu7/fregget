@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2012, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -25,12 +25,14 @@ import org.geotools.xml.XSD;
 /**
  * This interface contains the qualified names of all the types,elements, and attributes in the
  * http://www.opengis.net/WCS_service-extension_interpolation/1.0 schema.
- * 
+ *
  * @generated
  */
 public final class Interpolation extends XSD {
 
-    /** singleton instance */
+    /**
+     * singleton instance
+     */
     private static final Interpolation instance = new Interpolation();
 
     /**
@@ -64,7 +66,8 @@ public final class Interpolation extends XSD {
         return getClass().getResource("int/v1_0/int.xsd").toString();
     }
 
-    public static final String NAMESPACE = "http://www.opengis.net/WCS_service-extension_interpolation/1.0";
+    public static final String NAMESPACE = "http://www.opengis" +
+            ".net/WCS_service-extension_interpolation/1.0";
 
     public static final QName InterpolationType = new QName(NAMESPACE, "InterpolationType");
 

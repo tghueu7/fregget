@@ -50,30 +50,28 @@ import org.geotools.util.logging.Logging;
  * other data. The static {@linkplain #createDefaultStatusBar} method can be
  * used for the most common configuration.
  *
- * @see StatusBarItem
- *
  * @author Michael Bedward
- * @since 8.0
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @see StatusBarItem
+ * @since 8.0
  */
 public class JMapStatusBar extends JPanel {
     private static final Logger LOGGER = Logging.getLogger("org.geotools.swing");
-    
-    private static final String CONFIGURE_TOOL_TIP = 
+
+    private static final String CONFIGURE_TOOL_TIP =
             LocaleUtils.getValue("StatusBar", "ConfigureTooltip");
-    
+
     private static final String SET_DECIMALS_STRING =
             LocaleUtils.getValue("StatusBar", "ConfigureSetNumDecimals");
-    
+
     private static final String DECIMAL_DIALOG_TITLE =
             LocaleUtils.getValue("StatusBar", "ConfigureDecimalDialogTitle");
 
     private static final String DECIMAL_DIALOG_LABEL =
             LocaleUtils.getValue("StatusBar", "ConfigureDecimalDialogLabel");
 
-    
+
     private static final int INSET = 0;
 
     // Package-private constants for use by StatusBarItem classes
@@ -93,9 +91,9 @@ public class JMapStatusBar extends JPanel {
         boolean showing;
 
         public ItemInfo(StatusBarItem item,
-                boolean configurable,
-                int componentIndex,
-                boolean showing) {
+                        boolean configurable,
+                        int componentIndex,
+                        boolean showing) {
 
             this.item = item;
             this.configurable = configurable;
@@ -110,7 +108,7 @@ public class JMapStatusBar extends JPanel {
     /**
      * Creates a new status bar, with the default set of items, linked to
      * the given map pane. This method can be called safely from any thread.
-     * 
+     * <p>
      * The default items are:
      * <ul>
      * <li>cursor coordinate item</li>
@@ -120,9 +118,7 @@ public class JMapStatusBar extends JPanel {
      * </ul>
      *
      * @param mapPane the map pane linked to the status bar
-     * 
      * @return a new status bar
-     *
      * @throws IllegalArgumentException if {@code mapPane} is {@code null}
      */
     public static JMapStatusBar createDefaultStatusBar(final MapPane mapPane) {
@@ -151,18 +147,16 @@ public class JMapStatusBar extends JPanel {
      * Helper method for {@linkplain #createDefaultStatusBar}.
      *
      * @param mapPane the map pane linked to the new status bar
-     *
      * @return a new status bar
-     *
      * @throws IllegalArgumentException if {@code mapPane} is {@code null}
      */
     private static JMapStatusBar doCreateDefaultStatusBar(MapPane mapPane) {
         JMapStatusBar statusBar = new JMapStatusBar();
 
-        statusBar.addItem( new JRendererStatusBarItem(mapPane), false, true );
-        statusBar.addItem( new JCoordsStatusBarItem(mapPane) );
-        statusBar.addItem( new JExtentStatusBarItem(mapPane) );
-        statusBar.addItem( new JCRSStatusBarItem(mapPane) );
+        statusBar.addItem(new JRendererStatusBarItem(mapPane), false, true);
+        statusBar.addItem(new JCoordsStatusBarItem(mapPane));
+        statusBar.addItem(new JExtentStatusBarItem(mapPane));
+        statusBar.addItem(new JCRSStatusBarItem(mapPane));
 
         return statusBar;
     }
@@ -190,7 +184,7 @@ public class JMapStatusBar extends JPanel {
             }
         };
 
-        StatusBarItem item = new JMenuStatusBarItem("", icon, 
+        StatusBarItem item = new JMenuStatusBarItem("", icon,
                 CONFIGURE_TOOL_TIP, menuProvider);
         addItem(item, false, true);
     }
@@ -213,15 +207,14 @@ public class JMapStatusBar extends JPanel {
      * the status bar it will not added again and the method will return
      * {@code false}.
      *
-     * @param item the item to add
+     * @param item         the item to add
      * @param configurable whether the item should appear in the status bar
-     *     configuration menu
-     * @param showing whether the item should be shown initially
-     *
+     *                     configuration menu
+     * @param showing      whether the item should be shown initially
      * @return {@code true} if the item was added
      */
-    public boolean addItem(StatusBarItem item, boolean configurable, 
-            boolean showing) {
+    public boolean addItem(StatusBarItem item, boolean configurable,
+                           boolean showing) {
 
         if (findItem(item) < 0) {
             ItemInfo info = new ItemInfo(item, configurable, getComponentCount(), showing);
@@ -242,9 +235,9 @@ public class JMapStatusBar extends JPanel {
             configMenu = null;
 
             return true;
-            
+
         } else {
-            LOGGER.log(Level.WARNING, 
+            LOGGER.log(Level.WARNING,
                     "Item label:{0} id:{1} is already in the status bar",
                     new Object[]{item.getName(), item.getID()});
             return false;
@@ -375,7 +368,7 @@ public class JMapStatusBar extends JPanel {
             JPanel panel = new JPanel(new MigLayout());
 
             panel.add(new JLabel(DECIMAL_DIALOG_LABEL), "gap related");
-            
+
             digitsFld = new JIntegerField(numDigits, false);
             panel.add(digitsFld, "w 40!");
 

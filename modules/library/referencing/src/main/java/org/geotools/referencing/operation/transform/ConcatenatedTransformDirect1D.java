@@ -24,14 +24,13 @@ import org.opengis.referencing.operation.NoninvertibleTransformException;
 /**
  * Concatenated transform where both transforms are one-dimensional.
  *
- * @since 2.0
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.0
  */
 final class ConcatenatedTransformDirect1D extends ConcatenatedTransformDirect
-                                       implements MathTransform1D
-{
+        implements MathTransform1D {
     /**
      * Serial number for interoperability with different versions.
      */
@@ -55,8 +54,7 @@ final class ConcatenatedTransformDirect1D extends ConcatenatedTransformDirect
      * Constructs a concatenated transform.
      */
     public ConcatenatedTransformDirect1D(final MathTransform1D transform1,
-                                         final MathTransform1D transform2)
-    {
+                                         final MathTransform1D transform2) {
         super(transform1, transform2);
         this.transform1 = transform1;
         this.transform2 = transform2;
@@ -67,7 +65,7 @@ final class ConcatenatedTransformDirect1D extends ConcatenatedTransformDirect
      */
     @Override
     boolean isValid() {
-        return super.isValid() && getSourceDimensions()==1 && getTargetDimensions()==1;
+        return super.isValid() && getSourceDimensions() == 1 && getTargetDimensions() == 1;
     }
 
     /**

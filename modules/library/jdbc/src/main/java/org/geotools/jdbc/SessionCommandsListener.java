@@ -31,7 +31,7 @@ import org.opengis.filter.expression.Expression;
  * A {@link ConnectionLifecycleListener} that executes custom SQL commands on connection grab and
  * release. The SQL commands can contain environment variable references, where the enviroment
  * variable reference contains a name and an eventual default value.
- * 
+ * <p>
  * Parsing rules are:
  * <ul>
  * <li>whatever is between <code>${</code> and <code>}</code> is considered a enviroment variable
@@ -42,22 +42,22 @@ import org.opengis.filter.expression.Expression;
  * <code>\\</code>)
  * <li>a enviroment variable name cannot contain a comma, which is used as the separator between the
  * enviroemnt variable name and its default value (first comma acts as a separator)</li>
- * <li>the default value is always interpreted as a string and expanded as such in the sql commands</li>
+ * <li>the default value is always interpreted as a string and expanded as such in the sql 
+ * commands</li>
  * </ul>
- * 
+ * <p>
  * Examples of valid expressions:
  * <ul>
  * <li>"one two three \} \$ \\" (simple literal with special chars escaped)</li>
  * <li>"My name is ${name}" (a simple enviroment variable reference without a default value)</li>
  * <li>"My name is ${name,Joe}" (a simple enviroment variable reference with a default value)</li>
  * </ul>
- * 
+ * <p>
  * Examples of non valid expressions:
  * <ul>
  * <li>"bla ${myAttName" (unclosed expression section)</li>
  * <li>"bla } bla" (<code>}</code> is reserved, should have been escaped)</li>
- * 
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 public class SessionCommandsListener implements ConnectionLifecycleListener {
@@ -116,15 +116,15 @@ public class SessionCommandsListener implements ConnectionLifecycleListener {
      * to only have enviroment variable references instead of CQL to avoid creating a dependendcy
      * cascading issue (ExpressionExtractor would have to be moved to gt-cql and gt-jdbc made
      * to depend on it.
-     * 
+     *
      * @param sql
      * @return
      */
     Expression expandEviromentVariables(String sql) {
-        if(sql == null || "".equals(sql)) {
+        if (sql == null || "".equals(sql)) {
             return null;
         }
-        
+
         boolean inEnvVariable = false;
         List<Expression> expressions = new ArrayList<Expression>();
         StringBuilder sb = new StringBuilder();
@@ -176,17 +176,17 @@ public class SessionCommandsListener implements ConnectionLifecycleListener {
                 String name = sb.toString();
                 String defaultValue = null;
                 int idx = name.indexOf(',');
-                if(idx >= 0) {
-                    if(idx == 0) {
+                if (idx >= 0) {
+                    if (idx == 0) {
                         throw new IllegalArgumentException("There is no variable name before " +
-                        		"the comma, the valid format is '${name,defaultValue}'");
-                    } else if(idx < name.length() - 1) {
+                                "the comma, the valid format is '${name,defaultValue}'");
+                    } else if (idx < name.length() - 1) {
                         defaultValue = name.substring(idx + 1);
                         name = name.substring(0, idx);
-                    } 
+                    }
                 }
                 Expression env;
-                if(defaultValue != null) {
+                if (defaultValue != null) {
                     env = ff.function("env", ff.literal(name), ff.literal(defaultValue));
                 } else {
                     env = ff.function("env", ff.literal(name));

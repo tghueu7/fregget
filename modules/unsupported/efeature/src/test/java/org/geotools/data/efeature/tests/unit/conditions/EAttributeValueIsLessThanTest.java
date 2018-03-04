@@ -22,21 +22,19 @@ import org.geotools.data.efeature.query.EFeatureEncoderException;
 
 /**
  * @author kengu - 14. juni 2011
- *
- *
  * @source $URL$
  */
 public class EAttributeValueIsLessThanTest extends AbstractEAttributeValueTest {
-    
+
     // ----------------------------------------------------- 
     //  Constructors
     // -----------------------------------------------------
-    
+
     /**
      * @param name
      */
     public EAttributeValueIsLessThanTest(String name) {
-        super(name,LESS_THAN);
+        super(name, LESS_THAN);
     }
 
     // ----------------------------------------------------- 

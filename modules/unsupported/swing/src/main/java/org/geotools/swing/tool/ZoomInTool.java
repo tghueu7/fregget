@@ -34,43 +34,53 @@ import org.geotools.swing.event.MapMouseEvent;
 /**
  * A cursor tool to zoom in the map pane display.
  * <p>
- * For mouse clicks, the display will be zoomed-in such that the 
+ * For mouse clicks, the display will be zoomed-in such that the
  * map centre is the position of the mouse click and the map
  * width and height are calculated as:
  * <pre>   {@code len = len.old / z} </pre>
  * where {@code z} is the linear zoom increment (>= 1.0)
- * <p>
+ *
  * The tool also responds to the user drawing a box on the map mapPane with
  * mouse click-and-drag to define the zoomed-in area.
- * 
+ *
  * @author Michael Bedward
- * @since 2.6
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.6
  */
 public class ZoomInTool extends AbstractZoomTool {
-    
-    /** Tool name */
+
+    /**
+     * Tool name
+     */
     public static final String TOOL_NAME = LocaleUtils.getValue("CursorTool", "ZoomIn");
-    
-    /** Tool tip text */
+
+    /**
+     * Tool tip text
+     */
     public static final String TOOL_TIP = LocaleUtils.getValue("CursorTool", "ZoomInTooltip");
-    
-    /** Cursor */
+
+    /**
+     * Cursor
+     */
     public static final String CURSOR_IMAGE = "/org/geotools/swing/icons/mActionZoomIn.png";
-    
-    /** Cursor hotspot coordinates */
+
+    /**
+     * Cursor hotspot coordinates
+     */
     public static final Point CURSOR_HOTSPOT = new Point(14, 9);
-    
-    /** Icon for the control */
+
+    /**
+     * Icon for the control
+     */
     public static final String ICON_IMAGE = "/org/geotools/swing/icons/mActionZoomIn.png";
-    
+
     private Cursor cursor;
-    
+
     private final Point startPosDevice;
     private final Point2D startPosWorld;
     private boolean dragged;
-    
+
     /**
      * Constructor
      */
@@ -78,17 +88,17 @@ public class ZoomInTool extends AbstractZoomTool {
         Toolkit tk = Toolkit.getDefaultToolkit();
         ImageIcon imgIcon = new ImageIcon(getClass().getResource(CURSOR_IMAGE));
         cursor = tk.createCustomCursor(imgIcon.getImage(), CURSOR_HOTSPOT, TOOL_NAME);
-        
+
         startPosDevice = new Point();
         startPosWorld = new DirectPosition2D();
         dragged = false;
     }
-    
+
     /**
      * Zoom in by the currently set increment, with the map
      * centred at the location (in world coords) of the mouse
      * click
-     * 
+     *
      * @param e map mapPane mouse event
      */
     @Override
@@ -102,12 +112,12 @@ public class ZoomInTool extends AbstractZoomTool {
         DirectPosition2D corner = new DirectPosition2D(
                 mapPos.getX() - 0.5d * paneArea.getWidth() / newScale,
                 mapPos.getY() + 0.5d * paneArea.getHeight() / newScale);
-        
+
         Envelope2D newMapArea = new Envelope2D();
         newMapArea.setFrameFromCenter(mapPos, corner);
         getMapPane().setDisplayArea(newMapArea);
     }
-    
+
     /**
      * Records the map position of the mouse event in case this
      * button press is the beginning of a mouse drag
@@ -154,7 +164,7 @@ public class ZoomInTool extends AbstractZoomTool {
     public Cursor getCursor() {
         return cursor;
     }
-    
+
     /**
      * Returns true to indicate that this tool draws a box
      * on the map display when the mouse is being dragged to

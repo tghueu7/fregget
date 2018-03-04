@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -31,12 +31,13 @@ import org.geotools.util.AbstractInternationalString;
  * A localized string for a JAI's operation parameter.
  * This is used by {@link ImagingParameterDescriptors}.
  *
- * @since 2.2
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.2
  */
-final class ImagingParameterDescription extends AbstractInternationalString implements Serializable {
+final class ImagingParameterDescription extends AbstractInternationalString implements 
+        Serializable {
     /**
      * Serial number for interoperability with different versions.
      */
@@ -67,7 +68,7 @@ final class ImagingParameterDescription extends AbstractInternationalString impl
      * Creates a new international string from the specified operation and argument number.
      *
      * @param operation The operation to fetch localized resource from.
-     * @param arg The argument number.
+     * @param arg       The argument number.
      */
     public ImagingParameterDescription(final OperationDescriptor operation, final int arg) {
         this.operation = operation;
@@ -89,14 +90,13 @@ final class ImagingParameterDescription extends AbstractInternationalString impl
      * Creates a new international string from the specified operation and key.
      *
      * @param operation The operation to fetch localized resource from.
-     * @param key The key for the resource to fetch.
+     * @param key       The key for the resource to fetch.
      */
     public ImagingParameterDescription(final OperationDescriptor operation,
-                                       final String              key,
-                                       final String              prefixKey)
-    {
+                                       final String key,
+                                       final String prefixKey) {
         this.operation = operation;
-        this.key       = key;
+        this.key = key;
         this.prefixKey = prefixKey;
     }
 
@@ -115,7 +115,7 @@ final class ImagingParameterDescription extends AbstractInternationalString impl
     /**
      * Returns a string in the specified locale.
      *
-     * @param  locale The locale to look for, or {@code null} for the default locale.
+     * @param locale The locale to look for, or {@code null} for the default locale.
      * @return The string in the specified locale, or in a default locale.
      * @throws MissingResourceException is the key given to the constructor is invalid.
      */
@@ -144,7 +144,7 @@ final class ImagingParameterDescription extends AbstractInternationalString impl
             if (offset != 0) {
                 if (name.startsWith(prefix)) {
                     final int length = name.length();
-                    if (offset<length && name.charAt(offset)=='.') {
+                    if (offset < length && name.charAt(offset) == '.') {
                         name = name.substring(offset + 1);
                     }
                 }
@@ -158,11 +158,11 @@ final class ImagingParameterDescription extends AbstractInternationalString impl
      */
     @Override
     public boolean equals(final Object object) {
-        if (object!=null && object.getClass().equals(getClass())) {
+        if (object != null && object.getClass().equals(getClass())) {
             final ImagingParameterDescription that = (ImagingParameterDescription) object;
-            return Utilities.equals(this.key,       that.key)       &&
-                   Utilities.equals(this.prefixKey, that.prefixKey) &&
-                   Utilities.equals(this.operation, that.operation);
+            return Utilities.equals(this.key, that.key) &&
+                    Utilities.equals(this.prefixKey, that.prefixKey) &&
+                    Utilities.equals(this.operation, that.operation);
         }
         return false;
     }
@@ -172,6 +172,6 @@ final class ImagingParameterDescription extends AbstractInternationalString impl
      */
     @Override
     public int hashCode() {
-        return (int)serialVersionUID ^ key.hashCode() ^ operation.hashCode();
+        return (int) serialVersionUID ^ key.hashCode() ^ operation.hashCode();
     }
 }

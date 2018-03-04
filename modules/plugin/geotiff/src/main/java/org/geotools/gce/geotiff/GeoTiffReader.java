@@ -127,161 +127,182 @@ import it.geosolutions.imageioimpl.plugins.tiff.TiffDatasetLayoutImpl;
  * this class is responsible for exposing the data and the Georeferencing
  * metadata available to the Geotools library. This reader is heavily based on
  * the capabilities provided by the ImageIO tools and JAI libraries.
- * 
- * 
+ *
  * @author Bryce Nordgren, USDA Forest Service
  * @author Simone Giannecchini
  * @since 2.1
- *
  */
 public class GeoTiffReader extends AbstractGridCoverage2DReader implements GridCoverage2DReader {
 
-	/** Logger for the {@link GeoTiffReader} class. */
-	private Logger LOGGER = org.geotools.util.logging.Logging.getLogger(GeoTiffReader.class.toString());
-	
-	/** With this java switch I can control whether or not an external PRJ files takes precedence over the internal CRS definition*/
-	public static final String OVERRIDE_CRS_SWITCH = "org.geotools.gce.geotiff.override.crs";
-	
-	/** With this java switch I can control whether or not an external PRJ files takes precedence over the internal CRS definition*/
-	static boolean OVERRIDE_INNER_CRS=Boolean.valueOf(System.getProperty(GeoTiffReader.OVERRIDE_CRS_SWITCH, "True"));
+    /**
+     * Logger for the {@link GeoTiffReader} class.
+     */
+    private Logger LOGGER = org.geotools.util.logging.Logging.getLogger(GeoTiffReader.class
+            .toString());
 
-	/** SPI for creating tiff readers in ImageIO tools */
-	private final static TIFFImageReaderSpi READER_SPI = new TIFFImageReaderSpi();
+    /**
+     * With this java switch I can control whether or not an external PRJ files takes precedence 
+     * over the internal CRS definition
+     */
+    public static final String OVERRIDE_CRS_SWITCH = "org.geotools.gce.geotiff.override.crs";
 
-	/** Adapter for the GeoTiff crs. */
-	private GeoTiffMetadata2CRSAdapter gtcs;
-	
-	private double noData = Double.NaN;
+    /**
+     * With this java switch I can control whether or not an external PRJ files takes precedence 
+     * over the internal CRS definition
+     */
+    static boolean OVERRIDE_INNER_CRS = Boolean.valueOf(System.getProperty(GeoTiffReader
+            .OVERRIDE_CRS_SWITCH, "True"));
 
-        /** File containing image overviews */
-        private File ovrSource;
+    /**
+     * SPI for creating tiff readers in ImageIO tools
+     */
+    private final static TIFFImageReaderSpi READER_SPI = new TIFFImageReaderSpi();
 
-        /** {@link ImageInputStreamSpi} for the file containing external overviews */
-        private ImageInputStreamSpi ovrInStreamSPI = null;
+    /**
+     * Adapter for the GeoTiff crs.
+     */
+    private GeoTiffMetadata2CRSAdapter gtcs;
 
-        /** Image index of the overviews file */
-        private int extOvrImgChoice = -1;
+    private double noData = Double.NaN;
 
-        /** {@link MaskOverviewProvider} instance used for handling internal/external Overviews*/
-        private MaskOverviewProvider maskOvrProvider;
+    /**
+     * File containing image overviews
+     */
+    private File ovrSource;
 
-        /** Boolean indicating if {@link MaskOverviewProvider} is present*/
-        private boolean hasMaskOvrProvider;
+    /**
+     * {@link ImageInputStreamSpi} for the file containing external overviews
+     */
+    private ImageInputStreamSpi ovrInStreamSPI = null;
+
+    /**
+     * Image index of the overviews file
+     */
+    private int extOvrImgChoice = -1;
+
+    /**
+     * {@link MaskOverviewProvider} instance used for handling internal/external Overviews
+     */
+    private MaskOverviewProvider maskOvrProvider;
+
+    /**
+     * Boolean indicating if {@link MaskOverviewProvider} is present
+     */
+    private boolean hasMaskOvrProvider;
 
     /**
      * The ground control points, populated if there is no grid to world transformation
      */
     private GroundControlPoints gcps;
 
-	/**
-	 * Creates a new instance of GeoTiffReader
-	 * 
-	 * @param input
-	 *            the GeoTiff file
-	 * @throws DataSourceException
-	 */
-	public GeoTiffReader(Object input) throws DataSourceException {
-		this(input, new Hints(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER,Boolean.TRUE));
+    /**
+     * Creates a new instance of GeoTiffReader
+     *
+     * @param input the GeoTiff file
+     * @throws DataSourceException
+     */
+    public GeoTiffReader(Object input) throws DataSourceException {
+        this(input, new Hints(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER, Boolean.TRUE));
 
-	}
+    }
 
-	/**
-	 * Creates a new instance of GeoTiffReader
-	 * 
-	 * @param input
-	 *            the GeoTiff file
-	 * @param uHints
-	 *            user-supplied hints TODO currently are unused
-	 * @throws DataSourceException
-	 */
-	public GeoTiffReader(Object input, Hints uHints) throws DataSourceException {
-	    super(input,uHints);
-               
-		// /////////////////////////////////////////////////////////////////////
-		//
-		// Set the source being careful in case it is an URL pointing to a file
-		//
-		// /////////////////////////////////////////////////////////////////////
-		try {
-			
-			// setting source
-			if (input instanceof URL) {
-				final URL sourceURL = (URL) input;
-				source = URLs.urlToFile(sourceURL);
-			}
+    /**
+     * Creates a new instance of GeoTiffReader
+     *
+     * @param input  the GeoTiff file
+     * @param uHints user-supplied hints TODO currently are unused
+     * @throws DataSourceException
+     */
+    public GeoTiffReader(Object input, Hints uHints) throws DataSourceException {
+        super(input, uHints);
 
-			closeMe = true;
+        // /////////////////////////////////////////////////////////////////////
+        //
+        // Set the source being careful in case it is an URL pointing to a file
+        //
+        // /////////////////////////////////////////////////////////////////////
+        try {
 
-			// /////////////////////////////////////////////////////////////////////
-			//
-			// Get a stream in order to read from it for getting the basic
-			// information for this coverage
-			//
-			// /////////////////////////////////////////////////////////////////////
-			if ((source instanceof InputStream)|| (source instanceof ImageInputStream))
-				closeMe = false;
-			if(source instanceof ImageInputStream )
-				inStream = (ImageInputStream) source;
-			else{
+            // setting source
+            if (input instanceof URL) {
+                final URL sourceURL = (URL) input;
+                source = URLs.urlToFile(sourceURL);
+            }
 
-			    inStreamSPI = ImageIOExt.getImageInputStreamSPI(source);
-			    if (inStreamSPI == null)
-                                throw new IllegalArgumentException("No input stream for the provided source");
-			    inStream = inStreamSPI.createInputStreamInstance(source, ImageIO.getUseCache(), ImageIO.getCacheDirectory());
-			}
-			if (inStream == null) {
-                            // Try to figure out what went wrong and provide some info to the user.
-                            if(source instanceof File) {
-                                File f = (File) source;
-                                if (!f.exists()) {
-                                    throw new FileNotFoundException("File " + f.getAbsolutePath() + " does not exist.");
-                                } else if (f.isDirectory()) {
-                                    throw new IOException("File " + f.getAbsolutePath() + " is a directory.");
-                                } else if(!f.canRead()) {
-                                    throw new IOException("File " + f.getAbsolutePath() + " can not be read.");
-                                }
-                            }
+            closeMe = true;
 
-                            // If we can't give anything more specific, throw the generic error.
-                            throw new IllegalArgumentException("No input stream for the provided source");
-                        }
+            // /////////////////////////////////////////////////////////////////////
+            //
+            // Get a stream in order to read from it for getting the basic
+            // information for this coverage
+            //
+            // /////////////////////////////////////////////////////////////////////
+            if ((source instanceof InputStream) || (source instanceof ImageInputStream))
+                closeMe = false;
+            if (source instanceof ImageInputStream)
+                inStream = (ImageInputStream) source;
+            else {
 
-			// /////////////////////////////////////////////////////////////////////
-			//
-			// Informations about multiple levels and such
-			//
-			// /////////////////////////////////////////////////////////////////////
-			getHRInfo(this.hints);
+                inStreamSPI = ImageIOExt.getImageInputStreamSPI(source);
+                if (inStreamSPI == null)
+                    throw new IllegalArgumentException("No input stream for the provided source");
+                inStream = inStreamSPI.createInputStreamInstance(source, ImageIO.getUseCache(), 
+                        ImageIO.getCacheDirectory());
+            }
+            if (inStream == null) {
+                // Try to figure out what went wrong and provide some info to the user.
+                if (source instanceof File) {
+                    File f = (File) source;
+                    if (!f.exists()) {
+                        throw new FileNotFoundException("File " + f.getAbsolutePath() + " does " +
+                                "not exist.");
+                    } else if (f.isDirectory()) {
+                        throw new IOException("File " + f.getAbsolutePath() + " is a directory.");
+                    } else if (!f.canRead()) {
+                        throw new IOException("File " + f.getAbsolutePath() + " can not be read.");
+                    }
+                }
 
-			// /////////////////////////////////////////////////////////////////////
-			// 
-			// Coverage name
-			//
-			// /////////////////////////////////////////////////////////////////////
-			coverageName = source instanceof File ? ((File) source).getName(): "geotiff_coverage";
-			final int dotIndex = coverageName.lastIndexOf('.');
-			if (dotIndex != -1 && dotIndex != coverageName.length())
-				coverageName = coverageName.substring(0, dotIndex);
+                // If we can't give anything more specific, throw the generic error.
+                throw new IllegalArgumentException("No input stream for the provided source");
+            }
 
-		} catch (IOException e) {
-			throw new DataSourceException(e);
-		}finally{
-			// /////////////////////////////////////////////////////////////////////
-			// 
-			// Freeing streams
-			//
-			// /////////////////////////////////////////////////////////////////////
-			if (closeMe&&inStream!=null)// 
-				try{
-					inStream.close();
-				}catch (Throwable t) {
-				}
-		}
-	}
+            // /////////////////////////////////////////////////////////////////////
+            //
+            // Informations about multiple levels and such
+            //
+            // /////////////////////////////////////////////////////////////////////
+            getHRInfo(this.hints);
+
+            // /////////////////////////////////////////////////////////////////////
+            // 
+            // Coverage name
+            //
+            // /////////////////////////////////////////////////////////////////////
+            coverageName = source instanceof File ? ((File) source).getName() : "geotiff_coverage";
+            final int dotIndex = coverageName.lastIndexOf('.');
+            if (dotIndex != -1 && dotIndex != coverageName.length())
+                coverageName = coverageName.substring(0, dotIndex);
+
+        } catch (IOException e) {
+            throw new DataSourceException(e);
+        } finally {
+            // /////////////////////////////////////////////////////////////////////
+            // 
+            // Freeing streams
+            //
+            // /////////////////////////////////////////////////////////////////////
+            if (closeMe && inStream != null)// 
+                try {
+                    inStream.close();
+                } catch (Throwable t) {
+                }
+        }
+    }
 
     /**
      * Collect georeferencing information about this geotiff.
-     * 
+     *
      * @param hints
      * @throws DataSourceException
      */
@@ -307,7 +328,7 @@ public class GeoTiffReader extends AbstractGridCoverage2DReader implements GridC
             final IIOMetadata iioMetadata = reader.getImageMetadata(0);
             final GeoTiffIIOMetadataDecoder metadata = new GeoTiffIIOMetadataDecoder(iioMetadata);
             gtcs = new GeoTiffMetadata2CRSAdapter(hints);
-            
+
             // //
             //
             // get the CRS INFO
@@ -319,16 +340,17 @@ public class GeoTiffReader extends AbstractGridCoverage2DReader implements GridC
                 if (LOGGER.isLoggable(Level.FINE))
                     LOGGER.log(Level.FINE, "Using forced coordinate reference system");
             } else {
-            	
-            	// check external prj first
-            	crs = getCRS(source);
-                                
-            	// now, if we did not want to override the inner CRS or we did not have any external PRJ at hand
-            	// let's look inside the geotiff
-                if (!OVERRIDE_INNER_CRS || crs==null){
-                	if(metadata.hasGeoKey()&& gtcs != null){
-                	    crs = gtcs.createCoordinateSystem(metadata);
-                	}
+
+                // check external prj first
+                crs = getCRS(source);
+
+                // now, if we did not want to override the inner CRS or we did not have any 
+                // external PRJ at hand
+                // let's look inside the geotiff
+                if (!OVERRIDE_INNER_CRS || crs == null) {
+                    if (metadata.hasGeoKey() && gtcs != null) {
+                        crs = gtcs.createCoordinateSystem(metadata);
+                    }
                 }
 
 
@@ -337,15 +359,15 @@ public class GeoTiffReader extends AbstractGridCoverage2DReader implements GridC
             // 
             // No data
             //
-            if (metadata.hasNoData()){
+            if (metadata.hasNoData()) {
                 noData = metadata.getNoData();
             }
-            
+
             // 
             // parse and set layout
             // 
             setLayout(reader);
-            
+
             //
             // parse TIFF StreamMetadata
             //
@@ -367,37 +389,39 @@ public class GeoTiffReader extends AbstractGridCoverage2DReader implements GridC
                         path.length() - 4)));
                 hasMaskOvrProvider = true;
             }
-            
+
             // //
             //
             // get the dimension of the hr image and build the model as well as
             // computing the resolution
             // //
-            numOverviews = hasMaskOvrProvider ? maskOvrProvider.getNumOverviews() : dtLayout.getNumInternalOverviews();
+            numOverviews = hasMaskOvrProvider ? maskOvrProvider.getNumOverviews() : dtLayout
+                    .getNumInternalOverviews();
             int hrWidth = reader.getWidth(0);
             int hrHeight = reader.getHeight(0);
             final Rectangle actualDim = new Rectangle(0, 0, hrWidth, hrHeight);
             originalGridRange = new GridEnvelope2D(actualDim);
 
-            if (gtcs != null&& metadata!=null&& (metadata.hasModelTrasformation()||(metadata.hasPixelScales()&&metadata.hasTiePoints()))) {
+            if (gtcs != null && metadata != null && (metadata.hasModelTrasformation() || 
+                    (metadata.hasPixelScales() && metadata.hasTiePoints()))) {
                 this.raster2Model = GeoTiffMetadata2CRSAdapter.getRasterToModel(metadata);
             } else {
-            	// world file
+                // world file
                 this.raster2Model = parseWorldFile(source);
-                
+
                 // now world file --> mapinfo?
                 if (raster2Model == null) {
                     MapInfoFileReader mifReader = parseMapInfoFile(source);
-                    if(mifReader!=null){
+                    if (mifReader != null) {
                         raster2Model = mifReader.getTransform();
                         crs = mifReader.getCRS();
                     }
 
                 }
             }
-            
-            if (crs == null){
-                if(LOGGER.isLoggable(Level.WARNING)){
+
+            if (crs == null) {
+                if (LOGGER.isLoggable(Level.WARNING)) {
                     LOGGER.warning("Coordinate Reference System is not available");
                 }
                 crs = AbstractGridFormat.getDefaultCRS();
@@ -411,7 +435,8 @@ public class GeoTiffReader extends AbstractGridCoverage2DReader implements GridC
                     raster2Model = ProjectiveTransform.create(new AffineTransform());
                     crs = AbstractGridFormat.getDefaultCRS();
                 } else {
-                    throw new DataSourceException("Raster to Model Transformation is not available");
+                    throw new DataSourceException("Raster to Model Transformation is not " +
+                            "available");
                 }
             }
 
@@ -453,7 +478,7 @@ public class GeoTiffReader extends AbstractGridCoverage2DReader implements GridC
                         extOvrImgChoice = -1;
                 }
             }
-            
+
             // //
             //
             // get information for the successive images
@@ -496,7 +521,7 @@ public class GeoTiffReader extends AbstractGridCoverage2DReader implements GridC
                     reader.dispose();
                 } catch (Throwable t) {
                 }
-                
+
             if (ovrReader != null)
                 try {
                     ovrReader.dispose();
@@ -518,148 +543,147 @@ public class GeoTiffReader extends AbstractGridCoverage2DReader implements GridC
         }
     }
 
-        /**
-	 * @see org.opengis.coverage.grid.GridCoverageReader#getFormat()
-	 */
-	public Format getFormat() {
-		return new GeoTiffFormat();
-	}
+    /**
+     * @see org.opengis.coverage.grid.GridCoverageReader#getFormat()
+     */
+    public Format getFormat() {
+        return new GeoTiffFormat();
+    }
 
-	/**
-	 * This method reads in the TIFF image, constructs an appropriate CRS,
-	 * determines the math transform from raster to the CRS model, and
-	 * constructs a GridCoverage.
-	 * 
-	 * @param params
-	 *            currently ignored, potentially may be used for hints.
-	 * 
-	 * @return grid coverage represented by the image
-	 * 
-	 * @throws IOException
-	 *             on any IO related troubles
-	 */
-	public GridCoverage2D read(GeneralParameterValue[] params) throws IOException {
-		GeneralEnvelope requestedEnvelope = null;
-		Rectangle dim = null;
-		Color inputTransparentColor=null;
-		OverviewPolicy overviewPolicy=null;
-		int[] suggestedTileSize=null;
-		if (params != null) {
+    /**
+     * This method reads in the TIFF image, constructs an appropriate CRS,
+     * determines the math transform from raster to the CRS model, and
+     * constructs a GridCoverage.
+     *
+     * @param params currently ignored, potentially may be used for hints.
+     * @return grid coverage represented by the image
+     * @throws IOException on any IO related troubles
+     */
+    public GridCoverage2D read(GeneralParameterValue[] params) throws IOException {
+        GeneralEnvelope requestedEnvelope = null;
+        Rectangle dim = null;
+        Color inputTransparentColor = null;
+        OverviewPolicy overviewPolicy = null;
+        int[] suggestedTileSize = null;
+        if (params != null) {
 
-			//
-			// Checking params
-			//
-			if (params != null) {
-				for (int i = 0; i < params.length; i++) {
-					final ParameterValue param = (ParameterValue) params[i];
-					final ReferenceIdentifier name = param.getDescriptor().getName();
-					if (name.equals(AbstractGridFormat.READ_GRIDGEOMETRY2D.getName())) {
-						final GridGeometry2D gg = (GridGeometry2D) param.getValue();
-						requestedEnvelope = new GeneralEnvelope((Envelope) gg.getEnvelope2D());
-						dim = gg.getGridRange2D().getBounds();
-						continue;
-					}
-					if (name.equals(AbstractGridFormat.OVERVIEW_POLICY.getName())) {
-						overviewPolicy=(OverviewPolicy) param.getValue();
-						continue;
-					}	
+            //
+            // Checking params
+            //
+            if (params != null) {
+                for (int i = 0; i < params.length; i++) {
+                    final ParameterValue param = (ParameterValue) params[i];
+                    final ReferenceIdentifier name = param.getDescriptor().getName();
+                    if (name.equals(AbstractGridFormat.READ_GRIDGEOMETRY2D.getName())) {
+                        final GridGeometry2D gg = (GridGeometry2D) param.getValue();
+                        requestedEnvelope = new GeneralEnvelope((Envelope) gg.getEnvelope2D());
+                        dim = gg.getGridRange2D().getBounds();
+                        continue;
+                    }
+                    if (name.equals(AbstractGridFormat.OVERVIEW_POLICY.getName())) {
+                        overviewPolicy = (OverviewPolicy) param.getValue();
+                        continue;
+                    }
                     if (name.equals(AbstractGridFormat.INPUT_TRANSPARENT_COLOR.getName())) {
                         inputTransparentColor = (Color) param.getValue();
                         continue;
-                    }	
+                    }
                     if (name.equals(AbstractGridFormat.SUGGESTED_TILE_SIZE.getName())) {
-                        String suggestedTileSize_= (String) param.getValue();
-                        if(suggestedTileSize_!=null&&suggestedTileSize_.length()>0){
-                            suggestedTileSize_=suggestedTileSize_.trim();
-                            int commaPosition=suggestedTileSize_.indexOf(",");
-                            if(commaPosition<0){
-                                int tileDim=Integer.parseInt(suggestedTileSize_);
-                                suggestedTileSize= new int[]{tileDim,tileDim};
+                        String suggestedTileSize_ = (String) param.getValue();
+                        if (suggestedTileSize_ != null && suggestedTileSize_.length() > 0) {
+                            suggestedTileSize_ = suggestedTileSize_.trim();
+                            int commaPosition = suggestedTileSize_.indexOf(",");
+                            if (commaPosition < 0) {
+                                int tileDim = Integer.parseInt(suggestedTileSize_);
+                                suggestedTileSize = new int[]{tileDim, tileDim};
                             } else {
-                                int tileW=Integer.parseInt(suggestedTileSize_.substring(0,commaPosition));
-                                int tileH=Integer.parseInt(suggestedTileSize_.substring(commaPosition+1));
-                                suggestedTileSize= new int[]{tileW,tileH};
+                                int tileW = Integer.parseInt(suggestedTileSize_.substring(0, 
+                                        commaPosition));
+                                int tileH = Integer.parseInt(suggestedTileSize_.substring
+                                        (commaPosition + 1));
+                                suggestedTileSize = new int[]{tileW, tileH};
                             }
                         }
                         continue;
-                    }                                               
-				}
-			}
-		}
+                    }
+                }
+            }
+        }
 
-		//
-		// set params
-		//
-		Integer imageChoice = new Integer(0);
-		final ImageReadParam readP = new ImageReadParam();
-		try {
-			imageChoice = setReadParams(overviewPolicy, readP,requestedEnvelope, dim);
-		} catch (TransformException e) {
-			new DataSourceException(e);
-		}
+        //
+        // set params
+        //
+        Integer imageChoice = new Integer(0);
+        final ImageReadParam readP = new ImageReadParam();
+        try {
+            imageChoice = setReadParams(overviewPolicy, readP, requestedEnvelope, dim);
+        } catch (TransformException e) {
+            new DataSourceException(e);
+        }
 
-		//
-		// IMAGE READ OPERATION
-		//
+        //
+        // IMAGE READ OPERATION
+        //
         Hints newHints = null;
-		if(suggestedTileSize!=null){
-		    newHints= hints.clone();
+        if (suggestedTileSize != null) {
+            newHints = hints.clone();
             final ImageLayout layout = new ImageLayout();
             layout.setTileGridXOffset(0);
             layout.setTileGridYOffset(0);
             layout.setTileHeight(suggestedTileSize[1]);
             layout.setTileWidth(suggestedTileSize[0]);
             newHints.add(new RenderingHints(JAI.KEY_IMAGE_LAYOUT, layout));
-		}
-		final ParameterBlock pbjRead = new ParameterBlock();
-            // Image Index used for the Overview management
-            if (maskOvrProvider != null) {
-                if (maskOvrProvider.isExternalOverview(imageChoice)) {
-                    pbjRead.add(maskOvrProvider.getExternalOverviewInputStreamSpi()
-                            .createInputStreamInstance(maskOvrProvider.getOvrURL(),
-                                    ImageIO.getUseCache(), ImageIO.getCacheDirectory()));
-                } else {
-                    pbjRead.add(maskOvrProvider.getInputStreamSpi().createInputStreamInstance(
-                            maskOvrProvider.getFileURL(), ImageIO.getUseCache(),
-                            ImageIO.getCacheDirectory()));
-                }
-                pbjRead.add(maskOvrProvider.getOverviewIndex(imageChoice));
+        }
+        final ParameterBlock pbjRead = new ParameterBlock();
+        // Image Index used for the Overview management
+        if (maskOvrProvider != null) {
+            if (maskOvrProvider.isExternalOverview(imageChoice)) {
+                pbjRead.add(maskOvrProvider.getExternalOverviewInputStreamSpi()
+                        .createInputStreamInstance(maskOvrProvider.getOvrURL(),
+                                ImageIO.getUseCache(), ImageIO.getCacheDirectory()));
             } else {
-                if (extOvrImgChoice >= 0 && imageChoice >= extOvrImgChoice) {
-                    pbjRead.add(ovrInStreamSPI.createInputStreamInstance(ovrSource,
-                            ImageIO.getUseCache(), ImageIO.getCacheDirectory()));
-                    pbjRead.add(imageChoice - extOvrImgChoice);
-                } else {
-                    if(inStream instanceof ImageInputStream && !closeMe) {
-                        pbjRead.add(inStream);
-                    }
-                    else {
-                        pbjRead.add(inStreamSPI != null ? inStreamSPI.createInputStreamInstance(source,
-                                ImageIO.getUseCache(), ImageIO.getCacheDirectory()) : ImageIO
-                                .createImageInputStream(source));
-                    }
-                    // Setting correct ImageChoice (taking into account overviews and masks)
-                    int overviewImageIndex = dtLayout.getInternalOverviewImageIndex(imageChoice);
-                    int index = overviewImageIndex >= 0 ? overviewImageIndex : 0;
-                    pbjRead.add(index);
-                }
+                pbjRead.add(maskOvrProvider.getInputStreamSpi().createInputStreamInstance(
+                        maskOvrProvider.getFileURL(), ImageIO.getUseCache(),
+                        ImageIO.getCacheDirectory()));
             }
-    	pbjRead.add(Boolean.FALSE);
-		pbjRead.add(Boolean.FALSE);
-		pbjRead.add(Boolean.FALSE);
-		pbjRead.add(null);
-		pbjRead.add(null);
-		pbjRead.add(readP);
-		pbjRead.add(READER_SPI.createReaderInstance());
-		RenderedOp coverageRaster=JAI.create("ImageRead", pbjRead,newHints!=null?(RenderingHints) newHints:null);
-	
+            pbjRead.add(maskOvrProvider.getOverviewIndex(imageChoice));
+        } else {
+            if (extOvrImgChoice >= 0 && imageChoice >= extOvrImgChoice) {
+                pbjRead.add(ovrInStreamSPI.createInputStreamInstance(ovrSource,
+                        ImageIO.getUseCache(), ImageIO.getCacheDirectory()));
+                pbjRead.add(imageChoice - extOvrImgChoice);
+            } else {
+                if (inStream instanceof ImageInputStream && !closeMe) {
+                    pbjRead.add(inStream);
+                } else {
+                    pbjRead.add(inStreamSPI != null ? inStreamSPI.createInputStreamInstance(source,
+                            ImageIO.getUseCache(), ImageIO.getCacheDirectory()) : ImageIO
+                            .createImageInputStream(source));
+                }
+                // Setting correct ImageChoice (taking into account overviews and masks)
+                int overviewImageIndex = dtLayout.getInternalOverviewImageIndex(imageChoice);
+                int index = overviewImageIndex >= 0 ? overviewImageIndex : 0;
+                pbjRead.add(index);
+            }
+        }
+        pbjRead.add(Boolean.FALSE);
+        pbjRead.add(Boolean.FALSE);
+        pbjRead.add(Boolean.FALSE);
+        pbjRead.add(null);
+        pbjRead.add(null);
+        pbjRead.add(readP);
+        pbjRead.add(READER_SPI.createReaderInstance());
+        RenderedOp coverageRaster = JAI.create("ImageRead", pbjRead, newHints != null ? 
+                (RenderingHints) newHints : null);
+
         //
         // MASKING INPUT COLOR as indicated
         //
-		if(inputTransparentColor!=null){
-		    coverageRaster= new ImageWorker(coverageRaster).setRenderingHints(newHints).makeColorTransparent(inputTransparentColor).getRenderedOperation();
-		}
-		
+        if (inputTransparentColor != null) {
+            coverageRaster = new ImageWorker(coverageRaster).setRenderingHints(newHints)
+                    .makeColorTransparent(inputTransparentColor).getRenderedOperation();
+        }
+
         //
         // External/Internal Masking
         //
@@ -702,15 +726,15 @@ public class GeoTiffReader extends AbstractGridCoverage2DReader implements GridC
             }
             throw new DataSourceException(e);
         }
-	}
+    }
 
     /**
      * General method for reading an input ROI Mask from a file
-     * 
+     *
      * @return A {@link RenderedOp} representing the Raster ROI
      */
     private RenderedOp readROIRaster(ImageInputStreamSpi spi, URL inFile, int index,
-            RenderingHints newHints, ImageReadParam readP) {
+                                     RenderingHints newHints, ImageReadParam readP) {
         // Raster initialization
         RenderedOp raster = null;
         try {
@@ -737,7 +761,7 @@ public class GeoTiffReader extends AbstractGridCoverage2DReader implements GridC
 
     /**
      * Returns the geotiff metadata for this geotiff file.
-     * 
+     *
      * @return the metadata
      */
     public GeoTiffIIOMetadataDecoder getMetadata() {
@@ -745,22 +769,23 @@ public class GeoTiffReader extends AbstractGridCoverage2DReader implements GridC
         ImageReader reader = null;
         boolean closeMe = true;
         ImageInputStream stream = null;
-        
+
         try {
-            if ((source instanceof InputStream)|| (source instanceof ImageInputStream)){
+            if ((source instanceof InputStream) || (source instanceof ImageInputStream)) {
                 closeMe = false;
             }
-            if (source instanceof ImageInputStream ) {
-                    stream =(ImageInputStream) source;
+            if (source instanceof ImageInputStream) {
+                stream = (ImageInputStream) source;
             } else {
                 inStreamSPI = ImageIOExt.getImageInputStreamSPI(source);
                 if (inStreamSPI == null) {
                     throw new IllegalArgumentException("No input stream for the provided source");
                 }
-                stream = inStreamSPI.createInputStreamInstance(source, ImageIO.getUseCache(), ImageIO.getCacheDirectory());
+                stream = inStreamSPI.createInputStreamInstance(source, ImageIO.getUseCache(), 
+                        ImageIO.getCacheDirectory());
             }
             if (stream == null) {
-                    throw new IllegalArgumentException("No input stream for the provided source");
+                throw new IllegalArgumentException("No input stream for the provided source");
             }
             stream.mark();
             reader = READER_SPI.createReaderInstance();
@@ -778,12 +803,12 @@ public class GeoTiffReader extends AbstractGridCoverage2DReader implements GridC
                 } catch (Throwable t) {
                 }
 
-            if (stream != null){
+            if (stream != null) {
                 try {
                     stream.reset();
                 } catch (Throwable t) {
                 }
-                if (closeMe){
+                if (closeMe) {
                     try {
                         stream.close();
                     } catch (Throwable t) {
@@ -793,25 +818,24 @@ public class GeoTiffReader extends AbstractGridCoverage2DReader implements GridC
         }
         return metadata;
     }
-	
-	/**
-         * Creates a {@link GridCoverage} for the provided {@link PlanarImage} using
-         * the {@link #raster2Model} that was provided for this coverage.
-         * 
-         * <p>
-         * This method is vital when working with coverages that have a raster to
-         * model transformation that is not a simple scale and translate.
-         * 
-         * @param image
-         *            contains the data for the coverage to create.
-         * @param raster2Model
-         *            is the {@link MathTransform} that maps from the raster space
-         *            to the model space.
-	 * @param roi Optional ROI used as Mask
-         * @return a {@link GridCoverage}
-         * @throws IOException
-         */
-        protected final GridCoverage2D createCoverage(PlanarImage image, MathTransform raster2Model, ROI roi) throws IOException {
+
+    /**
+     * Creates a {@link GridCoverage} for the provided {@link PlanarImage} using
+     * the {@link #raster2Model} that was provided for this coverage.
+     * <p>
+     * <p>
+     * This method is vital when working with coverages that have a raster to
+     * model transformation that is not a simple scale and translate.
+     *
+     * @param image        contains the data for the coverage to create.
+     * @param raster2Model is the {@link MathTransform} that maps from the raster space
+     *                     to the model space.
+     * @param roi          Optional ROI used as Mask
+     * @return a {@link GridCoverage}
+     * @throws IOException
+     */
+    protected final GridCoverage2D createCoverage(PlanarImage image, MathTransform raster2Model, 
+                                                  ROI roi) throws IOException {
 
         //creating bands
         final SampleModel sm = image.getSampleModel();
@@ -819,12 +843,13 @@ public class GeoTiffReader extends AbstractGridCoverage2DReader implements GridC
         final int numBands = sm.getNumBands();
         final GridSampleDimension[] bands = new GridSampleDimension[numBands];
         // setting bands names.
-        
+
         Category noDataCategory = null;
-        final Map<String, Object> properties = new HashMap<String, Object>();        
-        if (!Double.isNaN(noData)){
+        final Map<String, Object> properties = new HashMap<String, Object>();
+        if (!Double.isNaN(noData)) {
             noDataCategory = new Category(Vocabulary
-                    .formatInternational(VocabularyKeys.NODATA), new Color[] { new Color(0, 0, 0, 0) }, NumberRange
+                    .formatInternational(VocabularyKeys.NODATA), new Color[]{new Color(0, 0, 0, 
+                    0)}, NumberRange
                     .create(noData, noData));
             CoverageUtilities.setNoDataProperty(properties, new Double(noData));
         }
@@ -833,34 +858,37 @@ public class GeoTiffReader extends AbstractGridCoverage2DReader implements GridC
             image.setProperty("ROI", roi);
             CoverageUtilities.setROIProperty(properties, roi);
         }
-        
+
         Set<String> bandNames = new HashSet<String>();
         for (int i = 0; i < numBands; i++) {
-                final ColorInterpretation colorInterpretation=TypeMap.getColorInterpretation(cm, i);
-                if(colorInterpretation==null)
-                       throw new IOException("Unrecognized sample dimension type");
-                Category[] categories = null;
-                if (noDataCategory != null) {
-                    categories = new Category[]{noDataCategory};
-                }
-                String bandName = colorInterpretation.name();
-                // make sure we create no duplicate band names
-                if(colorInterpretation == ColorInterpretation.UNDEFINED || bandNames.contains(bandName)) {
-                    bandName = "Band" + (i + 1);
-                } 
-                bands[i] = new GridSampleDimension(bandName,categories,null);
+            final ColorInterpretation colorInterpretation = TypeMap.getColorInterpretation(cm, i);
+            if (colorInterpretation == null)
+                throw new IOException("Unrecognized sample dimension type");
+            Category[] categories = null;
+            if (noDataCategory != null) {
+                categories = new Category[]{noDataCategory};
+            }
+            String bandName = colorInterpretation.name();
+            // make sure we create no duplicate band names
+            if (colorInterpretation == ColorInterpretation.UNDEFINED || bandNames.contains
+                    (bandName)) {
+                bandName = "Band" + (i + 1);
+            }
+            bands[i] = new GridSampleDimension(bandName, categories, null);
         }
         // creating coverage
         if (raster2Model != null) {
-                return coverageFactory.create(coverageName, image, crs,raster2Model, bands, null, properties);
+            return coverageFactory.create(coverageName, image, crs, raster2Model, bands, null, 
+                    properties);
         }
-        return coverageFactory.create(coverageName, image, new GeneralEnvelope(originalEnvelope), bands, null, properties);
+        return coverageFactory.create(coverageName, image, new GeneralEnvelope(originalEnvelope),
+                bands, null, properties);
 
-        }
-	
-	
-        private CoordinateReferenceSystem getCRS(Object source) {
-            CoordinateReferenceSystem crs = null;
+    }
+
+
+    private CoordinateReferenceSystem getCRS(Object source) {
+        CoordinateReferenceSystem crs = null;
         if (source instanceof File
                 || (source instanceof URL && (((URL) source).getProtocol() == "file"))) {
             // getting name for the prj file
@@ -879,16 +907,17 @@ public class GeoTiffReader extends AbstractGridCoverage2DReader implements GridC
             }
 
             final int index = sourceAsString.lastIndexOf(".");
-            final String base=index>0?sourceAsString.substring(0, index)+".prj":sourceAsString+".prj";
+            final String base = index > 0 ? sourceAsString.substring(0, index) + ".prj" : 
+                    sourceAsString + ".prj";
 
             // does it exist?
             final File prjFile = new File(base.toString());
             if (prjFile.exists()) {
                 // it exists then we have top read it
                 PrjFileReader projReader = null;
-                FileInputStream instream=null;
+                FileInputStream instream = null;
                 try {
-                	instream=new FileInputStream(prjFile);
+                    instream = new FileInputStream(prjFile);
                     final FileChannel channel = instream.getChannel();
                     projReader = new PrjFileReader(channel);
                     crs = projReader.getCoordinateReferenceSystem();
@@ -911,25 +940,25 @@ public class GeoTiffReader extends AbstractGridCoverage2DReader implements GridC
                         } catch (IOException e) {
                             // warn about the error but proceed, it is not fatal
                             // we have at least the default crs to use
-                            LOGGER .log(Level.FINE, e.getLocalizedMessage(),e);
+                            LOGGER.log(Level.FINE, e.getLocalizedMessage(), e);
                         }
-                        
-                        if (instream != null)
-                            try {
-                                instream.close();
-                            } catch (IOException e) {
-                                // warn about the error but proceed, it is not fatal
-                                // we have at least the default crs to use
-                                LOGGER.log(Level.FINE, e.getLocalizedMessage(),e);
-                            }                        
+
+                    if (instream != null)
+                        try {
+                            instream.close();
+                        } catch (IOException e) {
+                            // warn about the error but proceed, it is not fatal
+                            // we have at least the default crs to use
+                            LOGGER.log(Level.FINE, e.getLocalizedMessage(), e);
+                        }
                 }
 
             }
         }
         return crs;
     }
-        
-        
+
+
     /**
      * @throws IOException
      */
@@ -944,7 +973,7 @@ public class GeoTiffReader extends AbstractGridCoverage2DReader implements GridC
             String filename = sourceFile.getName();
             final int i = filename.lastIndexOf('.');
             filename = (i == -1) ? filename : filename.substring(0, i);
-            
+
             // getting name and extension
             final String base = (parentPath != null) ? new StringBuilder(
                     parentPath).append(File.separator).append(filename)
@@ -972,7 +1001,7 @@ public class GeoTiffReader extends AbstractGridCoverage2DReader implements GridC
         }
         return raster2Model;
     }
-    
+
     /**
      * @throws IOException
      */
@@ -990,16 +1019,15 @@ public class GeoTiffReader extends AbstractGridCoverage2DReader implements GridC
     }
 
 
-
-	/**
-	 * Number of coverages for this reader is 1
-	 * 
-	 * @return the number of coverages for this reader.
-	 */
-	@Override
-	public int getGridCoverageCount() {
-		return 1;
-	}
+    /**
+     * Number of coverages for this reader is 1
+     *
+     * @return the number of coverages for this reader.
+     */
+    @Override
+    public int getGridCoverageCount() {
+        return 1;
+    }
 
     @Override
     public GroundControlPoints getGroundControlPoints() {

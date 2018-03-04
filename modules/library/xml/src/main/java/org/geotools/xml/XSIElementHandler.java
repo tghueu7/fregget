@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -29,7 +29,7 @@ import org.xml.sax.SAXNotSupportedException;
  * This abstract class is intended to act as both a definition of what a
  * generic handler is, and a default handler.
  * </p>
- * 
+ * <p>
  * <p>
  * When extending this class, one should as a minimum replace the start/end
  * Element methods.
@@ -37,10 +37,8 @@ import org.xml.sax.SAXNotSupportedException;
  *
  * @author dzwiers, Refractions Research, Inc. http://www.refractions.net
  * @author $Author:$ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public abstract class XSIElementHandler implements Serializable {
     /**
@@ -50,28 +48,44 @@ public abstract class XSIElementHandler implements Serializable {
             "net.refractions.xsi.element");
     private static Level level = Level.WARNING;
 
-    /** Type constants */
+    /**
+     * Type constants
+     */
     public static final int DEFAULT = 0; // for those cases where type is not
 
-    /** Type constants */
+    /**
+     * Type constants
+     */
     public static final int UNION = 1;
 
-    /** Type constants */
+    /**
+     * Type constants
+     */
     public static final int LIST = 2;
 
-    /** Type constants */
+    /**
+     * Type constants
+     */
     public static final int RESTRICTION = 4;
 
-    /** Type constants */
+    /**
+     * Type constants
+     */
     public static final int EXTENSION = 64;
 
-    /** Type constants */
+    /**
+     * Type constants
+     */
     public static final int SIMPLETYPE = 8;
 
-    /** Type constants */
+    /**
+     * Type constants
+     */
     public static final int SEQUENCE = 16;
 
-    /** Type constants */
+    /**
+     * Type constants
+     */
     public static final int FACET = 32;
 
     /**
@@ -99,7 +113,6 @@ public abstract class XSIElementHandler implements Serializable {
      * should keep this in mind when overriding this method.
      *
      * @param text
-     *
      * @throws SAXException
      * @throws SAXNotSupportedException
      */
@@ -113,12 +126,10 @@ public abstract class XSIElementHandler implements Serializable {
      *
      * @param namespaceURI
      * @param localName
-     *
      * @throws SAXException
-     *
      */
     public abstract void endElement(String namespaceURI, String localName)
-        throws SAXException;
+            throws SAXException;
 
     /**
      * handles SAX start Element events. This is an opportunity to complete
@@ -127,12 +138,10 @@ public abstract class XSIElementHandler implements Serializable {
      * @param namespaceURI
      * @param localName
      * @param attr
-     *
      * @throws SAXException
-     *
      */
     public abstract void startElement(String namespaceURI, String localName,
-        Attributes attr) throws SAXException;
+                                      Attributes attr) throws SAXException;
 
     /**
      * This method will be used to create the XSI document. Validation and
@@ -142,13 +151,11 @@ public abstract class XSIElementHandler implements Serializable {
      *
      * @param namespaceURI
      * @param localName
-     *
      * @return XSIElementHandler, or null
-     *
      * @throws SAXException
      */
     public abstract XSIElementHandler getHandler(String namespaceURI,
-        String localName) throws SAXException;
+                                                 String localName) throws SAXException;
 
     /**
      * Returns the LocalName for this element (ie this declaration in the

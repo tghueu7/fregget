@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -24,15 +24,11 @@ import java.io.IOException;
  * This exception typically has a {@link java.text.ParseException} has its cause.
  * It is similar in spirit to {@link java.util.InvalidPropertiesFormatException}.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
- * @since 2.2
- *
+ * @version $Id$
+ * @source $URL$
  * @see java.util.InvalidPropertiesFormatException
+ * @since 2.2
  */
 public class ContentFormatException extends IOException {
     /**

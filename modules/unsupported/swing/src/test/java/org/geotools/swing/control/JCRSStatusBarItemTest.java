@@ -29,16 +29,16 @@ import org.fest.swing.edt.GuiTask;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import static org.junit.Assert.*;
 
 /**
  * Unit tests for JCRSStatusBarItem.
  *
  * @author Michael Bedward
- * @since 8.0
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 @RunWith(GraphicsTestRunner.class)
 public class JCRSStatusBarItemTest extends GraphicsTestBase {
@@ -55,7 +55,7 @@ public class JCRSStatusBarItemTest extends GraphicsTestBase {
             }
         });
     }
-    
+
     @Test
     public void createItemWhenMapContentHasBeenSet() {
         MapContent mapContent = new MapContent();
@@ -77,5 +77,5 @@ public class JCRSStatusBarItemTest extends GraphicsTestBase {
             }
         });
     }
-    
+
 }

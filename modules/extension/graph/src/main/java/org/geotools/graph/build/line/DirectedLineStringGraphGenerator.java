@@ -20,19 +20,17 @@ import org.geotools.graph.build.basic.BasicDirectedGraphBuilder;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DirectedLineStringGraphGenerator extends LineStringGraphGenerator {
 
-  public DirectedLineStringGraphGenerator() {
-    super();
-    setGraphBuilder(new BasicDirectedGraphBuilder());
-  }
-	
-  public DirectedLineStringGraphGenerator(double tolerance) {
-      super(tolerance);
-      setGraphBuilder(new BasicDirectedGraphBuilder());
-  }
+    public DirectedLineStringGraphGenerator() {
+        super();
+        setGraphBuilder(new BasicDirectedGraphBuilder());
+    }
+
+    public DirectedLineStringGraphGenerator(double tolerance) {
+        super(tolerance);
+        setGraphBuilder(new BasicDirectedGraphBuilder());
+    }
 }

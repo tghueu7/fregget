@@ -37,9 +37,10 @@ import org.opengis.filter.Filter;
 import org.opengis.parameter.GeneralParameterDescriptor;
 import org.opengis.parameter.ParameterDescriptor;
 
-public class NetCDFFormat extends AbstractGridFormat{
+public class NetCDFFormat extends AbstractGridFormat {
 
-    public static final ParameterDescriptor<Filter> FILTER = new DefaultParameterDescriptor<Filter>("Filter", Filter.class, null, null);
+    public static final ParameterDescriptor<Filter> FILTER = new 
+            DefaultParameterDescriptor<Filter>("Filter", Filter.class, null, null);
 
     private final static Logger LOGGER = Logging
             .getLogger("org.geotools.coverage.io.netcdf.NetCDFFormat");
@@ -55,7 +56,7 @@ public class NetCDFFormat extends AbstractGridFormat{
      * Sets the metadata information.
      */
     private void setInfo() {
-        final HashMap<String,String> info = new HashMap<String,String> ();
+        final HashMap<String, String> info = new HashMap<String, String>();
         info.put("name", "NetCDF");
         info.put("description", "NetCDF store plugin");
         info.put("vendor", "Geotools");
@@ -72,13 +73,13 @@ public class NetCDFFormat extends AbstractGridFormat{
 //                SUGGESTED_TILE_SIZE,
 //                ALLOW_MULTITHREADING,
 //                MAX_ALLOWED_TILES,
-                TIME,
-                ELEVATION,
-                FILTER,
+                        TIME,
+                        ELEVATION,
+                        FILTER,
 //                SORT_BY,
 //                MERGE_BEHAVIOR
                         BANDS
-        }));
+                }));
 
         // reading parameters
         writeParameters = null;
@@ -112,7 +113,7 @@ public class NetCDFFormat extends AbstractGridFormat{
         File file = null;
         if (source instanceof URL) {
             file = URLs.urlToFile((URL) source);
-        } else if (source instanceof File ){
+        } else if (source instanceof File) {
             file = (File) source;
         }
         if (file != null) {
@@ -120,8 +121,8 @@ public class NetCDFFormat extends AbstractGridFormat{
                 return false;
             }
             String absolutePath = file.getAbsolutePath();
-                        
-            if (absolutePath.endsWith("nc")  || absolutePath.endsWith("ncml")){
+
+            if (absolutePath.endsWith("nc") || absolutePath.endsWith("ncml")) {
                 return true;
             }
         }

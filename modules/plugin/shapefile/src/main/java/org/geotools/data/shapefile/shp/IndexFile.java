@@ -38,10 +38,8 @@ import org.geotools.resources.NIOUtilities;
  * <a href="http://www.esri.com/library/whitepapers/pdfs/shapefile.pdf"><b>"ESRI(r)
  * Shapefile - A Technical Description"</b><br> * <i>'An ESRI White Paper .
  * May 1997'</i></a>
- * 
+ *
  * @author Ian Schneider
- *
- *
  * @source $URL$
  */
 public class IndexFile implements FileReader {
@@ -65,11 +63,9 @@ public class IndexFile implements FileReader {
 
     /**
      * Load the index file from the given channel.
-     * 
-     * @param shpFiles
-     *                The channel to read from.
-     * @throws IOException
-     *                 If an error occurs.
+     *
+     * @param shpFiles The channel to read from.
+     * @throws IOException If an error occurs.
      */
     public IndexFile(ShpFiles shpFiles, boolean useMemoryMappedBuffer)
             throws IOException {
@@ -94,7 +90,7 @@ public class IndexFile implements FileReader {
                     buf.flip();
                     this.channelOffset = 0;
                 }
-                
+
                 header = new ShapefileHeader();
                 header.read(buf, true);
             } else {
@@ -114,7 +110,7 @@ public class IndexFile implements FileReader {
 
     /**
      * Get the header of this index file.
-     * 
+     *
      * @return The header of the index file.
      */
     public ShapefileHeader getHeader() {
@@ -208,7 +204,7 @@ public class IndexFile implements FileReader {
 
     /**
      * Get the number of records in this index.
-     * 
+     *
      * @return The number of records.
      */
     public int getRecordCount() {
@@ -217,9 +213,8 @@ public class IndexFile implements FileReader {
 
     /**
      * Get the offset of the record (in 16-bit words).
-     * 
-     * @param index
-     *                The index, from 0 to getRecordCount - 1
+     *
+     * @param index The index, from 0 to getRecordCount - 1
      * @return The offset in 16-bit words.
      * @throws IOException
      */
@@ -241,9 +236,8 @@ public class IndexFile implements FileReader {
 
     /**
      * Get the offset of the record (in real bytes, not 16-bit words).
-     * 
-     * @param index
-     *                The index, from 0 to getRecordCount - 1
+     *
+     * @param index The index, from 0 to getRecordCount - 1
      * @return The offset in bytes.
      * @throws IOException
      */
@@ -253,9 +247,8 @@ public class IndexFile implements FileReader {
 
     /**
      * Get the content length of the given record in bytes, not 16 bit words.
-     * 
-     * @param index
-     *                The index, from 0 to getRecordCount - 1
+     *
+     * @param index The index, from 0 to getRecordCount - 1
      * @return The lengh in bytes of the record.
      * @throws IOException
      */

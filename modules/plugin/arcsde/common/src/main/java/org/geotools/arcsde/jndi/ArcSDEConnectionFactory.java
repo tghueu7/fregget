@@ -75,13 +75,10 @@ import org.geotools.arcsde.session.SessionPoolFactory;
  * See the package documentation for further information on how to configure JNDI resources for
  * ArcSDE on GeoTools.
  * </p>
- * 
+ *
  * @author Gabriel Roldan (OpenGeo)
- * 
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  * @since 2.5.7
  */
 public class ArcSDEConnectionFactory implements ObjectFactory {
@@ -92,11 +89,11 @@ public class ArcSDEConnectionFactory implements ObjectFactory {
 
     /**
      * @return an {@link ISessionPool} ready to be shared (ie, per connection option singleton).
-     *         Whether shared or not is a matter of external JNDI configuration.
+     * Whether shared or not is a matter of external JNDI configuration.
      * @see ObjectFactory#getObjectInstance(Object, Name, Context, Hashtable)
      */
     public Object getObjectInstance(final Object obj, final Name name, final Context nameCtx,
-            final Hashtable<?, ?> environment) throws Exception {
+                                    final Hashtable<?, ?> environment) throws Exception {
 
         final Reference ref = (Reference) obj;
 
@@ -213,7 +210,8 @@ public class ArcSDEConnectionFactory implements ObjectFactory {
         }
     }
 
-    protected String getProperty(final Reference ref, final String propName, final String defValue) {
+    protected String getProperty(final Reference ref, final String propName, final String 
+            defValue) {
         final RefAddr addr = ref.get(propName);
         if (addr == null) {
             return defValue;

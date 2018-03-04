@@ -30,7 +30,8 @@ public class BingTileTest {
     @Before
     public void beforeTest() {
 
-        String baseURL = "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/${code}?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z";
+        String baseURL = "http://ak.dynamic.t2.tiles.virtualearth" +
+                ".net/comp/ch/${code}?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z";
         TileService service = new BingService("Road", baseURL);
         BingTileIdentifier tileIdentifier = new BingTileIdentifier(10, 12,
                 new WebMercatorZoomLevel(5), service.getName());
@@ -50,7 +51,8 @@ public class BingTileTest {
     public void testGetURL() {
 
         Assert.assertEquals(
-                "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/03210?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z",
+                "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/03210?mkt=de-de&it=G,VE,BX," +
+                        "L,LA&shading=hill&og=78&n=z",
                 this.tile.getUrl().toString());
 
     }

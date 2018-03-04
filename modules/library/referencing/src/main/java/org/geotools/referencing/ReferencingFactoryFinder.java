@@ -52,26 +52,26 @@ import org.opengis.referencing.operation.MathTransformFactory;
 /**
  * Defines static methods used to access the application's default {@linkplain Factory
  * factory} implementation.
- *
+ * <p>
  * <P>To declare a factory implementation, a services subdirectory is placed within the
  * {@code META-INF} directory that is present in every JAR file. This directory
  * contains a file for each factory interface that has one or more implementation classes
  * present in the JAR file. For example, if the JAR file contained a class named
  * {@code com.mycompany.DatumFactoryImpl} which implements the {@link DatumFactory}
  * interface, the JAR file would contain a file named:</P>
- *
+ * <p>
  * <blockquote><pre>META-INF/services/org.opengis.referencing.datum.DatumFactory</pre></blockquote>
- *
+ * <p>
  * <P>containing the line:</P>
- *
+ * <p>
  * <blockquote><pre>com.mycompany.DatumFactoryImpl</pre></blockquote>
- *
+ * <p>
  * <P>If the factory classes implements {@link javax.imageio.spi.RegisterableService}, it will
  * be notified upon registration and deregistration. Note that the factory classes should be
  * lightweight and quick to load. Implementations of these interfaces should avoid complex
  * dependencies on other classes and on native code. The usual pattern for more complex services
  * is to register a lightweight proxy for the heavyweight service.</P>
- *
+ * <p>
  * <H2>Note on factory ordering</H2>
  * <P>This class is thread-safe. However, calls to any {@link #setAuthorityOrdering} or
  * {@link #setVendorOrdering} methods have a system-wide effect. If two threads or two
@@ -79,12 +79,10 @@ import org.opengis.referencing.operation.MathTransformFactory;
  * {@link FactoryRegistry}. This {@code FactoryFinder} class is simply a convenience
  * wrapper around a {@code FactoryRegistry} instance.</P>
  *
- * @since 2.4
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.4
  */
 public final class ReferencingFactoryFinder extends FactoryFinder {
     /**
@@ -111,7 +109,7 @@ public final class ReferencingFactoryFinder extends FactoryFinder {
     private static FactoryRegistry getServiceRegistry() {
         assert Thread.holdsLock(ReferencingFactoryFinder.class);
         if (registry == null) {
-            registry = new FactoryCreator(new Class<?>[] {
+            registry = new FactoryCreator(new Class<?>[]{
                     DatumFactory.class,
                     CSFactory.class,
                     CRSFactory.class,
@@ -141,14 +139,24 @@ public final class ReferencingFactoryFinder extends FactoryFinder {
         if (authorityNames == null) {
             authorityNames = new LinkedHashSet<String>();
             final Hints hints = EMPTY_HINTS;
-loop:       for (int i=0; ; i++) {
+            loop:
+            for (int i = 0; ; i++) {
                 final Set<? extends AuthorityFactory> factories;
                 switch (i) {
-                    case 0:  factories = getCRSAuthorityFactories(hints);                 break;
-                    case 1:  factories = getCSAuthorityFactories(hints);                  break;
-                    case 2:  factories = getDatumAuthorityFactories(hints);               break;
-                    case 3:  factories = getCoordinateOperationAuthorityFactories(hints); break;
-                    default: break loop;
+                    case 0:
+                        factories = getCRSAuthorityFactories(hints);
+                        break;
+                    case 1:
+                        factories = getCSAuthorityFactories(hints);
+                        break;
+                    case 2:
+                        factories = getDatumAuthorityFactories(hints);
+                        break;
+                    case 3:
+                        factories = getCoordinateOperationAuthorityFactories(hints);
+                        break;
+                    default:
+                        break loop;
                 }
                 for (final AuthorityFactory factory : factories) {
                     final Citation authority = factory.getAuthority();
@@ -168,13 +176,12 @@ loop:       for (int i=0; ; i++) {
     /**
      * Returns all providers of the specified category.
      *
-     * @param  category The factory category.
-     * @param  hints An optional map of hints, or {@code null} if none.
+     * @param category The factory category.
+     * @param hints    An optional map of hints, or {@code null} if none.
      * @return Set of available factory implementations.
      */
     private static synchronized <T extends Factory>
-            Set<T> getFactories(final Class<T> category, Hints hints)
-    {
+    Set<T> getFactories(final Class<T> category, Hints hints) {
         hints = mergeSystemHints(hints);
         return new LazySet<T>(getServiceRegistry().getFactories(category, null, hints));
     }
@@ -182,16 +189,17 @@ loop:       for (int i=0; ; i++) {
     /**
      * Returns a provider of the specified category.
      *
-     * @param  category The factory category.
-     * @param  hints An optional map of hints, or {@code null} if none.
-     * @param  key The hint key to use for searching an implementation.
+     * @param category The factory category.
+     * @param hints    An optional map of hints, or {@code null} if none.
+     * @param key      The hint key to use for searching an implementation.
      * @return The first factory that matches the supplied hints.
      * @throws FactoryRegistryException if no implementation was found or can be created for the
-     *         specified interface.
+     *                                  specified interface.
      */
     private static synchronized <T extends Factory> T getFactory(final Class<T> category,
-            Hints hints, final Hints.Key key) throws FactoryRegistryException
-    {
+                                                                 Hints hints, final Hints.Key 
+                                                                         key) throws 
+            FactoryRegistryException {
         hints = mergeSystemHints(hints);
         return getServiceRegistry().getFactory(category, null, hints, key);
     }
@@ -203,20 +211,20 @@ loop:       for (int i=0; ; i++) {
      * {@linkplain #setVendorOrdering ordering is set}, then the preferred
      * implementation is returned. Otherwise an arbitrary one is selected.
      *
-     * @param  category  The authority factory type.
-     * @param  authority The desired authority (e.g. "EPSG").
-     * @param  hints     An optional map of hints, or {@code null} if none.
-     * @param  key       The hint key to use for searching an implementation.
+     * @param category  The authority factory type.
+     * @param authority The desired authority (e.g. "EPSG").
+     * @param hints     An optional map of hints, or {@code null} if none.
+     * @param key       The hint key to use for searching an implementation.
      * @return The first authority factory that matches the supplied hints.
      * @throws FactoryRegistryException if no implementation was found or can be created for the
-     *         specfied interface.
+     *                                  specfied interface.
      */
     private static synchronized <T extends AuthorityFactory> T getAuthorityFactory(
             final Class<T> category, final String authority, Hints hints, final Hints.Key key)
-            throws FactoryRegistryException
-    {
+            throws FactoryRegistryException {
         hints = mergeSystemHints(hints);
-        return getServiceRegistry().getFactory(category, new AuthorityFilter(authority), hints, key);
+        return getServiceRegistry().getFactory(category, new AuthorityFilter(authority), hints, 
+                key);
     }
 
     /**
@@ -226,10 +234,10 @@ loop:       for (int i=0; ; i++) {
      * {@linkplain #setVendorOrdering ordering is set}, then the preferred
      * implementation is returned. Otherwise an arbitrary one is selected.
      *
-     * @param  hints An optional map of hints, or {@code null} if none.
+     * @param hints An optional map of hints, or {@code null} if none.
      * @return The first datum factory that matches the supplied hints.
      * @throws FactoryRegistryException if no implementation was found or can be created for the
-     *         {@link DatumFactory} interface.
+     *                                  {@link DatumFactory} interface.
      */
     public static DatumFactory getDatumFactory(final Hints hints) throws FactoryRegistryException {
         return getFactory(DatumFactory.class, hints, Hints.DATUM_FACTORY);
@@ -238,7 +246,7 @@ loop:       for (int i=0; ; i++) {
     /**
      * Returns a set of all available implementations for the {@link DatumFactory} interface.
      *
-     * @param  hints An optional map of hints, or {@code null} if none.
+     * @param hints An optional map of hints, or {@code null} if none.
      * @return Set of available datum factory implementations.
      */
     public static Set<DatumFactory> getDatumFactories(final Hints hints) {
@@ -252,10 +260,10 @@ loop:       for (int i=0; ; i++) {
      * {@linkplain #setVendorOrdering ordering is set}, then the preferred
      * implementation is returned. Otherwise an arbitrary one is selected.
      *
-     * @param  hints An optional map of hints, or {@code null} if none.
+     * @param hints An optional map of hints, or {@code null} if none.
      * @return The first coordinate system factory that matches the supplied hints.
      * @throws FactoryRegistryException if no implementation was found or can be created for the
-     *         {@link CSFactory} interface.
+     *                                  {@link CSFactory} interface.
      */
     public static CSFactory getCSFactory(final Hints hints) throws FactoryRegistryException {
         return getFactory(CSFactory.class, hints, Hints.CS_FACTORY);
@@ -264,7 +272,7 @@ loop:       for (int i=0; ; i++) {
     /**
      * Returns a set of all available implementations for the {@link CSFactory} interface.
      *
-     * @param  hints An optional map of hints, or {@code null} if none.
+     * @param hints An optional map of hints, or {@code null} if none.
      * @return Set of available coordinate system factory implementations.
      */
     public static Set<CSFactory> getCSFactories(final Hints hints) {
@@ -278,10 +286,10 @@ loop:       for (int i=0; ; i++) {
      * {@linkplain #setVendorOrdering ordering is set}, then the preferred
      * implementation is returned. Otherwise an arbitrary one is selected.
      *
-     * @param  hints An optional map of hints, or {@code null} if none.
+     * @param hints An optional map of hints, or {@code null} if none.
      * @return The first coordinate reference system factory that matches the supplied hints.
      * @throws FactoryRegistryException if no implementation was found or can be created for the
-     *         {@link CRSFactory} interface.
+     *                                  {@link CRSFactory} interface.
      */
     public static CRSFactory getCRSFactory(final Hints hints) throws FactoryRegistryException {
         return getFactory(CRSFactory.class, hints, Hints.CRS_FACTORY);
@@ -290,7 +298,7 @@ loop:       for (int i=0; ; i++) {
     /**
      * Returns a set of all available implementations for the {@link CRSFactory} interface.
      *
-     * @param  hints An optional map of hints, or {@code null} if none.
+     * @param hints An optional map of hints, or {@code null} if none.
      * @return Set of available coordinate reference system factory implementations.
      */
     public static Set<CRSFactory> getCRSFactories(final Hints hints) {
@@ -310,14 +318,13 @@ loop:       for (int i=0; ; i++) {
      * {@link Hints#LENIENT_DATUM_SHIFT    LENIENT_DATUM_SHIFT} and
      * {@link Hints#VERSION                VERSION}.
      *
-     * @param  hints An optional map of hints, or {@code null} if none.
+     * @param hints An optional map of hints, or {@code null} if none.
      * @return The first coordinate operation factory that matches the supplied hints.
      * @throws FactoryRegistryException if no implementation was found or can be created for the
-     *         {@link CoordinateOperationFactory} interface.
+     *                                  {@link CoordinateOperationFactory} interface.
      */
     public static CoordinateOperationFactory getCoordinateOperationFactory(final Hints hints)
-            throws FactoryRegistryException
-    {
+            throws FactoryRegistryException {
         return getFactory(CoordinateOperationFactory.class, hints,
                 Hints.COORDINATE_OPERATION_FACTORY);
     }
@@ -326,10 +333,11 @@ loop:       for (int i=0; ; i++) {
      * Returns a set of all available implementations for the
      * {@link CoordinateOperationFactory} interface.
      *
-     * @param  hints An optional map of hints, or {@code null} if none.
+     * @param hints An optional map of hints, or {@code null} if none.
      * @return Set of available coordinate operation factory implementations.
      */
-    public static Set<CoordinateOperationFactory> getCoordinateOperationFactories(final Hints hints) {
+    public static Set<CoordinateOperationFactory> getCoordinateOperationFactories(final Hints 
+                                                                                          hints) {
         return getFactories(CoordinateOperationFactory.class, hints);
     }
 
@@ -340,16 +348,15 @@ loop:       for (int i=0; ; i++) {
      * {@linkplain #setVendorOrdering ordering is set}, then the preferred
      * implementation is returned. Otherwise an arbitrary one is selected.
      *
-     * @param  authority The desired authority (e.g. "EPSG").
-     * @param  hints An optional map of hints, or {@code null} if none.
+     * @param authority The desired authority (e.g. "EPSG").
+     * @param hints     An optional map of hints, or {@code null} if none.
      * @return The first datum authority factory that matches the supplied hints.
      * @throws FactoryRegistryException if no implementation was found or can be created for the
-     *         {@link DatumAuthorityFactory} interface.
+     *                                  {@link DatumAuthorityFactory} interface.
      */
     public static DatumAuthorityFactory getDatumAuthorityFactory(final String authority,
-                                                                 final Hints  hints)
-            throws FactoryRegistryException
-    {
+                                                                 final Hints hints)
+            throws FactoryRegistryException {
         return getAuthorityFactory(DatumAuthorityFactory.class, authority, hints,
                 Hints.DATUM_AUTHORITY_FACTORY);
     }
@@ -358,7 +365,7 @@ loop:       for (int i=0; ; i++) {
      * Returns a set of all available implementations for the {@link DatumAuthorityFactory}
      * interface.
      *
-     * @param  hints An optional map of hints, or {@code null} if none.
+     * @param hints An optional map of hints, or {@code null} if none.
      * @return Set of available datum authority factory implementations.
      */
     public static Set<DatumAuthorityFactory> getDatumAuthorityFactories(final Hints hints) {
@@ -378,16 +385,15 @@ loop:       for (int i=0; ; i++) {
      * {@link Hints#FORCE_STANDARD_AXIS_DIRECTIONS   FORCE_STANDARD_AXIS_DIRECTIONS} and
      * {@link Hints#VERSION                          VERSION}.
      *
-     * @param  authority The desired authority (e.g. "EPSG").
-     * @param  hints An optional map of hints, or {@code null} if none.
+     * @param authority The desired authority (e.g. "EPSG").
+     * @param hints     An optional map of hints, or {@code null} if none.
      * @return The first coordinate system authority factory that matches the supplied hints.
      * @throws FactoryRegistryException if no implementation was found or can be created for the
-     *         {@link CSAuthorityFactory} interface.
+     *                                  {@link CSAuthorityFactory} interface.
      */
     public static CSAuthorityFactory getCSAuthorityFactory(final String authority,
-                                                           final Hints  hints)
-            throws FactoryRegistryException
-    {
+                                                           final Hints hints)
+            throws FactoryRegistryException {
         return getAuthorityFactory(CSAuthorityFactory.class, authority, hints,
                 Hints.CS_AUTHORITY_FACTORY);
     }
@@ -395,7 +401,7 @@ loop:       for (int i=0; ; i++) {
     /**
      * Returns a set of all available implementations for the {@link CSAuthorityFactory} interface.
      *
-     * @param  hints An optional map of hints, or {@code null} if none.
+     * @param hints An optional map of hints, or {@code null} if none.
      * @return Set of available coordinate system authority factory implementations.
      */
     public static Set<CSAuthorityFactory> getCSAuthorityFactories(final Hints hints) {
@@ -419,23 +425,23 @@ loop:       for (int i=0; ; i++) {
      * ESRI and others) are two distinct factories. Call to {@code getCRSAuthorityFactory("EPSG",
      * null)} returns only one of those, usually the official EPSG factory. If the union of those
      * two factories is wanted, then a chain of fallbacks is wanted. Consider using something like:
-     *
+     * <p>
      * <blockquote><code>
      * {@linkplain org.geotools.referencing.factory.FallbackAuthorityFactory#create(Class,
      * java.util.Collection) FallbackAuthorityFactory.create}(CRSAuthorityFactory.class,
      * {@linkplain #getCRSAuthorityFactories getCRSAuthorityFactories}(hints));
      * </code></blockquote>
      *
-     * @param  authority The desired authority (e.g. "EPSG").
-     * @param  hints An optional map of hints, or {@code null} if none.
-     * @return The first coordinate reference system authority factory that matches the supplied hints.
+     * @param authority The desired authority (e.g. "EPSG").
+     * @param hints     An optional map of hints, or {@code null} if none.
+     * @return The first coordinate reference system authority factory that matches the supplied 
+     * hints.
      * @throws FactoryRegistryException if no implementation was found or can be created for the
-     *         {@link CRSAuthorityFactory} interface.
+     *                                  {@link CRSAuthorityFactory} interface.
      */
     public static CRSAuthorityFactory getCRSAuthorityFactory(final String authority,
-                                                             final Hints  hints)
-            throws FactoryRegistryException
-    {
+                                                             final Hints hints)
+            throws FactoryRegistryException {
         return getAuthorityFactory(CRSAuthorityFactory.class, authority, hints,
                 Hints.CRS_AUTHORITY_FACTORY);
     }
@@ -447,7 +453,7 @@ loop:       for (int i=0; ; i++) {
      * you will need to assume both are close enough, or make use of this set directly
      * rather than use the {@link CRS#decode} convenience method.
      *
-     * @param  hints An optional map of hints, or {@code null} if none.
+     * @param hints An optional map of hints, or {@code null} if none.
      * @return Set of available coordinate reference system authority factory implementations.
      */
     public static Set<CRSAuthorityFactory> getCRSAuthorityFactories(final Hints hints) {
@@ -461,16 +467,15 @@ loop:       for (int i=0; ; i++) {
      * {@linkplain #setVendorOrdering ordering is set}, then the preferred
      * implementation is returned. Otherwise an arbitrary one is selected.
      *
-     * @param  authority The desired authority (e.g. "EPSG").
-     * @param  hints An optional map of hints, or {@code null} if none.
+     * @param authority The desired authority (e.g. "EPSG").
+     * @param hints     An optional map of hints, or {@code null} if none.
      * @return The first coordinate operation authority factory that matches the supplied hints.
      * @throws FactoryRegistryException if no implementation was found or can be created for the
-     *         {@link CoordinateOperationAuthorityFactory} interface.
+     *                                  {@link CoordinateOperationAuthorityFactory} interface.
      */
     public static CoordinateOperationAuthorityFactory getCoordinateOperationAuthorityFactory(
             final String authority, final Hints hints)
-            throws FactoryRegistryException
-    {
+            throws FactoryRegistryException {
         return getAuthorityFactory(CoordinateOperationAuthorityFactory.class, authority, hints,
                 Hints.COORDINATE_OPERATION_AUTHORITY_FACTORY);
     }
@@ -479,28 +484,26 @@ loop:       for (int i=0; ; i++) {
      * Returns a set of all available implementations for the
      * {@link CoordinateOperationAuthorityFactory} interface.
      *
-     * @param  hints An optional map of hints, or {@code null} if none.
+     * @param hints An optional map of hints, or {@code null} if none.
      * @return Set of available coordinate operation authority factory implementations.
      */
     public static Set<CoordinateOperationAuthorityFactory> getCoordinateOperationAuthorityFactories(
-            final Hints hints)
-    {
+            final Hints hints) {
         return getFactories(CoordinateOperationAuthorityFactory.class, hints);
     }
-    
+
     /**
      * Returns a set of all available implementations for the
      * {@link GridShiftLocator} interface.
      *
-     * @param  hints An optional map of hints, or {@code null} if none.
+     * @param hints An optional map of hints, or {@code null} if none.
      * @return Set of available grid shift factory implementations.
      */
     public static Set<GridShiftLocator> getGridShiftLocators(
-            final Hints hints)
-    {
+            final Hints hints) {
         return getFactories(GridShiftLocator.class, hints);
     }
-    
+
     /**
      * Returns the first implementation of {@link MathTransformFactory} matching the specified
      * hints. If no implementation matches, a new one is created if possible or an exception is
@@ -508,14 +511,13 @@ loop:       for (int i=0; ; i++) {
      * {@linkplain #setVendorOrdering ordering is set}, then the preferred
      * implementation is returned. Otherwise an arbitrary one is selected.
      *
-     * @param  hints An optional map of hints, or {@code null} if none.
+     * @param hints An optional map of hints, or {@code null} if none.
      * @return The first math transform factory that matches the supplied hints.
      * @throws FactoryRegistryException if no implementation was found or can be created for the
-     *         {@link MathTransformFactory} interface.
+     *                                  {@link MathTransformFactory} interface.
      */
     public static MathTransformFactory getMathTransformFactory(final Hints hints)
-            throws FactoryRegistryException
-    {
+            throws FactoryRegistryException {
         return getFactory(MathTransformFactory.class, hints, Hints.MATH_TRANSFORM_FACTORY);
     }
 
@@ -523,7 +525,7 @@ loop:       for (int i=0; ; i++) {
      * Returns a set of all available implementations for the
      * {@link MathTransformFactory} interface.
      *
-     * @param  hints An optional map of hints, or {@code null} if none.
+     * @param hints An optional map of hints, or {@code null} if none.
      * @return Set of available math transform factory implementations.
      */
     public static Set<MathTransformFactory> getMathTransformFactories(final Hints hints) {
@@ -537,19 +539,18 @@ loop:       for (int i=0; ; i++) {
      * <p>
      * The example below said that an ESRI implementation (if available) is
      * preferred over the Geotools one:
-     *
+     * <p>
      * <blockquote><code>FactoryFinder.setVendorOrdering("ESRI", "Geotools");</code></blockquote>
      *
-     * @param  vendor1 The preferred vendor.
-     * @param  vendor2 The vendor to which {@code vendor1} is preferred.
+     * @param vendor1 The preferred vendor.
+     * @param vendor2 The vendor to which {@code vendor1} is preferred.
      * @return {@code true} if the ordering was set for at least one category.
      */
     public static synchronized boolean setVendorOrdering(final String vendor1,
-                                                         final String vendor2)
-    {
+                                                         final String vendor2) {
         return getServiceRegistry().setOrdering(Factory.class, true,
-                                                new VendorFilter(vendor1),
-                                                new VendorFilter(vendor2));
+                new VendorFilter(vendor1),
+                new VendorFilter(vendor2));
     }
 
     /**
@@ -557,31 +558,36 @@ loop:       for (int i=0; ; i++) {
      * currently registered, or if the desired ordering is already unset, nothing happens
      * and {@code false} is returned.
      *
-     * @param  vendor1 The preferred vendor.
-     * @param  vendor2 The vendor to which {@code vendor1} is preferred.
+     * @param vendor1 The preferred vendor.
+     * @param vendor2 The vendor to which {@code vendor1} is preferred.
      * @return {@code true} if the ordering was unset for at least one category.
      */
     public static synchronized boolean unsetVendorOrdering(final String vendor1,
-                                                           final String vendor2)
-    {
+                                                           final String vendor2) {
         return getServiceRegistry().setOrdering(Factory.class, false,
-                                                new VendorFilter(vendor1),
-                                                new VendorFilter(vendor2));
+                new VendorFilter(vendor1),
+                new VendorFilter(vendor2));
     }
 
     /**
      * A filter for factories provided by a given vendor.
      */
     private static final class VendorFilter implements Predicate<Factory> {
-        /** The vendor to filter. */
+        /**
+         * The vendor to filter.
+         */
         private final String vendor;
 
-        /** Constructs a filter for the given vendor. */
+        /**
+         * Constructs a filter for the given vendor.
+         */
         public VendorFilter(final String vendor) {
             this.vendor = vendor;
         }
 
-        /** Returns {@code true} if the specified factory is built by the vendor. */
+        /**
+         * Returns {@code true} if the specified factory is built by the vendor.
+         */
         @Override
         public boolean test(final Factory factory) {
             return Citations.titleMatches(factory.getVendor(), vendor);
@@ -595,19 +601,18 @@ loop:       for (int i=0; ; i++) {
      * <p>
      * The example below said that EPSG {@linkplain AuthorityFactory authority factories}
      * are preferred over ESRI ones:
-     *
+     * <p>
      * <blockquote><code>FactoryFinder.setAuthorityOrdering("EPSG", "ESRI");</code></blockquote>
      *
-     * @param  authority1 The preferred authority.
-     * @param  authority2 The authority to which {@code authority1} is preferred.
+     * @param authority1 The preferred authority.
+     * @param authority2 The authority to which {@code authority1} is preferred.
      * @return {@code true} if the ordering was set for at least one category.
      */
     public static synchronized boolean setAuthorityOrdering(final String authority1,
-                                                            final String authority2)
-    {
+                                                            final String authority2) {
         return getServiceRegistry().setOrdering(AuthorityFactory.class, true,
-                                                new AuthorityFilter(authority1),
-                                                new AuthorityFilter(authority2));
+                new AuthorityFilter(authority1),
+                new AuthorityFilter(authority2));
     }
 
     /**
@@ -615,31 +620,36 @@ loop:       for (int i=0; ; i++) {
      * currently registered, or if the desired ordering is already unset, nothing happens
      * and {@code false} is returned.
      *
-     * @param  authority1 The preferred authority.
-     * @param  authority2 The vendor to which {@code authority1} is preferred.
+     * @param authority1 The preferred authority.
+     * @param authority2 The vendor to which {@code authority1} is preferred.
      * @return {@code true} if the ordering was unset for at least one category.
      */
     public static synchronized boolean unsetAuthorityOrdering(final String authority1,
-                                                              final String authority2)
-    {
+                                                              final String authority2) {
         return getServiceRegistry().setOrdering(AuthorityFactory.class, false,
-                                                new AuthorityFilter(authority1),
-                                                new AuthorityFilter(authority2));
+                new AuthorityFilter(authority1),
+                new AuthorityFilter(authority2));
     }
 
     /**
      * A filter for factories provided for a given authority.
      */
     private static final class AuthorityFilter implements Predicate<AuthorityFactory> {
-        /** The authority to filter. */
+        /**
+         * The authority to filter.
+         */
         private final String authority;
 
-        /** Constructs a filter for the given authority. */
+        /**
+         * Constructs a filter for the given authority.
+         */
         public AuthorityFilter(final String authority) {
             this.authority = authority;
         }
 
-        /** Returns {@code true} if the specified provider is for the authority. */
+        /**
+         * Returns {@code true} if the specified provider is for the authority.
+         */
         @Override
         public boolean test(final AuthorityFactory provider) {
             if (authority == null) {
@@ -647,7 +657,8 @@ loop:       for (int i=0; ; i++) {
                 // be specified explicitly through a hint (e.g. Hints.CRS_AUTHORITY_FACTORY).
                 return false;
             }
-            return Citations.identifierMatches(((AuthorityFactory)provider).getAuthority(), authority);
+            return Citations.identifierMatches(((AuthorityFactory) provider).getAuthority(), 
+                    authority);
         }
     }
 
@@ -712,24 +723,23 @@ loop:       for (int i=0; ; i++) {
      * the first implementation listed is the default one. This method provides a way to check the
      * state of a system, usually for debugging purpose.
      *
-     * @param  out The output stream where to format the list.
-     * @param  locale The locale for the list, or {@code null}.
+     * @param out    The output stream where to format the list.
+     * @param locale The locale for the list, or {@code null}.
      * @throws IOException if an error occurs while writting to {@code out}.
      */
     public static synchronized void listProviders(final Writer out, final Locale locale)
-            throws IOException
-    {
+            throws IOException {
         final FactoryRegistry registry = getServiceRegistry();
         new FactoryPrinter().list(registry, out, locale);
     }
-    
+
     /**
      * Resets the factory finder and prepares for a new full scan of the SPI subsystems
      */
     public static void reset() {
         FactoryRegistry copy = registry;
         registry = null;
-        if(copy != null) {
+        if (copy != null) {
             copy.deregisterAll();
         }
     }
@@ -742,23 +752,23 @@ loop:       for (int i=0; ; i++) {
      * <BLOCKQUOTE><CODE>
      * java org.geotools.referencing.FactoryFinder <VAR>&lt;options&gt;</VAR>
      * </CODE></BLOCKQUOTE>
-     *
+     * <p>
      * <P>where options are:</P>
-     *
+     * <p>
      * <TABLE CELLPADDING='0' CELLSPACING='0'>
-     *   <TR><TD NOWRAP><CODE>-encoding</CODE> <VAR>&lt;code&gt;</VAR></TD>
-     *       <TD NOWRAP>&nbsp;Set the character encoding</TD></TR>
-     *   <TR><TD NOWRAP><CODE>-locale</CODE> <VAR>&lt;language&gt;</VAR></TD>
-     *       <TD NOWRAP>&nbsp;Set the language for the output (e.g. "fr" for French)</TD></TR>
+     * <TR><TD NOWRAP><CODE>-encoding</CODE> <VAR>&lt;code&gt;</VAR></TD>
+     * <TD NOWRAP>&nbsp;Set the character encoding</TD></TR>
+     * <TR><TD NOWRAP><CODE>-locale</CODE> <VAR>&lt;language&gt;</VAR></TD>
+     * <TD NOWRAP>&nbsp;Set the language for the output (e.g. "fr" for French)</TD></TR>
      * </TABLE>
-     *
+     * <p>
      * <P><strong>Note for Windows users:</strong> If the output contains strange
      * symbols, try to supply an "{@code -encoding}" argument. Example:</P>
-     *
+     * <p>
      * <blockquote><code>
      * java org.geotools.referencing.FactoryFinder -encoding Cp850
      * </code></blockquote>
-     *
+     * <p>
      * <P>The codepage number (850 in the previous example) can be obtained from the DOS
      * commande line using the "{@code chcp}" command with no arguments.</P>
      *

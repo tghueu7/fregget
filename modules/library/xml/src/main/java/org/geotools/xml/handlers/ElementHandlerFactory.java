@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -41,15 +41,14 @@ import org.xml.sax.SAXException;
  * </p>
  *
  * @author dzwiers www.refractions.net
- *
+ * @source $URL$
  * @see org.geotools.xml.XMLSAXHandler
  * @see Schema
- *
- *
- * @source $URL$
  */
 public class ElementHandlerFactory {
-    /** Used to store ElementHandlerFactory */
+    /**
+     * Used to store ElementHandlerFactory
+     */
     public static final String KEY = "org.geotools.xml.handlers.ElementHandlerFactory_KEY";
     private Logger logger;
     private Map targSchemas = new HashMap(); // maps prefix -->> Schema
@@ -78,10 +77,10 @@ public class ElementHandlerFactory {
 
     /**
      * @see org.xml.sax.ContentHandler#startPrefixMapping(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
     public void startPrefixMapping(String prefix, String targ, URI uri)
-        throws SAXException {
+            throws SAXException {
         logger.finest("Target == '" + targ + "'");
         logger.finest("URI == '" + uri + "'");
 
@@ -92,7 +91,7 @@ public class ElementHandlerFactory {
             logger.warning(e.toString());
             throw new SAXException(e);
         }
-        
+
         try {
             Schema s = SchemaFactory.getInstance(tns, uri, logger.getLevel());
 
@@ -102,26 +101,27 @@ public class ElementHandlerFactory {
                 }
 
                 targSchemas.put(s.getTargetNamespace(), s);
-                prefixURIs.put(prefix, tns); 
+                prefixURIs.put(prefix, tns);
             } else {
-                prefixURIs.put(prefix, tns); 
+                prefixURIs.put(prefix, tns);
             }
-        } catch(Exception e) {
-            logger.log(Level.FINE, "Failed to parse schema from location " + uri 
-                    + ", ignoring and moving on, this might result in some elements not being parsed properly");
+        } catch (Exception e) {
+            logger.log(Level.FINE, "Failed to parse schema from location " + uri
+                    + ", ignoring and moving on, this might result in some elements not being " +
+                    "parsed properly");
             // treating an error the same way as not being able to 
             // get to the schema, e.g., s == null above
             prefixURIs.put(prefix, tns);
         }
-    
+
     }
 
     /**
      * @see org.xml.sax.ContentHandler#startPrefixMapping(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
     public void startPrefixMapping(String prefix, String targ)
-        throws SAXException {
+            throws SAXException {
         logger.finest("Target == '" + targ + "'");
 
         try {
@@ -129,7 +129,7 @@ public class ElementHandlerFactory {
             Schema s = SchemaFactory.getInstance(tns);
 
             if (s == null) {
-                prefixURIs.put(prefix, tns); 
+                prefixURIs.put(prefix, tns);
                 return;
             }
 
@@ -138,7 +138,7 @@ public class ElementHandlerFactory {
             }
 
             targSchemas.put(s.getTargetNamespace(), s);
-            prefixURIs.put(prefix, tns); 
+            prefixURIs.put(prefix, tns);
         } catch (URISyntaxException e) {
             logger.warning(e.toString());
             throw new SAXException(e);
@@ -147,15 +147,15 @@ public class ElementHandlerFactory {
 
     /**
      * @see org.xml.sax.ContentHandler#startPrefixMapping(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
-    protected void startPrefixMapping(String prefix, Schema targ){
+    protected void startPrefixMapping(String prefix, Schema targ) {
         logger.finest("Target == '" + targ + "'");
-        	if ((prefix == null) || "".equalsIgnoreCase(prefix)) {
-            	defaultNS = targ.getTargetNamespace();
-        	}
-            targSchemas.put(targ.getTargetNamespace(), targ);
-            prefixURIs.put(prefix, targ.getTargetNamespace()); 
+        if ((prefix == null) || "".equalsIgnoreCase(prefix)) {
+            defaultNS = targ.getTargetNamespace();
+        }
+        targSchemas.put(targ.getTargetNamespace(), targ);
+        prefixURIs.put(prefix, targ.getTargetNamespace());
     }
 
     /**
@@ -164,14 +164,11 @@ public class ElementHandlerFactory {
      *
      * @param namespaceURI
      * @param localName
-     *
-     *
      * @throws SAXException
-     *
      * @see ElementHandlerFactory#createElementHandler(Element)
      */
     public XMLElementHandler createElementHandler(URI namespaceURI,
-        String localName) throws SAXException {
+                                                  String localName) throws SAXException {
 
         if (localName == null) {
             return null;
@@ -182,7 +179,7 @@ public class ElementHandlerFactory {
         }
 
         logger.finest("Trying to create an element handler for " + localName
-            + " :: " + namespaceURI);
+                + " :: " + namespaceURI);
 
         Schema s = (Schema) targSchemas.get(namespaceURI);
 
@@ -202,7 +199,7 @@ public class ElementHandlerFactory {
 
         for (int i = 0; i < eth.length; i++) {
             String name = eth[i].getName();
-			if (localName.equalsIgnoreCase(name) || name.equals(IgnoreHandler.NAME)) {
+            if (localName.equalsIgnoreCase(name) || name.equals(IgnoreHandler.NAME)) {
                 return createElementHandler(eth[i]);
             }
         }
@@ -215,14 +212,12 @@ public class ElementHandlerFactory {
      * Creates an element handler based on the element provided.
      *
      * @param eth Element
-     *
-     *
      * @throws SAXException
      */
     public XMLElementHandler createElementHandler(Element eth)
-        throws SAXException {
+            throws SAXException {
         Type type = eth.getType();
-                
+
         if (type instanceof SimpleType) {
             return new SimpleElementHandler(eth);
         }
@@ -233,9 +228,9 @@ public class ElementHandlerFactory {
 
         return new IgnoreHandler(eth);
     }
-    
-    public URI getNamespace(String prefix){
-        URI s = (URI)prefixURIs.get(prefix);
+
+    public URI getNamespace(String prefix) {
+        URI s = (URI) prefixURIs.get(prefix);
         return s;
     }
 }

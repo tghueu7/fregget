@@ -32,21 +32,23 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Manual binding for 'wps:Languages' in wpsGetCapabilibies_response.xsd'. 
- *<p>
- *This binding is implemented because it is an anonymous complex type which contains another
- *anonymous complex type. On top of all that its name conflicts with another type in the schema.
- *</p>
+ * Manual binding for 'wps:Languages' in wpsGetCapabilibies_response.xsd'.
+ * <p>
+ * This binding is implemented because it is an anonymous complex type which contains another
+ * anonymous complex type. On top of all that its name conflicts with another type in the schema.
+ * </p>
  * <pre>
  * &lt;element name="Languages">
  *   &lt;annotation>
- *       &lt;documentation>Listing of the default and other languages supported by this service. &lt;/documentation>
+ *       &lt;documentation>Listing of the default and other languages supported by this service. 
+ *       &lt;/documentation>
  *   &lt;/annotation>
  *   &lt;complexType>
  *       &lt;sequence>
  *         &lt;element name="Default">
  *           &lt;annotation>
- *              &lt;documentation>Identifies the default language that will be used unless the operation request specifies another supported language. &lt;/documentation>
+ *              &lt;documentation>Identifies the default language that will be used unless the 
+ *              operation request specifies another supported language. &lt;/documentation>
  *           &lt;/annotation>
  *           &lt;complexType>
  *              &lt;sequence>
@@ -57,7 +59,9 @@ import org.w3c.dom.Element;
  *         &lt;/element>
  *         &lt;element name="Supported" type="wps:LanguagesType">
  *           &lt;annotation>
- *                    &lt;documentation>Unordered list of references to all of the languages supported by this service. The default language shall be included in this list.&lt;/documentation>
+ *                    &lt;documentation>Unordered list of references to all of the languages 
+ *                    supported by this service. The default language shall be included in this 
+ *                    list.&lt;/documentation>
  *           &lt;/annotation>
  *         &lt;/element>
  *       &lt;/sequence>
@@ -65,20 +69,18 @@ import org.w3c.dom.Element;
  *   &lt;/element>
  *
  * </pre>
+ *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
- *
  * @source $URL$
  */
 public class LanguagesBinding extends AbstractComplexBinding {
 
     Wps10Factory factory;
-    public LanguagesBinding( Wps10Factory factory ) {
+
+    public LanguagesBinding(Wps10Factory factory) {
         this.factory = factory;
     }
-    
+
     public QName getTarget() {
         return WPS._Languages;
     }
@@ -86,46 +88,46 @@ public class LanguagesBinding extends AbstractComplexBinding {
     public Class getType() {
         return LanguagesType1.class;
     }
-    
+
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
         LanguagesType1 langs = factory.createLanguagesType1();
-        
+
         DefaultType2 def = factory.createDefaultType2();
-        langs.setDefault( def );
-        def.setLanguage( (String) node.getChildValue( "Default") );
-        
-        LanguagesType supported = (LanguagesType) node.getChildValue( "Supported" );
-        langs.setSupported( supported );
-        
+        langs.setDefault(def);
+        def.setLanguage((String) node.getChildValue("Default"));
+
+        LanguagesType supported = (LanguagesType) node.getChildValue("Supported");
+        langs.setSupported(supported);
+
         return langs;
     }
-    
+
     @Override
     public Element encode(Object object, Document document, Element value)
             throws Exception {
-        
+
         LanguagesType1 langs = (LanguagesType1) object;
-        
+
         //add the default manually
-        Element def = document.createElementNS( WPS.NAMESPACE, "Default");
-        value.appendChild( def );
-        
-        Element lang = document.createElementNS( OWS.NAMESPACE, OWS.Language.getLocalPart() );
-        def.appendChild( lang );
-        
-        lang.appendChild( document.createTextNode( langs.getDefault().getLanguage() ) );
-        
+        Element def = document.createElementNS(WPS.NAMESPACE, "Default");
+        value.appendChild(def);
+
+        Element lang = document.createElementNS(OWS.NAMESPACE, OWS.Language.getLocalPart());
+        def.appendChild(lang);
+
+        lang.appendChild(document.createTextNode(langs.getDefault().getLanguage()));
+
         return value;
     }
-    
+
     @Override
     public Object getProperty(Object object, QName name) throws Exception {
         LanguagesType1 langs = (LanguagesType1) object;
-        
-        if ( "Supported".equals( name.getLocalPart() ) ) {
+
+        if ("Supported".equals(name.getLocalPart())) {
             return langs.getSupported();
         }
-        
+
         return null;
     }
 

@@ -33,11 +33,11 @@ import org.geotools.styling.css.selector.SelectorVisitor;
 import org.geotools.styling.css.selector.TypeName;
 
 /**
- * Extracts a subset of a Selector that is compatible with the given TypeName. In case the default typename is provided, only selector bits with no
+ * Extracts a subset of a Selector that is compatible with the given TypeName. In case the 
+ * default typename is provided, only selector bits with no
  * typename attached will be preserved
- * 
- * @author Andrea Aime - GeoSolutions
  *
+ * @author Andrea Aime - GeoSolutions
  */
 public class TypeNameSimplifier implements SelectorVisitor {
 

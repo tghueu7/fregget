@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -45,11 +45,9 @@ import java.util.List;
  * &lt;/xsd:element&gt;
  * </code></pre>
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author James Macgill
+ * @version $Id$
+ * @source $URL$
  */
 public interface Style extends org.opengis.style.Style {
 
@@ -57,14 +55,15 @@ public interface Style extends org.opengis.style.Style {
 
     /**
      * Description for this style.
+     *
      * @return Human readable description for use in user interfaces
      * @since 2.5.x
      */
     Description getDescription();
-    
+
     /**
-     * Style Title (human readable name for user interfaces) 
-     * 
+     * Style Title (human readable name for user interfaces)
+     *
      * @deprecated use getDescription().getTitle().toString()
      */
     String getTitle();
@@ -75,9 +74,9 @@ public interface Style extends org.opengis.style.Style {
      */
     void setTitle(String title);
 
-    /** 
-     * Description of this style 
-     * 
+    /**
+     * Description of this style
+     *
      * @deprecated use getDesciption().getAbstract().toString()
      */
     String getAbstract();
@@ -95,6 +94,7 @@ public interface Style extends org.opengis.style.Style {
      * clientProperties mechanism similar to Swing JComponent allowing
      * applications to mark up the Style content for custom uses.
      * </p>
+     *
      * @param isDefault
      */
     void setDefault(boolean isDefault);
@@ -110,16 +110,16 @@ public interface Style extends org.opengis.style.Style {
      * <p>
      * Implementations may choose to look up the first symbolizer of an elseFilter or allow
      * this to be provided?
-     * 
+     *
      * @return Symbolizer to use if no rules work out.
      */
     public Symbolizer getDefaultSpecification();
-    
+
     /**
      * @param defaultSymbolizer To be used if a feature is not rendered by any of the rules
      */
-    public void setDefaultSpecification( Symbolizer defaultSymbolizer );
-    
+    public void setDefaultSpecification(Symbolizer defaultSymbolizer);
+
     /**
      * Array of FeatureTypeStyles in portrayal order.
      * <p>
@@ -128,11 +128,12 @@ public interface Style extends org.opengis.style.Style {
      * <p>
      * <i>Note: We are using a Array here to continue with Java 1.4 deployment.</i>
      * </p>
+     *
      * @deprecated use featureTypeStyles().toArray( new FeatureTypeStyle[0] )
      */
     FeatureTypeStyle[] getFeatureTypeStyles();
 
-    
+
     /**
      * @deprecated Use featureTypeStyles().clear(); featureTypeStyles.addAll( ... )
      */

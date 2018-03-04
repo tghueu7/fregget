@@ -21,9 +21,8 @@ import java.awt.Color;
 
 /**
  * A generic palette containing colours.
+ *
  * @author Cory Horner, Refractions Research Inc.
- *
- *
  * @source $URL$
  */
 public class ColorPalette {
@@ -42,6 +41,7 @@ public class ColorPalette {
 
     /**
      * Returns the number of colours contained in the palette.
+     *
      * @return int
      */
     public int getCount() {

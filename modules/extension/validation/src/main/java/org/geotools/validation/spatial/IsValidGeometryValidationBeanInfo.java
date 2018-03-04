@@ -23,22 +23,20 @@ import org.geotools.validation.DefaultFeatureValidationBeanInfo;
 
 /**
  * IsValidGeometryValidationBeanInfo purpose.
- * 
+ * <p>
  * <p>
  * Description of IsValidGeometryValidationBeanInfo ...
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class IsValidGeometryValidationBeanInfo extends DefaultFeatureValidationBeanInfo {
     /**
      * IsValidGeometryValidationBeanInfo constructor.
-     * 
+     * <p>
      * <p>
      * Description
      * </p>
@@ -49,7 +47,6 @@ public class IsValidGeometryValidationBeanInfo extends DefaultFeatureValidationB
 
     /**
      * Implementation of getPropertyDescriptors.
-     *
      *
      * @see java.beans.BeanInfo#getPropertyDescriptors()
      */

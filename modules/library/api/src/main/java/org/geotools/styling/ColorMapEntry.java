@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -32,13 +32,14 @@ import org.opengis.filter.expression.Expression;
  *  &lt;/xs:element&gt;
  *  </pre>
  *
- *
  * @source $URL$
  */
 public interface ColorMapEntry {
-    /** Label for this Color Map Entry */
+    /**
+     * Label for this Color Map Entry
+     */
     String getLabel();
-    
+
     /**
      * @param label
      */
@@ -46,6 +47,7 @@ public interface ColorMapEntry {
 
     /**
      * Expression resulting in a color
+     *
      * @param color
      */
     void setColor(Expression color);
@@ -59,19 +61,19 @@ public interface ColorMapEntry {
      * @param opacity Expressed as a value between 0 and 1
      */
     void setOpacity(Expression opacity);
+
     /**
-     * 
      * @return Opacity expressed as a value between 0 and 1
      */
     Expression getOpacity();
 
     /**
      * Quantity marking the start of this color map entry.
-     * 
+     *
      * @param quantity
      */
     void setQuantity(Expression quantity);
-    
+
     /**
      * @return Quanity marking the start of this color map entry
      */

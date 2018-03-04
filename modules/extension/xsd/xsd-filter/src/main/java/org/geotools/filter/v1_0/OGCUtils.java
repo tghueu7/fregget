@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.namespace.QName;
+
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
@@ -39,10 +40,6 @@ import org.geotools.xml.Node;
  * Filter parsing / encoding utility class.
  *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
- *
  * @source $URL$
  */
 public class OGCUtils {
@@ -50,10 +47,9 @@ public class OGCUtils {
      * Implementation of getProperty for {@link BinarySpatialOpTypeBinding} and
      * {@link DistanceBufferTypeBinding}
      *
-     * @param e1 First expression
-     * @param e2 Second expression
+     * @param e1   First expression
+     * @param e2   Second expression
      * @param name name of property
-     *
      * @return the object for the property, or null
      */
     static Object property(Expression e1, Expression e2, QName name) {
@@ -105,7 +101,6 @@ public class OGCUtils {
      * Returns a two element array of PropertyName, Literal ( Geometry )
      *
      * @param node The parse tree.
-     *
      * @return A two element array of expressions for a BinarySpatialOp type.
      */
     static Expression[] spatial(Node node, FilterFactory2 ff, GeometryFactory gf) {
@@ -114,7 +109,7 @@ public class OGCUtils {
             //join
             return new Expression[]{(Expression) names.get(0), (Expression) names.get(1)};
         }
-        
+
         PropertyName name = (PropertyName) node.getChildValue(PropertyName.class);
         Expression spatial = null;
 
@@ -125,38 +120,37 @@ public class OGCUtils {
             // code that encodes a filter into sql will choke on this
             Envelope envelope = (Envelope) node.getChildValue(Envelope.class);
             Polygon polygon = gf.createPolygon(gf.createLinearRing(
-                        new Coordinate[] {
+                    new Coordinate[]{
                             new Coordinate(envelope.getMinX(), envelope.getMinY()),
                             new Coordinate(envelope.getMaxX(), envelope.getMinY()),
                             new Coordinate(envelope.getMaxX(), envelope.getMaxY()),
                             new Coordinate(envelope.getMinX(), envelope.getMaxY()),
                             new Coordinate(envelope.getMinX(), envelope.getMinY())
-                        }), null);
+                    }), null);
 
             if (envelope instanceof ReferencedEnvelope) {
                 polygon.setUserData(((ReferencedEnvelope) envelope).getCoordinateReferenceSystem());
             }
 
             spatial = ff.literal(polygon);
-        }
-        else {
+        } else {
             //look for an expression that is not a property name
             for (Iterator c = node.getChildren().iterator(); c.hasNext(); ) {
                 Node child = (Node) c.next();
-                
+
                 //if property name, skip
-                if ( child.getValue() instanceof PropertyName ) {
+                if (child.getValue() instanceof PropertyName) {
                     continue;
                 }
-                
+
                 //if expression, use it
-                if ( child.getValue() instanceof Expression ) {
+                if (child.getValue() instanceof Expression) {
                     spatial = (Expression) child.getValue();
                     break;
                 }
             }
         }
 
-        return new Expression[] { name, spatial };
+        return new Expression[]{name, spatial};
     }
 }

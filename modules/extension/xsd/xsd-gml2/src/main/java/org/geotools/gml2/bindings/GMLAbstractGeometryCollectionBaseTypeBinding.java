@@ -29,9 +29,9 @@ import com.vividsolutions.jts.geom.GeometryCollection;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:AbstractGeometryCollectionBaseType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="AbstractGeometryCollectionBaseType" abstract="true"&gt;
  *      &lt;annotation&gt;
@@ -52,9 +52,6 @@ import com.vividsolutions.jts.geom.GeometryCollection;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  * JD: this binding should not longer be used
  */
@@ -83,10 +80,10 @@ public class GMLAbstractGeometryCollectionBaseTypeBinding extends AbstractComple
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return null;
     }
-    
+
     @Override
     public Object getProperty(Object object, QName name) throws Exception {
         return GML2ParsingUtils.GeometryCollectionType_getProperty(object, name);

@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2016, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -13,7 +13,7 @@
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
- *    
+ *
  */
 package org.geotools.process.geometry;
 
@@ -28,12 +28,11 @@ import com.vividsolutions.jts.operation.distance.DistanceOp;
 
 /**
  * Based on Vladimir Agafonkin's Algorithm https://www.mapbox.com/blog/polygon-center/
- * 
- * Implementation of quadtree cells for "Pole of inaccessibility". 
- * 
+ * <p>
+ * Implementation of quadtree cells for "Pole of inaccessibility".
+ *
  * @author Ian Turton
  * @author Casper Børgesen
- * 
  */
 public class Cell implements Comparable<Cell> {
     static final private GeometryBuilder GB = new GeometryBuilder();
@@ -58,10 +57,10 @@ public class Cell implements Comparable<Cell> {
         Point p = GB.point(x, y);
 
         // distance from cell center to polygon
-        this.setD(pointToPolygonDist(p, polygon)); 
-        
+        this.setD(pointToPolygonDist(p, polygon));
+
         // max distance to polygon within a cell
-        this.setMax(this.getD() + this.getH() * SQRT2); 
+        this.setMax(this.getD() + this.getH() * SQRT2);
     }
 
     @Override

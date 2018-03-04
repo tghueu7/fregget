@@ -38,7 +38,7 @@ import jdk.nashorn.internal.ir.annotations.Ignore;
 public class ArcGISRestFeatureReaderTest {
 
     private static final Logger LOGGER = Logging
-        .getLogger("org.geotools.data.arcgisrest");
+            .getLogger("org.geotools.data.arcgisrest");
 
     ArcGISRestFeatureReader reader;
     SimpleFeatureType fType;
@@ -61,7 +61,7 @@ public class ArcGISRestFeatureReaderTest {
     public void emptyInputStreamHasNext() throws Exception {
 
         this.reader = new ArcGISRestFeatureReader(this.fType,
-            new ByteArrayInputStream("".getBytes()), this.LOGGER);
+                new ByteArrayInputStream("".getBytes()), this.LOGGER);
         assertFalse(this.reader.hasNext());
     }
 
@@ -69,9 +69,9 @@ public class ArcGISRestFeatureReaderTest {
     public void noFeaturesHasNext() throws Exception {
 
         this.json = ArcGISRestDataStoreFactoryTest
-            .readJSONAsString("test-data/noFeatures.geo.json");
+                .readJSONAsString("test-data/noFeatures.geo.json");
         this.reader = new ArcGISRestFeatureReader(this.fType,
-            new ByteArrayInputStream(json.getBytes()), this.LOGGER);
+                new ByteArrayInputStream(json.getBytes()), this.LOGGER);
 
         assertFalse(this.reader.hasNext());
     }
@@ -80,9 +80,9 @@ public class ArcGISRestFeatureReaderTest {
     public void noFeaturesNext() throws Exception {
 
         this.json = ArcGISRestDataStoreFactoryTest
-            .readJSONAsString("test-data/noFeatures.geo.json");
+                .readJSONAsString("test-data/noFeatures.geo.json");
         this.reader = new ArcGISRestFeatureReader(this.fType,
-            new ByteArrayInputStream(json.getBytes()), this.LOGGER);
+                new ByteArrayInputStream(json.getBytes()), this.LOGGER);
 
         this.reader.next();
     }
@@ -91,9 +91,9 @@ public class ArcGISRestFeatureReaderTest {
     public void noProperties() throws Exception {
 
         this.json = ArcGISRestDataStoreFactoryTest
-            .readJSONAsString("test-data/noProperties.geo.json");
+                .readJSONAsString("test-data/noProperties.geo.json");
         this.reader = new ArcGISRestFeatureReader(this.fType,
-            new ByteArrayInputStream(json.getBytes()), this.LOGGER);
+                new ByteArrayInputStream(json.getBytes()), this.LOGGER);
 
         assertTrue(this.reader.hasNext());
         SimpleFeature feat = this.reader.next();
@@ -103,6 +103,6 @@ public class ArcGISRestFeatureReaderTest {
         feat = this.reader.next();
         assertFalse(this.reader.hasNext());
         assertEquals("geometry",
-            feat.getDefaultGeometryProperty().getName().getLocalPart());
+                feat.getDefaultGeometryProperty().getName().getLocalPart());
     }
 }

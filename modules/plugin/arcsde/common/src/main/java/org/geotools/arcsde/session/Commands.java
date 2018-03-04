@@ -34,8 +34,6 @@ import com.esri.sde.sdk.client.SeUpdate;
 import com.esri.sde.sdk.client.SeVersion;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class Commands {
@@ -122,7 +120,8 @@ public class Commands {
 
         private final SeSqlConstruct sql;
 
-        public CreateAndExecuteQueryCommand(final String[] propertyNames, final SeSqlConstruct sql) {
+        public CreateAndExecuteQueryCommand(final String[] propertyNames, final SeSqlConstruct 
+                sql) {
             this.propertyNames = propertyNames;
             this.sql = sql;
         }
@@ -240,7 +239,7 @@ public class Commands {
 
     /**
      * Command to fetch a version.
-     * 
+     *
      * @author Gabriel Roldan
      */
     public static final class GetVersionCommand extends Command<SeVersion> {
@@ -317,7 +316,7 @@ public class Commands {
 
         /**
          * @return the SeLayer corresponding to the provided SeTable, or {@code null} if the table
-         *         has no shape column
+         * has no shape column
          */
         public SeLayer execute(ISession session, SeConnection connection) throws SeException,
                 IOException {
@@ -381,7 +380,8 @@ public class Commands {
         }
     };
 
-    public static final Command<List<String>> GET_RASTER_COLUMN_NAMES = new Command<List<String>>() {
+    public static final Command<List<String>> GET_RASTER_COLUMN_NAMES = new Command<List<String>>
+            () {
         @SuppressWarnings("unchecked")
         @Override
         public List<String> execute(final ISession session, final SeConnection connection)
@@ -429,7 +429,9 @@ public class Commands {
             }
             return null;
         }
-    };
+    }
+
+    ;
 
     public static final Command<Void> CLOSE_CONNECTION = new CloseConnection();
 
@@ -513,7 +515,6 @@ public class Commands {
     }
 
     /**
-     * 
      * @author groldan
      */
     public static final class PrepareQueryCommand extends Command<SeQuery> {
@@ -525,7 +526,7 @@ public class Commands {
         private ArcSdeVersionHandler version;
 
         public PrepareQueryCommand(final SeQueryInfo qInfo, final SeFilter[] spatialConstraints,
-                final ArcSdeVersionHandler version) {
+                                   final ArcSdeVersionHandler version) {
             this.qInfo = qInfo;
             this.spatialConstraints = spatialConstraints;
             this.version = version;

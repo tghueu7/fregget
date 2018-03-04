@@ -19,8 +19,6 @@ package org.geotools.data.sqlserver;
 import org.geotools.jdbc.JDBCAggregateTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SQLServerAggregateTestSetup extends JDBCAggregateTestSetup {
@@ -44,7 +42,8 @@ public class SQLServerAggregateTestSetup extends JDBCAggregateTestSetup {
                 + "geometry::STGeomFromText('POLYGON((12 6, 14 8, 16 6, 16 4, 14 4, 12 6))',4326),"
                 + "'muddy2')");
 
-        run("CREATE SPATIAL INDEX _aggregate_geometry_index on aggregate(geom) WITH (BOUNDING_BOX = (-100, -100, 100, 100))");
+        run("CREATE SPATIAL INDEX _aggregate_geometry_index on aggregate(geom) WITH (BOUNDING_BOX" +
+                " = (-100, -100, 100, 100))");
     }
 
     @Override

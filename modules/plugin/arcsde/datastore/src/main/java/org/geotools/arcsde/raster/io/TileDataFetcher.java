@@ -23,16 +23,18 @@ import com.esri.sde.sdk.client.SeRasterTile;
  * promoting the original tile data to a higher precision sample detph, and filling out the TileInfo
  * pixels with the no-data value where appropriate (determined by the
  * {@link SeRasterTile#getBitMaskData() bitmask data}).
- * 
+ *
  * @author Gabriel Roldan (OpenGeo)
  * @version $Id$
- * @since 2.5.9
  * @source $URL$
  * @see NativeTileReader
+ * @since 2.5.9
  */
 abstract class TileDataFetcher {
 
-    private static Map<RasterCellType, TileDataFetcher> tileDataSetters = new HashMap<RasterCellType, TileDataFetcher>();
+    private static Map<RasterCellType, TileDataFetcher> tileDataSetters = new 
+            HashMap<RasterCellType, TileDataFetcher>();
+
     static {
         final ByteTileSetter byteTileSetter = new ByteTileSetter();
         tileDataSetters.put(TYPE_1BIT, new OneBitTileSetter());
@@ -53,15 +55,13 @@ abstract class TileDataFetcher {
      * Returns a {@code TileDataFetcher} that knows how to translate the raw pixel data from an
      * {@link SeRasterTile} with pixel type {@code nativeType} to a {@link TileInfo}'s internal
      * array with a pixel type determined by {@code targetCellType}.
-     * 
-     * @param nativeType
-     *            the arcsde raster's native pixel type
-     * @param targetCellType
-     *            the TileInfo's target pixel type
+     *
+     * @param nativeType     the arcsde raster's native pixel type
+     * @param targetCellType the TileInfo's target pixel type
      * @return
      */
     public static TileDataFetcher getTileDataFetcher(final RasterCellType nativeType,
-            final RasterCellType targetCellType) {
+                                                     final RasterCellType targetCellType) {
         final TileDataFetcher tileDataFetcher;
         if (nativeType == targetCellType) {
             tileDataFetcher = tileDataSetters.get(nativeType);
@@ -94,7 +94,7 @@ abstract class TileDataFetcher {
 
     /**
      * Grabs the native pixel data out of {@code tile}
-     * 
+     *
      * @param tile
      * @param tileInfo
      */
@@ -375,7 +375,7 @@ abstract class TileDataFetcher {
             final short nodata = (short) (tileInfo.getNoDataValue().intValue() & 0xFFFF);
 
             final short[] tileDataUShorts = tileInfo.getTileDataAsUnsignedShorts();
-            
+
             //Arrays.fill(tileDataUShorts, nodata);
             if (numPixelsRead == 0) {
                 Arrays.fill(tileDataUShorts, nodata);

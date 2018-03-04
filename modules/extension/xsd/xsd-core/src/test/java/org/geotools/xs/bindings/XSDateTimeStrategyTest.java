@@ -41,7 +41,9 @@ public class XSDateTimeStrategyTest extends TestSchema {
     }
 
     public <E extends java.util.Date> void testParseEncode(final QName qname, final String toParse,
-            final E toEncode, final String expectedEncoding) throws Exception {
+                                                           final E toEncode, final String 
+                                                                   expectedEncoding) throws 
+            Exception {
 
         SimpleBinding strategy = (SimpleBinding) stratagy(qname);
         E parsed = (E) strategy.parse(element(toParse, qname), toParse);
@@ -58,8 +60,8 @@ public class XSDateTimeStrategyTest extends TestSchema {
     }
 
     private Calendar calendar(TimeZone timeZone, Integer... values) {
-        int[] fields = { Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH,
-                Calendar.HOUR_OF_DAY, Calendar.MINUTE, Calendar.SECOND, Calendar.MILLISECOND };
+        int[] fields = {Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH,
+                Calendar.HOUR_OF_DAY, Calendar.MINUTE, Calendar.SECOND, Calendar.MILLISECOND};
 
         Calendar cal = Calendar.getInstance(timeZone);
         cal.clear();
@@ -162,12 +164,12 @@ public class XSDateTimeStrategyTest extends TestSchema {
         cal = calendar(2011, 9, 24, 10, 53, 31, 999);
         testEncodeCalendar(cal, TEST.DATETIME, "2011-10-24T10:53:31.999Z");
     }
-    
+
     public void testDirectlyEncodeCalendarDateTime() throws Exception {
         Calendar cal = calendar(2011, 9, 24, 10, 53, 31);
         String encoded = new XSDateTimeBinding().encode(cal, null);
         assertEquals("2011-10-24T10:53:31Z", encoded);
-        
+
         cal = calendar(2011, 9, 24, 10, 53, 31, 999);
         encoded = new XSDateTimeBinding().encode(cal, null);
         assertEquals("2011-10-24T10:53:31.999Z", encoded);
@@ -178,10 +180,10 @@ public class XSDateTimeStrategyTest extends TestSchema {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         encoder.encode(cal, qname, out);
-        
+
         Document dom = DocumentBuilderFactory.newInstance().newDocumentBuilder()
                 .parse(new ByteArrayInputStream(out.toByteArray()));
-        
+
         String encodedValue = dom.getDocumentElement().getTextContent();
 
         assertEquals(expected, encodedValue);

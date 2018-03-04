@@ -6,8 +6,6 @@ import org.geotools.data.DataStore;
 import org.geotools.util.WeakCollectionCleaner;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DataStoreSoftReference extends SoftReference<DataStore> {
@@ -15,11 +13,11 @@ public class DataStoreSoftReference extends SoftReference<DataStore> {
     public DataStoreSoftReference(DataStore referent) {
         super(referent, WeakCollectionCleaner.DEFAULT.getReferenceQueue());
     }
-    
+
     @Override
     public void clear() {
         DataStore store = get();
-        if(store != null)
+        if (store != null)
             store.dispose();
         super.clear();
     }

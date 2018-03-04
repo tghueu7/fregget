@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2007-2008, Open Source Geospatial Foundation (OSGeo)
- *   
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -23,11 +23,11 @@ import java.util.Set;
 /**
  * Null implementation for the {@link ObjectCache}. Used for cases where
  * caching is <strong>not</strong> desired.
- * 
- * @since 2.5
+ *
+ * @author Cory Horner (Refractions Research)
  * @version $Id$
  * @source $URL$
- * @author Cory Horner (Refractions Research)
+ * @since 2.5
  */
 final class NullObjectCache implements ObjectCache {
     /**
@@ -57,7 +57,7 @@ final class NullObjectCache implements ObjectCache {
     /**
      * Returns {@code null} since this map is empty.
      */
-    public Object peek( Object key ) {
+    public Object peek(Object key) {
         return null;
     }
 
@@ -85,19 +85,19 @@ final class NullObjectCache implements ObjectCache {
      */
     public void writeUnLock(Object key) {
     }
-    
+
     /**
      * Return an empty set.
      */
-    public Set<Object> getKeys(){
-    	return Collections.emptySet();
+    public Set<Object> getKeys() {
+        return Collections.emptySet();
     }
-    
+
     /**
      * Do nothing since there is nothing to remove.
      */
-    public void remove(Object key){
-    	
+    public void remove(Object key) {
+
     }
-    
+
 }

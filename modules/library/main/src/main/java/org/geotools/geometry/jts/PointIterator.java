@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -19,7 +19,6 @@ package org.geotools.geometry.jts;
 import java.awt.geom.AffineTransform;
 
 
-
 import com.vividsolutions.jts.geom.Point;
 
 
@@ -27,34 +26,40 @@ import com.vividsolutions.jts.geom.Point;
  * A path iterator for the LiteShape class, specialized to iterate over Point objects.
  *
  * @author Andrea Aime
- *
- *
  * @source $URL$
  */
 public final class PointIterator extends AbstractLiteIterator {
-    /** Transform applied on the coordinates during iteration */
+    /**
+     * Transform applied on the coordinates during iteration
+     */
     private AffineTransform at;
-    
-    /** The point we are going to provide when asked for coordinates */
+
+    /**
+     * The point we are going to provide when asked for coordinates
+     */
     private Point point;
-    
-    /** True when the point has been read once */
+
+    /**
+     * True when the point has been read once
+     */
     private boolean done;
-    
-    /** Current coordinate */
+
+    /**
+     * Current coordinate
+     */
     private boolean moved;
 
     /**
      * Creates a new PointIterator object.
      *
      * @param point The point
-     * @param at The affine transform applied to coordinates during iteration
+     * @param at    The affine transform applied to coordinates during iteration
      */
     public PointIterator(Point point, AffineTransform at) {
         if (at == null) {
             at = new AffineTransform();
         }
-        
+
         this.at = at;
         this.point = point;
         done = false;

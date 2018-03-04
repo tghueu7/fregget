@@ -27,22 +27,20 @@ import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * PolygonNoGapsValidation purpose.
- * 
+ * <p>
  * <p>
  * Ensures Polygon does not have gaps.
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class PolygonNoGapsValidation extends DefaultFeatureValidation {
     /**
      * PolygonNoGapsValidation constructor.
-     * 
+     * <p>
      * <p>
      * Description
      * </p>
@@ -53,38 +51,35 @@ public class PolygonNoGapsValidation extends DefaultFeatureValidation {
 
     /**
      * Ensure Polygon does not have gaps.
-     * 
+     * <p>
      * <p></p>
      *
      * @param feature the Feature to be validated
      * @param type    the FeatureType of the feature
      * @param results storage for the error and warning messages
-     *
      * @return True if no features intersect. If they do then the validation
-     *         failed.
-     *
+     * failed.
      * @throws Exception DOCUMENT ME!
-     *
      * @see org.geotools.validation.IntegrityValidation#validate(java.util.Map,
-     *      com.vividsolutions.jts.geom.Envelope,
-     *      org.geotools.validation.ValidationResults)
+     * com.vividsolutions.jts.geom.Envelope,
+     * org.geotools.validation.ValidationResults)
      */
-    public boolean validate(SimpleFeature feature, 
+    public boolean validate(SimpleFeature feature,
                             SimpleFeatureType type,
-	                          ValidationResults results){
-		
-        if(feature != null){
-        	Geometry layer = (Geometry) feature.getDefaultGeometry();
-        	if(layer instanceof Polygon){
-        		Polygon p = (Polygon)layer;
-        		if(p.getNumInteriorRing()!=0){
-                	results.error(feature,"The generated result was had gaps.");
-                	return false;
-        		}
-        		return true;
-        	}
-        	results.error(feature,"The generated result was not of type polygon.");
-        	return false;
+                            ValidationResults results) {
+
+        if (feature != null) {
+            Geometry layer = (Geometry) feature.getDefaultGeometry();
+            if (layer instanceof Polygon) {
+                Polygon p = (Polygon) layer;
+                if (p.getNumInteriorRing() != 0) {
+                    results.error(feature, "The generated result was had gaps.");
+                    return false;
+                }
+                return true;
+            }
+            results.error(feature, "The generated result was not of type polygon.");
+            return false;
         }
 
         return true;

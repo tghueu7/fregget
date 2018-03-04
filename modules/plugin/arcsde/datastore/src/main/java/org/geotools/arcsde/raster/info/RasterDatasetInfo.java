@@ -55,20 +55,20 @@ import org.opengis.referencing.operation.TransformException;
  * This is the single entry point to the metadata of a raster dataset. The associated classes
  * {@link RasterInfo} and {@link PyramidLevelInfo} are to be considered private to this class.
  * </p>
- * 
+ *
  * @author Gabriel Roldan (OpenGeo)
- * @since 2.5.4
  * @version $Id$
- *
- *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/main/java/org
- *         /geotools/arcsde/gce/RasterDatasetInfo.java $
+ * http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/main/java/org
+ * /geotools/arcsde/gce/RasterDatasetInfo.java $
+ * @since 2.5.4
  */
-@SuppressWarnings({ "nls" })
+@SuppressWarnings({"nls"})
 public final class RasterDatasetInfo {
 
-    /** TRasterDatasetInfo the raster table we're pulling images from in this reader * */
+    /**
+     * TRasterDatasetInfo the raster table we're pulling images from in this reader *
+     */
     private String rasterTable = null;
 
     /**
@@ -77,18 +77,20 @@ public final class RasterDatasetInfo {
      */
     private String[] rasterColumns;
 
-    /** Array holding information on each level of the pyramid in this raster. * */
+    /**
+     * Array holding information on each level of the pyramid in this raster. *
+     */
     private List<RasterInfo> subRasterInfo;
 
     private GridEnvelope originalGridRange;
 
     private List<GridSampleDimension> gridSampleDimensions;
 
-    private final Map<Integer, ImageTypeSpecifier> renderedImageSpec = new HashMap<Integer, ImageTypeSpecifier>();
+    private final Map<Integer, ImageTypeSpecifier> renderedImageSpec = new HashMap<Integer, 
+            ImageTypeSpecifier>();
 
     /**
-     * @param rasterTable
-     *            the rasterTable to set
+     * @param rasterTable the rasterTable to set
      */
     void setRasterTable(String rasterTable) {
         this.rasterTable = rasterTable;
@@ -102,8 +104,7 @@ public final class RasterDatasetInfo {
     }
 
     /**
-     * @param rasterColumns
-     *            the rasterColumns to set
+     * @param rasterColumns the rasterColumns to set
      */
     void setRasterColumns(String[] rasterColumns) {
         this.rasterColumns = rasterColumns;
@@ -117,8 +118,7 @@ public final class RasterDatasetInfo {
     }
 
     /**
-     * @param pyramidInfo
-     *            the pyramidInfo to set
+     * @param pyramidInfo the pyramidInfo to set
      */
     public void setPyramidInfo(List<RasterInfo> pyramidInfo) {
         this.subRasterInfo = pyramidInfo;
@@ -135,7 +135,7 @@ public final class RasterDatasetInfo {
         return gridSampleDimensions.toArray(new GridSampleDimension[getNumBands()]);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     private List<GridSampleDimension> buildSampleDimensions() {
 
         final int numBands = getNumBands();
@@ -178,11 +178,11 @@ public final class RasterDatasetInfo {
                 Category nodataCat = new Category(
                         Vocabulary.formatInternational(VocabularyKeys.NODATA), transparent,
                         noDataValue);
-                categories = new Category[] { valuesCat, nodataCat };
+                categories = new Category[]{valuesCat, nodataCat};
             } else {
                 // do not build a nodata category. A nodata value that doesn't overlap the value
                 // range couldn't be determined
-                categories = new Category[] { valuesCat };
+                categories = new Category[]{valuesCat};
             }
             /*
              * if (band.isHasStats()) { //can't do this, get an exception telling categories
@@ -237,7 +237,7 @@ public final class RasterDatasetInfo {
 
     /**
      * @return the originalGridRange for the whole raster dataset, based on the first raster in the
-     *         raster dataset
+     * raster dataset
      */
     public GridEnvelope getOriginalGridRange() {
         if (originalGridRange == null) {
@@ -464,7 +464,8 @@ public final class RasterDatasetInfo {
     }
 
     public int getOptimalPyramidLevel(final int rasterIndex, final OverviewPolicy policy,
-            final GeneralEnvelope requestedEnvelope, final GridEnvelope requestedDim) {
+                                      final GeneralEnvelope requestedEnvelope, final GridEnvelope
+                                              requestedDim) {
 
         final RasterInfo rasterInfo = getRasterInfo(rasterIndex);
 
@@ -506,8 +507,7 @@ public final class RasterDatasetInfo {
     }
 
     /**
-     * @param rasterIndex
-     *            the raster for which bands to return the no data values
+     * @param rasterIndex the raster for which bands to return the no data values
      * @return the list of no data values, one per band for the raster at index {@code rasterIndex}
      */
     public List<Number> getNoDataValues(final int rasterIndex) {

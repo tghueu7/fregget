@@ -33,8 +33,6 @@ import com.vividsolutions.jts.geom.Envelope;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DiskGridFeatureCacheTest extends GridFeatureCacheTest {
@@ -44,33 +42,34 @@ public class DiskGridFeatureCacheTest extends GridFeatureCacheTest {
 
     @Override
     protected AbstractFeatureCache createInstance(int capacity)
-        throws FeatureCacheException, IOException {
+            throws FeatureCacheException, IOException {
         Storage storage = DiskStorage.createInstance();
         this.cache = new GridFeatureCache(ds.getFeatureSource(dataset.getSchema().getName()),
                 100, capacity, storage);
 
         return this.cache;
     }
-    
-    
-    public void testRegister() { 
-        GridSpatialIndex index = (GridSpatialIndex)((GridFeatureCache)cache).getIndex();
+
+
+    public void testRegister() {
+        GridSpatialIndex index = (GridSpatialIndex) ((GridFeatureCache) cache).getIndex();
         double tilesize = index.getRootNode().getTileSize();
-        Region r = (Region)index.getRootNode().getShape();
-        
+        Region r = (Region) index.getRootNode().getShape();
+
         //matches all 
         Envelope e = new Envelope(r.getLow(0), r.getHigh(0), r.getLow(1), r.getHigh(1));
         List<Envelope> matches = cache.match(e);
         assertEquals(1, matches.size());
 
         //matches 4 tiles 
-        e = new Envelope(r.getLow(0), r.getLow(0) + 2 * tilesize-0.00001, r.getLow(1), r.getLow(1) + 2 *tilesize - 0.0001);
+        e = new Envelope(r.getLow(0), r.getLow(0) + 2 * tilesize - 0.00001, r.getLow(1), r.getLow
+                (1) + 2 * tilesize - 0.0001);
         matches = cache.match(e);
         assertEquals(4, matches.size());
 
         cache.remove(e);
-        
+
         matches = cache.match(e);
-        assertEquals(4, matches.size());        
+        assertEquals(4, matches.size());
     }
 }

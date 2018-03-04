@@ -33,7 +33,6 @@ import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.geom.impl.CoordinateArraySequence;
 
 /**
- * 
  * @author Emanuele Tajariol <etj at geo-solutions.it>
  */
 public class BinarizatorTest {
@@ -66,7 +65,8 @@ public class BinarizatorTest {
     }
 
     /**
-     * This test used to work with antialias off and drawing performed with draw + fill. Its seems that antialias on and fill() only will draw a
+     * This test used to work with antialias off and drawing performed with draw + fill. Its 
+     * seems that antialias on and fill() only will draw a
      * square of 44x44 px, not 45x45. TO BE CHECKED.
      */
     @Test

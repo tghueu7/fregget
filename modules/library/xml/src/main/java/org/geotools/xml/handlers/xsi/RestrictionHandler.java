@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -28,20 +28,20 @@ import org.xml.sax.SAXNotRecognizedException;
 
 /**
  * RestrictionHandler purpose.
- * 
+ * <p>
  * <p>
  * Represents a restriction element
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc. http://www.refractions.net
  * @author $Author:$ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class RestrictionHandler extends XSIElementHandler {
-    /** 'restriction' */
+    /**
+     * 'restriction'
+     */
     public final static String LOCALNAME = "restriction";
     private String id;
     private String base;
@@ -55,15 +55,15 @@ public class RestrictionHandler extends XSIElementHandler {
      */
     public int hashCode() {
         return LOCALNAME.hashCode() * ((id == null) ? 1 : id.hashCode()) * ((base == null)
-        ? 1 : base.hashCode());
+                ? 1 : base.hashCode());
     }
 
     /**
      * @see org.geotools.xml.XSIElementHandler#getHandler(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
     public XSIElementHandler getHandler(String namespaceURI, String localName)
-        throws SAXException {
+            throws SAXException {
         if (SchemaHandler.namespaceURI.equalsIgnoreCase(namespaceURI)) {
             // child types
             //
@@ -75,8 +75,8 @@ public class RestrictionHandler extends XSIElementHandler {
                     child = sch;
                 } else {
                     throw new SAXNotRecognizedException(getLocalName()
-                        + " may only have one '" + SimpleTypeHandler.LOCALNAME
-                        + "' declaration.");
+                            + " may only have one '" + SimpleTypeHandler.LOCALNAME
+                            + "' declaration.");
                 }
 
                 return sch;
@@ -222,8 +222,8 @@ public class RestrictionHandler extends XSIElementHandler {
                     child = sch;
                 } else {
                     throw new SAXNotRecognizedException(getLocalName()
-                        + " may only have one '" + AllHandler.LOCALNAME
-                        + "' declaration.");
+                            + " may only have one '" + AllHandler.LOCALNAME
+                            + "' declaration.");
                 }
 
                 return sch;
@@ -237,8 +237,8 @@ public class RestrictionHandler extends XSIElementHandler {
                     child = sch;
                 } else {
                     throw new SAXNotRecognizedException(getLocalName()
-                        + " may only have one '" + ChoiceHandler.LOCALNAME
-                        + "' declaration.");
+                            + " may only have one '" + ChoiceHandler.LOCALNAME
+                            + "' declaration.");
                 }
 
                 return sch;
@@ -252,8 +252,8 @@ public class RestrictionHandler extends XSIElementHandler {
                     child = sch;
                 } else {
                     throw new SAXNotRecognizedException(getLocalName()
-                        + " may only have one '" + GroupHandler.LOCALNAME
-                        + "' declaration.");
+                            + " may only have one '" + GroupHandler.LOCALNAME
+                            + "' declaration.");
                 }
 
                 return sch;
@@ -267,8 +267,8 @@ public class RestrictionHandler extends XSIElementHandler {
                     child = sch;
                 } else {
                     throw new SAXNotRecognizedException(getLocalName()
-                        + " may only have one '" + SequenceHandler.LOCALNAME
-                        + "' declaration.");
+                            + " may only have one '" + SequenceHandler.LOCALNAME
+                            + "' declaration.");
                 }
 
                 return sch;
@@ -306,8 +306,8 @@ public class RestrictionHandler extends XSIElementHandler {
                     anyAttribute = sch;
                 } else {
                     throw new SAXNotRecognizedException(getLocalName()
-                        + " may only have one '"
-                        + AnyAttributeHandler.LOCALNAME + "' declaration.");
+                            + " may only have one '"
+                            + AnyAttributeHandler.LOCALNAME + "' declaration.");
                 }
 
                 return sch;
@@ -319,10 +319,10 @@ public class RestrictionHandler extends XSIElementHandler {
 
     /**
      * @see org.geotools.xml.XSIElementHandler#startElement(java.lang.String,
-     *      java.lang.String, org.xml.sax.Attributes)
+     * java.lang.String, org.xml.sax.Attributes)
      */
     public void startElement(String namespaceURI, String localName,
-        Attributes atts) {
+                             Attributes atts) {
         id = atts.getValue("", "id");
 
         if (id == null) {
@@ -348,7 +348,6 @@ public class RestrictionHandler extends XSIElementHandler {
      * returns the AnyAttribute child element
      * </p>
      * TODO use this !
-     *
      */
     public AnyAttributeHandler getAnyAttribute() {
         return anyAttribute;
@@ -358,7 +357,6 @@ public class RestrictionHandler extends XSIElementHandler {
      * <p>
      * returns the list of attribute declarations
      * </p>
-     *
      */
     public List getAttributeDeclarations() {
         return attrDecs;
@@ -368,7 +366,6 @@ public class RestrictionHandler extends XSIElementHandler {
      * <p>
      * Retusn the 'base' attribute
      * </p>
-     *
      */
     public String getBase() {
         return base;
@@ -378,7 +375,6 @@ public class RestrictionHandler extends XSIElementHandler {
      * <p>
      * Returns a list of Facets
      * </p>
-     *
      */
     public List getConstraints() {
         return constraints;
@@ -388,7 +384,6 @@ public class RestrictionHandler extends XSIElementHandler {
      * <p>
      * Returns the id attribute
      * </p>
-     *
      */
     public String getId() {
         return id;
@@ -414,9 +409,9 @@ public class RestrictionHandler extends XSIElementHandler {
 
     /**
      * @see org.geotools.xml.XSIElementHandler#endElement(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
-    public void endElement(String namespaceURI, String localName){
+    public void endElement(String namespaceURI, String localName) {
         // do nothing
     }
 }
@@ -429,7 +424,9 @@ public class RestrictionHandler extends XSIElementHandler {
  * @version $Revision: 1.9 $
  */
 class EnumerationHandler extends FacetHandler {
-    /** 'enumeration' */
+    /**
+     * 'enumeration'
+     */
     public final static String LOCALNAME = "enumeration";
 
     /**
@@ -455,7 +452,9 @@ class EnumerationHandler extends FacetHandler {
  * @version $Revision: 1.9 $
  */
 class FractionDigitsHandler extends FacetHandler {
-    /** 'fractionDigits' */
+    /**
+     * 'fractionDigits'
+     */
     public final static String LOCALNAME = "fractionDigits";
 
     /**
@@ -481,7 +480,9 @@ class FractionDigitsHandler extends FacetHandler {
  * @version $Revision: 1.9 $
  */
 class LengthHandler extends FacetHandler {
-    /** 'length' */
+    /**
+     * 'length'
+     */
     public final static String LOCALNAME = "length";
 
     /**
@@ -507,7 +508,9 @@ class LengthHandler extends FacetHandler {
  * @version $Revision: 1.9 $
  */
 class MinInclusiveHandler extends FacetHandler {
-    /** 'minInclusive' */
+    /**
+     * 'minInclusive'
+     */
     public final static String LOCALNAME = "minInclusive";
 
     /**
@@ -533,7 +536,9 @@ class MinInclusiveHandler extends FacetHandler {
  * @version $Revision: 1.9 $
  */
 class MaxInclusiveHandler extends FacetHandler {
-    /** 'maxInclusive' */
+    /**
+     * 'maxInclusive'
+     */
     public final static String LOCALNAME = "maxInclusive";
 
     /**
@@ -559,7 +564,9 @@ class MaxInclusiveHandler extends FacetHandler {
  * @version $Revision: 1.9 $
  */
 class MinExclusiveHandler extends FacetHandler {
-    /** 'minExclusive' */
+    /**
+     * 'minExclusive'
+     */
     public final static String LOCALNAME = "minExclusive";
 
     /**
@@ -585,7 +592,9 @@ class MinExclusiveHandler extends FacetHandler {
  * @version $Revision: 1.9 $
  */
 class MaxExclusiveHandler extends FacetHandler {
-    /** 'maxExclusive' */
+    /**
+     * 'maxExclusive'
+     */
     public final static String LOCALNAME = "maxExclusive";
 
     /**
@@ -611,7 +620,9 @@ class MaxExclusiveHandler extends FacetHandler {
  * @version $Revision: 1.9 $
  */
 class MinLengthHandler extends FacetHandler {
-    /** 'minLength' */
+    /**
+     * 'minLength'
+     */
     public final static String LOCALNAME = "minLength";
 
     /**
@@ -637,7 +648,9 @@ class MinLengthHandler extends FacetHandler {
  * @version $Revision: 1.9 $
  */
 class MaxLengthHandler extends FacetHandler {
-    /** 'maxLength' */
+    /**
+     * 'maxLength'
+     */
     public final static String LOCALNAME = "maxLength";
 
     /**
@@ -663,7 +676,9 @@ class MaxLengthHandler extends FacetHandler {
  * @version $Revision: 1.9 $
  */
 class PatternHandler extends FacetHandler {
-    /** 'pattern' */
+    /**
+     * 'pattern'
+     */
     public final static String LOCALNAME = "pattern";
 
     /**
@@ -689,7 +704,9 @@ class PatternHandler extends FacetHandler {
  * @version $Revision: 1.9 $
  */
 class TotalDigitsHandler extends FacetHandler {
-    /** 'totalDigits' */
+    /**
+     * 'totalDigits'
+     */
     public final static String LOCALNAME = "totalDigits";
 
     /**

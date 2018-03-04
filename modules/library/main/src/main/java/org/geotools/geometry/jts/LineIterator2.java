@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -30,107 +30,91 @@ import com.vividsolutions.jts.geom.LineString;
  *
  * @author Andrea Aime
  * @author simone giannecchini
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public final class LineIterator2 implements PathIterator {
-	
-	private double[] allCoords;
-	
-    /** Transform applied on the coordinates during iteration */
-    private AffineTransform at;   
-    
-    /** Current line coordinate */
+
+    private double[] allCoords;
+
+    /**
+     * Transform applied on the coordinates during iteration
+     */
+    private AffineTransform at;
+
+    /**
+     * Current line coordinate
+     */
     private int currentCoord = 0;
     private int actualCoords; // numb coordinates
 
 
-    /** True when the iteration is terminated */
+    /**
+     * True when the iteration is terminated
+     */
     private boolean done = false;
 
 
-	public LineIterator2()
-	{
-	
-	}
-	
-	 /**
+    public LineIterator2() {
+
+    }
+
+    /**
      * @see java.awt.geom.PathIterator#currentSegment(float[])
      */
-    public int currentSegment(float[] coords) 
-    {
-    	  if (currentCoord == 0) 
-    	  {
-              coords[0] =  (float)allCoords[0];
-              coords[1] =  (float)allCoords[1];
-              if (at !=null)
-            	  at.transform(coords, 0, coords, 0, 1);
-              return SEG_MOVETO;
-          } 
-    	  else 
-    	  {
-              coords[0] = (float)allCoords[currentCoord*2];
-              coords[1] = (float)allCoords[currentCoord*2+1];
-              if (at !=null)
-            	  at.transform(coords, 0, coords, 0, 1);
-              return SEG_LINETO;
-          }
+    public int currentSegment(float[] coords) {
+        if (currentCoord == 0) {
+            coords[0] = (float) allCoords[0];
+            coords[1] = (float) allCoords[1];
+            if (at != null)
+                at.transform(coords, 0, coords, 0, 1);
+            return SEG_MOVETO;
+        } else {
+            coords[0] = (float) allCoords[currentCoord * 2];
+            coords[1] = (float) allCoords[currentCoord * 2 + 1];
+            if (at != null)
+                at.transform(coords, 0, coords, 0, 1);
+            return SEG_LINETO;
+        }
     }
-    
-    
+
+
     /**
-	 * @param ls
-	 * @param at
-	 * 
-	 */
-	public void init(LineString ls, AffineTransform at) 
-	{
-		
-		if ( (at==null ) || (at.isIdentity()) )
-		{
-			this.at = null;	
-		}
-		else
-		{
-			this.at =at;  
-		}
+     * @param ls
+     * @param at
+     */
+    public void init(LineString ls, AffineTransform at) {
 
-	    CoordinateSequence coordinates = ls.getCoordinateSequence();
-	    if (coordinates instanceof LiteCoordinateSequence)
-	    {
-	    	//array already there for us
-	    	allCoords = ( (LiteCoordinateSequence) coordinates).getXYArray();
-	    	actualCoords = coordinates.size();
-	    }
-	    else
-	    {
-	    	//build the array
-	    	actualCoords = coordinates.size();
-	    	allCoords = new double[actualCoords*2];
-	    	for (int t=0;t<actualCoords;t++)
-	    	{
-	    		allCoords[t*2]= coordinates.getOrdinate(t,0);
-	    		allCoords[t*2+1]= coordinates.getOrdinate(t,1);
-	    	}
-	    }
-	   
-	    done =false;
-	    currentCoord=0;
-	}
+        if ((at == null) || (at.isIdentity())) {
+            this.at = null;
+        } else {
+            this.at = at;
+        }
 
-	
+        CoordinateSequence coordinates = ls.getCoordinateSequence();
+        if (coordinates instanceof LiteCoordinateSequence) {
+            //array already there for us
+            allCoords = ((LiteCoordinateSequence) coordinates).getXYArray();
+            actualCoords = coordinates.size();
+        } else {
+            //build the array
+            actualCoords = coordinates.size();
+            allCoords = new double[actualCoords * 2];
+            for (int t = 0; t < actualCoords; t++) {
+                allCoords[t * 2] = coordinates.getOrdinate(t, 0);
+                allCoords[t * 2 + 1] = coordinates.getOrdinate(t, 1);
+            }
+        }
 
-
-   
+        done = false;
+        currentCoord = 0;
+    }
 
 
     /**
      * Returns the winding rule for determining the interior of the path.
      *
      * @return the winding rule.
-     *
      * @see #WIND_EVEN_ODD
      * @see #WIND_NON_ZERO
      */
@@ -142,7 +126,7 @@ public final class LineIterator2 implements PathIterator {
      * Tests if the iteration is complete.
      *
      * @return <code>true</code> if all the segments have been read;
-     *         <code>false</code> otherwise.
+     * <code>false</code> otherwise.
      */
     public boolean isDone() {
         return done;
@@ -154,26 +138,25 @@ public final class LineIterator2 implements PathIterator {
      * direction.
      */
     public void next() {
-		if ( currentCoord == (actualCoords-1))
-        {
+        if (currentCoord == (actualCoords - 1)) {
             done = true;
-        } 
-		else
-		{
+        } else {
             currentCoord++;
         }
     }
 
-	/**
-	 * @see java.awt.geom.PathIterator#currentSegment(double[])
-	 */
-	public int currentSegment(double[] coords) {
-		 float[] fco = new float[6];
-		 int result = currentSegment(fco);
-		 coords[0] =fco[0]; coords[1] =fco[1];
-		 coords[2] =fco[2]; coords[3] =fco[3];
-	     return result;
-	}
+    /**
+     * @see java.awt.geom.PathIterator#currentSegment(double[])
+     */
+    public int currentSegment(double[] coords) {
+        float[] fco = new float[6];
+        int result = currentSegment(fco);
+        coords[0] = fco[0];
+        coords[1] = fco[1];
+        coords[2] = fco[2];
+        coords[3] = fco[3];
+        return result;
+    }
 
-	
+
 }

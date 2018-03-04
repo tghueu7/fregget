@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.util;
@@ -29,14 +29,12 @@ package org.opengis.util;
  * and uses Java reflection as a fallback.
  *
  * @author Martin Desruisseaux (IRD)
- * @since GeoAPI 1.0
- *
- * @see java.lang.Cloneable
- * @see <A HREF="http://developer.java.sun.com/developer/bugParade/bugs/4098033.html">&quot;<cite>Cloneable
- *      doesn't define <code>clone()</code></cite>&quot; on Sun's bug parade</A>
- *
- *
  * @source $URL$
+ * @see java.lang.Cloneable
+ * @see <A HREF="http://developer.java.sun.com/developer/bugParade/bugs/4098033.html">&quot;
+ * <cite>Cloneable
+ * doesn't define <code>clone()</code></cite>&quot; on Sun's bug parade</A>
+ * @since GeoAPI 1.0
  */
 public interface Cloneable extends java.lang.Cloneable {
     /**
@@ -44,7 +42,6 @@ public interface Cloneable extends java.lang.Cloneable {
      * The precise meaning of "copy" may depend on the class of the object.
      *
      * @return A copy of this object.
-     *
      * @see Object#clone
      */
     Object clone();

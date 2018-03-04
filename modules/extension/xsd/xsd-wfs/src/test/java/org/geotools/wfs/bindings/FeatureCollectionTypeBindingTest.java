@@ -41,52 +41,50 @@ import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Point;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class FeatureCollectionTypeBindingTest extends WFSTestSupport {
 
     public FeatureCollectionTypeBindingTest() {
         super(WFS.FeatureCollectionType, FeatureCollectionType.class, Binding.OVERRIDE);
-        
+
     }
 
     @Override
     public void testEncode() throws Exception {
-        
-        namespaceMappings.put( "geotools", "http://geotools.org" );
-        		
-        DefaultFeatureCollection features = new DefaultFeatureCollection(null,null);
-        
+
+        namespaceMappings.put("geotools", "http://geotools.org");
+
+        DefaultFeatureCollection features = new DefaultFeatureCollection(null, null);
+
         SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
-        tb.setName( "feature" );
-        tb.setNamespaceURI( "http://geotools.org");
-        tb.add( "geometry", Point.class );
-        tb.add( "integer", Integer.class );
-        
-        SimpleFeatureBuilder b = new SimpleFeatureBuilder( tb.buildFeatureType() );
-        b.add( new GeometryFactory().createPoint( new Coordinate( 0, 0 ) ) );
-        b.add( 0 );
-        features.add( b.buildFeature( "zero" ) );
-        
-        b.add( new GeometryFactory().createPoint( new Coordinate( 1, 1 ) ) );
-        b.add( 1 );
-        features.add( b.buildFeature( "one" ) );
-        
+        tb.setName("feature");
+        tb.setNamespaceURI("http://geotools.org");
+        tb.add("geometry", Point.class);
+        tb.add("integer", Integer.class);
+
+        SimpleFeatureBuilder b = new SimpleFeatureBuilder(tb.buildFeatureType());
+        b.add(new GeometryFactory().createPoint(new Coordinate(0, 0)));
+        b.add(0);
+        features.add(b.buildFeature("zero"));
+
+        b.add(new GeometryFactory().createPoint(new Coordinate(1, 1)));
+        b.add(1);
+        features.add(b.buildFeature("one"));
+
         FeatureCollectionType fc = WfsFactory.eINSTANCE.createFeatureCollectionType();
-        fc.getFeature().add( features );
-        
-        Document dom = encode( fc, WFS.FeatureCollection );
+        fc.getFeature().add(features);
+
+        Document dom = encode(fc, WFS.FeatureCollection);
         // print( dom );
-        
-        NodeList featureNodes = dom.getElementsByTagNameNS( "http://geotools.org" , "feature" );
-        
-        assertEquals( 2, featureNodes.getLength() );
-        for ( int i = 0; i < featureNodes.getLength(); i++ ) {
-            Element featureNode = (Element) featureNodes.item( i );
-            assertNotNull( featureNode.getElementsByTagNameNS( "http://geotools.org", "geometry") );
-            assertNotNull( featureNode.getElementsByTagNameNS( "http://geotools.org", "integer") );
+
+        NodeList featureNodes = dom.getElementsByTagNameNS("http://geotools.org", "feature");
+
+        assertEquals(2, featureNodes.getLength());
+        for (int i = 0; i < featureNodes.getLength(); i++) {
+            Element featureNode = (Element) featureNodes.item(i);
+            assertNotNull(featureNode.getElementsByTagNameNS("http://geotools.org", "geometry"));
+            assertNotNull(featureNode.getElementsByTagNameNS("http://geotools.org", "integer"));
         }
     }
 
@@ -94,30 +92,29 @@ public class FeatureCollectionTypeBindingTest extends WFSTestSupport {
     public void testParse() throws Exception {
         final URL resource = TestData.getResource(this, "FeatureCollectionTypeBindingTest.xml");
         buildDocument(resource);
-        
+
         FeatureCollectionType fc = (FeatureCollectionType) parse();
-        assertEquals( 1, fc.getFeature().size() );
-        
-        FeatureCollection features = (FeatureCollection) fc.getFeature().get( 0 );
-        assertEquals( 2, features.size() );
-        
+        assertEquals(1, fc.getFeature().size());
+
+        FeatureCollection features = (FeatureCollection) fc.getFeature().get(0);
+        assertEquals(2, features.size());
+
         FeatureIterator fi = features.features();
         try {
-            assertTrue( fi.hasNext() );
+            assertTrue(fi.hasNext());
             SimpleFeature f = (SimpleFeature) fi.next();
-            
-            assertEquals( "feature", f.getType().getTypeName() );
-            assertTrue( f.getDefaultGeometry() instanceof LineString );
-            assertEquals( "1", f.getAttribute("integer").toString() );
-            
-        }
-        finally {
-            if( fi != null ){
+
+            assertEquals("feature", f.getType().getTypeName());
+            assertTrue(f.getDefaultGeometry() instanceof LineString);
+            assertEquals("1", f.getAttribute("integer").toString());
+
+        } finally {
+            if (fi != null) {
                 fi.close();
             }
         }
-        
-        
+
+
     }
 
 }

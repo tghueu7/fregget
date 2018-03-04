@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -24,8 +24,6 @@ import junit.framework.TestCase;
 import org.junit.Assert;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ToolboxTest extends TestCase {
@@ -33,7 +31,7 @@ public class ToolboxTest extends TestCase {
     public void testValidate() {
         Toolbox tb = new Toolbox();
         try {
-            tb.parse(new String[] { "validate", "src/test/resources/geninfo_vertical.xml" });
+            tb.parse(new String[]{"validate", "src/test/resources/geninfo_vertical.xml"});
         } catch (IOException e) {
             e.printStackTrace();
             Assert.fail();

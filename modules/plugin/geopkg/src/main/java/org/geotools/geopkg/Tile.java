@@ -20,10 +20,9 @@ import java.util.Arrays;
 
 /**
  * A single tile from a geopackage tiles layer.
- * 
+ *
  * @author Justin Deoliveira
  * @author Niels Charlier
- *
  */
 public class Tile {
 

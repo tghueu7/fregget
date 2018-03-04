@@ -17,16 +17,15 @@ import org.geotools.xml.Node;
 
 /**
  * Custom binding for the {@link DescribeEOCoverageSetType} type
- * 
- * @author Andrea Aime - GeoSolutions
  *
+ * @author Andrea Aime - GeoSolutions
  */
 public class SectionsBinding extends AbstractComplexEMFBinding {
 
     public SectionsBinding() {
         super(Wcs20Factory.eINSTANCE);
     }
-    
+
     public QName getTarget() {
         return WCSEO.Sections;
     }
@@ -34,23 +33,23 @@ public class SectionsBinding extends AbstractComplexEMFBinding {
     public Class getType() {
         return Sections.class;
     }
-    
+
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
             throws Exception {
-        
+
         List sections = node.getChildren("Section");
 
         if (null != sections) {
-            for (Iterator iterator = sections.iterator(); iterator.hasNext();) {
+            for (Iterator iterator = sections.iterator(); iterator.hasNext(); ) {
                 Node child = (Node) iterator.next();
-                child.setValue(Section.get((String)child.getValue()));
+                child.setValue(Section.get((String) child.getValue()));
             }
-            
+
         }
 
         return super.parse(instance, node, value);
@@ -59,7 +58,7 @@ public class SectionsBinding extends AbstractComplexEMFBinding {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.xml.AbstractComplexBinding#getExecutionMode()
      */
     @Override

@@ -20,8 +20,6 @@ import org.geotools.jdbc.JDBCFeatureStoreOnlineTest;
 import org.geotools.jdbc.JDBCTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class OracleFeatureStoreOnlineTest extends JDBCFeatureStoreOnlineTest {

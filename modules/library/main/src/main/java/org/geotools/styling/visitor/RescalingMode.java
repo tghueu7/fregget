@@ -63,9 +63,9 @@ enum RescalingMode {
         @Override
         public String rescaleToStringInternal(double scaleFactor, Measure measure) {
             if (measure.isRealWorldUnit()) {
-                if(measure.isRealWorldUnitInPixelDefault()){                    
+                if (measure.isRealWorldUnitInPixelDefault()) {
                     return String.valueOf(measure.value) + UNIT_SYMBOLS.get(measure.uom);
-                }else{
+                } else {
                     return String.valueOf(measure.value);
                 }
             } else {
@@ -96,7 +96,7 @@ enum RescalingMode {
 
         /**
          * Computes a rescaling multiplier to be applied to an unscaled value.
-         * 
+         *
          * @param mapScale the mapScale in pixels per meter.
          * @param uom the unit of measure that will be used to scale.
          * @return the rescaling multiplier for the provided parameters.
@@ -122,7 +122,8 @@ enum RescalingMode {
     public String rescaleToString(double scaleFactor, Measure measure) {
         if (measure.value == null) {
             throw new IllegalStateException(
-                    "Cannot rescale to literal, the value is a generic expression, not a static value: "
+                    "Cannot rescale to literal, the value is a generic expression, not a static " +
+                            "value: "
                             + measure.expression);
         }
 
@@ -141,7 +142,7 @@ enum RescalingMode {
                     Measure.ff.literal(measure.uom), scaleFactor, Measure.ff.literal(this));
         }
     }
-    
+
     /**
      * Translates between units and their shortcuts (we can only get the full name from the unit
      * object

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2012, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -23,16 +23,16 @@ import org.opengis.referencing.Factory;
 
 /**
  * Provides a hook to locate grid shift files, such as NTv1, NTv2 and NADCON ones
- * 
+ * <p>
  * Andrea Aime - Geosolutions
  */
 public interface GridShiftLocator extends Factory {
-	
-	/**
-	 * Locate the specified resource.
-	 * 
-	 * @param grid the grid name/location
-	 * @return the fully resolved URL of the grid or null, if the resource cannot be located.
-	 */
-	URL locateGrid(String grid);
+
+    /**
+     * Locate the specified resource.
+     *
+     * @param grid the grid name/location
+     * @return the fully resolved URL of the grid or null, if the resource cannot be located.
+     */
+    URL locateGrid(String grid);
 }

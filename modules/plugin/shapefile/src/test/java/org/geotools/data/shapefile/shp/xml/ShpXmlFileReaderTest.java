@@ -29,8 +29,6 @@ import org.junit.Test;
 import com.vividsolutions.jts.geom.Envelope;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ShpXmlFileReaderTest {

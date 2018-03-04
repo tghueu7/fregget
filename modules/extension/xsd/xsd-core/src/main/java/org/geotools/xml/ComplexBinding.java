@@ -21,41 +21,37 @@ import org.eclipse.xsd.XSDParticle;
 import org.picocontainer.MutablePicoContainer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 import java.util.List;
 import javax.xml.namespace.QName;
 
 
 /**
- *  A strategy for parsing elements in an instance document which are of
- *  complex type.
- *
- *        <p>
- *        Complex types contain child elements, and attributes. A complex strategy
- *        has the ability to
- *        <p>
+ * A strategy for parsing elements in an instance document which are of
+ * complex type.
+ * <p>
+ * <p>
+ * Complex types contain child elements, and attributes. A complex strategy
+ * has the ability to
+ * <p>
  *
  * @author Justin Deoliveira,Refractions Research Inc.,jdeolive@refractions.net
- *
- *
- *
- *
  * @source $URL$
  */
 public interface ComplexBinding extends Binding {
     /**
      * Callback for the binding to initialize itself.
-     *
+     * <p>
      * <p>
      * This method is called when the leading edge of the associated element is
      * reached, before any children have been processed.
      * </p>
      *
      * @param instance The element being parsed.
-     * @param node The node in the parse tree representing the element being
-     * parsed. It is important to note that at the time this method is called
-     * the node contains no child element nodes, only child attribute nodes.
-     * @param context The container to be used as context for child binding.
-     *
+     * @param node     The node in the parse tree representing the element being
+     *                 parsed. It is important to note that at the time this method is called
+     *                 the node contains no child element nodes, only child attribute nodes.
+     * @param context  The container to be used as context for child binding.
      */
     void initialize(ElementInstance instance, Node node, MutablePicoContainer context);
 
@@ -70,37 +66,35 @@ public interface ComplexBinding extends Binding {
      * </p>
      *
      * @param childinstance The child element instance
-     * @param node The parse node for the parent element.
-     * @param context the context in which the child element will be parsed.
+     * @param node          The parse node for the parent element.
+     * @param context       the context in which the child element will be parsed.
      */
     void initializeChildContext(ElementInstance childInstance, Node node,
-        MutablePicoContainer context);
+                                MutablePicoContainer context);
 
     /**
      * Parses a complex element from an instance document into an object
      * representation.
-     *
+     * <p>
      * <p>
      * This method is called when the trailing edge of the associated element is
      * reached.
      * </p>
      *
      * @param instance The element being parsed.
-     * @param node The node in the parse tree representing the element being
-     * parsed.
-     * @param value The result of the parse from another strategy in the type
-     * hierarchy. Could be null if this is the first strategy being executed.
-     *
+     * @param node     The node in the parse tree representing the element being
+     *                 parsed.
+     * @param value    The result of the parse from another strategy in the type
+     *                 hierarchy. Could be null if this is the first strategy being executed.
      * @return The parsed object, or null if the component could not be parsed.
-     *
-     * @throws Exception  Strategy objects should not attempt to handle any exceptions.
+     * @throws Exception Strategy objects should not attempt to handle any exceptions.
      */
     Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception;
+            throws Exception;
 
     /**
      * Performs the encoding of the object into its xml representation.
-     *
+     * <p>
      * <p>
      * Complex objects are encoded as elements in a document. The <param>value</param>
      * parameter is the encoded element, created by the parent binding. For the
@@ -108,31 +102,29 @@ public interface ComplexBinding extends Binding {
      * children or attributes ). The binding has the choice to return <param>value</param>
      * or to create a new element to return.
      * </p>
-     *
-     *        <p>
+     * <p>
+     * <p>
      * This method may choose to create child elements and attributes for the element.
      * Or as an alternative return the object values for these contructs in
      * {@link #getProperty(Object, QName)}.
-     *        </p>
+     * </p>
      *
-     * @param object The object being encoded.
+     * @param object   The object being encoded.
      * @param document The document containing the encoded element.
-     * @param value The object as encoded by the parent binding.
-     *
+     * @param value    The object as encoded by the parent binding.
      * @return The element for the objcet being encoded, or <code>null</code>
-     *
      */
     Element encode(Object object, Document document, Element value)
-        throws Exception;
+            throws Exception;
 
     /**
      * Returns a property of a particular object which corresponds to the
      * specified name.
-     *
+     * <p>
      * </p>
      * <p>This method should just return null in the event that the object being
      * encoded is an leaf in its object model.</p>
-     *
+     * <p>
      * <p>
      * For multi-values properties ( maxOccurs > 0 ), this method may return an
      * instance of {@link java.util.Collection}, {@link java.util.Iterator}, or
@@ -140,8 +132,7 @@ public interface ComplexBinding extends Binding {
      * </p>
      *
      * @param object The object being encoded.
-     * @param name The name of the property to obtain.
-     *
+     * @param name   The name of the property to obtain.
      * @return The value of the property, or <code>null</code>.
      */
     Object getProperty(Object object, QName name) throws Exception;
@@ -168,25 +159,26 @@ public interface ComplexBinding extends Binding {
      * for each instance of the property, and not a list, iterator, or array
      * containing all of the instances.
      * </p>
-     * @param object the object being encoded.
      *
+     * @param object the object being encoded.
      * @return A list of the properties for the object.
      * @deprecated use {@link #getProperties(Object, XSDElementDeclaration)}.
      */
     List /*Object[QName,Object]*/ getProperties(Object object)
-        throws Exception;
-    
+            throws Exception;
+
     /**
      * Returns a list of properties of the specified object.
      * <p>
-     * The return list contains a set of tuples (two element object array) which represent the 
-     * properties of the object. The second value is an object which respresents the value. The first
+     * The return list contains a set of tuples (two element object array) which represent the
+     * properties of the object. The second value is an object which respresents the value. The 
+     * first
      * value of the tuple can one of two things:
-     *   <ol>
-     *     <li>A {@link QName} identifying an element. This name will be used to locate the schema
-     *     element for the property.
-     *     <li>A {@link XSDParticle} representing the element itself. 
-     *   </ol>
+     * <ol>
+     * <li>A {@link QName} identifying an element. This name will be used to locate the schema
+     * element for the property.
+     * <li>A {@link XSDParticle} representing the element itself.
+     * </ol>
      * </p>
      * <p>
      * This method should only be implemented in the case where the encoder
@@ -204,11 +196,11 @@ public interface ComplexBinding extends Binding {
      * for each instance of the property, and not a list, iterator, or array
      * containing all of the instances.
      * </p>
-     * @param object the object being encoded.
-     * @param element 
      *
+     * @param object  the object being encoded.
+     * @param element
      * @return A list of the properties for the object.
      */
-    List /*Object[QName,Object]*/ getProperties(Object object, XSDElementDeclaration element )
-        throws Exception;
+    List /*Object[QName,Object]*/ getProperties(Object object, XSDElementDeclaration element)
+            throws Exception;
 }

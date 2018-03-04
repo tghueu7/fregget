@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -20,6 +20,7 @@
 package org.geotools.metadata.iso.extent;
 
 import java.util.Collection;
+
 import org.opengis.metadata.extent.BoundingPolygon;
 import org.opengis.geometry.Geometry;
 
@@ -29,13 +30,10 @@ import org.opengis.geometry.Geometry;
  * (<var>x</var>,<var>y</var>) coordinates of the polygon. The last
  * point replicates first point.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class BoundingPolygonImpl extends GeographicExtentImpl implements BoundingPolygon {

@@ -31,18 +31,17 @@ import org.geotools.referencing.ReferencingFactoryFinder;
 import org.geotools.referencing.NamedIdentifier;
 
 import org.junit.*;
+
 import static org.junit.Assert.*;
 
 
 /**
  * Tests {@link FactoryUsingWKT}.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (Geomatys)
  * @author Jody Garnett
+ * @version $Id$
+ * @source $URL$
  */
 public final class FactoryUsingWktTest {
     /**
@@ -68,10 +67,9 @@ public final class FactoryUsingWktTest {
     public void testCrsAuthorityExtraDirectoryHint() throws Exception {
         Hints hints = new Hints(Hints.CRS_AUTHORITY_FACTORY, FactoryUsingWKT.class);
         try {
-           hints.put(Hints.CRS_AUTHORITY_EXTRA_DIRECTORY, "invalid");
-           fail("Should of been tossed out as an invalid hint");
-        }
-        catch (IllegalArgumentException expected) {
+            hints.put(Hints.CRS_AUTHORITY_EXTRA_DIRECTORY, "invalid");
+            fail("Should of been tossed out as an invalid hint");
+        } catch (IllegalArgumentException expected) {
             // This is the expected exception.
         }
         String directory = new File(".").getAbsolutePath();
@@ -84,11 +82,11 @@ public final class FactoryUsingWktTest {
      * Tests the authority code.
      */
     @Test
-    public void testAuthority(){
+    public void testAuthority() {
         final Citation authority = factory.getAuthority();
         assertNotNull(authority);
         assertEquals("European Petroleum Survey Group", authority.getTitle().toString());
-        assertTrue (Citations.identifierMatches(authority, "EPSG"));
+        assertTrue(Citations.identifierMatches(authority, "EPSG"));
         assertFalse(Citations.identifierMatches(authority, "ESRI"));
         assertTrue(factory instanceof FactoryUsingWKT);
     }
@@ -97,7 +95,7 @@ public final class FactoryUsingWktTest {
      * Tests the vendor.
      */
     @Test
-    public void testVendor(){
+    public void testVendor() {
         final Citation vendor = factory.getVendor();
         assertNotNull(vendor);
         assertEquals("Geotools", vendor.getTitle().toString());
@@ -112,11 +110,11 @@ public final class FactoryUsingWktTest {
     public void test42101() throws FactoryException {
         CoordinateReferenceSystem actual, expected;
         expected = factory.createCoordinateReferenceSystem("42101");
-        actual   = CRS.decode("EPSG:42101");
+        actual = CRS.decode("EPSG:42101");
         assertSame(expected, actual);
         assertTrue(actual instanceof ProjectedCRS);
         Collection ids = actual.getIdentifiers();
-        assertTrue (ids.contains(new NamedIdentifier(Citations.EPSG, "42101")));
+        assertTrue(ids.contains(new NamedIdentifier(Citations.EPSG, "42101")));
         assertFalse(ids.contains(new NamedIdentifier(Citations.ESRI, "42101")));
     }
 }

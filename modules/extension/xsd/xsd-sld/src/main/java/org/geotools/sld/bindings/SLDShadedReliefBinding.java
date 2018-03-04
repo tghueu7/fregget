@@ -30,9 +30,9 @@ import org.picocontainer.MutablePicoContainer;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:ShadedRelief.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="ShadedRelief"&gt;
  *      &lt;xsd:annotation&gt;
@@ -55,9 +55,6 @@ import org.picocontainer.MutablePicoContainer;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDShadedReliefBinding extends AbstractComplexBinding {
@@ -112,7 +109,7 @@ public class SLDShadedReliefBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         Expression reliefFactor = null;
 
         if (node.hasChild("ReliefFactor")) {

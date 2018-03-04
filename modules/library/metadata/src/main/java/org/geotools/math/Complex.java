@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,6 +17,7 @@
 package org.geotools.math;
 
 import java.io.Serializable;
+
 import org.opengis.util.Cloneable;
 
 
@@ -31,13 +32,11 @@ import org.opengis.util.Cloneable;
  * <p>
  * This class is final for performance reason.
  *
- * @since 2.2
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Justin Deoliveira
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @since 2.2
  */
 public final class Complex implements Cloneable, Serializable {
     /**
@@ -80,7 +79,7 @@ public final class Complex implements Cloneable, Serializable {
     /**
      * Set this complex number to the same value than the specified one.
      * This method computes the following:
-     *
+     * <p>
      * <blockquote><pre>
      * this = c
      * </pre></blockquote>
@@ -93,7 +92,7 @@ public final class Complex implements Cloneable, Serializable {
     /**
      * Multiplies a complex number by a scalar.
      * This method computes the following:
-     *
+     * <p>
      * <blockquote><pre>
      * this = c * s
      * </pre></blockquote>
@@ -106,7 +105,7 @@ public final class Complex implements Cloneable, Serializable {
     /**
      * Multplies two complex numbers.
      * This method computes the following:
-     *
+     * <p>
      * <blockquote><pre>
      * this = c1 * c2
      * </pre></blockquote>
@@ -123,7 +122,7 @@ public final class Complex implements Cloneable, Serializable {
     /**
      * Divides one complex number by another.
      * This method computes the following:
-     *
+     * <p>
      * <blockquote><pre>
      * this = c1 / c2
      * </pre></blockquote>
@@ -141,7 +140,7 @@ public final class Complex implements Cloneable, Serializable {
     /**
      * Adds to complex numbers.
      * This method computes the following:
-     *
+     * <p>
      * <blockquote><pre>
      * this = c1 + c2
      * </pre></blockquote>
@@ -154,7 +153,7 @@ public final class Complex implements Cloneable, Serializable {
     /**
      * Multplies two complex numbers, and add the result to a third one.
      * This method computes the following:
-     *
+     * <p>
      * <blockquote><pre>
      * this = c0 + (c1 * c2)
      * </pre></blockquote>
@@ -171,7 +170,7 @@ public final class Complex implements Cloneable, Serializable {
     /**
      * Computes the integer power of a complex number up to 6.
      * This method computes the following:
-     *
+     * <p>
      * <blockquote><pre>
      * this = c ^ power
      * </pre></blockquote>
@@ -212,9 +211,9 @@ public final class Complex implements Cloneable, Serializable {
             }
             case 6: {
                 real = ((x * x * x * x * x * x) - (15 * x * x * x * x * y * y)
-                     + (15 * x * x * y * y * y * y)) - (y * y * y * y * y * y);
+                        + (15 * x * x * y * y * y * y)) - (y * y * y * y * y * y);
                 imag = (6 * x * x * x * x * x * y) - (20 * x * x * x * y * y * y)
-                     + (6 * x * y * y * y * y * y);
+                        + (6 * x * y * y * y * y * y);
                 break;
             }
             default: {
@@ -236,7 +235,7 @@ public final class Complex implements Cloneable, Serializable {
      */
     public boolean equals(final Complex c) {
         return Double.doubleToLongBits(real) == Double.doubleToLongBits(c.real) &&
-               Double.doubleToLongBits(imag) == Double.doubleToLongBits(c.imag);
+                Double.doubleToLongBits(imag) == Double.doubleToLongBits(c.imag);
     }
 
     /**
@@ -253,7 +252,7 @@ public final class Complex implements Cloneable, Serializable {
     @Override
     public int hashCode() {
         final long code = Double.doubleToLongBits(real) +
-                       37*Double.doubleToLongBits(imag);
+                37 * Double.doubleToLongBits(imag);
         return (int) code ^ (int) (code >>> 32);
     }
 

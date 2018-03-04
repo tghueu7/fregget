@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2007 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.feature;
@@ -27,7 +27,7 @@ import org.opengis.filter.expression.Expression;
  * <h3>Property Access</h3>
  * The {@link #getValue()} method returns a collection of the properties
  * contained by the complex attribute.
- *
+ * <p>
  * <pre>
  *    ComplexAttribute attribute = ...;
  *
@@ -36,11 +36,11 @@ import org.opengis.filter.expression.Expression;
  *        // do something with the property
  *    }
  * </pre>
- *
+ * <p>
  * <br>
  * Contained properties can also be fetched by name by {@link Name} with the
  * {@link #getProperties(Name)} and {@link #getProperties(String)} methods.
- *
+ * <p>
  * <pre>
  *    ComplexAttribute attribute = ...;
  *
@@ -49,20 +49,20 @@ import org.opengis.filter.expression.Expression;
  *        p.getName().getLocalPart() == &quot;foo&quot;;
  *    }
  * </pre>
- *
+ * <p>
  * <br>
  * Often it is known in advance that a single instance of a particular property
  * exists. When this is the case the {@link #getProperty(Name)} and
  * {@link #getProperty(String)} methods can be used to get direct access to the
  * property.
- *
+ * <p>
  * <pre>
  *    ComplexAttribute attribute = ...;
  *
  *    //get the single foo attribute
  *    Property foo = attribute.getProperty( &quot;foo&quot; );
  * </pre>
- *
+ * <p>
  * </p>
  * <br>
  * <p>
@@ -77,7 +77,7 @@ import org.opengis.filter.expression.Expression;
  * properties named "foo". Or the expression <code>"foo/bar"</code> should
  * return the "bar" property nested inside of the "foo" property. In these
  * cases, an {@link Expression} must be used:
- *
+ * <p>
  * <pre>
  *   ComplexAttribute attribute = ...;
  *
@@ -86,14 +86,12 @@ import org.opengis.filter.expression.Expression;
  *   PropertyName xpath = factory.property( &quot;foo/bar&quot; );
  *   Property bar = xpath.evaluate( attribute );
  * </pre>
- *
+ * <p>
  * </p>
  *
  * @author Jody Garnett, Refractions Research
  * @author Gabriel Roldan, Axios Engineering
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
  * @source $URL$
  */
 public interface ComplexAttribute extends Attribute {
@@ -129,11 +127,9 @@ public interface ComplexAttribute extends Attribute {
      * {@link Property#getName()}, those that are equal are returned.
      * </p>
      *
-     * @param name
-     *            The name of the properties to return.
-     *
+     * @param name The name of the properties to return.
      * @return The collection of properties which match the specified name, or
-     *         an empty collection if no such properties match.
+     * an empty collection if no such properties match.
      */
     Collection<Property> getProperties(Name name);
 
@@ -148,16 +144,14 @@ public interface ComplexAttribute extends Attribute {
      * </p>
      * <p>
      * This method is a safe convenience for:
-     *
+     * <p>
      * <code>getProperties(name).iterator().next()</code>.
-     *
+     * <p>
      * In the event that no property matches the specified name
      * <code>null</code> is returned.
      * </p>
      *
-     * @param name
-     *            The name of the property to return.
-     *
+     * @param name The name of the property to return.
      * @return The property matching the specified name, or <code>null</code>.
      */
     Property getProperty(Name name);
@@ -175,12 +169,9 @@ public interface ComplexAttribute extends Attribute {
      * exist. For this reason using {@link #getProperties(Name)} is safer.
      * </p>
      *
-     * @param name
-     *            The local name of the properties to return.
-     *
+     * @param name The local name of the properties to return.
      * @return The collection of properties which match the specified name, or
-     *         an empty collection if no such properties match.
-     *
+     * an empty collection if no such properties match.
      * @see #getProperties(Name)
      */
     Collection<Property> getProperties(String name);
@@ -190,6 +181,7 @@ public interface ComplexAttribute extends Attribute {
      * <p>
      * This method is a convenience method for calling (Collection<Property>) getValue().
      * </p>
+     *
      * @return The complete collection of properties.
      */
     Collection<Property> getProperties();
@@ -213,18 +205,18 @@ public interface ComplexAttribute extends Attribute {
      * exist. For this reason using {@link #getProperties(Name)} is safer.
      * </p>
      *
-     * @param name
-     *            The local name of the property to return.
-     *
+     * @param name The local name of the property to return.
      * @return The property matching the specified name, or <code>null</code>.
      */
     Property getProperty(String name);
-    
+
     /**
      * Check the properties against the constraints provided by their AttributeDescriptors.
      * <p>
-     * Please note this method checks minOccurs and maxOccurs information; and calls each Attribute.validate
+     * Please note this method checks minOccurs and maxOccurs information; and calls each 
+     * Attribute.validate
      * on each entry in turn (in order to check isNillable, binding and restrictions).
+     *
      * @throws IllegalAttributeException If any attribute fails validation
      */
     void validate() throws IllegalAttributeException;

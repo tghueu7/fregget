@@ -4,7 +4,7 @@
  *
  *    (C) 2016 Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2016 Boundless Spatial
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -28,8 +28,9 @@ import java.util.NoSuchElementException;
 
 /**
  * Base class for Yaml object wrappers.
- *
- * Yaml is represented as atomic types (literals, expressions) and YamlObjects (for wrapping lists and maps).
+ * <p>
+ * Yaml is represented as atomic types (literals, expressions) and YamlObjects (for wrapping 
+ * lists and maps).
  * The factory method {@link #create(Object)} will sort out the details.
  * These YamlObjects are used to stage data when parsing a Yaml document.
  */
@@ -42,8 +43,9 @@ public class YamlObject<T> {
      * <li>Map wrapped as {@link YamlMap}</li>
      * <li>List wrapped as {@link YamlSeq}</li>
      * </ul>
-     * Other data (Literals, Expressions) are considered atomic and do not provide a YamlObject representation.
-     * 
+     * Other data (Literals, Expressions) are considered atomic and do not provide a YamlObject 
+     * representation.
+     *
      * @param raw
      * @return Yaml object wrapper, or null if the provided raw object is null.
      */
@@ -117,7 +119,7 @@ public class YamlObject<T> {
      * <li>raw("1"): first value in a sequence</li>
      * <li>raw("x"): value for "x" in a map</li>
      * <li>raw("rules/2/symbolizers/3"): third symbolizer in second rule</li>
-     * 
+     *
      * @param path
      * @return raw value, or null if not available
      */
@@ -168,8 +170,9 @@ public class YamlObject<T> {
     }
 
     /**
-     * See {@link #lookup}. Ensures that the result is wrapped as a YamlObject if it is a map, list, or array.
-     * 
+     * See {@link #lookup}. Ensures that the result is wrapped as a YamlObject if it is a map, 
+     * list, or array.
+     *
      * @param path
      */
     public Object lookupY(String path) {
@@ -197,7 +200,7 @@ public class YamlObject<T> {
 
     /**
      * Yaml representation.
-     * 
+     *
      * @return Yaml representation
      */
     @Override

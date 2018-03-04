@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -44,15 +44,14 @@ import org.opengis.feature.type.PropertyDescriptor;
  * Schema generator that uses subclasses of {@link AbstractLazyAttributeTypeImpl} and
  * {@link AbstractLazyComplexTypeImpl} to support cyclically-defined types. Types are sorted by
  * name.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * Much of the code that builds the attributes is based on code snippets stolen from
  * {@link SchemaGenerator}, written by Justin Deoliveira.
- * 
+ *
  * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
  * @author Justin Deoliveira
- * 
  */
 public class CycleSchemaGenerator extends SchemaGenerator {
 
@@ -64,9 +63,8 @@ public class CycleSchemaGenerator extends SchemaGenerator {
 
     /**
      * Constructor.
-     * 
-     * @param schema
-     *            the schema we are building
+     *
+     * @param schema the schema we are building
      */
     public CycleSchemaGenerator(XSDSchema schema) {
         super(schema);
@@ -74,9 +72,9 @@ public class CycleSchemaGenerator extends SchemaGenerator {
 
     /**
      * Build an AttributeType for a simple type.
-     * 
+     *
      * @see org.geotools.maven.xmlcodegen.SchemaGenerator#createType(org.eclipse.xsd.XSDSimpleTypeDefinition,
-     *      int)
+     * int)
      */
     @Override
     protected AttributeType createType(final XSDSimpleTypeDefinition xsdType, int depth) {
@@ -106,9 +104,9 @@ public class CycleSchemaGenerator extends SchemaGenerator {
 
     /**
      * Build an AttributeType for a complex type.
-     * 
+     *
      * @see org.geotools.maven.xmlcodegen.SchemaGenerator#createType(org.eclipse.xsd.XSDComplexTypeDefinition,
-     *      int)
+     * int)
      */
     @Override
     protected AttributeType createType(final XSDComplexTypeDefinition xsdType, int depth) {
@@ -218,7 +216,7 @@ public class CycleSchemaGenerator extends SchemaGenerator {
 
     /**
      * Return the short class name of the schema template.
-     * 
+     *
      * @see org.geotools.maven.xmlcodegen.SchemaGenerator#getSchemaClassTemplateName()
      */
     @Override
@@ -228,7 +226,7 @@ public class CycleSchemaGenerator extends SchemaGenerator {
 
     /**
      * Return a list of types sorted by name.
-     * 
+     *
      * @see org.geotools.maven.xmlcodegen.SchemaGenerator#sort()
      */
     @Override

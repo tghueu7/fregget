@@ -64,12 +64,10 @@ import com.vividsolutions.jts.geom.Envelope;
  * <p>
  * A facade of often used methods by the JGrass engine
  * </p>
- * 
+ *
  * @author Andrea Antonello - www.hydrologis.com
- * @since 1.1.0
- *
- *
  * @source $URL$
+ * @since 1.1.0
  */
 public class JGrassUtilities {
     public static final String NORTH = "NORTH"; //$NON-NLS-1$
@@ -81,21 +79,24 @@ public class JGrassUtilities {
     public static final String ROWS = "ROWS"; //$NON-NLS-1$
     public static final String COLS = "COLS"; //$NON-NLS-1$
 
-    public static Interpolation interpolation = Interpolation.getInstance(Interpolation.INTERP_NEAREST);
+    public static Interpolation interpolation = Interpolation.getInstance(Interpolation
+            .INTERP_NEAREST);
 
     /**
      * Returns the list of files involved in the raster map issues. If for example a map has to be
      * deleted, then all these files have to.
-     * 
+     *
      * @param mapsetPath - the path of the mapset
-     * @param mapname -the name of the map
+     * @param mapname    -the name of the map
      * @return the array of strings containing the full path to the involved files
      */
-    public static boolean checkRasterMapConsistence( String mapsetPath, String mapname ) {
+    public static boolean checkRasterMapConsistence(String mapsetPath, String mapname) {
         File file = null;
         File file2 = null;
-        file = new File(mapsetPath + File.separator + JGrassConstants.FCELL + File.separator + mapname);
-        file2 = new File(mapsetPath + File.separator + JGrassConstants.CELL + File.separator + mapname);
+        file = new File(mapsetPath + File.separator + JGrassConstants.FCELL + File.separator + 
+                mapname);
+        file2 = new File(mapsetPath + File.separator + JGrassConstants.CELL + File.separator + 
+                mapname);
         // the map is in one of the two
         if (!file.exists() && !file2.exists())
             return false;
@@ -103,12 +104,14 @@ public class JGrassUtilities {
         /*
          * helper files
          */
-        file = new File(mapsetPath + File.separator + JGrassConstants.CELLHD + File.separator + mapname);
+        file = new File(mapsetPath + File.separator + JGrassConstants.CELLHD + File.separator + 
+                mapname);
         if (!file.exists())
             return false;
         // it is important that the folder cell_misc/mapname comes before the
         // files in it
-        file = new File(mapsetPath + File.separator + JGrassConstants.CELL_MISC + File.separator + mapname);
+        file = new File(mapsetPath + File.separator + JGrassConstants.CELL_MISC + File.separator 
+                + mapname);
         if (!file.exists())
             return false;
 
@@ -117,25 +120,28 @@ public class JGrassUtilities {
 
     /**
      * create a buffered image from a set of color triplets
-     * 
+     *
      * @param data
      * @param width
      * @param height
      * @return
      */
-    public static BufferedImage ByteBufferImage( byte[] data, int width, int height ) {
+    public static BufferedImage ByteBufferImage(byte[] data, int width, int height) {
         int[] bandoffsets = {0, 1, 2, 3};
         DataBufferByte dbb = new DataBufferByte(data, data.length);
-        WritableRaster wr = Raster.createInterleavedRaster(dbb, width, height, width * 4, 4, bandoffsets, null);
+        WritableRaster wr = Raster.createInterleavedRaster(dbb, width, height, width * 4, 4, 
+                bandoffsets, null);
         int[] bitfield = {8, 8, 8, 8};
 
         ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_sRGB);
-        ColorModel cm = new ComponentColorModel(cs, bitfield, true, false, Transparency.TRANSLUCENT, DataBuffer.TYPE_BYTE);
+        ColorModel cm = new ComponentColorModel(cs, bitfield, true, false, Transparency
+                .TRANSLUCENT, DataBuffer.TYPE_BYTE);
 
         return new BufferedImage(cm, wr, false, null);
     }
 
-    public static Envelope reprojectEnvelopeByEpsg( int srcEpsg, int destEpsg, Envelope srcEnvelope ) throws FactoryException,
+    public static Envelope reprojectEnvelopeByEpsg(int srcEpsg, int destEpsg, Envelope 
+            srcEnvelope) throws FactoryException,
             TransformException {
 
         CoordinateReferenceSystem sourceCRS = CRS.decode("EPSG:" + srcEpsg); //$NON-NLS-1$
@@ -152,13 +158,14 @@ public class JGrassUtilities {
 
     /**
      * return the rectangle of the cell of the active region, that surrounds the given coordinates
-     * 
+     *
      * @param activeRegion
-     * @param x the given easting coordinate
-     * @param y given northing coordinate
+     * @param x            the given easting coordinate
+     * @param y            given northing coordinate
      * @return the rectangle localizing the cell inside which the x and y stay
      */
-    public static JGrassRegion getRectangleAroundPoint( JGrassRegion activeRegion, double x, double y ) {
+    public static JGrassRegion getRectangleAroundPoint(JGrassRegion activeRegion, double x, 
+                                                       double y) {
 
         double minx = activeRegion.getRectangle().getBounds2D().getMinX();
         double ewres = activeRegion.getWEResolution();
@@ -293,6 +300,7 @@ public class JGrassUtilities {
     // return new Point(clickrow, clickcol);
     // }
     //
+
     /**
      * <p>
      * Transforms row and column index of the active region into the regarding northing and easting
@@ -302,13 +310,13 @@ public class JGrassUtilities {
      * NOTE: basically the inverse of
      * {@link JGrassUtilities#coordinateToNearestRowCol(JGrassRegion, Coordinate)}
      * </p>
-     * 
+     *
      * @param active - the active region (can be null)
-     * @param row - row number of the point to transform
-     * @param col - column number of the point to transform
+     * @param row    - row number of the point to transform
+     * @param col    - column number of the point to transform
      * @return the point in N/E coordinates of the supplied row and column
      */
-    public static Coordinate rowColToCenterCoordinates( JGrassRegion active, int row, int col ) {
+    public static Coordinate rowColToCenterCoordinates(JGrassRegion active, int row, int col) {
 
         double north = active.getNorth();
         double west = active.getWest();
@@ -329,12 +337,12 @@ public class JGrassUtilities {
      * NOTE: basically the inverse of
      * {@link JGrassUtilities#rowColToCenterCoordinates(JGrassRegion, int, int)}
      * </p>
-     * 
+     *
      * @param active the active region
      * @param coord
      * @return and int array containing row and col
      */
-    public static int[] coordinateToNearestRowCol( JGrassRegion active, Coordinate coord ) {
+    public static int[] coordinateToNearestRowCol(JGrassRegion active, Coordinate coord) {
 
         double easting = coord.x;
         double northing = coord.y;
@@ -346,7 +354,7 @@ public class JGrassUtilities {
 
         double minx = active.getWest();
         double ewres = active.getWEResolution();
-        for( int i = 0; i < active.getCols(); i++ ) {
+        for (int i = 0; i < active.getCols(); i++) {
             minx = minx + ewres;
             if (easting < minx) {
                 rowcol[1] = i;
@@ -356,7 +364,7 @@ public class JGrassUtilities {
 
         double maxy = active.getNorth();
         double nsres = active.getNSResolution();
-        for( int i = 0; i < active.getRows(); i++ ) {
+        for (int i = 0; i < active.getRows(); i++) {
             maxy = maxy - nsres;
             if (northing > maxy) {
                 rowcol[0] = i;
@@ -393,12 +401,12 @@ public class JGrassUtilities {
     /**
      * Returns the list of files involved in the raster map issues. If for example a map has to be
      * deleted, then all these files have to.
-     * 
+     *
      * @param mapsetPath - the path of the mapset
-     * @param mapname -the name of the map
+     * @param mapname    -the name of the map
      * @return the array of strings containing the full path to the involved files
      */
-    public static String[] filesOfRasterMap( String mapsetPath, String mapname ) {
+    public static String[] filesOfRasterMap(String mapsetPath, String mapname) {
         String filesOfRaster[] = new String[]{
                 mapsetPath + File.separator + JGrassConstants.FCELL + File.separator + mapname,
                 mapsetPath + File.separator + JGrassConstants.CELL + File.separator + mapname,
@@ -409,13 +417,17 @@ public class JGrassUtilities {
                 // it is very important that the folder cell_misc/mapname comes
                 // before the files in it
                 mapsetPath + File.separator + JGrassConstants.CELL_MISC + File.separator + mapname,
-                mapsetPath + File.separator + JGrassConstants.CELL_MISC + File.separator + mapname + File.separator
+                mapsetPath + File.separator + JGrassConstants.CELL_MISC + File.separator + 
+                        mapname + File.separator
                         + JGrassConstants.CELLMISC_FORMAT,
-                mapsetPath + File.separator + JGrassConstants.CELL_MISC + File.separator + mapname + File.separator
+                mapsetPath + File.separator + JGrassConstants.CELL_MISC + File.separator + 
+                        mapname + File.separator
                         + JGrassConstants.CELLMISC_QUANT,
-                mapsetPath + File.separator + JGrassConstants.CELL_MISC + File.separator + mapname + File.separator
+                mapsetPath + File.separator + JGrassConstants.CELL_MISC + File.separator + 
+                        mapname + File.separator
                         + JGrassConstants.CELLMISC_RANGE,
-                mapsetPath + File.separator + JGrassConstants.CELL_MISC + File.separator + mapname + File.separator
+                mapsetPath + File.separator + JGrassConstants.CELL_MISC + File.separator + 
+                        mapname + File.separator
                         + JGrassConstants.CELLMISC_NULL};
         return filesOfRaster;
     }
@@ -423,13 +435,13 @@ public class JGrassUtilities {
     /**
      * Transforms row and column index of the active region into an array of the coordinates of the
      * edgaes, i.e. n, s, e, w
-     * 
+     *
      * @param active - the active region (can be null)
-     * @param row - row number of the point to transform
-     * @param col - column number of the point to transform
+     * @param row    - row number of the point to transform
+     * @param col    - column number of the point to transform
      * @return the array of north, south, east, west
      */
-    public static double[] rowColToNodeboundCoordinates( JGrassRegion active, int row, int col ) {
+    public static double[] rowColToNodeboundCoordinates(JGrassRegion active, int row, int col) {
 
         double anorth = active.getNorth();
         double awest = active.getWest();
@@ -445,15 +457,16 @@ public class JGrassUtilities {
         return nsew;
     }
 
-    public static int factorial( int n ) {
+    public static int factorial(int n) {
         int fact = 1;
-        for( int i = 1; i <= n; i++ ) {
+        for (int i = 1; i <= n; i++) {
             fact *= i;
         }
         return fact;
     }
 
-    public static void makeColorRulesPersistent( File colrFile, List<String> rules, double[] minMax, int alpha )
+    public static void makeColorRulesPersistent(File colrFile, List<String> rules, double[] 
+            minMax, int alpha)
             throws IOException {
         if (!colrFile.getParentFile().exists()) {
             colrFile.getParentFile().mkdir();
@@ -464,7 +477,7 @@ public class JGrassUtilities {
         }
         String header = "% " + minMax[0] + "   " + minMax[1] + "   " + alpha;
         bw.write(header + "\n");
-        for( String r : rules ) {
+        for (String r : rules) {
             bw.write(r + "\n");
         }
         bw.close();
@@ -472,12 +485,12 @@ public class JGrassUtilities {
 
     /**
      * Calculates optimal tile size for the actual free memory.
-     * 
+     *
      * @param rows the rows of the complete image the tiles are calculated for.
      * @param cols the cols of the complete image the tiles are calculated for.
      * @return
      */
-    public static int[] getTilesBasedOnFreeMemory( int rows, int cols ) {
+    public static int[] getTilesBasedOnFreeMemory(int rows, int cols) {
         long freeMemory = Runtime.getRuntime().freeMemory();
         int tileSizeY = 256;
         int tileSizeX = 256;
@@ -491,7 +504,7 @@ public class JGrassUtilities {
         return new int[]{tileSizeX, tileSizeY};
     }
 
-    public static JGrassRegion getJGrassRegionFromGridCoverage( GridCoverage2D gridCoverage2D )
+    public static JGrassRegion getJGrassRegionFromGridCoverage(GridCoverage2D gridCoverage2D)
             throws InvalidGridGeometryException, TransformException {
         Envelope2D env = gridCoverage2D.getEnvelope2D();
         GridEnvelope2D worldToGrid = gridCoverage2D.getGridGeometry().worldToGrid(env);
@@ -499,13 +512,15 @@ public class JGrassUtilities {
         double xRes = env.getWidth() / worldToGrid.getWidth();
         double yRes = env.getHeight() / worldToGrid.getHeight();
 
-        JGrassRegion region = new JGrassRegion(env.getMinX(), env.getMaxX(), env.getMinY(), env.getMaxY(), xRes, yRes);
+        JGrassRegion region = new JGrassRegion(env.getMinX(), env.getMaxX(), env.getMinY(), env
+                .getMaxY(), xRes, yRes);
 
         return region;
     }
 
-    public static RenderedImage scaleJAIImage( int requestedCols, int requestedRows, RenderedImage translatedImage,
-            Interpolation interpolation ) {
+    public static RenderedImage scaleJAIImage(int requestedCols, int requestedRows, RenderedImage
+            translatedImage,
+                                              Interpolation interpolation) {
         if (interpolation == null) {
             interpolation = JGrassUtilities.interpolation;
         }
@@ -519,36 +534,42 @@ public class JGrassUtilities {
     }
 
     /**
-     * Creates a {@link GridCoverage2D coverage} from a double[][] matrix and the necessary geographic Information.
-     * 
-     * @param name the name of the coverage.
-     * @param dataMatrix the matrix containing the data.
+     * Creates a {@link GridCoverage2D coverage} from a double[][] matrix and the necessary 
+     * geographic Information.
+     *
+     * @param name           the name of the coverage.
+     * @param dataMatrix     the matrix containing the data.
      * @param n
      * @param s
      * @param w
      * @param e
-     * @param crs the {@link CoordinateReferenceSystem}.
+     * @param crs            the {@link CoordinateReferenceSystem}.
      * @param matrixIsRowCol a flag to tell if the matrix has rowCol or colRow order.
      * @return the {@link GridCoverage2D coverage}.
      */
-    public static GridCoverage2D buildCoverage( String name, double[][] dataMatrix, double n, double s, double w, double e,
-            CoordinateReferenceSystem crs, boolean matrixIsRowCol ) {
+    public static GridCoverage2D buildCoverage(String name, double[][] dataMatrix, double n, 
+                                               double s, double w, double e,
+                                               CoordinateReferenceSystem crs, boolean 
+                                                       matrixIsRowCol) {
         WritableRaster writableRaster = createWritableRasterFromMatrix(dataMatrix, matrixIsRowCol);
 
         Envelope2D writeEnvelope = new Envelope2D(crs, w, s, e - w, n - s);
-        GridCoverageFactory factory = CoverageFactoryFinder.getGridCoverageFactory(GeoTools.getDefaultHints());
+        GridCoverageFactory factory = CoverageFactoryFinder.getGridCoverageFactory(GeoTools
+                .getDefaultHints());
 
         GridCoverage2D coverage2D = factory.create(name, writableRaster, writeEnvelope);
         return coverage2D;
     }
+
     /**
      * Create a {@link WritableRaster} from a double matrix.
-     * 
-     * @param matrix the matrix to take the data from.
+     *
+     * @param matrix         the matrix to take the data from.
      * @param matrixIsRowCol a flag to tell if the matrix has rowCol or colRow order.
      * @return the produced raster.
      */
-    public static WritableRaster createWritableRasterFromMatrix( double[][] matrix, boolean matrixIsRowCol ) {
+    public static WritableRaster createWritableRasterFromMatrix(double[][] matrix, boolean 
+            matrixIsRowCol) {
         int height = matrix.length;
         int width = matrix[0].length;
         if (!matrixIsRowCol) {
@@ -559,8 +580,8 @@ public class JGrassUtilities {
         WritableRaster writableRaster = createDoubleWritableRaster(width, height, null, null, null);
 
         WritableRandomIter disckRandomIter = RandomIterFactory.createWritable(writableRaster, null);
-        for( int x = 0; x < width; x++ ) {
-            for( int y = 0; y < height; y++ ) {
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
                 if (matrixIsRowCol) {
                     disckRandomIter.setSample(x, y, 0, matrix[y][x]);
                 } else {
@@ -575,18 +596,21 @@ public class JGrassUtilities {
 
     /**
      * Creates a {@link WritableRaster writable raster}.
-     * 
-     * @param width width of the raster to create.
-     * @param height height of the raster to create.
-     * @param dataClass data type for the raster. If <code>null</code>, defaults to double.
-     * @param sampleModel the samplemodel to use. If <code>null</code>, defaults to 
-     *                  <code>new ComponentSampleModel(dataType, width, height, 1, width, new int[]{0});</code>.
-     * @param value value to which to set the raster to. If null, the default of the raster creation is 
-     *                  used, which is 0.
+     *
+     * @param width       width of the raster to create.
+     * @param height      height of the raster to create.
+     * @param dataClass   data type for the raster. If <code>null</code>, defaults to double.
+     * @param sampleModel the samplemodel to use. If <code>null</code>, defaults to
+     *                    <code>new ComponentSampleModel(dataType, width, height, 1, width, new 
+     *                    int[]{0});</code>.
+     * @param value       value to which to set the raster to. If null, the default of the raster
+     *                   creation is
+     *                    used, which is 0.
      * @return a {@link WritableRaster writable raster}.
      */
-    public static WritableRaster createDoubleWritableRaster( int width, int height, Class< ? > dataClass,
-            SampleModel sampleModel, Double value ) {
+    public static WritableRaster createDoubleWritableRaster(int width, int height, Class<?> 
+            dataClass,
+                                                            SampleModel sampleModel, Double value) {
         int dataType = DataBuffer.TYPE_DOUBLE;
         if (dataClass != null) {
             if (dataClass.isAssignableFrom(Integer.class)) {
@@ -607,8 +631,8 @@ public class JGrassUtilities {
             // autobox only once
             double v = value;
 
-            for( int y = 0; y < height; y++ ) {
-                for( int x = 0; x < width; x++ ) {
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
                     raster.setSample(x, y, 0, v);
                 }
             }
@@ -618,13 +642,13 @@ public class JGrassUtilities {
 
     /**
      * Checks if the given path is a GRASS raster file.
-     * 
+     * <p>
      * <p>Note that there is no check on the existence of the file.
-     * 
+     *
      * @param path the path to check.
      * @return true if the file is a grass raster.
      */
-    public static boolean isGrass( String path ) {
+    public static boolean isGrass(String path) {
         File file = new File(path);
         File cellFolderFile = file.getParentFile();
         File mapsetFile = cellFolderFile.getParentFile();
@@ -632,12 +656,12 @@ public class JGrassUtilities {
         return cellFolderFile.getName().toLowerCase().equals("cell") && windFile.exists();
     }
 
-    public static void printImage( GridCoverage2D coverage2D ) {
+    public static void printImage(GridCoverage2D coverage2D) {
         RenderedImage renderedImage = coverage2D.getRenderedImage();
         printImage(renderedImage);
     }
 
-    public static void printImage( RenderedImage renderedImage ) {
+    public static void printImage(RenderedImage renderedImage) {
         RectIter rectIter = RectIterFactory.create(renderedImage, null);
         int y = 0;
         do {
@@ -646,11 +670,11 @@ public class JGrassUtilities {
                 double value = rectIter.getSampleDouble();
                 System.out.print(value + " ");
                 x++;
-            } while( !rectIter.nextPixelDone() );
+            } while (!rectIter.nextPixelDone());
             rectIter.startPixels();
             y++;
             System.out.println();
-        } while( !rectIter.nextLineDone() );
+        } while (!rectIter.nextLineDone());
     }
 
 }

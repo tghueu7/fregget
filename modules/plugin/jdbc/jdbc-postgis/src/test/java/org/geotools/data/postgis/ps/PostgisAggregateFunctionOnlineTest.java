@@ -21,8 +21,6 @@ import org.geotools.jdbc.JDBCAggregateFunctionOnlineTest;
 import org.geotools.jdbc.JDBCAggregateTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class PostgisAggregateFunctionOnlineTest extends JDBCAggregateFunctionOnlineTest {

@@ -29,9 +29,9 @@ public class CentroidProcessTest {
         tb.add("name", String.class);
         tb.setName("circles");
         SimpleFeatureType ft = tb.buildFeatureType();
-        
+
         fc = new ListFeatureCollection(ft);
-        
+
         SimpleFeatureBuilder fb = new SimpleFeatureBuilder(ft);
         fb.add(reader.read("POINT(0 0)").buffer(10));
         fb.add("one");
@@ -40,7 +40,7 @@ public class CentroidProcessTest {
         fb.add("two");
         fc.add(fb.buildFeature(null));
     }
-    
+
     @Test
     public void testSchema() {
         CentroidProcess cp = new CentroidProcess();
@@ -51,7 +51,7 @@ public class CentroidProcessTest {
         assertEquals(String.class, ft.getDescriptor("name").getType().getBinding());
     }
 
-    
+
     @Test
     public void testResults() throws Exception {
         CentroidProcess cp = new CentroidProcess();

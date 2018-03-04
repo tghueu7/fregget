@@ -45,19 +45,23 @@ public class GeobufFeatureCollectionTest {
         File file = temporaryFolder.newFile("featurecollection.pbf");
 
         MemoryDataStore store = new MemoryDataStore();
-        SimpleFeatureType featureType = DataUtilities.createType("points","geom:Point,name:String,id:int");
+        SimpleFeatureType featureType = DataUtilities.createType("points", "geom:Point," +
+                "name:String,id:int");
         store.createSchema(featureType);
         SimpleFeatureStore featureStore = (SimpleFeatureStore) store.getFeatureSource("points");
         GeometryFactory gf = JTSFactoryFinder.getGeometryFactory();
         SimpleFeature feature1 = SimpleFeatureBuilder.build(
-                featureType, new Object[]{gf.createPoint(new Coordinate(-8.349609375, 14.349547837185362)), "ABC", 1},
+                featureType, new Object[]{gf.createPoint(new Coordinate(-8.349609375, 
+                        14.349547837185362)), "ABC", 1},
                 "location.1"
         );
         SimpleFeature feature2 = SimpleFeatureBuilder.build(
-                featureType, new Object[]{gf.createPoint(new Coordinate(-18.349609375, 24.349547837185362)), "DEF", 2},
+                featureType, new Object[]{gf.createPoint(new Coordinate(-18.349609375, 
+                        24.349547837185362)), "DEF", 2},
                 "location.2"
         );
-        SimpleFeatureCollection collection = DataUtilities.collection(new SimpleFeature[]{feature1,feature2});
+        SimpleFeatureCollection collection = DataUtilities.collection(new 
+                SimpleFeature[]{feature1, feature2});
         featureStore.addFeatures(collection);
 
         GeobufFeatureCollection geobufFeatureCollection = new GeobufFeatureCollection();
@@ -65,14 +69,15 @@ public class GeobufFeatureCollectionTest {
         geobufFeatureCollection.encode(collection, out);
         out.close();
         InputStream inputStream = new FileInputStream(file);
-        SimpleFeatureCollection decodedFeatureCollection = geobufFeatureCollection.decode(inputStream);
+        SimpleFeatureCollection decodedFeatureCollection = geobufFeatureCollection.decode
+                (inputStream);
         inputStream.close();
 
         assertEquals(2, decodedFeatureCollection.size());
         SimpleFeatureIterator it = decodedFeatureCollection.features();
         try {
             int c = 0;
-            while(it.hasNext()) {
+            while (it.hasNext()) {
                 SimpleFeature f = it.next();
                 if (c == 0) {
                     assertEquals("POINT (-8.349609 14.349548)", f.getDefaultGeometry().toString());

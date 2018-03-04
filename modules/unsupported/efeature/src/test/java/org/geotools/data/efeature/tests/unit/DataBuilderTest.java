@@ -36,45 +36,45 @@ import junit.textui.TestRunner;
 /**
  * This test case tests the following {@link IDataTypeAdapter}s
  * <ol>
- *  <li>{@link GeometryAdapter#DEFAULT}</li>
- *  <li>{@link WKTAdapter#DEFAULT}</li>
- *  <li>{@link WKBAdapter#DEFAULT}</li>
+ * <li>{@link GeometryAdapter#DEFAULT}</li>
+ * <li>{@link WKTAdapter#DEFAULT}</li>
+ * <li>{@link WKBAdapter#DEFAULT}</li>
  * </ol>
- * 
+ * <p>
  * against the empty WKT and WKB values given by {@link DataTypes}.
- * 
+ * <p>
  * </p>
- * 
+ *
  * @author kengu
- *
- *
  * @source $URL$
  */
 public class DataBuilderTest extends TestCase {
-    
+
     // ----------------------------------------------------- 
     //  Tests
     // -----------------------------------------------------
-    
+
     @org.junit.Test
     public void testWKTAdapter() throws ParseException {
-        
+
         assertWKT(DataTypes.WKT_GEOMETRYCOLLECTION_EMPTY);
         assertWKT(DataTypes.WKT_POINT_EMPTY);
         assertWKT(EFeatureTestData.generatePointWKTs(1, Integer.MIN_VALUE, Integer.MAX_VALUE)[0]);
         assertWKT(DataTypes.WKT_LINESTRING_EMPTY);
-        assertWKT(EFeatureTestData.generateLineStringWKTs(1, Integer.MIN_VALUE, Integer.MAX_VALUE,50,100)[0]);
+        assertWKT(EFeatureTestData.generateLineStringWKTs(1, Integer.MIN_VALUE, Integer
+                .MAX_VALUE, 50, 100)[0]);
         assertWKT(DataTypes.WKT_POLYGON_EMPTY);
-        assertWKT(EFeatureTestData.generatePolygonWKTs(1, Integer.MIN_VALUE, Integer.MAX_VALUE,50,100,5,10)[0]);
+        assertWKT(EFeatureTestData.generatePolygonWKTs(1, Integer.MIN_VALUE, Integer.MAX_VALUE, 
+                50, 100, 5, 10)[0]);
         assertWKT(DataTypes.WKT_MULTIPOINT_EMPTY);
         assertWKT(DataTypes.WKT_MULTILINESTRING_EMPTY);
         assertWKT(DataTypes.WKT_MULTIPOLYGON_EMPTY);
-        
+
     }
-    
+
     @org.junit.Test
     public void testWKBAdapter() throws ParseException {
-        
+
         assertWKB(DataTypes.WKB_GEOMETRYCOLLECTION_EMPTY);
         //
         // POINT EMPTY can apparently not be encoded as WKB...
@@ -85,13 +85,13 @@ public class DataBuilderTest extends TestCase {
         assertWKB(DataTypes.WKB_MULTIPOINT_EMPTY);
         assertWKB(DataTypes.WKB_MULTILINESTRING_EMPTY);
         assertWKB(DataTypes.WKB_MULTIPOLYGON_EMPTY);
-    }    
-    
+    }
+
     // ----------------------------------------------------- 
     //  TestCase implementation
     // -----------------------------------------------------
 
-    
+
     /**
      * Main for test runner.
      */
@@ -105,15 +105,16 @@ public class DataBuilderTest extends TestCase {
     public DataBuilderTest(String name) {
         super(name);
     }
-    
+
     /**
      * Required suite builder.
+     *
      * @return A test suite for this unit test.
      */
     public static Test suite() {
         return new TestSuite(DataBuilderTest.class);
-    }    
-    
+    }
+
     // ----------------------------------------------------- 
     //  Helper methods
     // -----------------------------------------------------
@@ -124,13 +125,14 @@ public class DataBuilderTest extends TestCase {
         assertTrue("WKT: [" + s + "] is not equal to [" + wkt + "]",
                 wkt.equals(s));
     }
-    
+
     private static void assertWKB(byte[] wkb) throws ParseException {
         Geometry g = DataBuilder.toGeometry(wkb);
         byte[] b = WKBAdapter.DEFAULT.toWKB(g);
-        assertTrue("WKB: [" + Arrays.toString(b) + "] is not equal to [" + Arrays.toString(wkb) + "]",
-                Arrays.equals(wkb,b));
-    }    
-    
+        assertTrue("WKB: [" + Arrays.toString(b) + "] is not equal to [" + Arrays.toString(wkb) +
+                        "]",
+                Arrays.equals(wkb, b));
+    }
+
 
 }

@@ -24,9 +24,9 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the type http://www.opengis.net/se:ThreshholdsBelongToType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:simpleType name="ThreshholdsBelongToType"&gt;
@@ -34,16 +34,14 @@ import javax.xml.namespace.QName;
  *          &lt;xsd:enumeration value="succeeding"/&gt;
  *          &lt;xsd:enumeration value="preceding"/&gt;
  *      &lt;/xsd:restriction&gt;
- *  &lt;/xsd:simpleType&gt; 
- * 	
+ *  &lt;/xsd:simpleType&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class ThreshholdsBelongToTypeBinding extends AbstractSimpleBinding {
@@ -57,7 +55,7 @@ public class ThreshholdsBelongToTypeBinding extends AbstractSimpleBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -66,7 +64,7 @@ public class ThreshholdsBelongToTypeBinding extends AbstractSimpleBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value) throws Exception {

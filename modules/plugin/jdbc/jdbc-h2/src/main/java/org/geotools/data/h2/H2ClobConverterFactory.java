@@ -26,11 +26,8 @@ import org.h2.jdbc.JdbcClob;
 
 /**
  * Converts a H2 JdbcClob to a String
- * 
+ *
  * @author Andrea Aime - GeoSolutions
- * 
- *
- *
  * @source $URL$
  */
 public class H2ClobConverterFactory implements ConverterFactory {

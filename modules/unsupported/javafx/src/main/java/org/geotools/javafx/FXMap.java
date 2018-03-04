@@ -42,6 +42,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -185,7 +186,7 @@ public class FXMap extends Parent {
     private Group boxGroup;
     private AffineTransform screenToWorld;
     private AffineTransform worldToScreen;
-	private CoordinateReferenceSystem crs;
+    private CoordinateReferenceSystem crs;
 
     private int zoomLevel;
     private int lastZoomLevel;
@@ -195,7 +196,7 @@ public class FXMap extends Parent {
     private final int MAX_ZOOM_LEVEL = 100;
     private final double ZOOM_FACTOR = 1.5;
 
-	private double aspectXY;
+    private double aspectXY;
     private Rectangle2D imageViewport;
     private MapContent mapContent;
     private GraphicsContext gc;
@@ -222,6 +223,7 @@ public class FXMap extends Parent {
 
     /**
      * gets the children of this node.
+     *
      * @return the children of the node
      */
     @Override
@@ -231,6 +233,7 @@ public class FXMap extends Parent {
 
     /**
      * adds a node to this map.
+     *
      * @param n the node
      */
     public void add(Node n) {
@@ -240,13 +243,15 @@ public class FXMap extends Parent {
 
     /**
      * Constructor
-     * @param wms WMS server
-     * @param layer Layer containing map
+     *
+     * @param wms        WMS server
+     * @param layer      Layer containing map
      * @param dimensionX Map width
      * @param dimensionY map height
-     * @param bounds Bounding box
+     * @param bounds     Bounding box
      */
-    public FXMap(WebMapServer wms, Layer layer, int dimensionX, int dimensionY, org.opengis.geometry.Envelope bounds) throws NoSuchAuthorityCodeException, FactoryException{
+    public FXMap(WebMapServer wms, Layer layer, int dimensionX, int dimensionY, org.opengis
+            .geometry.Envelope bounds) throws NoSuchAuthorityCodeException, FactoryException {
 
         System.setProperty("org.geotools.referencing.forceXY", "true");
         mapCanvas = new Canvas(dimensionX, dimensionY);
@@ -254,7 +259,7 @@ public class FXMap extends Parent {
         zoomLevel = 0;
         lastZoomLevel = 0;
         GeneralEnvelope layerBounds = null;
-		this.crs = CRS.decode(this.INIT_SPACIAL_REF_SYS);
+        this.crs = CRS.decode(this.INIT_SPACIAL_REF_SYS);
         layerBounds = layer.getEnvelope(crs);
 
         this.layerBBox = new GeneralEnvelope(bounds);
@@ -287,15 +292,15 @@ public class FXMap extends Parent {
         this.vBox.getChildren().add(mapPane);
 
         this.mapCanvas.addEventHandler(MouseEvent.MOUSE_RELEASED, new
-            OnMouseReleasedEvent());
+                OnMouseReleasedEvent());
         this.mapCanvas.addEventHandler(MouseEvent.MOUSE_CLICKED, new
-            OnMousePressedEvent());
+                OnMousePressedEvent());
         this.mapCanvas.addEventHandler(MouseEvent.MOUSE_PRESSED, new
-            OnMousePressedEvent());
+                OnMousePressedEvent());
         this.mapCanvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, new
-            OnMouseDraggedEvent());
+                OnMouseDraggedEvent());
         this.mapCanvas.addEventHandler(ScrollEvent.SCROLL, new
-            OnMouseScrollEvent());
+                OnMouseScrollEvent());
 
         zoomTimer = new Timer(true);
         try {
@@ -308,6 +313,7 @@ public class FXMap extends Parent {
 
     /**
      * Checks, if the map was initialized properly.
+     *
      * @return True if map was initialized, else false
      */
     public boolean isInitialized() {
@@ -333,16 +339,17 @@ public class FXMap extends Parent {
 
     /**
      * Resize map
-     * @param width New width
+     *
+     * @param width  New width
      * @param height New height
      */
-    public void resize(double width, double height){
+    public void resize(double width, double height) {
         this.mapCanvas.setWidth(width);
         this.mapCanvas.setHeight(height);
         this.mapPane.setPrefWidth(width);
         this.mapPane.setPrefHeight(height);
         this.dimensionX = (int) width;
-        this.dimensionY = (int)height;
+        this.dimensionY = (int) height;
         repaint();
     }
 
@@ -365,7 +372,7 @@ public class FXMap extends Parent {
     /**
      * Recalculate screen-to-world and world-to-screen transformations
      */
-    private void refreshViewport(){
+    private void refreshViewport() {
         this.mapContent.getViewport().setScreenArea(new Rectangle(dimensionX, dimensionY));
         screenToWorld = mapContent.getViewport().getScreenToWorld();
         worldToScreen = mapContent.getViewport().getWorldToScreen();
@@ -374,21 +381,23 @@ public class FXMap extends Parent {
     /**
      * Reset extent to initial value
      */
-    public void resetExtent(){
+    public void resetExtent() {
         setExtent(new ReferencedEnvelope(this.layerBBox));
     }
 
     /**
      * Set Extent
+     *
      * @param newExtent the new Extent
      */
-    public void setExtent(ReferencedEnvelope newExtent){
+    public void setExtent(ReferencedEnvelope newExtent) {
         this.mapContent.getViewport().setBounds(newExtent);
         repaint();
     }
 
     /**
      * Get the current map extent.
+     *
      * @return The extent
      */
     public ReferencedEnvelope getExtent() {
@@ -397,10 +406,11 @@ public class FXMap extends Parent {
 
     /**
      * Adds a layer to the map and repaints
+     *
      * @param layer The new layer
      */
-    public void addLayer(org.geotools.map.Layer layer){
-        if(layer != null){
+    public void addLayer(org.geotools.map.Layer layer) {
+        if (layer != null) {
             this.mapContent.addLayer(layer);
             repaint();
         }
@@ -408,6 +418,7 @@ public class FXMap extends Parent {
 
     /**
      * Get the current layers.
+     *
      * @return The layers as list
      */
     public List<org.geotools.map.Layer> getLayers() {
@@ -416,6 +427,7 @@ public class FXMap extends Parent {
 
     /**
      * Scales the map to zoom in/out without reloading the map
+     *
      * @param zoomDelta
      */
     private void scaleMap(double zoomDelta) {
@@ -425,22 +437,21 @@ public class FXMap extends Parent {
         double xScale = 0;
         double yScale = 0;
 
-        if(zoomDelta > 0) {
+        if (zoomDelta > 0) {
             lower = new Point2D.Double((dimensionX / 2) - (0.5 * dimensionX / newZoom),
                     (dimensionY / 2) - (0.5 * dimensionY / newZoom));
             upper = new Point2D.Double((dimensionX / 2) + (0.5 * dimensionX / newZoom),
-                    (dimensionY / 2) + (0.5  * dimensionY/newZoom));
+                    (dimensionY / 2) + (0.5 * dimensionY / newZoom));
             xScale = (upper.getX() - lower.getX()) / dimensionX;
             yScale = (upper.getY() - lower.getY()) / dimensionY;
             xScale += 1;
             yScale += 1;
-        }
-        else {
+        } else {
             newZoom *= -1;
             lower = new Point2D.Double((dimensionX / 2) - (0.5 * dimensionX * newZoom),
                     (dimensionY / 2) - (0.5 * dimensionY * newZoom));
             upper = new Point2D.Double((dimensionX / 2) + (0.5 * dimensionX * newZoom),
-                    (dimensionY / 2) + (0.5  * dimensionY * newZoom));
+                    (dimensionY / 2) + (0.5 * dimensionY * newZoom));
             //TODO: Zoom out scaling
             xScale = 0.5;
             yScale = 0.5;
@@ -451,15 +462,16 @@ public class FXMap extends Parent {
 
     /**
      * Set the used coordinate reference system
+     *
      * @param crs The new crs
      */
-    public void setMapCRS(CoordinateReferenceSystem crs){
+    public void setMapCRS(CoordinateReferenceSystem crs) {
         this.mapContent.getViewport().setCoordinateReferenceSystem(crs);
-        try{
+        try {
             this.maxBBox = new GeneralEnvelope(
-                new ReferencedEnvelope(maxBBox).transform(crs, true));
+                    new ReferencedEnvelope(maxBBox).transform(crs, true));
             this.layerBBox = new GeneralEnvelope(
-                new ReferencedEnvelope(layerBBox).transform(crs, true));
+                    new ReferencedEnvelope(layerBBox).transform(crs, true));
         } catch (Exception tEx) {
             log.log(Level.SEVERE, tEx.getMessage());
         }
@@ -469,35 +481,38 @@ public class FXMap extends Parent {
 
     /**
      * Transform a point from screen to world coordinates.
+     *
      * @param screenPoint Point in screen coordinates
      * @return Transformed point
      */
-	public Point2D.Double transformScreenToWorld(Point2D.Double screenPoint) {
-		Point2D.Double worldPoint = new Point2D.Double();
-		this.mapContent.getViewport().getScreenToWorld().transform(screenPoint, worldPoint);
-		return worldPoint;
-	}
+    public Point2D.Double transformScreenToWorld(Point2D.Double screenPoint) {
+        Point2D.Double worldPoint = new Point2D.Double();
+        this.mapContent.getViewport().getScreenToWorld().transform(screenPoint, worldPoint);
+        return worldPoint;
+    }
 
     /**
      * Transform a point from world to screen coordinates.
+     *
      * @param worldPoint Point in world coordinates
      * @return Transformed point
      */
-	public Point2D.Double transformWorldToScreen(Point2D.Double worldPoint) {
-		Point2D.Double screenPoint = new Point2D.Double();
-		this.mapContent.getViewport().getWorldToScreen().transform(worldPoint, screenPoint);
-		return screenPoint;
-	}
+    public Point2D.Double transformWorldToScreen(Point2D.Double worldPoint) {
+        Point2D.Double screenPoint = new Point2D.Double();
+        this.mapContent.getViewport().getWorldToScreen().transform(worldPoint, screenPoint);
+        return screenPoint;
+    }
 
     /**
      * Zooms in/out.
      * TODO: center zoom on mouse position
+     *
      * @param zoomDelta
-     * @param x Mouse position x
-     * @param y Mouse position y
+     * @param x         Mouse position x
+     * @param y         Mouse position y
      */
     private void zoom(int zoomDelta, double x, double y) {
-        if(zoomDelta == 0) {
+        if (zoomDelta == 0) {
             return;
         }
         Point2D.Double lower;
@@ -506,33 +521,33 @@ public class FXMap extends Parent {
         ReferencedEnvelope newBounds;
 
 
-        if(zoomDelta > 0) {
+        if (zoomDelta > 0) {
             lower = new Point2D.Double((dimensionX / 2) - (0.5 * dimensionX / newZoom),
                     (dimensionY / 2) - (0.5 * dimensionY / newZoom));
             upper = new Point2D.Double((dimensionX / 2) + (0.5 * dimensionX / newZoom),
-                    (dimensionY / 2) + (0.5  * dimensionY/newZoom));
-        }
-        else {
+                    (dimensionY / 2) + (0.5 * dimensionY / newZoom));
+        } else {
             newZoom *= -1;
             lower = new Point2D.Double((dimensionX / 2) - (0.5 * dimensionX * newZoom),
                     (dimensionY / 2) - (0.5 * dimensionY * newZoom));
             upper = new Point2D.Double((dimensionX / 2) + (0.5 * dimensionX * newZoom),
-                    (dimensionY / 2) + (0.5  * dimensionY * newZoom));
+                    (dimensionY / 2) + (0.5 * dimensionY * newZoom));
         }
         lower = transformScreenToWorld(lower);
         upper = transformScreenToWorld(upper);
         newBounds = new ReferencedEnvelope(lower.getX(), upper.getX(),
-            lower.getY(), upper.getY(), this.crs);
+                lower.getY(), upper.getY(), this.crs);
 
         setExtent(newBounds);
     }
 
     /**
      * Drags the map.
+     *
      * @param fromXScreen Original x coordinate in screen coordinates
      * @param fromYScreen Original y coordinate in screen coordinates
-     * @param toXScreen Target x coordinate in screen coordinates
-     * @param toYScreen Target y coordinate in screen coordinates
+     * @param toXScreen   Target x coordinate in screen coordinates
+     * @param toYScreen   Target y coordinate in screen coordinates
      */
     private void drag(double fromXScreen, double fromYScreen, double toXScreen, double toYScreen) {
         mapCanvas.setTranslateX(0);
@@ -541,15 +556,15 @@ public class FXMap extends Parent {
         ReferencedEnvelope bBox = this.mapContent.getViewport().getBounds();
 
         Point2D.Double minXY = transformScreenToWorld(new Point2D.Double(0 - toXScreen,
-            0 - toYScreen));
+                0 - toYScreen));
         Point2D.Double maxXY = transformScreenToWorld(new Point2D.Double(dimensionX - toXScreen,
-            dimensionY - toYScreen));
+                dimensionY - toYScreen));
 
         ReferencedEnvelope newBounds = new ReferencedEnvelope(
-            minXY.getX(), maxXY.getX(),
-            minXY.getY(), maxXY.getY(), this.crs);
+                minXY.getX(), maxXY.getX(),
+                minXY.getY(), maxXY.getY(), this.crs);
         //TODO: Prevent exceeding max coordinate bounds
-        if(!maxBBox.contains(newBounds, true)){
+        if (!maxBBox.contains(newBounds, true)) {
             newBounds = bBox;
         }
         setExtent(newBounds);
@@ -557,6 +572,7 @@ public class FXMap extends Parent {
 
     /**
      * Draws a marker on a specific position.
+     *
      * @param xPosition Marker x coordinate in screen coordinates
      * @param yPosition Marker y coordinate in screen coordinates
      */
@@ -589,10 +605,11 @@ public class FXMap extends Parent {
 
     /**
      * Draws a box, defined by two corners.
+     *
      * @param beginX First corner x coordinate in screen coordinates
      * @param beginY First corner y coordinate in screen coordinates
-     * @param endX Second corner x coordinate in screen coordinates
-     * @param endY Second corner y coordinate in screen coordinates
+     * @param endX   Second corner x coordinate in screen coordinates
+     * @param endY   Second corner y coordinate in screen coordinates
      */
     private void drawBox(double beginX, double beginY, double endX, double
             endY) {
@@ -614,14 +631,16 @@ public class FXMap extends Parent {
         buttomLine.setStrokeWidth(2);
         this.getChildren().add(buttomLine);
 
-        Line rightLine = new Line(endX, beginY , endX, endY);
+        Line rightLine = new Line(endX, beginY, endX, endY);
         rightLine.setFill(null);
         rightLine.setStroke(Color.RED);
         rightLine.setStrokeWidth(2);
         this.getChildren().add(rightLine);
     }
 
-    /** Eventhandler for mouse events on map. */
+    /**
+     * Eventhandler for mouse events on map.
+     */
     private class OnMousePressedEvent
             implements EventHandler<MouseEvent> {
         @Override
@@ -631,7 +650,7 @@ public class FXMap extends Parent {
             //DOUBLE RIGHT, ZOOM OUT
             if (e.getButton().equals(MouseButton.PRIMARY)) {
                 if (e.getClickCount() > 1) {
-                    zoom(10, 0,0);
+                    zoom(10, 0, 0);
                 }
                 if (e.getClickCount() == 1) {
                     mouseXPosOnClick = e.getSceneX();
@@ -642,7 +661,7 @@ public class FXMap extends Parent {
             }
             if (e.getButton().equals(MouseButton.SECONDARY)) {
                 if (e.getClickCount() > 1) {
-                    zoom(-10,0,0);
+                    zoom(-10, 0, 0);
 
                 }
                 if (e.getClickCount() == 1) {
@@ -650,11 +669,13 @@ public class FXMap extends Parent {
                 }
             }
             Point2D clickWorld = transformScreenToWorld(new Point2D.Double(e.getSceneX(),
-                e.getSceneY()));
+                    e.getSceneY()));
         }
     }
 
-    /** Eventhandler for mouse events on map. */
+    /**
+     * Eventhandler for mouse events on map.
+     */
     private class OnMouseReleasedEvent
             implements EventHandler<MouseEvent> {
         @Override
@@ -687,7 +708,9 @@ public class FXMap extends Parent {
         }
     }
 
-    /** Eventhandler for mouse events on map. */
+    /**
+     * Eventhandler for mouse events on map.
+     */
     private class OnMouseScrollEvent
             implements EventHandler<ScrollEvent> {
         @Override
@@ -702,7 +725,7 @@ public class FXMap extends Parent {
             scaleMap(zoomLevel - lastZoomLevel);
             try {
                 zoomTimer.cancel();
-            } catch(IllegalStateException ex) {
+            } catch (IllegalStateException ex) {
                 log.log(Level.WARNING, ex.getMessage());
             }
             zoomTimer = new Timer(true);
@@ -720,11 +743,13 @@ public class FXMap extends Parent {
         }
     }
 
-    /** Event handler for dragging events, does not reload the actual map */
+    /**
+     * Event handler for dragging events, does not reload the actual map
+     */
     private class OnMouseDraggedEvent
             implements EventHandler<MouseEvent> {
         @Override
-        public void handle(MouseEvent e){
+        public void handle(MouseEvent e) {
             double xOffset = lastMouseXPos - e.getSceneX();
             double yOffset = lastMouseYPos - e.getSceneY();
             lastMouseXPos = e.getSceneX();

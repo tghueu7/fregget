@@ -25,16 +25,15 @@ import org.opengis.feature.type.AttributeType;
 
 /**
  * Test ReferenceTypeBinding.
- * 
+ *
  * @author Rini Angreani (CSIRO Earth Science and Resource Engineering)
- * 
  * @source $URL$
  */
 public class ReferenceTypeBindingTest extends GML3TestSupport {
 
     /**
      * Make sure no xlink:href is created if id is not set.
-     * 
+     *
      * @throws Exception
      */
     public void testXlinkHrefNull() throws Exception {
@@ -48,7 +47,7 @@ public class ReferenceTypeBindingTest extends GML3TestSupport {
 
     /**
      * Test xlink:href returns gml:id.
-     * 
+     *
      * @throws Exception
      */
     public void testXlinkHref() throws Exception {

@@ -36,15 +36,13 @@ import com.esri.sde.sdk.client.SeVersion;
 /**
  * Handles a versioned table when in auto commit mode, meaning it sets up streams to edit directly
  * the version indicated by the provided version name.
- * 
+ *
  * @author Gabriel Roldan (TOPP)
  * @version $Id$
- * @since 2.5.x
- *
- *
  * @source $URL$
- *         http://svn.geotools.org/trunk/modules/plugin/arcsde/datastore/src/main/java/org/geotools
- *         /arcsde/data/versioning/AutoCommitVersionHandler.java $
+ * http://svn.geotools.org/trunk/modules/plugin/arcsde/datastore/src/main/java/org/geotools
+ * /arcsde/data/versioning/AutoCommitVersionHandler.java $
+ * @since 2.5.x
  */
 public class AutoCommitVersionHandler implements ArcSdeVersionHandler {
 
@@ -130,7 +128,7 @@ public class AutoCommitVersionHandler implements ArcSdeVersionHandler {
     /**
      * This method should not be called, but {@link #editOperationFailed(SeStreamOp)} instead, as
      * this is a handler for auto commit mode
-     * 
+     *
      * @throws UnsupportedOperationException
      * @see {@link ArcSdeVersionHandler#rollbackEditState()}
      */
@@ -142,7 +140,7 @@ public class AutoCommitVersionHandler implements ArcSdeVersionHandler {
     /**
      * This method should not be called, but {@link #editOperationWritten(SeStreamOp)} instead, as
      * this is a handler for auto commit mode
-     * 
+     *
      * @throws UnsupportedOperationException
      * @see {@link ArcSdeVersionHandler#rollbackEditState()}
      */

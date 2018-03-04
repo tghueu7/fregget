@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2001-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -20,17 +20,17 @@ import java.util.HashSet;
 import java.util.Random;
 
 import org.junit.*;
+
 import static org.junit.Assert.*;
 
 
 /**
- * Tests the {@link CanonicalSet}. A standard {@link HashSet} object is used for comparaison purpose.
+ * Tests the {@link CanonicalSet}. A standard {@link HashSet} object is used for comparaison 
+ * purpose.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
  */
 public final class CanonicalSetTest {
     /**
@@ -40,28 +40,28 @@ public final class CanonicalSetTest {
     @Test
     public void testStrongReferences() {
         final Random random = new Random();
-        for (int pass=0; pass<20; pass++) {
+        for (int pass = 0; pass < 20; pass++) {
             final CanonicalSet<Integer> weakSet = CanonicalSet.newInstance(Integer.class);
-            final HashSet<Integer>    strongSet = new HashSet<Integer>();
-            for (int i=0; i<1000; i++) {
+            final HashSet<Integer> strongSet = new HashSet<Integer>();
+            for (int i = 0; i < 1000; i++) {
                 final Integer value = random.nextInt(500);
                 if (random.nextBoolean()) {
                     /*
                      * Tests addition.
                      */
-                    final boolean   weakModified = weakSet  .add(value);
+                    final boolean weakModified = weakSet.add(value);
                     final boolean strongModified = strongSet.add(value);
                     assertEquals("add:", strongModified, weakModified);
                     if (strongModified) {
                         assertSame("get:", value, weakSet.get(value));
                     } else {
-                        assertEquals("get:",  value, weakSet.get(value));
+                        assertEquals("get:", value, weakSet.get(value));
                     }
                 } else {
                     /*
                      * Tests remove
                      */
-                    final boolean   weakModified = weakSet  .remove(value);
+                    final boolean weakModified = weakSet.remove(value);
                     final boolean strongModified = strongSet.remove(value);
                     assertEquals("remove:", strongModified, weakModified);
                     assertNull("get:", weakSet.get(value));
@@ -80,16 +80,16 @@ public final class CanonicalSetTest {
     @Test
     public void testWeakReferences() throws InterruptedException {
         final Random random = new Random();
-        for (int pass=0; pass<2; pass++) {
+        for (int pass = 0; pass < 2; pass++) {
             final CanonicalSet<Integer> weakSet = CanonicalSet.newInstance(Integer.class);
-            final HashSet<Integer>    strongSet = new HashSet<Integer>();
-            for (int i=0; i<500; i++) {
+            final HashSet<Integer> strongSet = new HashSet<Integer>();
+            for (int i = 0; i < 500; i++) {
                 final Integer value = new Integer(random.nextInt(500)); // Really need new instances
                 if (random.nextBoolean()) {
                     /*
                      * Tests addition.
                      */
-                    final boolean   weakModified = weakSet  .add(value);
+                    final boolean weakModified = weakSet.add(value);
                     final boolean strongModified = strongSet.add(value);
                     if (weakModified) {
                         // If the element was not in the CanonicalSet (i.e. if the garbage
@@ -123,7 +123,7 @@ public final class CanonicalSetTest {
                 assertTrue("containsAll:", weakSet.containsAll(strongSet));
             }
             // Do our best to lets GC finish its work.
-            for (int i=0; i<20; i++) {
+            for (int i = 0; i < 20; i++) {
                 Runtime.getRuntime().gc();
                 Runtime.getRuntime().runFinalization();
             }

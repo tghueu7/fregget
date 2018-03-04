@@ -40,6 +40,7 @@ import com.vividsolutions.jts.geom.MultiLineString;
 
 /**
  * Simple type binding for Composite Curve GML elements.
+ *
  * @source $URL$
  */
 public class CompositeCurveTypeBinding extends LineStringTypeBinding {
@@ -47,8 +48,9 @@ public class CompositeCurveTypeBinding extends LineStringTypeBinding {
     private final GeometryFactory gFactory;
 
     private ArcParameters arcParameters;
-    
-    public CompositeCurveTypeBinding(GeometryFactory gFactory, CoordinateSequenceFactory csFactory) {
+
+    public CompositeCurveTypeBinding(GeometryFactory gFactory, CoordinateSequenceFactory 
+            csFactory) {
         super(gFactory, csFactory);
         this.gFactory = gFactory;
     }
@@ -72,7 +74,7 @@ public class CompositeCurveTypeBinding extends LineStringTypeBinding {
             throws Exception {
         List children = node.getChildren("curveMember");
         List<LineString> components = new ArrayList<>();
-        for (Iterator it = children.iterator(); it.hasNext();) {
+        for (Iterator it = children.iterator(); it.hasNext(); ) {
             Node child = (Node) it.next();
             if (child.getValue() instanceof LineString) {
                 LineString ls = (LineString) child.getValue();
@@ -92,7 +94,7 @@ public class CompositeCurveTypeBinding extends LineStringTypeBinding {
 
     /**
      * Construct a line string from CurveMembers coordinates.
-     * 
+     *
      * @param node
      * @return
      */

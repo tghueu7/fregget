@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -34,16 +34,16 @@ import org.opengis.referencing.operation.TransformException;
 
 /**
  * Returns a {@link ProjectionHandler} for the {@link TransverseMercator} projection
- * that will cut geometries 45° away from the projection central meridian  
- * 
+ * that will cut geometries 45° away from the projection central meridian
+ *
  * @author Andrea Aime - OpenGeo
- *
- *
  * @source $URL$
  */
 public class PolarStereographicHandlerFactory implements ProjectionHandlerFactory {
 
-    public ProjectionHandler getHandler(ReferencedEnvelope renderingEnvelope, CoordinateReferenceSystem sourceCrs, boolean wrap, int maxWraps) throws FactoryException {
+    public ProjectionHandler getHandler(ReferencedEnvelope renderingEnvelope, 
+                                        CoordinateReferenceSystem sourceCrs, boolean wrap, int 
+                                                maxWraps) throws FactoryException {
         MapProjection mapProjection = CRS.getMapProjection(renderingEnvelope
                 .getCoordinateReferenceSystem());
         if (renderingEnvelope != null && mapProjection instanceof PolarStereographic) {
@@ -56,7 +56,7 @@ public class PolarStereographicHandlerFactory implements ProjectionHandlerFactor
             } catch (ParameterNotFoundException e) {
                 // ignore
             }
-            if(stdParallel != null) {
+            if (stdParallel != null) {
                 north = stdParallel.doubleValue() > 0;
             } else {
                 // variant A uses latitude of origin
@@ -67,7 +67,7 @@ public class PolarStereographicHandlerFactory implements ProjectionHandlerFactor
                 } catch (ParameterNotFoundException e) {
                     // ignore
                 }
-                if(latOrigin != null) {
+                if (latOrigin != null) {
                     north = latOrigin.doubleValue() > 0;
                 } else {
                     return null;
@@ -75,12 +75,14 @@ public class PolarStereographicHandlerFactory implements ProjectionHandlerFactor
             }
 
             ReferencedEnvelope validArea;
-            if(north) {
-                validArea = new ReferencedEnvelope(-Double.MAX_VALUE, Double.MAX_VALUE, -0, 90, DefaultGeographicCRS.WGS84);
+            if (north) {
+                validArea = new ReferencedEnvelope(-Double.MAX_VALUE, Double.MAX_VALUE, -0, 90, 
+                        DefaultGeographicCRS.WGS84);
             } else {
-                validArea = new ReferencedEnvelope(-Double.MAX_VALUE, Double.MAX_VALUE, -90, 0, DefaultGeographicCRS.WGS84);
+                validArea = new ReferencedEnvelope(-Double.MAX_VALUE, Double.MAX_VALUE, -90, 0, 
+                        DefaultGeographicCRS.WGS84);
             }
-            
+
             return new ProjectionHandler(sourceCrs, validArea, renderingEnvelope) {
                 @Override
                 public List<ReferencedEnvelope> getQueryEnvelopes() throws TransformException,

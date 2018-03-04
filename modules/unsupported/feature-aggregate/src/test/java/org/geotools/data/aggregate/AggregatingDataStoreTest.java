@@ -34,8 +34,6 @@ import org.opengis.filter.sort.SortBy;
 import org.opengis.filter.sort.SortOrder;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class AggregatingDataStoreTest extends AbstractAggregatingStoreTest {
@@ -134,14 +132,14 @@ public class AggregatingDataStoreTest extends AbstractAggregatingStoreTest {
         assertEquals(new ReferencedEnvelope(2, 4, 2, 4, CRS.decode("EPSG:4326")), store
                 .getFeatureSource(BASIC_POLYGONS).getFeatures(new Query(null, eq2)).getBounds());
     }
-    
+
     @Test
     public void testBoundMixed() throws Exception {
         AggregateTypeConfiguration config = new AggregateTypeConfiguration(BASIC_POLYGONS);
         config.addSourceType("store1", "BasicPolygons");
         config.addSourceType("store2", "BasicPolygons4269");
         store.addType(config);
-        
+
         assertEquals(new ReferencedEnvelope(-2, 4, -1, 6, CRS.decode("EPSG:4326")), store
                 .getFeatureSource(BASIC_POLYGONS).getBounds(Query.ALL));
     }
@@ -163,14 +161,14 @@ public class AggregatingDataStoreTest extends AbstractAggregatingStoreTest {
     public void testReadSorted() throws Exception {
         store.autoConfigureStores(Arrays.asList("store1", "store2"));
         Query q = new Query(BASIC_POLYGONS);
-        q.setSortBy(new SortBy[] { ff.sort("ID", SortOrder.DESCENDING) });
+        q.setSortBy(new SortBy[]{ff.sort("ID", SortOrder.DESCENDING)});
         List<SimpleFeature> features = listFeatures(q);
-        
+
         assertEquals(4, features.size());
         String prev = null;
         for (SimpleFeature f : features) {
             String id = (String) f.getAttribute("ID");
-            if(prev != null) {
+            if (prev != null) {
                 assertTrue(prev.compareTo(id) >= 0);
             }
             prev = id;
@@ -212,17 +210,18 @@ public class AggregatingDataStoreTest extends AbstractAggregatingStoreTest {
             assertEquals(schema, sf.getFeatureType());
         }
     }
-    
+
     /**
      * Test query with a start index
-     * @throws IOException 
-     * @throws FileNotFoundException 
+     *
+     * @throws IOException
+     * @throws FileNotFoundException
      */
     @Test
     public void testOffset() throws FileNotFoundException, IOException {
         Query query = new Query(Query.ALL);
         query.setStartIndex(2);
-        
+
         // just the first store
         store.autoConfigureStores(Arrays.asList("store1"));
         assertEquals(1, store.getFeatureSource(BASIC_POLYGONS).getCount(query));
@@ -232,11 +231,12 @@ public class AggregatingDataStoreTest extends AbstractAggregatingStoreTest {
         store.autoConfigureStores(Arrays.asList("store1", "store2", "gt:store3"));
         assertEquals(2, store.getFeatureSource(BASIC_POLYGONS).getCount(query));
     }
-    
+
     /**
      * Test query with maxFeatures
-     * @throws IOException 
-     * @throws FileNotFoundException 
+     *
+     * @throws IOException
+     * @throws FileNotFoundException
      */
     @Test
     public void testLimit() throws FileNotFoundException, IOException {
@@ -251,11 +251,12 @@ public class AggregatingDataStoreTest extends AbstractAggregatingStoreTest {
         store.autoConfigureStores(Arrays.asList("store1", "store2", "gt:store3"));
         assertEquals(2, store.getFeatureSource(BASIC_POLYGONS).getCount(query));
     }
-    
+
     /**
      * Test query with maxFeatures and startIndex
-     * @throws IOException 
-     * @throws FileNotFoundException 
+     *
+     * @throws IOException
+     * @throws FileNotFoundException
      */
     @Test
     public void testLimitOffset() throws FileNotFoundException, IOException {
@@ -350,17 +351,18 @@ public class AggregatingDataStoreTest extends AbstractAggregatingStoreTest {
         assertSchema(features.values(), store1.getSchema(ROAD_SEGMENTS));
         assertEquals(1, features.size());
     }
-    
+
     @Test
     public void testRetrieveMissingAttribute() throws Exception {
         Query q = new Query(ROAD_SEGMENTS);
-        q.setPropertyNames(new String[] {"NAME"});
+        q.setPropertyNames(new String[]{"NAME"});
 
         // now we filter against a store that has the feature type, but misses the property
         store.resetConfiguration();
         store.autoConfigureStores(Arrays.asList("store1", "gt:store3"));
         Map<String, SimpleFeature> features = collectFeatures(q);
-        assertSchema(features.values(), SimpleFeatureTypeBuilder.retype(store1.getSchema(ROAD_SEGMENTS), new String[] {"NAME"}));
+        assertSchema(features.values(), SimpleFeatureTypeBuilder.retype(store1.getSchema
+                (ROAD_SEGMENTS), new String[]{"NAME"}));
         assertEquals(6, features.size());
         System.out.println(features);
         SimpleFeature sf = features.get("RoadSegments.0.rs.1");

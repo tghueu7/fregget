@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -27,16 +27,16 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  * Returns a {@link ProjectionHandler} for the {@link TransverseMercator} projection
- * that will cut geometries 45° away from the projection central meridian  
- * 
+ * that will cut geometries 45° away from the projection central meridian
+ *
  * @author Andrea Aime - OpenGeo
- *
- *
  * @source $URL$
  */
 public class TransverseMercatorHandlerFactory implements ProjectionHandlerFactory {
 
-    public ProjectionHandler getHandler(ReferencedEnvelope renderingEnvelope, CoordinateReferenceSystem sourceCrs, boolean wrap, int maxWraps) throws FactoryException {
+    public ProjectionHandler getHandler(ReferencedEnvelope renderingEnvelope, 
+                                        CoordinateReferenceSystem sourceCrs, boolean wrap, int 
+                                                maxWraps) throws FactoryException {
         MapProjection mapProjection = CRS.getMapProjection(renderingEnvelope
                 .getCoordinateReferenceSystem());
         if (renderingEnvelope != null && mapProjection instanceof TransverseMercator) {
@@ -47,10 +47,11 @@ public class TransverseMercatorHandlerFactory implements ProjectionHandlerFactor
                     centralMeridian + 45, -85, 85, DefaultGeographicCRS.WGS84);
 
             ProjectionHandler ph = new ProjectionHandler(sourceCrs, validArea, renderingEnvelope);
-            if((validArea.getMinX() < 180 && validArea.getMaxX() > 180) || (validArea.getMinX() < -180 && validArea.getMaxX() > -180)) {
+            if ((validArea.getMinX() < 180 && validArea.getMaxX() > 180) || (validArea.getMinX() 
+                    < -180 && validArea.getMaxX() > -180)) {
                 ph.computeDatelineX();
             }
-            
+
             return ph;
         }
 

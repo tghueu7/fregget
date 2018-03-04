@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -40,10 +40,10 @@ import org.geotools.resources.i18n.ErrorKeys;
  * (they must be provided by subclasses), but provides two convenience features:
  * <p>
  * <ul>
- *   <li>An initially empty {@linkplain #hints map of hints} to be filled by subclasses
- *       constructors. They are the hints to be returned by {@link #getImplementationHints}.</li>
- *   <li>An automatic {@linkplain ServiceRegistry#setOrdering ordering} applied
- *       on the basis of subclasses-provided {@linkplain #priority} rank.</li>
+ * <li>An initially empty {@linkplain #hints map of hints} to be filled by subclasses
+ * constructors. They are the hints to be returned by {@link #getImplementationHints}.</li>
+ * <li>An automatic {@linkplain ServiceRegistry#setOrdering ordering} applied
+ * on the basis of subclasses-provided {@linkplain #priority} rank.</li>
  * </ul>
  * <p>
  * When more than one factory implementation is
@@ -58,14 +58,14 @@ import org.geotools.resources.i18n.ErrorKeys;
  * This implies that the ordering is unspecified between all factories created with the
  * {@linkplain #AbstractFactory() default constructor}, since they all have the same
  * {@linkplain #NORMAL_PRIORITY default priority} level.
- *
+ * <p>
  * <h3>How hints are set</h3>
  * Hints are used for two purposes. The distinction is important because the set
  * of hints may not be identical in both cases:
  * <p>
  * <ol>
- *   <li>Hints are used for creating new factories.</li>
- *   <li>Hints are used in order to check if an <em>existing</em> factory is suitable.</li>
+ * <li>Hints are used for creating new factories.</li>
+ * <li>Hints are used in order to check if an <em>existing</em> factory is suitable.</li>
  * </ol>
  * <p>
  * {@code AbstractFactory} do <strong>not</strong> provides any facility for the first case.
@@ -87,13 +87,13 @@ import org.geotools.resources.i18n.ErrorKeys;
  * <p>
  * <strong>Example:</strong> Lets two factories, A and B. Factory A need an instance of Factory B.
  * Factory A can be implemented as below:
- *
+ * <p>
  * <table border='1'>
  * <tr><th>Code</th><th>Observations</th></tr>
  * <tr><td><blockquote><pre>
  * class FactoryA extends AbstractFactory {
  *     FactoryB fb;
- *
+ * <p>
  *     FactoryA(Hints userHints) {
  *         fb = FactoryFinder.getFactoryB(userHints);
  *         hints.put(Hints.FACTORY_B, fb);
@@ -102,22 +102,20 @@ import org.geotools.resources.i18n.ErrorKeys;
  * </pre></blockquote></td>
  * <td>
  * <ul>
- *   <li>The user-supplied map ({@code userHints}) is never modified.</li>
- *   <li>All hints relevant to other factories are used in the constructor. Hints relevant to
- *       factory B are used when {@code FactoryFinder.getFactoryB(...)} is invoked.</li>
- *   <li>The {@code FactoryA} constructor stores only the hints relevant to {@code FactoryA}.
- *       Indirect dependencies (e.g. hints relevant to {@code FactoryB}) will be inspected
- *       recursively by {@link FactoryRegistry}.</li>
- *   <li>In the above example, {@link #hints} will never be used for creating new factories.</li>
+ * <li>The user-supplied map ({@code userHints}) is never modified.</li>
+ * <li>All hints relevant to other factories are used in the constructor. Hints relevant to
+ * factory B are used when {@code FactoryFinder.getFactoryB(...)} is invoked.</li>
+ * <li>The {@code FactoryA} constructor stores only the hints relevant to {@code FactoryA}.
+ * Indirect dependencies (e.g. hints relevant to {@code FactoryB}) will be inspected
+ * recursively by {@link FactoryRegistry}.</li>
+ * <li>In the above example, {@link #hints} will never be used for creating new factories.</li>
  * </ul>
  * </td></tr></table>
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class AbstractFactory implements Factory, RegistrableFactory {
     /**
@@ -153,10 +151,9 @@ public class AbstractFactory implements Factory, RegistrableFactory {
      * {@link #MAXIMUM_PRIORITY} inclusive. Priorities are used by {@link FactoryRegistry}
      * for selecting a preferred factory when many are found for the same service.
      *
-     * @see #getPriority
-     *
      * @todo Consider deprecating this field. See
      * <A HREF="http://jira.codehaus.org/browse/GEOT-1100">GEOT-1100</A> for details.
+     * @see #getPriority
      */
     protected final int priority;
 
@@ -168,10 +165,10 @@ public class AbstractFactory implements Factory, RegistrableFactory {
      * <p>
      * <b>Note:</b> This field is not an instance of {@link Hints} because:
      * <ul>
-     *   <li>The primary use of this map is to check if this factory can be reused.
-     *       It is not for creating new factories.</li>
-     *   <li>This map needs to allow {@code null} values, as of
-     *       {@linkplain Factory#getImplementationHints implementation hints} contract.</li>
+     * <li>The primary use of this map is to check if this factory can be reused.
+     * It is not for creating new factories.</li>
+     * <li>This map needs to allow {@code null} values, as of
+     * {@linkplain Factory#getImplementationHints implementation hints} contract.</li>
      * </ul>
      */
     protected final Map<RenderingHints.Key, Object> hints =
@@ -196,11 +193,11 @@ public class AbstractFactory implements Factory, RegistrableFactory {
      * Constructs a factory with the specified priority.
      *
      * @param priority The priority for this factory, as a number between
-     *        {@link #MINIMUM_PRIORITY} and {@link #MAXIMUM_PRIORITY} inclusive.
+     *                 {@link #MINIMUM_PRIORITY} and {@link #MAXIMUM_PRIORITY} inclusive.
      */
     protected AbstractFactory(final int priority) {
-    	this.priority = priority;
-        if (priority<MINIMUM_PRIORITY || priority>MAXIMUM_PRIORITY) {
+        this.priority = priority;
+        if (priority < MINIMUM_PRIORITY || priority > MAXIMUM_PRIORITY) {
             throw new IllegalArgumentException(
                     Errors.format(ErrorKeys.ILLEGAL_ARGUMENT_$2, "priority", priority));
         }
@@ -227,7 +224,6 @@ public class AbstractFactory implements Factory, RegistrableFactory {
      *
      * @param map The hints to add.
      * @return {@code true} if at least one value changed as a result of this call.
-     *
      * @since 2.5
      */
     protected boolean addImplementationHints(final RenderingHints map) {
@@ -246,7 +242,7 @@ public class AbstractFactory implements Factory, RegistrableFactory {
          */
         boolean changed = false;
         if (map != null) {
-            for (final Map.Entry<?,?> entry : map.entrySet()) {
+            for (final Map.Entry<?, ?> entry : map.entrySet()) {
                 final Object key = entry.getKey();
                 if (key instanceof RenderingHints.Key) {
                     final Object value = entry.getValue();
@@ -282,7 +278,6 @@ public class AbstractFactory implements Factory, RegistrableFactory {
      *
      * @param registry A factory registry where this factory has been registered.
      * @param category The registry category under which this object has been registered.
-     *
      * @see #MINIMUM_PRIORITY
      * @see #MAXIMUM_PRIORITY
      */
@@ -293,7 +288,7 @@ public class AbstractFactory implements Factory, RegistrableFactory {
                 .map(factory -> (AbstractFactory) factory)
                 .forEach(factory -> {
                     final int priority = getPriority();
-                    final int compare  = factory.getPriority();
+                    final int compare = factory.getPriority();
                     if (priority > compare) {
                         registry.setOrdering((Class) category, this, factory);
                     } else if (priority < compare) {
@@ -336,10 +331,10 @@ public class AbstractFactory implements Factory, RegistrableFactory {
      * The default implementation returns {@code true} if and only if:
      * <p>
      * <ul>
-     *   <li>Both objects are of the exact same class
-     *       (a <cite>is instance of</cite> relationship is not enough).</li>
-     *   <li>{@linkplain #getImplementationHints implementation hints} are
-     *       {@linkplain Map#equals equal}.</li>
+     * <li>Both objects are of the exact same class
+     * (a <cite>is instance of</cite> relationship is not enough).</li>
+     * <li>{@linkplain #getImplementationHints implementation hints} are
+     * {@linkplain Map#equals equal}.</li>
      * </ul>
      * <p>
      * The requirement for the <cite>exact same class</cite> is needed for consistency with the
@@ -348,7 +343,6 @@ public class AbstractFactory implements Factory, RegistrableFactory {
      *
      * @param object The object to compare.
      * @return {@code true} if the given object is equals to this factory.
-     *
      * @since 2.3
      */
     @Override
@@ -356,7 +350,7 @@ public class AbstractFactory implements Factory, RegistrableFactory {
         if (object == this) {
             return true;
         }
-        if (object!=null && object.getClass().equals(getClass())) {
+        if (object != null && object.getClass().equals(getClass())) {
             final AbstractFactory that = (AbstractFactory) object;
             if (this.priority == that.priority) {
                 final Set<FactoryComparator> comparators = new HashSet<FactoryComparator>();
@@ -378,7 +372,7 @@ public class AbstractFactory implements Factory, RegistrableFactory {
     @Override
     public String toString() {
         final String name = format(this);
-        final Map<Factory,String> done = new IdentityHashMap<Factory,String>();
+        final Map<Factory, String> done = new IdentityHashMap<Factory, String>();
         // We used IdentityHashMap above because we don't want to rely on Factory.equals(...)
         done.put(this, name);
         final String tree = format(getImplementationHints(), done);
@@ -389,7 +383,7 @@ public class AbstractFactory implements Factory, RegistrableFactory {
      * Returns a string representation of the specified hints. This is used by
      * {@link Hints#toString} in order to share the code provided in this class.
      */
-    static String toString(final Map<?,?> hints) {
+    static String toString(final Map<?, ?> hints) {
         return format(hints, new IdentityHashMap<Factory, String>());
     }
 
@@ -408,7 +402,7 @@ public class AbstractFactory implements Factory, RegistrableFactory {
      * Formats the specified hints. This method is just the starting
      * point for {@link #format(Writer, Map, String, Map)} below.
      */
-    private static String format(final Map<?,?> hints, final Map<Factory,String> done) {
+    private static String format(final Map<?, ?> hints, final Map<Factory, String> done) {
         final Writer table;
         try {
             table = new TableWriter(null, " ");
@@ -423,13 +417,12 @@ public class AbstractFactory implements Factory, RegistrableFactory {
     /**
      * Formats recursively the tree. This method invoke itself.
      */
-    private static void format(final Writer              table,
-                               final Map<?,?>            hints,
-                               final String              indent,
-                               final Map<Factory,String> done)
-            throws IOException
-    {
-        for (final Map.Entry<?,?> entry : hints.entrySet()) {
+    private static void format(final Writer table,
+                               final Map<?, ?> hints,
+                               final String indent,
+                               final Map<Factory, String> done)
+            throws IOException {
+        for (final Map.Entry<?, ?> entry : hints.entrySet()) {
             final Object k = entry.getKey();
             String key = (k instanceof RenderingHints.Key) ?
                     Hints.nameOf((RenderingHints.Key) k) : String.valueOf(k);

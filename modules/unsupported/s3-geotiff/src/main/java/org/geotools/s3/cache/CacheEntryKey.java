@@ -54,7 +54,8 @@ public class CacheEntryKey implements Serializable {
         return blockSize;
     }
 
-    @Override public boolean equals(Object o) {
+    @Override
+    public boolean equals(Object o) {
         if (this == o)
             return true;
         if (o == null || getClass() != o.getClass())
@@ -72,7 +73,8 @@ public class CacheEntryKey implements Serializable {
 
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
         int result = bucket.hashCode();
         result = 31 * result + key.hashCode();
         result = 31 * result + block;

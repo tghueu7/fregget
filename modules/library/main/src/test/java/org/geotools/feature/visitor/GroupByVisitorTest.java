@@ -39,8 +39,10 @@ import org.opengis.filter.expression.PropertyName;
 import com.vividsolutions.jts.io.WKTReader;
 
 /**
- * This class implement the test that checks the group by visitor behavior with different aggregate visitors.
- * All the computations will be performed in memory. Optimization tests are implemented in the specific stores.
+ * This class implement the test that checks the group by visitor behavior with different 
+ * aggregate visitors.
+ * All the computations will be performed in memory. Optimization tests are implemented in the 
+ * specific stores.
  */
 public class GroupByVisitorTest {
 
@@ -56,18 +58,30 @@ public class GroupByVisitorTest {
                 "building_type:String,energy_type:String,energy_consumption:Double,geo:Geometry");
         // the building features that will be used during the tests
         SimpleFeature[] buildingFeatures = new SimpleFeature[]{
-                SimpleFeatureBuilder.build(buildingType, new Object[]{1, "SCHOOL_A", "SCHOOL", "FLOWING_WATER", 50.0, wktParser.read("POINT(-5 -5)")}, null),
-                SimpleFeatureBuilder.build(buildingType, new Object[]{2, "SCHOOL_A", "SCHOOL", "NUCLEAR", 10.0, wktParser.read("POINT(-5 -5)")}, null),
-                SimpleFeatureBuilder.build(buildingType, new Object[]{3, "SCHOOL_A", "SCHOOL", "WIND", 20.0, wktParser.read("POINT(-5 -5)")}, null),
-                SimpleFeatureBuilder.build(buildingType, new Object[]{4, "SCHOOL_B", "SCHOOL", "SOLAR", 30.0, wktParser.read("POINT(5 5)")}, null),
-                SimpleFeatureBuilder.build(buildingType, new Object[]{5, "SCHOOL_B", "SCHOOL", "FUEL", 60.0, wktParser.read("POINT(5 5)")}, null),
-                SimpleFeatureBuilder.build(buildingType, new Object[]{6, "SCHOOL_B", "SCHOOL", "NUCLEAR", 10.0, wktParser.read("POINT(5 5)")}, null),
-                SimpleFeatureBuilder.build(buildingType, new Object[]{7, "FABRIC_A", "FABRIC", "FLOWING_WATER", 500.0, wktParser.read("POINT(-5 5)")}, null),
-                SimpleFeatureBuilder.build(buildingType, new Object[]{8, "FABRIC_A", "FABRIC", "NUCLEAR", 150.0, wktParser.read("POINT(-5 5)")}, null),
-                SimpleFeatureBuilder.build(buildingType, new Object[]{9, "FABRIC_B", "FABRIC", "WIND", 20.0, wktParser.read("POINT(5 -5)")}, null),
-                SimpleFeatureBuilder.build(buildingType, new Object[]{10, "FABRIC_B", "FABRIC", "SOLAR", 30.0, wktParser.read("POINT(5 -5)")}, null),
-                SimpleFeatureBuilder.build(buildingType, new Object[]{11, "HOUSE_A", "HOUSE", "FUEL", 6.0, wktParser.read("POINT(0 0)")}, null),
-                SimpleFeatureBuilder.build(buildingType, new Object[]{12, "HOUSE_B", "HOUSE", "NUCLEAR", 4.0, wktParser.read("POINT(0 0)")}, null),
+                SimpleFeatureBuilder.build(buildingType, new Object[]{1, "SCHOOL_A", "SCHOOL", 
+                        "FLOWING_WATER", 50.0, wktParser.read("POINT(-5 -5)")}, null),
+                SimpleFeatureBuilder.build(buildingType, new Object[]{2, "SCHOOL_A", "SCHOOL", 
+                        "NUCLEAR", 10.0, wktParser.read("POINT(-5 -5)")}, null),
+                SimpleFeatureBuilder.build(buildingType, new Object[]{3, "SCHOOL_A", "SCHOOL", 
+                        "WIND", 20.0, wktParser.read("POINT(-5 -5)")}, null),
+                SimpleFeatureBuilder.build(buildingType, new Object[]{4, "SCHOOL_B", "SCHOOL", 
+                        "SOLAR", 30.0, wktParser.read("POINT(5 5)")}, null),
+                SimpleFeatureBuilder.build(buildingType, new Object[]{5, "SCHOOL_B", "SCHOOL", 
+                        "FUEL", 60.0, wktParser.read("POINT(5 5)")}, null),
+                SimpleFeatureBuilder.build(buildingType, new Object[]{6, "SCHOOL_B", "SCHOOL", 
+                        "NUCLEAR", 10.0, wktParser.read("POINT(5 5)")}, null),
+                SimpleFeatureBuilder.build(buildingType, new Object[]{7, "FABRIC_A", "FABRIC", 
+                        "FLOWING_WATER", 500.0, wktParser.read("POINT(-5 5)")}, null),
+                SimpleFeatureBuilder.build(buildingType, new Object[]{8, "FABRIC_A", "FABRIC", 
+                        "NUCLEAR", 150.0, wktParser.read("POINT(-5 5)")}, null),
+                SimpleFeatureBuilder.build(buildingType, new Object[]{9, "FABRIC_B", "FABRIC", 
+                        "WIND", 20.0, wktParser.read("POINT(5 -5)")}, null),
+                SimpleFeatureBuilder.build(buildingType, new Object[]{10, "FABRIC_B", "FABRIC", 
+                        "SOLAR", 30.0, wktParser.read("POINT(5 -5)")}, null),
+                SimpleFeatureBuilder.build(buildingType, new Object[]{11, "HOUSE_A", "HOUSE", 
+                        "FUEL", 6.0, wktParser.read("POINT(0 0)")}, null),
+                SimpleFeatureBuilder.build(buildingType, new Object[]{12, "HOUSE_B", "HOUSE", 
+                        "NUCLEAR", 4.0, wktParser.read("POINT(0 0)")}, null),
         };
         // creating the bulding featrue collection
         featureCollection = DataUtilities.collection(buildingFeatures);
@@ -260,23 +274,34 @@ public class GroupByVisitorTest {
         // creating the features collections that will be used to test the merge behavior
         FeatureCollection featureCollectionA = featureCollection;
         FeatureCollection featureCollectionB = DataUtilities.collection(new SimpleFeature[]{
-                SimpleFeatureBuilder.build(buildingType, new Object[]{1, "SCHOOL_C", "SCHOOL", "NUCLEAR", 100.0, wktParser.read("POINT(-15 -15)")}, null),
-                SimpleFeatureBuilder.build(buildingType, new Object[]{1, "SCHOOL_C", "SCHOOL", "FUEL", 15.0, wktParser.read("POINT(-15 -15)")}, null),
-                SimpleFeatureBuilder.build(buildingType, new Object[]{2, "FABRIC_C", "FABRIC", "NUCLEAR", 250.0, wktParser.read("POINT(-25 -25)")}, null),
-                SimpleFeatureBuilder.build(buildingType, new Object[]{2, "FABRIC_C", "FABRIC", "WIND", 75.0, wktParser.read("POINT(-25 -25)")}, null),
-                SimpleFeatureBuilder.build(buildingType, new Object[]{2, "HOUSE_C", "HOUSE", "WIND", 10.0, wktParser.read("POINT(-35 -35)")}, null),
-                SimpleFeatureBuilder.build(buildingType, new Object[]{2, "HOUSE_C", "HOUSE", "DARK_MATTER", 850.0, wktParser.read("POINT(-35 -35)")}, null),
-                SimpleFeatureBuilder.build(buildingType, new Object[]{2, "THEATER_A", "THEATER", "WIND", 200.0, wktParser.read("POINT(-45 -45)")}, null)
+                SimpleFeatureBuilder.build(buildingType, new Object[]{1, "SCHOOL_C", "SCHOOL", 
+                        "NUCLEAR", 100.0, wktParser.read("POINT(-15 -15)")}, null),
+                SimpleFeatureBuilder.build(buildingType, new Object[]{1, "SCHOOL_C", "SCHOOL", 
+                        "FUEL", 15.0, wktParser.read("POINT(-15 -15)")}, null),
+                SimpleFeatureBuilder.build(buildingType, new Object[]{2, "FABRIC_C", "FABRIC", 
+                        "NUCLEAR", 250.0, wktParser.read("POINT(-25 -25)")}, null),
+                SimpleFeatureBuilder.build(buildingType, new Object[]{2, "FABRIC_C", "FABRIC", 
+                        "WIND", 75.0, wktParser.read("POINT(-25 -25)")}, null),
+                SimpleFeatureBuilder.build(buildingType, new Object[]{2, "HOUSE_C", "HOUSE", 
+                        "WIND", 10.0, wktParser.read("POINT(-35 -35)")}, null),
+                SimpleFeatureBuilder.build(buildingType, new Object[]{2, "HOUSE_C", "HOUSE", 
+                        "DARK_MATTER", 850.0, wktParser.read("POINT(-35 -35)")}, null),
+                SimpleFeatureBuilder.build(buildingType, new Object[]{2, "THEATER_A", "THEATER", 
+                        "WIND", 200.0, wktParser.read("POINT(-45 -45)")}, null)
         });
-        // we visit the first feature collection calculating the energy consumption average by building type
-        GroupByVisitor visitorA = executeVisitor(featureCollectionA, "energy_consumption", "Average", new String[]{"building_type"});
+        // we visit the first feature collection calculating the energy consumption average by 
+        // building type
+        GroupByVisitor visitorA = executeVisitor(featureCollectionA, "energy_consumption", 
+                "Average", new String[]{"building_type"});
         checkResults(visitorA.getResult(), new Object[][]{
                 new Object[]{"SCHOOL", 30.0},
                 new Object[]{"FABRIC", 175.0},
                 new Object[]{"HOUSE", 5.0}
         });
-        // we visit the second feature collection calculating the energy consumption average by building type
-        GroupByVisitor visitorB = executeVisitor(featureCollectionB, "energy_consumption", "Average", new String[]{"building_type"});
+        // we visit the second feature collection calculating the energy consumption average by 
+        // building type
+        GroupByVisitor visitorB = executeVisitor(featureCollectionB, "energy_consumption", 
+                "Average", new String[]{"building_type"});
         checkResults(visitorB.getResult(), new Object[][]{
                 new Object[]{"SCHOOL", 57.5},
                 new Object[]{"FABRIC", 162.5},
@@ -291,10 +316,11 @@ public class GroupByVisitorTest {
                 new Object[]{"THEATER", 200.0}
         });
     }
-    
+
     @Test
     public void testFeatureAttributeVisitor() {
-        GroupByVisitor visitor = buildVisitor("energy_consumption", "Average", new String[]{"building_type"});
+        GroupByVisitor visitor = buildVisitor("energy_consumption", "Average", new 
+                String[]{"building_type"});
         List<Expression> expressions = visitor.getExpressions();
         Set<String> names = new HashSet<>();
         for (Expression expression : expressions) {
@@ -309,26 +335,35 @@ public class GroupByVisitorTest {
 
     private void testVisitor(String aggregateAttribute, String aggregateVisitor,
                              String groupByAttribute, Object[][] expectedResults) throws Exception {
-        testVisitor(aggregateAttribute, aggregateVisitor, new String[]{groupByAttribute}, expectedResults);
+        testVisitor(aggregateAttribute, aggregateVisitor, new String[]{groupByAttribute}, 
+                expectedResults);
     }
 
-    private void testVisitor(String aggregateAttribute, String aggregateVisitor, String firstGroupByAttribute,
-                             String secondGroupByAttribute, Object[][] expectedResults) throws Exception {
-        testVisitor(aggregateAttribute, aggregateVisitor, new String[]{firstGroupByAttribute, secondGroupByAttribute}, expectedResults);
+    private void testVisitor(String aggregateAttribute, String aggregateVisitor, String 
+            firstGroupByAttribute,
+                             String secondGroupByAttribute, Object[][] expectedResults) throws 
+            Exception {
+        testVisitor(aggregateAttribute, aggregateVisitor, new String[]{firstGroupByAttribute, 
+                secondGroupByAttribute}, expectedResults);
     }
 
     private void testVisitor(String aggregateAttribute, String aggregateVisitor,
-                             String[] groupByAttributes, Object[][] expectedResults) throws Exception {
-        GroupByVisitor visitor = executeVisitor(featureCollection, aggregateAttribute, aggregateVisitor, groupByAttributes);
+                             String[] groupByAttributes, Object[][] expectedResults) throws 
+            Exception {
+        GroupByVisitor visitor = executeVisitor(featureCollection, aggregateAttribute, 
+                aggregateVisitor, groupByAttributes);
         checkResults(visitor.getResult(), expectedResults);
     }
 
     /**
-     * Helper method that construct the group by visitor and visit the given feature collection. The visitor result
+     * Helper method that construct the group by visitor and visit the given feature collection. 
+     * The visitor result
      * is also checked against the expected result.
      */
-    private GroupByVisitor executeVisitor(FeatureCollection featureCollection, String aggregateAttribute,
-                                          String aggregateVisitor, String[] groupByAttributes) throws Exception {
+    private GroupByVisitor executeVisitor(FeatureCollection featureCollection, String 
+            aggregateAttribute,
+                                          String aggregateVisitor, String[] groupByAttributes) 
+            throws Exception {
         GroupByVisitor visitor = buildVisitor(aggregateAttribute, aggregateVisitor,
                 groupByAttributes);
         featureCollection.accepts(visitor, new NullProgressListener());
@@ -336,7 +371,7 @@ public class GroupByVisitorTest {
     }
 
     private GroupByVisitor buildVisitor(String aggregateAttribute, String aggregateVisitor,
-            String[] groupByAttributes) {
+                                        String[] groupByAttributes) {
         GroupByVisitorBuilder visitorBuilder = new GroupByVisitorBuilder()
                 .withAggregateAttribute(aggregateAttribute, buildingType)
                 .withAggregateVisitor(aggregateVisitor);
@@ -373,7 +408,8 @@ public class GroupByVisitorTest {
     }
 
     /**
-     * Helper method that compare two arrays. This method will compare double values by difference (0.001).
+     * Helper method that compare two arrays. This method will compare double values by 
+     * difference (0.001).
      */
     private boolean checkArraysAreEqual(Object[] arrayA, Object[] arrayB) {
         assertThat(arrayA, notNullValue());

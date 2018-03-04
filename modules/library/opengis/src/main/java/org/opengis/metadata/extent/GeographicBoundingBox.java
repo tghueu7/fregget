@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.metadata.extent;
@@ -19,14 +19,12 @@ import static org.opengis.annotation.Specification.*;
  * Geographic position of the dataset. This is only an approximate
  * so specifying the co-ordinate reference system is unnecessary.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
+ * @source $URL$
+ * @since GeoAPI 1.0
  */
-@UML(identifier="EX_GeographicBoundingBox", specification=ISO_19115)
+@UML(identifier = "EX_GeographicBoundingBox", specification = ISO_19115)
 public interface GeographicBoundingBox extends GeographicExtent {
     /**
      * Returns the western-most coordinate of the limit of the
@@ -36,7 +34,7 @@ public interface GeographicBoundingBox extends GeographicExtent {
      * @return The western-most longitude between -180 and +180&deg;.
      * @unitof Angle
      */
-    @UML(identifier="westBoundLongitude", obligation=MANDATORY, specification=ISO_19115)
+    @UML(identifier = "westBoundLongitude", obligation = MANDATORY, specification = ISO_19115)
     double getWestBoundLongitude();
 
     /**
@@ -47,7 +45,7 @@ public interface GeographicBoundingBox extends GeographicExtent {
      * @return The eastern-most longitude between -180 and +180&deg;.
      * @unitof Angle
      */
-    @UML(identifier="eastBoundLongitude", obligation=MANDATORY, specification=ISO_19115)
+    @UML(identifier = "eastBoundLongitude", obligation = MANDATORY, specification = ISO_19115)
     double getEastBoundLongitude();
 
     /**
@@ -58,7 +56,7 @@ public interface GeographicBoundingBox extends GeographicExtent {
      * @return The southern-most latitude between -90 and +90&deg;.
      * @unitof Angle
      */
-    @UML(identifier="southBoundLatitude", obligation=MANDATORY, specification=ISO_19115)
+    @UML(identifier = "southBoundLatitude", obligation = MANDATORY, specification = ISO_19115)
     double getSouthBoundLatitude();
 
     /**
@@ -69,6 +67,6 @@ public interface GeographicBoundingBox extends GeographicExtent {
      * @return The northern-most latitude between -90 and +90&deg;.
      * @unitof Angle
      */
-    @UML(identifier="northBoundLatitude", obligation=MANDATORY, specification=ISO_19115)
+    @UML(identifier = "northBoundLatitude", obligation = MANDATORY, specification = ISO_19115)
     double getNorthBoundLatitude();
 }

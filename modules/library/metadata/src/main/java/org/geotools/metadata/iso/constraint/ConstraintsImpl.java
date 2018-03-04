@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -29,13 +29,10 @@ import org.geotools.metadata.iso.MetadataEntity;
 /**
  * Restrictions on the access and use of a resource or metadata.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class ConstraintsImpl extends MetadataEntity implements Constraints {
@@ -66,7 +63,8 @@ public class ConstraintsImpl extends MetadataEntity implements Constraints {
     }
 
     /**
-     * Returns the limitation affecting the fitness for use of the resource. Example, "not to be used for
+     * Returns the limitation affecting the fitness for use of the resource. Example, "not to be 
+     * used for
      * navigation".
      */
     public synchronized Collection<InternationalString> getUseLimitation() {
@@ -74,12 +72,12 @@ public class ConstraintsImpl extends MetadataEntity implements Constraints {
     }
 
     /**
-     * Set the limitation affecting the fitness for use of the resource. Example, "not to be used for
+     * Set the limitation affecting the fitness for use of the resource. Example, "not to be used
+     * for
      * navigation".
      */
     public synchronized void setUseLimitation(
-            final Collection<? extends InternationalString> newValues)
-    {
+            final Collection<? extends InternationalString> newValues) {
         useLimitation = copyCollection(newValues, useLimitation, InternationalString.class);
     }
 }

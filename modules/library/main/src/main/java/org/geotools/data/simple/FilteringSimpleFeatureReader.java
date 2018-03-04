@@ -9,7 +9,6 @@ import org.opengis.filter.Filter;
 /**
  * Filter simple reader content as it is being read.
  *
- *
  * @source $URL$
  */
 public class FilteringSimpleFeatureReader extends

@@ -35,9 +35,9 @@ import org.picocontainer.MutablePicoContainer;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:Fill.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="Fill"&gt;
  *      &lt;xsd:annotation&gt;
@@ -59,15 +59,12 @@ import org.picocontainer.MutablePicoContainer;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDFillBinding extends AbstractComplexBinding {
     StyleFactory styleFactory;
     FilterFactory filterFactory;
-   
+
     public SLDFillBinding(StyleFactory styleFactory, FilterFactory filterFactory) {
         this.styleFactory = styleFactory;
         this.filterFactory = filterFactory;
@@ -116,7 +113,7 @@ public class SLDFillBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         Expression color = null;
         Expression opacity = null;
         Graphic graphicFill = null;
@@ -127,7 +124,7 @@ public class SLDFillBinding extends AbstractComplexBinding {
         //&quot;fill-opacity&quot;
         List params = node.getChildValues(CssParameter.class);
 
-        for (Iterator itr = params.iterator(); itr.hasNext();) {
+        for (Iterator itr = params.iterator(); itr.hasNext(); ) {
             CssParameter param = (CssParameter) itr.next();
 
             if ("fill".equals(param.getName())) {
@@ -144,7 +141,7 @@ public class SLDFillBinding extends AbstractComplexBinding {
         if (opacity != null) {
             fill.setOpacity(opacity);
         }
-        if(graphicFill != null) {
+        if (graphicFill != null) {
             fill.setGraphicFill(graphicFill);
         }
 

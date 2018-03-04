@@ -28,8 +28,6 @@ import org.opengis.metadata.citation.OnLineResource;
 import org.opengis.style.ColorReplacement;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ExternalGraphicBuilder extends AbstractStyleBuilder<ExternalGraphic> {
@@ -38,7 +36,7 @@ public class ExternalGraphicBuilder extends AbstractStyleBuilder<ExternalGraphic
     private String format;
 
     private OnLineResource resource;
-    
+
     private String location;
 
     private Set<ColorReplacementBuilder> replacements = new HashSet<ColorReplacementBuilder>();
@@ -84,10 +82,10 @@ public class ExternalGraphicBuilder extends AbstractStyleBuilder<ExternalGraphic
         this.resource = resource;
         return this;
     }
-    
+
     public ExternalGraphicBuilder location(String location) {
-		this.location = location;
-		return this;
+        this.location = location;
+        return this;
     }
 
     public ExternalGraphic build() {
@@ -101,10 +99,10 @@ public class ExternalGraphicBuilder extends AbstractStyleBuilder<ExternalGraphic
         }
         if (inline != null) {
             externalGraphic = sf.externalGraphic(inline, set);
-        } else if(resource != null) {
+        } else if (resource != null) {
             externalGraphic = sf.externalGraphic(resource, format, set);
         } else {
-        	externalGraphic = sf.createExternalGraphic(location, format);
+            externalGraphic = sf.createExternalGraphic(location, format);
         }
         if (parent == null)
             reset();
@@ -128,10 +126,10 @@ public class ExternalGraphicBuilder extends AbstractStyleBuilder<ExternalGraphic
         this.replacements.clear();
         this.resource = original.getOnlineResource();
         try {
-			this.location = original.getLocation().toString();
-		} catch (MalformedURLException e) {
-			// ignore
-		}
+            this.location = original.getLocation().toString();
+        } catch (MalformedURLException e) {
+            // ignore
+        }
         if (original.getColorReplacements() != null) {
             for (ColorReplacement cr : original.getColorReplacements()) {
                 replacements.add(new ColorReplacementBuilder().reset(cr));

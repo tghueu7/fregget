@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -52,8 +52,6 @@ import org.xml.sax.helpers.XMLFilterImpl;
  * the translator public so it can be used by others as well.
  *
  * @author Ian Schneider
- *
- *
  * @source $URL$
  */
 public abstract class TransformerBase {
@@ -61,7 +59,7 @@ public abstract class TransformerBase {
     private boolean xmlDecl = false;
     private boolean nsDecl = true;
     private Charset charset = Charset.forName("UTF-8");
-    
+
     public static final String XMLNS_NAMESPACE = "http://www.w3.org/2000/xmlns/";
 
     /**
@@ -76,18 +74,19 @@ public abstract class TransformerBase {
     public Transformer createTransformer() throws TransformerException {
         TransformerFactory tFactory = TransformerFactory.newInstance();
         if (indentation > -1) {
-        	try {
-        		tFactory.setAttribute("indent-number", new Integer(indentation));
-        	} catch (IllegalArgumentException e) {
-        		//throw away (java 1.4 doesn't support this method, but java 1.5 requires it)
-        	}
+            try {
+                tFactory.setAttribute("indent-number", new Integer(indentation));
+            } catch (IllegalArgumentException e) {
+                //throw away (java 1.4 doesn't support this method, but java 1.5 requires it)
+            }
         }
 
         Transformer transformer = tFactory.newTransformer();
 
         if (indentation > -1) {
-        	transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", Integer.toString(indentation));
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", Integer
+                    .toString(indentation));
         } else {
             transformer.setOutputProperty(OutputKeys.INDENT, "no");
         }
@@ -98,7 +97,7 @@ public abstract class TransformerBase {
             transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
         }
 
-	transformer.setOutputProperty(OutputKeys.ENCODING, charset.name());
+        transformer.setOutputProperty(OutputKeys.ENCODING, charset.name());
 
         return transformer;
     }
@@ -108,7 +107,7 @@ public abstract class TransformerBase {
      * Calls transform(Object,StreamResult);
      */
     public void transform(Object object, java.io.OutputStream out)
-        throws TransformerException {
+            throws TransformerException {
         transform(object, new StreamResult(out));
     }
 
@@ -117,7 +116,7 @@ public abstract class TransformerBase {
      * transform(Object,StreamResult);
      */
     public void transform(Object object, java.io.Writer out)
-        throws TransformerException {
+            throws TransformerException {
         transform(object, new StreamResult(out));
     }
 
@@ -127,39 +126,39 @@ public abstract class TransformerBase {
      * Transformer.transform().
      */
     public void transform(Object object, StreamResult result)
-        throws TransformerException {
-        
-        Task t = createTransformTask(object,result);
+            throws TransformerException {
+
+        Task t = createTransformTask(object, result);
         t.run();
         if (t.checkError()) {
             Exception e = t.getError();
-            if (! TransformerException.class.isAssignableFrom(e.getClass())) {
-                e = new TransformerException("Translator error",e);
+            if (!TransformerException.class.isAssignableFrom(e.getClass())) {
+                e = new TransformerException("Translator error", e);
             }
             throw (TransformerException) e;
         }
     }
-    
-    /** Create a Transformation task. This is a Runnable task
-     * which supports aborting any processing. It will not start until the 
-     * run method is called. 
-     *
+
+    /**
+     * Create a Transformation task. This is a Runnable task
+     * which supports aborting any processing. It will not start until the
+     * run method is called.
      */
-    public Task createTransformTask(Object object,StreamResult result)
-        throws TransformerException {
-        
-        return new Task(object,result);
+    public Task createTransformTask(Object object, StreamResult result)
+            throws TransformerException {
+
+        return new Task(object, result);
     }
-    
+
     /**
      * Perform the XML encoding of the given object into an internal buffer and
-     * return the resulting String. Calls transform(Object,Writer). <em>It 
+     * return the resulting String. Calls transform(Object,Writer). <em>It
      * should be noted the most efficient mechanism of encoding is using the
      * OutputStream or Writer methods</em>
      */
     public String transform(Object object) throws TransformerException {
         StringWriter sw = new StringWriter();
-        transform(object,sw);
+        transform(object, sw);
         return sw.getBuffer().toString();
     }
 
@@ -167,7 +166,7 @@ public abstract class TransformerBase {
      * Create an XMLReader to use in the transformation.
      */
     public XMLReaderSupport createXMLReader(Object object) {
-        return new XMLReaderSupport(this,object);
+        return new XMLReaderSupport(this, object);
     }
 
     /**
@@ -190,10 +189,11 @@ public abstract class TransformerBase {
 
     /**
      * Gets the charset to declare in the header of the response.
-     * @return the charset to encode with. 
+     *
+     * @return the charset to encode with.
      */
     public Charset getEncoding() {
-	return charset;
+        return charset;
     }
 
     /**
@@ -201,8 +201,8 @@ public abstract class TransformerBase {
      *
      * @param charset A charset object of the desired encoding
      */
-    public void setEncoding(Charset charset){
-	this.charset = charset;
+    public void setEncoding(Charset charset) {
+        this.charset = charset;
     }
 
     /**
@@ -244,45 +244,51 @@ public abstract class TransformerBase {
     public void setNamespaceDeclarationEnabled(boolean enabled) {
         nsDecl = enabled;
     }
-    
-    /** A wrapper for a Transformation Task. Support aborting any translation
+
+    /**
+     * A wrapper for a Transformation Task. Support aborting any translation
      * activity. Because the Task is Runnable, exceptions must be checked
      * asynchronously by using the checkError and getError methods.
      */
     public class Task implements Runnable {
-        
+
         //private final Translator translator;
         private final Transformer transformer;
         private final Source xmlSource;
         private final StreamResult result;
         private final XMLReaderSupport reader;
         private Exception error;
-        
-        public Task(Object object,StreamResult result) throws TransformerException {
+
+        public Task(Object object, StreamResult result) throws TransformerException {
             transformer = createTransformer();
             reader = createXMLReader(object);
-            
+
             xmlSource = new SAXSource(createXMLReader(object),
-                new InputSource());
+                    new InputSource());
 
             this.result = result;
         }
-        
-        /** Did an error occur? 
+
+        /**
+         * Did an error occur?
+         *
          * @return true if one did, false otherwise.
          */
         public boolean checkError() {
             return error != null;
         }
-        
-        /** Get any error which occurred.
+
+        /**
+         * Get any error which occurred.
+         *
          * @return An Exception if checkError returns true, null otherwise.
          */
         public Exception getError() {
             return error;
         }
-        
-        /** Calls to the underlying translator to abort any calls to translation.
+
+        /**
+         * Calls to the underlying translator to abort any calls to translation.
          * Should return silently regardless of outcome.
          */
         public void abort() {
@@ -290,7 +296,7 @@ public abstract class TransformerBase {
             if (t != null)
                 t.abort();
         }
-        
+
         /**
          * Perform the translation. Exceptions are captured and can be obtained
          * through the checkError and getError methods.
@@ -302,8 +308,8 @@ public abstract class TransformerBase {
                 error = re;
             }
         }
-        
-        
+
+
     }
 
     /**
@@ -315,13 +321,13 @@ public abstract class TransformerBase {
         private AttributesImpl namespaceDecls;
 
         public ContentHandlerFilter(ContentHandler original,
-            AttributesImpl nsDecls) {
+                                    AttributesImpl nsDecls) {
             this.original = original;
             this.namespaceDecls = nsDecls;
         }
 
         public void characters(char[] ch, int start, int length)
-            throws SAXException {
+                throws SAXException {
             original.characters(ch, start, length);
         }
 
@@ -330,7 +336,7 @@ public abstract class TransformerBase {
         }
 
         public void endElement(String namespaceURI, String localName,
-            String qName) throws SAXException {
+                               String qName) throws SAXException {
             original.endElement(namespaceURI, localName, qName);
         }
 
@@ -339,12 +345,12 @@ public abstract class TransformerBase {
         }
 
         public void ignorableWhitespace(char[] ch, int start, int length)
-            throws SAXException {
+                throws SAXException {
             original.ignorableWhitespace(ch, start, length);
         }
 
         public void processingInstruction(String target, String data)
-            throws SAXException {
+                throws SAXException {
             original.processingInstruction(target, data);
         }
 
@@ -361,14 +367,14 @@ public abstract class TransformerBase {
         }
 
         public void startElement(String namespaceURI, String localName,
-            String qName, Attributes atts) throws SAXException {
+                                 String qName, Attributes atts) throws SAXException {
             if (namespaceDecls != null) {
                 for (int i = 0, ii = atts.getLength(); i < ii; i++) {
                     namespaceDecls.addAttribute(null, null, atts.getQName(i),
-                        atts.getType(i), atts.getValue(i));
+                            atts.getType(i), atts.getValue(i));
                 }
-                
-                    
+
+
                 atts = namespaceDecls;
                 namespaceDecls = null;
             }
@@ -380,49 +386,49 @@ public abstract class TransformerBase {
         }
 
         public void startPrefixMapping(String prefix, String uri)
-            throws SAXException {
+                throws SAXException {
             original.startPrefixMapping(prefix, uri);
         }
 
         public void comment(char[] ch, int start, int length) throws SAXException {
-            if ( original instanceof LexicalHandler ) {
-                ((LexicalHandler)original).comment(ch, start, length);
+            if (original instanceof LexicalHandler) {
+                ((LexicalHandler) original).comment(ch, start, length);
             }
         }
 
         public void startCDATA() throws SAXException {
-            if ( original instanceof LexicalHandler ) {
-                ((LexicalHandler)original).startCDATA();
+            if (original instanceof LexicalHandler) {
+                ((LexicalHandler) original).startCDATA();
             }
         }
-        
+
         public void endCDATA() throws SAXException {
-            if ( original instanceof LexicalHandler ) {
-                ((LexicalHandler)original).endCDATA();
+            if (original instanceof LexicalHandler) {
+                ((LexicalHandler) original).endCDATA();
             }
         }
 
         public void startDTD(String name, String publicId, String systemId) throws SAXException {
-            if ( original instanceof LexicalHandler ) {
-                ((LexicalHandler)original).startDTD(name, publicId, systemId);
+            if (original instanceof LexicalHandler) {
+                ((LexicalHandler) original).startDTD(name, publicId, systemId);
             }
         }
-        
+
         public void endDTD() throws SAXException {
-            if ( original instanceof LexicalHandler ) {
-                ((LexicalHandler)original).endDTD();
+            if (original instanceof LexicalHandler) {
+                ((LexicalHandler) original).endDTD();
             }
         }
 
         public void startEntity(String name) throws SAXException {
-            if ( original instanceof LexicalHandler ) {
-                ((LexicalHandler)original).startEntity(name);
+            if (original instanceof LexicalHandler) {
+                ((LexicalHandler) original).startEntity(name);
             }
         }
-        
+
         public void endEntity(String name) throws SAXException {
-            if ( original instanceof LexicalHandler ) {
-                ((LexicalHandler)original).endEntity(name);
+            if (original instanceof LexicalHandler) {
+                ((LexicalHandler) original).endEntity(name);
             }
         }
     }
@@ -513,7 +519,7 @@ public abstract class TransformerBase {
                 return "CData(" + text + ")";
             }
         }
-        
+
         /**
          * The Comment class implements an Action corresponding to writing a
          * comment block in the XML output
@@ -548,7 +554,7 @@ public abstract class TransformerBase {
             public void commit() {
                 _end(element);
             }
-            
+
             public String toString() {
                 return "End(" + element + ")";
             }
@@ -559,14 +565,19 @@ public abstract class TransformerBase {
          */
         private interface Backend {
             public void start(String element, Attributes attributes);
+
             public void chars(String text);
+
             public void cdata(String text);
+
             public void comment(String text);
+
             public void end(String element);
         }
 
         /**
-         * The BufferedBackend queues up write operations in memory, to be committed at a later time.
+         * The BufferedBackend queues up write operations in memory, to be committed at a later 
+         * time.
          */
         private class BufferedBackend implements Backend {
             public void start(String element, Attributes attributes) {
@@ -574,7 +585,8 @@ public abstract class TransformerBase {
                     throw new NullPointerException("Attempted to start XML tag with null element");
                 }
                 if (attributes == null) {
-                    throw new NullPointerException("Attempted to start XML tag with null attributes");
+                    throw new NullPointerException("Attempted to start XML tag with null " +
+                            "attributes");
                 }
                 pending.add(new Start(element, attributes));
             }
@@ -585,14 +597,14 @@ public abstract class TransformerBase {
                 }
                 pending.add(new Chars(text));
             }
-            
+
             public void cdata(String text) {
                 if (text == null) {
                     throw new NullPointerException("Attempted to start CDATA block with null text");
                 }
                 pending.add(new CData(text));
             }
-            
+
             public void end(String element) {
                 if (element == null) {
                     throw new NullPointerException("Attempted to close tag with null element");
@@ -644,7 +656,8 @@ public abstract class TransformerBase {
         private final Backend bufferedBackend = new BufferedBackend();
 
         /**
-         * The backend currently in use.  This should only be modified in the mark/reset/commit methods!
+         * The backend currently in use.  This should only be modified in the mark/reset/commit 
+         * methods!
          */
         private Backend backend = directBackend;
 
@@ -655,7 +668,7 @@ public abstract class TransformerBase {
         protected volatile boolean running = true;
 
         public TranslatorSupport(ContentHandler contentHandler, String prefix,
-            String nsURI) {
+                                 String nsURI) {
             this.contentHandler = contentHandler;
             this.prefix = prefix;
             this.namespace = nsURI;
@@ -664,7 +677,7 @@ public abstract class TransformerBase {
         }
 
         public TranslatorSupport(ContentHandler contentHandler, String prefix,
-            String nsURI, SchemaLocationSupport schemaLocation) {
+                                 String nsURI, SchemaLocationSupport schemaLocation) {
             this(contentHandler, prefix, nsURI);
             this.schemaLocation = schemaLocation;
         }
@@ -678,9 +691,9 @@ public abstract class TransformerBase {
          * to mark(), the Translator stores pending write operations in memory
          * until commit() is called.  The pending writes can be discarded with
          * the reset() method.
-         *
+         * <p>
          * Typically, one would use marks in conjunction with an exception handler:
-         *
+         * <p>
          * <pre>
          *   void encodeFoo(Foo f) {
          *     try {
@@ -704,7 +717,7 @@ public abstract class TransformerBase {
 
         /**
          * Discard pending write operations after a mark() has been set.
-         *
+         * <p>
          * This method is safe to call even if no mark is set - so it returns
          * to a "known good" state as far as marks are concerned.
          *
@@ -719,17 +732,18 @@ public abstract class TransformerBase {
          * Commit pending write operations.  After setting a mark, this method
          * will commit the pending writes.
          *
-         * @see #mark()
          * @throws IllegalStateException if no mark is set
+         * @see #mark()
          */
         protected void commit() {
-            if (backend != bufferedBackend) throw new IllegalStateException("Can't commit without a mark");
+            if (backend != bufferedBackend)
+                throw new IllegalStateException("Can't commit without a mark");
             for (Action a : pending) {
                 try {
                     a.commit();
                 } catch (Exception e) {
                     String message =
-                        "Error while committing XML elements; specific element was: " + a;
+                            "Error while committing XML elements; specific element was: " + a;
                     throw new RuntimeException(message, e);
                 }
             }
@@ -751,16 +765,16 @@ public abstract class TransformerBase {
         }
 
         /**
-         * Utility method for creating attributes from an array of name value 
+         * Utility method for creating attributes from an array of name value
          * pairs.
          * <p>
          * The <tt>nameValuePairs</tt> array should be of the form:
          * <pre>{name1,value1,name2,value2,...,nameN,valueN}</pre>
          * </p>
+         *
          * @param nameValuePairs The attribute names/values.
-         * 
          */
-        protected AttributesImpl createAttributes( String[] nameValuePairs) {
+        protected AttributesImpl createAttributes(String[] nameValuePairs) {
             AttributesImpl attributes = new AttributesImpl();
 
             for (int i = 0; i < nameValuePairs.length; i += 2) {
@@ -772,20 +786,21 @@ public abstract class TransformerBase {
 
             return attributes;
         }
-        
+
         protected void element(String element, String content) {
             element(element, content, NULL_ATTS);
         }
 
         /**
          * Will only issue the provided element if content is non empty
+         *
          * @param element
          * @param content
          */
-        protected void elementSafe( String element, String content){
-        	if( content != null && content.length() != 0){
-        		element(element, content, NULL_ATTS);
-        	}
+        protected void elementSafe(String element, String content) {
+            if (content != null && content.length() != 0) {
+                element(element, content, NULL_ATTS);
+            }
         }
 
         protected void element(String element, String content, Attributes atts) {
@@ -797,7 +812,7 @@ public abstract class TransformerBase {
 
             end(element);
         }
-        
+
         protected void start(String element) {
             start(element, NULL_ATTS);
         }
@@ -835,7 +850,7 @@ public abstract class TransformerBase {
         private void _end(String element) {
             try {
                 String el = (prefix == null) ? element : (prefix + ":"
-                    + element);
+                        + element);
                 contentHandler.endElement("", "", el);
             } catch (SAXException se) {
                 throw new RuntimeException(se);
@@ -854,30 +869,28 @@ public abstract class TransformerBase {
                     char[] carray = cdata.toCharArray();
                     contentHandler.characters(carray, 0, carray.length);
                     lexicalHandler.endCDATA();
-                }
-                catch( SAXException e ) {
-                    throw new RuntimeException( e );
+                } catch (SAXException e) {
+                    throw new RuntimeException(e);
                 }
             }
         }
-        
+
         protected void comment(String comment) {
             backend.comment(comment);
         }
-        
+
         private void _comment(String comment) {
             if (contentHandler instanceof LexicalHandler) {
                 LexicalHandler lexicalHandler = (LexicalHandler) contentHandler;
                 try {
                     char[] carray = comment.toCharArray();
                     lexicalHandler.comment(carray, 0, carray.length);
-                }
-                catch( SAXException e ) {
-                    throw new RuntimeException( e );
+                } catch (SAXException e) {
+                    throw new RuntimeException(e);
                 }
             }
         }
-        
+
         public String getDefaultNamespace() {
             return namespace;
         }
@@ -899,9 +912,9 @@ public abstract class TransformerBase {
      * Adds support for schemaLocations.
      *
      * @task REVISIT: consider combining this with NamespaceSupport,  as it
-     *       would make sense to just add a location to your nsURI.  Or at
-     *       least tie them more closely, so that you can only add a
-     *       SchemaLocation if the namespace actually exists.
+     * would make sense to just add a location to your nsURI.  Or at
+     * least tie them more closely, so that you can only add a
+     * SchemaLocation if the namespace actually exists.
      */
     public static class SchemaLocationSupport {
         private Map locations = new HashMap();
@@ -926,7 +939,7 @@ public abstract class TransformerBase {
         public String getSchemaLocation(Set namespaces) {
             StringBuffer location = new StringBuffer();
 
-            for (Iterator it = namespaces.iterator(); it.hasNext();) {
+            for (Iterator it = namespaces.iterator(); it.hasNext(); ) {
                 location.append(getSchemaLocation((String) it.next()));
 
                 if (it.hasNext()) {
@@ -950,7 +963,7 @@ public abstract class TransformerBase {
             this.base = transfomerBase;
             this.object = object;
         }
-        
+
         public final Translator getTranslator() {
             return translator;
         }
@@ -963,20 +976,20 @@ public abstract class TransformerBase {
                 ContentHandlerFilter filter = new ContentHandlerFilter(handler,
                         atts);
                 translator = base.createTranslator(filter);
-                
-                if ( translator.getDefaultNamespace() != null ) {
+
+                if (translator.getDefaultNamespace() != null) {
                     //declare the default mapping
                     atts.addAttribute(XMLNS_NAMESPACE, null,
                             "xmlns", "CDATA", translator.getDefaultNamespace());
-                    
+
                     //if prefix non-null, declare the mapping
-                    if( translator.getDefaultPrefix() != null ) {
+                    if (translator.getDefaultPrefix() != null) {
                         atts.addAttribute(XMLNS_NAMESPACE, null,
                                 "xmlns:" + translator.getDefaultPrefix(), "CDATA",
-                                translator.getDefaultNamespace());    
+                                translator.getDefaultNamespace());
                     }
                 }
-                
+
                 NamespaceSupport ns = translator.getNamespaceSupport();
                 java.util.Enumeration e = ns.getPrefixes();
 
@@ -994,7 +1007,7 @@ public abstract class TransformerBase {
 
                     if (atts.getValue(xmlns) == null) {
                         atts.addAttribute(XMLNS_NAMESPACE, null, xmlns, "CDATA",
-                            ns.getURI(prefix));
+                                ns.getURI(prefix));
 
                         //namespaces.add(ns.getURI(prefix));
                     }
@@ -1009,14 +1022,14 @@ public abstract class TransformerBase {
                 }
 
                 SchemaLocationSupport schemaLocSup = translator
-                    .getSchemaLocationSupport();
+                        .getSchemaLocationSupport();
 
                 if ((schemaLocSup != null)
                         && !schemaLocSup.getSchemaLocation().equals("")) {
                     atts.addAttribute(XMLNS_NAMESPACE, null, "xmlns:xsi", "CDATA",
-                        "http://www.w3.org/2001/XMLSchema-instance");
+                            "http://www.w3.org/2001/XMLSchema-instance");
                     atts.addAttribute(null, null, "xsi:schemaLocation", null,
-                        schemaLocSup.getSchemaLocation());
+                            schemaLocSup.getSchemaLocation());
                 }
             } else {
                 translator = base.createTranslator(handler);

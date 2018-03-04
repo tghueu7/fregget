@@ -24,8 +24,6 @@ import org.geotools.xml.Binding;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class KmlTypeBindingTest extends KMLTestSupport {

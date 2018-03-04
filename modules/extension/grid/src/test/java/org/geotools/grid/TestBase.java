@@ -31,12 +31,9 @@ import com.vividsolutions.jts.geom.Polygon;
  * Base class for vector grid unit tests.
  *
  * @author mbedward
- * @since 2.7
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.7
  */
 public class TestBase {
 

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -52,23 +52,21 @@ import org.opengis.filter.expression.Literal;
  *
  * @author Johann Sorel (Geomatys)
  * @author Michael Bedward
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class RecodeFunction implements Function {
 
     private static final FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
 
     private final List<Expression> parameters;
-    
+
     private boolean staticTable = true;
-    
+
     volatile private Map fastLookup = null;
-    
+
     private Class lastKeyType = null;
-    
+
     private Class lastContextType = null;
 
     private final Literal fallback;
@@ -76,8 +74,8 @@ public class RecodeFunction implements Function {
     /**
      * Make the instance of FunctionName available in a consistent spot.
      */
-    public static final FunctionName NAME = new FunctionNameImpl("Recode", "LookupValue", "Data 1", 
-        "Value 1", "Data 2", "Value 2");
+    public static final FunctionName NAME = new FunctionNameImpl("Recode", "LookupValue", "Data 1",
+            "Value 1", "Data 2", "Value 2");
 
     public RecodeFunction() {
         this(new ArrayList<Expression>(), null);
@@ -86,35 +84,37 @@ public class RecodeFunction implements Function {
     public RecodeFunction(List<Expression> parameters, Literal fallback) {
         this.parameters = parameters;
         this.fallback = fallback;
-        
+
         // check inputs
         if (parameters.size() % 2 != 1 && parameters.size() != 0) {
             throw new IllegalArgumentException(
                     "There must be an equal number of lookup data and return values");
         }
-        
+
         // see if the table is full of attribute independent expressions
         FilterAttributeExtractor extractor = new FilterAttributeExtractor();
         for (int i = 1; i < parameters.size(); i++) {
             Expression expression = parameters.get(i);
-            if(expression != null) {
+            if (expression != null) {
                 extractor.clear();
                 expression.accept(extractor, null);
-                if(!extractor.isConstantExpression()) {
+                if (!extractor.isConstantExpression()) {
                     staticTable = false;
                     break;
                 }
             }
         }
-        
+
     }
 
     public String getName() {
         return "Recode";
     }
+
     public FunctionName getFunctionName() {
         return NAME;
     }
+
     public List<Expression> getParameters() {
         return Collections.unmodifiableList(parameters);
     }
@@ -132,12 +132,12 @@ public class RecodeFunction implements Function {
         final List<Expression> pairList = parameters.subList(1, parameters.size());
 
         // fast lookup path
-        if(staticTable) {
+        if (staticTable) {
             Object lookup = lookupExp.evaluate(object);
-            if(lookup != null) {
-                if(fastLookup == null) {
+            if (lookup != null) {
+                if (fastLookup == null) {
                     synchronized (this) {
-                        if(fastLookup == null) {
+                        if (fastLookup == null) {
                             // build the fast lookup map
                             fastLookup = new HashMap();
                             lastKeyType = lookup.getClass();
@@ -150,14 +150,15 @@ public class RecodeFunction implements Function {
                         }
                     }
                 }
-                
-                if(fastLookup != null && lookup.getClass() == lastKeyType && context == lastContextType) {
+
+                if (fastLookup != null && lookup.getClass() == lastKeyType && context == 
+                        lastContextType) {
                     T result = (T) fastLookup.get(lookup);
                     return result;
-                } 
+                }
             }
         }
-            
+
         // dynamic evaluation path
         for (int i = 0; i < pairList.size(); i += 2) {
             Expression keyExpr = pairList.get(i);
@@ -171,7 +172,7 @@ public class RecodeFunction implements Function {
                 return valueExpr.evaluate(object, context);
             }
         }
-        
+
         return null;
     }
 

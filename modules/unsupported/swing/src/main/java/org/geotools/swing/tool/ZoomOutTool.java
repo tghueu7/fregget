@@ -33,37 +33,46 @@ import org.geotools.swing.event.MapMouseEvent;
 /**
  * A cursor tool to zoom out the map pane display.
  * <p>
- * For mouse clicks, the display will be zoomed-out such that the 
+ * For mouse clicks, the display will be zoomed-out such that the
  * map centre is the position of the mouse click and the map
  * width and height are calculated as:
  * <pre>   {@code len = len.old * z} </pre>
  * where {@code z} is the linear zoom increment (>= 1.0)
- * 
- * @author Michael Bedward
- * @since 2.6
  *
- * @source $URL$
+ * @author Michael Bedward
  * @version $Id$
+ * @source $URL$
+ * @since 2.6
  */
 public class ZoomOutTool extends AbstractZoomTool {
 
-    /** Tool name */
+    /**
+     * Tool name
+     */
     public static final String TOOL_NAME = LocaleUtils.getValue("CursorTool", "ZoomOut");
 
-    /** Tool tip text */
+    /**
+     * Tool tip text
+     */
     public static final String TOOL_TIP = LocaleUtils.getValue("CursorTool", "ZoomOutTooltip");
 
-    /** Cursor */
+    /**
+     * Cursor
+     */
     public static final String CURSOR_IMAGE = "/org/geotools/swing/icons/mActionZoomOut.png";
-    
-    /** Cursor hotspot coordinates */
+
+    /**
+     * Cursor hotspot coordinates
+     */
     public static final Point CURSOR_HOTSPOT = new Point(14, 9);
-    
-    /** Icon for the control */
+
+    /**
+     * Icon for the control
+     */
     public static final String ICON_IMAGE = "/org/geotools/swing/icons/mActionZoomOut.png";
-    
+
     private Cursor cursor;
-    
+
     /**
      * Constructor
      */
@@ -72,7 +81,7 @@ public class ZoomOutTool extends AbstractZoomTool {
         ImageIcon imgIcon = new ImageIcon(getClass().getResource(CURSOR_IMAGE));
         cursor = tk.createCustomCursor(imgIcon.getImage(), CURSOR_HOTSPOT, TOOL_NAME);
     }
-    
+
     /**
      * Zoom out by the currently set increment, with the map
      * centred at the location (in world coords) of the mouse
@@ -91,7 +100,7 @@ public class ZoomOutTool extends AbstractZoomTool {
         DirectPosition2D corner = new DirectPosition2D(
                 mapPos.getX() - 0.5d * paneArea.getWidth() / newScale,
                 mapPos.getY() + 0.5d * paneArea.getHeight() / newScale);
-        
+
         Envelope2D newMapArea = new Envelope2D();
         newMapArea.setFrameFromCenter(mapPos, corner);
         getMapPane().setDisplayArea(newMapArea);
@@ -104,7 +113,7 @@ public class ZoomOutTool extends AbstractZoomTool {
     public Cursor getCursor() {
         return cursor;
     }
-    
+
     /**
      * Returns false to indicate that this tool does not draw a box
      * on the map display when the mouse is being dragged

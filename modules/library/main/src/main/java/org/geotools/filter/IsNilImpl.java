@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2006-2008, Open Source Geospatial Foundation (OSGeo)
- *        
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -24,15 +24,14 @@ import org.opengis.filter.expression.Expression;
 
 /**
  * JD: PropertyIsNil requires us to return true if a property is "nil" in the xml schema sense.
- * But we don't really have notion of schema in our filters. So for now we just make it an alias 
+ * But we don't really have notion of schema in our filters. So for now we just make it an alias
  * of PropertyIsNull. When someone (app-schema) has a need for this we can revisit.
- * 
  */
 public class IsNilImpl extends CompareFilterImpl implements PropertyIsNil {
 
     Object nilReason;
     IsNullImpl delegate;
-    
+
     public IsNilImpl(Expression e1, Object nilReason) {
         super(e1, null);
         this.nilReason = nilReason;

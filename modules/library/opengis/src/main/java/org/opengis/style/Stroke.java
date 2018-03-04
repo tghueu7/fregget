@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2008, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.style;
@@ -24,13 +24,12 @@ import org.opengis.annotation.XmlParameter;
  * area-fill pattern. If neither a {@link #getGraphicFill GraphicFill} nor {@link #getGraphicStroke
  * GraphicStroke} element is given, then the line symbolizer will render a solid color.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding Implementation Specification 1.1.0</A>
  * @author Open Geospatial Consortium
  * @author Johann Sorel (Geomatys)
  * @author Chris Dillard (SYS Technologies)
+ * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding 
+ * Implementation Specification 1.1.0</A>
+ * @source $URL$
  * @since GeoAPI 2.2
  */
 @XmlElement("Stroke")
@@ -41,6 +40,7 @@ public interface Stroke {
      * the given graphic. Between {@code getGraphicFill()} and {@link #getGraphicStroke()}, only one
      * may return a non-null value since a {@code Stroke} can have a {@code GraphicFill} or a
      * {@code GraphicStroke}, but not both.
+     *
      * @return Graphic
      */
     @XmlElement("GraphicFill")
@@ -50,8 +50,10 @@ public interface Stroke {
      * If non-null, indicates that lines should be drawn by repeatedly plotting the given graphic
      * along the path of the lines, rotating it according to the orientation of the line.
      * Between {@link #getGraphicFill()} and {@code getGraphicStroke}, only one may return a
-     * non-null value since a {@code Stroke} can have a {@code GraphicFill} or a {@code GraphicStroke},
+     * non-null value since a {@code Stroke} can have a {@code GraphicFill} or a {@code 
+     * GraphicStroke},
      * but not both.
+     *
      * @return Graphic
      */
     @XmlElement("GraphicStroke")
@@ -65,8 +67,10 @@ public interface Stroke {
      * Indicates the color of the line if it is to be solid-color filled.  The format of color
      * values is {@code "#rrggbb"} where {@code rr}, {@code gg}, and {@code bb}, are red, green,
      * and blue intensity values, respectively, represented as two digit hexadecimal integers.
-     * The hexadecimal digits between {@code A} and {@code F} may be in either uppercase or lowercase.
+     * The hexadecimal digits between {@code A} and {@code F} may be in either uppercase or 
+     * lowercase.
      * If null, the default color is {@code "#000000"}, black.
+     *
      * @return Expression
      */
     @XmlParameter("stroke")
@@ -76,6 +80,7 @@ public interface Stroke {
      * Indicates the level of translucency as a floating point number whose value is between 0.0
      * and 1.0 (inclusive).  A value of zero means completely transparent.  A value of 1.0 means
      * completely opaque.  If null, the default value is 1.0, totally opaque.
+     *
      * @return expression
      */
     @XmlParameter("stroke-opacity")
@@ -85,6 +90,7 @@ public interface Stroke {
      * Gives the absolute width in uoms of the line stroke as a floating point number.
      * Fractional numbers are allowed (with system-dependent interpretation), but negative
      * numbers are not.  If null, the default value is 1.0.
+     *
      * @return expression
      */
     @XmlParameter("stroke-width")
@@ -94,6 +100,7 @@ public interface Stroke {
      * Indicates how the various segments of a (thick) line string should be joined.
      * Valid values are "miter", "round", and "bevel".  If null, the default value is
      * system dependent (probably whichever one is fastest to render).
+     *
      * @return expression
      */
     @XmlParameter("stroke-linejoin")
@@ -103,18 +110,21 @@ public interface Stroke {
      * Indicates how the beginning and ending segments of a line string will be terminated.
      * Valid values are "butt", "round", and "square".  If null, the default value is system
      * dependent.
+     *
      * @return expression
      */
     @XmlParameter("stroke-linecap")
     Expression getLineCap();
 
     /**
-     * If present, indicates the dash pattern as a space-separated sequence of floating point numbers.
+     * If present, indicates the dash pattern as a space-separated sequence of floating point 
+     * numbers.
      * The first number represents the length of the first dash to draw.  The second number
      * represents the length of space to leave.  This continues to the end of the list then
      * repeats.  If the list contains an odd number of values, then before
      * rendering the list is enlarged by repeating the last value.  If this
      * parameter is omitted, lines will be drawn as solid and unbroken.
+     *
      * @return expression
      */
     @XmlParameter("stroke-dasharray")
@@ -123,6 +133,7 @@ public interface Stroke {
     /**
      * Indicates the distance offset into the dash array to begin drawing.
      * If null, the default value is zero.
+     *
      * @return expression
      */
     @XmlParameter("stroke-dashoffset")
@@ -135,5 +146,5 @@ public interface Stroke {
      */
     @Extension
     Object accept(StyleVisitor visitor, Object extraData);
-    
+
 }

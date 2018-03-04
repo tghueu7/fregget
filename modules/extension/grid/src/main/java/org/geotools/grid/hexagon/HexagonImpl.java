@@ -30,12 +30,9 @@ import com.vividsolutions.jts.geom.GeometryFactory;
  * Default implementation of {@code Hexagon}.
  *
  * @author mbedward
- * @since 2.7
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.7
  */
 public class HexagonImpl implements Hexagon {
     private static final double ROOT3 = Math.sqrt(3.0);
@@ -53,19 +50,15 @@ public class HexagonImpl implements Hexagon {
     /**
      * Creates a new hexagon.
      *
-     * @param minX the min X ordinate of the bounding rectangle
-     *
-     * @param minY the min Y ordinate of the bounding rectangle
-     *
-     * @param sideLen the side length
-     *
+     * @param minX        the min X ordinate of the bounding rectangle
+     * @param minY        the min Y ordinate of the bounding rectangle
+     * @param sideLen     the side length
      * @param orientation either {@code Hexagon.Orientation.FLAT} or
-     *        {@code Hexagon.Orientation.ANGLED}
-     *
-     * @param crs the coordinate reference system (may be {@code null})
+     *                    {@code Hexagon.Orientation.ANGLED}
+     * @param crs         the coordinate reference system (may be {@code null})
      */
-    public HexagonImpl(double minX, double minY, double sideLen, 
-            HexagonOrientation orientation, CoordinateReferenceSystem crs) {
+    public HexagonImpl(double minX, double minY, double sideLen,
+                       HexagonOrientation orientation, CoordinateReferenceSystem crs) {
 
         if (sideLen <= 0.0) {
             throw new IllegalArgumentException("side length must be > 0");
@@ -74,7 +67,7 @@ public class HexagonImpl implements Hexagon {
         if (orientation == null) {
             throw new IllegalArgumentException("orientation must be a non-null value");
         }
-        
+
         this.sideLen = sideLen;
         this.minX = minX;
         this.minY = minY;
@@ -168,7 +161,7 @@ public class HexagonImpl implements Hexagon {
         if (maxSpacing <= 0.0) {
             throw new IllegalArgumentException("maxSpacing must be a positive value");
         }
-        
+
         return Densifier.densify(this.toGeometry(), maxSpacing);
     }
 
@@ -187,10 +180,10 @@ public class HexagonImpl implements Hexagon {
         if (orientation == HexagonOrientation.FLAT) {
             vertices[0] = new Coordinate(minX + 0.5 * sideLen, minY + span);
             vertices[1] = new Coordinate(minX + 1.5 * sideLen, minY + span);
-            vertices[2] = new Coordinate(minX + 2.0 * sideLen, minY + span/2.0);
+            vertices[2] = new Coordinate(minX + 2.0 * sideLen, minY + span / 2.0);
             vertices[3] = new Coordinate(minX + 1.5 * sideLen, minY);
             vertices[4] = new Coordinate(minX + 0.5 * sideLen, minY);
-            vertices[5] = new Coordinate(minX, minY + span/2.0);
+            vertices[5] = new Coordinate(minX, minY + span / 2.0);
 
         } else { // Orientation.ANGLED
             vertices[0] = new Coordinate(minX + 0.5 * span, minY + 2.0 * sideLen);

@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.coordinate;
 
 import java.util.List;
+
 import org.opengis.geometry.DirectPosition;
 import org.opengis.annotation.UML;
 import org.opengis.annotation.Extension;
@@ -21,20 +22,18 @@ import static org.opengis.annotation.Specification.*;
 /**
  * A grid of points. The grid may be see as a sequences of equal length {@linkplain PointArray
  * point arrays}. While a point grid conceptually contains {@linkplain Position positions}, it
- * provides convenience methods for fetching directly the {@linkplain DirectPosition direct positions}
+ * provides convenience methods for fetching directly the 
+ * {@linkplain DirectPosition direct positions}
  * instead.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
- * @since GeoAPI 1.0
- *
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @see Position
  * @see PointArray
+ * @since GeoAPI 1.0
  */
-@UML(identifier="GM_PointGrid", specification=ISO_19107)
+@UML(identifier = "GM_PointGrid", specification = ISO_19107)
 public interface PointGrid {
     /**
      * Returns the width of this grid. All {@linkplain PointArray point array}
@@ -59,8 +58,8 @@ public interface PointGrid {
      * Returns the point at the given row and column index. This is equivalent to
      * <code>{@linkplain #getRow getRow}(row).{@linkplain PointArray#get get}(column)</code>.
      *
-     * @param  row The row index from 0 inclusive to {@link #height} exclusive.
-     * @param  column The column index from 0 inclusive to {@link #width} exclusive.
+     * @param row    The row index from 0 inclusive to {@link #height} exclusive.
+     * @param column The column index from 0 inclusive to {@link #width} exclusive.
      * @return The point at the given index.
      * @throws IndexOutOfBoundsException if an index is out of bounds.
      */
@@ -84,9 +83,9 @@ public interface PointGrid {
      * &nbsp;}
      * </pre></blockquote>
      *
-     * @param  row The row index from 0 inclusive to {@link #height} exclusive.
-     * @param  column The column index from 0 inclusive to {@link #width} exclusive.
-     * @param  dest An optionnaly pre-allocated direct position.
+     * @param row    The row index from 0 inclusive to {@link #height} exclusive.
+     * @param column The column index from 0 inclusive to {@link #width} exclusive.
+     * @param dest   An optionnaly pre-allocated direct position.
      * @return The {@code dest} argument, or a new object if {@code dest} was null.
      * @throws IndexOutOfBoundsException if an index is out of bounds.
      */
@@ -99,22 +98,22 @@ public interface PointGrid {
      * this point array. Consequently, the same {@code DirectPosition} object can be
      * reused for setting many points in this array.
      *
-     * @param  row The row index from 0 inclusive to {@link #height} exclusive.
-     * @param  column The column index from 0 inclusive to {@link #width} exclusive.
-     * @param  position The point to set at the given location in this array.
-     * @throws IndexOutOfBoundsException if an index is out of bounds.
+     * @param row      The row index from 0 inclusive to {@link #height} exclusive.
+     * @param column   The column index from 0 inclusive to {@link #width} exclusive.
+     * @param position The point to set at the given location in this array.
+     * @throws IndexOutOfBoundsException     if an index is out of bounds.
      * @throws UnsupportedOperationException if this grid is immutable.
      */
     @Extension
     void set(int row, int column, DirectPosition position) throws IndexOutOfBoundsException,
-                                                                         UnsupportedOperationException;
+            UnsupportedOperationException;
 
     /**
      * Returns the row at the given index.
      * The row is backed by this {@code PointGrid}, so changes to the row
      * are reflected in the grid, and vice-versa.
      *
-     * @param  row The index from 0 inclusive to {@link #height} exclusive.
+     * @param row The index from 0 inclusive to {@link #height} exclusive.
      * @return The row at the given index.
      * @throws IndexOutOfBoundsException if the index is out of bounds.
      */
@@ -128,6 +127,6 @@ public interface PointGrid {
      *
      * @return The rows in this grid.
      */
-    @UML(identifier="row", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "row", obligation = MANDATORY, specification = ISO_19107)
     List<PointArray> rows();
 }

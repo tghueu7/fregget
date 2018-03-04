@@ -48,18 +48,17 @@ import org.opengis.referencing.NoSuchAuthorityCodeException;
 /**
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini (simboss), GeoSolutions
- *
+ * <p>
  * Testing {@link IDRISIReader}
- *
- *
- * @source $URL: https://svn.osgeo.org/geotools/trunk/modules/plugin/imageio-ext-gdal/src/test/java/org/geotools/coverageio/gdal/erdasimg/IDRISIImgTest.java $
+ * @source $URL: https://svn.osgeo.org/geotools/trunk/modules/plugin/imageio-ext-gdal/src/test
+ * /java/org/geotools/coverageio/gdal/erdasimg/IDRISIImgTest.java $
  */
 public final class IDRISIImgTest extends GDALTestCase {
     protected final static Logger LOGGER = org.geotools.util.logging.Logging.getLogger(
-    "org.geotools.coverageio.gdal.erdasimg");
-    
+            "org.geotools.coverageio.gdal.erdasimg");
+
     /**
-     * file name of a valid Erdas Imagine sample data to be used for tests. 
+     * file name of a valid Erdas Imagine sample data to be used for tests.
      */
     private final static String fileName = "idrisi.rst";
 
@@ -72,7 +71,6 @@ public final class IDRISIImgTest extends GDALTestCase {
         super("ErdasImagine", new IDRISIFormatFactory());
     }
 
-  
 
     @Test
     public void testIsAvailable() throws NoSuchAuthorityCodeException, FactoryException {
@@ -100,6 +98,7 @@ public final class IDRISIImgTest extends GDALTestCase {
         Assert.assertTrue("IDRISIFormatFactory not available", fac.isAvailable());
         Assert.assertNotNull(new IDRISIFormatFactory().createFormat());
     }
+
     @Test
     public void test() throws Exception {
         if (!testingEnabled()) {
@@ -114,13 +113,13 @@ public final class IDRISIImgTest extends GDALTestCase {
         hints.add(new RenderingHints(JAI.KEY_IMAGE_LAYOUT, l));
 
         File file = null;
-        try{
+        try {
             file = TestData.file(this, fileName);
-        }catch (FileNotFoundException fnfe){
+        } catch (FileNotFoundException fnfe) {
             LOGGER.warning("test-data not found: " + fileName + "\nTests are skipped");
             return;
         }
-        
+
         final BaseGDALGridCoverage2DReader reader = new IDRISIReader(file, hints);
 
         // /////////////////////////////////////////////////////////////////////
@@ -137,28 +136,29 @@ public final class IDRISIImgTest extends GDALTestCase {
         //
         // /////////////////////////////////////////////////////////////////////
         final double cropFactor = 2.0;
-        final Rectangle range = ((GridEnvelope2D)reader.getOriginalGridRange());
+        final Rectangle range = ((GridEnvelope2D) reader.getOriginalGridRange());
         final GeneralEnvelope oldEnvelope = reader.getOriginalEnvelope();
-        final GeneralEnvelope cropEnvelope = new GeneralEnvelope(new double[] {
-                    oldEnvelope.getLowerCorner().getOrdinate(0)
-                    + (oldEnvelope.getSpan(0) / cropFactor),
-                    
+        final GeneralEnvelope cropEnvelope = new GeneralEnvelope(new double[]{
+                oldEnvelope.getLowerCorner().getOrdinate(0)
+                        + (oldEnvelope.getSpan(0) / cropFactor),
+
                 oldEnvelope.getLowerCorner().getOrdinate(1)
-                    + (oldEnvelope.getSpan(1) / cropFactor)
-                },
-                new double[] {
-                    oldEnvelope.getUpperCorner().getOrdinate(0),
-                    oldEnvelope.getUpperCorner().getOrdinate(1)
+                        + (oldEnvelope.getSpan(1) / cropFactor)
+        },
+                new double[]{
+                        oldEnvelope.getUpperCorner().getOrdinate(0),
+                        oldEnvelope.getUpperCorner().getOrdinate(1)
                 });
         cropEnvelope.setCoordinateReferenceSystem(reader.getCrs());
 
-        final ParameterValue gg = (ParameterValue) ((AbstractGridFormat) reader.getFormat()).READ_GRIDGEOMETRY2D
-            .createValue();
+        final ParameterValue gg = (ParameterValue) ((AbstractGridFormat) reader.getFormat())
+                .READ_GRIDGEOMETRY2D
+                .createValue();
         gg.setValue(new GridGeometry2D(
                 new GridEnvelope2D(
-                    new Rectangle(0, 0, (int) (range.width / 2.0 / cropFactor),
-                        (int) (range.height / 2.0 / cropFactor))), cropEnvelope));
-        gc = (GridCoverage2D) reader.read(new GeneralParameterValue[] { gg });
+                        new Rectangle(0, 0, (int) (range.width / 2.0 / cropFactor),
+                                (int) (range.height / 2.0 / cropFactor))), cropEnvelope));
+        gc = (GridCoverage2D) reader.read(new GeneralParameterValue[]{gg});
         forceDataLoading(gc);
     }
 }

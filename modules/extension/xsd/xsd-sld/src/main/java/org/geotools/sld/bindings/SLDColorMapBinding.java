@@ -19,9 +19,11 @@ package org.geotools.sld.bindings;
 import org.picocontainer.MutablePicoContainer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 import java.util.Iterator;
 import java.util.List;
 import javax.xml.namespace.QName;
+
 import org.geotools.styling.ColorMap;
 import org.geotools.styling.ColorMapEntry;
 import org.geotools.styling.StyleFactory;
@@ -30,9 +32,9 @@ import org.geotools.xml.*;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:ColorMap.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="ColorMap"&gt;
  *      &lt;xsd:annotation&gt;
@@ -52,9 +54,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDColorMapBinding extends AbstractComplexBinding {
@@ -107,11 +106,11 @@ public class SLDColorMapBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         ColorMap colorMap = styleFactory.createColorMap();
         List entries = (List) node.getChildValues("ColorMapEntry");
 
-        for (Iterator itr = entries.iterator(); itr.hasNext();) {
+        for (Iterator itr = entries.iterator(); itr.hasNext(); ) {
             colorMap.addColorMapEntry((ColorMapEntry) itr.next());
         }
 

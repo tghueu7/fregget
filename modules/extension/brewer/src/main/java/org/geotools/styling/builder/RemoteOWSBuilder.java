@@ -19,8 +19,6 @@ package org.geotools.styling.builder;
 import org.geotools.styling.RemoteOWS;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class RemoteOWSBuilder extends AbstractSLDBuilder<RemoteOWS> {

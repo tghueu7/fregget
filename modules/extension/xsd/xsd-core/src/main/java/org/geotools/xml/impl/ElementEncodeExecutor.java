@@ -34,24 +34,32 @@ import org.xml.sax.helpers.NamespaceSupport;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ElementEncodeExecutor implements BindingWalker.Visitor {
-    /** the object being encoded **/
+    /**
+     * the object being encoded
+     **/
     Object object;
 
-    /** the element being encoded **/
+    /**
+     * the element being encoded
+     **/
     XSDElementDeclaration element;
 
-    /** the encoded value **/
+    /**
+     * the encoded value
+     **/
     Element encoding;
 
-    /** the document / factory **/
+    /**
+     * the document / factory
+     **/
     Document document;
 
-    /** logger */
+    /**
+     * logger
+     */
     Logger logger;
 
     /**
@@ -60,7 +68,7 @@ public class ElementEncodeExecutor implements BindingWalker.Visitor {
     NamespaceSupport namespaces;
 
     public ElementEncodeExecutor(Object object, XSDElementDeclaration element, Document document,
-            Logger logger, NamespaceSupport namespaces) {
+                                 Logger logger, NamespaceSupport namespaces) {
         this.object = object;
         this.element = element;
         this.document = document;
@@ -95,7 +103,7 @@ public class ElementEncodeExecutor implements BindingWalker.Visitor {
 
         /*
          * Notes on the nasty ComplexAttribute instanceof check, based on discussion in GEOT-2474.
-         * 
+         *
          * ElementEncodeExecutor does too much: it calls the encode method of a binding, but also
          * provides automatic conversion services for simple features. This causes encoding of any
          * complexType with simpleContent of xs:string to fail if the input data is a GeoAPI object.
@@ -110,7 +118,7 @@ public class ElementEncodeExecutor implements BindingWalker.Visitor {
          */
         if (!(object == null) && !(object instanceof ComplexAttribute)
                 && !binding.getType().isAssignableFrom(object.getClass())) {
-            
+
             //try to convert 
             Object converted = Converters.convert(object, binding.getType());
 
@@ -120,7 +128,8 @@ public class ElementEncodeExecutor implements BindingWalker.Visitor {
                 if (logger.isLoggable(Level.FINE)) {
                     // do not log the object, may be a multi-megabyte feature collection
                     // that can trigger an OOM toStringing itself
-                    logger.fine("[ " + object.getClass() + " ] is not of type " + binding.getType());
+                    logger.fine("[ " + object.getClass() + " ] is not of type " + binding.getType
+                            ());
                 }
 
                 return;
@@ -138,7 +147,7 @@ public class ElementEncodeExecutor implements BindingWalker.Visitor {
                 }
             } catch (Throwable t) {
                 String msg = "Encode failed for " + element.getName() + ". Cause: "
-                    + t.getLocalizedMessage();
+                        + t.getLocalizedMessage();
                 throw new RuntimeException(msg, t);
             }
         } else {
@@ -158,9 +167,9 @@ public class ElementEncodeExecutor implements BindingWalker.Visitor {
             }
 
             try {
-                if(object != null) {
+                if (object != null) {
                     String value = simple.encode(object, (text != null) ? text.getData() : null);
-    
+
                     if (value != null) {
                         //set the text of the node
                         if (text == null) {
@@ -182,7 +191,7 @@ public class ElementEncodeExecutor implements BindingWalker.Visitor {
                 }
             } catch (Throwable t) {
                 String msg = "Encode failed for " + element.getName() + ". Cause: "
-                    + t.getLocalizedMessage();
+                        + t.getLocalizedMessage();
                 throw new RuntimeException(msg, t);
             }
         }

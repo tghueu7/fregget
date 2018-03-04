@@ -27,14 +27,12 @@ import org.geotools.arcsde.session.ISession;
 
 /**
  * Qualifies a column reference in an order by clause
- * 
+ *
  * @author Gabriel Roldan, Axios Engineering
  * @version $Id$
- *
- *
  * @source $URL$
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
- *         /org/geotools/arcsde/data/view/OrderByElementQualifier.java $
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
+ * /org/geotools/arcsde/data/view/OrderByElementQualifier.java $
  * @since 2.3.x
  */
 public class OrderByElementQualifier implements OrderByVisitor {
@@ -47,7 +45,7 @@ public class OrderByElementQualifier implements OrderByVisitor {
 
     /**
      * Creates a new OrderByElementQualifier object.
-     * 
+     *
      * @param session
      */
     private OrderByElementQualifier(ISession session, Map<String, Object> tableAliases) {
@@ -56,7 +54,7 @@ public class OrderByElementQualifier implements OrderByVisitor {
     }
 
     public static OrderByElement qualify(ISession session, Map<String, Object> tableAliases,
-            OrderByElement orderBy) {
+                                         OrderByElement orderBy) {
         if (orderBy == null) {
             return null;
         }

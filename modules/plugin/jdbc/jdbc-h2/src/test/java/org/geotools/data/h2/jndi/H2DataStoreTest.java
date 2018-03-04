@@ -22,8 +22,6 @@ import org.geotools.jdbc.JDBCJNDITestSetup;
 import org.geotools.jdbc.JDBCTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class H2DataStoreTest extends JDBCDataStoreOnlineTest {

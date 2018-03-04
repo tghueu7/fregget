@@ -29,8 +29,6 @@ import org.geotools.resources.coverage.CoverageUtilities;
 import org.geotools.util.URLs;
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class DefaultPropertiesCollectorSPI implements PropertiesCollectorSPI {

@@ -36,7 +36,7 @@ import org.xml.sax.helpers.NamespaceSupport;
  * </p>
  * <p>
  * Usage:
- * 
+ * <p>
  * <pre>
  * <code>
  * FeatureTypeRegistry registry = new FeatureTypeRegistry();
@@ -47,13 +47,13 @@ import org.xml.sax.helpers.NamespaceSupport;
  * URL schemaLocation2 = ...
  * schemas = schemaParser.parse(schemaLocation1, null);
  * registry.addSchemas(schemas);
- * 
+ *
  * Name typeName = ...
  * FeatureType ft = (FeatureType)registry.getAttributeType(typeName);
  * </p>
- * 
+ *
  * @author Gabriel Roldan
- * 
+ *
  *
  *
  *
@@ -61,19 +61,19 @@ import org.xml.sax.helpers.NamespaceSupport;
  *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/app-schema/app-schema/src/main
  *         /java/org/geotools/data/complex/config/FeatureTypeRegistry.java $
  * @version $Id$
- * 
  */
 public class AppSchemaFeatureTypeRegistry extends FeatureTypeRegistry {
-   
+
 
     public AppSchemaFeatureTypeRegistry() {
         this(null);
     }
 
     public AppSchemaFeatureTypeRegistry(NamespaceSupport namespaces) {
-        super(new ComplexFeatureTypeFactoryImpl(), 
-                new GmlFeatureTypeRegistryConfiguration(namespaces==null? null : namespaces.getURI("gml")) );
+        super(new ComplexFeatureTypeFactoryImpl(),
+                new GmlFeatureTypeRegistryConfiguration(namespaces == null ? null : namespaces
+                        .getURI("gml")));
     }
-    
+
 
 }

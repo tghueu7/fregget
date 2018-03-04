@@ -21,8 +21,6 @@ import org.geotools.styling.SelectedChannelType;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SLDSelectedChannelTypeBindingTest extends SLDTestSupport {

@@ -48,18 +48,21 @@ import org.opengis.util.ProgressListener;
 
 /**
  * NetCDF Driver
- * 
  */
 public class NetCDFDriver extends DefaultFileDriver implements FileDriver, Driver {
 
     private static final List<String> EXTENSIONS = NetCDFUtilities.isGribAvailable() ? Arrays
             .asList("nc", "grb", "grb2", "grib") : Arrays.asList("nc");
 
-    /** Logger. */
+    /**
+     * Logger.
+     */
     private final static Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger("org.geotools.coverage.io.netcdf");
 
-    /** A static {@link ImageReaderSpi} to be used to call canDecodeInput */
+    /**
+     * A static {@link ImageReaderSpi} to be used to call canDecodeInput
+     */
     final static ImageReaderSpi SPI;
 
     static {
@@ -79,21 +82,21 @@ public class NetCDFDriver extends DefaultFileDriver implements FileDriver, Drive
 
     public NetCDFDriver() {
         super(
-                "NetCDF", 
-                "NetCDF Coverage Format", 
-                "NetCDF Coverage Format", 
-                null, 
+                "NetCDF",
+                "NetCDF Coverage Format",
+                "NetCDF Coverage Format",
+                null,
                 EXTENSIONS,
                 EnumSet.of(DriverCapabilities.CONNECT));
     }
 
     public CoverageAccess connect(java.net.URL source, Map<String, Serializable> params,
-            Hints hints, ProgressListener listener) throws IOException {
+                                  Hints hints, ProgressListener listener) throws IOException {
         return new NetCDFAccess(this, source, params, hints, listener);
     }
 
     public CoverageAccess connect(Map<String, Serializable> params, Hints hints,
-            ProgressListener listener) throws IOException {
+                                  ProgressListener listener) throws IOException {
         return new NetCDFAccess(this, null, params, hints, listener);
     }
 
@@ -178,7 +181,7 @@ public class NetCDFDriver extends DefaultFileDriver implements FileDriver, Drive
             // get a stream
             inputStream = (ImageInputStream) ((source instanceof ImageInputStream) ? source
                     : (source instanceof File) ? new FileImageInputStreamExtImpl((File) source)
-                            : ImageIO.createImageInputStream(source));
+                    : ImageIO.createImageInputStream(source));
             if (inputStream == null) {
                 if (LOGGER.isLoggable(Level.FINE))
                     LOGGER.fine("Unable to get an ImageInputStream");

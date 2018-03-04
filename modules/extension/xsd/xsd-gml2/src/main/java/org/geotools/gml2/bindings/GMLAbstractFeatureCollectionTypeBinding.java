@@ -31,9 +31,9 @@ import org.opengis.feature.simple.SimpleFeature;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:AbstractFeatureCollectionType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="AbstractFeatureCollectionType" abstract="true"&gt;
  *      &lt;annotation&gt;
@@ -54,9 +54,6 @@ import org.opengis.feature.simple.SimpleFeature;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLAbstractFeatureCollectionTypeBinding extends AbstractComplexBinding {
@@ -94,16 +91,16 @@ public class GMLAbstractFeatureCollectionTypeBinding extends AbstractComplexBind
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //call "super"
         SimpleFeatureCollection fc = (SimpleFeatureCollection) value;
 
         //add all feature member children
-        if( fc instanceof Collection){
-            ((Collection)fc).addAll(node.getChildValues(SimpleFeature.class));
-        }
-        else {
-            throw new IllegalStateException("Please provide DefaultFeatureCollection or ListFeatureCollection");
+        if (fc instanceof Collection) {
+            ((Collection) fc).addAll(node.getChildValues(SimpleFeature.class));
+        } else {
+            throw new IllegalStateException("Please provide DefaultFeatureCollection or " +
+                    "ListFeatureCollection");
         }
 
         return fc;

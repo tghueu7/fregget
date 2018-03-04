@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
- *   
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -17,6 +17,7 @@
 package org.geotools.referencing.factory;
 
 // J2SE direct dependencies
+
 import java.io.IOException;    // For javadoc
 import java.sql.SQLException;  // For javadoc
 
@@ -26,12 +27,10 @@ import java.sql.SQLException;  // For javadoc
  * failure in the backing store, or a failure to contact the backing store. This exception usually
  * has an {@link IOException} or a {@link SQLException} as its {@linkplain #getCause cause}.
  *
- * @since 2.3
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.3
  */
 public class BackingStoreException extends RuntimeException {
     /**
@@ -48,7 +47,8 @@ public class BackingStoreException extends RuntimeException {
     /**
      * Constructs a new exception with the specified detail message.
      *
-     * @param message the detail message, saved for later retrieval by the {@link #getMessage} method.
+     * @param message the detail message, saved for later retrieval by the {@link #getMessage} 
+     *                method.
      */
     public BackingStoreException(final String message) {
         super(message);
@@ -66,8 +66,9 @@ public class BackingStoreException extends RuntimeException {
     /**
      * Constructs a new exception with the specified detail message and cause.
      *
-     * @param message the detail message, saved for later retrieval by the {@link #getMessage} method.
-     * @param cause the cause, saved for later retrieval by the {@link Throwable#getCause} method.
+     * @param message the detail message, saved for later retrieval by the {@link #getMessage} 
+     *                method.
+     * @param cause   the cause, saved for later retrieval by the {@link Throwable#getCause} method.
      */
     public BackingStoreException(final String message, final Throwable cause) {
         super(message, cause);

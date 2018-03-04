@@ -4,7 +4,7 @@
  *
  *    (C) 2016 Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2016 Boundless Spatial
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -43,8 +43,10 @@ public class YsldValidator {
 
     /**
      * Validate the passed style
+     *
      * @param input Reader for the style
-     * @return List of {@link MarkedYAMLException} representing any errors, or an empty list if the style is valid
+     * @return List of {@link MarkedYAMLException} representing any errors, or an empty list if 
+     * the style is valid
      * @throws IOException
      */
     public List<MarkedYAMLException> validate(Reader input) throws IOException {

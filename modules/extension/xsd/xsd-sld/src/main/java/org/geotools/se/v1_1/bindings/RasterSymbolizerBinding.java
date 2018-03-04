@@ -25,20 +25,21 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/se:RasterSymbolizer.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
- *  &lt;xsd:element name="RasterSymbolizer" substitutionGroup="se:Symbolizer" type="se:RasterSymbolizerType"&gt;
+ *  &lt;xsd:element name="RasterSymbolizer" substitutionGroup="se:Symbolizer" 
+ *  type="se:RasterSymbolizerType"&gt;
  *      &lt;xsd:annotation&gt;
  *          &lt;xsd:documentation&gt;
  *          A "RasterSymbolizer" is used to specify the rendering of
  *          raster/matrix-coverage data (e.g., satellite images, DEMs).
  *        &lt;/xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
- *  &lt;/xsd:element&gt; 
- * 	
+ *  &lt;/xsd:element&gt;
+ *
  *   </code>
  * </pre>
  * <pre>
@@ -59,12 +60,10 @@ import javax.xml.namespace.QName;
  *       &lt;/xsd:complexContent>
  *   &lt;/xsd:complexType>
  *   </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class RasterSymbolizerBinding extends SLDRasterSymbolizerBinding {
@@ -79,7 +78,7 @@ public class RasterSymbolizerBinding extends SLDRasterSymbolizerBinding {
     public QName getTarget() {
         return SE.RasterSymbolizer;
     }
-    
+
     @Override
     public int getExecutionMode() {
         return BEFORE;

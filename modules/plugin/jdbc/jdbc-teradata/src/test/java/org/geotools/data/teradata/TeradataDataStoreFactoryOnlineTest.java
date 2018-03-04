@@ -29,8 +29,6 @@ import static org.geotools.data.teradata.TeradataDataStoreFactory.PORT;
 import static org.geotools.jdbc.JDBCDataStoreFactory.*;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class TeradataDataStoreFactoryOnlineTest extends JDBCTestSupport {
@@ -45,7 +43,8 @@ public class TeradataDataStoreFactoryOnlineTest extends JDBCTestSupport {
         checkCreateConnection(factory, factory.getDatabaseID());
     }
 
-    private void checkCreateConnection(TeradataDataStoreFactory factory, String dbtype) throws IOException {
+    private void checkCreateConnection(TeradataDataStoreFactory factory, String dbtype) throws 
+            IOException {
         Properties db = fixture;
 
         Map<String, Object> params = new HashMap<String, Object>();

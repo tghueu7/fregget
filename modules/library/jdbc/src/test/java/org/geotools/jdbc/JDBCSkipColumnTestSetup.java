@@ -19,11 +19,7 @@ package org.geotools.jdbc;
 import java.sql.SQLException;
 
 /**
- *  
  * @author Andrea Aime
- *
- *
- *
  * @source $URL$
  */
 public abstract class JDBCSkipColumnTestSetup extends JDBCDelegatingTestSetup {
@@ -31,7 +27,7 @@ public abstract class JDBCSkipColumnTestSetup extends JDBCDelegatingTestSetup {
     protected JDBCSkipColumnTestSetup(JDBCTestSetup delegate) {
         super(delegate);
     }
-    
+
     protected final void setUpData() throws Exception {
         //kill all the data
         try {
@@ -50,9 +46,9 @@ public abstract class JDBCSkipColumnTestSetup extends JDBCDelegatingTestSetup {
      * </p>
      * <p>
      * The table should be populated with the following data:<br>
-     *  0 | Point(0,0) | null | GeoTools<br>
+     * 0 | Point(0,0) | null | GeoTools<br>
      * <p>
-     * UnrecognizedType can be any type the datastore is not able to 
+     * UnrecognizedType can be any type the datastore is not able to
      * recognize (array, blob, whatever will force the column to be ignored)
      * </p>
      */
@@ -62,6 +58,6 @@ public abstract class JDBCSkipColumnTestSetup extends JDBCDelegatingTestSetup {
      * Drops the "skipcolumn" table previously created
      */
     protected abstract void dropSkipColumnTable() throws Exception;
-    
+
 
 }

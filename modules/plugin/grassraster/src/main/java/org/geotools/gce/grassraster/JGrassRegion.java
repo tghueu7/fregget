@@ -41,7 +41,7 @@ import com.vividsolutions.jts.geom.Envelope;
 
 /**
  * Represents the geographic region used in the jGrass engines.
- * 
+ * <p>
  * <p>
  * JGrass calculations always work against a particular geographic region, which
  * contains the boundaries of the region as well as the information of the
@@ -52,14 +52,11 @@ import com.vividsolutions.jts.geom.Envelope;
  * is may be recalculated to fulfill this constraint. Users should not wonder if
  * the asked resolution is not available in the supplied boundaries.
  * </p>
- * 
+ *
  * @author Andrea Antonello - www.hydrologis.com
- * @since 3.0
- * 
- * @see {@link JGrassMapEnvironment}
- *
- *
  * @source $URL$
+ * @see {@link JGrassMapEnvironment}
+ * @since 3.0
  */
 public class JGrassRegion {
 
@@ -75,7 +72,9 @@ public class JGrassRegion {
     /**
      * The representation of a dummy region.
      */
-    public final static String BLANK_REGION = "proj:           0\nzone:           0\nnorth:          1\nsouth:          0\nwest:           0\neast:           1\nrows:           1\ncols:           1\ne-w resol:      1\nn-s resol:      1"; //$NON-NLS-1$
+    public final static String BLANK_REGION = "proj:           0\nzone:           0\nnorth:      " +
+            "    1\nsouth:          0\nwest:           0\neast:           1\nrows:           " +
+            "1\ncols:           1\ne-w resol:      1\nn-s resol:      1"; //$NON-NLS-1$
 
     /**
      * The old projection identifier value in the GRASS wind files (used before
@@ -137,7 +136,7 @@ public class JGrassRegion {
 
     /**
      * The hashmap of additional GRASS entries in the GRASS region files.
-     * 
+     * <p>
      * <p>
      * These are currently not used in JGrass. These are important to keep, in
      * order to write them back to the WIND file (see package description), when
@@ -148,41 +147,34 @@ public class JGrassRegion {
 
     /**
      * Creates a new instance of {@link JGrassRegion}.
-     * 
+     * <p>
      * <p>
      * The supplied path has to be of the format of a GRASS WIND file.
      * </p>
-     * 
-     * @param regionFilePath
-     *            a GRASS region file path.
+     *
+     * @param regionFilePath a GRASS region file path.
      * @throws IOException
      */
-    public JGrassRegion( String regionFilePath ) throws IOException {
+    public JGrassRegion(String regionFilePath) throws IOException {
         readRegionFromFile(regionFilePath, this);
     }
 
     /**
      * Creates a new instance of {@link JGrassRegion}.
-     * 
+     * <p>
      * <p>
      * This constructor may be used when boundaries and number of rows and
      * columns are available.
      * </p>
-     * 
-     * @param west
-     *            the western boundary.
-     * @param east
-     *            the eastern boundary.
-     * @param south
-     *            the southern boundary.
-     * @param north
-     *            the nothern boundary.
-     * @param rows
-     *            the number of rows.
-     * @param cols
-     *            the number of cols.
+     *
+     * @param west  the western boundary.
+     * @param east  the eastern boundary.
+     * @param south the southern boundary.
+     * @param north the nothern boundary.
+     * @param rows  the number of rows.
+     * @param cols  the number of cols.
      */
-    public JGrassRegion( double west, double east, double south, double north, int rows, int cols ) {
+    public JGrassRegion(double west, double east, double south, double north, int rows, int cols) {
         this.west = west;
         this.east = east;
         this.south = south;
@@ -194,27 +186,21 @@ public class JGrassRegion {
 
     /**
      * Creates a new instance of {@link JGrassRegion}.
-     * 
+     * <p>
      * <p>
      * This constructor may be used when boundaries and the resolution is
      * available.
      * </p>
-     * 
-     * @param west
-     *            the western boundary.
-     * @param east
-     *            the eastern boundary.
-     * @param south
-     *            the southern boundary.
-     * @param north
-     *            the northern boundary.
-     * @param weres
-     *            the east-west resolution.
-     * @param nsres
-     *            the north -south resolution.
+     *
+     * @param west  the western boundary.
+     * @param east  the eastern boundary.
+     * @param south the southern boundary.
+     * @param north the northern boundary.
+     * @param weres the east-west resolution.
+     * @param nsres the north -south resolution.
      */
-    public JGrassRegion( double west, double east, double south, double north, double weres,
-            double nsres ) {
+    public JGrassRegion(double west, double east, double south, double north, double weres,
+                        double nsres) {
         this.west = west;
         this.east = east;
         this.south = south;
@@ -229,11 +215,10 @@ public class JGrassRegion {
     /**
      * Creates a new instance of {@link JGrassRegion} by duplicating an existing
      * region.
-     * 
-     * @param region
-     *            a region from which to take the setting from.
+     *
+     * @param region a region from which to take the setting from.
      */
-    public JGrassRegion( JGrassRegion region ) {
+    public JGrassRegion(JGrassRegion region) {
         west = region.getWest();
         east = region.getEast();
         south = region.getSouth();
@@ -246,11 +231,10 @@ public class JGrassRegion {
     /**
      * Creates a new instance of {@link JGrassRegion} from an {@link Envelope2D}
      * .
-     * 
-     * @param envelope2D
-     *            the envelope2D from which to take the setting from.
+     *
+     * @param envelope2D the envelope2D from which to take the setting from.
      */
-    public JGrassRegion( Envelope2D envelope2D ) {
+    public JGrassRegion(Envelope2D envelope2D) {
         west = envelope2D.getMinX();
         east = envelope2D.getMaxX();
         south = envelope2D.getMinY();
@@ -264,20 +248,16 @@ public class JGrassRegion {
 
     /**
      * Creates a new instance of {@link JGrassRegion} from given strings.
-     * 
-     * @param west
-     *            the western boundary string.
-     * @param east
-     *            the eastern boundary string.
-     * @param south
-     *            the southern boundary string.
-     * @param north
-     *            the nothern boundary string.
+     *
+     * @param west  the western boundary string.
+     * @param east  the eastern boundary string.
+     * @param south the southern boundary string.
+     * @param north the nothern boundary string.
      * @param ewres the x resolution string.
      * @param nsres the y resolution string.
      */
-    public JGrassRegion( String west, String east, String south, String north, String ewres,
-            String nsres ) {
+    public JGrassRegion(String west, String east, String south, String north, String ewres,
+                        String nsres) {
 
         double[] nsew = nsewStringsToNumbers(north, south, east, west);
         double[] xyRes = xyResStringToNumbers(ewres, nsres);
@@ -295,21 +275,15 @@ public class JGrassRegion {
 
     /**
      * Creates a new instance of {@link JGrassRegion} from given strings.
-     * 
-     * @param west
-     *            the western boundary string.
-     * @param east
-     *            the eastern boundary string.
-     * @param south
-     *            the southern boundary string.
-     * @param north
-     *            the nothern boundary string.
-     * @param rows
-     *            the string of rows.
-     * @param cols
-     *            the string of cols.
+     *
+     * @param west  the western boundary string.
+     * @param east  the eastern boundary string.
+     * @param south the southern boundary string.
+     * @param north the nothern boundary string.
+     * @param rows  the string of rows.
+     * @param cols  the string of cols.
      */
-    public JGrassRegion( String west, String east, String south, String north, int rows, int cols ) {
+    public JGrassRegion(String west, String east, String south, String north, int rows, int cols) {
         double[] nsew = nsewStringsToNumbers(north, south, east, west);
         double no = nsew[0];
         double so = nsew[1];
@@ -321,10 +295,10 @@ public class JGrassRegion {
 
     /**
      * Sets the extent of this window using another window.
-     * 
+     *
      * @param win another window object
      */
-    public void setExtent( JGrassRegion region ) {
+    public void setExtent(JGrassRegion region) {
         west = region.getWest();
         east = region.getEast();
         south = region.getSouth();
@@ -337,7 +311,7 @@ public class JGrassRegion {
 
     /**
      * Creates JTS envelope from the current region.
-     * 
+     *
      * @return the JTS envelope wrapping the current region.
      */
     public Envelope getEnvelope() {
@@ -347,11 +321,11 @@ public class JGrassRegion {
     /**
      * Creates a {@linkplain Rectangle2D.Double rectangle} from the current
      * region.
-     * 
+     * <p>
      * <p>
      * Note that the rectangle width and height are world coordinates.
      * </p>
-     * 
+     *
      * @return the rectangle wrapping the current region.
      */
     public Rectangle2D.Double getRectangle() {
@@ -367,22 +341,19 @@ public class JGrassRegion {
 
     /**
      * Reprojects a {@link JGrassRegion region}.
-     * 
-     * @param sourceCRS
-     *            the original {@link CoordinateReferenceSystem crs} of the
-     *            region.
-     * @param targetCRS
-     *            the target {@link CoordinateReferenceSystem crs} of the
-     *            region.
-     * @param lenient
-     *            defines whether to apply a lenient transformation or not.
+     *
+     * @param sourceCRS the original {@link CoordinateReferenceSystem crs} of the
+     *                  region.
+     * @param targetCRS the target {@link CoordinateReferenceSystem crs} of the
+     *                  region.
+     * @param lenient   defines whether to apply a lenient transformation or not.
      * @return a new {@link JGrassRegion region}.
-     * @throws Exception
-     *             exception that may be thrown when applying the
-     *             transformation.
+     * @throws Exception exception that may be thrown when applying the
+     *                   transformation.
      */
-    public JGrassRegion reproject( CoordinateReferenceSystem sourceCRS,
-            CoordinateReferenceSystem targetCRS, boolean lenient ) throws Exception {
+    public JGrassRegion reproject(CoordinateReferenceSystem sourceCRS,
+                                  CoordinateReferenceSystem targetCRS, boolean lenient) throws 
+            Exception {
 
         MathTransform transform = CRS.findMathTransform(sourceCRS, targetCRS, lenient);
         Envelope envelope = getEnvelope();
@@ -404,7 +375,7 @@ public class JGrassRegion {
 
     /**
      * calculates rows and cols from the region and its resolution.
-     * 
+     * <p>
      * <p>
      * Rows and cols have to be integers, rounding is applied if required.
      * </p>
@@ -420,22 +391,19 @@ public class JGrassRegion {
 
     /**
      * Snaps a geographic point to be on the region grid.
-     * 
+     * <p>
      * <p>
      * Moves the point given by X and Y to be on the grid of the supplied
      * region.
      * </p>
-     * 
-     * @param x
-     *            the easting of the arbitrary point.
-     * @param y
-     *            the northing of the arbitrary point.
-     * @param region
-     *            the active window from which to take the grid.
+     *
+     * @param x      the easting of the arbitrary point.
+     * @param y      the northing of the arbitrary point.
+     * @param region the active window from which to take the grid.
      * @return the snapped coordinate.
      */
-    public static Coordinate snapToNextHigherInRegionResolution( double x, double y,
-            JGrassRegion region ) {
+    public static Coordinate snapToNextHigherInRegionResolution(double x, double y,
+                                                                JGrassRegion region) {
 
         double minx = region.getRectangle().getBounds2D().getMinX();
         double ewres = region.getWEResolution();
@@ -451,12 +419,11 @@ public class JGrassRegion {
 
     /**
      * Computes the active region from the supplied mapset path.
-     * 
-     * @param mapsetPath
-     *            the path to the mapset folder.
+     *
+     * @param mapsetPath the path to the mapset folder.
      * @return the active region.
      */
-    public static JGrassRegion getActiveRegionFromMapset( String mapsetPath ) throws IOException {
+    public static JGrassRegion getActiveRegionFromMapset(String mapsetPath) throws IOException {
         File windFile = new File(mapsetPath + File.separator + JGrassConstants.WIND);
         if (!windFile.exists()) {
             return null;
@@ -466,28 +433,24 @@ public class JGrassRegion {
 
     /**
      * Writes active region window to the supplied mapset.
-     * 
-     * @param mapsetPath
-     *            the path to the mapset folder.
-     * @param activeRegion
-     *            the active region.
+     *
+     * @param mapsetPath   the path to the mapset folder.
+     * @param activeRegion the active region.
      * @throws IOException
      */
-    public static void writeWINDToMapset( String mapsetPath, JGrassRegion activeRegion )
+    public static void writeWINDToMapset(String mapsetPath, JGrassRegion activeRegion)
             throws IOException {
         writeRegionToFile(mapsetPath + File.separator + JGrassConstants.WIND, activeRegion);
     }
 
     /**
      * Write default region to the PERMANENT mapset.
-     * 
-     * @param locationPath
-     *            the path to the location folder.
-     * @param region
-     *            a region.
+     *
+     * @param locationPath the path to the location folder.
+     * @param region       a region.
      * @throws IOException
      */
-    public static void writeDEFAULTWINDToLocation( String locationPath, JGrassRegion region )
+    public static void writeDEFAULTWINDToLocation(String locationPath, JGrassRegion region)
             throws IOException {
         writeRegionToFile(locationPath + File.separator + JGrassConstants.PERMANENT_MAPSET
                 + File.separator + JGrassConstants.DEFAULT_WIND, region);
@@ -495,7 +458,7 @@ public class JGrassRegion {
 
     /**
      * Creates a region from envelope bounds snapped to a region grid.
-     * 
+     * <p>
      * <p>
      * This takes an envelope and a JGrass region and creates a new region to
      * match the bounds of the envelope, but the grid of the region. This is
@@ -504,16 +467,14 @@ public class JGrassRegion {
      * <p>
      * The bounds of the new region contain completely the envelope.
      * </p>
-     * 
-     * @param sourceEnvelope
-     *            the envelope to adapt.
-     * @param sourceRegion
-     *            the region from which to take the grid to be snapped.
+     *
+     * @param sourceEnvelope the envelope to adapt.
+     * @param sourceRegion   the region from which to take the grid to be snapped.
      * @return a new region, created from the envelope bounds snapped to the
-     *         region grid.
+     * region grid.
      */
-    public static JGrassRegion adaptActiveRegionToEnvelope( Envelope sourceEnvelope,
-            JGrassRegion sourceRegion ) {
+    public static JGrassRegion adaptActiveRegionToEnvelope(Envelope sourceEnvelope,
+                                                           JGrassRegion sourceRegion) {
         Coordinate eastNorth = JGrassRegion.snapToNextHigherInRegionResolution(sourceEnvelope
                 .getMaxX(), sourceEnvelope.getMaxY(), sourceRegion);
         Coordinate westsouth = JGrassRegion.snapToNextHigherInRegionResolution(sourceEnvelope
@@ -529,7 +490,7 @@ public class JGrassRegion {
      * @param subregionsNum
      * @return
      */
-    public List<JGrassRegion> toSubRegions( int subregionsNum ) {
+    public List<JGrassRegion> toSubRegions(int subregionsNum) {
         int tmpR = getRows();
         int tmpC = getCols();
 
@@ -540,7 +501,8 @@ public class JGrassRegion {
 
         if (subregionsNum > tmpR || subregionsNum > tmpC) {
             throw new IllegalArgumentException(
-                    "The number of subregions has to be smaller than the number of rows and columns.");
+                    "The number of subregions has to be smaller than the number of rows and " +
+                            "columns.");
         }
 
         int subregRows = (int) Math.floor(tmpR / (double) subregionsNum);
@@ -550,10 +512,10 @@ public class JGrassRegion {
 
         double runningEasting = tmpWest;
         double runningNorthing = tmpSouth;
-        for( int i = 0; i < subregionsNum; i++ ) {
+        for (int i = 0; i < subregionsNum; i++) {
             double n = runningNorthing + subregRows * tmpNSRes;
             double s = runningNorthing;
-            for( int j = 0; j < subregionsNum; j++ ) {
+            for (int j = 0; j < subregionsNum; j++) {
                 double w = runningEasting;
                 double e = runningEasting + subregCols * tmpWERes;
 
@@ -578,21 +540,20 @@ public class JGrassRegion {
 
         return regions;
     }
+
     /**
      * Reads a region file and sets a given region to the supplied region file.
-     * 
-     * @param filePath
-     *            the path to the region file.
-     * @param region
-     *            the region to be set to the region file informations.
+     *
+     * @param filePath the path to the region file.
+     * @param region   the region to be set to the region file informations.
      */
     @SuppressWarnings("nls")
-    private void readRegionFromFile( String filePath, JGrassRegion region ) throws IOException {
+    private void readRegionFromFile(String filePath, JGrassRegion region) throws IOException {
         String line;
 
         BufferedReader windReader = new BufferedReader(new FileReader(filePath));
         LinkedHashMap<String, String> store = new LinkedHashMap<String, String>();
-        while( (line = windReader.readLine()) != null ) {
+        while ((line = windReader.readLine()) != null) {
             if (line.matches(".*reclass.*")) {
                 /*
                  * it is a reclass map and we are reading the cellhead file.
@@ -611,7 +572,8 @@ public class JGrassRegion {
                         + mapName);
                 if (!reclassMap.exists()) {
                     throw new IOException(
-                            "The reclass cellhead file doesn't seem to exist. Unable to read the file region.");
+                            "The reclass cellhead file doesn't seem to exist. Unable to read the " +
+                                    "file region.");
                 }
                 windReader.close();
                 windReader = new BufferedReader(new FileReader(reclassMap));
@@ -632,10 +594,12 @@ public class JGrassRegion {
                  */
                 // this is to keep compatibility with GRASS, which seems to
                 // have changed
-                if ((key.indexOf("res") != -1 && key.indexOf("resol") == -1) //$NON-NLS-1$ //$NON-NLS-2$
+                if ((key.indexOf("res") != -1 && key.indexOf("resol") == -1) //$NON-NLS-1$ 
+                        // $NON-NLS-2$
                         || key.indexOf("res3") != -1) { //$NON-NLS-1$
                     if (!key.startsWith("compressed")) //$NON-NLS-1$
-                        store.put(key.replaceAll("res", "resol"), value); //$NON-NLS-1$ //$NON-NLS-2$
+                        store.put(key.replaceAll("res", "resol"), value); //$NON-NLS-1$ 
+                    // $NON-NLS-2$
                 } else {
                     store.put(key, value);
                 }
@@ -668,7 +632,8 @@ public class JGrassRegion {
 
         // if the resolution if undefined, at least the row and cols have to
         // be supplied
-        if (!store.containsKey("e-w resol") && !store.containsKey("n-s resol")) { //$NON-NLS-1$ //$NON-NLS-2$
+        if (!store.containsKey("e-w resol") && !store.containsKey("n-s resol")) { //$NON-NLS-1$ 
+            // $NON-NLS-2$
             region.setCols(Integer.parseInt(store.get("cols"))); //$NON-NLS-1$
             region.setRows(Integer.parseInt(store.get("rows"))); //$NON-NLS-1$
             store.remove("cols");
@@ -696,11 +661,11 @@ public class JGrassRegion {
 
     /**
      * Transforms degree string into the decimal value.
-     * 
+     *
      * @param value the string in degrees.
      * @return the translated value.
      */
-    private double degreeToNumber( String value ) {
+    private double degreeToNumber(String value) {
         double number = -1;
 
         String[] valueSplit = value.trim().split(":"); //$NON-NLS-1$
@@ -724,12 +689,12 @@ public class JGrassRegion {
 
     /**
      * Transforms a GRASS resolution string in metric or degree to decimal.
-     * 
+     *
      * @param ewres the x resolution string.
      * @param nsres the y resolution string.
      * @return the array of x and y resolution doubles.
      */
-    private double[] xyResStringToNumbers( String ewres, String nsres ) {
+    private double[] xyResStringToNumbers(String ewres, String nsres) {
         double xres = -1.0;
         double yres = -1.0;
         if (ewres.indexOf(':') != -1) {
@@ -748,15 +713,15 @@ public class JGrassRegion {
 
     /**
      * Transforms the GRASS bounds strings in metric or degree to decimal.
-     * 
+     *
      * @param north the north string.
      * @param south the south string.
-     * @param east the east string.
-     * @param west the west string.
+     * @param east  the east string.
+     * @param west  the west string.
      * @return the array of the bounds in doubles.
      */
     @SuppressWarnings("nls")
-    private double[] nsewStringsToNumbers( String north, String south, String east, String west ) {
+    private double[] nsewStringsToNumbers(String north, String south, String east, String west) {
 
         double no = -1.0;
         double so = -1.0;
@@ -805,19 +770,17 @@ public class JGrassRegion {
 
     /**
      * Writes a region to file.
-     * 
+     * <p>
      * <p>
      * Reads a text file and changes only the region values using the supplied
      * region.
      * </p>
-     * 
-     * @param regionFilePath
-     *            the path to the region file.
-     * @param region
-     *            the region to be written to file
+     *
+     * @param regionFilePath the path to the region file.
+     * @param region         the region to be written to file
      * @throws IOException
      */
-    private static void writeRegionToFile( String regionFilePath, JGrassRegion region )
+    private static void writeRegionToFile(String regionFilePath, JGrassRegion region)
             throws IOException {
 
         String line;
@@ -845,7 +808,7 @@ public class JGrassRegion {
         }
         BufferedReader windReader = new BufferedReader(new FileReader(file));
         LinkedHashMap<String, String> store = new LinkedHashMap<String, String>();
-        while( (line = windReader.readLine()) != null ) {
+        while ((line = windReader.readLine()) != null) {
             StringTokenizer tok = new StringTokenizer(line, ":"); //$NON-NLS-1$
             if (tok.countTokens() == 2) {
                 String key = tok.nextToken().trim();
@@ -854,7 +817,8 @@ public class JGrassRegion {
                  * this is now corrected, since GRASS seems to support only
                  * resol from 6.2 on
                  */
-                if ((key.indexOf("res") != -1 && key.indexOf("resol") == -1) //$NON-NLS-1$ //$NON-NLS-2$
+                if ((key.indexOf("res") != -1 && key.indexOf("resol") == -1) //$NON-NLS-1$ 
+                        // $NON-NLS-2$
                         || key.indexOf("res3") != -1) { //$NON-NLS-1$
                     store.put(key.replaceAll("res", "resol"), value); //$NON-NLS-1$ //$NON-NLS-2$
                 } else
@@ -870,8 +834,10 @@ public class JGrassRegion {
         store.put("south", new java.lang.Double(region.getSouth()).toString()); //$NON-NLS-1$
         store.put("east", new java.lang.Double(region.getEast()).toString()); //$NON-NLS-1$
         store.put("west", new java.lang.Double(region.getWest()).toString()); //$NON-NLS-1$
-        store.put("n-s resol", new java.lang.Double(region.getNSResolution()).toString()); //$NON-NLS-1$
-        store.put("e-w resol", new java.lang.Double(region.getWEResolution()).toString()); //$NON-NLS-1$
+        store.put("n-s resol", new java.lang.Double(region.getNSResolution()).toString()); 
+        //$NON-NLS-1$
+        store.put("e-w resol", new java.lang.Double(region.getWEResolution()).toString()); 
+        //$NON-NLS-1$
         store.put("cols", new java.lang.Integer(region.getCols()).toString()); //$NON-NLS-1$
         store.put("rows", new java.lang.Integer(region.getRows()).toString()); //$NON-NLS-1$
         windReader.close();
@@ -880,8 +846,9 @@ public class JGrassRegion {
         /* Now write the data back to the file */
         StringBuffer data = new StringBuffer(512);
         Set<Entry<String, String>> entrySet = store.entrySet();
-        for( Entry<String, String> entry : entrySet ) {
-            data.append(entry.getKey() + ":   " + entry.getValue() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+        for (Entry<String, String> entry : entrySet) {
+            data.append(entry.getKey() + ":   " + entry.getValue() + "\n"); //$NON-NLS-1$ 
+            // $NON-NLS-2$
         }
 
         BufferedWriter windWriter = new BufferedWriter(new FileWriter(file));
@@ -893,7 +860,7 @@ public class JGrassRegion {
 
     /**
      * Getter for proj
-     * 
+     *
      * @return the proj
      */
     public int getProj() {
@@ -902,17 +869,16 @@ public class JGrassRegion {
 
     /**
      * Setter for proj
-     * 
-     * @param proj
-     *            the proj to set
+     *
+     * @param proj the proj to set
      */
-    public void setProj( int proj ) {
+    public void setProj(int proj) {
         this.proj = proj;
     }
 
     /**
      * Getter for zone
-     * 
+     *
      * @return the zone
      */
     public int getZone() {
@@ -921,17 +887,16 @@ public class JGrassRegion {
 
     /**
      * Setter for zone
-     * 
-     * @param zone
-     *            the zone to set
+     *
+     * @param zone the zone to set
      */
-    public void setZone( int zone ) {
+    public void setZone(int zone) {
         this.zone = zone;
     }
 
     /**
      * Getter for north
-     * 
+     *
      * @return the north
      */
     public double getNorth() {
@@ -940,17 +905,16 @@ public class JGrassRegion {
 
     /**
      * Setter for north
-     * 
-     * @param north
-     *            the north to set
+     *
+     * @param north the north to set
      */
-    public void setNorth( double north ) {
+    public void setNorth(double north) {
         this.north = north;
     }
 
     /**
      * Getter for south
-     * 
+     *
      * @return the south
      */
     public double getSouth() {
@@ -959,17 +923,16 @@ public class JGrassRegion {
 
     /**
      * Setter for south
-     * 
-     * @param south
-     *            the south to set
+     *
+     * @param south the south to set
      */
-    public void setSouth( double south ) {
+    public void setSouth(double south) {
         this.south = south;
     }
 
     /**
      * Getter for west
-     * 
+     *
      * @return the west
      */
     public double getWest() {
@@ -978,17 +941,16 @@ public class JGrassRegion {
 
     /**
      * Setter for west
-     * 
-     * @param west
-     *            the west to set
+     *
+     * @param west the west to set
      */
-    public void setWest( double west ) {
+    public void setWest(double west) {
         this.west = west;
     }
 
     /**
      * Getter for east
-     * 
+     *
      * @return the east
      */
     public double getEast() {
@@ -997,17 +959,16 @@ public class JGrassRegion {
 
     /**
      * Setter for east
-     * 
-     * @param east
-     *            the east to set
+     *
+     * @param east the east to set
      */
-    public void setEast( double east ) {
+    public void setEast(double east) {
         this.east = east;
     }
 
     /**
      * Getter for ns_res
-     * 
+     *
      * @return the ns_res
      */
     public double getNSResolution() {
@@ -1016,11 +977,10 @@ public class JGrassRegion {
 
     /**
      * Setter for ns_res
-     * 
-     * @param ns_res
-     *            the ns_res to set
+     *
+     * @param ns_res the ns_res to set
      */
-    public void setNSResolution( double ns_res ) {
+    public void setNSResolution(double ns_res) {
         this.ns_res = ns_res;
         fixRowsAndCols();
         fixResolution();
@@ -1028,7 +988,7 @@ public class JGrassRegion {
 
     /**
      * Getter for we_res
-     * 
+     *
      * @return the we_res
      */
     public double getWEResolution() {
@@ -1037,11 +997,10 @@ public class JGrassRegion {
 
     /**
      * Setter for we_res
-     * 
-     * @param we_res
-     *            the we_res to set
+     *
+     * @param we_res the we_res to set
      */
-    public void setWEResolution( double we_res ) {
+    public void setWEResolution(double we_res) {
         this.we_res = we_res;
         fixRowsAndCols();
         fixResolution();
@@ -1049,7 +1008,7 @@ public class JGrassRegion {
 
     /**
      * Getter for rows
-     * 
+     *
      * @return the rows
      */
     public int getRows() {
@@ -1058,18 +1017,17 @@ public class JGrassRegion {
 
     /**
      * Setter for rows
-     * 
-     * @param rows
-     *            the rows to set
+     *
+     * @param rows the rows to set
      */
-    public void setRows( int rows ) {
+    public void setRows(int rows) {
         this.rows = rows;
         fixResolution();
     }
 
     /**
      * Getter for cols.
-     * 
+     *
      * @return the cols.
      */
     public int getCols() {
@@ -1078,18 +1036,17 @@ public class JGrassRegion {
 
     /**
      * Setter for cols.
-     * 
-     * @param cols
-     *            the cols to set.
+     *
+     * @param cols the cols to set.
      */
-    public void setCols( int cols ) {
+    public void setCols(int cols) {
         this.cols = cols;
         fixResolution();
     }
 
     /**
      * Getter for additionalGrassEntries.
-     * 
+     *
      * @return the additionalGrassEntries.
      */
     public LinkedHashMap<String, String> getAdditionalGrassEntries() {
@@ -1098,11 +1055,10 @@ public class JGrassRegion {
 
     /**
      * Setter for additionalGrassEntries.
-     * 
-     * @param additionalGrassEntries
-     *            the additionalGrassEntries to set.
+     *
+     * @param additionalGrassEntries the additionalGrassEntries to set.
      */
-    public void setAdditionalGrassEntries( LinkedHashMap<String, String> additionalGrassEntries ) {
+    public void setAdditionalGrassEntries(LinkedHashMap<String, String> additionalGrassEntries) {
         this.additionalGrassEntries = additionalGrassEntries;
     }
 }

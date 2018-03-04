@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -35,7 +35,8 @@ import org.geotools.parameter.DefaultParameterDescriptorGroup;
  * specified. The {@code "SampleDimensions"} parameter specifies the source
  * {@link org.geotools.coverage.GridSampleDimension} indices, and its size
  * ({@code SampleDimensions.length}) determines the number of sample dimensions of the destination
- * grid coverage. The destination coverage may have any number of sample dimensions, and a particular
+ * grid coverage. The destination coverage may have any number of sample dimensions, and a 
+ * particular
  * sample dimension of the source coverage may be repeated in the destination coverage by specifying
  * it multiple times in the {@code "SampleDimensions"} parameter.
  * <p>
@@ -45,50 +46,48 @@ import org.geotools.parameter.DefaultParameterDescriptorGroup;
  * using only 1 sample dimension at time. The {@code "VisibleSampleDimension"} parameter can be
  * used for selecting this sample dimension. If omitted, then the new grid coverage will inherit
  * its source's visible sample dimension.
- *
+ * <p>
  * <P><STRONG>Name:</STRONG>&nbsp;<CODE>"SelectSampleDimension"</CODE><BR>
- *    <STRONG>JAI operator:</STRONG>&nbsp;<CODE>"{@linkplain BandSelectDescriptor BandSelect}"</CODE><BR>
- *    <STRONG>Parameters:</STRONG></P>
+ * <STRONG>JAI operator:</STRONG>&nbsp;
+ * <CODE>"{@linkplain BandSelectDescriptor BandSelect}"</CODE><BR>
+ * <STRONG>Parameters:</STRONG></P>
  * <table border='3' cellpadding='6' bgcolor='F4F8FF'>
- *   <tr bgcolor='#B9DCFF'>
- *     <th>Name</th>
- *     <th>Class</th>
- *     <th>Default value</th>
- *     <th>Minimum value</th>
- *     <th>Maximum value</th>
- *   </tr>
- *   <tr>
- *     <td>{@code "Source"}</td>
- *     <td>{@link org.geotools.coverage.grid.GridCoverage2D}</td>
- *     <td align="center">N/A</td>
- *     <td align="center">N/A</td>
- *     <td align="center">N/A</td>
- *   </tr>
- *   <tr>
- *     <td>{@code "SampleDimensions"}</td>
- *     <td>{@code int[]}</td>
- *     <td align="center">Same as source</td>
- *     <td align="center">N/A</td>
- *     <td align="center">N/A</td>
- *   </tr>
- *   <tr>
- *     <td>{@code "VisibleSampleDimension"}</td>
- *     <td>{@link java.lang.Integer}</td>
- *     <td align="center">Same as source</td>
- *     <td align="center">0</td>
- *     <td align="center">N/A</td>
- *   </tr>
+ * <tr bgcolor='#B9DCFF'>
+ * <th>Name</th>
+ * <th>Class</th>
+ * <th>Default value</th>
+ * <th>Minimum value</th>
+ * <th>Maximum value</th>
+ * </tr>
+ * <tr>
+ * <td>{@code "Source"}</td>
+ * <td>{@link org.geotools.coverage.grid.GridCoverage2D}</td>
+ * <td align="center">N/A</td>
+ * <td align="center">N/A</td>
+ * <td align="center">N/A</td>
+ * </tr>
+ * <tr>
+ * <td>{@code "SampleDimensions"}</td>
+ * <td>{@code int[]}</td>
+ * <td align="center">Same as source</td>
+ * <td align="center">N/A</td>
+ * <td align="center">N/A</td>
+ * </tr>
+ * <tr>
+ * <td>{@code "VisibleSampleDimension"}</td>
+ * <td>{@link java.lang.Integer}</td>
+ * <td align="center">Same as source</td>
+ * <td align="center">0</td>
+ * <td align="center">N/A</td>
+ * </tr>
  * </table>
  *
- * @since 2.2
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see org.geotools.coverage.processing.Operations#selectSampleDimension
  * @see BandSelectDescriptor
+ * @since 2.2
  */
 public class SelectSampleDimension extends Operation2D {
     /**
@@ -101,13 +100,13 @@ public class SelectSampleDimension extends Operation2D {
      */
     public static final ParameterDescriptor<int[]> SAMPLE_DIMENSIONS =
             new DefaultParameterDescriptor<int[]>(Citations.OGC, "SampleDimensions",
-                int[].class,                        // Value class (mandatory)
-                null,                               // Array of valid values
-                null,                               // Default value
-                null,                               // Minimal value
-                null,                               // Maximal value
-                null,                               // Unit of measure
-                false);                             // Parameter is optional
+                    int[].class,                        // Value class (mandatory)
+                    null,                               // Array of valid values
+                    null,                               // Default value
+                    null,                               // Minimal value
+                    null,                               // Maximal value
+                    null,                               // Unit of measure
+                    false);                             // Parameter is optional
 
     /**
      * The parameter descriptor for the visible dimension indice.
@@ -115,24 +114,24 @@ public class SelectSampleDimension extends Operation2D {
      */
     public static final ParameterDescriptor<Integer> VISIBLE_SAMPLE_DIMENSION =
             new DefaultParameterDescriptor<Integer>(Citations.GEOTOOLS, "VisibleSampleDimension",
-                Integer.class,                      // Value class (mandatory)
-                null,                               // Array of valid values
-                null,                               // Default value
-                0,                                  // Minimal value
-                null,                               // Maximal value
-                null,                               // Unit of measure
-                false);                             // Parameter is optional
+                    Integer.class,                      // Value class (mandatory)
+                    null,                               // Array of valid values
+                    null,                               // Default value
+                    0,                                  // Minimal value
+                    null,                               // Maximal value
+                    null,                               // Unit of measure
+                    false);                             // Parameter is optional
 
     /**
      * Constructs a default {@code "SelectSampleDimension"} operation.
      */
     public SelectSampleDimension() {
         super(new DefaultParameterDescriptorGroup("SelectSampleDimension",
-              new ParameterDescriptor[] {
-                    SOURCE_0,
-                    SAMPLE_DIMENSIONS,
-                    VISIBLE_SAMPLE_DIMENSION
-        }));
+                new ParameterDescriptor[]{
+                        SOURCE_0,
+                        SAMPLE_DIMENSIONS,
+                        VISIBLE_SAMPLE_DIMENSION
+                }));
     }
 
     /**
@@ -140,8 +139,8 @@ public class SelectSampleDimension extends Operation2D {
      * invoked by {@link org.geotools.coverage.processing.DefaultProcessor}
      * for the {@code "SelectSampleDimension"} operation.
      *
-     * @param  parameters List of name value pairs for the parameters.
-     * @param  hints A set of rendering hints, or {@code null} if none.
+     * @param parameters List of name value pairs for the parameters.
+     * @param hints      A set of rendering hints, or {@code null} if none.
      * @return The result as a grid coverage.
      */
     public Coverage doOperation(final ParameterValueGroup parameters, final Hints hints) {

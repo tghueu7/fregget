@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -53,7 +53,6 @@ import org.geotools.xml.Schemas;
  * </p>
  *
  * @author Justin Deoliveira, The Open Planning Project, jdeolive@openplans.org
- *
  */
 public class BindingGenerator extends AbstractGenerator {
     static Logger logger = org.geotools.util.logging.Logging.getLogger("org.geotools.xml");
@@ -65,16 +64,16 @@ public class BindingGenerator extends AbstractGenerator {
     boolean generateTests = false;
     Class complexBindingBaseClass;
     Class simpleBindingBaseClass;
-    
+
     BindingConstructorArgument[] bindingConstructorArguments;
-    
+
     public void setBindingConstructorArguments(
-            BindingConstructorArgument[] bindingConstructorArguments ) {
+            BindingConstructorArgument[] bindingConstructorArguments) {
         this.bindingConstructorArguments = bindingConstructorArguments;
     }
 
-   public void setGenerateXsd(
-        boolean generateXsd) {
+    public void setGenerateXsd(
+            boolean generateXsd) {
         this.generateXsd = generateXsd;
     }
 
@@ -89,7 +88,7 @@ public class BindingGenerator extends AbstractGenerator {
     public void setGenerateTypes(boolean generateTypes) {
         this.generateTypes = generateTypes;
     }
-    
+
     public void setGenerateConfiguration(boolean generateConfiguration) {
         this.generateConfiguration = generateConfiguration;
     }
@@ -97,38 +96,38 @@ public class BindingGenerator extends AbstractGenerator {
     public void setGenerateTests(boolean generateTests) {
         this.generateTests = generateTests;
     }
-    
+
     public void setComplexBindingBaseClass(Class complexBindingBaseClass) {
         this.complexBindingBaseClass = complexBindingBaseClass;
     }
-    
+
     public void setSimpleBindingBaseClass(Class simpleBindingBaseClass) {
         this.simpleBindingBaseClass = simpleBindingBaseClass;
     }
-    
+
     public void generate(XSDSchema schema) {
         List components = new ArrayList();
 
         if (generateElements) {
             List elements = schema.getElementDeclarations();
 
-            for (Iterator e = elements.iterator(); e.hasNext();) {
+            for (Iterator e = elements.iterator(); e.hasNext(); ) {
                 XSDElementDeclaration element = (XSDElementDeclaration) e.next();
                 generate(element, schema);
 
                 if (target(element, schema)) {
-                	components.add(element);
+                    components.add(element);
                 }
             }
         }
 
         if (generateTypes) {
-        	List types = GeneratorUtils.allTypes( schema );
+            List types = GeneratorUtils.allTypes(schema);
 
-            for (Iterator t = types.iterator(); t.hasNext();) {
+            for (Iterator t = types.iterator(); t.hasNext(); ) {
                 XSDTypeDefinition type = (XSDTypeDefinition) t.next();
-                generate( type, schema );
-                
+                generate(type, schema);
+
                 if (target(type, schema)) {
                     components.add(type);
                 }
@@ -138,9 +137,9 @@ public class BindingGenerator extends AbstractGenerator {
         if (generateAttributes) {
             List attributes = schema.getAttributeDeclarations();
 
-            for (Iterator a = attributes.iterator(); a.hasNext();) {
+            for (Iterator a = attributes.iterator(); a.hasNext(); ) {
                 XSDAttributeDeclaration attribute = (XSDAttributeDeclaration) a
-                    .next();
+                        .next();
                 generate(attribute, schema);
 
                 if (target(attribute, schema)) {
@@ -158,85 +157,78 @@ public class BindingGenerator extends AbstractGenerator {
                 logger.log(Level.WARNING, msg, e);
             }
         }
-        
+
         if (generateConfiguration) {
             try {
-                String result = execute("ConfigurationTemplate", new Object[]{schema,components} );
-                        
-                String prefix = Schemas.getTargetPrefix(schema).toUpperCase();
-                write(result, prefix + "Configuration",sourceLocation);
+                String result = execute("ConfigurationTemplate", new Object[]{schema, components});
 
+                String prefix = Schemas.getTargetPrefix(schema).toUpperCase();
+                write(result, prefix + "Configuration", sourceLocation);
+
+            } catch (Exception e) {
+                logger.log(Level.SEVERE, "Error generating resolver", e);
             }
-            catch( Exception e ) {
-                logger.log( Level.SEVERE, "Error generating resolver", e );
-            }
-            
+
             //copy over all included schemas
             ArrayList includes = new ArrayList();
-           
+
             File file = null;
             try {
-                file = findSchemaFile( schema.getSchemaLocation() );
-            } 
-            catch (IOException e) {
-                logger.log(Level.SEVERE, "", e );
+                file = findSchemaFile(schema.getSchemaLocation());
+            } catch (IOException e) {
+                logger.log(Level.SEVERE, "", e);
             }
-            
-            if ( file != null ) {
-                includes.add( file );
+
+            if (file != null) {
+                includes.add(file);
+            } else {
+                logger.log(Level.SEVERE, "Could not find: " + schema.getSchemaLocation() + " to copy.");
             }
-            else {
-                logger.log( Level.SEVERE, "Could not find: " + schema.getSchemaLocation() + " to copy." );          
-            }
-            
-            for (Iterator i = Schemas.getIncludes(schema).iterator(); i.hasNext();) {
+
+            for (Iterator i = Schemas.getIncludes(schema).iterator(); i.hasNext(); ) {
                 XSDInclude include = (XSDInclude) i.next();
-                
+
                 file = null;
                 try {
-                    file = findSchemaFile( include.getSchemaLocation() );
-                } 
-                catch (IOException e) {
-                    logger.log(Level.SEVERE, "", e );
+                    file = findSchemaFile(include.getSchemaLocation());
+                } catch (IOException e) {
+                    logger.log(Level.SEVERE, "", e);
                 }
-                
-                if ( file != null ) {
-                    includes.add( file );
-                }
-                else {
-                    logger.log( Level.SEVERE, "Could not find: " + include.getSchemaLocation() + " to copy." );         
+
+                if (file != null) {
+                    includes.add(file);
+                } else {
+                    logger.log(Level.SEVERE, "Could not find: " + include.getSchemaLocation() + " to copy.");
                 }
             }
 
-            for (Iterator i = includes.iterator(); i.hasNext();) {
+            for (Iterator i = includes.iterator(); i.hasNext(); ) {
                 File include = (File) i.next();
                 try {
-                    copy(include,resourceLocation);
-                } 
-                catch (IOException e) {
-                    logger.log( Level.WARNING, "Could not copy file " + include , e );
+                    copy(include, resourceLocation);
+                } catch (IOException e) {
+                    logger.log(Level.WARNING, "Could not copy file " + include, e);
                 }
             }
         }
-        
-        
+
+
         if (generateTests) {
             try {
-                String result = execute("BindingTestSupportClass", new Object[]{schema} );
-                        
+                String result = execute("BindingTestSupportClass", new Object[]{schema});
+
                 String prefix = Schemas.getTargetPrefix(schema).toUpperCase();
                 write(result, prefix + "TestSupport", testLocation);
 
-            }
-            catch( Exception e ) {
-                logger.log( Level.SEVERE, "Error generating test support class", e );
+            } catch (Exception e) {
+                logger.log(Level.SEVERE, "Error generating test support class", e);
             }
         }
     }
 
-    
+
     boolean target(XSDNamedComponent c, XSDSchema schema) {
-    	return c.getTargetNamespace().equals(schema.getTargetNamespace());
+        return c.getTargetNamespace().equals(schema.getTargetNamespace());
     }
 
     void generate(XSDNamedComponent c, XSDSchema schema) {
@@ -244,51 +236,51 @@ public class BindingGenerator extends AbstractGenerator {
             return;
         }
 
-        if ( !included( c ) ) {
-        	return;
+        if (!included(c)) {
+            return;
         }
-        
+
         Class bindingBaseClass = simpleBindingBaseClass;
-        if ( c instanceof XSDComplexTypeDefinition ) {
+        if (c instanceof XSDComplexTypeDefinition) {
             bindingBaseClass = complexBindingBaseClass;
         }
-        
-        logger.info( "Generating binding for " + c.getName() );
+
+        logger.info("Generating binding for " + c.getName());
         try {
             String result = execute("CLASS",
-                    new Object[] { c, bindingConstructorArguments, bindingBaseClass });
+                    new Object[]{c, bindingConstructorArguments, bindingBaseClass});
             write(result, name(c), sourceLocation);
         } catch (Exception ioe) {
             String msg = "Unable to generate binding for " + c;
             logger.log(Level.WARNING, msg, ioe);
         }
-        
-        if ( generateTests ) {
-            logger.info( "Generating binding test for " + c.getName() );
+
+        if (generateTests) {
+            logger.info("Generating binding test for " + c.getName());
             try {
                 String result = execute("BindingTestClass",
-                        new Object[] { c } );
+                        new Object[]{c});
                 write(result, testName(c), testLocation);
             } catch (Exception ioe) {
                 String msg = "Unable to generate binding test for " + c;
                 logger.log(Level.WARNING, msg, ioe);
-            }   
+            }
         }
     }
 
     String name(XSDNamedComponent c) {
         return c.getName().substring(0, 1).toUpperCase()
-        + c.getName().substring(1) + "Binding";
+                + c.getName().substring(1) + "Binding";
     }
 
     String testName(XSDNamedComponent c) {
         return c.getName().substring(0, 1).toUpperCase()
-        + c.getName().substring(1) + "BindingTest";
+                + c.getName().substring(1) + "BindingTest";
     }
-    
+
     public static void main(String[] args) throws Exception {
         XSDSchema schema = Schemas.parse("/home/jdeolive/devel/geotools/trunk/demo/xml-po/src/main/xsd/po.xsd");
-        System.out.println( schema.getQNamePrefixToNamespaceMap() );
+        System.out.println(schema.getQNamePrefixToNamespaceMap());
 //        ArrayList cargList = new ArrayList();
 //        HashSet includedTypes = new HashSet();
 //        BindingGenerator g = new BindingGenerator();
@@ -364,13 +356,13 @@ public class BindingGenerator extends AbstractGenerator {
         System.out.println("\t\t--schema <path>: Path to schema file");
         System.out.println("\t\t--output <path>: Path to output directory");
         System.out.println("\t\t--package <package>: Package out writen files");
-        System.out.println("\t\t--include-type <type>: Include a single type" );
+        System.out.println("\t\t--include-type <type>: Include a single type");
         System.out.println(
-            "\t\t--carg <class>: Qualified class name of binding constructor argument");
+                "\t\t--carg <class>: Qualified class name of binding constructor argument");
         System.out.println(
-            "\t\t--noelements: Turn off element binding generation");
+                "\t\t--noelements: Turn off element binding generation");
         System.out.println(
-            "\t\t--noattributes: Turn off attribute binding generation");
+                "\t\t--noattributes: Turn off attribute binding generation");
         System.out.println("\t\t--notypes: Turn off type binding generation");
         System.out.println("\t\t--no-binding-interface: Turn off binding interface generation");
         System.out.println("\t\t--no-binding-configuration: Turn off binding configuration generation");

@@ -24,10 +24,6 @@ import org.geotools.jdbc.JDBCTransactionOnlineTest;
  * Transation test for MySQL.
  *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
- *
  * @source $URL$
  */
 public class MySQLTransactionOnlineTest extends JDBCTransactionOnlineTest {

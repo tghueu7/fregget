@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
- *   
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -17,6 +17,7 @@
 package org.geotools.referencing.factory.wms;
 
 // OpenGIS dependencies
+
 import org.opengis.parameter.ParameterValueGroup;
 
 
@@ -25,7 +26,7 @@ import org.opengis.parameter.ParameterValueGroup;
  * In the notation below, "<code>${var}</code>" denotes a reference to the value of a variable
  * "{@code var}". The variables "{@code lat0}" and "{@code lon0}" are the central point of the
  * projection appearing in the CRS parameter of the map request.
- *
+ * <p>
  * <pre>
  * PROJCS["WGS 84 / Auto Gnomonic",
  *   GEOGCS["GCS_WGS_1984",
@@ -39,19 +40,18 @@ import org.opengis.parameter.ParameterValueGroup;
  *   PARAMETER["Latitude_Of_Center",${Latitude_Of_Center}],
  *   PARAMETER["Longitude_Of_Center",${Longitude_Of_Center}],
  *   UNIT["Meter",1.0]]
-* </pre>
- *
+ * </pre>
+ * <p>
  * Where:
- *
+ * <p>
  * <pre>
  * ${Latitude_Of_Center} = ${lat0}
  * ${Longitude_Of_Center}   = ${lon0}
  * </pre>
  *
- * @source $URL$
- * @version $Id$
  * @author Simon Schafer
- *
+ * @version $Id$
+ * @source $URL$
  */
 final class Auto97001 extends Factlet {
     /**
@@ -90,8 +90,8 @@ final class Auto97001 extends Factlet {
      * {@inheritDoc}
      */
     protected void setProjectionParameters(final ParameterValueGroup parameters, final Code code) {
-        final double   latitudeOfCenter = code.latitude;
-        final double   longitudeOfCenter  = code.longitude;
+        final double latitudeOfCenter = code.latitude;
+        final double longitudeOfCenter = code.longitude;
 
         parameters.parameter("Latitude_Of_Center").setValue(latitudeOfCenter);
         parameters.parameter("Longitude_Of_Center").setValue(longitudeOfCenter);

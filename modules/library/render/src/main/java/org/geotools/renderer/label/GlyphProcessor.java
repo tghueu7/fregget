@@ -36,10 +36,11 @@ abstract class GlyphProcessor {
 
     /**
      * Process a glyph
+     *
      * @param glyphVector the GlyphVector containing the glyph to process
-     * @param g index of the glyph in the GlyphVector
-     * @param tx affineTransform to use
-     * @param c character to be processed
+     * @param g           index of the glyph in the GlyphVector
+     * @param tx          affineTransform to use
+     * @param c           character to be processed
      * @return a boolean value which exact meaning depends on the concrete implementation
      */
     public abstract boolean process(GlyphVector glyphVector, int g, AffineTransform tx, char c);
@@ -77,7 +78,7 @@ abstract class GlyphProcessor {
         double minDistance;
 
         public ConflictDetector(LabelPainter painter, Rectangle displayArea,
-                                 LabelIndex paintedBounds, LabelIndex groupLabels) {
+                                LabelIndex paintedBounds, LabelIndex groupLabels) {
             super(painter);
             this.displayArea = displayArea;
             this.paintedBounds = paintedBounds;
@@ -97,7 +98,8 @@ abstract class GlyphProcessor {
             if (Character.isWhitespace(c))
                 return false;
             else if ((displayArea.contains(labelEnvelope) || labelItem.isPartialsEnabled()) &&
-                    !(labelItem.isConflictResolutionEnabled() && paintedBounds.labelsWithinDistance(labelEnvelope, extraSpace)) &&
+                    !(labelItem.isConflictResolutionEnabled() && paintedBounds
+                            .labelsWithinDistance(labelEnvelope, extraSpace)) &&
                     !groupLabels.labelsWithinDistance(labelEnvelope, minDistance))
                 return false;
             else

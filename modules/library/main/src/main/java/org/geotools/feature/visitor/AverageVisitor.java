@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -32,11 +32,8 @@ import org.opengis.filter.expression.Expression;
  * Calculates the Average
  *
  * @author Cory Horner, Refractions
- *
- * @since 2.2.M2
- *
- *
  * @source $URL$
+ * @since 2.2.M2
  */
 public class AverageVisitor implements FeatureCalc, FeatureAttributeVisitor {
     private Expression expr;
@@ -52,12 +49,11 @@ public class AverageVisitor implements FeatureCalc, FeatureAttributeVisitor {
      * Constructor class for the AverageVisitor using AttributeDescriptor ID
      *
      * @param attributeTypeIndex integer representing the AttributeDescriptor
-     * @param type FeatureType
-     *
+     * @param type               FeatureType
      * @throws IllegalFilterException
      */
     public AverageVisitor(int attributeTypeIndex, SimpleFeatureType type)
-        throws IllegalFilterException {
+            throws IllegalFilterException {
         FilterFactory factory = CommonFactoryFinder.getFilterFactory(null);
         AttributeDescriptor attributeType = type.getDescriptor(attributeTypeIndex);
         expr = factory.property(attributeType.getLocalName());
@@ -68,12 +64,11 @@ public class AverageVisitor implements FeatureCalc, FeatureAttributeVisitor {
      * Constructor class for the AverageVisitor using AttributeDescriptor Name
      *
      * @param attrName string respresenting the AttributeDescriptor
-     * @param type FeatureType
-     *
+     * @param type     FeatureType
      * @throws IllegalFilterException
      */
     public AverageVisitor(String attrName, SimpleFeatureType type)
-        throws IllegalFilterException {
+            throws IllegalFilterException {
         FilterFactory factory = CommonFactoryFinder.getFilterFactory(null);
         AttributeDescriptor attributeType = type.getDescriptor(attrName);
         expr = factory.property(attributeType.getLocalName());
@@ -84,7 +79,6 @@ public class AverageVisitor implements FeatureCalc, FeatureAttributeVisitor {
      * Constructor class for the AverageVisitor using an expression
      *
      * @param expr
-     *
      * @throws IllegalFilterException
      */
     public AverageVisitor(Expression expr) throws IllegalFilterException {
@@ -92,7 +86,7 @@ public class AverageVisitor implements FeatureCalc, FeatureAttributeVisitor {
     }
 
     public void init(SimpleFeatureCollection collection) {
-    	//do nothing
+        //do nothing
     }
 
     @Override
@@ -102,13 +96,12 @@ public class AverageVisitor implements FeatureCalc, FeatureAttributeVisitor {
 
     /**
      * Factory method for creating the appropriate strategy object
-     * 
+     * <p>
      * <P></p>
      *
      * @param type the class to use for the calculation
-     *
      * @return a strategy object of the correct data type to be used for
-     *         calculating the average
+     * calculating the average
      */
     private static AverageStrategy createStrategy(Class type) {
         if (type == Integer.class) {
@@ -126,9 +119,9 @@ public class AverageVisitor implements FeatureCalc, FeatureAttributeVisitor {
     public void visit(SimpleFeature feature) {
         visit(feature);
     }
-    
+
     public void visit(org.opengis.feature.Feature feature) {
-    	Object value = expr.evaluate(feature);
+        Object value = expr.evaluate(feature);
 
         if (value != null) {
             if (strategy == null) {
@@ -163,12 +156,11 @@ public class AverageVisitor implements FeatureCalc, FeatureAttributeVisitor {
 
     /**
      * Returns a CalcResult object (containing the Average)
-     *
      */
     public CalcResult getResult() {
-    	if(strategy == null) {
-    		return CalcResult.NULL_RESULT;
-    	}
+        if (strategy == null) {
+            return CalcResult.NULL_RESULT;
+        }
         return new AverageResult(strategy, isOptimized);
     }
 
@@ -370,7 +362,6 @@ public class AverageVisitor implements FeatureCalc, FeatureAttributeVisitor {
 
         /**
          * The sum used to calculate the average
-         *
          */
         public Object getSum() {
             if (isOptimized) {
@@ -385,7 +376,6 @@ public class AverageVisitor implements FeatureCalc, FeatureAttributeVisitor {
          * CalcResult object
          *
          * @param targetResults a second CalcResult object (target)
-         *
          * @return boolean
          */
         public boolean isCompatible(CalcResult targetResults) {
@@ -402,21 +392,19 @@ public class AverageVisitor implements FeatureCalc, FeatureAttributeVisitor {
          * result (a new object) is returned.
          *
          * @param resultsToAdd the CalcResult to merge the results with
-         *
          * @return a new merged CalcResult object
-         *
          * @throws IllegalArgumentException when the resultsToAdd are
-         *         inappropriate
+         *                                  inappropriate
          */
         public CalcResult merge(CalcResult resultsToAdd) {
             if (!isCompatible(resultsToAdd)) {
                 throw new IllegalArgumentException(
-                    "Parameter is not a compatible type");
+                        "Parameter is not a compatible type");
             }
-            
-            if(resultsToAdd == CalcResult.NULL_RESULT) {
-        		return this;
-        	}
+
+            if (resultsToAdd == CalcResult.NULL_RESULT) {
+                return this;
+            }
 
             if (resultsToAdd instanceof AverageResult) {
                 AverageResult moreResults = (AverageResult) resultsToAdd;
@@ -424,17 +412,17 @@ public class AverageVisitor implements FeatureCalc, FeatureAttributeVisitor {
                 //ensure both results are NOT optimized
                 if (isOptimized || moreResults.isOptimized) {
                     throw new IllegalArgumentException(
-                        "Optimized average results cannot be merged.");
+                            "Optimized average results cannot be merged.");
                 }
 
-                Number[] sums = new Number[] {
+                Number[] sums = new Number[]{
                         (Number) averageStrategy.getSum(),
                         (Number) moreResults.averageStrategy.getSum()
-                    };
+                };
                 Number newSum = CalcUtil.sum(sums);
                 Number newCount = (Number) new Integer(averageStrategy.getCount()
                         + moreResults.averageStrategy.getCount());
-                Number[] params = new Number[] { newSum, newCount };
+                Number[] params = new Number[]{newSum, newCount};
                 Object newAverage = CalcUtil.getObject(params);
                 AverageStrategy newAverageObj;
                 newAverageObj = createStrategy(newAverage.getClass());
@@ -443,7 +431,8 @@ public class AverageVisitor implements FeatureCalc, FeatureAttributeVisitor {
                 return new AverageResult(newAverageObj);
             } else {
                 throw new IllegalArgumentException(
-                    "The CalcResults claim to be compatible, but the appropriate merge method has not been implemented.");
+                        "The CalcResults claim to be compatible, but the appropriate merge method" +
+                                " has not been implemented.");
             }
         }
     }

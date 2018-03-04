@@ -30,102 +30,100 @@ import java.util.List;
  * represented by LineString geometries. This implementation is a wrapper around
  * a LineGraphGenerator which sets underlying edge objects to be LineString
  * objects, and underlying Node objects to be Point objects. While generating
- * the graph, the generator uses the visited flag of created components to 
- * determine when to create underlying objects. For this reason it is not recommended 
- * to modify the visited flag of any graph components. 
- * 
- * @see com.vividsolutions.jts.geom.LineString
- * @see com.vividsolutions.jts.geom.Point
- * 
+ * the graph, the generator uses the visited flag of created components to
+ * determine when to create underlying objects. For this reason it is not recommended
+ * to modify the visited flag of any graph components.
+ *
  * @author Justin Deoliveira, Refractions Research Inc, jdeolive@refractions.net
  * @author Anders Bakkevold, Bouvet AS, bakkedev@gmail.com
- *
  * @source $URL$
+ * @see com.vividsolutions.jts.geom.LineString
+ * @see com.vividsolutions.jts.geom.Point
  */
 public class LineStringGraphGenerator extends BasicLineGraphGenerator {
 
-  private static GeometryFactory gf = new GeometryFactory();
+    private static GeometryFactory gf = new GeometryFactory();
 
-  public LineStringGraphGenerator(double tolerance) {
-      super(tolerance);
-  }
-
-  public LineStringGraphGenerator() {
-  }
-
-  public Graphable add(Object obj) {
-    LineString ls = null;
-    if (obj instanceof MultiLineString) {
-        ls = (LineString) ((MultiLineString) obj).getGeometryN(0);
+    public LineStringGraphGenerator(double tolerance) {
+        super(tolerance);
     }
-    else {
-        ls = (LineString) obj;
+
+    public LineStringGraphGenerator() {
     }
-    
-    //parent class expects a line segment
-    Edge e = (Edge)super.add(
-      new LineSegment(
-        ls.getCoordinateN(0), ls.getCoordinateN(ls.getNumPoints()-1)
-      )
-    );
-    //check if the LineSegment has been changed
-    if (useTolerance()) {
-      LineSegment lineSegment = (LineSegment) e.getObject();
-      Coordinate[] coordinates = ls.getCoordinates();
-      List<Coordinate> coordinateList = Arrays.asList(coordinates);
-      // list from asList does not support add(index,object), must make an arraylist
-      List<Coordinate> nCoordinateList = new ArrayList<Coordinate>(coordinateList);
-      if (!ls.getCoordinateN(0).equals(lineSegment.p0)) {
-        nCoordinateList.add(0, lineSegment.p0);
-      } else if (!ls.getCoordinateN(ls.getNumPoints()-1).equals(lineSegment.p1)){
-        nCoordinateList.add(lineSegment.p1);
-      }
-      Coordinate[] newCoordinates = nCoordinateList.toArray(new Coordinate[nCoordinateList.size()]);
-      ls = gf.createLineString(newCoordinates);
+
+    public Graphable add(Object obj) {
+        LineString ls = null;
+        if (obj instanceof MultiLineString) {
+            ls = (LineString) ((MultiLineString) obj).getGeometryN(0);
+        } else {
+            ls = (LineString) obj;
+        }
+
+        //parent class expects a line segment
+        Edge e = (Edge) super.add(
+                new LineSegment(
+                        ls.getCoordinateN(0), ls.getCoordinateN(ls.getNumPoints() - 1)
+                )
+        );
+        //check if the LineSegment has been changed
+        if (useTolerance()) {
+            LineSegment lineSegment = (LineSegment) e.getObject();
+            Coordinate[] coordinates = ls.getCoordinates();
+            List<Coordinate> coordinateList = Arrays.asList(coordinates);
+            // list from asList does not support add(index,object), must make an arraylist
+            List<Coordinate> nCoordinateList = new ArrayList<Coordinate>(coordinateList);
+            if (!ls.getCoordinateN(0).equals(lineSegment.p0)) {
+                nCoordinateList.add(0, lineSegment.p0);
+            } else if (!ls.getCoordinateN(ls.getNumPoints() - 1).equals(lineSegment.p1)) {
+                nCoordinateList.add(lineSegment.p1);
+            }
+            Coordinate[] newCoordinates = nCoordinateList.toArray(new Coordinate[nCoordinateList
+                    .size()]);
+            ls = gf.createLineString(newCoordinates);
+        }
+        //over write object to be the linestring
+        e.setObject(ls);
+        return (e);
     }
-    //over write object to be the linestring
-    e.setObject(ls);
-    return(e);
-  }
 
-  protected LineSegment alterLine(LineSegment line, Node n1, Node n2) {
-    Point c1added = ((Point) n1.getObject());
-    Point c2added = ((Point) n2.getObject());
-    if (!c1added.getCoordinate().equals(line.p0) || c2added.getCoordinate().equals(line.p1)) {
-      line = new LineSegment(c1added.getCoordinate(), c2added.getCoordinate());
+    protected LineSegment alterLine(LineSegment line, Node n1, Node n2) {
+        Point c1added = ((Point) n1.getObject());
+        Point c2added = ((Point) n2.getObject());
+        if (!c1added.getCoordinate().equals(line.p0) || c2added.getCoordinate().equals(line.p1)) {
+            line = new LineSegment(c1added.getCoordinate(), c2added.getCoordinate());
+        }
+        return line;
     }
-    return line;
-  }
 
-  public Graphable remove(Object obj) {
-    LineString ls = (LineString)obj;
-    
-    //parent ecpexts a line segment
-    return(
-      super.remove(
-        new LineSegment(
-          ls.getCoordinateN(0), ls.getCoordinateN(ls.getNumPoints()-1)
-        )  
-      )
-    );
-  }
+    public Graphable remove(Object obj) {
+        LineString ls = (LineString) obj;
 
-  public Graphable get(Object obj) {
-    LineString ls = (LineString)obj;
-      
-    //parent ecpexts a line segment
-    return(
-      super.get(
-        new LineSegment(
-          ls.getCoordinateN(0), ls.getCoordinateN(ls.getNumPoints()-1)
-        )  
-      )
-    );
-  }
+        //parent ecpexts a line segment
+        return (
+                super.remove(
+                        new LineSegment(
+                                ls.getCoordinateN(0), ls.getCoordinateN(ls.getNumPoints() - 1)
+                        )
+                )
+        );
+    }
 
-  protected void setObject(Node n, Object obj) {
-    //set underlying object to be point instead of coordinate
-    Coordinate c = (Coordinate)obj;
-    n.setObject(gf.createPoint(c));
-  }
+    public Graphable get(Object obj) {
+        LineString ls = (LineString) obj;
+
+        //parent ecpexts a line segment
+        return (
+                super.get(
+                        new LineSegment(
+                                ls.getCoordinateN(0), ls.getCoordinateN(ls.getNumPoints() - 1)
+                        )
+                )
+        );
+    }
+
+    protected void setObject(Node n, Object obj) {
+        //set underlying object to be point instead of coordinate
+        Coordinate c = (Coordinate) obj;
+        n.setObject(gf.createPoint(c));
+    }
 }

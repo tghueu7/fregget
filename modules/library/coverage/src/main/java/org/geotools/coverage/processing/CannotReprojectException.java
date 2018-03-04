@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2001-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -21,12 +21,9 @@ package org.geotools.coverage.processing;
  * Throws when a "resample" operation has been requested
  * but the specified grid coverage can't be reprojected.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux
  * @version $Id$
- * @author  Martin Desruisseaux
- *
+ * @source $URL$
  * @since 2.1
  */
 public class CannotReprojectException extends CoverageProcessingException {
@@ -54,7 +51,7 @@ public class CannotReprojectException extends CoverageProcessingException {
      * Constructs a new exception with the specified detail message and cause.
      *
      * @param message the detail message.
-     * @param cause The cause of this exception.
+     * @param cause   The cause of this exception.
      */
     public CannotReprojectException(final String message, final Throwable cause) {
         super(message, cause);

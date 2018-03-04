@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -24,10 +24,10 @@ import java.awt.RenderingHints;
  * Hints which should not be merged with global hints, usually because the global hints have
  * already been merged.
  *
- * @since 2.4
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @since 2.4
  */
 class StrictHints extends Hints {
     /**
@@ -36,7 +36,7 @@ class StrictHints extends Hints {
     public StrictHints(final Hints hints) {
         super(hints);
     }
-    
+
     /**
      * Creates a set of strict hints which is a copy of the specified hints.
      */
@@ -75,7 +75,7 @@ class StrictHints extends Hints {
          * Unsupported operation.
          */
         @Override
-        public void putAll(Map<?,?> map) {
+        public void putAll(Map<?, ?> map) {
             throw new UnsupportedOperationException();
         }
 

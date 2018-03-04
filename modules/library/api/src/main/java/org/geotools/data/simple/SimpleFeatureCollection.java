@@ -13,8 +13,8 @@ import org.opengis.filter.sort.SortBy;
  * Please keep in mind that a SimpleFeatureCollection is similar to a result set; and may not
  * necessarily load everything in to memory. Treat each iterator as a forward only cursor
  * in the JDBC sense; and take care to FeatureIterator.close() after use.
- * 
-* <h3>SimpleFeatureIterator close</h3>
+ * <p>
+ * <h3>SimpleFeatureIterator close</h3>
  * <p>
  * SimpleFeatureCollection provides streaming access with
  * the following restrictions on use of {@link SimpleFeatureIterator}:
@@ -45,10 +45,11 @@ import org.opengis.filter.sort.SortBy;
  * }
  * </code></pre>
  * <p>
- * 
+ *
  * @source $URL$
  */
-public interface SimpleFeatureCollection extends FeatureCollection<SimpleFeatureType,SimpleFeature>{
+public interface SimpleFeatureCollection extends FeatureCollection<SimpleFeatureType, 
+        SimpleFeature> {
     /**
      * Obtain a SimpleFeatureIterator of the Features within this SimpleFeatureCollection.
      * <p>
@@ -72,9 +73,9 @@ public interface SimpleFeatureCollection extends FeatureCollection<SimpleFeature
      * </p>
      */
     public SimpleFeatureIterator features();
-    
+
     public SimpleFeatureCollection subCollection(Filter filter);
-    
+
     public SimpleFeatureCollection sort(SortBy order);
-   
+
 }

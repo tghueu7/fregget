@@ -24,13 +24,15 @@ import org.geotools.mbstyle.MBStyle;
  * @author Torben Barsballe (Boundless)
  */
 public class MBFormatException extends RuntimeException {
-    /** serialVersionUID */
+    /**
+     * serialVersionUID
+     */
     private static final long serialVersionUID = 8328125000220917830L;
 
     public MBFormatException(String message) {
         super(message);
     }
-    
+
     public MBFormatException(String message, Throwable throwable) {
         super(message, throwable);
     }

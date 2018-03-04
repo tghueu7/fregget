@@ -24,8 +24,6 @@ import org.geotools.styling.PointSymbolizer;
 import org.opengis.filter.expression.Expression;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class PointSymbolizerBuilder extends SymbolizerBuilder<PointSymbolizer> {

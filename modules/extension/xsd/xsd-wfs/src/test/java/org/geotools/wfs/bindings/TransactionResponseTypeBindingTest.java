@@ -39,13 +39,11 @@ import org.w3c.dom.NodeList;
 
 /**
  * Unit test suite for {@link TransactionResponseTypeBinding}
- * 
+ *
  * @author Gabriel Roldan (TOPP)
  * @version $Id$
- * @since 2.5.x
- *
- *
  * @source $URL$
+ * @since 2.5.x
  */
 public class TransactionResponseTypeBindingTest extends WFSTestSupport {
 

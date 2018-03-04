@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2007-2008, Open Source Geospatial Foundation (OSGeo)
- *   
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -26,13 +26,14 @@ import java.util.Map;
 /**
  * Caching implementation for ReferencingObjectCache. This instance is used when
  * actual caching is desired. This is a temporary class.
- * 
- * @since 2.4
- * @version $Id: DefaultReferencingObjectCache.java 25972 2007-06-21 13:38:35Z
- *          desruisseaux $
- * @source $URL:
- *         http://svn.geotools.org/geotools/trunk/gt/modules/library/referencing/src/main/java/org/geotools/referencing/factory/DefaultReferencingObjectCache.java $
+ *
  * @author Cory Horner (Refractions Research)
+ * @version $Id: DefaultReferencingObjectCache.java 25972 2007-06-21 13:38:35Z
+ * desruisseaux $
+ * @source $URL:
+ * http://svn.geotools.org/geotools/trunk/gt/modules/library/referencing/src/main/java/org
+ * /geotools/referencing/factory/DefaultReferencingObjectCache.java $
+ * @since 2.4
  */
 final class OldReferencingObjectCache {
     /**
@@ -40,7 +41,8 @@ final class OldReferencingObjectCache {
      * <p>
      * The following may be seen for a key (String key?):
      * <ul>
-     * <li>Object (ie a strong reference) usually a referencing object like CoordinateReferenceSystem or Datum</li>
+     * <li>Object (ie a strong reference) usually a referencing object like 
+     * CoordinateReferenceSystem or Datum</li>
      * <li>WeakReference used to hold a referencing object (may be cleaned up at any time</li>
      * </ul>
      */
@@ -75,7 +77,6 @@ final class OldReferencingObjectCache {
      * {@linkplain Reference weak reference}, the {@link Reference#get referent} is returned.
      *
      * @param key The authority code.
-     *
      * @todo Consider logging a message here to the finer or finest level.
      */
     public Object get(final Object key) {
@@ -94,7 +95,7 @@ final class OldReferencingObjectCache {
      * and 2) Alters the linked hash set order, so that this object is declared as the last
      * one used.
      *
-     * @param key the authority code.
+     * @param key    the authority code.
      * @param object The referencing object to add in the pool.
      */
     public void put(final Object key, final Object object) {
@@ -102,7 +103,7 @@ final class OldReferencingObjectCache {
         pool.put(key, object);
         int toReplace = pool.size() - maxStrongReferences;
         if (toReplace > 0) {
-            for (final Iterator it=pool.entrySet().iterator(); it.hasNext();) {
+            for (final Iterator it = pool.entrySet().iterator(); it.hasNext(); ) {
                 final Map.Entry entry = (Map.Entry) it.next();
                 final Object value = entry.getValue();
                 if (value instanceof Reference) {
@@ -129,7 +130,7 @@ final class OldReferencingObjectCache {
         return false;
     }
 
-    public Object test( Object key ) {
+    public Object test(Object key) {
         return null;
     }
 }

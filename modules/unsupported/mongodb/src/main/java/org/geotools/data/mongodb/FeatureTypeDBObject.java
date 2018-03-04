@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2015, Boundless
  *
@@ -21,9 +21,11 @@ import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.vividsolutions.jts.geom.Geometry;
+
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.geotools.feature.AttributeTypeBuilder;
 import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
 import org.geotools.referencing.CRS;
@@ -36,7 +38,6 @@ import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
- *
  * @author tkunicki@boundlessgeo.com
  */
 public class FeatureTypeDBObject {
@@ -156,7 +157,7 @@ public class FeatureTypeDBObject {
                 }
                 BasicDBObject adUserDataDBO = extractDBObject(adDBO, KEY_userData, false);
                 if (adUserDataDBO != null) {
-                    for (Map.Entry<?,?> entry : ((Map<?, ?>) adUserDataDBO.toMap()).entrySet()) {
+                    for (Map.Entry<?, ?> entry : ((Map<?, ?>) adUserDataDBO.toMap()).entrySet()) {
                         atBuilder.userData(entry.getKey(), entry.getValue());
                     }
                 }
@@ -186,8 +187,8 @@ public class FeatureTypeDBObject {
 
         BasicDBObject ftUserDataDBO = extractDBObject(ftDBO, KEY_userData, false);
         if (ftUserDataDBO != null) {
-            Map<Object,Object> ftUserData = ft.getUserData();
-            for (Map.Entry<?,?> entry : ((Map<?, ?>) ftUserDataDBO.toMap()).entrySet()) {
+            Map<Object, Object> ftUserData = ft.getUserData();
+            for (Map.Entry<?, ?> entry : ((Map<?, ?>) ftUserDataDBO.toMap()).entrySet()) {
                 ftUserData.put(entry.getKey(), entry.getValue());
             }
         }
@@ -197,7 +198,7 @@ public class FeatureTypeDBObject {
     private static Map<String, String> typeCheck(Map<?, ?> map) {
         Map<String, String> typeChecked = new LinkedHashMap<String, String>();
         if (map != null && !map.isEmpty()) {
-            for (Map.Entry<?,?> entry : map.entrySet()) {
+            for (Map.Entry<?, ?> entry : map.entrySet()) {
                 Object key = entry.getKey();
                 Object value = entry.getValue();
                 if (key instanceof String && value instanceof String) {
@@ -209,7 +210,7 @@ public class FeatureTypeDBObject {
     }
 
     private static <T> T extractAndVerifyType(Class<T> type, DBObject dbo, String key,
-            boolean required) {
+                                              boolean required) {
         Object o = dbo.get(key);
         if (type.isInstance(o)) {
             return type.cast(o);
@@ -299,7 +300,8 @@ public class FeatureTypeDBObject {
             return null;
         }
         DBObject crsDBO = new BasicDBObject(KEY_type, VALUE_name);
-        crsDBO.put(KEY_properties, new BasicDBObject(KEY_name, PREFIX_URN_OGC + "EPSG:" + epsgCode));
+        crsDBO.put(KEY_properties, new BasicDBObject(KEY_name, PREFIX_URN_OGC + "EPSG:" + 
+                epsgCode));
         return crsDBO;
     }
 }

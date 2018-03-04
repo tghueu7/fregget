@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2001-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -25,12 +25,10 @@ import java.io.Serializable;
  * is only temporary; it will disappear if <em>JavaSoft</em> implements
  * {@code Dimension2D.Float} and {@code Dimension2D.Double}.
  *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.0
  */
 public final class XDimension2D {
     /**
@@ -44,8 +42,8 @@ public final class XDimension2D {
      * temporary;  it will disappear if <em>JavaSoft</em> implements
      * {@code Dimension2D.Float} and {@code Dimension2D.Double}.
      *
-     * @version $Id$
      * @author Martin Desruisseaux (IRD)
+     * @version $Id$
      */
     public static final class Float extends Dimension2D implements Serializable {
         /**
@@ -76,7 +74,7 @@ public final class XDimension2D {
          * @param h The height.
          */
         public Float(final float w, final float h) {
-            width  = w;
+            width = w;
             height = h;
         }
 
@@ -87,7 +85,7 @@ public final class XDimension2D {
          * @param h The height.
          */
         public void setSize(final double w, final double h) {
-            width  = (float) w;
+            width = (float) w;
             height = (float) h;
         }
 
@@ -119,8 +117,8 @@ public final class XDimension2D {
      * temporary; it will disappear if <em>JavaSoft</em> implements
      * {@code Dimension2D.Float} and {@code Dimension2D.Double}.
      *
-     * @version $Id$
      * @author Martin Desruisseaux (IRD)
+     * @version $Id$
      */
     public static final class Double extends Dimension2D implements Serializable {
         /**
@@ -151,7 +149,7 @@ public final class XDimension2D {
          * @param h The height.
          */
         public Double(final double w, final double h) {
-            width  = w;
+            width = w;
             height = h;
         }
 
@@ -162,7 +160,7 @@ public final class XDimension2D {
          * @param h The height.
          */
         public void setSize(final double w, final double h) {
-            width  = w;
+            width = w;
             height = h;
         }
 

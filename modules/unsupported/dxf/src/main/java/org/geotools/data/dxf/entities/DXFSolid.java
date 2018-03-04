@@ -1,6 +1,7 @@
 package org.geotools.data.dxf.entities;
 
 import org.geotools.data.dxf.parser.DXFLineNumberReader;
+
 import java.io.EOFException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,8 +23,6 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LinearRing;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DXFSolid extends DXFEntity {
@@ -35,11 +34,16 @@ public class DXFSolid extends DXFEntity {
     public DXFPoint _p4 = null;
 
     public DXFSolid(DXFSolid newSolid) {
-        this(new DXFPoint(newSolid._p1._point.x, newSolid._p1._point.y, newSolid.getColor(), null, 0, newSolid.getThickness()),
-                new DXFPoint(newSolid._p2._point.x, newSolid._p2._point.y, newSolid.getColor(), null, 0, newSolid.getThickness()),
-                new DXFPoint(newSolid._p3._point.x, newSolid._p3._point.y, newSolid.getColor(), null, 0, newSolid.getThickness()),
-                new DXFPoint(newSolid._p4._point.x, newSolid._p4._point.y, newSolid.getColor(), null, 0, newSolid.getThickness()),
-                newSolid.getThickness(), newSolid.getColor(), newSolid.getRefLayer(), 0, newSolid.getLineType());
+        this(new DXFPoint(newSolid._p1._point.x, newSolid._p1._point.y, newSolid.getColor(), 
+                        null, 0, newSolid.getThickness()),
+                new DXFPoint(newSolid._p2._point.x, newSolid._p2._point.y, newSolid.getColor(), 
+                        null, 0, newSolid.getThickness()),
+                new DXFPoint(newSolid._p3._point.x, newSolid._p3._point.y, newSolid.getColor(), 
+                        null, 0, newSolid.getThickness()),
+                new DXFPoint(newSolid._p4._point.x, newSolid._p4._point.y, newSolid.getColor(), 
+                        null, 0, newSolid.getThickness()),
+                newSolid.getThickness(), newSolid.getColor(), newSolid.getRefLayer(), 0, newSolid
+                        .getLineType());
 
         setType(newSolid.getType());
         setStartingLineNumber(newSolid.getStartingLineNumber());
@@ -47,7 +51,7 @@ public class DXFSolid extends DXFEntity {
     }
 
     public DXFSolid(DXFPoint p1, DXFPoint p2, DXFPoint p3, DXFPoint p4,
-            double thickness, int c, DXFLayer l, int visibility, DXFLineType lineType) {
+                    double thickness, int c, DXFLayer l, int visibility, DXFLineType lineType) {
         super(c, l, visibility, lineType, thickness);
 
         _p1 = p1;
@@ -61,21 +65,23 @@ public class DXFSolid extends DXFEntity {
         }
         setName("DXFSolid");
     }
+
     public DXFSolid(DXFPoint p1, DXFPoint p2, DXFPoint p3, DXFPoint p4,
-    		double thickness, int c, DXFLayer l, int visibility, DXFLineType lineType, DXFExtendedData extData) {
-    	super(c, l, visibility, lineType, thickness);
-    	
-    	_p1 = p1;
-    	_p2 = p2;
-    	_p3 = p3;
-    	
-    	if (p4 == null) {
-    		_p4 = p3;
-    	} else {
-    		_p4 = p4;
-    	}
-    	_extendedData = extData;
-    	setName("DXFSolid");
+                    double thickness, int c, DXFLayer l, int visibility, DXFLineType lineType, 
+                    DXFExtendedData extData) {
+        super(c, l, visibility, lineType, thickness);
+
+        _p1 = p1;
+        _p2 = p2;
+        _p3 = p3;
+
+        if (p4 == null) {
+            _p4 = p3;
+        } else {
+            _p4 = p4;
+        }
+        _extendedData = extData;
+        setName("DXFSolid");
     }
 
     public static DXFEntity read(DXFLineNumberReader br, DXFUnivers univers) throws IOException {
@@ -151,9 +157,9 @@ public class DXFSolid extends DXFEntity {
                     visibility = cvp.getShortValue();
                     break;
                 case XDATA_APPLICATION_NAME:
-                	String appName = cvp.getStringValue();
-            		_extData = DXFExtendedData.getExtendedData(br);
-            		_extData.setAppName(appName);
+                    String appName = cvp.getStringValue();
+                    _extData = DXFExtendedData.getExtendedData(br);
+                    _extData.setAppName(appName);
                     break;
                 default:
                     break;
@@ -173,7 +179,8 @@ public class DXFSolid extends DXFEntity {
         e.setType(GeometryType.POLYGON);
         e.setStartingLineNumber(sln);
         e.setUnivers(univers);
-        log.debug(e.toString(p1_x, p2_x, p3_x, p4_x, p1_y, p2_y, p3_y, p4_y, thickness, c, visibility));
+        log.debug(e.toString(p1_x, p2_x, p3_x, p4_x, p1_y, p2_y, p3_y, p4_y, thickness, c, 
+                visibility));
         log.debug(">>Exit at line: " + br.getLineNumber());
         return e;
     }
@@ -213,16 +220,16 @@ public class DXFSolid extends DXFEntity {
     }
 
     public String toString(double p1_x,
-            double p2_x,
-            double p3_x,
-            double p4_x,
-            double p1_y,
-            double p2_y,
-            double p3_y,
-            double p4_y,
-            double thickness,
-            int c,
-            int visibility) {
+                           double p2_x,
+                           double p3_x,
+                           double p4_x,
+                           double p1_y,
+                           double p2_y,
+                           double p3_y,
+                           double p4_y,
+                           double thickness,
+                           int c,
+                           int visibility) {
         StringBuffer s = new StringBuffer();
         s.append("DXFSolid [");
         s.append("p1_x: ");

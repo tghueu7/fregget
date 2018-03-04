@@ -51,7 +51,6 @@ import org.geotools.swt.utils.StatusBarNotifier;
  *
  * @author Michael Bedward
  * @author Andrea Antonello (www.hydrologis.com)
- *
  * @source $URL$
  */
 public class SwtMapFrame extends ApplicationWindow {
@@ -119,7 +118,7 @@ public class SwtMapFrame extends ApplicationWindow {
      *
      * @param content the map context containing the layers to display
      */
-    public static void showMap( MapContent content ) {
+    public static void showMap(MapContent content) {
         final SwtMapFrame frame = new SwtMapFrame(true, true, true, true, content);
         // frame.getShell().setSize(500, 500);
         frame.setBlockOnOpen(true);
@@ -130,32 +129,36 @@ public class SwtMapFrame extends ApplicationWindow {
      * Default constructor. Creates a {@code JMapFrame} with
      * no context or renderer set
      */
-    public SwtMapFrame( boolean showMenu, boolean showToolBar, boolean showStatusBar, boolean showLayerTable ) {
+    public SwtMapFrame(boolean showMenu, boolean showToolBar, boolean showStatusBar, boolean 
+            showLayerTable) {
         this(showMenu, showToolBar, showStatusBar, showLayerTable, null);
     }
 
     /**
      * Constructs a new {@code JMapFrame} object with specified context
      * and a default renderer (an instance of {@link StreamingRenderer}).
-     * 
-     * @param showLayerTable 
-     * @param showStatusBar 
-     * @param content the map context with layers to be displayed
+     *
+     * @param showLayerTable
+     * @param showStatusBar
+     * @param content        the map context with layers to be displayed
      */
-    public SwtMapFrame( boolean showMenu, boolean showToolBar, boolean showStatusBar, boolean showLayerTable, MapContent content ) {
-        this(showMenu, showToolBar, showStatusBar, showLayerTable, content, new StreamingRenderer());
+    public SwtMapFrame(boolean showMenu, boolean showToolBar, boolean showStatusBar, boolean 
+            showLayerTable, MapContent content) {
+        this(showMenu, showToolBar, showStatusBar, showLayerTable, content, new StreamingRenderer
+                ());
     }
 
     /**
      * Constructs a new {@code JMapFrame} object with specified context and renderer
-     * @param showLayerTable 
-     * @param showStatusBar 
      *
-     * @param context the map context with layers to be displayed
-     * @param renderer the renderer to be used
+     * @param showLayerTable
+     * @param showStatusBar
+     * @param context        the map context with layers to be displayed
+     * @param renderer       the renderer to be used
      */
-    public SwtMapFrame( boolean showMenu, boolean showToolBar, boolean showStatusBar, boolean showLayerTable, MapContent content,
-            GTRenderer renderer ) {
+    public SwtMapFrame(boolean showMenu, boolean showToolBar, boolean showStatusBar, boolean 
+            showLayerTable, MapContent content,
+                       GTRenderer renderer) {
         super(null);
         this.showLayerTable = showLayerTable;
         this.content = content;
@@ -194,13 +197,13 @@ public class SwtMapFrame extends ApplicationWindow {
      *
      * @param tool one or more {@linkplain SwtMapFrame.Tool} constants
      */
-    public void enableTool( Tool... tool ) {
-        for( Tool t : tool ) {
+    public void enableTool(Tool... tool) {
+        for (Tool t : tool) {
             toolSet.add(t);
         }
     }
 
-    protected Control createContents( Composite parent ) {
+    protected Control createContents(Composite parent) {
         String title = content.getTitle();
         content.layers();
         if (title != null) {
@@ -237,8 +240,8 @@ public class SwtMapFrame extends ApplicationWindow {
 
         StatusLineManager statusLineManager = getStatusLineManager();
         if (statusLineManager != null) {
-            IContributionItem filler = new ControlContribution("org.geotools.swt.SwtMapFrame.ID"){
-                protected Control createControl( Composite parent ) {
+            IContributionItem filler = new ControlContribution("org.geotools.swt.SwtMapFrame.ID") {
+                protected Control createControl(Composite parent) {
                     Label almostParent = new Label(parent, SWT.NONE);
                     StatusLineLayoutData statusLineLayoutData = new StatusLineLayoutData();
                     statusLineLayoutData.widthHint = 1;
@@ -257,7 +260,7 @@ public class SwtMapFrame extends ApplicationWindow {
         return mainComposite;
     }
 
-    protected ToolBarManager createToolBarManager( int style ) {
+    protected ToolBarManager createToolBarManager(int style) {
         ToolBarManager tool_bar_manager = new ToolBarManager(style);
         // tool_bar_manager.add(drawAction);
         tool_bar_manager.add(infoAction);
@@ -305,7 +308,7 @@ public class SwtMapFrame extends ApplicationWindow {
      * @param content a MapContent instance
      * @throws IllegalArgumentException if context is null
      */
-    public void setMapContent( MapContent content ) {
+    public void setMapContent(MapContent content) {
         if (content == null) {
             throw new IllegalArgumentException("content must not be null");
         }
@@ -330,7 +333,7 @@ public class SwtMapFrame extends ApplicationWindow {
      * @param renderer a GTRenderer instance
      * @throws IllegalArgumentException if renderer is null
      */
-    public void setRenderer( GTRenderer renderer ) {
+    public void setRenderer(GTRenderer renderer) {
         if (renderer == null) {
             throw new IllegalArgumentException("renderer must not be null");
         }

@@ -65,7 +65,6 @@ import com.vividsolutions.jts.geom.Point;
  * Informal test used to document expected functionality for workshop.
  * <p>
  * This test has a setup method used to copy locations.csv to a temporary file.
- * 
  */
 public class GeoJSONWriteTest {
     File tmp;
@@ -170,7 +169,7 @@ public class GeoJSONWriteTest {
         GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory();
         Point point = geometryFactory.createPoint(new Coordinate(-122.681944, 45.52));
         SimpleFeature feature = SimpleFeatureBuilder.build(type,
-                new Object[] { 45.52, -122.681944, "Portland", 800, 2014, point }, "feature-10");
+                new Object[]{45.52, -122.681944, "Portland", 800, 2014, point}, "feature-10");
         System.out.println(feature);
         SimpleFeatureCollection collection = DataUtilities.collection(feature);
 
@@ -195,18 +194,21 @@ public class GeoJSONWriteTest {
         assertEquals("featureStore1 after commiting removal of fid1 (featureStore2 has added fid5)",
                 8, featureStore1.getFeatures().size());
         assertEquals(
-                "featureStore2 after featureStore1 commits removal of fid1 (featureStore2 has added fid5)",
+                "featureStore2 after featureStore1 commits removal of fid1 (featureStore2 has " +
+                        "added fid5)",
                 9, featureStore2.getFeatures().size());
 
         // commit transaction two
         t2.commit();
 
         // Tests after 2nd commit
-        
-        assertEquals("auto after featureStore2 commits addition of fid5 (fid1 previously removed)", 9, auto.getFeatures().size());
-         
+
+        assertEquals("auto after featureStore2 commits addition of fid5 (fid1 previously removed)" +
+                "", 9, auto.getFeatures().size());
+
         assertEquals(
-                "featureStore1 after featureStore2 commits addition of fid5 (fid1 previously removed)",
+                "featureStore1 after featureStore2 commits addition of fid5 (fid1 previously " +
+                        "removed)",
                 9, featureStore1.getFeatures().size());
         assertEquals("featureStore2 after commiting addition of fid5 (fid1 previously removed)", 9,
                 featureStore2.getFeatures().size());
@@ -269,7 +271,7 @@ public class GeoJSONWriteTest {
         Point portland = gf.createPoint(new Coordinate(45.52, -122.681944));
 
         f = SimpleFeatureBuilder.build(type,
-                new Object[] { 45.52, -122.681944, "Portland", 800, 2014, portland },
+                new Object[]{45.52, -122.681944, "Portland", 800, 2014, portland},
                 "locations.1");
         collection.add(f);
 
@@ -297,7 +299,10 @@ public class GeoJSONWriteTest {
         assertEquals("featureStore should only have the one feature we created", 1,
                 featureStore.getFeatures().size());
         final String newline = System.lineSeparator();
-        String contents = "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[45.52,-122.6819]},\"properties\":{\"LAT\":45.52,\"LON\":-122.681944,\"CITY\":\"Portland\",\"NUMBER\":800,\"YEAR\":2014},\"id\":\"locations.0\"}]}";
+        String contents = "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\"," +
+                "\"geometry\":{\"type\":\"Point\",\"coordinates\":[45.52,-122.6819]}," +
+                "\"properties\":{\"LAT\":45.52,\"LON\":-122.681944,\"CITY\":\"Portland\"," +
+                "\"NUMBER\":800,\"YEAR\":2014},\"id\":\"locations.0\"}]}";
         assertEquals("Ensure the file has only the one feature we created", contents.trim(),
                 checkFileContents(file).trim());
     }
@@ -367,7 +372,7 @@ public class GeoJSONWriteTest {
     }
 
     public static void assertEqualsIgnoreWhitespace(String message, String expected,
-            String actual) {
+                                                    String actual) {
         expected = removeWhitespace(expected);
         actual = removeWhitespace(actual);
         assertEquals(message, expected, actual);

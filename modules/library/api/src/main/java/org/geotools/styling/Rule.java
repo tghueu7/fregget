@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -46,7 +46,7 @@ import org.opengis.style.GraphicLegend;
  * missing MinScale means there is no lower bound to the scale-denominator
  * range (lim[x->0+](x)), and a missing MaxScale means there is no upper bound
  * (infinity).  0.28mm
- *
+ * <p>
  * <p>
  * The details of this object are taken from the <a
  * href="https://portal.opengeospatial.org/files/?artifact_id=1188"> OGC
@@ -78,7 +78,6 @@ import org.opengis.style.GraphicLegend;
  * </code></pre>
  * </p>
  *
- *
  * @source $URL$
  */
 public interface Rule extends org.opengis.style.Rule {
@@ -87,28 +86,30 @@ public interface Rule extends org.opengis.style.Rule {
      * Sets the name of the rule.
      *
      * @param name The name of the rule.  This provides a way to identify a
-     *        rule.
+     *             rule.
      */
     void setName(String name);
 
     /**
      * Description for this rule.
+     *
      * @return Human readable description for use in user interfaces
      * @since 2.5.x
      */
     Description getDescription();
-    
+
     /**
      * Description for this rule.
+     *
      * @param description Human readable title and abstract.
      */
     void setDescription(org.opengis.style.Description description);
-    
+
     /**
      * Gets the title.
      *
      * @return The title of the rule.  This is a brief, human readable,
-     *         description of the rule.
+     * description of the rule.
      * @deprecated use getDescription().getTitle().getString()
      */
     String getTitle();
@@ -117,7 +118,7 @@ public interface Rule extends org.opengis.style.Rule {
      * Sets the title.
      *
      * @param title The title of the rule.  This is a brief, human readable,
-     *        description of the rule.
+     *              description of the rule.
      */
     void setTitle(String title);
 
@@ -133,7 +134,7 @@ public interface Rule extends org.opengis.style.Rule {
      * Sets the abstract text for the rule.
      *
      * @param abstractStr The abstract text, a more detailed description of the
-     *        rule.
+     *                    rule.
      * @deprecated use getDescription().setAbstract()
      */
     void setAbstract(String abstractStr);
@@ -143,7 +144,7 @@ public interface Rule extends org.opengis.style.Rule {
      * by this rule should be applied.
      *
      * @param scale The smallest (inclusive) denominator value that this rule
-     *        will be active for.
+     *              will be active for.
      */
     void setMinScaleDenominator(double scale);
 
@@ -152,16 +153,17 @@ public interface Rule extends org.opengis.style.Rule {
      * by this rule should be applied.
      *
      * @param scale The largest (exclusive) denominator value that this rule
-     *        will be active for.
+     *              will be active for.
      */
     void setMaxScaleDenominator(double scale);
 
     /**
      * This is the filter used to select content for this rule to display
      * <p>
-     * 
+     *
      * @return Filter use to select content for this rule to display, Filter.INCLUDES to include all
-     *         content; or use Filter.EXCLUDES to mark this as an "else" Rule accepting all remaining content
+     * content; or use Filter.EXCLUDES to mark this as an "else" Rule accepting all remaining 
+     * content
      */
     Filter getFilter();
 
@@ -169,7 +171,7 @@ public interface Rule extends org.opengis.style.Rule {
      * Filter used to select content for this rule to display.
      * <p>
      * This filter is only consulted if isElseFilter is false.
-     * 
+     *
      * @param filter
      */
     void setFilter(Filter filter);
@@ -180,7 +182,6 @@ public interface Rule extends org.opengis.style.Rule {
     boolean hasElseFilter();
 
     /**
-     * 
      * @param isElse if this rule should accept any features not already rendered
      */
     void setElseFilter(boolean isElse);
@@ -189,16 +190,17 @@ public interface Rule extends org.opengis.style.Rule {
      * @param isElse
      * @deprecaated Please use setElseFilter( isElse );
      */
-    void setIsElseFilter( boolean isElse );
+    void setIsElseFilter(boolean isElse);
+
     /**
-     * 
+     *
      */
     public GraphicLegend getLegend();
 
     /**
      * @param legend
      */
-    void setLegend( GraphicLegend legend);
+    void setLegend(GraphicLegend legend);
 
     /**
      * A set of equivalent Graphics in different formats which can be used as a
@@ -208,8 +210,8 @@ public interface Rule extends org.opengis.style.Rule {
      * @deprecated Please use getLegend
      */
     Graphic[] getLegendGraphic();
-    
-    
+
+
     /**
      * A set of equivalent Graphics in different formats which can be used as a
      * legend against features stylized by the symbolizers in this rule.
@@ -232,10 +234,10 @@ public interface Rule extends org.opengis.style.Rule {
      * or that the FeatureTypeStyler which contains this rule has its
      * FeatureTypeName or SemanticTypeIdentifier set appropriately.
      *
-     * @return An array of symbolizers to be applied, in sequence, to all of
-     *         the features addressed by the FeatureTypeStyler which contains
-     *         this rule.
      * @param Please use symbolizers().toArray( new Symbolizer[0] )
+     * @return An array of symbolizers to be applied, in sequence, to all of
+     * the features addressed by the FeatureTypeStyler which contains
+     * this rule.
      */
     Symbolizer[] getSymbolizers();
 
@@ -260,8 +262,8 @@ public interface Rule extends org.opengis.style.Rule {
      * FeatureTypeName or SemanticTypeIdentifier set appropriately.
      *
      * @param symbolizers An array of symbolizers to be applied, in sequence,
-     *        to all of the features addressed by the FeatureTypeStyler which
-     *        contains this rule.
+     *                    to all of the features addressed by the FeatureTypeStyler which
+     *                    contains this rule.
      * @deprecated please use symbolizers().addAll()
      */
     void setSymbolizers(Symbolizer[] symbolizers);
@@ -270,7 +272,7 @@ public interface Rule extends org.opengis.style.Rule {
      * @return Location where this style is defined; file or server; or null if unknown
      */
     public OnLineResource getOnlineResource();
-    
+
     /**
      * @param resource Indicates where this style is defined
      */
@@ -278,6 +280,7 @@ public interface Rule extends org.opengis.style.Rule {
 
     /**
      * Used to traverse the style data structure.
+     *
      * @param visitor
      */
     void accept(org.geotools.styling.StyleVisitor visitor);

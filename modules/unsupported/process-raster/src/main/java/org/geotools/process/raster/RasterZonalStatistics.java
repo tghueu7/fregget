@@ -73,23 +73,32 @@ import com.vividsolutions.jts.simplify.DouglasPeuckerSimplifier;
 /**
  * A process computing zonal statistics based on a raster data set and a set of polygonal zones of
  * interest
- * 
+ *
  * @author Andrea Antonello (www.hydrologis.com)
  * @author Emanuele Tajariol (GeoSolutions)
  * @author Andrea Aime - GeoSolutions
  */
-@DescribeProcess(title = "Raster Zonal Statistics", description = "Computes statistics for the distribution of a certain quantity in a set of polygonal zones.")
+@DescribeProcess(title = "Raster Zonal Statistics", description = "Computes statistics for the " +
+        "distribution of a certain quantity in a set of polygonal zones.")
 public class RasterZonalStatistics implements RasterProcess {
 
     private final static CoverageProcessor PROCESSOR = CoverageProcessor.getInstance();
 
-    @DescribeResult(name = "statistics", description = "A feature collection with the attributes of the zone layer (prefixed by 'z_') and the statistics fields count,min,max,sum,avg,stddev")
+    @DescribeResult(name = "statistics", description = "A feature collection with the attributes " +
+            "of the zone layer (prefixed by 'z_') and the statistics fields count,min,max,sum," +
+            "avg,stddev")
     public SimpleFeatureCollection execute(
-            @DescribeParameter(name = "data", description = "Input raster to compute statistics for") GridCoverage2D coverage,
-            @DescribeParameter(name = "band", description = "Source band used to compute statistics (default is 0)", min = 0, defaultValue = "0") Integer band,
-            @DescribeParameter(name = "zones", description = "Zone polygon features for which to compute statistics") SimpleFeatureCollection zones,
-            @DescribeParameter(name = "classification", description = "Raster whose values will be used as classes for the statistical analysis. Each zone reports statistics partitioned by classes according to the values of the raster. Must be a single band raster with integer values.", 
-            min = 0) GridCoverage2D classification) {
+            @DescribeParameter(name = "data", description = "Input raster to compute statistics " +
+                    "for") GridCoverage2D coverage,
+            @DescribeParameter(name = "band", description = "Source band used to compute " +
+                    "statistics (default is 0)", min = 0, defaultValue = "0") Integer band,
+            @DescribeParameter(name = "zones", description = "Zone polygon features for which to " +
+                    "compute statistics") SimpleFeatureCollection zones,
+            @DescribeParameter(name = "classification", description = "Raster whose values will " +
+                    "be used as classes for the statistical analysis. Each zone reports " +
+                    "statistics partitioned by classes according to the values of the raster. " +
+                    "Must be a single band raster with integer values.",
+                    min = 0) GridCoverage2D classification) {
         int iband = 0;
         if (band != null) {
             iband = band;
@@ -100,7 +109,7 @@ public class RasterZonalStatistics implements RasterProcess {
 
     /**
      * A feature collection that computes zonal statitics in a streaming fashion
-     * 
+     *
      * @author Andrea Aime - OpenGeo
      */
     static class RasterZonalStatisticsCollection extends DecoratingSimpleFeatureCollection {
@@ -113,7 +122,8 @@ public class RasterZonalStatistics implements RasterProcess {
         GridCoverage2D classification;
 
         public RasterZonalStatisticsCollection(GridCoverage2D coverage, int band,
-                SimpleFeatureCollection zones, GridCoverage2D classification) {
+                                               SimpleFeatureCollection zones, GridCoverage2D 
+                                                       classification) {
             super(zones);
             this.coverage = coverage;
             this.band = band;
@@ -130,7 +140,7 @@ public class RasterZonalStatistics implements RasterProcess {
                 }
                 tb.add("z_" + att.getLocalName(), att.getType().getBinding());
             }
-            if(classification != null) {
+            if (classification != null) {
                 tb.add("classification", Integer.class);
             }
             tb.add("count", Long.class);
@@ -170,26 +180,28 @@ public class RasterZonalStatistics implements RasterProcess {
         int band;
 
         RenderedImage classificationRaster;
-        
+
         List<SimpleFeature> features = new ArrayList<SimpleFeature>();
 
         public RasterZonalStatisticsIterator(SimpleFeatureIterator zones, GridCoverage2D coverage,
-                int band, SimpleFeatureType targetSchema, GridCoverage2D classification) {
+                                             int band, SimpleFeatureType targetSchema, 
+                                             GridCoverage2D classification) {
             this.zones = zones;
             this.builder = new SimpleFeatureBuilder(targetSchema);
             this.dataCoverage = coverage;
             this.band = band;
-            
+
             // prepare the classification image if necessary
-            if(classification != null) {
+            if (classification != null) {
                 // find nodata values
                 GridSampleDimension sampleDimension = classification.getSampleDimension(0);
                 double[] nodataarr = sampleDimension.getNoDataValues();
-                double[] nodata = nodataarr != null ? nodataarr : new double[] { Double.NaN };
-    
+                double[] nodata = nodataarr != null ? nodataarr : new double[]{Double.NaN};
+
                 // this will adapt the classification image to the projection and image layout
                 // of the data coverage
-                classificationRaster = GridCoverage2DRIA.create(classification, dataCoverage, nodata);
+                classificationRaster = GridCoverage2DRIA.create(classification, dataCoverage, 
+                        nodata);
             }
         }
 
@@ -203,10 +215,10 @@ public class RasterZonalStatistics implements RasterProcess {
 
         public SimpleFeature next() throws NoSuchElementException {
             // build the next set of features if necessary
-            if(features.size() == 0) {
+            if (features.size() == 0) {
                 // grab the current zone
                 SimpleFeature zone = zones.next();
-    
+
                 try {
                     // grab the geometry and eventually reproject it to the
                     Geometry zoneGeom = (Geometry) zone.getDefaultGeometry();
@@ -217,13 +229,13 @@ public class RasterZonalStatistics implements RasterProcess {
                         zoneGeom = JTS.transform(zoneGeom, CRS.findMathTransform(zonesCrs, dataCrs,
                                 true));
                     }
-    
+
                     // gather the statistics
                     ZonalStats stats = processStatistics(zoneGeom);
-    
+
                     // build the resulting feature
                     if (stats != null) {
-                        if(classificationRaster != null) {
+                        if (classificationRaster != null) {
                             // if zonal stats we're going to build
                             for (Integer classZoneId : stats.getZones()) {
                                 builder.addAll(zone.getAttributes());
@@ -241,9 +253,10 @@ public class RasterZonalStatistics implements RasterProcess {
                         features.add(builder.buildFeature(zone.getID()));
                     }
                 } catch (Exception e) {
-                    throw new ProcessException("Failed to compute statistics on feature " + zone, e);
+                    throw new ProcessException("Failed to compute statistics on feature " + zone,
+                            e);
                 }
-            } 
+            }
             // return the first feature in the current buffer
             SimpleFeature f = features.remove(0);
             return f;
@@ -251,6 +264,7 @@ public class RasterZonalStatistics implements RasterProcess {
 
         /**
          * Add the statistics to the feature builder
+         *
          * @param stats
          */
         void addStatsToFeature(ZonalStats stats) {
@@ -309,7 +323,8 @@ public class RasterZonalStatistics implements RasterProcess {
                             double max = category.getRange().getMaximum();
                             if (!Double.isNaN(min) && !Double.isNaN(max)) {
                                 // we have to filter those out
-                                Range<Double> novalueRange = new Range<Double>(min, true, max, true);
+                                Range<Double> novalueRange = new Range<Double>(min, true, max, 
+                                        true);
                                 novalueRangeList = new ArrayList<Range<Double>>();
                                 novalueRangeList.add(novalueRange);
                             }
@@ -325,40 +340,40 @@ public class RasterZonalStatistics implements RasterProcess {
                 param.parameter("Source").setValue(dataCoverage);
                 param.parameter("Envelope").setValue(new GeneralEnvelope(geometryEnvelope));
                 cropped = (GridCoverage2D) PROCESSOR.doOperation(param);
-                
+
                 // transform the geometry to raster space so that we can use it as a ROI source
-                Geometry rasterSpaceGeometry= JTS.transform(geometry, w2gTransform);
+                Geometry rasterSpaceGeometry = JTS.transform(geometry, w2gTransform);
                 // System.out.println(rasterSpaceGeometry);
                 // System.out.println(rasterSpaceGeometry.getEnvelopeInternal());
-                
+
                 // simplify the geometry so that it's as precise as the coverage, excess coordinates
                 // just make it slower to determine the point in polygon relationship
                 Geometry simplifiedGeometry = DouglasPeuckerSimplifier.simplify(
                         rasterSpaceGeometry, 1);
                 //System.out.println(simplifiedGeometry.getEnvelopeInternal());
-                
+
                 // compensate for the jaitools range lookup poking the corner of the cells instead 
                 // of their center, this makes for odd results if the polygon is just slightly 
                 // misaligned with the coverage
                 AffineTransformation at = new AffineTransformation();
-                
+
                 at.setToTranslation(-0.5, -0.5);
                 simplifiedGeometry.apply(at);
-                
+
                 // build a shape using a fast point in polygon wrapper
                 ROI roi = new ROIGeometry(simplifiedGeometry, false);
 
                 // run the stats via JAI
-                Statistic[] reqStatsArr = new Statistic[] { Statistic.MAX, Statistic.MIN,
-                        Statistic.RANGE, Statistic.MEAN, Statistic.SDEV, Statistic.SUM };
+                Statistic[] reqStatsArr = new Statistic[]{Statistic.MAX, Statistic.MIN,
+                        Statistic.RANGE, Statistic.MEAN, Statistic.SDEV, Statistic.SUM};
                 final ZonalStatsOpImage zsOp = new ZonalStatsOpImage(
                         cropped.getRenderedImage(),
-                        classificationRaster, 
-                        null, 
-                        null, 
-                        reqStatsArr, 
-                        new Integer[] { band }, 
-                        roi, 
+                        classificationRaster,
+                        null,
+                        null,
+                        reqStatsArr,
+                        new Integer[]{band},
+                        roi,
                         null,
                         null,
                         null,

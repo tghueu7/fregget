@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,6 +17,7 @@
 package org.geotools.referencing.operation.builder;
 
 import org.opengis.geometry.DirectPosition;
+
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,34 +26,43 @@ import java.util.List;
 /**
  * A simple four-sided polygon.
  *
- * @since 2.4
- * @source $URL$
- * @version $Id$
  * @author Jan Jezek
+ * @version $Id$
+ * @source $URL$
+ * @since 2.4
  */
 class Quadrilateral extends Polygon {
-    /** The first vertex. */
+    /**
+     * The first vertex.
+     */
     public DirectPosition p0;
 
-    /** The second vertex. */
+    /**
+     * The second vertex.
+     */
     public DirectPosition p1;
 
-    /** The third vertex */
+    /**
+     * The third vertex
+     */
     public DirectPosition p2;
 
-    /** the fourth vetrex */
+    /**
+     * the fourth vetrex
+     */
     public DirectPosition p3;
 
     /**
      * Creates a Quadrilateral.
+     *
      * @param p0 one vertex
      * @param p1 another vertex
      * @param p2 another vertex
      * @param p3 another vertex
      */
     public Quadrilateral(DirectPosition p0, DirectPosition p1,
-        DirectPosition p2, DirectPosition p3) {
-        super(new DirectPosition[] { p0, p1, p2, p3, p0 });
+                         DirectPosition p2, DirectPosition p3) {
+        super(new DirectPosition[]{p0, p1, p2, p3, p0});
         this.p0 = p0;
         this.p1 = p1;
         this.p2 = p2;
@@ -66,10 +76,10 @@ class Quadrilateral extends Polygon {
      */
     public boolean isConvex() {
         return Line2D.linesIntersect(p0.getCoordinate()[0],
-            p0.getCoordinate()[1], p2.getCoordinate()[0],
-            p2.getCoordinate()[1], p1.getCoordinate()[0],
-            p1.getCoordinate()[1], p3.getCoordinate()[0],
-            p3.getCoordinate()[1]);
+                p0.getCoordinate()[1], p2.getCoordinate()[0],
+                p2.getCoordinate()[1], p1.getCoordinate()[0],
+                p1.getCoordinate()[1], p3.getCoordinate()[0],
+                p3.getCoordinate()[1]);
     }
 
     /**
@@ -77,9 +87,9 @@ class Quadrilateral extends Polygon {
      *
      * @return two Triangles: p0-p1-p2 and p0-p3-p2
      */
-    public List <TINTriangle> getTriangles() {
+    public List<TINTriangle> getTriangles() {
         //Assert.isTrue(this.isValid());
-        ArrayList <TINTriangle> triangles = new ArrayList<TINTriangle>();
+        ArrayList<TINTriangle> triangles = new ArrayList<TINTriangle>();
         TINTriangle trigA = new TINTriangle(p0, p1, p2);
         TINTriangle trigB = new TINTriangle(p0, p3, p2);
 

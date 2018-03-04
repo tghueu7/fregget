@@ -18,20 +18,23 @@ package org.geotools.ows.bindings;
 
 import net.opengis.ows10.AddressType;
 import net.opengis.ows10.Ows10Factory;
+
 import javax.xml.namespace.QName;
+
 import org.geotools.ows.OWS;
 import org.geotools.xml.*;
 
 
 /**
  * Binding object for the type http://www.opengis.net/ows:AddressType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="AddressType"&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;Location of the responsible individual or organization. &lt;/documentation&gt;
+ *          &lt;documentation&gt;Location of the responsible individual or organization. &lt;
+ *          /documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;sequence&gt;
  *          &lt;element maxOccurs="unbounded" minOccurs="0"
@@ -63,7 +66,8 @@ import org.geotools.xml.*;
  *          &lt;element maxOccurs="unbounded" minOccurs="0"
  *              name="ElectronicMailAddress" type="string"&gt;
  *              &lt;annotation&gt;
- *                  &lt;documentation&gt;Address of the electronic mailbox of the responsible organization or individual. &lt;/documentation&gt;
+ *                  &lt;documentation&gt;Address of the electronic mailbox of the responsible 
+ *                  organization or individual. &lt;/documentation&gt;
  *              &lt;/annotation&gt;
  *          &lt;/element&gt;
  *      &lt;/sequence&gt;
@@ -74,9 +78,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class AddressTypeBinding extends AbstractComplexEMFBinding {
@@ -108,7 +109,7 @@ public class AddressTypeBinding extends AbstractComplexEMFBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         //TODO: implement and remove call to super
         return super.parse(instance, node, value);
     }

@@ -20,8 +20,6 @@ import org.geotools.jdbc.JDBCPrimaryKeyOnlineTest;
 import org.geotools.jdbc.JDBCPrimaryKeyTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SQLServerPrimaryKeyOnlineTest extends JDBCPrimaryKeyOnlineTest {
@@ -30,7 +28,7 @@ public class SQLServerPrimaryKeyOnlineTest extends JDBCPrimaryKeyOnlineTest {
     protected JDBCPrimaryKeyTestSetup createTestSetup() {
         return new SQLServerPrimaryKeyTestSetup();
     }
-    
+
     @Override
     public void testSequencedPrimaryKey() throws Exception {
         //seems sqlserver does not really do explicit sequences...

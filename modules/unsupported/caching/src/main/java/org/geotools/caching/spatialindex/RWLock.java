@@ -34,8 +34,6 @@ import java.util.LinkedList;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class RWLock {
@@ -79,7 +77,7 @@ public class RWLock {
         synchronized (lock) {
             synchronized (this) {
                 boolean okay_to_write = (writer_locks.size() == 0) && (active_readers == 0)
-                    && (active_writers == 0);
+                        && (active_writers == 0);
 
                 if (okay_to_write) {
                     ++active_writers;
@@ -118,14 +116,14 @@ public class RWLock {
     }
 
     private void notify_readers() // must be accessed from a
-     { //  synchronized method
+    { //  synchronized method
         active_readers += waiting_readers;
         waiting_readers = 0;
         notifyAll();
     }
 
     private void notify_writers() // must be accessed from a
-     { //  synchronized method
+    { //  synchronized method
 
         if (writer_locks.size() > 0) {
             Object oldest = writer_locks.removeFirst();

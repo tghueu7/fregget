@@ -30,8 +30,6 @@ import org.jdom2.input.SAXBuilder;
 import com.vividsolutions.jts.geom.Envelope;
 
 /**
- * 
- * 
  * @source $URL$
  */
 public class ShpXmlFileReader implements FileReader {
@@ -41,9 +39,9 @@ public class ShpXmlFileReader implements FileReader {
     /**
      * Parse metadataFile (currently for bounding box information).
      * <p>
-     * 
+     * <p>
      * </p>
-     * 
+     *
      * @param shapefileFiles
      * @throws JDOMException
      * @throws IOException

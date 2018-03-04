@@ -20,8 +20,6 @@ import org.geotools.jdbc.JDBCGeometrylessTestSetup;
 import org.geotools.jdbc.JDBCTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class PostgisGeometrylessTestSetup extends JDBCGeometrylessTestSetup {

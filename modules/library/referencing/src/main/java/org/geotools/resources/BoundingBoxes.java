@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -46,13 +46,11 @@ import org.geotools.resources.i18n.ErrorKeys;
  * This is mostly a helper class for {@link GeographicBoundingBoxImpl}; users should not use this
  * class directly.
  *
- * @since 2.4
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
+ * @version $Id$
+ * @source $URL$
+ * @since 2.4
  */
 public final class BoundingBoxes {
     /**
@@ -75,18 +73,16 @@ public final class BoundingBoxes {
      * is assumed already in appropriate CRS.
      *
      * @param envelope The source envelope.
-     * @param box The target bounding box.
+     * @param box      The target bounding box.
      */
     public static void copy(Envelope envelope, final GeographicBoundingBoxImpl box)
-            throws TransformException
-    {
+            throws TransformException {
         final CoordinateReferenceSystem crs = envelope.getCoordinateReferenceSystem();
         if (crs != null) {
             final GeographicCRS standardCRS = CRSUtilities.getStandardGeographicCRS2D(crs);
             if (!startsWith(crs, standardCRS) &&
-                !startsWith(crs, DefaultGeographicCRS.WGS84) &&
-                !startsWith(crs, DefaultGeographicCRS.WGS84_3D))
-            {
+                    !startsWith(crs, DefaultGeographicCRS.WGS84) &&
+                    !startsWith(crs, DefaultGeographicCRS.WGS84_3D)) {
                 final CoordinateOperation operation;
                 final CoordinateOperationFactory factory;
                 factory = ReferencingFactoryFinder.getCoordinateOperationFactory(LENIENT);
@@ -94,7 +90,7 @@ public final class BoundingBoxes {
                     operation = factory.createOperation(crs, standardCRS);
                 } catch (FactoryException exception) {
                     throw new TransformPathNotFoundException(Errors.format(
-                              ErrorKeys.CANT_TRANSFORM_ENVELOPE, exception));
+                            ErrorKeys.CANT_TRANSFORM_ENVELOPE, exception));
                 }
                 envelope = CRS.transform(operation, envelope);
             }
@@ -109,11 +105,10 @@ public final class BoundingBoxes {
      * Returns {@code true} if the specified {@code crs} starts with the specified {@code head}.
      */
     private static final boolean startsWith(final CoordinateReferenceSystem crs,
-                                            final CoordinateReferenceSystem head)
-    {
+                                            final CoordinateReferenceSystem head) {
         final int dimension = head.getCoordinateSystem().getDimension();
         return crs.getCoordinateSystem().getDimension() >= dimension &&
-               CRS.equalsIgnoreMetadata(CRSUtilities.getSubCRS(crs, 0, dimension), head);
+                CRS.equalsIgnoreMetadata(CRSUtilities.getSubCRS(crs, 0, dimension), head);
     }
 
     /**
@@ -125,15 +120,14 @@ public final class BoundingBoxes {
      * @param locale  The locale, or {@code null} for the default one.
      */
     public static String toString(final GeographicBoundingBox box,
-                                  final String pattern, final Locale locale)
-    {
+                                  final String pattern, final Locale locale) {
         final AngleFormat format;
-        format = (locale!=null) ? new AngleFormat(pattern, locale) : new AngleFormat(pattern);
+        format = (locale != null) ? new AngleFormat(pattern, locale) : new AngleFormat(pattern);
         final FieldPosition pos = new FieldPosition(0);
         final StringBuffer buffer = new StringBuffer();
-        format.format(new  Latitude(box.getNorthBoundLatitude()), buffer, pos).append(", ");
+        format.format(new Latitude(box.getNorthBoundLatitude()), buffer, pos).append(", ");
         format.format(new Longitude(box.getWestBoundLongitude()), buffer, pos).append(" - ");
-        format.format(new  Latitude(box.getSouthBoundLatitude()), buffer, pos).append(", ");
+        format.format(new Latitude(box.getSouthBoundLatitude()), buffer, pos).append(", ");
         format.format(new Longitude(box.getEastBoundLongitude()), buffer, pos);
         return buffer.toString();
     }

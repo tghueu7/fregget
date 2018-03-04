@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -26,32 +26,34 @@ import org.opengis.feature.type.Name;
 /**
  * Indicates client class has attempted to create an invalid feature.
  *
- *
  * @source $URL$
  * @deprecated Please use org.opengis.feature.IllegalAttributeException
  */
 public class IllegalAttributeException extends org.opengis.feature.IllegalAttributeException {
-    /** serialVersionUID */
+    /**
+     * serialVersionUID
+     */
     private static final long serialVersionUID = 3775548331744387093L;
-    private static final AttributeDescriptor NULL_ATTRIBUTE_DESCRIPTOR = new NullAttributeDescriptor();
-    
+    private static final AttributeDescriptor NULL_ATTRIBUTE_DESCRIPTOR = new 
+            NullAttributeDescriptor();
+
     /**
      * Constructor with message argument.
      *
      * @param message Reason for the exception being thrown
      */
     public IllegalAttributeException(String message) {
-        super(NULL_ATTRIBUTE_DESCRIPTOR,null,message);
+        super(NULL_ATTRIBUTE_DESCRIPTOR, null, message);
     }
 
     /**
      * Constructor that makes the message given the expected and invalid.
      *
      * @param expected the expected AttributeType.
-     * @param invalid the attribute that does not validate against expected.
+     * @param invalid  the attribute that does not validate against expected.
      */
     public IllegalAttributeException(AttributeDescriptor expected, Object invalid) {
-        super(expected, invalid );
+        super(expected, invalid);
     }
 
     /**
@@ -59,13 +61,14 @@ public class IllegalAttributeException extends org.opengis.feature.IllegalAttrib
      * with the root cause.
      *
      * @param expected the expected AttributeType.
-     * @param invalid the attribute that does not validate against expected.
-     * @param cause the root cause of the error.
+     * @param invalid  the attribute that does not validate against expected.
+     * @param cause    the root cause of the error.
      */
-    public IllegalAttributeException(AttributeDescriptor expected, Object invalid, Throwable cause) {
-        super( expected, invalid, cause );
+    public IllegalAttributeException(AttributeDescriptor expected, Object invalid, Throwable 
+            cause) {
+        super(expected, invalid, cause);
     }
-    
+
     /**
      * A descriptor for an attribute that does not exist. An ugly, ugly workaround for
      * GEOT-2111/GEO-156.
@@ -103,7 +106,7 @@ public class IllegalAttributeException extends org.opengis.feature.IllegalAttrib
         public AttributeType getType() {
             return null;
         }
-        
+
     }
 
 }

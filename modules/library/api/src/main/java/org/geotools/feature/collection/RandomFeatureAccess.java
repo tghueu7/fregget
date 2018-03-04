@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -36,9 +36,8 @@ import org.opengis.feature.simple.SimpleFeature;
  * may use of a sparse reprsentation where only (beginId,endId] ranges
  * are kept in memory.
  * </p>
+ *
  * @author Jody Garnett, Refractions Research Inc.
- *
- *
  * @source $URL$
  */
 public interface RandomFeatureAccess extends SimpleFeatureCollection {
@@ -51,6 +50,8 @@ public interface RandomFeatureAccess extends SimpleFeatureCollection {
      */
     public SimpleFeature getFeatureMember(String id) throws NoSuchElementException;
 
-    /** Optional Method */
+    /**
+     * Optional Method
+     */
     public SimpleFeature removeFeatureMember(String id);
 }

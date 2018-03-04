@@ -58,12 +58,13 @@ public abstract class GeometryEncoderTestSupport extends GML3TestSupport {
         this.gtEncoder = new Encoder(createConfiguration());
         this.xpath = XMLUnit.newXpathEngine();
     }
-    
+
     protected Document encode(GeometryEncoder encoder, Geometry geometry) throws Exception {
         return encode(encoder, geometry, null);
     }
 
-    protected Document encode(GeometryEncoder encoder, Geometry geometry, String gmlId) throws Exception {
+    protected Document encode(GeometryEncoder encoder, Geometry geometry, String gmlId) throws 
+            Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         // create the document serializer

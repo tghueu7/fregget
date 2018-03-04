@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -21,13 +21,11 @@ package org.geotools.styling;
  * symbolizers and rules.
  *
  * @author James Macgill, CCG
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class BasicPolygonStyle extends StyleImpl
-    implements org.geotools.styling.Style {
+        implements org.geotools.styling.Style {
     /**
      * Creates a new instance of BasicPolygonStyle
      */
@@ -41,11 +39,11 @@ public class BasicPolygonStyle extends StyleImpl
         polysym.setStroke(stroke);
 
         RuleImpl rule = new RuleImpl();
-        rule.setSymbolizers(new Symbolizer[] { polysym });
+        rule.setSymbolizers(new Symbolizer[]{polysym});
 
         FeatureTypeStyleImpl fts = new FeatureTypeStyleImpl();
-        fts.setRules(new Rule[] { rule });
-        this.setFeatureTypeStyles(new FeatureTypeStyle[] { fts });
+        fts.setRules(new Rule[]{rule});
+        this.setFeatureTypeStyles(new FeatureTypeStyle[]{fts});
     }
 
     public String getAbstract() {

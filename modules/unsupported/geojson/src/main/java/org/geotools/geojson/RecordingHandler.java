@@ -24,9 +24,8 @@ import org.json.simple.parser.ParseException;
 
 /**
  * Handler that records sequence of calls to be replayed layer.
- * 
- * @author Justin Deoliveira, OpenGeo
  *
+ * @author Justin Deoliveira, OpenGeo
  */
 public class RecordingHandler implements ContentHandler {
 
@@ -51,7 +50,7 @@ public class RecordingHandler implements ContentHandler {
             }
         });
     }
-    
+
     @Override
     public boolean startObjectEntry(String key) throws ParseException, IOException {
         return actions.add(new Action<String>(key) {
@@ -122,8 +121,8 @@ public class RecordingHandler implements ContentHandler {
         });
     }
 
-    public void replay(ContentHandler handler) throws ParseException, IOException{
-        while(!actions.isEmpty()) {
+    public void replay(ContentHandler handler) throws ParseException, IOException {
+        while (!actions.isEmpty()) {
             actions.removeFirst().run(handler);
         }
     }

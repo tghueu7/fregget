@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2010, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -45,16 +45,15 @@ import org.opengis.util.InternationalString;
  * the right thing and does not include the provider at test time, but Eclipse captures it as a
  * transitive dependency, causing the wrong provider to be used for srsName encoding. The presence
  * of this class allows gt-xsd-gml3 unit tests to pass in Eclipse.
- * 
+ *
  * @author Ben Caradoc-Davies, CSIRO Earth Science and Resource Engineering
- * @see <a href="http://jira.codehaus.org/browse/GEOT-3112">GEOT-3112</a>
- *
- *
  * @source $URL$
+ * @see <a href="http://jira.codehaus.org/browse/GEOT-3112">GEOT-3112</a>
  */
 public class EPSGCRSAuthorityFactory extends AbstractFactory implements CRSAuthorityFactory {
 
-    private static final String EXCEPTION_MESSAGE = "Factory disabled for gt-xsd-gml3 testing (see GEOT-3112)";
+    private static final String EXCEPTION_MESSAGE = "Factory disabled for gt-xsd-gml3 testing " +
+            "(see GEOT-3112)";
 
     public EPSGCRSAuthorityFactory() {
         super(MINIMUM_PRIORITY);

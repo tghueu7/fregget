@@ -35,7 +35,7 @@ import javax.media.jai.remote.SerializerFactory;
  * @author Andrea Aime - GeoSolutions
  */
 public class SampleImage implements Serializable {
-    
+
     private static final long serialVersionUID = 6324143924454724262l;
 
     transient SampleModel sampleModel;
@@ -44,7 +44,7 @@ public class SampleImage implements Serializable {
 
     /**
      * Builds a new sample image
-     * 
+     *
      * @param sampleModel
      * @param colorModel
      */
@@ -55,7 +55,7 @@ public class SampleImage implements Serializable {
 
     /**
      * Builds a 1x1 BufferedImage with the provided sample model and color model
-     * 
+     *
      * @return
      */
     public BufferedImage toBufferedImage() {

@@ -60,32 +60,31 @@ import org.geotools.util.Utilities;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
- * Sparse utilities for the various classes. 
- * 
+ * Sparse utilities for the various classes.
+ *
  * @author Simone Giannecchini, GeoSolutions S.A.S.
  * @author Daniele Romagnoli, GeoSolutions S.A.S.
- * 
  */
 class Utils {
-    
+
     final static String FAKE_IMAGE_PATH = "$_!FAKE!_$";
-    
+
     final static CoordinateReferenceSystem DISPLAY_CRS = DisplayCRSAuthorityFactory.DISPLAY;
-    
+
     final static CoordinateReferenceSystem GENERIC2D_CRS = CartesianAuthorityFactory.GENERIC_2D;
-    
-    final static String SEPARATOR = File.separator; 
-    
-    final static String CONFIG_FILE = "config.properties"; 
-    
+
+    final static String SEPARATOR = File.separator;
+
+    final static String CONFIG_FILE = "config.properties";
+
     final static RenderedImage DEFAULT_IMAGE;
-    
+
     final static TIFFImageReaderSpi TIFF_SPI = new TIFFImageReaderSpi();
-    
+
     final static int IMAGE_EPSG = 404000;
-    
+
     final static FilenameFilter FILE_FILTER = new FilenameFilter() {
-        
+
         //TODO: ADD MORE
         public boolean accept(File dir, String name) {
             if (name.endsWith(".tif") || name.endsWith(".TIF")
@@ -98,24 +97,27 @@ class Utils {
             } else {
                 final String fullPath = dir.getAbsolutePath() + SEPARATOR + name;
                 final File file = new File(fullPath);
-                if (file.isDirectory()){
+                if (file.isDirectory()) {
                     return true;
                 }
             }
             return false;
         }
     };
-    
+
     /**
-     * Recursively get a fileList from the specified startingDir, using the provided {@link FilenameFilter},
+     * Recursively get a fileList from the specified startingDir, using the provided 
+     * {@link FilenameFilter},
      * optionally stop at the first occurrence if the {@code stopAtFirst} flag is {@code true}.
+     *
      * @param startingDir
      * @param filter
      * @param stopAtFirst
      * @return
      * @throws FileNotFoundException
      */
-    static List<File> getFileList(final File startingDir, final FilenameFilter fileFilter, final boolean stopAtFirst)
+    static List<File> getFileList(final File startingDir, final FilenameFilter fileFilter, final 
+    boolean stopAtFirst)
             throws FileNotFoundException {
         List<File> result = new ArrayList<File>();
         File[] filesAndDirs = startingDir.listFiles(fileFilter);
@@ -130,7 +132,7 @@ class Utils {
                     return result;
                 }
             } else {
-                result.add(file); 
+                result.add(file);
                 if (stopAtFirst) {
                     return result;
                 }
@@ -138,7 +140,7 @@ class Utils {
         }
         return result;
     }
-    
+
     static class ImageCollectionProperties {
         final static String COVERAGE_NAME = "coverageName";
         final static String DEFAULT_PATH = "defaultPath";
@@ -148,25 +150,26 @@ class Utils {
         final static String MAX_WIDTH = "maxWidth";
         final static String MAX_HEIGHT = "maxHeight";
         final static String ENVELOPE = "envelope";
-        
+
     }
-    
+
     static {
         final SampleModel sm = new BandedSampleModel(DataBuffer.TYPE_BYTE, 1, 1, 1);
-        final ColorModel cm = new ComponentColorModel(ColorSpace.getInstance(ColorSpace.CS_GRAY), false, false, Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
+        final ColorModel cm = new ComponentColorModel(ColorSpace.getInstance(ColorSpace.CS_GRAY),
+                false, false, Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
         final WritableRaster raster = RasterFactory.createWritableRaster(sm, null);
         final BufferedImage sampleImage = new BufferedImage(cm, raster, false, null);
         DEFAULT_IMAGE = sampleImage;
     }
-    
+
     final static AffineTransform IDENTITY = new AffineTransform(1, 0, 0, 1, -0.5, -0.5);
-    
+
     final static AffineTransform IDENTITY_FLIP = new AffineTransform(1, 0, 0, -1, -0.5, -0.5);
-    
+
     final static AffineTransform2D IDENTITY_2D = new AffineTransform2D(IDENTITY);
-    
+
     final static AffineTransform2D IDENTITY_2D_FLIP = new AffineTransform2D(IDENTITY_FLIP);
-    
+
     static URL checkSource(Object source) throws MalformedURLException, DataSourceException {
         URL sourceURL = null;
         // /////////////////////////////////////////////////////////////////////
@@ -212,15 +215,14 @@ class Utils {
     /**
      * Look for an {@link ImageReader} instance that is able to read the
      * provided {@link ImageInputStream}, which must be non null.
-     * 
+     * <p>
      * <p>
      * In case no reader is found, <code>null</code> is returned.
-     * 
-     * @param inStream
-     *            an instance of {@link ImageInputStream} for which we need to
-     *            find a suitable {@link ImageReader}.
+     *
+     * @param inStream an instance of {@link ImageInputStream} for which we need to
+     *                 find a suitable {@link ImageReader}.
      * @return a suitable instance of {@link ImageReader} or <code>null</code>
-     *         if one cannot be found.
+     * if one cannot be found.
      */
     static ImageReader getReader(final ImageInputStream inStream) {
         Utilities.ensureNonNull("inStream", inStream);
@@ -236,7 +238,7 @@ class Utils {
     /**
      * Retrieves an {@link ImageInputStream} for the provided input {@link File}
      * .
-     * 
+     *
      * @param file
      * @return
      * @throws IOException
@@ -252,20 +254,18 @@ class Utils {
      * Checks that the provided <code>dimensions</code> when intersected with
      * the source region used by the provided {@link ImageReadParam} instance
      * does not result in an empty {@link Rectangle}.
-     * 
+     * <p>
      * <p>
      * Input parameters cannot be null.
-     * 
-     * @param readParameters
-     *            an instance of {@link ImageReadParam} for which we want to
-     *            check the source region element.
-     * @param dimensions
-     *            an instance of {@link Rectangle} to use for the check.
+     *
+     * @param readParameters an instance of {@link ImageReadParam} for which we want to
+     *                       check the source region element.
+     * @param dimensions     an instance of {@link Rectangle} to use for the check.
      * @return <code>true</code> if the intersection is not empty,
-     *         <code>false</code> otherwise.
+     * <code>false</code> otherwise.
      */
     static boolean checkEmptySourceRegion(final ImageReadParam readParameters,
-            final Rectangle dimensions) {
+                                          final Rectangle dimensions) {
         Utilities.ensureNonNull("readDimension", dimensions);
         Utilities.ensureNonNull("readP", readParameters);
         final Rectangle sourceRegion = readParameters.getSourceRegion();
@@ -278,12 +278,10 @@ class Utils {
 
     /**
      * Checks that a {@link File} is a real file, exists and is readable.
-     * 
-     * @param file
-     *            the {@link File} instance to check. Must not be null.
-     * 
+     *
+     * @param file the {@link File} instance to check. Must not be null.
      * @return <code>true</code> in case the file is a real file, exists and is
-     *         readable; <code>false </code> otherwise.
+     * readable; <code>false </code> otherwise.
      */
     static boolean checkFileReadable(final File file) {
         if (LOGGER.isLoggable(Level.FINE)) {
@@ -302,15 +300,19 @@ class Utils {
         return true;
     }
 
-    /** Logger for the {@link ImageCollectionReader} class. */
+    /**
+     * Logger for the {@link ImageCollectionReader} class.
+     */
     private final static Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger(ImageCollectionReader.class.toString());
 
-    /** Move to base utils */
+    /**
+     * Move to base utils
+     */
     static float rationalTolerance = 0.000001F;
 
     final static String PATH_KEY = "PATH";
 
     ReadType DEFAULT_READ_TYPE = AbstractGridFormat.USE_JAI_IMAGEREAD
-    .getDefaultValue() ? ReadType.JAI_IMAGEREAD : ReadType.DIRECT_READ;
+            .getDefaultValue() ? ReadType.JAI_IMAGEREAD : ReadType.DIRECT_READ;
 }

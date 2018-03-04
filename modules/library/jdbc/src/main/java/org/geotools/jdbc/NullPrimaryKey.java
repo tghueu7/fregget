@@ -24,17 +24,14 @@ import java.util.ArrayList;
  * <p>
  * New key values are generated "from thin air" and are not persistent.
  * </p>
+ *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
- *
  * @source $URL$
  */
 public class NullPrimaryKey extends PrimaryKey {
 
     public NullPrimaryKey(String tableName) {
         super(tableName, new ArrayList());
-        
+
     }
 }

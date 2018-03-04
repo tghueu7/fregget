@@ -52,11 +52,8 @@ import org.xml.sax.helpers.NamespaceSupport;
  * app-schema data access of a different XML form. A new app-schema data access would be created to
  * remap the non-app-schema data access into the output XML form. Then the features can chain or be
  * chained as per normal. See FeatureChainingTest.java to see feature chaining in action.
- * 
+ *
  * @author Rini Angreani, Curtin University of Technology
- *
- *
- *
  * @source $URL$
  */
 public class AppSchemaWithBackendDataAccessIntegrationTest extends TestCase {
@@ -121,7 +118,7 @@ public class AppSchemaWithBackendDataAccessIntegrationTest extends TestCase {
 
         FeatureCollection<FeatureType, Feature> features = getFeatures(MAX_FEATURES, filter);
         FeatureIterator<Feature> it = features.features();
-        for (; it.hasNext();) {
+        for (; it.hasNext(); ) {
             results.add((Feature) it.next());
         }
         it.close();
@@ -135,7 +132,8 @@ public class AppSchemaWithBackendDataAccessIntegrationTest extends TestCase {
     }
 
     private FeatureCollection<FeatureType, Feature> getFeatures(final int maxFeatures,
-            Filter inputFilter) throws Exception {
+                                                                Filter inputFilter) throws 
+            Exception {
         FeatureSource<FeatureType, Feature> fSource = newGuDataAccess
                 .getFeatureSourceByName(typeName);
         FeatureCollection<FeatureType, Feature> features = fSource.getFeatures(namedQuery(
@@ -144,6 +142,7 @@ public class AppSchemaWithBackendDataAccessIntegrationTest extends TestCase {
     }
 
     private Query namedQuery(Filter filter, int count) throws Exception {
-        return new Query("GeologicUnit", new URI(FeatureChainingTest.GSMLNS), filter, count, new String[] {}, "test");
+        return new Query("GeologicUnit", new URI(FeatureChainingTest.GSMLNS), filter, count, new 
+                String[]{}, "test");
     }
 }

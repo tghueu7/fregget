@@ -27,14 +27,12 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.MultiPoint;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class MultiPointHandler extends GeometryHandlerBase<MultiPoint> {
 
     List<Coordinate> coordinates;
-    
+
     public MultiPointHandler(GeometryFactory factory) {
         super(factory);
     }
@@ -46,16 +44,16 @@ public class MultiPointHandler extends GeometryHandlerBase<MultiPoint> {
         }
         return true;
     }
-    
+
     @Override
     public boolean startArray() throws ParseException, IOException {
         if (ordinates == null) {
             ordinates = new ArrayList();
         }
-        
+
         return true;
     }
-    
+
     @Override
     public boolean endArray() throws ParseException, IOException {
         if (ordinates != null) {
@@ -64,7 +62,7 @@ public class MultiPointHandler extends GeometryHandlerBase<MultiPoint> {
         }
         return true;
     }
-    
+
     @Override
     public boolean endObject() throws ParseException, IOException {
         if (coordinates != null) {

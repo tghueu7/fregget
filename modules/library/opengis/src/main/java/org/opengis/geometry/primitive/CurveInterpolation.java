@@ -4,13 +4,14 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.primitive;
 
 import java.util.List;
 import java.util.ArrayList;
+
 import org.opengis.util.CodeList;
 import org.opengis.geometry.DirectPosition; // For javadoc
 import org.opengis.annotation.UML;
@@ -26,14 +27,12 @@ import static org.opengis.annotation.Specification.*;
  * by specifying an interpolation method and an associated control parameters record to support
  * it.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @since GeoAPI 1.0
  */
-@UML(identifier="GM_CurveInterpolation", specification=ISO_19107)
+@UML(identifier = "GM_CurveInterpolation", specification = ISO_19107)
 public final class CurveInterpolation extends CodeList<CurveInterpolation> {
     /**
      * Serial number for compatibility with different versions.
@@ -50,7 +49,7 @@ public final class CurveInterpolation extends CodeList<CurveInterpolation> {
      * The interpolation mechanism shall return {@linkplain DirectPosition direct positions}
      * on a straight line between each consecutive pair of control points.
      */
-    @UML(identifier="linear", obligation=CONDITIONAL, specification=ISO_19107)
+    @UML(identifier = "linear", obligation = CONDITIONAL, specification = ISO_19107)
     public static final CurveInterpolation LINEAR = new CurveInterpolation("LINEAR");
 
     /**
@@ -59,7 +58,7 @@ public final class CurveInterpolation extends CodeList<CurveInterpolation> {
      * of shortest length. The geodesic shall be determined in the coordinate reference system of
      * the {@linkplain Curve curve} in which the {@linkplain CurveSegment curve segment} is used.
      */
-    @UML(identifier="geodesic", obligation=CONDITIONAL, specification=ISO_19107)
+    @UML(identifier = "geodesic", obligation = CONDITIONAL, specification = ISO_19107)
     public static final CurveInterpolation GEODESIC = new CurveInterpolation("GEODESIC");
 
     /**
@@ -70,9 +69,9 @@ public final class CurveInterpolation extends CodeList<CurveInterpolation> {
      * odd number of elements. If the 3 points are co-linear, the circular arc becomes a straight
      * line.
      */
-    @UML(identifier="circularArc3Points", obligation=CONDITIONAL, specification=ISO_19107)
+    @UML(identifier = "circularArc3Points", obligation = CONDITIONAL, specification = ISO_19107)
     public static final CurveInterpolation CIRCULAR_ARC_3_POINTS = new CurveInterpolation(
-                                          "CIRCULAR_ARC_3_POINTS"); // Circular arc by 3 points
+            "CIRCULAR_ARC_3_POINTS"); // Circular arc by 3 points
 
     /**
      * For each consecutive pair of control points, the interpolation mechanism shall return
@@ -82,9 +81,11 @@ public final class CurveInterpolation extends CodeList<CurveInterpolation> {
      * positive for leftward and negative for rightward. This form shall only be used in
      * 2 dimensions because of the restricted nature of the definition technique.
      */
-    @UML(identifier="circularArc2PointWithBulge", obligation=CONDITIONAL, specification=ISO_19107)
-    public static final CurveInterpolation CIRCULAR_ARC_2_POINTS_WITH_BULGE = new CurveInterpolation(
-                                          "CIRCULAR_ARC_2_POINTS_WITH_BULGE"); // Circular arc by 2 points and bulge factor
+    @UML(identifier = "circularArc2PointWithBulge", obligation = CONDITIONAL, specification = 
+            ISO_19107)
+    public static final CurveInterpolation CIRCULAR_ARC_2_POINTS_WITH_BULGE = new 
+            CurveInterpolation(
+            "CIRCULAR_ARC_2_POINTS_WITH_BULGE"); // Circular arc by 2 points and bulge factor
 
     /**
      * For each set of four consecutive control points, the interpolation mechanism shall return
@@ -93,49 +94,49 @@ public final class CurveInterpolation extends CodeList<CurveInterpolation> {
      * the 4 control points are co-linear, the arc becomes a straight line. If the 4 control points
      * are on the same circle, the arc becomes a circular one.
      */
-    @UML(identifier="elliptical", obligation=CONDITIONAL, specification=ISO_19107)
+    @UML(identifier = "elliptical", obligation = CONDITIONAL, specification = ISO_19107)
     public static final CurveInterpolation ELLIPTICAL = new CurveInterpolation(
-                                          "ELLIPTICAL"); // Elliptical arc
+            "ELLIPTICAL"); // Elliptical arc
 
     /**
      * Uses a Cornu's spiral or clothoid interpolation.
      */
-    @UML(identifier="clothoid", obligation=CONDITIONAL, specification=ISO_19107)
+    @UML(identifier = "clothoid", obligation = CONDITIONAL, specification = ISO_19107)
     public static final CurveInterpolation CLOTHOID = new CurveInterpolation(
-                                          "CLOTHOID");
+            "CLOTHOID");
 
     /**
      * Same as {@linkplain #ELLIPTICAL elliptical arc} but using 5 consecutive control points
      * to determine a conic section.
      */
-    @UML(identifier="conic", obligation=CONDITIONAL, specification=ISO_19107)
+    @UML(identifier = "conic", obligation = CONDITIONAL, specification = ISO_19107)
     public static final CurveInterpolation CONIC = new CurveInterpolation(
-                                          "CONIC"); // Conic arc
+            "CONIC"); // Conic arc
     /**
      * The control points are ordered as in a line-string, but they are spanned by a polynomial
      * spline function. Normally, the degree of continuity is determined by the degree of the
      * polynomials chosen.
      */
-    @UML(identifier="polynomialSpline", obligation=CONDITIONAL, specification=ISO_19107)
+    @UML(identifier = "polynomialSpline", obligation = CONDITIONAL, specification = ISO_19107)
     public static final CurveInterpolation POLYNOMIAL_SPLINE = new CurveInterpolation(
-                                          "POLYNOMIAL_SPLINE"); // Polynomial Spline
+            "POLYNOMIAL_SPLINE"); // Polynomial Spline
 
     /**
      * The control points are interpolated using initial tangents and cubic polynomials, a
      * form of degree 3 polynomial spline.
      */
-    @UML(identifier="cubicSpline", obligation=CONDITIONAL, specification=ISO_19107)
+    @UML(identifier = "cubicSpline", obligation = CONDITIONAL, specification = ISO_19107)
     public static final CurveInterpolation CUBIC_SPLINE = new CurveInterpolation(
-                                          "CUBIC_SPLINE"); // Cubic Spline
+            "CUBIC_SPLINE"); // Cubic Spline
 
     /**
      * The control points are ordered as in a line string, but they are spanned by a
      * rational (quotient of polynomials) spline function. Normally, the degree of continuity
      * is determined by the degree of the polynomials chosen.
      */
-    @UML(identifier="rationalSpline", obligation=CONDITIONAL, specification=ISO_19107)
+    @UML(identifier = "rationalSpline", obligation = CONDITIONAL, specification = ISO_19107)
     public static final CurveInterpolation RATIONAL_SPLINE = new CurveInterpolation(
-                                          "RATIONAL_SPLINE"); // Rational Spline
+            "RATIONAL_SPLINE"); // Rational Spline
 
     /**
      * Constructs an enum with the given name. The new enum is

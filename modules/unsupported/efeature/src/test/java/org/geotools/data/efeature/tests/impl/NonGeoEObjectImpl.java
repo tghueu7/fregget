@@ -1,7 +1,7 @@
 /**
  * <copyright>
  * </copyright>
- *
+ * <p>
  * $Id$
  */
 package org.geotools.data.efeature.tests.impl;
@@ -20,18 +20,18 @@ import org.geotools.data.efeature.tests.NonGeoEObject;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.geotools.data.efeature.tests.impl.NonGeoEObjectImpl#getNonGeoAttribute <em>Non Geo Attribute</em>}</li>
+ * <li>{@link org.geotools.data.efeature.tests.impl.NonGeoEObjectImpl#getNonGeoAttribute <em>Non Geo Attribute</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
- *
  * @source $URL$
  */
 public class NonGeoEObjectImpl extends EObjectImpl implements NonGeoEObject {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      */
     protected NonGeoEObjectImpl() {
@@ -41,6 +41,7 @@ public class NonGeoEObjectImpl extends EObjectImpl implements NonGeoEObject {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      */
     @Override
@@ -51,6 +52,7 @@ public class NonGeoEObjectImpl extends EObjectImpl implements NonGeoEObject {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      */
     @Override
@@ -61,16 +63,19 @@ public class NonGeoEObjectImpl extends EObjectImpl implements NonGeoEObject {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      */
     @Override
     public int getNonGeoAttribute() {
-        return (Integer)eGet(EFeatureTestsPackage.Literals.NON_GEO_EOBJECT__NON_GEO_ATTRIBUTE, true);
+        return (Integer) eGet(EFeatureTestsPackage.Literals.NON_GEO_EOBJECT__NON_GEO_ATTRIBUTE, 
+                true);
     }
 
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      */
     @Override

@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -24,7 +24,7 @@ import java.net.URI;
  * This interface is intended to represent the Group construct within XML
  * Schemas.
  * </p>
- * 
+ * <p>
  * <p>
  * In many situations it is recommended that groups be flatened out to their
  * child declaration, removing the additional layer of indirection. Although
@@ -33,8 +33,6 @@ import java.net.URI;
  * </p>
  *
  * @author dzwiers www.refractions.net
- *
- *
  * @source $URL$
  */
 public interface Group extends ElementGrouping {
@@ -43,7 +41,6 @@ public interface Group extends ElementGrouping {
      * Returns the Child Schema element (Choice or Sequence) declaring valid
      * element sequences for this group.
      * </p>
-     *
      */
     public ElementGrouping getChild();
 
@@ -51,7 +48,6 @@ public interface Group extends ElementGrouping {
      * <p>
      * The Group's declaration object id.
      * </p>
-     *
      */
     public String getId();
 
@@ -60,7 +56,6 @@ public interface Group extends ElementGrouping {
      * The maximum number of times this group may appear in the instance
      * document.
      * </p>
-     *
      */
     public int getMaxOccurs();
 
@@ -69,7 +64,6 @@ public interface Group extends ElementGrouping {
      * The minimum number of times this group may appear in the instance
      * document.
      * </p>
-     *
      */
     public int getMinOccurs();
 
@@ -77,13 +71,11 @@ public interface Group extends ElementGrouping {
      * <p>
      * The group's name in the Schema document
      * </p>
-     *
      */
     public String getName();
 
     /**
      * DOCUMENT ME!
-     *
      */
     public URI getNamespace();
 }

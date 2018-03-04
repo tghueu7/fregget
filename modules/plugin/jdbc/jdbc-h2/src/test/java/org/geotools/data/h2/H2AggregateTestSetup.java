@@ -26,7 +26,8 @@ public class H2AggregateTestSetup extends JDBCAggregateTestSetup {
 
     @Override
     protected void createAggregateTable() throws Exception {
-        run("CREATE TABLE \"geotools\".\"aggregate\"(\"fid\" int AUTO_INCREMENT(0) PRIMARY KEY, \"id\" int, "
+        run("CREATE TABLE \"geotools\".\"aggregate\"(\"fid\" int AUTO_INCREMENT(0) PRIMARY KEY, " +
+                "\"id\" int, "
                 + "\"geom\" POLYGON, \"name\" varchar )");
         run("CALL AddGeometryColumn('geotools', 'aggregate', 'geom', 4326, 'POLYGON', 2)");
         run("CALL CreateSpatialIndex('geotools', 'aggregate', 'geom', 4326)");

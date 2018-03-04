@@ -25,9 +25,9 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the type http://www.opengis.net/se:SelectedChannelType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:complexType name="SelectedChannelType"&gt;
@@ -35,16 +35,14 @@ import javax.xml.namespace.QName;
  *          &lt;xsd:element ref="se:SourceChannelName"/&gt;
  *          &lt;xsd:element minOccurs="0" ref="se:ContrastEnhancement"/&gt;
  *      &lt;/xsd:sequence&gt;
- *  &lt;/xsd:complexType&gt; 
- * 	
+ *  &lt;/xsd:complexType&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class SelectedChannelTypeBinding extends SLDSelectedChannelTypeBinding {

@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *        
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -31,15 +31,16 @@ import org.opengis.filter.FilterVisitor;
  * with an internally defined type (AND, OR, NOT).
  *
  * @author Rob Hranac, TOPP
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public abstract class LogicFilterImpl extends BinaryLogicAbstract {
-    /** The logger for the default core module. */
-    private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org.geotools.core");
-    
+    /**
+     * The logger for the default core module.
+     */
+    private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org" +
+            ".geotools.core");
+
     /**
      * Computing the hash can be expensive for large logic filters, Effective Java suggests to
      * cache it. The object is not immutable, so care should be taken to clear the cache
@@ -51,22 +52,22 @@ public abstract class LogicFilterImpl extends BinaryLogicAbstract {
     protected LogicFilterImpl() {
         this(new ArrayList<org.opengis.filter.Filter>());
     }
-    
+
     protected LogicFilterImpl(List<org.opengis.filter.Filter> children) {
         super(children);
     }
-    
+
 
     /**
      * Convenience constructor to create a NOT logic filter.
      *
      * @param filter The initial sub filter.
      * @throws IllegalFilterException Does not conform to logic filter
-     *         structure
+     *                                structure
      */
     @Deprecated
     protected LogicFilterImpl(Filter filter)
-        throws IllegalFilterException {
+            throws IllegalFilterException {
         this();
         children.add(filter);
     }
@@ -74,20 +75,19 @@ public abstract class LogicFilterImpl extends BinaryLogicAbstract {
     /**
      * Convenience constructor to create an AND/OR logic filter.
      *
-     * @param filter1 An initial sub filter.
-     * @param filter2 An initial sub filter.
+     * @param filter1    An initial sub filter.
+     * @param filter2    An initial sub filter.
      * @param filterType The final relation between all sub filters.
-     *
      * @throws IllegalFilterException Does not conform to logic filter
-     *         structure
+     *                                structure
      */
     protected LogicFilterImpl(Filter filter1, Filter filter2, short filterType)
-        throws IllegalFilterException {
+            throws IllegalFilterException {
         this();
 
         // Push the initial filter on the stack
         children.add(filter1);
-       
+
         // Add the second filter via internal method to check for illegal NOT
         this.addFilter(filter2);
     }
@@ -96,12 +96,10 @@ public abstract class LogicFilterImpl extends BinaryLogicAbstract {
      * Adds a sub filter to this filter.
      *
      * @param filter Specified filter to add to the sub filter list.
-     *
      * @throws IllegalFilterException Does not conform to logic filter
-     *         structure
-     *
+     *                                structure
      * @task REVISIT: make all filters immutable.  This should return a new
-     *       filter.
+     * filter.
      */
     public final void addFilter(org.opengis.filter.Filter filter) throws IllegalFilterException {
         // reset
@@ -111,7 +109,7 @@ public abstract class LogicFilterImpl extends BinaryLogicAbstract {
             children.add(filter);
         } else {
             throw new IllegalFilterException(
-                "Attempted to add an more than one filter to a NOT filter.");
+                    "Attempted to add an more than one filter to a NOT filter.");
         }
     }
 
@@ -128,13 +126,12 @@ public abstract class LogicFilterImpl extends BinaryLogicAbstract {
      * package private method to get the internal storage of filters.
      *
      * @return the internal sub filter list.
-     * 
      * @deprecated use {@link #getChildren()}
      */
     List getSubFilters() {
         return children;
     }
-    
+
     /**
      * Returns a string representation of this filter.
      *
@@ -173,18 +170,17 @@ public abstract class LogicFilterImpl extends BinaryLogicAbstract {
      * equal.
      *
      * @param obj - the object to compare this LogicFilter against.
-     *
      * @return true if specified object is equal to this filter; false
-     *         otherwise.
+     * otherwise.
      */
     public boolean equals(Object obj) {
-        if (obj == this )
+        if (obj == this)
             return true;
         if ((obj != null) && (obj.getClass() == this.getClass())) {
             LogicFilterImpl logFilter = (LogicFilterImpl) obj;
-            if( LOGGER.isLoggable(Level.FINEST)) {
+            if (LOGGER.isLoggable(Level.FINEST)) {
                 LOGGER.finest("filter type match:"
-                        + (Filters.getFilterType( logFilter ) == Filters.getFilterType( this )));
+                        + (Filters.getFilterType(logFilter) == Filters.getFilterType(this)));
                 LOGGER.finest("same size:"
                         + (logFilter.getSubFilters().size() == this.children.size())
                         + "; inner size: " + logFilter.getSubFilters().size()
@@ -193,7 +189,7 @@ public abstract class LogicFilterImpl extends BinaryLogicAbstract {
                         + logFilter.getSubFilters().containsAll(this.children));
             }
 
-            return ((Filters.getFilterType( logFilter ) == Filters.getFilterType( this ))
+            return ((Filters.getFilterType(logFilter) == Filters.getFilterType(this))
                     && (logFilter.getSubFilters().size() == this.children.size())
                     && logFilter.getSubFilters().containsAll(this.children));
 
@@ -208,7 +204,7 @@ public abstract class LogicFilterImpl extends BinaryLogicAbstract {
      * @return a code to hash this object by.
      */
     public int hashCode() {
-        if(cachedHash == 0) {
+        if (cachedHash == 0) {
             int result = 17;
             int filterType = Filters.getFilterType(this);
             result = (37 * result) + filterType;
@@ -227,7 +223,7 @@ public abstract class LogicFilterImpl extends BinaryLogicAbstract {
      * left to a parent class unless the parents API is identical.
      *
      * @param visitor The visitor which requires access to this filter, the
-     *        method must call visitor.visit(this);
+     *                method must call visitor.visit(this);
      */
     public abstract Object accept(FilterVisitor visitor, Object extraData);
 }

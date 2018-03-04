@@ -30,8 +30,6 @@ import org.opengis.filter.expression.Literal;
 import com.vividsolutions.jts.geom.Geometry;
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class BasicSQLDialect extends SQLDialect {
@@ -46,32 +44,31 @@ public abstract class BasicSQLDialect extends SQLDialect {
      * Subclasses may wish to override or extend this method to handle specific
      * types. This default implementation does the following:
      * <ol>
-     *   <li>The <tt>value</tt> is encoded via its {@link #toString()} representation.
-     *   <li>If <tt>type</tt> is a character type (extends {@link CharSequence}),
-     *   it is wrapped in single quotes (').
+     * <li>The <tt>value</tt> is encoded via its {@link #toString()} representation.
+     * <li>If <tt>type</tt> is a character type (extends {@link CharSequence}),
+     * it is wrapped in single quotes (').
      * </ol>
      * </p>
-     *
      */
     public void encodeValue(Object value, Class type, StringBuffer sql) {
-        
+
         //turn the value into a literal and use FilterToSQL to encode it
-        Literal literal = dataStore.getFilterFactory().literal( value );
+        Literal literal = dataStore.getFilterFactory().literal(value);
         FilterToSQL filterToSQL = dataStore.createFilterToSQL(null);
-        
+
         StringWriter w = new StringWriter();
         filterToSQL.setWriter(w);
-        
-        filterToSQL.visit(literal,type);
-        
-        sql.append( w.getBuffer().toString() );
+
+        filterToSQL.visit(literal, type);
+
+        sql.append(w.getBuffer().toString());
 //        if (CharSequence.class.isAssignableFrom(type)) {
 //            sql.append("'").append(value).append("'");
 //        } else {
 //            sql.append(value);
 //        }
     }
-    
+
     /**
      * Encodes a geometry value in an sql statement.
      * <p>
@@ -88,19 +85,20 @@ public abstract class BasicSQLDialect extends SQLDialect {
      *  </pre>
      * </p>
      * <p>
-     *  The <tt>srid</tt> parameter is the spatial reference system identifier
-     *  of the geometry, or 0 if not known.
+     * The <tt>srid</tt> parameter is the spatial reference system identifier
+     * of the geometry, or 0 if not known.
      * </p>
      * <p>
-     * Attention should be paid to emtpy geometries (<code>g.isEmtpy() == true</code>) as 
+     * Attention should be paid to emtpy geometries (<code>g.isEmtpy() == true</code>) as
      * they cannot be encoded in WKB and several databases fail to handle them property.
      * Common treatment is to equate them to NULL</p>
      */
-    public abstract void encodeGeometryValue(Geometry value, int dimension, int srid, StringBuffer sql)
-        throws IOException;
+    public abstract void encodeGeometryValue(Geometry value, int dimension, int srid, 
+                                             StringBuffer sql)
+            throws IOException;
 
     /**
-     * Creates the filter encoder to be used by the datastore when encoding 
+     * Creates the filter encoder to be used by the datastore when encoding
      * query predicates.
      * <p>
      * Sublcasses can override this method to return a subclass of {@link FilterToSQL}
@@ -120,13 +118,14 @@ public abstract class BasicSQLDialect extends SQLDialect {
      * Neither should be closed. Any statements created from the connection however in this method
      * should be closed.
      * </p>
-     * @param select The select statement being executed
-     * @param cx The database connection
+     *
+     * @param select      The select statement being executed
+     * @param cx          The database connection
      * @param featureType The feature type the select is executing against.
-     * 
      * @throws SQLException
      */
-    public void onSelect(Statement select, Connection cx, SimpleFeatureType featureType) throws SQLException {
+    public void onSelect(Statement select, Connection cx, SimpleFeatureType featureType) throws 
+            SQLException {
     }
 
     /**
@@ -136,13 +135,14 @@ public abstract class BasicSQLDialect extends SQLDialect {
      * Neither should be closed. Any statements created from the connection however in this method
      * should be closed.
      * </p>
-     * @param delete The delete statement being executed
-     * @param cx The database connection
+     *
+     * @param delete      The delete statement being executed
+     * @param cx          The database connection
      * @param featureType The feature type the delete is executing against.
-     * 
      * @throws SQLException
      */
-    public void onDelete(Statement delete, Connection cx, SimpleFeatureType featureType) throws SQLException {
+    public void onDelete(Statement delete, Connection cx, SimpleFeatureType featureType) throws 
+            SQLException {
     }
 
     /**
@@ -152,13 +152,14 @@ public abstract class BasicSQLDialect extends SQLDialect {
      * Neither should be closed. Any statements created from the connection however in this method
      * should be closed.
      * </p>
-     * @param insert The delete statement being executed
-     * @param cx The database connection
+     *
+     * @param insert      The delete statement being executed
+     * @param cx          The database connection
      * @param featureType The feature type the insert is executing against.
-     * 
      * @throws SQLException
      */
-    public void onInsert(Statement insert, Connection cx, SimpleFeatureType featureType) throws SQLException {
+    public void onInsert(Statement insert, Connection cx, SimpleFeatureType featureType) throws 
+            SQLException {
     }
 
     /**
@@ -168,12 +169,13 @@ public abstract class BasicSQLDialect extends SQLDialect {
      * Neither should be closed. Any statements created from the connection however in this method
      * should be closed.
      * </p>
-     * @param update The delete statement being executed
-     * @param cx The database connection
+     *
+     * @param update      The delete statement being executed
+     * @param cx          The database connection
      * @param featureType The feature type the update is executing against.
-     * 
      * @throws SQLException
      */
-    public void onUpdate(Statement update, Connection cx, SimpleFeatureType featureType) throws SQLException {
+    public void onUpdate(Statement update, Connection cx, SimpleFeatureType featureType) throws 
+            SQLException {
     }
 }

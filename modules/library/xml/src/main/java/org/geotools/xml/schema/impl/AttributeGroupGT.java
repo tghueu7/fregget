@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -28,8 +28,6 @@ import org.geotools.xml.schema.AttributeGroup;
  * </p>
  *
  * @author dzwiers
- *
- *
  * @source $URL$
  */
 public class AttributeGroupGT implements AttributeGroup {
@@ -46,14 +44,14 @@ public class AttributeGroupGT implements AttributeGroup {
     /**
      * Creates a new AttributeGroupGT object.
      *
-     * @param id DOCUMENT ME!
-     * @param name DOCUMENT ME!
-     * @param namespace DOCUMENT ME!
-     * @param attributes DOCUMENT ME!
+     * @param id                    DOCUMENT ME!
+     * @param name                  DOCUMENT ME!
+     * @param namespace             DOCUMENT ME!
+     * @param attributes            DOCUMENT ME!
      * @param anyAttributeNamespace DOCUMENT ME!
      */
     public AttributeGroupGT(String id, String name, URI namespace,
-        Attribute[] attributes, String anyAttributeNamespace) {
+                            Attribute[] attributes, String anyAttributeNamespace) {
         this.id = id;
         this.name = name;
         this.namespace = namespace;

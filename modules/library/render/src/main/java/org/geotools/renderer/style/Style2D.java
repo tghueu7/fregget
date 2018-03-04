@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -22,10 +22,8 @@ import java.awt.Graphics2D;
 /**
  * Base class for all style targeting {@link Graphics2D}.
  *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public abstract class Style2D extends Style {
 }

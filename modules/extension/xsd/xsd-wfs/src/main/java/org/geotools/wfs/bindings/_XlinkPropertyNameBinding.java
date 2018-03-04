@@ -31,9 +31,9 @@ import org.w3c.dom.Text;
 
 /**
  * Binding object for the type http://www.opengis.net/wfs:_XlinkPropertyName.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="_XlinkPropertyName"&gt;
  *      &lt;xsd:simpleContent&gt;
@@ -75,9 +75,6 @@ import org.w3c.dom.Text;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class _XlinkPropertyNameBinding extends AbstractComplexEMFBinding {
@@ -101,7 +98,7 @@ public class _XlinkPropertyNameBinding extends AbstractComplexEMFBinding {
      * @see ComplexBinding#encode(Object, Document, Element).
      */
     public Element encode(final Object object, final Document document, Element value)
-        throws Exception {
+            throws Exception {
         final XlinkPropertyNameType xlink = (XlinkPropertyNameType) object;
         final String textValue = xlink.getValue();
         final Text textNode = document.createTextNode(textValue);

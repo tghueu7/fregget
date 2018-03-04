@@ -26,10 +26,10 @@ import java.lang.annotation.Target;
 /**
  * A command-line option.
  *
- * @since 2.5
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @since 2.5
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

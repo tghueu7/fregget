@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -25,8 +25,6 @@ import junit.framework.TestCase;
 import org.junit.Assert;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GeneralizationInfosTest extends TestCase {
@@ -80,8 +78,10 @@ public class GeneralizationInfosTest extends TestCase {
         assertTrue(info2.getGeneralizations().size() == 2);
 
         assertTrue(info1.getGeneralizationForDistance(99.0) == null);
-        assertTrue(info1.getGeneralizationForDistance(100.0).getFeatureName().equals("GenFeature1"));
-        assertTrue(info1.getGeneralizationForDistance(999.0).getFeatureName().equals("GenFeature1"));
+        assertTrue(info1.getGeneralizationForDistance(100.0).getFeatureName().equals
+                ("GenFeature1"));
+        assertTrue(info1.getGeneralizationForDistance(999.0).getFeatureName().equals
+                ("GenFeature1"));
         assertTrue("DSInfo".equals(info1.getGeneralizationForDistance(100.0).getDataSourceName()));
         assertTrue("WSInfo".equals(info1.getGeneralizationForDistance(100.0)
                 .getDataSourceNameSpace()));

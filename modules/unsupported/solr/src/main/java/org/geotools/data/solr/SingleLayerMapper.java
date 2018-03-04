@@ -41,13 +41,12 @@ public class SingleLayerMapper implements SolrLayerMapper {
             URL url = new URL(solr.getBaseURL());
             String[] path = url.getPath() != null ? url.getPath().split("/") : null;
             if (path != null && path.length > 0) {
-                String last = path[path.length-1];
+                String last = path[path.length - 1];
                 if (!last.trim().isEmpty()) {
                     return Arrays.asList(last);
                 }
             }
-        }
-        catch(MalformedURLException e) {
+        } catch (MalformedURLException e) {
             LOGGER.log(Level.FINE, "unable to parse solr url: " + solr.getBaseURL(), e);
         }
 

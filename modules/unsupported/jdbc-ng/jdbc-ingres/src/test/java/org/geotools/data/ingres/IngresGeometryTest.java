@@ -20,8 +20,6 @@ import org.geotools.jdbc.JDBCGeometryTest;
 import org.geotools.jdbc.JDBCGeometryTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class IngresGeometryTest extends JDBCGeometryTest {
@@ -30,7 +28,7 @@ public class IngresGeometryTest extends JDBCGeometryTest {
     protected JDBCGeometryTestSetup createTestSetup() {
         return new IngresGeometryTestSetup(new IngresTestSetup());
     }
-    
+
     @Override
     public void testLinearRing() throws Exception {
         // linear ring type is not a supported type in Ingres

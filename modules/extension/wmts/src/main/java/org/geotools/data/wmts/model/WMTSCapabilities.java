@@ -42,6 +42,7 @@ import org.opengis.referencing.operation.TransformException;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
+
 import java.util.logging.Level;
 
 import net.opengis.ows11.WGS84BoundingBoxType;
@@ -71,12 +72,11 @@ import org.geotools.ows.ServiceException;
 
 /**
  * Represents a base object for a WMTS getCapabilities response.
- *
+ * <p>
  * (Based on existing work by rgould for WMS service)
  *
  * @author ian
  * @author Emanuele Tajariol (etj at geo-solutions dot it)
- *
  */
 public class WMTSCapabilities extends Capabilities {
 
@@ -193,7 +193,7 @@ public class WMTSCapabilities extends Capabilities {
             for (TileMatrixSetLink tmsLink : tileMatrixLinks.values()) {
                 CoordinateReferenceSystem tmsCRS = names.get(tmsLink.getIdentifier());
                 wmtsLayer.setPreferredCRS(tmsCRS); // the preferred crs is just
-                                                   // an arbitrary one?
+                // an arbitrary one?
                 String crsCode = tmsCRS.getName().getCode();
 
                 if (wmtsLayer.getBoundingBoxes().containsKey(crsCode)) {
@@ -371,7 +371,8 @@ public class WMTSCapabilities extends Capabilities {
             int y;
             int x;
             // in WMTS WGS84 is in lon,lat order - see
-            // https://portal.opengeospatial.org/services/srv_public_issues.php?call=viewIssue&issue_id=898
+            // https://portal.opengeospatial.org/services/srv_public_issues
+            // .php?call=viewIssue&issue_id=898
             if (CRS.getAxisOrder(DefaultGeographicCRS.WGS84).equals(CRS.AxisOrder.NORTH_EAST)) {
                 x = 1;
                 y = 0;
@@ -459,8 +460,7 @@ public class WMTSCapabilities extends Capabilities {
     }
 
     /**
-     * @param request
-     *            The request to set.
+     * @param request The request to set.
      */
     public void setRequest(WMTSRequest request) {
         this.request = request;
@@ -486,8 +486,7 @@ public class WMTSCapabilities extends Capabilities {
     }
 
     /**
-     * @param matrixes
-     *            the matrixes to set
+     * @param matrixes the matrixes to set
      */
     public void setMatrixSets(List<TileMatrixSet> matrixes) {
         this.matrixes = matrixes;

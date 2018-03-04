@@ -15,6 +15,7 @@
  *    Lesser General Public License for more details.
  */
 package org.geotools.data.ingres;
+
 import java.io.IOException;
 
 import org.geotools.jdbc.JDBCFeatureSourceExposePkTest;
@@ -22,8 +23,6 @@ import org.geotools.jdbc.JDBCTestSetup;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class IngresFeatureSourceExposePkTest extends JDBCFeatureSourceExposePkTest {

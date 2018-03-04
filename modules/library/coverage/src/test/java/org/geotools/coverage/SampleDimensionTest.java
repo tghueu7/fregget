@@ -29,11 +29,9 @@ import org.opengis.util.InternationalString;
  * rely on {@link CategoryList} for many of its work, many {@code GridSampleDimension}
  * tests are actually {@code CategoryList} tests.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
  */
 public final class SampleDimensionTest {
 
@@ -48,13 +46,14 @@ public final class SampleDimensionTest {
             return new SimpleInternationalString("overridden");
         }
     }
+
     /**
      * The categories making the sample dimension to test.
      */
     private static final String[] CATEGORIES = {
-        "No data",
-        "Clouds",
-        "Lands"
+            "No data",
+            "Clouds",
+            "Lands"
     };
 
     /**
@@ -76,7 +75,7 @@ public final class SampleDimensionTest {
     /**
      * The scale factor for the sample dimension to test.
      */
-    private static final double scale  = 0.1;
+    private static final double scale = 0.1;
 
     /**
      * The offset value for the sample dimension to test.
@@ -99,12 +98,12 @@ public final class SampleDimensionTest {
     @Before
     public void setUp() {
         assertEquals("setUp", CATEGORIES.length, NO_DATA.length);
-        final Category[] categories = new Category[CATEGORIES.length+1];
-        for (int i=0; i<CATEGORIES.length; i++) {
+        final Category[] categories = new Category[CATEGORIES.length + 1];
+        for (int i = 0; i < CATEGORIES.length; i++) {
             categories[i] = new Category(CATEGORIES[i], null, NO_DATA[i]);
         }
         categories[CATEGORIES.length] = new Category("SST", null, minimum, maximum);
-        test = new GridSampleDimension("Temperature" ,categories, scale, offset);
+        test = new GridSampleDimension("Temperature", categories, scale, offset);
     }
 
     /**
@@ -114,13 +113,13 @@ public final class SampleDimensionTest {
     public void testSampleDimension() {
         final double[] nodataValues = test.getNoDataValues();
         assertEquals("nodataValues.length", CATEGORIES.length, nodataValues.length);
-        for (int i=0; i<CATEGORIES.length; i++) {
-            assertEquals("nodataValues["+i+']', NO_DATA[i], nodataValues[i], 0);
+        for (int i = 0; i < CATEGORIES.length; i++) {
+            assertEquals("nodataValues[" + i + ']', NO_DATA[i], nodataValues[i], 0);
         }
-        assertEquals("scale",     scale,  test.getScale(),        0);
-        assertEquals("offset",    offset, test.getOffset(),       0);
-        assertEquals("minimum",   0,      test.getMinimumValue(), 0);
-        assertEquals("maximum",   255,    test.getMaximumValue(), 0);
+        assertEquals("scale", scale, test.getScale(), 0);
+        assertEquals("offset", offset, test.getOffset(), 0);
+        assertEquals("minimum", 0, test.getMinimumValue(), 0);
+        assertEquals("maximum", 255, test.getMaximumValue(), 0);
 
     }
 

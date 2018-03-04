@@ -34,13 +34,11 @@ import org.opengis.feature.type.Name;
 import org.opengis.filter.Filter;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DirectoryFeatureSource implements SimpleFeatureSource {
     SimpleFeatureSource fsource;
-    
+
     public DirectoryFeatureSource(
             SimpleFeatureSource delegate) {
         this.fsource = delegate;
@@ -109,5 +107,5 @@ public class DirectoryFeatureSource implements SimpleFeatureSource {
     public SimpleFeatureSource unwrap() {
         return fsource;
     }
-    
+
 }

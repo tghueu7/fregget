@@ -13,7 +13,7 @@
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
- *    
+ *
  */
 package org.geotools.mbstyle.layer;
 
@@ -49,6 +49,7 @@ public class RasterMBLayer extends MBLayer {
             paintJson = new JSONObject();
         }
     }
+
     @Override
     protected SemanticType defaultSemanticType() {
         return SemanticType.RASTER;
@@ -56,7 +57,7 @@ public class RasterMBLayer extends MBLayer {
 
     /**
      * (Optional) The opacity (Number) at which the image will be drawn.
-     * 
+     * <p>
      * Defaults to 1. Range: [0, 1]
      *
      * @return The opacity of this raster layer.
@@ -64,21 +65,21 @@ public class RasterMBLayer extends MBLayer {
     public Expression opacity() {
         return parse.percentage(paintJson, "raster-opacity", 1);
     }
-    
+
     /**
      * (Optional) The opacity (Number) at which the image will be drawn.
-     * 
+     * <p>
      * Defaults to 1. Range: [0, 1]
      *
      * @return The opacity of this raster layer.
      */
     public Number getOpacity() {
-        return parse.optional(Number.class , paintJson, "raster-opacity", 1);        
+        return parse.optional(Number.class, paintJson, "raster-opacity", 1);
     }
 
     /**
      * (Optional) Rotates hues around the color wheel.
-     * 
+     * <p>
      * Number. Units in degrees. Defaults to 0.
      *
      * @return The angle to rotate the hue of the raster image by.
@@ -86,21 +87,21 @@ public class RasterMBLayer extends MBLayer {
     public Expression hueRotate() {
         return parse.number(paintJson, "raster-hue-rotate", 0);
     }
-    
+
     /**
      * (Optional) Rotates hues around the color wheel.
-     * 
+     * <p>
      * Number. Units in degrees. Defaults to 0.
      *
      * @return The angle to rotate the hue of the raster image by.
-     */    
+     */
     public Number getHueRotate() {
         return parse.optional(Number.class, paintJson, "raster-hue-rotate", 0);
     }
 
     /**
      * (Optional) Scale the brightness of the image. The value is the minimum brightness.
-     * 
+     * <p>
      * Number. Defaults to 0. Range: [0, 1]
      *
      * @return The minimum magnitude of the brightness.
@@ -108,10 +109,10 @@ public class RasterMBLayer extends MBLayer {
     public Expression brightnessMin() {
         return parse.number(paintJson, "raster-brightness-min", 0);
     }
-    
+
     /**
      * (Optional) Scale the brightness of the image. The value is the minimum brightness.
-     * 
+     * <p>
      * Number. Defaults to 0. Range: [0, 1]
      *
      * @return The minimum magnitude of the brightness.
@@ -122,7 +123,7 @@ public class RasterMBLayer extends MBLayer {
 
     /**
      * (Optional) Scale the brightness of the image. The value is the maximum brightness.
-     * 
+     * <p>
      * Number. Defaults to 1. Range: [0, 1]
      *
      * @return The maximum magnitude of the brightness.
@@ -130,10 +131,10 @@ public class RasterMBLayer extends MBLayer {
     public Expression brightnessMax() {
         return parse.number(paintJson, "raster-brightness-max", 1);
     }
-    
+
     /**
      * (Optional) Scale the brightness of the image. The value is the maximum brightness.
-     * 
+     * <p>
      * Number. Defaults to 1. Range: [0, 1]
      *
      * @return The maximum magnitude of the brightness.
@@ -144,7 +145,7 @@ public class RasterMBLayer extends MBLayer {
 
     /**
      * (Optional) Increase or reduce the saturation of the image.
-     * 
+     * <p>
      * Number. Defaults to 0. Range: [-1, 1]
      *
      * @return The change in saturation
@@ -155,18 +156,18 @@ public class RasterMBLayer extends MBLayer {
 
     /**
      * (Optional) Increase or reduce the saturation of the image.
-     * 
+     * <p>
      * Number. Defaults to 0. Range: [-1, 1]
      *
      * @return The change in saturation
      */
     public Number getSaturation() {
-        return parse.optional(Number.class, paintJson,  "raster-saturation", 0);
+        return parse.optional(Number.class, paintJson, "raster-saturation", 0);
     }
 
     /**
      * (Optional) Increase or reduce the contrast of the image.
-     * 
+     * <p>
      * Number. Defaults to 0. Range: [-1, 1]
      *
      * @return The change in contrast
@@ -174,21 +175,21 @@ public class RasterMBLayer extends MBLayer {
     public Expression contrast() {
         return parse.number(paintJson, "raster-contrast", 0);
     }
-    
+
     /**
      * (Optional) Increase or reduce the contrast of the image.
-     * 
+     * <p>
      * Number. Defaults to 0. Range: [-1, 1]
      *
      * @return The change in contrast
      */
     public Number getContrast() {
-        return parse.optional(Number.class, paintJson,  "raster-contrast", 0);
+        return parse.optional(Number.class, paintJson, "raster-contrast", 0);
     }
 
     /**
      * (Optional) Fade duration when a new tile is added.
-     * 
+     * <p>
      * Number. Units in milliseconds. Defaults to 300.
      *
      * @return The duration of the fade when a new tile is added.
@@ -199,13 +200,13 @@ public class RasterMBLayer extends MBLayer {
 
     /**
      * (Optional) Fade duration when a new tile is added.
-     *
+     * <p>
      * Number. Units in milliseconds. Defaults to 300.
      *
      * @return The duration of the fade when a new tile is added.
      */
     public Number getFadeDuration() {
-        return parse.optional(Number.class, paintJson,  "raster-fade-duration", 300);
+        return parse.optional(Number.class, paintJson, "raster-fade-duration", 300);
     }
 
     /**
@@ -217,7 +218,8 @@ public class RasterMBLayer extends MBLayer {
      * <li>Assumes 3-band RGB</li>
      * </ul>
      *
-     * @param styleContext The MBStyle to which this layer belongs, used as a context for things like resolving sprite and glyph names to full urls.
+     * @param styleContext The MBStyle to which this layer belongs, used as a context for things 
+     *                     like resolving sprite and glyph names to full urls.
      * @return FeatureTypeStyle
      */
     public List<FeatureTypeStyle> transformInternal(MBStyle styleContext) {

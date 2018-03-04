@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -32,21 +32,19 @@ import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
  * A FeatureWriter that captures modifications against a FeatureReader.
- * 
+ * <p>
  * <p>
  * You will eventually need to write out the differences, later.
  * </p>
- * 
+ * <p>
  * <p>
  * The API has been implemented in terms of FeatureReader<SimpleFeatureType, SimpleFeature> to make
  * explicit that no Features are written out by this Class.
  * </p>
- * 
+ *
  * @author Jody Garnett (Refractions Research)
- * 
- * @see DiffContentState
- * 
  * @source $URL$
+ * @see DiffContentState
  */
 public class DiffContentFeatureWriter implements FeatureWriter<SimpleFeatureType, SimpleFeature> {
     protected FeatureReader<SimpleFeatureType, SimpleFeature> reader;
@@ -62,30 +60,31 @@ public class DiffContentFeatureWriter implements FeatureWriter<SimpleFeatureType
     SimpleFeature current; // duplicate provided to user
 
     ContentFeatureStore store;
-    
+
     SimpleFeatureBuilder builder;
 
     /**
      * DiffFeatureWriter construction.
-     * 
+     *
      * @param reader
      * @param diff
      * @param filter
      */
     public DiffContentFeatureWriter(ContentFeatureStore store, Diff diff,
-            FeatureReader<SimpleFeatureType, SimpleFeature> reader) {
-        this(store,diff,reader,new SimpleFeatureBuilder(reader.getFeatureType()));
+                                    FeatureReader<SimpleFeatureType, SimpleFeature> reader) {
+        this(store, diff, reader, new SimpleFeatureBuilder(reader.getFeatureType()));
     }
-    
+
     /**
      * DiffFeatureWriter construction.
-     * 
+     *
      * @param reader
      * @param diff
      * @param filter
      */
     public DiffContentFeatureWriter(ContentFeatureStore store, Diff diff,
-            FeatureReader<SimpleFeatureType, SimpleFeature> reader, SimpleFeatureBuilder builder) {
+                                    FeatureReader<SimpleFeatureType, SimpleFeature> reader, 
+                                    SimpleFeatureBuilder builder) {
         this.store = store;
         this.reader = reader;
         this.state = store.getState();
@@ -95,7 +94,7 @@ public class DiffContentFeatureWriter implements FeatureWriter<SimpleFeatureType
 
     /**
      * Supplys FeatureTypeFrom reader
-     * 
+     *
      * @see org.geotools.data.FeatureWriter#getFeatureType()
      */
     public SimpleFeatureType getFeatureType() {
@@ -104,7 +103,7 @@ public class DiffContentFeatureWriter implements FeatureWriter<SimpleFeatureType
 
     /**
      * Next Feature from reader or new content.
-     * 
+     *
      * @see org.geotools.data.FeatureWriter#next()
      */
     public SimpleFeature next() throws IOException {
@@ -126,7 +125,8 @@ public class DiffContentFeatureWriter implements FeatureWriter<SimpleFeatureType
             // (The real writer will supply a FID later)
             live = null;
             next = null;
-            current = builder.buildFeature("new"+ diff.nextFID, new Object[type.getAttributeCount()]);
+            current = builder.buildFeature("new" + diff.nextFID, new Object[type
+                    .getAttributeCount()]);
             diff.nextFID++;
             return current;
         }
@@ -151,9 +151,8 @@ public class DiffContentFeatureWriter implements FeatureWriter<SimpleFeatureType
 
     /**
      * Writes out the current feature.
-     * 
+     *
      * @throws IOException
-     * 
      * @see org.geotools.data.FeatureWriter#write()
      */
     public void write() throws IOException {
@@ -191,7 +190,7 @@ public class DiffContentFeatureWriter implements FeatureWriter<SimpleFeatureType
 
     /**
      * Query for more content.
-     * 
+     *
      * @see org.geotools.data.FeatureWriter#hasNext()
      */
     public boolean hasNext() throws IOException {
@@ -221,12 +220,12 @@ public class DiffContentFeatureWriter implements FeatureWriter<SimpleFeatureType
 
     /**
      * Clean up resources associated with this writer.
-     * 
+     * <p>
      * <p>
      * Diff is not clear()ed as it is assumed that it belongs to a Transaction.State object and may
      * yet be written out.
      * </p>
-     * 
+     *
      * @see org.geotools.data.FeatureWriter#close()
      */
     public void close() throws IOException {

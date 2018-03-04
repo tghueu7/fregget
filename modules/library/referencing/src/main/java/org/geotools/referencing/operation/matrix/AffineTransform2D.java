@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,6 +17,7 @@
 package org.geotools.referencing.operation.matrix;
 
 import java.awt.geom.AffineTransform;
+
 import org.opengis.referencing.operation.Matrix;
 import org.geotools.resources.i18n.Errors;
 import org.geotools.resources.i18n.ErrorKeys;
@@ -38,12 +39,10 @@ import org.geotools.util.Utilities;
  * operation (because it is not possible to change the value at {@code (2,2)}), {@code transpose()}
  * would fails in most cases, and {@code isAffine()} would be useless.
  *
- * @since 2.3
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.3
  */
 public class AffineTransform2D extends AffineTransform implements Matrix {
     /**
@@ -74,17 +73,17 @@ public class AffineTransform2D extends AffineTransform implements Matrix {
      * The specified matrix size must be {@value #SIZE}&times;{@value #SIZE}.
      */
     public AffineTransform2D(final Matrix matrix) {
-        if (matrix.getNumRow()!=SIZE || matrix.getNumCol()!=SIZE) {
+        if (matrix.getNumRow() != SIZE || matrix.getNumCol() != SIZE) {
             throw new IllegalArgumentException(Errors.format(ErrorKeys.ILLEGAL_MATRIX_SIZE));
         }
-        for (int i=0; i<SIZE; i++) {
-            checkLastRow(i, matrix.getElement(SIZE-1, i));
+        for (int i = 0; i < SIZE; i++) {
+            checkLastRow(i, matrix.getElement(SIZE - 1, i));
         }
-        int c=0;
+        int c = 0;
         final double[] values = new double[6];
-        for (int j=0; j<SIZE-1; j++) {
-            for (int i=0; i<SIZE; i++) {
-                values[c++] = matrix.getElement(j,i);
+        for (int j = 0; j < SIZE - 1; j++) {
+            for (int i = 0; i < SIZE; i++) {
+                values[c++] = matrix.getElement(j, i);
             }
         }
         assert c == values.length : c;
@@ -126,25 +125,33 @@ public class AffineTransform2D extends AffineTransform implements Matrix {
         switch (row) {
             case 0: {
                 switch (column) {
-                    case 0: return getScaleX();
-                    case 1: return getShearX();
-                    case 2: return getTranslateX();
+                    case 0:
+                        return getScaleX();
+                    case 1:
+                        return getShearX();
+                    case 2:
+                        return getTranslateX();
                 }
                 break;
             }
             case 1: {
                 switch (column) {
-                    case 0: return getShearY();
-                    case 1: return getScaleY();
-                    case 2: return getTranslateY();
+                    case 0:
+                        return getShearY();
+                    case 1:
+                        return getScaleY();
+                    case 2:
+                        return getTranslateY();
                 }
                 break;
             }
             case 2: {
                 switch (column) {
                     case 0: // fall through
-                    case 1: return 0;
-                    case 2: return 1;
+                    case 1:
+                        return 0;
+                    case 2:
+                        return 1;
                 }
                 break;
             }
@@ -165,21 +172,21 @@ public class AffineTransform2D extends AffineTransform implements Matrix {
      * @param value  The new matrix element value.
      */
     public void setElement(final int row, final int column, final double value) {
-        if (row<0 || row>=SIZE) {
+        if (row < 0 || row >= SIZE) {
             throw new IndexOutOfBoundsException(Errors.format(
                     ErrorKeys.ILLEGAL_ARGUMENT_$2, "row", row));
         }
-        if (column<0 || column>=SIZE) {
+        if (column < 0 || column >= SIZE) {
             throw new IndexOutOfBoundsException(Errors.format(
                     ErrorKeys.ILLEGAL_ARGUMENT_$2, "column", column));
         }
-        if (row == SIZE-1) {
+        if (row == SIZE - 1) {
             checkLastRow(column, value);
             return; // Nothing to set.
         }
         final double[] matrix = new double[6];
         getMatrix(matrix);
-        matrix[row*SIZE + column] = value;
+        matrix[row * SIZE + column] = value;
         setTransform(matrix);
         assert Double.compare(getElement(row, column), value) == 0 : value;
     }
@@ -190,11 +197,10 @@ public class AffineTransform2D extends AffineTransform implements Matrix {
      * This method throws an exception if the specified value is not the expected one.
      */
     private static void checkLastRow(final int column, final double value)
-            throws IllegalArgumentException
-    {
-        if (value != (column == SIZE-1 ? 1 : 0)) {
+            throws IllegalArgumentException {
+        if (value != (column == SIZE - 1 ? 1 : 0)) {
             throw new IllegalArgumentException(Errors.format(ErrorKeys.ILLEGAL_ARGUMENT_$2,
-                      "matrix[" + (SIZE-1) + ',' + column + ']', value));
+                    "matrix[" + (SIZE - 1) + ',' + column + ']', value));
         }
     }
 
@@ -214,7 +220,7 @@ public class AffineTransform2D extends AffineTransform implements Matrix {
     public AffineTransform2D clone() {
         return (AffineTransform2D) super.clone();
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof AffineTransform)) {
@@ -222,11 +228,11 @@ public class AffineTransform2D extends AffineTransform implements Matrix {
         }
 
         AffineTransform a = (AffineTransform) obj;
-        
+
         return Utilities.equals(getScaleX(), a.getScaleX()) &&
-            Utilities.equals(getScaleY(), a.getScaleY()) &&
-            Utilities.equals(getShearX(), a.getShearY()) &&
-            Utilities.equals(getTranslateX(), a.getTranslateX()) &&
-            Utilities.equals(getTranslateY(), a.getTranslateY());
+                Utilities.equals(getScaleY(), a.getScaleY()) &&
+                Utilities.equals(getShearX(), a.getShearY()) &&
+                Utilities.equals(getTranslateX(), a.getTranslateX()) &&
+                Utilities.equals(getTranslateY(), a.getTranslateY());
     }
 }

@@ -32,19 +32,19 @@ import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
  * @author Daniele Romagnoli, GeoSolutions SAS
- *
  */
 public class RuntimeExtractorTest extends Assert {
-    
+
     @Test
-    public void runtimeTest() throws Exception{
+    public void runtimeTest() throws Exception {
 
         // acquire dataset
         final File file = TestData.file(this, "O3-NO2.nc");
         long lastModified = file.lastModified();
 
         final RuntimeExtractorSPI spi = new RuntimeExtractorSPI();
-        final PropertiesCollector collector = spi.create("regex=MODIFY_TIME", Arrays.asList("updated"));
+        final PropertiesCollector collector = spi.create("regex=MODIFY_TIME", Arrays.asList
+                ("updated"));
         final SimpleFeatureTypeBuilder featureTypeBuilder = new SimpleFeatureTypeBuilder();
         featureTypeBuilder.setName("runtimeT");
         featureTypeBuilder.add("updated", Date.class);

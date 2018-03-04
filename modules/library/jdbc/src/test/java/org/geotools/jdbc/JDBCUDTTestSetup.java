@@ -17,8 +17,6 @@
 package org.geotools.jdbc;
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class JDBCUDTTestSetup extends JDBCDelegatingTestSetup {
@@ -31,12 +29,12 @@ public abstract class JDBCUDTTestSetup extends JDBCDelegatingTestSetup {
     protected void setUpData() throws Exception {
         try {
             dropUdtTable();
+        } catch (Exception e) {
         }
-        catch(Exception e) {}
-        
+
         createUdtTable();
     }
-    
+
 
     /**
      * Creates a table name "udt" with the following schema:
@@ -44,8 +42,8 @@ public abstract class JDBCUDTTestSetup extends JDBCDelegatingTestSetup {
      * udt( id:Integer PRIMARY KEY; ut: String[] )
      * </p>
      * <p>
-     * The "ut" column is a user defined column that is text based but restricts input to 
-     * 2 numbers follows by two letters. Example: '12ab', '34CD'. 
+     * The "ut" column is a user defined column that is text based but restricts input to
+     * 2 numbers follows by two letters. Example: '12ab', '34CD'.
      * <p>
      * <p>
      * The table should be populated with the following data:
@@ -55,7 +53,7 @@ public abstract class JDBCUDTTestSetup extends JDBCDelegatingTestSetup {
      * </p>
      */
     protected abstract void createUdtTable() throws Exception;
-    
+
     /**
      * Drops the "udt" table.
      */

@@ -28,24 +28,28 @@ import javax.swing.SwingUtilities;
 
 /**
  * Base class to handle events
- * 
+ *
  * @author carlo cancellieri - GeoSolutions SAS
- * 
  */
 public class ImageMosaicEventHandlers {
 
-    /** Default Logger * */
+    /**
+     * Default Logger *
+     */
     final static Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger(ImageMosaicEventHandlers.class);
 
     /**
      * List containing all the objects that want to be notified during processing.
      */
-    protected List<ProcessingEventListener> notificationListeners = new CopyOnWriteArrayList<ProcessingEventListener>();
+    protected List<ProcessingEventListener> notificationListeners = new 
+            CopyOnWriteArrayList<ProcessingEventListener>();
 
     /**
-     * Set this to false for command line UIs where the delayed event sending may prevent some messages to be seen before the tool exits, to true for
-     * real GUI where you don't want the processing to be blocked too long, or when you have slow listeners in general.
+     * Set this to false for command line UIs where the delayed event sending may prevent some 
+     * messages to be seen before the tool exits, to true for
+     * real GUI where you don't want the processing to be blocked too long, or when you have slow
+     * listeners in general.
      */
     protected boolean sendDelayedMessages = false;
 
@@ -57,7 +61,6 @@ public class ImageMosaicEventHandlers {
 
     /**
      * @author Simone Giannecchini, GeoSolutions.
-     * 
      */
     static public class ProcessingEvent extends EventObject {
 
@@ -98,7 +101,7 @@ public class ImageMosaicEventHandlers {
          * @param source
          */
         public FileProcessingEvent(final Object source, final File file, final boolean ingested,
-                final String message, final double percentage) {
+                                   final String message, final double percentage) {
             super(source, message, percentage);
             this.file = file;
             this.ingested = ingested;
@@ -115,11 +118,11 @@ public class ImageMosaicEventHandlers {
     }
 
     /**
-     * Event launched when an exception occurs. Percentage and message may be missing, in this case they will be -1 and the exception message
+     * Event launched when an exception occurs. Percentage and message may be missing, in this 
+     * case they will be -1 and the exception message
      * (localized if available, standard otherwise)
-     * 
+     *
      * @author aaime, TOPP.
-     * 
      */
     static public final class ExceptionEvent extends ProcessingEvent {
 
@@ -128,7 +131,7 @@ public class ImageMosaicEventHandlers {
         private Exception exception;
 
         public ExceptionEvent(Object source, String message, double percentage,
-                Exception exception) {
+                              Exception exception) {
             super(source, message, percentage);
             this.exception = exception;
         }
@@ -145,7 +148,8 @@ public class ImageMosaicEventHandlers {
     }
 
     /**
-     * Private Class which simply fires the events using a copy of the listeners list in order to avoid problems with listeners that remove themselves
+     * Private Class which simply fires the events using a copy of the listeners list in order to
+     * avoid problems with listeners that remove themselves
      * or are removed by someone else
      */
     protected final static class ProgressEventDispatchThreadEventLauncher implements Runnable {
@@ -168,8 +172,8 @@ public class ImageMosaicEventHandlers {
 
         /**
          * Used to send an event to an array of listeners.
-         * 
-         * @param evt is the {@link ProcessingEvent} to send.
+         *
+         * @param evt       is the {@link ProcessingEvent} to send.
          * @param listeners is the array of {@link ProcessingEventListener}s to notify.
          */
         synchronized void setEvent(final ProcessingEvent evt, final Object[] listeners) {
@@ -200,7 +204,7 @@ public class ImageMosaicEventHandlers {
 
     /**
      * Adding a listener to the {@link ProcessingEventListener}s' list.
-     * 
+     *
      * @param listener to add to the list of listeners.
      */
     public final void addProcessingEventListener(final ProcessingEventListener listener) {
@@ -208,11 +212,11 @@ public class ImageMosaicEventHandlers {
     }
 
     /**
-     * Firing an event to listeners in order to inform them about what we are doing and about the percentage of work already carried out.
-     * 
+     * Firing an event to listeners in order to inform them about what we are doing and about the
+     * percentage of work already carried out.
+     *
      * @param level
-     * 
-     * @param message The message to show.
+     * @param message    The message to show.
      * @param percentage The percentage for the process.
      */
     protected void fireEvent(Level level, final String inMessage, final double percentage) {
@@ -225,22 +229,23 @@ public class ImageMosaicEventHandlers {
             message.append(Thread.currentThread().getName()).append(newLine);
             message.append(this.getClass().toString()).append(newLine).append(inMessage);
             final ProcessingEvent evt = new ProcessingEvent(this, message.toString(), percentage);
-            ProgressEventDispatchThreadEventLauncher eventLauncher = new ProgressEventDispatchThreadEventLauncher();
+            ProgressEventDispatchThreadEventLauncher eventLauncher = new 
+                    ProgressEventDispatchThreadEventLauncher();
             eventLauncher.setEvent(evt, this.notificationListeners.toArray());
             sendEvent(eventLauncher);
         }
     }
 
     /**
-     * Firing an event to listeners in order to inform them about what we are doing and about the percentage of work already carried out.
-     * 
+     * Firing an event to listeners in order to inform them about what we are doing and about the
+     * percentage of work already carried out.
+     *
      * @param level
-     * 
-     * @param message The message to show.
+     * @param message    The message to show.
      * @param percentage The percentage for the process.
      */
     protected void fireFileEvent(Level level, final File file, final boolean ingested,
-            final String inMessage, final double percentage) {
+                                 final String inMessage, final double percentage) {
         if (LOGGER.isLoggable(level)) {
             LOGGER.log(level, inMessage);
         }
@@ -251,16 +256,19 @@ public class ImageMosaicEventHandlers {
             message.append(this.getClass().toString()).append(newLine).append(inMessage);
             final FileProcessingEvent evt = new FileProcessingEvent(this, file, ingested,
                     message.toString(), percentage);
-            ProgressEventDispatchThreadEventLauncher eventLauncher = new ProgressEventDispatchThreadEventLauncher();
+            ProgressEventDispatchThreadEventLauncher eventLauncher = new 
+                    ProgressEventDispatchThreadEventLauncher();
             eventLauncher.setEvent(evt, this.notificationListeners.toArray());
             sendEvent(eventLauncher);
         }
     }
 
     /**
-     * Firing an exception event to listeners in order to inform them that processing broke and we can no longer proceed. This is a convenience
-     * method, it will call {@link #fireException(String, double, Exception)} with the exception message and -1 as percentage.
-     * 
+     * Firing an exception event to listeners in order to inform them that processing broke and 
+     * we can no longer proceed. This is a convenience
+     * method, it will call {@link #fireException(String, double, Exception)} with the exception 
+     * message and -1 as percentage.
+     *
      * @param ex the actual exception occurred
      */
     protected void fireException(Exception ex) {
@@ -270,11 +278,12 @@ public class ImageMosaicEventHandlers {
     }
 
     /**
-     * Firing an exception event to listeners in order to inform them that processing broke and we can no longer proceed
-     * 
-     * @param string The message to show.
+     * Firing an exception event to listeners in order to inform them that processing broke and 
+     * we can no longer proceed
+     *
+     * @param string     The message to show.
      * @param percentage The percentage for the process.
-     * @param ex the actual exception occurred
+     * @param ex         the actual exception occurred
      */
     private void fireException(final String string, final double percentage, Exception ex) {
         synchronized (notificationListeners) {
@@ -283,7 +292,8 @@ public class ImageMosaicEventHandlers {
             message.append(Thread.currentThread().getName()).append(newLine);
             message.append(this.getClass().toString()).append(newLine).append(string);
             final ExceptionEvent evt = new ExceptionEvent(this, string, percentage, ex);
-            ProgressEventDispatchThreadEventLauncher eventLauncher = new ProgressEventDispatchThreadEventLauncher();
+            ProgressEventDispatchThreadEventLauncher eventLauncher = new 
+                    ProgressEventDispatchThreadEventLauncher();
             eventLauncher.setEvent(evt, this.notificationListeners.toArray());
             sendEvent(eventLauncher);
         }
@@ -299,7 +309,6 @@ public class ImageMosaicEventHandlers {
 
     /**
      * Removing all the listeners.
-     * 
      */
     public void removeAllProcessingEventListeners() {
         synchronized (notificationListeners) {
@@ -310,7 +319,7 @@ public class ImageMosaicEventHandlers {
 
     /**
      * Removing a {@link ProcessingEventListener} from the listeners' list.
-     * 
+     *
      * @param listener {@link ProcessingEventListener} to remove from the list of listeners.
      */
     public void removeProcessingEventListener(final ProcessingEventListener listener) {

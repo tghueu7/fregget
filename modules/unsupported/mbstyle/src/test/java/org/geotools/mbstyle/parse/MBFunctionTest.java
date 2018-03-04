@@ -51,7 +51,7 @@ import org.opengis.filter.expression.PropertyName;
 
 /**
  * Try out property and zoom function.
- * 
+ * <p>
  * See example https://www.mapbox.com/help/gl-dds-ref/ online.
  */
 public class MBFunctionTest {
@@ -62,47 +62,53 @@ public class MBFunctionTest {
     public void colorIdentityTest() throws Exception {
         SimpleFeatureType SAMPLE = DataUtilities.createType("SAMPLE",
                 "id:\"\",temperature:0.0,location=4326,color:java.awt.Color,text:String:");
-        SimpleFeature feature1 = DataUtilities.createFeature(SAMPLE, "measure1=A|50.0|POINT(0,0)|#FF0000|red");
-        SimpleFeature feature2 = DataUtilities.createFeature(SAMPLE, "measure1=A|50.0|POINT(0,0)|#0000FF|rgb(0,0,255)");
-        
+        SimpleFeature feature1 = DataUtilities.createFeature(SAMPLE, "measure1=A|50.0|POINT(0,0)" +
+                "|#FF0000|red");
+        SimpleFeature feature2 = DataUtilities.createFeature(SAMPLE, "measure1=A|50.0|POINT(0,0)" +
+                "|#0000FF|rgb(0,0,255)");
+
         // color test
-        MBFunction function = new MBFunction(MapboxTestUtils.object("{'property':'color','type':'identity'}"));
+        MBFunction function = new MBFunction(MapboxTestUtils.object("{'property':'color'," +
+                "'type':'identity'}"));
         assertTrue("property", function.category().contains(MBFunction.FunctionCategory.PROPERTY));
-        assertTrue("identity", function.getType() == FunctionType.IDENTITY );
-        
+        assertTrue("identity", function.getType() == FunctionType.IDENTITY);
+
         Expression color = function.color();
-        assertEquals("color",Color.RED, color.evaluate(feature1, Color.class));
-        assertEquals("color",Color.BLUE, color.evaluate(feature2, Color.class));
-        
+        assertEquals("color", Color.RED, color.evaluate(feature1, Color.class));
+        assertEquals("color", Color.BLUE, color.evaluate(feature2, Color.class));
+
         function = new MBFunction(MapboxTestUtils.object("{'property':'text','type':'identity'}"));
-        Expression text= function.color();
-        assertEquals("text",Color.RED, text.evaluate(feature1, Color.class));
-        assertEquals("text",Color.BLUE, text.evaluate(feature2, Color.class));
+        Expression text = function.color();
+        assertEquals("text", Color.RED, text.evaluate(feature1, Color.class));
+        assertEquals("text", Color.BLUE, text.evaluate(feature2, Color.class));
 
 
     }
 
     /**
-     * Assert that the color identity function correctly returns the default value when the property is not a valid color.
+     * Assert that the color identity function correctly returns the default value when the 
+     * property is not a valid color.
      */
     @Test
     public void colorIdentityDefaultValueTest() throws Exception {
         SimpleFeatureType SAMPLE = DataUtilities.createType("SAMPLE",
                 "id:\"\",temperature:0.0,location=4326,color:java.awt.Color,text:String:");
         MBFunction function = new MBFunction(
-            MapboxTestUtils.object("{'property':'color','type':'identity', 'default':'#FFFFFF'}"));
+                MapboxTestUtils.object("{'property':'color','type':'identity', " +
+                        "'default':'#FFFFFF'}"));
         SimpleFeature feature = DataUtilities.createFeature(SAMPLE,
                 "measure1=A|50.0|POINT(0,0)|NOT_A_VALID_COLOR|NOT_A_VALID_COLOR");
         assertEquals("Default", Color.WHITE, function.color().evaluate(feature, Color.class));
     }
-    
+
     @Test
     public void propertyColorStops() throws Exception {
         SimpleFeatureType SAMPLE = DataUtilities.createType("SAMPLE",
                 "id:\"\",temperature:0.0,location=4326");
         SimpleFeature feature = DataUtilities.createFeature(SAMPLE, "measure1=A|50.0|POINT(0,0)");
 
-        JSONObject json = MapboxTestUtils.object("{'property':'temperature','type':'exponential','stops':[[0,'blue'],[100,'red']]}");
+        JSONObject json = MapboxTestUtils.object("{'property':'temperature','type':'exponential'," +
+                "'stops':[[0,'blue'],[100,'red']]}");
         MBFunction function = new MBFunction(json);
 
         assertEquals("temperature", function.getProperty());
@@ -136,15 +142,18 @@ public class MBFunctionTest {
     }
 
     /**
-     * Assert that the an exponential color function correctly falls back to the default value if the input property is not numeric.
+     * Assert that the an exponential color function correctly falls back to the default value if
+     * the input property is not numeric.
      */
     @Test
     public void propertyColorStopsDefaultValue() throws Exception {
         SimpleFeatureType SAMPLE = DataUtilities.createType("SAMPLE",
                 "id:\"\",temperature:0.0,location=4326");
-        SimpleFeature feature = DataUtilities.createFeature(SAMPLE, "measure1=A|NOT_A_VALID_NUMBER|POINT(0,0)");
+        SimpleFeature feature = DataUtilities.createFeature(SAMPLE, 
+                "measure1=A|NOT_A_VALID_NUMBER|POINT(0,0)");
 
-        JSONObject json = MapboxTestUtils.object("{'property':'temperature','type':'exponential','stops':[[0,'blue'],[100,'red']], 'default':'#000000'}");
+        JSONObject json = MapboxTestUtils.object("{'property':'temperature','type':'exponential'," +
+                "'stops':[[0,'blue'],[100,'red']], 'default':'#000000'}");
         MBFunction function = new MBFunction(json);
 
         Color result = function.color().evaluate(feature, Color.class);
@@ -158,7 +167,8 @@ public class MBFunctionTest {
                 "id:\"\",temperature:0.0,location=4326");
         SimpleFeature feature = DataUtilities.createFeature(SAMPLE, "measure1=A|50.0|POINT(0,0)");
 
-        JSONObject json = MapboxTestUtils.object("{'property':'temperature','type':'exponential','stops':[[0,'blue'],[100,'red']],'base':1.1}");
+        JSONObject json = MapboxTestUtils.object("{'property':'temperature','type':'exponential'," +
+                "'stops':[[0,'blue'],[100,'red']],'base':1.1}");
         MBFunction function = new MBFunction(json);
 
         assertEquals("temperature", function.getProperty());
@@ -168,10 +178,10 @@ public class MBFunctionTest {
         Function fn = (Function) function.color();
         assertNotNull(fn);
         assertEquals("Exponential", fn.getName());
-        
+
         Expression property = fn.getParameters().get(0);
         assertEquals("temperature", ECQL.toCQL(property));
-        
+
         Literal base = (Literal) fn.getParameters().get(1);
         assertEquals(new Double(1.1), base.evaluate(null, Double.class));
 
@@ -188,15 +198,16 @@ public class MBFunctionTest {
         assertEquals(Color.RED, color2.evaluate(null, Color.class));
 
         Color result = fn.evaluate(feature, Color.class);
-        
+
         // When the base is greater than 1, more growth should be at the end of the range.
-        // So the interpolation on the halfway input value should be less than the halfway output value, which would be (128, 0 , 128).        
+        // So the interpolation on the halfway input value should be less than the halfway output
+        // value, which would be (128, 0 , 128).        
         assertEquals(0, result.getGreen());
         assertTrue(result.getBlue() > 128);
         assertTrue(result.getRed() < 128);
-        
+
     }
-    
+
     @Test
     public void propertyValueStops() throws Exception {
         SimpleFeatureType SAMPLE = DataUtilities.createType("SAMPLE",
@@ -204,7 +215,8 @@ public class MBFunctionTest {
 
         SimpleFeature feature = DataUtilities.createFeature(SAMPLE, "measure1=A|50.0|POINT(0,0)");
 
-        JSONObject json = MapboxTestUtils.object("{'type':'exponential', 'property':'temperature','stops':[[0,5],[100,10]]}");
+        JSONObject json = MapboxTestUtils.object("{'type':'exponential', " +
+                "'property':'temperature','stops':[[0,5],[100,10]]}");
 
         MBFunction function = new MBFunction(json);
 
@@ -217,13 +229,15 @@ public class MBFunctionTest {
         assertEquals("Interpolate", fn.getName());
         PropertyName propertyName = (PropertyName) fn.getParameters().get(0);
         assertEquals("temperature", propertyName.getPropertyName());
-        
+
         Double result = fn.evaluate(feature, Double.class);
         assertEquals(7.5, result, 0.0);
     }
-    
+
     /**
-     * Tests that a MapBox zoom function (outputting a color) correctly creates a GeoTools interpolation function. 
+     * Tests that a MapBox zoom function (outputting a color) correctly creates a GeoTools 
+     * interpolation function.
+     *
      * @throws Exception
      */
     @Test
@@ -231,22 +245,24 @@ public class MBFunctionTest {
         SimpleFeatureType SAMPLE = DataUtilities.createType("SAMPLE",
                 "id:\"\",temperature:0.0,location=4326");
         SimpleFeature feature = DataUtilities.createFeature(SAMPLE, "measure1=A|50.0|POINT(0,0)");
-        
+
         EnvFunction.setGlobalValue("wms_scale_denominator", "2132.729584");
 
-        JSONObject json = MapboxTestUtils.object("{'type':'exponential','stops':[[0,'blue'],[6,'red'],[12, 'lime']]}");
+        JSONObject json = MapboxTestUtils.object("{'type':'exponential','stops':[[0,'blue'],[6," +
+                "'red'],[12, 'lime']]}");
         MBFunction function = new MBFunction(json);
 
-        assertTrue("Is a zoom function", EnumSet.of(MBFunction.FunctionCategory.ZOOM).equals(function.category()));
+        assertTrue("Is a zoom function", EnumSet.of(MBFunction.FunctionCategory.ZOOM).equals
+                (function.category()));
         assertEquals(MBFunction.FunctionType.EXPONENTIAL, function.getType());
         Function fn = (Function) function.color();
-        assertNotNull(fn);        
+        assertNotNull(fn);
         assertEquals("Interpolate", fn.getName());
-        
+
         Expression zoomLevel = fn.getParameters().get(0);
         Number n = zoomLevel.evaluate(null, Number.class);
         // This should be zoom level 18
-        assertEquals(18.0, n.doubleValue(), .000001);        
+        assertEquals(18.0, n.doubleValue(), .000001);
 
         Literal stop1 = (Literal) fn.getParameters().get(1);
         assertEquals(new Integer(0), stop1.evaluate(null, Integer.class));
@@ -259,7 +275,7 @@ public class MBFunctionTest {
 
         Literal color2 = (Literal) fn.getParameters().get(4);
         assertEquals(Color.RED, color2.evaluate(null, Color.class));
-        
+
         Literal stop3 = (Literal) fn.getParameters().get(5);
         assertEquals(new Integer(12), stop3.evaluate(null, Integer.class));
 
@@ -273,11 +289,12 @@ public class MBFunctionTest {
         Color result = fn.evaluate(feature, Color.class);
         assertEquals(new Color(0, 255, 0), result);
     }
-    
+
     /**
-     * Tests that a MapBox linear zoom function (outputting a color) correctly interpolates color values
+     * Tests that a MapBox linear zoom function (outputting a color) correctly interpolates color
+     * values
      * for zoom levels between stops.
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -285,53 +302,56 @@ public class MBFunctionTest {
         SimpleFeatureType SAMPLE = DataUtilities.createType("SAMPLE",
                 "id:\"\",temperature:0.0,location=4326");
         SimpleFeature feature = DataUtilities.createFeature(SAMPLE, "measure1=A|50.0|POINT(0,0)");
-        
+
         EnvFunction.setGlobalValue("wms_scale_denominator", "69885282.993862");
 
-        JSONObject json = MapboxTestUtils.object("{'type':'exponential', 'stops':[[0,'blue'],[6,'red'],[12, 'lime']]}");
-        
+        JSONObject json = MapboxTestUtils.object("{'type':'exponential', 'stops':[[0,'blue'],[6," +
+                "'red'],[12, 'lime']]}");
+
         MBFunction function = new MBFunction(json);
-        assertTrue("Is a zoom function", EnumSet.of(MBFunction.FunctionCategory.ZOOM).equals(function.category()));
+        assertTrue("Is a zoom function", EnumSet.of(MBFunction.FunctionCategory.ZOOM).equals
+                (function.category()));
         assertEquals(MBFunction.FunctionType.EXPONENTIAL, function.getType());
-                
+
         Function fn = (Function) function.color();
         Expression zoomLevel = fn.getParameters().get(0);
-        Number n = zoomLevel.evaluate(null, Number.class);   
+        Number n = zoomLevel.evaluate(null, Number.class);
         // This should be zoom level 3
-        assertEquals(3.0, n.doubleValue(), .000001);        
+        assertEquals(3.0, n.doubleValue(), .000001);
 
         Color result = fn.evaluate(feature, Color.class);
         assertEquals(new Color(127, 0, 128), result);
-        
-        
+
+
         EnvFunction.setGlobalValue("wms_scale_denominator", "8735660.374233");
         n = zoomLevel.evaluate(null, Number.class);
         // This should be zoom level 6
-        assertEquals(6.0, n.doubleValue(), .000001);                
+        assertEquals(6.0, n.doubleValue(), .000001);
         result = fn.evaluate(feature, Color.class);
         assertEquals(new Color(255, 0, 0), result);
-        
-        
+
+
         EnvFunction.setGlobalValue("wms_scale_denominator", "1091957.546779");
         n = zoomLevel.evaluate(null, Number.class);
         // This should be zoom level 9
-        assertEquals(9.0, n.doubleValue(), .000001);                
+        assertEquals(9.0, n.doubleValue(), .000001);
         result = fn.evaluate(feature, Color.class);
         assertEquals(new Color(127, 128, 0), result);
-        
-        
+
+
         EnvFunction.setGlobalValue("wms_scale_denominator", "136494.693347");
         n = zoomLevel.evaluate(null, Number.class);
         // This should be zoom level 12
-        assertEquals(12.0, n.doubleValue(), .000001);                
+        assertEquals(12.0, n.doubleValue(), .000001);
         result = fn.evaluate(feature, Color.class);
-        assertEquals(new Color(0, 255, 0), result);        
+        assertEquals(new Color(0, 255, 0), result);
     }
-    
+
     /**
-     * Tests that a MapBox exponential zoom function (outputting a color) correctly interpolates color values
+     * Tests that a MapBox exponential zoom function (outputting a color) correctly interpolates 
+     * color values
      * for zoom levels between stops, when the exponential base is > 1.
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -339,7 +359,7 @@ public class MBFunctionTest {
         SimpleFeatureType SAMPLE = DataUtilities.createType("SAMPLE",
                 "id:\"\",temperature:0.0,location=4326");
         SimpleFeature feature = DataUtilities.createFeature(SAMPLE, "measure1=A|50.0|POINT(0,0)");
-        
+
         // Set scale denominator to the equivalent of zoomLevel 9
         String scaleDenomForZoom9 = "1091957.546779";
         EnvFunction.setGlobalValue("wms_scale_denominator", scaleDenomForZoom9);
@@ -350,37 +370,45 @@ public class MBFunctionTest {
         verifyEnvironmentZoomLevel(9);
 
         // Create a Mapbox Function
-        String jsonStr = "{'type':'exponential', 'base': 1.9, 'stops':[[0,'blue'],[6,'red'],[12, 'lime']]}";
+        String jsonStr = "{'type':'exponential', 'base': 1.9, 'stops':[[0,'blue'],[6,'red'],[12, " +
+                "'lime']]}";
         JSONObject json = MapboxTestUtils.object(jsonStr);
         MBFunction function = new MBFunction(json);
-        
+
         // Assert it is an exponential function with the correct base
-        assertTrue("Is a zoom function", EnumSet.of(MBFunction.FunctionCategory.ZOOM).equals(function.category()));
+        assertTrue("Is a zoom function", EnumSet.of(MBFunction.FunctionCategory.ZOOM).equals
+                (function.category()));
         assertEquals(MBFunction.FunctionType.EXPONENTIAL, function.getType());
         assertEquals(1.9, function.getBase().doubleValue(), .00001);
-        
+
         Function fn = (Function) function.color();
         //System.out.println("cql: "+ECQL.toCQL( fn ));
         Color result = fn.evaluate(feature, Color.class);
         //System.out.println("The interpolated color is: " + result);
-        
-        Expression zoomLevel = fn.getParameters().get(0);        
-        Number n = zoomLevel.evaluate(null, Number.class);   
+
+        Expression zoomLevel = fn.getParameters().get(0);
+        Number n = zoomLevel.evaluate(null, Number.class);
         //System.out.println("(the function's interpolate value was " + n + ")");
-                
-        assertTrue("Color has no red, but should be interpolated mix of red and green", result.getRed() > 0);
-        assertTrue("Color has full green, but should be interpolated mix of red and green", result.getGreen() < 255);
-        
-        // We are interpolating at the halfway point, so the linear interpolation would have been (128, 128, 0).        
-        assertTrue("Exponential interpolation base is > 1, so the interpolated green value should lag behind the linear interpolation.", result.getGreen() < 128);
-        assertTrue("Exponential interpolation base is > 1, so the interpolated red value should lag behind the linear interpolation.", result.getRed() > 128);   
+
+        assertTrue("Color has no red, but should be interpolated mix of red and green", result
+                .getRed() > 0);
+        assertTrue("Color has full green, but should be interpolated mix of red and green", 
+                result.getGreen() < 255);
+
+        // We are interpolating at the halfway point, so the linear interpolation would have been
+        // (128, 128, 0).        
+        assertTrue("Exponential interpolation base is > 1, so the interpolated green value should" +
+                " lag behind the linear interpolation.", result.getGreen() < 128);
+        assertTrue("Exponential interpolation base is > 1, so the interpolated red value should " +
+                "lag behind the linear interpolation.", result.getRed() > 128);
 
     }
-    
+
     /**
-     * Tests that a MapBox exponential zoom function (outputting a color) correctly interpolates color values
+     * Tests that a MapBox exponential zoom function (outputting a color) correctly interpolates 
+     * color values
      * for zoom levels between stops, when the exponential base is < 1.
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -388,7 +416,7 @@ public class MBFunctionTest {
         SimpleFeatureType SAMPLE = DataUtilities.createType("SAMPLE",
                 "id:\"\",temperature:0.0,location=4326");
         SimpleFeature feature = DataUtilities.createFeature(SAMPLE, "measure1=A|50.0|POINT(0,0)");
-        
+
         // Set scale denominator to the equivalent of zoomLevel 9
         String scaleDenomForZoom9 = "1091957.546779";
         EnvFunction.setGlobalValue("wms_scale_denominator", scaleDenomForZoom9);
@@ -399,34 +427,42 @@ public class MBFunctionTest {
         verifyEnvironmentZoomLevel(9);
 
         // Create a Mapbox Function
-        String jsonStr = "{'type':'exponential', 'base': 0.1, 'stops':[[0,'blue'],[6,'red'],[12, 'lime']]}";
+        String jsonStr = "{'type':'exponential', 'base': 0.1, 'stops':[[0,'blue'],[6,'red'],[12, " +
+                "'lime']]}";
         JSONObject json = MapboxTestUtils.object(jsonStr);
         MBFunction function = new MBFunction(json);
-        
+
         // Assert it is an exponential function with the correct base
-        assertTrue("Is a zoom function", EnumSet.of(MBFunction.FunctionCategory.ZOOM).equals(function.category()));
+        assertTrue("Is a zoom function", EnumSet.of(MBFunction.FunctionCategory.ZOOM).equals
+                (function.category()));
         assertEquals(MBFunction.FunctionType.EXPONENTIAL, function.getType());
         assertEquals(0.1, function.getBase().doubleValue(), .00001);
 
         Function fn = (Function) function.color();
         Color result = fn.evaluate(feature, Color.class);
-        
-        Expression zoomLevel = fn.getParameters().get(0);        
+
+        Expression zoomLevel = fn.getParameters().get(0);
         Number n = zoomLevel.evaluate(null, Number.class);
-                
-        assertTrue("Color has no red, but should be interpolated mix of red and green", result.getRed() > 0);
-        assertTrue("Color has full green, but should be interpolated mix of red and green", result.getGreen() < 255);
-        
-        // We are interpolating at the halfway point, so the linear interpolation would have been (128, 128, 0).        
-        assertTrue("Exponential interpolation base is < 1, so the interpolated green value should lead the linear interpolation.", result.getGreen() > 128);
-        assertTrue("Exponential interpolation base is < 1, so the interpolated red value should lead the linear interpolation.", result.getRed() < 128);   
+
+        assertTrue("Color has no red, but should be interpolated mix of red and green", result
+                .getRed() > 0);
+        assertTrue("Color has full green, but should be interpolated mix of red and green", 
+                result.getGreen() < 255);
+
+        // We are interpolating at the halfway point, so the linear interpolation would have been
+        // (128, 128, 0).        
+        assertTrue("Exponential interpolation base is < 1, so the interpolated green value should" +
+                " lead the linear interpolation.", result.getGreen() > 128);
+        assertTrue("Exponential interpolation base is < 1, so the interpolated red value should " +
+                "lead the linear interpolation.", result.getRed() < 128);
 
     }
-    
+
     /**
-     * Tests that a MapBox exponential zoom function (outputting a color) correctly interpolates color values
+     * Tests that a MapBox exponential zoom function (outputting a color) correctly interpolates 
+     * color values
      * for zoom levels between stops, when the exponential base is == 1 (linear).
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -434,7 +470,7 @@ public class MBFunctionTest {
         SimpleFeatureType SAMPLE = DataUtilities.createType("SAMPLE",
                 "id:\"\",temperature:0.0,location=4326");
         SimpleFeature feature = DataUtilities.createFeature(SAMPLE, "measure1=A|50.0|POINT(0,0)");
-        
+
         // Set scale denominator to the equivalent of zoomLevel 9
         String scaleDenomForZoom9 = "1091957.546779";
         EnvFunction.setGlobalValue("wms_scale_denominator", scaleDenomForZoom9);
@@ -445,134 +481,175 @@ public class MBFunctionTest {
         verifyEnvironmentZoomLevel(9);
 
         // Create a Mapbox Function
-        String jsonStr = "{'type':'exponential', 'base': 1.0, 'stops':[[0,'blue'],[6,'red'],[12, 'lime']]}";
+        String jsonStr = "{'type':'exponential', 'base': 1.0, 'stops':[[0,'blue'],[6,'red'],[12, " +
+                "'lime']]}";
         JSONObject json = MapboxTestUtils.object(jsonStr);
         MBFunction function = new MBFunction(json);
-        
+
         // Assert it is an exponential function with the correct base
-        assertTrue("Is a zoom function", EnumSet.of(MBFunction.FunctionCategory.ZOOM).equals(function.category()));
+        assertTrue("Is a zoom function", EnumSet.of(MBFunction.FunctionCategory.ZOOM).equals
+                (function.category()));
         assertEquals(MBFunction.FunctionType.EXPONENTIAL, function.getType());
         assertEquals(1.0, function.getBase().doubleValue(), .00001);
-        
+
         Function fn = (Function) function.color();
         Color result = fn.evaluate(feature, Color.class);
-        
-        Expression zoomLevel = fn.getParameters().get(0);        
+
+        Expression zoomLevel = fn.getParameters().get(0);
         Number n = zoomLevel.evaluate(null, Number.class);
-                
-        assertTrue("Color has no red, but should be interpolated mix of red and green", result.getRed() > 0);
-        assertTrue("Color has full green, but should be interpolated mix of red and green", result.getGreen() < 255);
-        
-        // We are interpolating at the halfway point, so the linear interpolation would have been (128, 128, 0).        
-        assertEquals("Exponential interpolation base is = 1, so the interpolated green value should equal the linear interpolation.", 128, result.getGreen());
-        assertEquals("Exponential interpolation base is = 1, so the interpolated red value should equal the linear interpolation.", 127, result.getRed());   
+
+        assertTrue("Color has no red, but should be interpolated mix of red and green", result
+                .getRed() > 0);
+        assertTrue("Color has full green, but should be interpolated mix of red and green", 
+                result.getGreen() < 255);
+
+        // We are interpolating at the halfway point, so the linear interpolation would have been
+        // (128, 128, 0).        
+        assertEquals("Exponential interpolation base is = 1, so the interpolated green value " +
+                "should equal the linear interpolation.", 128, result.getGreen());
+        assertEquals("Exponential interpolation base is = 1, so the interpolated red value should" +
+                " equal the linear interpolation.", 127, result.getRed());
 
     }
-    
+
     /**
-     * 
      * Test an {@link MBFunction} (type = interval) that returns a color value.
-     * 
      */
     @Test
     public void colorIntervalFunctionTest() throws Exception {
         SimpleFeatureType SAMPLE = DataUtilities.createType("SAMPLE",
                 "id:\"\",numbervalue,location=4326");
-        java.util.function.Function<Long, SimpleFeature> features = (value)->
-            DataUtilities.createFeature(SAMPLE, "measure1=A|"+value+"|POINT(0,0)");
+        java.util.function.Function<Long, SimpleFeature> features = (value) ->
+                DataUtilities.createFeature(SAMPLE, "measure1=A|" + value + "|POINT(0,0)");
 
-        String jsonStr = "{'property': 'numbervalue', 'type': 'interval', 'default': '#0F0F0F', 'stops': [[-1000, '#000000'], [-30, '#00FF00'], [0, '#0000FF'], [100, '#FFFFFF']]}";
+        String jsonStr = "{'property': 'numbervalue', 'type': 'interval', 'default': '#0F0F0F', " +
+                "'stops': [[-1000, '#000000'], [-30, '#00FF00'], [0, '#0000FF'], [100, " +
+                "'#FFFFFF']]}";
         MBFunction function = new MBFunction(MapboxTestUtils.object(jsonStr));
-        assertTrue("Function category is \"property\"", EnumSet.of(MBFunction.FunctionCategory.PROPERTY).equals(function.category()));
-        assertEquals("Function type is \"interval\"", MBFunction.FunctionType.INTERVAL, function.getType());        
-        
+        assertTrue("Function category is \"property\"", EnumSet.of(MBFunction.FunctionCategory
+                .PROPERTY).equals(function.category()));
+        assertEquals("Function type is \"interval\"", MBFunction.FunctionType.INTERVAL, function
+                .getType());
+
         Expression outputExpression = function.color();
-        
+
         // Before the first stop is undefined (return default value)
-        assertThat(outputExpression, evaluatesTo(features.apply(-10000L), Color.class, equalTo(new Color(0x0F0F0F))));
-        
+        assertThat(outputExpression, evaluatesTo(features.apply(-10000L), Color.class, equalTo
+                (new Color(0x0F0F0F))));
+
         // Test each interval
-        assertThat(outputExpression, evaluatesTo(features.apply(-900L), Color.class, equalTo(Color.BLACK)));
-        assertThat(outputExpression, evaluatesTo(features.apply(-20L), Color.class, equalTo(Color.GREEN)));
-        assertThat(outputExpression, evaluatesTo(features.apply(10L), Color.class, equalTo(Color.BLUE)));
-        assertThat(outputExpression, evaluatesTo(features.apply(500L), Color.class, equalTo(Color.WHITE)));
-        
+        assertThat(outputExpression, evaluatesTo(features.apply(-900L), Color.class, equalTo
+                (Color.BLACK)));
+        assertThat(outputExpression, evaluatesTo(features.apply(-20L), Color.class, equalTo(Color
+                .GREEN)));
+        assertThat(outputExpression, evaluatesTo(features.apply(10L), Color.class, equalTo(Color
+                .BLUE)));
+        assertThat(outputExpression, evaluatesTo(features.apply(500L), Color.class, equalTo(Color
+                .WHITE)));
+
         // Test at stops
-        assertThat(outputExpression, evaluatesTo(features.apply(-1000L), Color.class, equalTo(Color.BLACK)));
-        assertThat(outputExpression, evaluatesTo(features.apply(-30L), Color.class, equalTo(Color.GREEN)));
-        assertThat(outputExpression, evaluatesTo(features.apply(0L), Color.class, equalTo(Color.BLUE)));
-        assertThat(outputExpression, evaluatesTo(features.apply(100L), Color.class, equalTo(Color.WHITE)));
+        assertThat(outputExpression, evaluatesTo(features.apply(-1000L), Color.class, equalTo
+                (Color.BLACK)));
+        assertThat(outputExpression, evaluatesTo(features.apply(-30L), Color.class, equalTo(Color
+                .GREEN)));
+        assertThat(outputExpression, evaluatesTo(features.apply(0L), Color.class, equalTo(Color
+                .BLUE)));
+        assertThat(outputExpression, evaluatesTo(features.apply(100L), Color.class, equalTo(Color
+                .WHITE)));
     }
-    
+
     /**
-     * 
      * Test an {@link MBFunction} (type = interval) that returns a color value.
-     * 
      */
     @Test
     public void enumIntervalFunctionTest() throws Exception {
         SimpleFeatureType SAMPLE = DataUtilities.createType("SAMPLE",
                 "id:\"\",numbervalue,location=4326");
-        java.util.function.Function<Long, SimpleFeature> features = (value)->
-            DataUtilities.createFeature(SAMPLE, "measure1=A|"+value+"|POINT(0,0)");
-        
-        String jsonStr = "{'property': 'numbervalue', 'type': 'interval', 'default': 1, 'stops': [[-1000, 'INTERVAL'], [-30, 'CATEGORICAL'], [0, 'EXPONENTIAL'], [100, 'IDENTITY']]}";
+        java.util.function.Function<Long, SimpleFeature> features = (value) ->
+                DataUtilities.createFeature(SAMPLE, "measure1=A|" + value + "|POINT(0,0)");
+
+        String jsonStr = "{'property': 'numbervalue', 'type': 'interval', 'default': 1, 'stops': " +
+                "[[-1000, 'INTERVAL'], [-30, 'CATEGORICAL'], [0, 'EXPONENTIAL'], [100, " +
+                "'IDENTITY']]}";
         MBFunction function = new MBFunction(MapboxTestUtils.object(jsonStr));
-        assertTrue("Function category is \"property\"", EnumSet.of(MBFunction.FunctionCategory.PROPERTY).equals(function.category()));
-        assertEquals("Function type is \"interval\"", MBFunction.FunctionType.INTERVAL, function.getType());        
-        
+        assertTrue("Function category is \"property\"", EnumSet.of(MBFunction.FunctionCategory
+                .PROPERTY).equals(function.category()));
+        assertEquals("Function type is \"interval\"", MBFunction.FunctionType.INTERVAL, function
+                .getType());
+
         Expression outputExpression = function.enumeration(MBFunction.FunctionType.class);
-        
+
         // Before the first stop is undefined
-        assertThat(outputExpression, evaluatesTo(features.apply(-10000L), String.class, any(String.class)));
-        
+        assertThat(outputExpression, evaluatesTo(features.apply(-10000L), String.class, any
+                (String.class)));
+
         // Test each interval
-        assertThat(outputExpression, evaluatesTo(features.apply(-900L), String.class, equalTo("interval")));
-        assertThat(outputExpression, evaluatesTo(features.apply(-20L), String.class, equalTo("categorical")));
-        assertThat(outputExpression, evaluatesTo(features.apply(10L), String.class, equalTo("exponential")));
-        assertThat(outputExpression, evaluatesTo(features.apply(500L), String.class, equalTo("identity")));
-        
+        assertThat(outputExpression, evaluatesTo(features.apply(-900L), String.class, equalTo
+                ("interval")));
+        assertThat(outputExpression, evaluatesTo(features.apply(-20L), String.class, equalTo
+                ("categorical")));
+        assertThat(outputExpression, evaluatesTo(features.apply(10L), String.class, equalTo
+                ("exponential")));
+        assertThat(outputExpression, evaluatesTo(features.apply(500L), String.class, equalTo
+                ("identity")));
+
         // Test at stops
-        assertThat(outputExpression, evaluatesTo(features.apply(-1000L), String.class, equalTo("interval")));
-        assertThat(outputExpression, evaluatesTo(features.apply(-30L), String.class, equalTo("categorical")));
-        assertThat(outputExpression, evaluatesTo(features.apply(0L), String.class, equalTo("exponential")));
-        assertThat(outputExpression, evaluatesTo(features.apply(100L), String.class, equalTo("identity")));
+        assertThat(outputExpression, evaluatesTo(features.apply(-1000L), String.class, equalTo
+                ("interval")));
+        assertThat(outputExpression, evaluatesTo(features.apply(-30L), String.class, equalTo
+                ("categorical")));
+        assertThat(outputExpression, evaluatesTo(features.apply(0L), String.class, equalTo
+                ("exponential")));
+        assertThat(outputExpression, evaluatesTo(features.apply(100L), String.class, equalTo
+                ("identity")));
     }
-    
+
     @Test
     public void stringIntervalFunctionTest() throws Exception {
         SimpleFeatureType SAMPLE = DataUtilities.createType("SAMPLE",
                 "id:\"\",numbervalue,location=4326");
-        java.util.function.Function<Long, SimpleFeature> features = (value)->
-            DataUtilities.createFeature(SAMPLE, "measure1=A|"+value+"|POINT(0,0)");
-        
-        String jsonStr = "{'property': 'numbervalue', 'type': 'interval', 'default': 1, 'stops': [[-1000, 'foo'], [-30, 'bar'], [0, 'baz'], [100, 'quux']]}";
+        java.util.function.Function<Long, SimpleFeature> features = (value) ->
+                DataUtilities.createFeature(SAMPLE, "measure1=A|" + value + "|POINT(0,0)");
+
+        String jsonStr = "{'property': 'numbervalue', 'type': 'interval', 'default': 1, 'stops': " +
+                "[[-1000, 'foo'], [-30, 'bar'], [0, 'baz'], [100, 'quux']]}";
         MBFunction function = new MBFunction(MapboxTestUtils.object(jsonStr));
-        assertTrue("Function category is \"property\"", EnumSet.of(MBFunction.FunctionCategory.PROPERTY).equals(function.category()));
-        assertEquals("Function type is \"interval\"", MBFunction.FunctionType.INTERVAL, function.getType());
-        
+        assertTrue("Function category is \"property\"", EnumSet.of(MBFunction.FunctionCategory
+                .PROPERTY).equals(function.category()));
+        assertEquals("Function type is \"interval\"", MBFunction.FunctionType.INTERVAL, function
+                .getType());
+
         Expression outputExpression = function.function(String.class);
-        
+
         // Before the first stop is undefined
-        assertThat(outputExpression, evaluatesTo(features.apply(-10000L), String.class, any(String.class)));
-        
+        assertThat(outputExpression, evaluatesTo(features.apply(-10000L), String.class, any
+                (String.class)));
+
         // Test each interval
-        assertThat(outputExpression, evaluatesTo(features.apply(-900L), String.class, equalTo("foo")));
-        assertThat(outputExpression, evaluatesTo(features.apply(-20L), String.class, equalTo("bar")));
-        assertThat(outputExpression, evaluatesTo(features.apply(10L), String.class, equalTo("baz")));
-        assertThat(outputExpression, evaluatesTo(features.apply(500L), String.class, equalTo("quux")));
-        
+        assertThat(outputExpression, evaluatesTo(features.apply(-900L), String.class, equalTo
+                ("foo")));
+        assertThat(outputExpression, evaluatesTo(features.apply(-20L), String.class, equalTo
+                ("bar")));
+        assertThat(outputExpression, evaluatesTo(features.apply(10L), String.class, equalTo
+                ("baz")));
+        assertThat(outputExpression, evaluatesTo(features.apply(500L), String.class, equalTo
+                ("quux")));
+
         // Test at stops
-        assertThat(outputExpression, evaluatesTo(features.apply(-1000L), String.class, equalTo("foo")));
-        assertThat(outputExpression, evaluatesTo(features.apply(-30L), String.class, equalTo("bar")));
+        assertThat(outputExpression, evaluatesTo(features.apply(-1000L), String.class, equalTo
+                ("foo")));
+        assertThat(outputExpression, evaluatesTo(features.apply(-30L), String.class, equalTo
+                ("bar")));
         assertThat(outputExpression, evaluatesTo(features.apply(0L), String.class, equalTo("baz")));
-        assertThat(outputExpression, evaluatesTo(features.apply(100L), String.class, equalTo("quux")));
+        assertThat(outputExpression, evaluatesTo(features.apply(100L), String.class, equalTo
+                ("quux")));
     }
-    
+
     /**
-     * Tests that a MapBox exponential zoom function (outputting a numeric value) correctly interpolates values
+     * Tests that a MapBox exponential zoom function (outputting a numeric value) correctly 
+     * interpolates values
      * for zoom levels between stops. Tests exponential base == 1 and <> 1.
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -580,7 +657,7 @@ public class MBFunctionTest {
         SimpleFeatureType SAMPLE = DataUtilities.createType("SAMPLE",
                 "id:\"\",temperature:0.0,location=4326");
         SimpleFeature feature = DataUtilities.createFeature(SAMPLE, "measure1=A|50.0|POINT(0,0)");
-        
+
         // Set scale denominator to the equivalent of zoomLevel 9
         String scaleDenomForZoom9 = "1091957.546779";
         EnvFunction.setGlobalValue("wms_scale_denominator", scaleDenomForZoom9);
@@ -593,54 +670,61 @@ public class MBFunctionTest {
         // -------- Test interpolation for base > 1
         String jsonStr = "{'type':'exponential', 'base': 1.9, 'stops':[[0,12],[6,24],[12,48]]}";
         MBFunction function = new MBFunction(MapboxTestUtils.object(jsonStr));
-        
+
         // Assert it is an exponential function with the correct base
-        assertTrue("Is a zoom function", EnumSet.of(MBFunction.FunctionCategory.ZOOM).equals(function.category()));
+        assertTrue("Is a zoom function", EnumSet.of(MBFunction.FunctionCategory.ZOOM).equals
+                (function.category()));
         assertEquals(MBFunction.FunctionType.EXPONENTIAL, function.getType());
         assertEquals(1.9, function.getBase().doubleValue(), .00001);
-        
+
         Function fn = (Function) function.numeric();
-        Number result = fn.evaluate(feature, Number.class);       
-           
-        assertTrue("Interpolated value should be above lower stop", result.doubleValue() > 24);    
-        assertTrue("Interpolated value should be below midpoint (for base > 1)", result.doubleValue() < 36);
-        
+        Number result = fn.evaluate(feature, Number.class);
+
+        assertTrue("Interpolated value should be above lower stop", result.doubleValue() > 24);
+        assertTrue("Interpolated value should be below midpoint (for base > 1)", result
+                .doubleValue() < 36);
+
         // -------- Test interpolation for base < 1
         jsonStr = "{'type':'exponential', 'base': 0.1, 'stops':[[0,12],[6,24],[12,48]]}";
         function = new MBFunction(MapboxTestUtils.object(jsonStr));
-        
+
         // Assert it is an exponential function with the correct base
-        assertTrue("Is a zoom function", EnumSet.of(MBFunction.FunctionCategory.ZOOM).equals(function.category()));
+        assertTrue("Is a zoom function", EnumSet.of(MBFunction.FunctionCategory.ZOOM).equals
+                (function.category()));
         assertEquals(MBFunction.FunctionType.EXPONENTIAL, function.getType());
         assertEquals(0.1, function.getBase().doubleValue(), .00001);
-        
+
         fn = (Function) function.numeric();
-        result = fn.evaluate(feature, Number.class);       
-        
-        assertTrue("Interpolated value should be above lower stop", result.doubleValue() > 24);    
-        assertTrue("Interpolated value should be above midpoint (for base < 1)", result.doubleValue() > 36);
-        
+        result = fn.evaluate(feature, Number.class);
+
+        assertTrue("Interpolated value should be above lower stop", result.doubleValue() > 24);
+        assertTrue("Interpolated value should be above midpoint (for base < 1)", result
+                .doubleValue() > 36);
+
         // -------- Test interpolation for base = 1        
         jsonStr = "{'type':'exponential', 'base': 1.0, 'stops':[[0,12],[6,24],[12,48]]}";
         function = new MBFunction(MapboxTestUtils.object(jsonStr));
-        
+
         // Assert it is an exponential function with the correct base
-        assertTrue("Is a zoom function", EnumSet.of(MBFunction.FunctionCategory.ZOOM).equals(function.category()));
+        assertTrue("Is a zoom function", EnumSet.of(MBFunction.FunctionCategory.ZOOM).equals
+                (function.category()));
         assertEquals(MBFunction.FunctionType.EXPONENTIAL, function.getType());
         assertEquals(1.0, function.getBase().doubleValue(), .00001);
-        
+
         fn = (Function) function.numeric();
-        result = fn.evaluate(feature, Number.class);       
-        
-        assertTrue("Interpolated value should be above lower stop", result.doubleValue() > 24);    
-        assertEquals("Interpolated value should = midpoint (for base = 1)", result.doubleValue(), 36.0, .0001);
+        result = fn.evaluate(feature, Number.class);
+
+        assertTrue("Interpolated value should be above lower stop", result.doubleValue() > 24);
+        assertEquals("Interpolated value should = midpoint (for base = 1)", result.doubleValue(),
+                36.0, .0001);
     }
-    
-    
+
+
     /**
-     * Tests that a MapBox exponential property function (outputting a numeric value) correctly interpolates values
+     * Tests that a MapBox exponential property function (outputting a numeric value) correctly 
+     * interpolates values
      * for zoom levels between stops. Tests exponential base == 1 and <> 1.
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -650,62 +734,74 @@ public class MBFunctionTest {
         SimpleFeature feature = DataUtilities.createFeature(SAMPLE, "measure1=A|50.0|POINT(0,0)");
 
         // -------- Test interpolation for base > 1
-        String jsonStr = "{'type':'exponential', 'base': 1.9, 'property':'temperature', 'stops':[[0,12],[30,24],[70,48]]}";
+        String jsonStr = "{'type':'exponential', 'base': 1.9, 'property':'temperature', " +
+                "'stops':[[0,12],[30,24],[70,48]]}";
         MBFunction function = new MBFunction(MapboxTestUtils.object(jsonStr));
-        
+
         // Assert it is an exponential function with the correct base
-        assertTrue("Is a property function", EnumSet.of(MBFunction.FunctionCategory.PROPERTY).equals(function.category()));
+        assertTrue("Is a property function", EnumSet.of(MBFunction.FunctionCategory.PROPERTY)
+                .equals(function.category()));
         assertEquals(MBFunction.FunctionType.EXPONENTIAL, function.getType());
         assertEquals(1.9, function.getBase().doubleValue(), .00001);
-        
+
         Function fn = (Function) function.numeric();
-        Number result = fn.evaluate(feature, Number.class);       
-           
-        assertTrue("Interpolated value should be above lower stop", result.doubleValue() > 24);    
-        assertTrue("Interpolated value should be below midpoint (for base > 1)", result.doubleValue() < 36);
-        
+        Number result = fn.evaluate(feature, Number.class);
+
+        assertTrue("Interpolated value should be above lower stop", result.doubleValue() > 24);
+        assertTrue("Interpolated value should be below midpoint (for base > 1)", result
+                .doubleValue() < 36);
+
         // -------- Test interpolation for base < 1
-        jsonStr = "{'type':'exponential', 'base': 0.1, 'property':'temperature', 'stops':[[0,12],[30,24],[70,48]]}";
+        jsonStr = "{'type':'exponential', 'base': 0.1, 'property':'temperature', 'stops':[[0,12]," +
+                "[30,24],[70,48]]}";
         function = new MBFunction(MapboxTestUtils.object(jsonStr));
-        
+
         // Assert it is an exponential function with the correct base
-        assertTrue("Is a property function", EnumSet.of(MBFunction.FunctionCategory.PROPERTY).equals(function.category()));
+        assertTrue("Is a property function", EnumSet.of(MBFunction.FunctionCategory.PROPERTY)
+                .equals(function.category()));
         assertEquals(MBFunction.FunctionType.EXPONENTIAL, function.getType());
         assertEquals(0.1, function.getBase().doubleValue(), .00001);
-        
+
         fn = (Function) function.numeric();
-        result = fn.evaluate(feature, Number.class);       
-        
-        assertTrue("Interpolated value should be above lower stop", result.doubleValue() > 24);    
-        assertTrue("Interpolated value should be above midpoint (for base < 1)", result.doubleValue() > 36);
-        
+        result = fn.evaluate(feature, Number.class);
+
+        assertTrue("Interpolated value should be above lower stop", result.doubleValue() > 24);
+        assertTrue("Interpolated value should be above midpoint (for base < 1)", result
+                .doubleValue() > 36);
+
         // -------- Test interpolation for base = 1        
-        jsonStr = "{'type':'exponential', 'base': 1.0, 'property':'temperature', 'stops':[[0,12],[30,24],[70,48]]}";
+        jsonStr = "{'type':'exponential', 'base': 1.0, 'property':'temperature', 'stops':[[0,12]," +
+                "[30,24],[70,48]]}";
         function = new MBFunction(MapboxTestUtils.object(jsonStr));
-        
+
         // Assert it is an exponential function with the correct base
-        assertTrue("Is a property function", EnumSet.of(MBFunction.FunctionCategory.PROPERTY).equals(function.category()));
+        assertTrue("Is a property function", EnumSet.of(MBFunction.FunctionCategory.PROPERTY)
+                .equals(function.category()));
         assertEquals(MBFunction.FunctionType.EXPONENTIAL, function.getType());
         assertEquals(1.0, function.getBase().doubleValue(), .00001);
-        
+
         fn = (Function) function.numeric();
-        result = fn.evaluate(feature, Number.class);       
-        
-        assertTrue("Interpolated value should be above lower stop", result.doubleValue() > 24);    
-        assertEquals("Interpolated value should = midpoint (for base = 1)", result.doubleValue(), 36.0, .0001);
+        result = fn.evaluate(feature, Number.class);
+
+        assertTrue("Interpolated value should be above lower stop", result.doubleValue() > 24);
+        assertEquals("Interpolated value should = midpoint (for base = 1)", result.doubleValue(),
+                36.0, .0001);
     }
-    
+
     /**
-     * Assert that the numeric exponential function correctly returns the default value when the property input is not a valid number.
+     * Assert that the numeric exponential function correctly returns the default value when the 
+     * property input is not a valid number.
      */
     @Test
     public void numericExponentialDefaultValueTest() throws Exception {
         SimpleFeatureType SAMPLE = DataUtilities.createType("SAMPLE",
                 "id:\"\",temperature:0.0,location=4326");
-        SimpleFeature feature = DataUtilities.createFeature(SAMPLE, "measure1=A|NOT_A_VALID_NUMBER|POINT(0,0)");
+        SimpleFeature feature = DataUtilities.createFeature(SAMPLE, 
+                "measure1=A|NOT_A_VALID_NUMBER|POINT(0,0)");
 
 
-        String jsonStr = "{'type':'exponential', 'base': 1.9, 'property':'temperature', 'stops':[[0,12],[30,24],[70,48]], 'default':42}";
+        String jsonStr = "{'type':'exponential', 'base': 1.9, 'property':'temperature', " +
+                "'stops':[[0,12],[30,24],[70,48]], 'default':42}";
         MBFunction function = new MBFunction(MapboxTestUtils.object(jsonStr));
 
         Expression fn = function.numeric();
@@ -725,14 +821,17 @@ public class MBFunctionTest {
         // Verify the function was created correctly
         String jsonStr = "{'property':'temperature', 'type':'identity', 'default':-1}";
         MBFunction function = new MBFunction(MapboxTestUtils.object(jsonStr));
-        assertTrue("Function category is \"property\"", EnumSet.of(MBFunction.FunctionCategory.PROPERTY).equals(function.category()));
-        assertEquals("Function type is \"Identity\"", MBFunction.FunctionType.IDENTITY, function.getType());
-        
+        assertTrue("Function category is \"property\"", EnumSet.of(MBFunction.FunctionCategory
+                .PROPERTY).equals(function.category()));
+        assertEquals("Function type is \"Identity\"", MBFunction.FunctionType.IDENTITY, function
+                .getType());
+
         // Verify that the output is correct (== input)
         Expression outputExpression = function.numeric();
         Number result = outputExpression.evaluate(feature, Number.class);
-        
-        assertEquals("Numeric identity function output is == input property value", 50.0, result.doubleValue(), .000001);
+
+        assertEquals("Numeric identity function output is == input property value", 50.0, result
+                .doubleValue(), .000001);
 
         // Check default (for a feature missing the property)
         feature = DataUtilities.createFeature(SAMPLE, "measure1=A||POINT(0,0)");
@@ -748,7 +847,8 @@ public class MBFunctionTest {
         SimpleFeatureType SAMPLE = DataUtilities.createType("SAMPLE",
                 "id:\"\",roadtype,location=4326");
 
-        String jsonStr = "{'property': 'roadtype', 'type': 'categorical', 'default': -1, 'stops': [['trail', 1], ['dirtroad', 2], ['road', 3], ['highway', 4]]}";
+        String jsonStr = "{'property': 'roadtype', 'type': 'categorical', 'default': -1, 'stops':" +
+                " [['trail', 1], ['dirtroad', 2], ['road', 3], ['highway', 4]]}";
         MBFunction function = new MBFunction(MapboxTestUtils.object(jsonStr));
         assertTrue("Function category is \"property\"",
                 EnumSet.of(MBFunction.FunctionCategory.PROPERTY).equals(function.category()));
@@ -767,42 +867,41 @@ public class MBFunctionTest {
         result = outputExpression.evaluate(feature, Number.class);
         assertEquals(-1, result.intValue());
     }
-    
+
     /**
-     * 
      * Test an {@link MBFunction} (type = interval) that returns a numeric value.
-     * 
      */
     @Test
     public void numericIntervalFunctionTest() throws Exception {
 
-        
-        String jsonStr = "{'property': 'temperature', 'default':0, 'type': 'interval','stops': [[0, 2],[100, 4],[1000, 6]]}";
+
+        String jsonStr = "{'property': 'temperature', 'default':0, 'type': 'interval','stops': " +
+                "[[0, 2],[100, 4],[1000, 6]]}";
         MBFunction function = new MBFunction(MapboxTestUtils.object(jsonStr));
         assertThat(function, categories(containsInAnyOrder(MBFunction.FunctionCategory.PROPERTY)));
         assertThat(function, hasProperty("type", is(MBFunction.FunctionType.INTERVAL)));
-        
+
         Expression outputExpression = function.numeric();
-        
+
         // Test each interval
         final SimpleFeatureType SAMPLE = DataUtilities.createType("SAMPLE",
                 "id:\"\",temperature,location=4326");
-        java.util.function.Function<Long, SimpleFeature> features = (temp)->
-            DataUtilities.createFeature(SAMPLE, "measure1=A|"+temp+"|POINT(0,0)");
-        
+        java.util.function.Function<Long, SimpleFeature> features = (temp) ->
+                DataUtilities.createFeature(SAMPLE, "measure1=A|" + temp + "|POINT(0,0)");
+
         // Bellow the first stop is undefined (return default value)
         assertThat(outputExpression, evaluatesTo(features.apply(-1L), Number.class, equalInt(0)));
-        
+
         assertThat(outputExpression, evaluatesTo(features.apply(0L), Number.class, equalInt(2)));
         assertThat(outputExpression, evaluatesTo(features.apply(20L), Number.class, equalInt(2)));
-        
+
         assertThat(outputExpression, evaluatesTo(features.apply(100L), Number.class, equalInt(4)));
         assertThat(outputExpression, evaluatesTo(features.apply(200L), Number.class, equalInt(4)));
-        
+
         assertThat(outputExpression, evaluatesTo(features.apply(1000L), Number.class, equalInt(6)));
         assertThat(outputExpression, evaluatesTo(features.apply(2000L), Number.class, equalInt(6)));
     }
-    
+
     /**
      * Test a {@link MBFunction} (type = identity) that returns a string value.
      */
@@ -810,15 +909,18 @@ public class MBFunctionTest {
     public void stringIdentityFunctionTest() throws Exception {
         String jsonStr = "{'property': 'textproperty','type': 'identity', 'default':'defaultText'}";
         MBFunction function = new MBFunction(MapboxTestUtils.object(jsonStr));
-        assertTrue("Function category is \"property\"", EnumSet.of(MBFunction.FunctionCategory.PROPERTY).equals(function.category()));
-        assertEquals("Function type is \"identity\"", MBFunction.FunctionType.IDENTITY, function.getType());                      
-        
+        assertTrue("Function category is \"property\"", EnumSet.of(MBFunction.FunctionCategory
+                .PROPERTY).equals(function.category()));
+        assertEquals("Function type is \"identity\"", MBFunction.FunctionType.IDENTITY, function
+                .getType());
+
         Expression outputExpression = function.function(String.class);
-        
+
         SimpleFeatureType SAMPLE = DataUtilities.createType("SAMPLE",
                 "id:\"\",textproperty,location=4326");
 
-        SimpleFeature feature = DataUtilities.createFeature(SAMPLE, "measure1=A|textvalue|POINT(0,0)");
+        SimpleFeature feature = DataUtilities.createFeature(SAMPLE, "measure1=A|textvalue|POINT" +
+                "(0,0)");
         String output = outputExpression.evaluate(feature, String.class);
         assertEquals("textvalue", output);
 
@@ -829,7 +931,7 @@ public class MBFunctionTest {
         assertEquals("defaultText", output);
 
     }
-        
+
     /**
      * Test a {@link MBFunction} (type = identity) that returns an enum value.
      */
@@ -837,11 +939,13 @@ public class MBFunctionTest {
     public void enumIdentityFunctionTest() throws Exception {
         String jsonStr = "{'property': 'linecap','type': 'identity', 'default':'round'}";
         MBFunction function = new MBFunction(MapboxTestUtils.object(jsonStr));
-        assertTrue("Function category is \"property\"", EnumSet.of(MBFunction.FunctionCategory.PROPERTY).equals(function.category()));
-        assertEquals("Function type is \"identity\"", MBFunction.FunctionType.IDENTITY, function.getType());                      
-        
+        assertTrue("Function category is \"property\"", EnumSet.of(MBFunction.FunctionCategory
+                .PROPERTY).equals(function.category()));
+        assertEquals("Function type is \"identity\"", MBFunction.FunctionType.IDENTITY, function
+                .getType());
+
         Expression outputExpression = function.function(LineJoin.class);
-        
+
         SimpleFeatureType SAMPLE = DataUtilities.createType("SAMPLE",
                 "id:\"\",linecap,location=4326");
 
@@ -856,7 +960,7 @@ public class MBFunctionTest {
         output = outputExpression.evaluate(feature, String.class);
         assertEquals("round", output);
     }
-    
+
     /**
      * Test a {@link MBFunction} (type = identity) that returns a boolean value.
      */
@@ -883,10 +987,12 @@ public class MBFunctionTest {
         output = outputExpression.evaluate(feature, Boolean.class);
         assertFalse(output);
     }
-    
+
     @Test
     public void stringCategoricalFunctionTest() throws Exception {
-        String jsonStr = "{'property': 'roadtype', 'type': 'categorical', 'default': 'defaultStr', 'stops': [['trail', 'string1'], ['dirtroad', 'string2'], ['road', 'string3'], ['highway', 'string4']]}";
+        String jsonStr = "{'property': 'roadtype', 'type': 'categorical', 'default': " +
+                "'defaultStr', 'stops': [['trail', 'string1'], ['dirtroad', 'string2'], ['road', " +
+                "'string3'], ['highway', 'string4']]}";
         MBFunction function = new MBFunction(MapboxTestUtils.object(jsonStr));
         assertTrue("Function category is \"property\"",
                 EnumSet.of(MBFunction.FunctionCategory.PROPERTY).equals(function.category()));
@@ -920,49 +1026,53 @@ public class MBFunctionTest {
         result = outputExpression.evaluate(feature, String.class);
         assertEquals("defaultStr", result);
     }
-    
+
     @Test
     public void booleanIntervalFunctionTest() throws Exception {
-        String jsonStr = "{'property': 'temperature', 'default':'false', 'type': 'interval','stops': [[-1000, 'true'],[0, 'false'],[1000, 'true']]}";
+        String jsonStr = "{'property': 'temperature', 'default':'false', 'type': 'interval'," +
+                "'stops': [[-1000, 'true'],[0, 'false'],[1000, 'true']]}";
         MBFunction function = new MBFunction(MapboxTestUtils.object(jsonStr));
-        assertTrue("Function category is \"property\"", EnumSet.of(MBFunction.FunctionCategory.PROPERTY).equals(function.category()));
-        assertEquals("Function type is \"interval\"", MBFunction.FunctionType.INTERVAL, function.getType());                
+        assertTrue("Function category is \"property\"", EnumSet.of(MBFunction.FunctionCategory
+                .PROPERTY).equals(function.category()));
+        assertEquals("Function type is \"interval\"", MBFunction.FunctionType.INTERVAL, function
+                .getType());
 
         Expression outputExpression = function.function(Boolean.class);
-        
+
         // Test each interval
         SimpleFeatureType SAMPLE = DataUtilities.createType("SAMPLE",
                 "id:\"\",temperature,location=4326");
-        
+
         SimpleFeature feature = DataUtilities.createFeature(SAMPLE, "measure1=A|-500|POINT(0,0)");
-        Boolean result = outputExpression.evaluate(feature, Boolean.class);        
+        Boolean result = outputExpression.evaluate(feature, Boolean.class);
         assertEquals(true, result);
-        
+
         feature = DataUtilities.createFeature(SAMPLE, "measure1=A|0|POINT(0,0)");
-        result = outputExpression.evaluate(feature, Boolean.class);        
-        assertEquals(false, result);     
-        
+        result = outputExpression.evaluate(feature, Boolean.class);
+        assertEquals(false, result);
+
         feature = DataUtilities.createFeature(SAMPLE, "measure1=A|500|POINT(0,0)");
-        result = outputExpression.evaluate(feature, Boolean.class);        
-        assertEquals(false, result);    
-        
+        result = outputExpression.evaluate(feature, Boolean.class);
+        assertEquals(false, result);
+
         feature = DataUtilities.createFeature(SAMPLE, "measure1=A|1000|POINT(0,0)");
-        result = outputExpression.evaluate(feature, Boolean.class);        
-        assertEquals(true, result);  
-        
+        result = outputExpression.evaluate(feature, Boolean.class);
+        assertEquals(true, result);
+
         feature = DataUtilities.createFeature(SAMPLE, "measure1=A|9999|POINT(0,0)");
-        result = outputExpression.evaluate(feature, Boolean.class);        
-        assertEquals(true, result);  
+        result = outputExpression.evaluate(feature, Boolean.class);
+        assertEquals(true, result);
 
         // Below lowest stop, the default should be returned.
         feature = DataUtilities.createFeature(SAMPLE, "measure1=A|-9999|POINT(0,0)");
         result = outputExpression.evaluate(feature, Boolean.class);
         assertEquals(false, result);
     }
-    
+
     @Test
     public void booleanCategoricalFunctionTest() throws Exception {
-        String jsonStr = "{'property': 'roadtype', 'type': 'categorical', 'default': 'false', 'stops': [['trail', 'true'], ['dirtroad', 'false'], ['road', 'true']]}";
+        String jsonStr = "{'property': 'roadtype', 'type': 'categorical', 'default': 'false', " +
+                "'stops': [['trail', 'true'], ['dirtroad', 'false'], ['road', 'true']]}";
         MBFunction function = new MBFunction(MapboxTestUtils.object(jsonStr));
         assertTrue("Function category is \"property\"",
                 EnumSet.of(MBFunction.FunctionCategory.PROPERTY).equals(function.category()));
@@ -993,13 +1103,15 @@ public class MBFunctionTest {
         assertEquals(false, result);
 
     }
-    
+
     /**
-     * Assert that {@link MBFunction} uses the correct default function type when the requested return class is String.
+     * Assert that {@link MBFunction} uses the correct default function type when the requested 
+     * return class is String.
      */
     @Test
     public void stringDefaultFunctionTest() throws Exception {
-        String jsonStr = "{'property': 'temperature',  'stops': [[0, 'string1'], [100, 'string2'], [200, 'string3'], [300, 'string4']]}";
+        String jsonStr = "{'property': 'temperature',  'stops': [[0, 'string1'], [100, " +
+                "'string2'], [200, 'string3'], [300, 'string4']]}";
         MBFunction function = new MBFunction(MapboxTestUtils.object(jsonStr));
         assertTrue("Function category is \"property\"",
                 EnumSet.of(MBFunction.FunctionCategory.PROPERTY).equals(function.category()));
@@ -1009,11 +1121,13 @@ public class MBFunctionTest {
     }
 
     /**
-     * Assert that {@link MBFunction} uses the correct default function type when the requested return class is Boolean.
+     * Assert that {@link MBFunction} uses the correct default function type when the requested 
+     * return class is Boolean.
      */
     @Test
     public void booleanDefaultFunctionTest() throws Exception {
-        String jsonStr = "{'property': 'temperature',  'stops': [[0, 'true'], [100, 'false'], [200, 'true'], [300, 'false']]}";
+        String jsonStr = "{'property': 'temperature',  'stops': [[0, 'true'], [100, 'false'], " +
+                "[200, 'true'], [300, 'false']]}";
         MBFunction function = new MBFunction(MapboxTestUtils.object(jsonStr));
         assertTrue("Function category is \"property\"",
                 EnumSet.of(MBFunction.FunctionCategory.PROPERTY).equals(function.category()));
@@ -1023,7 +1137,8 @@ public class MBFunctionTest {
     }
 
     /**
-     * Assert that {@link MBFunction} uses the correct default function type when the requested return class is Number.
+     * Assert that {@link MBFunction} uses the correct default function type when the requested 
+     * return class is Number.
      */
     @Test
     public void numericDefaultFunctionTest() throws Exception {
@@ -1034,22 +1149,26 @@ public class MBFunctionTest {
     }
 
     /**
-     * Assert that {@link MBFunction} uses the correct default function type when the requested return class is Enum.
+     * Assert that {@link MBFunction} uses the correct default function type when the requested 
+     * return class is Enum.
      */
     @Test
     public void enumDefaultFunctionTest() throws Exception {
-        String jsonStr = "{'property': 'temperature','stops': [[0, 'ENUM_VAL1'],[100, 'ENUM_VAL2'],[1000, 'ENUM_VAL3']]}";
+        String jsonStr = "{'property': 'temperature','stops': [[0, 'ENUM_VAL1'],[100, " +
+                "'ENUM_VAL2'],[1000, 'ENUM_VAL3']]}";
         MBFunction function = new MBFunction(MapboxTestUtils.object(jsonStr));
         assertEquals("The default function type for Enums returns should be interval",
                 FunctionType.INTERVAL, function.getTypeWithDefault(Enumeration.class));
     }
 
     /**
-     * Assert that {@link MBFunction} uses the correct default function type when the requested return class is Color.
+     * Assert that {@link MBFunction} uses the correct default function type when the requested 
+     * return class is Color.
      */
     @Test
     public void colorDefaultFunctionTest() throws Exception {
-        JSONObject json = MapboxTestUtils.object("{'property':'temperature','stops':[[0,'blue'],[100,'red']]}");
+        JSONObject json = MapboxTestUtils.object("{'property':'temperature','stops':[[0,'blue']," +
+                "[100,'red']]}");
         MBFunction function = new MBFunction(json);
 
         assertEquals("The default function type for Color returns should be exponential",
@@ -1062,82 +1181,97 @@ public class MBFunctionTest {
                 .evaluate(null, Number.class);
         assertEquals("Zoom level is " + zoomLevel, zoomLevel, envZoomLevel.doubleValue(), .00001);
     }
-    
+
     /**
-     * Test splitting an array function into an array of functions -- one for each dimension in the array. (Exponential function).
+     * Test splitting an array function into an array of functions -- one for each dimension in 
+     * the array. (Exponential function).
      */
     @Test
     public void testArrayFunction() throws Exception {
-        JSONObject json = MapboxTestUtils.object("{'property':'temperature','type':'exponential', 'base':1.5, 'stops':[ [0,[0,5]], [100,[2,10]] ]}");
+        JSONObject json = MapboxTestUtils.object("{'property':'temperature','type':'exponential'," +
+                " 'base':1.5, 'stops':[ [0,[0,5]], [100,[2,10]] ]}");
         MBFunction function = new MBFunction(json);
-                
+
         SimpleFeatureType SAMPLE = DataUtilities.createType("SAMPLE",
                 "id:\"\",temperature:0.0,location=4326,color:java.awt.Color,text:String:");
-        SimpleFeature feature1 = DataUtilities.createFeature(SAMPLE, "measure1=A|0|POINT(0,0)|#FF0000|red");
-        SimpleFeature feature2 = DataUtilities.createFeature(SAMPLE, "measure1=A|100|POINT(0,0)|#FF0000|red");
-        
+        SimpleFeature feature1 = DataUtilities.createFeature(SAMPLE, "measure1=A|0|POINT(0,0)" +
+                "|#FF0000|red");
+        SimpleFeature feature2 = DataUtilities.createFeature(SAMPLE, "measure1=A|100|POINT(0,0)" +
+                "|#FF0000|red");
+
         List<MBFunction> splitFunctions = function.splitArrayFunction();
         assertEquals(2, splitFunctions.size());
-        
+
         MBFunction xFn = splitFunctions.get(0);
         MBFunction yFn = splitFunctions.get(1);
-        
+
         assertEquals(0, xFn.numeric().evaluate(feature1, Integer.class).intValue());
         assertEquals(5, yFn.numeric().evaluate(feature1, Integer.class).intValue());
-  
+
         assertEquals(2, xFn.numeric().evaluate(feature2, Integer.class).intValue());
-        assertEquals(10, yFn.numeric().evaluate(feature2, Integer.class).intValue());        
+        assertEquals(10, yFn.numeric().evaluate(feature2, Integer.class).intValue());
     }
-    
+
     /**
-     * Test splitting an array function into an array of functions -- one for each dimension in the array. (Categorical function, with default).
+     * Test splitting an array function into an array of functions -- one for each dimension in 
+     * the array. (Categorical function, with default).
      */
     @Test
     public void testArrayFunctionCategoricalWithDefault() throws Exception {
-        JSONObject json = MapboxTestUtils.object("{'property':'character','type':'categorical', 'base':1.5, 'default': [-1,-2], 'stops':[ ['a',[0,5]], ['b',[2,10]] ]}");
+        JSONObject json = MapboxTestUtils.object("{'property':'character','type':'categorical', " +
+                "'base':1.5, 'default': [-1,-2], 'stops':[ ['a',[0,5]], ['b',[2,10]] ]}");
         MBFunction function = new MBFunction(json);
-                
+
         SimpleFeatureType SAMPLE = DataUtilities.createType("SAMPLE",
                 "id:\"\",temperature:0.0,location=4326,color:java.awt.Color,character:String:");
-        SimpleFeature featurea = DataUtilities.createFeature(SAMPLE, "measure1=A|0|POINT(0,0)|#FF0000|a");
-        SimpleFeature featureb = DataUtilities.createFeature(SAMPLE, "measure1=A|100|POINT(0,0)|#FF0000|b");
-        SimpleFeature featuredefault = DataUtilities.createFeature(SAMPLE, "measure1=A|100|POINT(0,0)|#FF0000|default");
-        
+        SimpleFeature featurea = DataUtilities.createFeature(SAMPLE, "measure1=A|0|POINT(0,0)" +
+                "|#FF0000|a");
+        SimpleFeature featureb = DataUtilities.createFeature(SAMPLE, "measure1=A|100|POINT(0,0)" +
+                "|#FF0000|b");
+        SimpleFeature featuredefault = DataUtilities.createFeature(SAMPLE, "measure1=A|100|POINT" +
+                "(0,0)|#FF0000|default");
+
         List<MBFunction> splitFunctions = function.splitArrayFunction();
         assertEquals(2, splitFunctions.size());
-        
+
         MBFunction xFn = splitFunctions.get(0);
         MBFunction yFn = splitFunctions.get(1);
-        
+
         assertEquals(0, xFn.numeric().evaluate(featurea, Integer.class).intValue());
         assertEquals(5, yFn.numeric().evaluate(featurea, Integer.class).intValue());
-  
+
         assertEquals(2, xFn.numeric().evaluate(featureb, Integer.class).intValue());
-        assertEquals(10, yFn.numeric().evaluate(featureb, Integer.class).intValue());     
-        
+        assertEquals(10, yFn.numeric().evaluate(featureb, Integer.class).intValue());
+
         assertEquals(-1, xFn.numeric().evaluate(featuredefault, Integer.class).intValue());
-        assertEquals(-2, yFn.numeric().evaluate(featuredefault, Integer.class).intValue()); 
+        assertEquals(-2, yFn.numeric().evaluate(featuredefault, Integer.class).intValue());
     }
-    
+
     /**
      * Test that nothing breaks when an array function has output arrays of size one.
+     *
      * @throws Exception
      */
     @Test
     public void testArrayFunctionSize1() throws Exception {
-        JSONObject json = MapboxTestUtils.object("{'property':'temperature','type':'exponential', 'base':1.5, 'stops':[ [0,[0]], [100,[2]] ]}");
+        JSONObject json = MapboxTestUtils.object("{'property':'temperature','type':'exponential'," +
+                " 'base':1.5, 'stops':[ [0,[0]], [100,[2]] ]}");
         MBFunction function = new MBFunction(json);
-          
+
         List<MBFunction> splitFunctions = function.splitArrayFunction();
-        assertEquals(1, splitFunctions.size());  
-        
+        assertEquals(1, splitFunctions.size());
+
         SimpleFeatureType SAMPLE = DataUtilities.createType("SAMPLE",
                 "id:\"\",temperature:0.0,location=4326,color:java.awt.Color,text:String:");
-        SimpleFeature feature1 = DataUtilities.createFeature(SAMPLE, "measure1=A|0|POINT(0,0)|#FF0000|red");
-        SimpleFeature feature2 = DataUtilities.createFeature(SAMPLE, "measure1=A|100|POINT(0,0)|#FF0000|red");
-        
-        assertEquals(0, splitFunctions.get(0).numeric().evaluate(feature1, Integer.class).intValue());  
-        assertEquals(2, splitFunctions.get(0).numeric().evaluate(feature2, Integer.class).intValue());        
+        SimpleFeature feature1 = DataUtilities.createFeature(SAMPLE, "measure1=A|0|POINT(0,0)" +
+                "|#FF0000|red");
+        SimpleFeature feature2 = DataUtilities.createFeature(SAMPLE, "measure1=A|100|POINT(0,0)" +
+                "|#FF0000|red");
+
+        assertEquals(0, splitFunctions.get(0).numeric().evaluate(feature1, Integer.class)
+                .intValue());
+        assertEquals(2, splitFunctions.get(0).numeric().evaluate(feature2, Integer.class)
+                .intValue());
     }
 
 }

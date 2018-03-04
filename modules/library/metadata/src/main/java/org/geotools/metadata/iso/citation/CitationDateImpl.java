@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -20,6 +20,7 @@
 package org.geotools.metadata.iso.citation;
 
 import java.util.Date;
+
 import org.opengis.metadata.citation.CitationDate;
 import org.opengis.metadata.citation.DateType;
 import org.geotools.metadata.iso.MetadataEntity;
@@ -28,12 +29,9 @@ import org.geotools.metadata.iso.MetadataEntity;
 /**
  * Reference date and event used to describe it.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class CitationDateImpl extends MetadataEntity implements CitationDate {
@@ -72,7 +70,7 @@ public class CitationDateImpl extends MetadataEntity implements CitationDate {
      * Constructs a citation date initialized to the given date.
      */
     public CitationDateImpl(final Date date, final DateType dateType) {
-        setDate    (date);
+        setDate(date);
         setDateType(dateType);
     }
 
@@ -80,7 +78,7 @@ public class CitationDateImpl extends MetadataEntity implements CitationDate {
      * Returns the reference date for the cited resource.
      */
     public synchronized Date getDate() {
-        return (date!=Long.MIN_VALUE) ? new Date(date) : null;
+        return (date != Long.MIN_VALUE) ? new Date(date) : null;
     }
 
     /**
@@ -88,7 +86,7 @@ public class CitationDateImpl extends MetadataEntity implements CitationDate {
      */
     public synchronized void setDate(final Date newValue) {
         checkWritePermission();
-        date = (newValue!=null) ? newValue.getTime() : Long.MIN_VALUE;
+        date = (newValue != null) ? newValue.getTime() : Long.MIN_VALUE;
     }
 
     /**

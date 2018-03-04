@@ -30,26 +30,25 @@ import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * PolygonBoundaryCoveredByPolygonValidation purpose.
- * 
+ * <p>
  * <p>
  * Ensures Polygon Boundary is not covered by the Polygon.
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: jive $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class PolygonNotOverlappingPolygonValidation
-    extends PolygonPolygonAbstractValidation {
+        extends PolygonPolygonAbstractValidation {
 
-	private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org.geotools.validation");
-	
+    private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org" +
+            ".geotools.validation");
+
     /**
      * PolygonBoundaryCoveredByPolygonValidation constructor.
-     * 
+     * <p>
      * <p>
      * Description
      * </p>
@@ -62,39 +61,36 @@ public class PolygonNotOverlappingPolygonValidation
 
     /**
      * Ensure Polygon Boundary is not covered by the Polygon.
-     * 
+     * <p>
      * <p></p>
      *
-     * @param layers a HashMap of key="TypeName" value="FeatureSource"
+     * @param layers   a HashMap of key="TypeName" value="FeatureSource"
      * @param envelope The bounding box of modified features
-     * @param results Storage for the error and warning messages
-     *
+     * @param results  Storage for the error and warning messages
      * @return True if no features intersect. If they do then the validation
-     *         failed.
-     *
+     * failed.
      * @throws Exception DOCUMENT ME!
-     *
      * @see org.geotools.validation.IntegrityValidation#validate(java.util.Map,
-     *      com.vividsolutions.jts.geom.Envelope,
-     *      org.geotools.validation.ValidationResults)
+     * com.vividsolutions.jts.geom.Envelope,
+     * org.geotools.validation.ValidationResults)
      */
     public boolean validate(Map layers, Envelope envelope,
-        ValidationResults results) throws Exception {
-    	
-    	LOGGER.finer("Starting test "+getName()+" ("+getClass().getName()+")" );
-    	String typeRef1 = getPolygonTypeRef();
-    	LOGGER.finer( typeRef1 +": looking up SimpleFeatureSource " );    	
-        SimpleFeatureSource polySource1 = (SimpleFeatureSource) layers.get( typeRef1 );
-        LOGGER.finer( typeRef1 +": found "+polySource1.getSchema().getTypeName() );
-        
+                            ValidationResults results) throws Exception {
+
+        LOGGER.finer("Starting test " + getName() + " (" + getClass().getName() + ")");
+        String typeRef1 = getPolygonTypeRef();
+        LOGGER.finer(typeRef1 + ": looking up SimpleFeatureSource ");
+        SimpleFeatureSource polySource1 = (SimpleFeatureSource) layers.get(typeRef1);
+        LOGGER.finer(typeRef1 + ": found " + polySource1.getSchema().getTypeName());
+
         SimpleFeatureCollection collection1 = polySource1.getFeatures(); // limit with envelope
         Object[] poly1 = collection1.toArray();
 
         String typeRef2 = getRestrictedPolygonTypeRef();
-        LOGGER.finer( typeRef2 +": looking up SimpleFeatureSource " );        
-        SimpleFeatureSource polySource2 = (SimpleFeatureSource) layers.get( typeRef2 );
-        LOGGER.finer( typeRef2 +": found "+polySource2.getSchema().getTypeName() );
-        
+        LOGGER.finer(typeRef2 + ": looking up SimpleFeatureSource ");
+        SimpleFeatureSource polySource2 = (SimpleFeatureSource) layers.get(typeRef2);
+        LOGGER.finer(typeRef2 + ": found " + polySource2.getSchema().getTypeName());
+
         SimpleFeatureCollection collection2 = polySource2.getFeatures(); // limit with envelope
         Object[] poly2 = collection2.toArray();
         
@@ -111,22 +107,24 @@ public class PolygonNotOverlappingPolygonValidation
         }*/
         boolean success = true;
         for (int i = 0; i < poly1.length; i++) {
-        	SimpleFeature tmp = (SimpleFeature) poly1[i];
-        	LOGGER.finest("Polgon overlap test for:"+tmp.getID() );
+            SimpleFeature tmp = (SimpleFeature) poly1[i];
+            LOGGER.finest("Polgon overlap test for:" + tmp.getID());
             Geometry gt = (Geometry) tmp.getDefaultGeometry();
 
             for (int j = 0; j < poly2.length; j++) {
                 SimpleFeature tmp2 = (SimpleFeature) poly2[j];
-                LOGGER.finest("Polgon overlap test against:"+tmp2.getID() );                
+                LOGGER.finest("Polgon overlap test against:" + tmp2.getID());
                 Geometry gt2 = (Geometry) tmp2.getDefaultGeometry();
 
                 if (gt2.overlaps(gt) != expected) {
-                	results.error( tmp, "Polygon "+typeRef1+" overlapped Polygon "+typeRef2+"("+tmp2.getID()+") was not "+expected );
-                	success = false;
+                    results.error(tmp, "Polygon " + typeRef1 + " overlapped Polygon " + typeRef2 
+                            + "(" + tmp2.getID() + ") was not " + expected);
+                    success = false;
                 }
             }
         }
         return success;
     }
+
     boolean expected = true;
 }

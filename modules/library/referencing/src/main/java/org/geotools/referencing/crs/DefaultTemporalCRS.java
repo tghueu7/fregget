@@ -38,19 +38,17 @@ import org.geotools.referencing.datum.DefaultTemporalDatum;
 
 /**
  * A 1D coordinate reference system used for the recording of time.
- *
+ * <p>
  * <TABLE CELLPADDING='6' BORDER='1'>
  * <TR BGCOLOR="#EEEEFF"><TH NOWRAP>Used with CS type(s)</TH></TR>
  * <TR><TD>
- *   {@link TimeCS Time}
+ * {@link TimeCS Time}
  * </TD></TR></TABLE>
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class DefaultTemporalCRS extends AbstractSingleCRS implements TemporalCRS {
     /**
@@ -63,7 +61,6 @@ public class DefaultTemporalCRS extends AbstractSingleCRS implements TemporalCRS
      *
      * @see DefaultTemporalDatum#JULIAN
      * @see DefaultTimeCS#DAYS
-     *
      * @since 2.5
      */
     public static final DefaultTemporalCRS JULIAN = new DefaultTemporalCRS(
@@ -76,7 +73,6 @@ public class DefaultTemporalCRS extends AbstractSingleCRS implements TemporalCRS
      *
      * @see DefaultTemporalDatum#MODIFIED_JULIAN
      * @see DefaultTimeCS#DAYS
-     *
      * @since 2.5
      */
     public static final DefaultTemporalCRS MODIFIED_JULIAN = new DefaultTemporalCRS(
@@ -89,7 +85,6 @@ public class DefaultTemporalCRS extends AbstractSingleCRS implements TemporalCRS
      *
      * @see DefaultTemporalDatum#TRUNCATED_JULIAN
      * @see DefaultTimeCS#DAYS
-     *
      * @since 2.5
      */
     public static final DefaultTemporalCRS TRUNCATED_JULIAN = new DefaultTemporalCRS(
@@ -102,7 +97,6 @@ public class DefaultTemporalCRS extends AbstractSingleCRS implements TemporalCRS
      *
      * @see DefaultTemporalDatum#DUBLIN_JULIAN
      * @see DefaultTimeCS#DAYS
-     *
      * @since 2.5
      */
     public static final DefaultTemporalCRS DUBLIN_JULIAN = new DefaultTemporalCRS(
@@ -113,7 +107,6 @@ public class DefaultTemporalCRS extends AbstractSingleCRS implements TemporalCRS
      *
      * @see DefaultTemporalDatum#UNIX
      * @see DefaultTimeCS#SECONDS
-     *
      * @since 2.5
      */
     public static final DefaultTemporalCRS UNIX = new DefaultTemporalCRS(
@@ -124,7 +117,6 @@ public class DefaultTemporalCRS extends AbstractSingleCRS implements TemporalCRS
      *
      * @see DefaultTemporalDatum#UNIX
      * @see DefaultTimeCS#MILLISECONDS
-     *
      * @since 2.5
      */
     public static final DefaultTemporalCRS JAVA = new DefaultTemporalCRS(
@@ -158,10 +150,8 @@ public class DefaultTemporalCRS extends AbstractSingleCRS implements TemporalCRS
      * i.e. the properties are not cloned.
      *
      * @param crs The coordinate reference system to copy.
-     *
-     * @since 2.2
-     *
      * @see #wrap
+     * @since 2.2
      */
     public DefaultTemporalCRS(final TemporalCRS crs) {
         super(crs);
@@ -172,8 +162,7 @@ public class DefaultTemporalCRS extends AbstractSingleCRS implements TemporalCRS
      * The inherited properties include the {@linkplain #getName name} and aliases.
      *
      * @param datum The datum.
-     * @param cs The coordinate system.
-     *
+     * @param cs    The coordinate system.
      * @since 2.5
      */
     public DefaultTemporalCRS(final TemporalDatum datum, final TimeCS cs) {
@@ -183,29 +172,28 @@ public class DefaultTemporalCRS extends AbstractSingleCRS implements TemporalCRS
     /**
      * Constructs a temporal CRS from a name.
      *
-     * @param name The name.
+     * @param name  The name.
      * @param datum The datum.
-     * @param cs The coordinate system.
+     * @param cs    The coordinate system.
      */
-    public DefaultTemporalCRS(final String         name,
+    public DefaultTemporalCRS(final String name,
                               final TemporalDatum datum,
-                              final TimeCS           cs)
-    {
+                              final TimeCS cs) {
         this(Collections.singletonMap(NAME_KEY, name), datum, cs);
     }
 
     /**
      * Constructs a temporal CRS from a set of properties. The properties are given unchanged to
-     * the {@linkplain AbstractReferenceSystem#AbstractReferenceSystem(Map) super-class constructor}.
+     * the 
+     * {@linkplain AbstractReferenceSystem#AbstractReferenceSystem(Map) super-class constructor}.
      *
      * @param properties Set of properties. Should contains at least {@code "name"}.
-     * @param cs The coordinate system.
-     * @param datum The datum.
+     * @param cs         The coordinate system.
+     * @param datum      The datum.
      */
-    public DefaultTemporalCRS(final Map<String,?> properties,
+    public DefaultTemporalCRS(final Map<String, ?> properties,
                               final TemporalDatum datum,
-                              final TimeCS        cs)
-    {
+                              final TimeCS cs) {
         super(properties, datum, cs);
     }
 
@@ -229,7 +217,7 @@ public class DefaultTemporalCRS extends AbstractSingleCRS implements TemporalCRS
      * Initialize the fields required for {@link #toDate} and {@link #toValue} operations.
      */
     private void initializeConverter() {
-        origin   = ((TemporalDatum)datum).getOrigin().getTime();
+        origin = ((TemporalDatum) datum).getOrigin().getTime();
         toMillis = coordinateSystem.getAxis(0).getUnit().getConverterTo(MILLISECOND);
     }
 
@@ -253,7 +241,7 @@ public class DefaultTemporalCRS extends AbstractSingleCRS implements TemporalCRS
      * Convert the given value into a {@link Date} object.
      * This method is the converse of {@link #toValue}.
      *
-     * @param  value A value in this axis unit.
+     * @param value A value in this axis unit.
      * @return The value as a {@linkplain Date date}.
      */
     public Date toDate(final double value) {
@@ -267,7 +255,7 @@ public class DefaultTemporalCRS extends AbstractSingleCRS implements TemporalCRS
      * Convert the given {@linkplain Date date} into a value in this axis unit.
      * This method is the converse of {@link #toDate}.
      *
-     * @param  time The value as a {@linkplain Date date}.
+     * @param time The value as a {@linkplain Date date}.
      * @return value A value in this axis unit.
      */
     public double toValue(final Date time) {
@@ -281,10 +269,10 @@ public class DefaultTemporalCRS extends AbstractSingleCRS implements TemporalCRS
      * Returns a hash value for this geographic CRS.
      *
      * @return The hash code value. This value doesn't need to be the same
-     *         in past or future versions of this class.
+     * in past or future versions of this class.
      */
     @Override
     public int hashCode() {
-        return (int)serialVersionUID ^ super.hashCode();
+        return (int) serialVersionUID ^ super.hashCode();
     }
 }

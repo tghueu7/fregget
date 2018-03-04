@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -39,85 +39,104 @@ import org.opengis.filter.expression.Subtract;
  *     ...
  * }
  * </code></pre>
- * 
+ *
  * @author Jody
- *
- *
- *
  * @source $URL$
  */
 public class IsStaticExpressionVisitor implements ExpressionVisitor {
-	public static final IsStaticExpressionVisitor VISITOR = new IsStaticExpressionVisitor();
-    
-	/** visit each expression and check that they are static */
+    public static final IsStaticExpressionVisitor VISITOR = new IsStaticExpressionVisitor();
+
+    /**
+     * visit each expression and check that they are static
+     */
     protected IsStaticExpressionVisitor() {
     }
-    /** visit each expression and check that they are static */
-    public Boolean visit( NilExpression expression, Object data ) {        
+
+    /**
+     * visit each expression and check that they are static
+     */
+    public Boolean visit(NilExpression expression, Object data) {
         return true;
     }
-    /** visit each expression and check that they are static */
-    public Boolean visit( Add expression, Object data ) {
-    	boolean isStatic;
-    	isStatic = (Boolean) expression.getExpression1().accept( this, data);
-    	if( isStatic == false ) return false;
-    	isStatic = (Boolean) expression.getExpression2().accept( this, data);
+
+    /**
+     * visit each expression and check that they are static
+     */
+    public Boolean visit(Add expression, Object data) {
+        boolean isStatic;
+        isStatic = (Boolean) expression.getExpression1().accept(this, data);
+        if (isStatic == false) return false;
+        isStatic = (Boolean) expression.getExpression2().accept(this, data);
         return isStatic;
     }
-    /** visit each expression and check that they are static */
-    public Boolean visit( Divide expression, Object data ) {
-    	boolean isStatic;
-    	isStatic = (Boolean) expression.getExpression1().accept( this, data);
-    	if( isStatic == false ) return false;
-    	isStatic = (Boolean) expression.getExpression2().accept( this, data);        
+
+    /**
+     * visit each expression and check that they are static
+     */
+    public Boolean visit(Divide expression, Object data) {
+        boolean isStatic;
+        isStatic = (Boolean) expression.getExpression1().accept(this, data);
+        if (isStatic == false) return false;
+        isStatic = (Boolean) expression.getExpression2().accept(this, data);
         return isStatic;
     }
+
     /**
      * Visit each parameter and check if they are static
      */
-    public Boolean visit( Function expression, Object data ) {
-    	boolean isStatic = true;
-        if( expression.getParameters() != null ){
-            for( Expression parameter : expression.getParameters() ){
-            	isStatic = (Boolean) parameter.accept( this, data);
-                if( isStatic == false ) break;
+    public Boolean visit(Function expression, Object data) {
+        boolean isStatic = true;
+        if (expression.getParameters() != null) {
+            for (Expression parameter : expression.getParameters()) {
+                isStatic = (Boolean) parameter.accept(this, data);
+                if (isStatic == false) break;
             }
         }
         return isStatic;
     }
+
     /**
      * Literal expressions are always static.
+     *
      * @return true
      */
-    public Boolean visit( Literal expression, Object data ) {        
+    public Boolean visit(Literal expression, Object data) {
         return true;
     }
-    /** visit each expression and check that they are static.
+
+    /**
+     * visit each expression and check that they are static.
+     *
      * @return true if getExpression1 and getExpression2 are static
      */
-    public Boolean visit( Multiply expression, Object data ) {
-    	boolean isStatic;
-    	isStatic = (Boolean) expression.getExpression1().accept( this, data);
-        if( isStatic == false ) return false;
-        isStatic = (Boolean) expression.getExpression2().accept( this, data);                
+    public Boolean visit(Multiply expression, Object data) {
+        boolean isStatic;
+        isStatic = (Boolean) expression.getExpression1().accept(this, data);
+        if (isStatic == false) return false;
+        isStatic = (Boolean) expression.getExpression2().accept(this, data);
         return isStatic;
     }
+
     /**
      * If even a single PropertyName is found in the expression
      * the expression is not static.
+     *
      * @return false
      */
-    public Boolean visit( PropertyName expression, Object data ) {
+    public Boolean visit(PropertyName expression, Object data) {
         return false;
     }
-    /** visit each expression and check that they are static.
+
+    /**
+     * visit each expression and check that they are static.
+     *
      * @return true if getExpression1 and getExpression2 are static
      */
-    public Boolean visit( Subtract expression, Object data ) {
-    	boolean isStatic;
-    	isStatic = (Boolean) expression.getExpression1().accept( this, data);
-    	if( isStatic == false ) return false;    	
-    	isStatic = (Boolean) expression.getExpression2().accept( this, data);
+    public Boolean visit(Subtract expression, Object data) {
+        boolean isStatic;
+        isStatic = (Boolean) expression.getExpression1().accept(this, data);
+        if (isStatic == false) return false;
+        isStatic = (Boolean) expression.getExpression2().accept(this, data);
         return isStatic;
     }
 

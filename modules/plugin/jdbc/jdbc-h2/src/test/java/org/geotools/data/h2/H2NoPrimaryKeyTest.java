@@ -20,13 +20,10 @@ import org.geotools.jdbc.JDBCNoPrimaryKeyOnlineTest;
 import org.geotools.jdbc.JDBCNoPrimaryKeyTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class H2NoPrimaryKeyTest extends JDBCNoPrimaryKeyOnlineTest {
-    
-    
+
 
     @Override
     protected JDBCNoPrimaryKeyTestSetup createTestSetup() {

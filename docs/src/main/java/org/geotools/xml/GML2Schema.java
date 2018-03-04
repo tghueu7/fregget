@@ -8,8 +8,8 @@ import com.vividsolutions.jts.geom.Envelope;
 
 /**
  * The following is a placeholder simply to make a UML Diagram.
- * @author jody
  *
+ * @author jody
  */
 public class GML2Schema {
     /**
@@ -18,17 +18,26 @@ public class GML2Schema {
      * possess an identifying attribute ('fid').
      */
     public static interface AbstractFeatureType {
-        /** optional */
+        /**
+         * optional
+         */
         public String description();
-        
-        /** optional */
-        
+
+        /**
+         * optional
+         */
+
         public String name();
-        
-        /** optional */
+
+        /**
+         * optional
+         */
         public Envelope boundedBy();
     }
-    /** A feature collection contains zero or more featureMember elements. */
+
+    /**
+     * A feature collection contains zero or more featureMember elements.
+     */
     public static interface AbstractFeatureCollectionType {
         List<Feature> featureMemeber();
     }

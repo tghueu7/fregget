@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -25,8 +25,6 @@ import org.geotools.xml.schema.ElementValue;
  * </p>
  *
  * @author dzwiers
- *
- *
  * @source $URL$
  */
 public class ElementValueGT implements ElementValue {
@@ -41,7 +39,7 @@ public class ElementValueGT implements ElementValue {
      * Creates a new ElementValueGT object.
      *
      * @param element DOCUMENT ME!
-     * @param value DOCUMENT ME!
+     * @param value   DOCUMENT ME!
      */
     public ElementValueGT(Element element, Object value) {
         this.element = element;

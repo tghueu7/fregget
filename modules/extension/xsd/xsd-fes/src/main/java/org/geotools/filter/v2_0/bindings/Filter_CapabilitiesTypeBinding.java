@@ -26,19 +26,19 @@ import org.geotools.filter.v2_0.FES;
 import org.geotools.xml.AbstractComplexEMFBinding;
 
 public class Filter_CapabilitiesTypeBinding extends AbstractComplexEMFBinding {
-    
+
     public Filter_CapabilitiesTypeBinding(Fes20Factory factory) {
         super(factory);
     }
-    
+
     @Override
     public QName getTarget() {
         return FES.Filter_Capabilities;
     }
-    
+
     @Override
     public Class getType() {
         return FilterCapabilitiesType.class;
     }
-    
+
 }

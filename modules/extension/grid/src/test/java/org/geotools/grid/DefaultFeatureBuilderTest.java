@@ -33,12 +33,9 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
  * Unit tests for the DefaultFeatureBuilder class.
  *
  * @author mbedward
- * @since 2.7
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.7
  */
 public class DefaultFeatureBuilderTest {
 
@@ -47,7 +44,7 @@ public class DefaultFeatureBuilderTest {
         DefaultGridFeatureBuilder setter = new DefaultGridFeatureBuilder();
         assertSetter(setter, DefaultGridFeatureBuilder.DEFAULT_TYPE_NAME, null);
     }
-    
+
     @Test
     public void crsConstructor() {
         CoordinateReferenceSystem crs = DefaultGeographicCRS.WGS84;
@@ -76,7 +73,8 @@ public class DefaultFeatureBuilderTest {
         // empty
     }
 
-    private void assertSetter(DefaultGridFeatureBuilder setter, String typeName, CoordinateReferenceSystem crs) {
+    private void assertSetter(DefaultGridFeatureBuilder setter, String typeName, 
+                              CoordinateReferenceSystem crs) {
         SimpleFeatureType type = setter.getType();
         assertEquals(2, type.getAttributeCount());
         assertNotNull(type.getDescriptor(GridFeatureBuilder.DEFAULT_GEOMETRY_ATTRIBUTE_NAME));

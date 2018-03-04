@@ -30,19 +30,17 @@ import org.geotools.referencing.wkt.Formatter;
 
 
 /**
- * A conversion used for the definition of a {@linkplain org.opengis.referencing.crs.GeneralDerivedCRS
+ * A conversion used for the definition of a {@linkplain org.opengis.referencing.crs
+ * .GeneralDerivedCRS
  * derived CRS} (including projections). This conversion has no source and target CRS, and no math
  * transform. Those elements are created by the derived CRS itself.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Matthias Basler
- *
+ * @version $Id$
+ * @source $URL$
  * @see org.opengis.referencing.operation.CoordinateOperationFactory#createDefiningConversion
+ * @since 2.1
  */
 public class DefiningConversion extends DefaultConversion {
     /**
@@ -61,7 +59,6 @@ public class DefiningConversion extends DefaultConversion {
      *
      * @param name       The conversion name.
      * @param parameters The parameter values.
-     *
      * @since 2.2
      */
     public DefiningConversion(final String name, final ParameterValueGroup parameters) {
@@ -86,10 +83,9 @@ public class DefiningConversion extends DefaultConversion {
      * @param method     The operation method.
      * @param parameters The parameter values.
      */
-    public DefiningConversion(final Map<String,?>       properties,
-                              final OperationMethod     method,
-                              final ParameterValueGroup parameters)
-    {
+    public DefiningConversion(final Map<String, ?> properties,
+                              final OperationMethod method,
+                              final ParameterValueGroup parameters) {
         super(properties, null, null, null, method);
         ensureNonNull("parameters", parameters);
         this.parameters = parameters.clone();
@@ -103,13 +99,11 @@ public class DefiningConversion extends DefaultConversion {
      * @param method     The operation method.
      * @param transform  Transform from positions in the {@linkplain #getSourceCRS source CRS}
      *                   to positions in the {@linkplain #getTargetCRS target CRS}.
-     *
      * @since 2.5
      */
-    public DefiningConversion(final Map<String,?>   properties,
+    public DefiningConversion(final Map<String, ?> properties,
                               final OperationMethod method,
-                              final MathTransform   transform)
-    {
+                              final MathTransform transform) {
         super(properties, null, null, transform, method);
         parameters = null;
     }

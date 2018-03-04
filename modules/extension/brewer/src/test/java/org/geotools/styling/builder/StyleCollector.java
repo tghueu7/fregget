@@ -39,8 +39,6 @@ import org.geotools.styling.TextSymbolizer;
 import org.geotools.styling.UserLayer;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class StyleCollector extends AbstractStyleVisitor implements StyleVisitor {
@@ -50,9 +48,9 @@ public class StyleCollector extends AbstractStyleVisitor implements StyleVisitor
     List<Rule> rules = new ArrayList<Rule>();
 
     List<Symbolizer> symbolizers = new ArrayList<Symbolizer>();
-    
+
     List<Style> styles = new ArrayList<Style>();
-    
+
     List<StyledLayer> layers = new ArrayList<StyledLayer>();
 
     @Override
@@ -60,10 +58,10 @@ public class StyleCollector extends AbstractStyleVisitor implements StyleVisitor
         for (StyledLayer sl : sld.getStyledLayers()) {
             if (sl instanceof UserLayer) {
                 ((UserLayer) sl).accept(this);
-            } else if(sl instanceof NamedLayer) {
+            } else if (sl instanceof NamedLayer) {
                 ((NamedLayer) sl).accept(this);
             }
-            
+
         }
     }
 

@@ -18,23 +18,19 @@ package org.geotools.util;
 
 /**
  * Stub for geotools Converter class.
- * 
+ *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
- *
  * @source $URL$
  */
 public class Converters {
 
-    public static <T> T convert( Object source, Class<T> target ) {
+    public static <T> T convert(Object source, Class<T> target) {
         return null;
     }
-    
-    public static <T> T convert( Object source, Class<T> target, Object hints ) {
+
+    public static <T> T convert(Object source, Class<T> target, Object hints) {
         return null;
     }
-    
-    
+
+
 }

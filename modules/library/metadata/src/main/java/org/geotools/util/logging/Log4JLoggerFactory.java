@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2007-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -23,12 +23,10 @@ import java.util.logging.Logger;
  * A factory for loggers that redirect all Java logging events to the Apache's
  * <A HREF="http://logging.apache.org/log4j">Log4J</A> framework.
  *
- * @since 2.4
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @since 2.4
  */
 public class Log4JLoggerFactory extends LoggerFactory<org.apache.log4j.Logger> {
     /**

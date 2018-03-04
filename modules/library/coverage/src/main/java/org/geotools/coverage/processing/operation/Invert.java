@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,6 +17,7 @@
 package org.geotools.coverage.processing.operation;
 
 // JAI dependencies (for javadoc)
+
 import it.geosolutions.jaiext.JAIExt;
 import it.geosolutions.jaiext.algebra.AlgebraDescriptor.Operator;
 
@@ -40,40 +41,37 @@ import org.opengis.util.InternationalString;
 /**
  * Inverts the sample values of a coverage. For source coverages with signed data types,
  * the sample values of the destination coverage are defined by the pseudocode:
- *
+ * <p>
  * <BLOCKQUOTE><PRE>
  * dst[x][y][b] = -src[x][y][b]
  * </PRE></BLOCKQUOTE>
- *
+ * <p>
  * <P><STRONG>Name:</STRONG>&nbsp;<CODE>"Invert"</CODE><BR>
- *    <STRONG>JAI operator:</STRONG>&nbsp;<CODE>"{@linkplain InvertDescriptor Invert}"</CODE><BR>
- *    <STRONG>Parameters:</STRONG></P>
+ * <STRONG>JAI operator:</STRONG>&nbsp;<CODE>"{@linkplain InvertDescriptor Invert}"</CODE><BR>
+ * <STRONG>Parameters:</STRONG></P>
  * <table border='3' cellpadding='6' bgcolor='F4F8FF'>
- *   <tr bgcolor='#B9DCFF'>
- *     <th>Name</th>
- *     <th>Class</th>
- *     <th>Default value</th>
- *     <th>Minimum value</th>
- *     <th>Maximum value</th>
- *   </tr>
- *   <tr>
- *     <td>{@code "Source"}</td>
- *     <td>{@link org.geotools.coverage.grid.GridCoverage2D}</td>
- *     <td align="center">N/A</td>
- *     <td align="center">N/A</td>
- *     <td align="center">N/A</td>
- *   </tr>
+ * <tr bgcolor='#B9DCFF'>
+ * <th>Name</th>
+ * <th>Class</th>
+ * <th>Default value</th>
+ * <th>Minimum value</th>
+ * <th>Maximum value</th>
+ * </tr>
+ * <tr>
+ * <td>{@code "Source"}</td>
+ * <td>{@link org.geotools.coverage.grid.GridCoverage2D}</td>
+ * <td align="center">N/A</td>
+ * <td align="center">N/A</td>
+ * <td align="center">N/A</td>
+ * </tr>
  * </table>
  *
- * @since 2.2
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @see org.geotools.coverage.processing.Operations#invert
  * @see InvertDescriptor
+ * @since 2.2
  */
 public class Invert extends BaseMathOperationJAI {
     private static final String ALGEBRIC = "algebric";
@@ -87,9 +85,9 @@ public class Invert extends BaseMathOperationJAI {
      * Constructs a default {@code "Invert"} operation.
      */
     public Invert() {
-    	super(INVERT, getOperationDescriptor(JAIExt.getOperationName(INVERT)));
+        super(INVERT, getOperationDescriptor(JAIExt.getOperationName(INVERT)));
     }
-    
+
     public String getName() {
         return INVERT;
     }
@@ -103,20 +101,24 @@ public class Invert extends BaseMathOperationJAI {
         final double max = -range.getMinimum();
         return NumberRange.create(min, max);
     }
-    
-    protected void handleJAIEXTParams(ParameterBlockJAI parameters, ParameterValueGroup parameters2) {
-        if(JAIExt.isJAIExtOperation(ALGEBRIC)){
+
+    protected void handleJAIEXTParams(ParameterBlockJAI parameters, ParameterValueGroup 
+            parameters2) {
+        if (JAIExt.isJAIExtOperation(ALGEBRIC)) {
             parameters.set(Operator.INVERT, 0);
-            Collection<GridCoverage2D> sources = (Collection<GridCoverage2D>) parameters2.parameter("sources").getValue();
-            for(GridCoverage2D source : sources){
+            Collection<GridCoverage2D> sources = (Collection<GridCoverage2D>) 
+                    parameters2.parameter("sources").getValue();
+            for (GridCoverage2D source : sources) {
                 handleROINoDataInternal(parameters, source, ALGEBRIC, 1, 2);
             }
         }
     }
-    
+
     protected Map<String, ?> getProperties(RenderedImage data, CoordinateReferenceSystem crs,
-            InternationalString name, MathTransform gridToCRS, GridCoverage2D[] sources,
-            Parameters parameters) {
-        return handleROINoDataProperties(null, parameters.parameters, sources[0], ALGEBRIC, 1, 2, 3);
+                                           InternationalString name, MathTransform gridToCRS, 
+                                           GridCoverage2D[] sources,
+                                           Parameters parameters) {
+        return handleROINoDataProperties(null, parameters.parameters, sources[0], ALGEBRIC, 1, 2,
+                3);
     }
 }

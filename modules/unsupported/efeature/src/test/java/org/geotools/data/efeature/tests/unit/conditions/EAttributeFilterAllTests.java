@@ -1,7 +1,7 @@
 /**
  * <copyright>
  * </copyright>
- *
+ * <p>
  * $Id$
  */
 package org.geotools.data.efeature.tests.unit.conditions;
@@ -16,10 +16,8 @@ import junit.textui.TestRunner;
 
 /**
  * Test suite for {@link EFeature} implementation.
- * 
+ *
  * @author kengu
- *
- *
  * @source $URL$
  */
 public class EAttributeFilterAllTests extends TestSuite {
@@ -31,7 +29,7 @@ public class EAttributeFilterAllTests extends TestSuite {
     public EAttributeFilterAllTests(String name) {
         super(name);
     }
-    
+
     public static Test suite() {
         //
         // Create test suite

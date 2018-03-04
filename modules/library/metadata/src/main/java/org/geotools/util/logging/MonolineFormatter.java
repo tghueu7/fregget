@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2001-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -39,17 +39,17 @@ import org.geotools.util.Utilities;
  * A formatter writting log messages on a single line. Compared to {@link SimpleFormatter}, this
  * formatter uses only one line per message instead of two. For example a message formatted by
  * {@code MonolineFormatter} looks like:
- *
+ * <p>
  * <blockquote><pre>
  * FINE core - A log message logged with level FINE from the "org.geotools.core" logger.
  * </pre></blockquote>
- *
+ * <p>
  * By default, {@code MonolineFormatter} displays only the level and the message. Additional
  * fields can be formatted if {@link #setTimeFormat} or {@link #setSourceFormat} methods are
  * invoked with a non-null argument. The format can also be set from the
  * {@code jre/lib/logging.properties} file. For example, user can cut and paste the following
  * properties into {@code logging.properties}:
- *
+ * <p>
  * <blockquote><pre>
  * ############################################################
  * # Properties for the Geotools's MonolineFormatter.
@@ -69,23 +69,21 @@ import org.geotools.util.Utilities;
  * org.geotools.util.logging.MonolineFormatter.time = HH:mm:ss.SSS
  * org.geotools.util.logging.MonolineFormatter.source = class:short
  * </pre></blockquote>
- *
+ * <p>
  * The example below set the {@code MonolineFormatter} for the whole system
  * with level FINE and "Cp850" page encoding (which is appropriate for some
  * DOS command lines on Windows).
- *
+ * <p>
  * <blockquote><pre>
  * java.util.logging.ConsoleHandler.formatter = org.geotools.util.logging.MonolineFormatter
  * java.util.logging.ConsoleHandler.encoding = Cp850
  * java.util.logging.ConsoleHandler.level = FINE
  * </pre></blockquote>
  *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.0
  */
 public class MonolineFormatter extends Formatter {
     /**
@@ -104,23 +102,42 @@ public class MonolineFormatter extends Formatter {
      */
     private static final int DEFAULT_WIDTH = 9;
 
-    /** Do not format source class name.       */ private static final int NO_SOURCE    = 0;
-    /** Explicit value for 'none'.             */ private static final int NO_SOURCE_EX = 1;
-    /** Format the source logger without base. */ private static final int LOGGER_SHORT = 2;
-    /** Format the source logger only.         */ private static final int LOGGER_LONG  = 3;
-    /** Format the class name without package. */ private static final int CLASS_SHORT  = 4;
-    /** Format the fully qualified class name. */ private static final int CLASS_LONG   = 5;
+    /**
+     * Do not format source class name.
+     */
+    private static final int NO_SOURCE = 0;
+    /**
+     * Explicit value for 'none'.
+     */
+    private static final int NO_SOURCE_EX = 1;
+    /**
+     * Format the source logger without base.
+     */
+    private static final int LOGGER_SHORT = 2;
+    /**
+     * Format the source logger only.
+     */
+    private static final int LOGGER_LONG = 3;
+    /**
+     * Format the class name without package.
+     */
+    private static final int CLASS_SHORT = 4;
+    /**
+     * Format the fully qualified class name.
+     */
+    private static final int CLASS_LONG = 5;
 
     /**
      * The label to use in the {@code logging.properties} for setting the source format.
      */
     private static String[] FORMAT_LABELS = new String[6];
+
     static {
         FORMAT_LABELS[NO_SOURCE_EX] = "none";
         FORMAT_LABELS[LOGGER_SHORT] = "logger:short";
-        FORMAT_LABELS[LOGGER_LONG ] = "logger:long";
-        FORMAT_LABELS[ CLASS_SHORT] = "class:short";
-        FORMAT_LABELS[ CLASS_LONG ] = "class:long";
+        FORMAT_LABELS[LOGGER_LONG] = "logger:long";
+        FORMAT_LABELS[CLASS_SHORT] = "class:short";
+        FORMAT_LABELS[CLASS_LONG] = "class:long";
     }
 
     /**
@@ -182,7 +199,7 @@ public class MonolineFormatter extends Formatter {
      */
     public MonolineFormatter() {
         this.startMillis = System.currentTimeMillis();
-        this.margin      = DEFAULT_WIDTH;
+        this.margin = DEFAULT_WIDTH;
         StringWriter str = new StringWriter();
         writer = new LineWriter(str);
         buffer = str.getBuffer();
@@ -190,7 +207,7 @@ public class MonolineFormatter extends Formatter {
 
         // Configure this formatter
         final LogManager manager = LogManager.getLogManager();
-        final String   classname = MonolineFormatter.class.getName();
+        final String classname = MonolineFormatter.class.getName();
         try {
             setTimeFormat(manager.getProperty(classname + ".time"));
         } catch (IllegalArgumentException exception) {
@@ -238,11 +255,11 @@ public class MonolineFormatter extends Formatter {
 
     /**
      * Sets the format for displaying the source. The pattern may be one of the following:
-     *
+     * <p>
      * <code>"none"</code>,
      * <code>"logger:short"</code>,  <code>"class:short"</code>,
      * <code>"logger:long"</code> or <code>"class:long"</code>.
-     *
+     * <p>
      * The difference between a {@code null} and <code>"none"</code> is that {@code null}
      * may be replaced by a default value, while <code>"none"</code> means that the user
      * explicitly requested no source.
@@ -253,7 +270,7 @@ public class MonolineFormatter extends Formatter {
         if (format != null) {
             format = format.trim().toLowerCase();
         }
-        for (int i=0; i<FORMAT_LABELS.length; i++) {
+        for (int i = 0; i < FORMAT_LABELS.length; i++) {
             if (Utilities.equals(FORMAT_LABELS[i], format)) {
                 sourceFormat = i;
                 return;
@@ -277,7 +294,7 @@ public class MonolineFormatter extends Formatter {
     /**
      * Formats the given log record and return the formatted string.
      *
-     * @param  record the log record to be formatted.
+     * @param record the log record to be formatted.
      * @return a formatted log record
      */
     @SuppressWarnings("fallthrough")
@@ -302,12 +319,12 @@ public class MonolineFormatter extends Formatter {
             int offset = buffer.length();
             buffer.append(record.getLevel().getLocalizedName());
             offset = buffer.length() - offset;
-            buffer.append(Utilities.spaces(margin-offset));
+            buffer.append(Utilities.spaces(margin - offset));
         }
         /*
          * Adds the source. It may be either the source logger or the source class name.
          */
-        String logger    = record.getLoggerName();
+        String logger = record.getLoggerName();
         String classname = record.getSourceClassName();
         switch (sourceFormat) {
             case LOGGER_SHORT: {
@@ -325,9 +342,9 @@ public class MonolineFormatter extends Formatter {
             case CLASS_SHORT: {
                 int dot = classname.lastIndexOf('.');
                 if (dot >= 0) {
-                    classname = classname.substring(dot+1);
+                    classname = classname.substring(dot + 1);
                 }
-                classname = classname.replace('$','.');
+                classname = classname.replace('$', '.');
                 // fall through
             }
             case CLASS_LONG: {
@@ -342,9 +359,9 @@ public class MonolineFormatter extends Formatter {
          * usual EOL ("\r", "\n", or "\r\n", which is plateform specific)
          * following by some amout of space in order to align message body.
          */
-        final int margin  = buffer.length();
+        final int margin = buffer.length();
         assert margin >= this.margin;
-        if (bodyLineSeparator.length() != lineSeparator.length()+margin) {
+        if (bodyLineSeparator.length() != lineSeparator.length() + margin) {
             bodyLineSeparator = lineSeparator + Utilities.spaces(margin);
         }
         try {
@@ -363,7 +380,8 @@ public class MonolineFormatter extends Formatter {
     /**
      * Setup a {@code MonolineFormatter} for the specified logger and its children. This method
      * search for all instances of {@link ConsoleHandler} using the {@link SimpleFormatter}. If
-     * such instances are found, they are replaced by a single instance of {@code MonolineFormatter}.
+     * such instances are found, they are replaced by a single instance of {@code 
+     * MonolineFormatter}.
      * If no such {@link ConsoleHandler} are found, then a new one is created with this
      * {@code MonolineFormatter}.
      * <p>
@@ -373,17 +391,18 @@ public class MonolineFormatter extends Formatter {
      * much as possible because it overrides user's level settings. A user trying to configure
      * his logging properties file may find confusing to see his setting ignored.
      *
-     * @param  logger The base logger to apply the change on.
-     * @param  level The desired level, or {@code null} if no level should be set.
+     * @param logger The base logger to apply the change on.
+     * @param level  The desired level, or {@code null} if no level should be set.
      * @return The registered {@code MonolineFormatter} (never {@code null}).
-     *         The formatter output can be configured using the {@link #setTimeFormat}
-     *         and {@link #setSourceFormat} methods.
+     * The formatter output can be configured using the {@link #setTimeFormat}
+     * and {@link #setSourceFormat} methods.
      */
-    public static MonolineFormatter configureConsoleHandler(final Logger logger, final Level level) {
+    public static MonolineFormatter configureConsoleHandler(final Logger logger, final Level 
+            level) {
         MonolineFormatter monoline = null;
         boolean foundConsoleHandler = false;
         Handler[] handlers = logger.getHandlers();
-        for (int i=0; i<handlers.length; i++) {
+        for (int i = 0; i < handlers.length; i++) {
             final Handler handler = handlers[i];
             if (handler.getClass().equals(ConsoleHandler.class)) {
                 foundConsoleHandler = true;
@@ -426,13 +445,13 @@ public class MonolineFormatter extends Formatter {
          * If the logger uses parent handlers, copy them to the logger that we are initializing,
          * because we will not use parent handlers anymore at the end of this method.
          */
-        for (Logger parent=logger; parent.getUseParentHandlers();) {
+        for (Logger parent = logger; parent.getUseParentHandlers(); ) {
             parent = parent.getParent();
             if (parent == null) {
                 break;
             }
             handlers = parent.getHandlers();
-            for (int i=0; i<handlers.length; i++) {
+            for (int i = 0; i < handlers.length; i++) {
                 Handler handler = handlers[i];
                 if (handler.getClass().equals(ConsoleHandler.class)) {
                     if (!foundConsoleHandler) {

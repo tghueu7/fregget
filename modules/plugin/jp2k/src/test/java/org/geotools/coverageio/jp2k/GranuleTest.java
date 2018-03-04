@@ -35,16 +35,15 @@ import org.junit.Test;
 /**
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini (simboss), GeoSolutions
- *
+ * <p>
  * Testing {@link Granule}
- *
- *
- *
  * @source $URL$
  */
 public final class GranuleTest extends BaseJP2K {
 
-	private final static Logger LOGGER = org.geotools.util.logging.Logging.getLogger(GranuleTest.class);
+    private final static Logger LOGGER = org.geotools.util.logging.Logging.getLogger(GranuleTest
+            .class);
+
     /**
      * Creates a new instance of GranuleTest
      *
@@ -55,49 +54,49 @@ public final class GranuleTest extends BaseJP2K {
 
     @Test
     public void test() throws Exception {
-    	if (!testingEnabled()) {
+        if (!testingEnabled()) {
             return;
         }
-    	File file = null;
-        try{
-             file = TestData.file(this, "sample.jp2");
-         }catch (FileNotFoundException fnfe){
-             LOGGER.warning("test-data not found: sample.jp2 \nTests are skipped");
-             return;
+        File file = null;
+        try {
+            file = TestData.file(this, "sample.jp2");
+        } catch (FileNotFoundException fnfe) {
+            LOGGER.warning("test-data not found: sample.jp2 \nTests are skipped");
+            return;
         }
-         
-		final AbstractGridCoverage2DReader reader = new JP2KReader(file);
-		final GeneralEnvelope envelope = reader.getOriginalEnvelope();
-		final Granule granule = new Granule(new ReferencedEnvelope(envelope), file);
-		final Level level = granule.getLevel(0);
-		if (level != null){
-			final AffineTransform btl = level.getBaseToLevelTransform();
-	    	assertTrue(btl.isIdentity());
-	    	final Rectangle bounds = level.getBounds();
-	    	assertEquals(bounds.width, 400);
-	        assertEquals(bounds.height, 200);
-	    	final int h = level.getHeight();
-	    	final int w = level.getWidth();
-	    	assertEquals(bounds.width, w);
-	        assertEquals(bounds.height, h);
-	        
-	    	final double sx = level.getScaleX();
-	    	final double sy = level.getScaleY();
-	    	assertEquals(sx, 1.0, DELTA);
-	        assertEquals(sy, 1.0, DELTA);
-	         
-	    	final String levelS = level.toString();
-	    	if (TestData.isInteractiveTest()){
-	         	if (LOGGER.isLoggable(java.util.logging.Level.INFO))
-	         		LOGGER.info(levelS);
-	        }
-	    }
-    	
-    	final String granuleS = granule.toString();
-    	if (TestData.isInteractiveTest()){
-         	if (LOGGER.isLoggable(java.util.logging.Level.INFO))
-         		LOGGER.info(granuleS);
+
+        final AbstractGridCoverage2DReader reader = new JP2KReader(file);
+        final GeneralEnvelope envelope = reader.getOriginalEnvelope();
+        final Granule granule = new Granule(new ReferencedEnvelope(envelope), file);
+        final Level level = granule.getLevel(0);
+        if (level != null) {
+            final AffineTransform btl = level.getBaseToLevelTransform();
+            assertTrue(btl.isIdentity());
+            final Rectangle bounds = level.getBounds();
+            assertEquals(bounds.width, 400);
+            assertEquals(bounds.height, 200);
+            final int h = level.getHeight();
+            final int w = level.getWidth();
+            assertEquals(bounds.width, w);
+            assertEquals(bounds.height, h);
+
+            final double sx = level.getScaleX();
+            final double sy = level.getScaleY();
+            assertEquals(sx, 1.0, DELTA);
+            assertEquals(sy, 1.0, DELTA);
+
+            final String levelS = level.toString();
+            if (TestData.isInteractiveTest()) {
+                if (LOGGER.isLoggable(java.util.logging.Level.INFO))
+                    LOGGER.info(levelS);
+            }
         }
-    	
+
+        final String granuleS = granule.toString();
+        if (TestData.isInteractiveTest()) {
+            if (LOGGER.isLoggable(java.util.logging.Level.INFO))
+                LOGGER.info(granuleS);
+        }
+
     }
 }

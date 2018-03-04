@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -29,18 +29,17 @@ import org.opengis.filter.expression.Function;
  * number of nodes. This is used to adjust the value distribution of an attribute to the
  * desired distribution of a continuous symbolization control variable (like size,
  * width, color, etc).
- *
+ * <p>
  * In case the Categorize (or Interpolate) function is used inside a RasterSymbolizer as a
  * ColorMap, the LookupValue is set to the fixed value “Rasterdata”.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding Implementation Specification 1.1.0</A>
  * @author Johann Sorel (Geomatys)
+ * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding 
+ * Implementation Specification 1.1.0</A>
+ * @source $URL$
  */
 @XmlElement("Interpolate")
-public interface Interpolate extends Function{
+public interface Interpolate extends Function {
 
     /**
      * Get lookup value.

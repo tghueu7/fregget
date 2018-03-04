@@ -28,12 +28,10 @@ import com.vividsolutions.jts.geom.Point;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class MultiPointTypeBindingTest extends GML3TestSupport {
-    
+
     public void test() throws Exception {
         GML3MockData.multiPoint(document, document);
 
@@ -42,7 +40,7 @@ public class MultiPointTypeBindingTest extends GML3TestSupport {
 
         assertEquals(4, multiPoint.getNumPoints());
     }
-    
+
     public void test3D() throws Exception {
         GML3MockData.multiPoint3D(document, document);
 

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -21,6 +21,7 @@ package org.geotools.metadata.iso.content;
 
 import java.util.Collection;
 import java.util.Locale;
+
 import org.opengis.metadata.content.FeatureCatalogueDescription;
 import org.opengis.metadata.citation.Citation;
 import org.opengis.util.GenericName;
@@ -29,18 +30,14 @@ import org.opengis.util.GenericName;
 /**
  * Information identifying the feature catalogue.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class FeatureCatalogueDescriptionImpl extends ContentInformationImpl
-        implements FeatureCatalogueDescription
-{
+        implements FeatureCatalogueDescription {
     /**
      * Serial number for interoperability with different versions.
      */
@@ -132,7 +129,7 @@ public class FeatureCatalogueDescriptionImpl extends ContentInformationImpl
 
     /**
      * Returns the Complete bibliographic reference to one or more external feature catalogues.
-     * 
+     *
      * @TODO: annotate the org.geotools.util package before.
      */
     public synchronized Collection<GenericName> getFeatureTypes() {
@@ -150,23 +147,24 @@ public class FeatureCatalogueDescriptionImpl extends ContentInformationImpl
      * Returns the Complete bibliographic reference to one or more external feature catalogues.
      */
     public synchronized Collection<Citation> getFeatureCatalogueCitations() {
-        return featureCatalogueCitations = nonNullCollection(featureCatalogueCitations, Citation.class);
+        return featureCatalogueCitations = nonNullCollection(featureCatalogueCitations, Citation
+                .class);
     }
 
     /**
      * Returns the Complete bibliographic reference to one or more external feature catalogues.
      */
     public synchronized void setFeatureCatalogueCitations(
-            final Collection<? extends Citation> newValues)
-    {
-        featureCatalogueCitations = copyCollection(newValues, featureCatalogueCitations, Citation.class);
+            final Collection<? extends Citation> newValues) {
+        featureCatalogueCitations = copyCollection(newValues, featureCatalogueCitations, Citation
+                .class);
     }
 
     /**
      * Sets the {@code xmlMarshalling} flag to {@code true}, since the marshalling
      * process is going to be done.
      * This method is automatically called by JAXB, when the marshalling begins.
-     * 
+     *
      * @param marshaller Not used in this implementation.
      */
 ///    private void beforeMarshal(Marshaller marshaller) {
@@ -177,11 +175,11 @@ public class FeatureCatalogueDescriptionImpl extends ContentInformationImpl
      * Sets the {@code xmlMarshalling} flag to {@code false}, since the marshalling
      * process is finished.
      * This method is automatically called by JAXB, when the marshalling ends.
-     * 
+     *
      * @param marshaller Not used in this implementation
      */
 ///    private void afterMarshal(Marshaller marshaller) {
 ///        xmlMarshalling(false);
 ///    }
-    
+
 }

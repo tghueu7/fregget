@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.complex;
 
 import java.util.List;
+
 import org.opengis.geometry.primitive.OrientableCurve;
 import org.opengis.annotation.Association;
 import org.opengis.annotation.UML;
@@ -25,20 +26,18 @@ import static org.opengis.annotation.Specification.*;
  * agreeing in orientation in a manner such that each curve (except the first) begins where
  * the previous one ends.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
+ * @todo This interface extends (indirectly) both 
+ * {@link org.opengis.geometry.primitive.Primitive} and
+ * {@link org.opengis.geometry.complex.Complex}. Concequently, there is a clash in the semantics
+ * of some set theoretic operation. Specifically, {@code Primitive.contains(...)}
+ * (returns FALSE for end points) is different from {@code Complex.contains(...)}
+ * (returns TRUE for end points).
  * @since GeoAPI 1.0
- *
- * @todo This interface extends (indirectly) both {@link org.opengis.geometry.primitive.Primitive} and
- *       {@link org.opengis.geometry.complex.Complex}. Concequently, there is a clash in the semantics
- *       of some set theoretic operation. Specifically, {@code Primitive.contains(...)}
- *       (returns FALSE for end points) is different from {@code Complex.contains(...)}
- *       (returns TRUE for end points).
  */
-@UML(identifier="GM_CompositeCurve", specification=ISO_19107)
+@UML(identifier = "GM_CompositeCurve", specification = ISO_19107)
 public interface CompositeCurve extends Composite, OrientableCurve {
     /**
      * Returns the list of orientable curves in this composite.
@@ -48,11 +47,10 @@ public interface CompositeCurve extends Composite, OrientableCurve {
      * added to the curves in the generator list.
      *
      * @return The list of orientable curves in this composite.
-     *
-     * @see OrientableCurve#getComposite
      * @issue http://jira.codehaus.org/browse/GEO-63
+     * @see OrientableCurve#getComposite
      */
     @Association("Composition")
-    @UML(identifier="generator", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "generator", obligation = MANDATORY, specification = ISO_19107)
     List<OrientableCurve> getGenerators();
 }

@@ -21,7 +21,9 @@ import com.vividsolutions.jts.io.WKTReader;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+
 import static org.junit.Assert.assertEquals;
+
 import java.io.*;
 
 public class GeobufGeometryTest {

@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -23,24 +23,22 @@ import org.xml.sax.SAXException;
 
 /**
  * LEVEL2 saxGML4j GML handler: Gets basic alerts from GMLFilterDocument.
- * 
+ * <p>
  * <p>
  * This handler is required for any parent of a GMLFilterDocument filter. It
  * receives basic element notifications and coordinates.
  * </p>
  *
  * @author Rob Hranac, Vision for New York
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public interface GMLHandlerGeometry extends ContentHandler {
     /**
      * Receives a geometry start element from the parent.
      */
     abstract void geometryStart(String localName, Attributes atts)
-        throws SAXException;
+            throws SAXException;
 
     /**
      * Receives a geometry end element from the parent.
@@ -61,5 +59,5 @@ public interface GMLHandlerGeometry extends ContentHandler {
      * Receives a finished coordinate from the parent (3-valued).
      */
     abstract void gmlCoordinates(double x, double y, double z)
-        throws SAXException;
+            throws SAXException;
 }

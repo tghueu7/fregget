@@ -31,7 +31,9 @@ public class PseudoClass extends Selector {
     public static final PseudoClass ROOT = new PseudoClass(null, -1) {
         public String toString() {
             return "ROOT";
-        };
+        }
+
+        ;
     };
 
     String className;
@@ -107,7 +109,7 @@ public class PseudoClass extends Selector {
 
     /**
      * Returns true if this pseudo class is equals, or contains, the other
-     * 
+     *
      * @param pc
      * @return
      */
@@ -127,8 +129,9 @@ public class PseudoClass extends Selector {
     }
 
     /**
-     * Returns the most specific pseudo class in the set, or null if the set contains inconsistent pseudo classes (e.g., "mark" and "fill")
-     * 
+     * Returns the most specific pseudo class in the set, or null if the set contains 
+     * inconsistent pseudo classes (e.g., "mark" and "fill")
+     *
      * @param pseudoClasses
      * @return
      */

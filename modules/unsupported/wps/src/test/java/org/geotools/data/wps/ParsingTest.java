@@ -45,10 +45,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 
-public class ParsingTest
-{
+public class ParsingTest {
 
-    private static final boolean DISABLE = "true".equalsIgnoreCase(System.getProperty("disableTest", "true"));
+    private static final boolean DISABLE = "true".equalsIgnoreCase(System.getProperty
+            ("disableTest", "true"));
 
     private static final boolean ONLINE = false; // to do check -o maven option?
 
@@ -64,28 +64,23 @@ public class ParsingTest
      * @throws IOException
      */
     @Test
-    public void testDescribeProcessParsing() throws Exception
-    {
+    public void testDescribeProcessParsing() throws Exception {
 
-        if (DISABLE)
-        {
+        if (DISABLE) {
             return;
         }
 
         Object object;
         BufferedReader in = null;
-        try
-        {
+        try {
             Configuration config = new WPSConfiguration();
 
             URL url;
-            if (ONLINE)
-            {
+            if (ONLINE) {
                 url = new URL(
-                        "http://schemas.opengis.net/wps/1.0.0/examples/40_wpsDescribeProcess_response.xml");
-            }
-            else
-            {
+                        "http://schemas.opengis" +
+                                ".net/wps/1.0.0/examples/40_wpsDescribeProcess_response.xml");
+            } else {
                 url = TestData.url(this, "referenceProcessDescriptions.xml");
             }
 
@@ -95,25 +90,20 @@ public class ParsingTest
 
             ProcessDescriptionsType processDesc = (ProcessDescriptionsType) object;
             assertNotNull(processDesc);
-        }
-        finally
-        {
+        } finally {
             in.close();
         }
     }
 
     @Test
-    public void testDegree3CapabilitiesParsing() throws Exception
-    {
-        if (DISABLE)
-        {
+    public void testDegree3CapabilitiesParsing() throws Exception {
+        if (DISABLE) {
             return;
         }
 
         Object object;
         BufferedReader in = null;
-        try
-        {
+        try {
             Configuration config = new WPSConfiguration();
 
             URL url;
@@ -128,25 +118,20 @@ public class ParsingTest
             WPSCapabilitiesType capabiliites = (WPSCapabilitiesType) object;
             assertEquals("1.0.0", capabiliites.getVersion());
 
-        }
-        finally
-        {
+        } finally {
             in.close();
         }
     }
 
     @Test
-    public void testGeoServer3CapabilitiesParsing() throws Exception
-    {
-        if (DISABLE)
-        {
+    public void testGeoServer3CapabilitiesParsing() throws Exception {
+        if (DISABLE) {
             return;
         }
 
         Object object;
         BufferedReader in = null;
-        try
-        {
+        try {
             Configuration config = new WPSConfiguration();
 
             URL url;
@@ -161,25 +146,20 @@ public class ParsingTest
             WPSCapabilitiesType capabiliites = (WPSCapabilitiesType) object;
             assertEquals("1.0.0", capabiliites.getVersion());
 
-        }
-        finally
-        {
+        } finally {
             in.close();
         }
     }
 
     @Test
-    public void testDegree3DescribeProcessParsing() throws Exception
-    {
-        if (DISABLE)
-        {
+    public void testDegree3DescribeProcessParsing() throws Exception {
+        if (DISABLE) {
             return;
         }
 
         Object object;
         BufferedReader in = null;
-        try
-        {
+        try {
             Configuration config = new WPSConfiguration();
 
             URL url;
@@ -191,19 +171,16 @@ public class ParsingTest
 
             ProcessDescriptionsType processDesc = (ProcessDescriptionsType) object;
             assertNotNull(processDesc);
-        }
-        finally
-        {
+        } finally {
             in.close();
         }
     }
 
 
     @Test
-    public void testExeResponseLiteralDataType() throws IOException, SAXException, ParserConfigurationException
-    {
-        if (DISABLE)
-        {
+    public void testExeResponseLiteralDataType() throws IOException, SAXException, 
+            ParserConfigurationException {
+        if (DISABLE) {
             return;
         }
 
@@ -216,8 +193,7 @@ public class ParsingTest
 
         // try casting the response
         ExecuteResponseType exeResponse = null;
-        if (object instanceof ExecuteResponseType)
-        {
+        if (object instanceof ExecuteResponseType) {
             exeResponse = (ExecuteResponseType) object;
         }
 
@@ -230,10 +206,8 @@ public class ParsingTest
     }
 
     @Test
-    public void testUOMsList()
-    {
-        if (DISABLE)
-        {
+    public void testUOMsList() {
+        if (DISABLE) {
             return;
         }
 

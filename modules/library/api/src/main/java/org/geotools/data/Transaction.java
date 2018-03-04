@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -25,23 +25,23 @@ import org.opengis.feature.type.Name;
 
 /**
  * The controller for Transaction with FeatureStore.
- *
+ * <p>
  * <p>
  * Shapefiles, databases, etc. are safely modified with the assistance of this
  * interface. Transactions are also to provide authorization when working with
  * locked features.
  * </p>
- *
+ * <p>
  * <p>
  * All operations are considered to be working against a Transaction.
  * Transaction.AUTO_COMMIT is used to represent an immidiate mode where
  * requests are immidately commited.
  * </p>
- *
+ * <p>
  * <p>
  * For more information please see DataStore and FeatureStore.
  * </p>
- *
+ * <p>
  * <p>
  * Example Use:
  * </p>
@@ -75,56 +75,55 @@ import org.opengis.feature.type.Name;
  * <li>A new transaction is created (an instanceof DefaultTransaction with a handle)</li>
  * <li>A hint is provided using Transaction.putProperty( key, value )</li>
  * <li>Transaction is provided to two FeatureStores, this may result
- *     in Transaction.State instances being registered</li>
- *     <ul>
- *     <li>DiffTransactionState (stored by DataStore):
- *         Used for in memory locking by many DataStore's
- *         (like ShapefileDataStore).
- *         Lazy creation as part of ContentDataStore.getFeatureSource(Name typeName, Transaction tx).
- *         </li>
- *     <li>JDBCTransactionState (stored by ConnectionPool):
- *         Used to manage connection rollback/commit.
- *         Lazy creation as part of JDBCDataStore.getConnection(transaction).
- *         </li>
- *     <li>InProcessLockingManager.FeatureLock (stored by LockingManger):
- *         Used for per transaction FeatureLocks, used to free locked features
- *         on Transaction commit/rollback.
- *         </li>
- *     </ul>
- *     These instances of Transaction state may make use of any hint provided
- *     to Transaction.putProperty( key, value ) when they are connected with
- *     Transaction.State.setTransaction( transaction ).
+ * in Transaction.State instances being registered</li>
+ * <ul>
+ * <li>DiffTransactionState (stored by DataStore):
+ * Used for in memory locking by many DataStore's
+ * (like ShapefileDataStore).
+ * Lazy creation as part of ContentDataStore.getFeatureSource(Name typeName, Transaction tx).
+ * </li>
+ * <li>JDBCTransactionState (stored by ConnectionPool):
+ * Used to manage connection rollback/commit.
+ * Lazy creation as part of JDBCDataStore.getConnection(transaction).
+ * </li>
+ * <li>InProcessLockingManager.FeatureLock (stored by LockingManger):
+ * Used for per transaction FeatureLocks, used to free locked features
+ * on Transaction commit/rollback.
+ * </li>
+ * </ul>
+ * These instances of Transaction state may make use of any hint provided
+ * to Transaction.putProperty( key, value ) when they are connected with
+ * Transaction.State.setTransaction( transaction ).
  * <li>t.addAuthorization(lockID) is called, each Transaction.State has its
- *     addAuthroization(String) callback invoked with the value of lockID</li>
+ * addAuthroization(String) callback invoked with the value of lockID</li>
  * <li>FeatureStore.removeFeatures methods are called on the two DataStores.
- *     <ul>
- *     <li>PostgisFeatureStore.removeFeatures(fitler) handles operation
- *         without delegation.
- *         </li>
- *     <li>Most removeFeature(filter) implementations use the implementation
- *         provided by ContentFeatureStore which delegates to FeatureWriter.
- *         </li>
- *     </ul>
- *     Any of these operations may make use of the
- *     Transaction.putProperty( key, value ).
+ * <ul>
+ * <li>PostgisFeatureStore.removeFeatures(fitler) handles operation
+ * without delegation.
+ * </li>
+ * <li>Most removeFeature(filter) implementations use the implementation
+ * provided by ContentFeatureStore which delegates to FeatureWriter.
+ * </li>
+ * </ul>
+ * Any of these operations may make use of the
+ * Transaction.putProperty( key, value ).
  * <li>The transaction is commited, all of the Transaction.State methods have
- *     there Transaction.State.commit() methods called gicing them a chance
- *     to applyDiff maps, or commit various connections.
- *     </li>
+ * there Transaction.State.commit() methods called gicing them a chance
+ * to applyDiff maps, or commit various connections.
+ * </li>
  * <li>The transaction is closed, all of the Transaction.State methods have
- *     there Transaction.State.setTransaction( null ) called, giving them a
- *     chance to clean up diffMaps, or return connections to the pool.
- *     </li>
+ * there Transaction.State.setTransaction( null ) called, giving them a
+ * chance to clean up diffMaps, or return connections to the pool.
+ * </li>
  * </ol>
+ *
  * @author Jody Garnett
  * @author Chris Holmes, TOPP
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public interface Transaction extends Closeable {
-    /** 
+    /**
      * Represents AUTO_COMMIT mode as opposed to operations with commit/rollback
      * control under a user-supplied transaction.
      */
@@ -133,9 +132,10 @@ public interface Transaction extends Closeable {
     //
     // External State
     //
+
     /**
      * Retrive a Transaction property held by this transaction.
-     *
+     * <p>
      * <p>
      * This may be used to provide hints to DataStore implementations, it
      * operates as a blackboard for client, SimpleFeatureSource communication.
@@ -145,11 +145,11 @@ public interface Transaction extends Closeable {
 
     /**
      * List of Authorizations IDs held by this transaction.
-     *
+     * <p>
      * <p>
      * This list is reset by the next call to commit() or rollback().
      * </p>
-     *
+     * <p>
      * <p>
      * Authorization IDs are used to provide FeatureLock support.
      * </p>
@@ -161,7 +161,7 @@ public interface Transaction extends Closeable {
     /**
      * Allows SimpleFeatureSource to squirel away information( and callbacks ) for
      * later.
-     *
+     * <p>
      * <p>
      * The most common example is a JDBC DataStore saving the required
      * connection for later operations.
@@ -174,13 +174,13 @@ public interface Transaction extends Closeable {
      *     public rollback(){ conn.rollback(); }
      * }
      * </code></pre>
-     *
+     * <p>
      * <p>
      * putState will call State.setTransaction( transaction ) to allow State a
      * chance to configure itself.
      * </p>
      *
-     * @param key Key used to externalize State
+     * @param key   Key used to externalize State
      * @param state Externalized State
      */
     void putState(Object key, State state);
@@ -188,12 +188,12 @@ public interface Transaction extends Closeable {
     /**
      * Allows FeatureSources to clean up information ( and callbacks ) they
      * earlier provided.
-     *
+     * <p>
      * <p>
      * Care should be taken when using shared State to not remove State
      * required by another FeatureSources.
      * </p>
-     *
+     * <p>
      * <p>
      * removeState will call State.setTransaction( null ) to allow State a
      * chance cleanup after itself.
@@ -206,14 +206,14 @@ public interface Transaction extends Closeable {
     /**
      * Allows DataStores to squirel away information( and callbacks ) for
      * later.
-     *
+     * <p>
      * <p>
      * The most common example is a JDBC DataStore saving the required
      * connection for later operations.
      * </p>
      *
      * @return Current State externalized by key, or <code>null</code> if not
-     *         found
+     * found
      */
     State getState(Object key);
 
@@ -224,7 +224,7 @@ public interface Transaction extends Closeable {
     /**
      * Makes all transactions made since the previous commit/rollback
      * permanent.
-     *
+     * <p>
      * <p>
      * FeatureSources will need to issue any changes notifications using a
      * FeatureEvent.FEATURES_CHANGED to all FeatureSources with the same
@@ -234,24 +234,22 @@ public interface Transaction extends Closeable {
      * </p>
      *
      * @throws DataSourceException if there are any datasource errors.
-     *
      * @see #setAutoCommit(boolean)
      */
     void commit() throws IOException;
 
     /**
      * Undoes all transactions made since the last commit or rollback.
-     *
+     * <p>
      * <p>
      * FeatureSources will need to issue any changes notifications using a
      * FeatureEvent.FEATURES_CHANGED. This will need to be issued to all
      * FeatureSources with the same typeName and Transaction.
      * </p>
      *
-     * @throws DataSourceException if there are problems with the datasource.
+     * @throws DataSourceException           if there are problems with the datasource.
      * @throws UnsupportedOperationException if the rollback method is not
-     *         supported by this datasource.
-     *
+     *                                       supported by this datasource.
      * @see #setAutoCommit(boolean)
      */
     void rollback() throws IOException;
@@ -262,21 +260,21 @@ public interface Transaction extends Closeable {
 
     /**
      * Provides an Authorization ID for this Transaction.
-     *
+     * <p>
      * <p>
      * All proceeding modifyFeatures,removeFeature, unLockFeatures, refreshLock
      * and ReleaseLock operations will make use of the provided authorization.
      * </p>
-     *
+     * <p>
      * <p>
      * Authorization is only maintained until the this Transaction is commited
      * or rolledback.
      * </p>
-     *
+     * <p>
      * <p>
      * That is operations will only succeed if affected features either:
      * </p>
-     *
+     * <p>
      * <ul>
      * <li>
      * not locked
@@ -285,7 +283,7 @@ public interface Transaction extends Closeable {
      * locked with the provided authID
      * </li>
      * </ul>
-     *
+     * <p>
      * <p>
      * Authorization ID is provided as a String, rather than a FeatureLock, to
      * account for across process lock use.
@@ -297,7 +295,7 @@ public interface Transaction extends Closeable {
 
     /**
      * Provides a Transaction property for this Transasction.
-     *
+     * <p>
      * <p>
      * All proceeding SimpleFeatureSource (for FeatureReader/Writer) operations may
      * make use of the provided property.
@@ -316,6 +314,7 @@ public interface Transaction extends Closeable {
      * their State with the transaction take the opportunity to revert to
      * Transction.AUTO_COMMIT.
      * </p>
+     *
      * @throws IOException
      */
     void close() throws IOException;
@@ -323,7 +322,7 @@ public interface Transaction extends Closeable {
     /**
      * DataStore implementations can use this interface to externalize the
      * state they require to implement Transaction Support.
-     *
+     * <p>
      * <p>
      * The commit and rollback methods will be called as required. The
      * intension is that several DataStores can share common transaction state
@@ -333,19 +332,18 @@ public interface Transaction extends Closeable {
      *
      * @author jgarnett, Refractions Reasearch Inc.
      * @version CVS Version
-     *
      * @see org.geotools.data
      */
     static public interface State {
         /**
          * Provides configuration information for Transaction.State
-         *
+         * <p>
          * <p>
          * setTransaction is called with non null <code>transaction</code> when
          * Transaction.State is <code>putState</code> into a Transaction. This
          * tranasction will be used to determine correct event notification.
          * </p>
-         *
+         * <p>
          * <p>
          * setTransaction is called with <code>null</code> when removeState is
          * called (usually during Transaction.close() ).

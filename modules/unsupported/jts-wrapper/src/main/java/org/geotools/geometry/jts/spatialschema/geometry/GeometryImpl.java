@@ -43,13 +43,10 @@ import org.geotools.factory.BasicFactories;
  * Base class for our JTS-based implementation of the various ISO 19107 geometry
  * classes.
  *
- *
- *
- *
  * @source $URL$
  */
-public abstract class GeometryImpl 
-	implements Geometry, Serializable, Cloneable, JTSGeometry {
+public abstract class GeometryImpl
+        implements Geometry, Serializable, Cloneable, JTSGeometry {
 
     //*************************************************************************
     //  Fields
@@ -78,12 +75,12 @@ public abstract class GeometryImpl
      */
     private JTSGeometry parent;
 
-    
+
     /**
      * Precision model
      */
     private Precision precision;
-    
+
     //*************************************************************************
     //  Constructors
     //*************************************************************************
@@ -97,6 +94,7 @@ public abstract class GeometryImpl
 
     /**
      * Creates a new mutable {@code GeometryImpl}.
+     *
      * @param coordinateReferenceSystem CRS for this geometry's vertices.
      */
     public GeometryImpl(final CoordinateReferenceSystem coordinateReferenceSystem) {
@@ -107,9 +105,10 @@ public abstract class GeometryImpl
      * Creates a new {@code GeometryImpl}.
      *
      * @param coordinateReferenceSystem CRS for this geometry's vertices.
-     * @param mutable Whether or not changes will be allowed.
+     * @param mutable                   Whether or not changes will be allowed.
      */
-    public GeometryImpl(final CoordinateReferenceSystem coordinateReferenceSystem, boolean mutable) {
+    public GeometryImpl(final CoordinateReferenceSystem coordinateReferenceSystem, boolean 
+            mutable) {
         this.coordinateReferenceSystem = coordinateReferenceSystem;
         this.mutable = mutable;
     }
@@ -117,7 +116,7 @@ public abstract class GeometryImpl
     public void setParent(JTSGeometry parent) {
         this.parent = parent;
     }
-    
+
     public Precision getPrecision() {
         return precision;
     }
@@ -215,17 +214,16 @@ public abstract class GeometryImpl
         if (d == 0) {
             // If d is zero, then our geometry is a point.  So the boundary is
             // empty.  ISO 19107 defines the boundary of a point to 
-	    // be NULL.
+            // be NULL.
             return null;
-        }
-        else if (d == 1) {
+        } else if (d == 1) {
             // If d is 1, then the boundary is either empty (if it's a ring) or
             // it's two points at either end of the curve.
             // We've ruled out the possibility of multi-primitives (see the
             // instanceof check above), so we know that the boundary can't be
             // more than 2 points.
 
-            com.vividsolutions.jts.geom.Coordinate [] coords = jtsBoundary.getCoordinates();
+            com.vividsolutions.jts.geom.Coordinate[] coords = jtsBoundary.getCoordinates();
             // If coords is emtpy, then this geometry is a ring.  So we return
             // an empty CurveBoundary object (i.e. one with both points set to
             // null).
@@ -233,8 +231,7 @@ public abstract class GeometryImpl
                 CurveBoundaryImpl result = new CurveBoundaryImpl(
                         getCoordinateReferenceSystem(), null, null);
                 return result;
-            }
-            else {
+            } else {
                 // If it wasn't empty, then return a CurveBoundary with the two
                 // endpoints.
                 if (coords.length != 2) {
@@ -251,30 +248,28 @@ public abstract class GeometryImpl
                                 coords[1], crs)));
                 return result;
             }
-        }
-        else if (d == 2) {
+        } else if (d == 2) {
             // If d == 2, then the boundary is a collection of rings.
             // In particular, the JTS tests indicate that it'll be a
             // MultiLineString.
             com.vividsolutions.jts.geom.MultiLineString mls =
-                (com.vividsolutions.jts.geom.MultiLineString) jtsBoundary;
+                    (com.vividsolutions.jts.geom.MultiLineString) jtsBoundary;
             int n = mls.getNumGeometries();
             CoordinateReferenceSystem crs = getCoordinateReferenceSystem();
             Ring exteriorRing = JTSUtils.linearRingToRing(
-                (com.vividsolutions.jts.geom.LineString) mls.getGeometryN(0),
-                crs);
-            Ring [] interiorRings = new Ring[n-1];
-            for (int i=1; i<n; i++) {
-                interiorRings[n-1] = JTSUtils.linearRingToRing(
-                    (com.vividsolutions.jts.geom.LineString)
-                    	mls.getGeometryN(i),
+                    (com.vividsolutions.jts.geom.LineString) mls.getGeometryN(0),
                     crs);
+            Ring[] interiorRings = new Ring[n - 1];
+            for (int i = 1; i < n; i++) {
+                interiorRings[n - 1] = JTSUtils.linearRingToRing(
+                        (com.vividsolutions.jts.geom.LineString)
+                                mls.getGeometryN(i),
+                        crs);
             }
             SurfaceBoundaryImpl result = new SurfaceBoundaryImpl(crs,
-                exteriorRing, interiorRings);
+                    exteriorRing, interiorRings);
             return result;
-        }
-        else {
+        } else {
             throw new UnsupportedOperationException("Computing the boundary " +
                     "for geometries of dimension larger than 2 is not " +
                     "supported.");
@@ -312,14 +307,14 @@ public abstract class GeometryImpl
     public final double getDistance(final Geometry geometry) {
         com.vividsolutions.jts.geom.Geometry jtsGeom1 = getJTSGeometry();
         com.vividsolutions.jts.geom.Geometry jtsGeom2 =
-            ((JTSGeometry) geometry).getJTSGeometry();
+                ((JTSGeometry) geometry).getJTSGeometry();
         return JTSUtils.distance(jtsGeom1, jtsGeom2);
     }
 
     /**
      * Returns the manifold dimension of the geometry at the given point.  The
      * point must lie on the geometry.
-     *
+     * <p>
      * For geometries that consist of multiple parts, this returns the dimension
      * of the part intersecting the given point.  When multiple parts coincide
      * at the given point, this returns the least dimension of those geometries.
@@ -329,10 +324,9 @@ public abstract class GeometryImpl
         com.vividsolutions.jts.geom.Geometry jtsGeom = getJTSGeometry();
         if (jtsGeom instanceof com.vividsolutions.jts.geom.GeometryCollection) {
             com.vividsolutions.jts.geom.Point p =
-                JTSUtils.directPositionToPoint(point);
+                    JTSUtils.directPositionToPoint(point);
             return getDimension(p, (com.vividsolutions.jts.geom.GeometryCollection) jtsGeom);
-        }
-        else {
+        } else {
             return jtsGeom.getDimension();
         }
     }
@@ -342,15 +336,14 @@ public abstract class GeometryImpl
             final com.vividsolutions.jts.geom.GeometryCollection gc) {
         int min = Integer.MAX_VALUE;
         int n = gc.getNumGeometries();
-        for (int i=0; i<n; i++) {
+        for (int i = 0; i < n; i++) {
             int d = Integer.MAX_VALUE;
             com.vividsolutions.jts.geom.Geometry g = gc.getGeometryN(i);
             if (g instanceof com.vividsolutions.jts.geom.GeometryCollection) {
                 // If it was a nested GeometryCollection, then just recurse
                 // until we get down to non-collections.
                 d = getDimension(p, (com.vividsolutions.jts.geom.GeometryCollection) g);
-            }
-            else {
+            } else {
                 if (g.intersects(p))
                     d = g.getDimension();
             }
@@ -385,19 +378,18 @@ public abstract class GeometryImpl
      * creates a new geometry by invoking that transform on each control point
      * of this geometry.
      */
-    public final Geometry transform(final CoordinateReferenceSystem newCRS) throws TransformException {
+    public final Geometry transform(final CoordinateReferenceSystem newCRS) throws 
+            TransformException {
         try {
-            BasicFactories commonFactory = BasicFactories.getDefault(); 
+            BasicFactories commonFactory = BasicFactories.getDefault();
             CoordinateOperationFactory cof = commonFactory.getCoordinateOperationFactory();
             CoordinateReferenceSystem oldCRS = getCoordinateReferenceSystem();
             CoordinateOperation coordOp = cof.createOperation(oldCRS, newCRS);
             MathTransform mt = coordOp.getMathTransform();
             return transform(newCRS, mt);
-        }
-        catch (OperationNotFoundException e) {
+        } catch (OperationNotFoundException e) {
             throw new TransformException("Unable to find an operation", e);
-        }
-        catch (FactoryException e) {
+        } catch (FactoryException e) {
             throw new TransformException("Factory exception", e);
         }
     }
@@ -406,8 +398,8 @@ public abstract class GeometryImpl
      * Creates a new Geometry out of this one by invoking the given transform
      * on each control point of this geometry.
      */
-    public final Geometry transform(final CoordinateReferenceSystem newCRS, 
-            final MathTransform transform) throws TransformException {
+    public final Geometry transform(final CoordinateReferenceSystem newCRS,
+                                    final MathTransform transform) throws TransformException {
         // Get the JTS geometry
         com.vividsolutions.jts.geom.Geometry jtsGeom = getJTSGeometry();
         // Make a copy since we're going to modify its values
@@ -430,9 +422,9 @@ public abstract class GeometryImpl
         CoordinateReferenceSystem crs = getCoordinateReferenceSystem();
         Envelope result = new EnvelopeImpl(
                 new DirectPositionImpl(crs,
-                        new double [] { jtsEnv.getMinX(), jtsEnv.getMinY() }),
+                        new double[]{jtsEnv.getMinX(), jtsEnv.getMinY()}),
                 new DirectPositionImpl(crs,
-                        new double [] { jtsEnv.getMaxX(), jtsEnv.getMaxY() })
+                        new double[]{jtsEnv.getMaxX(), jtsEnv.getMaxY()})
         );
         return result;
     }
@@ -478,11 +470,10 @@ public abstract class GeometryImpl
      */
     public final Geometry toImmutable() {
         if (isMutable()) {
-	        GeometryImpl result = (GeometryImpl) clone();
-	        result.mutable = false;
-	        return result;
-        }
-        else {
+            GeometryImpl result = (GeometryImpl) clone();
+            result.mutable = false;
+            return result;
+        } else {
             return this;
         }
     }
@@ -496,8 +487,7 @@ public abstract class GeometryImpl
     public GeometryImpl clone() {
         try {
             return (GeometryImpl) super.clone();
-        }
-        catch (CloneNotSupportedException cnse) {
+        } catch (CloneNotSupportedException cnse) {
             throw new AssertionError(cnse);
         }
     }
@@ -509,7 +499,7 @@ public abstract class GeometryImpl
     public boolean contains(DirectPosition point) {
         com.vividsolutions.jts.geom.Geometry jtsGeom1 = getJTSGeometry();
         com.vividsolutions.jts.geom.Geometry jtsGeom2 =
-            JTSUtils.directPositionToPoint(point);
+                JTSUtils.directPositionToPoint(point);
         return JTSUtils.contains(jtsGeom1, jtsGeom2);
     }
 
@@ -519,18 +509,18 @@ public abstract class GeometryImpl
     public boolean contains(TransfiniteSet pointSet) {
         com.vividsolutions.jts.geom.Geometry jtsGeom1 = getJTSGeometry();
         com.vividsolutions.jts.geom.Geometry jtsGeom2 =
-            ((JTSGeometry) pointSet).getJTSGeometry();
+                ((JTSGeometry) pointSet).getJTSGeometry();
         return JTSUtils.contains(jtsGeom1, jtsGeom2);
     }
 
-    public double distance( Geometry otherGeometry ) {
-        return getDistance( otherGeometry );
+    public double distance(Geometry otherGeometry) {
+        return getDistance(otherGeometry);
     }
-    
+
     public TransfiniteSet difference(TransfiniteSet pointSet) {
         com.vividsolutions.jts.geom.Geometry jtsGeom1 = getJTSGeometry();
         com.vividsolutions.jts.geom.Geometry jtsGeom2 =
-            ((JTSGeometry) pointSet).getJTSGeometry();
+                ((JTSGeometry) pointSet).getJTSGeometry();
         return JTSUtils.jtsToGo1(JTSUtils.difference(jtsGeom1, jtsGeom2),
                 getCoordinateReferenceSystem());
     }
@@ -538,14 +528,14 @@ public abstract class GeometryImpl
     public boolean equals(TransfiniteSet pointSet) {
         com.vividsolutions.jts.geom.Geometry jtsGeom1 = getJTSGeometry();
         com.vividsolutions.jts.geom.Geometry jtsGeom2 =
-            ((JTSGeometry) pointSet).getJTSGeometry();
+                ((JTSGeometry) pointSet).getJTSGeometry();
         return JTSUtils.equals(jtsGeom1, jtsGeom2);
     }
 
     public TransfiniteSet intersection(TransfiniteSet pointSet) {
         com.vividsolutions.jts.geom.Geometry jtsGeom1 = getJTSGeometry();
         com.vividsolutions.jts.geom.Geometry jtsGeom2 =
-            ((JTSGeometry) pointSet).getJTSGeometry();
+                ((JTSGeometry) pointSet).getJTSGeometry();
         return JTSUtils.jtsToGo1(JTSUtils.intersection(jtsGeom1, jtsGeom2),
                 getCoordinateReferenceSystem());
     }
@@ -553,14 +543,14 @@ public abstract class GeometryImpl
     public boolean intersects(TransfiniteSet pointSet) {
         com.vividsolutions.jts.geom.Geometry jtsGeom1 = getJTSGeometry();
         com.vividsolutions.jts.geom.Geometry jtsGeom2 =
-            ((JTSGeometry) pointSet).getJTSGeometry();
+                ((JTSGeometry) pointSet).getJTSGeometry();
         return JTSUtils.intersects(jtsGeom1, jtsGeom2);
     }
 
     public TransfiniteSet symmetricDifference(TransfiniteSet pointSet) {
         com.vividsolutions.jts.geom.Geometry jtsGeom1 = getJTSGeometry();
         com.vividsolutions.jts.geom.Geometry jtsGeom2 =
-            ((JTSGeometry) pointSet).getJTSGeometry();
+                ((JTSGeometry) pointSet).getJTSGeometry();
         return JTSUtils.jtsToGo1(JTSUtils.symmetricDifference(jtsGeom1, jtsGeom2),
                 getCoordinateReferenceSystem());
     }
@@ -568,7 +558,7 @@ public abstract class GeometryImpl
     public TransfiniteSet union(TransfiniteSet pointSet) {
         com.vividsolutions.jts.geom.Geometry jtsGeom1 = getJTSGeometry();
         com.vividsolutions.jts.geom.Geometry jtsGeom2 =
-            ((JTSGeometry) pointSet).getJTSGeometry();
+                ((JTSGeometry) pointSet).getJTSGeometry();
         return JTSUtils.jtsToGo1(JTSUtils.union(jtsGeom1, jtsGeom2),
                 getCoordinateReferenceSystem());
     }
@@ -587,7 +577,7 @@ public abstract class GeometryImpl
                 return list.isEmpty();
             }
 
-            public Object [] toArray() {
+            public Object[] toArray() {
                 return list.toArray();
             }
 
@@ -623,7 +613,7 @@ public abstract class GeometryImpl
                 return list.iterator();
             }
 
-            public Object [] toArray(Object [] a) {
+            public Object[] toArray(Object[] a) {
                 return list.toArray(a);
             }
         };
@@ -633,14 +623,15 @@ public abstract class GeometryImpl
      * This class implements JTS's CoordinateFilter interface using a GeoAPI
      * MathTransform object to actually perform the work.
      */
-    public static class MathTransformFilter implements com.vividsolutions.jts.geom.CoordinateFilter {
+    public static class MathTransformFilter implements com.vividsolutions.jts.geom
+            .CoordinateFilter {
         private MathTransform transform;
         private DirectPosition src;
         private DirectPosition dst;
 
         public MathTransformFilter(MathTransform transform,
-                CoordinateReferenceSystem oldCRS,
-                CoordinateReferenceSystem newCRS) {
+                                   CoordinateReferenceSystem oldCRS,
+                                   CoordinateReferenceSystem newCRS) {
             this.transform = transform;
             src = new DirectPositionImpl(oldCRS);
             dst = new DirectPositionImpl(newCRS);
@@ -652,11 +643,9 @@ public abstract class GeometryImpl
             try {
                 // Do the transform math.
                 transform.transform(src, dst);
-            }
-            catch (MismatchedDimensionException e) {
+            } catch (MismatchedDimensionException e) {
                 throw new RuntimeException(e);
-            }
-            catch (TransformException e) {
+            } catch (TransformException e) {
                 throw new RuntimeException(e);
             }
             // Load the result back into the Coordinate.

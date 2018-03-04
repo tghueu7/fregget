@@ -55,23 +55,27 @@ import java.util.Map;
 
 /**
  * SimpleFeatureCollection encoder delegate for fast GML3 encoding
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 public class GML32FeatureCollectionEncoderDelegate extends
         org.geotools.gml2.simple.FeatureCollectionEncoderDelegate {
 
-    public GML32FeatureCollectionEncoderDelegate(SimpleFeatureCollection features, Encoder encoder) {
+    public GML32FeatureCollectionEncoderDelegate(SimpleFeatureCollection features, Encoder 
+            encoder) {
         super(features, encoder, new GML32Delegate(encoder));
         this.encodeGeometryIds = true;
     }
 
     @Override
-    protected Attributes getPropertyAttributes(QualifiedName name, FeatureType featureType, AttributeDescriptor attribute, Object
+    protected Attributes getPropertyAttributes(QualifiedName name, FeatureType featureType, 
+                                               AttributeDescriptor attribute, Object
             value) {
-        if ("identifier".equals(name.getLocalPart()) && GML.NAMESPACE.equals(name.getNamespaceURI())) {
+        if ("identifier".equals(name.getLocalPart()) && GML.NAMESPACE.equals(name.getNamespaceURI
+                ())) {
             AttributesImpl atts = new AttributesImpl();
-            atts.addAttribute(null, "codeSpace", "codeSpace", null, featureType.getName().getNamespaceURI());
+            atts.addAttribute(null, "codeSpace", "codeSpace", null, featureType.getName()
+                    .getNamespaceURI());
             return atts;
         }
 
@@ -94,9 +98,9 @@ public class GML32FeatureCollectionEncoderDelegate extends
         int numDecimals;
 
         public GML32Delegate(Encoder encoder) {
-            this.gmlUri =org.geotools.gml3.v3_2.GML.NAMESPACE;
+            this.gmlUri = org.geotools.gml3.v3_2.GML.NAMESPACE;
             this.gmlPrefix = encoder.getNamespaces().getPrefix(gmlUri);
-            
+
             this.member = MEMBER.derive(gmlPrefix, gmlUri);
             this.srsSyntax = (SrsSyntax) encoder.getContext().getComponentInstanceOfType(
                     SrsSyntax.class);
@@ -119,7 +123,8 @@ public class GML32FeatureCollectionEncoderDelegate extends
             }
         }
 
-        public List getFeatureProperties(SimpleFeature f, XSDElementDeclaration element, Encoder e) {
+        public List getFeatureProperties(SimpleFeature f, XSDElementDeclaration element, Encoder 
+                e) {
             return encodingUtils.AbstractFeatureTypeGetProperties(f, element,
                     e.getSchemaIndex(), e.getConfiguration());
         }
@@ -136,7 +141,8 @@ public class GML32FeatureCollectionEncoderDelegate extends
 
         @Override
         public void setGeometryDimensionAttribute(AttributesImpl atts, int dimension) {
-            atts.addAttribute(null, "srsDimension", "srsDimension", null, String.valueOf(dimension));
+            atts.addAttribute(null, "srsDimension", "srsDimension", null, String.valueOf
+                    (dimension));
 
         }
 
@@ -161,19 +167,22 @@ public class GML32FeatureCollectionEncoderDelegate extends
         }
 
         @Override
-        public void registerGeometryEncoders(Map<Class, GeometryEncoder> encoders, Encoder encoder) {
+        public void registerGeometryEncoders(Map<Class, GeometryEncoder> encoders, Encoder 
+                encoder) {
             encoders.put(Point.class, new PointEncoder(encoder, gmlPrefix, gmlUri));
             encoders.put(MultiPoint.class, new MultiPointEncoder(encoder, gmlPrefix, gmlUri));
             encoders.put(LineString.class, new LineStringEncoder(encoder, gmlPrefix, gmlUri));
             encoders.put(LinearRing.class, new LinearRingEncoder(encoder, gmlPrefix, gmlUri));
-            encoders.put(MultiLineString.class, new MultiLineStringEncoder(encoder, gmlPrefix, gmlUri, true));
+            encoders.put(MultiLineString.class, new MultiLineStringEncoder(encoder, gmlPrefix, 
+                    gmlUri, true));
             encoders.put(Polygon.class, new PolygonEncoder(encoder, gmlPrefix, gmlUri));
             encoders.put(MultiPolygon.class, new MultiPolygonEncoder(encoder, gmlPrefix, gmlUri));
             encoders.put(CircularString.class, new CurveEncoder(encoder, gmlPrefix, gmlUri));
             encoders.put(CompoundCurve.class, new CurveEncoder(encoder, gmlPrefix, gmlUri));
             encoders.put(CircularRing.class, new CurveEncoder(encoder, gmlPrefix, gmlUri));
             encoders.put(CompoundRing.class, new CurveEncoder(encoder, gmlPrefix, gmlUri));
-            encoders.put(GeometryCollection.class, new GeometryCollectionEncoder(encoder, gmlPrefix, gmlUri));
+            encoders.put(GeometryCollection.class, new GeometryCollectionEncoder(encoder, 
+                    gmlPrefix, gmlUri));
         }
 
         @Override

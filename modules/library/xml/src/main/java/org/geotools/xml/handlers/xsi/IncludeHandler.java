@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -22,20 +22,20 @@ import org.xml.sax.Attributes;
 
 /**
  * ImportHandler purpose.
- * 
+ * <p>
  * <p>
  * Represents an 'include' element
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc. http://www.refractions.net
  * @author $Author:$ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class IncludeHandler extends XSIElementHandler {
-    /** 'include' */
+    /**
+     * 'include'
+     */
     public final static String LOCALNAME = "include";
     private static int offset = 0;
 
@@ -55,24 +55,24 @@ public class IncludeHandler extends XSIElementHandler {
      */
     public int hashCode() {
         return (LOCALNAME.hashCode() * ((schemaLocation == null) ? 1
-                                                                 : schemaLocation
-        .hashCode())) + hashCodeOffset;
+                : schemaLocation
+                .hashCode())) + hashCodeOffset;
     }
 
     /**
      * @see org.geotools.xml.XSIElementHandler#getHandler(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
-    public XSIElementHandler getHandler(String namespaceURI, String localName){
+    public XSIElementHandler getHandler(String namespaceURI, String localName) {
         return null;
     }
 
     /**
      * @see org.geotools.xml.XSIElementHandler#startElement(java.lang.String,
-     *      java.lang.String, org.xml.sax.Attributes)
+     * java.lang.String, org.xml.sax.Attributes)
      */
     public void startElement(String namespaceURI, String localName,
-        Attributes atts){
+                             Attributes atts) {
         schemaLocation = atts.getValue("", "schemaLocation");
 
         if (schemaLocation == null) {
@@ -91,7 +91,6 @@ public class IncludeHandler extends XSIElementHandler {
      * <p>
      * returns the schemaLocation attribute
      * </p>
-     *
      */
     public String getSchemaLocation() {
         return schemaLocation;
@@ -106,9 +105,9 @@ public class IncludeHandler extends XSIElementHandler {
 
     /**
      * @see org.geotools.xml.XSIElementHandler#endElement(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
-    public void endElement(String namespaceURI, String localName){
+    public void endElement(String namespaceURI, String localName) {
         // do nothing
     }
 }

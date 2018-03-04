@@ -23,8 +23,6 @@ import org.w3c.dom.Document;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class CurveTypeBindingTest extends GML32TestSupport {

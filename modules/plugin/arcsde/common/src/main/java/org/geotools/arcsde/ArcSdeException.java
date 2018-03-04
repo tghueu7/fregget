@@ -24,15 +24,13 @@ import com.esri.sde.sdk.client.SeException;
 /**
  * An IOException that wraps an {@link SeException} in order to report the {@link SeError} messages
  * that otherwise get hidden in a normal stack trace.
- * 
+ *
  * @author Gabriel Roldan (TOPP)
  * @version $Id$
- * @since 2.5
- *
- *
  * @source $URL$
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
- *         /org/geotools/arcsde/ArcSdeException.java $
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
+ * /org/geotools/arcsde/ArcSdeException.java $
+ * @since 2.5
  */
 public class ArcSdeException extends IOException {
 
@@ -96,7 +94,7 @@ public class ArcSdeException extends IOException {
      * hunt and peck at the SeError for a good description of what went bad.
      * <p>
      * This class tries to grab as much information as possible form SeError.
-     * 
+     *
      * @return String describing the message from SeException.
      */
     public static String toMessage(SeException e) {

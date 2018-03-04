@@ -65,7 +65,7 @@ public class TestHttpResponse implements HTTPResponse {
     }
 
     public TestHttpResponse(URL response, String contentType) {
-         this(contentType, "UTF-8", response);
+        this(contentType, "UTF-8", response);
     }
 
     @Override

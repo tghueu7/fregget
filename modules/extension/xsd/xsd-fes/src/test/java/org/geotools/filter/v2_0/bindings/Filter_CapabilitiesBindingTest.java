@@ -35,20 +35,21 @@ import org.opengis.filter.capability.Operator;
 
 public class Filter_CapabilitiesBindingTest extends FESTestSupport {
     public void testParse() throws Exception {
-        String xml = 
-            "<fes:Filter_Capabilities xmlns:fes='http://www.opengis.net/fes/2.0' xmlns:gml='http://schemas.opengis.net/gml'>" +
-                "<fes:Id_Capabilities>" +
-                    "<fes:ResourceIdentifier name=\"fes:ResourceId\"/>" +
-                "</fes:Id_Capabilities>" +
-                "<fes:Scalar_Capabilities>" +
-                    "<fes:LogicalOperators/>" +
-                    "<fes:ComparisonOperators>" +
+        String xml =
+                "<fes:Filter_Capabilities xmlns:fes='http://www.opengis.net/fes/2.0' " +
+                        "xmlns:gml='http://schemas.opengis.net/gml'>" +
+                        "<fes:Id_Capabilities>" +
+                        "<fes:ResourceIdentifier name=\"fes:ResourceId\"/>" +
+                        "</fes:Id_Capabilities>" +
+                        "<fes:Scalar_Capabilities>" +
+                        "<fes:LogicalOperators/>" +
+                        "<fes:ComparisonOperators>" +
                         "<fes:ComparisonOperator name=\"PropertyIsLessThan\"/>" +
                         "<fes:ComparisonOperator name=\"PropertyIsGreaterThan\"/>" +
-                    "</fes:ComparisonOperators>" +
-                "</fes:Scalar_Capabilities>" +
-                "<fes:Spatial_Capabilities>" +
-                    "<fes:GeometryOperands>" +
+                        "</fes:ComparisonOperators>" +
+                        "</fes:Scalar_Capabilities>" +
+                        "<fes:Spatial_Capabilities>" +
+                        "<fes:GeometryOperands>" +
                         "<fes:GeometryOperand name=\"gml:Envelope\"/>" +
                         "<fes:GeometryOperand name=\"gml:Point\"/>" +
                         "<fes:GeometryOperand name=\"gml:MultiPoint\"/>" +
@@ -57,8 +58,8 @@ public class Filter_CapabilitiesBindingTest extends FESTestSupport {
                         "<fes:GeometryOperand name=\"gml:Polygon\"/>" +
                         "<fes:GeometryOperand name=\"gml:MultiPolygon\"/>" +
                         "<fes:GeometryOperand name=\"gml:MultiGeometry\"/>" +
-                    "</fes:GeometryOperands>" +
-                    "<fes:SpatialOperators>" +
+                        "</fes:GeometryOperands>" +
+                        "<fes:SpatialOperators>" +
                         "<fes:SpatialOperator name=\"Disjoint\"/>" +
                         "<fes:SpatialOperator name=\"Equals\"/>" +
                         "<fes:SpatialOperator name=\"DWithin\"/>" +
@@ -70,72 +71,72 @@ public class Filter_CapabilitiesBindingTest extends FESTestSupport {
                         "<fes:SpatialOperator name=\"Contains\"/>" +
                         "<fes:SpatialOperator name=\"Overlaps\"/>" +
                         "<fes:SpatialOperator name=\"BBOX\">" +
-                            "<fes:GeometryOperands>" +
-                                "<fes:GeometryOperand name=\"gml:Envelope\"/>" +
-                            "</fes:GeometryOperands>" +
+                        "<fes:GeometryOperands>" +
+                        "<fes:GeometryOperand name=\"gml:Envelope\"/>" +
+                        "</fes:GeometryOperands>" +
                         "</fes:SpatialOperator>" +
-                    "</fes:SpatialOperators>" +
-                "</fes:Spatial_Capabilities>" +
-                "<fes:Functions>" +
-                    "<fes:Function name=\"abs\">" +
+                        "</fes:SpatialOperators>" +
+                        "</fes:Spatial_Capabilities>" +
+                        "<fes:Functions>" +
+                        "<fes:Function name=\"abs\">" +
                         "<fes:Returns>xs:int</fes:Returns>" +
                         "<fes:Arguments>" +
-                            "<fes:Argument name=\"int\">" +
-                                "<fes:Type>xs:int</fes:Type>" +
-                            "</fes:Argument>" +
+                        "<fes:Argument name=\"int\">" +
+                        "<fes:Type>xs:int</fes:Type>" +
+                        "</fes:Argument>" +
                         "</fes:Arguments>" +
-                    "</fes:Function>" +
-                    "<fes:Function name=\"abs_2\">" +
+                        "</fes:Function>" +
+                        "<fes:Function name=\"abs_2\">" +
                         "<fes:Returns>xs:long</fes:Returns>" +
                         "<fes:Arguments>" +
-                            "<fes:Argument name=\"number\">" +
-                                "<fes:Type>xs:long</fes:Type>" +
-                            "</fes:Argument>" +
+                        "<fes:Argument name=\"number\">" +
+                        "<fes:Type>xs:long</fes:Type>" +
+                        "</fes:Argument>" +
                         "</fes:Arguments>" +
-                    "</fes:Function>" +
-                "</fes:Functions>" +
-            "</fes:Filter_Capabilities>";
+                        "</fes:Function>" +
+                        "</fes:Functions>" +
+                        "</fes:Filter_Capabilities>";
 
         buildDocument(xml);
         FilterCapabilitiesType filterCapabilities = (FilterCapabilitiesType) parse();
         assertNotNull(filterCapabilities);
-        
+
         // Id_Capabilities
         IdCapabilitiesType id = filterCapabilities.getIdCapabilities();
         assertNotNull(id);
         List<ResourceIdentifierType> resourceIdentifiers = id.getResourceIdentifier();
         assertNotNull(resourceIdentifiers);
         assertEquals(1, resourceIdentifiers.size());
-        
+
         ResourceIdentifierType resourceIdentifier = resourceIdentifiers.get(0);
         assertNotNull(resourceIdentifier);
         assertEquals(FES.ResourceId, resourceIdentifier.getName());
-        
+
         // Scalar_Capabilities
         ScalarCapabilitiesType scalar = filterCapabilities.getScalarCapabilities();
         assertNotNull(scalar);
-        
+
         assertNotNull(scalar.getLogicalOperators());
         ComparisonOperatorsType comparisonOperators = scalar.getComparisonOperators();
         assertNotNull(comparisonOperators);
         assertEquals(2, comparisonOperators.getOperators().size());
         Operator type0 = comparisonOperators.getOperators().get(0);
         Operator type1 = comparisonOperators.getOperators().get(1);
-        
+
         assertNotNull(type0);
         assertNotNull(type1);
-        
+
         assertEquals("PropertyIsLessThan", type0.getName());
         assertEquals("PropertyIsGreaterThan", type1.getName());
-        
- 
+
+
         // Spatial_Capabilities
         SpatialCapabilitiesType spatial = filterCapabilities.getSpatialCapabilities();
         assertNotNull(spatial);
-        
-        
+
+
         assertEquals(11, spatial.getSpatialOperators().getOperators().size());
-        
+
         assertEquals(8, spatial.getGeometryOperands().size());
 
         // Functions
@@ -151,7 +152,8 @@ public class Filter_CapabilitiesBindingTest extends FESTestSupport {
         assertNotNull(bbox);
         assertEquals(1, bbox.getGeometryOperands().size());
 
-        GeometryOperandType envelope = bbox.getGeometryOperands2().getGeometryOperand().iterator().next();
+        GeometryOperandType envelope = bbox.getGeometryOperands2().getGeometryOperand().iterator
+                ().next();
 
         assertEquals("http://schemas.opengis.net/gml", envelope.getName().getNamespaceURI());
         assertEquals("Envelope", envelope.getName().getLocalPart());

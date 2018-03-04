@@ -34,8 +34,6 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.LineSegment;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DijkstraShortestPathFinderWithTurnCostsTest extends TestCase {
@@ -59,7 +57,7 @@ public class DijkstraShortestPathFinderWithTurnCostsTest extends TestCase {
         ld3.setCoordinates(new Coordinate(1, 1), new Coordinate(1, 0));
 
         // we have some line segments
-        LineSegment[] lines = { ld1, ld2, ld3 };
+        LineSegment[] lines = {ld1, ld2, ld3};
 
         // create the graph generator
         BasicLineGraphGenerator graphGen = new BasicLineGraphGenerator();
@@ -77,7 +75,7 @@ public class DijkstraShortestPathFinderWithTurnCostsTest extends TestCase {
 
     public void test1() {
 
-        double[] expected = { 0.0, 1.0, 3.0, 3.0 };
+        double[] expected = {0.0, 1.0, 3.0, 3.0};
 
         ArrayList gotArray = new ArrayList(4);
 

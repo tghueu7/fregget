@@ -21,12 +21,12 @@ import org.geotools.xml.Configuration;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class StreamingParserHandler extends ParserHandler {
-    /** stream buffer **/
+    /**
+     * stream buffer
+     **/
     Buffer buffer;
 
     public StreamingParserHandler(Configuration config) {
@@ -45,7 +45,7 @@ public class StreamingParserHandler extends ParserHandler {
             //remove this node from parse tree
             if (handler.getParentHandler() instanceof ElementHandler) {
                 ElementHandler parent = (ElementHandler) handler
-                    .getParentHandler();
+                        .getParentHandler();
                 ((NodeImpl) parent.getParseNode()).removeChild(handler.getParseNode());
 
                 //parent.endChildHandler(handler);

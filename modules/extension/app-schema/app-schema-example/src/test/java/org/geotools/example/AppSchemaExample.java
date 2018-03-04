@@ -34,10 +34,8 @@ import org.opengis.feature.type.FeatureType;
 
 /**
  * An example of how to use the app-schema module.
- * 
- * @author Ben Caradoc-Davies, CSIRO Earth Science and Resource Engineering
- * 
  *
+ * @author Ben Caradoc-Davies, CSIRO Earth Science and Resource Engineering
  * @source $URL$
  */
 public class AppSchemaExample {
@@ -61,7 +59,7 @@ public class AppSchemaExample {
                             + f.getIdentifier().toString()
                             + " has gml:name = "
                             + ((ComplexAttribute) f.getProperty(new NameImpl(GML.name)))
-                                    .getProperty("simpleContent").getValue());
+                            .getProperty("simpleContent").getValue());
                 }
             } finally {
                 iterator.close();

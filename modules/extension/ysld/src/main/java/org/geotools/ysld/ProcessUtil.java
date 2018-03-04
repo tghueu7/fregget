@@ -4,7 +4,7 @@
  *
  *    (C) 2016 Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2016 Boundless Spatial
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -47,7 +47,6 @@ public class ProcessUtil {
     }
 
     /**
-     * 
      * @return The loaded {@link FunctionFactory}, or null if it could not be loaded.
      */
     public static FunctionFactory loadProcessFunctionFactory() {
@@ -93,7 +92,7 @@ public class ProcessUtil {
     }
 
     private static boolean hasWMSParam(Map<String, Parameter<?>> processInfo, String name,
-            Class<?> type) {
+                                       Class<?> type) {
         Parameter<?> param = processInfo.get(name);
         if (param == null)
             return false;

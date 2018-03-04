@@ -27,28 +27,36 @@ import org.geotools.util.Utilities;
  */
 public class CatalogConfigurationBean {
 
-    /** The typename to use for the mosaic index */
+    /**
+     * The typename to use for the mosaic index
+     */
     private String typeName;
 
     private String locationAttribute = Utils.DEFAULT_LOCATION_ATTRIBUTE;
 
-    /** Suggested SPI for the various tiles. May be null. **/
+    /**
+     * Suggested SPI for the various tiles. May be null.
+     **/
     private String suggestedSPI;
 
-    /** we want to use caching for our index. */
+    /**
+     * we want to use caching for our index.
+     */
     private boolean caching = Utils.DEFAULT_CONFIGURATION_CACHING;
 
     private boolean heterogeneous;
-    
+
     private boolean heterogeneousCRS;
 
     /**
-     * Whether the specified store should be wrapped. Only PostGis stores support this parameter. (Oracle stores are wrapped by default).
+     * Whether the specified store should be wrapped. Only PostGis stores support this parameter.
+     * (Oracle stores are wrapped by default).
      */
     private boolean wrapStore = false;
 
     /**
-     * <code>true</code> it tells us if the mosaic points to absolute paths or to relative ones. (in case of <code>false</code>).
+     * <code>true</code> it tells us if the mosaic points to absolute paths or to relative ones. 
+     * (in case of <code>false</code>).
      */
     private boolean absolutePath = Utils.DEFAULT_PATH_BEHAVIOR;
 
@@ -77,7 +85,9 @@ public class CatalogConfigurationBean {
         this.typeName = typeName;
     }
 
-    /** location attribute name */
+    /**
+     * location attribute name
+     */
 
     public String getLocationAttribute() {
         return locationAttribute;
@@ -116,7 +126,7 @@ public class CatalogConfigurationBean {
     public void setHeterogeneous(boolean heterogeneous) {
         this.heterogeneous = heterogeneous;
     }
-    
+
     public boolean isHeterogeneousCRS() {
         return heterogeneousCRS;
     }

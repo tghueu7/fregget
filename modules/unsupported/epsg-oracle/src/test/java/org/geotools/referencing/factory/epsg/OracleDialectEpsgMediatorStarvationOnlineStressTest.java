@@ -39,8 +39,6 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.MathTransform;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class OracleDialectEpsgMediatorStarvationOnlineStressTest extends
@@ -52,12 +50,12 @@ public class OracleDialectEpsgMediatorStarvationOnlineStressTest extends
     final static boolean SHOW_OUTPUT = true;
     final static boolean VERBOSE = true;
     final static int MAX_WORKERS = 3;
-    
+
     OracleDialectEpsgMediator mediator;
     static String[] codes;
     Hints hints;
     BasicDataSource wrappedDS;
-    
+
 //    protected void configure(OracleDataSource datasource) throws SQLException {
 //        
 //        BasicDataSource dataSource = new BasicDataSource();
@@ -70,54 +68,55 @@ public class OracleDialectEpsgMediatorStarvationOnlineStressTest extends
 //        dataSource.setMaxActive( 1 );
 //        dataSource.setMaxIdle( 0 );
 //    }
-    
-    protected DataSource connect( String user, String password, String url, Properties params )
+
+    protected DataSource connect(String user, String password, String url, Properties params)
             throws SQLException {
         //DataSource origional = super.connect( user, password, url, params );
-        
+
         BasicDataSource origional = new BasicDataSource();
         origional.setDriverClassName("oracle.jdbc.driver.OracleDriver");
-        origional.setUsername( user );
-        origional.setPassword( password );
-        origional.setUrl( url );
+        origional.setUsername(user);
+        origional.setPassword(password);
+        origional.setUrl(url);
         origional.setMaxActive(10);
-        origional.setMaxIdle(1);        
+        origional.setMaxIdle(1);
         return origional;
     }
-    
+
     protected void connect() throws Exception {
         super.connect();
-        if( fixture == null ) return; // we are not online - skip test
-        
+        if (fixture == null) return; // we are not online - skip test
+
         wrappedDS = (BasicDataSource) datasource;
-        hints = new Hints(Hints.CACHE_POLICY, "none");     
-        hints.put(Hints.AUTHORITY_MAX_ACTIVE, new Integer(MAX_WORKERS));        
-        
+        hints = new Hints(Hints.CACHE_POLICY, "none");
+        hints.put(Hints.AUTHORITY_MAX_ACTIVE, new Integer(MAX_WORKERS));
+
         mediator = new OracleDialectEpsgMediator(80, hints, datasource);
         codes = getCodes();
     }
+
     protected void disconnect() throws Exception {
-        if( mediator != null){
+        if (mediator != null) {
             mediator.dispose();
         }
-        
+
         super.disconnect();
     }
-    
+
     public void testRunners() throws Throwable {
-        
+
         TestRunnable runners[] = new TestRunnable[RUNNER_COUNT];
         for (int i = 0; i < RUNNER_COUNT; i++) {
-            ClientThread thread = new ClientThread(i, mediator); 
+            ClientThread thread = new ClientThread(i, mediator);
             thread.iterations = ITERATIONS;
             runners[i] = thread;
         }
         MultiThreadedTestRunner mttr = new MultiThreadedTestRunner(runners, null);
         long timeStart = System.currentTimeMillis();
         mttr.runTestRunnables(MAX_TIME);
-        
+
         long timeElapsed = System.currentTimeMillis() - timeStart;
-        
+
         //count exceptions and metrics
         int exceptions = 0;
         int totalTime = 0;
@@ -140,7 +139,8 @@ public class OracleDialectEpsgMediatorStarvationOnlineStressTest extends
             System.out.println("Cumulative Time: " + totalTime + " ms");
             System.out.println("Cumulative Iterations: " + totalRuns);
             System.out.println("Overall Time: " + timeElapsed);
-            System.out.println("Throughput: " + (1000 * totalRuns / new Long(totalTime).doubleValue()) + " Hz");
+            System.out.println("Throughput: " + (1000 * totalRuns / new Long(totalTime)
+                    .doubleValue()) + " Hz");
             System.out.println("Min: " + minTime);
             System.out.println("Max: " + maxTime);
             System.out.println("BUFFER_POLICY: " + hints.get(Hints.CACHE_POLICY).toString());
@@ -172,7 +172,8 @@ public class OracleDialectEpsgMediatorStarvationOnlineStressTest extends
             String header = null;
             String content = sb.toString();
             if (!file.exists()) {
-                header = "THREADS, MAX_WORKERS, ITERATIONS_PER_THREAD, CACHE, AVG_TIME, TOTAL_TIME, TOTAL_RUNS, THROUGHPUT, MIN_TIME, MAX_TIME, EXCEPTIONS";
+                header = "THREADS, MAX_WORKERS, ITERATIONS_PER_THREAD, CACHE, AVG_TIME, " +
+                        "TOTAL_TIME, TOTAL_RUNS, THROUGHPUT, MIN_TIME, MAX_TIME, EXCEPTIONS";
             }
             file.createNewFile();
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
@@ -185,21 +186,21 @@ public class OracleDialectEpsgMediatorStarvationOnlineStressTest extends
         }
         if (exceptions != 0) {
             fail(exceptions + " exception(s) occurred");
-        }        
+        }
         mediator.dispose();
         mediator = null;
-        assertEquals(3, wrappedDS.getMaxActive());        
+        assertEquals(3, wrappedDS.getMaxActive());
         assertEquals(1, wrappedDS.getNumActive());
     }
-    
+
     /**
      * Returns a selection of CRS codes for UTM and NAD zones.
-     * 
+     *
      * @return array of EPSG codes
      * @throws FactoryException
      */
     public static String[] getCodes() {
-        return new String[] { "4269", "2043", "31528", "2936", "32639", "2027",
+        return new String[]{"4269", "2043", "31528", "2936", "32639", "2027",
                 "2028", "2029", "2030", "2031", "2032", "2033", "2034", "2035",
                 "2040", "2041", "2042", "2043", "2058", "2059", "2060", "2061",
                 "2063", "2064", "2067", "2077", "2078", "2079", "2080", "2084",
@@ -378,7 +379,7 @@ public class OracleDialectEpsgMediatorStarvationOnlineStressTest extends
                 "32155", "32156", "32157", "32158", "32161", "32180", "32181",
                 "32182", "32183", "32184", "32185", "32186", "32187", "32188",
                 "32189", "32190", "32191", "32192", "32193", "32194", "32195",
-                "32196", "32197", "32198" };
+                "32196", "32197", "32198"};
     }
 
     public static class ClientThread extends TestRunnable {
@@ -393,12 +394,14 @@ public class OracleDialectEpsgMediatorStarvationOnlineStressTest extends
         public long totalTime = 0;
         public int totalRuns = 0;
 
-        /** number of iterations to perform */
+        /**
+         * number of iterations to perform
+         */
         public int iterations = 10;
 
         Random rand = new Random();
         OracleDialectEpsgMediator mediator; //victim
-        
+
         public ClientThread(int id, OracleDialectEpsgMediator mediator) {
             this.id = id;
             this.mediator = mediator;
@@ -410,16 +413,16 @@ public class OracleDialectEpsgMediatorStarvationOnlineStressTest extends
             }
             return codes[rand.nextInt(codes.length)];
         }
-        
+
         private CoordinateReferenceSystem acquireCRS(String code) throws FactoryException {
             return mediator.createCoordinateReferenceSystem(code);
         }
-        
+
         public void runTest() throws Throwable {
             for (int i = 0; i < iterations; i++) {
                 //record start time
                 long timeStart = System.currentTimeMillis();
-                
+
                 //select first CRS
                 String code1 = "4326";
                 CoordinateReferenceSystem crs1 = acquireCRS(code1);

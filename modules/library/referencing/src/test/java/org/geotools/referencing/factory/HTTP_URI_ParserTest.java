@@ -26,10 +26,9 @@ import org.opengis.referencing.NoSuchAuthorityCodeException;
 
 /**
  * Tests for {@link HTTP_URI_Parser}.
- * 
+ *
  * @author Martin Desruisseaux
  * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
- * 
  * @source $URL$
  */
 public final class HTTP_URI_ParserTest {

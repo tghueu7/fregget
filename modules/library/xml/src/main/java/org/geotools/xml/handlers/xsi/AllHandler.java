@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -30,20 +30,20 @@ import org.xml.sax.SAXException;
 
 /**
  * AllHandler purpose.
- * 
+ * <p>
  * <p>
  * This represents an 'all' element in an xml schema.
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc. http://www.refractions.net
  * @author $Author:$ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class AllHandler extends ElementGroupingHandler {
-    /** 'all' */
+    /**
+     * 'all'
+     */
     public static final String LOCALNAME = "all";
     private String id;
     private int minOccurs;
@@ -53,9 +53,9 @@ public class AllHandler extends ElementGroupingHandler {
 
     /**
      * @see org.geotools.xml.XSIElementHandler#getHandler(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
-    public XSIElementHandler getHandler(String namespaceURI, String localName){
+    public XSIElementHandler getHandler(String namespaceURI, String localName) {
         if (SchemaHandler.namespaceURI.equalsIgnoreCase(namespaceURI)) {
             // child types
             //
@@ -78,10 +78,10 @@ public class AllHandler extends ElementGroupingHandler {
 
     /**
      * @see org.geotools.xml.XSIElementHandler#startElement(java.lang.String,
-     *      java.lang.String, org.xml.sax.Attributes)
+     * java.lang.String, org.xml.sax.Attributes)
      */
     public void startElement(String namespaceURI, String localName,
-        Attributes atts){
+                             Attributes atts) {
         id = atts.getValue("", "id");
 
         if (id == null) {
@@ -95,9 +95,9 @@ public class AllHandler extends ElementGroupingHandler {
         }
 
         if (minOccurs1 == null || minOccurs1.length() == 0) {
-        	this.minOccurs = 1;
+            this.minOccurs = 1;
         } else {
-        	this.minOccurs = Integer.parseInt(minOccurs1);
+            this.minOccurs = Integer.parseInt(minOccurs1);
         }
 
         String maxOccurs1 = atts.getValue("", "maxOccurs");
@@ -106,9 +106,9 @@ public class AllHandler extends ElementGroupingHandler {
             maxOccurs1 = atts.getValue(namespaceURI, "maxOccurs");
         }
         if (maxOccurs1 == null || maxOccurs1.length() == 0) {
-        	this.maxOccurs = 1;
+            this.maxOccurs = 1;
         } else {
-        	this.maxOccurs = Integer.parseInt(maxOccurs1);
+            this.maxOccurs = Integer.parseInt(maxOccurs1);
         }
     }
 
@@ -120,17 +120,18 @@ public class AllHandler extends ElementGroupingHandler {
     }
 
     /**
-     * @see org.geotools.xml.XSIHandlers.ElementGroupingHandler#compress(org.geotools.xml.XSIHandlers.SchemaHandler)
+     * @see org.geotools.xml.XSIHandlers.ElementGroupingHandler#compress(org.geotools.xml
+     * .XSIHandlers.SchemaHandler)
      */
     protected ElementGrouping compress(SchemaHandler parent)
-        throws SAXException {
+            throws SAXException {
 
-        synchronized(this){
+        synchronized (this) {
             if (cache != null)
-            	return cache;
+                return cache;
             cache = new DefaultAll();
         }
-            
+
         cache.id = id;
         cache.maxOccurs = maxOccurs;
         cache.minOccurs = minOccurs;
@@ -138,9 +139,9 @@ public class AllHandler extends ElementGroupingHandler {
         if (elements != null) {
             cache.elements = new Element[elements.size()];
 
-            for (int i = 0; i < cache.elements.length; i++){
+            for (int i = 0; i < cache.elements.length; i++) {
                 cache.elements[i] = (Element) ((ElementTypeHandler) elements.get(i))
-                    .compress(parent);
+                        .compress(parent);
             }
         }
 
@@ -155,7 +156,7 @@ public class AllHandler extends ElementGroupingHandler {
      */
     public int hashCode() {
         return (LOCALNAME.hashCode() * ((id == null) ? 1 : id.hashCode()))
-        + (minOccurs * maxOccurs);
+                + (minOccurs * maxOccurs);
     }
 
     /**
@@ -167,9 +168,9 @@ public class AllHandler extends ElementGroupingHandler {
 
     /**
      * @see org.geotools.xml.XSIElementHandler#endElement(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
-    public void endElement(String namespaceURI, String localName){
+    public void endElement(String namespaceURI, String localName) {
         // do nothing
     }
 
@@ -179,7 +180,6 @@ public class AllHandler extends ElementGroupingHandler {
      * </p>
      *
      * @author dzwiers
-     *
      * @see All
      */
     private static class DefaultAll implements All {
@@ -244,8 +244,8 @@ public class AllHandler extends ElementGroupingHandler {
             return ALL;
         }
 
-		public Element findChildElement(String localName, URI namespaceURI) {
-			if (elements == null) {
+        public Element findChildElement(String localName, URI namespaceURI) {
+            if (elements == null) {
                 return null;
             }
 
@@ -258,7 +258,7 @@ public class AllHandler extends ElementGroupingHandler {
                 }
             }
 
-			return null;
-		}
+            return null;
+        }
     }
 }

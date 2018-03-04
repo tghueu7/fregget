@@ -59,7 +59,7 @@ public class URIs {
         } else {
             result = baseURLBuffer.toString();
         }
-        
+
         StringBuilder params = new StringBuilder();
         for (Map.Entry<String, String> entry : kvpBuffer.entrySet()) {
             params.append(entry.getKey());
@@ -81,12 +81,9 @@ public class URIs {
 
     /**
      * Appends a context path to a base url.
-     * 
-     * @param url
-     *            The base url.
-     * @param contextPath
-     *            The context path to be appended.
-     * 
+     *
+     * @param url         The base url.
+     * @param contextPath The context path to be appended.
      * @return A full url with the context path appended.
      */
     public static String appendContextPath(String url, String contextPath) {
@@ -103,7 +100,7 @@ public class URIs {
 
     /**
      * URL encodes the value towards the ISO-8859-1 charset
-     * 
+     *
      * @param value
      */
     public static String urlEncode(String value) {
@@ -136,15 +133,12 @@ public class URIs {
      * This code can be used to make sure the url ends with ? or & by calling appendQueryString(url,
      * "")
      * </p>
-     * 
-     * @param url
-     *            The base url.
-     * @param queryString
-     *            The query string to be appended, should not contain the '?' character.
-     * 
+     *
+     * @param url         The base url.
+     * @param queryString The query string to be appended, should not contain the '?' character.
      * @return A full url with the query string appended.
-     * 
-     *         TODO: remove this and replace with Requetss.appendQueryString
+     * <p>
+     * TODO: remove this and replace with Requetss.appendQueryString
      */
     public static String appendQueryString(String url, String queryString) {
         if (url.endsWith("?") || url.endsWith("&")) {

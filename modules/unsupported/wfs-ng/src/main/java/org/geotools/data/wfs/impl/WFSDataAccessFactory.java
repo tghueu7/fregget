@@ -49,15 +49,16 @@ import org.opengis.feature.type.FeatureType;
 import org.xml.sax.EntityResolver;
 
 /**
- * The factory responsible for creating WFSDataAccess objects based on their capabilities and the configuration file used. This file is included as a
- * candidate for DataAccessFinder by virtue of the fact that its name is present in the file gt-wfs-ng > src/main/resources > META-INF > services
+ * The factory responsible for creating WFSDataAccess objects based on their capabilities and the
+ * configuration file used. This file is included as a
+ * candidate for DataAccessFinder by virtue of the fact that its name is present in the file 
+ * gt-wfs-ng > src/main/resources > META-INF > services
  * > org.geotools.data.DataAccessFactory.
- * 
- * @author Adam Brown (Curtin University of Technology)
  *
+ * @author Adam Brown (Curtin University of Technology)
  */
 public class WFSDataAccessFactory implements DataAccessFactory {
-    
+
     /**
      * Values for the AXIS_ORDER and AXIS_ORDER_FILTER connection parameters.
      */
@@ -73,7 +74,7 @@ public class WFSDataAccessFactory implements DataAccessFactory {
 
         /**
          * Creates a required parameter
-         * 
+         *
          * @param key
          * @param type
          * @param description
@@ -84,33 +85,38 @@ public class WFSDataAccessFactory implements DataAccessFactory {
 
         /**
          * Creates an optional parameter with the supplied default value
-         * 
+         *
          * @param key
          * @param type
          * @param description
          * @param required
          */
-        public WFSFactoryParam(String key, Class<T> type, String title, String description, T defaultValue) {
-            super(key, type, new SimpleInternationalString(title), new SimpleInternationalString(description), false, -1, -1, defaultValue, null);
+        public WFSFactoryParam(String key, Class<T> type, String title, String description, T 
+                defaultValue) {
+            super(key, type, new SimpleInternationalString(title), new SimpleInternationalString
+                    (description), false, -1, -1, defaultValue, null);
             this.defaultValue = defaultValue;
         }
-        
+
         /**
          * Creates an optional parameter with the supplied default value
-         * 
+         *
          * @param key
          * @param type
          * @param description
          * @param required
          */
-        public WFSFactoryParam(String key, Class<T> type, String title, String description, T defaultValue, String level) {
+        public WFSFactoryParam(String key, Class<T> type, String title, String description, T 
+                defaultValue, String level) {
             this(key, type, title, description, defaultValue, Param.LEVEL, level);
             this.defaultValue = defaultValue;
         }
 
-        public WFSFactoryParam(String key, Class<T> type, String title, String description, T defaultValue,
-                Object... metadata) {
-            super(key, type, new SimpleInternationalString(title), new SimpleInternationalString(description), false, -1, -1, defaultValue, new KVP(metadata));
+        public WFSFactoryParam(String key, Class<T> type, String title, String description, T 
+                defaultValue,
+                               Object... metadata) {
+            super(key, type, new SimpleInternationalString(title), new SimpleInternationalString
+                    (description), false, -1, -1, defaultValue, new KVP(metadata));
             this.defaultValue = defaultValue;
         }
 
@@ -120,7 +126,9 @@ public class WFSDataAccessFactory implements DataAccessFactory {
         }
     }
 
-    /** Access with {@link WFSDataStoreFactory#getParametersInfo()  */
+    /**
+     * Access with {@link WFSDataStoreFactory#getParametersInfo()
+     */
     private static final WFSFactoryParam<?>[] parametersInfo = new WFSFactoryParam[20];
 
     private static final int GMLComplianceLevel = 2;
@@ -130,10 +138,12 @@ public class WFSDataAccessFactory implements DataAccessFactory {
      * Mandatory DataStore parameter indicating the URL for the WFS GetCapabilities document.
      */
     public static final WFSFactoryParam<URL> URL;
+
     static {
         String key = "WFSDataStoreFactory:GET_CAPABILITIES_URL";
         String title = "WFS GetCapabilities URL";
-        String description = "Represents a URL to the getCapabilities document or a server instance.";
+        String description = "Represents a URL to the getCapabilities document or a server " +
+                "instance.";
         parametersInfo[0] = URL = new WFSFactoryParam<URL>(key, URL.class, title, description);
     }
 
@@ -147,13 +157,14 @@ public class WFSDataAccessFactory implements DataAccessFactory {
      * </ul>
      */
     public static final WFSFactoryParam<Boolean> PROTOCOL;
+
     static {
         String key = "WFSDataStoreFactory:PROTOCOL";
         String title = "Protocol";
         String description = "Sets a preference for the HTTP protocol to use when requesting "
                 + "WFS functionality. Set this value to Boolean.TRUE for POST, Boolean.FALSE "
                 + "for GET or NULL for AUTO";
-        parametersInfo[1] = PROTOCOL = new WFSFactoryParam<Boolean>(key, Boolean.class, title, 
+        parametersInfo[1] = PROTOCOL = new WFSFactoryParam<Boolean>(key, Boolean.class, title,
                 description, null);
     }
 
@@ -163,16 +174,18 @@ public class WFSDataAccessFactory implements DataAccessFactory {
      * <p>
      * Shall be used together with {@link #PASSWORD} or not used at all.
      * </p>
-     * 
+     *
      * @see Authenticator
      */
     public static final WFSFactoryParam<String> USERNAME;
+
     static {
         String key = "WFSDataStoreFactory:USERNAME";
         String title = "Username";
         String description = "This allows the user to specify a username. This param should not "
                 + "be used without the PASSWORD param.";
-        parametersInfo[2] = USERNAME = new WFSFactoryParam<String>(key, String.class, title, description);
+        parametersInfo[2] = USERNAME = new WFSFactoryParam<String>(key, String.class, title, 
+                description);
     }
 
     /**
@@ -181,16 +194,18 @@ public class WFSDataAccessFactory implements DataAccessFactory {
      * <p>
      * Shall be used together with {@link #USERNAME} or not used at all.
      * </p>
-     * 
+     *
      * @see Authenticator
      */
     public static final WFSFactoryParam<String> PASSWORD;
+
     static {
         String key = "WFSDataStoreFactory:PASSWORD";
         String title = "Password";
         String description = "This allows the user to specify a username. This param should not"
                 + " be used without the USERNAME param.";
-        parametersInfo[3] = PASSWORD = new WFSFactoryParam<String>(key, String.class, title, description,
+        parametersInfo[3] = PASSWORD = new WFSFactoryParam<String>(key, String.class, title, 
+                description,
                 null, Param.IS_PASSWORD, true);
     }
 
@@ -199,6 +214,7 @@ public class WFSDataAccessFactory implements DataAccessFactory {
      * name to use as the character encoding for XML requests sent to the server.
      */
     public static final WFSFactoryParam<String> ENCODING;
+
     static {
 
         String key = "WFSDataStoreFactory:ENCODING";
@@ -209,17 +225,19 @@ public class WFSDataAccessFactory implements DataAccessFactory {
         String defaultValue = "UTF-8";
         List<String> options = new ArrayList<String>(Charset.availableCharsets().keySet());
         Collections.sort(options);
-        parametersInfo[4] = ENCODING = new WFSFactoryParam<String>(key, String.class, title, description,
+        parametersInfo[4] = ENCODING = new WFSFactoryParam<String>(key, String.class, title, 
+                description,
                 defaultValue, Parameter.OPTIONS, options);
     }
 
     /**
      * Optional {@code Integer} DataStore parameter indicating a timeout in milliseconds for the
      * HTTP connections. <>p>
-     * 
+     *
      * @TODO: specify if its just a connection timeout or also a read timeout
      */
     public static final WFSFactoryParam<Integer> TIMEOUT;
+
     static {
         String key = "WFSDataStoreFactory:TIMEOUT";
         String title = "Time-out";
@@ -234,10 +252,12 @@ public class WFSDataAccessFactory implements DataAccessFactory {
      * implemented for WFS 1.0.0 support.
      */
     public static final WFSFactoryParam<Integer> BUFFER_SIZE;
+
     static {
         String key = "WFSDataStoreFactory:BUFFER_SIZE";
         String title = "Buffer Size";
-        String description = "This allows the user to specify a buffer size in features. This param "
+        String description = "This allows the user to specify a buffer size in features. This " +
+                "param "
                 + "has a default value of 10 features.";
         parametersInfo[6] = BUFFER_SIZE = new WFSFactoryParam<Integer>(key, Integer.class, title,
                 description, 10);
@@ -248,10 +268,12 @@ public class WFSDataAccessFactory implements DataAccessFactory {
      * encoding on the HTTP request headers sent to the server
      */
     public static final WFSFactoryParam<Boolean> TRY_GZIP;
+
     static {
         String key = "WFSDataStoreFactory:TRY_GZIP";
         String title = "Try GZIP";
-        String description = "Indicates that datastore should use gzip to transfer data if the server "
+        String description = "Indicates that datastore should use gzip to transfer data if the " +
+                "server "
                 + "supports it. Default is true";
         parametersInfo[7] = TRY_GZIP = new WFSFactoryParam<Boolean>(key, Boolean.class, title,
                 description, Boolean.TRUE);
@@ -262,11 +284,13 @@ public class WFSDataAccessFactory implements DataAccessFactory {
      * bad data
      */
     public static final WFSFactoryParam<Boolean> LENIENT;
+
     static {
 
         String key = "WFSDataStoreFactory:LENIENT";
         String title = "Lenient";
-        String description = "Indicates that datastore should do its best to create features from the "
+        String description = "Indicates that datastore should do its best to create features from" +
+                " the "
                 + "provided data even if it does not accurately match the schema.  Errors will "
                 + "be logged but the parsing will continue if this is true.  Default is false";
         parametersInfo[8] = LENIENT = new WFSFactoryParam<Boolean>(key, Boolean.class, title,
@@ -278,11 +302,14 @@ public class WFSDataAccessFactory implements DataAccessFactory {
      * for each FeatureType. A value of zero or not providing this parameter means no limit.
      */
     public static final WFSFactoryParam<Integer> MAXFEATURES;
+
     static {
         String key = "WFSDataStoreFactory:MAXFEATURES";
         String title = "Maximum features";
-        String description = "Positive integer used as a hard limit for the amount of Features to retrieve"
-                + " for each FeatureType. A value of zero or not providing this parameter means no limit.";
+        String description = "Positive integer used as a hard limit for the amount of Features to" +
+                " retrieve"
+                + " for each FeatureType. A value of zero or not providing this parameter means " +
+                "no limit.";
         parametersInfo[9] = MAXFEATURES = new WFSFactoryParam<Integer>(key, Integer.class, title,
                 description, 0);
     }
@@ -296,14 +323,17 @@ public class WFSDataAccessFactory implements DataAccessFactory {
      * <li>{@link XMLHandlerHints#VALUE_FILTER_COMPLIANCE_HIGH}</li>
      * </ul>
      */
-    public static final WFSFactoryParam<Integer> FILTER_COMPLIANCE;;
+    public static final WFSFactoryParam<Integer> FILTER_COMPLIANCE;
+    ;
+
     static {
         String key = "WFSDataStoreFactory:FILTER_COMPLIANCE";
         String title = "Filter compliance";
         String description = "Level of compliance to WFS specification (0-low,1-medium,2-high)";
-        List<Integer> options = Arrays.asList(new Integer[] { 0, 1, 2 });
+        List<Integer> options = Arrays.asList(new Integer[]{0, 1, 2});
 
-        parametersInfo[10] = FILTER_COMPLIANCE = new WFSFactoryParam<Integer>(key, Integer.class, title,
+        parametersInfo[10] = FILTER_COMPLIANCE = new WFSFactoryParam<Integer>(key, Integer.class,
+                title,
                 description, null, Parameter.OPTIONS, options);
     }
 
@@ -312,13 +342,14 @@ public class WFSDataAccessFactory implements DataAccessFactory {
      * "strict", "nonstrict", "ionic", "cubwerx" or "arcgis" strategy
      */
     public static final WFSFactoryParam<String> WFS_STRATEGY;
+
     static {
         String key = "WFSDataStoreFactory:WFS_STRATEGY";
         String title = "WFS Strategy";
         String description = "Override wfs stragegy with either cubwerx, ionic, mapserver"
                 + ", geoserver, strict, nonstrict or arcgis strategy.";
-        List<String> options = Arrays.asList(new String[] { "auto", "strict", "nonstrict",
-                "mapserver", "geoserver", "cubewerx", "ionic", "arcgis" });
+        List<String> options = Arrays.asList(new String[]{"auto", "strict", "nonstrict",
+                "mapserver", "geoserver", "cubewerx", "ionic", "arcgis"});
         parametersInfo[11] = WFS_STRATEGY = new WFSFactoryParam<String>(key, String.class, title,
                 description, "auto", Parameter.OPTIONS, options);
     }
@@ -327,6 +358,7 @@ public class WFSDataAccessFactory implements DataAccessFactory {
      * Optional {@code String} namespace URI to override the originial namespaces
      */
     public static final WFSFactoryParam<String> NAMESPACE;
+
     static {
         String key = "namespace";
         String title = "Namespace";
@@ -334,67 +366,77 @@ public class WFSDataAccessFactory implements DataAccessFactory {
         parametersInfo[12] = NAMESPACE = new WFSFactoryParam<String>(key, String.class, title,
                 description, null, "advanced");
     }
-    
+
     /**
      * Optional {@code String} Flag to disable usage of OtherSRS in requests and
      * always use DefaultSRS (eventually reprojecting locally the results)
      */
     public static final WFSFactoryParam<Boolean> USEDEFAULTSRS;
+
     static {
         String key = "usedefaultsrs";
         String title = "Use Default SRS";
-        String description = "Use always the declared DefaultSRS for requests and reproject locally if necessary";
+        String description = "Use always the declared DefaultSRS for requests and reproject " +
+                "locally if necessary";
         parametersInfo[13] = USEDEFAULTSRS = new WFSFactoryParam<Boolean>(key,
                 Boolean.class, title, description, false, "advanced");
     }
-        
+
     /**
      * Optional {@code String} DataStore parameter indicating axis order used by the
      * remote WFS server in result coordinates.
      */
     public static final WFSFactoryParam<String> AXIS_ORDER;
+
     static {
         String key = "WFSDataStoreFactory:AXIS_ORDER";
         String title = "Axis Order";
-        String description = "Indicates axis order used by the remote WFS server in result coordinates. It applies only to WFS 1.x.0 servers. "
+        String description = "Indicates axis order used by the remote WFS server in result " +
+                "coordinates. It applies only to WFS 1.x.0 servers. "
                 + "Default is " + AXIS_ORDER_COMPLIANT;
-        List<String> options = Arrays.asList(new String[] {
+        List<String> options = Arrays.asList(new String[]{
                 AXIS_ORDER_COMPLIANT,
                 AXIS_ORDER_EAST_NORTH,
-                AXIS_ORDER_NORTH_EAST });
+                AXIS_ORDER_NORTH_EAST});
         parametersInfo[14] = AXIS_ORDER = new WFSFactoryParam<String>(key,
                 String.class, title, description, AXIS_ORDER_COMPLIANT,
                 Parameter.OPTIONS, options, Parameter.LEVEL, "advanced");
     }
-    
+
     public static final WFSFactoryParam<String> AXIS_ORDER_FILTER;
+
     static {
         String key = "WFSDataStoreFactory:AXIS_ORDER_FILTER";
         String title = "Axis Order Filter";
-        String description = "Indicates axis order used by the remote WFS server for filters. It applies only to WFS 1.x.0 servers. "
+        String description = "Indicates axis order used by the remote WFS server for filters. It " +
+                "applies only to WFS 1.x.0 servers. "
                 + "Default is the same as AXIS_ORDER";
-        List<String> options = Arrays.asList(new String[] {
+        List<String> options = Arrays.asList(new String[]{
                 AXIS_ORDER_COMPLIANT,
                 AXIS_ORDER_EAST_NORTH,
-                AXIS_ORDER_NORTH_EAST });
+                AXIS_ORDER_NORTH_EAST});
         parametersInfo[15] = AXIS_ORDER_FILTER = new WFSFactoryParam<String>(key,
-                String.class, title, description, null, Parameter.OPTIONS, options, Parameter.LEVEL, "advanced");
+                String.class, title, description, null, Parameter.OPTIONS, options, Parameter
+                .LEVEL, "advanced");
     }
-    
+
     public static final WFSFactoryParam<String> OUTPUTFORMAT;
+
     static {
         String key = "WFSDataStoreFactory:OUTPUTFORMAT";
         String title = "Outputformat";
-        String description = "This allows the user to specify an outputFormat, different from the default one.";
-    
+        String description = "This allows the user to specify an outputFormat, different from the" +
+                " default one.";
+
         parametersInfo[16] = OUTPUTFORMAT = new WFSFactoryParam<String>(key,
                 String.class, title, description, null, "advanced");
     }
-    
+
     /**
      * Optional {@code Integer} OCG GML compliance level. i.e. (simple feature) 0, 1 or 2
      */
     public static final WFSFactoryParam<Integer> GML_COMPLIANCE_LEVEL;
+
     static {
         String name = "WFSDataStoreFactory:GML_COMPLIANCE_LEVEL";
         String title = "GmlComplianceLevel";
@@ -402,11 +444,12 @@ public class WFSDataAccessFactory implements DataAccessFactory {
         parametersInfo[17] = GML_COMPLIANCE_LEVEL = new WFSFactoryParam<Integer>(name,
                 Integer.class, title, description, 0);
     }
-    
+
     /**
      * Optional {@code Integer} OCG GML compliance level. i.e. (simple feature) 0, 1 or 2
      */
     public static final WFSFactoryParam<Boolean> GML_COMPATIBLE_TYPENAMES;
+
     static {
         String name = "WFSDataStoreFactory:GML_COMPATIBLE_TYPENAMES";
         String title = "GmlCompatibleTypeNames";
@@ -414,29 +457,31 @@ public class WFSDataAccessFactory implements DataAccessFactory {
         parametersInfo[18] = GML_COMPATIBLE_TYPENAMES = new WFSFactoryParam<Boolean>(name,
                 Boolean.class, title, description, false);
     }
-    
+
     /**
      * Optional {@link EntityResolver} used to expand XML entities during parses
      */
     public static final WFSFactoryParam<EntityResolver> ENTITY_RESOLVER;
+
     static {
         String name = "WFSDataStoreFactory:ENTITY_RESOLVER";
         String title = "EntityResolver";
         String description = "Sets the entity resolver used to expand XML entities";
         parametersInfo[19] = ENTITY_RESOLVER = new WFSFactoryParam<EntityResolver>(name,
-                EntityResolver.class, title, description, PreventLocalEntityResolver.INSTANCE, Parameter.LEVEL, "program");
+                EntityResolver.class, title, description, PreventLocalEntityResolver.INSTANCE, 
+                Parameter.LEVEL, "program");
     }
 
 
     /**
-	 * Checks whether {@code params} contains a valid set of parameters to
-	 * connect to a WFS.
+     * Checks whether {@code params} contains a valid set of parameters to
+     * connect to a WFS.
      * <p>
      * Rules are:
      * <ul>
      * <li>The mandatory {@link #URL} is provided.
-	 * <li>Either both {@link #USERNAME} and {@link #PASSWORD} are provided, or
-	 * none.
+     * <li>Either both {@link #USERNAME} and {@link #PASSWORD} are provided, or
+     * none.
      * </ul>
      * </p>
      */
@@ -460,7 +505,7 @@ public class WFSDataAccessFactory implements DataAccessFactory {
                 if (!Boolean.TRUE.equals(params.get("TESTING"))) {
                     Loggers.MODULE.finest("Can't process non http or https GetCapabilities URLs");
                     return false; // must be http or https since we use
-                                  // SimpleHTTPClient class
+                    // SimpleHTTPClient class
                 }
             }
         } catch (Exception e) {
@@ -484,7 +529,7 @@ public class WFSDataAccessFactory implements DataAccessFactory {
             if (complianceLevel != null && complianceLevel > maximumGmlComplianceLevel) {
                 return false;
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             return false;
         }
 
@@ -495,19 +540,19 @@ public class WFSDataAccessFactory implements DataAccessFactory {
     public DataAccess<? extends FeatureType, ? extends Feature> createDataStore(
             Map<String, Serializable> params) throws IOException {
 
-		WFSContentDataAccess dataAccess = new WFSContentDataAccess(
-				getWFSClient(params));
-				
+        WFSContentDataAccess dataAccess = new WFSContentDataAccess(
+                getWFSClient(params));
+
         String cacheLocationKey = "WFSDataStoreFactory:SCHEMA_CACHE_LOCATION";
 
         if (params.containsKey(cacheLocationKey)) {
             String cacheLocation = (String) params.get(cacheLocationKey);
             dataAccess.setCacheLocation(new File(cacheLocation));
         }
-        
-        if (params.containsKey(GML_COMPATIBLE_TYPENAMES.getName()) 
+
+        if (params.containsKey(GML_COMPATIBLE_TYPENAMES.getName())
                 && (Boolean) params.get(GML_COMPATIBLE_TYPENAMES)) {
-            
+
         }
 
         return dataAccess;
@@ -515,13 +560,15 @@ public class WFSDataAccessFactory implements DataAccessFactory {
 
     @Override
     public String getDescription() {
-        return "Provides access to the Complex Features published a Web Feature Service (experimental), "
-                + "and the ability to perform transactions on the server (when supported / allowed).";
+        return "Provides access to the Complex Features published a Web Feature Service " +
+                "(experimental), "
+                + "and the ability to perform transactions on the server (when supported / " +
+                "allowed).";
     }
 
     /**
      * Returns the set of parameter descriptors needed to connect to a WFS.
-     * 
+     *
      * @see org.geotools.data.DataStoreFactorySpi#getParametersInfo()
      * @see #URL
      * @see #NAMESPACE
@@ -545,9 +592,9 @@ public class WFSDataAccessFactory implements DataAccessFactory {
         return params;
     }
 
-	protected WFSClient getWFSClient(final Map<String, Serializable> params)
-			throws IOException {
-		
+    protected WFSClient getWFSClient(final Map<String, Serializable> params)
+            throws IOException {
+
         final WFSConfig config = WFSConfig.fromParams(params);
         {
             String user = config.getUser();
@@ -555,12 +602,13 @@ public class WFSDataAccessFactory implements DataAccessFactory {
             if (((user == null) && (password != null))
                     || ((config.getPassword() == null) && (config.getUser() != null))) {
                 throw new IOException(
-                        "Cannot define only one of USERNAME or PASSWORD, must define both or neither");
+                        "Cannot define only one of USERNAME or PASSWORD, must define both or " +
+                                "neither");
             }
         }
 
         final HTTPClient http = new SimpleHttpClient(); // new
-                                                        // MultithreadedHttpClient();
+        // MultithreadedHttpClient();
 
         // TODO: let HTTPClient be configured for gzip
         // http.setTryGzip(tryGZIP);
@@ -570,7 +618,7 @@ public class WFSDataAccessFactory implements DataAccessFactory {
         http.setConnectTimeout(timeoutMillis / 1000);
         http.setReadTimeout(timeoutMillis / 1000);
 
-        final URL capabilitiesURL = (URL)URL.lookUp(params);
+        final URL capabilitiesURL = (URL) URL.lookUp(params);
 
         // WFSClient performs version negotiation and selects the correct
         // strategy

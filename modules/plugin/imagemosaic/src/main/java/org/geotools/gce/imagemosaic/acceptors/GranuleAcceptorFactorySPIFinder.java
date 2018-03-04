@@ -32,7 +32,8 @@ public class GranuleAcceptorFactorySPIFinder {
 
     private static FactoryCreator registry;
 
-    public static synchronized Map<String, GranuleAcceptorFactorySPI> getGranuleAcceptorFactorySPI() {
+    public static synchronized Map<String, GranuleAcceptorFactorySPI> 
+    getGranuleAcceptorFactorySPI() {
         // get all GridFormatFactorySpi implementations
         FactoryRegistry serviceRegistry = getServiceRegistry();
         serviceRegistry.scanForPlugins();
@@ -42,12 +43,13 @@ public class GranuleAcceptorFactorySPIFinder {
     }
 
     /**
-     * Returns the service registry. The registry will be created the first time this method is invoked.
+     * Returns the service registry. The registry will be created the first time this method is 
+     * invoked.
      */
     private static FactoryRegistry getServiceRegistry() {
         if (registry == null) {
             registry = new FactoryCreator(
-                    Arrays.asList(new Class<?>[] { GranuleAcceptorFactorySPI.class }));
+                    Arrays.asList(new Class<?>[]{GranuleAcceptorFactorySPI.class}));
         }
         return registry;
     }

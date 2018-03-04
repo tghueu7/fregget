@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2016, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -62,25 +62,23 @@ import org.xml.sax.EntityResolver;
  * allow application code to effect service discovery we allow client code to
  * retarget the geotools library for their needs.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
  * @author Jody Garnett
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class Hints extends RenderingHints {
     /**
      * A set of system-wide hints to use by default.
      */
-    private static volatile Map<RenderingHints.Key, Object> GLOBAL = new ConcurrentHashMap<RenderingHints.Key, Object>();
+    private static volatile Map<RenderingHints.Key, Object> GLOBAL = new 
+            ConcurrentHashMap<RenderingHints.Key, Object>();
 
     /**
      * {@code true} if {@link #scanSystemProperties} needs to be invoked.
      */
     private static AtomicBoolean needScan = new AtomicBoolean(true);
-
 
 
     ////////////////////////////////////////////////////////////////////////
@@ -184,7 +182,7 @@ public class Hints extends RenderingHints {
      * file contains extra CRS to add as new EPSG codes.
      * <p>
      * To set the directory on the command line:
-     *
+     * <p>
      * <blockquote><pre>
      * -D{@value GeoTools#CRS_AUTHORITY_EXTRA_DIRECTORY}=<var>path</var>
      * </pre></blockquote>
@@ -198,11 +196,11 @@ public class Hints extends RenderingHints {
      * initializing the {@linkplain org.geotools.referencing.factory.epsg EPSG factory}.
      * Possible values:
      * <ul>
-     *   <li>{@link String} - used with JNDI to locate datasource. This hint has no effect if
-     *       there is no {@linkplain javax.naming.InitialContext JNDI initial context} setup.</li>
-     *   <li>{@linkplain javax.sql.DataSource} - used as is.</li>
-     *   <li>missing - default to
-     *       {@value org.geotools.referencing.factory.epsg.ThreadedEpsgFactory#DATASOURCE_NAME}.</li>
+     * <li>{@link String} - used with JNDI to locate datasource. This hint has no effect if
+     * there is no {@linkplain javax.naming.InitialContext JNDI initial context} setup.</li>
+     * <li>{@linkplain javax.sql.DataSource} - used as is.</li>
+     * <li>missing - default to
+     * {@value org.geotools.referencing.factory.epsg.ThreadedEpsgFactory#DATASOURCE_NAME}.</li>
      * </ul>
      * <p>
      * To set on the command line:
@@ -283,12 +281,11 @@ public class Hints extends RenderingHints {
      * -D{@value GeoTools#FORCE_LONGITUDE_FIRST_AXIS_ORDER}=<var>longitudeFirst</var>
      * </pre></blockquote>
      *
+     * @tutorial http://docs.codehaus.org/display/GEOTOOLS/The+axis+order+issue
      * @see org.geotools.referencing.FactoryFinder#getCSFactory
      * @see org.geotools.referencing.FactoryFinder#getCRSFactory
      * @see org.geotools.referencing.factory.OrderedAxisAuthorityFactory
      * @see org.geotools.referencing.factory.epsg.LongitudeFirstFactory
-     * @tutorial http://docs.codehaus.org/display/GEOTOOLS/The+axis+order+issue
-     *
      * @since 2.3
      */
     public static final Key FORCE_LONGITUDE_FIRST_AXIS_ORDER = new Key(Boolean.class);
@@ -306,12 +303,12 @@ public class Hints extends RenderingHints {
      * <b>Example:</b> In order to apply the (<var>longitude</var>,<var>latitude</var>) axis order
      * to {@code "http://www.opengis.net/"} and {@code "urn:ogc"} name spaces in addition to EPSG,
      * use the following hints:
-     *
+     * <p>
      * <blockquote>
      * hints.put(FORCE_LONGITUDE_FIRST_AXIS_ORDER, Boolean.TRUE);
      * hints.put(FORCE_AXIS_ORDER_HONORING, "http, urn");
      * </blockquote>
-     *
+     * <p>
      * Note that the application of (<var>longitude</var>,<var>latitude</var>) axis order
      * to the {@code "urn:ogc"} name space is a clear violation of OGC specification.
      *
@@ -338,7 +335,6 @@ public class Hints extends RenderingHints {
      * @see org.geotools.referencing.FactoryFinder#getCSFactory
      * @see org.geotools.referencing.FactoryFinder#getCRSFactory
      * @see org.geotools.referencing.factory.OrderedAxisAuthorityFactory
-     *
      * @since 2.3
      */
     public static final Key FORCE_STANDARD_AXIS_DIRECTIONS = new Key(Boolean.class);
@@ -359,7 +355,6 @@ public class Hints extends RenderingHints {
      * @see org.geotools.referencing.FactoryFinder#getCSFactory
      * @see org.geotools.referencing.FactoryFinder#getCRSFactory
      * @see org.geotools.referencing.factory.OrderedAxisAuthorityFactory
-     *
      * @since 2.3
      */
     public static final Key FORCE_STANDARD_AXIS_UNITS = new Key(Boolean.class);
@@ -374,20 +369,20 @@ public class Hints extends RenderingHints {
      */
     public static final Key VERSION = new Key("org.geotools.util.Version");
 
-    
-  ////////////////////////////////////////////////////////////////////////
-  ////////                                                        ////////
-  ////////              XML hints                                 ////////
-  ////////                                                        ////////
-  ////////////////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////////////////
+    ////////                                                        ////////
+    ////////              XML hints                                 ////////
+    ////////                                                        ////////
+    ////////////////////////////////////////////////////////////////////////
 
     /**
      * The {@link EntityResolver} instance to use when configuring SAXParsers.
-     * 
+     *
      * @since 15
      */
     public static final Key ENTITY_RESOLVER = new Key(EntityResolver.class);
-      
+
     ////////////////////////////////////////////////////////////////////////
     ////////                                                        ////////
     ////////              Query hints                               ////////
@@ -403,11 +398,12 @@ public class Hints extends RenderingHints {
      * Example use with Feature.getUserData():<code>
      * feature.getUserData().put( Hints.USE_PROVIDED_FID, true );
      * </code>
+     *
      * @since 2.7
      */
     //public static final Key USE_PROVIDED_FID = new Key("org.geotools.fidPolicy.UseExisting");
     public static final Key USE_PROVIDED_FID = new Key(Boolean.class);
-    
+
     /**
      * Optional Hint used in conjunction with USE_POVIDED_FID above.
      * <o>
@@ -419,10 +415,11 @@ public class Hints extends RenderingHints {
      * feature.getUserData().put( Hints.PROVIDED_FID, "fid5" );
      * </p>
      * </code></pre>
+     *
      * @since 8.0
      */
-    public static final Key PROVIDED_FID = new Key( String.class );
-    
+    public static final Key PROVIDED_FID = new Key(String.class);
+
     ////////////////////////////////////////////////////////////////////////
     ////////                                                        ////////
     ////////                     ISO Geometries                     ////////
@@ -459,11 +456,12 @@ public class Hints extends RenderingHints {
      * @see #JTS_GEOMETRY_FACTORY
      * @since 2.5
      */
-    public static final Key GEOMETRY_FACTORY = new Key("org.opengis.geometry.coordinate.GeometryFactory");
+    public static final Key GEOMETRY_FACTORY = new Key("org.opengis.geometry.coordinate" +
+            ".GeometryFactory");
 
     /**
      * The default linearization tolerance for curved geometries
-     * 
+     *
      * @see CurvedGeometryFactory
      * @since 12.0
      */
@@ -474,21 +472,24 @@ public class Hints extends RenderingHints {
      *
      * @since 2.5
      */
-    public static final Key COMPLEX_FACTORY = new Key("org.opengis.geometry.complex.ComplexFactory");
+    public static final Key COMPLEX_FACTORY = new Key("org.opengis.geometry.complex" +
+            ".ComplexFactory");
 
     /**
      * The {@link org.opengis.geometry.aggregate.AggregateFactory} instance to use.
      *
      * @since 2.5
      */
-    public static final Key AGGREGATE_FACTORY = new Key("org.opengis.geometry.aggregate.AggregateFactory");
+    public static final Key AGGREGATE_FACTORY = new Key("org.opengis.geometry.aggregate" +
+            ".AggregateFactory");
 
     /**
      * The {@link org.opengis.geometry.primitive.PrimitiveFactory} instance to use.
      *
      * @since 2.5
      */
-    public static final Key PRIMITIVE_FACTORY = new Key("org.opengis.geometry.primitive.PrimitiveFactory");
+    public static final Key PRIMITIVE_FACTORY = new Key("org.opengis.geometry.primitive" +
+            ".PrimitiveFactory");
 
     /**
      * If {@code true}, geometry will be validated on creation. A value of {@code false}
@@ -497,7 +498,6 @@ public class Hints extends RenderingHints {
      * @since 2.5
      */
     public static final Key GEOMETRY_VALIDATE = new Key(Boolean.class);
-
 
 
     ////////////////////////////////////////////////////////////////////////
@@ -541,7 +541,6 @@ public class Hints extends RenderingHints {
     public static final Key JTS_SRID = new Key(Integer.class);
 
 
-
     ////////////////////////////////////////////////////////////////////////
     ////////                                                        ////////
     ////////                        Features                        ////////
@@ -550,26 +549,26 @@ public class Hints extends RenderingHints {
 
     /**
      * The {@link org.opengis.feature.FeatureFactory} instance to use.
-     * 
+     *
      * @see CommonFactoryFinder.getFeatureFactory()
      * @since 2.5
      */
-    public static ClassKey FEATURE_FACTORY = new ClassKey( "org.opengis.feature.FeatureFactory");
-    
+    public static ClassKey FEATURE_FACTORY = new ClassKey("org.opengis.feature.FeatureFactory");
+
     /**
      * The {@link org.opengis.feature.type.FeatureTypeFactory} instance to use.
-     * 
+     *
      * @see CommonFactoryFinder.getFeatureTypeFactory()
      * @since 2.4
      */
-    public static ClassKey FEATURE_TYPE_FACTORY = new ClassKey( "org.opengis.feature.type.FeatureTypeFactory");
+    public static ClassKey FEATURE_TYPE_FACTORY = new ClassKey("org.opengis.feature.type" +
+            ".FeatureTypeFactory");
 
-    
+
     /**
      * The {@link org.geotools.data.FeatureLockFactory} instance to use.
      *
      * @see CommonFactoryFinder#getFeatureLockFactory
-     *
      * @since 2.4
      */
     public static final ClassKey FEATURE_LOCK_FACTORY = new ClassKey(
@@ -579,7 +578,6 @@ public class Hints extends RenderingHints {
      * The {@link org.geotools.feature.FeatureCollections} instance to use.
      *
      * @see CommonFactoryFinder#getFeatureCollections
-     *
      * @since 2.4
      */
     public static final ClassKey FEATURE_COLLECTIONS = new ClassKey(
@@ -589,8 +587,9 @@ public class Hints extends RenderingHints {
      * Used to provide the <cite>type name</cite> for the returned
      * {@link org.geotools.feature.FeatureTypeFactory}. Values should
      * be instances of {@link String}.
-     * @deprecated This hint controls FeatureTypeBuilder which is now deprecated
+     *
      * @since 2.4
+     * @deprecated This hint controls FeatureTypeBuilder which is now deprecated
      */
     public static final Key FEATURE_TYPE_FACTORY_NAME = new Key(String.class);
 
@@ -613,7 +612,7 @@ public class Hints extends RenderingHints {
      * @since 2.4.1
      */
     public static final Key FEATURE_2D = new Key(Boolean.class);
-    
+
     /**
      * Key to control the maximum number of features that will be kept in memory
      * when performing a fallback merge-sort (used when the datastore does not have
@@ -622,7 +621,7 @@ public class Hints extends RenderingHints {
      * @since 2.7.3
      */
     public static final Key MAX_MEMORY_SORT = new Key(Integer.class);
-    
+
     /**
      * Asks a datastore having a vector pyramid (pre-generalized geometries)
      * to return the geometry version whose points have been generalized
@@ -631,30 +630,29 @@ public class Hints extends RenderingHints {
      * The geometries returned are supposed to be topologically valid.
      */
     public static final Key GEOMETRY_DISTANCE = new Key(Double.class);
-    
+
     /**
      * Asks a datastore to perform a topology preserving on the fly
-     * generalization of the geometries. The datastore will return 
+     * generalization of the geometries. The datastore will return
      * geometries generalized at the specified distance.
      */
     public static final Key GEOMETRY_GENERALIZATION = new Key(Double.class);
-    
+
     /**
      * Asks a datastore to perform a non topology preserving on the fly
      * generalization of the geometries (e.g., returning self crossing
      * polygons as a result of the geoneralization is considered valid).
-
      */
     public static final Key GEOMETRY_SIMPLIFICATION = new Key(Double.class);
-    
+
     /**
      * The rendering aid used to avoid painting tiny features over and over in the same pixel
      */
     public static final Key SCREENMAP = new ClassKey("org.geotools.renderer.ScreenMap");
-    
+
     /**
      * The actual coordinate dimensions of the geometry (to be used in
-     * the GeometryDescriptor user map) 
+     * the GeometryDescriptor user map)
      */
     public static final Key COORDINATE_DIMENSION = new Key(Integer.class);
 
@@ -663,18 +661,18 @@ public class Hints extends RenderingHints {
      * The {@link org.geotools.styling.StyleFactory} instance to use.
      *
      * @see CommonFactoryFinder#getStyleFactory
-     *
      * @since 2.4
      */
     public static final ClassKey STYLE_FACTORY = new ClassKey(
             "org.geotools.styling.StyleFactory");
 
     /**
-     * The color definition to use when converting from String to Color. "CSS" corresponds to the CSS Color Module 4 name set (
-     * <a href="https://www.w3.org/TR/css-color-4/#named-colors">https://www.w3.org/TR/css-color-4/#named-colors</a>)
+     * The color definition to use when converting from String to Color. "CSS" corresponds to the
+     * CSS Color Module 4 name set (
+     * <a href="https://www.w3.org/TR/css-color-4/#named-colors">https://www
+     * .w3.org/TR/css-color-4/#named-colors</a>)
      *
      * @see CommonFactoryFinder#getStyleFactory
-     *
      * @since 17
      */
     public static final OptionKey COLOR_DEFINITION = new OptionKey("CSS");
@@ -683,7 +681,6 @@ public class Hints extends RenderingHints {
      * The {@link org.geotools.feature.AttributeTypeFactory} instance to use.
      *
      * @see CommonFactoryFinder#getAttributeTypeFactory
-     *
      * @since 2.4
      */
     public static final ClassKey ATTRIBUTE_TYPE_FACTORY = new ClassKey(
@@ -693,7 +690,6 @@ public class Hints extends RenderingHints {
      * The {@link org.opengis.filter.FilterFactory} instance to use.
      *
      * @see CommonFactoryFinder#getFilterFactory
-     *
      * @since 2.4
      */
     public static final ClassKey FILTER_FACTORY = new ClassKey(
@@ -749,15 +745,17 @@ public class Hints extends RenderingHints {
      *
      * @since 2.5
      */
-    public static final Key OVERVIEW_POLICY = new Key("org.geotools.coverage.grid.io.OverviewPolicy");
-    
+    public static final Key OVERVIEW_POLICY = new Key("org.geotools.coverage.grid.io" +
+            ".OverviewPolicy");
+
     /**
      * Decimation choosing policy. The value must be one of
      * {link #org.geotools.coverage.grid.io.DecimationPolicy} enumeration.
      *
      * @since 2.7
      */
-    public static final Key DECIMATION_POLICY = new Key("org.geotools.coverage.grid.io.DecimationPolicy");
+    public static final Key DECIMATION_POLICY = new Key("org.geotools.coverage.grid.io" +
+            ".DecimationPolicy");
 
     /**
      * The {@linkplain javax.media.jai.tilecodec.TileEncoder tile encoder} name
@@ -771,7 +769,6 @@ public class Hints extends RenderingHints {
      * for grid coverages.
      *
      * @see org.geotools.coverage.FactoryFinder#getGridCoverageFactory
-     *
      * @since 2.3
      */
     public static final Key TILE_ENCODING = new Key(String.class);
@@ -784,39 +781,42 @@ public class Hints extends RenderingHints {
     /**
      * The {@link org.opengis.coverage.SampleDimensionType} to use.
      */
-    public static final Key SAMPLE_DIMENSION_TYPE = new Key("org.opengis.coverage.SampleDimensionType");
+    public static final Key SAMPLE_DIMENSION_TYPE = new Key("org.opengis.coverage" +
+            ".SampleDimensionType");
 
-    
+
     /**
      * The GridCoverageFactory to be used.
-     * 
+     *
      * @since 2.7
      */
-    public static final ClassKey GRID_COVERAGE_FACTORY = new ClassKey("org.geotools.coverage.grid.GridCoverageFactory");
-    
+    public static final ClassKey GRID_COVERAGE_FACTORY = new ClassKey("org.geotools.coverage.grid" +
+            ".GridCoverageFactory");
+
     /**
      * The {@link ExecutorService} to use.
-     * 
+     *
      * @since 2.7
      */
-    public static final ClassKey EXECUTOR_SERVICE = new ClassKey("java.util.concurrent.ExecutorService");
-    
+    public static final ClassKey EXECUTOR_SERVICE = new ClassKey("java.util.concurrent" +
+            ".ExecutorService");
+
     /**
      * Resample tolerance (defaults to 0.333)
-     * 
+     * <p>
      * <p>
      * To set on the command line:
      * <blockquote><pre>
      * -D{@value GeoTools#RESAMPLE_TOLERANCE}=<var>0.333</var>
      * </pre></blockquote>
-     * 
+     *
      * @since 2.7
      */
     public static final Key RESAMPLE_TOLERANCE = new Key(Double.class);
-    
+
     /**
      * The {@link Repository} to use to fetch DataAccess and DataStore
-     * 
+     *
      * @since 18
      */
     public static final ClassKey REPOSITORY = new ClassKey("org.geotools.data.Repository");
@@ -827,14 +827,14 @@ public class Hints extends RenderingHints {
     ////////                      Data stores                       ////////
     ////////                                                        ////////
     ////////////////////////////////////////////////////////////////////////
-    
+
     /**
      * Resolve setting for resolving resources. ("local", "none", "remote" or "all")
      * <p>
      * This maps directly to the {@code resolve} parameter in a WFS query.
      */
     public static final Key RESOLVE = new Key("net.opengis.wfs20.ResolveValueType");
-    
+
     /**
      * The maximum time-out for resolving resources.
      * <p>
@@ -854,8 +854,8 @@ public class Hints extends RenderingHints {
      * <p>
      * This maps directly to a {@code xlinkPropertyName} in a WFS query.
      */
-    public static final Hints.Key ASSOCIATION_PROPERTY = new Key("org.opengis.filter.expression.PropertyName");
-
+    public static final Hints.Key ASSOCIATION_PROPERTY = new Key("org.opengis.filter.expression" +
+            ".PropertyName");
 
 
     ////////////////////////////////////////////////////////////////////////
@@ -868,20 +868,21 @@ public class Hints extends RenderingHints {
      * Policy to use for caching referencing objects. Valid values are:
      * <p>
      * <ul>
-     *   <li>{@code "weak"} for holding values through {@linkplain java.lang.ref.WeakReference
-     *       weak references}. This option does not actually cache the objects since the garbage
-     *       collector cleans weak references aggressively, but it allows sharing the instances
-     *       already created and still in use.</li>
-     *   <li>{@code "fixed") for holding a fixed number of values specified by {@link #CACHE_LIMIT}.
-     *   <li>{@code "all"} for holding values through strong references.</li>
-     *   <li>{@code "none"} for disabling the cache.</li>
-     *   <li>{@code "soft"} for holding the value throuhg(@linkplain java.lang.ref.SoftReference 
-     *       soft references}.
+     * <li>{@code "weak"} for holding values through {@linkplain java.lang.ref.WeakReference
+     * weak references}. This option does not actually cache the objects since the garbage
+     * collector cleans weak references aggressively, but it allows sharing the instances
+     * already created and still in use.</li>
+     * <li>{@code "fixed") for holding a fixed number of values specified by {@link #CACHE_LIMIT}.
+     * <li>{@code "all"} for holding values through strong references.</li>
+     * <li>{@code "none"} for disabling the cache.</li>
+     * <li>{@code "soft"} for holding the value throuhg(@linkplain java.lang.ref.SoftReference
+     * soft references}.
      * </ul>
      *
      * @since 2.5
      */
-    public static final OptionKey CACHE_POLICY = new OptionKey("weak", "all", "fixed","none","default","soft");
+    public static final OptionKey CACHE_POLICY = new OptionKey("weak", "all", "fixed", "none", 
+            "default", "soft");
 
     /**
      * The recommended maximum number of referencing objects to hold in a
@@ -977,31 +978,34 @@ public class Hints extends RenderingHints {
      * @since 2.5
      */
     public static final IntegerKey AUTHORITY_TIME_BETWEEN_EVICTION_RUNS = new IntegerKey(5 * 1000);
-    
-    
+
+
     /**
      * Tolerance used in comparisons between floating point values. Two floating points A and B are
      * considered the same if A * (1 - tol) <= B <= A * (1 + tol).
      * The default value is 0, meaning the two doubles have to be exactly the same (a bit to bit
      * comparison will be performed).
-     * 
+     *
      * @since 2.6
      */
     public static final DoubleKey COMPARISON_TOLERANCE = new DoubleKey(0.0);
-    
-    
+
+
     /**
-     * Controls date field handling. If true, all {@link java.sql.Date} fields are treated as local dates being
-     * unrelated to time zones. Otherwise they are treated as time zone related. Local dates are serialized to
-     * string using the local time zone (JVM default time zone). Time zone related dates are serialized to string
+     * Controls date field handling. If true, all {@link java.sql.Date} fields are treated as 
+     * local dates being
+     * unrelated to time zones. Otherwise they are treated as time zone related. Local dates are 
+     * serialized to
+     * string using the local time zone (JVM default time zone). Time zone related dates are 
+     * serialized to string
      * using GMT. Default is false, Date treated as time zone related.
-     * 
+     * <p>
      * <p>
      * To set on the command line:
      * <blockquote><pre>
      * -D{@value GeoTools#LOCAL_DATE_TIME_HANDLING}=<var>true</var>
      * </pre></blockquote>
-     * 
+     *
      * @since 15.0
      */
     public static final Key LOCAL_DATE_TIME_HANDLING = new Key(Boolean.class);
@@ -1039,13 +1043,11 @@ public class Hints extends RenderingHints {
      * @param value1 The value for the first pair.
      * @param key2   The key2 for the second pair.
      * @param value2 The value2 for the second pair.
-     *
      * @since 2.4
      */
     public Hints(final RenderingHints.Key key1, final Object value1,
-                 final RenderingHints.Key key2, final Object value2)
-    {
-        this     (key1, value1);
+                 final RenderingHints.Key key2, final Object value2) {
+        this(key1, value1);
         super.put(key2, value2);
     }
 
@@ -1055,11 +1057,9 @@ public class Hints extends RenderingHints {
      * @param key1   The key for the first pair.
      * @param value1 The value for the first pair.
      * @param pairs  An array containing additional pairs of keys and values.
-     *
      * @since 2.4
-     *
      * @deprecated The {@code Object[]} argument was a kind of substitution for variable-length
-     *             arguments. In order to avoid confusion, it is safer to use the later.
+     * arguments. In order to avoid confusion, it is safer to use the later.
      */
     @Deprecated
     public Hints(final RenderingHints.Key key1, final Object value1, final Object[] pairs) {
@@ -1075,13 +1075,11 @@ public class Hints extends RenderingHints {
      * @param key2   The key2 for the second pair.
      * @param value2 The value2 for the second pair.
      * @param pairs  Additional pairs of keys and values.
-     *
      * @since 2.4
      */
     public Hints(final RenderingHints.Key key1, final Object value1,
                  final RenderingHints.Key key2, final Object value2,
-                 final Object... pairs)
-    {
+                 final Object... pairs) {
         this(key1, value1, key2, value2);
         fromPairs(pairs);
     }
@@ -1089,7 +1087,7 @@ public class Hints extends RenderingHints {
     /**
      * Utility method used to copy (key,value) pairs into this Hints map.
      *
-     * @param  pairs An array of Key/Value pairs.
+     * @param pairs An array of Key/Value pairs.
      * @throws IllegalArgumentException if a value is illegal.
      */
     private void fromPairs(final Object[] pairs) throws IllegalArgumentException {
@@ -1097,8 +1095,8 @@ public class Hints extends RenderingHints {
             throw new IllegalArgumentException(
                     Errors.format(ErrorKeys.ODD_ARRAY_LENGTH_$1, pairs.length));
         }
-        for (int i=0; i<pairs.length; i += 2) {
-            super.put(pairs[i], pairs[i+1]);
+        for (int i = 0; i < pairs.length; i += 2) {
+            super.put(pairs[i], pairs[i + 1]);
         }
     }
 
@@ -1119,7 +1117,6 @@ public class Hints extends RenderingHints {
      *
      * @param hints A map of key/value pairs to initialize the hints, or
      *              {@code null} if the object should be empty.
-     *
      * @since 2.5
      */
     public Hints(final RenderingHints hints) {
@@ -1131,10 +1128,10 @@ public class Hints extends RenderingHints {
      * pairs where the key is not an instance of {@link RenderingHints.Key}. If the given
      * map contains only valid keys, then it is returned unchanged.
      *
-     * @param  hints The map of hints to filter.
+     * @param hints The map of hints to filter.
      * @return A map with filtered hints.
      */
-    static Map<RenderingHints.Key, Object> stripNonKeys(final Map<?,?> hints) {
+    static Map<RenderingHints.Key, Object> stripNonKeys(final Map<?, ?> hints) {
         if (hints == null) {
             return null;
         }
@@ -1145,7 +1142,7 @@ public class Hints extends RenderingHints {
          */
         @SuppressWarnings("unchecked")
         Map<RenderingHints.Key, Object> filtered = (Map<RenderingHints.Key, Object>) hints;
-        for (final Iterator<?> it=hints.keySet().iterator(); it.hasNext();) {
+        for (final Iterator<?> it = hints.keySet().iterator(); it.hasNext(); ) {
             final Object key = it.next();
             if (!(key instanceof RenderingHints.Key)) {
                 if (filtered == hints) {
@@ -1188,14 +1185,16 @@ public class Hints extends RenderingHints {
 
     /**
      * Invokes {@link GeoTools#scanSystemProperties} when first needed. The caller is
-     * responsible for invoking {@link GeoTools#fireConfigurationChanged} if this method returns {@code true}.
+     * responsible for invoking {@link GeoTools#fireConfigurationChanged} if this method returns 
+     * {@code true}.
      *
      * @return {@code true} if at least one hint changed as a result of this scan,
-     *         or {@code false} otherwise.
+     * or {@code false} otherwise.
      */
     private static boolean ensureSystemDefaultLoaded() {
         if (needScan.get()) {
-            Map<RenderingHints.Key, Object> newGlobal = new ConcurrentHashMap<RenderingHints.Key, Object>(GLOBAL);
+            Map<RenderingHints.Key, Object> newGlobal = new ConcurrentHashMap<RenderingHints.Key,
+                    Object>(GLOBAL);
             boolean modified = GeoTools.scanForSystemHints(newGlobal);
             GLOBAL = newGlobal;
             needScan.set(false);
@@ -1237,18 +1236,18 @@ public class Hints extends RenderingHints {
     /**
      * Turns the rendering hints provided into a map with {@link RenderingHints.Key} keys, ignoring
      * every other entry that might have keys of different nature
-     * 
+     *
      * @param hints
      * @return
      */
     private static Map<java.awt.RenderingHints.Key, Object> toMap(RenderingHints hints) {
         Map<RenderingHints.Key, Object> result = new HashMap<RenderingHints.Key, Object>();
         for (Map.Entry<Object, Object> entry : hints.entrySet()) {
-            if(entry.getKey() instanceof RenderingHints.Key) {
+            if (entry.getKey() instanceof RenderingHints.Key) {
                 result.put((java.awt.RenderingHints.Key) entry.getKey(), entry.getValue());
             }
         }
-        
+
         return result;
     }
 
@@ -1256,10 +1255,9 @@ public class Hints extends RenderingHints {
      * Returns the hint {@linkplain GeoTools#getDefaultHints default value}
      * for the specified key.
      *
-     * @param  key The hints key.
+     * @param key The hints key.
      * @return The value for the specified key, or {@code null}
-     *         if the key did not have a mapping.
-     *
+     * if the key did not have a mapping.
      * @since 2.4
      */
     public static Object getSystemDefault(final RenderingHints.Key key) {
@@ -1283,8 +1281,7 @@ public class Hints extends RenderingHints {
      * @param value The hint value.
      * @return The previous value of the specified key, or {@code null} if none.
      * @throws IllegalArgumentException If {@link Hints.Key#isCompatibleValue()}
-     *         returns {@code false} for the specified value.
-     *
+     *                                  returns {@code false} for the specified value.
      * @since 2.4
      */
     public static Object putSystemDefault(final RenderingHints.Key key, final Object value) {
@@ -1302,10 +1299,9 @@ public class Hints extends RenderingHints {
      * Removes the specified hints from the set of
      * {@linkplain GeoTools#getDefaultHints default hints}.
      *
-     * @param  key The hints key that needs to be removed.
+     * @param key The hints key that needs to be removed.
      * @return The value to which the key had previously been mapped,
-     *         or {@code null} if the key did not have a mapping.
-     *
+     * or {@code null} if the key did not have a mapping.
      * @since 2.4
      */
     public static Object removeSystemDefault(final RenderingHints.Key key) {
@@ -1331,11 +1327,11 @@ public class Hints extends RenderingHints {
         final String lineSeparator = System.getProperty("line.separator", "\n");
         final StringBuilder buffer = new StringBuilder("Hints:"); // TODO: localize
         buffer.append(lineSeparator).append(AbstractFactory.toString(this));
-        Map<?,?> extra = null;
+        Map<?, ?> extra = null;
         final boolean changed;
         changed = ensureSystemDefaultLoaded();
         if (!GLOBAL.isEmpty()) {
-            extra = new HashMap<Object,Object>(GLOBAL);
+            extra = new HashMap<Object, Object>(GLOBAL);
         }
         if (changed) {
             GeoTools.fireConfigurationChanged();
@@ -1344,7 +1340,7 @@ public class Hints extends RenderingHints {
             extra.keySet().removeAll(keySet());
             if (!extra.isEmpty()) {
                 buffer.append("System defaults:")  // TODO: localize
-                      .append(lineSeparator).append(AbstractFactory.toString(extra));
+                        .append(lineSeparator).append(AbstractFactory.toString(extra));
             }
         }
         return buffer.toString();
@@ -1393,7 +1389,7 @@ public class Hints extends RenderingHints {
      */
     private static String nameOf(final Class<?> type, final RenderingHints.Key key) {
         final Field[] fields = type.getFields();
-        for (int i=0; i<fields.length; i++) {
+        for (int i = 0; i < fields.length; i++) {
             final Field f = fields[i];
             if (Modifier.isStatic(f.getModifiers())) {
                 final Object v;
@@ -1416,10 +1412,10 @@ public class Hints extends RenderingHints {
      * {@linkplain java.awt.RenderingHints.Key rendering key} is not a complete
      * non-sense), but may impact other aspects of an application as well.
      *
-     * @since 2.1
-     * @source $URL$
-     * @version $Id$
      * @author Martin Desruisseaux
+     * @version $Id$
+     * @source $URL$
+     * @since 2.1
      */
     public static class Key extends RenderingHints.Key {
         /**
@@ -1498,10 +1494,8 @@ public class Hints extends RenderingHints {
          * {@link Class} object assignable to the expected {@linkplain #getValueClass value class}
          * as well.
          *
-         * @param value
-         *            The object to test for validity.
+         * @param value The object to test for validity.
          * @return {@code true} if the value is valid; {@code false} otherwise.
-         *
          * @see Hints.ClassKey#isCompatibleValue
          * @see Hints.FileKey#isCompatibleValue
          * @see Hints.IntegerKey#isCompatibleValue
@@ -1522,9 +1516,14 @@ public class Hints extends RenderingHints {
             while (true) {
                 final Class<?> type;
                 switch (t++) {
-                    case 0:  type = Hints.class;      break;
-                    case 1:  type = getValueClass();  break;
-                    default: return super.toString();
+                    case 0:
+                        type = Hints.class;
+                        break;
+                    case 1:
+                        type = getValueClass();
+                        break;
+                    default:
+                        return super.toString();
                 }
                 final String name = nameOf(type, this);
                 if (name != null) {
@@ -1538,10 +1537,10 @@ public class Hints extends RenderingHints {
      * A key for value that may be specified either as instance of {@code T}, or as
      * {@code Class<T>}.
      *
-     * @since 2.4
-     * @source $URL$
-     * @version $Id$
      * @author Martin Desruisseaux
+     * @version $Id$
+     * @source $URL$
+     * @since 2.4
      */
     public static final class ClassKey extends Key {
         /**
@@ -1570,9 +1569,9 @@ public class Hints extends RenderingHints {
          * is one of the following:
          * <p>
          * <ul>
-         *   <li>An instance of the {@linkplain #getValueClass expected value class}.</li>
-         *   <li>A {@link Class} assignable to the expected value class.</li>
-         *   <li>An array of {@code Class} objects assignable to the expected value class.</li>
+         * <li>An instance of the {@linkplain #getValueClass expected value class}.</li>
+         * <li>A {@link Class} assignable to the expected value class.</li>
+         * <li>An array of {@code Class} objects assignable to the expected value class.</li>
          * </ul>
          */
         @Override
@@ -1586,7 +1585,7 @@ public class Hints extends RenderingHints {
              */
             if (value instanceof Class<?>[]) {
                 final Class<?>[] types = (Class<?>[]) value;
-                for (int i=0; i<types.length; i++) {
+                for (int i = 0; i < types.length; i++) {
                     if (!isCompatibleValue(types[i])) {
                         return false;
                     }
@@ -1624,11 +1623,11 @@ public class Hints extends RenderingHints {
      * Key for hints to be specified as a {@link File}.
      * The file may also be specified as a {@link String} object.
      *
-     * @since 2.4
-     * @source $URL$
-     * @version $Id$
      * @author Jody Garnett
      * @author Martin Desruisseaux
+     * @version $Id$
+     * @source $URL$
+     * @since 2.4
      */
     public static final class FileKey extends Key {
         /**
@@ -1663,7 +1662,7 @@ public class Hints extends RenderingHints {
                 return !writable || file.canWrite();
             }
             final File parent = file.getParentFile();
-            return parent!=null && parent.canWrite();
+            return parent != null && parent.canWrite();
         }
     }
 
@@ -1671,10 +1670,10 @@ public class Hints extends RenderingHints {
      * A hint used to capture a configuration setting as an integer.
      * A default value is provided and may be checked with {@link #getDefault()}.
      *
-     * @since 2.4
-     * @source $URL$
-     * @version $Id$
      * @author Jody Garnett
+     * @version $Id$
+     * @source $URL$
+     * @since 2.4
      */
     public static final class IntegerKey extends Key {
         /**
@@ -1697,7 +1696,7 @@ public class Hints extends RenderingHints {
          *
          * @return The default value.
          */
-        public int getDefault(){
+        public int getDefault() {
             return number;
         }
 
@@ -1705,9 +1704,9 @@ public class Hints extends RenderingHints {
          * Returns the value from the specified hints as an integer. If no value were found
          * for this key, then this method returns the {@linkplain #getDefault default value}.
          *
-         * @param  hints The map where to fetch the hint value, or {@code null}.
+         * @param hints The map where to fetch the hint value, or {@code null}.
          * @return The hint value as an integer, or the default value if not hint
-         *         was explicitly set.
+         * was explicitly set.
          */
         public int toValue(final Hints hints) {
             if (hints != null) {
@@ -1739,15 +1738,15 @@ public class Hints extends RenderingHints {
             return false;
         }
     }
-    
+
     /**
      * A hint used to capture a configuration setting as double.
      * A default value is provided and may be checked with {@link #getDefault()}.
      *
-     * @since 2.6
-     * @source $URL$
-     * @version $Id$
      * @author Jody Garnett
+     * @version $Id$
+     * @source $URL$
+     * @since 2.6
      */
     public static final class DoubleKey extends Key {
         /**
@@ -1770,7 +1769,7 @@ public class Hints extends RenderingHints {
          *
          * @return The default value.
          */
-        public double getDefault(){
+        public double getDefault() {
             return number;
         }
 
@@ -1778,9 +1777,9 @@ public class Hints extends RenderingHints {
          * Returns the value from the specified hints as a double. If no value were found
          * for this key, then this method returns the {@linkplain #getDefault default value}.
          *
-         * @param  hints The map where to fetch the hint value, or {@code null}.
+         * @param hints The map where to fetch the hint value, or {@code null}.
          * @return The hint value as a double, or the default value if not hint
-         *         was explicitly set.
+         * was explicitly set.
          */
         public double toValue(final Hints hints) {
             if (hints != null) {
@@ -1818,10 +1817,10 @@ public class Hints extends RenderingHints {
      * You can use {@code "*"} as a wild card to indicate that undocumented options
      * may be supported (but there is no assurances - {@link Hints#DATUM_SHIFT_METHOD}).
      *
-     * @since 2.4
-     * @source $URL$
-     * @version $Id$
      * @author Jody Garnett
+     * @version $Id$
+     * @source $URL$
+     * @since 2.4
      */
     public static final class OptionKey extends Key {
         /**
@@ -1843,7 +1842,7 @@ public class Hints extends RenderingHints {
             super(String.class);
             final Set<String> options = new TreeSet<String>(Arrays.asList(alternatives));
             this.wildcard = options.remove("*");
-            this.options  = Collections.unmodifiableSet(options);
+            this.options = Collections.unmodifiableSet(options);
         }
 
         /**
@@ -1875,10 +1874,10 @@ public class Hints extends RenderingHints {
      * InitialContext.combineNames( String, String ) should be used to put together
      * your nam
      *
-     * @since 2.4
-     * @source $URL$
-     * @version $Id$
      * @author Martin Desruisseaux
+     * @version $Id$
+     * @source $URL$
+     * @since 2.4
      */
     static final class DataSourceKey extends Key {
         /**
@@ -1893,44 +1892,45 @@ public class Hints extends RenderingHints {
          */
         @Override
         public boolean isCompatibleValue(final Object value) {
-            return (value instanceof DataSource) || (value instanceof String) || (value instanceof Name);
+            return (value instanceof DataSource) || (value instanceof String) || (value 
+                    instanceof Name);
         }
     }
-    
+
     /**
      * Keys for extra configuration options that are passed from the overhead application
      * into queries. In GeoServer, this is used to pass configuration metadata in the
      * FeatureTypeInfo into queries.
-     *  
-     *  @since 2.6
-     *  @source $URL$
-     *  @version $Id$
-     *  @author Sampo Savolainen
+     *
+     * @author Sampo Savolainen
+     * @version $Id$
+     * @source $URL$
+     * @since 2.6
      */
     public static final class ConfigurationMetadataKey extends Key {
-        private static Map<String, ConfigurationMetadataKey> map = 
+        private static Map<String, ConfigurationMetadataKey> map =
                 new HashMap<String, Hints.ConfigurationMetadataKey>();
-        
+
         /**
          * The constructor is private to avoid multiple instances sharing the
          * same key.
-         * 
+         *
          * @param key
          */
         private ConfigurationMetadataKey(String key) {
             super(key);
         }
-        
+
         /**
          * Creates a singleton instance per key
-         * 
+         *
          * @param key String key which identifies the metadata in question.
          * @return Key object for the requested key
          */
         public static ConfigurationMetadataKey get(String key) {
             ConfigurationMetadataKey ret = map.get(key);
             if (ret == null) {
-                synchronized(ConfigurationMetadataKey.class) {
+                synchronized (ConfigurationMetadataKey.class) {
                     ret = map.get(key);
                     if (ret == null) {
                         ret = new ConfigurationMetadataKey(key);
@@ -1938,17 +1938,17 @@ public class Hints extends RenderingHints {
                     }
                 }
             }
-            
+
             return ret;
         }
-        
+
         /**
-         * Configuration metadata can be of any class, but it should be non-null. 
+         * Configuration metadata can be of any class, but it should be non-null.
          */
         @Override
         public boolean isCompatibleValue(Object value) {
             return value != null;
         }
-        
+
     }
 }

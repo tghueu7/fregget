@@ -4,7 +4,7 @@
  *
  *    (C) 2016 Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2016 Boundless Spatial
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -38,7 +38,6 @@ import static org.geotools.ysld.ProcessUtil.*;
 
 /**
  * Handles parsing a Ysld "transform" property into a transformation {@link Function} object.
- *
  */
 public class TransformHandler extends YsldParseHandler {
 
@@ -58,7 +57,8 @@ public class TransformHandler extends YsldParseHandler {
         // lookup process function factory, if null means process modules not on classpath
         if (functionFactory == null) {
             LOG.warning(
-                    "Unable to load process factory, ignoring transform, ensure process modules installed");
+                    "Unable to load process factory, ignoring transform, ensure process modules " +
+                            "installed");
             return;
         }
 
@@ -137,26 +137,27 @@ public class TransformHandler extends YsldParseHandler {
                     valueArgs.add(factory.filter.literal(val));
                 }
                 switch (key) {
-                case "outputBBOX":
-                    outputBBOX = paramExpression(key, valueArgs);
-                    break;
-                case "outputWidth":
-                    outputWidth = paramExpression(key, valueArgs);
-                    break;
-                case "outputHeight":
-                    outputHeight = paramExpression(key, valueArgs);
-                    break;
-                default:
-                    processArgs.add(paramExpression(key, valueArgs));
+                    case "outputBBOX":
+                        outputBBOX = paramExpression(key, valueArgs);
+                        break;
+                    case "outputWidth":
+                        outputWidth = paramExpression(key, valueArgs);
+                        break;
+                    case "outputHeight":
+                        outputHeight = paramExpression(key, valueArgs);
+                        break;
+                    default:
+                        processArgs.add(paramExpression(key, valueArgs));
                 }
             }
         }
-        // If this process is the only one, and no input parameter was specified, use data by default
+        // If this process is the only one, and no input parameter was specified, use data by 
+        // default
         if (input == null && processes == 1) {
             input = "data";
         }
         if (input != null) {
-            processArgs.add(paramExpression(input, Collections.<Expression> emptyList()));
+            processArgs.add(paramExpression(input, Collections.<Expression>emptyList()));
         }
         if (outputBBOX != null) {
             processArgs.add(outputBBOX);
@@ -187,7 +188,7 @@ public class TransformHandler extends YsldParseHandler {
                 valueArgs.add(factory.filter.literal(o));
             }
         } else if (val instanceof Map) {
-            YamlMap map = YamlMap.<Map<?, ?>> create((Map<?, ?>) val).map();
+            YamlMap map = YamlMap.<Map<?, ?>>create((Map<?, ?>) val).map();
             valueArgs.add(process(map));
         } else {
             // just add directly

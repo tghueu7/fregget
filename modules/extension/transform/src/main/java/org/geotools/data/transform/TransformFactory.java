@@ -30,44 +30,45 @@ import org.opengis.feature.type.Name;
 /**
  * Builds a transformed {@link SimpleFeatureStore} or {@link SimpleFeatureSource} based on the
  * definitions provided
- * 
+ *
  * @author Andrea Aime - GeoSolutions
- * 
  */
 public class TransformFactory {
 
     static final Logger LOGGER = Logging.getLogger(TransformFactory.class);
 
     /**
-     * Creates a transformed SimpleFeatureSource/SimpleFeatureStore from the original source, giving it
+     * Creates a transformed SimpleFeatureSource/SimpleFeatureStore from the original source, 
+     * giving it
      * a certain name and a set of computed properties
-     * 
+     *
      * @param source
      * @param name
      * @param definitions
      * @throws IOException
      * @returns A transformed SimpleFeatureStore in case at least one of the definitions was
-     *          invertible, a transformed SimpleFeatureSource otherwise
+     * invertible, a transformed SimpleFeatureSource otherwise
      */
     public static SimpleFeatureSource transform(SimpleFeatureSource source, String name,
-            List<Definition> definitions) throws IOException {
+                                                List<Definition> definitions) throws IOException {
         return transform(source, new NameImpl(source.getSchema().getName().getNamespaceURI(), name),
                 definitions);
     }
 
     /**
-     * Creates a transformed SimpleFeatureSource/SimpleFeatureStore from the original source, giving it
+     * Creates a transformed SimpleFeatureSource/SimpleFeatureStore from the original source, 
+     * giving it
      * a certain name and a set of computed properties
-     * 
+     *
      * @param source
      * @param name
      * @param definitions
      * @throws IOException
      * @returns A transformed SimpleFeatureStore in case at least one of the definitions was
-     *          invertible, a transformed SimpleFeatureSource otherwise
+     * invertible, a transformed SimpleFeatureSource otherwise
      */
     public static SimpleFeatureSource transform(SimpleFeatureSource source, Name name,
-            List<Definition> definitions) throws IOException {
+                                                List<Definition> definitions) throws IOException {
         if (source instanceof SimpleFeatureStore) {
             try {
                 return new TransformFeatureStore((SimpleFeatureStore) source, name, definitions);
@@ -75,7 +76,8 @@ public class TransformFactory {
                 LOGGER.log(
                         Level.FINEST,
                         "Could not transform the provided store, will turn it into a read "
-                                + "only SimpleFeatureSource instead (this is not a problem unless you "
+                                + "only SimpleFeatureSource instead (this is not a problem unless" +
+                                " you "
                                 + "actually needed to write on the store)", e);
             }
         }

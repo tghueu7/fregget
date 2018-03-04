@@ -5,8 +5,6 @@ import org.geotools.jdbc.JDBCViewTestSetup;
 import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class TeradataViewTest extends JDBCViewTest {
@@ -15,8 +13,9 @@ public class TeradataViewTest extends JDBCViewTest {
     protected JDBCViewTestSetup createTestSetup() {
         return new TeradataViewTestSetup();
     }
+
     public void testSchema() throws Exception {
-        SimpleFeatureType ft =  dataStore.getSchema(tname(LAKESVIEW));
+        SimpleFeatureType ft = dataStore.getSchema(tname(LAKESVIEW));
         assertFeatureTypesEqual(lakeViewSchema, ft);
     }
 

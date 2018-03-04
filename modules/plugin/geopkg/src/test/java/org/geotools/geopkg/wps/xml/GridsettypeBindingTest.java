@@ -22,11 +22,12 @@ import org.geotools.xml.Binding;
 
 /**
  * Binding test case for http://www.opengis.net/gpkg:gridsettype.
- *
  * <p>
- *  <pre>
+ * <p>
+ * <pre>
  *   <code>
- *  &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;xs:complexType name="gridsettype" xmlns:xs="http://www.w3.org/2001/XMLSchema"&gt;
+ *  &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;xs:complexType name="gridsettype" 
+ *  xmlns:xs="http://www.w3.org/2001/XMLSchema"&gt;
  *      &lt;xs:choice&gt;
  *        &lt;xs:element name="name" type="xs:string"/&gt;
  *        &lt;xs:element name="grids"&gt;
@@ -37,8 +38,8 @@ import org.geotools.xml.Binding;
  *          &lt;/xs:complexType&gt;
  *        &lt;/xs:element&gt;
  *      &lt;/xs:choice&gt;
- *    &lt;/xs:complexType&gt; 
- *      
+ *    &lt;/xs:complexType&gt;
+ *
  *    </code>
  *   </pre>
  * </p>
@@ -48,11 +49,11 @@ import org.geotools.xml.Binding;
 public class GridsettypeBindingTest extends GPKGTestSupport {
 
     public void testType() {
-        assertEquals(  Object.class, binding( GPKG.gridsettype ).getType() );
+        assertEquals(Object.class, binding(GPKG.gridsettype).getType());
     }
-    
+
     public void testExecutionMode() {
-        assertEquals( Binding.OVERRIDE, binding( GPKG.gridsettype ).getExecutionMode() );
+        assertEquals(Binding.OVERRIDE, binding(GPKG.gridsettype).getExecutionMode());
     }
-    
+
 }

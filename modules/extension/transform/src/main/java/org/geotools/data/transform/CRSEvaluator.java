@@ -36,7 +36,7 @@ import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * Evaluates the CRS of an expression returning geometries by static analysis if possible
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 class CRSEvaluator implements ExpressionVisitor {

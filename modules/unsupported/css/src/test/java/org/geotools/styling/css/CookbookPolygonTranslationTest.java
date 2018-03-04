@@ -36,7 +36,7 @@ public class CookbookPolygonTranslationTest extends AbstractIntegrationTest {
         File root = new File("./src/test/resources/css/cookbook/polygon");
         for (File file : root.listFiles()) {
             if (file.getName().endsWith(".css")) {
-                result.add(new Object[] { file.getName(), file });
+                result.add(new Object[]{file.getName(), file});
             }
         }
 

@@ -31,8 +31,6 @@ import com.vividsolutions.jts.geom.Polygon;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GMLGeometryCollectionTypeBindingTest extends AbstractGMLBindingTest {
@@ -61,13 +59,13 @@ public class GMLGeometryCollectionTypeBindingTest extends AbstractGMLBindingTest
     }
 
     public void testHomogeneous() throws Exception {
-        Node node = createNode(gcol, new ElementInstance[] { point1, point2 },
-                new Object[] {
-                    gf.createPoint(new Coordinate(0, 0)), gf.createPoint(new Coordinate(1, 1))
+        Node node = createNode(gcol, new ElementInstance[]{point1, point2},
+                new Object[]{
+                        gf.createPoint(new Coordinate(0, 0)), gf.createPoint(new Coordinate(1, 1))
                 }, null, null);
 
         GMLGeometryCollectionTypeBinding s = (GMLGeometryCollectionTypeBinding) container
-            .getComponentInstanceOfType(GMLGeometryCollectionTypeBinding.class);
+                .getComponentInstanceOfType(GMLGeometryCollectionTypeBinding.class);
 
         GeometryCollection gc = (GeometryCollection) s.parse(gcol, node, null);
         assertNotNull(gc);
@@ -81,25 +79,27 @@ public class GMLGeometryCollectionTypeBindingTest extends AbstractGMLBindingTest
     }
 
     public void testHeterogeneous() throws Exception {
-        Node node = createNode(gcol, new ElementInstance[] { point1, point2, line1, ring1, poly1 },
-                new Object[] {
-                    gf.createPoint(new Coordinate(0, 0)), gf.createPoint(new Coordinate(1, 1)),
-                    gf.createLineString(
-                        new Coordinate[] { new Coordinate(0, 0), new Coordinate(1, 1) }),
-                    gf.createLinearRing(
-                        new Coordinate[] {
-                            new Coordinate(0, 0), new Coordinate(1, 1), new Coordinate(2, 2),
-                            new Coordinate(0, 0)
-                        }),
-                    gf.createPolygon(gf.createLinearRing(
-                            new Coordinate[] {
-                                new Coordinate(0, 0), new Coordinate(1, 1), new Coordinate(2, 2),
-                                new Coordinate(0, 0)
-                            }), null)
+        Node node = createNode(gcol, new ElementInstance[]{point1, point2, line1, ring1, poly1},
+                new Object[]{
+                        gf.createPoint(new Coordinate(0, 0)), gf.createPoint(new Coordinate(1, 1)),
+                        gf.createLineString(
+                                new Coordinate[]{new Coordinate(0, 0), new Coordinate(1, 1)}),
+                        gf.createLinearRing(
+                                new Coordinate[]{
+                                        new Coordinate(0, 0), new Coordinate(1, 1), new 
+                                        Coordinate(2, 2),
+                                        new Coordinate(0, 0)
+                                }),
+                        gf.createPolygon(gf.createLinearRing(
+                                new Coordinate[]{
+                                        new Coordinate(0, 0), new Coordinate(1, 1), new 
+                                        Coordinate(2, 2),
+                                        new Coordinate(0, 0)
+                                }), null)
                 }, null, null);
 
         GMLGeometryCollectionTypeBinding s = (GMLGeometryCollectionTypeBinding) container
-            .getComponentInstanceOfType(GMLGeometryCollectionTypeBinding.class);
+                .getComponentInstanceOfType(GMLGeometryCollectionTypeBinding.class);
 
         GeometryCollection gc = (GeometryCollection) s.parse(gcol, node, null);
         assertNotNull(gc);

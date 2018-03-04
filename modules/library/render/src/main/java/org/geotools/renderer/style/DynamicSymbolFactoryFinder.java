@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -27,7 +27,7 @@ import org.geotools.factory.Hints;
 /**
  * Searches for all available {@link ExternalGraphicFactory} and
  * {@link MarkFactory} implementations.
- * 
+ * <p>
  * <p>
  * In addition to implementing this interface dynamic symbol handlers should
  * have a services file:
@@ -37,24 +37,24 @@ import org.geotools.factory.Hints;
  * <li><code>META-INF/services/org.geotools.renderer.style.ExternalGraphicFactory</code>
  * if the are {@link ExternalGraphicFactory} instances</li>
  * </ul>
- * 
+ * <p>
  * </p>
- * 
+ * <p>
  * <p>
  * The file should contain a single line which gives the full name of the
  * implementing class.
  * </p>
- * 
+ * <p>
  * <p>
  * Example:<br/><code>org.geotools.data.jdbc.DBCPDataSourceFactory</code>
  * </p>
- * 
- *
  *
  * @source $URL$
  */
 public final class DynamicSymbolFactoryFinder {
-    /** The logger for the filter module. */
+    /**
+     * The logger for the filter module.
+     */
     protected static final Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger("org.geotools.data.jdbc");
 
@@ -71,9 +71,9 @@ public final class DynamicSymbolFactoryFinder {
     /**
      * Finds all implementations of {@link MarkFactory} which have registered
      * using the services mechanism.
-     * 
+     *
      * @return An iterator over all discovered datastores which have registered
-     *         factories, and whose available method returns true.
+     * factories, and whose available method returns true.
      */
     public static synchronized Iterator<MarkFactory> getMarkFactories() {
         return getServiceRegistry().getFactories(MarkFactory.class, null, null).iterator();
@@ -82,22 +82,23 @@ public final class DynamicSymbolFactoryFinder {
     /**
      * Finds all implementations of {@link ExternalGraphicFactory} which have
      * registered using the services mechanism.
-     * 
+     *
      * @return An iterator over all registered ExternalGraphicFactory
      */
     public static synchronized Iterator<ExternalGraphicFactory> getExternalGraphicFactories() {
         return getExternalGraphicFactories(null);
     }
-    
+
     /**
      * Finds all implementations of {@link ExternalGraphicFactory} which have
      * registered using the services mechanism.
-     * 
-     * @param  hints An optional map of hints for factory configfuration, or {@code null} if none.
+     *
+     * @param hints An optional map of hints for factory configfuration, or {@code null} if none.
      * @return An iterator over all registered ExternalGraphicFactory
      */
     public static synchronized Iterator<ExternalGraphicFactory> getExternalGraphicFactories(Hints hints) {
-        return getServiceRegistry().getFactories(ExternalGraphicFactory.class, null, hints).iterator();
+        return getServiceRegistry().getFactories(ExternalGraphicFactory.class, null, hints)
+                .iterator();
     }
 
     /**
@@ -107,8 +108,8 @@ public final class DynamicSymbolFactoryFinder {
     private static FactoryRegistry getServiceRegistry() {
         assert Thread.holdsLock(DynamicSymbolFactoryFinder.class);
         if (registry == null) {
-            registry = new FactoryCreator(Arrays.asList(new Class<?>[] { MarkFactory.class,
-                    ExternalGraphicFactory.class }));
+            registry = new FactoryCreator(Arrays.asList(new Class<?>[]{MarkFactory.class,
+                    ExternalGraphicFactory.class}));
         }
         return registry;
     }

@@ -21,9 +21,8 @@ import org.geotools.jdbc.JDBCEmptyGeometryOnlineTest;
 import org.geotools.jdbc.JDBCEmptyGeometryTestSetup;
 
 /**
- * 
- *
- * @source $URL: http://svn.osgeo.org/geotools/trunk/modules/plugin/jdbc/jdbc-postgis/src/test/java/org/geotools/data/postgis/PostGISEmptyGeometryTest.java $
+ * @source $URL: http://svn.osgeo.org/geotools/trunk/modules/plugin/jdbc/jdbc-postgis/src/test
+ * /java/org/geotools/data/postgis/PostGISEmptyGeometryTest.java $
  */
 public class PostGISEmptyGeometryOnlineTest extends JDBCEmptyGeometryOnlineTest {
 

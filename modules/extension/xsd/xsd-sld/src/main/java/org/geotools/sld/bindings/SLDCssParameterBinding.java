@@ -34,9 +34,9 @@ import org.picocontainer.MutablePicoContainer;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:CssParameter.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="CssParameter"&gt;
  *      &lt;xsd:annotation&gt;
@@ -60,9 +60,6 @@ import org.picocontainer.MutablePicoContainer;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDCssParameterBinding extends AbstractComplexBinding {
@@ -115,11 +112,11 @@ public class SLDCssParameterBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        
+            throws Exception {
+
         CssParameter parameter = new CssParameter((String) node.getAttributeValue("name"));
-        parameter.setExpression((Expression)value);
-        
+        parameter.setExpression((Expression) value);
+
         return parameter;
     }
 }

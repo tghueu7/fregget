@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2007 Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.feature.type;
@@ -27,8 +27,6 @@ import org.opengis.feature.Attribute;
  *
  * @author Jody Garnett, Refractions Research
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
  * @source $URL$
  */
 public interface AttributeType extends PropertyType {
@@ -42,7 +40,6 @@ public interface AttributeType extends PropertyType {
      * </p>
      *
      * @return <code>true</code> if the attribute is identified, otherwise <code>false</code>.
-     *
      * @see Attribute#getID()
      */
     boolean isIdentified();

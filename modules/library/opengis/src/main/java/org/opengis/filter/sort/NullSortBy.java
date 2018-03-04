@@ -4,13 +4,14 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.filter.sort;
 
 import java.io.ObjectStreamException;
 import java.io.Serializable;
+
 import org.opengis.filter.expression.PropertyName;
 
 
@@ -19,7 +20,6 @@ import org.opengis.filter.expression.PropertyName;
  *
  * @author Jody Garnett (Refractions Research)
  * @author Martin Desruisseaux (Geomatys)
- *
  * @source $URL$
  */
 final class NullSortBy implements SortBy, Serializable {
@@ -77,7 +77,7 @@ final class NullSortBy implements SortBy, Serializable {
      * Returns a single instance after deserialization.
      */
     private Object readResolve() throws ObjectStreamException {
-        if (order.equals(SortOrder.ASCENDING))  return SortBy.NATURAL_ORDER;
+        if (order.equals(SortOrder.ASCENDING)) return SortBy.NATURAL_ORDER;
         if (order.equals(SortOrder.DESCENDING)) return SortBy.REVERSE_ORDER;
         return this;
     }

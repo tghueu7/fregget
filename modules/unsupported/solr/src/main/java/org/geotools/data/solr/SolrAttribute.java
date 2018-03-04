@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2014, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -26,10 +26,9 @@ import java.io.Serializable;
  * field is multiValued as defined in SOLR schema <li>If the field has no data in SOLR store <li>The
  * native srid if the filed if a geometry type the geometry type and native srid (as in most
  * databases those informations are not available on.
- * 
+ *
  * @see {@link SolrUtils#decodeSolrFieldType}
  * @see {@link SolrDataStore#getSolrAttributes}
- * 
  */
 
 public class SolrAttribute implements Serializable {

@@ -38,9 +38,10 @@ import org.opengis.filter.expression.PropertyName;
 import com.vividsolutions.jts.geom.Geometry;
 
 /**
- * A {@link FootprintGeometryProvider} matching the current feature with the geometry of one feature in a GT data store. The filter must use property
+ * A {@link FootprintGeometryProvider} matching the current feature with the geometry of one 
+ * feature in a GT data store. The filter must use property
  * names like "granule/attname" to refer to the current granule attributes, e.g. "granule/location"
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 class GTDataStoreFootprintProvider implements FootprintGeometryProvider {
@@ -54,7 +55,7 @@ class GTDataStoreFootprintProvider implements FootprintGeometryProvider {
     private DataStore store;
 
     public GTDataStoreFootprintProvider(Map<String, Serializable> params, String typeName,
-            Filter filter) throws IOException {
+                                        Filter filter) throws IOException {
         store = DataStoreFinder.getDataStore(params);
         if (store == null) {
             throw new IOException("Coould not create footprint data store from params: " + params);
@@ -101,8 +102,9 @@ class GTDataStoreFootprintProvider implements FootprintGeometryProvider {
     }
 
     /**
-     * Replaces all references to granule/attribute with the value of said attribute in the feature provided as a parameter
-     * 
+     * Replaces all references to granule/attribute with the value of said attribute in the 
+     * feature provided as a parameter
+     *
      * @author Andrea Aime - GeoSolutions
      */
     public class GranuleFilterVisitor extends DuplicatingFilterVisitor implements FilterVisitor {

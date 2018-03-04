@@ -76,23 +76,21 @@ import com.vividsolutions.jts.operation.valid.TopologyValidationError;
 
 /**
  * Provides access to the ArcSDEDataStore test data configuration.
- * 
- * @author Gabriel Roldan, Axios Engineering
- * 
  *
- * @source $URL$
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/test/java
- *         /org/geotools/arcsde/data/TestData.java $
+ * @author Gabriel Roldan, Axios Engineering
  * @version $Id$
+ * @source $URL$
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/test/java
+ * /org/geotools/arcsde/data/TestData.java $
  */
-@SuppressWarnings({ "nls", "unchecked" })
+@SuppressWarnings({"nls", "unchecked"})
 public class TestData {
 
     private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger(TestData.class
             .getPackage().getName());
 
-    public static final String[] TEST_TABLE_COLS = { "INT32_COL", "INT16_COL", "FLOAT32_COL",
-            "FLOAT64_COL", "STRING_COL", "NSTRING_COL", "DATE_COL", "SHAPE" };
+    public static final String[] TEST_TABLE_COLS = {"INT32_COL", "INT16_COL", "FLOAT32_COL",
+            "FLOAT64_COL", "STRING_COL", "NSTRING_COL", "DATE_COL", "SHAPE"};
 
     private SeColumnDefinition[] tempTableColumns;
 
@@ -110,7 +108,9 @@ public class TestData {
      */
     private String temp_table;
 
-    /** the configuration keyword to use when creating layers and tables */
+    /**
+     * the configuration keyword to use when creating layers and tables
+     */
     private String configKeyword;
 
     private ISessionPool _pool;
@@ -126,14 +126,13 @@ public class TestData {
      * Must be called from inside the test's setUp() method. Loads the test fixture from
      * <code>testparams.properties</code>, besides that, does not creates any connection nor any
      * other costly resource.
-     * 
-     * @throws IOException
-     *             if the test fixture can't be loaded
-     * @throws IllegalArgumentException
-     *             if some required parameter is not found on the test fixture
+     *
+     * @throws IOException              if the test fixture can't be loaded
+     * @throws IllegalArgumentException if some required parameter is not found on the test fixture
      */
     public void setUp() throws IOException {
-        if (ArcSDEDataStoreFactory.getSdeClientVersion() == ArcSDEDataStoreFactory.JSDE_VERSION_DUMMY) {
+        if (ArcSDEDataStoreFactory.getSdeClientVersion() == ArcSDEDataStoreFactory
+                .JSDE_VERSION_DUMMY) {
             throw new RuntimeException("Don't run the test-suite with the dummy jar.  "
                     + "Make sure the real ArcSDE jars are on your classpath.");
         }
@@ -190,7 +189,6 @@ public class TestData {
     /**
      * creates an ArcSDEDataStore using {@code test-data/testparams.properties} as holder of
      * datastore parameters
-     * 
      */
     public ArcSDEDataStore getDataStore() throws IOException {
         ISessionPool pool = newSessionPool();
@@ -213,8 +211,6 @@ public class TestData {
     }
 
     /**
-     * 
-     * 
      * @return Returns the conProps.
      */
     @SuppressWarnings("rawtypes")
@@ -288,9 +284,8 @@ public class TestData {
 
     /**
      * Gracefully deletes the temp table hiding any exception (no problem if it does not exist)
-     * 
-     * @param connPool
-     *            to get the connection to use in deleting {@link #getTempTableName()}
+     *
+     * @param connPool to get the connection to use in deleting {@link #getTempTableName()}
      * @throws UnavailableConnectionException
      */
     public void deleteTempTable(ISessionPool connPool) throws IOException,
@@ -299,7 +294,8 @@ public class TestData {
     }
 
     private static void deleteTable(final ISessionPool connPool, final String tableName,
-            final boolean ignoreFailure) throws IOException, UnavailableConnectionException {
+                                    final boolean ignoreFailure) throws IOException, 
+            UnavailableConnectionException {
 
         final Command<Void> deleteCmd = new Command<Void>() {
 
@@ -339,11 +335,9 @@ public class TestData {
     /**
      * Creates an ArcSDE feature type names as <code>getTemp_table()</code> on the underlying
      * database and if <code>insertTestData == true</code> also inserts some sample values.
-     * 
-     * @param insertTestData
-     *            wether to insert some sample rows or not
-     * @throws Exception
-     *             for any error
+     *
+     * @param insertTestData wether to insert some sample rows or not
+     * @throws Exception for any error
      */
     public void createTempTable(final boolean insertTestData) throws Exception {
         ISessionPool connPool = getConnectionPool();
@@ -370,7 +364,8 @@ public class TestData {
                 }
             });
 
-            tempTableColumns = createBaseTable(session, tempTable, tempTableLayer, configKeyword, false);
+            tempTableColumns = createBaseTable(session, tempTable, tempTableLayer, configKeyword,
+                    false);
 
             if (insertTestData) {
                 insertData(tempTableLayer, session, tempTableColumns);
@@ -386,9 +381,8 @@ public class TestData {
     /**
      * Creates an ArcSDE feature type names as <code>getTemp_table()</code> on the underlying
      * database with no sample values. Sets flag to set an empty extent
-     * 
-     * @throws Exception
-     *             for any error
+     *
+     * @throws Exception for any error
      */
     public void createTempTableEmptyExtent() throws Exception {
         ISessionPool connPool = getConnectionPool();
@@ -415,7 +409,8 @@ public class TestData {
                 }
             });
 
-            tempTableColumns = createBaseTable(session, tempTable, tempTableLayer, configKeyword, true);
+            tempTableColumns = createBaseTable(session, tempTable, tempTableLayer, configKeyword,
+                    true);
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
@@ -428,7 +423,7 @@ public class TestData {
      * Truncates the temp layer and populates it with fresh data. This method cannot be called if
      * {@link #createTempTable(boolean)} has not been called first, no matter if the table already
      * exists, it needs instance state initialized by createTempTable
-     * 
+     *
      * @throws Exception
      */
     public void insertTestData() throws Exception {
@@ -476,12 +471,13 @@ public class TestData {
     }
 
     /**
-     * 
-     * 
+     *
+     *
      */
     private static SeColumnDefinition[] createBaseTable(final ISession session,
-            final SeTable table, final SeLayer layer, final String configKeyword,
-            final boolean useEmptyExtent)
+                                                        final SeTable table, final SeLayer layer,
+                                                        final String configKeyword,
+                                                        final boolean useEmptyExtent)
             throws IOException {
 
         Command<SeColumnDefinition[]> createTableCmd = new Command<SeColumnDefinition[]>() {
@@ -571,12 +567,9 @@ public class TestData {
                 // 1000000.0);
                 SeExtent ext;
 
-                if(useEmptyExtent)
-                {
+                if (useEmptyExtent) {
                     ext = new SeExtent();
-                }
-                else
-                {
+                } else {
                     ext = coordref.getXYEnvelope();
                 }
                 layer.setExtent(ext);
@@ -613,16 +606,17 @@ public class TestData {
      * <li> <code>"MULTILINESTRING((-170 -80, 170 80), (-170 80, 170 -80))"</code>
      * <li> <code>POLYGON((-10 -10, -10 10, 10 10, 10 -10, -10 -10))</code>
      * <li>
-     * <code>MULTIPOLYGON( "MULTIPOLYGON( ((-1 -1, -1 1, 1 1, 1 -1, -1 -1)), ((-170 -80, -170 -70, -160 -70, -160 -80, -170 -80)) )" )</code>
+     * <code>MULTIPOLYGON( "MULTIPOLYGON( ((-1 -1, -1 1, 1 1, 1 -1, -1 -1)), ((-170 -80, -170 
+     * -70, -160 -70, -160 -80, -170 -80)) )" )</code>
      * <li> <code>POINT EMPTY</code>
      * <li> <code>null</code>
      * </ul>
      * </li>
-     * 
+     *
      * @throws ParseException
      */
     private void insertData(final SeLayer layer, final ISession session,
-            final SeColumnDefinition[] colDefs) throws Exception {
+                            final SeColumnDefinition[] colDefs) throws Exception {
         WKTReader reader = new WKTReader();
         Geometry[] geoms = new Geometry[8];
         geoms[0] = reader.read("POINT(0 0)");
@@ -631,7 +625,8 @@ public class TestData {
         geoms[3] = reader.read("MULTILINESTRING((-170 -80, 170 80), (-170 80, 170 -80))");
         geoms[4] = reader.read("POLYGON((-10 -10, -10 10, 10 10, 10 -10, -10 -10))");
         geoms[5] = reader
-                .read("MULTIPOLYGON( ((-1 -1, -1 1, 1 1, 1 -1, -1 -1)), ((-170 -80, -170 -70, -160 -70, -160 -80, -170 -80)) )");
+                .read("MULTIPOLYGON( ((-1 -1, -1 1, 1 1, 1 -1, -1 -1)), ((-170 -80, -170 -70, " +
+                        "-160 -70, -160 -80, -170 -80)) )");
         geoms[6] = reader.read("POINT EMPTY");
         geoms[7] = null;
 
@@ -731,9 +726,9 @@ public class TestData {
      * <code>createTestData()</code> and returns it.
      * <p>
      * This schema is something like:
-     * 
+     * <p>
      * <pre>
-     * 
+     *
      * colDefs[0] &quot;INT32_COL&quot;, SeColumnDefinition.TYPE_INTEGER, 10, 0, true colDefs[1] =
      * &quot;INT16_COL&quot;, SeColumnDefinition.TYPE_SMALLINT, 4, 0, true colDefs[2] =
      * &quot;FLOAT32_COL&quot;, SeColumnDefinition.TYPE_FLOAT, 5, 2, true colDefs[3] =
@@ -742,23 +737,21 @@ public class TestData {
      * &quot;NSTRING_COL&quot;, SeColumnDefinition.TYPE_NSTRING, 25, 0, true colDefs[6] =
      * &quot;DATE_COL&quot;, SeColumnDefinition.TYPE_DATE, 1, 0, true colDefs[7] =
      * &quot;SHAPE&quot;, Geometry, 1, 0, true
-     * 
+     *
      * </pre>
-     * 
+     * <p>
      * </p>
-     * 
-     * @param jtsGeomType
-     *            class of JTS geometry to create
-     * @param numFeatures
-     *            number of features to create.
-     * @throws IOException
-     *             if the schema for te test table cannot be fetched from the database.
+     *
+     * @param jtsGeomType class of JTS geometry to create
+     * @param numFeatures number of features to create.
+     * @throws IOException if the schema for te test table cannot be fetched from the database.
      * @throws SeException
      */
     public SimpleFeatureCollection createTestFeatures(Class<? extends Geometry> jtsGeomType,
-            int numFeatures) throws IOException, SeException {
+                                                      int numFeatures) throws IOException, 
+            SeException {
         SimpleFeatureType type = getDataStore().getSchema(getTempTableName());
-        ListFeatureCollection col = new ListFeatureCollection( type );
+        ListFeatureCollection col = new ListFeatureCollection(type);
         Object[] values = new Object[type.getAttributeCount()];
 
         for (int i = 0; i < numFeatures; i++) {
@@ -828,37 +821,37 @@ public class TestData {
     }
 
     private static MultiPoint createTestMultiPoint(GeometryFactory gf, int index) {
-        Coordinate[] coords = { new Coordinate(index, index), new Coordinate(-index, -index) };
+        Coordinate[] coords = {new Coordinate(index, index), new Coordinate(-index, -index)};
 
         return gf.createMultiPoint(coords);
     }
 
     private static LineString createTestLineString(final GeometryFactory gf, final int index) {
-        Coordinate[] coords = { new Coordinate(0, 0), new Coordinate(1 + index, -index) };
+        Coordinate[] coords = {new Coordinate(0, 0), new Coordinate(1 + index, -index)};
 
         return gf.createLineString(coords);
     }
 
     private static MultiLineString createTestMultiLineString(final GeometryFactory gf,
-            final int index) {
-        Coordinate[] coords1 = { new Coordinate(0, 0), new Coordinate(1 + index, 1 + index) };
-        Coordinate[] coords2 = { new Coordinate(0, index), new Coordinate(index + 1, 0) };
-        LineString[] lines = { gf.createLineString(coords1), gf.createLineString(coords2) };
+                                                             final int index) {
+        Coordinate[] coords1 = {new Coordinate(0, 0), new Coordinate(1 + index, 1 + index)};
+        Coordinate[] coords2 = {new Coordinate(0, index), new Coordinate(index + 1, 0)};
+        LineString[] lines = {gf.createLineString(coords1), gf.createLineString(coords2)};
 
         return gf.createMultiLineString(lines);
     }
 
     private static Polygon createTestPolygon(GeometryFactory gf, int index) {
-        Coordinate[] coords = { new Coordinate(index, index), new Coordinate(index, index + 1),
+        Coordinate[] coords = {new Coordinate(index, index), new Coordinate(index, index + 1),
                 new Coordinate(index + 1, index + 1), new Coordinate(index + 1, index),
-                new Coordinate(index, index) };
+                new Coordinate(index, index)};
         LinearRing shell = gf.createLinearRing(coords);
 
         return gf.createPolygon(shell, null);
     }
 
     private static MultiPolygon createTestMultiPolygon(GeometryFactory gf, int index) {
-        Polygon[] polys = { createTestPolygon(gf, index), createTestPolygon(gf, 1 + index) };
+        Polygon[] polys = {createTestPolygon(gf, index), createTestPolygon(gf, 1 + index)};
 
         MultiPolygon mp = gf.createMultiPolygon(polys);
         // System.out.println(mp);
@@ -945,8 +938,9 @@ public class TestData {
      * Creates and registers a table, optionally creating a layer for it
      */
     public void createTestTable(final ISession session, final String tableName,
-            final String rowIdColName, final int rowIdColumnType, final boolean createLayer,
-            final int shapeTypeMask) throws IOException {
+                                final String rowIdColName, final int rowIdColumnType, final 
+                                boolean createLayer,
+                                final int shapeTypeMask) throws IOException {
 
         LOGGER.fine("Creating layer " + tableName);
 
@@ -1069,14 +1063,14 @@ public class TestData {
 
     /**
      * Creates an ArcSDE version named {@code versionName} if it doesn't already exist
-     * 
+     *
      * @param session
      * @param versionName
      * @param parentVersion
      * @throws IOException
      */
     public void createVersion(final ISession session, final String versionName,
-            final String parentVersionName) throws IOException {
+                              final String parentVersionName) throws IOException {
 
         session.issue(new Command<Void>() {
 
@@ -1148,10 +1142,9 @@ public class TestData {
 
     /**
      * Creates a versioned table with a name column and a point SHAPE column
-     * 
+     *
      * @return the versioned table created
-     * @throws Exception
-     *             any exception thrown by sde
+     * @throws Exception any exception thrown by sde
      */
     public SeTable createVersionedTable(final ISession session) throws Exception {
 
@@ -1239,7 +1232,8 @@ public class TestData {
     }
 
     public void insertIntoVersionedTable(final ISession session, final SeState state,
-            final String tableName, final String nameField) throws IOException {
+                                         final String tableName, final String nameField) throws 
+            IOException {
 
         session.issue(new Command<Void>() {
 
@@ -1250,7 +1244,7 @@ public class TestData {
                 SeObjectId differencesId = new SeObjectId(SeState.SE_NULL_STATE_ID);
                 insert.setState(state.getId(), differencesId, SeState.SE_STATE_DIFF_NOCHECK);
 
-                insert.intoTable(tableName, new String[] { "NAME" });
+                insert.intoTable(tableName, new String[]{"NAME"});
                 SeRow row = insert.getRowToSet();
                 row.setString(0, "NAME 1");
                 insert.execute();

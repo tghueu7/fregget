@@ -17,13 +17,12 @@
 package org.geotools.sld.bindings;
 
 import java.awt.Color;
+
 import org.geotools.filter.Filters;
 import org.geotools.styling.Mark;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SLDMarkBindingTest extends SLDTestSupport {

@@ -30,12 +30,12 @@ import static org.geotools.processing.jai.ClassBreaksDescriptor.*;
 /**
  * RIF for the ClassBreaks operation.
  * <p>
- *  This factory ends up creating on of the following operations based on the "method" parameter.
- *  <ul>
- *      <li>{@link EqualIntervalBreaksOpImage}</li>
- *      <li>{@link QuantileBreaksOpImage}</li>
- *      <li>{@link NaturalBreaksOpImage}</li>
- *  </ul>
+ * This factory ends up creating on of the following operations based on the "method" parameter.
+ * <ul>
+ * <li>{@link EqualIntervalBreaksOpImage}</li>
+ * <li>{@link QuantileBreaksOpImage}</li>
+ * <li>{@link NaturalBreaksOpImage}</li>
+ * </ul>
  * </p>
  */
 public class ClassBreaksRIF implements RenderedImageFactory {
@@ -49,26 +49,26 @@ public class ClassBreaksRIF implements RenderedImageFactory {
         Integer numBins = pb.getIntParameter(NUM_CLASSES_ARG);
         ClassificationMethod method = (ClassificationMethod) pb.getObjectParameter(METHOD_ARG);
         Double[][] extrema = (Double[][]) pb.getObjectParameter(EXTREMA_ARG);
-        ROI roi = (ROI)pb.getObjectParameter(ROI_ARG);
+        ROI roi = (ROI) pb.getObjectParameter(ROI_ARG);
         Integer[] bands = (Integer[]) pb.getObjectParameter(BAND_ARG);
         Integer xPeriod = pb.getIntParameter(X_PERIOD_ARG);
         Integer yPeriod = pb.getIntParameter(Y_PERIOD_ARG);
         Double noData = (Double) pb.getObjectParameter(NODATA_ARG);
 
-        switch(method) {
+        switch (method) {
             case EQUAL_INTERVAL:
-                return new EqualIntervalBreaksOpImage(src, numBins, extrema, roi, bands, xStart, 
-                    yStart, xPeriod, yPeriod, noData);
+                return new EqualIntervalBreaksOpImage(src, numBins, extrema, roi, bands, xStart,
+                        yStart, xPeriod, yPeriod, noData);
             case QUANTILE:
-                return new QuantileBreaksOpImage(src, numBins, extrema, roi, bands, xStart, yStart, 
-                    xPeriod, yPeriod, noData);
+                return new QuantileBreaksOpImage(src, numBins, extrema, roi, bands, xStart, yStart,
+                        xPeriod, yPeriod, noData);
             case NATURAL_BREAKS:
-                return new NaturalBreaksOpImage(src, numBins, extrema, roi, bands, xStart, yStart, 
-                    xPeriod, yPeriod, noData);
+                return new NaturalBreaksOpImage(src, numBins, extrema, roi, bands, xStart, yStart,
+                        xPeriod, yPeriod, noData);
             default:
                 throw new IllegalArgumentException(method.name());
         }
-        
+
     }
 
 }

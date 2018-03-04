@@ -20,8 +20,6 @@ import org.geotools.jdbc.JDBCDataStoreAPITestSetup;
 import org.geotools.jdbc.JDBCSpatialFiltersOnlineTest;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class MySQLSpatialFiltersOnlineTest extends JDBCSpatialFiltersOnlineTest {
@@ -38,10 +36,12 @@ public class MySQLSpatialFiltersOnlineTest extends JDBCSpatialFiltersOnlineTest 
 
         if (dialect instanceof MySQLDialect) {
             org.geotools.util.logging.Logging.getLogger("org.geotools.data.jdbc").info(
-                    "MySQLDialect enhanced spatial support is:" + ((MySQLDialect) dialect).getUsePreciseSpatialOps());
+                    "MySQLDialect enhanced spatial support is:" + ((MySQLDialect) dialect)
+                            .getUsePreciseSpatialOps());
         } else if (dialect instanceof MySQLDialectBasic) {
             org.geotools.util.logging.Logging.getLogger("org.geotools.data.jdbc").info(
-                    "MySQLDialectBasic enhanced spatial support is:" + ((MySQLDialectBasic) dialect).getUsePreciseSpatialOps());
+                    "MySQLDialectBasic enhanced spatial support is:" + ((MySQLDialectBasic) 
+                            dialect).getUsePreciseSpatialOps());
         }
     }
 
@@ -54,12 +54,12 @@ public class MySQLSpatialFiltersOnlineTest extends JDBCSpatialFiltersOnlineTest 
     public void testBboxFilter() throws Exception {
         //super.testBboxFilter();
     }
-    
+
     @Override
     public void testBboxFilterDefault() throws Exception {
         //super.testBboxFilterDefault();
     }
-    
+
     @Override
     public void testCrossesFilter() throws Exception {
         //super.testCrossesFilter();

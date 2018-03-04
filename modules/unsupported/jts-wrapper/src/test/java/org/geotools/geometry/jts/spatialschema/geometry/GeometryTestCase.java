@@ -3,7 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -13,7 +13,7 @@
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
- */ 
+ */
 package org.geotools.geometry.jts.spatialschema.geometry;
 
 
@@ -30,17 +30,13 @@ import java.util.ArrayList;
  * that is wrapped with the "case" tags. It contains two
  * geometry objects and then one or more tests to apply
  * to those geometries.
- * 
+ *
  * @author Jody Garnett
  * @author Joel Skelton
- *
- *
- *
- *
  * @source $URL$
  */
 public class GeometryTestCase {
-    
+
     private static final Log LOG = LogFactory.getLog(GeometryTestCase.class);
     private List operationList;
     private Geometry geomA;
@@ -54,11 +50,12 @@ public class GeometryTestCase {
         this.operationList = new ArrayList();
         this.geomA = null;
         this.geomB = null;
-        description = "No description";        
+        description = "No description";
     }
 
     /**
      * Sets the geometry specified by the A tag
+     *
      * @param a
      */
     public void setGeometryA(Geometry a) {
@@ -67,6 +64,7 @@ public class GeometryTestCase {
 
     /**
      * Sets the geometry specified by the b tag
+     *
      * @param b
      */
     public void setGeometryB(Geometry b) {
@@ -76,6 +74,7 @@ public class GeometryTestCase {
     /**
      * Adds in a test operation that will be run on the given
      * A and B geometries.
+     *
      * @param op
      */
     public void addTestOperation(GeometryTestOperation op) {
@@ -85,6 +84,7 @@ public class GeometryTestCase {
     /**
      * Sets the description text string for this test case. The
      * description is used for logging results.
+     *
      * @param desc
      */
     public void setDescription(String desc) {
@@ -93,12 +93,13 @@ public class GeometryTestCase {
 
     /**
      * Run any test operations stored for this test case
+     *
      * @return
      */
     public boolean runTestCases() {
         boolean result = true;
         LOG.info("Running test:" + description);
-        for (Iterator i = operationList.iterator(); i.hasNext();) {
+        for (Iterator i = operationList.iterator(); i.hasNext(); ) {
             GeometryTestOperation op = (GeometryTestOperation) i.next();
             LOG.info("Running test case:" + op);
             if (!op.run(geomA, geomB)) {

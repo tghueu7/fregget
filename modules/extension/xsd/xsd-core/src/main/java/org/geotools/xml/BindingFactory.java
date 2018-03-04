@@ -25,11 +25,8 @@ import javax.xml.namespace.QName;
  * An instance of this factory is placed in the context and available to
  * bindings via constructor injection.
  * </p>
+ *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
- *
  * @source $URL$
  */
 public interface BindingFactory {
@@ -45,7 +42,6 @@ public interface BindingFactory {
      * </p>
      *
      * @param name The qualified name of a schema type, element, or attribute.
-     *
      * @return The binding for <code>name</code>, or <code>null</code>.
      */
     Binding createBinding(QName name);

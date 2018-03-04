@@ -29,12 +29,11 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  * Construct a WMTS getTile request.
- *
+ * <p>
  * (Based on existing work by rgould for WMS service)
- * 
+ *
  * @author ian
  * @author Emanuele Tajariol (etj at geo-solutions dot it)
- *
  */
 public interface GetTileRequest extends Request {
 
@@ -54,6 +53,8 @@ public interface GetTileRequest extends Request {
 
     void setCRS(CoordinateReferenceSystem coordinateReferenceSystem);
 
-    /** HTTP headers required for some WMTS **/
+    /**
+     * HTTP headers required for some WMTS
+     **/
     Map<String, String> getHeaders();
 }

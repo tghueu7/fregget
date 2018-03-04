@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -30,15 +30,16 @@ import org.codehaus.plexus.util.FileUtils;
 
 
 // Note: javadoc in class and fields descriptions must be XHTML.
+
 /**
  * Copies <code>.jar</code> files in a single directory. Dependencies are copied as well,
  * except if already presents.
  *
+ * @author Martin Desruisseaux
+ * @version $Id$
  * @goal collect
  * @phase package
  * @source $URL$
- * @version $Id$
- * @author Martin Desruisseaux
  */
 public class JarCollector extends AbstractMojo {
     /**
@@ -140,15 +141,14 @@ public class JarCollector extends AbstractMojo {
             }
         }
         FileUtils.copyFileToDirectory(jarFile, collect);
-		Set<Artifact> dependencies = project.getDependencyArtifacts();
+        Set<Artifact> dependencies = project.getDependencyArtifacts();
         if (dependencies != null) {
             for (final Artifact artifact : dependencies) {
-				System.out.println("+++++++++++++++++++++++ DEP: " + artifact.getDependencyTrail());
+                System.out.println("+++++++++++++++++++++++ DEP: " + artifact.getDependencyTrail());
                 final String scope = artifact.getScope();
                 if (scope != null &&  // Maven 2.0.6 bug?
-                   (scope.equalsIgnoreCase(Artifact.SCOPE_COMPILE) ||
-                    scope.equalsIgnoreCase(Artifact.SCOPE_RUNTIME)))
-                {
+                        (scope.equalsIgnoreCase(Artifact.SCOPE_COMPILE) ||
+                                scope.equalsIgnoreCase(Artifact.SCOPE_RUNTIME))) {
                     final File file = artifact.getFile();
                     if (!artifact.getGroupId().startsWith("org.geotools")) {
                         final File copy = new File(collect, file.getName());

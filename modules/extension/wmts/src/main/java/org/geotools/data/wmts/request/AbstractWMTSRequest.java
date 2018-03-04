@@ -23,9 +23,8 @@ import java.util.Properties;
 import org.geotools.data.ows.AbstractRequest;
 
 /**
- *
  * (Based on existing work by rgould for WMS service)
- * 
+ *
  * @author ian
  * @author Emanuele Tajariol (etj at geo-solutions dot it)
  */

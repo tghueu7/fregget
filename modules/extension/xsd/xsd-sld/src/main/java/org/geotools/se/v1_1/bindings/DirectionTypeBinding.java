@@ -23,9 +23,9 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the type http://www.opengis.net/se:directionType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:simpleType name="directionType"&gt;
@@ -33,16 +33,14 @@ import javax.xml.namespace.QName;
  *          &lt;xsd:enumeration value="toUpper"/&gt;
  *          &lt;xsd:enumeration value="toLower"/&gt;
  *      &lt;/xsd:restriction&gt;
- *  &lt;/xsd:simpleType&gt; 
- * 	
+ *  &lt;/xsd:simpleType&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class DirectionTypeBinding extends AbstractSimpleBinding {
@@ -56,7 +54,7 @@ public class DirectionTypeBinding extends AbstractSimpleBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -65,13 +63,14 @@ public class DirectionTypeBinding extends AbstractSimpleBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value) throws Exception {
         String val = (String) value;
         if (!"toUpper".equalsIgnoreCase(val) && !"toLower".equalsIgnoreCase(val)) {
-            throw new IllegalStateException(val + " not supported, must be one of 'toUpper', 'toLower'");
+            throw new IllegalStateException(val + " not supported, must be one of 'toUpper', " +
+                    "'toLower'");
         }
         return val;
     }

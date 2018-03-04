@@ -9,7 +9,6 @@ import org.geotools.jdbc.JDBCUuidOnlineTest;
 import org.geotools.jdbc.JDBCUuidTestSetup;
 
 /**
- *
  * @author kbyte
  */
 public class PostGISUuidOnlineTest extends JDBCUuidOnlineTest {

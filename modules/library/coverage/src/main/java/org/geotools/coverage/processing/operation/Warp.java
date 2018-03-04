@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2006-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -39,16 +39,17 @@ import org.opengis.util.InternationalString;
 /**
  * This operation is simply a wrapper for the JAI Warp operation
  *
- * @source $URL$
- * @version $Id$
  * @author Simone Giannecchini
- * @since 9.0
- * 
+ * @version $Id$
+ * @source $URL$
  * @see WarpDescriptor
+ * @since 9.0
  */
 public class Warp extends BaseScaleOperationJAI {
 
-    /** serialVersionUID */
+    /**
+     * serialVersionUID
+     */
     private static final long serialVersionUID = -9077795909705065389L;
 
     /**
@@ -58,14 +59,16 @@ public class Warp extends BaseScaleOperationJAI {
         super(WARP);
     }
 
-    protected void handleJAIEXTParams(ParameterBlockJAI parameters, ParameterValueGroup parameters2) {
+    protected void handleJAIEXTParams(ParameterBlockJAI parameters, ParameterValueGroup 
+            parameters2) {
         GridCoverage2D source = (GridCoverage2D) parameters2.parameter("source0").getValue();
         handleROINoDataInternal(parameters, source, WARP, 3, 4);
     }
 
     protected Map<String, ?> getProperties(RenderedImage data, CoordinateReferenceSystem crs,
-            InternationalString name, MathTransform gridToCRS, GridCoverage2D[] sources,
-            Parameters parameters) {
+                                           InternationalString name, MathTransform gridToCRS, 
+                                           GridCoverage2D[] sources,
+                                           Parameters parameters) {
         Map props = sources[PRIMARY_SOURCE_INDEX].getProperties();
 
         Map properties = new HashMap<>();
@@ -81,7 +84,8 @@ public class Warp extends BaseScaleOperationJAI {
         }
 
         // Setting ROI if present
-        PropertyGenerator propertyGenerator = getOperationDescriptor(WARP).getPropertyGenerators(RenderedRegistryMode.MODE_NAME)[0];
+        PropertyGenerator propertyGenerator = getOperationDescriptor(WARP).getPropertyGenerators
+                (RenderedRegistryMode.MODE_NAME)[0];
         Object roiProp = propertyGenerator.getProperty(ROI, data);
         if (roiProp != null && roiProp instanceof ROI) {
             CoverageUtilities.setROIProperty(properties, (ROI) roiProp);

@@ -52,14 +52,20 @@ import com.vividsolutions.jts.geom.Geometry;
  * Provides statistics for the distribution of a certain quantity in a set of reference areas.
  * The data layer must be a point layer, the reference layer must be a polygonal one
  */
-@DescribeProcess(title = "Vector Zonal Statistics", description = "Computes statistics for the distribution of a given attribute in a set of polygonal zones.  Input must be points.")
+@DescribeProcess(title = "Vector Zonal Statistics", description = "Computes statistics for the " +
+        "distribution of a given attribute in a set of polygonal zones.  Input must be points.")
 public class VectorZonalStatistics implements VectorProcess {
 
-    @DescribeResult(name = "statistics", description = "A feature collection with the attributes of the zone layer (prefixed by 'z_') and the statistics fields count,min,max,sum,avg,stddev")
+    @DescribeResult(name = "statistics", description = "A feature collection with the attributes " +
+            "of the zone layer (prefixed by 'z_') and the statistics fields count,min,max,sum," +
+            "avg,stddev")
     public SimpleFeatureCollection execute(
-            @DescribeParameter(name = "data", description = "Input collection of point features") SimpleFeatureCollection data,
-            @DescribeParameter(name = "dataAttribute", description = "Attribute to use for computing statistics") String dataAttribute,
-            @DescribeParameter(name = "zones", description = "Zone polygon features for which to compute statistics") SimpleFeatureCollection zones) {
+            @DescribeParameter(name = "data", description = "Input collection of point features")
+                    SimpleFeatureCollection data,
+            @DescribeParameter(name = "dataAttribute", description = "Attribute to use for " +
+                    "computing statistics") String dataAttribute,
+            @DescribeParameter(name = "zones", description = "Zone polygon features for which to " +
+                    "compute statistics") SimpleFeatureCollection zones) {
 
         AttributeDescriptor dataDescriptor = data.getSchema().getDescriptor(dataAttribute);
         if (dataDescriptor == null) {
@@ -72,6 +78,7 @@ public class VectorZonalStatistics implements VectorProcess {
 
     /**
      * A feature collection that computes zonal statitics in a streaming fashion
+     *
      * @author Andrea Aime - OpenGeo
      */
     static class ZonalStatisticsCollection extends DecoratingSimpleFeatureCollection {
@@ -82,7 +89,7 @@ public class VectorZonalStatistics implements VectorProcess {
         SimpleFeatureType targetSchema;
 
         public ZonalStatisticsCollection(SimpleFeatureCollection data, String dataAttribute,
-                SimpleFeatureCollection zones) {
+                                         SimpleFeatureCollection zones) {
             super(zones);
             this.dataAttribute = dataAttribute;
             this.data = data;
@@ -149,7 +156,8 @@ public class VectorZonalStatistics implements VectorProcess {
         String dataGeomName;
 
         public ZonalStatisticsIterator(SimpleFeatureIterator zones, String dataAttribute,
-                SimpleFeatureCollection data, SimpleFeatureType targetSchema) {
+                                       SimpleFeatureCollection data, SimpleFeatureType 
+                                               targetSchema) {
             this.zones = zones;
             this.dataAttribute = dataAttribute;
             this.data = data;
@@ -188,7 +196,7 @@ public class VectorZonalStatistics implements VectorProcess {
 
                 // build the resulting feature
                 builder.addAll(zone.getAttributes());
-                if(stats != null) {
+                if (stats != null) {
                     builder.add(stats.getCount());
                     builder.add(stats.getMin());
                     builder.add(stats.getMax());

@@ -20,8 +20,6 @@ import java.util.Calendar;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class Envelope {

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -18,22 +18,21 @@ package org.geotools.temporal.object;
 
 import java.util.Calendar;
 import java.util.Date;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.opengis.temporal.Instant;
 import org.opengis.temporal.Position;
+
 import static org.junit.Assert.*;
+
 import org.opengis.temporal.RelativePosition;
 import org.opengis.temporal.TemporalPrimitive;
 
 
 /**
- *
  * @author Mehdi Sidhoum (Geomatys)
- *
- *
- *
  * @source $URL$
  */
 public class DefaultTemporalPrimitiveTest {
@@ -46,7 +45,7 @@ public class DefaultTemporalPrimitiveTest {
 
     @Before
     public void setUp() {
-        
+
         cal.set(1981, 6, 25);
         Date date = cal.getTime();
 
@@ -89,7 +88,8 @@ public class DefaultTemporalPrimitiveTest {
         //relative position between Period onbjects
         temporalPrimitive1 = new DefaultPeriod(new DefaultInstant(position1), instant1);
         cal.set(2200, 9, 1);
-        temporalPrimitive2 = new DefaultPeriod(instant2, new DefaultInstant(new DefaultPosition(cal.getTime())));
+        temporalPrimitive2 = new DefaultPeriod(instant2, new DefaultInstant(new DefaultPosition
+                (cal.getTime())));
         result = temporalPrimitive1.relativePosition(other);
         assertFalse(temporalPrimitive2.relativePosition(other).equals(result));
 

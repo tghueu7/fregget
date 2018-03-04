@@ -85,14 +85,12 @@ import com.vividsolutions.jts.geom.impl.CoordinateArraySequenceFactory;
  * Takes ownership of the provided {@link ISessionPool} so make sure to call {@link #dispose()} in
  * order to release resources (ArcSDE connections).
  * </p>
- * 
+ *
  * @author Gabriel Roldan (TOPP)
- *
- *
- * @source $URL$
- *         http://svn.geotools.org/geotools/trunk/gt/modules/unsupported/arcsde/datastore/src/main
- *         /java/org/geotools/arcsde/data/ArcSDEDataStore.java $
  * @version $Id$
+ * @source $URL$
+ * http://svn.geotools.org/geotools/trunk/gt/modules/unsupported/arcsde/datastore/src/main
+ * /java/org/geotools/arcsde/data/ArcSDEDataStore.java $
  */
 public class ArcSDEDataStore implements DataStore {
 
@@ -100,7 +98,7 @@ public class ArcSDEDataStore implements DataStore {
 
     /**
      * Default value for how often, in seconds, to update the feature type name cache.
-     * 
+     *
      * @see FeatureTypeInfoCache
      */
     private static final int DEFAULT_LAYER_NAMES_CACHE_UPDATE_FREQ_SECS = 60;
@@ -116,16 +114,15 @@ public class ArcSDEDataStore implements DataStore {
 
     /**
      * Name of the arcsde version to work upon
-     * 
+     *
      * @see #getVersionHandler(String, Transaction)
      */
     private String version;
 
     /**
      * Creates a new ArcSDE DataStore working over the given connection pool
-     * 
-     * @param connPool
-     *            pool of {@link Session} this datastore works upon.
+     *
+     * @param connPool pool of {@link Session} this datastore works upon.
      * @throws IOException
      */
     public ArcSDEDataStore(final ISessionPool connPool) throws IOException {
@@ -134,21 +131,23 @@ public class ArcSDEDataStore implements DataStore {
 
     /**
      * Creates a new ArcSDE DataStore working over the given connection pool
-     * 
-     * @param connPool
-     *            pool of {@link Session} this datastore works upon.
-     * @param namespaceUri
-     *            namespace URI for the {@link SimpleFeatureType}s, {@link AttributeType}s, and
-     *            {@link AttributeDescriptor}s created by this datastore. May be {@code null}.
-     * @param versionName
-     *            the name of the ArcSDE version to work upon, or {@code null} for the
-     *            {@link SeVersion#SE_QUALIFIED_DEFAULT_VERSION_NAME DEFAULT} version
-     * @param allowNonSpatialTables
-     *            whether ArcSDE registered, non-spatial tables are to be published
+     *
+     * @param connPool              pool of {@link Session} this datastore works upon.
+     * @param namespaceUri          namespace URI for the {@link SimpleFeatureType}s, 
+     * {@link AttributeType}s, and
+     *                              {@link AttributeDescriptor}s created by this datastore. May 
+     *                              be {@code null}.
+     * @param versionName           the name of the ArcSDE version to work upon, or {@code null} 
+     *                              for the
+     *                              {@link SeVersion#SE_QUALIFIED_DEFAULT_VERSION_NAME DEFAULT} 
+     *                              version
+     * @param allowNonSpatialTables whether ArcSDE registered, non-spatial tables are to be 
+     *                              published
      * @throws IOException
      */
     public ArcSDEDataStore(final ISessionPool connPool, final String namespaceUri,
-            final String versionName, final boolean allowNonSpatialTables) throws IOException {
+                           final String versionName, final boolean allowNonSpatialTables) throws 
+            IOException {
         this.connectionPool = connPool;
         this.version = versionName == null ? SeVersion.SE_QUALIFIED_DEFAULT_VERSION_NAME
                 : versionName;
@@ -162,7 +161,7 @@ public class ArcSDEDataStore implements DataStore {
      * The connection is held open until while the transaction is underway. A a Transaction.State is
      * registered for this SessionPool in order to hold the session.
      * </p>
-     * 
+     *
      * @param transaction
      * @return the session associated with the transaction
      */
@@ -205,7 +204,7 @@ public class ArcSDEDataStore implements DataStore {
      * <p>
      * The new arcsde table created will have an SDE managed column to be used as primary key.
      * <p>
-     * 
+     *
      * @see DataStore#createSchema(SimpleFeatureType)
      * @see #createSchema(SimpleFeatureType, Map)
      */
@@ -222,7 +221,7 @@ public class ArcSDEDataStore implements DataStore {
 
     /**
      * Obtains the schema for the given featuretype name.
-     * 
+     *
      * @see DataStore#getSchema(String)
      */
     public SimpleFeatureType getSchema(final String typeName) throws java.io.IOException {
@@ -233,13 +232,14 @@ public class ArcSDEDataStore implements DataStore {
 
     /**
      * List of type names; should be a list of all feature classes.
-     * 
+     *
      * @return the list of full qualified feature class names on the ArcSDE database this DataStore
-     *         works on. An ArcSDE full qualified class name is composed of three dot separated
-     *         strings: "DATABASE.USER.CLASSNAME", wich is usefull enough to use it as namespace
-     * @throws RuntimeException
-     *             if an exception occurs while retrieving the list of registeres feature classes on
-     *             the backend, or while obtaining the full qualified name of one of them
+     * works on. An ArcSDE full qualified class name is composed of three dot separated
+     * strings: "DATABASE.USER.CLASSNAME", wich is usefull enough to use it as namespace
+     * @throws RuntimeException if an exception occurs while retrieving the list of registeres 
+     * feature classes on
+     *                          the backend, or while obtaining the full qualified name of one of
+     *                          them
      */
     public String[] getTypeNames() throws IOException {
         List<String> layerNames = typeInfoCache.getTypeNames();
@@ -263,7 +263,7 @@ public class ArcSDEDataStore implements DataStore {
     /**
      * Disposes this ArcSDEDataStore, which means disposing its session pool and hence closing all
      * the SeConnection objects held.
-     * 
+     *
      * @see DataStore#dispose()
      */
     public void dispose() {
@@ -291,12 +291,14 @@ public class ArcSDEDataStore implements DataStore {
      * <li><code>transaction != null</code>
      * </ul>
      * </p>
-     * 
-     * @see DataStore#getFeatureReader(Query, Transaction)
+     *
      * @return {@link ArcSDEFeatureReader} aware of the transaction state
+     * @see DataStore#getFeatureReader(Query, Transaction)
      */
     public FeatureReader<SimpleFeatureType, SimpleFeature> getFeatureReader(final Query query,
-            final Transaction transaction) throws IOException {
+                                                                            final Transaction 
+                                                                                    transaction) 
+            throws IOException {
         assert query != null;
         assert query.getTypeName() != null;
         assert query.getFilter() != null;
@@ -308,7 +310,12 @@ public class ArcSDEDataStore implements DataStore {
     }
 
     public FeatureReader<SimpleFeatureType, SimpleFeature> getFeatureReader(final Query query,
-            final Transaction transaction, final SimpleFeatureType featureType) throws IOException {
+                                                                            final Transaction 
+                                                                                    transaction, 
+                                                                            final 
+                                                                            SimpleFeatureType 
+                                                                                    featureType) 
+            throws IOException {
         Filter filter = query.getFilter();
         if (filter == Filter.EXCLUDE || filter.equals(Filter.EXCLUDE)) {
             return new EmptyFeatureReader<SimpleFeatureType, SimpleFeature>(featureType);
@@ -338,17 +345,19 @@ public class ArcSDEDataStore implements DataStore {
      * Explicitly stating the connection to use allows for the feature reader to fetch the
      * differences (additions/modifications/deletions) made while a transaction is in progress.
      * </p>
-     * 
-     * @param query
-     *            the Query containing the request criteria
-     * @param session
-     *            the session to use to retrieve content.
+     *
+     * @param query   the Query containing the request criteria
+     * @param session the session to use to retrieve content.
      * @return
      * @throws IOException
      */
     private FeatureReader<SimpleFeatureType, SimpleFeature> getFeatureReader(final Query query,
-            final SimpleFeatureType targetSchema, final ISession session,
-            final ArcSdeVersionHandler versionHandler) throws IOException {
+                                                                             final 
+                                                                             SimpleFeatureType 
+                                                                                     targetSchema, final ISession session,
+                                                                             final 
+                                                                             ArcSdeVersionHandler
+                                                                                     versionHandler) throws IOException {
 
         final String typeName = query.getTypeName();
 
@@ -471,9 +480,9 @@ public class ArcSDEDataStore implements DataStore {
     }
 
     /**
-     * @see DataStore#getFeatureSource(String)
      * @return {@link FeatureSource} or {@link FeatureStore} depending on if the user has write
-     *         permissions over <code>typeName</code>
+     * permissions over <code>typeName</code>
+     * @see DataStore#getFeatureSource(String)
      */
     public SimpleFeatureSource getFeatureSource(final String typeName) throws IOException {
         final FeatureTypeInfo typeInfo = typeInfoCache.getFeatureTypeInfo(typeName);
@@ -489,10 +498,11 @@ public class ArcSDEDataStore implements DataStore {
     /**
      * Delegates to {@link #getFeatureWriter(String, Filter, Transaction) getFeatureWriter(typeName,
      * Filter.INCLUDE, transaction)}
-     * 
+     *
      * @see DataStore#getFeatureWriter(String, Transaction)
      */
-    public ArcSdeFeatureWriter getFeatureWriter(final String typeName, final Transaction transaction)
+    public ArcSdeFeatureWriter getFeatureWriter(final String typeName, final Transaction 
+            transaction)
             throws IOException {
         return getFeatureWriter(typeName, Filter.INCLUDE, transaction);
     }
@@ -526,7 +536,7 @@ public class ArcSDEDataStore implements DataStore {
      * @see DataStore#getFeatureWriter(String, Filter, Transaction)
      */
     public ArcSdeFeatureWriter getFeatureWriter(final String typeName, final Filter filter,
-            final Transaction transaction) throws IOException {
+                                                final Transaction transaction) throws IOException {
         final ArcSdeVersionHandler versionHandler = getVersionHandler(typeName, transaction);
         // get the connection the streamed writer content has to work over
         // so the reader and writer share it
@@ -591,11 +601,12 @@ public class ArcSDEDataStore implements DataStore {
     /**
      * Delegates to {@link #getFeatureWriter(String, Filter, Transaction) getFeatureWriter(typeName,
      * Filter.EXCLUDE, transaction)}
-     * 
+     *
      * @see DataStore#getFeatureWriterAppend(String, Transaction)
      */
     public ArcSdeFeatureWriter getFeatureWriterAppend(final String typeName,
-            final Transaction transaction) throws IOException {
+                                                      final Transaction transaction) throws 
+            IOException {
         return getFeatureWriter(typeName, Filter.EXCLUDE, transaction);
     }
 
@@ -609,7 +620,7 @@ public class ArcSDEDataStore implements DataStore {
 
     /**
      * This operation is not supported at this version of the GeoTools ArcSDE plugin.
-     * 
+     *
      * @see DataStore#updateSchema(String, SimpleFeatureType)
      */
     public void updateSchema(final String typeName, final SimpleFeatureType featureType)
@@ -619,9 +630,9 @@ public class ArcSDEDataStore implements DataStore {
 
     /**
      * Delegates to {@link #getFeatureSource(String)} with {@code name.getLocalPart()}
-     * 
-     * @since 2.5
+     *
      * @see DataAccess#getFeatureSource(Name)
+     * @since 2.5
      */
     public SimpleFeatureSource getFeatureSource(Name typeName) throws IOException {
         return getFeatureSource(typeName.getLocalPart());
@@ -630,9 +641,9 @@ public class ArcSDEDataStore implements DataStore {
     /**
      * Returns the same list of names than {@link #getTypeNames()} meaning the returned Names have
      * no namespace set.
-     * 
-     * @since 2.5
+     *
      * @see DataAccess#getNames()
+     * @since 2.5
      */
     public List<Name> getNames() throws IOException {
         return typeInfoCache.getNames();
@@ -640,9 +651,9 @@ public class ArcSDEDataStore implements DataStore {
 
     /**
      * Delegates to {@link #getSchema(String)} with {@code name.getLocalPart()}
-     * 
-     * @since 2.5
+     *
      * @see DataAccess#getSchema(Name)
+     * @since 2.5
      */
     public SimpleFeatureType getSchema(Name name) throws IOException {
         return getSchema(name.getLocalPart());
@@ -651,9 +662,9 @@ public class ArcSDEDataStore implements DataStore {
     /**
      * Delegates to {@link #updateSchema(String, SimpleFeatureType)} with
      * {@code name.getLocalPart()}
-     * 
-     * @since 2.5
+     *
      * @see DataAccess#getFeatureSource(Name)
+     * @since 2.5
      */
     public void updateSchema(Name typeName, SimpleFeatureType featureType) throws IOException {
         updateSchema(typeName.getLocalPart(), featureType);
@@ -679,7 +690,7 @@ public class ArcSDEDataStore implements DataStore {
      * terms.</li>
      * </ul>
      * </p>
-     * 
+     *
      * @param featureType
      * @param hints
      * @throws IOException
@@ -688,7 +699,8 @@ public class ArcSDEDataStore implements DataStore {
     public void createSchema(final SimpleFeatureType featureType, final Map<String, String> hints)
             throws IOException, IllegalArgumentException {
 
-        if (featureType.getGeometryDescriptor() == null && !typeInfoCache.isAllowNonSpatialTables()) {
+        if (featureType.getGeometryDescriptor() == null && !typeInfoCache.isAllowNonSpatialTables
+                ()) {
             throw new DataSourceException("This DataStore does not allow FeatureTypes with no "
                     + "geometry attributes");
         }
@@ -710,7 +722,7 @@ public class ArcSDEDataStore implements DataStore {
      * <li>Top (as in SELECT TOP 10 * FROM...)
      * <li>Where
      * </ul>
-     * 
+     *
      * @param typeName
      * @param select
      * @throws IOException
@@ -762,10 +774,10 @@ public class ArcSDEDataStore implements DataStore {
      * <li>Having
      * <li>
      * </ul>
-     * 
+     *
      * @param select
-     * @throws UnsupportedOperationException
-     *             if any of the unsupported constructs are found on <code>select</code>
+     * @throws UnsupportedOperationException if any of the unsupported constructs are found on 
+     * <code>select</code>
      */
     private void verifyQueryIsSupported(PlainSelect select) throws UnsupportedOperationException {
         List<Object> errors = new LinkedList<Object>();
@@ -783,7 +795,7 @@ public class ArcSDEDataStore implements DataStore {
 
     /**
      * If construct is not null or an empty list, adds it to the list of errors.
-     * 
+     *
      * @param errors
      * @param construct
      */

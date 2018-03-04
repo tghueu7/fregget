@@ -26,8 +26,6 @@ import com.vividsolutions.jts.geom.Point;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GMLPointPropertyTypeBindingTest extends AbstractGMLBindingTest {
@@ -42,10 +40,12 @@ public class GMLPointPropertyTypeBindingTest extends AbstractGMLBindingTest {
     }
 
     public void testWithGeometry() throws Exception {
-        Node node = createNode(association, new ElementInstance[] { geometry },
-                new Object[] { new GeometryFactory().createPoint(new Coordinate(0, 0)) }, null, null);
-        GMLGeometryAssociationTypeBinding s = (GMLGeometryAssociationTypeBinding) getBinding(GML.GEOMETRYASSOCIATIONTYPE);
-        GMLPointPropertyTypeBinding s1 = (GMLPointPropertyTypeBinding) getBinding(GML.POINTPROPERTYTYPE);
+        Node node = createNode(association, new ElementInstance[]{geometry},
+                new Object[]{new GeometryFactory().createPoint(new Coordinate(0, 0))}, null, null);
+        GMLGeometryAssociationTypeBinding s = (GMLGeometryAssociationTypeBinding) getBinding(GML
+                .GEOMETRYASSOCIATIONTYPE);
+        GMLPointPropertyTypeBinding s1 = (GMLPointPropertyTypeBinding) getBinding(GML
+                .POINTPROPERTYTYPE);
         Point p = (Point) s1.parse(association, node, s.parse(association, node, null));
         assertNotNull(p);
     }

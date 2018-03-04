@@ -39,9 +39,8 @@ import org.opengis.filter.expression.Expression;
  *     &lt;/xsd:complexContent>
  *  &lt;/xsd:complexType>
  *  <pre>
- *  
- * @author Justin Deoliveira, OpenGeo
  *
+ * @author Justin Deoliveira, OpenGeo
  */
 public class BinaryComparisonOpTypeBinding extends AbstractComplexBinding {
 
@@ -54,7 +53,7 @@ public class BinaryComparisonOpTypeBinding extends AbstractComplexBinding {
     public Class getType() {
         return BinaryComparisonOperator.class;
     }
-    
+
     @Override
     public Object getProperty(Object object, QName name) throws Exception {
         BinaryComparisonOperator op = (BinaryComparisonOperator) object;

@@ -18,9 +18,11 @@ import org.opengis.style.SemanticType;
 public class MBFilterIntegrationTest {
 
     /**
-     * Create a style with three layers, each of them with a filter requiring a '$type' (or a list of them).
-     * 
-     * Assert that the transformed {@link FeatureTypeStyle}s have the correct derived {@link SemanticType}s.
+     * Create a style with three layers, each of them with a filter requiring a '$type' (or a 
+     * list of them).
+     * <p>
+     * Assert that the transformed {@link FeatureTypeStyle}s have the correct derived 
+     * {@link SemanticType}s.
      */
     @Test
     public void testSemanticTypes() throws IOException, ParseException {

@@ -34,7 +34,8 @@ import org.opengis.filter.capability.FunctionName;
 import org.opengis.filter.expression.Literal;
 
 /**
- * Provides local to thread and global thread-independent lookup tables of named variables allowing externally defined
+ * Provides local to thread and global thread-independent lookup tables of named variables 
+ * allowing externally defined
  * values to be access within a SLD document.
  * <p>
  * Example: in the application, prior to rendering...
@@ -86,14 +87,14 @@ import org.opengis.filter.expression.Literal;
  * FilterFactory ff = ...
  * ff.function("env", ff.literal("foo"), ff.literal(0));
  * </code></pre>
- *
+ * <p>
  * if the value for a key is null its possible to check it with <b>isNull</b>:
  * <pre><code>
  * EnvFunction.setGlobalValue("foo", null);
  * boolean isNull = ff.isNull(ff.function("env", ff.literal("foo"))).evaluate(null);
  * ...
  * </code></pre>
- * 
+ * <p>
  * and within SLD:
  * <pre>
  *     &lt;Filter>
@@ -104,22 +105,20 @@ import org.opengis.filter.expression.Literal;
  *       &lt;/PropertyIsNull>
  *     &lt;/Filter>
  * </pre>
- * 
+ * <p>
  * To verify if a key is available use <b>isNil</b>:
  * <pre><code>
  * // foo-not-set has never been set ..
  * boolean isNil = ff.isNil(ff.function("env", ff.literal("foo-not-set")), null).evaluate(null);
  * ...
  * </code></pre>
- * 
+ *
  * @author Andrea Aime
  * @author Michael Bedward
  * @author Frank Gasdorf
- * @since 2.6
- *
- *
- * @source $URL$
  * @version $Id $
+ * @source $URL$
+ * @since 2.6
  */
 public class EnvFunction extends FunctionExpressionImpl {
 
@@ -142,14 +141,17 @@ public class EnvFunction extends FunctionExpressionImpl {
         public Map<String, Object> getTable() {
             return super.get();
         }
-    };
+    }
+
+    ;
 
     private static final LocalLookup localLookup = new LocalLookup();
 
     /**
      * A global lookup table
      */
-    private static Map<String, Object> globalLookup = Collections.synchronizedMap(new HashMap<String, Object>());
+    private static Map<String, Object> globalLookup = Collections.synchronizedMap(new 
+            HashMap<String, Object>());
 
     //public static FunctionName NAME = new FunctionNameImpl("env","variable");
     public static FunctionName NAME = new FunctionNameImpl("env",
@@ -168,7 +170,7 @@ public class EnvFunction extends FunctionExpressionImpl {
      * set table. The input {@code Map} is copied.
      *
      * @param values the lookup table; if {@code null} the existing lookup
-     *        table will be cleared.
+     *               table will be cleared.
      */
     public static void setLocalValues(Map<String, Object> values) {
         Map<String, Object> table = localLookup.getTable();
@@ -194,7 +196,7 @@ public class EnvFunction extends FunctionExpressionImpl {
      * thread, replacing the previously set table. The input {@code Map} is copied.
      *
      * @param values the lookup table; if {@code null} the existing lookup
-     *        table will be cleared.
+     *               table will be cleared.
      */
     public static void setGlobalValues(Map<String, Object> values) {
         globalLookup.clear();
@@ -217,7 +219,7 @@ public class EnvFunction extends FunctionExpressionImpl {
      * Add a named value to the local (to this thread) lookup table. If the name is
      * already present in the table it will be assigned the new value.
      *
-     * @param name the name
+     * @param name  the name
      * @param value the value
      */
     public static void setLocalValue(String name, Object value) {
@@ -226,7 +228,8 @@ public class EnvFunction extends FunctionExpressionImpl {
 
     /**
      * Remove a named value from the local (to this thread) lookup table.
-     * @param name the name to remove from local lookup table 
+     *
+     * @param name the name to remove from local lookup table
      */
     public static void removeLocalValue(String name) {
         if (name != null) {
@@ -238,10 +241,9 @@ public class EnvFunction extends FunctionExpressionImpl {
      * Add a named value to the global (accessible from any thread) lookup table.
      * If the name is already present in the table it will be assigned the new value.
      * to remove values from global lookup table please use {@link #removeGlobalValue(String)}
-     * 
-     * @param name the name
+     *
+     * @param name  the name
      * @param value the value, <b>null</b> is an allowed value
-     * 
      */
     public static void setGlobalValue(String name, Object value) {
         globalLookup.put(name.toUpperCase(), value);
@@ -249,7 +251,8 @@ public class EnvFunction extends FunctionExpressionImpl {
 
     /**
      * Remove a named value from the global (accessible from any thread) lookup table.
-     * @param name the name to remove from global 
+     *
+     * @param name the name to remove from global
      */
     public static void removeGlobalValue(String name) {
         if (name != null) {
@@ -293,18 +296,18 @@ public class EnvFunction extends FunctionExpressionImpl {
      */
     @Override
     public void setParameters(List params) {
-        if(params == null){
+        if (params == null) {
             throw new NullPointerException("params can't be null");
         }
 
         final int argCount = NAME.getArgumentCount();
         final int paramsSize = params.size();
-        if(paramsSize < argCount || paramsSize > argCount + 1){
+        if (paramsSize < argCount || paramsSize > argCount + 1) {
             throw new IllegalArgumentException(
                     String.format("Function %s expected %d or %d arguments but got %d",
-                                  name, argCount, argCount+1, paramsSize));
+                            name, argCount, argCount + 1, paramsSize));
         }
-    	this.params = new ArrayList(params);
+        this.params = new ArrayList(params);
     }
 
     /**
@@ -319,8 +322,8 @@ public class EnvFunction extends FunctionExpressionImpl {
         Logger logger = Logger.getLogger(EnvFunction.class.getName());
         logger.log(Level.WARNING,
                 "The setFallbackValue is not supported by this function." +
-                "Use a second argument when calling the function to provide " +
-                "a default value.");
+                        "Use a second argument when calling the function to provide " +
+                        "a default value.");
     }
 
 }

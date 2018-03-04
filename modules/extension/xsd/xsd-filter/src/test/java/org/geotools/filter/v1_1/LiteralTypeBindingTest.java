@@ -21,8 +21,6 @@ import org.opengis.filter.expression.Literal;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class LiteralTypeBindingTest extends FilterTestSupport {

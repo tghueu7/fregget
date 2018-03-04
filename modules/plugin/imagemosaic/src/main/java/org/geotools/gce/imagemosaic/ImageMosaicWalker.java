@@ -43,22 +43,25 @@ import org.geotools.util.URLs;
 import org.geotools.util.Utilities;
 
 /**
- * This class is responsible for walking through the files inside a directory (and its children directories) which respect a specified wildcard.
- * 
+ * This class is responsible for walking through the files inside a directory (and its children 
+ * directories) which respect a specified wildcard.
  * <p>
- * Its role is basically to simplify the construction of the mosaic by implementing a visitor pattern for the files that we have to use for the index.
- * 
+ * <p>
+ * Its role is basically to simplify the construction of the mosaic by implementing a visitor 
+ * pattern for the files that we have to use for the index.
+ * <p>
  * <p>
  * It is based on the Commons IO {@link DirectoryWalker} class.
- * 
+ *
  * @author Simone Giannecchini, GeoSolutions SAS
  * @author Daniele Romagnoli, GeoSolutions SAS
  * @author Carlo Cancellieri, GeoSolutions SAS
- * 
  */
 abstract class ImageMosaicWalker implements Runnable {
 
-    /** Default Logger * */
+    /**
+     * Default Logger *
+     */
     final static Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger(ImageMosaicWalker.class);
 
@@ -74,7 +77,8 @@ abstract class ImageMosaicWalker implements Runnable {
     }
 
     /**
-     * Proper way to stop a thread is not by calling Thread.stop() but by using a shared variable that can be checked in order to notify a terminating
+     * Proper way to stop a thread is not by calling Thread.stop() but by using a shared variable
+     * that can be checked in order to notify a terminating
      * condition.
      */
     private volatile boolean stop = false;
@@ -90,18 +94,20 @@ abstract class ImageMosaicWalker implements Runnable {
      */
     private int fileIndex = 0;
 
-    /** Number of files to process. */
+    /**
+     * Number of files to process.
+     */
     private int numFiles = 1;
 
     protected final ImageMosaicEventHandlers eventHandler;
 
     /**
-     * @param updateFeatures if true update catalog with loaded granules
+     * @param updateFeatures           if true update catalog with loaded granules
      * @param imageMosaicConfigHandler configuration handler being used
-     * @param granuleAcceptors list of acceptors to deterrmine granule inclusion
+     * @param granuleAcceptors         list of acceptors to deterrmine granule inclusion
      */
     public ImageMosaicWalker(ImageMosaicConfigHandler configHandler,
-            ImageMosaicEventHandlers eventHandler) {
+                             ImageMosaicEventHandlers eventHandler) {
         Utilities.ensureNonNull("config handler", configHandler);
         Utilities.ensureNonNull("event handler", eventHandler);
         this.configHandler = configHandler;
@@ -161,7 +167,8 @@ abstract class ImageMosaicWalker implements Runnable {
             //
             final AbstractGridFormat format;
             if (cachedFormat == null) {
-                // When looking for formats which may parse this file, make sure to exclude the ImageMosaicFormat as return
+                // When looking for formats which may parse this file, make sure to exclude the 
+                // ImageMosaicFormat as return
                 format = (AbstractGridFormat) GridFormatFinder.findFormat(fileBeingProcessed,
                         excludeMosaicHints);
             } else {
@@ -212,7 +219,8 @@ abstract class ImageMosaicWalker implements Runnable {
                     }
                     // Selection of the ImageReaderSpi from the Stream
                     ImageReaderSpi spi = Utils.getReaderSpiFromStream(null, inStream);
-                    // Setting of the ImageReaderSpi to the ImageMosaicConfigHandler in order to set it inside the indexer properties
+                    // Setting of the ImageReaderSpi to the ImageMosaicConfigHandler in order to 
+                    // set it inside the indexer properties
                     configHandler.setCachedReaderSPI(spi);
                 } finally {
                     if (inStream != null) {
@@ -338,9 +346,8 @@ abstract class ImageMosaicWalker implements Runnable {
 
     /**
      * Warn this walker that we skip the provided path
-     * 
+     *
      * @param path the path to the file to skip
-     * 
      */
     public void skipFile(String path) {
         LOGGER.log(Level.INFO, "Unable to use path: " + path + " - skipping it.");

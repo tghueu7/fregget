@@ -33,47 +33,53 @@ import org.opengis.filter.expression.Expression;
 /**
  * Generate an output by interpolating between stops just less than and just
  * greater than the function input. The domain must be numeric.
- * 
+ * <p>
  * <h2>Parameters:</h2>
- * 
+ * <p>
  * <ol start="0">
  * <li>The interpolation input</li>
  * <li>The base of the interpolation</li>
- * <li>(...n) The remaining args are interpreted as pairs of stop values (input, output) for the interpolation. There must be an even number.</li>
+ * <li>(...n) The remaining args are interpreted as pairs of stop values (input, output) for the 
+ * interpolation. There must be an even number.</li>
  * </ol>
- * 
  *
  * @author Jody Garnett (Boundless)
  */
 public class ExponentialFunction extends FunctionImpl {
     private static final FilterFactory2 ff2 = CommonFactoryFinder.getFilterFactory2(null);
     public static final FunctionName NAME;
+
     static {
-        Parameter<Object> result = new Parameter<Object>("result",Object.class,1,1);
-        Parameter<Object> input = new Parameter<Object>("input",Object.class,1,1);
+        Parameter<Object> result = new Parameter<Object>("result", Object.class, 1, 1);
+        Parameter<Object> input = new Parameter<Object>("input", Object.class, 1, 1);
         Parameter<Double> base = new Parameter<Double>(
                 "base", Double.class,
                 Text.text("Base"),
-                Text.text("Exponential base of the interpolation curve controlling rate at which function output increases."),
-                true,0,1,
+                Text.text("Exponential base of the interpolation curve controlling rate at which " +
+                        "function output increases."),
+                true, 0, 1,
                 1.0,
                 null
         );
-        Parameter<Object> stops= new Parameter<Object>("stops",Object.class,4,-1);
+        Parameter<Object> stops = new Parameter<Object>("stops", Object.class, 4, -1);
         NAME = new FunctionNameImpl("Exponential", result, input, base, stops);
     }
+
     private static class Stop {
         Expression stop;
         Expression value;
-        public Stop(Expression stop, Expression value ){
+
+        public Stop(Expression stop, Expression value) {
             this.stop = stop;
             this.value = value;
         }
+
         @Override
         public String toString() {
-            return "Stop "+stop+": "+value;
+            return "Stop " + stop + ": " + value;
         }
     }
+
     public ExponentialFunction() {
         this.functionName = NAME;
     }
@@ -82,52 +88,53 @@ public class ExponentialFunction extends FunctionImpl {
     public <T> T evaluate(Object object, Class<T> context) {
         List<Expression> parameters = getParameters();
         List<Stop> stops = new ArrayList<>();
-        
+
         Expression input = parameters.get(0);
         Expression base = parameters.get(1);
-        
+
         if (parameters.size() % 2 != 0) {
             throw new IllegalArgumentException(this.getClass().getSimpleName()
-                    + " requires an even number of stop values, but " + (parameters.size() - 2) + " were provided.");
+                    + " requires an even number of stop values, but " + (parameters.size() - 2) +
+                    " were provided.");
         }
-        
+
         for (int i = 2; (i + 1) < parameters.size(); i = i + 2) {
             Stop stop = new Stop(parameters.get(i), parameters.get(i + 1));
             stops.add(stop);
         }
-        
+
         Double inputValue = input.evaluate(object, Double.class);
         Double baseValue = base.evaluate(object, Double.class);
-        
+
         if (inputValue == null) {
             return null;
         }
-        
-        if( stops.size()==1){
+
+        if (stops.size() == 1) {
             // single stop
             Stop single = stops.get(0);
             return single.value.evaluate(object, context);
         }
         int find = find(object, inputValue, stops);
-        
-        if( find <= 0 ){
+
+        if (find <= 0) {
             // data is below stop range, use min
             Stop min = stops.get(0);
             return min.value.evaluate(object, context);
-        }
-        else if (find >= stops.size()){
+        } else if (find >= stops.size()) {
             // data is above the stop range, use max
-            Stop max = stops.get(stops.size()-1);
+            Stop max = stops.get(stops.size() - 1);
             return max.value.evaluate(object, context);
         }
-        Stop lower = stops.get(find-1);
+        Stop lower = stops.get(find - 1);
         Stop upper = stops.get(find);
         Object exponential = exponential(object, inputValue, baseValue, lower, upper, context);
-        
+
         return Converters.convert(exponential, context);
     }
-    
-    private <T> Object exponential(Object object, double inputValue, double base, Stop lower, Stop upper, Class<T> context) {
+
+    private <T> Object exponential(Object object, double inputValue, double base, Stop lower, 
+                                   Stop upper, Class<T> context) {
         if (Color.class.isAssignableFrom(context)) {
             return colorExponential(object, inputValue, base, lower, upper);
         } else {
@@ -135,29 +142,30 @@ public class ExponentialFunction extends FunctionImpl {
         }
     }
 
-    private double numericExponential(Object object, double inputValue, double base, Stop lower, Stop upper) {
-        
-        double stop1 = lower.stop.evaluate(object,Double.class);
-        double value1 = lower.value.evaluate(object,Double.class);
-        double stop2 = upper.stop.evaluate(object,Double.class);
-        double value2 = upper.value.evaluate(object,Double.class); 
+    private double numericExponential(Object object, double inputValue, double base, Stop lower, 
+                                      Stop upper) {
+
+        double stop1 = lower.stop.evaluate(object, Double.class);
+        double value1 = lower.value.evaluate(object, Double.class);
+        double stop2 = upper.stop.evaluate(object, Double.class);
+        double value2 = upper.value.evaluate(object, Double.class);
 
         // Basic exponential function:
         //
         // value_i = scale*(stop_i)^base - offset
         //
         // Determine scale and offset based on the upper and lower stops:
-        double scale = (value2-value1)/(Math.pow(stop2, base) - Math.pow(stop1, base));
-        double offset = value1-scale*Math.pow(stop1, base);
-        
-        return offset + scale*Math.pow(inputValue, base);
+        double scale = (value2 - value1) / (Math.pow(stop2, base) - Math.pow(stop1, base));
+        double offset = value1 - scale * Math.pow(stop1, base);
+
+        return offset + scale * Math.pow(inputValue, base);
     }
 
     /**
      * Perform exponential interpolation on each of the channels of the color values at each stop.
      */
     private Object colorExponential(Object object, double inputValue, double base, Stop lower,
-            Stop upper) {
+                                    Stop upper) {
         Color lowerValue = lower.value.evaluate(object, Color.class);
         Color upperValue = upper.value.evaluate(object, Color.class);
 
@@ -181,13 +189,13 @@ public class ExponentialFunction extends FunctionImpl {
         return new Color((int) Math.round(r), (int) Math.round(g), (int) Math.round(b),
                 (int) Math.round(a));
     }
-    
+
     /**
      * Find the stop containing the input value. The value returned is the index, in the stops list,
      * of the higher point of the segment between two stops.
      *
      * @return stop index; or 0 if input is below the range of the stops; or
-     *         {@code max stop index + 1} if it is above the range
+     * {@code max stop index + 1} if it is above the range
      */
     private int find(Object object, Double input, List<Stop> stops) {
         int find = stops.size();
@@ -200,5 +208,5 @@ public class ExponentialFunction extends FunctionImpl {
         }
         return find;
     }
-    
+
 }

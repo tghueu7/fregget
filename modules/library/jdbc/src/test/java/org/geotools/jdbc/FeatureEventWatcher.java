@@ -28,40 +28,47 @@ import org.opengis.filter.Filter;
 /**
  * Records FeatureEvents and provides a record that we can check.
  *
- *
- *
  * @source $URL$
  */
 public class FeatureEventWatcher implements FeatureListener {
-    /** Last known type */
+    /**
+     * Last known type
+     */
     public Type type = null;
 
-    /** last known event source */
+    /**
+     * last known event source
+     */
     public FeatureSource<? extends FeatureType, ? extends Feature> source;
 
-    /** Total bounds since last reset*/
+    /**
+     * Total bounds since last reset
+     */
     public ReferencedEnvelope bounds;
 
-    /** number of events since last reset */
+    /**
+     * number of events since last reset
+     */
     public int count = 0;
 
-    /** Filter selecting features modified in the last event */
+    /**
+     * Filter selecting features modified in the last event
+     */
     public Filter filter;
-    
+
     public void changed(FeatureEvent featureEvent) {
         type = featureEvent.getType();
-        if( bounds == null ){
+        if (bounds == null) {
             bounds = featureEvent.getBounds();
-        }
-        else {
-            bounds.expandToInclude( featureEvent.getBounds() );
+        } else {
+            bounds.expandToInclude(featureEvent.getBounds());
         }
         filter = featureEvent.getFilter();
         source = featureEvent.getFeatureSource();
         count++;
     }
-    
-    public void reset(){
+
+    public void reset() {
         type = null;
         bounds = new ReferencedEnvelope();
         source = null;

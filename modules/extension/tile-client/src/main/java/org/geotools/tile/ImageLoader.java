@@ -23,7 +23,7 @@ import java.io.IOException;
  * The ImageLoader is a delegate used by a tile to load the image. Its purpose
  * is to provide a tile image cache opportunity to speed up image loading and
  * prevent tile to be repeatedly loaded off the network.
- * 
+ *
  * @author Ugo Taddei
  * @since 12
  */
@@ -31,7 +31,7 @@ public interface ImageLoader {
 
     /**
      * Loads an image for the given tile.
-     * 
+     *
      * @param tile
      * @return an image
      * @throws IOException

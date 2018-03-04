@@ -3,7 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2010 - 2016, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -23,20 +23,17 @@ import java.util.List;
 
 /**
  * Property class for holding and handling of property values declared in Extent-element of a layer
- * 
+ * <p>
  * As of WMS Spec 1.3.0 Extent is no longer a valid child element to the element layer. This java
  * representation is maintained to be able to support both WMS Spec 1.1.1 and 1.3.0
- * 
+ * <p>
  * http://schemas.opengis.net/wms/1.1.1/WMS_MS_Capabilities.dtd <!-- The Extent element indicates
  * what _values_ along a dimension are valid. --> <!ELEMENT Extent (#PCDATA) > <!ATTLIST Extent name
  * CDATA #REQUIRED default CDATA #IMPLIED nearestValue (0 | 1) "0">
- * 
  *
- *
- * @source $URL$
- * @version SVN $Id$
  * @author Per Engstrom, Curalia AB, pereng@gmail.com
- * 
+ * @version SVN $Id$
+ * @source $URL$
  */
 public class Extent {
     protected String name;
@@ -46,8 +43,10 @@ public class Extent {
     protected boolean nearestValue = false;
 
     protected boolean multipleValues;
-    
-    /** Only valid for Time extents */
+
+    /**
+     * Only valid for Time extents
+     */
     protected boolean current = false;
 
     public boolean isCurrent() {
@@ -64,7 +63,7 @@ public class Extent {
     protected String value;
 
     public Extent(String name, String defaultValue, Boolean multipleValues, Boolean nearestValue,
-            String value) {
+                  String value) {
         if (name == null || name.length() == 0) {
             throw new IllegalArgumentException(
                     "Error creating Dimension: parameter name must not be null!");
@@ -122,9 +121,10 @@ public class Extent {
 
     // The following helper methods are here
     // to reduce the effort involved in dealing with an Extent
+
     /**
      * Parse out the values; should be a list if isMultipleValues; or a list of one otherwise.
-     * 
+     *
      * @return Values that may be used for this Extent; may be an empty collection.
      */
     List<String> values() {

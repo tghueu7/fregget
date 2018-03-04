@@ -21,9 +21,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * <p>Java class for USAddress complex type.
- * 
+ * <p>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
  * &lt;complexType name="USAddress">
  *   &lt;complexContent>
@@ -40,16 +40,14 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "USAddress", propOrder = {
-    "name",
-    "street",
-    "city",
-    "state",
-    "zip"
+        "name",
+        "street",
+        "city",
+        "state",
+        "zip"
 })
 public class USAddress {
 
@@ -70,11 +68,9 @@ public class USAddress {
 
     /**
      * Gets the value of the name property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getName() {
         return name;
@@ -82,11 +78,9 @@ public class USAddress {
 
     /**
      * Sets the value of the name property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setName(String value) {
         this.name = value;
@@ -94,11 +88,9 @@ public class USAddress {
 
     /**
      * Gets the value of the street property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getStreet() {
         return street;
@@ -106,11 +98,9 @@ public class USAddress {
 
     /**
      * Sets the value of the street property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setStreet(String value) {
         this.street = value;
@@ -118,11 +108,9 @@ public class USAddress {
 
     /**
      * Gets the value of the city property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getCity() {
         return city;
@@ -130,11 +118,9 @@ public class USAddress {
 
     /**
      * Sets the value of the city property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setCity(String value) {
         this.city = value;
@@ -142,11 +128,9 @@ public class USAddress {
 
     /**
      * Gets the value of the state property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getState() {
         return state;
@@ -154,11 +138,9 @@ public class USAddress {
 
     /**
      * Sets the value of the state property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setState(String value) {
         this.state = value;
@@ -166,11 +148,9 @@ public class USAddress {
 
     /**
      * Gets the value of the zip property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigDecimal }
-     *     
+     *
+     * @return possible object is
+     * {@link BigDecimal }
      */
     public BigDecimal getZip() {
         return zip;
@@ -178,11 +158,9 @@ public class USAddress {
 
     /**
      * Sets the value of the zip property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigDecimal }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link BigDecimal }
      */
     public void setZip(BigDecimal value) {
         this.zip = value;
@@ -190,11 +168,9 @@ public class USAddress {
 
     /**
      * Gets the value of the country property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getCountry() {
         if (country == null) {
@@ -206,11 +182,9 @@ public class USAddress {
 
     /**
      * Sets the value of the country property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setCountry(String value) {
         this.country = value;

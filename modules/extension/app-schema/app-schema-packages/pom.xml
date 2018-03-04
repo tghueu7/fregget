@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -32,13 +32,13 @@
         For example, to deploy cgiutilities-1.0 and geosciml-2.0 (only),
         under Linux, use something like:
 
-            for groupId in cgiutilities-1.0 geosciml-2.0; do
-                mvn deploy:deploy-file \
-                    -DrepositoryId=osgeo \
-                    -Durl=dav:http://download.osgeo.org/webdav/geotools/ \
-                    -DpomFile=$groupId/pom.xml \
-                    -Dfile=`find $groupId -name "*.jar"`
-            done
+        for groupId in cgiutilities-1.0 geosciml-2.0; do
+        mvn deploy:deploy-file \
+        -DrepositoryId=osgeo \
+        -Durl=dav:http://download.osgeo.org/webdav/geotools/ \
+        -DpomFile=$groupId/pom.xml \
+        -Dfile=`find $groupId -name "*.jar"`
+        done
 
         If you have trouble building a single child module with Maven 3
         failing to honour local dependencies that were downloaded from
@@ -46,9 +46,9 @@
         Maven 3 behaviour, and delete every _maven.repositories file in
         ~/.m2/repository/org/geotools/schemas with, for example:
 
-            find ~/.m2/repository/org/geotools/schemas \
-                -name _maven.repositories \
-                -exec rm -f {} \;
+        find ~/.m2/repository/org/geotools/schemas \
+        -name _maven.repositories \
+        -exec rm -f {} \;
 
         Then "mvn clean install" should work for a single child module.
     </description>

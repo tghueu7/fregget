@@ -32,9 +32,8 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  * The tests for the AreaGridProcess
- * 
- * @author Luca Paolino - GeoSolutions
  *
+ * @author Luca Paolino - GeoSolutions
  * @source $URL$
  */
 public class AreaGridProcessTest {
@@ -67,13 +66,13 @@ public class AreaGridProcessTest {
         ReferencedEnvelope envelope = new ReferencedEnvelope(-180, 180, -90, 90, crs);
 
         double sum = computeTotalArea(cx, cy, envelope);
-        
+
         // earth surface from from wikipedia
         double area = 510072000000000.0;
         // 1% error off the expected value using a 2 degree grid
-        assertEquals(0, (area - sum) / area, 0.01); 
+        assertEquals(0, (area - sum) / area, 0.01);
     }
-    
+
     @Test
     public void testColoradoArea() throws Exception {
         logger.info("AREAGRIDPROCESS: Performing process execute test");
@@ -81,11 +80,11 @@ public class AreaGridProcessTest {
         ReferencedEnvelope envelope = new ReferencedEnvelope(-102.05, -109.05, 37, 41, crs);
 
         double sum = computeTotalArea(100, 100, envelope);
-        
+
         // Colorado surface from from wikipedia
         double area = 269837000000.0;
         // 0.1% error off the expected value using a 100x100 grid
-        assertEquals(0, (area - sum) / area, 0.001); 
+        assertEquals(0, (area - sum) / area, 0.001);
     }
 
 
@@ -95,7 +94,7 @@ public class AreaGridProcessTest {
         assertEquals(envelope, new ReferencedEnvelope(grid.getEnvelope()));
         assertEquals(width, grid.getGridGeometry().getGridRange().getSpan(0));
         assertEquals(height, grid.getGridGeometry().getGridRange().getSpan(1));
-        
+
         double sum = 0.0;
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {

@@ -32,18 +32,14 @@ import org.opengis.feature.type.Name;
 
 /**
  * Builder for attributes.
- * 
+ *
  * @author Justin Deoliveira (The Open Planning Project)
- * 
- *
- *
- *
- *
  * @source $URL$
  */
 public class AppSchemaAttributeBuilder extends AttributeBuilder {
-    
-    private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger(AppSchemaAttributeBuilder.class.getPackage().getName());
+
+    private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger
+            (AppSchemaAttributeBuilder.class.getPackage().getName());
 
 
     public AppSchemaAttributeBuilder(FeatureFactory attributeFactory) {
@@ -57,21 +53,15 @@ public class AppSchemaAttributeBuilder extends AttributeBuilder {
      * This method uses the type supplied in {@link #setType(AttributeType)} in order to determine
      * the attribute type.
      * </p>
-     * 
-     * @param id
-     *                the attribtue id
-     * @param value
-     *                The value of the attribute.
-     * 
-     * @param name
-     *                The name of the attribute.
-     * @param type
-     *                the actual type of the attribute, which might be the same as the declared type
-     *                for the given AttributeDescriptor or a derived type.
-     * 
+     *
+     * @param id    the attribtue id
+     * @param value The value of the attribute.
+     * @param name  The name of the attribute.
+     * @param type  the actual type of the attribute, which might be the same as the declared type
+     *              for the given AttributeDescriptor or a derived type.
      */
     public Attribute add(final String id, final Object value, final Name name,
-            final AttributeType type) {
+                         final AttributeType type) {
         // existence check
         AttributeDescriptor descriptor = attributeDescriptor(name);
         AttributeType declaredType = (AttributeType) descriptor.getType();

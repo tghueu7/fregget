@@ -35,77 +35,81 @@ import org.opengis.referencing.operation.MathTransform;
  * <p>
  * Note that similarity transform is a special case of an Affine transform 2D.
  *
- * @source $URL$
- * @version $Id$
  * @author Oscar Fonts
+ * @version $Id$
+ * @source $URL$
  */
 public class SimilarityTransformProvider extends MathTransformProvider {
 
     private static final long serialVersionUID = -7413519919588731455L;
 
-    // TODO: TRANSLATION_1 and TRANSLATION_2 should be expressed in "target CRS units", not necessarily SI.METER.
-    
+    // TODO: TRANSLATION_1 and TRANSLATION_2 should be expressed in "target CRS units", not 
+    // necessarily SI.METER.
+
     /**
      * "Ordinate 1 of evaluation point in target CRS" EPSG::8621
      */
     public static final ParameterDescriptor<Double> TRANSLATION_1 = createDescriptor(
-        new NamedIdentifier[] {
-            new NamedIdentifier(Citations.EPSG, "Ordinate 1 of evaluation point in target CRS"),
-            new NamedIdentifier(Citations.EPSG, "8621")
-        },
-        0, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, SI.METER); 
+            new NamedIdentifier[]{
+                    new NamedIdentifier(Citations.EPSG, "Ordinate 1 of evaluation point in target" +
+                            " CRS"),
+                    new NamedIdentifier(Citations.EPSG, "8621")
+            },
+            0, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, SI.METER);
 
     /**
      * "Ordinate 2 of evaluation point in target CRS" EPSG::8622
      */
     public static final ParameterDescriptor<Double> TRANSLATION_2 = createDescriptor(
-        new NamedIdentifier[] {
-            new NamedIdentifier(Citations.EPSG, "Ordinate 2 of evaluation point in target CRS"),
-            new NamedIdentifier(Citations.EPSG, "8622")
-        },
-        0, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, SI.METER);
-    
+            new NamedIdentifier[]{
+                    new NamedIdentifier(Citations.EPSG, "Ordinate 2 of evaluation point in target" +
+                            " CRS"),
+                    new NamedIdentifier(Citations.EPSG, "8622")
+            },
+            0, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, SI.METER);
+
     /**
      * "Scale difference" EPSG::8611
      */
     public static final ParameterDescriptor<Double> SCALE = createDescriptor(
-        new NamedIdentifier[] {
-            new NamedIdentifier(Citations.EPSG, "Scale difference"),
-            new NamedIdentifier(Citations.EPSG, "8611")
-        },
-        1, Double.MIN_NORMAL, Double.POSITIVE_INFINITY, Dimensionless.UNIT);
-    
+            new NamedIdentifier[]{
+                    new NamedIdentifier(Citations.EPSG, "Scale difference"),
+                    new NamedIdentifier(Citations.EPSG, "8611")
+            },
+            1, Double.MIN_NORMAL, Double.POSITIVE_INFINITY, Dimensionless.UNIT);
+
     /**
      * "Rotation angle of source coordinate reference system axes" EPSG::8614
      */
     public static final ParameterDescriptor<Double> ROTATION = createDescriptor(
-        new NamedIdentifier[] {
-            new NamedIdentifier(Citations.EPSG, "Rotation angle of source coordinate reference system axes"),
-            new NamedIdentifier(Citations.EPSG, "8614")
-        },
-        0, 0, 360 * 60 * 60, NonSI.SECOND_ANGLE);
+            new NamedIdentifier[]{
+                    new NamedIdentifier(Citations.EPSG, "Rotation angle of source coordinate " +
+                            "reference system axes"),
+                    new NamedIdentifier(Citations.EPSG, "8614")
+            },
+            0, 0, 360 * 60 * 60, NonSI.SECOND_ANGLE);
 
     /**
      * The parameter group for "Similarity transformation" EPSG::9621.
-     * 
+     * <p>
      * Includes {@link #TRANSLATION_1}, {@link #TRANSLATION_2}, {@link #SCALE}, {@link #ROTATION}.
      */
     static final ParameterDescriptorGroup PARAMETERS = createDescriptorGroup(
-        new NamedIdentifier[] {
-            new NamedIdentifier(Citations.EPSG, "Similarity transformation"),
-            new NamedIdentifier(Citations.EPSG, "9621")
-        },
-        new ParameterDescriptor[] {
-            TRANSLATION_1,
-            TRANSLATION_2,
-            SCALE,
-            ROTATION
-        }
+            new NamedIdentifier[]{
+                    new NamedIdentifier(Citations.EPSG, "Similarity transformation"),
+                    new NamedIdentifier(Citations.EPSG, "9621")
+            },
+            new ParameterDescriptor[]{
+                    TRANSLATION_1,
+                    TRANSLATION_2,
+                    SCALE,
+                    ROTATION
+            }
     );
-    
+
     /**
      * Creates a two-dimensional similarity transform.
-     * 
+     * <p>
      * EPSG defines explicitly this transform as 2D.
      */
     public SimilarityTransformProvider() {
@@ -113,10 +117,11 @@ public class SimilarityTransformProvider extends MathTransformProvider {
     }
 
     /**
-     * Constructs an {@link AffineTransform2D} math transform from the specified group of parameter values.
-     * 
+     * Constructs an {@link AffineTransform2D} math transform from the specified group of 
+     * parameter values.
+     * <p>
      * The similarity transform is a particular case of Affine Transform 2D where:
-     * 
+     * <p>
      * <blockquote><pre>
      * m00 = SCALE * cos(ROTATION)
      * m01 = SCALE * sin(ROTATION)
@@ -126,24 +131,24 @@ public class SimilarityTransformProvider extends MathTransformProvider {
      * m12 = TRANSLATION_2
      * </pre></blockquote>
      *
-     * @param  values The group of parameter values {@link #PARAMETERS}.
+     * @param values The group of parameter values {@link #PARAMETERS}.
      * @return an {@link AffineTransform2D}.
      * @throws ParameterNotFoundException if a required parameter was not found.
      */
     protected MathTransform createMathTransform(ParameterValueGroup values)
             throws ParameterNotFoundException {
-        
+
         // The four parameters
         double t1 = doubleValue(TRANSLATION_1, values);
         double t2 = doubleValue(TRANSLATION_2, values);
         double scale = doubleValue(SCALE, values);
         double rotation = doubleValue(ROTATION, values);
-        
+
         // Calculate affine transform coefficients
         double theta = Math.PI * rotation / 648000; // arcsec to rad
         double p1 = scale * Math.cos(theta);
         double p2 = scale * Math.sin(theta);
-        
+
         return new AffineTransform2D(p1, -p2, p2, p1, t1, t2);
     }
 

@@ -23,10 +23,6 @@ import org.geotools.caching.spatialindex.Visitor;
 
 /**
  * This visitor makes nodes as valid.
- * 
- *
- *
- *
  *
  * @source $URL$
  */
@@ -35,8 +31,8 @@ public class ValidatingVisitor implements Visitor {
 
     /**
      * Creates a new visitor.
-     * 
-     * @param r  region to mark nodes valid within  
+     *
+     * @param r region to mark nodes valid within
      */
     public ValidatingVisitor(Region r) {
         this.region = r;
@@ -48,10 +44,10 @@ public class ValidatingVisitor implements Visitor {
 
     /**
      * If node within the region then flags the node
-     * as valid. 
+     * as valid.
      */
     public void visitNode(Node n) {
-        
+
         if (this.region.contains(n.getShape())) {
             n.getIdentifier().setValid(true);
         }

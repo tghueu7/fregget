@@ -11,8 +11,6 @@ import org.opengis.filter.expression.Expression;
 import org.opengis.filter.expression.PropertyName;
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class AbstractSymbolizer implements Symbolizer {
@@ -24,21 +22,21 @@ public abstract class AbstractSymbolizer implements Symbolizer {
 
     protected Unit<Length> unitOfMeasure;
 
-    protected Map<String,String> options;
-    
+    protected Map<String, String> options;
+
     protected AbstractSymbolizer() {
     }
 
     public AbstractSymbolizer(String name, Description description, Expression geometry,
-            Unit<Length> unitOfMeasure) {
+                              Unit<Length> unitOfMeasure) {
         this.name = name;
         this.description = description;
         this.geometry = geometry;
         this.unitOfMeasure = unitOfMeasure;
     }
-    
+
     public AbstractSymbolizer(String name, Description description, String geometryPropertyName,
-            Unit<Length> unitOfMeasure) {
+                              Unit<Length> unitOfMeasure) {
         this.name = name;
         this.description = description;
         this.unitOfMeasure = unitOfMeasure;
@@ -97,14 +95,14 @@ public abstract class AbstractSymbolizer implements Symbolizer {
     public boolean hasOption(String key) {
         return options != null && options.containsKey(key);
     }
-    
+
     public Map<String, String> getOptions() {
         if (options == null) {
             options = new LinkedHashMap<String, String>();
         }
         return options;
     }
-    
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -162,7 +160,6 @@ public abstract class AbstractSymbolizer implements Symbolizer {
         }
         return true;
     }
-    
-    
+
 
 }

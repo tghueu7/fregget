@@ -19,26 +19,23 @@ package org.geotools.grid.ortholine;
 
 /**
  * Constants to identify the orientation of an ortho-line.
- * 
+ *
  * @author mbedward
- * @since 8.0
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 8.0
  */
 public enum LineOrientation {
     /**
      * Line parallel to North-South axis in geographic space or
      * Y-axis in Cartesian space.
      */
-    VERTICAL, 
-    
+    VERTICAL,
+
     /**
      * Line parallel to EAST-WEST axis in geographic space or
      * X-axis in Cartesian space.
-     */ 
+     */
     HORIZONTAL
-    
+
 }

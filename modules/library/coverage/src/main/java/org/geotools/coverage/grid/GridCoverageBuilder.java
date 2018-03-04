@@ -59,37 +59,37 @@ import org.geotools.util.NumberRange;
  * use {@link GridCoverageFactory} directly.
  * <p>
  * Usage example:
- *
+ * <p>
  * <blockquote><pre>
  * GridCoverageBuilder builder = new GridCoverageBuilder();
- * builder.{@linkplain #setCoordinateReferenceSystem(String) setCoordinateReferenceSystem("EPSG:4326");
+ * builder.{@linkplain #setCoordinateReferenceSystem(String) setCoordinateReferenceSystem
+ * ("EPSG:4326");
  * builder.{@linkplain #setEnvelope(double...) setEnvelope}(-60, 40, -50, 50);
- *
+ * <p>
  * // Will use sample value in the range 0 inclusive to 20000 exclusive.
- * builder.{@linkplain #setSampleRange(int,int) setSampleRange}(0, 20000);
- *
+ * builder.{@linkplain #setSampleRange(int, int) setSampleRange}(0, 20000);
+ * <p>
  * // Defines elevation (m) = sample / 10
  * Variable elevation = builder.{@linkplain #newVariable newVariable}("Elevation", SI.METRE);
- * elevation.{@linkplain GridCoverageBuilder.Variable#setLinearTransform setLinearTransform}(0.1, 0);
+ * elevation.{@linkplain GridCoverageBuilder.Variable#setLinearTransform setLinearTransform}(0.1,
+ * 0);
  * elevation.addNodataValue("No data", 32767);
- *
+ * <p>
  * // Gets the image, draw anything we want in it.
- * builder.{@linkplain #setImageSize(int,int) setImageSize}(500,500);
+ * builder.{@linkplain #setImageSize(int, int) setImageSize}(500,500);
  * BufferedImage image = builder.{@linkpalin #getBufferedImage getBufferedImage}();
  * Graphics2D gr = image.createGraphics();
  * gr.draw(...);
  * gr.dispose();
- *
+ * <p>
  * // Gets the coverage.
  * GridCoverage2D coverage = builder.{@linkplain #getGridCoverage2D getGridCoverage2D}();
  * </pre></blockquote>
  *
- * @since 2.5
  * @author Martin Desruisseaux
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.5
  */
 public class GridCoverageBuilder {
     /**
@@ -105,7 +105,8 @@ public class GridCoverageBuilder {
     /**
      * The default {@linkplain #range}.
      */
-    private static final NumberRange<Integer> DEFAULT_RANGE = NumberRange.create(0, true, 256, false);
+    private static final NumberRange<Integer> DEFAULT_RANGE = NumberRange.create(0, true, 256, 
+            false);
 
     /**
      * The list of variables created. Each variable will be mapped to a
@@ -148,7 +149,7 @@ public class GridCoverageBuilder {
     public GridCoverageBuilder(final GridCoverageFactory factory) {
         this.factory = factory;
         variables = new ArrayList<Variable>();
-        width  = 256;
+        width = 256;
         height = 256;
     }
 
@@ -156,8 +157,8 @@ public class GridCoverageBuilder {
      * Wraps an arbitrary envelope to an object that can be stored in {@link #envelope}.
      */
     private static GeneralEnvelope wrap(final Envelope envelope) {
-        return (envelope==null || envelope instanceof GeneralEnvelope) ?
-            (GeneralEnvelope) envelope : new GeneralEnvelope(envelope);
+        return (envelope == null || envelope instanceof GeneralEnvelope) ?
+                (GeneralEnvelope) envelope : new GeneralEnvelope(envelope);
     }
 
     /**
@@ -166,7 +167,8 @@ public class GridCoverageBuilder {
      * the default CRS is {@linkplain DefaultGeographicCRS#WGS84 WGS84}.
      */
     public CoordinateReferenceSystem getCoordinateReferenceSystem() {
-        return (envelope != null) ? envelope.getCoordinateReferenceSystem() : DefaultGeographicCRS.WGS84;
+        return (envelope != null) ? envelope.getCoordinateReferenceSystem() : 
+                DefaultGeographicCRS.WGS84;
     }
 
     /**
@@ -175,11 +177,10 @@ public class GridCoverageBuilder {
      * be reprojected to the new CRS.
      *
      * @throws IllegalArgumentException if the CRS is illegal for the
-     *         {@linkplain #getEnvelope current envelope}.
+     *                                  {@linkplain #getEnvelope current envelope}.
      */
     public void setCoordinateReferenceSystem(final CoordinateReferenceSystem crs)
-            throws IllegalArgumentException
-    {
+            throws IllegalArgumentException {
         if (envelope == null) {
             if (crs != null) {
                 envelope = wrap(CRS.getEnvelope(crs));
@@ -241,7 +242,7 @@ public class GridCoverageBuilder {
      * {@linkplain Envelope#getCoordinateReferenceSystem envelope CRS}.
      *
      * @throws IllegalArgumentException if the envelope is illegal for the
-     *         {@linkplain #getCoordinateReferenceSystem current CRS}.
+     *                                  {@linkplain #getCoordinateReferenceSystem current CRS}.
      */
     public void setEnvelope(Envelope envelope) throws IllegalArgumentException {
         if (this.envelope != null) try {
@@ -261,7 +262,7 @@ public class GridCoverageBuilder {
      * <p>
      * <b>Example:</b>
      * (<var>x</var><sub>min</sub>, <var>y</var><sub>min</sub>, <var>z</var><sub>min</sub>,
-     *  <var>x</var><sub>max</sub>, <var>y</var><sub>max</sub>, <var>z</var><sub>max</sub>)
+     * <var>x</var><sub>max</sub>, <var>y</var><sub>max</sub>, <var>z</var><sub>max</sub>)
      */
     public void setEnvelope(final double... ordinates) throws IllegalArgumentException {
         GeneralEnvelope envelope = this.envelope;
@@ -291,8 +292,8 @@ public class GridCoverageBuilder {
     /**
      * Sets the range of sample values.
      *
-     * @param  lower The lower sample value (inclusive), typically 0.
-     * @param  upper The upper sample value (exclusive), typically 256.
+     * @param lower The lower sample value (inclusive), typically 0.
+     * @param upper The upper sample value (exclusive), typically 256.
      */
     public void setSampleRange(final int lower, final int upper) {
         setSampleRange(NumberRange.create(lower, true, upper, false));
@@ -310,9 +311,9 @@ public class GridCoverageBuilder {
      * Sets the image size.
      */
     public void setImageSize(final Dimension size) {
-        width    = size.width;
-        height   = size.height;
-        image    = null;
+        width = size.width;
+        height = size.height;
+        image = null;
         coverage = null;
     }
 
@@ -328,8 +329,8 @@ public class GridCoverageBuilder {
      * dimension}. Additional information like scale, offset and nodata values can be provided
      * by invoking setters on the returned variable.
      *
-     * @param  name  The variable name, or {@code null} for a default name.
-     * @param  units The variable units, or {@code null} if unknown.
+     * @param name  The variable name, or {@code null} for a default name.
+     * @param units The variable units, or {@code null} if unknown.
      * @return A new variable.
      */
     public Variable newVariable(final CharSequence name, final Unit<?> units) {
@@ -399,9 +400,9 @@ public class GridCoverageBuilder {
         } else {
             size = 1 << Short.SIZE;
         }
-        for (int i=raster.getWidth(); --i>=0;) {
-            for (int j=raster.getHeight(); --j>=0;) {
-                raster.setSample(i,j,0, random.nextInt(size));
+        for (int i = raster.getWidth(); --i >= 0; ) {
+            for (int j = raster.getHeight(); --j >= 0; ) {
+                raster.setSample(i, j, 0, random.nextInt(size));
             }
         }
     }
@@ -418,7 +419,7 @@ public class GridCoverageBuilder {
                 bands = null;
             } else {
                 bands = new GridSampleDimension[variables.size()];
-                for (int i=0; i<bands.length; i++) {
+                for (int i = 0; i < bands.length; i++) {
                     bands[i] = variables.get(i).getSampleDimension();
                 }
             }
@@ -432,10 +433,10 @@ public class GridCoverageBuilder {
      * A variable to be mapped to a {@linkplain GridSampleDimension sample dimension}.
      * Variables are created by {@link GridCoverageBuilder#newVariable}.
      *
-     * @since 2.5
      * @author Martin Desruisseaux
-     * @source $URL$
      * @version $Id$
+     * @source $URL$
+     * @since 2.5
      */
     public class Variable {
         /**
@@ -451,7 +452,7 @@ public class GridCoverageBuilder {
         /**
          * The "nodata" values.
          */
-        private final Map<Integer,CharSequence> nodata;
+        private final Map<Integer, CharSequence> nodata;
 
         /**
          * The sample dimension. Will be created when first needed. May be reset to {@code null}
@@ -464,25 +465,23 @@ public class GridCoverageBuilder {
          *
          * @param name  The variable name, or {@code null} for a default name.
          * @param units The variable units, or {@code null} if unknown.
-         *
          * @see GridCoverageBuilder#newVariable
          */
         protected Variable(final CharSequence name, final Unit<?> units) {
-            this.name   = name;
-            this.units  = units;
-            this.nodata = new TreeMap<Integer,CharSequence>();
+            this.name = name;
+            this.units = units;
+            this.nodata = new TreeMap<Integer, CharSequence>();
         }
 
         /**
          * Adds a "nodata" value.
          *
-         * @param  name  The name for the "nodata" value.
-         * @param  value The pixel value to assign to "nodata".
+         * @param name  The name for the "nodata" value.
+         * @param value The pixel value to assign to "nodata".
          * @throws IllegalArgumentException if the given pixel value is already assigned.
          */
         public void addNodataValue(final CharSequence name, final int value)
-                throws IllegalArgumentException
-        {
+                throws IllegalArgumentException {
             final Integer key = value;
             final CharSequence old = nodata.put(key, name);
             if (old != null) {
@@ -504,7 +503,7 @@ public class GridCoverageBuilder {
                 int upper = (int) Math.ceil(range.getMaximum(false));
                 final Category[] categories = new Category[nodata.size() + 1];
                 int i = 0;
-                for (final Map.Entry<Integer,CharSequence> entry : nodata.entrySet()) {
+                for (final Map.Entry<Integer, CharSequence> entry : nodata.entrySet()) {
                     final int sample = entry.getKey();
                     if (sample >= lower && sample < upper) {
                         if (sample - lower <= upper - sample) {

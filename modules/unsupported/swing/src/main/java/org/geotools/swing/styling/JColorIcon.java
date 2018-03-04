@@ -27,15 +27,12 @@ import javax.swing.Icon;
  * An Icon to display a color. Used by {@code JSimpleStyleDialog}.
  *
  * @author Michael Bedward
- * @since 2.6
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.6
  */
 public class JColorIcon implements Icon {
-    
+
     private int width;
     private int height;
     private Color color;
@@ -43,9 +40,9 @@ public class JColorIcon implements Icon {
     /**
      * Construtor.
      *
-     * @param width icon width
+     * @param width  icon width
      * @param height icon height
-     * @param color initial color
+     * @param color  initial color
      */
     public JColorIcon(int width, int height, Color color) {
         this.width = width;
@@ -90,6 +87,7 @@ public class JColorIcon implements Icon {
 
     /**
      * Set the color
+     *
      * @param color new color
      */
     public void setColor(Color color) {

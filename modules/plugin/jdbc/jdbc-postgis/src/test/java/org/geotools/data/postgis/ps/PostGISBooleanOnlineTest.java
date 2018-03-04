@@ -21,8 +21,6 @@ import org.geotools.jdbc.JDBCBooleanOnlineTest;
 import org.geotools.jdbc.JDBCBooleanTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class PostGISBooleanOnlineTest extends JDBCBooleanOnlineTest {

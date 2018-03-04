@@ -35,10 +35,9 @@ import net.miginfocom.swing.MigLayout;
  * and {@linkplain #onOK()} methods.
  *
  * @author Michael Bedward
- * @since 2.7
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.7
  */
 public abstract class AbstractSimpleDialog extends JDialog {
     private boolean initialized = false;
@@ -56,7 +55,7 @@ public abstract class AbstractSimpleDialog extends JDialog {
      * Creates a new modal, non-resizable dialog.
      *
      * @param parent parent frame
-     * @param title dialog title
+     * @param title  dialog title
      */
     public AbstractSimpleDialog(JFrame parent, String title) {
         this(parent, title, true, false);
@@ -66,7 +65,7 @@ public abstract class AbstractSimpleDialog extends JDialog {
      * Creates a new modal, non-resizable dialog.
      *
      * @param parent parent dialog
-     * @param title dialog title
+     * @param title  dialog title
      */
     public AbstractSimpleDialog(JDialog parent, String title) {
         this(parent, title, true, false);
@@ -75,13 +74,13 @@ public abstract class AbstractSimpleDialog extends JDialog {
     /**
      * Creates a new modal, non-resizable dialog.
      *
-     * @param parent parent frame
-     * @param title dialog title
-     * @param modal whether to make the dialog application modal
+     * @param parent    parent frame
+     * @param title     dialog title
+     * @param modal     whether to make the dialog application modal
      * @param resizable whether to make the dialog resizable
      */
     public AbstractSimpleDialog(JFrame parent, String title,
-            boolean modal, boolean resizable) {
+                                boolean modal, boolean resizable) {
 
         super(parent, title);
         commonInit(modal, resizable);
@@ -90,13 +89,13 @@ public abstract class AbstractSimpleDialog extends JDialog {
     /**
      * Creates a new modal, non-resizable dialog.
      *
-     * @param parent parent dialog
-     * @param title dialog title
-     * @param modal whether to make the dialog application modal
+     * @param parent    parent dialog
+     * @param title     dialog title
+     * @param modal     whether to make the dialog application modal
      * @param resizable whether to make the dialog resizable
      */
     public AbstractSimpleDialog(JDialog parent, String title,
-            boolean modal, boolean resizable) {
+                                boolean modal, boolean resizable) {
 
         super(parent, title);
         commonInit(modal, resizable);

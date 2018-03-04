@@ -29,7 +29,7 @@ import org.geotools.xml.test.XMLTestSupport;
 public abstract class GPKGTestSupport extends XMLTestSupport {
 
     protected Configuration createConfiguration() {
-       return new GPKGConfiguration();
+        return new GPKGConfiguration();
     }
-  
+
 } 

@@ -19,35 +19,45 @@ package org.geotools.xml.impl;
 import org.eclipse.xsd.XSDAttributeDeclaration;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
+
 import java.util.logging.Logger;
+
 import org.geotools.util.Converters;
 import org.geotools.xml.Binding;
 import org.geotools.xml.SimpleBinding;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class AttributeEncodeExecutor implements BindingWalker.Visitor {
-    /** the object being encoded **/
+    /**
+     * the object being encoded
+     **/
     Object object;
 
-    /** the attribute being encoded **/
+    /**
+     * the attribute being encoded
+     **/
     XSDAttributeDeclaration attribute;
 
-    /** the encoded value **/
+    /**
+     * the encoded value
+     **/
     Attr encoding;
 
-    /** the document / factory **/
+    /**
+     * the document / factory
+     **/
     Document document;
 
-    /** logger */
+    /**
+     * logger
+     */
     Logger logger;
 
     public AttributeEncodeExecutor(Object object, XSDAttributeDeclaration attribute,
-        Document document, Logger logger) {
+                                   Document document, Logger logger) {
         this.object = object;
         this.attribute = attribute;
         this.document = document;
@@ -76,7 +86,7 @@ public class AttributeEncodeExecutor implements BindingWalker.Visitor {
                 object = converted;
             } else {
                 logger.fine(object + "[ " + object.getClass() + " ] is not of type "
-                    + binding.getType());
+                        + binding.getType());
 
                 return;
             }
@@ -89,7 +99,7 @@ public class AttributeEncodeExecutor implements BindingWalker.Visitor {
                 encoding.setValue(simple.encode(object, encoding.getValue()));
             } catch (Throwable t) {
                 String msg = "Encode failed for " + attribute.getName() + ". Cause: "
-                    + t.getLocalizedMessage();
+                        + t.getLocalizedMessage();
                 throw new RuntimeException(msg, t);
             }
         }

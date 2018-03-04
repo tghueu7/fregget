@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.util;
 
 import org.opengis.annotation.UML;
+
 import static org.opengis.annotation.Obligation.*;
 import static org.opengis.annotation.Specification.*;
 
@@ -22,12 +23,10 @@ import static org.opengis.annotation.Specification.*;
  *
  * @author Jody Garnett (Refractions Research)
  * @author Martin Desruisseaux (IRD)
- * @since GeoAPI 2.1
- *
- *
  * @source $URL$
+ * @since GeoAPI 2.1
  */
-@UML(identifier="UnlimitedInteger", specification=ISO_19103)
+@UML(identifier = "UnlimitedInteger", specification = ISO_19103)
 public final class UnlimitedInteger extends Number implements Comparable<UnlimitedInteger> {
     /**
      * For compatibility with different versions.
@@ -37,12 +36,14 @@ public final class UnlimitedInteger extends Number implements Comparable<Unlimit
     /**
      * A constant holding the negative infinity.
      */
-    public static final UnlimitedInteger NEGATIVE_INFINITY = new UnlimitedInteger(Integer.MIN_VALUE);
+    public static final UnlimitedInteger NEGATIVE_INFINITY = new UnlimitedInteger(Integer
+            .MIN_VALUE);
 
     /**
      * A constant holding the positive infinity.
      */
-    public static final UnlimitedInteger POSITIVE_INFINITY = new UnlimitedInteger(Integer.MAX_VALUE);
+    public static final UnlimitedInteger POSITIVE_INFINITY = new UnlimitedInteger(Integer
+            .MAX_VALUE);
 
     /**
      * A constant holding the minimum finite value a {@code UnlimitedInteger} can have.
@@ -71,7 +72,7 @@ public final class UnlimitedInteger extends Number implements Comparable<Unlimit
     /**
      * Returns {@code true} if this integer represents a positive or negative infinity.
      */
-    public boolean isInfinite(){
+    public boolean isInfinite() {
         return (value == Integer.MAX_VALUE) || (value == Integer.MIN_VALUE);
     }
 
@@ -102,9 +103,12 @@ public final class UnlimitedInteger extends Number implements Comparable<Unlimit
     @Override
     public float floatValue() {
         switch (value) {
-            case Integer.MAX_VALUE: return Float.POSITIVE_INFINITY;
-            case Integer.MIN_VALUE: return Float.NEGATIVE_INFINITY;
-            default:                return value;
+            case Integer.MAX_VALUE:
+                return Float.POSITIVE_INFINITY;
+            case Integer.MIN_VALUE:
+                return Float.NEGATIVE_INFINITY;
+            default:
+                return value;
         }
     }
 
@@ -116,9 +120,12 @@ public final class UnlimitedInteger extends Number implements Comparable<Unlimit
     @Override
     public double doubleValue() {
         switch (value) {
-            case Integer.MAX_VALUE: return Double.POSITIVE_INFINITY;
-            case Integer.MIN_VALUE: return Double.NEGATIVE_INFINITY;
-            default:                return value;
+            case Integer.MAX_VALUE:
+                return Double.POSITIVE_INFINITY;
+            case Integer.MIN_VALUE:
+                return Double.NEGATIVE_INFINITY;
+            default:
+                return value;
         }
     }
 
@@ -128,9 +135,12 @@ public final class UnlimitedInteger extends Number implements Comparable<Unlimit
     @Override
     public String toString() {
         switch (value) {
-            case Integer.MAX_VALUE: return  "\u221E"; // Infinity symbol.
-            case Integer.MIN_VALUE: return "-\u221E";
-            default: return Integer.toString(value);
+            case Integer.MAX_VALUE:
+                return "\u221E"; // Infinity symbol.
+            case Integer.MIN_VALUE:
+                return "-\u221E";
+            default:
+                return Integer.toString(value);
         }
     }
 
@@ -153,10 +163,10 @@ public final class UnlimitedInteger extends Number implements Comparable<Unlimit
     /**
      * Compares two {@code UnlimitedInteger} objects numerically.
      *
-     * @param   other the unlimited integer to be compared.
-     * @return  {@code 0} if this {@code UnlimitedInteger} is equal to the given value,
-     *          {@code -1} if this {@code UnlimitedInteger} is numerically less than the given value, and
-     *          {@code +1} if this {@code UnlimitedInteger} is numerically greater than the given value,
+     * @param other the unlimited integer to be compared.
+     * @return {@code 0} if this {@code UnlimitedInteger} is equal to the given value,
+     * {@code -1} if this {@code UnlimitedInteger} is numerically less than the given value, and
+     * {@code +1} if this {@code UnlimitedInteger} is numerically greater than the given value,
      */
     public int compareTo(final UnlimitedInteger other) {
         if (value < other.value) return -1;

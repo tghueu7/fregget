@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *        
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -35,8 +35,6 @@ import org.opengis.feature.type.PropertyDescriptor;
  * filter.
  *
  * @author Ian Schneider
- *
- *
  * @source $URL$
  * @deprecated Please use {@link FilteringFeatureCollection}
  */
@@ -44,15 +42,16 @@ public class FilteringIteration extends FeatureCollectionIteration {
     /**
      * Creates a new instance of FilteringIteration
      *
-     * @param filter DOCUMENT ME!
+     * @param filter     DOCUMENT ME!
      * @param collection DOCUMENT ME!
      */
-    public FilteringIteration(org.opengis.filter.Filter filter, FeatureCollection<?,?> collection) {
+    public FilteringIteration(org.opengis.filter.Filter filter, FeatureCollection<?, ?> 
+            collection) {
         super(new FilterHandler(filter),
-              new FilteringFeatureCollection(collection,filter) );
+                new FilteringFeatureCollection(collection, filter));
     }
 
-    public static void filter(FeatureCollection<?,?> features, Filter filter) {
+    public static void filter(FeatureCollection<?, ?> features, Filter filter) {
         FilteringIteration i = new FilteringIteration(filter, features);
         i.iterate();
     }
@@ -61,7 +60,7 @@ public class FilteringIteration extends FeatureCollectionIteration {
         ((FilterHandler) handler).iterator = iterator;
         super.iterate(iterator);
     }
-    
+
     static class FilterHandler implements Handler {
         FeatureIterator<?> iterator;
         final org.opengis.filter.Filter filter;
@@ -73,11 +72,11 @@ public class FilteringIteration extends FeatureCollectionIteration {
         public void endFeature(Feature f) {
         }
 
-        public void endFeatureCollection( FeatureCollection<?,?> fc) {
+        public void endFeatureCollection(FeatureCollection<?, ?> fc) {
         }
 
         public void handleAttribute(PropertyDescriptor type,
-            Object value) {
+                                    Object value) {
         }
 
         public void handleFeature(Feature f) {
@@ -88,7 +87,7 @@ public class FilteringIteration extends FeatureCollectionIteration {
         }
 
         public void handleFeatureCollection(
-            FeatureCollection<?,?> fc) {
+                FeatureCollection<?, ?> fc) {
         }
     }
 }

@@ -1,4 +1,3 @@
-
 package org.geotools.data.arcgisrest.schema.services.feature;
 
 import com.google.gson.annotations.Expose;
@@ -10,61 +9,49 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class SpatialReference_ {
 
     /**
-     * 
      * (Required)
-     * 
      */
     @SerializedName("wkid")
     @Expose
     private Integer wkid;
     /**
-     * 
      * (Required)
-     * 
      */
     @SerializedName("latestWkid")
     @Expose
     private Integer latestWkid;
 
     /**
-     * 
      * (Required)
-     * 
-     * @return
-     *     The wkid
+     *
+     * @return The wkid
      */
     public Integer getWkid() {
         return wkid;
     }
 
     /**
-     * 
      * (Required)
-     * 
-     * @param wkid
-     *     The wkid
+     *
+     * @param wkid The wkid
      */
     public void setWkid(Integer wkid) {
         this.wkid = wkid;
     }
 
     /**
-     * 
      * (Required)
-     * 
-     * @return
-     *     The latestWkid
+     *
+     * @return The latestWkid
      */
     public Integer getLatestWkid() {
         return latestWkid;
     }
 
     /**
-     * 
      * (Required)
-     * 
-     * @param latestWkid
-     *     The latestWkid
+     *
+     * @param latestWkid The latestWkid
      */
     public void setLatestWkid(Integer latestWkid) {
         this.latestWkid = latestWkid;
@@ -89,7 +76,8 @@ public class SpatialReference_ {
             return false;
         }
         SpatialReference_ rhs = ((SpatialReference_) other);
-        return new EqualsBuilder().append(wkid, rhs.wkid).append(latestWkid, rhs.latestWkid).isEquals();
+        return new EqualsBuilder().append(wkid, rhs.wkid).append(latestWkid, rhs.latestWkid)
+                .isEquals();
     }
 
 }

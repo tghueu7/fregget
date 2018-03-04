@@ -70,21 +70,23 @@ import com.esri.sde.sdk.client.SeVersion;
  * assumptions in the API behavior due to the very little documentation ESRI provides about the less
  * obvious things.
  * </p>
- * 
+ *
  * @author Gabriel Roldan, Axios Engineering
- *
- *
- * @source $URL$
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/test/java
- *         /org/geotools/arcsde/data/ArcSDEJavaApiTest.java $
  * @version $Id$
+ * @source $URL$
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/test/java
+ * /org/geotools/arcsde/data/ArcSDEJavaApiTest.java $
  */
 public class ArcSDEJavaApiTest {
-    /** package logger */
+    /**
+     * package logger
+     */
     private static Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger(ArcSDEJavaApiTest.class.getPackage().getName());
 
-    /** utility to load test parameters and build a datastore with them */
+    /**
+     * utility to load test parameters and build a datastore with them
+     */
     private static TestData testData;
 
     private ISession session;
@@ -137,7 +139,7 @@ public class ArcSDEJavaApiTest {
 
     @Test
     public void testNullSQLConstruct() throws Exception {
-        String[] columns = { TestData.TEST_TABLE_COLS[0] };
+        String[] columns = {TestData.TEST_TABLE_COLS[0]};
         SeSqlConstruct sql = null;
 
         try {
@@ -151,7 +153,7 @@ public class ArcSDEJavaApiTest {
     @Test
     public void testEmptySQLConstruct() throws Exception {
         String typeName = testData.getTempTableName();
-        String[] columns = { TestData.TEST_TABLE_COLS[0] };
+        String[] columns = {TestData.TEST_TABLE_COLS[0]};
         SeSqlConstruct sql = new SeSqlConstruct(typeName);
 
         SeQuery rowQuery = null;
@@ -167,7 +169,7 @@ public class ArcSDEJavaApiTest {
     @Test
     public void testGetBoundsWhileFetchingRows() throws Exception {
         final String typeName = testData.getTempTableName();
-        final String[] columns = { TestData.TEST_TABLE_COLS[0] };
+        final String[] columns = {TestData.TEST_TABLE_COLS[0]};
         final SeSqlConstruct sql = new SeSqlConstruct(typeName);
 
         final SeQueryInfo qInfo = new SeQueryInfo();
@@ -183,7 +185,7 @@ public class ArcSDEJavaApiTest {
 
         SeShapeFilter bboxFilter = new SeShapeFilter(typeName, layer.getSpatialColumn(),
                 filterShape, SeFilter.METHOD_ENVP, true);
-        final SeFilter[] spatFilters = { bboxFilter };
+        final SeFilter[] spatFilters = {bboxFilter};
 
         final Command<Integer> countCmd = new Command<Integer>() {
             @Override
@@ -221,29 +223,25 @@ public class ArcSDEJavaApiTest {
     }
 
     /**
-     * @param session
-     *            the session to use in obtaining the query result count
-     * @param tableName
-     *            the name of the table to query
-     * @param whereClause
-     *            where clause, may be null
-     * @param spatFilters
-     *            spatial filters, may be null
-     * @param the
-     *            state identifier to query over a versioned table, may be {@code null}
+     * @param session     the session to use in obtaining the query result count
+     * @param tableName   the name of the table to query
+     * @param whereClause where clause, may be null
+     * @param spatFilters spatial filters, may be null
+     * @param the         state identifier to query over a versioned table, may be {@code null}
      * @return the sde calculated counts for the given filter
      * @throws IOException
      * @throws Exception
      */
     private static int getTempTableCount(final ISession session, final String tableName,
-            final String whereClause, final SeFilter[] spatFilters, final SeState state)
+                                         final String whereClause, final SeFilter[] spatFilters, 
+                                         final SeState state)
             throws IOException {
 
         final Command<Integer> countCmd = new Command<Integer>() {
             @Override
             public Integer execute(ISession session, SeConnection connection) throws SeException,
                     IOException {
-                String[] columns = { "*" };
+                String[] columns = {"*"};
 
                 SeSqlConstruct sql = new SeSqlConstruct(tableName);
                 if (whereClause != null) {
@@ -296,7 +294,7 @@ public class ArcSDEJavaApiTest {
 
             SeShapeFilter bboxFilter = new SeShapeFilter(typeName, layer.getSpatialColumn(),
                     filterShape, SeFilter.METHOD_ENVP, true);
-            SeFilter[] spatFilters = { bboxFilter };
+            SeFilter[] spatFilters = {bboxFilter};
 
             expCount = 1;
 
@@ -325,7 +323,7 @@ public class ArcSDEJavaApiTest {
 
             SeShapeFilter bboxFilter = new SeShapeFilter(typeName, layer.getSpatialColumn(),
                     filterShape, SeFilter.METHOD_ENVP, true);
-            SeFilter[] spatFilters = { bboxFilter };
+            SeFilter[] spatFilters = {bboxFilter};
 
             expCount = 2;
 
@@ -342,7 +340,7 @@ public class ArcSDEJavaApiTest {
     public void testCalculateBoundsSqlFilter() throws Exception {
         String typeName = testData.getTempTableName();
         String where = "INT32_COL = 1";
-        String[] cols = { "SHAPE" };
+        String[] cols = {"SHAPE"};
 
         SeSqlConstruct sqlCons = new SeSqlConstruct(typeName);
         sqlCons.setWhere(where);
@@ -378,7 +376,7 @@ public class ArcSDEJavaApiTest {
         final String typeName = testData.getTempTableName();
 
         // String where = null;
-        String[] cols = { "SHAPE" };
+        String[] cols = {"SHAPE"};
         final SeFilter[] spatFilters;
         try {
             SeExtent extent = new SeExtent(179, -1, 180, 0);
@@ -388,7 +386,7 @@ public class ArcSDEJavaApiTest {
 
             SeShapeFilter bboxFilter = new SeShapeFilter(typeName, layer.getSpatialColumn(),
                     filterShape, SeFilter.METHOD_ENVP, true);
-            spatFilters = new SeFilter[] { bboxFilter };
+            spatFilters = new SeFilter[]{bboxFilter};
         } catch (SeException eek) {
             throw new ArcSdeException(eek);
         }
@@ -430,7 +428,7 @@ public class ArcSDEJavaApiTest {
         final String typeName = testData.getTempTableName();
         // try {
         String where = "INT32_COL < 5";
-        String[] cols = { "SHAPE" };
+        String[] cols = {"SHAPE"};
         final SeFilter[] spatFilters;
         try {
             SeExtent extent = new SeExtent(179, -1, 180, 0);
@@ -440,7 +438,7 @@ public class ArcSDEJavaApiTest {
 
             SeShapeFilter bboxFilter = new SeShapeFilter(typeName, layer.getSpatialColumn(),
                     filterShape, SeFilter.METHOD_ENVP, true);
-            spatFilters = new SeFilter[] { bboxFilter };
+            spatFilters = new SeFilter[]{bboxFilter};
         } catch (SeException eek) {
             throw new ArcSdeException(eek);
         }
@@ -482,9 +480,8 @@ public class ArcSDEJavaApiTest {
 
     /**
      * Ensures a point SeShape behaves as expected.
-     * 
-     * @throws SeException
-     *             if it is thrown while constructing the SeShape
+     *
+     * @throws SeException if it is thrown while constructing the SeShape
      */
     @Test
     public void testPointFormat() throws SeException {
@@ -515,9 +512,8 @@ public class ArcSDEJavaApiTest {
 
     /**
      * Ensures a multipoint SeShape behaves as expected.
-     * 
-     * @throws SeException
-     *             if it is thrown while constructing the SeShape
+     *
+     * @throws SeException if it is thrown while constructing the SeShape
      */
     @Test
     public void testMultiPointFormat() throws SeException {
@@ -551,9 +547,8 @@ public class ArcSDEJavaApiTest {
 
     /**
      * Ensures a linestring SeShape behaves as expected.
-     * 
-     * @throws SeException
-     *             if it is thrown while constructing the SeShape
+     *
+     * @throws SeException if it is thrown while constructing the SeShape
      */
     @Test
     public void testLineStringFormat() throws SeException {
@@ -566,7 +561,7 @@ public class ArcSDEJavaApiTest {
 
         SeShape point = new SeShape();
         int numParts = 1;
-        int[] partOffsets = { 0 }; // index of each part's start in the gobal
+        int[] partOffsets = {0}; // index of each part's start in the gobal
         // coordinate array
         point.generateLine(numPts, numParts, partOffsets, ptArray);
 
@@ -581,9 +576,8 @@ public class ArcSDEJavaApiTest {
 
     /**
      * Ensures a multilinestring SeShape behaves as expected.
-     * 
-     * @throws SeException
-     *             if it is thrown while constructing the SeShape
+     *
+     * @throws SeException if it is thrown while constructing the SeShape
      */
     @Test
     public void testMultiLineStringFormat() throws SeException {
@@ -596,7 +590,7 @@ public class ArcSDEJavaApiTest {
 
         SeShape point = new SeShape();
         int numParts = 2;
-        int[] partOffsets = { 0, 2 }; // index of each part's start in the
+        int[] partOffsets = {0, 2}; // index of each part's start in the
         // gobal coordinate array
         point.generateLine(numPts, numParts, partOffsets, ptArray);
 
@@ -614,9 +608,8 @@ public class ArcSDEJavaApiTest {
     /**
      * Ensures a polygon SeShape behaves as expected, building a simple polygon and a polygon with a
      * hole.
-     * 
-     * @throws SeException
-     *             if it is thrown while constructing the SeShape
+     *
+     * @throws SeException if it is thrown while constructing the SeShape
      */
     @Test
     public void testPolygonFormat() throws SeException {
@@ -686,9 +679,8 @@ public class ArcSDEJavaApiTest {
 
     /**
      * Ensures a multipolygon SeShape behaves as expected.
-     * 
-     * @throws SeException
-     *             if it is thrown while constructing the SeShape
+     *
+     * @throws SeException if it is thrown while constructing the SeShape
      */
     @Test
     public void testMultiPolygonFormat() throws SeException {
@@ -869,7 +861,6 @@ public class ArcSDEJavaApiTest {
      * This code is directly taken from the createBaseTable mehtod of the arcsdeonline
      * "Working with layers" example, to verify that it works prior to blame the gt implementation.
      * </p>
-     * 
      */
     @Test
     public void testCreateNonStandardSchema() throws SeException, IOException,
@@ -903,8 +894,8 @@ public class ArcSDEJavaApiTest {
                     if (LOGGER.isLoggable(Level.FINE)) {
                         System.out.println("\n--> Creating a table using DBMS Default Keyword");
                     }
-                    SeColumnDefinition[] tmpCols = new SeColumnDefinition[] { new SeColumnDefinition(
-                            "tmp", SeColumnDefinition.TYPE_STRING, 5, 0, true) };
+                    SeColumnDefinition[] tmpCols = new SeColumnDefinition[]{new SeColumnDefinition(
+                            "tmp", SeColumnDefinition.TYPE_STRING, 5, 0, true)};
                     table.create(tmpCols, testData.getConfigKeyword());
                     if (LOGGER.isLoggable(Level.FINE)) {
                         System.out.println(" - Done.");
@@ -1008,7 +999,7 @@ public class ArcSDEJavaApiTest {
     public void testDeleteById() throws IOException, UnavailableConnectionException, SeException {
 
         final String typeName = testData.getTempTableName();
-        final SeQuery query = session.createAndExecuteQuery(new String[] { "ROW_ID", "INT32_COL" },
+        final SeQuery query = session.createAndExecuteQuery(new String[]{"ROW_ID", "INT32_COL"},
                 new SeSqlConstruct(typeName));
 
         final int rowId;
@@ -1032,7 +1023,7 @@ public class ArcSDEJavaApiTest {
 
         final String whereClause = "ROW_ID=" + rowId;
         final SeSqlConstruct sqlConstruct = new SeSqlConstruct(typeName, whereClause);
-        final SeQuery deletedQuery = session.createAndExecuteQuery(new String[] { "ROW_ID" },
+        final SeQuery deletedQuery = session.createAndExecuteQuery(new String[]{"ROW_ID"},
                 sqlConstruct);
 
         SdeRow row = session.fetch(deletedQuery);
@@ -1042,7 +1033,7 @@ public class ArcSDEJavaApiTest {
     /**
      * Does a query over a non autocommit transaction return the added/modified features and hides
      * the deleted ones?
-     * 
+     *
      * @throws DataSourceException
      */
     @Test
@@ -1063,7 +1054,7 @@ public class ArcSDEJavaApiTest {
         boolean commited = false;
 
         try {
-            final String[] columns = { "INT32_COL", "STRING_COL" };
+            final String[] columns = {"INT32_COL", "STRING_COL"};
             final String tableName = testData.getTempTableName(transSession);
 
             transSession.issue(new Command<Void>() {
@@ -1141,7 +1132,7 @@ public class ArcSDEJavaApiTest {
     /**
      * Creates a versioned table with two versions, the default one and another one, makes edits
      * over the default one, checks states are consistent in both
-     * 
+     *
      * @throws Exception
      */
     @Test

@@ -20,8 +20,6 @@ import org.geotools.jdbc.JDBCPrimaryKeyFinderOnlineTest;
 import org.geotools.jdbc.JDBCPrimaryKeyFinderTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GeoPkgPrimaryKeyFinderOnlineTest extends JDBCPrimaryKeyFinderOnlineTest {

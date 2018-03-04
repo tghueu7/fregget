@@ -30,11 +30,11 @@ import javax.imageio.stream.ImageInputStream;
 import javax.imageio.stream.MemoryCacheImageInputStream;
 
 /**
- * Support class helping to read tile images from a geopackage. This class keeps state to avoid performing repeated image reader lookups, it is not
+ * Support class helping to read tile images from a geopackage. This class keeps state to avoid 
+ * performing repeated image reader lookups, it is not
  * thread safe, create one for each thread reading data.
- * 
- * @author Andrea Aime - GeoSolutions
  *
+ * @author Andrea Aime - GeoSolutions
  */
 class TileImageReader {
 

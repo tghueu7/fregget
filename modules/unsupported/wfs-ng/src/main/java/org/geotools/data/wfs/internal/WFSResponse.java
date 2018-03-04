@@ -32,14 +32,11 @@ import org.opengis.feature.simple.SimpleFeatureType;
 /**
  * A handle to a WFS response that contains the input stream to the actual contents and some well
  * known response information derived from the HTTP response headers.
- * 
+ *
  * @author Gabriel Roldan (OpenGeo)
  * @version $Id$
- * @since 2.6
- * 
- * 
- * 
  * @source $URL$
+ * @since 2.6
  */
 @SuppressWarnings("nls")
 public class WFSResponse extends Response {
@@ -87,7 +84,7 @@ public class WFSResponse extends Response {
     /**
      * Returns the character encoding if set by the server as an http header, if unknown assumes
      * {@code UTF-8}
-     * 
+     *
      * @return the character set for the response if set, or {@code null}
      */
     public Charset getCharacterEncoding() {
@@ -96,7 +93,7 @@ public class WFSResponse extends Response {
 
     /**
      * Returns the WFS response declared content type
-     * 
+     *
      * @return the content type of the response
      */
     public String getContentType() {

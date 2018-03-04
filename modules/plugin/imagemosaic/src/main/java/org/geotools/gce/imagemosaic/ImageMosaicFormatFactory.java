@@ -37,27 +37,33 @@ import com.sun.media.imageioimpl.plugins.jpeg2000.J2KImageReaderSpi;
 import com.sun.media.imageioimpl.plugins.tiff.TIFFImageReaderSpi;
 
 /**
- * Implementation of the GridCoverageFormat service provider interface for mosaic of georeferenced images.
- * 
+ * Implementation of the GridCoverageFormat service provider interface for mosaic of 
+ * georeferenced images.
+ *
  * @author Simone Giannecchini, GeoSolutions S.A.S.
- * @since 2.3
- *
- *
  * @source $URL$
+ * @since 2.3
  */
 public final class ImageMosaicFormatFactory implements GridFormatFactorySpi {
 
-    private static final String GDAL_JP2ECW_SPI = "it.geosolutions.imageio.plugins.jp2ecw.JP2GDALEcwImageReaderSpi";
+    private static final String GDAL_JP2ECW_SPI = "it.geosolutions.imageio.plugins.jp2ecw" +
+            ".JP2GDALEcwImageReaderSpi";
 
-    private static final String GDAL_JP2KAKADU_SPI = "it.geosolutions.imageio.plugins.jp2kakadu.JP2GDALKakaduImageReaderSpi";
+    private static final String GDAL_JP2KAKADU_SPI = "it.geosolutions.imageio.plugins.jp2kakadu" +
+            ".JP2GDALKakaduImageReaderSpi";
 
-    private static final String GDAL_JP2MrSID_SPI = "it.geosolutions.imageio.plugins.jp2mrsid.JP2GDALMrSidImageReaderSpi";
+    private static final String GDAL_JP2MrSID_SPI = "it.geosolutions.imageio.plugins.jp2mrsid" +
+            ".JP2GDALMrSidImageReaderSpi";
 
-    private static final String GDAL_SPI = "it.geosolutions.imageio.gdalframework.GDALImageReaderSpi";
+    private static final String GDAL_SPI = "it.geosolutions.imageio.gdalframework" +
+            ".GDALImageReaderSpi";
 
-    private static final String KAKADU_SPI = "it.geosolutions.imageio.plugins.jp2k.JP2KKakaduImageReaderSpi";
+    private static final String KAKADU_SPI = "it.geosolutions.imageio.plugins.jp2k" +
+            ".JP2KKakaduImageReaderSpi";
 
-    /** Logger. */
+    /**
+     * Logger.
+     */
     private final static Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger(ImageMosaicFormatFactory.class);
 
@@ -67,9 +73,7 @@ public final class ImageMosaicFormatFactory implements GridFormatFactorySpi {
 
         if (hasJP2Kakadu()) {
             replaceJP2Kakadu();
-        }
-
-        else {
+        } else {
             if (hasJP2GDALECW()) {
                 replaceECW();
             }
@@ -354,7 +358,8 @@ public final class ImageMosaicFormatFactory implements GridFormatFactorySpi {
     private static void replaceTIFF() {
         try {
             // check if our tiff plugin is in the path
-            final String customTiffName = it.geosolutions.imageioimpl.plugins.tiff.TIFFImageReaderSpi.class
+            final String customTiffName = it.geosolutions.imageioimpl.plugins.tiff
+                    .TIFFImageReaderSpi.class
                     .getName();
             Class.forName(customTiffName);
 
@@ -383,7 +388,7 @@ public final class ImageMosaicFormatFactory implements GridFormatFactorySpi {
 
     /**
      * Returns the implementation hints. The default implementation returns an empty map.
-     * 
+     *
      * @return An empty map.
      */
     public Map<RenderingHints.Key, ?> getImplementationHints() {
@@ -392,10 +397,11 @@ public final class ImageMosaicFormatFactory implements GridFormatFactorySpi {
 
     /**
      * Tells me if this plugin will work on not given the actual installation.
-     * 
      * <p>
-     * Dependecies are mostly from JAI and ImageIO so if they are installed you should not have many problems.
-     * 
+     * <p>
+     * Dependecies are mostly from JAI and ImageIO so if they are installed you should not have 
+     * many problems.
+     *
      * @return False if something's missing, true otherwise.
      */
     public boolean isAvailable() {

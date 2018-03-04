@@ -32,7 +32,7 @@ import org.opengis.referencing.operation.TransformException;
 /**
  * This Layer is an attempt to speed rendering by using a CountDownLatch and
  * threads to render each tile. The performance improvement is minimal, though.
- * 
+ *
  * @author Ugo Taddei
  * @since 12
  */
@@ -46,7 +46,8 @@ public class AsyncTileLayer extends TileLayer {
 
     @Override
     protected void renderTiles(Collection<Tile> tiles, Graphics2D g2d,
-            ReferencedEnvelope viewportExtent, AffineTransform worldToImageTransform) {
+                               ReferencedEnvelope viewportExtent, AffineTransform 
+                                           worldToImageTransform) {
 
         long t = System.currentTimeMillis();
 
@@ -81,7 +82,8 @@ public class AsyncTileLayer extends TileLayer {
     }
 
     protected void localRenderTiles(Collection<Tile> tiles, Graphics2D g2d,
-            ReferencedEnvelope viewportExtent, AffineTransform worldToImageTransform) {
+                                    ReferencedEnvelope viewportExtent, AffineTransform 
+                                            worldToImageTransform) {
 
         g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
                 RenderingHints.VALUE_INTERPOLATION_BILINEAR);

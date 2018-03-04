@@ -23,18 +23,22 @@ import org.geotools.xml.InstanceComponent;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class InstanceComponentImpl implements InstanceComponent {
-    /** namespace **/
+    /**
+     * namespace
+     **/
     String namespace;
 
-    /** name **/
+    /**
+     * name
+     **/
     String name;
 
-    /** text **/
+    /**
+     * text
+     **/
     StringBuffer text;
 
     public XSDNamedComponent getDeclaration() {
@@ -90,9 +94,9 @@ public abstract class InstanceComponentImpl implements InstanceComponent {
         buf.append(name);
         buf.append(" ");
         buf.append(namespace);
-        if( text != null ){
+        if (text != null) {
             buf.append("\n\t");
-            buf.append( text );
+            buf.append(text);
         }
         return buf.toString();
     }

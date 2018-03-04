@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -30,7 +30,8 @@ import org.opengis.feature.type.Name;
 import org.opengis.filter.Filter;
 
 /**
- * Bridges between {@link FeatureSource<SimpleFeatureType, SimpleFeature>} and {@link SimpleFeatureSource}
+ * Bridges between {@link FeatureSource<SimpleFeatureType, SimpleFeature>} and 
+ * {@link SimpleFeatureSource}
  */
 
 class SimpleFeatureSourceBridge implements SimpleFeatureSource {

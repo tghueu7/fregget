@@ -30,26 +30,28 @@ import org.opengis.coverage.grid.GridCoverageReader;
 /**
  * This class can read a RST data source and create a {@link GridCoverage2D}
  * from the data.
- * 
+ *
  * @author Daniele Romagnoli, GeoSolutions.
  * @author Simone Giannecchini (simboss), GeoSolutions
+ * @source $URL: http://svn.osgeo.org/geotools/trunk/modules/plugin/imageio-ext-gdal/src/main
+ * /java/org/geotools/coverageio/gdal/idrisi/IDRISIReader.java $
  * @since 2.5.x
- *
- * @source $URL: http://svn.osgeo.org/geotools/trunk/modules/plugin/imageio-ext-gdal/src/main/java/org/geotools/coverageio/gdal/idrisi/IDRISIReader.java $
  */
 public final class IDRISIReader extends BaseGDALGridCoverage2DReader implements
         GridCoverageReader {
-    /** Logger. */
+    /**
+     * Logger.
+     */
     @SuppressWarnings("unused")
-    private final static Logger LOGGER = org.geotools.util.logging.Logging.getLogger(IDRISIReader.class.toString());
+    private final static Logger LOGGER = org.geotools.util.logging.Logging.getLogger(IDRISIReader
+            .class.toString());
 
     /**
      * Creates a new instance of a {@link IDRISIReader}. I assume nothing about
      * file extension.
-     * 
-     * @param input
-     *                Source object for which we want to build an
-     *                {@link IDRISIReader}.
+     *
+     * @param input Source object for which we want to build an
+     *              {@link IDRISIReader}.
      * @throws DataSourceException
      */
     public IDRISIReader(Object input) throws DataSourceException {
@@ -59,12 +61,10 @@ public final class IDRISIReader extends BaseGDALGridCoverage2DReader implements
     /**
      * Creates a new instance of a {@link IDRISIReader}. I assume nothing about
      * file extension.
-     * 
-     * @param input
-     *                Source object for which we want to build an
-     *                {@link IDRISIReader}.
-     * @param hints
-     *                Hints to be used by this reader throughout his life.
+     *
+     * @param input Source object for which we want to build an
+     *              {@link IDRISIReader}.
+     * @param hints Hints to be used by this reader throughout his life.
      * @throws DataSourceException
      */
     public IDRISIReader(Object input, Hints hints) throws DataSourceException {

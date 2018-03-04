@@ -27,9 +27,9 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/se:LinePlacement.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:element name="LinePlacement" type="se:LinePlacementType"&gt;
@@ -39,16 +39,14 @@ import javax.xml.namespace.QName;
  *          relative to a linear geometry.
  *        &lt;/xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
- *  &lt;/xsd:element&gt; 
- * 	
+ *  &lt;/xsd:element&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class LinePlacementBinding extends SLDLinePlacementBinding {
@@ -66,35 +64,35 @@ public class LinePlacementBinding extends SLDLinePlacementBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
 
         //&lt;xsd:element minOccurs="0" ref="se:PerpendicularOffset"/&gt;
         LinePlacement lp = (LinePlacement) super.parse(instance, node, value);
-        
+
         //&lt;xsd:element minOccurs="0" ref="se:IsRepeated"/&gt;
         if (node.hasChild("IsRepeated")) {
             lp.setRepeated((Boolean) node.getChildValue("IsRepeated"));
         }
         //&lt;xsd:element minOccurs="0" ref="se:InitialGap"/&gt;
         if (node.hasChild("InitialGap")) {
-            lp.setInitialGap((Expression)node.getChildValue("InitialGap"));
+            lp.setInitialGap((Expression) node.getChildValue("InitialGap"));
         }
         //&lt;xsd:element minOccurs="0" ref="se:Gap"/&gt;
         if (node.hasChild("Gap")) {
-            lp.setGap((Expression)node.getChildValue("Gap"));
+            lp.setGap((Expression) node.getChildValue("Gap"));
         }
         //&lt;xsd:element minOccurs="0" ref="se:IsAligned"/&gt;
         if (node.hasChild("IsAligned")) {
             lp.setAligned((Boolean) node.getChildValue("IsAligned"));
-        }       
+        }
         //&lt;xsd:element minOccurs="0" ref="se:GeneralizeLine"/&gt;
         if (node.hasChild("GeneralizeLine")) {
             lp.setGeneralized((Boolean) node.getChildValue("GeneralizeLine"));
         }
-        
+
         return lp;
     }
 

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -21,6 +21,7 @@ package org.geotools.metadata.iso.identification;
 
 import java.util.Collection;
 import java.util.Date;
+
 import org.opengis.metadata.citation.ResponsibleParty;
 import org.opengis.metadata.identification.Usage;
 import org.opengis.util.InternationalString;
@@ -30,13 +31,10 @@ import org.geotools.metadata.iso.MetadataEntity;
 /**
  * Brief description of ways in which the resource(s) is/are currently used.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class UsageImpl extends MetadataEntity implements Usage {
@@ -88,10 +86,9 @@ public class UsageImpl extends MetadataEntity implements Usage {
      * Creates an usage initialized to the specified values.
      */
     public UsageImpl(final InternationalString specificUsage,
-                     final Collection<ResponsibleParty> userContactInfo)
-    {
+                     final Collection<ResponsibleParty> userContactInfo) {
         setUserContactInfo(userContactInfo);
-        setSpecificUsage  (specificUsage  );
+        setSpecificUsage(specificUsage);
     }
 
     /**
@@ -101,9 +98,9 @@ public class UsageImpl extends MetadataEntity implements Usage {
         return specificUsage;
     }
 
-   /**
-    * Set a brief description of the resource and/or resource series usage.
-    */
+    /**
+     * Set a brief description of the resource and/or resource series usage.
+     */
     public synchronized void setSpecificUsage(final InternationalString newValue) {
         checkWritePermission();
         specificUsage = newValue;
@@ -113,15 +110,15 @@ public class UsageImpl extends MetadataEntity implements Usage {
      * Date and time of the first use or range of uses of the resource and/or resource series.
      */
     public synchronized Date getUsageDate() {
-        return (usageDate!=Long.MIN_VALUE) ? new Date(usageDate) : null;
+        return (usageDate != Long.MIN_VALUE) ? new Date(usageDate) : null;
     }
 
     /**
      * Set the date and time of the first use.
      */
-    public synchronized void setUsageDate(final Date newValue)  {
+    public synchronized void setUsageDate(final Date newValue) {
         checkWritePermission();
-        usageDate = (newValue!=null) ? newValue.getTime() : Long.MIN_VALUE;
+        usageDate = (newValue != null) ? newValue.getTime() : Long.MIN_VALUE;
     }
 
     /**
@@ -154,8 +151,7 @@ public class UsageImpl extends MetadataEntity implements Usage {
      * using the resource(s).
      */
     public synchronized void setUserContactInfo(
-            final Collection<? extends ResponsibleParty> newValues)
-    {
+            final Collection<? extends ResponsibleParty> newValues) {
         userContactInfo = copyCollection(newValues, userContactInfo, ResponsibleParty.class);
     }
 }

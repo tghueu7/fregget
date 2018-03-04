@@ -9,25 +9,24 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.io.ParseException;
 
 /**
- * An Adapter class to be used to extract from -adapt- the 
- * argument object to some {@link Geometry} value that 
+ * An Adapter class to be used to extract from -adapt- the
+ * argument object to some {@link Geometry} value that
  * would later be used in <code>Condition</code> evaluation.
- * 
+ * <p>
  * Clients can subclass it and provide their own implementation
- * 
- * @see {@link Condition}
  *
  * @source $URL$
+ * @see {@link Condition}
  */
 public abstract class GeometryAdapter implements IDataTypeAdapter<Geometry> {
 
     /**
-     * The simplest {@link GeometryAdapter} implementation that represents 
+     * The simplest {@link GeometryAdapter} implementation that represents
      * the case when the argument object to adapt is a
-     * <ol> 
-     *  <li>{@link Geometry}</li>
-     *  <li>{@link DataTypes#WKT} formated string</li>
-     *  <li>{@link DataTypes#WKB} formated byte array</li>
+     * <ol>
+     * <li>{@link Geometry}</li>
+     * <li>{@link DataTypes#WKT} formated string</li>
+     * <li>{@link DataTypes#WKB} formated byte array</li>
      * </ol>
      */
     public static final GeometryAdapter DEFAULT = new GeometryAdapter() {
@@ -37,14 +36,12 @@ public abstract class GeometryAdapter implements IDataTypeAdapter<Geometry> {
                 //
                 // Is not null?
                 //
-                if(object!=null) {
+                if (object != null) {
                     if (object instanceof Geometry) {
                         return (Geometry) object;
-                    }
-                    else if(object instanceof byte[]) {
-                        return WKBAdapter.READER.read((byte[])object);
-                    }
-                    else if(Geometry.class.isAssignableFrom(object.getClass())) {
+                    } else if (object instanceof byte[]) {
+                        return WKBAdapter.READER.read((byte[]) object);
+                    } else if (Geometry.class.isAssignableFrom(object.getClass())) {
                         return DataBuilder.toEmptyGeometry(object.getClass());
                     }
                     //
@@ -65,29 +62,31 @@ public abstract class GeometryAdapter implements IDataTypeAdapter<Geometry> {
     };
 
     /**
-    * Adapts given object to a {@link Geometry} instance.
-    * <p>
-    * The following data types are supported:
-     * <ol> 
-     *  <li>{@link Geometry}</li>
-     *  <li>{@link DataTypes#WKT} formated string</li>
-     *  <li>{@link DataTypes#WKB} formated byte array</li>
+     * Adapts given object to a {@link Geometry} instance.
+     * <p>
+     * The following data types are supported:
+     * <ol>
+     * <li>{@link Geometry}</li>
+     * <li>{@link DataTypes#WKT} formated string</li>
+     * <li>{@link DataTypes#WKB} formated byte array</li>
      * </ol>
-    * @param object - the object to adapt to a {@link Geometry} instance 
-    * @return a {@link Geometry}
-    */
+     *
+     * @param object - the object to adapt to a {@link Geometry} instance
+     * @return a {@link Geometry}
+     */
     public abstract Geometry toGeometry(Object object) throws IllegalArgumentException;
 
     /**
      * Adapts given object to a {@link Geometry} instance.
      * <p>
      * The following data types are supported:
-      * <ol> 
-      *  <li>{@link Geometry}</li>
-      *  <li>{@link DataTypes#WKT} formated string</li>
-      *  <li>{@link DataTypes#WKB} formated byte array</li>
-      * </ol>
-     * @param object - the object to adapt to a {@link Geometry} instance 
+     * <ol>
+     * <li>{@link Geometry}</li>
+     * <li>{@link DataTypes#WKT} formated string</li>
+     * <li>{@link DataTypes#WKB} formated byte array</li>
+     * </ol>
+     *
+     * @param object - the object to adapt to a {@link Geometry} instance
      * @return a {@link Geometry}
      */
     @Override

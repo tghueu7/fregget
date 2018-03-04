@@ -57,60 +57,63 @@ public class CoverageClassStatsTest {
     public void testEqualInterval() throws Exception {
         CoverageClassStats p = new CoverageClassStats();
         Results r = p.execute(createCoverage(),
-            new LinkedHashSet<Statistic>(Arrays.asList(Statistic.MEAN, Statistic.SUM)),
-            null, 4, ClassificationMethod.EQUAL_INTERVAL, null, null);
+                new LinkedHashSet<Statistic>(Arrays.asList(Statistic.MEAN, Statistic.SUM)),
+                null, 4, ClassificationMethod.EQUAL_INTERVAL, null, null);
 
-        assertResults(r, 
-            new double[]{1d, 14d, 27d, 40d, 53d}, 
+        assertResults(r,
+                new double[]{1d, 14d, 27d, 40d, 53d}, 
             /*new double[][]{{5.1,46d,3.8},{21.2, 106d, 5.7},{Double.NaN,Double.NaN,Double.NaN},
                 {49d,98d,4d}});*/
-            new double[][]{{5.1,46d},{21.2, 106d},{Double.NaN,Double.NaN}, {49d,98d}});
+                new double[][]{{5.1, 46d}, {21.2, 106d}, {Double.NaN, Double.NaN}, {49d, 98d}});
     }
 
     @Test
     public void testEqualInterval2() throws Exception {
         CoverageClassStats p = new CoverageClassStats();
         Results r = p.execute(createViewshedCoverage(), Collections.singleton(Statistic.MEAN),
-            null, 4, ClassificationMethod.EQUAL_INTERVAL, null, null);
+                null, 4, ClassificationMethod.EQUAL_INTERVAL, null, null);
 
-        assertResults(r, 
-            new double[]{-1d, -0.5, 0d, 0.5, 1d}, 
-            new double[][]{{-1d},{Double.NaN},{Double.NaN},{1d}});
+        assertResults(r,
+                new double[]{-1d, -0.5, 0d, 0.5, 1d},
+                new double[][]{{-1d}, {Double.NaN}, {Double.NaN}, {1d}});
     }
 
     @Test
     public void testQuantile() throws Exception {
         CoverageClassStats p = new CoverageClassStats();
-        Results r = p.execute(createCoverage(), new LinkedHashSet<Statistic>(Arrays.asList(Statistic.MEAN, Statistic.SUM)),
-            null, 4, ClassificationMethod.QUANTILE, null, null);
+        Results r = p.execute(createCoverage(), new LinkedHashSet<Statistic>(Arrays.asList
+                        (Statistic.MEAN, Statistic.SUM)),
+                null, 4, ClassificationMethod.QUANTILE, null, null);
 
-        assertResults(r, 
-            new double[]{1d, 3d, 11d, 26d, 53d}, 
-            //new double[][]{{1.3,4d,0.47},{6.2, 31d, 2.6},{16.3, 65d, 4.8},{37.5, 150d, 11.8}});
-            new double[][]{{1.3,4d},{6.2, 31d},{16.3, 65d},{37.5, 150d}});
+        assertResults(r,
+                new double[]{1d, 3d, 11d, 26d, 53d},
+                //new double[][]{{1.3,4d,0.47},{6.2, 31d, 2.6},{16.3, 65d, 4.8},{37.5, 150d, 
+                // 11.8}});
+                new double[][]{{1.3, 4d}, {6.2, 31d}, {16.3, 65d}, {37.5, 150d}});
     }
 
     @Test
     public void testNaturalBreaks() throws Exception {
         CoverageClassStats p = new CoverageClassStats();
-        Results r = p.execute(createCoverage(), new LinkedHashSet<Statistic>(Arrays.asList(Statistic.MEAN, Statistic.SUM)),
-            null, 4, ClassificationMethod.NATURAL_BREAKS, null, null);
+        Results r = p.execute(createCoverage(), new LinkedHashSet<Statistic>(Arrays.asList
+                        (Statistic.MEAN, Statistic.SUM)),
+                null, 4, ClassificationMethod.NATURAL_BREAKS, null, null);
 
-        assertResults(r, 
-            new double[]{1d, 3d, 16d, 26d, 53d}, 
-            new double[][]{{1.3,4d},{8d, 56d},{20d, 40d},{37.5, 150d}});
+        assertResults(r,
+                new double[]{1d, 3d, 16d, 26d, 53d},
+                new double[][]{{1.3, 4d}, {8d, 56d}, {20d, 40d}, {37.5, 150d}});
     }
 
     private void assertResults(Results r, double[] ranges, double[][] stats) {
-        assertEquals(ranges.length-1, r.size());
+        assertEquals(ranges.length - 1, r.size());
         assertEquals(stats.length, r.size());
 
-        for (int i = 0; i < ranges.length-1; i++) {
+        for (int i = 0; i < ranges.length - 1; i++) {
             Range range = r.range(i);
             assertEquals(ranges[i], range.getMin());
-            assertEquals(ranges[i+1], range.getMax());
+            assertEquals(ranges[i + 1], range.getMax());
             assertEquals(stats[i].length, r.getStats().size());
-            
+
             int j = 0;
             for (Statistic s : r.getStats()) {
                 assertEquals(stats[i][j++], r.value(i, s), 0.1);
@@ -122,7 +125,8 @@ public class CoverageClassStatsTest {
     public void testSfDem() throws Exception {
         CoverageClassStats p = new CoverageClassStats();
         Results r = 
-            p.execute(createSfDemCoverage(), null, 4, Method.EQUAL_INTERVAL, null, -9.999999933815813E36, null);
+            p.execute(createSfDemCoverage(), null, 4, Method.EQUAL_INTERVAL, null, 
+            -9.999999933815813E36, null);
         r.print();
     }*/
     
@@ -131,15 +135,18 @@ public class CoverageClassStatsTest {
     public void testMedfordDem() throws Exception {
         CoverageClassStats p = new CoverageClassStats();
         Results r = 
-            p.execute(createMedfordDemCoverage(), null, 10, Method.EQUAL_INTERVAL, null, null, null);
+            p.execute(createMedfordDemCoverage(), null, 10, Method.EQUAL_INTERVAL, null, null, 
+            null);
         r.print();
     }*/
 
     GridCoverage2D createMedfordDemCoverage() throws IOException {
-        
-        BufferedImage img = ImageIO.read(new File("/Users/jdeolive/Projects/suite_trunk/git/data_dir/data/dem/medford_dem.tif"));
 
-        Rectangle bounds = new Rectangle(img.getMinX(), img.getMinY(), img.getWidth(), img.getHeight());
+        BufferedImage img = ImageIO.read(new File
+                ("/Users/jdeolive/Projects/suite_trunk/git/data_dir/data/dem/medford_dem.tif"));
+
+        Rectangle bounds = new Rectangle(img.getMinX(), img.getMinY(), img.getWidth(), img
+                .getHeight());
         ReferencedEnvelope env = new ReferencedEnvelope(bounds, null);
 
         GridCoverageFactory factory = CoverageFactoryFinder.getGridCoverageFactory(null);
@@ -148,10 +155,12 @@ public class CoverageClassStatsTest {
 
 
     GridCoverage2D createSfDemCoverage() throws IOException {
-        
-        BufferedImage img = ImageIO.read(new File("/Users/jdeolive/Projects/gs_trunk/svn/data/release/data/sf/sfdem.tif"));
 
-        Rectangle bounds = new Rectangle(img.getMinX(), img.getMinY(), img.getWidth(), img.getHeight());
+        BufferedImage img = ImageIO.read(new File
+                ("/Users/jdeolive/Projects/gs_trunk/svn/data/release/data/sf/sfdem.tif"));
+
+        Rectangle bounds = new Rectangle(img.getMinX(), img.getMinY(), img.getWidth(), img
+                .getHeight());
         ReferencedEnvelope env = new ReferencedEnvelope(bounds, null);
 
         GridCoverageFactory factory = CoverageFactoryFinder.getGridCoverageFactory(null);
@@ -162,7 +171,8 @@ public class CoverageClassStatsTest {
         URL url = getClass().getResource("viewshed.tif");
         BufferedImage img = ImageIO.read(url);
 
-        Rectangle bounds = new Rectangle(img.getMinX(), img.getMinY(), img.getWidth(), img.getHeight());
+        Rectangle bounds = new Rectangle(img.getMinX(), img.getMinY(), img.getWidth(), img
+                .getHeight());
         ReferencedEnvelope env = new ReferencedEnvelope(bounds, null);
 
         GridCoverageFactory factory = CoverageFactoryFinder.getGridCoverageFactory(null);
@@ -171,19 +181,20 @@ public class CoverageClassStatsTest {
 
     GridCoverage2D createCoverage() {
         TiledImage img = ImageUtils.createImageFromArray(
-                new Number[]{1,1,2,3,3,8,8,9,11,14,16,24,26,26,45,53}, 4, 4);
+                new Number[]{1, 1, 2, 3, 3, 8, 8, 9, 11, 14, 16, 24, 26, 26, 45, 53}, 4, 4);
 
         AffineTransform2D tx = new AffineTransform2D(new AffineTransform(1, 0, 0, -1, -0.5, -0.5));
-        
-        CoordinateReferenceSystem crs = 
-            new DefaultEngineeringCRS("test", DefaultEngineeringDatum.UNKNOWN, DefaultCartesianCS.DISPLAY);
+
+        CoordinateReferenceSystem crs =
+                new DefaultEngineeringCRS("test", DefaultEngineeringDatum.UNKNOWN, 
+                        DefaultCartesianCS.DISPLAY);
         GridCoverageFactory factory = CoverageFactoryFinder.getGridCoverageFactory(null);
-        
+
         GridGeometry2D gridGeom = new GridGeometry2D(
-            new GeneralGridEnvelope(img, 2), PixelInCell.CELL_CORNER, tx, crs, null);
-        
+                new GeneralGridEnvelope(img, 2), PixelInCell.CELL_CORNER, tx, crs, null);
+
         GridSampleDimension[] bands = new GridSampleDimension[]{
-            new GridSampleDimension(ColorInterpretation.GRAY_INDEX.name())
+                new GridSampleDimension(ColorInterpretation.GRAY_INDEX.name())
         };
         return factory.create("test", img, gridGeom, bands, null, null);
     }

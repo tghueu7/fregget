@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -29,15 +29,13 @@ import org.geotools.data.jdbc.datasource.DBCPDataSourceFactory;
 import org.geotools.data.jdbc.datasource.DataSourceFinder;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DataSourceFinderTest extends TestCase {
     public void testDbcpFactory() throws IOException {
         assertTrue(new DBCPDataSourceFactory().isAvailable());
         DataSourceFinder.scanForPlugins();
-        
+
         Map map = new HashMap();
         map.put(DBCPDataSourceFactory.DSTYPE.key, "DBCP");
         map.put(DBCPDataSourceFactory.DRIVERCLASS.key, "org.h2.Driver");
@@ -46,16 +44,16 @@ public class DataSourceFinderTest extends TestCase {
         map.put(DBCPDataSourceFactory.PASSWORD.key, "");
         map.put(DBCPDataSourceFactory.MAXACTIVE.key, new Integer(10));
         map.put(DBCPDataSourceFactory.MAXIDLE.key, new Integer(0));
-        
-        DataSource source =  DataSourceFinder.getDataSource(map);
+
+        DataSource source = DataSourceFinder.getDataSource(map);
         assertNotNull(source);
         assertTrue(source instanceof BasicDataSource);
     }
-    
+
 //    public void testJNDIFactory() throws Exception {
-        // can't make this work... there are dependencies from EJBMock to stuff
-        // that's not in the maven repos
-        
+    // can't make this work... there are dependencies from EJBMock to stuff
+    // that's not in the maven repos
+
 //        EJBMockObjectFactory ejbMock = new EJBMockObjectFactory();
 //        ejbMock.initMockContextFactory();
 //        Context mockContext = new MockContext();

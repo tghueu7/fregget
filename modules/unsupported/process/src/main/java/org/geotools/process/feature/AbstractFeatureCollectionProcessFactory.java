@@ -27,45 +27,44 @@ import org.geotools.process.impl.SingleProcessFactory;
 import org.geotools.text.Text;
 
 /**
- * Base class for process factories which perform an operation on each feature in a feature 
+ * Base class for process factories which perform an operation on each feature in a feature
  * collection.
  * <p>
  * Subclasses must implement:
  * <ul>
- *   <li>{@link ProcessFactory#getTitle()}
- *   <li>{@link ProcessFactory#getDescription()}
- *   <li>{@link #addParameters(Map)}
- *   <li>
+ * <li>{@link ProcessFactory#getTitle()}
+ * <li>{@link ProcessFactory#getDescription()}
+ * <li>{@link #addParameters(Map)}
+ * <li>
  * </ul>
  * </p>
- * 
+ *
  * @author Justin Deoliveira, OpenGEO
- * @since 2.6
- *
- *
- *
- *
  * @source $URL$
+ * @since 2.6
  */
 public abstract class AbstractFeatureCollectionProcessFactory extends SingleProcessFactory {
-    /** Features for operation */
+    /**
+     * Features for operation
+     */
     public static final Parameter<FeatureCollection> FEATURES = new Parameter<FeatureCollection>(
-        "features", FeatureCollection.class, Text.text("Features"), Text.text("Features to process"));
+            "features", FeatureCollection.class, Text.text("Features"), Text.text("Features to " +
+            "process"));
 
     /**
      * Adds the {@link #FEATURES} parameter and then delegates to {@link #addParameters(Map)}.
      */
     public final Map<String, Parameter<?>> getParameterInfo() {
-        HashMap<String,Parameter<?>> parameterInfo = new LinkedHashMap<String, Parameter<?>>();
-        parameterInfo.put( FEATURES.key, FEATURES );
-        addParameters( parameterInfo );
+        HashMap<String, Parameter<?>> parameterInfo = new LinkedHashMap<String, Parameter<?>>();
+        parameterInfo.put(FEATURES.key, FEATURES);
+        addParameters(parameterInfo);
         return parameterInfo;
     }
-    
+
     /**
      * Method for subclasses to add parameter descriptors for the process.
      * <p>
-     * Subclasses should not add a parameter for the input feature collection as this is done by 
+     * Subclasses should not add a parameter for the input feature collection as this is done by
      * the case class. Example implementation for a simple buffer example:
      * <pre>
      * protected void addParameters(Map<String, Parameter<?>> parameters) {
@@ -73,7 +72,6 @@ public abstract class AbstractFeatureCollectionProcessFactory extends SingleProc
      * }
      * </pre>
      * </p>
-     * 
      */
-    protected abstract void addParameters( Map<String,Parameter<?>> parameters );
+    protected abstract void addParameters(Map<String, Parameter<?>> parameters);
 }

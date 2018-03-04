@@ -20,6 +20,7 @@ import java.net.URI;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.geotools.styling.FeatureTypeStyle;
 
 
@@ -29,8 +30,8 @@ import org.geotools.styling.FeatureTypeStyle;
  * This is lame as it is just a hash map in memory. It should really be an
  * embedded db that serializes / deserializes out to disk.
  * </p>
- * @author Justin Deoliveira, The Open Planning Project
  *
+ * @author Justin Deoliveira, The Open Planning Project
  * @source $URL$
  */
 public class StyleMap {

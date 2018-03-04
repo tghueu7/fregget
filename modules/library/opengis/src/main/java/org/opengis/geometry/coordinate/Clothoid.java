@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.coordinate;
@@ -19,9 +19,9 @@ import static org.opengis.annotation.Specification.*;
 /**
  * The clothoid (or Cornu's spiral), a plane curve whose curvature is a fixed function of
  * its length. In suitably chosen co-ordinates it is given by Fresnel's integrals:
- *
+ * <p>
  * <P><center>(TODO: paste the equation here)</center></P>
- *
+ * <p>
  * This geometry is mainly used as a transition curve between curves of type straight
  * line/circular arc or circular arc/circular arc. With this curve type it is possible
  * to achieve a C2-continous transition between the above mentioned curve types. One
@@ -29,26 +29,24 @@ import static org.opengis.annotation.Specification.*;
  * where <var>A</var> is a constant, <var>R</var> is the varying radius of curvature along
  * the curve and <var>t</var> is the length along the curve and given in the Fresnel integrals.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @since GeoAPI 2.0
  */
-@UML(identifier="GM_Clothoid", specification=ISO_19107)
+@UML(identifier = "GM_Clothoid", specification = ISO_19107)
 public interface Clothoid extends CurveSegment {
     /**
      * Returns an affine mapping that places the curve defined by the Fresnel Integrals
      * into the coordinate reference system of this object.
      */
-    @UML(identifier="refLocation", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "refLocation", obligation = MANDATORY, specification = ISO_19107)
     AffinePlacement getReferenceLocation();
 
     /**
      * Gives the value for <var>A</var> in the equations above.
      */
-    @UML(identifier="scaleFactor", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "scaleFactor", obligation = MANDATORY, specification = ISO_19107)
     double getScaleFactor();
 
     /**
@@ -58,7 +56,7 @@ public interface Clothoid extends CurveSegment {
      * of the constructive parameter of this curve segment at its start point. The
      * start parameter can be either positive or negative. The parameter <var>t</var>
      * acts as a constructive parameter.
-     *
+     * <p>
      * <P>NOTE: If 0 lies between the {@linkplain #getStartConstructiveParam start constructive
      * parameter} and {@linkplain #getEndConstructiveParam end constructive parameter} of the
      * clothoid, then the curve goes through the clothoid's inflection point, and the direction
@@ -68,7 +66,7 @@ public interface Clothoid extends CurveSegment {
      * the placement, and with respect to the coordinate reference system of the curve is not
      * deterministic.</P>
      */
-    @UML(identifier="startParameter", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "startParameter", obligation = MANDATORY, specification = ISO_19107)
     double getStartConstructiveParam();
 
     /**
@@ -78,6 +76,6 @@ public interface Clothoid extends CurveSegment {
      * parameter of this curve segment at its end point. The end constructive param
      * can be either positive or negative.
      */
-    @UML(identifier="endParameter", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "endParameter", obligation = MANDATORY, specification = ISO_19107)
     double getEndConstructiveParam();
 }

@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.temporal;
@@ -21,11 +21,9 @@ import static org.opengis.annotation.Specification.*;
  *
  * @author Stephane Fellah (Image Matters)
  * @author Alexander Petkov
- *
- *
  * @source $URL$
  */
-@UML(identifier="TM_Coordinate", specification=ISO_19108)
+@UML(identifier = "TM_Coordinate", specification = ISO_19108)
 public interface TemporalCoordinate extends TemporalPosition {
     /**
      * Returns the distance from the scale origin expressed as a multiple of the standard
@@ -33,6 +31,6 @@ public interface TemporalCoordinate extends TemporalPosition {
      *
      * @todo Should we return a primitive type?
      */
-    @UML(identifier="CoordinateValue", obligation=MANDATORY, specification=ISO_19108)
+    @UML(identifier = "CoordinateValue", obligation = MANDATORY, specification = ISO_19108)
     Number getCoordinateValue();
 }

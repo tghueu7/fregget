@@ -26,17 +26,17 @@ import java.util.logging.Logger;
 
 /**
  * Implementation of the {@link Format} service provider interface for VRT files.
- * 
+ *
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini (simboss), GeoSolutions
- * @since 2.10.x
- *
- *
  * @source $URL$
+ * @since 2.10.x
  */
 public final class VRTFormatFactory extends BaseGridFormatFactorySPI
         implements GridFormatFactorySpi {
-    /** Logger. */
+    /**
+     * Logger.
+     */
     private final static Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger("org.geotools.coverageio.gdal.vrt");
 

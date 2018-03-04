@@ -26,9 +26,9 @@ import org.opengis.filter.temporal.BinaryTemporalOperator;
 
 /**
  * Binding object for the type http://www.opengis.net/fes/2.0:BinaryTemporalOpType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:complexType name="BinaryTemporalOpType"&gt;
@@ -43,13 +43,13 @@ import org.opengis.filter.temporal.BinaryTemporalOperator;
  *              &lt;/xsd:sequence&gt;
  *          &lt;/xsd:extension&gt;
  *      &lt;/xsd:complexContent&gt;
- *  &lt;/xsd:complexType&gt; 
- * 	
+ *  &lt;/xsd:complexType&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
  */
 public class BinaryTemporalOpTypeBinding extends AbstractComplexBinding {
@@ -63,7 +63,7 @@ public class BinaryTemporalOpTypeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -72,7 +72,7 @@ public class BinaryTemporalOpTypeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {

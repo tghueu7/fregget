@@ -1,9 +1,9 @@
 /*
  *  GeoTools - The Open Source Java GIS Toolkit
  *  http://geotools.org
- * 
+ *
  *  (C) 2015, Open Source Geospatial Foundation (OSGeo)
- * 
+ *
  * The JTS Topology Suite is a collection of Java classes that
  * implement the fundamental operations required to validate a given
  * geo-spatial data set to a known topological specification.
@@ -172,7 +172,7 @@ public class WKBReader {
      *
      * @param is the stream to read from
      * @return the Geometry read
-     * @throws IOException if the underlying stream creates an error
+     * @throws IOException    if the underlying stream creates an error
      * @throws ParseException if the WKB is ill-formed
      */
     public Geometry read(InStream is) throws IOException, ParseException {
@@ -214,41 +214,41 @@ public class WKBReader {
     protected Geometry readGeometry(int geometryType) throws IOException, ParseException {
         Geometry geom = null;
         switch (geometryType) {
-        case WKBConstants.wkbPoint:
-            geom = readPoint();
-            break;
-        case WKBConstants.wkbLineString:
-            geom = readLineString();
-            break;
-        case WKBConstants.wkbPolygon:
-            geom = readPolygon();
-            break;
-        case WKBConstants.wkbMultiPoint:
-            geom = readMultiPoint();
-            break;
-        case WKBConstants.wkbMultiCurve:
-        case WKBConstants.wkbMultiLineString:
-            geom = readMultiLineString();
-            break;
-        case WKBConstants.wkbMultiPolygon:
-        case WKBConstants.wkbMultiSurface:
-            geom = readMultiPolygon();
-            break;
-        case WKBConstants.wkbGeometryCollection:
-            geom = readGeometryCollection();
-            break;
-        case WKBConstants.wkbCircularString:
-            geom = readCircularString();
-            break;
-        case WKBConstants.wkbCompoundCurve:
-            geom = readCompoundCurve();
-            break;
-        case WKBConstants.wkbCurvePolygon:
-            geom = readCurvePolygon();
-            break;
+            case WKBConstants.wkbPoint:
+                geom = readPoint();
+                break;
+            case WKBConstants.wkbLineString:
+                geom = readLineString();
+                break;
+            case WKBConstants.wkbPolygon:
+                geom = readPolygon();
+                break;
+            case WKBConstants.wkbMultiPoint:
+                geom = readMultiPoint();
+                break;
+            case WKBConstants.wkbMultiCurve:
+            case WKBConstants.wkbMultiLineString:
+                geom = readMultiLineString();
+                break;
+            case WKBConstants.wkbMultiPolygon:
+            case WKBConstants.wkbMultiSurface:
+                geom = readMultiPolygon();
+                break;
+            case WKBConstants.wkbGeometryCollection:
+                geom = readGeometryCollection();
+                break;
+            case WKBConstants.wkbCircularString:
+                geom = readCircularString();
+                break;
+            case WKBConstants.wkbCompoundCurve:
+                geom = readCompoundCurve();
+                break;
+            case WKBConstants.wkbCurvePolygon:
+                geom = readCurvePolygon();
+                break;
 
-        default:
-            throw new ParseException("Unknown WKB type " + geometryType);
+            default:
+                throw new ParseException("Unknown WKB type " + geometryType);
         }
         return geom;
     }
@@ -336,13 +336,13 @@ public class WKBReader {
                     Coordinate start = components.get(0).getCoordinateN(0);
                     LineString lastGeom = components.get(components.size() - 1);
                     Coordinate end = lastGeom.getCoordinateN((lastGeom.getNumPoints() - 1));
-                    components.add(factory.createLineString(new Coordinate[] { start, end }));
+                    components.add(factory.createLineString(new Coordinate[]{start, end}));
                     ls = factory.createCurvedGeometry(components);
                 } else {
                     Coordinate start = ls.getCoordinateN(0);
                     Coordinate end = ls.getCoordinateN((ls.getNumPoints() - 1));
                     // turn it into a compound and add the segment that closes it
-                    LineString closer = factory.createLineString(new Coordinate[] { start, end });
+                    LineString closer = factory.createLineString(new Coordinate[]{start, end});
                     ls = factory.createCurvedGeometry(ls, closer);
                 }
             } else {
@@ -356,7 +356,7 @@ public class WKBReader {
                 }
             }
         }
-        
+
         return (LinearRing) ls;
 
     }
@@ -408,7 +408,7 @@ public class WKBReader {
 
     private CoordinateSequence readCoordinateSequence(int size) throws IOException {
         CoordinateSequence seq =
-            JTS.createCS(csFactory, size, inputDimension);
+                JTS.createCS(csFactory, size, inputDimension);
         int targetDim = seq.getDimension();
         if (targetDim > inputDimension)
             targetDim = inputDimension;
@@ -467,7 +467,7 @@ public class WKBReader {
      * Casts the provided geometry factory to a curved one if possible, or wraps it into one with
      * infinite tolerance (the linearization will happen using the default base segments number set
      * in {@link CircularArc}
-     * 
+     *
      * @param gf
      * @return
      */

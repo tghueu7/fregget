@@ -12,14 +12,12 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import com.vividsolutions.jts.geom.Geometry;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class IngresFeatureReaderTest extends JDBCFeatureReaderTest {
 
-	@Override
-	protected JDBCTestSetup createTestSetup() {
-		return new IngresTestSetup();
-	}
+    @Override
+    protected JDBCTestSetup createTestSetup() {
+        return new IngresTestSetup();
+    }
 }

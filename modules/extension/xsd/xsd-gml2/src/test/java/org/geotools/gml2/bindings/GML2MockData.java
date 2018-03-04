@@ -51,14 +51,12 @@ import com.vividsolutions.jts.geom.impl.CoordinateArraySequence;
  * Collection of static methods for creating mock data for binding unit tests.
  *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
- *
  * @source $URL$
  */
 public class GML2MockData {
-    /** factory used to create geometries */
+    /**
+     * factory used to create geometries
+     */
     static GeometryFactory gf = new GeometryFactory();
 
     //
@@ -81,9 +79,9 @@ public class GML2MockData {
     }
 
     static CoordinateSequence coordinates() {
-        return new CoordinateArraySequence(new Coordinate[] {
+        return new CoordinateArraySequence(new Coordinate[]{
                 new Coordinate(1, 2), new Coordinate(3, 4)
-            });
+        });
     }
 
     static Element coordinates(Document document, Node parent) {
@@ -155,10 +153,10 @@ public class GML2MockData {
     }
 
     static LinearRing linearRing() {
-        return gf.createLinearRing(new Coordinate[] {
+        return gf.createLinearRing(new Coordinate[]{
                 new Coordinate(1, 1), new Coordinate(2, 2), new Coordinate(3, 3),
                 new Coordinate(1, 1)
-            });
+        });
     }
 
     static Element lineStringProperty(Document document, Node parent) {
@@ -200,7 +198,8 @@ public class GML2MockData {
     }
 
     static MultiPoint multiPoint() {
-        return setCRS(gf.createMultiPoint(new Coordinate[] { new Coordinate(1, 1), new Coordinate(2, 2) }));
+        return setCRS(gf.createMultiPoint(new Coordinate[]{new Coordinate(1, 1), new Coordinate
+                (2, 2)}));
     }
 
     static Element multiPoint(Document document, Node parent) {
@@ -215,21 +214,20 @@ public class GML2MockData {
 
         return multiPoint;
     }
-    
-    static <G extends Geometry> G setCRS( G geometry ) {
-        geometry.setUserData( crs("4326") );
+
+    static <G extends Geometry> G setCRS(G geometry) {
+        geometry.setUserData(crs("4326"));
         return geometry;
     }
 
-    static CoordinateReferenceSystem crs( String srid ) {
+    static CoordinateReferenceSystem crs(String srid) {
         try {
-            return CRS.decode( "EPSG:4326" );
-        } 
-        catch (Exception e) {
-            throw new RuntimeException( e );
+            return CRS.decode("EPSG:4326");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
-    
+
     static Element multiPointProperty(Document document, Node parent) {
         Element multiPointProperty = element(GML.multiPointProperty, document, parent);
         multiPoint(document, multiPointProperty);
@@ -238,7 +236,7 @@ public class GML2MockData {
     }
 
     static MultiLineString multiLineString() {
-        return gf.createMultiLineString(new LineString[] { lineString(), lineString() });
+        return gf.createMultiLineString(new LineString[]{lineString(), lineString()});
     }
 
     static Element multiLineString(Document document, Node parent) {
@@ -261,7 +259,7 @@ public class GML2MockData {
     }
 
     static MultiPolygon multiPolygon() {
-        return gf.createMultiPolygon(new Polygon[] { polygon(), polygon() });
+        return gf.createMultiPolygon(new Polygon[]{polygon(), polygon()});
     }
 
     static Element multiPolygon(Document document, Node parent) {
@@ -286,6 +284,7 @@ public class GML2MockData {
     static GeometryCollection multiGeometry() {
         return gf.createGeometryCollection(new Geometry[]{point(), lineString(), polygon()});
     }
+
     //
     // features
     //

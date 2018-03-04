@@ -38,7 +38,7 @@ public class GeoPkgDataStoreFactoryTest {
 
     @Test
     public void testBaseDirectory() throws IOException {
-        Map<String,Serializable> map = new HashMap<>();
+        Map<String, Serializable> map = new HashMap<>();
         map.put(GeoPkgDataStoreFactory.DBTYPE.key, "geopkg");
         map.put(GeoPkgDataStoreFactory.DATABASE.key, "foo.gpkg");
 

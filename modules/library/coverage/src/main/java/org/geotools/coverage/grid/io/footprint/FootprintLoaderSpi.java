@@ -19,33 +19,31 @@ package org.geotools.coverage.grid.io.footprint;
 
 /**
  * Constructs a live FootprintLoader
- *
+ * <p>
  * <p>
  * In addition to implementing this interface, this service file should be defined:
  * </p>
- *
+ * <p>
  * <p>
  * <code>META-INF/services/org.geotools.coverage.grid.io.footprint.FootprintLoaderSpi</code>
  * </p>
- *
+ * <p>
  * <p>
  * The file should contain a single line which gives the full name of the
  * implementing class.
  * </p>
- *
+ * <p>
  * <p>
  * example:<br/><code>e.g.
  * org.geotools.coverage.grid.io.footprint.WKBLoaderSpi</code>
  * </p>
- *
+ * <p>
  * <p>
  * The factories are never called directly by users, instead the
  * FootprintLoaderFinder class is used.
  * </p>
  *
  * @author Daniele Romagnoli, GeoSolutions SAS
- *
- *
  * @source $URL$
  */
 public interface FootprintLoaderSpi {

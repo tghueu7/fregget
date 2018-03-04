@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.util;
@@ -23,19 +23,17 @@ import static org.opengis.annotation.Specification.*;
  *
  * @author Bryce Nordgren (USDA)
  * @author Martin Desruisseaux (IRD)
- * @since GeoAPI 2.1
- *
- *
  * @source $URL$
+ * @since GeoAPI 2.1
  */
-@UML(identifier="MemberName", specification=ISO_19103)
+@UML(identifier = "MemberName", specification = ISO_19103)
 public interface MemberName extends LocalName {
     /**
      * Returns the type of the data associated with the record member.
      *
      * @todo Check in the specification if this association is really navigable that way.
-     *       This association seems redundant with {@link RecordType#locate}.
+     * This association seems redundant with {@link RecordType#locate}.
      */
-    @UML(identifier="attributeType", obligation=MANDATORY, specification=ISO_19103)
+    @UML(identifier = "attributeType", obligation = MANDATORY, specification = ISO_19103)
     TypeName getAttributeType();
 }

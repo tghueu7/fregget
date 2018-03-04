@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -22,21 +22,19 @@ import java.util.List;
 
 /**
  * Represents an operation used by Open Web Services for requests and responses.
- * 
+ *
  * @author rgould
- *
- *
  * @source $URL$
  */
 public class OperationType {
-	protected List<String> formats=new ArrayList<>();
-	protected URL get;
-	protected URL post;
+    protected List<String> formats = new ArrayList<>();
+    protected URL get;
+    protected URL post;
 
     /**
      * Each format is usually a MIME type string that can be used to indicate
      * what format the server's response should be in.
-     * 
+     *
      * @return a List of Strings, each of which usually represent a mime type
      */
     public List<String> getFormats() {
@@ -53,6 +51,7 @@ public class OperationType {
     public URL getGet() {
         return get;
     }
+
     public void setGet(URL get) {
         this.get = get;
     }
@@ -63,7 +62,7 @@ public class OperationType {
     public URL getPost() {
         return post;
     }
-    
+
     public void setPost(URL post) {
         this.post = post;
     }

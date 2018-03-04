@@ -38,13 +38,11 @@ import com.vividsolutions.jts.geom.Point;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GMLApplicationSchemaParsingTest extends TestCase {
     public void testStreamFeatureWithIncorrectSchemaLocation()
-        throws Exception {
+            throws Exception {
         InputStream in = getClass().getResourceAsStream("feature.xml");
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -87,7 +85,7 @@ public class GMLApplicationSchemaParsingTest extends TestCase {
     }
 
     public void testStreamPointWithIncorrectSchemaLocation()
-        throws Exception {
+            throws Exception {
         InputStream in = getClass().getResourceAsStream("feature.xml");
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

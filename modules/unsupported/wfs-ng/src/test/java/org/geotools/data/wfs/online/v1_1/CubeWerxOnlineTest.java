@@ -25,14 +25,13 @@ import org.junit.Ignore;
 import com.vividsolutions.jts.geom.Polygon;
 
 /**
- * 
- * 
  * @source $URL$
  */
 @Ignore
 public class CubeWerxOnlineTest extends AbstractWfsDataStoreOnlineTest {
 
-    public static final String SERVER_URL = "http://frameworkwfs.usgs.gov/framework/wfs/wfs.cgi?request=GetCapabilities&version=1.1.0"; //$NON-NLS-1$
+    public static final String SERVER_URL = "http://frameworkwfs.usgs.gov/framework/wfs/wfs" +
+            ".cgi?request=GetCapabilities&version=1.1.0"; //$NON-NLS-1$
 
     /**
      * A GetFeature request to the CubeWerx server does not return the {@code numberOfFeatures}
@@ -46,7 +45,7 @@ public class CubeWerxOnlineTest extends AbstractWfsDataStoreOnlineTest {
         super(SERVER_URL, CUBEWERX_GOVUNITCE, "geometry", Polygon.class, EXPECTED_FEATURE_COUNT,
                 null, null, WFSDataStoreFactory.AXIS_ORDER_COMPLIANT);
     }
-    
+
     //TODO: test whether all of the (new) tests actually work with CubeWerx    
-    
+
 }

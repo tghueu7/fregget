@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.referencing.datum;
 
 import java.util.Date;
+
 import org.opengis.referencing.IdentifiedObject;
 import org.opengis.metadata.extent.Extent;
 import org.opengis.util.InternationalString;
@@ -21,22 +22,21 @@ import static org.opengis.annotation.Specification.*;
 
 /**
  * Specifies the relationship of a coordinate system to the earth, thus creating a {@linkplain
- * org.opengis.referencing.crs.CoordinateReferenceSystem coordinate reference system}. A datum uses a
+ * org.opengis.referencing.crs.CoordinateReferenceSystem coordinate reference system}. A datum 
+ * uses a
  * parameter or set of parameters that determine the location of the origin of the coordinate
  * reference system. Each datum subtype can be associated with only specific types of
  * {@linkplain org.opengis.referencing.cs.CoordinateSystem coordinate systems}.
  *
- *
- *
+ * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract 
+ * specification 2.0</A>
  * @source $URL$
- * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract specification 2.0</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
- *
  * @see org.opengis.referencing.cs.CoordinateSystem
  * @see org.opengis.referencing.crs.CoordinateReferenceSystem
+ * @since GeoAPI 1.0
  */
-@UML(identifier="CD_Datum", specification=ISO_19111)
+@UML(identifier = "CD_Datum", specification = ISO_19111)
 public interface Datum extends IdentifiedObject {
     /**
      * Key for the <code>{@value}</code> property to be given to the
@@ -62,7 +62,6 @@ public interface Datum extends IdentifiedObject {
      * This is used for setting the value to be returned by {@link #getDomainOfValidity}.
      *
      * @see #getDomainOfValidity
-     *
      * @since GeoAPI 2.1
      */
     String DOMAIN_OF_VALIDITY_KEY = "domainOfValidity";
@@ -81,25 +80,25 @@ public interface Datum extends IdentifiedObject {
      * to the Earth. Also known as the "origin", especially for Engineering and Image Datums.
      * <p>
      * <ul>
-     *   <li>For a geodetic datum, this point is also known as the fundamental point, which is
-     *       traditionally the point where the relationship between geoid and ellipsoid is defined.
-     *       In some cases, the "fundamental point" may consist of a number of points. In those
-     *       cases, the parameters defining the geoid/ellipsoid relationship have then been averaged
-     *       for these points, and the averages adopted as the datum definition.</li>
-     *
-     *   <li>For an engineering datum, the anchor point may be a physical point, or it may be a
-     *       point with defined coordinates in another CRS.</li>
-     *
-     *   <li>For an image datum, the anchor point is usually either the centre of the image or the
-     *       corner of the image.</li>
-     *
-     *   <li>For a temporal datum, this attribute is not defined. Instead of the anchor point,
-     *       a temporal datum carries a separate time origin of type {@link Date}.</li>
+     * <li>For a geodetic datum, this point is also known as the fundamental point, which is
+     * traditionally the point where the relationship between geoid and ellipsoid is defined.
+     * In some cases, the "fundamental point" may consist of a number of points. In those
+     * cases, the parameters defining the geoid/ellipsoid relationship have then been averaged
+     * for these points, and the averages adopted as the datum definition.</li>
+     * <p>
+     * <li>For an engineering datum, the anchor point may be a physical point, or it may be a
+     * point with defined coordinates in another CRS.</li>
+     * <p>
+     * <li>For an image datum, the anchor point is usually either the centre of the image or the
+     * corner of the image.</li>
+     * <p>
+     * <li>For a temporal datum, this attribute is not defined. Instead of the anchor point,
+     * a temporal datum carries a separate time origin of type {@link Date}.</li>
      * </ul>
      *
      * @return A description of the anchor point, or {@code null} if none.
      */
-    @UML(identifier="anchorPoint", obligation=OPTIONAL, specification=ISO_19111)
+    @UML(identifier = "anchorPoint", obligation = OPTIONAL, specification = ISO_19111)
     InternationalString getAnchorPoint();
 
     /**
@@ -113,17 +112,16 @@ public interface Datum extends IdentifiedObject {
      *
      * @return The datum realization epoch, or {@code null} if not available.
      */
-    @UML(identifier="realizationEpoch", obligation=OPTIONAL, specification=ISO_19111)
+    @UML(identifier = "realizationEpoch", obligation = OPTIONAL, specification = ISO_19111)
     Date getRealizationEpoch();
 
     /**
      * Area or region or timeframe in which this datum is valid.
      *
      * @return The datum valid domain, or {@code null} if not available.
-     *
      * @since GeoAPI 2.1
      */
-    @UML(identifier="domainOfValidity", obligation=OPTIONAL, specification=ISO_19111)
+    @UML(identifier = "domainOfValidity", obligation = OPTIONAL, specification = ISO_19111)
     Extent getDomainOfValidity();
 
     /**
@@ -132,6 +130,6 @@ public interface Datum extends IdentifiedObject {
      *
      * @return A description of domain of usage, or {@code null} if none.
      */
-    @UML(identifier="scope", obligation=OPTIONAL, specification=ISO_19111)
+    @UML(identifier = "scope", obligation = OPTIONAL, specification = ISO_19111)
     InternationalString getScope();
 }

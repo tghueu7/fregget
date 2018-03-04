@@ -63,8 +63,10 @@ public class JDBCDataStoreTest {
     }
 
     @Test
-    public void testMappingInitialisationIsThreadSafe() throws InterruptedException, ExecutionException {
-        // This test attempts to exercise a race condition on initialisation of mappings.  It is caused when
+    public void testMappingInitialisationIsThreadSafe() throws InterruptedException, 
+            ExecutionException {
+        // This test attempts to exercise a race condition on initialisation of mappings.  It is 
+        // caused when
         // two threads simultaneously try to access mapping of SQL types for a datastore.  This
         // previously led to a ConcurrentModificationException. (c.f. GEOT-4506)
         int nThreads = Math.min(Runtime.getRuntime().availableProcessors(), 2);
@@ -75,20 +77,26 @@ public class JDBCDataStoreTest {
             final JDBCDataStore jdbcDataStore = new JDBCDataStore();
             SQLDialect sqlDialect = new BasicSQLDialect(jdbcDataStore) {
                 @Override
-                public void encodeGeometryValue(Geometry value, int dimension, int srid, StringBuffer sql) throws IOException {
+                public void encodeGeometryValue(Geometry value, int dimension, int srid, 
+                                                StringBuffer sql) throws IOException {
                 }
 
                 @Override
-                public void encodeGeometryEnvelope(String tableName, String geometryColumn, StringBuffer sql) {
+                public void encodeGeometryEnvelope(String tableName, String geometryColumn, 
+                                                   StringBuffer sql) {
                 }
 
                 @Override
-                public Envelope decodeGeometryEnvelope(ResultSet rs, int column, Connection cx) throws SQLException, IOException {
+                public Envelope decodeGeometryEnvelope(ResultSet rs, int column, Connection cx) 
+                        throws SQLException, IOException {
                     return null;
                 }
 
                 @Override
-                public Geometry decodeGeometryValue(GeometryDescriptor descriptor, ResultSet rs, String column, GeometryFactory factory, Connection cx, Hints hints) throws IOException, SQLException {
+                public Geometry decodeGeometryValue(GeometryDescriptor descriptor, ResultSet rs, 
+                                                    String column, GeometryFactory factory, 
+                                                    Connection cx, Hints hints) throws 
+                        IOException, SQLException {
                     return null;
                 }
             };
@@ -120,12 +128,12 @@ public class JDBCDataStoreTest {
         executorService.awaitTermination(30, TimeUnit.SECONDS);
     }
 
-    @Test(expected=IOException.class)
+    @Test(expected = IOException.class)
     public void testCheckAllInsertedPositive() throws IOException {
         JDBCDataStore.checkAllInserted(new int[0], 0);
-        JDBCDataStore.checkAllInserted(new int[] {1,1,1}, 3);
-        JDBCDataStore.checkAllInserted(new int[] {3}, 3);
-        JDBCDataStore.checkAllInserted(new int[] {1, 1, 0}, 3);
+        JDBCDataStore.checkAllInserted(new int[]{1, 1, 1}, 3);
+        JDBCDataStore.checkAllInserted(new int[]{3}, 3);
+        JDBCDataStore.checkAllInserted(new int[]{1, 1, 0}, 3);
     }
 
     @Test
@@ -136,7 +144,8 @@ public class JDBCDataStoreTest {
         store.setNamespaceURI("http://geotools.org");
         store.setPrimaryKeyFinder(new PrimaryKeyFinder() {
             @Override
-            public PrimaryKey getPrimaryKey(JDBCDataStore store, String schema, String table, Connection cx) throws SQLException {
+            public PrimaryKey getPrimaryKey(JDBCDataStore store, String schema, String table, 
+                                            Connection cx) throws SQLException {
                 return new NullPrimaryKey(table);
             }
         });
@@ -172,7 +181,8 @@ public class JDBCDataStoreTest {
 
         BasicSQLDialect dialect = mock(BasicSQLDialect.class);
         when(dialect.getDesiredTablesType()).thenReturn(new String[]{"TABLE"});
-        when(dialect.includeTable(anyString(), anyString(), any(Connection.class))).thenReturn(true);
+        when(dialect.includeTable(anyString(), anyString(), any(Connection.class))).thenReturn
+                (true);
 
         store.setSQLDialect(dialect);
 
@@ -188,8 +198,8 @@ public class JDBCDataStoreTest {
         rowData.addColumn("name", Arrays.asList("foo", "bar", "baz"));
         rowData.setStatement(new MockStatement(cx));
 
-        JDBCFeatureReader reader = 
-            new JDBCFeatureReader(rowData, cx, 0, source, tb.buildFeatureType(), new Query());
+        JDBCFeatureReader reader =
+                new JDBCFeatureReader(rowData, cx, 0, source, tb.buildFeatureType(), new Query());
         while (reader.hasNext()) {
             reader.next();
         }

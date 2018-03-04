@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -34,8 +34,6 @@ import org.opengis.metadata.citation.OnLineResource;
  * Tests style cloning
  *
  * @author Sean Geoghegan
- *
- *
  * @source $URL$
  */
 public class StyleObjectTest extends TestCase {
@@ -132,7 +130,7 @@ public class StyleObjectTest extends TestCase {
                 .getDefaultStroke(), styleFactory.getDefaultFill(), "shape");
 
         Rule rule = styleFactory.createRule();
-        rule.setSymbolizers(new Symbolizer[] { symb1, symb2 });
+        rule.setSymbolizers(new Symbolizer[]{symb1, symb2});
 
         Rule clone = (Rule) ((Cloneable) rule).clone();
         assertClone(rule, clone);
@@ -141,12 +139,12 @@ public class StyleObjectTest extends TestCase {
                 .getDefaultStroke(), styleFactory.getDefaultFill(), "shape");
 
         Rule notEq = styleFactory.createRule();
-        notEq.setSymbolizers(new Symbolizer[] { symb2 });
+        notEq.setSymbolizers(new Symbolizer[]{symb2});
         assertEqualsContract(clone, notEq, rule);
 
         symb1 = styleFactory.createLineSymbolizer(styleFactory.getDefaultStroke(),
                 "geometry");
-        clone.setSymbolizers(new Symbolizer[] { symb1 });
+        clone.setSymbolizers(new Symbolizer[]{symb1});
         assertTrue(!rule.equals(clone));
     }
 
@@ -246,7 +244,7 @@ public class StyleObjectTest extends TestCase {
     public void testPolygonSymbolizer() {
         PolygonSymbolizer polygonSymb = styleFactory.createPolygonSymbolizer();
         PolygonSymbolizer clone = (PolygonSymbolizer) ((Cloneable) polygonSymb)
-            .clone();
+                .clone();
         assertClone(polygonSymb, clone);
 
         PolygonSymbolizer notEq = styleFactory.getDefaultPolygonSymbolizer();
@@ -313,10 +311,10 @@ public class StyleObjectTest extends TestCase {
 
     public void testStroke() {
         Stroke stroke = styleFactory.getDefaultStroke();
-        DuplicatingStyleVisitor duplicate = new DuplicatingStyleVisitor( styleFactory );
-        stroke.accept( duplicate );
+        DuplicatingStyleVisitor duplicate = new DuplicatingStyleVisitor(styleFactory);
+        stroke.accept(duplicate);
         Stroke clone = (Stroke) duplicate.getCopy();
-        
+
         assertClone(stroke, clone);
 
         Stroke notEq = styleFactory.createStroke(filterFactory.literal("#FF0000"), filterFactory
@@ -326,9 +324,9 @@ public class StyleObjectTest extends TestCase {
         // a stroke is a complex object with lots of properties,
         // need more extensive tests here.
         Stroke dashArray = styleFactory.getDefaultStroke();
-        dashArray.setDashArray(new float[] { 1.0f, 2.0f, 3.0f });
+        dashArray.setDashArray(new float[]{1.0f, 2.0f, 3.0f});
 
-        dashArray.accept( duplicate );
+        dashArray.accept(duplicate);
         Stroke dashArray2 = (Stroke) duplicate.getCopy();
         assertEqualsContract(dashArray, dashArray2);
     }
@@ -337,11 +335,11 @@ public class StyleObjectTest extends TestCase {
         assertNotNull("Real was null", real);
         assertNotNull("Clone was null", clone);
         assertTrue("" + real.getClass().getName() + " was not cloned",
-            real != clone);
+                real != clone);
     }
 
     private static void assertEqualsContract(Object controlEqual,
-        Object controlNe, Object test) {
+                                             Object controlNe, Object test) {
         assertNotNull(controlEqual);
         assertNotNull(controlNe);
         assertNotNull(test);
@@ -368,7 +366,7 @@ public class StyleObjectTest extends TestCase {
         int controlEqHash = controlEqual.hashCode();
         int testHash = test.hashCode();
         assertTrue("Equal objects should return equal hashcodes",
-            controlEqHash == testHash);
+                controlEqHash == testHash);
     }
 
     private static void assertEqualsContract(Object controlEqual, Object test) {
@@ -389,32 +387,32 @@ public class StyleObjectTest extends TestCase {
         int controlEqHash = controlEqual.hashCode();
         int testHash = test.hashCode();
         assertTrue("Equal objects should return equal hashcodes",
-            controlEqHash == testHash);
+                controlEqHash == testHash);
     }
-    
+
     public void testFeatureStyleImplCopy() throws Exception {
-    	//create FeatureTypeStyleImpl
-        FeatureTypeStyle fts = new FeatureTypeStyleImpl(); 
-        assertNull( fts.getTransformation() );
-        assertNull( fts.getOnlineResource() );   
-        
+        //create FeatureTypeStyleImpl
+        FeatureTypeStyle fts = new FeatureTypeStyleImpl();
+        assertNull(fts.getTransformation());
+        assertNull(fts.getOnlineResource());
+
         //Create OnlineResource and transformation
         OnLineResource impl = new OnLineResourceImpl();
         Expression style = filterFactory.literal("square");
-        
+
         //set OnlineResource and transformation
         fts.setTransformation(style);
         fts.setOnlineResource(impl);
-        
+
         //test if set
-        assertEquals( fts.getTransformation(),filterFactory.literal("square") );
+        assertEquals(fts.getTransformation(), filterFactory.literal("square"));
         assertEquals(fts.getOnlineResource(), new OnLineResourceImpl());
-        
+
         //create copy fts2 from fts
         FeatureTypeStyleImpl fts2 = new FeatureTypeStyleImpl(fts);
-        
+
         //test if values are equal and thus copied
-        assertEquals( fts.getTransformation(),fts2.getTransformation() );
-        assertEquals( fts.getOnlineResource(), fts2.getOnlineResource());
+        assertEquals(fts.getTransformation(), fts2.getTransformation());
+        assertEquals(fts.getOnlineResource(), fts2.getOnlineResource());
     }
 }

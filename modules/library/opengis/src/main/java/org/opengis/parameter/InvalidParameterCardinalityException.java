@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.parameter;
@@ -25,15 +25,12 @@ import java.util.List;
  * caused by a bad argument; it is rather a consequence of an {@linkplain ParameterValueGroup
  * parameter value group} being "full".
  *
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 2.0
- *
+ * @author Martin Desruisseaux (IRD)
+ * @source $URL$
  * @see ParameterValueGroup#values
  * @see ParameterDescriptor#getMinimumOccurs
  * @see ParameterDescriptor#getMaximumOccurs
- *
- *
- * @source $URL$
+ * @since GeoAPI 2.0
  */
 public class InvalidParameterCardinalityException extends IllegalStateException {
     /**
@@ -49,8 +46,8 @@ public class InvalidParameterCardinalityException extends IllegalStateException 
     /**
      * Creates an exception with the specified message and parameter name.
      *
-     * @param message The detail message. The detail message is saved for
-     *                later retrieval by the {@link #getMessage()} method.
+     * @param message       The detail message. The detail message is saved for
+     *                      later retrieval by the {@link #getMessage()} method.
      * @param parameterName The name of the parameter with invalid cardinality.
      */
     public InvalidParameterCardinalityException(String message, String parameterName) {

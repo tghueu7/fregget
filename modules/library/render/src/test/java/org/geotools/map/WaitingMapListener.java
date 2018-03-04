@@ -19,6 +19,7 @@ package org.geotools.map;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+
 import org.geotools.map.event.MapBoundsEvent;
 import org.geotools.map.event.MapLayerListEvent;
 import org.geotools.map.event.MapAdapter;
@@ -28,21 +29,21 @@ import org.geotools.map.event.MapAdapter;
  * for specific events to be received.
  *
  * @author Michael Bedward
- * @since 2.7
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.7
  */
 class WaitingMapListener extends MapAdapter {
 
     static enum Type {
-        ADDED, 
-        REMOVED, 
-        CHANGED, 
-        MOVED, 
+        ADDED,
+        REMOVED,
+        CHANGED,
+        MOVED,
         PRE_DISPOSE,
         BOUNDS_CHANGED;
     }
-    
+
     private static final int N = Type.values().length;
     CountDownLatch[] latches = new CountDownLatch[N];
 
@@ -105,5 +106,5 @@ class WaitingMapListener extends MapAdapter {
         }
         latches[index].countDown();
     }
-    
+
 }

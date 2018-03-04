@@ -27,26 +27,21 @@ import org.geotools.arcsde.jndi.ArcSDEConnectionFactory;
  * A specific {@link ISessionPool} factory can be injected when using JNDI through the
  * {@code sessionPoolFactory} parameter. See {@link ArcSDEConnectionFactory}.
  * </p>
- * 
+ *
  * @author Gabriel Roldan (OpenGeo)
- * 
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  * @since 2.5.7
  */
 public interface ISessionPoolFactory {
 
     /**
      * Creates a connection pool factory for the given connection parameters.
-     * 
-     * @param config
-     *             contains the connection parameters and pool preferences
+     *
+     * @param config  contains the connection parameters and pool preferences
      * @return a pool for the given connection parameters, wether it already existed or had to be
-     *         created.
-     * @throws IOException
-     *             if the pool needs but can't be created
+     * created.
+     * @throws IOException if the pool needs but can't be created
      */
     ISessionPool createPool(ArcSDEConnectionConfig config) throws IOException;
 

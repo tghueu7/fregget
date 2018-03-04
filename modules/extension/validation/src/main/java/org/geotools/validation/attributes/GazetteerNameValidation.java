@@ -39,21 +39,21 @@ import org.xml.sax.InputSource;
 
 /**
  * GazetteerNameValidation purpose.
- * 
+ * <p>
  * <p>
  * Description of GazetteerNameValidation ...
  * </p>
- * 
+ * <p>
  * <p>
  * Capabilities:
  * </p>
- * 
+ * <p>
  * <ul>
  * <li>
  * Feature: description
  * </li>
  * </ul>
- * 
+ * <p>
  * <p>
  * Example Use:
  * </p>
@@ -63,21 +63,23 @@ import org.xml.sax.InputSource;
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class GazetteerNameValidation extends DefaultFeatureValidation {
-    /** used to store the gazetteer url */
+    /**
+     * used to store the gazetteer url
+     */
     private URL gazetteer;
 
-    /** used to store the Feature Attribute name to test for existance */
+    /**
+     * used to store the Feature Attribute name to test for existance
+     */
     private String attributeName;
 
     /**
      * GazetteerNameValidation constructor.
-     * 
+     * <p>
      * <p>
      * Does nothing
      * </p>
@@ -87,7 +89,9 @@ public class GazetteerNameValidation extends DefaultFeatureValidation {
 
         try {
             gazetteer = new URL(
-                    "http://cgdi-dev.geoconnections.org/cgi-bin/prototypes/cgdigaz/cgdigaz.cgi?version=1.0&request=GetPlacenameGeometry&wildcards=false&geomtype=bbox");
+                    "http://cgdi-dev.geoconnections.org/cgi-bin/prototypes/cgdigaz/cgdigaz" +
+                            ".cgi?version=1.0&request=GetPlacenameGeometry&wildcards=false" +
+                            "&geomtype=bbox");
         } catch (MalformedURLException e) {
         }
     }
@@ -98,14 +102,12 @@ public class GazetteerNameValidation extends DefaultFeatureValidation {
      * @param feature
      * @param type
      * @param results
-     *
-     *
      * @see org.geotools.validation.FeatureValidation#validate(org.geotools.feature.Feature,
-     *      org.geotools.feature.FeatureType,
-     *      org.geotools.validation.ValidationResults)
+     * org.geotools.feature.FeatureType,
+     * org.geotools.validation.ValidationResults)
      */
     public boolean validate(SimpleFeature feature, SimpleFeatureType type,
-        ValidationResults results) { // throws Exception {
+                            ValidationResults results) { // throws Exception {
 
         String place = (String) feature.getAttribute(attributeName);
         URL gazetteerURL = null;
@@ -122,11 +124,11 @@ public class GazetteerNameValidation extends DefaultFeatureValidation {
 
         try {
             HttpURLConnection gazetteerConnection = (HttpURLConnection) gazetteerURL
-                .openConnection();
+                    .openConnection();
 
             if (!("OK".equals(gazetteerConnection.getResponseMessage()))) {
                 results.error(feature,
-                    "An error occured creating the connection to the Gazetteer.");
+                        "An error occured creating the connection to the Gazetteer.");
             }
 
             gazetteerInputStream = gazetteerConnection.getInputStream();
@@ -175,7 +177,6 @@ public class GazetteerNameValidation extends DefaultFeatureValidation {
     /**
      * Implementation of getPriority.
      *
-     *
      * @see org.geotools.validation.Validation#getPriority()
      */
     public int getPriority() {
@@ -220,7 +221,7 @@ public class GazetteerNameValidation extends DefaultFeatureValidation {
 
     /**
      * getChildElement purpose.
-     * 
+     * <p>
      * <p>
      * Used to help with XML manipulations. Returns the first child element of
      * the specified name.
@@ -228,9 +229,7 @@ public class GazetteerNameValidation extends DefaultFeatureValidation {
      *
      * @param root The root element to look for children in.
      * @param name The name of the child element to look for.
-     *
      * @return The child element found, null if not found.
-     *
      * @see getChildElement(Element,String,boolean)
      */
     private static Element getChildElement(Element root, String name) {
@@ -251,15 +250,14 @@ public class GazetteerNameValidation extends DefaultFeatureValidation {
 
     /**
      * getChildText purpose.
-     * 
+     * <p>
      * <p>
      * Used to help with XML manipulations. Returns the first child text value
      * of the specified element name.
      * </p>
      *
-     * @param root The root element to look for children in.
+     * @param root      The root element to look for children in.
      * @param childName The name of the attribute to look for.
-     *
      * @return The value if the child was found, the null otherwise.
      */
     private static String getChildText(Element root, String childName) {

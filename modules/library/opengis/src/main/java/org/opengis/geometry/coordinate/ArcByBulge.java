@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.coordinate;
@@ -17,16 +17,13 @@ import static org.opengis.annotation.Specification.*;
 /**
  * Equivalents to the {@link Arc}, except the bulge representation is maintained.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
- * @since GeoAPI 1.0
- *
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
  * @see GeometryFactory#createArcByBulge
+ * @since GeoAPI 1.0
  */
-@UML(identifier="GM_ArcByBulge", specification=ISO_19107)
+@UML(identifier = "GM_ArcByBulge", specification = ISO_19107)
 public interface ArcByBulge extends ArcStringByBulge {
     /**
      * Recast as a base {@linkplain Arc arc}.

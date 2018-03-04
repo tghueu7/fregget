@@ -4,13 +4,14 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.referencing.datum;
 
 import javax.measure.unit.Unit;
 import javax.measure.quantity.Length;
+
 import org.opengis.referencing.IdentifiedObject;
 import org.opengis.annotation.UML;
 
@@ -24,10 +25,10 @@ import static org.opengis.annotation.Specification.*;
  * its minor axis. An ellipsoid requires two defining parameters:
  * <p>
  * <ul>
- *   <li>{@linkplain #getSemiMajorAxis semi-major axis} and
- *       {@linkplain #getInverseFlattening inverse flattening}, or</li>
- *   <li>{@linkplain #getSemiMajorAxis semi-major axis} and
- *       {@linkplain #getSemiMinorAxis semi-minor axis}.</li>
+ * <li>{@linkplain #getSemiMajorAxis semi-major axis} and
+ * {@linkplain #getInverseFlattening inverse flattening}, or</li>
+ * <li>{@linkplain #getSemiMajorAxis semi-major axis} and
+ * {@linkplain #getSemiMinorAxis semi-minor axis}.</li>
  * </ul>
  * <p>
  * There is not just one ellipsoid. An ellipsoid is a matter of choice, and therefore many
@@ -41,23 +42,21 @@ import static org.opengis.annotation.Specification.*;
  * be described as a different geodetic datum. Conversely geographic coordinates are unambiguous
  * only when associated with a geodetic datum.
  *
- * @departure
- *   ISO 19111 defines {@link #getSemiMinorAxis semiMinorAxis}, {@link #getInverseFlattening
- *   inverseFlattening} and {@link #isIvfDefinitive isSphere} in a separated structure named
- *   {@code secondDefiningParameter} of type {@code union}. The C/C++ concept of {@code union}
- *   doesn't exist in Java, but implementors can achieve the same functionality by providing
- *   different {@code Ellipsoid} subclasses computing one parameter on-the-fly from the other
- *   one. The {@link #isIvfDefinitive isIvfDefinitive} attribute imported from OGC 01-004 can
- *   be used for distinguishing between the two cases.
- *
- *
- *
+ * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract 
+ * specification 2.0</A>
+ * @departure ISO 19111 defines {@link #getSemiMinorAxis semiMinorAxis}, {@link 
+ * #getInverseFlattening
+ * inverseFlattening} and {@link #isIvfDefinitive isSphere} in a separated structure named
+ * {@code secondDefiningParameter} of type {@code union}. The C/C++ concept of {@code union}
+ * doesn't exist in Java, but implementors can achieve the same functionality by providing
+ * different {@code Ellipsoid} subclasses computing one parameter on-the-fly from the other
+ * one. The {@link #isIvfDefinitive isIvfDefinitive} attribute imported from OGC 01-004 can
+ * be used for distinguishing between the two cases.
  * @source $URL$
- * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract specification 2.0</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
+ * @since GeoAPI 1.0
  */
-@UML(identifier="CD_Ellipsoid", specification=ISO_19111)
+@UML(identifier = "CD_Ellipsoid", specification = ISO_19111)
 public interface Ellipsoid extends IdentifiedObject {
     /**
      * Returns the linear unit of the {@linkplain #getSemiMajorAxis semi-major}
@@ -65,7 +64,7 @@ public interface Ellipsoid extends IdentifiedObject {
      *
      * @return The axis linear unit.
      */
-    @UML(identifier="getAxisUnit", specification=OGC_01009)
+    @UML(identifier = "getAxisUnit", specification = OGC_01009)
     Unit<Length> getAxisUnit();
 
     /**
@@ -75,7 +74,7 @@ public interface Ellipsoid extends IdentifiedObject {
      * @return Length of semi-major axis.
      * @unitof Length
      */
-    @UML(identifier="semiMajorAxis", obligation=MANDATORY, specification=ISO_19111)
+    @UML(identifier = "semiMajorAxis", obligation = MANDATORY, specification = ISO_19111)
     double getSemiMajorAxis();
 
     /**
@@ -85,22 +84,25 @@ public interface Ellipsoid extends IdentifiedObject {
      * @return Length of semi-minor axis.
      * @unitof Length
      */
-    @UML(identifier="secondDefiningParameter.semiMinorAxis", obligation=CONDITIONAL, specification=ISO_19111)
+    @UML(identifier = "secondDefiningParameter.semiMinorAxis", obligation = CONDITIONAL, 
+            specification = ISO_19111)
     double getSemiMinorAxis();
 
     /**
      * Returns the value of the inverse of the flattening constant. The inverse
      * flattening is related to the equatorial/polar radius by the formula
-     *
-     * <var>ivf</var>&nbsp;=&nbsp;<var>r</var><sub>e</sub>/(<var>r</var><sub>e</sub>-<var>r</var><sub>p</sub>).
-     *
+     * <p>
+     * <var>ivf</var>&nbsp;=&nbsp;<var>r</var><sub>e</sub>/
+     * (<var>r</var><sub>e</sub>-<var>r</var><sub>p</sub>).
+     * <p>
      * For perfect spheres (i.e. if {@link #isSphere} returns {@code true}),
      * the {@link Double#POSITIVE_INFINITY POSITIVE_INFINITY} value is used.
      *
      * @return The inverse flattening value.
      * @unitof Scale
      */
-    @UML(identifier="secondDefiningParameter.inverseFlattening", obligation=CONDITIONAL, specification=ISO_19111)
+    @UML(identifier = "secondDefiningParameter.inverseFlattening", obligation = CONDITIONAL, 
+            specification = ISO_19111)
     double getInverseFlattening();
 
     /**
@@ -110,10 +112,11 @@ public interface Ellipsoid extends IdentifiedObject {
      * asked. This distinction can be important to avoid floating-point rounding errors.
      *
      * @return {@code true} if the {@linkplain #getInverseFlattening inverse flattening} is
-     *         definitive, or {@code false} if the {@linkplain #getSemiMinorAxis polar radius}
-     *         is definitive.
+     * definitive, or {@code false} if the {@linkplain #getSemiMinorAxis polar radius}
+     * is definitive.
      */
-    @UML(identifier="CS_Ellipsoid.isIvfDefinitive", obligation=CONDITIONAL, specification=OGC_01009)
+    @UML(identifier = "CS_Ellipsoid.isIvfDefinitive", obligation = CONDITIONAL, specification = 
+            OGC_01009)
     boolean isIvfDefinitive();
 
     /**
@@ -123,6 +126,7 @@ public interface Ellipsoid extends IdentifiedObject {
      *
      * @return {@code true} if the ellipsoid is degenerate and is actually a sphere.
      */
-    @UML(identifier="secondDefiningParameter.isSphere", obligation=CONDITIONAL, specification=ISO_19111)
+    @UML(identifier = "secondDefiningParameter.isSphere", obligation = CONDITIONAL, specification
+            = ISO_19111)
     boolean isSphere();
 }

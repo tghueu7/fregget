@@ -25,13 +25,12 @@ import com.vividsolutions.jts.geom.Coordinate;
 /**
  * Builds a graph representing a line network.
  *
- *
  * @source $URL$
  */
 public interface LineGraphGenerator extends GraphGenerator {
     /**
      * Look up a Node for the provided coordinate.
-     * 
+     *
      * @param coordinate
      * @return Node
      */
@@ -39,7 +38,7 @@ public interface LineGraphGenerator extends GraphGenerator {
 
     /**
      * Retrieve edge between the two coordinates.
-     * 
+     *
      * @param coordinate1
      * @param coordinate2
      * @return Edge

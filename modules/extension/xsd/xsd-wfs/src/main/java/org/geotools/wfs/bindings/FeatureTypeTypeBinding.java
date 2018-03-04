@@ -39,9 +39,9 @@ import org.geotools.xml.AbstractComplexEMFBinding;
 
 /**
  * Binding object for the type http://www.opengis.net/wfs:FeatureTypeType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="FeatureTypeType"&gt;
  *      &lt;xsd:annotation&gt;
@@ -125,9 +125,6 @@ import org.geotools.xml.AbstractComplexEMFBinding;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class FeatureTypeTypeBinding extends AbstractComplexEMFBinding {
@@ -151,8 +148,8 @@ public class FeatureTypeTypeBinding extends AbstractComplexEMFBinding {
     public Class getType() {
         return FeatureTypeType.class;
     }
-    
-    @SuppressWarnings({ "unchecked", "nls" })
+
+    @SuppressWarnings({"unchecked", "nls"})
     @Override
     protected void setProperty(EObject eObject, String property, Object value, boolean lax) {
         if ("OtherSRS".equals(property)) {
@@ -170,18 +167,18 @@ public class FeatureTypeTypeBinding extends AbstractComplexEMFBinding {
         } else if ("DefaultCRS".equals(property) || "SRS".equals(property)) { // WFS 1.0
             String crs = value == null ? null : String.valueOf(value);
             ((FeatureTypeType) eObject).setDefaultSRS(crs);
-        } else if ("Keywords".equals(property)){
+        } else if ("Keywords".equals(property)) {
             if (value instanceof String) {
                 String[] split = ((String) value).split(",");
                 KeywordsType kwd = Ows10Factory.eINSTANCE.createKeywordsType();
-                for(int i = 0; i < split.length; i++){
+                for (int i = 0; i < split.length; i++) {
                     String kw = split[i].trim();
                     kwd.getKeyword().add(kw);
                 }
                 ((FeatureTypeType) eObject).getKeywords().add(kwd);
                 return;
             }
-        } else if ("LatLongBoundingBox".equals(property)){ // WFS 1.0
+        } else if ("LatLongBoundingBox".equals(property)) { // WFS 1.0
             property = "WGS84BoundingBox";
         }
         super.setProperty(eObject, property, value, lax);

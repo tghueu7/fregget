@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -27,8 +27,6 @@ import org.geotools.renderer.lite.StreamingRenderer;
 import org.opengis.filter.FilterFactory;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ImageGraphicFactoryTest extends TestCase {
@@ -41,25 +39,26 @@ public class ImageGraphicFactoryTest extends TestCase {
         image = new ImageGraphicFactory();
         ff = CommonFactoryFinder.getFilterFactory(null);
     }
-    
+
     /**
      * Check that at least the well known png and jpeg formats are supported
+     *
      * @throws Exception
      */
     public void testFormats() throws Exception {
         assertTrue(image.getSupportedMimeTypes().contains("image/png"));
         assertTrue(image.getSupportedMimeTypes().contains("image/jpeg"));
     }
-    
+
     public void testInvalidPaths() throws Exception {
         assertNull(image.getIcon(null, ff.literal("http://www.nowhere.com"), "image/not!", 20));
         try {
             image.getIcon(null, ff.literal("ThisIsNotAUrl"), "image/png", 20);
             fail("Should have throw an exception, invalid url");
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
         }
     }
-    
+
     public void testLocalURL() throws Exception {
         URL url = StreamingRenderer.class.getResource("test-data/draw.png");
         assertNotNull(url);
@@ -68,7 +67,7 @@ public class ImageGraphicFactoryTest extends TestCase {
         assertNotNull(icon);
         assertEquals(80, icon.getIconHeight());
     }
-    
+
     public void testNaturalSize() throws Exception {
         URL url = StreamingRenderer.class.getResource("test-data/draw.png");
         assertNotNull(url);
@@ -76,9 +75,10 @@ public class ImageGraphicFactoryTest extends TestCase {
         assertNotNull(icon);
         assertEquals(22, icon.getIconHeight());
     }
-    
+
     /**
-     * Tests that a fetched icon is added to the cache, and that the {@link GraphicCache#clearCache()} method correctly clears the
+     * Tests that a fetched icon is added to the cache, and that the 
+     * {@link GraphicCache#clearCache()} method correctly clears the
      * cache.
      */
     public void testClearCache() {
@@ -92,6 +92,6 @@ public class ImageGraphicFactoryTest extends TestCase {
 
         assertTrue(image.imageCache.isEmpty());
     }
-    
-    
+
+
 }

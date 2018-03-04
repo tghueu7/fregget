@@ -32,7 +32,7 @@ public class GetFeatureResponse extends WFSResponse {
     private boolean featuresReturned;
 
     public GetFeatureResponse(WFSRequest originatingRequest, HTTPResponse httpResponse,
-            GetFeatureParser features) throws ServiceException, IOException {
+                              GetFeatureParser features) throws ServiceException, IOException {
 
         super(originatingRequest, httpResponse);
         this.features = features;

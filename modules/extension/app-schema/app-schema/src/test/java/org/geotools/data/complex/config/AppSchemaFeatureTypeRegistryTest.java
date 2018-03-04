@@ -20,9 +20,8 @@ import org.xml.sax.helpers.NamespaceSupport;
 
 /**
  * This is to test GMLHandler in AppSchemaFeatureTypeRegistry.
- * 
+ *
  * @author Rini Angreani (CSIRO Earth Science and Resource Engineering)
- * 
  */
 public class AppSchemaFeatureTypeRegistryTest extends AppSchemaTestSupport {
     private static final String BOREHOLE_NS = "http://xmlns.geosciml.org/Borehole/3.2";

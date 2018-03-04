@@ -30,9 +30,9 @@ import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:UserLayer.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:element name="UserLayer"&gt;
@@ -57,16 +57,14 @@ import org.opengis.feature.simple.SimpleFeatureType;
  *              &lt;xsd:element maxOccurs="unbounded" ref="sld:UserStyle"/&gt;
  *          &lt;/xsd:sequence&gt;
  *      &lt;/xsd:complexType&gt;
- *  &lt;/xsd:element&gt; 
- * 	
+ *  &lt;/xsd:element&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class UserLayerBinding extends SLDUserLayerBinding {
@@ -77,18 +75,19 @@ public class UserLayerBinding extends SLDUserLayerBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
-        UserLayer layer  = (UserLayer) super.parse(instance, node, value);
-        
+        UserLayer layer = (UserLayer) super.parse(instance, node, value);
+
         //TODO: description
-        
+
         if (node.hasChild("InlineFeature")) {
-            SimpleFeatureCollection features = (SimpleFeatureCollection) node.getChildValue("InlineFeature");
+            SimpleFeatureCollection features = (SimpleFeatureCollection) node.getChildValue
+                    ("InlineFeature");
             SimpleFeatureType type = features.getSchema();
-            
+
             layer.setInlineFeatureType(type);
             layer.setInlineFeatureDatastore(DataUtilities.dataStore(features));
         }

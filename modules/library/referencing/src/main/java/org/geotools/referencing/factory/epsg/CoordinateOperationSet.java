@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
- *   
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -17,6 +17,7 @@
 package org.geotools.referencing.factory.epsg;
 
 // J2SE dependencies
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,19 +36,19 @@ import org.geotools.referencing.factory.IdentifiedObjectSet;
 /**
  * A lazy set of {@link CoordinateOperation} objects to be returned by the
  * {@link DirectEpsgFactory#createFromCoordinateReferenceSystemCodes
- * createFromCoordinateReferenceSystemCodes} method. 
+ * createFromCoordinateReferenceSystemCodes} method.
  *
- * @since 2.2
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.2
  */
 final class CoordinateOperationSet extends IdentifiedObjectSet {
     /**
      * For compatibility with previous versions.
      */
     private static final long serialVersionUID = -2421669857023064667L;
-    
+
     /**
      * The codes of {@link ProjectedCRS} objects for the specified {@link Conversion} codes,
      * or {@code null} if none.
@@ -85,7 +86,8 @@ final class CoordinateOperationSet extends IdentifiedObjectSet {
         if (projections != null) {
             final String crs = (String) projections.get(code);
             if (crs != null) {
-                return ((CRSAuthorityFactory) factory).createProjectedCRS(crs).getConversionFromBase();
+                return ((CRSAuthorityFactory) factory).createProjectedCRS(crs)
+                        .getConversionFromBase();
             }
         }
         return ((CoordinateOperationAuthorityFactory) factory).createCoordinateOperation(code);

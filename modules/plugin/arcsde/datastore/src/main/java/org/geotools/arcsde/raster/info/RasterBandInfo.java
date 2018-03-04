@@ -21,15 +21,12 @@ import java.awt.Point;
 import java.awt.image.IndexColorModel;
 
 /**
- * 
  * @author Gabriel Roldan (OpenGeo)
- * @since 2.5.4
  * @version $Id$
- *
- *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/main/java/org
- *         /geotools/arcsde/raster/info/RasterBandInfo.java $
+ * http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/main/java/org
+ * /geotools/arcsde/raster/info/RasterBandInfo.java $
+ * @since 2.5.4
  */
 public class RasterBandInfo {
 
@@ -85,7 +82,7 @@ public class RasterBandInfo {
     }
 
     public RasterBandInfo(long bandId, RasterCellType nativeType, Number noDataValue,
-            double statsMin, double statsMax) {
+                          double statsMin, double statsMax) {
         this.bandId = bandId;
         this.cellType = nativeType;
         this.noDataValue = noDataValue;

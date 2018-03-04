@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 1999-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,6 +17,7 @@
 package org.geotools.swing;
 
 // J2SE dependencies
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -60,12 +61,9 @@ import org.opengis.util.ProgressListener;
  * should have a low priority in order to avoid delaying Swing repaint events.
  *
  * @author Martin Desruisseaux
- * @since 2.0
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.0
  */
 public class JProgressWindow implements ProgressListener {
     /**
@@ -126,7 +124,7 @@ public class JProgressWindow implements ProgressListener {
      * The cancel button.
      */
     private final JButton cancel;
-    
+
     /**
      * Component where to display warnings. The actual component class is {@link JTextArea}.
      * But we declare {@link JComponent} here in order to avoid class loading before needed.
@@ -154,29 +152,31 @@ public class JProgressWindow implements ProgressListener {
         /*
          * Creates the window containing the components.
          */
-        Dimension        parentSize;
-        final Vocabulary  resources = Vocabulary.getResources(parent!=null ? parent.getLocale() : null);
-        final String          title = resources.getString(VocabularyKeys.PROGRESSION);
-        final JDesktopPane  desktop = JOptionPane.getDesktopPaneForComponent(parent);
+        Dimension parentSize;
+        final Vocabulary resources = Vocabulary.getResources(parent != null ? parent.getLocale() 
+                : null);
+        final String title = resources.getString(VocabularyKeys.PROGRESSION);
+        final JDesktopPane desktop = JOptionPane.getDesktopPaneForComponent(parent);
         if (desktop != null) {
             final JInternalFrame frame;
-            frame      = new JInternalFrame(title);
-            window     = frame;
-            content    = new JPanel(); // Pour avoir un fond opaque
+            frame = new JInternalFrame(title);
+            window = frame;
+            content = new JPanel(); // Pour avoir un fond opaque
             parentSize = desktop.getSize();
             frame.setContentPane(content);
             frame.setDefaultCloseOperation(JInternalFrame.HIDE_ON_CLOSE);
             desktop.add(frame, JLayeredPane.PALETTE_LAYER);
         } else {
             final JDialog dialog;
-            dialog     = new JDialog((Frame)null, title);
-            window     = dialog;
-            content    = (JComponent) dialog.getContentPane();
+            dialog = new JDialog((Frame) null, title);
+            window = dialog;
+            content = (JComponent) dialog.getContentPane();
             parentSize = Toolkit.getDefaultToolkit().getScreenSize();
             dialog.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
             dialog.setResizable(false);
         }
-        window.setBounds((parentSize.width-WIDTH)/2, (parentSize.height-HEIGHT)/2, WIDTH, HEIGHT);
+        window.setBounds((parentSize.width - WIDTH) / 2, (parentSize.height - HEIGHT) / 2, WIDTH,
+                HEIGHT);
         /*
          * Creates the label that is going to display the undergoing operation.
          * This label is initially empty.
@@ -189,16 +189,16 @@ public class JProgressWindow implements ProgressListener {
         progressBar = new JProgressBar();
         progressBar.setIndeterminate(true);
         progressBar.setBorder(BorderFactory.createCompoundBorder(
-                              BorderFactory.createEmptyBorder(6,9,6,9),
-                              progressBar.getBorder()));
+                BorderFactory.createEmptyBorder(6, 9, 6, 9),
+                progressBar.getBorder()));
         /*
          * Creates the cancel button.
          */
         cancel = new JButton(resources.getString(VocabularyKeys.CANCEL));
-        cancel.addActionListener( new ActionListener(){
-            public void actionPerformed( ActionEvent e ) {
-                setCanceled( true );
-            }            
+        cancel.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                setCanceled(true);
+            }
         });
         final Box cancelBox = Box.createHorizontalBox();
         cancelBox.add(Box.createGlue());
@@ -209,19 +209,20 @@ public class JProgressWindow implements ProgressListener {
          * Layout the elements inside the window. An empty border is created in
          * order to put some space between the window content and the window border.
          */
-        final JPanel panel = new JPanel(new GridLayout(2,1));
+        final JPanel panel = new JPanel(new GridLayout(2, 1));
         panel.setBorder(BorderFactory.createCompoundBorder(
-                        BorderFactory.createEmptyBorder(VMARGIN, HMARGIN, VMARGIN, HMARGIN),
-                        BorderFactory.createEtchedBorder()));
+                BorderFactory.createEmptyBorder(VMARGIN, HMARGIN, VMARGIN, HMARGIN),
+                BorderFactory.createEtchedBorder()));
         panel.add(description);
         panel.add(progressBar);
         content.setLayout(new BorderLayout());
-        content.add(panel,     BorderLayout.NORTH);
+        content.add(panel, BorderLayout.NORTH);
         content.add(cancelBox, BorderLayout.SOUTH);
     }
 
     /**
      * Returns a localized string for the specified key.
+     *
      * @param key an integer key
      * @return the associated string
      */
@@ -231,6 +232,7 @@ public class JProgressWindow implements ProgressListener {
 
     /**
      * Returns the window title. The default title is "Progress" localized in current locale.
+     *
      * @return the window title
      */
     public String getTitle() {
@@ -251,6 +253,7 @@ public class JProgressWindow implements ProgressListener {
 
     /**
      * {@inheritDoc}
+     *
      * @deprecated
      */
     public String getDescription() {
@@ -259,6 +262,7 @@ public class JProgressWindow implements ProgressListener {
 
     /**
      * {@inheritDoc}
+     *
      * @deprecated
      */
     public void setDescription(final String description) {
@@ -277,9 +281,9 @@ public class JProgressWindow implements ProgressListener {
      * {@inheritDoc}
      */
     public void progress(final float percent) {
-        int p=(int) percent; // round toward 0
-        if (p<  0) p=  0;
-        if (p>100) p=100;
+        int p = (int) percent; // round toward 0
+        if (p < 0) p = 0;
+        if (p > 100) p = 100;
         set(Caller.PROGRESS, new Integer(p));
     }
 
@@ -287,10 +291,10 @@ public class JProgressWindow implements ProgressListener {
         BoundedRangeModel model = progressBar.getModel();
         float progress = (float) (model.getValue() - model.getMinimum());
         float limit = (float) model.getMaximum();
-        
+
         return progress / limit;
     }
-    
+
     /**
      * Notifies that the operation has finished. The window will disaspears, except
      * if it contains warning or exception stack traces.
@@ -315,6 +319,7 @@ public class JProgressWindow implements ProgressListener {
 
     /**
      * {@inheritDoc}
+     *
      * @param stop true to stop; false otherwise
      */
     public void setCanceled(final boolean stop) {
@@ -325,27 +330,26 @@ public class JProgressWindow implements ProgressListener {
      * Display a warning message under the progress bar. The text area for warning messages
      * appears only the first time this method is invoked.
      *
-     * @param source DOCUMENT ME
-     * @param margin DOCUMENT ME
+     * @param source  DOCUMENT ME
+     * @param margin  DOCUMENT ME
      * @param warning DOCUMENT ME
      */
     public synchronized void warningOccurred(final String source, String margin,
-                                             final String warning)
-    {
-        final StringBuffer buffer = new StringBuffer(warning.length()+16);
+                                             final String warning) {
+        final StringBuffer buffer = new StringBuffer(warning.length() + 16);
         if (source == null || !source.equals(lastSource)) {
             lastSource = source;
             if (warningArea != null) {
                 buffer.append('\n');
             }
-            buffer.append(source!=null ? source : getString(VocabularyKeys.UNTITLED));
+            buffer.append(source != null ? source : getString(VocabularyKeys.UNTITLED));
             buffer.append('\n');
         }
         int wm = WARNING_MARGIN;
         if (margin != null) {
             margin = trim(margin);
             if (margin.length() != 0) {
-                wm -= (margin.length()+3);
+                wm -= (margin.length() + 3);
                 for (int i = 0; i < wm; i++) {
                     buffer.append(' ');
                 }
@@ -376,6 +380,7 @@ public class JProgressWindow implements ProgressListener {
 
     /**
      * Returns the string {@code margin} without the parenthesis (if any).
+     *
      * @param margin DOCUMENT ME
      * @return DOCUMENT ME
      */
@@ -383,8 +388,8 @@ public class JProgressWindow implements ProgressListener {
         margin = margin.trim();
         int lower = 0;
         int upper = margin.length();
-        while (lower<upper && margin.charAt(lower+0)=='(') lower++;
-        while (lower<upper && margin.charAt(upper-1)==')') upper--;
+        while (lower < upper && margin.charAt(lower + 0) == '(') lower++;
+        while (lower < upper && margin.charAt(upper - 1) == ')') upper--;
         return margin.substring(lower, upper);
     }
 
@@ -392,8 +397,8 @@ public class JProgressWindow implements ProgressListener {
      * Queries one of the components in the progress window. This method
      * doesn't need to be invoked from the <cite>Swing</cite> thread.
      *
-     * @param  task The desired value as one of the {@link Caller#TITLE}
-     *              or {@link Caller#LABEL} constants.
+     * @param task The desired value as one of the {@link Caller#TITLE}
+     *             or {@link Caller#LABEL} constants.
      * @return The value.
      */
     private Object get(final int task) {
@@ -406,9 +411,9 @@ public class JProgressWindow implements ProgressListener {
      * Sets the state of one of the components in the progress window.
      * This method doesn't need to be invoked from the <cite>Swing</cite> thread.
      *
-     * @param  task  The value to change as one of the {@link Caller#TITLE}
-     *               or {@link Caller#LABEL} constants.
-     * @param  value The new value.
+     * @param task  The value to change as one of the {@link Caller#TITLE}
+     *              or {@link Caller#LABEL} constants.
+     * @param value The new value.
      */
     private void set(final int task, final Object value) {
         final Caller caller = new Caller(task);
@@ -434,25 +439,39 @@ public class JProgressWindow implements ProgressListener {
      * @author Martin Desruisseaux (PMO, IRD)
      */
     private class Caller implements Runnable {
-        /** For getting or setting the window title. */
+        /**
+         * For getting or setting the window title.
+         */
         public static final int TITLE = 1;
 
-        /** For getting or setting the progress label. */
+        /**
+         * For getting or setting the progress label.
+         */
         public static final int LABEL = 2;
 
-        /** For getting or setting the progress bar value. */
+        /**
+         * For getting or setting the progress bar value.
+         */
         public static final int PROGRESS = 3;
 
-        /** For adding a warning message. */
+        /**
+         * For adding a warning message.
+         */
         public static final int WARNING = 4;
 
-        /** Notify that an action started. */
+        /**
+         * Notify that an action started.
+         */
         public static final int STARTED = 5;
 
-        /** Notify that an action is completed. */
+        /**
+         * Notify that an action is completed.
+         */
         public static final int COMPLETE = 6;
 
-        /** Notify that the window can be disposed. */
+        /**
+         * Notify that the window can be disposed.
+         */
         public static final int DISPOSE = 7;
 
         /**
@@ -533,7 +552,7 @@ public class JProgressWindow implements ProgressListener {
                         }
                         case DISPOSE: {
                             window.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-                            if (warningArea==null || !window.isVisible()) {
+                            if (warningArea == null || !window.isVisible()) {
                                 window.dispose();
                             }
                             return;
@@ -560,7 +579,7 @@ public class JProgressWindow implements ProgressListener {
                         }
                         case DISPOSE: {
                             window.setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
-                            if (warningArea==null || !window.isVisible()) {
+                            if (warningArea == null || !window.isVisible()) {
                                 window.dispose();
                             }
                             return;
@@ -572,16 +591,18 @@ public class JProgressWindow implements ProgressListener {
                  * on supposera que l'on voulait afficher un message d'avertissement.
                  */
                 if (warningArea == null) {
-                    final JTextArea     warningArea = new JTextArea();
-                    final JScrollPane        scroll = new JScrollPane(warningArea);
-                    final JPanel          namedArea = new JPanel(new BorderLayout());
+                    final JTextArea warningArea = new JTextArea();
+                    final JScrollPane scroll = new JScrollPane(warningArea);
+                    final JPanel namedArea = new JPanel(new BorderLayout());
                     JProgressWindow.this.warningArea = warningArea;
                     warningArea.setFont(Font.getFont("Monospaced"));
                     warningArea.setEditable(false);
-                    namedArea.setBorder(BorderFactory.createEmptyBorder(0, HMARGIN, VMARGIN, HMARGIN));
-                    namedArea.add(new JLabel(getString(VocabularyKeys.WARNING)), BorderLayout.NORTH);
-                    namedArea.add(scroll,                                        BorderLayout.CENTER);
-                    content.add(namedArea,                                       BorderLayout.CENTER);
+                    namedArea.setBorder(BorderFactory.createEmptyBorder(0, HMARGIN, VMARGIN, 
+                            HMARGIN));
+                    namedArea.add(new JLabel(getString(VocabularyKeys.WARNING)), BorderLayout
+                            .NORTH);
+                    namedArea.add(scroll, BorderLayout.CENTER);
+                    content.add(namedArea, BorderLayout.CENTER);
                     if (window instanceof JDialog) {
                         final JDialog window = (JDialog) JProgressWindow.this.window;
                         window.setResizable(true);
@@ -589,7 +610,7 @@ public class JProgressWindow implements ProgressListener {
                         final JInternalFrame window = (JInternalFrame) JProgressWindow.this.window;
                         window.setResizable(true);
                     }
-                    window.setSize(WIDTH, HEIGHT+WARNING_HEIGHT);
+                    window.setSize(WIDTH, HEIGHT + WARNING_HEIGHT);
                     window.setVisible(true); // Seems required in order to force relayout.
                 }
                 final JTextArea warningArea = (JTextArea) JProgressWindow.this.warningArea;
@@ -597,10 +618,12 @@ public class JProgressWindow implements ProgressListener {
             }
         }
     }
-    public void setTask( InternationalString task ) {
-        setDescription( task.toString() );
+
+    public void setTask(InternationalString task) {
+        setDescription(task.toString());
     }
+
     public InternationalString getTask() {
-        return new SimpleInternationalString( getDescription() );
+        return new SimpleInternationalString(getDescription());
     }
 }

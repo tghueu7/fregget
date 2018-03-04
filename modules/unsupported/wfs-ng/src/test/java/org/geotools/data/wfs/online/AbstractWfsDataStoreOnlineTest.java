@@ -36,6 +36,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.geotools.data.FeatureReader;
 import org.geotools.data.Query;
 import org.geotools.data.ResourceInfo;
@@ -68,8 +69,6 @@ import org.opengis.referencing.NoSuchAuthorityCodeException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
- * 
- * 
  * @source $URL$
  */
 public abstract class AbstractWfsDataStoreOnlineTest {
@@ -96,13 +95,15 @@ public abstract class AbstractWfsDataStoreOnlineTest {
     private final int featureCount;
 
     /**
-     * The filter used for the count test, may be null if {@link #testFeatureSourceGetCountFilter()} and 
+     * The filter used for the count test, may be null if 
+     * {@link #testFeatureSourceGetCountFilter()} and
      * {@link #testFeatureSourceGetFeatures()} are not expected to be run
      */
     private final Id fidFilter;
-    
+
     /**
-     * The filter used for the filter test, may be null if {@link #testFeatureSourceGetFeaturesFilter()} is
+     * The filter used for the filter test, may be null if 
+     * {@link #testFeatureSourceGetFeaturesFilter()} is
      * not expected to run.
      */
     private final Filter spatialFilter;
@@ -110,8 +111,9 @@ public abstract class AbstractWfsDataStoreOnlineTest {
     private final Class geometryType;
 
     public AbstractWfsDataStoreOnlineTest(String serverURL, WFSTestData.TestDataType testType,
-            String defaultGeometryName, Class geometryType, int featureCount, Id fidFilter,
-            Filter spatialFilter, String axisOrder) {
+                                          String defaultGeometryName, Class geometryType, int 
+                                                  featureCount, Id fidFilter,
+                                          Filter spatialFilter, String axisOrder) {
         this.SERVER_URL = serverURL;
         this.testType = testType;
         this.defaultGeometryName = defaultGeometryName;
@@ -154,7 +156,7 @@ public abstract class AbstractWfsDataStoreOnlineTest {
             params.put(WFSDataStoreFactory.URL.key, SERVER_URL);
             params.put(WFSDataStoreFactory.GML_COMPATIBLE_TYPENAMES.key, true);
             params.put(WFSDataStoreFactory.AXIS_ORDER.key, axisOrder);
-            
+
             WFSDataStoreFactory dataStoreFactory = new WFSDataStoreFactory();
             wfs = dataStoreFactory.createDataStore(params);
             LOGGER.fine("WFS datastore created");
@@ -229,8 +231,9 @@ public abstract class AbstractWfsDataStoreOnlineTest {
     }
 
     /**
-     * Performs a FeatureSource.getCount(Query) with the constructor provided fid filter if the filter is not null.
-     * 
+     * Performs a FeatureSource.getCount(Query) with the constructor provided fid filter if the 
+     * filter is not null.
+     *
      * @throws IOException
      */
     @Test
@@ -238,21 +241,21 @@ public abstract class AbstractWfsDataStoreOnlineTest {
         if (Boolean.FALSE.equals(serviceAvailable)) {
             return;
         }
-        
+
         if (featureCount >= 0) { //server doesn't support feature count anyway, skip
             if (fidFilter == null) {
                 LOGGER.info("Ignoring testFeatureSourceGetCountFilter "
                         + "since the subclass didn't provide a fid filter");
                 return;
             }
-    
+
             SimpleFeatureSource featureSource;
             featureSource = wfs.getFeatureSource(testType.FEATURETYPENAME);
             assertNotNull(featureSource);
-    
+
             Query query = new Query(featureSource.getInfo().getName());
             query.setFilter(fidFilter);
-    
+
             assertEquals(1, featureSource.getCount(query));
         }
     }
@@ -296,7 +299,7 @@ public abstract class AbstractWfsDataStoreOnlineTest {
         if (Boolean.FALSE.equals(serviceAvailable)) {
             return;
         }
-        
+
         if (spatialFilter == null) {
             LOGGER.info("Ignoring testFeatureSourceGetCountFilter "
                     + "since the subclass didn't provide a spatial filter");
@@ -494,7 +497,7 @@ public abstract class AbstractWfsDataStoreOnlineTest {
         };
 
         final Query query = new Query(ft.getTypeName());
-        query.setPropertyNames(new String[] { "the_geom" });
+        query.setPropertyNames(new String[]{"the_geom"});
         query.setFilter(strictBBox);
 
         FeatureReader<SimpleFeatureType, SimpleFeature> reader;
@@ -532,7 +535,7 @@ public abstract class AbstractWfsDataStoreOnlineTest {
                 latLon.getMaximum(0), latLon.getMaximum(1), null);
 
         final Query query = new Query(ft.getTypeName());
-        query.setPropertyNames(new String[] { "the_geom" });
+        query.setPropertyNames(new String[]{"the_geom"});
         query.setFilter(lonLatFilter);
         query.setCoordinateSystem(wgs84LonLat);
 

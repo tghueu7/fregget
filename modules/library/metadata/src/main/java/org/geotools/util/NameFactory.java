@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -30,12 +30,10 @@ import org.geotools.resources.Classes;
 /**
  * A factory for {@link GenericName} objects.
  *
- * @since 2.1
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux
  * @version $Id$
- * @author  Martin Desruisseaux
+ * @source $URL$
+ * @since 2.1
  */
 public final class NameFactory {
     /**
@@ -58,7 +56,7 @@ public final class NameFactory {
      * Constructs a generic name from a fully qualified name
      * and the specified separator character.
      *
-     * @param name The fully qualified name.
+     * @param name      The fully qualified name.
      * @param separator The separator character.
      */
     public static GenericName create(final String name, final char separator) {
@@ -68,7 +66,7 @@ public final class NameFactory {
             final int upper = name.indexOf(separator, lower);
             if (upper >= 0) {
                 names.add(name.substring(lower, upper));
-                lower = upper+1;
+                lower = upper + 1;
             } else {
                 names.add(name.substring(lower));
                 break;
@@ -115,16 +113,15 @@ public final class NameFactory {
      * @param separator The separator character to use.
      */
     private static GenericName create(final CharSequence[] names,
-                                      final int  length,
-                                      final char separator)
-    {
+                                      final int length,
+                                      final char separator) {
         if (length <= 0) {
             throw new IllegalArgumentException(String.valueOf(length));
         }
         if (length == 1) {
             return new LocalName(names[0]);
         }
-        return new ScopedName(create(names, length-1, separator), separator, names[length-1]);
+        return new ScopedName(create(names, length - 1, separator), separator, names[length - 1]);
     }
 
     /**
@@ -132,7 +129,7 @@ public final class NameFactory {
      * {@code String[]}, {@link GenericName} or {@code GenericName[]}. This method is used in
      * {@link org.geotools.referencing.AbstractIdentifiedObject} constructors.
      *
-     * @param  value The object to cast into an array of generic names.
+     * @param value The object to cast into an array of generic names.
      * @return The generic names.
      * @throws ClassCastException if {@code value} can't be cast.
      */
@@ -141,34 +138,35 @@ public final class NameFactory {
             return (GenericName[]) value;
         }
         if (value instanceof GenericName) {
-            return new GenericName[] {
-                (GenericName) value
+            return new GenericName[]{
+                    (GenericName) value
             };
         }
         if (value instanceof CharSequence) {
-            return new GenericName[] {
-                create(value.toString())
+            return new GenericName[]{
+                    create(value.toString())
             };
         }
         if (value instanceof CharSequence[]) {
             final CharSequence[] values = (CharSequence[]) value;
             final GenericName[] names = new GenericName[values.length];
-            for (int i=0; i<values.length; i++) {
+            for (int i = 0; i < values.length; i++) {
                 final CharSequence v = values[i];
-                names[i] = (v instanceof GenericName) ? (GenericName)v : create(v.toString());
+                names[i] = (v instanceof GenericName) ? (GenericName) v : create(v.toString());
             }
             return names;
         }
         if (value instanceof Identifier[]) {
             final Identifier[] values = (Identifier[]) value;
             final GenericName[] names = new GenericName[values.length];
-            for( int i=0; i<values.length; i++) {
+            for (int i = 0; i < values.length; i++) {
                 final Identifier v = values[i];
-                names[i] = (v instanceof GenericName) ? (GenericName)v : create(v.getCode());
+                names[i] = (v instanceof GenericName) ? (GenericName) v : create(v.getCode());
             }
             return names;
         }
         // TODO: localize
-        throw new ClassCastException("Cannot convert " + Classes.getShortClassName(value) + " to GenericName[]");
+        throw new ClassCastException("Cannot convert " + Classes.getShortClassName(value) + " to " +
+                "GenericName[]");
     }
 }

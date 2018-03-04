@@ -31,9 +31,9 @@ import org.geotools.xs.XS;
 
 /**
  * Binding object for the type http://www.w3.org/2001/XMLSchema:date.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xs:simpleType name="date" id="date"&gt;
  *      &lt;xs:annotation&gt;
@@ -62,9 +62,6 @@ import org.geotools.xs.XS;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class XSDateBinding implements SimpleBinding {
@@ -112,9 +109,9 @@ public class XSDateBinding implements SimpleBinding {
         final Date date = (Date) object;
         Object hint = Hints.getSystemDefault(Hints.LOCAL_DATE_TIME_HANDLING);
         Calendar calendar;
-        if(Boolean.TRUE.equals(hint)){
+        if (Boolean.TRUE.equals(hint)) {
             calendar = Calendar.getInstance();
-        }else{
+        } else {
             calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
         }
         calendar.clear();

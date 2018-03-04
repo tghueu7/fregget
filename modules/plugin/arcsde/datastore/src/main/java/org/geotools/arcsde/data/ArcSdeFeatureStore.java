@@ -46,15 +46,14 @@ import com.esri.sde.sdk.client.SeException;
 import com.esri.sde.sdk.client.SeTable;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ArcSdeFeatureStore extends ArcSdeFeatureSource implements SimpleFeatureStore {
 
     private static final Logger LOGGER = Logging.getLogger(ArcSdeFeatureStore.class.getName());
 
-    public ArcSdeFeatureStore(final FeatureTypeInfo typeInfo, final ArcSDEDataStore arcSDEDataStore) {
+    public ArcSdeFeatureStore(final FeatureTypeInfo typeInfo, final ArcSDEDataStore 
+            arcSDEDataStore) {
         super(typeInfo, arcSDEDataStore);
     }
 
@@ -71,7 +70,7 @@ public class ArcSdeFeatureStore extends ArcSdeFeatureSource implements SimpleFea
      * If transaction is not auto commit, initiates an {@link ArcTransactionState} with the
      * dataStore's connection pool as key.
      * </p>
-     * 
+     *
      * @see FeatureStore#setTransaction(Transaction)
      */
     public synchronized void setTransaction(final Transaction transaction) {
@@ -167,7 +166,7 @@ public class ArcSdeFeatureStore extends ArcSdeFeatureSource implements SimpleFea
 
     public void modifyFeatures(String name, Object attributeValue, Filter filter)
             throws IOException {
-        modifyFeatures(new Name[] { new NameImpl(name), }, new Object[] { attributeValue, }, filter);
+        modifyFeatures(new Name[]{new NameImpl(name),}, new Object[]{attributeValue,}, filter);
     }
 
     public void modifyFeatures(String[] names, Object[] values, Filter filter) throws IOException {
@@ -182,13 +181,13 @@ public class ArcSdeFeatureStore extends ArcSdeFeatureSource implements SimpleFea
      * @see FeatureStore#modifyFeatures(AttributeDescriptor, Object, Filter)
      */
     public final void modifyFeatures(final AttributeDescriptor type, final Object value,
-            final Filter filter) throws IOException {
-        modifyFeatures(new Name[] { type.getName(), }, new Object[] { value, }, filter);
+                                     final Filter filter) throws IOException {
+        modifyFeatures(new Name[]{type.getName(),}, new Object[]{value,}, filter);
     }
 
     public final void modifyFeatures(final Name name, final Object value, final Filter filter)
             throws IOException {
-        modifyFeatures(new Name[] { name, }, new Object[] { value, }, filter);
+        modifyFeatures(new Name[]{name,}, new Object[]{value,}, filter);
     }
 
     /**
@@ -253,7 +252,7 @@ public class ArcSdeFeatureStore extends ArcSdeFeatureSource implements SimpleFea
      * an SeTable with the provided <code>connection</code>. This means if the connection has a
      * transaction in progress, the truncation takes effect upon commit, otherwise it takes effect
      * immediately.
-     * 
+     *
      * @param typeName
      * @param session
      * @throws DataSourceException

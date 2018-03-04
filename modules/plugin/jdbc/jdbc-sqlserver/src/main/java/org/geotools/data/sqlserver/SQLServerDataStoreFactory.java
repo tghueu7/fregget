@@ -29,44 +29,69 @@ import org.geotools.jdbc.SQLDialect;
  * DataStore factory for Microsoft SQL Server.
  *
  * @author Justin Deoliveira, OpenGEO
- *
- *
- *
- *
  * @source $URL$
  */
 public class SQLServerDataStoreFactory extends JDBCDataStoreFactory {
-    /** parameter for database type */
+    /**
+     * parameter for database type
+     */
     public static final Param DBTYPE = new Param("dbtype", String.class, "Type", true, "sqlserver",
             Collections.singletonMap(Parameter.LEVEL, "program"));
 
-    /** parameter for using integrated security, only works on windows, ignores the user and password parameters, the current windows user account is used for login*/
-    public static final Param INTSEC = new Param("Integrated Security", Boolean.class, "Login as current windows user account. Works only in windows. Ignores user and password settings.", false, new Boolean(false));
+    /**
+     * parameter for using integrated security, only works on windows, ignores the user and 
+     * password parameters, the current windows user account is used for login
+     */
+    public static final Param INTSEC = new Param("Integrated Security", Boolean.class, "Login as " +
+            "current windows user account. Works only in windows. Ignores user and password " +
+            "settings.", false, new Boolean(false));
 
-    /** parameter for using Native Paging */
-    public static final Param NATIVE_PAGING = new Param("Use Native Paging", Boolean.class, "Use native paging for sql queries. For some sets of data, native paging can have a performance impact.", false, Boolean.TRUE);
+    /**
+     * parameter for using Native Paging
+     */
+    public static final Param NATIVE_PAGING = new Param("Use Native Paging", Boolean.class, "Use " +
+            "native paging for sql queries. For some sets of data, native paging can have a " +
+            "performance impact.", false, Boolean.TRUE);
 
-    /** Metadata table providing information about primary keys **/
-    public static final Param GEOMETRY_METADATA_TABLE = new Param("Geometry metadata table", String.class,
-            "The optional table containing geometry metadata (geometry type and srid). Can be expressed as 'schema.name' or just 'name'", false);
+    /**
+     * Metadata table providing information about primary keys
+     **/
+    public static final Param GEOMETRY_METADATA_TABLE = new Param("Geometry metadata table", 
+            String.class,
+            "The optional table containing geometry metadata (geometry type and srid). Can be " +
+                    "expressed as 'schema.name' or just 'name'", false);
 
-    /** parameter for using WKB or Sql server binary directly. Setting to true will use WKB */
-    public static final Param NATIVE_SERIALIZATION = new Param("Use native geometry serialization", Boolean.class,
+    /**
+     * parameter for using WKB or Sql server binary directly. Setting to true will use WKB
+     */
+    public static final Param NATIVE_SERIALIZATION = new Param("Use native geometry " +
+            "serialization", Boolean.class,
             "Use native SQL Server serialization, or WKB serialization.", false, Boolean.FALSE);
 
-    /** parameter for forcing the usage of spatial indexes in queries via sql hints */
-    public static final Param FORCE_SPATIAL_INDEX = new Param("Force spatial index usage via hints", Boolean.class,
-            "When enabled, spatial filters will be accompained by a WITH INDEX sql hint forcing the usage of the spatial index.", false, Boolean.FALSE);
+    /**
+     * parameter for forcing the usage of spatial indexes in queries via sql hints
+     */
+    public static final Param FORCE_SPATIAL_INDEX = new Param("Force spatial index usage via " +
+            "hints", Boolean.class,
+            "When enabled, spatial filters will be accompained by a WITH INDEX sql hint forcing " +
+                    "the usage of the spatial index.", false, Boolean.FALSE);
 
-    /** parameter for forcing the usage of spatial indexes in queries via sql hints */
+    /**
+     * parameter for forcing the usage of spatial indexes in queries via sql hints
+     */
     public static final Param TABLE_HINTS = new Param("Table hints", String.class,
             "These table hints will be added to every select query.", false, "");
 
-    /** parameter for database port */
+    /**
+     * parameter for database port
+     */
     public static final Param PORT = new Param("port", Integer.class, "Port", false);
 
-    /** parameter for database instance */
-    public static final Param INSTANCE = new Param("instance", String.class, "Instance Name", false);
+    /**
+     * parameter for database instance
+     */
+    public static final Param INSTANCE = new Param("instance", String.class, "Instance Name", 
+            false);
 
 
     @Override
@@ -110,7 +135,7 @@ public class SQLServerDataStoreFactory extends JDBCDataStoreFactory {
     }
 
     /**
-     *  Builds up the JDBC url in a jdbc:<database>://<host>:<port>;DatabaseName=<dbname>
+     * Builds up the JDBC url in a jdbc:<database>://<host>:<port>;DatabaseName=<dbname>
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -121,19 +146,20 @@ public class SQLServerDataStoreFactory extends JDBCDataStoreFactory {
         String instance = (String) INSTANCE.lookUp(params);
 
         String url = "jdbc:" + getDatabaseID() + "://" + host;
-        if ( port != null ) {
+        if (port != null) {
             url += ":" + port;
-        }else if (instance != null) {
-            url += "\\"+instance;
+        } else if (instance != null) {
+            url += "\\" + instance;
         }
 
-        if ( db != null ) {
+        if (db != null) {
             url += "/" + db;
         }
 
         Boolean intsec = (Boolean) INTSEC.lookUp(params);
         if (db != null) {
-            url = url.substring(0, url.lastIndexOf("/")) + (db != null ? ";DatabaseName="+db : "");
+            url = url.substring(0, url.lastIndexOf("/")) + (db != null ? ";DatabaseName=" + db : 
+                    "");
         }
 
         if (intsec != null && intsec.booleanValue()) {
@@ -142,6 +168,7 @@ public class SQLServerDataStoreFactory extends JDBCDataStoreFactory {
 
         return url;
     }
+
     @Override
     public boolean canProcess(Map params) {
 
@@ -160,6 +187,7 @@ public class SQLServerDataStoreFactory extends JDBCDataStoreFactory {
         //we only need one or the other of these
         return (port != null || instance != null);
     }
+
     @Override
     protected JDBCDataStore createDataStoreInternal(JDBCDataStore dataStore, Map params)
             throws IOException {

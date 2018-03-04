@@ -9,8 +9,6 @@ import com.esri.sde.sdk.client.SeRasterRenderedImage;
 import com.esri.sde.sdk.client.SeRasterScanLineGenerator;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class ArcSDERasterFloatProducerImpl extends ArcSDERasterProducer {
@@ -19,7 +17,8 @@ public class ArcSDERasterFloatProducerImpl extends ArcSDERasterProducer {
         super(null, null, SeRasterScanLineGenerator.MASK_ALL_ON);
     }
 
-    public ArcSDERasterFloatProducerImpl(SeRasterAttr attr, BufferedImage sourceImage, int maskType) {
+    public ArcSDERasterFloatProducerImpl(SeRasterAttr attr, BufferedImage sourceImage, int 
+            maskType) {
         super(attr, sourceImage, maskType);
     }
 
@@ -56,10 +55,14 @@ public class ArcSDERasterFloatProducerImpl extends ArcSDERasterProducer {
                                     max = Math.max(max, sample);
                                     // convert float to bytes
                                     int bits = Float.floatToIntBits(sample);
-                                    sdeRasterData[y * sourceImage.getWidth() * 4 + x * 4] = (byte) ((bits & 0xff000000) >> 24);
-                                    sdeRasterData[y * sourceImage.getWidth() * 4 + x * 4 + 1] = (byte) ((bits & 0x00ff0000) >> 16);
-                                    sdeRasterData[y * sourceImage.getWidth() * 4 + x * 4 + 2] = (byte) ((bits & 0x0000ff00) >> 8);
-                                    sdeRasterData[y * sourceImage.getWidth() * 4 + x * 4 + 3] = (byte) (bits & 0x000000ff);
+                                    sdeRasterData[y * sourceImage.getWidth() * 4 + x * 4] = 
+                                            (byte) ((bits & 0xff000000) >> 24);
+                                    sdeRasterData[y * sourceImage.getWidth() * 4 + x * 4 + 1] = 
+                                            (byte) ((bits & 0x00ff0000) >> 16);
+                                    sdeRasterData[y * sourceImage.getWidth() * 4 + x * 4 + 2] = 
+                                            (byte) ((bits & 0x0000ff00) >> 8);
+                                    sdeRasterData[y * sourceImage.getWidth() * 4 + x * 4 + 3] = 
+                                            (byte) (bits & 0x000000ff);
                                 }
                             }
 

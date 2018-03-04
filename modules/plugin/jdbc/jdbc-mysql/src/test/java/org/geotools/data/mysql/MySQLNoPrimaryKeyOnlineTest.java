@@ -20,8 +20,6 @@ import org.geotools.jdbc.JDBCNoPrimaryKeyOnlineTest;
 import org.geotools.jdbc.JDBCNoPrimaryKeyTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class MySQLNoPrimaryKeyOnlineTest extends JDBCNoPrimaryKeyOnlineTest {
@@ -31,5 +29,5 @@ public class MySQLNoPrimaryKeyOnlineTest extends JDBCNoPrimaryKeyOnlineTest {
         return new MySQLNoPrimaryKeyTestSetup();
     }
 
-    
+
 }

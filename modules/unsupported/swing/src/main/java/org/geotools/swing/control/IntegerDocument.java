@@ -27,9 +27,9 @@ import javax.swing.text.PlainDocument;
  * to integer values.
  *
  * @author Michael Bedward
- * @since 2.6.1
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.6.1
  */
 class IntegerDocument extends PlainDocument {
 
@@ -54,6 +54,7 @@ class IntegerDocument extends PlainDocument {
 
     /**
      * Get the value corresponding to the current text
+     *
      * @return the current value
      */
     public int getValue() {
@@ -73,7 +74,8 @@ class IntegerDocument extends PlainDocument {
      * {@inheritDoc}
      */
     @Override
-    public void insertString(int offset, String text, AttributeSet attributes) throws BadLocationException {
+    public void insertString(int offset, String text, AttributeSet attributes) throws 
+            BadLocationException {
         if (text != null) {
             String newText;
 
@@ -117,9 +119,8 @@ class IntegerDocument extends PlainDocument {
      * Check the proposed text and, if it is valid, parse it as an integer value.
      *
      * @param proposedText the proposed text value
-     * @param offset position in the document
+     * @param offset       position in the document
      * @return the parsed integer value
-     *
      * @throws BadLocationException if the string did not represent a value integer
      */
     public int checkInput(String proposedText, int offset) throws BadLocationException {

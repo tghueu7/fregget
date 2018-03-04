@@ -50,13 +50,13 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineString;
 
-public class GMLWriterTest extends GMLTestSupport{
+public class GMLWriterTest extends GMLTestSupport {
 
     Encoder gtEncoder;
     static final String INDENT_AMOUNT_KEY =
-        "{http://xml.apache.org/xslt}indent-amount";
+            "{http://xml.apache.org/xslt}indent-amount";
     protected XpathEngine xpath;
-    
+
     @Override
     protected void setUp() throws Exception {
         Map<String, String> namespaces = new HashMap<String, String>();
@@ -72,19 +72,19 @@ public class GMLWriterTest extends GMLTestSupport{
 
     public void testGeometryCollectionEncoder() throws Exception {
         GeometryCollectionEncoder gce = new GeometryCollectionEncoder(gtEncoder,
-            "gml");
+                "gml");
         Geometry geometry = new WKTReader2().read(
-            "GEOMETRYCOLLECTION (LINESTRING"
-            + " (180 200, 160 180), POINT (19 19), POINT (20 10))");
+                "GEOMETRYCOLLECTION (LINESTRING"
+                        + " (180 200, 160 180), POINT (19 19), POINT (20 10))");
         Document doc = encode(gce, geometry);
         // print(doc);
         assertEquals(1,
-            xpath.getMatchingNodes("//gml:LineString", doc).getLength());
+                xpath.getMatchingNodes("//gml:LineString", doc).getLength());
         assertEquals(2, xpath.getMatchingNodes("//gml:Point", doc).getLength());
         assertEquals(3,
-            xpath.getMatchingNodes("//gml:coordinates", doc).getLength());
+                xpath.getMatchingNodes("//gml:coordinates", doc).getLength());
     }
-    
+
     public void testEncode3DLine() throws Exception {
         LineStringEncoder encoder = new LineStringEncoder(gtEncoder, "gml");
         Geometry geometry = new WKTReader2().read("LINESTRING(0 0 50, 120 0 100)");
@@ -92,16 +92,17 @@ public class GMLWriterTest extends GMLTestSupport{
         // print(doc);
         assertEquals("0,0,50 120,0,100", xpath.evaluate("//gml:coordinates", doc));
     }
-    
+
     public void testEncode3DLineFromLiteCS() throws Exception {
         LineStringEncoder encoder = new LineStringEncoder(gtEncoder, "gml");
-        LiteCoordinateSequence cs = new LiteCoordinateSequence(new double[] {0, 0, 50, 120, 0, 100}, 3);
+        LiteCoordinateSequence cs = new LiteCoordinateSequence(new double[]{0, 0, 50, 120, 0, 
+                100}, 3);
         LineString geometry = new GeometryFactory().createLineString(cs);
         Document doc = encode(encoder, geometry);
         // print(doc);
         assertEquals("0,0,50 120,0,100", xpath.evaluate("//gml:coordinates", doc));
     }
-    
+
     public void testEncode3DPoint() throws Exception {
         PointEncoder encoder = new PointEncoder(gtEncoder, "gml");
         Geometry geometry = new WKTReader2().read("POINT(0 0 50)");
@@ -119,8 +120,8 @@ public class GMLWriterTest extends GMLTestSupport{
 
         // create the document serializer
         SAXTransformerFactory txFactory =
-            (SAXTransformerFactory) SAXTransformerFactory
-            .newInstance();
+                (SAXTransformerFactory) SAXTransformerFactory
+                        .newInstance();
 
         TransformerHandler xmls;
         try {
@@ -135,7 +136,7 @@ public class GMLWriterTest extends GMLTestSupport{
         xmls.setResult(new StreamResult(out));
 
         GMLWriter handler = new GMLWriter(xmls, gtEncoder.getNamespaces(), 6,
-            false, "gml");
+                false, "gml");
         handler.startDocument();
         handler.startPrefixMapping("gml", GML.NAMESPACE);
         handler.endPrefixMapping("gml");

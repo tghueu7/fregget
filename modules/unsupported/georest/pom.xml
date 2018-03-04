@@ -8,8 +8,8 @@
         Version: $Id: pom.xml 33582 2009-07-17 04:40:35Z mbedward $
      ======================================================================= -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                                http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -20,9 +20,9 @@
     </parent>
 
 
-  <!-- =========================================================== -->
-  <!--     Module Description                                      -->
-  <!-- =========================================================== -->
+    <!-- =========================================================== -->
+    <!--     Module Description                                      -->
+    <!-- =========================================================== -->
     <groupId>org.geotools</groupId>
     <artifactId>gt-georest</artifactId>
     <packaging>jar</packaging>
@@ -30,7 +30,7 @@
 
 
     <description>
-    Provides a DataStore based on a GeoJson rest service.
+        Provides a DataStore based on a GeoJson rest service.
     </description>
 
     <licenses>
@@ -42,9 +42,9 @@
     </licenses>
 
 
-  <!-- =========================================================== -->
-  <!--     Developers and Contributors                             -->
-  <!-- =========================================================== -->
+    <!-- =========================================================== -->
+    <!--     Developers and Contributors                             -->
+    <!-- =========================================================== -->
     <developers>
         <developer>
             <name>Pieter De Graef</name>
@@ -59,9 +59,9 @@
     </developers>
 
 
-  <!-- =========================================================== -->
-  <!--     Dependency Management                                    -->
-  <!-- =========================================================== -->
+    <!-- =========================================================== -->
+    <!--     Dependency Management                                    -->
+    <!-- =========================================================== -->
     <dependencies>
         <!--   GeoTools modules   -->
         <dependency>
@@ -82,62 +82,62 @@
     </dependencies>
 
 
-  <!-- =========================================================== -->
-  <!--     Build Configuration                                     -->
-  <!--         copies all JARs in a single directory.              -->
-  <!-- =========================================================== -->
-  <build>
+    <!-- =========================================================== -->
+    <!--     Build Configuration                                     -->
+    <!--         copies all JARs in a single directory.              -->
+    <!-- =========================================================== -->
+    <build>
 
-    <plugins>
-      <!-- ====    Compilation      ============================== -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <!-- ====    Switch commenting to skip tests    = -->
-          <skip>${allow.test.skip}</skip>
-          <!-- skip>true</skip> -->
-          <includes>
-            <include></include>
-          </includes>
-          <excludes>
-            <exclude></exclude>
-          </excludes>
-        </configuration>
-      </plugin>
-      
-      <!-- ====    Testing          ============================== -->
-      <!-- ====    Code Formatting  ============================== -->
-      <!--
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>jalopy-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>format</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      -->
-      <!-- ====    Code Coverage    ============================== -->
-      <!--
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-clover-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal></goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      -->
-    </plugins>
-    
-  </build>
+        <plugins>
+            <!-- ====    Compilation      ============================== -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <!-- ====    Switch commenting to skip tests    = -->
+                    <skip>${allow.test.skip}</skip>
+                    <!-- skip>true</skip> -->
+                    <includes>
+                        <include></include>
+                    </includes>
+                    <excludes>
+                        <exclude></exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+
+            <!-- ====    Testing          ============================== -->
+            <!-- ====    Code Formatting  ============================== -->
+            <!--
+            <plugin>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>jalopy-maven-plugin</artifactId>
+              <executions>
+                <execution>
+                  <goals>
+                    <goal>format</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+            -->
+            <!-- ====    Code Coverage    ============================== -->
+            <!--
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-clover-plugin</artifactId>
+              <executions>
+                <execution>
+                  <goals>
+                    <goal></goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+            -->
+        </plugins>
+
+    </build>
 
 
 </project>

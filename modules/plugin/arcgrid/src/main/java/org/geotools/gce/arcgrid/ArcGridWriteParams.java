@@ -25,30 +25,26 @@ import org.geotools.coverage.grid.io.imageio.GeoToolsWriteParams;
 
 /**
  * @author Simone Giannecchini
- * @since 2.3.x
- * 
- *
- *
- *
  * @source $URL$
+ * @since 2.3.x
  */
 public class ArcGridWriteParams extends GeoToolsWriteParams {
 
-	/**
-	 * Default constructor.
-	 */
-	public ArcGridWriteParams() {
-		super(new ImageWriteParam(Locale.getDefault()));
-		// allowed compression types
-		compressionTypes = null;
-		// default compression type
-		compressionType = null;
-		canWriteCompressed = false;
-		canWriteProgressive = false;
-		canWriteTiles = false;
-		canOffsetTiles = false;
-		controller = null;
+    /**
+     * Default constructor.
+     */
+    public ArcGridWriteParams() {
+        super(new ImageWriteParam(Locale.getDefault()));
+        // allowed compression types
+        compressionTypes = null;
+        // default compression type
+        compressionType = null;
+        canWriteCompressed = false;
+        canWriteProgressive = false;
+        canWriteTiles = false;
+        canOffsetTiles = false;
+        controller = null;
 
-	}
+    }
 
 }

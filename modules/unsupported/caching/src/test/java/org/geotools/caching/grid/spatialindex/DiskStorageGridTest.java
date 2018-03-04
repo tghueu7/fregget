@@ -30,9 +30,8 @@ import org.geotools.caching.spatialindex.Storage;
 
 
 //import org.geotools.caching.spatialindex.store.DiskStorage;
+
 /**
- * 
- *
  * @source $URL$
  */
 public class DiskStorageGridTest extends AbstractSpatialIndexTest {
@@ -59,18 +58,18 @@ public class DiskStorageGridTest extends AbstractSpatialIndexTest {
         Properties pset = index.getIndexProperties();
         pset.store(System.out, "Grid property set");
         index.flush();
-        
+
         index = (GridSpatialIndex) GridSpatialIndex.createInstance(pset);
         super.index = index;
         //testIntersectionQuery();
-        
+
         //check the number of nodes
         HarvestingVisitor v = new HarvestingVisitor();
-        Region query = new Region(new double[] { 0, 0 }, new double[] { 1, 1 });
+        Region query = new Region(new double[]{0, 0}, new double[]{1, 1});
         index.intersectionQuery(query, v);
         assertEquals(index.getStatistics().getNumberOfNodes(), v.visited_nodes);
-        
+
         //the actual data count will be 0
-        assertEquals(0,v.harvest.size());
+        assertEquals(0, v.harvest.size());
     }
 }

@@ -25,9 +25,9 @@ import javax.xml.namespace.QName;
 
 /**
  * Binding object for the type http://www.opengis.net/se:ParameterValueType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
  *  <code>
  *  &lt;xsd:complexType mixed="true" name="ParameterValueType"&gt;
@@ -41,16 +41,14 @@ import javax.xml.namespace.QName;
  *      &lt;xsd:sequence maxOccurs="unbounded" minOccurs="0"&gt;
  *          &lt;xsd:element ref="ogc:expression"/&gt;
  *      &lt;/xsd:sequence&gt;
- *  &lt;/xsd:complexType&gt; 
- * 	
+ *  &lt;/xsd:complexType&gt;
+ *
  *   </code>
  * </pre>
- * 
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class ParameterValueTypeBinding extends SLDParameterValueTypeBinding {

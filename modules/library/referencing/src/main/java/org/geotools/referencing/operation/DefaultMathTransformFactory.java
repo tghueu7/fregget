@@ -75,19 +75,19 @@ import org.geotools.util.CanonicalSet;
  * instead. However, the {@code MathTransformFactory} interface can be used directly
  * by applications that wish to transform other types of coordinates (e.g. color coordinates,
  * or image pixel coordinates).
- * <P>
+ * <p>
  * A {@linkplain MathTransform math transform} is an object that actually does
  * the work of applying formulae to coordinate values. The math transform does
  * not know or care how the coordinates relate to positions in the real world.
  * This lack of semantics makes implementing {@code MathTransformFactory}
  * significantly easier than it would be otherwise.
- *
+ * <p>
  * For example the affine transform applies a matrix to the coordinates
  * without knowing how what it is doing relates to the real world. So if
  * the matrix scales <var>Z</var> values by a factor of 1000, then it could
  * be converting meters into millimeters, or it could be converting kilometers
  * into meters.
- * <P>
+ * <p>
  * Because {@linkplain MathTransform math transforms} have low semantic value
  * (but high mathematical value), programmers who do not have much knowledge
  * of how GIS applications use coordinate systems, or how those coordinate
@@ -97,21 +97,19 @@ import org.geotools.util.CanonicalSet;
  * GIS coordinates. For example, a math transform could be used to map color
  * coordinates between different color spaces, such as converting (red, green, blue)
  * colors into (hue, light, saturation) colors.
- * <P>
+ * <p>
  * Since a {@linkplain MathTransform math transform} does not know what its source
  * and target coordinate systems mean, it is not necessary or desirable for a math
  * transform object to keep information on its source and target coordinate systems.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
  * @tutorial http://docs.codehaus.org/display/GEOTOOLS/Coordinate+Transformation+Parameters
+ * @since 2.1
  */
-public class DefaultMathTransformFactory extends ReferencingFactory implements MathTransformFactory {
+public class DefaultMathTransformFactory extends ReferencingFactory implements 
+        MathTransformFactory {
     /**
      * The hints to provide to math transform providers. Null for now, but may be non-null
      * in some future version.
@@ -133,7 +131,8 @@ public class DefaultMathTransformFactory extends ReferencingFactory implements M
     /**
      * The operation method for the last transform created.
      */
-    private static final ThreadLocal<OperationMethod> lastMethod = new ThreadLocal<OperationMethod>();
+    private static final ThreadLocal<OperationMethod> lastMethod = new 
+            ThreadLocal<OperationMethod>();
 
     /**
      * A pool of math transform. This pool is used in order to
@@ -150,7 +149,7 @@ public class DefaultMathTransformFactory extends ReferencingFactory implements M
      * Constructs a default {@link MathTransform math transform} factory.
      */
     public DefaultMathTransformFactory() {
-        this(new Class<?>[] {MathTransformProvider.class});
+        this(new Class<?>[]{MathTransformProvider.class});
     }
 
     /**
@@ -161,8 +160,8 @@ public class DefaultMathTransformFactory extends ReferencingFactory implements M
      *                   of {@link MathTransformProvider}.
      */
     private DefaultMathTransformFactory(final Class<?>[] categories) {
-        registry   = new FactoryRegistry(Arrays.asList(categories));
-        pool       = CanonicalSet.newInstance(MathTransform.class);
+        registry = new FactoryRegistry(Arrays.asList(categories));
+        pool = CanonicalSet.newInstance(MathTransform.class);
     }
 
     /**
@@ -183,17 +182,16 @@ public class DefaultMathTransformFactory extends ReferencingFactory implements M
      * must be known to the {@link #getDefaultParameters} method in this factory.
      * The set of available methods is implementation dependent.
      *
-     * @param  type <code>{@linkplain Operation}.class</code> for fetching all operation methods,
-     *           or <code>{@linkplain Projection}.class</code> for fetching only map projection
-     *           methods.
+     * @param type <code>{@linkplain Operation}.class</code> for fetching all operation methods,
+     *             or <code>{@linkplain Projection}.class</code> for fetching only map projection
+     *             methods.
      * @return All {@linkplain MathTransform math transform} methods available in this factory.
-     *
      * @see #getDefaultParameters
      * @see #createParameterizedTransform
      */
     public Set<OperationMethod> getAvailableMethods(final Class<? extends Operation> type) {
         return new LazySet<OperationMethod>(registry.getFactories(MathTransformProvider.class,
-                (type!=null) ? new MethodFilter(type) : null, HINTS));
+                (type != null) ? new MethodFilter(type) : null, HINTS));
     }
 
     /**
@@ -219,8 +217,9 @@ public class DefaultMathTransformFactory extends ReferencingFactory implements M
         @Override
         public boolean test(MathTransformProvider element) {
             if (element instanceof MathTransformProvider) {
-                final Class<? extends Operation> t = ((MathTransformProvider) element).getOperationType();
-                if (t!=null && !type.isAssignableFrom(t)) {
+                final Class<? extends Operation> t = ((MathTransformProvider) element)
+                        .getOperationType();
+                if (t != null && !type.isAssignableFrom(t)) {
                     return false;
                 }
             }
@@ -234,7 +233,6 @@ public class DefaultMathTransformFactory extends ReferencingFactory implements M
      * in the currently running thread. Returns {@code null} if not applicable.
      *
      * @see #createParameterizedTransform
-     *
      * @since 2.5
      */
     public OperationMethod getLastMethodUsed() {
@@ -244,13 +242,12 @@ public class DefaultMathTransformFactory extends ReferencingFactory implements M
     /**
      * Returns the operation method for the specified name.
      *
-     * @param  name The case insensitive
-     *         {@linkplain org.opengis.metadata.Identifier#getCode identifier code}
-     *         of the operation method to search for (e.g. {@code "Transverse_Mercator"}).
+     * @param name The case insensitive
+     *             {@linkplain org.opengis.metadata.Identifier#getCode identifier code}
+     *             of the operation method to search for (e.g. {@code "Transverse_Mercator"}).
      * @return The operation method.
      * @throws NoSuchIdentifierException if there is no operation method registered for the
-     *         specified name.
-     *
+     *                                   specified name.
      * @since 2.2
      */
     public OperationMethod getOperationMethod(String name) throws NoSuchIdentifierException {
@@ -263,14 +260,15 @@ public class DefaultMathTransformFactory extends ReferencingFactory implements M
      * (e.g. <code>getProvider("Transverse_Mercator").getParameters()</code>),
      * or any of the alias in a given locale.
      *
-     * @param  method The case insensitive
-     *         {@linkplain org.opengis.metadata.Identifier#getCode identifier code}
-     *         of the operation method to search for (e.g. {@code "Transverse_Mercator"}).
+     * @param method The case insensitive
+     *               {@linkplain org.opengis.metadata.Identifier#getCode identifier code}
+     *               of the operation method to search for (e.g. {@code "Transverse_Mercator"}).
      * @return The math transform provider.
      * @throws NoSuchIdentifierException if there is no provider registered for the specified
-     *         method.
+     *                                   method.
      */
-    private MathTransformProvider getProvider(final String method) throws NoSuchIdentifierException {
+    private MathTransformProvider getProvider(final String method) throws 
+            NoSuchIdentifierException {
         /*
          * Copies the 'lastProvider' reference in order to avoid synchronization. This is safe
          * because copy of object references are atomic operations.  Note that this is not the
@@ -278,7 +276,7 @@ public class DefaultMathTransformFactory extends ReferencingFactory implements M
          * for existing ones.
          */
         MathTransformProvider provider = lastProvider;
-        if (provider!=null && provider.nameMatches(method)) {
+        if (provider != null && provider.nameMatches(method)) {
             return provider;
         }
 
@@ -295,24 +293,23 @@ public class DefaultMathTransformFactory extends ReferencingFactory implements M
      * Returns the default parameter values for a math transform using the given method.
      * The method argument is the name of any operation method returned by the
      * {@link #getAvailableMethods} method. A typical example is
-     * <code>"<A HREF="http://www.remotesensing.org/geotiff/proj_list/transverse_mercator.html">Transverse_Mercator</A>"</code>).
-     *
+     * <code>"<A HREF="http://www.remotesensing.org/geotiff/proj_list/transverse_mercator
+     * .html">Transverse_Mercator</A>"</code>).
+     * <p>
      * <P>This method creates new parameter instances at every call. It is intented to be modified
      * by the user before to be passed to <code>{@linkplain #createParameterizedTransform
      * createParameterizedTransform}(parameters)</code>.</P>
      *
-     * @param  method The case insensitive name of the method to search for.
+     * @param method The case insensitive name of the method to search for.
      * @return The default parameter values.
      * @throws NoSuchIdentifierException if there is no transform registered for the specified
-     *         method.
-     *
+     *                                   method.
      * @see #getAvailableMethods
      * @see #createParameterizedTransform
      * @see org.geotools.referencing.operation.transform.AbstractMathTransform#getParameterValues
      */
     public ParameterValueGroup getDefaultParameters(final String method)
-            throws NoSuchIdentifierException
-    {
+            throws NoSuchIdentifierException {
         return getProvider(method).getParameters().createValue();
     }
 
@@ -325,19 +322,19 @@ public class DefaultMathTransformFactory extends ReferencingFactory implements M
      * The {@linkplain OperationMethod operation method} used can be obtained by a call to
      * {@link #getLastUsedMethod}.
      *
-     * @param  baseCRS The source coordinate reference system.
-     * @param  parameters The parameter values for the transform.
-     * @param  derivedCS the target coordinate system.
+     * @param baseCRS    The source coordinate reference system.
+     * @param parameters The parameter values for the transform.
+     * @param derivedCS  the target coordinate system.
      * @return The parameterized transform.
      * @throws NoSuchIdentifierException if there is no transform registered for the method.
-     * @throws FactoryException if the object creation failed. This exception is thrown
-     *         if some required parameter has not been supplied, or has illegal value.
+     * @throws FactoryException          if the object creation failed. This exception is thrown
+     *                                   if some required parameter has not been supplied, or has
+     *                                   illegal value.
      */
     public MathTransform createBaseToDerived(final CoordinateReferenceSystem baseCRS,
-                                             final ParameterValueGroup       parameters,
-                                             final CoordinateSystem          derivedCS)
-            throws NoSuchIdentifierException, FactoryException
-    {
+                                             final ParameterValueGroup parameters,
+                                             final CoordinateSystem derivedCS)
+            throws NoSuchIdentifierException, FactoryException {
         /*
          * If the user's parameter do not contains semi-major and semi-minor axis length, infers
          * them from the ellipsoid. This is a convenience service since the user often omit those
@@ -346,8 +343,10 @@ public class DefaultMathTransformFactory extends ReferencingFactory implements M
         final Ellipsoid ellipsoid = CRSUtilities.getHeadGeoEllipsoid(baseCRS);
         if (ellipsoid != null) {
             final Unit<Length> axisUnit = ellipsoid.getAxisUnit();
-            Parameters.ensureSet(parameters, "semi_major", ellipsoid.getSemiMajorAxis(), axisUnit, false);
-            Parameters.ensureSet(parameters, "semi_minor", ellipsoid.getSemiMinorAxis(), axisUnit, false);
+            Parameters.ensureSet(parameters, "semi_major", ellipsoid.getSemiMajorAxis(), 
+                    axisUnit, false);
+            Parameters.ensureSet(parameters, "semi_minor", ellipsoid.getSemiMinorAxis(), 
+                    axisUnit, false);
         }
         MathTransform baseToDerived = createParameterizedTransform(parameters);
         final OperationMethod method = lastMethod.get();
@@ -363,20 +362,19 @@ public class DefaultMathTransformFactory extends ReferencingFactory implements M
      * (<cite>x</cite>, <cite>y</cite>) axes in metres. This method inspects the coordinate
      * systems and prepend or append the unit conversions and axis switchs automatically.
      *
-     * @param  baseCRS The source coordinate reference system.
-     * @param  projection The "raw" <cite>base to derived</cite> transform.
-     * @param  derivedCS the target coordinate system.
+     * @param baseCRS    The source coordinate reference system.
+     * @param projection The "raw" <cite>base to derived</cite> transform.
+     * @param derivedCS  the target coordinate system.
      * @return The parameterized transform.
      * @throws FactoryException if the object creation failed. This exception is thrown
-     *         if some required parameter has not been supplied, or has illegal value.
-     *
+     *                          if some required parameter has not been supplied, or has illegal 
+     *                          value.
      * @since 2.5
      */
     public MathTransform createBaseToDerived(final CoordinateReferenceSystem baseCRS,
-                                             final MathTransform          projection,
-                                             final CoordinateSystem        derivedCS)
-            throws FactoryException
-    {
+                                             final MathTransform projection,
+                                             final CoordinateSystem derivedCS)
+            throws FactoryException {
         /*
          * Computes matrix for swapping axis and performing units conversion.
          * There is one matrix to apply before projection on (longitude,latitude)
@@ -420,7 +418,7 @@ public class DefaultMathTransformFactory extends ReferencingFactory implements M
         final int sourceDim = step1.getTargetDimensions();
         final int targetDim = step2.getSourceDimensions();
         if (sourceDim > targetDim) {
-            final Matrix drop = MatrixFactory.create(targetDim+1, sourceDim+1);
+            final Matrix drop = MatrixFactory.create(targetDim + 1, sourceDim + 1);
             drop.setElement(targetDim, sourceDim, 1);
             step1 = createConcatenatedTransform(createAffineTransform(drop), step1);
         }
@@ -431,7 +429,7 @@ public class DefaultMathTransformFactory extends ReferencingFactory implements M
      * Creates a transform from a group of parameters. The method name is inferred from the
      * {@linkplain org.opengis.parameter.ParameterDescriptorGroup#getName parameter group name}.
      * Example:
-     *
+     * <p>
      * <blockquote><pre>
      * ParameterValueGroup p = factory.getDefaultParameters("Transverse_Mercator");
      * p.parameter("semi_major").setValue(6378137.000);
@@ -439,19 +437,18 @@ public class DefaultMathTransformFactory extends ReferencingFactory implements M
      * MathTransform mt = factory.createParameterizedTransform(p);
      * </pre></blockquote>
      *
-     * @param  parameters The parameter values.
+     * @param parameters The parameter values.
      * @return The parameterized transform.
      * @throws NoSuchIdentifierException if there is no transform registered for the method.
-     * @throws FactoryException if the object creation failed. This exception is thrown
-     *         if some required parameter has not been supplied, or has illegal value.
-     *
+     * @throws FactoryException          if the object creation failed. This exception is thrown
+     *                                   if some required parameter has not been supplied, or has
+     *                                   illegal value.
      * @see #getDefaultParameters
      * @see #getAvailableMethods
      * @see #getLastUsedMethod
      */
     public MathTransform createParameterizedTransform(ParameterValueGroup parameters)
-            throws NoSuchIdentifierException, FactoryException
-    {
+            throws NoSuchIdentifierException, FactoryException {
         MathTransform transform;
         OperationMethod method = null;
         try {
@@ -460,7 +457,7 @@ public class DefaultMathTransformFactory extends ReferencingFactory implements M
             method = provider;
             try {
                 parameters = provider.ensureValidValues(parameters);
-                transform  = provider.createMathTransform(parameters);
+                transform = provider.createMathTransform(parameters);
             } catch (IllegalArgumentException exception) {
                 /*
                  * Catch only exceptions which may be the result of improper parameter
@@ -470,8 +467,9 @@ public class DefaultMathTransformFactory extends ReferencingFactory implements M
                 throw new FactoryException(exception);
             }
             if (transform instanceof MathTransformProvider.Delegate) {
-                final MathTransformProvider.Delegate delegate = (MathTransformProvider.Delegate) transform;
-                method    = delegate.method;
+                final MathTransformProvider.Delegate delegate = (MathTransformProvider.Delegate) 
+                        transform;
+                method = delegate.method;
                 transform = delegate.transform;
             }
             transform = pool.unique(transform);
@@ -496,8 +494,7 @@ public class DefaultMathTransformFactory extends ReferencingFactory implements M
      * @throws FactoryException if the object creation failed.
      */
     public MathTransform createAffineTransform(final Matrix matrix)
-            throws FactoryException
-    {
+            throws FactoryException {
         lastMethod.remove(); // To be strict, we should set ProjectiveTransform.Provider
         return pool.unique(ProjectiveTransform.create(matrix));
     }
@@ -506,21 +503,20 @@ public class DefaultMathTransformFactory extends ReferencingFactory implements M
      * Creates a transform by concatenating two existing transforms.
      * A concatenated transform acts in the same way as applying two
      * transforms, one after the other.
-     *
+     * <p>
      * The dimension of the output space of the first transform must match
      * the dimension of the input space in the second transform.
      * If you wish to concatenate more than two transforms, then you can
      * repeatedly use this method.
      *
-     * @param  transform1 The first transform to apply to points.
-     * @param  transform2 The second transform to apply to points.
+     * @param transform1 The first transform to apply to points.
+     * @param transform2 The second transform to apply to points.
      * @return The concatenated transform.
      * @throws FactoryException if the object creation failed.
      */
     public MathTransform createConcatenatedTransform(final MathTransform transform1,
                                                      final MathTransform transform2)
-            throws FactoryException
-    {
+            throws FactoryException {
         MathTransform tr;
         try {
             tr = ConcatenatedTransform.create(transform1, transform2);
@@ -538,27 +534,27 @@ public class DefaultMathTransformFactory extends ReferencingFactory implements M
      * convert the height values from meters to feet without affecting the
      * (<var>Lat</var>,<var>Lon</var>) values.
      *
-     * @param  firstAffectedOrdinate The lowest index of the affected ordinates.
-     * @param  subTransform Transform to use for affected ordinates.
-     * @param  numTrailingOrdinates Number of trailing ordinates to pass through.
-     *         Affected ordinates will range from {@code firstAffectedOrdinate}
-     *         inclusive to {@code dimTarget-numTrailingOrdinates} exclusive.
+     * @param firstAffectedOrdinate The lowest index of the affected ordinates.
+     * @param subTransform          Transform to use for affected ordinates.
+     * @param numTrailingOrdinates  Number of trailing ordinates to pass through.
+     *                              Affected ordinates will range from {@code firstAffectedOrdinate}
+     *                              inclusive to {@code dimTarget-numTrailingOrdinates} exclusive.
      * @return A pass through transform with the following dimensions:<br>
-     *         <pre>
+     * <pre>
      * Source: firstAffectedOrdinate + subTransform.getSourceDimensions() + numTrailingOrdinates
-     * Target: firstAffectedOrdinate + subTransform.getTargetDimensions() + numTrailingOrdinates</pre>
+     * Target: firstAffectedOrdinate + subTransform.getTargetDimensions() + 
+     * numTrailingOrdinates</pre>
      * @throws FactoryException if the object creation failed.
      */
     public MathTransform createPassThroughTransform(final int firstAffectedOrdinate,
                                                     final MathTransform subTransform,
                                                     final int numTrailingOrdinates)
-            throws FactoryException
-    {
+            throws FactoryException {
         MathTransform tr;
         try {
             tr = PassThroughTransform.create(firstAffectedOrdinate,
-                                             subTransform,
-                                             numTrailingOrdinates);
+                    subTransform,
+                    numTrailingOrdinates);
         } catch (IllegalArgumentException exception) {
             throw new FactoryException(exception);
         }
@@ -570,7 +566,7 @@ public class DefaultMathTransformFactory extends ReferencingFactory implements M
      * Creates a math transform object from a XML string. The default implementation
      * always throws an exception, since this method is not yet implemented.
      *
-     * @param  xml Math transform encoded in XML format.
+     * @param xml Math transform encoded in XML format.
      * @throws FactoryException if the object creation failed.
      */
     public MathTransform createFromXML(String xml) throws FactoryException {
@@ -579,13 +575,14 @@ public class DefaultMathTransformFactory extends ReferencingFactory implements M
 
     /**
      * Creates a math transform object from a
-     * <A HREF="http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
+     * <A HREF="http://geoapi.sourceforge
+     * .net/snapshot/javadoc/org/opengis/referencing/doc-files/WKT.html"><cite>Well
      * Known Text</cite> (WKT)</A>.
      *
-     * @param  text Math transform encoded in Well-Known Text format.
+     * @param text Math transform encoded in Well-Known Text format.
      * @return The math transform (never {@code null}).
      * @throws FactoryException if the Well-Known Text can't be parsed,
-     *         or if the math transform creation failed from some other reason.
+     *                          or if the math transform creation failed from some other reason.
      */
     public synchronized MathTransform createFromWKT(final String text) throws FactoryException {
         // Note: while this factory is thread safe, the WKT parser is not.
@@ -628,33 +625,33 @@ public class DefaultMathTransformFactory extends ReferencingFactory implements M
      * java org.geotools.referencing.operation.DefaultMathTransformFactory
      * <VAR>&lt;options&gt;</VAR> <VAR>&lt;method&gt;</VAR>
      * </CODE></BLOCKQUOTE>
-     *
+     * <p>
      * <P>where options are:</P>
-     *
+     * <p>
      * <TABLE CELLPADDING='0' CELLSPACING='0'>
-     *   <TR><TD NOWRAP><CODE>-projections</CODE></TD>
-     *       <TD NOWRAP>&nbsp;List only projections</TD></TR>
-     *   <TR><TD NOWRAP><CODE>-conversions</CODE></TD>
-     *       <TD NOWRAP>&nbsp;List only conversions</TD></TR>
-     *   <TR><TD NOWRAP><CODE>-all</CODE></TD>
-     *       <TD NOWRAP>&nbsp;List the parameters for all transforms</TD></TR>
-     *   <TR><TD NOWRAP><CODE>-encoding</CODE> <VAR>&lt;code&gt;</VAR></TD>
-     *       <TD NOWRAP>&nbsp;Set the character encoding</TD></TR>
-     *   <TR><TD NOWRAP><CODE>-locale</CODE> <VAR>&lt;language&gt;</VAR></TD>
-     *       <TD NOWRAP>&nbsp;Set the language for the output (e.g. "fr" for French)</TD></TR>
+     * <TR><TD NOWRAP><CODE>-projections</CODE></TD>
+     * <TD NOWRAP>&nbsp;List only projections</TD></TR>
+     * <TR><TD NOWRAP><CODE>-conversions</CODE></TD>
+     * <TD NOWRAP>&nbsp;List only conversions</TD></TR>
+     * <TR><TD NOWRAP><CODE>-all</CODE></TD>
+     * <TD NOWRAP>&nbsp;List the parameters for all transforms</TD></TR>
+     * <TR><TD NOWRAP><CODE>-encoding</CODE> <VAR>&lt;code&gt;</VAR></TD>
+     * <TD NOWRAP>&nbsp;Set the character encoding</TD></TR>
+     * <TR><TD NOWRAP><CODE>-locale</CODE> <VAR>&lt;language&gt;</VAR></TD>
+     * <TD NOWRAP>&nbsp;Set the language for the output (e.g. "fr" for French)</TD></TR>
      * </TABLE>
-     *
+     * <p>
      * <P>and <VAR>&lt;method&gt;</VAR> is the optional name of an operation method
      * (e.g. <CODE>"Affine"</CODE>, <CODE>"EPSG:9624"</CODE> or just
      * <CODE>"9624"</CODE> for the affine transform method).</P>
-     *
+     * <p>
      * <P><strong>Note for Windows users:</strong> If the output contains strange
      * symbols, try to supply an "{@code -encoding}" argument. Example:</P>
-     *
+     * <p>
      * <blockquote><code>
      * java org.geotools.referencing.operation.DefaultMathTransformFactory -encoding Cp850
      * </code></blockquote>
-     *
+     * <p>
      * <P>The codepage number (850 in the previous example) can be obtained from the DOS
      * commande line using the "{@code chcp}" command with no arguments.</P>
      *
@@ -675,7 +672,7 @@ public class DefaultMathTransformFactory extends ReferencingFactory implements M
             final ParameterWriter writer = new ParameterWriter(arguments.out);
             writer.setLocale(arguments.locale);
             Set<OperationMethod> methods = Collections.emptySet();
-            if (printAll || args.length==0) {
+            if (printAll || args.length == 0) {
                 final Set<String> scopes = new HashSet<String>();
 //              scopes.add("OGC");  // Omitted because usually the same than 'identifier'.
                 scopes.add("EPSG");
@@ -709,7 +706,7 @@ public class DefaultMathTransformFactory extends ReferencingFactory implements M
         }
         arguments.out.flush();
     }
-    
+
     /**
      * Cleans up the thread local set in this thread. They can prevent web applications from
      * proper shutdown

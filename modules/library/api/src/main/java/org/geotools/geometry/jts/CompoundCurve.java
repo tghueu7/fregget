@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2014 - 2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -36,7 +36,7 @@ import com.vividsolutions.jts.geom.PrecisionModel;
 
 /**
  * A CompoundCurve is a connected sequence of circular arcs and linear segments.
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 public class CompoundCurve extends LineString implements CompoundCurvedGeometry<LineString> {
@@ -155,7 +155,7 @@ public class CompoundCurve extends LineString implements CompoundCurvedGeometry<
     /**
      * Returns the components of this compound curve, which will be a list of straight LineString
      * objects and CircularString/CircularRing
-     * 
+     *
      * @return
      */
     public List<LineString> getComponents() {
@@ -518,7 +518,6 @@ public class CompoundCurve extends LineString implements CompoundCurvedGeometry<
     public IntersectionMatrix relate(Geometry g) {
         return linearize().relate(g);
     }
-
 
 
     public Geometry buffer(double distance) {

@@ -35,13 +35,15 @@
                             <transformers>
                                 <!-- This bit sets the main class for the executable jar as you otherwise -->
                                 <!-- would with the assembly plugin                                       -->
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <manifestEntries>
                                         <Main-Class>org.geotools.tutorial.ImageTiler</Main-Class>
                                     </manifestEntries>
                                 </transformer>
                                 <!-- This bit merges the various GeoTools META-INF/services files         -->
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                             </transformers>
                         </configuration>
                     </execution>

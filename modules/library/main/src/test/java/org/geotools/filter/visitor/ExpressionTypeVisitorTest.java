@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -45,7 +45,8 @@ public class ExpressionTypeVisitorTest {
     @Before
     public void setup() throws Exception {
         ft = DataUtilities.createType("test",
-                        "theGeom:LineString,b:java.lang.Byte,s:java.lang.Short,i:java.lang.Integer,l:java.lang.Long,d:java.lang.Double,label:String");
+                "theGeom:LineString,b:java.lang.Byte,s:java.lang.Short,i:java.lang.Integer,l:java" +
+                        ".lang.Long,d:java.lang.Double,label:String");
         visitor = new ExpressionTypeVisitor(ft);
     }
 

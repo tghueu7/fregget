@@ -24,7 +24,7 @@ import org.geotools.util.ConverterFactory;
 
 /**
  * ConverterFactory for handling Map of String to {@link HStore} conversion.
- * 
+ *
  * @author Daniele Romagnoli - GeoSolutions SAS
  */
 public class HStoreConverterFactory implements ConverterFactory {

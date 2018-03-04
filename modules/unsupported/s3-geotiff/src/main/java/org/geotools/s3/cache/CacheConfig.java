@@ -72,7 +72,7 @@ public class CacheConfig {
         if (System.getProperty(S3_CHUNK_SIZE_BYTES) != null) {
             config.setChunkSizeBytes(Integer.getInteger(S3_CHUNK_SIZE_BYTES));
         }
-        
+
         if (Boolean.getBoolean(S3_CACHING_DISABLE_DISK)) {
             config.setUseDiskCache(false);
         }
@@ -81,33 +81,31 @@ public class CacheConfig {
             config.setUseOffHeapCache(true);
         }
 
-        if (System.getProperty(S3_CACHING_CHUNK_SIZE_BYTES) != null ) {
+        if (System.getProperty(S3_CACHING_CHUNK_SIZE_BYTES) != null) {
             try {
-                Integer chunkSize = Integer.parseInt(System.getProperty(S3_CACHING_CHUNK_SIZE_BYTES));
+                Integer chunkSize = Integer.parseInt(System.getProperty
+                        (S3_CACHING_CHUNK_SIZE_BYTES));
                 config.setChunkSizeBytes(chunkSize);
-            }
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 LOGGER.log(Level.FINER, "Can't parse chunk size", e);
             }
         }
 
-        if (System.getProperty(S3_CACHING_HEAP_SIZE) != null ) {
+        if (System.getProperty(S3_CACHING_HEAP_SIZE) != null) {
             try {
                 Integer heapSize = Integer.parseInt(System.getProperty(S3_CACHING_HEAP_SIZE));
                 config.setHeapSize(heapSize);
-            }
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 LOGGER.log(Level.FINER, "Can't parse heap", e);
             }
         }
 
-        if (System.getProperty(S3_CACHING_DISK_CACHE_SIZE) != null ) {
+        if (System.getProperty(S3_CACHING_DISK_CACHE_SIZE) != null) {
             try {
                 Integer diskCacheSize = Integer.parseInt(System.getProperty(
-                    S3_CACHING_DISK_CACHE_SIZE));
+                        S3_CACHING_DISK_CACHE_SIZE));
                 config.setDiskCacheSize(diskCacheSize);
-            }
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 LOGGER.log(Level.FINER, "Can't parse disk cache size", e);
             }
         }
@@ -117,17 +115,16 @@ public class CacheConfig {
                 String diskPath = System.getProperty(S3_CACHING_DISK_PATH);
                 Path cachePath = Paths.get(diskPath);
                 config.setCacheDirectory(cachePath);
-            }
-            catch (InvalidPathException e) {
+            } catch (InvalidPathException e) {
                 LOGGER.log(Level.FINER, "Can't parse disk cache path", e);
             }
-        }
-        else {
+        } else {
             if (config.isUseDiskCache()) {
                 try {
                     config.setCacheDirectory(Files.createTempDirectory("s3Cachine"));
                 } catch (IOException e) {
-                    throw new RuntimeException("CAN'T CREATE TEMP CACHING DIRECTORY AND NO DIRECTORY SPECIFIED", e);
+                    throw new RuntimeException("CAN'T CREATE TEMP CACHING DIRECTORY AND NO " +
+                            "DIRECTORY SPECIFIED", e);
                 }
             }
         }

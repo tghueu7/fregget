@@ -20,8 +20,10 @@ import org.opengis.util.InternationalString;
 import org.picocontainer.MutablePicoContainer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 import java.util.List;
 import javax.xml.namespace.QName;
+
 import org.geotools.styling.NamedLayer;
 import org.geotools.styling.StyleFactory;
 import org.geotools.styling.StyledLayer;
@@ -32,9 +34,9 @@ import org.geotools.xml.*;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:StyledLayerDescriptor.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="StyledLayerDescriptor"&gt;
  *      &lt;xsd:annotation&gt;
@@ -61,9 +63,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDStyledLayerDescriptorBinding extends AbstractComplexBinding {
@@ -116,7 +115,7 @@ public class SLDStyledLayerDescriptorBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         StyledLayerDescriptor sld = styleFactory.createStyledLayerDescriptor();
 
         //&lt;xsd:element ref="sld:Name" minOccurs="0"/&gt;

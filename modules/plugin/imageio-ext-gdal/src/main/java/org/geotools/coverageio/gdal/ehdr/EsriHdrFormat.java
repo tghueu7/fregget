@@ -29,14 +29,12 @@ import org.opengis.geometry.MismatchedDimensionException;
 
 /**
  * An implementation of {@link Format} for the Esri Hdr format.
- * 
- * @author Alexander Petkov, Fire Sciences Laboratory 
+ *
+ * @author Alexander Petkov, Fire Sciences Laboratory
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini (simboss), GeoSolutions
- * @since 2.5.x
- *
- *
  * @source $URL$
+ * @since 2.5.x
  */
 public final class EsriHdrFormat extends BaseGDALGridFormat implements Format {
     /**

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2007-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,6 +17,7 @@
 package org.geotools.util.logging;
 
 import java.util.logging.Logger;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.impl.Jdk14Logger;
@@ -26,12 +27,10 @@ import org.apache.commons.logging.impl.Jdk14Logger;
  * A factory for loggers that redirect all Java logging events to the Apache's
  * <A HREF="http://jakarta.apache.org/commons/logging/">Commons-logging</A> framework.
  *
- * @since 2.4
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @since 2.4
  */
 public class CommonsLoggerFactory extends LoggerFactory<Log> {
     /**

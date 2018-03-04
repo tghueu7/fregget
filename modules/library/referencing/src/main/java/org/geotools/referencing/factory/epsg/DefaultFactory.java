@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2001-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -22,15 +22,12 @@ import org.geotools.factory.Hints;
 /**
  * Base class for EPSG factories to be registered in {@link GeometryFactoryFinder}.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
- *
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  * @deprecated Please use {@link ThreadedEpsgFactory} instead,
- *             the name {@code DefaultFactory} was viewed as confusing
+ * the name {@code DefaultFactory} was viewed as confusing
  */
 public class DefaultFactory extends ThreadedEpsgFactory {
     /**
@@ -43,7 +40,7 @@ public class DefaultFactory extends ThreadedEpsgFactory {
      * Constructs an authority factory with the default priority.
      */
     public DefaultFactory(final Hints userHints) {
-        super( userHints );
+        super(userHints);
     }
 
     /**

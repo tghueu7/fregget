@@ -33,8 +33,6 @@ import org.opengis.feature.simple.SimpleFeature;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class MarshallerTest extends TestCase {
@@ -42,14 +40,15 @@ public class MarshallerTest extends TestCase {
         return new TestSuite(MarshallerTest.class);
     }
 
-    /** Marshall and unmarshall a DefaultFeature, and test for equality with the result.
+    /**
+     * Marshall and unmarshall a DefaultFeature, and test for equality with the result.
      *
      * @throws IOException
      * @throws ClassNotFoundException
      * @throws IllegalAttributeException
      */
     public void testMarshall()
-        throws IOException, ClassNotFoundException, IllegalAttributeException {
+            throws IOException, ClassNotFoundException, IllegalAttributeException {
         Generator gen = new Generator(1000, 1000);
         SimpleFeature f = (SimpleFeature) gen.createFeature(0);
         SimpleFeatureMarshaller m = new SimpleFeatureMarshaller();
@@ -68,7 +67,8 @@ public class MarshallerTest extends TestCase {
         //System.out.println(newf);
         assertTrue(f.equals(newf));
 
-        //        for (Iterator<SimpleFeatureType> it = m.types.values().iterator(); it.hasNext();) {
+        //        for (Iterator<SimpleFeatureType> it = m.types.values().iterator(); it.hasNext()
+        // ;) {
         //        	SimpleFeatureType next = it.next();
         //        	System.out.println(next);
         //        	FeatureTypeTransformer t = new FeatureTypeTransformer();
@@ -76,13 +76,16 @@ public class MarshallerTest extends TestCase {
         //        		t.setIndentation(5);
         ////        		t.setOmitXMLDeclaration(true);
         ////        		FileOutputStream fos = new FileOutputStream("/tmp/schema.xml");
-        ////        		fos.write("<xs:schema xmlns:xs=\"http://www.w3.org/2001/XMLSchema\">\n".getBytes());
+        ////        		fos.write("<xs:schema xmlns:xs=\"http://www
+        // .w3.org/2001/XMLSchema\">\n".getBytes());
         //				t.transform(next, System.out);
         ////				fos.write("</xs:schema>".getBytes());
         ////				fos.close();
         //				FileInputStream fis = new FileInputStream("/tmp/schema.xml");
-        //				Schema schema = SchemaFactory.getInstance(null, fis); // "http://www.w3.org/2001/XMLSchema"
-        //				System.out.println(GMLComplexTypes.createFeatureType(schema.getComplexTypes()[0]));
+        //				Schema schema = SchemaFactory.getInstance(null, fis); // "http://www
+        // .w3.org/2001/XMLSchema"
+        //				System.out.println(GMLComplexTypes.createFeatureType(schema
+        // .getComplexTypes()[0]));
         //				fis.close();
         //			} catch (TransformerException e) {
         //				// TODO Auto-generated catch block
@@ -99,14 +102,15 @@ public class MarshallerTest extends TestCase {
         //        }
     }
 
-    /** Marshall and unmarshall same DefaultFeature many times.
+    /**
+     * Marshall and unmarshall same DefaultFeature many times.
      *
      * @throws IOException
      * @throws ClassNotFoundException
      * @throws IllegalAttributeException
      */
     public void testMultipleMarshall()
-        throws IOException, ClassNotFoundException, IllegalAttributeException {
+            throws IOException, ClassNotFoundException, IllegalAttributeException {
         Generator gen = new Generator(1000, 1000);
         int iterations = 10;
         SimpleFeature f = (SimpleFeature) gen.createFeature(0);
@@ -132,11 +136,12 @@ public class MarshallerTest extends TestCase {
         assertEquals(original, f);
     }
 
-    /** Disabled test to mesure time to marshall/unmarshall features.
-     *  Test results on my PC :
-     *   <ul><li>0.8 ms per feature for a marshall/unmarshall cycle
-     *       <li>0.2 ms per feature for marshalling only
-     *   </ul>
+    /**
+     * Disabled test to mesure time to marshall/unmarshall features.
+     * Test results on my PC :
+     * <ul><li>0.8 ms per feature for a marshall/unmarshall cycle
+     * <li>0.2 ms per feature for marshalling only
+     * </ul>
      */
     public void ztestMarshallTime() {
         Generator gen = new Generator(1000, 1000);

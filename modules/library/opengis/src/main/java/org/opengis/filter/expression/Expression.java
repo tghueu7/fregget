@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.filter.expression;
@@ -21,12 +21,10 @@ import org.opengis.feature.Feature;
  * metadata.  The ability to access "attributes" based on the provided content is
  * defined based on XPath queries currently.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengis.org/docs/02-059.pdf">Implementation specification 1.0</A>
  * @author Chris Dillard (SYS Technologies)
  * @author Justin Deoliveira (The Open Planning Project)
+ * @version <A HREF="http://www.opengis.org/docs/02-059.pdf">Implementation specification 1.0</A>
+ * @source $URL$
  * @since GeoAPI 2.0
  */
 @XmlElement("expression")
@@ -68,15 +66,15 @@ public interface Expression {
      * Implementations that can not return a result as an instance of {@code context}
      * should return {@code null}.
      * </p>
-     * @param <T> The type of the returned object.
-     * @param object The object to evaluate the expression against.
-     * @param context The type of the resulting value of the expression.
      *
+     * @param <T>     The type of the returned object.
+     * @param object  The object to evaluate the expression against.
+     * @param context The type of the resulting value of the expression.
      * @return Evaluates the given expression based on the content of the given object an
-     *         an instance of {@code context}.
+     * an instance of {@code context}.
      */
     @Extension
-    <T> T evaluate( Object object, Class<T> context );
+    <T> T evaluate(Object object, Class<T> context);
 
     /**
      * Accepts a visitor. Subclasses must implement with a method whose content is the following:

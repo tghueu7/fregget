@@ -4,13 +4,14 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.metadata.spatial;
 
 import java.util.List;
 import java.util.ArrayList;
+
 import org.opengis.util.CodeList;
 import org.opengis.annotation.UML;
 import org.opengis.annotation.Profile;
@@ -23,15 +24,13 @@ import static org.opengis.annotation.ComplianceLevel.*;
 /**
  * Method used to represent geographic information in the dataset.
  *
- *
- *
- * @source $URL$
+ * @author Martin Desruisseaux (IRD)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 2.0
+ * @source $URL$
+ * @since GeoAPI 2.0
  */
-@Profile (level=CORE)
-@UML(identifier="MD_SpatialRepresentationTypeCode", specification=ISO_19115)
+@Profile(level = CORE)
+@UML(identifier = "MD_SpatialRepresentationTypeCode", specification = ISO_19115)
 public final class SpatialRepresentationType extends CodeList<SpatialRepresentationType> {
     /**
      * Serial number for compatibility with different versions.
@@ -42,43 +41,46 @@ public final class SpatialRepresentationType extends CodeList<SpatialRepresentat
      * List of all enumerations of this type.
      * Must be declared before any enum declaration.
      */
-    private static final List<SpatialRepresentationType> VALUES = new ArrayList<SpatialRepresentationType>(6);
+    private static final List<SpatialRepresentationType> VALUES = new 
+            ArrayList<SpatialRepresentationType>(6);
 
     /**
      * Vector data is used to represent geographic data.
      */
-    @UML(identifier="vector", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "vector", obligation = CONDITIONAL, specification = ISO_19115)
     public static final SpatialRepresentationType VECTOR = new SpatialRepresentationType("VECTOR");
 
     /**
      * Grid data is used to represent geographic data.
      */
-    @UML(identifier="grid", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "grid", obligation = CONDITIONAL, specification = ISO_19115)
     public static final SpatialRepresentationType GRID = new SpatialRepresentationType("GRID");
 
     /**
      * Textual or tabular data is used to represent geographic data.
      */
-    @UML(identifier="textTable", obligation=CONDITIONAL, specification=ISO_19115)
-    public static final SpatialRepresentationType TEXT_TABLE = new SpatialRepresentationType("TEXT_TABLE");
+    @UML(identifier = "textTable", obligation = CONDITIONAL, specification = ISO_19115)
+    public static final SpatialRepresentationType TEXT_TABLE = new SpatialRepresentationType
+            ("TEXT_TABLE");
 
     /**
      * Triangulated irregular network.
      */
-    @UML(identifier="tin", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "tin", obligation = CONDITIONAL, specification = ISO_19115)
     public static final SpatialRepresentationType TIN = new SpatialRepresentationType("TIN");
 
     /**
      * Three-dimensional view formed by the intersecting homologous rays of an
      * overlapping pair of images.
      */
-    @UML(identifier="stereoModel", obligation=CONDITIONAL, specification=ISO_19115)
-    public static final SpatialRepresentationType STEREO_MODEL = new SpatialRepresentationType("STEREO_MODEL");
+    @UML(identifier = "stereoModel", obligation = CONDITIONAL, specification = ISO_19115)
+    public static final SpatialRepresentationType STEREO_MODEL = new SpatialRepresentationType
+            ("STEREO_MODEL");
 
     /**
      * Scene from a video recording.
      */
-    @UML(identifier="video", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "video", obligation = CONDITIONAL, specification = ISO_19115)
     public static final SpatialRepresentationType VIDEO = new SpatialRepresentationType("VIDEO");
 
     /**

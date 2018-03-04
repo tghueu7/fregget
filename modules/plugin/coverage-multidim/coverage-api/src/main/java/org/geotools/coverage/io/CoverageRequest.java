@@ -25,10 +25,9 @@ import org.opengis.feature.type.Name;
 /**
  * @author Simone Giannecchini, GeoSolutions
  * @author Jody Garnett
- *
  * @source $URL$
  */
-public abstract class CoverageRequest  {
+public abstract class CoverageRequest {
 
     /**
      * @uml.property name="name"
@@ -54,7 +53,7 @@ public abstract class CoverageRequest  {
      * The handle attribute is included to allow a client to associate a mnemonic name to the Query
      * request. The purpose of the handle attribute is to provide an error handling mechanism for
      * locating a statement that might fail.
-     * 
+     *
      * @return the mnemonic name of the query request.
      * @uml.property name="handle"
      */
@@ -78,9 +77,9 @@ public abstract class CoverageRequest  {
      * FeatureSource#getSupportedHints()} . Depending on the actual values of the hints, the data
      * store is free to ignore them. No mechanism is in place, at the moment, to figure out which
      * hints where actually used during the query execution.
-     * 
+     *
      * @return the Hints the data store should try to use when executing the query (eventually empty
-     *         but never null).
+     * but never null).
      * @uml.property name="hints"
      */
     public Hints getHints() {

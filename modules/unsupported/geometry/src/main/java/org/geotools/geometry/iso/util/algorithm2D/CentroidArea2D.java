@@ -1,10 +1,10 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- *    
+ *
  *    (C) 2001-2006  Vivid Solutions
  *    (C) 2001-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -33,7 +33,6 @@ import org.opengis.geometry.primitive.OrientableSurface;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 
-
 /**
  * Computes the centroid of an area geometry.
  * <h2>Algorithm</h2>
@@ -44,9 +43,6 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
  * <code>http://www.faqs.org/faqs/graphics/algorithms-faq/</code> for further
  * details of the basic approach.
  *
- *
- *
- *
  * @source $URL$
  */
 public class CentroidArea2D {
@@ -54,108 +50,110 @@ public class CentroidArea2D {
     static final int X = 0;
     static final int Y = 1;
     static final int Z = 2;
-	//private FeatGeomFactoryImpl factory = null;
-	private CoordinateReferenceSystem crs = null;
-	
-	// the point all triangles are based at
-	private DirectPosition basePt = null;
+    //private FeatGeomFactoryImpl factory = null;
+    private CoordinateReferenceSystem crs = null;
 
-	// partial area sum
-	private double areasum2 = 0;
+    // the point all triangles are based at
+    private DirectPosition basePt = null;
 
-	// partial centroid sum
-	//private DirectPositionImpl cg3 = new DirectPositionImpl();
-	double centSumX = 0.0;
-	double centSumY = 0.0;
-	double centSumZ = 0.0;
-	
+    // partial area sum
+    private double areasum2 = 0;
 
-	/**
-	 * Creates a new Centroid operation
-	 * 
-	 * @param crs
-	 */
-	public CentroidArea2D(CoordinateReferenceSystem crs) {
-		this.crs = crs;
-		this.basePt = null;
-		
-	}
+    // partial centroid sum
+    //private DirectPositionImpl cg3 = new DirectPositionImpl();
+    double centSumX = 0.0;
+    double centSumY = 0.0;
+    double centSumZ = 0.0;
 
-	/**
-	 * Adds the area defined by a Geometry to the centroid total. If the
-	 * geometry has no area it does not contribute to the centroid.
-	 * 
-	 * @param geom
-	 *            the geometry to add
-	 */
-	public void add(GeometryImpl geom) {
-		if (geom instanceof SurfaceImpl) {
-			SurfaceBoundaryImpl sb = ((SurfaceImpl) geom).getBoundary();
-			this.setBasePoint( ((CurveImpl)sb.getExterior().getGenerators().iterator().next()).getStartPoint());
-			this.addSurface(sb);
-		} else if (geom instanceof MultiSurfaceImpl) {
-			Iterator<OrientableSurface> surfaces = ((MultiSurfaceImpl) geom).getElements().iterator();
-			while (surfaces.hasNext()) {
-				this.add((GeometryImpl) surfaces.next());
-			}
-		}
-	}
 
-	public DirectPositionImpl getCentroid() {
-		DirectPositionImpl centroid =  new DirectPositionImpl(crs); //this.factory.getGeometryFactoryImpl().createDirectPosition();
-		centroid.setX(this.centSumX / 3 / this.areasum2);
-		centroid.setY(this.centSumY / 3 / this.areasum2);
-		return centroid;
-	}
+    /**
+     * Creates a new Centroid operation
+     *
+     * @param crs
+     */
+    public CentroidArea2D(CoordinateReferenceSystem crs) {
+        this.crs = crs;
+        this.basePt = null;
 
-	private void setBasePoint(DirectPosition basePt) {
-		if (this.basePt == null)
-			this.basePt = basePt;
-	}
+    }
 
-	private void addSurface(SurfaceBoundaryImpl sb) {
-		this.addShell(((RingImplUnsafe)sb.getExterior()).asDirectPositions());
-		for (int i = 0; i < sb.getInteriors().size(); i++) {
-			this.addHole(((RingImplUnsafe)sb.getInteriors().get(i)).asDirectPositions());
-		}
-	}
+    /**
+     * Adds the area defined by a Geometry to the centroid total. If the
+     * geometry has no area it does not contribute to the centroid.
+     *
+     * @param geom the geometry to add
+     */
+    public void add(GeometryImpl geom) {
+        if (geom instanceof SurfaceImpl) {
+            SurfaceBoundaryImpl sb = ((SurfaceImpl) geom).getBoundary();
+            this.setBasePoint(((CurveImpl) sb.getExterior().getGenerators().iterator().next())
+                    .getStartPoint());
+            this.addSurface(sb);
+        } else if (geom instanceof MultiSurfaceImpl) {
+            Iterator<OrientableSurface> surfaces = ((MultiSurfaceImpl) geom).getElements()
+                    .iterator();
+            while (surfaces.hasNext()) {
+                this.add((GeometryImpl) surfaces.next());
+            }
+        }
+    }
 
-	private void addShell(List<DirectPosition> pts) {
-		boolean isPositiveArea = !CGAlgorithms.isCCW(pts);
-		for (int i = 0; i < pts.size() - 1; i++) {
-			addTriangle(basePt, pts.get(i), pts.get(i+1), isPositiveArea);
-		}
-	}
+    public DirectPositionImpl getCentroid() {
+        DirectPositionImpl centroid = new DirectPositionImpl(crs); //this.factory
+        // .getGeometryFactoryImpl().createDirectPosition();
+        centroid.setX(this.centSumX / 3 / this.areasum2);
+        centroid.setY(this.centSumY / 3 / this.areasum2);
+        return centroid;
+    }
 
-	private void addHole(List<DirectPosition> pts) {
-		boolean isPositiveArea = CGAlgorithms.isCCW(pts);
-		for (int i = 0; i < pts.size() - 1; i++) {
-			addTriangle(basePt, pts.get(i), pts.get(i+1), isPositiveArea);
-		}
-	}
+    private void setBasePoint(DirectPosition basePt) {
+        if (this.basePt == null)
+            this.basePt = basePt;
+    }
 
-	private void addTriangle(DirectPosition p0, DirectPosition p1, DirectPosition p2,
-			boolean isPositiveArea) {
-		double sign = (isPositiveArea) ? 1.0 : -1.0;
+    private void addSurface(SurfaceBoundaryImpl sb) {
+        this.addShell(((RingImplUnsafe) sb.getExterior()).asDirectPositions());
+        for (int i = 0; i < sb.getInteriors().size(); i++) {
+            this.addHole(((RingImplUnsafe) sb.getInteriors().get(i)).asDirectPositions());
+        }
+    }
 
-		//this.centroid3(p0, p1, p2);
-		double tempSumX = p0.getOrdinate(X) + p1.getOrdinate(X) + p2.getOrdinate(X);
-		double tempSumY = p0.getOrdinate(Y) + p1.getOrdinate(Y)+ p2.getOrdinate(Y);
-		//double tempSumZ = 0.0;
+    private void addShell(List<DirectPosition> pts) {
+        boolean isPositiveArea = !CGAlgorithms.isCCW(pts);
+        for (int i = 0; i < pts.size() - 1; i++) {
+            addTriangle(basePt, pts.get(i), pts.get(i + 1), isPositiveArea);
+        }
+    }
 
-		double area2 = area2(p0, p1, p2);
-		this.centSumX += sign * area2 * tempSumX;
-		this.centSumY += sign * area2 * tempSumY;
-		this.areasum2 += sign * area2;
-	}
+    private void addHole(List<DirectPosition> pts) {
+        boolean isPositiveArea = CGAlgorithms.isCCW(pts);
+        for (int i = 0; i < pts.size() - 1; i++) {
+            addTriangle(basePt, pts.get(i), pts.get(i + 1), isPositiveArea);
+        }
+    }
 
-	/**
-	 * Returns twice the signed area of the triangle p1-p2-p3, positive if a,b,c
-	 * are oriented ccw, and negative if cw.
-	 */	
-	private static double area2(DirectPosition p1, DirectPosition p2, DirectPosition  p3) {
-		return (p2.getOrdinate(X) - p1.getOrdinate(X)) * (p3.getOrdinate(Y) - p1.getOrdinate(Y))
-		    - (p3.getOrdinate(X) - p1.getOrdinate(X)) * (p2.getOrdinate(Y) - p1.getOrdinate(Y));
-	}
+    private void addTriangle(DirectPosition p0, DirectPosition p1, DirectPosition p2,
+                             boolean isPositiveArea) {
+        double sign = (isPositiveArea) ? 1.0 : -1.0;
+
+        //this.centroid3(p0, p1, p2);
+        double tempSumX = p0.getOrdinate(X) + p1.getOrdinate(X) + p2.getOrdinate(X);
+        double tempSumY = p0.getOrdinate(Y) + p1.getOrdinate(Y) + p2.getOrdinate(Y);
+        //double tempSumZ = 0.0;
+
+        double area2 = area2(p0, p1, p2);
+        this.centSumX += sign * area2 * tempSumX;
+        this.centSumY += sign * area2 * tempSumY;
+        this.areasum2 += sign * area2;
+    }
+
+    /**
+     * Returns twice the signed area of the triangle p1-p2-p3, positive if a,b,c
+     * are oriented ccw, and negative if cw.
+     */
+    private static double area2(DirectPosition p1, DirectPosition p2, DirectPosition p3) {
+        return (p2.getOrdinate(X) - p1.getOrdinate(X)) * (p3.getOrdinate(Y) - p1.getOrdinate(Y))
+                - (p3.getOrdinate(X) - p1.getOrdinate(X)) * (p2.getOrdinate(Y) - p1.getOrdinate(Y));
+    }
 
 }

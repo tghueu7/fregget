@@ -12,30 +12,38 @@ import org.geotools.jdbc.JDBCDataStoreFactory;
 import org.geotools.jdbc.SQLDialect;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class IngresDataStoreFactory extends JDBCDataStoreFactory {
 
-    /** parameter for database type */
+    /**
+     * parameter for database type
+     */
     public static final Param DBTYPE = new Param("dbtype", String.class, "Type", true, "ingres",
             Collections.singletonMap(Parameter.LEVEL, "program"));
-    
-    /** parameter for namespace of the datastore */
-    public static final Param LOOSEBBOX = new Param("Loose bbox", Boolean.class, "Perform only primary filter on bbox", false, Boolean.TRUE);
-    
-    /** parameter for database port */
+
+    /**
+     * parameter for namespace of the datastore
+     */
+    public static final Param LOOSEBBOX = new Param("Loose bbox", Boolean.class, "Perform only " +
+            "primary filter on bbox", false, Boolean.TRUE);
+
+    /**
+     * parameter for database port
+     */
     public static final Param PORT = new Param("port", String.class, "Port", true, "II7");
-    
-    /** parameter for database schema */
+
+    /**
+     * parameter for database schema
+     */
     public static final Param SCHEMA = new Param("schema", String.class, "Schema", false, null);
 
     /**
      * Wheter a prepared statements based dialect should be used, or not
      */
-    public static final Param PREPARED_STATEMENTS = new Param("preparedStatements", Boolean.class, "Use prepared statements", false, Boolean.FALSE);
-    
+    public static final Param PREPARED_STATEMENTS = new Param("preparedStatements", Boolean
+            .class, "Use prepared statements", false, Boolean.FALSE);
+
     @Override
     protected SQLDialect createSQLDialect(JDBCDataStore dataStore) {
         return new IngresDialect(dataStore);
@@ -43,7 +51,7 @@ public class IngresDataStoreFactory extends JDBCDataStoreFactory {
 
     @Override
     protected String getDatabaseID() {
-        return (String)DBTYPE.sample;
+        return (String) DBTYPE.sample;
     }
 
     @Override
@@ -57,13 +65,13 @@ public class IngresDataStoreFactory extends JDBCDataStoreFactory {
     }
 
     @Override
-    protected void setupParameters(Map parameters) {    
+    protected void setupParameters(Map parameters) {
         super.setupParameters(parameters);
         parameters.put(DBTYPE.key, DBTYPE);
         parameters.put(SCHEMA.key, SCHEMA);
         parameters.put(LOOSEBBOX.key, LOOSEBBOX);
         parameters.put(PORT.key, PORT);
-        
+
     }
 
     public String getDescription() {
@@ -75,7 +83,7 @@ public class IngresDataStoreFactory extends JDBCDataStoreFactory {
         String host = (String) HOST.lookUp(params);
         String port = (String) PORT.lookUp(params);
         String database = (String) DATABASE.lookUp(params);
-        
+
         StringBuilder url = new StringBuilder("jdbc:");
         url.append(getDatabaseID());
         url.append("://");
@@ -87,10 +95,9 @@ public class IngresDataStoreFactory extends JDBCDataStoreFactory {
             url.append("/").append(database);
         }
         url.append(";autocommit_mode=multi");
-        
+
         return url.toString();
     }
-    
-    
+
 
 }

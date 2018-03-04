@@ -26,6 +26,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+
 import org.geotools.data.DataStore;
 import org.geotools.data.DataStoreFactorySpi;
 import org.geotools.data.DataStoreFinder;
@@ -205,7 +206,7 @@ public class QueryLab extends JFrame {
 
         Filter filter = CQL.toFilter(text.getText());
 
-        Query query = new Query(typeName, filter, new String[] { name });
+        Query query = new Query(typeName, filter, new String[]{name});
 
         SimpleFeatureCollection features = source.getFeatures(query);
 
@@ -223,7 +224,7 @@ public class QueryLab extends JFrame {
 
         FeatureType schema = source.getSchema();
         String name = schema.getGeometryDescriptor().getLocalName();
-        Query query = new Query(typeName, filter, new String[] { name });
+        Query query = new Query(typeName, filter, new String[]{name});
 
         SimpleFeatureCollection features = source.getFeatures(query);
 

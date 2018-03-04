@@ -35,34 +35,49 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  * An Oracle specific {@link FeatureTypeMapper} instance
- * 
- * @author Daniele Romagnoli, GeoSolutions SAS
  *
+ * @author Daniele Romagnoli, GeoSolutions SAS
  */
 public class OracleFeatureTypeMapper implements FeatureTypeMapper {
 
-    /** The original typeName */
+    /**
+     * The original typeName
+     */
     private Name originalName;
 
-    /** The mapped typeName (UPPERCASE and less than 30 chars) */
+    /**
+     * The mapped typeName (UPPERCASE and less than 30 chars)
+     */
     private String mappedName;
 
-    /** the coordinateReferenceSystem for the geometry */
+    /**
+     * the coordinateReferenceSystem for the geometry
+     */
     private CoordinateReferenceSystem coordinateReferenceSystem;
 
-    /** The list of {@link Definition} object defining the mapping */
+    /**
+     * The list of {@link Definition} object defining the mapping
+     */
     private List<Definition> definitions;
 
-    /** The original feature type */
+    /**
+     * The original feature type
+     */
     private SimpleFeatureType wrappedFeatureType;
 
-    /** The oracle specific featureType */
+    /**
+     * The oracle specific featureType
+     */
     private SimpleFeatureType oracleFeatureType;
 
-    /** The mapping between an attributeName and its definition */
+    /**
+     * The mapping between an attributeName and its definition
+     */
     private Map<Name, Definition> definitionsMapping;
 
-    /** The {@link SimpleFeatureSource} available for that type */
+    /**
+     * The {@link SimpleFeatureSource} available for that type
+     */
     private SimpleFeatureSource simpleFeatureSource;
 
     @Override
@@ -102,7 +117,7 @@ public class OracleFeatureTypeMapper implements FeatureTypeMapper {
 
     /**
      * Create a new {@link OracleFeatureTypeMapper} on top of the original featureType provided
-     * 
+     *
      * @param featureType
      * @throws CQLException
      */
@@ -132,7 +147,8 @@ public class OracleFeatureTypeMapper implements FeatureTypeMapper {
     }
 
     /**
-     * Remap the original featureType on top of the available definitions to create the Oracle specific featureType
+     * Remap the original featureType on top of the available definitions to create the Oracle 
+     * specific featureType
      */
     private void remapFeatureType() {
         final SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();

@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.coordinate;
@@ -24,23 +24,19 @@ import static org.opengis.annotation.Specification.*;
  * either directly as a coordinate (variant direct) or indirectly as a {@linkplain Point point}
  * (variant indirect).
  *
- * @departure
- *   ISO 19111 defines {@code Position} like a C/C++ {@code union} of {@code DirectPosition} and
- *   {@code Point}. Since unions are not allowed in Java, GeoAPI defines {@code Position} as the
- *   base interface of the above. This leads to a slightly different semantic since ISO defines
- *   {@link #getDirectPosition} as conditional, while GeoAPI defines it as mandatory by allowing
- *   the method to return {@code this}.
- *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (IRD)
- * @since GeoAPI 1.0
- *
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @departure ISO 19111 defines {@code Position} like a C/C++ {@code union} of {@code 
+ * DirectPosition} and
+ * {@code Point}. Since unions are not allowed in Java, GeoAPI defines {@code Position} as the
+ * base interface of the above. This leads to a slightly different semantic since ISO defines
+ * {@link #getDirectPosition} as conditional, while GeoAPI defines it as mandatory by allowing
+ * the method to return {@code this}.
+ * @source $URL$
  * @issue http://jira.codehaus.org/browse/GEO-87
+ * @since GeoAPI 1.0
  */
-@UML(identifier="GM_Position", specification=ISO_19107)
+@UML(identifier = "GM_Position", specification = ISO_19107)
 public interface Position {
 
     /**
@@ -48,9 +44,8 @@ public interface Position {
      * {@code this} if invoked on an object which is already a {@code DirectPosition} instance.
      *
      * @return The direct position (may be {@code this}).
-     *
      * @since GeoAPI 2.2
      */
-    @UML(identifier="direct", obligation=CONDITIONAL, specification=ISO_19107)
+    @UML(identifier = "direct", obligation = CONDITIONAL, specification = ISO_19107)
     DirectPosition getDirectPosition();
 }

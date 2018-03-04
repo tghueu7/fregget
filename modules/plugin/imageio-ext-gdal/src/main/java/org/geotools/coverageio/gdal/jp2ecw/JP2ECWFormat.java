@@ -30,13 +30,11 @@ import org.opengis.geometry.MismatchedDimensionException;
 /**
  * An implementation of {@link Format} for the JP2K format based on the ECW
  * driver.
- * 
+ *
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini (simboss), GeoSolutions
- * @since 2.5.x
- *
- *
  * @source $URL$
+ * @since 2.5.x
  */
 // See https://github.com/geosolutions-it/imageio-ext/issues/148
 public final class JP2ECWFormat extends BaseGDALGridFormat implements Format {
@@ -70,7 +68,7 @@ public final class JP2ECWFormat extends BaseGDALGridFormat implements Format {
 
     /**
      * @see org.geotools.data.coverage.grid.AbstractGridFormat#getReader(Object,
-     *      Hints)
+     * Hints)
      */
     public JP2ECWReader getReader(Object source, Hints hints) {
         try {

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -30,13 +30,10 @@ import org.geotools.util.SimpleInternationalString;
 /**
  * Accuracy of the position of features.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class PositionalAccuracyImpl extends ElementImpl implements PositionalAccuracy {
@@ -70,12 +67,16 @@ public class PositionalAccuracyImpl extends ElementImpl implements PositionalAcc
      * @see org.geotools.referencing.operation.AbstractCoordinateOperationFactory#ELLIPSOID_SHIFT
      */
     public static final PositionalAccuracy DATUM_SHIFT_OMITTED;
+
     static {
         // TODO: localize.
-        final InternationalString   desc = new SimpleInternationalString("Transformation accuracy");
-        final InternationalString   eval = new SimpleInternationalString("Is a datum shift method applied?");
-        final ConformanceResultImpl pass = new ConformanceResultImpl(Citations.GEOTOOLS, eval, true );
-        final ConformanceResultImpl fail = new ConformanceResultImpl(Citations.GEOTOOLS, eval, false);
+        final InternationalString desc = new SimpleInternationalString("Transformation accuracy");
+        final InternationalString eval = new SimpleInternationalString("Is a datum shift method " +
+                "applied?");
+        final ConformanceResultImpl pass = new ConformanceResultImpl(Citations.GEOTOOLS, eval, 
+                true);
+        final ConformanceResultImpl fail = new ConformanceResultImpl(Citations.GEOTOOLS, eval, 
+                false);
         pass.freeze();
         fail.freeze();
         final PositionalAccuracyImpl APPLIED, OMITTED;

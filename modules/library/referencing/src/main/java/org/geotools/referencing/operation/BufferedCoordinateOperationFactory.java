@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2006-2016, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -42,17 +42,14 @@ import org.geotools.referencing.ReferencingFactoryFinder;
  * of {@code BufferedCoordinateOperationFactory} should be automatically registered and returned
  * by {@link ReferencingFactoryFinder} in default Geotools configuration.
  *
- * @since 2.3
- * @version $Id$
- *
- *
- * @source $URL$
  * @author Simone Giannecchini
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
+ * @since 2.3
  */
 public class BufferedCoordinateOperationFactory extends AbstractCoordinateOperationFactory
-        implements BufferedFactory
-{
+        implements BufferedFactory {
     /**
      * The priority level for this factory.
      */
@@ -78,8 +75,7 @@ public class BufferedCoordinateOperationFactory extends AbstractCoordinateOperat
          * Creates a {@code CRSPair} for the specified source and target CRS.
          */
         public CRSPair(final CoordinateReferenceSystem sourceCRS,
-                       final CoordinateReferenceSystem targetCRS)
-        {
+                       final CoordinateReferenceSystem targetCRS) {
             this.sourceCRS = sourceCRS;
             this.targetCRS = targetCRS;
             this.hash = (37 * sourceCRS.hashCode()) + targetCRS.hashCode();
@@ -108,7 +104,7 @@ public class BufferedCoordinateOperationFactory extends AbstractCoordinateOperat
             if (object instanceof CRSPair) {
                 final CRSPair that = (CRSPair) object;
                 return Utilities.equals(this.sourceCRS, that.sourceCRS) &&
-                       Utilities.equals(this.targetCRS, that.targetCRS);
+                        Utilities.equals(this.targetCRS, that.targetCRS);
             }
             return false;
         }
@@ -157,9 +153,9 @@ public class BufferedCoordinateOperationFactory extends AbstractCoordinateOperat
      * Creates a buffered factory wrapping an other factory selected according the specified hints.
      *
      * @param userHints The hints to use for choosing a backing factory.
-     * @param priority The priority for this factory, as a number between
-     *        {@link #MINIMUM_PRIORITY MINIMUM_PRIORITY} and
-     *        {@link #MAXIMUM_PRIORITY MAXIMUM_PRIORITY} inclusive.
+     * @param priority  The priority for this factory, as a number between
+     *                  {@link #MINIMUM_PRIORITY MINIMUM_PRIORITY} and
+     *                  {@link #MAXIMUM_PRIORITY MAXIMUM_PRIORITY} inclusive.
      */
     public BufferedCoordinateOperationFactory(final Hints userHints, final int priority) {
         this(getBackingFactory(userHints), userHints, priority);
@@ -170,12 +166,11 @@ public class BufferedCoordinateOperationFactory extends AbstractCoordinateOperat
      *
      * @param factory  The factory to wrap.
      * @param priority The priority for this factory, as a number between
-     *        {@link #MINIMUM_PRIORITY MINIMUM_PRIORITY} and
-     *        {@link #MAXIMUM_PRIORITY MAXIMUM_PRIORITY} inclusive.
+     *                 {@link #MINIMUM_PRIORITY MINIMUM_PRIORITY} and
+     *                 {@link #MAXIMUM_PRIORITY MAXIMUM_PRIORITY} inclusive.
      */
     public BufferedCoordinateOperationFactory(final CoordinateOperationFactory factory,
-                                              final int priority)
-    {
+                                              final int priority) {
         this(factory, null, priority);
     }
 
@@ -184,8 +179,7 @@ public class BufferedCoordinateOperationFactory extends AbstractCoordinateOperat
      * ("Relax constraint on placement of this()/super() call in constructors").
      */
     private BufferedCoordinateOperationFactory(final CoordinateOperationFactory factory,
-                                               final Hints userHints, final int priority)
-    {
+                                               final Hints userHints, final int priority) {
         super(factory, userHints, priority);
         this.factory = factory;
         ensureNonNull("factory", factory);
@@ -195,7 +189,8 @@ public class BufferedCoordinateOperationFactory extends AbstractCoordinateOperat
      * Returns a backing factory from the specified hints.
      */
     private static CoordinateOperationFactory getBackingFactory(final Hints hints) {
-        for (final CoordinateOperationFactory candidate : ReferencingFactoryFinder.getCoordinateOperationFactories(hints)) {
+        for (final CoordinateOperationFactory candidate : ReferencingFactoryFinder
+                .getCoordinateOperationFactories(hints)) {
             if (!(candidate instanceof BufferedCoordinateOperationFactory)) {
                 return candidate;
             }
@@ -211,8 +206,8 @@ public class BufferedCoordinateOperationFactory extends AbstractCoordinateOperat
      */
     private final CoordinateOperationFactory getBackingFactory() {
         if (factory == null) {
-            synchronized(this) {
-                if(factory == null) {
+            synchronized (this) {
+                if (factory == null) {
                     factory = getBackingFactory(null);
                 }
             }
@@ -238,17 +233,16 @@ public class BufferedCoordinateOperationFactory extends AbstractCoordinateOperat
      * {@linkplain CoordinateOperationFactory coordinate operation factory} specified at
      * construction time and the result is cached.
      *
-     * @param  sourceCRS Input coordinate reference system.
-     * @param  targetCRS Output coordinate reference system.
+     * @param sourceCRS Input coordinate reference system.
+     * @param targetCRS Output coordinate reference system.
      * @return A coordinate operation from {@code sourceCRS} to {@code targetCRS}.
      * @throws OperationNotFoundException if no operation path was found from {@code sourceCRS}
-     *         to {@code targetCRS}.
-     * @throws FactoryException if the operation creation failed for some other reason.
+     *                                    to {@code targetCRS}.
+     * @throws FactoryException           if the operation creation failed for some other reason.
      */
     public CoordinateOperation createOperation(final CoordinateReferenceSystem sourceCRS,
                                                final CoordinateReferenceSystem targetCRS)
-            throws OperationNotFoundException, FactoryException
-    {
+            throws OperationNotFoundException, FactoryException {
         ensureNonNull("sourceCRS", sourceCRS);
         ensureNonNull("targetCRS", targetCRS);
         final CRSPair key = new CRSPair(sourceCRS, targetCRS);
@@ -272,8 +266,7 @@ public class BufferedCoordinateOperationFactory extends AbstractCoordinateOperat
     public CoordinateOperation createOperation(final CoordinateReferenceSystem sourceCRS,
                                                final CoordinateReferenceSystem targetCRS,
                                                final OperationMethod method)
-            throws OperationNotFoundException, FactoryException
-    {
+            throws OperationNotFoundException, FactoryException {
         return getBackingFactory().createOperation(sourceCRS, targetCRS, method);
     }
 }

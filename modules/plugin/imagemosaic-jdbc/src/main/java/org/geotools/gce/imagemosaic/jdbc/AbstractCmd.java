@@ -22,40 +22,38 @@ import java.net.URL;
 import java.net.URLDecoder;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class AbstractCmd {
 
-	protected static String CONFIGPARAM = "-config";
+    protected static String CONFIGPARAM = "-config";
 
-	protected static String SPATIALTNPREFIXPARAM = "-spatialTNPrefix";
+    protected static String SPATIALTNPREFIXPARAM = "-spatialTNPrefix";
 
-	protected static String TILETNPREFIXPARAM = "-tileTNPrefix";
+    protected static String TILETNPREFIXPARAM = "-tileTNPrefix";
 
-	protected static URL getURLFromString(String source) {
-		if (source == null) {
-			return null;
-		}
+    protected static URL getURLFromString(String source) {
+        if (source == null) {
+            return null;
+        }
 
-		URL sourceURL = null;
-		File f = new File(source);
-		try {
-			if (f.exists()) {
-				return f.toURI().toURL();
-			}
-			sourceURL = new URL(URLDecoder.decode((String) source, "UTF8"));
+        URL sourceURL = null;
+        File f = new File(source);
+        try {
+            if (f.exists()) {
+                return f.toURI().toURL();
+            }
+            sourceURL = new URL(URLDecoder.decode((String) source, "UTF8"));
 
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			System.exit(1);
-		}
-		return sourceURL;
-	}
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            System.exit(1);
+        }
+        return sourceURL;
+    }
 
-	static String getTableName(String prefix, int level) {
-		return prefix + "_" + level;
-	}
+    static String getTableName(String prefix, int level) {
+        return prefix + "_" + level;
+    }
 
 }

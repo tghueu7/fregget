@@ -21,14 +21,12 @@ package org.geotools.arcsde.session;
  * Exception thrown when a free SDE connection can't be obtained after the calling thread was
  * waiting an available connection for <code>SdeConnectionPool instance's getMaxWaitTime()</code>
  * milliseconds
- * 
+ *
  * @author Gabriel Roldan
- *
- *
- * @source $URL$
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
- *         /org/geotools/arcsde/pool/UnavailableArcSDEConnectionException.java $
  * @version $Id$
+ * @source $URL$
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
+ * /org/geotools/arcsde/pool/UnavailableArcSDEConnectionException.java $
  */
 public class UnavailableConnectionException extends Exception {
 
@@ -36,7 +34,7 @@ public class UnavailableConnectionException extends Exception {
 
     /**
      * Creates a new UnavailableArcSDEConnectionException object.
-     * 
+     *
      * @param usedConnections
      * @param config
      */

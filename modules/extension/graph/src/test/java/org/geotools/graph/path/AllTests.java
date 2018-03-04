@@ -19,15 +19,13 @@ package org.geotools.graph.path;
 import junit.framework.TestSuite;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class AllTests extends TestSuite {
-  public AllTests() {
-    super();
-    addTest(new TestSuite(WalkTest.class));
-  } 	
-    
-    
+    public AllTests() {
+        super();
+        addTest(new TestSuite(WalkTest.class));
+    }
+
+
 }

@@ -24,7 +24,7 @@ import com.vividsolutions.jts.geom.Point;
 
 /**
  * Encodes a GML2 point
- * 
+ *
  * @author Justin Deoliveira, OpenGeo
  * @author Andrea Aime - GeoSolutions
  */

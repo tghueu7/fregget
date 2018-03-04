@@ -23,12 +23,8 @@ import org.geotools.geometry.GeneralEnvelope;
 /**
  * A simple property container, which store basic image properties such as
  * width, height, absolutePath of the image, ...
- * 
+ *
  * @author Daniele Romagnoli, GeoSolutions SAS
- * 
- *
- *
- *
  * @source $URL$
  */
 public class ImageProperty {
@@ -39,9 +35,9 @@ public class ImageProperty {
     private int numOverviews;
 
     private String path;
-    
+
     private boolean isGeoSpatial;
-    
+
     public boolean isGeoSpatial() {
         return isGeoSpatial;
     }
@@ -60,13 +56,13 @@ public class ImageProperty {
 
     private GeneralEnvelope envelope;
 
-    /** 
+    /**
      * In case the file has been modified, we need to update the main parameters. This flag
      * takes note of the last Modified time value of the underlying file.
      */
     public long lastModifiedTime;
 
-    /** 
+    /**
      * the last time at which the file has been checked.
      */
     public long lastCheckTime;
@@ -136,7 +132,6 @@ public class ImageProperty {
     }
 
     /**
-     * 
      * @param path
      * @param width
      * @param height
@@ -144,8 +139,9 @@ public class ImageProperty {
      * @param spi
      * @param lastModifiedTime
      */
-    public ImageProperty(final String path, final int width, final int height, 
-            final int numOverviews, final ImageReaderSpi spi, final long lastModifiedTime) {
+    public ImageProperty(final String path, final int width, final int height,
+                         final int numOverviews, final ImageReaderSpi spi, final long 
+                                 lastModifiedTime) {
         this.width = width;
         this.height = height;
         this.numOverviews = numOverviews;

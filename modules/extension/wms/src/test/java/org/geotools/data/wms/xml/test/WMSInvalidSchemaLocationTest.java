@@ -34,8 +34,6 @@ import org.geotools.xml.handlers.DocumentHandler;
 import org.geotools.xml.schema.Schema;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class WMSInvalidSchemaLocationTest extends TestCase {
@@ -47,11 +45,13 @@ public class WMSInvalidSchemaLocationTest extends TestCase {
 
         // disable schema validation to match the WebMapServer behavior (the caps documented
         // tested is indeed not schema valid)
-        Map<String,Object> hints = new HashMap<>();
+        Map<String, Object> hints = new HashMap<>();
         hints.put(DocumentHandler.DEFAULT_NAMESPACE_HINT_KEY, WMSSchema.getInstance());
         hints.put(DocumentFactory.VALIDATION_HINT, Boolean.FALSE);
-        // used to blow up here due to the invalid schema reference (port -1 was chosen as a suitably
-        // invalid local url for tests, the real world case was an actual server that would never respond
+        // used to blow up here due to the invalid schema reference (port -1 was chosen as a 
+        // suitably
+        // invalid local url for tests, the real world case was an actual server that would never
+        // respond
         // to the GetSchemaExtension request, forcing it to time out
         Object object = DocumentFactory.getInstance(getCapsURL.openStream(), hints, Level.WARNING);
 

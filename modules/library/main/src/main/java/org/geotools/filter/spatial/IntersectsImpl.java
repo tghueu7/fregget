@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2006-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -24,8 +24,6 @@ import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class IntersectsImpl extends AbstractPreparedGeometryFilter implements
@@ -42,17 +40,17 @@ public class IntersectsImpl extends AbstractPreparedGeometryFilter implements
     @Override
     public boolean evaluateInternal(Geometry left, Geometry right) {
         switch (literals) {
-        case BOTH:
-            return cacheValue;
-        case RIGHT: {
-            return rightPreppedGeom.intersects(left);
-        }
-        case LEFT: {
-            return leftPreppedGeom.intersects(right);
-        }
-        default: {
-            return basicEvaluate(left, right);
-        }
+            case BOTH:
+                return cacheValue;
+            case RIGHT: {
+                return rightPreppedGeom.intersects(left);
+            }
+            case LEFT: {
+                return leftPreppedGeom.intersects(right);
+            }
+            default: {
+                return basicEvaluate(left, right);
+            }
         }
     }
 

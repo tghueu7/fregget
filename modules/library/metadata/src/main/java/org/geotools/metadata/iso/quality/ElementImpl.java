@@ -40,13 +40,10 @@ import org.geotools.resources.i18n.Errors;
 /**
  * Type of test applied to the data specified by a data quality scope.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class ElementImpl extends MetadataEntity implements Element {
@@ -132,8 +129,7 @@ public class ElementImpl extends MetadataEntity implements Element {
      * Set the name of the test applied to the data.
      */
     public synchronized void setNamesOfMeasure(
-            final Collection<? extends InternationalString> newValues)
-    {
+            final Collection<? extends InternationalString> newValues) {
         namesOfMeasure = copyCollection(newValues, namesOfMeasure, InternationalString.class);
     }
 
@@ -147,7 +143,7 @@ public class ElementImpl extends MetadataEntity implements Element {
     /**
      * Set the code identifying a registered standard procedure.
      */
-    public synchronized void setMeasureIdentification(final Identifier newValue)  {
+    public synchronized void setMeasureIdentification(final Identifier newValue) {
         checkWritePermission();
         measureIdentification = newValue;
     }
@@ -162,7 +158,7 @@ public class ElementImpl extends MetadataEntity implements Element {
     /**
      * Set the description of the measure being determined.
      */
-    public synchronized void setMeasureDescription(final InternationalString newValue)  {
+    public synchronized void setMeasureDescription(final InternationalString newValue) {
         checkWritePermission();
         measureDescription = newValue;
     }
@@ -178,7 +174,7 @@ public class ElementImpl extends MetadataEntity implements Element {
     /**
      * Set the ype of method used to evaluate quality of the dataset.
      */
-    public synchronized void setEvaluationMethodType(final EvaluationMethodType newValue)  {
+    public synchronized void setEvaluationMethodType(final EvaluationMethodType newValue) {
         checkWritePermission();
         evaluationMethodType = newValue;
     }
@@ -193,7 +189,7 @@ public class ElementImpl extends MetadataEntity implements Element {
     /**
      * Set the description of the evaluation method.
      */
-    public synchronized void setEvaluationMethodDescription(final InternationalString newValue)  {
+    public synchronized void setEvaluationMethodDescription(final InternationalString newValue) {
         checkWritePermission();
         evaluationMethodDescription = newValue;
     }
@@ -228,7 +224,7 @@ public class ElementImpl extends MetadataEntity implements Element {
             return Collections.singleton(new Date(date1));
         }
         return Arrays.asList(
-            new Date[] {new Date(date1), new Date(date2)}
+                new Date[]{new Date(date1), new Date(date2)}
         );
     }
 

@@ -23,23 +23,22 @@ import org.opengis.feature.simple.SimpleFeature;
 /**
  * Interface to abstract out the parsing of features coming from a GetFeature request from the
  * underlying xml parsing technology in use.
- * 
+ *
  * @author Gabriel Roldan (TOPP)
  * @version $Id$
- * @since 2.5.x
- * 
- * @Deprecated instead of using GetFeatureParser, just implement GetParser&lt;SimpleFeature&gt; directly. 
- * 
+ * @Deprecated instead of using GetFeatureParser, just implement GetParser&lt;SimpleFeature&gt; 
+ * directly.
  * @source $URL$
- *         http://gtsvn.refractions.net/trunk/modules/plugin/wfs/src/main/java/org/geotools/data
- *         /wfs/protocol/wfs/GetFeatureParser.java $
+ * http://gtsvn.refractions.net/trunk/modules/plugin/wfs/src/main/java/org/geotools/data
+ * /wfs/protocol/wfs/GetFeatureParser.java $
+ * @since 2.5.x
  */
 @Deprecated
-public interface GetFeatureParser extends GetParser<SimpleFeature>{
+public interface GetFeatureParser extends GetParser<SimpleFeature> {
     /**
      * @return the next feature in the stream or {@code null} if there are no more features to
-     *         parse.
+     * parse.
      */
-	@Deprecated
+    @Deprecated
     SimpleFeature parse() throws IOException;
 }

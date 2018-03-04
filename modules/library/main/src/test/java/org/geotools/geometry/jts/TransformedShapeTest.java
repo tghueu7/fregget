@@ -17,7 +17,7 @@ public class TransformedShapeTest {
         gp.lineTo(1, 0.3);
         gp.lineTo(0f, 0.6f);
         gp.closePath();
-        
+
         AffineTransform at = AffineTransform.getScaleInstance(1.5, 1.5);
         TransformedShape ts = new TransformedShape(gp, at);
 

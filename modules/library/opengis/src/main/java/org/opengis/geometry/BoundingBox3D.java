@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry;
@@ -19,7 +19,8 @@ import org.opengis.annotation.Extension;
 
 
 /**
- * Represents a three-dimensional {@linkplain Envelope envelope}. Extends  {@linkplain BoundingBox BoundingBox} to support
+ * Represents a three-dimensional {@linkplain Envelope envelope}. Extends  
+ * {@linkplain BoundingBox BoundingBox} to support
  * the third dimension.
  * This interface combines the ideas of {@link GeographicBoundingBox} with
  * those of {@link Envelope}. It provides convenience methods to assist
@@ -29,13 +30,11 @@ import org.opengis.annotation.Extension;
  * by {@link Envelope}.
  *
  * @author Niels Charlier
- *
- *
  * @source $URL$
  */
 @Extension
 public interface BoundingBox3D extends BoundingBox {
-    
+
     /**
      * Provides the minimum ordinate along the third axis.
      * This is equivalent to <code>{@linkplain #getMinimum getMinimum}(2)</code>.
@@ -67,7 +66,8 @@ public interface BoundingBox3D extends BoundingBox {
     /**
      * Returns {@code true} if the provided location is contained by this bounding box.
      * Note that there is no guarantee that the (<var>x</var>, <var>x</var>) values are
-     * oriented toward ({@linkplain AxisDirection#EAST East}, {@linkplain AxisDirection#NORTH North}),
+     * oriented toward ({@linkplain AxisDirection#EAST East}, 
+     * {@linkplain AxisDirection#NORTH North}),
      * since it depends on the {@linkplain #getCoordinateReferenceSystem envelope CRS}.
      *
      * @param x The first ordinate value.
@@ -86,14 +86,15 @@ public interface BoundingBox3D extends BoundingBox {
      * <p>
      * <b>Example:</b> if {@code box} is a bounding box using a {@linkplain GeographicCRS
      * geographic CRS} with WGS84 datum, then one can write:
-     *
+     * <p>
      * <blockquote><pre>
-     * GeographicCRS targetCRS   = crsAuthorityFactory.{@linkplain CRSAuthorityFactory#createGeographicCRS createGeographicCRS}("EPSG:4326");
+     * GeographicCRS targetCRS   = crsAuthorityFactory
+     * .{@linkplain CRSAuthorityFactory#createGeographicCRS createGeographicCRS}("EPSG:4326");
      * BoundingBox   targetBox   = box.toBounds(targetCRS);
      * double        minEasting  = targetBox.getMinY();
      * double        minNorthing = targetBox.getMinX();
      * </pre></blockquote>
-     *
+     * <p>
      * Be aware that {@code "EPSG:4326"} has (<var>latitude</var>, <var>longitude</var>)
      * axis order, thus the inversion of <var>X</var> and <var>Y</var> in the above code.
      * <p>
@@ -102,12 +103,13 @@ public interface BoundingBox3D extends BoundingBox {
      * precomputed {@linkplain Canvas#getObjectiveToDisplayTransform objective to display
      * transforms}.
      *
-     * @param  targetCRS The target CRS for the bounding box to be returned.
+     * @param targetCRS The target CRS for the bounding box to be returned.
      * @return A new bounding box wich includes the shape of this box transformed
-     *         to the specified target CRS.
+     * to the specified target CRS.
      * @throws TransformException if no transformation path has been found from
-     *         {@linkplain #getCoordinateReferenceSystem this box CRS} to the specified
-     *         target CRS, or if the transformation failed for an other reason.
+     *                            {@linkplain #getCoordinateReferenceSystem this box CRS} to the 
+     *                            specified
+     *                            target CRS, or if the transformation failed for an other reason.
      */
     BoundingBox toBounds(CoordinateReferenceSystem targetCRS) throws TransformException;
 }

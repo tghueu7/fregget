@@ -56,15 +56,11 @@ import com.vividsolutions.jts.io.WKBWriter;
 
 /**
  * This class is used for JDBC Access to the Postgis raster feature
- * 
+ *
  * @author Christian Mueller
- * 
- * 
- * 
- * 
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/plugin/imagemosaic-jdbc/src/main/java/org
- *         /geotools/gce/imagemosaic/jdbc/custom/JDBCAccessPGRaster.java $
+ * http://svn.osgeo.org/geotools/trunk/modules/plugin/imagemosaic-jdbc/src/main/java/org
+ * /geotools/gce/imagemosaic/jdbc/custom/JDBCAccessPGRaster.java $
  **/
 
 public class JDBCAccessPGRaster extends JDBCAccessCustom {
@@ -78,21 +74,17 @@ public class JDBCAccessPGRaster extends JDBCAccessCustom {
     protected Map<ImageLevelInfo, String> statementMap;
 
     /**
-     * 
-     * @param config
-     *            Config from XML file passed to this class
-     * 
+     * @param config Config from XML file passed to this class
      **/
 
     // Map<ImageLevelInfo,Boolean> isOutDBMap;
-
     public JDBCAccessPGRaster(Config config) throws IOException {
         super(config);
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.gce.imagemosaic.jdbc.JDBCAccess#initialize()
      */
     public void initialize() throws IOException {
@@ -116,9 +108,12 @@ public class JDBCAccessPGRaster extends JDBCAccessCustom {
              */
             populateStatementsMap(getConfig().getCoverageName(), con);
             /*
-            TODO nat changes - GEOT-4525. I am  not sure if this is the best place for the next statement, as
-            if configurations have been already defined and were not recalculated, we will be just overwriting
-            existing configuration, albeit with the same values. But for simplicity sake, it is probably better
+            TODO nat changes - GEOT-4525. I am  not sure if this is the best place for the next 
+            statement, as
+            if configurations have been already defined and were not recalculated, we will be 
+            just overwriting
+            existing configuration, albeit with the same values. But for simplicity sake, it is 
+            probably better
              to leave it here...
              */
             con.commit();
@@ -156,34 +151,25 @@ public class JDBCAccessPGRaster extends JDBCAccessCustom {
 
     /**
      * startTileDecoders
-     * 
-     * @param pixelDimension
-     *            Not Used (passed as per interface requirement)
-     * 
-     * @param requestEnvelope
-     *            Geographic Envelope of request
-     * 
-     * @param info
-     *            Pyramid Level
-     * 
-     * @param tileQueue
-     *            Queue to place retrieved tile into
-     * 
-     * @param coverageFactory
-     *            not used (passed as per interface requirement)
-     * 
+     *
+     * @param pixelDimension  Not Used (passed as per interface requirement)
+     * @param requestEnvelope Geographic Envelope of request
+     * @param info            Pyramid Level
+     * @param tileQueue       Queue to place retrieved tile into
+     * @param coverageFactory not used (passed as per interface requirement)
      **/
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.gce.imagemosaic.jdbc.JDBCAccess#startTileDecoders(java.awt.Rectangle,
      * org.geotools.geometry.GeneralEnvelope, org.geotools.gce.imagemosaic.jdbc.ImageLevelInfo,
      * java.util.concurrent.LinkedBlockingQueue)
      */
     public void startTileDecoders(Rectangle pixelDimension, GeneralEnvelope requestEnvelope,
-            ImageLevelInfo levelInfo, LinkedBlockingQueue<TileQueueElement> tileQueue,
-            GridCoverageFactory coverageFactory) throws IOException {
+                                  ImageLevelInfo levelInfo, LinkedBlockingQueue<TileQueueElement>
+                                          tileQueue,
+                                  GridCoverageFactory coverageFactory) throws IOException {
         Date start = new Date();
         Connection con = null;
         List<ImageDecoderThread> threads = new ArrayList<ImageDecoderThread>();
@@ -264,15 +250,14 @@ public class JDBCAccessPGRaster extends JDBCAccessCustom {
 
     /**
      * Step 1 of the bootstrapping process. Read meta table.
-     * 
-     * @param coverageName
-     *            the coverage name stored in the sql meta table
-     * @param con
-     *            jdbc connection
+     *
+     * @param coverageName the coverage name stored in the sql meta table
+     * @param con          jdbc connection
      * @throws SQLException
      * @throws IOException
      */
-    protected void initFromDB(String coverageName, Connection con) throws SQLException, IOException {
+    protected void initFromDB(String coverageName, Connection con) throws SQLException, 
+            IOException {
         PreparedStatement s = null;
         ResultSet res = null;
 
@@ -334,7 +319,8 @@ public class JDBCAccessPGRaster extends JDBCAccessCustom {
                 Please note: alternatively this value could be loaded from mosaic config file,
                 we could add an optional element/attribute to specify this value.
                 */
-                Number noDataValue = getNoDataValue(imageLevelInfo.getTileTableName(), getConfig().getBlobAttributeNameInTileTable(), con);
+                Number noDataValue = getNoDataValue(imageLevelInfo.getTileTableName(), getConfig
+                        ().getBlobAttributeNameInTileTable(), con);
                 imageLevelInfo.setNoDataValue(noDataValue);
 
                 getLevelInfos().add(imageLevelInfo);
@@ -343,8 +329,10 @@ public class JDBCAccessPGRaster extends JDBCAccessCustom {
                 /*
                 Set SrsId based on what has been specified in mosaic
                 xml configuration file. It can get overwritten by value retrieved from database in
-                method calculateResolutionsFromDB(). The reason I added this is: if user has specified
-                resolutions in the mosaic table, then calculateResolutionsFromDB() will skip setting srsID
+                method calculateResolutionsFromDB(). The reason I added this is: if user has 
+                specified
+                resolutions in the mosaic table, then calculateResolutionsFromDB() will skip 
+                setting srsID
                 which will eventually result in an exception further down the track.
                  */
                 imageLevelInfo.setSrsId(getSrsId());
@@ -365,12 +353,14 @@ public class JDBCAccessPGRaster extends JDBCAccessCustom {
     /*
      extract noDataValues for each overview from overview raster tables
      */
-    private Number getNoDataValue(String coverageTableName, String blobAttributeName, Connection con) throws SQLException {
+    private Number getNoDataValue(String coverageTableName, String blobAttributeName, Connection 
+            con) throws SQLException {
         PreparedStatement s = null;
         ResultSet res = null;
 
         try {
-            String stmt = "select ST_BandNoDataValue(" + blobAttributeName + ") from " + coverageTableName + " limit 1";
+            String stmt = "select ST_BandNoDataValue(" + blobAttributeName + ") from " + 
+                    coverageTableName + " limit 1";
             s = con.prepareStatement(stmt);
             res = s.executeQuery();
 
@@ -384,7 +374,7 @@ public class JDBCAccessPGRaster extends JDBCAccessCustom {
                 }
             }
             return null;
-        }  finally {
+        } finally {
             if (res != null) {
                 res.close();
             }
@@ -396,15 +386,13 @@ public class JDBCAccessPGRaster extends JDBCAccessCustom {
 
     /**
      * Step 2 of the bootstrapping process.
-     * 
+     * <p>
      * Calculating the the extent for each image level (original + pyramids). This calculation is
      * only done if the extent info in the master table is SQL NULL. After calculation the meta
      * table is updated with the result to avoid this operation in the future.
-     * 
-     * @param coverageName
-     *            The coverage name in the sql meta table
-     * @param con
-     *            JDBC connection
+     *
+     * @param coverageName The coverage name in the sql meta table
+     * @param con          JDBC connection
      * @throws SQLException
      * @throws IOException
      */
@@ -497,17 +485,14 @@ public class JDBCAccessPGRaster extends JDBCAccessCustom {
     }
 
     /**
-     * 
      * Step 3 of the bootstrapping process.
-     * 
+     * <p>
      * Calculating the the resolution for each image level (original + pyramids). This calculation
      * is only done if the resoltion info in the master table is SQL NULL. After calculation the
      * meta table is updated with the result to avoid this operation in the future.
-     * 
-     * @param coverageName
-     *            The coverage name in the sql meta table
-     * @param con
-     *            JDBC Connection
+     *
+     * @param coverageName The coverage name in the sql meta table
+     * @param con          JDBC Connection
      * @throws SQLException
      * @throws IOException
      */
@@ -542,7 +527,7 @@ public class JDBCAccessPGRaster extends JDBCAccessCustom {
             PreparedStatement ps = con.prepareStatement(select);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                resolutions = new double[] { rs.getDouble(1), rs.getDouble(2) };
+                resolutions = new double[]{rs.getDouble(1), rs.getDouble(2)};
                 li.setSrsId(rs.getInt(3));
             }
             rs.close();
@@ -597,7 +582,8 @@ public class JDBCAccessPGRaster extends JDBCAccessCustom {
                 continue;
             }
 
-            String select = "select (ST_BandMetaData(" + getConfig().getBlobAttributeNameInTileTable()
+            String select = "select (ST_BandMetaData(" + getConfig()
+                    .getBlobAttributeNameInTileTable()
                     + ")).isoutdb " + " from " + li.getTileTableName() + " LIMIT 1";
             PreparedStatement ps = con.prepareStatement(select);
             ResultSet rs = ps.executeQuery();
@@ -623,26 +609,25 @@ public class JDBCAccessPGRaster extends JDBCAccessCustom {
     }
 
     /**
-     * @param env
-     *            GeneralEnvelope
+     * @param env GeneralEnvelope
      * @return Polygon object with the same boundary as env
      */
     protected Polygon polyFromEnvelope(GeneralEnvelope env) {
         GeometryFactory factory = new GeometryFactory();
 
-        Coordinate[] coords = new Coordinate[] {
+        Coordinate[] coords = new Coordinate[]{
                 new Coordinate(env.getMinimum(0), env.getMinimum(1)),
                 new Coordinate(env.getMinimum(0), env.getMaximum(1)),
                 new Coordinate(env.getMaximum(0), env.getMaximum(1)),
                 new Coordinate(env.getMaximum(0), env.getMinimum(1)),
-                new Coordinate(env.getMinimum(0), env.getMinimum(1)) };
+                new Coordinate(env.getMinimum(0), env.getMinimum(1))};
 
         return factory.createPolygon(factory.createLinearRing(coords), new LinearRing[0]);
     }
 
     /**
      * creates a thread pool
-     * 
+     *
      * @return
      */
     public ExecutorService getExecutorServivicePool() {
@@ -653,9 +638,9 @@ public class JDBCAccessPGRaster extends JDBCAccessCustom {
 
     /**
      * List the formats supported by the used gdal library
-     * 
+     * <p>
      * Check from the command line with <code>gdalinfo --formats</code>
-     * 
+     *
      * @param con
      * @throws SQLException
      */
@@ -680,7 +665,7 @@ public class JDBCAccessPGRaster extends JDBCAccessCustom {
         rs.close();
         ps.close();
     }
-    
+
     /*
     Extract srs Id from xml configuration file
      */

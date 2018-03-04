@@ -26,15 +26,13 @@ import org.opengis.filter.expression.Literal;
 
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 /**
  * Test the Recode function against the Symbology Encoding 1.1 specs.
  *
  * @author mbedward
- *
- *
- *
  * @source $URL$
  */
 public class RecodeFunctionTest extends SEFunctionTestBase {
@@ -85,7 +83,7 @@ public class RecodeFunctionTest extends SEFunctionTestBase {
 //            assertEquals(ints[i], fn.evaluate(feature(words[i].toUpperCase()), Integer.class));
 //        }
 //    }
-    
+
     @Test
     public void testRecodeUndefinedValueReturnsNull() throws Exception {
         System.out.println("   testRecodeUndefinedValueReturnsNull");

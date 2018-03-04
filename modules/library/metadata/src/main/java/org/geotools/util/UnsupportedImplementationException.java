@@ -26,12 +26,10 @@ import org.geotools.resources.i18n.ErrorKeys;
  * thrown when an operation requires a Geotools implementation of a
  * <A HREF="http://geoapi.sourceforge.net">GeoAPI</A> interface.
  *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.0
  */
 public class UnsupportedImplementationException extends UnsupportedOperationException {
     /**
@@ -62,9 +60,9 @@ public class UnsupportedImplementationException extends UnsupportedOperationExce
      * and a cause.
      *
      * @param classe The unexpected implementation class.
-     * @param cause The cause for the exception.
+     * @param cause  The cause for the exception.
      */
-    public UnsupportedImplementationException(final Class<?>  classe, final Exception cause) {
+    public UnsupportedImplementationException(final Class<?> classe, final Exception cause) {
         super(Errors.format(ErrorKeys.UNKNOW_TYPE_$1, classe), cause);
     }
 }

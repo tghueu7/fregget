@@ -57,28 +57,29 @@ import org.opengis.referencing.operation.TransformException;
 /**
  * A rasterGranuleLoader is an elementary piece of data image, with its own
  * overviews and everything.
- * 
+ * <p>
  * <p>
  * This class is responsible for caching the various size of the different
  * levels of each single rasterGranuleLoader.
- * 
+ * <p>
  * <p>
  * Right now we are making the assumption that a single rasterGranuleLoader is
  * made a by a single file.
- * 
+ *
  * @author Simone Giannecchini, GeoSolutions S.A.S.
  */
 class RasterGranuleLoader {
 
-    /** Logger. */
+    /**
+     * Logger.
+     */
     private final static Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger(RasterGranuleLoader.class);
 
     /**
      * This class represent an overview level in a single rasterGranuleLoader.
-     * 
+     *
      * @author Simone Giannecchini, GeoSolutions S.A.S.
-     * 
      */
     class Level {
 
@@ -117,7 +118,7 @@ class RasterGranuleLoader {
         }
 
         public Level(final double scaleX, final double scaleY, final int width,
-                final int height) {
+                     final int height) {
             this.scaleX = scaleX;
             this.scaleY = scaleY;
             this.levelToBaseTransform = new AffineTransform2D(
@@ -157,17 +158,18 @@ class RasterGranuleLoader {
             return super.toString();
         }
     }
-    
+
     ReferencedEnvelope granuleBBOX;
 
     File granuleFile;
 
-    final Map<Integer, Level> granuleLevels = Collections.synchronizedMap(new HashMap<Integer, Level>());
+    final Map<Integer, Level> granuleLevels = Collections.synchronizedMap(new HashMap<Integer, 
+            Level>());
 
     AffineTransform baseGridToWorld;
 
     public RasterGranuleLoader(final BoundingBox granuleBBOX,
-            final File granuleFile, final MathTransform gridToWorld) {
+                               final File granuleFile, final MathTransform gridToWorld) {
 
         this.granuleBBOX = ReferencedEnvelope.reference(granuleBBOX);
         this.granuleFile = granuleFile;
@@ -183,14 +185,16 @@ class RasterGranuleLoader {
             // get a stream
             inStream = Utils.getInputStream(granuleFile);
             if (inStream == null)
-                throw new IllegalArgumentException("Unable to get an input stream for the provided file "
-                                + granuleFile.toString());
+                throw new IllegalArgumentException("Unable to get an input stream for the " +
+                        "provided file "
+                        + granuleFile.toString());
 
             // get a reader
             reader = Utils.getReader(inStream);
             if (reader == null) {
-                throw new IllegalArgumentException("Unable to get an ImageReader for the provided file "
-                                + granuleFile.toString());
+                throw new IllegalArgumentException("Unable to get an ImageReader for the provided" +
+                        " file "
+                        + granuleFile.toString());
             }
 
             // get selected level and base level dimensions
@@ -231,9 +235,9 @@ class RasterGranuleLoader {
     }
 
     public RenderedImage loadRaster(final ImageReadParam readParameters,
-            final int imageIndex, final ReferencedEnvelope cropBBox,
-            final MathTransform2D worldToGrid,
-            final RasterLayerRequest request, final Dimension tileDimension)
+                                    final int imageIndex, final ReferencedEnvelope cropBBox,
+                                    final MathTransform2D worldToGrid,
+                                    final RasterLayerRequest request, final Dimension tileDimension)
             throws IOException {
 
         if (LOGGER.isLoggable(java.util.logging.Level.FINE))
@@ -348,7 +352,8 @@ class RasterGranuleLoader {
                     .getTranslateInstance(sourceArea.x, sourceArea.y);
 
             // now we need to go back to the base level raster space
-            final AffineTransform backToBaseLevelScaleTransform = selectedlevel.levelToBaseTransform;
+            final AffineTransform backToBaseLevelScaleTransform = selectedlevel
+                    .levelToBaseTransform;
 
             // now create the overall transform
             final AffineTransform tempRaster2Model = new AffineTransform(baseGridToWorld);
@@ -395,7 +400,7 @@ class RasterGranuleLoader {
                 if (tileDimensions != null && request.getReadType().equals(ReadType.DIRECT_READ)) {
                     final ImageLayout layout = new ImageLayout();
                     layout.setTileHeight(tileDimensions.width).setTileWidth(tileDimensions.height);
-                    localHints.add(new RenderingHints(JAI.KEY_IMAGE_LAYOUT,layout));
+                    localHints.add(new RenderingHints(JAI.KEY_IMAGE_LAYOUT, layout));
                 }
                 // border extender
                 // return WarpDescriptor.create(raster, new

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -45,15 +45,13 @@ import org.opengis.util.InternationalString;
  * This operation simply wraps Jai-tools Zonalstats operations described by
  * {@link ZonalStatsDescriptor} inside a GeoTools operation in order to make it
  * spatial-aware.
- * 
+ *
  * @author Andrea Antonello (www.hydrologis.com)
  * @author Daniele Romagnoli, GeoSolutions SAS
- *
- *
  * @source $URL$
  */
 public class ZonalStats extends BaseStatisticsOperationJAI {
-    
+
     static {
         try {
             OperationRegistry or = JAI.getDefaultInstance().getOperationRegistry();
@@ -64,34 +62,54 @@ public class ZonalStats extends BaseStatisticsOperationJAI {
             // if already registered (in other cases error will be thrown anyway)
         }
     }
-  
+
     /**
      * Serial number for interoperability with different versions.
      */
     private static final long serialVersionUID = -2027327652181137851L;
 
-    /** {@link Logger} for this class. */
+    /**
+     * {@link Logger} for this class.
+     */
     public final static Logger LOGGER = Logging
             .getLogger("org.geotools.coverage.processing.operation");
 
-    /** {@link String} key for getting the min vector. */
+    /**
+     * {@link String} key for getting the min vector.
+     */
     public final static String GT_SYNTHETIC_PROPERTY_MIN = Statistic.MIN.toString();
-    /** {@link String} key for getting the max vector. */
+    /**
+     * {@link String} key for getting the max vector.
+     */
     public final static String GT_SYNTHETIC_PROPERTY_MAX = Statistic.MAX.toString();
-    /** {@link String} key for getting the mean vector. */
+    /**
+     * {@link String} key for getting the mean vector.
+     */
     public final static String GT_SYNTHETIC_PROPERTY_MEAN = Statistic.MEAN.toString();
-    /** {@link String} key for getting the variance vector. */
+    /**
+     * {@link String} key for getting the variance vector.
+     */
     public final static String GT_SYNTHETIC_PROPERTY_VAR = Statistic.VARIANCE.toString();
-    /** {@link String} key for getting the standard deviation vector. */
+    /**
+     * {@link String} key for getting the standard deviation vector.
+     */
     public final static String GT_SYNTHETIC_PROPERTY_SDEV = Statistic.SDEV.toString();
-    /** {@link String} key for getting the range vector. */
+    /**
+     * {@link String} key for getting the range vector.
+     */
     public final static String GT_SYNTHETIC_PROPERTY_RANGE = Statistic.RANGE.toString();
-    /** {@link String} key for getting the median vector. */
+    /**
+     * {@link String} key for getting the median vector.
+     */
     public final static String GT_SYNTHETIC_PROPERTY_MEDIAN = Statistic.MEDIAN.toString();
-    /** {@link String} key for getting the approx median vector. */
+    /**
+     * {@link String} key for getting the approx median vector.
+     */
     public final static String GT_SYNTHETIC_PROPERTY_APPROX_MEDIAN = Statistic.APPROX_MEDIAN
             .toString();
-    /** {@link String} key for getting the sum vector. */
+    /**
+     * {@link String} key for getting the sum vector.
+     */
     public final static String GT_SYNTHETIC_PROPERTY_SUM = Statistic.SUM.toString();
 
     /**
@@ -103,14 +121,15 @@ public class ZonalStats extends BaseStatisticsOperationJAI {
 
     /**
      * Prepare the properties for this ZonalStats operation.
-     * 
+     *
      * @see OperationJAI#getProperties(RenderedImage, CoordinateReferenceSystem,
-     *      InternationalString, MathTransform, GridCoverage2D[],
-     *      org.geotools.coverage.processing.OperationJAI.Parameters),
+     * InternationalString, MathTransform, GridCoverage2D[],
+     * org.geotools.coverage.processing.OperationJAI.Parameters),
      */
-    protected Map<String, ? > getProperties( RenderedImage data, CoordinateReferenceSystem crs,
-            InternationalString name, MathTransform toCRS, GridCoverage2D[] sources,
-            Parameters parameters ) {
+    protected Map<String, ?> getProperties(RenderedImage data, CoordinateReferenceSystem crs,
+                                           InternationalString name, MathTransform toCRS, 
+                                           GridCoverage2D[] sources,
+                                           Parameters parameters) {
         // /////////////////////////////////////////////////////////////////////
         //
         // If and only if data is a RenderedOp we prepare the properties for

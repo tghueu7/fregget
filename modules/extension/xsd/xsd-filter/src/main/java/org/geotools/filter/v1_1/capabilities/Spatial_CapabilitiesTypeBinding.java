@@ -17,6 +17,7 @@
 package org.geotools.filter.v1_1.capabilities;
 
 import javax.xml.namespace.QName;
+
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.capability.GeometryOperand;
 import org.opengis.filter.capability.SpatialCapabilities;
@@ -27,9 +28,9 @@ import org.geotools.xml.*;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:Spatial_CapabilitiesType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="Spatial_CapabilitiesType"&gt;
  *      &lt;xsd:sequence&gt;
@@ -43,9 +44,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class Spatial_CapabilitiesTypeBinding extends AbstractComplexBinding {
@@ -79,14 +77,14 @@ public class Spatial_CapabilitiesTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return factory.spatialCapabilities((GeometryOperand[]) node.getChildValue(
                 GeometryOperand[].class),
-            (SpatialOperators) node.getChildValue(SpatialOperators.class));
+                (SpatialOperators) node.getChildValue(SpatialOperators.class));
     }
 
     public Object getProperty(Object object, QName name)
-        throws Exception {
+            throws Exception {
         SpatialCapabilities spatial = (SpatialCapabilities) object;
 
         if ("SpatialOperators".equals(name.getLocalPart())) {

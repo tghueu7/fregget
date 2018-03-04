@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry.complex;
 
 import java.util.Set;
+
 import org.opengis.geometry.primitive.Solid;
 import org.opengis.annotation.Association;
 import org.opengis.annotation.UML;
@@ -23,20 +24,18 @@ import static org.opengis.annotation.Specification.*;
  * a composite solid is a set of solids that join in pairs on common boundary surfaces to form
  * a single solid.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
  * @author Martin Desruisseaux (Geomatys)
+ * @version <A HREF="http://www.opengeospatial.org/standards/as">ISO 19107</A>
+ * @source $URL$
+ * @todo This interface extends (indirectly) both 
+ * {@link org.opengis.geometry.primitive.Primitive} and
+ * {@link org.opengis.geometry.complex.Complex}. Concequently, there is a clash in the semantics
+ * of some set theoretic operation. Specifically, {@code Primitive.contains(...)}
+ * (returns FALSE for end points) is different from {@code Complex.contains(...)}
+ * (returns TRUE for end points).
  * @since GeoAPI 2.1
- *
- * @todo This interface extends (indirectly) both {@link org.opengis.geometry.primitive.Primitive} and
- *       {@link org.opengis.geometry.complex.Complex}. Concequently, there is a clash in the semantics
- *       of some set theoretic operation. Specifically, {@code Primitive.contains(...)}
- *       (returns FALSE for end points) is different from {@code Complex.contains(...)}
- *       (returns TRUE for end points).
  */
-@UML(identifier="GM_CompositeSurface", specification=ISO_19107)
+@UML(identifier = "GM_CompositeSurface", specification = ISO_19107)
 public interface CompositeSolid extends Composite, Solid {
     /**
      * Returns the set of solids that form the core of this complex.
@@ -47,11 +46,10 @@ public interface CompositeSolid extends Composite, Solid {
      * generator set if {@linkplain Solid solids} would have to be added to the generator list.
      *
      * @return The set of solids in this composite.
-     *
-     * @see Solid#getComposite
      * @issue http://jira.codehaus.org/browse/GEO-63
+     * @see Solid#getComposite
      */
     @Association("Composition")
-    @UML(identifier="generator", obligation=MANDATORY, specification=ISO_19107)
+    @UML(identifier = "generator", obligation = MANDATORY, specification = ISO_19107)
     Set<Solid> getGenerators();
 }

@@ -28,9 +28,9 @@ import com.vividsolutions.jts.geom.LinearRing;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:LinearRingMemberType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;complexType name="LinearRingMemberType"&gt;
  *      &lt;annotation&gt;
@@ -52,9 +52,6 @@ import com.vividsolutions.jts.geom.LinearRing;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLLinearRingMemberTypeBinding extends AbstractComplexBinding {
@@ -92,7 +89,7 @@ public class GMLLinearRingMemberTypeBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
+            throws Exception {
         return value;
     }
 }

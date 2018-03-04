@@ -38,16 +38,15 @@ import org.opengis.feature.simple.SimpleFeatureType;
  * </code></pre>
  *
  * @author mbedward
- * @since 2.7
- *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
+ * @since 2.7
  */
 public abstract class GridFeatureBuilder {
 
-    /** Default name for the geometry attribute: "element" */
+    /**
+     * Default name for the geometry attribute: "element"
+     */
     public static final String DEFAULT_GEOMETRY_ATTRIBUTE_NAME = "element";
 
     private final SimpleFeatureType TYPE;
@@ -62,7 +61,7 @@ public abstract class GridFeatureBuilder {
     }
 
     /**
-     * Gets the feature type. 
+     * Gets the feature type.
      *
      * @return the feature type
      */
@@ -77,10 +76,9 @@ public abstract class GridFeatureBuilder {
      * This method must be overridden by the user. It is called by the grid
      * building classes as each new feature is constructed.
      *
-     * @param el the element from which the new feature is being constructed
-     *
+     * @param el         the element from which the new feature is being constructed
      * @param attributes a {@code Map} with attribute names as keys and
-     *        attribute values as values
+     *                   attribute values as values
      */
     public abstract void setAttributes(GridElement el, Map<String, Object> attributes);
 
@@ -92,7 +90,6 @@ public abstract class GridFeatureBuilder {
      * {@code null}.
      *
      * @param el the element from which the new feature is being constructed
-     *
      * @return value to use as the feature ID
      */
     public String getFeatureID(GridElement el) {
@@ -107,9 +104,8 @@ public abstract class GridFeatureBuilder {
      * The base implementation always returns {@code true}.
      *
      * @param el the element from which the new feature would be constructed
-     *
      * @return {@code true} to create a feature for the element; {@code false}
-     *         to skip the element
+     * to skip the element
      */
     public boolean getCreateFeature(GridElement el) {
         return true;

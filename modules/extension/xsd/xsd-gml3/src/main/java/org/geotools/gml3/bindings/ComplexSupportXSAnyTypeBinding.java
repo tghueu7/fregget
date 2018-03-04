@@ -53,30 +53,28 @@ import org.xml.sax.Attributes;
 /**
  * A replacement for {@link XSAnyTypeBinding} that adds support for {@link ComplexAttribute} and
  * related behaviours.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * This binding that searches the substitution group of XSD element children to find properties of a
  * complex attribute. This is necessary to support the GML property type pattern, in which a
  * property (a property-type type) contains a property that is a member of a substitution group.
  * gml:AttributeType is the canonical example of the property type pattern.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * gml:FeaturePropertyType is an example of the property type pattern that has an explicit binding
  * {@link FeaturePropertyTypeBinding}, but because an application schema may define more property
  * types whose names are not known at compile time, a binding like
  * {@link FeaturePropertyTypeBinding} cannot be written. This class exists to handle these
  * application-schema-defined property types.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * This class supports the encoding of XML complexType with simpleContent through extraction of a
  * simpleContent property, as well as encoding XML attributes stored in the UserData map.
- * 
+ *
  * @author Ben Caradoc-Davies, CSIRO Earth Science and Resource Engineering
- *
- *
  * @source $URL$
  */
 public class ComplexSupportXSAnyTypeBinding extends XSAnyTypeBinding {
@@ -89,7 +87,7 @@ public class ComplexSupportXSAnyTypeBinding extends XSAnyTypeBinding {
 
     /**
      * @see org.geotools.xml.AbstractComplexBinding#getProperty(java.lang.Object,
-     *      javax.xml.namespace.QName)
+     * javax.xml.namespace.QName)
      */
     @Override
     public Object getProperty(Object object, QName name) throws Exception {
@@ -108,7 +106,7 @@ public class ComplexSupportXSAnyTypeBinding extends XSAnyTypeBinding {
 
     /**
      * Convert a {@link QName} to a {@link Name}.
-     * 
+     *
      * @param name
      * @return
      */
@@ -122,15 +120,15 @@ public class ComplexSupportXSAnyTypeBinding extends XSAnyTypeBinding {
 
     /**
      * @see org.geotools.xml.AbstractComplexBinding#getProperties(java.lang.Object,
-     *      org.eclipse.xsd.XSDElementDeclaration)
-     */   
+     * org.eclipse.xsd.XSDElementDeclaration)
+     */
     @SuppressWarnings("unchecked")
     @Override
     public List getProperties(Object object, XSDElementDeclaration element) throws Exception {
-        if(object == null) {
+        if (object == null) {
             return null;
         }
-        
+
         List<Object[/* 2 */]> properties = new ArrayList<Object[/* 2 */]>();
         XSDTypeDefinition typeDef = element.getTypeDefinition();
         boolean isAnyType = typeDef.getName() != null && typeDef.getTargetNamespace() != null
@@ -162,9 +160,10 @@ public class ComplexSupportXSAnyTypeBinding extends XSAnyTypeBinding {
                             XSDElementDeclaration wrapper = XSDFactory.eINSTANCE
                                     .createXSDElementDeclaration();
                             wrapper
-                                    .setResolvedElementDeclaration((XSDElementDeclaration) propertyElement);
+                                    .setResolvedElementDeclaration((XSDElementDeclaration) 
+                                            propertyElement);
                             substitutedChildParticle.setContent(wrapper);
-                            properties.add(new Object[] { substitutedChildParticle, complex });
+                            properties.add(new Object[]{substitutedChildParticle, complex});
                         }
                     }
                 }
@@ -203,7 +202,7 @@ public class ComplexSupportXSAnyTypeBinding extends XSAnyTypeBinding {
                              * List properties(Object, XSDElementDeclaration) method
                              */
                             if (property instanceof ComplexAttribute) {
-                                properties.add(new Object[] { substitutedChildParticle, property });
+                                properties.add(new Object[]{substitutedChildParticle, property});
                             } else if (property instanceof GeometryAttribute) {
                                 Object attType = complex.getType().getUserData()
                                         .get(XSDTypeDefinition.class);
@@ -216,7 +215,8 @@ public class ComplexSupportXSAnyTypeBinding extends XSAnyTypeBinding {
                                     XSDTypeDefinition attTypeDef = (XSDTypeDefinition) attType;
                                     for (XSDParticle attChild : (List<XSDParticle>) Schemas
                                             .getChildElementParticles(attTypeDef, true)) {
-                                        XSDElementDeclaration childEl = (XSDElementDeclaration) attChild
+                                        XSDElementDeclaration childEl = (XSDElementDeclaration) 
+                                                attChild
                                                 .getContent();
                                         if (childEl.isElementDeclarationReference()) {
                                             childEl = childEl.getResolvedElementDeclaration();
@@ -228,8 +228,8 @@ public class ComplexSupportXSAnyTypeBinding extends XSAnyTypeBinding {
                                     }
                                 }
                                 if (!duplicate) {
-                                    properties.add(new Object[] { substitutedChildParticle,
-                                            property.getValue() });
+                                    properties.add(new Object[]{substitutedChildParticle,
+                                            property.getValue()});
                                 }
                             }
                         }
@@ -272,10 +272,11 @@ public class ComplexSupportXSAnyTypeBinding extends XSAnyTypeBinding {
                                 XSDElementDeclaration wrapper = XSDFactory.eINSTANCE
                                         .createXSDElementDeclaration();
                                 wrapper
-                                        .setResolvedElementDeclaration((XSDElementDeclaration) propertyElement);
+                                        .setResolvedElementDeclaration((XSDElementDeclaration) 
+                                                propertyElement);
                                 substitutedChildParticle.setContent(wrapper);
-                                properties.add(new Object[] { substitutedChildParticle,
-                                        newComplexAtt });
+                                properties.add(new Object[]{substitutedChildParticle,
+                                        newComplexAtt});
                             }
                         }
                     }
@@ -284,17 +285,17 @@ public class ComplexSupportXSAnyTypeBinding extends XSAnyTypeBinding {
 
             /*
              * properties list is not empty.
-             * 
-             * It's possible <any> and <element> co-exist in the same type. For example, 
-             * 
+             *
+             * It's possible <any> and <element> co-exist in the same type. For example,
+             *
              * <sequence>
-             *     <any/> 
-             *     <element name="..." type="..."> 
+             *     <any/>
+             *     <element name="..." type="...">
              * </sequence>
-             * 
+             *
              * In this case, only add <any> complex attributes to the properties list. The following
              * code is not covered in unit test, as app-schema, doesn't support <any> as a
-             * targetAttribute in a mapping file. 
+             * targetAttribute in a mapping file.
              */
             else {
                 List<XSDParticle> elementParticles = new ArrayList<XSDParticle>(Schemas
@@ -315,11 +316,13 @@ public class ComplexSupportXSAnyTypeBinding extends XSAnyTypeBinding {
                                 XSDElementDeclaration wrapper = XSDFactory.eINSTANCE
                                         .createXSDElementDeclaration();
                                 wrapper
-                                        .setResolvedElementDeclaration((XSDElementDeclaration) propertyElement);
+                                        .setResolvedElementDeclaration((XSDElementDeclaration) 
+                                                propertyElement);
                                 substitutedChildParticle.setContent(wrapper);
                                 boolean propertyExist = false;
                                 for (XSDParticle childParticle : elementParticles) {
-                                    XSDElementDeclaration childElement = (XSDElementDeclaration) childParticle
+                                    XSDElementDeclaration childElement = (XSDElementDeclaration) 
+                                            childParticle
                                             .getContent();
                                     if (childElement.isElementDeclarationReference()) {
                                         childElement = childElement.getResolvedElementDeclaration();
@@ -333,8 +336,8 @@ public class ComplexSupportXSAnyTypeBinding extends XSAnyTypeBinding {
                                     }
                                 }
                                 if (!propertyExist) {
-                                    properties.add(new Object[] { substitutedChildParticle,
-                                            newComplexAtt });
+                                    properties.add(new Object[]{substitutedChildParticle,
+                                            newComplexAtt});
                                 }
                             }
                         }
@@ -345,15 +348,13 @@ public class ComplexSupportXSAnyTypeBinding extends XSAnyTypeBinding {
         }
         return properties;
     }
-    
+
     /**
      * Check if the complex attribute contains a feature which id is pre-existing in the document.
      * If it's true, make sure it's only encoded as an xlink:href to the existing id.
-     * 
-     * @param value
-     *            The complex attribute value
-     * @param att
-     *            The complex attribute itself
+     *
+     * @param value The complex attribute value
+     * @param att   The complex attribute itself
      */
     private void checkXlinkHref(Object value, ComplexAttribute att) {
         if (value != null && value instanceof ComplexAttribute) {
@@ -393,7 +394,7 @@ public class ComplexSupportXSAnyTypeBinding extends XSAnyTypeBinding {
 
     /**
      * @see org.geotools.xml.AbstractComplexBinding#encode(java.lang.Object, org.w3c.dom.Document,
-     *      org.w3c.dom.Element)
+     * org.w3c.dom.Element)
      */
     @Override
     public Element encode(Object object, Document document, Element value) throws Exception {
@@ -413,9 +414,9 @@ public class ComplexSupportXSAnyTypeBinding extends XSAnyTypeBinding {
 
     /**
      * We need to skip placeholder objects (new Object())
-     * used in many places to represent objects that 
+     * used in many places to represent objects that
      * should not be encoded.
-     * 
+     *
      * @param object
      * @return
      */

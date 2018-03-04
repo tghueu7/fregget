@@ -34,10 +34,8 @@ import java.io.File;
  *
  * @author Daniele Romagnoli, GeoSolutions.
  * @author Simone Giannecchini (simboss), GeoSolutions
- * @since 2.5.x
- *
- *
  * @source $URL$
+ * @since 2.5.x
  */
 public final class SRPReader extends BaseGDALGridCoverage2DReader implements GridCoverageReader {
     private final static String worldFileExt = "";
@@ -46,8 +44,7 @@ public final class SRPReader extends BaseGDALGridCoverage2DReader implements Gri
      * Creates a new instance of a {@link SRPReader}. Assume nothing about
      * file extension.
      *
-     * @param input
-     *            Source object for which we want to build an {@link SRPReader}.
+     * @param input Source object for which we want to build an {@link SRPReader}.
      * @throws DataSourceException
      */
     public SRPReader(Object input) throws DataSourceException {
@@ -58,10 +55,8 @@ public final class SRPReader extends BaseGDALGridCoverage2DReader implements Gri
      * Creates a new instance of a {@link SRPReader}. I assume nothing about
      * file extension.
      *
-     * @param input
-     *            Source object for which we want to build an {@link SRPReader}.
-     * @param hints
-     *            Hints to be used by this reader throughout his life.
+     * @param input Source object for which we want to build an {@link SRPReader}.
+     * @param hints Hints to be used by this reader throughout his life.
      * @throws DataSourceException
      */
     public SRPReader(Object input, Hints hints) throws DataSourceException {
@@ -74,5 +69,5 @@ public final class SRPReader extends BaseGDALGridCoverage2DReader implements Gri
     public Format getFormat() {
         return new SRPFormat();
     }
-    
+
 }

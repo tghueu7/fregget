@@ -24,11 +24,16 @@ import javax.media.jai.registry.RenderedRegistryMode;
 
 public class ClassBreaksSpi implements OperationRegistrySpi {
 
-    /** The name of the product to which these operations belong. */
+    /**
+     * The name of the product to which these operations belong.
+     */
     private String productName = "org.jaitools.media.jai";
 
-    /** Default constructor. */
-    public ClassBreaksSpi() {}
+    /**
+     * Default constructor.
+     */
+    public ClassBreaksSpi() {
+    }
 
 
     public void updateRegistry(OperationRegistry registry) {

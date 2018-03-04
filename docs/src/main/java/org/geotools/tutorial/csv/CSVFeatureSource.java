@@ -27,7 +27,7 @@ import com.vividsolutions.jts.geom.Point;
 
 /**
  * Read-only access to CSV File.
- * 
+ *
  * @author Jody Garnett (Boundless)
  */
 public class CSVFeatureSource extends ContentFeatureSource {
@@ -37,6 +37,7 @@ public class CSVFeatureSource extends ContentFeatureSource {
     }
 
     // getDataStore start
+
     /**
      * Access parent CSVDataStore.
      */
@@ -76,6 +77,7 @@ public class CSVFeatureSource extends ContentFeatureSource {
     // count end
 
     // bounds start
+
     /**
      * Implementation that generates the total bounds (many file formats record this information in the header)
      */

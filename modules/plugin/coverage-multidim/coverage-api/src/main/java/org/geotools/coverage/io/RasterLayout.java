@@ -24,75 +24,93 @@ import org.geotools.resources.i18n.Errors;
 
 /**
  * A class describing the desired layout of an <code>OpImage</code>.
- *
+ * <p>
  * <p> The <code>RasterLayout</code> class encapsulates three types of information about
  * an image:
- *
+ * <p>
  * <ul>
  * <li> The image bounds, comprising the min X and Y coordinates,
- *      image width, and image height;
+ * image width, and image height;
  * <li> The tile grid layout, comprising the tile grid X and Y offsets,
- *      the tile width, and the tile height; and
+ * the tile width, and the tile height; and
  * </ul>
- *
+ * <p>
  * <p> Methods that modify the state of an <code>RasterLayout</code> return a reference
  * to 'this' following the change.  This allows multiple modifications to
  * be made in a single expression.  This provides a way of modifying an
  * <code>RasterLayout</code> within a superclass constructor call.
- *
  */
-public class RasterLayout{
+public class RasterLayout {
 
-    /** The image's minimum X coordinate. */
+    /**
+     * The image's minimum X coordinate.
+     */
     int minX = 0;
 
-    /** The image's minimum Y coordinate. */
+    /**
+     * The image's minimum Y coordinate.
+     */
     int minY = 0;
 
-    /** The image's <code>width</code>. */
+    /**
+     * The image's <code>width</code>.
+     */
     int width = 0;
 
-    /** The image's height. */
+    /**
+     * The image's height.
+     */
     int height = 0;
 
-    /** The X coordinate of tile (0, 0). */
+    /**
+     * The X coordinate of tile (0, 0).
+     */
     int tileGridXOffset = 0;
 
-    /** The Y coordinate of tile (0, 0). */
+    /**
+     * The Y coordinate of tile (0, 0).
+     */
     int tileGridYOffset = 0;
 
-    /** The width of a tile. */
+    /**
+     * The width of a tile.
+     */
     int tileWidth = 0;
 
-    /** The height of a tile. */
+    /**
+     * The height of a tile.
+     */
     int tileHeight = 0;
 
-    /** Constructs an <code>RasterLayout</code> with no parameters set. */
-    public RasterLayout() {}
+    /**
+     * Constructs an <code>RasterLayout</code> with no parameters set.
+     */
+    public RasterLayout() {
+    }
 
     /**
      * Constructs an <code>RasterLayout</code> with all its parameters set.
      * The <code>sampleModel</code> and <code>colorModel</code> parameters are ignored if null.
      *
-     * @param minX the image's minimum X coordinate.
-     * @param minY the image's minimum Y coordinate.
-     * @param width the image's width.
-     * @param height the image's height.
+     * @param minX            the image's minimum X coordinate.
+     * @param minY            the image's minimum Y coordinate.
+     * @param width           the image's width.
+     * @param height          the image's height.
      * @param tileGridXOffset the X coordinate of tile (0, 0).
      * @param tileGridYOffset the Y coordinate of tile (0, 0).
-     * @param tileWidth the width of a tile.
-     * @param tileHeight the height of a tile.
-     * @param sampleModel the image's <code>SampleModel</code>.
-     * @param colorModel the image's <code>ColorModel</code>.
+     * @param tileWidth       the width of a tile.
+     * @param tileHeight      the height of a tile.
+     * @param sampleModel     the image's <code>SampleModel</code>.
+     * @param colorModel      the image's <code>ColorModel</code>.
      */
     public RasterLayout(int minX,
-                       int minY,
-                       int width,
-                       int height,
-                       int tileGridXOffset,
-                       int tileGridYOffset,
-                       int tileWidth,
-                       int tileHeight) {
+                        int minY,
+                        int width,
+                        int height,
+                        int tileGridXOffset,
+                        int tileGridYOffset,
+                        int tileWidth,
+                        int tileHeight) {
         setMinX(minX);
         setMinY(minY);
         setWidth(width);
@@ -108,21 +126,20 @@ public class RasterLayout{
      * Constructs an <code>RasterLayout</code> with only the image dimension
      * parameters set.
      *
-     * @param minX the image's minimum X coordinate.
-     * @param minY the image's minimum Y coordinate.
-     * @param width the image's width.
+     * @param minX   the image's minimum X coordinate.
+     * @param minY   the image's minimum Y coordinate.
+     * @param width  the image's width.
      * @param height the image's height.
      */
     public RasterLayout(int minX,
-                       int minY,
-                       int width,
-                       int height) {
+                        int minY,
+                        int width,
+                        int height) {
         setMinX(minX);
         setMinY(minY);
         setWidth(width);
         setHeight(height);
     }
-
 
 
     /**
@@ -133,13 +150,13 @@ public class RasterLayout{
      */
     public RasterLayout(RenderedImage im) {
         this(im.getMinX(),
-             im.getMinY(),
-             im.getWidth(),
-             im.getHeight(),
-             im.getTileGridXOffset(),
-             im.getTileGridYOffset(),
-             im.getTileWidth(),
-             im.getTileHeight());
+                im.getMinY(),
+                im.getWidth(),
+                im.getHeight(),
+                im.getTileGridXOffset(),
+                im.getTileGridYOffset(),
+                im.getTileWidth(),
+                im.getTileHeight());
     }
 
     public RasterLayout(Rectangle bounds) {
@@ -151,8 +168,8 @@ public class RasterLayout{
         this.minY = bounds.y;
 
     }
-    
-    public Rectangle toRectangle () {
+
+    public Rectangle toRectangle() {
         return new Rectangle(minX, minY, width, height);
     }
 
@@ -221,12 +238,12 @@ public class RasterLayout{
      * @return a reference to this <code>RasterLayout</code> following the change.
      * @throws IllegalArgumentException if <code>width</code> is non-positive.
      */
-   public RasterLayout setWidth(int width) {
-       if(width <= 0) {
-           throw new IllegalArgumentException("ImageLayout0");
-       }
-       this.width = width;
-       return this;
+    public RasterLayout setWidth(int width) {
+        if (width <= 0) {
+            throw new IllegalArgumentException("ImageLayout0");
+        }
+        this.width = width;
+        return this;
     }
 
     /**
@@ -249,11 +266,11 @@ public class RasterLayout{
      * @throws IllegalArgumentException if <code>height</code> is non-positive.
      */
     public RasterLayout setHeight(int height) {
-       if(height <= 0) {
-           throw new IllegalArgumentException("ImageLayout0");
-       }
-       this.height = height;
-       return this;
+        if (height <= 0) {
+            throw new IllegalArgumentException("ImageLayout0");
+        }
+        this.height = height;
+        return this;
     }
 
     /**
@@ -323,11 +340,11 @@ public class RasterLayout{
      *                                  non-positive.
      */
     public RasterLayout setTileWidth(int tileWidth) {
-       if(tileWidth <= 0) {
-           throw new IllegalArgumentException("ImageLayout0");
-       }
-       this.tileWidth = tileWidth;
-       return this;
+        if (tileWidth <= 0) {
+            throw new IllegalArgumentException("ImageLayout0");
+        }
+        this.tileWidth = tileWidth;
+        return this;
     }
 
     /**
@@ -351,14 +368,16 @@ public class RasterLayout{
      *                                  non-positive.
      */
     public RasterLayout setTileHeight(int tileHeight) {
-       if(tileHeight <= 0) {
-           throw new IllegalArgumentException("ImageLayout0");
-       }
-       this.tileHeight = tileHeight;
-       return this;
+        if (tileHeight <= 0) {
+            throw new IllegalArgumentException("ImageLayout0");
+        }
+        this.tileHeight = tileHeight;
+        return this;
     }
 
-    /** Returns a String containing the values of all valid fields. */
+    /**
+     * Returns a String containing the values of all valid fields.
+     */
     public String toString() {
         String s = "RasterLayout[";
 
@@ -376,8 +395,8 @@ public class RasterLayout{
         s += ", ";
         s += "TILE_GRID_X_OFFSET=" + tileGridXOffset;
 
-         s += ", ";
-         s += "TILE_GRID_Y_OFFSET=" + tileGridYOffset;
+        s += ", ";
+        s += "TILE_GRID_Y_OFFSET=" + tileGridYOffset;
 
         s += ", ";
         s += "TILE_WIDTH=" + tileWidth;
@@ -407,31 +426,29 @@ public class RasterLayout{
      * <code>RasterLayout</code>.
      *
      * @param obj the <code>Object</code> to test for equality
-     *
      * @return <code>true</code> if the specified <code>Object</code>
      * is an instance of <code>RasterLayout</code> and equals this
      * <code>RasterLayout</code>; <code>false</code> otherwise.
-     *
      * @since JAI 1.1
      */
     public boolean equals(Object obj) {
 
-    if (this == obj)
-        return true;
+        if (this == obj)
+            return true;
 
-    if (!(obj instanceof RasterLayout))
-        return false;
+        if (!(obj instanceof RasterLayout))
+            return false;
 
-    RasterLayout il = (RasterLayout)obj;
+        RasterLayout il = (RasterLayout) obj;
 
-    return (width           == il.width          ) &&
-           (height          == il.height         ) &&
-           (minX            == il.minX           ) &&
-           (minY            == il.minY           ) &&
-           (tileHeight      == il.tileHeight     ) &&
-           (tileWidth       == il.tileWidth      ) &&
-           (tileGridXOffset == il.tileGridXOffset) &&
-           (tileGridYOffset == il.tileGridYOffset) ;
+        return (width == il.width) &&
+                (height == il.height) &&
+                (minX == il.minX) &&
+                (minY == il.minY) &&
+                (tileHeight == il.tileHeight) &&
+                (tileWidth == il.tileWidth) &&
+                (tileGridXOffset == il.tileGridXOffset) &&
+                (tileGridYOffset == il.tileGridYOffset);
     }
 
 }

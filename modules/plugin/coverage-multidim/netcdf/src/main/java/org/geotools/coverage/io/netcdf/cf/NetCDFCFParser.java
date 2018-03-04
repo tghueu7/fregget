@@ -32,25 +32,29 @@ import org.geotools.util.logging.Logging;
 
 /**
  * A NetCDF CF (ClimateForecast) parser.
- * 
- * It can be used to load from a standard name table (XML) all the 
+ * <p>
+ * It can be used to load from a standard name table (XML) all the
  * available CF compliant standard names and the related information,
  * such as canonical units, descriptions and alias.
- *
- *
+ * <p>
+ * <p>
  * See <a href="http://cfconventions.org/standard-names.html">CF Convention: Standard names</a>
- * 
- *
  */
 public class NetCDFCFParser {
 
-    /** Map containing all the available entries */
+    /**
+     * Map containing all the available entries
+     */
     private Map<String, Entry> entriesMap;
 
-    /** Map containing all the defined alias */
+    /**
+     * Map containing all the defined alias
+     */
     private Map<String, Alias> aliasMap;
 
-    /** {@link Set} containing all the keys*/
+    /**
+     * {@link Set} containing all the keys
+     */
     private Set<String> keys;
 
     public boolean hasEntryId(String id) {
@@ -68,7 +72,7 @@ public class NetCDFCFParser {
         return null;
     }
 
-    public Set<String> getEntryIds(){
+    public Set<String> getEntryIds() {
         return keys;
     }
 
@@ -85,6 +89,7 @@ public class NetCDFCFParser {
     private static JAXBContext context;
 
     private final static Logger LOGGER = Logging.getLogger(NetCDFCFParser.class.toString());
+
     static {
         try {
             context = JAXBContext.newInstance(StandardNameTable.class);
@@ -105,7 +110,7 @@ public class NetCDFCFParser {
 
     /**
      * Create a {@link NetCDFCFParser} instance for the specified file.
-     * 
+     *
      * @param file
      * @return
      * @throws JAXBException

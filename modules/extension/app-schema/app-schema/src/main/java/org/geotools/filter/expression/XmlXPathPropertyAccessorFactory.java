@@ -29,10 +29,9 @@ import org.xml.sax.helpers.NamespaceSupport;
 /**
  * PropertyAccessorFactory used to create property accessors which can handle xpath expressions
  * against instances of {@link Feature}.
- * 
- * @author Russell Petty (GeoScience Victoria)
- * @author Rini Angreani (CSIRO Earth Science and Resource Engineering) 
  *
+ * @author Russell Petty (GeoScience Victoria)
+ * @author Rini Angreani (CSIRO Earth Science and Resource Engineering)
  * @source $URL$
  */
 public class XmlXPathPropertyAccessorFactory implements PropertyAccessorFactory {
@@ -42,7 +41,7 @@ public class XmlXPathPropertyAccessorFactory implements PropertyAccessorFactory 
     public static Hints.Key NAMESPACE_SUPPORT = new Hints.Key(NamespaceSupport.class);
 
     public PropertyAccessor createPropertyAccessor(Class type, String xpath, Class target,
-            Hints hints) {
+                                                   Hints hints) {
         if (XmlXpathFilterData.class.isAssignableFrom(type)) {
             return new XmlXPathPropertyAcessor();
         }
@@ -92,7 +91,7 @@ public class XmlXPathPropertyAccessorFactory implements PropertyAccessorFactory 
             StringBuffer sb = new StringBuffer(itemXpath);
             int count = xmlResponse.getCount();
             if (count > -1) {
-                    sb.append("[" + xmlResponse.getCount() + "]");
+                sb.append("[" + xmlResponse.getCount() + "]");
             }
             sb.append(xpathString.substring(unindexedXpath.length()));
             return sb.toString();

@@ -45,9 +45,6 @@ import org.geotools.swing.wizard.ParamField;
  * - but will only show parameters that match the indicated "level". If level is null it
  * assumed to be "user".
  *
- *
- *
- *
  * @source $URL$
  */
 public class JDataStorePage extends JPage {
@@ -56,16 +53,24 @@ public class JDataStorePage extends JPage {
      */
     protected DataStoreFactorySpi format;
 
-    /** Map of user interface ParamFields displayed to the user */
+    /**
+     * Map of user interface ParamFields displayed to the user
+     */
     private Map<Param, ParamField> fields = new HashMap<Param, ParamField>();
 
-    /** Connection params for datastore */
+    /**
+     * Connection params for datastore
+     */
     protected Map<String, Object> connectionParameters;
 
-    /** level of parameters to display */
+    /**
+     * level of parameters to display
+     */
     private String level = null;
 
-    /** max line length of parameter description labels (chars) */
+    /**
+     * max line length of parameter description labels (chars)
+     */
     private static final int MAX_DESCRIPTION_WIDTH = 60;
 
     public JDataStorePage(DataStoreFactorySpi format) {
@@ -76,7 +81,7 @@ public class JDataStorePage extends JPage {
         this.format = format;
         if (params == null) {
             params = new HashMap<String, Object>();
-            if( format != null ){
+            if (format != null) {
                 for (Param param : format.getParametersInfo()) {
                     params.put(param.key, (Serializable) param.sample);
                 }
@@ -88,11 +93,11 @@ public class JDataStorePage extends JPage {
     public void setLevel(String level) {
         this.level = level;
     }
-    
+
     public void setFormat(DataStoreFactorySpi format) {
-        if( this.format != format ){
-            this.format = format;            
-        }        
+        if (this.format != format) {
+            this.format = format;
+        }
     }
 
     @Override
@@ -107,22 +112,22 @@ public class JDataStorePage extends JPage {
         page.add(description, "grow, span");
 
         for (Param param : format.getParametersInfo()) {
-            if( level != null ){
-                String check = param.metadata == null ? "user" : (String) param.metadata.get(Parameter.LEVEL);
-                
-                if( check == null ){
+            if (level != null) {
+                String check = param.metadata == null ? "user" : (String) param.metadata.get
+                        (Parameter.LEVEL);
+
+                if (check == null) {
                     check = "user";
                 }
-                if (level.equals( check )){
+                if (level.equals(check)) {
                     // we are good this is the one we want
-                }
-                else {
+                } else {
                     continue; // skip since it is not the one we want
                 }
             }
             String txt = param.title.toString();
-            if( param.required ){
-                txt +="*";
+            if (param.required) {
+                txt += "*";
             }
             JLabel label = new JLabel(txt);
             page.add(label);
@@ -152,7 +157,7 @@ public class JDataStorePage extends JPage {
                 value = param.lookUp(connectionParameters);
             } catch (IOException e) {
             }
-            if( value == null && param.required ){
+            if (value == null && param.required) {
                 value = param.sample;
             }
             field.setValue(value);
@@ -183,7 +188,7 @@ public class JDataStorePage extends JPage {
     public boolean isValid() {
         // populate panel
         for (Entry<Param, ParamField> entry : fields.entrySet()) {
-            if (!entry.getValue().validate()) {                
+            if (!entry.getValue().validate()) {
                 return false; // not validate
             }
             if (entry.getKey().required && entry.getValue().getValue() == null) {

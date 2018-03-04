@@ -31,8 +31,9 @@ import org.geotools.util.URLs;
 import org.opengis.filter.Filter;
 
 /**
- * Factory class used for returning a {@link MultiLevelROIProvider} based on the input footprint properties and files for mosaics
- * 
+ * Factory class used for returning a {@link MultiLevelROIProvider} based on the input footprint 
+ * properties and files for mosaics
+ *
  * @author Andrea Aime GeoSolutions
  * @author Nicola Lagomarsini GeoSolutions
  */
@@ -42,10 +43,10 @@ public class MultiLevelROIProviderMosaicFactory extends MultiLevelROIProviderFac
 
     private MultiLevelROIProviderMosaicFactory() {
     }
-    
+
     /**
      * Builds a footprint provider from mosaic location
-     * 
+     *
      * @param mosaicFolder The folder that contains the mosaic config files
      * @return
      * @throws Exception
@@ -83,7 +84,8 @@ public class MultiLevelROIProviderMosaicFactory extends MultiLevelROIProviderFac
     }
 
     private static FootprintGeometryProvider buildShapefileSource(File mosaicFolder,
-            String location, Properties properties) {
+                                                                  String location, Properties 
+                                                                          properties) {
         File shapefile = new File(location);
         if (!shapefile.isAbsolute()) {
             shapefile = new File(mosaicFolder, location);

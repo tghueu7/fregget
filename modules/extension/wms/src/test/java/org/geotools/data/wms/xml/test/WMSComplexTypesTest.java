@@ -41,7 +41,7 @@ public class WMSComplexTypesTest extends TestCase {
 
         File getCaps = TestData.file(this, "1.1.0CapabilitiesInvalid.xml");
         URL getCapsURL = getCaps.toURI().toURL();
-        Map<String,Object> hints = new HashMap<>();
+        Map<String, Object> hints = new HashMap<>();
         hints.put(DocumentHandler.DEFAULT_NAMESPACE_HINT_KEY, WMSSchema.getInstance());
         Object object = null;
 

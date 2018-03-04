@@ -47,62 +47,60 @@ import com.vividsolutions.jts.geom.Point;
 import junit.framework.TestCase;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GMLParsingTest extends TestCase {
 
     public void testGML() throws Exception {
         XSDSchema gml = GML.getInstance().getSchema();
-        assertFalse( gml.getTypeDefinitions().isEmpty() );
+        assertFalse(gml.getTypeDefinitions().isEmpty());
     }
-    
+
     public void testParseFeatureCollection() throws Exception {
         File schema = File.createTempFile("test", "xsd");
         schema.deleteOnExit();
         FileUtils.copyURLToFile(getClass().getResource("test.xsd"), schema);
-        
+
         Document dom = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(
-            getClass().getResourceAsStream( "test.xml" )   
+                getClass().getResourceAsStream("test.xml")
         );
-        URL schemaURL = URLs.fileToUrl( schema.getAbsoluteFile() );        
-        dom.getDocumentElement().setAttribute( "xsi:schemaLocation", "http://www.geotools.org/test " + schemaURL.getFile() );
+        URL schemaURL = URLs.fileToUrl(schema.getAbsoluteFile());
+        dom.getDocumentElement().setAttribute("xsi:schemaLocation", "http://www.geotools.org/test" +
+                " " + schemaURL.getFile());
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        TransformerFactory.newInstance().newTransformer().transform( 
-            new DOMSource( dom ), new StreamResult( out ) );
-        
+        TransformerFactory.newInstance().newTransformer().transform(
+                new DOMSource(dom), new StreamResult(out));
+
         GMLConfiguration config = new GMLConfiguration();
-        Parser p = new Parser( config );
-        Object o = p.parse( new ByteArrayInputStream( out.toByteArray() ) );
-        assertTrue( o instanceof FeatureCollection );
-        
+        Parser p = new Parser(config);
+        Object o = p.parse(new ByteArrayInputStream(out.toByteArray()));
+        assertTrue(o instanceof FeatureCollection);
+
         FeatureCollection features = (FeatureCollection) o;
-        assertEquals( 3, features.size() );
-        
+        assertEquals(3, features.size());
+
         FeatureIterator fi = features.features();
         try {
-            for ( int i = 0; i < 3; i++ ) {
-                assertTrue( fi.hasNext() );
-                
+            for (int i = 0; i < 3; i++) {
+                assertTrue(fi.hasNext());
+
                 SimpleFeature f = (SimpleFeature) fi.next();
-                assertTrue( f.getDefaultGeometry() instanceof Point );
-            
+                assertTrue(f.getDefaultGeometry() instanceof Point);
+
                 Point point = (Point) f.getDefaultGeometry();
-                assertEquals( i/1d, point.getX(), 0.1 );
-                assertEquals( i/1d, point.getX(), 0.1 );
-                
-                assertEquals( i, f.getAttribute( "count" ) );
+                assertEquals(i / 1d, point.getX(), 0.1);
+                assertEquals(i / 1d, point.getX(), 0.1);
+
+                assertEquals(i, f.getAttribute("count"));
             }
-        }
-        finally {
+        } finally {
             fi.close();
         }
     }
 
     /**
      * Parse an srsName from a gml:Point.
-     * 
+     *
      * @param srsName the srsName attribute on the gml:Point
      * @return the parsed CoordinateReferenceSystem
      */
@@ -158,7 +156,8 @@ public class GMLParsingTest extends TestCase {
                 parsePointSrsname("http://www.opengis.net/def/crs/EPSG/0/4326"));
     }
 
-    public void testCoordinateList() throws IOException, SAXException, ParserConfigurationException{
+    public void testCoordinateList() throws IOException, SAXException, 
+            ParserConfigurationException {
         GMLConfiguration gml = new GMLConfiguration(true);
         Parser p = new Parser(gml);
         Object multiSurface = p.parse(getClass().getResourceAsStream("surfacePatches.xml"));
@@ -169,7 +168,8 @@ public class GMLParsingTest extends TestCase {
         assertFalse(geom.isEmpty());
     }
 
-    public void testSurfacememberPatches() throws IOException, SAXException, ParserConfigurationException{
+    public void testSurfacememberPatches() throws IOException, SAXException, 
+            ParserConfigurationException {
         GMLConfiguration gml = new GMLConfiguration(true);
         Parser p = new Parser(gml);
         Object multiSurface = p.parse(getClass().getResourceAsStream("surfacememberPatches.xml"));
@@ -180,7 +180,8 @@ public class GMLParsingTest extends TestCase {
         assertFalse(geom.isEmpty());
     }
 
-    public void testNestedInteriors() throws IOException, SAXException, ParserConfigurationException{
+    public void testNestedInteriors() throws IOException, SAXException, 
+            ParserConfigurationException {
         GMLConfiguration gml = new GMLConfiguration(true);
         Parser p = new Parser(gml);
         Object multiSurface = p.parse(getClass().getResourceAsStream("nestedInteriors.xml"));
@@ -190,5 +191,5 @@ public class GMLParsingTest extends TestCase {
 
         assertFalse(geom.isEmpty());
     }
-    
+
 }

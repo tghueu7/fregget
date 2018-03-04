@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2010-2011, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -36,12 +36,8 @@ import org.opengis.filter.expression.Literal;
  * <ol>
  * <li>Expression: REFERENCE_VALUE (could be another function or literal)
  * </ol>
- * 
+ *
  * @author Rini Angreani (CSIRO Earth Science and Resource Engineering)
- * 
- *
- *
- *
  * @source $URL$
  */
 public class ToXlinkHrefFunction implements Function {
@@ -64,9 +60,11 @@ public class ToXlinkHrefFunction implements Function {
     public String getName() {
         return NAME.getName();
     }
+
     public FunctionName getFunctionName() {
         return NAME;
     }
+
     public List<Expression> getParameters() {
         return Collections.unmodifiableList(parameters);
     }

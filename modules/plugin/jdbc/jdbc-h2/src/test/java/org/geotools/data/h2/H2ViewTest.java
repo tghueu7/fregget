@@ -4,8 +4,6 @@ import org.geotools.jdbc.JDBCViewOnlineTest;
 import org.geotools.jdbc.JDBCViewTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class H2ViewTest extends JDBCViewOnlineTest {

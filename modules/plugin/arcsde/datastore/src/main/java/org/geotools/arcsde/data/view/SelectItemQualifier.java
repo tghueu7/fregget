@@ -41,12 +41,12 @@ import com.esri.sde.sdk.client.SeColumnDefinition;
  * each {@link net.sf.jsqlparser.statement.select.AllColumns} and
  * {@link net.sf.jsqlparser.statement.select.AllTableColumns} instances. So, this visitor may
  * produce more items than the visited.
- * 
+ *
  * @author Gabriel Roldan, Axios Engineering
  * @version $Id$
  * @source $URL:
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
- *         /org/geotools/arcsde/data/view/SelectItemQualifier.java $
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
+ * /org/geotools/arcsde/data/view/SelectItemQualifier.java $
  * @since 2.3.x
  */
 class SelectItemQualifier implements net.sf.jsqlparser.statement.select.SelectItemVisitor {
@@ -59,7 +59,7 @@ class SelectItemQualifier implements net.sf.jsqlparser.statement.select.SelectIt
 
     /**
      * Creates a new SelectItemQualifier object.
-     * 
+     *
      * @param session
      */
     private SelectItemQualifier(ISession session, Map tableAliases) {

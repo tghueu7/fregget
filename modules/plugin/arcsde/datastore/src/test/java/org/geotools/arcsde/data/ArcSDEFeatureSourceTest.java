@@ -76,26 +76,30 @@ import com.vividsolutions.jts.geom.Envelope;
 
 /**
  * {@link ArcSdeFeatureSource} test cases
- * 
- * @author Gabriel Roldan
- * 
  *
- * @source $URL$
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/test/java
- *         /org/geotools/arcsde/data/ArcSDEDataStoreTest.java $
+ * @author Gabriel Roldan
  * @version $Id$
+ * @source $URL$
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/test/java
+ * /org/geotools/arcsde/data/ArcSDEDataStoreTest.java $
  */
 public class ArcSDEFeatureSourceTest {
-    /** package logger */
+    /**
+     * package logger
+     */
     private static Logger LOGGER = org.geotools.util.logging.Logging
             .getLogger(ArcSDEFeatureSourceTest.class.getPackage().getName());
 
     private static TestData testData;
 
-    /** an ArcSDEDataStore created on setUp() to run tests against */
+    /**
+     * an ArcSDEDataStore created on setUp() to run tests against
+     */
     private static ArcSDEDataStore store;
 
-    /** a filter factory for testing */
+    /**
+     * a filter factory for testing
+     */
     FilterFactory ff = CommonFactoryFinder.getFilterFactory(null);
 
     @BeforeClass
@@ -147,7 +151,7 @@ public class ArcSDEFeatureSourceTest {
 
     /**
      * Checks that a query returns only the specified attributes.
-     * 
+     *
      * @throws IOException
      * @throws IllegalAttributeException
      * @throws SeException
@@ -224,7 +228,7 @@ public class ArcSDEFeatureSourceTest {
     /**
      * Say the query contains a set of propertynames to retrieve and the query filter others, the
      * returned feature type should still match the ones in Query.propertyNames
-     * 
+     *
      * @throws IOException
      * @throws IllegalAttributeException
      * @throws SeException
@@ -237,7 +241,7 @@ public class ArcSDEFeatureSourceTest {
         final DataStore ds = testData.getDataStore();
         final SimpleFeatureSource fs = ds.getFeatureSource(typeName);
 
-        final String[] queryAtts = { "SHAPE" };
+        final String[] queryAtts = {"SHAPE"};
         final Filter filter = CQL.toFilter("INT32_COL = 1");
 
         // build the query asking for a subset of attributes
@@ -301,7 +305,7 @@ public class ArcSDEFeatureSourceTest {
      * <li>A mixed query does not fails when size() is performed</li>
      * </ul>
      * </p>
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -360,7 +364,7 @@ public class ArcSDEFeatureSourceTest {
     /**
      * to expose GEOT-408, tests that queries in which only non spatial attributes are requested
      * does not fails due to the datastore trying to parse the geometry attribute.
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -411,7 +415,7 @@ public class ArcSDEFeatureSourceTest {
 
     /**
      * Test that FID filters are correctly handled
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -511,7 +515,7 @@ public class ArcSDEFeatureSourceTest {
 
     /**
      * test that getFeatureSource over an sde layer works
-     * 
+     *
      * @throws IOException
      * @throws SeException
      */
@@ -579,20 +583,20 @@ public class ArcSDEFeatureSourceTest {
         assertFalse(queryCapabilities.isOffsetSupported());
         assertTrue(queryCapabilities.isReliableFIDSupported());
 
-        assertFalse(queryCapabilities.supportsSorting(new SortBy[] { NATURAL_ORDER }));
-        assertFalse(queryCapabilities.supportsSorting(new SortBy[] { REVERSE_ORDER }));
-        assertFalse(queryCapabilities.supportsSorting(new SortBy[] { ff.sort("nonExistent",
-                ASCENDING) }));
+        assertFalse(queryCapabilities.supportsSorting(new SortBy[]{NATURAL_ORDER}));
+        assertFalse(queryCapabilities.supportsSorting(new SortBy[]{REVERSE_ORDER}));
+        assertFalse(queryCapabilities.supportsSorting(new SortBy[]{ff.sort("nonExistent",
+                ASCENDING)}));
 
-        assertFalse(queryCapabilities.supportsSorting(new SortBy[] { ff.sort("nonExistent",
-                ASCENDING) }));
+        assertFalse(queryCapabilities.supportsSorting(new SortBy[]{ff.sort("nonExistent",
+                ASCENDING)}));
 
         // no sorting on geometry columns!
         String geometryAttribute = fs.getSchema().getGeometryDescriptor().getLocalName();
-        assertFalse(queryCapabilities.supportsSorting(new SortBy[] { ff.sort(geometryAttribute,
-                ASCENDING) }));
+        assertFalse(queryCapabilities.supportsSorting(new SortBy[]{ff.sort(geometryAttribute,
+                ASCENDING)}));
 
-        SortBy[] supported = { ff.sort("INT32_COL", ASCENDING),//
+        SortBy[] supported = {ff.sort("INT32_COL", ASCENDING),//
                 ff.sort("INT32_COL", DESCENDING),//
                 ff.sort("INT16_COL", ASCENDING),//
                 ff.sort("INT16_COL", DESCENDING),//
@@ -605,7 +609,7 @@ public class ArcSDEFeatureSourceTest {
                 ff.sort("NSTRING_COL", ASCENDING),//
                 ff.sort("NSTRING_COL", DESCENDING),//
                 ff.sort("DATE_COL", ASCENDING),//
-                ff.sort("DATE_COL", ASCENDING) };
+                ff.sort("DATE_COL", ASCENDING)};
 
         assertTrue(queryCapabilities.supportsSorting(supported));
 
@@ -634,7 +638,7 @@ public class ArcSDEFeatureSourceTest {
         filter = ff.and(Arrays.asList(//
                 (Filter) ff.greater(ff.property("DATE_COL"), ff.literal(date1)),//
                 (Filter) ff.less(ff.property("DATE_COL"), ff.literal(date2))//
-                ));
+        ));
         testFilter(filter, fs, 3);
     }
 
@@ -649,42 +653,45 @@ public class ArcSDEFeatureSourceTest {
         SortBy[] sortBy;
         SimpleFeatureIterator features;
 
-        sortBy = new SortBy[] { ff.sort(sortAtt, ASCENDING) };
+        sortBy = new SortBy[]{ff.sort(sortAtt, ASCENDING)};
         query.setSortBy(sortBy);
         features = fs.getFeatures(query).features();
         try {
             Integer previous = Integer.valueOf(Integer.MIN_VALUE);
             while (features.hasNext()) {
                 Integer intVal = (Integer) features.next().getAttribute(sortAtt);
-                assertTrue(previous + " < " + intVal + "?", previous.intValue() < intVal.intValue());
+                assertTrue(previous + " < " + intVal + "?", previous.intValue() < intVal.intValue
+                        ());
                 previous = intVal;
             }
         } finally {
             features.close();
         }
 
-        sortBy = new SortBy[] { ff.sort(sortAtt, DESCENDING) };
+        sortBy = new SortBy[]{ff.sort(sortAtt, DESCENDING)};
         query.setSortBy(sortBy);
         features = fs.getFeatures(query).features();
         try {
             Integer previous = Integer.valueOf(Integer.MAX_VALUE);
             while (features.hasNext()) {
                 Integer intVal = (Integer) features.next().getAttribute(sortAtt);
-                assertTrue(previous + " > " + intVal + "?", previous.intValue() > intVal.intValue());
+                assertTrue(previous + " > " + intVal + "?", previous.intValue() > intVal.intValue
+                        ());
                 previous = intVal;
             }
         } finally {
             features.close();
         }
 
-        sortBy = new SortBy[] { ff.sort(sortAtt, DESCENDING), ff.sort("FLOAT32_COL", ASCENDING) };
+        sortBy = new SortBy[]{ff.sort(sortAtt, DESCENDING), ff.sort("FLOAT32_COL", ASCENDING)};
         query.setSortBy(sortBy);
         features = fs.getFeatures(query).features();
         try {
             Integer previous = Integer.valueOf(Integer.MAX_VALUE);
             while (features.hasNext()) {
                 Integer intVal = (Integer) features.next().getAttribute(sortAtt);
-                assertTrue(previous + " > " + intVal + "?", previous.intValue() > intVal.intValue());
+                assertTrue(previous + " > " + intVal + "?", previous.intValue() > intVal.intValue
+                        ());
                 previous = intVal;
             }
         } finally {
@@ -778,7 +785,8 @@ public class ArcSDEFeatureSourceTest {
                 numFeat++;
             }
 
-            String failMsg = "Fully fetched features size and estimated num features count does not match";
+            String failMsg = "Fully fetched features size and estimated num features count does " +
+                    "not match";
             assertEquals(failMsg, expected, numFeat);
         } finally {
             fi.close();

@@ -70,29 +70,33 @@ import com.vividsolutions.jts.geom.Polygon;
  * Except for multipolygons, this will allways be <code>coords[0]</code>.</li>
  * <li>coords[n][m] holds the coordinates array for a given geometry. (i.e. [0][m] for a
  * multilinestring or [2][m] for a multipolygon composed of 3 polygons)</li>
- * <li>coords[n][m][l] holds the {x1, y1, x2, y2, ...,Xn, Yn} coordinates for a given geometry part</li>
+ * <li>coords[n][m][l] holds the {x1, y1, x2, y2, ...,Xn, Yn} coordinates for a given geometry 
+ * part</li>
  * </ul>
  * </p>
  * <p>
  * This abstract class will use specialized subclass for constructing the propper geometry type
  * </p>
- * 
+ *
  * @author Gabriel Roldan, Axios Engineering
- *
- *
- * @source $URL$
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
- *         /org/geotools/arcsde/data/ArcSDEGeometryBuilder.java $
  * @version $Id$
+ * @source $URL$
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
+ * /org/geotools/arcsde/data/ArcSDEGeometryBuilder.java $
  */
 public abstract class ArcSDEGeometryBuilder {
 
     private static final Logger LOGGER = Logging.getLogger(ArcSDEGeometryBuilder.class.getName());
 
-    /** lookup specialized geometry builders classes by it's geometry type */
-    private static final Map<Class<?>, ArcSDEGeometryBuilder> builders = new HashMap<Class<?>, ArcSDEGeometryBuilder>();
+    /**
+     * lookup specialized geometry builders classes by it's geometry type
+     */
+    private static final Map<Class<?>, ArcSDEGeometryBuilder> builders = new HashMap<Class<?>, 
+            ArcSDEGeometryBuilder>();
 
-    /** Look up "empty" geometry instances based on geometry class */
+    /**
+     * Look up "empty" geometry instances based on geometry class
+     */
     private static final Map<Class<?>, Geometry> nullGeometries = new HashMap<Class<?>, Geometry>();
 
     static {
@@ -124,19 +128,21 @@ public abstract class ArcSDEGeometryBuilder {
     /**
      * Takes an ArcSDE's <code>SeShape</code> and builds a JTS Geometry. The geometry type
      * constructed depends on this <code>ArcSDEGeometryBuilder</code> specialized subclass
-     * 
-     * @param shape
-     *            the ESRI's ArcSDE java api shape upon wich to create the new JTS geometry
+     *
+     * @param shape           the ESRI's ArcSDE java api shape upon wich to create the new JTS 
+     *                        geometry
      * @param geometryFactory
      * @return the type of JTS Geometry this subclass instance is specialized for or an empty
-     *         geometry of the same class if <code>shape.isNil()</code>
-     * @throws SeException
-     *             if it occurs fetching the coordinates array from <code>shape</code>
-     * @throws DataSourceException
-     *             if the <code>com.vividsolutions.jts.geom.GeometryFactory</code> this builder is
-     *             backed by can't create the <code>com.vividsolutions.jts.geom.Geometry</code> with
-     *             the <code>com.vividsolutions.jts.geom.Coordinate[]</code> provided by
-     *             <code>newGeometry</code>
+     * geometry of the same class if <code>shape.isNil()</code>
+     * @throws SeException         if it occurs fetching the coordinates array from 
+     * <code>shape</code>
+     * @throws DataSourceException if the <code>com.vividsolutions.jts.geom
+     * .GeometryFactory</code> this builder is
+     *                             backed by can't create the <code>com.vividsolutions.jts.geom
+     *                             .Geometry</code> with
+     *                             the <code>com.vividsolutions.jts.geom.Coordinate[]</code> 
+     *                             provided by
+     *                             <code>newGeometry</code>
      */
     public Geometry construct(final SeShape shape, final GeometryFactory geometryFactory)
             throws SeException, DataSourceException {
@@ -150,12 +156,11 @@ public abstract class ArcSDEGeometryBuilder {
     /**
      * Creates the ArcSDE Java API representation of a <code>Geometry</code> object in its shape
      * format, suitable to filter expressions as the SDE API expects
-     * 
-     * @param geometry
-     *            the JTS Geometry object to get the SDE representation from
-     * @param seSrs
-     *            Coordinate Reference System of the underlying <code>SeLayer</code> object for wich
-     *            the <code>SeShape</code> is constructed.
+     *
+     * @param geometry the JTS Geometry object to get the SDE representation from
+     * @param seSrs    Coordinate Reference System of the underlying <code>SeLayer</code> object 
+     *                 for wich
+     *                 the <code>SeShape</code> is constructed.
      * @return the <code>SeShape</code> representation of passed <code>Geometry</code>
      * @throws ArcSDEGeometryBuildingException
      */
@@ -195,7 +200,7 @@ public abstract class ArcSDEGeometryBuilder {
         if (geometry instanceof GeometryCollection) {
             gcol = (GeometryCollection) geometry;
         } else {
-            Geometry[] geoms = { geometry };
+            Geometry[] geoms = {geometry};
             gcol = new GeometryFactory().createGeometryCollection(geoms);
         }
 
@@ -243,16 +248,15 @@ public abstract class ArcSDEGeometryBuilder {
     /**
      * Builds a JTS Geometry who't type is given by the <code>ArcSDEGeometryBuilder</code> subclass
      * instance specialization that implements it
-     * 
-     * @param coords
-     *            <code>SeShape</code>'s coordinate array to build the geometry from
+     *
+     * @param coords          <code>SeShape</code>'s coordinate array to build the geometry from
      * @param geometryFactory
      * @return the JST form of the passed geometry coordinates
-     * @throws DataSourceException
-     *             if an error occurs while creating the JTS Geometry
+     * @throws DataSourceException if an error occurs while creating the JTS Geometry
      */
     protected abstract Geometry newGeometry(final double[][][] coords,
-            final GeometryFactory geometryFactory) throws DataSourceException;
+                                            final GeometryFactory geometryFactory) throws 
+            DataSourceException;
 
     /**
      * returns an empty JTS geometry who's type is given by the <code>ArcSDEGeometryBuilder</code>
@@ -260,7 +264,7 @@ public abstract class ArcSDEGeometryBuilder {
      * <p>
      * this method is called in case that <code>SeShape.isNil() == true</code>
      * </p>
-     * 
+     *
      * @return an empty JTS geometry
      * @throws UnsupportedOperationException
      */
@@ -274,15 +278,15 @@ public abstract class ArcSDEGeometryBuilder {
     /**
      * Builds an array of JTS <code>Coordinate</code> instances that's geometrically equals to the
      * <code>SeShape</code> single coordinates array passed as argument.
-     * 
-     * @param coordList
-     *            array of coordinates of a single shape part to build a <code>Coordinate</code>
-     *            from
+     *
+     * @param coordList array of coordinates of a single shape part to build a 
+     *                  <code>Coordinate</code>
+     *                  from
      * @return a geometrically equal to <code>coordList</code> array of <code>Coordinate</code>
-     *         instances
+     * instances
      */
     protected final CoordinateSequence toCoords(double[] coordList,
-            final CoordinateSequenceFactory csFact) {
+                                                final CoordinateSequenceFactory csFact) {
 
         final int dimension = 2;
 
@@ -321,11 +325,12 @@ public abstract class ArcSDEGeometryBuilder {
      * Factory method that returns an instance of <code>ArcSDEGeometryBuilder</code> specialized in
      * contructing JTS geometries of the JTS Geometry class passed as argument. Note that
      * <code>jtsGeometryClass</code> must be one of the supported concrete JTS Geometry classes.
-     * 
+     *
      * @param jtsGeometryClass
-     * @throws IllegalArgumentException
-     *             if <code>jtsGeometryClass</code> is not a concrete JTS <code>Geometry</code>
-     *             class (like <code>com.vividsolutions.jts.geom.MultiPoint.class</code> i.e.)
+     * @throws IllegalArgumentException if <code>jtsGeometryClass</code> is not a concrete JTS 
+     * <code>Geometry</code>
+     *                                  class (like <code>com.vividsolutions.jts.geom.MultiPoint
+     *                                  .class</code> i.e.)
      */
     public static ArcSDEGeometryBuilder builderFor(Class<? extends Geometry> jtsGeometryClass)
             throws IllegalArgumentException {
@@ -342,7 +347,6 @@ public abstract class ArcSDEGeometryBuilder {
 
     /**
      * Create an empty geometry for the indicated class
-     * 
      */
     public static Geometry defaultValueFor(Class<?> geoClass) {
         if (geoClass == null) {
@@ -357,7 +361,7 @@ public abstract class ArcSDEGeometryBuilder {
     /**
      * <code>ArcSDEGeometryBuilder</code> which can create any type of JTS geometry from
      * <code>SeShape</code>'s and viceversa
-     * 
+     *
      * @author Gabriel Roldan, Axios Engineering
      * @version $Id$
      */
@@ -365,13 +369,15 @@ public abstract class ArcSDEGeometryBuilder {
 
         private static Geometry EMPTY;
 
-        /** singleton for generic geometry building */
+        /**
+         * singleton for generic geometry building
+         */
         private static final ArcSDEGeometryBuilder instance = new GenericGeometryBuilder();
 
         /**
          * Returns an instance of this geometry builder. Currently implemented as a singleton since
          * it is completely thread safe.
-         * 
+         *
          * @return the <code>GenericGeometryBuilder</code> singleton.
          */
         public static ArcSDEGeometryBuilder getInstance() {
@@ -381,14 +387,13 @@ public abstract class ArcSDEGeometryBuilder {
         @Override
         protected Geometry getEmpty() {
             if (EMPTY == null) {
-                EMPTY = new GeometryFactory().createGeometryCollection(new Geometry[] {});
+                EMPTY = new GeometryFactory().createGeometryCollection(new Geometry[]{});
             }
             return EMPTY;
         }
 
         /**
-         * @param shape
-         *            the shape to create its JTS geometry equivalent. Can't be null.
+         * @param shape the shape to create its JTS geometry equivalent. Can't be null.
          * @see ArcSDEGeometryBuilder#construct(SeShape)
          */
         @Override
@@ -409,7 +414,8 @@ public abstract class ArcSDEGeometryBuilder {
 
         @Override
         protected Geometry newGeometry(final double[][][] coords,
-                final GeometryFactory geometryFactory) throws DataSourceException {
+                                       final GeometryFactory geometryFactory) throws 
+                DataSourceException {
             throw new UnsupportedOperationException("This method should not "
                     + "be called for this builder. It should be mapped to the "
                     + "one capable of constructing the actual geometry type");
@@ -419,21 +425,25 @@ public abstract class ArcSDEGeometryBuilder {
     /**
      * <code>ArcSDEGeometryBuilder</code> specialized in creating JTS <code>Point</code> s from
      * <code>SeShape</code> points and viceversa
-     * 
+     *
      * @author Gabriel Roldan, Axios Engineering
      * @version $Id$
      */
     private static class PointBuilder extends ArcSDEGeometryBuilder {
-        /** the empty point singleton */
+        /**
+         * the empty point singleton
+         */
         private static Geometry EMPTY;
 
-        /** singleton for point building */
+        /**
+         * singleton for point building
+         */
         private static final ArcSDEGeometryBuilder instance = new PointBuilder();
 
         /**
          * Returns an instance of this geometry builder for Point geometries. Currently implemented
          * as a singleton since it is completely thread safe.
-         * 
+         *
          * @return the <code>PointBuilder</code> singleton.
          */
         public static ArcSDEGeometryBuilder getInstance() {
@@ -451,7 +461,8 @@ public abstract class ArcSDEGeometryBuilder {
 
         @Override
         protected Geometry newGeometry(final double[][][] coords,
-                final GeometryFactory geometryFactory) throws DataSourceException {
+                                       final GeometryFactory geometryFactory) throws 
+                DataSourceException {
             final double x = coords[0][0][0];
             final double y = coords[0][0][1];
             return geometryFactory.createPoint(new Coordinate(x, y));
@@ -461,21 +472,25 @@ public abstract class ArcSDEGeometryBuilder {
     /**
      * <code>ArcSDEGeometryBuilder</code> specialized in creating JTS <code>MultiPoint</code> s from
      * <code>SeShape</code> multipoints and viceversa
-     * 
+     *
      * @author Gabriel Roldan, Axios Engineering
      * @version $Id$
      */
     private static class MultiPointBuilder extends ArcSDEGeometryBuilder {
-        /** the empty multipoint singleton */
+        /**
+         * the empty multipoint singleton
+         */
         private static Geometry EMPTY;
 
-        /** singleton for multipoint building */
+        /**
+         * singleton for multipoint building
+         */
         private static final ArcSDEGeometryBuilder instance = new MultiPointBuilder();
 
         /**
          * Returns an instance of this geometry builder for MultiPoint geometries. Currently
          * implemented as a singleton since it is completely thread safe.
-         * 
+         *
          * @return the <code>MultiPointBuilder</code> singleton.
          */
         public static ArcSDEGeometryBuilder getInstance() {
@@ -493,7 +508,8 @@ public abstract class ArcSDEGeometryBuilder {
 
         @Override
         protected Geometry newGeometry(final double[][][] coords,
-                final GeometryFactory geometryFactory) throws DataSourceException {
+                                       final GeometryFactory geometryFactory) throws 
+                DataSourceException {
             int nPoints = coords.length;
 
             Coordinate[] points = new Coordinate[nPoints];
@@ -511,21 +527,25 @@ public abstract class ArcSDEGeometryBuilder {
     /**
      * <code>ArcSDEGeometryBuilder</code> specialized in creating JTS <code>LineString</code> s from
      * <code>SeShape</code> linestring and viceversa
-     * 
+     *
      * @author Gabriel Roldan, Axios Engineering
      * @version $Id$
      */
     private static class LineStringBuilder extends ArcSDEGeometryBuilder {
-        /** the empty linestring singleton */
+        /**
+         * the empty linestring singleton
+         */
         private static Geometry EMPTY;
 
-        /** singleton for linestring building */
+        /**
+         * singleton for linestring building
+         */
         private static final ArcSDEGeometryBuilder instance = new LineStringBuilder();
 
         /**
          * Returns an instance of this geometry builder for LineString geometries. Currently
          * implemented as a singleton since it is completely thread safe.
-         * 
+         *
          * @return the <code>LineStringBuilder</code> singleton.
          */
         public static ArcSDEGeometryBuilder getInstance() {
@@ -543,12 +563,14 @@ public abstract class ArcSDEGeometryBuilder {
 
         @Override
         protected Geometry newGeometry(final double[][][] coords,
-                final GeometryFactory geometryFactory) throws DataSourceException {
+                                       final GeometryFactory geometryFactory) throws 
+                DataSourceException {
             return constructLineString(coords[0][0], geometryFactory);
         }
 
         protected final LineString constructLineString(final double[] linearCoords,
-                final GeometryFactory geometryFactory) throws DataSourceException {
+                                                       final GeometryFactory geometryFactory) 
+                throws DataSourceException {
             LineString ls = null;
 
             CoordinateSequence coords = toCoords(linearCoords,
@@ -563,21 +585,25 @@ public abstract class ArcSDEGeometryBuilder {
     /**
      * <code>ArcSDEGeometryBuilder</code> specialized in creating JTS <code>MultiLineString</code> s
      * from <code>SeShape</code> multilinestrings and viceversa
-     * 
+     *
      * @author Gabriel Roldan, Axios Engineering
      * @version $Id$
      */
     private static class MultiLineStringBuilder extends LineStringBuilder {
-        /** the empty multilinestring singleton */
+        /**
+         * the empty multilinestring singleton
+         */
         private static Geometry EMPTY;
 
-        /** singleton for multilinestring building */
+        /**
+         * singleton for multilinestring building
+         */
         private static final ArcSDEGeometryBuilder instance = new MultiLineStringBuilder();
 
         /**
          * Returns an instance of this geometry builder for MultiLineString geometries. Currently
          * implemented as a singleton since it is completely thread safe.
-         * 
+         *
          * @return the <code>MultiLineStringBuilder</code> singleton.
          */
         public static ArcSDEGeometryBuilder getInstance() {
@@ -595,7 +621,8 @@ public abstract class ArcSDEGeometryBuilder {
 
         @Override
         protected Geometry newGeometry(final double[][][] coords,
-                final GeometryFactory geometryFactory) throws DataSourceException {
+                                       final GeometryFactory geometryFactory) throws 
+                DataSourceException {
             MultiLineString mls = null;
 
             LineString[] lineStrings = null;
@@ -617,21 +644,25 @@ public abstract class ArcSDEGeometryBuilder {
     /**
      * <code>ArcSDEGeometryBuilder</code> specialized in creating JTS <code>Polygon</code> s from
      * <code>SeShape</code> polygon and viceversa
-     * 
+     *
      * @author Gabriel Roldan, Axios Engineering
      * @version $Id$
      */
     private static class PolygonBuilder extends ArcSDEGeometryBuilder {
-        /** the empty polygon singleton */
+        /**
+         * the empty polygon singleton
+         */
         private static Geometry EMPTY;
 
-        /** singleton for polygon building */
+        /**
+         * singleton for polygon building
+         */
         private static final ArcSDEGeometryBuilder instance = new PolygonBuilder();
 
         /**
          * Returns an instance of this geometry builder for Polygon geometries. Currently
          * implemented as a singleton since it is completely thread safe.
-         * 
+         *
          * @return the <code>PolygonBuilder</code> singleton.
          */
         public static ArcSDEGeometryBuilder getInstance() {
@@ -649,7 +680,8 @@ public abstract class ArcSDEGeometryBuilder {
 
         @Override
         protected Geometry newGeometry(final double[][][] coords,
-                final GeometryFactory geometryFactory) throws DataSourceException {
+                                       final GeometryFactory geometryFactory) throws 
+                DataSourceException {
             // /////
             /*
              * for (int i = 0; i < coords.length; i++) { for (int j = 0; j < coords[i].length; j++)
@@ -668,7 +700,7 @@ public abstract class ArcSDEGeometryBuilder {
         }
 
         protected final Polygon buildPolygon(final double[] shellCoords, final double[][] holes,
-                final GeometryFactory geometryFactory) {
+                                             final GeometryFactory geometryFactory) {
             Polygon p = null;
 
             final CoordinateSequenceFactory sequenceFactory = geometryFactory
@@ -693,7 +725,8 @@ public abstract class ArcSDEGeometryBuilder {
         }
 
         @Deprecated
-        protected Polygon buildPolygon(final double[][] parts, final GeometryFactory geometryFactory) {
+        protected Polygon buildPolygon(final double[][] parts, final GeometryFactory 
+                geometryFactory) {
             Polygon p = null;
 
             double[] linearCoordArray = parts[0];
@@ -725,21 +758,25 @@ public abstract class ArcSDEGeometryBuilder {
     /**
      * <code>ArcSDEGeometryBuilder</code> specialized in creating JTS <code>MultiPolygon</code> s
      * from <code>SeShape</code> multipolygons and viceversa
-     * 
+     *
      * @author Gabriel Roldan, Axios Engineering
      * @version $Id$
      */
     private static class MultiPolygonBuilder extends PolygonBuilder {
-        /** the empty multipolygon singleton */
+        /**
+         * the empty multipolygon singleton
+         */
         private static Geometry EMPTY;
 
-        /** singleton for multipolygon building */
+        /**
+         * singleton for multipolygon building
+         */
         private static final ArcSDEGeometryBuilder instance = new MultiPolygonBuilder();
 
         /**
          * Returns an instance of this geometry builder for MultiPolygon geometries. Currently
          * implemented as a singleton since it is completely thread safe.
-         * 
+         *
          * @return the <code>PointBuilder</code> singleton.
          */
         public static ArcSDEGeometryBuilder getInstance() {
@@ -756,19 +793,18 @@ public abstract class ArcSDEGeometryBuilder {
         }
 
         /**
-         * 
-         * @param coords
-         *            the SeShape's multipolygon coordinates array
+         * @param coords the SeShape's multipolygon coordinates array
          * @return a <code>MultiPolygon</code> constructed based on the SDE shape, or the empty
-         *         geometry if the <code>shape == null ||
-         *         shape.isNil()</code>
-         * @throws DataSourceException
-         *             if it is not possible to obtain the shape's coordinate arrays or an exception
-         *             occurs while building the Geometry
+         * geometry if the <code>shape == null ||
+         * shape.isNil()</code>
+         * @throws DataSourceException if it is not possible to obtain the shape's coordinate 
+         * arrays or an exception
+         *                             occurs while building the Geometry
          */
         @Override
         protected Geometry newGeometry(final double[][][] coords,
-                final GeometryFactory geometryFactory) throws DataSourceException {
+                                       final GeometryFactory geometryFactory) throws 
+                DataSourceException {
             Polygon[] polys = null;
 
             int numPolys = coords.length;

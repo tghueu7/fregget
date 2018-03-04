@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2015, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -50,20 +50,20 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SLDParserTest {
 
-    public static String SLD = "<StyledLayerDescriptor xmlns=\"http://www.opengis.net/sld\" version=\"1.0.0\">"
+    public static String SLD = "<StyledLayerDescriptor xmlns=\"http://www.opengis.net/sld\" " +
+            "version=\"1.0.0\">"
             + " <NamedLayer>" + "  <Name>layer</Name>" + "  <UserStyle>" + "   <Name>style</Name>"
             + "   <FeatureTypeStyle>" + "    <Rule>" + "     <PolygonSymbolizer>" + "      <Fill>"
             + "       <CssParameter name=\"fill\">#FF0000</CssParameter>" + "      </Fill>"
             + "     </PolygonSymbolizer>" + "    </Rule>" + "   </FeatureTypeStyle>"
             + "  </UserStyle>" + " </NamedLayer>" + "</StyledLayerDescriptor>";
 
-    public static String LocalizedSLD = "<StyledLayerDescriptor xmlns=\"http://www.opengis.net/sld\" version=\"1.0.0\">"
+    public static String LocalizedSLD = "<StyledLayerDescriptor xmlns=\"http://www.opengis" +
+            ".net/sld\" version=\"1.0.0\">"
             + " <NamedLayer>" + "  <Name>layer</Name>" + "  <UserStyle>" + "   <Name>style</Name>"
             + "   <FeatureTypeStyle>" + "    <Rule>" + "     <Title>sldtitle"
             + "     <Localized lang=\"en\">english</Localized>"
@@ -79,7 +79,8 @@ public class SLDParserTest {
             + "     </PolygonSymbolizer>" + "    </Rule>" + "   </FeatureTypeStyle>"
             + "  </UserStyle>" + " </NamedLayer>" + "</StyledLayerDescriptor>";
 
-    public static String EmptyTitleSLD = "<StyledLayerDescriptor xmlns=\"http://www.opengis.net/sld\" version=\"1.0.0\">"
+    public static String EmptyTitleSLD = "<StyledLayerDescriptor xmlns=\"http://www.opengis" +
+            ".net/sld\" version=\"1.0.0\">"
             + " <NamedLayer>" + "  <Name>layer</Name>" + "  <UserStyle>" + "   <Name>style</Name>"
             + "   <FeatureTypeStyle>" + "    <Rule>" + "     <Title></Title>"
             + "     <PolygonSymbolizer>" + "      <Fill>"
@@ -87,7 +88,8 @@ public class SLDParserTest {
             + "     </PolygonSymbolizer>" + "    </Rule>" + "   </FeatureTypeStyle>"
             + "  </UserStyle>" + " </NamedLayer>" + "</StyledLayerDescriptor>";
 
-    public static String EmptyAbstractSLD = "<StyledLayerDescriptor xmlns=\"http://www.opengis.net/sld\" version=\"1.0.0\">"
+    public static String EmptyAbstractSLD = "<StyledLayerDescriptor xmlns=\"http://www.opengis" +
+            ".net/sld\" version=\"1.0.0\">"
             + " <NamedLayer>" + "  <Name>layer</Name>" + "  <UserStyle>" + "   <Name>style</Name>"
             + "   <FeatureTypeStyle>" + "    <Rule>" + "     <Abstract></Abstract>"
             + "     <PolygonSymbolizer>" + "      <Fill>"
@@ -97,8 +99,10 @@ public class SLDParserTest {
 
     static String SLD_DEFAULT_POINT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
             + "<StyledLayerDescriptor version=\"1.0.0\" \n"
-            + "        xsi:schemaLocation=\"http://www.opengis.net/sld StyledLayerDescriptor.xsd\" \n"
-            + "        xmlns=\"http://www.opengis.net/sld\" xmlns:ogc=\"http://www.opengis.net/ogc\" \n"
+            + "        xsi:schemaLocation=\"http://www.opengis.net/sld StyledLayerDescriptor" +
+            ".xsd\" \n"
+            + "        xmlns=\"http://www.opengis.net/sld\" xmlns:ogc=\"http://www.opengis" +
+            ".net/ogc\" \n"
             + "        xmlns:xlink=\"http://www.w3.org/1999/xlink\" \n"
             + "        xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n"
             + "    <UserStyle>\n" + "        <Name>Default Styler</Name>\n"
@@ -113,9 +117,12 @@ public class SLDParserTest {
     static String SLD_EXTERNALENTITY = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
             + "<!DOCTYPE StyledLayerDescriptor [\n"
             + "<!ENTITY c SYSTEM \"file:///this/file/is/top/secret\">\n" + "]>\n"
-            + "<StyledLayerDescriptor version=\"1.0.0\" xmlns=\"http://www.opengis.net/sld\" xmlns:ogc=\"http://www.opengis.net/ogc\"\n"
-            + "  xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
-            + "  xsi:schemaLocation=\"http://www.opengis.net/sld http://schemas.opengis.net/sld/1.0.0/StyledLayerDescriptor.xsd\">\n"
+            + "<StyledLayerDescriptor version=\"1.0.0\" xmlns=\"http://www.opengis.net/sld\" " +
+            "xmlns:ogc=\"http://www.opengis.net/ogc\"\n"
+            + "  xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:xsi=\"http://www" +
+            ".w3.org/2001/XMLSchema-instance\"\n"
+            + "  xsi:schemaLocation=\"http://www.opengis.net/sld http://schemas.opengis" +
+            ".net/sld/1.0.0/StyledLayerDescriptor.xsd\">\n"
             + "  <NamedLayer>\n" + "    <Name>tiger:poi</Name>\n" + "    <UserStyle>\n"
             + "      <Name>poi</Name>\n" + "      <Title>Points of interest</Title>\n"
             + "      <Abstract>Manhattan points of interest</Abstract>\n"
@@ -160,8 +167,10 @@ public class SLDParserTest {
 
     static String SLD_EXTERNAL_GRAPHIC = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
             + "<StyledLayerDescriptor version=\"1.0.0\" \n"
-            + "        xsi:schemaLocation=\"http://www.opengis.net/sld StyledLayerDescriptor.xsd\" \n"
-            + "        xmlns=\"http://www.opengis.net/sld\" xmlns:ogc=\"http://www.opengis.net/ogc\" \n"
+            + "        xsi:schemaLocation=\"http://www.opengis.net/sld StyledLayerDescriptor" +
+            ".xsd\" \n"
+            + "        xmlns=\"http://www.opengis.net/sld\" xmlns:ogc=\"http://www.opengis" +
+            ".net/ogc\" \n"
             + "        xmlns:xlink=\"http://www.w3.org/1999/xlink\" \n"
             + "        xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n"
             + "    <UserStyle>\n" + "        <Name>Default Styler</Name>\n"
@@ -332,7 +341,8 @@ public class SLDParserTest {
         // this SLD file references as external entity a file on the local filesystem
         SLDParser parser = new SLDParser(styleFactory, input(SLD_EXTERNALENTITY));
 
-        // without a custom EntityResolver, the parser will try to read the entity file on the local file system
+        // without a custom EntityResolver, the parser will try to read the entity file on the 
+        // local file system
         try {
             parser.readXML();
             fail("parsing should thrown an error");
@@ -341,7 +351,8 @@ public class SLDParserTest {
         }
 
         parser = new SLDParser(styleFactory, input(SLD_EXTERNALENTITY));
-        // Set an EntityResolver implementation to prevent reading entities from the local file system.
+        // Set an EntityResolver implementation to prevent reading entities from the local file 
+        // system.
         // When resolving an XML entity, the empty InputSource returned by this resolver provokes
         // a MalformedURLException
         parser.setEntityResolver(new EntityResolver() {
@@ -410,8 +421,8 @@ public class SLDParserTest {
         assertEquals("wrong param returned", "1", params.get("minValue").evaluate(null));
         assertEquals("wrong param returned", "27.0", params.get("maxValue").evaluate(null));
         // check the other methods still work
-        for (String methodName : new String[] { "Normalize", "Logarithmic", "Exponential",
-                "Histogram" }) {
+        for (String methodName : new String[]{"Normalize", "Logarithmic", "Exponential",
+                "Histogram"}) {
             String target = contrastEnhanceOther.replace("METHOD", methodName);
             node = builder.parse(new ByteArrayInputStream(target.getBytes()));
             ce = parser.parseContrastEnhancement(node.getDocumentElement());
@@ -422,7 +433,7 @@ public class SLDParserTest {
 
         }
 
-        for (String methodName : new String[] { "Logarithmic", "Exponential" }) {
+        for (String methodName : new String[]{"Logarithmic", "Exponential"}) {
             String target = contrastEnhancelogExp.replace("METHOD", methodName);
             System.out.println(target);
             node = builder.parse(new ByteArrayInputStream(target.getBytes()));

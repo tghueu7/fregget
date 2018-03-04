@@ -20,8 +20,6 @@ import org.geotools.jdbc.JDBCGeometryOnlineTest;
 import org.geotools.jdbc.JDBCGeometryTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SpatiaLiteGeometryOnlineTest extends JDBCGeometryOnlineTest {
@@ -30,7 +28,7 @@ public class SpatiaLiteGeometryOnlineTest extends JDBCGeometryOnlineTest {
     protected JDBCGeometryTestSetup createTestSetup() {
         return new SpatiaLiteGeometryTestSetup();
     }
-    
+
     @Override
     public void testLinearRing() throws Exception {
         //JD: spatialite does not do linear rings

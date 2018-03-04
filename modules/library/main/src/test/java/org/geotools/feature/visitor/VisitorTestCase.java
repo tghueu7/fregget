@@ -40,7 +40,7 @@ public abstract class VisitorTestCase<T, R> {
     private SimpleFeatureType featureType;
     private SimpleFeatureBuilder featureBuilder;
     ListFeatureCollection featureCollection;
-    
+
     protected VisitorTestCase(Class<T> valueClass, List<T> values, R expectedValue) {
         this.valueClass = valueClass;
         this.values = values;

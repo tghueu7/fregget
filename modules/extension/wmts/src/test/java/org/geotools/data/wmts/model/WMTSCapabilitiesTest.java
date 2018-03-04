@@ -32,12 +32,10 @@ import junit.framework.TestCase;
 import org.apache.commons.collections.CollectionUtils;
 import org.geotools.data.wmts.WMTSSpecification;
 import org.geotools.data.wmts.WebMapTileServer;
+
 import static org.geotools.wmts.WMTSTestUtils.createCapabilities;
 
 /**
- *
- *
- *
  * @source $URL$
  */
 public class WMTSCapabilitiesTest extends TestCase {
@@ -83,7 +81,8 @@ public class WMTSCapabilitiesTest extends TestCase {
 
             assertEquals("OML_Foreshore", l0.getTitle());
             assertNull(l0.getParent());
-            assertTrue(l0.getSrs().contains("urn:ogc:def:crs:EPSG::4326")); // case should not matter
+            assertTrue(l0.getSrs().contains("urn:ogc:def:crs:EPSG::4326")); // case should not 
+            // matter
             assertEquals(4, l0.getBoundingBoxes().size());
 
             assertEquals(2, l0.getTileMatrixLinks().size());
@@ -143,11 +142,11 @@ public class WMTSCapabilitiesTest extends TestCase {
             assertEquals("ch.are.agglomerationen_isolierte_staedte", l0.getName());
             assertNull(l0.getParent());
             assertTrue(l0.getSrs().contains("urn:ogc:def:crs:EPSG::2056")); // case
-                                                                            // should
-                                                                            // not
-                                                                            // matter
+            // should
+            // not
+            // matter
             assertTrue(l0.getSrs().contains("EPSG:2056")); // case should not
-                                                           // matter
+            // matter
 
             assertNotNull("Missing dimensions", l0.getDimensions());
             assertEquals("Bad dimensions size", 1, l0.getDimensions().size());

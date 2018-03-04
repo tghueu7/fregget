@@ -1,15 +1,12 @@
 package org.geotools.data.dxf.parser;
 
 import java.io.IOException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- *
  * @author Chris
- *
- *
- *
  * @source $URL$
  */
 public class DXFCodeValuePair {

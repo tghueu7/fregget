@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -26,11 +26,9 @@ import org.opengis.util.ProgressListener;
 
 /**
  * Test suite for {@link SubProgressListener}
- * 
+ *
  * @author groldan
  * @version $Id$
- *
- *
  * @source $URL$
  */
 public class SubProgressListenerTest {
@@ -78,7 +76,7 @@ public class SubProgressListenerTest {
         assertEquals(75f, parent.getProgress());
 
         sub.progress(100f);
-        
+
         assertEquals(100f, sub.getProgress());
         assertEquals(100f, parent.getProgress());
     }

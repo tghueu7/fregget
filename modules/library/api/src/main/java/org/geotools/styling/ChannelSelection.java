@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,7 +17,6 @@
 package org.geotools.styling;
 
 
-
 /**
  * The ChannelSelection element specifies the false-color channel selection for
  * a multi-spectral raster source  (such as a multi-band satellite-imagery
@@ -25,15 +24,15 @@ package org.geotools.styling;
  * <PRE>
  * &lt;xs:element name="ChannelSelection"&gt;
  * &lt;xs:complexType&gt;
- *     &lt;xs:choice&gt;
- *       &lt;xs:sequence&gt;
- *         &lt;xs:element ref="sld:RedChannel"/&gt;
- *         &lt;xs:element ref="sld:GreenChannel"/&gt;
- *         &lt;xs:element ref="sld:BlueChannel"/&gt;
- *       &lt;/xs:sequence&gt;
- *       &lt;xs:element ref="sld:GrayChannel"/&gt;
- *     &lt;/xs:choice&gt;
- *   &lt;/xs:complexType&gt;
+ * &lt;xs:choice&gt;
+ * &lt;xs:sequence&gt;
+ * &lt;xs:element ref="sld:RedChannel"/&gt;
+ * &lt;xs:element ref="sld:GreenChannel"/&gt;
+ * &lt;xs:element ref="sld:BlueChannel"/&gt;
+ * &lt;/xs:sequence&gt;
+ * &lt;xs:element ref="sld:GrayChannel"/&gt;
+ * &lt;/xs:choice&gt;
+ * &lt;/xs:complexType&gt;
  * &lt;/xs:element&gt;
  * &lt;xs:element name="RedChannel" type="sld:SelectedChannelType"/&gt;
  * &lt;xs:element name="GreenChannel" type="sld:SelectedChannelType"/&gt;
@@ -49,19 +48,18 @@ package org.geotools.styling;
  * etc.
  *
  * @author iant
- *
- *
  * @source $URL$
  */
 public interface ChannelSelection extends org.opengis.style.ChannelSelection {
     /**
      * Set the RGB channels to be used
      *
-     * @param red the red channel
+     * @param red   the red channel
      * @param green the green channel
-     * @param blue the blue channel
+     * @param blue  the blue channel
      */
-    void setRGBChannels(SelectedChannelType red, SelectedChannelType green, SelectedChannelType blue);
+    void setRGBChannels(SelectedChannelType red, SelectedChannelType green, SelectedChannelType 
+            blue);
 
     /**
      * Set the RGB channels to be used
@@ -70,7 +68,7 @@ public interface ChannelSelection extends org.opengis.style.ChannelSelection {
      */
     void setRGBChannels(SelectedChannelType[] channels);
 
-    
+
     /**
      * get the RGB channels to be used
      *

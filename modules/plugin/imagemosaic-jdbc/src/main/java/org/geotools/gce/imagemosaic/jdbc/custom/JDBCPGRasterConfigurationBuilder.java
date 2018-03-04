@@ -51,27 +51,31 @@ import org.geotools.util.logging.Logging;
 /**
  * A JDBC PGRaster configuration builder class.
  * It allows to configure a PGRaster based ImageMosaicJDBC starting from:
- *  - a folder containing several tiles previously created through gdal_retile
- *  - a configuration bean specifying PG credentials, database, table, coverage name and files extensions
- * 
+ * - a folder containing several tiles previously created through gdal_retile
+ * - a configuration bean specifying PG credentials, database, table, coverage name and files 
+ * extensions
+ * <p>
  * The configuration may be specified in 2 different ways:
  * 1) through an input string with the following format:
- *     pgraster://USER:PASS@HOST:PORT:DATABASE.SCHEMA.TABLE@EPSGCODE:*.FILE_EXTENSION?OPTIONS#/PATH/TO/RASTER_TILES/"
- *     
- *     In this case, a JDBCPGRasterConfigurationBean instance will be created on top of this String.
- *     That String also contains the RASTER_TILES PATH representing the folder containing tiles previously
- *     created with gdal_retile. Note that gdal_retile will create tiles using that structure:
- *     - level 0 is put into the target dir
- *     - level i is put into subfolder i inside target dir
- *     
- *     NOTE that -useDirForEachRow gdal option isn't currently supported by the importer.
- *     
- *     FILE_EXTENSION and OPTIONS configuration properties are optional (in case the user did the tiles import
- *     on his own)
- * 
+ * pgraster://USER:PASS@HOST:PORT:DATABASE.SCHEMA.TABLE@EPSGCODE:*
+ * .FILE_EXTENSION?OPTIONS#/PATH/TO/RASTER_TILES/"
+ * <p>
+ * In this case, a JDBCPGRasterConfigurationBean instance will be created on top of this String.
+ * That String also contains the RASTER_TILES PATH representing the folder containing tiles 
+ * previously
+ * created with gdal_retile. Note that gdal_retile will create tiles using that structure:
+ * - level 0 is put into the target dir
+ * - level i is put into subfolder i inside target dir
+ * <p>
+ * NOTE that -useDirForEachRow gdal option isn't currently supported by the importer.
+ * <p>
+ * FILE_EXTENSION and OPTIONS configuration properties are optional (in case the user did the 
+ * tiles import
+ * on his own)
+ * <p>
  * 2) a JDBCPGRasterConfigurationBean instance.
- *    The input string simply contains the RASTER_TILES PATH on this case.
- * 
+ * The input string simply contains the RASTER_TILES PATH on this case.
+ *
  * @author Daniele Romagnoli, GeoSolutions SAS
  */
 public class JDBCPGRasterConfigurationBuilder {
@@ -80,10 +84,12 @@ public class JDBCPGRasterConfigurationBuilder {
 
     /**
      * A configuration builder constructor
+     *
      * @param configBean the configuration bean
-     * @param configDir the directory containing data to be configured
+     * @param configDir  the directory containing data to be configured
      */
-    public JDBCPGRasterConfigurationBuilder(JDBCPGrasterConfigurationBean configBean, URL configDir) {
+    public JDBCPGRasterConfigurationBuilder(JDBCPGrasterConfigurationBean configBean, URL 
+            configDir) {
         this.configBean = configBean;
         this.configDir = configDir;
     }
@@ -115,14 +121,15 @@ public class JDBCPGRasterConfigurationBuilder {
 
     private final static String FILES_KEY = "$FILES";
 
-    private final static String LINE_SEPARATOR = System.getProperty("line.separator"); 
+    private final static String LINE_SEPARATOR = System.getProperty("line.separator");
 
     private final static String DEFAULT_OPTIONS = "-t 128x128";
 
     private final static String TABLE_CREATION_SQL = "create table "
             + MOSAIC_KEY
             + " (NAME varchar(254) not null,"
-            + "TileTable varchar(254)not null, minX FLOAT8, minY FLOAT8, maxX FLOAT8, maxY FLOAT8, resX FLOAT8, resY FLOAT8,"
+            + "TileTable varchar(254)not null, minX FLOAT8, minY FLOAT8, maxX FLOAT8, maxY " +
+            "FLOAT8, resX FLOAT8, resY FLOAT8,"
             + "primary key (NAME,TileTable))";
 
     private final static String TABLE_CHECK_SQL = "SELECT tiletable FROM " + MOSAIC_KEY;
@@ -166,6 +173,7 @@ public class JDBCPGRasterConfigurationBuilder {
 
     /**
      * Check whether the raster2pgsql script is available
+     *
      * @return
      */
     public static boolean isRaster2PgsqlAvailable() {
@@ -197,13 +205,16 @@ public class JDBCPGRasterConfigurationBuilder {
                             LOGGER.fine("RASTER2PGSQL_PATH = " + RASTER2PGSQL_PATH);
                         }
                         dir = new File(executablePath);
-                        executable =  executablePath + executable + ".exe";
+                        executable = executablePath + executable + ".exe";
                         RASTER2PGSQL_COMMAND = executable;
                     } else {
                         dir = new File(".");
                     }
-                    IMPORT_COMMAND = RASTER2PGSQL_COMMAND + " " + OPTIONS_KEY + " -F " + FILES_KEY + " " + SCHEMA_KEY + "."
-                    + TABLE_PREFIX_KEY + " > " + SQL_FILE_KEY + LINE_SEPARATOR + "psql -d " + DATABASE_KEY + " -U " + PGUSER_KEY + " -h " + HOST_KEY + " -p " + PORT_KEY + " -f " + SQL_FILE_KEY;
+                    IMPORT_COMMAND = RASTER2PGSQL_COMMAND + " " + OPTIONS_KEY + " -F " + 
+                            FILES_KEY + " " + SCHEMA_KEY + "."
+                            + TABLE_PREFIX_KEY + " > " + SQL_FILE_KEY + LINE_SEPARATOR + "psql -d" +
+                            " " + DATABASE_KEY + " -U " + PGUSER_KEY + " -h " + HOST_KEY + " -p "
+                            + PORT_KEY + " -f " + SQL_FILE_KEY;
                     final ExecTask task = new ExecTask();
                     task.setExecutable(RASTER2PGSQL_COMMAND);
                     task.setDir(dir);
@@ -223,15 +234,19 @@ public class JDBCPGRasterConfigurationBuilder {
                     available = true;
                 } catch (BuildException e) {
                     if (LOGGER.isLoggable(Level.WARNING)) {
-                        LOGGER.warning("Failed to invoke the raster2pgsql script. This is not a problem "
-                                + "unless you need to use the raster2pgsql script to automatically configure pgrasters.\n"
+                        LOGGER.warning("Failed to invoke the raster2pgsql script. This is not a " +
+                                "problem "
+                                + "unless you need to use the raster2pgsql script to " +
+                                "automatically configure pgrasters.\n"
                                 + e.toString());
                     }
                     available = false;
                 } catch (IOException e) {
                     if (LOGGER.isLoggable(Level.WARNING)) {
-                        LOGGER.warning("Failed to invoke the raster2pgsql script. This is not a problem "
-                                + "unless you need to use the raster2pgsql script to automatically configure pgrasters.\n"
+                        LOGGER.warning("Failed to invoke the raster2pgsql script. This is not a " +
+                                "problem "
+                                + "unless you need to use the raster2pgsql script to " +
+                                "automatically configure pgrasters.\n"
                                 + e.toString());
                     }
                     available = false;
@@ -301,23 +316,25 @@ public class JDBCPGRasterConfigurationBuilder {
     }
 
     /**
-     * Prepare the PGRaster configuration steps: 
-     *  - importing tiles into the DB and create metadata table if needed
-     *  - prepare the URL of the XML configuration file and return that URL.
-     * 
+     * Prepare the PGRaster configuration steps:
+     * - importing tiles into the DB and create metadata table if needed
+     * - prepare the URL of the XML configuration file and return that URL.
+     * <p>
      * The input url String may represent:
-     * - 1) the path of the folder containing tiles to be mosaicked, previously generated with gdal_retile.
-     *   2) an inline configuration specification in that form:
-     *      pgraster://USER:PASS@HOST:PORT:DATABASE.SCHEMA.TABLE@EPSGCODE:*.FILE_EXTENSION?OPTIONS#/PATH/TO/RASTER_TILES/"
-     * 
-     * @param url a String referring to the mosaic to be configured. 
-     * @param hints hints containing a {@link JDBCPGrasterConfigurationBean} bean in case the url string
-     * doesn't specify the configuration params inline.
-     * 
-     * @return the URL of the generated XML file containing the ImageMosaicJDBC configuration 
+     * - 1) the path of the folder containing tiles to be mosaicked, previously generated with 
+     * gdal_retile.
+     * 2) an inline configuration specification in that form:
+     * pgraster://USER:PASS@HOST:PORT:DATABASE.SCHEMA.TABLE@EPSGCODE:*
+     * .FILE_EXTENSION?OPTIONS#/PATH/TO/RASTER_TILES/"
+     *
+     * @param url   a String referring to the mosaic to be configured.
+     * @param hints hints containing a {@link JDBCPGrasterConfigurationBean} bean in case the url
+     *             string
+     *              doesn't specify the configuration params inline.
+     * @return the URL of the generated XML file containing the ImageMosaicJDBC configuration
      * (mapping + connection + coverage configs)
      */
-    public static URL createConfiguration (final String url, final Hints hints) {
+    public static URL createConfiguration(final String url, final Hints hints) {
         Utilities.ensureNonNull("url", url);
         try {
             JDBCPGRasterConfigurationBuilder builder = null;
@@ -328,7 +345,7 @@ public class JDBCPGRasterConfigurationBuilder {
                 config = parseConfig(url);
                 final int fileURLIndex = url.indexOf("#");
                 final String dataUrl = url.substring(fileURLIndex + 1);
-                final String fileUrl = dataUrl.startsWith("file:/") ? dataUrl : "file://" + dataUrl; 
+                final String fileUrl = dataUrl.startsWith("file:/") ? dataUrl : "file://" + dataUrl;
                 builder = new JDBCPGRasterConfigurationBuilder(config, new URL(fileUrl));
             } else {
                 if (hints != null && hints.containsKey(JDBCPGrasterConfigurationBean.CONFIG_KEY)) {
@@ -341,18 +358,22 @@ public class JDBCPGRasterConfigurationBuilder {
                 }
             }
             if (builder != null) {
-                if (!isRaster2PgsqlAvailable() && config != null && (config.getFileExtension() != null || config.getImportOptions() != null)) {
+                if (!isRaster2PgsqlAvailable() && config != null && (config.getFileExtension() !=
+                        null || config.getImportOptions() != null)) {
                     if (LOGGER.isLoggable(Level.WARNING)) {
-                        LOGGER.warning("The specified URL refers to a pgraster but raster2pgsql script is unavailable.\n" +
-                                 "Automatic configuration won't be performed. In case raster tiles have been manually imported, " +
-                                 "make sure to leave fileExtensions and importOptions parameters empty and repeat the coverage configuration.");
+                        LOGGER.warning("The specified URL refers to a pgraster but raster2pgsql " +
+                                "script is unavailable.\n" +
+                                "Automatic configuration won't be performed. In case raster tiles" +
+                                " have been manually imported, " +
+                                "make sure to leave fileExtensions and importOptions parameters " +
+                                "empty and repeat the coverage configuration.");
                         return null;
                     }
                 }
 
-                
+
                 return builder.buildConfiguration();
-            } 
+            }
             return new URL(url);
         } catch (MalformedURLException mfe) {
             throw new IllegalArgumentException(mfe);
@@ -361,9 +382,10 @@ public class JDBCPGRasterConfigurationBuilder {
 
     /**
      * Extract configuration parameters from the provided string.
-     * See {@link JDBCPGRasterConfigurationBuilder#createConfiguration(String, Hints)} for the syntax
-     * of this string  
-     * 
+     * See {@link JDBCPGRasterConfigurationBuilder#createConfiguration(String, Hints)} for the 
+     * syntax
+     * of this string
+     *
      * @param pgrasterUrl
      * @return
      */
@@ -371,7 +393,8 @@ public class JDBCPGRasterConfigurationBuilder {
         if (pgrasterUrl != null && pgrasterUrl.startsWith("pgraster:/")) {
             final int fileURLIndex = pgrasterUrl.indexOf("#");
             if (fileURLIndex < 0) {
-                throw new IllegalArgumentException("The specified URL doesn't contain the data folder");
+                throw new IllegalArgumentException("The specified URL doesn't contain the data " +
+                        "folder");
             }
 
             // Not sure why the GeoserverDataDirectory.findDataFile eats a "/" char. 10 should be 11
@@ -403,30 +426,36 @@ public class JDBCPGRasterConfigurationBuilder {
 
             // Parsing table
             final int tableEndIndex = pgrasterUrl.indexOf(":", schemaEndIndex + 1);
-            
+
             // Parsing EPSGCode
             int epsgCode = DEFAULT_EPSG_CODE;
             final int epsgStartIndex = pgrasterUrl.indexOf("@", schemaEndIndex + 1);
             if (epsgStartIndex != -1) {
                 try {
-                    epsgCode = Integer.parseInt(pgrasterUrl.substring(epsgStartIndex +1, tableEndIndex));
+                    epsgCode = Integer.parseInt(pgrasterUrl.substring(epsgStartIndex + 1, 
+                            tableEndIndex));
                 } catch (NumberFormatException nfe) {
                     if (LOGGER.isLoggable(Level.SEVERE)) {
-                        LOGGER.severe("Unable to parse the specified EPSGCode. Proceeding with DEFAULT:" 
-                    + DEFAULT_EPSG_CODE + " due to : " + nfe.getLocalizedMessage());
+                        LOGGER.severe("Unable to parse the specified EPSGCode. Proceeding with " +
+                                "DEFAULT:"
+                                + DEFAULT_EPSG_CODE + " due to : " + nfe.getLocalizedMessage());
                     }
                 }
             }
-            
-            final String table = pgrasterUrl.substring(schemaEndIndex + 1, epsgStartIndex != -1 ? epsgStartIndex : tableEndIndex);
+
+            final String table = pgrasterUrl.substring(schemaEndIndex + 1, epsgStartIndex != -1 ?
+                    epsgStartIndex : tableEndIndex);
 
             // Parsing options
             final int optionsStartIndex = pgrasterUrl.indexOf("?", tableEndIndex + 1);
-            final String options = optionsStartIndex != -1 ? pgrasterUrl.substring(optionsStartIndex +1, fileURLIndex): DEFAULT_OPTIONS;
+            final String options = optionsStartIndex != -1 ? pgrasterUrl.substring
+                    (optionsStartIndex + 1, fileURLIndex) : DEFAULT_OPTIONS;
 
             // Parsing file extensions of raster to be imported (if any)
-            final int fileExtensionEndIndex = optionsStartIndex != -1 ? optionsStartIndex : fileURLIndex;
-            final String fileExtension = pgrasterUrl.substring(tableEndIndex + 1, fileExtensionEndIndex);
+            final int fileExtensionEndIndex = optionsStartIndex != -1 ? optionsStartIndex : 
+                    fileURLIndex;
+            final String fileExtension = pgrasterUrl.substring(tableEndIndex + 1, 
+                    fileExtensionEndIndex);
 
             Properties datastoreProperties = new Properties();
             datastoreProperties.put(HOST_KEY.substring(1), host);
@@ -435,18 +464,21 @@ public class JDBCPGRasterConfigurationBuilder {
             datastoreProperties.put(PASSWORD_KEY.substring(1), password);
             datastoreProperties.put(DATABASE_KEY.substring(1), db);
 
-            JDBCPGrasterConfigurationBean bean = new JDBCPGrasterConfigurationBean(datastoreProperties, table, "rt" + table, fileExtension, table, options, schema, epsgCode);
+            JDBCPGrasterConfigurationBean bean = new JDBCPGrasterConfigurationBean
+                    (datastoreProperties, table, "rt" + table, fileExtension, table, options, 
+                            schema, epsgCode);
             return bean;
         }
         return null;
     }
 
     /**
-     * Main mosaic configuration method: given a folder containing several tiles, this static helper method does this:
+     * Main mosaic configuration method: given a folder containing several tiles, this static 
+     * helper method does this:
      * i   - import raster tiles into the database
      * ii  - create metadata table and put new tables on it
-     * iii - prepare configuration file from template 
-     * 
+     * iii - prepare configuration file from template
+     *
      * @param configDir
      * @param configBean
      * @return
@@ -470,7 +502,8 @@ public class JDBCPGRasterConfigurationBuilder {
             // Config file doesn't exist. Need to create it
             try {
 
-                // TODO: we may consider adding support for external folder where to store both config file
+                // TODO: we may consider adding support for external folder where to store both 
+                // config file
                 // and script file
                 createConfigFile(configFile);
                 config = Config.readFrom(url);
@@ -481,13 +514,14 @@ public class JDBCPGRasterConfigurationBuilder {
                 // Manual import may be preferred by the user when dealing with huge datasets
                 if (!isMosaicAlreadyInDB(connection)) {
                     if (LOGGER.isLoggable(Level.FINE)) {
-                        LOGGER.fine("Proceeding with raster tiles automatic import using raster2pgsql");
+                        LOGGER.fine("Proceeding with raster tiles automatic import using " +
+                                "raster2pgsql");
                     }
                     importTilesIntoDB(connection, filesToBeDeleted);
                 } else {
                     if (LOGGER.isLoggable(Level.INFO)) {
                         LOGGER.info("Skipping raster tiles import " +
-                        "since metadata tables and tile tables already exists into the DB");
+                                "since metadata tables and tile tables already exists into the DB");
                     }
                 }
 
@@ -511,7 +545,8 @@ public class JDBCPGRasterConfigurationBuilder {
                         file.delete();
                     } catch (Exception e) {
                         if (LOGGER.isLoggable(Level.FINE)) {
-                            LOGGER.fine("Exception occurred while deleting temp file: " + file.getAbsolutePath() + "\n" + e.getLocalizedMessage());
+                            LOGGER.fine("Exception occurred while deleting temp file: " + file
+                                    .getAbsolutePath() + "\n" + e.getLocalizedMessage());
                         }
                     }
                 }
@@ -522,22 +557,24 @@ public class JDBCPGRasterConfigurationBuilder {
     }
 
     /**
-     * Check whether the specified mosaic is already available in the Database. In that case I don't need to 
+     * Check whether the specified mosaic is already available in the Database. In that case I 
+     * don't need to
      * do the raster tiles import.
-     * 
+     *
      * @param connection the connection to be used to check for the database presence
      * @return
      */
     private boolean isMosaicAlreadyInDB(final Connection connection) {
 
-        final String selectMetadataTableQuery = TABLE_CHECK_SQL.replace((MOSAIC_KEY), configBean.getTableName());
+        final String selectMetadataTableQuery = TABLE_CHECK_SQL.replace((MOSAIC_KEY), configBean
+                .getTableName());
         try {
             if (LOGGER.isLoggable(Level.FINE)) {
                 LOGGER.fine("Looking for mosaic table already created");
             }
             final PreparedStatement ps = connection.prepareStatement(selectMetadataTableQuery);
             ResultSet set = ps.executeQuery();
-            final boolean allTablesArePresent =  checkTileTables(set, connection);
+            final boolean allTablesArePresent = checkTileTables(set, connection);
             connection.commit();
             return allTablesArePresent;
         } catch (SQLException e) {
@@ -549,7 +586,8 @@ public class JDBCPGRasterConfigurationBuilder {
                 connection.rollback();
             } catch (SQLException ex) {
                 if (LOGGER.isLoggable(Level.FINE)) {
-                    LOGGER.fine("Exception occurred while doing rollback:\n" + e.getLocalizedMessage());
+                    LOGGER.fine("Exception occurred while doing rollback:\n" + e
+                            .getLocalizedMessage());
                 }
             }
         }
@@ -557,13 +595,15 @@ public class JDBCPGRasterConfigurationBuilder {
     }
 
     /**
-     * Check whether the main metadata table is present and all the tileTables 
+     * Check whether the main metadata table is present and all the tileTables
      * specified inside it (if any) exists too.
-     * In that case, no need to do the raster import step.  
-     * @param set the {@link ResultSet} coming from the previous selection made on tileTable column.
+     * In that case, no need to do the raster import step.
+     *
+     * @param set        the {@link ResultSet} coming from the previous selection made on 
+     *                   tileTable column.
      * @param connection
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     private boolean checkTileTables(ResultSet set, Connection connection) throws SQLException {
         boolean proceed = true;
@@ -574,7 +614,8 @@ public class JDBCPGRasterConfigurationBuilder {
             // A table with the specified name has been found.
             // Checking whether the raster tile table exist too
             final String tileTableName = set.getString("tiletable");
-            final String selectMetadataTableQuery = TILE_TABLE_CHECK_SQL.replace((MOSAIC_KEY), tileTableName);
+            final String selectMetadataTableQuery = TILE_TABLE_CHECK_SQL.replace((MOSAIC_KEY), 
+                    tileTableName);
             try {
                 if (LOGGER.isLoggable(Level.FINE)) {
                     LOGGER.fine("Looking for mosaic table already created");
@@ -599,23 +640,25 @@ public class JDBCPGRasterConfigurationBuilder {
                 if (LOGGER.isLoggable(Level.FINE)) {
                     LOGGER.fine(sqle.getLocalizedMessage());
                 }
-                final String message = "Database contains the metadata table but some referred tile tables are missing. \n" +
+                final String message = "Database contains the metadata table but some referred " +
+                        "tile tables are missing. \n" +
                         "Please, cleanup your database and retry the configuration";
-                // Logging a message reporting that the database is inconsistent (metadata table exists, but only a few
+                // Logging a message reporting that the database is inconsistent (metadata table 
+                // exists, but only a few
                 // referred raster tile table actually exist). We need some user intervention 
                 if (LOGGER.isLoggable(Level.SEVERE)) {
                     LOGGER.severe(message);
                 }
                 throw new IllegalArgumentException(message);
-            } 
+            }
         }
-        
+
         return found;
     }
 
     /**
      * Check that all the configuration parameters are available
-     * 
+     *
      * @param configBean
      */
     private void validateConfiguration() {
@@ -639,15 +682,15 @@ public class JDBCPGRasterConfigurationBuilder {
 
     /**
      * Create the metadata table which will contain the tile tables references.
-     * 
+     *
      * @param connection
-     * @param tileTables the tile Table names
-     * @param tableName the name of the master table where tile tables will be added
+     * @param tileTables   the tile Table names
+     * @param tableName    the name of the master table where tile tables will be added
      * @param coverageName the name of the coverage to which tile tables are related
      * @throws SQLException
      */
     private void createMetadataTable(final Connection connection, final String tableName,
-            final String coverageName, final List<String> tileTables){
+                                     final String coverageName, final List<String> tileTables) {
 
         // Prepare main insertion/update queries
         final String createMetadataTableQuery = TABLE_CREATION_SQL.replace((MOSAIC_KEY), tableName);
@@ -677,13 +720,15 @@ public class JDBCPGRasterConfigurationBuilder {
             connection.commit();
         } catch (SQLException e) {
             if (LOGGER.isLoggable(Level.SEVERE)) {
-                LOGGER.severe("Exception occurred while " + (created? "updating":"creating") + " metadata tables. Proceeding with rollback\n" + e.getLocalizedMessage());
+                LOGGER.severe("Exception occurred while " + (created ? "updating" : "creating") +
+                        " metadata tables. Proceeding with rollback\n" + e.getLocalizedMessage());
             }
             try {
                 connection.rollback();
             } catch (SQLException ex) {
                 if (LOGGER.isLoggable(Level.FINE)) {
-                    LOGGER.fine("Exception occurred while doing rollback:\n" + e.getLocalizedMessage());
+                    LOGGER.fine("Exception occurred while doing rollback:\n" + e
+                            .getLocalizedMessage());
                 }
             }
         }
@@ -691,13 +736,15 @@ public class JDBCPGRasterConfigurationBuilder {
 
     /**
      * Populate the DB with rasters produced in advance by the user with gdal_retile
-     * @param connection 
+     *
+     * @param connection
      * @param filesToBeDeleted a List which will contains files to be deleted
-     * @return 
-     * @throws SQLException 
-     * @throws IOException 
+     * @return
+     * @throws SQLException
+     * @throws IOException
      */
-    private void importTilesIntoDB(final Connection connection, final List<File> filesToBeDeleted) throws SQLException, IOException {
+    private void importTilesIntoDB(final Connection connection, final List<File> 
+            filesToBeDeleted) throws SQLException, IOException {
         final File configDirectory = URLs.urlToFile(configDir);
 
         // Preliminary check on configuration directory validity
@@ -733,7 +780,8 @@ public class JDBCPGRasterConfigurationBuilder {
         final File dataDir = URLs.urlToFile(configDir);
 
         // Preparing a single script containing all the raster2pgsql commands to be invoked
-        String script = createScript(dataDir, database, schema, host, port, pguser, tablePrefix, fileExtension, tileTables, importOptions, filesToBeDeleted);
+        String script = createScript(dataDir, database, schema, host, port, pguser, tablePrefix, 
+                fileExtension, tileTables, importOptions, filesToBeDeleted);
 
         if (LOGGER.isLoggable(Level.FINE)) {
             LOGGER.fine("Executing the script");
@@ -743,31 +791,38 @@ public class JDBCPGRasterConfigurationBuilder {
         // Step 2: create mosaic table for metadata and insert tile tables into metadata table
         final String tableName = configBean.getTableName();
         final String coverageName = configBean.getCoverageName();
-        
+
         //TODO: We should check previous table exists before creating metadata table
         createMetadataTable(connection, tableName, coverageName, tileTables);
     }
 
     /**
-     * Create a shell script that does raster2pgsql invokations which do the raster tiles import into the PGRaster database
-     * @param dataDir the main datadir (containing tiles)
-     * @param database the database
-     * @param schema the schema where tiles need to be added
-     * @param host the postgres DB server
-     * @param port the postgres DB server port
-     * @param pguser the postgres user
-     * @param tablePrefix the prefix to be put at the head of each table name containing tiles at different levels
-     * @param fileExtension the file extension of the raster files to be imported (as an instance, *.png or *.tif)
-     * @param tileTables a List where table names will be added. 
-     * @param importOptions 
+     * Create a shell script that does raster2pgsql invokations which do the raster tiles import 
+     * into the PGRaster database
+     *
+     * @param dataDir          the main datadir (containing tiles)
+     * @param database         the database
+     * @param schema           the schema where tiles need to be added
+     * @param host             the postgres DB server
+     * @param port             the postgres DB server port
+     * @param pguser           the postgres user
+     * @param tablePrefix      the prefix to be put at the head of each table name containing 
+     *                         tiles at different levels
+     * @param fileExtension    the file extension of the raster files to be imported (as an 
+     *                         instance, *.png or *.tif)
+     * @param tileTables       a List where table names will be added.
+     * @param importOptions
      * @param filesToBeDeleted a List of files which need to be deleted at the end of the import
      * @return the script content as a String
      */
-    private static String createScript(final File dataDir, final String database, final String schema, final String host, final String port,
-            final String pguser, final String tablePrefix, final String fileExtension, final List<String> tileTables,
-            final String importOptions, List<File> filesToBeDeleted) {
+    private static String createScript(final File dataDir, final String database, final String 
+            schema, final String host, final String port,
+                                       final String pguser, final String tablePrefix, final 
+                                       String fileExtension, final List<String> tileTables,
+                                       final String importOptions, List<File> filesToBeDeleted) {
         // Prepare the raster2pgsql command by replacing values
-        final String mainCommand = prepareMainCommand(importOptions, fileExtension, database, pguser,
+        final String mainCommand = prepareMainCommand(importOptions, fileExtension, database, 
+                pguser,
                 schema, host, port);
 
         final StringBuilder commands = new StringBuilder();
@@ -788,13 +843,15 @@ public class JDBCPGRasterConfigurationBuilder {
 
     /**
      * Execute all the raster2pgsql import commands in one step
+     *
      * @param dataDir
-     * @param script the script content
-     * @param password 
-     * @param filesToBeDeleted 
+     * @param script           the script content
+     * @param password
+     * @param filesToBeDeleted
      * @throws IOException
      */
-    private void executeScript(final File dataDir, final String script, final String password, final List<File> filesToBeDeleted) throws IOException {
+    private void executeScript(final File dataDir, final String script, final String password, 
+                               final List<File> filesToBeDeleted) throws IOException {
         final File scriptFile = new File(dataDir, EXECUTE);
         filesToBeDeleted.add(scriptFile);
         writeToFile(scriptFile, script);
@@ -817,23 +874,26 @@ public class JDBCPGRasterConfigurationBuilder {
     }
 
     /**
-     * Replace the main command with proper values for each argument. 
-     * 
-     * @param file the folder containing files to be imported
-     * @param mainCommand the original command with $PARAM to be replaced
-     * @param tablePrefix the prefix of the table
-     * @param fileExtension the file type do be inserted
-     * @param tileTables 
+     * Replace the main command with proper values for each argument.
+     *
+     * @param file             the folder containing files to be imported
+     * @param mainCommand      the original command with $PARAM to be replaced
+     * @param tablePrefix      the prefix of the table
+     * @param fileExtension    the file type do be inserted
+     * @param tileTables
      * @param filesToBeDeleted a List of files to be deleted at the end of import step
      * @return
      */
-    private static String updateCommand(File file, String mainCommand, String tablePrefix, String fileExtension, List<String> tileTables, List<File> filesToBeDeleted) {
+    private static String updateCommand(File file, String mainCommand, String tablePrefix, String
+            fileExtension, List<String> tileTables, List<File> filesToBeDeleted) {
         final String folderName = file.getName();
         final String tileTable = tablePrefix + folderName;
         tileTables.add(tileTable);
         String command = mainCommand.replace(TABLE_PREFIX_KEY, tileTable);
-        command = command.replace(FILES_KEY, file.getAbsolutePath() + File.separatorChar + fileExtension);
-        final String fileToBeDeleted = file.getAbsolutePath() + File.separatorChar + tileTable + ".sql";
+        command = command.replace(FILES_KEY, file.getAbsolutePath() + File.separatorChar + 
+                fileExtension);
+        final String fileToBeDeleted = file.getAbsolutePath() + File.separatorChar + tileTable + 
+                ".sql";
         filesToBeDeleted.add(new File(fileToBeDeleted));
         command = command.replace(SQL_FILE_KEY, fileToBeDeleted);
         if (LOGGER.isLoggable(Level.FINE)) {
@@ -844,6 +904,7 @@ public class JDBCPGRasterConfigurationBuilder {
 
     /**
      * Prepare the main raster2pgsql command by updating parameters
+     *
      * @param importOptions
      * @param fileExtension
      * @param database
@@ -852,8 +913,10 @@ public class JDBCPGRasterConfigurationBuilder {
      * @return
      */
     private static String prepareMainCommand(String importOptions,
-            String fileExtension, String database, String pguser, String schema, String host, String port) {
-          String mainCommand = IMPORT_COMMAND;
+                                             String fileExtension, String database, String 
+                                                     pguser, String schema, String host, String 
+                                                     port) {
+        String mainCommand = IMPORT_COMMAND;
 
         if (importOptions == null) {
             importOptions = DEFAULT_OPTIONS;
@@ -864,14 +927,14 @@ public class JDBCPGRasterConfigurationBuilder {
         mainCommand = mainCommand.replace(PGUSER_KEY, pguser);
         mainCommand = mainCommand.replace(HOST_KEY, host);
         mainCommand = mainCommand.replace(PORT_KEY, port);
-        
+
         return mainCommand;
     }
 
     /**
      * Create the configuration file containing the information to configure the ImageMosaic
-     * 
-     * @param configFile the file where to store the configuration 
+     *
+     * @param configFile the file where to store the configuration
      * @param configBean the bean with configuration parameters
      * @return
      * @throws IOException
@@ -883,7 +946,7 @@ public class JDBCPGRasterConfigurationBuilder {
 
     /**
      * Replace all the Jolly Strings from the Template with actual values.
-     * 
+     *
      * @param configBean the Configuration bean containing custom values to replace the jolly.
      * @return
      */
@@ -902,9 +965,9 @@ public class JDBCPGRasterConfigurationBuilder {
 
     /**
      * Store the configuration as an XML files containing all the config params.
+     *
      * @param configFile the output file where to store the config
-     * @param config the configuration XML String to be stored
-     * 
+     * @param config     the configuration XML String to be stored
      * @return
      * @throws IOException
      */
@@ -914,7 +977,8 @@ public class JDBCPGRasterConfigurationBuilder {
 
     /**
      * Write a String content to the specified file.
-     * @param file the file where to store the content
+     *
+     * @param file    the file where to store the content
      * @param content the string to be written
      * @throws IOException
      */

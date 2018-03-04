@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -29,18 +29,14 @@ import org.opengis.metadata.MetadataExtensionInformation;
 /**
  * Information describing metadata extensions.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class MetadataExtensionInformationImpl extends MetadataEntity
-        implements MetadataExtensionInformation
-{
+        implements MetadataExtensionInformation {
     /**
      * Serial number for compatibility with different versions.
      */
@@ -81,7 +77,7 @@ public class MetadataExtensionInformationImpl extends MetadataEntity
         return extensionOnLineResource;
     }
 
-   /**
+    /**
      * Set information about on-line sources.
      */
     public synchronized void setExtensionOnLineResource(final OnLineResource newValue) {
@@ -104,6 +100,6 @@ public class MetadataExtensionInformationImpl extends MetadataEntity
     public synchronized void setExtendedElementInformation(
             final Collection<? extends ExtendedElementInformation> newValues) {
         extendedElementInformation = copyCollection(newValues, extendedElementInformation,
-                                                    ExtendedElementInformation.class);
+                ExtendedElementInformation.class);
     }
 }

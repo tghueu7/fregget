@@ -6,8 +6,6 @@ import org.geotools.jdbc.JDBCDateTestSetup;
 import org.geotools.jdbc.JDBCTimeZoneDateOnlineTest;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class DB2TimeZoneGMTPlus12DateOnlineTest extends JDBCTimeZoneDateOnlineTest {
@@ -17,5 +15,5 @@ public class DB2TimeZoneGMTPlus12DateOnlineTest extends JDBCTimeZoneDateOnlineTe
         super.setTimeZone(TimeZone.getTimeZone("Etc/GMT+12"));
         return new DB2DateTestSetup();
     }
-    
+
 }

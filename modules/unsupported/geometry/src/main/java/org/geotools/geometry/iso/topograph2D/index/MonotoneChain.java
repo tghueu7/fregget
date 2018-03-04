@@ -1,10 +1,10 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- *    
+ *
  *    (C) 2001-2006  Vivid Solutions
  *    (C) 2001-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -30,26 +30,22 @@ package org.geotools.geometry.iso.topograph2D.index;
  * be used to find the intersection points of two monotone chains. For many
  * types of real-world data, these properties eliminate a large number of
  * segment comparisons, producing substantial speed gains.
- * 
- *
- *
- *
  *
  * @source $URL$
  */
 public class MonotoneChain {
 
-	MonotoneChainEdge mce;
+    MonotoneChainEdge mce;
 
-	int chainIndex;
+    int chainIndex;
 
-	public MonotoneChain(MonotoneChainEdge mce, int chainIndex) {
-		this.mce = mce;
-		this.chainIndex = chainIndex;
-	}
+    public MonotoneChain(MonotoneChainEdge mce, int chainIndex) {
+        this.mce = mce;
+        this.chainIndex = chainIndex;
+    }
 
-	public void computeIntersections(MonotoneChain mc, SegmentIntersector si) {
-		this.mce.computeIntersectsForChain(chainIndex, mc.mce, mc.chainIndex,
-				si);
-	}
+    public void computeIntersections(MonotoneChain mc, SegmentIntersector si) {
+        this.mce.computeIntersectsForChain(chainIndex, mc.mce, mc.chainIndex,
+                si);
+    }
 }

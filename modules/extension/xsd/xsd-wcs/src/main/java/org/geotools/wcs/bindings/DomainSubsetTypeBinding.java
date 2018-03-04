@@ -13,14 +13,16 @@ import org.geotools.xml.Node;
 
 /**
  * Binding object for the type http://www.opengis.net/wcs:DomainSubsetType.
- * 
  * <p>
- * 
+ * <p>
+ * <p>
  * <pre>
- *	 <code>
+ * 	 <code>
  *  &lt;complexType name=&quot;DomainSubsetType&quot;&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;Defines the desired subset of the domain set of the coverage. Is a GML property containing either or both spatialSubset and temporalSubset GML objects. &lt;/documentation&gt;
+ *          &lt;documentation&gt;Defines the desired subset of the domain set of the coverage. Is
+ *          a GML property containing either or both spatialSubset and temporalSubset GML objects
+ *          . &lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;choice&gt;
  *          &lt;sequence&gt;
@@ -29,16 +31,14 @@ import org.geotools.xml.Node;
  *          &lt;/sequence&gt;
  *          &lt;element ref=&quot;wcs:temporalSubset&quot;/&gt;
  *      &lt;/choice&gt;
- *  &lt;/complexType&gt; 
- * 	
+ *  &lt;/complexType&gt;
+ *
  * </code>
- *	 </pre>
- * 
+ * 	 </pre>
+ * <p>
  * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class DomainSubsetTypeBinding extends AbstractComplexBinding {
@@ -52,7 +52,7 @@ public class DomainSubsetTypeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Class getType() {
@@ -61,13 +61,13 @@ public class DomainSubsetTypeBinding extends AbstractComplexBinding {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value)
             throws Exception {
         DomainSubsetType domainSubset = Wcs10Factory.eINSTANCE.createDomainSubsetType();
-        
+
         SpatialSubsetType spatialSubset = (SpatialSubsetType) node.getChildValue("spatialSubset");
         if (spatialSubset != null)
             domainSubset.setSpatialSubset(spatialSubset);
@@ -76,7 +76,7 @@ public class DomainSubsetTypeBinding extends AbstractComplexBinding {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.geotools.xml.AbstractComplexBinding#getExecutionMode()
      */
     @Override

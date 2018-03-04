@@ -20,8 +20,6 @@ import org.geotools.jdbc.JDBCDataStoreOnlineTest;
 import org.geotools.jdbc.JDBCTestSetup;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class SpatiaLiteDataStoreOnlineTest extends JDBCDataStoreOnlineTest {
@@ -30,13 +28,13 @@ public class SpatiaLiteDataStoreOnlineTest extends JDBCDataStoreOnlineTest {
     protected JDBCTestSetup createTestSetup() {
         return new SpatiaLiteTestSetup();
     }
-    
+
     @Override
     public void testCreateSchemaWithConstraints() throws Exception {
         //SQLite does not enforce length restrictions on strings
         //See FAQ (9) from http://www.sqlite.org/faq.html 
     }
-    
+
     @Override
     public void testCreateSchema() throws Exception {
         //SQLite only has a few types, date not being one of them. So it is currently 

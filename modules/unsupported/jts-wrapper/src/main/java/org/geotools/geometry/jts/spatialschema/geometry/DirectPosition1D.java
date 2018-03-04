@@ -22,6 +22,7 @@
 package org.geotools.geometry.jts.spatialschema.geometry;
 
 //J2SE dependencies
+
 import java.io.Serializable;
 
 // OpenGIS dependencies
@@ -35,17 +36,13 @@ import org.geotools.geometry.jts.GeometryUtils;
 
 /**
  * Holds the coordinates for a one-dimensional position within some coordinate reference system.
- * 
  *
- *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
  */
 public class DirectPosition1D implements DirectPosition, Serializable, Cloneable {
-    
+
     /**
      * The coordinate reference system for this position;
      */
@@ -55,28 +52,28 @@ public class DirectPosition1D implements DirectPosition, Serializable, Cloneable
      * The ordinate value.
      */
     public double ordinate;
-    
+
     /**
      * Construct a position initialized to (0) with a {@code null}
      * coordinate reference system.
      */
     public DirectPosition1D() {
     }
-    
+
     /**
      * Construct a position with the specified coordinate reference system.
      */
     public DirectPosition1D(final CoordinateReferenceSystem crs) {
         setCoordinateReferenceSystem(crs);
     }
-    
+
     /**
      * Construct a 1D position from the specified ordinate.
      */
     public DirectPosition1D(final double ordinate) {
         this.ordinate = ordinate;
     }
-    
+
     /**
      * Construct a position initialized to the same values than the specified point.
      */
@@ -140,8 +137,9 @@ public class DirectPosition1D implements DirectPosition, Serializable, Cloneable
      * @return The coordinates
      */
     public double[] getCoordinate() {
-        return new double[] {ordinate};
+        return new double[]{ordinate};
     }
+
     @Deprecated
     public double[] getCoordinates() {
         return getCoordinate();
@@ -150,10 +148,9 @@ public class DirectPosition1D implements DirectPosition, Serializable, Cloneable
     /**
      * Returns the ordinate at the specified dimension.
      *
-     * @param  dimension The dimension, which must be 0.
+     * @param dimension The dimension, which must be 0.
      * @return The {@linkplain #ordinate}.
      * @throws IndexOutOfBoundsException if the specified dimension is out of bounds.
-     *
      * @todo Provides a more detailled error message.
      */
     public final double getOrdinate(final int dimension) throws IndexOutOfBoundsException {
@@ -167,10 +164,9 @@ public class DirectPosition1D implements DirectPosition, Serializable, Cloneable
     /**
      * Sets the ordinate value along the specified dimension.
      *
-     * @param  dimension The dimension, which must be 0.
-     * @param  value the ordinate value.
+     * @param dimension The dimension, which must be 0.
+     * @param value     the ordinate value.
      * @throws IndexOutOfBoundsException if the specified dimension is out of bounds.
-     *
      * @todo Provides a more detailled error message.
      */
     public final void setOrdinate(int dimension, double value) throws IndexOutOfBoundsException {
@@ -186,18 +182,18 @@ public class DirectPosition1D implements DirectPosition, Serializable, Cloneable
      * contains a {@linkplain CoordinateReferenceSystem coordinate reference system},
      * then the CRS for this position will be set to the CRS of the specified position.
      *
-     * @param  position The new position for this point.
+     * @param position The new position for this point.
      * @throws MismatchedDimensionException if this point doesn't have the expected dimension.
      */
     public void setLocation(final DirectPosition position) throws MismatchedDimensionException {
         try {
-        GeometryUtils.ensureDimensionMatch("position", position.getDimension(), 1);
+            GeometryUtils.ensureDimensionMatch("position", position.getDimension(), 1);
+        } catch (MismatchedDimensionException mde) {
         }
-        catch (MismatchedDimensionException mde){}
         setCoordinateReferenceSystem(position.getCoordinateReferenceSystem());
         ordinate = position.getOrdinate(0);
     }
-    
+
     /**
      * Returns a string representation of this coordinate. The returned string is
      * implementation dependent. It is usually provided for debugging purposes.
@@ -206,7 +202,7 @@ public class DirectPosition1D implements DirectPosition, Serializable, Cloneable
     public String toString() {
         return DirectPosition2D.toString(this, getCoordinates());
     }
-    
+
     /**
      * Returns a hash value for this coordinate. This value need not remain consistent between
      * different implementations of the same class.
@@ -214,7 +210,7 @@ public class DirectPosition1D implements DirectPosition, Serializable, Cloneable
     @Override
     public int hashCode() {
         final long value = Double.doubleToLongBits(ordinate);
-        int code = (int)value ^ (int)(value >>> 32);
+        int code = (int) value ^ (int) (value >>> 32);
         if (crs != null) {
             code ^= crs.hashCode();
         }

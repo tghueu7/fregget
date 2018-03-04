@@ -54,15 +54,12 @@ import org.opengis.feature.type.Name;
 
 /**
  * DOCUMENT ME!
- * 
+ *
  * @author Rob Atkinson
  * @version $Id$
- *
- *
- *
  * @source $URL$
- *         http://svn.geotools.org/geotools/branches/2.4.x/modules/unsupported/community-schemas
- *         /community-schema-ds/src/test/java/org/geotools/data/complex/BoreholeTest.java $
+ * http://svn.geotools.org/geotools/branches/2.4.x/modules/unsupported/community-schemas
+ * /community-schema-ds/src/test/java/org/geotools/data/complex/BoreholeTest.java $
  * @since 2.4
  */
 public class GeoSciMLTest extends AppSchemaTestSupport {
@@ -94,10 +91,8 @@ public class GeoSciMLTest extends AppSchemaTestSupport {
     }
 
     /**
-     * 
-     * @param location
-     *            schema location path discoverable through getClass().getResource()
-     * @return 
+     * @param location schema location path discoverable through getClass().getResource()
+     * @return
      */
     private SchemaIndex loadSchema(String location) throws IOException {
         URL catalogLocation = getClass().getResource(schemaBase + "mappedPolygons.oasis.xml");
@@ -108,7 +103,7 @@ public class GeoSciMLTest extends AppSchemaTestSupport {
     /**
      * Tests if the schema-to-FM parsing code developed for complex datastore configuration loading
      * can parse the GeoSciML types
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -126,18 +121,17 @@ public class GeoSciMLTest extends AppSchemaTestSupport {
         AppSchemaFeatureTypeRegistry typeRegistry = new AppSchemaFeatureTypeRegistry();
         try {
             typeRegistry.addSchemas(schemaIndex);
-    
+
             Name typeName = Types.typeName(GSMLNS, "MappedFeatureType");
             ComplexType mf = (ComplexType) typeRegistry.getAttributeType(typeName);
             assertNotNull(mf);
             assertTrue(mf instanceof FeatureType);
-    
+
             typeName = Types.typeName("http://www.opengis.net/sampling/1.0", "SamplingFeatureType");
             mf = (ComplexType) typeRegistry.getAttributeType(typeName);
             assertNotNull(mf);
             assertTrue(mf instanceof FeatureType);
-        }
-        finally {
+        } finally {
             typeRegistry.disposeSchemaIndexes();
         }
         /*
@@ -167,23 +161,23 @@ public class GeoSciMLTest extends AppSchemaTestSupport {
          * expectedNamesAndTypes.put(name(XMMLNS, "collarDiameter"), typeName(GMLNS,
          * "MeasureType")); expectedNamesAndTypes.put(name(XMMLNS, "log"), typeName(XMMLNS,
          * "LogPropertyType"));
-         * 
+         *
          * for (Iterator it = expectedNamesAndTypes.entrySet().iterator(); it.hasNext();) {
          * Map.Entry entry = (Entry) it.next(); Name dName = (Name) entry.getKey(); Name tName =
          * (Name) entry.getValue();
-         * 
+         *
          * AttributeDescriptor d = (AttributeDescriptor) Types.descriptor(mf, dName);
          * assertNotNull("Descriptor not found: " + dName, d); AttributeType type; try { type =
          * d.getType(); } catch (Exception e) { LOGGER.log(Level.SEVERE, "type not parsed for " +
          * ((AttributeDescriptor) d).getName(), e); throw e; } assertNotNull(type);
          * assertNotNull(type.getName()); assertNotNull(type.getBinding()); if (tName != null) {
          * assertEquals(tName, type.getName()); } }
-         * 
+         *
          * Name tcl = Types.typeName(SWENS, "TypedCategoryListType"); AttributeType
          * typedCategoryListType = (AttributeType) typeRegistry.get(tcl);
          * assertNotNull(typedCategoryListType); assertFalse(typedCategoryListType instanceof
          * ComplexType);
-         */        
+         */
     }
 
     @Test
@@ -218,7 +212,7 @@ public class GeoSciMLTest extends AppSchemaTestSupport {
             Feature feature;
             int count = 0;
             FeatureIterator it = features.features();
-            for (; it.hasNext();) {
+            for (; it.hasNext(); ) {
                 feature = (Feature) it.next();
                 count++;
             }
@@ -233,7 +227,7 @@ public class GeoSciMLTest extends AppSchemaTestSupport {
 
     /**
      * Test that getting features from a feature source with a query honours the namespace.
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -255,8 +249,7 @@ public class GeoSciMLTest extends AppSchemaTestSupport {
             for (; i.hasNext(); i.next()) {
                 size++;
             }
-        }
-        finally {
+        } finally {
             i.close();
         }
         return size;

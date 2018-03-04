@@ -31,7 +31,6 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 
 /**
- * 
  * @author kbyte
  */
 public abstract class JDBCUuidOnlineTest extends JDBCTestSupport {
@@ -42,7 +41,7 @@ public abstract class JDBCUuidOnlineTest extends JDBCTestSupport {
     protected UUID uuid1 = UUID.fromString("c563f527-507e-4b80-a30b-4cab189d4dba");
 
     protected UUID uuid2 = UUID.fromString("cae47178-2e84-4319-a5ba-8d4089c9d80d");
-    
+
     protected UUID uuid3 = UUID.fromString("34362328-9842-2385-8926-000000000003");
 
     public void testGetSchema() throws Exception {
@@ -51,14 +50,15 @@ public abstract class JDBCUuidOnlineTest extends JDBCTestSupport {
     }
 
     public void testGetFeatures() throws Exception {
-        try(FeatureReader<SimpleFeatureType, SimpleFeature> r = dataStore.getFeatureReader(new Query(tname(("guid"))),
+        try (FeatureReader<SimpleFeatureType, SimpleFeature> r = dataStore.getFeatureReader(new 
+                        Query(tname(("guid"))),
                 Transaction.AUTO_COMMIT)) {
             r.hasNext();
-    
+
             Set<UUID> uuids = new HashSet<UUID>();
             uuids.add(uuid1);
             uuids.add(uuid2);
-            while(r.hasNext()) {
+            while (r.hasNext()) {
                 SimpleFeature f = (SimpleFeature) r.next();
                 assertNotNull(uuids.remove(f.getAttribute(aname("uuidProperty"))));
             }
@@ -67,23 +67,25 @@ public abstract class JDBCUuidOnlineTest extends JDBCTestSupport {
     }
 
     public void testInsertFeatures() throws Exception {
-        try(Transaction transaction = new DefaultTransaction()) {
-            SimpleFeatureStore featureStore = (SimpleFeatureStore) dataStore.getFeatureSource(tname("guid"));
+        try (Transaction transaction = new DefaultTransaction()) {
+            SimpleFeatureStore featureStore = (SimpleFeatureStore) dataStore.getFeatureSource
+                    (tname("guid"));
             featureStore.setTransaction(transaction);
-            assertEquals(featureStore.getCount(Query.ALL),2);
-    
+            assertEquals(featureStore.getCount(Query.ALL), 2);
+
             SimpleFeatureType type = dataStore.getSchema(tname("guid"));
-            SimpleFeature feature = SimpleFeatureBuilder.build(type, new Object[] { uuid3 }, "guid.3");
-    
+            SimpleFeature feature = SimpleFeatureBuilder.build(type, new Object[]{uuid3}, "guid.3");
+
             SimpleFeatureCollection collection = DataUtilities.collection(feature);
             featureStore.addFeatures(collection);
             transaction.commit();
-            assertEquals(featureStore.getCount(Query.ALL),3);
+            assertEquals(featureStore.getCount(Query.ALL), 3);
         }
     }
 
     public void testModifyFeatures() throws Exception {
-        try(FeatureWriter<SimpleFeatureType, SimpleFeature> w = dataStore.getFeatureWriter(tname("guid"),Transaction.AUTO_COMMIT)) {
+        try (FeatureWriter<SimpleFeatureType, SimpleFeature> w = dataStore.getFeatureWriter(tname
+                ("guid"), Transaction.AUTO_COMMIT)) {
             w.hasNext();
             SimpleFeature f = w.next();
             f.setAttribute(aname("uuidProperty"), uuid2);
@@ -93,24 +95,26 @@ public abstract class JDBCUuidOnlineTest extends JDBCTestSupport {
     }
 
     public void testRemoveFeatures() throws Exception {
-        SimpleFeatureStore featureStore = (SimpleFeatureStore) dataStore.getFeatureSource(tname("guid"));
+        SimpleFeatureStore featureStore = (SimpleFeatureStore) dataStore.getFeatureSource(tname
+                ("guid"));
 
         final FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
 
         Filter filter = ff.equals(ff.property(aname("uuidProperty")), ff.literal(uuid1));
-        
+
         featureStore.removeFeatures(filter);
 
         assertEquals(1, featureStore.getCount(Query.ALL));
     }
 
     public void testUUIDAsPrimaryKey() throws Exception {
-        try(Transaction transaction = new DefaultTransaction()) {
-            SimpleFeatureStore featureStore = (SimpleFeatureStore) dataStore.getFeatureSource(tname("uuidt"));
+        try (Transaction transaction = new DefaultTransaction()) {
+            SimpleFeatureStore featureStore = (SimpleFeatureStore) dataStore.getFeatureSource
+                    (tname("uuidt"));
             featureStore.setTransaction(transaction);
-    
+
             featureStore.addFeatures(createFeatureCollection());
-    
+
             transaction.commit();
             assertEquals(3, featureStore.getCount(Query.ALL));
         }
@@ -122,15 +126,18 @@ public abstract class JDBCUuidOnlineTest extends JDBCTestSupport {
         GeometryFactory gf = new GeometryFactory();
         Point p = gf.createPoint(new Coordinate(138.6, -34.93));
 
-        SimpleFeature feature1 = SimpleFeatureBuilder.build(type, new Object[] { p }, uuid1.toString());
+        SimpleFeature feature1 = SimpleFeatureBuilder.build(type, new Object[]{p}, uuid1.toString
+                ());
         feature1.getUserData().put(Hints.USE_PROVIDED_FID, true);
         feature1.getUserData().put(Hints.PROVIDED_FID, uuid1);
 
-        SimpleFeature feature2 = SimpleFeatureBuilder.build(type, new Object[] { p }, uuid2.toString());
+        SimpleFeature feature2 = SimpleFeatureBuilder.build(type, new Object[]{p}, uuid2.toString
+                ());
         feature2.getUserData().put(Hints.USE_PROVIDED_FID, true);
         feature2.getUserData().put(Hints.PROVIDED_FID, uuid2);
 
-        SimpleFeature feature3 = SimpleFeatureBuilder.build(type, new Object[] { p }, uuid3.toString());
+        SimpleFeature feature3 = SimpleFeatureBuilder.build(type, new Object[]{p}, uuid3.toString
+                ());
         feature3.getUserData().put(Hints.USE_PROVIDED_FID, true);
         feature3.getUserData().put(Hints.PROVIDED_FID, uuid3);
 

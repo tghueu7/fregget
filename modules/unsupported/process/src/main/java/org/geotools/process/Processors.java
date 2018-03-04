@@ -39,10 +39,6 @@ import org.opengis.feature.type.Name;
  * Defines static methods used to access the application's default process factory implementations.
  *
  * @author gdavis
- *
- *
- *
- *
  * @source $URL$
  */
 public class Processors extends FactoryFinder {
@@ -70,30 +66,32 @@ public class Processors extends FactoryFinder {
         }
         return registry;
     }
-    
+
     /**
      * Dynamically register a new process factory into SPI
+     *
      * @param factory
      */
     public static void addProcessFactory(ProcessFactory factory) {
-    	getServiceRegistry().registerFactory(factory);
+        getServiceRegistry().registerFactory(factory);
     }
-    
+
     /**
      * Dynamically removes a process factory from SPI. Normally the factory has been
      * added before via {@link #addProcessFactory(ProcessFactory)}
+     *
      * @param factory
      */
     public static void removeProcessFactory(ProcessFactory factory) {
-    	if(lastFactory == factory) {
-    		lastFactory = null;
-    	}
-    	getServiceRegistry().deregisterFactory(factory);
+        if (lastFactory == factory) {
+            lastFactory = null;
+        }
+        getServiceRegistry().deregisterFactory(factory);
     }
-    
+
     /**
      * Set of available ProcessFactory; each of which is responsible for one or more processes.
-     * 
+     *
      * @return Set of ProcessFactory
      */
     public static Set<ProcessFactory> getProcessFactories() {
@@ -102,25 +100,27 @@ public class Processors extends FactoryFinder {
         return new LazySet<ProcessFactory>(serviceProviders);
     }
 
-    /** Cache of last factory found */
+    /**
+     * Cache of last factory found
+     */
     static ProcessFactory lastFactory;
-    
+
     /**
      * Look up a Factory by name of a process it supports.
-     * 
+     *
      * @param name Name of the Process you wish to work with
      * @return ProcessFactory capable of creating an instanceof the named process
      */
-    public static synchronized ProcessFactory createProcessFactory(Name name){
+    public static synchronized ProcessFactory createProcessFactory(Name name) {
         //store a local reference to last factory, since it could change if this method is called 
         //within the factories getNames() method, which could happen if a factory delegates in some
         // way
         ProcessFactory last = lastFactory;
-        if( last != null && last.getNames().contains(name)){
+        if (last != null && last.getNames().contains(name)) {
             return last;
         }
-        for( ProcessFactory factory : getProcessFactories() ) {
-            if(factory.getNames().contains(name)) {
+        for (ProcessFactory factory : getProcessFactories()) {
+            if (factory.getNames().contains(name)) {
                 lastFactory = factory;
                 return factory;
             }
@@ -130,30 +130,31 @@ public class Processors extends FactoryFinder {
 
     /**
      * Look up an implementation of the named process on the classpath.
+     *
      * @param name Name of the Process to create
      * @return created process
      */
-    public static synchronized Process createProcess(Name name){
-        ProcessFactory factory = createProcessFactory( name );
-        if( factory == null ) return null;
-        
+    public static synchronized Process createProcess(Name name) {
+        ProcessFactory factory = createProcessFactory(name);
+        if (factory == null) return null;
+
         return factory.create(name);
     }
-    
+
     /**
      * Look up an implementation of the named process on the classpath and describe the input
      * parameter required.
-     * 
-     * @param name Name of the Process 
+     *
+     * @param name Name of the Process
      * @return Description of the parameters required
      */
-    public static synchronized Map<String, Parameter<?>> getParameterInfo(Name name){
-        ProcessFactory factory = createProcessFactory( name );
-        if( factory == null ) return null;
-        
+    public static synchronized Map<String, Parameter<?>> getParameterInfo(Name name) {
+        ProcessFactory factory = createProcessFactory(name);
+        if (factory == null) return null;
+
         return factory.getParameterInfo(name);
     }
-    
+
     /**
      * Look up an implementation of the named process on the classpath and describe the expected
      * results.
@@ -161,36 +162,40 @@ public class Processors extends FactoryFinder {
      * Note the expected results are generated in part by the input parameters provided; this is to
      * allow for processes where the output is controlled by the parameters (such as choosing a
      * greyscale or color raster product; or choosing the version of GML produced etc...).
-     * 
-     * @param name Name of the Process 
-     * @param parameters 
+     *
+     * @param name       Name of the Process
+     * @param parameters
      * @return Description of the parameters required
      */
-    public static synchronized Map<String, Parameter<?>> getResultInfo(Name name, Map<String, Object> parameters){
-        ProcessFactory factory = createProcessFactory( name );
-        if( factory == null ) return null;
-        
+    public static synchronized Map<String, Parameter<?>> getResultInfo(Name name, Map<String, 
+            Object> parameters) {
+        ProcessFactory factory = createProcessFactory(name);
+        if (factory == null) return null;
+
         return factory.getResultInfo(name, parameters);
     }
-    
+
     /**
      * Used to wrap a Process up as a Callable for use with an existing ExecutorService
      */
-    public static Callable<Map<String,Object>> createCallable( final Process process, final Map<String,Object> input ){        
-        return new Callable<Map<String,Object>>(){
+    public static Callable<Map<String, Object>> createCallable(final Process process, final 
+    Map<String, Object> input) {
+        return new Callable<Map<String, Object>>() {
             @Override
-            public Map<String, Object> call() throws Exception {                
-                return process.execute( input, new CallableProgressListener() );
-            }            
+            public Map<String, Object> call() throws Exception {
+                return process.execute(input, new CallableProgressListener());
+            }
         };
     }
-    public static ProcessExecutor newProcessExecutor( int nThreads ){
-        return newProcessExecutor(nThreads, Executors.defaultThreadFactory() );
+
+    public static ProcessExecutor newProcessExecutor(int nThreads) {
+        return newProcessExecutor(nThreads, Executors.defaultThreadFactory());
     }
-    public static ProcessExecutor newProcessExecutor( int nThreads, ThreadFactory threadFactory ){
-        if( threadFactory == null ) threadFactory = Executors.defaultThreadFactory();
-        
-        return new ThreadPoolProcessExecutor( nThreads, threadFactory);
+
+    public static ProcessExecutor newProcessExecutor(int nThreads, ThreadFactory threadFactory) {
+        if (threadFactory == null) threadFactory = Executors.defaultThreadFactory();
+
+        return new ThreadPoolProcessExecutor(nThreads, threadFactory);
     }
 
     /**
@@ -210,7 +215,7 @@ public class Processors extends FactoryFinder {
     /**
      * This progress listener checks if the current Thread is interrupted, it
      * acts as a bridge between Future and ProgressListener code.
-     * 
+     *
      * @author Jody
      */
     static class CallableProgressListener extends NullProgressListener {

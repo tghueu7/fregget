@@ -23,7 +23,7 @@ import org.geotools.jdbc.JDBCSpatialFiltersOnlineTest;
  * Spatial filters test, without spatial index support on the column
  */
 public class GeoPkgSpatialFiltersOnlineTest extends JDBCSpatialFiltersOnlineTest {
-    
+
     @Override
     protected JDBCDataStoreAPITestSetup createTestSetup() {
         return new GeoPkgDataStoreAPITestSetup(false);

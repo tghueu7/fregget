@@ -52,23 +52,27 @@ import ucar.nc2.dataset.NetcdfDataset.Enhance;
 
 /**
  * Service provider interface for the NetCDF Image
- * 
+ *
  * @author Alessio Fabiani, GeoSolutions
  */
 public class NetCDFImageReaderSpi extends ImageReaderSpi {
 
-    public static final Class< ? >[] STANDARD_INPUT_TYPES = new Class[]{AccessibleStream.class, ImageInputStream.class,
-        File.class, URL.class, URI.class};
+    public static final Class<?>[] STANDARD_INPUT_TYPES = new Class[]{AccessibleStream.class, 
+            ImageInputStream.class,
+            File.class, URL.class, URI.class};
 
     public static final String VENDOR_NAME = "GeoTools";
 
     /**
-     * Number of bytes at the start of a file to search for a GRIB signature. Some GRIB files have WMO headers prepended by a telecommunications
+     * Number of bytes at the start of a file to search for a GRIB signature. Some GRIB files 
+     * have WMO headers prepended by a telecommunications
      * gateway. NetCDF-Java Grib{1,2}RecordScanner look for the header in this many bytes.
      */
     private static final int GRIB_SEARCH_BYTES = 16000;
 
-    /** Default Logger * */
+    /**
+     * Default Logger *
+     */
     private static final Logger LOGGER = Logging.getLogger(NetCDFImageReaderSpi.class);
 
     static final String[] suffixes;
@@ -82,18 +86,18 @@ public class NetCDFImageReaderSpi extends ImageReaderSpi {
     static final String readerCN = "it.geosolutions.imageio.plugins.netcdf.NetCDFImageReader";
 
     // writerSpiNames
-    static final String[] wSN = { null };
+    static final String[] wSN = {null};
 
     // StreamMetadataFormatNames and StreamMetadataFormatClassNames
     static final boolean supportsStandardStreamMetadataFormat = false;
-    
+
     static final String nativeStreamMetadataFormatName = null;
 
     static final String nativeStreamMetadataFormatClassName = null;
 
-    static final String[] extraStreamMetadataFormatNames = { null };
+    static final String[] extraStreamMetadataFormatNames = {null};
 
-    static final String[] extraStreamMetadataFormatClassNames = { null };
+    static final String[] extraStreamMetadataFormatClassNames = {null};
 
     // ImageMetadataFormatNames and ImageMetadataFormatClassNames
     static final boolean supportsStandardImageMetadataFormat = false;
@@ -102,9 +106,9 @@ public class NetCDFImageReaderSpi extends ImageReaderSpi {
 
     static final String nativeImageMetadataFormatClassName = null;
 
-    static final String[] extraImageMetadataFormatNames = { null };
+    static final String[] extraImageMetadataFormatNames = {null};
 
-    static final String[] extraImageMetadataFormatClassNames = { null };
+    static final String[] extraImageMetadataFormatClassNames = {null};
 
     static {
         // If Grib Library is available, then the GRIB extension must be added to support.
@@ -117,7 +121,8 @@ public class NetCDFImageReaderSpi extends ImageReaderSpi {
         Collections.addAll(formatNamesList, "netcdf", "NetCDF", NetCDFUtilities.NETCDF_3);
 
         List<String> mimeTypesList = new ArrayList<String>();
-        Collections.addAll(mimeTypesList, NetCDFUtilities.NETCDF3_MIMETYPE, "image/netcdf", "image/x-netcdf",
+        Collections.addAll(mimeTypesList, NetCDFUtilities.NETCDF3_MIMETYPE, "image/netcdf", 
+                "image/x-netcdf",
                 "image/x-nc");
 
         if (NetCDFUtilities.isGribAvailable()) {
@@ -135,16 +140,19 @@ public class NetCDFImageReaderSpi extends ImageReaderSpi {
         MIMETypes = mimeTypesList.toArray(new String[mimeTypesList.size()]);
     }
 
-    
-    /** Default Constructor * */
+
+    /**
+     * Default Constructor *
+     */
     public NetCDFImageReaderSpi() {
-        super(VENDOR_NAME, version, formatNames, suffixes, MIMETypes, readerCN, STANDARD_INPUT_TYPES, wSN,
+        super(VENDOR_NAME, version, formatNames, suffixes, MIMETypes, readerCN, 
+                STANDARD_INPUT_TYPES, wSN,
                 supportsStandardStreamMetadataFormat, nativeStreamMetadataFormatName,
                 nativeStreamMetadataFormatClassName, extraStreamMetadataFormatNames,
                 extraStreamMetadataFormatClassNames, supportsStandardImageMetadataFormat,
                 nativeImageMetadataFormatName, nativeImageMetadataFormatClassName,
                 extraImageMetadataFormatNames, extraImageMetadataFormatClassNames);
-        
+
         LOGGER.fine("NetCDFImageReaderSpi Constructor");
     }
 
@@ -181,7 +189,7 @@ public class NetCDFImageReaderSpi extends ImageReaderSpi {
         } else if (source instanceof URIImageInputStream) {
             input = ((URIImageInputStream) source).getUri();
         }
-        
+
         if (input != null) {
             return NetCDFUtilities.getFormat(input) != FileFormat.NONE;
         } else {

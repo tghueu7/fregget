@@ -88,18 +88,19 @@ import java.net.URLEncoder;
 import org.geotools.geojson.geom.GeometryJSON;
 
 /**
- *
  * This class is pulled from GeoRest DataStore implementation and modified
+ *
  * @author
  */
 class SFSFilterVisitor implements FilterVisitor {
 
-    protected static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org.geotools.data.simplefeatureservice");
+    protected static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org" +
+            ".geotools.data.simplefeatureservice");
     private Map<String, String> properties = new HashMap<String, String>();
     private List<String> queryable = new ArrayList<String>();
     private boolean sortProperties;
     private boolean hasProperties;
-    private static final String strEncoding="UTF-8";
+    private static final String strEncoding = "UTF-8";
 
     public SFSFilterVisitor() {
     }
@@ -119,14 +120,13 @@ class SFSFilterVisitor implements FilterVisitor {
     /**
      * Finish up building the URL, and return it as a string.
      *
-     * @param builder
-     *            StringBuilder that contains the base URL from which to start adding URL
-     *            properties.
-     * @param hasProperties
-     *            Does the given URL already contains other properties?
+     * @param builder       StringBuilder that contains the base URL from which to start adding URL
+     *                      properties.
+     * @param hasProperties Does the given URL already contains other properties?
      * @return Returns the URL with the newly added properties for filtering.
      */
-    public String finish(StringBuilder builder, boolean hasProperties) throws UnsupportedEncodingException {
+    public String finish(StringBuilder builder, boolean hasProperties) throws 
+            UnsupportedEncodingException {
 
         this.hasProperties = hasProperties;
 
@@ -150,7 +150,7 @@ class SFSFilterVisitor implements FilterVisitor {
             builder.append(getGlueChar());
             builder.append("queryable=");
             for (int i = 0; i < queryable.size(); i++) {
-                
+
                 builder.append(URLEncoder.encode(queryable.get(i), strEncoding));
                 if (i < queryable.size() - 1) {
                     builder.append(",");
@@ -296,29 +296,30 @@ class SFSFilterVisitor implements FilterVisitor {
     public Object visit(DWithin filter, Object extraData) {
         // check we actually support this thing
         boolean valid = true;
-        if(!(filter.getExpression1() instanceof PropertyName)) {
-            valid = false;
-        } 
-        if(!(filter.getExpression2() instanceof Literal)) {
+        if (!(filter.getExpression1() instanceof PropertyName)) {
             valid = false;
         }
-        if(!valid) {
-            throw new UnsupportedOperationException("DWithin filter on this store is supported only " +
-            		"if the first operand is the default geometry property and the second " +
-            		"is a geometry literal");
+        if (!(filter.getExpression2() instanceof Literal)) {
+            valid = false;
         }
-        
-        
+        if (!valid) {
+            throw new UnsupportedOperationException("DWithin filter on this store is supported " +
+                    "only " +
+                    "if the first operand is the default geometry property and the second " +
+                    "is a geometry literal");
+        }
+
+
         Geometry geometry = (Geometry) filter.getExpression2().evaluate(extraData);
 
-        if(geometry instanceof Point) {
+        if (geometry instanceof Point) {
             Point point = (Point) geometry;
             if (!properties.containsKey("lon")) {
                 properties.put("lon", String.valueOf(point.getX()));
             } else {
                 throw new IllegalArgumentException("Long. is already set");
             }
-    
+
             if (!properties.containsKey("lat")) {
                 properties.put("lat", String.valueOf(point.getY()));
             } else {
@@ -327,17 +328,17 @@ class SFSFilterVisitor implements FilterVisitor {
         } else {
             writeGeometry(geometry);
         }
-        
+
         if (!properties.containsKey("tolerance")) {
             properties.put("tolerance", String.valueOf(filter.getDistance()));
         } else {
             throw new IllegalArgumentException("tolerance is already set");
         }
 
-        if (!properties.containsKey("epsg") ) {
+        if (!properties.containsKey("epsg")) {
             properties.put("epsg", filter.getDistanceUnits() + "");
         }
-        
+
         return extraData;
     }
 
@@ -346,10 +347,10 @@ class SFSFilterVisitor implements FilterVisitor {
     }
 
     public Object visit(Intersects filter, Object extraData) {
-        
+
         Geometry goem = (Geometry) filter.getExpression2().evaluate(null);
         writeGeometry(goem);
-        
+
         return extraData;
     }
 
@@ -362,7 +363,8 @@ class SFSFilterVisitor implements FilterVisitor {
                 gjson.write(geom, sw);
                 strGeoJSON = sw.toString();
             } catch (IOException ex) {
-                LOGGER.log(Level.SEVERE, " Exception at visit  : Intersect Filter " + ex.getMessage(), ex);
+                LOGGER.log(Level.SEVERE, " Exception at visit  : Intersect Filter " + ex
+                        .getMessage(), ex);
             }
             properties.put("geometry", strGeoJSON);
         } else {
@@ -448,7 +450,7 @@ class SFSFilterVisitor implements FilterVisitor {
     }
 
     private void checkPropertyFilter(String propertyName, String extension,
-            BinaryComparisonOperator filter) {
+                                     BinaryComparisonOperator filter) {
         String combined = propertyName + extension;
         if (!properties.containsKey(combined)) {
             Object value = ((Literal) filter.getExpression2()).getValue();

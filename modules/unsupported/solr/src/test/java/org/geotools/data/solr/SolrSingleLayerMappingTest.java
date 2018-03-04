@@ -63,6 +63,7 @@ public class SolrSingleLayerMappingTest extends SolrTestSupport {
         assertTrue(schema.getDescriptor("geo3") instanceof GeometryDescriptor);
 
     }
+
     public void testFeatureSource() throws Exception {
         init(coreName(dataStore));
         SimpleFeatureSource featureSource = dataStore.getFeatureSource(coreName(dataStore));
@@ -80,6 +81,6 @@ public class SolrSingleLayerMappingTest extends SolrTestSupport {
 
     String coreName(SolrDataStore dataStore) {
         String[] split = dataStore.getSolrServer().getBaseURL().split("/");
-        return split[split.length-1];
+        return split[split.length - 1];
     }
 }

@@ -17,14 +17,14 @@
 package org.geotools.xs;
 
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
+
 import java.lang.reflect.Field;
 import javax.xml.namespace.QName;
+
 import org.geotools.xml.ElementInstance;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class TestSchemaTest extends TestSchema {
@@ -66,13 +66,17 @@ public class TestSchemaTest extends TestSchema {
         assertEquals("1.0", xsd.getVersion());
     }
 
-    /** Look into "builtin" schema for schema (aka xsd ?) */
+    /**
+     * Look into "builtin" schema for schema (aka xsd ?)
+     */
     public void testXSDSimpleTypes() throws Exception {
         XSDSimpleTypeDefinition any = xsdSimple("anySimpleType");
         assertNotNull("Found", any);
     }
 
-    /** Look into parsed schema - should agree with XMLSchema */
+    /**
+     * Look into parsed schema - should agree with XMLSchema
+     */
     public void testSchemaSimpleTypes() throws Exception {
         XSDSimpleTypeDefinition any = xsdSimple("anySimpleType");
         assertNotNull("Found", any);
@@ -102,7 +106,7 @@ public class TestSchemaTest extends TestSchema {
         ElementInstance element = element(" hello world ", XS.ANYSIMPLETYPE);
         assertEquals(" hello world ", element.getText());
         assertEquals(xsdSimple(XS.ANYSIMPLETYPE.getLocalPart()),
-            element.getElementDeclaration().getType());
+                element.getElementDeclaration().getType());
     }
 
     protected QName getQName() {

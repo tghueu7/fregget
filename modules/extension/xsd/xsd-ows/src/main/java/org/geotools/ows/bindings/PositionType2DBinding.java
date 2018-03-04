@@ -17,22 +17,34 @@
 package org.geotools.ows.bindings;
 
 import net.opengis.ows10.Ows10Factory;
+
 import javax.xml.namespace.QName;
+
 import org.geotools.ows.OWS;
 import org.geotools.xml.*;
 
 
 /**
  * Binding object for the type http://www.opengis.net/ows:PositionType2D.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;simpleType name="PositionType2D"&gt;
  *      &lt;annotation&gt;
- *          &lt;documentation&gt;Two-dimensional position instances hold the longitude and latitude coordinates of a position in the 2D WGS 84 coordinate reference system. The longitude value shall be listed first, followed by the latitude value, both in decimal degrees. Latitude values shall range from -90 to +90 degrees, and longitude values shall normally range from -180 to +180 degrees. For the longitude axis, special conditions apply when the bounding box is continuous across the +/- 180 degrees meridian longitude value discontinuity:
- *  a)  If the bounding box is continuous clear around the Earth, then longitude values of minus and plus infinity shall be used.
- *  b)  If the bounding box is continuous across the value discontinuity but is not continuous clear around the Earth, then some non-normal value can be used if specified for a specific OWS use of the WGS84BoundingBoxType. For more information, see Subclauses 10.4.5 and C.13. &lt;/documentation&gt;
+ *          &lt;documentation&gt;Two-dimensional position instances hold the longitude and 
+ *          latitude coordinates of a position in the 2D WGS 84 coordinate reference system. The 
+ *          longitude value shall be listed first, followed by the latitude value, both in 
+ *          decimal degrees. Latitude values shall range from -90 to +90 degrees, and longitude 
+ *          values shall normally range from -180 to +180 degrees. For the longitude axis, 
+ *          special conditions apply when the bounding box is continuous across the +/- 180 
+ *          degrees meridian longitude value discontinuity:
+ *  a)  If the bounding box is continuous clear around the Earth, then longitude values of minus 
+ *  and plus infinity shall be used.
+ *  b)  If the bounding box is continuous across the value discontinuity but is not continuous 
+ *  clear around the Earth, then some non-normal value can be used if specified for a specific 
+ *  OWS use of the WGS84BoundingBoxType. For more information, see Subclauses 10.4.5 and C.13. 
+ *  &lt;/documentation&gt;
  *      &lt;/annotation&gt;
  *      &lt;restriction base="ows:PositionType"&gt;
  *          &lt;length value="2"/&gt;
@@ -44,9 +56,6 @@ import org.geotools.xml.*;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class PositionType2DBinding extends AbstractSimpleBinding {
@@ -77,7 +86,7 @@ public class PositionType2DBinding extends AbstractSimpleBinding {
      * @generated modifiable
      */
     public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
+            throws Exception {
         //TODO: implement and remove call to super
         return super.parse(instance, value);
     }

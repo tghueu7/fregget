@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2012, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -35,14 +35,11 @@ import org.opengis.filter.PropertyIsNull;
 import org.opengis.filter.spatial.BBOX;
 
 /**
- * 
  * @author Jesse
  * @author ported from PostPreProcessFilterSplittingVisitor at 2.5.2 by Gabriel Roldan
- *
- *
  * @source $URL$
  */
-@SuppressWarnings( { "nls", "unchecked" })
+@SuppressWarnings({"nls", "unchecked"})
 public class CapabilitiesFilterSplitterTest extends AbstractCapabilitiesFilterSplitterTests {
 
     private Capabilities simpleLogicalCaps = new Capabilities();
@@ -170,8 +167,8 @@ public class CapabilitiesFilterSplitterTest extends AbstractCapabilitiesFilterSp
         assertEquals(filter, visitor.getFilterPre());
     }
 
-    @Test    
-    @SuppressWarnings("rawtypes")    
+    @Test
+    @SuppressWarnings("rawtypes")
     public void testVisitIdFilterWithNoIdCapabilities() throws Exception {
         // Id Filter
         HashSet ids = new HashSet();
@@ -181,11 +178,11 @@ public class CapabilitiesFilterSplitterTest extends AbstractCapabilitiesFilterSp
         // no Id Capabilities
         visitor = newVisitor(Capabilities.SIMPLE_COMPARISONS_OPENGIS);
         idFilter.accept(visitor, null);
-        
+
         assertEquals(Filter.INCLUDE, visitor.getFilterPre());
-        assertEquals(idFilter, visitor.getFilterPost());        
-    }    
-    
+        assertEquals(idFilter, visitor.getFilterPost());
+    }
+
     @Test
     public void testFunctionFilter() throws Exception {
         simpleLogicalCaps.addType(BBOX.class);
@@ -355,33 +352,33 @@ public class CapabilitiesFilterSplitterTest extends AbstractCapabilitiesFilterSp
     @Test
     public void testTemporalFilter() {
         visitor = new CapabilitiesFilterSplitter(simpleLogicalCaps, null, null);
-        
+
         Filter f1 = ff.after(ff.property("foo"), ff.literal("2011-06-20"));
         f1.accept(visitor, null);
-        
+
         assertEquals(Filter.INCLUDE, visitor.getFilterPre());
         assertEquals(f1, visitor.getFilterPost());
-        
+
         Filter f2 = ff.equal(ff.property("bar"), ff.literal("hello"), true);
         Filter f3 = ff.and(f1, f2);
         f3.accept(visitor, null);
-        
+
         assertEquals(f2, visitor.getFilterPre());
         assertEquals(f1, visitor.getFilterPost());
     }
-    
+
     @Test
     public void testAndOptimization() throws Exception {
         Capabilities caps = new Capabilities();
         // no logical operator capabilities
         caps.addAll(Capabilities.SIMPLE_COMPARISONS_OPENGIS);
-        
+
         visitor = newVisitor(caps);
 
         // try with two filters
         Filter f1 = ff.greater(ff.property("foo"), ff.literal(42));
         Filter f2 = ff.less(ff.property("bar"), ff.literal(21));
-        
+
         Filter andFilter = ff.and(f1, f2);
 
         // visit filter
@@ -390,12 +387,12 @@ public class CapabilitiesFilterSplitterTest extends AbstractCapabilitiesFilterSp
         // test
         assertEquals(f1, visitor.getFilterPre());
         assertEquals(f2, visitor.getFilterPost());
-        
+
         // try with a third filter
         Filter f3 = ff.greater(ff.property("height"), ff.literal(84));
-        
-        andFilter = ff.and(Arrays.asList(new Filter[] { f1, f2, f3 }));
-        
+
+        andFilter = ff.and(Arrays.asList(new Filter[]{f1, f2, f3}));
+
         // visit filter
         andFilter.accept(visitor, null);
 

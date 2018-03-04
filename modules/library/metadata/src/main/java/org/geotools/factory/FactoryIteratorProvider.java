@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -28,15 +28,12 @@ import java.util.Iterator;
  * restricting access to non-package directories as {@code META-INF}. This constraint occurs on
  * the Eclipse platform for instance.
  *
- * @since 2.4
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
- *
+ * @version $Id$
+ * @source $URL$
  * @see FactoryRegistry#addFactoryIteratorProvider
  * @see CommonFactory#addFactoryIteratorProvider
+ * @since 2.4
  */
 public interface FactoryIteratorProvider {
     /**
@@ -44,7 +41,7 @@ public interface FactoryIteratorProvider {
      * The {@code category} argument should be the interface class to be implemented, not the
      * actual implementation.
      *
-     * @param  category The category for the factories to be returned.
+     * @param category The category for the factories to be returned.
      * @return Factories that implement the specified category.
      */
     <T> Iterator<T> iterator(final Class<T> category);

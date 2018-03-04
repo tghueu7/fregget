@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -22,20 +22,20 @@ import org.xml.sax.Attributes;
 
 /**
  * AnyAttributeHandler purpose.
- * 
+ * <p>
  * <p>
  * Represents an 'anyAttribute' element in an xml schema
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc. http://www.refractions.net
  * @author $Author:$ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class AnyAttributeHandler extends XSIElementHandler {
-    /** 'anyAttribute' */
+    /**
+     * 'anyAttribute'
+     */
     public final static String LOCALNAME = "anyAttribute";
 
     //    private String id;
@@ -48,23 +48,23 @@ public class AnyAttributeHandler extends XSIElementHandler {
      */
     public int hashCode() {
         return LOCALNAME.hashCode() * ((namespace == null) ? 1
-                                                           : namespace.hashCode());
+                : namespace.hashCode());
     }
 
     /**
      * @see org.geotools.xml.XSIElementHandler#getHandler(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
-    public XSIElementHandler getHandler(String namespaceURI, String localName){
+    public XSIElementHandler getHandler(String namespaceURI, String localName) {
         return null;
     }
 
     /**
      * @see org.geotools.xml.XSIElementHandler#startElement(java.lang.String,
-     *      java.lang.String, org.xml.sax.Attributes)
+     * java.lang.String, org.xml.sax.Attributes)
      */
     public void startElement(String namespaceURI, String localName,
-        Attributes atts){
+                             Attributes atts) {
 
         namespace = atts.getValue("", "namespace");
 
@@ -82,7 +82,6 @@ public class AnyAttributeHandler extends XSIElementHandler {
 
     /**
      * Returns the values of the namespace attribute
-     *
      */
     public String getNamespace() {
         return namespace;
@@ -97,9 +96,9 @@ public class AnyAttributeHandler extends XSIElementHandler {
 
     /**
      * @see org.geotools.xml.XSIElementHandler#endElement(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
-    public void endElement(String namespaceURI, String localName){
+    public void endElement(String namespaceURI, String localName) {
         // do nothing
     }
 }

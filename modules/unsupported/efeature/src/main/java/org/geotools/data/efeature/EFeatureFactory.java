@@ -1,7 +1,7 @@
 /**
  * <copyright>
  * </copyright>
- *
+ * <p>
  * $Id$
  */
 package org.geotools.data.efeature;
@@ -14,10 +14,10 @@ import org.eclipse.emf.edit.domain.EditingDomain;
  * The <b>Factory</b> for the model.
  * It provides a create method for each non-abstract class of the model.
  * <!-- end-user-doc -->
- * @see org.geotools.data.efeature.EFeaturePackage
- * @generated
  *
+ * @generated
  * @source $URL$
+ * @see org.geotools.data.efeature.EFeaturePackage
  */
 public interface EFeatureFactory extends EFactory {
 
@@ -25,16 +25,17 @@ public interface EFeatureFactory extends EFactory {
      * {@link EFeatureContext} id.
      */
     public static final String eCONTEXT_ID = EFeatureFactory.class.getName();
-    
+
     /**
      * {@link EditingDomain} id.
      */
-    public static final String eDOMAIN_ID = EditingDomain.class.getName();    
-    
+    public static final String eDOMAIN_ID = EditingDomain.class.getName();
+
     /**
      * The singleton instance of the factory.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      */
     EFeatureFactory eINSTANCE = org.geotools.data.efeature.impl.EFeatureFactoryImpl.init();
@@ -43,6 +44,7 @@ public interface EFeatureFactory extends EFactory {
      * Returns the package supported by this factory.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @return the package supported by this factory.
      * @generated
      */

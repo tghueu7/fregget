@@ -23,11 +23,12 @@ import org.geotools.styling.css.selector.Data;
 import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
- * Guesses the structure of the feature type given the list of rules. Mostly used so that we can drive range based simplification in the
- * {@link SimplifyingFilterVisitor} without knowing what the target feature type is (which comes in handy if we really don't have it, e.g., when doing
+ * Guesses the structure of the feature type given the list of rules. Mostly used so that we can 
+ * drive range based simplification in the
+ * {@link SimplifyingFilterVisitor} without knowing what the target feature type is (which comes 
+ * in handy if we really don't have it, e.g., when doing
  * a blind CSS to SLD translation)
- * 
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 public class FeatureTypeGuesser {
@@ -35,8 +36,9 @@ public class FeatureTypeGuesser {
     TypeAggregator aggregator = new TypeAggregator();
 
     /**
-     * Parses a rule selector structure and takes it into account when building the final feature type
-     * 
+     * Parses a rule selector structure and takes it into account when building the final feature
+     * type
+     *
      * @param rule
      */
     public void addRule(CssRule rule) {

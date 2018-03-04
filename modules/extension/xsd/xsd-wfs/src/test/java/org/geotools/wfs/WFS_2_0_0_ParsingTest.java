@@ -70,8 +70,6 @@ import net.opengis.wfs20.FeatureTypeType;
 import net.opengis.wfs20.WFSCapabilitiesType;
 
 /**
- * 
- * 
  * @source $URL$
  */
 public class WFS_2_0_0_ParsingTest extends TestCase {
@@ -90,7 +88,8 @@ public class WFS_2_0_0_ParsingTest extends TestCase {
                 + "  xmlns=\"http://www.opengis.net/wfs/2.0\""
                 + "  xmlns:fes=\"http://www.opengis.net/fes/2.0\""
                 + "  xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\""
-                + "  xsi:schemaLocation=\"http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd\">"
+                + "  xsi:schemaLocation=\"http://www.opengis.net/wfs/2.0 http://schemas.opengis" +
+                ".net/wfs/2.0/wfs.xsd\">"
                 + "</WFS_Capabilities>";
 
         configuration = new org.geotools.wfs.v2_0.WFSCapabilitiesConfiguration();
@@ -104,7 +103,7 @@ public class WFS_2_0_0_ParsingTest extends TestCase {
         assertNotNull(caps);
         assertEquals("2.0.0", caps.getVersion());
     }
-    
+
     public void testParseGetCapabilities() throws Exception {
         configuration = new org.geotools.wfs.v2_0.WFSCapabilitiesConfiguration();
 
@@ -125,7 +124,7 @@ public class WFS_2_0_0_ParsingTest extends TestCase {
         assertFilterCapabilities(caps);
 */
     }
-    
+
 
     public void testParseGetCapabilitiesFMI() throws Exception {
         configuration = new org.geotools.wfs.v2_0.WFSCapabilitiesConfiguration();
@@ -144,7 +143,7 @@ public class WFS_2_0_0_ParsingTest extends TestCase {
         // test stored query parsing
         // TODO:
     }
-    
+
     public void testParseGetCapabilitiesCuzk() throws Exception {
         configuration = new org.geotools.wfs.v2_0.WFSCapabilitiesConfiguration();
 
@@ -158,7 +157,7 @@ public class WFS_2_0_0_ParsingTest extends TestCase {
 
         assertNotNull(caps);
         assertEquals("2.0.0", caps.getVersion());
-        
+
         FilterCapabilitiesType fct = caps.getFilterCapabilities();
         assertNotNull(fct);
     }
@@ -173,9 +172,9 @@ public class WFS_2_0_0_ParsingTest extends TestCase {
         KeywordsType keywords = (KeywordsType) sa.getKeywords().get(0);
         List<String> simpleKeywords = new ArrayList<String>();
         for (Object o : keywords.getKeyword()) {
-            LanguageStringType lst = (LanguageStringType)o;
+            LanguageStringType lst = (LanguageStringType) o;
             simpleKeywords.add(lst.getValue());
-            
+
         }
         assertTrue(simpleKeywords.contains("WFS"));
         assertTrue(simpleKeywords.contains("WMS"));
@@ -209,7 +208,8 @@ public class WFS_2_0_0_ParsingTest extends TestCase {
         assertEquals("GetFeature", ((OperationType) om.getOperation().get(i++)).getName());
         assertEquals("GetPropertyValue", ((OperationType) om.getOperation().get(i++)).getName());
         assertEquals("ListStoredQueries", ((OperationType) om.getOperation().get(i++)).getName());
-        assertEquals("DescribeStoredQueries", ((OperationType) om.getOperation().get(i++)).getName());
+        assertEquals("DescribeStoredQueries", ((OperationType) om.getOperation().get(i++))
+                .getName());
         assertEquals("CreateStoredQuery", ((OperationType) om.getOperation().get(i++)).getName());
         assertEquals("DropStoredQuery", ((OperationType) om.getOperation().get(i++)).getName());
         assertEquals("LockFeature", ((OperationType) om.getOperation().get(i++)).getName());
@@ -318,7 +318,8 @@ public class WFS_2_0_0_ParsingTest extends TestCase {
         Document doc = db.parse(in);
 
         // http://cite.opengeospatial.org/gmlsf
-        // http://localhost:8080/geoserver/wfs?service=WFS&amp;version=1.1.0&amp;request=DescribeFeatureType&amp;typeName=sf:PrimitiveGeoFeature
+        // http://localhost:8080/geoserver/wfs?service=WFS&amp;version=1.1.0&amp;
+        // request=DescribeFeatureType&amp;typeName=sf:PrimitiveGeoFeature
         String schemaLocation = doc.getDocumentElement().getAttributeNS(
                 "http://www.w3.org/2001/XMLSchema-instance", "schemaLocation");
         String absolutePath = URLs.fileToUrl(tmp).toExternalForm();

@@ -26,16 +26,11 @@ import org.opengis.feature.type.PropertyDescriptor;
 
 /**
  * A special iterator for iterating over the attributes of a feature type.
- * 
+ *
  * @author Niels Charlier (Curtin University of Technology)
- * 
- *
- *
- *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/app-schema/app-schema/src/main
- *         /java/org/geotools/feature/xpath/FeatureTypeAttributeIterator.java $
- * 
+ * http://svn.osgeo.org/geotools/trunk/modules/unsupported/app-schema/app-schema/src/main
+ * /java/org/geotools/feature/xpath/FeatureTypeAttributeIterator.java $
  */
 public class FeatureTypeAttributeIterator implements NodeIterator {
     /**
@@ -58,10 +53,10 @@ public class FeatureTypeAttributeIterator implements NodeIterator {
     public FeatureTypeAttributeIterator(NodePointer pointer, ComplexType featureType) {
         this.pointer = pointer;
         this.featureType = featureType;
-        
+
         //get list of descriptors from types and all supertypes
         children = Types.descriptors(featureType);
-        
+
         position = 1;
     }
 
@@ -76,6 +71,7 @@ public class FeatureTypeAttributeIterator implements NodeIterator {
     }
 
     public NodePointer getNodePointer() {
-        return new FeatureTypeAttributePointer(pointer, featureType, children.get(position).getName());
+        return new FeatureTypeAttributePointer(pointer, featureType, children.get(position)
+                .getName());
     }
 }

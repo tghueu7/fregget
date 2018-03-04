@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -20,6 +20,7 @@
 package org.geotools.metadata.iso.identification;
 
 import java.util.Collection;
+
 import org.opengis.metadata.citation.Citation;
 import org.opengis.metadata.identification.Keywords;
 import org.opengis.metadata.identification.KeywordType;
@@ -30,13 +31,10 @@ import org.geotools.metadata.iso.MetadataEntity;
 /**
  * Keywords, their type and reference source.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
+ * @version $Id$
+ * @source $URL$
  * @since 2.1
  */
 public class KeywordsImpl extends MetadataEntity implements Keywords {
@@ -93,7 +91,8 @@ public class KeywordsImpl extends MetadataEntity implements Keywords {
     /**
      * Set commonly used word(s) or formalised word(s) or phrase(s) used to describe the subject.
      */
-    public synchronized void setKeywords(final Collection<? extends InternationalString> newValues) {
+    public synchronized void setKeywords(final Collection<? extends InternationalString> 
+                                                 newValues) {
         keywords = copyCollection(newValues, keywords, InternationalString.class);
     }
 

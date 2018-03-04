@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2006-2010, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -23,8 +23,6 @@ import org.geotools.jdbc.JDBCGeographyTestSetup;
 import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class PostgisGeographyOnlineTest extends JDBCGeographyOnlineTest {
@@ -37,13 +35,14 @@ public class PostgisGeographyOnlineTest extends JDBCGeographyOnlineTest {
     @Override
     public void testSchema() throws Exception {
         super.testSchema();
-        
+
         if (!isGeographySupportAvailable()) {
             return;
         }
 
         // extra check, pg specific: the native typename is actually geography
         SimpleFeatureType ft = dataStore.getFeatureSource(tname("geopoint")).getSchema();
-        assertEquals("geography", ft.getGeometryDescriptor().getUserData().get(JDBCDataStore.JDBC_NATIVE_TYPENAME));
+        assertEquals("geography", ft.getGeometryDescriptor().getUserData().get(JDBCDataStore
+                .JDBC_NATIVE_TYPENAME));
     }
 }

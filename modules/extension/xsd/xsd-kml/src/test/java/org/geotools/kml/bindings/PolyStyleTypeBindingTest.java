@@ -17,6 +17,7 @@
 package org.geotools.kml.bindings;
 
 import java.awt.Color;
+
 import org.geotools.kml.KML;
 import org.geotools.kml.KMLTestSupport;
 import org.geotools.styling.PolygonSymbolizer;
@@ -25,8 +26,6 @@ import org.geotools.xml.Binding;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class PolyStyleTypeBindingTest extends KMLTestSupport {
@@ -40,7 +39,7 @@ public class PolyStyleTypeBindingTest extends KMLTestSupport {
 
     public void testParse() throws Exception {
         String xml = "<PolyStyle>" + "<color>ffff0000</color>" + "<outline>1</outline>"
-            + "<fill>1</fill>" + "</PolyStyle>";
+                + "<fill>1</fill>" + "</PolyStyle>";
 
         buildDocument(xml);
 
@@ -49,7 +48,7 @@ public class PolyStyleTypeBindingTest extends KMLTestSupport {
         assertEquals(1, SLD.width(poly.getStroke()));
 
         xml = "<PolyStyle>" + "<color>ffff0000</color>" + "<outline>0</outline>" + "<fill>0</fill>"
-            + "</PolyStyle>";
+                + "</PolyStyle>";
 
         buildDocument(xml);
         poly = (PolygonSymbolizer) parse();

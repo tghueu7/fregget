@@ -30,7 +30,6 @@ import org.junit.Test;
 
 /**
  * @author Simone Giannecchini, GeoSolutions
- * 
  * @source $URL$
  */
 public class DimensionlessAxisTest extends Assert {
@@ -38,12 +37,13 @@ public class DimensionlessAxisTest extends Assert {
     /**
      * Toy Axis consisting of three bands named A, B and C.
      * <p>
-     * This really is a toy example; if you have a formal fixed data dictionary consider the use of a Java Enumeration (and EnumMeasure), if you have
+     * This really is a toy example; if you have a formal fixed data dictionary consider the use 
+     * of a Java Enumeration (and EnumMeasure), if you have
      * an open ended data dictionary consider a CodeList (and CodeMeasure).
      */
     @Test
     public void testTOY() {
-        DimensionlessAxis TOY = new DimensionlessAxis(new String[] { "A", "B", "C" }, new NameImpl(
+        DimensionlessAxis TOY = new DimensionlessAxis(new String[]{"A", "B", "C"}, new NameImpl(
                 "Color"), new SimpleInternationalString("Toy Example"));
 
         assertEquals(Unit.ONE, TOY.getUnitOfMeasure());
@@ -70,20 +70,21 @@ public class DimensionlessAxisTest extends Assert {
         assertEquals(Unit.ONE, measure.getUnit());
         assertEquals("0", key.getValue());
     }
-    
+
     /**
      * Test which creates a {@link DimensionlessAxis} from an Image
      */
     @Test
     public void testImage() {
         // Image creation
-        RenderedOp constant = ConstantDescriptor.create(20f, 20f, new Byte[] { 1 },
+        RenderedOp constant = ConstantDescriptor.create(20f, 20f, new Byte[]{1},
                 GeoTools.getDefaultHints());
         // Axis creation
         DimensionlessAxis sample = DimensionlessAxis.createFromRenderedImage(constant);
         // Minor checks
         assertTrue(sample.getName().equals(new NameImpl("GRAY-AXIS")));
-        assertTrue(sample.getDescription().compareTo(new SimpleInternationalString("Axis for GRAY bands")) == 0);
+        assertTrue(sample.getDescription().compareTo(new SimpleInternationalString("Axis for GRAY" +
+                " bands")) == 0);
         assertNotNull(sample.getKeys());
         BandIndexMeasure band = sample.getKey(0);
         assertTrue(band != null);

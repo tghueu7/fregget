@@ -4,12 +4,13 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2008, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.style;
 
 import java.util.List;
+
 import org.opengis.annotation.Extension;
 import org.opengis.filter.expression.Expression;
 import org.opengis.annotation.XmlElement;
@@ -22,13 +23,12 @@ import org.opengis.annotation.XmlParameter;
  * or vector-graphic source type. The term "graphic" is used since the term "symbol" is
  * similar to "Symbolizer" which is used in a different context in SE.
  *
- *
- *
- * @source $URL$
- * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding Implementation Specification 1.1.0</A>
  * @author Open Geospatial Consortium
  * @author Johann Sorel (Geomatys)
  * @author Chris Dillard (SYS Technologies)
+ * @version <A HREF="http://www.opengeospatial.org/standards/symbol">Symbology Encoding 
+ * Implementation Specification 1.1.0</A>
+ * @source $URL$
  * @since GeoAPI 2.2
  */
 @XmlElement("Graphic")
@@ -38,7 +38,9 @@ public interface Graphic {
      * Returns the list of external image files or marks that comprise this graphic.
      * All elements of the list must be instances of either {@link Mark} or {@link ExternalGraphic}.
      * <p>
-     * @return List of Marks or ExternalGraphics; if empty it is to be treated a single default Mark.
+     *
+     * @return List of Marks or ExternalGraphics; if empty it is to be treated a single default 
+     * Mark.
      */
     @XmlElement("ExternalGraphic,Mark")
     List<GraphicalSymbol> graphicalSymbols();
@@ -51,6 +53,7 @@ public interface Graphic {
      * Indicates the level of translucency as a floating point number whose value is between 0.0
      * and 1.0 (inclusive).  A value of zero means completely transparent.  A value of 1.0 means
      * completely opaque.  If null, the default value is 1.0, totally opaque.
+     *
      * @return expression
      */
     @XmlParameter("stroke-opacity")
@@ -77,7 +80,7 @@ public interface Graphic {
     /**
      * Returns the expression that will be used to calculate the rotation of the
      * graphic when it is drawn.
-     *
+     * <p>
      * The Rotation element gives the rotation of a graphic in the clockwise direction about its
      * center point in decimal degrees, encoded as a floating-point number. Negative values
      * mean counter-clockwise rotation. The default value is 0.0 (no rotation). Note that there is
@@ -112,7 +115,7 @@ public interface Graphic {
      * element may be used to avoid over-plotting of multiple graphic symbols used as part of
      * the same point symbol. The displacements are in units of measure above and to the right
      * of the point. The default displacement is X=0, Y=0.
-     *
+     * <p>
      * If Displacement is used in conjunction with Size and/or Rotation then the graphic
      * symbol shall be scaled and/or rotated before it is displaced.s
      *
@@ -124,12 +127,13 @@ public interface Graphic {
     /**
      * Calls the visit method of a StyleVisitor
      * <p>
-     * Please note StlyeVisitor has methods to directly visit a Graphic, GraphicLegend, or GraphicFill or GraphicStroke; please
+     * Please note StlyeVisitor has methods to directly visit a Graphic, GraphicLegend, or 
+     * GraphicFill or GraphicStroke; please
      * call the most appropriate method.
-     *  
+     *
      * @param visitor the style visitor
      */
     @Extension
     Object accept(StyleVisitor visitor, Object extraData);
-    
+
 }

@@ -41,14 +41,12 @@ import com.esri.sde.sdk.client.SeTable;
 
 /**
  * Data setup and utilities for testing the support of in-process views
- * 
+ *
  * @author Gabriel Roldan, Axios Engineering
- *
- *
- * @source $URL$
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/test/java
- *         /org/geotools/arcsde/data/InProcessViewSupportTestData.java $
  * @version $Id$
+ * @source $URL$
+ * http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/test/java
+ * /org/geotools/arcsde/data/InProcessViewSupportTestData.java $
  * @since 2.4.x
  */
 public class InProcessViewSupportTestData {
@@ -208,7 +206,7 @@ public class InProcessViewSupportTestData {
      *  -----------------------------------------------
      * &lt;/code&gt;
      * </pre>
-     * 
+     *
      * @param session
      * @throws SeException
      * @throws Exception
@@ -222,7 +220,7 @@ public class InProcessViewSupportTestData {
                     IOException {
                 SeInsert insert = null;
                 SeCoordinateReference coordref = layer.getCoordRef();
-                final String[] columns = { "ID", "NAME", "SHAPE" };
+                final String[] columns = {"ID", "NAME", "SHAPE"};
 
                 for (int i = 1; i < 4; i++) {
                     insert = new SeInsert(connection);
@@ -231,7 +229,7 @@ public class InProcessViewSupportTestData {
 
                     SeRow row = insert.getRowToSet();
                     SeShape shape = new SeShape(coordref);
-                    SDEPoint[] points = { new SDEPoint(i, i) };
+                    SDEPoint[] points = {new SDEPoint(i, i)};
                     shape.generatePoint(1, points);
 
                     row.setInteger(0, Integer.valueOf(i));
@@ -268,13 +266,13 @@ public class InProcessViewSupportTestData {
      *  ---------------------------------------------------------------------
      *  |    6      |      3         |   child6       |    description6     |
      *  ---------------------------------------------------------------------
-     *  |    7      |      3         |   child6       |    description7     | 
+     *  |    7      |      3         |   child6       |    description7     |
      *  ---------------------------------------------------------------------
      * &lt;/code&gt;
      * </pre>
-     * 
+     * <p>
      * Note last row has the same name than child6, for testing group by.
-     * 
+     *
      * @param session
      * @param table
      * @throws IOException
@@ -287,7 +285,7 @@ public class InProcessViewSupportTestData {
             @Override
             public Void execute(ISession session, SeConnection connection) throws SeException,
                     IOException {
-                final String[] columns = { "ID", "MASTER_ID", "NAME", "DESCRIPTION" };
+                final String[] columns = {"ID", "MASTER_ID", "NAME", "DESCRIPTION"};
                 int childId = 0;
 
                 for (int master = 1; master < 4; master++) {

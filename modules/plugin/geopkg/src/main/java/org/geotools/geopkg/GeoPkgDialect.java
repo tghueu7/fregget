@@ -63,13 +63,12 @@ import static org.geotools.geopkg.GeoPackage.SPATIAL_REF_SYS;
 
 /**
  * The GeoPackage SQL Dialect.
- * 
+ *
  * @author Justin Deoliveira
  * @author Niels Charlier
- *
  */
 public class GeoPkgDialect extends PreparedStatementSQLDialect {
-   
+
     static final String HAS_SPATIAL_INDEX = "hasGeopkgSpatialIndex";
 
     protected GeoPkgGeomWriter.Configuration geomWriterConfig;
@@ -90,20 +89,20 @@ public class GeoPkgDialect extends PreparedStatementSQLDialect {
     }
 
     @Override
-    public boolean includeTable(String schemaName, String tableName, Connection cx) throws SQLException {
+    public boolean includeTable(String schemaName, String tableName, Connection cx) throws 
+            SQLException {
         Statement st = cx.createStatement();
-        
+
         try {
             ResultSet rs = st.executeQuery(String.format("SELECT * FROM gpkg_contents WHERE" +
-                " table_name = '%s' AND data_type = '%s'", tableName, DataType.Feature.value()));
+                    " table_name = '%s' AND data_type = '%s'", tableName, DataType.Feature.value
+                    ()));
             try {
                 return rs.next();
-            }
-            finally {
+            } finally {
                 rs.close();
             }
-        }
-        finally {
+        } finally {
             dataStore.closeSafe(st);
         }
     }
@@ -118,32 +117,34 @@ public class GeoPkgDialect extends PreparedStatementSQLDialect {
     public void encodeGeometryEnvelope(String tableName, String geometryColumn, StringBuffer sql) {
         encodeColumnName(null, geometryColumn, sql);
     }
-     
+
     @Override
     public Envelope decodeGeometryEnvelope(ResultSet rs, int column, Connection cx)
-        throws SQLException, IOException {
+            throws SQLException, IOException {
         Geometry g = geometry(rs.getBytes(column));
         return g != null ? g.getEnvelopeInternal() : null;
     }
 
-    @Override  public Geometry decodeGeometryValue(GeometryDescriptor descriptor, ResultSet rs, String column,
-                                                   GeometryFactory factory, Connection cx, Hints hints) throws IOException, SQLException {
+    @Override
+    public Geometry decodeGeometryValue(GeometryDescriptor descriptor, ResultSet rs, String column,
+                                        GeometryFactory factory, Connection cx, Hints hints) 
+            throws IOException, SQLException {
         return geometry(descriptor.getType().getBinding(), rs.getBytes(column), factory, hints);
     }
 
     @Override
-    public Geometry decodeGeometryValue(GeometryDescriptor descriptor, ResultSet rs, int column, GeometryFactory
+    public Geometry decodeGeometryValue(GeometryDescriptor descriptor, ResultSet rs, int column, 
+                                        GeometryFactory
             factory, Connection cx, Hints hints) throws IOException, SQLException {
         return geometry(descriptor.getType().getBinding(), rs.getBytes(column), factory, hints);
     }
 
     @Override
     public void setGeometryValue(Geometry g, int dimension, int srid, Class binding,
-            PreparedStatement ps, int column) throws SQLException {
-        if (g == null||g.isEmpty()) {
+                                 PreparedStatement ps, int column) throws SQLException {
+        if (g == null || g.isEmpty()) {
             ps.setNull(column, Types.BLOB);
-        }
-        else {
+        } else {
             g.setSRID(srid);
             try {
                 ps.setBytes(column, new GeoPkgGeomWriter(dimension, geomWriterConfig).write(g));
@@ -158,17 +159,18 @@ public class GeoPkgDialect extends PreparedStatementSQLDialect {
      * @param bytes
      * @param factory
      * @return
-     * @throws IOException 
+     * @throws IOException
      */
-    private Geometry geometry(Class geometryType, byte[] bytes, GeometryFactory factory, Hints hints) throws IOException {
+    private Geometry geometry(Class geometryType, byte[] bytes, GeometryFactory factory, Hints 
+            hints) throws IOException {
         GeoPkgGeomReader geoPkgGeomReader = new GeoPkgGeomReader(bytes);
         geoPkgGeomReader.setFactory(factory);
         geoPkgGeomReader.setHints(hints);
         geoPkgGeomReader.setGeometryType(geometryType);
         return bytes != null ? geoPkgGeomReader.get() : null;
-       
+
     }
-    
+
     Geometry geometry(byte[] b) throws IOException {
         return geometry(null, b, null, null);
     }
@@ -179,7 +181,7 @@ public class GeoPkgDialect extends PreparedStatementSQLDialect {
     }
 
     @Override
-    public void registerSqlTypeNameToClassMappings( Map<String, Class<?>> mappings) {
+    public void registerSqlTypeNameToClassMappings(Map<String, Class<?>> mappings) {
         super.registerSqlTypeNameToClassMappings(mappings);
         mappings.put("DOUBLE", Double.class);
         mappings.put("BOOLEAN", Boolean.class);
@@ -230,11 +232,11 @@ public class GeoPkgDialect extends PreparedStatementSQLDialect {
         String col = columns.getString("COLUMN_NAME");
 
         String sql = format(
-            "SELECT b.geometry_type_name" +
-             " FROM %s a, %s b" +
-            " WHERE a.table_name = b.table_name" +
-              " AND b.table_name = ?" +
-              " AND b.column_name = ?", GEOPACKAGE_CONTENTS, GEOMETRY_COLUMNS);
+                "SELECT b.geometry_type_name" +
+                        " FROM %s a, %s b" +
+                        " WHERE a.table_name = b.table_name" +
+                        " AND b.table_name = ?" +
+                        " AND b.column_name = ?", GEOPACKAGE_CONTENTS, GEOMETRY_COLUMNS);
 
         if (LOGGER.isLoggable(Level.FINE)) {
             LOGGER.fine(String.format("%s; 1=%s, 2=%s", sql, tbl, col));
@@ -255,8 +257,7 @@ public class GeoPkgDialect extends PreparedStatementSQLDialect {
             }
 
             rs.close();
-        }
-        finally {
+        } finally {
             dataStore.closeSafe(ps);
         }
 
@@ -264,9 +265,9 @@ public class GeoPkgDialect extends PreparedStatementSQLDialect {
     }
 
     @Override
-    public void postCreateTable(String schemaName, SimpleFeatureType featureType, Connection cx) 
-        throws SQLException, IOException {
-     
+    public void postCreateTable(String schemaName, SimpleFeatureType featureType, Connection cx)
+            throws SQLException, IOException {
+
         FeatureEntry fe = (FeatureEntry) featureType.getUserData().get(FeatureEntry.class);
         if (fe == null) {
             fe = new FeatureEntry();
@@ -275,14 +276,14 @@ public class GeoPkgDialect extends PreparedStatementSQLDialect {
             fe.setTableName(featureType.getTypeName());
             fe.setLastChange(new java.util.Date());
         }
-        
-        GeometryDescriptor gd = featureType.getGeometryDescriptor(); 
+
+        GeometryDescriptor gd = featureType.getGeometryDescriptor();
         if (gd != null) {
             fe.setGeometryColumn(gd.getLocalName());
             fe.setGeometryType(Geometries.getForBinding((Class) gd.getType().getBinding()));
         }
 
-        CoordinateReferenceSystem crs = featureType.getCoordinateReferenceSystem(); 
+        CoordinateReferenceSystem crs = featureType.getCoordinateReferenceSystem();
         if (crs != null) {
             Integer epsgCode = null;
             try {
@@ -308,7 +309,8 @@ public class GeoPkgDialect extends PreparedStatementSQLDialect {
                         FeatureEntry fe1 = new FeatureEntry();
                         fe1.init(fe);
                         fe1.setGeometryColumn(gd1.getLocalName());
-                        fe1.setGeometryType(Geometries.getForBinding((Class) gd1.getType().getBinding()));
+                        fe1.setGeometryType(Geometries.getForBinding((Class) gd1.getType()
+                                .getBinding()));
                         geopkg.addGeometryColumnsEntry(fe1);
                     }
                 }
@@ -319,7 +321,8 @@ public class GeoPkgDialect extends PreparedStatementSQLDialect {
     }
 
     @Override
-    public void postDropTable(String schemaName, SimpleFeatureType featureType, Connection cx) throws SQLException {
+    public void postDropTable(String schemaName, SimpleFeatureType featureType, Connection cx) 
+            throws SQLException {
         super.postDropTable(schemaName, featureType, cx);
         FeatureEntry fe = (FeatureEntry) featureType.getUserData().get(FeatureEntry.class);
         if (fe == null) {
@@ -337,7 +340,8 @@ public class GeoPkgDialect extends PreparedStatementSQLDialect {
         }
     }
 
-    public Integer getGeometrySRID(String schemaName, String tableName, String columnName, Connection cx) throws SQLException {
+    public Integer getGeometrySRID(String schemaName, String tableName, String columnName, 
+                                   Connection cx) throws SQLException {
         try {
             FeatureEntry fe = geopkg().feature(tableName);
             return fe != null ? fe.getSrid() : null;
@@ -345,9 +349,10 @@ public class GeoPkgDialect extends PreparedStatementSQLDialect {
             throw new SQLException(e);
         }
     }
-    
+
     @Override
-    public int getGeometryDimension(String schemaName, String tableName, String columnName, Connection cx) throws SQLException {
+    public int getGeometryDimension(String schemaName, String tableName, String columnName, 
+                                    Connection cx) throws SQLException {
         try {
             FeatureEntry fe = geopkg().feature(tableName);
             if (fe != null) {
@@ -357,25 +362,25 @@ public class GeoPkgDialect extends PreparedStatementSQLDialect {
             }
         } catch (IOException e) {
             throw new SQLException(e);
-        }        
+        }
     }
 
     public CoordinateReferenceSystem createCRS(int srid, Connection cx) throws SQLException {
         try {
             return CRS.decode("EPSG:" + srid, true);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             LOGGER.log(Level.FINE, "Unable to create CRS from epsg code " + srid, e);
-            
+
             //try looking up in spatial ref sys
-            String sql = 
-                String.format("SELECT definition FROM %s WHERE auth_srid = %d", SPATIAL_REF_SYS, srid);
+            String sql =
+                    String.format("SELECT definition FROM %s WHERE auth_srid = %d", 
+                            SPATIAL_REF_SYS, srid);
             LOGGER.fine(sql);
 
             Statement st = cx.createStatement();
             ResultSet rs = st.executeQuery(sql);
             try {
-                if (rs.next()){
+                if (rs.next()) {
                     String wkt = rs.getString(1);
                     try {
                         return CRS.parseWKT(wkt);
@@ -383,8 +388,7 @@ public class GeoPkgDialect extends PreparedStatementSQLDialect {
                         LOGGER.log(Level.FINE, "Unable to create CRS from wkt: " + wkt, e2);
                     }
                 }
-            }
-            finally {
+            } finally {
                 dataStore.closeSafe(rs);
                 dataStore.closeSafe(st);
             }
@@ -397,51 +401,52 @@ public class GeoPkgDialect extends PreparedStatementSQLDialect {
     public boolean lookupGeneratedValuesPostInsert() {
         return true;
     }
-    
+
     @Override
     public Object getLastAutoGeneratedValue(String schemaName, String tableName, String columnName,
-            Connection cx) throws SQLException {
+                                            Connection cx) throws SQLException {
         Statement st = cx.createStatement();
         try {
-            ResultSet rs = st.executeQuery( "SELECT last_insert_rowid()");
+            ResultSet rs = st.executeQuery("SELECT last_insert_rowid()");
             try {
                 if (rs.next()) {
-                    return rs.getInt( 1 );
+                    return rs.getInt(1);
                 }
-            }
-            finally {
+            } finally {
                 dataStore.closeSafe(rs);
             }
-        }
-        finally {
+        } finally {
             dataStore.closeSafe(st);
         }
-        
+
         return null;
     }
-    
+
     GeoPackage geopkg() {
         return new GeoPackage(dataStore);
     }
-    
+
     @Override
     public boolean isLimitOffsetSupported() {
-       
+
         return true;
     }
+
     @Override
     public void applyLimitOffset(StringBuffer sql, int limit, int offset) {
-        if(limit > 0 && limit < Integer.MAX_VALUE) {
+        if (limit > 0 && limit < Integer.MAX_VALUE) {
             sql.append(" LIMIT " + limit);
-            if(offset > 0) {
+            if (offset > 0) {
                 sql.append(" OFFSET " + offset);
             }
-        } else if(offset > 0) {
-            //see https://stackoverflow.com/questions/10491492/sqllite-with-skip-offset-only-not-limit
+        } else if (offset > 0) {
+            //see https://stackoverflow
+            // .com/questions/10491492/sqllite-with-skip-offset-only-not-limit
             sql.append(" LIMIT -1");
             sql.append(" OFFSET " + offset);
         }
     }
+
     @Override
     public PreparedFilterToSQL createPreparedFilterToSQL() {
         GeoPkgFilterToSQL fts = new GeoPkgFilterToSQL(this);
@@ -450,7 +455,7 @@ public class GeoPkgDialect extends PreparedStatementSQLDialect {
 
     @Override
     public void setValue(Object value, Class binding, PreparedStatement ps, int column,
-            Connection cx) throws SQLException {
+                         Connection cx) throws SQLException {
         // get the sql type
         Integer sqlType = dataStore.getMapping(binding);
 
@@ -461,32 +466,33 @@ public class GeoPkgDialect extends PreparedStatementSQLDialect {
         }
 
         switch (sqlType) {
-        case Types.DATE:
-            ps.setString(column, ((Date)value).toString());
-            break;
-        case Types.TIME:
-            ps.setString(column, ((Time)value).toString());
-            break;
-        case Types.TIMESTAMP:
-            ps.setString(column, ((Timestamp)value).toString());
-            break;
-        default:
-            super.setValue(value, binding, ps, column, cx);
+            case Types.DATE:
+                ps.setString(column, ((Date) value).toString());
+                break;
+            case Types.TIME:
+                ps.setString(column, ((Time) value).toString());
+                break;
+            case Types.TIMESTAMP:
+                ps.setString(column, ((Timestamp) value).toString());
+                break;
+            default:
+                super.setValue(value, binding, ps, column, cx);
         }
     }
-    
+
     @Override
     public void encodeColumnType(String sqlTypeName, StringBuffer sql) {
         sql.append(sqlTypeName.toUpperCase()); //may keep cite tests happy about geom names
     }
-    
+
     @Override
     public void postCreateAttribute(AttributeDescriptor att, String tableName, String schemaName,
-            Connection cx) throws SQLException {
+                                    Connection cx) throws SQLException {
         super.postCreateAttribute(att, tableName, schemaName, cx);
 
-        if(att instanceof GeometryDescriptor) {
-            String sql = "SELECT * FROM gpkg_extensions WHERE (lower(table_name)=lower('" + tableName
+        if (att instanceof GeometryDescriptor) {
+            String sql = "SELECT * FROM gpkg_extensions WHERE (lower(table_name)=lower('" + 
+                    tableName
                     + "') " + "AND lower(column_name)=lower('" + att.getLocalName() + "') "
                     + "AND extension_name='gpkg_rtree_index')";
             try (Statement st = cx.createStatement(); ResultSet rs = st.executeQuery(sql)) {
@@ -496,18 +502,19 @@ public class GeoPkgDialect extends PreparedStatementSQLDialect {
             }
         }
     }
-    
+
     @Override
     public Filter[] splitFilter(Filter filter, SimpleFeatureType schema) {
         // sqlite does not have ST_* function support but can do a rtree search, assuming
         // there are rtrees to hit
         // This implementation only supports figuring a bbox in case there is a single
-        // indexed spatial attribute (could be extended to use multiple spatial attributes if need be)
+        // indexed spatial attribute (could be extended to use multiple spatial attributes if 
+        // need be)
         final GeometryDescriptor searchAttribute = simpleSpatialSearch(filter, schema);
         if (searchAttribute != null) {
             Envelope envelope = (Envelope) filter.accept(ExtractBoundsFilterVisitor.BOUNDS_VISITOR,
                     null);
-            if (envelope != null && !envelope.isNull() 
+            if (envelope != null && !envelope.isNull()
                     && !Double.isInfinite(envelope.getWidth())
                     && !Double.isInfinite(envelope.getHeight())) {
                 // split assuming there is no spatial support
@@ -516,7 +523,7 @@ public class GeoPkgDialect extends PreparedStatementSQLDialect {
                 BBOX bbox = ff.bbox(searchAttribute.getLocalName(), envelope.getMinX(),
                         envelope.getMinY(), envelope.getMaxX(), envelope.getMaxY(), null);
                 split[0] = ff.and(split[0], bbox);
-                
+
                 return split;
             }
         }
@@ -526,7 +533,7 @@ public class GeoPkgDialect extends PreparedStatementSQLDialect {
 
     /**
      * Checks if the filter uses a single spatial attribute, and such spatial attribute is indexed
-     * 
+     *
      * @param filter
      * @param schema
      * @return
@@ -557,7 +564,7 @@ public class GeoPkgDialect extends PreparedStatementSQLDialect {
 
         return geometryAttribute;
     }
-    
+
     @Override
     protected PrimaryKey getPrimaryKey(String typeName) throws IOException {
         return super.getPrimaryKey(typeName);
@@ -572,13 +579,14 @@ public class GeoPkgDialect extends PreparedStatementSQLDialect {
     }
 
     @Override
-    public String getPkColumnValue(ResultSet rs, PrimaryKeyColumn pkey, int columnIdx) throws SQLException {
+    public String getPkColumnValue(ResultSet rs, PrimaryKeyColumn pkey, int columnIdx) throws 
+            SQLException {
         // by spec primary key of a GeoPackage column is integer, but maybe other tables do not
         // follow this rule. Calling rs.getInt avoids an inefficient block of code in sqlite driver
         if (Integer.class.equals(pkey.getType())) {
             // primary keys cannot contain null values, so no need to check rs.wasNull() and
             // thus saving an expensive native call
-            return  String.valueOf(rs.getInt(columnIdx));
+            return String.valueOf(rs.getInt(columnIdx));
         } else {
             return rs.getString(columnIdx);
         }

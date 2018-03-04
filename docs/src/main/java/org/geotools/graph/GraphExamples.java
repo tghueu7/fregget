@@ -22,45 +22,47 @@ import org.opengis.feature.FeatureVisitor;
 import org.opengis.feature.simple.SimpleFeature;
 
 public class GraphExamples {
-void graphExample() throws Exception {
-    SimpleFeatureSource featureSource = null;
-    
-    // graphExample start
-    final LineGraphGenerator generator = new BasicLineGraphGenerator();
-    SimpleFeatureCollection fc = featureSource.getFeatures();
-    
-    fc.accepts(new FeatureVisitor() {
-        public void visit(Feature feature) {
-            generator.add(feature);
-        }
-    }, null);
-    Graph graph = generator.getGraph();
-    // graphExample end
-    
-    // visitor example start
-    class OrphanVisitor implements GraphVisitor {
-        private int count = 0;
-        public int getCount() {
-            return count;
-        }
-        public int visit(Graphable component) {
-            Iterator related = component.getRelated();
-            if( related.hasNext() == false ){
-                // no related components makes this an orphan
-                count++;
+    void graphExample() throws Exception {
+        SimpleFeatureSource featureSource = null;
+
+        // graphExample start
+        final LineGraphGenerator generator = new BasicLineGraphGenerator();
+        SimpleFeatureCollection fc = featureSource.getFeatures();
+
+        fc.accepts(new FeatureVisitor() {
+            public void visit(Feature feature) {
+                generator.add(feature);
             }
-            return GraphTraversal.CONTINUE;
+        }, null);
+        Graph graph = generator.getGraph();
+        // graphExample end
+
+        // visitor example start
+        class OrphanVisitor implements GraphVisitor {
+            private int count = 0;
+
+            public int getCount() {
+                return count;
+            }
+
+            public int visit(Graphable component) {
+                Iterator related = component.getRelated();
+                if (related.hasNext() == false) {
+                    // no related components makes this an orphan
+                    count++;
+                }
+                return GraphTraversal.CONTINUE;
+            }
         }
+        OrphanVisitor graphVisitor = new OrphanVisitor();
+
+        SimpleGraphWalker sgv = new SimpleGraphWalker(graphVisitor);
+        GraphIterator iterator = new BreadthFirstIterator();
+        BasicGraphTraversal bgt = new BasicGraphTraversal(graph, sgv, iterator);
+
+        bgt.traverse();
+
+        System.out.println("Found orphans: " + graphVisitor.getCount());
+        // visitor example end
     }
-    OrphanVisitor graphVisitor = new OrphanVisitor();
-    
-    SimpleGraphWalker sgv = new SimpleGraphWalker(graphVisitor);
-    GraphIterator iterator = new BreadthFirstIterator();
-    BasicGraphTraversal bgt = new BasicGraphTraversal(graph, sgv, iterator);
-    
-    bgt.traverse();
-    
-    System.out.println("Found orphans: " + graphVisitor.getCount());
-    // visitor example end
-}
 }

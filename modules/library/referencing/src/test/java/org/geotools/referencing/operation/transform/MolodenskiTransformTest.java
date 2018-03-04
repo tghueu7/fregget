@@ -19,6 +19,7 @@ package org.geotools.referencing.operation.transform;
 import org.geotools.referencing.operation.TransformTestBase;
 
 import org.junit.*;
+
 import static org.junit.Assert.*;
 
 
@@ -26,9 +27,6 @@ import static org.junit.Assert.*;
  * Tests the {@link MolodenskiTransform} class.
  *
  * @author Tara Athan
- *
- *
- *
  * @source $URL$
  */
 public final class MolodenskiTransformTest extends TransformTestBase {
@@ -36,13 +34,13 @@ public final class MolodenskiTransformTest extends TransformTestBase {
      * An array with a variety of test points
      */
     private float[] srcFloat2 = {
-           0.0f,      0.0f,
-           0.0f,     89.999f,
-           0.0f,    -89.999f,
-         179.999f,    0.0f,
-        -179.999f,    0.0f,
-           0.0f,      0.0f,
-        -123.19641f, 39.26859f
+            0.0f, 0.0f,
+            0.0f, 89.999f,
+            0.0f, -89.999f,
+            179.999f, 0.0f,
+            -179.999f, 0.0f,
+            0.0f, 0.0f,
+            -123.19641f, 39.26859f
     };
 
     /**
@@ -56,8 +54,8 @@ public final class MolodenskiTransformTest extends TransformTestBase {
      */
     @Before
     public void setUp() {
-        double a  = 6378137.0;
-        double b  = 6356752.0;
+        double a = 6378137.0;
+        double b = 6356752.0;
         molodenski00 = new MolodenskiTransform(false, a, b, false, a, b, false, 0.0, 0.0, 0.0);
     }
 
@@ -74,9 +72,10 @@ public final class MolodenskiTransformTest extends TransformTestBase {
         molodenski00.transform(overWriteTestArray, srcOff, overWriteTestArray, dstOff, numPts);
 
         int dim = 2;
-        for (int i=0; i<numPts; i++) {
-            assertEquals(srcFloat2[srcOff+dim*i  ], overWriteTestArray[dstOff+dim*i  ], 1E-6);
-            assertEquals(srcFloat2[srcOff+dim*i+1], overWriteTestArray[dstOff+dim*i+1], 1E-6);
+        for (int i = 0; i < numPts; i++) {
+            assertEquals(srcFloat2[srcOff + dim * i], overWriteTestArray[dstOff + dim * i], 1E-6);
+            assertEquals(srcFloat2[srcOff + dim * i + 1], overWriteTestArray[dstOff + dim * i + 
+                    1], 1E-6);
         }
     }
 }

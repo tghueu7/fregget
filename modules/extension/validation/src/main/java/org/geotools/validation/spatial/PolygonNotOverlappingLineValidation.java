@@ -28,23 +28,21 @@ import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * PolygonNotOverlappingLineValidation purpose.
- * 
+ * <p>
  * <p>
  * Checks that the polygon is not overlapping the line.
  * </p>
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class PolygonNotOverlappingLineValidation
-    extends PolygonLineAbstractValidation {
+        extends PolygonLineAbstractValidation {
     /**
      * PolygonNotOverlappingLineValidation constructor.
-     * 
+     * <p>
      * <p>
      * Description
      * </p>
@@ -56,32 +54,32 @@ public class PolygonNotOverlappingLineValidation
     /**
      * Check that the polygon is not overlapping the line.
      *
-     * @param layers Map of SimpleFeatureSource by "dataStoreID:typeName"
+     * @param layers   Map of SimpleFeatureSource by "dataStoreID:typeName"
      * @param envelope The bounding box that encloses the unvalidated data
-     * @param results Used to coallate results information
-     *
+     * @param results  Used to coallate results information
      * @return <code>true</code> if all the features pass this test.
-     *
      * @throws Exception DOCUMENT ME!
      */
     public boolean validate(Map layers, Envelope envelope,
-        ValidationResults results) throws Exception {
+                            ValidationResults results) throws Exception {
         SimpleFeatureSource polySource1 = (SimpleFeatureSource) layers.get(getPolygonTypeRef());
-        SimpleFeatureSource polySource2 = (SimpleFeatureSource) layers.get(getRestrictedLineTypeRef());
+        SimpleFeatureSource polySource2 = (SimpleFeatureSource) layers.get
+                (getRestrictedLineTypeRef());
 
         Object[] poly1 = polySource1.getFeatures().toArray();
         Object[] poly2 = polySource2.getFeatures().toArray();
 
         if (!envelope.contains(polySource1.getBounds())) {
             results.error((SimpleFeature) poly1[0],
-                "Polygon Feature Source is not contained within the Envelope provided.");
+                    "Polygon Feature Source is not contained within the Envelope provided.");
 
             return false;
         }
 
         if (!envelope.contains(polySource2.getBounds())) {
             results.error((SimpleFeature) poly1[0],
-                "Restricted Polygon Feature Source is not contained within the Envelope provided.");
+                    "Restricted Polygon Feature Source is not contained within the Envelope " +
+                            "provided.");
 
             return false;
         }

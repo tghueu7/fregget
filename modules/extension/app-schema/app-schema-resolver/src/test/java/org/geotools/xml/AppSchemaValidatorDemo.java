@@ -28,21 +28,21 @@ import org.geotools.xml.resolver.SchemaResolver;
  * A demonstration of schema-validation in which XML schemas are downloaded from the network.
  * Schemas on the classpath are not used.
  * </p>
- * 
+ * <p>
  * <p>
  * This demo validates the content of
  * <code>src/test/resources/test-data/validator-demo/file-to-be-validated.xml</code> against the
  * schemas declared in its <code>schemaLocation</code>. The schema-validation should report two
  * validation failures to stderr when run as an application in Eclipse.
  * </p>
- * 
+ * <p>
  * <p>
  * To validate any other XML document with an XML Schema grammer, replace the content of
  * <code>src/test/resources/test-data/validator-demo/file-to-be-validated.xml</code> with the
  * document to be validated and run this class as an application in Eclipse. Validation requires the
  * presence of a <code>schemaLocation</code> in the instance document.
  * </p>
- * 
+ * <p>
  * <p>
  * Schemas required for validation will be downloaded from the network and placed in
  * <code>target/test-classes/test-data/validator-demo/app-schema-cache</code>. The cache is
@@ -51,7 +51,7 @@ import org.geotools.xml.resolver.SchemaResolver;
  * <code>target/test-classes</code> by Eclipse and discovered by searching the ancestor directories
  * of the file under validation (also copied and found earlier on the classpath).
  * </p>
- * 
+ *
  * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
  */
 public class AppSchemaValidatorDemo {
@@ -63,9 +63,8 @@ public class AppSchemaValidatorDemo {
 
     /**
      * Perform the schema-validation.
-     * 
-     * @param args
-     *            ignored
+     *
+     * @param args ignored
      */
     public static void main(String[] args) {
         // download and cache schemas using app-schema-cache discovered from resource path

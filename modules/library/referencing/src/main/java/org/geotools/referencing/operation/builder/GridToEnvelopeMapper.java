@@ -47,47 +47,45 @@ import org.geotools.util.Utilities;
  * are meet:
  * <p>
  * <ul>
- *   <li><p>Pixels coordinates (usually (<var>x</var>,<var>y</var>) integer values inside
- *       the rectangle specified by the grid range) are expressed in some
- *       {@linkplain CoordinateReferenceSystem coordinate reference system} known at compile
- *       time. This is often the case. For example the CRS attached to {@link BufferedImage}
- *       has always ({@linkplain AxisDirection#COLUMN_POSITIVE column},
- *       {@linkplain AxisDirection#ROW_POSITIVE row}) axis, with the origin (0,0) in the upper
- *       left corner, and row values increasing down.</p></li>
- *
- *   <li><p>"Real world" coordinates (inside the envelope) are expressed in arbitrary
- *       <em>horizontal</em> coordinate reference system. Axis directions may be
- *       ({@linkplain AxisDirection#NORTH North}, {@linkplain AxisDirection#WEST West}),
- *       or ({@linkplain AxisDirection#EAST East}, {@linkplain AxisDirection#NORTH North}),
- *       <cite>etc.</cite>.</p></li>
+ * <li><p>Pixels coordinates (usually (<var>x</var>,<var>y</var>) integer values inside
+ * the rectangle specified by the grid range) are expressed in some
+ * {@linkplain CoordinateReferenceSystem coordinate reference system} known at compile
+ * time. This is often the case. For example the CRS attached to {@link BufferedImage}
+ * has always ({@linkplain AxisDirection#COLUMN_POSITIVE column},
+ * {@linkplain AxisDirection#ROW_POSITIVE row}) axis, with the origin (0,0) in the upper
+ * left corner, and row values increasing down.</p></li>
+ * <p>
+ * <li><p>"Real world" coordinates (inside the envelope) are expressed in arbitrary
+ * <em>horizontal</em> coordinate reference system. Axis directions may be
+ * ({@linkplain AxisDirection#NORTH North}, {@linkplain AxisDirection#WEST West}),
+ * or ({@linkplain AxisDirection#EAST East}, {@linkplain AxisDirection#NORTH North}),
+ * <cite>etc.</cite>.</p></li>
  * </ul>
  * <p>
  * In such case (and assuming that the image's CRS has the same characteristics than the
  * {@link BufferedImage}'s CRS described above):
  * <p>
  * <ul>
- *   <li><p>{@link #setSwapXY swapXY} shall be set to {@code true} if the "real world" axis
- *       order is ({@linkplain AxisDirection#NORTH North}, {@linkplain AxisDirection#EAST East})
- *       instead of ({@linkplain AxisDirection#EAST East}, {@linkplain AxisDirection#NORTH North}).
- *       This axis swapping is necessary for mapping the ({@linkplain AxisDirection#COLUMN_POSITIVE
- *       column}, {@linkplain AxisDirection#ROW_POSITIVE row}) axis order associated to the
- *       image CRS.</p></li>
- *
- *   <li><p>In addition, the "real world" axis directions shall be reversed (by invoking
- *       <code>{@linkplain #reverseAxis reverseAxis}(dimension)</code>) if their direction is
- *       {@link AxisDirection#WEST WEST} (<var>x</var> axis) or {@link AxisDirection#NORTH NORTH}
- *       (<var>y</var> axis), in order to get them oriented toward the {@link AxisDirection#EAST
- *       EAST} or {@link AxisDirection#SOUTH SOUTH} direction respectively. The later may seems
- *       unatural, but it reflects the fact that row values are increasing down in an
- *       {@link BufferedImage}'s CRS.</p></li>
+ * <li><p>{@link #setSwapXY swapXY} shall be set to {@code true} if the "real world" axis
+ * order is ({@linkplain AxisDirection#NORTH North}, {@linkplain AxisDirection#EAST East})
+ * instead of ({@linkplain AxisDirection#EAST East}, {@linkplain AxisDirection#NORTH North}).
+ * This axis swapping is necessary for mapping the ({@linkplain AxisDirection#COLUMN_POSITIVE
+ * column}, {@linkplain AxisDirection#ROW_POSITIVE row}) axis order associated to the
+ * image CRS.</p></li>
+ * <p>
+ * <li><p>In addition, the "real world" axis directions shall be reversed (by invoking
+ * <code>{@linkplain #reverseAxis reverseAxis}(dimension)</code>) if their direction is
+ * {@link AxisDirection#WEST WEST} (<var>x</var> axis) or {@link AxisDirection#NORTH NORTH}
+ * (<var>y</var> axis), in order to get them oriented toward the {@link AxisDirection#EAST
+ * EAST} or {@link AxisDirection#SOUTH SOUTH} direction respectively. The later may seems
+ * unatural, but it reflects the fact that row values are increasing down in an
+ * {@link BufferedImage}'s CRS.</p></li>
  * </ul>
  *
- * @since 2.3
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.3
  */
 public class GridToEnvelopeMapper {
     /**
@@ -161,31 +159,28 @@ public class GridToEnvelopeMapper {
      *                  coincide with the upper left corner of the first pixel and the envelope's
      *                  lower right corner must coincide with the lower right corner of the last
      *                  pixel.
-     *
      * @throws MismatchedDimensionException if the grid range and the envelope doesn't have
-     *         consistent dimensions.
+     *                                      consistent dimensions.
      */
     public GridToEnvelopeMapper(final GridEnvelope gridRange, final Envelope userRange)
-            throws MismatchedDimensionException
-    {
+            throws MismatchedDimensionException {
         ensureNonNull("gridRange", gridRange);
         ensureNonNull("userRange", userRange);
         final int gridDim = gridRange.getDimension();
         final int userDim = userRange.getDimension();
         if (userDim != gridDim) {
             throw new MismatchedDimensionException(Errors.format(ErrorKeys.MISMATCHED_DIMENSION_$2,
-                        gridDim, userDim));
+                    gridDim, userDim));
         }
         this.gridRange = gridRange;
-        this.envelope  = userRange;
+        this.envelope = userRange;
     }
 
     /**
      * Makes sure that an argument is non-null.
      */
     private static void ensureNonNull(final String name, final Object object)
-            throws IllegalArgumentException
-    {
+            throws IllegalArgumentException {
         if (object == null) {
             throw new IllegalArgumentException(Errors.format(ErrorKeys.NULL_ARGUMENT_$1, name));
         }
@@ -196,19 +191,18 @@ public class GridToEnvelopeMapper {
      */
     private static void ensureDimensionMatch(final GridEnvelope gridRange,
                                              final Envelope envelope,
-                                             final boolean checkingRange)
-    {
+                                             final boolean checkingRange) {
         if (gridRange != null && envelope != null) {
             final String label;
             final int dim1, dim2;
             if (checkingRange) {
                 label = "gridRange";
-                dim1  = gridRange.getDimension();
-                dim2  = envelope .getDimension();
+                dim1 = gridRange.getDimension();
+                dim2 = envelope.getDimension();
             } else {
                 label = "envelope";
-                dim1  = envelope .getDimension();
-                dim2  = gridRange.getDimension();
+                dim1 = envelope.getDimension();
+                dim2 = gridRange.getDimension();
             }
             if (dim1 != dim2) {
                 throw new MismatchedDimensionException(Errors.format(
@@ -247,7 +241,6 @@ public class GridToEnvelopeMapper {
      * the later is Java2D/JAI convention. The default is cell center (OGC convention).
      *
      * @return Whatever the grid range maps pixel center or corner.
-     *
      * @since 2.5
      */
     public PixelInCell getPixelAnchor() {
@@ -271,7 +264,6 @@ public class GridToEnvelopeMapper {
      * while the later is Java2D/JAI convention.
      *
      * @param anchor Whatever the grid range maps pixel center or corner.
-     *
      * @since 2.5
      */
     public void setPixelAnchor(final PixelInCell anchor) {
@@ -346,7 +338,7 @@ public class GridToEnvelopeMapper {
     private static boolean swapXY(final CoordinateSystem cs) {
         if (cs != null && cs.getDimension() >= 2) {
             return AxisDirection.NORTH.equals(cs.getAxis(0).getDirection().absolute()) &&
-                   AxisDirection.EAST .equals(cs.getAxis(1).getDirection().absolute());
+                    AxisDirection.EAST.equals(cs.getAxis(1).getDirection().absolute());
         }
         return false;
     }
@@ -356,20 +348,20 @@ public class GridToEnvelopeMapper {
      * <code>{@linkplain #isAutomatic isAutomatic}({@linkplain #SWAP_XY})</code>
      * returns {@code true} (which is the default), then this method make the
      * following assumptions:
-     *
+     * <p>
      * <ul>
-     *   <li><p>Axis order in the grid range matches exactly axis order in the envelope, except
-     *       for the special case described in the next point. In other words, if axis order in
-     *       the underlying image is (<var>column</var>, <var>row</var>) (which is the case for
-     *       a majority of images), then the envelope should probably have a (<var>longitude</var>,
-     *       <var>latitude</var>) or (<var>easting</var>, <var>northing</var>) axis order.</p></li>
-     *
-     *   <li><p>An exception to the above rule applies for CRS using exactly the following axis
-     *       order: ({@link AxisDirection#NORTH NORTH}|{@link AxisDirection#SOUTH SOUTH},
-     *       {@link AxisDirection#EAST EAST}|{@link AxisDirection#WEST WEST}). An example
-     *       of such CRS is {@code EPSG:4326}. In this particular case, this method will
-     *       returns {@code true}, thus suggesting to interchange the
-     *       (<var>y</var>,<var>x</var>) axis for such CRS.</p></li>
+     * <li><p>Axis order in the grid range matches exactly axis order in the envelope, except
+     * for the special case described in the next point. In other words, if axis order in
+     * the underlying image is (<var>column</var>, <var>row</var>) (which is the case for
+     * a majority of images), then the envelope should probably have a (<var>longitude</var>,
+     * <var>latitude</var>) or (<var>easting</var>, <var>northing</var>) axis order.</p></li>
+     * <p>
+     * <li><p>An exception to the above rule applies for CRS using exactly the following axis
+     * order: ({@link AxisDirection#NORTH NORTH}|{@link AxisDirection#SOUTH SOUTH},
+     * {@link AxisDirection#EAST EAST}|{@link AxisDirection#WEST WEST}). An example
+     * of such CRS is {@code EPSG:4326}. In this particular case, this method will
+     * returns {@code true}, thus suggesting to interchange the
+     * (<var>y</var>,<var>x</var>) axis for such CRS.</p></li>
      * </ul>
      *
      * @return {@code true} if the two first axis should be interchanged.
@@ -409,12 +401,12 @@ public class GridToEnvelopeMapper {
      * following assumptions:
      * <p>
      * <ul>
-     *   <li>Axis should be reverted if needed in order to point toward their
-     *       "{@linkplain AxisDirection#absolute absolute}" direction.</li>
-     *   <li>An exception to the above rule is the second axis in grid space,
-     *       which is assumed to be the <var>y</var> axis on output device (usually
-     *       the screen). This axis is reversed again in order to match the bottom
-     *       direction often used with such devices.</li>
+     * <li>Axis should be reverted if needed in order to point toward their
+     * "{@linkplain AxisDirection#absolute absolute}" direction.</li>
+     * <li>An exception to the above rule is the second axis in grid space,
+     * which is assumed to be the <var>y</var> axis on output device (usually
+     * the screen). This axis is reversed again in order to match the bottom
+     * direction often used with such devices.</li>
      * </ul>
      *
      * @return The reversal state of each axis, or {@code null} if unspecified.
@@ -426,9 +418,9 @@ public class GridToEnvelopeMapper {
                 final int dimension = cs.getDimension();
                 reverseAxis = new boolean[dimension];
                 if (isAutomatic(REVERSE_AXIS)) {
-                    for (int i=0; i<dimension; i++) {
+                    for (int i = 0; i < dimension; i++) {
                         final AxisDirection direction = cs.getAxis(i).getDirection();
-                        final AxisDirection absolute  = direction.absolute();
+                        final AxisDirection absolute = direction.absolute();
                         reverseAxis[i] = direction.equals(absolute.opposite());
                     }
                     if (dimension >= 2) {
@@ -461,7 +453,7 @@ public class GridToEnvelopeMapper {
      * to {@code false}.
      *
      * @param reverse The reversal state of each axis. A {@code null} value means to
-     *        reverse no axis.
+     *                reverse no axis.
      */
     public void setReverseAxis(final boolean[] reverse) {
         if (!Arrays.equals(reverseAxis, reverse)) {
@@ -543,11 +535,11 @@ public class GridToEnvelopeMapper {
     public MathTransform createTransform() throws IllegalStateException {
         if (transform == null) {
             final GridEnvelope gridRange = getGridRange();
-            final Envelope     userRange = getEnvelope();
-            final boolean      swapXY    = getSwapXY();
-            final boolean[]    reverse   = getReverseAxis();
-            final PixelInCell  gridType  = getPixelAnchor();
-            final int          dimension = gridRange.getDimension();
+            final Envelope userRange = getEnvelope();
+            final boolean swapXY = getSwapXY();
+            final boolean[] reverse = getReverseAxis();
+            final PixelInCell gridType = getPixelAnchor();
+            final int dimension = gridRange.getDimension();
             /*
              * Setup the multi-dimensional affine transform for use with OpenGIS.
              * According OpenGIS specification, transforms must map pixel center.
@@ -560,27 +552,27 @@ public class GridToEnvelopeMapper {
                 translate = 0.0;
             } else {
                 throw new IllegalStateException(Errors.format(ErrorKeys.ILLEGAL_ARGUMENT_$2,
-                            "gridType", gridType));
+                        "gridType", gridType));
             }
             final Matrix matrix = MatrixFactory.create(dimension + 1);
-            for (int i=0; i<dimension; i++) {
+            for (int i = 0; i < dimension; i++) {
                 // NOTE: i is a dimension in the 'gridRange' space (source coordinates).
                 //       j is a dimension in the 'userRange' space (target coordinates).
                 int j = i;
-                if (swapXY && j<=1) {
-                    j = 1-j;
+                if (swapXY && j <= 1) {
+                    j = 1 - j;
                 }
                 double scale = userRange.getSpan(j) / gridRange.getSpan(i);
                 double offset;
-                if (reverse==null || j>=reverse.length || !reverse[j]) {
+                if (reverse == null || j >= reverse.length || !reverse[j]) {
                     offset = userRange.getMinimum(j);
                 } else {
-                    scale  = -scale;
+                    scale = -scale;
                     offset = userRange.getMaximum(j);
                 }
                 offset -= scale * (gridRange.getLow(i) - translate);
-                matrix.setElement(j, j,         0.0   );
-                matrix.setElement(j, i,         scale );
+                matrix.setElement(j, j, 0.0);
+                matrix.setElement(j, i, scale);
                 matrix.setElement(j, dimension, offset);
             }
             transform = ProjectiveTransform.create(matrix);

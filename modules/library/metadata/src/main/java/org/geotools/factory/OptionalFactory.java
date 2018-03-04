@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -32,26 +32,23 @@ package org.geotools.factory;
  * {@code OptionalFactory} interface is used as a filter, nothing else. The process is as follows:
  * <p>
  * <ul>
- *   <li>When {@link FactoryRegistry#getServiceProvider} is invoked, it starts to iterate over all
- *       registered factories. If an {@linkplain FactoryRegistry#setOrdering(Class,Object,Object)
- *       ordering is set}, it is taken in account for the iteration order.</li>
- *   <li>If no suitable factory was found before the iterator reachs this optional factory, then
- *       {@link #isAvailable} is invoked. If it returns {@code true}, then this optional factory
- *       is processed like any other factories. Otherwise it is ignored.</li>
+ * <li>When {@link FactoryRegistry#getServiceProvider} is invoked, it starts to iterate over all
+ * registered factories. If an {@linkplain FactoryRegistry#setOrdering(Class, Object, Object)
+ * ordering is set}, it is taken in account for the iteration order.</li>
+ * <li>If no suitable factory was found before the iterator reachs this optional factory, then
+ * {@link #isAvailable} is invoked. If it returns {@code true}, then this optional factory
+ * is processed like any other factories. Otherwise it is ignored.</li>
  * </ul>
  * <p>
  * <strong>NOTE:</strong> {@code OptionalFactory} is not designed for factories with intermittent
  * state (i.e. return value of {@link #isAvailable} varying in an unpredictable way). The behavior
  * is undetermined if the {@code isAvailable()} state changes with time.
  *
- * @since 2.0
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
- *
+ * @version $Id$
+ * @source $URL$
  * @see org.geotools.data.DataStoreFactorySpi#isAvailable
+ * @since 2.0
  */
 public interface OptionalFactory extends Factory {
     /**

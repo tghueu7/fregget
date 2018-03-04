@@ -31,52 +31,55 @@ import org.opengis.geometry.primitive.Point;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class JTSComplexFactory implements Factory, ComplexFactory {
 
     private CoordinateReferenceSystem crs;
     private final Map usedHints = new LinkedHashMap();
+
     /**
      * No argument constructor for FactorySPI
      */
-    public JTSComplexFactory(){
-        this( DefaultGeographicCRS.WGS84);
+    public JTSComplexFactory() {
+        this(DefaultGeographicCRS.WGS84);
     }
+
     /**
      * Hints constructor for FactoryRegistry
      */
-    public JTSComplexFactory( Hints hints ){
-        this( (CoordinateReferenceSystem) hints.get( Hints.CRS ) );
+    public JTSComplexFactory(Hints hints) {
+        this((CoordinateReferenceSystem) hints.get(Hints.CRS));
     }
+
     /**
      * Direct constructor for test cases
      */
-    public JTSComplexFactory( CoordinateReferenceSystem crs ) {
+    public JTSComplexFactory(CoordinateReferenceSystem crs) {
         this.crs = crs;
-        usedHints.put( Hints.CRS, crs );
+        usedHints.put(Hints.CRS, crs);
     }
+
     public Map getImplementationHints() {
         return usedHints;
     }
+
     /**
      * @param curves List of OrientableCurve
      */
-    public CompositeCurve createCompositeCurve( List curves ) {
-        CompositeCurveImpl composite = new CompositeCurveImpl( null, crs );
-        composite.getElements().addAll( curves );
+    public CompositeCurve createCompositeCurve(List curves) {
+        CompositeCurveImpl composite = new CompositeCurveImpl(null, crs);
+        composite.getElements().addAll(curves);
         return composite;
     }
 
-    public CompositePoint createCompositePoint( Point arg0 ) {
+    public CompositePoint createCompositePoint(Point arg0) {
         return null;
     }
 
-    public CompositeSurface createCompositeSurface( List list ) {
+    public CompositeSurface createCompositeSurface(List list) {
         CompositeSurfaceImpl composite = new CompositeSurfaceImpl();
-        composite.getElementList().addAll( list );        
+        composite.getElementList().addAll(list);
         return composite;
     }
 

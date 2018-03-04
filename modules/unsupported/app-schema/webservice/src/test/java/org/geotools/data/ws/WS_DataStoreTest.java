@@ -15,6 +15,7 @@
  *    Lesser General Public License for more details.
  */
 package org.geotools.data.ws;
+
 import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
@@ -31,16 +32,13 @@ import org.junit.Test;
 
 /**
  * Unit test suite for {@link WS_DataStore}
- * 
+ *
  * @author Russell Petty
  * @version $Id$
- * @since 2.5.x
- *
- *
- *
  * @source $URL$
- *         http://gtsvn.refractions.net/trunk/modules/plugin/wfs/src/test/java/org/geotools/data
- *         /wfs/v1_1_0/WFSDataStoreTest.java $
+ * http://gtsvn.refractions.net/trunk/modules/plugin/wfs/src/test/java/org/geotools/data
+ * /wfs/v1_1_0/WFSDataStoreTest.java $
+ * @since 2.5.x
  */
 @SuppressWarnings("nls")
 public class WS_DataStoreTest {
@@ -48,23 +46,25 @@ public class WS_DataStoreTest {
 
     /**
      * Test method for {@link WS_DataStore#getTypeNames()}.
-     * 
+     *
      * @throws IOException
      */
     @Test
     public void testCreate() throws IOException {
-        
+
         Map<Object, Object> properties = new HashMap<Object, Object>();
         WSDataStoreFactory dsf = new WSDataStoreFactory();
-        properties.put("WSDataStoreFactory:GET_CONNECTION_URL", "http://d00109:8080/xaware/XADocSoapServlet");     
+        properties.put("WSDataStoreFactory:GET_CONNECTION_URL", 
+                "http://d00109:8080/xaware/XADocSoapServlet");
         properties.put("WSDataStoreFactory:TIMEOUT", new Integer(30000));
         properties.put("WSDataStoreFactory:TEMPLATE_DIRECTORY", TEST_DIRECTORY);
         properties.put("WSDataStoreFactory:TEMPLATE_NAME", "request.ftl");
-        properties.put("WSDataStoreFactory:CAPABILITIES_FILE_LOCATION", TEST_DIRECTORY + "ws_capabilities_equals_removed.xml");
+        properties.put("WSDataStoreFactory:CAPABILITIES_FILE_LOCATION", TEST_DIRECTORY + 
+                "ws_capabilities_equals_removed.xml");
 
-        XmlDataStore ds = dsf.createDataStore(properties); 
+        XmlDataStore ds = dsf.createDataStore(properties);
         assertNotNull(ds);
     }
-    
-    
+
+
 }

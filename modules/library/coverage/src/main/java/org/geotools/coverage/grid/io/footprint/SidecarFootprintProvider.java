@@ -36,21 +36,20 @@ import com.vividsolutions.jts.geom.Geometry;
  * In case a "FOOTPRINTS_DATA_DIR" property is specified, footprints are
  * searched into an external directory too in case they aren't found on the main
  * folder.
- * 
+ * <p>
  * This can be useful for cases where the data file lives into a read only folder.
- * 
+ * <p>
  * Suppose data is in /path/to/mydata/tile.tif
- * In the need of supporting footprints into a different location, 
- * users should replicate that path within a common folder and define that common folder 
+ * In the need of supporting footprints into a different location,
+ * users should replicate that path within a common folder and define that common folder
  * through the "FOOTPRINTS_DATA_DIR" system property.
- * 
- * As an instance, users may put a tile.wkb into 
- * /footprints/path/to/mydata/tile.wkb 
+ * <p>
+ * As an instance, users may put a tile.wkb into
+ * /footprints/path/to/mydata/tile.wkb
  * having specified -DFOOTPRINTS_DATA_DIR=/footprints at startup.
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  * @author Daniele Romagnoli - GeoSolutions
- * 
  * @see MultiLevelROIProviderFactory#FOOTPRINTS_DATA_DIR_KEY
  */
 public class SidecarFootprintProvider implements FootprintGeometryProvider {
@@ -61,10 +60,14 @@ public class SidecarFootprintProvider implements FootprintGeometryProvider {
 
     private static final String FOOTPRINT_LOCATION_ATTRIBUTE = "location";
 
-    /** String associated to the footprints data directory property */
+    /**
+     * String associated to the footprints data directory property
+     */
     public static final String FOOTPRINTS_DATA_DIR_KEY = "FOOTPRINTS_DATA_DIR";
 
-    /** The footprints data directory (when specified) */
+    /**
+     * The footprints data directory (when specified)
+     */
     private static final String FOOTPRINTS_DATA_DIR;
 
     /**
@@ -102,7 +105,9 @@ public class SidecarFootprintProvider implements FootprintGeometryProvider {
         }
     }
 
-    /** A File reference. It can be both a folder, as well as the data file */
+    /**
+     * A File reference. It can be both a folder, as well as the data file
+     */
     private File reference;
 
     private volatile FootprintLoader lastLoader;
@@ -134,7 +139,7 @@ public class SidecarFootprintProvider implements FootprintGeometryProvider {
 
     /**
      * Return the footprint (if any) for a file referred by its path
-     * 
+     *
      * @param path
      * @return
      * @throws IOException
@@ -171,16 +176,19 @@ public class SidecarFootprintProvider implements FootprintGeometryProvider {
     }
 
     private static String getAlternativePath(String path, boolean removeExtension) {
-        return FOOTPRINTS_DATA_DIR != null ? getAlternativeFile(path, removeExtension).getAbsolutePath() : null;
+        return FOOTPRINTS_DATA_DIR != null ? getAlternativeFile(path, removeExtension)
+                .getAbsolutePath() : null;
     }
 
     public static File getAlternativeFile(File file) {
-        return FOOTPRINTS_DATA_DIR != null ? getAlternativeFile(file.getAbsolutePath(), false) : null;
+        return FOOTPRINTS_DATA_DIR != null ? getAlternativeFile(file.getAbsolutePath(), false) : 
+                null;
     }
 
     private static File getAlternativeFile(String path, boolean removeExtension) {
         String basePath = FilenameUtils.getPathNoEndSeparator(path);
-        String name = removeExtension ? FilenameUtils.getBaseName(path) : FilenameUtils.getName(path);
+        String name = removeExtension ? FilenameUtils.getBaseName(path) : FilenameUtils.getName
+                (path);
         String alternativePath = basePath + File.separatorChar + name;
         return new File(FOOTPRINTS_DATA_DIR, alternativePath);
     }
@@ -196,7 +204,8 @@ public class SidecarFootprintProvider implements FootprintGeometryProvider {
                 }
             } catch (Exception e) {
                 if (LOGGER.isLoggable(Level.FINE)) {
-                    LOGGER.log(Level.FINE, test.getClass().getName()+" threw exception loading footprint", e);
+                    LOGGER.log(Level.FINE, test.getClass().getName() + " threw exception loading " +
+                            "footprint", e);
                 }
             }
         }

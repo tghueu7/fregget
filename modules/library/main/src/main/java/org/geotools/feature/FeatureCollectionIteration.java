@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -36,7 +36,7 @@ import org.opengis.feature.type.PropertyDescriptor;
  * collection of Features) as attributes, the handler is repsonsible for
  * maintaining its own state as to where in the traversal it is recieving
  * events from. Many handlers will not need to worry about state.
- * 
+ * <p>
  * <p>
  * <b>Implementation Notes:</b> The depth first visitation is implemented
  * through recursion. The limits to recursion depending on the settings in the
@@ -46,8 +46,6 @@ import org.opengis.feature.type.PropertyDescriptor;
  *
  * @author Ian Schneider, USDA-ARS
  * @author Chris Holmes, TOPP
- *
- *
  * @source $URL$
  */
 public class FeatureCollectionIteration {
@@ -57,20 +55,22 @@ public class FeatureCollectionIteration {
      */
     protected final Handler handler;
 
-    /** The collection being iterated */
-    private final FeatureCollection<?,?> collection;
+    /**
+     * The collection being iterated
+     */
+    private final FeatureCollection<?, ?> collection;
 
     /**
      * Create a new FeatureCollectionIteration with the given handler and
      * collection.
      *
-     * @param handler The handler to perform operations on this iteration.
+     * @param handler    The handler to perform operations on this iteration.
      * @param collection The collection to iterate over.
-     *
      * @throws NullPointerException If handler or collection are null.
      */
     public FeatureCollectionIteration(Handler handler,
-            FeatureCollection<?,?> collection) throws NullPointerException {
+                                      FeatureCollection<?, ?> collection) throws 
+            NullPointerException {
         if (handler == null) {
             throw new NullPointerException("handler");
         }
@@ -86,10 +86,10 @@ public class FeatureCollectionIteration {
     /**
      * A convienience method for obtaining a new iteration and calling iterate.
      *
-     * @param handler The handler to perform operations on this iteration.
+     * @param handler    The handler to perform operations on this iteration.
      * @param collection The collection to iterate over.
      */
-    public static void iteration(Handler handler, FeatureCollection<?,?> collection) {
+    public static void iteration(Handler handler, FeatureCollection<?, ?> collection) {
         FeatureCollectionIteration iteration = new FeatureCollectionIteration(handler,
                 collection);
         iteration.iterate();
@@ -110,7 +110,7 @@ public class FeatureCollectionIteration {
      *
      * @param collection The collection to iterate upon.
      */
-    protected void walker(FeatureCollection<?,?> collection) {
+    protected void walker(FeatureCollection<?, ?> collection) {
         handler.handleFeatureCollection(collection);
 
         iterate(collection.features());
@@ -141,18 +141,18 @@ public class FeatureCollectionIteration {
 
         handler.handleFeature(feature);
 
-        for( Property property : feature.getProperties() ){
+        for (Property property : feature.getProperties()) {
             Class<?> binding = property.getType().getBinding();
             // recurse if attribute type is another collection
-            if (FeatureCollection.class.isAssignableFrom( binding )) {
-                walker((FeatureCollection) property.getValue() );
+            if (FeatureCollection.class.isAssignableFrom(binding)) {
+                walker((FeatureCollection) property.getValue());
 //            } else if (type instanceof FeatureType) {
             } else if (Feature.class.isAssignableFrom(binding)) {
                 // recurse if attribute type is another feature
-                walker((Feature) property.getValue() );
+                walker((Feature) property.getValue());
             } else {
                 // normal handling
-                handler.handleAttribute(property.getDescriptor(), property.getValue() );
+                handler.handleAttribute(property.getDescriptor(), property.getValue());
             }
         }
 
@@ -169,14 +169,14 @@ public class FeatureCollectionIteration {
          *
          * @param fc The currently visited FeatureCollection.
          */
-        void handleFeatureCollection(FeatureCollection<?,?> fc);
+        void handleFeatureCollection(FeatureCollection<?, ?> fc);
 
         /**
          * The handler is done visiting a FeatureCollection.
          *
          * @param fc The SimpleFeatureCollection which was visited.
          */
-        void endFeatureCollection(FeatureCollection<?,?> fc);
+        void endFeatureCollection(FeatureCollection<?, ?> fc);
 
         /**
          * The handler is visiting a Feature.
@@ -195,7 +195,7 @@ public class FeatureCollectionIteration {
         /**
          * The handler is visiting an Attribute of a Feature.
          *
-         * @param type The meta-data of the given attribute value.
+         * @param type  The meta-data of the given attribute value.
          * @param value The attribute value, may be null.
          */
         void handleAttribute(PropertyDescriptor type, Object value);

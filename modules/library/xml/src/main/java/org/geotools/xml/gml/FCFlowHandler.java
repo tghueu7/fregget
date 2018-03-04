@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2006-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -23,11 +23,8 @@ import org.geotools.xml.XMLHandlerHints;
 
 /**
  * Allows the XMLSAXHandler to abort parsing of GML.
- * 
+ *
  * @author Richard Gould
- *
- *
- *
  * @source $URL$
  */
 public class FCFlowHandler implements FlowHandler {

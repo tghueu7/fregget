@@ -16,6 +16,7 @@ package org.geotools.data.excel;
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -28,18 +29,18 @@ import org.opengis.feature.simple.SimpleFeatureType;
 class ExcelFeatureReader implements FeatureReader<SimpleFeatureType, SimpleFeature> {
 
     private ExcelFeatureSource source;
-    
+
     private Iterator<SimpleFeature> iterator;
 
     private ArrayList<SimpleFeature> features;
 
-    public ExcelFeatureReader(ArrayList<SimpleFeature> features2, ExcelFeatureSource excelFeatureSource) {
+    public ExcelFeatureReader(ArrayList<SimpleFeature> features2, ExcelFeatureSource 
+            excelFeatureSource) {
         features = features2;
         source = excelFeatureSource;
         iterator = features.iterator();
     }
 
-    
 
     public SimpleFeature next() throws IOException, IllegalArgumentException,
             NoSuchElementException {
@@ -56,7 +57,6 @@ class ExcelFeatureReader implements FeatureReader<SimpleFeatureType, SimpleFeatu
         // TODO Auto-generated method stub
         iterator = features.iterator();
     }
-
 
 
     /* (non-Javadoc)

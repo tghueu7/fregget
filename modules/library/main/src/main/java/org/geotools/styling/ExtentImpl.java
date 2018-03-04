@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -21,13 +21,10 @@ import org.opengis.util.Cloneable;
 
 
 /**
- *
- *
- *
  * @source $URL$
  */
 public class ExtentImpl implements Extent,
-    Cloneable {
+        Cloneable {
     private String name;
     private String value;
 
@@ -56,7 +53,7 @@ public class ExtentImpl implements Extent,
             ExtentImpl other = (ExtentImpl) obj;
 
             return Utilities.equals(this.name, other.name)
-            && Utilities.equals(this.value, other.value);
+                    && Utilities.equals(this.value, other.value);
         }
 
         return false;

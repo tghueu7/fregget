@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -21,6 +21,7 @@ package org.geotools.metadata.iso.citation;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+
 import org.opengis.metadata.citation.Contact;
 import org.opengis.metadata.citation.OnLineFunction;
 import org.opengis.metadata.citation.OnLineResource;
@@ -36,13 +37,11 @@ import org.geotools.util.SimpleInternationalString;
  * Identification of, and means of communication with, person(s) and
  * organizations associated with the dataset.
  *
- * @since 2.1
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
+ * @version $Id$
+ * @source $URL$
+ * @since 2.1
  */
 public class ResponsiblePartyImpl extends MetadataEntity implements ResponsibleParty {
     /**
@@ -65,7 +64,6 @@ public class ResponsiblePartyImpl extends MetadataEntity implements ResponsibleP
      * @param role     The OGC role (point of contact, owner, etc.) for a resource.
      * @param resource The URI to the resource.
      * @return Responsible party describing OGC involvement.
-     *
      * @since 2.2
      */
     public static ResponsibleParty OGC(final Role role, final OnLineResource resource) {
@@ -91,8 +89,7 @@ public class ResponsiblePartyImpl extends MetadataEntity implements ResponsibleP
      */
     public static ResponsibleParty OGC(final Role role,
                                        final OnLineFunction function,
-                                       final URI onlineResource)
-    {
+                                       final URI onlineResource) {
         final OnLineResourceImpl resource = new OnLineResourceImpl(onlineResource);
         resource.setFunction(function);
         resource.freeze();
@@ -110,14 +107,12 @@ public class ResponsiblePartyImpl extends MetadataEntity implements ResponsibleP
      */
     static ResponsibleParty OGC(final Role role,
                                 final OnLineFunction function,
-                                final String onlineResource)
-    {
+                                final String onlineResource) {
         try {
             return OGC(role, function, new URI(onlineResource));
-        }
-        catch (URISyntaxException badContact) {
+        } catch (URISyntaxException badContact) {
             Logging.unexpectedException("org.geotools.metadata.iso", ResponsibleParty.class, "OGC",
-                                        badContact);
+                    badContact);
             return OGC;
         }
     }
@@ -129,6 +124,7 @@ public class ResponsiblePartyImpl extends MetadataEntity implements ResponsibleP
      * @see ContactImpl#OGC
      */
     public static ResponsibleParty OGC;
+
     static {
         final ResponsiblePartyImpl r = new ResponsiblePartyImpl(Role.RESOURCE_PROVIDER);
         r.setOrganisationName(OGC_NAME);
@@ -144,6 +140,7 @@ public class ResponsiblePartyImpl extends MetadataEntity implements ResponsibleP
      * @see ContactImpl#OPEN_GIS
      */
     public static ResponsibleParty OPEN_GIS;
+
     static {
         final ResponsiblePartyImpl r = new ResponsiblePartyImpl(Role.RESOURCE_PROVIDER);
         r.setOrganisationName(new SimpleInternationalString("OpenGIS consortium"));
@@ -158,6 +155,7 @@ public class ResponsiblePartyImpl extends MetadataEntity implements ResponsibleP
      * @see ContactImpl#EPSG
      */
     public static ResponsibleParty EPSG;
+
     static {
         final ResponsiblePartyImpl r = new ResponsiblePartyImpl(Role.PRINCIPAL_INVESTIGATOR);
         r.setOrganisationName(new SimpleInternationalString("European Petroleum Survey Group"));
@@ -173,6 +171,7 @@ public class ResponsiblePartyImpl extends MetadataEntity implements ResponsibleP
      * @see ContactImpl#GEOTIFF
      */
     public static ResponsibleParty GEOTIFF;
+
     static {
         final ResponsiblePartyImpl r = new ResponsiblePartyImpl(Role.PRINCIPAL_INVESTIGATOR);
         r.setOrganisationName(new SimpleInternationalString("GeoTIFF"));
@@ -187,6 +186,7 @@ public class ResponsiblePartyImpl extends MetadataEntity implements ResponsibleP
      * @see ContactImpl#ESRI
      */
     public static ResponsibleParty ESRI;
+
     static {
         final ResponsiblePartyImpl r = new ResponsiblePartyImpl(Role.OWNER);
         r.setOrganisationName(new SimpleInternationalString("ESRI"));
@@ -201,6 +201,7 @@ public class ResponsiblePartyImpl extends MetadataEntity implements ResponsibleP
      * @see ContactImpl#ORACLE
      */
     public static ResponsibleParty ORACLE;
+
     static {
         final ResponsiblePartyImpl r = new ResponsiblePartyImpl(Role.OWNER);
         r.setOrganisationName(new SimpleInternationalString("Oracle"));
@@ -213,10 +214,10 @@ public class ResponsiblePartyImpl extends MetadataEntity implements ResponsibleP
      * The <A HREF="http://postgis.refractions.net">PostGIS</A> responsible party.
      *
      * @see ContactImpl#POSTGIS
-     *
      * @since 2.4
      */
     public static ResponsibleParty POSTGIS;
+
     static {
         final ResponsiblePartyImpl r = new ResponsiblePartyImpl(Role.PRINCIPAL_INVESTIGATOR);
         r.setOrganisationName(new SimpleInternationalString("PostGIS"));
@@ -229,10 +230,10 @@ public class ResponsiblePartyImpl extends MetadataEntity implements ResponsibleP
      * The <A HREF="http://www.sun.com/">Sun Microsystems</A> party.
      *
      * @see ContactImpl#SUN_MICROSYSTEMS
-     *
      * @since 2.2
      */
     public static ResponsibleParty SUN_MICROSYSTEMS;
+
     static {
         final ResponsiblePartyImpl r = new ResponsiblePartyImpl(Role.PRINCIPAL_INVESTIGATOR);
         r.setOrganisationName(new SimpleInternationalString("Sun Microsystems"));
@@ -247,6 +248,7 @@ public class ResponsiblePartyImpl extends MetadataEntity implements ResponsibleP
      * @see ContactImpl#GEOTOOLS
      */
     public static ResponsibleParty GEOTOOLS;
+
     static {
         final ResponsiblePartyImpl r = new ResponsiblePartyImpl(Role.PRINCIPAL_INVESTIGATOR);
         r.setOrganisationName(new SimpleInternationalString("Geotools"));
@@ -305,7 +307,8 @@ public class ResponsiblePartyImpl extends MetadataEntity implements ResponsibleP
     }
 
     /**
-     * Returns the name of the responsible person- surname, given name, title separated by a delimiter.
+     * Returns the name of the responsible person- surname, given name, title separated by a 
+     * delimiter.
      * Only one of {@code individualName}, {@link #getOrganisationName organisationName}
      * and {@link #getPositionName positionName} should be provided.
      */

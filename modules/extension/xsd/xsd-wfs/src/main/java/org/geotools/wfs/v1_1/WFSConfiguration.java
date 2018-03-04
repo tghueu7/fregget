@@ -28,9 +28,6 @@ import org.geotools.wfs.bindings.TransactionResultsTypeBinding;
  * Parser configuration for the wfs 1.1 schema.
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class WFSConfiguration extends org.geotools.wfs.WFSConfiguration {
@@ -41,14 +38,14 @@ public class WFSConfiguration extends org.geotools.wfs.WFSConfiguration {
      */
     public WFSConfiguration() {
         super(WFS.getInstance());
-        
+
         addDependency(new OWSConfiguration());
         addDependency(new OGCConfiguration());
     }
-    
+
     protected void configureBindings(org.picocontainer.MutablePicoContainer container) {
         super.configureBindings(container);
-        
+
         container.registerComponentImplementation(WFS.TransactionResponseType,
                 TransactionResponseTypeBinding.class);
         container.registerComponentImplementation(WFS.InsertResultsType,
@@ -63,5 +60,5 @@ public class WFSConfiguration extends org.geotools.wfs.WFSConfiguration {
         container.registerComponentImplementation(WFS.FeatureCollectionType,
                 FeatureCollectionTypeBinding.class);
     }
-    
+
 }

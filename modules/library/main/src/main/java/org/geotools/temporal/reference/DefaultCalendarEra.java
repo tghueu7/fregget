@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,6 +17,7 @@
 package org.geotools.temporal.reference;
 
 import java.util.Collection;
+
 import org.geotools.util.Utilities;
 import org.opengis.temporal.Calendar;
 import org.opengis.temporal.CalendarDate;
@@ -26,11 +27,7 @@ import org.opengis.temporal.Period;
 import org.opengis.util.InternationalString;
 
 /**
- *
  * @author Mehdi Sidhoum (Geomatys)
- *
- *
- *
  * @source $URL$
  */
 public class DefaultCalendarEra implements CalendarEra {
@@ -40,12 +37,14 @@ public class DefaultCalendarEra implements CalendarEra {
      */
     private InternationalString name;
     /**
-     * provide the name or description of a mythical or historic event which fixes the position of the base scale of the calendar era.
+     * provide the name or description of a mythical or historic event which fixes the position 
+     * of the base scale of the calendar era.
      */
     private InternationalString referenceEvent;
     /**
      * provide the date of the reference referenceEvent expressed as a date in the given calendar.
-     * In most calendars, this date is the origin (i.e the first day) of the scale, but this is not always true.
+     * In most calendars, this date is the origin (i.e the first day) of the scale, but this is 
+     * not always true.
      */
     private CalendarDate referenceDate;
     /**
@@ -53,7 +52,8 @@ public class DefaultCalendarEra implements CalendarEra {
      */
     private JulianDate julianReference;
     /**
-     * identify the TM_Period for which the calendar era was used as a basis for dating, the datatype for TM_Period.begin and Tm_Period.end shall be JulianDate.
+     * identify the TM_Period for which the calendar era was used as a basis for dating, the 
+     * datatype for TM_Period.begin and Tm_Period.end shall be JulianDate.
      */
     private Period epochOfUse;
     /**
@@ -61,7 +61,9 @@ public class DefaultCalendarEra implements CalendarEra {
      */
     private Collection<Calendar> datingSystem;
 
-    public DefaultCalendarEra(InternationalString name, InternationalString referenceEvent, CalendarDate referenceDate, JulianDate julianReference, Period epochOfUse) {
+    public DefaultCalendarEra(InternationalString name, InternationalString referenceEvent, 
+                              CalendarDate referenceDate, JulianDate julianReference, Period 
+                                      epochOfUse) {
         this.name = name;
         this.referenceDate = referenceDate;
         this.referenceEvent = referenceEvent;

@@ -26,18 +26,16 @@ import org.geotools.data.Transaction.State;
 
 /**
  * @author kengu - 7. juli 2011
- *
- *
  * @source $URL$
  */
 public class EFeatureTransactionState implements State {
 
     private WeakReference<Transaction> eTx;
     private WeakReference<EFeatureDataStore> eDataStore;
-    
+
     private ChangeRecorder eRecorder;
     private ChangeDescription eDescription;
-    
+
     // ----------------------------------------------------- 
     //  Constructors
     // -----------------------------------------------------
@@ -60,11 +58,11 @@ public class EFeatureTransactionState implements State {
     // ----------------------------------------------------- 
     //  State implementation
     // -----------------------------------------------------
-    
+
     public Transaction getTransaction() {
         return eTx.get();
     }
-    
+
     @Override
     public void setTransaction(Transaction eTx) {
         this.eTx = new WeakReference<Transaction>(eTx);
@@ -73,22 +71,22 @@ public class EFeatureTransactionState implements State {
     public EFeatureDataStore eDataStore() {
         return eDataStore.get();
     }
-    
+
     @Override
     public void addAuthorization(String AuthID) throws IOException {
         // TODO who does this fit into the picture?
-        
+
     }
 
     @Override
     public void commit() throws IOException {
-        
+
     }
 
     @Override
     public void rollback() throws IOException {
         // TODO Auto-generated method stub
-        
+
     }
 
 }

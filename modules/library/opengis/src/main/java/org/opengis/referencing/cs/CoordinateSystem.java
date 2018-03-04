@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.referencing.cs;
@@ -23,19 +23,17 @@ import static org.opengis.annotation.Specification.*;
  * the order in which the coordinate system axes associations are recorded, whenever those
  * coordinates use a coordinate reference system that uses this coordinate system.
  *
- *
- *
+ * @author Martin Desruisseaux (IRD)
+ * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract 
+ * specification 2.0</A>
  * @source $URL$
- * @version <A HREF="http://portal.opengeospatial.org/files/?artifact_id=6716">Abstract specification 2.0</A>
- * @author  Martin Desruisseaux (IRD)
- * @since   GeoAPI 1.0
- *
  * @see org.opengis.referencing.cs.CoordinateSystemAxis
  * @see javax.measure.unit.Unit
  * @see org.opengis.referencing.datum.Datum
  * @see org.opengis.referencing.crs.CoordinateReferenceSystem
+ * @since GeoAPI 1.0
  */
-@UML(identifier="CS_CoordinateSystem", specification=ISO_19111)
+@UML(identifier = "CS_CoordinateSystem", specification = ISO_19111)
 public interface CoordinateSystem extends IdentifiedObject {
     /**
      * Returns the dimension of the coordinate system.
@@ -48,10 +46,10 @@ public interface CoordinateSystem extends IdentifiedObject {
      * Returns the axis for this coordinate system at the specified dimension.
      * Each coordinate system must have at least one axis.
      *
-     * @param  dimension The zero based index of axis.
+     * @param dimension The zero based index of axis.
      * @return The axis at the specified dimension.
      * @throws IndexOutOfBoundsException if {@code dimension} is out of bounds.
      */
-    @UML(identifier="usesAxis", obligation=MANDATORY, specification=ISO_19111)
+    @UML(identifier = "usesAxis", obligation = MANDATORY, specification = ISO_19111)
     CoordinateSystemAxis getAxis(int dimension) throws IndexOutOfBoundsException;
 }

@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2004-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.metadata.identification;
@@ -22,14 +22,12 @@ import static org.opengis.annotation.Specification.ISO_19115;
 /**
  * Justification for the correlation of two datasets.
  *
- *
- *
- * @source $URL$
+ * @author Ely Conn (Leica Geosystems Geospatial Imaging, LLC)
  * @version <A HREF="http://www.opengeospatial.org/standards/as#01-111">ISO 19115</A>
- * @author  Ely Conn (Leica Geosystems Geospatial Imaging, LLC)
- * @since   GeoAPI 2.1
+ * @source $URL$
+ * @since GeoAPI 2.1
  */
-@UML(identifier="DS_AssociationTypeCode", specification=ISO_19115)
+@UML(identifier = "DS_AssociationTypeCode", specification = ISO_19115)
 public final class AssociationType extends CodeList<AssociationType> {
     /**
      * Serial number for compatibility with different versions.
@@ -45,31 +43,33 @@ public final class AssociationType extends CodeList<AssociationType> {
     /**
      * Reference from one dataset to another.
      */
-    @UML(identifier="crossReference", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "crossReference", obligation = CONDITIONAL, specification = ISO_19115)
     public static final AssociationType CROSS_REFERENCE = new AssociationType("CROSS_REFERENCE");
 
     /**
      * Reference to a master dataset of which this one is a part.
      */
-    @UML(identifier="largerWorkCitation", obligation=CONDITIONAL, specification=ISO_19115)
-    public static final AssociationType LARGER_WORD_CITATION = new AssociationType("LARGER_WORD_CITATION");
+    @UML(identifier = "largerWorkCitation", obligation = CONDITIONAL, specification = ISO_19115)
+    public static final AssociationType LARGER_WORD_CITATION = new AssociationType
+            ("LARGER_WORD_CITATION");
 
     /**
      * Part of same structured set of data held in a computer.
      */
-    @UML(identifier="partOfSeamlessDatabase", obligation=CONDITIONAL, specification=ISO_19115)
-    public static final AssociationType PART_OF_SEAMLESS_DATABASE = new AssociationType("PART_OF_SEAMLESS_DATABASE");
+    @UML(identifier = "partOfSeamlessDatabase", obligation = CONDITIONAL, specification = ISO_19115)
+    public static final AssociationType PART_OF_SEAMLESS_DATABASE = new AssociationType
+            ("PART_OF_SEAMLESS_DATABASE");
 
     /**
      * Mapping and charting information from which the dataset content originates.
      */
-    @UML(identifier="source", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "source", obligation = CONDITIONAL, specification = ISO_19115)
     public static final AssociationType SOURCE = new AssociationType("SOURCE");
 
     /**
      * Part of a set of imagery that when used together, provides three-dimensional images.
      */
-    @UML(identifier="stereoMate", obligation=CONDITIONAL, specification=ISO_19115)
+    @UML(identifier = "stereoMate", obligation = CONDITIONAL, specification = ISO_19115)
     public static final AssociationType STEREO_MATE = new AssociationType("STEREO_MATE");
 
     /**

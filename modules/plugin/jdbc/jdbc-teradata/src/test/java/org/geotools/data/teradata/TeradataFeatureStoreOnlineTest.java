@@ -23,8 +23,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class TeradataFeatureStoreOnlineTest extends JDBCFeatureStoreOnlineTest {

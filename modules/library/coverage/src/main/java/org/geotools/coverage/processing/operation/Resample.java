@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -57,18 +57,18 @@ import org.opengis.referencing.operation.TransformException;
  * functionality:
  * <p>
  * <UL>
- *   <LI><strong>Resampling</strong><br>
- *       The grid coverage can be resampled at a different cell resolution. Some implementations
- *       may be able to do resampling efficiently at any resolution. Also a non-rectilinear grid
- *       coverage can be accessed as rectilinear grid coverage with this operation.</LI>
- *   <LI><strong>Reprojecting</strong><br>
- *       The new grid geometry can have a different coordinate reference system than the underlying
- *       grid geometry. For example, a grid coverage can be reprojected from a geodetic coordinate
- *       reference system to Universal Transverse Mercator CRS.</LI>
- *   <LI><strong>Subsetting</strong><br>
- *       A subset of a grid can be viewed as a separate coverage by using this operation with a
- *       grid geometry which as the same geoferencing and a region. Grid range in the grid geometry
- *       defines the region to subset in the grid coverage.</LI>
+ * <LI><strong>Resampling</strong><br>
+ * The grid coverage can be resampled at a different cell resolution. Some implementations
+ * may be able to do resampling efficiently at any resolution. Also a non-rectilinear grid
+ * coverage can be accessed as rectilinear grid coverage with this operation.</LI>
+ * <LI><strong>Reprojecting</strong><br>
+ * The new grid geometry can have a different coordinate reference system than the underlying
+ * grid geometry. For example, a grid coverage can be reprojected from a geodetic coordinate
+ * reference system to Universal Transverse Mercator CRS.</LI>
+ * <LI><strong>Subsetting</strong><br>
+ * A subset of a grid can be viewed as a separate coverage by using this operation with a
+ * grid geometry which as the same geoferencing and a region. Grid range in the grid geometry
+ * defines the region to subset in the grid coverage.</LI>
  * </UL>
  * <p>
  * <strong>Geotools extension:</strong><br>
@@ -79,67 +79,64 @@ import org.opengis.referencing.operation.TransformException;
  * {@link org.geotools.factory.Hints#COORDINATE_OPERATION_FACTORY} key. Rendering
  * hints can be supplied to {@link org.geotools.coverage.processing.DefaultProcessor}
  * at construction time.
- *
+ * <p>
  * <P><STRONG>Name:</STRONG>&nbsp;<CODE>"Resample"</CODE><BR>
- *    <STRONG>JAI operator:</STRONG>&nbsp;<CODE>"{@linkplain AffineDescriptor Affine}"</CODE>
- *            or <CODE>"{@linkplain WarpDescriptor Warp}"</CODE><BR>
- *    <STRONG>Parameters:</STRONG></P>
+ * <STRONG>JAI operator:</STRONG>&nbsp;<CODE>"{@linkplain AffineDescriptor Affine}"</CODE>
+ * or <CODE>"{@linkplain WarpDescriptor Warp}"</CODE><BR>
+ * <STRONG>Parameters:</STRONG></P>
  * <table border='3' cellpadding='6' bgcolor='F4F8FF'>
- *   <tr bgcolor='#B9DCFF'>
- *     <th>Name</th>
- *     <th>Class</th>
- *     <th>Default value</th>
- *     <th>Minimum value</th>
- *     <th>Maximum value</th>
- *   </tr>
- *   <tr>
- *     <td>{@code "Source"}</td>
- *     <td>{@link org.geotools.coverage.grid.GridCoverage2D}</td>
- *     <td align="center">N/A</td>
- *     <td align="center">N/A</td>
- *     <td align="center">N/A</td>
- *   </tr>
- *   <tr>
- *     <td>{@code "InterpolationType"}</td>
- *     <td>{@link java.lang.CharSequence}</td>
- *     <td>"NearestNeighbor"</td>
- *     <td align="center">N/A</td>
- *     <td align="center">N/A</td>
- *   </tr>
- *   <tr>
- *     <td>{@code "CoordinateReferenceSystem"}</td>
- *     <td>{@link org.opengis.referencing.crs.CoordinateReferenceSystem}</td>
- *     <td>Same as source grid coverage</td>
- *     <td align="center">N/A</td>
- *     <td align="center">N/A</td>
- *   </tr>
- *   <tr>
- *     <td>{@code "GridGeometry"}</td>
- *     <td>{@link org.opengis.coverage.grid.GridGeometry}</td>
- *     <td>(automatic)</td>
- *     <td align="center">N/A</td>
- *     <td align="center">N/A</td>
- *   </tr>
- *    <tr>
- *     <td>{@code "BackgroundValues"}</td>
- *     <td>{@code double[]}</td>
- *     <td align="center">N/A</td>
- *     <td align="center">N/A</td>
- *     <td align="center">N/A</td>
- *   </tr>
+ * <tr bgcolor='#B9DCFF'>
+ * <th>Name</th>
+ * <th>Class</th>
+ * <th>Default value</th>
+ * <th>Minimum value</th>
+ * <th>Maximum value</th>
+ * </tr>
+ * <tr>
+ * <td>{@code "Source"}</td>
+ * <td>{@link org.geotools.coverage.grid.GridCoverage2D}</td>
+ * <td align="center">N/A</td>
+ * <td align="center">N/A</td>
+ * <td align="center">N/A</td>
+ * </tr>
+ * <tr>
+ * <td>{@code "InterpolationType"}</td>
+ * <td>{@link java.lang.CharSequence}</td>
+ * <td>"NearestNeighbor"</td>
+ * <td align="center">N/A</td>
+ * <td align="center">N/A</td>
+ * </tr>
+ * <tr>
+ * <td>{@code "CoordinateReferenceSystem"}</td>
+ * <td>{@link org.opengis.referencing.crs.CoordinateReferenceSystem}</td>
+ * <td>Same as source grid coverage</td>
+ * <td align="center">N/A</td>
+ * <td align="center">N/A</td>
+ * </tr>
+ * <tr>
+ * <td>{@code "GridGeometry"}</td>
+ * <td>{@link org.opengis.coverage.grid.GridGeometry}</td>
+ * <td>(automatic)</td>
+ * <td align="center">N/A</td>
+ * <td align="center">N/A</td>
+ * </tr>
+ * <tr>
+ * <td>{@code "BackgroundValues"}</td>
+ * <td>{@code double[]}</td>
+ * <td align="center">N/A</td>
+ * <td align="center">N/A</td>
+ * <td align="center">N/A</td>
+ * </tr>
  * </table>
  *
- * @since 2.2
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Giannecchini Simone, GeoSolutions SAS
  * @author Daniele Romagnoli, GeoSolutions SAS
- *
+ * @version $Id$
+ * @source $URL$
  * @see org.geotools.coverage.processing.Operations#resample
  * @see WarpDescriptor
+ * @since 2.2
  */
 public class Resample extends Operation2D {
     /**
@@ -152,63 +149,64 @@ public class Resample extends Operation2D {
      */
     public static final ParameterDescriptor<Object> INTERPOLATION_TYPE =
             new DefaultParameterDescriptor<Object>(Citations.OGC, "InterpolationType",
-            	Object.class,                       // Value class (mandatory)
-                null,                               // Array of valid values
-                "NearestNeighbor",                  // Default value
-                null,                               // Minimal value
-                null,                               // Maximal value
-                null,                               // Unit of measure
-                false);                             // Parameter is optional
+                    Object.class,                       // Value class (mandatory)
+                    null,                               // Array of valid values
+                    "NearestNeighbor",                  // Default value
+                    null,                               // Minimal value
+                    null,                               // Maximal value
+                    null,                               // Unit of measure
+                    false);                             // Parameter is optional
 
     /**
      * The parameter descriptor for the coordinate reference system.
      */
     public static final ParameterDescriptor<CoordinateReferenceSystem> COORDINATE_REFERENCE_SYSTEM =
-            new DefaultParameterDescriptor<CoordinateReferenceSystem>(Citations.OGC, "CoordinateReferenceSystem",
-                CoordinateReferenceSystem.class,    // Value class (mandatory)
-                null,                               // Array of valid values
-                null,                               // Default value
-                null,                               // Minimal value
-                null,                               // Maximal value
-                null,                               // Unit of measure
-                false);                             // Parameter is optional
+            new DefaultParameterDescriptor<CoordinateReferenceSystem>(Citations.OGC, 
+                    "CoordinateReferenceSystem",
+                    CoordinateReferenceSystem.class,    // Value class (mandatory)
+                    null,                               // Array of valid values
+                    null,                               // Default value
+                    null,                               // Minimal value
+                    null,                               // Maximal value
+                    null,                               // Unit of measure
+                    false);                             // Parameter is optional
 
     /**
      * The parameter descriptor for the grid geometry.
      */
     public static final ParameterDescriptor<GridGeometry> GRID_GEOMETRY =
             new DefaultParameterDescriptor<GridGeometry>(Citations.OGC, "GridGeometry",
-                GridGeometry.class,                 // Value class (mandatory)
-                null,                               // Array of valid values
-                null,                               // Default value
-                null,                               // Minimal value
-                null,                               // Maximal value
-                null,                               // Unit of measure
-                false);                             // Parameter is optional
-    
+                    GridGeometry.class,                 // Value class (mandatory)
+                    null,                               // Array of valid values
+                    null,                               // Default value
+                    null,                               // Minimal value
+                    null,                               // Maximal value
+                    null,                               // Unit of measure
+                    false);                             // Parameter is optional
+
     /**
      * The parameter descriptor for the BackgroundValues.
      */
     public static final ParameterDescriptor<double[]> BACKGROUND_VALUES =
             new DefaultParameterDescriptor<double[]>(Citations.JAI, "BackgroundValues",
-                double[].class,                     // Value class (mandatory)
-                null,                               // Array of valid values
-                null,                               // Default value
-                null,                               // Minimal value
-                null,                               // Maximal value
-                null,                               // Unit of measure
-                false);                             // Parameter is optional
-            
+                    double[].class,                     // Value class (mandatory)
+                    null,                               // Array of valid values
+                    null,                               // Default value
+                    null,                               // Minimal value
+                    null,                               // Maximal value
+                    null,                               // Unit of measure
+                    false);                             // Parameter is optional
+
     /**
      * Key for the reprojection operation being used (null if no operation is performed)
      */
     public static final String OPERATION = "method";
-    
+
     /**
      * Key for the warp operation {@link Class}, null otherwise
      */
     public static final String WARP_TYPE = "warpType";
-    
+
     /**
      * Key for the warp grid dimensions, available only if a WarpGrid is being used.
      * Returned as a {@link Dimension} object
@@ -221,13 +219,13 @@ public class Resample extends Operation2D {
      */
     public Resample() {
         super(new DefaultParameterDescriptorGroup(Citations.OGC, "Resample",
-              new ParameterDescriptor[] {
-                    SOURCE_0,
-                    INTERPOLATION_TYPE,
-                    COORDINATE_REFERENCE_SYSTEM,
-                    GRID_GEOMETRY,
-                    BACKGROUND_VALUES
-        }));
+                new ParameterDescriptor[]{
+                        SOURCE_0,
+                        INTERPOLATION_TYPE,
+                        COORDINATE_REFERENCE_SYSTEM,
+                        GRID_GEOMETRY,
+                        BACKGROUND_VALUES
+                }));
     }
 
     /**
@@ -248,15 +246,15 @@ public class Resample extends Operation2D {
         final GridGeometry2D targetGG = GridGeometry2D.wrap(
                 (GridGeometry) parameters.parameter("GridGeometry").getValue());
         final Object bgValueParam = parameters.parameter("BackgroundValues");
-        final double [] bgValues;
-        if (bgValueParam != null && bgValueParam instanceof Parameter<?>){
-            bgValues = ((Parameter<double[]>)bgValueParam).getValue();
+        final double[] bgValues;
+        if (bgValueParam != null && bgValueParam instanceof Parameter<?>) {
+            bgValues = ((Parameter<double[]>) bgValueParam).getValue();
         } else {
             bgValues = null;
         }
         try {
             return Resampler2D.reproject(source, targetCRS, targetGG, interpolation,
-                (hints instanceof Hints) ? hints : new Hints(hints), bgValues);
+                    (hints instanceof Hints) ? hints : new Hints(hints), bgValues);
         } catch (FactoryException exception) {
             throw new CannotReprojectException(Errors.format(
                     ErrorKeys.CANT_REPROJECT_$1, source.getName()), exception);
@@ -273,15 +271,14 @@ public class Resample extends Operation2D {
      * in which case a reprojection will be performed.
      *
      * @param source The source coverage.
-     * @param target The target envelope, including a possibly different coordinate reference system.
+     * @param target The target envelope, including a possibly different coordinate reference 
+     *               system.
      * @return A grid geometry inferred from the target envelope.
      * @throws TransformException If a transformation was required and failed.
-     *
      * @since 2.5
      */
     public static GridGeometry computeGridGeometry(final GridCoverage source, final Envelope target)
-            throws TransformException
-    {
+            throws TransformException {
         final CoordinateReferenceSystem targetCRS = target.getCoordinateReferenceSystem();
         final CoordinateReferenceSystem sourceCRS = source.getCoordinateReferenceSystem();
         final CoordinateReferenceSystem reducedCRS;
@@ -322,14 +319,15 @@ public class Resample extends Operation2D {
                 final Envelope reduced;
                 final MathTransform gridToCRS;
                 if (reducedCRS == sourceCRS) {
-                    reduced   = source.getEnvelope();
+                    reduced = source.getEnvelope();
                     gridToCRS = gridGeometry.getGridToCRS();
                 } else {
-                    reduced   = CoverageUtilities.getEnvelope2D(source);
+                    reduced = CoverageUtilities.getEnvelope2D(source);
                     gridToCRS = GridGeometry2D.wrap(gridGeometry).getGridToCRS2D();
                 }
                 transformed.intersect(reduced);
-                gridGeometry = new GridGeometry2D(PixelInCell.CELL_CENTER, gridToCRS, transformed, null);
+                gridGeometry = new GridGeometry2D(PixelInCell.CELL_CENTER, gridToCRS, 
+                        transformed, null);
             } catch (FactoryException exception) {
                 recoverableException("resample", exception);
             } catch (TransformException exception) {
@@ -346,7 +344,7 @@ public class Resample extends Operation2D {
     /**
      * Invoked when an error occurred but the application can fallback on a reasonable default.
      *
-     * @param method The method where the error occurred.
+     * @param method    The method where the error occurred.
      * @param exception The error.
      */
     private static void recoverableException(final String method, final Exception exception) {

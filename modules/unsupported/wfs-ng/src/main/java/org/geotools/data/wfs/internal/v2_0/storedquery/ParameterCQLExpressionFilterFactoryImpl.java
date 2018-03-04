@@ -34,27 +34,27 @@ import org.opengis.filter.expression.PropertyName;
  * CQL language by adding support to string concatenation. The add (+) operand is extended so
  * that if either left hand or right hand value is not a number, the values are concatenated as
  * strings (via toString()).
- * 
+ * <p>
  * The following properties are supported:
- * 
+ * <p>
  * <pre>
  *  bboxMinX       Filter envelope bounds
  *  bboxMaxX
  *  bboxMinY
  *  bboxMaxY
  *  defaultSRS	   The defaultSRS of the Feature Type in question
- *  viewparam:name View parameter used in original request ('name' is the name of the parameter) 
+ *  viewparam:name View parameter used in original request ('name' is the name of the parameter)
  * </pre>
- * 
- * @author Sampo Savolainen
  *
+ * @author Sampo Savolainen
  */
 public class ParameterCQLExpressionFilterFactoryImpl extends FilterFactoryImpl {
 
     private Map<String, PropertyName> properties;
 
     public ParameterCQLExpressionFilterFactoryImpl() {
-        List<ParameterCQLExpressionPropertyName> tmp = new ArrayList<ParameterCQLExpressionPropertyName>();
+        List<ParameterCQLExpressionPropertyName> tmp = new 
+                ArrayList<ParameterCQLExpressionPropertyName>();
 
         tmp.add(new ParameterCQLExpressionPropertyName("bboxMinX") {
             @Override

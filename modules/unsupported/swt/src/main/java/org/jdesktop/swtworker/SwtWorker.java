@@ -1,6 +1,6 @@
-/* 
+/*
  * $Id$
- * 
+ *
  * Copyright (c) 2005 Sun Microsystems, Inc. All rights
  * reserved. Use is subject to license terms.
  */
@@ -34,44 +34,44 @@ import org.eclipse.swt.widgets.Display;
 /**
  * An abstract class to perform lengthy GUI-interacting tasks in a
  * dedicated thread.
- * 
+ * <p>
  * <p>
  * When writing a multi-threaded application using Swing, there are
  * two constraints to keep in mind:
- * (refer to 
+ * (refer to
  * <a href="http://java.sun.com/docs/books/tutorial/uiswing/misc/threads.html">
- *   How to Use Threads
+ * How to Use Threads
  * </a> for more details):
  * <ul>
- *   <li> Time-consuming tasks should not be run on the <i>Event
- *        Dispatch Thread</i>. Otherwise the application becomes unresponsive.
- *   </li>
- *   <li> Swing components should be accessed  on the <i>Event
- *        Dispatch Thread</i> only.
- *   </li>
+ * <li> Time-consuming tasks should not be run on the <i>Event
+ * Dispatch Thread</i>. Otherwise the application becomes unresponsive.
+ * </li>
+ * <li> Swing components should be accessed  on the <i>Event
+ * Dispatch Thread</i> only.
+ * </li>
  * </ul>
- *
  * <p>
- *
+ * <p>
+ * <p>
  * <p>
  * These constraints mean that a GUI application with time intensive
  * computing needs at least two threads:  1) a thread to perform the lengthy
  * task and 2) the <i>Event Dispatch Thread</i> (EDT) for all GUI-related
  * activities.  This involves inter-thread communication which can be
  * tricky to implement.
- *
  * <p>
- * {@code SwingWorker} is designed for situations where you need to have a long 
- * running task run in a background thread and provide updates to the UI 
- * either when done, or while processing. 
- * Subclasses of {@code SwingWorker} must implement 
+ * <p>
+ * {@code SwingWorker} is designed for situations where you need to have a long
+ * running task run in a background thread and provide updates to the UI
+ * either when done, or while processing.
+ * Subclasses of {@code SwingWorker} must implement
  * the {@see #doInBackground} method to perform the background computation.
- *
- *
+ * <p>
+ * <p>
  * <p>
  * <b>Workflow</b>
  * <p>
- * There are three threads involved in the life cycle of a 
+ * There are three threads involved in the life cycle of a
  * {@code SwingWorker} :
  * <ul>
  * <li>
@@ -83,7 +83,7 @@ import org.eclipse.swt.widgets.Display;
  * complete using the {@link #get get} methods.
  * <li>
  * <p>
- * <i>Worker</i> thread: The {@link #doInBackground} 
+ * <i>Worker</i> thread: The {@link #doInBackground}
  * method is called on this thread.
  * This is where all background activities should happen. To notify
  * {@code PropertyChangeListeners} about bound properties changes use the
@@ -97,12 +97,12 @@ import org.eclipse.swt.widgets.Display;
  * {@link #process process} and {@link #done} methods and notifies
  * any {@code PropertyChangeListeners} on this thread.
  * </ul>
- * 
+ * <p>
  * <p>
  * Often, the <i>Current</i> thread is the <i>Event Dispatch
- * Thread</i>. 
- *
- *
+ * Thread</i>.
+ * <p>
+ * <p>
  * <p>
  * Before the {@code doInBackground} method is invoked on a <i>worker</i> thread,
  * {@code SwingWorker} notifies any {@code PropertyChangeListeners} about the
@@ -110,23 +110,23 @@ import org.eclipse.swt.widgets.Display;
  * {@code doInBackground} method is finished the {@code done} method is
  * executed.  Then {@code SwingWorker} notifies any {@code PropertyChangeListeners}
  * about the {@code state} property change to {@code StateValue.DONE}.
- *
+ * <p>
  * <p>
  * {@code SwingWorker} is only designed to be executed once.  Executing a
  * {@code SwingWorker} more than once will not result in invoking the
  * {@code doInBackground} method twice.
- *
+ * <p>
  * <p>
  * <b>Sample Usage</b>
  * <p>
- * The following example illustrates the simplest use case.  Some 
- * processing is done in the background and when done you update a Swing 
+ * The following example illustrates the simplest use case.  Some
+ * processing is done in the background and when done you update a Swing
  * component.
- *
+ * <p>
  * <p>
  * Say we want to find the "Meaning of Life" and display the result in
  * a {@code JLabel}.
- * 
+ * <p>
  * <pre>
  *   final JLabel label;
  *   class MeaningOfLifeFinder extends SwingWorker&lt;String, Object&gt; {
@@ -137,30 +137,30 @@ import org.eclipse.swt.widgets.Display;
  *
  *       {@code @Override}
  *       protected void done() {
- *           try { 
+ *           try {
  *               label.setText(get());
  *           } catch (Exception ignore) {
  *           }
  *       }
  *   }
- * 
+ *
  *   (new MeaningOfLifeFinder()).execute();
  * </pre>
- * 
  * <p>
- * The next example is useful in situations where you wish to process data 
+ * <p>
+ * The next example is useful in situations where you wish to process data
  * as it is ready on the <i>Event Dispatch Thread</i>.
- *
+ * <p>
  * <p>
  * Now we want to find the first N prime numbers and display the results in a
  * {@code JTextArea}.  While this is computing, we want to update our
- * progress in a {@code JProgressBar}.  Finally, we also want to print 
+ * progress in a {@code JProgressBar}.  Finally, we also want to print
  * the prime numbers to {@code System.out}.
  * <pre>
- * class PrimeNumbersTask extends 
+ * class PrimeNumbersTask extends
  *         SwingWorker&lt;List&lt;Integer&gt;, Integer&gt; {
- *     PrimeNumbersTask(JTextArea textArea, int numbersToFind) { 
- *         //initialize 
+ *     PrimeNumbersTask(JTextArea textArea, int numbersToFind) {
+ *         //initialize
  *     }
  *
  *     {@code @Override}
@@ -175,7 +175,7 @@ import org.eclipse.swt.widgets.Display;
  *     }
  *
  *     {@code @Override}
- *     protected void process(List&lt;Integer&gt; chunks) { 
+ *     protected void process(List&lt;Integer&gt; chunks) {
  *         for (int number : chunks) {
  *             textArea.append(number + &quot;\n&quot;);
  *         }
@@ -197,25 +197,19 @@ import org.eclipse.swt.widgets.Display;
  * task.execute();
  * System.out.println(task.get()); //prints all prime numbers we have got
  * </pre>
- * 
+ * <p>
  * <p>
  * Because {@code SwingWorker} implements {@code Runnable}, a
  * {@code SwingWorker} can be submitted to an
  * {@link java.util.concurrent.Executor} for execution.
- *  
- * @author Igor Kushnirskiy
  *
- *
- *
- *
- * @source $URL$
- * @version $Revision: 1.6 $ $Date: 2008/07/25 19:32:29 $
- * 
  * @param <T> the result type returned by this {@code SwingWorker's}
- *        {@code doInBackground} and {@code get} methods
+ *            {@code doInBackground} and {@code get} methods
  * @param <V> the type used for carrying out intermediate results by this
- *        {@code SwingWorker's} {@code publish} and {@code process} methods
- * 
+ *            {@code SwingWorker's} {@code publish} and {@code process} methods
+ * @author Igor Kushnirskiy
+ * @version $Revision: 1.6 $ $Date: 2008/07/25 19:32:29 $
+ * @source $URL$
  */
 public abstract class SwtWorker<T, V> implements Future<T>, Runnable {
     /**
@@ -254,7 +248,8 @@ public abstract class SwtWorker<T, V> implements Future<T>, Runnable {
      */
     private AccumulativeRunnable<Integer> doNotifyProgressChange;
 
-    private static final AccumulativeRunnable<Runnable> doSubmit = new DoSubmitAccumulativeRunnable();
+    private static final AccumulativeRunnable<Runnable> doSubmit = new 
+            DoSubmitAccumulativeRunnable();
 
     private static ExecutorService executorService = null;
 
@@ -267,7 +262,7 @@ public abstract class SwtWorker<T, V> implements Future<T>, Runnable {
          */
         PENDING,
         /**
-         * {@code SwingWorker} is {@code STARTED} 
+         * {@code SwingWorker} is {@code STARTED}
          * before invoking {@code doInBackground}.
          */
         STARTED,
@@ -278,20 +273,22 @@ public abstract class SwtWorker<T, V> implements Future<T>, Runnable {
          * is finished.
          */
         DONE
-    };
+    }
+
+    ;
 
     /**
      * Constructs this {@code SwingWorker}.
      */
     public SwtWorker() {
-        Callable<T> callable = new Callable<T>(){
+        Callable<T> callable = new Callable<T>() {
             public T call() throws Exception {
                 setState(StateValue.STARTED);
                 return doInBackground();
             }
         };
 
-        future = new FutureTask<T>(callable){
+        future = new FutureTask<T>(callable) {
             @Override
             protected void done() {
                 doneEDT();
@@ -307,17 +304,15 @@ public abstract class SwtWorker<T, V> implements Future<T>, Runnable {
 
     /**
      * Computes a result, or throws an exception if unable to do so.
-     *
+     * <p>
      * <p>
      * Note that this method is executed only once.
-     * 
+     * <p>
      * <p>
      * Note: this method is executed in a background thread.
-     *  
      *
      * @return the computed result
      * @throws Exception if unable to compute a result
-     * 
      */
     protected abstract T doInBackground() throws Exception;
 
@@ -331,11 +326,11 @@ public abstract class SwtWorker<T, V> implements Future<T>, Runnable {
 
     /**
      * Sends data chunks to the {@link #process} method. This method is to be
-     * used from inside the {@code doInBackground} method to deliver 
+     * used from inside the {@code doInBackground} method to deliver
      * intermediate results
      * for processing on the <i>Event Dispatch Thread</i> inside the
      * {@code process} method.
-     * 
+     * <p>
      * <p>
      * Because the {@code process} method is invoked asynchronously on
      * the <i>Event Dispatch Thread</i>
@@ -343,47 +338,48 @@ public abstract class SwtWorker<T, V> implements Future<T>, Runnable {
      * might occur before the {@code process} method is executed. For
      * performance purposes all these invocations are coalesced into one
      * invocation with concatenated arguments.
-     * 
+     * <p>
      * <p>
      * For example:
-     * 
+     * <p>
      * <pre>
      * publish(&quot;1&quot;);
      * publish(&quot;2&quot;, &quot;3&quot;);
      * publish(&quot;4&quot;, &quot;5&quot;, &quot;6&quot;);
      * </pre>
-     * 
+     * <p>
      * might result in:
-     * 
+     * <p>
      * <pre>
-     * process(&quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;)
+     * process(&quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;
+     * 6&quot;)
      * </pre>
-     *
+     * <p>
      * <p>
      * <b>Sample Usage</b>. This code snippet loads some tabular data and
      * updates {@code DefaultTableModel} with it. Note that it safe to mutate
-     * the tableModel from inside the {@code process} method because it is 
+     * the tableModel from inside the {@code process} method because it is
      * invoked on the <i>Event Dispatch Thread</i>.
-     * 
+     * <p>
      * <pre>
-     * class TableSwingWorker extends 
+     * class TableSwingWorker extends
      *         SwingWorker&lt;DefaultTableModel, Object[]&gt; {
      *     private final DefaultTableModel tableModel;
-     * 
+     *
      *     public TableSwingWorker(DefaultTableModel tableModel) {
      *         this.tableModel = tableModel;
      *     }
-     * 
+     *
      *     {@code @Override}
      *     protected DefaultTableModel doInBackground() throws Exception {
-     *         for (Object[] row = loadData(); 
-     *                  ! isCancelled() &amp;&amp; row != null; 
+     *         for (Object[] row = loadData();
+     *                  ! isCancelled() &amp;&amp; row != null;
      *                  row = loadData()) {
      *             publish((Object[]) row);
      *         }
      *         return tableModel;
      *     }
-     * 
+     *
      *     {@code @Override}
      *     protected void process(List&lt;Object[]&gt; chunks) {
      *         for (Object[] row : chunks) {
@@ -392,20 +388,19 @@ public abstract class SwtWorker<T, V> implements Future<T>, Runnable {
      *     }
      * }
      * </pre>
-     * 
+     *
      * @param chunks intermediate results to process
-     * 
      * @see #process
-     * 
      */
-    protected final void publish( V... chunks ) {
+    protected final void publish(V... chunks) {
         synchronized (this) {
             if (doProcess == null) {
-                doProcess = new AccumulativeRunnable<V>(){
+                doProcess = new AccumulativeRunnable<V>() {
                     @Override
-                    public void run( List<V> args ) {
+                    public void run(List<V> args) {
                         process(args);
                     }
+
                     @Override
                     protected void submit() {
                         doSubmit.add(this);
@@ -419,16 +414,14 @@ public abstract class SwtWorker<T, V> implements Future<T>, Runnable {
     /**
      * Receives data chunks from the {@code publish} method asynchronously on the
      * <i>Event Dispatch Thread</i>.
-     * 
+     * <p>
      * <p>
      * Please refer to the {@link #publish} method for more details.
-     * 
+     *
      * @param chunks intermediate results to process
-     * 
      * @see #publish
-     * 
      */
-    protected void process( List<V> chunks ) {
+    protected void process(List<V> chunks) {
     }
 
     /**
@@ -438,7 +431,7 @@ public abstract class SwtWorker<T, V> implements Future<T>, Runnable {
      * perform completion actions on the <i>Event Dispatch Thread</i>. Note
      * that you can query status inside the implementation of this method to
      * determine the result of this task or whether this task has been cancelled.
-     * 
+     *
      * @see #doInBackground
      * @see #isCancelled()
      * @see #get
@@ -449,7 +442,7 @@ public abstract class SwtWorker<T, V> implements Future<T>, Runnable {
     /**
      * Sets the {@code progress} bound property.
      * The value should be from 0 to 100.
-     *
+     * <p>
      * <p>
      * Because {@code PropertyChangeListener}s are notified asynchronously on
      * the <i>Event Dispatch Thread</i> multiple invocations to the
@@ -457,23 +450,23 @@ public abstract class SwtWorker<T, V> implements Future<T>, Runnable {
      * {@code PropertyChangeListeners} are invoked. For performance purposes
      * all these invocations are coalesced into one invocation with the last
      * invocation argument only.
-     * 
+     * <p>
      * <p>
      * For example, the following invocations:
-     * 
+     * <p>
      * <pre>
      * setProgress(1);
      * setProgress(2);
      * setProgress(3);
      * </pre>
-     * 
+     * <p>
      * might result in a single {@code PropertyChangeListener} notification with
      * the value {@code 3}.
-     * 
+     *
      * @param progress the progress value to set
      * @throws IllegalArgumentException is value not from 0 to 100
      */
-    protected final void setProgress( int progress ) {
+    protected final void setProgress(int progress) {
         if (progress < 0 || progress > 100) {
             throw new IllegalArgumentException("the value should be from 0 to 100");
         }
@@ -487,11 +480,12 @@ public abstract class SwtWorker<T, V> implements Future<T>, Runnable {
         }
         synchronized (this) {
             if (doNotifyProgressChange == null) {
-                doNotifyProgressChange = new AccumulativeRunnable<Integer>(){
+                doNotifyProgressChange = new AccumulativeRunnable<Integer>() {
                     @Override
-                    public void run( List<Integer> args ) {
+                    public void run(List<Integer> args) {
                         firePropertyChange("progress", args.get(0), args.get(args.size() - 1));
                     }
+
                     @Override
                     protected void submit() {
                         doSubmit.add(this);
@@ -504,7 +498,7 @@ public abstract class SwtWorker<T, V> implements Future<T>, Runnable {
 
     /**
      * Returns the {@code progress} bound property.
-     * 
+     *
      * @return the progress bound property.
      */
     public final int getProgress() {
@@ -517,7 +511,7 @@ public abstract class SwtWorker<T, V> implements Future<T>, Runnable {
      * event all <i>worker</i> threads are busy handling other
      * {@code SwingWorkers} this {@code SwingWorker} is placed in a waiting
      * queue.
-     *
+     * <p>
      * <p>
      * Note:
      * {@code SwingWorker} is only designed to be executed once.  Executing a
@@ -529,10 +523,11 @@ public abstract class SwtWorker<T, V> implements Future<T>, Runnable {
     }
 
     // Future methods START
+
     /**
      * {@inheritDoc}
      */
-    public final boolean cancel( boolean mayInterruptIfRunning ) {
+    public final boolean cancel(boolean mayInterruptIfRunning) {
         return future.cancel(mayInterruptIfRunning);
     }
 
@@ -556,22 +551,22 @@ public abstract class SwtWorker<T, V> implements Future<T>, Runnable {
      * Note: calling {@code get} on the <i>Event Dispatch Thread</i> blocks
      * <i>all</i> events, including repaints, from being processed until this
      * {@code SwingWorker} is complete.
-     * 
+     * <p>
      * <p>
      * When you want the {@code SwingWorker} to block on the <i>Event
      * Dispatch Thread</i> we recommend that you use a <i>modal dialog</i>.
-     *
+     * <p>
      * <p>
      * For example:
-     * 
+     * <p>
      * <pre>
      * class SwingWorkerCompletionWaiter implements PropertyChangeListener {
      *     private JDialog dialog;
-     * 
+     *
      *     public SwingWorkerCompletionWaiter(JDialog dialog) {
      *         this.dialog = dialog;
      *     }
-     * 
+     *
      *     public void propertyChange(PropertyChangeEvent event) {
      *         if (&quot;state&quot;.equals(event.getPropertyName())
      *                 &amp;&amp; SwingWorker.StateValue.DONE == event.getNewValue()) {
@@ -585,7 +580,7 @@ public abstract class SwtWorker<T, V> implements Future<T>, Runnable {
      *     new SwingWorkerCompletionWaiter(dialog));
      * swingWorker.execute();
      * //the dialog will be visible until the SwingWorker is done
-     * dialog.setVisible(true); 
+     * dialog.setVisible(true);
      * </pre>
      */
     public final T get() throws InterruptedException, ExecutionException {
@@ -597,26 +592,28 @@ public abstract class SwtWorker<T, V> implements Future<T>, Runnable {
      * <p>
      * Please refer to {@link #get} for more details.
      */
-    public final T get( long timeout, TimeUnit unit ) throws InterruptedException, ExecutionException, TimeoutException {
+    public final T get(long timeout, TimeUnit unit) throws InterruptedException, 
+            ExecutionException, TimeoutException {
         return future.get(timeout, unit);
     }
 
     // Future methods END
 
     // PropertyChangeSupports methods START
+
     /**
      * Adds a {@code PropertyChangeListener} to the listener list. The listener
      * is registered for all properties. The same listener object may be added
      * more than once, and will be called as many times as it is added. If
      * {@code listener} is {@code null}, no exception is thrown and no action is taken.
-     * 
+     * <p>
      * <p>
      * Note: This is merely a convenience wrapper. All work is delegated to
      * {@code PropertyChangeSupport} from {@link #getPropertyChangeSupport}.
-     * 
+     *
      * @param listener the {@code PropertyChangeListener} to be added
      */
-    public final void addPropertyChangeListener( PropertyChangeListener listener ) {
+    public final void addPropertyChangeListener(PropertyChangeListener listener) {
         getPropertyChangeSupport().addPropertyChangeListener(listener);
     }
 
@@ -627,25 +624,25 @@ public abstract class SwtWorker<T, V> implements Future<T>, Runnable {
      * event source, it will be notified one less time after being removed. If
      * {@code listener} is {@code null}, or was never added, no exception is
      * thrown and no action is taken.
-     * 
+     * <p>
      * <p>
      * Note: This is merely a convenience wrapper. All work is delegated to
      * {@code PropertyChangeSupport} from {@link #getPropertyChangeSupport}.
-     * 
+     *
      * @param listener the {@code PropertyChangeListener} to be removed
      */
-    public final void removePropertyChangeListener( PropertyChangeListener listener ) {
+    public final void removePropertyChangeListener(PropertyChangeListener listener) {
         getPropertyChangeSupport().removePropertyChangeListener(listener);
     }
 
     /**
      * Reports a bound property update to any registered listeners. No event is
      * fired if {@code old} and {@code new} are equal and non-null.
-     * 
      * <p>
-     * This {@code SwingWorker} will be the source for 
+     * <p>
+     * This {@code SwingWorker} will be the source for
      * any generated events.
-     *
+     * <p>
      * <p>
      * When called off the <i>Event Dispatch Thread</i>
      * {@code PropertyChangeListeners} are notified asynchronously on
@@ -653,32 +650,31 @@ public abstract class SwtWorker<T, V> implements Future<T>, Runnable {
      * <p>
      * Note: This is merely a convenience wrapper. All work is delegated to
      * {@code PropertyChangeSupport} from {@link #getPropertyChangeSupport}.
-     * 
-     * 
+     *
      * @param propertyName the programmatic name of the property that was
-     *        changed
-     * @param oldValue the old value of the property
-     * @param newValue the new value of the property
+     *                     changed
+     * @param oldValue     the old value of the property
+     * @param newValue     the new value of the property
      */
-    public final void firePropertyChange( String propertyName, Object oldValue, Object newValue ) {
+    public final void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
         getPropertyChangeSupport().firePropertyChange(propertyName, oldValue, newValue);
     }
 
     /**
-     * Returns the {@code PropertyChangeSupport} for this {@code SwingWorker}. 
+     * Returns the {@code PropertyChangeSupport} for this {@code SwingWorker}.
      * This method is used when flexible access to bound properties support is
      * needed.
      * <p>
-     * This {@code SwingWorker} will be the source for 
+     * This {@code SwingWorker} will be the source for
      * any generated events.
-     * 
+     * <p>
      * <p>
      * Note: The returned {@code PropertyChangeSupport} notifies any
      * {@code PropertyChangeListener}s asynchronously on the <i>Event Dispatch
      * Thread</i> in the event that {@code firePropertyChange} or
      * {@code fireIndexedPropertyChange} are called off the <i>Event Dispatch
      * Thread</i>.
-     * 
+     *
      * @return {@code PropertyChangeSupport} for this {@code SwingWorker}
      */
     public final PropertyChangeSupport getPropertyChangeSupport() {
@@ -689,7 +685,7 @@ public abstract class SwtWorker<T, V> implements Future<T>, Runnable {
 
     /**
      * Returns the {@code SwingWorker} state bound property.
-     * 
+     *
      * @return the current state
      */
     public final StateValue getState() {
@@ -706,9 +702,10 @@ public abstract class SwtWorker<T, V> implements Future<T>, Runnable {
 
     /**
      * Sets this {@code SwingWorker} state bound property.
+     *
      * @param the state state to set
      */
-    private void setState( StateValue state ) {
+    private void setState(StateValue state) {
         StateValue old = this.state;
         this.state = state;
         firePropertyChange("state", old, state);
@@ -718,7 +715,7 @@ public abstract class SwtWorker<T, V> implements Future<T>, Runnable {
      * Invokes {@code done} on the EDT.
      */
     private void doneEDT() {
-        Runnable doDone = new Runnable(){
+        Runnable doDone = new Runnable() {
             public void run() {
                 done();
             }
@@ -733,26 +730,28 @@ public abstract class SwtWorker<T, V> implements Future<T>, Runnable {
 
     /**
      * returns workersExecutorService.
-     *
+     * <p>
      * returns the service stored in the appContext or creates it if
      * necessary. If the last one it triggers autoShutdown thread to
      * get started.
-     * 
+     *
      * @return ExecutorService for the {@code SwingWorkers}
      * @see #startAutoShutdownThread
      */
     private static synchronized ExecutorService getWorkersExecutorService() {
         if (executorService == null) {
             // this creates non-daemon threads.
-            ThreadFactory threadFactory = new ThreadFactory(){
+            ThreadFactory threadFactory = new ThreadFactory() {
                 final AtomicInteger threadNumber = new AtomicInteger(1);
-                public Thread newThread( final Runnable r ) {
+
+                public Thread newThread(final Runnable r) {
                     StringBuilder name = new StringBuilder("SwingWorker-pool-");
                     name.append(System.identityHashCode(this));
                     name.append("-thread-");
                     name.append(threadNumber.getAndIncrement());
 
-                    Thread t = new Thread(r, name.toString());;
+                    Thread t = new Thread(r, name.toString());
+                    ;
                     if (t.isDaemon())
                         t.setDaemon(false);
                     if (t.getPriority() != Thread.NORM_PRIORITY)
@@ -769,7 +768,7 @@ public abstract class SwtWorker<T, V> implements Future<T>, Runnable {
              * for new tasks before terminating.
              */
             executorService = new ThreadPoolExecutor(0, MAX_WORKER_THREADS, 5L, TimeUnit.SECONDS,
-                    new LinkedBlockingQueue<Runnable>(), threadFactory){
+                    new LinkedBlockingQueue<Runnable>(), threadFactory) {
 
                 private final ReentrantLock pauseLock = new ReentrantLock();
                 private final Condition unpaused = pauseLock.newCondition();
@@ -777,7 +776,7 @@ public abstract class SwtWorker<T, V> implements Future<T>, Runnable {
                 private final ReentrantLock executeLock = new ReentrantLock();
 
                 @Override
-                public void execute( Runnable command ) {
+                public void execute(Runnable command) {
                     /*
                      * ThreadPoolExecutor first tries to run task
                      * in a corePool. If all threads are busy it
@@ -794,7 +793,7 @@ public abstract class SwtWorker<T, V> implements Future<T>, Runnable {
                      *
                      * Instead we enlarge corePool to
                      * MAX_WORKER_THREADS before the execution and
-                     * shrink it back to 0 after. 
+                     * shrink it back to 0 after.
                      * It does pretty much what we need.
                      *
                      * While we changing the corePoolSize we need
@@ -828,12 +827,13 @@ public abstract class SwtWorker<T, V> implements Future<T>, Runnable {
                         executeLock.unlock();
                     }
                 }
+
                 @Override
-                protected void afterExecute( Runnable r, Throwable t ) {
+                protected void afterExecute(Runnable r, Throwable t) {
                     super.afterExecute(r, t);
                     pauseLock.lock();
                     try {
-                        while( isPaused ) {
+                        while (isPaused) {
                             unpaused.await();
                         }
                     } catch (InterruptedException ignore) {
@@ -847,13 +847,15 @@ public abstract class SwtWorker<T, V> implements Future<T>, Runnable {
         return executorService;
     }
 
-    private static class DoSubmitAccumulativeRunnable extends AccumulativeRunnable<Runnable> implements ActionListener {
+    private static class DoSubmitAccumulativeRunnable extends AccumulativeRunnable<Runnable> 
+            implements ActionListener {
         private final static int DELAY = (int) (1000 / 30);
+
         @Override
-        protected void run( List<Runnable> args ) {
+        protected void run(List<Runnable> args) {
             int i = 0;
             try {
-                for( Runnable runnable : args ) {
+                for (Runnable runnable : args) {
                     i++;
                     runnable.run();
                 }
@@ -863,36 +865,40 @@ public abstract class SwtWorker<T, V> implements Future<T>, Runnable {
                      * schedule all the unhandled items for the next time
                      */
                     Runnable argsTail[] = new Runnable[args.size() - i];
-                    for( int j = 0; j < argsTail.length; j++ ) {
+                    for (int j = 0; j < argsTail.length; j++) {
                         argsTail[j] = args.get(i + j);
                     }
                     add(true, argsTail);
                 }
             }
         }
+
         @Override
         protected void submit() {
             Timer timer = new Timer(DELAY, this);
             timer.setRepeats(false);
             timer.start();
         }
-        public void actionPerformed( ActionEvent event ) {
+
+        public void actionPerformed(ActionEvent event) {
             run();
         }
     }
 
     private class SwingWorkerPropertyChangeSupport extends PropertyChangeSupport {
         private static final long serialVersionUID = 1L;
-        SwingWorkerPropertyChangeSupport( Object source ) {
+
+        SwingWorkerPropertyChangeSupport(Object source) {
             super(source);
         }
+
         @Override
-        public void firePropertyChange( final PropertyChangeEvent evt ) {
+        public void firePropertyChange(final PropertyChangeEvent evt) {
             // if (SwingUtilities.isEventDispatchThread()) {
             if (Display.getCurrent() != null) {
                 super.firePropertyChange(evt);
             } else {
-                doSubmit.add(new Runnable(){
+                doSubmit.add(new Runnable() {
                     public void run() {
                         SwingWorkerPropertyChangeSupport.this.firePropertyChange(evt);
                     }

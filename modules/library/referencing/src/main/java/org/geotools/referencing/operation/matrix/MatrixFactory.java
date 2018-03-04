@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -25,12 +25,10 @@ import org.opengis.referencing.operation.Matrix;
  * according the desired matrix size. Note that if the matrix size is know at compile time,
  * it may be more efficient to invoke directly the constructor of the appropriate class instead.
  *
- * @since 2.2
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux (IRD)
+ * @version $Id$
+ * @source $URL$
+ * @since 2.2
  */
 public final class MatrixFactory {
     /**
@@ -47,11 +45,16 @@ public final class MatrixFactory {
      */
     public static XMatrix create(final int size) {
         switch (size) {
-            case 1:  return new Matrix1();
-            case 2:  return new Matrix2();
-            case 3:  return new Matrix3();
-            case 4:  return new Matrix4();
-            default: return new GeneralMatrix(size);
+            case 1:
+                return new Matrix1();
+            case 2:
+                return new Matrix2();
+            case 3:
+                return new Matrix3();
+            case 4:
+                return new Matrix4();
+            default:
+                return new GeneralMatrix(size);
         }
     }
 
@@ -60,11 +63,11 @@ public final class MatrixFactory {
      * Elements on the diagonal <var>j==i</var> are set to 1.
      *
      * @param numRow For an affine transform, this is the number of
-     *        {@linkplain org.opengis.referencing.operation.MathTransform#getTargetDimensions
-     *        target dimensions} + 1.
+     *               {@linkplain org.opengis.referencing.operation.MathTransform#getTargetDimensions
+     *               target dimensions} + 1.
      * @param numCol For an affine transform, this is the number of
-     *        {@linkplain org.opengis.referencing.operation.MathTransform#getSourceDimensions
-     *        source dimensions} + 1.
+     *               {@linkplain org.opengis.referencing.operation.MathTransform#getSourceDimensions
+     *               source dimensions} + 1.
      * @return An identity matrix of the given size.
      */
     public static XMatrix create(final int numRow, final int numCol) {
@@ -82,10 +85,14 @@ public final class MatrixFactory {
         final int size = matrix.getNumRow();
         if (size == matrix.getNumCol()) {
             switch (size) {
-                case 1:  return new Matrix1(matrix);
-                case 2:  return new Matrix2(matrix);
-                case 3:  return new Matrix3(matrix);
-                case 4:  return new Matrix4(matrix);
+                case 1:
+                    return new Matrix1(matrix);
+                case 2:
+                    return new Matrix2(matrix);
+                case 3:
+                    return new Matrix3(matrix);
+                case 4:
+                    return new Matrix4(matrix);
             }
         }
         return new GeneralMatrix(matrix);

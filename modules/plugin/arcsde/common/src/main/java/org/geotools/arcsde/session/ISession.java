@@ -54,31 +54,27 @@ import com.esri.sde.sdk.client.SeUpdate;
  * {@code new SeLayer(connection)}, needs to do so inside the body of a {@link Command}, and issue
  * the command through {@link ISession#issue(Command)}.
  * <p>
- * 
- * 
+ *
  * @author Gabriel Roldan
  * @author Jody Garnett
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  * @since 2.5.x
  */
 public interface ISession {
 
     /**
      * Executes the given command and returns its result.
-     * 
-     * @param command
-     *            the command to execute
-     * @throws IOException
-     *             if an exception occurs handling any ArcSDE resource while executing the command
+     *
+     * @param command the command to execute
+     * @throws IOException if an exception occurs handling any ArcSDE resource while executing 
+     * the command
      */
     public abstract <T> T issue(final Command<T> command) throws IOException;
 
     /**
      * Performs a session sanity check to avoid stale connections to be returned from the pool.
-     * 
+     *
      * @throws IOException
      * @see {@link SeConnection#testServer(long)}
      */
@@ -88,9 +84,9 @@ public interface ISession {
 
     /**
      * Returns whether this connection is on the connection pool domain or not.
-     * 
+     *
      * @return <code>true</code> if this connection has beed returned to the pool and thus cannot be
-     *         used, <code>false</code> if its safe to keep using it.
+     * used, <code>false</code> if its safe to keep using it.
      */
     public abstract boolean isDisposed();
 
@@ -107,7 +103,7 @@ public interface ISession {
      * <p>
      * If this method succeeds, {@link #isTransactionActive()} will return true afterwards
      * </p>
-     * 
+     *
      * @throws IOException
      * @see {@link #issueStartTransaction(Session)}
      */
@@ -118,7 +114,7 @@ public interface ISession {
      * <p>
      * This method shall only be called from inside a command
      * </p>
-     * 
+     *
      * @throws IOException
      */
     public abstract void commitTransaction() throws IOException;
@@ -128,7 +124,7 @@ public interface ISession {
      * <p>
      * As for any other public method, this one can't be called if {@link #isDisposed()} is true.
      * </p>
-     * 
+     *
      * @return
      */
     public abstract boolean isTransactionActive();
@@ -139,16 +135,15 @@ public interface ISession {
      * When this method returns it is guaranteed that {@link #isTransactionActive()} will return
      * false, regardless of the success of the rollback operation.
      * </p>
-     * 
+     *
      * @throws IOException
      */
     public abstract void rollbackTransaction() throws IOException;
 
     /**
      * Return to the pool (may not close the internal connection, depends on pool settings).
-     * 
-     * @throws IllegalStateException
-     *             if dispose() is called while a transaction is in progress
+     *
+     * @throws IllegalStateException if dispose() is called while a transaction is in progress
      */
     public abstract void dispose() throws IllegalStateException;
 
@@ -162,7 +157,7 @@ public interface ISession {
     /**
      * Returns the live list of layers, not the cached ones, so it may pick up the differences in
      * the database.
-     * 
+     *
      * @return
      * @throws IOException
      */
@@ -181,7 +176,7 @@ public interface ISession {
     /**
      * Creates an SeTable named
      * <code>qualifiedName<code>; the layer does not need to exist on the server.
-     * 
+     *
      * @param qualifiedName
      * @return
      * @throws IOException
@@ -207,7 +202,7 @@ public interface ISession {
      * the SeRow should only be used inside a command as accessing its values implies using the
      * connection.
      * </p>
-     * 
+     *
      * @param query
      * @return
      * @throws IOException
@@ -223,12 +218,13 @@ public interface ISession {
     public abstract SeState createState(final SeObjectId stateId) throws IOException;
 
     public abstract SeQuery createAndExecuteQuery(final String[] propertyNames,
-            final SeSqlConstruct sql) throws IOException;
+                                                  final SeSqlConstruct sql) throws IOException;
 
     public SeState createChildState(long parentStateId) throws IOException;
 
     public abstract SeQuery prepareQuery(final SeQueryInfo qInfo,
-            final SeFilter[] spatialConstraints, final ArcSdeVersionHandler version)
+                                         final SeFilter[] spatialConstraints, final 
+                                         ArcSdeVersionHandler version)
             throws IOException;
 
 }

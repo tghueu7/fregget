@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -24,16 +24,18 @@ import javax.swing.text.html.HTMLDocument.RunElement;
  * particular output device may need to be choosen for concrete subclasses, for example {@link
  * Style2D} for targeting <A HREF="http://java.sun.com/products/java-media/2D/">Java2D</A>.
  *
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public abstract class Style implements Cloneable {
-    /** Maximum scale at which the geometry has to be painted with this style */
+    /**
+     * Maximum scale at which the geometry has to be painted with this style
+     */
     protected double maxScale = Double.POSITIVE_INFINITY;
 
-    /** Minimum scale at which the geometry has to be painted with this style */
+    /**
+     * Minimum scale at which the geometry has to be painted with this style
+     */
     protected double minScale = 0;
 
     /**
@@ -60,7 +62,6 @@ public abstract class Style implements Cloneable {
      *
      * @param minScale
      * @param maxScale
-     *
      * @throws IllegalArgumentException DOCUMENT ME!
      */
     public void setMinMaxScale(double minScale, double maxScale) {
@@ -76,19 +77,18 @@ public abstract class Style implements Cloneable {
      * Checks whethere the style should be used for painting at scale <code>scale</scale>
      *
      * @param scale The scale queried
-     *
      * @return True if <code>scale</code> is whithin the scale range of this style (false
-     *         otherwise)
+     * otherwise)
      */
     public boolean isScaleInRange(double scale) {
         return (scale >= minScale) && (scale <= maxScale);
     }
-    
+
     @Override
     public Style clone() {
         try {
             return (Style) super.clone();
-        } catch(CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             // can't happen, we implement cloneable
             throw new RuntimeException(e);
         }

@@ -28,19 +28,19 @@ public class PostGISUuidTestSetup extends JDBCUuidTestSetup {
 
     @Override
     protected void createUuidTable() throws Exception {
-        run( "CREATE TABLE \"guid\" ( \"id\" serial PRIMARY KEY, \"uuidProperty\" uuid)" );
-        run( "INSERT INTO \"guid\" (\"uuidProperty\") VALUES ('" + uuid1 + "')");
-        run( "INSERT INTO \"guid\" (\"uuidProperty\") VALUES ('" + uuid2 + "')");
+        run("CREATE TABLE \"guid\" ( \"id\" serial PRIMARY KEY, \"uuidProperty\" uuid)");
+        run("INSERT INTO \"guid\" (\"uuidProperty\") VALUES ('" + uuid1 + "')");
+        run("INSERT INTO \"guid\" (\"uuidProperty\") VALUES ('" + uuid2 + "')");
 
         /*
-         * A table with UUID as primary key 
+         * A table with UUID as primary key
          */
-        run( "CREATE TABLE \"uuidt\" ( \"id\" uuid PRIMARY KEY, \"the_geom\" geometry)" );
+        run("CREATE TABLE \"uuidt\" ( \"id\" uuid PRIMARY KEY, \"the_geom\" geometry)");
     }
 
     @Override
     protected void dropUuidTable() throws Exception {
-       run("DROP TABLE \"guid\"");
-       run("DROP TABLE \"uuidt\"");
+        run("DROP TABLE \"guid\"");
+        run("DROP TABLE \"uuidt\"");
     }
 }

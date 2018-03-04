@@ -1,7 +1,7 @@
 /*
  * GeoTools - The Open Source Java GIS Toolkit http://geotools.org
  * (C) 2004-2011, Open Source Geospatial Foundation (OSGeo)
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; version 2.1 of the License.
@@ -23,7 +23,7 @@ import org.opengis.filter.FilterFactory2;
 
 /**
  * Test that {@link FormatDateTimezoneFunction} correctly formats days in various time zones.
- * 
+ *
  * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
  */
 public class FormatDateTimezoneFunctionTest {
@@ -39,7 +39,8 @@ public class FormatDateTimezoneFunctionTest {
     private static final String PATTERN = "yyyy-MM-dd";
 
     /**
-     * Expected ISO 8601 formatted day in UTC (zero offset) or time zones with positive offset (east of meridian).
+     * Expected ISO 8601 formatted day in UTC (zero offset) or time zones with positive offset 
+     * (east of meridian).
      */
     private static final String DAY = "1948-01-01";
 
@@ -52,7 +53,7 @@ public class FormatDateTimezoneFunctionTest {
 
     /**
      * Return {@link #DAY} formatted according to {@link #PATTERN} in a time zone.
-     * 
+     *
      * @param timezone in one of the formats supported by {@link TimeZone}
      * @return the formatted day
      */

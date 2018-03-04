@@ -2,7 +2,8 @@
  **
  ** $Id$
  **
- ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/primitive/BearingImpl.java,v $
+ ** $Source: /cvs/ctree/LiteGO1/src/jar/com/polexis/lite/spatialschema/geometry/primitive
+ * /BearingImpl.java,v $
  **
  ** Copyright (C) 2003 Open GIS Consortium, Inc. All Rights Reserved. http://www.opengis.org/Legal/
  **
@@ -19,41 +20,36 @@ import org.opengis.geometry.primitive.Bearing;
  * is possible. If both a set of angles and a vector are given, then they shall be consistent
  * with one another.
  *
- * @UML datatype Bearing
  * @author ISO/DIS 19107
  * @author <A HREF="http://www.opengis.org">OpenGIS&reg; consortium</A>
- *
- *
- *
- *
- * @source $URL$
  * @version 2.0
- *
+ * @UML datatype Bearing
+ * @source $URL$
  * @revisit Should we move this interface elsewhere (e.g. in some kind of units package)?
  */
 public class BearingImpl implements Bearing {
-    
+
     //*************************************************************************
     //  fields
     //*************************************************************************
-    
+
     private double[] angles;
-    
+
     private double[] direction;
-    
+
     //*************************************************************************
     //  Constructor
     //*************************************************************************
-    
+
     public BearingImpl(double[] angles, double[] direction) {
         this.angles = angles;
         this.direction = direction;
     }
-    
+
     //*************************************************************************
     //
     //*************************************************************************
-    
+
     /**
      * Returns the azimuth and (optionnaly) the altitude.
      * In this variant of bearing usually used for 2D coordinate systems, the first angle (azimuth)
@@ -64,10 +60,9 @@ public class BearingImpl implements Bearing {
      *
      * @return An array of length 0, 1 or 2 containing the azimuth and altitude angles.
      * @UML operation angle
-     *
      * @revisit Should we split this method in {@code getAzimuth()} and
-     *          {@code getAltitude()} methods instead? Should we provides
-     *          a {@code getDimension()} method too?
+     * {@code getAltitude()} methods instead? Should we provides
+     * a {@code getDimension()} method too?
      */
     public double[] getAngles() {
         return angles;

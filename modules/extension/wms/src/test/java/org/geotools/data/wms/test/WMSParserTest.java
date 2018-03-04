@@ -61,7 +61,9 @@ public class WMSParserTest {
             }
         }
 
-    };
+    }
+
+    ;
 
     @Test
     public void testWMS111EntityResolver() throws Exception {
@@ -70,7 +72,7 @@ public class WMSParserTest {
 
         WebMapServer wms = new WebMapServer(new URL("http://test.org"),
                 new CapsMockClient("1.1.1Capabilities.xml"), hints);
-        assertEquals( "1.1.1", wms.getCapabilities().getVersion());
+        assertEquals("1.1.1", wms.getCapabilities().getVersion());
 
         try {
             wms = new WebMapServer(new URL("http://test.org"),
@@ -85,31 +87,31 @@ public class WMSParserTest {
     public void testWMS130Validation() throws Exception {
         Map<String, Object> hints = new HashMap<>();
         hints.put(DocumentFactory.VALIDATION_HINT, Boolean.TRUE);
-        
+
         WebMapServer wms = new WebMapServer(new URL("http://test.org"),
                 new CapsMockClient("1.3.0Capabilities.xml"), hints);
-        assertEquals( "1.3.0", wms.getCapabilities().getVersion() );
-        assertEquals( Boolean.TRUE, wms.getHints().get(DocumentFactory.VALIDATION_HINT));
-        
+        assertEquals("1.3.0", wms.getCapabilities().getVersion());
+        assertEquals(Boolean.TRUE, wms.getHints().get(DocumentFactory.VALIDATION_HINT));
+
         hints = new HashMap<>();
         hints.put(DocumentFactory.VALIDATION_HINT, Boolean.FALSE);
-        
+
         wms = new WebMapServer(new URL("http://test.org"),
                 new CapsMockClient("1.3.0Capabilities.xml"), hints);
-        
-        assertEquals( "1.3.0", wms.getCapabilities().getVersion() );
-        assertEquals( Boolean.FALSE, wms.getHints().get(DocumentFactory.VALIDATION_HINT));
+
+        assertEquals("1.3.0", wms.getCapabilities().getVersion());
+        assertEquals(Boolean.FALSE, wms.getHints().get(DocumentFactory.VALIDATION_HINT));
 
     }
-    
+
     @Test
     public void testWMS130EntityResolver() throws Exception {
         Map<String, Object> hints = new HashMap<>();
         hints.put(XMLHandlerHints.ENTITY_RESOLVER, PreventLocalEntityResolver.INSTANCE);
-        
+
         WebMapServer wms = new WebMapServer(new URL("http://test.org"),
                 new CapsMockClient("1.3.0Capabilities.xml"), hints);
-        assertEquals( "1.3.0", wms.getCapabilities().getVersion());
+        assertEquals("1.3.0", wms.getCapabilities().getVersion());
         try {
             wms = new WebMapServer(new URL("http://test.org"),
                     new CapsMockClient("1.3.0Capabilities-xxe.xml"), hints);

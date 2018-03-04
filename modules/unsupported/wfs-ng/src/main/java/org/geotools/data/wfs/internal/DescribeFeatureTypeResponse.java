@@ -40,7 +40,8 @@ public class DescribeFeatureTypeResponse extends WFSResponse {
     private FeatureType parsed;
 
     public DescribeFeatureTypeResponse(final DescribeFeatureTypeRequest request,
-            final HTTPResponse httpResponse) throws ServiceException, IOException {
+                                       final HTTPResponse httpResponse) throws ServiceException, 
+            IOException {
 
         super(request, httpResponse);
 

@@ -37,14 +37,15 @@ public class SolrDataStoreFactoryTest extends TestCase {
 
     public void testDefaultMapper() throws Exception {
         SolrDataStore dataStore = (SolrDataStore) dataStoreFactory.createDataStore(
-            (Map)new KVP(URL.key, "http://localhost:8080/solr/geotools", FIELD.key, "foo"));
+                (Map) new KVP(URL.key, "http://localhost:8080/solr/geotools", FIELD.key, "foo"));
         assertTrue(dataStore.getLayerMapper() instanceof FieldLayerMapper);
 
     }
 
     public void testSingleLayerMapper() throws Exception {
         SolrDataStore dataStore = (SolrDataStore) dataStoreFactory.createDataStore(
-                (Map)new KVP(URL.key, "http://localhost:8080/solr/geotools", LAYER_MAPPER.key, Type.SINGLE.name()));
+                (Map) new KVP(URL.key, "http://localhost:8080/solr/geotools", LAYER_MAPPER.key, 
+                        Type.SINGLE.name()));
         assertTrue(dataStore.getLayerMapper() instanceof SingleLayerMapper);
     }
 }

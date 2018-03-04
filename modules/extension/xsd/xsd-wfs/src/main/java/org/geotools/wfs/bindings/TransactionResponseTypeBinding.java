@@ -27,9 +27,9 @@ import org.geotools.xml.AbstractComplexEMFBinding;
 
 /**
  * Binding object for the type http://www.opengis.net/wfs:TransactionResponseType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="TransactionResponseType"&gt;
  *      &lt;xsd:annotation&gt;
@@ -49,7 +49,8 @@ import org.geotools.xml.AbstractComplexEMFBinding;
  *                 &lt;/xsd:documentation&gt;
  *              &lt;/xsd:annotation&gt;
  *          &lt;/xsd:element&gt;
- *          &lt;xsd:element minOccurs="0" name="TransactionResults" type="wfs:TransactionResultsType"&gt;
+ *          &lt;xsd:element minOccurs="0" name="TransactionResults" 
+ *          type="wfs:TransactionResultsType"&gt;
  *              &lt;xsd:annotation&gt;
  *                  &lt;xsd:documentation xml:lang="en"&gt;
  *                    For systems that do not support atomic transactions,
@@ -87,9 +88,6 @@ import org.geotools.xml.AbstractComplexEMFBinding;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class TransactionResponseTypeBinding extends AbstractComplexEMFBinding {

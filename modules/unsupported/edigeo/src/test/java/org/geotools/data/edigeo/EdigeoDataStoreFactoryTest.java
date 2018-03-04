@@ -2,7 +2,7 @@
  *    GeoTools - OpenSource mapping toolkit
  *    http://geotools.org
  *    (C) 2005-2006, GeoTools Project Managment Committee (PMC)
- * 
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -32,56 +32,60 @@ import org.opengis.feature.type.AttributeDescriptor;
 import junit.framework.TestCase;
 
 /**
- * 
- *
  * @source $URL$
  */
 public class EdigeoDataStoreFactoryTest extends TestCase {
-	private EdigeoDataStoreFactory dsFactory ;
-	private Map<String, Serializable> params;
-	
-	@Before protected void setUp() throws Exception {
-		// TODO Auto-generated method stub
-		super.setUp();
-		dsFactory = new EdigeoDataStoreFactory();
-		params = new HashMap<String, Serializable>();
-		params.put(EdigeoDataStoreFactory.PARAM_PATH.key, EdigeoTestUtils.fileName("E000AB01.THF"));
-		params.put(EdigeoDataStoreFactory.PARAM_OBJ.key, "COMMUNE_id");
-	}
-	
-	@After protected void tearDown() throws Exception {
-		dsFactory = null;
-		super.tearDown();
-	}
-	
-	@Test public void testGetDisplayName() {
-		assertEquals("EdigeoDataStore", dsFactory.getDisplayName());
-	}
-	
-	@Test public void testGetDescription() {
-        assertEquals("EDIGéO format files (*.thf)",dsFactory.getDescription());
+    private EdigeoDataStoreFactory dsFactory;
+    private Map<String, Serializable> params;
+
+    @Before
+    protected void setUp() throws Exception {
+        // TODO Auto-generated method stub
+        super.setUp();
+        dsFactory = new EdigeoDataStoreFactory();
+        params = new HashMap<String, Serializable>();
+        params.put(EdigeoDataStoreFactory.PARAM_PATH.key, EdigeoTestUtils.fileName("E000AB01.THF"));
+        params.put(EdigeoDataStoreFactory.PARAM_OBJ.key, "COMMUNE_id");
     }
-	
-	@Test public void testGetParametersInfo() {
-		Param[] param = dsFactory.getParametersInfo();
-		assertNotNull(param);		
-	}
-	
-	@Test public void testGetImplementationHints() {
-		assertNotNull(dsFactory.getImplementationHints());
-	}
-	
-	public void testCreateDataStore() {
-		DataStore ds = null;
-		try {
-			ds = dsFactory.createDataStore(params);
-			SimpleFeatureType schema = ds.getSchema("E000AB01") ;
-			List<AttributeDescriptor> attributes = schema.getAttributeDescriptors();
-	        assertEquals("Number of Attributes", 3, attributes.size());
-		} catch (IOException e) {
-			fail(e.getMessage());
-		}
-		assertNotNull(ds);
+
+    @After
+    protected void tearDown() throws Exception {
+        dsFactory = null;
+        super.tearDown();
+    }
+
+    @Test
+    public void testGetDisplayName() {
+        assertEquals("EdigeoDataStore", dsFactory.getDisplayName());
+    }
+
+    @Test
+    public void testGetDescription() {
+        assertEquals("EDIGéO format files (*.thf)", dsFactory.getDescription());
+    }
+
+    @Test
+    public void testGetParametersInfo() {
+        Param[] param = dsFactory.getParametersInfo();
+        assertNotNull(param);
+    }
+
+    @Test
+    public void testGetImplementationHints() {
+        assertNotNull(dsFactory.getImplementationHints());
+    }
+
+    public void testCreateDataStore() {
+        DataStore ds = null;
+        try {
+            ds = dsFactory.createDataStore(params);
+            SimpleFeatureType schema = ds.getSchema("E000AB01");
+            List<AttributeDescriptor> attributes = schema.getAttributeDescriptors();
+            assertEquals("Number of Attributes", 3, attributes.size());
+        } catch (IOException e) {
+            fail(e.getMessage());
+        }
+        assertNotNull(ds);
         assertEquals(true, ds.getClass() == EdigeoDataStore.class);
-	}
+    }
 }

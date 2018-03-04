@@ -34,7 +34,7 @@ import com.vividsolutions.jts.geom.PrecisionModel;
 
 /**
  * HelperClass for dealing with JTS14 CoordinateSequences.
- * 
+ * <p>
  * <p>
  * JTS14 does not supply suffiecnt API to allow the modification of
  * CoordinateSequence in a lossless manner. To make full use of this class
@@ -44,10 +44,8 @@ import com.vividsolutions.jts.geom.PrecisionModel;
  *
  * @author bowens , Refractions Research, Inc.
  * @author $Author: jgarnett $ (last modification)
- *
- *
- * @source $URL$
  * @version $Id$
+ * @source $URL$
  */
 public class Coordinates {
     private Coordinates() {
@@ -56,21 +54,20 @@ public class Coordinates {
 
     /**
      * Sublist opperation for CoordinateSequence.
-     * 
+     * <p>
      * <p>
      * Opperates in the same manner as corresponding java util List method.
      * </p>
      *
-     * @param factory factory used to manage sequence
-     * @param sequence coordinate sequence
+     * @param factory   factory used to manage sequence
+     * @param sequence  coordinate sequence
      * @param fromIndex - low endpoint (inclusive) of the subList.
-     * @param toIndex - high endpoint (exclusive) of the subList.
-     *
+     * @param toIndex   - high endpoint (exclusive) of the subList.
      * @return sublist of sequence (start,end] as provided by factory
      */
     public static CoordinateSequence subList(
-        CoordinateSequenceFactory factory, CoordinateSequence sequence,
-        int fromIndex, int toIndex) {
+            CoordinateSequenceFactory factory, CoordinateSequence sequence,
+            int fromIndex, int toIndex) {
         if ((fromIndex == 0) && (toIndex == sequence.size())) {
             return sequence; // same list so just return it
         }
@@ -92,8 +89,10 @@ public class Coordinates {
             Object[][] subAttributeArray = new Object[access.getNumAttributes()][];
 
             //							System.out.println("Dimension = " + access.getDimension());
-            //							System.out.println("coordArray.length = " + coordArray.length);
-            //							System.out.println("fromIndex= " + fromIndex + ", toIndex= " + toIndex);
+            //							System.out.println("coordArray.length = " + coordArray
+            // .length);
+            //							System.out.println("fromIndex= " + fromIndex + ", toIndex=
+            // " + toIndex);
             //							System.out.println("coordArray: ");
             //							System.out.print("X   ");
             //							for (int p=0; p<coordArray[0].length; p++)
@@ -103,8 +102,10 @@ public class Coordinates {
             //								System.out.print(coordArray[1][p] + " ");
             //							System.out.println("");
             //								
-            //							System.out.println("Num attributes = " + access.getNumAttributes());
-            //							System.out.println("attributeArray.length = " + attributeArray.length);
+            //							System.out.println("Num attributes = " + access
+            // .getNumAttributes());
+            //							System.out.println("attributeArray.length = " + 
+            // attributeArray.length);
             //							System.out.println("attributeArray: ");
             //							System.out.print("Z   ");
             //							for (int p=0; p<attributeArray[0].length; p++)
@@ -126,7 +127,8 @@ public class Coordinates {
             //				e.printStackTrace();
             //				System.out.println("Dimension = " + access.getDimension());
             //				System.out.println("coordArray.length = " + coordArray.length);
-            //				System.out.println("fromIndex= " + fromIndex + ", toIndex= " + toIndex);
+            //				System.out.println("fromIndex= " + fromIndex + ", toIndex= " + 
+            // toIndex);
             //				System.out.println("coordArray: ");
             //				System.out.print("X   ");
             //				for (int p=0; p<coordArray[0].length; p++)
@@ -156,7 +158,7 @@ public class Coordinates {
             System.out.println("");
 
             System.out.println("subAttributeArray.length = "
-                + subAttributeArray.length);
+                    + subAttributeArray.length);
             System.out.println("subAttributeArray: ");
             System.out.print("Z   ");
 
@@ -171,7 +173,7 @@ public class Coordinates {
             System.out.println("");
 
             CoordinateAccess c = (CoordinateAccess) ((CoordinateAccessFactory) factory)
-                .create(subCoordArray, subAttributeArray);
+                    .create(subCoordArray, subAttributeArray);
 
             return c;
         }
@@ -181,17 +183,16 @@ public class Coordinates {
         CoordinateSequence newSeq = JTS.createCS(factory, size, sequence.getDimension());
         CoordinateSequences.copy(sequence, fromIndex, newSeq, 0, size);
         return newSeq;
-     }
+    }
 
     /**
      * Reverse provided coordinate sequence (used to correct CW vs CCW order).
      *
      * @param factory
      * @param sequence
-     *
      */
     public static CoordinateSequence reverse(
-        CoordinateSequenceFactory factory, CoordinateSequence sequence) {
+            CoordinateSequenceFactory factory, CoordinateSequence sequence) {
         if (sequence instanceof CoordinateAccess) {
             CoordinateAccess access = (CoordinateAccess) sequence;
             double[][] coordArray = access.toOrdinateArrays();
@@ -211,7 +212,7 @@ public class Coordinates {
             }
 
             CoordinateAccess c = (CoordinateAccess) ((CoordinateAccessFactory) factory)
-                .create(subCoordArray, subAttributeArray);
+                    .create(subCoordArray, subAttributeArray);
 
             return c;
         } else // else CoordinateSequence
@@ -224,7 +225,7 @@ public class Coordinates {
     }
 
     public static String toString(CoordinateSequence cs, int coordinate,
-        NumberFormat nf) {
+                                  NumberFormat nf) {
         StringBuffer buf = new StringBuffer();
         append(buf, cs, coordinate, nf);
 
@@ -232,7 +233,7 @@ public class Coordinates {
     }
 
     public static void append(StringBuffer buf, CoordinateSequence cs,
-        int coordinate, NumberFormat nf) {
+                              int coordinate, NumberFormat nf) {
         if (cs instanceof CoordinateAccess) {
             CoordinateAccess ca = (CoordinateAccess) cs;
             append(buf, ca, coordinate, LEN(ca), nf);
@@ -242,7 +243,7 @@ public class Coordinates {
     }
 
     public static void append(StringBuffer buf, CoordinateSequence cs,
-        int coordinate, int LEN, NumberFormat nf) {
+                              int coordinate, int LEN, NumberFormat nf) {
         Coordinate c = cs.getCoordinate(coordinate);
         buf.append(nf.format(c.x));
         buf.append(" ");
@@ -255,7 +256,7 @@ public class Coordinates {
     }
 
     public static void append(StringBuffer buf, CoordinateAccess ca,
-        int coordinate, int LEN, NumberFormat nf) {
+                              int coordinate, int LEN, NumberFormat nf) {
         buf.append(nf.format(ca.getOrdinate(coordinate, 0)));
 
         for (int i = 1; i < LEN; i++) {
@@ -315,7 +316,7 @@ public class Coordinates {
     }
 
     public static void append(StringBuffer buf, CoordinateSequence cs,
-        NumberFormat nf) {
+                              NumberFormat nf) {
         if (cs instanceof CoordinateAccess) {
             append(buf, (CoordinateAccess) cs, nf);
         } else {
@@ -339,7 +340,7 @@ public class Coordinates {
     }
 
     public static void append(StringBuffer buf, CoordinateAccess ca,
-        NumberFormat nf) {
+                              NumberFormat nf) {
         int LEN = LEN(ca);
 
         if (ca.size() == 0) {

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2012, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -26,14 +26,14 @@ import org.geotools.xml.Configuration;
 /**
  * Parser configuration for the http://www.opengis.net/WCS_service-extension_interpolation/1.0
  * schema.
- * 
+ *
  * @generated
  */
 public class InterpolationConfiguration extends Configuration {
 
     /**
      * Creates a new configuration.
-     * 
+     *
      * @generated
      */
     public InterpolationConfiguration() {
@@ -42,7 +42,7 @@ public class InterpolationConfiguration extends Configuration {
 
     /**
      * Registers the bindings for the configuration.
-     * 
+     *
      * @generated
      */
     @SuppressWarnings("unchecked")

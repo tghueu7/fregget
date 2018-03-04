@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -21,15 +21,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.opengis.temporal.PeriodDuration;
+
 import static org.junit.Assert.*;
+
 import org.opengis.util.InternationalString;
 
 /**
- *
  * @author Mehdi Sidhoum (Geomatys)
- *
- *
- *
  * @source $URL$
  */
 public class DefaultPeriodDurationTest {

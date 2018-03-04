@@ -27,9 +27,9 @@ import org.geotools.xml.AbstractComplexEMFBinding;
 
 /**
  * Binding object for the type http://www.opengis.net/wfs:TransactionResultsType.
- *
  * <p>
- *        <pre>
+ * <p>
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="TransactionResultsType"&gt;
  *      &lt;xsd:annotation&gt;
@@ -40,7 +40,8 @@ import org.geotools.xml.AbstractComplexEMFBinding;
  *           &lt;/xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
  *      &lt;xsd:sequence&gt;
- *          &lt;xsd:element maxOccurs="unbounded" minOccurs="0" name="Action" type="wfs:ActionType"&gt;
+ *          &lt;xsd:element maxOccurs="unbounded" minOccurs="0" name="Action" 
+ *          type="wfs:ActionType"&gt;
  *              &lt;xsd:annotation&gt;
  *                  &lt;xsd:documentation&gt;
  *                    The Action element reports an exception code
@@ -58,9 +59,6 @@ import org.geotools.xml.AbstractComplexEMFBinding;
  * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class TransactionResultsTypeBinding extends AbstractComplexEMFBinding {

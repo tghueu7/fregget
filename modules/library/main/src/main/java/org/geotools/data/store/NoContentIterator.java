@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -34,39 +34,42 @@ import org.opengis.feature.simple.SimpleFeature;
  * a NoSuchElementExcetion. This is a mean trick, but it does convey the idea
  * of asking for content that is supposed to be there and failing to aquire it.
  * </p>
+ *
  * @author jgarnett
- * @since 2.1.RC0
- *
- *
  * @source $URL$
+ * @since 2.1.RC0
  */
 public class NoContentIterator implements Iterator<SimpleFeature> {
     Throwable origionalProblem;
-    public NoContentIterator( Throwable t ){
+
+    public NoContentIterator(Throwable t) {
         origionalProblem = t;
     }
+
     public boolean hasNext() {
         return origionalProblem != null;
     }
+
     public SimpleFeature next() {
-        if( origionalProblem == null ){
+        if (origionalProblem == null) {
             // you only get the real error on the first offense
             // (after that you are just silly)
             //
-            throw new NoSuchElementException();            
+            throw new NoSuchElementException();
         }
-        NoSuchElementException cantFind = new NoSuchElementException( "Could not aquire feature:" + origionalProblem );
-        cantFind.initCause( origionalProblem );
+        NoSuchElementException cantFind = new NoSuchElementException("Could not aquire feature:" 
+                + origionalProblem);
+        cantFind.initCause(origionalProblem);
         origionalProblem = null;
         throw cantFind;
     }
 
     public void remove() {
-        if( origionalProblem == null ){
+        if (origionalProblem == null) {
             // user did not call next first
             throw new UnsupportedOperationException();
         }
         // User did not call next first
-        throw new IllegalStateException();        
+        throw new IllegalStateException();
     }
 }

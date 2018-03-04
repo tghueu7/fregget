@@ -15,8 +15,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- * 
- *
  * @source $URL$
  */
 public abstract class EObjectFilter {
@@ -48,9 +46,8 @@ public abstract class EObjectFilter {
      * Creates a new filter combining me with another as a boolean conjunction. The "and" operation
      * short-circuits; the <code>other</code> filter is not consulted when I (the first filter) do
      * not match.
-     * 
+     *
      * @param other another filter (must not be <code>null</code>)
-     * 
      * @return a new "and" filter
      */
     public final EObjectFilter and(final EObjectFilter other) {
@@ -66,9 +63,8 @@ public abstract class EObjectFilter {
      * Creates a new filter combining me with another as a boolean disjunction. The "or" operation
      * short-circuits; the <code>other</code> filter is not consulted when I (the first filter)
      * match.
-     * 
+     *
      * @param other another filter (must not be <code>null</code>)
-     * 
      * @return a new "or" filter
      */
     public final EObjectFilter or(final EObjectFilter other) {
@@ -82,7 +78,7 @@ public abstract class EObjectFilter {
 
     /**
      * Creates a new filter that is the boolean negation of me.
-     * 
+     *
      * @return the opposite of me
      */
     public final EObjectFilter negated() {
@@ -96,9 +92,8 @@ public abstract class EObjectFilter {
 
     /**
      * Creates a filter matching any {@link EObject} with given id.
-     * 
+     *
      * @param id - a {@link EObject} instance id
-     * 
      * @return the filter
      * @see {@link EcoreUtil#getID(EObject)}
      */
@@ -114,11 +109,9 @@ public abstract class EObjectFilter {
 
     /**
      * Creates a filter matching any specified object.
-     * 
+     *
      * @param object - a object instance
-     * 
      * @return the filter
-     * 
      * @see {@link EcoreUtil#equals(EObject, EObject)}
      */
     public static EObjectFilter createObjectFilter(final EObject eObject) {
@@ -133,15 +126,14 @@ public abstract class EObjectFilter {
 
     /**
      * Creates a filter matching specified objects.
-     * 
-     * @param all - if <code>true</code>, all objects must match
+     *
+     * @param all     - if <code>true</code>, all objects must match
      * @param negated - if <code>true</code>, concatenation is negated
      * @param objects - object instances
-     * 
      * @return the filter
      */
     public static EObjectFilter createObjectFilter(final boolean all, final boolean negated,
-            final EObject... eObjects) {
+                                                   final EObject... eObjects) {
         return new EObjectFilter() {
             @Override
             public boolean matches(Object object) {
@@ -167,9 +159,8 @@ public abstract class EObjectFilter {
 
     /**
      * Creates a filter matching any specified feature.
-     * 
+     *
      * @param feature a structural feature meta-object
-     * 
      * @return the filter
      */
     public static EObjectFilter createFeatureFilter(final EStructuralFeature feature) {
@@ -183,15 +174,14 @@ public abstract class EObjectFilter {
 
     /**
      * Creates a filter matching specified features.
-     * 
-     * @param all - if <code>true</code>, all features must match
-     * @param negated - if <code>true</code>, concatenation is negated
+     *
+     * @param all      - if <code>true</code>, all features must match
+     * @param negated  - if <code>true</code>, concatenation is negated
      * @param features - structural features
-     * 
      * @return the filter
      */
     public static EObjectFilter createFeatureFilter(final boolean all, final boolean negated,
-            final EStructuralFeature... features) {
+                                                    final EStructuralFeature... features) {
         return new EObjectFilter() {
             @Override
             public boolean matches(Object object) {
@@ -221,10 +211,9 @@ public abstract class EObjectFilter {
      * <strong>NOTE</strong>: This filter only work on {@link EObject}s that implement
      * {@link EStructuralFeature}
      * <p>
-     * 
+     *
      * @param ownerType the object type as a Java class or interface
      * @param featureId the feature's numeric ID
-     * 
      * @return the filter
      */
     public static EObjectFilter createFeatureFilter(final Class<?> ownerType, final int featureId) {
@@ -249,9 +238,8 @@ public abstract class EObjectFilter {
     /**
      * Creates a filter matching any instance of the specified type. This variant is useful for
      * notifiers that are not modeled via Ecore.
-     * 
+     *
      * @param type the object type as a Java class or interface
-     * 
      * @return the filter
      */
     public static EObjectFilter createTypeFilter(final Class<?> type) {
@@ -266,15 +254,14 @@ public abstract class EObjectFilter {
     /**
      * Creates a filter matching any instance of the specified type. This variant is useful for
      * notifiers that are not modeled via Ecore.
-     * 
-     * @param all - if <code>true</code>, all objects must match type
+     *
+     * @param all     - if <code>true</code>, all objects must match type
      * @param negated - if <code>true</code>, concatenation is negated
-     * @param types - the object types as a Java class or interface
-     * 
+     * @param types   - the object types as a Java class or interface
      * @return the filter
      */
     public static EObjectFilter createTypeFilter(final boolean all, final boolean negated,
-            final Class<?>... types) {
+                                                 final Class<?>... types) {
         return new EObjectFilter() {
             @Override
             public boolean matches(Object object) {
@@ -297,9 +284,8 @@ public abstract class EObjectFilter {
     /**
      * Creates a filter matching any instance of the specified {@link EClassifier} type instance.
      * This variant is useful for notifiers that are modelled via Ecore.
-     * 
+     *
      * @param type the {@link EClassifier} type
-     * 
      * @return the filter
      */
     public static EObjectFilter createClassifierFilter(final EClassifier type) {
@@ -314,15 +300,14 @@ public abstract class EObjectFilter {
     /**
      * Creates a filter matching any instance of the specified {@link EClassifier} type instance.
      * This variant is useful for notifiers that are modelled via Ecore.
-     * 
-     * @param all - if <code>true</code>, all objects must match given classifier
+     *
+     * @param all     - if <code>true</code>, all objects must match given classifier
      * @param negated - if <code>true</code>, concatenation is negated
-     * @param types the {@link EClassifier} types
-     * 
+     * @param types   the {@link EClassifier} types
      * @return the filter
      */
     public static EObjectFilter createClassifierFilter(final boolean all, final boolean negated,
-            final EClassifier... types) {
+                                                       final EClassifier... types) {
         return new EObjectFilter() {
             @Override
             public boolean matches(Object object) {
@@ -349,13 +334,13 @@ public abstract class EObjectFilter {
      * Creates a filter matching given instance of the specified {@link EClassifier} type instance
      * having given data type instance This variant is useful for notifiers that are modelled via
      * Ecore.
-     * 
+     *
      * @param type the {@link EClassifier} type
-     * 
      * @return the filter
      */
     public static EObjectFilter createDataTypeFilter(final Class<? extends EDataType> cls,
-            final Class<? extends Serializable> type, final boolean equals) {
+                                                     final Class<? extends Serializable> type, 
+                                                     final boolean equals) {
         return new EObjectFilter() {
             @Override
             public boolean matches(Object object) {
@@ -374,14 +359,13 @@ public abstract class EObjectFilter {
     /**
      * Creates a filter matching contents of given object.
      * <p>
-     * 
+     *
      * @param eGeometryType the filter to use on containers
-     * @param all - if <code>true</code>, all contents must be matched by the filter
-     * @param tree - if <code>true</code>, {@link EObject#eAllContents()} is used instead of
-     *        {@link EObject#eContents()}
-     * 
+     * @param all           - if <code>true</code>, all contents must be matched by the filter
+     * @param tree          - if <code>true</code>, {@link EObject#eAllContents()} is used 
+     *                      instead of
+     *                      {@link EObject#eContents()}
      * @return the filter
-     * 
      */
     public static EObjectFilter createContainerFilter(final EObjectFilter filter) {
         return new EObjectFilter() {
@@ -399,14 +383,12 @@ public abstract class EObjectFilter {
     /**
      * Creates a filter matching contents of given object.
      * <p>
-     * 
+     *
      * @param filter - the ancestor filter
-     * @param all - if <code>true</code>, all contents must be matched by the filter
-     * @param tree - if <code>true</code>, {@link EObject#eAllContents()} is used instead of
-     *        {@link EObject#eContents()}
-     * 
+     * @param all    - if <code>true</code>, all contents must be matched by the filter
+     * @param tree   - if <code>true</code>, {@link EObject#eAllContents()} is used instead of
+     *               {@link EObject#eContents()}
      * @return the filter
-     * 
      */
     public static EObjectFilter createAncestorFilter(final EObjectFilter filter) {
         return new EObjectFilter() {
@@ -433,17 +415,16 @@ public abstract class EObjectFilter {
     /**
      * Creates a filter matching contents of given object.
      * <p>
-     * 
+     *
      * @param eGeometryType the filter to use on contents
-     * @param all - if <code>true</code>, all contents must be matched by the filter
-     * @param tree - if <code>true</code>, {@link EObject#eAllContents()} is used instead of
-     *        {@link EObject#eContents()}
-     * 
+     * @param all           - if <code>true</code>, all contents must be matched by the filter
+     * @param tree          - if <code>true</code>, {@link EObject#eAllContents()} is used 
+     *                      instead of
+     *                      {@link EObject#eContents()}
      * @return the filter
-     * 
      */
     public static EObjectFilter createContentFilter(final EObjectFilter filter, final boolean all,
-            final boolean tree) {
+                                                    final boolean tree) {
         return new EObjectFilter() {
             @Override
             public boolean matches(Object object) {
@@ -485,16 +466,14 @@ public abstract class EObjectFilter {
     /**
      * Creates a filter composite.
      * <p>
-     * 
-     * @param all - if <code>true</code>, all filters must match
+     *
+     * @param all     - if <code>true</code>, all filters must match
      * @param negated - if <code>true</code>, concatenation is negated
      * @param filters - filters to concatenate
-     * 
      * @return the filter
-     * 
      */
     public static EObjectFilter createCompositeFilter(final boolean all, final boolean negated,
-            final EObjectFilter... filters) {
+                                                      final EObjectFilter... filters) {
         EObjectFilter filter = null;
         for (EObjectFilter it : filters) {
             if (filter == null) {
@@ -508,9 +487,9 @@ public abstract class EObjectFilter {
 
     /**
      * Utility method for conditional object selection
-     * 
-     * @param <T> - object type
-     * @param items - items to select from
+     *
+     * @param <T>    - object type
+     * @param items  - items to select from
      * @param filter - filter used to match items
      * @return a list of selected items
      */
@@ -526,9 +505,9 @@ public abstract class EObjectFilter {
 
     /**
      * Utility method for conditional object selection
-     * 
-     * @param <T> - object type
-     * @param items - items to select from
+     *
+     * @param <T>    - object type
+     * @param items  - items to select from
      * @param filter - filter used to match items
      * @return first match found, or <code>null</code> if not found
      */
@@ -544,9 +523,9 @@ public abstract class EObjectFilter {
 
     /**
      * Utility method for conditional object selection
-     * 
-     * @param <T> - object type
-     * @param items - items to select from
+     *
+     * @param <T>    - object type
+     * @param items  - items to select from
      * @param filter - filter used to match items
      * @return a list of selected items
      */

@@ -28,17 +28,17 @@ public class CapabilitiesParseTest extends OWSTestSupport {
 
         OperationType op = (OperationType) om.getOperation().get(0);
         assertEquals("GetCapabilities", op.getName());
-        
+
         assertEquals(1, op.getParameter().size());
         DomainType d = (DomainType) op.getParameter().get(0);
         assertEquals("Format", d.getName());
 
         assertEquals(1, d.getAllowedValues().getValue().size());
 
-        ValueType v =  (ValueType) d.getAllowedValues().getValue().get(0);
+        ValueType v = (ValueType) d.getAllowedValues().getValue().get(0);
         assertEquals("text/xml", v.getValue());
     }
-    
+
     public void testConstraints() throws Exception {
         Parser p = new Parser(createConfiguration());
         Object o = p.parse(getClass().getResourceAsStream(

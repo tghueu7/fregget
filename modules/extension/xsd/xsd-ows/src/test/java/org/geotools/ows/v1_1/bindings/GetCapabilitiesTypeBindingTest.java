@@ -24,8 +24,6 @@ import org.geotools.xml.Binding;
 
 
 /**
- * 
- *
  * @source $URL$
  */
 public class GetCapabilitiesTypeBindingTest extends OWSTestSupport {
@@ -38,19 +36,19 @@ public class GetCapabilitiesTypeBindingTest extends OWSTestSupport {
     }
 
     public void testParse() throws Exception {
-        String xml = 
-            "<ows:GetCapabilities xmlns:ows=\"http://www.opengis.net/ows\" version=\"1.1.0\">" +  
-                "<ows:AcceptVersions>" + 
-                  "<ows:Version>1.0.0</ows:Version>" + 
-                "</ows:AcceptVersions>" + 
-            "</ows:GetCapabilities>";
+        String xml =
+                "<ows:GetCapabilities xmlns:ows=\"http://www.opengis.net/ows\" version=\"1.1.0\">" +
+                        "<ows:AcceptVersions>" +
+                        "<ows:Version>1.0.0</ows:Version>" +
+                        "</ows:AcceptVersions>" +
+                        "</ows:GetCapabilities>";
 
         buildDocument(xml);
 
         GetCapabilitiesType getCaps = (GetCapabilitiesType) parse();
         assertNotNull(getCaps);
-        
-        assertEquals( 1, getCaps.getAcceptVersions().getVersion().size() );
-        assertEquals( "1.0.0", getCaps.getAcceptVersions().getVersion().get( 0 ) );
+
+        assertEquals(1, getCaps.getAcceptVersions().getVersion().size());
+        assertEquals("1.0.0", getCaps.getAcceptVersions().getVersion().get(0));
     }
 }
